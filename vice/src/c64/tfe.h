@@ -49,4 +49,28 @@ extern void REGPARM2 tfe_store(WORD addr, BYTE byte);
 extern int tfe_read_snapshot_module(struct snapshot_s *s);
 extern int tfe_write_snapshot_module(struct snapshot_s *s);
 
+/*
+ These functions let the UI enumerate the available interfaces.
+
+ First, tfe_enumadapter_open() is used to start enumeration.
+
+ tfe_enum_adapter is then used to gather information for each adapter present
+ on the system, where:
+
+   ppname points to a pointer which will hold the name of the interface
+   ppdescription points to a pointer which will hold the description of the interface
+
+   For each of these parameters, new memory is allocated, so it has to be
+   freed with lib_free().
+
+ tfe_enumadapter_close() must be used to stop processing.
+
+ Each function returns 1 on success, and 0 on failure.
+ tfe_enumadapter() only fails if there is no more adpater; in this case, 
+   *ppname and *ppdescription are not altered.
+*/
+extern int tfe_enumadapter_open(void);
+extern int tfe_enumadapter(char **ppname, char **ppdescription);
+extern int tfe_enumadapter_close(void);
+
 #endif

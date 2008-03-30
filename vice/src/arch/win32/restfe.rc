@@ -7,7 +7,7 @@ CAPTION "Ethernet Settings"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT           "&Ethernet",
-                    IDC_STATIC,9,7,30,8
+                    IDC_TFE_SETTINGS_ENABLE_T,9,7,30,8
     COMBOBOX        IDC_TFE_SETTINGS_ENABLE,45,5,50,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
     LTEXT           "&Interface",

@@ -788,11 +788,6 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int oddaddress)
     switch (ppaddress)
     {
     case TFE_PP_ADDR_CC_RXCFG:
-#ifdef TFE_DEBUG_WARN
-        if ((content & 0x3F) != 0x03) {
-            log_message(tfe_log, "WARNING! Written TFE_PP_ADDR_CC_RXCFG with $%02X: Not allowed!", content);
-        }
-#endif
         if (content & 0x40)
         {
             /* remove 1 */
@@ -808,18 +803,12 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int oddaddress)
 
 
     case TFE_PP_ADDR_CC_RXCTL:
-#ifdef TFE_DEBUG_WARN
-        if ((content & 0x3F) != 0x05) {
-            log_message(tfe_log, "WARNING! Written TFE_PP_ADDR_CC_RXCTL with $%02X: Not allowed!", content);
-        }
-#endif
-
-        tfe_recv_broadcast   = content & 0x8000; /* broadcast */
-        tfe_recv_mac         = content & 0x4000; /* individual address (IA) */
-        tfe_recv_multicast   = content & 0x2000; /* multicast if address passes the hash filter */
-        tfe_recv_correct     = content & 0x1000; /* accept correct frames */
-        tfe_recv_promiscuous = content & 0x0800; /* promiscuous mode */
-        tfe_recv_hashfilter  = content & 0x0400; /* accept if IA passes the hash filter */
+        tfe_recv_broadcast   = content & 0x0800; /* broadcast */
+        tfe_recv_mac         = content & 0x0400; /* individual address (IA) */
+        tfe_recv_multicast   = content & 0x0200; /* multicast if address passes the hash filter */
+        tfe_recv_correct     = content & 0x0100; /* accept correct frames */
+        tfe_recv_promiscuous = content & 0x0080; /* promiscuous mode */
+        tfe_recv_hashfilter  = content & 0x0040; /* accept if IA passes the hash filter */
 
         tfe_arch_recv_ctl( tfe_recv_broadcast,
                            tfe_recv_mac,
@@ -831,11 +820,6 @@ void tfe_sideeffects_write_pp(WORD ppaddress, int oddaddress)
         break;
 
     case TFE_PP_ADDR_CC_LINECTL:
-#ifdef TFE_DEBUG_WARN
-        if ((content & 0x3F) != 0x13) {
-            log_message(tfe_log, "WARNING! Written TFE_PP_ADDR_CC_LINECTL with $%02X: Not allowed!", content);
-        }
-#endif
         tfe_arch_line_ctl( content & 0x0080, /* enable transmitter */
                            content & 0x0040  /* enable receiver    */
                          );
@@ -1426,5 +1410,27 @@ int tfe_write_snapshot_module(struct snapshot_s *s)
 }
 
 #endif /* #if 0 */
+
+/* ------------------------------------------------------------------------- */
+/*    functions for selecting and querying available NICs                    */
+
+int tfe_enumadapter_open(void)
+{
+    if (!tfe_arch_enumadapter_open()) {
+        tfe_cannot_use = 1;
+        return 0;
+    }
+    return 1;
+}
+
+int tfe_enumadapter(char **ppname, char **ppdescription)
+{
+    return tfe_arch_enumadapter(ppname, ppdescription);
+}
+
+int tfe_enumadapter_close(void)
+{
+    return tfe_arch_enumadapter_close();
+}
 
 #endif /* #ifdef HAVE_TFE */

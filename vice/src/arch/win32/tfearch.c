@@ -40,6 +40,7 @@
 
 #include "lib.h"
 #include "log.h"
+#include "tfe.h"
 #include "tfearch.h"
 #include "uitfe.h"
 #include "utils.h"
@@ -191,7 +192,7 @@ void TfePcapCloseAdapter(void)
  TfeEnumAdapter() only fails if there is no more adpater; in this case, 
    *ppname and *ppdescription are not altered.
 */
-int TfeEnumAdapterOpen(void)
+int tfe_arch_enumadapter_open(void)
 {
     if (!TfePcapLoadLibrary()) {
         return 0;
@@ -214,7 +215,7 @@ int TfeEnumAdapterOpen(void)
     return 1;
 }
 
-int TfeEnumAdapter(char **ppname, char **ppdescription)
+int tfe_arch_enumadapter(char **ppname, char **ppdescription)
 {
     if (!TfePcapNextDev)
         return 0;
@@ -227,7 +228,7 @@ int TfeEnumAdapter(char **ppname, char **ppdescription)
     return 1;
 }
 
-int TfeEnumAdapterClose(void)
+int tfe_arch_enumadapter_close(void)
 {
     if (TfePcapAlldevs) {
         (*p_pcap_freealldevs)(TfePcapAlldevs);
@@ -241,7 +242,7 @@ BOOL TfePcapOpenAdapter(const char *interface_name)
 {
     pcap_if_t *TfePcapDevice = NULL;
 
-    if (!TfeEnumAdapterOpen()) {
+    if (!tfe_enumadapter_open()) {
         return FALSE;
     }
     else {
@@ -254,7 +255,7 @@ BOOL TfePcapOpenAdapter(const char *interface_name)
             /* we have an interface name, try it */
             TfePcapDevice = TfePcapAlldevs;
 
-            while (TfeEnumAdapter(&pname, &pdescription)) {
+            while (tfe_enumadapter(&pname, &pdescription)) {
                 if (strcmp(pname, interface_name)==0) {
                     found = TRUE;
                     break;
@@ -276,7 +277,7 @@ BOOL TfePcapOpenAdapter(const char *interface_name)
     if ( TfePcapFP == NULL)
     {
         log_message(tfe_arch_log, "ERROR opening adapter: '%s'", TfePcapErrbuf);
-        TfeEnumAdapterClose();
+        tfe_enumadapter_close();
         return FALSE;
     }
 
@@ -289,11 +290,11 @@ BOOL TfePcapOpenAdapter(const char *interface_name)
 	if((*p_pcap_datalink)(TfePcapFP) != DLT_EN10MB)
 	{
 		log_message(tfe_arch_log, "ERROR: TFE works only on Ethernet networks.");
-		TfeEnumAdapterClose();
+		tfe_enumadapter_close();
         return FALSE;
 	}
 	
-    TfeEnumAdapterClose();
+    tfe_enumadapter_close();
     return TRUE;
 }
 

@@ -105,7 +105,7 @@ static int ui_emulation_is_paused(void);
 /* List of resources that can be grayed out from the menus.  */
 static const ui_menu_toggle grayed_list[] = {
 #ifdef HAVE_TFE
-    { "ETHERNET_DISABLED", IDM_TFE_SETTINGS },
+/*    { "ETHERNET_DISABLED", IDM_TFE_SETTINGS }, */
 #endif /* #ifdef HAVE_TFE */
     { NULL, 0 }
 };
@@ -150,13 +150,19 @@ static const ui_res_possible_values RefreshRateValues[] = {
 };
 
 static ui_res_possible_values SpeedValues[] = {
-    { 1, IDM_MAXIMUM_SPEED_CUSTOM },
     { 0, IDM_MAXIMUM_SPEED_NO_LIMIT },
     { 10, IDM_MAXIMUM_SPEED_10 },
     { 20, IDM_MAXIMUM_SPEED_20 },
     { 50, IDM_MAXIMUM_SPEED_50 },
     { 100, IDM_MAXIMUM_SPEED_100 },
     { 200, IDM_MAXIMUM_SPEED_200 },
+    { -1, 0 }
+};
+
+static ui_res_possible_values RecordingOptions[] = {
+    { EVENT_START_MODE_FILE_SAVE, IDM_RECORD_SAVE },
+    { EVENT_START_MODE_FILE_LOAD, IDM_RECORD_LOAD },
+    { EVENT_START_MODE_RESET, IDM_RECORD_RESET },
     { -1, 0 }
 };
 
@@ -168,10 +174,11 @@ static const ui_res_possible_values SyncFactor[] = {
 };
 
 static const ui_res_value_list value_list[] = {
-    { "RefreshRate", RefreshRateValues },
-    { "Speed", SpeedValues },
-    { "MachineVideoStandard", SyncFactor },
-    { NULL, NULL }
+    { "RefreshRate", RefreshRateValues, 0 },
+    { "Speed", SpeedValues, IDM_MAXIMUM_SPEED_CUSTOM },
+    { "MachineVideoStandard", SyncFactor, 0 },
+    { "EventStartMode", RecordingOptions, 0 },
+    { NULL, NULL, 0 }
 };
 
 /* ------------------------------------------------------------------------ */
@@ -750,6 +757,7 @@ static void update_menus(HWND hwnd)
         if (result == 0) {
             unsigned int checked = 0;
 
+            CheckMenuItem(menu, value_list[i].default_item_id, MF_UNCHECKED);
             for (j = 0; value_list[i].vals[j].item_id != 0; j++) {
                 if (value == value_list[i].vals[j].value && !checked) {
                     CheckMenuItem(menu, value_list[i].vals[j].item_id,
@@ -760,6 +768,8 @@ static void update_menus(HWND hwnd)
                                   MF_UNCHECKED);
                 }
             }
+            if (checked == 0 && value_list[i].default_item_id > 0)
+                CheckMenuItem(menu, value_list[i].default_item_id, MF_CHECKED);
         }
     }
 
@@ -1522,66 +1532,8 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_SOFT_RESET:
         reset_dialog_proc(wparam);
         break;
-      case IDM_REFRESH_RATE_AUTO:
-        resources_set_value("RefreshRate", (resource_value_t)0);
-        break;
-      case IDM_REFRESH_RATE_1:
-        resources_set_value("RefreshRate", (resource_value_t)1);
-        break;
-      case IDM_REFRESH_RATE_2:
-        resources_set_value("RefreshRate", (resource_value_t)2);
-        break;
-      case IDM_REFRESH_RATE_3:
-        resources_set_value("RefreshRate", (resource_value_t)3);
-        break;
-      case IDM_REFRESH_RATE_4:
-        resources_set_value("RefreshRate", (resource_value_t)4);
-        break;
-      case IDM_REFRESH_RATE_5:
-        resources_set_value("RefreshRate", (resource_value_t)5);
-        break;
-      case IDM_REFRESH_RATE_6:
-        resources_set_value("RefreshRate", (resource_value_t)6);
-        break;
-      case IDM_REFRESH_RATE_7:
-        resources_set_value("RefreshRate", (resource_value_t)7);
-        break;
-      case IDM_REFRESH_RATE_8:
-        resources_set_value("RefreshRate", (resource_value_t)8);
-        break;
-      case IDM_REFRESH_RATE_9:
-        resources_set_value("RefreshRate", (resource_value_t)9);
-        break;
-      case IDM_REFRESH_RATE_10:
-        resources_set_value("RefreshRate", (resource_value_t)10);
-        break;
-      case IDM_MAXIMUM_SPEED_200:
-        resources_set_value("Speed", (resource_value_t)200);
-        SpeedValues[0].value = 1;
-        break;
-      case IDM_MAXIMUM_SPEED_100:
-        resources_set_value("Speed", (resource_value_t)100);
-        SpeedValues[0].value = 1;
-        break;
-      case IDM_MAXIMUM_SPEED_50:
-        resources_set_value("Speed", (resource_value_t)50);
-        SpeedValues[0].value = 1;
-        break;
-      case IDM_MAXIMUM_SPEED_20:
-        resources_set_value("Speed", (resource_value_t)20);
-        SpeedValues[0].value = 1;
-        break;
-      case IDM_MAXIMUM_SPEED_10:
-        resources_set_value("Speed", (resource_value_t)10);
-        SpeedValues[0].value = 1;
-        break;
-      case IDM_MAXIMUM_SPEED_NO_LIMIT:
-        resources_set_value("Speed", (resource_value_t)0);
-        SpeedValues[0].value = 1;
-        break;
       case IDM_MAXIMUM_SPEED_CUSTOM:
         ui_speed_settings_dialog(hwnd);
-        SpeedValues[0].value = ui_speed_current();
         break;
       case IDM_DATASETTE_SETTINGS:
         ui_datasette_settings_dialog(hwnd);
@@ -1605,18 +1557,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_TOGGLE_FULLSCREEN | 0x00010000:
       case IDM_TOGGLE_FULLSCREEN:
         SwitchFullscreenMode(hwnd);
-        break;
-      case IDM_SYNC_FACTOR_PAL:
-        resources_set_value("MachineVideoStandard",
-                            (resource_value_t)MACHINE_SYNC_PAL);
-        break;
-      case IDM_SYNC_FACTOR_NTSC:
-        resources_set_value("MachineVideoStandard",
-                            (resource_value_t)MACHINE_SYNC_NTSC);
-        break;
-      case IDM_SYNC_FACTOR_NTSCOLD:
-        resources_set_value("MachineVideoStandard",
-                            (resource_value_t)MACHINE_SYNC_NTSCOLD);
         break;
       case IDM_SETTINGS_SAVE:
         if (resources_save(NULL) < 0)
@@ -1662,28 +1602,58 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       default:
         {
-            int i;
+            int i, j, command_found = 0;
 
-            for (i = 0; toggle_list[i].name != NULL; i++) {
+            for (i = 0; toggle_list[i].name != NULL && !command_found; i++) {
                 if (toggle_list[i].item_id == wparam) {
                     resources_toggle(toggle_list[i].name, NULL);
-                    break;
+                     command_found = 1;
                 }
             }
 
             if (machine_specific_toggles) {
-                for (i = 0; machine_specific_toggles[i].name != NULL; i++) {
+                for (i = 0; machine_specific_toggles[i].name != NULL 
+                            && !command_found; i++) {
                     if (machine_specific_toggles[i].item_id == wparam) {
                         resources_toggle(machine_specific_toggles[i].name,
                                          NULL);
-                        break;
+                     command_found = 1;
                     }
                 }
             }
-            break;
+
+
+            for (i = 0; value_list[i].name != NULL && !command_found; i++) {
+                for (j = 0; value_list[i].vals[j].item_id != 0 
+                            && !command_found; j++) {
+                    if (value_list[i].vals[j].item_id == wparam) {
+                        resources_set_value(value_list[i].name, 
+                            (resource_value_t) value_list[i].vals[j].value);
+                        command_found = 1;
+                    }
+                }
+            }
+
+            if (machine_specific_values) {
+                for (i = 0; machine_specific_values[i].name != NULL 
+                            && !command_found; i++) {
+                    for (j = 0; machine_specific_values[i].vals[j].item_id != 0
+                                && !command_found; j++) {
+                        if (machine_specific_values[i].vals[j].item_id 
+                                == wparam) {
+                            resources_set_value(
+                                machine_specific_values[i].name, 
+                                (resource_value_t) 
+                                    machine_specific_values[i].vals[j].value);
+                            command_found = 1;
+                        }
+                    }
+                }
+            }
         }
     }
 }
+
 
 static void clear(HDC hdc, int x1, int y1, int x2, int y2)
 {

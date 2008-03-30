@@ -33,7 +33,7 @@
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
-#include "tfearch.h"
+#include "tfe.h"
 #include "ui.h"
 #include "uitfe.h"
 #include "winmain.h"
@@ -45,38 +45,52 @@
 
 static BOOL get_tfename(int number, char **ppname, char **ppdescription)
 {
-    if (TfeEnumAdapterOpen())
+    if (tfe_enumadapter_open())
     {
         char *pname = NULL;
         char *pdescription = NULL;
 
         while (number--) {
-            if (!TfeEnumAdapter(&pname, &pdescription))
+            if (!tfe_enumadapter(&pname, &pdescription))
                 break;
     
             lib_free(pname);
             lib_free(pdescription);
         }
 
-        if (TfeEnumAdapter(&pname, &pdescription)) {
+        if (tfe_enumadapter(&pname, &pdescription)) {
             *ppname = pname;
             *ppdescription = pdescription;
-            TfeEnumAdapterClose();
+            tfe_enumadapter_close();
             return TRUE;
         }
 
-        TfeEnumAdapterClose();
+        tfe_enumadapter_close();
     }
     return FALSE;
 }
 
-static void gray_ungray_items(HWND hwnd)
+static int gray_ungray_items(HWND hwnd)
 {
 	int enable;
     int number;
+
+    int disabled = 0;
 	
-	enable = SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE), 
-		CB_GETCURSEL, 0, 0) ? 1 : 0;
+    resources_get_value("ETHERNET_DISABLED", (void *)&disabled);
+
+    if (disabled) {
+    	EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE_T), 0);
+    	EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE), 0);
+    	EnableWindow(GetDlgItem(hwnd, IDOK), 0);
+        SetWindowText(GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE_NAME), "");
+        SetWindowText(GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE_DESC), "");
+        enable = 0;
+    }
+    else {
+	    enable = SendMessage(GetDlgItem(hwnd, IDC_TFE_SETTINGS_ENABLE), 
+		    CB_GETCURSEL, 0, 0) ? 1 : 0;
+    }
 
 	EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_T), enable);
 	EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE), enable);
@@ -98,6 +112,8 @@ static void gray_ungray_items(HWND hwnd)
         SetWindowText(GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE_NAME), "");
         SetWindowText(GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE_DESC), "");
     }
+
+    return disabled ? 1 : 0;
 }
 
 static void init_tfe_dialog(HWND hwnd)
@@ -122,7 +138,7 @@ static void init_tfe_dialog(HWND hwnd)
 
     resources_get_value("ETHERNET_INTERFACE", (void *)&interface_name);
 
-    if (TfeEnumAdapterOpen())
+    if (tfe_enumadapter_open())
     {
         int cnt = 0;
 
@@ -131,7 +147,7 @@ static void init_tfe_dialog(HWND hwnd)
 
         temp_hwnd=GetDlgItem(hwnd,IDC_TFE_SETTINGS_INTERFACE);
 
-        for (cnt = 0; TfeEnumAdapter(&pname, &pdescription); cnt++) {
+        for (cnt = 0; tfe_enumadapter(&pname, &pdescription); cnt++) {
             BOOL this_entry = FALSE;
 
             if (strcmp(pname, interface_name)==0) {
@@ -150,10 +166,22 @@ static void init_tfe_dialog(HWND hwnd)
             }
         }
 
-        TfeEnumAdapterClose();
+        tfe_enumadapter_close();
     }
 
-	gray_ungray_items(hwnd);
+    if (gray_ungray_items(hwnd)) {
+        /* we have a problem: TFE is disabled. Give a message to the user */
+        MessageBox( hwnd, 
+            "TFE/RR-Net support is not available on your system,\n"
+            "there is some important part missing. Please have a\n"
+            "look at the VICE knowledge base support page\n"
+            "\n      http://www.vicekb.de.vu/13-005.htm\n\n"
+            "for possible reasons and to activate networking with VICE.", 
+            "TFE/RR-Net support", MB_ICONINFORMATION|MB_OK);
+
+        /* just quit the dialog before it is open */
+        SendMessage( hwnd, WM_COMMAND, IDCANCEL, 0);
+    }
 }
 
 

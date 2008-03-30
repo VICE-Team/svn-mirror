@@ -91,5 +91,8 @@ extern
 int tfe_should_accept(char *buffer, int length, int *phashed, int *phash_index, 
                       int *pcorrect_mac, int *pbroadcast, int *pmulticast);
 
+extern int tfe_arch_enumadapter_open(void);
+extern int tfe_arch_enumadapter(char **ppname, char **ppdescription);
+extern int tfe_arch_enumadapter_close(void);
 
 #endif
