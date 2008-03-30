@@ -118,7 +118,7 @@ static void end_reu_dialog(HWND hwnd)
 
 static void browse_reu_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT("Select file for REU"),
+    uilib_select_browse(hwnd, TEXT(_("Select file for REU")),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
                         IDC_REU_FILE);
 }

@@ -119,7 +119,7 @@ static void init_sound_dialog(HWND hwnd)
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_OVERSAMPLE);
-    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("None"));
+    SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT(_("None")));
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("2x"));
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("4x"));
     SendMessage(snd_hwnd, CB_ADDSTRING,0, (LPARAM)TEXT("8x"));
@@ -127,9 +127,9 @@ static void init_sound_dialog(HWND hwnd)
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     snd_hwnd=GetDlgItem(hwnd, IDC_SOUND_SYNCH);
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("Flexible"));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("Adjusting"));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("Exact"));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT(_("Flexible")));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT(_("Adjusting")));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT(_("Exact")));
     resources_get_value("SoundSpeedAdjustment", (void *)&res_value);
     switch (res_value) {
       case SOUND_ADJUST_FLEXIBLE:
@@ -177,13 +177,13 @@ static void end_sound_dialog(HWND hwnd)
 static void select_dx(void)
 {
     resources_set_value("SoundDeviceName",(resource_value_t)"dx");
-    ui_display_statustext("Sound driver: DirectX");
+    ui_display_statustext(_("Sound driver: DirectX"));
 }
 
 static void select_wmm(void)
 {
     resources_set_value("SoundDeviceName",(resource_value_t)"wmm");
-    ui_display_statustext("Sound driver: WMM");
+    ui_display_statustext(_("Sound driver: WMM"));
 }
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,

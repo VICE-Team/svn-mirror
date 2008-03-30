@@ -44,13 +44,13 @@ void uievent_command(HWND hwnd, WPARAM wparam)
     switch (wparam) {
       case IDM_EVENT_DIRECTORY:
         fname = uilib_select_file(hwnd,
-                          TEXT("Select start snapshot for event history"),
+                          TEXT(_("Select start snapshot for event history")),
                           UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
                           UILIB_SELECTOR_TYPE_FILE_SAVE,
                           UILIB_SELECTOR_STYLE_EVENT_START);
         lib_free(fname);
         fname = uilib_select_file(hwnd,
-                          TEXT("Select end snapshot for event history"),
+                          TEXT(_("Select end snapshot for event history")),
                           UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
                           UILIB_SELECTOR_TYPE_FILE_SAVE,
                           UILIB_SELECTOR_STYLE_EVENT_END);

@@ -267,9 +267,9 @@ void ui_pet_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = dialog_proc;
-    psp[0].pszTitle = TEXT("Model");
+    psp[0].pszTitle = TEXT(_("Model"));
     psp[1].pfnDlgProc = dialog_proc;
-    psp[1].pszTitle = TEXT("Input/Output");
+    psp[1].pszTitle = TEXT(_("Input/Output"));
     psp[2].pfnDlgProc = dialog_proc;
     psp[2].pszTitle = TEXT("Super PET");
     psp[3].pfnDlgProc = dialog_proc;
@@ -295,7 +295,7 @@ void ui_pet_settings_dialog(HWND hwnd)
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT("PET settings");
+    psh.pszCaption = TEXT(_("PET settings"));
     psh.nPages = 4;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

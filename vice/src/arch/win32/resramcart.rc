@@ -116,7 +116,7 @@ BEGIN
                     IDC_STATIC,9,24,60,8
     COMBOBOX        IDC_RAMCART_SIZE,75,22,50,80,CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "RAMCART bstand",
+    LTEXT           "RAMCART bestand",
                     IDC_STATIC,9,44,60,8
     PUSHBUTTON      "&Bladeren...",IDC_RAMCART_BROWSE,75,42,50,14, 0
     EDITTEXT        IDC_RAMCART_FILE, 9,58,160,12,WS_TABSTOP

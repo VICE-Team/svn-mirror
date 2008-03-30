@@ -2065,10 +2065,10 @@ IDD_SNAPSHOT_SAVE_DIALOG_NL DIALOG DISCARDABLE 0,0, 250, 35
 STYLE WS_CHILD | WS_CLIPSIBLINGS | DS_3DLOOK | DS_CONTROL | WS_VISIBLE | NOT WS_BORDER | NOT WS_POPUP | NOT WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "Opslaan huidige &disks in gebruik",
+    AUTOCHECKBOX    "Opslaan huidig gekoppelde &disks",
                     IDC_TOGGLE_SNAPSHOT_SAVE_DISKS,
                     10,5,135,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Opslaan huidige &ROMs in gebruik",
+    AUTOCHECKBOX    "Opslaan huidig gekoppelde &ROMs",
                     IDC_TOGGLE_SNAPSHOT_SAVE_ROMS,
                     10,18,135,10, BS_AUTOCHECKBOX | WS_TABSTOP
 END

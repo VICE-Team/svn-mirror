@@ -453,19 +453,19 @@ void uidrivec128_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = callback_8;
-    psp[0].pszTitle = TEXT("Drive 8");
+    psp[0].pszTitle = TEXT(_("Drive 8"));
     psp[1].pfnDlgProc = callback_9;
-    psp[1].pszTitle = TEXT("Drive 9");
+    psp[1].pszTitle = TEXT(_("Drive 9"));
     psp[2].pfnDlgProc = callback_10;
-    psp[2].pszTitle = TEXT("Drive 10");
+    psp[2].pszTitle = TEXT(_("Drive 10"));
     psp[3].pfnDlgProc = callback_11;
-    psp[3].pszTitle = TEXT("Drive 11");
+    psp[3].pszTitle = TEXT(_("Drive 11"));
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT("Drive Settings");
+    psh.pszCaption = TEXT(_("Drive Settings"));
     psh.nPages = 4;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

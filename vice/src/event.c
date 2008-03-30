@@ -212,12 +212,12 @@ static void event_playback_attach_image(void *data, unsigned int size)
 
         fd = fopen(filename, MODE_WRITE);
         if (fd == NULL) {
-            ui_error("Cannot create image file %s", filename);
+            ui_error(_("Cannot create image file %s"), filename);
             goto error;
         }
 
         if (fwrite((char*)data + strlen(orig_filename) + 3, file_len, 1, fd) != 1) {
-            ui_error("Cannot write image file %s", filename);
+            ui_error(_("Cannot write image file %s"), filename);
             goto error;
         }
 
@@ -225,7 +225,7 @@ static void event_playback_attach_image(void *data, unsigned int size)
         event_image_append(orig_filename, &filename);
     } else {
         if (event_image_append(orig_filename, &filename) != 0) {
-            ui_error("Cannot find mapped name for %s", orig_filename);
+            ui_error(_("Cannot find mapped name for %s"), orig_filename);
             return;
         }
     }

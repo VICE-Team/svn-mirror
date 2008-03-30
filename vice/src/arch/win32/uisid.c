@@ -132,7 +132,7 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
         hadr = ui_sid_cbm2baseaddress;
         break;
       default:
-        ui_error("This machine may not have a SID");
+        ui_error(_("This machine may not have a SID"));
         return;
     }
 
@@ -199,7 +199,7 @@ static void init_resid_sid_dialog(HWND hwnd)
     for (res_value_loop = 0; ui_sid_samplemethod[res_value_loop];
         res_value_loop++) {
         SendMessage(sid_hwnd, CB_ADDSTRING, 0,
-                    (LPARAM)ui_sid_samplemethod[res_value_loop]);
+                    (LPARAM)_((TCHAR *)ui_sid_samplemethod[res_value_loop]));
     }
     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
@@ -450,7 +450,7 @@ void ui_sid_settings_dialog(HWND hwnd)
     psp[2].pfnCallback = NULL;
 
     psp[0].pfnDlgProc = general_dialog_proc;
-    psp[0].pszTitle = TEXT("General");
+    psp[0].pszTitle = TEXT(_("General"));
     psp[1].pfnDlgProc = resid_dialog_proc;
     psp[1].pszTitle = TEXT("ReSID");
     psp[2].pfnDlgProc = hardsid_dialog_proc;
@@ -460,7 +460,7 @@ void ui_sid_settings_dialog(HWND hwnd)
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT("SID settings");
+    psh.pszCaption = TEXT(_("SID settings"));
     psh.nPages = 3;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

@@ -126,7 +126,7 @@ static void end_ramcart_dialog(HWND hwnd)
 
 static void browse_ramcart_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT("Select file for RAMCART"),
+    uilib_select_browse(hwnd, TEXT(_("Select file for RAMCART")),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
                         IDC_RAMCART_FILE);
 }

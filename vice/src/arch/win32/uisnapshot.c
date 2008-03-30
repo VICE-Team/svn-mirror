@@ -138,14 +138,14 @@ static char *ui_save_snapshot(const TCHAR *title, const char *filter,
 static void ui_snapshot_save_dialog(HWND hwnd)
 {
     char *s;
-    s = ui_save_snapshot(TEXT("Save snapshot image"),
-                         "VICE snapshot files (*.vsf)\0*.vsf\0",
+    s = ui_save_snapshot(TEXT(_("Save snapshot image")),
+                         _("VICE snapshot files (*.vsf)\0*.vsf\0"),
                          hwnd, intl_translate_dialog(IDD_SNAPSHOT_SAVE_DIALOG));
     if (s != NULL) {
         util_add_extension(&s, "vsf");
 
         if (machine_write_snapshot(s, save_roms, save_disks, 0) < 0)
-            ui_error("Cannot write snapshot file `%s'.", s);
+            ui_error(_("Cannot write snapshot file `%s'."), s);
         lib_free(s);
     }
 }
@@ -155,7 +155,7 @@ static void ui_snapshot_load_dialog(HWND hwnd)
 {
     TCHAR *st_name;
 
-    if ((st_name = uilib_select_file(hwnd, TEXT("Load snapshot image"),
+    if ((st_name = uilib_select_file(hwnd, TEXT(_("Load snapshot image")),
         UILIB_FILTER_ALL | UILIB_FILTER_SNAPSHOT,
         UILIB_SELECTOR_TYPE_FILE_LOAD,
         UILIB_SELECTOR_STYLE_SNAPSHOT)) != NULL) {
@@ -163,7 +163,7 @@ static void ui_snapshot_load_dialog(HWND hwnd)
 
         name = system_wcstombs_alloc(st_name);
         if (machine_read_snapshot(name, 0) < 0)
-            ui_error("Cannot read snapshot image");
+            ui_error(_("Cannot read snapshot image"));
         system_wcstombs_free(name);
         lib_free(st_name);
     }

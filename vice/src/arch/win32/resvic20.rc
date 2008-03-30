@@ -875,14 +875,14 @@ BEGIN
     BEGIN
         MENUITEM "&Autostart disk/tape bestand...", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "Gebruik &disk bestand"
+        POPUP "Koppel &disk bestand"
         BEGIN
             MENUITEM "Drive &8\tAlt+8",  IDM_ATTACH_8
             MENUITEM "Drive &9\tAlt+9",  IDM_ATTACH_9
             MENUITEM "Drive 1&0\tAlt+0", IDM_ATTACH_10
             MENUITEM "Drive &11\tAlt+1", IDM_ATTACH_11
         END
-        POPUP "&Eject disk bestand"
+        POPUP "Ontkopp&el disk bestand"
         BEGIN
             MENUITEM "Drive &8",  IDM_DETACH_8
             MENUITEM "Drive &9",  IDM_DETACH_9
@@ -895,15 +895,15 @@ BEGIN
         BEGIN
             MENUITEM "Voeg huidig best&and toe\tAlt+I",     IDM_FLIP_ADD
             MENUITEM "Ve&rwijder huidig bestand\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Gebruik volge&nd bestand\tAlt+N",     IDM_FLIP_NEXT
-            MENUITEM "Gebruik vori&g bestand\tAlt+B", IDM_FLIP_PREVIOUS
+            MENUITEM "Koppel volge&nd bestand\tAlt+N",     IDM_FLIP_NEXT
+            MENUITEM "Koppel vori&g bestand\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "&Laad flip lijst", IDM_FLIP_LOAD
             MENUITEM "Op&slaan flip lijst", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Gebruik &tape bestand...\tAlt+T", IDM_ATTACH_TAPE
-        MENUITEM "Eje&ct tape bestand",           IDM_DETACH_TAPE
+        MENUITEM "Koppel &tape bestand...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Ontkoppe&l tape bestand",           IDM_DETACH_TAPE
         POPUP "Datassette bedie&ning"
         BEGIN
             MENUITEM "S&top",          IDM_DATASETTE_CONTROL_STOP
@@ -915,15 +915,15 @@ BEGIN
             MENUITEM "Reset T&eller", IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
-        POPUP "Gebruik &cartridge bestand..."
+        POPUP "Koppel &cartridge bestand..."
         BEGIN
-            MENUITEM "Gebruik 4/8/16KB bestand in $&2000...", IDM_CART_VIC20_8KB_2000
-            MENUITEM "Gebruik 4/8/16KB bestand in $&4000...", IDM_CART_VIC20_16KB_4000
-            MENUITEM "Gebruik 4/8/16KB bestand in $&6000...", IDM_CART_VIC20_8KB_6000
-            MENUITEM "Gebruik 4/8KB bestand in $&A000...",    IDM_CART_VIC20_8KB_A000
-            MENUITEM "Gebruik 4KB bestand in $&B000...",      IDM_CART_VIC20_4KB_B000
+            MENUITEM "Koppel 4/8/16KB bestand in $&2000...", IDM_CART_VIC20_8KB_2000
+            MENUITEM "Koppel 4/8/16KB bestand in $&4000...", IDM_CART_VIC20_16KB_4000
+            MENUITEM "Koppel 4/8/16KB bestand in $&6000...", IDM_CART_VIC20_8KB_6000
+            MENUITEM "Koppel 4/8KB bestand in $&A000...",    IDM_CART_VIC20_8KB_A000
+            MENUITEM "Koppel 4KB bestand in $&B000...",      IDM_CART_VIC20_4KB_B000
         END
-        MENUITEM "Eject cartr&idge bestand", IDM_CART_DETACH
+        MENUITEM "Ontkoppel cartr&idge bestand", IDM_CART_DETACH
         MENUITEM SEPARATOR
         MENUITEM "&Pauze\tAlt+Pause",       IDM_PAUSE
         , CHECKED

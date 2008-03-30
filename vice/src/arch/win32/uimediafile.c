@@ -159,14 +159,14 @@ void ui_mediafile_save_dialog(HWND hwnd)
     }
 
     s = ui_save_mediafile(TEXT("Save media image"),
-        TEXT("Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)\0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg\0"),
+        TEXT(_("Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)\0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg\0")),
         hwnd,
         intl_translate_dialog(IDD_MEDIAFILE_DIALOG));
 
     if (s != NULL) {
         selected_driver = gfxoutput_get_driver(screendrivername);
         if (!selected_driver) {
-            ui_error("No driver selected or selected driver not supported");
+            ui_error(_("No driver selected or selected driver not supported"));
             return;
         }
 
@@ -174,7 +174,7 @@ void ui_mediafile_save_dialog(HWND hwnd)
 
         if (screenshot_save(selected_driver->name, s,
             video_canvas_for_hwnd(hwnd)) < 0)
-            ui_error("Cannot write screenshot file `%s'.", s);
+            ui_error(_("Cannot write screenshot file `%s'."), s);
         lib_free(s);
     }
 }

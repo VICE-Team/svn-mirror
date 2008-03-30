@@ -342,7 +342,7 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
             querynewpalette = 1;
             if (resources_set_value(current_chip->res_PaletteFile_name,
                 (resource_value_t)palette_file) < 0) {
-                ui_error("Could not load palette file.");
+                ui_error(_("Could not load palette file."));
                 resources_set_value(current_chip->res_ExternalPalette_name,
                                      (resource_value_t)res_extpalette);
                 SetWindowLong (hwnd, DWL_MSGRESULT, TRUE);
@@ -376,7 +376,7 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
                 TCHAR *st_name;
 
                 if ((st_name = uilib_select_file(hwnd,
-                    TEXT("Load VICE palette file"),
+                    TEXT(_("Load VICE palette file")),
                     UILIB_FILTER_ALL | UILIB_FILTER_PALETTE,
                     UILIB_SELECTOR_TYPE_FILE_LOAD,
                     UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
@@ -425,7 +425,7 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
             querynewpalette = 1;
             if (resources_set_value(current_chip2->res_PaletteFile_name,
                 (resource_value_t)palette_file2) < 0) {
-                ui_error("Could not load palette file.");
+                ui_error(_("Could not load palette file."));
                 SetWindowLong (hwnd, DWL_MSGRESULT, TRUE);
                 return TRUE;
             }
@@ -447,7 +447,7 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
                 TCHAR *st_name;
 
                 if ((st_name = uilib_select_file(hwnd,
-                    TEXT("Load VICE palette file"),
+                    TEXT(_("Load VICE palette file")),
                     UILIB_FILTER_ALL | UILIB_FILTER_PALETTE,
                     UILIB_SELECTOR_TYPE_FILE_LOAD,
                     UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
@@ -502,12 +502,12 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 
     if (chip_param->palette_mode == UI_VIDEO_PAL) {
         psp[0].pfnDlgProc = dialog_fullscreen_proc;
-        psp[0].pszTitle = TEXT("Fullscreen");
+        psp[0].pszTitle = TEXT(_("Fullscreen"));
         psp[1].pfnDlgProc = dialog_advanced_proc;
         psp[1].pszTitle = system_mbstowcs_alloc(chip_param->page_title);
         psp[1].lParam = (LPARAM)chip_param;
         psp[2].pfnDlgProc = dialog_color_proc;
-        psp[2].pszTitle = TEXT("Colors");
+        psp[2].pszTitle = TEXT(_("Colors"));
 
 #ifdef _ANONYMOUS_UNION
         psp[0].pszTemplate
@@ -525,7 +525,7 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
         psh.nPages = 3;
     } else {
         psp[0].pfnDlgProc = dialog_fullscreen_proc;
-        psp[0].pszTitle = TEXT("Fullscreen");
+        psp[0].pszTitle = TEXT(_("Fullscreen"));
         psp[1].pfnDlgProc = dialog_palette_proc;
         psp[1].pszTitle = system_mbstowcs_alloc(chip_param->page_title);
         psp[1].lParam = (LPARAM)chip_param;
@@ -567,7 +567,7 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT("Video settings");
+    psh.pszCaption = TEXT(_("Video settings"));
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;

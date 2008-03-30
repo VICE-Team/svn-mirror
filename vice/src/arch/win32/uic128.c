@@ -200,14 +200,14 @@ static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             break;
           case IDC_C128_FUNCTIONROM_INTERNAL_BROWSE:
             uilib_select_browse(hwnd,
-                                TEXT("Select internal function ROM image"),
+                                TEXT(_("Select internal function ROM image")),
                                 UILIB_FILTER_ALL,
                                 UILIB_SELECTOR_TYPE_FILE_LOAD,
                                 IDC_C128_FUNCTIONROM_INTERNAL_NAME);
             break;
           case IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE:
             uilib_select_browse(hwnd,
-                                TEXT("Select external function ROM image"),
+                                TEXT(_("Select external function ROM image")),
                                 UILIB_FILTER_ALL,
                                 UILIB_SELECTOR_TYPE_FILE_LOAD,
                                 IDC_C128_FUNCTIONROM_EXTERNAL_NAME);
@@ -267,15 +267,15 @@ void ui_c128_dialog(HWND hwnd)
     psp[1].pfnCallback = NULL;
 
     psp[0].pfnDlgProc = machine_dialog_proc;
-    psp[0].pszTitle = TEXT("Machine type");
+    psp[0].pszTitle = TEXT(_("Machine type"));
     psp[1].pfnDlgProc = functionrom_dialog_proc;
-    psp[1].pszTitle = TEXT("Function ROM");
+    psp[1].pszTitle = TEXT(_("Function ROM"));
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT("C128 settings");
+    psh.pszCaption = TEXT(_("C128 settings"));
     psh.nPages = 2;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

@@ -33,6 +33,7 @@
 
 #include "archdep.h"
 #include "interrupt.h"
+#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "system.h"
@@ -160,7 +161,7 @@ static void save_quicksnapshot_trap(WORD unused_addr, void *unused_data)
     fullname = util_concat(archdep_boot_path(), "\\", machine_name, "\\",
                       files[lastindex].name, NULL);
     if (machine_write_snapshot(fullname, 0, 0, 0) < 0) {
-        ui_error("Can't write snapshot file.");
+        ui_error(_("Can't write snapshot file."));
     }
     lib_free(fullname);
 }
@@ -172,7 +173,7 @@ static void load_quicksnapshot_trap(WORD unused_addr, void *unused_data)
     fullname = util_concat(archdep_boot_path(), "\\", machine_name, "\\",
                            files[lastindex].name, NULL);
     if (machine_read_snapshot(fullname, 0) < 0) {
-        ui_error("Cannot read snapshot image");
+        ui_error(_("Cannot read snapshot image"));
     }
     lib_free(fullname);
 }

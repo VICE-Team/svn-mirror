@@ -6,6 +6,7 @@ src/screenshot.c
 src/autostart.c
 src/sound.c
 src/event.c
+src/c64/c64export.c
 
 # Architecture Unix
 src/arch/unix/blockdev.c

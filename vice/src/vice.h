@@ -85,9 +85,16 @@
 #        define N_(String) (String)
 #    endif
 #else
+#    ifdef WIN32
+/* using the _(String) definition from unix gettext for win32 intl */
+#        include "intl.h"
+#        define _(String) intl_translate_text(String)
+#        define N_(String) (String)
+#    else
 /* Stubs that do something close enough.  */
-#    define _(String) (String)
-#    define N_(String) (String)
+#        define _(String) (String)
+#        define N_(String) (String)
+#    endif
 #endif /* ENABLE_NLS */
 
 #ifdef __OS2__

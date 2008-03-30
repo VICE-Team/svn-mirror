@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2005-04-03 20:10+0200\n"
+"POT-Creation-Date: 2005-04-24 01:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,6 +124,21 @@ msgstr ""
 msgid "store to sounddevice failed."
 msgstr ""
 
+#: src/event.c:215
+#, c-format
+msgid "Cannot create image file %s"
+msgstr ""
+
+#: src/event.c:220
+#, c-format
+msgid "Cannot write image file %s"
+msgstr ""
+
+#: src/event.c:228
+#, c-format
+msgid "Cannot find mapped name for %s"
+msgstr ""
+
 #: src/event.c:522
 #, c-format
 msgid "Could not create start snapshot file %s."
@@ -155,6 +170,26 @@ msgstr ""
 
 #: src/event.c:718
 msgid "Error reading start snapshot file."
+msgstr ""
+
+#: src/c64/c64export.c:44 src/c64/c64export.c:48
+#, c-format
+msgid "Resource IO1 blocked by %s."
+msgstr ""
+
+#: src/c64/c64export.c:54 src/c64/c64export.c:58
+#, c-format
+msgid "Resource IO2 blocked by %s."
+msgstr ""
+
+#: src/c64/c64export.c:64
+#, c-format
+msgid "Resource ROML blocked by %s."
+msgstr ""
+
+#: src/c64/c64export.c:70
+#, c-format
+msgid "Resource ROMH blocked by %s."
 msgstr ""
 
 #: src/arch/unix/c128ui.c:68 src/arch/unix/c64ui.c:67
@@ -1713,13 +1748,30 @@ msgstr ""
 msgid "Remove: "
 msgstr ""
 
-#: src/arch/unix/uiide64.c:42
-msgid "IDE64 image name"
+#: src/arch/unix/uigeoram.c:41
+msgid "GEORAM image name"
 msgstr ""
 
-#: src/arch/unix/uiide64.c:43 src/arch/unix/uireu.c:42
+#: src/arch/unix/uigeoram.c:42 src/arch/unix/uiide64.c:43
+#: src/arch/unix/uiramcart.c:43 src/arch/unix/uireu.c:42
 #: src/arch/unix/uitfe.c:44
 msgid "Name:"
+msgstr ""
+
+#: src/arch/unix/uigeoram.c:64
+msgid "*Enable GEORAM"
+msgstr ""
+
+#: src/arch/unix/uigeoram.c:66
+msgid "GEORAM size"
+msgstr ""
+
+#: src/arch/unix/uigeoram.c:68
+msgid "GEORAM image name..."
+msgstr ""
+
+#: src/arch/unix/uiide64.c:42
+msgid "IDE64 image name"
 msgstr ""
 
 #: src/arch/unix/uiide64.c:73
@@ -2090,6 +2142,26 @@ msgstr ""
 
 #: src/arch/unix/uiprinteriec.c:79 src/arch/unix/uiprinterieee.c:73
 msgid "Printer text device 3..."
+msgstr ""
+
+#: src/arch/unix/uiramcart.c:42
+msgid "RAMCART image name"
+msgstr ""
+
+#: src/arch/unix/uiramcart.c:55
+msgid "*Enable RAMCART"
+msgstr ""
+
+#: src/arch/unix/uiramcart.c:57
+msgid "*Readonly"
+msgstr ""
+
+#: src/arch/unix/uiramcart.c:59
+msgid "RAMCART size"
+msgstr ""
+
+#: src/arch/unix/uiramcart.c:61
+msgid "RAMCART image name..."
 msgstr ""
 
 #: src/arch/unix/uireu.c:41

@@ -897,9 +897,9 @@ static unsigned int intl_text_calc_hash_key(const char *text)
 static int intl_text_register(const char *text, const int index)
 {
   intl_text_t *dp;
+  unsigned int hashkey;
 
   dp = intl_text + num_intl_text;
-  unsigned int hashkey;
 
   if (num_allocated_intl_text <= num_intl_text)
   {
@@ -981,68 +981,1986 @@ static int intl_text_get_value(const char *text)
 
 static char *intl_text_table[][countof(intl_language_table)] = {
 
-/* ffmpeglib.c */
+/* the following entries are also present in the unix po files */
+
+/* vsync.c */
+/* en */ {"Your machine is too slow for current settings!",
+/* de */  "Deine Maschine ist zu langsam für aktuelle Einstellungen!",
+/* fr */  "Désolé mais votre ordinateur est trop lent pour les paramètres choisis!",
+/* it */  "Il computer è troppo lento per queste impostazioni!",
+/* nl */  "Uw machine is te traag voor de huidige instellingen!",
+/* pl */  "Twój komputer jest zbyt wolny na obecne ustawienia!",
+/* sv */  "Din maskin är för långsam för nuvarande inställningar!"},
+
+/* screenshot.c */
+/* en */ {"Sorry. Multiple recording is not supported.",
+/* de */  "Eine Aufnahme ist zur Zeit aktiv. Mehrfache Aufnahme ist nicht möglich.",
+/* fr */  "Désolé. Vous ne pouvez enregistrer plus d'une chose à la fois.",
+/* it */  "Le registrazioni multiple non sono supportate.",
+/* nl */  "Sorry. Meerdere opnames wordt niet ondersteunt.",
+/* pl */  "",     /* fuzzy */
+/* sv */  "Endast en inspelning kan göras åt gången."},
+
+/* autostart.c */
+/* en */ {"Cannot load snapshot file.",
+/* de */  "Kann Snapshot Datei nicht laden.",
+/* fr */  "Impossible de charger le fichier de sauvegarde.",
+/* it */  "Non è possibile caricare il file di snapshot.",
+/* nl */  "Kan momentopname bestand niet laden.",
+/* pl */  "",     /* fuzzy */
+/* sv */  "Kan inte ladda ögonblicksbildfil."},
+
+/* sound.c */
+/* en */ {"write to sound device failed.",
+/* de */  "Schreiben auf Sound Gerät ist fehlgeschlagen.",
+/* fr */  "Impossible d'écriture sur le périphérique de son.",
+/* it */  "scrittura sulla scheda audio fallita.",
+/* nl */  "Schrijf-actie naar geluidsapparaat faalt.",
+/* pl */  "",     /* fuzzy */
+/* sv */  "misslyckades att skriva till ljudenhet."},
+
+/* sound.c */
+/* en */ {"Cannot open SID engine",
+/* de */  "Kann SID Engine nicht öffnen",
+/* fr */  "Erreur de chargement de l'engin de son SID",
+/* it */  "Non è possibile aprire il motore SID",
+/* nl */  "Kan de SID kern niet openen",
+/* pl */  "Ustawienia uk³adu SID",     /* fuzzy */
+/* sv */  "Kan inte öppna SID-motor"},
+
+/* sound.c */
+/* en */ {"Cannot initialize SID engine",
+/* de */  "Kann SID Engine nicht initialisieren",
+/* fr */  "Erreur d'initialisation de l'engin de son SID",
+/* it */  "Non è possibile inizializzare il motore SID",
+/* nl */  "Kan de SID kern niet initialiseren",
+/* pl */  "",     /* fuzzy */
+/* sv */  "Kan inte initiera SID-motor"},
+
+/* sound.c */
+/* en */ {"initialization failed for device `%s'.",
+/* de */  "Initialisierung von Gerät `%s' fehlgeschlagen.",
+/* fr */  "erreur d'initialisation du périphérique `%s':",
+/* it */  "inizializzazione fallita per il device `%s'.",
+/* nl */  "Initialisatie faalt voor apparaar `%s'.",
+/* pl */  "Kalibracja sprzêtowego joysticka dla urz±dzenia `%s':",     /* fuzzy */
+/* sv */  "initiering misslyckades för enhet \"%s\"."},
+
+/* sound.c */
+/* en */ {"sound device lacks stereo capability",
+/* de */  "Sound Gerät unterstützt keine Stereo Ausgabe",
+/* fr */  "le périphérique de son n'est pas stéréo",
+/* it */  "la scheda audio non dispone di una modalità stereofonica",
+/* nl */  "Geluid apparaat heeft geen stereo mogelijkheid.",
+/* pl */  "",     /* fuzzy */
+/* sv */  "ljudenhet saknar stereofunktion"},
+
+/* sound.c */
+/* en */ {"device '%s' not found or not supported.",
+/* de */  "Gerät '%s' konnte nicht gefunden werden oder ist nicht unterstützt.",
+/* fr */  "périphérique '%s' non trouvé ou non supporté.",
+/* it */  "il device '%s' non è stato trovato oppure non è supportato.",
+/* nl */  "apparaat '%s' niet gevonden of niet ondersteunt.",
+/* pl */  "",     /* fuzzy */
+/* sv */  "enheten \"%s\" hittades eller stöds ej."},
+
+/* sound.c */
+/* en */ {"Recording device %s doesn't exist!",
+/* de */  "Aufnahme Gerät %s existiert nicht!",
+/* fr */  "Le périphérique d'enregistrement %s n'existe pas!",
+/* it */  "Il device di registrazione %s non esiste!",
+/* nl */  "Opname apparaat %s bestaat niet!",
+/* pl */  "",     /* fuzzy */
+/* sv */  "Inspelningsenhet %s finns inte!"},
+
+/* sound.c */
+/* en */ {"Recording device must be different from playback device",
+/* de */  "Aufnahme Gerät muß unteschiedlich vom Abspielgerät sein",
+/* fr */  "Le périphérique d'enregistrement doit être différent du périphérique de lecture",
+/* it */  "Il device di registrazione deve essere differente da quello di riproduzione",
+/* nl */  "Opname apparaat moet anders zijn dan afspeel apparaat",
+/* pl */  "",     /* fuzzy */
+/* sv */  "Inspelningsenhet och återspelningsenhet kan inte vara samma"},
+
+/* sound.c */
+/* en */ {"Warning! Recording device %s seems to be a realtime device!",
+/* de */  "Warnung! Aufnahme Gerät %s scheint ein Echtzeitgerät zu sein!",
+/* fr */  "Attention! Le périphérique d'enregistrement %s semble être un périphérique en temps réel",
+/* it */  "Attenzione! Il device di registrazione %s sembra essere un dispositivo realtime!",
+/* nl */  "Waarschuwing! Opname apparaat %s lijkt een realtime apparaat te zijn!",
+/* pl */  "",     /* fuzzy */
+/* sv */  "Varning! Inspelningsenheten %s verkar vara en realtidsenhet!"},
+
+/* sound.c */
+/* en */ {"Initialization failed for device `%s'.",
+/* de */  "Initialisierung von Gerät `%s' fehlgeschlagen.",
+/* fr */  "Échec de l'initialisation du périphérique `%s'.",
+/* it */  "Inizializzazione fallita per il device `%s'.",
+/* nl */  "Initialisatie faalt voor apparaat `%s'.",
+/* pl */  "Kalibracja sprzêtowego joysticka dla urz±dzenia `%s':",     /* fuzzy */
+/* sv */  "Initiering misslyckades för enhet \"%s\"."},
+
+/* sound.c */
+/* en */ {"The recording device doesn't support current sound parameters",
+/* de */  "Aufnahmegerät unterstütz derzeitige Soundeinstellungen nicht",
+/* fr */  "Le périphérique d'enregistrement ne supporte pas les paramètres de son actuellement configurés",
+/* it */  "Il device di registrazione non supporta i parametri attuali",
+/* nl */  "Opname apparaat ondersteunt de huidige geluid parameters niet",
+/* pl */  "",     /* fuzzy */
+/* sv */  "Inspelningsenheten stöder inte aktuella ljudinställningar"},
+
+/* sound.c */
+/* en */ {"Sound buffer overflow (cycle based)",
+/* de */  "Sound Puffer Überlauf (Zyklus basiert)",
+/* fr */  "Erreur de dépassement de limite du tampon son (basé sur les cycles)",
+/* it */  "Overflow del buffer sonoro (cycle based)",
+/* nl */  "Geluidsbuffer overstroming (cycli gebaseerd)",
+/* pl */  "",     /* fuzzy */
+/* sv */  "För mycket data i ljudbufferten (cykelbaserad)"},
+
+/* sound.c */
+/* en */ {"Sound buffer overflow.",
+/* de */  "Sound Puffer Überlauf",
+/* fr */  "Erreur de dépassement de limite du tampon son.",
+/* it */  "Overflow del buffer sonoro.",
+/* nl */  "Geluidsbuffer overstroming",
+/* pl */  "",     /* fuzzy */
+/* sv */  "För mycket data i ljudbufferten."},
+
+/* sound.c */
+/* en */ {"cannot flush.",
+/* de */  "Entleerung nicht möglich.",
+/* fr */  "impossible de vider.",
+/* it */  "non è possibile svuotare.",
+/* nl */  "kan niet spoelen.",
+/* pl */  "",     /* fuzzy */
+/* sv */  "kan inte tömma."},
+
+/* sound.c */
+/* en */ {"fragment problems.",
+/* de */  "Fragmentierungsproblem.",
+/* fr */  "problèmes de fragments.",
+/* it */  "problemi di frammentazione.",
+/* nl */  "fragment problemen.",
+/* pl */  "",     /* fuzzy */
+/* sv */  "fragmentprogram."},
+
+/* sound.c */
+/* en */ {"Buffer drained",
+/* de */  "Puffer geleert",
+/* fr */  "Tampon vide",
+/* it */  "Buffer vuoto",
+/* nl */  "Buffer leeg",
+/* pl */  "Rozmiar buffora",     /* fuzzy */
+/* sv */  "Buffert tömd"},
+
+/* sound.c */
+/* en */ {"running too slow.",
+/* de */  "Ablauf zu langsam.",
+/* fr */  "l'exécution est trop lente.",
+/* it */  "esecuzione troppo lenta.",
+/* nl */  "draait te langzaam.",
+/* pl */  "",     /* fuzzy */
+/* sv */  "går för långsamt."},
+
+/* sound.c */
+/* en */ {"write to sounddevice failed.",
+/* de */  "Schreiben auf Sound Gerät ist fehlgeschlagen.",
+/* fr */  "erreur d'écriture sur le périphérique de son.",
+/* it */  "scrittura sulla scheda audio fallita.",
+/* nl */  "schrijf actie naar geluidsapparaat lukt niet.",
+/* pl */  "",     /* fuzzy */
+/* sv */  "misslyckades skriva till ljudenheten."},
+
+/* sound.c */
+/* en */ {"store to sounddevice failed.",
+/* de */  "Speichern auf Sound Gerät ist fehlgeschlagen.",
+/* fr */  "erreur d'enregistrement sur le périphérique de son.",
+/* it */  "memorizzazione sulla scheda audio fallita.",
+/* nl */  "opslag naar geluidsapparaat lukt niet.",
+/* pl */  "",     /* fuzzy */
+/* sv */  "misslyckades spara i ljudenheten."},
+
+/* event.c */
+/* en */ {"Could not create start snapshot file %s.",
+/* de */  "Kann Start Snapshot Datei nicht erzeugen: %s",
+/* fr */  "Impossible de créer le fichier de sauvegarde de départ %s.",
+/* it */  "Non è possibile creare il file di inizio snapshot %s.",
+/* nl */  "Kon het start momentopname bestand %s niet maken.",
+/* pl */  "Nie mo¿na za³adowaæ pliku zrzutu\n`%s'",     /* fuzzy */
+/* sv */  "Kunde inte skapa startögonblicksbildfilen %s."},
+
+/* event.c */
+/* en */ {"Error reading end snapshot file %s.",
+/* de */  "Kann Ende Snapshot Datei nicht lesen: %s",
+/* fr */  "Erreur de lecture dans le fichier de sauvegarde de fin %s.",
+/* it */  "Errore durante la lettura del file di fine snapshot %s.",
+/* nl */  "Fout bij het lezen van het eind van het momentopname bestand %s.",
+/* pl */  "Nie mo¿na za³adowaæ pliku zrzutu\n`%s'",     /* fuzzy */
+/* sv */  "Fel vid läsning av slutögonblicksbildfilen %s."},
+
+/* event.c */
+/* en */ {"Could not create end snapshot file %s.",
+/* de */  "Kann Ende Snapshot Datei nicht erzeugen: %s",
+/* fr */  "Impossible de créer le fichier de sauvegarde de fin %s.",
+/* it */  "Non è possibile creare il file di fine snapshot %s.",
+/* nl */  "Kon het eind momentopname bestand %s niet maken.",
+/* pl */  "Nie mo¿na za³adowaæ pliku zrzutu\n`%s'",     /* fuzzy */
+/* sv */  "Kunde inte skapa slutögonblicksbildfilen %s."},
+
+/* event.c */
+/* en */ {"Could not open end snapshot file %s.",
+/* de */  "Kann Ende Snapshot Datei nicht öffnen: %s",
+/* fr */  "Impossible d'ouvrir le fichier de sauvegarde de fin %s.",
+/* it */  "Non è possibile aprire il file di fine snapshot %s.",
+/* nl */  "Kon het eind momentopname bestand %s niet openen.",
+/* pl */  "Nie mo¿na za³adowaæ pliku zrzutu\n`%s'",     /* fuzzy */
+/* sv */  "Kunde inte öppna slutögonblicksbildfilen %s."},
+
+/* event.c */
+/* en */ {"Could not find event section in end snapshot file.",
+/* de */  "Kann Sektion in Ende Snapshotdatei nicht finden.",
+/* fr */  "Impossible de trouver la section des événements dans le fichier de sauvegarde de fin.",
+/* it */  "Non è possibile trovare la sezione eventi nel file di fine snapshot.",
+/* nl */  "Kon de gebeurtenis sectie in eind momentopname bestand niet vinden.",
+/* pl */  "",     /* fuzzy */
+/* sv */  "Kunde inte hinna händelsedelen i slutögonblicksbilden."},
+
+/* event.c */
+/* en */ {"Error reading start snapshot file. Tried %s and %s",
+/* de */  "Fehler beim Lesen der Start Snapshot Datei. Versuch gescheitert bei %s und %s.",
+/* fr */  "Erreur de lecture  du fichier de sauvegarde de départ. %s et %s ont été testés",
+/* it */  "Errore durante la lettura del file di inizio snapshot. Ho provato %s e %s",
+/* nl */  "Fout bij het lezen van het start momentopname bestand. Heb %s en %s geprobeerd",
+/* pl */  "B³±d czytania urz±dzenia cyfrowego joysticka.",     /* fuzzy */
+/* sv */  "Fel vid läsning av startögonblicksbildfil. Försökte med %s och %s"},
+
+/* event.c */
+/* en */ {"Error reading start snapshot file.",
+/* de */  "Fehler beim Lesen der Start Snapshot Datei.",
+/* fr */  "Erreur de lecture du fichier de sauvegarde de départ.",
+/* it */  "Errore durante la lettura del file di inizio snapshot.",
+/* nl */  "Fout bij het lezen van het start momentopname bestand.",
+/* pl */  "B³±d czytania urz±dzenia cyfrowego joysticka.",     /* fuzzy */
+/* sv */  "Fel vid läsning av startögonblicksbildfil."},
+
+
+/* the following things I marked with _() because they also apply to unix gettext,
+   but they are not in the po files yet. */
+
+/* event.c */
+/* en */ {"Cannot create image file %s",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan bestand %s niet maken",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* event.c */
+/* en */ {"Cannot write image file %s",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan niet schrijven naar bestand %s",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* event.c */
+/* en */ {"Cannot find mapped name for %s",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan vertaalde naam voor %s niet vinden",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* c64export.c */
+/* en */ {"Resource IO1 blocked by %s.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Bron IO1 geblokeerd door %s.",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* c64export.c */
+/* en */ {"Resource IO2 blocked by %s.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Bron IO2 geblokeerd door %s.",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* c64export.c */
+/* en */ {"Resource ROML blocked by %s.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Bron ROML geblokeerd door %s.",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* c64export.c */
+/* en */ {"Resource ROMH blocked by %s.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Bron ROMH geblokeerd door %s.",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+
+/* the following are windows arch files */
+
+/* arch/win32/ffmpeglib.c */
 /* en */ {"Your ffmpeg dll version doesn't match.",
-/* de */  "",
-/* fr */  "",
-/* it */  "",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
 /* nl */  "Uw ffmpeg dll versie is niet juist.",
-/* pl */  "",
-/* sv */  ""},
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
 
-/* fullscrn.c */
+/* arch/win32/fullscrn.c */
 /* en */ {"DirectDraw error: Code:%8x Error:%s",
-/* de */  "",
-/* fr */  "",
-/* it */  "",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
 /* nl */  "DirectDraw fout: Code:%8x Fout:%s",
-/* pl */  "",
-/* sv */  ""},
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
 
-/* ui.c */
-/* en */ {"Cannot save settings.",
-/* de */  "",
-/* fr */  "",
-/* it */  "",
-/* nl */  "Kan de instellingen niet schrijven",
-/* pl */  "",
-/* sv */  ""},
-
-/* ui.c */
-/* en */ {"Cannot load settings.",
-/* de */  "",
-/* fr */  "",
-/* it */  "",
-/* nl */  "Kan de instellingen niet laden",
-/* pl */  "",
-/* sv */  ""},
-
-/* ui.c */
-/* en */ {"Default settings restored.",
-/* de */  "",
-/* fr */  "",
-/* it */  "",
-/* nl */  "Standaard instellingen hersteld",
-/* pl */  "",
-/* sv */  ""},
-
-/* ui.c */
+/* arch/win32/ui.c */
 /* en */ {"VICE Error!",
-/* de */  "",
-/* fr */  "",
-/* it */  "",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
 /* nl */  "VICE Fout!",
-/* pl */  "",
-/* sv */  ""},
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
 
-/* ui.c */
+/* arch/win32/ui.c */
 /* en */ {"VICE Information",
-/* de */  "",
-/* fr */  "",
-/* it */  "",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
 /* nl */  "VICE Informatie",
-/* pl */  "",
-/* sv */  ""}
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"Cannot save settings.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan de instellingen niet schrijven",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"Cannot load settings.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan de instellingen niet laden",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"Default settings restored.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Standaard instellingen hersteld",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c, arch/win32/uiattach.c, arch/win32/uiperipheral.c */
+/* en */ {"Cannot attach specified file",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan het opgegeven bestand niet gebruiken",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"%s\n\nStart monitor?",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"VICE CPU JAM",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"Extend image to 40-track format?",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "bestand uitbreiden naar 40-sporen?",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c, arch/win32/uilib.c */
+/* en */ {"VICE question",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "VICE vraag",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"%s at %d%% speed, %d fps%s",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "%s met %d%% snelheid, %d fps%s",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {" (warp)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"Detached device %s",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Apparaat %s ontkoppelt",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"Attached %s to device#%s",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "%s gekoppelt aan apparaat#%s",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"Detached tape",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Tape ontkoppelt",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"History recorded with unknown release",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Geschiedenis opgenomen met onbekende VICE versie",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"History recorded with VICE-%s",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Geschiedenis opgenomen met VICE-%s",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"paused",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "gepauzeerd",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"resumed",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "hervat",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c */
+/* en */ {"Do you really want to exit?\n\n"
+          "All the data present in the emulated RAM will be lost.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Wilt u echt afsluiten?\n\n"
+          "Alle data in geëmuleerd geheugen zal verloren gaan.",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/ui.c, arch/win32/uiattach.c, arch/win32/uiperipheral.c */
+/* en */ {"Cannot autostart specified file.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan opgegeven bestand niet autostarten.",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiattach.c, arch/win32/uiperipheral.c */
+/* en */ {"Attach disk image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Disk bestand koppelen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiattach.c */
+/* en */ {"Attach tape image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Tape bestand koppelen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiattach.c */
+/* en */ {"Autostart disk/tape image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Autostart disk/tape bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uic64cart.c */
+/* en */ {"Invalid cartridge",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Ongeldige cartridge",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uicart.c, arch/win32/uiplus4cart.c */
+/* en */ {"Bad cartridge config in UI!",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Slechte cartridge configuratie in UI!",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uicart.c, arch/win32/uiplus4cart.c */
+/* en */ {"Invalid cartridge image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Ongeldig cartridge bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiconsole.c */
+/* en */ {"Logging console output image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Logboek console uitvoer bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiconsole.c */
+/* en */ {"VICE console logging files (*.dbg)\0*.dbg\0",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "VICE console logboek bestanden (*.dbg)\0*.dbg\0",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiconsole.c */
+/* en */ {"Cannot write log file `%s'.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan logboek bestand `%s' niet schrijven.",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uifliplist.c */
+/* en */ {"Load flip list file",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Laad flip lijst bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uifliplist.c */
+/* en */ {"Cannot read flip list file",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan flip lijst bestand niet lezen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uifliplist.c */
+/* en */ {"Save flip list file",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Flip lijst bestand opslaan",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uifliplist.c */
+/* en */ {"Cannot write flip list file",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan flip lijst bestand niet schrijven",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uikeyboard.c */
+/* en */ {"Select keymap file",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Selecteer keymap bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uikeyboard.c */
+/* en */ {"Save keymap file",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Keymap bestand opslaan",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uikeyboard.c */
+/* en */ {"Cannot write keymap file",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan keymap bestand niet schrijven",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uikeyboard.c */
+/* en */ {"Mapping",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uikeyboard.c */
+/* en */ {"Keyboard settings",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Toetsenbord instellingen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"&Attach",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "&Koppelen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"Please enter a filename.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Geef aub een bestandsnaam op.",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"Overwrite existing image?",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Overschrijven bestaand bestand?",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"Cannot create image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan bestand niet maken",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"Command line options",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Commando opties",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"Which command line options are available?",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Welke commando opties zijn beschikbaar?",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uimediafile.c */
+/* en */ {"Media files (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)\0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg\0",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Media bestanden (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)\0*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg\0",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uimediafile.c */
+/* en */ {"No driver selected or selected driver not supported",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Geen stuurprogramma geselecteerd, of geselecteerd stuurprogramma wordt niet ondersteunt",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uimediafile.c */
+/* en */ {"Cannot write screenshot file `%s'.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan scherm afdruk bestand `%s' niet schrijven.",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiperipheral.c */
+/* en */ {"Autostart disk image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Autostart disk bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiperipheral.c */
+/* en */ {"Select file system directory",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Selecteer bestand systeem directory",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiperipheral.c */
+/* en */ {"Printer Userport",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiperipheral.c */
+/* en */ {"Printer 4",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiperipheral.c */
+/* en */ {"Printer 5",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiperipheral.c, arch/win32/uidrivec128.c,
+   arch/win32/uidrivec64vic20.c, arch/win32/uidrivepetcbm2.c,
+   arch/win32/uidriveplus4.c */
+/* en */ {"Drive 8",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Station 8",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiperipheral.c, arch/win32/uidrivec128.c,
+   arch/win32/uidrivec64vic20.c, arch/win32/uidrivepetcbm2.c,
+   arch/win32/uidriveplus4.c */
+/* en */ {"Drive 9",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Station 9",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiperipheral.c, arch/win32/uidrivec128.c,
+   arch/win32/uidrivec64vic20.c, arch/win32/uidriveplus4.c */
+/* en */ {"Drive 10",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Station 10",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiperipheral.c, arch/win32/uidrivec128.c,
+   arch/win32/uidrivec64vic20.c, arch/win32/uidriveplus4.c */
+/* en */ {"Drive 11",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Station 11",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiperipheral.c */
+/* en */ {"Peripheral Settings",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Rand apparaat instellingen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiquicksnapshot.c */
+/* en */ {"Can't write snapshot file.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan momentopname bestand niet schrijven.",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uiquicksnapshot.c, arch/win32/uisnapshot.c */
+/* en */ {"Cannot read snapshot image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan momentopname bestand niet lezen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uirom.c */
+/* en */ {"Load %s ROM image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Laad %s ROM bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uirom.c */
+/* en */ {"Select romset archive",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Selecteer romset archief",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uirom.c */
+/* en */ {"Cannot load romset archive!",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan romset archief niet laden!",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uirom.c */
+/* en */ {"Cannot save romset archive!",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan romset archief niet opslaan!",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uirom.c */
+/* en */ {"Cannot load romset file!",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan romset bestand niet laden!",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uirom.c */
+/* en */ {"Cannot save romset file!",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan romset bestand niet opslaan!",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uirom.c */
+/* en */ {"Select romset file",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Selecteer romset bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uirom.c */
+/* en */ {"Romset",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uirom.c */
+/* en */ {"Computer",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uirom.c */
+/* en */ {"Drive",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Station",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uirom.c */
+/* en */ {"ROM settings",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "ROM instellingen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uisid.c */
+/* en */ {"This machine may not have a SID",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Deze machine heeft geen SID",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uisid.c */
+/* en */ {"General",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Algemeen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uisid.c */
+/* en */ {"SID settings",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "SID instellingen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uisnapshot.c */
+/* en */ {"Save snapshot image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Momentopname bestand opslaan",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uisnapshot.c */
+/* en */ {"VICE snapshot files (*.vsf)\0*.vsf\0",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "VICE momentopname bestanden (*.vsf)\0*.vsf\0",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uisnapshot.c */
+/* en */ {"Cannot write snapshot file `%s'.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kan momentopname bestand `%s' niet schrijven.",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uisnapshot.c */
+/* en */ {"Load snapshot image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Laad momentopname bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uivideo.c */
+/* en */ {"Could not load palette file.",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kon palette bestand niet laden.",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uivideo.c */
+/* en */ {"Load VICE palette file",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Laad VICE palette bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uivideo.c */
+/* en */ {"Fullscreen",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Volscherm",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uivideo.c */
+/* en */ {"Colors",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Kleuren",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},    /* fuzzy */
+
+/* arch/win32/uivideo.c */
+/* en */ {"Video settings",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Video instellingen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/statusbar.c */
+/* en */ {"Tape:",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/statusbar.c */
+/* en */ {"Joystick:",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/statusbar.c */
+/* en */ {"Recording\n%02d:%02d",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Opnemen\n%02d:%02d",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/statusbar.c */
+/* en */ {"Playback\n%02d:%02d (%02d:%02d)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Afspelen\n%02d:%02d (%02d:%02d)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/statusbar.c */
+/* en */ {"Unknown",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Onbekend",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiacia.c, arch/win32/uijoystick.c,
+   arch/win32/uiperipheral.c, arcj/win32/uisound.c */
+/* en */ {"None",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Geen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiacia.c */
+/* en */ {"IRQ",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiacia.c */
+/* en */ {"NMI",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiacia.c, arch/win32/uirs232user.c */
+/* en */ {"RS232 device %i",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "RS232 apparaat %i",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic128.c */
+/* en */ {"Select internal function ROM image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Selecteer intern functie ROM bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic128.c */
+/* en */ {"Select external function ROM image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Selecteer extern functie ROM bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic128.c */
+/* en */ {"Machine type",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Machine soort",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic128.c */
+/* en */ {"Function ROM",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Functie ROM",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic128.c */
+/* en */ {"C128 settings",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "C128 instellingen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic64cart.c */
+/* en */ {"Attach CRT cartridge image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel CRT cartridge bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic64cart.c */
+/* en */ {"Attach raw 8KB cartridge image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel binair 8KB cartridge bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic64cart.c */
+/* en */ {"Attach raw 16KB cartridge image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel binair 16KB cartridge bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic64cart.c */
+/* en */ {"Attach Action Replay cartridge image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel Action Replay cartridge bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic64cart.c */
+/* en */ {"Attach Atomic Power cartridge image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel Atomic Power cartridge bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic64cart.c */
+/* en */ {"Attach Epyx fastload cartridge image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel Epyx fastload cartridge bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic64cart.c */
+/* en */ {"Attach IEEE interface cartridge image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel IEEE interface cartridge bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic64cart.c */
+/* en */ {"Attach Retro Replay cartridge image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel Retro Replay cartridge bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic64cart.c */
+/* en */ {"Attach IDE64 interface cartridge image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel IDE64 interface cartridge bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic64cart.c */
+/* en */ {"Attach Super Snapshot 4 cartridge image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel Super Snapshot 4 cartridge bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uic64cart.c */
+/* en */ {"Attach Super Snapshot 5 cartridge image",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel Super Snapshot 5 cartridge bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uicbm2set.c, arch/win32/uipetset.c */
+/* en */ {"Model",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uicbm2set.c */
+/* en */ {"Memory",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Geheugen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uicbm2set.c */
+/* en */ {"CBM2 settings",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "CBM2 instellingen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uidrivec128.c, arch/win32/uidrivec64vic20.c,
+   arch/win32/uidrivepetcbm2.c, arch/win32/uidriveplus4.c */
+/* en */ {"Drive Settings",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Drive instellingen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uievent.c */
+/* en */ {"Select start snapshot for event history",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Selecteer start momentopname voor gebeurtenis geschiedenis",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uievent.c */
+/* en */ {"Select end snapshot for event history",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Selecteer eind momentopname voor gebeurtenis geschiedenis",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uihelp.c */
+/* en */ {"Version %s *UNSTABLE*",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Versie %s *ONSTABIEL*",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uihelp.c */
+/* en */ {"Version %s",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Versie %s",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uihelp.c */
+/* en */ {"VICE contributors",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Vice medewerkers",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uihelp.c */
+/* en */ {"Who made what?",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Wie heeft wat gemaakt?",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uihelp.c */
+/* en */ {"License",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Licensie",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uihelp.c */
+/* en */ {"No warranty!",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Geen garantie!",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uihelp.c */
+/* en */ {"No warranty!",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Geen garantie!",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uihelp.c */
+/* en */ {"No warranty!",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Geen garantie!",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uihelp.c */
+/* en */ {"VICE is distributed WITHOUT ANY WARRANTY!",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "VICE heeft ABSOLUUT GEEN GARANTIE!",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiide64.c */
+/* en */ {"Total size: %iKB",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Totale grootte: %iKB",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiide64.c */
+/* en */ {"Total size: %iKB",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Totale grootte: %iKB",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiide64.c */
+/* en */ {"Select HD image file",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Selecteer HD bestand",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"Press key for NorthWest",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Druk toets voor NoordWest",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"Press key for North",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Druk toets voor Noord",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"Press key for NorthEast",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Druk toets voor NoordOost",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"Press key for East",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Druk toets voor Oost",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"Press key for SouthEast",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Druk toets voor ZuidOost",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"Press key for South",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Druk toets voor Zuid",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"Press key for SouthWest",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Druk toets voor ZuidWest",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"Press key for West",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Druk toets voor West",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"Press key for Fire",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Druk toets voor Vuur",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"Numpad + RCtrl",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"Keyset A",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"Keyset B",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"All buttons used as fire",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Alle knoppen gebruiken als vuur",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"numeric (see above)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "numeriek (zie boven)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uijoystick.c */
+/* en */ {"No button - Autofire disabled",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Geen knop - Autovuren is uit",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"All files (*.*)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Alle bestanden (*.*)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"VICE palette files (*.vpl)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "VICE palette bestanden (*.vpl)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"VICE snapshot files (*.vsf)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "VICE momentopname bestanden (*.vsf)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Disk bestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"Tape image files (*.t64;*.p00;*.tap;*.prg)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Tape bestanden (*.t64;*.p00;*.tap;*.prg)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Ingepakte bestanden (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"CRT cartridge image files (*.crt)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "CRT cartridge bestanden (*.crt)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"Raw cartridge image files (*.bin)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Binaire cartridge bestanden (*.bin)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"VICE flip list files (*.vfl)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "VICE flip lijst bestanden (*.vfl)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"VICE romset files (*.vrs)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "VICE romset bestanden (*.vrs)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"VICE romset archives (*.vra)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "VICE romset archieven (*.vra)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uilib.c */
+/* en */ {"VICE keymap files (*.vkm)",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "VICE keymap bestanden (*.vkm)",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiperipheral.c */
+/* en */ {"File system",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Bestand systeem",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiperipheral.c */
+/* en */ {"Real IEC device",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Echt IEC apparaat",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiperipheral.c */
+/* en */ {"Input/Output",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Invoer/Uitvoer",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiperipheral.c */
+/* en */ {"PET settings",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "PET instellingen",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiplus4cart.c */
+/* en */ {"Attach cartridge image for Function Low",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel cartridge bestand voor 'Function Low'",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiplus4cart.c */
+/* en */ {"Attach cartridge image for Function High",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel cartridge bestand voor 'Function High'",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiplus4cart.c */
+/* en */ {"Attach cartridge image for Cartridge1 Low",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel cartridge bestand voor 'Cartridge1 Low'",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiplus4cart.c */
+/* en */ {"Attach cartridge image for Cartridge1 High",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel cartridge bestand voor 'Cartridge1 High'",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiplus4cart.c */
+/* en */ {"Attach cartridge image for Cartridge2 Low",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel cartridge bestand voor 'Cartridge2 Low'",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiplus4cart.c */
+/* en */ {"Attach cartridge image for Cartridge2 High",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel cartridge bestand voor 'Cartridge2 High'",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uigeoram.c */
+/* en */ {"Select file for GEORAM",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Selecteer bestand voor GEORAM",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiramcart.c */
+/* en */ {"Select file for RAMCART",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Selecteer bestand voor RAMCART",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uiramcart.c */
+/* en */ {"Select file for REU",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Selecteer bestand voor REU",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uisid.c */
+/* en */ {"fast",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "snel",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uisid.c */
+/* en */ {"interpolating",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uisid.c */
+/* en */ {"resampling",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uisid.c */
+/* en */ {"fast resampling",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "snelle resampling",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uisound.c */
+/* en */ {"Flexible",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Flexibel",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uisound.c */
+/* en */ {"Adjusting",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Aanpassend",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uisound.c */
+/* en */ {"Exact",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uisound.c */
+/* en */ {"Sound driver: DirectX",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Geluid stuurprogramma: DirectX",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/uisound.c */
+/* en */ {"Sound driver: WMM",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Geluid stuurprogramma: WMM",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/vic20ui.c */
+/* en */ {"Attach 4/8/16KB cartridge image at $2000",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel 4/8/16KB cartridge bestand op $2000",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/vic20ui.c */
+/* en */ {"Attach 4/8/16KB cartridge image at $4000",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel 4/8/16KB cartridge bestand op $4000",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/vic20ui.c */
+/* en */ {"Attach 4/8/16KB cartridge image at $6000",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel 4/8/16KB cartridge bestand op $6000",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/vic20ui.c */
+/* en */ {"Attach 8KB cartridge image at $A000",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel 8KB cartridge bestand op $A000",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""},     /* fuzzy */
+
+/* arch/win32/vic20ui.c */
+/* en */ {"Attach 4KB cartridge image at $B000",
+/* de */  "",     /* fuzzy */
+/* fr */  "",     /* fuzzy */
+/* it */  "",     /* fuzzy */
+/* nl */  "Koppel 4KB cartridge bestand op $B000",
+/* pl */  "",     /* fuzzy */
+/* sv */  ""}     /* fuzzy */
 
 };
 

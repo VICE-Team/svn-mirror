@@ -225,9 +225,9 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = dialog_proc;
-    psp[0].pszTitle = TEXT("Model");
+    psp[0].pszTitle = TEXT(_("Model"));
     psp[1].pfnDlgProc = dialog_proc;
-    psp[1].pszTitle = TEXT("Memory");
+    psp[1].pszTitle = TEXT(_("Memory"));
 
 #ifdef _ANONYMOUS_UNION
     psp[0].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_CBMII_SETTINGS_MODEL_DIALOG));
@@ -241,7 +241,7 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT("CBM2 settings");
+    psh.pszCaption = TEXT(_("CBM2 settings"));
     psh.nPages = 2;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

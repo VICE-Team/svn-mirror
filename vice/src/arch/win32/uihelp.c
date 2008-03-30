@@ -52,9 +52,9 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg, UINT wparam, LONG lparam)
     switch (msg) {
       case WM_INITDIALOG:
 #ifdef UNSTABLE
-        version = lib_msprintf("Version %s *UNSTABLE*", VERSION);
+        version = lib_msprintf(_("Version %s *UNSTABLE*"), VERSION);
 #else /* #ifdef UNSTABLE */
-        version = lib_msprintf("Version %s", VERSION);
+        version = lib_msprintf(_("Version %s"), VERSION);
 #endif /* #ifdef UNSTABLE */
         st_version = system_mbstowcs_alloc(version);
         SetDlgItemText(dialog, IDC_ABOUT_VERSION, st_version);
@@ -92,17 +92,17 @@ void uihelp_dialog(HWND hwnd, WPARAM wparam)
         lib_free(dname);
         break;
       case IDM_CONTRIBUTORS:
-        ui_show_text(hwnd, "VICE contributors", "Who made what?",
+        ui_show_text(hwnd, _("VICE contributors"), _("Who made what?"),
                      info_contrib_text);
         break;
       case IDM_LICENSE:
-        ui_show_text(hwnd, "License",
+        ui_show_text(hwnd, _("License"),
                      "VICE license (GNU General Public License)",
                      info_license_text);
         break;
       case IDM_WARRANTY:
-        ui_show_text(hwnd, "No warranty!",
-                     "VICE is distributed WITHOUT ANY WARRANTY!",
+        ui_show_text(hwnd, _("No warranty!"),
+                     _("VICE is distributed WITHOUT ANY WARRANTY!"),
                      info_warranty_text);
         break;
       case IDM_CMDLINE:

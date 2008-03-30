@@ -33,6 +33,7 @@
 
 #include "cartridge.h"
 #include "plus4cart.h"
+#include "intl.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "res.h"
@@ -54,7 +55,7 @@ static const uicart_params_t plus4_ui_cartridges[] = {
     {
         IDM_CART_ATTACH_FUNCHI,
         0,
-        TEXT("Attach cartridge image for Fucntion High"),
+        TEXT("Attach cartridge image for Function High"),
         UILIB_FILTER_ALL | UILIB_FILTER_BIN
     },
     {
@@ -123,7 +124,7 @@ static void uiplus4cart_attach(WPARAM wparam, HWND hwnd,
         i++;
 
     if (cartridges[i].wparam == 0) {
-        ui_error("Bad cartridge config in UI!");
+        ui_error(_("Bad cartridge config in UI!"));
         return;
     }
 
@@ -134,7 +135,7 @@ static void uiplus4cart_attach(WPARAM wparam, HWND hwnd,
 
         name = system_wcstombs_alloc(st_name);
         if (uiplus4cart_attach_image(cartridges[i].wparam, name) < 0)
-            ui_error("Invalid cartridge image");
+            ui_error(_("Invalid cartridge image"));
         system_wcstombs_free(name);
         lib_free(st_name);
     }

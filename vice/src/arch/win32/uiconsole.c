@@ -134,8 +134,8 @@ FILE *ui_console_save_dialog(HWND hwnd)
     FILE *pfile = NULL;
     char *s;
 
-    s = ui_save_as_console(TEXT("Logging console output image"),
-        "VICE console logging files (*.dbg)\0*.dbg\0",hwnd);
+    s = ui_save_as_console(TEXT(_("Logging console output image")),
+        _("VICE console logging files (*.dbg)\0*.dbg\0"),hwnd);
 
     if (s != NULL) {
         util_add_extension(&s, "dbg");
@@ -143,7 +143,7 @@ FILE *ui_console_save_dialog(HWND hwnd)
         pfile = fopen(s, append_log ? "at+" : "wt");
 
         if (!pfile)
-            ui_error("Cannot write log file `%s'.", s);
+            ui_error(_("Cannot write log file `%s'."), s);
 
         lib_free(s);
     }

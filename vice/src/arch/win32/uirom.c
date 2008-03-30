@@ -99,7 +99,7 @@ static BOOL browse_command(HWND hwnd, unsigned int command)
         if ((unsigned int)command == settings[n].idc_browse) {
             TCHAR st_realname[100];
 
-            _stprintf(st_realname, TEXT("Load %s ROM image"),
+            _stprintf(st_realname, TEXT(_("Load %s ROM image")),
                       settings[n].realname);
 
             uilib_select_browse(hwnd, st_realname,
@@ -275,7 +275,7 @@ static void end_romset_dialog(HWND hwnd)
 
 static void browse_archive_romset_dialog(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT("Select romset archive"),
+    uilib_select_browse(hwnd, TEXT(_("Select romset archive")),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD,
                         IDC_ROMSET_ARCHIVE_NAME);
 }
@@ -288,7 +288,7 @@ static void load_archive_romset_dialog(HWND hwnd)
     GetDlgItemText(hwnd, IDC_ROMSET_ARCHIVE_NAME, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
     if (romset_archive_load(s, 0) < 0)
-        ui_error("Cannot load romset archive!");
+        ui_error(_("Cannot load romset archive!"));
 
     update_romset_archive(hwnd);
 }
@@ -301,7 +301,7 @@ static void save_archive_romset_dialog(HWND hwnd)
     GetDlgItemText(hwnd, IDC_ROMSET_ARCHIVE_NAME, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
     if (romset_archive_save(s) < 0)
-        ui_error("Cannot save romset archive!");
+        ui_error(_("Cannot save romset archive!"));
 }
 
 static TCHAR *active_archive_name(HWND hwnd)
@@ -371,7 +371,7 @@ static void load_file_romset_dialog(HWND hwnd)
     system_wcstombs(s, st, MAX_PATH);
 
     if (machine_romset_file_load(s) < 0)
-        ui_error("Cannot load romset file!");
+        ui_error(_("Cannot load romset file!"));
 
     update_romset_list(hwnd);
 }
@@ -384,7 +384,7 @@ static void save_file_romset_dialog(HWND hwnd)
     GetDlgItemText(hwnd, IDC_ROMSET_FILE_NAME, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
     if (machine_romset_file_save(s) < 0)
-        ui_error("Cannot save romset file!");
+        ui_error(_("Cannot save romset file!"));
 }
 
 static void init_resources_dialog(HWND hwnd, unsigned int type)
@@ -514,7 +514,7 @@ static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
             update_romset_dialog(hwnd, LOWORD(wparam));
             break;
           case IDC_ROMSET_ARCHIVE_BROWSE:
-            uilib_select_browse(hwnd, TEXT("Select romset archive"),
+            uilib_select_browse(hwnd, TEXT(_("Select romset archive")),
                                 UILIB_FILTER_ROMSET_ARCHIVE,
                                 UILIB_SELECTOR_TYPE_FILE_SAVE,
                                 IDC_ROMSET_ARCHIVE_NAME);
@@ -535,7 +535,7 @@ static BOOL CALLBACK dialog_proc_romset(HWND hwnd, UINT msg, WPARAM wparam,
             delete_archive_romset_dialog(hwnd);
             break;
           case IDC_ROMSET_FILE_BROWSE:
-            uilib_select_browse(hwnd, TEXT("Select romset file"),
+            uilib_select_browse(hwnd, TEXT(_("Select romset file")),
                                 UILIB_FILTER_ROMSET_FILE,
                                 UILIB_SELECTOR_TYPE_FILE_SAVE,
                                 IDC_ROMSET_FILE_NAME);
@@ -616,17 +616,17 @@ void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
     psp[2].pfnCallback = NULL;
 
     psp[0].pfnDlgProc = dialog_proc_romset;
-    psp[0].pszTitle = TEXT("Romset");
+    psp[0].pszTitle = TEXT(_("Romset"));
     psp[1].pfnDlgProc = dialog_proc_main;
-    psp[1].pszTitle = TEXT("Computer");
+    psp[1].pszTitle = TEXT(_("Computer"));
     psp[2].pfnDlgProc = dialog_proc_drive;
-    psp[2].pszTitle = TEXT("Drive");
+    psp[2].pszTitle = TEXT(_("Drive"));
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT("ROM settings");
+    psh.pszCaption = TEXT(_("ROM settings"));
     psh.nPages = 3;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

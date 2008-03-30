@@ -204,7 +204,7 @@ static UINT APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
     preview = GetDlgItem(hwnd, IDC_PREVIEW);
     switch (uimsg) {
       case WM_INITDIALOG:
-        SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), TEXT("&Attach"));
+        SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), TEXT(_("&Attach")));
 
         if (font_loaded)
             hfont = CreateFont(-12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -243,7 +243,7 @@ static UINT APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
           case IDC_BLANK_IMAGE:
             if (SendMessage(GetParent(hwnd),
                 CDM_GETSPEC, 256, (LPARAM)filename) <= 1) {
-                ui_error("Please enter a filename.");
+                ui_error(_("Please enter a filename."));
                 return -1;
             }
             if (strchr(filename,'.') == NULL) {
@@ -265,14 +265,14 @@ static UINT APIENTRY uilib_select_tape_hook_proc(HWND hwnd, UINT uimsg,
                 }
                 if (util_file_exists(filename)) {
                     int ret;
-                    ret = ui_messagebox(TEXT("Overwrite existing image?"),
-                                        TEXT("VICE question"),
+                    ret = ui_messagebox(TEXT(_("Overwrite existing image?")),
+                                        TEXT(_("VICE question")),
                                         MB_YESNO | MB_ICONQUESTION);
                     if (ret != IDYES)
                         return -1;
                 }
                 if (cbmimage_create_image(filename, DISK_IMAGE_TYPE_TAP)) {
-                    ui_error("Cannot create image");
+                    ui_error(_("Cannot create image"));
                     return -1;
                 }
             }
@@ -338,7 +338,7 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
     preview = GetDlgItem(hwnd, IDC_PREVIEW);
     switch (uimsg) {
       case WM_INITDIALOG:
-        SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), "&Attach");
+        SetWindowText(GetDlgItem(GetParent(hwnd), IDOK), _("&Attach"));
         image_type_list = GetDlgItem(hwnd, IDC_BLANK_IMAGE_TYPE);
         for (counter = 0; image_type_name[counter]; counter++) {
             SendMessage(image_type_list, CB_ADDSTRING, 0,
@@ -403,7 +403,7 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
           case IDC_BLANK_IMAGE:
             if (SendMessage(GetParent(hwnd),
                 CDM_GETSPEC, 256, (LPARAM)st_filename) <= 1) {
-                ui_error("Please enter a filename.");
+                ui_error(_("Please enter a filename."));
                 return -1;
             }
             if (_tcschr(st_filename, '.') == NULL) {
@@ -438,8 +438,8 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
                 system_wcstombs(filename, st_filename, 256);
                 if (util_file_exists(st_filename)) {
                     int ret;
-                    ret = ui_messagebox(TEXT("Overwrite existing image?"),
-                                        TEXT("VICE question"),
+                    ret = ui_messagebox(TEXT(_("Overwrite existing image?")),
+                                        TEXT(_("VICE question")),
                                         MB_YESNO | MB_ICONQUESTION);
                     if (ret != IDYES)
                         return -1;
@@ -449,7 +449,7 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
                 format_name = lib_msprintf("%s,%s", disk_name, disk_id);
                 if (vdrive_internal_create_format_disk_image(st_filename,
                     format_name, image_type[counter]) < 0) {
-                    ui_error("Cannot create image");
+                    ui_error(_("Cannot create image"));
                     lib_free(format_name);
                     return -1;
                 }
@@ -548,7 +548,7 @@ static void update_filter_history(DWORD current_filter)
 {
     int i;
     DWORD b;
-    for (i = 0, b = 1; uilib_filefilter[i].name != NULL; i++, b <<= 1) {
+    for (i = 0, b = 1; _(uilib_filefilter[i].name) != NULL; i++, b <<= 1) {
         if ((b & last_filterlist) 
             && (get_index_from_filterbit(b, last_filterlist)
             == current_filter)) {
@@ -575,10 +575,10 @@ static TCHAR *set_filter(DWORD filterlist, DWORD *filterindex)
     *filterindex = 0;
 
     /* create the strings for the file filters */
-    for (i = 0, b = 1; uilib_filefilter[i].name != NULL; i++, b <<= 1) {
+    for (i = 0, b = 1; _(uilib_filefilter[i].name) != NULL; i++, b <<= 1) {
         if (filterlist & b) {
-            j = _tcslen(uilib_filefilter[i].name) + 1;
-            memcpy(current, uilib_filefilter[i].name, j * sizeof(TCHAR));
+            j = _tcslen(_(uilib_filefilter[i].name)) + 1;
+            memcpy(current, _(uilib_filefilter[i].name), j * sizeof(TCHAR));
             current += j;
 
             j = _tcslen(uilib_filefilter[i].pattern) + 1;
@@ -893,8 +893,8 @@ void uilib_show_options(HWND param)
     char *options;
 
     options = cmdline_options_string();
-    ui_show_text(param, "Command line options",
-                 "Which command line options are available?", options);
+    ui_show_text(param, _("Command line options"),
+                 _("Which command line options are available?"), options);
     lib_free(options);
 }
 

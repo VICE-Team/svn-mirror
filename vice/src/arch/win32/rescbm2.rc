@@ -825,14 +825,14 @@ BEGIN
     BEGIN
         MENUITEM "&Autostart disk/tape bestand...", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "Gebruik &disk bestand"
+        POPUP "Koppel &disk bestand"
         BEGIN
             MENUITEM "Drive &8\tAlt+8",  IDM_ATTACH_8
             MENUITEM "Drive &9\tAlt+9",  IDM_ATTACH_9
             MENUITEM "Drive 1&0\tAlt+0", IDM_ATTACH_10
             MENUITEM "Drive &11\tAlt+1", IDM_ATTACH_11
         END
-        POPUP "&Eject disk bestand"
+        POPUP "Ontkopp&el disk bestand"
         BEGIN
             MENUITEM "Drive &8",  IDM_DETACH_8
             MENUITEM "Drive &9",  IDM_DETACH_9
@@ -845,15 +845,15 @@ BEGIN
         BEGIN
             MENUITEM "Voeg huidig best&and toe\tAlt+I",     IDM_FLIP_ADD
             MENUITEM "Ve&rwijder huidig bestand\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Gebruik volge&nd bestand\tAlt+N",     IDM_FLIP_NEXT
-            MENUITEM "Gebruik vori&g bestand\tAlt+B", IDM_FLIP_PREVIOUS
+            MENUITEM "Koppel volge&nd bestand\tAlt+N",     IDM_FLIP_NEXT
+            MENUITEM "Koppel vori&g bestand\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
             MENUITEM "&Laad flip lijst", IDM_FLIP_LOAD
             MENUITEM "Op&slaan flip lijst", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Gebruik &tape bestand...\tAlt+T", IDM_ATTACH_TAPE
-        MENUITEM "Eje&ct tape bestand",           IDM_DETACH_TAPE
+        MENUITEM "Koppel &tape bestand...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Ontkoppe&l tape bestand",           IDM_DETACH_TAPE
 #if 1
         POPUP "Datassette bedie&ning"
         BEGIN

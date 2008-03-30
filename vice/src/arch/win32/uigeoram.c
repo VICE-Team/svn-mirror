@@ -117,7 +117,7 @@ static void end_georam_dialog(HWND hwnd)
 
 static void browse_georam_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, TEXT("Select file for GEORAM"),
+    uilib_select_browse(hwnd, TEXT(_("Select file for GEORAM")),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
                         IDC_GEORAM_FILE);
 }

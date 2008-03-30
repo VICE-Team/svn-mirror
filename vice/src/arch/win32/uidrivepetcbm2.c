@@ -252,15 +252,15 @@ void uidrivepetcbm2_settings_dialog(HWND hwnd)
     }
 
     psp[0].pfnDlgProc = callback_8;
-    psp[0].pszTitle = TEXT("Drive 8");
+    psp[0].pszTitle = TEXT(_("Drive 8"));
     psp[1].pfnDlgProc = callback_9;
-    psp[1].pszTitle = TEXT("Drive 9");
+    psp[1].pszTitle = TEXT(_("Drive 9"));
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = TEXT("Drive Settings");
+    psh.pszCaption = TEXT(_("Drive Settings"));
     psh.nPages = 2;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

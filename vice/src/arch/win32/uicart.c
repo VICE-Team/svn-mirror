@@ -30,6 +30,7 @@
 #include <tchar.h>
 
 #include "cartridge.h"
+#include "intl.h"
 #include "lib.h"
 #include "system.h"
 #include "ui.h"
@@ -49,18 +50,18 @@ void uicart_attach(WPARAM wparam, HWND hwnd,
         i++;
 
     if (cartridges[i].wparam == 0) {
-        ui_error("Bad cartridge config in UI!");
+        ui_error(_("Bad cartridge config in UI!"));
         return;
     }
 
-    if ((st_name = uilib_select_file(hwnd, cartridges[i].title,
+    if ((st_name = uilib_select_file(hwnd, _(cartridges[i].title),
         cartridges[i].filter, UILIB_SELECTOR_TYPE_FILE_LOAD,
         UILIB_SELECTOR_STYLE_CART)) != NULL) {
         char *name;
 
         name = system_wcstombs_alloc(st_name);
         if (cartridge_attach_image(cartridges[i].type, name) < 0)
-            ui_error("Invalid cartridge image");
+            ui_error(_("Invalid cartridge image"));
         system_wcstombs_free(name);
         lib_free(st_name);
     }

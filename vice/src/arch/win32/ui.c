@@ -623,7 +623,7 @@ void ui_error(const char *format, ...)
 
     log_debug(tmp);
     st = system_mbstowcs_alloc(tmp);
-    ui_messagebox(st, TEXT(intl_translate_text("VICE Error!")), MB_OK | MB_ICONSTOP);
+    ui_messagebox(st, TEXT(_("VICE Error!")), MB_OK | MB_ICONSTOP);
     system_mbstowcs_free(st);
     vsync_suspend_speed_eval();
     lib_free(tmp);
@@ -635,8 +635,8 @@ void ui_error_string(const char *text)
     TCHAR *st;
 
     log_debug(text);
-    st = system_mbstowcs_alloc(intl_translate_text(text));
-    ui_messagebox(st, TEXT(intl_translate_text("VICE Error!")), MB_OK | MB_ICONSTOP);
+    st = system_mbstowcs_alloc(text);
+    ui_messagebox(st, TEXT(_("VICE Error!")), MB_OK | MB_ICONSTOP);
     system_mbstowcs_free(st);
 }
 
@@ -652,7 +652,7 @@ void ui_message(const char *format, ...)
     va_end(args);
 
     st = system_mbstowcs_alloc(tmp);
-    ui_messagebox(st, TEXT(intl_translate_text("VICE Information")), MB_OK | MB_ICONASTERISK);
+    ui_messagebox(st, TEXT(_("VICE Information")), MB_OK | MB_ICONASTERISK);
     system_mbstowcs_free(st);
     vsync_suspend_speed_eval();
     lib_free(tmp);
@@ -668,9 +668,10 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     va_list ap;
     va_start(ap, format);
     txt = lib_mvsprintf(format, ap);
-    txt2 = lib_msprintf("%s\n\nStart monitor?", txt);
+    txt2 = lib_msprintf(_("%s\n\nStart monitor?"), txt);
     st = system_mbstowcs_alloc(txt2);
-    ret = ui_messagebox(st, TEXT("VICE CPU JAM"), MB_YESNO);
+    ret = ui_messagebox(st, TEXT(_("VICE CPU JAM")), 
+MB_YESNO);
     system_mbstowcs_free(st);
     lib_free(txt2);
     lib_free(txt);
@@ -684,8 +685,8 @@ int ui_extend_image_dialog(void)
 {
     int ret;
 
-    ret = ui_messagebox(TEXT("Extend image to 40-track format?"),
-                        TEXT("VICE question"), MB_YESNO | MB_ICONQUESTION);
+    ret = ui_messagebox(TEXT(_("Extend image to 40-track format?")),
+                        TEXT(_("VICE question")), MB_YESNO | MB_ICONQUESTION);
     return ret == IDYES;
 }
 
@@ -731,10 +732,10 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     for (index = 0; index < number_of_windows; index++) {
         title = system_wcstombs_alloc(hwnd_titles[index]);
 
-        buf = lib_msprintf("%s at %d%% speed, %d fps%s",
+        buf = lib_msprintf(_("%s at %d%% speed, %d fps%s"),
                            title, (int)(percent + .5),
                            (int)(framerate + .5),
-                           warp_flag ? " (warp)" : "");
+                           warp_flag ? _(" (warp)") : "");
         system_wcstombs_free(title);
         st_buf = system_mbstowcs_alloc(buf);
         SetWindowText(window_handles[index], st_buf);
@@ -789,12 +790,12 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
     char device_str[4];
 
     if (image == NULL || image[0] == 0) {
-        text = util_concat("Detached device ", 
-                           itoa(drivenum + 8, device_str, 10), NULL);
+        text = lib_msprintf(_("Detached device %s"), 
+                           itoa(drivenum + 8, device_str, 10));
     } else {
        	util_fname_split(image, &directory_name, &image_name);
-        text = util_concat("Attached ", image_name, " to device#", 
-            itoa(drivenum+8, device_str, 10), NULL);
+        text = lib_msprintf(_("Attached %s to device#%s"), image_name,
+            itoa(drivenum+8, device_str, 10));
         lib_free(image_name);
         lib_free(directory_name);
     }
@@ -832,10 +833,10 @@ void ui_display_tape_current_image(const char *image)
     char *directory_name, *image_name, *text;
 
     if (image == NULL || image[0] == 0) {
-        text = lib_stralloc("Detached tape");
+        text = lib_stralloc(_("Detached tape"));
     } else {
        	util_fname_split(image, &directory_name, &image_name);
-        text = util_concat("Attached tape ", image_name, NULL);
+        text = lib_msprintf(_("Attached tape %s"), image_name);
         lib_free(image_name);
         lib_free(directory_name);
     }
@@ -861,9 +862,9 @@ void ui_display_playback(int playback_status, char *version)
     if (playback_status) {
         statusbar_event_status(EVENT_PLAYBACK);
         if (version == NULL || version[0] == 0)
-            sprintf(st, "History recorded with unknown release");
+            sprintf(st, _("History recorded with unknown release"));
         else 
-            sprintf(st, "History recorded with VICE-%s", version);
+            sprintf(st, _("History recorded with VICE-%s"), version);
         ui_display_statustext(st);
     } else {
         statusbar_event_status(EVENT_OFF);
@@ -899,7 +900,7 @@ void ui_display_paused(int flag)
 
     for (index = 0; index < number_of_windows; index++) {
         title = system_wcstombs_alloc(hwnd_titles[index]);
-        buf = lib_msprintf("%s (%s)", title, flag ? "paused" : "resumed");
+        buf = lib_msprintf("%s (%s)", title, flag ? _("paused") : _("resumed"));
         system_wcstombs_free(title);
         st_buf = system_mbstowcs_alloc(buf);
         SetWindowText(window_handles[index], st_buf);
@@ -1170,21 +1171,21 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_SETTINGS_SAVE:
         if (resources_save(NULL) < 0)
-            ui_error(intl_translate_text("Cannot save settings."));
+            ui_error(_("Cannot save settings."));
         else
-            ui_message("Settings saved successfully.");
+            ui_message(_("Settings saved successfully."));
         uifliplist_save_settings();
         break;
       case IDM_SETTINGS_LOAD:
         if (resources_load(NULL) < 0) {
-            ui_error(intl_translate_text("Cannot load settings."));
+            ui_error(_("Cannot load settings."));
         } else {
-            ui_message("Settings loaded successfully.");
+            ui_message(_("Settings loaded successfully."));
         }
         break;
       case IDM_SETTINGS_DEFAULT:
         resources_set_defaults();
-        ui_message("Default settings restored.");
+        ui_message(_("Default settings restored."));
         break;
       case IDM_EVENT_DIRECTORY:
       case IDM_EVENT_TOGGLE_RECORD:
@@ -1269,8 +1270,8 @@ static void ui_wm_close(HWND window)
     if (confirm_on_exit) {
 //      log_debug("Asking exit confirmation");
         if (MessageBox(window,
-            TEXT("Do you really want to exit?\n\n"
-            "All the data present in the emulated RAM will be lost."),
+            TEXT(_("Do you really want to exit?\n\n"
+            "All the data present in the emulated RAM will be lost.")),
             TEXT("VICE"), MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2
             | MB_TASKMODAL) == IDYES) {
             quit = 1;
@@ -1283,7 +1284,7 @@ static void ui_wm_close(HWND window)
         SuspendFullscreenMode(window);
         if (save_on_exit) {
             if (resources_save(NULL)<0) {
-                ui_error("Cannot save settings.");
+                ui_error(_("Cannot save settings."));
             }
         }
         DestroyWindow(window);
@@ -1301,11 +1302,11 @@ static void ui_wm_dropfiles(HWND window, WPARAM wparam)
     DragQueryFile(hDrop, 0, (char *)&szFile, 256);
     if (GetAsyncKeyState(VK_SHIFT) & 0x8000) {
         if (file_system_attach_disk(8, szFile) < 0)
-            ui_error("Cannot attach specified file");
+            ui_error(_("Cannot attach specified file"));
     } else {
         if (autostart_autodetect(szFile, NULL, 0,
             AUTOSTART_MODE_RUN) < 0)
-            ui_error("Cannot autostart specified file.");
+            ui_error(_("Cannot autostart specified file."));
     }
     DragFinish(hDrop);
 }
