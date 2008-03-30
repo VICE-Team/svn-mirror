@@ -113,5 +113,4 @@ typedef struct _mos6510_regs {
     ((regs)->reg_p | ((regs)->flag_n & 0x80) | P_UNUSED \
      | (MOS6510_REGS_GET_ZERO(regs) ? P_ZERO : 0))
 
-
 #endif

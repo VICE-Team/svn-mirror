@@ -130,7 +130,7 @@ static char pet_sector_map[78] =
 static int deleted_files;
 
 /* PC64 files need this too */
-char *slot_type[] = {
+char const *slot_type[] = {
     "DEL", "SEQ", "PRG", "USR", "REL", "CBM", "DJJ", "FAB"
 };
 
@@ -261,7 +261,7 @@ int initialize_1541(int dev, int type,
  */
 void vdrive_command_set_error(bufferinfo_t *p, int code, int track, int sector)
 {
-    char   *message;
+    const char   *message;
     errortext_t *e;
     static int last_code;
 
@@ -655,30 +655,33 @@ static int vdrive_command_memory(DRIVE *floppy, BYTE *buffer, int length)
  * be checked elsewhere
  */
 
-int floppy_parse_name(char *name, int length, char *ptr,
-		      int *reallength, int *readmode, int *filetype,
-		      int *rl)
+int floppy_parse_name(const char *name, int length, char *ptr,
+                      int *reallength, int *readmode, int *filetype,
+                      int *rl)
 {
-    char   *c, *p;
-    int     t;
+    const char *p;
+    char *c;
+    int t;
 
     if (!name || !*name)
-	return FLOPPY_ERROR;
+        return FLOPPY_ERROR;
 
     p = (char *)memchr(name, ':', length);
     if (p)
-	p++;
+        p++;
     else {	/* no colon found */
-	if (*name != '$') p = name;
-	else p = name + strlen(name);	/* set to null byte */
+        if (*name != '$')
+            p = name;
+        else
+            p = name + strlen(name);	/* set to null byte */
     }
 #ifdef DEBUG_DRIVE
-	    fprintf(logfile, "Name (%d): '%s'\n", length, p);
+    fprintf(logfile, "Name (%d): '%s'\n", length, p);
 #endif
 
 #if 0
     if (*name == '@' && p == name)
-	p++;
+        p++;
 #endif
 
     t = strlen(p);
