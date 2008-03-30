@@ -422,14 +422,16 @@ static BOOL CALLBACK callback_##num(HWND dialog, UINT msg,        \
 
 _CALLBACK(8)
 _CALLBACK(9)
+_CALLBACK(10)
+_CALLBACK(11)
 
 void uidrivec128_settings_dialog(HWND hwnd)
 {
-    PROPSHEETPAGE psp[2];
+    PROPSHEETPAGE psp[4];
     PROPSHEETHEADER psh;
     int i;
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < 4; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
@@ -448,13 +450,17 @@ void uidrivec128_settings_dialog(HWND hwnd)
     psp[0].pszTitle = TEXT("Drive 8");
     psp[1].pfnDlgProc = callback_9;
     psp[1].pszTitle = TEXT("Drive 9");
+    psp[2].pfnDlgProc = callback_10;
+    psp[2].pszTitle = TEXT("Drive 10");
+    psp[3].pfnDlgProc = callback_11;
+    psp[3].pszTitle = TEXT("Drive 11");
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
     psh.pszCaption = TEXT("Drive Settings");
-    psh.nPages = 2;
+    psh.nPages = 4;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;
