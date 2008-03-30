@@ -37,6 +37,7 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "fixpoint.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -340,7 +341,7 @@ static void fill_buffer(int size, int rise)
     int c, i;
     SWORD *p;
 
-    p = (SWORD *)xmalloc(size * sizeof(SWORD) * snddata.channels);
+    p = (SWORD *)lib_malloc(size * sizeof(SWORD) * snddata.channels);
 
     if (!p)
         return;

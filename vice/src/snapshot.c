@@ -39,15 +39,14 @@
 #endif
 
 #include "archdep.h"
+#include "lib.h"
 #include "ioutil.h"
 #include "log.h"
 #include "snapshot.h"
 #include "types.h"
-#include "utils.h"
 #include "vsync.h"
 #include "zfile.h"
 
-/* ------------------------------------------------------------------------- */
 
 char snapshot_magic_string[] = "VICE Snapshot File\032";
 
@@ -264,7 +263,7 @@ static int snapshot_read_string(FILE *f, char **s)
     len = (int)w;
 
     if (len) {
-        p = (char *)xmalloc(len);
+        p = (char *)lib_malloc(len);
         *s = p;
 
         for (i = 0; i < len; i++) {
@@ -470,7 +469,7 @@ snapshot_module_t *snapshot_module_create(snapshot_t *s,
 {
     snapshot_module_t *m;
 
-    m = xmalloc(sizeof(snapshot_module_t));
+    m = lib_malloc(sizeof(snapshot_module_t));
     m->file = s->file;
     m->offset = ftell(s->file);
     if (m->offset == -1) {
@@ -504,7 +503,7 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s,
     if (fseek(s->file, s->first_module_offset, SEEK_SET) < 0)
         return NULL;
 
-    m = xmalloc(sizeof(snapshot_module_t));
+    m = lib_malloc(sizeof(snapshot_module_t));
     m->file = s->file;
     m->write_mode = 0;
 
@@ -584,7 +583,7 @@ snapshot_t *snapshot_create(const char *filename,
                                      SNAPSHOT_MACHINE_NAME_LEN) < 0)
         goto fail;
 
-    s = xmalloc(sizeof(snapshot_t));
+    s = lib_malloc(sizeof(snapshot_t));
     s->file = f;
     s->first_module_offset = ftell(f);
     s->write_mode = 1;
@@ -636,7 +635,7 @@ snapshot_t *snapshot_open(const char *filename,
         goto fail;
     }
 
-    s = xmalloc(sizeof(snapshot_t));
+    s = lib_malloc(sizeof(snapshot_t));
     s->file = f;
     s->first_module_offset = ftell(f);
     s->write_mode = 0;

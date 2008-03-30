@@ -36,13 +36,13 @@
 #endif
 
 #include "archdep.h"
+#include "lib.h"
 #include "log.h"
 #include "mem.h"
 #include "resources.h"
 #include "romset.h"
 #include "sysfile.h"
 #include "types.h"
-#include "utils.h"
 
 
 int romset_load(const char *filename)
@@ -166,11 +166,11 @@ int romset_load_archive(const char *filename, int autostart)
         if (entry >= array_size) {
             array_size += 4;
             if (romsets == NULL)
-                romsets = (string_link_t*)xmalloc(array_size
-                                                  * sizeof(string_link_t));
+                romsets = (string_link_t *)lib_malloc(array_size
+                                                     * sizeof(string_link_t));
             else
-                romsets = (string_link_t*)xrealloc(romsets, array_size
-                                                   * sizeof(string_link_t));
+                romsets = (string_link_t *)lib_realloc(romsets, array_size
+                                                      * sizeof(string_link_t));
         }
         anchor = romsets + entry;
         if (entry < num_romsets) {
@@ -180,7 +180,7 @@ int romset_load_archive(const char *filename, int autostart)
                 free(last->name); free(last);
             }
         } else {
-            anchor->name = (char*)xmalloc(length);
+            anchor->name = (char*)lib_malloc(length);
             strncpy(anchor->name, b, length - 1);
             anchor->name[length - 1] = '\0';
         }
@@ -205,8 +205,8 @@ int romset_load_archive(const char *filename, int autostart)
             if (*b == '}')
                 break;
             length = strlen(b);
-            item = (string_link_t *)xmalloc(sizeof(string_link_t));
-            item->name = (char *)xmalloc(length);
+            item = (string_link_t *)lib_malloc(sizeof(string_link_t));
+            item->name = (char *)lib_malloc(length);
             strncpy(item->name, b, length - 1);
             item->name[length-1] = '\0';
             item->next = NULL;
@@ -265,8 +265,7 @@ int romset_save_item(const char *filename, const char *romset_name)
             string_link_t *item;
             FILE *fp;
 
-            if ((fp = fopen(filename, MODE_WRITE)) == NULL)
-            {
+            if ((fp = fopen(filename, MODE_WRITE)) == NULL) {
                 log_warning(LOG_DEFAULT,
                             "Could not open file '%s' for writing", filename);
                 return -1;
@@ -357,11 +356,11 @@ int romset_create_item(const char *romset_name, const char **resource_list)
     if (entry >= array_size) {
         array_size += 4;
         if (romsets == NULL)
-            romsets = (string_link_t*)xmalloc(array_size
-                                              * sizeof(string_link_t));
+            romsets = (string_link_t *)lib_malloc(array_size
+                                                  * sizeof(string_link_t));
         else
-            romsets = (string_link_t*)xrealloc(romsets, array_size
-                                               * sizeof(string_link_t));
+            romsets = (string_link_t *)lib_realloc(romsets, array_size
+                                                   * sizeof(string_link_t));
     }
     anchor = romsets + entry;
     if (entry < num_romsets) {
@@ -373,7 +372,7 @@ int romset_create_item(const char *romset_name, const char **resource_list)
             free(last);
         }
     } else {
-        anchor->name = (char*)xmalloc(strlen(romset_name) + 1);
+        anchor->name = (char *)lib_malloc(strlen(romset_name) + 1);
         strcpy(anchor->name, romset_name);
     }
     anchor->next = NULL;
@@ -399,8 +398,8 @@ int romset_create_item(const char *romset_name, const char **resource_list)
               default: buffer[0] = '\0';
             }
             if ((len = strlen(buffer)) > 0) {
-              item = (string_link_t*)xmalloc(sizeof(string_link_t));
-              item->name = (char *)xmalloc(len + 1);
+              item = (string_link_t *)lib_malloc(sizeof(string_link_t));
+              item->name = (char *)lib_malloc(len + 1);
               strcpy(item->name, buffer);
               item->next = NULL;
               last->next = item;

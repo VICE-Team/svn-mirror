@@ -34,6 +34,7 @@
 
 #include "cmdline.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -42,7 +43,6 @@
 #include "resources.h"
 #include "traps.h"
 #include "types.h"
-#include "utils.h"
 
 
 typedef struct traplist_s {
@@ -164,7 +164,7 @@ int traps_add(const trap_t *trap)
 {
     traplist_t *p;
 
-    p = (traplist_t *)xmalloc(sizeof(traplist_t));
+    p = (traplist_t *)lib_malloc(sizeof(traplist_t));
     p->next = traplist;
     p->trap = trap;
     traplist = p;
