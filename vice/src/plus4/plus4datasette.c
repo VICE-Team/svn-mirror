@@ -26,7 +26,9 @@
 
 #include "vice.h"
 
+#include "datasette.h"
 #include "plus4mem.h"
+
 
 void datasette_trigger_flux_change(unsigned int on)
 {

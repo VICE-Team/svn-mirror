@@ -280,21 +280,21 @@ void mem_config_ram_set(unsigned int config)
     mem_config_set((mem_config & ~0x01) | config);
 }
 
-void mem_config_rom_set(unsigned int config)
+static void mem_config_rom_set(unsigned int config)
 {
     mem_config_set((mem_config & ~0x1e) | config);
 }
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 read_watch(WORD addr)
+static BYTE REGPARM1 read_watch(WORD addr)
 {
     mon_watch_push_load_addr(addr, e_comp_space);
     return mem_read_tab[mem_config][addr >> 8](addr);
 }
 
 
-void REGPARM2 store_watch(WORD addr, BYTE value)
+static void REGPARM2 store_watch(WORD addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[mem_config][addr >> 8](addr, value);
@@ -313,7 +313,7 @@ void mem_toggle_watchpoints(int flag, void *context)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 basic_read(WORD addr)
+static BYTE REGPARM1 basic_read(WORD addr)
 {
     return mem_basic_rom[addr & 0x3fff];
 }
@@ -359,32 +359,32 @@ static BYTE REGPARM1 extromhi3_read(WORD addr)
 }
 
 
-BYTE REGPARM1 ram_read(WORD addr)
+static BYTE REGPARM1 ram_read(WORD addr)
 {
     return mem_ram[addr];
 }
 
-BYTE REGPARM1 ram_read_32k(WORD addr)
+static BYTE REGPARM1 ram_read_32k(WORD addr)
 {
     return mem_ram[addr & 0x7fff];
 }
 
-BYTE REGPARM1 ram_read_16k(WORD addr)
+static BYTE REGPARM1 ram_read_16k(WORD addr)
 {
     return mem_ram[addr & 0x3fff];
 }
 
-void REGPARM2 ram_store(WORD addr, BYTE value)
+static void REGPARM2 ram_store(WORD addr, BYTE value)
 {
     mem_ram[addr] = value;
 }
 
-void REGPARM2 ram_store_32k(WORD addr, BYTE value)
+static void REGPARM2 ram_store_32k(WORD addr, BYTE value)
 {
     mem_ram[addr & 0x7fff] = value;
 }
 
-void REGPARM2 ram_store_16k(WORD addr, BYTE value)
+static void REGPARM2 ram_store_16k(WORD addr, BYTE value)
 {
     mem_ram[addr & 0x3fff] = value;
 }

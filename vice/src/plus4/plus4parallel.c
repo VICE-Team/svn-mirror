@@ -29,6 +29,7 @@
 #include "drive.h"
 #include "drivetypes.h"
 #include "drivecpu.h"
+#include "iecdrive.h"
 #include "maincpu.h"
 #include "plus4parallel.h"
 #include "ted.h"

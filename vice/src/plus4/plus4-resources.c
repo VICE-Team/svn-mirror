@@ -34,6 +34,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "mem.h"
+#include "plus4-resources.h"
 #include "plus4mem.h"
 #include "plus4rom.h"
 #include "resources.h"

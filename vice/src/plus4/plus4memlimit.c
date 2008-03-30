@@ -27,13 +27,17 @@
 #include "vice.h"
 
 #include "mem.h"
+#include "plus4memlimit.h"
+
 
 #define NUM_SEGMENTS 6
 #define NUM_CONFIGS 32
 
+
 static const int mstart[NUM_SEGMENTS] = { 0x00, 0x40, 0x80, 0xc0, 0xfc, 0xfd };
 
 static const int mend[NUM_SEGMENTS] = { 0x3f, 0x7f, 0xbf, 0xfb, 0xfc, 0xff };
+
 
 static const int limit_tab[NUM_SEGMENTS][NUM_CONFIGS] = {
     /* 0000-3fff */

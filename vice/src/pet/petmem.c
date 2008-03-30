@@ -138,12 +138,12 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
     mem_ram[addr & 0xff] = value;
 }
 
-BYTE REGPARM1 ram_read(WORD addr)
+static BYTE REGPARM1 ram_read(WORD addr)
 {
     return mem_ram[addr];
 }
 
-void REGPARM2 ram_store(WORD addr, BYTE value)
+static void REGPARM2 ram_store(WORD addr, BYTE value)
 {
 /*
 if (addr == 0x8000) printf("charline=%d, ycount=%d, char=%d\n",
@@ -206,13 +206,13 @@ static BYTE REGPARM1 mem_read_patchbuf(WORD addr)
 
 /* Functions for watchpoint memory access.  */
 
-BYTE REGPARM1 read_watch(WORD addr)
+static BYTE REGPARM1 read_watch(WORD addr)
 {
     mon_watch_push_load_addr(addr, e_comp_space);
     return _mem_read_tab[addr >> 8](addr);
 }
 
-void REGPARM2 store_watch(WORD addr, BYTE value)
+static void REGPARM2 store_watch(WORD addr, BYTE value)
 {
     mon_watch_push_store_addr(addr, e_comp_space);
     _mem_write_tab[addr >> 8](addr, value);
@@ -242,7 +242,7 @@ void petmem_reset(void)
     petmem_map_reg = 0;
 }
 
-void superpet_powerup(void)
+static void superpet_powerup(void)
 {
 /* Those two are not reset by a soft reset (/RES), only by power down */
     spet_diag = 0;
@@ -255,7 +255,7 @@ int petmem_superpet_diag(void)
     return petres.superpet && spet_diag;
 }
 
-BYTE REGPARM1 read_super_io(WORD addr)
+static BYTE REGPARM1 read_super_io(WORD addr)
 {
     if (addr >= 0xeff4) {       /* unused / readonly */
         return read_unused(addr);
@@ -271,7 +271,7 @@ BYTE REGPARM1 read_super_io(WORD addr)
     return read_unused(addr);   /* fallback */
 }
 
-void REGPARM2 store_super_io(WORD addr, BYTE value)
+static void REGPARM2 store_super_io(WORD addr, BYTE value)
 {
     if (addr >= 0xeffe) {       /* RAM/ROM switch */
         spet_ramen = !(value & 1);
@@ -302,7 +302,7 @@ void REGPARM2 store_super_io(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 read_super_9(WORD addr)
+static BYTE REGPARM1 read_super_9(WORD addr)
 {
     if (spet_ramen) {
         return (mem_ram + 0x10000)[(spet_bank << 12) | (addr & 0x0fff)];
@@ -310,7 +310,7 @@ BYTE REGPARM1 read_super_9(WORD addr)
     return rom_read(addr);
 }
 
-void REGPARM2 store_super_9(WORD addr, BYTE value)
+static void REGPARM2 store_super_9(WORD addr, BYTE value)
 {
     if (spet_ramen && !spet_ramwp) {
         (mem_ram + 0x10000)[(spet_bank << 12) | (addr & 0x0fff)] = value;
@@ -342,7 +342,7 @@ BYTE REGPARM1 mem_read(WORD addr)
 
 /* When we write, we write all involved chips.  */
 
-void REGPARM2 store_io(WORD addr, BYTE value)
+static void REGPARM2 store_io(WORD addr, BYTE value)
 {
     if (addr & 0x10)
         pia1_store(addr, value);
@@ -364,7 +364,7 @@ void REGPARM2 store_io(WORD addr, BYTE value)
  * the bus drivers of all involved chips interact and you get strange
  * results...
  */
-BYTE REGPARM1 read_io(WORD addr)
+static BYTE REGPARM1 read_io(WORD addr)
 {
     BYTE v1, v2, v3, v4;
 

@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 
+#include "cbm2-cmdline-options.h"
 #include "cbm2mem.h"
 #include "cmdline.h"
 

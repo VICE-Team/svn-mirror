@@ -29,6 +29,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"
+#include "iecdrive.h"
 #include "log.h"
 #include "maincpu.h"
 #include "plus4tcbm.h"

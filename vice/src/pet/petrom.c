@@ -38,6 +38,7 @@
 #include "mem.h"
 #include "pet.h"
 #include "petmem.h"
+#include "petrom.h"
 #include "pets.h"
 #include "resources.h"
 #include "sysfile.h"

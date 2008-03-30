@@ -30,6 +30,7 @@
 
 #include "cmdline.h"
 #include "machine.h"
+#include "plus4-cmdline-options.h"
 
 
 static const cmdline_option_t cmdline_options[] =
