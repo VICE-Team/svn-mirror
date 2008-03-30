@@ -3998,7 +3998,7 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
           {
             if (strlen(NewRomSetName) > 0)
             {
-              romset_create_item(NewRomSetName, mem_romset_resources_list);
+              romset_create_item(NewRomSetName, machine_romset_resources_list);
               ui_build_romset_menu();
               ui_setup_menu_display(ConfigMenus[CONF_MENU_ROMSET].desc);
             }

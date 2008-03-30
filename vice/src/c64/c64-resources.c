@@ -48,6 +48,8 @@
 #define KBD_INDEX_C64_POS   1
 
 
+static int romset_firmware[3];
+
 /* What sync factor between the CPU and the drive?  If equal to
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
@@ -160,15 +162,30 @@ static int set_sync_factor(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_romset_firmware(resource_value_t v, void *param)
+{
+    unsigned int num = (unsigned int)param;
+
+    romset_firmware[num] = (int)v;
+
+    return 0;
+}
+
 static const resource_t resources[] = {
     { "MachineVideoStandard", RES_INTEGER, (resource_value_t)MACHINE_SYNC_PAL,
       (void *)&sync_factor, set_sync_factor, NULL },
     { "ChargenName", RES_STRING, (resource_value_t)"chargen",
       (void *)&chargen_rom_name, set_chargen_rom_name, NULL },
+    { "RomsetChargenName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[0], set_romset_firmware, (void *)0 },
     { "KernalName", RES_STRING, (resource_value_t)"kernal",
       (void *)&kernal_rom_name, set_kernal_rom_name, NULL },
+    { "RomsetKernalName", RES_INTEGER, (resource_value_t)1,
+      (void *)&romset_firmware[1], set_romset_firmware, (void *)1 },
     { "BasicName", RES_STRING, (resource_value_t)"basic",
       (void *)&basic_rom_name, set_basic_rom_name, NULL },
+    { "RomsetBasicName", RES_INTEGER, (resource_value_t)0,
+      (void *)&romset_firmware[2], set_romset_firmware, (void *)2 },
     { "EmuID", RES_INTEGER, (resource_value_t)0,
       (void *)&emu_id_enabled, set_emu_id_enabled, NULL },
     { "KernalRev", RES_STRING, (resource_value_t)"",
