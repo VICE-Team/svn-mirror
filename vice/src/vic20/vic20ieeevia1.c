@@ -1,6 +1,5 @@
 /*
- *
- * ieeevia1.c - IEEE488 interface VIA1 emulation in the VIC-1112.
+ * vic20ieeevia1.c - IEEE488 interface VIA1 emulation in the VIC-1112.
  *
  * Written by
  *   André Fachat <a.fachat@physik.tu-chemnitz.de>
@@ -30,10 +29,10 @@
 #define myvia ieeevia1
 #define myvia_init ieeevia1_init
 
-#define	via_set_int maincpu_set_irq
+#define via_set_int maincpu_set_irq
 #define I_MYVIAFL I_IEEEVIA1FL
 #define MYVIA_INT IK_IRQ
-#define	MYVIA_NAME "IeeeVia1"
+#define MYVIA_NAME "IeeeVia1"
 
 #define mycpu_rmw_flag rmw_flag
 #define mycpu_int_status maincpu_int_status
@@ -94,16 +93,16 @@ inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
 
 static void undump_prb(BYTE byte)
 {
-    parallel_cpu_set_dav(!(byte & 0x01));
-    parallel_cpu_set_nrfd(!(byte & 0x02));
-    parallel_cpu_set_ndac(!(byte & 0x04));
+    parallel_cpu_set_dav((BYTE)(!(byte & 0x01)));
+    parallel_cpu_set_nrfd((BYTE)(!(byte & 0x02)));
+    parallel_cpu_set_ndac((BYTE)(!(byte & 0x04)));
 }
 
 inline static void store_prb(BYTE byte, BYTE myoldpb, ADDRESS addr)
 {
-    parallel_cpu_set_dav(!(byte & 0x01));
-    parallel_cpu_set_nrfd(!(byte & 0x02));
-    parallel_cpu_set_ndac(!(byte & 0x04));
+    parallel_cpu_set_dav((BYTE)(!(byte & 0x01)));
+    parallel_cpu_set_nrfd((BYTE)(!(byte & 0x02)));
+    parallel_cpu_set_ndac((BYTE)(!(byte & 0x04)));
 }
 
 static void undump_pcr(BYTE byte)
@@ -137,11 +136,11 @@ inline static BYTE read_prb(void)
         drive1_cpu_execute(clk);
 
     byte = 255
-	- (parallel_atn  ? 0x80 : 0)
-	- (parallel_ndac ? 0x40 : 0)
-	- (parallel_nrfd ? 0x20 : 0)
-	- (parallel_dav  ? 0x10 : 0)
-	- (parallel_eoi  ? 0x08 : 0);
+        - (parallel_atn  ? 0x80 : 0)
+        - (parallel_ndac ? 0x40 : 0)
+        - (parallel_nrfd ? 0x20 : 0)
+        - (parallel_dav  ? 0x10 : 0)
+        - (parallel_eoi  ? 0x08 : 0);
 
     /* none of the load changes output register value -> std. masking */
     byte = ((byte & ~myvia[VIA_DDRB]) | (myvia[VIA_PRB] & myvia[VIA_DDRB]));
