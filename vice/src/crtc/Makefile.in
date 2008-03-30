@@ -274,8 +274,9 @@ crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
 	crtc-resources.h crtctypes.h crtc-mem.h \
 	../../src/arch/unix/types.h crtc.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/viewport.h ../../src/raster/raster-resources.h \
-	../../src/resources.h ../../src/utils.h ../../src/video.h
+	../../src/viewport.h ../../src/fullscreen.h \
+	../../src/raster/raster-resources.h ../../src/resources.h \
+	../../src/utils.h ../../src/video.h
 crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
 	crtc.h ../../src/arch/unix/types.h crtctypes.h crtc-mem.h \
 	../../src/log.h ../../src/raster/raster.h \
@@ -298,7 +299,6 @@ crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
 	../../src/fullscreen.h \
-	../../src/arch/unix/x11/fullscreen-common.h \
 	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 
 info-am:

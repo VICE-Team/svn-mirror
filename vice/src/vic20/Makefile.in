@@ -284,9 +284,10 @@ vic-mem.o: vic-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/video.h vic20mem.h vic20sound.h
 vic-resources.o: vic-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/raster/raster-resources.h ../../src/resources.h \
-	../../src/utils.h ../../src/arch/unix/types.h vic-resources.h \
-	vic.h ../../src/log.h ../../src/raster/raster.h \
+	../../src/fullscreen.h ../../src/raster/raster-resources.h \
+	../../src/resources.h ../../src/utils.h \
+	../../src/arch/unix/types.h vic-resources.h vic.h \
+	../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h \
 	vic-mem.h vic20.h ../../src/video.h
 vic-snapshot.o: vic-snapshot.c ../../src/vice.h ../../src/config.h \
@@ -314,7 +315,6 @@ vic.o: vic.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
 	../../src/fullscreen.h \
-	../../src/arch/unix/x11/fullscreen-common.h \
 	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 vic20-cmdline-options.o: vic20-cmdline-options.c ../../src/vice.h \
 	../../src/config.h ../../src/log.h ../../src/cmdline.h \

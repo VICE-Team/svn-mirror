@@ -396,9 +396,7 @@ joy.o: joy.c ../../../src/vice.h ../../../src/config.h \
 main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h joy.h \
 	../../../src/log.h ../../../src/machine.h main_exit.h \
 	../../../src/sound.h types.h ../../../src/video.h \
-	../../../src/viewport.h ../../../src/fullscreen.h \
-	x11/fullscreen-common.h ../../../src/raster/raster.h \
-	../../../src/raster/raster-changes.h
+	../../../src/viewport.h ../../../src/fullscreen.h
 mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/keyboard.h types.h mouse.h \
 	../../../src/log.h ../../../src/resources.h ui.h \
@@ -442,9 +440,7 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
 	x11/xaw/../xaw/uiarch.h uisettings.h uisnapshot.h uidrive.h \
 	../../../src/utils.h ../../../src/vsync.h \
-	../../../src/fullscreen.h x11/fullscreen-common.h \
-	../../../src/raster/raster.h \
-	../../../src/raster/raster-changes.h ../../../src/viewport.h
+	../../../src/fullscreen.h
 uicrtc.o: uicrtc.c ../../../src/vice.h ../../../src/config.h uimenu.h \
 	x11/xaw/uimenu.h ui.h types.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \
@@ -500,10 +496,8 @@ uirs232.o: uirs232.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/vsync.h
 uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/archapi.h ../../../src/debug.h \
-	../../../src/fliplist.h ../../../src/fullscreen.h types.h \
-	x11/fullscreen-common.h ../../../src/raster/raster.h \
-	../../../src/raster/raster-changes.h ../../../src/viewport.h \
-	x11/vidmode.h ../../../src/keyboard.h ../../../src/machine.h \
+	../../../src/fliplist.h ../../../src/fullscreen.h x11/vidmode.h \
+	../../../src/keyboard.h types.h ../../../src/machine.h \
 	../../../src/mem.h ../../../src/resources.h \
 	../../../src/romset.h uidrive.h uimenu.h x11/xaw/uimenu.h ui.h \
 	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/../x11menu.h \
@@ -542,10 +536,9 @@ vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h \
 	uihotkey.h x11/xaw/../xaw/uiarch.h uisettings.h uisound.h \
 	../../../src/utils.h videoarch.h x11/xaw/videoarch.h \
 	x11/xaw/../videoarch.h ../../../src/fullscreen.h \
-	x11/fullscreen-common.h ../../../src/raster/raster.h \
-	../../../src/raster/raster-changes.h ../../../src/viewport.h \
-	../../../src/video.h ../../../src/vsync.h ../../../src/vsidui.h \
-	vsiduiunix.h x11/x11ui.h
+	../../../src/video.h ../../../src/viewport.h \
+	../../../src/vsync.h ../../../src/vsidui.h vsiduiunix.h \
+	x11/x11ui.h
 vsyncarch.o: vsyncarch.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/kbdbuf.h types.h ui.h ../../../src/uiapi.h \
 	../../../src/vsyncapi.h joy.h

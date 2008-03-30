@@ -55,11 +55,7 @@
 #include "vsync.h"
 #include "video.h"
 #include "videoarch.h"
-#ifdef USE_XF86_EXTENSIONS
-#include "fullscreen.h"
-#endif
 
-/*--------------------------------------------------------------------*/
 
 #define crtc_min(a,b)   (((a)<(b))?(a):(b))
 
@@ -287,6 +283,7 @@ void crtc_set_screen_options(int num_cols, int rasterlines)
 
     resources_touch("CrtcDoubleSize");
     crtc_update_window();
+    video_viewport_resize(crtc.raster.canvas);
 }
 
 void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,

@@ -1,5 +1,43 @@
 2002-06-29  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.9.49.
+
+	* video.h, vicii/vicii-resources.c, vdc/vdc-resources.c,
+	vic20/vic-resources.c, crtc/crtc-resources.c,
+	plus4/ted-resources.c, video.h, fullscreen.h,
+	arch/unix/x11/fullscreen.c, arch/win32/video.c,
+	arch/msdos/video.c, arch/riscos/video.c, arch/os2/video.c,
+	arch/beos/video.cc (fullscreen_capability): Renamed.
+
+	* video/video-resources.c: Added fullscreen resources.
+	(video_resources_chip_init): Initialize render config.
+
+	* arch/unix/x11/xaw/x11ui.c, arch/unix/x11/gnome/x11ui.c:
+	Adopted to new fullscreen API.
+
+	* fullscreen.h, arch/unix/x11/fullscreen.c,
+	arch/unix/x11/dga2.h, arch/unix/x11/dga1.c,
+	arch/unix/x11/vidmode.c, arch/unix/x11/vidmode.h: Reoranized.
+
+	* arch/unix/x11/Makefile.am: Updated.
+
+	* arch/unix/uivicii.c: First chunk of fullscreen UI.
+
+	* crtc/crtc.c (crtc_set_screen_options): Resize vieport after
+	a new screen geometry is set.
+
+2002-06-29  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/video.c (canvas_update): Fixed typo.
+	(video_canvas_refresh): Removed obsolete variables.
+	(real_refresh): Switched to non scaled source.
+
+	* arch/win32/video.dsp: Added missing file.
+
+	* vice.h: Don't define VIDEO_SCALE_SOURCE for Win32.
+
+2002-06-29  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.9.48.
 
 	* arch/unix/x11/vidmode.c: Changed to new canvas API, partly

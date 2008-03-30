@@ -647,6 +647,14 @@ void video_canvas_refresh(video_canvas_t *canvas,
     }
 
 #endif
+
+    if (xi + w > canvas->width || yi + h > canvas->height) {
+        log_debug("Attempt to draw outside canvas!\n"
+                  "XI%i YI%i W%i H%i CW%i CH%i\n",
+                  xi, yi, w, h, canvas->width, canvas->height);
+        exit(-1);
+    }
+
     _convert_func(canvas, xs, ys, xi, yi, w, h);
 
     /* This could be optimized away.  */
@@ -656,10 +664,5 @@ void video_canvas_refresh(video_canvas_t *canvas,
                   xi, yi, xi, yi, w, h, False, NULL, canvas);
     if (_video_use_xsync)
         XSync(display, False);
-}
-
-void video_fullscreen_cap(cap_fullscreen_t *cap_fullscreen)
-{
-    cap_fullscreen->device_num = 0;
 }
 

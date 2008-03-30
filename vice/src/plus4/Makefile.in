@@ -362,11 +362,11 @@ ted-mem.o: ted-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h
 ted-resources.o: ted-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/raster/raster-resources.h ../../src/resources.h \
-	ted-resources.h tedtypes.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/arch/unix/types.h ../../src/viewport.h \
-	../../src/utils.h ../../src/video.h
+	../../src/fullscreen.h ../../src/raster/raster-resources.h \
+	../../src/resources.h ted-resources.h tedtypes.h \
+	../../src/log.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
+	../../src/viewport.h ../../src/utils.h ../../src/video.h
 ted-snapshot.o: ted-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/mem.h \
@@ -402,8 +402,7 @@ ted.o: ted.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \
 	../../src/arch/unix/x11/xaw/../videoarch.h \
-	../../src/fullscreen.h \
-	../../src/arch/unix/x11/fullscreen-common.h ../../src/video.h \
+	../../src/fullscreen.h ../../src/video.h \
 	../../src/arch/unix/x11/xaw/../xaw/uiarch.h
 
 info-am:
