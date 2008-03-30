@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 #ifdef USE_COLOR_MANAGEMENT
@@ -331,7 +332,7 @@ static void color_print_list(const char *name, color_list_t *list)
 
 /*-----------------------------------------------------------------------*/
 
-int color_alloc_new_colors(color_list_t *list)
+static int color_alloc_new_colors(color_list_t *list)
 {
     color_list_t *list_start;
     PIXEL data;
@@ -361,7 +362,7 @@ int color_alloc_new_colors(color_list_t *list)
     return 0;
 }
 
-void color_free_old_colors(color_list_t *list)
+static void color_free_old_colors(color_list_t *list)
 {
     while (list->next != NULL) {
         uicolor_free_color(list->color_rgb_req.red,
