@@ -39,6 +39,7 @@
 #include "uidrive.h"
 #include "uilib.h"
 #include "winmain.h"
+#include "utils.h"
 
 static int save_roms = 0;
 static int save_disks = 0;
@@ -96,10 +97,79 @@ static BOOL CALLBACK ui_snapshot_save_dialog_proc(HWND hwnd,
     return FALSE;
 }
 
+
+static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
+{
+    switch (uimsg) {
+        case WM_NOTIFY:
+          save_disks = 
+              IsDlgButtonChecked
+              (hwnd,IDC_TOGGLE_SNAPSHOT_SAVE_DISKS)==BST_CHECKED ? 1 : 0;
+          save_roms = 
+              IsDlgButtonChecked
+              (hwnd,IDC_TOGGLE_SNAPSHOT_SAVE_ROMS)==BST_CHECKED ? 1 : 0;
+            break;
+    }
+    return 0;
+}
+
+
+char *ui_save_snapshot(const char *title, const char *filter, HWND hwnd)
+{
+    char name[1024] = "";
+    OPENFILENAME ofn;
+
+    memset(&ofn, 0, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.hwndOwner = hwnd;
+    ofn.hInstance = winmain_instance;
+    ofn.lpstrFilter = filter;
+    ofn.lpstrCustomFilter = NULL;
+    ofn.nMaxCustFilter = 0;
+    ofn.nFilterIndex = 1;
+    ofn.lpstrFile = name;
+    ofn.nMaxFile = sizeof(name);
+    ofn.lpstrFileTitle = NULL;
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrInitialDir = NULL;
+    ofn.lpstrTitle = title;
+    ofn.Flags = (OFN_EXPLORER
+                 | OFN_HIDEREADONLY
+                 | OFN_NOTESTFILECREATE
+                 | OFN_FILEMUSTEXIST
+                 | OFN_ENABLEHOOK
+                 | OFN_ENABLETEMPLATE
+                 | OFN_SHAREAWARE);
+    ofn.lpfnHook = hook_save_snapshot;
+    ofn.lpTemplateName = MAKEINTRESOURCE(IDD_SNAPSHOT_SAVE_DIALOG);
+    ofn.nFileOffset = 0;
+    ofn.nFileExtension = 0;
+    ofn.lpstrDefExt = NULL;
+
+    if (GetSaveFileName(&ofn)) {
+        return stralloc(name);
+    } else {
+        return NULL;
+    }
+}
+
+
 void ui_snapshot_save_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_SNAPSHOT_SAVE_DIALOG, hwnd,
+    char *s;
+    s = ui_save_snapshot("Save snapshot image",
+        "VICE snapshot files (*.vsf)\0*.vsf\0",hwnd);
+    if (s != NULL) {
+        if (strchr(s, '.') == NULL)
+            strcat(s, ".vsf");
+        if (machine_write_snapshot(s, save_roms, save_disks) < 0)
+            ui_error("Cannot write snapshot file.");
+        free(s);
+    }
+#if 0
+        DialogBox(winmain_instance, (LPCTSTR)IDD_SNAPSHOT_SAVE_DIALOG, hwnd,
               ui_snapshot_save_dialog_proc);
+#endif
 }
 
 void ui_snapshot_load_dialog(HWND hwnd)
