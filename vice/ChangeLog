@@ -1,6 +1,23 @@
+2006-09-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.2.
+
+	* config.guess, config.sub, depcomp, install-sh, missing,
+	mkinstalldirs: Updated to automake 1.9.
+
+2006-09-09  pottendo  <pottendo@utanet.at>
+
+	* configure.in (gnomeui): depend only on gtk+-2.0 as
+	libgnomeui is marked to be deprecated.
+
+2006-09-09  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/amigaos.html, doc/html/index.html,
+	doc/html/solaris.html: Updated.
+
 2006-09-03  Andreas Boose  <viceteam@t-online.de>
 
-	* Version 1.21.
+	* Version 1.20.1.
 
 	* configure.in: Define `UNSTABLE'.
 	Do not add `-Wstrict-prototypes' to `CXXFLAGS'.
@@ -746,12 +763,12 @@
 
 2005-08-07  martin  <pottendo@utanet.at>
 
-	* acinclude.m4: New file. Contains local helper macro. This should
-	fix aclocal on newer installations.
+	* acinclude.m4: New file. Contains local helper macro. This
+	should fix aclocal on newer installations.
 	
 	* data/fonts/Makefile.am (EXTRA_DIST): Separated
-	cbm-directory-charset.fon from `fonts_DATA' to avoid unnecessary
-	installation warnings under Unix.
+	cbm-directory-charset.fon from `fonts_DATA' to avoid
+	unnecessary installation warnings under Unix.
 
 2005-07-30  Andreas Boose  <viceteam@t-online.de>
 
@@ -776,14 +793,14 @@
 
 2005-06-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
-        * configure.in: Fixed the detection of a cross-compiler
-        environment when using genwinres.
+	* configure.in: Fixed the detection of a cross-compiler
+	environment when using genwinres.
 
 2005-06-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
-        * configure.in: Put checking of libXpm before checking libXaw,
-        this fixes the dependancy problem on some openbsd hardware
-        platforms.
+	* configure.in: Put checking of libXpm before checking libXaw,
+	this fixes the dependancy problem on some openbsd hardware
+	platforms.
 
 2005-06-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
