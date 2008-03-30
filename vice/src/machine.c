@@ -35,6 +35,7 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "console.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -102,13 +103,25 @@ static void machine_maincpu_clk_overflow_callback(CLOCK sub, void *data)
 
 void machine_maincpu_init(void)
 {
-    maincpu_alarm_context = (alarm_context_t *)xmalloc(sizeof(alarm_context_t));
-    alarm_context_init(maincpu_alarm_context, "MainCPU");
+}
 
-    clk_guard_init(&maincpu_clk_guard, &maincpu_clk, CLOCK_MAX
-                   - CLKGUARD_SUB_MIN);
-    clk_guard_add_callback(&maincpu_clk_guard,
+void machine_early_init(void)
+{
+    maincpu_alarm_context = alarm_context_new("MainCPU");
+
+    maincpu_clk_guard = clk_guard_new(&maincpu_clk, CLOCK_MAX
+                                      - CLKGUARD_SUB_MIN);
+
+    clk_guard_add_callback(maincpu_clk_guard,
                            machine_maincpu_clk_overflow_callback, NULL);
+}
+
+static void machine_maincpu_shutdown(void)
+{
+    if (maincpu_alarm_context != NULL)
+        alarm_context_destroy(maincpu_alarm_context);
+    if (maincpu_clk_guard != NULL)
+        clk_guard_destroy(maincpu_clk_guard);
 }
 
 void machine_shutdown(void)
@@ -128,6 +141,10 @@ void machine_shutdown(void)
     cmdline_shutdown();
 
     resources_shutdown();
+
+    drive_shutdown();
+
+    machine_maincpu_shutdown();
 
     log_close_all();
 }
