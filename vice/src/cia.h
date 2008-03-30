@@ -104,6 +104,7 @@ typedef struct cia_context_s {
     int *rmw_flag;
 
     void *prv;
+    void *context;
 } cia_context_t;
 
 #endif
