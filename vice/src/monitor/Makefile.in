@@ -118,6 +118,7 @@ XCBM2_WINRES = @XCBM2_WINRES@
 XPET_WINRES = @XPET_WINRES@
 XVIC_WINRES = @XVIC_WINRES@
 YACC = @YACC@
+artsc_config = @artsc_config@
 cxx = @cxx@
 x128_LDFLAGS = @x128_LDFLAGS@
 x64_LDFLAGS = @x64_LDFLAGS@
@@ -277,9 +278,9 @@ mon.o: mon.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/mem.h mon.h mon_parse.h \
-	../../src/mos6510.h ../../src/resources.h ../../src/utils.h \
-	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h \
-	../../src/vsync.h
+	../../src/mos6510.h ../../src/resources.h ../../src/uimon.h \
+	../../src/utils.h ../../src/vdrive/vdrive-command.h \
+	../../src/vdrive/vdrive.h ../../src/vsync.h
 mon_lex.o: mon_lex.c ../../src/vice.h ../../src/config.h mon.h \
 	../../src/arch/unix/types.h mon_parse.h ../../src/utils.h
 mon_parse.o: mon_parse.c ../../src/vice.h ../../src/config.h asm.h \
