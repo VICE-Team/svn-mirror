@@ -42,29 +42,16 @@
    multi-dimensional arrays as we can optimize better this way...  */
 
 /* foreground(4) | background(4) | nibble(4) -> 4 pixels.  */
-#ifdef AVOID_STATIC_ARRAYS
-static PIXEL4 *hr_table;
-#else
 static PIXEL4 hr_table[16 * 16 * 16];
-#endif
 
 #ifdef VIC_II_NEED_2X
 /* foreground(4) | background(4) | idx(2) | nibble(4) -> 4 pixels.  */
-#ifdef AVOID_STATIC_ARRAYS
-static PIXEL4 *hr_table_2x;
-#else
 static PIXEL4 hr_table_2x[16 * 16 * 2 * 16];
-#endif
 #endif
 
 /* mc flag(1) | idx(2) | byte(8) -> index into double-pixel table.  */
-#ifdef AVOID_STATIC_ARRAYS
-static WORD *mc_table;
-static WORD *mcmsktable;
-#else
 static WORD mc_table[2 * 4 * 256];
 static WORD mcmsktable[512];
-#endif
 
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
 
@@ -1550,19 +1537,6 @@ static void init_drawing_tables (void)
   DWORD i;
   unsigned int f, b;
   char tmptable[4] = { 0, 4, 5, 3 };
-
-#ifdef AVOID_STATIC_ARRAYS
-  if (!hr_table)
-    {
-      hr_table = xmalloc (sizeof (*hr_table) * 16 * 16 * 16);
-#ifdef VIC_II_NEED_2X
-      hr_table_2x = xmalloc (sizeof (*hr_table_2x) * 16 * 16 * 2 * 16);
-#endif
-      mc_table = xmalloc (sizeof (*mc_table) * 2 * 4 * 256);
-      sprite_doubling_table = xmalloc (sizeof (*sprite_doubling_table) * 65536);
-      mcmsktable = xmalloc (sizeof (*mcmsktable) * 512);
-    }
-#endif
 
   for (i = 0; i <= 0xf; i++)
     {
