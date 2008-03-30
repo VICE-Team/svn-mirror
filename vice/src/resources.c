@@ -167,7 +167,7 @@ void resources_set_defaults(void)
     for (i = 0; i < num_resources; i++)
         resources[i].set_func(resources[i].factory_value);
 
-    UiUpdateMenus();
+    ui_update_menus();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -369,7 +369,7 @@ int resources_load(const char *fname)
     fclose(f);
 
     /* Update the values in the UI menus.  */
-    UiUpdateMenus();
+    ui_update_menus();
     return err ? -1 : 0;
 }
 

@@ -96,7 +96,7 @@ static int sprite_sprite_collisions_enabled;
 static int sprite_background_collisions_enabled;
 
 /* Name of palette file.  */
-static char *palette_file;
+static char *palette_file_name;
 
 /* Flag: Do we use double size?  */
 static int double_size_enabled;
@@ -125,12 +125,9 @@ static int set_video_cache_enabled(resource_value_t v)
     return 0;
 }
 
-static int set_palette_file(resource_value_t v)
+static int set_palette_file_name(resource_value_t v)
 {
-    if (palette_file != NULL)
-        free(palette_file);
-
-    palette_file = stralloc((char *)v);
+    string_set(&palette_file_name, (char *) v);
     return 0;
 }
 
@@ -156,7 +153,7 @@ static resource_t resources[] = {
     { "VideoCache", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
     { "PaletteFile", RES_STRING, (resource_value_t) "default",
-      (resource_value_t *) &palette_file, set_palette_file },
+      (resource_value_t *) &palette_file_name, set_palette_file_name },
 #ifdef NEED_2x
     { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_size_enabled, set_double_size_enabled },
@@ -619,8 +616,8 @@ canvas_t vic_ii_init(void)
     if (palette == NULL)
         return NULL;
 
-    if (palette_load(palette_file, palette) < 0) {
-        printf("Cannot load default palette.\n");
+    if (palette_load(palette_file_name, palette) < 0) {
+        printf("Cannot load palette file `%s'.\n", palette_file_name);
         return NULL;
     }
 
