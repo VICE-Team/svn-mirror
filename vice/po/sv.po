@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-10-27 17:14+0200\n"
+"POT-Creation-Date: 2001-10-28 17:31+0100\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -2437,17 +2437,17 @@ msgstr ""
 "Ange index för för tangentbordsinställningsfil (0=symbolisk, "
 "1=positionsriktig)"
 
-#: src/arch/unix/x11/kbd.c:360
+#: src/arch/unix/x11/kbd.c:365
 #, c-format
 msgid "Could not find KeySym `%s'!"
 msgstr "Kunde inte hitta tangentbordssymbol \"%s\"!"
 
-#: src/arch/unix/x11/kbd.c:417
+#: src/arch/unix/x11/kbd.c:422
 #, c-format
 msgid "Bad row/column value (%d/%d) for keysym `%s'."
 msgstr "Fel rad-/kolumnvärde (%d/%d) för tangentbordssymbol \"%s\"."
 
-#: src/arch/unix/x11/kbd.c:441
+#: src/arch/unix/x11/kbd.c:446
 #, c-format
 msgid "Loading keymap `%s'."
 msgstr "Laddar tangentbordsinställning \"%s\"."

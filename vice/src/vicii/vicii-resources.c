@@ -124,12 +124,6 @@ static int set_ext_palette(resource_value_t v, void *param)
     return vic_ii_activate_palette();
 }
 
-static int set_fast_delayloop_emulation(resource_value_t v, void *param)
-{
-    vic_ii_resources.fast_delayloop_emulation = (int)v;
-    return vic_ii_activate_palette();
-}
-
 static int set_pal_emulation(resource_value_t v, void *param)
 {
     vic_ii_resources.pal_emulation = (int)v;
@@ -165,6 +159,22 @@ static int set_palette_file_name(resource_value_t v, void *param)
     return vic_ii_activate_palette();
 }
 
+#include "video-render.h"      /* bad */
+#ifdef VIDEO_REMOVE_2X         /* bad */
+extern int double_size_bad;    /* bad */
+extern int double_scan_bad;    /* bad */
+extern int delay_loop_emu_bad; /* bad */
+#endif /* VIDEO_REMOVE_2X */   /* bad */
+
+static int set_fast_delayloop_emulation(resource_value_t v, void *param)
+{
+    vic_ii_resources.fast_delayloop_emulation = (int)v;
+#ifdef VIDEO_REMOVE_2X         /* bad */
+	delay_loop_emu_bad=(int)v; /* bad */
+#endif /* VIDEO_REMOVE_2X */   /* bad */
+    return vic_ii_activate_palette();
+}
+
 static resource_t resources[] =
 {
     { "ColorSaturation", RES_INTEGER, (resource_value_t)1000,
@@ -176,7 +186,7 @@ static resource_t resources[] =
     { "ColorBrightness", RES_INTEGER, (resource_value_t)1100,
       (resource_value_t *)&vic_ii_resources.color_brightness,
       set_color_brightness, NULL },
-    { "ColorGamma", RES_INTEGER, (resource_value_t)900,
+    { "ColorGamma", RES_INTEGER, (resource_value_t)880,
       (resource_value_t *)&vic_ii_resources.color_gamma,
       set_color_gamma, NULL },
     { "NewLuminances", RES_INTEGER, (resource_value_t)1,

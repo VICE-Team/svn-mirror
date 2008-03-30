@@ -1,3 +1,80 @@
+2001-10-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.20.
+
+	* video-render.c, video-render.h (video_get_fake_pal_state):
+	Fixed prototype.
+
+	* plus4/plus4mem.c (mem_bank_read, mem_bank_write): Fixed.
+	(ram_ffxx_read, ram_ffxx_store, rom_ffxx_read,
+	rom_ffxx_store, fdxx_read, fdxx_store, mem_config_set): New
+	functions.
+	(mem_initialize_memory): Added IO mapping, fixed basic rom.
+
+	* plus4/ted-sprites.c, plus4/ted-sprites.h: Removed.
+
+	* plus4/plus4.c (machine_init): Initialize keyboard.
+
+	* plus4/ted.c, plus4/ted.h, plus4/tedtypes.h, plus4/ted-mem.c,
+	plus4/ted-mem.h, plus4/ted-draw.c, plus4/ted-draw.h,
+	plus4/ted-cmdline-options.c, plus4/ted-cmdline-options.h,
+	plus4/ted-resources.c, plus4/ted-resources.h,
+	plus4/ted-snapshot.c, plus4/ted-snapshot.h: Rewritten.
+
+	* keyboard.h, arch/unix/x11/kbd.c: Added plus4 keyboard.
+
+	* plus4/plus4tia1.c, plus4/plus4tia1.h: New files.
+
+	* plus4/Makefile.am: Added new files.
+
+	* arch/win32/plus4kbd.c: New file
+
+	* arch/win32/Makefile.am: Added new file.
+
+2001-10-29  John Selck  <graham@cruise.de>
+
+	* video-render.c: New fake-PAL-emulation render routines.
+
+	* video-render.h: video_get_fake_pal_state() added. This
+	is a fast way to see if the fake-PAL-emu is turned on or not.
+
+	* raster/raster.c: update_canvas() now updates a one slightly
+	bigger block when the fake-PAL-emu is turned on.
+
+	* vicii/vicii.c: vic_ii_calc_palette() now creates 256 color
+	palette when fake-PAL-emu is turned on.
+
+	* vicii/vicii-resources.c: Changed default gamma from 0.90 to
+	0.88. Added hack to make fast_delayloop_emulation accessable
+	from video layer.
+
+	* arch/win32/video.c: set_physical_colors() now creates
+	colortables for paletted modes instead of translation tables.
+
+	* arch/win32/res.h: New define: IDM_TOGGLE_FASTPAL.
+
+	* arch/win32/resc64.rc: New toggle "Fast PAL" in menu.
+
+	* arch/win32/c64ui.c: c64_ui_menu_toggles[] now contains new
+	"Fast PAL" toggle.
+
+2001-10-28  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/ui_sound.cc, ui_sound.h: added ui support for
+	stereo sid; changed buffersizes offered in the ui
+
+	* arch/win32/res.rc: added Stereo SID checkbox in the sound
+	options dialog
+
+	* arch/win32/res.h: added ID for this checkbox
+
+	* arch/win32/uisound.c: handles this checkbox to set the
+	StereoSid resource
+
+	* sounddrv/soundbeos.cc, sounddx.c, soundwmm.c:
+	implemented support for multi channels; removed unused stuff
+	from sounddx.c
+
 2001-10-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.19.

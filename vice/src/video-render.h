@@ -34,6 +34,8 @@ extern void video_render_main(DWORD *colortab, BYTE *src, BYTE *trg, int width,
                               int height, int xs, int ys, int xt, int yt,
                               int pitchs, int pitcht, int depth);
 
+extern int video_get_fake_pal_state(void);
+
 /* This define will completely remove the 2x drawing from the vic-ii
    and raster layer. */
 #if defined(WIN32)

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-10-27 17:14+0200\n"
+"POT-Creation-Date: 2001-10-28 17:31+0100\n"
 "PO-Revision-Date: 2001-07-15 15:36+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -2412,17 +2412,17 @@ msgstr "(null)"
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
 msgstr "Index für Kymap Datei festlegen (0=symbol, 1=positional)"
 
-#: src/arch/unix/x11/kbd.c:360
+#: src/arch/unix/x11/kbd.c:365
 #, c-format
 msgid "Could not find KeySym `%s'!"
 msgstr "Kann Key Symbol `%s' nicht finden!"
 
-#: src/arch/unix/x11/kbd.c:417
+#: src/arch/unix/x11/kbd.c:422
 #, c-format
 msgid "Bad row/column value (%d/%d) for keysym `%s'."
 msgstr "Falsche Wert für Zeile/Spalte (%d/%d) Bei Key Symbol `%s'."
 
-#: src/arch/unix/x11/kbd.c:441
+#: src/arch/unix/x11/kbd.c:446
 #, c-format
 msgid "Loading keymap `%s'."
 msgstr "Lade Keymap `%s'."

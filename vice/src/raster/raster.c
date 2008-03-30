@@ -399,6 +399,15 @@ static void update_canvas(raster_t *raster)
     x += raster->geometry.extra_offscreen_border;
 #endif /* VIDEO_REMOVE_2X */
 
+#ifdef VIDEO_REMOVE_2X
+	if (video_get_fake_pal_state())
+	{
+		/* the fake pal emu needs one more pixel left and bottom update */
+		w++;
+		h++;
+	}
+#endif /* VIDEO_REMOVE_2X */
+
     x *= viewport->pixel_size.width;
     xx *= viewport->pixel_size.width;
     w *= viewport->pixel_size.width;

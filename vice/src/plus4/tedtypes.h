@@ -34,25 +34,24 @@
 #include "types.h"
 
 /* Screen constants.  */
-#define VIC_II_PAL_SCREEN_HEIGHT        312
-#define VIC_II_NTSC_SCREEN_HEIGHT       263
+#define TED_PAL_SCREEN_HEIGHT        312
+#define TED_NTSC_SCREEN_HEIGHT       263
 
 /* We need the full width for correct
    sprite-sprite-collision in unvisible area */
 #define VIC_II_SCREEN_WIDTH                 512
 
-#define VIC_II_PAL_OFFSET                       0
-#define VIC_II_NTSC_OFFSET                      0
+#define VIC_II_PAL_OFFSET                   0
+#define VIC_II_NTSC_OFFSET                  0
 
-#define VIC_II_SCREEN_XPIX                      320
-#define VIC_II_SCREEN_YPIX                      200
-#define VIC_II_SCREEN_TEXTCOLS                  40
-#define VIC_II_SCREEN_TEXTLINES                 25
-#define VIC_II_SCREEN_PAL_BORDERWIDTH           32
-#define VIC_II_SCREEN_PAL_BORDERHEIGHT          51
-#define VIC_II_SCREEN_NTSC_BORDERWIDTH          32
-#define VIC_II_SCREEN_NTSC_BORDERHEIGHT         27
-#define VIC_II_SCREEN_CHARHEIGHT                8
+#define TED_SCREEN_XPIX                     320
+#define TED_SCREEN_YPIX                     200
+#define TED_SCREEN_TEXTCOLS                 40
+#define TED_SCREEN_TEXTLINES                25
+#define VIC_II_SCREEN_PAL_BORDERWIDTH       32
+#define VIC_II_SCREEN_PAL_BORDERHEIGHT      51
+#define VIC_II_SCREEN_NTSC_BORDERWIDTH      32
+#define VIC_II_SCREEN_NTSC_BORDERHEIGHT     27
 
 #define VIC_II_PAL_FIRST_DISPLAYED_LINE         0x10
 #define VIC_II_PAL_LAST_DISPLAYED_LINE          0x11f
@@ -73,13 +72,8 @@
 #define VIC_II_38COL_START_PIXEL                0x27
 #define VIC_II_38COL_STOP_PIXEL                 0x157
 
-#define VIC_II_NUM_SPRITES              8
 #define VIC_II_MAX_SPRITE_WIDTH         48
 #define VIC_II_NUM_COLORS               16
-
-#define VIC_II_PAL_SPRITE_WRAP_X        504
-#define VIC_II_NTSC_SPRITE_WRAP_X       520
-#define VIC_II_NTSCOLD_SPRITE_WRAP_X    512
 
 
 /* Available video modes.  The number is given by
@@ -119,10 +113,6 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 /* Cycle # at which the VIC takes the bus in a bad line (BA goes low).  */
 #define VIC_II_FETCH_CYCLE          11
 
-/* Cycle # at which sprite DMA is set.  */
-#define VIC_II_PAL_SPRITE_FETCH_CYCLE       54
-#define VIC_II_NTSC_SPRITE_FETCH_CYCLE      55
-
 /* Cycle # at which the current raster line is re-drawn.  It is set to
    `VIC_II_CYCLES_PER_LINE', so this actually happens at the very beginning
    (i.e. cycle 0) of the next line.  */
@@ -158,9 +148,9 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
                                      * vic_ii.cycles_per_line)
 
 /* # of the previous and next raster line.  Handles wrap over.  */
-#define VIC_II_PREVIOUS_LINE(line)  (((line) > 0) \
-                                     ? (line) - 1 : vic_ii.screen_height - 1)
-#define VIC_II_NEXT_LINE(line)      (((line) + 1) % vic_ii.screen_height)
+#define TED_PREVIOUS_LINE(line)  (((line) > 0) \
+                                 ? (line) - 1 : vic_ii.screen_height - 1)
+#define TED_NEXT_LINE(line)      (((line) + 1) % vic_ii.screen_height)
 
 /* Bad line range.  */
 #define VIC_II_PAL_FIRST_DMA_LINE      0x30
@@ -170,12 +160,6 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 
 /* VIC-II structures.  This is meant to be used by VIC-II modules
    *exclusively*!  */
-
-struct vic_ii_light_pen_s {
-    int triggered;
-    int x, y;
-};
-typedef struct vic_ii_light_pen_s vic_ii_light_pen_t;
 
 enum vic_ii_fetch_idx_s {
     VIC_II_FETCH_MATRIX,
@@ -207,44 +191,17 @@ struct vic_ii_s {
     /* Line for raster compare IRQ.  */
     unsigned int raster_irq_line;
 
-    /* Internal color memory.  */
-    BYTE color_ram[0x400];
-
-    /* Pointer to the base of RAM seen by the VIC-II.  */
-    /* address is base of 64k bank. vbank adds 0/16k/32k/48k to get actual
-       video address */
-    BYTE *ram_base_phi1;                /* = VIC-II address during Phi1; */
-    BYTE *ram_base_phi2;                /* = VIC-II address during Phi2; */
-
-    /* valid VIC-II address bits for Phi1 and Phi2. After masking
-       the address, it is or'd with the offset value to set always-1 bits */
-    ADDRESS vaddr_mask_phi1;            /* mask of valid address bits */
-    ADDRESS vaddr_mask_phi2;            /* mask of valid address bits */
-    ADDRESS vaddr_offset_phi1;          /* mask of address bits always set */
-    ADDRESS vaddr_offset_phi2;          /* mask of address bits always set */
-
-    /* Those two values determine where in the address space the chargen
-       ROM is mapped. Use mask=0x7000, value=0x1000 for the C64. */
-    ADDRESS vaddr_chargen_mask_phi1;    /* address bits to comp. for chargen */
-    ADDRESS vaddr_chargen_mask_phi2;    /* address bits to comp. for chargen */
-    ADDRESS vaddr_chargen_value_phi1;   /* compare value for chargen */
-    ADDRESS vaddr_chargen_value_phi2;   /* compare value for chargen */
-
     /* Video memory pointers.  */
     BYTE *screen_ptr;
     BYTE *chargen_ptr;
     BYTE *bitmap_ptr;
 
     /* Screen memory buffers (chars and color).  */
-    BYTE vbuf[VIC_II_SCREEN_TEXTCOLS];
-    BYTE cbuf[VIC_II_SCREEN_TEXTCOLS];
+    BYTE vbuf[TED_SCREEN_TEXTCOLS];
+    BYTE cbuf[TED_SCREEN_TEXTCOLS];
 
     /* If this flag is set, bad lines (DMA's) can happen.  */
     int allow_bad_lines;
-
-    /* Sprite-sprite and sprite-background collision registers.  */
-    BYTE sprite_sprite_collisions;
-    BYTE sprite_background_collisions;
 
     /* Extended background colors (1, 2 and 3).  */
     int ext_background_color[3];
@@ -281,16 +238,6 @@ struct vic_ii_s {
        illegal modes.)  */
     int force_black_overscan_background_color;
 
-    /* Light pen.  */
-    vic_ii_light_pen_t light_pen;
-
-    /* Start of the memory bank seen by the VIC-II.  */
-    int vbank_phi1;                     /* = 0; */
-    int vbank_phi2;                     /* = 0; */
-
-    /* Pointer to the start of the video bank.  */
-    /* BYTE *vbank_ptr; - never used, only set */
-
     /* Data to display in idle state.  */
     int idle_data;
 
@@ -298,25 +245,19 @@ struct vic_ii_s {
        not in idle state and thus do not need to update `idle_data'.  */
     vic_ii_idle_data_location_t idle_data_location;
 
-    /* Flag: Are the C128 extended keyboard rows enabled?  */
-    int extended_keyboard_rows_enabled;
+    /* TED keybaord read value.  */
+    BYTE kbdval;
 
-    /* All the VIC-II logging goes here.  */
+    /* All the TED logging goes here.  */
     log_t log;                  /* = LOG_ERR; */
 
-    /* VIC-II alarms.  */
+    /* TED alarms.  */
     alarm_t raster_fetch_alarm;
     alarm_t raster_draw_alarm;
     alarm_t raster_irq_alarm;
 
     /* What do we do when the `A_RASTERFETCH' event happens?  */
     vic_ii_fetch_idx_t fetch_idx;
-
-    /* Number of sprite being DMA fetched.  */
-    unsigned int sprite_fetch_idx;
-
-    /* Mask for sprites being fetched at DMA.  */
-    unsigned int sprite_fetch_msk;
 
     /* Clock cycle for the next "raster fetch" alarm.  */
     CLOCK fetch_clk;
@@ -330,9 +271,6 @@ struct vic_ii_s {
     /* FIXME: Bad name.  FIXME: Has to be initialized.  */
     CLOCK last_emulate_line_clk;
 
-    /* Clock cycle for the next sprite fetch.  */
-    CLOCK sprite_fetch_clk;
-
     /* Geometry and timing parameters of the selected VIC-II emulation.  */
     int screen_height;
     int first_displayed_line;
@@ -345,8 +283,6 @@ struct vic_ii_s {
     int screen_borderheight;
     int cycles_per_line;
     int draw_cycle;
-    int sprite_fetch_cycle;
-    int sprite_wrap_x;
     int first_dma_line;
     int last_dma_line;
 
@@ -365,8 +301,8 @@ extern int vic_ii_calc_palette(int sat, int con, int bri, int gam, int newlum,
 extern int vic_ii_load_palette(const char *name);
 extern void vic_ii_fetch_matrix(int offs, int num);
 extern void vic_ii_set_raster_irq(unsigned int line);
-extern void vic_ii_update_memory_ptrs(unsigned int cycle);
-extern void vic_ii_update_video_mode(unsigned int cycle);
+extern void ted_update_memory_ptrs(unsigned int cycle);
+extern void ted_update_video_mode(unsigned int cycle);
 extern void vic_ii_raster_draw_alarm_handler(CLOCK offset);
 extern void vic_ii_raster_fetch_alarm_handler(CLOCK offset);
 
@@ -394,5 +330,5 @@ extern void vic_ii_raster_fetch_alarm_handler(CLOCK offset);
 #define VIC_II_DEBUG_REGISTER(x)
 #endif
 
-#endif /* _VICII_H */
+#endif /* _TEDTYPES_H */
 

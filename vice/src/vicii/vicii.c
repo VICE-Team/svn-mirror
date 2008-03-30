@@ -323,7 +323,7 @@ static void vic_ii_set_geometry(void)
 
 }
 
-static int init_raster (void)
+static int init_raster(void)
 {
     raster_t *raster;
     char *title;
@@ -510,7 +510,7 @@ int vic_ii_init_cmdline_options(void)
 /* Initialize the VIC-II emulation.  */
 raster_t *vic_ii_init(void)
 {
-  vic_ii.log = log_open ("VIC-II");
+  vic_ii.log = log_open("VIC-II");
 
   alarm_init(&vic_ii.raster_fetch_alarm, maincpu_alarm_context,
              "VicIIRasterFetch", vic_ii_raster_fetch_alarm_handler);
@@ -687,7 +687,7 @@ static inline void vic_ii_set_vbanks(int vbank_p1, int vbank_p2)
 
   vic_ii.vbank_phi1 = vbank_p1;
   vic_ii.vbank_phi2 = vbank_p2;
-  vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE (clk));
+  vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(clk));
 }
 
 /* Phi1 and Phi2 accesses */
@@ -771,9 +771,9 @@ void vic_ii_set_raster_irq(unsigned int line)
 
   if (line < vic_ii.screen_height)
     {
-      unsigned int current_line = VIC_II_RASTER_Y (clk);
+      unsigned int current_line = VIC_II_RASTER_Y(clk);
 
-      vic_ii.raster_irq_clk = (VIC_II_LINE_START_CLK (clk)
+      vic_ii.raster_irq_clk = (VIC_II_LINE_START_CLK(clk)
                                + VIC_II_RASTER_IRQ_DELAY - INTERRUPT_DELAY
                                + (vic_ii.cycles_per_line
                                   * (line - current_line)));
@@ -798,7 +798,7 @@ void vic_ii_set_raster_irq(unsigned int line)
   VIC_II_DEBUG_RASTER(("VIC: update_raster_irq(): "
                       "vic_ii.raster_irq_clk = %ul, "
                       "line = $%04X, "
-                      "vic_ii.regs[0x1a]&1 = %d\n",
+                      "vic_ii.regs[0x1a] & 1 = %d\n",
                       vic_ii.raster_irq_clk,
                       line,
                       vic_ii.regs[0x1a] & 1));
@@ -814,7 +814,7 @@ static inline void vic_ii_set_ram_bases(BYTE *base_p1, BYTE *base_p2)
 
   vic_ii.ram_base_phi1 = base_p1;
   vic_ii.ram_base_phi2 = base_p2;
-  vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE (clk));
+  vic_ii_update_memory_ptrs(VIC_II_RASTER_CYCLE(clk));
 }
 
 void vic_ii_set_ram_base(BYTE *base)
@@ -929,8 +929,8 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
       if (screen_base != old_screen_ptr)
         {
           raster_add_ptr_change_foreground(&vic_ii.raster, tmp,
-                                           (void **) &vic_ii.screen_ptr,
-                                           (void *) screen_base);
+                                           (void **)&vic_ii.screen_ptr,
+                                           (void *)screen_base);
           raster_add_ptr_change_foreground(&vic_ii.raster, tmp,
                             (void **)&vic_ii.raster.sprite_status->ptr_base,
                                            (void *)(screen_base + 0x3f8));
@@ -1108,7 +1108,7 @@ void vic_ii_update_video_mode(unsigned int cycle)
     }
 
   VIC_II_DEBUG_VMODE((" Mode enabled at line $%04X, cycle %d.\n",
-                      VIC_II_RASTER_Y (clk), cycle));
+                      VIC_II_RASTER_Y(clk), cycle));
 #endif
 }
 
@@ -1538,19 +1538,22 @@ static void vic_ii_raster_irq_alarm_handler(CLOCK offset)
       vic_ii.irq_status |= 0x80;
       VIC_II_DEBUG_RASTER (("VIC: *** IRQ requested at line $%04X, "
                 "vic_ii.raster_irq_line=$%04X, offset = %ld, cycle = %d.\n",
-                      VIC_II_RASTER_Y (clk), vic_ii.raster_irq_line, offset,
+                      VIC_II_RASTER_Y(clk), vic_ii.raster_irq_line, offset,
                             VIC_II_RASTER_CYCLE(clk)));
     }
 
   vic_ii.raster_irq_clk += vic_ii.screen_height * vic_ii.cycles_per_line;
-  alarm_set (&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
+  alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
 }
 
 int vic_ii_calc_palette(int sat,int con,int bri,int gam,int newlum,int mixedcols)
 {
   palette_t *palette;
+  int type;
 
-  palette = vic_ii_color_calcpalette(VIC_II_COLOR_PALETTE_16,sat,con,bri,gam,newlum);
+  if (vic_ii_resources.fast_delayloop_emulation) type=VIC_II_COLOR_PALETTE_256;
+  else type=VIC_II_COLOR_PALETTE_16;
+  palette = vic_ii_color_calcpalette(type,sat,con,bri,gam,newlum);
   return raster_set_palette(&vic_ii.raster, palette);
 }
 

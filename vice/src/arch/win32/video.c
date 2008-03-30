@@ -382,7 +382,6 @@ int set_physical_colors(canvas_t *c)
 
         p = *(DWORD *)ddsd.lpSurface;
         c->physical_colors[i] = p;
-        DEBUG(("Physical color for %d is 0x%04X",i,c->physical_colors[i]));
         if (c->depth==24) {
             c->physical_colors[i]&=0xffffff;
         }
@@ -392,13 +391,19 @@ int set_physical_colors(canvas_t *c)
         if (c->depth==16) {
             c->physical_colors[i]&=0xffff;
         }
-        if (c->depth == 8) {
+        if (c->depth== 8) {
+            c->physical_colors[i]&=0xff;
+            c->pixel_translate[c->pixels[i]]=i;
+            c->pixels[i] = i;
+/*
             c->pixel_translate[c->pixels[i]]=(BYTE) p & 0xff;
             c->pixels[i] = (BYTE) p & 0xff;
+*/
         } else {
             c->pixel_translate[c->pixels[i]]=i;
             c->pixels[i] = i;
         }
+        DEBUG(("Physical color for %d is 0x%04X",i,c->physical_colors[i]));
         DEBUG(("Pixel return %d 0x%02X", i, c->pixels[i]));
         if (IDirectDrawSurface_Unlock(c->primary_surface, NULL)
             == DDERR_SURFACELOST) {

@@ -197,6 +197,7 @@
 #define IDC_SOUND_SYNCH                 1244
 #define IDC_SOUND_DIRECTX               1245
 #define IDC_SOUND_WMM                   1246
+#define IDC_SOUND_SIDSTEREO             1247
 
 #define IDD_OPEN_TEMPLATE               1250
 #define IDD_OPENTAPE_TEMPLATE           1251
@@ -377,6 +378,7 @@
 #define IDM_IFUNCTIONROM_NAME           40206
 #define IDM_TOGGLE_EFUNCTIONROM         40207
 #define IDM_EFUNCTIONROM_NAME           40208
+#define IDM_TOGGLE_FASTPAL                 40209
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001
