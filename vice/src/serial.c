@@ -58,9 +58,6 @@
 #include "tape.h"
 #include "tapeunit.h"
 
-#ifdef PRINTER
-#include "printer.h"
-#endif
 
 /* Warning: these are only valid for the VIC20, C64 and C128, but *not* for
    the PET.  (FIXME?)  */

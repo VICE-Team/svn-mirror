@@ -299,8 +299,6 @@ static ui_menu_entry_t c64_menu[] = {
       NULL, NULL, io_extensions_submenu },
     { "RS232 settings",
       NULL, NULL, rs232_submenu },
-    { "Printer settings",
-      NULL, NULL, ui_print_settings_menu },
     { NULL }
 };
 
@@ -344,7 +342,7 @@ int c64_ui_init(void)
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_true1541_settings_menu,
-                                     ui_serial_settings_menu,
+                                     ui_peripheral_settings_menu,
                                      joystick_settings_menu,
                                      ui_menu_separator,
                                      c64_menu,

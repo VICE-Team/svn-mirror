@@ -55,7 +55,6 @@ noinst_HEADERS = \
 	palette.h \
 	parallel.h \
 	print.h \
-	printer.h \
 	raster.h \
 	resources.h \
 	rs232.h \

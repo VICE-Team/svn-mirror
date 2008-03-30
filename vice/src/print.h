@@ -1,4 +1,3 @@
-
 /*
  * print.h - Printer interface.
  *

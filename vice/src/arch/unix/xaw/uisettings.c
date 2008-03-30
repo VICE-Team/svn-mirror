@@ -542,7 +542,7 @@ UI_MENU_DEFINE_RADIO(True1541IdleMethod)
 
 /* ------------------------------------------------------------------------- */
 
-/* Serial settings.  */
+/* Peripheral settings.  */
 
 UI_MENU_DEFINE_TOGGLE(NoTraps)
 UI_MENU_DEFINE_TOGGLE(FileSystemDevice8)
@@ -765,6 +765,105 @@ static ui_menu_entry_t sound_settings_submenu[] = {
     { NULL },
 };
 
+/* ------------------------------------------------------------------------- */
+
+UI_MENU_DEFINE_RADIO(PrUserDev)
+
+static ui_menu_entry_t pruser_device_submenu[] = {
+    { "*Printer 1 (file dump)",
+      (ui_callback_t) radio_PrUserDev, (ui_callback_data_t) 0, NULL },
+    { "*Printer 2 (exec)",
+      (ui_callback_t) radio_PrUserDev, (ui_callback_data_t) 1, NULL },
+    { "*Printer 3 (exec)",
+      (ui_callback_t) radio_PrUserDev, (ui_callback_data_t) 2, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(Printer4Dev)
+
+static ui_menu_entry_t pr4_device_submenu[] = {
+    { "*Printer 1 (file dump)",
+      (ui_callback_t) radio_Printer4Dev, (ui_callback_data_t) 0, NULL },
+    { "*Printer 2 (exec)",
+      (ui_callback_t) radio_Printer4Dev, (ui_callback_data_t) 1, NULL },
+    { "*Printer 3 (exec)",
+      (ui_callback_t) radio_Printer4Dev, (ui_callback_data_t) 2, NULL },
+    { NULL }
+};
+
+static UI_CALLBACK(set_printer_dump_file)
+{
+    char *resource = (char*) client_data;
+    char *filename;
+    ui_button_t button;
+
+    suspend_speed_eval();
+
+    filename = ui_select_file("Select printer dump file",
+                              NULL, False, NULL, NULL, &button);
+    switch (button) {
+      case UI_BUTTON_OK:
+        resources_set_value(resource, (resource_value_t) filename);
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
+    }
+}
+
+static UI_CALLBACK(set_printer_exec_file)
+{
+    char *resname = (char*) client_data;
+    char title[1024];
+
+    suspend_speed_eval();
+    sprintf(title, "Command to execute for printing (preceed with '|')");
+    {
+        char *value;
+        char *new_value;
+        int len;
+
+        resources_get_value(resname, (resource_value_t *) &value);
+        len = strlen(value) * 2;
+        if (len < 255)
+            len = 255;
+        new_value = alloca(len + 1);
+        strcpy(new_value, value);
+
+        if (ui_input_string(title, "Command:", new_value, len) != UI_BUTTON_OK)
+            return;
+
+        resources_set_value(resname, (resource_value_t) new_value);
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+
+UI_MENU_DEFINE_TOGGLE(Printer4)
+UI_MENU_DEFINE_TOGGLE(PrUser)
+
+static ui_menu_entry_t printer_settings_menu[] = {
+    { "*IEC device 4 printer emulation",
+      (ui_callback_t) toggle_Printer4, NULL, NULL },
+    { "IEC printer device",
+      NULL, NULL, pr4_device_submenu  },
+    { "--" },
+    { "*Userport printer emulation",
+      (ui_callback_t) toggle_PrUser, NULL, NULL },
+    { "Userport printer device",
+      NULL, NULL, pruser_device_submenu  },
+    { "--" },
+    { "Printer device 1...", (ui_callback_t) set_printer_dump_file,
+      (ui_callback_data_t) "PrDevice1", NULL },
+    { "Printer device 2...", (ui_callback_t) set_printer_exec_file,
+      (ui_callback_data_t) "PrDevice2", NULL },
+    { "Printer device 3...", (ui_callback_t) set_printer_exec_file,
+      (ui_callback_data_t) "PrDevice3", NULL },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 static ui_menu_entry_t fsdevice_drive8_submenu[] = {
     { "*File system access", (ui_callback_t) toggle_FileSystemDevice8,
       NULL, NULL },
@@ -822,13 +921,15 @@ static ui_menu_entry_t fsdevice_drive11_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t serial_settings_submenu[] = {
+static ui_menu_entry_t peripheral_settings_submenu[] = {
     { "Device #8", NULL, NULL, fsdevice_drive8_submenu },
     { "Device #9", NULL, NULL, fsdevice_drive9_submenu },
     { "Device #10", NULL, NULL, fsdevice_drive10_submenu },
     { "Device #11", NULL, NULL, fsdevice_drive11_submenu },
     { "--" },
-    { "*Disable serial traps", (ui_callback_t) toggle_NoTraps, NULL, NULL },
+    { "Printer settings", NULL, NULL, printer_settings_menu },
+    { "--" },
+    { "*Disable Kernal traps", (ui_callback_t) toggle_NoTraps, NULL, NULL },
     { NULL }
 };
 
@@ -857,101 +958,6 @@ static ui_menu_entry_t video_settings_submenu[] = {
       (ui_callback_t) toggle_DoubleScan, NULL, NULL },
     { "*Use XSync()",
       (ui_callback_t) toggle_UseXSync, NULL, NULL },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
-UI_MENU_DEFINE_RADIO(PrUserDev)
-
-static ui_menu_entry_t pruser_device_submenu[] = {
-    { "*Printer 1 (file dump)",
-      (ui_callback_t) radio_PrUserDev, (ui_callback_data_t) 0, NULL },
-    { "*Printer 2 (exec)",
-      (ui_callback_t) radio_PrUserDev, (ui_callback_data_t) 1, NULL },
-    { "*Printer 3 (exec)",
-      (ui_callback_t) radio_PrUserDev, (ui_callback_data_t) 2, NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_RADIO(Printer4Dev)
-
-static ui_menu_entry_t pr4_device_submenu[] = {
-    { "*Printer 1 (file dump)",
-      (ui_callback_t) radio_Printer4Dev, (ui_callback_data_t) 0, NULL },
-    { "*Printer 2 (exec)",
-      (ui_callback_t) radio_Printer4Dev, (ui_callback_data_t) 1, NULL },
-    { "*Printer 3 (exec)",
-      (ui_callback_t) radio_Printer4Dev, (ui_callback_data_t) 2, NULL },
-    { NULL }
-};
-
-static UI_CALLBACK(set_print_dump_file)
-{
-    char *resource = (char*) client_data;
-    char *filename;
-    ui_button_t button;
-
-    suspend_speed_eval();
-
-    filename = ui_select_file("Select printer dump file",
-                              NULL, False, NULL, NULL, &button);
-    switch (button) {
-      case UI_BUTTON_OK:
-        resources_set_value(resource, (resource_value_t) filename);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
-    }
-}
-
-static UI_CALLBACK(set_print_exec_file)
-{
-    char *resname = (char*) client_data;
-    char title[1024];
-
-    suspend_speed_eval();
-    sprintf(title, "Command to execute for printing (preceed with '|')");
-    {
-        char *value;
-        char *new_value;
-        int len;
-
-        resources_get_value(resname, (resource_value_t *) &value);
-        len = strlen(value) * 2;
-        if (len < 255)
-            len = 255;
-        new_value = alloca(len + 1);
-        strcpy(new_value, value);
-
-        if (ui_input_string(title, "Command:", new_value, len) != UI_BUTTON_OK)
-            return;
-
-        resources_set_value(resname, (resource_value_t) new_value);
-    }
-}
-
-UI_MENU_DEFINE_TOGGLE(Printer4)
-UI_MENU_DEFINE_TOGGLE(PrUser)
-
-ui_menu_entry_t ui_print_settings_menu[] = {
-    { "*IEC device 4 printer emulation",
-      (ui_callback_t) toggle_Printer4, NULL, NULL },
-    { "IEC printer device",
-      NULL, NULL, pr4_device_submenu  },
-    { "--" },
-    { "*Userport printer emulation",
-      (ui_callback_t) toggle_PrUser, NULL, NULL },
-    { "Userport printer device",
-      NULL, NULL, pruser_device_submenu  },
-    { "--" },
-    { "Printer device 1...", (ui_callback_t) set_print_dump_file,
-      (ui_callback_data_t) "PrDevice1", NULL },
-    { "Printer device 2...", (ui_callback_t) set_print_exec_file,
-      (ui_callback_data_t) "PrDevice2", NULL },
-    { "Printer device 3...", (ui_callback_t) set_print_exec_file,
-      (ui_callback_data_t) "PrDevice3", NULL },
     { NULL }
 };
 
@@ -991,9 +997,9 @@ ui_menu_entry_t ui_true1541_settings_menu[] = {
     { NULL }
 };
 
-ui_menu_entry_t ui_serial_settings_menu[] = {
-    { "Serial settings",
-      NULL, NULL, serial_settings_submenu },
+ui_menu_entry_t ui_peripheral_settings_menu[] = {
+    { "Peripheral settings",
+      NULL, NULL, peripheral_settings_submenu },
     { NULL }
 };
 
