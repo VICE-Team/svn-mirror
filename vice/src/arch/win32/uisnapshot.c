@@ -55,6 +55,7 @@ static void init_dialog(HWND hwnd)
     SetDlgItemText(hwnd, IDC_SNAPSHOT_SAVE_IMAGE, "");
 }
 
+#if 0
 static BOOL CALLBACK ui_snapshot_save_dialog_proc(HWND hwnd, 
                                  UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -96,7 +97,7 @@ static BOOL CALLBACK ui_snapshot_save_dialog_proc(HWND hwnd,
     }
     return FALSE;
 }
-
+#endif
 
 static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
 {
