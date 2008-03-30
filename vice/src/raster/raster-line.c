@@ -96,7 +96,7 @@ inline static void update_sprite_collisions(raster_t *raster)
         return;
 
     fake_draw_buffer_ptr = raster->fake_draw_buffer_line
-         + raster->geometry.extra_offscreen_border_left;
+         + raster->geometry->extra_offscreen_border_left;
 
     raster->sprite_status->draw_function(fake_draw_buffer_ptr,
                                          raster->zero_gfx_msk);
@@ -130,8 +130,8 @@ inline static void handle_blank_line(raster_t *raster)
             raster_changes_apply(border_changes, i);
         }
 
-        if (xs < raster->geometry.screen_size.width - 1)
-            draw_blank(raster, xs, raster->geometry.screen_size.width - 1);
+        if (xs < raster->geometry->screen_size.width - 1)
+            draw_blank(raster, xs, raster->geometry->screen_size.width - 1);
 
         raster_changes_remove_all(border_changes);
         raster->changes.have_on_this_line = 0;
@@ -140,7 +140,7 @@ inline static void handle_blank_line(raster_t *raster)
         raster->cache[raster->current_line].blank = 1;
 
         add_line_to_area(&raster->update_area, raster->current_line,
-                         0, raster->geometry.screen_size.width - 1);
+                         0, raster->geometry->screen_size.width - 1);
     } else if (CANVAS_USES_TRIPLE_BUFFERING(raster->canvas)
         || raster->dont_cache
         || raster->cache[raster->current_line].is_dirty
@@ -153,10 +153,10 @@ inline static void handle_blank_line(raster_t *raster)
         raster->cache[raster->current_line].border_color = raster->border_color;        raster->cache[raster->current_line].blank = 1;
         raster->cache[raster->current_line].is_dirty = 0;
 
-        draw_blank(raster, 0, raster->geometry.screen_size.width - 1);
+        draw_blank(raster, 0, raster->geometry->screen_size.width - 1);
         add_line_to_area(&raster->update_area,
                          raster->current_line,
-                         0, raster->geometry.screen_size.width - 1);
+                         0, raster->geometry->screen_size.width - 1);
     }
 
     update_sprite_collisions(raster);
@@ -189,7 +189,7 @@ inline static int raster_fill_sprite_cache(raster_t *raster,
     unsigned int i;
     unsigned int num_sprites;
 
-    xs_return = raster->geometry.screen_size.width;
+    xs_return = raster->geometry->screen_size.width;
     xe_return = 0;
 
     rr = 0;
@@ -284,8 +284,8 @@ inline static int raster_fill_sprite_cache(raster_t *raster,
 
     }
 
-    if (xe_return >= (int)raster->geometry.screen_size.width)
-        *xe = raster->geometry.screen_size.width - 1;
+    if (xe_return >= (int)raster->geometry->screen_size.width)
+        *xe = raster->geometry->screen_size.width - 1;
     else
         *xe = xe_return;
 
@@ -309,7 +309,7 @@ inline static void draw_borders(raster_t *raster)
     if (!raster->open_right_border)
         draw_blank(raster,
                    raster->display_xstop,
-                   raster->geometry.screen_size.width - 1);
+                   raster->geometry->screen_size.width - 1);
 }
 
 inline static int update_for_minor_changes_with_sprites(raster_t *raster,
@@ -327,7 +327,7 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
 
     cache = &(raster->cache)[raster->current_line];
 
-    changed_start_char = raster->geometry.text_size.width;
+    changed_start_char = raster->geometry->text_size.width;
     changed_end_char = -1;
 
     sprites_need_update = raster_fill_sprite_cache(raster,
@@ -354,7 +354,7 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
         /* Fill the space between the border and the graphics with the
            background color (necessary if xsmooth is > 0).  */
         if (raster->xsmooth != 0)
-            memset(raster->draw_buffer_ptr + raster->geometry.gfx_position.x,
+            memset(raster->draw_buffer_ptr + raster->geometry->gfx_position.x,
                    raster->xsmooth_color, raster->xsmooth);
 
         if (raster->sprite_status->num_sprites > 0) {
@@ -367,16 +367,16 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
                    part of the border... fix it here.  */
                 if (!raster->open_right_border)
                     draw_blank(raster,
-                               raster->geometry.gfx_position.x
-                               + raster->geometry.gfx_size.width,
-                               raster->geometry.gfx_position.x
-                               + raster->geometry.gfx_size.width + 8);
+                               raster->geometry->gfx_position.x
+                               + raster->geometry->gfx_size.width,
+                               raster->geometry->gfx_position.x
+                               + raster->geometry->gfx_size.width + 8);
 
             }
         }
         /* Calculate the interval in pixel coordinates.  */
-        *changed_start = raster->geometry.gfx_position.x;
-        *changed_end = raster->geometry.gfx_position.x + raster->xsmooth
+        *changed_start = raster->geometry->gfx_position.x;
+        *changed_end = raster->geometry->gfx_position.x + raster->xsmooth
                        + 8 * (changed_end_char + 1) - 1;
 
         if (sprites_need_update) {
@@ -384,7 +384,7 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
             if (raster->open_left_border)
                 *changed_start = 0;
             if (raster->open_right_border)
-                *changed_end = raster->geometry.screen_size.width - 1;
+                *changed_end = raster->geometry->screen_size.width - 1;
 
             /* Even if we have recalculated the whole line, we will
                refresh only the part that has actually changed when
@@ -422,7 +422,7 @@ inline static int update_for_minor_changes_without_sprites(raster_t *raster,
 
     cache = &(raster->cache)[raster->current_line];
 
-    changed_start_char = raster->geometry.text_size.width;
+    changed_start_char = raster->geometry->text_size.width;
     changed_end_char = -1;
 
     needs_update = raster_modes_fill_cache(raster->modes,
@@ -442,11 +442,11 @@ inline static int update_for_minor_changes_without_sprites(raster_t *raster,
 
         /* Convert from character to pixel coordinates.  FIXME: Hardcoded
            `8'.  */
-        *changed_start = raster->geometry.gfx_position.x
+        *changed_start = raster->geometry->gfx_position.x
                           + raster->xsmooth
                           + 8 * changed_start_char;
 
-        *changed_end = raster->geometry.gfx_position.x
+        *changed_end = raster->geometry->gfx_position.x
                         + raster->xsmooth
                         + 8 * (changed_end_char + 1)
                         - 1;
@@ -476,42 +476,42 @@ inline static void fill_background(raster_t *raster)
 {
     if (raster->xsmooth != 0) {
         if (raster->draw_idle_state)
-            memset(raster->draw_buffer_ptr + raster->geometry.gfx_position.x,
+            memset(raster->draw_buffer_ptr + raster->geometry->gfx_position.x,
                    raster->overscan_background_color, raster->xsmooth);
         else
-            memset(raster->draw_buffer_ptr + raster->geometry.gfx_position.x,
+            memset(raster->draw_buffer_ptr + raster->geometry->gfx_position.x,
                    raster->xsmooth_color, raster->xsmooth);
     }
 
     if (raster->open_left_border) {
         if (raster->draw_idle_state)
             memset(raster->draw_buffer_ptr, raster->overscan_background_color,
-                   (raster->geometry.gfx_position.x + raster->xsmooth));
+                   (raster->geometry->gfx_position.x + raster->xsmooth));
         else
             memset(raster->draw_buffer_ptr, raster->xsmooth_color,
-                   (raster->geometry.gfx_position.x + raster->xsmooth));
+                   (raster->geometry->gfx_position.x + raster->xsmooth));
     }
 
     if (raster->open_right_border) {
         if (raster->draw_idle_state)
             memset(raster->draw_buffer_ptr +
-                   raster->geometry.gfx_position.x
-                   + raster->geometry.gfx_size.width
+                   raster->geometry->gfx_position.x
+                   + raster->geometry->gfx_size.width
                    + raster->xsmooth,
                    raster->overscan_background_color,
-                   raster->geometry.screen_size.width
-                   - raster->geometry.gfx_position.x
-                   - raster->geometry.gfx_size.width
+                   raster->geometry->screen_size.width
+                   - raster->geometry->gfx_position.x
+                   - raster->geometry->gfx_size.width
                    - raster->xsmooth);
         else
             memset(raster->draw_buffer_ptr +
-                   raster->geometry.gfx_position.x
-                   + raster->geometry.gfx_size.width
+                   raster->geometry->gfx_position.x
+                   + raster->geometry->gfx_size.width
                    + raster->xsmooth,
                    raster->xsmooth_color,
-                   raster->geometry.screen_size.width
-                   - raster->geometry.gfx_position.x
-                   - raster->geometry.gfx_size.width
+                   raster->geometry->screen_size.width
+                   - raster->geometry->gfx_position.x
+                   - raster->geometry->gfx_size.width
                    - raster->xsmooth);
     }
 }
@@ -528,7 +528,7 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
 
     cache = &(raster->cache)[raster->current_line];
     line = (raster->current_line
-            - raster->geometry.gfx_position.y
+            - raster->geometry->gfx_position.y
             - raster->ysmooth
             - 1);
 
@@ -589,7 +589,7 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
         draw_sprites_when_cache_enabled(raster, cache);
 
         *changed_start = 0;
-        *changed_end = raster->geometry.screen_size.width - 1;
+        *changed_end = raster->geometry->screen_size.width - 1;
 
         draw_borders(raster);
 
@@ -630,10 +630,10 @@ inline static void handle_visible_line_with_cache(raster_t *raster)
 
 inline static void handle_visible_line_without_cache(raster_t *raster)
 {
-    raster_geometry_t *geometry;
+    geometry_t *geometry;
     raster_cache_t *cache;
 
-    geometry = &raster->geometry;
+    geometry = raster->geometry;
 
     /* If screen is scrolled to the right, we need to fill with the
        background color the blank part on the left.  */
@@ -669,7 +669,7 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
         cache->overscan_background_color = raster->overscan_background_color;
 
         add_line_to_area(&raster->update_area, raster->current_line,
-                         0, raster->geometry.screen_size.width - 1);
+                         0, raster->geometry->screen_size.width - 1);
     } else {
         /* Still do some minimal caching anyway.  */
         /* Only update the part between the borders.  */
@@ -684,9 +684,9 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
 {
     unsigned int i;
     int xs, xstop;
-    raster_geometry_t *geometry;
+    geometry_t *geometry;
 
-    geometry = &raster->geometry;
+    geometry = raster->geometry;
 
     /* Draw the background.  */
     for (xs = i = 0; i < raster->changes.background.count; i++) {
@@ -790,7 +790,7 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
     raster->cache[raster->current_line].is_dirty = 1;
 
     add_line_to_area(&raster->update_area, raster->current_line,
-                     0, raster->geometry.screen_size.width - 1);
+                     0, raster->geometry->screen_size.width - 1);
 }
 
 inline static void handle_visible_line(raster_t *raster)
@@ -824,8 +824,8 @@ void raster_line_emulate(raster_t *raster)
     if (raster->current_line == raster->display_ystop)
         raster->blank_enabled = 1;
 
-    if (raster->current_line >= raster->geometry.first_displayed_line
-        && raster->current_line <= raster->geometry.last_displayed_line
+    if (raster->current_line >= raster->geometry->first_displayed_line
+        && raster->current_line <= raster->geometry->last_displayed_line
         && raster->current_line >= viewport->first_line
         && raster->current_line <= viewport->last_line) {
 
@@ -853,7 +853,7 @@ void raster_line_emulate(raster_t *raster)
 
     raster->current_line++;
 
-    if (raster->current_line == raster->geometry.screen_size.height) {
+    if (raster->current_line == raster->geometry->screen_size.height) {
         raster->current_line = 0;
         raster_canvas_handle_end_of_frame(raster);
     }
