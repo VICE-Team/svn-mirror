@@ -154,11 +154,15 @@ static void REGPARM2 store_ram(ADDRESS addr, BYTE value)
     ram_bank[addr] = value;
 }
 
-static BYTE REGPARM1 read_bios(ADDRESS addr)
+BYTE REGPARM1 read_bios(ADDRESS addr)
 {
     return z80bios_rom[addr & 0x0fff];
 }
 
+void REGPARM2 store_bios(ADDRESS addr, BYTE value)
+{
+    z80bios_rom[addr] = value;
+}
 
 void z80mem_initialize(void)
 {

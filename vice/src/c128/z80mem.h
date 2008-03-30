@@ -27,6 +27,8 @@
 #ifndef _Z80MEM_H
 #define _Z80MEM_H
 
+#include "vice.h"
+
 #include "mem.h"
 #include "types.h"
 
@@ -44,6 +46,9 @@ extern read_func_ptr_t *_z80mem_read_tab_ptr;
 extern store_func_ptr_t *_z80mem_write_tab_ptr;
 extern BYTE **_z80mem_read_base_tab_ptr;
 extern int *z80mem_read_limit_tab_ptr;
+
+extern BYTE REGPARM1 read_bios(ADDRESS addr);
+extern void REGPARM2 store_bios(ADDRESS addr, BYTE value);
 
 extern store_func_ptr_t io_write_tab[];
 extern read_func_ptr_t io_read_tab[];
