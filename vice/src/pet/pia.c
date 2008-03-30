@@ -46,6 +46,7 @@
 #include "kbd.h"
 #include "parallel.h"
 #include "pets.h"
+#include "petmem.h"
 #include "pia.h"
 #include "resources.h"
 #include "vmachine.h"
@@ -320,9 +321,9 @@ BYTE REGPARM1 read_pia1(ADDRESS addr)
 	    }
 
 	    inbyte = 0xff
-			- (tape1_sense ? 16 : 0)
-			- (par_eoi ? 64 : 0)
-			- (diagnostic_pin_enabled ? 128 : 0);
+		- (tape1_sense ? 16 : 0)
+		- (par_eoi ? 64 : 0)
+		- ((diagnostic_pin_enabled || superpet_diag()) ? 128 : 0);
 	    return ((inbyte & ~pia1.ddr_a) | (pia1.port_a & pia1.ddr_a));
 	}
 	return (pia1.ddr_a);

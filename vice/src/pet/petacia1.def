@@ -1,9 +1,9 @@
-/*
- * petmem.h - PET memory handling.
+/* -*- C -*-
+ *
+ * petacia.def - Definitions for a 6551 ACIA interface
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,27 +25,17 @@
  *
  */
 
-#ifndef _PETMEM_H
-#define _PETMEM_H
+#define mycpu maincpu
 
-#include "types.h"
+#define myclk maincpu_clk
 
-#define PET_RAM_SIZE		0x8000
-#define PET_ROM_SIZE		0x8000
-#define PET_CHARGEN_ROM_SIZE	0x1000
+#define myacia acia1
 
-#define	PET2001_CHECKSUM	55094
-#define	PET3032_CHECKSUM_A	31319
-#define	PET3032_CHECKSUM_B	33410
-#define	PET4032_CHECKSUM_A	1643
-#define	PET4032_CHECKSUM_B	14731
-#define	PET8032_CHECKSUM_A	8647	/* my kernel (a.fachat) */
-#define	PET8032_CHECKSUM_B	8227	/* jouko's kernel */
+#define MYACIA ACIA1
 
-extern int pet_mem_init_resources(void);
-extern int pet_mem_init_cmdline_options(void);
+/* resource defaults */
+#define	MyAcia		Acia1
+#define	MyDevice	0
+#define	MyIrq		IK_IRQ
 
-extern void superpet_reset(void);
-extern int superpet_diag(void);
 
-#endif

@@ -264,10 +264,15 @@ static ui_menu_entry_t model_defaults_submenu[] = {
       (ui_callback_t) petui_set_model, (ui_callback_data_t)"8096", NULL },
     { "PET 8296",
       (ui_callback_t) petui_set_model, (ui_callback_data_t)"8296", NULL },
+    { "SuperPET",
+      (ui_callback_t) petui_set_model, (ui_callback_data_t)"SuperPET", NULL },
     { NULL }
 };
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
+UI_MENU_DEFINE_TOGGLE(SuperPET)
+
+extern ui_menu_entry_t pet_rs232_submenu[];
 
 static ui_menu_entry_t model_settings_submenu[] = {
     { "Model defaults",
@@ -281,6 +286,11 @@ static ui_menu_entry_t model_settings_submenu[] = {
       NULL, NULL, pet_iosize_submenu },
     { "*CRTC chip enable",
       (ui_callback_t) toggle_Crtc, NULL, NULL },
+    { "--" },
+    { "*SuperPET I/O enable (disables 8x96)",
+      (ui_callback_t) toggle_SuperPET, NULL, NULL },
+    { "SuperPET ACIA", 
+      NULL, NULL, pet_rs232_submenu },
     { "--" },
     { "*$9*** as RAM (8296 only)",
       (ui_callback_t) toggle_Ram9, NULL, NULL },

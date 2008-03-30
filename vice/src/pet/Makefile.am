@@ -12,6 +12,9 @@ libpet_a_SOURCES = \
 	crtc.h \
 	pet.c \
 	pet.h \
+	petacia.h \
+	petacia1.c \
+	petacia1.def \
 	petmem.c \
 	petmem.h \
 	pets.c \
@@ -24,7 +27,7 @@ libpet_a_SOURCES = \
 	pia.c \
 	pia.h
 
-BUILT_SOURCES = petvia.c
+BUILT_SOURCES = petvia.c petacia1.c
 
 petdir = $(top_srcdir)/src/pet
 
@@ -35,3 +38,12 @@ petvia.c: petvia.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
 	           $(top_srcdir)/src/via-tmpl.c \
 	           $(petdir)/petvia.def $(petdir)/petvia.c; \
 	   fi )
+
+petacia1.c: petacia1.def $(top_srcdir)/src/acia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`petacia1.c'..."; \
+	   if [ -x $(PERL) ] ; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/acia-tmpl.c \
+	           $(petdir)/petacia1.def $(petdir)/petacia1.c; \
+	   fi )
+

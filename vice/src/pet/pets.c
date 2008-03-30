@@ -59,41 +59,45 @@ static struct {
     PetInfo info;
 } pet_table[] = {
     {"2001",
-      {8, 0x0800, 0, 40, 0, 0, 1, 1,
+      {8, 0x0800, 0, 40, 0, 0, 1, 1, 0,
         PET_CHARGEN_NAME, PET_KERNAL2001NAME, NULL, NULL, NULL, NULL}},
     {"3008",
-      {8, 0x0800, 0, 40, 0, 0, 1, 0,
+      {8, 0x0800, 0, 40, 0, 0, 1, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL3032NAME, NULL, NULL, NULL, NULL}},
     {"3016",
-      {16, 0x0800, 0, 40, 0, 0, 1, 0,
+      {16, 0x0800, 0, 40, 0, 0, 1, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL3032NAME, NULL, NULL, NULL, NULL}},
     {"3032",
-      {32, 0x0800, 0, 40, 0, 0, 1, 0,
+      {32, 0x0800, 0, 40, 0, 0, 1, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL3032NAME, NULL, NULL, NULL, NULL}},
     {"3032B",
-      {32, 0x0800, 0, 40, 0, 0, 0, 0,
+      {32, 0x0800, 0, 40, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL3032NAME, PET_EDITOR2B40NAME,
         NULL, NULL, NULL}},
     {"4016",
-      {16, 0x0800, 1, 40, 0, 0, 1, 0,
+      {16, 0x0800, 1, 40, 0, 0, 1, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4032NAME, NULL, NULL, NULL, NULL}},
     {"4032",
-      {32, 0x0800, 1, 40, 0, 0, 1, 0,
+      {32, 0x0800, 1, 40, 0, 0, 1, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4032NAME, NULL, NULL, NULL, NULL}},
     {"4032B",
-      {32, 0x0800, 1, 40, 0, 0, 0, 0,
+      {32, 0x0800, 1, 40, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B40NAME,
         NULL, NULL, NULL}},
     {"8032",
-      {32, 0x0800, 1, 80, 0, 0, 0, 0,
+      {32, 0x0800, 1, 80, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B80NAME,
         NULL, NULL, NULL}},
     {"8096",
-      {96, 0x0800, 1, 80, 0, 0, 0, 0,
+      {96, 0x0800, 1, 80, 0, 0, 0, 0, 0,
         PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B80NAME,
         NULL, NULL, NULL}},
     {"8296",
-      {128, 0x0100, 1, 80, 0, 0, 0, 0,
+      {128, 0x0100, 1, 80, 0, 0, 0, 0, 0,
+        PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B80NAME,
+        NULL, NULL, NULL}},
+    {"SuperPET",
+      {32, 0x0800, 1, 80, 0, 0, 0, 0, 1,
         PET_CHARGEN_NAME, PET_KERNAL4032NAME, PET_EDITOR4B80NAME,
         NULL, NULL, NULL}},
     {NULL}
@@ -122,6 +126,8 @@ int pet_set_model(const char *model_name, void *extra)
                                 (resource_value_t) pet_table[i].info.mem9);
 	    resources_set_value("RamA",
                                 (resource_value_t) pet_table[i].info.memA);
+	    resources_set_value("SuperPET",
+                                (resource_value_t) pet_table[i].info.superpet);
 
 	    resources_get_value("KeymapIndex",
                                 (resource_value_t *) &kindex);
@@ -162,6 +168,11 @@ int pet_set_model(const char *model_name, void *extra)
 
 static void check_info(PetInfo * pi)
 {
+    if (pi->superpet) {
+	pi->ramSize == 128;
+	pi->map = 0;
+    }
+
     if (pi->video == 40 || (pi->video == 0 && pi->screen_width == 40)) {
 	pi->vmask = 0x3ff;
 	pi->videoSize = 0x400;
@@ -246,6 +257,14 @@ static int set_video(resource_value_t v)
     return 0;
 }
 
+static int set_superpet_enabled(resource_value_t v)
+{
+    if ((unsigned int) v < 2)
+	petres.superpet = (unsigned int) v;
+    initialize_memory();
+    return 0;
+}
+
 static int set_ram_9_enabled(resource_value_t v)
 {
     if ((unsigned int) v < 2)
@@ -323,6 +342,8 @@ static resource_t resources[] =
      (resource_value_t *) & petres.mem9, set_ram_9_enabled},
     {"RamA", RES_INTEGER, (resource_value_t) 0,
      (resource_value_t *) & petres.memA, set_ram_a_enabled},
+    {"SuperPET", RES_INTEGER, (resource_value_t) 0,
+     (resource_value_t *) & petres.superpet, set_superpet_enabled},
 
     {"ChargenName", RES_STRING, (resource_value_t) "chargen",
      (resource_value_t *) & petres.chargenName, set_chargen_rom_name},
@@ -373,6 +394,10 @@ static cmdline_option_t cmdline_options[] = {
      NULL, "Enable PET8296 4K RAM mapping at $A***"},
     {"+petramA", SET_RESOURCE, 0, NULL, NULL, "RamA", (resource_value_t) 0,
      NULL, "Disable PET8296 4K RAM mapping at $A***"},
+    {"-superpet", SET_RESOURCE, 0, NULL, NULL, "SuperPET", (resource_value_t) 1,
+     NULL, "Enable SuperPET I/O"},
+    {"+superpet", SET_RESOURCE, 0, NULL, NULL, "SuperPET", (resource_value_t) 0,
+     NULL, "Disable SuperPET I/O"},
     {NULL}
 };
 

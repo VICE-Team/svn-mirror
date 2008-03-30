@@ -175,6 +175,10 @@ static tui_menu_item_def_t pet_model_items[] = {
       "Configure the emulator to emulate a PET 8296 and do a soft RESET",
       set_model_callback, (void *) "8296", 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
+    { "_L: SuperPET",
+      "Configure the emulator to emulate a SuperPET and do a soft RESET",
+      set_model_callback, (void *) "SuperPET", 0,
+      TUI_MENU_BEH_RESUME, NULL, NULL },
     { NULL }
 };
 
@@ -284,6 +288,7 @@ static tui_menu_item_def_t iosize_items[] = {
 };
 
 TUI_MENU_DEFINE_TOGGLE(Crtc)
+TUI_MENU_DEFINE_TOGGLE(SuperPET)
 
 TUI_MENU_DEFINE_TOGGLE(Ram9)
 TUI_MENU_DEFINE_TOGGLE(RamA)
@@ -336,6 +341,10 @@ static tui_menu_item_def_t special_menu_items[] = {
     { "  Enable _CRTC",
       "Enable the CRTC video chip",
       toggle_Crtc_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "  Enable _SuperPET",
+      "Enable the SuperPET I/O",
+      toggle_SuperPET_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "  Enable $_9*** RAM:",
       "Enable RAM at $9000-$9FFF (only available on 8296)",

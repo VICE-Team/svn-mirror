@@ -45,6 +45,7 @@ typedef struct PetInfo {
 	int		memA;		/* 0 = open/ROM, 1 = RAM */
 	int		kbd_type;	/* 1 = graphics, 0 = business (UK) */
 	int		pet2k;		/* reset when romName is changed */
+        int		superpet;	/* 1 = enable SuperPET I/O */
 
 	/* ROM image resources */
 	char		*chargenName;	/* Character ROM */

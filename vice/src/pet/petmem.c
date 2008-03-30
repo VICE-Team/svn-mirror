@@ -38,6 +38,7 @@
 #include "pia.h"
 #include "pet.h"
 #include "petvia.h"
+#include "petacia.h"
 #include "crtc.h"
 #include "kbd.h"
 #include "kbdbuf.h"
@@ -222,6 +223,103 @@ void REGPARM2 store_watch(ADDRESS addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
+/* SuperPET handling 
+ * 
+ * This adds some write-only registers at $eff*, an ACIA at $eff0 and
+ * 64k RAM that are mapped in 4k pages at $9***
+ * Here the 8x96 expansion RAM doubles as the SuperPET banked RAM.
+ */
+
+static int spet_ramen  = 1;
+static int spet_bank   = 0;
+static int spet_ctrlwp = 1;
+static int spet_diag   = 0;
+static int spet_ramwp  = 1;
+
+void superpet_reset(void)
+{
+    spet_ramen = 1;
+    spet_bank = 0;
+    spet_ctrlwp = 1;
+}
+
+void superpet_powerup(void)
+{
+/* Those two are not reset by a soft reset (/RES), only by power down */
+    spet_diag = 0;
+    spet_ramwp = 1;
+    superpet_reset();
+}
+
+int superpet_diag(void) 
+{
+    return pet.superpet && spet_diag;
+}
+
+BYTE REGPARM1 read_super_io(ADDRESS addr)
+{
+    if(addr >= 0xeff4) {	/* unused / readonly */
+        return read_unused(addr);
+    } else 
+    if(addr >= 0xeff0) {	/* ACIA */
+	return read_acia1(addr & 0x03);
+    } else
+    if(addr >= 0xefe4) {	/* unused */
+        return read_unused(addr);
+    } else 
+    if(addr >= 0xefe0) {	/* dongle */
+    }
+    return read_unused(addr);	/* fallback */
+}
+
+void REGPARM2 store_super_io(ADDRESS addr, BYTE value)
+{
+    if(addr >= 0xeffe) {	/* RAM/ROM switch */
+	spet_ramen = !(value & 1);
+    } else
+    if(addr >= 0xeffc) {	/* Bank select */
+	spet_bank = value & 0x0f;
+	spet_ctrlwp = !(value & 0x80);
+    } else 
+    if(addr >= 0xeff8) {
+	if(!spet_ctrlwp) {
+	    if(!(value & 1)) {
+		printf("SuperPET: 6809 not emulated!\n");
+		maincpu_trigger_reset();
+	    }
+	    spet_ramwp = !(value & 0x2);
+	    spet_diag = (value & 0x8);
+	}
+    } else
+    if(addr >= 0xeff4) {	/* unused */
+    } else 
+    if(addr >= 0xeff0) {	/* ACIA */
+	store_acia1(addr & 0x03, value);
+    } else 
+    if(addr >= 0xefe4) {	/* unused */
+    } else 
+    if(addr >= 0xefe0) {	/* dongle? */
+    }
+}
+
+BYTE REGPARM1 read_super_9(ADDRESS addr)
+{
+    if (spet_ramen) {
+	return (ram+0x10000)[(spet_bank << 12) | (addr & 0x0fff)];
+    } 
+    return read_rom(addr);
+}
+
+void REGPARM2 store_super_9(ADDRESS addr, BYTE value)
+{
+    if (spet_ramen && !spet_ramwp) {
+	(ram+0x10000)[(spet_bank << 12) | (addr & 0x0fff)] = value;
+    }
+}
+
+
+/* ------------------------------------------------------------------------- */
+
 /* Generic memory access.  */
 
 void REGPARM2 mem_store(ADDRESS addr, BYTE value)
@@ -340,13 +438,21 @@ static void set_std_9tof(void)
     rama = (pet.map == 2 && pet.memA) ? 1 : 0;
 
     /* Setup RAM/ROM at $9000 - $9FFF. */
-    for (i = 0x90; i < 0xa0; i++) {
-        _mem_read_tab[i] = ram9 ? read_ram : read_rom;
-        _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ram9 ? ram + (i << 8) : rom + ((i & 0x7f) << 8);
+    if(pet.superpet) {
+        for (i = 0x90; i < 0xa0; i++) {
+            _mem_read_tab[i] = read_super_9;
+            _mem_write_tab[i] = store_super_9;
+            _mem_read_base_tab[i] = NULL;
+        }
+    } else {
+        for (i = 0x90; i < 0xa0; i++) {
+            _mem_read_tab[i] = ram9 ? read_ram : read_rom;
+            _mem_write_tab[i] = store;
+            _mem_read_base_tab[i] = ram9 ? ram + (i << 8) : rom + ((i & 0x7f) << 8);
+        }
     }
 
-    /* Setup RAM/ROM at $9000 - $9FFF. */
+    /* Setup RAM/ROM at $A000 - $AFFF. */
     for (i = 0xa0; i < 0xb0; i++) {
         _mem_read_tab[i] = rama ? read_ram : read_rom;
         _mem_write_tab[i] = store;
@@ -373,6 +479,12 @@ static void set_std_9tof(void)
         _mem_read_tab[i] = read_unused;
         _mem_write_tab[i] = store;
         _mem_read_base_tab[i] = NULL;;
+    }
+
+    if(pet.superpet) {
+        _mem_read_tab[0xef] = read_super_io;
+        _mem_write_tab[0xef] = store_super_io;
+        _mem_read_base_tab[0xef] = NULL;;
     }
 
     /* Setup ROM at $e800 + pet.IOSize - $ffff */
@@ -659,6 +771,8 @@ void mem_powerup(void)
         memset(ram + i, 0, 0x40);
         memset(ram + i + 0x40, 0xff, 0x40);
     }
+
+    superpet_powerup();
 }
 
 /* Load memory image files.  This also selects the PET model.  */

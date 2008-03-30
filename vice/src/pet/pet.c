@@ -45,6 +45,7 @@
 #include "petsound.h"
 #include "petui.h"
 #include "petvia.h"
+#include "petacia.h"
 #include "pia.h"
 #include "resources.h"
 #include "sound.h"
@@ -126,6 +127,10 @@ int machine_init_resources(void)
         || crtc_init_resources() < 0
         || pia_init_resources() < 0
         || sound_init_resources() < 0
+        || acia1_init_resources() < 0
+#ifdef HAVE_RS232
+	|| rs232_init_resources() < 0
+#endif
 #ifdef HAVE_PRINTER
         || print_init_resources() < 0
         || prdevice_init_resources() < 0
@@ -157,6 +162,10 @@ int machine_init_cmdline_options(void)
         || crtc_init_cmdline_options() < 0
         || pia_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
+        || acia1_init_cmdline_options() < 0
+#ifdef HAVE_RS232
+	|| rs232_init_cmdline_options() < 0
+#endif
 #ifdef HAVE_PRINTER
         || print_init_cmdline_options() < 0
         || prdevice_init_cmdline_options() < 0
@@ -245,7 +254,7 @@ void machine_reset(void)
     reset_via();
     reset_crtc();
     petsnd_reset();
-
+    superpet_reset();
 #ifdef HAVE_PRINTER
     print_reset();
 #endif
