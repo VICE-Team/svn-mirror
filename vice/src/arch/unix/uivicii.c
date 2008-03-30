@@ -110,6 +110,22 @@ static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 };
 #endif
 
+static UI_CALLBACK(color_set)
+{
+    if (!CHECK_MENUS) {
+        ui_update_menus();
+    } else {
+        int val;
+
+        resources_get_value("VICIIExternalPalette", (void *)&val);
+
+        if (val)
+            ui_menu_set_sensitive(w, True);
+        else
+            ui_menu_set_sensitive(w, False);
+    }
+}
+
 ui_menu_entry_t vicii_submenu[] = {
     { N_("*Double size"),
       (ui_callback_t)toggle_VICIIDoubleSize, NULL, NULL },
@@ -122,8 +138,8 @@ ui_menu_entry_t vicii_submenu[] = {
       (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL },
     { N_("*External color set"),
       (ui_callback_t)toggle_VICIIExternalPalette, NULL, NULL },
-    { N_("Color set"),
-      NULL, NULL, palette_submenu },
+    { N_("*Color set"),
+      (ui_callback_t)color_set, NULL, palette_submenu },
     { "--" },
 #ifdef HAVE_XVIDEO
     { N_("*Hardware scaling"),

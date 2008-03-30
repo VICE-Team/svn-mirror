@@ -58,6 +58,7 @@ static ui_menu_entry_t palette_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICVideoCache)
+UI_MENU_DEFINE_TOGGLE(VICExternalPalette)
 #ifdef HAVE_XVIDEO
 UI_MENU_DEFINE_TOGGLE(VICHwScale)
 #endif
@@ -97,6 +98,22 @@ static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 };
 #endif
 
+static UI_CALLBACK(color_set)
+{
+    if (!CHECK_MENUS) {
+        ui_update_menus();
+    } else {
+        int val;
+
+        resources_get_value("VICExternalPalette", (void *)&val);
+
+        if (val)
+            ui_menu_set_sensitive(w, True);
+        else
+            ui_menu_set_sensitive(w, False);
+    }
+}
+
 ui_menu_entry_t vic_submenu[] = {
     { N_("*Double size"),
       (ui_callback_t)toggle_VICDoubleSize, NULL, NULL },
@@ -105,8 +122,10 @@ ui_menu_entry_t vic_submenu[] = {
     { N_("*Video cache"),
       (ui_callback_t)toggle_VICVideoCache, NULL, NULL },
     { "--" },
-    { N_("Color set"),
-      NULL, NULL, palette_submenu },
+    { N_("*External color set"),
+      (ui_callback_t)toggle_VICExternalPalette, NULL, NULL },
+    { N_("*Color set"),
+      (ui_callback_t)color_set, NULL, palette_submenu },
     { "--" },
 #ifdef HAVE_XVIDEO
     { N_("*Hardware scaling"),

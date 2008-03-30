@@ -1,3 +1,40 @@
+2004-12-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.15.14.
+
+	* vicii/viciitypes.h, vicii/vicii.c, vicii/vicii-fetch.c:
+	Added support for phi1 and phi2 screen base.
+
+	* raster/raster-sprite-status.h, vicii/vicii.c: Removed unused
+	member `ptr_base'.
+
+	* vicii/viciitypes.h, vicii/vicii-timing.c: Moved timing
+	constants to source file.
+
+	* raster/raster-cache-const.h, vdc/vdc-draw.c: Removed useless
+	`src_step' parameter.
+
+	* c64/c64memrom.h, c128/c128memrom.h, vic20/vic20memrom.h:
+	Fixed typo.
+
+	* plus4/plus4memrom.c, plus4/plus4memrom.h: New files.
+
+	* plus4/Makefile.am, arch/win32/plus4.dsp: Updated.
+
+	* plus4/plus4mem.c, plus4/plus4mem.h, plus4/plus4.c,
+	plus4/plus4rom.c: Added support for separate trap ROM.
+
+	* arch/unix/x11/xaw/uimenu.c, arch/unix/x11/xaw/uimenu.h,
+	arch/unix/x11/xaw/x11ui.c: Added support for dynamic menu
+	structure allocation.
+
+	* resources.c (write_resource_item): Use `fputs()' to write
+	resource lines as `fprintf()' chokes on resource values that
+	look like format specifiers.
+
+	* arch/unix/uivicii.c, arch/unix/uivic.c, arch/unix/uited.c:
+	Added proper color set UI greying.
+
 2004-12-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.13.
@@ -512,7 +549,7 @@
 	if the ressource is queried by the one who is actually holding
 	the ressource.
 
-2004-09-01  EMILIANO PERUCH <EMILIANO.PERUCH@softway.it>
+2004-09-01  EMILIANO PERUCH  <EMILIANO.PERUCH@softway.it>
 
 	* fsdevice/fsdevice-read.c (command_directory_get): Fixed some
 	crash.

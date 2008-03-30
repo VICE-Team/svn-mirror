@@ -99,6 +99,22 @@ static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 };
 #endif
 
+static UI_CALLBACK(color_set)
+{
+    if (!CHECK_MENUS) {
+        ui_update_menus();
+    } else {
+        int val;
+
+        resources_get_value("TEDExternalPalette", (void *)&val);
+
+        if (val)
+            ui_menu_set_sensitive(w, True);
+        else
+            ui_menu_set_sensitive(w, False);
+    }
+}
+
 ui_menu_entry_t ted_submenu[] = {
     { N_("*Double size"),
       (ui_callback_t)toggle_TEDDoubleSize, NULL, NULL },
@@ -109,8 +125,8 @@ ui_menu_entry_t ted_submenu[] = {
     { "--" },
     { N_("*External color set"),
       (ui_callback_t)toggle_TEDExternalPalette, NULL, NULL },
-    { N_("Color set"),
-      NULL, NULL, palette_submenu },
+    { N_("*Color set"),
+      (ui_callback_t)color_set, NULL, palette_submenu },
     { "--" },
 #if 0
     { N_("*Fast PAL emulation"),
