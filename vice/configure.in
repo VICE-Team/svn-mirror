@@ -6,10 +6,10 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.6)
+AM_INIT_AUTOMAKE(vice, 1.6.1)
 AM_CONFIG_HEADER(src/config.h)
 
-dnl AC_DEFINE(UNSTABLE)
+AC_DEFINE(UNSTABLE)
 
 is_dos=no
 is_win32=no
@@ -638,6 +638,15 @@ fi
 AM_CONDITIONAL(NEED_READLINE, test x"$READLINE" != "x")
 AC_SUBST(READLINE)
 
+
+dnl Check for zlib
+
+AC_CHECK_HEADER(zlib.h,,)
+if test x"$ac_cv_header_zlib_h" = "xyes" ; then
+  AC_CHECK_LIB(z, zlibVersion,
+               [ LIBS="-lz $LIBS";
+                 AC_DEFINE(HAVE_ZLIB) ],,)
+fi
 
 dnl Configure screenshot drivers
 

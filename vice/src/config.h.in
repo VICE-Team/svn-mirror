@@ -95,6 +95,9 @@
 /* Is a BSD compatible joystick support avaiable?  */
 #undef BSD_JOYSTICK
 
+/* Define if this version is unstable.  */
+#define UNSTABLE
+
 /* Where do we want to install the executable?  */
 #undef PREFIX
 
@@ -109,6 +112,9 @@
 
 /* Can we use the PNG library? */
 #undef HAVE_PNG
+
+/* Can we use the ZLIB compression library? */
+#undef HAVE_ZLIB
 
 /* Do we want to use the new color management code? */
 #undef USE_COLOR_MANAGEMENT

@@ -77,6 +77,9 @@
 /* Can we use the PNG library? */
 #undef HAVE_PNG
 
+/* Can we use the ZLIB compression library? */
+#undef HAVE_ZLIB
+
 /* Do we want to use the new color management code? */
 #undef USE_COLOR_MANAGEMENT
 
