@@ -561,7 +561,7 @@ unsigned long crc32(const char *buffer, unsigned int len)
  This function is even allowed to be called in tfearch.c from tfe_arch_receive() if 
  necessary, which is the reason why its prototype is included here in tfearch.h.
 */
-int tfe_should_accept(char *buffer, int length, int *phashed, int *phash_index, 
+int tfe_should_accept(unsigned char *buffer, int length, int *phashed, int *phash_index, 
                       int *pcorrect_mac, int *pbroadcast, int *pmulticast) 
 {
 	int hashreg; /* Hash Register (for hash computation) */

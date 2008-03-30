@@ -360,6 +360,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     refresh_cmp /= (float)refresh_div;
 
     if ((timer_speed == 100) && (!warp_mode_enabled) &&
+        vsyncarch_vbl_sync_enabled() &&
         (refresh_cmp <= 1.02f) && (refresh_cmp > 0.98f) &&
         (refresh_div == 1)) {
         vsyncarch_verticalblank(c, c->refreshrate, refresh_div);

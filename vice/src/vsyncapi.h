@@ -61,4 +61,7 @@ void vsyncarch_postsync(void);
 
 /* set ui dispatcher function */
 void_hook_t vsync_set_event_dispatcher(void_hook_t hook);
+
+int vsyncarch_vbl_sync_enabled();
+
 #endif

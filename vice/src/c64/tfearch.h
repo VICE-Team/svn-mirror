@@ -88,7 +88,7 @@ int tfe_arch_receive(BYTE *pbuffer  ,    /* where to store a frame */
  necessary, which is the reason why its prototype is included here in tfearch.h.
 */
 extern 
-int tfe_should_accept(char *buffer, int length, int *phashed, int *phash_index, 
+int tfe_should_accept(unsigned char *buffer, int length, int *phashed, int *phash_index, 
                       int *pcorrect_mac, int *pbroadcast, int *pmulticast);
 
 extern int tfe_arch_enumadapter_open(void);

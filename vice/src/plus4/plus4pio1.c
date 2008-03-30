@@ -34,51 +34,62 @@
 #include "types.h"
 
 
+/* FIXME: C16 doesn't have 6529, writes can't mask off the tape_sense line */
+/* FIXME: line 2 is used in RS232 IRQ as well at $EA62 in ROM */
+
 static BYTE pio1_data = 0xff;
 
-/* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
+/* Tape sense line: 1 = some button pressed, 0 = no buttons pressed, or datasette not connected.  */
 static int tape_sense = 0;
-
 
 BYTE REGPARM1 pio1_read(WORD addr)
 {
+BYTE    pio1_value;
+
     /*  Correct clock */
     ted_handle_pending_alarms(0);
 
     if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
-        pio1_data = parallel_cable_cpu_read();
+        pio1_value = parallel_cable_cpu_read();
+    else 
+        pio1_value = pio1_data;
 
     if (tape_sense)
-        pio1_data &= ~4;
+        pio1_value &= ~4;
 
-    return pio1_data;
+    return pio1_value;
 }
 
 void REGPARM2 pio1_store(WORD addr, BYTE value)
 {
+BYTE    pio1_outline;
+
     /*  Correct clock */
     ted_handle_pending_alarms(maincpu_rmw_flag + 1);
 
+    pio1_data = value;
+
+    pio1_outline = value;
+
     if (tape_sense)
-        pio1_data &= ~4;
+        pio1_outline &= ~4;
 
     if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
-        parallel_cable_cpu_write(pio1_data);
+        parallel_cable_cpu_write(pio1_outline);
 }
 
 void pio1_set_tape_sense(int sense)
 {
+BYTE    pio1_outline;
+
     tape_sense = sense;
 
-    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
-        pio1_data = parallel_cable_cpu_read();
-    else
-        pio1_data |= 4;
+    pio1_outline = pio1_data;
 
     if (tape_sense)
-        pio1_data &= ~4;
+        pio1_outline &= ~4;
 
     if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
-        parallel_cable_cpu_write(pio1_data);
+        parallel_cable_cpu_write(pio1_outline);
 }
 

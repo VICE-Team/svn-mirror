@@ -213,3 +213,7 @@ void vsyncarch_postsync()
 {
 }
 
+int vsyncarch_vbl_sync_enabled()
+{
+    return ui_vblank_sync_enabled();
+}

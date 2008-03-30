@@ -37,6 +37,7 @@
 #include "plus4iec.h"
 #include "types.h"
 #include "via.h"
+#include "ted.h"
 
 
 /* Status of the IEC bus signals.  */
@@ -115,7 +116,7 @@ void iec_cpu_write_conf0(BYTE data)
 /* Only the first drive is enabled.  */
 void iec_cpu_write_conf1(BYTE data)
 {
-    drive0_cpu_execute(maincpu_clk);
+    drive0_cpu_execute(last_write_cycle);
 
     iec_update_cpu_bus(data);
 
@@ -146,7 +147,7 @@ void iec_cpu_write_conf1(BYTE data)
 /* Only the second drive is enabled.  */
 void iec_cpu_write_conf2(BYTE data)
 {
-    drive1_cpu_execute(maincpu_clk);
+    drive1_cpu_execute(last_write_cycle);
 
     iec_update_cpu_bus(data);
 
@@ -177,8 +178,8 @@ void iec_cpu_write_conf2(BYTE data)
 /* Both drive are enabled.  */
 void iec_cpu_write_conf3(BYTE data)
 {
-    drive0_cpu_execute(maincpu_clk);
-    drive1_cpu_execute(maincpu_clk);
+    drive0_cpu_execute(last_write_cycle);
+    drive1_cpu_execute(last_write_cycle);
 
     iec_update_cpu_bus(data);
 
@@ -286,9 +287,9 @@ void parallel_cable_cpu_write(BYTE data)
         return;
 
     if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
+        drive0_cpu_execute(last_write_cycle);
     if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
+        drive1_cpu_execute(last_write_cycle);
 
     parallel_cable_cpu_value = data;
 }
