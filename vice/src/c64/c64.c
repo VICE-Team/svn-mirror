@@ -40,6 +40,7 @@
 #include "c64acia.h"
 #include "c64cart.h"
 #include "c64cia.h"
+#include "c64export.h"
 #include "c64fastiec.h"
 #include "c64iec.h"
 #include "c64keyboard.h"
@@ -238,6 +239,7 @@ int machine_resources_init(void)
         || vsync_resources_init() < 0
         || machine_video_resources_init() < 0
         || c64_resources_init() < 0
+        || c64export_resources_init() < 0
         || reu_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
