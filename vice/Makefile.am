@@ -1,6 +1,6 @@
 # Process this file with automake to produce Makefile.in
 
-SUBDIRS = $(POSUB) src data man doc
+SUBDIRS = $(POSUB) src build data man doc
 
 EXTRA_DIST = AUTHORS FEEDBACK COPYING INSTALL NEWS vice.spec
 
@@ -26,42 +26,43 @@ xcbm2:
 
 if MSDOS_COMPILE
 bindist:
-	$(SHELL) $(srcdir)/src/arch/msdos/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip
 
 bindistzip:
-	$(SHELL) $(srcdir)/src/arch/msdos/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip
 endif
 
 if WIN32_COMPILE
 bindist:
-	$(SHELL) $(srcdir)/src/arch/win32/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
 
 bindistzip:
-	$(SHELL) $(srcdir)/src/arch/win32/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
 endif
 
 if BEOS_COMPILE
 bindist:
-	$(SHELL) $(srcdir)/src/arch/beos/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
 
 bindistzip:
-	$(SHELL) $(srcdir)/src/arch/beos/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
 endif
 
 if UNIX_QNX_COMPILE
 bindist:
-	$(SHELL) $(srcdir)/src/arch/unix/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
+	$(SHELL) @ARCH_DIR@/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
 endif
 
 if UNIX_SOLARIS_COMPILE
 bindist:
-	$(SHELL) $(srcdir)/src/arch/unix/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
+	$(SHELL) @ARCH_DIR@/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
 endif
 
 if AMIGA_COMPILE
 bindist:
-	$(SHELL) $(srcdir)/src/arch/amigaos/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(EXEEXT)
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(EXEEXT)
 
 bindistzip:
-	$(SHELL) $(srcdir)/src/arch/amigaos/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) zip $(EXEEXT)
+	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) zip $(EXEEXT)
 endif
+

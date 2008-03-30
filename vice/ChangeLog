@@ -1,3 +1,13 @@
+2006-07-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.23.
+
+	* build/mingw32/linux-cross.sh, build/Makefile.am: New files.
+
+	* configure.in, Makefile.am: Added new directory.
+
+	* Makefile.am: Use `ARCH_DIR'.
+
 2006-07-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.22.
