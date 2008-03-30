@@ -94,20 +94,22 @@ struct monitor_interface_s {
     int current_bank;
     const char **(*mem_bank_list)(void);
     int (*mem_bank_from_name)(const char *name);
-    BYTE (*mem_bank_read)(int bank, WORD addr);
-    BYTE (*mem_bank_peek)(int bank, WORD addr);
-    void (*mem_bank_write)(int bank, WORD addr, BYTE byte);
+    BYTE (*mem_bank_read)(int bank, WORD addr, void *context);
+    BYTE (*mem_bank_peek)(int bank, WORD addr, void *context);
+    void (*mem_bank_write)(int bank, WORD addr, BYTE byte, void *context);
 
-    struct mem_ioreg_list_s *(*mem_ioreg_list_get)(void);
+    struct mem_ioreg_list_s *(*mem_ioreg_list_get)(void *context);
 
     /* Pointer to a function to disable/enable watchpoint checking.  */
     /*monitor_toggle_func_t *toggle_watchpoints_func;*/
-    void (*toggle_watchpoints_func)(int value);
+    void (*toggle_watchpoints_func)(int value, void *context);
 
     /* Update bank base (used for drives).  */
-    void (*set_bank_base)(void);
+    void (*set_bank_base)(void *context);
 
     void (*get_line_cycle)(unsigned int *line, unsigned int *cycle);
+
+    void *context;
 };
 typedef struct monitor_interface_s monitor_interface_t;
 

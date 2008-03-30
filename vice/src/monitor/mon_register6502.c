@@ -106,9 +106,9 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
       case e_PC:
         MOS6510_REGS_SET_PC(reg_ptr, val);
         if (mem == e_disk8_space)
-            mon_interfaces[mem]->set_bank_base();
+            mon_interfaces[mem]->set_bank_base(mon_interfaces[mem]->context);
         if (mem == e_disk9_space)
-            mon_interfaces[mem]->set_bank_base();
+            mon_interfaces[mem]->set_bank_base(mon_interfaces[mem]->context);
         break;
       case e_SP:
         MOS6510_REGS_SET_SP(reg_ptr, (BYTE)val);
