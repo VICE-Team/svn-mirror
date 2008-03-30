@@ -32,6 +32,10 @@
 #define check_breakpoints(mem, addr) \
     mon_breakpoint_check_checkpoint(mem, addr, breakpoints[mem])
 
+struct break_list_s;
+
+extern struct break_list_s *breakpoints[NUM_MEMSPACES];
+
 extern void mon_breakpoint_init(void);
 
 extern void mon_breakpoint_switch_checkpoint(int op, int breakpt_num);
@@ -39,10 +43,10 @@ extern void mon_breakpoint_set_ignore_count(int breakpt_num, int count);
 extern void mon_breakpoint_print_checkpoints(void);
 extern void mon_breakpoint_delete_checkpoint(int brknum);
 extern void mon_breakpoint_set_checkpoint_condition(int brk_num,
-                                                    CONDITIONAL_NODE *cnode);
+                                                    struct cond_node_s *cnode);
 extern void mon_breakpoint_set_checkpoint_command(int brk_num, char *cmd);
 extern int mon_breakpoint_check_checkpoint(MEMSPACE mem, ADDRESS addr,
-                                           BREAK_LIST *list);
+                                           struct break_list_s *list);
 extern int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
                                          bool is_trace, bool is_load,
                                          bool is_store, bool is_temp);

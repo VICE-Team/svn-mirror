@@ -3,7 +3,7 @@ typedef union {
         int i;
         REG_ID reg;
         CONDITIONAL cond_op;
-        CONDITIONAL_NODE *cond_node;
+        cond_node_t *cond_node;
         RADIXTYPE rt;
         ACTION action;
         char *str;
