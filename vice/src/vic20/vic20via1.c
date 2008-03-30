@@ -60,6 +60,7 @@
 
 #include "maincpu.h"
 
+#include "datasette.h"
 #include "drive.h"
 #include "kbd.h"
 #include "keyboard.h"
@@ -106,6 +107,8 @@ static void undump_prb(BYTE byte)
 
 inline static void store_prb(BYTE byte, BYTE oldpb, ADDRESS addr)
 {
+    if ((byte ^ oldpb) & 8)
+        datasette_toggle_write_bit((~via1[VIA_DDRB] | byte) & 0x8);
 }
 
 static void undump_pcr(BYTE byte)
