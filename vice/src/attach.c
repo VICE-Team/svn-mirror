@@ -245,10 +245,11 @@ int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
     }
 
     new_image.name = stralloc(filename);
+    new_image.gcr = NULL;
 
     if (disk_image_open(&new_image) < 0) {
         free(new_image.name);
-        log_error(attach_log, "Cannot open file `%s'", filename);
+        log_error(attach_log, "Cannot open file `%s'.", filename);
         return -1;
     }
 
@@ -258,8 +259,8 @@ int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
 
     switch (unit) {
       case 8:
-        vdrive_attach_image(image, 8, floppy);
         drive_attach_image(image, 8);
+        vdrive_attach_image(image, 8, floppy);
         fdc_attach_image(image, 8);
         wd1770_attach_image(image, 8);
         break;
