@@ -789,7 +789,7 @@ inline static void handle_visible_line_with_cache(void)
 
     line = rasterline - SCREEN_BORDERHEIGHT - ysmooth - 1;
 
-    /* Check for `major' changes first.  If there is any, just write straight
+    /* Check for "major" changes first.  If there is any, just write straight
        to the cache without any comparisons and redraw the whole line.  */
     if (l->is_dirty
 	|| dont_cache
