@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2001-05-01 23:23+0200\n"
+"POT-Creation-Date: 2001-05-03 22:29+0200\n"
 "PO-Revision-Date: 2000-12-07 07:35+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "MIME-Version: 1.0\n"
@@ -2421,32 +2421,32 @@ msgstr ""
 msgid "Switch to windowmode"
 msgstr "Växla till fönsterläge"
 
-#: src/arch/unix/x11/kbd.c:114
+#: src/arch/unix/x11/kbd.c:118
 #, c-format
 msgid "Cannot load keymap `%s'."
 msgstr "Kan inte ladda tangentbordsbeskrivning \"%s\"."
 
-#: src/arch/unix/x11/kbd.c:115
+#: src/arch/unix/x11/kbd.c:119
 msgid "(null)"
 msgstr "(null)"
 
-#: src/arch/unix/x11/kbd.c:136
+#: src/arch/unix/x11/kbd.c:140
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
 msgstr ""
 "Ange index för för tangentbordsinställningsfil (0=symbolisk, "
 "1=positionsriktig)"
 
-#: src/arch/unix/x11/kbd.c:356
+#: src/arch/unix/x11/kbd.c:360
 #, c-format
 msgid "Could not find KeySym `%s'!"
 msgstr "Kunde inte hitta tangentbordssymbol \"%s\"!"
 
-#: src/arch/unix/x11/kbd.c:410
+#: src/arch/unix/x11/kbd.c:417
 #, c-format
 msgid "Bad row/column value (%d/%d) for keysym `%s'."
 msgstr "Fel rad-/kolumnvärde (%d/%d) för tangentbordssymbol \"%s\"."
 
-#: src/arch/unix/x11/kbd.c:434
+#: src/arch/unix/x11/kbd.c:441
 #, c-format
 msgid "Loading keymap `%s'."
 msgstr "Laddar tangentbordsinställning \"%s\"."

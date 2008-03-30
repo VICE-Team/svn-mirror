@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2001-05-01 23:23+0200\n"
+"POT-Creation-Date: 2001-05-03 22:29+0200\n"
 "PO-Revision-Date: 2000-12-01 21:31+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -2397,30 +2397,30 @@ msgstr ""
 msgid "Switch to windowmode"
 msgstr "Umschalten auf Fenster Modus"
 
-#: src/arch/unix/x11/kbd.c:114
+#: src/arch/unix/x11/kbd.c:118
 #, c-format
 msgid "Cannot load keymap `%s'."
 msgstr "Kann Keymap Datei `%s' nicht laden."
 
-#: src/arch/unix/x11/kbd.c:115
+#: src/arch/unix/x11/kbd.c:119
 msgid "(null)"
 msgstr "(null)"
 
-#: src/arch/unix/x11/kbd.c:136
+#: src/arch/unix/x11/kbd.c:140
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
 msgstr "Index für Kymap Datei festlegen (0=symbol, 1=positional)"
 
-#: src/arch/unix/x11/kbd.c:356
+#: src/arch/unix/x11/kbd.c:360
 #, c-format
 msgid "Could not find KeySym `%s'!"
 msgstr "Kann Key Symbol `%s' nicht finden!"
 
-#: src/arch/unix/x11/kbd.c:410
+#: src/arch/unix/x11/kbd.c:417
 #, c-format
 msgid "Bad row/column value (%d/%d) for keysym `%s'."
 msgstr "Falsche Wert für Zeile/Spalte (%d/%d) Bei Key Symbol `%s'."
 
-#: src/arch/unix/x11/kbd.c:434
+#: src/arch/unix/x11/kbd.c:441
 #, c-format
 msgid "Loading keymap `%s'."
 msgstr "Lade Keymap `%s'."
