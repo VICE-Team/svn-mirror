@@ -32,13 +32,15 @@
 
 /* 16 color 2x2 renderers */
 
-void render_08_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
+void render_08_2x2_04(const video_render_color_tables_t *color_tab,
+                      const BYTE *src, BYTE *trg,
                       unsigned int width, const unsigned int height,
                       const unsigned int xs, const unsigned int ys,
                       const unsigned int xt, const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
                       const unsigned int doublescan)
 {
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     WORD *tmptrg;
     unsigned int x, y, wfirst, wstart, wfast, wend, wlast, yys;
@@ -123,13 +125,15 @@ void render_08_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
     }
 }
 
-void render_16_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
+void render_16_2x2_04(const video_render_color_tables_t *color_tab,
+                      const BYTE *src, BYTE *trg,
                       unsigned int width, const unsigned int height,
                       const unsigned int xs, const unsigned int ys,
                       const unsigned int xt, const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
                       const unsigned int doublescan)
 {
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     DWORD *tmptrg;
     unsigned int x, y, wfirst, wstart, wfast, wend, wlast, yys;
@@ -214,13 +218,15 @@ void render_16_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
     }
 }
 
-void render_24_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
+void render_24_2x2_04(const video_render_color_tables_t *color_tab,
+                      const BYTE *src, BYTE *trg,
                       unsigned int width, const unsigned int height,
                       const unsigned int xs, const unsigned int ys,
                       const unsigned int xt, const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
                       const unsigned int doublescan)
 {
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     BYTE *tmptrg;
     unsigned int x, y, wfirst, wstart, wfast, wend, wlast, yys;
@@ -409,13 +415,15 @@ void render_24_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
     }
 }
 
-void render_32_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
+void render_32_2x2_04(const video_render_color_tables_t *color_tab,
+                      const BYTE *src, BYTE *trg,
                       unsigned int width, const unsigned int height,
                       const unsigned int xs, const unsigned int ys,
                       const unsigned int xt, const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
                       const unsigned int doublescan)
 {
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     DWORD *tmptrg;
     unsigned int x, y, wfirst, wstart, wfast, wend, wlast, yys;
@@ -533,13 +541,15 @@ void render_32_2x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
 
 /* 256 color 2x2 renderers */
 
-void render_08_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
+void render_08_2x2_08(const video_render_color_tables_t *color_tab,
+                      const BYTE *src, BYTE *trg,
                       unsigned int width, const unsigned int height,
                       const unsigned int xs,const unsigned int ys,
                       const unsigned int xt,const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
                       const unsigned int doublescan)
 {
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *pre;
     const BYTE *tmppre;
     const BYTE *tmpsrc;
@@ -632,13 +642,15 @@ void render_08_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
     }
 }
 
-void render_16_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
+void render_16_2x2_08(const video_render_color_tables_t *color_tab,
+                      const BYTE *src, BYTE *trg,
                       unsigned int width, const unsigned int height,
                       const unsigned int xs, const unsigned int ys,
                       const unsigned int xt, const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
                       const unsigned int doublescan)
 {
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *pre;
     const BYTE *tmppre;
     const BYTE *tmpsrc;
@@ -731,13 +743,15 @@ void render_16_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
     }
 }
 
-void render_24_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
+void render_24_2x2_08(const video_render_color_tables_t *color_tab,
+                      const BYTE *src, BYTE *trg,
                       unsigned int width, const unsigned int height,
                       const unsigned int xs, const unsigned int ys,
                       const unsigned int xt, const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
                       const unsigned int doublescan)
 {
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *pre;
     const BYTE *tmppre;
     const BYTE *tmpsrc;
@@ -933,13 +947,15 @@ void render_24_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
     }
 }
 
-void render_32_2x2_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
+void render_32_2x2_08(const video_render_color_tables_t *color_tab,
+                      const BYTE *src, BYTE *trg,
                       unsigned int width, const unsigned int height,
                       const unsigned int xs, const unsigned int ys,
                       const unsigned int xt, const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
                       const unsigned int doublescan)
 {
+    const DWORD *colortab = color_tab->physical_colors;
     const BYTE *pre;
     const BYTE *tmppre;
     const BYTE *tmpsrc;
