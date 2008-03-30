@@ -41,6 +41,7 @@ typedef struct debug_s {
 extern debug_t debug;
 
 extern int debug_resources_init(void);
+extern int debug_init_cmdline_options(void);
 
 #endif
 
