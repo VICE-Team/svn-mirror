@@ -41,6 +41,7 @@
 #include "kbd.h"
 #include "log.h"
 #include "maincpu.h"
+#include "romset.h"
 #include "sound.h"
 #include "tape.h"
 #include "tui.h"
@@ -76,6 +77,7 @@ tui_menu_t ui_joystick_settings_submenu;
 tui_menu_t ui_main_menu;
 tui_menu_t ui_quit_submenu;
 tui_menu_t ui_reset_submenu;
+tui_menu_t ui_rom_submenu;
 tui_menu_t ui_sound_buffer_size_submenu;
 tui_menu_t ui_sound_sample_rate_submenu;
 tui_menu_t ui_sound_submenu;
@@ -422,11 +424,11 @@ static tui_menu_item_def_t drive##num##_type_submenu[] = {                \
       "Emulate a 1541-II 5\"1/4 single-sided disk drive as unit #" #num,  \
       radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_1541II, 0,     \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "_1571, 5\"1/4 DS",                                                 \
+    { "15_71, 5\"1/4 DS",                                                 \
       "Emulate a 1571 5\"1/4 double-sided disk drive as unit #" #num,     \
       radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_1571, 0,       \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "_1581, 3\"1/2 DS",                                                 \
+    { "15_81, 3\"1/2 DS",                                                 \
       "Emulate a 1581 3\"1/2 double-sided disk drive as unit #" #num,     \
       radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_1581, 0,       \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
@@ -975,6 +977,64 @@ static tui_menu_item_def_t double_joystick_submenu[] = {
       "Configure keyboard set B for joystick emulation",
       NULL, NULL, 0,
       TUI_MENU_BEH_CONTINUE, keyset_2_submenu, "Keyset B" },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
+static TUI_MENU_CALLBACK(set_romset_callback)
+{
+    if (been_activated) {
+        romset_load((char *)param);
+    }
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(load_romset_callback)
+{
+    if (been_activated) {
+        char *name;
+
+        name = tui_file_selector("Load custom ROM set definition",
+                                 NULL, "*.vrs", NULL, NULL, NULL);
+
+        if (name != NULL) {
+            if (romset_load(name) < 0)
+                ui_error("Could not load ROM set file '%s'", name);
+            free(name);
+        }
+    }
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(dump_romset_callback)
+{
+    if (been_activated) {
+        char name[GET_PATH_MAX];
+        memset(name, 0, GET_PATH_MAX);
+
+        tui_input_string("Dump ROM set definition", "Enter file name:",
+                         name, GET_PATH_MAX);
+        remove_spaces(name);
+
+        romset_dump(name, mem_romset_resources_list);
+    }
+    return NULL;
+}
+
+static tui_menu_item_def_t rom_submenu[] = {
+    { "_Default ROM set",
+      "Load default ROM set file",
+      set_romset_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Custom ROM set",
+      "Load custom ROM set from a *.vrs file",
+      load_romset_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Save ROM set",
+      "Save ROM set definition to a *.vrs file",
+      dump_romset_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
 
@@ -1657,6 +1717,16 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
             tui_menu_add(ui_joystick_settings_submenu,
                          single_joystick_submenu);
     }
+
+/*
+    ui_rom_submenu = tui_menu_create("Firmware ROM Settings", 1);
+
+    tui_menu_add(ui_rom_submenu, rom_submenu);
+    tui_menu_add_submenu(ui_main_menu, "_ROM Settings...",
+             "Firmware ROMs the emulator is using",
+             ui_rom_submenu, NULL, 0,
+             TUI_MENU_BEH_CONTINUE);
+*/
 
     create_special_submenu(has_serial_traps);
 
