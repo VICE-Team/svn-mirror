@@ -66,22 +66,19 @@ static int set_pattern_invert(resource_value_t v, void *param)
 
 
 /* RAM-related resources. */
-static const resource_t resources[] = {
-    { "RAMInitStartValue", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&start_value, set_start_value, NULL },
-    { "RAMInitValueInvert", RES_INTEGER, (resource_value_t)64,
-      RES_EVENT_SAME, NULL,
-      (void *)&value_invert, set_value_invert, NULL },
-    { "RAMInitPatternInvert", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&pattern_invert, set_pattern_invert, NULL },
+static const resource_int_t resources_int[] = {
+    { "RAMInitStartValue", 0, RES_EVENT_SAME, NULL,
+      &start_value, set_start_value, NULL },
+    { "RAMInitValueInvert", 64, RES_EVENT_SAME, NULL,
+      &value_invert, set_value_invert, NULL },
+    { "RAMInitPatternInvert", 0, RES_EVENT_SAME, NULL,
+      &pattern_invert, set_pattern_invert, NULL },
     { NULL }
 };
 
 int ram_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 #ifdef HAS_TRANSLATION
