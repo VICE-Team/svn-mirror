@@ -5,6 +5,9 @@
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
  *
+ * Turned into a template definition file by
+ *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -66,7 +69,7 @@ MACHINE_STUFF()
 
 /* Print a message whenever a program attempts to execute instructions fetched
    from the I/O area.  */
-#  undef IO_AREA_WARNING
+# undef IO_AREA_WARNING
 
 /* Run without interpreting opcodes (just fetch them from memory).  */
 # undef NO_OPCODES
@@ -118,9 +121,11 @@ MACHINE_STUFF()
 PRE_CPU_FUNCS()
 {
 
+#ifdef EVALUATE_SPEED
+
 #include <sys/time.h>
 
-#  define EVALUATE_INTERVAL	10000000L
+#define EVALUATE_INTERVAL	10000000L
 
 #ifdef WIN32
 #undef BYTE
@@ -145,7 +150,7 @@ inline static void evaluate_speed(unsigned long clk)
         diff_time=current_time-old_time;
         diff_sec=diff_time/1000.0;
 	if (old_clk)
-	    fprintf (logfile, "%ld cycles in %f seconds: %f%% speed\n",
+	    log_debug ("%ld cycles in %f seconds: %f%% speed\n",
 		    clk - old_clk, diff_sec,
 		    100.0 * (((double)(clk - old_clk)
 			      / diff_sec) / 1108405.0));
@@ -177,38 +182,37 @@ inline static void evaluate_speed(unsigned long clk)
 	old_time = current_time;
     }
 #else
-    /* Sorry can't evaluate performance */
+    /* Sorry, can't evaluate performance.  */
     return;
 #endif
 #endif
 }
 
+#endif /* EVALUATE_SPEED */
+ 
 }	/* end of PRE_CPU_FUNCS */
 
 /* ------------------------------------------------------------------------- */
 
 PRE_CPU_LOOP()
 {
-
 #ifdef INSTRUCTION_FETCH_HACK
     BYTE *bank_base;
 #endif
-
 }
 
 /* ------------------------------------------------------------------------- */
 
 CPU_LOOP_STUFF()
 {
-
 #ifdef EVALUATE_SPEED
-	evaluate_speed(clk);
+    evaluate_speed(clk);
 #endif /* !EVALUATE_SPEED */
 
 #ifdef IO_AREA_WARNING
-	if (!bank_base)
-	    fprintf (logfile, "Executing from I/O area at $%04X: "
-		    "$%02X $%02X $%04X at clk %ld\n", reg_pc, p0, p1, p2, clk);
+    if (!bank_base)
+        log_debug ("Main CPU: Executing from I/O area at $%04X: "
+                   "$%02X $%02X $%04X at clk %ld\n",
+                   reg_pc, p0, p1, p2, clk);
 #endif
-
 } 	/* end of CPU_LOOP_STUFF */
