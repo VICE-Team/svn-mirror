@@ -38,15 +38,16 @@
 #include "log.h"
 #include "monitor.h"
 #include "signals.h"
+#include "ui.h"
 
 
 static RETSIGTYPE break64(int sig)
 {
 #ifdef SYS_SIGLIST_DECLARED
-    log_message(LOG_DEFAULT, "Received signal %d (%s).",
+    ui_error("An unexpected error occured. Received signal %d (%s).",
                 sig, sys_siglist[sig]);
 #else
-    log_message(LOG_DEFAULT, "Received signal %d.", sig);
+    ui_error("An unexpected error occured. Received signal %d.", sig);
 #endif
 
     exit(-1);
@@ -60,6 +61,7 @@ void signals_init(int do_core_dumps)
     if (!do_core_dumps) {
         signal(SIGSEGV, break64);
         signal(SIGILL, break64);
+        signal(SIGFPE, break64);
     }
 }
 

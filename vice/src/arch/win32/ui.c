@@ -1248,15 +1248,14 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_EVENT_RESETMILESTONE | 0x00010000:
         uievent_command(hwnd, wparam);
         break;
+      case IDM_NETWORK_DISCONNECT:
+        network_disconnect();
+        break;
       case IDM_NETWORK_SERVER:
-#ifdef HAVE_NETWORK
         network_start_server();
-#endif
         break;
       case IDM_NETWORK_CLIENT:
-#ifdef HAVE_NETWORK
         network_connect_client();
-#endif
         break;
       case IDM_RS232_SETTINGS:
         ui_rs232_settings_dialog(hwnd);

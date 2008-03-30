@@ -92,15 +92,16 @@ static char *ui_save_snapshot(const TCHAR *title, const char *filter,
     TCHAR name[1024] = TEXT("");
     OPENFILENAME ofn;
     char *ret = NULL;
-    TCHAR *st_filter;
+    /* TCHAR *st_filter; */
 
-    st_filter = system_mbstowcs_alloc(filter);
+    /* FIXME: filter is a list of string pairs; system_mbstowcs doesn't work */
+    /* st_filter = system_mbstowcs_alloc(filter); */
 
     memset(&ofn, 0, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = hwnd;
     ofn.hInstance = winmain_instance;
-    ofn.lpstrFilter = st_filter;
+    ofn.lpstrFilter = filter;
     ofn.lpstrCustomFilter = NULL;
     ofn.nMaxCustFilter = 0;
     ofn.nFilterIndex = 1;

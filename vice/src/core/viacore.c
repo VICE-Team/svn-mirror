@@ -214,6 +214,7 @@ void viacore_disable(via_context_t *via_context)
 {
     alarm_unset(via_context->t1_alarm);
     alarm_unset(via_context->t2_alarm);
+    via_context->enabled = 0;
 }
 
 /*
@@ -265,6 +266,8 @@ void viacore_reset(via_context_t *via_context)
 
     if (via_context && via_context->reset)
         (via_context->reset)(via_context);
+
+    via_context->enabled = 1;
 }
 
 void viacore_signal(via_context_t *via_context, int line, int edge)
@@ -822,6 +825,9 @@ static void viacore_clk_overflow_callback(CLOCK sub, void *data)
     via_context_t *via_context;
 
     via_context = (via_context_t *)data;
+
+    if (via_context->enabled == 0)
+        return;
 
     t = (via_context->tau - (*(via_context->clk_ptr) + sub)) & 0xffff;
     via_context->tau = *(via_context->clk_ptr) + t;

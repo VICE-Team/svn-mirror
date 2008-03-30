@@ -287,7 +287,7 @@
 
 
 #ifndef YYSTYPE
-#line 108 "mon_parse.y"
+#line 110 "mon_parse.y"
 typedef union {
     MON_ADDR a;
     int i;

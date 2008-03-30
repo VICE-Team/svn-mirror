@@ -68,11 +68,9 @@ static CLOCK joystick_delay;
 
 static void joystick_latch_matrix(CLOCK offset)
 {
-#ifdef HAVE_NETWORK
     if (network_connected())
         memcpy(joystick_value, network_joystick_value, sizeof(joystick_value));
     else
-#endif
         memcpy(joystick_value, latch_joystick_value, sizeof(joystick_value));
     ui_display_joyport(joystick_value);
 }
@@ -99,9 +97,7 @@ static void joystick_latch_handler(CLOCK offset, void *data)
 
     joystick_latch_matrix(offset);
 
-#ifdef HAVE_NETWORK
     if (!network_connected())
-#endif
         joystick_event_record(); 
 }
 
@@ -118,7 +114,6 @@ void joystick_register_delay(unsigned int delay)
 /*-----------------------------------------------------------------------*/
 static void joystick_process_latch(void)
 {
-#ifdef HAVE_NETWORK
     if (network_connected()) {
         CLOCK joystick_delay = JOYSTICK_RAND();
         network_event_record(EVENT_JOYSTICK_DELAY,
@@ -127,7 +122,6 @@ static void joystick_process_latch(void)
                 (void *)latch_joystick_value, sizeof(latch_joystick_value));
     } 
     else
-#endif
     {
         alarm_set(joystick_alarm, maincpu_clk + JOYSTICK_RAND());
     }

@@ -65,6 +65,8 @@ typedef struct riot_context_s {
     CLOCK *clk_ptr;
     int *rmw_flag;
 
+    int enabled;
+
     void *prv;
     void *context;
 

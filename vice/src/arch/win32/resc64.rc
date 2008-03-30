@@ -145,8 +145,10 @@ BEGIN
         MENUITEM "Select History files/directory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
-        MENUITEM "Start server", IDM_NETWORK_SERVER
-        MENUITEM "Start client", IDM_NETWORK_CLIENT
+        MENUITEM SEPARATOR
+        MENUITEM "Start server...", IDM_NETWORK_SERVER
+        MENUITEM "Connect client...", IDM_NETWORK_CLIENT
+        MENUITEM "Disconnect", IDM_NETWORK_DISCONNECT
     END
     POPUP "&Options"
     BEGIN

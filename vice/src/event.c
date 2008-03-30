@@ -257,11 +257,8 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
 {
     void *event_data = NULL;
 
-    if (record_active == 0)
-#ifdef HAVE_NETWORK
-        if (!network_connected())
-#endif
-            return;
+    if (record_active == 0 && !network_connected())
+        return;
 
     /*log_debug("EVENT RECORD %i CLK %i", type, maincpu_clk);*/
 

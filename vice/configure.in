@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=17
-VICE_VERSION_BUILD=5
+VICE_VERSION_BUILD=6
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -48,6 +48,7 @@ AC_CANONICAL_HOST
 dnl Command-line options
 
 AC_ARG_ENABLE(textfield,[  --disable-textfield     disable enhanced text field widget])
+AC_ARG_ENABLE(zlibtest,[  --disable-zlibtest      disable zlib test])
 AC_ARG_WITH(xaw3d, [  --with-xaw3d            use Xaw3d library instead of plain Xaw])
 AC_ARG_WITH(readline, [  --without-readline      do not try to use the system's readline library])
 AC_ARG_WITH(midas, [  --with-midas            use MIDAS sound system instead of Allegro for audio])
@@ -79,6 +80,12 @@ fi
 
 user_cflags=$CFLAGS
 AC_PROG_CC
+
+if test x"$host_os" = "xminixvmd"; then
+  AR="\$(top_srcdir)/src/arch/unix/minix/minix-ar.sh"
+  AC_DEFINE(MINIXVMD,,[are we compiling under Minix-Vmd])
+  CFLAGS="$CFLAGS -I/usr/include/bsdcompat"
+fi
 
 dnl Setup DJGPP crosscompiling.
 
@@ -135,7 +142,7 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
   AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
   AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
-  AC_DEFINE(HAVE_NETWORK,,[Enable network support])
+  AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
 
   AC_TRY_LINK([#include <windows.h>],
               [LARGE_INTEGER li; return (int) li.QuadPart],
@@ -241,7 +248,6 @@ fi
 
 AM_CONDITIONAL(USE_MIDAS_SOUND, test x"$with_midas" = "xyes")
 AM_CONDITIONAL(DOS_OR_WIN, test x"$is_dos" = "xyes" -o x"$is_win32" = "xyes")
-AM_CONDITIONAL(HAVE_NETWORK, test x"$is_win32" = "xyes")
 
 dnl Check for needed external programs.
 
@@ -616,10 +622,13 @@ VICE_ZLIB_INCLUDES=
 if test x"$with_zlib" != "xno" ; then
   AC_CHECK_HEADER(zlib.h,,)
   if test x"$ac_cv_header_zlib_h" = "xyes" ; then
-    AC_CHECK_LIB(z, zlibVersion,
+    ac_cv_lib_z_zlibVersion=yes
+    if test x"$enable_zlibtest" != "xno" ; then
+      AC_CHECK_LIB(z, zlibVersion,
                  [ LIBS="-lz $LIBS";
                    AC_DEFINE(HAVE_ZLIB,,
                              [Can we use the ZLIB compression library?]) ],,)
+    fi
   fi
   if test x"$ac_cv_lib_z_zlibVersion" != "xyes"; then
     AC_DEFINE(HAVE_ZLIB,, [Can we use the ZLIB compression library?])
@@ -635,6 +644,39 @@ AC_SUBST(VICE_ZLIB_DIR)
 AC_SUBST(VICE_ZLIB_DEP)
 AC_SUBST(VICE_ZLIB_INCLUDES)
 
+
+dnl Configure unix and msdos netplay support
+
+if test x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
+
+  dnl Check for needed network headers
+
+  UNIX_NETWORK_HEADERS_PRESENT=yes
+  AC_CHECK_HEADERS(sys/types.h unistd.h sys/socket.h sys/time.h sys/select.h netinet/in.h arpa/inet.h netdb.h,,
+                   [UNIX_NETWORK_HEADERS_PRESENT=no],)
+
+  if test x"$UNIX_NETWORK_HEADERS_PRESENT" = "xyes"; then
+
+    dnl Check for possible extra needed network libraries
+
+    AC_CHECK_LIB(nsl, gethostbyname,[ LIBS="-lnsl $LIBS"],,)
+    AC_CHECK_LIB(socket, gethostbyname,[ LIBS="-lsocket $LIBS"],,)
+    AC_CHECK_LIB(bsd, gethostbyname,[ LIBS="-lbsd $LIBS"],,)
+    AC_CHECK_LIB(watt, gethostbyname,[ LIBS="-lwatt $LIBS"],,)
+
+    dnl Check for needed functions
+
+    UNIX_NETWORK_FUNCS_PRESENT=yes
+
+    AC_CHECK_FUNCS(socket send htons htonl bind listen gethostbyname connect recv accept,,
+                   [UNIX_NETWORK_FUNCS_PRESENT=no],)
+
+    if test x"$UNIX_NETWORK_FUNCS_PRESENT" = "xyes"; then
+      AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
+    fi
+  fi
+fi
+
 dnl Configure sound drivers
 
 SOUND_DRIVERS=""
@@ -649,8 +691,7 @@ fi
 if test x"$is_dos" = "xyes" ; then
   if test x"$enable_ethernet" = "xyes"; then
     AC_CHECK_LIB(watt, gethostbyname,
-                 [ LIBS="-lwatt $LIBS";
-                   AC_DEFINE(DOS_TCP,,
+                 [ AC_DEFINE(DOS_TCP,,
                              [Can we use the dos WATTCP library?]) ],,)
     AC_CHECK_LIB(pcap, pcap_open_live,
                  [ AC_DEFINE(DOS_TFE,,

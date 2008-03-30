@@ -95,5 +95,9 @@ int yyparse (void);
 #undef __GNUC__
 #endif
 
+#ifdef MINIXVMD
+#undef vfork
+#endif
+
 #endif
 

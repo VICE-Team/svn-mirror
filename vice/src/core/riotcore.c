@@ -98,6 +98,9 @@ static void riotcore_clk_overflow_callback(CLOCK sub, void *data)
 
     riot_context = (riot_context_t *)data;
 
+    if (riot_context->enabled == 0)
+        return;
+
     update_timer(riot_context);
 
     riot_context->r_write_clk -= sub;
@@ -111,6 +114,7 @@ static void riotcore_clk_overflow_callback(CLOCK sub, void *data)
 void riotcore_disable(riot_context_t *riot_context)
 {
     alarm_unset(riot_context->alarm);
+    riot_context->enabled = 0;
 }
 
 void riotcore_reset(riot_context_t *riot_context)
@@ -138,6 +142,8 @@ void riotcore_reset(riot_context_t *riot_context)
     riot_context->r_irqen = 0;
 
     riot_context->reset(riot_context);
+
+    riot_context->enabled = 1;
 }
 
 void REGPARM3 riotcore_store(riot_context_t *riot_context, WORD addr, BYTE byte)

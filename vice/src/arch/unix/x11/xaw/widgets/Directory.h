@@ -26,6 +26,11 @@
 #ifndef _FWF_DIRECTORY_H_
 #define _FWF_DIRECTORY_H_
 
+#ifdef MINIXVMD
+#undef NAME_MAX
+#define NAME_MAX 60
+#endif
+
 #include <stdio.h>
 #include <string.h>
 #include <sys/param.h>

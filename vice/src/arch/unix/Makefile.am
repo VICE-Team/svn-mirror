@@ -151,7 +151,7 @@ libarch_a_SOURCES = \
 
 bin_SCRIPTS = vsid
 
-EXTRA_DIST = vsid
+EXTRA_DIST = vsid minix/minix-ar.sh
 
 .PHONY: x11
 x11:

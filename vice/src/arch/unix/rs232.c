@@ -351,7 +351,14 @@ int rs232_getc(int fd, BYTE * b)
     FD_ZERO(&rdset);
     FD_SET(fds[fd].fd_r, &rdset);
     ti.tv_sec = ti.tv_usec = 0;
+
+#ifndef MINIXVMD
+    /* for now this change will break rs232 support on Minix-vmd
+       till I can implement the same functionality using the
+       poll() function */
+
     ret = select(fds[fd].fd_r + 1, &rdset, NULL, NULL, &ti);
+#endif
 
     if (ret && (FD_ISSET(fds[fd].fd_r, &rdset))) {
         n = read(fds[fd].fd_r, b, 1);

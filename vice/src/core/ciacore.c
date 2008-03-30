@@ -207,6 +207,9 @@ static void ciacore_clk_overflow_callback(CLOCK sub, void *data)
 
     cia_context = (cia_context_t *)data;
 
+    if (cia_context->enabled == 0)
+        return;
+
     /* we assume that sub has already been substracted from myclk */
     cia_update_ta(cia_context, *(cia_context->clk_ptr) + sub);
     cia_update_tb(cia_context, *(cia_context->clk_ptr) + sub);
@@ -234,6 +237,7 @@ void ciacore_disable(cia_context_t *cia_context)
     alarm_unset(cia_context->ta_alarm);
     alarm_unset(cia_context->tb_alarm);
     alarm_unset(cia_context->tod_alarm);
+    cia_context->enabled = 0;
 }
 
 
@@ -273,6 +277,7 @@ void ciacore_reset(cia_context_t *cia_context)
     cia_context->old_pb = 0xff;
 
     (cia_context->do_reset_cia)(cia_context);
+    cia_context->enabled = 1;
 }
 
 

@@ -239,8 +239,15 @@ static void pet_monitor_init(void)
 {
     unsigned int dnr;
     monitor_cpu_type_t asm6502;
-    monitor_cpu_type_t *asmarray[2] = { &asm6502, NULL };
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
+
+#ifdef MINIXVMD
+    monitor_cpu_type_t *asmarray[2];
+    asmarray[0]=&asm6502;
+    asmarray[1]=NULL;
+#else
+    monitor_cpu_type_t *asmarray[2] = { &asm6502, NULL };
+#endif
 
     asm6502_init(&asm6502);
 

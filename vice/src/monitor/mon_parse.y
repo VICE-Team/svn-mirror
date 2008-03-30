@@ -29,6 +29,7 @@
 %{
 #include "vice.h"
 
+#ifndef MINIXVMD
 #ifdef __GNUC__
 #undef alloca
 #define        alloca(n)       __builtin_alloca (n)
@@ -45,6 +46,7 @@ extern char *alloca();
 #endif /* Not AIX and not WINCE.  */
 #endif /* HAVE_ALLOCA_H.  */
 #endif /* GCC.  */
+#endif /* MINIXVMD */
 
 #include <assert.h>
 #include <stdio.h>
@@ -479,7 +481,7 @@ memspace: MEM_COMP { $$ = e_comp_space; }
         ;
 
 cputype : CPUTYPE_6502 { $$ = CPU_6502; }
-        | CPUTYPE_Z80 { $$ = CPU_Z80 }
+        | CPUTYPE_Z80 { $$ = CPU_Z80; }
         ;
 
 memloc: memaddr { $$ = $1; if (!CHECK_ADDR($1)) return ERR_ADDR_TOO_BIG; };

@@ -9,7 +9,8 @@ doc_DATA = \
 	ReadmeMacOSX.txt \
 	Win32-Howto.txt \
 	iec-bus.txt \
-	mon.txt
+	mon.txt \
+	MinixVmd-Howto.txt
 
 info_TEXINFOS = \
 	vice.texi

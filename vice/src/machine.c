@@ -117,11 +117,9 @@ void machine_trigger_reset(const unsigned int mode)
     if (event_playback_active())
         return;
 
-#ifdef HAVE_NETWORK
     if (network_connected())
         network_event_record(EVENT_RESETCPU, (void *)&mode, sizeof(mode));
     else
-#endif
         event_record(EVENT_RESETCPU, (void *)&mode, sizeof(mode));
 
     machine_trigger_reset_internal(mode);
@@ -237,9 +235,7 @@ void machine_shutdown(void)
 
     event_shutdown();
 
-#ifdef HAVE_NETWORK
     network_shutdown();
-#endif
 
     fsdevice_resources_shutdown();
     disk_image_resources_shutdown();

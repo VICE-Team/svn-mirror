@@ -27,12 +27,38 @@
 
 #include "vice.h"
 
-#ifdef HAVE_NETWORK
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef HAVE_NETWORK
+#ifdef WIN32
 #include <winsock.h>
+#else
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/select.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <netdb.h>
+
+typedef unsigned int SOCKET;
+typedef struct timeval TIMEVAL;
+
+#define closesocket close
+
+#ifndef INVALID_SOCKET
+#define INVALID_SOCKET (SOCKET)(~0)
+#endif
+
+#ifndef SOCKET_ERROR
+#define SOCKET_ERROR (-1)
+#endif
+
+#endif /* WIN32 */
+#endif /* HAVE_NETWORK */
 
 #include "archdep.h"
 #include "event.h"
@@ -50,6 +76,7 @@
 #include "util.h"
 #include "vsync.h"
 
+#ifdef HAVE_NETWORK
 static enum {
     NETWORK_IDLE,
     NETWORK_SERVER,
@@ -104,16 +131,20 @@ static const resource_t resources[] = {
       set_frame_delta, NULL },
     { NULL }
 };
-
+#endif
 
 int network_resources_init(void)
 {
+#ifdef HAVE_NETWORK
     return resources_register(resources);
+#else
+    return 0;
+#endif
 }
 /*---------------------------------------------------------------------*/
 
-
-int network_init(void)
+#ifdef HAVE_NETWORK
+static int network_init(void)
 {
     if (network_init_done)
         return 0;
@@ -168,13 +199,6 @@ static void network_prepare_next_frame(void)
     event_register_event_list(&(frame_event_list[current_frame]));
     network_event_record_sync_test();
 }
-
-void network_event_record(unsigned int type, void *data, unsigned int size)
-{
-    event_record_in_list(&(frame_event_list[current_frame]), type, data, size);
-}
-
-
 static unsigned int network_create_event_buffer(char **buf, event_list_state_t *list)
 {
     int size;
@@ -237,16 +261,6 @@ static event_list_state_t *network_create_event_list(char *remote_event_buffer)
     } while (type != EVENT_LIST_END);
 
     return list;
-}
-/*-------------------------------------------------------------------------*/
-
-int network_connected(void)
-{
-    if (network_mode == NETWORK_SERVER_CONNECTED 
-        || network_mode ==  NETWORK_CLIENT)
-        return 1;
-    else
-        return 0;
 }
 
 static void network_server_connect_trap(WORD addr, void *data)
@@ -315,13 +329,38 @@ static void network_client_connect_trap(WORD addr, void *data)
     /* ui_error("Client connected"); */
     lib_free(filename);
 }
-                        
+#endif
+/*-------------------------------------------------------------------------*/
+
+void network_event_record(unsigned int type, void *data, unsigned int size)
+{
+#ifdef HAVE_NETWORK
+    event_record_in_list(&(frame_event_list[current_frame]), type, data, size);
+#endif
+}
+
+int network_connected(void)
+{
+#ifdef HAVE_NETWORK
+    if (network_mode == NETWORK_SERVER_CONNECTED 
+        || network_mode ==  NETWORK_CLIENT)
+        return 1;
+    else
+        return 0;
+#else
+    return 0;
+#endif
+}
 
 int network_start_server(void)
 {
+#ifdef HAVE_NETWORK
     struct sockaddr_in server_addr;
 
     if (network_init() < 0)
+        return -1;
+
+    if (network_mode != NETWORK_IDLE)
         return -1;
 
     server_addr.sin_port = htons(server_port);
@@ -349,11 +388,15 @@ int network_start_server(void)
     vsync_suspend_speed_eval();
 
     return 0;
+#else
+    return 0;
+#endif
 } 
 
 
 int network_connect_client(void)
 {
+#ifdef HAVE_NETWORK
     struct sockaddr_in server_addr;
     struct hostent *server_hostent;
     FILE *f;
@@ -361,11 +404,14 @@ int network_connect_client(void)
     long buf_size;
     char *directory, *filename;
 
-    resources_get_value("EventSnapshotDir", (void *)&directory);
-    filename = util_concat(directory, "client", FSDEV_EXT_SEP_STR, "vsf", NULL);
-
     if (network_init() < 0)
         return -1;
+
+    if (network_mode != NETWORK_IDLE)
+        return -1;
+
+    resources_get_value("EventSnapshotDir", (void *)&directory);
+    filename = util_concat(directory, "client", FSDEV_EXT_SEP_STR, "vsf", NULL);
 
     server_hostent = gethostbyname(server_name);
     if (server_hostent == NULL) {
@@ -377,18 +423,26 @@ int network_connect_client(void)
     server_addr.sin_addr = *(struct in_addr *)server_hostent->h_addr_list[0];
 
     network_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (network_socket == INVALID_SOCKET)
+    if (network_socket == INVALID_SOCKET) {
+        lib_free(filename);
         return -1;
+    }
 
     if(connect(network_socket, (struct sockaddr *)&server_addr, 
         sizeof(server_addr)) == SOCKET_ERROR)
     {
         closesocket(network_socket);
+        ui_error("Cannot connect to %s (no server running on port %d).",
+                    server_name, server_port);
+        lib_free(filename);
         return -1;
     }
 
     if (recv(network_socket, (char*)&buf_size, sizeof(long), 0) != sizeof(long))
+    {
+        lib_free(filename);
         return -1;
+    }
 
     buf = lib_malloc(buf_size);
 
@@ -401,6 +455,7 @@ int network_connect_client(void)
         lib_free(filename);
         return -1;
     }
+
     fwrite(buf, 1, buf_size, f);
     fclose(f);
     lib_free(buf);
@@ -410,11 +465,23 @@ int network_connect_client(void)
     vsync_suspend_speed_eval();
 
     return 0;
+#else
+    return 0;
+#endif
 }
 
+void network_disconnect(void)
+{
+#ifdef HAVE_NETWORK
+    closesocket(network_socket);
+    closesocket(listen_socket);
+    network_mode = NETWORK_IDLE;
+#endif
+}
 
 void network_hook(void)
 {
+#ifdef HAVE_NETWORK
     const TIMEVAL time_out = {0, 0};
 
     if (network_mode == NETWORK_IDLE)
@@ -457,8 +524,11 @@ void network_hook(void)
             while(temp < sizeof(unsigned int)) {
                 int t;
                 t = recv(network_socket, (char*)&remote_buf_len, sizeof(unsigned int), 0);
-                if (t < 0)
+                if (t < 0) {
+                    ui_error("Network was disconnected");
+                    network_disconnect();
                     return;
+                }
                 temp += t;
                 if (temp < sizeof(unsigned int))
                     ui_error("fragmented");
@@ -497,8 +567,9 @@ void network_hook(void)
                     if (((unsigned int*)client_event_list->base->data)[i]
                         != ((unsigned int*)server_event_list->base->data)[i])
                     {
-                        ui_error("Network out of sync");
-                        /* force resync */
+                        ui_error("Network out of sync - diconnecting");
+                        network_disconnect();
+                        /* shouldn't happen but resyncing would be nicer */
                         break;
                     }
             }
@@ -512,15 +583,14 @@ void network_hook(void)
         }
         network_prepare_next_frame();
     }
-
+#endif
 }
 
 void network_shutdown(void)
 {
+#ifdef HAVE_NETWORK
     network_free_frame_event_list();
     lib_free(server_name);
-}
-
-
 #endif
+}
 

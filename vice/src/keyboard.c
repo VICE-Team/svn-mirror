@@ -77,14 +77,12 @@ static CLOCK keyboard_delay;
 
 static void keyboard_latch_matrix(CLOCK offset)
 {
-#ifdef HAVE_NETWORK
     if (network_connected())
     {
         memcpy(keyarr, network_keyarr, sizeof(keyarr));
         memcpy(rev_keyarr, network_rev_keyarr, sizeof(rev_keyarr));
     }
     else
-#endif
     {
         memcpy(keyarr, latch_keyarr, sizeof(keyarr));
         memcpy(rev_keyarr, latch_rev_keyarr, sizeof(rev_keyarr));
@@ -142,9 +140,7 @@ static void keyboard_latch_handler(CLOCK offset, void *data)
 
     keyboard_latch_matrix(offset);
 
-#ifdef HAVE_NETWORK
     if (!network_connected())
-#endif
         keyboard_event_record();
 }
 
@@ -290,13 +286,11 @@ void keyboard_key_pressed(signed long key)
         && machine_has_restore_key())
     {
             event_data = (DWORD)1;
-#ifdef HAVE_NETWORK
         if (network_connected()) {
             network_event_record(EVENT_KEYBOARD_RESTORE, 
                     (void*)&event_data, sizeof(DWORD));
         }
         else
-#endif
         {
             machine_set_restore_key(1);
             event_record(EVENT_KEYBOARD_RESTORE, 
@@ -342,7 +336,6 @@ void keyboard_key_pressed(signed long key)
 
     if (latch) {
         keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 1);
-#ifdef HAVE_NETWORK
         if (network_connected()) {
             CLOCK keyboard_delay = KEYBOARD_RAND();
             network_event_record(EVENT_KEYBOARD_DELAY,
@@ -351,7 +344,6 @@ void keyboard_key_pressed(signed long key)
                     (void *)latch_keyarr, sizeof(latch_keyarr));
         }
         else
-#endif
         {
             alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
         }
@@ -403,13 +395,11 @@ void keyboard_key_released(signed long key)
         && machine_has_restore_key())
     {
         event_data = (DWORD)0;
-#ifdef HAVE_NETWORK
         if (network_connected()) {
             network_event_record(EVENT_KEYBOARD_RESTORE, 
                     (void*)&event_data, sizeof(DWORD));
         }
         else
-#endif
         {
             event_record(EVENT_KEYBOARD_RESTORE, (void *)&event_data, 
                 sizeof(DWORD));
@@ -443,7 +433,6 @@ void keyboard_key_released(signed long key)
     }
 
     if (latch) {
-#ifdef HAVE_NETWORK
         if (network_connected()) {
             CLOCK keyboard_delay = KEYBOARD_RAND();
             network_event_record(EVENT_KEYBOARD_DELAY,
@@ -452,7 +441,6 @@ void keyboard_key_released(signed long key)
                         (void *)latch_keyarr, sizeof(latch_keyarr));
         }
         else
-#endif
         {
             alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
         }

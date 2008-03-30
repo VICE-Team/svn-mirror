@@ -667,11 +667,9 @@ static void datasette_event_record(int command)
 
     rec_cmd = (DWORD)command;
 
-#ifdef HAVE_NETWORK
     if (network_connected())
         network_event_record(EVENT_DATASETTE, (void *)&rec_cmd, sizeof(DWORD));
     else
-#endif
         event_record(EVENT_DATASETTE, (void *)&rec_cmd, sizeof(DWORD));
 }
 
@@ -740,9 +738,7 @@ void datasette_control(int command)
         return;
 
     datasette_event_record(command);
-#ifdef HAVE_NETWORK
     if (!network_connected())
-#endif
         datasette_control_internal(command);
 }
 
