@@ -34,6 +34,7 @@
 
 #include "cmdline.h"
 #include "log.h"
+#include "palette.h"
 #include "raster.h"
 #include "resources.h"
 #include "types.h"

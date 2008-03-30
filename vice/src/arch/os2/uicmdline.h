@@ -27,9 +27,10 @@
 #ifndef _UICMDLINE_H
 #define _UICMDLINE_H
 
-#include "cmdline.h"
+struct cmdline_option_s;
 
-extern void ui_cmdline_show_help(int num_options, cmdline_option_t *options);
+extern void ui_cmdline_show_help(int num_options,
+                                 struct cmdline_option_s *options);
 
 #endif
 
