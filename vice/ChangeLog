@@ -1,3 +1,15 @@
+2005-12-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.2.
+
+	* configure.in: Ffmpeg support is default on win32 as
+	suggested by AndreasM.
+
+2005-12-06  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added checks for libjpeg and its header for
+	jpeg screenshot support.
+
 2005-11-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.1.
