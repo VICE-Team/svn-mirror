@@ -436,7 +436,7 @@ static void update_canvas(raster_t *raster)
     x += raster->geometry.extra_offscreen_border;
 #endif /* VIDEO_REMOVE_2X */
 
-    video_canvas_refresh(raster->viewport.canvas,
+    video_canvas_refresh(viewport->canvas,
                          raster->frame_buffer,
                          x, y,
                          xx + viewport->x_offset, yy + viewport->y_offset,
@@ -677,7 +677,7 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
 
     video_mode = get_real_mode(raster);
 
-    cache = raster->cache + raster->current_line;
+    cache = &(raster->cache)[raster->current_line];
     line = (raster->current_line
             - raster->geometry.gfx_position.y
             - raster->ysmooth
@@ -811,7 +811,7 @@ inline static int update_for_minor_changes_without_sprites(raster_t *raster,
 
     video_mode = get_real_mode(raster);
 
-    cache = raster->cache + raster->current_line;
+    cache = &(raster->cache)[raster->current_line];
 
     changed_start_char = raster->geometry.text_size.width;
     changed_end_char = -1;
@@ -869,7 +869,7 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
 
     video_mode = get_real_mode(raster);
 
-    cache = raster->cache + raster->current_line;
+    cache = &(raster->cache)[raster->current_line];
 
     changed_start_char = raster->geometry.text_size.width;
     changed_end_char = -1;
@@ -1462,7 +1462,7 @@ void raster_invalidate_cache(raster_t *raster, unsigned int screen_height)
     unsigned int i;
 
     for (i = 0; i < screen_height; i++)
-        raster_cache_init(raster->cache + i);
+        raster_cache_init(&(raster->cache)[i]);
 }
 
 void raster_set_geometry(raster_t *raster,
@@ -1723,7 +1723,7 @@ void raster_emulate_line(raster_t *raster)
         raster->current_line++;
 
         if (raster->current_line == raster->geometry.screen_size.height) {
-            handle_end_of_frame (raster);
+            handle_end_of_frame(raster);
         } else {
             if (!console_mode && !vsid_mode) {
 #ifndef VIDEO_REMOVE_2X
@@ -1813,6 +1813,15 @@ void raster_enable_cache(raster_t *raster, int enable)
     raster_force_repaint (raster);
 }
 
+void raster_enable_double_size(raster_t *raster, int enablex, int enabley)
+{
+    if (!raster->viewport.canvas)
+        return;
+
+    raster->viewport.canvas->videoconfig.doublesizex = enablex;
+    raster->viewport.canvas->videoconfig.doublesizey = enabley;
+}
+
 void raster_enable_double_scan(raster_t *raster, int enable)
 {
     raster->do_double_scan = enable;
@@ -1848,9 +1857,11 @@ int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
 
 void raster_free(raster_t *raster)
 {
-    if (!vsid_mode)
+    if (!vsid_mode && !console_mode)
+    {
         video_canvas_destroy(raster->viewport.canvas);
-    video_frame_buffer_free(raster->frame_buffer);
+        video_frame_buffer_free(raster->frame_buffer);
+    }
     free(raster->viewport.title);
     free(raster->modes);
     free(raster->sprite_status);

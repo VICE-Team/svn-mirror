@@ -145,10 +145,10 @@ void sound_machine_close(sound_t *psid)
 void vic_sound_reset(void)
 {
     ADDRESS i;
-    for (i = 10; i < 15; i++)
-        store_vic_sound(i, 0);
 
     sound_reset();
+    for (i = 10; i < 15; i++)
+        store_vic_sound(i, 0);
 }
 
 

@@ -1,3 +1,57 @@
+2001-12-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.41.
+
+	* arch/unix/c128ui.c: Added video cache and revision menu
+	entry.
+
+	* arch/unix/c610ui.c: Added C510 model line switch.
+
+	* raster/raster-cache.h (raster_cache_data_fill_attr_text,
+	raster_cache_data_fill_attr_text_const): Use inline functions
+	instead of macros.
+
+	* vdc/vdc-draw.c (get_std_text): Changed cache fill API.
+
+2001-12-16  Dag Lem  <resid@nimrod.no>
+
+	* vic20/vic20sound.c (vic_sound_reset): Call sound_reset
+	before calling any other sound code.
+
+	* pet/petsound.c (petsnd_reset): Likewise.
+
+2001-12-16  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/config.h:
+	- define HAVE_OUSE for x64, x128 only
+     
+	* arch/os2/dialogs/dlg-color.rc:
+	- changed name to Video Color Settings
+     
+	* arch/os2/dialogs/menubar.[c,rc]:
+	- exclude new luminances for ted
+     
+	* arch/os2/vac++/incl/c64cart.icc:
+	- added
+     
+	* arch/os2/vac++/Makefile.am:
+	- added incl/c64cart.icc
+     
+	* arch/os2/video.c:
+	- restructured the closing procedure, this should hopefully
+	make sure, that all dive stuff is closed and freed correctly
+	(this is to be carefull with bad dive implementations)
+   
+	* crtc/crtc-resources.c, plus4/ted-resources.c,
+	plus4/ted-resources.c, raster/raster.c, raster/raster.h,
+	vdc/vdc-resources.c, vic20/vic-resources.c,
+	vicii/vicii-resources.c, video.h:
+	- splitted double size flag in video_render_config_t
+	in a x and y flag
+       
+	* raster/raster.c:
+	- don't free a the frame_buffer in vsid and console mode
+
 2001-12-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.40.

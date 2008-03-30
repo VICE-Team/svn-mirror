@@ -267,9 +267,19 @@ inline static int raster_cache_data_fill_text(BYTE *dest,
 
 
 /* This function is used for the VDC attributed text mode.  It checks for
-   differences in the character memory too.
-   This is just an _EXTREMLY UGLY HACK (TM)_ to make the VDC work
-   (Markus Brenner) */
+   differences in the character memory too. */
+
+inline static BYTE get_attr_char_data(BYTE c, BYTE a, int l, BYTE *char_mem,
+                                      int bytes_per_char, int blink,
+                                      int revers)
+{
+    if (a & 0x80)
+        char_mem += 0x1000;
+
+    return (char_mem[((c) * bytes_per_char) + l]
+           ^ (((a) & 0x40 || (((a) & 0x10) && blink))
+           ? revers : (revers ^ 0xff)));
+}
 
 inline static int raster_cache_data_fill_attr_text(BYTE *dest,
                                                    const BYTE *src,
@@ -281,44 +291,43 @@ inline static int raster_cache_data_fill_attr_text(BYTE *dest,
                                                    int *xs, int *xe,
                                                    int no_check,
                                                    int blink,
-                                                   int revers)
+                                                   int revers,
+                                                   int curpos)
 {
-#define _GET_ATTR_CHAR_DATA(c, a, l)                                         \
-  ((((a) & 0x80) ? char_mem + 0x1000 : char_mem)[((c) * bytes_per_char) + l] \
-  ^ (((a) & 0x40 || (((a) & 0x10) && blink)) ? revers : (revers ^ 0xff)))
-
     if (no_check) {
         int i;
 
         *xs = 0;
         *xe = length - 1;
         for (i = 0; i < length; i++, src++, attr++)
-            dest[i] = _GET_ATTR_CHAR_DATA (src[0], attr[0], l);
+            dest[i] = get_attr_char_data(src[0], attr[0], l, char_mem,
+                                         bytes_per_char, blink, revers);
         return 1;
     } else {
         BYTE b;
         int i;
 
-        for (i = 0;
-             i < length && dest[i] == _GET_ATTR_CHAR_DATA (src[0], attr[0], l);
-             i++, src++, attr++)
-             /* do nothing */ ;
-
+        for (i = 0; i < length; i++, src++, attr++) {
+            if (dest[i] != get_attr_char_data(src[0], attr[0], l, char_mem,
+                bytes_per_char, blink, revers))
+                break;
+        }
         if (i < length) {
             *xs = *xe = i;
 
-            for (; i < length; i++, src++, attr++)
-                if (dest[i] != (b = _GET_ATTR_CHAR_DATA (src[0], attr[0], l))) {
+            for (; i < length; i++, src++, attr++) {
+                b = get_attr_char_data(src[0], attr[0], l, char_mem,
+                                       bytes_per_char, blink, revers);
+                if (dest[i] != b) {
                     dest[i] = b;
                     *xe = i;
                 }
-
+            }
             return 1;
         } else {
             return 0;
         }
     }
-#undef _GET_ATTR_CHAR_DATA
 }
 
 inline static int raster_cache_data_fill_attr_text_const(BYTE *dest,
@@ -331,45 +340,43 @@ inline static int raster_cache_data_fill_attr_text_const(BYTE *dest,
                                                          int *xs, int *xe,
                                                          int no_check,
                                                          int blink,
-                                                         int revers)
+                                                         int revers,
+                                                         int curpos)
 {
-
-#define _GET_ATTR_CHAR_DATA(c, a, l)                                         \
-  ((((a) & 0x80) ? char_mem + 0x1000 : char_mem)[((c) * bytes_per_char) + l] \
-  ^ (((a) & 0x40 || (((a) & 0x10) && blink)) ? revers : (revers ^ 0xff)))
-
     if (no_check) {
         int i;
 
         *xs = 0;
         *xe = length - 1;
         for (i = 0; i < length; i++, src++)
-            dest[i] = _GET_ATTR_CHAR_DATA (src[0], attr, l);
+            dest[i] = get_attr_char_data(src[0], attr, l, char_mem,
+                                         bytes_per_char, blink, revers);
         return 1;
     } else {
         BYTE b;
         int i;
 
-        for (i = 0;
-            i < length && dest[i] == _GET_ATTR_CHAR_DATA (src[0], attr, l);
-            i++, src++)
-            /* do nothing */ ;
-
+        for (i = 0; i < length; i++, src++) {
+            if (dest[i] != get_attr_char_data(src[0], attr, l, char_mem,
+                bytes_per_char, blink, revers))
+                break;
+        }
         if (i < length) {
             *xs = *xe = i;
 
-            for (; i < length; i++, src++)
-                if (dest[i] != (b = _GET_ATTR_CHAR_DATA (src[0], attr, l))) {
+            for (; i < length; i++, src++) {
+                b = get_attr_char_data(src[0], attr, l, char_mem,
+                                       bytes_per_char, blink,revers);
+                if (dest[i] != b) {
                     dest[i] = b;
                     *xe = i;
                 }
-
+            }
             return 1;
         } else {
             return 0;
         }
     }
-#undef _GET_ATTR_CHAR_DATA
 }
 
 inline static int raster_cache_data_fill_const(BYTE *dest,
