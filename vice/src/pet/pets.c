@@ -186,7 +186,7 @@ int pet_set_model(const char *model_name, void *extra)
 static void pet_check_info(PetInfo * pi)
 {
     if (pi->superpet) {
-	pi->ramSize = 128;
+	pi->ramSize = 32;	/* 128 */
 	pi->map = 0;
     }
 
@@ -197,6 +197,7 @@ static void pet_check_info(PetInfo * pi)
 	pi->vmask = 0x7ff;
 	pi->videoSize = 0x800;
     }
+
     if (pi->ramSize == 128) {
 	pi->vmask = 0x1fff;
 	pi->videoSize = 0x1000;
@@ -259,14 +260,16 @@ static int set_video(resource_value_t v)
     int col = (int) v;
 
     if (col != petres.video) {
+/* resources can be changed at cmdline (well, not this one...) when log is not
+   available...
 	log_message(LOG_DEFAULT, "Setting screen width to %d columns.", col);
-
+*/
 	if (col == 0 || col == 40 || col == 80) {
 	    petres.video = col;
+	    pet_check_info(&petres);
+	    /* initialize_memory(); is done in set_screen now */
+	    set_screen();
 	}
-	pet_check_info(&petres);
-	initialize_memory();
-	set_screen();
     }
     return 0;
 }

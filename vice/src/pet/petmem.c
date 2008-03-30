@@ -702,6 +702,39 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
+static void set_vidmem(void) {
+    int i, l;
+
+    l = ((0x8000 + pet.videoSize) >> 8) & 0xff;
+/*
+    log_message(pet_mem_log, "set_vidmem(videoSize=%04x, l=%d)", pet.videoSize,l);
+*/
+    /* Setup RAM from $8000 to $8000 + pet.videoSize */
+    for (i = 0x80; i < l; i++) {
+        _mem_read_tab[i] = read_ram;
+        _mem_write_tab[i] = store_ram;
+        _mem_read_base_tab[i] = ram + (i << 8);
+    }
+
+    /* Setup unused from $8000 + pet.videoSize to $87ff */
+    /* falls through if videoSize >= 0x800 */
+    for (; i < 0x88; i++) {
+        _mem_read_tab[i] = read_vmirror;
+        _mem_write_tab[i] = store_vmirror;
+        _mem_read_base_tab[i] = ram + 0x8000 + ((i << 8) & (pet.videoSize - 1));
+    }
+
+    /* Setup unused from $8800 to $8fff */
+    /* falls through if videoSize >= 0x1000 */
+    for (; i < 0x90; i++) {
+        _mem_read_tab[i] = read_unused;
+        _mem_write_tab[i] = store_dummy;
+        _mem_read_base_tab[i] = NULL;
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* This does the plain 8032 configuration, as 8096 stuff only comes up when
    writing to $fff0.  */
 void initialize_memory(void)
@@ -726,30 +759,7 @@ void initialize_memory(void)
         _mem_read_base_tab[i] = NULL;
     }
 
-    l = ((0x8000 + pet.videoSize) >> 8) & 0xff;
-
-    /* Setup RAM from $8000 to $8000 + pet.videoSize */
-    for (i = 0x80; i < l; i++) {
-        _mem_read_tab[i] = read_ram;
-        _mem_write_tab[i] = store_ram;
-        _mem_read_base_tab[i] = ram + (i << 8);
-    }
-
-    /* Setup unused from $8000 + pet.videoSize to $87ff */
-    /* falls through if videoSize >= 0x800 */
-    for (; i < 0x88; i++) {
-        _mem_read_tab[i] = read_vmirror;
-        _mem_write_tab[i] = store_vmirror;
-        _mem_read_base_tab[i] = ram + 0x8000 + ((i << 8) & (pet.videoSize - 1));
-    }
-
-    /* Setup unused from $8800 to $8fff */
-    /* falls through if videoSize >= 0x1000 */
-    for (; i < 0x90; i++) {
-        _mem_read_tab[i] = read_unused;
-        _mem_write_tab[i] = store_dummy;
-        _mem_read_base_tab[i] = NULL;
-    }
+    set_vidmem();
 
     set_std_9tof();
 
@@ -796,7 +806,7 @@ void patch_2001(void)
     BYTE dat5[] = {0xae, 0x0c, 0x02, 0x70, 0x46, 0x20, 0x87, 0xf1};
     BYTE dat6[] = {0x20, 0x2c, 0xf1, 0x4c, 0x7e, 0xf1};
 
-    log_warning(pet_mem_log, "PET: patching 2001 ROM to make IEEE488 work!");
+    log_warning(pet_mem_log, "patching 2001 ROM to make IEEE488 work!");
 
     /* Patch PET2001 IEEE488 routines to make them work */
     rom[0x7471] = rom[0x7472] = 0xea;   /* NOP */
@@ -1066,7 +1076,11 @@ void set_screen(void)
     cols = pet.video;
     vmask = pet.vmask;
 
-
+    set_vidmem();
+/*
+    log_message(pet_mem_log, "set_screen(videoSize=%04x, cols=%d, screen_width=%d)", 
+		pet.videoSize, pet.video, pet.screen_width);
+*/
     if (!cols) {
         cols = pet.screen_width;
         vmask = (cols == 40) ? 0x3ff : 0x7ff;
@@ -1075,6 +1089,13 @@ void set_screen(void)
         cols = PET_COLS;
         vmask = (cols == 40) ? 0x3ff : 0x7ff;
     }
+
+    /* when switching 8296 to 40 columns, CRTC ends up at $9000 otherwise...*/
+    if(cols == 40) vmask = 0x3ff; 
+/*
+    log_message(pet_mem_log, "set_screen(vmask=%04x, cols=%d, crtc=%d)", 
+		vmask, cols, pet.crtc);
+*/
     crtc_set_screen_mode(ram + 0x8000, vmask, cols, (cols==80) ? 2 : 0);
     if(!pet.crtc) {
 	store_crtc(0,49);

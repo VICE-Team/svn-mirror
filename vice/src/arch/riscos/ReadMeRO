@@ -1,0 +1,16 @@
+To build VICE 0.16.0 for RISC OS you need:
+
+1) GCC 2.7.2 and Nick Burrett's SharedCLib stubs (the sound code relies on the
+   SCL, you can't use UnixLib unless you replace all the timer_callback* calls).
+
+2) wimplib, available from http://www.forwiss.tu-muenchen.de/~dehmel/Software.html.
+   Copy wimplib into this directory (arch.riscos) or modify the Makefiles in 3).
+
+3) ViceROKit, an archive containing RISC OS Makefiles and tools, also available
+   from the address mentioned in 2).
+
+4) The Templates / Messages files from the binary release if you want to change
+   any icons or windows.
+
+5) A Risc PC with at least 45 MB of free memory if you want to build all CPU-Files
+   with full optimization.

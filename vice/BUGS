@@ -34,3 +34,7 @@ These are the most important known problems with VICE 0.16.1:
 - The MS-DOS port of the C610 emulator lacks C610 specific UI controls.
   Use the command line to change C610 specific settings.
 
+- When in xpet the video size (40/80 columns) is changed while the
+  8x96 mode has the $8*** area mapped out, the video memory is still
+  falsely mapped in.
+

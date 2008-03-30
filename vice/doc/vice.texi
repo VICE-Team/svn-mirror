@@ -2922,6 +2922,7 @@ actually expects).
 @menu
 * RS232 resources::             
 * RS232 options::               
+* RS232 usage::               
 @end menu
 
 @node RS232 resources, RS232 options, RS232 settings, RS232 settings
@@ -2978,7 +2979,7 @@ the user-port printer is using (C64, C128 and VIC20).
 
 @end table
 
-@node RS232 options,  , RS232 resources, RS232 settings
+@node RS232 options, RS232 usage, RS232 resources, RS232 settings
 @subsection RS232 command-line options
 
 @table @code
@@ -3021,6 +3022,45 @@ userport RS232 emulation (@code{RsUser}; C64, C128 and VIC20)
 @item -rsuserdev DEV
 Specify device for the userport RS232 emulation (@code{RsUserDev}; 
 C64, C128 and VIC20).
+
+@end table
+
+@node RS232 usage, , RS232 options, RS232 settings
+@subsection RS232 usage example
+
+Here we give you a simple example how to set up an emulated C64 using
+the modem connected to your PC. The following list shows each step.
+
+@table @code
+@item Attach your modem to your PC at a serial port. 
+Normally you should set it up to use the modem as "/dev/modem".
+@item start VICE
+
+@item Setup VICE to use your modem as "serial device 1"
+Go to the RS232 settings menu and change "Serial 1 device" to "/dev/modem" (or the device where you attached your modem to)
+Then go to the RS232 settings menu and change "Serial 1 baudrate" to the baudrate your modem should run at.
+  Watch out, e.g. on Linux there is an additional multiplier
+  to multiply with the baudrate (so e.g. 19200 gives 115200 or so baud)
+  See the "setserial" manpage on Linux for example. 
+  However, most modems should be able to autodetect the speed to 
+  the computer as well.
+
+@item Select the RS232 emulation your programs use
+If you want to use the Userport emulation, go to the RS232 settings and 
+  change "Userport RS232 Device" to 
+  "Serial 1". If you want ACIA emulation (swiftlink or what's it called?)
+  then change "ACIA $DE** device" to "Serial 1".
+
+@item Enable the emulation
+  Go to the RS232 settings and select either "ACIA $DE** emulation"
+  or Userport 300/1200 baud or CIA 9600 baud emulation.
+
+@item Load your program and start it.
+If it is able to detect an
+  RS232 cartridge like swiftlink or so, try to detect the ACIA emulation
+  if enabled. 
+  Otherwise just set the baudrate to either 300, 1200 or 9600 according
+  to what you enabled in the VICE menu for the userport.
 
 @end table
 
