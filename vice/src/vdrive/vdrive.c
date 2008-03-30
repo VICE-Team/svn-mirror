@@ -562,7 +562,7 @@ int vdrive_parse_name(const char *name, int length, char *ptr,
     char *c;
     int t;
 
-    if (!name || !*name)
+    if (!name || length == 0)
         return FLOPPY_ERROR;
 
     p = (char *)memchr(name, ':', length);
@@ -572,7 +572,7 @@ int vdrive_parse_name(const char *name, int length, char *ptr,
         if (*name != '$')
             p = name;
         else
-            p = name + strlen(name);    /* set to null byte */
+            p = name + length;    /* set to null byte */
     }
 #ifdef DEBUG_DRIVE
     log_debug("Name (%d): '%s'.", length, p);
@@ -583,7 +583,7 @@ int vdrive_parse_name(const char *name, int length, char *ptr,
         p++;
 #endif
 
-    t = strlen(p);
+    t = length - (p - name);
     *reallength = 0;
 
     while (*p != ',' && t-- > 0) {
