@@ -74,7 +74,7 @@ inline static CLOCK maincpu_num_write_cycles(void)
 
 extern void maincpu_init(void);
 extern void maincpu_reset(void);
-extern void mainloop(ADDRESS start_address);
+extern void maincpu_mainloop(void);
 extern int maincpu_read_snapshot_module(struct snapshot_s *s);
 extern int maincpu_write_snapshot_module(struct snapshot_s *s);
 
