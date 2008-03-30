@@ -1,3 +1,76 @@
+2003-05-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.41.
+
+	* raster/raster-sprite-status.c, raster/raster-sprite-status.h
+	(raster_sprite_status_new, raster_sprite_status_destroy): New
+	functions. (raster_sprite_status_init,
+	raster_sprite_status_shutdown): Made static.
+	(raster_sprite_status_init): Set sprite cache init function.
+
+	* raster/raster.c, raster/raster.h, vicii/vicii.c, vdc/vdc.c,
+	crtc/crtc.c, vic20/vic.c, plus4/ted.c (raster_free): Renamed.
+	(raster_init): Do not take nuber of sprites.
+
+	* raster/raster.c, raster/raster-cache.c,
+	raster/raster-cache.h (raster_cache_new,
+	raster_cache_destroy): Take sprite status.
+
+	* raster/raster-line.c: Do not reference sprite status without
+	checking for NULL.
+
+	* raster/raster-cache.c (raster_cache_new): Use function
+	pointer to sprite cache init function.
+
+	* arch/unix/x11/xaw/x11ui.c: Free file selector directory on
+	shutdown.
+
+	* arch/unix/x11/xaw/uicolor.c, arch/unix/x11/gnome/uicolor.c
+ 	(uicolor_alloc_color): Use `malloc' for color data.
+
+	* printerdrv/driver-select.c, printerdrv/driver-select.h
+	(driver_select_shutdown): New function.
+
+	* printerdrv/output-select.c, printerdrv/output-select.h
+	(output_select_shutdown): New function.
+
+	* vicii/vicii-mem.c (d012_store, d01112_read): Removed offset
+	hack.
+
+	* plus4/ted-mem.c (ted0b_store, ted1c1d_read): Removed offset
+	hack.
+
+	* image.c, image.h: New files.
+
+	* Makefile.am, arch/win32/base.dsp, arch/win32/c1541.dsp:
+	Updated.
+
+	* c1541.c, arch/win32/uilib.c, vdrive/vdrive-internal.c: Use
+	new image create function.
+
+	* tape/tapeimage.c, tape.h (tape_image_create): New function.
+
+	* tape/tap.c, tap.h (tap_create): New function.
+
+2003-05-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* event.c (event_record_start, event_record_stop,
+	event_playback_start, event_playback_stop): Call ui_display
+	function.
+
+	* arch/beos/ui.cc, arch/msdos/ui.c, arch/os2/ui.c,
+	arch/riscos/ui.c, arch/unix/x11/gnome/x11ui.c,
+	arch/unix/x11/xaw/x11ui.c, arch/win32/ui.c: New functions
+	ui_display_recording, ui_display_playback; all except win32
+	are dummies.
+
+	* arch/win32/resc64.rc: Changed playback/recording meuitems.
+
+	* arch/win32/video.c (canvas_update): Fixed of-by-one bug in
+	bottom cutting.
+
+	* uiapi.h: Added prototypes.
+
 2003-05-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.40.

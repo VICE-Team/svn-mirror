@@ -258,7 +258,7 @@ distdir: $(DISTFILES)
 	done
 raster-cache.o: raster-cache.c ../../src/vice.h ../../src/config.h \
 	../../src/lib.h raster-cache.h raster-sprite-cache.h \
-	../../src/arch/unix/types.h
+	../../src/arch/unix/types.h raster-sprite-status.h
 raster-canvas.o: raster-canvas.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h raster-canvas.h raster.h raster-changes.h \
 	../../src/arch/unix/types.h ../../src/viewport.h \
@@ -290,8 +290,9 @@ raster-sprite-cache.o: raster-sprite-cache.c ../../src/vice.h \
 	../../src/config.h ../../src/lib.h raster-sprite-cache.h \
 	../../src/arch/unix/types.h
 raster-sprite-status.o: raster-sprite-status.c ../../src/vice.h \
-	../../src/config.h ../../src/lib.h raster-sprite-status.h \
-	../../src/arch/unix/types.h raster-sprite.h
+	../../src/config.h ../../src/lib.h raster-sprite-cache.h \
+	../../src/arch/unix/types.h raster-sprite-status.h \
+	raster-sprite.h raster.h raster-changes.h ../../src/viewport.h
 raster-sprite.o: raster-sprite.c ../../src/vice.h ../../src/config.h \
 	raster-sprite.h
 raster.o: raster.c ../../src/vice.h ../../src/config.h ../../src/lib.h \

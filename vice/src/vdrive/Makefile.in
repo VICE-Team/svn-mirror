@@ -274,8 +274,8 @@ vdrive-iec.o: vdrive-iec.c ../../src/vice.h ../../src/config.h \
 	vdrive.h
 vdrive-internal.o: vdrive-internal.c ../../src/vice.h ../../src/config.h \
 	../../src/attach.h ../../src/arch/unix/types.h \
-	../../src/diskimage.h ../../src/lib.h ../../src/log.h \
-	vdrive-command.h vdrive.h
+	../../src/diskimage.h ../../src/image.h ../../src/lib.h \
+	../../src/log.h vdrive-command.h vdrive.h
 vdrive-rel.o: vdrive-rel.c ../../src/vice.h ../../src/config.h \
 	../../src/diskimage.h ../../src/arch/unix/types.h \
 	../../src/lib.h ../../src/log.h ../../src/serial.h vdrive-dir.h \

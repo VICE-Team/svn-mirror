@@ -277,7 +277,7 @@ fsimage-create.o: fsimage-create.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h fsimage-create.h fsimage.h \
 	../../src/gcr.h ../../src/lib.h ../../src/log.h \
-	../../src/utils.h x64.h ../../src/tap.h
+	../../src/utils.h x64.h
 fsimage-gcr.o: fsimage-gcr.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h fsimage-gcr.h fsimage.h \

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.11\n"
-"POT-Creation-Date: 2003-04-27 13:48+0200\n"
+"POT-Creation-Date: 2003-05-03 15:17+0200\n"
 "PO-Revision-Date: 2002-08-31 19:18+02:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -1182,7 +1182,7 @@ msgid "About VICE..."
 msgstr "O VICE..."
 
 #: src/arch/unix/uicommands.c:1013 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/x11ui.c:1837
+#: src/arch/unix/x11/gnome/x11ui.c:1844
 msgid "Reset"
 msgstr "Reset"
 
@@ -1832,7 +1832,7 @@ msgid "Invalid speed value"
 msgstr "Nieprawid³owa warto¶æ prêdko¶ci"
 
 #: src/arch/unix/uisettings.c:223 src/arch/unix/x11/gnome/x11ui.c:1260
-#: src/arch/unix/x11/xaw/x11ui.c:1019
+#: src/arch/unix/x11/xaw/x11ui.c:1022
 msgid "Cannot save settings."
 msgstr "Nie mo¿na zapisaæ ustawieñ."
 
@@ -2416,10 +2416,10 @@ msgstr "Zapisywanie %s' zakoñczone sukcesem\n"
 msgid "XCreateImage failed."
 msgstr "B³±d XCreateImage"
 
-#: src/arch/unix/x11/gnome/uicolor.c:159 src/arch/unix/x11/gnome/uicolor.c:221
-#: src/arch/unix/x11/gnome/uicolor.c:226 src/arch/unix/x11/gnome/uicolor.c:231
-#: src/arch/unix/x11/xaw/uicolor.c:136 src/arch/unix/x11/xaw/uicolor.c:194
-#: src/arch/unix/x11/xaw/uicolor.c:199 src/arch/unix/x11/xaw/uicolor.c:204
+#: src/arch/unix/x11/gnome/uicolor.c:160 src/arch/unix/x11/gnome/uicolor.c:222
+#: src/arch/unix/x11/gnome/uicolor.c:227 src/arch/unix/x11/gnome/uicolor.c:232
+#: src/arch/unix/x11/xaw/uicolor.c:137 src/arch/unix/x11/xaw/uicolor.c:195
+#: src/arch/unix/x11/xaw/uicolor.c:200 src/arch/unix/x11/xaw/uicolor.c:205
 #, c-format
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
 msgstr "Nie mo¿na alokowaæ koloru \"#%04X%04X%04X\"."
@@ -2537,17 +2537,17 @@ msgstr "Nie mo¿na dodaæ ¶cie¿ki czcionki: `%s'.\n"
 msgid "Set fontpath: `%s'.\n"
 msgstr "Ustaw ¶cie¿kê czcionki: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:631 src/arch/unix/x11/xaw/x11ui.c:471
+#: src/arch/unix/x11/gnome/x11ui.c:631 src/arch/unix/x11/xaw/x11ui.c:474
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Ten wy¶wietlacz nie ma odpowiedniego wspomagania wizualnego %dbit"
 
-#: src/arch/unix/x11/gnome/x11ui.c:634 src/arch/unix/x11/xaw/x11ui.c:474
+#: src/arch/unix/x11/gnome/x11ui.c:634 src/arch/unix/x11/xaw/x11ui.c:477
 msgid "Please select a bit depth supported by your display."
 msgstr "Proszê wybraæ g³êbiê koloru obs³ugiwan± przez twój ekran."
 
 #: src/arch/unix/x11/gnome/x11ui.c:637 src/arch/unix/x11/gnome/x11ui.c:661
-#: src/arch/unix/x11/xaw/x11ui.c:477 src/arch/unix/x11/xaw/x11ui.c:494
+#: src/arch/unix/x11/xaw/x11ui.c:480 src/arch/unix/x11/xaw/x11ui.c:497
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Znaleziono urz±dzenie wizualne %dbit/%s "
@@ -2557,7 +2557,7 @@ msgstr "Znaleziono urz±dzenie wizualne %dbit/%s "
 msgid "Found %dbit visual."
 msgstr "Znaleziono urz±dzenie wizualne %dbit "
 
-#: src/arch/unix/x11/gnome/x11ui.c:669 src/arch/unix/x11/xaw/x11ui.c:502
+#: src/arch/unix/x11/gnome/x11ui.c:669 src/arch/unix/x11/xaw/x11ui.c:505
 msgid "Cannot autodetect a proper visual."
 msgstr "Nie mo¿na automatycznie wykryæ odpowiedniego urz±dzenia wizualnego"
 
@@ -2585,7 +2585,7 @@ msgstr "Napêd %d: "
 msgid "Tape 000"
 msgstr "Kaseta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:953 src/arch/unix/x11/xaw/x11ui.c:583
+#: src/arch/unix/x11/gnome/x11ui.c:953 src/arch/unix/x11/xaw/x11ui.c:586
 msgid "Maximum number of toplevel windows reached."
 msgstr "Osi±gniêto maksymalny limit okien najwy¿szego stopnia."
 
@@ -2597,24 +2597,24 @@ msgstr "Komendy"
 msgid "Help"
 msgstr "Pomoc"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1244 src/arch/unix/x11/xaw/x11ui.c:1007
+#: src/arch/unix/x11/gnome/x11ui.c:1244 src/arch/unix/x11/xaw/x11ui.c:1010
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1009
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1012
 msgid "Do you really want to exit?"
 msgstr "Czy naprawdê chcesz wyj¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1257 src/arch/unix/x11/xaw/x11ui.c:1016
+#: src/arch/unix/x11/gnome/x11ui.c:1257 src/arch/unix/x11/xaw/x11ui.c:1019
 msgid "Save the current settings?"
 msgstr "Czy zapisaæ obecne ustawienia?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1303 src/arch/unix/x11/xaw/x11ui.c:1058
+#: src/arch/unix/x11/gnome/x11ui.c:1303 src/arch/unix/x11/xaw/x11ui.c:1061
 msgid "Using private colormap."
 msgstr "U¿yj prywatnej mapy kolorów."
 
 #: src/arch/unix/x11/gnome/x11ui.c:1323 src/arch/unix/x11/gnome/x11ui.c:1326
-#: src/arch/unix/x11/xaw/x11ui.c:1079 src/arch/unix/x11/xaw/x11ui.c:1085
+#: src/arch/unix/x11/xaw/x11ui.c:1082 src/arch/unix/x11/xaw/x11ui.c:1088
 msgid "(warp)"
 msgstr "(przyspieszony)"
 
@@ -2625,57 +2625,57 @@ msgstr "(przyspieszony)"
 msgid "Tape %03d"
 msgstr "Ta¶ma %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1646 src/arch/unix/x11/xaw/x11ui.c:1295
+#: src/arch/unix/x11/gnome/x11ui.c:1653 src/arch/unix/x11/xaw/x11ui.c:1306
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pauza)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1800
+#: src/arch/unix/x11/gnome/x11ui.c:1807
 msgid "VICE Message"
 msgstr "Wiadomo¶æ VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1811
+#: src/arch/unix/x11/gnome/x11ui.c:1818
 msgid "VICE Error"
 msgstr "B³±d VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1837
+#: src/arch/unix/x11/gnome/x11ui.c:1844
 msgid "Hard Reset"
 msgstr "Zimny reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1838
+#: src/arch/unix/x11/gnome/x11ui.c:1845
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1882 src/arch/unix/x11/xaw/x11ui.c:1573
+#: src/arch/unix/x11/gnome/x11ui.c:1889 src/arch/unix/x11/xaw/x11ui.c:1584
 msgid "Extend disk image"
 msgstr "Rozszerzenie obrazu dyskietki"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1883
+#: src/arch/unix/x11/gnome/x11ui.c:1890
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Czy chcesz rozszerzyæ obraz dysku do 40 ¶cie¿ek?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1896
+#: src/arch/unix/x11/gnome/x11ui.c:1903
 msgid "Autostart not possible for unit 9"
 msgstr "Autostart nie mo¿liwy w jednostce 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1904 src/arch/unix/x11/gnome/x11ui.c:1913
+#: src/arch/unix/x11/gnome/x11ui.c:1911 src/arch/unix/x11/gnome/x11ui.c:1920
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Nie mo¿na automatycznie wystartowaæ zaznaczonego %d w obrazie %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2040 src/arch/unix/x11/gnome/x11ui.c:2045
+#: src/arch/unix/x11/gnome/x11ui.c:2047 src/arch/unix/x11/gnome/x11ui.c:2052
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "Nie ma dostêpnej zawarto¶ci obrazu"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2510
+#: src/arch/unix/x11/gnome/x11ui.c:2517
 msgid "Contents"
 msgstr "Zawarto¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2557
+#: src/arch/unix/x11/gnome/x11ui.c:2564
 msgid "Attach write protected"
 msgstr "W³ó¿ zabezpieczone przed zapisem"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2583
+#: src/arch/unix/x11/gnome/x11ui.c:2590
 msgid "Autostart"
 msgstr "Autostart"
 
@@ -2912,7 +2912,7 @@ msgstr "Zapisz obraz kartrid¿a"
 msgid "Automatically using a private colormap."
 msgstr "Automatycznie u¿ywaj w³asnej mapy kolorów"
 
-#: src/arch/unix/x11/xaw/uicolor.c:155
+#: src/arch/unix/x11/xaw/uicolor.c:156
 msgid "XFreeColors failed."
 msgstr "Operacja XfreeColors nie powiod³a siê"
 
@@ -2974,16 +2974,16 @@ msgstr "Zapisz obecnie za³adowany ROM"
 msgid "Save snapshot"
 msgstr "Zapisz obraz"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1168
+#: src/arch/unix/x11/xaw/x11ui.c:1171
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: ¦cie¿ka %.1f "
 
-#: src/arch/unix/x11/xaw/x11ui.c:1458
+#: src/arch/unix/x11/xaw/x11ui.c:1469
 msgid "VICE Error!"
 msgstr "B³±d VICE"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1642
+#: src/arch/unix/x11/xaw/x11ui.c:1652
 msgid "Unknown image type."
 msgstr "Nieznany typ obrazu."
 
