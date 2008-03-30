@@ -383,6 +383,8 @@ void vicii_reset(void)
     /* FIXME: I am not sure this is exact emulation.  */
     vicii.raster_irq_line = 0;
     vicii.raster_irq_clk = 0;
+    vicii.regs[0x11] = 0;
+    vicii.regs[0x12] = 0;
 
     /* Setup the raster IRQ alarm.  The value is `1' instead of `0' because we
        are at the first line, which has a +1 clock cycle delay in IRQs.  */
@@ -454,10 +456,6 @@ void vicii_powerup(void)
     vicii.last_emulate_line_clk = 0;
 
     vicii_reset();
-
-    vicii.regs[0x11] = 0;
-
-    vicii.raster_irq_line = 0;
 
     vicii.raster.blank = 1;
     vicii.raster.display_ystart = vicii.row_24_start_line;
