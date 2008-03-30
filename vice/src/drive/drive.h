@@ -87,6 +87,7 @@
 #define DRIVE_TYPE_1001   1001  /* DOS 2.7 single floppy drive, 1M/disk */
 #define DRIVE_TYPE_8050   8050  /* DOS 2.7 dual floppy drive, 0.5M/disk */
 #define DRIVE_TYPE_8250   8250  /* DOS 2.7 dual floppy drive, 1M/disk */
+#define DRIVE_TYPE_ANY    9999
 
 /* some defines */
 
