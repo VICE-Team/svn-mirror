@@ -22,7 +22,8 @@ libx11ui_a_SOURCES = \
 	c610icon.xpm \
 	c64icon.xpm \
 	peticon.xpm \
-	vic20icon.xpm
+	vic20icon.xpm \
+	ui-cmdline-options.c
 
 .PHONY: xaw gnome
 xaw:

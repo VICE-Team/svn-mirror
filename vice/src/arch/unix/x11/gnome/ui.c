@@ -67,7 +67,6 @@
 #include "ui.h"
 #include "uiarch.h"
 
-#include "cmdline.h"
 #include "datasette.h"
 #include "interrupt.h"
 #include "log.h"
@@ -89,6 +88,7 @@
 #include "imagecontents.h"
 #include "uimenu.h"
 #include "autostart.h"
+#include "video.h"
 
 /* FIXME: We want these to be static.  */
 GdkVisual *visual;
@@ -135,8 +135,8 @@ int vidmodeavail = 0;
 int use_fullscreen = 0;
 int use_fullscreen_at_start = 0;
 
-int vidmodecount;
-XF86VidModeModeInfo **allmodes;
+static int vidmodecount;
+static XF86VidModeModeInfo **allmodes;
 
 static ui_bestvideomode bestmodes[10];
 static int bestmode_counter;
@@ -152,7 +152,7 @@ extern void video_setfullscreen(int v,int width, int height);
 
 /* ------------------------------------------------------------------------- */
 
-ui_resources_t _ui_resources;
+static ui_resources_t _ui_resources;
 
 #ifdef USE_VIDMODE_EXTENSION
 
@@ -639,42 +639,6 @@ static resource_t resources[] = {
 int ui_init_resources(void)
 {
     return resources_register(resources);
-}
-
-/* ------------------------------------------------------------------------- */
-
-static cmdline_option_t cmdline_options[] = {
-    { "-htmlbrowser", SET_RESOURCE, 1, NULL, NULL, "HTMLBrowserCommand", NULL,
-      "<command>", "Specify an HTML browser for the on-line help" },
-    { "-install", SET_RESOURCE, 0, NULL, NULL,
-      "PrivateColormap", (resource_value_t) 1,
-      NULL, "Install a private colormap" },
-    { "+install", SET_RESOURCE, 0, NULL, NULL,
-      "PrivateColormap", (resource_value_t) 0,
-      NULL, "Use the default colormap" },
-    { "-saveres", SET_RESOURCE, 0, NULL, NULL,
-      "SaveResourcesOnExit", (resource_value_t) 1,
-      NULL, "Save settings (resources) on exit" },
-    { "+saveres", SET_RESOURCE, 0, NULL, NULL,
-      "SaveResourcesOnExit", (resource_value_t) 0,
-      NULL, "Never save settings (resources) on exit" },
-#ifdef USE_VIDMODE_EXTENSION
-    { "-fullscreen", SET_RESOURCE, 0, NULL, NULL,
-      "UseFullscreen", (resource_value_t) 1,
-      NULL, "Enable fullscreen" },
-    { "+fullscreen", SET_RESOURCE, 0, NULL, NULL,
-      "UseFullscreen", (resource_value_t) 0,
-      NULL, "Disable fullscreen" },
-#endif
-    { "-displaydepth", SET_RESOURCE, 1, NULL, NULL,
-      "DisplayDepth", NULL,
-      "<value>", "Specify X display depth (1..32)" },
-    { NULL }
-};
-
-int ui_init_cmdline_options(void)
-{
-    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1719,27 +1683,8 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
 	}
         XPutPixel(im, 0, 0, color.pixel);
 #if X_DISPLAY_DEPTH == 0
-        {
-            /* XXX: prototypes where? */
-            extern PIXEL  real_pixel1[];
-            extern PIXEL2 real_pixel2[];
-            extern PIXEL4 real_pixel4[];
-            extern long   real_pixel[];
-            extern BYTE   shade_table[];
-            pixel_return[i] = i;
-            if (depth == 8)
-                pixel_return[i] = *data;
-            else if (im->bits_per_pixel == 8)
-                real_pixel1[i] = *(PIXEL *)data;
-            else if (im->bits_per_pixel == 16)
-                real_pixel2[i] = *(PIXEL2 *)data;
-            else if (im->bits_per_pixel == 32)
-                real_pixel4[i] = *(PIXEL4 *)data;
-            else
-                real_pixel[i] = color.pixel;
-            if (im->bits_per_pixel == 1)
-                shade_table[i] = palette->entries[i].dither;
-        }
+        video_convert_color_table(i, pixel_return, data, im, palette,
+                                  (long)color.pixel, depth);
 #else
         pixel_return[i] = *data;
 #endif
@@ -1850,23 +1795,7 @@ int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
 	unsigned long *ypixel=malloc(sizeof(unsigned long)*n_allocated_pixels);
 
 #if X_DISPLAY_DEPTH == 0
-        extern PIXEL  real_pixel1[];
-        extern PIXEL2 real_pixel2[];
-        extern PIXEL4 real_pixel4[];
-        extern long   real_pixel[];
-        extern BYTE   shade_table[];
-	PIXEL  my_real_pixel1[256];
-	PIXEL2 my_real_pixel2[256];
-	PIXEL4 my_real_pixel4[256];
-	long   my_real_pixel[256];
-	BYTE   my_shade_table[256];
-
-	/* save pixels */
-	memcpy(my_real_pixel, real_pixel, sizeof(my_real_pixel));
-	memcpy(my_real_pixel1, real_pixel1, sizeof(my_real_pixel1));
-	memcpy(my_real_pixel2, real_pixel2, sizeof(my_real_pixel2));
-	memcpy(my_real_pixel4, real_pixel4, sizeof(my_real_pixel4));
-	memcpy(my_shade_table, shade_table, sizeof(my_shade_table));
+        video_convert_save_pixel();
 #endif
 
 	/* save the list of already allocated X pixel values */
@@ -1881,11 +1810,7 @@ int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
 	    memcpy(allocated_pixels, ypixel, sizeof(unsigned long)*nallocp);
 
 #if X_DISPLAY_DEPTH == 0
-	    memcpy(real_pixel, my_real_pixel, sizeof(my_real_pixel));
-	    memcpy(real_pixel1, my_real_pixel1, sizeof(my_real_pixel1));
-	    memcpy(real_pixel2, my_real_pixel2, sizeof(my_real_pixel2));
-	    memcpy(real_pixel4, my_real_pixel4, sizeof(my_real_pixel4));
-	    memcpy(shade_table, my_shade_table, sizeof(my_shade_table));
+            video_convert_restore_pixel();
 #endif
 	    log_error(ui_log, _("Cannot allocate enough colors."));
 	} else {					/* successful */
