@@ -1222,8 +1222,7 @@ const char *mon_disassemble_to_string(ADDRESS addr,
 	sprintf (buff, "            %s", string);
     }
 
-    while (*++buffp)
-        ;
+    while (*++buffp);
 
     switch (addr_mode) {
 
