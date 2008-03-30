@@ -301,6 +301,9 @@
 /* Define if you have the esd library (-lesd).  */
 #undef HAVE_LIBESD
 
+/* Define if you have the resid library (-lresid).  */
+#undef HAVE_LIBRESID
+
 /* Name of package */
 #undef PACKAGE
 

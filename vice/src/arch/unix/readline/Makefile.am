@@ -10,8 +10,6 @@ INCLUDES = \
 
 noinst_LIBRARIES = libreadline.a
 
-EXTRA_DIST = README
-
 libreadline_a_SOURCES = \
 	editline.c \
 	editline.h \
