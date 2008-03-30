@@ -125,16 +125,6 @@ static inline void undump_ciapa(CLOCK rclk, BYTE b)
 
 }
 
-static inline void store_sdr(BYTE byte)
-{
-    iec_fast_cpu_write((BYTE)byte);
-#ifdef HAVE_RS232
-    if (rsuser_enabled) {
-        rsuser_tx_byte((BYTE)byte);
-    }
-#endif
-}
-
 static inline void store_ciapb(CLOCK rclk, BYTE byte)
 {
     /* Falling edge triggers light pen.  */
@@ -195,6 +185,24 @@ static inline void read_ciaicr(void)
         drive0_cpu_execute(maincpu_clk);
     if (drive[1].enable)
         drive1_cpu_execute(maincpu_clk);
+}
+
+static inline void read_sdr(void)
+{
+    if (drive[0].enable)
+        drive0_cpu_execute(maincpu_clk);
+    if (drive[1].enable)
+        drive1_cpu_execute(maincpu_clk);
+}
+
+static inline void store_sdr(BYTE byte)
+{
+    iec_fast_cpu_write((BYTE)byte);
+#ifdef HAVE_RS232
+    if (rsuser_enabled) {
+        rsuser_tx_byte((BYTE)byte);
+    }
+#endif
 }
 
 #include "ciacore.c"

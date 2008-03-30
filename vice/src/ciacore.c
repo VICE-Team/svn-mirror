@@ -678,6 +678,7 @@ BYTE cia_read_(CIA_CONTEXT_PARAM WORD addr)
         break;
 
       case CIA_SDR:             /* Serial Port Shift Register */
+        read_sdr(CIA_CONTEXT_CALLVOID);
         cia_last_read = cia[CIA_SDR];
         return cia_last_read;
         break;

@@ -143,11 +143,6 @@ static inline void pulse_ciapc(drive_context_t *ctxptr, CLOCK rclk) { }
 #define PRE_READ_CIA
 #define PRE_PEEK_CIA
 
-static inline void store_sdr(drive_context_t *ctxptr, BYTE byte)
-{
-    iec_fast_drive_write(byte, ctxptr->mynumber);
-}
-
 static inline void undump_ciapa(drive_context_t *ctxptr, CLOCK rclk, BYTE b)
 {
     ctxptr->drive_ptr->led_status = (b & 0x40) ? 1 : 0;
@@ -215,9 +210,16 @@ static inline BYTE read_ciapb(drive_context_t *ctxptr)
 
 static inline void read_ciaicr(drive_context_t *ctxptr)
 {
-
 }
 
+static inline void read_sdr(drive_context_t *ctxptr)
+{
+}
+
+static inline void store_sdr(drive_context_t *ctxptr, BYTE byte)
+{
+    iec_fast_drive_write(byte, ctxptr->mynumber);
+}
 
 /* special callback handling */
 

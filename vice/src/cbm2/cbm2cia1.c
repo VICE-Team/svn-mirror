@@ -125,14 +125,8 @@ static inline void undump_ciapa(CLOCK rclk, BYTE byte)
     parallel_cpu_set_bus((BYTE)(cia1_ieee_is_output ? byte : 0xff));
 }
 
-static inline void store_sdr(BYTE byte)
-{
-
-}
-
 static inline void undump_ciapb(CLOCK rclk, BYTE b)
 {
-
 }
 
 static inline void store_ciapb(CLOCK rclk, BYTE byte)
@@ -179,7 +173,14 @@ static inline BYTE read_ciapb(void)
 
 static inline void read_ciaicr(void)
 {
+}
 
+static inline void read_sdr(void)
+{
+}
+
+static inline void store_sdr(BYTE byte)
+{
 }
 
 #include "ciacore.c"

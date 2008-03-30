@@ -205,7 +205,7 @@ static inline BYTE read_ciapa(void)
     if (drive[1].enable)
         drive1_cpu_execute(maincpu_clk);
 
-    byte = ( (cia[CIA_PRA] | ~cia[CIA_DDRA]) & 0x3f) | cia2_iec_info->cpu_port;
+    byte = ((cia[CIA_PRA] | ~cia[CIA_DDRA]) & 0x3f) | cia2_iec_info->cpu_port;
     return byte;
 }
 
@@ -234,7 +234,13 @@ static inline void read_ciaicr(void)
         drive1_cpu_execute(maincpu_clk);
 }
 
-static inline void store_sdr(BYTE byte) {}
+static inline void read_sdr(void)
+{
+}
+
+static inline void store_sdr(BYTE byte)
+{
+}
 
 #include "ciacore.c"
 
