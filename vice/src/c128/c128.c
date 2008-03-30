@@ -66,6 +66,7 @@
 #include "log.h"
 #include "machine-drive.h"
 #include "machine-printer.h"
+#include "machine-video.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "monitor.h"
@@ -309,8 +310,7 @@ int machine_resources_init(void)
 {
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
-        || video_resources_pal_init() < 0
-        || video_resources_init() < 0
+	|| machine_video_resources_init() < 0
         || c128_resources_init() < 0
         || reu_resources_init() < 0
 #ifdef HAVE_TFE
@@ -463,11 +463,9 @@ int machine_init(void)
                    (3 * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH),
                    1, 0xa27, 0xe0, 0xec, 0xee);
 
-    /* Initialize the VDC emulation.  */
     if (vdc_init() == NULL)
         return -1;
 
-    /* Initialize the VIC-II emulation.  */
     if (vicii_init(VICII_EXTENDED) == NULL)
         return -1;
 
@@ -690,16 +688,6 @@ int machine_autodetect_psid(const char *name)
 
 void machine_play_psid(int tune)
 {
-}
-
-struct video_canvas_s *machine_canvas_get(unsigned int window)
-{
-    if (window == 0)
-        return vdc_get_canvas();
-    if (window == 1)
-        return vicii_get_canvas();
-
-    return NULL;
 }
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)

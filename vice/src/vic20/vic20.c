@@ -47,6 +47,7 @@
 #include "log.h"
 #include "machine-drive.h"
 #include "machine-printer.h"
+#include "machine-video.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -215,8 +216,7 @@ int machine_resources_init(void)
 {
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
-        || video_resources_pal_init() < 0
-        || video_resources_init() < 0
+        || machine_video_resources_init() < 0
         || vic20_resources_init() < 0
         || vic_resources_init() < 0
         || sound_resources_init() < 0
@@ -526,14 +526,6 @@ int machine_autodetect_psid(const char *name)
 
 void machine_play_psid(int tune)
 {
-}
-
-struct video_canvas_s *machine_canvas_get(unsigned int window)
-{
-    if (window == 0)
-        return vic_get_canvas();
-
-    return NULL;
 }
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)

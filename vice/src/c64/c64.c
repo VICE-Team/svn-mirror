@@ -62,6 +62,7 @@
 #include "log.h"
 #include "machine-drive.h"
 #include "machine-printer.h"
+#include "machine-video.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -235,14 +236,13 @@ int machine_resources_init(void)
 {
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
-        || video_resources_pal_init() < 0
-        || video_resources_init() < 0
+        || machine_video_resources_init() < 0
         || c64_resources_init() < 0
         || reu_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
 #endif
-        || vicii_resources_init() < 0
+	|| vicii_resources_init() < 0
         || sound_resources_init() < 0
         || sid_resources_init() < 0
         || acia1_resources_init() < 0
@@ -397,8 +397,7 @@ int machine_init(void)
                        1, 0xcc, 0xd1, 0xd3, 0xd5);
     }
 
-    /* Initialize the VIC-II emulation. */
-    if (!vicii_init(VICII_STANDARD) && !console_mode && !vsid_mode)
+    if (vicii_init(VICII_STANDARD) == NULL && !console_mode && !vsid_mode)
         return -1;
 
     cia1_init(machine_context.cia1);
@@ -669,14 +668,6 @@ int machine_autodetect_psid(const char *name)
 void machine_play_psid(int tune)
 {
     psid_set_tune(tune);
-}
-
-struct video_canvas_s *machine_canvas_get(unsigned int window)
-{
-    if (window == 0)
-        return vicii_get_canvas();
-
-    return NULL;
 }
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
