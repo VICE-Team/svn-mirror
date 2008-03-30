@@ -35,10 +35,11 @@
 
 #include <stdlib.h>
 
-#include "crtc.h"
 #include "crtc-cmdline-options.h"
 #include "crtc-draw.h"
 #include "crtc-resources.h"
+#include "crtc.h"
+#include "crtctypes.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -338,7 +339,7 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 
 /*--------------------------------------------------------------------*/
 
-canvas_t crtc_init (void)
+void *crtc_init(void)
 {
   raster_t *raster;
   char *title;
@@ -407,7 +408,7 @@ canvas_t crtc_init (void)
   raster->display_xstart = CRTC_SCREEN_BORDERWIDTH;
   raster->display_xstop = crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH;
 */
-  return crtc.raster.viewport.canvas;
+  return (void *)crtc.raster.viewport.canvas;
 }
 
 /* Reset the CRTC chip.  */

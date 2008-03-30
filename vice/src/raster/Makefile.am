@@ -6,8 +6,6 @@ INCLUDES = \
 noinst_LIBRARIES = libraster.a
 
 libraster_a_SOURCES = \
-	raster.c \
-	raster.h \
 	raster-cache.c \
 	raster-cache.h \
 	raster-changes.c \
@@ -19,4 +17,7 @@ libraster_a_SOURCES = \
 	raster-sprite-status.c \
 	raster-sprite-status.h \
 	raster-sprite-cache.c \
-	raster-sprite-cache.h
+	raster-sprite-cache.h \
+	raster.c \
+	raster.h
+

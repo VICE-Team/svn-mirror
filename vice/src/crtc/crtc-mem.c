@@ -31,8 +31,9 @@
 
 #include "vice.h"
 
-#include "crtc.h"
 #include "crtc-mem.h"
+#include "crtc.h"
+#include "crtctypes.h"
 #include "maincpu.h"
 #include "types.h"
 

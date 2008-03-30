@@ -31,8 +31,9 @@
 
 #include "vice.h"
 
-#include "crtc.h"
 #include "crtc-draw.h"
+#include "crtc.h"
+#include "crtctypes.h"
 #include "types.h"
 
 

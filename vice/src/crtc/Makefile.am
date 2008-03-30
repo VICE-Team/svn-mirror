@@ -7,8 +7,6 @@ INCLUDES = \
 noinst_LIBRARIES = libcrtc.a
 
 libcrtc_a_SOURCES = \
-	crtc.c \
-	crtc.h \
 	crtc-cmdline-options.c \
 	crtc-cmdline-options.h \
 	crtc-draw.c \
@@ -17,6 +15,8 @@ libcrtc_a_SOURCES = \
 	crtc-mem.h \
 	crtc-resources.c \
 	crtc-resources.h \
-	crtc-snapshot.c 
+	crtc-snapshot.c \
+	crtc.c \
+	crtc.h \
+	crtctypes.h
 
-EXTRA_DIST =

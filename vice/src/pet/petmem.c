@@ -33,6 +33,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "autostart.h"
 #include "cmdline.h"

@@ -27,8 +27,9 @@
 
 #include "vice.h"
 
-#include "crtc.h"
 #include "crtc-resources.h"
+#include "crtc.h"
+#include "crtctypes.h"
 #include "utils.h"
 
 

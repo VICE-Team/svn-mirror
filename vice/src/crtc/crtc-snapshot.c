@@ -32,6 +32,7 @@
 #include "vice.h"
 
 #include "crtc.h"
+#include "crtctypes.h"
 #include "maincpu.h"
 #include "snapshot.h"
 #include "types.h"

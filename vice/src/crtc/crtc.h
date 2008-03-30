@@ -34,168 +34,17 @@
 
 #include "vice.h"
 
-#include "alarm.h"
 #include "crtc-mem.h"
-#include "log.h"
-#include "raster.h"
 #include "snapshot.h"
 #include "types.h"
 
-
-
-
-/* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
-   memory and (little) speed.  */
-#if(!defined(__MSDOS__) && !defined(__riscos) && !defined(OS2))
-#define CRTC_NEED_2X 1
-#endif
-
-
-
-enum _crtc_video_mode
-  {
-    CRTC_STANDARD_MODE,
-    CRTC_REVERSE_MODE,
-    CRTC_NUM_VMODES
-  };
-typedef enum _crtc_video_mode crtc_video_mode_t;
-
-#define CRTC_IDLE_MODE CRTC_STANDARD_MODE
-
-#define	CRTC_NUM_COLORS	2
-
-
-
 typedef void (*machine_crtc_retrace_signal_t)(unsigned int);
 
-struct _crtc
-  {
-    /* Flag: Are we initialized?  */
-    int initialized;
+extern void *crtc_init(void);
+extern void crtc_reset(void);
 
-    /*---------------------------------------------------------------*/
-
-    /* window size computed by crtc_set_screen_options() */
-    int screen_width;
-    int screen_height;
-
-    /* hardware options as given to crtc_set_hw_options() */
-    int hw_cursor;
-    int hw_cols;	/* 1 or 2, number of chars per cycle */
-    int hw_blank;
-    int vaddr_mask;
-    int vaddr_charswitch;
-    int vaddr_charoffset;
-    int vaddr_revswitch;
-
-    /* screen and charset memory options (almost) as given to 
-       crtc_set_chargen_addr() and crtc_set_screen_addr() */
-    BYTE *screen_base;
-    BYTE *chargen_base;
-    int chargen_mask;
-    int chargen_offset;
-
-    /* those values are derived */
-    int chargen_rel;	/* currently used charset rel. to chargen_base */
-    int screen_rel;	/* current screen line rel. to screen_base */
-
-    /* internal CRTC state variables */
-
-    int regno;		/* current register selected with store to addr 0 */
-
-    /* The alarm handler is called in the last cycles of a rasterline.
-       Some effects need better timing, though */
-
-    /* rasterline variables */
-    CLOCK rl_start;	/* clock when the current rasterline starts */
-    int rl_visible;	/* number of visible chars in this line */
-    int rl_sync;	/* character in line when the sync starts */
-    int rl_len;		/* length of line in cycles */
-    int sync_diff;	/* cycles between two sync pulses */
-
-    /* values of the previous rasterline */
-    int prev_rl_visible;
-    int prev_rl_sync;
-    int prev_rl_len;
-    int prev_screen_rel;
-
-    /* internal state */
-    int hjitter;	/* horizontal jitter when sync phase is changed */
-    int xoffset;	/* pixel-offset of current rasterline */
-    int screen_xoffset;	/* pixel-offset of current rasterline */
-    int screen_yoffset;	/* rasterline-offset of CRTC to VICE screen */
-
-    int henable;	/* flagged when horizontal enable flipflop has not
-			   been reset in line */
-
-    int current_line;	/* current rasterline as of CRTC counting */
-    int framelines;	/* expected number of rasterlines for current frame,
-			   decreasing till end */
-    int venable;	/* flagged when vertical enable flipflop has not
-			   been reset in frame */
-    int vsync;		/* number of rasterlines till end of vsync */
-
-    int current_charline; /* state of the current character line counter */
-
-    int blank;		/* external blank (only honored if hw_blank set) */
-
-    /* frame */
-
-    CLOCK frame_start;	/* when did the last frame start */
-			/* last frame length */
-    long cycles_per_frame;
-
-    /*---------------------------------------------------------------*/
-
-    int crsrmode;	/* 0=no crsr, 1=continous, 2=1/32, 3=1/16 */
-    int crsrcnt;	/* framecounter */
-    int crsrstate;	/* 1=crsr active */
-    int cursor_lines;	/* flagged when rasterline within hw cursor lines */
-
-    /*---------------------------------------------------------------*/
-
-    /* this is the function to be called when the retrace signal
-       changes. type&1=0: old PET, type&1=1: CRTC-PET. retrace_type 
-       Also used by crtc_offscreen() */
-
-    machine_crtc_retrace_signal_t retrace_callback;
-
-    int retrace_type;
-
-    /*---------------------------------------------------------------*/
-
-    /* All the CRTC logging goes here.  */
-    log_t log;
-
-    /* CRTC raster.  */
-    raster_t raster;
-
-    /* CRTC registers.  */
-    int regs[64];
-
-    /* Alarm to update a raster line.  */
-    alarm_t raster_draw_alarm;
-  };
-typedef struct _crtc crtc_t;
-
-extern crtc_t crtc;
-
-/* those define the invisible borders, where we never paint anything */
-#define CRTC_SCREEN_BORDERWIDTH  8
-#define CRTC_SCREEN_BORDERHEIGHT 8
-
-/* These define the extra space around the size given from the machine,
-   to allow effects like open borders etc. */
-#define	CRTC_EXTRA_COLS		6
-#define	CRTC_EXTRA_RASTERLINES	16
-
-
-
-extern canvas_t crtc_init (void);
-extern void crtc_reset (void);
-
-extern int crtc_init_resources (void);
-extern int crtc_init_cmdline_options (void);
+extern int crtc_init_resources(void);
+extern int crtc_init_cmdline_options(void);
 
 extern int crtc_write_snapshot_module(snapshot_t *s);
 extern int crtc_read_snapshot_module(snapshot_t *s);
@@ -216,14 +65,5 @@ extern int crtc_offscreen(void);
 
 extern void crtc_update_window(void);
 
-
-
-/* Private function calls, used by the other VIC-II modules.  FIXME:
-   Prepend names with `_'?  */
-extern int crtc_load_palette (const char *name);
-extern void crtc_resize (void);
-extern void crtc_exposure_handler (unsigned int width, unsigned int height);
-extern int crtc_raster_draw_alarm_handler (CLOCK offset);
-
-#endif /* _CRTC_H */
+#endif
 

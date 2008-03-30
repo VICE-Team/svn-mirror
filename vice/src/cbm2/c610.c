@@ -64,6 +64,7 @@
 #include "types.h"
 #include "utils.h"
 #include "via.h"
+#include "video.h"
 #include "vsync.h"
 
 #ifdef HAVE_PRINTER
