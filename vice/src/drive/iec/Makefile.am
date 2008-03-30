@@ -7,8 +7,14 @@ INCLUDES = \
 noinst_LIBRARIES = libdriveiec.a
 
 libdriveiec_a_SOURCES = \
+	iec-resources.c \
+	iec-resources.h \
 	iec.c \
+	iecrom.c \
+	iecrom.h \
 	memiec.c \
 	memiec.h \
 	cia1571d.c \
-	cia1581d.c
+	cia1581d.c \
+	wd1770.c \
+	wd1770.h
