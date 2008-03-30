@@ -105,6 +105,7 @@ extern HWND ui_open_canvas_window(const char *title, unsigned int width,
 extern void ui_resize_canvas_window(HWND w, unsigned int width,
                                     unsigned int height);
 extern FILE *ui_console_save_dialog(HWND hwnd);
+extern int ui_emulation_is_paused(void);
 
 #endif
 
