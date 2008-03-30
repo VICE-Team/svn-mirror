@@ -379,6 +379,9 @@
 /* Enable new color management code. */
 #undef USE_COLOR_MANAGEMENT
 
+/* Enable CoreAudio support. */
+#undef USE_COREAUDIO
+
 /* Use GNOME UI. */
 #undef USE_GNOMEUI
 

@@ -566,6 +566,7 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
             "Copyright (c) 2000-2005 Spiro Trikaliotis",
             "Copyright (c) 2003-2005 David Hansel",
             "Copyright (c) 2000-2004 Markus Brenner",
+            "Copyright (c) 2005      Marco van den Heuvel",
             "",
             "Official VICE homepage:",
             "http://www.viceteam.org/",

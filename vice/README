@@ -89,6 +89,11 @@
 
    - doc/NLS-Howto.txt, some documentation about Unix NLS support;
 
+   - doc/MSDOS-Howto.txt, how to compile the MSDOS port.
+
+   - doc/MSDOS-Ethernet-Howto.txt, how to compile the MSDOS port with
+     ethernet support.
+
    - doc/iec-bus.txt, overview of the VICE IEC bus emulation;
 
  For the latest news, have a look at the VICE home page:
@@ -116,6 +121,7 @@
     Copyright C 2000-2005 Spiro Trikaliotis
     Copyright C 2003-2005 David Hansel
     Copyright C 2000-2004 Markus Brenner
+    Copyright C 2005      Marco van den Heuvel
 
     Copyright C 1997-2001 Daniel Sladic
     Copyright C 1996-1999 Ettore Perazzoli

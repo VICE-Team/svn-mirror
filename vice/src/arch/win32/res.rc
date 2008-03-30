@@ -587,7 +587,8 @@ BEGIN
     LTEXT    "Copyright (c) 2000-2005 Spiro Trikaliotis",IDC_STATIC,5,113,180,8
     LTEXT    "Copyright (c) 2003-2005 David Hansel",IDC_STATIC,5,122,180,8
     LTEXT    "Copyright (c) 2000-2004 Markus Brenner",IDC_STATIC,5,131,180,8
-    LTEXT    " ",IDC_STATIC,5,140,180,8
+    LTEXT    "Copyright (c) 2005      Marco van den Heuvel",IDC_STATIC,5,140,180,8
+    LTEXT    " ",IDC_STATIC,5,149,180,8
 END
 
 // -----------------------------------------------------------------------------
@@ -4174,12 +4175,19 @@ BEGIN
   IDS_START_VICE_FULLSCREEN_MODE  "Start VICE in fullscreen mode"
 END
 
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_OK                          "OK"
+    IDS_CANCEL                      "Cancel"
+    IDS_BROWSE                      "&Browse..."
+END
+
 
 // GERMAN text
 
 STRINGTABLE
 BEGIN
-  IDS_NONE_DE                        "Kein"
   IDS_VICE_ERROR_DE                  "VICE Error!"
   IDS_VICE_INFORMATION_DE            "VICE Information"
   IDS_VICE_QUESTION_DE               "VICE question"
@@ -4346,12 +4354,20 @@ BEGIN
   IDS_START_VICE_FULLSCREEN_MODE_DE  "Start VICE in fullscreen mode"
 END
 
+STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_OK                          "OK"
+    IDS_CANCEL                      "Abbruch"
+    IDS_NONE                        "Kein"
+    IDS_BROWSE                      "&Stöbern..."
+END
+
 
 // FRENCH text
 
 STRINGTABLE
 BEGIN
-  IDS_NONE_FR                        "Aucun"
   IDS_VICE_ERROR_FR                  "VICE Error!"
   IDS_VICE_INFORMATION_FR            "VICE Information"
   IDS_VICE_QUESTION_FR               "VICE question"
@@ -4518,12 +4534,20 @@ BEGIN
   IDS_START_VICE_FULLSCREEN_MODE_FR  "Start VICE in fullscreen mode"
 END
 
+STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_OK                          "OK"
+    IDS_CANCEL                      "Annuler"
+    IDS_NONE                        "Aucun"
+    IDS_BROWSE                      "&Parcourir..."
+END
+
 
 // ITALIAN text
 
 STRINGTABLE
 BEGIN
-  IDS_NONE_IT                        "Nessuno"
   IDS_VICE_ERROR_IT                  "VICE Error!"
   IDS_VICE_INFORMATION_IT            "VICE Information"
   IDS_VICE_QUESTION_IT               "VICE question"
@@ -4690,12 +4714,20 @@ BEGIN
   IDS_START_VICE_FULLSCREEN_MODE_IT  "Start VICE in fullscreen mode"
 END
 
+STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_OK                          "OK"
+    IDS_CANCEL                      "Annulla"
+    IDS_NONE                        "Nessuno"
+    IDS_BROWSE                      "&Sfoglia..."
+END
+
 
 // DUTCH text
 
 STRINGTABLE
 BEGIN
-  IDS_NONE_NL                        "Geen"
   IDS_VICE_ERROR_NL                  "VICE Fout!"
   IDS_VICE_INFORMATION_NL            "VICE Informatie"
   IDS_VICE_QUESTION_NL               "VICE vraag"
@@ -4863,12 +4895,21 @@ BEGIN
 END
 
 
+STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_OK                          "OK"
+    IDS_CANCEL                      "Annuleren"
+    IDS_NONE                        "Geen"
+    IDS_BROWSE                      "&Bladeren..."
+END
+
+
 // POLISH text
 
 #pragma code_page(28592)
 STRINGTABLE
 BEGIN
-  IDS_NONE_PL                        "Brak"
   IDS_VICE_ERROR_PL                  "VICE Error!"
   IDS_VICE_INFORMATION_PL            "VICE Information"
   IDS_VICE_QUESTION_PL               "VICE question"
@@ -5034,6 +5075,17 @@ BEGIN
   IDS_USE_FIRST_CPU_SMP_PL           "Use only first CPU on SMP systems"
   IDS_START_VICE_FULLSCREEN_MODE_PL  "Start VICE in fullscreen mode"
 END
+
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_OK                          "OK"
+    IDS_CANCEL                      "Anuluj"
+    IDS_NONE                        "Brak"
+    IDS_BROWSE                      "&Przegl±daj..."
+END
+
+
 #pragma code_page(28591)
 
 
@@ -5041,7 +5093,6 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_NONE_SV                        "Ingen"
   IDS_VICE_ERROR_SV                  "VICE Error!"
   IDS_VICE_INFORMATION_SV            "VICE Information"
   IDS_VICE_QUESTION_SV               "VICE question"
@@ -5206,6 +5257,15 @@ BEGIN
   IDS_USE_ALL_CPU_SMP_SV             "Use all CPU on SMP systems"
   IDS_USE_FIRST_CPU_SMP_SV           "Use only first CPU on SMP systems"
   IDS_START_VICE_FULLSCREEN_MODE_SV  "Start VICE in fullscreen mode"
+END
+
+STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_OK                          "OK"
+    IDS_CANCEL                      "Avbryt"
+    IDS_NONE                        "Ingen"
+    IDS_BROWSE                      "&Bläddra..."
 END
 
 // -----------------------------------------------------------------------------

@@ -70,6 +70,7 @@ void ui_about(gpointer data)
         "Copyright @ 2000-2005 Spiro Trikaliotis",
         "Copyright @ 2003-2005 David Hansel",
         "Copyright @ 2000-2004 Markus Brenner",
+        "Copyright @ 2005      Marco van den Heuvel",
         "",
 #ifdef __GNUC__
 	_("Official VICE homepage:"),

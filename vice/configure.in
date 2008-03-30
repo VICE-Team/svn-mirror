@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=16
-VICE_VERSION_BUILD=18
+VICE_VERSION_BUILD=19
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -272,6 +272,14 @@ if test x"$enable_nls" != x"no" ; then
     [AC_CACHE_CHECK([for gettext in libc], gt_cv_func_gettext_libc,
       [AC_TRY_LINK([#include <libintl.h>], [return (int) gettext ("")],
   	 gt_cv_func_gettext_libc=yes, gt_cv_func_gettext_libc=no)])
+
+     AC_CACHE_CHECK([for gettext in libintl], gt_cv_func_gettext_libintl,
+      [save_libs="$LIBS"
+       LIBS="-lintl $LIBS"
+       AC_TRY_LINK([#include <libintl.h>], [return (int) gettext ("")],
+  	 INTLLIBS=-lintl gt_cv_func_gettext_libintl=yes, gt_cv_func_gettext_libintl=no)
+       LIBS="$save_libs"])
+
      if test "$gt_cv_func_gettext_libc" = "yes" \
   	|| test "$gt_cv_func_gettext_libintl" = "yes"; then
   	AC_DEFINE(HAVE_GETTEXT,,[Define if gettext if available.])
@@ -718,6 +726,23 @@ fi
 
 if [[ x"$is_riscos" = "xyes" ]]; then
     SOUND_DRIVERS="$SOUND_DRIVERS soundacorn.o"
+fi
+
+AC_CHECK_HEADER(CoreAudio/CoreAudio.h,,)
+if test x"$ac_cv_header_CoreAudio_CoreAudio_h" = "xyes" ; then
+  AC_CHECK_HEADER(AudioToolbox/AudioToolbox.h,,)
+  if test x"$ac_cv_header_AudioToolbox_AudioToolbox_h" = "xyes" ; then
+    AC_MSG_CHECKING(whether we can link the CoreAudio framework)
+    old_LIBS="${LIBS}"
+    LIBS="${LIBS} -framework CoreAudio -framework AudioToolbox"
+    AC_TRY_LINK([#include <CoreAudio/CoreAudio.h>],
+                [AudioDeviceStart(0,0);],
+                [AC_MSG_RESULT(yes);
+                 SOUND_DRIVERS="$SOUND_DRIVERS soundcoreaudio.o";
+                 AC_DEFINE(USE_COREAUDIO,,[Enable CoreAudio support.])],
+                [AC_MSG_RESULT(no);
+                 LIBS=${old_LIBS}])
+  fi
 fi
 
 AC_SUBST(SOUND_DRIVERS)

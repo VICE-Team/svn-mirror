@@ -100,15 +100,6 @@ static int intl_table[][countof(language_table)] = {
 
 /* ------------------------------ DIALOG RESOURCES ------------------------------ */ 
 
-/* resacia.rc */
-/* en */ {IDD_ACIA_SETTINGS_DIALOG,
-/* de */  IDD_ACIA_SETTINGS_DIALOG_DE,    /* fuzzy, size */
-/* fr */  IDD_ACIA_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_ACIA_SETTINGS_DIALOG_IT,    /* fuzzy, size */
-/* nl */  IDD_ACIA_SETTINGS_DIALOG_NL,
-/* pl */  IDD_ACIA_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_ACIA_SETTINGS_DIALOG_SV},   /* fuzzy, size */
-
 /* resc128.rc */
 /* en */ {IDD_C128ROM_SETTINGS_DIALOG,
 /* de */  IDD_C128ROM_SETTINGS_DIALOG_DE,    /* fuzzy, size */
@@ -207,60 +198,6 @@ static int intl_table[][countof(language_table)] = {
 /* nl */  IDD_GEORAM_SETTINGS_DIALOG_NL,
 /* pl */  IDD_GEORAM_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_GEORAM_SETTINGS_DIALOG_SV},   /* fuzzy, size */
-
-/* resramcart.rc */
-/* en */ {IDD_RAMCART_SETTINGS_DIALOG,
-/* de */  IDD_RAMCART_SETTINGS_DIALOG_DE,    /* fuzzy, size */
-/* fr */  IDD_RAMCART_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_RAMCART_SETTINGS_DIALOG_IT,    /* fuzzy, size */
-/* nl */  IDD_RAMCART_SETTINGS_DIALOG_NL,
-/* pl */  IDD_RAMCART_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_RAMCART_SETTINGS_DIALOG_SV},   /* fuzzy, size */
-
-/* resreu.rc */
-/* en */ {IDD_REU_SETTINGS_DIALOG,
-/* de */  IDD_REU_SETTINGS_DIALOG_DE,    /* fuzzy, size */
-/* fr */  IDD_REU_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_REU_SETTINGS_DIALOG_IT,    /* fuzzy, size */
-/* nl */  IDD_REU_SETTINGS_DIALOG_NL,
-/* pl */  IDD_REU_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_REU_SETTINGS_DIALOG_SV},   /* fuzzy, size */
-
-/* reside64.rc */
-/* en */ {IDD_IDE64_SETTINGS_DIALOG,
-/* de */  IDD_IDE64_SETTINGS_DIALOG_DE,    /* fuzzy, size */
-/* fr */  IDD_IDE64_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_IDE64_SETTINGS_DIALOG_IT,    /* fuzzy, size */
-/* nl */  IDD_IDE64_SETTINGS_DIALOG_NL,
-/* pl */  IDD_IDE64_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_IDE64_SETTINGS_DIALOG_SV},   /* fuzzy, size */
-
-/* restfe.rc */
-/* en */ {IDD_TFE_SETTINGS_DIALOG,
-/* de */  IDD_TFE_SETTINGS_DIALOG_DE,    /* fuzzy, size */
-/* fr */  IDD_TFE_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_TFE_SETTINGS_DIALOG_IT,    /* fuzzy, size */
-/* nl */  IDD_TFE_SETTINGS_DIALOG_NL,
-/* pl */  IDD_TFE_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_TFE_SETTINGS_DIALOG_SV},   /* fuzzy, size */
-
-/* resrs232user.rc */
-/* en */ {IDD_RS232USER_SETTINGS_DIALOG,
-/* de */  IDD_RS232USER_SETTINGS_DIALOG_DE,    /* fuzzy, size */
-/* fr */  IDD_RS232USER_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_RS232USER_SETTINGS_DIALOG_IT,    /* fuzzy, size */
-/* nl */  IDD_RS232USER_SETTINGS_DIALOG_NL,
-/* pl */  IDD_RS232USER_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_RS232USER_SETTINGS_DIALOG_SV},   /* fuzzy, size */
-
-/* resvicii.rc */
-/* en */ {IDD_VICII_DIALOG,
-/* de */  IDD_VICII_DIALOG_DE,    /* fuzzy, size */
-/* fr */  IDD_VICII_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_VICII_DIALOG_IT,    /* fuzzy, size */
-/* nl */  IDD_VICII_DIALOG_NL,
-/* pl */  IDD_VICII_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_VICII_DIALOG_SV},   /* fuzzy, size */
 
 /* resc64.rc */
 /* en */ {IDD_C64ROM_SETTINGS_DIALOG,
@@ -515,15 +452,6 @@ static int intl_table[][countof(language_table)] = {
 /* sv */  IDD_PLUS4KBD_MAPPING_SETTINGS_DIALOG_SV},   /* fuzzy, size */
 
 /* resvic20.rc */
-/* en */ {IDD_VIC20ROM_SETTINGS_DIALOG,
-/* de */  IDD_VIC20ROM_SETTINGS_DIALOG_DE,    /* fuzzy, size */
-/* fr */  IDD_VIC20ROM_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_VIC20ROM_SETTINGS_DIALOG_IT,    /* fuzzy, size */
-/* nl */  IDD_VIC20ROM_SETTINGS_DIALOG_NL,
-/* pl */  IDD_VIC20ROM_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_VIC20ROM_SETTINGS_DIALOG_SV},   /* fuzzy, size */
-
-/* resvic20.rc */
 /* en */ {IDD_VIC20DRIVEROM_SETTINGS_DIALOG,
 /* de */  IDD_VIC20DRIVEROM_SETTINGS_DIALOG_DE,    /* fuzzy, size */
 /* fr */  IDD_VIC20DRIVEROM_SETTINGS_DIALOG_FR,    /* fuzzy, size */
@@ -533,15 +461,6 @@ static int intl_table[][countof(language_table)] = {
 /* sv */  IDD_VIC20DRIVEROM_SETTINGS_DIALOG_SV},   /* fuzzy, size */
 
 /* resvic20.rc */
-/* en */ {IDD_VIC_SETTINGS_DIALOG,
-/* de */  IDD_VIC_SETTINGS_DIALOG_DE,    /* fuzzy, size */
-/* fr */  IDD_VIC_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_VIC_SETTINGS_DIALOG_IT,    /* fuzzy, size */
-/* nl */  IDD_VIC_SETTINGS_DIALOG_NL,
-/* pl */  IDD_VIC_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_VIC_SETTINGS_DIALOG_SV},   /* fuzzy, size */
-
-/* resvic20.rc */
 /* en */ {IDD_VIC20ROM_RESOURCE_DIALOG,
 /* de */  IDD_VIC20ROM_RESOURCE_DIALOG_DE,    /* fuzzy, size */
 /* fr */  IDD_VIC20ROM_RESOURCE_DIALOG_FR,    /* fuzzy, size */
@@ -549,15 +468,6 @@ static int intl_table[][countof(language_table)] = {
 /* nl */  IDD_VIC20ROM_RESOURCE_DIALOG_NL,
 /* pl */  IDD_VIC20ROM_RESOURCE_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_VIC20ROM_RESOURCE_DIALOG_SV},   /* fuzzy, size */
-
-/* resvic20.rc */
-/* en */ {IDD_VIC20ROMDRIVE_RESOURCE_DIALOG,
-/* de */  IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_DE,    /* fuzzy, size */
-/* fr */  IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_IT,    /* fuzzy, size */
-/* nl */  IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_NL,
-/* pl */  IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_VIC20ROMDRIVE_RESOURCE_DIALOG_SV},   /* fuzzy, size */
 
 /* resvic20.rc */
 /* en */ {IDD_VIC20KBD_MAPPING_SETTINGS_DIALOG,
@@ -757,16 +667,6 @@ static int intl_table[][countof(language_table)] = {
 /* pl */  IDD_RS232_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_RS232_SETTINGS_DIALOG_SV},   /* fuzzy, size */
 
-/* resplus60k.rc */
-/* en */ {IDD_PLUS60K_SETTINGS_DIALOG,
-/* de */  IDD_PLUS60K_SETTINGS_DIALOG_DE,    /* fuzzy, size */
-/* fr */  IDD_PLUS60K_SETTINGS_DIALOG_FR,    /* fuzzy, size */
-/* it */  IDD_PLUS60K_SETTINGS_DIALOG_IT,    /* fuzzy, size */
-/* nl */  IDD_PLUS60K_SETTINGS_DIALOG_NL,    /* size */
-/* pl */  IDD_PLUS60K_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_PLUS60K_SETTINGS_DIALOG_SV},   /* fuzzy, size */
-
-
 /* ------------------------------ MENU RESOURCES ------------------------------ */ 
 
 /* res.rc */
@@ -846,33 +746,6 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* nl */  IDS_RS232_DEVICE_I_NL,
 /* pl */  IDS_RS232_DEVICE_I_PL,    /* fuzzy */
 /* sv */  IDS_RS232_DEVICE_I_SV},   /* fuzzy */
-
-/* res.rc */
-/* en */ {IDS_NONE,
-/* de */  IDS_NONE_DE,
-/* fr */  IDS_NONE_FR,
-/* it */  IDS_NONE_IT,
-/* nl */  IDS_NONE_NL,
-/* pl */  IDS_NONE_PL,
-/* sv */  IDS_NONE_SV},
-
-/* resacia.rc */
-/* en */ {IDS_IRQ,
-/* de */  IDS_IRQ_DE,    /* fuzzy */
-/* fr */  IDS_IRQ_FR,    /* fuzzy */
-/* it */  IDS_IRQ_IT,    /* fuzzy */
-/* nl */  IDS_IRQ_NL,
-/* pl */  IDS_IRQ_PL,    /* fuzzy */
-/* sv */  IDS_IRQ_SV},   /* fuzzy */
-
-/* resacia.rc */
-/* en */ {IDS_NMI,
-/* de */  IDS_NMI_DE,    /* fuzzy */
-/* fr */  IDS_NMI_FR,    /* fuzzy */
-/* it */  IDS_NMI_IT,    /* fuzzy */
-/* nl */  IDS_NMI_NL,
-/* pl */  IDS_NMI_PL,    /* fuzzy */
-/* sv */  IDS_NMI_SV},   /* fuzzy */
 
 /* res.rc */
 /* en */ {IDS_VICE_ERROR,
@@ -1985,24 +1858,6 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* pl */  IDS_VICE_WITHOUT_WARRANTY_PL,    /* fuzzy */
 /* sv */  IDS_VICE_WITHOUT_WARRANTY_SV},   /* fuzzy */
 
-/* reside64.rc */
-/* en */ {IDS_TOTAL_SIZE_I_KB,
-/* de */  IDS_TOTAL_SIZE_I_KB_DE,    /* fuzzy */
-/* fr */  IDS_TOTAL_SIZE_I_KB_FR,    /* fuzzy */
-/* it */  IDS_TOTAL_SIZE_I_KB_IT,    /* fuzzy */
-/* nl */  IDS_TOTAL_SIZE_I_KB_NL,
-/* pl */  IDS_TOTAL_SIZE_I_KB_PL,    /* fuzzy */
-/* sv */  IDS_TOTAL_SIZE_I_KB_SV},   /* fuzzy */
-
-/* reside64.rc */
-/* en */ {IDS_SELECT_HD_IMAGE,
-/* de */  IDS_SELECT_HD_IMAGE_DE,    /* fuzzy */
-/* fr */  IDS_SELECT_HD_IMAGE_FR,    /* fuzzy */
-/* it */  IDS_SELECT_HD_IMAGE_IT,    /* fuzzy */
-/* nl */  IDS_SELECT_HD_IMAGE_NL,
-/* pl */  IDS_SELECT_HD_IMAGE_PL,    /* fuzzy */
-/* sv */  IDS_SELECT_HD_IMAGE_SV},   /* fuzzy */
-
 /* res.rc */
 /* en */ {IDS_PRESS_KEY_NORTHWEST,
 /* de */  IDS_PRESS_KEY_NORTHWEST_DE,    /* fuzzy */
@@ -2273,24 +2128,6 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* pl */  IDS_SELECT_FILE_GEORAM_PL,    /* fuzzy */
 /* sv */  IDS_SELECT_FILE_GEORAM_SV},   /* fuzzy */
 
-/* resramcart.rc */
-/* en */ {IDS_SELECT_FILE_RAMCART,
-/* de */  IDS_SELECT_FILE_RAMCART_DE,    /* fuzzy */
-/* fr */  IDS_SELECT_FILE_RAMCART_FR,    /* fuzzy */
-/* it */  IDS_SELECT_FILE_RAMCART_IT,    /* fuzzy */
-/* nl */  IDS_SELECT_FILE_RAMCART_NL,
-/* pl */  IDS_SELECT_FILE_RAMCART_PL,    /* fuzzy */
-/* sv */  IDS_SELECT_FILE_RAMCART_SV},   /* fuzzy */
-
-/* resreu.rc */
-/* en */ {IDS_SELECT_FILE_REU,
-/* de */  IDS_SELECT_FILE_REU_DE,    /* fuzzy */
-/* fr */  IDS_SELECT_FILE_REU_FR,    /* fuzzy */
-/* it */  IDS_SELECT_FILE_REU_IT,    /* fuzzy */
-/* nl */  IDS_SELECT_FILE_REU_NL,
-/* pl */  IDS_SELECT_FILE_REU_PL,    /* fuzzy */
-/* sv */  IDS_SELECT_FILE_REU_SV},   /* fuzzy */
-
 /* res.rc */
 /* en */ {IDS_FLEXIBLE,
 /* de */  IDS_FLEXIBLE_DE,    /* fuzzy */
@@ -2525,15 +2362,6 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* pl */  IDS_START_VICE_FULLSCREEN_MODE_PL,    /* fuzzy */
 /* sv */  IDS_START_VICE_FULLSCREEN_MODE_SV},   /* fuzzy */
 
-/* resplus60k.rc */
-/* en */ {IDS_SELECT_FILE_PLUS60K,
-/* de */  IDS_SELECT_FILE_PLUS60K_DE,    /* fuzzy */
-/* fr */  IDS_SELECT_FILE_PLUS60K_FR,    /* fuzzy */
-/* it */  IDS_SELECT_FILE_PLUS60K_IT,    /* fuzzy */
-/* nl */  IDS_SELECT_FILE_PLUS60K_NL,
-/* pl */  IDS_SELECT_FILE_PLUS60K_PL,    /* fuzzy */
-/* sv */  IDS_SELECT_FILE_PLUS60K_SV}    /* fuzzy */
-
 };
 
 /* --------------------------------------------------------------------- */
@@ -2652,7 +2480,9 @@ char *intl_convert_cp(char *text, int cp)
 /* --------------------------------------------------------------------- */
 
 static char *intl_text_table[countof(intl_translate_text_table)][countof(language_table)];
+
 static char *intl_text_table2[LAST_IDS + 16][countof(language_table)];
+static BYTE text_cache[(((LAST_IDS / 16) + 1) / 8) + 1];
 
 /* this routine fills in the table of resources and pointers to the
    text that belongs to them with the right data, this is because of
@@ -2663,15 +2493,11 @@ static char *intl_text_table2[LAST_IDS + 16][countof(language_table)];
 
 static void intl_text_init(void)
 {
-int i, j, k;
+int i, j;
 char temp_buffer[4098 * sizeof(TCHAR)];
-HRSRC hRes;
-HGLOBAL hGlob;
-WORD *p;
-int length;
 
-    for (i = 0; i < countof(language_table); i++) {
-        for (j = (FIRST_IDS >> 4) + 1; j < (LAST_IDS >> 4); j++) {
+/*    for (i = 0; i < countof(language_table); i++) {
+        for (j = (FIRST_IDS >> 4) + 1; j < ((LAST_IDS + 15) >> 4) + 1; j++) {
             hRes = FindResourceEx(NULL, RT_STRING, MAKEINTRESOURCE(j), MAKELANGID(windows_to_iso[i].windows_code, SUBLANG_NEUTRAL));
             if (hRes) {
                 hGlob = LoadResource(NULL, hRes);
@@ -2690,7 +2516,9 @@ int length;
                 }
             }
         }
-    }
+    }*/
+    ZeroMemory(intl_text_table2, sizeof(intl_text_table2));
+    ZeroMemory(text_cache, sizeof(text_cache));
   for (i = 0; i < countof(language_table); i++)
   {
     for (j = 0; j < countof(intl_translate_text_table); j++)
@@ -2757,12 +2585,42 @@ char *intl_translate_text(int en_resource)
 char *intl_translate_text_new(int en_resource)
 {
 char *text;
+int i, j, k;
+char temp_buffer[4098 * sizeof(TCHAR)];
+HRSRC hRes;
+HGLOBAL hGlob;
+WORD *p;
+int length;
 
+    if (!(text_cache[en_resource >> 7] & (1 << ((en_resource >> 4) & 7)))) {
+        j = (en_resource >> 4) + 1;
+        for (i = 0; i < countof(language_table); i++) {
+            hRes = FindResourceEx(NULL, RT_STRING, MAKEINTRESOURCE(j), MAKELANGID(windows_to_iso[i].windows_code, SUBLANG_NEUTRAL));
+            if (hRes) {
+                hGlob = LoadResource(NULL, hRes);
+                p = LockResource(hGlob);
+                for (k = 0; k < 16; k++) {
+                    ZeroMemory(temp_buffer, sizeof(temp_buffer));
+                    length = *p++;
+                    WideCharToMultiByte(CP_ACP, 0, p, length, temp_buffer, 4096, NULL, NULL);
+                    p = p + length;
+                    intl_text_table2[((j - 1) << 4) + k][i] = strdup(temp_buffer);
+                }
+                FreeResource(hGlob);
+            } else {
+                for (k = 0; k < 16; k++) {
+                    intl_text_table2[((j - 1) << 4) + k][i] = NULL;
+                }
+            }
+        }
+        text_cache[en_resource >> 7] |= (1 << ((en_resource >> 4) & 7));
+    }
     text = intl_text_table2[en_resource][current_language_index];
     if (text == NULL) {
         text = intl_text_table2[en_resource][0];
     }
     return text;
+
 /*
 HRSRC hRes;
 HGLOBAL hGlob;

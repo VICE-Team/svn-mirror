@@ -35,6 +35,7 @@
 #include "translate.h"
 #include "uirs232user.h"
 #include "winmain.h"
+#include "uilib.h"
 
 
 #define MAXRS232 4
@@ -59,12 +60,44 @@ static void enable_rs232user_controls(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_RS232USER_BAUDRATE), rs232user_enable);
 } 
 
+static uilib_localize_dialog_param rs232user_dialog[] = {
+    {0, IDS_RS232USER_CAPTION, -1},
+    {IDC_RS232USER_ENABLE, IDS_RS232USER_ENABLE, 0},
+    {IDC_RS232USER_DEVICE_LABEL, IDS_RS232USER_DEVICE, 0},
+    {IDC_RS232USER_BAUDRATE_LABEL, IDS_RS232USER_BAUD, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group rs232user_leftgroup[] = {
+    {IDC_RS232USER_DEVICE_LABEL, 0},
+    {IDC_RS232USER_BAUDRATE_LABEL, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group rs232user_rightgroup[] = {
+    {IDC_RS232USER_DEVICE, 0},
+    {IDC_RS232USER_BAUDRATE, 0},
+    {0, 0}
+};
+
 static void init_rs232user_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
+    RECT rect;
     int res_value;
     int res_value_loop;
     int active_value;
+    int xsize, ysize;
+
+    uilib_localize_dialog(hwnd, rs232user_dialog);
+    uilib_get_group_extent(hwnd, rs232user_leftgroup, &xsize, &ysize);
+    uilib_adjust_group_width(hwnd, rs232user_leftgroup);
+    uilib_move_group(hwnd, rs232user_rightgroup, xsize + 30);
+
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xsize + 160, rect.bottom - rect.top, TRUE);
 
     resources_get_value("RsUserEnable", (void *)&res_value);
     CheckDlgButton(hwnd, IDC_RS232USER_ENABLE,
@@ -151,7 +184,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_rs232user_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_RS232USER_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)IDD_RS232USER_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }
 

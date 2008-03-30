@@ -39,6 +39,7 @@
 #include "uilib.h"
 #include "uireu.h"
 #include "winmain.h"
+#include "intl.h"
 
 
 #define NUM_OF_REU_SIZE 8
@@ -59,6 +60,29 @@ static void enable_reu_controls(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_REU_FILE), is_enabled);
 }
 
+static uilib_localize_dialog_param reu_dialog[] = {
+    {0, IDS_REU_CAPTION, -1},
+    {IDC_REU_ENABLE, IDS_REU_ENABLE, 0},
+    {IDC_REU_SIZE_LABEL, IDS_REU_SIZE, 0},
+    {IDC_REU_FILE_LABEL, IDS_REU_FILE, 0},
+    {IDC_REU_BROWSE, IDS_BROWSE, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group reu_leftgroup[] = {
+    {IDC_REU_SIZE_LABEL, 0},
+    {IDC_REU_FILE_LABEL, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group reu_rightgroup[] = {
+    {IDC_REU_SIZE, 0},
+    {IDC_REU_BROWSE, 0},
+    {0, 0}
+};
+
 static void init_reu_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
@@ -67,6 +91,12 @@ static void init_reu_dialog(HWND hwnd)
     TCHAR *st_reufile;
     int res_value_loop;
     int active_value;
+    int xsize, ysize;
+
+    uilib_localize_dialog(hwnd, reu_dialog);
+    uilib_get_group_extent(hwnd, reu_leftgroup, &xsize, &ysize);
+    uilib_adjust_group_width(hwnd, reu_leftgroup);
+    uilib_move_group(hwnd, reu_rightgroup, xsize + 30);
 
     resources_get_value("REU", (void *)&res_value);
     CheckDlgButton(hwnd, IDC_REU_ENABLE, 
@@ -118,7 +148,7 @@ static void end_reu_dialog(HWND hwnd)
 
 static void browse_reu_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_SELECT_FILE_REU),
+    uilib_select_browse(hwnd, intl_translate_text_new(IDS_REU_SELECT_FILE),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
                         IDC_REU_FILE);
 }
@@ -158,7 +188,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_reu_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_REU_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)IDD_REU_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }
 

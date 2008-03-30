@@ -142,6 +142,7 @@ UI_CALLBACK(ui_about)
              "Copyright C 2000-2005 Spiro Trikaliotis",
              "Copyright C 2003-2005 David Hansel",
              "Copyright C 2000-2004 Markus Brenner",
+             "Copyright C 2005      Marco van den Heuvel",
              "",
              _("Official VICE homepage:"),
              "http://www.viceteam.org/",

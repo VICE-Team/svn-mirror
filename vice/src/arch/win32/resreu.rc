@@ -11,162 +11,21 @@
 
 IDD_REU_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "REU Settings"
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTOCHECKBOX    "&Enable REU",IDC_REU_ENABLE,
-                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "REU size",
-                    IDC_STATIC,9,24,30,8
-    COMBOBOX        IDC_REU_SIZE,45,22,50,80,CBS_DROPDOWNLIST |
+    AUTOCHECKBOX    "", IDC_REU_ENABLE,
+                    7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "",
+                    IDC_REU_SIZE_LABEL, 9, 24, 30, 8
+    COMBOBOX        IDC_REU_SIZE, 45, 22, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "REU file",
-                    IDC_STATIC,9,44,30,8
-    PUSHBUTTON      "&Browse...",IDC_REU_BROWSE,45,42,50,14, 0
-    EDITTEXT        IDC_REU_FILE, 9,58,160,12,WS_TABSTOP
+    LTEXT           "",
+                    IDC_REU_FILE_LABEL, 9, 44, 30, 8
+    PUSHBUTTON      "", IDC_REU_BROWSE, 45, 42, 50, 14, 0
+    EDITTEXT        IDC_REU_FILE, 9, 58, 160, 12, WS_TABSTOP
 
-    DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90,90,50,14, WS_TABSTOP
-END
-
-
-// GERMAN version of dialog
-
-IDD_REU_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "REU Einstellungen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&REU aktivieren",IDC_REU_ENABLE,
-                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "REU größe",
-                    IDC_STATIC,9,24,30,8
-    COMBOBOX        IDC_REU_SIZE,45,22,50,80,CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "REU datei",
-                    IDC_STATIC,9,44,30,8
-    PUSHBUTTON      "&Stöbern...",IDC_REU_BROWSE,45,42,50,14, 0
-    EDITTEXT        IDC_REU_FILE, 9,58,160,12,WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
-    PUSHBUTTON      "Abbruch", IDCANCEL, 90,90,50,14, WS_TABSTOP
-END
-
-
-// FRENCH version of dialog
-
-IDD_REU_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Paramètres REU"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Activer REU",IDC_REU_ENABLE,
-                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Taille du REU",
-                    IDC_STATIC,9,24,30,8
-    COMBOBOX        IDC_REU_SIZE,45,22,50,80,CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "REU image",
-                    IDC_STATIC,9,44,30,8
-    PUSHBUTTON      "&Parcourir...",IDC_REU_BROWSE,45,42,50,14, 0
-    EDITTEXT        IDC_REU_FILE, 9,58,160,12,WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
-    PUSHBUTTON      "Annuler", IDCANCEL, 90,90,50,14, WS_TABSTOP
-END
-
-
-// ITALIAN version of dialog
-
-IDD_REU_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni del REU"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Attiva REU",IDC_REU_ENABLE,
-                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Dimensione",
-                    IDC_STATIC,9,24,30,8
-    COMBOBOX        IDC_REU_SIZE,45,22,50,80,CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "REU file",
-                    IDC_STATIC,9,44,30,8
-    PUSHBUTTON      "&Sfoglia...",IDC_REU_BROWSE,45,42,50,14, 0
-    EDITTEXT        IDC_REU_FILE, 9,58,160,12,WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
-    PUSHBUTTON      "Annulla", IDCANCEL, 90,90,50,14, WS_TABSTOP
-END
-
-
-// DUTCH version of dialog
-
-IDD_REU_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "REU Instellingen"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Aktiveer REU",IDC_REU_ENABLE,
-                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "REU grootte",
-                    IDC_STATIC,9,24,60,8
-    COMBOBOX        IDC_REU_SIZE,75,22,50,80,CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "REU bestand",
-                    IDC_STATIC,9,44,60,8
-    PUSHBUTTON      "&Bladeren...",IDC_REU_BROWSE,75,42,50,14, 0
-    EDITTEXT        IDC_REU_FILE, 9,58,160,12,WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
-    PUSHBUTTON      "Annuleren", IDCANCEL, 90,90,50,14, WS_TABSTOP
-END
-
-
-// POLISH version of dialog
-
-#pragma code_page(28592)
-IDD_REU_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Ustawienia REU"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&W³±cz REU",IDC_REU_ENABLE,
-                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Rozmiar REU",
-                    IDC_STATIC,9,24,30,8
-    COMBOBOX        IDC_REU_SIZE,45,22,50,80,CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "REU pliku",
-                    IDC_STATIC,9,44,30,8
-    PUSHBUTTON      "&Przegl±daj...",IDC_REU_BROWSE,45,42,50,14, 0
-    EDITTEXT        IDC_REU_FILE, 9,58,160,12,WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
-    PUSHBUTTON      "Anuluj", IDCANCEL, 90,90,50,14, WS_TABSTOP
-END
-#pragma code_page(28591)
-
-
-// SWEDISH version of dialog
-
-IDD_REU_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 110
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "REU-inställningar"
-FONT 8, "MS Sans Serif"
-BEGIN
-    AUTOCHECKBOX    "&Aktivera REU",IDC_REU_ENABLE,
-                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Storlek på REU",
-                    IDC_STATIC,9,24,30,8
-    COMBOBOX        IDC_REU_SIZE,45,22,50,80,CBS_DROPDOWNLIST |
-                    WS_VSCROLL | WS_TABSTOP
-    LTEXT           "REU-fil",
-                    IDC_STATIC,9,44,30,8
-    PUSHBUTTON      "&Bläddra...",IDC_REU_BROWSE,45,42,50,14, 0
-    EDITTEXT        IDC_REU_FILE, 9,58,160,12,WS_TABSTOP
-
-    DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
-    PUSHBUTTON      "Avbryt", IDCANCEL, 90,90,50,14, WS_TABSTOP
+    DEFPUSHBUTTON   "", IDOK, 30, 90, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 90, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -174,56 +33,85 @@ END
 // original and default ENGLISH text
 
 STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_REU   "Select file for REU"
+    IDS_REU_CAPTION             "REU Settings"
+    IDS_REU_ENABLE              "&Enable REU"
+    IDS_REU_SIZE                "REU size"
+    IDS_REU_FILE                "REU file"
+    IDS_REU_SELECT_FILE         "Select file for REU"
 END
-
 
 // GERMAN text
 
 STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_REU_DE   "Select file for REU"
+    IDS_REU_CAPTION             "REU Einstellungen"
+    IDS_REU_ENABLE              "&REU aktivieren"
+    IDS_REU_SIZE                "REU größe"
+    IDS_REU_FILE                "REU datei"
+    IDS_REU_SELECT_FILE         "Select file for REU"
 END
-
 
 // FRENCH text
 
 STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_REU_FR   "Select file for REU"
+    IDS_REU_CAPTION             "Paramètres REU"
+    IDS_REU_ENABLE              "&Activer REU"
+    IDS_REU_SIZE                "Taille du REU"
+    IDS_REU_FILE                "REU image"
+    IDS_REU_SELECT_FILE         "Select file for REU"
 END
-
 
 // ITALIAN text
 
 STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_REU_IT   "Select file for REU"
+    IDS_REU_CAPTION             "Impostazioni del REU"
+    IDS_REU_ENABLE              "&Attiva REU"
+    IDS_REU_SIZE                "Dimensione"
+    IDS_REU_FILE                "REU file"
+    IDS_REU_SELECT_FILE         "Select file for REU"
 END
-
 
 // DUTCH text
 
 STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_REU_NL   "Selecteer bestand voor REU"
+    IDS_REU_CAPTION             "REU Instellingen"
+    IDS_REU_ENABLE              "&Aktiveer REU"
+    IDS_REU_SIZE                "REU grootte"
+    IDS_REU_FILE                "REU bestand"
+    IDS_REU_SELECT_FILE         "Selecteer bestand voor REU"
 END
-
 
 // POLISH text
 
 #pragma code_page(28592)
 STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_REU_PL   "Select file for REU"
+    IDS_REU_CAPTION             "Ustawienia REU"
+    IDS_REU_ENABLE              "&W³±cz REU"
+    IDS_REU_SIZE                "Rozmiar REU"
+    IDS_REU_FILE                "REU pliku"
+    IDS_REU_SELECT_FILE         "Select file for REU"
 END
 #pragma code_page(28591)
-
 
 // SWEDISH text
 
 STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_REU_SV   "Select file for REU"
+    IDS_REU_CAPTION             "REU-inställningar"
+    IDS_REU_ENABLE              "&Aktivera REU"
+    IDS_REU_SIZE                "Storlek på REU"
+    IDS_REU_FILE                "REU-fil"
+    IDS_REU_SELECT_FILE         "Select file for REU"
 END

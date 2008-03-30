@@ -38,6 +38,7 @@
 #include "uilib.h"
 #include "uiramcart.h"
 #include "winmain.h"
+#include "intl.h"
 
 
 #define NUM_OF_RAMCART_SIZE 2
@@ -59,6 +60,40 @@ static void enable_ramcart_controls(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_RAMCART_FILE), is_enabled);
 }
 
+static uilib_localize_dialog_param ramcart_dialog[] = {
+    {0, IDS_RAMCART_CAPTION, -1},
+    {IDC_RAMCART_ENABLE, IDS_RAMCART_ENABLE, 0},
+    {IDC_RAMCART_RO, IDS_RAMCART_READONLY, 0},
+    {IDC_RAMCART_SIZE_LABEL, IDS_RAMCART_SIZE, 0},
+    {IDC_RAMCART_FILE_LABEL, IDS_RAMCART_FILE, 0},
+    {IDC_RAMCART_BROWSE, IDS_BROWSE, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group ramcart_leftgroup1[] = {
+    {IDC_RAMCART_ENABLE, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group ramcart_rightgroup1[] = {
+    {IDC_RAMCART_RO, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group ramcart_leftgroup2[] = {
+    {IDC_RAMCART_SIZE_LABEL, 0},
+    {IDC_RAMCART_FILE_LABEL, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group ramcart_rightgroup2[] = {
+    {IDC_RAMCART_SIZE, 0},
+    {IDC_RAMCART_BROWSE, 0},
+    {0, 0}
+};
+
 static void init_ramcart_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
@@ -67,6 +102,16 @@ static void init_ramcart_dialog(HWND hwnd)
     TCHAR *st_ramcartfile;
     int res_value_loop;
     int active_value;
+    int xsize, ysize;
+    int xsize2;
+
+    uilib_localize_dialog(hwnd, ramcart_dialog);
+    uilib_get_group_extent(hwnd, ramcart_leftgroup1, &xsize, &ysize);
+    uilib_adjust_group_width(hwnd, ramcart_leftgroup1);
+    uilib_move_and_adjust_group_width(hwnd, ramcart_rightgroup1, xsize + 30);
+    uilib_get_group_extent(hwnd, ramcart_leftgroup2, &xsize2, &ysize);
+    uilib_adjust_group_width(hwnd, ramcart_leftgroup2);
+    uilib_move_group(hwnd, ramcart_rightgroup2, xsize2 + 30);
 
     resources_get_value("RAMCART", (void *)&res_value);
     CheckDlgButton(hwnd, IDC_RAMCART_ENABLE, 
@@ -126,7 +171,7 @@ static void end_ramcart_dialog(HWND hwnd)
 
 static void browse_ramcart_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_SELECT_FILE_RAMCART),
+    uilib_select_browse(hwnd, intl_translate_text_new(IDS_RAMCART_SELECT_FILE),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
                         IDC_RAMCART_FILE);
 }
@@ -166,7 +211,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_ramcart_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_RAMCART_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)IDD_RAMCART_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }
 

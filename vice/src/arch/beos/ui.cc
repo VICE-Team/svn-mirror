@@ -609,8 +609,9 @@ void ui_dispatch_events(void)
 					"(c) 1999-2005 Andreas Matthies\n",
 					"(c) 1999-2005 Martin Pottendorfer\n",
 					"(c) 2000-2005 Spiro Trikaliotis\n",
-                                        "(c) 2003-2005 David Hansel\n",
-                                        "(c) 2000-2004 Markus Brenner\n",
+					"(c) 2003-2005 David Hansel\n",
+					"(c) 2000-2004 Markus Brenner\n",
+					"(c) 2005      Marco van den Heuvel\n",
 					"\nOfficial VICE homepage:\n",
 					"http://www.viceteam.org/",
 					NULL);

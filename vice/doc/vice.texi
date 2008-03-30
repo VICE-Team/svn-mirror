@@ -68,6 +68,7 @@ Copyright @copyright{} 1999-2005 Martin Pottendorfer
 Copyright @copyright{} 2000-2005 Spiro Trikaliotis
 Copyright @copyright{} 2003-2005 David Hansel
 Copyright @copyright{} 2000-2004 Markus Brenner
+Copyright @copyright{} 2005      Marco van den Heuvel
 
 Copyright @copyright{} 1997-2001 Daniel Sladic
 Copyright @copyright{} 1996-1999 Ettore Perazzoli
@@ -7379,6 +7380,15 @@ and added support for some more cartridges.
 console implementation for the built-in monitor and provided
 some further patches.
 
+@item
+@b{Marco van den Heuvel} Translated the UI to Dutch.
+Internationalization support for the Win32 port. Wrote the
+GEORAM cartridge code. Wrote the Ramcart cartridge code.
+Wrote the +60K Expansion code. Made the ethernet support
+for the Msdos port. Maintains the QNX 6.x binary packages.
+Fixed stereo-sid/acia io-1/io-2 conflicts. And lots of other
+fixes.
+
 @end itemize
 
 Former team members:
@@ -7652,6 +7662,8 @@ Copyright @copyright{} 2000-2005 Spiro Trikaliotis
 Copyright @copyright{} 2003-2005 David Hansel
 @item
 Copyright @copyright{} 2000-2004 Markus Brenner
+@item
+Copyright @copyright{} 2005      Marco van den Heuvel
 
 @item
 Copyright @copyright{} 1997-2001 Daniel Sladic

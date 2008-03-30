@@ -122,9 +122,74 @@ static void update_config(HWND hwnd)
 
 }
 
+static uilib_localize_dialog_param vic_settings_dialog[] = {
+    {0, IDS_VIC_CAPTION, -1},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {IDC_VIC_MEMORY, IDS_VIC_MEMORY, 0},
+    {IDC_VIC_NOEXPANSION, IDS_VIC_NOEXPANSION, 0},
+    {IDC_VIC_3KEXPANSION, IDS_VIC_3KEXPANSION, 0},
+    {IDC_VIC_8KEXPANSION, IDS_VIC_8KEXPANSION, 0},
+    {IDC_VIC_16KEXPANSION, IDS_VIC_16KEXPANSION, 0},
+    {IDC_VIC_24KEXPANSION, IDS_VIC_24KEXPANSION, 0},
+    {IDC_VIC_FULLEXPANSION, IDS_VIC_FULLEXPANSION, 0},
+    {IDC_VIC_CUSTOMEXPANSION, IDS_VIC_CUSTOMEXPANSION, 0},
+    {IDC_VIC_MEMORY_BLOCK0, IDS_VIC_BLOCK0, 0},
+    {IDC_VIC_MEMORY_BLOCK1, IDS_VIC_BLOCK1, 0},
+    {IDC_VIC_MEMORY_BLOCK2, IDS_VIC_BLOCK2, 0},
+    {IDC_VIC_MEMORY_BLOCK3, IDS_VIC_BLOCK3, 0},
+    {IDC_VIC_MEMORY_BLOCK5, IDS_VIC_BLOCK5, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group vic_settings_leftgroup[] = {
+    {IDC_VIC_NOEXPANSION, 1},
+    {IDC_VIC_3KEXPANSION, 1},
+    {IDC_VIC_8KEXPANSION, 1},
+    {IDC_VIC_16KEXPANSION, 1},
+    {IDC_VIC_24KEXPANSION, 1},
+    {IDC_VIC_FULLEXPANSION, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group vic_settings_rightgroup[] = {
+    {IDC_VIC_MEMORY_BLOCK0, 1},
+    {IDC_VIC_MEMORY_BLOCK1, 1},
+    {IDC_VIC_MEMORY_BLOCK2, 1},
+    {IDC_VIC_MEMORY_BLOCK3, 1},
+    {IDC_VIC_MEMORY_BLOCK5, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group vic_settings_rightgroup2[] = {
+    {IDC_VIC_CUSTOMEXPANSION, 1},
+    {0, 0}
+};
 
 static void init_dialog(HWND hwnd)
 {
+RECT rect;
+int left_xsize, y;
+int right_xsize;
+int right_xsize2;
+int xsize;
+
+    uilib_localize_dialog(hwnd, vic_settings_dialog);
+
+    uilib_get_group_extent(hwnd, vic_settings_leftgroup, &left_xsize, &y);
+    uilib_get_group_extent(hwnd, vic_settings_rightgroup, &right_xsize, &y);
+    uilib_get_group_extent(hwnd, vic_settings_rightgroup2, &right_xsize2, &y);
+
+    xsize = left_xsize + max(right_xsize + 20, right_xsize2) + 16;
+
+    uilib_set_element_width(hwnd, IDC_VIC_MEMORY, xsize);
+    uilib_adjust_group_width(hwnd, vic_settings_leftgroup);
+    uilib_move_and_adjust_group_width(hwnd, vic_settings_rightgroup, left_xsize + 32);
+    uilib_move_and_adjust_group_width(hwnd, vic_settings_rightgroup2, left_xsize + 16);
+
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xsize + 28, rect.bottom - rect.top, TRUE);
+
     resources_get_value("RAMBlock0", (void *) &block0);
     resources_get_value("RAMBlock1", (void *) &block1);
     resources_get_value("RAMBlock2", (void *) &block2);
@@ -201,7 +266,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
 
 void ui_vic_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(translate_res(IDD_VIC_SETTINGS_DIALOG)), hwnd,
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VIC_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
 

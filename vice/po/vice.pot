@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2005-07-30 17:23+0200\n"
+"POT-Creation-Date: 2005-08-21 21:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,72 +55,72 @@ msgstr ""
 msgid "Cannot initialize SID engine"
 msgstr ""
 
-#: src/sound.c:615
+#: src/sound.c:616
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr ""
 
-#: src/sound.c:624
+#: src/sound.c:625
 msgid "sound device lacks stereo capability"
 msgstr ""
 
-#: src/sound.c:673
+#: src/sound.c:675
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr ""
 
-#: src/sound.c:694
+#: src/sound.c:696
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr ""
 
-#: src/sound.c:702
+#: src/sound.c:704
 msgid "Recording device must be different from playback device"
 msgstr ""
 
-#: src/sound.c:712
+#: src/sound.c:714
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
 
-#: src/sound.c:722
+#: src/sound.c:725
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr ""
 
-#: src/sound.c:737
+#: src/sound.c:740
 msgid "The recording device doesn't support current sound parameters"
 msgstr ""
 
-#: src/sound.c:818
+#: src/sound.c:821
 msgid "Sound buffer overflow (cycle based)"
 msgstr ""
 
-#: src/sound.c:832
+#: src/sound.c:835
 msgid "Sound buffer overflow."
 msgstr ""
 
-#: src/sound.c:958
+#: src/sound.c:961
 msgid "cannot flush."
 msgstr ""
 
-#: src/sound.c:1007
+#: src/sound.c:1010
 msgid "fragment problems."
 msgstr ""
 
-#: src/sound.c:1037
+#: src/sound.c:1040
 msgid "Buffer drained"
 msgstr ""
 
-#: src/sound.c:1076
+#: src/sound.c:1079
 msgid "running too slow."
 msgstr ""
 
-#: src/sound.c:1092 src/sound.c:1102
+#: src/sound.c:1095 src/sound.c:1105
 msgid "write to sounddevice failed."
 msgstr ""
 
-#: src/sound.c:1346
+#: src/sound.c:1352
 msgid "store to sounddevice failed."
 msgstr ""
 
@@ -2502,7 +2502,7 @@ msgid "*ReSID"
 msgstr ""
 
 #: src/arch/unix/uisid.c:50
-msgid "*Catweasle MKIII"
+msgid "*Catweasel MKIII"
 msgstr ""
 
 #: src/arch/unix/uisid.c:59
@@ -2897,19 +2897,19 @@ msgstr ""
 msgid "The VICE Team"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:75 src/arch/unix/x11/xaw/about.c:146
+#: src/arch/unix/x11/gnome/about.c:76 src/arch/unix/x11/xaw/about.c:147
 msgid "Official VICE homepage:"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:88
+#: src/arch/unix/x11/gnome/about.c:89
 msgid "License"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:94
+#: src/arch/unix/x11/gnome/about.c:95
 msgid "Warranty"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:100
+#: src/arch/unix/x11/gnome/about.c:101
 msgid "Contributors"
 msgstr ""
 
@@ -3446,7 +3446,7 @@ msgstr ""
 msgid "Error getting video mode information - disabling vidmode extension."
 msgstr ""
 
-#: src/arch/unix/x11/xaw/about.c:152
+#: src/arch/unix/x11/xaw/about.c:153
 msgid "VICE Information"
 msgstr ""
 

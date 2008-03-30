@@ -93,5 +93,26 @@ extern void uilib_dialogbox(uilib_dialogbox_param_t *param);
 
 extern void uilib_get_general_window_extents(HWND hwnd, int *xsize, int *ysize);
 
+typedef struct {
+    unsigned int idc;
+    int element_type;
+} uilib_dialog_group;
+
+extern void uilib_get_group_extent(HWND hwnd, uilib_dialog_group *group, int *xsize, int *ysize);
+extern void uilib_move_and_adjust_group_width(HWND hwnd, uilib_dialog_group *group, int xpos);
+extern void uilib_move_group(HWND hwnd, uilib_dialog_group *group, int xpos);
+extern void uilib_adjust_group_width(HWND hwnd, uilib_dialog_group *group);
+extern void uilib_move_and_adjust_element_width(HWND hwnd, int idc, int xpos);
+extern void uilib_adjust_element_width(HWND hwnd, int idc);
+extern void uilib_set_element_width(HWND hwnd, int idc, int xsize);
+
+typedef struct {
+    unsigned int idc;
+    unsigned int ids;
+    int element_type;
+} uilib_localize_dialog_param;
+extern void uilib_localize_dialog(HWND hwnd, uilib_localize_dialog_param *param);
+
+
 #endif
 

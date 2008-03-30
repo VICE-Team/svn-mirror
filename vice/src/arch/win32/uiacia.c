@@ -35,6 +35,8 @@
 #include "translate.h"
 #include "uiacia.h"
 #include "winmain.h"
+#include "intl.h"
+#include "uilib.h"
 
 
 #define MAXRS232 4
@@ -83,9 +85,90 @@ static void enable_acia_controls(HWND hwnd)
 
 static void init_acia_dialog(HWND hwnd)
 {
-    HWND temp_hwnd;
-    int res_value;
-    unsigned int i;
+HWND temp_hwnd;
+int res_value;
+unsigned int i;
+RECT rect;
+RECT child_rect;
+int min_width;
+int xpos;
+int xsize, ysize;
+
+    SetWindowText(hwnd, intl_translate_text_new(IDS_ACIA_CAPTION));
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_ENABLE);
+    SetWindowText(temp_hwnd, intl_translate_text_new(IDS_ACIA_ENABLE));
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE_LABEL);
+    SetWindowText(temp_hwnd, intl_translate_text_new(IDS_ACIA_DEVICE));
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_LOCATION_LABEL);
+    SetWindowText(temp_hwnd, intl_translate_text_new(IDS_ACIA_LOCATION));
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_INTERRUPT_LABEL);
+    SetWindowText(temp_hwnd, intl_translate_text_new(IDS_ACIA_INTERRUPT));
+    temp_hwnd = GetDlgItem(hwnd, IDOK);
+    SetWindowText(temp_hwnd, intl_translate_text_new(IDS_OK));
+    temp_hwnd = GetDlgItem(hwnd, IDCANCEL);
+    SetWindowText(temp_hwnd, intl_translate_text_new(IDS_CANCEL));
+
+    GetClientRect(hwnd, &rect);
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_ENABLE);
+    GetClientRect(temp_hwnd, &child_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
+    uilib_get_general_window_extents(temp_hwnd, &xsize, &ysize);
+    xsize += 20;
+    MoveWindow(temp_hwnd, child_rect.left, child_rect.top, xsize, child_rect.bottom - child_rect.top, TRUE);
+    min_width = child_rect.left + xsize + 10;
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE_LABEL);
+    GetClientRect(temp_hwnd, &child_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
+    uilib_get_general_window_extents(temp_hwnd, &xsize, &ysize);
+    MoveWindow(temp_hwnd, child_rect.left, child_rect.top, xsize, child_rect.bottom - child_rect.top, TRUE);
+    xpos = child_rect.left + xsize + 10;
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_LOCATION_LABEL);
+    GetClientRect(temp_hwnd, &child_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
+    uilib_get_general_window_extents(temp_hwnd, &xsize, &ysize);
+    MoveWindow(temp_hwnd, child_rect.left, child_rect.top, xsize, child_rect.bottom - child_rect.top, TRUE);
+    if (xpos < child_rect.left + xsize + 10) {
+        xpos = child_rect.left + xsize + 10;
+    }
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_INTERRUPT_LABEL);
+    GetClientRect(temp_hwnd, &child_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
+    uilib_get_general_window_extents(temp_hwnd, &xsize, &ysize);
+    MoveWindow(temp_hwnd, child_rect.left, child_rect.top, xsize, child_rect.bottom - child_rect.top, TRUE);
+    if (xpos < child_rect.left + xsize + 10) {
+        xpos = child_rect.left + xsize + 10;
+    }
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE);
+    GetClientRect(temp_hwnd, &child_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
+    MoveWindow(temp_hwnd, xpos, child_rect.top, child_rect.right - child_rect.left, child_rect.bottom - child_rect.top, TRUE);
+    if (min_width < xpos + child_rect.right - child_rect.left) {
+        min_width = xpos + child_rect.right - child_rect.left;
+    }
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_LOCATION);
+    GetClientRect(temp_hwnd, &child_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
+    MoveWindow(temp_hwnd, xpos, child_rect.top, child_rect.right - child_rect.left, child_rect.bottom - child_rect.top, TRUE);
+    if (min_width < xpos + child_rect.right - child_rect.left) {
+        min_width = xpos + child_rect.right - child_rect.left;
+    }
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_INTERRUPT);
+    GetClientRect(temp_hwnd, &child_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
+    MoveWindow(temp_hwnd, xpos, child_rect.top, child_rect.right - child_rect.left, child_rect.bottom - child_rect.top, TRUE);
+    if (min_width < xpos + child_rect.right - child_rect.left) {
+        min_width = xpos + child_rect.right - child_rect.left;
+    }
+
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, min_width + 20, rect.bottom - rect.top, TRUE);
 
     if (support_enable != 0) {
         resources_get_value("Acia1Enable", (void *)&res_value);
@@ -112,7 +195,7 @@ static void init_acia_dialog(HWND hwnd)
         for (res_value_loop = 0; interrupt_names[res_value_loop];
             res_value_loop++) {
             SendMessage(temp_hwnd, CB_ADDSTRING, 0,
-                        (LPARAM)(TCHAR *)translate_text(interrupt_names[res_value_loop]));
+                        (LPARAM)(TCHAR *)intl_translate_text_new(interrupt_names[res_value_loop]));
         }
         SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     }
@@ -145,25 +228,25 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
     int command;
 
     switch (msg) {
-      case WM_COMMAND:
-        command = LOWORD(wparam);
-        switch (command) {
-          case IDC_ACIA_ENABLE:
-            enable_acia_controls(hwnd);
-            break;
-          case IDOK:
-            end_acia_dialog(hwnd);
-          case IDCANCEL:
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDC_ACIA_ENABLE:
+                    enable_acia_controls(hwnd);
+                    break;
+                case IDOK:
+                    end_acia_dialog(hwnd);
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
             EndDialog(hwnd, 0);
             return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd, 0);
-        return TRUE;
-      case WM_INITDIALOG:
-        init_acia_dialog(hwnd);
-        return TRUE;
+        case WM_INITDIALOG:
+            init_acia_dialog(hwnd);
+            return TRUE;
     }
     return FALSE;
 }
@@ -175,7 +258,7 @@ void ui_acia_settings_dialog(HWND hwnd, unsigned int enable, int *location,
     support_location = location;
     support_interrupt = interrupt;
 
-    DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_ACIA_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)IDD_ACIA_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }
 

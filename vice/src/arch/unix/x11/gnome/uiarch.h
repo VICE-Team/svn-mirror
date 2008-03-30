@@ -50,7 +50,6 @@ typedef KeySym ui_keysym_t;
 #define UI_MENU_CB_PARAM (((ui_menu_cb_obj*)event_data)->value) 
 
 extern GtkWidget *_ui_top_level;
-extern Display *display;
 extern GdkVisual *visual;
 extern GtkWidget *canvasw;
 

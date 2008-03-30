@@ -1,6 +1,6 @@
 # We have to override the automake default, because we need to use
 # $(CXX) instead of $(CC) when compiling with reSID.
-LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
+LINK = @LINKCC@ $(CFLAGS) $(LDFLAGS) -o $@
 
 ARCH_LIBS = @ARCH_LIBS@
 
@@ -293,7 +293,7 @@ x64_libs =  \
 	$(common_libs)
 
 x64_SOURCES = $(base_sources) $(maincpu_sources)
-x64_LDADD = $(x64_libs) @X_LIBS@
+x64_LDADD = $(x64_libs) @X_LIBS@ @INTLLIBS@
 x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
 
@@ -351,7 +351,7 @@ x128_libs =  \
 	$(common_libs)
 
 x128_SOURCES = $(base_sources)
-x128_LDADD = $(x128_libs) @X_LIBS@
+x128_LDADD = $(x128_libs) @X_LIBS@ @INTLLIBS@
 x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
 
@@ -406,7 +406,7 @@ xvic_libs =  \
 	$(common_libs)
 
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
-xvic_LDADD = $(xvic_libs) @X_LIBS@
+xvic_LDADD = $(xvic_libs) @X_LIBS@ @INTLLIBS@
 xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
@@ -453,7 +453,7 @@ xpet_libs =  \
 	$(common_libs)
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
-xpet_LDADD = $(xpet_libs) @X_LIBS@
+xpet_LDADD = $(xpet_libs) @X_LIBS@ @INTLLIBS@
 xpet_DEPENDENCIES = $(xpet_libs) 
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
@@ -499,7 +499,7 @@ xplus4_libs =  \
 	$(common_libs)
 
 xplus4_SOURCES = $(base_sources)
-xplus4_LDADD = $(xplus4_libs) @X_LIBS@
+xplus4_LDADD = $(xplus4_libs) @X_LIBS@ @INTLLIBS@
 xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 
@@ -547,7 +547,7 @@ xcbm2_libs = \
 	$(common_libs)
 
 xcbm2_SOURCES = $(base_sources)
-xcbm2_LDADD = $(xcbm2_libs) @X_LIBS@
+xcbm2_LDADD = $(xcbm2_libs) @X_LIBS@ @INTLLIBS@
 xcbm2_DEPENDENCIES = $(xcbm2_libs) 
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 

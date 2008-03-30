@@ -55,6 +55,7 @@
 #include "vdrive-internal.h"
 #include "vsync.h"
 #include "winmain.h"
+#include "intl.h"
 
 
 /* Mingw & pre VC 6 headers doesn't have this definition */
@@ -970,5 +971,129 @@ void uilib_get_general_window_extents(HWND hwnd, int *xsize, int *ysize)
 
     *xsize = size.cx;
     *ysize = size.cy;
+}
+
+void uilib_get_group_extent(HWND hwnd, uilib_dialog_group *group, int *xsize, int *ysize)
+{
+HWND element;
+int x;
+int y;
+
+    if (xsize && ysize) {
+        *xsize = 0;
+        *ysize = 0;
+        while (group->idc) {
+            element = GetDlgItem(hwnd, group->idc);
+            uilib_get_general_window_extents(element, &x, &y);
+            if (group->element_type == 1) x += 20;
+            if (*xsize < x) *xsize = x;
+            *ysize += y;
+            group++;
+        }
+    }
+}
+
+void uilib_move_and_adjust_group_width(HWND hwnd, uilib_dialog_group *group, int xpos)
+{
+HWND element;
+RECT element_rect;
+int xsize;
+int ysize;
+
+    while (group->idc) {
+        element = GetDlgItem(hwnd, group->idc);
+        GetClientRect(element, &element_rect);
+        MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
+        uilib_get_general_window_extents(element, &xsize, &ysize);
+        if (group->element_type == 1) xsize += 20;
+        MoveWindow(element, xpos, element_rect.top, xsize, element_rect.bottom - element_rect.top, TRUE);
+        group++;
+    }
+}
+
+void uilib_move_group(HWND hwnd, uilib_dialog_group *group, int xpos)
+{
+HWND element;
+RECT element_rect;
+
+    while (group->idc) {
+        element = GetDlgItem(hwnd, group->idc);
+        GetClientRect(element, &element_rect);
+        MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
+        MoveWindow(element, xpos, element_rect.top, element_rect.right - element_rect.left, element_rect.bottom - element_rect.top, TRUE);
+        group++;
+    }
+}
+
+void uilib_adjust_group_width(HWND hwnd, uilib_dialog_group *group)
+{
+HWND element;
+RECT element_rect;
+int xsize;
+int ysize;
+
+    while (group->idc) {
+        element = GetDlgItem(hwnd, group->idc);
+        GetClientRect(element, &element_rect);
+        MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
+        uilib_get_general_window_extents(element, &xsize, &ysize);
+        if (group->element_type == 1) xsize += 20;
+        MoveWindow(element, element_rect.left, element_rect.top, xsize, element_rect.bottom - element_rect.top, TRUE);
+        group++;
+    }
+}
+
+void uilib_move_and_adjust_element_width(HWND hwnd, int idc, int xpos)
+{
+HWND element;
+RECT element_rect;
+int xsize;
+int ysize;
+
+    element = GetDlgItem(hwnd, idc);
+    GetClientRect(element, &element_rect);
+    MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
+    uilib_get_general_window_extents(element, &xsize, &ysize);
+    MoveWindow(element, xpos, element_rect.top, xsize, element_rect.bottom - element_rect.top, TRUE);
+}
+
+void uilib_adjust_element_width(HWND hwnd, int idc)
+{
+HWND element;
+RECT element_rect;
+int xsize;
+int ysize;
+
+    element = GetDlgItem(hwnd, idc);
+    GetClientRect(element, &element_rect);
+    MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
+    uilib_get_general_window_extents(element, &xsize, &ysize);
+    MoveWindow(element, element_rect.left, element_rect.top, xsize, element_rect.bottom - element_rect.top, TRUE);
+}
+
+void uilib_set_element_width(HWND hwnd, int idc, int xsize)
+{
+HWND element;
+RECT element_rect;
+
+    element = GetDlgItem(hwnd, idc);
+    GetClientRect(element, &element_rect);
+    MapWindowPoints(element, hwnd, (POINT*)&element_rect, 2);
+    MoveWindow(element, element_rect.left, element_rect.top, xsize, element_rect.bottom - element_rect.top, TRUE);
+}
+
+void uilib_localize_dialog(HWND hwnd, uilib_localize_dialog_param *param)
+{
+HWND element;
+
+    while (param->idc || param->ids) {
+        if (param->element_type == -1) {
+            SetWindowText(hwnd, intl_translate_text_new(param->ids));
+        } else if (param->element_type == 0) {
+            element = GetDlgItem(hwnd, param->idc);
+            SetWindowText(element, intl_translate_text_new(param->ids));
+        }
+        param++;
+    }
 }
 

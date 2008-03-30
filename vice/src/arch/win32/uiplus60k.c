@@ -38,6 +38,7 @@
 #include "uilib.h"
 #include "uiplus60k.h"
 #include "winmain.h"
+#include "intl.h"
 
 static void enable_plus60k_controls(HWND hwnd)
 {
@@ -50,14 +51,43 @@ static void enable_plus60k_controls(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_PLUS60K_FILE), is_enabled);
 }
 
+static uilib_localize_dialog_param plus60k_dialog[] = {
+    {0, IDS_PLUS60K_CAPTION, -1},
+    {IDC_PLUS60K_ENABLE, IDS_PLUS60K_ENABLE, 0},
+    {IDC_PLUS60K_FILE_LABEL, IDS_PLUS60K_FILE, 0},
+    {IDC_PLUS60K_BROWSE, IDS_BROWSE, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group plus60k_group1[] = {
+    {IDC_PLUS60K_ENABLE, 1},
+    {0, 0}
+};
+
+static uilib_dialog_group plus60k_leftgroup[] = {
+    {IDC_PLUS60K_FILE_LABEL, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group plus60k_rightgroup[] = {
+    {IDC_PLUS60K_BROWSE, 0},
+    {0, 0}
+};
+
 static void init_plus60k_dialog(HWND hwnd)
 {
-    HWND temp_hwnd;
     int res_value;
     const char *plus60kfile;
     TCHAR *st_plus60kfile;
-    int res_value_loop;
-    int active_value;
+    int xsize, ysize;
+
+    uilib_localize_dialog(hwnd, plus60k_dialog);
+    uilib_adjust_group_width(hwnd, plus60k_group1);
+    uilib_get_group_extent(hwnd, plus60k_leftgroup, &xsize, &ysize);
+    uilib_adjust_group_width(hwnd, plus60k_leftgroup);
+    uilib_move_group(hwnd, plus60k_rightgroup, xsize + 30);
 
     resources_get_value("PLUS60K", (void *)&res_value);
     CheckDlgButton(hwnd, IDC_PLUS60K_ENABLE, 
@@ -89,7 +119,7 @@ static void end_plus60k_dialog(HWND hwnd)
 
 static void browse_plus60k_file(HWND hwnd)
 {
-    uilib_select_browse(hwnd, translate_text(IDS_SELECT_FILE_PLUS60K),
+    uilib_select_browse(hwnd, intl_translate_text_new(IDS_PLUS60K_SELECT_FILE),
                         UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE,
                         IDC_PLUS60K_FILE);
 }
@@ -128,6 +158,6 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_plus60k_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_PLUS60K_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)IDD_PLUS60K_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }

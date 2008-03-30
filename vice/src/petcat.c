@@ -976,7 +976,7 @@ static int p_expand(int version, int addr, int ctrls)
 
         /* prevent list protection from terminating listing */
 
-        while (((int)c = getc(source)) != EOF && !c);
+        while ((c = getc(source)) != EOF && !c);
 
         if (c == 0x12 && !line[2] && !line[3]) {  /* 00 00 12 22 */
             directory++;
@@ -1071,7 +1071,7 @@ static int p_expand(int version, int addr, int ctrls)
 
             _p_toascii((int)c, ctrls);  /* convert character */
 
-        } while (((int)c = getc(source)) != EOF && c);
+        } while ((c = getc(source)) != EOF && c);
         fprintf(dest, "\n");
 
     }      /* line */

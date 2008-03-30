@@ -84,12 +84,13 @@ BEGIN
     TEXT("Copyright (c) 1999-2005 Martin Pottendorfer",     15,  90, 180, 7)
     TEXT("Copyright (c) 2000-2005 Spiro Trikaliotis",       15,  83, 180, 7)
     TEXT("Copyright (c) 2000-2004 Markus Brenner",          15,  76, 180, 7)
-    TEXT("Vice/2 - Vice for OS/2",                          15,  66, 180, 7)
-    TEXT("Copyright (c) 1999-2005 Thomas Bretz",            15,  59, 180, 7)
-    TEXT("reSID engine",                                    15,  49, 180, 7)
-    TEXT("Copyright (c) 1998-2005 Dag Lem",                 15,  42, 180, 7)
-    TEXT("Official VICE homepage:",                         15,  32, 180, 7)
-    TEXT("http://www.viceteam.org/",                        15,  25, 180, 7)
+    TEXT("Copyright (c) 2005      Marco van den Heuvel",    15,  69, 180, 7)
+    TEXT("Vice/2 - Vice for OS/2",                          15,  59, 180, 7)
+    TEXT("Copyright (c) 1999-2005 Thomas Bretz",            15,  52, 180, 7)
+    TEXT("reSID engine",                                    15,  42, 180, 7)
+    TEXT("Copyright (c) 1998-2005 Dag Lem",                 15,  35, 180, 7)
+    TEXT("Official VICE homepage:",                         15,  25, 180, 7)
+    TEXT("http://www.viceteam.org/",                        15,  18, 180, 7)
     //
     // USING zlib 1.1.4
     // USING lpng 1.2.5

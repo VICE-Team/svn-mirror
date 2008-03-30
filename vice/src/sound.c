@@ -611,10 +611,11 @@ int sound_open(void)
                 char *err;
 #ifdef HAS_TRANSLATION
                 err = lib_msprintf(translate_text(IDGS_INIT_FAILED_FOR_DEVICE_S),
+                                   pdev->name);
 #else
                 err = lib_msprintf(_("initialization failed for device `%s'."),
-#endif
                                    pdev->name);
+#endif
                 sound_error(err);
                 lib_free(err);
                 return 1;
@@ -669,10 +670,11 @@ int sound_open(void)
     } else {
 #ifdef HAS_TRANSLATION
         char *err = lib_msprintf(translate_text(IDGS_DEVICE_S_NOT_FOUND_SUPPORT),
+                                 playname);
 #else
         char *err = lib_msprintf(_("device '%s' not found or not supported."),
-#endif
                                  playname);
+#endif
         sound_error(err);
         lib_free(err);
         return 1;
@@ -718,10 +720,11 @@ int sound_open(void)
             if (rdev->init(recparam, &speed, &fragsize, &fragnr, &channels_cap)) {
 #ifdef HAS_TRANSLATION
                 ui_error(translate_text(IDGS_INIT_FAILED_FOR_DEVICE_S),
+                                   rdev->name);
 #else
                 ui_error(_("Initialization failed for device `%s'."),
-#endif
                                    rdev->name);
+#endif
                 resources_set_value("SoundRecordDeviceName", "");
                 return 0;
             }
@@ -1222,6 +1225,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #endif
 #if defined(HAVE_ALSA_ASOUNDLIB_H)
     sound_init_alsa_device();
+#endif
+#ifdef USE_COREAUDIO
+    sound_init_coreaudio_device();
 #endif
 #if defined(HAVE_LINUX_SOUNDCARD_H) || defined(HAVE_MACHINE_SOUNDCARD_H) || defined(HAVE_SYS_SOUNDCARD_H)
 

@@ -42,9 +42,22 @@ static void enable_controls_for_vicii_settings(HWND hwnd, int type)
 {
 }
 
+static uilib_localize_dialog_param vicii_dialog[] = {
+    {0, IDS_VICII_CAPTION, -1},
+    {IDC_VICII_SPRITEGROUP, IDS_VICII_SPRITEGROUP, 0},
+    {IDC_TOGGLE_VICII_SSC, IDS_VICII_SPRITECOLL, 0},
+    {IDC_TOGGLE_VICII_SBC, IDS_VICII_BACKCOLL, 0},
+    {IDC_TOGGLE_VICII_NEWLUM, IDS_VICII_LUMINANCE, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
 static void init_vicii_dialog(HWND hwnd)
 {
-    int n;
+int n;
+
+    uilib_localize_dialog(hwnd, vicii_dialog);
 
     resources_get_value("VICIICheckSsColl", (void *)&n);
     CheckDlgButton(hwnd, IDC_TOGGLE_VICII_SSC,
@@ -80,36 +93,34 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
     int type;
 
     switch (msg) {
-      case WM_CLOSE:
-        EndDialog(hwnd,0);
-        return TRUE;
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_vicii_dialog(hwnd);
-        return TRUE;
-      case WM_COMMAND:
-        type = LOWORD(wparam);
-        switch (type) {
-          case IDC_TOGGLE_VICII_SSC:
-            break;
-          case IDC_TOGGLE_VICII_SBC:
-            break;
-          case IDC_TOGGLE_VICII_NEWLUM:
-            break;
-          case IDOK:
-            end_vicii_dialog(hwnd);
-          case IDCANCEL:
+        case WM_CLOSE:
             EndDialog(hwnd,0);
             return TRUE;
-        }
-        return TRUE;
+        case WM_INITDIALOG:
+            init_vicii_dialog(hwnd);
+            return TRUE;
+        case WM_COMMAND:
+            type = LOWORD(wparam);
+            switch (type) {
+                case IDC_TOGGLE_VICII_SSC:
+                    break;
+                case IDC_TOGGLE_VICII_SBC:
+                    break;
+                case IDC_TOGGLE_VICII_NEWLUM:
+                    break;
+                case IDOK:
+                    end_vicii_dialog(hwnd);
+                case IDCANCEL:
+                    EndDialog(hwnd,0);
+                    return TRUE;
+            }
+            return TRUE;
     }
     return FALSE;
 }
 
 void ui_vicii_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(translate_res(IDD_VICII_DIALOG)), hwnd,
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VICII_DIALOG), hwnd,
               dialog_proc);
 }
-

@@ -38,6 +38,7 @@
 #include "translate.h"
 #include "uitfe.h"
 #include "winmain.h"
+#include "uilib.h"
 
 
 static BOOL get_tfename(int number, char **ppname, char **ppdescription)
@@ -113,6 +114,27 @@ static int gray_ungray_items(HWND hwnd)
     return disabled ? 1 : 0;
 }
 
+static uilib_localize_dialog_param tfe_dialog[] = {
+    {0, IDS_TFE_CAPTION, -1},
+    {IDC_TFE_SETTINGS_ENABLE_T, IDS_TFE_ETHERNET, 0},
+    {IDC_TFE_SETTINGS_INTERFACE_T, IDS_TFE_INTERFACE, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group tfe_leftgroup[] = {
+    {IDC_TFE_SETTINGS_ENABLE_T, 0},
+    {IDC_TFE_SETTINGS_INTERFACE_T, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group tfe_rightgroup[] = {
+    {IDC_TFE_SETTINGS_ENABLE, 0},
+    {IDC_TFE_SETTINGS_INTERFACE, 0},
+    {0, 0}
+};
+
 static void init_tfe_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
@@ -120,8 +142,14 @@ static void init_tfe_dialog(HWND hwnd)
 
     int tfe_enabled;
     int tfe_as_rr_net;
+    int xsize, ysize;
 
     const char *interface_name;
+
+    uilib_localize_dialog(hwnd, tfe_dialog);
+    uilib_get_group_extent(hwnd, tfe_leftgroup, &xsize, &ysize);
+    uilib_adjust_group_width(hwnd, tfe_leftgroup);
+    uilib_move_group(hwnd, tfe_rightgroup, xsize + 30);
 
     resources_get_value("ETHERNET_ACTIVE", (void *)&tfe_enabled);
     resources_get_value("ETHERNET_AS_RR", (void *)&tfe_as_rr_net);
@@ -241,7 +269,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_tfe_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_TFE_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)IDD_TFE_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }
 

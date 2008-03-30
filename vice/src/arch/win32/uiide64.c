@@ -39,6 +39,7 @@
 #include "uiide64.h"
 #include "uilib.h"
 #include "winmain.h"
+#include "intl.h"
 
 
 static void enable_ide64_controls(HWND hwnd)
@@ -71,12 +72,36 @@ static void update_text(HWND hwnd)
 
     total = (cylinders_idx + 1) * (heads_idx + 1) * sectors_idx / 2;
 
-    str = lib_msprintf(translate_text(IDS_TOTAL_SIZE_I_KB), total);
+    str = lib_msprintf(intl_translate_text_new(IDS_IDE64_TOTAL_SIZE), total);
     st = system_mbstowcs_alloc(str);
     SetDlgItemText(hwnd, IDC_IDE64_SIZE, st);
     system_mbstowcs_free(st);
     lib_free(str);
 }
+
+static uilib_localize_dialog_param ide64_dialog[] = {
+    {0, IDS_IDE64_CAPTION, -1},
+    {IDC_IDE64_FILE_LABEL, IDS_IDE64_IMAGE, 0},
+    {IDC_IDE64_HDIMAGE_BROWSE, IDS_BROWSE, 0},
+    {IDC_IDE64_GEOMETRY, IDS_IDE64_GEOMETRY, 0},
+    {IDC_TOGGLE_IDE64_SIZEAUTODETECT, IDS_IDE64_AUTODETECT, 0},
+    {IDC_IDE64_CYLINDERS_LABEL, IDS_IDE64_CYLINDERS, 0},
+    {IDC_IDE64_HEADS_LABEL, IDS_IDE64_HEADS, 0},
+    {IDC_IDE64_SECTORS_LABEL, IDS_IDE64_SECTORS, 0},
+    {IDOK, IDS_OK, 0},
+    {IDCANCEL, IDS_CANCEL, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group ide64_leftgroup[] = {
+    {IDC_IDE64_FILE_LABEL, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group ide64_rightgroup[] = {
+    {IDC_IDE64_HDIMAGE_BROWSE, 0},
+    {0, 0}
+};
 
 static void init_ide64_dialog(HWND hwnd)
 {
@@ -85,6 +110,12 @@ static void init_ide64_dialog(HWND hwnd)
     TCHAR *st_ide64file;
     TCHAR memb[20];
     HWND ide64_hwnd;
+    int xsize, ysize;
+
+    uilib_localize_dialog(hwnd, ide64_dialog);
+    uilib_get_group_extent(hwnd, ide64_leftgroup, &xsize, &ysize);
+    uilib_adjust_group_width(hwnd, ide64_leftgroup);
+    uilib_move_group(hwnd, ide64_rightgroup, xsize + 30);
 
     resources_get_value("IDE64Image", (void *)&ide64file);
     st_ide64file = system_mbstowcs_alloc(ide64file);
@@ -163,7 +194,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
         command = LOWORD(wparam);
         switch (command) {
           case IDC_IDE64_HDIMAGE_BROWSE:
-            uilib_select_browse(hwnd, translate_text(IDS_SELECT_HD_IMAGE),
+            uilib_select_browse(hwnd, intl_translate_text_new(IDS_IDE64_SELECT_IMAGE),
                                 UILIB_FILTER_ALL,
                                 UILIB_SELECTOR_TYPE_FILE_SAVE,
                                 IDC_IDE64_HDIMAGE_FILE);
@@ -195,7 +226,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void uiide64_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)translate_res(IDD_IDE64_SETTINGS_DIALOG), hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)IDD_IDE64_SETTINGS_DIALOG, hwnd,
               dialog_proc);
 }
 
