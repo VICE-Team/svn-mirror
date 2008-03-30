@@ -28,12 +28,15 @@
 
 #include "drive.h"
 #include "drivecpu.h"
+#include "log.h"
 #include "maincpu.h"
 #include "plus4tcbm.h"
 #include "tcbm.h"
 #include "types.h"
 
-#define TCBM_DEBUG
+
+/*#define TCBM_DEBUG*/
+
 
 typedef struct tiatcbm_s {
     BYTE ddra;
@@ -46,191 +49,127 @@ typedef struct tiatcbm_s {
 
 static tiatcbm_t tiatcbm[2];
 
-BYTE tcbm_busa[2], tcbm_busb[2], tcbm_busc[2];
-BYTE tcbm_outputa[2], tcbm_outputb[2], tcbm_outputc[2];
+BYTE plus4tcbm_outputa[2], plus4tcbm_outputb[2], plus4tcbm_outputc[2];
+static BYTE tpid_outputa[2], tpid_outputb[2], tpid_outputc[2];
 
 /*-----------------------------------------------------------------------*/
 
-void tcbm_update_bus(void)
+void plus4tcbm_update_pa(BYTE byte, unsigned int dnr)
 {
-    tcbm_busa[0] = tcbm_outputa[0] & tia1551_outputa[0];
-    tcbm_busb[0] = tcbm_outputb[0] & tia1551_outputb[0] & 0x03;
-    tcbm_busc[0] = tcbm_outputc[0] & tia1551_outputc[0] & 0xc0;
-    tcbm_busa[1] = tcbm_outputa[1] & tia1551_outputa[1];
-    tcbm_busb[1] = tcbm_outputb[1] & tia1551_outputb[1] & 0x03;
-    tcbm_busc[1] = tcbm_outputc[1] & tia1551_outputc[1] & 0xc0;
-#ifdef TCBM_DEBUG
-    log_debug("BUS A:%02x B:%02x C:%02x",
-              tcbm_busa[0], tcbm_busb[0], tcbm_busc[0]);
-#endif
+    tpid_outputa[dnr] = byte;
+}
+
+void plus4tcbm_update_pb(BYTE byte, unsigned int dnr)
+{
+    tpid_outputb[dnr] = byte;
+}
+
+void plus4tcbm_update_pc(BYTE byte, unsigned int dnr)
+{
+    tpid_outputc[dnr] = byte;
 }
 
 /*-----------------------------------------------------------------------*/
-
-inline void tiatcbm_porta_update(unsigned int dnr)
-{
-    static BYTE old_output[2];
-    BYTE output, input;
-
-    output = (tiatcbm[dnr].dataa & tiatcbm[dnr].ddra)
-             | ~tiatcbm[dnr].ddra;
-    tcbm_outputa[dnr] = output;
-    tcbm_update_bus();
-    input = tcbm_busa[dnr];
-
-    tiatcbm[dnr].dataa = (tiatcbm[dnr].dataa & tiatcbm[dnr].ddra)
-                         | (input & ~tiatcbm[dnr].ddra);
-    old_output[dnr] = output;
-}
-
-inline void tiatcbm_portb_update(unsigned int dnr)
-{
-    static BYTE old_output[2];
-    BYTE output, input;
-
-    output = (tiatcbm[dnr].datab & tiatcbm[dnr].ddrb)
-             | ~tiatcbm[dnr].ddrb;
-    tcbm_outputb[dnr] = output;
-    tcbm_update_bus();
-    input = tcbm_busb[dnr];
-
-    tiatcbm[dnr].datab = (tiatcbm[dnr].datab & tiatcbm[dnr].ddrb)
-                         | (input & ~tiatcbm[dnr].ddrb);
-    old_output[dnr] = output;
-}
-
-inline void tiatcbm_portc_update(unsigned int dnr)
-{
-    static BYTE old_output[2];
-    BYTE output, input;
-
-    output = (tiatcbm[dnr].datac & tiatcbm[dnr].ddrc)
-             | ~tiatcbm[dnr].ddrc;
-    tcbm_outputc[dnr] = output;
-    tcbm_update_bus();
-    input = tcbm_busc[dnr];
-
-    tiatcbm[dnr].datac = (tiatcbm[dnr].datac & tiatcbm[dnr].ddrc)
-                         | (input & ~tiatcbm[dnr].ddrc);
-    old_output[dnr] = output;
-}
 
 inline static BYTE dataa_read(unsigned int dnr)
 {
-    tiatcbm_porta_update(dnr);
 #ifdef TCBM_DEBUG
-    log_debug("TCBM PA READ %02x", tiatcbm[dnr].dataa);
+    log_debug("TCBM PA READ DATA %02x DDR %02x TIPD %02x",
+              tiatcbm[dnr].dataa, tiatcbm[dnr].ddra, tpid_outputa[dnr]);
 #endif
-    return tiatcbm[dnr].dataa;
+    return (tiatcbm[dnr].dataa | ~tiatcbm[dnr].ddra) & tpid_outputa[dnr];
 }
 
 inline static BYTE datab_read(unsigned int dnr)
 {
-    tiatcbm_portb_update(dnr);
 #ifdef TCBM_DEBUG
-    log_debug("TCBM PB READ %02x", tiatcbm[dnr].datab);
+    log_debug("TCBM PB READ DATA %02x DDR %02x",
+              tiatcbm[dnr].datab, tiatcbm[dnr].ddrb);
 #endif
-    return tiatcbm[dnr].datab;
+    return (tiatcbm[dnr].datab | ~tiatcbm[dnr].ddrb)
+           & (tpid_outputc[dnr] | 0xfc);
 }
 
 inline static BYTE datac_read(unsigned int dnr)
 {
-    tiatcbm_portc_update(dnr);
 #ifdef TCBM_DEBUG
-    log_debug("TCBM PC READ %02x", tiatcbm[dnr].datac);
+    log_debug("TCBM PC READ DATA %02x DDR %02x",
+              tiatcbm[dnr].datac, tiatcbm[dnr].ddrc);
 #endif
-    return tiatcbm[dnr].datac;
+    return (tiatcbm[dnr].datac | ~tiatcbm[dnr].ddrc)
+           & ((tpid_outputc[dnr] << 4) | 0x7f)
+           & ((tpid_outputc[dnr] >> 1) | 0xbf);
 }
 
-inline static BYTE ddra_read(unsigned int dnr)
-{
-    tiatcbm_porta_update(dnr);
-    return tiatcbm[dnr].ddra;
-}
-
-inline static BYTE ddrb_read(unsigned int dnr)
-{
-    tiatcbm_portb_update(dnr);
-    return tiatcbm[dnr].ddrb;
-}
-
-inline static BYTE ddrc_read(unsigned int dnr)
-{
-    tiatcbm_portc_update(dnr);
-    return tiatcbm[dnr].ddrc;
-}
-
-inline static void dataa_store(BYTE byte, unsigned int dnr)
+inline static void store_pa(unsigned int dnr)
 {
 #ifdef TCBM_DEBUG
-    log_debug("TCBM PA STORE %02x", byte);
+    log_debug("TCBM PA STORE DATA %02x DDR %02x",
+              tiatcbm[dnr].dataa, tiatcbm[dnr].ddra);
 #endif
-    tiatcbm[dnr].dataa = byte;
-    tiatcbm_porta_update(dnr);
+    plus4tcbm_outputa[dnr] = tiatcbm[dnr].dataa | ~tiatcbm[dnr].ddra;
 }
 
-inline static void datab_store(BYTE byte, unsigned int dnr)
+inline static void store_pb(unsigned int dnr)
 {
 #ifdef TCBM_DEBUG
-    log_debug("TCBM PB STORE %02x", byte);
+    log_debug("TCBM PB STORE DATA %02x DDR %02x",
+              tiatcbm[dnr].datab, tiatcbm[dnr].ddrb);
 #endif
-    tiatcbm[dnr].datab = byte;
-    tiatcbm_portb_update(dnr);
+    plus4tcbm_outputb[dnr] = tiatcbm[dnr].datab | ~tiatcbm[dnr].ddrb;
 }
 
-inline static void datac_store(BYTE byte, unsigned int dnr)
+inline static void store_pc(unsigned int dnr)
 {
 #ifdef TCBM_DEBUG
-    log_debug("TCBM PC STORE %02x", byte);
+    log_debug("TCBM PC STORE DATA %02x DDR %02x",
+              tiatcbm[dnr].datac, tiatcbm[dnr].ddrc);
 #endif
-    tiatcbm[dnr].datac = byte;
-    tiatcbm_portc_update(dnr);
-}
 
-inline static void ddra_store(BYTE byte, unsigned int dnr)
-{
-    tiatcbm[dnr].ddra = byte;
-    tiatcbm_porta_update(dnr);
-}
-
-inline static void ddrb_store(BYTE byte, unsigned int dnr)
-{
-    tiatcbm[dnr].ddrb = byte;
-    tiatcbm_portb_update(dnr);
-}
-
-inline static void ddrc_store(BYTE byte, unsigned int dnr)
-{
-    tiatcbm[dnr].ddrc = byte;
-    tiatcbm_portc_update(dnr);
+    plus4tcbm_outputc[dnr] = tiatcbm[dnr].datac | ~tiatcbm[dnr].ddrc;
 }
 
 /*-----------------------------------------------------------------------*/
 
 static void tiatcbm_reset(unsigned int dnr)
 {
+    tiatcbm[dnr].ddra = 0;
+    tiatcbm[dnr].dataa = 0;
+    tiatcbm[dnr].ddrb = 0;
+    tiatcbm[dnr].datab = 0;
+    tiatcbm[dnr].ddrc = 0;
+    tiatcbm[dnr].datac = 0;
+    plus4tcbm_outputa[dnr] = 0xff;
+    plus4tcbm_outputb[dnr] = 0xff;
+    plus4tcbm_outputc[dnr] = 0xff;
 }
 
 static void tiatcbm_store(WORD addr, BYTE byte, unsigned int dnr)
 {
     switch (addr & 7) {
       case 0:
-        dataa_store(byte, dnr);
+        tiatcbm[dnr].dataa = byte;
+        store_pa(dnr);
         break;
       case 1:
-        datab_store(byte, dnr);
+        tiatcbm[dnr].datab = byte;
+        store_pb(dnr);
         break;
       case 2:
-        datac_store(byte, dnr);
+        tiatcbm[dnr].datac = byte;
+        store_pc(dnr);
         break;
       case 3:
-        ddra_store(byte, dnr);
+        tiatcbm[dnr].ddra = byte;
+        store_pa(dnr);
         break;
       case 4:
-        ddrb_store(byte, dnr);
+        tiatcbm[dnr].ddrb = byte;
+        store_pb(dnr);
         break;
       case 5:
-        ddrc_store(byte, dnr);
+        tiatcbm[dnr].ddrc = byte;
+        store_pc(dnr);
         break;
     }
 }
@@ -245,14 +184,14 @@ static BYTE tiatcbm_read(WORD addr, unsigned int dnr)
       case 2:
         return datac_read(dnr);
       case 3:
-        return ddra_read(dnr);
+        return tiatcbm[dnr].ddra;
       case 4:
-        return ddrb_read(dnr);
+        return tiatcbm[dnr].ddrb;
       case 5:
-        return ddrc_read(dnr);
+        return tiatcbm[dnr].ddrc;
     }
 
-    return 0;
+    return 0xff;
 }
 
 /*-----------------------------------------------------------------------*/

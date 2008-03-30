@@ -116,12 +116,14 @@ static void glue1551d0_timer(CLOCK offset)
 {
     if (glue1551d0_irq_line == 0) {
         alarm_set(glue1551d0_timer_alarm,
-                  *(drive0_context.clk_ptr) + GLUE1551_ALARM_TICKS_ON);
+                  *(drive0_context.clk_ptr) + GLUE1551_ALARM_TICKS_ON
+                  - offset);
         interrupt_set_irq(drive0_context.cpu.int_status, glue1551d0_int_num,
                           IK_IRQ, *(drive0_context.clk_ptr));
     } else {
         alarm_set(glue1551d0_timer_alarm,
-                  *(drive0_context.clk_ptr) + GLUE1551_ALARM_TICKS_OFF);
+                  *(drive0_context.clk_ptr) + GLUE1551_ALARM_TICKS_OFF
+                  - offset);
         interrupt_set_irq(drive0_context.cpu.int_status, glue1551d0_int_num,
                           0, *(drive0_context.clk_ptr));
     }
@@ -132,12 +134,14 @@ static void glue1551d1_timer(CLOCK offset)
 {
     if (glue1551d1_irq_line == 0) {
         alarm_set(glue1551d1_timer_alarm,
-                  *(drive1_context.clk_ptr) + GLUE1551_ALARM_TICKS_ON);
+                  *(drive1_context.clk_ptr) + GLUE1551_ALARM_TICKS_ON
+                  - offset);
         interrupt_set_irq(drive1_context.cpu.int_status, glue1551d1_int_num,
                           IK_IRQ, *(drive1_context.clk_ptr));
     } else {
         alarm_set(glue1551d1_timer_alarm,
-                  *(drive1_context.clk_ptr) + GLUE1551_ALARM_TICKS_OFF);
+                  *(drive1_context.clk_ptr) + GLUE1551_ALARM_TICKS_OFF
+                  - offset);
         interrupt_set_irq(drive1_context.cpu.int_status, glue1551d1_int_num,
                           0, *(drive1_context.clk_ptr));
     }
