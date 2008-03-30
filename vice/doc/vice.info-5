@@ -1124,8 +1124,8 @@ involved in the development of X64 and VICE:
      cartridge code. Wrote the Ramcart cartridge code.  Wrote the +60K
      Expansion code. Made the ethernet support for the Msdos port.
      Maintains the QNX 6.x binary packages.  Maintains the Solaris
-     binary packages. Fixed stereo-sid/acia io-1/io-2 conflicts. And
-     lots of other fixes.
+     binary packages. Maintains the new resurrected OS/2 port. Added
+     new .crt carts support. And lots of other fixes.
 
 
    Former team members:

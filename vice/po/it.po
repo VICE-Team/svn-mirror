@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-11-12 15:03+0100\n"
+"POT-Creation-Date: 2005-11-19 15:37+0100\n"
 "PO-Revision-Date: 2005-10-02 12:18+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@despammed.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -26,8 +26,8 @@ msgstr "Limita la velocità di emulazione al valore specificato"
 
 #: src/vsync.c:141 src/sound.c:247 src/sound.c:249 src/debug.c:205
 #: src/c64/cart/ide64.c:270 src/c64/cart/ide64.c:272 src/c64/cart/ide64.c:274
-#: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:133
-#: src/gfxoutputdrv/ffmpegdrv.c:136 src/mouse.c:97 src/ram.c:101
+#: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:134
+#: src/gfxoutputdrv/ffmpegdrv.c:137 src/mouse.c:97 src/ram.c:101
 msgid "<value>"
 msgstr "<valore>"
 
@@ -43,7 +43,7 @@ msgstr "Attiva la modalità turbo"
 msgid "Disable warp mode"
 msgstr "Disattiva la modalità turbo"
 
-#: src/vsync.c:455
+#: src/vsync.c:460
 msgid "Your machine is too slow for current settings!"
 msgstr "Il computer è troppo lento per queste impostazioni!"
 
@@ -91,7 +91,7 @@ msgstr "Imposta la dimensione del buffer del suono a <valore> msec"
 #: src/c64/cart/c64cart.c:246 src/c64/cart/c64cart.c:249
 #: src/c64/cart/c64cart.c:252 src/c64/cart/c64cart.c:255
 #: src/c64/cart/c64cart.c:258 src/c64/cart/ide64.c:268 src/c64/georam.c:215
-#: src/c64/plus60k.c:206 src/c64/ramcart.c:228 src/c64/reu.c:250
+#: src/c64/plus60k.c:238 src/c64/ramcart.c:228 src/c64/reu.c:250
 #: src/cbm2/cbm2-cmdline-options.c:132 src/cbm2/cbm2-cmdline-options.c:134
 #: src/cbm2/cbm2-cmdline-options.c:136 src/cbm2/cbm2-cmdline-options.c:139
 #: src/cbm2/cbm2-cmdline-options.c:141 src/cbm2/cbm2-cmdline-options.c:143
@@ -775,17 +775,26 @@ msgstr "<dimensione in KB>"
 msgid "Size of the GEORAM expansion unit"
 msgstr "Dimensione dell'espansione GEORAM"
 
-#: src/c64/plus60k.c:202
+#: src/c64/plus60k.c:234
 msgid "Enable the +60K RAM expansion"
 msgstr "Attiva l'espansione +60K RAM"
 
-#: src/c64/plus60k.c:204
+#: src/c64/plus60k.c:236
 msgid "Disable the +60K RAM expansion"
 msgstr "Disattiva l'espansione +60K RAM"
 
-#: src/c64/plus60k.c:206
+#: src/c64/plus60k.c:238
 msgid "Specify name of +60K image"
 msgstr "Specifica il nome dell'immagine +60K"
+
+#: src/c64/plus60k.c:240 src/sid/sid-cmdline-options.c:109
+msgid "<base address>"
+msgstr "<indirizzo base>"
+
+#: src/c64/plus60k.c:240
+#, fuzzy
+msgid "Base address of the +60K expansion"
+msgstr "Disattiva l'espansione +60K RAM"
 
 #: src/c64/psid.c:160
 msgid "SID player mode"
@@ -1135,23 +1144,23 @@ msgstr "Una <nome> come direcory per il file system della periferica #10"
 msgid "Use <name> as directory for file system device #11"
 msgstr "Una <nome> come direcory per il file system della periferica #11"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:133
+#: src/gfxoutputdrv/ffmpegdrv.c:134
 msgid "Set bitrate for audio stream in media file"
 msgstr "Imposta il bitrate del flusso audio nel file multimediale"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:136
+#: src/gfxoutputdrv/ffmpegdrv.c:137
 msgid "Set bitrate for video stream in media file"
 msgstr "Imposta il bitrate per il flusso video nel file multimediale"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:491
+#: src/gfxoutputdrv/ffmpegdrv.c:492
 msgid "ffmpegdrv: Cannot open video stream"
 msgstr "ffmpegdrv: Non è possibile aprire il flusso video"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:496
+#: src/gfxoutputdrv/ffmpegdrv.c:497
 msgid "ffmpegdrv: Cannot open audio stream"
 msgstr "ffmpegdrv: Non è possibile aprire il flusso audio"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:505
+#: src/gfxoutputdrv/ffmpegdrv.c:506
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Non è possibile aprire %s"
@@ -1567,10 +1576,6 @@ msgstr ""
 #: src/sid/sid-cmdline-options.c:106
 msgid "Enable second SID"
 msgstr "Attiva Secondo SID"
-
-#: src/sid/sid-cmdline-options.c:109
-msgid "<base address>"
-msgstr "<indirizzo base>"
 
 #: src/sid/sid-cmdline-options.c:109
 msgid "Specify base address for 2nd SID"

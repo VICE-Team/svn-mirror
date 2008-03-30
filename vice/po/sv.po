@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-11-12 15:03+0100\n"
+"POT-Creation-Date: 2005-11-19 15:37+0100\n"
 "PO-Revision-Date: 2005-09-28 17:52+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -25,8 +25,8 @@ msgstr "Begränsa emuleringshastighet till angivet värde"
 
 #: src/vsync.c:141 src/sound.c:247 src/sound.c:249 src/debug.c:205
 #: src/c64/cart/ide64.c:270 src/c64/cart/ide64.c:272 src/c64/cart/ide64.c:274
-#: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:133
-#: src/gfxoutputdrv/ffmpegdrv.c:136 src/mouse.c:97 src/ram.c:101
+#: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:134
+#: src/gfxoutputdrv/ffmpegdrv.c:137 src/mouse.c:97 src/ram.c:101
 msgid "<value>"
 msgstr "<värde>"
 
@@ -42,7 +42,7 @@ msgstr "Aktivera warpläge"
 msgid "Disable warp mode"
 msgstr "Inaktivera warpläge"
 
-#: src/vsync.c:455
+#: src/vsync.c:460
 msgid "Your machine is too slow for current settings!"
 msgstr "Din maskin är för långsam för nuvarande inställningar!"
 
@@ -90,7 +90,7 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/c64/cart/c64cart.c:246 src/c64/cart/c64cart.c:249
 #: src/c64/cart/c64cart.c:252 src/c64/cart/c64cart.c:255
 #: src/c64/cart/c64cart.c:258 src/c64/cart/ide64.c:268 src/c64/georam.c:215
-#: src/c64/plus60k.c:206 src/c64/ramcart.c:228 src/c64/reu.c:250
+#: src/c64/plus60k.c:238 src/c64/ramcart.c:228 src/c64/reu.c:250
 #: src/cbm2/cbm2-cmdline-options.c:132 src/cbm2/cbm2-cmdline-options.c:134
 #: src/cbm2/cbm2-cmdline-options.c:136 src/cbm2/cbm2-cmdline-options.c:139
 #: src/cbm2/cbm2-cmdline-options.c:141 src/cbm2/cbm2-cmdline-options.c:143
@@ -745,17 +745,26 @@ msgstr "<storlek i KB>"
 msgid "Size of the GEORAM expansion unit"
 msgstr "Storlek på GEORAM-expansionsenhet"
 
-#: src/c64/plus60k.c:202
+#: src/c64/plus60k.c:234
 msgid "Enable the +60K RAM expansion"
 msgstr "Aktivera +60K RAM-expansion"
 
-#: src/c64/plus60k.c:204
+#: src/c64/plus60k.c:236
 msgid "Disable the +60K RAM expansion"
 msgstr "Inaktivera +60K RAM-expansion"
 
-#: src/c64/plus60k.c:206
+#: src/c64/plus60k.c:238
 msgid "Specify name of +60K image"
 msgstr "Ange namn på +60K-avbildning"
+
+#: src/c64/plus60k.c:240 src/sid/sid-cmdline-options.c:109
+msgid "<base address>"
+msgstr "<basadress>"
+
+#: src/c64/plus60k.c:240
+#, fuzzy
+msgid "Base address of the +60K expansion"
+msgstr "Inaktivera +60K RAM-expansion"
 
 #: src/c64/psid.c:160
 msgid "SID player mode"
@@ -1103,23 +1112,23 @@ msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 10"
 msgid "Use <name> as directory for file system device #11"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 11"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:133
+#: src/gfxoutputdrv/ffmpegdrv.c:134
 msgid "Set bitrate for audio stream in media file"
 msgstr "Ange bithastighet för ljudström i mediafil"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:136
+#: src/gfxoutputdrv/ffmpegdrv.c:137
 msgid "Set bitrate for video stream in media file"
 msgstr "Ange bithastighet för videoström i mediafil"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:491
+#: src/gfxoutputdrv/ffmpegdrv.c:492
 msgid "ffmpegdrv: Cannot open video stream"
 msgstr "ffmpegdrv: Kan inte öppna videoström"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:496
+#: src/gfxoutputdrv/ffmpegdrv.c:497
 msgid "ffmpegdrv: Cannot open audio stream"
 msgstr "ffmpegdrv: Kan inte öppna ljudström"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:505
+#: src/gfxoutputdrv/ffmpegdrv.c:506
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Kan inte öppna %s"
@@ -1528,10 +1537,6 @@ msgstr ""
 #: src/sid/sid-cmdline-options.c:106
 msgid "Enable second SID"
 msgstr "Aktivera andra SID"
-
-#: src/sid/sid-cmdline-options.c:109
-msgid "<base address>"
-msgstr "<basadress>"
 
 #: src/sid/sid-cmdline-options.c:109
 msgid "Specify base address for 2nd SID"
