@@ -1,3 +1,89 @@
+2003-10-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.9.
+
+	* archapi.h, arch/unix/archdep.c, arch/win32/archdep.c,
+	arch/msdos/archdep.c, arch/riscos/archdep.c,
+	arch/os2/archdep.c, arch/beos/archdep.c (archdep_shutdown):
+	New function.  (archdep_startup): Renamed.
+
+	* machine.c (machine_shutdown): Call `archdep_shutdown()'.
+
+	* main.c (main_program): Call `archdep_init()'.
+
+	* c128/c128.c (machine_resources_shutdown): Call
+	`functionrom_resources_shutdown()'.
+
+	* c128/functionrom.c, c128/functionrom.h
+	(functionrom_resources_shutdown): New function.
+
+	* vic20/vic20.c (machine_resources_shutdown): Call
+	`cartridge_resources_shutdown()'.
+
+	* vic20/vic20cartridge.c (cartridge_resources_shutdown): New
+	function.
+
+	* core/tpicore.c (tpicore_shutdown): Free private structure.
+
+	* tape/tape.c (tape_init): Can be called several times.
+
+	* pet/pet-resources.c (pet_resources_shutdown): Free ROM image
+	names.
+
+	* c64/cart/expert.c, c64/cart/kcs.c, c64/cart/supergames.c,
+	c64/cart/final.c, c64/cart/zaxxon.c, c64/cart/epyxfastload.c,
+	c64/patchrom.c, c64/c64mem.c, pet/petmem.c, c128/z80mem.c,
+	c128/c128mem.c, diskimage/diskimage.c, arch/unix/plus4ui.c,
+	arch/unix/x11/gnome/uisnapshot.c, arch/unix/uivicii.c,
+	arch/unix/x11/gnome/gnomevideo.c, arch/unix/c64ui.c,
+	arch/unix/vsidui.c, arch/unix/c128ui.c, arch/win32/uivicii.c,
+	arch/unix/uiperipheral.c, arch/win32/tfearch.c,
+	arch/win32/uiplus4mem.c, arch/win32/uicbm2set.c,
+	arch/win32/uivicset.c, arch/win32/uisound.c,
+	arch/win32/uipetset.c, arch/riscos/uimsgwin.c, cbm2/cbm2mem.c,
+	tape/tape-snapshot.c, plus4/plus4mem.c, vic20/vic20mem.c,
+	sounddrv/sounddump.c, sounddrv/soundfs.c, sounddrv/soundsb.c,
+	sounddrv/soundmovie.c, sounddrv/soundwav.c, main.c,
+	monitor/mon_util.c, serial/serial-iec.c, machine.c,
+	printerdrv/interface-serial.c, arch/unix/x11/xaw/uimenu.c,
+	arch/unix/x11/gnome/uimenu.c, arch/win32/c64ui.c, c64/c64.c,
+	c64/cart/c64cartmem.c, c64/c64tpi.c, c64/psid.c, pet/pet.c,
+	c128/c128.c, c128/c128mmu.c, arch/msdos/menudefs.c,
+	arch/msdos/vsync.c, cbm2/cbm2-resources.c, cbm2/cbm2.c,
+	cbm2/cbm2cia1.c, core/ciatimer.c, drive/iec/wd1770.c,
+	drive/ieee/fdc.c, plus4/ted-mem.c, plus4/plus4.c, traps.c,
+	plus4/plus4-resources.c, vic20/vic20.c, vic20/vic20mem.c:
+	Removed unused includes.
+
+	* interrupt.h: Removed DMA trigger macro.
+
+	* fliplist.c, fliplist.h (flip_shutdown): New function.
+	(flip_load_list): Fixed pointer size bug.
+
+	* machine.c (machine_shutdown): Call `flip_shutdown()'.
+
+	* arch/unix/uicommands.c (attach_disk, attach_tape,
+	smart_attach, load_snapshot_trap, load_save_fliplist): Allow
+	to free last directory variable.
+
+	* arch/unix/x11/xaw/x11ui.c, arch/unix/x11/gnome/x11ui.c
+	(ui_shutdown): Call `ui_common_shutdown()'.
+
+	* arch/unix/ui.c, arch/unix/ui.h (ui_common_shutdown): New
+	function.
+
+	* arch/unix/uicommands.c, arch/unix/uicommands.h
+	(uicommands_shutdown): New function.
+
+2003-10-20  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/video.c, arch/riscos/ui.c: some cleanups to
+	track PAL Emu crashes.
+
+2003-10-20  Dag Lem  <resid@nimrod.no>
+
+	* resid/: Updated to final reSID 0.15.
+
 2003-10-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.8.

@@ -2810,10 +2810,10 @@ static void ui_mouse_click_pane(int *b)
     switch (b[MouseB_Icon])
     {
       case Icon_Pane_Toggle:
+        if (ActiveCanvas != NULL)
         {
-          struct video_canvas_s *canvas;
+          struct video_canvas_s *canvas = ActiveCanvas;
 
-          canvas = ActiveCanvas;
           canvas->scale = (canvas->scale == 1) ? 2 : 1;
           ui_show_emu_scale();
           video_canvas_update_size(canvas);

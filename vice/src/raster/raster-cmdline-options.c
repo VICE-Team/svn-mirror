@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "lib.h"
 #include "raster-cmdline-options.h"
 #include "utils.h"
 #include "video.h"

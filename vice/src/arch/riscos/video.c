@@ -87,6 +87,8 @@ static char LastStatusLine[STATUS_LINE_SIZE];
 static char CurrentDriveImage[64] = "";
 static int ActualPALDepth = 0;
 
+static const int maxVideoCanvasColours = 256;
+
 static const int FullBackColour   = 0x00000010;
 static const int StatusBackColour = 0xcccccc10;
 static const int StatusForeColour = 0x22222210;
@@ -491,7 +493,7 @@ static void video_frame_buffer_flush_pal(video_canvas_t *canvas)
 
   if ((sarea = wlsprite_plot_get_sarea(&(canvas->fb.palplot))) != NULL)
   {
-    lib_free(sarea);
+    free(sarea); /* allocated externally */
     wlsprite_plot_bind(&(canvas->fb.palplot), (sprite_area_t*)NULL);
     canvas->fb.paldata = NULL;
   }
@@ -505,7 +507,7 @@ static void video_frame_buffer_free(video_canvas_t *canvas, BYTE *draw_buffer)
 
   if ((sarea = wlsprite_plot_get_sarea(&(canvas->fb.normplot))) != NULL)
   {
-    lib_free(sarea);
+    free(sarea); /* allocated externally */
     wlsprite_plot_bind(&(canvas->fb.normplot), (sprite_area_t*)NULL);
     canvas->fb.framedata = NULL;
   }
@@ -590,7 +592,7 @@ static void video_canvas_ensure_translation(video_canvas_t *canvas)
 
       if (canvas->fb.bplot_trans == NULL)
       {
-        canvas->fb.bplot_trans = lib_malloc(256*sizeof(int));
+        canvas->fb.bplot_trans = lib_malloc(maxVideoCanvasColours*sizeof(int));
       }
       trans = canvas->fb.bplot_trans;
       if (ldbpp == 4)
@@ -611,7 +613,7 @@ static void video_canvas_ensure_translation(video_canvas_t *canvas)
           trans[i] = (canvas->current_palette)[i];
         }
       }
-      for (; i<256; i++) trans[i] = 0;
+      for (; i<maxVideoCanvasColours; i++) trans[i] = 0;
     }
 
     canvas->fb.transdirty = 0;
@@ -633,6 +635,8 @@ static int video_ensure_pal_sprite(video_canvas_t *canvas, int *pitchs, int *pit
 
     width  = (canvas->videoconfig->doublesizex == 0) ? canvas->width  : 2*canvas->width;
     height = (canvas->videoconfig->doublesizey == 0) ? canvas->height : 2*canvas->height;
+
+    /*log_message(LOG_DEFAULT, "PAL sprite %dx%d [%dbpp]", width, height, ActualPALDepth);*/
 
     if (ActualPALDepth == 8)
     {
@@ -1051,8 +1055,8 @@ int video_canvas_set_palette(video_canvas_t *canvas, palette_t *palette)
     lib_free(canvas->current_palette);
   }
   canvas->num_colours = palette->num_entries;
-  if (canvas->num_colours > 256)
-    canvas->num_colours = 256;
+  if (canvas->num_colours > maxVideoCanvasColours)
+    canvas->num_colours = maxVideoCanvasColours;
 
   canvas->current_palette = lib_malloc((canvas->num_colours)*sizeof(int));
 
@@ -1140,6 +1144,8 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     canvas->height *= 2;
 
   canvas->num_colours = (canvas->palette == NULL) ? 16 : canvas->palette->num_entries;
+  if (canvas->num_colours > maxVideoCanvasColours)
+    canvas->num_colours = maxVideoCanvasColours;
   canvas->current_palette = NULL;
   canvas->shiftx = 0; canvas->shifty = 0; canvas->scale = 1;
   canvas->redraw_wimp = NULL;
@@ -1194,7 +1200,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 void video_canvas_destroy(video_canvas_t *s)
 {
   canvas_list_t *clist, *last;
-  video_frame_buffer_t *fb;
 
   last = NULL; clist = CanvasList;
   while (clist != NULL)
@@ -1205,6 +1210,9 @@ void video_canvas_destroy(video_canvas_t *s)
         CanvasList = clist->next;
       else
         last->next = clist->next;
+
+      if (clist->canvas == ActiveCanvas)
+        ActiveCanvas = (CanvasList == NULL) ? NULL : CanvasList->canvas;
 
       lib_free(clist); break;
     }
@@ -1217,19 +1225,21 @@ void video_canvas_destroy(video_canvas_t *s)
 
   lib_free(s->name);
   s->name = NULL;
-  fb = &(s->fb);
 
   if (s->video_draw_buffer_callback != NULL)
+  {
     lib_free(s->video_draw_buffer_callback);
-
+    s->video_draw_buffer_callback = NULL;
+  }
   if (s->current_palette != NULL)
   {
     lib_free(s->current_palette);
     s->current_palette = NULL;
   }
 
+  video_frame_buffer_free(s, NULL);
+
   video_canvas_shutdown(s);
-  lib_free(s);
 }
 
 
@@ -1585,6 +1595,9 @@ static void video_full_screen_colours(void)
 int video_full_screen_on(int *sprites)
 {
   screen_mode_t *usemode = NULL;
+
+  if (ActiveCanvas == NULL)
+    return -1;
 
   if (ActualPALDepth == 0)
   {

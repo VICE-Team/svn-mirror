@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2002  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2003  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 // In addition, another counter is used to implement the exponential envelope
 // decay, in effect further dividing the clock to the envelope counter.
 // The period of this counter is set to 1, 2, 4, 8, 16, 30 at the envelope
-// counter values 255, 93, 54, 26, 14, 6, respectively
+// counter values 255, 93, 54, 26, 14, 6, respectively.
 // ----------------------------------------------------------------------------
 class EnvelopeGenerator
 {
