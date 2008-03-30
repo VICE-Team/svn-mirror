@@ -331,7 +331,7 @@ long machine_get_cycles_per_second(void)
 #define SNAP_MAJOR          0
 #define SNAP_MINOR          0
 
-int machine_write_snapshot(const char *name)
+int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
     snapshot_t *s;
     int ef = 0;
@@ -347,7 +347,7 @@ int machine_write_snapshot(const char *name)
         || pia1_write_snapshot_module(s) < 0
         || pia2_write_snapshot_module(s) < 0
         || via_write_snapshot_module(s) < 0
-        || drive_write_snapshot_module(s) < 0
+        || drive_write_snapshot_module(s, save_disks) < 0
 	) {
 	ef = -1;
     }

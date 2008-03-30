@@ -423,7 +423,7 @@ long machine_get_cycles_per_second(void)
 
 const char machine_name[] = "C64";
 
-int machine_write_snapshot(const char *name)
+int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 {
     snapshot_t *s;
 
@@ -436,7 +436,7 @@ int machine_write_snapshot(const char *name)
         || cia1_write_snapshot_module(s) < 0
         || cia2_write_snapshot_module(s) < 0
         || sid_write_snapshot_module(s) < 0
-        || drive_write_snapshot_module(s) < 0
+        || drive_write_snapshot_module(s, save_disks) < 0
         || vic_ii_write_snapshot_module(s) < 0) {
         snapshot_close(s);
         unlink(name);

@@ -290,6 +290,7 @@ PET-specific commands and settings
 
 * PET model::
 * PET diagnostic pin::
+* PET commandline options::
 * PET colors::
 
 CBM-II-specific commands and settings
@@ -816,7 +817,7 @@ free to contact us (@pxref{Contacts}).
 @section PET emulator features
 
 The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and
-SuperPET (MicroMainFram 9000) models, covering almost the whole series.
+SuperPET (MicroMainFrame 9000) models, covering practically the whole series.
 The hardware is pretty much the same in each and that is why one single
 program is enough to emulate all of them.  For more detailed information
 about PET hardware please refer to the @file{PETdoc} file.
@@ -845,17 +846,17 @@ text and 32k for variables.  See @file{PETdoc} for more information.
 
 The SuperPET also is a PET 8032 with an expansion board. It can map
 4k at a time out of 64k into the @code{$9***} area. Also it has an
-ACIA 6551 for RS232 communication.
+ACIA 6551 for RS232 communication. The 6809 that is built into the
+SuperPET is not emulated, though.
 
 The PET computers came with three major ROM revisions, so-called BASIC
 1, 2 and 4, all of which are provided.  The PET 2001 uses the version 1,
 the PET 3032 uses version 2, and the others use version 4.  The 2001 ROM
 is horribly broken with respect to IEEE488 (they shipped it before they
-tested it with the floppy drive, so only tape worked - which is not
-supported in this emulator) so the emulator patches the ROM to fix the
-IEEE488 routines.
+tested it with the floppy drive, so only tape worked. Therefore the emulator 
+patches the ROM to fix the IEEE488 routines.
 
-As well as other low-level fixes,  the 2001 patch obtains
+As well as other low-level fixes the 2001 patch obtains
 the load address for a program file from the first two
 bytes of the file.  This allows the loading of both PET2001-saved files (that
 have $0400 as their load address) and other PET files (that have $0401).
@@ -1289,8 +1290,10 @@ PREFIX/lib/vice/EMU:BOOTPATH/EMU
 
 Where @code{PREFIX} is the installation prefix (usually
 @file{/usr/local}), @code{EMU} is the name of the emulated machine
-(@code{C64}, @code{C128}, @code{PET} or @code{VIC20}) and
+(@code{C64}, @code{C128}, @code{PET}, @code{C610} or @code{VIC20}) and
 @code{BOOTPATH} is the directory where the executable resides.
+The disk drive ROMs are looked for in a directory with @code{EMU} set to 
+@code{DRIVES}.
 
 For example, if you have the C64 emulator installed in
 
@@ -1362,7 +1365,7 @@ The C128 needs the following files:
 @end itemize
 
 The C128, VIC20 and C64 emulators also need the following DOS ROMs for
-the hardware-level emulation of the 1541 and 1571 disk drives:
+the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
 
 @itemize @bullet
 
@@ -1370,7 +1373,22 @@ the hardware-level emulation of the 1541 and 1571 disk drives:
 @file{dos1541}, the 1541 drive ROM (16 Kbytes)
 
 @item
-@file{dos15751}, the 1541 drive ROM (32 Kbytes)
+@file{dos1571}, the 1571 drive ROM (32 Kbytes)
+
+@item
+@file{dos1581}, the 1581 drive ROM (32 Kbytes)
+
+@end itemize
+
+In addition to those all emulators except the VIC20 can handle 
+a parallel IEEE488 interface (the C64 and C128 via @code{$df**} extension)
+so they also need the DOS ROM for the 2031 disk drive, basically a
+VC1541 with a parallel IEEE488 interface:
+
+@itemize @bullet
+
+@item
+@file{dos2031}, the 2031 drive ROM (16 Kbytes)
 
 @end itemize
 
@@ -1406,6 +1424,11 @@ KBytes)
 @file{edit4.b80}, the PET8032 editor for 80 columns and
 business keyboard (2 KBytes)
 
+@item
+@file{chargen}, the character generator ROM (2k). It has two sets
+with 128 chars each. The second (inverted) half of each set is computed from
+the first half by inverting it. This is a PET hardware feature.
+
 @end itemize
 
 The PETs also have sockets for extension ROMs for the addresses
@@ -1421,6 +1444,39 @@ Also, you can specify replacements for the basic ROM at $B000-$DFFF
 with the @code{-petromBasic} option and for the editor ROM
 at $E000-$E7FF with the @code{-petromEditor} option.
 
+The CBM-II emulator again uses another setup. For those models the kernal
+used is the same for all. However, for different amounts of memory
+exist different versions of the BASIC ROMs. The 128k RAM version
+(C610, C710, B128) uses one bank of 64k for the BASIC text and
+another one for all the variables. The 256k RAM version uses 
+one bank for text, one for variables, one for arrays and one for strings.
+
+Also the character generator ROMs have a format different from the above.
+The other character ROMs have 8 bytes of pixel data per character.
+Those ROMs have 16 bytes per character instead. The C6x0 only uses
+the first 8 of it, but the C7x0 uses 14 lines per character and needs
+those increased ROMs. Both ROMs hold, like the PET, two character
+sets with 128 characters each. Again the second half of the full
+(256 char) character set is computed by inverting. 
+
+@itemize @bullet
+
+@item
+@file{kernal}, the KERNAL (8k)
+
+@item
+@file{basic.128}, the CBM-II 128k BASIC (16k)
+
+@item
+@file{basic.256}, CBM-II 256k BASIC (16k)
+
+@item
+@file{chargen.600}, character generator ROM for the C6x0 (4k)
+
+@item
+@file{chargen.700}, character generator ROM for the C7x0 (4k)
+
+@end itemize
 
 @node Keymap files, Palette files, ROM files, System files
 @section Keymap files
@@ -1722,7 +1778,7 @@ Another important feature is that raw Commodore BASIC binary files and
 tape image when it is attached (@pxref{Autostart}), this allows you to
 autostart these particular files as well.
 
-You can attach a disk for which you do have write permissions: when this
+You can attach a disk for which you do not have write permissions: when this
 happens, the 1541 emulator will emulate a write-protected disk.  This is
 also useful if you want to prevent certain disk images from being
 written to; in the latter case, just remove the write permission for
@@ -1857,6 +1913,10 @@ It is possible that a soft reset may not be enough to take the machine
 to the OS initialization sequence: in such cases, you will have to do a
 hard reset instead.
 
+This is especially the case for the CBM-II emulators. Those machines
+examine a memory location and if they find a certain "magic" value
+they only do what you know from the C64 as @code{Run/Stop-Restore}.
+Therefore, to really reset a CBM-II use hard reset.
 
 @node Settings and resources, Machine-specific features, Basics, Top
 @chapter Settings and resources
@@ -1900,6 +1960,7 @@ using command-line options.
 * Sound settings::              Settings that control audio playback
 * 1541 settings::               Settings that control disk-drive emulation.
 * Peripheral settings::         Settings for emulated external devices.
+* RS232 settings::              Settings for the RS232 emulation.
 * Misc settings::               Other settings.
 @end menu
 
@@ -2130,11 +2191,15 @@ emulation window.
 
 @vindex MITSHM
 @item MITSHM
-Boolean specyfying whether VICE should try to use the shared memory
+Integer specifying whether VICE should try to use the shared memory
 extensions (MITSHM) when starting up.  The shared memory extensions make
 things a lot faster but might not be available on your system.  You will
 not be able to use these extensions if you are sitting at an X terminal
 while running the emulator on a remote machine across a network.
+Valid values are: 0 = do not use MITSHM, 1 = do use MITSHM, -1 = try
+to autodetect availability on startup (default). The last is a simple test
+if the emulator runs across a network and if so disables MITSHM
+(If you have problems with this test please report it).
 
 @vindex PrivateColormap
 @item PrivateColormap
@@ -2184,6 +2249,10 @@ window (@code{UseXSync=1}, @code{UseXSync=0}).
 Enable/disable usage of the MITSHM extensions (@code{MITSHM=1},
 @code{MITSHM=0}).
 
+@cindex -mitshmauto
+@item -mitshmauto
+Enable autodetection of MITSHM availability (@code{MITSHM=-1})
+
 @cindex -install, +install
 @item -install
 @itemx +install
@@ -2230,17 +2299,33 @@ file'').
 @vindex KeymapIndex
 @item KeymapIndex
 Integer identifying which keymap is being used; @code{0} indicates
-symbolic mapping, @code{1} positional mapping.
+symbolic mapping, @code{1} positional mapping. For the PET the even values
+represent symbolic mapping, odd positional. Then add @code{0} for UK business
+keyboard or @code{2} for graphics keyboard.
 
 @vindex KeymapSymFile
 @item KeymapSymFile
 String specifying the name of the keymap file for the symbolic mapping
-(@pxref{Keyboard emulation}).
+(@pxref{Keyboard emulation}, all but PET and C610).
 
 @vindex KeymapPosFile
 @item KeymapPosFile
 String specifying the name of the keymap file for the positional mapping
-(@pxref{Keyboard emulation}).
+(@pxref{Keyboard emulation}, all but PET and C610).
+
+@vindex KeymapBusinessUKSymFile KeymapBusinessUKPosFile
+@item KeymapBusinessUKSymFile
+@itemx KeymapBusinessUKPosFile
+String specifying the name of the keymap file for the symbolic 
+and positional mapping for the UK business keyboard
+(@pxref{Keyboard emulation}, PET and C610).
+
+@vindex KeymapGraphicsSymFile KeymapGraphicsPosFile
+@item KeymapGraphicsSymFile
+@itemx KeymapGraphicsPosFile
+String specifying the name of the keymap file for the symbolic and 
+positional mapping for the graphics keyboard
+(@pxref{Keyboard emulation}, PET only).
 
 @end table
 
@@ -2263,6 +2348,20 @@ Specify @file{NAME} as the symbolic keymap file (@code{KeymapSymFile}).
 @cindex -poskeymap
 @item -poskeymap NAME
 Specify @file{NAME} as the positional keymap file (@code{KeymapPosFile}).
+
+@cindex -buksymkeymap -bukposkeymap
+@item -buksymkeymap NAME
+@itemx -bukposkeymap NAME
+Specify @file{NAME} as the symbolic/positional keymap file for the
+UK business keyboard
+(@code{KeymapBusinessUKSymFile}, @code{KeymapBusinessUKPosFile}, PET and C610).
+
+@cindex -grsymkeymap -grposkeymap
+@item -grsymkeymap NAME
+@itemx -grposkeymap NAME
+Specify @file{NAME} as the symbolic/positional keymap file for the
+graphics keyboard
+(@code{KeymapGraphicsSymFile}, @code{KeymapGraphicsPosFile}, PET only).
 
 @end table
 
@@ -2413,7 +2512,7 @@ used to evaluate the speed of the sample generator);
 @end itemize
 
 These drivers will actually be present only if the VICE configuration
-script detected the corresponding devices at the time of installation.
+script detected the corresponding devices at the time of compilation.
 
 @vindex SoundDeviceArg
 @item SoundDeviceArg
@@ -2646,7 +2745,7 @@ Specifies the name of the DOS ROM image (@code{DosName}).
 @end table
 
 
-@node Peripheral settings, Misc settings, 1541 settings, Settings and resources
+@node Peripheral settings, RS232 settings, 1541 settings, Settings and resources
 @section Peripheral settings
 
 VICE is able to support some special peripherals:
@@ -2692,6 +2791,11 @@ their built-in name instead of the Unix one.
 raw CBM files) whenever a program creates a file.
 @end itemize
 
+Note that all drives except 11 (by default) conserve the CBM filename by saving 
+P00 files on save. Drive 11 can (by default) be used to directly create Unix 
+files. This setup is the default for the resources and can of course be
+changed here.
+
 @menu
 * File system device resources::
 * File system device options::
@@ -2712,7 +2816,7 @@ raw CBM files) whenever a program creates a file.
 @vindex FSDevice11ConvertP00
 @itemx FSDevice11ConvertP00
 Booleans specifying whether on-read support for P00 files is enabled on
-drives 8, 9, 10 and 11 respectively.
+drives 8, 9, 10 and 11 respectively (on by default).
 
 @vindex FSDevice8SaveP00
 @item FSDevice8SaveP00
@@ -2723,7 +2827,7 @@ drives 8, 9, 10 and 11 respectively.
 @vindex FSDevice11SaveP00
 @itemx FSDevice11SaveP00
 Booleans specifying whether the drives should create P00 files instead
-of plain CBM ones.
+of plain CBM ones (on by default for drives 8-10, off for 11).
 
 @vindex FSDevice8HideCBMFiles
 @item FSDevice8HideCBMFiles
@@ -2734,7 +2838,7 @@ of plain CBM ones.
 @vindex FSDevice11HideCBMFiles
 @itemx FSDevice11HideCBMFiles
 Booleans specifying whether non-P00 files should be invisible to
-programs running in the emulator.
+programs running in the emulator (do not hide by default).
 
 @vindex FSDevice8Dir
 @item FSDevice8Dir
@@ -2783,7 +2887,8 @@ preceeded by a pipe symbol @samp{|}.
 For example, printer device @samp{filename} will cause the output to be
 appended to the file @file{filename}, while printer device @samp{|lpr}
 will cause the @code{lpr} command to be executed and be fed the printer
-output.
+output. The printer output will not be converted but saved as printed
+by the emulated machine.
 
 Up to three printer devices may be specified through the following
 resources:
@@ -2800,7 +2905,8 @@ device 3, whose default value is @code{|lpr}.
 So, basically, by default printer device 1 will simply dump printer
 output to @file{print.dump}; printer device 2 will print it via
 @code{petlp} (a not-yet-complete utility that will produce Postscript
-output) and @code{lpr}; printer device 2 will print it with @code{lpr}.
+output from the Commodore printer code) and @code{lpr}; printer 
+device 3 will print it with @code{lpr}.
 
 
 @menu
@@ -2827,8 +2933,8 @@ Boolean specifying if the IEC printer (device 4) is being emulated.
 
 @vindex Printer4Dev
 @item Printer4Dev
-Integer (ranging from 1 to 3) specifying what device the IEC printer is
-using.
+Integer (ranging from 0 to 2, for device 1-3) specifying what printer device 
+(@pxref{Printer settings}) the IEC printer is using.
 
 @vindex PrUser
 @item PrUser
@@ -2836,8 +2942,8 @@ Boolean specifying if the user-port printer is being emulated.
 
 @vindex PrUserDev
 @item PrUserDev
-Integer (ranging from 1 to 3) specifying what device the user-port
-printer is using.
+Integer (ranging from 0 to 2, for device 1-3) specifying what printer 
+device the user-port printer is using.
 
 @end table
 
@@ -2916,8 +3022,186 @@ Enable (@code{NoTraps=0}) or disable (@code{NoTraps=1}) kernal traps.
 
 @end table
 
+@c ----------------------------------------------------------------
 
-@node Misc settings,  , Peripheral settings, Settings and resources
+@node RS232 settings, Misc settings, Peripheral settings, Settings and resources
+@section RS232 settings
+
+The VICE emulators can emulate the RS232 device most of the machines have.
+The C64, C128 and VIC20 emulators emulate the userport RS232 interface
+at 300 and 1200 baud. The C64 and C128 can also use the 9600 baud
+interface by Daniel Dallmann, using the shift registers of the two
+CIA 6526 chips. The PET can have a 6551 ACIA RS232 interface when 
+running as a SuperPET, and the CBM-II has such an ACIA by default.
+The C64 and C128 emulators can emulate an ACIA 6551 (also known as 
+Datapump for example) as extension at @code{$de**}.
+
+Emulation can be achieved by 
+@itemize @bullet
+@item
+connecting a real UNIX serial device;
+@item
+dumping to a file;
+@item
+piping through a process.
+@end itemize
+
+It is possible to define up to four UNIX serial devices, and then decide
+which interface should be connected to which device.
+This is done by so-called @dfn{rs232 device file names}; an rs232
+device file name can be either a simple path, or a command name
+preceeded by a pipe symbol @samp{|}. If the path specifies a
+special device (@file{/dev/ttyS0}) it is recognized by VICE and
+the emulator can set the baudrate.
+
+For example, rs232 device @samp{filename} will cause the output to be
+written (not appended) to the file @file{filename}, while printer device 
+@samp{|lpr} will cause the @code{lpr} command to be executed and be fed 
+the rs232 output. The rs232 output will not be converted but saved as sent
+by the emulated machine. The same holds true for the rs232 input.
+If the command writes data to standard out it will be caught by VICE
+and sent back to the emulator. Also the data sent by the pseudo device
+will be sent back to VICE. 
+
+For example you can setup a null-modem cable between two serial ports
+of your PC, setup one port for login and use the other in VICE. Then you
+can login from your emulator via the RS232 emulation and the null-modem
+cable to your machine again.
+
+You can not simply run a shell from VICE, as the shell will notice that
+it does not run on its own pseudo terminal and will thus buffer its
+output. You need to write some program that opens an own pseudo terminal
+and runs the shell from there (not yet finished).
+
+Up to four RS232 devices may be specified through the following
+resources:
+
+@itemize @bullet
+@item
+device 1, whose default value is @code{/dev/ttyS0};
+@item
+device 2, whose default value is @code{/dev/ttyS1};
+@item
+device 3, whose default value is @code{rs232.dump};
+@item
+device 4, whose default value is @code{|lpr}.
+@end itemize
+
+For the first two devices you can change the baudrate the 
+tty device is set to by specifying it on the commandline or in 
+the menu. This baudrate is 9600 by default for the latter two,
+but can be changed only by resources
+(The baudrate is independent from the baudrate the emulator actually
+expects).
+
+@menu
+* RS232 resources::
+* RS232 options::
+@end menu
+
+@node RS232 resources, RS232 options, RS232 settings, RS232 settings
+@subsection RS232 resources
+
+@table @code
+
+@vindex RsDevice1
+@item RsDevice1
+@vindex RsDevice2
+@itemx RsDevice2
+@vindex RsDevice3
+@itemx RsDevice3
+@vindex RsDevice4
+@itemx RsDevice4
+Strings specifying the RS232 devices (@pxref{RS232 settings}).
+
+@vindex RsDevice1Baud
+@item RsDevice1Baud
+@vindex RsDevice2Baud
+@itemx RsDevice2Baud
+@vindex RsDevice3Baud
+@itemx RsDevice3Baud
+@vindex RsDevice4Baud
+@itemx RsDevice4Baud
+Integer specifying the RS232 baudrate devices if the device file points
+to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings}).
+
+@vindex AciaDE
+@item AciaDE
+Boolean specifying whether C64 or C128 should emulate ACIA 6551 in
+I/O 1, at @code{$de**}.
+
+@vindex Acia1Dev
+@item Acia1Dev
+Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device 
+(@pxref{RS232 settings}) the ACIA is using (all except VIC20).
+
+@vindex Acia1Irq
+@item Acia1Irq
+Integer specifying which interrupt to use. 0 = none, 1 = IRQ, 2 = NMI 
+(C64 and C128 only)
+
+@vindex RsUser
+@item RsUser
+Integer specifying if the user-port printer is being emulated and at which
+baudrate it should have for the emulator. 0 = off; > 0 specifies the
+baudrate (C64, C128 and VIC20).
+
+@vindex RsUserDev
+@item RsUserDev
+Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device 
+the user-port printer is using (C64, C128 and VIC20).
+
+@end table
+
+@node RS232 options,  , RS232 resources, RS232 settings
+@subsection RS232 command-line options
+
+@table @code
+
+@cindex -rsdev1
+@item -rsdev1 NAME
+@cindex -rsdev2
+@itemx -rsdev2 NAME
+@cindex -rsdev3
+@itemx -rsdev3 NAME
+@cindex -rsdev4
+@itemx -rsdev4 NAME
+Specify @code{NAME} as RS232 devices 1, 2, 3 and 4, respectively
+(@code{RsDevice1}, @code{RsDevice2} @code{RsDevice3} and @code{RsDevice4}).
+
+@cindex -rsdev1baud
+@item -rsdev1 BAUDRATE
+@cindex -rsdev2baud
+@itemx -rsdev2 BAUDRATE
+@cindex -rsdev3baud
+@itemx -rsdev3 BAUDRATE
+@cindex -rsdev4baud
+@itemx -rsdev4 BAUDRATE
+Specify @code{BAUDRATE} as baudrate for the RS232 devices if the device name
+specifies a special device (like @file{/dev/ttyS0} for example, 
+@pxref{RS232 settings};
+@code{RsDevice1Baud}, @code{RsDevice2Baud} @code{RsDevice3Baud} and 
+@code{RsDevice4Baud}).
+
+@cindex -acia1dev
+@item -acia1dev
+Specify device for the ACIA (@code{Acia1Dev}).
+
+@cindex -rsuser
+@item -rsuser BAUDRATE
+Enable (BAUDRATE not 0) or disable (BAUDRATE = 0) emulation of the 
+userport RS232 emulation (@code{RsUser}; C64, C128 and VIC20)
+
+@cindex -rsuserdev
+@item -rsuserdev DEV
+Specify device for the userport RS232 emulation (@code{RsUserDev}; 
+C64, C128 and VIC20).
+
+@end table
+
+@c ----------------------------------------------------------------
+
+@node Misc settings,  , RS232 settings, Settings and resources
 @section Miscellaneous settings
 
 This section lists generic resources that do not fit in the other
@@ -2976,6 +3260,7 @@ before exiting.  If this is enabled, the user will be always prompted
 first, in case the settings have changed.
 
 @end table
+
 
 @node Misc options,  , Misc resources, Misc settings
 @subsection Miscellaneous command-line options
@@ -3208,7 +3493,7 @@ of the built-in SID filters.
 @end table
 
 
-@node C64 I/O extension settings, RS232 settings, SID settings, C64/128-specific
+@node C64 I/O extension settings, C64/128 system ROM settings, SID settings, C64/128-specific
 @subsection C64 I/O extension settings
 
 There are three I/O extensions available: they are located at the
@@ -3272,7 +3557,7 @@ be emulated or not.
 @end table
 
 
-@node C64 I/O extension options,  , C64 I/O extension resources, C64 I/O extension settings
+@node C64 I/O extension options, , C64 I/O extension resources, C64 I/O extension settings
 @subsubsection C64 I/O extension command-line options
 
 @table @code
@@ -3298,129 +3583,129 @@ identification extension.
 @end table
 
 
-@node RS232 settings, C64/128 system ROM settings, C64 I/O extension settings, C64/128-specific
-@subsection RS232 settings
+@c @node RS232 settings, C64/128 system ROM settings, C64 I/O extension settings, C64/128-specific
+@c @subsection RS232 settings
+@c 
+@c X64 and X128 can support RS232 in the following ways:
+@c 
+@c @itemize @bullet
+@c @item
+@c by emulating Daniel Dallmann's 9600 baud userport-based RS232 interface;
+@c @item
+@c by emulating a 6551-based RS232 interface located at $DE00.
+@c @end itemize
+@c 
+@c Each of these emulated devices can be either:
+@c 
+@c @itemize @bullet
+@c @item
+@c connected a real UNIX serial device;
+@c @item
+@c dumped to a file;
+@c @item
+@c piped through a process.
+@c @end itemize
+@c 
+@c It is possible to define up to two UNIX serial devices, and then decide
+@c which interface should be connected to which device.  Devices are
+@c defined through the following settings:
+@c 
+@c @itemize @bullet
+@c @item
+@c ``Serial 1 device@dots{}'' and ``Serial 2 device@dots{}'' are used to specify
+@c the the pathnames of the serial devices, with the file selector;
+@c @item
+@c ``Serial 1 baudrate'' and ``Serial 2 baudrate'' specify the baudrate.
+@c @end itemize
+@c 
+@c 
+@c @menu
+@c * RS232 resources::
+@c * RS232 options::
+@c @end menu
+@c 
+@c @node RS232 resources, RS232 options, RS232 settings, RS232 settings
+@c @subsubsection RS232 resources
+@c 
+@c @table @code
+@c 
+@c @vindex RsDevice1
+@c @item RsDevice1
+@c @vindex RsDevice2
+@c @itemx RsDevice2
+@c Strings specifying the pathnames of the two available serial devices.
+@c 
+@c @vindex RsDevice1Baud
+@c @item RsDevice1Baud
+@c @vindex RsDevice2Baud
+@c @itemx RsDevice2Baud
+@c Integers specifying the baudrates.
+@c 
+@c @vindex RsDevice3
+@c @item RsDevice3
+@c String defining the name of the file used when dumping RS232 output.
+@c 
+@c @vindex RsDevice4
+@c @item RsDevice4
+@c String defining the name of the process to pipe the RS232 data through.
+@c 
+@c @vindex RsUser
+@c @item RsUser
+@c Boolean specifying whether the userport-based RS232 should be emulated.
+@c 
+@c @vindex Acia1
+@c @item Acia1
+@c Boolean specifying whether the ACIA-based RS232 should be emulated.
+@c 
+@c @vindex RsUserDev
+@c @item RsUserDev
+@c @vindex Acia1Dev
+@c @itemx Acia1Dev
+@c Integers specifying how the userport-based interface and the ACIA-based
+@c one are emulated.  The possible values are:
+@c @itemize @bullet
+@c @item
+@c @code{0}: connect to serial device number 1;
+@c @item
+@c @code{1}: connect to serial device number 2;
+@c @item
+@c @code{2}: dump to file;
+@c @item
+@c @code{3}: exec an external process.
+@c @end itemize
+@c @end table
+@c 
+@c @node RS232 options,  , RS232 resources, RS232 settings
+@c @subsubsection RS232 command-line options
+@c 
+@c @table @code
+@c 
+@c @cindex -acia1, +acia1
+@c @item -acia1
+@c @itemx +acia1
+@c Enable/disable emulation of the ACIA-based RS232 interface
+@c (@code{Acia1=1}, @code{Acia1=0}).
+@c 
+@c @cindex -acia1dev
+@c @item -acia1dev DEVICE
+@c Specify @code{DEVICE} as the device for the ACIA-based RS232 emulation
+@c (@code{Acia1Dev}).
+@c 
+@c @cindex -rsuser, +rsuser
+@c @item -rsuser
+@c @itemx +rsuser
+@c Enable/disable emulation of the userport-based RS232 interface
+@c (@code{RsUser=1}, @code{RsUser=0}).
+@c 
+@c @cindex -rsuserdev
+@c @item -rsuserdev DEVICE
+@c Specify @code{DEVICE} as the device for the ACIA-based RS232 emulation
+@c (@code{RsUserDev}).
+@c 
+@c @end table
+@c 
 
-X64 and X128 can support RS232 in the following ways:
-
-@itemize @bullet
-@item
-by emulating Daniel Dallmann's 9600 baud userport-based RS232 interface;
-@item
-by emulating a 6551-based RS232 interface located at $DE00.
-@end itemize
-
-Each of these emulated devices can be either:
-
-@itemize @bullet
-@item
-connected a real UNIX serial device;
-@item
-dumped to a file;
-@item
-piped through a process.
-@end itemize
-
-It is possible to define up to two UNIX serial devices, and then decide
-which interface should be connected to which device.  Devices are
-defined through the following settings:
-
-@itemize @bullet
-@item
-``Serial 1 device@dots{}'' and ``Serial 2 device@dots{}'' are used to specify
-the the pathnames of the serial devices, with the file selector;
-@item
-``Serial 1 baudrate'' and ``Serial 2 baudrate'' specify the baudrate.
-@end itemize
-
-
-@menu
-* RS232 resources::
-* RS232 options::
-@end menu
-
-@node RS232 resources, RS232 options, RS232 settings, RS232 settings
-@subsubsection RS232 resources
-
-@table @code
-
-@vindex RsDevice1
-@item RsDevice1
-@vindex RsDevice2
-@itemx RsDevice2
-Strings specifying the pathnames of the two available serial devices.
-
-@vindex RsDevice1Baud
-@item RsDevice1Baud
-@vindex RsDevice2Baud
-@itemx RsDevice2Baud
-Integers specifying the baudrates.
-
-@vindex RsDevice3
-@item RsDevice3
-String defining the name of the file used when dumping RS232 output.
-
-@vindex RsDevice4
-@item RsDevice4
-String defining the name of the process to pipe the RS232 data through.
-
-@vindex RsUser
-@item RsUser
-Boolean specifying whether the userport-based RS232 should be emulated.
-
-@vindex Acia1
-@item Acia1
-Boolean specifying whether the ACIA-based RS232 should be emulated.
-
-@vindex RsUserDev
-@item RsUserDev
-@vindex Acia1Dev
-@itemx Acia1Dev
-Integers specifying how the userport-based interface and the ACIA-based
-one are emulated.  The possible values are:
-@itemize @bullet
-@item
-@code{0}: connect to serial device number 1;
-@item
-@code{1}: connect to serial device number 2;
-@item
-@code{2}: dump to file;
-@item
-@code{3}: exec an external process.
-@end itemize
-@end table
-
-@node RS232 options,  , RS232 resources, RS232 settings
-@subsubsection RS232 command-line options
-
-@table @code
-
-@cindex -acia1, +acia1
-@item -acia1
-@itemx +acia1
-Enable/disable emulation of the ACIA-based RS232 interface
-(@code{Acia1=1}, @code{Acia1=0}).
-
-@cindex -acia1dev
-@item -acia1dev DEVICE
-Specify @code{DEVICE} as the device for the ACIA-based RS232 emulation
-(@code{Acia1Dev}).
-
-@cindex -rsuser, +rsuser
-@item -rsuser
-@itemx +rsuser
-Enable/disable emulation of the userport-based RS232 interface
-(@code{RsUser=1}, @code{RsUser=0}).
-
-@cindex -rsuserdev
-@item -rsuserdev DEVICE
-Specify @code{DEVICE} as the device for the ACIA-based RS232 emulation
-(@code{RsUserDev}).
-
-@end table
-
-
-@node C64/128 system ROM settings,  , RS232 settings, C64/128-specific
+@node C64/128 system ROM settings,  , C64 I/O extension settings, C64/128-specific
 @subsection C64/128 system ROM settings
 
 These settings can be used to control what system ROMs are loaded in the
@@ -3744,6 +4029,7 @@ thus are not present in the other emulators.
 @menu
 * PET model::
 * PET diagnostic pin::
+* PET commandline options::
 * PET colors::
 @end menu
 
@@ -3862,15 +4148,60 @@ will emulate a PET 3032 while @samp{xpet -model 8296} will emulate a PET
 8296.
 
 
-@node PET diagnostic pin, PET colors, PET model, PET-specific
+@node PET diagnostic pin, PET commandline options, PET model, PET-specific
 @subsection The PET diagnostic pin
 
 It is possible to enable or disable emulation of the PET diagnostic pin
 via the @code{DiagPin} resource, or the ``PET userport diagnostic pin''
 item in the right-button menu.
 
+@node PET commandline options, PET colors ,PET diagnostic pin, PET-specific
+@subsection PET command line options
 
-@node PET colors,  , PET diagnostic pin, PET-specific
+These are the commandline options specific for the CBM-II models.
+
+@table @code
+
+@cindex -model
+@item -model MODEL
+Specify the PET model you want to emulate.
+
+@cindex -kernal
+@item -kernal NAME
+Specify @file{NAME} as the Kernal/BASIC ROM file (@code{KernalName}).
+
+@cindex -editor
+@item -editor NAME
+Specify @file{NAME} as the editor ROM file (@code{EditorName}).
+
+@cindex -chargen
+@item -chargen NAME
+Specify @file{NAME} as the character generator ROM file
+(@code{ChargenName}).
+
+@cindex -rom9
+@cindex -romA
+@cindex -romB
+@item -rom9 NAME, -romA NAME, -romB NAME
+Specify @file{NAME} as the ROM image file for the respective 
+cartridge areas (@code{RomModule9Name}, @code{RomModuleAName}, 
+@code{RomModuleBName}).
+
+@cindex -petramA
+@cindex -petramB
+@item -petramA, -petramB
+Switch on RAM mapping on addresses 
+$9000-$9fff, $a000-$afff
+(@code{Ram9}, @code{RamA}).
+
+@cindex -superpet
+@cindex +superpet
+@item -superpet, +superpet
+Enable/Disable SuperPET I/O emulation.
+
+@end table
+
+@node PET colors,  , PET commandline options, PET-specific
 @subsection Changing screen colors
 
 It is also possible to choose what color set is used for the emulation
@@ -3888,6 +4219,7 @@ feeling;
 @code{white.vpl} (``white''), simple white-on-black palette.
 @end itemize
 
+@c --------------------------------------------------------------
 
 @node CBM-II-specific, , PET-specific, Machine-specific features
 @section CBM-II-specific commands and settings
@@ -3897,10 +4229,11 @@ thus are not present in the other emulators.
 
 @menu
 * CBM-II model::
+* CBM-II commandline options::
 * CBM-II colors::
 @end menu
 
-@node CBM-II model, CBM-II colors, CBM-II-specific, CBM-II-specific
+@node CBM-II model, CBM-II commandline options, CBM-II-specific, CBM-II-specific
 @subsection Changing CBM-II model
 
 With @code{x610}, it is possible to change at runtime the
@@ -3917,13 +4250,16 @@ file, command line options or right-menu items):
 @item RamSize
 Size of memory in kByte. Possible values are 128, 256, 512 and 1024
 
+@cindex Ram08
 @cindex Ram1
 @cindex Ram2
 @cindex Ram4
 @cindex Ram6
-@item Ram1, Ram2, Ram4, Ram6
+@cindex RamC
+@item Ram08, Ram1, Ram2, Ram4, Ram6, RamC
 Expanded CBM-II models could map RAM to the expansion ROM areas
-at $1***, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF respectively.
+at $0800-$0fff, $1000-$1fff, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF
+and $c000-$cfff respectively.
 
 @cindex Cart2Name
 @cindex Cart4Name
@@ -3931,6 +4267,14 @@ at $1***, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF respectively.
 @item Cart2Name, Cart4Name, Cart6Name
 Specify @file{NAME} as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
 Expansion ROM file. This file contains an 8k ROM dump.
+
+@cindex ModelLine
+@item ModelLine
+The CBM-II models have two hardcoded lines at one of the I/O ports.
+From those lines the kernal determines how it should init the 
+CRTC video chip for either 50Hz (Europe) or 60Hz (North America),
+and either for 8 (C6x0) or 14 (C7x0) scanlines per character.
+0 = CBM 7x0 (50Hz), 1 = 60Hz C6x0, 2 = 50Hz C6x0).
 
 @end table
 
@@ -3945,6 +4289,12 @@ C610 (128k RAM)
 C620 (256k RAM)
 @item
 C620+ (1024k RAM, expanded)
+@item
+C710 (128k RAM)
+@item
+C720 (256k RAM)
+@item
+C720+ (1024k RAM, expanded)
 @end itemize
 
 Notice that this will @strong{reset the emulated machine}.
@@ -3954,7 +4304,52 @@ It is also possible to select the CBM model at startup, with the
 will emulate a CBM 610 while @samp{x610 -model C620} will emulate a CBM
 620.
 
-@node CBM-II colors, ,CBM-II model, CBM-II-specific
+@node CBM-II commandline options, CBM-II colors ,CBM-II model, CBM-II-specific
+@subsection CBM-II command line options
+
+These are the commandline options specific for the CBM-II models.
+
+@table @code
+
+@cindex -kernal
+@item -kernal NAME
+Specify @file{NAME} as the Kernal ROM file (@code{KernalName}).
+
+@cindex -basic
+@item -basic NAME
+Specify @file{NAME} as the Basic ROM file (@code{BasicName}).
+
+@cindex -chargen
+@item -chargen NAME
+Specify @file{NAME} as the character generator ROM file
+(@code{ChargenName}).
+
+@cindex -cart2
+@cindex -cart4
+@cindex -cart6
+@item -cart2 NAME, -cart4 NAME, -cart6 NAME
+Specify @file{NAME} as the ROM image file for the respective 
+cartridge areas (@code{Cart2Name}, @code{Cart4Name}, @code{Cart6Name}).
+
+@cindex -ram08
+@cindex -ram1
+@cindex -ram2
+@cindex -ram4
+@cindex -ram6
+@cindex -ramC
+@item -ram08, -ram1, -ram2, -ram4, -ram6, -ramC
+Switch on RAM mapping in bank 15 on addresses 
+$0800-$0fff, $1000-$1fff, $2000-$3fff, $4000-$5fff, $6000-$7fff resp
+(@code{Ram08}, @code{Ram1}, @code{Ram2}, @code{Ram4}, @code{Ram6},
+@code{RamC}).
+
+@cindex -modelline
+@item -modelline
+Define the hardcoded model switch in the CBM-II models.
+
+@end table
+
+@node CBM-II colors, ,CBM-II commandline options, CBM-II-specific
 @subsection Changing screen colors
 
 It is also possible to choose what color set is used for the emulation
@@ -4006,8 +4401,8 @@ saved.  I.e. you have to attach them before restoring a snapshot of run
 of such a cartridge.
 
 @item The memory configuration.  The VIC20, PET and CBM-II emulators do
-have some memory expansion info.  This is saved but not (yet??)
-restored.
+have some memory expansion info.  This is saved and restored when the
+snapshot is loaded.
 
 @end itemize
 
@@ -4134,12 +4529,12 @@ emulated.
 @node Module formats, , Emulator modules, Snapshot format
 @subsection Module formats
 
-This section shows the basic module framework and
-the contents of the different types of modules.
+This section shows the basic module framework and the contents of the
+different types of modules.
 
-The single chip modules contain the @b{chip} state, not the
-state of the emulator. We tried to make the format as implementation-independent
-as possible, to allow reuse of snapshots in later versions of this
+The single chip modules contain the @b{chip} state, not the state of the
+emulator. We tried to make the format as implementation-independent as
+possible, to allow reuse of snapshots in later versions of this
 emulator, or even in other emulators.
 
 @menu
@@ -5185,7 +5580,7 @@ implementation; added support for multiple display depths under X11.
 
 @item
 @b{Andr@'e Fachat} (@email{fachat@@physik.tu-chemnitz.de})
-wrote the PET emulators, the CIA and VIA emulation, the IEEE488
+wrote the PET and CBM-II emulators, the CIA and VIA emulation, the IEEE488
 interface, implemented the IEC serial bus in @code{xvic} and made tons
 of bug fixes.
 
@@ -5395,7 +5790,10 @@ goes to the following people:
 @b{Douglas Carmichael} (@email{dcarmich@@mcs.com})
 @item
 @b{Ferenc Veres} (@email{lion@@c64.rulez.org})
-
+@item
+@b{Ullrich von Bassewitz}
+@item
+@b{Holger Busse}
 @end itemize
 
 Last but not least, a very special thank to Andreas Arens, Lutz Sammer,
@@ -5480,7 +5878,8 @@ Andreas Boose (@email{boose@@linux.rz.fh-hannover.de}) for the 1541
 disk drive;
 
 @item
-Andr@'e Fachat (@email{fachat@@physik.tu-chemnitz.de}) for the PETs;
+Andr@'e Fachat (@email{fachat@@physik.tu-chemnitz.de}) for the PETs
+and CBM-II;
 
 @item
 Ettore Perazzoli (@email{ettore@@comm2000.it}), the current

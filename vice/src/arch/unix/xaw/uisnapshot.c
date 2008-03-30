@@ -61,7 +61,7 @@ static Widget options_filling_box_left;
 static Widget options_filling_box_right;
 static Widget save_roms_on_button, save_roms_off_button;
 static Widget save_roms_label;
-static Widget save_disk_off_button, save_disk_d64_button, save_disk_gcr_button;
+static Widget save_disk_off_button, save_disk_button;
 static Widget save_disk_label;
 static Widget button_box;
 static Widget save_button;
@@ -89,26 +89,16 @@ UI_CALLBACK(cancel_callback)
 UI_CALLBACK(save_callback)
 {
     String name;
-    Boolean save_roms, tmp;
-    int save_disks;
+    Boolean save_roms;
+    Boolean save_disks;
     
     ui_popdown(snapshot_dialog);
 
     XtVaGetValues(save_roms_on_button, XtNstate, &save_roms, NULL);
-
-    XtVaGetValues(save_disk_d64_button, XtNstate, &tmp, NULL);
-    if (tmp)
-        save_disks = 1;
-    else {
-        XtVaGetValues(save_disk_gcr_button, XtNstate, &tmp, NULL);
-        if (tmp)
-            save_disks = 2;
-        else
-            save_disks = 0;
-    }
-
+    XtVaGetValues(save_disk_button, XtNstate, &save_disks, NULL);
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
-    if (machine_write_snapshot (name) < 0)
+    
+    if (machine_write_snapshot (name, save_roms, save_disks) < 0)
         ui_error("Cannot write snapshot file\n`%s'\n", name);
 }
 
@@ -216,8 +206,8 @@ static void build_snapshot_dialog(void)
          XtNlabel, "Off",
          NULL);
 
-    save_disk_d64_button = XtVaCreateManagedWidget
-        ("saveDiskD64Button",
+    save_disk_button = XtVaCreateManagedWidget
+        ("saveDiskButton",
          toggleWidgetClass, options_form,
          XtNfromHoriz, save_disk_off_button,
          XtNfromVert, browse_button,
@@ -225,20 +215,7 @@ static void build_snapshot_dialog(void)
          XtNheight, 20,
          XtNright, XtChainRight,
          XtNleft, XtChainRight,
-         XtNlabel, "D64",
-         XtNradioGroup, save_disk_off_button,
-         NULL);
-
-    save_disk_gcr_button = XtVaCreateManagedWidget
-        ("saveDiskGCRButton",
-         toggleWidgetClass, options_form,
-         XtNfromHoriz, save_disk_d64_button,
-         XtNfromVert, browse_button,
-         XtNwidth, 40,
-         XtNheight, 20,
-         XtNright, XtChainRight,
-         XtNleft, XtChainRight,
-         XtNlabel, "GCR",
+         XtNlabel, "On",
          XtNradioGroup, save_disk_off_button,
          NULL);
 
@@ -272,7 +249,7 @@ static void build_snapshot_dialog(void)
         ("saveRomsOffButton",
          toggleWidgetClass, options_form,
          XtNfromHoriz, save_roms_off_button,
-         XtNfromVert, save_disk_d64_button,
+         XtNfromVert, save_disk_button,
          XtNwidth, 40,
          XtNheight, 20,
          XtNright, XtChainRight,

@@ -57,7 +57,7 @@ int machine_set_restore_key(int);
 long machine_get_cycles_per_second(void);
 
 /* Write a snapshot.  */
-int machine_write_snapshot(const char *name);
+int machine_write_snapshot(const char *name, int save_roms, int save_disks);
 
 /* Read a snapshot.  */
 int machine_read_snapshot(const char *name);
