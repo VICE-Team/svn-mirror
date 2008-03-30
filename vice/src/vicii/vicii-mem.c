@@ -60,8 +60,6 @@ extern void (*vic_ii_irq_handler)(int irq, int state, CLOCK clk);
 
 #define vic_ii_set_irq(irq, state) maincpu_set_irq(irq, state)
 
-static BYTE last_read_d019;
-
 /* ---------------------------------------------------------------------*/
 
 /* Unused bits in VIC-II registers: these are always 1 when read.  */
@@ -722,7 +720,7 @@ inline static void store_d019(ADDRESS addr, BYTE value)
 {
     /* Emulates Read-Modify-Write behaviour. */
     if (maincpu_rmw_flag) {
-        vic_ii.irq_status &= ~((last_read_d019 & 0xf) | 0x80);
+        vic_ii.irq_status &= ~((vic_ii.last_read_d019 & 0xf) | 0x80);
         if (maincpu_clk - 1 > vic_ii.raster_irq_clk) {
             vic_ii.raster_irq_clk += vic_ii.screen_height
                                      * vic_ii.cycles_per_line;
@@ -1227,11 +1225,11 @@ inline static BYTE read_d019(void)
         /* As int_raster() is called 2 cycles later than it should be to
            emulate the 6510 internal IRQ delay, `vic_ii.irq_status' might not
            have bit 0 set as it should.  */
-        last_read_d019 = vic_ii.irq_status | 0x71;
+        vic_ii.last_read_d019 = vic_ii.irq_status | 0xf1;
     else
-        last_read_d019 = vic_ii.irq_status | 0x70;
+        vic_ii.last_read_d019 = vic_ii.irq_status | 0x70;
 
-    return last_read_d019;
+    return vic_ii.last_read_d019;
 }
 
 /* Read a value from a VIC-II register.  */

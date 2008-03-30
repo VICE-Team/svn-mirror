@@ -398,6 +398,9 @@ struct vic_ii_s {
 
     /* VIC-IIe clock mode.  */
     unsigned int fastmode;
+
+    /* Last value read from $d019.  */
+    BYTE last_read_d019;
 };
 typedef struct vic_ii_s vic_ii_t;
 
