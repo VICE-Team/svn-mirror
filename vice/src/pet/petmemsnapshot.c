@@ -237,7 +237,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     peti.mem9 = (rconf & 0x40) ? 1 : 0;
     peti.memA = (rconf & 0x80) ? 1 : 0;
 
-    pet_set_conf_info(&peti);  /* set resources and config accordingly */
+    petmem_set_conf_info(&peti);  /* set resources and config accordingly */
     petmem_map_reg = conf8x96;
 
     mem_initialize_memory();
@@ -314,9 +314,9 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     resources_set_value("VirtualDevices", (resource_value_t)0);
     petrom_unpatch_2001();
 
-    config = (rom_9_loaded ? 1 : 0)
-             | (rom_A_loaded ? 2 : 0)
-             | (rom_B_loaded ? 4 : 0)
+    config = (petrom_9_loaded ? 1 : 0)
+             | (petrom_A_loaded ? 2 : 0)
+             | (petrom_B_loaded ? 4 : 0)
              | ((petres.ramSize == 128) ? 8 : 0);
 
     SMW_B(m, config);
@@ -383,9 +383,9 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     resources_set_value("VirtualDevices", (resource_value_t)0);
     petrom_unpatch_2001();
 
-    config = (rom_9_loaded ? 1 : 0)
-             | (rom_A_loaded ? 2 : 0)
-             | (rom_B_loaded ? 4 : 0)
+    config = (petrom_9_loaded ? 1 : 0)
+             | (petrom_A_loaded ? 2 : 0)
+             | (petrom_B_loaded ? 4 : 0)
              | ((petres.pet2k || petres.ramSize == 128) ? 8 : 0);
 
     SMR_B(m, &config);
@@ -397,9 +397,9 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     autostart_init(0, 0, 0, 0, 0, 0);
     tape_deinstall();
 
-    rom_9_loaded = config & 1;
-    rom_A_loaded = config & 2;
-    rom_B_loaded = config & 4;
+    petrom_9_loaded = config & 1;
+    petrom_A_loaded = config & 2;
+    petrom_B_loaded = config & 4;
 
     if (config & 8) {
         new_iosize = 0x100;

@@ -48,6 +48,10 @@
 #include "util.h"
 
 
+int petrom_9_loaded = 0;    /* 1 = $9*** ROM is loaded */
+int petrom_A_loaded = 0;    /* 1 = $A*** ROM is loaded */
+int petrom_B_loaded = 0;    /* 1 = $B*** ROM or Basic 4 is loaded */
+
 static log_t petrom_log = LOG_ERR;
 
 /* Flag: nonzero if the ROM has been loaded. */
@@ -517,9 +521,9 @@ int petrom_load_basic(void)
            does not overwrite ROM! */
         /* if kernal long enough, "unload" expansion ROMs */
         if (petres.basic_start <= 0xb000) {
-            rom_B_loaded = 0;
+            petrom_B_loaded = 0;
             resources_set_value("RomModuleBName", (resource_value_t)NULL);
-            rom_B_loaded = 1;
+            petrom_B_loaded = 1;
         }
     }
     return 0;
@@ -611,13 +615,13 @@ int petrom_load_rom9(void)
             for (i = 0x800; i < 0x1000; i++)
                 *(mem_rom + 0x1000 + i) = 0x90 | (i >> 8);
         }
-        rom_9_loaded = 1;
+        petrom_9_loaded = 1;
     } else {
         if (petres.basic_start >= 0xA000) {
             for (i = 0; i < 16; i++)
                 memset(mem_rom + 0x1000 + (i << 8), 0x90 + i, 256);
         }
-        rom_9_loaded = 0;
+        petrom_9_loaded = 0;
     }
     return 0;
 }
@@ -640,13 +644,13 @@ int petrom_load_romA(void)
             for (i = 0x800; i < 0x1000; i++)
                 *(mem_rom + 0x2000 + i) = 0xA0 | (i >> 8);
         }
-        rom_A_loaded = 1;
+        petrom_A_loaded = 1;
     } else {
         if (petres.basic_start >= 0xB000) {
             for (i = 0; i < 16; i++)
-            memset(mem_rom + 0x2000 + (i << 8), 0xA0 + i, 256);
-       }
-       rom_A_loaded = 0;
+                memset(mem_rom + 0x2000 + (i << 8), 0xA0 + i, 256);
+        }
+        petrom_A_loaded = 0;
     }
     return 0;
 }
@@ -670,12 +674,12 @@ int petrom_load_romB(void)
             for (i = 0x800; i < 0x1000; i++)
                 *(mem_rom + 0x3000 + i) = 0xB0 | (i >>  8);
         }
-        rom_B_loaded = 1;
+        petrom_B_loaded = 1;
     } else {
         if (petres.basic_start >= 0xC000) {
             for (i = 0; i < 16; i++)
                 memset(mem_rom + 0x3000 + (i << 8), 0xB0 + i, 256);
-            rom_B_loaded = 0;
+            petrom_B_loaded = 0;
         }
     }
     return 0;

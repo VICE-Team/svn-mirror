@@ -101,10 +101,6 @@ store_func_ptr_t *_mem_write_tab_ptr;
 BYTE **_mem_read_base_tab_ptr;
 int *mem_read_limit_tab_ptr;
 
-int rom_9_loaded = 0;    /* 1 = $9*** ROM is loaded */
-int rom_A_loaded = 0;    /* 1 = $A*** ROM is loaded */
-int rom_B_loaded = 0;    /* 1 = $B*** ROM or Basic 4 is loaded */
-
 /* 8x96 mapping register */
 BYTE petmem_map_reg = 0;
 static int bank8offset = 0;
@@ -997,7 +993,7 @@ static pet_table_t pet_table[] = {
     { NULL }
 };
 
-int pet_set_conf_info(petinfo_t *pi)
+int petmem_set_conf_info(petinfo_t *pi)
 {
     int kindex;
 
@@ -1027,7 +1023,7 @@ int pet_set_conf_info(petinfo_t *pi)
 int pet_set_model_info(petinfo_t *pi)
 {
     /* set hardware config */
-    pet_set_conf_info(pi);
+    petmem_set_conf_info(pi);
 
     if (pi->pet2k) {    /* set resource only when necessary */
         resources_set_value("Basic1",

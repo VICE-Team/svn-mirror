@@ -48,5 +48,9 @@ extern void petrom_checksum(void);
 extern void petrom_patch_2001(void);
 extern void petrom_unpatch_2001(void);
 
+extern int petrom_9_loaded;
+extern int petrom_A_loaded;
+extern int petrom_B_loaded;
+
 #endif
 

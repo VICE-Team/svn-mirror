@@ -66,11 +66,7 @@ extern int petmem_superpet_diag(void);
 extern int petmem_dump(FILE *fp);
 extern int petmem_undump(FILE *fp);
 
-extern int pet_set_conf_info(struct petinfo_s *pi);
-
-extern int rom_9_loaded;
-extern int rom_A_loaded;
-extern int rom_B_loaded;
+extern int petmem_set_conf_info(struct petinfo_s *pi);
 
 extern int spet_ramen;
 extern int spet_bank;
