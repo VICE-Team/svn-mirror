@@ -230,7 +230,8 @@ int machine_init(void)
     autostart_init(3 * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH);
 
     /* Initialize the VIC-II emulation.  */
-    vic_ii_init();
+    if (vic_ii_init() == NULL)
+        return -1;
 
     /* Initialize the keyboard.  */
     if (kbd_init("vice.vkm") < 0)
