@@ -1,3 +1,69 @@
+2002-02-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.20.
+
+	* vicii/viciitypes.h: New member `hires_background_color'.
+
+	* vicii/vicii.c (vic_ii_fetch_matrix): Set hires background
+	color source.  (vic_ii_update_video_mode): Handle hires
+	background color source.
+
+	* vicii/vicii-draw.c (draw_std_background): Use `xsmooth' to
+	draw the background.
+
+	* raster/raster-line.c: Check xsmooth.
+
+2002-02-23  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/ui.c (ui_open_canvas_window): Pass canvas to
+	exposure callback. 
+	(exposure_callback): Force repaint.
+
+2002-02-22  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/uimon.c: closing the monitor with the close
+	button does not result in strange behaviour anymore
+
+	* arch/win32/raster.dsp: added raster-line.c
+
+	* raster/raster-line.c: now #includes video.h so that it
+	compiles
+
+2002-02-20 Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+
+	* resources.{c,h}: added hash index over resource names for
+	improved speed; added resources_register_callback() function
+	for registering a callback function if a specific resource (or
+	any resource) is modified.
+
+	* arch/riscos/ui.c: added help text for stereo SID and BPlot
+	icons. register video layer resource callbacks.
+
+	* arch/riscos/videoarch.h, arch/riscos/video.c: register
+	resource callbacks for resources changing canvas properties.
+
+	* sounddrv/soundacorn.c: added DRender include due to lib change.
+
+2002-02-20  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/raster.dsp: Added raster-line.c
+
+	* arch/win32/videoarch.h: Include video.h
+
+	* vic20/vic-mem.c (vic_store): Don't set blank_this_line if
+	number of columns is 0.
+
+2002-02-18 Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/video.c, arch/riscos/videoarch.h: completed
+	migration to new interface.
+
+	* arch/riscos/ui.c: updated Plus4 and Stereo SID icons, grey
+	out icons belonging to unknown resources.
+
+	* arch/riscos/uiconfig.{c,h}: added icons for Stereo SID and
+	optional BPlot module.
+
 2002-02-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.19.

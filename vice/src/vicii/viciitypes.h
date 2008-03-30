@@ -300,6 +300,9 @@ struct vic_ii_s {
        illegal modes.)  */
     int force_black_overscan_background_color;
 
+    /* Hires background color source */
+    int hires_background_color;
+
     /* Light pen.  */
     vic_ii_light_pen_t light_pen;
 
