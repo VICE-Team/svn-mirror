@@ -27,17 +27,17 @@
 #ifndef _FLIPLIST_H
 #define _FLIPLIST_H
 
-extern void flip_set_current(int unit, const char *image);
-extern void flip_add_image(int unit);
-extern void flip_remove(int unit, char *image);
-extern void flip_attach_head(int unit, int direction);
-extern void *flip_init_iterate(int unit);
-extern void *flip_next_iterate(int unit);
-extern char *flip_get_head(int unit);
-extern char *flip_get_next(int unit);
-extern char *flip_get_prev(int unit);
+extern void flip_set_current(unsigned int unit, const char *image);
+extern void flip_add_image(unsigned int unit);
+extern void flip_remove(unsigned int unit, char *image);
+extern void flip_attach_head(unsigned int unit, int direction);
+extern void *flip_init_iterate(unsigned int unit);
+extern void *flip_next_iterate(unsigned int unit);
+extern char *flip_get_head(unsigned int unit);
+extern char *flip_get_next(unsigned int unit);
+extern char *flip_get_prev(unsigned int unit);
 extern char *flip_get_image(void *fl);
-extern int flip_get_unit(void *fl);
+extern unsigned int flip_get_unit(void *fl);
 
 #endif /* _FLIPLIST_H */
 

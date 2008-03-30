@@ -44,7 +44,7 @@ extern int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
                                        int length, int filetype,
                                        BYTE *outputptr);
 extern void vdrive_dir_find_first_slot(vdrive_t *vdrive, const char *name,
-                                       int length, int type);
+                                       unsigned int length, unsigned int type);
 extern BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive);
 extern void vdrive_dir_no_a0_pads(BYTE *ptr, int l);
 extern void vdrive_dir_remove_slot(vdrive_t *vdrive, BYTE *slot);

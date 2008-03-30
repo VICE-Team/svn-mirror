@@ -40,7 +40,7 @@
 struct fliplist_t {
     struct fliplist_t *next, *prev;
     char *image;
-    int unit;
+    unsigned int unit;
 };
 
 static struct fliplist_t *fliplist[NUM_DRIVES] =
@@ -48,15 +48,15 @@ static struct fliplist_t *fliplist[NUM_DRIVES] =
 	  (struct fliplist_t *) NULL };
 
 static char *current_image = (char *) NULL;
-static int current_drive;
+static unsigned int current_drive;
 static struct fliplist_t *iterator;
 
-static void show_fliplist(int unit);
+static void show_fliplist(unsigned int unit);
 
 /* ------------------------------------------------------------------------- */
 /* interface functions */
 
-void flip_set_current(int unit, const char *filename)
+void flip_set_current(unsigned int unit, const char *filename)
 {
     if (current_image != NULL)
         free(current_image);
@@ -64,21 +64,21 @@ void flip_set_current(int unit, const char *filename)
     current_drive = unit;
 }
 
-char *flip_get_head(int unit)
+char *flip_get_head(unsigned int unit)
 {
     if (fliplist[unit - 8])
 	return fliplist[unit - 8]->image;
     return (char *) NULL;
 }
 
-char *flip_get_next(int unit)
+char *flip_get_next(unsigned int unit)
 {
     if (fliplist[unit - 8])
 	return fliplist[unit - 8]->next->image;
     return (char *) NULL;
 }
 
-char *flip_get_prev(int unit)
+char *flip_get_prev(unsigned int unit)
 {
     if (fliplist[unit - 8])
 	return fliplist[unit - 8]->prev->image;
@@ -90,12 +90,12 @@ char *flip_get_image(void *fl)
     return ((struct fliplist_t *) fl)->image;
 }
 
-int flip_get_unit(void *fl)
+unsigned int flip_get_unit(void *fl)
 {
     return ((struct fliplist_t *) fl)->unit;
 }
 
-void flip_add_image (int unit)
+void flip_add_image (unsigned int unit)
 {
     struct fliplist_t *n;
 
@@ -126,7 +126,7 @@ void flip_add_image (int unit)
     show_fliplist(unit);
 }
 
-void flip_remove(int unit, char *image)
+void flip_remove(unsigned int unit, char *image)
 {
     struct fliplist_t *tmp;
 
@@ -184,7 +184,7 @@ void flip_remove(int unit, char *image)
     }
 }
 
-void flip_attach_head (int unit, int direction)
+void flip_attach_head (unsigned int unit, int direction)
 {
     if (fliplist[unit - 8] == (struct fliplist_t *)NULL)
 	return;
@@ -202,7 +202,7 @@ void flip_attach_head (int unit, int direction)
     }
 }
 
-void *flip_init_iterate(int unit)
+void *flip_init_iterate(unsigned int unit)
 {
     void *ret = NULL;
 
@@ -214,7 +214,7 @@ void *flip_init_iterate(int unit)
     return ret;
 }
 
-void *flip_next_iterate(int unit)
+void *flip_next_iterate(unsigned int unit)
 {
     void *ret = NULL;
 
@@ -229,7 +229,7 @@ void *flip_next_iterate(int unit)
 
 /* ------------------------------------------------------------------------- */
 
-static void show_fliplist(int unit)
+static void show_fliplist(unsigned int unit)
 {
     struct fliplist_t *it = fliplist[unit - 8];
 
