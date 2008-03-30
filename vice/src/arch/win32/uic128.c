@@ -107,22 +107,27 @@ static void init_functionrom_dialog(HWND hwnd)
 {
     int res_value;
     const char *romfile;
+    TCHAR *st_romfile;
 
     resources_get_value("InternalFunctionROM", (void *)&res_value);
     CheckDlgButton(hwnd, IDC_C128_FUNCTIONROM_INTERNAL, res_value
                    ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_value("InternalFunctionName", (void *)&romfile);
+    st_romfile = system_mbstowcs_alloc(romfile);
     SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME,
-                   romfile != NULL ? romfile : "");
+                   st_romfile != NULL ? st_romfile : TEXT(""));
+    system_mbstowcs_free(st_romfile);
 
     resources_get_value("ExternalFunctionROM", (void *)&res_value);
     CheckDlgButton(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL, res_value
                    ? BST_CHECKED : BST_UNCHECKED);
  
     resources_get_value("ExternalFunctionName", (void *)&romfile);
+    st_romfile = system_mbstowcs_alloc(romfile);
     SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
-                   romfile != NULL ? romfile : "");
+                   st_romfile != NULL ? st_romfile : TEXT(""));
+    system_mbstowcs_free(st_romfile);
 
     enable_functionrom_controls(hwnd);
 }
@@ -157,7 +162,6 @@ static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                              LPARAM lparam)
 {
     int command;
-    char name[MAX_PATH];
 
     switch (msg) {
       case WM_COMMAND:
@@ -169,68 +173,77 @@ static BOOL CALLBACK functionrom_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             break;
           case IDC_C128_FUNCTIONROM_INTERNAL_BROWSE:
           case IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE:
-		  {
-            OPENFILENAME ofn;
-            memset(name, 0, sizeof(name));
+            {
+                TCHAR name[MAX_PATH];
 
-            memset(&ofn, 0, sizeof(ofn));
-            ofn.lStructSize = sizeof(ofn);
-            ofn.hwndOwner = hwnd;
-            ofn.hInstance = winmain_instance;
-            ofn.lpstrFilter = "All files (*.*)\0*.*\0";
-            ofn.lpstrCustomFilter = NULL;
-            ofn.nMaxCustFilter = 0;
-            ofn.nFilterIndex = 1;
-            ofn.lpstrFile = name;
-            ofn.nMaxFile = sizeof(name);
-            ofn.lpstrFileTitle = NULL;
-            ofn.nMaxFileTitle = 0;
-            ofn.lpstrInitialDir = NULL;
-            ofn.lpstrTitle = "Select ROM image";
-            ofn.Flags = (OFN_EXPLORER
-                | OFN_HIDEREADONLY
-                | OFN_NOTESTFILECREATE
-                | OFN_FILEMUSTEXIST
-                | OFN_SHAREAWARE
-                | OFN_ENABLESIZING);
-            ofn.nFileOffset = 0;
-            ofn.nFileExtension = 0;
-            ofn.lpstrDefExt = NULL;
+                OPENFILENAME ofn;
+                memset(name, 0, sizeof(name));
 
-            if (command == IDC_C128_FUNCTIONROM_INTERNAL_BROWSE) {
-                if (GetSaveFileName(&ofn))
-                    SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME,
-                    name);
-            } else {
-                if (GetSaveFileName(&ofn))
-                    SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
-                    name);
+                memset(&ofn, 0, sizeof(ofn));
+                ofn.lStructSize = sizeof(ofn);
+                ofn.hwndOwner = hwnd;
+                ofn.hInstance = winmain_instance;
+                ofn.lpstrFilter = TEXT("All files (*.*)\0*.*\0");
+                ofn.lpstrCustomFilter = NULL;
+                ofn.nMaxCustFilter = 0;
+                ofn.nFilterIndex = 1;
+                ofn.lpstrFile = name;
+                ofn.nMaxFile = sizeof(name);
+                ofn.lpstrFileTitle = NULL;
+                ofn.nMaxFileTitle = 0;
+                ofn.lpstrInitialDir = NULL;
+                ofn.lpstrTitle = TEXT("Select ROM image");
+                ofn.Flags = (OFN_EXPLORER
+                    | OFN_HIDEREADONLY
+                    | OFN_NOTESTFILECREATE
+                    | OFN_FILEMUSTEXIST
+                    | OFN_SHAREAWARE
+                    | OFN_ENABLESIZING);
+                ofn.nFileOffset = 0;
+                ofn.nFileExtension = 0;
+                ofn.lpstrDefExt = NULL;
+
+                if (command == IDC_C128_FUNCTIONROM_INTERNAL_BROWSE) {
+                    if (GetSaveFileName(&ofn))
+                        SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME,
+                        name);
+                } else {
+                    if (GetSaveFileName(&ofn))
+                        SetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
+                        name);
+                }
+                break;
             }
-            break;
-		  }
         }
         return FALSE;
       case WM_NOTIFY:
         switch (((NMHDR FAR *)lparam)->code) {
           case PSN_KILLACTIVE:
-            resources_set_value("InternalFunctionROM", (resource_value_t)
-                                (IsDlgButtonChecked(hwnd,
-                                IDC_C128_FUNCTIONROM_INTERNAL)
-                                == BST_CHECKED ? 1 : 0 ));
-            GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME, name,
-                           MAX_PATH);
-            resources_set_value("InternalFunctionName",
-                                (resource_value_t)name);
+            {
+                char name[MAX_PATH];
+                TCHAR st_name[MAX_PATH];
 
-            resources_set_value("ExternalFunctionROM", (resource_value_t)
-                                (IsDlgButtonChecked(hwnd,
-                                IDC_C128_FUNCTIONROM_EXTERNAL)
-                                == BST_CHECKED ? 1 : 0 ));
-            GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME, name,
-                           MAX_PATH);
-            resources_set_value("ExternalFunctionName",
-                                (resource_value_t)name);
-            return TRUE;
+                resources_set_value("InternalFunctionROM", (resource_value_t)
+                                    (IsDlgButtonChecked(hwnd,
+                                    IDC_C128_FUNCTIONROM_INTERNAL)
+                                    == BST_CHECKED ? 1 : 0 ));
+                GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_INTERNAL_NAME,
+                               st_name, MAX_PATH);
+                system_mbstowcs(name, st_name, MAX_PATH);
+                resources_set_value("InternalFunctionName",
+                                    (resource_value_t)name);
+
+                resources_set_value("ExternalFunctionROM", (resource_value_t)
+                                    (IsDlgButtonChecked(hwnd,
+                                    IDC_C128_FUNCTIONROM_EXTERNAL)
+                                    == BST_CHECKED ? 1 : 0 ));
+                GetDlgItemText(hwnd, IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
+                               st_name, MAX_PATH);
+                system_mbstowcs(name, st_name, MAX_PATH);
+                resources_set_value("ExternalFunctionName",
+                                    (resource_value_t)name);
+                return TRUE;
+            }
         }
         return FALSE;
       case WM_CLOSE:
@@ -279,15 +292,15 @@ void ui_c128_dialog(HWND hwnd)
     psp[1].pfnCallback = NULL;
 
     psp[0].pfnDlgProc = machine_dialog_proc;
-    psp[0].pszTitle = "Machine type";
+    psp[0].pszTitle = TEXT("Machine type");
     psp[1].pfnDlgProc = functionrom_dialog_proc;
-    psp[1].pszTitle = "Function ROM";
+    psp[1].pszTitle = TEXT("Function ROM");
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = "C128 settings";
+    psh.pszCaption = TEXT("C128 settings");
     psh.nPages = 2;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
