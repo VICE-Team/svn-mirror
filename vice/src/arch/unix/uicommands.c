@@ -515,7 +515,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
     static struct cb_data_t cb_data[NUM_DRIVES][sizeof(cbd_enum_t)];
     
     char *image = NULL, *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
-    char *t4 = NULL, *dir;
+    char *t4 = NULL, *t5 = NULL, *dir;
     void *fl_iterator;
     int i, drive, true_emu;
 
@@ -529,9 +529,17 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	i = 0;
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
 	t0 = xmalloc(16);
-	sprintf(t0, "Unit #%d", drive + 8);
+	sprintf(t0, "Attach #%d", drive + 8);
 	flipmenu[drive][i].string = t0;
 	flipmenu[drive][i].callback = (ui_callback_t) attach_disk;
+	flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
+	i++;
+
+	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
+	t5 = xmalloc(16);
+	sprintf(t5, "Detach #%d", drive + 8);
+	flipmenu[drive][i].string = t5;
+	flipmenu[drive][i].callback = (ui_callback_t) detach_disk;
 	flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
 	i++;
 
@@ -624,7 +632,8 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	    ui_set_drive9_menu(ui_menu_create("LeftDrive9Menu", 
 					      flipmenu[drive], NULL));
 	free(t0);
-	if (i > 1) {
+	free(t5);
+	if (i > 2) {
 	    free(t1);
 	    free(t2);
 	    free(t3);

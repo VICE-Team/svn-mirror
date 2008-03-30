@@ -3,6 +3,8 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Oliver Schaertel GTK+ port
+ *  Martin Pottendorfer Gnome port
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -42,6 +44,9 @@
 #include "utils.h"
 #include "vsync.h"
 
+#ifdef GNOME_MENUS
+#include <gnome.h>
+#endif
 #include "uimenu.h"
 
 /* Separator item.  */
@@ -74,7 +79,11 @@ static Widget top_menu;
    some setting is changed, we have to update them. */
 #define MAX_UPDATE_MENU_LIST_SIZE 1024
 static struct {
+#ifdef GNOME_MENUS
+  GnomeUIInfo *uiinfo;
+#else
   GtkWidget *w;
+#endif
   ui_callback_t cb;
   ui_menu_cb_obj obj;
   gint handlerid;
@@ -120,6 +129,133 @@ int ui_menu_init()
     return(0);
 }
 
+#ifdef GNOME_MENUS
+GnomeUIInfo* ui_menu_create(const char *menu_name, ...)
+{
+    static int level = 0;
+    unsigned int i;
+    ui_menu_entry_t *list;
+    va_list ap;
+    ui_menu_cb_obj *obj;
+    GnomeUIInfo *uiinfo;
+    int current = 0;
+    int num_menu_items = 0;
+
+    level++;
+    va_start(ap, menu_name);
+
+    /* Ugly, but I have to allocate the GnomeUIInfo array before, 
+       otherwhise the pointer in checkmark_menu_items is invalid */
+    while ((list = va_arg(ap, ui_menu_entry_t *)) != NULL) 
+        for (i = 0; list[i].string; i++)
+	    num_menu_items++;
+    uiinfo = g_new(GnomeUIInfo, num_menu_items + 1);
+
+    va_start(ap, menu_name);
+    while ((list = va_arg(ap, ui_menu_entry_t *)) != NULL) 
+    {
+        for (i = 0; list[i].string; i++) 
+	{
+            switch (*list[i].string) 
+	    {
+	    case '-':		/* line */
+		memset(&uiinfo[current], 0, sizeof(GnomeUIInfo));
+		uiinfo[current].type = GNOME_APP_UI_SEPARATOR;
+                break;
+	    case '*':		/* toggle */
+		if (list[i].callback) {
+		    uiinfo[current].type = GNOME_APP_UI_TOGGLEITEM;
+		    uiinfo[current].label = make_menu_label(&list[i]);
+		    uiinfo[current].hint = NULL;
+		    uiinfo[current].moreinfo = list[i].callback;
+		    uiinfo[current].unused_data = NULL;
+		    uiinfo[current].pixmap_type  = GNOME_APP_PIXMAP_NONE;
+		    uiinfo[current].accelerator_key = 0;
+		    uiinfo[current].widget = NULL;
+		    if (num_checkmark_menu_items < MAX_UPDATE_MENU_LIST_SIZE) {
+			obj = &checkmark_menu_items[num_checkmark_menu_items].obj;
+			checkmark_menu_items[num_checkmark_menu_items].uiinfo =
+			    &uiinfo[current];
+			checkmark_menu_items[num_checkmark_menu_items].cb =
+			    list[i].callback;
+			checkmark_menu_items[num_checkmark_menu_items].obj.value =
+			    (void*) list[i].callback_data;
+			checkmark_menu_items[num_checkmark_menu_items].obj.status =
+			    CB_NORMAL;
+			uiinfo[current].user_data = (gpointer) obj;
+			num_checkmark_menu_items++;
+			
+		    } else {
+			fprintf(stderr,
+				"Maximum number of menus reached!  "
+				"Please fix the code.\n");
+			exit(-1);
+		    }
+		} else {
+			fprintf(stderr,
+				"Checkbox Menu Item without callback: %s!  "
+				"Please fix the code.\n", list[i].string);
+			exit(-1);
+		}
+		break;
+	    default:
+	    {
+		if (list[i].sub_menu) {
+		    if (num_submenus > MAX_SUBMENUS) {
+			fprintf(stderr,
+				"Maximum number of sub menus reached! "
+				"Please fix the code.\n");
+			exit(-1);
+			    
+		    }
+		    uiinfo[current].type = GNOME_APP_UI_SUBTREE;
+		    uiinfo[current].moreinfo = ui_menu_create("SUB", list[i].sub_menu, NULL);
+		    uiinfo[current].user_data = NULL;
+		} 
+		else 
+		{
+		    uiinfo[current].type = GNOME_APP_UI_ITEM;
+		    uiinfo[current].moreinfo = list[i].callback;
+			
+		    if (list[i].callback) {
+			obj = (ui_menu_cb_obj*) xmalloc(sizeof(ui_menu_cb_obj));
+			obj->value = (void*) list[i].callback_data;
+			uiinfo[current].user_data = obj;
+		    }
+		}
+		uiinfo[current].label = make_menu_label(&list[i]);
+		uiinfo[current].hint = NULL;
+		uiinfo[current].unused_data = NULL;
+		uiinfo[current].pixmap_type = GNOME_APP_PIXMAP_NONE;
+		uiinfo[current].accelerator_key = 0;
+		uiinfo[current].widget = NULL;
+		
+		break;
+	    }
+	    }
+	    
+	    if (list[i].hotkey_keysym != (KeySym) 0
+		&& list[i].callback != NULL)
+		ui_hotkey_register(list[i].hotkey_modifier,
+				   list[i].hotkey_keysym,
+				   list[i].callback,
+				   obj);
+	    
+	    current++;
+/* 	    uiinfo = g_renew(GnomeUIInfo, uiinfo, current + 1); */
+        }
+    }
+    
+    memset(&uiinfo[current], 0, sizeof(GnomeUIInfo));
+    uiinfo[current].type = GNOME_APP_UI_ENDOFINFO;
+    
+    level--;
+    
+    va_end(ap);
+    return uiinfo;
+}
+
+#else  /* !GNOME_MENUS */
 GtkWidget* ui_menu_create(const char *menu_name, ...)
 {
     static int level = 0;
@@ -232,6 +368,7 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
     va_end(ap);
     return w;
 }
+#endif
 
 int ui_menu_any_open(void)
 {
@@ -244,10 +381,13 @@ void ui_menu_update_all_GTK(void)
 {
   int i;
 
+#ifndef GNOME_MENUS		/* Well, with GNOME_MENUS this won't
+				   won't work */
   for (i = 0; i < num_checkmark_menu_items; i++) {
       gtk_signal_handler_block(GTK_OBJECT(checkmark_menu_items[i].w),
 			       checkmark_menu_items[i].handlerid);
   } 
+#endif
   refresh_dummy = 0;
   for (i = 0; i < num_checkmark_menu_items; i++) {
     checkmark_menu_items[i].obj.status = CB_REFRESH;
@@ -258,10 +398,12 @@ void ui_menu_update_all_GTK(void)
   }
   ui_dispatch_events();
   refresh_dummy = 1;
+#ifndef GNOME_MENUS
   for (i = 0; i < num_checkmark_menu_items; i++) {
       gtk_signal_handler_unblock(GTK_OBJECT(checkmark_menu_items[i].w),
 			       checkmark_menu_items[i].handlerid);
   }
+#endif
 }
 
 void ui_menu_update_all(void)

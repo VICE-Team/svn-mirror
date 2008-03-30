@@ -5,6 +5,5 @@
 - VIC20 Memory expansion doesn't work properly
 - What about fullscreen?
 - x128 segfaults immediately
-- Derive Mainmenu from popup-menu information (or however the seperation
-  should be done)
 - Segfault on exit
+- Resizing doens't work properly

@@ -27,39 +27,11 @@
 
 #include <stdio.h>
 
-/* Rseolved by xaw */
-ui_display_drive_current_image() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
-/* ui_update_menus() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* ui_error() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
 ui_display_tape_counter() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
 ui_set_tape_status() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
 ui_display_tape_control_status() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
 ui_display_tape_motor_status() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
-/* ui_init_resources() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* ui_init_cmdline_options() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* ui_init_finish() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
 ui_set_fullscreenmode_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
-/* ui_jam_dialog() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
 vsid_ui_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
-/* c64_ui_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* vic20_ui_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
 vsid_ui_exit() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};
-/* ui_enable_drive_status() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* ui_extend_image_dialog() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* ui_display_drive_led() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* ui_display_drive_track() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* ui_check_mouse_cursor() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* ui_open_canvas_window() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* ui_canvas_get_drawable() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* ui_display_speed() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* Resolved by video.c */
-/* video_init() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* video_init_resources() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* video_init_cmdline_options() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* canvas_create() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* canvas_resize() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* canvas_set_palette() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-/* canvas_refresh() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-
-/* kbd_event_handler() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);}; */
-
+vsid_set_tune() {fprintf(stderr, "** Function `%s' still unimplemented.\n", __FUNCTION__);};

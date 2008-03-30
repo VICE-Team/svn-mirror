@@ -61,7 +61,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit\tAlt+X",                    IDM_EXIT
     END
-    POPUP "S&napshot"
+    POPUP "Sna&pshot"
     BEGIN
         MENUITEM "Load snapshot image...\tAlt+L",   IDM_SNAPSHOT_LOAD
         MENUITEM "Save snapshot image\tAlt+S",      IDM_SNAPSHOT_SAVE
@@ -122,7 +122,7 @@ BEGIN
 	MENUITEM SEPARATOR
         MENUITEM "&Sound playback",                 IDM_TOGGLE_SOUND, CHECKED
 #ifdef HAVE_RESID
-        MENUITEM "Enable &resid",                   IDM_TOGGLE_SOUND_RESID
+        MENUITEM "&Enable resid",                   IDM_TOGGLE_SOUND_RESID
         , CHECKED
 #endif
         MENUITEM "SID &filters",                    IDM_TOGGLE_SIDFILTERS
@@ -143,11 +143,11 @@ BEGIN
         END
         MENUITEM SEPARATOR
 	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
-        MENUITEM "&REU emulation",                  IDM_TOGGLE_REU
+        MENUITEM "RE&U emulation",                  IDM_TOGGLE_REU
         MENUITEM "IEEE&488 Interface emulation",    IDM_IEEE488
 	MENUITEM "&1351 mouse emulation",	    IDM_MOUSE
     END
-    POPUP "&Settings"
+    POPUP "S&ettings"
     BEGIN
         MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
         MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS

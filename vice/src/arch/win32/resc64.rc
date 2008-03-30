@@ -65,7 +65,7 @@ BEGIN
             MENUITEM "Set cartridge as &default",   IDM_CART_SET_DEFAULT
         END
         MENUITEM "Detach cartridge &image",         IDM_CART_DETACH
-        MENUITEM "Cartridge freeze\tAlt+F",         IDM_CART_FREEZE
+        MENUITEM "Cartridge freeze\tAlt+Z",         IDM_CART_FREEZE
         MENUITEM SEPARATOR
         MENUITEM "Monitor\tAlt+M",                  IDM_MONITOR
         POPUP "&Reset"
@@ -76,7 +76,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit\tAlt+X",                    IDM_EXIT
     END
-    POPUP "S&napshot"
+    POPUP "Sna&pshot"
     BEGIN
         MENUITEM "Load snapshot image...\tAlt+L",   IDM_SNAPSHOT_LOAD
         MENUITEM "Save snapshot image\tAlt+S",      IDM_SNAPSHOT_SAVE
@@ -152,10 +152,10 @@ BEGIN
         END
         MENUITEM SEPARATOR
 	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
-        MENUITEM "&REU emulation",                  IDM_TOGGLE_REU
+        MENUITEM "RE&U emulation",                  IDM_TOGGLE_REU
 	MENUITEM "&1351 mouse emulation",	    IDM_MOUSE
     END
-    POPUP "&Settings"
+    POPUP "S&ettings"
     BEGIN
         MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
         MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS

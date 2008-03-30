@@ -1557,6 +1557,10 @@ void ui_set_drive9_menu (Widget w)
     drive9_menu = w;
 }
 
+void ui_set_topmenu()
+{
+}
+
 void ui_set_application_icon(Pixmap icon_pixmap)
 {
     int i;

@@ -31,6 +31,7 @@
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 
+#include <gnome.h>
 #include <gtk/gtk.h>
 
 #include "vice.h"
@@ -125,8 +126,14 @@ int ui_init_cmdline_options(void);
 
 int ui_init(int *argc, char **argv);
 int ui_init_finish(void);
+#ifndef GNOME_MENUS
 void ui_set_left_menu(GtkWidget *w);
 void ui_set_right_menu(GtkWidget *w);
+#else
+void ui_set_left_menu(GnomeUIInfo *w);
+void ui_set_right_menu(GnomeUIInfo *w);
+#endif
+
 void ui_set_application_icon(Pixmap icon_pixmap);
 ui_window_t ui_open_canvas_window(const char *title, int width, int height, int no_autorepeat, ui_exposure_handler_t exposure_proc, const palette_t *p, PIXEL pixel_return[]);
 void ui_resize_canvas_window(ui_window_t w, int height, int width);

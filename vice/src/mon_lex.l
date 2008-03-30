@@ -43,7 +43,7 @@
 #define min(a,b) ((a) < (b) ? (a) : (b))
 
 int new_cmd = 1, quote = 0, opt_asm = 0, cur_len = 0, last_len = 0, dont_match_reg_a = 0;
-int temp;
+int temp, push_back;
 static int yywrap(void);
 YY_BUFFER_STATE my_state;
 
@@ -69,34 +69,38 @@ YY_BUFFER_STATE my_state;
    }
 %}
 
-<CMD>([~@>\]])|([^~@>\] \t\n]*) { if ( (temp = mon_cmd_lookup_index(yytext)) < 0)
-                             return BAD_CMD;
-                          else {
-                             switch(mon_cmd_get_next_state(temp)) {
-                                case STATE_INITIAL:
-                                   BEGIN (INITIAL);
-                                   break;
-                                case STATE_FNAME:
-                                   BEGIN (FNAME);
-                                   break;
-                                case STATE_BNAME:
-                                   BEGIN (BNAME);
-                                   break;
-                                case STATE_ROL:
-                                   BEGIN (ROL);
-                                   break;
-                                case STATE_REG_ASGN:
-                                   BEGIN (REG_ASGN);
-                                   break;
-                                default:
-                                   assert(0);
-                             }
-                             yylval.i = mon_cmd_get_token(temp);
-                             if (yylval.i == CMD_ASSEMBLE)
-                                opt_asm = 1;
-                             return yylval.i;
-                          }
-                        }
+<CMD>([^ \t\n]+) { push_back = 0;
+                   if ( (temp = mon_cmd_lookup_index(yytext, &push_back)) < 0) {
+                      return BAD_CMD;
+                   } else {
+                      if (push_back)
+                         yyless(push_back);
+
+                      switch(mon_cmd_get_next_state(temp)) {
+                         case STATE_INITIAL:
+                            BEGIN (INITIAL);
+                            break;
+                         case STATE_FNAME:
+                            BEGIN (FNAME);
+                            break;
+                         case STATE_BNAME:
+                            BEGIN (BNAME);
+                            break;
+                         case STATE_ROL:
+                            BEGIN (ROL);
+                            break;
+                         case STATE_REG_ASGN:
+                            BEGIN (REG_ASGN);
+                            break;
+                         default:
+                            assert(0);
+                      }
+                      yylval.i = mon_cmd_get_token(temp);
+                      if (yylval.i == CMD_ASSEMBLE)
+                         opt_asm = 1;
+                      return yylval.i;
+                   }
+                 } 
 
 ;		{ new_cmd = 1; return CMD_SEP; }
 

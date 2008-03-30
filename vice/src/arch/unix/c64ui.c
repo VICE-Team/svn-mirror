@@ -469,6 +469,7 @@ int c64_ui_init(void)
                                      ui_settings_settings_menu,
                                      NULL));
 
+    ui_set_topmenu();
     ui_update_menus();
 
     return 0;

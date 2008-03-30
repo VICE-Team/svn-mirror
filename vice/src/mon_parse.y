@@ -248,8 +248,8 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd 	       { sidefx = (($2==e_TOGGLE
 
                    | CMD_DEVICE memspace end_cmd       { console_out(console_log, "Setting default device to `%s'\n",
                                                          _mon_space_strings[(int) $2]); default_memspace = $2; }
-                   | CMD_QUIT end_cmd 		       { exit_mon = 2; YYACCEPT; }
-                   | CMD_EXIT end_cmd 		       { exit_mon = 1; YYACCEPT; }
+                   | CMD_QUIT end_cmd 		       { exit_mon = 2; mon_console_close_on_leaving = 1; YYACCEPT; }
+                   | CMD_EXIT end_cmd 		       { exit_mon = 1; mon_console_close_on_leaving = 1; YYACCEPT; }
                    ;
 
 monitor_misc_rules: CMD_DISK rest_of_line end_cmd 	{ mon_execute_disk_command($2); }

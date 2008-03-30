@@ -61,7 +61,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit\tAlt+X",                    IDM_EXIT
     END
-    POPUP "S&napshot"
+    POPUP "Sna&pshot"
     BEGIN
         MENUITEM "Load snapshot image...\tAlt+L",   IDM_SNAPSHOT_LOAD
         MENUITEM "Save snapshot image\tAlt+S",      IDM_SNAPSHOT_SAVE
@@ -136,7 +136,7 @@ BEGIN
 	MENUITEM SEPARATOR
 	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
     END
-    POPUP "&Settings"
+    POPUP "S&ettings"
     BEGIN
         MENUITEM "&CBM2 settings...",               IDM_CBM2_SETTINGS
         MENUITEM "&Device settings...",             IDM_DEVICEMANAGER

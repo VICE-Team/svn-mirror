@@ -69,7 +69,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit\tAlt+X",                    IDM_EXIT
     END
-    POPUP "S&napshot"
+    POPUP "Sna&pshot"
     BEGIN
         MENUITEM "Load snapshot image...\tAlt+L",   IDM_SNAPSHOT_LOAD
         MENUITEM "Save snapshot image\tAlt+S",      IDM_SNAPSHOT_SAVE
@@ -134,7 +134,7 @@ BEGIN
 	MENUITEM "Emulator &Identification",	    IDM_TOGGLE_EMUID
 	MENUITEM "VIC-1112 IEEE 488 module",	    IDM_IEEE488
     END
-    POPUP "&Settings"
+    POPUP "S&ettings"
     BEGIN
         MENUITEM "&VIC settings...",                IDM_VIC_SETTINGS
         MENUITEM "&Device settings...",             IDM_DEVICEMANAGER

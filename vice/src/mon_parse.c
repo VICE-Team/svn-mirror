@@ -1466,11 +1466,11 @@ case 80:
     break;}
 case 81:
 #line 251 "mon_parse.y"
-{ exit_mon = 2; YYACCEPT; ;
+{ exit_mon = 2; mon_console_close_on_leaving = 1; YYACCEPT; ;
     break;}
 case 82:
 #line 252 "mon_parse.y"
-{ exit_mon = 1; YYACCEPT; ;
+{ exit_mon = 1; mon_console_close_on_leaving = 1; YYACCEPT; ;
     break;}
 case 83:
 #line 255 "mon_parse.y"

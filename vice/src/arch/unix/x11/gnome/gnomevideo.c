@@ -29,6 +29,7 @@
 #include "vice.h"
 
 #include <gdk/gdkx.h>
+#include "log.h"
 
 #include "videoarch.h"
 #include "video.h"
