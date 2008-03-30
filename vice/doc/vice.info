@@ -21,7 +21,7 @@ Indirect:
 vice.info-1: 631
 vice.info-2: 49898
 vice.info-3: 99432
-vice.info-4: 147119
+vice.info-4: 146967
 
 Tag Table:
 (Indirect)
@@ -121,25 +121,25 @@ Node: PET colors116870
 Node: Monitor117430
 Node: Terminology118288
 Node: Machine state commands120143
-Node: Memory commands121026
-Node: Assembly commands122991
-Node: Checkpoint commands123738
-Node: General commands125949
-Node: Disk commands126801
-Node: Command file commands127755
-Node: Label commands128278
-Node: Miscellaneous commands129168
-Node: c1541129569
-Node: c1541 commands and options130587
-Node: Acknowledgments133095
-Node: Copyright140169
-Node: Contacts141267
-Node: Home page141773
-Node: Sending feedback142323
-Node: Contributing144984
-Node: Newsgroups146173
-Node: FAQs you should read146804
-Node: Concept Index147119
-Node: Resource Index155910
+Node: Memory commands120955
+Node: Assembly commands122905
+Node: Checkpoint commands123653
+Node: General commands125863
+Node: Disk commands126715
+Node: Command file commands127603
+Node: Label commands128126
+Node: Miscellaneous commands129016
+Node: c1541129417
+Node: c1541 commands and options130435
+Node: Acknowledgments132943
+Node: Copyright140017
+Node: Contacts141115
+Node: Home page141621
+Node: Sending feedback142171
+Node: Contributing144832
+Node: Newsgroups146021
+Node: FAQs you should read146652
+Node: Concept Index146967
+Node: Resource Index155758
 
 End Tag Table

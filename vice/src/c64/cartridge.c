@@ -100,7 +100,9 @@ int cartridge_attach_image(int type, const char *filename)
     if (type == CARTRIDGE_NONE || *filename == '\0')
 	return 0;
 
-    cartridge_detach_image();
+    /* Do not detach cartridge when attaching the same cart type again.  */
+    if (type != carttype)
+	cartridge_detach_image();
 
     switch(type) {
       case CARTRIDGE_GENERIC_8KB:

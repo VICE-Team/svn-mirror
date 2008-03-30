@@ -1,3 +1,16 @@
+Sun Aug 23 17:45:42 1998  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c64/cartridge.c (cartridge_attach_image): Do not detach
+ 	cartridge when attaching the same cart type again.
+
+Sun Aug 23 16:28:33 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* mon.c: Implemented command descriptions.
+	(mon_print_help): Display some real help.
+
+	* mon.h: New members `param_names' and `description' in `struct
+ 	mon_cmds'.
+
 Sun Aug 23 00:36:09 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* true1541/1541cpu.c (true1541_cpu_execute): Let the CPU use
@@ -513,7 +526,7 @@ Wed Aug 12 10:20:26 1998  André Fachat  <a.fachat@physik.tu-chemnitz.de>
 Tue Aug 11 20:16:13 1998  Teemu Rantanen  <tvr@cs.hut.fi>
 
 	* c64/sid.c (setup_voice,doosc): Keep pulse level up when test-bit
- 	is set. Fixes ACE (thanks to Dag).
+ 	is set.  Fixes ACE (thanks to Dag).
 
 Tue Aug 11 20:01:53 1998  Dag Lem  <resid@nimrod.no>
 
