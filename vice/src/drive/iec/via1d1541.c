@@ -120,7 +120,7 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
     if (via1p->drive->parallel_cable_enabled
         && (via1p->drive->type == DRIVE_TYPE_1541
         || via1p->drive->type == DRIVE_TYPE_1541II))
-        parallel_cable_drive_write(byte, 0, via1p->number);
+        parallel_cable_drive_write(byte, PARALLEL_WRITE, via1p->number);
 }
 
 static void store_pra(via_context_t *via_context, BYTE byte, BYTE oldpa_value,
@@ -146,10 +146,9 @@ static void store_pra(via_context_t *via_context, BYTE byte, BYTE oldpa_value,
             && (via1p->drive->type == DRIVE_TYPE_1541
             || via1p->drive->type == DRIVE_TYPE_1541II))
             parallel_cable_drive_write(byte,
-                                       (((addr == VIA_PRA)
-                                       && ((via_context->via[VIA_PCR]
-                                       & 0xe) == 0xa)) ? 1 : 0),
-                                       via1p->number);
+                (((addr == VIA_PRA) && ((via_context->via[VIA_PCR]
+                & 0xe) == 0xa)) ? PARALLEL_WRITE_HS : PARALLEL_WRITE),
+                via1p->number);
     }
 }
 

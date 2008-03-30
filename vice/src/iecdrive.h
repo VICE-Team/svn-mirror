@@ -44,6 +44,11 @@ extern int iec_available_busses(void);
 extern void iec_update_ports_embedded(void);
 extern void iec_drive_write(BYTE data, unsigned int dnr);
 extern BYTE iec_drive_read(unsigned int dnr);
+
+#define PARALLEL_WRITE    0
+#define PARALLEL_WRITE_HS 1
+#define PARALLEL_HS       2
+
 extern void parallel_cable_drive_write(BYTE data, int handshake,
                                        unsigned int dnr);
 extern BYTE parallel_cable_drive_read(int handshake);

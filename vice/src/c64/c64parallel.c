@@ -34,6 +34,7 @@
 #include "drivetypes.h"
 #include "iecdrive.h"
 #include "maincpu.h"
+#include "mc6821.h"
 #include "types.h"
 #include "via.h"
 
@@ -60,10 +61,11 @@ static BYTE parallel_cable_value(void)
 
 void parallel_cable_drive_write(BYTE data, int handshake, unsigned int dnr)
 {
-    if (handshake)
+    if (handshake == PARALLEL_WRITE_HS || handshake == PARALLEL_HS)
         ciacore_set_flag(machine_context.cia2);
 
-    parallel_cable_drive_value[dnr] = data;
+    if (handshake == PARALLEL_WRITE_HS || handshake == PARALLEL_WRITE)
+        parallel_cable_drive_value[dnr] = data;
 }
 
 BYTE parallel_cable_drive_read(int handshake)
@@ -111,7 +113,9 @@ void parallel_cable_cpu_pulse(void)
         drive = drive_context[dnr]->drive;
 
         if (drive->enable && drive->parallel_cable_enabled) {
-            if (drive->type == DRIVE_TYPE_1570
+            if (drive->drive_mc6821_enabled)
+                mc6821_set_signal(drive_context[dnr], MC6821_SIG_CA1);
+            else if (drive->type == DRIVE_TYPE_1570
                 || drive->type == DRIVE_TYPE_1571
                 || drive->type == DRIVE_TYPE_1571CR)
                 ciacore_set_flag(drive_context[dnr]->cia1571);
