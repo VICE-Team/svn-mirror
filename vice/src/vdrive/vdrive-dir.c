@@ -3,15 +3,15 @@
  *                Directory specific functions.
  *
  * Written by
- *  Andreas Boose       <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * Based on old code by
- *  Teemu Rantanen      <tvr@cs.hut.fi>
- *  Jarkko Sonninen     <sonninen@lut.fi>
- *  Jouko Valta         <jopi@stekt.oulu.fi>
- *  Olaf Seibert        <rhialto@mbfys.kun.nl>
- *  André Fachat        <a.fachat@physik.tu-chemnitz.de>
- *  Ettore Perazzoli    <ettore@comm2000.it>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Jarkko Sonninen <sonninen@lut.fi>
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Olaf Seibert <rhialto@mbfys.kun.nl>
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *  Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -41,6 +41,7 @@
 #include "diskimage.h"
 #include "log.h"
 #include "types.h"
+#include "utils.h"
 #include "vdrive-bam.h"
 #include "vdrive-dir.h"
 #include "vdrive.h"
@@ -156,6 +157,25 @@ static BYTE *find_next_directory_sector(vdrive_t *vdrive, int track, int sector)
         return vdrive->Dir_buffer;
     }
     return NULL;
+}
+
+
+void vdrive_dir_create_slot(bufferinfo_t *p, char *realname,
+                            int reallength, int filetype)
+{
+    p->slot = (BYTE *)xmalloc(32);
+    memset(p->slot, 0, 32);
+    memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);
+    memcpy(p->slot + SLOT_NAME_OFFSET, realname, reallength);
+#ifdef DEBUG_DRIVE
+    log_debug("DIR: Created dir slot. Name (%d) '%s'\n", reallength, realname);
+#endif
+    p->slot[SLOT_TYPE_OFFSET] = filetype;       /* unclosed */
+
+    p->buffer = (BYTE *)xmalloc(256);
+    p->mode = BUFFER_SEQUENTIAL;
+    p->bufptr = 2;
+    return;
 }
 
 /*
