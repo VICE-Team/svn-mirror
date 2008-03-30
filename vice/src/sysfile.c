@@ -263,7 +263,7 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
         rsize -= 2;
     }
     if (rsize < ((size_t)maxsize)) {
-        dest += maxsize-rsize;
+        dest += maxsize - rsize;
     } else if (rsize > ((size_t)maxsize)) {
         log_warning(LOG_DEFAULT, "ROM `%s': long file, discarding end.",
                     complete_path);

@@ -24,6 +24,8 @@
  *
  */
 
+#include "vice.h"
+
 #include <stdio.h>
 #include <string.h>
 
@@ -131,35 +133,13 @@ int functionrom_cmdline_options_init(void)
 static int functionrom_load_internal(void)
 {
     if (internal_function_rom_enabled) {
-        FILE *fd;
-        size_t flen, res, i;
-
         if (util_check_null_string(internal_function_rom_name))
             return 0;
 
-        fd = fopen(internal_function_rom_name, MODE_READ);
-
-        if (fd == NULL)
+        if (util_file_load(internal_function_rom_name, int_function_rom,
+            INTERNAL_FUNCTION_ROM_SIZE,
+            UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0)
             return -1;
-
-        flen = util_file_length(fd);
-
-        if (flen > INTERNAL_FUNCTION_ROM_SIZE) {
-            fclose(fd);
-            return -1;
-        }
-
-        for (i = 0; i < INTERNAL_FUNCTION_ROM_SIZE; i += flen) {
-            rewind(fd);
-            if (i + flen > INTERNAL_FUNCTION_ROM_SIZE)
-                break;
-            res = fread(&(int_function_rom[i]), flen, 1, fd);
-            if (res < 1) {
-                fclose(fd);
-                return -1;
-            }
-        }
-        fclose(fd);
     } else {
         memset(int_function_rom, 0, sizeof(int_function_rom));
     }
@@ -170,35 +150,13 @@ static int functionrom_load_internal(void)
 static int functionrom_load_external(void)
 {
     if (external_function_rom_enabled) {
-        FILE *fd;
-        size_t flen, res, i;
-
         if (util_check_null_string(external_function_rom_name))
             return 0;
 
-        fd = fopen(external_function_rom_name, MODE_READ);
-
-        if (fd == NULL)
+        if (util_file_load(external_function_rom_name, ext_function_rom,
+            EXTERNAL_FUNCTION_ROM_SIZE,
+            UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0)
             return -1;
-
-        flen = util_file_length(fd);
-
-        if (flen > EXTERNAL_FUNCTION_ROM_SIZE) {
-            fclose(fd);
-            return -1;
-        }
-
-        for (i = 0; i < EXTERNAL_FUNCTION_ROM_SIZE; i += flen) {
-            rewind(fd);
-            if (i + flen > EXTERNAL_FUNCTION_ROM_SIZE)
-                break;
-            res = fread(&(ext_function_rom[i]), flen, 1, fd);
-            if (res < 1) {
-                fclose(fd);
-                return -1;
-            }
-        }
-        fclose(fd);
     } else {
         memset(ext_function_rom, 0, sizeof(ext_function_rom));
     }
