@@ -279,7 +279,7 @@ char *subst(const char *s, const char *string, const char *replacement)
     int s_len = strlen(s);
     int string_len = strlen(string);
     int replacement_len = strlen(replacement);
-    char *sp;
+    const char *sp;
     char *dp;
     char *result;
 

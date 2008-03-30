@@ -37,7 +37,7 @@
 #include "z80.h"
 #include "z80mem.h"
 
-#define TRACE
+/* #define TRACE */
 
 static BYTE reg_a = 0;
 static BYTE reg_b = 0;
@@ -104,36 +104,14 @@ inline static int z80mem_read_limit(int addr)
 #define LOAD(addr) \
     (*_z80mem_read_tab_ptr[(addr) >> 8])((ADDRESS)(addr))
 
-/*
 #define STORE(addr, value) \
     (*_z80mem_write_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
-*/
-
-void STORE(ADDRESS addr, BYTE value)
-{
-    if (addr == 0xfd25)
-        log_message(LOG_DEFAULT, "STORE %04x %02x", addr, value);
-    if (addr == 0xfd26)
-        log_message(LOG_DEFAULT, "STORE %04x %02x", addr, value);
-    if (addr == 0x3000)
-        log_message(LOG_DEFAULT, "STORE %04x %02x", addr, value);
-    (*_z80mem_write_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value));
-    return;
-}
 
 #define IN(addr) \
     (io_read_tab[(addr) >> 8])((ADDRESS)(addr))
 
-/*
 #define OUT(addr, value) \
     (io_write_tab[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
-*/
-
-void OUT(ADDRESS addr, BYTE value)
-{
-    log_message(LOG_DEFAULT, "OUT %04x %02x", addr, value);
-    return (io_write_tab[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value));
-}
 
 #define opcode_t DWORD
 #define FETCH_OPCODE(o) ((o) = (LOAD(reg_pc)			\
