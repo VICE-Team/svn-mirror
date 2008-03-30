@@ -122,6 +122,19 @@ void output_select_init(void)
 
 }
 
+void output_select_shutdown(void)
+{
+    output_select_list_t *list, *next;
+
+    list = output_select_list;
+
+    while (list != NULL) {
+        next = list->next;
+        lib_free(list);
+        list = next;
+    }
+}
+
 /* ------------------------------------------------------------------------- */
 
 void output_select_register(output_select_t *output_select)

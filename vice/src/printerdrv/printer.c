@@ -88,7 +88,9 @@ void printer_reset(void)
 
 void printer_shutdown(void)
 {
+    output_select_shutdown();
     drv_mps803_shutdown();
+    driver_select_shutdown();
     interface_serial_shutdown();
 }
 

@@ -147,6 +147,19 @@ void driver_select_register(driver_select_t *driver_select)
         driver_select_list = list;
 }
 
+void driver_select_shutdown(void)
+{
+    driver_select_list_t *list, *next;
+
+    list = driver_select_list;
+
+    while (list != NULL) {
+        next = list->next;
+        lib_free(list);
+        list = next;
+    }
+}
+
 /* ------------------------------------------------------------------------- */
 
 int driver_select_open(unsigned int prnr, unsigned int secondary)
