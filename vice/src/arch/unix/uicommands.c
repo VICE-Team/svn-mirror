@@ -44,9 +44,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "maincpu.h"
 #include "monitor.h"
-#include "mos6510.h"
 #include "resources.h"
 #include "serial.h"
 #include "sound.h"
@@ -280,11 +278,6 @@ static UI_CALLBACK(change_working_directory)
     lib_free(wd);
 }
 
-static void mon_trap(WORD addr, void *unused_data)
-{
-    monitor_startup();
-}
-
 static UI_CALLBACK(activate_monitor)
 {
 #ifdef USE_XF86_EXTENSIONS
@@ -295,9 +288,9 @@ static UI_CALLBACK(activate_monitor)
     ui_autorepeat_on();
 
     if (!ui_emulation_is_paused())
-        interrupt_maincpu_trigger_trap(mon_trap, (void *)0);
+        monitor_startup_trap();
     else
-        mon_trap(MOS6510_REGS_GET_PC(&maincpu_regs), 0);
+        monitor_startup();
 }
 
 static UI_CALLBACK(run_c1541)
