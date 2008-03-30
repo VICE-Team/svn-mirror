@@ -40,6 +40,8 @@
 
 #include "video.h"
 #include "kbd.h"
+#include "resources.h"
+#include "cmdline.h"
 
 /* Define this for additional shared memory verbosity. */
 #undef MITSHM_DEBUG
@@ -70,7 +72,7 @@ static int set_try_mitshm(resource_value_t v)
     return 0;
 }
 
-/* Vsync-related resources.  */
+/* Video-related resources.  */
 static resource_t resources[] = {
     { "UseXSync", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &_video_use_xsync, set_use_xsync },
@@ -86,7 +88,31 @@ int video_init_resources(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* These are exported by ui_xaw.c. */
+/* Video-related command-line options.  */
+static cmdline_option_t cmdline_options[] = {
+    { "-xsync", SET_RESOURCE, 0, NULL, NULL,
+      "XSync", (resource_value_t) 1,
+      NULL, "Call `XSync()' after updating the emulation window" },
+    { "+xsync", SET_RESOURCE, 0, NULL, NULL,
+      "XSync", (resource_value_t) 0,
+      NULL, "Do not call `XSync()' after updating the emulation window" },
+    { "-mitshm", SET_RESOURCE, 0, NULL, NULL,
+      "MITSHM", (resource_value_t) 1,
+      NULL, "Try to use shared memory if the X server allows it (faster)" },
+    { "+mitshm", SET_RESOURCE, 0, NULL, NULL,
+      "MITSHM", (resource_value_t) 0,
+      NULL, "Never use shared memory (slower)" },
+    { NULL }
+};
+
+int video_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* These are exported by ui_xaw.c.  FIXME: Ugly!  */
 extern Display *display;
 extern int screen;
 extern Visual *visual;
@@ -316,6 +342,11 @@ int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 
 	_refresh_func = (void (*)()) XPutImage;
     }
+
+    printf("VIDEO: Successfully initialized%s shared memory.\n",
+           use_mitshm ? ", using" : " without");
+    if (!use_mitshm)
+        printf("VIDEO: Warning: performance will be poor.\n");
 
 #if X_DISPLAY_DEPTH == 0
     /* if display depth != 8 we need a temporary buffer */
