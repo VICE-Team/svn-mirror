@@ -199,8 +199,8 @@ int drive_init(void)
     if (drive_check_type(drive[1].type, 1) < 1)
         resources_set_value("Drive9Type", (resource_value_t)DRIVE_TYPE_NONE);
 
-    drive_rom_setup_image(0);
-    drive_rom_setup_image(1);
+    machine_drive_rom_setup_image(0);
+    machine_drive_rom_setup_image(1);
 
     clk_guard_add_callback(drive0_context.cpu.clk_guard,
                            drive_clk_overflow_callback, (void *)0);
@@ -309,7 +309,7 @@ int drive_set_disk_drive_type(unsigned int type, unsigned int dnr)
     drive_initialize_rotation(0, dnr);
     drive[dnr].type = type;
     drive[dnr].side = 0;
-    drive_rom_setup_image(dnr);
+    machine_drive_rom_setup_image(dnr);
     drive_sync_factor();
     drive_set_active_led_color(type, dnr);
 
@@ -934,35 +934,10 @@ int drive_check_type(unsigned int drive_type, unsigned int dnr)
     if (DRIVE_IS_DUAL(drive[0].type) && dnr > 0)
         return 0;
 
-    switch (drive_type) {
-      case DRIVE_TYPE_NONE:
-        return 1;
-      case DRIVE_TYPE_1541:
-        return rom1541_loaded;
-      case DRIVE_TYPE_1541II:
-        return rom1541ii_loaded;
-      case DRIVE_TYPE_1551:
-        return rom1551_loaded;
-      case DRIVE_TYPE_1571:
-        return rom1571_loaded;
-      case DRIVE_TYPE_1581:
-        return rom1581_loaded;
-      case DRIVE_TYPE_2031:
-        return rom2031_loaded;
-      case DRIVE_TYPE_2040:
-        return rom2040_loaded;
-      case DRIVE_TYPE_3040:
-        return rom3040_loaded;
-      case DRIVE_TYPE_4040:
-        return rom4040_loaded;
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        return rom1001_loaded;
-      default:
-        log_error(drive[dnr].log, "Unknown drive type %i.", drive_type);
-    }
-    return 0;
+    if (machine_drive_rom_check_loaded(drive_type) < 0)
+        return 0;
+
+    return 1;
 }
 
 /* ------------------------------------------------------------------------- */
