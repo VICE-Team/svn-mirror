@@ -1,6 +1,8 @@
 c64dir = $(VICEDIR)/C64
 
 c64_DATA = \
+	amiga_sym.vkm \
+	amiga_pos.vkm \
 	basic \
 	beos_sym.vkm \
 	beos_pos.vkm \

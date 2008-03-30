@@ -21,6 +21,7 @@ cp -a doc/html ../WinVICE-$2
 cp FEEDBACK README ../WinVICE-$2
 cp doc/cartconv.txt ../WinVICE-$2
 rm `find ../WinVICE-$2 -name "Makefile*"`
+rm `find ../WinVICE-$2 -name "amiga_*.vkm"`
 rm `find ../WinVICE-$2 -name "dos_*.vkm"`
 rm `find ../WinVICE-$2 -name "os2*.vkm"`
 rm `find ../WinVICE-$2 -name "beos_*.vkm"`

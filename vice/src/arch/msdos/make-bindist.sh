@@ -22,6 +22,7 @@ cp FEEDBACK README ../dosvice
 cp doc/Readme.dos ../dosvice
 cp doc/cartconv.txt ../dosvice
 rm `find ../dosvice -name "Makefile*"`
+rm `find ../dosvice -name "amiga_*.vkm"`
 rm `find ../dosvice -name "os2*.vkm"`
 rm `find ../dosvice -name "beos_*.vkm"`
 rm `find ../dosvice -name "win_*.vkm"`

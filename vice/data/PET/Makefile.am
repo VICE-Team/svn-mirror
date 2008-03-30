@@ -21,6 +21,8 @@ roms = \
 	chargen.de
 
 keymaps = \
+	amiga_bgrs.vkm \
+	amiga_buks.vkm \
 	beos_bgrs.vkm \
 	beos_buks.vkm \
 	dos_bgrs.vkm \
@@ -32,7 +34,7 @@ keymaps = \
 	x11_bdep.vkm \
 	x11_bdes.vkm \
 	x11_bgrs.vkm \
-        x11_buks.vkm
+	x11_buks.vkm
 
 romsets = \
 	rom1g.vrs \

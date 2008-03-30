@@ -23,6 +23,7 @@ xplus4:
 xcbm2:
 	(cd src; $(MAKE) xcbm2-all)
 
+
 if MSDOS_COMPILE
 bindist:
 	$(srcdir)/src/arch/msdos/make-bindist.sh $(STRIP)
@@ -46,4 +47,9 @@ endif
 if SOLARIS_COMPILE
 bindist:
 	$(srcdir)/src/arch/unix/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
+endif
+
+if AMIGA_COMPILE
+bindist:
+	$(srcdir)/src/arch/amigaos/make-bindist.sh $(STRIP)
 endif

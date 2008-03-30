@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-04-28 09:52+0200\n"
+"POT-Creation-Date: 2006-05-01 12:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -250,7 +250,7 @@ msgstr ""
 msgid "write to sounddevice failed."
 msgstr ""
 
-#: src/sound.c:1362
+#: src/sound.c:1366
 msgid "store to sounddevice failed."
 msgstr ""
 
@@ -274,35 +274,35 @@ msgstr ""
 msgid "Could not create start snapshot file %s."
 msgstr ""
 
-#: src/event.c:644 src/event.c:938
+#: src/event.c:644 src/event.c:939
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
 
-#: src/event.c:711 src/event.c:905
+#: src/event.c:712 src/event.c:906
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr ""
 
-#: src/event.c:779
+#: src/event.c:780
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr ""
 
-#: src/event.c:794
+#: src/event.c:795
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:818
+#: src/event.c:819
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 
-#: src/event.c:848
+#: src/event.c:849
 msgid "Error reading start snapshot file."
 msgstr ""
 
-#: src/event.c:1233
+#: src/event.c:1234
 msgid "Playback recorded events"
 msgstr ""
 
@@ -376,73 +376,73 @@ msgstr ""
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 
-#: src/network.c:201
+#: src/network.c:210
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:426
+#: src/network.c:435
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:474
+#: src/network.c:483
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:498
+#: src/network.c:507
 msgid "Cannot load snapshot file for transfer"
 msgstr ""
 
-#: src/network.c:511
+#: src/network.c:520
 msgid "Sending snapshot to client..."
 msgstr ""
 
-#: src/network.c:520
+#: src/network.c:529
 msgid "Cannot send snapshot to client"
 msgstr ""
 
-#: src/network.c:546
+#: src/network.c:555
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr ""
 
-#: src/network.c:584
+#: src/network.c:593
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr ""
 
-#: src/network.c:743
+#: src/network.c:752
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:780
+#: src/network.c:789
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 
-#: src/network.c:800
+#: src/network.c:809
 #, c-format
 msgid "Cannot resolve %s"
 msgstr ""
 
-#: src/network.c:845
+#: src/network.c:854
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:859
+#: src/network.c:868
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:990
+#: src/network.c:999
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:1001
+#: src/network.c:1010
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:1043
+#: src/network.c:1052
 msgid "Network out of sync - disconnecting."
 msgstr ""
 

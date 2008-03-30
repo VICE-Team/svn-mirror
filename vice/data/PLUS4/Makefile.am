@@ -3,6 +3,8 @@ plus4dir = $(VICEDIR)/PLUS4
 plus4_DATA = \
 	3plus1hi \
 	3plus1lo \
+	amiga_sym.vkm \
+	amiga_pos.vkm \
 	basic \
 	beos_sym.vkm \
 	beos_pos.vkm \

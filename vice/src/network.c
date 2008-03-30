@@ -38,6 +38,13 @@
 #include <string.h>
 #ifdef HAVE_NETWORK
 
+#ifdef AMIGA_SUPPORT
+#define __USE_INLINE__
+#include <proto/bsdsocket.h>
+#define select(nfds, read_fds, write_fds, except_fds, timeout) \
+        WaitSelect(nfds, read_fds, write_fds, except_fds, timeout, NULL)
+#endif
+
 #ifdef WIN32
 #include <winsock.h>
 #ifndef FD_SETSIZE
@@ -66,7 +73,9 @@ typedef struct timeval TIMEVAL;
 #include <netdb.h>
 #ifndef __MSDOS__
 #include <sys/time.h>
+#ifndef AMIGA_SUPPORT
 #include <sys/select.h>
+#endif
 #include <unistd.h>
 #endif
 

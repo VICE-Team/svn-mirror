@@ -4,6 +4,8 @@ c128_DATA = \
 	basic64 \
 	basichi \
 	basiclo \
+	amiga_sym.vkm \
+	amiga_pos.vkm \
 	beos_sym.vkm \
 	beos_pos.vkm \
 	c64hq.vpl \

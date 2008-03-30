@@ -662,6 +662,7 @@ static void event_record_start_trap(WORD addr, void *data)
         break;
       case EVENT_START_MODE_PLAYBACK:
         cut_list(event_list->current->next);
+        event_list->current->next = NULL;
         event_destroy_image_list();
         event_write_version();
         record_active = 1;

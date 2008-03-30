@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=10
+VICE_VERSION_BUILD=11
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -41,6 +41,7 @@ is_win32=no
 is_riscos=no
 is_os2=no
 is_beos=no
+is_amiga=no
 
 dnl Try to find out which system we are on...
 AC_CANONICAL_HOST
@@ -136,6 +137,22 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
   fi
 
+elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4"; then
+  AM_CONDITIONAL(HAVE_RS232, true)
+  AM_CONDITIONAL(HAVE_RAWDRIVE, true)
+
+  AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+  AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
+  AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
+  AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
+  AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+  AC_DEFINE(AMIGA_SUPPORT,,[Should we enable Amigaos support.])
+
+  is_amiga=yes
+
+  CFLAGS="$CFLAGS -finline-functions"
+  
 elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = "xmingw32"; then
 
   dnl This is used by subsequent tests.
@@ -154,6 +171,8 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
   AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
   AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
+  AC_DEFINE(HAVE_HTONL,,[Define to 1 if you have the htonl function.])
+  AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
   AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
   if test x"$enable_parsid" == "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
@@ -591,7 +610,7 @@ AC_DECL_SYS_SIGLIST
 
 dnl Check for system-specific header files.
 
-if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos" -a x"$host_os" != "xcygwin32" -a x"$host_vendor" != "xmingw32"; then
+if test x"$host_vendor" != "xgo32" -a x"$is_amiga" != "xyes" -a x"$host_vendor" != "xmsdos" -a x"$host_os" != "xcygwin32" -a x"$host_vendor" != "xmingw32"; then
   AC_CHECK_HEADER(linux/joystick.h,
                   [ AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
                     AC_DEFINE(LINUX_JOYSTICK,,
@@ -666,7 +685,7 @@ AC_SUBST(VICE_ZLIB_INCLUDES)
 
 dnl Configure unix and msdos netplay support
 
-if test x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
+if test x"$is_win32" != "xyes" -a x"$is_amiga" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
 
   dnl Check for needed network headers
 
@@ -681,6 +700,7 @@ if test x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xye
     AC_CHECK_LIB(nsl, gethostbyname,[ LIBS="-lnsl $LIBS"],,)
     AC_CHECK_LIB(socket, gethostbyname,[ LIBS="-lsocket $LIBS"],,)
     AC_CHECK_LIB(bsd, gethostbyname,[ LIBS="-lbsd $LIBS"],,)
+    AC_CHECK_LIB(net, gethostbyname,[ LIBS="-lnet $LIBS"],,)
     AC_CHECK_LIB(inet, gethostbyname,[ LIBS="-linet $LIBS"],,)
     AC_CHECK_LIB(watt, gethostbyname,[ LIBS="-lwatt $LIBS"],,)
 
@@ -929,6 +949,10 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
                     [SOUND_DRIVERS="$SOUND_DRIVERS soundaix.o";
                      SOUND_LIBS="$SOUND_LIBS -lUMSobj";
                      AC_DEFINE(USE_AIX_AUDIO,,[Enable aix sound support.])],,$SOUND_LIBS)])])
+
+  AC_CHECK_HEADERS(devices/ahi.h,
+                   [SOUND_DRIVERS="$SOUND_DRIVERS soundahi.o"; break])
+
 fi
 
 if [[ x"$is_dos" = "xyes" ]] ; then
@@ -1073,7 +1097,7 @@ dnl AC_STRUCT_TM
 dnl Check whether we have GNU readline.  If not, use our replacement.
 dnl The user can force us to use the replacement with `--without-readline'.
 
-if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
+if test x"$is_dos" != "xyes" -a x"$is_amiga" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
   if test x"$with_readline" != "xno" ; then
     READLINE=""
     unset ac_cv_lib_readline_readline
@@ -1179,7 +1203,7 @@ AC_SUBST(VICE_LIBPNG_INCLUDES)
 
 dnl Check for X11 libraries and header files
 
-if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$enable_gnomeui" != "xyes" ; then
+if test x"$is_dos" != "xyes" -a x"$is_amiga" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$enable_gnomeui" != "xyes" ; then
 
   X_LIBS=""
   AC_PATH_XTRA
@@ -1319,6 +1343,12 @@ elif [[ x"$is_dos" != "xno" ]]; then
   dnl On MS-DOS, we already know what we want.
 
   LIBS="$LIBS -lalleg $LIBMIDAS"
+  AC_SUBST(LDFLAGS)
+
+elif [[ x"$is_amiga" != "xno" ]]; then
+
+  dnl On Amiga, we already know what we want.
+  LIBS="$LIBS -lauto"
   AC_SUBST(LDFLAGS)
 
 elif [[ x"$is_beos" != "xno" ]]; then
@@ -1469,7 +1499,7 @@ AC_SUBST(XCBM2_WINRES)
 
 dnl Setup the system-specific object files.
 
-if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_riscos" != "xyes" -a x"$is_os2" != "xyes" -a x"$is_beos" != "xyes"; then
+if test x"$is_dos" != "xyes" -a x"$is_amiga" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_riscos" != "xyes" -a x"$is_os2" != "xyes" -a x"$is_beos" != "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/unix"
   if test x"$enable_gnomeui" != "xyes" ; then
     ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/xaw/libxawui.a $ARCH_DIR/x11/xaw/widgets/libwidgets.a $ARCH_DIR/libarch.a $ARCH_DIR/x11/libx11ui.a"
@@ -1484,6 +1514,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_riscos" != "xyes
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
+  AM_CONDITIONAL(AMIGA_COMPILE, false)
   AC_DEFINE(HAVE_READLINE,,[Are we using the readline library replacement?])
   qnxcompile=no
   solariscompile=no
@@ -1519,6 +1550,20 @@ elif [[ x"$is_win32" != "xno" ]]; then
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
+  AM_CONDITIONAL(AMIGA_COMPILE, false)
+  AM_CONDITIONAL(QNX_COMPILE, false)
+  AM_CONDITIONAL(SOLARIS_COMPILE, false)
+elif [[ x"$is_amiga" != "xno" ]]; then
+  ARCH_DIR="\$(top_builddir)/src/arch/amigaos"
+  ARCH_LIBS="$ARCH_DIR/libarch.a"
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/amigaos"
+  AM_CONDITIONAL(UNIX_COMPILE, false)
+  AM_CONDITIONAL(WIN32_COMPILE, false)
+  AM_CONDITIONAL(MSDOS_COMPILE, false)
+  AM_CONDITIONAL(RISCOS_COMPILE, false)
+  AM_CONDITIONAL(OS2_COMPILE, false)
+  AM_CONDITIONAL(BEOS_COMPILE, false)
+  AM_CONDITIONAL(AMIGA_COMPILE, true)
   AM_CONDITIONAL(QNX_COMPILE, false)
   AM_CONDITIONAL(SOLARIS_COMPILE, false)
 elif [[ x"$is_dos" != "xno" ]]; then
@@ -1535,6 +1580,7 @@ elif [[ x"$is_dos" != "xno" ]]; then
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
+  AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(QNX_COMPILE, false)
   AM_CONDITIONAL(SOLARIS_COMPILE, false)
 elif [[ x"$is_os2" != "xno" ]]; then
@@ -1547,6 +1593,7 @@ elif [[ x"$is_os2" != "xno" ]]; then
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, true)
   AM_CONDITIONAL(BEOS_COMPILE, false)
+  AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(QNX_COMPILE, false)
   AM_CONDITIONAL(SOLARIS_COMPILE, false)
 elif [[ x"$is_beos" != "xno" ]]; then
@@ -1559,6 +1606,7 @@ elif [[ x"$is_beos" != "xno" ]]; then
   AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, true)
+  AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(QNX_COMPILE, false)
   AM_CONDITIONAL(SOLARIS_COMPILE, false)
 else
@@ -1571,6 +1619,7 @@ else
   AM_CONDITIONAL(RISCOS_COMPILE, true)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
+  AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(QNX_COMPILE, false)
   AM_CONDITIONAL(SOLARIS_COMPILE, false)
 fi
@@ -1621,6 +1670,7 @@ AC_SUBST(VICEDIR)
 if false ; then
     dnl Now produce the directories & Makefiles.
 
+    mkdir -p arch/amigaos
     mkdir -p arch/beos
     mkdir -p arch/msdos
     mkdir -p arch/os2
@@ -1704,6 +1754,7 @@ AC_OUTPUT([Makefile
            man/Makefile
            src/Makefile
            src/arch/Makefile
+           src/arch/amigaos/Makefile
            src/arch/beos/Makefile
            src/arch/msdos/Makefile
            src/arch/os2/Makefile

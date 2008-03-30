@@ -1,0 +1,127 @@
+/*
+ * vsyncapi.c
+ *
+ * Written by
+ *  Mathias Roslund <vice.emu@amidog.se>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#include <stdio.h>
+#include "vsyncapi.h"
+#include "kbd.h"
+#include "kbdbuf.h"
+#include "keyboard.h"
+#undef BYTE
+#undef WORD
+#include "timer.h"
+#include "mousedrv.h"
+#include "joy.h"
+
+#define __USE_INLINE__
+
+#include <exec/types.h>
+#include <exec/nodes.h>
+#include <exec/lists.h>
+#include <exec/memory.h>
+
+#include <proto/exec.h>
+#include <proto/intuition.h>
+#include <proto/graphics.h>
+#include <proto/gadtools.h>
+#include <proto/Picasso96API.h>
+
+#include "private.h"
+
+extern void ui_event_handle(void); /* FIXME */
+
+/* number of timer units per second - used to calc speed and fps */
+signed long vsyncarch_frequency(void)
+{
+  return 1000000;
+}
+
+/* provide the actual time in timer units */
+unsigned long vsyncarch_gettime(void)
+{
+  struct timeval tv;
+  timer_gettime(timer, &tv);
+  return (tv.tv_secs * 1000000) + tv.tv_micro;
+}
+
+/* call when vsync_init is called */
+void vsyncarch_init(void)
+{
+}
+
+/* display speed(%) and framerate(fps) */
+void vsyncarch_display_speed(double speed, double fps, int warp_enabled)
+{
+  video_canvas_t *canvas;
+  for (canvas = canvaslist; canvas; canvas = canvas->next) {
+    struct Window *window = canvas->os->window;
+
+    sprintf(canvas->os->window_title, "%s at %d%% speed, %d fps%s", canvas->os->window_name, (int)(speed + .5), (int)(fps + .5), warp_enabled ? " (warp)" : "");
+
+    SetWindowTitles(window, canvas->os->window_title, (void *)-1);
+  }
+}
+
+/* sleep the given amount of timer units */
+void vsyncarch_sleep(signed long delay)
+{
+  timer_usleep(timer, delay);
+}
+
+/* synchronize with vertical blanks */
+void vsyncarch_verticalblank(struct video_canvas_s *c, float rate, int frames)
+{
+}
+
+/* keep vertical blank sync prepared */
+void vsyncarch_prepare_vbl(void)
+{
+}
+
+/* this is called before vsync_do_vsync does the synchroniation */
+void vsyncarch_presync(void)
+{
+  ui_event_handle();
+  mousedrv_sync();
+  kbdbuf_flush();
+  joystick_update();
+}
+
+/* this is called after vsync_do_vsync did the synchroniation */
+void vsyncarch_postsync(void)
+{
+}
+
+/* set ui dispatcher function */
+void_hook_t vsync_set_event_dispatcher(void_hook_t hook)
+{
+  return hook;
+}
+
+int vsyncarch_vbl_sync_enabled(void)
+{
+  return 0;
+}
+

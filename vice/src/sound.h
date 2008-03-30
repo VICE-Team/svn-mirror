@@ -141,6 +141,7 @@ extern int sound_init_esd_device(void);
 extern int sound_init_wmm_device(void);
 extern int sound_init_ffmpegaudio_device(void);
 extern int sound_init_coreaudio_device(void);
+extern int sound_init_ahi_device(void);
 
 /* internal function for sound device registration */
 extern int sound_register_device(sound_device_t *pdevice);

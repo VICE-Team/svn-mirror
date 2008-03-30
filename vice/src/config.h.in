@@ -1,5 +1,8 @@
 /* src/config.h.in.  Generated from configure.in by autoheader.  */
 
+/* Should we enable Amigaos support. */
+#undef AMIGA_SUPPORT
+
 /* Enable support for BSD style joysticks. */
 #undef BSD_JOYSTICK
 
@@ -84,6 +87,9 @@
 /* Define to 1 if you have the declaration of `sys_siglist', and to 0 if you
    don't. */
 #undef HAVE_DECL_SYS_SIGLIST
+
+/* Define to 1 if you have the <devices/ahi.h> header file. */
+#undef HAVE_DEVICES_AHI_H
 
 /* Define to 1 if you have the <direct.h> header file. */
 #undef HAVE_DIRECT_H

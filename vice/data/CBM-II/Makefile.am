@@ -2,6 +2,8 @@ cbm2dir = $(VICEDIR)/CBM-II
 
 cbm2_DATA = \
 	amber.vpl \
+	amiga_bukp.vkm \
+	amiga_buks.vkm \
 	basic.128 \
 	basic.256 \
 	basic.500 \

@@ -34,4 +34,8 @@ SUBDIRS = beos
 
 endif
 
+if AMIGA_COMPILE
 
+SUBDIRS = amigaos
+
+endif

@@ -46,6 +46,7 @@ $1 ../VICE-$2/usr/local/bin/petcat
 mv /usr/local/bin/cartconv ../VICE-$2/usr/local/bin
 $1 ../VICE-$2/usr/local/bin/cartconv
 mv /usr/local/lib/vice ../VICE-$2/usr/local/lib
+rm `find ../VICE-$2 -name "amiga_*.vkm"`
 rm `find ../VICE-$2 -name "beos_*.vkm"`
 rm `find ../VICE-$2 -name "dos_*.vkm"`
 rm `find ../VICE-$2 -name "os2*.vkm"`

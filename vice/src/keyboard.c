@@ -492,7 +492,11 @@ static void keyboard_keyconvmap_alloc(void)
     keyconvmap = lib_malloc(KEYCONVMAP_SIZE_MIN * sizeof(keyboard_conv_t));
     keyc_num = 0;
     keyc_mem = KEYCONVMAP_SIZE_MIN - 1;
+#ifdef AMIGA_SUPPORT
+    keyconvmap[0].sym = -1;
+#else
     keyconvmap[0].sym = 0;
+#endif
 }
 
 static void keyboard_keyconvmap_free(void)
@@ -556,7 +560,11 @@ static void keyboard_keyword_clear(void)
     int i, j;
 
     keyc_num = 0;
+#ifdef AMIGA_SUPPORT
+    keyconvmap[0].sym = -1;
+#else
     keyconvmap[0].sym = 0;
+#endif
     key_ctrl_restore1 = -1;
     key_ctrl_restore2 = -1;
     key_ctrl_caps = -1;
@@ -592,7 +600,11 @@ static void keyboard_keyword_undef(void)
                 if (keyc_num) {
                     keyconvmap[i] = keyconvmap[--keyc_num];
                 }
+#ifdef AMIGA_SUPPORT
+                keyconvmap[keyc_num].sym = -1;
+#else
                 keyconvmap[keyc_num].sym = 0;
+#endif
                 break;
             }
         }
@@ -647,7 +659,11 @@ static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
             keyconvmap[keyc_num].row = row;
             keyconvmap[keyc_num].column = col;
             keyconvmap[keyc_num].shift = shift;
+#ifdef AMIGA_SUPPORT
+            keyconvmap[++keyc_num].sym = -1;
+#else
             keyconvmap[++keyc_num].sym = 0;
+#endif
         }
     }
 }
@@ -831,7 +847,11 @@ int keyboard_keymap_dump(const char *filename)
                 (vshift == KEY_RSHIFT) ? "RSHIFT" : "LSHIFT");
     fprintf(fp, "\n");
 
+#ifdef AMIGA_SUPPORT
+    for (i = 0; keyconvmap[i].sym != -1; i++) {
+#else
     for (i = 0; keyconvmap[i].sym; i++) {
+#endif
         fprintf(fp, "%s %d %d %d\n",
                 kbd_arch_keynum_to_keyname(keyconvmap[i].sym),
                 keyconvmap[i].row, keyconvmap[i].column,

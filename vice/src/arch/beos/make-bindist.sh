@@ -25,6 +25,7 @@ cp doc/cartconv.txt ../vice-$2/doc
 cp doc/Readme.beos ../vice-$2/doc
 cp FEEDBACK README ../vice-$2
 rm `find ../vice-$2 -name "Makefile*"`
+rm `find ../vice-$2 -name "amiga_*.vkm"`
 rm `find ../vice-$2 -name "dos_*.vkm"`
 rm `find ../vice-$2 -name "os2*.vkm"`
 rm `find ../vice-$2 -name "win_*.vkm"`
