@@ -3865,9 +3865,10 @@ int vic_ii_read_snapshot_module(snapshot_t *s)
                 "VIC-II: Snapshot module version (%d.%d) newer than %d.%d.\n",
                 major_version, minor_version,
                 SNAP_MAJOR, SNAP_MINOR);
+        goto fail;
     }
 
-    /* FIXME: initialize changes.  */
+    /* FIXME: initialize changes?  */
 
     if (0
         || read_byte_into_int(m, &allow_bad_lines) < 0 /* AllowBadLines */
