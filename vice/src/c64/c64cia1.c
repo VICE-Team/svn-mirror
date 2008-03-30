@@ -804,14 +804,14 @@ BYTE read_cia1_(ADDRESS addr)
 
 	{
 	    BYTE val = cia1[CIA_PRA] | ~cia1[CIA_DDRA];
-	    BYTE msk = (cia1[CIA_PRB] | ~cia1[CIA_DDRB]);
-	    int m, i;
+	    BYTE msk = (cia1[CIA_PRB] | ~cia1[CIA_DDRB]) & ~joy[1];
+	    BYTE m;
+            int i;
 
-	    msk &= ~joy[1];
 	    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
 		if (!(msk & m))
 		    val &= ~rev_keyarr[i];
-	    byte= val & ~joy[1];
+	    byte = val & ~joy[1];
 	}
 	return byte;
 	break;
@@ -827,7 +827,7 @@ BYTE read_cia1_(ADDRESS addr)
 	    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
 		if (!(msk & m))
 		    val &= ~keyarr[i];
-	    byte= (val | (cia1[CIA_PRB] & cia1[CIA_DDRB])) & ~joy[2];
+	    byte = (val | (cia1[CIA_PRB] & cia1[CIA_DDRB])) & ~joy[2];
 	}
         if ((cia1[CIA_CRA] | cia1[CIA_CRB]) & 0x02) {
 	    update_cia1(rclk);
