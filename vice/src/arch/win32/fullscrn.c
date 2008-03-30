@@ -34,14 +34,15 @@
 #include <ddraw.h>
 #include <mmsystem.h>
 #include <prsht.h>
-#include "res.h"
-#include "ui.h"
-#include "winmain.h"
-#include "palette.h"
-#include "resources.h"
-#include "utils.h"
+
+#include "lib.h"
 #include "log.h"
+#include "palette.h"
+#include "res.h"
+#include "resources.h"
+#include "ui.h"
 #include "videoarch.h"
+#include "winmain.h"
 #include "statusbar.h"
 
 
@@ -97,7 +98,7 @@ BOOL WINAPI DDEnumCallbackFunction(GUID FAR *lpGUID, LPSTR lpDriverDescription,
         new_device->isNullGUID = 1;
     }
 
-    new_device->desc = stralloc(lpDriverDescription);
+    new_device->desc = lib_stralloc(lpDriverDescription);
 
     if (devices == NULL) {
         devices = new_device;
@@ -398,9 +399,9 @@ void DestroyList(ValueList **list)
 
     value =* list;
     while (value != NULL) {
-        free(value->text);
+        lib_free(value->text);
         value2 = value->next;
-        free(value);
+        lib_free(value);
         value = value2;
     }
     *list = NULL;
@@ -418,7 +419,7 @@ void get_refreshratelist(int device, int bitdepth, int width, int height)
     //  Refreshrates exists, then it is not reported back
     value = malloc(sizeof(ValueList));
     value->value = 0;
-    value->text = stralloc("Default");
+    value->text = lib_stralloc("Default");
     InsertInto(&refresh_rates, value);
 
     mode=modes;
@@ -429,7 +430,7 @@ void get_refreshratelist(int device, int bitdepth, int width, int height)
                 value = malloc(sizeof(ValueList));
                 value->value = mode->refreshrate;
                 itoa(mode->refreshrate, buff, 10);
-                value->text = stralloc(buff);
+                value->text = lib_stralloc(buff);
                 InsertInto(&refresh_rates, value);
             }
         }
@@ -451,7 +452,7 @@ void get_bitdepthlist(int device)
                 value = malloc(sizeof(ValueList));
                 value->value = mode->bitdepth;
                 itoa(mode->bitdepth, buff, 10);
-                value->text = stralloc(buff);
+                value->text = lib_stralloc(buff);
                 InsertInto(&bitdepthlist, value);
             }
         }
@@ -474,7 +475,7 @@ void get_resolutionlist(int device, int bitdepth)
                 value = malloc(sizeof(ValueList));
                 value->value = (mode->width << 16) + mode->height;
                 sprintf(buff, "%dx%d", mode->width, mode->height);
-                value->text=stralloc(buff);
+                value->text=lib_stralloc(buff);
                 InsertInto(&resolutionlist, value);
             }
         }
