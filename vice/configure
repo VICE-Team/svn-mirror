@@ -715,7 +715,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.1.30
+VERSION=1.1.31
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -801,10 +801,6 @@ fi
 
 
 
-cat >> confdefs.h <<\EOF
-#define UNSTABLE 1
-EOF
-
 
 is_dos=no
 is_win32=no
@@ -818,7 +814,7 @@ else { echo "configure: error: can not run $ac_config_sub" 1>&2; exit 1; }
 fi
 
 echo $ac_n "checking host system type""... $ac_c" 1>&6
-echo "configure:822: checking host system type" >&5
+echo "configure:818: checking host system type" >&5
 
 host_alias=$host
 case "$host_alias" in
@@ -938,6 +934,10 @@ fi
 if test x"$enable_gnomeui" = "xyes" ; then
   cat >> confdefs.h <<\EOF
 #define GNOMEUI 1
+EOF
+
+  cat >> confdefs.h <<\EOF
+#define USE_GNOMEUI 1
 EOF
 
   
@@ -6954,7 +6954,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_riscos" != "xyes
     ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/xaw/libxawui.a $ARCH_DIR/x11/xaw/widgets/libwidgets.a"
     ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix"
   else
-    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/x11/libx11ui.a $$ARCH_DIR/x11/gnome/libgnomeui.a"
+    ARCH_LIBS="$ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/libarch.a $ARCH_DIR/x11/libx11ui.a"
     ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix `gnome-config --cflags gnomeui`"
   fi
   

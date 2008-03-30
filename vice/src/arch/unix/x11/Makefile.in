@@ -117,7 +117,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libx11ui.a
 
-libx11ui_a_SOURCES =  	kbd.c 	kbdef.h
+libx11ui_a_SOURCES =  	kbd.c 	kbdef.h 	video.c 	videoarch.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../src/config.h
@@ -132,7 +132,7 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libx11ui_a_LIBADD = 
-libx11ui_a_OBJECTS =  kbd.o
+libx11ui_a_OBJECTS =  kbd.o video.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -316,8 +316,14 @@ kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/machine.h ../../../../src/sysfile.h \
 	../../../../src/arch/unix/ui.h xaw/ui.h \
 	../../../../src/palette.h ../../../../src/uiapi.h \
-	../../../../src/utils.h ../../../../src/video.h \
-	../../../../src/arch/unix/videoarch.h xaw/videoarch.h
+	../../../../src/utils.h ../../../../src/video.h videoarch.h
+video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
+	../../../../src/arch/unix/kbd.h \
+	../../../../src/arch/unix/types.h ../../../../src/log.h \
+	../../../../src/cmdline.h ../../../../src/resources.h \
+	../../../../src/utils.h ../../../../src/video.h videoarch.h \
+	../../../../src/palette.h ../../../../src/arch/unix/ui.h \
+	xaw/ui.h ../../../../src/uiapi.h
 
 info-am:
 info: info-recursive

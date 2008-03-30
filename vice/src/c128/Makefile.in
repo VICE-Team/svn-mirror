@@ -259,13 +259,14 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/raster/raster-sprite.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/resources.h ../../src/vicii/vicii-mem.h \
-	../../src/vdc/vdc.h ../../src/vdc/vdc-mem.h ../../src/vsync.h \
-	z80.h z80mem.h ../../src/mem.h ../../src/rs232.h \
-	../../src/c64/c64acia.h ../../src/rsuser.h ../../src/print.h \
-	../../src/prdevice.h ../../src/pruser.h \
-	../../src/arch/unix/mouse.h
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
+	../../src/uiapi.h ../../src/resources.h \
+	../../src/vicii/vicii-mem.h ../../src/vdc/vdc.h \
+	../../src/vdc/vdc-mem.h ../../src/vsync.h z80.h z80mem.h \
+	../../src/mem.h ../../src/rs232.h ../../src/c64/c64acia.h \
+	../../src/rsuser.h ../../src/print.h ../../src/prdevice.h \
+	../../src/pruser.h ../../src/arch/unix/mouse.h
 c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/cia.h \
@@ -286,9 +287,10 @@ c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/raster/raster-sprite.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/vicii/vicii-mem.h ../../src/rsuser.h \
-	../../src/ciacore.c ../../src/ciatimer.h
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
+	../../src/uiapi.h ../../src/vicii/vicii-mem.h \
+	../../src/rsuser.h ../../src/ciacore.c ../../src/ciatimer.h
 c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../../src/snapshot.h ../../src/arch/unix/types.h z80.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/6510core.h \
@@ -326,10 +328,11 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
-	../../src/arch/unix/x11/xaw/videoarch.h ../../src/vdc/vdc-mem.h \
-	../../src/vicii/vicii.h ../../src/c64/c64.h \
-	../../src/vicii/vicii-mem.h z80mem.h ../../src/mem.h \
-	../../src/c64/c64acia.h
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/vdc/vdc-mem.h ../../src/vicii/vicii.h \
+	../../src/c64/c64.h ../../src/vicii/vicii-mem.h z80mem.h \
+	../../src/mem.h ../../src/c64/c64acia.h
 c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64mem.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/cmdline.h \
@@ -344,11 +347,12 @@ c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/raster/raster-sprite.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/vdc/vdc-mem.h ../../src/vicii/vicii.h \
-	../../src/c64/c64.h ../../src/maincpu.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/mos6510.h ../../src/vicii/vicii-mem.h \
-	z80.h z80mem.h
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
+	../../src/uiapi.h ../../src/vdc/vdc-mem.h \
+	../../src/vicii/vicii.h ../../src/c64/c64.h ../../src/maincpu.h \
+	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
+	../../src/vicii/vicii-mem.h z80.h z80mem.h
 z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/snapshot.h ../../src/log.h \
@@ -368,11 +372,13 @@ z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/raster/raster-sprite.h ../../src/video.h \
 	../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
-	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
-	../../src/vdc/vdc-mem.h ../../src/vicii/vicii.h \
-	../../src/c64/c64.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
-	../../src/mos6510.h ../../src/vicii/vicii-mem.h z80mem.h
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
+	../../src/uiapi.h ../../src/vdc/vdc-mem.h \
+	../../src/vicii/vicii.h ../../src/c64/c64.h ../../src/maincpu.h \
+	../../src/6510core.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/interrupt.h ../../src/mos6510.h \
+	../../src/vicii/vicii-mem.h z80mem.h
 
 info-am:
 info: info-am

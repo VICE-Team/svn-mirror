@@ -113,7 +113,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libgnomeui.a
 
-libgnomeui_a_SOURCES =  	dummies.c 	ui.c 	ui.h 	videoarch.h
+libgnomeui_a_SOURCES =  	dummies.c 	ui.c 	ui.h 	videoarch.h 	uihotkey.c 	uihotkey.h 	uimenu.c 	uimenu.h 	uisettings.c 	uisettings.h 	gnomekbd.c 	gnomevideo.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../../src/config.h
@@ -128,7 +128,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libgnomeui_a_LIBADD = 
-libgnomeui_a_OBJECTS =  dummies.o ui.o
+libgnomeui_a_OBJECTS =  dummies.o ui.o uihotkey.o uimenu.o uisettings.o \
+gnomekbd.o gnomevideo.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)

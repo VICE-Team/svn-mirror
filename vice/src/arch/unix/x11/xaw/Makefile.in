@@ -115,7 +115,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libxawui.a
 
-libxawui_a_SOURCES =  	c128icon.xpm 	c128ui.c 	c610icon.xpm 	c610ui.c 	c64icon.xpm 	c64ui.c 	checkmark.xbm 	peticon.xpm 	petui.c 	right_arrow.xbm 	ui.c 	ui.h 	uicommands.c 	uicommands.h 	uiedisk.c 	uiedisk.h 	uihotkey.c 	uihotkey.h 	uimenu.c 	uimenu.h 	uisettings.c 	uisettings.h 	uisnapshot.c 	uisnapshot.h 	vic20icon.xpm 	vic20ui.c 	vsidui.c 	videoarch.h 	video.c
+libxawui_a_SOURCES =  	c128icon.xpm 	c128ui.c 	c610icon.xpm 	c610ui.c 	c64icon.xpm 	c64ui.c 	checkmark.xbm 	peticon.xpm 	petui.c 	right_arrow.xbm 	ui.c 	ui.h 	uicommands.c 	uicommands.h 	uiedisk.c 	uiedisk.h 	uihotkey.c 	uihotkey.h 	uimenu.c 	uimenu.h 	uisettings.c 	uisettings.h 	uisnapshot.c 	uisnapshot.h 	vic20icon.xpm 	vic20ui.c 	vsidui.c 	videoarch.h 	x11video.c 	x11kbd.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../../src/config.h
@@ -132,7 +132,7 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libxawui_a_LIBADD = 
 libxawui_a_OBJECTS =  c128ui.o c610ui.o c64ui.o petui.o ui.o \
 uicommands.o uiedisk.o uihotkey.o uimenu.o uisettings.o uisnapshot.o \
-vic20ui.o vsidui.o video.o
+vic20ui.o vsidui.o x11video.o x11kbd.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -425,13 +425,6 @@ vic20ui.o: vic20ui.c ../../../../../src/vice.h \
 	../../../../../src/palette.h ../../../../../src/uiapi.h \
 	uimenu.h uihotkey.h uisettings.h ../../../../../src/vsync.h \
 	vic20icon.xpm
-video.o: video.c ../../../../../src/vice.h ../../../../../src/config.h \
-	../../../../../src/arch/unix/kbd.h \
-	../../../../../src/arch/unix/types.h ../../../../../src/log.h \
-	../../../../../src/cmdline.h ../../../../../src/resources.h \
-	../../../../../src/utils.h ../../../../../src/video.h \
-	videoarch.h ../../../../../src/palette.h ui.h \
-	../../../../../src/uiapi.h
 vsidui.o: vsidui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/attach.h ../../../../../src/snapshot.h \
 	../../../../../src/arch/unix/types.h \
@@ -441,6 +434,18 @@ vsidui.o: vsidui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	uimenu.h uihotkey.h uisettings.h ../../../../../src/utils.h \
 	../../../../../src/vsync.h ../../../../../src/c64/c64mem.h \
 	../../../../../src/mem.h c64icon.xpm
+x11kbd.o: x11kbd.c ../../../../../src/vice.h ../../../../../src/config.h \
+	../../../../../src/arch/unix/kbd.h \
+	../../../../../src/arch/unix/types.h \
+	../../../../../src/arch/unix/x11/kbdef.h \
+	../../../../../src/keyboard.h ../../../../../src/machine.h ui.h \
+	../../../../../src/palette.h ../../../../../src/uiapi.h
+x11video.o: x11video.c ../../../../../src/vice.h \
+	../../../../../src/config.h ../../../../../src/utils.h \
+	../../../../../src/arch/unix/types.h videoarch.h ../videoarch.h \
+	../../../../../src/palette.h ../../../../../src/log.h ui.h \
+	../../../../../src/uiapi.h ../../../../../src/resources.h \
+	../../../../../src/video.h
 
 info-am:
 info: info-recursive

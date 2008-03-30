@@ -321,8 +321,8 @@ main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h \
 	joystick.h ../../../src/log.h ../../../src/machine.h \
 	main_exit.h ../../../src/sound.h types.h ../../../src/warn.h \
 	../../../src/video.h videoarch.h x11/xaw/videoarch.h \
-	../../../src/palette.h x11/xaw/ui.h ../../../src/uiapi.h \
-	../../../src/resources.h
+	x11/xaw/../videoarch.h ../../../src/palette.h ui.h x11/xaw/ui.h \
+	../../../src/uiapi.h ../../../src/resources.h
 mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h kbd.h types.h \
 	mouse.h ../../../src/log.h ui.h x11/xaw/ui.h \
@@ -348,7 +348,7 @@ vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/sound.h ../../../src/warn.h ui.h x11/xaw/ui.h \
 	../../../src/palette.h ../../../src/uiapi.h \
 	../../../src/video.h videoarch.h x11/xaw/videoarch.h \
-	../../../src/vsync.h joystick.h
+	x11/xaw/../videoarch.h ../../../src/vsync.h joystick.h
 
 info-am:
 info: info-recursive

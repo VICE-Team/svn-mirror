@@ -599,7 +599,8 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	arch/unix/main_exit.h sysfile.h tape.h traps.h arch/unix/ui.h \
 	arch/unix/x11/xaw/ui.h palette.h uiapi.h utils.h \
 	vdrive/vdrive.h video.h arch/unix/videoarch.h \
-	arch/unix/x11/xaw/videoarch.h arch/unix/mouse.h
+	arch/unix/x11/xaw/videoarch.h arch/unix/x11/xaw/../videoarch.h \
+	arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 	alarm.h clkguard.h datasette.h tap.h interrupt.h snapshot.h \
 	log.h machine.h maincpu.h mon.h mos6510.h mem.h traps.h \
