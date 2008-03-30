@@ -64,8 +64,8 @@ static file_system_t file_system[4];
 
 static log_t attach_log = LOG_DEFAULT;
 
-static unsigned int attach_device_readonly_enabled[4];
-static unsigned int file_system_device_enabled[4];
+static int attach_device_readonly_enabled[4];
+static int file_system_device_enabled[4];
 
 static int set_attach_device_readonly(resource_value_t v, void *param);
 static int set_file_system_device(resource_value_t v, void *param);
@@ -76,47 +76,43 @@ static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,
                                        unsigned int unit);
 static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
                              const char *filename, unsigned int unit,
-                             unsigned int devicetype);
+                             int devicetype);
 
-static const resource_t resources[] = {
-    { "AttachDevice8Readonly", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&attach_device_readonly_enabled[0],
+static const resource_int_t resources_int[] = {
+    { "AttachDevice8Readonly", 0, RES_EVENT_SAME, NULL,
+      &attach_device_readonly_enabled[0],
       set_attach_device_readonly, (void *)8 },
-    { "AttachDevice9Readonly", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&attach_device_readonly_enabled[1],
+    { "AttachDevice9Readonly", 0, RES_EVENT_SAME, NULL,
+      &attach_device_readonly_enabled[1],
       set_attach_device_readonly, (void *)9 },
-    { "AttachDevice10Readonly", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&attach_device_readonly_enabled[2],
+    { "AttachDevice10Readonly", 0, RES_EVENT_SAME, NULL,
+      &attach_device_readonly_enabled[2],
       set_attach_device_readonly, (void *)10 },
-    { "AttachDevice11Readonly", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&attach_device_readonly_enabled[3],
+    { "AttachDevice11Readonly", 0, RES_EVENT_SAME, NULL,
+      &attach_device_readonly_enabled[3],
       set_attach_device_readonly, (void *)11 },
-    { "FileSystemDevice8", RES_INTEGER, (resource_value_t)ATTACH_DEVICE_FS,
+    { "FileSystemDevice8", ATTACH_DEVICE_FS, 
       RES_EVENT_STRICT, (resource_value_t)ATTACH_DEVICE_FS,
-      (void *)&file_system_device_enabled[0],
+      &file_system_device_enabled[0],
       set_file_system_device, (void *)8 },
-    { "FileSystemDevice9", RES_INTEGER, (resource_value_t)ATTACH_DEVICE_FS,
+    { "FileSystemDevice9", ATTACH_DEVICE_FS,
       RES_EVENT_STRICT, (resource_value_t)ATTACH_DEVICE_FS,
-      (void *)&file_system_device_enabled[1],
+      &file_system_device_enabled[1],
       set_file_system_device, (void *)9 },
-    { "FileSystemDevice10", RES_INTEGER, (resource_value_t)ATTACH_DEVICE_FS,
+    { "FileSystemDevice10", ATTACH_DEVICE_FS,
       RES_EVENT_STRICT, (resource_value_t)ATTACH_DEVICE_FS,
-      (void *)&file_system_device_enabled[2],
+      &file_system_device_enabled[2],
       set_file_system_device, (void *)10 },
-    { "FileSystemDevice11", RES_INTEGER, (resource_value_t)ATTACH_DEVICE_FS,
+    { "FileSystemDevice11", ATTACH_DEVICE_FS,
       RES_EVENT_STRICT, (resource_value_t)ATTACH_DEVICE_FS,
-      (void *)&file_system_device_enabled[3],
+      &file_system_device_enabled[3],
       set_file_system_device, (void *)11 },
     { NULL }
 };
 
 int file_system_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -210,7 +206,7 @@ int file_system_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-static int file_system_set_serial_hooks(unsigned int unit, unsigned int fs)
+static int file_system_set_serial_hooks(unsigned int unit, int fs)
 {
     if (!fs) {
         if (vdrive_iec_attach(unit, "CBM Disk Drive")) {
@@ -320,14 +316,14 @@ static int set_attach_device_readonly(resource_value_t v, void *param)
     unit = (unsigned int)param;
 
     /* Do nothing if resource is unchanged.  */
-    if (attach_device_readonly_enabled[unit - 8] == ((unsigned int)v))
+    if (attach_device_readonly_enabled[unit - 8] == ((int)v))
         return 0;
 
     old_filename = file_system_get_disk_name(unit);
 
     /* If no disk is attached, just changed the resource.  */
     if (old_filename == NULL) {
-        attach_device_readonly_enabled[unit - 8] = (unsigned int)v;
+        attach_device_readonly_enabled[unit - 8] = (int)v;
         return 0;
     }
 
@@ -335,7 +331,7 @@ static int set_attach_device_readonly(resource_value_t v, void *param)
     new_filename = lib_stralloc(old_filename);
 
     file_system_detach_disk(unit);
-    attach_device_readonly_enabled[unit - 8] = (unsigned int)v;
+    attach_device_readonly_enabled[unit - 8] = (int)v;
 
     rc = file_system_attach_disk(unit, new_filename);
 
@@ -349,7 +345,8 @@ static int set_attach_device_readonly(resource_value_t v, void *param)
 static int set_file_system_device(resource_value_t v, void *param)
 {
     vdrive_t *vdrive;
-    unsigned int unit, old_device_enabled;
+    unsigned int unit;
+    int old_device_enabled;
 
     unit = (unsigned int)param;
     old_device_enabled = file_system_device_enabled[unit - 8];
@@ -415,7 +412,7 @@ static int set_file_system_device(resource_value_t v, void *param)
         return -1;
     }
 
-    file_system_device_enabled[unit - 8] = (unsigned int)v;
+    file_system_device_enabled[unit - 8] = (int)v;
 
     return 0;
 }
@@ -471,7 +468,7 @@ static void detach_disk_image_and_free(disk_image_t *image, vdrive_t *floppy,
 
 static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
                              const char *filename, unsigned int unit,
-                             unsigned int devicetype)
+                             int devicetype)
 {
     disk_image_t *image;
     disk_image_t new_image;
@@ -483,7 +480,7 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
     }
 
     new_image.gcr = NULL;
-    new_image.read_only = attach_device_readonly_enabled[unit - 8];
+    new_image.read_only = (unsigned int)attach_device_readonly_enabled[unit - 8];
 
     switch (devicetype) {
       case ATTACH_DEVICE_NONE:
@@ -552,7 +549,8 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
 
 /* ------------------------------------------------------------------------- */
 
-static int file_system_attach_disk_internal(unsigned int unit, const char *filename)
+static int file_system_attach_disk_internal(unsigned int unit,
+                                            const char *filename)
 {
     vdrive_t *vdrive;
 
