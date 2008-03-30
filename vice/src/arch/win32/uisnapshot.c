@@ -84,10 +84,10 @@ static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam,
 }
 
 
-char *ui_save_snapshot(const char *title, const char *filter, 
-                       HWND hwnd, int dialog_template)
+static char *ui_save_snapshot(const TCHAR *title, const char *filter, 
+                              HWND hwnd, int dialog_template)
 {
-    TCHAR name[1024] = "";
+    TCHAR name[1024] = TEXT("");
     OPENFILENAME ofn;
     char *ret = NULL;
     TCHAR *st_filter;
@@ -136,7 +136,7 @@ char *ui_save_snapshot(const char *title, const char *filter,
 void ui_snapshot_save_dialog(HWND hwnd)
 {
     char *s;
-    s = ui_save_snapshot("Save snapshot image",
+    s = ui_save_snapshot(TEXT("Save snapshot image"),
                          "VICE snapshot files (*.vsf)\0*.vsf\0",
                          hwnd, IDD_SNAPSHOT_SAVE_DIALOG);
     if (s != NULL) {

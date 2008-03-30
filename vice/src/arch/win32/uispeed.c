@@ -58,7 +58,7 @@ static void init_speed_dialog(HWND hwnd)
 
     speedstr = lib_msprintf("%i", res_value);
     st_speedstr = system_mbstowcs_alloc(speedstr);
-    SetDlgItemText(hwnd, IDC_CUSTOM_SPEED, speedstr);
+    SetDlgItemText(hwnd, IDC_CUSTOM_SPEED, st_speedstr);
     system_mbstowcs_free(st_speedstr);
     lib_free(speedstr);
 }

@@ -294,27 +294,27 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
           case IDC_BROWSEDIR:
             {
                 BROWSEINFO bi;
-                char s[MAX_PATH];
+                TCHAR st[MAX_PATH];
                 LPITEMIDLIST idlist;
 
                 bi.hwndOwner = hwnd;
                 bi.pidlRoot = NULL;
-                bi.pszDisplayName = s;
+                bi.pszDisplayName = st;
                 bi.lpszTitle = "Select file system directory";
                 bi.ulFlags = 0;
                 bi.lpfn = NULL;
                 bi.lParam = 0;
                 bi.iImage = 0;
                 if ((idlist = SHBrowseForFolder(&bi)) != NULL) {
-                    SHGetPathFromIDList(idlist, s);
+                    SHGetPathFromIDList(idlist, st);
                     LocalFree(idlist);
                     /*
                     If a root directory is selected, \ is appended
                     and has to be deleted.
                     */
-                    if (s[strlen(s) - 1] == '\\')
-                        s[strlen(s) - 1] = '\0';
-                    SetDlgItemText(hwnd, IDC_DIR, s);
+                    if (st[_tcslen(st) - 1] == '\\')
+                        st[_tcslen(st) - 1] = '\0';
+                    SetDlgItemText(hwnd, IDC_DIR, st);
                 }
             }
             break;

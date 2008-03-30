@@ -373,12 +373,15 @@ static BOOL CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg,
           case IDC_VIDEO_CUSTOM_BROWSE:
             {
                 char *s;
+                TCHAR *st;
 
                 if ((s = ui_select_file(hwnd,"Load VICE palette file",
                     UI_LIB_FILTER_ALL | UI_LIB_FILTER_PALETTE,
                     FILE_SELECTOR_DEFAULT_STYLE,NULL)) != NULL) {
                     update_palettename(s);
-                    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, s);
+                    st = system_mbstowcs_alloc(s);
+                    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st);
+                    system_mbstowcs_free(st);
                     lib_free(s);
                     res_extpalette = 1;
                     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE,
@@ -495,7 +498,7 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
         psp[1].pfnDlgProc = dialog_fullscreen_proc;
         psp[1].pszTitle = TEXT("Fullscreen");
         psp[2].pfnDlgProc = dialog_advanced_proc;
-        psp[2].pszTitle = chip_param->page_title;
+        psp[2].pszTitle = system_mbstowcs_alloc(chip_param->page_title);
         psp[2].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION
@@ -516,7 +519,7 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
         psp[0].pfnDlgProc = dialog_fullscreen_proc;
         psp[0].pszTitle = TEXT("Fullscreen");
         psp[1].pfnDlgProc = dialog_palette_proc;
-        psp[1].pszTitle = chip_param->page_title;
+        psp[1].pszTitle = system_mbstowcs_alloc(chip_param->page_title);
         psp[1].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION
@@ -539,7 +542,7 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
         chip_param = &chip_param_table[chip_type2];
 
         psp[index].pfnDlgProc = dialog_palette_proc;
-        psp[index].pszTitle = chip_param->page_title;
+        psp[index].pszTitle = system_mbstowcs_alloc(chip_param->page_title);
         psp[index].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION

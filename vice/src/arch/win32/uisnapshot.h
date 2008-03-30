@@ -29,7 +29,6 @@
 
 extern void ui_snapshot_load_dialog(HWND hwnd);
 extern void ui_snapshot_save_dialog(HWND hwnd);
-extern char *ui_save_snapshot(const char *title, const char *filter, 
-                              HWND hwnd, int dialog_template);
 
 #endif
+
