@@ -171,7 +171,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
       case 13:			/* R13  Display Start Address lo */
         vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
                          & vdc.vdc_address_mask;
-        log_message(vdc.log,"Update screen_adr: %x.", vdc.screen_adr);
+        /*log_message(vdc.log,"Update screen_adr: %x.", vdc.screen_adr);*/
         break;
 
       case 14:
@@ -194,26 +194,26 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
       case 21:
         vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
                             & vdc.vdc_address_mask;
-        log_message(vdc.log,"Update attribute_adr: %x.", vdc.attribute_adr);
+        /*log_message(vdc.log,"Update attribute_adr: %x.", vdc.attribute_adr);*/
         break;
 
       case 25:
-        log_message(vdc.log, "Color source: %s.",
+        /*log_message(vdc.log, "Color source: %s.",
                     (vdc.regs[25] & 0x40) ? "attribute space" : "register 26");
         log_message(vdc.log, "Display mode: %s.",
-                    (vdc.regs[25] & 0x80) ? "graphic" : "text");
+                    (vdc.regs[25] & 0x80) ? "graphic" : "text");*/
         vdc.raster.video_mode = (vdc.regs[25] & 0x80) 
                                 ? VDC_BITMAP_MODE : VDC_TEXT_MODE;
         break;
 
       case 26:
-        log_message(vdc.log, "Color register %x.", vdc.regs[26]);
+        /*log_message(vdc.log, "Color register %x.", vdc.regs[26]);*/
         break;
 
       case 28:
         vdc.chargen_adr = ((vdc.regs[28] << 8) & 0xe000)
                           & vdc.vdc_address_mask;
-        log_message(vdc.log, "Update chargen_adr: %x.", vdc.chargen_adr);
+        /*log_message(vdc.log, "Update chargen_adr: %x.", vdc.chargen_adr);*/
         break;
 
       case 30:			/* Word Count */
