@@ -32,7 +32,7 @@
 #include <Window.h>
 
 extern "C" {
-#include "c610mem.h"
+#include "cbm2mem.h"
 #include "resources.h"
 #include "ui.h"
 #include "ui_cbm2.h"

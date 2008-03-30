@@ -37,7 +37,7 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
-#include "c610mem.h"
+#include "cbm2mem.h"
 #include "res.h"
 #include "resources.h"
 #include "ui.h"

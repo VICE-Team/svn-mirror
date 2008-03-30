@@ -62,7 +62,7 @@
 // --------------------------------------------------------------------------
 
 #ifdef __XCBM__
-#include "c610mem.h"     // cbm2_set_model
+#include "cbm2mem.h"     // cbm2_set_model
 const char cbm_models[][5] = { "510", "610", "620", "620+", "710", "720", "720+" };
 static void set_cbm_model(ADDRESS addr, void *model)
 {

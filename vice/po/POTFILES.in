@@ -6,8 +6,8 @@ src/vsync.c
 # Architecture Unix
 src/arch/unix/archdep.c
 src/arch/unix/c128ui.c
-src/arch/unix/c610ui.c
 src/arch/unix/c64ui.c
+src/arch/unix/cbm2ui.c
 src/arch/unix/console.c
 src/arch/unix/coproc.c
 src/arch/unix/joy.c
