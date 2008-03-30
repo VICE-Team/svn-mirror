@@ -216,6 +216,10 @@ void maincpu_generic_dma(void)
 #define DMA_FUNC maincpu_generic_dma
 #endif
 
+#ifndef DMA_ON_RESET
+#define DMA_ON_RESET
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 struct cpu_int_status maincpu_int_status;
@@ -436,6 +440,7 @@ void mainloop(ADDRESS start_address)
 #endif
 
     reset();
+    DMA_ON_RESET;
 
     if (start_address)
 	JUMP(start_address);

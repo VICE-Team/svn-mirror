@@ -1,5 +1,29 @@
 1999-09-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.1.2.
+
+	* c128/z80.c (z80_mainloop, z80mem_read_base,
+	z80mem_read_limit, opcode_ed): Z80 core implementation.
+
+	* c128/z80mem.h: Memory pointers have to be extern.
+
+	* c128/z80mem.c (z80mem_initialize): Bank MMU to 0xff page.
+	Added IN/OUT memory space.
+	(mem_load): Removed Z80 startup hack.
+
+	* c128/c128mmu.c (mmu_read, mmu_store): Added some debugging
+	output.
+	(mmu_switch_cpu): Switch off Z80 if 8502 gets control.
+	(mmu_init): Activate Z80 on startup.
+
+	* 6510core.c (DO_INTERRUPT): Activate DMA on reset if defined.
+	* maincpu.c, c128/c128cpu.c, drive/drivecpucore.c: Changed
+	likewise.
+
+	* vdc/vdc-draw.c (draw_std_text): Removed debugging cruft.
+
+1999-09-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.1.1.
 
 	* imagecontents.c (image_contents_read_disk): Always copy all

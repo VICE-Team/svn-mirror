@@ -219,6 +219,7 @@
                 ack_reset(&CPU_INT_STATUS);                              \
                 reset();                                                 \
                 JUMP(LOAD_ADDR(0xfffc));                                 \
+                DMA_ON_RESET;                                            \
             }                                                            \
         }                                                                \
         if (ik & (IK_MONITOR | IK_DMA)) {				 \

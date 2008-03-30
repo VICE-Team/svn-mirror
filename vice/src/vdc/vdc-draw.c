@@ -251,8 +251,6 @@ draw_std_text(void)
 
     unsigned int i;
 
-    log_message(vdc.log, "draw_std_text");
-
     for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8)
     {
         PIXEL4 *ptr = table_ptr + (((vdc.ram+vdc.attribute_adr+vdc.mem_counter)[i] & 0x0f) << 8);

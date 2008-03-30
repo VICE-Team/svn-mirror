@@ -410,14 +410,30 @@ c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/raster/raster-sprite.h ../../src/vdc/vdc-mem.h \
 	../../src/vicii/vicii.h ../../src/c64/c64.h ../../src/maincpu.h \
 	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/vicii/vicii-mem.h
-z80.o: z80.c ../../src/vice.h ../../src/config.h z80.h \
-	../../src/arch/unix/types.h
-z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128mem.h \
-	../../src/arch/unix/types.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/log.h ../../src/mem.h \
-	../../src/snapshot.h ../../src/sysfile.h ../../src/utils.h \
+	../../src/vicii/vicii-mem.h z80.h
+z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/interrupt.h \
+	../../src/arch/unix/types.h ../../src/6510core.h \
+	../../src/mem.h ../../src/snapshot.h ../../src/log.h z80.h \
 	z80mem.h
+z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128mem.h \
+	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cia.h \
+	../../src/cia.h ../../src/snapshot.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/log.h ../../src/mem.h \
+	../../src/sid/sid.h ../../src/sound.h ../../src/warn.h \
+	../../src/sysfile.h ../../src/utils.h ../../src/vdc/vdc.h \
+	../../src/alarm.h ../../src/raster/raster.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/uiapi.h ../../src/raster/raster-cache.h \
+	../../src/raster/raster-sprite-cache.h \
+	../../src/raster/raster-changes.h \
+	../../src/raster/raster-modes.h \
+	../../src/raster/raster-sprite-status.h \
+	../../src/raster/raster-sprite.h ../../src/vdc/vdc-mem.h \
+	../../src/vicii/vicii.h ../../src/c64/c64.h ../../src/maincpu.h \
+	../../src/6510core.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/interrupt.h \
+	../../src/vicii/vicii-mem.h z80mem.h
 
 info-am:
 info: info-recursive

@@ -37,14 +37,9 @@
 #include "resources.h"
 #include "vdc.h"
 #include "vicii.h"
+#include "z80.h"
 
-/* #define DEBUG_MMU */
-
-#ifdef DEBUG_MMU
-#define DEBUG(x) printf x
-#else
-#define DEBUG(x)
-#endif
+/* #define MMU_DEBUG */
 
 /* MMU register.  */
 static BYTE mmu[11];
@@ -116,10 +111,10 @@ static void mmu_toggle_column4080_key(void)
 static void mmu_switch_cpu(int value)
 {
     if (value) {
-        log_message(mmu_log, "Switch to 8502 CPU.");
-        /* Stop Z80 emulation.  */
+        log_message(mmu_log, "Switching to 8502 CPU.");
+        z80_trigger_dma();
     } else {
-        log_message(mmu_log, "Switch to Z80 CPU.");
+        log_message(mmu_log, "Switching to Z80 CPU.");
         maincpu_trigger_dma();
     }
 }
@@ -136,6 +131,10 @@ BYTE REGPARM1 mmu_read(ADDRESS addr)
 {
     addr &= 0xff;
 
+#ifdef MMU_DEBUG
+    log_message(mmu_log, "MMU READ $%x.", addr);
+#endif
+
     if (addr < 0xb) {
         if (addr == 5) {
             /* 0x80 = 40/80 key released.  */
@@ -151,6 +150,10 @@ BYTE REGPARM1 mmu_read(ADDRESS addr)
 void REGPARM2 mmu_store(ADDRESS address, BYTE value)
 {
     address &= 0xff;
+
+#ifdef MMU_DEBUG
+    log_message(mmu_log, "MMU STORE $%x <- #$%x.", address, value);
+#endif
 
     if (address < 0xb) {
         BYTE oldvalue;
@@ -229,7 +232,7 @@ void mmu_init(void)
 
     set_column4080_key((resource_value_t)mmu_column4080_key);
 
-    mmu[5] = 1;
+    mmu[5] = 0;
 }
 
 void mmu_reset(void)
