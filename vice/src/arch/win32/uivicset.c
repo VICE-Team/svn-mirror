@@ -55,7 +55,7 @@ enum {
 };
 
 
-int block0,block1,block2,block3,block5;
+int block0, block1, block2, block3, block5;
 int current_config;
 
 static void update_block_checkboxes(HWND hwnd)
@@ -168,11 +168,11 @@ static uilib_dialog_group vic_settings_rightgroup2[] = {
 
 static void init_dialog(HWND hwnd)
 {
-RECT rect;
-int left_xsize, y;
-int right_xsize;
-int right_xsize2;
-int xsize;
+    RECT rect;
+    int left_xsize, y;
+    int right_xsize;
+    int right_xsize2;
+    int xsize;
 
     uilib_localize_dialog(hwnd, vic_settings_dialog);
 
@@ -184,17 +184,20 @@ int xsize;
 
     uilib_set_element_width(hwnd, IDC_VIC_MEMORY, xsize);
     uilib_adjust_group_width(hwnd, vic_settings_leftgroup);
-    uilib_move_and_adjust_group_width(hwnd, vic_settings_rightgroup, left_xsize + 32);
-    uilib_move_and_adjust_group_width(hwnd, vic_settings_rightgroup2, left_xsize + 16);
+    uilib_move_and_adjust_group_width(hwnd, vic_settings_rightgroup,
+                                      left_xsize + 32);
+    uilib_move_and_adjust_group_width(hwnd, vic_settings_rightgroup2,
+                                      left_xsize + 16);
 
     GetWindowRect(hwnd, &rect);
-    MoveWindow(hwnd, rect.left, rect.top, xsize + 28, rect.bottom - rect.top, TRUE);
+    MoveWindow(hwnd, rect.left, rect.top, xsize + 28, rect.bottom - rect.top,
+               TRUE);
 
-    resources_get_value("RAMBlock0", (void *) &block0);
-    resources_get_value("RAMBlock1", (void *) &block1);
-    resources_get_value("RAMBlock2", (void *) &block2);
-    resources_get_value("RAMBlock3", (void *) &block3);
-    resources_get_value("RAMBlock5", (void *) &block5);
+    resources_get_int("RAMBlock0", &block0);
+    resources_get_int("RAMBlock1", &block1);
+    resources_get_int("RAMBlock2", &block2);
+    resources_get_int("RAMBlock3", &block3);
+    resources_get_int("RAMBlock5", &block5);
     
     update_config(hwnd);
 }
@@ -209,13 +212,13 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
         command = LOWORD(wparam);
         switch (command) {
           case IDOK:
-            resources_set_value("RAMBlock0", (resource_value_t)block0);
-            resources_set_value("RAMBlock1", (resource_value_t)block1);
-            resources_set_value("RAMBlock2", (resource_value_t)block2);
-            resources_set_value("RAMBlock3", (resource_value_t)block3);
-            resources_set_value("RAMBlock5", (resource_value_t)block5);
+            resources_set_int("RAMBlock0", block0);
+            resources_set_int("RAMBlock1", block1);
+            resources_set_int("RAMBlock2", block2);
+            resources_set_int("RAMBlock3", block3);
+            resources_set_int("RAMBlock5", block5);
           case IDCANCEL:
-            EndDialog(hwnd,0);
+            EndDialog(hwnd, 0);
             break;
           case IDC_VIC_NOEXPANSION:
             update_blocks(MEM_NONE);
