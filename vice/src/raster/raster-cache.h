@@ -140,7 +140,7 @@ raster_cache_data_fill (BYTE *dest,
       *xs = 0;
       *xe = length - 1;
       if (src_step == 1)
-	memcpy (dest, src, length);
+	memcpy(dest, src, (size_t)length);
       else
 	for (i = 0; i < length; i++, src += src_step)
 	  dest[i] = src[0];
@@ -366,7 +366,7 @@ raster_cache_data_fill_const(BYTE *dest,
       *xs = 0;
       *xe = length - 1;
       if (src_step == 1)
-        memset (dest, data, length);
+        memset(dest, data, (size_t)length);
       else
         for (i = 0; i < length; i++)
           dest[i] = data;
