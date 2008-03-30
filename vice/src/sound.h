@@ -90,7 +90,7 @@ typedef struct sound_device_s
 /* external functions for vice */
 extern void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame);
 extern void sound_reset(void);
-#if __MSDOS__ || __riscos
+#if defined(__MSDOS__) || defined(__riscos)
 extern int sound_flush(int relative_speed);
 #else
 extern double sound_flush(int relative_speed);
