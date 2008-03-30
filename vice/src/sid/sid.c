@@ -113,12 +113,13 @@ static BYTE REGPARM2 sid_read_chip(ADDRESS addr, int chipno)
         val = mouse_get_y();
     else
 #endif
-
-    /* Account for that read functions in VICE are called _before_
-       incrementing the clock. */
-    maincpu_clk++;
-    val = sid_read_func(addr, chipno);
-    maincpu_clk--;
+    {
+        /* Account for that read functions in VICE are called _before_
+           incrementing the clock. */
+        maincpu_clk++;
+        val = sid_read_func(addr, chipno);
+        maincpu_clk--;
+    }
 
     /* Fallback when sound is switched off. */
     if (val < 0) {

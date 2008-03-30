@@ -34,12 +34,6 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
-#include <X11/Xlib.h>
-#include <X11/Intrinsic.h>
-#include <X11/Xaw/SimpleMenu.h>
-#include <X11/Xaw/SmeLine.h>
-#include <X11/Xaw/SmeBSB.h>
-
 #include "machine.h"
 #include "resources.h"
 #include "utils.h"
