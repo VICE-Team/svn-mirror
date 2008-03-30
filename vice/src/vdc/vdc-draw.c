@@ -306,7 +306,6 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
         r |= raster_cache_data_fill_const(cache->color_data_1,
                                 (BYTE)(vdc.regs[26] >> 4),
                                 (int)vdc.screen_text_cols,
-                                1,
                                 xs, xe,
                                 rr);
     }
@@ -418,7 +417,6 @@ static int get_std_bitmap(raster_cache_t *cache, unsigned int *xs,
         r |= raster_cache_data_fill_const(cache->color_data_1,
                                           (BYTE)(vdc.regs[26] >> 4),
                                           (int)vdc.screen_text_cols,
-                                          1,
                                           xs, xe,
                                           rr);
     return r;
