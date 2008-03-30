@@ -1,5 +1,5 @@
 /*
- * iec.c
+ * iec.c - IEC drive specific routines.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -41,7 +41,6 @@
 #include "lib.h"
 #include "mc6821.h"
 #include "memiec.h"
-#include "profdos.h"
 #include "resources.h"
 #include "types.h"
 #include "via.h"
@@ -55,9 +54,6 @@ static iecbus_t *drive_iecbus;
 
 int iec_drive_resources_init(void)
 {
-    if (profdos_resources_init() < 0) 
-        return -1;
-
     return iec_resources_init();
 }
 
@@ -78,7 +74,6 @@ void iec_drive_init(struct drive_context_s *drv)
     cia1571_init(drv);
     cia1581_init(drv);
     wd1770d_init(drv);
-    profdos_init(drv);
     mc6821_init(drv);
 }
 
@@ -109,7 +104,6 @@ void iec_drive_reset(struct drive_context_s *drv)
     }
     /* FIXME:  which drive type needs this chip?? */
     wd1770d_reset(drv);
-    profdos_reset(drv);
     mc6821_reset(drv);
 }
 
