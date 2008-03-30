@@ -159,7 +159,7 @@ inline static void line_becomes_bad(int cycle)
     }
 }
 
-void vicii_badline_check_state(BYTE value, int cycle, int line,
+void vicii_badline_check_state(BYTE value, int cycle, unsigned int line,
                                int old_allow_bad_lines)
 {
     int was_bad_line, now_bad_line;

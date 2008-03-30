@@ -93,7 +93,7 @@ struct raster_cache_s {
     int open_right_border, open_left_border;
 
     /* Color information.  */
-    BYTE border_color;
+    unsigned int border_color;
     BYTE background_data[RASTER_CACHE_MAX_TEXTCOLS];
 
     /* Bitmap representation of the graphics in foreground.  */

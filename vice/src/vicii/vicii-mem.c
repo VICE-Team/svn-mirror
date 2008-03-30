@@ -226,7 +226,8 @@ static inline void store_sprite_x_position_msb(ADDRESS addr, BYTE value)
     }
 }
 
-inline static void check_lower_upper_border(BYTE value, int line, int cycle)
+inline static void check_lower_upper_border(BYTE value, unsigned int line,
+                                            int cycle)
 {
     if ((value ^ vic_ii.regs[0x11]) & 8) {
         if (value & 0x8) {
@@ -274,7 +275,8 @@ inline static void check_lower_upper_border(BYTE value, int line, int cycle)
 
 inline static void store_d011(BYTE value)
 {
-    int cycle, line, old_allow_bad_lines;
+    int cycle, old_allow_bad_lines;
+    unsigned int line;
 
     cycle = VIC_II_RASTER_CYCLE(maincpu_clk);
     line = VIC_II_RASTER_Y(maincpu_clk);

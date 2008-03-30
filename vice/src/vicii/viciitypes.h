@@ -347,10 +347,12 @@ struct vicii_s {
     int screen_height;
     int first_displayed_line;
     int last_displayed_line;
-    int row_25_start_line;
-    int row_25_stop_line;
-    int row_24_start_line;
-    int row_24_stop_line;
+
+    unsigned int row_25_start_line;
+    unsigned int row_25_stop_line;
+    unsigned int row_24_start_line;
+    unsigned int row_24_stop_line;
+
     int screen_borderwidth;
     int screen_borderheight;
     int cycles_per_line;

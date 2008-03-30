@@ -29,7 +29,7 @@
 
 #include "types.h"
 
-extern void vicii_badline_check_state(BYTE value, int cycle, int line,
+extern void vicii_badline_check_state(BYTE value, int cycle, unsigned int line,
                                       int old_allow_bad_lines);
 
 #endif

@@ -53,8 +53,8 @@
 static DWORD hr_table[16 * 16 * 16];
 
 /* mc flag(1) | idx(2) | byte(8) -> index into double-pixel table.  */
-static WORD mc_table[2 * 4 * 256];
-static WORD mcmsktable[512];
+static BYTE mc_table[2 * 4 * 256];
+static BYTE mcmsktable[512];
 
 
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
@@ -588,9 +588,9 @@ static void draw_mc_text_foreground(int start_char, int end_char)
                 for (j = 0; j < vic_ii.raster.xsmooth_shift_left; j++)
                     *(p + 7 - j) = orig_background;
 
-                *(msk_ptr + i) = (mcmsktable[0x100 + b]
+                *(msk_ptr + i) = (BYTE)((mcmsktable[0x100 + b]
                                  >> vic_ii.raster.xsmooth_shift_left)
-                                 << vic_ii.raster.xsmooth_shift_left;
+                                 << vic_ii.raster.xsmooth_shift_left);
             }
 
         } else {
@@ -756,9 +756,9 @@ static void draw_mc_bitmap_foreground(int start_char, int end_char)
             for (j = 0; j < vic_ii.raster.xsmooth_shift_left; j++)
                 *(p + 7 - j) = orig_background;
 
-            *(msk_ptr + i) = (mcmsktable[0x100 + b]
+            *(msk_ptr + i) = (BYTE)((mcmsktable[0x100 + b]
                              >> vic_ii.raster.xsmooth_shift_left)
-                             << vic_ii.raster.xsmooth_shift_left;
+                             << vic_ii.raster.xsmooth_shift_left);
         }
     }
 }
@@ -1338,7 +1338,7 @@ static void init_drawing_tables(void)
 {
     DWORD i;
     unsigned int f, b;
-    char tmptable[4] = { 0, 4, 5, 3 };
+    BYTE tmptable[4] = { 0, 4, 5, 3 };
 
     for (i = 0; i <= 0xf; i++) {
         for (f = 0; f <= 0xf; f++) {
@@ -1361,20 +1361,20 @@ static void init_drawing_tables(void)
     }
 
     for (i = 0; i <= 0xff; i++) {
-        mc_table[i + 0x100] = (WORD)(i >> 6);
-        mc_table[i + 0x300] = (WORD)((i >> 4) & 0x3);
-        mc_table[i + 0x500] = (WORD)((i >> 2) & 0x3);
-        mc_table[i + 0x700] = (WORD)(i & 0x3);
+        mc_table[i + 0x100] = (BYTE)(i >> 6);
+        mc_table[i + 0x300] = (BYTE)((i >> 4) & 0x3);
+        mc_table[i + 0x500] = (BYTE)((i >> 2) & 0x3);
+        mc_table[i + 0x700] = (BYTE)(i & 0x3);
         mc_table[i] = tmptable[i >> 6];
         mc_table[i + 0x200] = tmptable[(i >> 4) & 0x3];
         mc_table[i + 0x400] = tmptable[(i >> 2) & 0x3];
         mc_table[i + 0x600] = tmptable[i & 0x3];
-        mcmsktable[i + 0x100] = (WORD)0;
-        mcmsktable[i + 0x100] |= (WORD)(((i >> 6) & 0x2) ? 0xc0 : 0);
-        mcmsktable[i + 0x100] |= (WORD)(((i >> 4) & 0x2) ? 0x30 : 0);
-        mcmsktable[i + 0x100] |= (WORD)(((i >> 2) & 0x2) ? 0x0c : 0);
-        mcmsktable[i + 0x100] |= (WORD)((i & 0x2) ? 0x03 : 0);
-        mcmsktable[i] = i;
+        mcmsktable[i + 0x100] = (BYTE)0;
+        mcmsktable[i + 0x100] |= (BYTE)(((i >> 6) & 0x2) ? 0xc0 : 0);
+        mcmsktable[i + 0x100] |= (BYTE)(((i >> 4) & 0x2) ? 0x30 : 0);
+        mcmsktable[i + 0x100] |= (BYTE)(((i >> 2) & 0x2) ? 0x0c : 0);
+        mcmsktable[i + 0x100] |= (BYTE)((i & 0x2) ? 0x03 : 0);
+        mcmsktable[i] = (BYTE)i;
     }
 }
 
