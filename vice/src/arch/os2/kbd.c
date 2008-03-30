@@ -46,6 +46,10 @@ int  keyarr        [KBD_ROWS];
 int  rev_keyarr    [KBD_COLS];
 BYTE joystick_value[3];
 
+/* 40/80 column key.  */
+static int key_ctrl_column4080 = 0 /* NoSymbol */ ;
+static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
+
 /* ------------------------------------------------------------------------ */
 
 struct _convmap {
@@ -228,5 +232,12 @@ void kbd_clear_keymatrix(void)
     int i;
     for (i=0; i<KBD_ROWS; i++) keyarr[i]=0;
     for (i=0; i<KBD_COLS; i++) rev_keyarr[i]=0;
+}
+
+/* ------------------------------------------------------------------------ */
+
+void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
+{
+    key_ctrl_column4080_func = func;
 }
 

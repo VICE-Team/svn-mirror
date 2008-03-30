@@ -60,7 +60,6 @@ keymap_desc ViceKeymap = {
 };
 
 
-
 /* Special keycodes that have to be processed seperately: */
 #define IntKey_ShiftL	3
 #define IntKey_ShiftR	6
@@ -106,6 +105,10 @@ Joy_Keys JoystickKeys[2] = {
   {KeyJoy1_Up, KeyJoy1_Down, KeyJoy1_Left, KeyJoy1_Right, KeyJoy1_Fire},
   {KeyJoy2_Up, KeyJoy2_Down, KeyJoy2_Left, KeyJoy2_Right, KeyJoy2_Fire}
 };
+
+/* 40/80 column key.  */
+static int key_ctrl_column4080 = 0 /* NoSymbol */;
+static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
 static unsigned char last_keys[32];
 
@@ -441,4 +444,10 @@ void kbd_poll(void)
   while ((SingleTasking != 0) && (EmuPaused != 0));
 }
 
+/* ------------------------------------------------------------------------ */
+
+void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
+{
+    key_ctrl_column4080_func = func;
+}
 

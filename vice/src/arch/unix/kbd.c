@@ -60,6 +60,7 @@
 /* #define DEBUG_KBD */
 /* #define DEBUG_JOY */
 
+/* Restore key.  */
 static KeySym key_ctrl_restore1 = XK_Prior;
 #ifdef XK_Page_Up
 static KeySym key_ctrl_restore2 = XK_Page_Up;
@@ -67,10 +68,12 @@ static KeySym key_ctrl_restore2 = XK_Page_Up;
 static KeySym key_ctrl_restore2 = NoSymbol;
 #endif
 
+/* 40/80 column key.  */
+static KeySym key_ctrl_column4080 = NoSymbol;
+static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
+
 /* Joystick status */
-
 BYTE joystick_value[3] = { 0, 0, 0 };
-
 static keyconv joykeys  [2][10];
 static int joypad_status[2][10];
 
@@ -234,14 +237,14 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 
     if (key != NoSymbol
         && ((key == key_ctrl_restore1)
-            || (key == key_ctrl_restore2))) {	/* Restore */
-	int retfl = 0;
-	if (report->type == KeyPress) {
-	    retfl = machine_set_restore_key(1);
-	} else if (report->type == KeyRelease) {
-	    retfl = machine_set_restore_key(0);
-	}
-	if (retfl)
+        || (key == key_ctrl_restore2))) {   /* Restore */
+        int retfl = 0;
+        if (report->type == KeyPress) {
+            retfl = machine_set_restore_key(1);
+        } else if (report->type == KeyRelease) {
+            retfl = machine_set_restore_key(0);
+        }
+        if (retfl)
             return;
     }
 
@@ -265,15 +268,21 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
             )
             meta_count++;
 
+        if (key != NoSymbol && key == key_ctrl_column4080) {
+            if (key_ctrl_column4080_func != NULL)
+                key_ctrl_column4080_func();
+            break;
+        }
+
         if (meta_count != 0)
             break;
 
-	if (check_set_joykeys(key, 1))
+        if (check_set_joykeys(key, 1))
             break;
-	if (check_set_joykeys(key, 2))
+        if (check_set_joykeys(key, 2))
             break;
 
-	if (keyconvmap) {
+        if (keyconvmap) {
             for (i = 0; keyconvmap[i].sym != 0; ++i) {
                 if (key == keyconvmap[i].sym) {
                     int row = keyconvmap[i].row;
@@ -565,12 +574,15 @@ static void kbd_parse_entry(char *buffer)
                         if (row>=-2 && col>=0 && col<10) {
                             joykeys[-row-1][col].sym = sym;
                         } else
-			if (row == -3 && col == 0) {
-			    key_ctrl_restore1 = sym;
-			} else
-			if (row == -3 && col == 1) {
-			    key_ctrl_restore2 = sym;
-			} else {
+                        if (row == -3 && col == 0) {
+                            key_ctrl_restore1 = sym;
+                        } else
+                        if (row == -3 && col == 1) {
+                            key_ctrl_restore2 = sym;
+                        } else
+                        if (row == -4 && col == 0) {
+                            key_ctrl_column4080 = sym;
+                        } else {
                             log_error(LOG_DEFAULT,
                                       "Bad row/column value (%d/%d) for keysym `%s'.",
                                       row, col, key);
@@ -727,5 +739,12 @@ int kbd_dump_keymap(const char *filename)
         fclose(fp);
     }
     return 0;
+}
+
+/* ------------------------------------------------------------------------ */
+
+void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
+{
+    key_ctrl_column4080_func = func;
 }
 
