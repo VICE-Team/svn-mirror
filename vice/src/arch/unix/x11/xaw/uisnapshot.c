@@ -48,8 +48,10 @@
 
 #include "machine.h"
 #include "ui.h"
+#include "uiarch.h"
 #include "uisnapshot.h"
 #include "utils.h"
+
 
 static Widget snapshot_dialog;
 static Widget snapshot_dialog_pane;
@@ -301,3 +303,4 @@ void ui_snapshot_dialog(void)
     build_snapshot_dialog();
     ui_popup(snapshot_dialog, _("Save snapshot"), True);
 }
+

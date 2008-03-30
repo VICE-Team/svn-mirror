@@ -29,8 +29,10 @@
 #include <stdlib.h>
 
 #include "ui.h"
+#include "uiarch.h"
 #include "utils.h"
 #include "vsiduiunix.h"
+
 
 static char *author, *copyright, *name, *vsidsync, *model, *irq;
 static int tune;
@@ -39,15 +41,15 @@ static char *line;
 static void update_line(void)
 {
     if (line)
-	free(line);
+        free(line);
     line = xmsprintf(_("Name: %s\nTune: %d\nAuthor: %s\nCopyright: %s\n"
-		       "%s\nModel: %s\nIRQ: %s") ,
-		     name, tune,
-		     author, copyright, vsidsync, model, irq);
+                     "%s\nModel: %s\nIRQ: %s") ,
+                     name, tune,
+                     author, copyright, vsidsync, model, irq);
 }
 
 
-ui_window_t build_vsid_ctrl_widget(void) 
+ui_window_t build_vsid_ctrl_widget(void)
 {
     return NULL;
 }
@@ -55,7 +57,7 @@ ui_window_t build_vsid_ctrl_widget(void)
 void ui_vsid_setpsid(const char *psid)
 {
     if (name)
-	free(name);
+        free(name);
     name = stralloc(psid);
     update_line();
 }
@@ -69,14 +71,14 @@ void ui_vsid_settune(const int t)
 void ui_vsid_setauthor(const char *a)
 {
     if (author)
-	free(author);
+        free(author);
     author = stralloc(a);
     update_line();
 }
 void ui_vsid_setcopyright(const char *c)
 {
     if (copyright)
-	free(copyright);
+        free(copyright);
     copyright = stralloc(c);
     update_line();
 }
@@ -84,7 +86,7 @@ void ui_vsid_setcopyright(const char *c)
 void ui_vsid_setmodel(const char *c)
 {
     if (model)
-	free(model);
+        free(model);
     model = stralloc(c);
     update_line();
 }
@@ -92,7 +94,7 @@ void ui_vsid_setmodel(const char *c)
 void ui_vsid_setsync(const char *c)
 {
     if (vsidsync)
-	free(vsidsync);
+        free(vsidsync);
     vsidsync = stralloc(c);
     update_line();
 }
@@ -100,7 +102,8 @@ void ui_vsid_setsync(const char *c)
 void ui_vsid_setirq(const char *c)
 {
     if (irq)
-	free(irq);
+        free(irq);
     irq = stralloc(c);
     update_line();
 }
+

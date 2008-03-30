@@ -31,7 +31,8 @@
 #define _UIMENU_H
 
 #include "ui.h"
-#include "uihotkey.h"
+#include "uiarch.h"
+
 /* The ".." will go away once the UI stuff is separated.  */
 #include "../x11menu.h"
 

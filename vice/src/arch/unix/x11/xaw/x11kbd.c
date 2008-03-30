@@ -41,6 +41,8 @@
 #include "keyboard.h"
 #include "machine.h"
 #include "ui.h"
+#include "uiarch.h"
+
 
 void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
                        Boolean *ctd)
@@ -54,10 +56,10 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 
     switch (report->type) {
       case KeyPress:
-        x11kbd_press((ui_keysym_t)key);
+        x11kbd_press((signed long)key);
         break;
       case KeyRelease:
-        x11kbd_release((ui_keysym_t)key);
+        x11kbd_release((signed long)key);
         break;
       case EnterNotify:
       case LeaveNotify:
