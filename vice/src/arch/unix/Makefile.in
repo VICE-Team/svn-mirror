@@ -580,8 +580,8 @@ vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/utils.h ../../../src/vsync.h
 vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/attach.h types.h ../../../src/c64/c64mem.h \
-	../../../src/mem.h c64ui.h icon.h ../../../src/interrupt.h \
-	../../../src/lib.h ../../../src/log.h ../../../src/machine.h \
+	../../../src/mem.h c64ui.h icon.h ../../../src/lib.h \
+	../../../src/log.h ../../../src/machine.h \
 	../../../src/c64/psid.h ../../../src/resources.h uicommands.h \
 	uimenu.h x11/xaw/uimenu.h ui.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h x11/xaw/../x11menu.h uihotkey.h \

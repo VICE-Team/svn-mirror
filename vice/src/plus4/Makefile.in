@@ -383,9 +383,9 @@ ted-resources.o: ted-resources.c ../../src/vice.h ../../src/config.h \
 ted-snapshot.o: ted-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/log.h ../../src/mem.h \
-	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h ../../src/snapshot.h ted-irq.h \
-	ted-snapshot.h ted.h tedtypes.h ../../src/raster/raster.h \
+	../../src/snapshot.h ../../src/raster/raster-sprite-status.h \
+	../../src/raster/raster-sprite.h ted-irq.h ted-snapshot.h ted.h \
+	tedtypes.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/viewport.h
 ted-sound.o: ted-sound.c ../../src/vice.h ../../src/config.h \
 	../../src/lib.h ../../src/maincpu.h ../../src/arch/unix/types.h \

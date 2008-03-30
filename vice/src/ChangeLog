@@ -1,3 +1,53 @@
+2003-04-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.36.
+
+	* arch/win32/system.c, arch/win32/system.h: New files.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp: Updated.
+
+	* arch/win32/uicbm2set.c, arch/win32/uidatasette.c,
+	arch/win32/uidrive.c, arch/win32/uipetset.c,
+	arch/win32/uiplus4mem.c, arch/win32/uiram.c,
+	arch/win32/uisid.c, arch/win32/uisound.c,
+	arch/win32/uivicii.c, arch/win32/uivicset.c,
+	arch/win32/archdep.c, arch/win32/archdep.h: Use system file.
+
+	* debug.c: #include <string.h>
+
+	* machine.c, machine.h (machine_trigger_reset): New function.
+
+	* arch/unix/uicommands.c, arch/win32/ui.c, arch/msdos/kbd.c,
+	arch/msdos/menudefs.c, arch/os2/dialogs/dlg-reset.c,
+	arch/beos/ui.cc, arch/unix/vsidui.c, arch/riscos/kbd.c,
+	arch/riscos/ui.c, autostart.c, maincpu.c, drive/drivecpu.c,
+	c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	pet/petmem.c, plus4/plus4-resources.c, plus4/plus4.c,
+	cbm2/cbm2-resources.c, cbm2/cbm2.c, cbm2/cbm2mem.c,
+	c64/psid.c, c64/cart/c64cartmem.c: Unified hard and soft reset
+	API.
+
+	* raster/raster-sprite.c, raster/raster-sprite.h
+	(raster_sprite_init): Renamed.
+
+	* raster/raster-sprite-status.c,
+	raster/raster-sprite-status.h (raster_sprite_status_reset):
+	New function.
+
+	* vicii/vicii.c (vicii_reset_registers): Reset sprite status.
+
+2003-04-20  Markus Brenner  <markus@brenner.de>
+
+	* arch/win32/archdep.h, arch/win32/archdep.c: Added new
+	functions for custom dialog and property sheet initialization
+
+	* arch/win32/uicbm2set.c, arch/win32/uidatasette.c,
+	arch/win32/uidrive.c, arch/win32/uipetset.c,
+	arch/win32/uiplus4mem.c, arch/win32/uiram.c,
+	arch/win32/uisid.c, arch/win32/uisound.c,
+	arch/win32/uivicii.c, arch/win32/uivicset.c:
+	transparent UNICODE/char handling.
+
 2003-04-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.35.

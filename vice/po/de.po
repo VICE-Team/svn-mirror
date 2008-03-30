@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.11\n"
-"POT-Creation-Date: 2003-04-17 23:18+0200\n"
+"POT-Creation-Date: 2003-04-21 17:24+0200\n"
 "PO-Revision-Date: 2002-05-05 18:45+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -45,13 +45,13 @@ msgstr "Received signal %d."
 
 #: src/arch/unix/c128ui.c:61 src/arch/unix/c64ui.c:60
 #: src/arch/unix/cbm2ui.c:59 src/arch/unix/uited.c:42 src/arch/unix/uivic.c:41
-#: src/arch/unix/vsidui.c:123
+#: src/arch/unix/vsidui.c:122
 msgid "*PAL-G"
 msgstr "*PAL-G"
 
 #: src/arch/unix/c128ui.c:63 src/arch/unix/c64ui.c:62
 #: src/arch/unix/cbm2ui.c:61 src/arch/unix/uited.c:44 src/arch/unix/uivic.c:43
-#: src/arch/unix/vsidui.c:125
+#: src/arch/unix/vsidui.c:124
 msgid "*NTSC-M"
 msgstr "*NTSC-M"
 
@@ -228,7 +228,7 @@ msgid "VDC settings"
 msgstr "VDC Einstellungen"
 
 #: src/arch/unix/c128ui.c:346 src/arch/unix/c64ui.c:327
-#: src/arch/unix/cbm2ui.c:373 src/arch/unix/vsidui.c:173
+#: src/arch/unix/cbm2ui.c:373 src/arch/unix/vsidui.c:172
 msgid "SID settings"
 msgstr "SID Einstellungen"
 
@@ -249,7 +249,7 @@ msgstr "Einstellungen Laden"
 #: src/arch/unix/c128ui.c:410 src/arch/unix/c64ui.c:388
 #: src/arch/unix/cbm2ui.c:455 src/arch/unix/petui.c:380
 #: src/arch/unix/plus4ui.c:147 src/arch/unix/vic20ui.c:470
-#: src/arch/unix/vsidui.c:257
+#: src/arch/unix/vsidui.c:256
 msgid "File"
 msgstr "Datei"
 
@@ -268,7 +268,7 @@ msgstr "Optionen"
 #: src/arch/unix/c128ui.c:447 src/arch/unix/c64ui.c:425
 #: src/arch/unix/cbm2ui.c:488 src/arch/unix/petui.c:411
 #: src/arch/unix/plus4ui.c:178 src/arch/unix/vic20ui.c:501
-#: src/arch/unix/vsidui.c:270 src/arch/unix/x11/gnome/x11ui.c:1112
+#: src/arch/unix/vsidui.c:269 src/arch/unix/x11/gnome/x11ui.c:1112
 #: src/arch/unix/x11/gnome/x11ui.c:1204
 msgid "Settings"
 msgstr "Einstellungen"
@@ -281,7 +281,7 @@ msgstr "Einstellungen"
 msgid "RJHelp"
 msgstr "RJHilfe"
 
-#: src/arch/unix/c64ui.c:64 src/arch/unix/vsidui.c:127
+#: src/arch/unix/c64ui.c:64 src/arch/unix/vsidui.c:126
 msgid "*Old NTSC-M"
 msgstr "*NTSC-M alt"
 
@@ -2071,7 +2071,7 @@ msgstr "Unterbrechungs Zeit"
 msgid "Oversample"
 msgstr "Oversample"
 
-#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:163
+#: src/arch/unix/uisound.c:138 src/arch/unix/vsidui.c:162
 msgid "Sound settings"
 msgstr "Sound Einstellungen"
 
@@ -2118,7 +2118,7 @@ msgid "Revision"
 msgstr "Revision"
 
 #: src/arch/unix/uivic.c:131 src/arch/unix/uivicii.c:140
-#: src/arch/unix/vsidui.c:175
+#: src/arch/unix/vsidui.c:174
 msgid "Video standard"
 msgstr "Video Standard"
 
@@ -2259,37 +2259,37 @@ msgstr "Erweiterungsmodul Image(s) entfernen"
 msgid "VIC settings"
 msgstr "VIC Einstellungen"
 
-#: src/arch/unix/vsidui.c:67
+#: src/arch/unix/vsidui.c:66
 msgid "Tunes"
 msgstr "Tunes"
 
-#: src/arch/unix/vsidui.c:77
+#: src/arch/unix/vsidui.c:76
 msgid "Load PSID file"
 msgstr "PSID Datei Laden"
 
-#: src/arch/unix/vsidui.c:85
+#: src/arch/unix/vsidui.c:84
 #, c-format
 msgid "`%s' is not a valid PSID file."
 msgstr "`%s' ist keine gültige PSID Datei."
 
-#: src/arch/unix/vsidui.c:111
+#: src/arch/unix/vsidui.c:110
 msgid "Load PSID file..."
 msgstr "PSID Datei Laden..."
 
-#: src/arch/unix/vsidui.c:171
+#: src/arch/unix/vsidui.c:170
 msgid "*Override PSID settings"
 msgstr "*PSID Einstellungen ignorieren"
 
-#: src/arch/unix/vsidui.c:194
+#: src/arch/unix/vsidui.c:193
 msgid "*Default Tune"
 msgstr "*Default Tune"
 
-#: src/arch/unix/vsidui.c:217
+#: src/arch/unix/vsidui.c:216
 #, c-format
 msgid "*Tune %d"
 msgstr "*Tune %d"
 
-#: src/arch/unix/vsidui.c:287
+#: src/arch/unix/vsidui.c:286
 msgid "VSID: The SID Emulator"
 msgstr "VSID: DER SID Emulator"
 

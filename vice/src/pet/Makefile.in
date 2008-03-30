@@ -306,10 +306,10 @@ petiec.o: petiec.c ../../src/vice.h ../../src/config.h \
 	../../src/iecdrive.h ../../src/log.h petiec.h
 petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc-mem.h ../../src/arch/unix/types.h \
-	../../src/emuid.h ../../src/interrupt.h ../../src/log.h \
-	../../src/maincpu.h ../../src/mem.h ../../src/monitor.h pet.h \
-	petacia.h petmem.h petpia.h pets.h petvia.h ../../src/ram.h \
-	../../src/resources.h ../../src/utils.h ../../src/vsync.h
+	../../src/emuid.h ../../src/log.h ../../src/machine.h \
+	../../src/mem.h ../../src/monitor.h pet.h petacia.h petmem.h \
+	petpia.h pets.h petvia.h ../../src/ram.h ../../src/resources.h \
+	../../src/utils.h ../../src/vsync.h
 petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
 	../../src/cmdline.h ../../src/crtc/crtc.h \
 	../../src/arch/unix/types.h ../../src/datasette.h \

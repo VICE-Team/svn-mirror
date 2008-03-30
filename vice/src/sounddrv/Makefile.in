@@ -278,6 +278,9 @@ sounddummy.o: sounddummy.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h
 sounddump.o: sounddump.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h
+sounddx.o: sounddx.c ../../src/vice.h ../../src/config.h ../../src/lib.h \
+	../../src/sound.h ../../src/arch/win32/types.h \
+	../../src/arch/win32/ui.h ../../src/uiapi.h
 soundesd.o: soundesd.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h
 soundfs.o: soundfs.c ../../src/vice.h ../../src/config.h \
@@ -290,6 +293,9 @@ sounduss.o: sounduss.c ../../src/vice.h ../../src/config.h \
 soundwav.o: soundwav.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h
+soundwmm.o: soundwmm.c ../../src/vice.h ../../src/config.h \
+	../../src/lib.h ../../src/sound.h ../../src/arch/win32/types.h \
+	../../src/arch/win32/ui.h ../../src/uiapi.h
 
 info-am:
 info: info-am

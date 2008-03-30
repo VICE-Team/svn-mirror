@@ -326,10 +326,10 @@ cbm2mem.o: cbm2mem.c ../../src/vice.h ../../src/config.h \
 	../../src/cartridge.h ../../src/arch/unix/types.h \
 	cbm2-resources.h cbm2.h cbm2acia.h cbm2cia.h cbm2mem.h \
 	cbm2tpi.h ../../src/crtc/crtc-mem.h ../../src/crtc/crtc.h \
-	../../src/emuid.h ../../src/interrupt.h ../../src/kbdbuf.h \
-	../../src/maincpu.h ../../src/mem.h ../../src/monitor.h \
-	../../src/ram.h ../../src/resources.h ../../src/sid/sid.h \
-	../../src/utils.h ../../src/vsync.h ../../src/vicii/vicii-mem.h \
+	../../src/emuid.h ../../src/kbdbuf.h ../../src/machine.h \
+	../../src/mem.h ../../src/monitor.h ../../src/ram.h \
+	../../src/resources.h ../../src/sid/sid.h ../../src/utils.h \
+	../../src/vsync.h ../../src/vicii/vicii-mem.h \
 	../../src/vicii/vicii-phi1.h ../../src/vicii/vicii.h
 cbm2rom.o: cbm2rom.c ../../src/vice.h ../../src/config.h \
 	../../src/autostart.h ../../src/arch/unix/types.h cbm2.h \
