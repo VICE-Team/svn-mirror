@@ -65,12 +65,17 @@ static int set_sid_engine(resource_value_t v, void *param)
 #ifdef HAVE_CATWEASELMKIII
         && engine != SID_ENGINE_CATWEASELMKIII
 #endif
+#ifdef HAVE_HARDSID
+        && engine != SID_ENGINE_HARDSID
+#endif
         )
+        return -1;
+
+    if (sid_engine_set(engine) < 0)
         return -1;
 
     sid_engine = engine;
 
-    sid_engine_set(engine);
     sound_state_changed = 1;
 
     return 0;

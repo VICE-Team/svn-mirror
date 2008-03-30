@@ -32,7 +32,9 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "catweaselmkiii.h"
 #include "fastsid.h"
+#include "hardsid.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
@@ -48,10 +50,6 @@
 
 #ifdef HAVE_RESID
 #include "resid.h"
-#endif
-
-#ifdef HAVE_CATWEASELMKIII
-#include "catweaselmkiii.h"
 #endif
 
 
@@ -273,6 +271,10 @@ int sound_machine_cycle_based(void)
       case SID_ENGINE_CATWEASELMKIII:
         return 0;
 #endif
+#ifdef HAVE_HARDSID
+      case SID_ENGINE_HARDSID:
+        return 0;
+#endif
     }
 
     return 0;
@@ -304,6 +306,12 @@ static void set_sound_func(void)
             sid_store_func = catweaselmkiii_store;
         }
 #endif
+#ifdef HAVE_HARDSID
+        if (sid_engine_type == SID_ENGINE_HARDSID) {
+            sid_read_func = hardsid_read;
+            sid_store_func = hardsid_store;
+        }
+#endif
     } else {
         sid_read_func = sid_read_off;
         sid_store_func = sid_write_off;
@@ -317,21 +325,34 @@ void sound_machine_enable(int enable)
     set_sound_func();
 }
 
-void sid_engine_set(int engine)
+int sid_engine_set(int engine)
 {
 #ifdef HAVE_CATWEASELMKIII
     if (engine == SID_ENGINE_CATWEASELMKIII
-        && sid_engine_type != SID_ENGINE_CATWEASELMKIII)
-        catweaselmkiii_open();
-
+        && sid_engine_type != SID_ENGINE_CATWEASELMKIII) {
+        if (catweaselmkiii_open() < 0)
+            return -1;
+    }
     if (engine != SID_ENGINE_CATWEASELMKIII
         && sid_engine_type == SID_ENGINE_CATWEASELMKIII)
         catweaselmkiii_close();
+#endif
+#ifdef HAVE_HARDSID
+    if (engine == SID_ENGINE_HARDSID
+        && sid_engine_type != SID_ENGINE_HARDSID) {
+        if (hardsid_open() < 0)
+            return -1;
+    }
+    if (engine != SID_ENGINE_HARDSID
+        && sid_engine_type == SID_ENGINE_HARDSID)
+        hardsid_close();
 #endif
 
     sid_engine_type = engine;
 
     set_sound_func();
+
+    return 0;
 }
 
 void sid_state_read(unsigned int channel, sid_snapshot_state_t *sid_state)

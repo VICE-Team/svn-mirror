@@ -35,6 +35,7 @@ struct sid_snapshot_state_s;
 #define SID_ENGINE_FASTSID        0
 #define SID_ENGINE_RESID          1
 #define SID_ENGINE_CATWEASELMKIII 2
+#define SID_ENGINE_HARDSID        3
 
 extern BYTE REGPARM1 sid_read(WORD address);
 extern BYTE REGPARM1 sid2_read(WORD address);
@@ -43,7 +44,7 @@ extern void REGPARM2 sid2_store(WORD address, BYTE byte);
 extern void sid_reset(void);
 
 extern BYTE *sid_get_siddata(unsigned int channel);
-extern void sid_engine_set(int engine);
+extern int sid_engine_set(int engine);
 extern void sid_state_read(unsigned int channel,
                            struct sid_snapshot_state_s *sid_state);
 extern void sid_state_write(unsigned int channel,
