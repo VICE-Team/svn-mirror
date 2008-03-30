@@ -67,10 +67,11 @@ static void enable_acia_controls(HWND hwnd)
         acia_interrupt = 1;
 
     if (support_enable != 0) {
-        if (IsDlgButtonChecked(hwnd, IDC_ACIA_ENABLE) != BST_CHECKED)
+        if (IsDlgButtonChecked(hwnd, IDC_ACIA_ENABLE) != BST_CHECKED) {
             acia_location = 0;
             acia_device = 0;
             acia_interrupt = 0;
+        }
     }
 
     EnableWindow(GetDlgItem(hwnd, IDC_ACIA_ENABLE), acia_enable);

@@ -7,6 +7,7 @@
 #include "resacia.rc"
 #include "reside64.rc"
 #include "resreu.rc"
+#include "resrs232user.rc"
 #include "ressid.rc"
 #include "resvicii.rc"
 
@@ -233,6 +234,7 @@ BEGIN
             MENUITEM "&Ethernet settings...", IDM_TFE_SETTINGS
 #endif
             MENUITEM "&ACIA settings...",     IDM_ACIA_SETTINGS
+            MENUITEM "RS&232 userport settings...", IDM_RS232USER_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings", IDM_SETTINGS_SAVE

@@ -8,6 +8,7 @@
 #include "resdrivec64vic20.rc"
 #include "reside64.rc"
 #include "resreu.rc"
+#include "resrs232user.rc"
 #include "ressid.rc"
 #include "resvicii.rc"
 
@@ -210,7 +211,7 @@ BEGIN
         MENUITEM "S&ID settings...",       IDM_SID_SETTINGS
         MENUITEM "&ROM settings...",       IDM_ROM_SETTINGS
         MENUITEM "RA&M settings...",       IDM_RAM_SETTINGS
-        POPUP "&Cartridge/IO Settings"
+        POPUP "&Cartridge/IO settings"
         BEGIN
             MENUITEM "&REU settings...",      IDM_REU_SETTINGS
             MENUITEM "&IDE64 settings...",    IDM_IDE64_SETTINGS
@@ -218,6 +219,7 @@ BEGIN
             MENUITEM "&Ethernet settings...", IDM_TFE_SETTINGS
 #endif
             MENUITEM "&ACIA settings...",     IDM_ACIA_SETTINGS
+            MENUITEM "RS&232 userport settings...", IDM_RS232USER_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings", IDM_SETTINGS_SAVE

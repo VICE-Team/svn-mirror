@@ -558,6 +558,10 @@
 #define IDC_ACIA_LOCATION               1953
 #define IDC_ACIA_INTERRUPT              1954
 
+#define IDD_RS232USER_SETTINGS_DIALOG   1960
+#define IDC_RS232USER_ENABLE            1961
+#define IDC_RS232USER_DEVICE            1962
+#define IDC_RS232USER_BAUDRATE          1963
  
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
@@ -726,6 +730,7 @@
 #define IDM_ROM_SETTINGS                40226
 #define IDM_IDE64_SETTINGS              40227
 #define IDM_ACIA_SETTINGS               40228
+#define IDM_RS232USER_SETTINGS          40229
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001
