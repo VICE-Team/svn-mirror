@@ -69,7 +69,7 @@ static BYTE acia_last_read = 0;  /* the byte read the last time (for RMW) */
 static CLOCK acia_alarm_clk = 0;
 
 static int acia_device;
-static int acia_irq;
+static int acia_irq = IK_NONE;
 static int acia_irq_res;
 
 static int acia_set_device(resource_value_t v, void *param)
@@ -81,6 +81,14 @@ static int acia_set_device(resource_value_t v, void *param)
     }
     acia_device = (int) v;
     return 0;
+}
+
+static void acia_set_int(int aciairq, unsigned int int_num, int value)
+{
+    if (aciairq == IK_IRQ)
+        mycpu_set_irq(int_num, value);
+    if (aciairq == IK_NMI)
+        mycpu_set_nmi(int_num, value);
 }
 
 static int acia_set_irq(resource_value_t v, void *param)
@@ -95,9 +103,9 @@ static int acia_set_irq(resource_value_t v, void *param)
     new_irq = irq_tab[new_irq_res];
 
     if (acia_irq != new_irq) {
-        mycpu_set_int(acia_int_num, IK_NONE);
+        acia_set_int(acia_irq, acia_int_num, IK_NONE);
         if (irq) {
-            mycpu_set_int(acia_int_num, new_irq);
+            acia_set_int(new_irq, acia_int_num, new_irq);
         }
     }
     acia_irq = new_irq;
@@ -177,7 +185,7 @@ void myacia_reset(void)
     alarm_unset(acia_alarm);
     alarm_active = 0;
 
-    mycpu_set_int(acia_int_num, 0);
+    acia_set_int(acia_irq, acia_int_num, 0);
     irq = 0;
 }
 
@@ -338,7 +346,7 @@ void REGPARM2 myacia_store(WORD a, BYTE b)
         status &= ~4;
         cmd &= 0xe0;
         intx = 0;
-        mycpu_set_int(acia_int_num, 0);
+        acia_set_int(acia_irq, acia_int_num, 0);
         irq = 0;
         alarm_unset(acia_alarm);
         alarm_active = 0;
@@ -391,7 +399,7 @@ BYTE myacia_read_(WORD a)
       case ACIA_SR:
         {
             BYTE c = status | (irq ? 0x80 : 0);
-            mycpu_set_int(acia_int_num, 0);
+            acia_set_int(acia_irq, acia_int_num, 0);
             irq = 0;
             acia_last_read = c;
             return c;
@@ -444,7 +452,7 @@ static void int_acia(CLOCK offset)
     }
 
     if ((rxirq && (!(cmd & 0x02))) || ((cmd & 0x0c) == 0x04) ) {
-        mycpu_set_int(acia_int_num, acia_irq);
+        acia_set_int(acia_irq, acia_int_num, acia_irq);
         irq = 1;
     }
 
