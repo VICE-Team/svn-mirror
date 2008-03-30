@@ -290,7 +290,7 @@ static void mydrive_mem_init(int type)
     }
 
     /* Setup firmware ROM.  */
-    if (type == DRIVE_TYPE_1541)
+    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_2031)
         for (i = 0x30; i < 0x40; i++)
             read_func_nowatch[i] = mydrive_read_rom;
 
@@ -311,7 +311,8 @@ static void mydrive_mem_init(int type)
         }
 
     /* Setup 1541 and 1571 VIAs.  */
-    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1571) {
+    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1571
+        || type == DRIVE_TYPE_2031) {
         read_func_nowatch[0x6] = read_myvia1;
         store_func_nowatch[0x6] = store_myvia1;
         read_func_nowatch[0x7] = read_myvia2;
@@ -559,7 +560,8 @@ int mydrive_cpu_write_snapshot_module(snapshot_t *s)
         goto fail;
 
     if (drive[mynumber].type == DRIVE_TYPE_1541
-        || drive[mynumber].type == DRIVE_TYPE_1571) {
+        || drive[mynumber].type == DRIVE_TYPE_1571
+        || drive[mynumber].type == DRIVE_TYPE_2031) {
         if (snapshot_module_write_byte_array(m, mydrive_ram, 0x800) < 0)
             goto fail;
     }
@@ -617,7 +619,8 @@ int mydrive_cpu_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     if (drive[mynumber].type == DRIVE_TYPE_1541
-        || drive[mynumber].type == DRIVE_TYPE_1571) {
+        || drive[mynumber].type == DRIVE_TYPE_1571
+        || drive[mynumber].type == DRIVE_TYPE_2031) {
         if (snapshot_module_read_byte_array(m, mydrive_ram, 0x800) < 0)
             goto fail;
     }

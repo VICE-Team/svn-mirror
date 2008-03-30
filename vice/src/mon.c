@@ -216,6 +216,10 @@ struct mon_cmds mon_cmd_array[] = {
      "If bankname is given set the current bank in the memspace to the given\n"
      "bank." },
 
+   { "bload", 		"bl", 	CMD_BLOAD, 		STATE_FNAME,
+     "\"<filename>\" <address>",
+     "Load the specified file into memory at the specified address."},
+
    { "br", 		"", 	CMD_BLOCK_READ, 	STATE_INITIAL,
      "<track> <sector> [<address>]",
      "Read the block at the specified track and sector.  If an address is\n"
@@ -231,6 +235,10 @@ struct mon_cmds mon_cmd_array[] = {
      "the CONDITION command."   },
 
    { "brmon", 		"", 	CMD_BRMON, 		STATE_INITIAL },
+
+   { "bsave", 		"bs", 	CMD_BSAVE, 		STATE_FNAME,
+     "\"<filename>\" <address1> <address2>",
+     "Save the memory from address1 to address2 to the specified file." },
 
    { "bw", 		"", 	CMD_BLOCK_WRITE, 	STATE_INITIAL,
      "<track> <sector> <address>",
@@ -327,7 +335,9 @@ struct mon_cmds mon_cmd_array[] = {
 
    { "load", 		"l", 	CMD_LOAD, 		STATE_FNAME,
      "\"<filename>\" <address>",
-     "Load the specified file into memory at the specified address."},
+     "Load the specified file into memory at the specified address. Set BASIC\n"
+     "pointers appropriately (not all emulators). Use (otherwise ignored)\n"
+     "two-byte load address from file if no address specified."},
 
    { "load_labels", 	"ll", 	CMD_LOAD_LABELS, 	STATE_FNAME,
      "[<memspace>] \"<filename>\"",
@@ -398,7 +408,8 @@ struct mon_cmds mon_cmd_array[] = {
 
    { "save", 		"s", 	CMD_SAVE, 		STATE_FNAME,
      "\"<filename>\" <address1> <address2>",
-     "Save the memory from address1 to address2 to the specified file." },
+     "Save the memory from address1 to address2 to the specified file. Write\n"
+     "two-byte load address." },
 
    { "save_labels", 	"sl", 	CMD_SAVE_LABELS, 	STATE_FNAME,
      "[<memspace>] \"<filename>\"",
@@ -1462,6 +1473,37 @@ void mon_load_file(char *filename, MON_ADDR start_addr)
     fclose(fp);
 }
 
+void mon_bload_file(char *filename, MON_ADDR start_addr)
+{
+    FILE   *fp;
+    ADDRESS adr;
+    int     b1, b2;
+    int     ch;
+
+    if (NULL == (fp = fopen(filename, READ))) {
+	perror(filename);
+	fprintf(mon_output, "Loading failed.\n");
+	return;
+    }
+
+    evaluate_default_addr(&start_addr);
+    if (!is_valid_addr(start_addr)) {	/* No Load address given */
+	perror(filename);
+	fprintf(mon_output, "No LOAD address given.\n");
+	return;
+    }
+    adr = addr_location(start_addr);
+
+    fprintf(mon_output, "Loading %s", filename);
+    fprintf(mon_output, " from %04X\n", adr);
+
+    /* FIXME - check for wraparound */
+    ch = fread (ram + adr, 1, ram_size - adr, fp);
+    fprintf(mon_output, "%x bytes\n", ch);
+
+    fclose(fp);
+}
+
 void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr)
 {
    FILE   *fp;
@@ -1484,6 +1526,36 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr)
 	printf("Saving file `%s'...\n", filename);
 	fputc((BYTE) adr & 0xff, fp);
 	fputc((BYTE) (adr >> 8) & 0xff, fp);
+        if (end < adr) {
+	   fwrite((char *) (ram + adr), 1, ram_size-adr, fp);
+	   fwrite((char *) ram, 1, end, fp);
+        } else
+	   fwrite((char *) (ram + adr), 1, len, fp);
+
+	fclose(fp);
+   }
+}
+
+void mon_bsave_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr)
+{
+   FILE   *fp;
+   ADDRESS adr, end;
+   long len;
+
+   len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
+   if (len < 0) {
+      fprintf(mon_output, "Invalid range.\n");
+      return;
+   }
+
+   adr = addr_location(start_addr);
+   end = addr_location(end_addr);
+
+   if (NULL == (fp = fopen(filename, WRITE))) {
+	perror(filename);
+	fprintf(mon_output, "Saving failed.\n");
+   } else {
+	printf("Saving file `%s'...\n", filename);
         if (end < adr) {
 	   fwrite((char *) (ram + adr), 1, ram_size-adr, fp);
 	   fwrite((char *) ram, 1, end, fp);

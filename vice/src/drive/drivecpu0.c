@@ -1,7 +1,7 @@
 
 /*
- * ../../src/drive/drivecpu0.c
- * This file is generated from ../../src/drive/drivecpu-tmpl.c and ../../src/drive/drivecpu0.def,
+ * ../../../src/drive/drivecpu0.c
+ * This file is generated from ../../../src/drive/drivecpu-tmpl.c and ../../../src/drive/drivecpu0.def,
  * Do not edit!
  */
 /*
@@ -296,7 +296,7 @@ static void drive0_mem_init(int type)
     }
 
     /* Setup firmware ROM.  */
-    if (type == DRIVE_TYPE_1541)
+    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_2031)
         for (i = 0x30; i < 0x40; i++)
             read_func_nowatch[i] = drive0_read_rom;
 
@@ -317,7 +317,8 @@ static void drive0_mem_init(int type)
         }
 
     /* Setup 1541 and 1571 VIAs.  */
-    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1571) {
+    if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1571
+        || type == DRIVE_TYPE_2031) {
         read_func_nowatch[0x6] = read_via1d0;
         store_func_nowatch[0x6] = store_via1d0;
         read_func_nowatch[0x7] = read_via2d0;
@@ -565,7 +566,8 @@ int drive0_cpu_write_snapshot_module(snapshot_t *s)
         goto fail;
 
     if (drive[0].type == DRIVE_TYPE_1541
-        || drive[0].type == DRIVE_TYPE_1571) {
+        || drive[0].type == DRIVE_TYPE_1571
+        || drive[0].type == DRIVE_TYPE_2031) {
         if (snapshot_module_write_byte_array(m, drive0_ram, 0x800) < 0)
             goto fail;
     }
@@ -623,7 +625,8 @@ int drive0_cpu_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     if (drive[0].type == DRIVE_TYPE_1541
-        || drive[0].type == DRIVE_TYPE_1571) {
+        || drive[0].type == DRIVE_TYPE_1571
+        || drive[0].type == DRIVE_TYPE_2031) {
         if (snapshot_module_read_byte_array(m, drive0_ram, 0x800) < 0)
             goto fail;
     }

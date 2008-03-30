@@ -20,6 +20,7 @@ noinst_LIBRARIES = libc64.a libc64c128.a
 libc64_a_SOURCES = \
 	c64.c \
 	c64.h \
+	c64cart.h \
 	c64cia.h \
 	c64cia1.c \
 	c64cia1.def \

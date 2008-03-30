@@ -89,6 +89,7 @@ extern int cur_len, last_len;
 %token<i> CMD_LOAD_LABELS CMD_SAVE_LABELS CMD_ADD_LABEL CMD_DEL_LABEL CMD_SHOW_LABELS
 %token<i> CMD_RECORD CMD_STOP CMD_PLAYBACK CMD_CHAR_DISPLAY CMD_SPRITE_DISPLAY
 %token<i> CMD_TEXT_DISPLAY CMD_ENTER_DATA CMD_ENTER_BIN_DATA
+%token<i> CMD_BLOAD CMD_BSAVE
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<str> STRING FILENAME R_O_L OPCODE LABEL BANKNAME
 %token<reg> REGISTER
@@ -247,7 +248,9 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd 	{ mon_execute_disk_command($2
                   ;
 
 disk_rules: CMD_LOAD filename address end_cmd 			{ mon_load_file($2,$3); }
+          | CMD_BLOAD filename address end_cmd 			{ mon_bload_file($2,$3); }
           | CMD_SAVE filename address address end_cmd 		{ mon_save_file($2,$3,$4); }
+          | CMD_BSAVE filename address address end_cmd 		{ mon_bsave_file($2,$3,$4); }
           | CMD_VERIFY filename address end_cmd 		{ mon_verify_file($2,$3); }
           | CMD_BLOCK_READ expression expression opt_address end_cmd	{ mon_block_cmd(0,$2,$3,$4); }
           | CMD_BLOCK_WRITE expression expression address end_cmd	{ mon_block_cmd(1,$2,$3,$4); }

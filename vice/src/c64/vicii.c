@@ -67,6 +67,7 @@
 
 #include "vicii.h"
 
+#include "c64cart.h"
 #include "c64cia.h"
 #include "cmdline.h"
 #include "interrupt.h"
@@ -2206,6 +2207,10 @@ int int_rasterfetch(long offset)
 			BYTE *src = bank + (*spr_base << 6);
 			BYTE *dest = (BYTE *)(new_sprite_data + i);
 			int memptr = sprites[i].memptr;
+
+			if (ultimax && *spr_base >= 0xc0)
+                            src = (romh_banks + 0x1000 + (romh_bank << 13)
+                                   + ((*spr_base - 0xc0) << 6));
 
 			dest[0] = src[memptr];
 			dest[1] = src[++memptr & 0x3f];

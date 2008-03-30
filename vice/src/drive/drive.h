@@ -155,6 +155,7 @@
 #define DRIVE_TYPE_1541	1541
 #define DRIVE_TYPE_1571	1571
 #define DRIVE_TYPE_1581 1581
+#define DRIVE_TYPE_2031 2031
 
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */

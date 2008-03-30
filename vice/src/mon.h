@@ -269,7 +269,9 @@ extern void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR 
 extern void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data);
 extern void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data);
 extern void mon_load_file(char *filename, MON_ADDR start_addr);
+extern void mon_bload_file(char *filename, MON_ADDR start_addr);
 extern void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr);
+extern void mon_bsave_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr);
 extern void mon_verify_file(char *filename, MON_ADDR start_addr);
 extern void mon_instructions_step(int count);
 extern void mon_instructions_next(int count);

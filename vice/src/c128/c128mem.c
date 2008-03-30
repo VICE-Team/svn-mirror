@@ -55,6 +55,7 @@
 #include "emuid.h"
 #include "rs232.h"
 #include "snapshot.h"
+#include "../c64/c64cart.h"
 #include "../c64/vicii.h"
 
 #ifdef HAVE_RS232
@@ -324,6 +325,16 @@ static BYTE biostab[] = {
 
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
+
+/* Cartridge memory interface.  FIXME: Not implemented yet.  */
+/* Exansion port ROML/ROMH images.  */
+BYTE roml_banks[1], romh_banks[1];
+
+/* Expansion port ROML/ROMH/RAM banking.  */
+int roml_bank, romh_bank, export_ram;
+
+/* Flag: Ultimax (VIC-10) memory configuration enabled.  */
+int ultimax = 0;
 
 /* ------------------------------------------------------------------------- */
 

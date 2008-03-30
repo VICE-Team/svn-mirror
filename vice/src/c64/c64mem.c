@@ -33,6 +33,7 @@
 
 #include <stdio.h>
 
+#include "c64cart.h"
 #include "c64cia.h"
 #include "c64mem.h"
 #include "c64tpi.h"
@@ -327,7 +328,7 @@ BYTE roml_banks[0x8000], romh_banks[0x8000];
 BYTE export_ram0[0x2000];
 
 /* Expansion port ROML/ROMH/RAM banking.  */
-static int roml_bank, romh_bank, export_ram;
+int roml_bank, romh_bank, export_ram;
 
 /* Flag: Ultimax (VIC-10) memory configuration enabled.  */
 int ultimax = 0;

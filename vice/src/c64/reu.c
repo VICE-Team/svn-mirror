@@ -319,7 +319,6 @@ static char snap_module_name[] = "REU1764";
 int reu_write_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
-    int enabled;
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
     if (m == NULL)
