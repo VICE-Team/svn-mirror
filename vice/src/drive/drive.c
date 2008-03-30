@@ -365,8 +365,10 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     drive_cpu_init(&drive1_context, drive[1].type);
 
     /* Make sure the sync factor is acknowledged correctly.  */
-    resources_get_value("VideoStandard", (resource_value_t *)&sync_factor);
-    resources_set_value("VideoStandard", (resource_value_t)sync_factor);
+    resources_get_value("MachineVideoStandard",
+                        (resource_value_t *)&sync_factor);
+    resources_set_value("MachineVideoStandard",
+                        (resource_value_t)sync_factor);
 
     /* Make sure the traps are moved as needed.  */
     if (drive[0].enable)
@@ -461,8 +463,10 @@ int drive_set_disk_drive_type(unsigned int type, unsigned int dnr)
     drive[dnr].type = type;
     drive[dnr].side = 0;
     drive_rom_setup_image(dnr);
-    resources_get_value("VideoStandard", (resource_value_t *)&sync_factor);
-    resources_set_value("VideoStandard", (resource_value_t)sync_factor);
+    resources_get_value("MachineVideoStandard",
+                        (resource_value_t *)&sync_factor);
+    resources_set_value("MachineVideoStandard",
+                        (resource_value_t)sync_factor);
     drive_set_active_led_color(type, dnr);
 
     if (dnr == 0)
@@ -1312,8 +1316,10 @@ void drive_set_1571_sync_factor(int new_sync, unsigned int dnr)
             drive_rotate_disk(&drive[dnr]);
         initialize_rotation(new_sync ? 1 : 0, dnr);
         drive[dnr].clock_frequency = (new_sync) ? 2 : 1;
-        resources_get_value("VideoStandard", (resource_value_t *)&sync_factor);
-        resources_set_value("VideoStandard", (resource_value_t)sync_factor);
+        resources_get_value("MachineVideoStandard",
+                             (resource_value_t *)&sync_factor);
+        resources_set_value("MachineVideoStandard",
+                            (resource_value_t)sync_factor);
     }
 }
 
@@ -1367,9 +1373,9 @@ void drive_vsync_hook(void)
 {
     drive_update_ui_status();
     if (drive[0].idling_method != DRIVE_IDLE_SKIP_CYCLES && drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(maincpu_clk);
     if (drive[1].idling_method != DRIVE_IDLE_SKIP_CYCLES && drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(maincpu_clk);
     wd1770_vsync_hook();
 }
 

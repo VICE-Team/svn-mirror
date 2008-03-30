@@ -304,7 +304,7 @@ void drive_toggle_watchpoints(drive_context_t *drv, int flag)
 
 void drive_cpu_reset_clk(drive_context_t *drv)
 {
-    drv->cpu.last_clk = clk;
+    drv->cpu.last_clk = maincpu_clk;
     drv->cpu.last_exc_cycles = 0;
 }
 
@@ -360,9 +360,10 @@ inline void drive_cpu_wake_up(drive_context_t *drv)
 {
     /* FIXME: this value could break some programs, or be way too high for
        others.  Maybe we should put it into a user-definable resource.  */
-    if (clk - drv->cpu.last_clk > 0xffffff && *(drv->clk_ptr) > 934639) {
+    if (maincpu_clk - drv->cpu.last_clk > 0xffffff
+        && *(drv->clk_ptr) > 934639) {
         log_message(drv->drive_ptr->log, "Skipping cycles.");
-        drv->cpu.last_clk = clk;
+        drv->cpu.last_clk = maincpu_clk;
     }
 }
 
@@ -382,13 +383,13 @@ CLOCK drive_cpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
             if (drv->cpu.last_clk < sub) {
                 /* Hm, this is kludgy.  :-(  */
                 if (drive[0].enable)
-                    drive0_cpu_execute(clk + sub);
+                    drive0_cpu_execute(maincpu_clk + sub);
                 if (drive[1].enable)
-                    drive1_cpu_execute(clk + sub);
+                    drive1_cpu_execute(maincpu_clk + sub);
             }
             drv->cpu.last_clk -= sub;
         } else {
-            drv->cpu.last_clk = clk;
+            drv->cpu.last_clk = maincpu_clk;
         }
     }
 
