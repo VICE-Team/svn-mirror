@@ -2,13 +2,11 @@
  * zfile.c - Transparent handling of compressed files.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
- *
- * BZIP v2 support added by
- *  Andreas Boose (boose@rzgw.rz.fh-hannover.de)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * ARCHIVE, ZIPCODE and LYNX supports added by
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -53,6 +51,7 @@
 #include <errno.h>
 #endif
 
+#include "archdep.h"
 #include "log.h"
 #include "utils.h"
 #include "zfile.h"
@@ -210,7 +209,7 @@ static char *try_uncompress_with_gzip(const char *name)
 
     ZDEBUG(("try_uncompress_with_gzip: spawning gzip -cd %s", name));
     tmpnam(tmp_name);
-    exit_status = spawn("gzip", argv, tmp_name, NULL);
+    exit_status = archdep_spawn("gzip", argv, tmp_name, NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -251,7 +250,7 @@ static char *try_uncompress_with_bzip(const char *name)
 
     ZDEBUG(("try_uncompress_with_bzip: spawning bzip -cd %s", name));
     tmpnam(tmp_name);
-    exit_status = spawn("bzip2", argv, tmp_name, NULL);
+    exit_status = archdep_spawn("bzip2", argv, tmp_name, NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -342,7 +341,7 @@ static const char *try_uncompress_archive(const char *name, int write_mode,
     ZDEBUG(("try_uncompress_archive: spawning `%d %s %s'",
 	    program, listopts, name));
     tmpnam(tmp_name);
-    exit_status = spawn(program, argv, tmp_name, NULL);
+    exit_status = archdep_spawn(program, argv, tmp_name, NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -426,7 +425,7 @@ static const char *try_uncompress_archive(const char *name, int write_mode,
 
     ZDEBUG(("try_uncompress_archive: spawning `%s %s %s %s'.",
 	    program, extractopts, name, tmp + nameoffset));
-    exit_status = spawn(program, argv, tmp_name, NULL);
+    exit_status = archdep_spawn(program, argv, tmp_name, NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -499,7 +498,7 @@ static const char *try_uncompress_zipcode(const char *name, int write_mode)
     argv[3] = stralloc(name);
     argv[4] = NULL;
 
-    exit_status = spawn(C1541_NAME, argv, NULL, NULL);
+    exit_status = archdep_spawn(C1541_NAME, argv, NULL, NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -589,7 +588,7 @@ static const char *try_uncompress_lynx(const char *name, int write_mode)
     argv[6] = stralloc(name);
     argv[7] = NULL;
 
-    exit_status = spawn("c1541", argv, NULL, NULL);
+    exit_status = archdep_spawn("c1541", argv, NULL, NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -690,7 +689,7 @@ static int compress_with_gzip(const char *src, const char *dest)
     argv[3] = NULL;
 
     ZDEBUG(("compress_with_gzip: spawning gzip -c %s", src));
-    exit_status = spawn("gzip", argv, dest, NULL);
+    exit_status = archdep_spawn("gzip", argv, dest, NULL);
 
     free(argv[0]);
     free(argv[1]);
@@ -718,7 +717,7 @@ static int compress_with_bzip(const char *src, const char *dest)
     argv[3] = NULL;
 
     ZDEBUG(("compress_with_bzip: spawning bzip -c %s", src));
-    exit_status = spawn("bzip2", argv, dest, NULL);
+    exit_status = archdep_spawn("bzip2", argv, dest, NULL);
 
     free(argv[0]);
     free(argv[1]);

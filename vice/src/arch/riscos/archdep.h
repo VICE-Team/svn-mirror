@@ -46,27 +46,8 @@
 #define MODE_WRITE  "w"
 #define MODE_APPEND "w+"
 
-extern int   archdep_startup(int *argc, char **argv);
-extern char *archdep_program_name(void);
-extern FILE *archdep_open_default_log_file(void);
-extern char *archdep_default_resource_file_name(void);
-extern char *archdep_default_save_resource_file_name(void);
-extern char *archdep_default_sysfile_pathlist(const char *emu_id);
-
-extern int   archdep_num_text_lines(void);
-extern int   archdep_num_text_columns(void);
-
-int archdep_default_logger(const char *level_string, const char *format, va_list ap);
-
-int archdep_path_is_relative(const char *directory);
-
 /* Line editing */
 extern char *readline(const char *prompt);
 extern void add_history(const char *p);
-/* Logfile */
-extern FILE *open_logfile(const char *basename);
-
-void archdep_setup_signals(int do_core_dumps);
-
 #endif
 
