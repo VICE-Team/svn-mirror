@@ -129,6 +129,7 @@ inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
           parallel_cpu_set_eoi( (byte & 0x20) ? 0 : 1 );
         }
 #endif
+    return byte;
 }
 
 inline static BYTE read_prb(void)

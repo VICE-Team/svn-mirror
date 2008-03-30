@@ -118,7 +118,7 @@ void close_reu(void)
         log_error(reu_log, "cannot save image `%s'.", reu_file_name);
 }
 
-static BYTE latch4, latch5, latched45 = 0;
+/*static BYTE latch4, latch5, latched45 = 0;*/
 
 BYTE REGPARM1 read_reu(ADDRESS addr)
 {
@@ -139,7 +139,6 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
         break;
 
       case 0x5:
-        latched45 = 0;
         retval = reu[addr];
         break;
 

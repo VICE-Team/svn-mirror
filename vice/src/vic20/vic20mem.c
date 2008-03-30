@@ -47,6 +47,7 @@
 #include "sysfile.h"
 #include "utils.h"
 #include "vic.h"
+#include "vic20ieeevia.h"
 #include "vic20via.h"
 
 #define IS_NULL(s)  (s == NULL || *s == '\0')

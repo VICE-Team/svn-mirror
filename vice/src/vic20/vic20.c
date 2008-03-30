@@ -48,6 +48,7 @@
 #include "utils.h"
 #include "vic.h"
 #include "vic20.h"
+#include "vic20ieeevia.h"
 #include "vic20mem.h"
 #include "vic20sound.h"
 #include "vic20ui.h"

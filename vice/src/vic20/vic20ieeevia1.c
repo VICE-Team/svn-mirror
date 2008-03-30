@@ -117,6 +117,7 @@ static void res_via(void)
 
 inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
 {
+    return byte;
 }
 
 inline static BYTE read_pra(ADDRESS addr)
