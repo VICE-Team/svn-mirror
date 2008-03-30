@@ -1,3 +1,43 @@
+Wed May 13 10:19:24 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.23.
+
+	* Makefile.in: `$(XVIC_SYSPEC_OBJS)' moved from to `VIC20_OBJS'
+	to `VIC20_LOBJS'.
+
+	* sid.c (set_device_name, set_device_arg): Dynamically allocate
+ 	strings.
+	(initsid): Handle empty device name and arg the same way as NULL.
+
+	* arch/unix/xaw/c64ui.h: New file.
+
+	* arch/unix/xaw/c64ui.c: New file.
+
+	* warn.c (warn_init): Parameter `name' made const.  Allocate
+	`name' dynamically.
+
+	* arch/unix/xaw/uimenu.c: New file.
+
+	* arch/unix/xaw/ui.c: Renamed variable and function names to
+ 	lower case.
+
+	* arch/unix/xaw/uisettings.h: New file.
+
+	* arch/unix/xaw/uisettings.c: New file.
+
+	* arch/unix/xaw/uicommands.h: New file.
+
+	* arch/unix/xaw/uicommands.c: New file.
+
+Tue May 12 21:43:40 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/menu.h: Removed definition of `MenuEntry'.
+	* arch/unix/xaw/ui.h: Moved here.
+
+	* arch/unix/xaw/ui.c (UiBuildPopupMenu): Changed to handle a
+	variable number of arguments, which are concatenated in the newly
+	created menu.
+
 Tue May 12 15:16:38 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.22.
@@ -15,6 +55,12 @@ Tue May 12 02:17:17 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
 
 	* mon_cli.y (rest_of_line): Removed rule that caused
         shift/reduce conflicts.
+
+Mon May 11 23:04:40 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* c64/c64mem.c (store_io2, store_io2): Added AR banking support.
+	(initialize_memory): Added ROMH memory configurations.
+	(setup_action_replay): Copy AR ROM image to `romh_banks'.
 
 Mon May 11 22:14:36 1998  Ettore Perazzoli  <ettore@comm2000.it>
 

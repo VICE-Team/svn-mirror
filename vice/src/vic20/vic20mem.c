@@ -187,7 +187,7 @@ static int cmdline_memory(const char *param, void *extra_param)
 #define VIC_BLK3 8
 #define VIC_BLK5 16
 #define VIC_BLK_ALL (VIC_BLK0 | VIC_BLK1 | VIC_BLK3 | VIC_BLK5)
-    int memconf;
+    int memconf = VIC_BLK_ALL;
     const char *memstring = param, *optend;
     char *opt = alloca(strlen(param) + 1);
 
