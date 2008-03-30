@@ -210,61 +210,79 @@ static void init_general_sid_dialog(HWND hwnd)
     enable_general_sid_controls(hwnd);
 }
 
+union rect_point_s {
+    RECT rect;
+    POINT point;
+};
+typedef union rect_point_s rect_point_u;
+
 static void resize_general_sid_dialog(HWND hwnd)
 {
 int xsize, ysize;
 HWND child_hwnd;
 RECT rect;
-RECT child_rect;
+rect_point_u child_rect;
 int xpos;
 
     GetClientRect(hwnd, &rect);
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP1);
-    GetClientRect(child_hwnd, &child_rect);
-    MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
-    MoveWindow(child_hwnd, child_rect.left, child_rect.top, rect.right - 2 * child_rect.left, child_rect.bottom - child_rect.top, TRUE);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
+    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top,
+               rect.right - 2 * child_rect.rect.left,
+               child_rect.rect.bottom - child_rect.rect.top, TRUE);
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_6581);
-    GetClientRect(child_hwnd, &child_rect);
-    MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
     uilib_get_general_window_extents(child_hwnd, &xsize, &ysize);
-    MoveWindow(child_hwnd, child_rect.left, child_rect.top, xsize + 20, child_rect.bottom - child_rect.top, TRUE);
-    xpos = child_rect.left + xsize + 20 + 10;
+    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top,
+               xsize + 20, child_rect.rect.bottom - child_rect.rect.top, TRUE);
+    xpos = child_rect.rect.left + xsize + 20 + 10;
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_8580);
-    GetClientRect(child_hwnd, &child_rect);
-    MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
     uilib_get_general_window_extents(child_hwnd, &xsize, &ysize);
-    MoveWindow(child_hwnd, xpos, child_rect.top, xsize + 20, child_rect.bottom - child_rect.top, TRUE);
+    MoveWindow(child_hwnd, xpos, child_rect.rect.top, xsize + 20,
+               child_rect.rect.bottom - child_rect.rect.top, TRUE);
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP2);
-    GetClientRect(child_hwnd, &child_rect);
-    MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
-    MoveWindow(child_hwnd, child_rect.left, child_rect.top, rect.right - 2 * child_rect.left, child_rect.bottom - child_rect.top, TRUE);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
+    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top,
+               rect.right - 2 * child_rect.rect.left,
+               child_rect.rect.bottom - child_rect.rect.top, TRUE);
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_STEREO);
-    GetClientRect(child_hwnd, &child_rect);
-    MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
     uilib_get_general_window_extents(child_hwnd, &xsize, &ysize);
-    MoveWindow(child_hwnd, child_rect.left, child_rect.top, xsize + 20, child_rect.bottom - child_rect.top, TRUE);
-    xpos = child_rect.left + xsize + 20 + 10;
+    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top,
+               xsize + 20, child_rect.rect.bottom - child_rect.rect.top, TRUE);
+    xpos = child_rect.rect.left + xsize + 20 + 10;
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_STEREOADDRESS);
-    GetClientRect(child_hwnd, &child_rect);
-    MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
-    MoveWindow(child_hwnd, xpos, child_rect.top, child_rect.right - child_rect.left, child_rect.bottom - child_rect.top, TRUE);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
+    MoveWindow(child_hwnd, xpos, child_rect.rect.top,
+               child_rect.rect.right - child_rect.rect.left,
+               child_rect.rect.bottom - child_rect.rect.top, TRUE);
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP3);
-    GetClientRect(child_hwnd, &child_rect);
-    MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
-    MoveWindow(child_hwnd, child_rect.left, child_rect.top, rect.right - 2 * child_rect.left, child_rect.bottom - child_rect.top, TRUE);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
+    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top,
+               rect.right - 2 * child_rect.rect.left,
+               child_rect.rect.bottom - child_rect.rect.top, TRUE);
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_FILTERS);
-    GetClientRect(child_hwnd, &child_rect);
-    MapWindowPoints(child_hwnd, hwnd, (POINT*)&child_rect, 2);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
     uilib_get_general_window_extents(child_hwnd, &xsize, &ysize);
-    MoveWindow(child_hwnd, child_rect.left, child_rect.top, xsize + 20, child_rect.bottom - child_rect.top, TRUE);
+    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top,
+               xsize + 20, child_rect.rect.bottom - child_rect.rect.top, TRUE);
 }
 
 static void init_resid_sid_dialog(HWND hwnd)

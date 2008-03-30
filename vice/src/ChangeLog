@@ -1,3 +1,103 @@
+2006-11-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.17.
+
+	* util.c (util_check_filename_access): Use ioutil function for
+	unlink().
+
+	* arch/unix/archdep.c, arch/win32/archdep.c,
+	arch/msdos/archdep.c, arch/os2/archdep.c,
+	arch/beos/archdep.c (archdep_spawn): Allocate temp name if
+	empty pointer is passed.
+
+	* zfile.c: Removed some calls to `archdep_tmpnam()' now that
+	`archdep_spawn()' allocates the temporary name.
+
+	* arch/win32/uisid.c (resize_general_sid_dialog): Fixed some
+	warnings.
+
+2006-11-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp,
+	arch/win32/gifdrv.c, gfxoutputdrv/gfxoutput.c: Added
+	gif/ungif dll support.
+
+2006-11-10  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/archdep.c, arch/unix/macosx/Makefile.am,
+	arch/unix/macosx/make-bindist.sh,
+	arch/unix/macosx/x11-launcher.sh:
+	added new mac x11 launcher script that supports file drops on
+	startup with platypus and command line startup with arbitrary
+	arguments.
+
+2006-11-10  Tibor Biczo  <crown@t-online.hu>
+
+	* arch/win32/Makefile.am (genmsvcver.dsp): Added new file.
+
+	* arch/win32/genmsvcver.dsp: New file.
+
+	* arch/win32/res.rc: Include manifest file if compiled with
+	MSVC versions earlier than VS2005.
+
+	* arch/win32/uisound.c: Added 48000 and 96000 Hz sound
+	frequency to UI.
+
+	* arch/win32/utils/Makefile.am (genmsvcver.c): Added new file.
+
+	* arch/win32/utils/genmsvcver.c: New file.
+
+	* arch/win32/vice.dsw (genmsvcver.dsp): Added new project.
+
+	* sound.c (sound_open): Increased maximum accepted frequency
+	to 96000Hz.
+
+2006-11-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/mui/uipetreu.c, arch/beos/constants.h,
+	arch/beos/petui.cc, arch/beos/vicemenu.cc,
+	arch/msdos/uipetreu.c, arch/os2/dialogs/menubar.c,
+	arch/os2/dialogs/menubar.h, arch/os2/dialogs/menubar.rc,
+	arch/unix/gui/uipetreu.c, arch/win32/uipetreu.c,
+	pet/petmem.c, pet/petreu.c, pet/petreu.h: Added
+	512/1024/2048kb ram expansion emulation support.
+
+2006-11-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/c64_256k.c, c64/georam.c, c64/mmc64.c, c64/plus256k.c,
+	c64/plus60k.c, c64/ramcart.c, c64/reu.c, pet/petreu.c,
+	util.c, util.h: Fixed the setting of an illegal filename.
+
+2006-11-06  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, arch/unix/gui/Makefile.am,
+	arch/unix/gui/petui.c, arch/unix/gui/plus4ui.c,
+	arch/unix/gui/uisidcart.c, arch/unix/gui/uisidcart.h,
+	arch/unix/gui/vic20ui.c, arch/win32/Makefile.am,
+	arch/win32/arch.dsp, arch/win32/intl.c, arch/win32/pet.dsp,
+	arch/win32/petui.c, arch/win32/plus4.dsp,
+	arch/win32/plus4ui.c, arch/win32/resdialogs.txt,
+	arch/win32/resmenu.txt, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/ressidcart.rc,
+	arch/win32/resvic20.rc, arch/win32/sidcart.dsp,
+	arch/win32/uisidcart.c, arch/win32/uisidcart.h,
+	arch/win32/vic20.dsp, arch/win32/vic20ui.c,
+	arch/win32/vice.dsw, arch/win32/xplus4.dsp,
+	arch/win32/xvic.dsp, pet/Makefile.am,
+	pet/pet.c, pet/petmem.c, pet/petsound.c, plus4/Makefile.am,
+	plus4/plus4.c, plus4/plus4mem.c, plus4/ted-sound.c,
+	sidcart/Makefile.am, sidcart/fastsid.c, sidcart/fastsid.h,
+	sidcart/sidcart-cmdline-options.c,
+	sidcart/sidcart-cmdline-options.h,
+	sidcart/sidcart-resources.c, sidcart/sidcart-resources.h,
+	sidcart/sidcart.c, sidcart/sidcart.h, vic20/Makefile.am,
+	vic20/vic20.c, vic20/vic20mem.c, vic20/vic20sound.c: Added SID
+	cartridge emulation.
+
+	* drive/iec/mc6821.c: Fixed a cast.
+
+	* keyboard.c: Got rid of some unused variables.
+
 2006-11-05  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.16.
