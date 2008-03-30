@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2001-05-16 23:49+0200\n"
+"POT-Creation-Date: 2001-05-17 21:56+0200\n"
 "PO-Revision-Date: 2000-12-07 07:35+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr "Smartanslut en fil"
 msgid "Unknown image type"
 msgstr "Okänd avbildningsfiltyp"
 
-#: src/arch/unix/uicommands.c:276 src/arch/unix/uisettings.c:333
+#: src/arch/unix/uicommands.c:276 src/arch/unix/uisettings.c:327
 msgid "VICE setting"
 msgstr "VICE-inställning"
 
@@ -376,13 +376,13 @@ msgstr "*Sprite-till-bakgrund-kollision"
 msgid "Color set"
 msgstr "Färguppsättning"
 
-#: src/arch/unix/c128ui.c:125 src/arch/unix/uisettings.c:1348
-#: src/arch/unix/uisettings.c:1368
+#: src/arch/unix/c128ui.c:125 src/arch/unix/uisettings.c:1342
+#: src/arch/unix/uisettings.c:1362
 msgid "*Double size"
 msgstr "*Dubbel storlek"
 
-#: src/arch/unix/c128ui.c:127 src/arch/unix/uisettings.c:1350
-#: src/arch/unix/uisettings.c:1370
+#: src/arch/unix/c128ui.c:127 src/arch/unix/uisettings.c:1344
+#: src/arch/unix/uisettings.c:1364
 msgid "*Double scan"
 msgstr "*Dubbelskanning"
 
@@ -414,7 +414,7 @@ msgid "*Use reSID emulation"
 msgstr "*Använd reSID-emulering"
 
 #: src/arch/unix/c128ui.c:171 src/arch/unix/c64ui.c:346
-#: src/arch/unix/uisettings.c:1055 src/arch/unix/vsidui.c:142
+#: src/arch/unix/uisettings.c:1049 src/arch/unix/vsidui.c:142
 msgid "*Enable sound playback"
 msgstr "*Aktivera ljudåtergivning"
 
@@ -422,7 +422,7 @@ msgstr "*Aktivera ljudåtergivning"
 #: src/arch/unix/c610ui.c:358 src/arch/unix/c610ui.c:387
 #: src/arch/unix/c64ui.c:490 src/arch/unix/c64ui.c:519
 #: src/arch/unix/petui.c:151 src/arch/unix/petui.c:180
-#: src/arch/unix/uisettings.c:866 src/arch/unix/uisettings.c:894
+#: src/arch/unix/uisettings.c:860 src/arch/unix/uisettings.c:888
 #: src/arch/unix/vic20ui.c:279
 msgid "*None"
 msgstr "*Ingen"
@@ -837,12 +837,12 @@ msgid "ACIA device"
 msgstr "ACIA-enhet"
 
 #: src/arch/unix/c610ui.c:444 src/arch/unix/petui.c:379
-#: src/arch/unix/uisettings.c:662 src/arch/unix/vic20ui.c:327
+#: src/arch/unix/uisettings.c:656 src/arch/unix/vic20ui.c:327
 msgid "Serial 1 device..."
 msgstr "Seriell enhet 1..."
 
 #: src/arch/unix/c610ui.c:446 src/arch/unix/petui.c:381
-#: src/arch/unix/uisettings.c:664 src/arch/unix/vic20ui.c:329
+#: src/arch/unix/uisettings.c:658 src/arch/unix/vic20ui.c:329
 msgid "Serial 1 baudrate"
 msgstr "Seriell 1 baudhastighet"
 
@@ -852,17 +852,17 @@ msgid "Serial 2 device..."
 msgstr "Seriell enhet 2..."
 
 #: src/arch/unix/c610ui.c:451 src/arch/unix/petui.c:386
-#: src/arch/unix/uisettings.c:669 src/arch/unix/vic20ui.c:334
+#: src/arch/unix/uisettings.c:663 src/arch/unix/vic20ui.c:334
 msgid "Serial 2 baudrate"
 msgstr "Seriell 2 baudhastighet"
 
 #: src/arch/unix/c610ui.c:454 src/arch/unix/petui.c:389
-#: src/arch/unix/uisettings.c:672 src/arch/unix/vic20ui.c:337
+#: src/arch/unix/uisettings.c:666 src/arch/unix/vic20ui.c:337
 msgid "Dump filename..."
 msgstr "Filnamn för datadump..."
 
 #: src/arch/unix/c610ui.c:457 src/arch/unix/petui.c:392
-#: src/arch/unix/uisettings.c:675 src/arch/unix/vic20ui.c:340
+#: src/arch/unix/uisettings.c:669 src/arch/unix/vic20ui.c:340
 msgid "Program name to exec..."
 msgstr "Program att starta..."
 
@@ -1019,7 +1019,7 @@ msgstr "I/O-utökningar på $DFxx"
 msgid "Enter refresh rate"
 msgstr "Ange uppdateringsfrekvens"
 
-#: src/arch/unix/uisettings.c:118 src/arch/unix/uisettings.c:1392
+#: src/arch/unix/uisettings.c:118 src/arch/unix/uisettings.c:1386
 msgid "Refresh rate"
 msgstr "Uppdateringshastighet"
 
@@ -1064,43 +1064,43 @@ msgstr ""
 msgid "Settings loaded."
 msgstr "Inställnigarna har laddats."
 
-#: src/arch/unix/uisettings.c:288
+#: src/arch/unix/uisettings.c:282
 msgid "*Symbolic mapping"
 msgstr "*Symbolisk tangentbordsemulering"
 
-#: src/arch/unix/uisettings.c:290
+#: src/arch/unix/uisettings.c:284
 msgid "*Positional mapping (US)"
 msgstr "*Positionsriktig tangentbordsemulering (Amerikanskt tangentbord)"
 
-#: src/arch/unix/uisettings.c:308
+#: src/arch/unix/uisettings.c:302
 msgid "Read Keymap File"
 msgstr "Läs tangentbordsinställning"
 
-#: src/arch/unix/uisettings.c:333
+#: src/arch/unix/uisettings.c:327
 msgid "Write to Keymap File:"
 msgstr "Skriv tangentbordsinställning:"
 
-#: src/arch/unix/uisettings.c:342
+#: src/arch/unix/uisettings.c:336
 msgid "Keyboard mapping type"
 msgstr "Typ av tangentbordsinställning"
 
-#: src/arch/unix/uisettings.c:345
+#: src/arch/unix/uisettings.c:339
 msgid "Set symbolic keymap file"
 msgstr "Välj fil för symbolisk tangentbordsemulering"
 
-#: src/arch/unix/uisettings.c:347
+#: src/arch/unix/uisettings.c:341
 msgid "Set positional keymap file"
 msgstr "Välj fil för positionsriktig tangentbordsemulering"
 
-#: src/arch/unix/uisettings.c:350
+#: src/arch/unix/uisettings.c:344
 msgid "Dump keymap to file"
 msgstr "Spara tangentbordsemulering till fil"
 
-#: src/arch/unix/uisettings.c:364
+#: src/arch/unix/uisettings.c:358
 msgid "Load custom palette"
 msgstr "Ladda egen palett"
 
-#: src/arch/unix/uisettings.c:373
+#: src/arch/unix/uisettings.c:367
 #, c-format
 msgid ""
 "Could not load palette file\n"
@@ -1109,11 +1109,11 @@ msgstr ""
 "Kunde inte ladda palettfil\n"
 "\"%s\""
 
-#: src/arch/unix/uisettings.c:404
+#: src/arch/unix/uisettings.c:398
 msgid "Load custom ROM set definition"
 msgstr "Ladda egen ROM-inställning"
 
-#: src/arch/unix/uisettings.c:412
+#: src/arch/unix/uisettings.c:406
 #, c-format
 msgid ""
 "Could not load ROM set file\n"
@@ -1122,19 +1122,19 @@ msgstr ""
 "Kunde inte ladda ROM-inställningsfil\n"
 "\"%s\""
 
-#: src/arch/unix/uisettings.c:433
+#: src/arch/unix/uisettings.c:427
 msgid "File to dump ROM set definition to"
 msgstr "Fil att spara ROM-inställning till"
 
-#: src/arch/unix/uisettings.c:438
+#: src/arch/unix/uisettings.c:432
 msgid "ROM set file:"
 msgstr "ROM-inställningsfil:"
 
-#: src/arch/unix/uisettings.c:454
+#: src/arch/unix/uisettings.c:448
 msgid "Load ROM file"
 msgstr "Ladda ROM-fil"
 
-#: src/arch/unix/uisettings.c:463
+#: src/arch/unix/uisettings.c:457
 #, c-format
 msgid ""
 "Could not load ROM file\n"
@@ -1143,458 +1143,458 @@ msgstr ""
 "Kunde inte ladda ROM-fil\n"
 "\"%s\""
 
-#: src/arch/unix/uisettings.c:489 src/arch/unix/uisettings.c:503
+#: src/arch/unix/uisettings.c:483 src/arch/unix/uisettings.c:497
 msgid "*Serial 1"
 msgstr "*Seriell 1"
 
-#: src/arch/unix/uisettings.c:491 src/arch/unix/uisettings.c:505
+#: src/arch/unix/uisettings.c:485 src/arch/unix/uisettings.c:499
 msgid "*Serial 2"
 msgstr "*Seriell 2"
 
-#: src/arch/unix/uisettings.c:493 src/arch/unix/uisettings.c:507
+#: src/arch/unix/uisettings.c:487 src/arch/unix/uisettings.c:501
 msgid "*Dump to file"
 msgstr "*Dumpa till fil"
 
-#: src/arch/unix/uisettings.c:495 src/arch/unix/uisettings.c:509
+#: src/arch/unix/uisettings.c:489 src/arch/unix/uisettings.c:503
 msgid "*Exec process"
 msgstr "*Starta process"
 
-#: src/arch/unix/uisettings.c:517
+#: src/arch/unix/uisettings.c:511
 msgid "*No IRQ/NMI"
 msgstr "*Ingen IRQ/NMI"
 
-#: src/arch/unix/uisettings.c:519
+#: src/arch/unix/uisettings.c:513
 msgid "*IRQ"
 msgstr "*IRQ"
 
-#: src/arch/unix/uisettings.c:521
+#: src/arch/unix/uisettings.c:515
 msgid "*NMI"
 msgstr "*NMI"
 
-#: src/arch/unix/uisettings.c:566
+#: src/arch/unix/uisettings.c:560
 msgid "Select RS232 device file"
 msgstr "Välj RS232-enhetsfil"
 
-#: src/arch/unix/uisettings.c:591
+#: src/arch/unix/uisettings.c:585
 msgid "Command to execute for RS232 (preceed with '|')"
 msgstr "Kommando att starta för RS232 (inled med \"|\")"
 
-#: src/arch/unix/uisettings.c:601 src/arch/unix/uisettings.c:630
-#: src/arch/unix/uisettings.c:1147
+#: src/arch/unix/uisettings.c:595 src/arch/unix/uisettings.c:624
+#: src/arch/unix/uisettings.c:1141
 msgid "Command:"
 msgstr "Kommando:"
 
-#: src/arch/unix/uisettings.c:620
+#: src/arch/unix/uisettings.c:614
 msgid "File to dump RS232 to"
 msgstr "Fil att dumpa RS232 till"
 
-#: src/arch/unix/uisettings.c:644
+#: src/arch/unix/uisettings.c:638
 msgid "*ACIA $DExx RS232 interface emulation"
 msgstr "*ACIA $DExx RS232-gränssnittsemulering"
 
-#: src/arch/unix/uisettings.c:646
+#: src/arch/unix/uisettings.c:640
 msgid "ACIA $DExx device"
 msgstr "ACIA $DExx-enhet"
 
-#: src/arch/unix/uisettings.c:648
+#: src/arch/unix/uisettings.c:642
 msgid "ACIA $DExx Interrupt"
 msgstr "ACIA $DExx-avbrott"
 
-#: src/arch/unix/uisettings.c:651 src/arch/unix/vic20ui.c:318
+#: src/arch/unix/uisettings.c:645 src/arch/unix/vic20ui.c:318
 msgid "*No Userport RS232 emulation"
 msgstr "*Ingen emulering av RS232 på användarporten"
 
-#: src/arch/unix/uisettings.c:653 src/arch/unix/vic20ui.c:320
+#: src/arch/unix/uisettings.c:647 src/arch/unix/vic20ui.c:320
 msgid "*Userport 300 baud RS232 emulation"
 msgstr "*Emulering av 300 baud-RS232 på användarporten"
 
-#: src/arch/unix/uisettings.c:655 src/arch/unix/vic20ui.c:322
+#: src/arch/unix/uisettings.c:649 src/arch/unix/vic20ui.c:322
 msgid "*Userport 1200 baud RS232 emulation"
 msgstr "*Emulering av 1200 baud-RS232 på användarporten"
 
-#: src/arch/unix/uisettings.c:657
+#: src/arch/unix/uisettings.c:651
 msgid "*CIA 9600 baud RS232 emulation"
 msgstr "*Emulering av 9600 baud-CIA"
 
-#: src/arch/unix/uisettings.c:659 src/arch/unix/vic20ui.c:324
+#: src/arch/unix/uisettings.c:653 src/arch/unix/vic20ui.c:324
 msgid "Userport RS232 device"
 msgstr "Användarportens RS232-enhet"
 
-#: src/arch/unix/uisettings.c:750
+#: src/arch/unix/uisettings.c:744
 msgid "Path:"
 msgstr "Sökväg:"
 
-#: src/arch/unix/uisettings.c:774
+#: src/arch/unix/uisettings.c:768
 msgid "*Auto"
 msgstr "*Auto"
 
-#: src/arch/unix/uisettings.c:797 src/arch/unix/uisettings.c:816
+#: src/arch/unix/uisettings.c:791 src/arch/unix/uisettings.c:810
 msgid "*Custom..."
 msgstr "*Egen..."
 
-#: src/arch/unix/uisettings.c:813
+#: src/arch/unix/uisettings.c:807
 msgid "*No limit"
 msgstr "*Ingen gräns"
 
-#: src/arch/unix/uisettings.c:912 src/arch/unix/uisettings.c:926
+#: src/arch/unix/uisettings.c:906 src/arch/unix/uisettings.c:920
 msgid "*$2000-$3FFF RAM expansion"
 msgstr "*$2000-$3FFF minnesutökning"
 
-#: src/arch/unix/uisettings.c:914 src/arch/unix/uisettings.c:928
+#: src/arch/unix/uisettings.c:908 src/arch/unix/uisettings.c:922
 msgid "*$4000-$5FFF RAM expansion"
 msgstr "*$4000-$5FFF minnesutökning"
 
-#: src/arch/unix/uisettings.c:916 src/arch/unix/uisettings.c:930
+#: src/arch/unix/uisettings.c:910 src/arch/unix/uisettings.c:924
 msgid "*$6000-$7FFF RAM expansion"
 msgstr "*$6000-$7FFF minnesutökning"
 
-#: src/arch/unix/uisettings.c:918 src/arch/unix/uisettings.c:932
+#: src/arch/unix/uisettings.c:912 src/arch/unix/uisettings.c:926
 msgid "*$8000-$9FFF RAM expansion"
 msgstr "*$8000-$9FFF minnesutökning"
 
-#: src/arch/unix/uisettings.c:920 src/arch/unix/uisettings.c:934
+#: src/arch/unix/uisettings.c:914 src/arch/unix/uisettings.c:928
 msgid "*$A000-$BFFF RAM expansion"
 msgstr "*$A000-$BFFF minnesutökning"
 
-#: src/arch/unix/uisettings.c:940 src/arch/unix/uisettings.c:950
+#: src/arch/unix/uisettings.c:934 src/arch/unix/uisettings.c:944
 msgid "*Never extend"
 msgstr "*Utöka aldrig"
 
-#: src/arch/unix/uisettings.c:942 src/arch/unix/uisettings.c:952
+#: src/arch/unix/uisettings.c:936 src/arch/unix/uisettings.c:946
 msgid "*Ask on extend"
 msgstr "*Fråga vid utökning"
 
-#: src/arch/unix/uisettings.c:944 src/arch/unix/uisettings.c:954
+#: src/arch/unix/uisettings.c:938 src/arch/unix/uisettings.c:948
 msgid "*Extend on access"
 msgstr "*Utöka vid åtkomst"
 
-#: src/arch/unix/uisettings.c:960 src/arch/unix/uisettings.c:970
+#: src/arch/unix/uisettings.c:954 src/arch/unix/uisettings.c:964
 msgid "*No traps"
 msgstr "*Ingen infångning"
 
-#: src/arch/unix/uisettings.c:962 src/arch/unix/uisettings.c:972
+#: src/arch/unix/uisettings.c:956 src/arch/unix/uisettings.c:966
 msgid "*Skip cycles"
 msgstr "*Hoppa över cykler"
 
-#: src/arch/unix/uisettings.c:964 src/arch/unix/uisettings.c:974
+#: src/arch/unix/uisettings.c:958 src/arch/unix/uisettings.c:968
 msgid "*Trap idle"
 msgstr "*Fånga inaktiva cykler"
 
-#: src/arch/unix/uisettings.c:994 src/arch/unix/vsidui.c:130
+#: src/arch/unix/uisettings.c:988 src/arch/unix/vsidui.c:130
 msgid "*1.00 sec"
 msgstr "*1,00 s"
 
-#: src/arch/unix/uisettings.c:996
+#: src/arch/unix/uisettings.c:990
 msgid "*0.75 sec"
 msgstr "*0,75 s"
 
-#: src/arch/unix/uisettings.c:998 src/arch/unix/vsidui.c:132
+#: src/arch/unix/uisettings.c:992 src/arch/unix/vsidui.c:132
 msgid "*0.50 sec"
 msgstr "*0,50 s"
 
-#: src/arch/unix/uisettings.c:1000
+#: src/arch/unix/uisettings.c:994
 msgid "*0.35 sec"
 msgstr "*0,35 s"
 
-#: src/arch/unix/uisettings.c:1002
+#: src/arch/unix/uisettings.c:996
 msgid "*0.30 sec"
 msgstr "*0,30 s"
 
-#: src/arch/unix/uisettings.c:1004
+#: src/arch/unix/uisettings.c:998
 msgid "*0.25 sec"
 msgstr "*0,25 s"
 
-#: src/arch/unix/uisettings.c:1006
+#: src/arch/unix/uisettings.c:1000
 msgid "*0.20 sec"
 msgstr "*0,20 s"
 
-#: src/arch/unix/uisettings.c:1008
+#: src/arch/unix/uisettings.c:1002
 msgid "*0.15 sec"
 msgstr "*0,15 s"
 
-#: src/arch/unix/uisettings.c:1010 src/arch/unix/vsidui.c:134
+#: src/arch/unix/uisettings.c:1004 src/arch/unix/vsidui.c:134
 msgid "*0.10 sec"
 msgstr "*0,10 s"
 
-#: src/arch/unix/uisettings.c:1016
+#: src/arch/unix/uisettings.c:1010
 msgid "*Keep going"
 msgstr "*Fortsätt spela"
 
-#: src/arch/unix/uisettings.c:1018
+#: src/arch/unix/uisettings.c:1012
 msgid "*1 sec suspend"
 msgstr "*1s paus"
 
-#: src/arch/unix/uisettings.c:1020
+#: src/arch/unix/uisettings.c:1014
 msgid "*2 sec suspend"
 msgstr "*2s paus"
 
-#: src/arch/unix/uisettings.c:1022
+#: src/arch/unix/uisettings.c:1016
 msgid "*5 sec suspend"
 msgstr "*5s paus"
 
-#: src/arch/unix/uisettings.c:1024
+#: src/arch/unix/uisettings.c:1018
 msgid "*10 sec suspend"
 msgstr "*10s paus"
 
-#: src/arch/unix/uisettings.c:1042
+#: src/arch/unix/uisettings.c:1036
 msgid "*Flexible"
 msgstr "*Flexibel"
 
-#: src/arch/unix/uisettings.c:1045
+#: src/arch/unix/uisettings.c:1039
 msgid "*Adjusting"
 msgstr "*Anpassande"
 
-#: src/arch/unix/uisettings.c:1048
+#: src/arch/unix/uisettings.c:1042
 msgid "*Exact"
 msgstr "*Exakt"
 
-#: src/arch/unix/uisettings.c:1058
+#: src/arch/unix/uisettings.c:1052
 msgid "Sound synchronization"
 msgstr "Ljudsynkronisering"
 
-#: src/arch/unix/uisettings.c:1061 src/arch/unix/vsidui.c:145
+#: src/arch/unix/uisettings.c:1055 src/arch/unix/vsidui.c:145
 msgid "Sample rate"
 msgstr "Samplingshastighet"
 
-#: src/arch/unix/uisettings.c:1063 src/arch/unix/vsidui.c:147
+#: src/arch/unix/uisettings.c:1057 src/arch/unix/vsidui.c:147
 msgid "Buffer size"
 msgstr "Buffertstorlek"
 
-#: src/arch/unix/uisettings.c:1065
+#: src/arch/unix/uisettings.c:1059
 msgid "Suspend time"
 msgstr "Paustid"
 
-#: src/arch/unix/uisettings.c:1067 src/arch/unix/vsidui.c:149
+#: src/arch/unix/uisettings.c:1061 src/arch/unix/vsidui.c:149
 msgid "Oversample"
 msgstr "Översampling"
 
-#: src/arch/unix/uisettings.c:1077 src/arch/unix/uisettings.c:1089
+#: src/arch/unix/uisettings.c:1071 src/arch/unix/uisettings.c:1083
 msgid "*Printer 1 (file dump)"
 msgstr "*Skrivare 1 (fildump)"
 
-#: src/arch/unix/uisettings.c:1079 src/arch/unix/uisettings.c:1091
+#: src/arch/unix/uisettings.c:1073 src/arch/unix/uisettings.c:1085
 msgid "*Printer 2 (exec)"
 msgstr "*Skrivare 2 (kommando)"
 
-#: src/arch/unix/uisettings.c:1081 src/arch/unix/uisettings.c:1093
+#: src/arch/unix/uisettings.c:1075 src/arch/unix/uisettings.c:1087
 msgid "*Printer 3 (exec)"
 msgstr "*Skrivare 3 (kommando)"
 
-#: src/arch/unix/uisettings.c:1109
+#: src/arch/unix/uisettings.c:1103
 msgid "Select printer dump file"
 msgstr "Välj utskriftsdumpfil"
 
-#: src/arch/unix/uisettings.c:1137
+#: src/arch/unix/uisettings.c:1131
 msgid "Command to execute for printing (preceed with '|')"
 msgstr "Kommando att köra för utskrift (inled med \"|\")"
 
-#: src/arch/unix/uisettings.c:1167
+#: src/arch/unix/uisettings.c:1161
 msgid "*IEC device 4 printer emulation"
 msgstr "*Skrivaremularing för IEC-enhet 4"
 
-#: src/arch/unix/uisettings.c:1169
+#: src/arch/unix/uisettings.c:1163
 msgid "IEC printer device"
 msgstr "IEC-skrivare"
 
-#: src/arch/unix/uisettings.c:1171
+#: src/arch/unix/uisettings.c:1165
 msgid "Flush IEC printer device"
 msgstr "Töm IEC-skrivarenhet"
 
-#: src/arch/unix/uisettings.c:1174
+#: src/arch/unix/uisettings.c:1168
 msgid "*Userport printer emulation"
 msgstr "*Emulering av skrivare på användarporten"
 
-#: src/arch/unix/uisettings.c:1176
+#: src/arch/unix/uisettings.c:1170
 msgid "Userport printer device"
 msgstr "Skrivare på användarporten"
 
-#: src/arch/unix/uisettings.c:1179
+#: src/arch/unix/uisettings.c:1173
 msgid "Printer device 1..."
 msgstr "Skrivare 1..."
 
-#: src/arch/unix/uisettings.c:1181
+#: src/arch/unix/uisettings.c:1175
 msgid "Printer device 2..."
 msgstr "Skrivare 2..."
 
-#: src/arch/unix/uisettings.c:1183
+#: src/arch/unix/uisettings.c:1177
 msgid "Printer device 3..."
 msgstr "Skrivare 3..."
 
-#: src/arch/unix/uisettings.c:1191 src/arch/unix/uisettings.c:1209
-#: src/arch/unix/uisettings.c:1227 src/arch/unix/uisettings.c:1245
+#: src/arch/unix/uisettings.c:1185 src/arch/unix/uisettings.c:1203
+#: src/arch/unix/uisettings.c:1221 src/arch/unix/uisettings.c:1239
 msgid "*File system access"
 msgstr "*Filsystemsåtkomst"
 
-#: src/arch/unix/uisettings.c:1194 src/arch/unix/uisettings.c:1212
-#: src/arch/unix/uisettings.c:1230 src/arch/unix/uisettings.c:1248
+#: src/arch/unix/uisettings.c:1188 src/arch/unix/uisettings.c:1206
+#: src/arch/unix/uisettings.c:1224 src/arch/unix/uisettings.c:1242
 #, fuzzy
 msgid "*Read only access"
 msgstr "*Utöka vid åtkomst"
 
-#: src/arch/unix/uisettings.c:1197 src/arch/unix/uisettings.c:1215
-#: src/arch/unix/uisettings.c:1233 src/arch/unix/uisettings.c:1251
+#: src/arch/unix/uisettings.c:1191 src/arch/unix/uisettings.c:1209
+#: src/arch/unix/uisettings.c:1227 src/arch/unix/uisettings.c:1245
 msgid "File system directory..."
 msgstr "Filsystemskatalog..."
 
-#: src/arch/unix/uisettings.c:1199 src/arch/unix/uisettings.c:1217
-#: src/arch/unix/uisettings.c:1235 src/arch/unix/uisettings.c:1253
+#: src/arch/unix/uisettings.c:1193 src/arch/unix/uisettings.c:1211
+#: src/arch/unix/uisettings.c:1229 src/arch/unix/uisettings.c:1247
 msgid "*Convert P00 file names"
 msgstr "*Konvertera P00-filnamn"
 
-#: src/arch/unix/uisettings.c:1201 src/arch/unix/uisettings.c:1219
-#: src/arch/unix/uisettings.c:1237 src/arch/unix/uisettings.c:1255
+#: src/arch/unix/uisettings.c:1195 src/arch/unix/uisettings.c:1213
+#: src/arch/unix/uisettings.c:1231 src/arch/unix/uisettings.c:1249
 msgid "*Create P00 files on save"
 msgstr "*Skapa P00 då filer sparas"
 
-#: src/arch/unix/uisettings.c:1203 src/arch/unix/uisettings.c:1221
-#: src/arch/unix/uisettings.c:1239 src/arch/unix/uisettings.c:1257
+#: src/arch/unix/uisettings.c:1197 src/arch/unix/uisettings.c:1215
+#: src/arch/unix/uisettings.c:1233 src/arch/unix/uisettings.c:1251
 msgid "*Hide raw CBM files"
 msgstr "*Göm CBM-råfiler"
 
-#: src/arch/unix/uisettings.c:1263
+#: src/arch/unix/uisettings.c:1257
 msgid "Device #8"
 msgstr "Enhet 8"
 
-#: src/arch/unix/uisettings.c:1264
+#: src/arch/unix/uisettings.c:1258
 msgid "Device #9"
 msgstr "Enhet 9"
 
-#: src/arch/unix/uisettings.c:1265
+#: src/arch/unix/uisettings.c:1259
 msgid "Device #10"
 msgstr "Enhet 10"
 
-#: src/arch/unix/uisettings.c:1266
+#: src/arch/unix/uisettings.c:1260
 msgid "Device #11"
 msgstr "Enhet 11"
 
-#: src/arch/unix/uisettings.c:1268
+#: src/arch/unix/uisettings.c:1262
 msgid "Printer settings"
 msgstr "Skrivarinställningar"
 
-#: src/arch/unix/uisettings.c:1270
+#: src/arch/unix/uisettings.c:1264
 msgid "*Enable Virtual Devices"
 msgstr "*Aktivera virtuella enheter"
 
-#: src/arch/unix/uisettings.c:1277 src/arch/unix/uisettings.c:1306
-#: src/arch/unix/uisettings.c:1330
+#: src/arch/unix/uisettings.c:1271 src/arch/unix/uisettings.c:1300
+#: src/arch/unix/uisettings.c:1324
 msgid "*Enable true drive emulation"
 msgstr "*Aktivera äkta diskettenhetsemulering"
 
-#: src/arch/unix/uisettings.c:1280
+#: src/arch/unix/uisettings.c:1274
 msgid "Drive #8 model"
 msgstr "Modell för enhet 8"
 
-#: src/arch/unix/uisettings.c:1282
+#: src/arch/unix/uisettings.c:1276
 msgid "Drive #8 RAM expansion"
 msgstr "RAM-utökning för enhet 8"
 
-#: src/arch/unix/uisettings.c:1284
+#: src/arch/unix/uisettings.c:1278
 msgid "*Drive #8 enable parallel cable"
 msgstr "*Aktivera parallellkabel för enhet 8"
 
-#: src/arch/unix/uisettings.c:1286 src/arch/unix/uisettings.c:1311
+#: src/arch/unix/uisettings.c:1280 src/arch/unix/uisettings.c:1305
 msgid "Drive #8 40-track image support"
 msgstr "40-spårsstöd för enhet 8"
 
-#: src/arch/unix/uisettings.c:1288 src/arch/unix/uisettings.c:1314
+#: src/arch/unix/uisettings.c:1282 src/arch/unix/uisettings.c:1308
 msgid "Drive #8 idle method"
 msgstr "Pausmetod för enhet 8"
 
-#: src/arch/unix/uisettings.c:1291
+#: src/arch/unix/uisettings.c:1285
 msgid "Drive #9 model"
 msgstr "Modell för enhet 9"
 
-#: src/arch/unix/uisettings.c:1293
+#: src/arch/unix/uisettings.c:1287
 msgid "Drive #9 RAM expansion"
 msgstr "RAM-utökning för enhet 9"
 
-#: src/arch/unix/uisettings.c:1295
+#: src/arch/unix/uisettings.c:1289
 msgid "*Drive #9 enable parallel cable"
 msgstr "*Aktivera parallellkabel för enhet 9"
 
-#: src/arch/unix/uisettings.c:1297 src/arch/unix/uisettings.c:1320
+#: src/arch/unix/uisettings.c:1291 src/arch/unix/uisettings.c:1314
 msgid "Drive #9 40-track image support"
 msgstr "40-spårsstöd för enhet 9"
 
-#: src/arch/unix/uisettings.c:1299 src/arch/unix/uisettings.c:1323
+#: src/arch/unix/uisettings.c:1293 src/arch/unix/uisettings.c:1317
 msgid "Drive #9 idle method"
 msgstr "Pausmetod för enhet 9"
 
-#: src/arch/unix/uisettings.c:1309
+#: src/arch/unix/uisettings.c:1303
 msgid "Drive #8 floppy disk type"
 msgstr "Diskettyp i enhet 8"
 
-#: src/arch/unix/uisettings.c:1318
+#: src/arch/unix/uisettings.c:1312
 msgid "Drive #9 floppy disk type"
 msgstr "Diskettyp i enhet 9"
 
-#: src/arch/unix/uisettings.c:1345
+#: src/arch/unix/uisettings.c:1339
 msgid "*Enable"
 msgstr "*Aktivera"
 
-#: src/arch/unix/uisettings.c:1353
+#: src/arch/unix/uisettings.c:1347
 msgid "Resolutions"
 msgstr "Upplösningar"
 
-#: src/arch/unix/uisettings.c:1366
+#: src/arch/unix/uisettings.c:1360
 msgid "*Video cache"
 msgstr "*Grafikcache"
 
-#: src/arch/unix/uisettings.c:1372
+#: src/arch/unix/uisettings.c:1366
 msgid "*Use XSync()"
 msgstr "*Använd XSync()"
 
-#: src/arch/unix/uisettings.c:1378
+#: src/arch/unix/uisettings.c:1372
 #, fuzzy
 msgid "VIC-II Video settings"
 msgstr "VIC-II-inställningar"
 
-#: src/arch/unix/uisettings.c:1384
+#: src/arch/unix/uisettings.c:1378
 #, fuzzy
 msgid "VIC Video settings"
 msgstr "Grafikinställningar"
 
-#: src/arch/unix/uisettings.c:1394
+#: src/arch/unix/uisettings.c:1388
 msgid "Maximum speed"
 msgstr "Maximal hastighet"
 
-#: src/arch/unix/uisettings.c:1396
+#: src/arch/unix/uisettings.c:1390
 msgid "*Enable warp mode"
 msgstr "*Aktivera warpläge"
 
-#: src/arch/unix/uisettings.c:1411
+#: src/arch/unix/uisettings.c:1405
 msgid "*Fullscreen settings"
 msgstr "*Fullskärmsinställningar"
 
-#: src/arch/unix/uisettings.c:1420
+#: src/arch/unix/uisettings.c:1414
 msgid "Keyboard settings"
 msgstr "Tangentbordsinställningar"
 
-#: src/arch/unix/uisettings.c:1426 src/arch/unix/vsidui.c:155
+#: src/arch/unix/uisettings.c:1420 src/arch/unix/vsidui.c:155
 msgid "Sound settings"
 msgstr "Ljudinställningar"
 
-#: src/arch/unix/uisettings.c:1433 src/arch/unix/uisettings.c:1440
+#: src/arch/unix/uisettings.c:1427 src/arch/unix/uisettings.c:1434
 msgid "Drive settings"
 msgstr "Diskettenhetsinställningar"
 
-#: src/arch/unix/uisettings.c:1446
+#: src/arch/unix/uisettings.c:1440
 msgid "Peripheral settings"
 msgstr "Inställningar för kringutrustning"
 
-#: src/arch/unix/uisettings.c:1452
+#: src/arch/unix/uisettings.c:1446
 msgid "Save settings"
 msgstr "Spara inställningar"
 
-#: src/arch/unix/uisettings.c:1454
+#: src/arch/unix/uisettings.c:1448
 msgid "Load settings"
 msgstr "Ladda inställningar"
 
-#: src/arch/unix/uisettings.c:1456
+#: src/arch/unix/uisettings.c:1450
 msgid "Restore default settings"
 msgstr "Återställ förvalda inställningar"
 
-#: src/arch/unix/uisettings.c:1458
+#: src/arch/unix/uisettings.c:1452
 msgid "*Save settings on exit"
 msgstr "*Spara inställningar vid avslut"
 
