@@ -1,25 +1,25 @@
 # Microsoft Developer Studio Project File - Name="printerdrv" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
-# ** DO NOT EDIT **
+# ** NICHT BEARBEITEN **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
 CFG=printerdrv - Win32 Debug
-!MESSAGE This is not a valid makefile. To build this project using NMAKE,
-!MESSAGE use the Export Makefile command and run
-!MESSAGE
+!MESSAGE Dies ist kein gültiges Makefile. Zum Erstellen dieses Projekts mit NMAKE
+!MESSAGE verwenden Sie den Befehl "Makefile exportieren" und führen Sie den Befehl
+!MESSAGE 
 !MESSAGE NMAKE /f "printerdrv.mak".
-!MESSAGE
-!MESSAGE You can specify a configuration when running NMAKE
-!MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE
+!MESSAGE 
+!MESSAGE Sie können beim Ausführen von NMAKE eine Konfiguration angeben
+!MESSAGE durch Definieren des Makros CFG in der Befehlszeile. Zum Beispiel:
+!MESSAGE 
 !MESSAGE NMAKE /f "printerdrv.mak" CFG="printerdrv - Win32 Debug"
-!MESSAGE
-!MESSAGE Possible choices for configuration are:
-!MESSAGE
-!MESSAGE "printerdrv - Win32 Release" (based on "Win32 (x86) Static Library")
-!MESSAGE "printerdrv - Win32 Debug" (based on "Win32 (x86) Static Library")
-!MESSAGE
+!MESSAGE 
+!MESSAGE Für die Konfiguration stehen zur Auswahl:
+!MESSAGE 
+!MESSAGE "printerdrv - Win32 Release" (basierend auf  "Win32 (x86) Static Library")
+!MESSAGE "printerdrv - Win32 Debug" (basierend auf  "Win32 (x86) Static Library")
+!MESSAGE 
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -74,7 +74,7 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ENDIF
+!ENDIF 
 
 # Begin Target
 
@@ -82,27 +82,35 @@ LIB32=link.exe -lib
 # Name "printerdrv - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\printerdrv\driver-select.c
+SOURCE="..\..\printerdrv\driver-select.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\printerdrv\drv-ascii.c
+SOURCE="..\..\printerdrv\drv-ascii.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\printerdrv\drv-mps803.c
+SOURCE="..\..\printerdrv\drv-mps803.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\printerdrv\interface-serial.c
+SOURCE="..\..\printerdrv\interface-serial.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\printerdrv\interface-userport.c
+SOURCE="..\..\printerdrv\interface-userport.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\printerdrv\output-file.c
+SOURCE="..\..\printerdrv\output-graphics.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\printerdrv\output-select.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\printerdrv\output-text.c"
 # End Source File
 # Begin Source File
 

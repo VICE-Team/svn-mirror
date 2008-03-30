@@ -5,7 +5,7 @@
  *  John Selck <graham@cruise.de>
  *
  * Research about the YUV values by
- *  Philip Thimerman <pepto@pepto.de>
+ *  Philip Timmermann <pepto@pepto.de>
  *  John Selck <graham@cruise.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -33,8 +33,12 @@
 
 #include "palette.h"
 
-extern void vic_ii_pal_initfilter(int saturation,int contrast,int brightness,int gamma,int newlum);
-extern void vic_ii_pal_fillpalette(palette_t *palette);
+#define VIC_II_COLOR_PALETTE_16     1
+#define VIC_II_COLOR_PALETTE_256    2
+#define VIC_II_COLOR_PALETTE_LOOKUP 3
+
+extern const char *vic_ii_color_names[16];
+extern palette_t *vic_ii_color_calcpalette(int type,int saturation,int contrast,int brightness,int gamma,int newlum);
 
 #endif
 

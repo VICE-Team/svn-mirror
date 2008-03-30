@@ -62,7 +62,8 @@ int vic_ii_activate_palette(void)
                             vic_ii_resources.color_contrast,
                             vic_ii_resources.color_brightness,
                             vic_ii_resources.color_gamma,
-                            vic_ii_resources.new_luminances);
+                            vic_ii_resources.new_luminances,
+							vic_ii_resources.fast_delayloop_emulation);
     }
     return 0;
 }
@@ -126,6 +127,20 @@ set_ext_palette (resource_value_t v, void *param)
 }
 
 static int
+set_fast_delayloop_emulation (resource_value_t v, void *param)
+{
+    vic_ii_resources.fast_delayloop_emulation = (int) v;
+    return vic_ii_activate_palette();
+}
+
+static int
+set_pal_emulation (resource_value_t v, void *param)
+{
+    vic_ii_resources.pal_emulation = (int) v;
+    return vic_ii_activate_palette();
+}
+
+static int
 set_sprite_sprite_collisions_enabled (resource_value_t v, void *param)
 {
   vic_ii_resources.sprite_sprite_collisions_enabled = (int) v;
@@ -177,6 +192,12 @@ static resource_t resources[] =
     { "ExternalPalette", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &vic_ii_resources.ext_palette,
       set_ext_palette, NULL },
+    { "DelayLoopEmulation", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &vic_ii_resources.fast_delayloop_emulation,
+      set_fast_delayloop_emulation, NULL },
+    { "PALEmulation", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &vic_ii_resources.pal_emulation,
+      set_pal_emulation, NULL },
     { "CheckSsColl", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &vic_ii_resources.sprite_sprite_collisions_enabled,
       set_sprite_sprite_collisions_enabled, NULL },

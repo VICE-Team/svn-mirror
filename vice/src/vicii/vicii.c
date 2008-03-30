@@ -1547,23 +1547,11 @@ static void vic_ii_raster_irq_alarm_handler(CLOCK offset)
   alarm_set (&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
 }
 
-static const char *color_names[VIC_II_NUM_COLORS] =
-{
-  "Black", "White", "Red", "Cyan", "Purple", "Green", "Blue",
-  "Yellow", "Orange", "Brown", "Light Red", "Dark Gray", "Medium Gray",
-  "Light Green", "Light Blue", "Light Gray"
-};
-
-int vic_ii_calc_palette(int sat,int con,int bri,int gam,int newlum)
+int vic_ii_calc_palette(int sat,int con,int bri,int gam,int newlum,int mixedcols)
 {
   palette_t *palette;
 
-  palette = palette_create(VIC_II_NUM_COLORS, color_names);
-  if (palette == NULL)
-    return -1;
-
-  vic_ii_pal_initfilter(sat,con,bri,gam,newlum);
-  vic_ii_pal_fillpalette(palette);
+  palette = vic_ii_color_calcpalette(VIC_II_COLOR_PALETTE_16,sat,con,bri,gam,newlum);
   return raster_set_palette(&vic_ii.raster, palette);
 }
 
@@ -1575,7 +1563,7 @@ int vic_ii_load_palette(const char *name)
 {
   palette_t *palette;
 
-  palette = palette_create(VIC_II_NUM_COLORS, color_names);
+  palette = palette_create(VIC_II_NUM_COLORS, vic_ii_color_names);
   if (palette == NULL)
     return -1;
 

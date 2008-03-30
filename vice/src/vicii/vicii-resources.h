@@ -64,6 +64,12 @@ struct _vic_ii_resources
     int double_scan_enabled;
 #endif
 
+	/* Flag: Fast palette based delay loop emulation? (fake pal emu) */
+	int fast_delayloop_emulation;
+
+	/* Flag: Slow but real PAL emulation? */
+	int pal_emulation;
+
     /* Flag: Do we enable the video cache?  */
     int video_cache_enabled;
 

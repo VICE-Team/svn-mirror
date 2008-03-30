@@ -383,7 +383,7 @@ extern vic_ii_t vic_ii;
 /* Private function calls, used by the other VIC-II modules.  FIXME:
    Prepend names with `_'?  */
 extern int vic_ii_activate_palette(void);
-extern int vic_ii_calc_palette(int sat,int con,int bri,int gam,int newlum);
+extern int vic_ii_calc_palette(int sat,int con,int bri,int gam,int newlum,int mixedcols);
 extern int vic_ii_load_palette(const char *name);
 extern void vic_ii_fetch_matrix (int offs, int num);
 extern void vic_ii_set_raster_irq (unsigned int line);
