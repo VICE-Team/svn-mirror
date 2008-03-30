@@ -1,3 +1,57 @@
+2004-02-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.8.
+
+	* signals.h, arch/unix/signals.c, arch/win32/signals.c,
+	arch/msdos/signals.c, arch/riscos/signals.c,
+	arch/os2/signals.c, arch/beos/signals.c: New files.
+
+	* Makefile.am, arch/unix/Makefile.am, arch/win32/Makefile.am,
+	arch/win32/arch.dsp, arch/msdos/Makefile.am,
+	arch/riscos/Makefile.am, arch/os2/Makefile.am,
+	arch/beos/Makefile.am: Added new files.
+
+	* init.c (init_main): Use new signal init function.
+
+	* archapi.h, arch/unix/archdep.c, arch/win32/archdep.c,
+	arch/msdos/archdep.c, arch/riscos/archdep.c,
+	arch/os2/archdep.c, arch/beos/archdep.c: Moved signal code to
+	separate files.
+
+	* c1541.c (write_cmd): Fixed destination file name.
+
+2004-02-29  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/ui.c (reset_dialog_proc): Don't clear keyboard
+	matrix before reset.
+
+	* fliplist.c (flip_load_list): Check if filename is empty.
+
+	* gfxoutputdrv/bmpdrv.c (bmpdrv_write_bitmap_info): Set DPI in
+	BMP header.
+
+	* printerdrv/drv-ascii.c (drv_ascii_open): Set DPI to 100x100.
+	This is not used, it's set just to have some default values.
+
+	* printerdrv/drv-mps803.c (drv_mps803_open): Set DPI to 72x72.
+
+	* printerdrv/drv-nl10.c (drv_nl10_open): Set DPI to 300x300.
+
+	* printerdrv/output-graphics.c (output_graphics_open): Forward
+	DPI settings to screenshot structure.
+
+	* output.h (output_parameter_t): Added tags for DPI
+	resolution.
+
+	* raster/raster.c (raster_screenshot): Set DPI to 100x100.
+
+	* screenshot.h (screenshot_t): Added tags for DPI resolution.
+
+2004-02-29  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* c1541 (split_args): Added \r to the whitespace characters.
+	A whitespace doesn't reset begin_of_args.
+
 2004-02-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.7.
