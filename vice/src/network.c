@@ -66,6 +66,8 @@ typedef unsigned int SOCKET;
 typedef struct timeval TIMEVAL;
 #define PF_INET AF_INET
 #define INVALID_SOCKET (SOCKET)(~0)
+#define HAVE_HTONS
+#define HAVE_HTONL
 #endif
 
 #if !defined(WIN32) && !defined(__BEOS__)

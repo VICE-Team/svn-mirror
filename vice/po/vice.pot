@@ -7,7 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-08-26 19:24+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-09-03 17:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -376,73 +377,73 @@ msgstr ""
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 
-#: src/network.c:235
+#: src/network.c:237
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:460
+#: src/network.c:462
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:508
+#: src/network.c:510
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:532
+#: src/network.c:534
 msgid "Cannot load snapshot file for transfer"
 msgstr ""
 
-#: src/network.c:545
+#: src/network.c:547
 msgid "Sending snapshot to client..."
 msgstr ""
 
-#: src/network.c:554
+#: src/network.c:556
 msgid "Cannot send snapshot to client"
 msgstr ""
 
-#: src/network.c:580
+#: src/network.c:582
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr ""
 
-#: src/network.c:618
+#: src/network.c:620
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr ""
 
-#: src/network.c:777
+#: src/network.c:779
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:814
+#: src/network.c:816
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 
-#: src/network.c:834
+#: src/network.c:836
 #, c-format
 msgid "Cannot resolve %s"
 msgstr ""
 
-#: src/network.c:879
+#: src/network.c:881
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:893
+#: src/network.c:895
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:1024
+#: src/network.c:1026
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:1035
+#: src/network.c:1037
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:1077
+#: src/network.c:1079
 msgid "Network out of sync - disconnecting."
 msgstr ""
 
@@ -2837,6 +2838,7 @@ msgid "*Cartridge control"
 msgstr ""
 
 #: src/arch/unix/gui/uicmdline.c:39
+#, c-format
 msgid ""
 "\n"
 "Available command-line options:\n"
@@ -4737,6 +4739,7 @@ msgstr ""
 
 #. Shouldn't happen.
 #: src/arch/unix/gui/vic20ui.c:102
+#, c-format
 msgid "What?!\n"
 msgstr ""
 
@@ -4902,21 +4905,22 @@ msgid ""
 "Paul Dube - French\n"
 "Marco van den Heuvel - Dutch\n"
 "Flooder - Polish\n"
+"Karai Csaba - Hungarian\n"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:98
+#: src/arch/unix/x11/gnome/about.c:99
 msgid "(c) 1998 - 2006 The Vice Team"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:109
+#: src/arch/unix/x11/gnome/about.c:110
 msgid "License"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:113
+#: src/arch/unix/x11/gnome/about.c:114
 msgid "Warranty"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:117
+#: src/arch/unix/x11/gnome/about.c:118
 msgid "Contributors"
 msgstr ""
 

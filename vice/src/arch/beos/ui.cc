@@ -1041,8 +1041,17 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base,
 }
 
 /* Toggle displaying of the drive LED.  */
-void ui_display_drive_led(int drivenum, int status)
+void ui_display_drive_led(int drivenum, unsigned int led_pwm1,
+                          unsigned int led_pwm2)
 {
+	int status = 0;
+
+	if (led_pwm1 > 100)
+		status |= 1;
+
+	if (led_pwm2 > 100)
+		status |= 2;
+
 	ui_status_led[drivenum] = status;
 	ui_display_drive_status(drivenum);
 }

@@ -1,3 +1,27 @@
+2006-09-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.
+
+2006-09-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/beos/ui.cc: Updated the ui_display_drive_led function.
+
+	* network.c: Updated for BeOS to define HAVE_HTONS and
+	HAVE_HTONL.
+
+2006-09-02  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/about.c (ui_about): Added Csaba.
+
+	* info.c: Added Csaba.
+
+2006-08-27  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/make-bindist.sh:
+	Added correct PATH environment to launcher script.
+	It is required to launch c1541 that is now embedded in each
+	bundle. Disk Image is gzipped to shrink it even more.
+
 2006-08-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.

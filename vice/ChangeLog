@@ -1,3 +1,16 @@
+2006-09-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.
+
+	* configure.in: Define `UNSTABLE'.
+	Do not add `-Wstrict-prototypes' to `CXXFLAGS'.
+
+	* doc/html/index.html: Added link to BeOS patch.
+
+2006-09-02  pottendo  <pottendo@utanet.at>
+
+	* configure.in: (ALL_LINGUAS) added hu.
+
 2006-08-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.

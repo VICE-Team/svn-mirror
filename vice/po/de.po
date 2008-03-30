@@ -5,14 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.20\n"
-"POT-Creation-Date: 2006-08-26 19:24+0200\n"
-"PO-Revision-Date: 2006-08-06 13:48+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-09-03 17:22+0200\n"
+"PO-Revision-Date: 2006-09-02 15:30+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: src/vsync.c:143 src/sid/sid-cmdline-options.c:155
 #: src/sid/sid-cmdline-options.c:158
@@ -382,74 +382,74 @@ msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Wiedergabe Fehler: %s ist unterschiedlich von Zeile %d in Datei debug%06d"
 
-#: src/network.c:235
+#: src/network.c:237
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Kann zwischen IPV4/IPV6 nicht wechseln, solange netplay aktiv ist."
 
-#: src/network.c:460
+#: src/network.c:462
 msgid "Testing best frame delay..."
 msgstr "Teste optimale Framerate..."
 
-#: src/network.c:508
+#: src/network.c:510
 #, c-format
 msgid "Using %d frames delay."
 msgstr "Benutze %d Frameverzögerung."
 
-#: src/network.c:532
+#: src/network.c:534
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kann Snapshot Datei für Transfer nicht laden"
 
-#: src/network.c:545
+#: src/network.c:547
 msgid "Sending snapshot to client..."
 msgstr "Sende Snapshot zu Client..."
 
-#: src/network.c:554
+#: src/network.c:556
 msgid "Cannot send snapshot to client"
 msgstr "Kann Snapshot Datei nicht senden"
 
-#: src/network.c:580
+#: src/network.c:582
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kann Snapshot Datei `%s' nicht erzeugen"
 
-#: src/network.c:618
+#: src/network.c:620
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kann Snapshot Datei `%s' nicht öffnen."
 
-#: src/network.c:777
+#: src/network.c:779
 msgid "Server is waiting for a client..."
 msgstr "Server wartet auf Client..."
 
-#: src/network.c:814
+#: src/network.c:816
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Kann Snapshot Datei `%s' nicht erzeugen. Verwende ein anderes Verzeichnis!"
 
-#: src/network.c:834
+#: src/network.c:836
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Kann %s nicht auflösen"
 
-#: src/network.c:879
+#: src/network.c:881
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr "Kann zu %s nicht verbinden (Kein Server aktiv auf Port %d)."
 
-#: src/network.c:893
+#: src/network.c:895
 msgid "Receiving snapshot from server..."
 msgstr "Empfange Snapshot von Server..."
 
-#: src/network.c:1024
+#: src/network.c:1026
 msgid "Remote host disconnected."
 msgstr "Entfernter Rechner getrennt."
 
-#: src/network.c:1035
+#: src/network.c:1037
 msgid "Remote host suspending..."
 msgstr "Entfernter Rechner angehaltedn..."
 
-#: src/network.c:1077
+#: src/network.c:1079
 msgid "Network out of sync - disconnecting."
 msgstr "Netzwerksynchronisationsproblem - Trenne Verbindung."
 
@@ -2857,6 +2857,7 @@ msgid "*Cartridge control"
 msgstr "*Erweiterungsmodul Einstellungen"
 
 #: src/arch/unix/gui/uicmdline.c:39
+#, c-format
 msgid ""
 "\n"
 "Available command-line options:\n"
@@ -4766,6 +4767,7 @@ msgstr "*Sprite-Hintergrund Kollisionen"
 
 #. Shouldn't happen.
 #: src/arch/unix/gui/vic20ui.c:102
+#, c-format
 msgid "What?!\n"
 msgstr "Wie Bitte?!\n"
 
@@ -4931,6 +4933,7 @@ msgid ""
 "Paul Dube - French\n"
 "Marco van den Heuvel - Dutch\n"
 "Flooder - Polish\n"
+"Karai Csaba - Hungarian\n"
 msgstr ""
 "Martin Pottendorfer - Deutsch\n"
 "Peter Karlsson - Schwedisch\n"
@@ -4938,20 +4941,21 @@ msgstr ""
 "Paul Dubé - Französisch\n"
 "Marco van den Heuvel - Niederländisch\n"
 "Flooder - Polnisch\n"
+"Karai Csaba - Ungarisch\n"
 
-#: src/arch/unix/x11/gnome/about.c:98
+#: src/arch/unix/x11/gnome/about.c:99
 msgid "(c) 1998 - 2006 The Vice Team"
 msgstr "(c) 1998 - 2006 Das Vice Team"
 
-#: src/arch/unix/x11/gnome/about.c:109
+#: src/arch/unix/x11/gnome/about.c:110
 msgid "License"
 msgstr "Lizenz"
 
-#: src/arch/unix/x11/gnome/about.c:113
+#: src/arch/unix/x11/gnome/about.c:114
 msgid "Warranty"
 msgstr "Garantiebestimmungen"
 
-#: src/arch/unix/x11/gnome/about.c:117
+#: src/arch/unix/x11/gnome/about.c:118
 msgid "Contributors"
 msgstr "VICE Hackers"
 
