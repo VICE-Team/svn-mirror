@@ -24,6 +24,13 @@
  *
  */
 
+/* FIXME: This should be split between `vic20cartridge.h' and
+   `c64cartridge.h' IMO -- EP */
+#ifndef _CARTRIDGE_H
+#define _CARTRIDGE_H
+
+#include "types.h"
+
 extern int cartridge_init_resources(void);
 extern int cartridge_init_cmdline_options(void);
 
@@ -32,6 +39,7 @@ extern void cartridge_detach_image(void);
 extern void cartridge_set_default(void);
 extern void cartridge_trigger_freeze(void);
 extern void cartridge_release_freeze(void);
+extern const char *cartridge_get_file_name(ADDRESS addr);
 
 /* Known cartridge types.  */
 
@@ -52,3 +60,4 @@ extern void cartridge_release_freeze(void);
 #define	CARTRIDGE_VIC20_8KB_A000	7
 #define	CARTRIDGE_VIC20_4KB_B000	8
 
+#endif
