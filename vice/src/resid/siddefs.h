@@ -48,6 +48,8 @@ typedef sound_sample fc_point[2];
 
 enum chip_model { MOS6581, MOS8580 };
 
+enum sampling_method { SAMPLE_FAST, SAMPLE_INTERPOLATE, SAMPLE_RESAMPLE };
+
 extern "C"
 {
 #ifndef __VERSION_CC__
@@ -58,6 +60,7 @@ const char* resid_version_string = VERSION;
 }
 
 // Inlining on/off.
-#define RESID_INLINE 1
+#define RESID_INLINING 1
+#define RESID_INLINE inline
 
 #endif // not __SIDDEFS_H__

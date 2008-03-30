@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	beos.h 	c128kbd.c 	c128ui.cc 	c128ui.h 	c610kbd.c 	c610ui.cc 	c610ui.h 	c64kbd.c 	c64ui.cc 	c64ui.h 	console.c 	constants.h 	joystick.cc 	joystick.h 	kbd.c 	kbd.h 	main.cc 	main.h 	main_exit.c 	main_exit.h 	mouse.cc 	mouse.h 	petkbd.c 	petui.cc 	petui.h 	statusbar.cc 	statusbar.h 	types.h 	ui.cc 	ui.h 	ui_cbm2.cc 	ui_cbm2.h 	ui_datasette.cc 	ui_datasette.h 	ui_drive.cc 	ui_drive.h 	ui_device.cc 	ui_device.h 	ui_file.cc 	ui_file.h 	ui_joystick.cc 	ui_joystick.h 	ui_pet.cc 	ui_pet.h 	ui_sound.cc 	ui_sound.h 	ui_vic20.cc 	ui_vic20.h 	ui_vicii.cc 	ui_vicii.h 	uicmdline.c 	uicmdline.h 	uimon.c 	vic20kbd.c 	vic20ui.cc 	vic20ui.h 	vicemenu.cc 	vicemenu.h 	vicewindow.cc 	vicewindow.h 	video.cc 	videoarch.h 	vsidui.c 	vsync.c
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	beos.h 	c128kbd.c 	c128ui.cc 	c128ui.h 	c610kbd.c 	c610ui.cc 	c610ui.h 	c64kbd.c 	c64ui.cc 	c64ui.h 	console.c 	constants.h 	joystick.cc 	joystick.h 	kbd.c 	kbd.h 	main.cc 	main.h 	main_exit.c 	main_exit.h 	mouse.cc 	mouse.h 	petkbd.c 	petui.cc 	petui.h 	statusbar.cc 	statusbar.h 	types.h 	ui.cc 	ui.h 	ui_cbm2.cc 	ui_cbm2.h 	ui_datasette.cc 	ui_datasette.h 	ui_drive.cc 	ui_drive.h 	ui_device.cc 	ui_device.h 	ui_file.cc 	ui_file.h 	ui_joystick.cc 	ui_joystick.h 	ui_pet.cc 	ui_pet.h 	ui_sound.cc 	ui_sound.h 	ui_vic20.cc 	ui_vic20.h 	ui_vicii.cc 	ui_vicii.h 	uicmdline.c 	uicmdline.h 	uimon.c 	vic20kbd.c 	vic20ui.cc 	vic20ui.h 	vicemenu.cc 	vicemenu.h 	vicewindow.cc 	vicewindow.h 	video.cc 	videoarch.h 	vsidui.cc 	vsync.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
