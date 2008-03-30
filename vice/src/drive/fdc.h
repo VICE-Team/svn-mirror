@@ -62,8 +62,8 @@ extern void fdc_reset(int fnum, int enabled);
 extern int fdc_read_snapshot_module(snapshot_t *s, int drv);
 extern int fdc_write_snapshot_module(snapshot_t *s, int drv);
 
-extern int fdc_attach_disk(void *flp);
-extern int fdc_detach_disk(void *flp);
+extern int fdc_attach_image(disk_image_t *image, int unit);
+extern int fdc_detach_image(disk_image_t *image, int unit);
 
 #endif
 
