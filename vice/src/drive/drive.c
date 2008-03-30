@@ -132,20 +132,34 @@ static int set_drive_true_emulation(resource_value_t v)
 
 static int set_drive0_type(resource_value_t v)
 {
-    switch ((int) v) {
+    int type = (int) v;
+    int busses = iec_available_busses();
+
+    /* if bus for drive type is not allowed, set to default value for bus */
+    if (!drive_match_bus(type, busses)) {
+	if (busses & IEC_BUS_IEC) {
+	    type = DRIVE_TYPE_1541;
+	} else 
+	if (busses & IEC_BUS_IEEE) {
+	    type = DRIVE_TYPE_2031;
+	} else
+	    type = DRIVE_TYPE_NONE;
+    }
+
+    switch (type) {
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
-        drive[0].type = (int) v;
+        drive[0].type = type;
         if (drive_true_emulation) {
-        drive[0].enable = 1;
-        drive_enable(0);
+            drive[0].enable = 1;
+            drive_enable(0);
         }
-        drive_set_disk_drive_type((int) v, 0);
+        drive_set_disk_drive_type(type, 0);
         return 0;
       case DRIVE_TYPE_NONE:
-        drive[0].type = (int) v;
+        drive[0].type = type;
         drive_disable(0);
         return 0;
       default:
@@ -155,20 +169,34 @@ static int set_drive0_type(resource_value_t v)
 
 static int set_drive1_type(resource_value_t v)
 {
-    switch ((int) v) {
+    int type = (int) v;
+    int busses = iec_available_busses();
+
+    /* if bus for drive type is not allowed, set to default value for bus */
+    if (!drive_match_bus(type, busses)) {
+	if (busses & IEC_BUS_IEC) {
+	    type = DRIVE_TYPE_1541;
+	} else 
+	if (busses & IEC_BUS_IEEE) {
+	    type = DRIVE_TYPE_2031;
+	} else
+	    type = DRIVE_TYPE_NONE;
+    }
+
+    switch (type) {
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
-        drive[1].type = (int) v;
+        drive[1].type = type;
         if (drive_true_emulation) {
-        drive[1].enable = 1;
-        drive_enable(1);
+            drive[1].enable = 1;
+            drive_enable(1);
         }
-        drive_set_disk_drive_type((int) v, 1);
+        drive_set_disk_drive_type(type, 1);
         return 0;
       case DRIVE_TYPE_NONE:
-        drive[1].type = (int) v;
+        drive[1].type = type;
         drive_disable(1);
         return 0;
       default:
@@ -203,14 +231,23 @@ static int set_drive0_idling_method(resource_value_t v)
         && (int) v != DRIVE_IDLE_NO_IDLE)
         return -1;
 
-    if (rom_loaded && drive[0].type == DRIVE_TYPE_1541) {
-/*
-        drive[0].rom[0xec9b - 0x8000] =
-            (drive[0].idling_method != DRIVE_IDLE_TRAP_IDLE)
-            ? 0x00 : drive[0].rom_idle_trap;
-*/
-    }
     drive[0].idling_method = (int) v;
+
+    if (rom_loaded && drive[0].type == DRIVE_TYPE_1541) {
+        if (drive[0].idling_method == DRIVE_IDLE_TRAP_IDLE) {
+            drive[0].rom[0xeae4 - 0x8000] = 0xea;
+            drive[0].rom[0xeae5 - 0x8000] = 0xea;
+            drive[0].rom[0xeae8 - 0x8000] = 0xea;
+            drive[0].rom[0xeae9 - 0x8000] = 0xea;
+            drive[0].rom[0xec9b - 0x8000] = 0x00;
+        } else {
+            drive[0].rom[0xeae4 - 0x8000] = drive[0].rom_checksum[0];
+            drive[0].rom[0xeae5 - 0x8000] = drive[0].rom_checksum[1];
+            drive[0].rom[0xeae8 - 0x8000] = drive[0].rom_checksum[2];
+            drive[0].rom[0xeae9 - 0x8000] = drive[0].rom_checksum[3];
+            drive[0].rom[0xec9b - 0x8000] = drive[0].rom_idle_trap;
+        }
+    }
     return 0;
 }
 static int set_drive1_idling_method(resource_value_t v)
@@ -221,11 +258,23 @@ static int set_drive1_idling_method(resource_value_t v)
         && (int) v != DRIVE_IDLE_NO_IDLE)
         return -1;
 
-    if (rom_loaded && drive[1].type == DRIVE_TYPE_1541)
-        drive[1].rom[0xec9b - 0x8000] =
-            (drive[1].idling_method != DRIVE_IDLE_TRAP_IDLE)
-            ? 0x00 : drive[1].rom_idle_trap;
     drive[1].idling_method = (int) v;
+
+    if (rom_loaded && drive[1].type == DRIVE_TYPE_1541) {
+        if (drive[1].idling_method == DRIVE_IDLE_TRAP_IDLE) {
+            drive[1].rom[0xeae4 - 0x8000] = 0xea;
+            drive[1].rom[0xeae5 - 0x8000] = 0xea;
+            drive[1].rom[0xeae8 - 0x8000] = 0xea;
+            drive[1].rom[0xeae9 - 0x8000] = 0xea;
+            drive[1].rom[0xec9b - 0x8000] = 0x00;
+        } else {
+            drive[1].rom[0xeae4 - 0x8000] = drive[1].rom_checksum[0];
+            drive[1].rom[0xeae5 - 0x8000] = drive[1].rom_checksum[1];
+            drive[1].rom[0xeae8 - 0x8000] = drive[1].rom_checksum[2];
+            drive[1].rom[0xeae9 - 0x8000] = drive[1].rom_checksum[3];
+            drive[1].rom[0xec9b - 0x8000] = drive[1].rom_idle_trap;
+        }
+    }
     return 0;
 }
 
@@ -506,10 +555,10 @@ static void drive_read_image_d64_d71(int dnr)
 	int max_sector = 0;
 
 	ptr = drive[dnr].GCR_data + GCR_OFFSET(track, 0);
-    if (drive[dnr].drive_floppy->ImageFormat == 1541)
-        max_sector = sector_map_1541[track];
-    if (drive[dnr].drive_floppy->ImageFormat == 1571)
-        max_sector = sector_map_1571[track];
+        if (drive[dnr].drive_floppy->ImageFormat == 1541)
+            max_sector = sector_map_1541[track];
+        if (drive[dnr].drive_floppy->ImageFormat == 1571)
+            max_sector = sector_map_1571[track];
 
 	/* Clear track to avoid read errors.  */
 	memset(ptr, 0xff, NUM_MAX_BYTES_TRACK);
@@ -1048,20 +1097,22 @@ static void drive_setup_rom_image(int dnr)
 static void drive_initialize_rom_traps(int dnr)
 {
     if (drive[dnr].type == DRIVE_TYPE_1541) {
-        /* Remove the ROM check.  */
-/*
+        /* Save the ROM check.  */
+        drive[dnr].rom_checksum[0] = drive[dnr].rom[0xeae4 - 0x8000];
+        drive[dnr].rom_checksum[1] = drive[dnr].rom[0xeae5 - 0x8000];
+        drive[dnr].rom_checksum[2] = drive[dnr].rom[0xeae8 - 0x8000];
+        drive[dnr].rom_checksum[3] = drive[dnr].rom[0xeae9 - 0x8000];
+        /* Save the idle trap.  */
+        drive[dnr].rom_idle_trap = drive[dnr].rom[0xec9b - 0x8000];
+
+        if (drive[dnr].idling_method == DRIVE_IDLE_TRAP_IDLE) {
         drive[dnr].rom[0xeae4 - 0x8000] = 0xea;
         drive[dnr].rom[0xeae5 - 0x8000] = 0xea;
         drive[dnr].rom[0xeae8 - 0x8000] = 0xea;
         drive[dnr].rom[0xeae9 - 0x8000] = 0xea;
-*/
-        /* Trap the idle loop.  */
-/*
-        drive[dnr].rom_idle_trap = drive[dnr].rom[0xec9b - 0x8000];
-        if (drive[dnr].idling_method == DRIVE_IDLE_TRAP_IDLE)
         drive[dnr].rom[0xec9b - 0x8000] = 0x00;
-*/
-   }
+        }
+    }
 }
 
 /* Activate full drive emulation. */
@@ -1755,7 +1806,7 @@ Type               DWORD  2      drive type
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
-int drive_write_snapshot_module(snapshot_t *s)
+int drive_write_snapshot_module(snapshot_t *s, int save_disks)
 {
     int i;
     char snap_module_name[] = "DRIVE";
@@ -1769,7 +1820,7 @@ int drive_write_snapshot_module(snapshot_t *s)
 
     for (i = 0; i < 2; i++) {
         rotation_table_ptr[i] = (DWORD) (drive[i].rotation_table_ptr
-            - drive[i].rotation_table[0]);
+                                         - drive[i].rotation_table[0]);
         GCR_image[i] = (drive[i].GCR_image_loaded == 0) ? 0 : 1;
     }
 
@@ -1855,14 +1906,18 @@ int drive_write_snapshot_module(snapshot_t *s)
                 return -1;
         }
     }
-    if (GCR_image[0] > 0) {
-        if (drive_write_image_snapshot_module(s, 0) < 0)
-            return -1;
+
+    if (save_disks) {
+        if (GCR_image[0] > 0) {
+            if (drive_write_image_snapshot_module(s, 0) < 0)
+                return -1;
+        }
+        if (GCR_image[1] > 0) {
+            if (drive_write_image_snapshot_module(s, 1) < 0)
+                return -1;
+        }
     }
-    if (GCR_image[1] > 0) {
-        if (drive_write_image_snapshot_module(s, 1) < 0)
-            return -1;
-    }
+
     return 0;
 }
 
@@ -2122,4 +2177,16 @@ static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
     drive[dnr].drive_floppy = NULL;
     return 0;
 }
+
+int drive_match_bus(int drive_type, int bus_map)
+{
+    if ( (drive_type == DRIVE_TYPE_NONE)
+	|| ((drive_type == DRIVE_TYPE_2031) && (bus_map & IEC_BUS_IEEE))
+	|| ((drive_type != DRIVE_TYPE_2031) && (bus_map & IEC_BUS_IEC))
+    ) {
+	return 1;
+    }
+    return 0;
+}
+
 
