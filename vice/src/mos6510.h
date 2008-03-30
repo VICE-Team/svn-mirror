@@ -33,7 +33,7 @@
 /* This contains some redundancy to make it compatible with the way registers
    are handled within the CPU emulation.  The struct should be accessed using
    the `MOS6510_REGS_*()' macros.  */
-typedef struct _mos6510_regs {
+typedef struct mos6510_regs_s {
     unsigned int reg_pc;        /* `unsigned int' required by the 1541 code. */
     BYTE reg_a;
     BYTE reg_x;

@@ -63,6 +63,7 @@
 #include "mem.h"
 #include "mon.h"
 #include "mon_parse.h"
+#include "mos6510.h"
 #include "resources.h"
 #include "types.h"
 #include "utils.h"

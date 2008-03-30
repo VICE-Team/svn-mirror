@@ -29,11 +29,6 @@
 #ifndef _MON_H
 #define _MON_H
 
-#include <stdio.h>
-
-#include "console.h"
-#include "interrupt.h"
-#include "mos6510.h"
 #include "types.h"
 
 /* Types */
@@ -148,15 +143,18 @@ typedef struct t_break_list BREAK_LIST;
 
 typedef void monitor_toggle_func_t(int value);
 
+struct cpu_int_status_s;
+struct mos6510_regs_s;
+
 /* This is the standard interface through which the monitor accesses a
    certain CPU.  */
 struct monitor_interface_s {
 
     /* Pointer to the registers of the CPU.  */
-    mos6510_regs_t *cpu_regs;
+    struct mos6510_regs_s *cpu_regs;
 
     /* Pointer to the alarm/interrupt status.  */
-    cpu_int_status_t *int_status;
+    struct cpu_int_status_s *int_status;
 
     /* Pointer to the machine's clock counter.  */
     CLOCK *clk;
@@ -229,7 +227,9 @@ extern const char *_mon_space_strings[];
 
 extern struct mon_cmds mon_cmd_array[];
 
-extern console_t *console_log;
+struct console_s;
+
+extern struct console_s *console_log;
 extern int sidefx;
 extern int exit_mon;
 extern int mon_console_close_on_leaving;

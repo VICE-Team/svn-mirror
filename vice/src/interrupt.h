@@ -29,7 +29,6 @@
 #define _INTERRUPT_H
 
 #include "6510core.h"
-#include "snapshot.h"
 #include "types.h"
 
 /* This handles the interrupt lines and the CPU alarms (i.e. events that happen
@@ -100,7 +99,7 @@ enum cpu_int {
 
 /* We not care about wasted space here, and make fixed-length large enough
    arrays since static allocation can be handled more easily...  */
-struct cpu_int_status {
+struct cpu_int_status_s {
     /* Number of interrupt lines.  */
     int num_ints;
 
@@ -143,7 +142,7 @@ struct cpu_int_status {
 
     enum cpu_int global_pending_int;
 };
-typedef struct cpu_int_status cpu_int_status_t;
+typedef struct cpu_int_status_s cpu_int_status_t;
 
 /* ------------------------------------------------------------------------- */
 
@@ -347,6 +346,8 @@ extern void interrupt_ack_dma(cpu_int_status_t *cs);
 
 /* Extern functions.  These are defined in `interrupt.c'.  */
 
+struct snapshot_module_s;
+
 extern void interrupt_trigger_reset(cpu_int_status_t *cs, CLOCK clk);
 extern void interrupt_ack_reset(cpu_int_status_t *cs);
 extern void interrupt_trigger_trap(cpu_int_status_t *cs,
@@ -363,9 +364,10 @@ extern void interrupt_cpu_status_time_warp(cpu_int_status_t *cs,
                                            CLOCK warp_amount,
                                            int warp_direction);
 
-extern int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m);
+extern int interrupt_read_snapshot(cpu_int_status_t *cs,
+                                   struct snapshot_module_s *m);
 extern int interrupt_write_snapshot(cpu_int_status_t *cs,
-                                    snapshot_module_t *m);
+                                    struct snapshot_module_s *m);
 
 extern void interrupt_set_irq_noclk(cpu_int_status_t *cs, int int_num,
                                     int value);
