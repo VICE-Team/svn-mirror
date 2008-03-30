@@ -465,6 +465,22 @@ text_window_t *ui_message_get_text_window(message_window_e mwin)
 }
 
 
+int ui_message_need_null_event(void)
+{
+  int i;
+
+  for (i=0; i<msg_win_number; i++)
+  {
+    if (MsgWindows[i].tw != NULL)
+    {
+      if (textwin_need_null(MsgWindows[i].tw))
+        return 1;
+    }
+  }
+  return 0;
+}
+
+
 int ui_message_process_event(int event, int *wimpblock)
 {
   int i;

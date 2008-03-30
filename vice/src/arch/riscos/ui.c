@@ -4625,7 +4625,7 @@ int ui_poll_core(int *block)
 {
   int event;
 
-  if ((EmuPaused == 0) || (LastDrag == DRAG_TYPE_VOLUME) || (JoystickWindowOpen != 0) || ui_message_window_is_busy(msg_win_monitor))
+  if ((EmuPaused == 0) || (LastDrag == DRAG_TYPE_VOLUME) || (JoystickWindowOpen != 0) || ui_message_window_is_busy(msg_win_monitor) || ui_message_need_null_event())
     PollMask &= ~1;
   else
     PollMask |= 1;

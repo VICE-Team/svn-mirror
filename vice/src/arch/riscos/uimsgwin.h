@@ -57,6 +57,7 @@ void ui_message_init(void);
 void ui_message_exit(void);
 message_window_e ui_message_window_for_handle(int handle);
 struct text_window_s *ui_message_get_text_window(message_window_e mwin);
+int  ui_message_need_null_event(void);
 int  ui_message_process_event(int event, int *wimpblock);
 
 #endif
