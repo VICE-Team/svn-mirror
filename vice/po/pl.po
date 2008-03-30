@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-09 22:07+0200\n"
+"POT-Creation-Date: 2006-09-10 18:43+0200\n"
 "PO-Revision-Date: 2006-08-06 13:50+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -14,35 +14,35 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: src/vsync.c:141 src/sid/sid-cmdline-options.c:155
+#: src/vsync.c:145 src/sid/sid-cmdline-options.c:155
 #: src/sid/sid-cmdline-options.c:158
 msgid "<percent>"
 msgstr ""
 
-#: src/vsync.c:141
+#: src/vsync.c:145
 msgid "Limit emulation speed to specified value"
 msgstr "Ograniczaj prêdko¶æ emulacji do podanej warto¶ci"
 
-#: src/vsync.c:143 src/sound.c:251 src/sound.c:253 src/debug.c:205
-#: src/c64/cart/ide64.c:282 src/c64/cart/ide64.c:284 src/c64/cart/ide64.c:286
+#: src/vsync.c:147 src/sound.c:256 src/sound.c:258 src/debug.c:205
+#: src/c64/cart/ide64.c:279 src/c64/cart/ide64.c:281 src/c64/cart/ide64.c:283
 #: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:200
-#: src/gfxoutputdrv/ffmpegdrv.c:203 src/mouse.c:97 src/ram.c:101
+#: src/gfxoutputdrv/ffmpegdrv.c:203 src/mouse.c:95 src/ram.c:101
 msgid "<value>"
 msgstr ""
 
-#: src/vsync.c:143
+#: src/vsync.c:147
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Aktualizuj co <warto¶æ> klatek (`0' - automatycznie)"
 
-#: src/vsync.c:145
+#: src/vsync.c:149
 msgid "Enable warp mode"
 msgstr "W³±cz tryb przy¶pieszony (Turbo)"
 
-#: src/vsync.c:147
+#: src/vsync.c:151
 msgid "Disable warp mode"
 msgstr "Wy³±cz tryb przy¶pieszony (Turbo)"
 
-#: src/vsync.c:476
+#: src/vsync.c:480
 msgid "Your machine is too slow for current settings!"
 msgstr "Twój komputer jest zbyt wolny na obecne ustawienia!"
 
@@ -57,25 +57,25 @@ msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/sound.c:247
+#: src/sound.c:252
 #, fuzzy
 msgid "Enable sound playback"
 msgstr "*W³±cz d¼wiêk"
 
-#: src/sound.c:249
+#: src/sound.c:254
 #, fuzzy
 msgid "Disable sound playback"
 msgstr "*W³±cz d¼wiêk"
 
-#: src/sound.c:251
+#: src/sound.c:256
 msgid "Set sound sample rate to <value> Hz"
 msgstr ""
 
-#: src/sound.c:253
+#: src/sound.c:258
 msgid "Set sound buffer size to <value> msec"
 msgstr ""
 
-#: src/sound.c:255 src/sound.c:259 src/c128/c128-cmdline-options.c:108
+#: src/sound.c:260 src/sound.c:264 src/c128/c128-cmdline-options.c:108
 #: src/c128/c128-cmdline-options.c:110 src/c128/c128-cmdline-options.c:112
 #: src/c128/c128-cmdline-options.c:114 src/c128/c128-cmdline-options.c:116
 #: src/c128/c128-cmdline-options.c:118 src/c128/c128-cmdline-options.c:120
@@ -88,15 +88,15 @@ msgstr ""
 #: src/c64/c64-cmdline-options.c:91 src/c64/c64-cmdline-options.c:93
 #: src/c64/c64-cmdline-options.c:95 src/c64/c64-cmdline-options.c:112
 #: src/c64/c64-cmdline-options.c:114 src/c64/c64-cmdline-options.c:116
-#: src/c64/cart/c64cart.c:230 src/c64/cart/c64cart.c:233
-#: src/c64/cart/c64cart.c:236 src/c64/cart/c64cart.c:239
-#: src/c64/cart/c64cart.c:242 src/c64/cart/c64cart.c:245
-#: src/c64/cart/c64cart.c:248 src/c64/cart/c64cart.c:251
-#: src/c64/cart/c64cart.c:254 src/c64/cart/c64cart.c:257
-#: src/c64/cart/c64cart.c:260 src/c64/cart/c64cart.c:263
-#: src/c64/cart/c64cart.c:266 src/c64/cart/ide64.c:280 src/c64/c64_256k.c:216
-#: src/c64/georam.c:206 src/c64/plus256k.c:181 src/c64/plus60k.c:255
-#: src/c64/ramcart.c:236 src/c64/reu.c:244 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/cart/c64cart.c:231 src/c64/cart/c64cart.c:234
+#: src/c64/cart/c64cart.c:237 src/c64/cart/c64cart.c:240
+#: src/c64/cart/c64cart.c:243 src/c64/cart/c64cart.c:246
+#: src/c64/cart/c64cart.c:249 src/c64/cart/c64cart.c:252
+#: src/c64/cart/c64cart.c:255 src/c64/cart/c64cart.c:258
+#: src/c64/cart/c64cart.c:261 src/c64/cart/c64cart.c:264
+#: src/c64/cart/c64cart.c:267 src/c64/cart/ide64.c:277 src/c64/c64_256k.c:205
+#: src/c64/georam.c:204 src/c64/plus256k.c:170 src/c64/plus60k.c:245
+#: src/c64/ramcart.c:234 src/c64/reu.c:242 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -128,136 +128,136 @@ msgstr ""
 #: src/pet/pet-cmdline-options.c:163 src/pet/pet-cmdline-options.c:166
 #: src/pet/pet-cmdline-options.c:169 src/pet/pet-cmdline-options.c:172
 #: src/pet/pet-cmdline-options.c:175 src/pet/pet-cmdline-options.c:178
-#: src/pet/petreu.c:222 src/plus4/plus4-cmdline-options.c:83
+#: src/pet/petreu.c:207 src/plus4/plus4-cmdline-options.c:83
 #: src/plus4/plus4-cmdline-options.c:85 src/plus4/plus4-cmdline-options.c:87
 #: src/plus4/plus4-cmdline-options.c:89 src/plus4/plus4-cmdline-options.c:91
 #: src/plus4/plus4-cmdline-options.c:93 src/plus4/plus4-cmdline-options.c:95
 #: src/plus4/plus4-cmdline-options.c:97 src/plus4/plus4-cmdline-options.c:104
-#: src/plus4/plus4-cmdline-options.c:106 src/printerdrv/driver-select.c:126
-#: src/printerdrv/driver-select.c:128 src/printerdrv/driver-select.c:130
-#: src/printerdrv/output-select.c:121 src/printerdrv/output-select.c:123
-#: src/printerdrv/output-select.c:126 src/printerdrv/output-text.c:117
-#: src/printerdrv/output-text.c:119 src/printerdrv/output-text.c:121
+#: src/plus4/plus4-cmdline-options.c:106 src/printerdrv/driver-select.c:125
+#: src/printerdrv/driver-select.c:127 src/printerdrv/driver-select.c:129
+#: src/printerdrv/output-select.c:120 src/printerdrv/output-select.c:122
+#: src/printerdrv/output-select.c:125 src/printerdrv/output-text.c:113
+#: src/printerdrv/output-text.c:115 src/printerdrv/output-text.c:117
 #: src/rs232drv/rs232drv.c:101 src/rs232drv/rs232drv.c:103
 #: src/rs232drv/rs232drv.c:105 src/rs232drv/rs232drv.c:107
 #: src/vic20/vic20-cmdline-options.c:209 src/vic20/vic20-cmdline-options.c:211
 #: src/vic20/vic20-cmdline-options.c:213 src/vic20/vic20-cmdline-options.c:228
-#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:221
-#: src/vic20/vic20cartridge.c:223 src/vic20/vic20cartridge.c:225
-#: src/vic20/vic20cartridge.c:227 src/vic20/vic20cartridge.c:229
+#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:211
+#: src/vic20/vic20cartridge.c:213 src/vic20/vic20cartridge.c:215
+#: src/vic20/vic20cartridge.c:217 src/vic20/vic20cartridge.c:219
 #: src/video/video-cmdline-options.c:192
 msgid "<name>"
 msgstr ""
 
-#: src/sound.c:255
+#: src/sound.c:260
 msgid "Specify sound driver"
 msgstr ""
 
-#: src/sound.c:257 src/sound.c:261
+#: src/sound.c:262 src/sound.c:266
 msgid "<args>"
 msgstr ""
 
-#: src/sound.c:257
+#: src/sound.c:262
 msgid "Specify initialization parameters for sound driver"
 msgstr ""
 
-#: src/sound.c:259
+#: src/sound.c:264
 #, fuzzy
 msgid "Specify recording sound driver"
 msgstr "Zatrzymaj zapisywanie wydarzen "
 
-#: src/sound.c:261
+#: src/sound.c:266
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
 
-#: src/sound.c:263
+#: src/sound.c:268
 msgid "<sync>"
 msgstr ""
 
-#: src/sound.c:263
+#: src/sound.c:268
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 
-#: src/sound.c:474
+#: src/sound.c:479
 msgid "write to sound device failed."
 msgstr ""
 
-#: src/sound.c:489
+#: src/sound.c:494
 #, fuzzy
 msgid "Cannot open SID engine"
 msgstr "Ustawienia uk³adu SID"
 
-#: src/sound.c:528
+#: src/sound.c:533
 msgid "Cannot initialize SID engine"
 msgstr ""
 
-#: src/sound.c:635
+#: src/sound.c:640
 #, fuzzy, c-format
 msgid "initialization failed for device `%s'."
 msgstr "Kalibracja sprzêtowego joysticka dla urz±dzenia `%s':"
 
-#: src/sound.c:644
+#: src/sound.c:649
 msgid "sound device lacks stereo capability"
 msgstr ""
 
-#: src/sound.c:694
+#: src/sound.c:699
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr ""
 
-#: src/sound.c:715
+#: src/sound.c:720
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr ""
 
-#: src/sound.c:723
+#: src/sound.c:728
 msgid "Recording device must be different from playback device"
 msgstr ""
 
-#: src/sound.c:733
+#: src/sound.c:738
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
 
-#: src/sound.c:744
+#: src/sound.c:749
 #, fuzzy, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Kalibracja sprzêtowego joysticka dla urz±dzenia `%s':"
 
-#: src/sound.c:759
+#: src/sound.c:764
 msgid "The recording device doesn't support current sound parameters"
 msgstr ""
 
-#: src/sound.c:840
+#: src/sound.c:845
 msgid "Sound buffer overflow (cycle based)"
 msgstr ""
 
-#: src/sound.c:854
+#: src/sound.c:859
 msgid "Sound buffer overflow."
 msgstr ""
 
-#: src/sound.c:980
+#: src/sound.c:985
 msgid "cannot flush."
 msgstr ""
 
-#: src/sound.c:1029
+#: src/sound.c:1034
 msgid "fragment problems."
 msgstr ""
 
-#: src/sound.c:1059
+#: src/sound.c:1064
 #, fuzzy
 msgid "Buffer drained"
 msgstr "Rozmiar buffora"
 
-#: src/sound.c:1098
+#: src/sound.c:1103
 msgid "running too slow."
 msgstr ""
 
-#: src/sound.c:1114 src/sound.c:1124
+#: src/sound.c:1119 src/sound.c:1129
 msgid "write to sounddevice failed."
 msgstr ""
 
-#: src/sound.c:1375
+#: src/sound.c:1380
 msgid "store to sounddevice failed."
 msgstr ""
 
@@ -285,48 +285,48 @@ msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:644 src/event.c:939
+#: src/event.c:644 src/event.c:938
 #, fuzzy, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:712 src/event.c:906
+#: src/event.c:711 src/event.c:905
 #, fuzzy, c-format
 msgid "Could not create end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:780
+#: src/event.c:779
 #, fuzzy, c-format
 msgid "Could not open end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:795
+#: src/event.c:794
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:819
+#: src/event.c:818
 #, fuzzy, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
-#: src/event.c:849
+#: src/event.c:848
 #, fuzzy
 msgid "Error reading start snapshot file."
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
-#: src/event.c:1236
+#: src/event.c:1231
 #, fuzzy
 msgid "Playback recorded events"
 msgstr "Rozpocznij zapisywanie wydarzen"
 
-#: src/c64/c64export.c:49 src/c64/c64export.c:59 src/c64/c64_256k.c:108
-#: src/c64/plus256k.c:98 src/c64/plus60k.c:143
+#: src/c64/c64export.c:49 src/c64/c64export.c:59 src/c64/c64_256k.c:103
+#: src/c64/plus256k.c:93 src/c64/plus60k.c:138
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr ""
@@ -396,98 +396,98 @@ msgstr ""
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 
-#: src/network.c:235
+#: src/network.c:236
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:460
+#: src/network.c:462
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:508
+#: src/network.c:510
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:532
+#: src/network.c:534
 #, fuzzy
 msgid "Cannot load snapshot file for transfer"
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/network.c:545
+#: src/network.c:547
 #, fuzzy
 msgid "Sending snapshot to client..."
 msgstr "Zapisz zrzut..."
 
-#: src/network.c:554
+#: src/network.c:556
 #, fuzzy
 msgid "Cannot send snapshot to client"
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/network.c:580
+#: src/network.c:582
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:618
+#: src/network.c:620
 #, fuzzy, c-format
 msgid "Cannot open snapshot file %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:777
+#: src/network.c:779
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:814
+#: src/network.c:816
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Nie mo¿na zapisaæ pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:834
+#: src/network.c:836
 #, fuzzy, c-format
 msgid "Cannot resolve %s"
 msgstr ""
 "Nie mo¿na zapisaæ pliku obrazu kartrid¿a\n"
 "`%s'\n"
 
-#: src/network.c:879
+#: src/network.c:881
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:893
+#: src/network.c:895
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:1024
+#: src/network.c:1026
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:1035
+#: src/network.c:1037
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:1077
+#: src/network.c:1079
 msgid "Network out of sync - disconnecting."
 msgstr ""
 
-#: src/aciacore.c:213
+#: src/aciacore.c:210
 msgid "Specify RS232 device this ACIA should work on"
 msgstr ""
 
 #: src/attach.c:163 src/attach.c:166 src/attach.c:169 src/attach.c:172
-#: src/drive/drive-cmdline-options.c:68 src/printerdrv/interface-serial.c:124
-#: src/printerdrv/interface-serial.c:127
+#: src/drive/drive-cmdline-options.c:68 src/printerdrv/interface-serial.c:121
+#: src/printerdrv/interface-serial.c:124
 #, fuzzy
 msgid "<type>"
 msgstr "<pusty>"
@@ -763,191 +763,191 @@ msgstr "Podaj indeks dla mapy klawiatury (0=symbol, 1=pozycja)"
 msgid "Specify name of symbolic German keymap file"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/c64/cart/c64cart.c:224
+#: src/c64/cart/c64cart.c:225
 msgid "Reset machine if a cartridge is attached or detached"
 msgstr ""
 
-#: src/c64/cart/c64cart.c:227
+#: src/c64/cart/c64cart.c:228
 msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr ""
 
-#: src/c64/cart/c64cart.c:230
+#: src/c64/cart/c64cart.c:231
 #, fuzzy
 msgid "Attach CRT cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
-#: src/c64/cart/c64cart.c:233
+#: src/c64/cart/c64cart.c:234
 #, fuzzy
 msgid "Attach generic 8KB cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
-#: src/c64/cart/c64cart.c:236
+#: src/c64/cart/c64cart.c:237
 #, fuzzy
 msgid "Attach generic 16KB cartridge image"
 msgstr "W³ó¿ standardowy obraz 16KB..."
 
-#: src/c64/cart/c64cart.c:239
+#: src/c64/cart/c64cart.c:240
 #, fuzzy
 msgid "Attach raw 32KB Action Replay cartridge image"
 msgstr "W³ó¿ obraz Action Replay..."
 
-#: src/c64/cart/c64cart.c:242
+#: src/c64/cart/c64cart.c:243
 #, fuzzy
 msgid "Attach raw 64KB Retro Replay cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
-#: src/c64/cart/c64cart.c:245
+#: src/c64/cart/c64cart.c:246
 #, fuzzy
 msgid "Attach raw 64KB IDE64 cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
-#: src/c64/cart/c64cart.c:248
+#: src/c64/cart/c64cart.c:249
 #, fuzzy
 msgid "Attach raw 32KB Atomic Power cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
-#: src/c64/cart/c64cart.c:251
+#: src/c64/cart/c64cart.c:252
 #, fuzzy
 msgid "Attach raw 8KB Epyx fastload cartridge image"
 msgstr "W³ó¿ obraz Epyx fastload... "
 
-#: src/c64/cart/c64cart.c:254
+#: src/c64/cart/c64cart.c:255
 #, fuzzy
 msgid "Attach raw 32KB Super Snapshot cartridge image"
 msgstr "W³ó¿ obraz Super Snapshot 4..."
 
-#: src/c64/cart/c64cart.c:257
+#: src/c64/cart/c64cart.c:258
 #, fuzzy
 msgid "Attach raw 64KB Super Snapshot cartridge image"
 msgstr "W³ó¿ obraz Super Snapshot 4..."
 
-#: src/c64/cart/c64cart.c:260
+#: src/c64/cart/c64cart.c:261
 #, fuzzy
 msgid "Attach CBM IEEE488 cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
-#: src/c64/cart/c64cart.c:263
+#: src/c64/cart/c64cart.c:264
 #, fuzzy
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
-#: src/c64/cart/c64cart.c:266
+#: src/c64/cart/c64cart.c:267
 #, fuzzy
 msgid "Attach Structured Basic cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
-#: src/c64/cart/c64cart.c:269
+#: src/c64/cart/c64cart.c:270
 #, fuzzy
 msgid "Enable expert cartridge"
 msgstr "W³±cz Expert Cartridge..."
 
-#: src/c64/cart/ide64.c:280
+#: src/c64/cart/ide64.c:277
 #, fuzzy
 msgid "Specify name of IDE64 image file"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/c64/cart/ide64.c:282
+#: src/c64/cart/ide64.c:279
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr ""
 
-#: src/c64/cart/ide64.c:284
+#: src/c64/cart/ide64.c:281
 msgid "Set number of heads for the IDE64 emulation"
 msgstr ""
 
-#: src/c64/cart/ide64.c:286
+#: src/c64/cart/ide64.c:283
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr ""
 
-#: src/c64/cart/ide64.c:289
+#: src/c64/cart/ide64.c:286
 msgid "Autodetect geometry of formatted images"
 msgstr ""
 
-#: src/c64/cart/ide64.c:292
+#: src/c64/cart/ide64.c:289
 msgid "Do not autodetect geometry of formatted images"
 msgstr ""
 
-#: src/c64/c64_256k.c:212
+#: src/c64/c64_256k.c:201
 #, fuzzy
 msgid "Enable the 256K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/c64_256k.c:214
+#: src/c64/c64_256k.c:203
 #, fuzzy
 msgid "Disable the 256K RAM expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/c64/c64_256k.c:216
+#: src/c64/c64_256k.c:205
 #, fuzzy
 msgid "Specify name of 256K image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/c64/c64_256k.c:218 src/c64/plus60k.c:257
+#: src/c64/c64_256k.c:207 src/c64/plus60k.c:247
 #: src/sid/sid-cmdline-options.c:141
 #, fuzzy
 msgid "<base address>"
 msgstr "*Adres bazowy drugiego SID"
 
-#: src/c64/c64_256k.c:218
+#: src/c64/c64_256k.c:207
 #, fuzzy
 msgid "Base address of the 256K expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/c64/georam.c:202
+#: src/c64/georam.c:200
 #, fuzzy
 msgid "Enable the GEORAM expansion unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/georam.c:204
+#: src/c64/georam.c:202
 #, fuzzy
 msgid "Disable the GEORAM expansion unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/georam.c:206
+#: src/c64/georam.c:204
 #, fuzzy
 msgid "Specify name of GEORAM image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/c64/georam.c:208 src/c64/ramcart.c:238 src/c64/reu.c:246
-#: src/pet/petreu.c:224
+#: src/c64/georam.c:206 src/c64/ramcart.c:236 src/c64/reu.c:244
+#: src/pet/petreu.c:209
 msgid "<size in KB>"
 msgstr ""
 
-#: src/c64/georam.c:208
+#: src/c64/georam.c:206
 #, fuzzy
 msgid "Size of the GEORAM expansion unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/plus256k.c:177
+#: src/c64/plus256k.c:166
 #, fuzzy
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/plus256k.c:179
+#: src/c64/plus256k.c:168
 #, fuzzy
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/c64/plus256k.c:181
+#: src/c64/plus256k.c:170
 #, fuzzy
 msgid "Specify name of PLUS256K image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/c64/plus60k.c:251
+#: src/c64/plus60k.c:241
 #, fuzzy
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/plus60k.c:253
+#: src/c64/plus60k.c:243
 #, fuzzy
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/c64/plus60k.c:255
+#: src/c64/plus60k.c:245
 #, fuzzy
 msgid "Specify name of PLUS60K image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/c64/plus60k.c:257
+#: src/c64/plus60k.c:247
 #, fuzzy
 msgid "Base address of the PLUS60K expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
@@ -964,51 +964,51 @@ msgstr ""
 msgid "Specify PSID tune <number>"
 msgstr ""
 
-#: src/c64/ramcart.c:232
+#: src/c64/ramcart.c:230
 #, fuzzy
 msgid "Enable the RAMCART expansion"
 msgstr "*W³±cz RAMCART"
 
-#: src/c64/ramcart.c:234
+#: src/c64/ramcart.c:232
 #, fuzzy
 msgid "Disable the RAMCART expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
-#: src/c64/ramcart.c:236
+#: src/c64/ramcart.c:234
 #, fuzzy
 msgid "Specify name of RAMCART image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/c64/ramcart.c:238
+#: src/c64/ramcart.c:236
 #, fuzzy
 msgid "Size of the RAMCART expansion"
 msgstr "Rozszerzenie RAM napêdu #9"
 
-#: src/c64/reu.c:240
+#: src/c64/reu.c:238
 #, fuzzy
 msgid "Enable the RAM expansion unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/reu.c:242
+#: src/c64/reu.c:240
 #, fuzzy
 msgid "Disable the RAM expansion unit"
 msgstr "Rozszerzenie RAM napêdu #9"
 
-#: src/c64/reu.c:244
+#: src/c64/reu.c:242
 #, fuzzy
 msgid "Specify name of REU image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/c64/reu.c:246
+#: src/c64/reu.c:244
 #, fuzzy
 msgid "Size of the RAM expansion unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/c64/tfe.c:1509
+#: src/c64/tfe.c:1502
 msgid "Enable the TFE (\"the final ethernet\") unit"
 msgstr ""
 
-#: src/c64/tfe.c:1511
+#: src/c64/tfe.c:1504
 msgid "Disable the TFE (\"the final ethernet\") unit"
 msgstr ""
 
@@ -1404,15 +1404,15 @@ msgstr ""
 msgid "Specify log file name"
 msgstr ""
 
-#: src/mouse.c:93
+#: src/mouse.c:91
 msgid "Enable emulation of the 1351 proportional mouse"
 msgstr "W³±cz emulacjê myszki 1351"
 
-#: src/mouse.c:95
+#: src/mouse.c:93
 msgid "Disable emulation of the 1351 proportional mouse"
 msgstr "Wy³±cz emulacjê myszki 1351"
 
-#: src/mouse.c:97
+#: src/mouse.c:95
 msgid "Select the joystick port the mouse is attached to"
 msgstr ""
 
@@ -1497,22 +1497,22 @@ msgstr "*Pin diagnostyczny userportu PET"
 msgid "Disable userport diagnostic pin"
 msgstr "*Pin diagnostyczny userportu PET"
 
-#: src/pet/petreu.c:218
+#: src/pet/petreu.c:203
 #, fuzzy
 msgid "Enable the PET Ram and Expansion Unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/pet/petreu.c:220
+#: src/pet/petreu.c:205
 #, fuzzy
 msgid "Disable the PET Ram and Expansion Unit"
 msgstr "Rozszerzenie RAM napêdu #9"
 
-#: src/pet/petreu.c:222
+#: src/pet/petreu.c:207
 #, fuzzy
 msgid "Specify name of PET Ram and Expansion Unit image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/pet/petreu.c:224
+#: src/pet/petreu.c:209
 #, fuzzy
 msgid "Size of the PET Ram and Expansion Unit"
 msgstr "Jednostka rozszerzenia RAM"
@@ -1547,22 +1547,22 @@ msgstr ""
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr ""
 
-#: src/plus4/plus4memcsory256k.c:116
+#: src/plus4/plus4memcsory256k.c:114
 #, fuzzy
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/plus4/plus4memhannes256k.c:131
+#: src/plus4/plus4memhannes256k.c:129
 #, fuzzy
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/plus4/plus4memhannes256k.c:133
+#: src/plus4/plus4memhannes256k.c:131
 #, fuzzy
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/plus4/plus4memhannes256k.c:135
+#: src/plus4/plus4memhannes256k.c:133
 #, fuzzy
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Jednostka rozszerzenia RAM"
@@ -1583,25 +1583,25 @@ msgstr ""
 msgid "Set gamma of internal calculated palette [900]"
 msgstr ""
 
-#: src/printerdrv/driver-select.c:126
+#: src/printerdrv/driver-select.c:125
 #, fuzzy
 msgid "Specify name of printer driver for device #4"
 msgstr "Okre¶l nazwê 3 urz±dzenia RS232 (rs232.dump)"
 
-#: src/printerdrv/driver-select.c:128
+#: src/printerdrv/driver-select.c:127
 #, fuzzy
 msgid "Specify name of printer driver for device #5"
 msgstr "Okre¶l nazwê 3 urz±dzenia RS232 (rs232.dump)"
 
-#: src/printerdrv/driver-select.c:130
+#: src/printerdrv/driver-select.c:129
 msgid "Specify name of printer driver for the userport printer"
 msgstr ""
 
-#: src/printerdrv/interface-serial.c:125
+#: src/printerdrv/interface-serial.c:122
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
 msgstr ""
 
-#: src/printerdrv/interface-serial.c:128
+#: src/printerdrv/interface-serial.c:125
 msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
 msgstr ""
 
@@ -1615,37 +1615,37 @@ msgstr "*Port emulacji drukarki"
 msgid "Disable the userport printer emulation"
 msgstr "*Port emulacji drukarki"
 
-#: src/printerdrv/output-select.c:121
+#: src/printerdrv/output-select.c:120
 #, fuzzy
 msgid "Specify name of output device for device #4"
 msgstr "Okre¶l nazwê 1 urz±dzenia RS232 (/dev/ttyS0)"
 
-#: src/printerdrv/output-select.c:123
+#: src/printerdrv/output-select.c:122
 #, fuzzy
 msgid "Specify name of output device for device #5"
 msgstr "Okre¶l nazwê 1 urz±dzenia RS232 (/dev/ttyS0)"
 
-#: src/printerdrv/output-select.c:126
+#: src/printerdrv/output-select.c:125
 msgid "Specify name of output device for the userport printer"
 msgstr ""
 
-#: src/printerdrv/output-text.c:117 src/printerdrv/output-text.c:119
-#: src/printerdrv/output-text.c:121
+#: src/printerdrv/output-text.c:113 src/printerdrv/output-text.c:115
+#: src/printerdrv/output-text.c:117
 #, fuzzy
 msgid "Specify name of printer text device or dump file"
 msgstr "Okre¶l nazwê pliku pozycyjnej mapy klawiatury"
 
-#: src/printerdrv/output-text.c:124
+#: src/printerdrv/output-text.c:120
 #, fuzzy
 msgid "Specify printer text output device for IEC printer #4"
 msgstr "Textowe urz±dzenie wyj¶cia dla drukarki na porcie u¿ytkownika"
 
-#: src/printerdrv/output-text.c:127
+#: src/printerdrv/output-text.c:123
 #, fuzzy
 msgid "Specify printer text output device for IEC printer #5"
 msgstr "Textowe urz±dzenie wyj¶cia dla drukarki na porcie u¿ytkownika"
 
-#: src/printerdrv/output-text.c:130
+#: src/printerdrv/output-text.c:126
 #, fuzzy
 msgid "Specify printer text output device for userport printer"
 msgstr "Textowe urz±dzenie wyj¶cia dla drukarki na porcie u¿ytkownika"
@@ -1695,83 +1695,83 @@ msgstr "Okre¶l szybko¶æ transmisji 3 urz±dzenia RS232"
 msgid "Specify name of fourth RS232 device"
 msgstr "Okre¶l szybko¶æ transmisji urz±dzenia "
 
-#: src/rs232drv/rsuser.c:185
+#: src/rs232drv/rsuser.c:183
 #, fuzzy
 msgid "Enable RS232 userport emulation"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
 # src/arch/unix/uisettings.c:614 src/arch/unix/vic20ui.c:317 
-#: src/rs232drv/rsuser.c:187
+#: src/rs232drv/rsuser.c:185
 #, fuzzy
 msgid "Disable RS232 userport emulation"
 msgstr "*Brak emulacji portu RS232"
 
-#: src/rs232drv/rsuser.c:189
+#: src/rs232drv/rsuser.c:187
 msgid "<baud>"
 msgstr ""
 
-#: src/rs232drv/rsuser.c:190
+#: src/rs232drv/rsuser.c:188
 #, fuzzy
 msgid "Set the baud rate of the RS232 userport emulation."
 msgstr "Okre¶l szybko¶æ transmisji 4 urz±dzenia RS232"
 
 # src/arch/unix/uisettings.c:529 
-#: src/rs232drv/rsuser.c:193
+#: src/rs232drv/rsuser.c:191
 #, fuzzy
 msgid "Specify VICE RS232 device for userport"
 msgstr "Wybierz plik urz±dzenia RS232"
 
-#: src/serial/serial-iec-device.c:142
+#: src/serial/serial-iec-device.c:140
 #, fuzzy
 msgid "Enable IEC device emulation for device #4"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
-#: src/serial/serial-iec-device.c:145
+#: src/serial/serial-iec-device.c:143
 msgid "Disable IEC device emulation for device #4"
 msgstr ""
 
-#: src/serial/serial-iec-device.c:148
+#: src/serial/serial-iec-device.c:146
 #, fuzzy
 msgid "Enable IEC device emulation for device #5"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
-#: src/serial/serial-iec-device.c:151
+#: src/serial/serial-iec-device.c:149
 msgid "Disable IEC device emulation for device #5"
 msgstr ""
 
-#: src/serial/serial-iec-device.c:154
+#: src/serial/serial-iec-device.c:152
 #, fuzzy
 msgid "Enable IEC device emulation for device #8"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
-#: src/serial/serial-iec-device.c:157
+#: src/serial/serial-iec-device.c:155
 msgid "Disable IEC device emulation for device #8"
 msgstr ""
 
-#: src/serial/serial-iec-device.c:160
+#: src/serial/serial-iec-device.c:158
 #, fuzzy
 msgid "Enable IEC device emulation for device #9"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
-#: src/serial/serial-iec-device.c:163
+#: src/serial/serial-iec-device.c:161
 msgid "Disable IEC device emulation for device #9"
 msgstr ""
 
-#: src/serial/serial-iec-device.c:166
+#: src/serial/serial-iec-device.c:164
 #, fuzzy
 msgid "Enable IEC device emulation for device #10"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
-#: src/serial/serial-iec-device.c:169
+#: src/serial/serial-iec-device.c:167
 msgid "Disable IEC device emulation for device #10"
 msgstr ""
 
-#: src/serial/serial-iec-device.c:172
+#: src/serial/serial-iec-device.c:170
 #, fuzzy
 msgid "Enable IEC device emulation for device #11"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
-#: src/serial/serial-iec-device.c:175
+#: src/serial/serial-iec-device.c:173
 msgid "Disable IEC device emulation for device #11"
 msgstr ""
 
@@ -1900,11 +1900,11 @@ msgstr "<pusty>"
 msgid "Define search path to locate system files"
 msgstr ""
 
-#: src/traps.c:125
+#: src/traps.c:123
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr ""
 
-#: src/traps.c:128
+#: src/traps.c:126
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr ""
 
@@ -1937,23 +1937,23 @@ msgstr ""
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr ""
 
-#: src/vic20/vic20cartridge.c:221
+#: src/vic20/vic20cartridge.c:211
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr ""
 
-#: src/vic20/vic20cartridge.c:223
+#: src/vic20/vic20cartridge.c:213
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr ""
 
-#: src/vic20/vic20cartridge.c:225
+#: src/vic20/vic20cartridge.c:215
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr ""
 
-#: src/vic20/vic20cartridge.c:227
+#: src/vic20/vic20cartridge.c:217
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr ""
 
-#: src/vic20/vic20cartridge.c:229
+#: src/vic20/vic20cartridge.c:219
 msgid "Specify 4K extension ROM name at $B000"
 msgstr ""
 
@@ -5838,7 +5838,7 @@ msgstr ""
 "Rozszerzenie DGA: addr:%p, szeroko¶æ %d, rozmiar banku %d rozmiar pamiêci %"
 "d\n"
 
-#: src/arch/unix/x11/dga1.c:248 src/arch/unix/x11/dga2.c:780
+#: src/arch/unix/x11/dga1.c:248 src/arch/unix/x11/dga2.c:771
 msgid "Switch to windowmode"
 msgstr "Prze³±cz do trybu okna"
 
@@ -5896,24 +5896,24 @@ msgstr "Musisz mieæ uprawnienia roota, aby u¿yæ trybu pe³noekranowego DGA2"
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr "B³±d prze³±czania do pe³nego ekranu (SetMode) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:606
+#: src/arch/unix/x11/dga2.c:605
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr "B³±d prze³±czania do pe³nego ekranu (pixmap) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:639
+#: src/arch/unix/x11/dga2.c:637
 #, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
 "Zbyt ma³o stron pamiêci graficznej w trybie %s, wy³±czanie pe³nego ekranu(%d,"
 "%d)."
 
-#: src/arch/unix/x11/dga2.c:653
+#: src/arch/unix/x11/dga2.c:651
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr "B³±d prze³±czania do pe³nego ekranu (CreateGC) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:707
+#: src/arch/unix/x11/dga2.c:702
 msgid "Couldn't allocate color cache"
 msgstr "Nie mo¿na alokowaæ cache'u koloru"
 

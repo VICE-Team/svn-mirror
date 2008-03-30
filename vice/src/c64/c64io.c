@@ -217,41 +217,38 @@ static void io_source_msg_detach(int addr)
 
 BYTE REGPARM1 c64io1_read(WORD addr)
 {
-    int io_source_counter=0;
+    int io_source_counter = 0;
 
     vicii_handle_pending_alarms_external(0);
 
-    memset(io_source_return,0,sizeof(io_source_return));
-    returned=0;
-    io_source_start=-1;
-    io_source_end=-1;
+    memset(io_source_return, 0, sizeof(io_source_return));
+    returned = 0;
+    io_source_start = -1;
+    io_source_end = -1;
 
     if (sid_stereo
         && addr >= sid_stereo_address_start
-        && addr < sid_stereo_address_end)
-    {
-        return_value=sid2_read(addr);
+        && addr < sid_stereo_address_end) {
+        return_value = sid2_read(addr);
         io_source_check(io_source_counter);
         io_source_counter++;
     }
 
-    if (c64_256k_enabled && addr>=c64_256k_start && addr<=c64_256k_start+0x7f)
-    {
-        return_value=c64_256k_read((WORD)(addr & 0x03));
+    if (c64_256k_enabled && addr >= c64_256k_start
+        && addr <= c64_256k_start + 0x7f) {
+        return_value = c64_256k_read((WORD)(addr & 0x03));
         io_source_check(io_source_counter);
         io_source_counter++;
     }
 
-    if (georam_enabled)
-    {
-        return_value=georam_window_read((WORD)(addr & 0xff));
+    if (georam_enabled) {
+        return_value = georam_window_read((WORD)(addr & 0xff));
         io_source_check(io_source_counter);
         io_source_counter++;
     }
 
-    if (ramcart_enabled)
-    {
-        return_value=ramcart_reg_read((WORD)(addr & 1));
+    if (ramcart_enabled) {
+        return_value = ramcart_reg_read((WORD)(addr & 1));
         io_source_check(io_source_counter);
         io_source_counter++;
     }
@@ -261,7 +258,7 @@ BYTE REGPARM1 c64io1_read(WORD addr)
     {
         if ((tfe_as_rr_net && addr<0xde10) || !tfe_as_rr_net)
 
-        return_value=tfe_read((WORD)(addr & 0x0f));
+        return_value = tfe_read((WORD)(addr & 0x0f));
         io_source_check(io_source_counter);
         io_source_counter++;
     }
@@ -269,7 +266,7 @@ BYTE REGPARM1 c64io1_read(WORD addr)
 
     if (mem_cartridge_type != CARTRIDGE_NONE)
     {
-        return_value=cartridge_read_io1(addr);
+        return_value = cartridge_read_io1(addr);
         io_source_check(io_source_counter);
         io_source_counter++;
     }
@@ -277,17 +274,17 @@ BYTE REGPARM1 c64io1_read(WORD addr)
 #ifdef HAVE_RS232
     if (acia_de_enabled)
     {
-        return_value=acia1_read((WORD)(addr & 0x07));
+        return_value = acia1_read((WORD)(addr & 0x07));
         io_source_check(io_source_counter);
         io_source_counter++;
     }
 #endif
 
-    if (returned==0)
-      return vicii_read_phi1();
+    if (returned == 0)
+        return vicii_read_phi1();
 
-    if (returned==1)
-      return real_return_value;
+    if (returned == 1)
+        return real_return_value;
 
     io_source_msg_detach(addr);
 
@@ -302,7 +299,8 @@ void REGPARM2 c64io1_store(WORD addr, BYTE value)
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end)
         sid2_store(addr, value);
-    if (c64_256k_enabled && addr>=c64_256k_start && addr<=c64_256k_start+0x7f) {
+    if (c64_256k_enabled && addr >= c64_256k_start
+        && addr <= c64_256k_start + 0x7f) {
         c64_256k_store((WORD)(addr & 0x03), value);
     }
     if (georam_enabled) {
@@ -326,72 +324,66 @@ void REGPARM2 c64io1_store(WORD addr, BYTE value)
 
 BYTE REGPARM1 c64io2_read(WORD addr)
 {
-    int io_source_counter=0;
+    int io_source_counter = 0;
 
     vicii_handle_pending_alarms_external(0);
 
-    memset(io_source_return,0,sizeof(io_source_return));
-    returned=0;
-    io_source_start=-1;
-    io_source_end=-1;
+    memset(io_source_return, 0, sizeof(io_source_return));
+    returned = 0;
+    io_source_start = -1;
+    io_source_end = -1;
 
     if (sid_stereo
         && addr >= sid_stereo_address_start
-        && addr < sid_stereo_address_end)
-    {
-        return_value=sid2_read(addr);
+        && addr < sid_stereo_address_end) {
+        return_value = sid2_read(addr);
         io_source_check(io_source_counter);
         io_source_counter++;
     }
-    if (c64_256k_enabled && addr>=c64_256k_start && addr<=c64_256k_start+0x7f)
-    {
-        return_value=c64_256k_read((WORD)(addr & 0x03));
+    if (c64_256k_enabled && addr >= c64_256k_start
+        && addr <= c64_256k_start + 0x7f) {
+        return_value = c64_256k_read((WORD)(addr & 0x03));
         io_source_check(io_source_counter);
         io_source_counter++;
     }
-    if (ramcart_enabled)
-    {
-        return_value=ramcart_window_read(addr);
+    if (ramcart_enabled) {
+        return_value = ramcart_window_read(addr);
         io_source_check(io_source_counter);
         io_source_counter++;
     }
-    if (mem_cartridge_type == CARTRIDGE_RETRO_REPLAY)
-    {
-        return_value=cartridge_read_io2(addr);
+    if (mem_cartridge_type == CARTRIDGE_RETRO_REPLAY) {
+        return_value = cartridge_read_io2(addr);
         io_source_check(io_source_counter);
         io_source_counter++;
     }
-    if (reu_enabled)
-    {
-        return_value=reu_read((WORD)(addr & 0x0f));
+    if (reu_enabled) {
+        return_value = reu_read((WORD)(addr & 0x0f));
         io_source_check(io_source_counter);
         io_source_counter++;
     }
-    if (georam_enabled && addr>=0xdf80)
-    {
+    if (georam_enabled && addr >= 0xdf80) {
         return georam_reg_read((WORD)(addr & 1));
         io_source_check(io_source_counter);
         io_source_counter++;
     }
-    if (mem_cartridge_type != CARTRIDGE_NONE && mem_cartridge_type != CARTRIDGE_RETRO_REPLAY)
-    {
-        return_value=cartridge_read_io2(addr);
+    if (mem_cartridge_type != CARTRIDGE_NONE
+        && mem_cartridge_type != CARTRIDGE_RETRO_REPLAY) {
+        return_value = cartridge_read_io2(addr);
         io_source_check(io_source_counter);
         io_source_counter++;
     }
-    if (emu_id_enabled && addr >= 0xdfa0)
-    {
-        return_value=emuid_read((WORD)(addr - 0xdfa0));
+    if (emu_id_enabled && addr >= 0xdfa0) {
+        return_value = emuid_read((WORD)(addr - 0xdfa0));
         io_source=IO_SOURCE_EMUID;
         io_source_check(io_source_counter);
         io_source_counter++;
     }
 
-    if (returned==0)
-      return vicii_read_phi1();
+    if (returned == 0)
+        return vicii_read_phi1();
 
-    if (returned==1)
-      return real_return_value;
+    if (returned == 1)
+        return real_return_value;
 
     io_source_msg_detach(addr);
 
@@ -409,13 +401,14 @@ void REGPARM2 c64io2_store(WORD addr, BYTE value)
     if (mem_cartridge_type == CARTRIDGE_RETRO_REPLAY) {
         cartridge_store_io2(addr, value);
     }
-    if (c64_256k_enabled && addr>=c64_256k_start && addr<=c64_256k_start+0x7f) {
+    if (c64_256k_enabled && addr >= c64_256k_start
+        && addr <= c64_256k_start + 0x7f) {
         c64_256k_store((WORD)(addr & 0x03), value);
     }
     if (reu_enabled) {
         reu_store((WORD)(addr & 0x0f), value);
     }
-    if (georam_enabled && addr>=0xdf80) {
+    if (georam_enabled && addr >= 0xdf80) {
         georam_reg_store((WORD)(addr & 1), value);
     }
     if (ramcart_enabled) {
@@ -431,13 +424,11 @@ void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
     if (reu_enabled)
         mon_ioreg_add_list(mem_ioreg_list, "REU", 0xdf00, 0xdf0f);
-    if (georam_enabled)
-    {
+    if (georam_enabled) {
         mon_ioreg_add_list(mem_ioreg_list, "GEORAM", 0xde00, 0xdeff);
         mon_ioreg_add_list(mem_ioreg_list, "GEORAM", 0xdffe, 0xdfff);
     }
-    if (ramcart_enabled)
-    {
+    if (ramcart_enabled) {
         mon_ioreg_add_list(mem_ioreg_list, "RAMCART", 0xde00, 0xde01);
         mon_ioreg_add_list(mem_ioreg_list, "RAMCART", 0xdf00, 0xdfff);
     }
@@ -455,3 +446,4 @@ void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
         mon_ioreg_add_list(mem_ioreg_list, "TFE", 0xde00, 0xde0f);
 #endif
 }
+

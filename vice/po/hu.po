@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-09 22:07+0200\n"
+"POT-Creation-Date: 2006-09-10 18:43+0200\n"
 "PO-Revision-Date: 2006-08-29 16:44+0200\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -16,35 +16,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.2\n"
 
-#: src/vsync.c:141 src/sid/sid-cmdline-options.c:155
+#: src/vsync.c:145 src/sid/sid-cmdline-options.c:155
 #: src/sid/sid-cmdline-options.c:158
 msgid "<percent>"
 msgstr "<százalék>"
 
-#: src/vsync.c:141
+#: src/vsync.c:145
 msgid "Limit emulation speed to specified value"
 msgstr "Emulációs sebesség lehatárolása adott értékre"
 
-#: src/vsync.c:143 src/sound.c:251 src/sound.c:253 src/debug.c:205
-#: src/c64/cart/ide64.c:282 src/c64/cart/ide64.c:284 src/c64/cart/ide64.c:286
+#: src/vsync.c:147 src/sound.c:256 src/sound.c:258 src/debug.c:205
+#: src/c64/cart/ide64.c:279 src/c64/cart/ide64.c:281 src/c64/cart/ide64.c:283
 #: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:200
-#: src/gfxoutputdrv/ffmpegdrv.c:203 src/mouse.c:97 src/ram.c:101
+#: src/gfxoutputdrv/ffmpegdrv.c:203 src/mouse.c:95 src/ram.c:101
 msgid "<value>"
 msgstr "<érték>"
 
-#: src/vsync.c:143
+#: src/vsync.c:147
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Frissítsen minden <érték> képkocka elteltével (0 automatikust jelent)"
 
-#: src/vsync.c:145
+#: src/vsync.c:149
 msgid "Enable warp mode"
 msgstr "Hipergyors mód engedélyezése"
 
-#: src/vsync.c:147
+#: src/vsync.c:151
 msgid "Disable warp mode"
 msgstr "Hipergyors mód tiltása"
 
-#: src/vsync.c:476
+#: src/vsync.c:480
 msgid "Your machine is too slow for current settings!"
 msgstr "Az Ön számítógépe túl lassú ezekhez a beállításokhoz!"
 
@@ -56,23 +56,23 @@ msgstr "Sajnálom: többszörös fekvétel nem támogatott."
 msgid "Cannot load snapshot file."
 msgstr "Nem sikerült betölteni a pillanatkép fájlt."
 
-#: src/sound.c:247
+#: src/sound.c:252
 msgid "Enable sound playback"
 msgstr "Hangok engedélyezése"
 
-#: src/sound.c:249
+#: src/sound.c:254
 msgid "Disable sound playback"
 msgstr "Hangok tiltása"
 
-#: src/sound.c:251
+#: src/sound.c:256
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Hang mintavételezési ráta beállítása Hz-ben <érték>-re"
 
-#: src/sound.c:253
+#: src/sound.c:258
 msgid "Set sound buffer size to <value> msec"
 msgstr "A hangpuffer méretét <érték> mp-re állítja"
 
-#: src/sound.c:255 src/sound.c:259 src/c128/c128-cmdline-options.c:108
+#: src/sound.c:260 src/sound.c:264 src/c128/c128-cmdline-options.c:108
 #: src/c128/c128-cmdline-options.c:110 src/c128/c128-cmdline-options.c:112
 #: src/c128/c128-cmdline-options.c:114 src/c128/c128-cmdline-options.c:116
 #: src/c128/c128-cmdline-options.c:118 src/c128/c128-cmdline-options.c:120
@@ -85,15 +85,15 @@ msgstr "A hangpuffer méretét <érték> mp-re állítja"
 #: src/c64/c64-cmdline-options.c:91 src/c64/c64-cmdline-options.c:93
 #: src/c64/c64-cmdline-options.c:95 src/c64/c64-cmdline-options.c:112
 #: src/c64/c64-cmdline-options.c:114 src/c64/c64-cmdline-options.c:116
-#: src/c64/cart/c64cart.c:230 src/c64/cart/c64cart.c:233
-#: src/c64/cart/c64cart.c:236 src/c64/cart/c64cart.c:239
-#: src/c64/cart/c64cart.c:242 src/c64/cart/c64cart.c:245
-#: src/c64/cart/c64cart.c:248 src/c64/cart/c64cart.c:251
-#: src/c64/cart/c64cart.c:254 src/c64/cart/c64cart.c:257
-#: src/c64/cart/c64cart.c:260 src/c64/cart/c64cart.c:263
-#: src/c64/cart/c64cart.c:266 src/c64/cart/ide64.c:280 src/c64/c64_256k.c:216
-#: src/c64/georam.c:206 src/c64/plus256k.c:181 src/c64/plus60k.c:255
-#: src/c64/ramcart.c:236 src/c64/reu.c:244 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/cart/c64cart.c:231 src/c64/cart/c64cart.c:234
+#: src/c64/cart/c64cart.c:237 src/c64/cart/c64cart.c:240
+#: src/c64/cart/c64cart.c:243 src/c64/cart/c64cart.c:246
+#: src/c64/cart/c64cart.c:249 src/c64/cart/c64cart.c:252
+#: src/c64/cart/c64cart.c:255 src/c64/cart/c64cart.c:258
+#: src/c64/cart/c64cart.c:261 src/c64/cart/c64cart.c:264
+#: src/c64/cart/c64cart.c:267 src/c64/cart/ide64.c:277 src/c64/c64_256k.c:205
+#: src/c64/georam.c:204 src/c64/plus256k.c:170 src/c64/plus60k.c:245
+#: src/c64/ramcart.c:234 src/c64/reu.c:242 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -125,134 +125,134 @@ msgstr "A hangpuffer méretét <érték> mp-re állítja"
 #: src/pet/pet-cmdline-options.c:163 src/pet/pet-cmdline-options.c:166
 #: src/pet/pet-cmdline-options.c:169 src/pet/pet-cmdline-options.c:172
 #: src/pet/pet-cmdline-options.c:175 src/pet/pet-cmdline-options.c:178
-#: src/pet/petreu.c:222 src/plus4/plus4-cmdline-options.c:83
+#: src/pet/petreu.c:207 src/plus4/plus4-cmdline-options.c:83
 #: src/plus4/plus4-cmdline-options.c:85 src/plus4/plus4-cmdline-options.c:87
 #: src/plus4/plus4-cmdline-options.c:89 src/plus4/plus4-cmdline-options.c:91
 #: src/plus4/plus4-cmdline-options.c:93 src/plus4/plus4-cmdline-options.c:95
 #: src/plus4/plus4-cmdline-options.c:97 src/plus4/plus4-cmdline-options.c:104
-#: src/plus4/plus4-cmdline-options.c:106 src/printerdrv/driver-select.c:126
-#: src/printerdrv/driver-select.c:128 src/printerdrv/driver-select.c:130
-#: src/printerdrv/output-select.c:121 src/printerdrv/output-select.c:123
-#: src/printerdrv/output-select.c:126 src/printerdrv/output-text.c:117
-#: src/printerdrv/output-text.c:119 src/printerdrv/output-text.c:121
+#: src/plus4/plus4-cmdline-options.c:106 src/printerdrv/driver-select.c:125
+#: src/printerdrv/driver-select.c:127 src/printerdrv/driver-select.c:129
+#: src/printerdrv/output-select.c:120 src/printerdrv/output-select.c:122
+#: src/printerdrv/output-select.c:125 src/printerdrv/output-text.c:113
+#: src/printerdrv/output-text.c:115 src/printerdrv/output-text.c:117
 #: src/rs232drv/rs232drv.c:101 src/rs232drv/rs232drv.c:103
 #: src/rs232drv/rs232drv.c:105 src/rs232drv/rs232drv.c:107
 #: src/vic20/vic20-cmdline-options.c:209 src/vic20/vic20-cmdline-options.c:211
 #: src/vic20/vic20-cmdline-options.c:213 src/vic20/vic20-cmdline-options.c:228
-#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:221
-#: src/vic20/vic20cartridge.c:223 src/vic20/vic20cartridge.c:225
-#: src/vic20/vic20cartridge.c:227 src/vic20/vic20cartridge.c:229
+#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:211
+#: src/vic20/vic20cartridge.c:213 src/vic20/vic20cartridge.c:215
+#: src/vic20/vic20cartridge.c:217 src/vic20/vic20cartridge.c:219
 #: src/video/video-cmdline-options.c:192
 msgid "<name>"
 msgstr "<név>"
 
-#: src/sound.c:255
+#: src/sound.c:260
 msgid "Specify sound driver"
 msgstr "Adja meg a hangmodul nevét"
 
-#: src/sound.c:257 src/sound.c:261
+#: src/sound.c:262 src/sound.c:266
 msgid "<args>"
 msgstr "<argumentumok>"
 
-#: src/sound.c:257
+#: src/sound.c:262
 msgid "Specify initialization parameters for sound driver"
 msgstr "Adja meg a hangmodul indulási paramétereit"
 
-#: src/sound.c:259
+#: src/sound.c:264
 msgid "Specify recording sound driver"
 msgstr "Adja meg a felvételhez használt hangmodult"
 
-#: src/sound.c:261
+#: src/sound.c:266
 msgid "Specify initialization parameters for recording sound driver"
 msgstr "Adja meg a felvételhez használt hangmodul indulási paramétereit"
 
-#: src/sound.c:263
+#: src/sound.c:268
 msgid "<sync>"
 msgstr "<sync>"
 
-#: src/sound.c:263
+#: src/sound.c:268
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Adja meg a zene sebesség igazítását (0: rugalmas. 1: igazodó, 2: pontos)"
 
-#: src/sound.c:474
+#: src/sound.c:479
 msgid "write to sound device failed."
 msgstr "Nem sikerült a hangeszközre írni"
 
-#: src/sound.c:489
+#: src/sound.c:494
 msgid "Cannot open SID engine"
 msgstr "Nem sikerült a SID motort megnyitni"
 
-#: src/sound.c:528
+#: src/sound.c:533
 msgid "Cannot initialize SID engine"
 msgstr "Nem sikerült a SID motort elindítani"
 
-#: src/sound.c:635
+#: src/sound.c:640
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "A `%s' eszközt nem sikerült elindítani."
 
-#: src/sound.c:644
+#: src/sound.c:649
 msgid "sound device lacks stereo capability"
 msgstr "A hangeszköz nem stereo"
 
-#: src/sound.c:694
+#: src/sound.c:699
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "A '%s' eszköz nem létezik, vagy nem támogatott."
 
-#: src/sound.c:715
+#: src/sound.c:720
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "A %s felvevõ eszköz nem létezik!"
 
-#: src/sound.c:723
+#: src/sound.c:728
 msgid "Recording device must be different from playback device"
 msgstr "A felvevõ és lejátszó eszközöknek különböznie kell!"
 
-#: src/sound.c:733
+#: src/sound.c:738
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Figyelem! A %s felvevõ eszköz úgy tûnik, valós idejû eszköz!"
 
-#: src/sound.c:744
+#: src/sound.c:749
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "A `%s' eszköz indítása nem sikerült."
 
-#: src/sound.c:759
+#: src/sound.c:764
 msgid "The recording device doesn't support current sound parameters"
 msgstr "A felvevõ eszköz nem támogatja az aktuális hangbeállításokat"
 
-#: src/sound.c:840
+#: src/sound.c:845
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Hangpuffer túlcsordulás (ciklus alapú)"
 
-#: src/sound.c:854
+#: src/sound.c:859
 msgid "Sound buffer overflow."
 msgstr "Hangpuffer túlcsordulás."
 
-#: src/sound.c:980
+#: src/sound.c:985
 msgid "cannot flush."
 msgstr "nem sikerült üríteni a puffert."
 
-#: src/sound.c:1029
+#: src/sound.c:1034
 msgid "fragment problems."
 msgstr "töredékrész problémák."
 
-#: src/sound.c:1059
+#: src/sound.c:1064
 msgid "Buffer drained"
 msgstr "A puffer alulcsordult."
 
-#: src/sound.c:1098
+#: src/sound.c:1103
 msgid "running too slow."
 msgstr "túl lassan megy."
 
-#: src/sound.c:1114 src/sound.c:1124
+#: src/sound.c:1119 src/sound.c:1129
 msgid "write to sounddevice failed."
 msgstr "a hangeszközre történõ írás nem sikerült."
 
-#: src/sound.c:1375
+#: src/sound.c:1380
 msgid "store to sounddevice failed."
 msgstr "a hangeszközön történõ tárolás nem sikerült."
 
@@ -276,40 +276,40 @@ msgstr "A VICE %s leképzett nevét nem találta meg."
 msgid "Could not create start snapshot file %s."
 msgstr "Nem sikerült a %s pillanatkép fájlt létrehozni."
 
-#: src/event.c:644 src/event.c:939
+#: src/event.c:644 src/event.c:938
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Hiba az utolsó %s pillanatkép fájl írásakor."
 
-#: src/event.c:712 src/event.c:906
+#: src/event.c:711 src/event.c:905
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Nem sikerült az utolsó %s pillanatkép fájlt létrehozni."
 
-#: src/event.c:780
+#: src/event.c:779
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Nem sikerült az utolsó %s pillanatkép fájlt megnyitni."
 
-#: src/event.c:795
+#: src/event.c:794
 msgid "Could not find event section in end snapshot file."
 msgstr "Nem találtam esemény részt az utolsó pillanatkép fájlban."
 
-#: src/event.c:819
+#: src/event.c:818
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "Nem sikerült az elsõ pillanatkép fájl olvasása. Kipróbálva: %s és %s"
 
-#: src/event.c:849
+#: src/event.c:848
 msgid "Error reading start snapshot file."
 msgstr "Nem sikerült az elsõ pillanatkép fájl olvasása."
 
-#: src/event.c:1236
+#: src/event.c:1231
 msgid "Playback recorded events"
 msgstr "A felvett események visszajátszása"
 
-#: src/c64/c64export.c:49 src/c64/c64export.c:59 src/c64/c64_256k.c:108
-#: src/c64/plus256k.c:98 src/c64/plus60k.c:143
+#: src/c64/c64export.c:49 src/c64/c64export.c:59 src/c64/c64_256k.c:103
+#: src/c64/plus256k.c:93 src/c64/plus60k.c:138
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr "A %s erõforrást %s fogja."
@@ -381,85 +381,85 @@ msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Visszajátszási hiba: %s különbözik a %d. sorban a debug%06d fájl esetén"
 
-#: src/network.c:235
+#: src/network.c:236
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Nem válthat IPV4/IPV6 között, amíg a hálózati játék aktív"
 
-#: src/network.c:460
+#: src/network.c:462
 msgid "Testing best frame delay..."
 msgstr "Legjobb képkocka késleltetés tesztelése..."
 
-#: src/network.c:508
+#: src/network.c:510
 #, c-format
 msgid "Using %d frames delay."
 msgstr "%d képkocka késleltetés használata."
 
-#: src/network.c:532
+#: src/network.c:534
 msgid "Cannot load snapshot file for transfer"
 msgstr "Nem sikerült az átküldendõ pillanatkép fájlt betölteni"
 
-#: src/network.c:545
+#: src/network.c:547
 msgid "Sending snapshot to client..."
 msgstr "Pillanatkép küldése a kliensnek..."
 
-#: src/network.c:554
+#: src/network.c:556
 msgid "Cannot send snapshot to client"
 msgstr "Nem sikerült pillanatképet elküldeni a klienshez"
 
-#: src/network.c:580
+#: src/network.c:582
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Nem sikerült a pillanatképfájlt létrehozni (%s)"
 
-#: src/network.c:618
+#: src/network.c:620
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Nem sikerült a pillanatképfájlt megnyitni (%s)"
 
-#: src/network.c:777
+#: src/network.c:779
 msgid "Server is waiting for a client..."
 msgstr "A kiszolgáló kliensre vár..."
 
-#: src/network.c:814
+#: src/network.c:816
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Nem sikerült a %s pillanatképfájlt létrehozni. Kérem válasszon más "
 "pillanatkép könyvtárat!"
 
-#: src/network.c:834
+#: src/network.c:836
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Nem sikerült %s-t feloldani"
 
-#: src/network.c:879
+#: src/network.c:881
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr "Nem sikerült %s-hez kapcsolódni (a %d porton nem fut kiszolgáló)"
 
-#: src/network.c:893
+#: src/network.c:895
 msgid "Receiving snapshot from server..."
 msgstr "Pillanatkép fogadása a szerverrõl..."
 
-#: src/network.c:1024
+#: src/network.c:1026
 msgid "Remote host disconnected."
 msgstr "A távoli számítogép lekapcsolódott."
 
-#: src/network.c:1035
+#: src/network.c:1037
 msgid "Remote host suspending..."
 msgstr "A távoli számítógép felfüggesztést kért..."
 
-#: src/network.c:1077
+#: src/network.c:1079
 msgid "Network out of sync - disconnecting."
 msgstr "A hálózat kiesett a szinkronból - szétkapcsolódás"
 
-#: src/aciacore.c:213
+#: src/aciacore.c:210
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "Adja meg az RS232-es egységet, amivel az ACIA mûködni fog"
 
 #: src/attach.c:163 src/attach.c:166 src/attach.c:169 src/attach.c:172
-#: src/drive/drive-cmdline-options.c:68 src/printerdrv/interface-serial.c:124
-#: src/printerdrv/interface-serial.c:127
+#: src/drive/drive-cmdline-options.c:68 src/printerdrv/interface-serial.c:121
+#: src/printerdrv/interface-serial.c:124
 msgid "<type>"
 msgstr "<típus>"
 
@@ -711,161 +711,161 @@ msgstr ""
 msgid "Specify name of symbolic German keymap file"
 msgstr "Adja meg a nevét a német billentyûzet leképzés fájlnak"
 
-#: src/c64/cart/c64cart.c:224
+#: src/c64/cart/c64cart.c:225
 msgid "Reset machine if a cartridge is attached or detached"
 msgstr "Reset a cartridge csatolásakorgy leválasztásakor"
 
-#: src/c64/cart/c64cart.c:227
+#: src/c64/cart/c64cart.c:228
 msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr "Nincs reset a cartridge csatolásakorgy leválasztásakor"
 
-#: src/c64/cart/c64cart.c:230
+#: src/c64/cart/c64cart.c:231
 msgid "Attach CRT cartridge image"
 msgstr "CRT cartridge képmás csatolása"
 
-#: src/c64/cart/c64cart.c:233
+#: src/c64/cart/c64cart.c:234
 msgid "Attach generic 8KB cartridge image"
 msgstr "Általános 8KB cartridge képmás csatolása"
 
-#: src/c64/cart/c64cart.c:236
+#: src/c64/cart/c64cart.c:237
 msgid "Attach generic 16KB cartridge image"
 msgstr "Általános 16KB cartridge képmás csatolása"
 
-#: src/c64/cart/c64cart.c:239
+#: src/c64/cart/c64cart.c:240
 msgid "Attach raw 32KB Action Replay cartridge image"
 msgstr "32KB-os Action Replay cartridge képmás csatolása"
 
-#: src/c64/cart/c64cart.c:242
+#: src/c64/cart/c64cart.c:243
 msgid "Attach raw 64KB Retro Replay cartridge image"
 msgstr "64KB-os Retro Replay cartridge képmás csatolása"
 
-#: src/c64/cart/c64cart.c:245
+#: src/c64/cart/c64cart.c:246
 msgid "Attach raw 64KB IDE64 cartridge image"
 msgstr "64KB-os IDE64 cartridge képmás csatolása"
 
-#: src/c64/cart/c64cart.c:248
+#: src/c64/cart/c64cart.c:249
 msgid "Attach raw 32KB Atomic Power cartridge image"
 msgstr "32KB-os Atomic Power cartridge képmás csatolása"
 
-#: src/c64/cart/c64cart.c:251
+#: src/c64/cart/c64cart.c:252
 msgid "Attach raw 8KB Epyx fastload cartridge image"
 msgstr "8KB-os Epyx gyorstöltõ cartridge képmás csatolása"
 
-#: src/c64/cart/c64cart.c:254
+#: src/c64/cart/c64cart.c:255
 msgid "Attach raw 32KB Super Snapshot cartridge image"
 msgstr "32KB-os Super Snapshot cartridge képmás csatolása"
 
-#: src/c64/cart/c64cart.c:257
+#: src/c64/cart/c64cart.c:258
 msgid "Attach raw 64KB Super Snapshot cartridge image"
 msgstr "64KB-os Super Snapshot cartridge képmás csatolása"
 
-#: src/c64/cart/c64cart.c:260
+#: src/c64/cart/c64cart.c:261
 msgid "Attach CBM IEEE488 cartridge image"
 msgstr "CBM IEEE488 cartridge képmás csatolása"
 
-#: src/c64/cart/c64cart.c:263
+#: src/c64/cart/c64cart.c:264
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "16KB-os Westermann learning cartridge képmás csatolása"
 
-#: src/c64/cart/c64cart.c:266
+#: src/c64/cart/c64cart.c:267
 msgid "Attach Structured Basic cartridge image"
 msgstr "Structured Basic cartridge képmás csatolása"
 
-#: src/c64/cart/c64cart.c:269
+#: src/c64/cart/c64cart.c:270
 msgid "Enable expert cartridge"
 msgstr "Expert cartridge engedélyezése"
 
-#: src/c64/cart/ide64.c:280
+#: src/c64/cart/ide64.c:277
 msgid "Specify name of IDE64 image file"
 msgstr "Adja meg az IDE64 képmás fájlnevét"
 
-#: src/c64/cart/ide64.c:282
+#: src/c64/cart/ide64.c:279
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr "Adja meg a cilinderek számát IDE64 emulációhoz"
 
-#: src/c64/cart/ide64.c:284
+#: src/c64/cart/ide64.c:281
 msgid "Set number of heads for the IDE64 emulation"
 msgstr "Adja meg a fejek számát IDE64 emulációhoz"
 
-#: src/c64/cart/ide64.c:286
+#: src/c64/cart/ide64.c:283
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr "Adja meg a szektorok számát IDE64 emulációhoz"
 
-#: src/c64/cart/ide64.c:289
+#: src/c64/cart/ide64.c:286
 msgid "Autodetect geometry of formatted images"
 msgstr "Formázott képmások geometriájának automatikus felismerése"
 
-#: src/c64/cart/ide64.c:292
+#: src/c64/cart/ide64.c:289
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Formázott képmások geometriáját ne ismerje fel automatikusan"
 
-#: src/c64/c64_256k.c:212
+#: src/c64/c64_256k.c:201
 msgid "Enable the 256K RAM expansion"
 msgstr "256K RAM kiterjesztés engedélyezése"
 
-#: src/c64/c64_256k.c:214
+#: src/c64/c64_256k.c:203
 msgid "Disable the 256K RAM expansion"
 msgstr "256K RAM kiterjesztés tiltása"
 
-#: src/c64/c64_256k.c:216
+#: src/c64/c64_256k.c:205
 msgid "Specify name of 256K image"
 msgstr "Adja meg a 256K-s képmás nevét"
 
-#: src/c64/c64_256k.c:218 src/c64/plus60k.c:257
+#: src/c64/c64_256k.c:207 src/c64/plus60k.c:247
 #: src/sid/sid-cmdline-options.c:141
 msgid "<base address>"
 msgstr "<bázis cím>"
 
-#: src/c64/c64_256k.c:218
+#: src/c64/c64_256k.c:207
 msgid "Base address of the 256K expansion"
 msgstr "A 256K-s RAM kiterjesztés báziscíme"
 
-#: src/c64/georam.c:202
+#: src/c64/georam.c:200
 msgid "Enable the GEORAM expansion unit"
 msgstr "GEORAM Expansion Unit engedélyezése"
 
-#: src/c64/georam.c:204
+#: src/c64/georam.c:202
 msgid "Disable the GEORAM expansion unit"
 msgstr "GEORAM Expansion Unit tiltása"
 
-#: src/c64/georam.c:206
+#: src/c64/georam.c:204
 msgid "Specify name of GEORAM image"
 msgstr "Adja meg a GEORAM képmás nevét"
 
-#: src/c64/georam.c:208 src/c64/ramcart.c:238 src/c64/reu.c:246
-#: src/pet/petreu.c:224
+#: src/c64/georam.c:206 src/c64/ramcart.c:236 src/c64/reu.c:244
+#: src/pet/petreu.c:209
 msgid "<size in KB>"
 msgstr "<méret KB-ban>"
 
-#: src/c64/georam.c:208
+#: src/c64/georam.c:206
 msgid "Size of the GEORAM expansion unit"
 msgstr "GEORAM Expansion Unit mérete"
 
-#: src/c64/plus256k.c:177
+#: src/c64/plus256k.c:166
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "PLUS256K RAM kiterjesztés engedélyezése"
 
-#: src/c64/plus256k.c:179
+#: src/c64/plus256k.c:168
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "PLUS256K RAM kiterjesztés tiltása"
 
-#: src/c64/plus256k.c:181
+#: src/c64/plus256k.c:170
 msgid "Specify name of PLUS256K image"
 msgstr "Adja meg a PLUS256K-s képmás nevét"
 
-#: src/c64/plus60k.c:251
+#: src/c64/plus60k.c:241
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "PLUS60K RAM bõvítés engedélyezése"
 
-#: src/c64/plus60k.c:253
+#: src/c64/plus60k.c:243
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "PLUS60K RAM bõvítés tiltása"
 
-#: src/c64/plus60k.c:255
+#: src/c64/plus60k.c:245
 msgid "Specify name of PLUS60K image"
 msgstr "Adja meg a nevét a PLUS60K képmásnak"
 
-#: src/c64/plus60k.c:257
+#: src/c64/plus60k.c:247
 msgid "Base address of the PLUS60K expansion"
 msgstr "A PLUS60K bõvítés báziscíme"
 
@@ -881,43 +881,43 @@ msgstr "A videó szabvány és a SID modell PSID beállításainak felüldefiniálása"
 msgid "Specify PSID tune <number>"
 msgstr "Adja meg a PSID hangzatok <szám>"
 
-#: src/c64/ramcart.c:232
+#: src/c64/ramcart.c:230
 msgid "Enable the RAMCART expansion"
 msgstr "RAMCART bõvítés engedélyezése"
 
-#: src/c64/ramcart.c:234
+#: src/c64/ramcart.c:232
 msgid "Disable the RAMCART expansion"
 msgstr "RAMCART bõvítés tiltása"
 
-#: src/c64/ramcart.c:236
+#: src/c64/ramcart.c:234
 msgid "Specify name of RAMCART image"
 msgstr "Adja meg a RAMCART képmás nevét"
 
-#: src/c64/ramcart.c:238
+#: src/c64/ramcart.c:236
 msgid "Size of the RAMCART expansion"
 msgstr "RAMCART bõvítés mérete"
 
-#: src/c64/reu.c:240
+#: src/c64/reu.c:238
 msgid "Enable the RAM expansion unit"
 msgstr "RAM Expansion Unit engedélyezése"
 
-#: src/c64/reu.c:242
+#: src/c64/reu.c:240
 msgid "Disable the RAM expansion unit"
 msgstr "RAM Expansion Unit tiltása"
 
-#: src/c64/reu.c:244
+#: src/c64/reu.c:242
 msgid "Specify name of REU image"
 msgstr "Adja meg a REU képmás nevét"
 
-#: src/c64/reu.c:246
+#: src/c64/reu.c:244
 msgid "Size of the RAM expansion unit"
 msgstr "RAM Expansion Unit mérete"
 
-#: src/c64/tfe.c:1509
+#: src/c64/tfe.c:1502
 msgid "Enable the TFE (\"the final ethernet\") unit"
 msgstr "TFE (\"the final ethernet\") egység engedélyezése"
 
-#: src/c64/tfe.c:1511
+#: src/c64/tfe.c:1504
 msgid "Disable the TFE (\"the final ethernet\") unit"
 msgstr "TFE (\"the final ethernet\") egység tiltása"
 
@@ -1300,15 +1300,15 @@ msgstr "A megadott string bemásolása a billentyûzet pufferbe"
 msgid "Specify log file name"
 msgstr "Adja meg a log fájl nevét"
 
-#: src/mouse.c:93
+#: src/mouse.c:91
 msgid "Enable emulation of the 1351 proportional mouse"
 msgstr "1351-es proporcionális egér emulálásának engedélyezése"
 
-#: src/mouse.c:95
+#: src/mouse.c:93
 msgid "Disable emulation of the 1351 proportional mouse"
 msgstr "1351-es proporcionális egér emulálásának tiltása"
 
-#: src/mouse.c:97
+#: src/mouse.c:95
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Válassza ki a joystick portot, ahová az egér csatlakoztatva van"
 
@@ -1388,19 +1388,19 @@ msgstr "Userport diagnosztikai tû engedélyezése"
 msgid "Disable userport diagnostic pin"
 msgstr "Userport diagnosztikai tû tiltása"
 
-#: src/pet/petreu.c:218
+#: src/pet/petreu.c:203
 msgid "Enable the PET Ram and Expansion Unit"
 msgstr "PET RAM and Expansion Unit engedélyezése"
 
-#: src/pet/petreu.c:220
+#: src/pet/petreu.c:205
 msgid "Disable the PET Ram and Expansion Unit"
 msgstr "PET RAM and Expansion Unit tiltása"
 
-#: src/pet/petreu.c:222
+#: src/pet/petreu.c:207
 msgid "Specify name of PET Ram and Expansion Unit image"
 msgstr "Adja meg a PET RAM and Expansion Unit képmás nevét"
 
-#: src/pet/petreu.c:224
+#: src/pet/petreu.c:209
 msgid "Size of the PET Ram and Expansion Unit"
 msgstr "PET RAM and Expansion Unit mérete"
 
@@ -1432,19 +1432,19 @@ msgstr "Adja meg a felsõ Cartridge 2 ROM képmás nevét"
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Adja meg a telepített RAM méretét kb-ban (16/32/64)"
 
-#: src/plus4/plus4memcsory256k.c:116
+#: src/plus4/plus4memcsory256k.c:114
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "CSORY 256K RAM kiterjesztés engedélyezése"
 
-#: src/plus4/plus4memhannes256k.c:131
+#: src/plus4/plus4memhannes256k.c:129
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "HANNES 256K RAM kiterjesztés engedélyezése"
 
-#: src/plus4/plus4memhannes256k.c:133
+#: src/plus4/plus4memhannes256k.c:131
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "HANNES 1024K RAM kiterjesztés engedélyezése"
 
-#: src/plus4/plus4memhannes256k.c:135
+#: src/plus4/plus4memhannes256k.c:133
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "HANNES 4096K RAM kiterjesztés engedélyezése"
 
@@ -1464,23 +1464,23 @@ msgstr "Adja meg a fényességét a számolt színkészletnek [1100]"
 msgid "Set gamma of internal calculated palette [900]"
 msgstr "Adja meg a gammát a számolt színkészlethez [900]"
 
-#: src/printerdrv/driver-select.c:126
+#: src/printerdrv/driver-select.c:125
 msgid "Specify name of printer driver for device #4"
 msgstr "Adja meg a #4-es nyomtatómeghajtó nevét"
 
-#: src/printerdrv/driver-select.c:128
+#: src/printerdrv/driver-select.c:127
 msgid "Specify name of printer driver for device #5"
 msgstr "Adja meg a #5-ös nyomtatómeghajtó nevét"
 
-#: src/printerdrv/driver-select.c:130
+#: src/printerdrv/driver-select.c:129
 msgid "Specify name of printer driver for the userport printer"
 msgstr "Adja meg a Userport-os nyomtatómeghajtó nevét"
 
-#: src/printerdrv/interface-serial.c:125
+#: src/printerdrv/interface-serial.c:122
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Adja meg a #4-es eszköz típusát (0:Nincs, 1: Fájlrendszer, 2: Valódi)"
 
-#: src/printerdrv/interface-serial.c:128
+#: src/printerdrv/interface-serial.c:125
 msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Adja meg a #5-ös eszköz típusát (0:Nincs, 1: Fájlrendszer, 2: Valódi)"
 
@@ -1492,32 +1492,32 @@ msgstr "Userporti nyomtató emulációjának engedélyezése"
 msgid "Disable the userport printer emulation"
 msgstr "Userporti nyomtató emulációjának tiltása"
 
-#: src/printerdrv/output-select.c:121
+#: src/printerdrv/output-select.c:120
 msgid "Specify name of output device for device #4"
 msgstr "Adja meg a kimeneti eszköz nevét a #4-es egységhez"
 
-#: src/printerdrv/output-select.c:123
+#: src/printerdrv/output-select.c:122
 msgid "Specify name of output device for device #5"
 msgstr "Adja meg a kimeneti eszköz nevét a #5-ös egységhez"
 
-#: src/printerdrv/output-select.c:126
+#: src/printerdrv/output-select.c:125
 msgid "Specify name of output device for the userport printer"
 msgstr "Adja meg a kimeneti eszköz nevét a userporti nyomtatóhoz"
 
-#: src/printerdrv/output-text.c:117 src/printerdrv/output-text.c:119
-#: src/printerdrv/output-text.c:121
+#: src/printerdrv/output-text.c:113 src/printerdrv/output-text.c:115
+#: src/printerdrv/output-text.c:117
 msgid "Specify name of printer text device or dump file"
 msgstr "Adja meg a szövegnyomtató eszköz nevét, vagy a kimeneti fájlt"
 
-#: src/printerdrv/output-text.c:124
+#: src/printerdrv/output-text.c:120
 msgid "Specify printer text output device for IEC printer #4"
 msgstr "Adja meg a szövegnyomtató eszközt a #4-es IEC nyomtatóhoz"
 
-#: src/printerdrv/output-text.c:127
+#: src/printerdrv/output-text.c:123
 msgid "Specify printer text output device for IEC printer #5"
 msgstr "Adja meg a szövegnyomtató eszközt a #5-es IEC nyomtatóhoz"
 
-#: src/printerdrv/output-text.c:130
+#: src/printerdrv/output-text.c:126
 msgid "Specify printer text output device for userport printer"
 msgstr "Adja meg a szövegnyomtató eszközt a userporti nyomtatóhoz"
 
@@ -1561,71 +1561,71 @@ msgstr "Adja meg a harmadik RS232-es eszköz nevét"
 msgid "Specify name of fourth RS232 device"
 msgstr "Adja meg a negyedik RS232-es eszköz nevét"
 
-#: src/rs232drv/rsuser.c:185
+#: src/rs232drv/rsuser.c:183
 msgid "Enable RS232 userport emulation"
 msgstr "RS232 userport emuláció engedélyezése"
 
-#: src/rs232drv/rsuser.c:187
+#: src/rs232drv/rsuser.c:185
 msgid "Disable RS232 userport emulation"
 msgstr "RS232 userport emuláció tiltása"
 
-#: src/rs232drv/rsuser.c:189
+#: src/rs232drv/rsuser.c:187
 msgid "<baud>"
 msgstr "<bitráta>"
 
-#: src/rs232drv/rsuser.c:190
+#: src/rs232drv/rsuser.c:188
 msgid "Set the baud rate of the RS232 userport emulation."
 msgstr "Bitráta megadása az RS232 userport emulációhoz."
 
-#: src/rs232drv/rsuser.c:193
+#: src/rs232drv/rsuser.c:191
 msgid "Specify VICE RS232 device for userport"
 msgstr "VICE RS232-es userport eszköz megadása"
 
-#: src/serial/serial-iec-device.c:142
+#: src/serial/serial-iec-device.c:140
 msgid "Enable IEC device emulation for device #4"
 msgstr "IEC eszköz #4 emulációjának engedélyezése"
 
-#: src/serial/serial-iec-device.c:145
+#: src/serial/serial-iec-device.c:143
 msgid "Disable IEC device emulation for device #4"
 msgstr "IEC eszköz #4 emulációjának tiltása"
 
-#: src/serial/serial-iec-device.c:148
+#: src/serial/serial-iec-device.c:146
 msgid "Enable IEC device emulation for device #5"
 msgstr "IEC eszköz #5 emulációjának engedélyezése"
 
-#: src/serial/serial-iec-device.c:151
+#: src/serial/serial-iec-device.c:149
 msgid "Disable IEC device emulation for device #5"
 msgstr "IEC eszköz #5 emulációjának tiltása"
 
-#: src/serial/serial-iec-device.c:154
+#: src/serial/serial-iec-device.c:152
 msgid "Enable IEC device emulation for device #8"
 msgstr "IEC eszköz #8 emulációjának engedélyezése"
 
-#: src/serial/serial-iec-device.c:157
+#: src/serial/serial-iec-device.c:155
 msgid "Disable IEC device emulation for device #8"
 msgstr "IEC eszköz #8 emulációjának tiltása"
 
-#: src/serial/serial-iec-device.c:160
+#: src/serial/serial-iec-device.c:158
 msgid "Enable IEC device emulation for device #9"
 msgstr "IEC eszköz #9 emulációjának engedélyezése"
 
-#: src/serial/serial-iec-device.c:163
+#: src/serial/serial-iec-device.c:161
 msgid "Disable IEC device emulation for device #9"
 msgstr "IEC eszköz #9 emulációjának tiltása"
 
-#: src/serial/serial-iec-device.c:166
+#: src/serial/serial-iec-device.c:164
 msgid "Enable IEC device emulation for device #10"
 msgstr "IEC eszköz #10 emulációjának engedélyezése"
 
-#: src/serial/serial-iec-device.c:169
+#: src/serial/serial-iec-device.c:167
 msgid "Disable IEC device emulation for device #10"
 msgstr "IEC eszköz #10 emulációjának tiltása"
 
-#: src/serial/serial-iec-device.c:172
+#: src/serial/serial-iec-device.c:170
 msgid "Enable IEC device emulation for device #11"
 msgstr "IEC eszköz #11 emulációjának engedélyezése"
 
-#: src/serial/serial-iec-device.c:175
+#: src/serial/serial-iec-device.c:173
 msgid "Disable IEC device emulation for device #11"
 msgstr "IEC eszköz #11 emulációjának tiltása"
 
@@ -1756,11 +1756,11 @@ msgstr "<elérési út>"
 msgid "Define search path to locate system files"
 msgstr "Keresési útvonal megadása a rendszerfájlok megtalálására"
 
-#: src/traps.c:125
+#: src/traps.c:123
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "A lemez/szalag emulációt gyorsító mechanizmusok engedélyezése"
 
-#: src/traps.c:128
+#: src/traps.c:126
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "A lemez/szalag emulációt gyorsító mechanizmusok tiltása"
 
@@ -1792,23 +1792,23 @@ msgstr "VIC-1112 IEEE488 interfész engedélyezése"
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "VIC-1112 IEEE488 interfész tiltása"
 
-#: src/vic20/vic20cartridge.c:221
+#: src/vic20/vic20cartridge.c:211
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Adja meg a $2000 címû 4/8/16K ROM kiterjesztés nevét"
 
-#: src/vic20/vic20cartridge.c:223
+#: src/vic20/vic20cartridge.c:213
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Adja meg a $4000 címû 4/8/16K ROM kiterjesztés nevét"
 
-#: src/vic20/vic20cartridge.c:225
+#: src/vic20/vic20cartridge.c:215
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Adja meg a $6000 címû 4/8/16K ROM kiterjesztés nevét"
 
-#: src/vic20/vic20cartridge.c:227
+#: src/vic20/vic20cartridge.c:217
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Adja meg a $A000 címû 4/8K ROM kiterjesztés nevét"
 
-#: src/vic20/vic20cartridge.c:229
+#: src/vic20/vic20cartridge.c:219
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Adja meg a $B000 címû 4K ROM kiterjesztés nevét"
 
@@ -5510,7 +5510,7 @@ msgstr "Hiba teljes képernyõre kapcsoláskor: %s"
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr "DGA kiterjesztés: cím:%p, szélesség %d, bank méret %d mem. méret %d\n"
 
-#: src/arch/unix/x11/dga1.c:248 src/arch/unix/x11/dga2.c:780
+#: src/arch/unix/x11/dga1.c:248 src/arch/unix/x11/dga2.c:771
 msgid "Switch to windowmode"
 msgstr "Ablakos módba kapcsolás"
 
@@ -5567,23 +5567,23 @@ msgstr "A DGA2 teljesképernyõs mód rendszergazda jogokat igényel."
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr "Hiba teljesképernyõs módba kapcsoláskor (SetMode) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:606
+#: src/arch/unix/x11/dga2.c:605
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr "Hiba teljesképernyõs módba kapcsoláskor (bitkép) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:639
+#: src/arch/unix/x11/dga2.c:637
 #, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
 "Nincs elég videó memória lap %s módban, teljes képernyõ tiltása (%d,%d)."
 
-#: src/arch/unix/x11/dga2.c:653
+#: src/arch/unix/x11/dga2.c:651
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr "Hiba történt teljes képernyõre váltáskor (CreateGC) %ix%i"
 
-#: src/arch/unix/x11/dga2.c:707
+#: src/arch/unix/x11/dga2.c:702
 msgid "Couldn't allocate color cache"
 msgstr "Nem sikerült színcache-t foglalni"
 
