@@ -1,3 +1,35 @@
+2006-08-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.26.
+
+2006-07-31  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* configure.in, src/arch/unix/Makefile.am:
+	Added new variable ARCH_EXTRA_SUBDIR to define extra build
+	subdirs of unix build.
+
+	* build/macosx/make-ub.sh: Build PPC and Intel Code now in
+	different temp dirs and keep final VICE build.
+
+	* doc/ReadmeMacOSX.txt: Added section on X11 xinitrc
+	setupmodo:~/Projects cnvogelg$
+
+2006-07-31  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added automatic solaris binary package creation
+	support.
+
+2006-07-29  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am: Added support for doing a make bindist*
+	out-of-source for the ports that didn't support it yet.
+
+	* build/Makefile.am, build/minix3/build-package.sh,
+	build/minix3/build.sh: Added minix-3.x build scripts.
+
+	* configure.in: Added the cygwin/X11 target, changed the NLS
+	check to only check on unix platforms.
+
 2006-07-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.25.
