@@ -48,7 +48,7 @@ static unsigned long frequency = 0;
 static int perf_rotate = 0;
 static int perf_inited = 0;
 
-signed long vsyncarch_frequency()
+signed long vsyncarch_frequency(void)
 {
     LARGE_INTEGER li;
 #ifndef HAS_LONGLONG_INTEGER
@@ -78,7 +78,7 @@ signed long vsyncarch_frequency()
     return frequency;
 }
 
-unsigned long vsyncarch_gettime()
+unsigned long vsyncarch_gettime(void)
 {
     LARGE_INTEGER li;
 #ifndef HAS_LONGLONG_INTEGER
@@ -105,7 +105,7 @@ unsigned long vsyncarch_gettime()
 #endif
 }
 
-void vsyncarch_init()
+void vsyncarch_init(void)
 {
     LARGE_INTEGER li;
 
@@ -196,7 +196,7 @@ void vsyncarch_sleep(signed long delay)
     } while (((signed long)(now - start)) < delay);
 }
 
-void vsyncarch_presync()
+void vsyncarch_presync(void)
 {
     /* Dispatch all the pending UI events.  */
     ui_dispatch_events();
@@ -209,11 +209,12 @@ void vsyncarch_presync()
     joystick_update();
 }
 
-void vsyncarch_postsync()
+void vsyncarch_postsync(void)
 {
 }
 
-int vsyncarch_vbl_sync_enabled()
+int vsyncarch_vbl_sync_enabled(void)
 {
     return ui_vblank_sync_enabled();
 }
+

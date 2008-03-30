@@ -23,6 +23,7 @@
  *  02111-1307  USA.
  *
  */
+
 #ifndef VSYNCAPI_H
 #define VSYNCAPI_H
 
@@ -33,35 +34,36 @@ struct video_canvas_s;
 typedef void (*void_hook_t)(void);
 
 /* number of timer units per second - used to calc speed and fps */
-signed long vsyncarch_frequency(void);
+extern signed long vsyncarch_frequency(void);
 
 /* provide the actual time in timer units */
-unsigned long vsyncarch_gettime(void);
+extern unsigned long vsyncarch_gettime(void);
 
 /* call when vsync_init is called */
-void vsyncarch_init(void);
+extern void vsyncarch_init(void);
 
 /* display speed(%) and framerate(fps) */
-void vsyncarch_display_speed(double speed, double fps, int warp_enabled);
+extern void vsyncarch_display_speed(double speed, double fps, int warp_enabled);
 
 /* sleep the given amount of timer units */
-void vsyncarch_sleep(signed long delay);
+extern void vsyncarch_sleep(signed long delay);
 
 /* synchronize with vertical blanks */
-void vsyncarch_verticalblank(struct video_canvas_s *c, float rate, int frames);
+extern void vsyncarch_verticalblank(struct video_canvas_s *c, float rate,
+                                    int frames);
 
 /* keep vertical blank sync prepared */
-void vsyncarch_prepare_vbl(void);
+extern void vsyncarch_prepare_vbl(void);
 
 /* this is called before vsync_do_vsync does the synchroniation */
-void vsyncarch_presync(void);
+extern void vsyncarch_presync(void);
 
 /* this is called after vsync_do_vsync did the synchroniation */
-void vsyncarch_postsync(void);
+extern void vsyncarch_postsync(void);
 
 /* set ui dispatcher function */
-void_hook_t vsync_set_event_dispatcher(void_hook_t hook);
+extern void_hook_t vsync_set_event_dispatcher(void_hook_t hook);
 
-int vsyncarch_vbl_sync_enabled();
+extern int vsyncarch_vbl_sync_enabled(void);
 
 #endif

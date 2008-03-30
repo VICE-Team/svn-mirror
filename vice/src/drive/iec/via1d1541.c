@@ -344,8 +344,8 @@ void via1d1541_setup_context(drive_context_t *ctxptr)
     via->rmw_flag = &(ctxptr->cpu.rmw_flag);
     via->clk_ptr = ctxptr->clk_ptr;
 
-    sprintf(via->myname, "Drive2031Via1");
-    sprintf(via->my_module_name, "VIA1D2031");
+    sprintf(via->myname, "Drive1541Via1");
+    sprintf(via->my_module_name, "VIA1D1541");
 
     viacore_setup_context(via);
 

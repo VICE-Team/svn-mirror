@@ -361,7 +361,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             if (drive_cpu_snapshot_read_module(ctxptr, s) < 0)
                 return -1;
             if (machine_drive_snapshot_read(ctxptr, s) < 0)
-                return 1;
+                return -1;
         }
     }
 

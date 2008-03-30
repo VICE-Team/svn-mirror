@@ -166,8 +166,13 @@ static int set_sid_hardsid_right(resource_value_t v, void *param)
 #endif
 
 static const resource_t resources[] = {
+#ifdef HAVE_RESID
+    { "SidEngine", RES_INTEGER, (resource_value_t)SID_ENGINE_RESID,
+      (void *)&sid_engine, set_sid_engine, NULL },
+#else
     { "SidEngine", RES_INTEGER, (resource_value_t)SID_ENGINE_FASTSID,
       (void *)&sid_engine, set_sid_engine, NULL },
+#endif
     { "SidFilters", RES_INTEGER, (resource_value_t)1,
       (void *)&sid_filters_enabled, set_sid_filters_enabled, NULL },
     { "SidModel", RES_INTEGER, (resource_value_t)0,
