@@ -77,11 +77,14 @@ typedef struct realimage_s {
 } realimage_t;
 
 typedef struct rawimage_s {
+    char *name;
     unsigned int drivetype;
 } rawimage_t;
 
 
 extern void disk_image_init(void);
+extern int disk_image_resources_init(void);
+extern int disk_image_cmdline_options_init(void);
 
 extern int disk_image_open(disk_image_t *image);
 extern int disk_image_close(disk_image_t *image);
@@ -100,7 +103,16 @@ extern int disk_image_write_track(disk_image_t *image, unsigned int track,
                                   int gcr_track_size,
                                   BYTE *gcr_speed_zone,
                                   BYTE *gcr_track_start_ptr);
+extern void disk_image_media_create(disk_image_t *image);
+extern void disk_image_media_destroy(disk_image_t *image);
+
 extern unsigned int disk_image_speed_map_1541(unsigned int track);
 extern unsigned int disk_image_speed_map_1571(unsigned int track);
+
+extern void disk_image_attach_log(disk_image_t *image, signed int lognum,
+                                  unsigned int unit, const char *type);
+extern void disk_image_detach_log(disk_image_t *image, signed int lognum,
+                                  unsigned int unit, const char *type);
+
 #endif
 
