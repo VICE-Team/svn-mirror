@@ -51,8 +51,10 @@ static BYTE reg_e = 0;
 static BYTE reg_f = 0;
 static BYTE reg_h = 0;
 static BYTE reg_l = 0;
-/*static WORD reg_ix = 0;*/
-/*static WORD reg_iy = 0;*/
+static WORD reg_ixh = 0;
+static WORD reg_ixl = 0;
+static WORD reg_iyh = 0;
+static WORD reg_iyl = 0;
 static WORD reg_sp = 0;
 static DWORD z80_reg_pc = 0;
 static BYTE reg_i = 0;
@@ -197,12 +199,14 @@ inline static int z80mem_read_limit(int addr)
 
 /* Flags.  */
 
-#define C_FLAG 0x01
-#define N_FLAG 0x02
-#define P_FLAG 0x04
-#define H_FLAG 0x10
-#define Z_FLAG 0x40
-#define S_FLAG 0x80
+#define C_FLAG  0x01
+#define N_FLAG  0x02
+#define P_FLAG  0x04
+#define U3_FLAG 0x08
+#define H_FLAG  0x10
+#define U5_FLAG 0x20
+#define Z_FLAG  0x40
+#define S_FLAG  0x80
 
 #define LOCAL_SET_CARRY(val)     ((val) ? (reg_f |= C_FLAG)       \
                                         : (reg_f &= ~C_FLAG))
@@ -290,6 +294,522 @@ static BYTE SZP[256] = {
            S_FLAG, S_FLAG|P_FLAG, S_FLAG|P_FLAG,        S_FLAG,
     S_FLAG|P_FLAG,        S_FLAG,        S_FLAG, S_FLAG|P_FLAG };
 
+static BYTE daa_reg_a[2048] = {
+    0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
+    0x08,0x09,0x10,0x11,0x12,0x13,0x14,0x15,
+    0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,
+    0x18,0x19,0x20,0x21,0x22,0x23,0x24,0x25,
+    0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27,
+    0x28,0x29,0x30,0x31,0x32,0x33,0x34,0x35,
+    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,
+    0x38,0x39,0x40,0x41,0x42,0x43,0x44,0x45,
+    0x40,0x41,0x42,0x43,0x44,0x45,0x46,0x47,
+    0x48,0x49,0x50,0x51,0x52,0x53,0x54,0x55,
+    0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,
+    0x58,0x59,0x60,0x61,0x62,0x63,0x64,0x65,
+    0x60,0x61,0x62,0x63,0x64,0x65,0x66,0x67,
+    0x68,0x69,0x70,0x71,0x72,0x73,0x74,0x75,
+    0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,
+    0x78,0x79,0x80,0x81,0x82,0x83,0x84,0x85,
+    0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,
+    0x88,0x89,0x90,0x91,0x92,0x93,0x94,0x95,
+    0x90,0x91,0x92,0x93,0x94,0x95,0x96,0x97,
+    0x98,0x99,0x00,0x01,0x02,0x03,0x04,0x05,
+    0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
+    0x08,0x09,0x10,0x11,0x12,0x13,0x14,0x15,
+    0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,
+    0x18,0x19,0x20,0x21,0x22,0x23,0x24,0x25,
+    0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27,
+    0x28,0x29,0x30,0x31,0x32,0x33,0x34,0x35,
+    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,
+    0x38,0x39,0x40,0x41,0x42,0x43,0x44,0x45,
+    0x40,0x41,0x42,0x43,0x44,0x45,0x46,0x47,
+    0x48,0x49,0x50,0x51,0x52,0x53,0x54,0x55,
+    0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,
+    0x58,0x59,0x60,0x61,0x62,0x63,0x64,0x65,
+    0x60,0x61,0x62,0x63,0x64,0x65,0x66,0x67,
+    0x68,0x69,0x70,0x71,0x72,0x73,0x74,0x75,
+    0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,
+    0x78,0x79,0x80,0x81,0x82,0x83,0x84,0x85,
+    0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,
+    0x88,0x89,0x90,0x91,0x92,0x93,0x94,0x95,
+    0x90,0x91,0x92,0x93,0x94,0x95,0x96,0x97,
+    0x98,0x99,0xA0,0xA1,0xA2,0xA3,0xA4,0xA5,
+    0xA0,0xA1,0xA2,0xA3,0xA4,0xA5,0xA6,0xA7,
+    0xA8,0xA9,0xB0,0xB1,0xB2,0xB3,0xB4,0xB5,
+    0xB0,0xB1,0xB2,0xB3,0xB4,0xB5,0xB6,0xB7,
+    0xB8,0xB9,0xC0,0xC1,0xC2,0xC3,0xC4,0xC5,
+    0xC0,0xC1,0xC2,0xC3,0xC4,0xC5,0xC6,0xC7,
+    0xC8,0xC9,0xD0,0xD1,0xD2,0xD3,0xD4,0xD5,
+    0xD0,0xD1,0xD2,0xD3,0xD4,0xD5,0xD6,0xD7,
+    0xD8,0xD9,0xE0,0xE1,0xE2,0xE3,0xE4,0xE5,
+    0xE0,0xE1,0xE2,0xE3,0xE4,0xE5,0xE6,0xE7,
+    0xE8,0xE9,0xF0,0xF1,0xF2,0xF3,0xF4,0xF5,
+    0xF0,0xF1,0xF2,0xF3,0xF4,0xF5,0xF6,0xF7,
+    0xF8,0xF9,0x00,0x01,0x02,0x03,0x04,0x05,
+    0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
+    0x08,0x09,0x10,0x11,0x12,0x13,0x14,0x15,
+    0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,
+    0x18,0x19,0x20,0x21,0x22,0x23,0x24,0x25,
+    0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27,
+    0x28,0x29,0x30,0x31,0x32,0x33,0x34,0x35,
+    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,
+    0x38,0x39,0x40,0x41,0x42,0x43,0x44,0x45,
+    0x40,0x41,0x42,0x43,0x44,0x45,0x46,0x47,
+    0x48,0x49,0x50,0x51,0x52,0x53,0x54,0x55,
+    0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,
+    0x58,0x59,0x60,0x61,0x62,0x63,0x64,0x65,
+    0x06,0x07,0x08,0x09,0x0A,0x0B,0x0C,0x0D,
+    0x0E,0x0F,0x10,0x11,0x12,0x13,0x14,0x15,
+    0x16,0x17,0x18,0x19,0x1A,0x1B,0x1C,0x1D,
+    0x1E,0x1F,0x20,0x21,0x22,0x23,0x24,0x25,
+    0x26,0x27,0x28,0x29,0x2A,0x2B,0x2C,0x2D,
+    0x2E,0x2F,0x30,0x31,0x32,0x33,0x34,0x35,
+    0x36,0x37,0x38,0x39,0x3A,0x3B,0x3C,0x3D,
+    0x3E,0x3F,0x40,0x41,0x42,0x43,0x44,0x45,
+    0x46,0x47,0x48,0x49,0x4A,0x4B,0x4C,0x4D,
+    0x4E,0x4F,0x50,0x51,0x52,0x53,0x54,0x55,
+    0x56,0x57,0x58,0x59,0x5A,0x5B,0x5C,0x5D,
+    0x5E,0x5F,0x60,0x61,0x62,0x63,0x64,0x65,
+    0x66,0x67,0x68,0x69,0x6A,0x6B,0x6C,0x6D,
+    0x6E,0x6F,0x70,0x71,0x72,0x73,0x74,0x75,
+    0x76,0x77,0x78,0x79,0x7A,0x7B,0x7C,0x7D,
+    0x7E,0x7F,0x80,0x81,0x82,0x83,0x84,0x85,
+    0x86,0x87,0x88,0x89,0x8A,0x8B,0x8C,0x8D,
+    0x8E,0x8F,0x90,0x91,0x92,0x93,0x94,0x95,
+    0x96,0x97,0x98,0x99,0x9A,0x9B,0x9C,0x9D,
+    0x9E,0x9F,0x00,0x01,0x02,0x03,0x04,0x05,
+    0x06,0x07,0x08,0x09,0x0A,0x0B,0x0C,0x0D,
+    0x0E,0x0F,0x10,0x11,0x12,0x13,0x14,0x15,
+    0x16,0x17,0x18,0x19,0x1A,0x1B,0x1C,0x1D,
+    0x1E,0x1F,0x20,0x21,0x22,0x23,0x24,0x25,
+    0x26,0x27,0x28,0x29,0x2A,0x2B,0x2C,0x2D,
+    0x2E,0x2F,0x30,0x31,0x32,0x33,0x34,0x35,
+    0x36,0x37,0x38,0x39,0x3A,0x3B,0x3C,0x3D,
+    0x3E,0x3F,0x40,0x41,0x42,0x43,0x44,0x45,
+    0x46,0x47,0x48,0x49,0x4A,0x4B,0x4C,0x4D,
+    0x4E,0x4F,0x50,0x51,0x52,0x53,0x54,0x55,
+    0x56,0x57,0x58,0x59,0x5A,0x5B,0x5C,0x5D,
+    0x5E,0x5F,0x60,0x61,0x62,0x63,0x64,0x65,
+    0x66,0x67,0x68,0x69,0x6A,0x6B,0x6C,0x6D,
+    0x6E,0x6F,0x70,0x71,0x72,0x73,0x74,0x75,
+    0x76,0x77,0x78,0x79,0x7A,0x7B,0x7C,0x7D,
+    0x7E,0x7F,0x80,0x81,0x82,0x83,0x84,0x85,
+    0x86,0x87,0x88,0x89,0x8A,0x8B,0x8C,0x8D,
+    0x8E,0x8F,0x90,0x91,0x92,0x93,0x94,0x95,
+    0x96,0x97,0x98,0x99,0x9A,0x9B,0x9C,0x9D,
+    0x9E,0x9F,0xA0,0xA1,0xA2,0xA3,0xA4,0xA5,
+    0xA6,0xA7,0xA8,0xA9,0xAA,0xAB,0xAC,0xAD,
+    0xAE,0xAF,0xB0,0xB1,0xB2,0xB3,0xB4,0xB5,
+    0xB6,0xB7,0xB8,0xB9,0xBA,0xBB,0xBC,0xBD,
+    0xBE,0xBF,0xC0,0xC1,0xC2,0xC3,0xC4,0xC5,
+    0xC6,0xC7,0xC8,0xC9,0xCA,0xCB,0xCC,0xCD,
+    0xCE,0xCF,0xD0,0xD1,0xD2,0xD3,0xD4,0xD5,
+    0xD6,0xD7,0xD8,0xD9,0xDA,0xDB,0xDC,0xDD,
+    0xDE,0xDF,0xE0,0xE1,0xE2,0xE3,0xE4,0xE5,
+    0xE6,0xE7,0xE8,0xE9,0xEA,0xEB,0xEC,0xED,
+    0xEE,0xEF,0xF0,0xF1,0xF2,0xF3,0xF4,0xF5,
+    0xF6,0xF7,0xF8,0xF9,0xFA,0xFB,0xFC,0xFD,
+    0xFE,0xFF,0x00,0x01,0x02,0x03,0x04,0x05,
+    0x06,0x07,0x08,0x09,0x0A,0x0B,0x0C,0x0D,
+    0x0E,0x0F,0x10,0x11,0x12,0x13,0x14,0x15,
+    0x16,0x17,0x18,0x19,0x1A,0x1B,0x1C,0x1D,
+    0x1E,0x1F,0x20,0x21,0x22,0x23,0x24,0x25,
+    0x26,0x27,0x28,0x29,0x2A,0x2B,0x2C,0x2D,
+    0x2E,0x2F,0x30,0x31,0x32,0x33,0x34,0x35,
+    0x36,0x37,0x38,0x39,0x3A,0x3B,0x3C,0x3D,
+    0x3E,0x3F,0x40,0x41,0x42,0x43,0x44,0x45,
+    0x46,0x47,0x48,0x49,0x4A,0x4B,0x4C,0x4D,
+    0x4E,0x4F,0x50,0x51,0x52,0x53,0x54,0x55,
+    0x56,0x57,0x58,0x59,0x5A,0x5B,0x5C,0x5D,
+    0x5E,0x5F,0x60,0x61,0x62,0x63,0x64,0x65,
+    0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
+    0x08,0x09,0x04,0x05,0x06,0x07,0x08,0x09,
+    0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,
+    0x18,0x19,0x14,0x15,0x16,0x17,0x18,0x19,
+    0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27,
+    0x28,0x29,0x24,0x25,0x26,0x27,0x28,0x29,
+    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,
+    0x38,0x39,0x34,0x35,0x36,0x37,0x38,0x39,
+    0x40,0x41,0x42,0x43,0x44,0x45,0x46,0x47,
+    0x48,0x49,0x44,0x45,0x46,0x47,0x48,0x49,
+    0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,
+    0x58,0x59,0x54,0x55,0x56,0x57,0x58,0x59,
+    0x60,0x61,0x62,0x63,0x64,0x65,0x66,0x67,
+    0x68,0x69,0x64,0x65,0x66,0x67,0x68,0x69,
+    0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,
+    0x78,0x79,0x74,0x75,0x76,0x77,0x78,0x79,
+    0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,
+    0x88,0x89,0x84,0x85,0x86,0x87,0x88,0x89,
+    0x90,0x91,0x92,0x93,0x94,0x95,0x96,0x97,
+    0x98,0x99,0x34,0x35,0x36,0x37,0x38,0x39,
+    0x40,0x41,0x42,0x43,0x44,0x45,0x46,0x47,
+    0x48,0x49,0x44,0x45,0x46,0x47,0x48,0x49,
+    0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,
+    0x58,0x59,0x54,0x55,0x56,0x57,0x58,0x59,
+    0x60,0x61,0x62,0x63,0x64,0x65,0x66,0x67,
+    0x68,0x69,0x64,0x65,0x66,0x67,0x68,0x69,
+    0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,
+    0x78,0x79,0x74,0x75,0x76,0x77,0x78,0x79,
+    0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,
+    0x88,0x89,0x84,0x85,0x86,0x87,0x88,0x89,
+    0x90,0x91,0x92,0x93,0x94,0x95,0x96,0x97,
+    0x98,0x99,0x94,0x95,0x96,0x97,0x98,0x99,
+    0xA0,0xA1,0xA2,0xA3,0xA4,0xA5,0xA6,0xA7,
+    0xA8,0xA9,0xA4,0xA5,0xA6,0xA7,0xA8,0xA9,
+    0xB0,0xB1,0xB2,0xB3,0xB4,0xB5,0xB6,0xB7,
+    0xB8,0xB9,0xB4,0xB5,0xB6,0xB7,0xB8,0xB9,
+    0xC0,0xC1,0xC2,0xC3,0xC4,0xC5,0xC6,0xC7,
+    0xC8,0xC9,0xC4,0xC5,0xC6,0xC7,0xC8,0xC9,
+    0xD0,0xD1,0xD2,0xD3,0xD4,0xD5,0xD6,0xD7,
+    0xD8,0xD9,0xD4,0xD5,0xD6,0xD7,0xD8,0xD9,
+    0xE0,0xE1,0xE2,0xE3,0xE4,0xE5,0xE6,0xE7,
+    0xE8,0xE9,0xE4,0xE5,0xE6,0xE7,0xE8,0xE9,
+    0xF0,0xF1,0xF2,0xF3,0xF4,0xF5,0xF6,0xF7,
+    0xF8,0xF9,0xF4,0xF5,0xF6,0xF7,0xF8,0xF9,
+    0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,
+    0x08,0x09,0x04,0x05,0x06,0x07,0x08,0x09,
+    0x10,0x11,0x12,0x13,0x14,0x15,0x16,0x17,
+    0x18,0x19,0x14,0x15,0x16,0x17,0x18,0x19,
+    0x20,0x21,0x22,0x23,0x24,0x25,0x26,0x27,
+    0x28,0x29,0x24,0x25,0x26,0x27,0x28,0x29,
+    0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,
+    0x38,0x39,0x34,0x35,0x36,0x37,0x38,0x39,
+    0x40,0x41,0x42,0x43,0x44,0x45,0x46,0x47,
+    0x48,0x49,0x44,0x45,0x46,0x47,0x48,0x49,
+    0x50,0x51,0x52,0x53,0x54,0x55,0x56,0x57,
+    0x58,0x59,0x54,0x55,0x56,0x57,0x58,0x59,
+    0x60,0x61,0x62,0x63,0x64,0x65,0x66,0x67,
+    0x68,0x69,0x64,0x65,0x66,0x67,0x68,0x69,
+    0x70,0x71,0x72,0x73,0x74,0x75,0x76,0x77,
+    0x78,0x79,0x74,0x75,0x76,0x77,0x78,0x79,
+    0x80,0x81,0x82,0x83,0x84,0x85,0x86,0x87,
+    0x88,0x89,0x84,0x85,0x86,0x87,0x88,0x89,
+    0x90,0x91,0x92,0x93,0x94,0x95,0x96,0x97,
+    0x98,0x99,0x94,0x95,0x96,0x97,0x98,0x99,
+    0xFA,0xFB,0xFC,0xFD,0xFE,0xFF,0x00,0x01,
+    0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,
+    0x0A,0x0B,0x0C,0x0D,0x0E,0x0F,0x10,0x11,
+    0x12,0x13,0x14,0x15,0x16,0x17,0x18,0x19,
+    0x1A,0x1B,0x1C,0x1D,0x1E,0x1F,0x20,0x21,
+    0x22,0x23,0x24,0x25,0x26,0x27,0x28,0x29,
+    0x2A,0x2B,0x2C,0x2D,0x2E,0x2F,0x30,0x31,
+    0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,
+    0x3A,0x3B,0x3C,0x3D,0x3E,0x3F,0x40,0x41,
+    0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,
+    0x4A,0x4B,0x4C,0x4D,0x4E,0x4F,0x50,0x51,
+    0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,
+    0x5A,0x5B,0x5C,0x5D,0x5E,0x5F,0x60,0x61,
+    0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,
+    0x6A,0x6B,0x6C,0x6D,0x6E,0x6F,0x70,0x71,
+    0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,
+    0x7A,0x7B,0x7C,0x7D,0x7E,0x7F,0x80,0x81,
+    0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,
+    0x8A,0x8B,0x8C,0x8D,0x8E,0x8F,0x90,0x91,
+    0x92,0x93,0x34,0x35,0x36,0x37,0x38,0x39,
+    0x3A,0x3B,0x3C,0x3D,0x3E,0x3F,0x40,0x41,
+    0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,
+    0x4A,0x4B,0x4C,0x4D,0x4E,0x4F,0x50,0x51,
+    0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,
+    0x5A,0x5B,0x5C,0x5D,0x5E,0x5F,0x60,0x61,
+    0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,
+    0x6A,0x6B,0x6C,0x6D,0x6E,0x6F,0x70,0x71,
+    0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,
+    0x7A,0x7B,0x7C,0x7D,0x7E,0x7F,0x80,0x81,
+    0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,
+    0x8A,0x8B,0x8C,0x8D,0x8E,0x8F,0x90,0x91,
+    0x92,0x93,0x94,0x95,0x96,0x97,0x98,0x99,
+    0x9A,0x9B,0x9C,0x9D,0x9E,0x9F,0xA0,0xA1,
+    0xA2,0xA3,0xA4,0xA5,0xA6,0xA7,0xA8,0xA9,
+    0xAA,0xAB,0xAC,0xAD,0xAE,0xAF,0xB0,0xB1,
+    0xB2,0xB3,0xB4,0xB5,0xB6,0xB7,0xB8,0xB9,
+    0xBA,0xBB,0xBC,0xBD,0xBE,0xBF,0xC0,0xC1,
+    0xC2,0xC3,0xC4,0xC5,0xC6,0xC7,0xC8,0xC9,
+    0xCA,0xCB,0xCC,0xCD,0xCE,0xCF,0xD0,0xD1,
+    0xD2,0xD3,0xD4,0xD5,0xD6,0xD7,0xD8,0xD9,
+    0xDA,0xDB,0xDC,0xDD,0xDE,0xDF,0xE0,0xE1,
+    0xE2,0xE3,0xE4,0xE5,0xE6,0xE7,0xE8,0xE9,
+    0xEA,0xEB,0xEC,0xED,0xEE,0xEF,0xF0,0xF1,
+    0xF2,0xF3,0xF4,0xF5,0xF6,0xF7,0xF8,0xF9,
+    0xFA,0xFB,0xFC,0xFD,0xFE,0xFF,0x00,0x01,
+    0x02,0x03,0x04,0x05,0x06,0x07,0x08,0x09,
+    0x0A,0x0B,0x0C,0x0D,0x0E,0x0F,0x10,0x11,
+    0x12,0x13,0x14,0x15,0x16,0x17,0x18,0x19,
+    0x1A,0x1B,0x1C,0x1D,0x1E,0x1F,0x20,0x21,
+    0x22,0x23,0x24,0x25,0x26,0x27,0x28,0x29,
+    0x2A,0x2B,0x2C,0x2D,0x2E,0x2F,0x30,0x31,
+    0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,
+    0x3A,0x3B,0x3C,0x3D,0x3E,0x3F,0x40,0x41,
+    0x42,0x43,0x44,0x45,0x46,0x47,0x48,0x49,
+    0x4A,0x4B,0x4C,0x4D,0x4E,0x4F,0x50,0x51,
+    0x52,0x53,0x54,0x55,0x56,0x57,0x58,0x59,
+    0x5A,0x5B,0x5C,0x5D,0x5E,0x5F,0x60,0x61,
+    0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69,
+    0x6A,0x6B,0x6C,0x6D,0x6E,0x6F,0x70,0x71,
+    0x72,0x73,0x74,0x75,0x76,0x77,0x78,0x79,
+    0x7A,0x7B,0x7C,0x7D,0x7E,0x7F,0x80,0x81,
+    0x82,0x83,0x84,0x85,0x86,0x87,0x88,0x89,
+    0x8A,0x8B,0x8C,0x8D,0x8E,0x8F,0x90,0x91,
+    0x92,0x93,0x94,0x95,0x96,0x97,0x98,0x99 };
+
+static BYTE daa_reg_f[2048] = {
+    0x44,0x00,0x00,0x04,0x00,0x04,0x04,0x00,
+    0x08,0x0C,0x10,0x14,0x14,0x10,0x14,0x10,
+    0x00,0x04,0x04,0x00,0x04,0x00,0x00,0x04,
+    0x0C,0x08,0x30,0x34,0x34,0x30,0x34,0x30,
+    0x20,0x24,0x24,0x20,0x24,0x20,0x20,0x24,
+    0x2C,0x28,0x34,0x30,0x30,0x34,0x30,0x34,
+    0x24,0x20,0x20,0x24,0x20,0x24,0x24,0x20,
+    0x28,0x2C,0x10,0x14,0x14,0x10,0x14,0x10,
+    0x00,0x04,0x04,0x00,0x04,0x00,0x00,0x04,
+    0x0C,0x08,0x14,0x10,0x10,0x14,0x10,0x14,
+    0x04,0x00,0x00,0x04,0x00,0x04,0x04,0x00,
+    0x08,0x0C,0x34,0x30,0x30,0x34,0x30,0x34,
+    0x24,0x20,0x20,0x24,0x20,0x24,0x24,0x20,
+    0x28,0x2C,0x30,0x34,0x34,0x30,0x34,0x30,
+    0x20,0x24,0x24,0x20,0x24,0x20,0x20,0x24,
+    0x2C,0x28,0x90,0x94,0x94,0x90,0x94,0x90,
+    0x80,0x84,0x84,0x80,0x84,0x80,0x80,0x84,
+    0x8C,0x88,0x94,0x90,0x90,0x94,0x90,0x94,
+    0x84,0x80,0x80,0x84,0x80,0x84,0x84,0x80,
+    0x88,0x8C,0x55,0x11,0x11,0x15,0x11,0x15,
+    0x45,0x01,0x01,0x05,0x01,0x05,0x05,0x01,
+    0x09,0x0D,0x11,0x15,0x15,0x11,0x15,0x11,
+    0x01,0x05,0x05,0x01,0x05,0x01,0x01,0x05,
+    0x0D,0x09,0x31,0x35,0x35,0x31,0x35,0x31,
+    0x21,0x25,0x25,0x21,0x25,0x21,0x21,0x25,
+    0x2D,0x29,0x35,0x31,0x31,0x35,0x31,0x35,
+    0x25,0x21,0x21,0x25,0x21,0x25,0x25,0x21,
+    0x29,0x2D,0x11,0x15,0x15,0x11,0x15,0x11,
+    0x01,0x05,0x05,0x01,0x05,0x01,0x01,0x05,
+    0x0D,0x09,0x15,0x11,0x11,0x15,0x11,0x15,
+    0x05,0x01,0x01,0x05,0x01,0x05,0x05,0x01,
+    0x09,0x0D,0x35,0x31,0x31,0x35,0x31,0x35,
+    0x25,0x21,0x21,0x25,0x21,0x25,0x25,0x21,
+    0x29,0x2D,0x31,0x35,0x35,0x31,0x35,0x31,
+    0x21,0x25,0x25,0x21,0x25,0x21,0x21,0x25,
+    0x2D,0x29,0x91,0x95,0x95,0x91,0x95,0x91,
+    0x81,0x85,0x85,0x81,0x85,0x81,0x81,0x85,
+    0x8D,0x89,0x95,0x91,0x91,0x95,0x91,0x95,
+    0x85,0x81,0x81,0x85,0x81,0x85,0x85,0x81,
+    0x89,0x8D,0xB5,0xB1,0xB1,0xB5,0xB1,0xB5,
+    0xA5,0xA1,0xA1,0xA5,0xA1,0xA5,0xA5,0xA1,
+    0xA9,0xAD,0xB1,0xB5,0xB5,0xB1,0xB5,0xB1,
+    0xA1,0xA5,0xA5,0xA1,0xA5,0xA1,0xA1,0xA5,
+    0xAD,0xA9,0x95,0x91,0x91,0x95,0x91,0x95,
+    0x85,0x81,0x81,0x85,0x81,0x85,0x85,0x81,
+    0x89,0x8D,0x91,0x95,0x95,0x91,0x95,0x91,
+    0x81,0x85,0x85,0x81,0x85,0x81,0x81,0x85,
+    0x8D,0x89,0xB1,0xB5,0xB5,0xB1,0xB5,0xB1,
+    0xA1,0xA5,0xA5,0xA1,0xA5,0xA1,0xA1,0xA5,
+    0xAD,0xA9,0xB5,0xB1,0xB1,0xB5,0xB1,0xB5,
+    0xA5,0xA1,0xA1,0xA5,0xA1,0xA5,0xA5,0xA1,
+    0xA9,0xAD,0x55,0x11,0x11,0x15,0x11,0x15,
+    0x45,0x01,0x01,0x05,0x01,0x05,0x05,0x01,
+    0x09,0x0D,0x11,0x15,0x15,0x11,0x15,0x11,
+    0x01,0x05,0x05,0x01,0x05,0x01,0x01,0x05,
+    0x0D,0x09,0x31,0x35,0x35,0x31,0x35,0x31,
+    0x21,0x25,0x25,0x21,0x25,0x21,0x21,0x25,
+    0x2D,0x29,0x35,0x31,0x31,0x35,0x31,0x35,
+    0x25,0x21,0x21,0x25,0x21,0x25,0x25,0x21,
+    0x29,0x2D,0x11,0x15,0x15,0x11,0x15,0x11,
+    0x01,0x05,0x05,0x01,0x05,0x01,0x01,0x05,
+    0x0D,0x09,0x15,0x11,0x11,0x15,0x11,0x15,
+    0x05,0x01,0x01,0x05,0x01,0x05,0x05,0x01,
+    0x09,0x0D,0x35,0x31,0x31,0x35,0x31,0x35,
+    0x04,0x00,0x08,0x0C,0x0C,0x08,0x0C,0x08,
+    0x08,0x0C,0x10,0x14,0x14,0x10,0x14,0x10,
+    0x00,0x04,0x0C,0x08,0x08,0x0C,0x08,0x0C,
+    0x0C,0x08,0x30,0x34,0x34,0x30,0x34,0x30,
+    0x20,0x24,0x2C,0x28,0x28,0x2C,0x28,0x2C,
+    0x2C,0x28,0x34,0x30,0x30,0x34,0x30,0x34,
+    0x24,0x20,0x28,0x2C,0x2C,0x28,0x2C,0x28,
+    0x28,0x2C,0x10,0x14,0x14,0x10,0x14,0x10,
+    0x00,0x04,0x0C,0x08,0x08,0x0C,0x08,0x0C,
+    0x0C,0x08,0x14,0x10,0x10,0x14,0x10,0x14,
+    0x04,0x00,0x08,0x0C,0x0C,0x08,0x0C,0x08,
+    0x08,0x0C,0x34,0x30,0x30,0x34,0x30,0x34,
+    0x24,0x20,0x28,0x2C,0x2C,0x28,0x2C,0x28,
+    0x28,0x2C,0x30,0x34,0x34,0x30,0x34,0x30,
+    0x20,0x24,0x2C,0x28,0x28,0x2C,0x28,0x2C,
+    0x2C,0x28,0x90,0x94,0x94,0x90,0x94,0x90,
+    0x80,0x84,0x8C,0x88,0x88,0x8C,0x88,0x8C,
+    0x8C,0x88,0x94,0x90,0x90,0x94,0x90,0x94,
+    0x84,0x80,0x88,0x8C,0x8C,0x88,0x8C,0x88,
+    0x88,0x8C,0x55,0x11,0x11,0x15,0x11,0x15,
+    0x05,0x01,0x09,0x0D,0x0D,0x09,0x0D,0x09,
+    0x09,0x0D,0x11,0x15,0x15,0x11,0x15,0x11,
+    0x01,0x05,0x0D,0x09,0x09,0x0D,0x09,0x0D,
+    0x0D,0x09,0x31,0x35,0x35,0x31,0x35,0x31,
+    0x21,0x25,0x2D,0x29,0x29,0x2D,0x29,0x2D,
+    0x2D,0x29,0x35,0x31,0x31,0x35,0x31,0x35,
+    0x25,0x21,0x29,0x2D,0x2D,0x29,0x2D,0x29,
+    0x29,0x2D,0x11,0x15,0x15,0x11,0x15,0x11,
+    0x01,0x05,0x0D,0x09,0x09,0x0D,0x09,0x0D,
+    0x0D,0x09,0x15,0x11,0x11,0x15,0x11,0x15,
+    0x05,0x01,0x09,0x0D,0x0D,0x09,0x0D,0x09,
+    0x09,0x0D,0x35,0x31,0x31,0x35,0x31,0x35,
+    0x25,0x21,0x29,0x2D,0x2D,0x29,0x2D,0x29,
+    0x29,0x2D,0x31,0x35,0x35,0x31,0x35,0x31,
+    0x21,0x25,0x2D,0x29,0x29,0x2D,0x29,0x2D,
+    0x2D,0x29,0x91,0x95,0x95,0x91,0x95,0x91,
+    0x81,0x85,0x8D,0x89,0x89,0x8D,0x89,0x8D,
+    0x8D,0x89,0x95,0x91,0x91,0x95,0x91,0x95,
+    0x85,0x81,0x89,0x8D,0x8D,0x89,0x8D,0x89,
+    0x89,0x8D,0xB5,0xB1,0xB1,0xB5,0xB1,0xB5,
+    0xA5,0xA1,0xA9,0xAD,0xAD,0xA9,0xAD,0xA9,
+    0xA9,0xAD,0xB1,0xB5,0xB5,0xB1,0xB5,0xB1,
+    0xA1,0xA5,0xAD,0xA9,0xA9,0xAD,0xA9,0xAD,
+    0xAD,0xA9,0x95,0x91,0x91,0x95,0x91,0x95,
+    0x85,0x81,0x89,0x8D,0x8D,0x89,0x8D,0x89,
+    0x89,0x8D,0x91,0x95,0x95,0x91,0x95,0x91,
+    0x81,0x85,0x8D,0x89,0x89,0x8D,0x89,0x8D,
+    0x8D,0x89,0xB1,0xB5,0xB5,0xB1,0xB5,0xB1,
+    0xA1,0xA5,0xAD,0xA9,0xA9,0xAD,0xA9,0xAD,
+    0xAD,0xA9,0xB5,0xB1,0xB1,0xB5,0xB1,0xB5,
+    0xA5,0xA1,0xA9,0xAD,0xAD,0xA9,0xAD,0xA9,
+    0xA9,0xAD,0x55,0x11,0x11,0x15,0x11,0x15,
+    0x05,0x01,0x09,0x0D,0x0D,0x09,0x0D,0x09,
+    0x09,0x0D,0x11,0x15,0x15,0x11,0x15,0x11,
+    0x01,0x05,0x0D,0x09,0x09,0x0D,0x09,0x0D,
+    0x0D,0x09,0x31,0x35,0x35,0x31,0x35,0x31,
+    0x21,0x25,0x2D,0x29,0x29,0x2D,0x29,0x2D,
+    0x2D,0x29,0x35,0x31,0x31,0x35,0x31,0x35,
+    0x25,0x21,0x29,0x2D,0x2D,0x29,0x2D,0x29,
+    0x29,0x2D,0x11,0x15,0x15,0x11,0x15,0x11,
+    0x01,0x05,0x0D,0x09,0x09,0x0D,0x09,0x0D,
+    0x0D,0x09,0x15,0x11,0x11,0x15,0x11,0x15,
+    0x05,0x01,0x09,0x0D,0x0D,0x09,0x0D,0x09,
+    0x09,0x0D,0x35,0x31,0x31,0x35,0x31,0x35,
+    0x46,0x02,0x02,0x06,0x02,0x06,0x06,0x02,
+    0x0A,0x0E,0x02,0x06,0x06,0x02,0x0A,0x0E,
+    0x02,0x06,0x06,0x02,0x06,0x02,0x02,0x06,
+    0x0E,0x0A,0x06,0x02,0x02,0x06,0x0E,0x0A,
+    0x22,0x26,0x26,0x22,0x26,0x22,0x22,0x26,
+    0x2E,0x2A,0x26,0x22,0x22,0x26,0x2E,0x2A,
+    0x26,0x22,0x22,0x26,0x22,0x26,0x26,0x22,
+    0x2A,0x2E,0x22,0x26,0x26,0x22,0x2A,0x2E,
+    0x02,0x06,0x06,0x02,0x06,0x02,0x02,0x06,
+    0x0E,0x0A,0x06,0x02,0x02,0x06,0x0E,0x0A,
+    0x06,0x02,0x02,0x06,0x02,0x06,0x06,0x02,
+    0x0A,0x0E,0x02,0x06,0x06,0x02,0x0A,0x0E,
+    0x26,0x22,0x22,0x26,0x22,0x26,0x26,0x22,
+    0x2A,0x2E,0x22,0x26,0x26,0x22,0x2A,0x2E,
+    0x22,0x26,0x26,0x22,0x26,0x22,0x22,0x26,
+    0x2E,0x2A,0x26,0x22,0x22,0x26,0x2E,0x2A,
+    0x82,0x86,0x86,0x82,0x86,0x82,0x82,0x86,
+    0x8E,0x8A,0x86,0x82,0x82,0x86,0x8E,0x8A,
+    0x86,0x82,0x82,0x86,0x82,0x86,0x86,0x82,
+    0x8A,0x8E,0x23,0x27,0x27,0x23,0x2B,0x2F,
+    0x03,0x07,0x07,0x03,0x07,0x03,0x03,0x07,
+    0x0F,0x0B,0x07,0x03,0x03,0x07,0x0F,0x0B,
+    0x07,0x03,0x03,0x07,0x03,0x07,0x07,0x03,
+    0x0B,0x0F,0x03,0x07,0x07,0x03,0x0B,0x0F,
+    0x27,0x23,0x23,0x27,0x23,0x27,0x27,0x23,
+    0x2B,0x2F,0x23,0x27,0x27,0x23,0x2B,0x2F,
+    0x23,0x27,0x27,0x23,0x27,0x23,0x23,0x27,
+    0x2F,0x2B,0x27,0x23,0x23,0x27,0x2F,0x2B,
+    0x83,0x87,0x87,0x83,0x87,0x83,0x83,0x87,
+    0x8F,0x8B,0x87,0x83,0x83,0x87,0x8F,0x8B,
+    0x87,0x83,0x83,0x87,0x83,0x87,0x87,0x83,
+    0x8B,0x8F,0x83,0x87,0x87,0x83,0x8B,0x8F,
+    0xA7,0xA3,0xA3,0xA7,0xA3,0xA7,0xA7,0xA3,
+    0xAB,0xAF,0xA3,0xA7,0xA7,0xA3,0xAB,0xAF,
+    0xA3,0xA7,0xA7,0xA3,0xA7,0xA3,0xA3,0xA7,
+    0xAF,0xAB,0xA7,0xA3,0xA3,0xA7,0xAF,0xAB,
+    0x87,0x83,0x83,0x87,0x83,0x87,0x87,0x83,
+    0x8B,0x8F,0x83,0x87,0x87,0x83,0x8B,0x8F,
+    0x83,0x87,0x87,0x83,0x87,0x83,0x83,0x87,
+    0x8F,0x8B,0x87,0x83,0x83,0x87,0x8F,0x8B,
+    0xA3,0xA7,0xA7,0xA3,0xA7,0xA3,0xA3,0xA7,
+    0xAF,0xAB,0xA7,0xA3,0xA3,0xA7,0xAF,0xAB,
+    0xA7,0xA3,0xA3,0xA7,0xA3,0xA7,0xA7,0xA3,
+    0xAB,0xAF,0xA3,0xA7,0xA7,0xA3,0xAB,0xAF,
+    0x47,0x03,0x03,0x07,0x03,0x07,0x07,0x03,
+    0x0B,0x0F,0x03,0x07,0x07,0x03,0x0B,0x0F,
+    0x03,0x07,0x07,0x03,0x07,0x03,0x03,0x07,
+    0x0F,0x0B,0x07,0x03,0x03,0x07,0x0F,0x0B,
+    0x23,0x27,0x27,0x23,0x27,0x23,0x23,0x27,
+    0x2F,0x2B,0x27,0x23,0x23,0x27,0x2F,0x2B,
+    0x27,0x23,0x23,0x27,0x23,0x27,0x27,0x23,
+    0x2B,0x2F,0x23,0x27,0x27,0x23,0x2B,0x2F,
+    0x03,0x07,0x07,0x03,0x07,0x03,0x03,0x07,
+    0x0F,0x0B,0x07,0x03,0x03,0x07,0x0F,0x0B,
+    0x07,0x03,0x03,0x07,0x03,0x07,0x07,0x03,
+    0x0B,0x0F,0x03,0x07,0x07,0x03,0x0B,0x0F,
+    0x27,0x23,0x23,0x27,0x23,0x27,0x27,0x23,
+    0x2B,0x2F,0x23,0x27,0x27,0x23,0x2B,0x2F,
+    0x23,0x27,0x27,0x23,0x27,0x23,0x23,0x27,
+    0x2F,0x2B,0x27,0x23,0x23,0x27,0x2F,0x2B,
+    0x83,0x87,0x87,0x83,0x87,0x83,0x83,0x87,
+    0x8F,0x8B,0x87,0x83,0x83,0x87,0x8F,0x8B,
+    0x87,0x83,0x83,0x87,0x83,0x87,0x87,0x83,
+    0x8B,0x8F,0x83,0x87,0x87,0x83,0x8B,0x8F,
+    0xBE,0xBA,0xBE,0xBA,0xBA,0xBE,0x46,0x02,
+    0x02,0x06,0x02,0x06,0x06,0x02,0x0A,0x0E,
+    0x1E,0x1A,0x1E,0x1A,0x1A,0x1E,0x02,0x06,
+    0x06,0x02,0x06,0x02,0x02,0x06,0x0E,0x0A,
+    0x1A,0x1E,0x1A,0x1E,0x1E,0x1A,0x22,0x26,
+    0x26,0x22,0x26,0x22,0x22,0x26,0x2E,0x2A,
+    0x3A,0x3E,0x3A,0x3E,0x3E,0x3A,0x26,0x22,
+    0x22,0x26,0x22,0x26,0x26,0x22,0x2A,0x2E,
+    0x3E,0x3A,0x3E,0x3A,0x3A,0x3E,0x02,0x06,
+    0x06,0x02,0x06,0x02,0x02,0x06,0x0E,0x0A,
+    0x1A,0x1E,0x1A,0x1E,0x1E,0x1A,0x06,0x02,
+    0x02,0x06,0x02,0x06,0x06,0x02,0x0A,0x0E,
+    0x1E,0x1A,0x1E,0x1A,0x1A,0x1E,0x26,0x22,
+    0x22,0x26,0x22,0x26,0x26,0x22,0x2A,0x2E,
+    0x3E,0x3A,0x3E,0x3A,0x3A,0x3E,0x22,0x26,
+    0x26,0x22,0x26,0x22,0x22,0x26,0x2E,0x2A,
+    0x3A,0x3E,0x3A,0x3E,0x3E,0x3A,0x82,0x86,
+    0x86,0x82,0x86,0x82,0x82,0x86,0x8E,0x8A,
+    0x9A,0x9E,0x9A,0x9E,0x9E,0x9A,0x86,0x82,
+    0x82,0x86,0x23,0x27,0x27,0x23,0x2B,0x2F,
+    0x3F,0x3B,0x3F,0x3B,0x3B,0x3F,0x03,0x07,
+    0x07,0x03,0x07,0x03,0x03,0x07,0x0F,0x0B,
+    0x1B,0x1F,0x1B,0x1F,0x1F,0x1B,0x07,0x03,
+    0x03,0x07,0x03,0x07,0x07,0x03,0x0B,0x0F,
+    0x1F,0x1B,0x1F,0x1B,0x1B,0x1F,0x27,0x23,
+    0x23,0x27,0x23,0x27,0x27,0x23,0x2B,0x2F,
+    0x3F,0x3B,0x3F,0x3B,0x3B,0x3F,0x23,0x27,
+    0x27,0x23,0x27,0x23,0x23,0x27,0x2F,0x2B,
+    0x3B,0x3F,0x3B,0x3F,0x3F,0x3B,0x83,0x87,
+    0x87,0x83,0x87,0x83,0x83,0x87,0x8F,0x8B,
+    0x9B,0x9F,0x9B,0x9F,0x9F,0x9B,0x87,0x83,
+    0x83,0x87,0x83,0x87,0x87,0x83,0x8B,0x8F,
+    0x9F,0x9B,0x9F,0x9B,0x9B,0x9F,0xA7,0xA3,
+    0xA3,0xA7,0xA3,0xA7,0xA7,0xA3,0xAB,0xAF,
+    0xBF,0xBB,0xBF,0xBB,0xBB,0xBF,0xA3,0xA7,
+    0xA7,0xA3,0xA7,0xA3,0xA3,0xA7,0xAF,0xAB,
+    0xBB,0xBF,0xBB,0xBF,0xBF,0xBB,0x87,0x83,
+    0x83,0x87,0x83,0x87,0x87,0x83,0x8B,0x8F,
+    0x9F,0x9B,0x9F,0x9B,0x9B,0x9F,0x83,0x87,
+    0x87,0x83,0x87,0x83,0x83,0x87,0x8F,0x8B,
+    0x9B,0x9F,0x9B,0x9F,0x9F,0x9B,0xA3,0xA7,
+    0xA7,0xA3,0xA7,0xA3,0xA3,0xA7,0xAF,0xAB,
+    0xBB,0xBF,0xBB,0xBF,0xBF,0xBB,0xA7,0xA3,
+    0xA3,0xA7,0xA3,0xA7,0xA7,0xA3,0xAB,0xAF,
+    0xBF,0xBB,0xBF,0xBB,0xBB,0xBF,0x47,0x03,
+    0x03,0x07,0x03,0x07,0x07,0x03,0x0B,0x0F,
+    0x1F,0x1B,0x1F,0x1B,0x1B,0x1F,0x03,0x07,
+    0x07,0x03,0x07,0x03,0x03,0x07,0x0F,0x0B,
+    0x1B,0x1F,0x1B,0x1F,0x1F,0x1B,0x23,0x27,
+    0x27,0x23,0x27,0x23,0x23,0x27,0x2F,0x2B,
+    0x3B,0x3F,0x3B,0x3F,0x3F,0x3B,0x27,0x23,
+    0x23,0x27,0x23,0x27,0x27,0x23,0x2B,0x2F,
+    0x3F,0x3B,0x3F,0x3B,0x3B,0x3F,0x03,0x07,
+    0x07,0x03,0x07,0x03,0x03,0x07,0x0F,0x0B,
+    0x1B,0x1F,0x1B,0x1F,0x1F,0x1B,0x07,0x03,
+    0x03,0x07,0x03,0x07,0x07,0x03,0x0B,0x0F,
+    0x1F,0x1B,0x1F,0x1B,0x1B,0x1F,0x27,0x23,
+    0x23,0x27,0x23,0x27,0x27,0x23,0x2B,0x2F,
+    0x3F,0x3B,0x3F,0x3B,0x3B,0x3F,0x23,0x27,
+    0x27,0x23,0x27,0x23,0x23,0x27,0x2F,0x2B,
+    0x3B,0x3F,0x3B,0x3F,0x3F,0x3B,0x83,0x87,
+    0x87,0x83,0x87,0x83,0x83,0x87,0x8F,0x8B,
+    0x9B,0x9F,0x9B,0x9F,0x9F,0x9B,0x87,0x83,
+    0x83,0x87,0x83,0x87,0x87,0x83,0x8B,0x8F
+};
 /* ------------------------------------------------------------------------- */
 
 /* Interrupt handling.  */
@@ -301,17 +821,23 @@ static BYTE SZP[256] = {
         if (ik & (IK_IRQ | IK_NMI)) {                                        \
             if ((ik & IK_NMI) && 0) {                                        \
             } else if ((ik & IK_IRQ) && (reg_iff & 0x01)) {                  \
+                ADDRESS jumpdst;                                             \
                 /*TRACE_IRQ();*/                                             \
                 if (mon_mask[e_comp_space] & (MI_STEP)) {                    \
                     mon_check_icount_interrupt();                            \
                 }                                                            \
                 reg_iff &= 0xfe;                                             \
+                CLK += 4;                                                    \
                 --reg_sp;                                                    \
                 STORE((reg_sp), ((BYTE)(z80_reg_pc >> 8)));                  \
+                CLK += 4;                                                    \
                 --reg_sp;                                                    \
                 STORE((reg_sp), ((BYTE)(z80_reg_pc & 0xff)));                \
-                JUMP((LOAD(reg_i << 8) << 8) | (LOAD((reg_i << 8) + 1)));    \
-                CLK += 13;                                                   \
+                jumpdst = (LOAD(reg_i << 8) << 8);                           \
+                CLK += 4;                                                    \
+                jumpdst |= (LOAD((reg_i << 8) + 1));                         \
+                JUMP(jumpdst);                                               \
+                CLK += 3;                                                    \
             }                                                                \
         }                                                                    \
         if (ik & (IK_TRAP | IK_RESET)) {                                     \
@@ -347,73 +873,116 @@ static BYTE SZP[256] = {
 
 /* Opcodes.  */
 
-#define ADCREG(reg_val, clk_inc, pc_inc)                              \
+#define ADC(loadval, clk_inc1, clk_inc2, pc_inc)                    \
+  do {                                                              \
+      BYTE tmp, carry, value;                                       \
+                                                                    \
+      CLK += clk_inc1;                                              \
+      value = loadval;                                              \
+      carry = LOCAL_CARRY();                                        \
+      tmp = reg_a + value + carry;                                  \
+      reg_f = SZP[tmp];                                             \
+      LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)value              \
+                      + (WORD)(carry)) & 0x100);                    \
+      LOCAL_SET_HALFCARRY((reg_a ^ value ^ tmp) & H_FLAG);          \
+      LOCAL_SET_PARITY((~(reg_a ^ value)) & (reg_a ^ tmp) & 0x80);  \
+      reg_a = tmp;                                                  \
+      CLK += clk_inc2;                                              \
+      INC_PC(pc_inc);                                               \
+  } while (0)
+
+#define ADCHLREG(reg_valh, reg_vall)                                  \
   do {                                                                \
-      BYTE tmp, carry;                                                \
+      DWORD tmp, carry;                                               \
                                                                       \
       carry = LOCAL_CARRY();                                          \
-      tmp = reg_a + (BYTE)(reg_val) + carry;                          \
-      reg_f = SZP[tmp];                                               \
-      LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)reg_val              \
-                      + (WORD)(carry)) & 0x100);                      \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);          \
-      LOCAL_SET_PARITY((~(reg_a ^ reg_val)) & (reg_a ^ tmp) & 0x80);  \
-      reg_a = tmp;                                                    \
-      CLK += clk_inc;                                                 \
-      INC_PC(pc_inc);                                                 \
-  } while (0)
-
-#define ADDHLREG(reg_valh, reg_vall)                                  \
-  do {                                                                \
-      DWORD tmp;                                                      \
-                                                                      \
       tmp = (DWORD)((reg_h << 8) + reg_l)                             \
-            + (DWORD)((reg_valh << 8) + reg_vall);                    \
+            + (DWORD)((reg_valh << 8) + reg_vall) + carry;            \
+      LOCAL_SET_ZERO(!(tmp & 0xffff));                                \
       LOCAL_SET_NADDSUB(0);                                           \
+      LOCAL_SET_SIGN(tmp & 0x8000);                                   \
       LOCAL_SET_CARRY(tmp & 0x10000);                                 \
       LOCAL_SET_HALFCARRY(((tmp >> 8) ^ reg_valh ^ reg_h) & H_FLAG);  \
+      LOCAL_SET_PARITY((~(reg_h ^ reg_valh)) &                        \
+                       (reg_valh ^ (tmp >> 8)) & 0x80);               \
       reg_h = (BYTE)(tmp >> 8);                                       \
       reg_l = (BYTE)(tmp & 0xff);                                     \
-      CLK += 11;                                                      \
-      INC_PC(1);                                                      \
+      CLK += 15;                                                      \
+      INC_PC(2);                                                      \
   } while (0)
 
-#define ADDHLSP()                                                          \
+#define ADCHLSP()                                                          \
+  do {                                                                     \
+      DWORD tmp, carry;                                                    \
+                                                                           \
+      carry = LOCAL_CARRY();                                               \
+      tmp = (DWORD)((reg_h << 8) + reg_l) + (DWORD)(reg_sp) + carry;       \
+      LOCAL_SET_ZERO(!(tmp & 0xffff));                                     \
+      LOCAL_SET_NADDSUB(0);                                                \
+      LOCAL_SET_SIGN(tmp & 0x8000);                                        \
+      LOCAL_SET_CARRY(tmp & 0x10000);                                      \
+      LOCAL_SET_HALFCARRY(((tmp >> 8) ^ (reg_sp >> 8) ^ reg_h) & H_FLAG);  \
+      LOCAL_SET_PARITY((~(reg_h ^ (reg_sp >> 8))) &                        \
+                       ((reg_sp >> 8) ^ (tmp >> 8)) & 0x80);               \
+      reg_h = (BYTE)(tmp >> 8);                                            \
+      reg_l = (BYTE)(tmp & 0xff);                                          \
+      CLK += 15;                                                           \
+      INC_PC(2);                                                           \
+  } while (0)
+
+#define ADD(loadval, clk_inc1, clk_inc2, pc_inc)                    \
+  do {                                                              \
+      BYTE tmp, value;                                              \
+                                                                    \
+      CLK += clk_inc1;                                              \
+      value = loadval;                                              \
+      tmp = reg_a + value;                                          \
+      reg_f = SZP[tmp];                                             \
+      LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)value) & 0x100);   \
+      LOCAL_SET_HALFCARRY((reg_a ^ value ^ tmp) & H_FLAG);          \
+      LOCAL_SET_PARITY((~(reg_a ^ value)) & (reg_a ^ tmp) & 0x80);  \
+      reg_a = tmp;                                                  \
+      CLK += clk_inc2;                                              \
+      INC_PC(pc_inc);                                               \
+  } while (0)
+
+#define ADDXXREG(reg_dsth, reg_dstl, reg_valh, reg_vall, clk_inc, pc_inc)  \
   do {                                                                     \
       DWORD tmp;                                                           \
                                                                            \
-      tmp = (DWORD)((reg_h << 8) + reg_l) + (DWORD)(reg_sp);               \
+      tmp = (DWORD)((reg_dsth << 8) + reg_dstl)                            \
+            + (DWORD)((reg_valh << 8) + reg_vall);                         \
       LOCAL_SET_NADDSUB(0);                                                \
       LOCAL_SET_CARRY(tmp & 0x10000);                                      \
-      LOCAL_SET_HALFCARRY(((tmp >> 8) ^ (reg_sp >> 8) ^ reg_h) & H_FLAG);  \
+      LOCAL_SET_HALFCARRY(((tmp >> 8) ^ reg_valh ^ reg_dsth) & H_FLAG);    \
       reg_h = (BYTE)(tmp >> 8);                                            \
       reg_l = (BYTE)(tmp & 0xff);                                          \
-      CLK += 11;                                                           \
-      INC_PC(1);                                                           \
+      CLK += clk_inc;                                                      \
+      INC_PC(pc_inc);                                                      \
   } while (0)
 
-#define ADDREG(reg_val, clk_inc, pc_inc)                              \
-  do {                                                                \
-      BYTE tmp;                                                       \
-                                                                      \
-      tmp = reg_a + (BYTE)(reg_val);                                  \
-      reg_f = SZP[tmp];                                               \
-      LOCAL_SET_CARRY((WORD)((WORD)reg_a + (WORD)reg_val) & 0x100);   \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);          \
-      LOCAL_SET_PARITY((~(reg_a ^ reg_val)) & (reg_a ^ tmp) & 0x80);  \
-      reg_a = tmp;                                                    \
-      CLK += clk_inc;                                                 \
-      INC_PC(pc_inc);                                                 \
+#define ADDXXSP(reg_dsth, reg_dstl, clk_inc, pc_inc)                          \
+  do {                                                                        \
+      DWORD tmp;                                                              \
+                                                                              \
+      tmp = (DWORD)((reg_dsth << 8) + reg_dstl) + (DWORD)(reg_sp);            \
+      LOCAL_SET_NADDSUB(0);                                                   \
+      LOCAL_SET_CARRY(tmp & 0x10000);                                         \
+      LOCAL_SET_HALFCARRY(((tmp >> 8) ^ (reg_sp >> 8) ^ reg_dsth) & H_FLAG);  \
+      reg_h = (BYTE)(tmp >> 8);                                               \
+      reg_l = (BYTE)(tmp & 0xff);                                             \
+      CLK += clk_inc;                                                         \
+      INC_PC(pc_inc);                                                         \
   } while (0)
 
-#define ANDREG(value, clk_inc1, clk_inc2, pc_inc)  \
-  do {                                             \
-      CLK += (clk_inc1);                           \
-      reg_a &= (value);                            \
-      reg_f = SZP[reg_a];                          \
-      LOCAL_SET_HALFCARRY(1);                      \
-      CLK += (clk_inc2);                           \
-      INC_PC(pc_inc);                              \
+#define AND(value, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                          \
+      CLK += clk_inc1;                          \
+      reg_a &= (value);                         \
+      reg_f = SZP[reg_a];                       \
+      LOCAL_SET_HALFCARRY(1);                   \
+      CLK += clk_inc2;                          \
+      INC_PC(pc_inc);                           \
   } while (0)
 
 #define BIT(reg_val, value, clk_inc)              \
@@ -422,7 +991,7 @@ static BYTE SZP[256] = {
       LOCAL_SET_HALFCARRY(1);                     \
       LOCAL_SET_ZERO(!(reg_val & (1 << value)));  \
       /***LOCAL_SET_PARITY(LOCAL_ZERO());***/     \
-      CLK += (clk_inc);                           \
+      CLK += clk_inc;                             \
       INC_PC(2);                                  \
   } while (0)
 
@@ -443,12 +1012,14 @@ static BYTE SZP[256] = {
 #define CALL(reg_val, clk_inc, pc_inc)               \
   do {                                               \
       INC_PC(pc_inc);                                \
+      CLK += 3;                                      \
       --reg_sp;                                      \
       STORE((reg_sp), ((BYTE)(z80_reg_pc >> 8)));    \
+      CLK += 3;                                      \
       --reg_sp;                                      \
       STORE((reg_sp), ((BYTE)(z80_reg_pc & 0xff)));  \
       JUMP(reg_val);                                 \
-      CLK += clk_inc;                                \
+      CLK += (clk_inc - 6);                          \
   } while (0)
 
 #define CALL_COND(reg_value, cond, clk_inc1, clk_inc2, pc_inc)  \
@@ -470,51 +1041,56 @@ static BYTE SZP[256] = {
       INC_PC(1);                              \
   } while (0)
 
-#define CPI()                                             \
+#define CP(loadval, clk_inc1, clk_inc2, pc_inc)                  \
+  do {                                                           \
+      BYTE tmp, value;                                           \
+                                                                 \
+      CLK += clk_inc1;                                           \
+      value = loadval;                                           \
+      tmp = reg_a - value;                                       \
+      reg_f = N_FLAG | SZP[tmp];                                 \
+      LOCAL_SET_CARRY(value > reg_a);                            \
+      LOCAL_SET_HALFCARRY((reg_a ^ value ^ tmp) & H_FLAG);       \
+      LOCAL_SET_PARITY((reg_a ^ value) & (reg_a ^ tmp) & 0x80);  \
+      CLK += clk_inc2;                                           \
+      INC_PC(pc_inc);                                            \
+  } while (0)
+
+#define CPDI(HL_FUNC)                                     \
   do {                                                    \
       BYTE val, tmp;                                      \
                                                           \
+      CLK += 4;                                           \
       val = LOAD(HL_WORD());                              \
       tmp = reg_a - val;                                  \
-      INC_HL_WORD();                                      \
+      HL_FUNC;                                            \
       DEC_BC_WORD();                                      \
       reg_f = N_FLAG | SZP[tmp] | LOCAL_CARRY();          \
       /***LOCAL_SET_CARRY(val > reg_a);***/               \
       LOCAL_SET_HALFCARRY((reg_a ^ val ^ tmp) & H_FLAG);  \
       LOCAL_SET_PARITY(reg_b | reg_c);                    \
-      CLK += 4; /* TEMPORARY */                           \
+      CLK += 1;                                           \
       INC_PC(2);                                          \
   } while (0)
 
-#define CPIR()                                            \
-  do {                                                    \
-      BYTE val, tmp;                                      \
-                                                          \
-      do {                                                \
-          val = LOAD(HL_WORD());                          \
-          tmp = reg_a - val;                              \
-          INC_HL_WORD();                                  \
-          DEC_BC_WORD();                                  \
-      } while (BC_WORD() && tmp);                         \
-      reg_f = N_FLAG | SZP[tmp] | LOCAL_CARRY();          \
-      /***LOCAL_SET_CARRY(val > reg_a);***/               \
-      LOCAL_SET_HALFCARRY((reg_a ^ val ^ tmp) & H_FLAG);  \
-      LOCAL_SET_PARITY(reg_b | reg_c);                    \
-      CLK += 4; /* TEMPORARY */                           \
-      INC_PC(2);                                          \
-  } while (0)
-
-#define CPREG(reg_val, clk_inc, pc_inc)                            \
-  do {                                                             \
-      BYTE tmp;                                                    \
-                                                                   \
-      tmp = reg_a - (BYTE)(reg_val);                               \
-      reg_f = N_FLAG | SZP[tmp];                                   \
-      LOCAL_SET_CARRY(reg_val > reg_a);                            \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);       \
-      LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80);  \
-      CLK += (clk_inc);                                            \
-      INC_PC(pc_inc);                                              \
+#define CPDIR(HL_FUNC)                                        \
+  do {                                                        \
+      BYTE val, tmp;                                          \
+                                                              \
+      CLK += 4;                                               \
+      val = LOAD(HL_WORD());                                  \
+      tmp = reg_a - val;                                      \
+      HL_FUNC;                                                \
+      DEC_BC_WORD();                                          \
+      CLK += 17;                                              \
+      if (!(BC_WORD() && tmp)) {                              \
+          reg_f = N_FLAG | SZP[tmp] | LOCAL_CARRY();          \
+          /***LOCAL_SET_CARRY(val > reg_a);***/               \
+          LOCAL_SET_HALFCARRY((reg_a ^ val ^ tmp) & H_FLAG);  \
+          LOCAL_SET_PARITY(reg_b | reg_c);                    \
+          CLK += 5;                                           \
+          INC_PC(2);                                          \
+      }                                                       \
   } while (0)
 
 #define CPL()                  \
@@ -526,17 +1102,32 @@ static BYTE SZP[256] = {
       INC_PC(1);               \
   } while (0)
 
+#define DAA()                                    \
+  do {                                           \
+      WORD tmp;                                  \
+                                                 \
+      tmp = reg_a | (LOCAL_CARRY() ? 0x100 : 0)  \
+              | (LOCAL_HALFCARRY() ? 0x200 : 0)  \
+              | (LOCAL_NADDSUB() ? 0x400 : 0);   \
+      reg_a = daa_reg_a[tmp];                    \
+      reg_f = daa_reg_f[tmp];                    \
+      CLK += 4;                                  \
+      INC_PC(1);                                 \
+  } while (0)
+
 #define DECHLIND()                                  \
   do {                                              \
       BYTE tmp;                                     \
                                                     \
+      CLK += 4;                                     \
       tmp = LOAD(HL_WORD());                        \
       tmp--;                                        \
+      CLK += 4;                                     \
       STORE(HL_WORD(), tmp);                        \
       reg_f = N_FLAG | SZP[tmp] | LOCAL_CARRY();    \
       LOCAL_SET_PARITY((tmp == 0x7f));              \
       LOCAL_SET_HALFCARRY(((tmp & 0x0f) == 0x0f));  \
-      CLK += 11;                                    \
+      CLK += 3;                                     \
       INC_PC(1);                                    \
   } while (0)
 
@@ -638,11 +1229,15 @@ static BYTE SZP[256] = {
                                   \
       tmph = reg_h;               \
       tmpl = reg_l;               \
+      CLK += 4;                   \
       reg_h = LOAD(reg_sp + 1);   \
+      CLK += 4;                   \
       reg_l = LOAD(reg_sp);       \
+      CLK += 4;                   \
       STORE((reg_sp + 1), tmph);  \
+      CLK += 4;                   \
       STORE(reg_sp, tmpl);        \
-      CLK += 19;                  \
+      CLK += 3;                   \
       INC_PC(1);                  \
   } while (0)
 
@@ -653,25 +1248,26 @@ static BYTE SZP[256] = {
 
 #define IM(value)                        \
   do {                                   \
-    reg_iff = value | (reg_iff & 0xf9);  \
-    CLK += 8;                            \
-    INC_PC(2);                           \
+      reg_iff = value | (reg_iff & 0xf9);  \
+      CLK += 8;                            \
+      INC_PC(2);                           \
   } while (0)
 
 #define INA(value)        \
   do {                    \
-      CLK += 8;           \
+      CLK += 4;           \
       reg_a = IN(value);  \
       /***reg_a = IN((reg_a << 8) | value);***/  \
-      CLK += 3;           \
+      CLK += 7;           \
       INC_PC(2);          \
   } while (0)
 
-#define INBC(reg_val, clk_inc, pc_inc)              \
+#define INBC(reg_val, clk_inc1, clk_inc2, pc_inc)   \
   do {                                              \
-      CLK += (clk_inc);                             \
+      CLK += clk_inc1;                              \
       reg_val = IN(BC_WORD());                      \
       reg_f = SZP[reg_val & 0xff] | LOCAL_CARRY();  \
+      CLK += clk_inc2;                              \
       INC_PC(pc_inc);                               \
   } while (0)
 
@@ -679,13 +1275,15 @@ static BYTE SZP[256] = {
   do {                                     \
       BYTE tmp;                            \
                                            \
+      CLK += 4;                            \
       tmp = LOAD(HL_WORD());               \
       tmp++;                               \
+      CLK += 4;                            \
       STORE(HL_WORD(), tmp);               \
       reg_f = SZP[tmp] | LOCAL_CARRY();    \
       LOCAL_SET_PARITY((tmp == 0x80));     \
       LOCAL_SET_HALFCARRY(!(tmp & 0x0f));  \
-      CLK += 11;                           \
+      CLK += 3;                            \
       INC_PC(1);                           \
   } while (0)
 
@@ -701,7 +1299,7 @@ static BYTE SZP[256] = {
 
 #define JMP(addr, clk_inc)  \
   do {                      \
-      CLK += (clk_inc);     \
+      CLK += clk_inc;       \
       JUMP(addr);           \
   } while (0)
 
@@ -710,12 +1308,12 @@ static BYTE SZP[256] = {
       if (cond) {                                 \
           JMP(addr, clk_inc1);                    \
       } else {                                    \
-          CLK += (clk_inc2);                      \
+          CLK += clk_inc2;                        \
           INC_PC(3);                              \
       }                                           \
   } while (0)
 
-#define LDAI()  \
+#define LDAI()                             \
   do {                                     \
       CLK += 6;                            \
       reg_a = reg_i;                       \
@@ -725,79 +1323,117 @@ static BYTE SZP[256] = {
       INC_PC(2);                           \
   } while (0)
 
-#define LDDR()                                \
-  do {                                        \
-      do {                                    \
-          STORE(DE_WORD(), LOAD(HL_WORD()));  \
-          DEC_BC_WORD();                      \
-          DEC_DE_WORD();                      \
-          DEC_HL_WORD();                      \
-      } while (BC_WORD());                    \
-      LOCAL_SET_NADDSUB(0);                   \
-      LOCAL_SET_PARITY(0);                    \
-      LOCAL_SET_HALFCARRY(0);                 \
-      CLK += 4; /* TEMPORARY */               \
-      INC_PC(2);                              \
+#define LDDI(DE_FUNC, HL_FUNC)          \
+  do {                                  \
+      BYTE tmp;                         \
+                                        \
+      CLK += 4;                         \
+      tmp = LOAD(HL_WORD());            \
+      CLK += 4;                         \
+      STORE(DE_WORD(), tmp);            \
+      DEC_BC_WORD();                    \
+      DE_FUNC;                          \
+      HL_FUNC;                          \
+      LOCAL_SET_NADDSUB(0);             \
+      LOCAL_SET_PARITY(reg_b | reg_c);  \
+      LOCAL_SET_HALFCARRY(0);           \
+      CLK += 12;                        \
+      INC_PC(2);                        \
   } while (0)
 
-#define LDIR()                                \
-  do {                                        \
-      do {                                    \
-          STORE(DE_WORD(), LOAD(HL_WORD()));  \
-          DEC_BC_WORD();                      \
-          INC_DE_WORD();                      \
-          INC_HL_WORD();                      \
-      } while (BC_WORD());                    \
-      LOCAL_SET_NADDSUB(0);                   \
-      LOCAL_SET_PARITY(0);                    \
-      LOCAL_SET_HALFCARRY(0);                 \
-      CLK += 4; /* TEMPORARY */               \
-      INC_PC(2);                              \
+#define LDDIR(DE_FUNC, HL_FUNC)    \
+  do {                             \
+      BYTE tmp;                    \
+                                   \
+      CLK += 4;                    \
+      tmp = LOAD(HL_WORD());       \
+      CLK += 4;                    \
+      STORE(DE_WORD(), tmp);       \
+      DEC_BC_WORD();               \
+      DE_FUNC;                     \
+      HL_FUNC;                     \
+      CLK += 13;                   \
+      if (!(BC_WORD())) {          \
+          LOCAL_SET_NADDSUB(0);    \
+          LOCAL_SET_PARITY(0);     \
+          LOCAL_SET_HALFCARRY(0);  \
+          CLK += 5;                \
+          INC_PC(2);               \
+      }                            \
   } while (0)
 
-#define LDIND(value, reg_valh, reg_vall, clk_inc1, clk_inc2, pc_inc)  \
-  do {                                                                \
-      CLK += clk_inc1;                                                \
-      reg_vall = LOAD(value);                                         \
-      reg_valh = LOAD(value + 1);                                     \
-      CLK += clk_inc2;                                                \
-      INC_PC(pc_inc);                                                 \
+#define LDIND(val, reg_valh, reg_vall, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                                        \
+      CLK += clk_inc1;                                                        \
+      reg_vall = LOAD((val));                                                 \
+      CLK += clk_inc2;                                                        \
+      reg_valh = LOAD((val) + 1);                                             \
+      CLK += clk_inc3;                                                        \
+      INC_PC(pc_inc);                                                         \
+  } while (0)
+
+/* Can be replaced by LDREG */
+#define LDINDD(reg_dst, reg_valh, reg_vall, disp)                \
+  do {                                                           \
+      ADDRESS tmp;                                               \
+                                                                 \
+      CLK += 8;                                                  \
+      tmp = ((reg_valh << 8) | reg_vall) + (signed char)(disp);  \
+      reg_dst = LOAD(tmp);                                       \
+      CLK += 11;                                                 \
+      INC_PC(3);                                                 \
   } while (0)
 
 #define LDSP(value, clk_inc1, clk_inc2, pc_inc)  \
   do {                                           \
-      CLK += (clk_inc1);                         \
+      CLK += clk_inc1;                           \
       reg_sp = (WORD)(value);                    \
-      CLK += (clk_inc2);                         \
+      CLK += clk_inc2;                           \
       INC_PC(pc_inc);                            \
   } while (0)
 
-#define LDSPIND(value, clk_inc1, clk_inc2, pc_inc)    \
-  do {                                                \
-      CLK += clk_inc1;                                \
-      reg_sp = LOAD(value) | (LOAD(value + 1) >> 8);  \
-      CLK += clk_inc2;                                \
-      INC_PC(pc_inc);                                 \
+#define LDSPIND(value, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                        \
+      CLK += clk_inc1;                                        \
+      reg_sp = LOAD(value);                                   \
+      CLK += clk_inc2;                                        \
+      reg_sp |= LOAD(value + 1) >> 8;                         \
+      CLK += clk_inc3;                                        \
+      INC_PC(pc_inc);                                         \
   } while (0)
 
 #define LDREG(reg_dest, value, clk_inc1, clk_inc2, pc_inc)  \
   do {                                                      \
       BYTE tmp;                                             \
                                                             \
-      CLK += (clk_inc1);                                    \
+      CLK += clk_inc1;                                      \
       tmp = (BYTE)(value);                                  \
       reg_dest = tmp;                                       \
-      CLK += (clk_inc2);                                    \
+      CLK += clk_inc2;                                      \
       INC_PC(pc_inc);                                       \
   } while (0)
 
 #define LDW(value, reg_valh, reg_vall, clk_inc1, clk_inc2, pc_inc)  \
   do {                                                              \
-      CLK += (clk_inc1);                                            \
+      CLK += clk_inc1;                                              \
       reg_vall = (BYTE)((value) & 0xff);                            \
       reg_valh = (BYTE)((value) >> 8);                              \
-      CLK += (clk_inc2);                                            \
+      CLK += clk_inc2;                                              \
       INC_PC(pc_inc);                                               \
+  } while (0)
+
+#define NEG()                                      \
+  do {                                             \
+      BYTE tmp;                                    \
+                                                   \
+      tmp = 0 - reg_a;                             \
+      reg_f = N_FLAG | SZP[tmp];                   \
+      LOCAL_SET_HALFCARRY((reg_a ^ tmp) & H_FLAG); \
+      LOCAL_SET_PARITY(reg_a & tmp & 0x80);        \
+      LOCAL_SET_CARRY(reg_a > 0);                  \
+      reg_a = tmp;                                 \
+      CLK += 8;                                    \
+      INC_PC(2);                                   \
   } while (0)
 
 #define NOP()     \
@@ -806,51 +1442,54 @@ static BYTE SZP[256] = {
       INC_PC(1);  \
   } while (0)
 
-#define ORREG(reg_val, clk_inc1, clk_inc2, pc_inc)  \
-  do {                                              \
-      CLK += (clk_inc1);                            \
-      reg_a |= reg_val;                             \
-      reg_f = SZP[reg_a];                           \
-      CLK += (clk_inc2);                            \
-      INC_PC(pc_inc);                               \
+#define OR(reg_val, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                           \
+      CLK += clk_inc1;                           \
+      reg_a |= reg_val;                          \
+      reg_f = SZP[reg_a];                        \
+      CLK += clk_inc2;                           \
+      INC_PC(pc_inc);                            \
   } while (0)
 
 #define OUTA(value)       \
   do {                    \
-      CLK += 8;           \
+      CLK += 4;           \
       OUT(value, reg_a);  \
       /***OUT((reg_a << 8) | value, reg_a);***/ \
-      CLK += 3 ;          \
+      CLK += 7;           \
       INC_PC(2);          \
   } while (0)
 
-#define OUTBC(value, clk_inc, pc_inc)  \
-  do {                                 \
-      CLK += (clk_inc);                \
-      OUT(BC_WORD(), value);           \
-      INC_PC(pc_inc);                  \
+#define OUTBC(value, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                            \
+      CLK += clk_inc1;                            \
+      OUT(BC_WORD(), value);                      \
+      CLK += clk_inc2;                            \
+      INC_PC(pc_inc);                             \
   } while (0)
 
-#define POP(reg_valh, reg_vall)  \
-  do {                           \
-      CLK += 7;                  \
-      reg_vall = LOAD(reg_sp);   \
-      ++reg_sp;                  \
-      reg_valh = LOAD(reg_sp);   \
-      ++reg_sp;                  \
-      CLK += 3;                  \
-      INC_PC(1);                 \
+#define POP(reg_valh, reg_vall, pc_inc)  \
+  do {                                   \
+      CLK += 4;                          \
+      reg_vall = LOAD(reg_sp);           \
+      ++reg_sp;                          \
+      CLK += 4;                          \
+      reg_valh = LOAD(reg_sp);           \
+      ++reg_sp;                          \
+      CLK += 2;                          \
+      INC_PC(pc_inc);                    \
   } while (0)
 
-#define PUSH(reg_valh, reg_vall)    \
-  do {                              \
-      CLK += 8;                     \
-      --reg_sp;                     \
-      STORE((reg_sp), (reg_valh));  \
-      --reg_sp;                     \
-      STORE((reg_sp), (reg_vall));  \
-      CLK += 3;                     \
-      INC_PC(1);                    \
+#define PUSH(reg_valh, reg_vall, pc_inc)  \
+  do {                                    \
+      CLK += 4;                           \
+      --reg_sp;                           \
+      STORE((reg_sp), (reg_valh));        \
+      CLK += 4;                           \
+      --reg_sp;                           \
+      STORE((reg_sp), (reg_vall));        \
+      CLK += 3;                           \
+      INC_PC(pc_inc);                     \
   } while (0)
 
 #define RES(reg_val, value)        \
@@ -864,22 +1503,26 @@ static BYTE SZP[256] = {
   do {                         \
       BYTE tmp;                \
                                \
+      CLK += 4;                \
       tmp = LOAD(HL_WORD());   \
       tmp &= (~(1 << value));  \
+      CLK += 4;                \
       STORE(HL_WORD(), tmp);   \
-      CLK += 15;               \
+      CLK += 7;                \
       INC_PC(2);               \
   } while (0)
 
 #define RET()                                          \
   do {                                                 \
-      unsigned int tmp;                                \
+      ADDRESS tmp;                                     \
                                                        \
-      CLK += 7;                                        \
-      tmp = LOAD(reg_sp) | (LOAD((reg_sp + 1)) << 8);  \
+      CLK += 4;                                        \
+      tmp = LOAD(reg_sp);                              \
+      CLK += 4;                                        \
+      tmp |= LOAD((reg_sp + 1)) << 8;                  \
       reg_sp += 2;                                     \
       JUMP(tmp);                                       \
-      CLK += 3;                                        \
+      CLK += 2;                                        \
   } while (0)
 
 #define RET_COND(cond)  \
@@ -890,6 +1533,17 @@ static BYTE SZP[256] = {
           CLK += 5;     \
           INC_PC(1);    \
       }                 \
+  } while (0)
+
+#define RL(reg_val)                              \
+  do {                                           \
+      BYTE rot;                                  \
+                                                 \
+      rot = (reg_val & 0x80) ? C_FLAG : 0;       \
+      reg_val = (reg_val << 1) | LOCAL_CARRY();  \
+      reg_f = rot | SZP[reg_val];                \
+      CLK += 8;                                  \
+      INC_PC(2);                                 \
   } while (0)
 
 #define RLA()                                \
@@ -905,6 +1559,17 @@ static BYTE SZP[256] = {
       INC_PC(1);                             \
   } while (0)
 
+#define RLC(reg_val)                        \
+  do {                                      \
+      BYTE rot;                             \
+                                            \
+      rot = (reg_val & 0x80) ? C_FLAG : 0;  \
+      reg_val = (reg_val << 1) | rot;       \
+      reg_f = rot | SZP[reg_val];           \
+      CLK += 8;                             \
+      INC_PC(2);                            \
+  } while (0)
+
 #define RLCA()                            \
   do {                                    \
       BYTE rot;                           \
@@ -916,6 +1581,47 @@ static BYTE SZP[256] = {
       LOCAL_SET_HALFCARRY(0);             \
       CLK += 4;                           \
       INC_PC(1);                          \
+  } while (0)
+
+#define RLCHL()                              \
+  do {                                       \
+      BYTE rot, tmp;                         \
+                                             \
+      CLK += 4;                              \
+      tmp = LOAD(HL_WORD());                 \
+      rot = (tmp & 0x80) ? C_FLAG : 0;       \
+      tmp = (tmp << 1) | rot;                \
+      CLK += 4;                              \
+      STORE(HL_WORD(), tmp);                 \
+      reg_f = rot | SZP[tmp];                \
+      CLK += 7;                              \
+      INC_PC(2);                             \
+  } while (0)
+
+#define RLHL()                           \
+  do {                                   \
+      BYTE rot, tmp;                     \
+                                         \
+      CLK += 4;                          \
+      tmp = LOAD(HL_WORD());             \
+      rot = (tmp & 0x80) ? C_FLAG : 0;   \
+      tmp = (tmp << 1) | LOCAL_CARRY();  \
+      CLK += 4;                          \
+      STORE(HL_WORD(), tmp);             \
+      reg_f = rot | SZP[tmp];            \
+      CLK += 7;                          \
+      INC_PC(2);                         \
+  } while (0)
+
+#define RR(reg_val)                                           \
+  do {                                                        \
+      BYTE rot;                                               \
+                                                              \
+      rot = reg_val & C_FLAG;                                 \
+      reg_val = (reg_val >> 1) | (LOCAL_CARRY() ? 0x80 : 0);  \
+      reg_f = rot | SZP[reg_val];                             \
+      CLK += 8;                                               \
+      INC_PC(2);                                              \
   } while (0)
 
 #define RRA()                                             \
@@ -931,6 +1637,17 @@ static BYTE SZP[256] = {
       INC_PC(1);                                          \
   } while (0)
 
+#define RRC(reg_val)                                  \
+  do {                                                \
+      BYTE rot;                                       \
+                                                      \
+      rot = reg_val & C_FLAG;                         \
+      reg_val = (reg_val >> 1) | ((rot) ? 0x80 : 0);  \
+      reg_f = rot | SZP[reg_val];                     \
+      CLK += 8;                                       \
+      INC_PC(2);                                      \
+  } while (0)
+
 #define RRCA()                                    \
   do {                                            \
       BYTE rot;                                   \
@@ -942,6 +1659,36 @@ static BYTE SZP[256] = {
       LOCAL_SET_HALFCARRY(0);                     \
       CLK += 4;                                   \
       INC_PC(1);                                  \
+  } while (0)
+
+#define RRCHL()                               \
+  do {                                        \
+      BYTE rot, tmp;                          \
+                                              \
+      CLK += 4;                               \
+      tmp = LOAD(HL_WORD());                  \
+      rot = tmp & C_FLAG;                     \
+      tmp = (tmp >> 1) | ((rot) ? 0x80 : 0);  \
+      CLK += 4;                               \
+      STORE(HL_WORD(), tmp);                  \
+      reg_f = rot | SZP[tmp];                 \
+      CLK += 7;                               \
+      INC_PC(2);                              \
+  } while (0)
+
+#define RRHL()                                        \
+  do {                                                \
+      BYTE rot, tmp;                                  \
+                                                      \
+      CLK += 4;                                       \
+      tmp = LOAD(HL_WORD());                          \
+      rot = tmp & C_FLAG;                             \
+      tmp = (tmp >> 1) | (LOCAL_CARRY() ? 0x80 : 0);  \
+      CLK += 4;                                       \
+      STORE(HL_WORD(), tmp);                          \
+      reg_f = rot | SZP[tmp];                         \
+      CLK += 7;                                       \
+      INC_PC(2);                                      \
   } while (0)
 
 #define SBCHLREG(reg_valh, reg_vall)                                         \
@@ -984,20 +1731,22 @@ static BYTE SZP[256] = {
       INC_PC(2);                                                           \
   } while (0)
 
-#define SBCREG(reg_val, clk_inc, pc_inc)                           \
-  do {                                                             \
-      BYTE tmp, carry;                                             \
-                                                                   \
-      carry = LOCAL_CARRY();                                       \
-      tmp = reg_a - (BYTE)(reg_val) - carry;                       \
-      reg_f = N_FLAG | SZP[tmp];                                   \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);       \
-      LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80);  \
-      LOCAL_SET_CARRY((WORD)((WORD)reg_val                         \
-                      + (WORD)(carry)) > reg_a);                   \
-      reg_a = tmp;                                                 \
-      CLK += clk_inc;                                              \
-      INC_PC(pc_inc);                                              \
+#define SBC(loadval, clk_inc1, clk_inc2, pc_inc)                 \
+  do {                                                           \
+      BYTE tmp, carry, value;                                    \
+                                                                 \
+      CLK += clk_inc1;                                           \
+      value = loadval;                                           \
+      carry = LOCAL_CARRY();                                     \
+      tmp = reg_a - value - carry;                               \
+      reg_f = N_FLAG | SZP[tmp];                                 \
+      LOCAL_SET_HALFCARRY((reg_a ^ value ^ tmp) & H_FLAG);       \
+      LOCAL_SET_PARITY((reg_a ^ value) & (reg_a ^ tmp) & 0x80);  \
+      LOCAL_SET_CARRY((WORD)((WORD)value                         \
+                      + (WORD)(carry)) > reg_a);                 \
+      reg_a = tmp;                                               \
+      CLK += clk_inc2;                                           \
+      INC_PC(pc_inc);                                            \
   } while (0)
 
 #define SCF()                  \
@@ -1020,60 +1769,171 @@ static BYTE SZP[256] = {
   do {                        \
       BYTE tmp;               \
                               \
+      CLK += 4;               \
       tmp = LOAD(HL_WORD());  \
       tmp |= (1 << value);    \
+      CLK += 4;               \
       STORE(HL_WORD(), tmp);  \
-      CLK += 15;              \
+      CLK += 7;               \
       INC_PC(2);              \
   } while (0)
 
-#define STW(addr, reg_valh, reg_vall, clk_inc1, clk_inc2, pc_inc)  \
-  do {                                                             \
-      CLK += (clk_inc1);                                           \
-      STORE((ADDRESS)(addr), reg_vall);                            \
-      STORE((ADDRESS)(addr + 1), reg_valh);                        \
-      CLK += (clk_inc2);                                           \
-      INC_PC(pc_inc);                                              \
+
+#define SLA(reg_val)                        \
+  do {                                      \
+      BYTE rot;                             \
+                                            \
+      rot = (reg_val & 0x80) ? C_FLAG : 0;  \
+      reg_val <<= 1;                        \
+      reg_f = rot | SZP[reg_val];           \
+      CLK += 8;                             \
+      INC_PC(2);                            \
   } while (0)
 
-#define STSPW(addr, clk_inc1, clk_inc2, pc_inc)   \
-  do {                                            \
-      CLK += (clk_inc1);                          \
-      STORE((ADDRESS)(addr), (reg_sp & 0xff));    \
-      STORE((ADDRESS)(addr + 1), (reg_sp >> 8));  \
-      CLK += (clk_inc2);                          \
-      INC_PC(pc_inc);                             \
+#define SLAHL()                         \
+  do {                                  \
+      BYTE rot, tmp;                    \
+                                        \
+      CLK += 4;                         \
+      tmp = LOAD(HL_WORD());            \
+      rot = (tmp & 0x80) ? C_FLAG : 0;  \
+      tmp <<= 1;                        \
+      CLK += 4;                         \
+      STORE(HL_WORD(), tmp);            \
+      reg_f = rot | SZP[tmp];           \
+      CLK += 7;                         \
+      INC_PC(2);                        \
+  } while (0)
+
+#define SLL(reg_val)                        \
+  do {                                      \
+      BYTE rot;                             \
+                                            \
+      rot = (reg_val & 0x80) ? C_FLAG : 0;  \
+      reg_val = (reg_val << 1) | 1;         \
+      reg_f = rot | SZP[reg_val];           \
+      CLK += 8;                             \
+      INC_PC(2);                            \
+  } while (0)
+
+#define SLLHL()                         \
+  do {                                  \
+      BYTE rot, tmp;                    \
+                                        \
+      CLK += 4;                         \
+      tmp = LOAD(HL_WORD());            \
+      rot = (tmp & 0x80) ? C_FLAG : 0;  \
+      tmp = (tmp << 1) | 1;             \
+      CLK += 4;                         \
+      STORE(HL_WORD(), tmp);            \
+      reg_f = rot | SZP[tmp];           \
+      CLK += 7;                         \
+      INC_PC(2);                        \
+  } while (0)
+
+#define SRA(reg_val)                                \
+  do {                                              \
+      BYTE rot;                                     \
+                                                    \
+      rot = reg_val & C_FLAG;                       \
+      reg_val = (reg_val >> 1) | (reg_val & 0x80);  \
+      reg_f = rot | SZP[reg_val];                   \
+      CLK += 8;                                     \
+      INC_PC(2);                                    \
+  } while (0)
+
+#define SRAHL()                         \
+  do {                                  \
+      BYTE rot, tmp;                    \
+                                        \
+      CLK += 4;                         \
+      tmp = LOAD(HL_WORD());            \
+      rot = tmp & C_FLAG;               \
+      tmp = (tmp >> 1) | (tmp & 0x80);  \
+      CLK += 4;                         \
+      STORE(HL_WORD(), tmp);            \
+      reg_f = rot | SZP[tmp];           \
+      CLK += 7;                         \
+      INC_PC(2);                        \
+  } while (0)
+
+#define SRL(reg_val)               \
+  do {                             \
+      BYTE rot;                    \
+                                   \
+      rot = reg_val & C_FLAG;      \
+      reg_val >>= 1;               \
+      reg_f = rot | SZP[reg_val];  \
+      CLK += 8;                    \
+      INC_PC(2);                   \
+  } while (0)
+
+#define SRLHL()                \
+  do {                         \
+      BYTE rot, tmp;           \
+                               \
+      CLK += 4;                \
+      tmp = LOAD(HL_WORD());   \
+      rot = tmp & C_FLAG;      \
+      tmp >>= 1;               \
+      CLK += 4;                \
+      STORE(HL_WORD(), tmp);   \
+      reg_f = rot | SZP[tmp];  \
+      CLK += 11;               \
+      INC_PC(2);               \
+  } while (0)
+
+#define STW(addr, reg_valh, reg_vall, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                                       \
+      CLK += clk_inc1;                                                       \
+      STORE((ADDRESS)(addr), reg_vall);                                      \
+      CLK += clk_inc2;                                                       \
+      STORE((ADDRESS)(addr + 1), reg_valh);                                  \
+      CLK += clk_inc3;                                                       \
+      INC_PC(pc_inc);                                                        \
+  } while (0)
+
+#define STSPW(addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                     \
+      CLK += clk_inc1;                                     \
+      STORE((ADDRESS)(addr), (reg_sp & 0xff));             \
+      CLK += clk_inc2;                                     \
+      STORE((ADDRESS)(addr + 1), (reg_sp >> 8));           \
+      CLK += clk_inc3;                                     \
+      INC_PC(pc_inc);                                      \
   } while (0)
 
 #define STREG(addr, reg_val, clk_inc1, clk_inc2, pc_inc)  \
   do {                                                    \
-      CLK += (clk_inc1);                                  \
+      CLK += clk_inc1;                                    \
       STORE(addr, reg_val);                               \
-      CLK += (clk_inc2);                                  \
+      CLK += clk_inc2;                                    \
       INC_PC(pc_inc);                                     \
   } while (0)
 
-#define SUBREG(reg_val, clk_inc, pc_inc)                           \
-  do {                                                             \
-      BYTE tmp;                                                    \
-                                                                   \
-      tmp = reg_a - (BYTE)(reg_val);                               \
-      reg_f = N_FLAG | SZP[tmp];                                   \
-      LOCAL_SET_HALFCARRY((reg_a ^ reg_val ^ tmp) & H_FLAG);       \
-      LOCAL_SET_PARITY((reg_a ^ reg_val) & (reg_a ^ tmp) & 0x80);  \
-      LOCAL_SET_CARRY(reg_val > reg_a);                            \
-      reg_a = tmp;                                                 \
-      CLK += clk_inc;                                              \
-      INC_PC(pc_inc);                                              \
+#define SUB(loadval, clk_inc1, clk_inc2, pc_inc)                 \
+  do {                                                           \
+      BYTE tmp, value;                                           \
+                                                                 \
+      CLK += clk_inc1;                                           \
+      value = loadval;                                           \
+      tmp = reg_a - value;                                       \
+      reg_f = N_FLAG | SZP[tmp];                                 \
+      LOCAL_SET_HALFCARRY((reg_a ^ value ^ tmp) & H_FLAG);       \
+      LOCAL_SET_PARITY((reg_a ^ value) & (reg_a ^ tmp) & 0x80);  \
+      LOCAL_SET_CARRY(value > reg_a);                            \
+      reg_a = tmp;                                               \
+      CLK += clk_inc2;                                           \
+      INC_PC(pc_inc);                                            \
   } while (0)
 
-#define XORREG(value, clk_inc1, clk_inc2, pc_inc)  \
-  do {                                             \
-      CLK += clk_inc1;                             \
-      reg_a ^= value;                              \
-      reg_f = SZP[reg_a];                          \
-      CLK += (clk_inc2);                           \
-      INC_PC(pc_inc);                              \
+#define XOR(value, clk_inc1, clk_inc2, pc_inc)  \
+  do {                                          \
+      CLK += clk_inc1;                          \
+      reg_a ^= value;                           \
+      reg_f = SZP[reg_a];                       \
+      CLK += clk_inc2;                          \
+      INC_PC(pc_inc);                           \
   } while (0)
 
 
@@ -1085,6 +1945,198 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
                       WORD ip23)
 {
     switch (ip1) {
+      case 0x00: /* RLC B */
+        RLC(reg_b);
+        break;
+      case 0x01: /* RLC C */
+        RLC(reg_c);
+        break;
+      case 0x02: /* RLC D */
+        RLC(reg_d);
+        break;
+      case 0x03: /* RLC E */
+        RLC(reg_e);
+        break;
+      case 0x04: /* RLC H */
+        RLC(reg_h);
+        break;
+      case 0x05: /* RLC L */
+        RLC(reg_l);
+        break;
+      case 0x06: /* RLC (HL) */
+        RLCHL();
+        break;
+      case 0x07: /* RLC A */
+        RLC(reg_a);
+        break;
+      case 0x08: /* RRC B */
+        RRC(reg_b);
+        break;
+      case 0x09: /* RRC C */
+        RRC(reg_c);
+        break;
+      case 0x0a: /* RRC D */
+        RRC(reg_d);
+        break;
+      case 0x0b: /* RRC E */
+        RRC(reg_e);
+        break;
+      case 0x0c: /* RRC H */
+        RRC(reg_h);
+        break;
+      case 0x0d: /* RRC L */
+        RRC(reg_l);
+        break;
+      case 0x0e: /* RRC (HL) */
+        RRCHL();
+        break;
+      case 0x0f: /* RRC A */
+        RRC(reg_a);
+        break;
+      case 0x10: /* RL B */
+        RL(reg_b);
+        break;
+      case 0x11: /* RL C */
+        RL(reg_c);
+        break;
+      case 0x12: /* RL D */
+        RL(reg_d);
+        break;
+      case 0x13: /* RL E */
+        RL(reg_e);
+        break;
+      case 0x14: /* RL H */
+        RL(reg_h);
+        break;
+      case 0x15: /* RL L */
+        RL(reg_l);
+        break;
+      case 0x16: /* RL (HL) */
+        RLHL();
+        break;
+      case 0x17: /* RL A */
+        RL(reg_a);
+        break;
+      case 0x18: /* RR B */
+        RR(reg_b);
+        break;
+      case 0x19: /* RR C */
+        RR(reg_c);
+        break;
+      case 0x1a: /* RR D */
+        RR(reg_d);
+        break;
+      case 0x1b: /* RR E */
+        RR(reg_e);
+        break;
+      case 0x1c: /* RR H */
+        RR(reg_h);
+        break;
+      case 0x1d: /* RR L */
+        RR(reg_l);
+        break;
+      case 0x1e: /* RR (HL) */
+        RRHL();
+        break;
+      case 0x1f: /* RR A */
+        RR(reg_a);
+        break;
+      case 0x20: /* SLA B */
+        SLA(reg_b);
+        break;
+      case 0x21: /* SLA C */
+        SLA(reg_c);
+        break;
+      case 0x22: /* SLA D */
+        SLA(reg_d);
+        break;
+      case 0x23: /* SLA E */
+        SLA(reg_e);
+        break;
+      case 0x24: /* SLA H */
+        SLA(reg_h);
+        break;
+      case 0x25: /* SLA L */
+        SLA(reg_l);
+        break;
+      case 0x26: /* SLA (HL) */
+        SLAHL();
+        break;
+      case 0x27: /* SLA A */
+        SLA(reg_a);
+        break;
+      case 0x28: /* SRA B */
+        SRA(reg_b);
+        break;
+      case 0x29: /* SRA C */
+        SRA(reg_c);
+        break;
+      case 0x2a: /* SRA D */
+        SRA(reg_d);
+        break;
+      case 0x2b: /* SRA E */
+        SRA(reg_e);
+        break;
+      case 0x2c: /* SRA H */
+        SRA(reg_h);
+        break;
+      case 0x2d: /* SRA L */
+        SRA(reg_l);
+        break;
+      case 0x2e: /* SRA (HL) */
+        SRAHL();
+        break;
+      case 0x2f: /* SRA A */
+        SRA(reg_a);
+        break;
+      case 0x30: /* SLL B */
+        SLL(reg_b);
+        break;
+      case 0x31: /* SLL C */
+        SLL(reg_c);
+        break;
+      case 0x32: /* SLL D */
+        SLL(reg_d);
+        break;
+      case 0x33: /* SLL E */
+        SLL(reg_e);
+        break;
+      case 0x34: /* SLL H */
+        SLL(reg_h);
+        break;
+      case 0x35: /* SLL L */
+        SLL(reg_l);
+        break;
+      case 0x36: /* SLL (HL) */
+        SLLHL();
+        break;
+      case 0x37: /* SLL A */
+        SLL(reg_a);
+        break;
+      case 0x38: /* SRL B */
+        SRL(reg_b);
+        break;
+      case 0x39: /* SRL C */
+        SRL(reg_c);
+        break;
+      case 0x3a: /* SRL D */
+        SRL(reg_d);
+        break;
+      case 0x3b: /* SRL E */
+        SRL(reg_e);
+        break;
+      case 0x3c: /* SRL H */
+        SRL(reg_h);
+        break;
+      case 0x3d: /* SRL L */
+        SRL(reg_l);
+        break;
+      case 0x3e: /* SRL (HL) */
+        SRLHL();
+        break;
+      case 0x3f: /* SRL A */
+        SRL(reg_a);
+        break;
       case 0x40: /* BIT B 0 */
         BIT(reg_b, 0, 8);
         break;
@@ -1679,21 +2731,476 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
    }
 }
 
+inline void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
+                      WORD ip23)
+{
+    switch (ip1) {
+      case 0x01: /* LD BC # */
+        LDW(ip23, reg_b, reg_c, 10, 0, 4);
+        break;
+      case 0x09: /* ADD IX BC */
+        ADDXXREG(reg_ixh, reg_ixl, reg_b, reg_c, 15, 2);
+        break;
+      case 0x11: /* LD DE # */
+        LDW(ip23, reg_d, reg_e, 10, 0, 4);
+        break;
+      case 0x19: /* ADD IX DE */
+        ADDXXREG(reg_ixh, reg_ixl, reg_d, reg_e, 15, 2);
+        break;
+      case 0x21: /* LD IX # */
+        LDW(ip23, reg_ixh, reg_ixl, 10, 4, 4);
+        break;
+      case 0x22: /* LD (WORD) IX */
+        STW(ip23, reg_ixh, reg_ixl, 4, 9, 7, 4);
+        break;
+      case 0x29: /* ADD IX IX */
+        ADDXXREG(reg_ixh, reg_ixl, reg_ixh, reg_ixl, 15, 2);
+        break;
+      case 0x2a: /* LD IX (WORD) */
+        LDIND(ip23, reg_ixh, reg_ixl, 4, 4, 12, 4);
+        break;
+      case 0x31: /* LD SP # */
+        LDSP(ip23, 10, 0, 4);
+        break;
+      case 0x39: /* ADD IX SP */
+        ADDXXSP(reg_ixh, reg_ixl, 15, 2);
+        break;
+      case 0x40: /* LD B B */
+        LDREG(reg_b, reg_b, 0, 4, 2);
+        break;
+      case 0x41: /* LD B C */
+        LDREG(reg_b, reg_c, 0, 4, 2);
+        break;
+      case 0x42: /* LD B D */
+        LDREG(reg_b, reg_d, 0, 4, 2);
+        break;
+      case 0x43: /* LD B E */
+        LDREG(reg_b, reg_e, 0, 4, 2);
+        break;
+      case 0x44: /* LD B H */
+        LDREG(reg_b, reg_h, 0, 4, 2);
+        break;
+      case 0x45: /* LD B L */
+        LDREG(reg_b, reg_l, 0, 4, 2);
+        break;
+      case 0x46: /* LD B (IX+d) */
+        LDINDD(reg_b, reg_ixh, reg_ixl, ip2);
+        break;
+      case 0x47: /* LD B A */
+        LDREG(reg_b, reg_a, 0, 4, 2);
+        break;
+      case 0x48: /* LD C B */
+        LDREG(reg_c, reg_b, 0, 4, 2);
+        break;
+      case 0x49: /* LD C C */
+        LDREG(reg_c, reg_c, 0, 4, 2);
+        break;
+      case 0x4a: /* LD C D */
+        LDREG(reg_c, reg_d, 0, 4, 2);
+        break;
+      case 0x4b: /* LD C E */
+        LDREG(reg_c, reg_e, 0, 4, 2);
+        break;
+      case 0x4c: /* LD C H */
+        LDREG(reg_c, reg_h, 0, 4, 2);
+        break;
+      case 0x4d: /* LD C L */
+        LDREG(reg_c, reg_l, 0, 4, 2);
+        break;
+      case 0x4e: /* LD C (IX+d) */
+        LDINDD(reg_c, reg_ixh, reg_ixl, ip2);
+        break;
+      case 0x4f: /* LD C A */
+        LDREG(reg_c, reg_a, 0, 4, 2);
+        break;
+      case 0x50: /* LD D B */
+        LDREG(reg_d, reg_b, 0, 4, 2);
+        break;
+      case 0x51: /* LD D C */
+        LDREG(reg_d, reg_c, 0, 4, 2);
+        break;
+      case 0x52: /* LD D D */
+        LDREG(reg_d, reg_d, 0, 4, 2);
+        break;
+      case 0x53: /* LD D E */
+        LDREG(reg_d, reg_e, 0, 4, 2);
+        break;
+      case 0x54: /* LD D H */
+        LDREG(reg_d, reg_h, 0, 4, 2);
+        break;
+      case 0x55: /* LD D L */
+        LDREG(reg_d, reg_l, 0, 4, 2);
+        break;
+      case 0x56: /* LD D (IX+d) */
+        LDINDD(reg_d, reg_ixh, reg_ixl, ip2);
+        break;
+      case 0x57: /* LD D A */
+        LDREG(reg_d, reg_a, 0, 4, 2);
+        break;
+      case 0x58: /* LD E B */
+        LDREG(reg_e, reg_b, 0, 4, 2);
+        break;
+      case 0x59: /* LD E C */
+        LDREG(reg_e, reg_c, 0, 4, 2);
+        break;
+      case 0x5a: /* LD E D */
+        LDREG(reg_e, reg_d, 0, 4, 2);
+        break;
+      case 0x5b: /* LD E E */
+        LDREG(reg_e, reg_e, 0, 4, 2);
+        break;
+      case 0x5c: /* LD E H */
+        LDREG(reg_e, reg_h, 0, 4, 2);
+        break;
+      case 0x5d: /* LD E L */
+        LDREG(reg_e, reg_l, 0, 4, 2);
+        break;
+      case 0x5e: /* LD E (IX+d) */
+        LDINDD(reg_e, reg_ixh, reg_ixl, ip2);
+        break;
+      case 0x5f: /* LD E A */
+        LDREG(reg_e, reg_a, 0, 4, 2);
+        break;
+      case 0x60: /* LD H B */
+        LDREG(reg_h, reg_b, 0, 4, 2);
+        break;
+      case 0x61: /* LD H C */
+        LDREG(reg_h, reg_c, 0, 4, 2);
+        break;
+      case 0x62: /* LD H D */
+        LDREG(reg_h, reg_d, 0, 4, 2);
+        break;
+      case 0x63: /* LD H E */
+        LDREG(reg_h, reg_e, 0, 4, 2);
+        break;
+      case 0x64: /* LD H H */
+        LDREG(reg_h, reg_h, 0, 4, 2);
+        break;
+      case 0x65: /* LD H L */
+        LDREG(reg_h, reg_l, 0, 4, 2);
+        break;
+      case 0x66: /* LD H (IX+d) */
+        LDINDD(reg_h, reg_ixh, reg_ixl, ip2);
+        break;
+      case 0x67: /* LD H A */
+        LDREG(reg_h, reg_a, 0, 4, 2);
+        break;
+      case 0x68: /* LD L B */
+        LDREG(reg_l, reg_b, 0, 4, 2);
+        break;
+      case 0x69: /* LD L C */
+        LDREG(reg_l, reg_c, 0, 4, 2);
+        break;
+      case 0x6a: /* LD L D */
+        LDREG(reg_l, reg_d, 0, 4, 2);
+        break;
+      case 0x6b: /* LD L E */
+        LDREG(reg_l, reg_e, 0, 4, 2);
+        break;
+      case 0x6c: /* LD L H */
+        LDREG(reg_l, reg_h, 0, 4, 2);
+        break;
+      case 0x6d: /* LD L L */
+        LDREG(reg_l, reg_l, 0, 4, 2);
+        break;
+      case 0x6e: /* LD L (IX+d) */
+        LDINDD(reg_l, reg_ixh, reg_ixl, ip2);
+        break;
+      case 0x6f: /* LD L A */
+        LDREG(reg_l, reg_a, 0, 4, 2);
+        break;
+      case 0x70: /* LD (IX+d) B */
+        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_b, 8, 11, 3);
+        break;
+      case 0x71: /* LD (IX+d) C */
+        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_c, 8, 11, 3);
+        break;
+      case 0x72: /* LD (IX+d) D */
+        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_d, 8, 11, 3);
+        break;
+      case 0x73: /* LD (IX+d) E */
+        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_e, 8, 11, 3);
+        break;
+      case 0x74: /* LD (IX+d) H */
+        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_h, 8, 11, 3);
+        break;
+      case 0x75: /* LD (IX+d) L */
+        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_l, 8, 11, 3);
+        break;
+      case 0x76: /* HALT */
+        HALT();
+        break;
+      case 0x77: /* LD (IX+d) A */
+        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), reg_a, 8, 11, 3);
+        break;
+      case 0x78: /* LD A B */
+        LDREG(reg_a, reg_b, 0, 4, 2);
+        break;
+      case 0x79: /* LD A C */
+        LDREG(reg_a, reg_c, 0, 4, 2);
+        break;
+      case 0x7a: /* LD A D */
+        LDREG(reg_a, reg_d, 0, 4, 2);
+        break;
+      case 0x7b: /* LD A E */
+        LDREG(reg_a, reg_e, 0, 4, 2);
+        break;
+      case 0x7c: /* LD A H */
+        LDREG(reg_a, reg_h, 0, 4, 2);
+        break;
+      case 0x7d: /* LD A L */
+        LDREG(reg_a, reg_l, 0, 4, 2);
+        break;
+      case 0x7e: /* LD A (IX+d) */
+        LDINDD(reg_a, reg_ixh, reg_ixl, ip2);
+        break;
+      case 0x7f: /* LD A A */
+        LDREG(reg_a, reg_a, 0, 4, 2);
+        break;
+      case 0x80: /* ADD B */
+        ADD(reg_b, 0, 4, 2);
+        break;
+      case 0x81: /* ADD C */
+        ADD(reg_c, 0, 4, 2);
+        break;
+      case 0x82: /* ADD D */
+        ADD(reg_d, 0, 4, 2);
+        break;
+      case 0x83: /* ADD E */
+        ADD(reg_e, 0, 4, 2);
+        break;
+      case 0x84: /* ADD H */
+        ADD(reg_h, 0, 4, 2);
+        break;
+      case 0x85: /* ADD L */
+        ADD(reg_l, 0, 4, 2);
+        break;
+      case 0x86: /* ADD (IX+d) */
+        ADD(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0x87: /* ADD A */
+        ADD(reg_a, 0, 4, 2);
+        break;
+      case 0x88: /* ADC B */
+        ADC(reg_b, 0, 4, 2);
+        break;
+      case 0x89: /* ADC C */
+        ADC(reg_c, 0, 4, 2);
+        break;
+      case 0x8a: /* ADC D */
+        ADC(reg_d, 0, 4, 2);
+        break;
+      case 0x8b: /* ADC E */
+        ADC(reg_e, 0, 4, 2);
+        break;
+      case 0x8c: /* ADC H */
+        ADC(reg_h, 0, 4, 2);
+        break;
+      case 0x8d: /* ADC L */
+        ADC(reg_l, 0, 4, 2);
+        break;
+      case 0x8e: /* ADC (IX+d) */
+        ADC(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0x8f: /* ADC A */
+        ADC(reg_a, 0, 4, 2);
+        break;
+      case 0x90: /* SUB B */
+        SUB(reg_b, 0, 4, 2);
+        break;
+      case 0x91: /* SUB C */
+        SUB(reg_c, 0, 4, 2);
+        break;
+      case 0x92: /* SUB D */
+        SUB(reg_d, 0, 4, 2);
+        break;
+      case 0x93: /* SUB E */
+        SUB(reg_e, 0, 4, 2);
+        break;
+      case 0x94: /* SUB H */
+        SUB(reg_h, 0, 4, 2);
+        break;
+      case 0x95: /* SUB L */
+        SUB(reg_l, 0, 4, 2);
+        break;
+      case 0x96: /* SUB (IX+d) */
+        SUB(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0x97: /* SUB A */
+        SUB(reg_a, 0, 4, 2);
+        break;
+      case 0x98: /* SBC B */
+        SBC(reg_b, 0, 4, 2);
+        break;
+      case 0x99: /* SBC C */
+        SBC(reg_c, 0, 4, 2);
+        break;
+      case 0x9a: /* SBC D */
+        SBC(reg_d, 0, 4, 2);
+        break;
+      case 0x9b: /* SBC E */
+        SBC(reg_e, 0, 4, 2);
+        break;
+      case 0x9c: /* SBC H */
+        SBC(reg_h, 0, 4, 2);
+        break;
+      case 0x9d: /* SBC L */
+        SBC(reg_l, 0, 4, 2);
+        break;
+      case 0x9e: /* SBC (IX+d) */
+        SBC(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0x9f: /* SBC A */
+        SBC(reg_a, 0, 4, 2);
+        break;
+      case 0xa0: /* AND B */
+        AND(reg_b, 0, 4, 2);
+        break;
+      case 0xa1: /* AND C */
+        AND(reg_c, 0, 4, 2);
+        break;
+      case 0xa2: /* AND D */
+        AND(reg_d, 0, 4, 2);
+        break;
+      case 0xa3: /* AND E */
+        AND(reg_e, 0, 4, 2);
+        break;
+      case 0xa4: /* AND H */
+        AND(reg_h, 0, 4, 2);
+        break;
+      case 0xa5: /* AND L */
+        AND(reg_l, 0, 4, 2);
+        break;
+      case 0xa6: /* AND (IX+d) */
+        AND(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0xa7: /* AND A */
+        AND(reg_a, 0, 4, 2);
+        break;
+      case 0xa8: /* XOR B */
+        XOR(reg_b, 0, 4, 2);
+        break;
+      case 0xa9: /* XOR C */
+        XOR(reg_c, 0, 4, 2);
+        break;
+      case 0xaa: /* XOR D */
+        XOR(reg_d, 0, 4, 2);
+        break;
+      case 0xab: /* XOR E */
+        XOR(reg_e, 0, 4, 2);
+        break;
+      case 0xac: /* XOR H */
+        XOR(reg_h, 0, 4, 2);
+        break;
+      case 0xad: /* XOR L */
+        XOR(reg_l, 0, 4, 2);
+        break;
+      case 0xae: /* XOR (IX+d) */
+        XOR(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0xaf: /* XOR A */
+        XOR(reg_a, 0, 4, 2);
+        break;
+      case 0xb0: /* OR B */
+        OR(reg_b, 0, 4, 2);
+        break;
+      case 0xb1: /* OR C */
+        OR(reg_c, 0, 4, 2);
+        break;
+      case 0xb2: /* OR D */
+        OR(reg_d, 0, 4, 2);
+        break;
+      case 0xb3: /* OR E */
+        OR(reg_e, 0, 4, 2);
+        break;
+      case 0xb4: /* OR H */
+        OR(reg_h, 0, 4, 2);
+        break;
+      case 0xb5: /* OR L */
+        OR(reg_l, 0, 4, 2);
+        break;
+      case 0xb6: /* OR (IX+d) */
+        OR(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0xb7: /* OR A */
+        OR(reg_a, 0, 4, 2);
+        break;
+      case 0xb8: /* CP B */
+        CP(reg_b, 0, 4, 2);
+        break;
+      case 0xb9: /* CP C */
+        CP(reg_c, 0, 4, 2);
+        break;
+      case 0xba: /* CP D */
+        CP(reg_d, 0, 4, 2);
+        break;
+      case 0xbb: /* CP E */
+        CP(reg_e, 0, 4, 2);
+        break;
+      case 0xbc: /* CP H */
+        CP(reg_h, 0, 4, 2);
+        break;
+      case 0xbd: /* CP L */
+        CP(reg_l, 0, 4, 2);
+        break;
+      case 0xbe: /* CP (IX+d) */
+        CP(LOAD(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0xbf: /* CP A */
+        CP(reg_a, 0, 4, 2);
+        break;
+      case 0xc1: /* POP BC */
+        POP(reg_b, reg_c, 2);
+        break;
+      case 0xc5: /* PUSH BC */
+        PUSH(reg_b, reg_c, 2);
+        break;
+      case 0xd1: /* POP DE */
+        POP(reg_d, reg_e, 2);
+        break;
+      case 0xd5: /* PUSH DE */
+        PUSH(reg_d, reg_e, 2);
+        break;
+      case 0xe1: /* POP IX */
+        POP(reg_ixh, reg_ixl, 2);
+        break;
+      case 0xe5: /* PUSH IX */
+        PUSH(reg_ixh, reg_ixl, 2);
+        break;
+      case 0xf1: /* POP AF */
+        POP(reg_a, reg_f, 2);
+        break;
+      case 0xf5: /* PUSH AF */
+        PUSH(reg_a, reg_f, 2);
+        break;
+      default:
+        log_message(LOG_DEFAULT,
+                    "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
+                    "H%02x L%02x SP%04x OP %02x %02x %02x.",
+                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
+                    reg_h, reg_l, reg_sp, ip0, ip1, ip2);
+        INC_PC(2);
+   }
+}
+
 inline void opcode_ed(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
                       WORD ip23)
 {
     switch (ip1) {
       case 0x40: /* IN B BC */
-        INBC(reg_b, 12, 2);
+        INBC(reg_b, 4, 8, 2);
         break;
       case 0x41: /* OUT BC B */
-        OUTBC(reg_b, 12, 2);
+        OUTBC(reg_b, 4, 8, 2);
         break;
       case 0x42: /* SBC HL BC */
         SBCHLREG(reg_b, reg_c);
         break;
       case 0x43: /* LD (WORD) BC */
-        STW(ip23, reg_b, reg_c, 17, 3, 4);
+        STW(ip23, reg_b, reg_c, 4, 13, 3, 4);
+        break;
+      case 0x44: /* NEG */
+        NEG();
         break;
       case 0x46: /* IM0 */
         IM(0);
@@ -1702,25 +3209,28 @@ inline void opcode_ed(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         LDREG(reg_i, reg_a, 6, 3, 2);
         break;
       case 0x48: /* IN C BC */
-        INBC(reg_c, 12, 2);
+        INBC(reg_c, 4, 8, 2);
         break;
       case 0x49: /* OUT BC C */
-        OUTBC(reg_c, 12, 2);
+        OUTBC(reg_c, 4, 8, 2);
+        break;
+      case 0x4a: /* ADC HL BC */
+        ADCHLREG(reg_b, reg_c);
         break;
       case 0x4b: /* LD BC (WORD) */
-        LDIND(ip23, reg_b, reg_c, 17, 3, 4);
+        LDIND(ip23, reg_b, reg_c, 4, 4, 12, 4);
         break;
       case 0x50: /* IN D BC */
-        INBC(reg_d, 12, 2);
+        INBC(reg_d, 4, 8, 2);
         break;
       case 0x51: /* OUT BC D */
-        OUTBC(reg_d, 12, 2);
+        OUTBC(reg_d, 4, 8, 2);
         break;
       case 0x52: /* SBC HL DE */
         SBCHLREG(reg_d, reg_e);
         break;
       case 0x53: /* LD (WORD) DE */
-        STW(ip23, reg_d, reg_e, 17, 3, 4);
+        STW(ip23, reg_d, reg_e, 4, 13, 3, 4);
         break;
       case 0x56: /* IM1 */
         IM(2);
@@ -1731,69 +3241,90 @@ inline void opcode_ed(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         break;
 #endif
       case 0x58: /* IN E BC */
-        INBC(reg_e, 12, 2);
+        INBC(reg_e, 4, 8, 2);
         break;
       case 0x59: /* OUT BC E */
-        OUTBC(reg_e, 12, 2);
+        OUTBC(reg_e, 4, 8, 2);
+        break;
+      case 0x5a: /* ADC HL DE */
+        ADCHLREG(reg_d, reg_e);
         break;
       case 0x5b: /* LD DE (WORD) */
-        LDIND(ip23, reg_d, reg_e, 17, 3, 4);
+        LDIND(ip23, reg_d, reg_e, 4, 4, 12, 4);
         break;
       case 0x5e: /* IM2 */
         IM(4);
         break;
       case 0x60: /* IN H BC */
-        INBC(reg_h, 12, 2);
+        INBC(reg_h, 4, 8, 2);
         break;
       case 0x61: /* OUT BC H */
-        OUTBC(reg_h, 12, 2);
+        OUTBC(reg_h, 4, 8, 2);
         break;
       case 0x62: /* SBC HL HL */
         SBCHLREG(reg_h, reg_l);
         break;
       case 0x63: /* LD (WORD) HL */
-        STW(ip23, reg_h, reg_l, 17, 3, 4);
+        STW(ip23, reg_h, reg_l, 4, 13, 3, 4);
         break;
       case 0x68: /* IN L BC */
-        INBC(reg_l, 12, 2);
+        INBC(reg_l, 4, 8, 2);
         break;
       case 0x69: /* OUT BC L */
-        OUTBC(reg_l, 12, 2);
+        OUTBC(reg_l, 4, 8, 2);
+        break;
+      case 0x6a: /* ADC HL HL */
+        ADCHLREG(reg_h, reg_l);
         break;
       case 0x6b: /* LD HL (WORD) */
-        LDIND(ip23, reg_h, reg_l, 17, 3, 4);
+        LDIND(ip23, reg_h, reg_l, 4, 4, 12, 4);
         break;
 #if 0
       case 0x70: /* IN F BC */
-        INBC(reg_f, 12, 2);
+        INBC(reg_f, 4, 8, 2);
         break;
 #endif
       case 0x72: /* SBC HL SP */
         SBCHLSP();
         break;
       case 0x73: /* LD (WORD) SP */
-        STSPW(ip23, 17, 3, 4);
+        STSPW(ip23, 4, 13, 3, 4);
         break;
       case 0x78: /* IN A BC */
-        INBC(reg_a, 12, 2);
+        INBC(reg_a, 4, 8, 2);
         break;
       case 0x79: /* OUT BC A */
-        OUTBC(reg_a, 12, 2);
+        OUTBC(reg_a, 4, 8, 2);
+        break;
+      case 0x7a: /* ADC HL SP */
+        ADCHLSP();
         break;
       case 0x7b: /* LD SP (WORD) */
-        LDSPIND(ip23, 17, 3, 4);
+        LDSPIND(ip23, 4, 4, 12, 4);
+        break;
+      case 0xa0: /* LDI */
+        LDDI(INC_DE_WORD(), INC_HL_WORD());
         break;
       case 0xa1: /* CPI */
-        CPI();
+        CPDI(INC_HL_WORD());
+        break;
+      case 0xa8: /* LDD */
+        LDDI(DEC_DE_WORD(), DEC_HL_WORD());
+        break;
+      case 0xa9: /* CPD */
+        CPDI(DEC_HL_WORD());
         break;
       case 0xb0: /* LDIR */
-        LDIR();
+        LDDIR(INC_DE_WORD(), INC_HL_WORD());
         break;
       case 0xb1: /* CPIR */
-        CPIR();
+        CPDIR(INC_HL_WORD());
         break;
       case 0xb8: /* LDDR */
-        LDDR();
+        LDDIR(DEC_DE_WORD(), DEC_HL_WORD());
+        break;
+      case 0xb9: /* CPDR */
+        CPDIR(DEC_HL_WORD());
         break;
       default:
         log_message(LOG_DEFAULT,
@@ -1808,21 +3339,453 @@ inline void opcode_ed(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
 inline void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
                       WORD ip23)
 {
-#if 0
     switch (ip1) {
-      case 0xb1:
-      /* */
+      case 0x01: /* LD BC # */
+        LDW(ip23, reg_b, reg_c, 10, 0, 4);
+        break;
+      case 0x09: /* ADD IY BC */
+        ADDXXREG(reg_iyh, reg_iyl, reg_b, reg_c, 15, 2);
+        break;
+      case 0x11: /* LD DE # */
+        LDW(ip23, reg_d, reg_e, 10, 0, 4);
+        break;
+      case 0x19: /* ADD IY DE */
+        ADDXXREG(reg_iyh, reg_iyl, reg_d, reg_e, 15, 2);
+        break;
+      case 0x21: /* LD IY # */
+        LDW(ip23, reg_iyh, reg_iyl, 10, 4, 4);
+        break;
+      case 0x22: /* LD (WORD) IY */
+        STW(ip23, reg_iyh, reg_iyl, 4, 9, 7, 4);
+        break;
+      case 0x29: /* ADD IY IY */
+        ADDXXREG(reg_iyh, reg_iyl, reg_iyh, reg_iyl, 15, 2);
+        break;
+      case 0x2a: /* LD IY (WORD) */
+        LDIND(ip23, reg_iyh, reg_iyl, 4, 4, 12, 4);
+        break;
+      case 0x31: /* LD SP # */
+        LDSP(ip23, 10, 0, 4);
+        break;
+      case 0x39: /* ADD IY SP */
+        ADDXXSP(reg_iyh, reg_iyl, 15, 2);
+        break;
+      case 0x40: /* LD B B */
+        LDREG(reg_b, reg_b, 0, 4, 2);
+        break;
+      case 0x41: /* LD B C */
+        LDREG(reg_b, reg_c, 0, 4, 2);
+        break;
+      case 0x42: /* LD B D */
+        LDREG(reg_b, reg_d, 0, 4, 2);
+        break;
+      case 0x43: /* LD B E */
+        LDREG(reg_b, reg_e, 0, 4, 2);
+        break;
+      case 0x44: /* LD B H */
+        LDREG(reg_b, reg_h, 0, 4, 2);
+        break;
+      case 0x45: /* LD B L */
+        LDREG(reg_b, reg_l, 0, 4, 2);
+        break;
+      case 0x46: /* LD B (IY+d) */
+        LDINDD(reg_b, reg_iyh, reg_iyl, ip2);
+        break;
+      case 0x47: /* LD B A */
+        LDREG(reg_b, reg_a, 0, 4, 2);
+        break;
+      case 0x48: /* LD C B */
+        LDREG(reg_c, reg_b, 0, 4, 2);
+        break;
+      case 0x49: /* LD C C */
+        LDREG(reg_c, reg_c, 0, 4, 2);
+        break;
+      case 0x4a: /* LD C D */
+        LDREG(reg_c, reg_d, 0, 4, 2);
+        break;
+      case 0x4b: /* LD C E */
+        LDREG(reg_c, reg_e, 0, 4, 2);
+        break;
+      case 0x4c: /* LD C H */
+        LDREG(reg_c, reg_h, 0, 4, 2);
+        break;
+      case 0x4d: /* LD C L */
+        LDREG(reg_c, reg_l, 0, 4, 2);
+        break;
+      case 0x4e: /* LD C (IY+d) */
+        LDINDD(reg_c, reg_iyh, reg_iyl, ip2);
+        break;
+      case 0x4f: /* LD C A */
+        LDREG(reg_c, reg_a, 0, 4, 2);
+        break;
+      case 0x50: /* LD D B */
+        LDREG(reg_d, reg_b, 0, 4, 2);
+        break;
+      case 0x51: /* LD D C */
+        LDREG(reg_d, reg_c, 0, 4, 2);
+        break;
+      case 0x52: /* LD D D */
+        LDREG(reg_d, reg_d, 0, 4, 2);
+        break;
+      case 0x53: /* LD D E */
+        LDREG(reg_d, reg_e, 0, 4, 2);
+        break;
+      case 0x54: /* LD D H */
+        LDREG(reg_d, reg_h, 0, 4, 2);
+        break;
+      case 0x55: /* LD D L */
+        LDREG(reg_d, reg_l, 0, 4, 2);
+        break;
+      case 0x56: /* LD D (IY+d) */
+        LDINDD(reg_d, reg_iyh, reg_iyl, ip2);
+        break;
+      case 0x57: /* LD D A */
+        LDREG(reg_d, reg_a, 0, 4, 2);
+        break;
+      case 0x58: /* LD E B */
+        LDREG(reg_e, reg_b, 0, 4, 2);
+        break;
+      case 0x59: /* LD E C */
+        LDREG(reg_e, reg_c, 0, 4, 2);
+        break;
+      case 0x5a: /* LD E D */
+        LDREG(reg_e, reg_d, 0, 4, 2);
+        break;
+      case 0x5b: /* LD E E */
+        LDREG(reg_e, reg_e, 0, 4, 2);
+        break;
+      case 0x5c: /* LD E H */
+        LDREG(reg_e, reg_h, 0, 4, 2);
+        break;
+      case 0x5d: /* LD E L */
+        LDREG(reg_e, reg_l, 0, 4, 2);
+        break;
+      case 0x5e: /* LD E (IY+d) */
+        LDINDD(reg_e, reg_iyh, reg_iyl, ip2);
+        break;
+      case 0x5f: /* LD E A */
+        LDREG(reg_e, reg_a, 0, 4, 2);
+        break;
+      case 0x60: /* LD H B */
+        LDREG(reg_h, reg_b, 0, 4, 2);
+        break;
+      case 0x61: /* LD H C */
+        LDREG(reg_h, reg_c, 0, 4, 2);
+        break;
+      case 0x62: /* LD H D */
+        LDREG(reg_h, reg_d, 0, 4, 2);
+        break;
+      case 0x63: /* LD H E */
+        LDREG(reg_h, reg_e, 0, 4, 2);
+        break;
+      case 0x64: /* LD H H */
+        LDREG(reg_h, reg_h, 0, 4, 2);
+        break;
+      case 0x65: /* LD H L */
+        LDREG(reg_h, reg_l, 0, 4, 2);
+        break;
+      case 0x66: /* LD H (IY+d) */
+        LDINDD(reg_h, reg_iyh, reg_iyl, ip2);
+        break;
+      case 0x67: /* LD H A */
+        LDREG(reg_h, reg_a, 0, 4, 2);
+        break;
+      case 0x68: /* LD L B */
+        LDREG(reg_l, reg_b, 0, 4, 2);
+        break;
+      case 0x69: /* LD L C */
+        LDREG(reg_l, reg_c, 0, 4, 2);
+        break;
+      case 0x6a: /* LD L D */
+        LDREG(reg_l, reg_d, 0, 4, 2);
+        break;
+      case 0x6b: /* LD L E */
+        LDREG(reg_l, reg_e, 0, 4, 2);
+        break;
+      case 0x6c: /* LD L H */
+        LDREG(reg_l, reg_h, 0, 4, 2);
+        break;
+      case 0x6d: /* LD L L */
+        LDREG(reg_l, reg_l, 0, 4, 2);
+        break;
+      case 0x6e: /* LD L (IY+d) */
+        LDINDD(reg_l, reg_iyh, reg_iyl, ip2);
+        break;
+      case 0x6f: /* LD L A */
+        LDREG(reg_l, reg_a, 0, 4, 2);
+        break;
+      case 0x70: /* LD (IY+d) B */
+        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_b, 8, 11, 3);
+        break;
+      case 0x71: /* LD (IY+d) C */
+        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_c, 8, 11, 3);
+        break;
+      case 0x72: /* LD (IY+d) D */
+        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_d, 8, 11, 3);
+        break;
+      case 0x73: /* LD (IY+d) E */
+        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_e, 8, 11, 3);
+        break;
+      case 0x74: /* LD (IY+d) H */
+        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_h, 8, 11, 3);
+        break;
+      case 0x75: /* LD (IY+d) L */
+        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_l, 8, 11, 3);
+        break;
+      case 0x76: /* HALT */
+        HALT();
+        break;
+      case 0x77: /* LD (IY+d) A */
+        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), reg_a, 8, 11, 3);
+        break;
+      case 0x78: /* LD A B */
+        LDREG(reg_a, reg_b, 0, 4, 2);
+        break;
+      case 0x79: /* LD A C */
+        LDREG(reg_a, reg_c, 0, 4, 2);
+        break;
+      case 0x7a: /* LD A D */
+        LDREG(reg_a, reg_d, 0, 4, 2);
+        break;
+      case 0x7b: /* LD A E */
+        LDREG(reg_a, reg_e, 0, 4, 2);
+        break;
+      case 0x7c: /* LD A H */
+        LDREG(reg_a, reg_h, 0, 4, 2);
+        break;
+      case 0x7d: /* LD A L */
+        LDREG(reg_a, reg_l, 0, 4, 2);
+        break;
+      case 0x7e: /* LD A (IY+d) */
+        LDINDD(reg_a, reg_iyh, reg_iyl, ip2);
+        break;
+      case 0x7f: /* LD A A */
+        LDREG(reg_a, reg_a, 0, 4, 2);
+        break;
+      case 0x80: /* ADD B */
+        ADD(reg_b, 0, 4, 2);
+        break;
+      case 0x81: /* ADD C */
+        ADD(reg_c, 0, 4, 2);
+        break;
+      case 0x82: /* ADD D */
+        ADD(reg_d, 0, 4, 2);
+        break;
+      case 0x83: /* ADD E */
+        ADD(reg_e, 0, 4, 2);
+        break;
+      case 0x84: /* ADD H */
+        ADD(reg_h, 0, 4, 2);
+        break;
+      case 0x85: /* ADD L */
+        ADD(reg_l, 0, 4, 2);
+        break;
+      case 0x86: /* ADD (IY+d) */
+        ADD(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0x87: /* ADD A */
+        ADD(reg_a, 0, 4, 2);
+        break;
+      case 0x88: /* ADC B */
+        ADC(reg_b, 0, 4, 2);
+        break;
+      case 0x89: /* ADC C */
+        ADC(reg_c, 0, 4, 2);
+        break;
+      case 0x8a: /* ADC D */
+        ADC(reg_d, 0, 4, 2);
+        break;
+      case 0x8b: /* ADC E */
+        ADC(reg_e, 0, 4, 2);
+        break;
+      case 0x8c: /* ADC H */
+        ADC(reg_h, 0, 4, 2);
+        break;
+      case 0x8d: /* ADC L */
+        ADC(reg_l, 0, 4, 2);
+        break;
+      case 0x8e: /* ADC (IY+d) */
+        ADC(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0x8f: /* ADC A */
+        ADC(reg_a, 0, 4, 2);
+        break;
+      case 0x90: /* SUB B */
+        SUB(reg_b, 0, 4, 2);
+        break;
+      case 0x91: /* SUB C */
+        SUB(reg_c, 0, 4, 2);
+        break;
+      case 0x92: /* SUB D */
+        SUB(reg_d, 0, 4, 2);
+        break;
+      case 0x93: /* SUB E */
+        SUB(reg_e, 0, 4, 2);
+        break;
+      case 0x94: /* SUB H */
+        SUB(reg_h, 0, 4, 2);
+        break;
+      case 0x95: /* SUB L */
+        SUB(reg_l, 0, 4, 2);
+        break;
+      case 0x96: /* SUB (IY+d) */
+        SUB(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0x97: /* SUB A */
+        SUB(reg_a, 0, 4, 2);
+        break;
+      case 0x98: /* SBC B */
+        SBC(reg_b, 0, 4, 2);
+        break;
+      case 0x99: /* SBC C */
+        SBC(reg_c, 0, 4, 2);
+        break;
+      case 0x9a: /* SBC D */
+        SBC(reg_d, 0, 4, 2);
+        break;
+      case 0x9b: /* SBC E */
+        SBC(reg_e, 0, 4, 2);
+        break;
+      case 0x9c: /* SBC H */
+        SBC(reg_h, 0, 4, 2);
+        break;
+      case 0x9d: /* SBC L */
+        SBC(reg_l, 0, 4, 2);
+        break;
+      case 0x9e: /* SBC (IY+d) */
+        SBC(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0x9f: /* SBC A */
+        SBC(reg_a, 0, 4, 2);
+        break;
+      case 0xa0: /* AND B */
+        AND(reg_b, 0, 4, 2);
+        break;
+      case 0xa1: /* AND C */
+        AND(reg_c, 0, 4, 2);
+        break;
+      case 0xa2: /* AND D */
+        AND(reg_d, 0, 4, 2);
+        break;
+      case 0xa3: /* AND E */
+        AND(reg_e, 0, 4, 2);
+        break;
+      case 0xa4: /* AND H */
+        AND(reg_h, 0, 4, 2);
+        break;
+      case 0xa5: /* AND L */
+        AND(reg_l, 0, 4, 2);
+        break;
+      case 0xa6: /* AND (IY+d) */
+        AND(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0xa7: /* AND A */
+        AND(reg_a, 0, 4, 2);
+        break;
+      case 0xa8: /* XOR B */
+        XOR(reg_b, 0, 4, 2);
+        break;
+      case 0xa9: /* XOR C */
+        XOR(reg_c, 0, 4, 2);
+        break;
+      case 0xaa: /* XOR D */
+        XOR(reg_d, 0, 4, 2);
+        break;
+      case 0xab: /* XOR E */
+        XOR(reg_e, 0, 4, 2);
+        break;
+      case 0xac: /* XOR H */
+        XOR(reg_h, 0, 4, 2);
+        break;
+      case 0xad: /* XOR L */
+        XOR(reg_l, 0, 4, 2);
+        break;
+      case 0xae: /* XOR (IY+d) */
+        XOR(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0xaf: /* XOR A */
+        XOR(reg_a, 0, 4, 2);
+        break;
+      case 0xb0: /* OR B */
+        OR(reg_b, 0, 4, 2);
+        break;
+      case 0xb1: /* OR C */
+        OR(reg_c, 0, 4, 2);
+        break;
+      case 0xb2: /* OR D */
+        OR(reg_d, 0, 4, 2);
+        break;
+      case 0xb3: /* OR E */
+        OR(reg_e, 0, 4, 2);
+        break;
+      case 0xb4: /* OR H */
+        OR(reg_h, 0, 4, 2);
+        break;
+      case 0xb5: /* OR L */
+        OR(reg_l, 0, 4, 2);
+        break;
+      case 0xb6: /* OR (IY+d) */
+        OR(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0xb7: /* OR A */
+        OR(reg_a, 0, 4, 2);
+        break;
+      case 0xb8: /* CP B */
+        CP(reg_b, 0, 4, 2);
+        break;
+      case 0xb9: /* CP C */
+        CP(reg_c, 0, 4, 2);
+        break;
+      case 0xba: /* CP D */
+        CP(reg_d, 0, 4, 2);
+        break;
+      case 0xbb: /* CP E */
+        CP(reg_e, 0, 4, 2);
+        break;
+      case 0xbc: /* CP H */
+        CP(reg_h, 0, 4, 2);
+        break;
+      case 0xbd: /* CP L */
+        CP(reg_l, 0, 4, 2);
+        break;
+      case 0xbe: /* CP (IY+d) */
+        CP(LOAD(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2)), 8, 11, 3);
+        break;
+      case 0xbf: /* CP A */
+        CP(reg_a, 0, 4, 2);
+        break;
+      case 0xc1: /* POP BC */
+        POP(reg_b, reg_c, 2);
+        break;
+      case 0xc5: /* PUSH BC */
+        PUSH(reg_b, reg_c, 2);
+        break;
+      case 0xd1: /* POP DE */
+        POP(reg_d, reg_e, 2);
+        break;
+      case 0xd5: /* PUSH DE */
+        PUSH(reg_d, reg_e, 2);
+        break;
+      case 0xe1: /* POP IY */
+        POP(reg_iyh, reg_iyl, 2);
+        break;
+      case 0xe5: /* PUSH IY */
+        PUSH(reg_iyh, reg_iyl, 2);
+        break;
+      case 0xf1: /* POP AF */
+        POP(reg_a, reg_f, 2);
+        break;
+      case 0xf5: /* PUSH AF */
+        PUSH(reg_a, reg_f, 2);
+        break;
       default:
-#endif
         log_message(LOG_DEFAULT,
                     "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
                     "H%02x L%02x SP%04x OP %02x %02x %02x.",
                     CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
                     reg_h, reg_l, reg_sp, ip0, ip1, ip2);
         INC_PC(2);
-#if 0
    }
-#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1897,7 +3860,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             EXAFAF();
             break;
           case 0x09: /* ADD HL BC */
-            ADDHLREG(reg_b, reg_c);
+            ADDXXREG(reg_h, reg_l, reg_b, reg_c, 11, 1);
             break;
           case 0x0a: /* LD A (BC) */
             LDREG(reg_a, LOAD(BC_WORD()), 4, 3, 1);
@@ -1945,7 +3908,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             BRANCH(1, p1);
             break;
           case 0x19: /* ADD HL DE */
-            ADDHLREG(reg_d, reg_e);
+            ADDXXREG(reg_h, reg_l, reg_d, reg_e, 11, 1);
             break;
           case 0x1a: /* LD A DE */
             LDREG(reg_a, LOAD(DE_WORD()), 4, 3, 1);
@@ -1972,7 +3935,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             LDW(p12, reg_h, reg_l, 10, 0, 3);
             break;
           case 0x22: /* LD (WORD) HL */
-            STW(p12, reg_h, reg_l, 13, 3, 3);
+            STW(p12, reg_h, reg_l, 4, 9, 3, 3);
             break;
           case 0x23: /* INC HL */
             DECINC(INC_HL_WORD());
@@ -1986,18 +3949,17 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
           case 0x26: /* LD H # */
             LDREG(reg_h, p1, 4, 3, 2);
             break;
-          case 0x27: /*  */
-            /*DAA, */
-            xit (-1);
+          case 0x27: /* DAA */
+            DAA();
             break;
           case 0x28: /* JR Z */
             BRANCH(LOCAL_ZERO(), p1);
             break;
           case 0x29: /* ADD HL HL */
-            ADDHLREG(reg_h, reg_l);
+            ADDXXREG(reg_h, reg_l, reg_h, reg_l, 11, 1);
             break;
           case 0x2a: /* LD HL (WORD) */
-            LDIND(p12, reg_h, reg_l, 13, 3, 3);
+            LDIND(p12, reg_h, reg_l, 4, 4, 8, 3);
             break;
           case 0x2b: /* DEC HL */
             DECINC(DEC_HL_WORD());
@@ -2042,7 +4004,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             BRANCH(LOCAL_CARRY(), p1);
             break;
           case 0x39: /* ADD HL SP */
-            ADDHLSP();
+            ADDXXSP(reg_h, reg_l, 11, 1);
             break;
           case 0x3a: /* LD A (WORD) */
             LDREG(reg_a, LOAD(p12), 10, 3, 3);
@@ -2255,202 +4217,202 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             LDREG(reg_a, reg_a, 0, 4, 1);
             break;
           case 0x80: /* ADD B */
-            ADDREG(reg_b, 4, 1);
+            ADD(reg_b, 0, 4, 1);
             break;
           case 0x81: /* ADD C */
-            ADDREG(reg_c, 4, 1);
+            ADD(reg_c, 0, 4, 1);
             break;
           case 0x82: /* ADD D */
-            ADDREG(reg_d, 4, 1);
+            ADD(reg_d, 0, 4, 1);
             break;
           case 0x83: /* ADD E */
-            ADDREG(reg_e, 4, 1);
+            ADD(reg_e, 0, 4, 1);
             break;
           case 0x84: /* ADD H */
-            ADDREG(reg_h, 4, 1);
+            ADD(reg_h, 0, 4, 1);
             break;
           case 0x85: /* ADD L */
-            ADDREG(reg_l, 4, 1);
+            ADD(reg_l, 0, 4, 1);
             break;
           case 0x86: /* ADD (HL) */
-            ADDREG(LOAD(HL_WORD()), 7, 1);
+            ADD(LOAD(HL_WORD()), 4, 3, 1);
             break;
           case 0x87: /* ADD A */
-            ADDREG(reg_a, 4, 1);
+            ADD(reg_a, 0, 4, 1);
             break;
           case 0x88: /* ADC B */
-            ADCREG(reg_b, 4, 1);
+            ADC(reg_b, 0, 4, 1);
             break;
           case 0x89: /* ADC C */
-            ADCREG(reg_c, 4, 1);
+            ADC(reg_c, 0, 4, 1);
             break;
           case 0x8a: /* ADC D */
-            ADCREG(reg_d, 4, 1);
+            ADC(reg_d, 0, 4, 1);
             break;
           case 0x8b: /* ADC E */
-            ADCREG(reg_e, 4, 1);
+            ADC(reg_e, 0, 4, 1);
             break;
           case 0x8c: /* ADC H */
-            ADCREG(reg_h, 4, 1);
+            ADC(reg_h, 0, 4, 1);
             break;
           case 0x8d: /* ADC L */
-            ADCREG(reg_l, 4, 1);
+            ADC(reg_l, 0, 4, 1);
             break;
           case 0x8e: /* ADC (HL) */
-            ADCREG(LOAD(HL_WORD()), 7, 1);
+            ADC(LOAD(HL_WORD()), 4, 3, 1);
             break;
           case 0x8f: /* ADC A */
-            ADCREG(reg_a, 4, 1);
+            ADC(reg_a, 0, 4, 1);
             break;
           case 0x90: /* SUB B */
-            SUBREG(reg_b, 4, 1);
+            SUB(reg_b, 0, 4, 1);
             break;
           case 0x91: /* SUB C */
-            SUBREG(reg_c, 4, 1);
+            SUB(reg_c, 0, 4, 1);
             break;
           case 0x92: /* SUB D */
-            SUBREG(reg_d, 4, 1);
+            SUB(reg_d, 0, 4, 1);
             break;
           case 0x93: /* SUB E */
-            SUBREG(reg_e, 4, 1);
+            SUB(reg_e, 0, 4, 1);
             break;
           case 0x94: /* SUB H */
-            SUBREG(reg_h, 4, 1);
+            SUB(reg_h, 0, 4, 1);
             break;
           case 0x95: /* SUB L */
-            SUBREG(reg_l, 4, 1);
+            SUB(reg_l, 0, 4, 1);
             break;
           case 0x96: /* SUB (HL) */
-            SUBREG(LOAD(HL_WORD()), 7, 1);
+            SUB(LOAD(HL_WORD()), 4, 3, 1);
             break;
           case 0x97: /* SUB A */
-            SUBREG(reg_a, 4, 1);
+            SUB(reg_a, 0, 4, 1);
             break;
           case 0x98: /* SBC B */
-            SBCREG(reg_b, 4, 1);
+            SBC(reg_b, 0, 4, 1);
             break;
           case 0x99: /* SBC C */
-            SBCREG(reg_c, 4, 1);
+            SBC(reg_c, 0, 4, 1);
             break;
           case 0x9a: /* SBC D */
-            SBCREG(reg_d, 4, 1);
+            SBC(reg_d, 0, 4, 1);
             break;
           case 0x9b: /* SBC E */
-            SBCREG(reg_e, 4, 1);
+            SBC(reg_e, 0, 4, 1);
             break;
           case 0x9c: /* SBC H */
-            SBCREG(reg_h, 4, 1);
+            SBC(reg_h, 0, 4, 1);
             break;
           case 0x9d: /* SBC L */
-            SBCREG(reg_l, 4, 1);
+            SBC(reg_l, 0, 4, 1);
             break;
           case 0x9e: /* SBC (HL) */
-            SBCREG(LOAD(HL_WORD()), 7, 1);
+            SBC(LOAD(HL_WORD()), 4, 3, 1);
             break;
           case 0x9f: /* SBC A */
-            SBCREG(reg_a, 4, 1);
+            SBC(reg_a, 0, 4, 1);
             break;
           case 0xa0: /* AND B */
-            ANDREG(reg_b, 4, 0, 1);
+            AND(reg_b, 0, 4, 1);
             break;
           case 0xa1: /* AND C */
-            ANDREG(reg_c, 4, 0, 1);
+            AND(reg_c, 0, 4, 1);
             break;
           case 0xa2: /* AND D */
-            ANDREG(reg_d, 4, 0, 1);
+            AND(reg_d, 0, 4, 1);
             break;
           case 0xa3: /* AND E */
-            ANDREG(reg_e, 4, 0, 1);
+            AND(reg_e, 0, 4, 1);
             break;
           case 0xa4: /* AND H */
-            ANDREG(reg_h, 4, 0, 1);
+            AND(reg_h, 0, 4, 1);
             break;
           case 0xa5: /* AND L */
-            ANDREG(reg_l, 4, 0, 1);
+            AND(reg_l, 0, 4, 1);
             break;
           case 0xa6: /* AND (HL) */
-            ANDREG(LOAD(HL_WORD()), 4, 3, 1);
+            AND(LOAD(HL_WORD()), 4, 3, 1);
             break;
           case 0xa7: /* AND A */
-            ANDREG(reg_a, 4, 0, 1);
+            AND(reg_a, 0, 4, 1);
             break;
           case 0xa8: /* XOR B */
-            XORREG(reg_b, 4, 0, 1);
+            XOR(reg_b, 0, 4, 1);
             break;
           case 0xa9: /* XOR C */
-            XORREG(reg_c, 4, 0, 1);
+            XOR(reg_c, 0, 4, 1);
             break;
           case 0xaa: /* XOR D */
-            XORREG(reg_d, 4, 0, 1);
+            XOR(reg_d, 0, 4, 1);
             break;
           case 0xab: /* XOR E */
-            XORREG(reg_e, 4, 0, 1);
+            XOR(reg_e, 0, 4, 1);
             break;
           case 0xac: /* XOR H */
-            XORREG(reg_h, 4, 0, 1);
+            XOR(reg_h, 0, 4, 1);
             break;
           case 0xad: /* XOR L */
-            XORREG(reg_l, 4, 0, 1);
+            XOR(reg_l, 0, 4, 1);
             break;
           case 0xae: /* XOR (HL) */
-            XORREG(LOAD(HL_WORD()), 4, 3, 1);
+            XOR(LOAD(HL_WORD()), 4, 3, 1);
             break;
           case 0xaf: /* XOR A */
-            XORREG(reg_a, 4, 0, 1);
+            XOR(reg_a, 0, 4, 1);
             break;
           case 0xb0: /* OR B */
-            ORREG(reg_b, 4, 0, 1);
+            OR(reg_b, 0, 4, 1);
             break;
           case 0xb1: /* OR C */
-            ORREG(reg_c, 4, 0, 1);
+            OR(reg_c, 0, 4, 1);
             break;
           case 0xb2: /* OR D */
-            ORREG(reg_d, 4, 0, 1);
+            OR(reg_d, 0, 4, 1);
             break;
           case 0xb3: /* OR E */
-            ORREG(reg_e, 4, 0, 1);
+            OR(reg_e, 0, 4, 1);
             break;
           case 0xb4: /* OR H */
-            ORREG(reg_h, 4, 0, 1);
+            OR(reg_h, 0, 4, 1);
             break;
           case 0xb5: /* OR L */
-            ORREG(reg_l, 4, 0, 1);
+            OR(reg_l, 0, 4, 1);
             break;
           case 0xb6: /* OR (HL) */
-            ORREG(LOAD(HL_WORD()), 4, 3, 1);
+            OR(LOAD(HL_WORD()), 4, 3, 1);
             break;
           case 0xb7: /* OR A */
-            ORREG(reg_a, 4, 0, 1);
+            OR(reg_a, 0, 4, 1);
             break;
           case 0xb8: /* CP B */
-            CPREG(reg_b, 4, 1);
+            CP(reg_b, 0, 4, 1);
             break;
           case 0xb9: /* CP C */
-            CPREG(reg_c, 4, 1);
+            CP(reg_c, 0, 4, 1);
             break;
           case 0xba: /* CP D */
-            CPREG(reg_d, 4, 1);
+            CP(reg_d, 0, 4, 1);
             break;
           case 0xbb: /* CP E */
-            CPREG(reg_e, 4, 1);
+            CP(reg_e, 0, 4, 1);
             break;
           case 0xbc: /* CP H */
-            CPREG(reg_h, 4, 1);
+            CP(reg_h, 0, 4, 1);
             break;
           case 0xbd: /* CP L */
-            CPREG(reg_l, 4, 1);
+            CP(reg_l, 0, 4, 1);
             break;
           case 0xbe: /* CP (HL) */
-            CPREG(LOAD(HL_WORD()), 7, 1);
+            CP(LOAD(HL_WORD()), 4, 3, 1);
             break;
           case 0xbf: /* CP A */
-            CPREG(reg_a, 4, 1);
+            CP(reg_a, 0, 4, 1);
             break;
           case 0xc0: /* RET NZ */
             RET_COND(!LOCAL_ZERO());
             break;
           case 0xc1: /* POP BC */
-            POP(reg_b, reg_c);
+            POP(reg_b, reg_c, 1);
             break;
           case 0xc2: /* JP NZ */
             JMP_COND(p12, !LOCAL_ZERO(), 10, 10);
@@ -2462,10 +4424,10 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             CALL_COND(p12, !LOCAL_ZERO(), 10, 10, 3);
             break;
           case 0xc5: /* PUSH BC */
-            PUSH(reg_b, reg_c);
+            PUSH(reg_b, reg_c, 1);
             break;
           case 0xc6: /* ADD # */
-            ADDREG(p1, 7, 2);
+            ADD(p1, 4, 3, 2);
             break;
           case 0xc7: /* RST 00 */
             CALL(0x00, 11, 1);
@@ -2490,7 +4452,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             CALL(p12, 7, 3);
             break;
           case 0xce: /* ADC # */
-            ADCREG(p1, 4, 2);
+            ADC(p1, 4, 3, 2);
             break;
           case 0xcf: /* RST 08 */
             CALL(0x08, 11, 1);
@@ -2499,7 +4461,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             RET_COND(!LOCAL_CARRY());
             break;
           case 0xd1: /* POP DE */
-            POP(reg_d, reg_e);
+            POP(reg_d, reg_e, 1);
             break;
           case 0xd2: /* JP NC */
             JMP_COND(p12, !LOCAL_CARRY(), 10, 10);
@@ -2511,10 +4473,10 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             CALL_COND(p12, !LOCAL_CARRY(), 10, 10, 3);
             break;
           case 0xd5: /* PUSH DE */
-            PUSH(reg_d, reg_e);
+            PUSH(reg_d, reg_e, 1);
             break;
           case 0xd6: /* SUB # */
-            SUBREG(p1, 7, 2);
+            SUB(p1, 4, 3, 2);
             break;
           case 0xd7: /* RST 10 */
             CALL(0x10, 11, 1);
@@ -2534,12 +4496,13 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
           case 0xdc: /* CALL C */
             CALL_COND(p12, LOCAL_CARRY(), 10, 10, 3);
             break;
-          case 0xdd: /*  */
-            /*PFX_DD, */
-            xit (-1);
+          case 0xdd: /*  OPCODE DD */
+            opcode_dd((BYTE)p0, (BYTE)p1, (BYTE)p2, (BYTE)p3, (WORD)p12,
+                      (WORD)p23);
+            break;
             break;
           case 0xde: /* SBC # */
-            SBCREG(p1, 7, 2);
+            SBC(p1, 4, 3, 2);
             break;
           case 0xdf: /* RST 18 */
             CALL(0x18, 11, 1);
@@ -2548,7 +4511,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             RET_COND(!LOCAL_PARITY());
             break;
           case 0xe1: /* POP HL */
-            POP(reg_h, reg_l);
+            POP(reg_h, reg_l, 1);
             break;
           case 0xe2: /* JP PO */
             JMP_COND(p12, !LOCAL_PARITY(), 10, 10);
@@ -2560,10 +4523,10 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             CALL_COND(p12, !LOCAL_PARITY(), 10, 10, 3);
             break;
           case 0xe5: /* PUSH HL */
-            PUSH(reg_h, reg_l);
+            PUSH(reg_h, reg_l, 1);
             break;
           case 0xe6: /* AND # */
-            ANDREG(p1, 7, 0, 2);
+            AND(p1, 4, 3, 2);
             break;
           case 0xe7: /* RST 20 */
             CALL(0x20, 11, 1);
@@ -2588,7 +4551,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
                       (WORD)p23);
             break;
           case 0xee: /* XOR # */
-            XORREG(p1, 7, 0, 2);
+            XOR(p1, 4, 3, 2);
             break;
           case 0xef: /* RST 28 */
             CALL(0x28, 11, 1);
@@ -2597,7 +4560,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             RET_COND(!LOCAL_SIGN());
             break;
           case 0xf1: /* POP AF */
-            POP(reg_a, reg_f);
+            POP(reg_a, reg_f, 1);
             break;
           case 0xf2: /* JP P */
             JMP_COND(p12, !LOCAL_SIGN(), 10, 10);
@@ -2609,10 +4572,10 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             CALL_COND(p12, !LOCAL_SIGN(), 10, 10, 3);
             break;
           case 0xf5: /* PUSH AF */
-            PUSH(reg_a, reg_f);
+            PUSH(reg_a, reg_f, 1);
             break;
           case 0xf6: /* OR # */
-            ORREG(p1, 4, 3, 2);
+            OR(p1, 4, 3, 2);
             break;
           case 0xf7: /* RST 30 */
             CALL(0x30, 11, 1);
@@ -2637,7 +4600,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
                       (WORD)p23);
             break;
           case 0xfe: /* CP # */
-            CPREG(p1, 7, 2);
+            CP(p1, 4, 3, 2);
             break;
           case 0xff: /* RST 38 */
             CALL(0x38, 11, 1);

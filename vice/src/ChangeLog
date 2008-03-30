@@ -1,3 +1,14 @@
+2000-07-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.31.
+
+	* c128/z80.c: Added and fixed many opcodes.
+
+	* c128/z80mem.c (z80mem_initialize): Added configurations for
+	RAM bank2 and bank3.
+
+	* c128/c128mmu.c (mmu_store): Allow setting bank2 and bank3.
+
 2000-07-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.30.
