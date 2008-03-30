@@ -379,6 +379,7 @@ int cartridge_attach_image(int type, const char *filename)
             break;
           case CARTRIDGE_OCEAN:
           case CARTRIDGE_GS:
+          case CARTRIDGE_DINAMIC:
             while (1) {
                 if (fread(chipheader, 0x10, 1, fd) < 1) {
                     fclose(fd);

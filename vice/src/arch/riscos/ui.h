@@ -68,10 +68,11 @@ extern int  ui_flip_iterate_and_attach(int dir);
 extern void ui_open_vsid_window(int *block);
 
 /* Additional VSid interface */
+struct wimp_msg_desc_s;
 extern int  vsid_ui_load_file(const char *file);
 extern int  vsid_ui_mouse_click(int *block);
 extern int  vsid_ui_key_press(int *block);
-
+extern int  vsid_ui_message_hook(struct wimp_msg_desc_s *msg);
 
 
 extern RO_Screen ScreenMode;

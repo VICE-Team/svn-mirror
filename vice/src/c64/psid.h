@@ -34,6 +34,7 @@ extern void psid_init_tune(void);
 extern void psid_set_tune(int tune);
 extern int psid_tunes(int* default_tune);
 extern void psid_init_driver(void);
+extern unsigned int psid_increment_frames(void);
 
 #endif
 

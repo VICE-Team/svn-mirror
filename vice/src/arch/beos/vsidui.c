@@ -68,3 +68,7 @@ void vsid_ui_display_nr_of_tunes(int count)
 {
     log_message(LOG_DEFAULT, "Number of Tunes: %i", count);
 }
+
+void vsid_ui_display_time(unsigned int sec)
+{
+}

@@ -158,7 +158,7 @@ extern int num_checkmark_menu_items;
 
 static void vsid_create_menus(void)
 {
-  static ui_menu_entry_t tune_menu[256]; 
+  static ui_menu_entry_t tune_menu[256];
   static ui_window_t wl = NULL, wr = NULL;
   static int tunes = 0;
   int default_tune;
@@ -274,4 +274,8 @@ void vsid_ui_display_tune_nr(int nr)
 void vsid_ui_display_nr_of_tunes(int count)
 {
     log_message(LOG_DEFAULT, "Number of Tunes: %i", count);
+}
+
+void vsid_ui_display_time(unsigned int sec)
+{
 }

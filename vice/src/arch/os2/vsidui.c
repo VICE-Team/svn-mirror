@@ -119,3 +119,7 @@ void vsid_ui_display_nr_of_tunes(int count)
 {
     WinSetSpinVal(hwndVsid, SPB_TUNES, count);
 }
+
+void vsid_ui_display_time(unsigned int sec)
+{
+}

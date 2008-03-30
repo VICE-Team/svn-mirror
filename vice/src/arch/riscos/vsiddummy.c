@@ -24,6 +24,8 @@
  *
  */
 
+struct wimp_msg_desc_s;
+
 int vsid_ui_load_file(const char *file)
 {
   return 0;
@@ -35,6 +37,11 @@ int vsid_ui_mouse_click(int *block)
 }
 
 int vsid_ui_key_press(int *block)
+{
+  return 0;
+}
+
+int vsid_ui_message_hook(struct wimp_msg_desc_s *msg)
 {
   return 0;
 }

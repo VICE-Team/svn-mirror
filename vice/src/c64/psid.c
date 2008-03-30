@@ -50,7 +50,7 @@
 #include "vsync.h"
 #include "zfile.h"
 
-typedef struct psid {
+typedef struct psid_s {
   WORD version;
   WORD data_offset;
   WORD load_addr;
@@ -59,6 +59,7 @@ typedef struct psid {
   WORD songs;
   WORD start_song;
   DWORD speed;
+  DWORD frames_played;
   BYTE name[32];
   BYTE author[32];
   BYTE copyright[32];
@@ -165,6 +166,7 @@ int psid_load_file(const char* filename)
   psid->start_song = psid_extract_word(&ptr);
   psid->speed = psid_extract_word(&ptr) << 16;
   psid->speed |= psid_extract_word(&ptr);
+  psid->frames_played = 0;
   memcpy(psid->name, ptr, 32);
   psid->name[31] = '\0';
   ptr += 32;
@@ -228,13 +230,15 @@ void psid_init_tune(void)
   BYTE volume = 0x0f;
   BYTE portval = 0x35;
   int start_song = psid_tune;
-  const int sync = psid->speed == 0 ? DRIVE_SYNC_PAL : DRIVE_SYNC_NTSC;
+  int sync;
   int i;
 
   if (!psid) {
     return;
   }
 
+  psid->frames_played = 0;
+  sync = (psid->speed == 0) ? DRIVE_SYNC_PAL : DRIVE_SYNC_NTSC;
   vsid_ui_display_name(psid->name);
   vsid_ui_display_author(psid->author);
   vsid_ui_display_copyright(psid->copyright);
@@ -257,6 +261,7 @@ void psid_init_tune(void)
   vsid_ui_display_tune_nr(start_song);
   vsid_ui_set_default_tune(psid->start_song);
   vsid_ui_display_nr_of_tunes(psid->songs);
+  vsid_ui_display_time(0);
 
   /* Store parameters for psid player. */
   ram_store(0x0306, (BYTE)(psid->init_addr & 0xff));
@@ -322,3 +327,13 @@ void psid_init_driver(void) {
   }
 }
 
+
+unsigned int psid_increment_frames(void)
+{
+  if (!psid)
+    return 0;
+
+  (psid->frames_played)++;
+
+  return (unsigned int)(psid->frames_played);
+}

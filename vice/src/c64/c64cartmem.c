@@ -167,6 +167,9 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
         return rand();
       case CARTRIDGE_WARPSPEED:
         return roml_banks[0x1e00 + (addr & 0xff)];
+      case CARTRIDGE_DINAMIC:
+        roml_bank = (addr & 0x0f);
+        break;
       case CARTRIDGE_SUPER_SNAPSHOT:
         return export_ram0[0x1e00 + (addr & 0xff)];
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
@@ -521,6 +524,10 @@ void cartridge_init_config(void)
         cartridge_config_changed(0);
         cartridge_store_io1((ADDRESS)0xde00, 0);
         break;
+      case CARTRIDGE_DINAMIC:
+        cartridge_config_changed(0);
+        cartridge_read_io1((ADDRESS)0xde00);
+        break;
       case CARTRIDGE_IEEE488:
         cartridge_config_changed(0);
         /* FIXME: Insert interface init here.  */
@@ -606,8 +613,11 @@ void cartridge_attach(int type, BYTE *rawcart)
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_FUNPLAY:
       case CARTRIDGE_GS:
+      case CARTRIDGE_DINAMIC:
         memcpy(roml_banks, rawcart, 0x2000 * 64);
         memcpy(romh_banks, &rawcart[0x2000 * 16], 0x2000 * 16);
+        /* Hack: using 16kB configuration, but some carts are 8kB only */
+        cartridge_config_changed(1);
         break;
       case CARTRIDGE_ULTIMAX:
         memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);

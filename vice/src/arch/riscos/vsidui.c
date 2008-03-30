@@ -24,6 +24,8 @@
  *
  */
 
+#include <stdlib.h>
+
 #include "wimp.h"
 
 #include "log.h"
@@ -45,12 +47,105 @@
 #define Icon_VSid_PrevTune	13
 #define Icon_VSid_StopTune	14
 #define Icon_VSid_Default	15
+#define Icon_VSid_PlayTime	17
+#define Icon_VSid_Pause		19
 
 
 
 static int NumTunes = 0;
+static int VSidPaused = 0;
+static int VSidStopped = 0;
+static int VSidReady = 0;
+static unsigned int PlayTimeSec = 0;
 
 static const char *Rsrc_Tune = "PSIDTune";
+
+
+enum SymbolInstances {
+  Symbol_Stop,
+  Symbol_Play,
+  Symbol_Pause,
+  Symbol_Resume,
+  Symbol_NumSymbols
+};
+
+static char *SymbolStrings[] = {
+  "\\VSidStop",
+  "\\VSidPlay",
+  "\\VSidPause",
+  "\\VSidResume",
+  NULL
+};
+
+
+static void vsid_ui_display_paused(int state)
+{
+  const char *text;
+
+  ui_display_paused(state);
+
+  if (state == 0)
+    text = SymbolStrings[Symbol_Pause];
+  else
+    text = SymbolStrings[Symbol_Resume];
+
+  EmuPaused = state;
+  ui_display_paused(EmuPaused);
+
+  wimp_window_write_icon_text(VSidWindow, Icon_VSid_Pause, text);
+}
+
+static void vsid_ui_display_stopped(int state)
+{
+  const char *text;
+  unsigned int iflg;
+
+  if (state == 0)
+  {
+    iflg = 0;
+    text = SymbolStrings[Symbol_Stop];
+  }
+  else
+  {
+    iflg = IFlg_Grey;
+    text = SymbolStrings[Symbol_Play];
+  }
+
+  EmuPaused = state;
+  ui_display_paused(EmuPaused);
+
+  wimp_window_set_icon_state(VSidWindow, Icon_VSid_Pause, iflg, IFlg_Grey);
+
+  wimp_window_write_icon_text(VSidWindow, Icon_VSid_StopTune, text);
+}
+
+static void vsid_ui_set_ready(int state)
+{
+  unsigned int iflg;
+
+  if (state == 0)
+  {
+    iflg = IFlg_Grey;
+    VSidStopped = 1;
+    VSidPaused = 0;
+  }
+  else
+  {
+    iflg = 0;
+    VSidStopped = 0;
+    VSidPaused = 0;
+  }
+
+  wimp_window_set_icon_state(VSidWindow, Icon_VSid_StopTune, iflg, IFlg_Grey);
+  wimp_window_set_icon_state(VSidWindow, Icon_VSid_Tune, iflg, IFlg_Grey);
+  wimp_window_set_icon_state(VSidWindow, Icon_VSid_NextTune, iflg, IFlg_Grey);
+  wimp_window_set_icon_state(VSidWindow, Icon_VSid_PrevTune, iflg, IFlg_Grey);
+
+  vsid_ui_display_paused(VSidPaused);
+  vsid_ui_display_stopped(VSidStopped);
+
+  VSidReady = state;
+}
 
 
 int vsid_ui_init(void)
@@ -61,12 +156,29 @@ int vsid_ui_init(void)
 
   ui_open_vsid_window(block);
 
+  vsid_ui_set_ready(0);
+
   return 0;
+}
+
+int vsid_ui_message_hook(struct wimp_msg_desc_s *msg)
+{
+  char *pool;
+  int size;
+
+  size = wimp_message_translate_symbols(msg, SymbolStrings, NULL);
+  if ((pool = (char*)malloc(size)) != NULL)
+  {
+    wimp_message_translate_symbols(msg, SymbolStrings, pool);
+    return 0;
+  }
+  return -1;
 }
 
 void vsid_set_tune(int tune)
 {
   resources_set_value(Rsrc_Tune, (resource_value_t)tune);
+  vsid_ui_display_time(0);
 }
 
 
@@ -74,6 +186,7 @@ int vsid_ui_load_file(const char *file)
 {
     if (psid_load_file(file) == 0)
     {
+      vsid_ui_set_ready(1);
       psid_init_tune();
       vsid_set_tune(wimp_window_read_icon_number(VSidWindow, Icon_VSid_Default));
     }
@@ -82,31 +195,41 @@ int vsid_ui_load_file(const char *file)
 
 int vsid_ui_mouse_click(int *block)
 {
-  int number = wimp_window_read_icon_number(VSidWindow, Icon_VSid_Tune);
+  int number;
 
-  if (block[MouseB_Icon] == Icon_VSid_NextTune)
+  if (VSidReady == 0)
+    return -1;
+
+  number = wimp_window_read_icon_number(VSidWindow, Icon_VSid_Tune);
+
+  switch (block[MouseB_Icon])
   {
-    if (++number <= NumTunes)
+    case Icon_VSid_NextTune:
+      if (++number <= NumTunes)
+        vsid_set_tune(number);
+      break;;
+    case Icon_VSid_PrevTune:
+      if (--number > 0)
+        vsid_set_tune(number);
+      break;;
+    case Icon_VSid_StopTune:
+      VSidStopped ^= 1;
+      vsid_ui_display_stopped(VSidStopped);
       vsid_set_tune(number);
-    return 0;
+      break;
+    case Icon_VSid_Pause:
+      VSidPaused ^= 1;
+      vsid_ui_display_paused(VSidPaused);
+      break;
+    default:
+      return -1;
   }
-  else if (block[MouseB_Icon] == Icon_VSid_PrevTune)
-  {
-    if (--number > 0)
-      vsid_set_tune(number);
-    return 0;
-  }
-  else if (block[MouseB_Icon] == Icon_VSid_StopTune)
-  {
-    vsid_set_tune(-1);
-    return 0;
-  }
-  return -1;
+  return 0;
 }
 
 int vsid_ui_key_press(int *block)
 {
-  if (block[KeyPB_Icon] == Icon_VSid_Tune)
+  if ((VSidReady != 0) && (block[KeyPB_Icon] == Icon_VSid_Tune))
   {
     int number;
 
@@ -170,4 +293,18 @@ void vsid_ui_display_nr_of_tunes(int count)
     wimp_window_write_icon_number(VSidWindow, Icon_VSid_TotalTunes, count);
 
     NumTunes = count;
+}
+
+void vsid_ui_display_time(unsigned int sec)
+{
+    if (PlayTimeSec != sec)
+    {
+      unsigned int minutes, seconds;
+      char buffer[8];
+
+      PlayTimeSec = sec;
+      minutes = sec / 60; seconds = sec - 60*minutes;
+      sprintf(buffer, "%2d:%02d", minutes, seconds);
+      wimp_window_write_icon_text(VSidWindow, Icon_VSid_PlayTime, buffer);
+    }
 }

@@ -36,6 +36,6 @@ extern void vsid_ui_display_sync(int sync);
 extern void vsid_ui_display_tune_nr(int nr);
 extern void vsid_ui_display_nr_of_tunes(int count);
 extern void vsid_ui_set_default_tune(int nr);
-
+extern void vsid_ui_display_time(unsigned int sec);
 
 #endif

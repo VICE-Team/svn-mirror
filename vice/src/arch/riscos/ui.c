@@ -2200,6 +2200,8 @@ int ui_init(int *argc, char *argv[])
   {
     wimp_message_translate_menu_indirect(msg, ConfigMenus[x].menu, MenuIndirectSize);
   }
+  if (vsid_mode)
+    vsid_ui_message_hook(msg);
 
   /* Misc */
 
