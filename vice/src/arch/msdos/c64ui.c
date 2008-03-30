@@ -34,7 +34,6 @@
 #include "c64ui.h"
 
 #include "cartridge.h"
-#include "log.h"
 #include "menudefs.h"
 #include "sidui.h"
 #include "tui.h"

@@ -14,17 +14,26 @@ list of all the changes in the code.
 ** General changes
 ------------------
 
-- Autostarting TAP tape images has been improved.
-
 - The datasette emulation supports saving to TAP images now.
+
+- Autostarting TAP tape images has been improved.
 
 - A command line option feeding the keyboard buffer on startup has
   been added.
+
+** C64 changes
+---------------
+
+- Fixed a bug in the REU emulation. GoDot now works.
+
+- Atomic Power cartridge is supported now.
 
 ** C128 changes
 ---------------
 
 - 80 column screen is emulated now.
+
+- REU emulation is available now.
 
 - Fixed an IO banking bug.
 
