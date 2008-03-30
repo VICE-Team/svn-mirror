@@ -317,6 +317,20 @@ int archdep_mkdir(const char *pathname, int mode)
     return mkdir(pathname, (mode_t)mode);
 }
 
+int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
+{
+    int objType;
+    int catInfo[4];
+
+    if ((objType = ReadCatalogueInfo(buf, catInfo)) == 0)
+        return -1;
+
+    *len = catInfo[2];
+    *isdir = objType & 2;
+
+    return 0;
+}
+
 int archdep_file_is_blockdev(const char *name)
 {
     return 0;
