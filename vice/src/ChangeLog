@@ -1,3 +1,37 @@
+2003-11-27  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.34.
+
+	* drive/drive-resources.c (drive1_resources_type): Update IEC
+	bus for given unit.
+
+	* drive/drive.c, drive/drive.h, drive/drive-check.c,
+	iecdrive.h, drive/drive-resources.c, plus4/plus4iec.c,
+	drive/ieee/fdc.c, drive/ieee/riot2d.c, drive/ieee/ieee.c,
+	drive/ieee/memieee.c, drive/drivecpu.c: Changed drive type
+	macros to functions and moved to source file.
+
+	* drive/drive-check.h: New file.
+
+	* drive/Makefile.am: Added new file.
+
+	* raster/raster-sprite.c (raster_sprite_reset): Initialize
+	internal sprite x coordinate to "8" as this corresponds to "0"
+	in the VICII sprite x register.
+
+2003-11-27  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/uicommands.c (ui_update_flip_menus): Use new more
+	general ui_drive_menu interface.
+	* arch/unix/x11/gnome/x11ui.c (fliplist_popup_cb): ditto.
+	(ui_create_status_bar): fixed bug. Don't show PAL control for
+	machines that don't support PAL emu.
+
+2003-11-26  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/videoarch.h, arch/riscos/video.c,
+	arch/riscos/mousedrv.c: some more mouse driver work
+
 2003-11-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.33.

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.14\n"
-"POT-Creation-Date: 2003-11-23 22:13+0100\n"
+"POT-Creation-Date: 2003-11-28 00:33+0100\n"
 "PO-Revision-Date: 2003-11-02 16:44+0100\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -268,8 +268,8 @@ msgstr "Options"
 #: src/arch/unix/c128ui.c:454 src/arch/unix/c64ui.c:431
 #: src/arch/unix/cbm2ui.c:497 src/arch/unix/petui.c:418
 #: src/arch/unix/plus4ui.c:184 src/arch/unix/vic20ui.c:508
-#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1168
-#: src/arch/unix/x11/gnome/x11ui.c:1260
+#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1130
+#: src/arch/unix/x11/gnome/x11ui.c:1222
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -1012,8 +1012,8 @@ msgid "Next: "
 msgstr "Suivant: "
 
 #: src/arch/unix/uicommands.c:746 src/arch/unix/uicommands.c:761
-#: src/arch/unix/x11/gnome/x11ui.c:828 src/arch/unix/x11/gnome/x11ui.c:838
-#: src/arch/unix/x11/gnome/x11ui.c:1504
+#: src/arch/unix/x11/gnome/x11ui.c:790 src/arch/unix/x11/gnome/x11ui.c:800
+#: src/arch/unix/x11/gnome/x11ui.c:1466
 msgid "<empty>"
 msgstr ""
 
@@ -1029,196 +1029,196 @@ msgstr "Ajouter: "
 msgid "Remove: "
 msgstr "Enlever: "
 
-#: src/arch/unix/uicommands.c:882 src/arch/unix/uicommands.c:894
+#: src/arch/unix/uicommands.c:889 src/arch/unix/uicommands.c:901
 msgid "Unit #8..."
 msgstr "Unité #8..."
 
-#: src/arch/unix/uicommands.c:884 src/arch/unix/uicommands.c:897
+#: src/arch/unix/uicommands.c:891 src/arch/unix/uicommands.c:904
 msgid "Unit #9..."
 msgstr "Unité #9..."
 
-#: src/arch/unix/uicommands.c:886 src/arch/unix/uicommands.c:900
+#: src/arch/unix/uicommands.c:893 src/arch/unix/uicommands.c:907
 msgid "Unit #10..."
 msgstr "Unité #10..."
 
-#: src/arch/unix/uicommands.c:888 src/arch/unix/uicommands.c:903
+#: src/arch/unix/uicommands.c:895 src/arch/unix/uicommands.c:910
 msgid "Unit #11..."
 msgstr "Unité #11..."
 
-#: src/arch/unix/uicommands.c:910 src/arch/unix/uicommands.c:932
+#: src/arch/unix/uicommands.c:917 src/arch/unix/uicommands.c:939
 msgid "Unit #8"
 msgstr "Unité #8"
 
-#: src/arch/unix/uicommands.c:912 src/arch/unix/uicommands.c:934
+#: src/arch/unix/uicommands.c:919 src/arch/unix/uicommands.c:941
 msgid "Unit #9"
 msgstr "Unité #9"
 
-#: src/arch/unix/uicommands.c:914
+#: src/arch/unix/uicommands.c:921
 msgid "Unit #10"
 msgstr "Unité #10"
 
-#: src/arch/unix/uicommands.c:916
+#: src/arch/unix/uicommands.c:923
 msgid "Unit #11"
 msgstr "Unité #11"
 
-#: src/arch/unix/uicommands.c:919
+#: src/arch/unix/uicommands.c:926
 msgid "All"
 msgstr "Tous"
 
-#: src/arch/unix/uicommands.c:925
+#: src/arch/unix/uicommands.c:932
 msgid "Soft"
 msgstr "Soft"
 
-#: src/arch/unix/uicommands.c:928
+#: src/arch/unix/uicommands.c:935
 msgid "Hard"
 msgstr "Hard"
 
-#: src/arch/unix/uicommands.c:940
+#: src/arch/unix/uicommands.c:947
 #, fuzzy
 msgid "Add current image (Unit 8)"
 msgstr "Ajouter l'image courrante"
 
-#: src/arch/unix/uicommands.c:943
+#: src/arch/unix/uicommands.c:950
 #, fuzzy
 msgid "Remove current image (Unit 8)"
 msgstr "Enlever l'image courrante"
 
-#: src/arch/unix/uicommands.c:946
+#: src/arch/unix/uicommands.c:953
 #, fuzzy
 msgid "Attach next image (Unit 8)"
 msgstr "Attacher l'image suivante"
 
-#: src/arch/unix/uicommands.c:949
+#: src/arch/unix/uicommands.c:956
 #, fuzzy
 msgid "Attach previous image (Unit 8)"
 msgstr "Attacher l'image disque comme l'unité #%d"
 
-#: src/arch/unix/uicommands.c:952
+#: src/arch/unix/uicommands.c:959
 msgid "Load fliplist file"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:954
+#: src/arch/unix/uicommands.c:961
 #, fuzzy
 msgid "Save fliplist file"
 msgstr "Sauvegarder le fichier de capture"
 
-#: src/arch/unix/uicommands.c:960
+#: src/arch/unix/uicommands.c:967
 msgid "Attach a disk image"
 msgstr "Attacher une image disque"
 
-#: src/arch/unix/uicommands.c:962
+#: src/arch/unix/uicommands.c:969
 msgid "Create and attach an empty disk"
 msgstr "Créer et attacher un disque vide"
 
-#: src/arch/unix/uicommands.c:964
+#: src/arch/unix/uicommands.c:971
 msgid "Detach disk image"
 msgstr "Détacher une image disque"
 
-#: src/arch/unix/uicommands.c:966
+#: src/arch/unix/uicommands.c:973
 msgid "Fliplist"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:972
+#: src/arch/unix/uicommands.c:979
 msgid "Attach a tape image..."
 msgstr "Attacher une image de cassette..."
 
-#: src/arch/unix/uicommands.c:975
+#: src/arch/unix/uicommands.c:982
 msgid "Detach tape image"
 msgstr "Détacher une image de cassette"
 
-#: src/arch/unix/uicommands.c:981
+#: src/arch/unix/uicommands.c:988
 msgid "Smart-attach disk/tape..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:988
+#: src/arch/unix/uicommands.c:995
 msgid "Change working directory..."
 msgstr "Changer le répertoire de travail..."
 
-#: src/arch/unix/uicommands.c:996
+#: src/arch/unix/uicommands.c:1003
 #, fuzzy
 msgid "*Save new snapshot"
 msgstr "Sauvegarder capture"
 
-#: src/arch/unix/uicommands.c:998
+#: src/arch/unix/uicommands.c:1005
 #, fuzzy
 msgid "*Load existing snapshot"
 msgstr "Charger capture"
 
-#: src/arch/unix/uicommands.c:1000
+#: src/arch/unix/uicommands.c:1007
 msgid "*Start with reset"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1006
+#: src/arch/unix/uicommands.c:1013
 msgid "Load snapshot..."
 msgstr "Charger la capture..."
 
-#: src/arch/unix/uicommands.c:1009
+#: src/arch/unix/uicommands.c:1016
 msgid "Save snapshot..."
 msgstr "Sauvegarder la capture..."
 
-#: src/arch/unix/uicommands.c:1013
+#: src/arch/unix/uicommands.c:1020
 msgid "Quickload snapshot"
 msgstr "Chargement rapide de la capture"
 
-#: src/arch/unix/uicommands.c:1016
+#: src/arch/unix/uicommands.c:1023
 msgid "Quicksave snapshot"
 msgstr "Sauvegarde rapide de la capture"
 
-#: src/arch/unix/uicommands.c:1020
+#: src/arch/unix/uicommands.c:1027
 msgid "Start recording events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1022
+#: src/arch/unix/uicommands.c:1029
 msgid "Stop recording events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1024
+#: src/arch/unix/uicommands.c:1031
 msgid "Start playing back events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1026
+#: src/arch/unix/uicommands.c:1033
 msgid "Stop playing back events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1029
+#: src/arch/unix/uicommands.c:1036
 msgid "Recording start mode"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1035
+#: src/arch/unix/uicommands.c:1042
 msgid "Snapshot commands"
 msgstr "Commandes de capture"
 
-#: src/arch/unix/uicommands.c:1041
+#: src/arch/unix/uicommands.c:1048
 msgid "Sound record..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:1048
+#: src/arch/unix/uicommands.c:1055
 msgid "Activate monitor"
 msgstr "Activer la console"
 
-#: src/arch/unix/uicommands.c:1051
+#: src/arch/unix/uicommands.c:1058
 msgid "Run C1541"
 msgstr "Executer C1541"
 
-#: src/arch/unix/uicommands.c:1059
+#: src/arch/unix/uicommands.c:1066
 msgid "Browse manuals"
 msgstr "Parcourir le manuel"
 
-#: src/arch/unix/uicommands.c:1061
+#: src/arch/unix/uicommands.c:1068
 msgid "About VICE..."
 msgstr "A propos de VICE..."
 
-#: src/arch/unix/uicommands.c:1067 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:1074 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:1891
+#: src/arch/unix/x11/gnome/x11ui.c:1853
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:1069
+#: src/arch/unix/uicommands.c:1076
 msgid "*Pause"
 msgstr "*Pause"
 
-#: src/arch/unix/uicommands.c:1076
+#: src/arch/unix/uicommands.c:1083
 msgid "Exit emulator"
 msgstr "Quitter l'émulateur"
 
@@ -1994,7 +1994,7 @@ msgstr "Vitesse maximum d'execution"
 msgid "Invalid speed value"
 msgstr "Valeur de vitesse invalide"
 
-#: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/x11ui.c:1307
+#: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/x11ui.c:1269
 #: src/arch/unix/x11/xaw/x11ui.c:1028
 msgid "Cannot save settings."
 msgstr "Impossible de sauvegarder les paramètres."
@@ -2697,163 +2697,164 @@ msgid ""
 "IRQ: %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:392
+#: src/arch/unix/x11/gnome/x11ui.c:395
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:394
+#: src/arch/unix/x11/gnome/x11ui.c:397
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:636 src/arch/unix/x11/xaw/x11ui.c:480
+#: src/arch/unix/x11/gnome/x11ui.c:600 src/arch/unix/x11/xaw/x11ui.c:480
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:639 src/arch/unix/x11/xaw/x11ui.c:483
+#: src/arch/unix/x11/gnome/x11ui.c:603 src/arch/unix/x11/xaw/x11ui.c:483
 msgid "Please select a bit depth supported by your display."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:642 src/arch/unix/x11/gnome/x11ui.c:666
+#: src/arch/unix/x11/gnome/x11ui.c:606 src/arch/unix/x11/gnome/x11ui.c:630
 #: src/arch/unix/x11/xaw/x11ui.c:486 src/arch/unix/x11/xaw/x11ui.c:503
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:651
+#: src/arch/unix/x11/gnome/x11ui.c:615
 #, c-format
 msgid "Found %dbit visual."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:674 src/arch/unix/x11/xaw/x11ui.c:511
+#: src/arch/unix/x11/gnome/x11ui.c:638 src/arch/unix/x11/xaw/x11ui.c:511
 msgid "Cannot autodetect a proper visual."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:682
+#: src/arch/unix/x11/gnome/x11ui.c:646
 #, c-format
 msgid "Cannot load text font %s."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:689
+#: src/arch/unix/x11/gnome/x11ui.c:653
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:767
+#: src/arch/unix/x11/gnome/x11ui.c:731
 msgid "PAL Controls"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:788
+#: src/arch/unix/x11/gnome/x11ui.c:750
 msgid "recording"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:802
+#: src/arch/unix/x11/gnome/x11ui.c:764
 msgid "click to stop recording"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:814
+#: src/arch/unix/x11/gnome/x11ui.c:776
 #, c-format
 msgid "Drive %d: "
 msgstr ""
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:924
+#: src/arch/unix/x11/gnome/x11ui.c:886
 msgid "Tape 000"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:993 src/arch/unix/x11/xaw/x11ui.c:592
+#: src/arch/unix/x11/gnome/x11ui.c:955 src/arch/unix/x11/xaw/x11ui.c:592
 msgid "Maximum number of toplevel windows reached."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1166 src/arch/unix/x11/gnome/x11ui.c:1249
+#: src/arch/unix/x11/gnome/x11ui.c:1128 src/arch/unix/x11/gnome/x11ui.c:1211
 msgid "Commands"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1172
+#: src/arch/unix/x11/gnome/x11ui.c:1134
 msgid "Help"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1291 src/arch/unix/x11/xaw/x11ui.c:1016
+#: src/arch/unix/x11/gnome/x11ui.c:1253 src/arch/unix/x11/xaw/x11ui.c:1016
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1296 src/arch/unix/x11/xaw/x11ui.c:1018
+#: src/arch/unix/x11/gnome/x11ui.c:1258 src/arch/unix/x11/xaw/x11ui.c:1018
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1304 src/arch/unix/x11/xaw/x11ui.c:1025
+#: src/arch/unix/x11/gnome/x11ui.c:1266 src/arch/unix/x11/xaw/x11ui.c:1025
 msgid "Save the current settings?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1349 src/arch/unix/x11/xaw/x11ui.c:1066
+#: src/arch/unix/x11/gnome/x11ui.c:1311 src/arch/unix/x11/xaw/x11ui.c:1066
 msgid "Using private colormap."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1369 src/arch/unix/x11/gnome/x11ui.c:1372
+#: src/arch/unix/x11/gnome/x11ui.c:1331 src/arch/unix/x11/gnome/x11ui.c:1334
 #: src/arch/unix/x11/xaw/x11ui.c:1087 src/arch/unix/x11/xaw/x11ui.c:1093
 msgid "(warp)"
 msgstr ""
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1656
+#: src/arch/unix/x11/gnome/x11ui.c:1618
 #, c-format
 msgid "Tape %03d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1700 src/arch/unix/x11/xaw/x11ui.c:1314
+#: src/arch/unix/x11/gnome/x11ui.c:1662 src/arch/unix/x11/xaw/x11ui.c:1314
 #, c-format
 msgid "%s (paused)"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1854
+#: src/arch/unix/x11/gnome/x11ui.c:1816
 msgid "VICE Message"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1865
+#: src/arch/unix/x11/gnome/x11ui.c:1827
 msgid "VICE Error"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1891
+#: src/arch/unix/x11/gnome/x11ui.c:1853
 msgid "Hard Reset"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1892
+#: src/arch/unix/x11/gnome/x11ui.c:1854
 msgid "Monitor"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1936 src/arch/unix/x11/xaw/x11ui.c:1592
+#: src/arch/unix/x11/gnome/x11ui.c:1898 src/arch/unix/x11/xaw/x11ui.c:1592
 msgid "Extend disk image"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1937
+#: src/arch/unix/x11/gnome/x11ui.c:1899
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1950
-msgid "Autostart not possible for unit 9"
+#: src/arch/unix/x11/gnome/x11ui.c:1912
+#, c-format
+msgid "Autostart not possible for unit %d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1958 src/arch/unix/x11/gnome/x11ui.c:1967
+#: src/arch/unix/x11/gnome/x11ui.c:1920 src/arch/unix/x11/gnome/x11ui.c:1929
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2094 src/arch/unix/x11/gnome/x11ui.c:2099
+#: src/arch/unix/x11/gnome/x11ui.c:2056 src/arch/unix/x11/gnome/x11ui.c:2061
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2564
+#: src/arch/unix/x11/gnome/x11ui.c:2526
 msgid "Contents"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2611
+#: src/arch/unix/x11/gnome/x11ui.c:2573
 msgid "Attach write protected"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2637
+#: src/arch/unix/x11/gnome/x11ui.c:2599
 msgid "Autostart"
 msgstr ""
 

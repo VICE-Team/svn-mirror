@@ -31,7 +31,7 @@
 
 void raster_sprite_reset(raster_sprite_t *s)
 {
-    s->x = 0;
+    s->x = 8;
     s->y = 0;
     s->x_expanded = 0;
     s->y_expanded = 0;

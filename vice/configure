@@ -1567,7 +1567,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.13.33
+ VERSION=1.13.34
 
 
 cat >>confdefs.h <<_ACEOF
@@ -9475,6 +9475,70 @@ if test $ac_cv_lib_avcodec_avcodec_init = yes; then
 _ACEOF
 
   LIBS="-lavcodec $LIBS"
+
+fi
+
+
+echo "$as_me:$LINENO: checking for MP3lame_encode_frame in -lmp3lame" >&5
+echo $ECHO_N "checking for MP3lame_encode_frame in -lmp3lame... $ECHO_C" >&6
+if test "${ac_cv_lib_mp3lame_MP3lame_encode_frame+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lmp3lame $LIBS $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+#line $LINENO "configure"
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char MP3lame_encode_frame ();
+int
+main ()
+{
+MP3lame_encode_frame ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+         { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_mp3lame_MP3lame_encode_frame=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_mp3lame_MP3lame_encode_frame=no
+fi
+rm -f conftest.$ac_objext conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_mp3lame_MP3lame_encode_frame" >&5
+echo "${ECHO_T}$ac_cv_lib_mp3lame_MP3lame_encode_frame" >&6
+if test $ac_cv_lib_mp3lame_MP3lame_encode_frame = yes; then
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBMP3LAME 1
+_ACEOF
+
+  LIBS="-lmp3lame $LIBS"
 
 fi
 

@@ -1100,7 +1100,7 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
 
 void vicii_sprites_reset_xshift(void)
 {
-    int n;
+    unsigned int n;
 
     for (n = 0; n < 8; n++) {
         vicii.raster.sprite_status->sprites[n].x_shift = 0;
