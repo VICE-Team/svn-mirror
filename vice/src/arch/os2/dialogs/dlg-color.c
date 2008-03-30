@@ -36,7 +36,7 @@
 
 #include "log.h"
 #include "resources.h"
-#include "interrupt.h"         // maincpu_trigger_trap
+#include "interrupt.h"         // interrupt_maincpu_trigger_trap
 #include "snippets\pmwin2.h"
 
 

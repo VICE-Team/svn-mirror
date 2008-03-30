@@ -1654,7 +1654,7 @@ static int ui_check_save_snapshot(const char *name)
   if (wimp_check_for_path(name) == 0)
   {
     wimp_strcpy(((char*)SnapshotMessage)+44, name);
-    maincpu_trigger_trap(ui_save_snapshot_trap, NULL);
+    interrupt_maincpu_trigger_trap(ui_save_snapshot_trap, NULL);
     SnapshotPending = 1;
   }
   return -1;
@@ -3415,7 +3415,7 @@ static void ui_user_drag_box(int *b)
         if (LastDrag == DRAG_TYPE_SNAPSHOT)
         {
           memcpy(SnapshotMessage, block, 256);
-          maincpu_trigger_trap(ui_drag_snapshot_trap, NULL);
+          interrupt_maincpu_trigger_trap(ui_drag_snapshot_trap, NULL);
           SnapshotPending = 1;
         }
         else
@@ -4242,7 +4242,7 @@ static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
 
 void ui_trigger_snapshot_load(void)
 {
-  maincpu_trigger_trap(ui_load_snapshot_trap, NULL);
+  interrupt_maincpu_trigger_trap(ui_load_snapshot_trap, NULL);
   SnapshotPending = 1;
 }
 
@@ -5339,9 +5339,9 @@ static void mon_trap_wimp(ADDRESS addr, void *unused_data)
 void ui_activate_monitor(void)
 {
   if (FullScreenMode != 0)
-    maincpu_trigger_trap(mon_trap_full, (void*)0);
+    interrupt_maincpu_trigger_trap(mon_trap_full, (void*)0);
   else
-    maincpu_trigger_trap(mon_trap_wimp, (void*)0);
+    interrupt_maincpu_trigger_trap(mon_trap_wimp, (void*)0);
 }
 
 

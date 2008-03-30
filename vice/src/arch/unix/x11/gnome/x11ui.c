@@ -66,7 +66,6 @@
 #include "drive/drive.h"
 #include "fullscreenarch.h"
 #include "imagecontents.h"
-#include "interrupt.h"
 #include "ioutil.h"
 #include "log.h"
 #include "machine.h"
@@ -2671,32 +2670,6 @@ UI_CALLBACK(exposure_callback_canvas)
 
 /* ------------------------------------------------------------------------- */
 
-static int is_paused = 0;
-
-static void pause_trap(ADDRESS addr, void *data)
-{
-    ui_display_paused(1);
-    is_paused = 1;
-    vsync_suspend_speed_eval();
-    while (is_paused)
-        ui_dispatch_next_event();
-}
-
-void ui_pause_emulation(int flag)
-{
-    if (flag) {
-        maincpu_trigger_trap(pause_trap, 0);
-    } else {
-        ui_display_paused(0);
-        is_paused = 0;
-    }
-}
-
-int ui_emulation_is_paused(void)
-{
-    return is_paused;
-}
-
 void ui_destroy_drive8_menu(void)
 {
     if (drive8menu)
@@ -2709,17 +2682,17 @@ void ui_destroy_drive9_menu(void)
         gtk_widget_destroy(drive9menu);
 }
 
-void ui_set_drive8_menu (GtkWidget *w)
+void ui_set_drive8_menu(GtkWidget *w)
 {
     drive8menu = w;
 }
 
-void ui_set_drive9_menu (GtkWidget *w)
+void ui_set_drive9_menu(GtkWidget *w)
 {
     drive9menu = w;
 }
 
-void ui_set_tape_menu (GtkWidget *w)
+void ui_set_tape_menu(GtkWidget *w)
 {
     if (tape_menu)
 	gtk_widget_destroy(tape_menu);

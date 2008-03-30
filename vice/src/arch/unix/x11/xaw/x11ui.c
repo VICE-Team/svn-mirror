@@ -64,7 +64,6 @@
 #endif
 
 #include "drive.h"
-#include "interrupt.h"
 #include "fullscreenarch.h"
 #include "ioutil.h"
 #include "log.h"
@@ -2049,33 +2048,5 @@ static void close_action(Widget w, XEvent * event, String * params,
     vsync_suspend_speed_eval();
 
     ui_exit();
-}
-
-/* ------------------------------------------------------------------------- */
-
-static int is_paused = 0;
-
-static void pause_trap(ADDRESS addr, void *data)
-{
-    ui_display_paused(1);
-    is_paused = 1;
-    vsync_suspend_speed_eval();
-    while (is_paused)
-        ui_dispatch_next_event();
-}
-
-void ui_pause_emulation(int flag)
-{
-    if (flag) {
-        maincpu_trigger_trap(pause_trap, 0);
-    } else {
-        ui_display_paused(0);
-        is_paused = 0;
-    }
-}
-
-int ui_emulation_is_paused(void)
-{
-    return is_paused;
 }
 

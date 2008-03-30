@@ -58,7 +58,7 @@
 #include "resources.h"         // resources_set_value
 #include "autostart.h"         // autostart_autodetect
 #include "cartridge.h"         // cartridge_attach_image
-#include "interrupt.h"         // maincpu_trigger_trap
+#include "interrupt.h"         // interrupt_maincpu_trigger_trap
 #include "screenshot.h"        // screenshot_canvas_save
 #include "imagecontents.h"     // image_contents
 
@@ -311,7 +311,7 @@ static int trap(const HWND hwnd, int (*func)(trapaction_t*), const char *path)
 
     const int paused = isEmulatorPaused();
 
-    maincpu_trigger_trap(exec_func, &handle);
+    interrupt_maincpu_trigger_trap(exec_func, &handle);
 
     emulator_resume();
     while (handle.pending)

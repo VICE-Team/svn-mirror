@@ -790,7 +790,7 @@ void ui_pause_emulation(void)
 {
     is_paused = is_paused ? 0 : 1;
     if (is_paused) {
-        maincpu_trigger_trap(pause_trap, 0);
+        interrupt_maincpu_trigger_trap(pause_trap, 0);
     } else {
         ui_display_paused(0);
     }
@@ -1325,25 +1325,25 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_SNAPSHOT_LOAD | 0x00010000:
       case IDM_SNAPSHOT_LOAD:
         if (!ui_emulation_is_paused())
-            maincpu_trigger_trap(load_snapshot_trap, hwnd);
+            interrupt_maincpu_trigger_trap(load_snapshot_trap, hwnd);
         else
             load_snapshot_trap(0, 0);
         /* ui_snapshot_load_dialog(main_hwnd);*/
         break;
       case IDM_SNAPSHOT_SAVE | 0x00010000:
       case IDM_SNAPSHOT_SAVE:
-        maincpu_trigger_trap(save_snapshot_trap, hwnd);
+        interrupt_maincpu_trigger_trap(save_snapshot_trap, hwnd);
         break;
       case IDM_SAVEQUICK | 0x00010000:
       case IDM_SAVEQUICK:
         scan_files();
-        maincpu_trigger_trap(save_quicksnapshot_trap, (void *)0);
+        interrupt_maincpu_trigger_trap(save_quicksnapshot_trap, (void *)0);
         break;
       case IDM_LOADQUICK | 0x00010000:
       case IDM_LOADQUICK:
         scan_files();
         if (snapcounter > 0) {
-            maincpu_trigger_trap(load_quicksnapshot_trap, (void *)0);
+            interrupt_maincpu_trigger_trap(load_quicksnapshot_trap, (void *)0);
         }
         break;
       case IDM_SCREENSHOT | 0x00010000:
@@ -1365,7 +1365,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_MONITOR | 0x00010000:
       case IDM_MONITOR:
         if (!ui_emulation_is_paused())
-            maincpu_trigger_trap(mon_trap, (void *)0);
+            interrupt_maincpu_trigger_trap(mon_trap, (void *)0);
         else
             /* 
             FIXME: Following is copied from UNIX but doesn't run well

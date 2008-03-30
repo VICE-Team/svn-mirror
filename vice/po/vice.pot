@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-09-29 20:25+0200\n"
+"POT-Creation-Date: 2002-10-12 19:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -259,8 +259,8 @@ msgstr ""
 #: src/arch/unix/c128ui.c:427 src/arch/unix/c64ui.c:443
 #: src/arch/unix/cbm2ui.c:493 src/arch/unix/petui.c:416
 #: src/arch/unix/plus4ui.c:181 src/arch/unix/vic20ui.c:495
-#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1100
-#: src/arch/unix/x11/gnome/x11ui.c:1192
+#: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1099
+#: src/arch/unix/x11/gnome/x11ui.c:1191
 msgid "Settings"
 msgstr ""
 
@@ -1004,8 +1004,8 @@ msgid "Next: "
 msgstr ""
 
 #: src/arch/unix/uicommands.c:714 src/arch/unix/uicommands.c:729
-#: src/arch/unix/x11/gnome/x11ui.c:778 src/arch/unix/x11/gnome/x11ui.c:788
-#: src/arch/unix/x11/gnome/x11ui.c:1435
+#: src/arch/unix/x11/gnome/x11ui.c:777 src/arch/unix/x11/gnome/x11ui.c:787
+#: src/arch/unix/x11/gnome/x11ui.c:1434
 msgid "<empty>"
 msgstr ""
 
@@ -1158,7 +1158,7 @@ msgid "About VICE..."
 msgstr ""
 
 #: src/arch/unix/uicommands.c:1004 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/x11ui.c:1815
+#: src/arch/unix/x11/gnome/x11ui.c:1814
 msgid "Reset"
 msgstr ""
 
@@ -1738,8 +1738,8 @@ msgstr ""
 msgid "Invalid speed value"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1239
-#: src/arch/unix/x11/xaw/x11ui.c:1003
+#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1238
+#: src/arch/unix/x11/xaw/x11ui.c:1002
 msgid "Cannot save settings."
 msgstr ""
 
@@ -2387,155 +2387,155 @@ msgid ""
 "IRQ: %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:384
+#: src/arch/unix/x11/gnome/x11ui.c:383
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:386
+#: src/arch/unix/x11/gnome/x11ui.c:385
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:621 src/arch/unix/x11/xaw/x11ui.c:457
+#: src/arch/unix/x11/gnome/x11ui.c:620 src/arch/unix/x11/xaw/x11ui.c:456
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:624 src/arch/unix/x11/xaw/x11ui.c:460
+#: src/arch/unix/x11/gnome/x11ui.c:623 src/arch/unix/x11/xaw/x11ui.c:459
 msgid "Please select a bit depth supported by your display."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:627 src/arch/unix/x11/gnome/x11ui.c:651
-#: src/arch/unix/x11/xaw/x11ui.c:463 src/arch/unix/x11/xaw/x11ui.c:480
+#: src/arch/unix/x11/gnome/x11ui.c:626 src/arch/unix/x11/gnome/x11ui.c:650
+#: src/arch/unix/x11/xaw/x11ui.c:462 src/arch/unix/x11/xaw/x11ui.c:479
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:636
+#: src/arch/unix/x11/gnome/x11ui.c:635
 #, c-format
 msgid "Found %dbit visual."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:659 src/arch/unix/x11/xaw/x11ui.c:488
+#: src/arch/unix/x11/gnome/x11ui.c:658 src/arch/unix/x11/xaw/x11ui.c:487
 msgid "Cannot autodetect a proper visual."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:667
+#: src/arch/unix/x11/gnome/x11ui.c:666
 #, c-format
 msgid "Cannot load text font %s."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:674
+#: src/arch/unix/x11/gnome/x11ui.c:673
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:739
+#: src/arch/unix/x11/gnome/x11ui.c:738
 msgid "PAL Controls"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:764
+#: src/arch/unix/x11/gnome/x11ui.c:763
 #, c-format
 msgid "Drive %d: "
 msgstr ""
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:874
+#: src/arch/unix/x11/gnome/x11ui.c:873
 msgid "Tape 000"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:943 src/arch/unix/x11/xaw/x11ui.c:569
+#: src/arch/unix/x11/gnome/x11ui.c:942 src/arch/unix/x11/xaw/x11ui.c:568
 msgid "Maximum number of toplevel windows reached."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1098 src/arch/unix/x11/gnome/x11ui.c:1181
+#: src/arch/unix/x11/gnome/x11ui.c:1097 src/arch/unix/x11/gnome/x11ui.c:1180
 msgid "Commands"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1104
+#: src/arch/unix/x11/gnome/x11ui.c:1103
 msgid "Help"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1223 src/arch/unix/x11/xaw/x11ui.c:991
+#: src/arch/unix/x11/gnome/x11ui.c:1222 src/arch/unix/x11/xaw/x11ui.c:990
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1228 src/arch/unix/x11/xaw/x11ui.c:993
+#: src/arch/unix/x11/gnome/x11ui.c:1227 src/arch/unix/x11/xaw/x11ui.c:992
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1236 src/arch/unix/x11/xaw/x11ui.c:1000
+#: src/arch/unix/x11/gnome/x11ui.c:1235 src/arch/unix/x11/xaw/x11ui.c:999
 msgid "Save the current settings?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1281 src/arch/unix/x11/xaw/x11ui.c:1041
+#: src/arch/unix/x11/gnome/x11ui.c:1280 src/arch/unix/x11/xaw/x11ui.c:1040
 msgid "Using private colormap."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1301 src/arch/unix/x11/gnome/x11ui.c:1304
-#: src/arch/unix/x11/xaw/x11ui.c:1062 src/arch/unix/x11/xaw/x11ui.c:1068
+#: src/arch/unix/x11/gnome/x11ui.c:1300 src/arch/unix/x11/gnome/x11ui.c:1303
+#: src/arch/unix/x11/xaw/x11ui.c:1061 src/arch/unix/x11/xaw/x11ui.c:1067
 msgid "(warp)"
 msgstr ""
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1587
+#: src/arch/unix/x11/gnome/x11ui.c:1586
 #, c-format
 msgid "Tape %03d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1278
+#: src/arch/unix/x11/gnome/x11ui.c:1623 src/arch/unix/x11/xaw/x11ui.c:1277
 #, c-format
 msgid "%s (paused)"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1778
+#: src/arch/unix/x11/gnome/x11ui.c:1777
 msgid "VICE Message"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1789
+#: src/arch/unix/x11/gnome/x11ui.c:1788
 msgid "VICE Error"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1815
+#: src/arch/unix/x11/gnome/x11ui.c:1814
 msgid "Hard Reset"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1816
+#: src/arch/unix/x11/gnome/x11ui.c:1815
 msgid "Monitor"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1860 src/arch/unix/x11/xaw/x11ui.c:1556
+#: src/arch/unix/x11/gnome/x11ui.c:1859 src/arch/unix/x11/xaw/x11ui.c:1555
 msgid "Extend disk image"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1861
+#: src/arch/unix/x11/gnome/x11ui.c:1860
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1874
+#: src/arch/unix/x11/gnome/x11ui.c:1873
 msgid "Autostart not possible for unit 9"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1882 src/arch/unix/x11/gnome/x11ui.c:1891
+#: src/arch/unix/x11/gnome/x11ui.c:1881 src/arch/unix/x11/gnome/x11ui.c:1890
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2019 src/arch/unix/x11/gnome/x11ui.c:2024
+#: src/arch/unix/x11/gnome/x11ui.c:2018 src/arch/unix/x11/gnome/x11ui.c:2023
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2486
+#: src/arch/unix/x11/gnome/x11ui.c:2485
 msgid "Contents"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2533
+#: src/arch/unix/x11/gnome/x11ui.c:2532
 msgid "Attach write protected"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2559
+#: src/arch/unix/x11/gnome/x11ui.c:2558
 msgid "Autostart"
 msgstr ""
 
@@ -2820,16 +2820,16 @@ msgstr ""
 msgid "Save snapshot"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1151
+#: src/arch/unix/x11/xaw/x11ui.c:1150
 #, c-format
 msgid "%d: Track %.1f"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1441
+#: src/arch/unix/x11/xaw/x11ui.c:1440
 msgid "VICE Error!"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1624
+#: src/arch/unix/x11/xaw/x11ui.c:1623
 msgid "Unknown image type."
 msgstr ""
 

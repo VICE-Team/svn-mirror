@@ -55,7 +55,7 @@
 #include "fliplist.h"        // flip_attach_head
 #include "cartridge.h"       // CARTRIDGE_*
 #include "resources.h"       // resource_value_t
-#include "interrupt.h"       // maincpu_trigger_trap
+#include "interrupt.h"       // interrupt_maincpu_trigger_trap
 #include "screenshot.h"      // screenshot_canvas_save
 #include "dlg-fileio.h"      // ViceFileDialog
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
@@ -358,11 +358,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
 
     case IDM_SNAPLOAD:
-        maincpu_trigger_trap(load_snapshot, (void*)hwnd);
+        interrupt_maincpu_trigger_trap(load_snapshot, (void*)hwnd);
         return;
 
     case IDM_SNAPSAVE:
-        maincpu_trigger_trap(save_snapshot, (void*)hwnd);
+        interrupt_maincpu_trigger_trap(save_snapshot, (void*)hwnd);
         return;
 
     case IDM_PRINTSCRN:
@@ -439,11 +439,13 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
      */
     case IDM_DSIZE:
-        maincpu_trigger_trap(toggle_async, (resource_value_t*)DOUBLE_SIZE);
+        interrupt_maincpu_trigger_trap(toggle_async,
+                                       (resource_value_t*)DOUBLE_SIZE);
         return;
 
     case IDM_DSCAN:
-        maincpu_trigger_trap(toggle_async, (resource_value_t*)DOUBLE_SCAN);
+        interrupt_maincpu_trigger_trap(toggle_async,
+                                       (resource_value_t*)DOUBLE_SCAN);
         return;
 #endif
 #ifdef HAVE_VDC
@@ -460,19 +462,19 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
 
     case IDM_VDCDSIZE:
-        maincpu_trigger_trap(toggle_async, "VDCDoubleSize");
+        interrupt_maincpu_trigger_trap(toggle_async, "VDCDoubleSize");
         return;
     case IDM_VDCDSCAN:
-        maincpu_trigger_trap(toggle_async, "VDCDoubleScan");
+        interrupt_maincpu_trigger_trap(toggle_async, "VDCDoubleScan");
         return;
 #endif
 
 #ifdef HAVE_CRTC
     case IDM_CRTCDSIZE:
-        maincpu_trigger_trap(toggle_async, "CrtcDoubleSize");
+        interrupt_maincpu_trigger_trap(toggle_async, "CrtcDoubleSize");
         return;
     case IDM_CRTCDSCAN:
-        maincpu_trigger_trap(toggle_async, "CrtcDoubleScan");
+        interrupt_maincpu_trigger_trap(toggle_async, "CrtcDoubleScan");
         return;
 #endif
 
@@ -640,13 +642,13 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             //
             // trigger invokation of the build in monitor
             //
-            maincpu_trigger_trap(mon_trap, NULL);
+            interrupt_maincpu_trigger_trap(mon_trap, NULL);
         }
         return;
 
         /*
          case IDM_SNAPSAVE:
-         maincpu_trigger_trap(save_snapshot, (void*)hwnd);
+         interrupt_maincpu_trigger_trap(save_snapshot, (void*)hwnd);
          return;
          */
     case IDM_DATASETTE:
@@ -793,7 +795,8 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_CBM710:
     case IDM_CBM720:
     case IDM_CBM720P:
-        maincpu_trigger_trap(set_cbm_model, (void*)cbm_models[(idm&0xf)-1]);
+        interrupt_maincpu_trigger_trap(set_cbm_model,
+                                       (void*)cbm_models[(idm&0xf)-1]);
         return;
 
     case IDM_MODEL750:
@@ -843,7 +846,8 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_PET8096:
     case IDM_PET8296:
     case IDM_PETSUPER:
-         maincpu_trigger_trap(set_pet_model, (void*)pet_models[(idm&0xf)-1]);
+         interrupt_maincpu_trigger_trap(set_pet_model,
+                                        (void*)pet_models[(idm&0xf)-1]);
          return;
 
     case IDM_CHARSET:
