@@ -1666,9 +1666,10 @@ static long CALLBACK window_proc(HWND window, UINT msg,
         mouse_update_mouse_acquire();
         break;
       case WM_SYSKEYDOWN:
-        kbd_handle_keydown(wparam, lparam);
-        if (wparam == VK_F10)
+        if (wparam == VK_F10) {
+            kbd_handle_keydown(wparam, lparam);
             return 0;
+        }
         break;
       case WM_KEYDOWN:
         if (wparam == VK_PAUSE)
