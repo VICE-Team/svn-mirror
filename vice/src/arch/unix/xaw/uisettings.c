@@ -37,11 +37,13 @@
 #include <X11/Intrinsic.h>
 
 #include "uisettings.h"
-#include "resources.h"
-#include "vsync.h"
-#include "true1541.h"
+
 #include "fsdevice.h"
 #include "kbd.h"
+#include "resources.h"
+#include "sound.h"
+#include "true1541.h"
+#include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -606,7 +608,7 @@ static UI_CALLBACK(set_fsdevice_directory)
 /* Sound support. */
 
 UI_MENU_DEFINE_TOGGLE(Sound)
-UI_MENU_DEFINE_TOGGLE(SoundSpeedAdjustment)
+UI_MENU_DEFINE_RADIO(SoundSpeedAdjustment)
 UI_MENU_DEFINE_RADIO(SoundSampleRate)
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
 UI_MENU_DEFINE_RADIO(SoundSuspendTime)
@@ -756,11 +758,25 @@ static ui_menu_entry_t set_sound_oversample_submenu [] = {
     { NULL }
 };
 
+static ui_menu_entry_t set_sound_adjustment_submenu [] = {
+    { "*Flexible",
+      (ui_callback_t) radio_SoundSpeedAdjustment,
+      (ui_callback_data_t) SOUND_ADJUST_FLEXIBLE, NULL },
+    { "*Adjusting",
+      (ui_callback_t) radio_SoundSpeedAdjustment,
+      (ui_callback_data_t) SOUND_ADJUST_ADJUSTING, NULL },
+    { "*Exact",
+      (ui_callback_t) radio_SoundSpeedAdjustment,
+      (ui_callback_data_t) SOUND_ADJUST_EXACT, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t sound_settings_submenu[] = {
     { "*Enable sound playback",
       (ui_callback_t) toggle_Sound, NULL, NULL },
-    { "*Enable adaptive playback",
-      (ui_callback_t) toggle_SoundSpeedAdjustment, NULL, NULL },
+    { "--" },
+    { "*Sound synchronization",
+      NULL, NULL, set_sound_adjustment_submenu },
     { "--" },
     { "*Sample rate",
       NULL, NULL, set_sound_sample_rate_submenu },
