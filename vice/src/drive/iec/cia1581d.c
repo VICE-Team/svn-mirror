@@ -160,7 +160,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
                 | (cia1581p->iecbus->cpu_port >> 7)
                 | ((cia1581p->iecbus->cpu_bus << 3) & 0x80));
         } else {
-            drive_context->func->iec_write((BYTE)(~byte));
+            iec_drive_write((BYTE)(~byte), cia1581p->number);
         }
 
         iec_fast_drive_direction(byte & 0x20, cia1581p->number);
@@ -202,7 +202,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
             | (cia1581p->drive->read_only ? 0 : 0x40);
     } else {
         return (((cia_context->c_cia[CIA_PRB] & 0x1a)
-            | drive_context->func->iec_read()) ^ 0x85)
+            | iec_drive_read(cia1581p->number)) ^ 0x85)
             | (cia1581p->drive->read_only ? 0 : 0x40);
     }
 }

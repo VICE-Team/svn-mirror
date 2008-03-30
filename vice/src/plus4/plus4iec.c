@@ -64,30 +64,16 @@ void iec_update_ports_embedded(void)
     iec_update_ports();
 }
 
-void iec_drive0_write(BYTE data)
+void iec_drive_write(BYTE data, unsigned int dnr)
 {
-    iecbus.drv_bus[8] = (((data << 3) & 0x40)
-                        | ((data << 6) & ((~data ^ iecbus.cpu_bus) << 3)
-                        & 0x80));
-    iecbus.drv_data[8] = data;
+    iecbus.drv_bus[dnr + 8] = (((data << 3) & 0x40)
+                              | ((data << 6) & ((~data ^ iecbus.cpu_bus) << 3)
+                              & 0x80));
+    iecbus.drv_data[dnr + 8] = data;
     iec_update_ports();
 }
 
-void iec_drive1_write(BYTE data)
-{
-    iecbus.drv_bus[9] = (((data << 3) & 0x40)
-                        | ((data << 6) & ((~data ^ iecbus.cpu_bus) << 3)
-                        & 0x80));
-    iecbus.drv_data[9] = data;
-    iec_update_ports();
-}
-
-BYTE iec_drive0_read(void)
-{
-    return iecbus.drv_port;
-}
-
-BYTE iec_drive1_read(void)
+BYTE iec_drive_read(unsigned int dnr)
 {
     return iecbus.drv_port;
 }
