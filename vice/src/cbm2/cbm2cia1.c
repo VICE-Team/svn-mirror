@@ -29,6 +29,7 @@
 
 #include "cbm2.h"
 #include "cbm2cia.h"
+#include "cia.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "interrupt.h"
@@ -44,27 +45,27 @@
 
 void REGPARM2 cia1_store(WORD addr, BYTE data)
 {
-    ciacore_store(&(machine_context.cia1), addr, data);
+    ciacore_store(machine_context.cia1, addr, data);
 }
 
 BYTE REGPARM1 cia1_read(WORD addr)
 {
-    return ciacore_read(&(machine_context.cia1), addr);
+    return ciacore_read(machine_context.cia1, addr);
 }
 
 BYTE REGPARM1 cia1_peek(WORD addr)
 {
-    return ciacore_peek(&(machine_context.cia1), addr);
+    return ciacore_peek(machine_context.cia1, addr);
 }
 
 static void cia_set_int_clk(cia_context_t *cia_context, int value, CLOCK clk)
 {
-    tpicore_set_int(&(machine_context.tpi1), 2, value);
+    tpicore_set_int(machine_context.tpi1, 2, value);
 }
 
 static void cia_restore_int(cia_context_t *cia_context, int value)
 {
-    tpicore_restore_int(&(machine_context.tpi1), 2, value);
+    tpicore_restore_int(machine_context.tpi1, 2, value);
 }
 
 /*************************************************************************
@@ -173,25 +174,28 @@ static void store_sdr(cia_context_t *cia_context, BYTE byte)
 
 static void int_cia1ta(CLOCK offset)
 {
-    ciacore_intta(&(machine_context.cia1), offset);
+    ciacore_intta(machine_context.cia1, offset);
 }
 
 static void int_cia1tb(CLOCK offset)
 {
-    ciacore_inttb(&(machine_context.cia1), offset);
+    ciacore_inttb(machine_context.cia1, offset);
 }
 
 static void int_cia1tod(CLOCK offset)
 {
-    ciacore_inttod(&(machine_context.cia1), offset);
+    ciacore_inttod(machine_context.cia1, offset);
 }
 
-static const cia_initdesc_t cia_initdesc[2] = {
-    { &(machine_context.cia1), int_cia1ta, int_cia1tb, int_cia1tod },
+static cia_initdesc_t cia_initdesc[2] = {
+    { NULL, int_cia1ta, int_cia1tb, int_cia1tod },
 };
 
 void cia1_init(cia_context_t *cia_context)
 {
+    cia_initdesc[0].cia_ptr = machine_context.cia1;
+
+
     ciacore_init(&cia_initdesc[0], maincpu_alarm_context, maincpu_int_status,
                  maincpu_clk_guard);
 }
@@ -200,7 +204,8 @@ void cia1_setup_context(machine_context_t *machine_context)
 {
     cia_context_t *cia;
 
-    cia = &(machine_context->cia1);
+    machine_context->cia1 = lib_malloc(sizeof(cia_context_t));
+    cia = machine_context->cia1;
 
     cia->context = NULL;
 
@@ -236,6 +241,6 @@ void cia1_setup_context(machine_context_t *machine_context)
 void printer_interface_userport_set_busy(int b)
 {
     if (!b)
-        ciacore_set_flag(&(machine_context.cia1));
+        ciacore_set_flag(machine_context.cia1);
 }
 

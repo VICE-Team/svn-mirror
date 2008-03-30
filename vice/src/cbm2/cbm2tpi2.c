@@ -43,17 +43,17 @@
 
 void REGPARM3 tpi2_store(WORD addr, BYTE data)
 {
-    tpicore_store(&(machine_context.tpi2), addr, data);
+    tpicore_store(machine_context.tpi2, addr, data);
 }
 
 BYTE REGPARM2 tpi2_read(WORD addr)
 {
-    return tpicore_read(&(machine_context.tpi2), addr);
+    return tpicore_read(machine_context.tpi2, addr);
 }
 
 BYTE REGPARM2 tpi2_peek(WORD addr)
 {
-    return tpicore_peek(&(machine_context.tpi2), addr);
+    return tpicore_peek(machine_context.tpi2, addr);
 }
 
 static void set_int(unsigned int int_num, int value)
@@ -151,7 +151,8 @@ void tpi2_setup_context(machine_context_t *machine_context)
 {
     tpi_context_t *tpi_context;
 
-    tpi_context = &(machine_context->tpi2);
+    machine_context->tpi2 = lib_malloc(sizeof(tpi_context_t));
+    tpi_context = machine_context->tpi2;
 
     tpi_context->prv = NULL;
 

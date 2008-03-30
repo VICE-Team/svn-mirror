@@ -33,6 +33,7 @@
 #include "cbm2cia.h"
 #include "cbm2mem.h"
 #include "cbm2tpi.h"
+#include "cia.h"
 #include "crtc.h"
 #include "datasette.h"
 #include "drive.h"
@@ -48,17 +49,17 @@
 
 void REGPARM3 tpi1_store(WORD addr, BYTE data)
 {
-    tpicore_store(&(machine_context.tpi1), addr, data);
+    tpicore_store(machine_context.tpi1, addr, data);
 }
 
 BYTE REGPARM2 tpi1_read(WORD addr)
 {
-    return tpicore_read(&(machine_context.tpi1), addr);
+    return tpicore_read(machine_context.tpi1, addr);
 }
 
 BYTE REGPARM2 tpi1_peek(WORD addr)
 {
-    return tpicore_peek(&(machine_context.tpi1), addr);
+    return tpicore_peek(machine_context.tpi1, addr);
 }
 
 static void set_int(unsigned int int_num, int value)
@@ -103,14 +104,14 @@ static void reset(tpi_context_t *tpi_context)
     parallel_cpu_set_dav(0);
     parallel_cpu_set_eoi(0);
     parallel_cpu_set_bus(0xff);
-    cia1_set_ieee_dir(&(machine_context.cia1), 0);
+    cia1_set_ieee_dir(machine_context.cia1, 0);
 }
 
 static void store_pa(tpi_context_t *tpi_context, BYTE byte)
 {
     if (byte != tpi_context->oldpa) {
         BYTE tmp = ~byte;
-        cia1_set_ieee_dir(&(machine_context.cia1), byte & 2);
+        cia1_set_ieee_dir(machine_context.cia1, byte & 2);
         if (byte & 2) {
             parallel_cpu_set_ndac(0);
             parallel_cpu_set_nrfd(0);
@@ -131,7 +132,7 @@ static void store_pa(tpi_context_t *tpi_context, BYTE byte)
 static void undump_pa(tpi_context_t *tpi_context, BYTE byte)
 {
     BYTE tmp = ~byte;
-    cia1_set_ieee_dir(&(machine_context.cia1), byte & 2);
+    cia1_set_ieee_dir(machine_context.cia1, byte & 2);
     if (byte & 2) {
         parallel_cpu_set_ndac(0);
         parallel_cpu_set_nrfd(0);
@@ -222,7 +223,8 @@ void tpi1_setup_context(machine_context_t *machine_context)
 {
     tpi_context_t *tpi_context;
 
-    tpi_context = &(machine_context->tpi1);
+    machine_context->tpi1 = lib_malloc(sizeof(tpi_context_t));
+    tpi_context = machine_context->tpi1;
 
     tpi_context->prv = NULL;
 

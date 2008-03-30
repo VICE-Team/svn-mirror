@@ -3,6 +3,7 @@
  *
  * Written by
  *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,9 +27,6 @@
 
 #ifndef _CBM2_H
 #define _CBM2_H
-
-#include "cia.h"
-#include "tpi.h"
 
 /* except for the exact CYCLES_PER_SEC those values are reasonable default
    values. they get overwritten when writing to the CRTC */
@@ -71,10 +69,13 @@ extern int cbm2_isC500;
 extern int cbm2_c500_snapshot_write_module(struct snapshot_s *p);
 extern int cbm2_c500_snapshot_read_module(struct snapshot_s *p);
 
+struct cia_context_s;
+struct tpi_context_s;
+
 typedef struct machine_context_s {
-    cia_context_t cia1;
-    tpi_context_t tpi1;
-    tpi_context_t tpi2;
+    struct cia_context_s *cia1;
+    struct tpi_context_s *tpi1;
+    struct tpi_context_s *tpi2;
 } machine_context_t;
 
 extern machine_context_t machine_context;
