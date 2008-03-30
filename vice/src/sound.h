@@ -27,8 +27,6 @@
 #ifndef _SOUND_H
 #define _SOUND_H
 
-#include <stdio.h>
-
 #include "types.h"
 
 /* Sound defaults.  */
@@ -45,7 +43,7 @@
 extern int sound_state_changed;
 
 /* device structure */
-typedef struct
+typedef struct sound_device_s
 {
     /* name of the device */
     const char *name;
