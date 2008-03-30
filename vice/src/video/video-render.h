@@ -37,5 +37,25 @@ extern void video_render_main(struct video_render_config_s *config, BYTE *src,
                               int xs, int ys, int xt, int yt,
                               int pitchs, int pitcht, int depth);
 
+extern void video_render_1x2func_set(void(*func)(struct video_render_config_s *,
+                                     const BYTE *, BYTE *,
+                                     unsigned int, const unsigned int,
+                                     const unsigned int, const unsigned int,
+                                     const unsigned int, const unsigned int,
+                                     const unsigned int, const unsigned int,
+                                     int));
+
+extern void video_render_2x2func_set(void(*func)(struct video_render_config_s *,
+                                     const BYTE *, BYTE *,
+                                     unsigned int, const unsigned int,
+                                     const unsigned int, const unsigned int,
+                                     const unsigned int, const unsigned int,
+                                     const unsigned int, const unsigned int,
+                                     int));
+
+extern void video_render_palfunc_set(void(*func)(struct video_render_config_s *,
+                                     BYTE *, BYTE *, int, int, int, int,
+                                     int, int, int, int, int));
+
 #endif
 

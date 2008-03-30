@@ -36,14 +36,15 @@
 #include "render2x2pal.h"
 #include "renderscale2x.h"
 #include "types.h"
-#include "video-render-pal.h"
+#include "video-render.h"
 #include "video-resources.h"
 #include "video.h"
 
 
-void video_render_pal_main(video_render_config_t *config, BYTE *src, BYTE *trg,
-                           int width, int height, int xs, int ys, int xt,
-                           int yt, int pitchs, int pitcht, int depth)
+static void video_render_pal_main(video_render_config_t *config,
+                                  BYTE *src, BYTE *trg,
+                                  int width, int height, int xs, int ys, int xt,
+                                  int yt, int pitchs, int pitcht, int depth)
 {
     DWORD *colortab;
     int doublescan, delayloop, rendermode, palmode, scale2x;
@@ -210,5 +211,10 @@ void video_render_pal_main(video_render_config_t *config, BYTE *src, BYTE *trg,
             }
         }
     }
+}
+
+void video_render_pal_init(void)
+{
+    video_render_palfunc_set(video_render_pal_main);
 }
 

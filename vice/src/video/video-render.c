@@ -30,21 +30,31 @@
 #include <stdio.h>
 
 #include "render1x1.h"
-#include "render1x1pal.h"
-#include "render1x2.h"
-#include "render2x2.h"
-#include "render2x2pal.h"
-#include "renderscale2x.h"
 #include "renderyuv.h"
 #include "types.h"
-#include "video-render-pal.h"
 #include "video-render.h"
 #include "video-resources.h"
 #include "video.h"
 
 
-/*****************************************************************************/
-/*****************************************************************************/
+static void(*render_1x2_func)(video_render_config_t *, const BYTE *, BYTE *,
+                              unsigned int, const unsigned int,
+                              const unsigned int, const unsigned int,
+                              const unsigned int, const unsigned int,
+                              const unsigned int, const unsigned int,
+                              int);
+
+static void(*render_2x2_func)(video_render_config_t *, const BYTE *, BYTE *,
+                              unsigned int, const unsigned int,
+                              const unsigned int, const unsigned int,
+                              const unsigned int, const unsigned int,
+                              const unsigned int, const unsigned int,
+                              int);
+
+static void(*render_pal_func)(video_render_config_t *, BYTE *, BYTE *,
+                              int, int, int, int,
+                              int, int, int, int, int);
+
 
 /* this function is the interface to the outer world */
 
@@ -80,7 +90,7 @@ void video_render_setphysicalcolor(video_render_config_t *config, int index,
         color &= 0x00FFFFFF;
         break;
       case 32:
-      break;
+        break;
     }
     config->physical_colors[index] = color;
 }
@@ -90,7 +100,7 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
                        int pitchs, int pitcht, int depth)
 {
     DWORD *colortab;
-    int doublescan, rendermode, scale2x;
+    int rendermode;
 
 #if 0
 printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
@@ -101,9 +111,7 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
         return; /* some render routines don't like invalid width */
 
     rendermode = config->rendermode;
-    doublescan = config->doublescan;
     colortab = config->physical_colors;
-    scale2x = config->scale2x;
 
     switch (rendermode) {
       case VIDEO_RENDER_NULL:
@@ -111,8 +119,8 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
 
       case VIDEO_RENDER_PAL_1X1:
       case VIDEO_RENDER_PAL_2X2:
-        video_render_pal_main(config, src, trg, width, height, xs, ys, xt, yt,
-                              pitchs, pitcht, depth);
+        (*render_pal_func)(config, src, trg, width, height, xs, ys, xt, yt,
+                           pitchs, pitcht, depth);
         return;
 
       case VIDEO_RENDER_RGB_1X1:
@@ -137,70 +145,45 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
         return;
 
       case VIDEO_RENDER_RGB_1X2:
-        switch (depth) {
-          case 8:
-            render_08_1x2_04(colortab, src, trg, width, height,
-                             xs, ys, xt, yt, pitchs, pitcht, doublescan);
-            return;
-          case 16:
-            render_16_1x2_04(colortab, src, trg, width, height,
-                             xs, ys, xt, yt, pitchs, pitcht, doublescan);
-            return;
-          case 24:
-            render_24_1x2_04(colortab, src, trg, width, height,
-                             xs, ys, xt, yt, pitchs, pitcht, doublescan);
-            return;
-          case 32:
-            render_32_1x2_04(colortab, src, trg, width, height,
-                             xs, ys, xt, yt, pitchs, pitcht, doublescan);
-            return;
-        }
+        (*render_1x2_func)(config, src, trg, width, height,
+                           xs, ys, xt, yt, pitchs, pitcht, depth);
         return;
 
       case VIDEO_RENDER_RGB_2X2:
-          if (scale2x) {
-            switch (depth) {
-              case 8:
-                render_08_scale2x(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht);
-                return;
-              case 16:
-                render_16_scale2x(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht);
-                return;
-              case 24:
-                render_24_scale2x(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht);
-                return;
-              case 32:
-                render_32_scale2x(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht);
-                return;
-            }
-        } else {
-            switch (depth) {
-              case 8:
-                render_08_2x2_04(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
-                return;
-              case 16:
-                render_16_2x2_04(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
-                return;
-              case 24:
-                render_24_2x2_04(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
-                return;
-              case 32:
-                render_32_2x2_04(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
-                return;
-            }
-        }
+        (*render_2x2_func)(config, src, trg, width, height,
+                           xs, ys, xt, yt, pitchs, pitcht, depth);
         return;
     }
 }
 
+void video_render_1x2func_set(void(*func)(video_render_config_t *,
+                              const BYTE *, BYTE *,
+                              unsigned int, const unsigned int,
+                              const unsigned int, const unsigned int,
+                              const unsigned int, const unsigned int,
+                              const unsigned int, const unsigned int,
+                              int))
+{
+    render_1x2_func = func;
+}
+
+void video_render_2x2func_set(void(*func)(video_render_config_t *,
+                              const BYTE *, BYTE *,
+                              unsigned int, const unsigned int,
+                              const unsigned int, const unsigned int,
+                              const unsigned int, const unsigned int,
+                              const unsigned int, const unsigned int,
+                              int))
+{
+    render_2x2_func = func;
+}
+
+void video_render_palfunc_set(void(*func)(video_render_config_t *,
+                              BYTE *, BYTE *, int, int, int, int,
+                              int, int, int, int, int))
+{
+    render_pal_func = func;
+}
 
 
 #ifdef HAVE_XVIDEO
