@@ -64,7 +64,6 @@
 #include "ui.h"
 #include "uiattach.h"
 #include "uicmdline.h"
-#include "uidrive.h"
 #include "uidatasette.h"
 #include "uijoystick.h"
 #include "uilib.h"
@@ -950,8 +949,7 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
     char *directory_name, *image_name, *text;
     char device_str[4];
 
-    if (image == NULL || image[0] == 0)
-    {
+    if (image == NULL || image[0] == 0) {
         text = util_concat("Detached device ", 
                            itoa(drivenum + 8, device_str, 10), NULL);
     } else {
@@ -992,8 +990,7 @@ void ui_display_tape_current_image(const char *image)
 {
     char *directory_name, *image_name, *text;
 
-    if (image == NULL || image[0] == 0)
-    {
+    if (image == NULL || image[0] == 0) {
         text = lib_stralloc("Detached tape");
     } else {
        	util_fname_split(image, &directory_name, &image_name);
@@ -1151,6 +1148,7 @@ HWND ui_get_main_hwnd(void)
 {
     if (window_handles[0] == NULL)
         return main_hwnd;
+
     return window_handles[0];
 }
 
@@ -1210,6 +1208,109 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg,
         break;
     }
     return FALSE;
+}
+
+static void disk_attach_dialog_proc(WPARAM wparam, HWND hwnd)
+{
+    char *s;
+    int unit = 8;
+    int autostart_index = -1;
+
+    SuspendFullscreenModeKeep(hwnd);
+    switch (wparam & 0xffff) {
+      case IDM_ATTACH_8:
+        unit = 8;
+        break;
+      case IDM_ATTACH_9:
+        unit = 9;
+        break;
+      case IDM_ATTACH_10:
+        unit = 10;
+        break;
+      case IDM_ATTACH_11:
+        unit = 11;
+        break;
+    }
+    if ((s = ui_select_file(hwnd, "Attach disk image",
+        UI_LIB_FILTER_DISK | UI_LIB_FILTER_ZIP | UI_LIB_FILTER_ALL,
+        FILE_SELECTOR_DISK_STYLE, &autostart_index)) != NULL) {
+        if (autostart_index >= 0) {
+            if (autostart_autodetect(s, NULL, autostart_index,
+                AUTOSTART_MODE_RUN) < 0)
+                ui_error("Cannot autostart specified file.");
+        } else {
+            if (file_system_attach_disk(unit, s) < 0)
+                ui_error("Cannot attach specified file");
+        }
+        lib_free(s);
+    }
+    ResumeFullscreenModeKeep(hwnd);
+}
+
+static void tape_attach_dialog_proc(HWND hwnd)
+{
+    char *s;
+    int autostart_index = -1;
+
+    SuspendFullscreenModeKeep(hwnd);
+    if ((s = ui_select_file(hwnd, "Attach tape image",
+        UI_LIB_FILTER_TAPE | UI_LIB_FILTER_ZIP | UI_LIB_FILTER_ALL,
+        FILE_SELECTOR_TAPE_STYLE, &autostart_index)) != NULL) {
+        if (autostart_index >= 0) {
+            if (autostart_autodetect(s, NULL, autostart_index,
+                AUTOSTART_MODE_RUN) < 0)
+                ui_error("Cannot autostart specified file.");
+        } else {
+            if (tape_image_attach(1, s) < 0)
+                ui_error("Cannot attach specified file");
+        }
+        lib_free(s);
+    }
+    ResumeFullscreenModeKeep(hwnd);
+}
+
+static void autostart_attach_dialog_proc(HWND hwnd)
+{
+    char *s;
+    int autostart_index = 0;
+
+    if ((s = ui_select_file(hwnd, "Autostart disk/tape image",
+        UI_LIB_FILTER_DISK | UI_LIB_FILTER_TAPE | UI_LIB_FILTER_ZIP
+        | UI_LIB_FILTER_ALL, FILE_SELECTOR_DISK_AND_TAPE_STYLE,
+        &autostart_index)) != NULL) {
+        if (autostart_autodetect(s, NULL, autostart_index,
+            AUTOSTART_MODE_RUN) < 0)
+            ui_error("Cannot autostart specified file.");
+        lib_free(s);
+    }
+}
+
+static void reset_dialog_proc(WPARAM wparam)
+{
+    vsync_suspend_speed_eval();
+/*
+    if (ui_messagebox("Do you really want to reset the emulated machine?",
+                      ((wparam & 0xffff) == IDM_HARD_RESET ? "Hard reset"
+                      : "Soft reset"),
+                      MB_YESNO | MB_ICONQUESTION) == IDYES)
+*/
+    {
+        if (machine_class == VICE_MACHINE_PLUS4) {
+            if ((keyarr[7] & 128)) {
+                keyboard_clear_keymatrix();
+                keyboard_set_keyarr_and_latch(7, 7, 1);
+            } else {
+                keyboard_clear_keymatrix();
+            }
+        } else {
+            keyboard_clear_keymatrix();
+        }
+        if ((wparam & 0xffff) == IDM_HARD_RESET) {
+            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+        } else {
+            machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+        }
+    }
 }
 
 static void scan_files(void)
@@ -1303,42 +1404,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_ATTACH_9:
       case IDM_ATTACH_10:
       case IDM_ATTACH_11:
-        {
-            char *s;
-            int unit = 8;
-            int autostart_index = -1;
-
-            SuspendFullscreenModeKeep(hwnd);
-            switch (wparam & 0xffff) {
-              case IDM_ATTACH_8:
-                unit = 8;
-                break;
-              case IDM_ATTACH_9:
-                unit = 9;
-                break;
-              case IDM_ATTACH_10:
-                unit = 10;
-                break;
-              case IDM_ATTACH_11:
-                unit = 11;
-                break;
-            }
-            if ((s = ui_select_file(hwnd, "Attach disk image",
-                UI_LIB_FILTER_DISK | UI_LIB_FILTER_ZIP | UI_LIB_FILTER_ALL,
-                FILE_SELECTOR_DISK_STYLE,
-                &autostart_index)) != NULL) {
-                if (autostart_index >= 0) {
-                    if (autostart_autodetect(s, NULL, autostart_index,
-                        AUTOSTART_MODE_RUN) < 0)
-                        ui_error("Cannot autostart specified file.");
-                } else {
-                    if (file_system_attach_disk(unit, s) < 0)
-                        ui_error("Cannot attach specified file");
-                }
-                lib_free(s);
-            }
-            ResumeFullscreenModeKeep(hwnd);
-        }
+        disk_attach_dialog_proc(wparam, hwnd);
         break;
       case IDM_DETACH_8:
         file_system_detach_disk(8);
@@ -1376,27 +1442,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_ATTACH_TAPE | 0x00010000:
       case IDM_ATTACH_TAPE:
-        {
-            char *s;
-            int autostart_index = -1;
-
-            SuspendFullscreenModeKeep(hwnd);
-            if ((s = ui_select_file(hwnd, "Attach tape image",
-                UI_LIB_FILTER_TAPE | UI_LIB_FILTER_ZIP | UI_LIB_FILTER_ALL,
-                FILE_SELECTOR_TAPE_STYLE,
-                &autostart_index)) != NULL) {
-                if (autostart_index >= 0) {
-                    if (autostart_autodetect(s, NULL, autostart_index,
-                        AUTOSTART_MODE_RUN) < 0)
-                        ui_error("Cannot autostart specified file.");
-                } else {
-                    if (tape_image_attach(1, s) < 0)
-                        ui_error("Cannot attach specified file");
-                }
-                lib_free(s);
-            }
-            ResumeFullscreenModeKeep(hwnd);
-        }
+        tape_attach_dialog_proc(hwnd);
         break;
       case IDM_DETACH_TAPE:
         tape_image_detach(1);
@@ -1423,21 +1469,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         datasette_control(DATASETTE_CONTROL_RESET_COUNTER);
         break;
       case IDM_AUTOSTART:
-        {
-            char *s;
-            int autostart_index = 0;
-
-            if ((s = ui_select_file(hwnd, "Autostart disk/tape image",
-                UI_LIB_FILTER_DISK | UI_LIB_FILTER_TAPE | UI_LIB_FILTER_ZIP
-                | UI_LIB_FILTER_ALL,
-                FILE_SELECTOR_DISK_AND_TAPE_STYLE,
-                &autostart_index)) !=NULL) {
-                if (autostart_autodetect(s, NULL, autostart_index,
-                    AUTOSTART_MODE_RUN) < 0)
-                    ui_error("Cannot autostart specified file.");
-                lib_free(s);
-            }
-        }
+        autostart_attach_dialog_proc(hwnd);
         break;
       case IDM_SNAPSHOT_LOAD | 0x00010000:
       case IDM_SNAPSHOT_LOAD:
@@ -1492,30 +1524,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_SOFT_RESET + 0x00010000:
       case IDM_HARD_RESET:
       case IDM_SOFT_RESET:
-        vsync_suspend_speed_eval();
-/*
-        if (ui_messagebox("Do you really want to reset the emulated machine?",
-                          ((wparam & 0xffff) == IDM_HARD_RESET ? "Hard reset"
-                          : "Soft reset"),
-                          MB_YESNO | MB_ICONQUESTION) == IDYES)
-*/
-		{
-            if (machine_class == VICE_MACHINE_PLUS4) {
-                if ((keyarr[7] & 128)) {
-                    keyboard_clear_keymatrix();
-                    keyboard_set_keyarr_and_latch(7, 7, 1);
-                } else {
-                    keyboard_clear_keymatrix();
-                }
-            } else {
-                keyboard_clear_keymatrix();
-            }
-            if ((wparam & 0xffff) == IDM_HARD_RESET) {
-                machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-            } else {
-                machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-            }
-        }
+        reset_dialog_proc(wparam);
         break;
       case IDM_REFRESH_RATE_AUTO:
         resources_set_value("RefreshRate", (resource_value_t)0);
@@ -1567,9 +1576,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_MAXIMUM_SPEED_NO_LIMIT:
         resources_set_value("Speed", (resource_value_t)0);
-        break;
-      case IDM_DRIVE_SETTINGS:
-        ui_drive_settings_dialog(hwnd);
         break;
       case IDM_DATASETTE_SETTINGS:
         ui_datasette_settings_dialog(hwnd);

@@ -300,8 +300,9 @@ petacia1.o: petacia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 petdatasette.o: petdatasette.c ../../src/vice.h ../../src/config.h \
 	petpia.h ../../src/arch/unix/types.h
 petdrive.o: petdrive.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/iecieee.h ../../src/arch/unix/types.h \
-	../../src/drive/ieee.h ../../src/machine-drive.h
+	../../src/drive/drive.h ../../src/arch/unix/types.h \
+	../../src/drive/iecieee.h ../../src/drive/ieee.h \
+	../../src/machine-drive.h ../../src/resources.h
 petiec.o: petiec.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/arch/unix/types.h \
 	../../src/iecdrive.h ../../src/log.h petiec.h

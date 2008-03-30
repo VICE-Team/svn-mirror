@@ -137,7 +137,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	blockdev.c 	c128ui.c 	c128ui.h 	cbm2ui.c 	cbm2ui.h 	c64ui.c 	c64ui.h 	catweaselmkiii.c 	console.c 	dirent.c 	dirent.h 	fullscrn.c 	fullscrn.h 	joy.c 	joy.h 	kbd.c 	kbd.h 	lose32.h 	mouse.c 	mouse.h 	petui.c 	petui.h 	plus4ui.c 	plus4ui.h 	res.h 	res.rc 	resc128.rc 	resc64.rc 	rescbm2.rc 	respet.rc 	resplus4.rc 	resvic.rc 	statusbar.c 	statusbar.h 	system.c 	system.h 	tfearch.c 	types.h 	ui.c 	ui.h 	uiattach.c 	uiattach.h 	uicbm2set.c 	uicbm2set.h 	uicmdline.c 	uicmdline.h 	uiconsole.c 	uidatasette.c 	uidatasette.h 	uidrive.c 	uidrive.h 	uijoystick.c 	uijoystick.h 	uilib.c 	uilib.h 	uimon.c 	uipetset.c 	uipetset.h 	uiplus4mem.c 	uiplus4mem.h 	uiram.c 	uiram.h 	uireu.c 	uireu.h 	uisid.c 	uisid.h 	uisnapshot.h 	uisnapshot.c 	uisound.c 	uisound.h 	uivicii.h 	uivicii.c 	uivicset.h 	uivicset.c 	uivideo.c 	uivideo.h 	vic20ui.c 	vic20ui.h 	video.c 	videoarch.h 	vsidui.c 	vsyncarch.c 	winhack.h 	winmain.c 	winmain.h
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	blockdev.c 	c128ui.c 	c128ui.h 	cbm2ui.c 	cbm2ui.h 	c64ui.c 	c64ui.h 	catweaselmkiii.c 	console.c 	dirent.c 	dirent.h 	fullscrn.c 	fullscrn.h 	joy.c 	joy.h 	kbd.c 	kbd.h 	lose32.h 	mouse.c 	mouse.h 	petui.c 	petui.h 	plus4ui.c 	plus4ui.h 	res.h 	res.rc 	resc128.rc 	resc64.rc 	rescbm2.rc 	respet.rc 	resplus4.rc 	resvic.rc 	statusbar.c 	statusbar.h 	system.c 	system.h 	tfearch.c 	types.h 	ui.c 	ui.h 	uiattach.c 	uiattach.h 	uicbm2set.c 	uicbm2set.h 	uicmdline.c 	uicmdline.h 	uiconsole.c 	uidatasette.c 	uidatasette.h 	uidrivec64c128vic20.c 	uidrivec64c128vic20.h 	uijoystick.c 	uijoystick.h 	uilib.c 	uilib.h 	uimon.c 	uipetset.c 	uipetset.h 	uiplus4mem.c 	uiplus4mem.h 	uiram.c 	uiram.h 	uireu.c 	uireu.h 	uisid.c 	uisid.h 	uisnapshot.h 	uisnapshot.c 	uisound.c 	uisound.h 	uivicii.h 	uivicii.c 	uivicset.h 	uivicset.c 	uivideo.c 	uivideo.h 	vic20ui.c 	vic20ui.h 	video.c 	videoarch.h 	vsidui.c 	vsyncarch.c 	winhack.h 	winmain.c 	winmain.h
 
 
 libarch_a_DEPENDENCIES =  	resc128.o resc64.o rescbm2.o respet.o resplus4.o resvic.o
@@ -161,7 +161,7 @@ libarch_a_LIBADD =
 libarch_a_OBJECTS =  archdep.o blockdev.o c128ui.o cbm2ui.o c64ui.o \
 catweaselmkiii.o console.o dirent.o fullscrn.o joy.o kbd.o mouse.o \
 petui.o plus4ui.o statusbar.o system.o tfearch.o ui.o uiattach.o \
-uicbm2set.o uicmdline.o uiconsole.o uidatasette.o uidrive.o \
+uicbm2set.o uicmdline.o uiconsole.o uidatasette.o uidrivec64c128vic20.o \
 uijoystick.o uilib.o uimon.o uipetset.o uiplus4mem.o uiram.o uireu.o \
 uisid.o uisnapshot.o uisound.o uivicii.o uivicset.o uivideo.o vic20ui.o \
 video.o vsidui.o vsyncarch.o winmain.o
@@ -268,6 +268,180 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h ui.h \
+	../../../src/uiapi.h archdep.h ../../../src/archapi.h \
+	../../../src/lib.h ../../../src/log.h ../../../src/machine.h \
+	../../../src/utils.h types.h
+blockdev.o: blockdev.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/blockdev.h types.h ../../../src/log.h
+c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h c128ui.h \
+	../../../src/cartridge.h types.h fullscrn.h kbd.h \
+	../../../src/keyboard.h ../../../src/lib.h res.h \
+	../../../src/resources.h ../../../src/sid/sid.h ui.h \
+	../../../src/uiapi.h uidrivec64c128vic20.h uireu.h uivicii.h \
+	uivideo.h ../../../src/vsync.h uisnapshot.h uilib.h
+c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h c64ui.h \
+	../../../src/cartridge.h types.h kbd.h ../../../src/keyboard.h \
+	../../../src/lib.h res.h ../../../src/resources.h \
+	../../../src/sid/sid.h ui.h ../../../src/uiapi.h \
+	uidrivec64c128vic20.h uilib.h uireu.h uivicii.h uivideo.h \
+	../../../src/vsync.h winmain.h
+catweaselmkiii.o: catweaselmkiii.c ../../../src/vice.h \
+	../../../src/config.h
+cbm2ui.o: cbm2ui.c ../../../src/vice.h ../../../src/config.h petui.h \
+	res.h ../../../src/resources.h ../../../src/sid/sid.h types.h \
+	ui.h ../../../src/uiapi.h uicbm2set.h uidrivec64c128vic20.h \
+	uivideo.h winmain.h
+console.o: console.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/console.h fullscrn.h ../../../src/lib.h res.h ui.h \
+	../../../src/uiapi.h ../../../src/uimon.h types.h winmain.h
+dirent.o: dirent.c ../../../src/vice.h ../../../src/config.h dirent.h \
+	../../../src/lib.h ../../../src/utils.h types.h
+fullscrn.o: fullscrn.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/lib.h ../../../src/log.h ../../../src/palette.h \
+	types.h res.h ../../../src/resources.h ui.h \
+	../../../src/uiapi.h videoarch.h ../../../src/video.h \
+	../../../src/viewport.h winmain.h statusbar.h
+joy.o: joy.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cmdline.h ../../../src/resources.h joy.h kbd.h \
+	types.h ../../../src/joystick.h ../../../src/keyboard.h \
+	../../../src/maincpu.h ui.h ../../../src/uiapi.h winmain.h
+kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h kbd.h types.h \
+	../../../src/keyboard.h joy.h
+mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cmdline.h ../../../src/joystick.h types.h \
+	../../../src/keyboard.h ../../../src/log.h mouse.h \
+	../../../src/resources.h ui.h ../../../src/uiapi.h
+petui.o: petui.c ../../../src/vice.h ../../../src/config.h petui.h res.h \
+	ui.h ../../../src/uiapi.h uidrivec64c128vic20.h uipetset.h \
+	uivideo.h winmain.h
+plus4ui.o: plus4ui.c ../../../src/vice.h ../../../src/config.h plus4ui.h \
+	res.h ../../../src/resources.h ui.h ../../../src/uiapi.h \
+	uidrivec64c128vic20.h uilib.h uivideo.h winmain.h uiplus4mem.h
+statusbar.o: statusbar.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/datasette.h types.h res.h ui.h \
+	../../../src/uiapi.h statusbar.h
+system.o: system.c ../../../src/vice.h ../../../src/config.h system.h
+tfearch.o: tfearch.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/log.h ../../../src/c64/tfearch.h types.h \
+	../../../src/utils.h
+ui.o: ui.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/attach.h types.h ../../../src/autostart.h \
+	archdep.h ../../../src/archapi.h ../../../src/cmdline.h \
+	../../../src/datasette.h ../../../src/debug.h \
+	../../../src/drive/drive.h ../../../src/event.h \
+	../../../src/fliplist.h fullscrn.h ../../../src/imagecontents.h \
+	../../../src/info.h ../../../src/interrupt.h kbd.h \
+	../../../src/keyboard.h ../../../src/lib.h ../../../src/log.h \
+	../../../src/machine.h ../../../src/maincpu.h \
+	../../../src/mem.h ../../../src/monitor.h mouse.h res.h \
+	../../../src/resources.h ../../../src/tape.h ui.h \
+	../../../src/uiapi.h uiattach.h uicmdline.h uidatasette.h \
+	uijoystick.h uilib.h uiram.h uisid.h uisnapshot.h uisound.h \
+	../../../src/utils.h ../../../src/version.h videoarch.h \
+	../../../src/video.h ../../../src/viewport.h \
+	../../../src/vsync.h winmain.h statusbar.h
+uiattach.o: uiattach.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/attach.h types.h ../../../src/autostart.h \
+	../../../src/imagecontents.h ../../../src/lib.h res.h \
+	../../../src/resources.h ../../../src/serial.h ui.h \
+	../../../src/uiapi.h uiattach.h uilib.h winmain.h
+uicbm2set.o: uicbm2set.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cbm2/cbm2mem.h types.h res.h \
+	../../../src/resources.h system.h ui.h ../../../src/uiapi.h \
+	uicbm2set.h uilib.h ../../../src/utils.h winmain.h
+uicmdline.o: uicmdline.c ../../../src/cmdline.h ../../../src/lib.h \
+	uilib.h
+uiconsole.o: uiconsole.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/drive/drive.h types.h ../../../src/lib.h \
+	../../../src/machine.h res.h ../../../src/resources.h \
+	../../../src/serial.h ui.h ../../../src/uiapi.h uilib.h \
+	winmain.h ../../../src/utils.h
+uidatasette.o: uidatasette.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/datasette.h types.h res.h ../../../src/resources.h \
+	system.h ui.h ../../../src/uiapi.h uidatasette.h winmain.h
+uidrive.o: uidrive.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/drive/drive.h types.h res.h \
+	../../../src/resources.h ../../../src/serial.h system.h ui.h \
+	../../../src/uiapi.h uidrive.h uilib.h winmain.h
+uidrivec64c128vic20.o: uidrivec64c128vic20.c ../../../src/vice.h \
+	../../../src/config.h ../../../src/drive/drive.h types.h res.h \
+	../../../src/resources.h ../../../src/serial.h system.h ui.h \
+	../../../src/uiapi.h uidrivec64c128vic20.h uilib.h winmain.h
+uijoystick.o: uijoystick.c res.h ../../../src/resources.h joy.h kbd.h \
+	types.h ../../../src/vice.h ../../../src/config.h winmain.h
+uilib.o: uilib.c ../../../src/vice.h ../../../src/config.h archdep.h \
+	../../../src/archapi.h ../../../src/diskimage.h types.h \
+	fullscrn.h ../../../src/image.h ../../../src/imagecontents.h \
+	../../../src/lib.h res.h ../../../src/resources.h ui.h \
+	../../../src/uiapi.h uilib.h ../../../src/utils.h \
+	../../../src/vdrive/vdrive-internal.h ../../../src/vsync.h \
+	winmain.h
+uimon.o: uimon.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/console.h fullscrn.h ../../../src/lib.h \
+	../../../src/monitor/mon_register.h \
+	../../../src/monitor/mon_ui.h ../../../src/monitor.h types.h \
+	../../../src/monitor/mon_util.h res.h ../../../src/resources.h \
+	ui.h ../../../src/uiapi.h ../../../src/uimon.h winmain.h
+uipetset.o: uipetset.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/pet/pets.h types.h res.h ../../../src/resources.h \
+	system.h ui.h ../../../src/uiapi.h uilib.h uipetset.h \
+	../../../src/utils.h winmain.h
+uiplus4mem.o: uiplus4mem.c ../../../src/vice.h ../../../src/config.h \
+	res.h ../../../src/resources.h system.h ui.h \
+	../../../src/uiapi.h uilib.h ../../../src/utils.h types.h \
+	winmain.h
+uiram.o: uiram.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/lib.h ../../../src/ram.h types.h res.h \
+	../../../src/resources.h system.h ui.h ../../../src/uiapi.h \
+	uiram.h winmain.h
+uireu.o: uireu.c ../../../src/vice.h ../../../src/config.h res.h \
+	../../../src/resources.h ui.h ../../../src/uiapi.h uireu.h \
+	winmain.h
+uisid.o: uisid.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/datasette.h types.h ../../../src/machine.h res.h \
+	../../../src/resources.h ../../../src/sid/sid.h system.h ui.h \
+	../../../src/uiapi.h uisid.h winmain.h
+uisnapshot.o: uisnapshot.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/drive/drive.h types.h ../../../src/gfxoutput.h \
+	../../../src/lib.h ../../../src/machine.h res.h \
+	../../../src/resources.h ../../../src/screenshot.h \
+	../../../src/serial.h ../../../src/sound.h ui.h \
+	../../../src/uiapi.h uilib.h winmain.h ../../../src/utils.h \
+	videoarch.h ../../../src/video.h ../../../src/viewport.h \
+	../../../src/vsync.h
+uisound.o: uisound.c res.h ../../../src/resources.h ../../../src/sound.h \
+	../../../src/vice.h ../../../src/config.h types.h system.h ui.h \
+	../../../src/uiapi.h ../../../src/utils.h winmain.h
+uivicii.o: uivicii.c ../../../src/vice.h ../../../src/config.h res.h \
+	../../../src/resources.h system.h ui.h ../../../src/uiapi.h \
+	uilib.h ../../../src/utils.h types.h winmain.h
+uivicset.o: uivicset.c ../../../src/vice.h ../../../src/config.h res.h \
+	../../../src/resources.h system.h ui.h ../../../src/uiapi.h \
+	uilib.h uivicset.h ../../../src/utils.h types.h winmain.h
+uivideo.o: uivideo.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/lib.h res.h ../../../src/resources.h ui.h \
+	../../../src/uiapi.h uilib.h uivideo.h fullscrn.h winmain.h
+vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cartridge.h types.h ../../../src/lib.h res.h ui.h \
+	../../../src/uiapi.h uidrivec64c128vic20.h uilib.h uivideo.h \
+	vic20ui.h winmain.h uivicset.h
+video.o: video.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cmdline.h ../../../src/lib.h ../../../src/log.h \
+	fullscrn.h ../../../src/fullscreen.h ../../../src/palette.h \
+	types.h ../../../src/resources.h ui.h ../../../src/uiapi.h \
+	../../../src/video.h ../../../src/viewport.h videoarch.h \
+	../../../src/vsyncapi.h statusbar.h
+vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/log.h ../../../src/machine.h
+vsyncarch.o: vsyncarch.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/vsync.h ../../../src/kbdbuf.h types.h \
+	../../../src/machine.h ui.h ../../../src/uiapi.h mouse.h \
+	videoarch.h ../../../src/video.h ../../../src/viewport.h joy.h \
+	kbd.h ../../../src/vsyncapi.h
+winmain.o: winmain.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/log.h ../../../src/machine.h ../../../src/main.h \
+	winmain.h ../../../src/video.h types.h ../../../src/viewport.h
 
 info-am:
 info: info-am

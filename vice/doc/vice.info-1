@@ -19,7 +19,7 @@ permission notice identical to this one.
 
 File: vice.info,  Node: Top,  Next: License,  Prev: (dir),  Up: (dir)
 
-   This is the documentation for version 1.11 of VICE, the Versatile
+   This is the documentation for version 1.12 of VICE, the Versatile
 Commodore Emulator.
 
 * Menu:
@@ -424,7 +424,7 @@ About VICE
 **********
 
    VICE is the one and only "Versatile Commodore Emulator".  It provides
-emulation of the Commodore 64, 128, VIC20, PET 8-bit and CBM-II
+emulation of the Commodore C64, C128, VIC20, PET, PLUS4 and CBM-II
 computers within a single package.  The emulators run as separate
 programs, but have the same user interface, share the same settings and
 support the same file formats.
@@ -442,8 +442,9 @@ and accurate timing.  Unlike other emulators, VICE aims to be cycle
 accurate; it tries to emulate chip timings as precisely as possible and
 does so *efficiently*.
 
-   Please do *not* expect the VIC20, C128 and PET emulators to be as
-good as the C64 one, as they are still under construction.
+   Please do *not* expect the C128, PET, PLUS4 and CBM-II emulators to
+be as good as the C64 or VIC20 one, as they are still under
+construction.
 
    *Notice:* This documentation is written for the Unix release of VICE.
 
@@ -964,9 +965,11 @@ Invoking the emulators
 
    * `x128', the C128 emulator
 
+   * `xvic', the VIC20 emulator
+
    * `xpet', the PET emulator
 
-   * `xvic', the VIC20 emulator
+   * `xplus4', the PLUS4 emulator
 
    * `xcbm2', the CBM-II emulator
 
@@ -1052,67 +1055,4 @@ requiring "true" drive emulation.
 
    *Note Disk and tape images::. for more information about images and
 autostart.
-
-
-File: vice.info,  Node: System files,  Next: Basics,  Prev: Usage,  Up: Top
-
-System files
-************
-
-   In order to work properly, the emulators need to load a few system
-files:
-
-   * the "system ROMs", raw binary files containing copies of the
-     original ROMs of the machine you are emulating;
-
-   * the "keyboard maps", text files describing the keyboard layout;
-
-   * the "palette files", text files describing the colors of the
-     machine you are emulating.
-
-   * the "romset files", text files describing the different ROMs to
-     load.
-
-   The place where they will be searched for depends on the value of the
-`Directory' resource, which is a colon (`:')-separated search path
-list, like the UNIX `PATH' environment variable.  The default value is
-
-     PREFIX/lib/vice/EMU:$HOME/.vice/EMU:BOOTPATH/EMU
-
-   Where `PREFIX' is the installation prefix (usually `/usr/local'),
-`EMU' is the name of the emulated machine (`C64', `C128', `PET',
-`CBM-II' or `VIC20') and `BOOTPATH' is the directory where the
-executable resides.  The disk drive ROMs are looked for in a directory
-with `EMU' set to `DRIVES'. `$HOME' is the user's home directory.
-
-   For example, if you have the C64 emulator installed in
-
-     /usr/local/bin/x64
-
-   then the value will be
-
-     /usr/local/lib/vice/C64:$HOME/.vice/C64:/usr/local/bin/C64
-
-   And system files will be searched for under the following
-directories, in the specified order:
-
-  1. `/usr/local/lib/VICE/C64'
-
-  2. `$HOME/.vice/C64'
-
-  3. `/usr/local/bin/C64'
-
-   System files can still be installed in a different directory if you
-specify a complete path instead of just a file name.  For example, if
-you specify `./kernal' as the kernal image name, the kernal image will
-be loaded from the current directory.  This can be done by using
-command-line options or by modifying resource values (*note Resource
-files::.).
-
-* Menu:
-
-* ROM files::                   Files containing dumps of the original ROMs.
-* Keymap files::                Files describing the keyboard layout.
-* Palette files::               Files defining the machine's colors.
-* Romset files::                Files defining the machine's ROM set.
 

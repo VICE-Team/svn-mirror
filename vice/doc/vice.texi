@@ -95,7 +95,7 @@ notice identical to this one.
 
 @ifinfo
 
-This is the documentation for version 1.11 of VICE, the Versatile
+This is the documentation for version 1.12 of VICE, the Versatile
 Commodore Emulator.
 
 @end ifinfo
@@ -534,7 +534,7 @@ Public License instead of this License.
 @chapter About VICE
 
 VICE is the one and only @dfn{Versatile Commodore Emulator}.  It provides
-emulation of the Commodore 64, 128, VIC20, PET 8-bit and CBM-II computers
+emulation of the Commodore C64, C128, VIC20, PET, PLUS4 and CBM-II computers
 within a single package.  The emulators run as separate programs, but have
 the same user interface, share the same settings and support the same
 file formats.
@@ -552,8 +552,8 @@ timing.  Unlike other emulators, VICE aims to be cycle
 accurate; it tries to emulate chip timings as precisely as possible and
 does so @emph{efficiently}.
 
-Please do @emph{not} expect the VIC20, C128 and PET emulators to be as
-good as the C64 one, as they are still under construction.
+Please do @emph{not} expect the C128, PET, PLUS4 and CBM-II emulators to
+be as good as the C64 or VIC20 one, as they are still under construction.
 
 @emph{Notice:} This documentation is written for the Unix release of VICE.
 
@@ -1081,10 +1081,13 @@ The names of the available emulators are:
 @code{x128}, the C128 emulator
 
 @item
+@code{xvic}, the VIC20 emulator
+
+@item
 @code{xpet}, the PET emulator
 
 @item
-@code{xvic}, the VIC20 emulator
+@code{xplus4}, the PLUS4 emulator
 
 @item
 @code{xcbm2}, the CBM-II emulator

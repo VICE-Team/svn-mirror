@@ -356,9 +356,10 @@ vic20cartridge.o: vic20cartridge.c ../../src/vice.h ../../src/config.h \
 vic20datasette.o: vic20datasette.c ../../src/vice.h ../../src/config.h \
 	../../src/via.h vic20via.h ../../src/arch/unix/types.h
 vic20drive.o: vic20drive.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/iec.h ../../src/arch/unix/types.h \
-	../../src/drive/iecieee.h ../../src/drive/ieee.h \
-	../../src/machine-drive.h
+	../../src/drive/drive.h ../../src/arch/unix/types.h \
+	../../src/drive/iec.h ../../src/drive/iecieee.h \
+	../../src/drive/ieee.h ../../src/machine-drive.h \
+	../../src/resources.h
 vic20iec.o: vic20iec.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/ciad.h ../../src/arch/unix/types.h \
 	../../src/drive/drive.h ../../src/drive/drivecpu.h \

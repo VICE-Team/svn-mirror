@@ -17,6 +17,217 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: PET model,  Next: PET diagnostic pin,  Prev: PET-specific,  Up: PET-specific
+
+Changing PET model settings
+---------------------------
+
+   With `xpet', it is possible to change at runtime the characteristics
+of the emulated PET so that it matches (or not) the ones of a certain
+PET model, and it is also possible to select from a common set of PET
+models so that all the features are selected accordingly.
+
+   The former is done by changing the following resources (via resource
+file, command line options or right-menu items):
+
+`RamSize'
+     Size of memory in kByte. 96k denotes a 8096, 128k a 8296.
+
+`IOSize'
+     Size of I/O area in Byte.  Either 2048 or 256 for 8296.
+
+`Crtc'
+     Enables CRTC 6545 emulation (all models from 40xx and above)
+
+`VideoSize'
+     The number of columns on the screen (40 or 80).  A 0 auto-detects
+     this from the ROM.
+
+`Ram9'
+     The 8296 can map RAM into the address range $9***
+
+`RamA'
+     The 8296 can map RAM into the address range $A***
+
+`SuperPET'
+     This resource enables the SuperPET (MicroMainFrame 9000) I/O and
+     disables the 8x96 mappings.
+
+`Basic1'
+     If (by checksum) a version 1 kernal is detected, then the kernal
+     ROM is patched to make the IEEE488 interface work.
+
+`Basic1Chars'
+     Exchanges some character in the character ROM that have changed
+     between the first PET 2001 and all newer versions.
+
+`EoiBlank'
+     This resource enables the "blank screen on EOI" feature of the
+     oldest PET 2001.
+
+`EmuID'
+     Enable emulator ID (at `$e8a0-$e8ff', for use see C64).
+
+`DiagPin'
+     Set the diagnositc pin on the PET userport (see below).
+
+`ChargenName'
+     Specify `NAME' as the character generator ROM file
+
+`KernalName'
+     Specify `NAME' as the kernal ROM file.  This file contains the
+     complete BASIC, EDITOR and KERNAL ROMs and is either 16k (BASIC 1
+     and 2) or 20k (BASIC 4) in size.
+
+`EditorName'
+     Specify `NAME' as the editor ROM file.  This file contains an
+     overlay for the editor ROM at $E000-$E7FF if necessary.
+
+`RomModule9Name'
+     Specify `NAME' as the $9*** Expansion ROM file.  This file contains
+     an expansion ROM image of 4k.
+
+`RomModuleAName'
+     Specify `NAME' as the $A*** Expansion ROM file.  This file contains
+     an expansion ROM image of 4k.
+
+`RomModuleBName'
+     Specify `NAME' as the $B*** Expansion ROM file.  This file contains
+     an expansion ROM image of 4k.  This file overlays the lowest 4k of
+     a BASIC 4 ROM.
+
+   Choosing a common PET model is done from the right-button menu
+instead, by choosing an item from the "Model defaults" submenu.
+Available models are:
+
+   * PET 2001-8N
+
+   * PET 3008
+
+   * PET 3016
+
+   * PET 3032
+
+   * PET 3032B
+
+   * PET 4016
+
+   * PET 4032
+
+   * PET 4032B
+
+   * PET 8032
+
+   * PET 8096
+
+   * PET 8296
+
+   * SuperPET
+
+   Notice that this will *reset the emulated machine*.
+
+   It is also possible to select the PET model at startup, with the
+`-model' command-line option: for example, `xpet -model 3032' will
+emulate a PET 3032 while `xpet -model 8296' will emulate a PET 8296.
+
+
+File: vice.info,  Node: PET diagnostic pin,  Next: PET commandline options,  Prev: PET model,  Up: PET-specific
+
+The PET diagnostic pin
+----------------------
+
+   It is possible to enable or disable emulation of the PET diagnostic
+pin via the `DiagPin' resource, or the "PET userport diagnostic pin"
+item in the right-button menu.
+
+   When the diagnostic pin is set, the Kernal does not try to initialize
+the BASIC, but directly jumps into the builtin machine monitor.
+
+
+File: vice.info,  Node: PET commandline options,  Next: PET colors,  Prev: PET diagnostic pin,  Up: PET-specific
+
+PET command line options
+------------------------
+
+   These are the commandline options specific for the CBM-II models.
+
+`-model MODEL'
+     Specify the PET model you want to emulate.
+
+`-kernal NAME'
+     Specify `NAME' as the Kernal/BASIC ROM file (`KernalName').
+
+`-editor NAME'
+     Specify `NAME' as the editor ROM file (`EditorName').
+
+`-chargen NAME'
+     Specify `NAME' as the character generator ROM file (`ChargenName').
+
+`-rom9 NAME, -romA NAME, -romB NAME'
+     Specify `NAME' as the ROM image file for the respective cartridge
+     areas (`RomModule9Name', `RomModuleAName', `RomModuleBName').
+
+`-petramA, -petramB'
+     Switch on RAM mapping on addresses $9000-$9fff, $a000-$afff
+     (`Ram9', `RamA').
+
+`-superpet, +superpet'
+     Enable/Disable SuperPET I/O emulation (`SuperPET').
+
+`-basic1, +basic1'
+     Enable/Disable patching the IEEE488 section of the PET2001 ROM
+     when detected (`Basic1').
+
+`-basic1char, +basic1char'
+     Enable/Disable PET 2001 character generator (`Basic1Chars').
+
+`-eoiblank, +eoiblank'
+     Enable/Disable EOI blanking the screen (`EoiBlank').
+
+`-emuid'
+`+emuid'
+     Enable (`EmuID=1') or disable (`EmuID=0') the emulation
+     identification extension (at `$e8a0-$e8ff').
+
+`-diagpin'
+`+diagpin'
+     Enable (`DiagPin=1') or disable (`DiagPin=0') the diagnostic pin
+     at the PET userport.
+
+
+File: vice.info,  Node: PET colors,  Prev: PET commandline options,  Up: PET-specific
+
+Changing screen colors
+----------------------
+
+   It is also possible to choose what color set is used for the
+emulation window.  This is done by specifying a palette file name
+(*note Palette files::.) in the `PaletteName' resource.  The menu
+provides the following values:
+
+   * `green.vpl' (default, "green)"), the good old green-on-black
+     feeling;
+
+   * `amber.vpl' ("amber"), an amber phosphor lookalike;
+
+   * `white.vpl' ("white"), simple white-on-black palette.
+
+
+File: vice.info,  Node: CBM-II-specific,  Prev: PET-specific,  Up: Machine-specific features
+
+CBM-II-specific commands and settings
+=====================================
+
+   This section lists the settings and commands that are
+CBM-II-specific and thus are not present in the other emulators.
+
+* Menu:
+
+* CBM-II model::
+* CBM-II commandline options::
+* CBM-II colors::
+
+
 File: vice.info,  Node: CBM-II model,  Next: CBM-II commandline options,  Prev: CBM-II-specific,  Up: CBM-II-specific
 
 Changing CBM-II model
@@ -914,68 +1125,3 @@ ARRAY   KERNAL                        8k dump of the kernal ROM
 ARRAY   BASIC                         32k dump of the basic ROM            
 ARRAY   EDITOR                        4k dump of the editor ROM            
 ARRAY   4k CHARGEN                    dump of the chargen ROM              
-
-
-File: vice.info,  Node: VIC20 memory module,  Next: PET memory module,  Prev: C128 memory module,  Up: Module formats
-
-VIC20 memory module
-...................
-
-   The VIC20 memory module actually consists of two modules.  The
-"VIC20MEM" module is mandatory and contains the RAM dump.  The
-"VIC20ROM" module is optional and contains a dump of the ROM images.
-
-   The size of the VIC20 memory modules differs with each different
-memory configuration. The RAM configuration is saved in the snapshot,
-and restored when the snapshot is loaded. The attached cartridges are
-also restored upon load if they have been saved in the snapshot.
-
-   The VIC20MEM module
-
-   Version numbers: Major 1, Minor 0
-
-Type    Name                          Description                          
-BYTE    CONFIG                        Configuration register.  Bits        
-                                      0,1,2,3,5 reflect if the             
-                                      corresponding memory block is RAM    
-                                      (bit=1) or not (bit=0).              
-ARRAY   RAM0                          1k RAM dump $0000-$03ff              
-ARRAY   RAM1                          4k RAM dump $1000-$1fff              
-ARRAY   COLORRAM                      2k Color RAM, $9400-$9bff            
-ARRAY   BLK0                          if CONFIG & 1 then: 3k RAM dump      
-                                      $0400-$0fff                          
-ARRAY   BLK1                          if CONFIG & 2 then: 8k RAM dump      
-                                      $2000-$3fff                          
-ARRAY   BLK2                          if CONFIG & 4 then: 8k RAM dump      
-                                      $4000-$5fff                          
-ARRAY   BLK3                          if CONFIG & 8 then: 8k RAM dump      
-                                      $6000-$7fff                          
-ARRAY   BLK5                          if CONFIG & 32 then: 8k RAM dump     
-                                      $a000-$bfff                          
-
-   The VIC20ROM module
-
-   Version numbers: Major 1, Minor 1
-
-Type    Name                          Description                          
-BYTE    CONFIG                        Bit 0: 1= ROM block $2*** enabled.   
-                                      Bit 1: 1= ROM block $3*** enabled.   
-                                      Bit 2: 1= ROM block $4*** enabled.   
-                                      Bit 3: 1= ROM block $5*** enabled.   
-                                      Bit 4: 1= ROM block $6*** enabled.   
-                                      Bit 5: 1= ROM block $7*** enabled.   
-                                      Bit 6: 1= ROM block $A*** enabled.   
-                                      Bit 7: 1= ROM block $B*** enabled.   
-ARRAY   KERNAL                        8k KERNAL ROM image $e000-$ffff      
-ARRAY   BASIC                         16k BASIC ROM image $c000-$dfff      
-ARRAY   CHARGEN                       4k CHARGEN ROM image                 
-ARRAY   BLK1A                         4k ROM image $2*** (if CONFIG & 1)   
-ARRAY   BLK1B                         4k ROM image $3*** (if CONFIG & 2)   
-ARRAY   BLK3A                         4k ROM image $6*** (if CONFIG & 16)  
-ARRAY   BLK3B                         4k ROM image $7*** (if CONFIG & 32)  
-ARRAY   BLK5A                         4k ROM image $A*** (if CONFIG & 64)  
-ARRAY   BLK5B                         4k ROM image $B*** (if CONFIG & 128) 
-ARRAY   BLK2A                         4k ROM image $4*** (if CONFIG & 4;   
-                                      added in V1.1)                       
-ARRAY   BLK2B                         4k ROM image $5*** (if CONFIG & 8;   
-                                      added in V1.1)                       

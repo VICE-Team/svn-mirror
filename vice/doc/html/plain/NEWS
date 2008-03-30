@@ -91,10 +91,6 @@ list of all the changes in the code.
 - The PC of the drive CPU emulation is correctly shown in the monitor
   prompt now.
 
-
-* Changes in VICE 1.11
-======================
-
 ** OS/2
 ----------
 
