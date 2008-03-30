@@ -1,3 +1,68 @@
+2003-11-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.31.
+
+	* printerdrv/drv-nl10.c: Fixed prototypes.
+
+2003-11-23  David Hansel  <hansel@reactive-systems.com>
+
+	* arch/unix/uiperipheralieee.c, arch/unix/uiperipheraliec.c, 
+	arch/unix/uiperipheral.c, arch/unix/uiperipheral.h, 
+	arch/unix/uiprinteriec.c, arch/unix/uiprinterieee.c, 
+	arch/unix/uiprinter.c, arch/unix/uiprinter.h:
+	Corrected naming of exported global functions
+
+2003-11-22  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/mousedrv.c, arch/riscos/video.c,
+	arch/riscos/videoarch.h:
+	corrected mouse driver coordinate calculation
+
+	* arch/riscos/uiconfig.{c,h}: added mouse configuration
+
+2003-11-22  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* event.c (event_record_set_milestone): Don't write an
+	EVENT_LIST_END marker.
+	event_resources_shutdown renamed to event_shutdown as it also
+	frees the event list.
+
+	* vicii/vicii-snapshot.c (vicii_snapshot_read_module): Close
+	the module.
+
+2003-11-22  David Hansel  <hansel@reactive-systems.com>
+
+	* drive/drive.c: reversed return values of
+	drive_write_protect_sense for pull-out/put-in sequence and
+	no-disk-in-drive.  Removed disk change hack.
+
+	* drive/drive.h, drive/driveimage.c: Removed
+	drive_t.have_new_disk
+
+	* printerdrv/drv-nl10.c: log warning when receivingi
+	unsupported control sequence.  Improved "bold" and
+	"emphasized" printing.
+
+	* arch/win32/uiprinter.c:  Include "NL10" in list of printer
+	drivers.
+
+	* arch/unix/uiperipheral.c, arch/unix/uiperipheral.h, 
+	arch/unix/uiprinter.c, arch/unix/uiprinter.h:  Moved IEC and
+	IEEE specific content to ui*ieee.c/h and ui*iec.c/h
+	
+	* arch/unix/uiperipheralieee.c, arch/unix/uiperipheralieee.h, 
+	arch/unix/uiperipheraliec.c, arch/unix/uiperipheraliec.h, 
+	arch/unix/uiprinterieee.c, arch/unix/uiprinterieee.h, 
+	arch/unix/uiprinteriec.c, arch/unix/uiprinteriec.h: new files
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c, arch/unix/vic20ui.c,
+	arch/unix/plus4ui.c:  Use ui_peripheraliec_settings_menu
+
+	* arch/unix/petui.c, arch/unix/cbm2ui.c: Use 
+	ui_peripheralieee_settings_menu
+
+	* arch/unix/Makefile.am:  Added new files
+	
 2003-11-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.30.

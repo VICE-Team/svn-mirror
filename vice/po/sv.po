@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2003-11-21 22:56+0100\n"
+"POT-Creation-Date: 2003-11-23 16:10+0100\n"
 "PO-Revision-Date: 2003-11-02 16:44+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -1345,8 +1345,8 @@ msgstr "*Aktivera äkta diskettenhetsemulering"
 #: src/arch/unix/uidriveplus4.c:46 src/arch/unix/uidriveplus4.c:64
 #: src/arch/unix/uidriveplus4.c:82 src/arch/unix/uidriveplus4.c:100
 #: src/arch/unix/uijoystick2.c:78 src/arch/unix/uijoystick2.c:107
-#: src/arch/unix/uiperipheral.c:101 src/arch/unix/uiperipheral.c:134
-#: src/arch/unix/uiperipheral.c:167 src/arch/unix/uiperipheral.c:200
+#: src/arch/unix/uiperipheral.c:81 src/arch/unix/uiperipheral.c:95
+#: src/arch/unix/uiperipheral.c:109 src/arch/unix/uiperipheral.c:123
 #: src/arch/unix/uiprinter.c:179 src/arch/unix/uiprinter.c:191
 #: src/arch/unix/vic20ui.c:288
 msgid "*None"
@@ -1664,88 +1664,100 @@ msgstr ""
 "Kunde inte ladda palettfil\n"
 "\"%s\""
 
-#: src/arch/unix/uiperipheral.c:90
+#: src/arch/unix/uiperipheral.c:70
 msgid "Path:"
 msgstr "Sökväg:"
 
-#: src/arch/unix/uiperipheral.c:103 src/arch/unix/uiperipheral.c:136
-#: src/arch/unix/uiperipheral.c:169 src/arch/unix/uiperipheral.c:202
+#: src/arch/unix/uiperipheral.c:83 src/arch/unix/uiperipheral.c:97
+#: src/arch/unix/uiperipheral.c:111 src/arch/unix/uiperipheral.c:125
 #: src/arch/unix/uiprinter.c:181 src/arch/unix/uiprinter.c:193
 msgid "*File system access"
 msgstr "*Filsystemsåtkomst"
 
-#: src/arch/unix/uiperipheral.c:106 src/arch/unix/uiperipheral.c:139
-#: src/arch/unix/uiperipheral.c:172 src/arch/unix/uiperipheral.c:205
+#: src/arch/unix/uiperipheral.c:86 src/arch/unix/uiperipheral.c:100
+#: src/arch/unix/uiperipheral.c:114 src/arch/unix/uiperipheral.c:128
 #: src/arch/unix/uiprinter.c:184 src/arch/unix/uiprinter.c:196
 msgid "*Real device access"
 msgstr "*Åtkomst till äkta enhet"
 
-#: src/arch/unix/uiperipheral.c:109 src/arch/unix/uiperipheral.c:142
-#: src/arch/unix/uiperipheral.c:175 src/arch/unix/uiperipheral.c:208
+#: src/arch/unix/uiperipheral.c:89 src/arch/unix/uiperipheral.c:103
+#: src/arch/unix/uiperipheral.c:117 src/arch/unix/uiperipheral.c:131
 msgid "*Raw device access"
 msgstr "*Åtkomst till rå enhet"
 
-#: src/arch/unix/uiperipheral.c:115 src/arch/unix/uiperipheral.c:148
-#: src/arch/unix/uiperipheral.c:181 src/arch/unix/uiperipheral.c:214
+#: src/arch/unix/uiperipheraliec.c:64 src/arch/unix/uiperipheraliec.c:83
+#: src/arch/unix/uiperipheraliec.c:102 src/arch/unix/uiperipheraliec.c:121
+#: src/arch/unix/uiperipheralieee.c:62 src/arch/unix/uiperipheralieee.c:79
+#: src/arch/unix/uiperipheralieee.c:96 src/arch/unix/uiperipheralieee.c:113
 msgid "Device type"
 msgstr "Enhetstyp"
 
-#: src/arch/unix/uiperipheral.c:117 src/arch/unix/uiperipheral.c:150
-#: src/arch/unix/uiperipheral.c:183 src/arch/unix/uiperipheral.c:216
+#: src/arch/unix/uiperipheraliec.c:66 src/arch/unix/uiperipheraliec.c:85
+#: src/arch/unix/uiperipheraliec.c:104 src/arch/unix/uiperipheraliec.c:123
 #, fuzzy
 msgid "*Enable IEC device"
 msgstr "*Aktivera parallellkabel för enhet 9"
 
-#: src/arch/unix/uiperipheral.c:119 src/arch/unix/uiperipheral.c:152
-#: src/arch/unix/uiperipheral.c:185 src/arch/unix/uiperipheral.c:218
+#: src/arch/unix/uiperipheraliec.c:68 src/arch/unix/uiperipheraliec.c:87
+#: src/arch/unix/uiperipheraliec.c:106 src/arch/unix/uiperipheraliec.c:125
+#: src/arch/unix/uiperipheralieee.c:64 src/arch/unix/uiperipheralieee.c:81
+#: src/arch/unix/uiperipheralieee.c:98 src/arch/unix/uiperipheralieee.c:115
 msgid "*Read only access"
 msgstr "*Endast läsåtkomst"
 
-#: src/arch/unix/uiperipheral.c:122 src/arch/unix/uiperipheral.c:155
-#: src/arch/unix/uiperipheral.c:188 src/arch/unix/uiperipheral.c:221
+#: src/arch/unix/uiperipheraliec.c:71 src/arch/unix/uiperipheraliec.c:90
+#: src/arch/unix/uiperipheraliec.c:109 src/arch/unix/uiperipheraliec.c:128
+#: src/arch/unix/uiperipheralieee.c:67 src/arch/unix/uiperipheralieee.c:84
+#: src/arch/unix/uiperipheralieee.c:101 src/arch/unix/uiperipheralieee.c:118
 msgid "File system directory..."
 msgstr "Filsystemskatalog..."
 
-#: src/arch/unix/uiperipheral.c:124 src/arch/unix/uiperipheral.c:157
-#: src/arch/unix/uiperipheral.c:190 src/arch/unix/uiperipheral.c:223
+#: src/arch/unix/uiperipheraliec.c:73 src/arch/unix/uiperipheraliec.c:92
+#: src/arch/unix/uiperipheraliec.c:111 src/arch/unix/uiperipheraliec.c:130
+#: src/arch/unix/uiperipheralieee.c:69 src/arch/unix/uiperipheralieee.c:86
+#: src/arch/unix/uiperipheralieee.c:103 src/arch/unix/uiperipheralieee.c:120
 msgid "*Convert P00 file names"
 msgstr "*Konvertera P00-filnamn"
 
-#: src/arch/unix/uiperipheral.c:126 src/arch/unix/uiperipheral.c:159
-#: src/arch/unix/uiperipheral.c:192 src/arch/unix/uiperipheral.c:225
+#: src/arch/unix/uiperipheraliec.c:75 src/arch/unix/uiperipheraliec.c:94
+#: src/arch/unix/uiperipheraliec.c:113 src/arch/unix/uiperipheraliec.c:132
+#: src/arch/unix/uiperipheralieee.c:71 src/arch/unix/uiperipheralieee.c:88
+#: src/arch/unix/uiperipheralieee.c:105 src/arch/unix/uiperipheralieee.c:122
 msgid "*Create P00 files on save"
 msgstr "*Skapa P00 då filer sparas"
 
-#: src/arch/unix/uiperipheral.c:128 src/arch/unix/uiperipheral.c:161
-#: src/arch/unix/uiperipheral.c:194 src/arch/unix/uiperipheral.c:227
+#: src/arch/unix/uiperipheraliec.c:77 src/arch/unix/uiperipheraliec.c:96
+#: src/arch/unix/uiperipheraliec.c:115 src/arch/unix/uiperipheraliec.c:134
+#: src/arch/unix/uiperipheralieee.c:73 src/arch/unix/uiperipheralieee.c:90
+#: src/arch/unix/uiperipheralieee.c:107 src/arch/unix/uiperipheralieee.c:124
 msgid "*Hide raw CBM files"
 msgstr "*Göm CBM-råfiler"
 
-#: src/arch/unix/uiperipheral.c:233
+#: src/arch/unix/uiperipheraliec.c:140 src/arch/unix/uiperipheralieee.c:130
 msgid "Device #8"
 msgstr "Enhet 8"
 
-#: src/arch/unix/uiperipheral.c:234
+#: src/arch/unix/uiperipheraliec.c:141 src/arch/unix/uiperipheralieee.c:131
 msgid "Device #9"
 msgstr "Enhet 9"
 
-#: src/arch/unix/uiperipheral.c:235
+#: src/arch/unix/uiperipheraliec.c:142 src/arch/unix/uiperipheralieee.c:132
 msgid "Device #10"
 msgstr "Enhet 10"
 
-#: src/arch/unix/uiperipheral.c:236
+#: src/arch/unix/uiperipheraliec.c:143 src/arch/unix/uiperipheralieee.c:133
 msgid "Device #11"
 msgstr "Enhet 11"
 
-#: src/arch/unix/uiperipheral.c:238
+#: src/arch/unix/uiperipheraliec.c:145 src/arch/unix/uiperipheralieee.c:135
 msgid "Printer settings"
 msgstr "Skrivarinställningar"
 
-#: src/arch/unix/uiperipheral.c:240
+#: src/arch/unix/uiperipheraliec.c:147 src/arch/unix/uiperipheralieee.c:137
 msgid "*Enable Virtual Devices"
 msgstr "*Aktivera virtuella enheter"
 
-#: src/arch/unix/uiperipheral.c:246
+#: src/arch/unix/uiperipheraliec.c:153 src/arch/unix/uiperipheralieee.c:143
 msgid "Peripheral settings"
 msgstr "Inställningar för kringutrustning"
 
@@ -1777,69 +1789,69 @@ msgstr "Kommando att köra för utskrift (inled med \"|\")"
 msgid "Command:"
 msgstr "Kommando:"
 
-#: src/arch/unix/uiprinter.c:214
+#: src/arch/unix/uiprinteriec.c:47 src/arch/unix/uiprinterieee.c:44
 msgid "*IEC printer #4 emulation"
 msgstr "*Skrivaremularing för IEC-enhet 4"
 
-#: src/arch/unix/uiprinter.c:216
+#: src/arch/unix/uiprinteriec.c:49
 #, fuzzy
 msgid "*IEC printer #4 enable IEC device"
 msgstr "*Aktivera parallellkabel för enhet 8"
 
-#: src/arch/unix/uiprinter.c:218
+#: src/arch/unix/uiprinteriec.c:51 src/arch/unix/uiprinterieee.c:46
 msgid "IEC printer #4 driver"
 msgstr "Skrivardrivrutin för IEC-enhet 4"
 
-#: src/arch/unix/uiprinter.c:220
+#: src/arch/unix/uiprinteriec.c:53 src/arch/unix/uiprinterieee.c:48
 msgid "IEC printer #4 text output device"
 msgstr "Textutenhet för IEC-enhet 4"
 
-#: src/arch/unix/uiprinter.c:222
+#: src/arch/unix/uiprinteriec.c:55 src/arch/unix/uiprinterieee.c:50
 msgid "Flush IEC printer #4 device"
 msgstr "Töm IEC-skrivarenhet 4"
 
-#: src/arch/unix/uiprinter.c:225
+#: src/arch/unix/uiprinteriec.c:58 src/arch/unix/uiprinterieee.c:53
 msgid "*IEC printer #5 emulation"
 msgstr "*Skrivaremularing för IEC-enhet 5"
 
-#: src/arch/unix/uiprinter.c:227
+#: src/arch/unix/uiprinteriec.c:60
 #, fuzzy
 msgid "*IEC printer #5 enable IEC device"
 msgstr "*Aktivera parallellkabel för enhet 8"
 
-#: src/arch/unix/uiprinter.c:229
+#: src/arch/unix/uiprinteriec.c:62 src/arch/unix/uiprinterieee.c:55
 msgid "IEC printer #5 driver"
 msgstr "Skrivardrivrutin för IEC-enhet 5"
 
-#: src/arch/unix/uiprinter.c:231
+#: src/arch/unix/uiprinteriec.c:64 src/arch/unix/uiprinterieee.c:57
 msgid "IEC printer #5 text output device"
 msgstr "Textutenhet för IEC-enhet 5"
 
-#: src/arch/unix/uiprinter.c:233
+#: src/arch/unix/uiprinteriec.c:66 src/arch/unix/uiprinterieee.c:59
 msgid "Flush IEC printer #5 device"
 msgstr "Töm IEC-skrivarenhet 5"
 
-#: src/arch/unix/uiprinter.c:236
+#: src/arch/unix/uiprinteriec.c:69 src/arch/unix/uiprinterieee.c:62
 msgid "*Userport printer emulation"
 msgstr "*Emulering av skrivare på användarporten"
 
-#: src/arch/unix/uiprinter.c:238
+#: src/arch/unix/uiprinteriec.c:71 src/arch/unix/uiprinterieee.c:64
 msgid "Userport printer driver"
 msgstr "Skrivardrivrutin för användarporten"
 
-#: src/arch/unix/uiprinter.c:240
+#: src/arch/unix/uiprinteriec.c:73 src/arch/unix/uiprinterieee.c:66
 msgid "Userport printer text output device"
 msgstr "Textutenhet för användarportskrivare"
 
-#: src/arch/unix/uiprinter.c:243
+#: src/arch/unix/uiprinteriec.c:76 src/arch/unix/uiprinterieee.c:69
 msgid "Printer text device 1..."
 msgstr "Skrivartextenhet 1..."
 
-#: src/arch/unix/uiprinter.c:245
+#: src/arch/unix/uiprinteriec.c:78 src/arch/unix/uiprinterieee.c:71
 msgid "Printer text device 2..."
 msgstr "Skrivartextenhet 2..."
 
-#: src/arch/unix/uiprinter.c:247
+#: src/arch/unix/uiprinteriec.c:80 src/arch/unix/uiprinterieee.c:73
 msgid "Printer text device 3..."
 msgstr "Skrivartextenhet 3..."
 

@@ -296,8 +296,16 @@ libarch_a_SOURCES = \
 	uipalette.h \
 	uiperipheral.c \
 	uiperipheral.h \
+	uiperipheraliec.c \
+	uiperipheraliec.h \
+	uiperipheralieee.c \
+	uiperipheralieee.h \
 	uiprinter.c \
 	uiprinter.h \
+	uiprinteriec.c \
+	uiprinteriec.h \
+	uiprinterieee.c \
+	uiprinterieee.h \
 	uireu.c \
 	uireu.h \
 	uirs232.c \
@@ -348,7 +356,9 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uidriveiec.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
 	uidriveplus4.$(OBJEXT) uijoystick2.$(OBJEXT) uimon.$(OBJEXT) \
 	uipalemu.$(OBJEXT) uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
-	uiprinter.$(OBJEXT) uireu.$(OBJEXT) uirs232.$(OBJEXT) \
+	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
+	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
+	uiprinterieee.$(OBJEXT) uireu.$(OBJEXT) uirs232.$(OBJEXT) \
 	uisettings.$(OBJEXT) uisid.$(OBJEXT) uisound.$(OBJEXT) \
 	uited.$(OBJEXT) uivdc.$(OBJEXT) uivic.$(OBJEXT) \
 	uivicii.$(OBJEXT) unixmain.$(OBJEXT) vic20ui.$(OBJEXT) \
@@ -378,7 +388,11 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uijoystick2.Po ./$(DEPDIR)/uimon.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uipalemu.Po ./$(DEPDIR)/uipalette.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiperipheral.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiprinter.Po ./$(DEPDIR)/uireu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiperipheraliec.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiperipheralieee.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiprinter.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiprinteriec.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiprinterieee.Po ./$(DEPDIR)/uireu.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uirs232.Po ./$(DEPDIR)/uisettings.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uisid.Po ./$(DEPDIR)/uisound.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uited.Po ./$(DEPDIR)/uivdc.Po \
@@ -474,7 +488,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipalemu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipalette.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipheral.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipheraliec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipheralieee.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinter.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinteriec.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiprinterieee.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uirs232.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisettings.Po@am__quote@
