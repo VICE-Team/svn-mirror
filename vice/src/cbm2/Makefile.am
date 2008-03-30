@@ -38,5 +38,6 @@ libcbm2_a_SOURCES = \
 	cbm2rom.h \
 	cbm2tpi.h \
 	cbm2tpi1.c \
-	cbm2tpi2.c
+	cbm2tpi2.c \
+	cbm2video.c
 

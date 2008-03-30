@@ -38,5 +38,6 @@ libpet_a_SOURCES = \
 	petsound.c \
 	petsound.h \
 	petvia.c \
-	petvia.h
+	petvia.h \
+	petvideo.c
 
