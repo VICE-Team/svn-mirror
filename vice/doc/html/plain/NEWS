@@ -80,6 +80,11 @@ list of all the changes in the code.
 
 - Next try to fix synchronization on very fast machines.
 
+** OS/2
+----------
+
+- Added Fullscreen support!
+
 ** Miscellaneous changes
 ------------------------
 
@@ -91,10 +96,9 @@ list of all the changes in the code.
 - The PC of the drive CPU emulation is correctly shown in the monitor
   prompt now.
 
-** OS/2
-----------
+- The monitor shows the current line and cycle now.
 
-- Added Fullscreen support!
+- It is possible to switch off reset on cart attach/detach now.
 
 
 * Changes in VICE 1.11
