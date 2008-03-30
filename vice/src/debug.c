@@ -392,7 +392,7 @@ static void debug_open_new_file(void)
     if (debug_file != NULL)
         fclose(debug_file);
 
-    resources_get_int("EventSnapshotDir", &directory);
+    resources_get_string("EventSnapshotDir", &directory);
 
     st = lib_msprintf("debug%06d", debug_file_current);
     filename = util_concat(directory, st, FSDEV_EXT_SEP_STR, "log", NULL);

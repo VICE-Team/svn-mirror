@@ -1,3 +1,66 @@
+2006-10-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.11.
+
+	* vdc/vdc-mem.c (vdc_store): Changed back xsmooth calculation
+	to use only 3 bits. This is surely not correct, but at least
+	all 80 chars are displayed at startup.
+
+	* arch/unix/archdep.c, arch/win32/archdep.c,
+	arch/msdos/archdep.c, arch/riscos/archdep.c,
+	arch/beos/archdep.carch/os2/archdep.c, archapi.h, zfile.c
+	(archdep_spawn): Take pointer to stdout filename pointer,
+	needed for later mkstemp changes.
+
+	* c64/cart/actionreplay3.c, c64/cart/actionreplay3.h: New
+	files.
+
+	* c64/cart/Makefile.am, arch/win32/c64cart.dsp: Added new
+	files.
+
+	* cartridge.h, c64/cart/c64cart.c, c64/cart/c64cartmem.c,
+	arch/unix/gui/uic64cart.c: Added support for Action Replay
+	III.
+
+	* c64/c64-resources.c, arch/win32/c64ui.c, c64/c64.c: Changed
+	to make Unix keyboard UI work again.
+
+	* debug.c (debug_open_new_file): Fixed typo.
+
+2006-10-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, arch/amigaos/Makefile.am,
+	arch/amigaos/genintl_h.sh, arch/amigaos/genintltable.sh,
+	arch/amigaos/intl.h, arch/amigaos/intl.txt,
+	arch/amigaos/intl_funcs.h, arch/win32/Makefile.am,
+	arch/win32/base.dsp, arch/win32/gentranslate.dsp,
+	arch/win32/utils/Makefile.am, arch/win32/utils/gentranslate.c,
+	arch/win32/vice.dsw, gentranslate_h.sh, gentranslatetable.sh,
+	translate.h, translate.txt, translate_funcs.h: Added automatic
+	generation of the intl header files.
+
+	* arch/amigaos/c128uires.h, arch/amigaos/c64uires.h,
+	arch/amigaos/cbm2uires.h, arch/amigaos/intl.c,
+	arch/amigaos/petuires.h, arch/amigaos/plus4uires.h,
+	arch/amigaos/uires.h, arch/amigaos/vic20uires.h,
+	arch/win32/intl.c, arch/win32/res.rc, arch/win32/resacia.rc,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/resc64_256k.rc, arch/win32/rescbm2.rc,
+	arch/win32/resdialogs.txt, arch/win32/resdrivec128.rc,
+	arch/win32/resdrivec64vic20.rc, arch/win32/resdrivepetcbm2.rc,
+	arch/win32/resdriveplus4.rc, arch/win32/resgeoram.rc,
+	arch/win32/reside64.rc, arch/win32/resmenu.txt,
+	arch/win32/respet.rc, arch/win32/respetreu.rc,
+	arch/win32/resplus256k.rc, arch/win32/resplus4.rc,
+	arch/win32/resplus60k.rc, arch/win32/resramcart.rc,
+	arch/win32/resreu.rc, arch/win32/resrs232user.rc,
+	arch/win32/ressid.rc, arch/win32/resstrings.txt,
+	arch/win32/restfe.rc, arch/win32/resvic20.rc,
+	arch/win32/resvicii.rc, arch/win32/ui.c, translate.c: Added
+	(empty) hungarian texts.
+
+	* main.c: Fixed translate.h include.
+
 2006-10-14  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.10.

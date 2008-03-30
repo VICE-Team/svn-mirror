@@ -277,6 +277,8 @@ HAVE_RESID_FALSE = @HAVE_RESID_FALSE@
 HAVE_RESID_TRUE = @HAVE_RESID_TRUE@
 HAVE_RS232_FALSE = @HAVE_RS232_FALSE@
 HAVE_RS232_TRUE = @HAVE_RS232_TRUE@
+HAVE_TRANSLATION_FALSE = @HAVE_TRANSLATION_FALSE@
+HAVE_TRANSLATION_TRUE = @HAVE_TRANSLATION_TRUE@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
@@ -598,7 +600,7 @@ noinst_HEADERS = \
 	tap.h \
 	tape.h \
 	tpi.h \
-	translate.h \
+	translate_funcs.h \
 	traps.h \
 	uiapi.h \
 	uicmdline.h \
@@ -686,8 +688,12 @@ EXTRA_DIST = \
 	ChangeLog.5 \
 	aciacore.c \
 	fixpoint.c \
-	piacore.c
+	gentranslate_h.sh \
+	gentranslatetable.sh \
+	piacore.c \
+	translate.txt
 
+@HAVE_TRANSLATION_TRUE@BUILT_SOURCES = translate.h translate_table.h
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
@@ -918,7 +924,7 @@ petcat_LDADD = \
 
 # cartconv
 cartconv_SOURCES = cartconv.c
-all: config.h
+all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
@@ -1273,14 +1279,16 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
-check: check-recursive
+check: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) check-recursive
 all-am: Makefile $(PROGRAMS) $(HEADERS) config.h
 installdirs: installdirs-recursive
 installdirs-am:
 	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
-install: install-recursive
+install: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) install-recursive
 install-exec: install-exec-recursive
 install-data: install-data-recursive
 uninstall: uninstall-recursive
@@ -1304,6 +1312,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-recursive
 
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
@@ -1369,6 +1378,14 @@ uninstall-info: uninstall-info-recursive
 	tags tags-recursive uninstall uninstall-am \
 	uninstall-binPROGRAMS uninstall-info-am
 
+
+@HAVE_TRANSLATION_TRUE@translate.h:	$(srcdir)/translate.txt
+@HAVE_TRANSLATION_TRUE@	echo "generating translate.h..."
+@HAVE_TRANSLATION_TRUE@	$(SHELL) $(srcdir)/gentranslate_h.sh <$(srcdir)/translate.txt >translate.h
+
+@HAVE_TRANSLATION_TRUE@translate_table.h:	$(srcdir)/translate.txt
+@HAVE_TRANSLATION_TRUE@	echo "generating translate_table.h..."
+@HAVE_TRANSLATION_TRUE@	$(SHELL) $(srcdir)/gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
 
 .PHONY: x64-all
 x64-all: \

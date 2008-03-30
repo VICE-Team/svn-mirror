@@ -175,6 +175,8 @@ HAVE_RESID_FALSE = @HAVE_RESID_FALSE@
 HAVE_RESID_TRUE = @HAVE_RESID_TRUE@
 HAVE_RS232_FALSE = @HAVE_RS232_FALSE@
 HAVE_RS232_TRUE = @HAVE_RS232_TRUE@
+HAVE_TRANSLATION_FALSE = @HAVE_TRANSLATION_FALSE@
+HAVE_TRANSLATION_TRUE = @HAVE_TRANSLATION_TRUE@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
@@ -367,7 +369,7 @@ libarch_a_SOURCES = \
 	fullscreenarch.h \
 	hardsid.c \
 	intl.c \
-	intl.h \
+	intl_funcs.h \
 	joy.c \
 	joy.h \
 	joyai.c \
@@ -476,10 +478,15 @@ EXTRA_DIST = \
 	info-files/xpet.exe.info \
 	info-files/xplus4.exe.info \
 	info-files/xvic.exe.info \
+	genintl_h.sh \
+	genintltable.sh \
+	intl.txt \
 	README.AMIGA \
 	make-bindist.sh
 
-all: all-am
+BUILT_SOURCES = intl.h intl_table.h
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .o .obj
@@ -1080,13 +1087,15 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
-check: check-am
+check: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) check-am
 all-am: Makefile $(LIBRARIES) $(PROGRAMS)
 installdirs:
 	for dir in "$(DESTDIR)$(bindir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
-install: install-am
+install: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) install-am
 install-exec: install-exec-am
 install-data: install-data-am
 uninstall: uninstall-am
@@ -1110,6 +1119,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
 clean-am: clean-binPROGRAMS clean-generic clean-noinstLIBRARIES \
@@ -1172,6 +1182,14 @@ uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 	tags uninstall uninstall-am uninstall-binPROGRAMS \
 	uninstall-info-am
 
+
+intl.h: $(srcdir)/intl.txt
+	echo "generating intl.h..."
+	$(SHELL) $(srcdir)/genintl_h.sh <$(srcdir)/intl.txt >intl.h
+
+intl_table.h: $(srcdir)/intl.txt
+	echo "generating intl_table.h..."
+	$(SHELL) $(srcdir)/genintltable.sh <$(srcdir)/intl.txt >intl_table.h
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

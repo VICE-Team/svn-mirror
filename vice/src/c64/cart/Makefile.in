@@ -50,15 +50,15 @@ LIBRARIES = $(noinst_LIBRARIES)
 ARFLAGS = cru
 libc64cart_a_AR = $(AR) $(ARFLAGS)
 libc64cart_a_LIBADD =
-am_libc64cart_a_OBJECTS = actionreplay.$(OBJEXT) atomicpower.$(OBJEXT) \
-	c64cart.$(OBJEXT) c64cartmem.$(OBJEXT) comal80.$(OBJEXT) \
-	crt.$(OBJEXT) delaep256.$(OBJEXT) delaep64.$(OBJEXT) \
-	delaep7x8.$(OBJEXT) epyxfastload.$(OBJEXT) expert.$(OBJEXT) \
-	final.$(OBJEXT) generic.$(OBJEXT) ide64.$(OBJEXT) \
-	kcs.$(OBJEXT) magicformel.$(OBJEXT) mikroass.$(OBJEXT) \
-	retroreplay.$(OBJEXT) rexep256.$(OBJEXT) ross.$(OBJEXT) \
-	stb.$(OBJEXT) supergames.$(OBJEXT) supersnapshot.$(OBJEXT) \
-	zaxxon.$(OBJEXT)
+am_libc64cart_a_OBJECTS = actionreplay3.$(OBJEXT) \
+	actionreplay.$(OBJEXT) atomicpower.$(OBJEXT) c64cart.$(OBJEXT) \
+	c64cartmem.$(OBJEXT) comal80.$(OBJEXT) crt.$(OBJEXT) \
+	delaep256.$(OBJEXT) delaep64.$(OBJEXT) delaep7x8.$(OBJEXT) \
+	epyxfastload.$(OBJEXT) expert.$(OBJEXT) final.$(OBJEXT) \
+	generic.$(OBJEXT) ide64.$(OBJEXT) kcs.$(OBJEXT) \
+	magicformel.$(OBJEXT) mikroass.$(OBJEXT) retroreplay.$(OBJEXT) \
+	rexep256.$(OBJEXT) ross.$(OBJEXT) stb.$(OBJEXT) \
+	supergames.$(OBJEXT) supersnapshot.$(OBJEXT) zaxxon.$(OBJEXT)
 libc64cart_a_OBJECTS = $(am_libc64cart_a_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -132,6 +132,8 @@ HAVE_RESID_FALSE = @HAVE_RESID_FALSE@
 HAVE_RESID_TRUE = @HAVE_RESID_TRUE@
 HAVE_RS232_FALSE = @HAVE_RS232_FALSE@
 HAVE_RS232_TRUE = @HAVE_RS232_TRUE@
+HAVE_TRANSLATION_FALSE = @HAVE_TRANSLATION_FALSE@
+HAVE_TRANSLATION_TRUE = @HAVE_TRANSLATION_TRUE@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
@@ -294,6 +296,8 @@ INCLUDES = \
 
 noinst_LIBRARIES = libc64cart.a
 libc64cart_a_SOURCES = \
+	actionreplay3.c \
+	actionreplay3.h \
 	actionreplay.c \
 	actionreplay.h \
 	atomicpower.c \
@@ -390,6 +394,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/actionreplay.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/actionreplay3.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/atomicpower.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64cart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64cartmem.Po@am__quote@
