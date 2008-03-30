@@ -125,7 +125,7 @@ realize_frame_buffer (raster_t *raster)
 }
 
 /* Recalculate frame buffer for new display mode? */
-#if 0
+#ifdef __riscos
 #if ((X_DISPLAY_DEPTH == 8) || (X_DISPLAY_DEPTH == 0))
 #define RECALC_FRAME_BUFFER
 #endif
@@ -1041,7 +1041,7 @@ handle_visible_line (raster_t *raster)
     handle_visible_line_without_cache (raster);
 }
 
-inline static void 
+inline static void
 handle_end_of_frame (raster_t *raster)
 {
   /* FIXME for SCREEN_MAX_SPRITE_WIDTH */

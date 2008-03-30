@@ -88,9 +88,11 @@ EXTRA_DIST = \
 	c64.dsp \
 	c64c128.dsp \
 	cbm2.dsp \
+	crtc.dsp \
 	drive.dsp \
 	pet.dsp \
 	petcat.dsp \
+	raster.dsp \
 	resid.dsp \
 	sid.dsp \
 	sounddrv.dsp \

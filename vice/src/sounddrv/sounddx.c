@@ -395,8 +395,11 @@ int     i;
 #endif
     }
 
+    memset(&capabilities, 0, sizeof(DSCAPS));
+    capabilities.dwSize = sizeof(DSCAPS);
+
     IDirectSound_GetCaps(ds,&capabilities);
-    if (capabilities.dwFlags&DSCAPS_SECONDARY16BIT) {
+    if ((capabilities.dwFlags&DSCAPS_PRIMARY16BIT) || (capabilities.dwFlags&DSCAPS_SECONDARY16BIT)) {
         is16bit=1;
     } else {
         is16bit=0;
