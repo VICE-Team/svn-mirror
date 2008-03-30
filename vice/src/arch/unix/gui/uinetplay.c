@@ -107,10 +107,6 @@ static UI_CALLBACK(ui_netplay_disconnect)
 #endif /* USE_GNOMEUI */
 
 ui_menu_entry_t netplay_submenu[] = {
-#ifdef HAVE_IPV6
-    { N_("*Enable IPV6"),
-      (ui_callback_t)toggle_NetworkIPV6, NULL, NULL },
-#endif
 #ifdef USE_GNOMEUI
     { N_("Netplay (experimental)"),
       (ui_callback_t)netplay, NULL, NULL },
@@ -127,6 +123,11 @@ ui_menu_entry_t netplay_submenu[] = {
     { N_("Disconnect"),
       (ui_callback_t)ui_netplay_disconnect, NULL, NULL },
 #endif /* USE_GNOMEUI */
+#ifdef HAVE_IPV6
+    { "--" },
+    { N_("*Enable IPV6"),
+      (ui_callback_t)toggle_NetworkIPV6, NULL, NULL },
+#endif
     { NULL }
 };
 
