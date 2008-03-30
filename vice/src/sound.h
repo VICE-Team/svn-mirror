@@ -29,8 +29,8 @@
 
 #include "vice.h"
 
-#include <stdlib.h>
 #include "types.h"
+
 
 /* Sound defaults.  */
 #define SOUND_SAMPLE_RATE 22050
@@ -67,8 +67,7 @@ typedef struct sound_device_s
        buffer is full */
     int (*write)(SWORD *pbuf, size_t nr);
     /* dump-routine to be called for every write to SID */
-    int (*dump)(WORD addr, BYTE byte,
-                                        CLOCK clks);
+    int (*dump)(WORD addr, BYTE byte, CLOCK clks);
     /* flush-routine to be called every frame */
     int (*flush)(char *state);
     /* return number of samples unplayed in the kernel buffer at the moment */
@@ -102,10 +101,12 @@ extern void sound_close(void);
 extern void sound_set_relative_speed(int value);
 extern void sound_set_warp_mode(int value);
 extern void sound_set_machine_parameter(long clock_rate, long ticks_per_frame);
+extern void sound_snapshot_prepare(void);
+extern void sound_snapshot_finish(void);
 
-extern int  sound_resources_init(void);
+extern int sound_resources_init(void);
 extern void sound_resources_shutdown(void);
-extern int  sound_cmdline_options_init(void);
+extern int sound_cmdline_options_init(void);
 
 
 /* device initialization prototypes */
@@ -169,5 +170,5 @@ extern void sound_synthesize(SWORD *buffer, int length);
 
 extern sound_t *sound_get_psid(unsigned int channel);
 
-#endif /* !defined (_SOUND_H) */
+#endif
 
