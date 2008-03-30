@@ -95,6 +95,8 @@ SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
+VSID = @VSID@
+VSID_DIR = @VSID_DIR@
 X128_WINRES = @X128_WINRES@
 X64_WINRES = @X64_WINRES@
 XCBM2_WINRES = @XCBM2_WINRES@
@@ -102,6 +104,7 @@ XPET_WINRES = @XPET_WINRES@
 XVIC_WINRES = @XVIC_WINRES@
 YACC = @YACC@
 cxx = @cxx@
+vsid_LDFLAGS = @vsid_LDFLAGS@
 x128_LDFLAGS = @x128_LDFLAGS@
 x64_LDFLAGS = @x64_LDFLAGS@
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
@@ -119,7 +122,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/vicii
 
-noinst_LIBRARIES = libc64.a libc64c128.a
+noinst_LIBRARIES = libc64.a libc64c128.a libc64vsid.a
 
 libc64_a_SOURCES = \
 	c64.c \
@@ -150,6 +153,15 @@ libc64c128_a_SOURCES = \
 	patchrom.h \
 	c64tpi.c \
 	c64tpi.h
+
+libc64vsid_a_SOURCES = \
+	c64cia.h \
+	c64cia1.c \
+	c64cia2.c \
+	c64mem.c \
+	c64mem.h \
+	patchrom.c \
+	patchrom.h
 
 EXTRA_libc64_a_SOURCES = \
 	c64acia.h \
@@ -186,6 +198,8 @@ c64datasette.o c64iec.o c64mem.o cartridge.o patchrom.o reu.o c64tpi.o
 @HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
 libc64c128_a_OBJECTS =  c64cia2.o c64datasette.o patchrom.o c64tpi.o
+libc64vsid_a_LIBADD = 
+libc64vsid_a_OBJECTS =  c64cia1.o c64cia2.o c64mem.o patchrom.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -196,8 +210,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-SOURCES = $(libc64_a_SOURCES) $(EXTRA_libc64_a_SOURCES) $(libc64c128_a_SOURCES) $(EXTRA_libc64c128_a_SOURCES)
-OBJECTS = $(libc64_a_OBJECTS) $(libc64c128_a_OBJECTS)
+SOURCES = $(libc64_a_SOURCES) $(EXTRA_libc64_a_SOURCES) $(libc64c128_a_SOURCES) $(EXTRA_libc64c128_a_SOURCES) $(libc64vsid_a_SOURCES)
+OBJECTS = $(libc64_a_OBJECTS) $(libc64c128_a_OBJECTS) $(libc64vsid_a_OBJECTS)
 
 all: all-recursive all-am
 
@@ -248,6 +262,11 @@ libc64c128.a: $(libc64c128_a_OBJECTS) $(libc64c128_a_DEPENDENCIES)
 	-rm -f libc64c128.a
 	$(AR) cru libc64c128.a $(libc64c128_a_OBJECTS) $(libc64c128_a_LIBADD)
 	$(RANLIB) libc64c128.a
+
+libc64vsid.a: $(libc64vsid_a_OBJECTS) $(libc64vsid_a_DEPENDENCIES)
+	-rm -f libc64vsid.a
+	$(AR) cru libc64vsid.a $(libc64vsid_a_OBJECTS) $(libc64vsid_a_LIBADD)
+	$(RANLIB) libc64vsid.a
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.

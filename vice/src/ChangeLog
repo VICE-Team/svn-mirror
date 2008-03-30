@@ -1,3 +1,18 @@
+1999-05-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.6.
+
+1999-05-02  Dag Lem  <resid@nimrod.no>
+
+	* Makefile.am: New target vsid.
+
+	* c64/Makefile.am: New target libc64vsid.a.
+
+	* vsidlib/Makefile.am: New target libvsid.a.
+	* vsidlib/dummy.c: Dummy stub functions for unwanted functionality.
+	* vsidlib/main.c: vsid startup.
+	* vsidlib/vsid.c: vsid "machine", a bare-bones C64.
+
 1999-05-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.5.
