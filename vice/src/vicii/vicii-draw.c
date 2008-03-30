@@ -399,7 +399,7 @@ inline static void _draw_mc_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
 {
     BYTE c[12];
     BYTE *char_ptr;
-	WORD *ptmp;
+    WORD *ptmp;
     unsigned int i;
 
     char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
@@ -412,8 +412,10 @@ inline static void _draw_mc_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
     ptmp = (WORD *)(p + xs * 8);
 
     for (i = xs; i <= xe; i++) {
-        unsigned int d = (*(char_ptr + vic_ii.vbuf[i] * 8))
-                         | ((vic_ii.cbuf[i] & 0x8) << 5);
+        unsigned int d;
+
+        d = (*(char_ptr + vic_ii.vbuf[i] * 8))
+            | ((vic_ii.cbuf[i] & 0x8) << 5);
 
         *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = mcmsktable[d];
 
@@ -423,7 +425,7 @@ inline static void _draw_mc_text(BYTE *p, int xs, int xe, BYTE *gfx_msk_ptr)
         ptmp[1] = ((WORD *)c)[mc_table[0x200 + d]];
         ptmp[2] = ((WORD *)c)[mc_table[0x400 + d]];
         ptmp[3] = ((WORD *)c)[mc_table[0x600 + d]];
-		ptmp += 4;
+        ptmp += 4;
     }
 }
 
@@ -498,7 +500,7 @@ static void draw_mc_text_foreground(int start_char, int end_char)
             BYTE c3;
 
             c3 = c & 0x7;
-            DRAW_MC_BYTE (p, b, c1, c2, c3);
+            DRAW_MC_BYTE(p, b, c1, c2, c3);
             *(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE + i)
                 = mcmsktable[0x100 + b];
         } else {
@@ -741,6 +743,7 @@ static void draw_ext_text_foreground(int start_char, int end_char)
     }
 }
 
+#if 0
 /* Illegal mode.  Everything is black.  */
 
 static int get_black(raster_cache_t *cache, int *xs, int *xe, int r)
@@ -803,7 +806,200 @@ static void draw_black_foreground(int start_char, int end_char)
     memset(vic_ii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE,
            0, VIC_II_SCREEN_TEXTCOLS);
 }
+#endif
 
+/* Illegal text mode.  */
+
+static int get_illegal_text(raster_cache_t *cache, int *xs, int *xe, int rr)
+{
+    int i;
+
+    *xs = 0;
+    *xe = VIC_II_SCREEN_TEXTCOLS - 1;
+
+    for (i = 0; i < VIC_II_SCREEN_TEXTCOLS; i++)
+        cache->foreground_data[i]
+            = vic_ii.chargen_ptr[((vic_ii.vbuf[i] & 0x3f) * 8)
+            + vic_ii.raster.ycounter];
+
+    raster_cache_data_fill(cache->color_data_3,
+                           vic_ii.cbuf,
+                           VIC_II_SCREEN_TEXTCOLS,
+                           1,
+                           xs, xe,
+                           rr);
+
+    return 1;
+}
+
+inline static void _draw_illegal_text(BYTE *p, int xs, int xe,
+                                      BYTE *gfx_msk_ptr)
+{
+    BYTE *char_ptr;
+    unsigned int i;
+
+    vid_memset(p + 8 * xs, 0, (xe - xs + 1) * 8);
+
+    char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
+
+    for (i = xs; i <= xe; i++) {
+        unsigned int d;
+
+        d = (*(char_ptr + (vic_ii.vbuf[i] & 0x3f) * 8))
+            | ((vic_ii.cbuf[i] & 0x8) << 5);
+
+        *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = mcmsktable[d];
+    }
+}
+
+static void draw_illegal_text(void)
+{
+    ALIGN_DRAW_FUNC(_draw_illegal_text,
+                    0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    vic_ii.raster.gfx_msk);
+}
+
+static void draw_illegal_text_cached(raster_cache_t *cache, int xs, int xe)
+{
+    ALIGN_DRAW_FUNC(_draw_illegal_text, xs, xe, cache->gfx_msk);
+}
+
+static void draw_illegal_text_foreground(int start_char, int end_char)
+{
+    ALIGN_DRAW_FUNC(_draw_illegal_text, start_char, end_char,
+                    vic_ii.raster.gfx_msk);
+}
+
+/* Illegal bitmap mode 1.  */
+
+static int get_illegal_bitmap_mode1(raster_cache_t *cache, int *xs, int *xe,
+                                    int rr)
+{
+    int i, j;
+
+    raster_cache_data_fill_nibbles(cache->color_data_1,
+                                   cache->background_data,
+                                   vic_ii.vbuf,
+                                   VIC_II_SCREEN_TEXTCOLS,
+                                   1,
+                                   xs, xe,
+                                   rr);
+
+    *xs = 0;
+    *xe = VIC_II_SCREEN_TEXTCOLS - 1;
+
+    for (i = 0, j = ((vic_ii.memptr << 3) + vic_ii.raster.ycounter)
+        & 0x1fff; i < VIC_II_SCREEN_TEXTCOLS; i++, j = (j + 8) & 0x1fff)
+        cache->foreground_data[i] = vic_ii.bitmap_ptr[j & 0x39ff];
+
+    return 1;
+}
+
+inline static void _draw_illegal_bitmap_mode1(BYTE *p, int xs, int xe,
+                                              BYTE *gfx_msk_ptr)
+{
+    BYTE *bmptr;
+    unsigned int i, j;
+
+    vid_memset(p + 8 * xs, 0, (xe - xs + 1) * 8);
+
+    bmptr = vic_ii.bitmap_ptr;
+
+    for (j = ((vic_ii.memptr << 3)
+        + vic_ii.raster.ycounter + xs * 8) & 0x1fff, i = xs;
+        i <= xe; i++, j = (j + 8) & 0x1fff) {
+
+        *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = bmptr[j & 0x39ff];
+    }
+}
+
+static void draw_illegal_bitmap_mode1(void)
+{
+    ALIGN_DRAW_FUNC(_draw_illegal_bitmap_mode1, 0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    vic_ii.raster.gfx_msk);
+}
+
+static void draw_illegal_bitmap_mode1_cached(raster_cache_t *cache, int xs,
+                                             int xe)
+{
+    ALIGN_DRAW_FUNC(_draw_illegal_bitmap_mode1, xs, xe, cache->gfx_msk);
+}
+
+static void draw_illegal_bitmap_mode1_foreground(int start_char, int end_char)
+{
+    ALIGN_DRAW_FUNC(_draw_illegal_bitmap_mode1, start_char, end_char,
+                    vic_ii.raster.gfx_msk);
+}
+
+/* Illegal bitmap mode 2.  */
+
+static int get_illegal_bitmap_mode2(raster_cache_t *cache, int *xs, int *xe,
+                                    int rr)
+{
+    int i, j;
+
+    raster_cache_data_fill_nibbles(cache->color_data_1,
+                                   cache->color_data_2,
+                                   vic_ii.vbuf,
+                                   VIC_II_SCREEN_TEXTCOLS,
+                                   1,
+                                   xs, xe,
+                                   rr);
+    raster_cache_data_fill(cache->color_data_3,
+                           vic_ii.cbuf,
+                           VIC_II_SCREEN_TEXTCOLS,
+                           1,
+                           xs, xe,
+                           rr);
+
+    *xs = 0;
+    *xe = VIC_II_SCREEN_TEXTCOLS - 1;
+
+    for (i = 0, j = ((vic_ii.memptr << 3) + vic_ii.raster.ycounter)
+        & 0x1fff; i < VIC_II_SCREEN_TEXTCOLS; i++, j = (j + 8) & 0x1fff)
+        cache->foreground_data[i] = vic_ii.bitmap_ptr[j & 0x39ff];
+
+    return 1;
+}
+
+inline static void _draw_illegal_bitmap_mode2(BYTE *p, int xs, int xe,
+                                              BYTE *gfx_msk_ptr)
+{
+    BYTE *bmptr;
+    unsigned int i, j;
+
+    vid_memset(p + 8 * xs, 0, (xe - xs + 1) * 8);
+
+    bmptr = vic_ii.bitmap_ptr;
+
+    for (j = ((vic_ii.memptr << 3)
+        + vic_ii.raster.ycounter + xs * 8) & 0x1fff, i = xs;
+        i <= xe; i++, j = (j + 8) & 0x1fff) {
+        unsigned int d;
+
+        d = bmptr[j & 0x39ff];
+
+        *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = mcmsktable[d | 0x100];
+    }
+}
+
+static void draw_illegal_bitmap_mode2(void)
+{
+    ALIGN_DRAW_FUNC(_draw_illegal_bitmap_mode2, 0, VIC_II_SCREEN_TEXTCOLS - 1,
+                    vic_ii.raster.gfx_msk);
+}
+
+static void draw_illegal_bitmap_mode2_cached(raster_cache_t *cache, int xs,
+                                             int xe)
+{
+    ALIGN_DRAW_FUNC(_draw_illegal_bitmap_mode2, xs, xe, cache->gfx_msk);
+}
+
+static void draw_illegal_bitmap_mode2_foreground(int start_char, int end_char)
+{
+    ALIGN_DRAW_FUNC(_draw_illegal_bitmap_mode2, start_char, end_char,
+                    vic_ii.raster.gfx_msk);
+}
 
 /* Idle state.  */
 
@@ -962,25 +1158,25 @@ static void setup_single_size_modes(void)
                      draw_idle_foreground);
 
     raster_modes_set(vic_ii.raster.modes, VIC_II_ILLEGAL_TEXT_MODE,
-                     get_black,
-                     draw_black_cached,
-                     draw_black,
+                     get_illegal_text,
+                     draw_illegal_text_cached,
+                     draw_illegal_text,
                      draw_std_background,
-                     draw_black_foreground);
+                     draw_illegal_text_foreground);
 
     raster_modes_set(vic_ii.raster.modes, VIC_II_ILLEGAL_BITMAP_MODE_1,
-                     get_black,
-                     draw_black_cached,
-                     draw_black,
+                     get_illegal_bitmap_mode1,
+                     draw_illegal_bitmap_mode1_cached,
+                     draw_illegal_bitmap_mode1,
                      draw_std_background,
-                     draw_black_foreground);
+                     draw_illegal_bitmap_mode1_foreground);
 
     raster_modes_set(vic_ii.raster.modes, VIC_II_ILLEGAL_BITMAP_MODE_2,
-                     get_black,
-                     draw_black_cached,
-                     draw_black,
+                     get_illegal_bitmap_mode2,
+                     draw_illegal_bitmap_mode2_cached,
+                     draw_illegal_bitmap_mode2,
                      draw_std_background,
-                     draw_black_foreground);
+                     draw_illegal_bitmap_mode2_foreground);
 }
 
 /* Initialize the drawing tables.  */
