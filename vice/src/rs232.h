@@ -50,13 +50,13 @@ extern void rs232_reset(void);
 extern int rs232_open(int device);
 
 /* closes the rs232 window again */
-extern void rs232_close(file_desc_t fd);
+extern void rs232_close(int fd);
 
 /* sends a byte to the RS232 line */
-extern int rs232_putc(file_desc_t fd, BYTE b);
+extern int rs232_putc(int fd, BYTE b);
 
 /* gets a byte to the RS232 line, returns !=1 if byte received, byte in *b. */
-extern int rs232_getc(file_desc_t fd, BYTE *b);
+extern int rs232_getc(int fd, BYTE *b);
 
 extern int rs232_init_resources(void);
 extern int rs232_init_cmdline_options(void);

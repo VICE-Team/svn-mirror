@@ -44,13 +44,13 @@ extern void print_reset(void);
 extern int print_open(int device);
 
 /* closes the print window again */
-extern void print_close(file_desc_t fd);
+extern void print_close(int fd);
 
 /* sends a byte to the print line */
-extern int print_putc(file_desc_t fd, BYTE b);
+extern int print_putc(int fd, BYTE b);
 
 /* flushes buffer to printer */
-extern int print_flush(file_desc_t fd);
+extern int print_flush(int fd);
 
 extern int print_init_resources(void);
 extern int print_init_cmdline_options(void);

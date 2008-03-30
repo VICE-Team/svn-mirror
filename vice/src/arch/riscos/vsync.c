@@ -34,6 +34,7 @@
 #include "sound.h"
 #include "ui.h"
 #include "kbd.h"
+#include "kbdbuf.h"
 #include "joystick.h"
 
 
@@ -169,6 +170,8 @@ int do_vsync(int been_skipped)
   }
 
   if (skip_next_frame == 0) NumberOfRefreshes++;
+
+  kbd_buf_flush();
 
   return skip_next_frame;
 }

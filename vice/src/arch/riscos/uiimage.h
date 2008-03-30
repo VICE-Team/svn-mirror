@@ -35,6 +35,7 @@ int  ui_image_contents_tape(const char *imagefile);
 int  ui_image_contents_generic(const char *imagefile, int filetype);
 void ui_image_contents_close(void);
 void ui_image_contents_redraw(int *block);
+void ui_image_contents_click(int *block);
 void ui_image_contents_exit(void);
 
 #endif

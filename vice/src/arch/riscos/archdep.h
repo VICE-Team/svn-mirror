@@ -27,6 +27,10 @@
 #ifndef _ARCHDEFS_H
 #define _ARCHDEFS_H
 
+#include "ROlib.h"
+
+#include <stdarg.h>
+
 /* Name of the resource file.  */
 #define RESOURCE_FILE_NAME "VICERC"
 
@@ -52,8 +56,9 @@ extern char *archdep_default_sysfile_pathlist(const char *emu_id);
 extern int   archdep_num_text_lines(void);
 extern int   archdep_num_text_columns(void);
 
-int archdep_default_logger(const char *level_string, const char *format,
-                                                                va_list ap);
+int archdep_default_logger(const char *level_string, const char *format, va_list ap);
+
+int archdep_path_is_relative(const char *directory);
 
 /* Line editing */
 extern char *readline(const char *prompt);

@@ -1,0 +1,30 @@
+# VICE keyboard mapping file
+#
+# busi_de.vkm provided by U. Guettich
+#
+# Changed to a patch to busi_uk.vkm by AF
+#
+!INCLUDE busi_uk.vkm
+#
+# Changes to PET graphics mapping
+#
+ssharp 1 5 0
+udiaeresis 2 4 0
+adiaeresis 5 6 0
+odiaeresis 4 4 0
+Udiaeresis 2 4 1
+Adiaeresis 5 6 1
+Odiaeresis 4 4 1
+#
+# Joystick 2
+#
+# q -2 7
+# w -2 8
+# e -2 9
+# a -2 4
+# s -2 5
+# d -2 6
+# z -2 1
+# x -2 2
+# c -2 3
+# 

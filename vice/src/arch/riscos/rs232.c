@@ -37,7 +37,7 @@
 
 static char *SerialFile=NULL;
 static int SerialBaud;
-static file_desc_t fd[3];
+static FILE *fd[3] = {NULL, NULL, NULL};
 
 static int set_serial_file(resource_value_t v)
 {
@@ -96,14 +96,14 @@ int rs232_open(int device)
   switch (device)
   {
     case 0:
-      if (SerialFile == NULL) return NULL;
-      fd[0] = fopen(SerialFile, "ab+");
+      if (SerialFile == NULL) return -1;
+      if (fd[0] == NULL) fd[0] = fopen(SerialFile, "ab+");
       return 0;
     case 1:
-      fd[1] = fopen("parallel:", "ab+");
+      if (fd[1] == NULL) fd[1] = fopen("parallel:", "ab+");
       return 1;
     case 2:
-      fd[2] = fopen("serial:", "ab+");
+      if (fd[2] == NULL) fd[2] = fopen("serial:", "ab+");
       return 2;
     default:
       return -1;

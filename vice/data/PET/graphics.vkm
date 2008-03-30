@@ -107,8 +107,8 @@ KP_Decimal 9 6 8
 8 3 6 0
 9 2 7 0
 slash 3 7 0
-bracketright 1 4 0
-bracketleft 0 4 0
+bracketright 8 2 0
+bracketleft 9 1 0
 parenright 1 4 0
 parenleft 0 4 0
 question 7 4 0
@@ -136,6 +136,7 @@ period 9 6 0
 at 8 1 0
 asciicircum 2 5 0
 asciitilde 2 5 0
+apostrophe 1 2 0
 Left 0 7 1
 Up 1 6 1
 Insert 1 7 1

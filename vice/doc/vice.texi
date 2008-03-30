@@ -866,6 +866,7 @@ and how to resolve them.
 * Sound problems::              
 * Shared memory problems::      
 * Printer problems::
+* PET keyboard problems::
 @end menu
 
 @node Sound problems, Shared memory problems, Common problems, Common problems
@@ -925,7 +926,7 @@ If you want to avoid running the emulator with @samp{+mitshm} every
 time, run it once with @samp{+mitshm} and then choose ``Save settings''
 from the right-button menu.
 
-@node Printer problems, ,Shared memory problems, Common problems
+@node Printer problems, PET keyboard problems ,Shared memory problems, Common problems
 @subsection Printer problems
 
 VICE supports the emulation of a printer either on the userport or as 
@@ -941,6 +942,21 @@ should work as well.
 
 The printing services have not been extensively tested but apart
 from the problem mentioned above it should work fine now.
+
+@node PET keyboard problems, ,Printer problems, Common problems
+@subsection PET keyboard problems
+
+If you find that the German keyboard mapping (plus German charset) 
+does not print uppercase umlauts, then you are right. 
+The umlauts replace the [,\ and ] characters in the charset. The keys
+that make these characters do not have a different entry in the 
+PET editor ROM tables when shifted.
+Thus it is not possible to get the uppercase umlauts in the editor.
+Nevertheless other programs are reported to change the keyboard
+mapping table and thus allow the use of the shifted (uppercase) umlauts.
+
+Anyway, the VICE keyboard mappings are far from being perfect and we are open
+to any suggestions.
 
 @node Usage, System files, Preface, Top
 @chapter Invoking the emulators
@@ -1205,43 +1221,56 @@ VC1541 with a parallel IEEE488 interface:
 
 @end itemize
 
-The PET emulator uses a rather different setup: the Basic and Kernal
-ROMS are packed into a single file and only three kernal files are
-provided; one for each Basic revision.  To handle the different screen
+The PET emulator uses an expanded setup, because there are three major 
+versions of the Basic and the Kernal, and many versions of the 
+Editor ROM. In addition there are cartridge ROM sockets.
+
+The Kernal files contain the memory from range $F000-$FFFF, the Basic
+ROMs either the range $C000-$DFFF or $B000-$DFFF.
+To handle the different screen
 sizes and keyboards, different so-called ``editor-ROMs'' for the memory
-range $E000-$E800 are provided.  The kernal files already contain an
-editor ROM for use with 40 columns and the graphics keyboard.  The PET
-ROMs have the following names:
+range $E000-$E800 are provided. 
+The PET ROMs have the following names:
 
 @itemize @bullet
 
 @item
-@file{pet2001}, the PET2001 Basic 1 + Kernal ROM (16 KBytes)
+@file{kernal1}, the PET2001 Kernal ROM (4 KBytes)
+@item
+@file{kernal2}, the PET3032 Kernal ROM (4 KBytes)
+@item
+@file{kernal4}, the PET4032/8032 Kernal ROM (4 KBytes)
 
 @item
-@file{pet3032}, the PET3032 Basic 2 + Kernal ROM (16 KBytes)
+@file{basic1}, the PET2001 Basic 1 ROM (8 KBytes)
+@item
+@file{basic2}, the PET3032 Basic 2 ROM (8 KBytes)
+@item
+@file{basic4}, the PET4032/8032 Basic 4 ROM (12 KBytes)
 
 @item
-@file{pet4032}, the PET4032/8032 Basic 4 + Kernal ROM (20
-KBytes)
-
+@file{edit1g}, the PET2001 editor for graphics keyboards (2 KBytes)
 @item
-@file{edit2.b}, the PET3032 editor for business keyboard (2
-KBytes)
-
+@file{edit2b}, the PET3032 editor for business keyboards (2 KBytes)
 @item
-@file{edit4.b40}, the PET4032 editor for business keyboard
-(2 KBytes)
-
+@file{edit2g}, the PET3032 editor for graphics keyboards (2 KBytes)
 @item
-@file{edit4.b80}, the PET8032 editor for 80 columns and
-business keyboard (2 KBytes)
+@file{edit4g40}, the PET4032 editor for graphics keyboards (2 KBytes)
+@item
+@file{edit4b40}, the PET4032 editor for business keyboards (2 KBytes)
+@item
+@file{edit4b80}, the PET8032 editor for business keyboards (2 KBytes)
+@item
 
 @item
 @file{chargen}, the character generator ROM (2k).  It has two sets
 with 128 chars each.  The second (inverted) half of each set is computed from
 the first half by inverting it.  This is a PET hardware feature.
-
+@item
+@file{chargen.de}, the character generator ROM (2k). This version is a 
+patched German charset, with the characters [, \ and ] replaced by umlauts.
+It has been provided by U. Guettich and he reports that it is supported
+by some programs.
 @end itemize
 
 The PETs also have sockets for extension ROMs for the addresses
@@ -2165,6 +2194,13 @@ String specifying the name of the keymap file for the symbolic and
 positional mapping for the graphics keyboard
 (@pxref{Keyboard emulation}, PET only).
 
+@vindex KeymapBusinessDESymFile KeymapBusinessDEPosFile
+@item KeymapBusinessDESymFile
+@itemx KeymapBusinessDEPosFile
+String specifying the name of the keymap file for the symbolic 
+and positional mapping for the German business keyboard.
+(@pxref{Keyboard emulation}, PET only).
+
 @end table
 
 
@@ -2200,6 +2236,13 @@ UK business keyboard
 Specify @file{NAME} as the symbolic/positional keymap file for the
 graphics keyboard
 (@code{KeymapGraphicsSymFile}, @code{KeymapGraphicsPosFile}, PET only).
+
+@cindex -bdesymkeymap -bdeposkeymap
+@item -bdesymkeymap NAME
+@itemx -bdeposkeymap NAME
+Specify @file{NAME} as the symbolic/positional keymap file for the
+German business keyboard
+(@code{KeymapBusinessDESymFile}, @code{KeymapBusinessDEPosFile}, PET only).
 
 @end table
 
@@ -5353,7 +5396,7 @@ Version numbers: Major 1, Minor 1
 @tab Configuration value. Bits 0-3: 0= 40 col PET without CRTC; 1= 40 col PET with CRTC; 2 = 80 col PET (with CRTC); 3= SuperPET; 4= 8096; 5= 8296. Bit 6: 1= RAM at $9***. Bit 7: 1= RAM at $A***.
 @item BYTE
 @tab KEYBOARD
-@tab Keyboard type. 0= UK business; 1= Graphics
+@tab Keyboard type. 0= UK business; 1= Graphics; 2= German business
 @item BYTE
 @tab MEMSIZE
 @tab memory size of low 32k in k (possible values 4, 8, 16, 32)

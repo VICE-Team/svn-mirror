@@ -47,8 +47,10 @@ equal 1 4 8
 ssharp 9 1 8
 question 9 1 8
 # ]
-dead_acute 8 2 8
-dead_grave 8 2 8
+dead_acute 8 2 0
+dead_grave 8 2 0
+grave 8 2 0
+apostrophe 8 2 0
 #
 # RVS/OFF
 Tab 4 0 8

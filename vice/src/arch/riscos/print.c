@@ -39,7 +39,7 @@ static char *PrinterFile=NULL;
 
 /* The handle to be returned by print_open() is architecture independent
    and a simple int. We save the real file descriptor here */
-static file_desc_t fd[3]= NULL;
+static FILE *fd[3]={NULL, NULL, NULL};
 
 static int set_printer_file(resource_value_t v)
 {
@@ -85,14 +85,14 @@ int print_open(int device)
   switch (device)
   {
     case 0:
-      if (PrinterFile == NULL) return NULL;
-      fd[0] = fopen(PrinterFile, "ab+");
+      if (PrinterFile == NULL) return -1;
+      if (fd[0] == NULL) fd[0] = fopen(PrinterFile, "ab+");
       return 0;
     case 1:
-      fd[1] = fopen("parallel:", "ab+");
+      if (fd[1] == NULL) fd[1] = fopen("parallel:", "ab+");
       return 1;
     case 2:
-      fd[2] = fopen("serial:", "ab+");
+      if (fd[2] == NULL) fd[2] = fopen("serial:", "ab+");
       return 2;
     default:
       return -1;

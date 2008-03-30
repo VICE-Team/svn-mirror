@@ -33,20 +33,30 @@
 
 #include "vice.h"
 
+#include "autostart.h"
 #include "imagecontents.h"
 #include "ui.h"
 #include "uiimage.h"
 
 
 
+#define IMAGE_CONTENT_NONE	0
+#define IMAGE_CONTENT_TAPE	1
+#define IMAGE_CONTENT_DISK	2
+
 static image_contents_t *contents;
+static int image_content_type = IMAGE_CONTENT_NONE;
+static char image_content_file[256];
 
 static int FontHandle = -1;
 static int FontHandleEm = -1;
 
 static int LineHeight;
+static int LineOffset;
 static int NumberOfLines;
 static int PosCol2, PosCol3;
+static int WindowWidth;
+static int MarkedLine;
 
 static const int FontSizeX = 12;
 static const int FontSizeY = 12;
@@ -64,7 +74,7 @@ static int setup_window(const char *title)
 {
   char dummy[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   char *str;
-  int offx, offy, len, width;
+  int offx, offy, len;
   int cblock[9];
   image_contents_file_list_t *file;
   RO_Window *win;
@@ -99,8 +109,8 @@ static int setup_window(const char *title)
   PosCol3 = PosCol2 + (offx * (4 + IMAGE_CONTENTS_FILE_NAME_LEN)) / len;
   offx = PosCol3 + (offx * (2 + IMAGE_CONTENTS_TYPE_LEN)) / len;
   Font_ConverttoOS(&offx, &offy);
-  width = offx;
-  LineHeight = (3*offy) >> 1;
+  WindowWidth = offx;
+  LineOffset = offy >> 1; LineHeight = (3*offy) >> 1;
   offx = 1;
   Font_Converttopoints(&offx, &offy);
   OStoMpts = offx;
@@ -113,7 +123,7 @@ static int setup_window(const char *title)
 
   win = ImgContWindow;
   wimp_window_write_title(win, "");
-  offx = width + 2*WindowBorder;
+  offx = WindowWidth + 2*WindowBorder;
   offy = (NumberOfLines + 2) * LineHeight + 2*WindowBorder;
   wimp_window_set_extent(win, 0, -offy, offx, 0);
   wimp_window_write_title(win, title);
@@ -135,6 +145,8 @@ static int setup_window(const char *title)
   win->stackpos = -1;
 
   Wimp_OpenWindow((int*)win);
+
+  MarkedLine = -1;
 
   return 0;
 }
@@ -162,6 +174,8 @@ int ui_image_contents_disk(const char *imagename)
 {
   delete_contents();
   contents = image_contents_read_disk(imagename);
+  wimp_strcpy(image_content_file, imagename);
+  image_content_type = IMAGE_CONTENT_DISK;
   return setup_window(imagename);
 }
 
@@ -170,6 +184,8 @@ int ui_image_contents_tape(const char *imagename)
 {
   delete_contents();
   contents = image_contents_read_tape(imagename);
+  wimp_strcpy(image_content_file, imagename);
+  image_content_type = IMAGE_CONTENT_TAPE;
   return setup_window(imagename);
 }
 
@@ -235,6 +251,18 @@ static void transform_string(const char *str, char *buffer, int hnorm, int hemph
 }
 
 
+static void force_line_redraw(int line)
+{
+  if ((line >= 0) & (line < NumberOfLines+2))
+  {
+    int posy;
+
+    posy = WindowBorder + (line + 1) * LineHeight + LineOffset;
+    Wimp_ForceRedraw(ImgContWindow->Handle, WindowBorder, -posy, WindowBorder + WindowWidth, LineHeight - posy);
+  }
+}
+
+
 void ui_image_contents_redraw(int *block)
 {
   int more, lineadd;
@@ -249,7 +277,7 @@ void ui_image_contents_redraw(int *block)
     if (contents != NULL)
     {
       int lineoff, bottom;
-      int posx, posy, line;
+      int posx, posy, line, osx, osy;
       image_contents_file_list_t *file;
       char buffer[256];
       char *name;
@@ -262,18 +290,26 @@ void ui_image_contents_redraw(int *block)
       if (lineoff < 0) lineoff = 0;
       lineoff /= LineHeight;
 
-      posx = OStoMpts * (block[RedrawB_VMinX] - block[RedrawB_ScrollX] + WindowBorder);
-      posy = OStoMpts * (block[RedrawB_VMaxY] - block[RedrawB_ScrollY] - WindowBorder - (lineoff + 1) * LineHeight);
+      osx = (block[RedrawB_VMinX] - block[RedrawB_ScrollX] + WindowBorder);
+      osy = (block[RedrawB_VMaxY] - block[RedrawB_ScrollY] - WindowBorder - (lineoff + 1) * LineHeight);
+      posx = osx * OStoMpts; posy = osy * OStoMpts;
 
       bottom = OStoMpts * (block[RedrawB_CMinY] - LineHeight);
+
+      ColourTrans_SetGCOL(ForegroundColour, 0x100, 0);
+      osy -= LineOffset;
 
       file = contents->file_list; line = 1;
       if (lineoff == 0)
       {
         name = buffer + 1 + sprintf(buffer, "0");
+        OS_Plot(0x04, osx, osy);
+        OS_Plot(0x61, WindowWidth, LineHeight);
+        ColourTrans_SetFontColours(FontHandleEm, ForegroundColour, BackgroundColour, 14);
         transform_string(contents->name, name, FontHandleEm, FontHandle);
         redraw_line(FontHandleEm, posx, posy, buffer, name, contents->id);
-        posy -= lineadd;
+        ColourTrans_SetFontColours(FontHandle, BackgroundColour, ForegroundColour, 14);
+        posy -= lineadd; osy -= LineHeight;
       }
       else if (lineoff <= NumberOfLines)
       {
@@ -292,9 +328,18 @@ void ui_image_contents_redraw(int *block)
       {
         if (posy <= bottom) break;
         name = buffer + 1 + sprintf(buffer, "%d", file->size);
+        if (line == MarkedLine)
+        {
+          OS_Plot(0x04, osx, osy); OS_Plot(0x61, WindowWidth, LineHeight);
+          ColourTrans_SetFontColours(FontHandle, ForegroundColour, BackgroundColour, 14);
+        }
         transform_string(file->name, name, FontHandle, FontHandleEm);
         redraw_line(FontHandle, posx, posy, buffer, name, file->type);
-        posy -= lineadd; file = file->next; line++;
+        if (line == MarkedLine)
+        {
+          ColourTrans_SetFontColours(FontHandle, BackgroundColour, ForegroundColour, 14);
+        }
+        posy -= lineadd; osy -= LineHeight; file = file->next; line++;
       }
       if ((file == NULL) && (lineoff < NumberOfLines + 2))
       {
@@ -323,5 +368,35 @@ void ui_image_contents_exit(void)
   if (contents != NULL)
   {
     image_contents_destroy(contents); contents = NULL;
+  }
+}
+
+
+void ui_image_contents_click(int *block)
+{
+  if ((block[MouseB_Buttons] == 1) || (block[MouseB_Buttons] == 4))
+  {
+    int winfo[WindowB_WFlags+1];
+    int filenum;
+
+    winfo[WindowB_Handle] = ImgContWindow->Handle;
+    Wimp_GetWindowState(winfo);
+    filenum = winfo[WindowB_VMaxY] - winfo[WindowB_ScrollY] - block[MouseB_PosY];
+    filenum = (filenum - WindowBorder) / LineHeight;
+    if ((filenum >= 1) && (filenum <= NumberOfLines))
+    {
+      image_contents_file_list_t *file;
+      int i;
+
+      force_line_redraw(MarkedLine);
+      MarkedLine = filenum;
+      force_line_redraw(MarkedLine);
+      file = contents->file_list;
+      for (i=1; (i<filenum) && (file != NULL); i++, file = file->next) ;
+      if (image_content_type == IMAGE_CONTENT_DISK)
+        autostart_disk(image_content_file, file->name);
+      else if (image_content_type == IMAGE_CONTENT_TAPE)
+        autostart_tape(image_content_file, file->name);
+    }
   }
 }

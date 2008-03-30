@@ -38,6 +38,7 @@
 #include "c610ui.h"
 #include "c64mem.h"
 #include "cartridge.h"
+#include "datasette.h"
 #include "drive.h"
 #include "fsdevice.h"
 #include "joystick.h"
@@ -647,6 +648,8 @@ enum SymbolInstances {
   Symbol_ErrTFile,
   Symbol_ErrSave,
   Symbol_ErrLoad,
+  Symbol_ErrSnapR,
+  Symbol_ErrSnapW,
   Symbol_NumSymbols
 };
 
@@ -670,6 +673,8 @@ static char *SymbolStrings[] = {
   "\\ErrTempFileFmt",
   "\\ErrSaveFmt",
   "\\ErrLoadFmt",
+  "\\ErrSnapRead",
+  "\\ErrSnapWrite",
   NULL
 };
 
@@ -763,6 +768,30 @@ static struct MenuConfigure {
   }
 };
 
+/* Datasette control menu */
+#define Menu_Datasette_Items	6
+#define Menu_Datasette_Width	200
+#define Menu_Datasette_Stop	0
+#define Menu_Datasette_Start	1
+#define Menu_Datasette_Forward	2
+#define Menu_Datasette_Rewind	3
+#define Menu_Datasette_Record	4
+#define Menu_Datasette_Reset	5
+static struct MenuDatasette {
+  RO_MenuHead head;
+  RO_MenuItem item[Menu_Datasette_Items];
+} MenuDatasette = {
+  MENU_HEADER("\\MenDStTit", Menu_Datasette_Width),
+  {
+    MENU_ITEM("\\MenDStStp"),
+    MENU_ITEM("\\MenDStStr"),
+    MENU_ITEM("\\MenDStFwd"),
+    MENU_ITEM("\\MenDStRwd"),
+    MENU_ITEM("\\MenDStRec"),
+    MENU_ITEM_LAST("\\MenDStRst")
+  }
+};
+
 /* Icon bar menu */
 #define Menu_IBar_Items		3
 #define Menu_IBar_Width		200
@@ -782,15 +811,16 @@ static struct MenuIconBar {
 };
 
 /* Emu window menu */
-#define Menu_EmuWin_Items	7
+#define Menu_EmuWin_Items	8
 #define Menu_EmuWin_Width	200
 #define Menu_EmuWin_Configure	0
 #define Menu_EmuWin_Snapshot	1
 #define Menu_EmuWin_Freeze	2
 #define Menu_EmuWin_Pane	3
 #define Menu_EmuWin_TrueDrvEmu	4
-#define Menu_EmuWin_Sound	5
-#define Menu_EmuWin_Monitor	6
+#define Menu_EmuWin_Datasette	5
+#define Menu_EmuWin_Sound	6
+#define Menu_EmuWin_Monitor	7
 static struct MenuEmuWindow {
   RO_MenuHead head;
   RO_MenuItem item[Menu_EmuWin_Items];
@@ -802,6 +832,7 @@ static struct MenuEmuWindow {
     MENU_ITEM("\\MenEmuFrz"),
     MENU_ITEM("\\MenEmuPane"),
     MENU_ITEM("\\MenEmuTrue"),
+    MENU_ITEM_SUB("\\MenEmuDSt", &MenuDatasette),
     MENU_ITEM("\\MenEmuSnd"),
     MENU_ITEM_LAST("\\MenEmuMon"),
   }
@@ -854,6 +885,7 @@ static char Rsrc_TrueType8[] = "Drive8Type";
 static char Rsrc_TrueType9[] = "Drive9Type";
 static char Rsrc_TrueSync[] = "DriveSyncFactor";
 static char Rsrc_Dos1541[] = "DosName1541";
+static char Rsrc_Dos15412[] = "DosName1541ii";
 static char Rsrc_Dos1571[] = "DosName1571";
 static char Rsrc_Dos1581[] = "DosName1581";
 static char Rsrc_Dos2031[] = "DosName2031";
@@ -1030,13 +1062,14 @@ static struct MenuSampleRate {
   }
 };
 
-#define Menu_SoundDev_Items	5
+#define Menu_SoundDev_Items	6
 #define Menu_SoundDev_Width	200
 #define Menu_SoundDev_VIDC	0
 #define Menu_SoundDev_Dummy	1
 #define Menu_SoundDev_FS	2
-#define Menu_SoundDev_Speed	3
-#define Menu_SoundDev_Dump	4
+#define Menu_SoundDev_WAV	3
+#define Menu_SoundDev_Speed	4
+#define Menu_SoundDev_Dump	5
 static struct MenuSoundDevice {
   RO_MenuHead head;
   RO_MenuItem item[Menu_SoundDev_Items];
@@ -1046,6 +1079,7 @@ static struct MenuSoundDevice {
     MENU_ITEM("\\MenSndVidc"),
     MENU_ITEM("\\MenSndDmy"),
     MENU_ITEM("\\MenSndFS"),
+    MENU_ITEM("\\MenSndWav"),
     MENU_ITEM("\\MenSndSpd"),
     MENU_ITEM_LAST("\\MenSndDmp")
   }
@@ -1456,7 +1490,7 @@ static struct MenuVicCartridge {
   }
 };
 
-#define Menu_DosName_Items	4
+#define Menu_DosName_Items	5
 #define Menu_DosName_Width	200
 static struct MenuDosName {
   RO_MenuHead head;
@@ -1465,6 +1499,7 @@ static struct MenuDosName {
   MENU_HEADER("\\MenDOSTit", Menu_DosName_Width),
   {
     MENU_ITEM("\\MenDOS1541"),
+    MENU_ITEM("\\MenDOS15412"),
     MENU_ITEM("\\MenDOS1571"),
     MENU_ITEM("\\MenDOS1581"),
     MENU_ITEM_LAST("\\MenDOS2031")
@@ -1876,8 +1911,9 @@ static struct MenuDisplaySampleRate {
 static char SoundDevice0[] = "vidc";
 static char SoundDevice1[] = "dummy";
 static char SoundDevice2[] = "fs";
-static char SoundDevice3[] = "speed";
-static char SoundDevice4[] = "dump";
+static char SoundDevice3[] = "wav";
+static char SoundDevice4[] = "speed";
+static char SoundDevice5[] = "dump";
 
 static struct MenuDisplaySoundDevice {
   disp_desc_t dd;
@@ -1885,7 +1921,7 @@ static struct MenuDisplaySoundDevice {
 } MenuDisplaySoundDevice = {
   {Rsrc_SndDev, {CONF_WIN_SOUND, Icon_Conf_SoundDevT},
     (RO_MenuHead*)&MenuSoundDevice, Menu_SoundDev_Items, DISP_DESC_STRING, 0},
-  {(int)SoundDevice0, (int)SoundDevice1, (int)SoundDevice2, (int)SoundDevice3, (int)SoundDevice4}
+  {(int)SoundDevice0, (int)SoundDevice1, (int)SoundDevice2, (int)SoundDevice3, (int)SoundDevice4,(int)SoundDevice5}
 };
 
 static struct MenuDisplaySoundOver {
@@ -2065,7 +2101,7 @@ static struct MenuDisplayDosName {
 } MenuDisplayDosName = {
   {(char*)&DosNameDesc, {CONF_WIN_SYSTEM, Icon_Conf_DosNameT},
     (RO_MenuHead*)&MenuDosName, Menu_DosName_Items, DISP_DESC_STRSHOW, 0},
-  {(int)Rsrc_Dos1541, (int)Rsrc_Dos1571, (int)Rsrc_Dos1581, (int)Rsrc_Dos2031}
+  {(int)Rsrc_Dos1541, (int)Rsrc_Dos15412, (int)Rsrc_Dos1571, (int)Rsrc_Dos1581, (int)Rsrc_Dos2031}
 };
 
 static struct MenuDisplayCBM2Line {
@@ -2819,7 +2855,11 @@ static int ui_make_snapshot(const char *name)
   }
   else
   {
+    _kernel_oserror err;
+
     /* else delete the file */
+    err.errnum = 0; strcpy(err.errmess, SymbolStrings[Symbol_ErrSnapW]);
+    Wimp_ReportError(&err, 1, WimpTaskName);
     remove(name);
   }
 
@@ -3885,6 +3925,10 @@ static void ui_mouse_click(int *b)
       }
     }
   }
+  else if (b[MouseB_Window] == ImgContWindow->Handle)
+  {
+    ui_image_contents_click(b);
+  }
   else
   {
     int wnum;
@@ -3896,8 +3940,14 @@ static void ui_mouse_click(int *b)
 
       if (b[MouseB_Window] == win->Handle)
       {
+        /* menu ==> open emulator window menu */
+        if (b[MouseB_Buttons] == 2)
+        {
+          Wimp_CreateMenu((int*)&MenuEmuWindow, b[MouseB_PosX], b[MouseB_PosY]);
+          LastMenu = Menu_Emulator;
+        }
         /* Select and adjust only */
-        if ((b[MouseB_Buttons] == 1) || (b[MouseB_Buttons] == 4))
+        else if ((b[MouseB_Buttons] == 1) || (b[MouseB_Buttons] == 4))
         {
           int i;
 
@@ -4592,6 +4642,18 @@ static void ui_menu_selection(int *b)
         case Menu_EmuWin_TrueDrvEmu:
           ui_set_truedrv_emulation(!wimp_menu_tick_read((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_TrueDrvEmu));
           break;
+        case Menu_EmuWin_Datasette:
+          switch (b[1])
+          {
+            case Menu_Datasette_Stop: datasette_control(DATASETTE_CONTROL_STOP); break;
+            case Menu_Datasette_Start: datasette_control(DATASETTE_CONTROL_START); break;
+            case Menu_Datasette_Forward: datasette_control(DATASETTE_CONTROL_FORWARD); break;
+            case Menu_Datasette_Rewind: datasette_control(DATASETTE_CONTROL_REWIND); break;
+            case Menu_Datasette_Record: datasette_control(DATASETTE_CONTROL_RECORD); break;
+            case Menu_Datasette_Reset: datasette_control(DATASETTE_CONTROL_RESET); break;
+            default: break;
+          }
+          break;
         case Menu_EmuWin_Sound:
           ui_set_sound_enable(!wimp_menu_tick_read((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Sound));
           break;
@@ -4957,6 +5019,15 @@ static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
       ui_display_sound_enable((int)val);
     }
   }
+  else
+  {
+    _kernel_oserror err;
+
+    err.errnum = 0; strcpy(err.errmess, SymbolStrings[Symbol_ErrSnapR]);
+    Wimp_ReportError(&err, 1, WimpTaskName);
+    maincpu_trigger_reset();
+  }
+
   ui_temp_resume_sound();
 }
 

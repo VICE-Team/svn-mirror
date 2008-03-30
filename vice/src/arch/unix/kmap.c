@@ -26,7 +26,8 @@
 
 /*
  * This file is the same for C128, VIC20, and C64
- * (maybe the C128 can have DIN (german) keyboards someday?)
+ * (maybe the C128 can have DIN (german) keyboards someday? - sure, 
+ * see petkmap.c)
  */
 
 #include "vice.h"
@@ -44,20 +45,26 @@
 
 /* keyboard-related resources.  */
 
+#define NUM_KEYBOARD_MAPPINGS   2
+
 /* array of resource names for keyboard - for kbd.c
  * by convention even indexes are symbol mappings, odd are positional */
-static const char *my_keymap_res_name_list[] = {
+static const char *my_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
 	"KeymapSymFile", "KeymapPosFile"
 };
 
 /* name of keymap file for symbolic and positional mappings */
-static char *keymap_file_list[2] = {
+static char *keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
 	NULL, NULL
 };
 
 static int set_keymap_file(int myindex, const char *name)
 {
     int kindex;
+
+    if (myindex >= NUM_KEYBOARD_MAPPINGS) {
+	return -1;
+    }
 
     if (keymap_file_list[myindex] != NULL && name != NULL
         && strcmp(name, keymap_file_list[myindex]) == 0)

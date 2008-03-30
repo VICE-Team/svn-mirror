@@ -235,6 +235,8 @@ static ui_menu_entry_t pet_keybd_submenu[] = {
 	(ui_callback_t) set_KeyboardType, (ui_callback_data_t) 1, NULL },
     { "*Business (UK)",
 	(ui_callback_t) set_KeyboardType, (ui_callback_data_t) 0, NULL },
+    { "*Business (DE)",
+	(ui_callback_t) set_KeyboardType, (ui_callback_data_t) 2, NULL },
     { NULL }
 };
 
@@ -276,6 +278,8 @@ static ui_menu_entry_t model_defaults_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_RADIO(ChargenName)
+
 static ui_menu_entry_t pet_romset_submenu[] = {
     { "Basic 1",
       (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom1g.vrs", NULL },
@@ -301,8 +305,13 @@ static ui_menu_entry_t pet_romset_submenu[] = {
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"EditorName", NULL },
     { "Load new BASIC ROM",
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"BasicName", NULL },
+    { "--" },
     { "Load new character ROM",
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"ChargenName", NULL },
+    { "*Original character set", 
+      (ui_callback_t) radio_ChargenName, (ui_callback_data_t)"chargen", NULL },
+    { "*German character set", 
+      (ui_callback_t) radio_ChargenName, (ui_callback_data_t)"chargen.de", NULL },
     { "--" },
     { "Load new $9*** ROM",
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"RomModule9Name", NULL },

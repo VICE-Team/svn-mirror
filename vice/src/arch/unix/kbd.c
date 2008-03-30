@@ -295,33 +295,35 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	if (check_set_joykeys(key, 2))
             break;
 
-        for (i = 0; keyconvmap[i].sym != 0; ++i) {
-            if (key == keyconvmap[i].sym) {
-                int row = keyconvmap[i].row;
-                int column = keyconvmap[i].column;
+	if (keyconvmap) {
+            for (i = 0; keyconvmap[i].sym != 0; ++i) {
+                if (key == keyconvmap[i].sym) {
+                    int row = keyconvmap[i].row;
+                    int column = keyconvmap[i].column;
 
-                if (row >= 0) {
-                    set_keyarr(row, column, 1);
+                    if (row >= 0) {
+                        set_keyarr(row, column, 1);
 
-                    if (keyconvmap[i].shift == NO_SHIFT) {
-                        set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
-                        set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
-                    } else {
-                        if (keyconvmap[i].shift & VIRTUAL_SHIFT)
-                            virtual_shift_down++;
-                        if (keyconvmap[i].shift & LEFT_SHIFT)
-                            left_shift_down++;
-                        if (left_shift_down + virtual_shift_down > 0)
-                            set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
-                        if (keyconvmap[i].shift & RIGHT_SHIFT)
-                            right_shift_down++;
-                        if (right_shift_down > 0)
-                            set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+                        if (keyconvmap[i].shift == NO_SHIFT) {
+                            set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
+                            set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
+                        } else {
+                            if (keyconvmap[i].shift & VIRTUAL_SHIFT)
+                                virtual_shift_down++;
+                            if (keyconvmap[i].shift & LEFT_SHIFT)
+                                left_shift_down++;
+                            if (left_shift_down + virtual_shift_down > 0)
+                                set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
+                            if (keyconvmap[i].shift & RIGHT_SHIFT)
+                                right_shift_down++;
+                            if (right_shift_down > 0)
+                                set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
+                        }
+                        break;
                     }
-                    break;
                 }
             }
-        }
+	}
 	break;			/* KeyPress */
 
       case KeyRelease:
@@ -369,22 +371,24 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	if (check_clr_joykeys(key, 2))
             break;
 
-        for (i = 0; keyconvmap[i].sym != 0; i++) {
-            if (key == keyconvmap[i].sym) {
-                int row = keyconvmap[i].row;
-                int column = keyconvmap[i].column;
+	if (keyconvmap) {
+            for (i = 0; keyconvmap[i].sym != 0; i++) {
+                if (key == keyconvmap[i].sym) {
+                    int row = keyconvmap[i].row;
+                    int column = keyconvmap[i].column;
 
-                if (row >= 0) {
-                    set_keyarr(row, column, 0);
-                    if (keyconvmap[i].shift & VIRTUAL_SHIFT)
-                        virtual_shift_down--;
-                    if (keyconvmap[i].shift & LEFT_SHIFT)
-                        left_shift_down--;
-                    if (keyconvmap[i].shift & RIGHT_SHIFT)
-                        right_shift_down--;
+                    if (row >= 0) {
+                        set_keyarr(row, column, 0);
+                        if (keyconvmap[i].shift & VIRTUAL_SHIFT)
+                            virtual_shift_down--;
+                        if (keyconvmap[i].shift & LEFT_SHIFT)
+                            left_shift_down--;
+                        if (keyconvmap[i].shift & RIGHT_SHIFT)
+                            right_shift_down--;
+                    }
                 }
             }
-        }
+	}
 
 	/* Map shift keys. */
 	if (right_shift_down > 0)

@@ -115,6 +115,20 @@ int archdep_num_text_columns(void)
 }
 
 
+int archdep_path_is_relative(const char *directory)
+{
+  const char *b;
+
+  b = directory;
+  while (*b != 0)
+  {
+    if ((*b == '$') || (*b == ':')) return 1;
+    b++;
+  }
+  return 0;
+}
+
+
 
 
 #define READLINE_BUFFER		512
@@ -162,8 +176,7 @@ FILE *open_logfile(const char *basename)
   return NULL;
 }
 
-int archdep_default_logger(const char *level_string, const char *format,
-                                                                va_list ap)
+int archdep_default_logger(const char *level_string, const char *format, va_list ap)
 {
     return 0;
 }

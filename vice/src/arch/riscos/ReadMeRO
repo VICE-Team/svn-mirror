@@ -1,4 +1,4 @@
-To build VICE 0.16.0 for RISC OS you need:
+To build VICE 0.16.1 for RISC OS you need:
 
 1) GCC 2.7.2 and Nick Burrett's SharedCLib stubs (the sound code relies on the
    SCL, you can't use UnixLib unless you replace all the timer_callback* calls).

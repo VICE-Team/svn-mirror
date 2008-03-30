@@ -38,7 +38,7 @@
 
 static BYTE value;		/* userport value */
 static int strobe;
-static file_desc_t fd;
+static int fd;
 
 /***********************************************************************
  * resource handling

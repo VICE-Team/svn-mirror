@@ -39,6 +39,9 @@
 #if 1 /* def CIAT_NEED_LOG */
 
 #include <stdarg.h>
+#ifdef __riscos
+#include "ROlib.h"
+#endif
 
 static int ciat_logfl = 0;
 static int logtab=0;
@@ -81,11 +84,11 @@ void ciat_log(const char *format,...) {
     }
 }
 
-void ciat_print_state(const ciat_t *state) 
+void ciat_print_state(const ciat_t *state)
 {
     printf("%s print: clk=%d, cnt=%04x (%d), latch=%04x (%d)\n",
-	state->name, state->clk, 
-	state->cnt, state->cnt, 
+	state->name, state->clk,
+	state->cnt, state->cnt,
 	state->latch, state->latch
     );
     printf("          state=%04x = %s%s%s%s%s%s%s%s%s%s%s%s%s\n",
@@ -113,27 +116,27 @@ void ciat_print_state(const ciat_t *state)
 
 ciat_tstate_t ciat_table[CIAT_TABLEN];
 
-void ciat_init_table(void) 
+void ciat_init_table(void)
 {
     int i;
     ciat_tstate_t tmp;
 
     for (i = 0; i < CIAT_TABLEN; i ++) {
 
-	tmp = i & (CIAT_CR_START 
-		| CIAT_CR_ONESHOT 
+	tmp = i & (CIAT_CR_START
+		| CIAT_CR_ONESHOT
 		| CIAT_PHI2IN);
 
-	if ((i & CIAT_CR_START) && (i & CIAT_PHI2IN)) 
+	if ((i & CIAT_CR_START) && (i & CIAT_PHI2IN))
 	    tmp |= CIAT_COUNT2;
 	if ((i & CIAT_COUNT2) || ((i & CIAT_STEP) && (i & CIAT_CR_START)))
 	    tmp |= CIAT_COUNT3;
-	if (i & CIAT_COUNT3) 
+	if (i & CIAT_COUNT3)
 	    tmp |= CIAT_COUNT;
 
-	if (i & CIAT_CR_FLOAD) 
+	if (i & CIAT_CR_FLOAD)
 	    tmp |= CIAT_LOAD1;
-	if (i & CIAT_LOAD1) 
+	if (i & CIAT_LOAD1)
 	    tmp |= CIAT_LOAD;
 
    	if (i & CIAT_CR_ONESHOT)

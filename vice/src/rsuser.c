@@ -50,7 +50,7 @@
 #include "rsuser.h"
 #include "vmachine.h"
 
-static file_desc_t fd = ILLEGAL_FILE_DESC;
+static int fd = -1;
 
 static alarm_t rsuser_alarm;
 
@@ -93,15 +93,15 @@ static int set_up_enabled(resource_value_t v) {
     if(newval && !rsuser_enabled) {
 	dtr = DTR_OUT;	/* inactive */
 	rts = RTS_OUT;	/* inactive */
-        fd = ILLEGAL_FILE_DESC;
+        fd = -1;
     }
     if(rsuser_enabled && !newval) {
-	if(fd != ILLEGAL_FILE_DESC) {
+	if(fd != -1) {
 	    /* if(clk_start_tx) rs232_putc(fd, rxdata); */
 	    rs232_close(fd);
 	}
 	alarm_unset(&rsuser_alarm);
-	fd = ILLEGAL_FILE_DESC;
+	fd = -1;
     }
 
     rsuser_enabled = newval;
@@ -120,7 +120,7 @@ static int set_up_enabled(resource_value_t v) {
 
 static int set_up_device(resource_value_t v) {
     rsuser_device = (int) v;
-    if(fd != ILLEGAL_FILE_DESC) {
+    if(fd != -1) {
 	rs232_close(fd);
 	fd = rs232_open(rsuser_device);
     }
@@ -192,7 +192,7 @@ void rsuser_init(long cycles, void (*startfunc)(void),
 
 	dtr = DTR_OUT;	/* inactive */
 	rts = RTS_OUT;	/* inactive */
-	fd = ILLEGAL_FILE_DESC;
+	fd = -1;
 
 	buf = ~0;	/* all 1s */
 	valid = 0;
@@ -203,12 +203,12 @@ void rsuser_reset(void) {
 	clk_start_rx = 0;
 	clk_start_tx = 0;
 	clk_start_bit = 0;
-	if(fd != ILLEGAL_FILE_DESC) {
+	if(fd != -1) {
 	    rs232_close(fd);
 	}
 
 	alarm_unset(&rsuser_alarm);
-	fd = ILLEGAL_FILE_DESC;
+	fd = -1;
 }
 
 static void rsuser_setup(void)
@@ -229,14 +229,14 @@ void rsuser_write_ctrl(BYTE b) {
         if(dtr && !new_dtr) {
 	    rsuser_setup();
         }
-        if(new_dtr && !dtr && fd != ILLEGAL_FILE_DESC) {
+        if(new_dtr && !dtr && fd != -1) {
 #if 0	/* This is a bug in the X-line handshake of the C64... */
 #ifdef DEBUG
             log_message(LOG_DEBUG, "switch rs232 off.");
 #endif
 	    alarm_unset(&rsuser_alarm);
             rs232_close(fd);
-	    fd = ILLEGAL_FILE_DESC;
+	    fd = -1;
 #endif
         }
     }
@@ -255,7 +255,7 @@ static void check_tx_buffer(void) {
 	    log_error(LOG_DEFAULT, "Frame error!");
 	} else {
 	    c = (buf >> (valid-9)) & 0xff;
-	    if(fd != ILLEGAL_FILE_DESC) {
+	    if(fd != -1) {
 #ifdef DEBUG
 		log_debug("\"%c\" (%02x).", code[c], code[c]);
 #endif
@@ -297,7 +297,7 @@ void rsuser_set_tx_bit(int b) {
               clk, clk_start_tx, b);
 #endif
 
-    if(fd == ILLEGAL_FILE_DESC || rsuser_enabled > 2400) {
+    if(fd == -1 || rsuser_enabled > 2400) {
 	clk_start_tx = 0;
 	return;
     }
@@ -357,7 +357,7 @@ int int_rsuser(long offset) {
 
 	switch(rxstate) {
 	case 0:
-        	if( fd != ILLEGAL_FILE_DESC && rs232_getc(fd, &rxdata)) {
+        	if( fd != -1 && rs232_getc(fd, &rxdata)) {
 		  /* byte received, signal startbit on flag */
                   rxstate ++;
 		  if(start_bit_trigger) start_bit_trigger();

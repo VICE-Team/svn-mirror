@@ -39,15 +39,19 @@
 
 /* keyboard-related resources.  */
 
+#define	NUM_KEYBOARD_MAPPINGS	6
+
 /* array of resource names for keyboard - for kbd.c
  * by convention even indexes are symbol mappings, odd are positional */
-static const char *my_keymap_res_name_list[] = {
+static const char *my_keymap_res_name_list[NUM_KEYBOARD_MAPPINGS] = {
 	"KeymapBusinessUKSymFile", "KeymapBusinessUKPosFile",
-	"KeymapGraphicsSymFile", "KeymapGraphicsPosFile"
+	"KeymapGraphicsSymFile", "KeymapGraphicsPosFile",
+	"KeymapBusinessDESymFile", "KeymapBusinessDEPosFile"
 };
 
 /* name of keymap file for symbolic and positional mappings */
-static char *keymap_file_list[] = {
+static char *keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
+	NULL, NULL,
 	NULL, NULL,
 	NULL, NULL
 };
@@ -55,6 +59,10 @@ static char *keymap_file_list[] = {
 static int set_keymap_file(int myindex, const char *name)
 {
     int kmap_index;
+
+    if (myindex >= NUM_KEYBOARD_MAPPINGS) {
+	return -1;
+    }
 
     if (keymap_file_list[myindex] != NULL && name != NULL
         && strcmp(name, keymap_file_list[myindex]) == 0)
@@ -72,35 +80,49 @@ static int set_keymap_file(int myindex, const char *name)
     return 0;
 }
 
-static int set_keymap_gr_sym_file(resource_value_t v)
+static int set_keymap_buk_sym_file(resource_value_t v)
 {
     return set_keymap_file(0, (const char *) v);
 }
 
-static int set_keymap_gr_pos_file(resource_value_t v)
+static int set_keymap_buk_pos_file(resource_value_t v)
 {
     return set_keymap_file(1, (const char *) v);
 }
 
-static int set_keymap_buk_sym_file(resource_value_t v)
+static int set_keymap_gr_sym_file(resource_value_t v)
 {
     return set_keymap_file(2, (const char *) v);
 }
 
-static int set_keymap_buk_pos_file(resource_value_t v)
+static int set_keymap_gr_pos_file(resource_value_t v)
 {
     return set_keymap_file(3, (const char *) v);
 }
 
+static int set_keymap_bde_sym_file(resource_value_t v)
+{
+    return set_keymap_file(4, (const char *) v);
+}
+
+static int set_keymap_bde_pos_file(resource_value_t v)
+{
+    return set_keymap_file(5, (const char *) v);
+}
+
 static resource_t resources[] = {
     { "KeymapGraphicsSymFile", RES_STRING, (resource_value_t) "graphics.vkm",
-      (resource_value_t *) &keymap_file_list[0], set_keymap_gr_sym_file },
+      (resource_value_t *) &keymap_file_list[2], set_keymap_gr_sym_file },
     { "KeymapGraphicsPosFile", RES_STRING, (resource_value_t) "posg_de.vkm",
-      (resource_value_t *) &keymap_file_list[1], set_keymap_gr_pos_file },
+      (resource_value_t *) &keymap_file_list[3], set_keymap_gr_pos_file },
     { "KeymapBusinessUKSymFile", RES_STRING, (resource_value_t) "busi_uk.vkm",
-      (resource_value_t *) &keymap_file_list[2], set_keymap_buk_sym_file },
+      (resource_value_t *) &keymap_file_list[0], set_keymap_buk_sym_file },
+    { "KeymapBusinessDESymFile", RES_STRING, (resource_value_t) "busi_de.vkm",
+      (resource_value_t *) &keymap_file_list[4], set_keymap_bde_sym_file },
     { "KeymapBusinessUKPosFile", RES_STRING, (resource_value_t) "buk_pos.vkm",
-      (resource_value_t *) &keymap_file_list[3], set_keymap_buk_pos_file },
+      (resource_value_t *) &keymap_file_list[1], set_keymap_buk_pos_file },
+    { "KeymapBusinessDEPosFile", RES_STRING, (resource_value_t) "bde_pos.vkm",
+      (resource_value_t *) &keymap_file_list[5], set_keymap_bde_pos_file },
     { NULL }
 };
 
@@ -124,10 +146,16 @@ static cmdline_option_t cmdline_options[] = {
 	"Specify name of graphics keyboard positional keymap file" },
     { "-buksymkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapBusinessUKSymFile",
 	NULL, "<name>",
-	"Specify name of business UK symbolic keymap file" },
+	"Specify name of UK business keyboard symbolic keymap file" },
     { "-bukposkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapBusinessUKPosFile",
 	NULL, "<name>",
-	"Specify name of business UK positional keymap file" },
+	"Specify name of UK business keyboard positional keymap file" },
+    { "-bdesymkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapBusinessDESymFile",
+	NULL, "<name>",
+	"Specify name of German business keyboard symbolic keymap file" },
+    { "-bdeposkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapBusinessDEPosFile",
+        NULL, "<name>",
+        "Specify name of German business keyboard positional keymap file" },
     { NULL }
 };
 
