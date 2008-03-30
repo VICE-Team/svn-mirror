@@ -128,8 +128,7 @@ libcrtc_a_SOURCES = \
 	crtc-mem.h \
 	crtc-resources.c \
 	crtc-resources.h \
-	crtc-snapshot.c \
-	crtc-snapshot.h 
+	crtc-snapshot.c 
 
 EXTRA_DIST =
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -342,7 +341,9 @@ crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/snapshot.h \
-	crtc-mem.h crtc-snapshot.h
+	crtc-mem.h ../../src/maincpu.h ../../src/6510core.h \
+	../../src/mem.h ../../src/clkguard.h ../../src/mon.h \
+	../../src/mos6510.h ../../src/interrupt.h
 crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/arch/unix/types.h ../../src/maincpu.h \
 	../../src/6510core.h ../../src/mem.h ../../src/snapshot.h \
