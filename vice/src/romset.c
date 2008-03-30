@@ -43,6 +43,11 @@ int romset_load(const char *filename) {
     int retval, line_num;
     int err = 0;
 
+    if (filename == NULL) {
+        log_error(LOG_DEFAULT, "ROM set filename is NULL!");
+        return -1;
+    }
+
     fp = sysfile_open(filename, NULL);
 
     if(!fp) {
