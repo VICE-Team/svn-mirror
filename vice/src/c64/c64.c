@@ -51,8 +51,11 @@
 #include "kbd.h"
 #include "vsync.h"
 #include "autostart.h"
+#include "c64mem.h"
 
 static void vsync_hook(void);
+
+/* ------------------------------------------------------------------------- */
 
 /* Machine description.  */
 machdesc_t machdesc = {
@@ -181,14 +184,26 @@ static trap_t c64_tape_traps[] = {
 
 /* ------------------------------------------------------------------------ */
 
+/* C64-specific resource initialization.  This is called before initializing
+   the machine itself with `machine_init()'.  */
+int machine_init_resources(void)
+{
+    if (vsync_init_resources() < 0
+        || video_init_resources() < 0
+        || c64_mem_init_resources() < 0
+        || vic_ii_init_resources() < 0
+        || sid_init_resources() < 0
+        || true1541_init_resources() < 0)
+        return -1;
+
+    return 0;
+}
+
 /* C64-specific initialization.  */
 int machine_init(void)
 {
     if (mem_load() < 0)
 	return -1;
-
-    if (app_resources.kernalRev)
-	patch_rom(app_resources.kernalRev);
 
     printf("\nInitializing Serial Bus...\n");
 
@@ -198,13 +213,6 @@ int machine_init(void)
     /* Initialize serial traps.  If user does not want them, or if the
        ``true1541'' emulation is used, do not install them. */
     initialize_serial(c64_serial_traps);
-    if (app_resources.noTraps || app_resources.true1541)
-        remove_serial_traps();
-
-#if 0
-    /* This is disabled because currently broken. */
-    initialize_printer(4, app_resources.PrinterLang, app_resources.Locale);
-#endif
 
     /* Initialize drives.  Only drive #8 allows true 1541 emulation.  */
     initialize_1541(8, DT_DISK | DT_1541,
@@ -215,21 +223,23 @@ int machine_init(void)
     /* Initialize FS-based emulation for drive #11.  */
     initialize_1541(11, DT_FS | DT_1541, NULL, NULL);
 
-    if (!app_resources.noTraps)
-	initialize_tape(c64_tape_traps);
+    /* Initialize the tape emulation.  */
+    initialize_tape(c64_tape_traps);
 
     /* Fire up the hardware-level 1541 emulation.  */
     initialize_true1541();
 
     /* Initialize autostart.  FIXME: This should be common to all the
        machines someday.  */
+    autostart_init();
+
+#if 0
     {
         FILE *autostartfd;
         char *autostartprg;
         char *autostartfile;
         char *tmp;
 
-        autostart_init();
         /* Check for image:prg -format.  */
         if (app_resources.autostartName != NULL) {
             tmp = strrchr(app_resources.autostartName, ':');
@@ -251,6 +261,7 @@ int machine_init(void)
             }
         }
     }
+#endif
 
     /* Initialize the VIC-II emulation.  */
     vic_ii_init();
@@ -287,8 +298,7 @@ void machine_reset(void)
     reset_sid();
     reset_tpi();
 
-    if (app_resources.reu)
-	reset_reu(NULL, 0);
+    /* FIXME: reset_reu() */
 
     /* FIXME: This should be common to all the systems someday.  */
     autostart_reset();
@@ -298,9 +308,11 @@ void machine_reset(void)
 
 void machine_shutdown(void)
 {
+#if 0                           /* FIXME */
     /* Detach REU.  */
     if (app_resources.reu)
 	close_reu(app_resources.reuName);
+#endif
 
     /* Detach all devices.  */
     remove_serial(-1);
@@ -317,12 +329,7 @@ int rom_trap_allowed(ADDRESS addr)
 /* This hook is called at the end of every frame.  */
 static void vsync_hook(void)
 {
-    if (app_resources.true1541
-	&& app_resources.true1541IdleMethod == TRUE1541_IDLE_TRAP_IDLE) {
-	true1541_cpu_execute();
-    }
-
-    true1541_update_ui_status();
+    true1541_vsync_hook();
 
     /* FIXME: This will be common to all the machines someday.  */
     autostart_advance();

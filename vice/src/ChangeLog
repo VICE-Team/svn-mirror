@@ -1,3 +1,161 @@
+Mon Apr 27 10:21:18 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.14.
+
+	* memutils.c (mem_load_sys_file): Use `sysfile_open()'.
+
+	* main.c (main): Call `sysfile_init()' and
+ 	`sysfile_init_resources()'.
+
+	* include/sysfile.h, sysfile.c (sysfile_open): New files, new
+ 	function.
+	(sysfile_init, sysfile_init_resources): More new functions.
+
+	* utils.c (subst): New function.
+
+	* sid.c (set_playback_enabled): If playback is turned on, call
+ 	`vsync_disable_timer()'.
+
+	* arch/unix/ui_xaw.c (UiToggleTurbo): Temporarily removed.
+	(UiSetNumpadJoystickPort, UiSwapJoystickPorts): Temporarily
+ 	removed.
+
+	* mon.c (get_reg_val, set_reg_val, set_mem_val,get_mem_val): Allow
+	accessing the 1541 even when the emulation is turned off.
+
+	* serial.c (install_serial_traps): Temporary change: always
+	install traps.
+
+	* raster.c: Use `video_cache_enabled' and `double_scan_enabled'
+	instead of the values in `app_resources'.
+
+	* c64/vicii.c: Implemented new-style resource handling.
+
+	* c64/autostart.c (settrue1541mode): Call `true1541_enable()' and
+	`true1541_disable()', instead of setting `app_resources' and
+	calling `true1541_ack_switch()'.
+
+	* c64/c64.c, vic20/vic20.c (vsync_hook): Call
+ 	`true1541_vsync_hook()'.
+
+	* true1541.c (true1541_vsync_hook): New function.
+
+	* traps.c: Removed all the `IDLE_TRAP' stuff.
+
+	* utils.c (string_set): New function.
+
+	* c64/c64.c (machine_init): Do not patch the ROM.
+
+	* c64/c64mem.c: Implemented new-style resource handling.
+
+	* arch/unix/kbd.c (kbd_event_handler, kbd_init): Do not reference
+ 	`app_resource.numpadJoystick' anymore.
+
+	* main.c (main): Temporarily disabled attaching of disk/tape
+	images at startup.
+
+	* misc.c (show): Removed.
+
+	* c64/c64.c (machine_init): Do not handle `noTraps' anymore.
+  	Disabled autostart handling.
+
+	* c64/c64iec.c (iec_drive_read, iec_drive_write): Do not check
+	`app_resources.true1541' anymore.
+	(iec_cpu_write, iec_cpu_read): Use `true1541_enabled' instead of
+	`app_resources.true1541'.
+	(parallel_cable_cpu_write): Do nothing if true 1541 is turned off.
+	(parallel_cable_cpu_read): Return 0 if true 1541 is turned off.
+
+	* memutils.c (mem_load_sys_file): Removed parameter `path'.
+	Manually lookup the `Directory' resource.
+
+	* 1541cpu.c (true1541_set_sync_factor): Renamed to
+ 	`true1541_cpu_set_sync_factor'.
+	(true1541_cpu_init): Do not set the initial sync factor.
+
+	* true1541.c (true1541_set_sync_factor): New.
+
+	* include/true1541.h: Removed `TRUE1541_PAL_SYNC_FACTOR' and
+	`TRUE1541_NTSC_SYNC_FACTOR'.  New constants `TRUE1541_SYNC_PAL'
+	and `TRUE1541_SYNC_NTSC'.
+
+	* true1541.c: Implemented new-style resource handling.
+	(true1541_disable): Always call `install_serial_traps()' if the
+	ROM has been loaded.
+	(true1541_ack_switch, true1541_ack_sync_factor): Removed.
+
+	* serial.c (install_serial_traps): Do not install any traps if
+	`app_resources.noTraps' is nonzero.
+
+	* arch/unix/video.c: Implemented new-style resource handling.
+
+Sun Apr 26 19:12:35 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* drive.c (fs_test_pc64_name): New function to test if a file is
+	P00 file format compliant.
+	(fs_find_pc64_name): New function to scan a directory for valid
+	P00 files.
+	(open_fs): Also check for P00 files.  Commented out old P00 support.
+	(read_fs): Use the right name for a directory listing if a P00 file
+	is found.
+
+Sun Apr 26 14:47:47 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* 1541cpu.c,maincpu.c: Changed FORCE_INPUT to FORCE_IMPORT.
+
+	* 6510core.c: All monitor based interrupts moved to `IK_MONITOR'
+ 	case.  Type of interrupt determined by `mon_mask'.  Removed
+ 	`FORCE_INPUT' test from mainloop.
+
+	* Makefile.in: Added `$(LIBS)' for c1541 since `-lreadline' was
+ 	needed.  Added `zipcode.o' to `PETCAT_DEPS'.
+
+	* asm.h: Added `modename[]' extern.
+
+	* interrupt.h: Removed `IK_BREAKPT'.  Added IK_MONITOR.
+	(breakpoints_on): Replaced by `monitor_trap_on()'.
+	(breakpoints_off): Replaced by `monitor_trap_off()'.
+	(maincpu_breakpoints_on, maincpu_breakpoints_off): Removed.
+	(true1541_breakpoints_on, true1541_breakpoints_off): Removed.
+
+	* mon.h: Added `enum mon_int'.  Added symbol table types.  Removed
+ 	uneeded externs.  Added new externs.
+
+	* misc.c (sprint_disassembled): Add labels to disassembled code.
+
+	* mon_cli.l: Cleanup.  Added label support.
+
+	* mon_cli.y: Cleanup.  Added label support and "quick assembly"
+ 	support.  Support specifying memspace of registers.  Minor
+ 	usability and correctness fixes.  All output now redirectable.
+
+	* mon.c: Cleanup.  Added label support.  Added relative addressing
+ 	mode to assembler.
+
+Sun Apr 26 11:16:00 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/vsync.c: Implemented new-style resource handling.
+ 	(do_vsync): Always call `flush_sound()', and pass it
+ 	`relative_speed'.
+
+	* sid.c: Implemented new-style resource handling.
+	(flush_sound): New parameter `relative_speed.  If playback is
+ 	disabled, return immediately.
+
+	* reu.c: Implemented new-style resource handling.
+	(close_reu, reset_reu): Removed parameter `filename'.
+
+	* resources.c, include/resources.h: New, more flexible
+ 	implementation.
+
+	* main.c (main): Do not handle the `StartAddr' resource anymore.
+
+	* include/resources.h: Removed unused members `gamePath',
+ 	`module', `reusize', `biosName', `programName', `reloc',
+ 	`startAddr', `colors', `traceFlag', `verboseFlag', `haltFlag',
+ 	`printCommand', `PrinterLang', `Locale', `video40', `video80',
+ 	`videoCache80' and `mouse' from `app_resources'.
+
 Sat Apr 25 22:00:00 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.13.
