@@ -42,6 +42,11 @@ extern const char machine_name[];
 #define VICE_MACHINE_CBM2      5
 #define VICE_MACHINE_PLUS4     6
 
+/* Sync factors.  */
+#define MACHINE_SYNC_PAL     -1
+#define MACHINE_SYNC_NTSC    -2
+#define MACHINE_SYNC_NTSCOLD -3
+
 extern int machine_class;
 extern int vsid_mode;
 extern

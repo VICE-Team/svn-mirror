@@ -63,11 +63,6 @@
 #define DRIVE_ROM_SIZE              0x8000
 #define DRIVE_RAM_SIZE              0x2000
 
-/* Sync factors.  */
-#define DRIVE_SYNC_PAL     -1
-#define DRIVE_SYNC_NTSC    -2
-#define DRIVE_SYNC_NTSCOLD -3
-
 /* Extended disk image handling.  */
 #define DRIVE_EXTEND_NEVER  0
 #define DRIVE_EXTEND_ASK    1
