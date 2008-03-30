@@ -8,9 +8,9 @@ INCLUDES = \
 noinst_LIBRARIES = libdrive.a
 
 libdrive_a_SOURCES = \
-	ciad.h \
 	cia1571d.c \
 	cia1581d.c \
+	ciad.h \
 	drive-cmdline-options.c \
 	drive-cmdline-options.h \
 	drive-resources.c \
@@ -23,12 +23,18 @@ libdrive_a_SOURCES = \
 	drivecpu.h \
 	drivemem.c \
 	drivemem.h \
+	driverom.c \
+	driverom.h \
 	drivetypes.h \
 	fdc.h \
 	fdc.c \
+	glue1551.c \
+	glue1551.h \
 	riot1d.c \
 	riot2d.c \
 	riotd.h \
+	tia1551.c \
+	tia1551.h \
 	via1d.c \
 	via2d.c \
 	viad.h \
