@@ -30,6 +30,7 @@
 
 #include "types.h"
 
+extern void vicii_fetch_init(void);
 extern void vicii_fetch_alarm_handler(CLOCK offset);
 extern void vicii_fetch_matrix(int offs, int num, int num_0xff);
 
