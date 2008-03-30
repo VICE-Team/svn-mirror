@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-04-24 01:20+0200\n"
+"POT-Creation-Date: 2005-05-08 22:10+0200\n"
 "PO-Revision-Date: 2005-01-15 15:45+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -42,84 +42,84 @@ msgstr "Endast en inspelning kan göras åt gången."
 msgid "Cannot load snapshot file."
 msgstr "Kan inte ladda ögonblicksbildfil."
 
-#: src/sound.c:412
+#: src/sound.c:420
 msgid "write to sound device failed."
 msgstr "misslyckades att skriva till ljudenhet."
 
-#: src/sound.c:423
+#: src/sound.c:431
 msgid "Cannot open SID engine"
 msgstr "Kan inte öppna SID-motor"
 
-#: src/sound.c:458
+#: src/sound.c:466
 msgid "Cannot initialize SID engine"
 msgstr "Kan inte initiera SID-motor"
 
-#: src/sound.c:560
+#: src/sound.c:568
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "initiering misslyckades för enhet \"%s\"."
 
-#: src/sound.c:568
+#: src/sound.c:576
 msgid "sound device lacks stereo capability"
 msgstr "ljudenhet saknar stereofunktion"
 
-#: src/sound.c:614
+#: src/sound.c:622
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "enheten \"%s\" hittades eller stöds ej."
 
-#: src/sound.c:631
+#: src/sound.c:639
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Inspelningsenhet %s finns inte!"
 
-#: src/sound.c:635
+#: src/sound.c:643
 msgid "Recording device must be different from playback device"
 msgstr "Inspelningsenhet och återspelningsenhet kan inte vara samma"
 
-#: src/sound.c:641
+#: src/sound.c:649
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Varning! Inspelningsenheten %s verkar vara en realtidsenhet!"
 
-#: src/sound.c:647
+#: src/sound.c:655
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Initiering misslyckades för enhet \"%s\"."
 
-#: src/sound.c:658
+#: src/sound.c:666
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Inspelningsenheten stöder inte aktuella ljudinställningar"
 
-#: src/sound.c:735
+#: src/sound.c:743
 msgid "Sound buffer overflow (cycle based)"
 msgstr "För mycket data i ljudbufferten (cykelbaserad)"
 
-#: src/sound.c:745
+#: src/sound.c:753
 msgid "Sound buffer overflow."
 msgstr "För mycket data i ljudbufferten."
 
-#: src/sound.c:867
+#: src/sound.c:875
 msgid "cannot flush."
 msgstr "kan inte tömma."
 
-#: src/sound.c:912
+#: src/sound.c:920
 msgid "fragment problems."
 msgstr "fragmentprogram."
 
-#: src/sound.c:941
+#: src/sound.c:949
 msgid "Buffer drained"
 msgstr "Buffert tömd"
 
-#: src/sound.c:977
+#: src/sound.c:985
 msgid "running too slow."
 msgstr "går för långsamt."
 
-#: src/sound.c:989 src/sound.c:995
+#: src/sound.c:997 src/sound.c:1003
 msgid "write to sounddevice failed."
 msgstr "misslyckades skriva till ljudenheten."
 
-#: src/sound.c:1222
+#: src/sound.c:1232
 msgid "store to sounddevice failed."
 msgstr "misslyckades spara i ljudenheten."
 
@@ -616,56 +616,56 @@ msgstr "Välj enhet för spelport 1"
 msgid "Set device for joystick port 2"
 msgstr "Välj enhet för spelport 2"
 
-#: src/arch/unix/joy.c:209 src/arch/unix/joy.c:258 src/arch/unix/joy.c:410
+#: src/arch/unix/joy.c:211 src/arch/unix/joy.c:260 src/arch/unix/joy.c:416
 #, c-format
 msgid "Cannot open joystick device `%s'."
 msgstr "Kan inte öppna styrspaksenhet \"%s\"."
 
-#: src/arch/unix/joy.c:220
+#: src/arch/unix/joy.c:222
 #, c-format
 msgid "Error reading joystick device `%s'."
 msgstr "Kan inte läsa styrspaksenhet \"%s\"."
 
-#: src/arch/unix/joy.c:239
+#: src/arch/unix/joy.c:241
 #, c-format
 msgid "Hardware joystick calibration for device `%s':"
 msgstr "Maskinvarustyrspakskalibrering för enhet \"%s\":"
 
-#: src/arch/unix/joy.c:292
+#: src/arch/unix/joy.c:294
 msgid "Error reading digital joystick device."
 msgstr "Fel vid läsning av digital styrspak."
 
-#: src/arch/unix/joy.c:312
+#: src/arch/unix/joy.c:314
 msgid "Error reading joystick device."
 msgstr "Fel vid läsning av styrspak."
 
-#: src/arch/unix/joy.c:358
+#: src/arch/unix/joy.c:364
 msgid "Linux joystick interface initialization..."
 msgstr "Initiering av Linuxstyrspaksgränssnitt..."
 
-#: src/arch/unix/joy.c:384
+#: src/arch/unix/joy.c:390
 #, c-format
 msgid "%s unknown type"
 msgstr "%s okänd typ"
 
-#: src/arch/unix/joy.c:386 src/arch/unix/joy.c:402
+#: src/arch/unix/joy.c:392 src/arch/unix/joy.c:408
 #, c-format
 msgid "Built in driver version: %d.%d.%d"
 msgstr "Inbyggd drivrutinsversion: %d.%d.%d"
 
-#: src/arch/unix/joy.c:389
+#: src/arch/unix/joy.c:395
 msgid "Kernel driver version  : 0.8 ??"
 msgstr "Kärnans drivrutinsversion: 0.8 ??"
 
-#: src/arch/unix/joy.c:391
+#: src/arch/unix/joy.c:397
 msgid "Please update your Joystick driver !"
 msgstr "Uppdatera din styrspaksdrivrutin (joystick driver)!"
 
-#: src/arch/unix/joy.c:392
+#: src/arch/unix/joy.c:398
 msgid "Fall back to old api routine"
 msgstr "Faller tillbaka till gammal API-rutin"
 
-#: src/arch/unix/joy.c:405
+#: src/arch/unix/joy.c:411
 #, c-format
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kärnans drivrutinsversion: %d.%d.%d"
@@ -1427,7 +1427,7 @@ msgstr "*Aktivera äkta diskettenhetsemulering"
 #: src/arch/unix/uidrivepetcbm2.c:73 src/arch/unix/uidrivepetcbm2.c:83
 #: src/arch/unix/uidriveplus4.c:47 src/arch/unix/uidriveplus4.c:65
 #: src/arch/unix/uidriveplus4.c:83 src/arch/unix/uidriveplus4.c:101
-#: src/arch/unix/uijoystick2.c:78 src/arch/unix/uijoystick2.c:115
+#: src/arch/unix/uijoystick2.c:78 src/arch/unix/uijoystick2.c:127
 #: src/arch/unix/uiperipheral.c:60 src/arch/unix/uiperipheral.c:74
 #: src/arch/unix/uiperipheral.c:88 src/arch/unix/uiperipheral.c:102
 #: src/arch/unix/uiprinter.c:158 src/arch/unix/uiprinter.c:170
@@ -1834,59 +1834,79 @@ msgstr "*Huvuden..."
 msgid "*Sectors..."
 msgstr "*Sektorer..."
 
-#: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:118
+#: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:130
 #: src/arch/unix/vic20ui.c:304
 msgid "*Numpad"
 msgstr "*Numeriskt tangentbord"
 
-#: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:121
+#: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:133
 #: src/arch/unix/vic20ui.c:307
 msgid "*Custom Keys"
 msgstr "*Användardefinierade tangenter"
 
-#: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:125
+#: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:137
 #: src/arch/unix/vic20ui.c:311
 msgid "*Analog Joystick 0"
 msgstr "*Analog styrspak 0"
 
-#: src/arch/unix/uijoystick2.c:91 src/arch/unix/uijoystick2.c:128
+#: src/arch/unix/uijoystick2.c:91 src/arch/unix/uijoystick2.c:140
 #: src/arch/unix/vic20ui.c:314
 msgid "*Analog Joystick 1"
 msgstr "*Analog styrspak 1"
 
-#: src/arch/unix/uijoystick2.c:95 src/arch/unix/uijoystick2.c:132
+#: src/arch/unix/uijoystick2.c:94 src/arch/unix/uijoystick2.c:143
+#, fuzzy
+msgid "*Analog Joystick 2"
+msgstr "*Analog styrspak 1"
+
+#: src/arch/unix/uijoystick2.c:97 src/arch/unix/uijoystick2.c:146
+#, fuzzy
+msgid "*Analog Joystick 3"
+msgstr "*Analog styrspak 1"
+
+#: src/arch/unix/uijoystick2.c:100 src/arch/unix/uijoystick2.c:149
+#, fuzzy
+msgid "*Analog Joystick 4"
+msgstr "*Analog styrspak 1"
+
+#: src/arch/unix/uijoystick2.c:103 src/arch/unix/uijoystick2.c:152
+#, fuzzy
+msgid "*Analog Joystick 5"
+msgstr "*Analog styrspak 1"
+
+#: src/arch/unix/uijoystick2.c:107 src/arch/unix/uijoystick2.c:156
 #: src/arch/unix/vic20ui.c:318
 msgid "*Digital Joystick 0"
 msgstr "*Digial styrspak 0"
 
-#: src/arch/unix/uijoystick2.c:98 src/arch/unix/uijoystick2.c:135
+#: src/arch/unix/uijoystick2.c:110 src/arch/unix/uijoystick2.c:159
 #: src/arch/unix/vic20ui.c:321
 msgid "*Digital Joystick 1"
 msgstr "*Digital styrspak 1"
 
-#: src/arch/unix/uijoystick2.c:103 src/arch/unix/uijoystick2.c:140
+#: src/arch/unix/uijoystick2.c:115 src/arch/unix/uijoystick2.c:164
 #: src/arch/unix/vic20ui.c:326
 msgid "*USB Joystick 0"
 msgstr "*USB-styrspak 0"
 
-#: src/arch/unix/uijoystick2.c:106 src/arch/unix/uijoystick2.c:143
+#: src/arch/unix/uijoystick2.c:118 src/arch/unix/uijoystick2.c:167
 #: src/arch/unix/vic20ui.c:329
 msgid "*USB Joystick 1"
 msgstr "*USB-styrspak 1"
 
-#: src/arch/unix/uijoystick2.c:153
+#: src/arch/unix/uijoystick2.c:177
 msgid "Joystick device in port 1"
 msgstr "Styrspak i spelport 1"
 
-#: src/arch/unix/uijoystick2.c:155
+#: src/arch/unix/uijoystick2.c:179
 msgid "Joystick device in port 2"
 msgstr "Styrspak i spelport 2"
 
-#: src/arch/unix/uijoystick2.c:158 src/arch/unix/uijoystick2.c:164
+#: src/arch/unix/uijoystick2.c:182 src/arch/unix/uijoystick2.c:188
 msgid "Swap joystick ports"
 msgstr "Växla spelportarna"
 
-#: src/arch/unix/uijoystick2.c:170 src/arch/unix/vic20ui.c:338
+#: src/arch/unix/uijoystick2.c:194 src/arch/unix/vic20ui.c:338
 msgid "Joystick settings"
 msgstr "Inställningar för styrspak"
 

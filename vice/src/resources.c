@@ -741,13 +741,37 @@ int resources_save(const char *fname)
         fname = default_name;
     }
 
+    if (util_file_exists(fname) != 0) {
+        have_old = 1;
+        if (ioutil_access(fname, IOUTIL_ACCESS_W_OK) != 0) {
+            lib_free(default_name);
+            return RESERR_WRITE_PROTECTED;
+        }
+    } else {
+        have_old = 0;
+    }
+
     /* Make a backup copy of the existing configuration file.  */
     backup_name = archdep_make_backup_filename(fname);
-    ioutil_remove(backup_name);
-    if (ioutil_rename(fname, backup_name) == 0)
-        have_old = 1;
-    else
-        have_old = 0;
+
+    if (util_file_exists(backup_name) != 0) {
+        if (ioutil_access(backup_name, IOUTIL_ACCESS_W_OK) != 0) {
+            lib_free(backup_name);
+            lib_free(default_name);
+            return RESERR_WRITE_PROTECTED;
+        }
+        if (ioutil_remove(backup_name) != 0) {
+            lib_free(backup_name);
+            lib_free(default_name);
+            return RESERR_CANNOT_REMOVE_BACKUP;
+        }
+    }
+
+    if (have_old != 0 && ioutil_rename(fname, backup_name) != 0) {
+        lib_free(backup_name);
+        lib_free(default_name);
+        return RESERR_CANNOT_RENAME_FILE;
+    }
 
     log_message(LOG_DEFAULT, "Writing configuration file `%s'.", fname);
 

@@ -1,3 +1,165 @@
+2005-05-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.10.
+
+	* resources.c, resources.h (resources_save): Improved error
+	checking.
+
+2005-05-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/Makefile.am: Combine separate resource files
+	before compiling and linking.
+
+	* arch/win32/res.h: Fixed resource value typo.
+
+2005-05-06  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/Makefile.am: Added new file rescommon.h.
+
+	* arch/win32/res.h: Reorganized string IDS.
+
+	* arch/win32/res.rc: Moved some defines into rescommon.h
+
+	* arch/win32/resacia.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/rescbm2.rc,
+	arch/win32/resdrivec64vic20.rc, arch/win32/resdrivepetcbm2.rc,
+	arch/win32/resgeoram.rc, arch/win32/reside64.rc,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/resramcart.rc, arch/win32/resreu.rc,
+	arch/win32/resrs232user.rc, arch/win32/ressid.rc,
+	arch/win32/restfe.rc, arch/win32/resvic20.rc,
+	arch/win32/resvicii.rc: Updated include files.
+
+	* arch/win32/rescommon.h: New file.
+
+	* arch/win32/x128.dsp, arch/win32/x64.dsp,
+	arch/win32/xcbm2.dsp, arch/win32/xpet.dsp,
+	arch/win32/xplus4.dsp, arch/win32/xvic.dsp: Compile and link
+	with separate resource files.
+
+2005-05-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/Makefile.am: Added wrc as the prefered
+	win32 resource compiler.
+
+	* arch/win32/intl.c, arch/win32/res.h, arch/win32/vic20ui.c:
+	Corrected vic20 cart mistakes.
+
+	* arch/win32/res.rc, arch/win32/resacia.rc,
+	arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/resdrivec64vic20.rc,
+	arch/win32/resdrivepetcbm2.rc, arch/win32/resgeoram.rc,
+	arch/win32/reside64.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resramcart.rc,
+	arch/win32/resreu.rc, arch/win32/resrs232user.rc,
+	arch/win32/ressid.rc, arch/win32/restfe.rc,
+	arch/win32/resvic20.rc, arch/win32/resvicii.rc: Added
+	pragma directives for correct resource compilation
+	of the polish dialogs, menus and string tables.
+
+2005-05-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/intl.h, arch/win32/res.h,
+	arch/win32/res.rc, arch/win32/resacia.rc,
+	arch/win32/resc128.rc, arch/win32/rescbm2.rc,
+	arch/win32/resgeoram.rc, arch/win32/reside64.rc,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/resramcart.rc, arch/win32/resreu.rc,
+	arch/win32/ressid.rc, arch/win32/resvic20.rc,
+	arch/win32/statusbar.c, arch/win32/uic128.c,
+	arch/win32/uic64cart.c, arch/win32/uicart.c,
+	arch/win32/uicart.h, arch/win32/uicbm2set.c,
+	arch/win32/uiconsole.c, arch/win32/uidrivec128.c,
+	arch/win32/uidrivec64vic20.c, arch/win32/uidrivepetcbm2.c,
+	arch/win32/uidriveplus4.c, arch/win32/uievent.c,
+	arch/win32/uigeoram.c, arch/win32/uihelp.c,
+	arch/win32/uiide64.c, arch/win32/uijoystick.c,
+	arch/win32/uilib.c, arch/win32/uimediafile.c,
+	arch/win32/uiperipheral.c, arch/win32/uipetset.c,
+	arch/win32/uiplus4cart.c, arch/win32/uiquicksnapshot.c,
+	arch/win32/uiramcart.c, arch/win32/uireu.c,
+	arch/win32/uirom.c, arch/win32/uirs232user.c,
+	arch/win32/uisid.c, arch/win32/uisnapshot.c,
+	arch/win32/uisound.c, arch/win32/uivideo.c,
+	arch/win32/vic20ui.c, vice.h: Finished the transition to
+	string tables for the win32 intl.
+
+2005-04-29  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/ffmpeglib.c, arch/win32/intl.c,
+	arch/win32/res.rc, arch/win32/ui.c,
+	arch/win32/uiattach.c, arch/win32/uic64cart.c,
+	arch/win32/uicart.c, arch/win32/uiconsole.c,
+	arch/win32/uifliplist.c, arch/win32/uikeyboard.c,
+	arch/win32/uilib.c, arch/win32/uiperipheral.c,
+	arch/win32/uiplus4cart.c: Transition to stringtable based
+	translation.
+
+	* arch/win32/res.h: Transition to stringtable based
+	translation and renumbered the resources so it works
+	on win9x again.
+
+	* arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resvic20.rc: Fixed
+	some comments.
+
+2005-04-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/c128ui.c, arch/win32/c64ui.c,
+	arch/win32/cbm2ui.c, arch/win32/petui.c,
+	arch/win32/plus4ui.c, arch/win32/uic128.c,
+	arch/win32/uicbm2set.c, arch/win32/uiconsole.c,
+	arch/win32/uidatasette.c, arch/win32/uidrivec128.c,
+	arch/win32/uidrivec64vic20.c, arch/win32/uidrivepetcbm2.c,
+	arch/win32/uidriveplus4.c, arch/win32/uigeoram.c,
+	arch/win32/uiide64.c, arch/win32/uikeyboard.c,
+	arch/win32/uimediafile.c, arch/win32/uimon.c,
+	arch/win32/uimon.c, arch/win32/uiperipheral.c,
+	arch/win32/uipetset.c, arch/win32/uiplus4mem.c,
+	arch/win32/uiram.c, arch/win32/uiramcart.c,
+	arch/win32/uireu.c, arch/win32/uirom.c,
+	arch/win32/uirs232.c, arch/win32/uirs232user.c,
+	arch/win32/uisid.c, arch/win32/uisnapshot.c,
+	arch/win32/uispeed.c, arch/win32/uitfe.c,
+	arch/win32/uivicii.c, arch/win32/uivicset.c,
+	arch/win32/uivideo.c, arch/win32/vic20ui.c: Merged
+	intl_translate_dialog() and intl_translate_menu() into
+	intl_translate.
+
+	* arch/win32/ffmpeglib.c, arch/win32/fullscrn.c,
+	arch/win32/intl.c, arch/win32/intl.h,
+	arch/win32/res.h, arch/win32/res.rc,
+	arch/win32/resacia.rc, arch/win32/ui.c,
+	arch/win32/uiacia.c, arch/win32/uijoystick.c,
+	arch/win32/uilib.c, arch/win32/uisound.c,
+	vice.h: Start of the transition to a stringtable based
+	translation.
+
+	* arch/win32/resc128.rc, arch/win32/resc64.rc,
+	arch/win32/rescbm2.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resvic20.rc: Translated
+	the new language menu into dutch.
+
+	* arch/win32/rs232.c: Fixed inappropriate _() function calls.
+
+2005-04-26  Dirk Jagdmann  <doj@cubic.org>
+
+	* sound.c (sound_register_device): print available device
+	names, fix a possible buffer overflow
+
+2005-04-26  Dirk Jagdmann  <doj@cubic.org>
+
+	* arch/unix/joy.c: add support for analog joysticks 0-5 (only
+	for new_joystick_* codes)
+
+	* arch/unix/joy.h, arch/unix/uijoystick2.c: add #defines for
+	analog joysticks 0-5
+
+2005-04-26  Dirk Jagdmann  <doj@cubic.org>
+
+	* sound.h: Fixed bufferspace description.
+
 2005-04-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.9.

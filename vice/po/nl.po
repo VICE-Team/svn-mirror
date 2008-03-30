@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.16\n"
-"POT-Creation-Date: 2005-04-24 01:20+0200\n"
+"POT-Creation-Date: 2005-05-08 22:10+0200\n"
 "PO-Revision-Date: 2005-05-12 21:33+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -42,84 +42,84 @@ msgstr "Sorry. Meerdere opnames wordt niet ondersteund."
 msgid "Cannot load snapshot file."
 msgstr "Kan momentopname bestand niet laden."
 
-#: src/sound.c:412
+#: src/sound.c:420
 msgid "write to sound device failed."
 msgstr "schrijf actie naar geluidsapparaat faalt."
 
-#: src/sound.c:423
+#: src/sound.c:431
 msgid "Cannot open SID engine"
 msgstr "Kan de SID kern niet openen"
 
-#: src/sound.c:458
+#: src/sound.c:466
 msgid "Cannot initialize SID engine"
 msgstr "Kan de SID kern niet initialiseren"
 
-#: src/sound.c:560
+#: src/sound.c:568
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "initialisatie voor apparaat `%s' faalt."
 
-#: src/sound.c:568
+#: src/sound.c:576
 msgid "sound device lacks stereo capability"
 msgstr "geluidsapparaat heeft geen stereo ondersteuning"
 
-#: src/sound.c:614
+#: src/sound.c:622
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "apparaat `%s' niet gevonden of wordt niet ondersteund"
 
-#: src/sound.c:631
+#: src/sound.c:639
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Opname apparaat %s bestaat niet!"
 
-#: src/sound.c:635
+#: src/sound.c:643
 msgid "Recording device must be different from playback device"
 msgstr "Opname apparaat moet anders zijn dan her afspeel apparaat"
 
-#: src/sound.c:641
+#: src/sound.c:649
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Waarschuwing! Opname apparaat %s lijkt een realtime apparaat te zijn!"
 
-#: src/sound.c:647
+#: src/sound.c:655
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Initialisatie faalt voor apparaat `%s'."
 
-#: src/sound.c:658
+#: src/sound.c:666
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Het opname apparaat ondersteunt de huidige geluid opties niet"
 
-#: src/sound.c:735
+#: src/sound.c:743
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Geluidsbuffer overstroming (cyclus gebaseerd)"
 
-#: src/sound.c:745
+#: src/sound.c:753
 msgid "Sound buffer overflow."
 msgstr "Geluidsbuffer overstroming."
 
-#: src/sound.c:867
+#: src/sound.c:875
 msgid "cannot flush."
 msgstr "kan niet spoelen."
 
-#: src/sound.c:912
+#: src/sound.c:920
 msgid "fragment problems."
 msgstr "fragment problemen."
 
-#: src/sound.c:941
+#: src/sound.c:949
 msgid "Buffer drained"
 msgstr "Buffer leeg"
 
-#: src/sound.c:977
+#: src/sound.c:985
 msgid "running too slow."
 msgstr "draait te langzaam."
 
-#: src/sound.c:989 src/sound.c:995
+#: src/sound.c:997 src/sound.c:1003
 msgid "write to sounddevice failed."
 msgstr "schrijf actie naar geluidsapparaat lukt niet."
 
-#: src/sound.c:1222
+#: src/sound.c:1232
 msgid "store to sounddevice failed."
 msgstr "opslag naar geluidsapparaat lukt niet."
 
@@ -614,56 +614,56 @@ msgstr "Zet apparaat voor joystick poort 1"
 msgid "Set device for joystick port 2"
 msgstr "Zet apparaat voor joystick poort 2"
 
-#: src/arch/unix/joy.c:209 src/arch/unix/joy.c:258 src/arch/unix/joy.c:410
+#: src/arch/unix/joy.c:211 src/arch/unix/joy.c:260 src/arch/unix/joy.c:416
 #, c-format
 msgid "Cannot open joystick device `%s'."
 msgstr "Kan joystick apparaat `%s' niet openen."
 
-#: src/arch/unix/joy.c:220
+#: src/arch/unix/joy.c:222
 #, c-format
 msgid "Error reading joystick device `%s'."
 msgstr "Fout bij het lezen van joystick apparaat `%s'."
 
-#: src/arch/unix/joy.c:239
+#: src/arch/unix/joy.c:241
 #, c-format
 msgid "Hardware joystick calibration for device `%s':"
 msgstr "Hardware joystick calibratie voor apparaat `%s':"
 
-#: src/arch/unix/joy.c:292
+#: src/arch/unix/joy.c:294
 msgid "Error reading digital joystick device."
 msgstr "Fout bij het lezen van het digitale joystick apparaat."
 
-#: src/arch/unix/joy.c:312
+#: src/arch/unix/joy.c:314
 msgid "Error reading joystick device."
 msgstr "Fout bij het lezen van het joystick apparaat."
 
-#: src/arch/unix/joy.c:358
+#: src/arch/unix/joy.c:364
 msgid "Linux joystick interface initialization..."
 msgstr "Linux Joystick interface initialisatie..."
 
-#: src/arch/unix/joy.c:384
+#: src/arch/unix/joy.c:390
 #, c-format
 msgid "%s unknown type"
 msgstr "%s onbekent type"
 
-#: src/arch/unix/joy.c:386 src/arch/unix/joy.c:402
+#: src/arch/unix/joy.c:392 src/arch/unix/joy.c:408
 #, c-format
 msgid "Built in driver version: %d.%d.%d"
 msgstr "Ingebouwt stuurprogramma versie: %d.%d.%d"
 
-#: src/arch/unix/joy.c:389
+#: src/arch/unix/joy.c:395
 msgid "Kernel driver version  : 0.8 ??"
 msgstr "Kernel stuurprogramma versie : 0.8 ??"
 
-#: src/arch/unix/joy.c:391
+#: src/arch/unix/joy.c:397
 msgid "Please update your Joystick driver !"
 msgstr "Vernieuw aub uw joystick stuurprogramma !"
 
-#: src/arch/unix/joy.c:392
+#: src/arch/unix/joy.c:398
 msgid "Fall back to old api routine"
 msgstr "Terug vallen op oude api routine"
 
-#: src/arch/unix/joy.c:405
+#: src/arch/unix/joy.c:411
 #, c-format
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kernel stuurprogramma versie : %d.%d.%d"
@@ -1425,7 +1425,7 @@ msgstr "*Aktiveer hardware drive emulatie"
 #: src/arch/unix/uidrivepetcbm2.c:73 src/arch/unix/uidrivepetcbm2.c:83
 #: src/arch/unix/uidriveplus4.c:47 src/arch/unix/uidriveplus4.c:65
 #: src/arch/unix/uidriveplus4.c:83 src/arch/unix/uidriveplus4.c:101
-#: src/arch/unix/uijoystick2.c:78 src/arch/unix/uijoystick2.c:115
+#: src/arch/unix/uijoystick2.c:78 src/arch/unix/uijoystick2.c:127
 #: src/arch/unix/uiperipheral.c:60 src/arch/unix/uiperipheral.c:74
 #: src/arch/unix/uiperipheral.c:88 src/arch/unix/uiperipheral.c:102
 #: src/arch/unix/uiprinter.c:158 src/arch/unix/uiprinter.c:170
@@ -1828,59 +1828,79 @@ msgstr "*Koppen..."
 msgid "*Sectors..."
 msgstr "*Sectors..."
 
-#: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:118
+#: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:130
 #: src/arch/unix/vic20ui.c:304
 msgid "*Numpad"
 msgstr "*Numpad"
 
-#: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:121
+#: src/arch/unix/uijoystick2.c:84 src/arch/unix/uijoystick2.c:133
 #: src/arch/unix/vic20ui.c:307
 msgid "*Custom Keys"
 msgstr "*Eigen Toetsen"
 
-#: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:125
+#: src/arch/unix/uijoystick2.c:88 src/arch/unix/uijoystick2.c:137
 #: src/arch/unix/vic20ui.c:311
 msgid "*Analog Joystick 0"
 msgstr "*Analoge Joystick 0"
 
-#: src/arch/unix/uijoystick2.c:91 src/arch/unix/uijoystick2.c:128
+#: src/arch/unix/uijoystick2.c:91 src/arch/unix/uijoystick2.c:140
 #: src/arch/unix/vic20ui.c:314
 msgid "*Analog Joystick 1"
 msgstr "*Analoge Joystick 1"
 
-#: src/arch/unix/uijoystick2.c:95 src/arch/unix/uijoystick2.c:132
+#: src/arch/unix/uijoystick2.c:94 src/arch/unix/uijoystick2.c:143
+#, fuzzy
+msgid "*Analog Joystick 2"
+msgstr "*Analoge Joystick 1"
+
+#: src/arch/unix/uijoystick2.c:97 src/arch/unix/uijoystick2.c:146
+#, fuzzy
+msgid "*Analog Joystick 3"
+msgstr "*Analoge Joystick 1"
+
+#: src/arch/unix/uijoystick2.c:100 src/arch/unix/uijoystick2.c:149
+#, fuzzy
+msgid "*Analog Joystick 4"
+msgstr "*Analoge Joystick 1"
+
+#: src/arch/unix/uijoystick2.c:103 src/arch/unix/uijoystick2.c:152
+#, fuzzy
+msgid "*Analog Joystick 5"
+msgstr "*Analoge Joystick 1"
+
+#: src/arch/unix/uijoystick2.c:107 src/arch/unix/uijoystick2.c:156
 #: src/arch/unix/vic20ui.c:318
 msgid "*Digital Joystick 0"
 msgstr "*Digitale Joystick 0"
 
-#: src/arch/unix/uijoystick2.c:98 src/arch/unix/uijoystick2.c:135
+#: src/arch/unix/uijoystick2.c:110 src/arch/unix/uijoystick2.c:159
 #: src/arch/unix/vic20ui.c:321
 msgid "*Digital Joystick 1"
 msgstr "*Digitale Joystick 1"
 
-#: src/arch/unix/uijoystick2.c:103 src/arch/unix/uijoystick2.c:140
+#: src/arch/unix/uijoystick2.c:115 src/arch/unix/uijoystick2.c:164
 #: src/arch/unix/vic20ui.c:326
 msgid "*USB Joystick 0"
 msgstr "*USB Joystick 0"
 
-#: src/arch/unix/uijoystick2.c:106 src/arch/unix/uijoystick2.c:143
+#: src/arch/unix/uijoystick2.c:118 src/arch/unix/uijoystick2.c:167
 #: src/arch/unix/vic20ui.c:329
 msgid "*USB Joystick 1"
 msgstr "*USB Joystick 1"
 
-#: src/arch/unix/uijoystick2.c:153
+#: src/arch/unix/uijoystick2.c:177
 msgid "Joystick device in port 1"
 msgstr "Joystick apparaat in poort 1"
 
-#: src/arch/unix/uijoystick2.c:155
+#: src/arch/unix/uijoystick2.c:179
 msgid "Joystick device in port 2"
 msgstr "Joystick apparaat in poort 2"
 
-#: src/arch/unix/uijoystick2.c:158 src/arch/unix/uijoystick2.c:164
+#: src/arch/unix/uijoystick2.c:182 src/arch/unix/uijoystick2.c:188
 msgid "Swap joystick ports"
 msgstr "Verwissel joystick poorten"
 
-#: src/arch/unix/uijoystick2.c:170 src/arch/unix/vic20ui.c:338
+#: src/arch/unix/uijoystick2.c:194 src/arch/unix/vic20ui.c:338
 msgid "Joystick settings"
 msgstr "Joystick instellingen"
 
