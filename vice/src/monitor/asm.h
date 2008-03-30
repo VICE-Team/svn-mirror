@@ -81,32 +81,16 @@ enum asm_addr_mode {
 };
 typedef enum asm_addr_mode asm_addr_mode_t;
 
-struct asm_opcode_info {
+struct asm_opcode_info_s {
     const char *mnemonic;
     asm_addr_mode_t addr_mode;
 };
-typedef struct asm_opcode_info asm_opcode_info_t;
+typedef struct asm_opcode_info_s asm_opcode_info_t;
 
-enum CPU_TYPE_s {
-    CPU_6502,
-    CPU_Z80
-};
-typedef enum CPU_TYPE_s CPU_TYPE_t;
+struct monitor_cpu_type_s;
 
-struct monitor_cpu_type_s {
-    CPU_TYPE_t cpu_type;
-    unsigned int (*asm_addr_mode_get_size)(asm_addr_mode_t mode, BYTE p0,
-                  BYTE p1);
-    asm_opcode_info_t *(*asm_opcode_info_get)(BYTE p0, BYTE p1, BYTE p2);
-    int (*mon_assemble_instr)(const char *opcode_name, unsigned int operand);
-    unsigned int (*mon_register_get_val)(int mem, int reg_id);
-    void (*mon_register_set_val)(int mem, int reg_id, WORD val);
-    void (*mon_register_print)(int mem);
-};
-typedef struct monitor_cpu_type_s monitor_cpu_type_t;
-
-extern void asm6502_init(monitor_cpu_type_t *monitor_cpu_type);
-extern void asmz80_init(monitor_cpu_type_t *monitor_cpu_type);
+extern void asm6502_init(struct monitor_cpu_type_s *monitor_cpu_type);
+extern void asmz80_init(struct monitor_cpu_type_s *monitor_cpu_type);
 
 #endif  /* _ASM_H */
 

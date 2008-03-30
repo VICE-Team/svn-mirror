@@ -33,6 +33,7 @@
 #include "vice.h"
 
 #include "asm.h"
+#include "mon.h"
 #include "mon_assemble.h"
 #include "mon_register.h"
 #include "types.h"
