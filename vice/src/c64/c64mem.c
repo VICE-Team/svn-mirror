@@ -33,7 +33,23 @@
 
 #ifdef STDC_HEADERS
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#ifdef __riscos
+#include "ROlib.h"
+#else
+#include <sys/stat.h>
+#include <errno.h>
 #endif
+#endif
+
+#include "memutils.h"
+
+#include "file.h"
+#include "log.h"
+#include "resources.h"
+#include "sysfile.h"
+#include "utils.h"
 
 #include "c64cart.h"
 #include "c64cia.h"
@@ -52,6 +68,7 @@
 #include "patchrom.h"
 #include "resources.h"
 #include "reu.h"
+#include "serial.h"
 #include "sid.h"
 #include "snapshot.h"
 #include "tape.h"
@@ -102,6 +119,10 @@ static int acia_de_enabled;
 #endif
 
 static void cartridge_config_changed(BYTE mode);
+
+static mem_romset_t **romsets; 
+
+static int number_romsets; 
 
 /* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
@@ -985,13 +1006,73 @@ void mem_powerup(void)
 
 /* Load ROMs at startup.  This is half-stolen from the old `load_mem()' in
    `memory.c'.  */
-int mem_load(void)
+
+mem_romset_t** mem_get_romsets()
+{
+  return romsets;
+} 
+
+int mem_get_numromsets()
+{
+  return number_romsets;
+} 
+
+#define ELIMINATE_NEWLINES(s)\
+{char *c;for(c=s;*c!='\0';c++)if(*c=='\n'||*c=='\r')*c='\0';}
+
+#ifndef __msdos__
+#warning have we already a function for converting dos<->unix paths
+#define MAKE_UNIX(s)\
+{char *c;for(c=s;*c!='\0';c++)if(*c=='\\')*c='/';}
+#endif
+
+int mem_load_romset_file(const char *name)
+{
+    FILE *fp = NULL;
+    char *complete_path;
+    char romsetname[101], romsetpath[101];
+    
+    romsets = calloc(sizeof(mem_romset_t*), 20);
+
+    fp = sysfile_open(name, &complete_path);
+    if (fp == NULL)
+        goto fail;
+
+    log_message(LOG_DEFAULT, "Loading RomSets `%s'.", complete_path);
+
+    number_romsets = 0;
+    while (! feof(fp) && number_romsets < 20) {      
+      if(!fgets(romsetpath,100,fp) || !fgets(romsetname,100,fp)) {
+	break;
+      }
+      ELIMINATE_NEWLINES(romsetpath);
+      MAKE_UNIX(romsetpath);
+      ELIMINATE_NEWLINES(romsetname);
+      MAKE_UNIX(romsetpath);
+      romsets[number_romsets] = (mem_romset_t*) malloc(sizeof(mem_romset_t));
+      romsets[number_romsets]->name = strdup(romsetname);
+      romsets[number_romsets]->path = strdup(romsetpath);
+      log_message(LOG_DEFAULT, "Adding RomSet `%s'.", romsetname);
+      number_romsets++;
+    }
+
+    (void) fclose(fp);
+    free(complete_path);
+    return number_romsets;  /* return ok */
+
+fail:
+    free(complete_path);
+    return -1;
+}
+
+int mem_romset_loader()
 {
     WORD sum;                   /* ROM checksum */
     int id;                     /* ROM identification number */
     int i;
 
-    mem_powerup();
+    /* Make sure serial code assumes there are no traps installed.  */
+    serial_remove_traps();
 
     /* Load Kernal ROM.  */
     if (mem_load_sys_file(kernal_rom_name,
@@ -1025,6 +1106,15 @@ int mem_load(void)
         if (patch_rom(kernal_revision) < 0)
             return -1;
     }
+
+    {
+        int drive_true_emulation;
+        resources_get_value("DriveTrueEmulation",
+                            (resource_value_t) &drive_true_emulation);
+        if (!drive_true_emulation)
+            serial_install_traps();
+    }
+
     /* Load Basic ROM.  */
     if (mem_load_sys_file(basic_rom_name,
                           basic_rom, C64_BASIC_ROM_SIZE,
@@ -1056,6 +1146,71 @@ int mem_load(void)
     rom_loaded = 1;
 
     return 0;
+}
+
+int mem_load_romset(char *name)
+{
+  int num_romsets;
+  char path[256];
+  char *tmppath;
+
+  if(strcmp(name,"Default")) {
+    for(num_romsets = 0; num_romsets < number_romsets ; num_romsets++) {
+      if (!strcmp(romsets[num_romsets]->name,name)) {
+	strcpy(path,romsets[num_romsets]->path);
+	strcat(path,"char.rom");
+	if ( sysfile_locate(path, &tmppath) ) {
+	  set_chargen_rom_name((resource_value_t) "chargen");
+	} else {
+	  set_chargen_rom_name((resource_value_t) path);
+	}
+	
+	strcpy(path,romsets[num_romsets]->path);
+	strcat(path,"kernal.rom");
+	if ( sysfile_locate(path, &tmppath) ) {
+	  set_kernal_rom_name((resource_value_t) "kernal");
+	} else {
+	  set_kernal_rom_name((resource_value_t) path);
+	}
+	
+	strcpy(path,romsets[num_romsets]->path);
+	strcat(path,"basic.rom");
+	if ( sysfile_locate(path, &tmppath) ) {
+	  set_basic_rom_name((resource_value_t) "basic");
+	} else {
+	  set_basic_rom_name((resource_value_t) path);
+	}
+
+	strcpy(path,romsets[num_romsets]->path);
+	strcat(path,"c1541.rom");
+	if ( sysfile_locate(path, &tmppath) ) {
+	  reload_rom_1541("dos1541");
+	} else {
+	  reload_rom_1541(path);
+	}
+
+	log_message(LOG_DEFAULT, "Changing to RomSet %s",name);
+
+	return(mem_romset_loader());
+      }      
+    }
+  } else {
+    set_chargen_rom_name((resource_value_t) "chargen");
+    set_kernal_rom_name((resource_value_t) "kernal");
+    set_basic_rom_name((resource_value_t) "basic");    
+    reload_rom_1541("dos1541");
+    log_message(LOG_DEFAULT, "Changing to Default RomSet",name);
+    return(mem_romset_loader());
+  }
+  return(-1);
+}
+
+int mem_load(void)
+{
+    mem_powerup();
+
+    mem_load_romset_file("rom.cfg");
+    return(mem_romset_loader());
 }
 
 void mem_attach_cartridge(int type, BYTE * rawcart)
