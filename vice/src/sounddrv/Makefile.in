@@ -250,8 +250,17 @@ sounddummy.o: sounddummy.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h
 sounddump.o: sounddump.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h
+sounddx.o: sounddx.c ../../src/vice.h ../../src/config.h \
+	../../src/arch/win32/lose32.h ../../src/sound.h \
+	../../src/arch/win32/types.h ../../src/arch/win32/ui.h \
+	../../src/uiapi.h ../../src/video.h \
+	../../src/arch/win32/videoarch.h ../../src/palette.h \
+	../../src/utils.h
 soundfs.o: soundfs.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h ../../src/utils.h
+soundsb.o: soundsb.c ../../src/vice.h ../../src/config.h ../../src/log.h \
+	../../src/sound.h ../../src/arch/msdos/types.h \
+	../../src/utils.h ../../src/arch/msdos/vicesb.h
 soundspeed.o: soundspeed.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/arch/unix/types.h
 sounduss.o: sounduss.c ../../src/vice.h ../../src/config.h \

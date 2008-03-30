@@ -110,7 +110,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 
 SUBDIRS = widgets
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/c128 	-I$(top_srcdir)/src/vic20 	-I$(top_srcdir)/src/pet 	-I$(top_srcdir)/src/cbm2 	-I$(top_srcdir)/src/arch/unix/x11
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/c128 	-I$(top_srcdir)/src/vic20 	-I$(top_srcdir)/src/pet 	-I$(top_srcdir)/src/cbm2 	-I$(top_srcdir)/src/arch/unix/x11
 
 
 noinst_LIBRARIES = libxawui.a
@@ -332,11 +332,12 @@ ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	widgets/TextField.h
 uiedisk.o: uiedisk.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
-	../../../../../src/arch/unix/uiedisk.h \
 	../../../../../src/machine.h ui.h \
 	../../../../../src/arch/unix/types.h \
 	../../../../../src/palette.h ../../../../../src/uiapi.h \
-	../../../../../src/utils.h
+	../../../../../src/arch/unix/uiedisk.h \
+	../../../../../src/utils.h ../../../../../src/vdrive/vdrive.h \
+	../../../../../src/diskimage.h ../../../../../src/gcr.h
 uihotkey.o: uihotkey.c ../../../../../src/vice.h \
 	../../../../../src/config.h uihotkey.h ui.h \
 	../../../../../src/arch/unix/types.h \
