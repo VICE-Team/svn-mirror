@@ -80,7 +80,7 @@ static void init_reu_dialog(HWND hwnd)
         SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
     }
     resources_get_value("REUsize", (void *)&res_value);
-    active_value = 0; /* default */
+    active_value = 0;
     for (res_value_loop = 0; res_value_loop < NUM_OF_REU_SIZE;
         res_value_loop++) {
         if (ui_reu_size[res_value_loop] == res_value)
