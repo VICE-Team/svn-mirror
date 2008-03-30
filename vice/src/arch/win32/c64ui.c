@@ -150,9 +150,6 @@ char    *s;
 
 void c64_ui_specific(WPARAM wparam, HWND hwnd)
 {
-char    *s;
-int     type;
-
     switch (wparam) {
         case IDM_CART_ATTACH_CRT:
         case IDM_CART_ATTACH_8KB:

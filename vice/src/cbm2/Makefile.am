@@ -10,7 +10,6 @@ INCLUDES = \
 noinst_LIBRARIES = libcbm2.a
 
 libcbm2_a_SOURCES = \
-	crtc.c \
 	c610.c \
 	c610.h \
 	c610acia.h \
