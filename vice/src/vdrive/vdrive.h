@@ -254,5 +254,12 @@ extern int vdrive_parse_name(const char *name, unsigned int length,
 extern void vdrive_close_all_channels(vdrive_t *vdrive);
 extern int vdrive_calculate_disk_half(unsigned int type);
 extern int vdrive_get_max_sectors(unsigned int type, unsigned int track);
+
+extern vdrive_t *vdrive_internal_open_disk_image(const char *name);
+extern void vdrive_internal_close_disk_image(vdrive_t *vdrive);
+extern int vdrive_internal_create_format_disk_image(const char *filename,
+                                                    const char *diskname,
+                                                    int type);
+
 #endif
 
