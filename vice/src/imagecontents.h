@@ -64,9 +64,9 @@ extern image_contents_t *image_contents_read_disk(const char *file_name);
 extern image_contents_t *image_contents_read_tape(const char *file_name);
 
 extern char *image_contents_disk_filename_by_number(const char *filename,
-                                                    unsigned int index);
+                                                    unsigned int file_index);
 extern char *image_contents_tape_filename_by_number(const char *filename,
-                                                    unsigned int index);
+                                                    unsigned int file_index);
 
 #endif
 

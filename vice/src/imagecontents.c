@@ -355,7 +355,7 @@ image_contents_t *image_contents_read_tape(const char *file_name)
 }
 
 char *image_contents_disk_filename_by_number(const char *filename,
-                                             unsigned int index)
+                                             unsigned int file_index)
 {
     image_contents_t *contents;
     image_contents_file_list_t *current;
@@ -368,15 +368,15 @@ char *image_contents_disk_filename_by_number(const char *filename,
 
     s = NULL;
 
-    if (index != 0) {
+    if (file_index != 0) {
         current = contents->file_list;
-        index--;
-        while ((index != 0) && (current != NULL)) {
+        file_index--;
+        while ((file_index != 0) && (current != NULL)) {
             current=current->next;
-            index--;
+            file_index--;
         }
         if (current != NULL) {
-            s=stralloc(current->name);
+            s = stralloc((char *)(current->name));
         }
     }
 
@@ -386,7 +386,7 @@ char *image_contents_disk_filename_by_number(const char *filename,
 }
 
 char *image_contents_tape_filename_by_number(const char *filename,
-                                             unsigned int index)
+                                             unsigned int file_index)
 {
     image_contents_t *contents;
     image_contents_file_list_t *current;
@@ -399,15 +399,15 @@ char *image_contents_tape_filename_by_number(const char *filename,
 
     s = NULL;
 
-    if (index != 0) {
-        current=contents->file_list;
-        index--;
-        while ((index != 0) && (current != NULL)) {
-            current=current->next;
-            index--;
+    if (file_index != 0) {
+        current = contents->file_list;
+        file_index--;
+        while ((file_index != 0) && (current != NULL)) {
+            current = current->next;
+            file_index--;
         }
         if (current != NULL) {
-            s=stralloc(current->name);
+            s = stralloc((char *)(current->name));
         }
     }
 

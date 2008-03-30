@@ -563,12 +563,12 @@ void parallel_drv1_set_bus( BYTE b )
     parallel_bus = par_emu_bus & par_cpu_bus & par_drv0_bus & par_drv1_bus;
 }
 
-void parallel_drive_cpu_execute(CLOCK clk)
+void parallel_drive_cpu_execute(CLOCK cpu_clk)
 {
     if (drive[0].enable)
-        drive0_cpu_execute(clk);
+        drive0_cpu_execute(cpu_clk);
     if (drive[1].enable)
-        drive1_cpu_execute(clk);
+        drive1_cpu_execute(cpu_clk);
 }
 
 #define PARALLEL_CPU_SET_LINE(line,dev,mask)                            \

@@ -54,7 +54,7 @@ extern char parallel_atn;
 
 extern BYTE parallel_bus;	/* data lines */
 
-extern void parallel_drive_cpu_execute(CLOCK clk);
+extern void parallel_drive_cpu_execute(CLOCK cpu_clk);
 
 /* Each device has a mask bit in the parallel_* handshake lines */
 #define	PARALLEL_EMU	0x01
