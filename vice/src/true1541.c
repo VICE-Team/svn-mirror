@@ -200,6 +200,10 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Enable hardware-level 1541 emulation" },
     { "+1541", SET_RESOURCE, 0, NULL, NULL, "True1541", (resource_value_t) 0,
       NULL, "Disable hardware-level 1541 emulation" },
+    { "-parallel", SET_RESOURCE, 0, NULL, NULL, "True1541ParallelCable", (resource_value_t) 1,
+      NULL, "Enable SpeedDOS-compatible parallel cable" },
+    { "+parallel", SET_RESOURCE, 0, NULL, NULL, "True1541ParallelCable", (resource_value_t) 0,
+      NULL, "Disable SpeedDOS-compatible parallel cable" },
     { "-driveidle", SET_RESOURCE, 1, NULL, NULL, "True1541IdleMethod", NULL,
       "<method>", "Set 1541 idling method (0: skip cycles, 1: trap idle)" },
     { "-drivesync", SET_RESOURCE, 1, NULL, NULL, "True1541SyncFactor", NULL,
@@ -711,7 +715,9 @@ int true1541_init(CLOCK pal_hz, CLOCK ntsc_hz)
 /* Activate full 1541 emulation. */
 int true1541_enable(void)
 {
-    puts(__FUNCTION__);
+    /* This must come first, because this might be called before the true
+       1541 initialization.  */
+    true1541_enabled = 1;
 
     if (!rom_loaded)
         return -1;
@@ -722,7 +728,6 @@ int true1541_enable(void)
     if (true1541_floppy != NULL)
         true1541_attach_floppy(true1541_floppy);
 
-    true1541_enabled = 1;
     true1541_cpu_wake_up();
 
     UiToggleDriveStatus(1);
@@ -732,12 +737,13 @@ int true1541_enable(void)
 /* Disable full 1541 emulation.  */
 void true1541_disable(void)
 {
-    puts(__FUNCTION__);
+    /* This must come first, because this might be called before the true
+       1541 initialization.  */
+    true1541_enabled = 0;
 
     if (rom_loaded)
         serial_install_traps();
 
-    true1541_enabled = 0;
     true1541_cpu_sleep();
 
     GCR_data_writeback();
