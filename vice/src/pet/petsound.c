@@ -75,12 +75,18 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 {
     int				 i;
     WORD			 v = 0;
-    char			*t = "                ";
-    warn(pwarn, 4,
-	 "Sound support for PET is at _very_ experimental stage.\n"
-	 "%sIf you think this doesn't sound right, please wait\n"
-	 "%sfor the next snapshot or help me get this right.\n"
-	 "%s                          //tvr", t, t, t);
+
+#if 0
+    {
+        char			*t = "                ";
+        warn(pwarn, 4,
+             "Sound support for PET is at _very_ experimental stage.\n"
+             "%sIf you think this doesn't sound right, please wait\n"
+             "%sfor the next snapshot or help me get this right.\n"
+             "%s                          //tvr", t, t, t);
+    }
+#endif
+
     for (i = 0; i < nr; i++)
     {
 	if (psid->on)
