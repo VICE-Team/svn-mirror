@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/cbm2/c610acia1.c
- * This file is generated from ../../../src/acia-tmpl.c and ../../../src/cbm2/c610acia1.def,
+ * ../../src/cbm2/c610acia1.c
+ * This file is generated from ../../src/acia-tmpl.c and ../../src/cbm2/c610acia1.def,
  * Do not edit!
  */
 /*
@@ -36,10 +36,12 @@
 #include <stdio.h>
 #endif
 
+#include "alarm.h"
 #include "cmdline.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "resources.h"
 #include "rs232.h"
 #include "snapshot.h"
@@ -60,6 +62,8 @@
 
 #undef	DEBUG
 
+static alarm_t acia1_alarm;
+
 static int acia_ticks = 21111;	/* number of clock ticks per char */
 static file_desc_t fd = ILLEGAL_FILE_DESC;
 static int intx = 0;	/* indicates that a transmit is currently ongoing */
@@ -73,6 +77,9 @@ static int alarm_active = 0;	/* if alarm is set or not */
 
 static log_t acia1_log = LOG_ERR;
 
+/* Bah, this sucks.  */
+int int_acia1(long offset);
+    
 /******************************************************************/
 
 /* rs232.h replacement functions if no rs232 device available */
@@ -169,6 +176,10 @@ static double acia_baud_table[16] = {
 
 /******************************************************************/
 
+void acia1_init(void) {
+    alarm_init(&acia1_alarm, &maincpu_alarm_context, "ACIA1", int_acia1);
+}
+
 void reset_acia1(void) {
 
 #ifdef DEBUG
@@ -187,7 +198,7 @@ void reset_acia1(void) {
 	if(fd!=ILLEGAL_FILE_DESC) rs232_close(fd);
 	fd = ILLEGAL_FILE_DESC;
 
-	maincpu_unset_alarm(A_ACIA1);
+	alarm_unset(&acia1_alarm);
 	alarm_active = 0;
 
 	maincpu_set_int(I_ACIA1, 0);
@@ -238,12 +249,15 @@ int acia1_write_snapshot_module(snapshot_t * p)
     snapshot_module_write_byte(m, cmd);
     snapshot_module_write_byte(m, ctrl);
     snapshot_module_write_byte(m, intx);
+
+#if 0
     if(alarm_active) {
         snapshot_module_write_dword(m, (maincpu_int_status.alarm_clk[A_ACIA1]
                                     - clk));
     } else {
         snapshot_module_write_dword(m, 0);
     }
+#endif
 
     snapshot_module_close(m);
 
@@ -257,7 +271,7 @@ int acia1_read_snapshot_module(snapshot_t * p)
     DWORD dword;
     snapshot_module_t *m;
 
-    maincpu_unset_alarm(A_ACIA1);   /* just in case we don't find module */
+    alarm_unset(&acia1_alarm);   /* just in case we don't find module */
     alarm_active = 0;
 
     set_int_noclk(&maincpu_int_status, I_ACIA1, 0);
@@ -285,10 +299,10 @@ int acia1_read_snapshot_module(snapshot_t * p)
     }
 
     snapshot_module_read_byte(m, &cmd);
-    if((cmd & 1) && (fd==ILLEGAL_FILE_DESC)) {
+    if((cmd & 1) && (fd == ILLEGAL_FILE_DESC)) {
         fd = rs232_open(acia1_device);
     } else
-        if(fd!=ILLEGAL_FILE_DESC && !(cmd&1)) {
+        if(fd != ILLEGAL_FILE_DESC && !(cmd&1)) {
         rs232_close(fd);
         fd = ILLEGAL_FILE_DESC;
     }
@@ -302,10 +316,10 @@ int acia1_read_snapshot_module(snapshot_t * p)
 
     snapshot_module_read_dword(m, &dword);
     if (dword) {
-        maincpu_set_alarm(A_ACIA1, dword);
+        alarm_set(&acia1_alarm, clk + dword);
         alarm_active = 1;
     } else {
-        maincpu_unset_alarm(A_ACIA1);
+        alarm_unset(&acia1_alarm);
         alarm_active = 0;
     }
 
@@ -327,7 +341,7 @@ void REGPARM2 store_acia1(ADDRESS a, BYTE b) {
 		txdata = b;
 		if(cmd&1) {
 		  if(!intx) {
-		    maincpu_set_alarm(A_ACIA1, 1);
+		    alarm_set(&acia1_alarm, clk + 1);
                     alarm_active = 1;
 		    intx = 2;
 		  } else
@@ -345,7 +359,7 @@ void REGPARM2 store_acia1(ADDRESS a, BYTE b) {
 		intx = 0;
 		maincpu_set_int(I_ACIA1, 0);
 		irq = 0;
-		maincpu_unset_alarm(A_ACIA1);
+		alarm_unset(&acia1_alarm);
                 alarm_active = 0;
 		break;
 	case ACIA_CTRL:
@@ -357,12 +371,12 @@ void REGPARM2 store_acia1(ADDRESS a, BYTE b) {
 		cmd = b;
 		if((cmd & 1) && (fd==ILLEGAL_FILE_DESC)) {
 		  fd = rs232_open(acia1_device);
-		  maincpu_set_alarm(A_ACIA1, acia_ticks);
+		  alarm_set(&acia1_alarm, clk + acia_ticks);
                   alarm_active = 1;
 		} else
 		if(fd!=ILLEGAL_FILE_DESC && !(cmd&1)) {
 		  rs232_close(fd);
-		  maincpu_unset_alarm(A_ACIA1);
+		  alarm_unset(&acia1_alarm);
                   alarm_active = 0;
 		  fd = ILLEGAL_FILE_DESC;
 		}
@@ -438,7 +452,7 @@ int int_acia1(long offset) {
 	maincpu_set_int(I_ACIA1, acia1_irq);
 	irq = 1;
 
-	maincpu_set_alarm(A_ACIA1, acia_ticks);
+	alarm_set(&acia1_alarm, clk + acia_ticks);
         alarm_active = 1;
 
 	return 0;

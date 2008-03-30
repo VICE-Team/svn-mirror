@@ -127,6 +127,7 @@ YFLAGS = -dt
 noinst_HEADERS = \
 	6510core.h \
 	acia.h \
+	alarm.h \
 	asm.h \
 	attach.h \
 	autostart.h \
@@ -185,6 +186,7 @@ noinst_HEADERS = \
 	zipcode.h
 
 base_sources = \
+	alarm.c \
 	asm.c \
 	attach.c \
 	autostart.c \
@@ -366,36 +368,36 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-x64_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-log.o main.o memutils.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
-parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o \
-zipcode.o maincpu.o
-x128_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-log.o main.o memutils.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
-parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o \
-zipcode.o
-xvic_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-log.o main.o memutils.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
-parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o \
-zipcode.o maincpu.o
-xpet_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-log.o main.o memutils.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
-parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o \
-zipcode.o maincpu.o
-xcbm2_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o \
-log.o main.o memutils.o mon.o mon_lex.o mon_parse.o p00.o palette.o \
-parallel.o resources.o romset.o serial.o snapshot.o sound.o sysfile.o \
-t64.o tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o zfile.o \
-zipcode.o
+x64_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o cmdline.o \
+emuid.o findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o \
+kbdbuf.o log.o main.o memutils.o mon.o mon_lex.o mon_parse.o p00.o \
+palette.o parallel.o resources.o romset.o serial.o snapshot.o sound.o \
+sysfile.o t64.o tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o \
+zfile.o zipcode.o maincpu.o
+x128_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o cmdline.o \
+emuid.o findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o \
+kbdbuf.o log.o main.o memutils.o mon.o mon_lex.o mon_parse.o p00.o \
+palette.o parallel.o resources.o romset.o serial.o snapshot.o sound.o \
+sysfile.o t64.o tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o \
+zfile.o zipcode.o
+xvic_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o cmdline.o \
+emuid.o findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o \
+kbdbuf.o log.o main.o memutils.o mon.o mon_lex.o mon_parse.o p00.o \
+palette.o parallel.o resources.o romset.o serial.o snapshot.o sound.o \
+sysfile.o t64.o tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o \
+zfile.o zipcode.o maincpu.o
+xpet_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o cmdline.o \
+emuid.o findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o \
+kbdbuf.o log.o main.o memutils.o mon.o mon_lex.o mon_parse.o p00.o \
+palette.o parallel.o resources.o romset.o serial.o snapshot.o sound.o \
+sysfile.o t64.o tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o \
+zfile.o zipcode.o maincpu.o
+xcbm2_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o cmdline.o \
+emuid.o findpath.o fsdevice.o gcr.o info.o interrupt.o imagecontents.o \
+kbdbuf.o log.o main.o memutils.o mon.o mon_lex.o mon_parse.o p00.o \
+palette.o parallel.o resources.o romset.o serial.o snapshot.o sound.o \
+sysfile.o t64.o tape.o traps.o utils.o vdrive.o vdrive-iec.o warn.o \
+zfile.o zipcode.o
 c1541_OBJECTS =  c1541.o charsets.o cmdline.o findpath.o gcr.o info.o \
 log.o p00.o resources.o t64.o utils.o vdrive-iec.o vdrive.o zfile.o \
 zipcode.o
@@ -620,6 +622,108 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+alarm.o: alarm.c vice.h config.h alarm.h types.h log.h utils.h
+asm.o: asm.c vice.h config.h asm.h types.h
+attach.o: attach.c vice.h config.h resources.h vdrive.h types.h fs_cbm.h \
+	serial.h traps.h log.h attach.h snapshot.h
+autostart.o: autostart.c vice.h config.h autostart.h types.h attach.h \
+	vdrive.h fs_cbm.h serial.h traps.h log.h snapshot.h interrupt.h \
+	vmachine.h 6510core.h mem.h kbdbuf.h resources.h arch/unix/ui.h \
+	arch/unix/xaw/ui.h palette.h utils.h machine.h tape.h warn.h \
+	zfile.h charsets.h
+charsets.o: charsets.c vice.h config.h charsets.h types.h
+cmdline.o: cmdline.c vice.h config.h types.h utils.h cmdline.h \
+	resources.h
+emuid.o: emuid.c vice.h config.h types.h
+findpath.o: findpath.c vice.h config.h findpath.h utils.h types.h
+fsdevice.o: fsdevice.c vice.h config.h fsdevice.h types.h \
+	arch/unix/archdep.h charsets.h cmdline.h resources.h file.h \
+	log.h p00.h utils.h vdrive.h fs_cbm.h serial.h traps.h
+gcr.o: gcr.c vice.h config.h gcr.h types.h
+imagecontents.o: imagecontents.c vice.h config.h imagecontents.h types.h \
+	charsets.h log.h t64.h utils.h vdrive.h fs_cbm.h serial.h \
+	traps.h zfile.h
+info.o: info.c
+interrupt.o: interrupt.c vice.h config.h interrupt.h types.h vmachine.h \
+	6510core.h mem.h snapshot.h
+kbdbuf.o: kbdbuf.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
+	snapshot.h alarm.h mon.h mos6510.h interrupt.h vmachine.h \
+	kbdbuf.h charsets.h
+log.o: log.c vice.h config.h log.h cmdline.h resources.h \
+	arch/unix/archdep.h utils.h types.h
+main.o: main.c vice.h config.h arch/unix/archdep.h attach.h types.h \
+	vdrive.h fs_cbm.h serial.h traps.h log.h snapshot.h autostart.h \
+	cartridge.h charsets.h cmdline.h resources.h findpath.h \
+	fsdevice.h interrupt.h vmachine.h 6510core.h mem.h \
+	arch/unix/joystick.h arch/unix/kbd.h machine.h maincpu.h \
+	alarm.h mon.h mos6510.h sound.h warn.h sysfile.h tape.h \
+	arch/unix/ui.h arch/unix/xaw/ui.h palette.h utils.h \
+	arch/unix/video.h arch/unix/vsync.h
+maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
+	snapshot.h alarm.h mon.h mos6510.h interrupt.h vmachine.h log.h \
+	machine.h resources.h traps.h arch/unix/ui.h arch/unix/xaw/ui.h \
+	palette.h vdrive.h fs_cbm.h serial.h 6510core.c
+memutils.o: memutils.c vice.h config.h memutils.h types.h file.h log.h \
+	resources.h sysfile.h utils.h
+mon.o: mon.c vice.h config.h asm.h types.h mon.h mos6510.h mem.h \
+	snapshot.h interrupt.h vmachine.h 6510core.h charsets.h \
+	drive/drivecpu.h alarm.h file.h resources.h arch/unix/vsync.h \
+	vdrive.h fs_cbm.h serial.h traps.h log.h mon_parse.h utils.h
+mon_lex.o: mon_lex.c vice.h config.h types.h mon.h mos6510.h mem.h \
+	snapshot.h interrupt.h vmachine.h 6510core.h mon_parse.h \
+	utils.h
+mon_parse.o: mon_parse.c vice.h config.h types.h asm.h utils.h mon.h \
+	mos6510.h mem.h snapshot.h interrupt.h vmachine.h 6510core.h \
+	machine.h
+p00.o: p00.c vice.h config.h p00.h types.h vdrive.h fs_cbm.h serial.h \
+	traps.h log.h
+palette.o: palette.c vice.h config.h log.h utils.h types.h palette.h \
+	sysfile.h
+parallel.o: parallel.c vice.h config.h types.h parallel.h serial.h \
+	traps.h drive/drive.h vdrive.h fs_cbm.h log.h drive/drivecpu.h \
+	alarm.h mos6510.h mon.h mem.h snapshot.h interrupt.h vmachine.h \
+	6510core.h
+prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h vdrive.h \
+	types.h fs_cbm.h serial.h traps.h log.h file.h charsets.h \
+	utils.h prdevice.h print.h
+pruser.o: pruser.c vice.h config.h types.h print.h pruser.h resources.h \
+	cmdline.h
+resources.o: resources.c vice.h config.h log.h resources.h \
+	arch/unix/archdep.h utils.h types.h
+romset.o: romset.c config.h types.h mem.h snapshot.h resources.h \
+	sysfile.h log.h utils.h romset.h
+rsuser.o: rsuser.c vice.h config.h types.h alarm.h cmdline.h resources.h \
+	interrupt.h vmachine.h 6510core.h mem.h snapshot.h log.h \
+	maincpu.h mon.h mos6510.h rs232.h rsuser.h
+serial.o: serial.c vice.h config.h drive/drive.h types.h vdrive.h \
+	fs_cbm.h serial.h traps.h log.h drive/drivecpu.h alarm.h \
+	mos6510.h mon.h mem.h snapshot.h interrupt.h vmachine.h \
+	6510core.h maincpu.h parallel.h tape.h utils.h prdevice.h
+snapshot.o: snapshot.c vice.h config.h snapshot.h types.h log.h utils.h \
+	zfile.h
+sound.o: sound.c vice.h config.h sound.h types.h warn.h cmdline.h \
+	resources.h log.h maincpu.h 6510core.h mem.h snapshot.h alarm.h \
+	mon.h mos6510.h interrupt.h vmachine.h arch/unix/ui.h \
+	arch/unix/xaw/ui.h palette.h utils.h arch/unix/vsync.h
+sysfile.o: sysfile.c vice.h config.h sysfile.h cmdline.h resources.h \
+	findpath.h arch/unix/archdep.h utils.h types.h
+t64.o: t64.c vice.h config.h t64.h types.h utils.h zfile.h
+tape.o: tape.c vice.h config.h tape.h types.h traps.h log.h mem.h \
+	snapshot.h maincpu.h 6510core.h alarm.h mon.h mos6510.h \
+	interrupt.h vmachine.h serial.h t64.h utils.h zfile.h
+traps.o: traps.c vice.h config.h traps.h types.h log.h maincpu.h \
+	6510core.h mem.h snapshot.h alarm.h mon.h mos6510.h interrupt.h \
+	vmachine.h resources.h cmdline.h utils.h
+utils.o: utils.c vice.h config.h utils.h types.h log.h
+vdrive-iec.o: vdrive-iec.c vice.h config.h vdrive.h types.h fs_cbm.h \
+	serial.h traps.h log.h vdrive-iec.h utils.h
+vdrive.o: vdrive.c vice.h config.h charsets.h types.h file.h fsdevice.h \
+	log.h serial.h traps.h utils.h vdrive.h fs_cbm.h vdrive-iec.h \
+	zfile.h
+warn.o: warn.c vice.h config.h warn.h log.h utils.h types.h
+zfile.o: zfile.c vice.h config.h log.h utils.h types.h zfile.h zipcode.h
+zipcode.o: zipcode.c vice.h config.h zipcode.h types.h
+
 info: info-recursive
 dvi: dvi-recursive
 check: all-am

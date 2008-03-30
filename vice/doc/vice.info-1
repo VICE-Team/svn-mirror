@@ -625,7 +625,10 @@ all the symbols.
 really need to be mapped specially regardless.  The most important
 examples being, in the VIC20, C64 and C128 emulators, that <CTRL> is
 mapped to <Tab> and that the <Commodore> key is mapped to the left
-<Control>).
+<Control>). The <RUN/STOP> key is mapped to the <ESC> key on the PC
+keyboard. The PET emulator, lacking the <Commodore> key but having an
+<ESC> key, uses the left <Control> key as <RUN/STOP> and the <ESC> key
+as <ESC> of course.
 
    The second way ("positional mapping") is to map every key on the
 "real" keyboard to the key which has the same position on the keyboard

@@ -1,5 +1,221 @@
 1999-02-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 0.16.1.25.
+
+1999-02-09  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/*: cartridge freeze support and drag and drop
+	of system ROMs.
+
+	* resources.c: implemented resources_query_type (was defined in
+	resources.h but never implemented).
+
+	* romset.c, romset.h: now fully functional romset archives.
+
+	* sysfile.c: general cleanup of the RISC OS bits.
+
+1998-02-09  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* pet/petmem.c (set_editor_rom_name): load ROM even if the 
+	name is the same as the old one - the kernal can overwrite it,
+	thus we have to make it sure that it's there.
+
+1998-02-09  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* doc/vice.texi: add mapping of RUN/STOP key to docs.
+
+	* c128/c128mem.c (mem_load_kernal, mem_load_basic, mem_load_chargen):
+	check for empty filename
+	(mem_kernal_checksum, mem_basic_checksum): new functions to 
+	compute and check the checksums of the kernal/basic ROMs.
+	Called by mem_load_{kernal|basic} and mem_read_rom_snapshot.
+	(mem_write_rom_snapshot_module): deinstall traps before saving
+	the ROM images; install traps after saving. Thus unmodified
+	ROMs are written.
+	(mem_read_rom_snapshot_module): deinstall traps before loading,
+	After loading the snapshot, install traps again.
+	Issue a warning after loading the snapshot that dumped romsets
+	and saved settings are not current anymore.
+	* cbm2/c610mem.c (mem_load_kernal, mem_load_basic, mem_load_chargen,
+	mem_checksum, mem_write_rom_snapshot_module,
+	mem_read_rom_snapshot_module): likewise
+	* pet/petmem.c (petmem_checksum, mem_load_kernal, mem_load_editor,
+	mem_write_rom_snapshot_module, mem_read_rom_snapshot_module): likewise
+	* vic20/vic20mem.c (mem_kernal_checksum, mem_load_kernal,
+	mem_basic_checksum, mem_load_basic, mem_load_chargen, 
+	mem_write_rom_snapshot_module, mem_read_rom_snapshot_module): likewise
+
+	* vic20/vic20mem.c (mem_read_rom_snapshot, mem_write_rom_snapshot):
+	fix memory addresses.
+	(mem_read_ram_snapshot, mem_read_rom_snapshot): check for 
+	major version number.
+
+	* c128/c128mem.c (mem_read_snapshot_module): do not reset 
+	ACIA and TPI when their modules are not read - this is done
+	in the ACIA and TPI modules themselves.
+
+	* cbm2/c610mem.c (mem_read_ram_snapshot, mem_write_ram_snapshot):
+	actually _use_ the hwconfig byte to save the value of the 
+	hardwired switches in the CBM-II
+	(mem_read_ram_snapshot, mem_read_rom_snapshot): check for 
+	major version number.
+
+	* vic20/cartridge.c (cartridge_attach_image): check for NULL
+	filename.
+
+1999-02-09  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* alarm.c (alarm_context_dispatch): Moved to `alarm.h' and made
+ 	inline.
+	(alarm_context_update_next_pending): Likewise.
+
+	* drive/via1drive0.c: #define `mycpu_alarm_context' and `MYVIA_NAME'
+	appropriately.  Removed alarm #defines required by the old API.
+	* drive/via2drive0.c: Likewise.
+	* drive/via1drive1.c: Likewise.
+	* drive/via2drive1.c: Likewise.
+
+	* viacore.c (reset_myvia): Use the new alarm API.
+	(store_myvia): Likewise.
+	(int_myviat1): Likewise.
+	(int_myviat2): Likewise.
+	(myvia_read_snapshot_module): Likewise.
+
+	* drive/drivecpu-tmpl.c (mydrive_cpu_init): Initialize the two
+	VIAs and the 1571/1581 CIAs using the new `*_init()' hooks.
+
+	* drive/via1drive0.c (myvia_init): #Define to `via1d0_init'.
+	* drive/via2drive0.c (myvia_init): #Define to `via2d0_init'.
+	* drive/via1drive1.c (myvia_init): #Define to `via1d1_init'.
+	* drive/via2drive1.c (myvia_init): #Define to `via2d1_init'.
+
+	* viacore.c (myvia_init): New function, initializing the VIA
+	alarms with the new API.
+
+	* rsuser.c: Use the new alarm API.
+
+	* drive/drivecpu-tmpl.c (mydrive_cpu_init): Initialize the alarm
+ 	context.
+
+	* c64/c64.c (machine_init): Call `acia1_init()'.
+
+	* acia-tmpl.c (myacia_init): New function.
+	(myacia_write_snapshot_module): Temporarily `#if 0'ed out part
+	using `alarm_clk' from the old `cpu_int_status' struct.  TO BE
+	FIXED.
+	(reset_myacia): Updated to use the new `alarm*' functions.
+	(myacia_read_snapshot_module): Likewise.
+	(store_myacia): Likewise.
+	(int_myacia): Likewise.
+
+	* interrupt.c (prevent_clk_overflow): Do nothing for now.  TO BE
+	FIXED.
+	(interrupt_read_snapshot): Do not reset alarms anymore.
+
+	* interrupt.h: Removed all the alarm-specific stuff.
+	(cpu_int_status_init): Removed `num_ints' parameter; all callers
+ 	updated.
+
+	* drive/drivecpu-tmpl.c: New variable `mydrive_alarm_context'.
+
+	* maincpu.c (reset): Temporarily pass 0 as the number of alarms to 
+	`cpu_int_status_init()'.
+
+	* cia-tmpl.c: New variable `mycia_alarm'.  Removed
+	`MYCIA_USE_INLINE' stuff.
+	(mycia_init): New function.
+	(my_set_tai_clk): Use the new `alarm_*' functions to set/unset
+ 	alarms.
+	(my_unset_tai): Likewise.
+	(my_set_tbi_clk): Likewise.
+	(my_unset_tbi): Likewise.
+	(reset_mycia): Likewise.
+	(int_myciata): Likewise.
+	(int_myciatb): Likewise.
+	(int_myciatod): Likewise.
+	(mycia_write_snapshot_module): Likewise.  WARNING: This breaks
+	snapshot functionality.
+	(mycia_read_snapshot_module): Likewise.
+
+	* c64/c64.c (machine_init): Call `cia1_init()' and `cia2_init()'.
+
+	* vmachine.h: Alarm list `#if 0'ed out.
+
+	* c64/vicii.c: New static variables `raster_fetch_alarm',
+ 	`raster_draw_alarm' and `raster_irq_alarm'.
+	(vic_ii_init): Initialize them.
+	(update_int_raster): Use the new `alarm_*' functions to set/unset
+ 	alarms.
+	(reset_vic_ii): Likewise.
+	(store_vic): Likewise.
+	(int_raster): Likewise.
+	(int_rasterfetch): Likewise.
+	(int_rasterdraw): Likewise.
+	(vic_ii_prepare_for_snapshot): Likewise.
+	(vic_ii_read_snapshot_module): Likewise.
+
+	* c64/c64.c (machine_reset): Do not initialize the alarm handler
+	array anymore.
+
+	* 6510core.c: Use the new `alarm_context*' functions and
+	`ALARM_CONTEXT' to check and dispatch pending alarms.
+
+	* c64/c64.c (machine_init): Call `maincpu_init()'.
+	* pet/pet.c (machine_init): Likewise.
+	* c128/c128.c (machine_init): Likewise.
+	* cbm2/c610.c (machine_init): Likewise.
+	* vic20/vic20.c (machine_init): Likewise.
+
+	* maincpu.c: New variable `maincpu_alarm_context'.  New #define
+ 	`ALARM_CONTEXT'.
+	(maincpu_init): New function.
+
+	* alarm.h, alarm.c: New files, new alarm implementation.
+
+1999-02-07  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/c64ui.c: Include kbd.h.
+
+	* arch/win32/kbc.c (set_keymap_index): Patch for not implemented
+	  positional keyboard mapping.
+
+	* arch/win32/uipetset.c (init_dialog): Changed KeymapIndex
+	  resource value from 1 to 2.
+	  (dialog_proc): Same here.
+
+1999-02-07  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/c64ui.c (c64_ui_specific): Added cartridge freeze
+	  handling.
+
+	* arch/win32/kbd.c (kbd_clear_matrix): New function, clears
+	  keyboard matrix.
+
+	* arch/win32/kbd.h (kbd_clear_matrix): Added prototype for new
+	  function.
+
+	* arch/win32/res.h (IDM_CART_FREEZE): New identifier for cartridge
+	  freeze menuitem.
+
+	* arch/win32/resc128.r arch/win32/resc64.r arch/win32/rescbm2.r
+	  arch/win32/respet.r arch/win32/resvic.r: Added shortcut keys
+	  to menu items.
+	  arch/win32/resc64.r: Added cartridge freeze menu item.
+
+	* arch/win32/ui.c (toggle_list): Added shortcut key to
+	  WarpMode toggle.
+	  (c64_accel) (c128_accel) (cbm2_accel) (pet_accel) (vic_accel):
+	  Added shorcut key definition tables.
+	  (ui_init): Added shortcut key resource init.
+	  (ui_init_finish): Set shortcut accelerator cleanup routine
+	  to exit list.
+	  (ui_exit): Destroy shortcut accelerators.
+	  (ui_dispatch_next_event): Handle shortcut accelerators.
+	  (handle_wm_command): Handle shortcut acceleratos.
+	  Changed from mem_powerup to machine_powerup when HardReset.
+
+1999-02-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 0.16.1.24.
 
 	* c128cpu.c: Removed `NO_INSTRUCTION_FETCH_HACK', `JUMP', `STORE',
