@@ -117,7 +117,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libx11ui.a
 
-libx11ui_a_SOURCES =  	kbd.c 	kbdef.h 	video.c 	videoarch.h
+libx11ui_a_SOURCES =  	kbd.c 	kbdef.h 	video.c 	videoarch.h 
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../src/config.h

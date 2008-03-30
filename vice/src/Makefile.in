@@ -121,7 +121,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 YFLAGS = -dt
 
-noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	asm.h 	attach.h 	autostart.h 	cartridge.h 	charsets.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	config.h.in 	datasette.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	gcr.h 	iecdrive.h 	imagecontents.h 	info.h 	interrupt.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mon.h 	mon_parse.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	print.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	usleep.h 	utils.h 	via.h 	viacore.h 	vice.h 	video.h 	vsidui.h 	vsync.h 	warn.h 	zfile.h 	zipcode.h
+noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	asm.h 	attach.h 	autostart.h 	cartridge.h 	charsets.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	config.h.in 	datasette.h 	diskimage.h 	emuid.h 	fixpoint.h 	findpath.h 	fsdevice.h 	fliplist.h 	gcr.h 	iecdrive.h 	imagecontents.h 	info.h 	interrupt.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	maincpu.h 	mem.h 	mon.h 	mon_parse.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	print.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	t64.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	vsidui.h 	vsync.h 	warn.h 	zfile.h 	zipcode.h
 
 
 base_sources =  	alarm.c 	asm.c 	attach.c 	autostart.c 	charsets.c 	ciatimer.c 	clkguard.c 	cmdline.c 	datasette.c 	diskimage.c 	emuid.c 	findpath.c 	fsdevice.c 	fliplist.c 	gcr.c 	info.c 	interrupt.c 	imagecontents.c 	kbdbuf.c 	keyboard.c 	log.c 	main.c 	mon.c 	mon_lex.l 	mon_parse.y 	p00.c 	palette.c 	parallel.c 	resources.c 	romset.c 	serial.c 	snapshot.c 	sound.c 	sysfile.c 	t64.c 	tap.c 	tape.c 	traps.c 	utils.c 	warn.c 	zfile.c 	zipcode.c
@@ -228,7 +228,7 @@ petcat_LDADD =  	@ARCH_DIR@/archdep.o 	@ARCH_DIR@/uicmdline.o
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = 
+CONFIG_CLEAN_FILES =  version.h
 PROGRAMS =  $(bin_PROGRAMS)
 
 
@@ -286,7 +286,7 @@ CCLD = $(CC)
 HEADERS =  $(noinst_HEADERS)
 
 DIST_COMMON =  ./stamp-h.in ChangeLog Makefile.am Makefile.in alloca.c \
-config.h.in memcmp.c mon_lex.c mon_parse.c usleep.c
+config.h.in memcmp.c mon_lex.c mon_parse.c usleep.c version.h.in
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -334,6 +334,8 @@ distclean-hdr:
 	-rm -f config.h
 
 maintainer-clean-hdr:
+version.h: $(top_builddir)/config.status version.h.in
+	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 mostlyclean-binPROGRAMS:
 
@@ -598,7 +600,7 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	arch/unix/kbd.h kbdbuf.h keyboard.h machine.h maincpu.h \
 	arch/unix/main_exit.h sysfile.h tape.h traps.h arch/unix/ui.h \
 	arch/unix/x11/xaw/ui.h palette.h uiapi.h utils.h \
-	vdrive/vdrive.h video.h arch/unix/videoarch.h \
+	vdrive/vdrive.h version.h video.h arch/unix/videoarch.h \
 	arch/unix/x11/xaw/videoarch.h arch/unix/x11/xaw/../videoarch.h \
 	arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \

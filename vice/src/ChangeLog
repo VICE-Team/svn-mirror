@@ -1,3 +1,98 @@
+1999-11-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.1.
+
+	* zfile.c (try_uncompress_archive): Fixed `free' calls.
+
+	* arch/os2/Makefile.am: Removed commend within file list.
+
+	* version.h.in: New file.
+
+	* Makefile.am: Added `version.h.in' and `version.h'.
+
+	* arch/unix/x11/gnome/ui.c, arch/unix/x11/gnome/about.c,
+	arch/unix/x11/xaw/about.c, arch/win32/ui.c, main.c,
+	arch/msdos/menudefs.c, arch/msdos/tui_backend.c,
+	arch/msdos/ui.c, arch/win32/res.rc: #include "version.h".
+
+	* arch/win32/msvc/config.h, arch/riscos/config.h: Removed
+	PACKAGE and VERSION defines.
+
+	* arch/os2/version.h: Removed.
+
+	* arch/os2/Makefile.am: Removed `version.h'.
+
+	* arch/unix/ui.h: New file.
+
+	* arch/unix/Makefile.am: Added `ui.h' and `uimenu.h'.
+
+	* arch/unix/c128ui.c, arch/unix/c610ui.c, arch/unix/c64ui.c,
+	arch/unix/petui.c, arch/unix/vic20ui.c: Changed XPM includes.
+
+	* arch/unix/x11/xaw/Makefile.am: Removed `uiedisk.h' and
+	`uisnapshot.h'
+
+1999-11-27  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* some changes of output to log-file in os2/*
+
+	* os2/config.h: version definition --> version.h
+
+	* os2/dialogs.rc: included version.h
+
+	* os2/dialogs.c: prevent dialogs from opening when already
+	open
+
+	* os2/joystick.c: prevent joysticks from 'hanging' when
+	switched off
+
+	* os2/rs232.c added
+
+	* os2/version.h added
+
+	* os2/vsync.c: better system response in case of 100%CPU usage
+
+	* c128iec.c: string.h included
+
+	* c1541.c: changed order of string.h and memory.h include
+	statements, included io.h, added definition for 'clk'
+
+	* main.c: included version.h in case of OS2
+
+1999-11-27  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/xaw/ui.c: Removed vsid debug output.
+ 
+	* arch/unix/x11/xaw/uimenu.c: num_checkmark_menu_items made global
+	to allow menu recreation.
+ 	
+	* arch/unix/x11/xaw/vsidui.c: Tune selection menu created
+	dynamically.
+ 
+	* c64/c64.c (machine_init_resources): Initialize vsid specific
+	resources. (machine_play_psid): psid_play_tune renamed to
+	psid_set_tune.
+ 
+	* c64/psid.c: New resource PSIDTune so specify tune number.
+	(psid_init_tune): Choose PAL or NTSC.
+ 	
+1999-11-25  Martin Pottendorfer <Martin.Pottendorfer@alcatel.at>
+
+	* info.c: Updated my contribution to the project.
+
+	* autostart.c (autostart_prg): Added `#ifdef HAVE_ERRNO_H'.
+
+	* arch/unix/ui*.c
+	Changed all instances of `call_data' to `CHECK_MENUS' and
+	`client_data' to `UI_MENU_CB_PARAM' which are defined by the
+	specific ui.
+
+	* arch/unix/x11/gnome:
+	Many Fixes.
+
+	* arch/unix/x11/xaw, arch/unix:
+	Moved generic ui-implementations into archdir.
+
 1999-11-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.

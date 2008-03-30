@@ -112,12 +112,12 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 @NEED_READLINE_TRUE@SUBDIRS = x11 readline
 @NEED_READLINE_FALSE@SUBDIRS = x11
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/c64 	-I$(top_srcdir)/src/c128 	-I$(top_srcdir)/src/vic20 	-I$(top_srcdir)/src/pet 	-I$(top_srcdir)/src/cbm2 	-I$(top_srcdir)/src
 
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.h 	c610ui.h 	c64ui.h 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c         main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.h 	print.c 	rs232.c 	types.h 	ui.h         uicmdline.c         uicmdline.h 	vic20ui.h 	videoarch.h 	vsync.c
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.h 	c128ui.c 	c610ui.h 	c610ui.c 	c64ui.h 	c64ui.c 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.h 	petui.c 	print.c 	rs232.c 	types.h 	ui.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c         uiedisk.h 	uimenu.h 	uisettings.h 	uisettings.c 	uisnapshot.h 	vic20ui.h 	vic20ui.c 	videoarch.h 	vsync.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
@@ -132,8 +132,9 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
-libarch_a_OBJECTS =  archdep.o coproc.o joystick.o kmap.o main_exit.o \
-mouse.o petkmap.o print.o rs232.o uicmdline.o vsync.o
+libarch_a_OBJECTS =  archdep.o c128ui.o c610ui.o c64ui.o coproc.o \
+joystick.o kmap.o main_exit.o mouse.o petkmap.o petui.o print.o rs232.o \
+uicmdline.o uicommands.o uisettings.o vic20ui.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -310,6 +311,30 @@ distdir: $(DISTFILES)
 archdep.o: archdep.c ../../../src/vice.h ../../../src/config.h archdep.h \
 	../../../src/archapi.h ../../../src/findpath.h \
 	../../../src/log.h ../../../src/utils.h types.h
+c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/drive/drive.h ../../../src/diskimage.h \
+	../../../src/gcr.h types.h ../../../src/log.h joystick.h \
+	../../../src/resources.h uicommands.h ui.h x11/xaw/ui.h \
+	../../../src/palette.h ../../../src/uiapi.h uimenu.h \
+	x11/xaw/uimenu.h x11/xaw/uihotkey.h uisettings.h \
+	../../../src/vsync.h x11/xaw/c128icon.xpm
+c610ui.o: c610ui.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cbm2/c610mem.h ../../../src/datasette.h \
+	../../../src/tap.h types.h joystick.h petui.h \
+	../../../src/resources.h uicommands.h ui.h x11/xaw/ui.h \
+	../../../src/palette.h ../../../src/uiapi.h uimenu.h \
+	x11/xaw/uimenu.h x11/xaw/uihotkey.h uisettings.h \
+	../../../src/vsync.h x11/xaw/c610icon.xpm
+c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/c64/c64mem.h ../../../src/mem.h \
+	../../../src/snapshot.h types.h ../../../src/cartridge.h \
+	../../../src/datasette.h ../../../src/tap.h \
+	../../../src/drive/drive.h ../../../src/diskimage.h \
+	../../../src/gcr.h ../../../src/log.h joystick.h \
+	../../../src/resources.h uicommands.h ui.h x11/xaw/ui.h \
+	../../../src/palette.h ../../../src/uiapi.h uimenu.h \
+	x11/xaw/uimenu.h x11/xaw/uihotkey.h uisettings.h \
+	../../../src/utils.h ../../../src/vsync.h x11/xaw/c64icon.xpm
 coproc.o: coproc.c coproc.h ../../../src/log.h
 joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h joystick.h \
@@ -330,6 +355,13 @@ mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h types.h \
 	../../../src/utils.h ../../../src/resources.h \
 	../../../src/cmdline.h kbd.h
+petui.o: petui.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/datasette.h ../../../src/tap.h types.h joystick.h \
+	../../../src/pet/pets.h petui.h ../../../src/resources.h \
+	uicommands.h ui.h x11/xaw/ui.h ../../../src/palette.h \
+	../../../src/uiapi.h uimenu.h x11/xaw/uimenu.h \
+	x11/xaw/uihotkey.h uisettings.h ../../../src/vsync.h \
+	x11/xaw/peticon.xpm
 print.o: print.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h \
 	../../../src/log.h ../../../src/print.h types.h \
@@ -339,6 +371,38 @@ rs232.o: rs232.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/log.h ../../../src/rs232.h types.h \
 	../../../src/utils.h
 uicmdline.o: uicmdline.c ../../../src/cmdline.h ../../../src/resources.h
+uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
+	archdep.h ../../../src/archapi.h ../../../src/attach.h \
+	../../../src/snapshot.h types.h ../../../src/autostart.h \
+	../../../src/fliplist.h ../../../src/imagecontents.h \
+	../../../src/info.h ../../../src/interrupt.h \
+	../../../src/6510core.h ../../../src/log.h \
+	../../../src/machine.h ../../../src/maincpu.h \
+	../../../src/alarm.h ../../../src/clkguard.h ../../../src/mon.h \
+	../../../src/mos6510.h ../../../src/mem.h \
+	../../../src/resources.h ../../../src/sound.h \
+	../../../src/warn.h ../../../src/tape.h ../../../src/traps.h \
+	uicommands.h ui.h x11/xaw/ui.h ../../../src/palette.h \
+	../../../src/uiapi.h uimenu.h x11/xaw/uimenu.h \
+	x11/xaw/uihotkey.h uiedisk.h uisnapshot.h ../../../src/utils.h \
+	../../../src/vsync.h
+uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
+	uisettings.h ui.h x11/xaw/ui.h types.h ../../../src/palette.h \
+	../../../src/uiapi.h uimenu.h x11/xaw/uimenu.h \
+	x11/xaw/uihotkey.h ../../../src/drive/drive.h \
+	../../../src/diskimage.h ../../../src/gcr.h ../../../src/log.h \
+	../../../src/fsdevice.h kbd.h ../../../src/mem.h \
+	../../../src/snapshot.h ../../../src/prdevice.h \
+	../../../src/resources.h ../../../src/romset.h \
+	../../../src/sound.h ../../../src/warn.h ../../../src/utils.h \
+	../../../src/vsync.h
+vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/cartridge.h types.h ../../../src/datasette.h \
+	../../../src/tap.h joystick.h ../../../src/resources.h \
+	uicommands.h ui.h x11/xaw/ui.h ../../../src/palette.h \
+	../../../src/uiapi.h uimenu.h x11/xaw/uimenu.h \
+	x11/xaw/uihotkey.h uisettings.h ../../../src/vsync.h \
+	x11/xaw/vic20icon.xpm
 vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/clkguard.h types.h ../../../src/cmdline.h \
 	../../../src/resources.h ../../../src/interrupt.h \

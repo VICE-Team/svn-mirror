@@ -408,8 +408,13 @@ patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 psid.o: psid.c ../../src/vice.h ../../src/config.h c64mem.h \
 	../../src/mem.h ../../src/snapshot.h \
 	../../src/arch/unix/types.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/log.h ../../src/machine.h \
-	psid.h ../../src/utils.h ../../src/zfile.h psiddrv.h
+	../../src/resources.h ../../src/drive/drive.h \
+	../../src/diskimage.h ../../src/gcr.h ../../src/log.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/machine.h \
+	psid.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/x11/xaw/ui.h ../../src/palette.h \
+	../../src/uiapi.h ../../src/utils.h ../../src/vsync.h \
+	../../src/zfile.h psiddrv.h
 reu.o: reu.c ../../src/vice.h ../../src/config.h ../../src/log.h \
 	../../src/maincpu.h ../../src/6510core.h \
 	../../src/arch/unix/types.h ../../src/alarm.h \
