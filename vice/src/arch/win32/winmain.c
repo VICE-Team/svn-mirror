@@ -52,6 +52,8 @@ HINSTANCE winmain_prev_instance;
 LPSTR winmain_cmd_line;
 int winmain_cmd_show;
 
+extern int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
+                          LPSTR cmd_line, int cmd_show);
 
 int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
                    LPSTR cmd_line, int cmd_show)

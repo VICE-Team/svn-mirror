@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 #include <windows.h>
+#include <tchar.h>
 
 #ifdef HAVE_SHLOBJ_H
 #include <shlobj.h>
@@ -41,16 +42,16 @@
 
 #include "attach.h"
 #include "autostart.h"
+#include "iecdrive.h"
 #include "imagecontents.h"
 #include "lib.h"
+#include "printer.h"
 #include "res.h"
 #include "resources.h"
-#include "ui.h"
-#include "uiperipheral.h"
-#include "printer.h"
-#include "iecdrive.h"
 #include "system.h"
+#include "ui.h"
 #include "uilib.h"
+#include "uiperipheral.h"
 #include "winmain.h"
 
 
@@ -111,15 +112,20 @@ static void enable_controls(HWND hwnd)
 static void init_dialog(HWND hwnd, unsigned int num)
 {
     const char *disk_image, *dir;
+    TCHAR *st_disk_image, *st_dir;
     int enabled, n;
 
     if (num >= 8 && num <= 11) {
         disk_image = file_system_get_disk_name(num);
+        st_disk_image = system_mbstowcs_alloc(disk_image);
         SetDlgItemText(hwnd, IDC_DISKIMAGE,
-                       disk_image != NULL ? disk_image : "");
+                       st_disk_image != NULL ? st_disk_image : TEXT(""));
+        system_mbstowcs_free(st_disk_image);
 
         resources_get_sprintf("FSDevice%dDir", (void *)&dir, num);
-        SetDlgItemText(hwnd, IDC_DIR, dir != NULL ? dir : "");
+        st_dir = system_mbstowcs_alloc(dir);
+        SetDlgItemText(hwnd, IDC_DIR, st_dir != NULL ? st_dir : TEXT(""));
+        system_mbstowcs_free(st_dir);
 
         resources_get_sprintf("FSDevice%dConvertP00", (void *)&n, num);
         CheckDlgButton(hwnd, IDC_TOGGLE_READP00,
@@ -168,45 +174,53 @@ static void init_dialog(HWND hwnd, unsigned int num)
 
 static BOOL store_dialog_results(HWND hwnd, unsigned int num)
 {
-  char s[MAX_PATH];
+    char s[MAX_PATH];
+    TCHAR st[MAX_PATH];
 
-  if( IsDlgButtonChecked(hwnd, IDC_SELECTDISK) == BST_CHECKED ) 
-    {
-      GetDlgItemText(hwnd, IDC_DISKIMAGE, s, MAX_PATH);
-      if( file_system_attach_disk(num, s) < 0 )
-	{
-	  ui_error("Cannot attach specified file");
-	  return 0;
-	}
+    if (IsDlgButtonChecked(hwnd, IDC_SELECTDISK) == BST_CHECKED) {
+        GetDlgItemText(hwnd, IDC_DISKIMAGE, st, MAX_PATH);
+        system_wcstombs(s, st, MAX_PATH);
+        if (file_system_attach_disk(num, s) < 0 ) {
+            ui_error("Cannot attach specified file");
+            return 0;
+        }
+    } else {
+        if ((IsDlgButtonChecked(hwnd, IDC_SELECTDIR) == BST_CHECKED) &&
+            file_system_get_disk_name(num))
+            file_system_detach_disk(num);
     }
-  else if( (IsDlgButtonChecked(hwnd, IDC_SELECTDIR) == BST_CHECKED) && 
-           file_system_get_disk_name(num) )
-    file_system_detach_disk(num);
 
-  if( iec_available_busses() & IEC_BUS_IEC )
-    resources_set_sprintf("IECDevice%d", 
-                          (resource_value_t)(IsDlgButtonChecked(hwnd, IDC_TOGGLE_USEIECDEVICE)==BST_CHECKED), 
+    if (iec_available_busses() & IEC_BUS_IEC)
+        resources_set_sprintf("IECDevice%d", 
+                              (resource_value_t)(IsDlgButtonChecked(hwnd,
+                              IDC_TOGGLE_USEIECDEVICE)==BST_CHECKED), 
+                              num);
+
+    resources_set_sprintf("FileSystemDevice%d", 
+                          (resource_value_t)(IsDlgButtonChecked(hwnd,
+                          IDC_SELECTNONE) != BST_CHECKED),
                           num);
+    resources_set_sprintf("FSDevice%dConvertP00", 
+                          (resource_value_t)(IsDlgButtonChecked(hwnd,
+                          IDC_TOGGLE_READP00)==BST_CHECKED), 
+                          num);
+    resources_set_sprintf("FSDevice%dSaveP00", 
+                          (resource_value_t)(IsDlgButtonChecked(hwnd,
+                          IDC_TOGGLE_WRITEP00)==BST_CHECKED), 
+                          num);
+    resources_set_sprintf("FSDevice%dHideCBMFiles", 
+                          (resource_value_t)(IsDlgButtonChecked(hwnd,
+                          IDC_TOGGLE_HIDENONP00)==BST_CHECKED), 
+                          num);
+    resources_set_sprintf("AttachDevice%dReadonly", 
+                          (resource_value_t)(IsDlgButtonChecked(hwnd,
+                          IDC_TOGGLE_ATTACH_READONLY)==BST_CHECKED), 
+                          num);
+    GetDlgItemText(hwnd, IDC_DIR, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
+    resources_set_sprintf("FSDevice%dDir", (resource_value_t)s, num);
 
-  resources_set_sprintf("FileSystemDevice%d", 
-                        (resource_value_t)(IsDlgButtonChecked(hwnd, IDC_SELECTNONE) != BST_CHECKED),
-                        num);
-  resources_set_sprintf("FSDevice%dConvertP00", 
-                        (resource_value_t)(IsDlgButtonChecked(hwnd, IDC_TOGGLE_READP00)==BST_CHECKED), 
-                        num);
-  resources_set_sprintf("FSDevice%dSaveP00", 
-                        (resource_value_t)(IsDlgButtonChecked(hwnd, IDC_TOGGLE_WRITEP00)==BST_CHECKED), 
-                        num);
-  resources_set_sprintf("FSDevice%dHideCBMFiles", 
-                        (resource_value_t)(IsDlgButtonChecked(hwnd, IDC_TOGGLE_HIDENONP00)==BST_CHECKED), 
-                        num);
-  resources_set_sprintf("AttachDevice%dReadonly", 
-                        (resource_value_t)(IsDlgButtonChecked(hwnd, IDC_TOGGLE_ATTACH_READONLY)==BST_CHECKED), 
-                        num);
-  GetDlgItemText(hwnd, IDC_DIR, s, MAX_PATH);
-  resources_set_sprintf("FSDevice%dDir", (resource_value_t)s, num);
-
-  return 1;
+    return 1;
 }
 
 static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
@@ -219,16 +233,16 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
 
       case WM_NOTIFY:
         {
-          NMHDR *nmhdr = (NMHDR *) (lparam);
+            NMHDR *nmhdr = (NMHDR *)(lparam);
 
-          switch( nmhdr->code )
-            {
-            case PSN_APPLY:
-              SetWindowLong(hwnd, DWL_MSGRESULT, 
-                            store_dialog_results(hwnd, num) ? PSNRET_NOERROR : PSNRET_INVALID);
-              return TRUE;
+            switch (nmhdr->code) {
+              case PSN_APPLY:
+                SetWindowLong(hwnd, DWL_MSGRESULT, 
+                              store_dialog_results(hwnd, num)
+                              ? PSNRET_NOERROR : PSNRET_INVALID);
+                return TRUE;
             }
-          break;
+            break;
         }
 
       case WM_COMMAND:
@@ -244,13 +258,16 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
           case IDC_BROWSEDISK:
             {
                 char *s;
+                TCHAR *st;
 
                 s = ui_select_file(hwnd,"Attach disk image",
                     UI_LIB_FILTER_ALL | UI_LIB_FILTER_DISK | UI_LIB_FILTER_ZIP,
                     FILE_SELECTOR_DISK_STYLE,NULL);
 
                 if (s != NULL) {
-                    SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
+                    st = system_mbstowcs_alloc(s);
+                    SetDlgItemText(hwnd, IDC_DISKIMAGE, st);
+                    system_mbstowcs_free(st);
                     lib_free(s);
                 }
             }
@@ -258,13 +275,16 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
           case IDC_AUTOSTART:
             {
                 char *s;
+                TCHAR *st;
 
                 s = ui_select_file(hwnd,"Autostart disk image",
                     UI_LIB_FILTER_ALL | UI_LIB_FILTER_DISK | UI_LIB_FILTER_ZIP,
                     FILE_SELECTOR_DISK_STYLE,NULL);
 
                 if (s != NULL) {
-                    SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
+                    st = system_mbstowcs_alloc(s);
+                    SetDlgItemText(hwnd, IDC_DISKIMAGE, st);
+                    system_mbstowcs_free(st);
                     if (autostart_autodetect(s, "*", 0, AUTOSTART_MODE_RUN) < 0)
                         ui_error("Cannot autostart specified file.");
                     lib_free(s);
@@ -320,7 +340,7 @@ _CALLBACK(11)
 /*                           Printers (Userport, 4-5)                         */
 /* -------------------------------------------------------------------------- */
 
-static char *printertextdevice[3] = {NULL, NULL, NULL};
+static char *printertextdevice[3] = { NULL, NULL, NULL };
 
 static const TCHAR *ui_printer[] =
 {
@@ -372,35 +392,35 @@ static const TCHAR *ui_printer_text_device[] =
 
 static void enable_printer_controls(unsigned int num, HWND hwnd)
 {
-  int res_value, is_enabled;
-  int drive_true_emulation, virtual_device_traps;
-  BOOL haveIECDevice;
+    int res_value, is_enabled;
+    int drive_true_emulation, virtual_device_traps;
+    BOOL haveIECDevice;
   
-  resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
-  resources_get_value("VirtualDevices", (void *)&virtual_device_traps);
-  haveIECDevice = IsDlgButtonChecked(hwnd, IDC_PRINTER_USEIECDEVICE)==BST_CHECKED;
+    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
+    resources_get_value("VirtualDevices", (void *)&virtual_device_traps);
+    haveIECDevice = IsDlgButtonChecked(hwnd,
+                                       IDC_PRINTER_USEIECDEVICE) == BST_CHECKED;
   
-  if( num>0 && ((drive_true_emulation || !virtual_device_traps) && !haveIECDevice) )
-    {
-      EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_TYPE), FALSE);
-      SendMessage(GetDlgItem(hwnd, IDC_PRINTER_TYPE),
-                  CB_SETCURSEL, 0, 0);
-    }
-  else
-    EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_TYPE), TRUE);
+    if (num > 0 && ((drive_true_emulation || !virtual_device_traps)
+        && !haveIECDevice)) {
+        EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_TYPE), FALSE);
+        SendMessage(GetDlgItem(hwnd, IDC_PRINTER_TYPE),
+                    CB_SETCURSEL, 0, 0);
+    } else
+        EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_TYPE), TRUE);
 
-  res_value = SendMessage(GetDlgItem(hwnd, IDC_PRINTER_TYPE),
-                          CB_GETCURSEL, 0, 0);
+    res_value = SendMessage(GetDlgItem(hwnd, IDC_PRINTER_TYPE),
+                            CB_GETCURSEL, 0, 0);
   
-  is_enabled = res_value == PRINTER_DEVICE_FS;
+    is_enabled = res_value == PRINTER_DEVICE_FS;
   
-  EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_FORMFEED), is_enabled);
-  EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_DRIVER), is_enabled);
-  EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_OUTPUT), is_enabled);
-  EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_TEXTOUT), is_enabled);
-  EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_OUTPUT_FILE1_NAME), is_enabled);
-  EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_OUTPUT_FILE2_NAME), is_enabled);
-  EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_OUTPUT_FILE3_NAME), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_FORMFEED), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_DRIVER), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_OUTPUT), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_TEXTOUT), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_OUTPUT_FILE1_NAME), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_OUTPUT_FILE2_NAME), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_OUTPUT_FILE3_NAME), is_enabled);
 }
 
 static void init_printer_dialog(unsigned int num, HWND hwnd)
@@ -456,70 +476,61 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
     }
     SendMessage(printer_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    if( num>0 && (iec_available_busses() & IEC_BUS_IEC) )
-      {
+    if (num > 0 && (iec_available_busses() & IEC_BUS_IEC)) {
         resources_get_sprintf("IECDevice%d", (void *)&res_value, num);
         CheckDlgButton(hwnd, IDC_PRINTER_USEIECDEVICE,
                        res_value ? BST_CHECKED : BST_UNCHECKED);
-      }
-    else
-      {
+    } else {
         ShowWindow(GetDlgItem(hwnd, IDC_PRINTER_USEIECDEVICE), FALSE);
         CheckDlgButton(hwnd, IDC_PRINTER_USEIECDEVICE, BST_UNCHECKED);
-      }
+    }
     
-    for(i=0; i<3; i++)
-      {
+    for (i = 0; i < 3; i++) {
         resources_get_sprintf("PrinterTextDevice%d", (void *)&res_string, i+1);
-        if( res_string )
-          strncpy(printertextdevice[i], res_string, MAX_PATH);
-      }
+        if (res_string)
+            strncpy(printertextdevice[i], res_string, MAX_PATH);
+    }
 
     enable_printer_controls(num, hwnd);
 }
 
 static BOOL store_printer_dialog_results(HWND hwnd, unsigned int num)
 {
-  char printer_name[30];
+    char printer_name[30];
   
-  if( num==0 )
-    sprintf(printer_name, "PrinterUserport");
-  else
-    sprintf(printer_name, "Printer%d", num);
+    if (num == 0)
+        sprintf(printer_name, "PrinterUserport");
+    else
+        sprintf(printer_name, "Printer%d", num);
 
-  resources_set_value(printer_name, 
-                      (resource_value_t) SendMessage(GetDlgItem(hwnd, IDC_PRINTER_TYPE),
-                                                     CB_GETCURSEL, 0, 0));
+    resources_set_value(printer_name, 
+                        (resource_value_t)SendMessage(GetDlgItem(hwnd,
+                        IDC_PRINTER_TYPE), CB_GETCURSEL, 0, 0));
 
-  resources_set_sprintf("%sDriver", 
-                        (resource_value_t) 
-                        ui_printer_driver_ascii[SendMessage(GetDlgItem(hwnd, IDC_PRINTER_DRIVER),
-                                                            CB_GETCURSEL, 0, 0)],
+    resources_set_sprintf("%sDriver", (resource_value_t)
+                        ui_printer_driver_ascii[SendMessage(GetDlgItem(hwnd,
+                        IDC_PRINTER_DRIVER), CB_GETCURSEL, 0, 0)],
                         printer_name);
 
-  resources_set_sprintf("%sOutput", 
-                        (resource_value_t) 
-                        ui_printer_output_ascii[SendMessage(GetDlgItem(hwnd, IDC_PRINTER_OUTPUT),
-                                                            CB_GETCURSEL, 0, 0)],
-                        printer_name);
+    resources_set_sprintf("%sOutput", (resource_value_t)
+                          ui_printer_output_ascii[SendMessage(GetDlgItem(hwnd,
+                          IDC_PRINTER_OUTPUT), CB_GETCURSEL, 0, 0)],
+                          printer_name);
 
-  resources_set_sprintf("%sTextDevice", 
-                        (resource_value_t)
-                        SendMessage(GetDlgItem(hwnd, IDC_PRINTER_TEXTOUT), CB_GETCURSEL, 0, 0),
-                        printer_name);
+    resources_set_sprintf("%sTextDevice", (resource_value_t)
+                          SendMessage(GetDlgItem(hwnd, IDC_PRINTER_TEXTOUT),
+                          CB_GETCURSEL, 0, 0), printer_name);
   
-  
-  resources_set_value("PrinterTextDevice1", (void *)printertextdevice[0]);
-  resources_set_value("PrinterTextDevice2", (void *)printertextdevice[1]);
-  resources_set_value("PrinterTextDevice3", (void *)printertextdevice[2]);
+    resources_set_value("PrinterTextDevice1", (void *)printertextdevice[0]);
+    resources_set_value("PrinterTextDevice2", (void *)printertextdevice[1]);
+    resources_set_value("PrinterTextDevice3", (void *)printertextdevice[2]);
 
-  if( num>0 && (iec_available_busses() & IEC_BUS_IEC) )
-    resources_set_sprintf("IECDevice%d", 
-                          (resource_value_t)(IsDlgButtonChecked(hwnd, IDC_PRINTER_USEIECDEVICE)==BST_CHECKED),
-                          num);
+    if (num > 0 && (iec_available_busses() & IEC_BUS_IEC))
+        resources_set_sprintf("IECDevice%d", (resource_value_t)
+                          (IsDlgButtonChecked(hwnd,
+                          IDC_PRINTER_USEIECDEVICE)==BST_CHECKED), num);
 
-
-  return 1;
+    return 1;
 }
 
 static BOOL CALLBACK printer_dialog_proc(unsigned int num, HWND hwnd, UINT msg, 
@@ -532,52 +543,66 @@ static BOOL CALLBACK printer_dialog_proc(unsigned int num, HWND hwnd, UINT msg,
         command = LOWORD(wparam);
         switch (command) {
           case IDC_PRINTER_TYPE:
-  	  case IDC_PRINTER_USEIECDEVICE:
+          case IDC_PRINTER_USEIECDEVICE:
             enable_printer_controls(num, hwnd);
             break;
-  	  case IDC_PRINTER_FORMFEED:
-	    {
-	      switch( num )
-		{
-		case 4: printer_formfeed(0); break;
-		case 5: printer_formfeed(1); break;
-		case 0: printer_formfeed(2); break;
-		}
-	      break;
-	    }
+          case IDC_PRINTER_FORMFEED:
+            {
+                switch(num) {
+                  case 4: printer_formfeed(0); break;
+                  case 5: printer_formfeed(1); break;
+                  case 0: printer_formfeed(2); break;
+                }
+                break;
+            }
         }
         return FALSE;
 
       case WM_NOTIFY:
         {
-          NMHDR FAR *nmhdr = (NMHDR FAR *) (lparam);
+            NMHDR FAR *nmhdr = (NMHDR FAR *)(lparam);
 
-          switch( nmhdr->code )
-            {
-            case PSN_APPLY:
-              SetWindowLong(hwnd, DWL_MSGRESULT, 
-                            store_printer_dialog_results(hwnd, num) ? PSNRET_NOERROR : PSNRET_INVALID);
-              return TRUE;
-
-            case PSN_SETACTIVE:
-              {
-                SetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE1_NAME, printertextdevice[0]);
-                SetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE2_NAME, printertextdevice[1]);
-                SetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE3_NAME, printertextdevice[2]);
+            switch (nmhdr->code) {
+              case PSN_APPLY:
+                SetWindowLong(hwnd, DWL_MSGRESULT, 
+                              store_printer_dialog_results(hwnd, num)
+                              ? PSNRET_NOERROR : PSNRET_INVALID);
                 return TRUE;
-              }
+
+              case PSN_SETACTIVE:
+                {
+                    TCHAR *st;
+
+                    st = system_mbstowcs_alloc(printertextdevice[0]);
+                    SetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE1_NAME, st);
+                    system_mbstowcs_free(st);
+                    st = system_mbstowcs_alloc(printertextdevice[1]);
+                    SetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE2_NAME, st);
+                    system_mbstowcs_free(st);
+                    st = system_mbstowcs_alloc(printertextdevice[2]);
+                    SetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE3_NAME, st);
+                    system_mbstowcs_free(st);
+                    return TRUE;
+                }
               
-            case PSN_KILLACTIVE:
-              {
-                GetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE1_NAME, printertextdevice[0], MAX_PATH);
-                GetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE2_NAME, printertextdevice[1], MAX_PATH);
-                GetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE3_NAME, printertextdevice[2], MAX_PATH);
-                return TRUE;
-              }
-            }
-          break;
-        }
+              case PSN_KILLACTIVE:
+                {
+                    TCHAR st[MAX_PATH];
 
+                    GetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE1_NAME,
+                                   st, MAX_PATH);
+                    system_wcstombs(printertextdevice[0], st, MAX_PATH);
+                    GetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE2_NAME,
+                                   st, MAX_PATH);
+                    system_wcstombs(printertextdevice[1], st, MAX_PATH);
+                    GetDlgItemText(hwnd, IDC_PRINTER_OUTPUT_FILE3_NAME,
+                                   st, MAX_PATH);
+                    system_wcstombs(printertextdevice[2], st, MAX_PATH);
+                    return TRUE;
+                }
+            }
+            break;
+        }
       case WM_CLOSE:
         EndDialog(hwnd, 0);
         return TRUE;
@@ -591,11 +616,11 @@ static BOOL CALLBACK printer_dialog_proc(unsigned int num, HWND hwnd, UINT msg,
 }
 
 
-#define _CALLBACK_PRINTER(num)                                            \
+#define _CALLBACK_PRINTER(num)                                    \
 static BOOL CALLBACK callback_##num(HWND dialog, UINT msg,        \
                                     WPARAM wparam, LPARAM lparam) \
 {                                                                 \
-    return printer_dialog_proc(num, dialog, msg, wparam, lparam);         \
+    return printer_dialog_proc(num, dialog, msg, wparam, lparam); \
 }
 
 _CALLBACK_PRINTER(0)
@@ -612,18 +637,19 @@ void ui_peripheral_dialog(HWND hwnd)
     PROPSHEETHEADER psh;
     int i, no_of_drives, no_of_printers;
 
-    for( i = 0; i < 3; i++ )
-      {
-        printertextdevice[i] = (char *) lib_malloc(MAX_PATH);
+    for (i = 0; i < 3; i++ ) {
+        printertextdevice[i] = (char *)lib_malloc(MAX_PATH);
         strcpy(printertextdevice[i], "");
-      }
+    }
 
-    no_of_drives   = 4;
+    no_of_drives = 4;
     no_of_printers = 2;
 
-    if( have_printer_userport<0 )
-      have_printer_userport = (resources_touch("PrinterUserport"))<0 ? 0 : 1;
-    if( have_printer_userport ) no_of_printers++;
+    if (have_printer_userport < 0)
+        have_printer_userport = (resources_touch("PrinterUserport")) < 0
+                                ? 0 : 1;
+    if (have_printer_userport)
+        no_of_printers++;
 
     for (i = 0; i < no_of_printers; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
@@ -633,7 +659,8 @@ void ui_peripheral_dialog(HWND hwnd)
         psp[i].pszTemplate = MAKEINTRESOURCE(IDD_PRINTER_SETTINGS_DIALOG);
         psp[i].pszIcon = NULL;
 #else
-        psp[i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PRINTER_SETTINGS_DIALOG);
+        psp[i].DUMMYUNIONNAME.pszTemplate
+            = MAKEINTRESOURCE(IDD_PRINTER_SETTINGS_DIALOG);
         psp[i].u2.pszIcon = NULL;
 #endif
         psp[i].lParam = 0;
@@ -645,42 +672,43 @@ void ui_peripheral_dialog(HWND hwnd)
         psp[no_of_printers+i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[no_of_printers+i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-        psp[no_of_printers+i].pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
+        psp[no_of_printers+i].pszTemplate
+            = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
         psp[no_of_printers+i].pszIcon = NULL;
 #else
-        psp[no_of_printers+i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
+        psp[no_of_printers+i].DUMMYUNIONNAME.pszTemplate
+            = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
         psp[no_of_printers+i].u2.pszIcon = NULL;
 #endif
         psp[no_of_printers+i].lParam = 0;
         psp[no_of_printers+i].pfnCallback = NULL;
     }
 
-    if( have_printer_userport )
-      {
+    if (have_printer_userport) {
         psp[0].pfnDlgProc = callback_0;
-        psp[0].pszTitle = "Printer Userport";
+        psp[0].pszTitle = TEXT("Printer Userport");
         i = 1;
-      }
-    else 
-      i = 0;
+    } else
+        i = 0;
+
     psp[i+0].pfnDlgProc = callback_4;
-    psp[i+0].pszTitle = "Printer 4";
+    psp[i+0].pszTitle = TEXT("Printer 4");
     psp[i+1].pfnDlgProc = callback_5;
-    psp[i+1].pszTitle = "Printer 5";
+    psp[i+1].pszTitle = TEXT("Printer 5");
     psp[i+2].pfnDlgProc = callback_8;
-    psp[i+2].pszTitle = "Drive 8";
+    psp[i+2].pszTitle = TEXT("Drive 8");
     psp[i+3].pfnDlgProc = callback_9;
-    psp[i+3].pszTitle = "Drive 9";
+    psp[i+3].pszTitle = TEXT("Drive 9");
     psp[i+4].pfnDlgProc = callback_10;
-    psp[i+4].pszTitle = "Drive 10";
+    psp[i+4].pszTitle = TEXT("Drive 10");
     psp[i+5].pfnDlgProc = callback_11;
-    psp[i+5].pszTitle = "Drive 11";
+    psp[i+5].pszTitle = TEXT("Drive 11");
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = "Peripheral Settings";
+    psh.pszCaption = TEXT("Peripheral Settings");
     psh.nPages = no_of_drives + no_of_printers;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
