@@ -1,4 +1,132 @@
+1998-09-14  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.8.
+
+	* vic20/vic20via1.def (INCLUDES): Removed spaces before
+ 	#preprocessing directives to make losing "not-so-ANSI" compilers
+ 	happy.
+	* drive/via2drive0.def (INCLUDES): Likewise.
+	* drive/via2drive1.def (INCLUDES): Likewise.
+	* drive/via1drive0.def (INCLUDES): Likewise.
+	* c64/c64cia2.def (INCLUDES): Likewise.
+
+	* arch/unix/xaw/ui.c: New variable `enabled_drives'.
+	(ui_enable_drive_status): Set `enabled_drives'.
+	(ui_open_canvas_window): Call `enable_drive_status()'.
+	(ui_init): Initialize `enabled_drives'.
+
+1998-09-14  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* acia-tmpl.c (myacia_write_snapshot_module,
+	myacia_read_snapshot_module): new snapshot functions, work in
+	progress.
+
+	* c64/c64cia2.def (UNDUMP_CIAPB): copied from STORE_CIAPB
+
+	* pet/petmem.c (pet2_tape_traps, pet3_tape_traps, pet4_tape_traps):
+	moved to the beginning of the file
+
+        * arch/unix/xaw/c610ui.c (c610_memsize_submenu): add 1M memory
+        size entry
+        (model_defaults_submenu): add 620+ model (1M)
+        (model_settings_submenu): add toggles for Ram1, Ram2, Ram4, Ram6
+
+        * c610/c610cia1.def (cia1_set_ieee_dir): use oldpa
+        [STORE_CIAPA]: comply with new I/O port handling
+        [READ_CIAPA]: dito
+
+        * c610/c610mem.c (set_ramsize): allow 512 and 1024k as well
+        (cart1_ram, cart2_ram, cart4_ram, cart6_ram): new resources
+        for setting bank15 at those places to RAM instead of ROM.
+        (ram): now 1M in size for 16 possible banks of 64k
+        [STORE_ZERO, STORE_RAM, READ_ZERO, READ_RAM]: defines to
+        build banked memory access functions.
+        (initialize_memory): check ramsize and set RAM memory functions
+        as well as check cart*_ram and set RAM in bank 15
+        (banknames, banknums): add more RAM banks for monitor access.
+        (mem_bank_read, mem_bank_write): handle new banks
+
+	* c610/c610mem.h [C610_RAM_SIZE]: change to 1M
+
+	* c610/c610tpi.def [STORE_PA]: fix call to cia1_set_ieee_dir
+
+	* crtc-tmpl.c, pet/crtc.def, c610/crtc.def [MY_WINDOW_TITLE]:
+        new define for the window title.
+
+	* Makefile.am (noinst_HEADERS): removed crtc.h
+
+	* c610/Makefile.am (libc610_a_SOURCES): added crtc.h
+
+	* c610/crtc.h: new file, copied from main crtc.h, but changed
+	CRTC_CYCLES_PER_LINE to 130
+
+	* crtc.h: removed file (moved to c610/crtc.h and pet/crtc.h)
+
+	* pet/Makefile.am (libpet_a_SOURCES): added crtc.h
+
+	* pet/crtc.h: new file (copied from main crtc.h)
+
+	* pet/pets.c (check_info): fixed bogus assignement.
+
+	* configure.in (strerror): added to AC_CHECK_FUNCS
+
+	* arch/unix/xaw/uisettings.c: include utils.h, for maybe-prototype
+	for strerror
+
+	* utils.c (strerror): new function if HAVE_STRERROR is not defined
+
+	* utils.h (strerror): new prototype if HAVE_STRERROR is not
+	defined
+
+	* C128/default.vkm, C64/default.vkm, C64/position.vkm,
+ 	vic20/default.vkm, vic20/position.vkm: Add entries for row=-3,
+ 	col=0 and 1, serving as Restore keys (allows two mappings)
+
+	* acia-tmpl.c (myacia_set_irq): set/unset IRQ when changing the
+	interrupt via the menu/resource
+
+	* arch/unix/kbd.c (key_ctrl_restore1, key_ctrl_restore2): two new
+	keysym mappings to allow dynamic change of Restore key mapping.
+	(kbd_event_handler): Don't check for XK_Page_Up and XK_Prior, but
+	for key_ctrl_restore[12] instead.
+	(kbd_parse_keyword): clear restore mappings on !CLEAR in .vkm file.
+	(kbd_parse_entry): set restore mappings on row=-3
+	(kbd_dump_keymap): dump restore mappigns.
+
+	* arch/unix/xaw/c610ui.c (c610_ui_init): remove call to
+	ui_toggle_drive_status
+
+	* arch/unix/xaw/petui.c (pet_ui_init): remove call to
+	ui_toggle_drive_status
+
+	* arch/unix/xaw/uisettings.c (acia1_irq_submenu): new submenu
+	to change IRQ for ACIA
+
+	* arch/unix/xaw/uisettings.h (acia1_irq_submenu): new prototype
+
+	* c128/c128cpu.def (PAGE_ONE, PAGE_ZERO, LOAD, STORE, LOAD_ZERO,
+	STORE_ZERO): defines taken from c128/c128mem.h
+
+	* c128/c128mem.h: outcomment macros for 6510core.c
+	(moved to c128cpu.def)
+
+	* c610/c610acia1.def: removed bogus second copy of the file.
+
+	* c64/c64mem.c (page_zero): removed
+
+	* pet/petmem.c (page_zero): removed
+
+	* vic20/vic20mem.c (page_zero): removed
+
+	* convio: now a "#define" in a function() definition is not also
+	read as convio-define
+
+	* cpu-tmpl.c (STORE, LOAD, LOAD_ZERO, STORE_ZERO): define them
+	only if not defined - they are defined for the C128.
+
 1998-09-13  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.7.
 
 	* drive/drive.c (drive_move_head): Do not display the drive track.
 	(drive_enable): Force an update of the UI elements.

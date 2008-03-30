@@ -38,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../../../..
+top_builddir = ../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -91,72 +91,29 @@ SOUND_MIDAS_OBJ = @SOUND_MIDAS_OBJ@
 SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
+SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
 
-SUBDIRS = widgets
+c610dir = $(prefix)/lib/vice/C610
 
-INCLUDES = \
-	-DPREFIX=\"@prefix@\" \
-	@ARCH_INCLUDES@ \
-        -I$(top_builddir)/src \
-	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/c64 \
-	-I$(top_srcdir)/src/c128 \
-	-I$(top_srcdir)/src/vic20 \
-	-I$(top_srcdir)/src/pet \
-	-I$(top_srcdir)/src/c610 \
-	@JOYSTICK@
+c610_DATA = \
+	amber.vpl \
+	basic.b128 \
+	basic.b256 \
+	chargen \
+	chargen_hun \
+	busi_uk.vkm \
+	default.vpl \
+	kernal \
+	white.vpl
 
-noinst_LIBRARIES = libxawui.a
-
-libxawui_a_SOURCES = \
-	c128icon.xpm \
-	c128ui.c \
-	c128ui.h \
-	c610icon.xpm \
-	c610ui.c \
-	c610ui.h \
-	c64icon.xpm \
-	c64ui.c \
-	c64ui.h \
-	checkmark.xbm \
-	peticon.xpm \
-	petui.c \
-	petui.h \
-	right_arrow.xbm \
-	ui.c \
-	ui.h \
-	uicommands.c \
-	uicommands.h \
-	uihotkey.c \
-	uihotkey.h \
-	uimenu.c \
-	uimenu.h \
-	uisettings.c \
-	uisettings.h \
-	vic20icon.xpm \
-	vic20ui.c \
-	vic20ui.h
+EXTRA_DIST = $(c610_DATA)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../../../src/config.h
+CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
-LIBRARIES =  $(noinst_LIBRARIES)
+DATA =  $(c610_DATA)
 
-
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../src
-CPPFLAGS = @CPPFLAGS@
-X_CFLAGS = @X_CFLAGS@
-X_LIBS = @X_LIBS@
-X_EXTRA_LIBS = @X_EXTRA_LIBS@
-X_PRE_LIBS = @X_PRE_LIBS@
-libxawui_a_LIBADD = 
-libxawui_a_OBJECTS =  c128ui.o c610ui.o c64ui.o petui.o ui.o \
-uicommands.o uihotkey.o uimenu.o uisettings.o vic20ui.o
-CFLAGS = @CFLAGS@
-COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
-LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -164,53 +121,35 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-SOURCES = $(libxawui_a_SOURCES)
-OBJECTS = $(libxawui_a_OBJECTS)
-
 all: all-recursive all-am
 
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/unix/xaw/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps data/C610/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 
-mostlyclean-noinstLIBRARIES:
+install-c610DATA: $(c610_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(c610dir)
+	@list='$(c610_DATA)'; for p in $$list; do \
+	  if test -f $(srcdir)/$$p; then \
+	    echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(c610dir)/$$p"; \
+	    $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(c610dir)/$$p; \
+	  else if test -f $$p; then \
+	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(c610dir)/$$p"; \
+	    $(INSTALL_DATA) $$p $(DESTDIR)$(c610dir)/$$p; \
+	  fi; fi; \
+	done
 
-clean-noinstLIBRARIES:
-	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-
-distclean-noinstLIBRARIES:
-
-maintainer-clean-noinstLIBRARIES:
-
-.c.o:
-	$(COMPILE) -c $<
-
-.s.o:
-	$(COMPILE) -c $<
-
-.S.o:
-	$(COMPILE) -c $<
-
-mostlyclean-compile:
-	-rm -f *.o core *.core
-
-clean-compile:
-
-distclean-compile:
-	-rm -f *.tab.c
-
-maintainer-clean-compile:
-
-libxawui.a: $(libxawui_a_OBJECTS) $(libxawui_a_DEPENDENCIES)
-	-rm -f libxawui.a
-	$(AR) cru libxawui.a $(libxawui_a_OBJECTS) $(libxawui_a_LIBADD)
-	$(RANLIB) libxawui.a
+uninstall-c610DATA:
+	@$(NORMAL_UNINSTALL)
+	list='$(c610_DATA)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(c610dir)/$$p; \
+	done
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -279,7 +218,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/arch/unix/xaw
+subdir = data/C610
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -296,62 +235,32 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-c610ui.o: c610ui.c ../../../../src/vice.h ../../../../src/config.h \
-	petui.h uimenu.h ui.h ../../../../src/types.h \
-	../../../../src/palette.h uihotkey.h \
-	../../../../src/resources.h uicommands.h uisettings.h \
-	../../../../src/arch/unix/joystick.h \
-	../../../../src/c610/c610mem.h c64icon.xpm
-petui.o: petui.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/arch/unix/joystick.h ../../../../src/pet/pets.h \
-	petui.h ../../../../src/resources.h uicommands.h ui.h \
-	../../../../src/types.h ../../../../src/palette.h uimenu.h \
-	uihotkey.h uisettings.h ../../../../src/arch/unix/vsync.h \
-	peticon.xpm
-ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
-	widgets/Canvas.h widgets/FileSel.h widgets/ScrList.h \
-	widgets/DirMgr.h widgets/Directory.h widgets/RegExp.h \
-	widgets/TextField.h ui.h ../../../../src/types.h \
-	../../../../src/palette.h uimenu.h uihotkey.h \
-	../../../../src/machine.h ../../../../src/resources.h \
-	../../../../src/cmdline.h ../../../../src/utils.h \
-	../../../../src/arch/unix/vsync.h
-uisettings.o: uisettings.c ../../../../src/vice.h \
-	../../../../src/config.h uisettings.h ui.h \
-	../../../../src/types.h ../../../../src/palette.h uimenu.h \
-	uihotkey.h ../../../../src/fsdevice.h \
-	../../../../src/arch/unix/kbd.h ../../../../src/resources.h \
-	../../../../src/sound.h ../../../../src/warn.h \
-	../../../../src/drive/drive.h ../../../../src/vdrive.h \
-	../../../../src/fs_cbm.h ../../../../src/serial.h \
-	../../../../src/traps.h ../../../../src/drive/drivecpu.h \
-	../../../../src/mos6510.h ../../../../src/mon.h \
-	../../../../src/mem.h ../../../../src/interrupt.h \
-	../../../../src/vmachine.h ../../../../src/6510core.h \
-	../../../../src/snapshot.h ../../../../src/arch/unix/vsync.h \
-	../../../../src/utils.h
-
 info: info-recursive
 dvi: dvi-recursive
 check: all-am
 	$(MAKE) check-recursive
 installcheck: installcheck-recursive
-all-am: Makefile $(LIBRARIES)
+all-am: Makefile $(DATA)
+
+install-data-am: install-c610DATA
+
+uninstall-am: uninstall-c610DATA
 
 install-exec: install-exec-recursive
 	@$(NORMAL_INSTALL)
 
-install-data: install-data-recursive
+install-data: install-data-recursive install-data-am
 	@$(NORMAL_INSTALL)
 
-install: install-recursive
+install: install-recursive install-data-am
 	@:
 
-uninstall: uninstall-recursive
+uninstall: uninstall-recursive uninstall-am
 
 install-strip:
 	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' INSTALL_SCRIPT='$(INSTALL_PROGRAM)' install
 installdirs: installdirs-recursive
+	$(mkinstalldirs)  $(DATADIR)$(c610dir)
 
 
 mostlyclean-generic:
@@ -368,18 +277,14 @@ distclean-generic:
 maintainer-clean-generic:
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
-mostlyclean-am:  mostlyclean-noinstLIBRARIES mostlyclean-compile \
-		mostlyclean-tags mostlyclean-generic
+mostlyclean-am:  mostlyclean-tags mostlyclean-generic
 
-clean-am:  clean-noinstLIBRARIES clean-compile clean-tags clean-generic \
-		mostlyclean-am
+clean-am:  clean-tags clean-generic mostlyclean-am
 
-distclean-am:  distclean-noinstLIBRARIES distclean-compile \
-		distclean-tags distclean-generic clean-am
+distclean-am:  distclean-tags distclean-generic clean-am
 
-maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
-		maintainer-clean-compile maintainer-clean-tags \
-		maintainer-clean-generic distclean-am
+maintainer-clean-am:  maintainer-clean-tags maintainer-clean-generic \
+		distclean-am
 
 mostlyclean:  mostlyclean-recursive mostlyclean-am
 
@@ -392,19 +297,17 @@ maintainer-clean:  maintainer-clean-recursive maintainer-clean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
-.PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
-clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
-mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile install-data-recursive \
+.PHONY: uninstall-c610DATA install-c610DATA install-data-recursive \
 uninstall-data-recursive install-exec-recursive \
 uninstall-exec-recursive installdirs-recursive uninstalldirs-recursive \
 all-recursive check-recursive installcheck-recursive info-recursive \
 dvi-recursive mostlyclean-recursive distclean-recursive clean-recursive \
 maintainer-clean-recursive tags tags-recursive mostlyclean-tags \
 distclean-tags clean-tags maintainer-clean-tags distdir info dvi \
-installcheck all-am install-exec install-data install uninstall all \
-installdirs mostlyclean-generic distclean-generic clean-generic \
-maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+installcheck all-am install-data-am uninstall-am install-exec \
+install-data install uninstall all installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

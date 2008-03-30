@@ -290,6 +290,15 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h vic20mem.h \
+	../../src/types.h ../../src/mem.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/snapshot.h \
+	../../src/maincpu.h ../../src/mos6510.h ../../src/mon.h \
+	../../src/memutils.h ../../src/utils.h ../../src/emuid.h vic.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	vic20via.h ../../src/via.h ../../src/cartridge.h
 vic20via1.o: vic20via1.c ../../src/vice.h ../../src/config.h \
 	../../src/vmachine.h ../../src/via.h ../../src/resources.h \
 	../../src/snapshot.h ../../src/types.h ../../src/drive/drive.h \

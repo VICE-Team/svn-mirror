@@ -124,7 +124,6 @@ noinst_HEADERS = \
 	cia.h \
 	cmdline.h \
 	config.h.in \
-	crtc.h \
 	emuid.h \
 	file.h \
 	findpath.h \
@@ -583,6 +582,7 @@ maincpu.o: maincpu.c vice.h config.h maincpu.h types.h mem.h mos6510.h \
 	6510core.h mon.h interrupt.h vmachine.h snapshot.h machine.h \
 	misc.h resources.h traps.h arch/unix/ui.h arch/unix/xaw/ui.h \
 	palette.h vdrive.h fs_cbm.h serial.h 6510core.c
+utils.o: utils.c vice.h config.h utils.h types.h
 
 info: info-recursive
 dvi: dvi-recursive

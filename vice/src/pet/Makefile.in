@@ -107,6 +107,7 @@ noinst_LIBRARIES = libpet.a
 libpet_a_SOURCES = \
 	crtc.c \
 	crtc.def \
+	crtc.h \
 	pet.c \
 	pet.h \
 	petacia.h \
@@ -284,7 +285,7 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/crtc.h \
+crtc.o: crtc.c ../../src/vice.h ../../src/config.h crtc.h \
 	../../src/types.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
@@ -297,14 +298,30 @@ petacia1.o: petacia1.c ../../src/resources.h ../../src/cmdline.h \
 	../../src/vmachine.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/rs232.h \
 	../../src/acia.h
+petmem.o: petmem.c ../../src/vice.h ../../src/config.h ../../src/types.h \
+	../../src/memutils.h ../../src/snapshot.h pia.h pet.h petvia.h \
+	petacia.h crtc.h ../../src/arch/unix/video.h \
+	../../src/palette.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/resources.h \
+	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
+	../../src/autostart.h ../../src/cmdline.h ../../src/tapeunit.h \
+	../../src/tape.h ../../src/traps.h pets.h ../../src/interrupt.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
+	../../src/maincpu.h ../../src/mos6510.h ../../src/mon.h \
+	petmem.h ../../src/emuid.h ../../src/utils.h
+pets.o: pets.c ../../src/vice.h ../../src/config.h ../../src/cmdline.h \
+	../../src/resources.h ../../src/interrupt.h ../../src/types.h \
+	../../src/vmachine.h ../../src/6510core.h ../../src/mem.h \
+	../../src/snapshot.h pets.h ../../src/utils.h \
+	../../src/arch/unix/vsync.h
 petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
 	../../src/vmachine.h ../../src/via.h ../../src/resources.h \
-	../../src/snapshot.h ../../src/types.h petvia.h \
-	../../src/crtc.h ../../src/arch/unix/video.h \
-	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/arch/unix/kbd.h \
-	../../src/parallel.h petsound.h ../../src/pruser.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/mem.h
+	../../src/snapshot.h ../../src/types.h petvia.h crtc.h \
+	../../src/arch/unix/video.h ../../src/palette.h \
+	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
+	../../src/arch/unix/kbd.h ../../src/parallel.h petsound.h \
+	../../src/pruser.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/mem.h
 
 info: info-recursive
 dvi: dvi-recursive
