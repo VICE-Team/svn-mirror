@@ -638,9 +638,9 @@ attach.o: attach.c vice.h config.h resources.h vdrive.h types.h fs_cbm.h \
 autostart.o: autostart.c vice.h config.h autostart.h types.h attach.h \
 	vdrive.h fs_cbm.h serial.h traps.h log.h snapshot.h charsets.h \
 	fsdevice.h interrupt.h vmachine.h 6510core.h mem.h kbdbuf.h \
-	machine.h p00.h resources.h tape.h arch/msdos/ui.h \
-	arch/msdos/tuimenu.h utils.h zfile.h
-c1541.o: c1541.c vice.h config.h arch/msdos/archdep.h charsets.h types.h \
+	machine.h p00.h resources.h tape.h arch/unix/ui.h \
+	arch/unix/xaw/ui.h palette.h utils.h zfile.h
+c1541.o: c1541.c vice.h config.h arch/unix/archdep.h charsets.h types.h \
 	gcr.h info.h p00.h serial.h traps.h t64.h utils.h vdrive-iec.h \
 	vdrive.h fs_cbm.h log.h zipcode.h
 charsets.o: charsets.c vice.h config.h charsets.h types.h
@@ -654,7 +654,7 @@ findpath.o: findpath.c vice.h config.h findpath.h utils.h types.h
 fliplist.o: fliplist.c vice.h config.h log.h utils.h types.h fliplist.h \
 	attach.h vdrive.h fs_cbm.h serial.h traps.h snapshot.h
 fsdevice.o: fsdevice.c vice.h config.h fsdevice.h types.h \
-	arch/msdos/archdep.h charsets.h cmdline.h resources.h log.h \
+	arch/unix/archdep.h charsets.h cmdline.h resources.h log.h \
 	p00.h utils.h vdrive.h fs_cbm.h serial.h traps.h
 gcr.o: gcr.c vice.h config.h gcr.h types.h
 imagecontents.o: imagecontents.c vice.h config.h imagecontents.h types.h \
@@ -667,26 +667,26 @@ kbdbuf.o: kbdbuf.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
 	snapshot.h alarm.h log.h mon.h mos6510.h interrupt.h vmachine.h \
 	kbdbuf.h charsets.h
 log.o: log.c vice.h config.h log.h cmdline.h resources.h \
-	arch/msdos/archdep.h utils.h types.h
-main.o: main.c vice.h config.h arch/msdos/archdep.h attach.h types.h \
+	arch/unix/archdep.h utils.h types.h
+main.o: main.c vice.h config.h arch/unix/archdep.h attach.h types.h \
 	vdrive.h fs_cbm.h serial.h traps.h log.h snapshot.h autostart.h \
 	cartridge.h charsets.h cmdline.h resources.h findpath.h \
 	fsdevice.h interrupt.h vmachine.h 6510core.h mem.h \
-	arch/msdos/joystick.h arch/msdos/kbd.h machine.h maincpu.h \
+	arch/unix/joystick.h arch/unix/kbd.h machine.h maincpu.h \
 	alarm.h mon.h mos6510.h sound.h warn.h sysfile.h tape.h \
-	arch/msdos/ui.h arch/msdos/tuimenu.h utils.h arch/msdos/video.h \
-	palette.h arch/msdos/vsync.h arch/msdos/mouse.h
+	arch/unix/ui.h arch/unix/xaw/ui.h palette.h utils.h \
+	arch/unix/video.h arch/unix/vsync.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
 	snapshot.h alarm.h log.h mon.h mos6510.h interrupt.h vmachine.h \
-	machine.h resources.h traps.h arch/msdos/ui.h \
-	arch/msdos/tuimenu.h vdrive.h fs_cbm.h serial.h 6510core.c
+	machine.h resources.h traps.h arch/unix/ui.h arch/unix/xaw/ui.h \
+	palette.h vdrive.h fs_cbm.h serial.h 6510core.c
 memutils.o: memutils.c vice.h config.h memutils.h types.h log.h \
 	resources.h sysfile.h utils.h
-mon.o: mon.c vice.h config.h log.h arch/msdos/video.h types.h palette.h \
-	arch/msdos/archdep.h asm.h charsets.h drive/drivecpu.h alarm.h \
-	mos6510.h mon.h mem.h snapshot.h interrupt.h vmachine.h \
-	6510core.h mon_parse.h resources.h utils.h vdrive.h fs_cbm.h \
-	serial.h traps.h arch/msdos/vsync.h
+mon.o: mon.c vice.h config.h arch/unix/archdep.h asm.h types.h \
+	charsets.h drive/drivecpu.h alarm.h log.h mos6510.h mon.h mem.h \
+	snapshot.h interrupt.h vmachine.h 6510core.h mon_parse.h \
+	resources.h utils.h vdrive.h fs_cbm.h serial.h traps.h \
+	arch/unix/vsync.h
 mon_lex.o: mon_lex.c vice.h config.h types.h mon.h mos6510.h mem.h \
 	snapshot.h interrupt.h vmachine.h 6510core.h mon_parse.h \
 	utils.h
@@ -708,7 +708,7 @@ prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h vdrive.h \
 pruser.o: pruser.c vice.h config.h types.h print.h pruser.h resources.h \
 	cmdline.h
 resources.o: resources.c vice.h config.h log.h resources.h \
-	arch/msdos/archdep.h utils.h types.h
+	arch/unix/archdep.h utils.h types.h
 romset.o: romset.c config.h types.h mem.h snapshot.h resources.h \
 	sysfile.h log.h utils.h romset.h
 rsuser.o: rsuser.c vice.h config.h types.h alarm.h log.h cmdline.h \
@@ -722,10 +722,10 @@ snapshot.o: snapshot.c vice.h config.h snapshot.h types.h log.h utils.h \
 	zfile.h
 sound.o: sound.c vice.h config.h sound.h types.h warn.h cmdline.h \
 	resources.h log.h maincpu.h 6510core.h mem.h snapshot.h alarm.h \
-	mon.h mos6510.h interrupt.h vmachine.h arch/msdos/ui.h \
-	arch/msdos/tuimenu.h utils.h arch/msdos/vsync.h
+	mon.h mos6510.h interrupt.h vmachine.h arch/unix/ui.h \
+	arch/unix/xaw/ui.h palette.h utils.h arch/unix/vsync.h
 sysfile.o: sysfile.c vice.h config.h sysfile.h cmdline.h resources.h \
-	findpath.h arch/msdos/archdep.h utils.h types.h
+	findpath.h arch/unix/archdep.h utils.h types.h
 t64.o: t64.c vice.h config.h t64.h types.h utils.h zfile.h
 tap.o: tap.c vice.h config.h datasette.h tap.h types.h utils.h zfile.h
 tape.o: tape.c vice.h config.h tape.h types.h traps.h datasette.h tap.h \
@@ -734,7 +734,7 @@ tape.o: tape.c vice.h config.h tape.h types.h traps.h datasette.h tap.h \
 traps.o: traps.c vice.h config.h traps.h types.h log.h maincpu.h \
 	6510core.h mem.h snapshot.h alarm.h mon.h mos6510.h interrupt.h \
 	vmachine.h resources.h cmdline.h utils.h
-utils.o: utils.c vice.h config.h utils.h types.h arch/msdos/archdep.h \
+utils.o: utils.c vice.h config.h utils.h types.h arch/unix/archdep.h \
 	log.h
 vdrive-iec.o: vdrive-iec.c vice.h config.h vdrive.h types.h fs_cbm.h \
 	serial.h traps.h log.h vdrive-iec.h utils.h

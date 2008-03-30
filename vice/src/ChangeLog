@@ -1,3 +1,32 @@
+1999-03-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.44.
+
+	* imagecontents.c (open_image): Set drive unit.
+
+	* c128/c128mem.c (initialize_memory): Added IO/Chargen banking
+	table.
+	(read_d0xx, read_d4xx, read_d5xx, read_d6xx, read_d7xx, read_d8xx,
+	read_dcxx, read_ddxx): Fix up the `chargen_rom' address.
+
+1998-03-16  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* ciacore.c (cia_update_tb): check whether we count TA underflows
+	If so, issue any delayed alarm function calls to update timers
+	(store_mycia): when writing to CRB then set bit 5 always when
+	single stepping (count TA, count CNT, ...) is selected
+	(int_ciata): when we need alarm functions on underflow, issue alarm
+	Fix checks for timer state when counting SDR and stepping TB
+	(int_ciatb): when we need alarm functions on underflow, issue alarm
+
+	* ciacore.h (cia_tas, cia_tbs): removed
+
+	* ciatimer.c (CIAT_NEED_LOG): new define to include log functions,
+	even when complete debugging is not enabled
+	(ciat_state_t): running renamed to runp2 - now only one when 
+	phi2 is counted; all occurances fixed
+	(ciat_set_ctrl): handle single-step modes
+
 1999-03-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.43.
