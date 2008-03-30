@@ -65,13 +65,13 @@ extern void machine_shutdown(void);
 
 /* Set the state of the RESTORE key (!=0 means pressed); returns 1 if key had
    been used.  */
-extern int machine_set_restore_key(int);
+extern int machine_set_restore_key(int v);
 
 /* Get the number of CPU cylces per second.  This is used in various parts.  */
 extern long machine_get_cycles_per_second(void);
 
 /* Set the screen refresh rate, as this is variable in the CRTC.  */
-extern void machine_set_cycles_per_frame(long);
+extern void machine_set_cycles_per_frame(long cpf);
 
 /* Write a snapshot.  */
 extern int machine_write_snapshot(const char *name, int save_roms,

@@ -58,11 +58,9 @@
 #include "gcr.h"
 #include "iecdrive.h"
 #include "log.h"
-#include "machine.h"
 #include "resources.h"
 #include "riotd.h"
 #include "serial.h"
-#include "snapshot.h"
 #include "sysfile.h"
 #include "types.h"
 #include "ui.h"
@@ -71,7 +69,6 @@
 #include "vdrive.h"
 #include "viad.h"
 #include "wd1770.h"
-#include "zfile.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -79,468 +76,19 @@
 drive_t drive[2];
 
 /* Prototypes of functions called by resource management.  */
-static int drive_enable(int dnr);
-static void drive_disable(int dnr);
-static int drive_set_disk_drive_type(int drive_type, int dnr);
-static void drive_set_sync_factor(unsigned int factor);
-static void drive_set_ntsc_sync_factor(void);
-static void drive_set_pal_sync_factor(void);
-static int set_drive0_idling_method(resource_value_t v);
-static int set_drive1_idling_method(resource_value_t v);
-static void drive_initialize_rom_traps(int dnr);
 static int drive_check_image_format(unsigned int format, int dnr);
-static int set_drive0_type(resource_value_t v);
-static int set_drive1_type(resource_value_t v);
-
-static int drive_load_1541(void);
-static int drive_load_1541ii(void);
-static int drive_load_1571(void);
-static int drive_load_1581(void);
-static int drive_load_2031(void);
-static int drive_load_1001(void);
 
 /* Generic drive logging goes here.  */
 static log_t drive_log = LOG_ERR;
 
-/* Is true drive emulation switched on?  */
-static int drive_true_emulation;
-
 /* Pointer to the IEC bus structure.  */
 static iec_info_t *iec_info;
 
-/* What sync factor between the CPU and the drive?  If equal to
-   `DRIVE_SYNC_PAL', the same as PAL machines.  If equal to
-   `DRIVE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
-   calculated as
-
-   65536 * clk_1541 / clk_[c64|vic20]
-
-   where `clk_1541' is fixed to 1 MHz, while `clk_[c64|vic20]' depends on the
-   video timing (PAL or NTSC).  The pre-calculated values for PAL and NTSC
-   are in `pal_sync_factor' and `ntsc_sync_factor'.  */
-static int sync_factor;
-
-/* Name of the DOS ROMs.  */
-static char *dos_rom_name_1541 = 0;
-static char default_dos_rom_name_1541[] = "dos1541";
-static char *dos_rom_name_1541ii = 0;
-static char *dos_rom_name_1571 = 0;
-static char *dos_rom_name_1581 = 0;
-static char *dos_rom_name_2031 = 0;
-static char *dos_rom_name_1001 = 0;
-
 /* If nonzero, at least one vaild drive ROM has already been loaded.  */
-static int rom_loaded = 0;
+int rom_loaded = 0;
 
 /* If nonzero, we are far enough in init that we can load ROMs */
 static int drive_rom_load_ok = 0;
-
-static int set_drive_true_emulation(resource_value_t v)
-{
-    drive_true_emulation = (int) v;
-    if ((int) v) {
-        if (drive[0].type != DRIVE_TYPE_NONE) {
-            drive[0].enable = 1;
-            drive_cpu_reset_clk(&drive0_context);
-        }
-        if (drive[1].type != DRIVE_TYPE_NONE) {
-            drive[1].enable = 1;
-            drive_cpu_reset_clk(&drive1_context);
-        }
-        drive_enable(0);
-        drive_enable(1);
-        iec_calculate_callback_index();
-    } else {
-        drive_disable(0);
-        drive_disable(1);
-
-        /* update BAM after true drive emulation having probably
-           changed the BAM on disk (14May1999) */
-        if (drive[0].image != NULL) {
-            vdrive_bam_reread_bam(8);
-        }
-        if (drive[1].image != NULL) {
-            vdrive_bam_reread_bam(9);
-        }
-    }
-    return 0;
-}
-
-static int set_drive0_type(resource_value_t v)
-{
-    int type = (int) v;
-    int busses = iec_available_busses();
-
-    /* if bus for drive type is not allowed, set to default value for bus */
-    if (!drive_match_bus(type, 0, busses)) {
-	if (busses & IEC_BUS_IEC) {
-	    type = DRIVE_TYPE_1541;
-	} else
-	if (busses & IEC_BUS_IEEE) {
-	    type = DRIVE_TYPE_2031;
-	} else
-	    type = DRIVE_TYPE_NONE;
-    }
-
-    if (DRIVE_IS_DUAL(type)) {
-	/* dual disk drives disable second emulated unit */
-
-        log_warning(drive[0].log,
-			"Dual disk drive disables second emulated drive");
-
-	set_drive1_type((resource_value_t) DRIVE_TYPE_NONE);
-    }
-
-    switch (type) {
-      case DRIVE_TYPE_1541:
-      case DRIVE_TYPE_1541II:
-      case DRIVE_TYPE_1571:
-      case DRIVE_TYPE_1581:
-      case DRIVE_TYPE_2031:
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        if (drive[0].type != type) {
-	    drive[0].current_half_track = 2 * 18;
-	    if ((type == DRIVE_TYPE_1001)
-		|| (type == DRIVE_TYPE_8050)
-		|| (type == DRIVE_TYPE_8250)) {
-	        drive[0].current_half_track = 2 * 38;
-	    }
-        }
-        drive[0].type = type;
-        if (drive_true_emulation) {
-            drive[0].enable = 1;
-            drive_enable(0);
-            iec_calculate_callback_index();
-        }
-        drive_set_disk_drive_type(type, 0);
-        drive_initialize_rom_traps(0);
-        set_drive0_idling_method((resource_value_t) drive[0].idling_method);
-        return 0;
-      case DRIVE_TYPE_NONE:
-        drive[0].type = type;
-        drive_disable(0);
-        return 0;
-      default:
-        return -1;
-    }
-}
-
-static int set_drive1_type(resource_value_t v)
-{
-    int type = (int) v;
-    int busses = iec_available_busses();
-
-    /* if bus for drive type is not allowed, set to default value for bus */
-    if (!drive_match_bus(type, 1, busses)) {
-	if (busses & IEC_BUS_IEC) {
-	    type = DRIVE_TYPE_1541;
-	} else
-	if (busses & IEC_BUS_IEEE) {
-	    type = DRIVE_TYPE_2031;
-	} else
-	    type = DRIVE_TYPE_NONE;
-    }
-
-    if (drive[0].enable && DRIVE_IS_DUAL(drive[0].type)) {
-	/* dual disk drives disable second emulated unit */
-
-        log_warning(drive[1].log,
-			"Dual disk drive disables second emulated drive");
-
-	type = DRIVE_TYPE_NONE;
-    }
-
-    switch (type) {
-      case DRIVE_TYPE_1541:
-      case DRIVE_TYPE_1541II:
-      case DRIVE_TYPE_1571:
-      case DRIVE_TYPE_1581:
-      case DRIVE_TYPE_2031:
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        if (drive[1].type != type) {
-	    drive[1].current_half_track = 2 * 18;
-	    if ((type == DRIVE_TYPE_1001)
-		|| (type == DRIVE_TYPE_8050)
-		|| (type == DRIVE_TYPE_8250)) {
-	        drive[1].current_half_track = 2 * 38;
-	    }
-        }
-        drive[1].type = type;
-        if (drive_true_emulation) {
-            drive[1].enable = 1;
-            drive_enable(1);
-            iec_calculate_callback_index();
-        }
-        drive_set_disk_drive_type(type, 1);
-        drive_initialize_rom_traps(1);
-        set_drive1_idling_method((resource_value_t) drive[1].idling_method);
-        return 0;
-      case DRIVE_TYPE_NONE:
-        drive[1].type = type;
-        drive_disable(1);
-        return 0;
-      default:
-        return -1;
-    }
-}
-
-static int set_drive0_parallel_cable_enabled(resource_value_t v)
-{
-    drive[0].parallel_cable_enabled = (int) v;
-    return 0;
-}
-
-static int set_drive1_parallel_cable_enabled(resource_value_t v)
-{
-    drive[1].parallel_cable_enabled = (int) v;
-    return 0;
-}
-
-static int set_drive0_extend_image_policy(resource_value_t v)
-{
-    switch ((int) v) {
-      case DRIVE_EXTEND_NEVER:
-      case DRIVE_EXTEND_ASK:
-      case DRIVE_EXTEND_ACCESS:
-        drive[0].extend_image_policy = (int) v;
-        return 0;
-      default:
-        return -1;
-    }
-}
-
-static int set_drive1_extend_image_policy(resource_value_t v)
-{
-    switch ((int) v) {
-      case DRIVE_EXTEND_NEVER:
-      case DRIVE_EXTEND_ASK:
-      case DRIVE_EXTEND_ACCESS:
-        drive[1].extend_image_policy = (int) v;
-        return 0;
-      default:
-        return -1;
-    }
-}
-
-static int set_drive0_idling_method(resource_value_t v)
-{
-    /* FIXME: Maybe we should call `drive[01]_cpu_execute()' here?  */
-    if ((int) v != DRIVE_IDLE_SKIP_CYCLES
-        && (int) v != DRIVE_IDLE_TRAP_IDLE
-        && (int) v != DRIVE_IDLE_NO_IDLE)
-        return -1;
-
-    drive[0].idling_method = (int) v;
-
-    if (rom_loaded && drive[0].type == DRIVE_TYPE_1541) {
-        if (drive[0].idling_method == DRIVE_IDLE_TRAP_IDLE) {
-            drive[0].rom[0xeae4 - 0x8000] = 0xea;
-            drive[0].rom[0xeae5 - 0x8000] = 0xea;
-            drive[0].rom[0xeae8 - 0x8000] = 0xea;
-            drive[0].rom[0xeae9 - 0x8000] = 0xea;
-            drive[0].rom[0xec9b - 0x8000] = 0x00;
-        } else {
-            drive[0].rom[0xeae4 - 0x8000] = drive[0].rom_checksum[0];
-            drive[0].rom[0xeae5 - 0x8000] = drive[0].rom_checksum[1];
-            drive[0].rom[0xeae8 - 0x8000] = drive[0].rom_checksum[2];
-            drive[0].rom[0xeae9 - 0x8000] = drive[0].rom_checksum[3];
-            drive[0].rom[0xec9b - 0x8000] = drive[0].rom_idle_trap;
-        }
-    }
-    return 0;
-}
-static int set_drive1_idling_method(resource_value_t v)
-{
-    /* FIXME: Maybe we should call `drive[01]_cpu_execute()' here?  */
-    if ((int) v != DRIVE_IDLE_SKIP_CYCLES
-        && (int) v != DRIVE_IDLE_TRAP_IDLE
-        && (int) v != DRIVE_IDLE_NO_IDLE)
-        return -1;
-
-    drive[1].idling_method = (int) v;
-
-    if (rom_loaded && drive[1].type == DRIVE_TYPE_1541) {
-        if (drive[1].idling_method == DRIVE_IDLE_TRAP_IDLE) {
-            drive[1].rom[0xeae4 - 0x8000] = 0xea;
-            drive[1].rom[0xeae5 - 0x8000] = 0xea;
-            drive[1].rom[0xeae8 - 0x8000] = 0xea;
-            drive[1].rom[0xeae9 - 0x8000] = 0xea;
-            drive[1].rom[0xec9b - 0x8000] = 0x00;
-        } else {
-            drive[1].rom[0xeae4 - 0x8000] = drive[1].rom_checksum[0];
-            drive[1].rom[0xeae5 - 0x8000] = drive[1].rom_checksum[1];
-            drive[1].rom[0xeae8 - 0x8000] = drive[1].rom_checksum[2];
-            drive[1].rom[0xeae9 - 0x8000] = drive[1].rom_checksum[3];
-            drive[1].rom[0xec9b - 0x8000] = drive[1].rom_idle_trap;
-        }
-    }
-    return 0;
-}
-
-static int set_sync_factor(resource_value_t v)
-{
-    int change_timing = 0;
-
-    if (sync_factor != (int)v)
-        change_timing = 1;
-
-    switch ((int) v) {
-      case DRIVE_SYNC_PAL:
-        sync_factor = (int) v;
-        drive_set_pal_sync_factor();
-        if (change_timing)
-            machine_change_timing(DRIVE_SYNC_PAL);
-        break;
-      case DRIVE_SYNC_NTSC:
-        sync_factor = (int) v;
-        drive_set_ntsc_sync_factor();
-        if (change_timing)
-            machine_change_timing(DRIVE_SYNC_NTSC);
-        break;
-      case DRIVE_SYNC_NTSCOLD:
-        sync_factor = (int) v;
-        drive_set_ntsc_sync_factor();
-        if (change_timing)
-            machine_change_timing(DRIVE_SYNC_NTSCOLD);
-        break;
-      default:
-        if ((int) v > 0) {
-            sync_factor = (int) v;
-            drive_set_sync_factor((unsigned int) v);
-        } else {
-            return -1;
-        }
-    }
-    return 0;
-}
-
-static int set_dos_rom_name_1001(resource_value_t v)
-{
-    const char *name = (const char *) v;
-
-    if (dos_rom_name_1001 != NULL && name != NULL
-        && strcmp(name, dos_rom_name_1001) == 0)
-        return 0;
-
-    string_set(&dos_rom_name_1001, name);
-
-    return drive_load_1001();
-}
-
-static int set_dos_rom_name_2031(resource_value_t v)
-{
-    const char *name = (const char *) v;
-
-    if (dos_rom_name_2031 != NULL && name != NULL
-        && strcmp(name, dos_rom_name_2031) == 0)
-        return 0;
-
-    string_set(&dos_rom_name_2031, name);
-
-    return drive_load_2031();
-}
-
-static int set_dos_rom_name_1541(resource_value_t v)
-{
-    const char *name = (const char *) v;
-
-    if (dos_rom_name_1541 != NULL && name != NULL
-        && strcmp(name, dos_rom_name_1541) == 0)
-        return 0;
-
-    string_set(&dos_rom_name_1541, name);
-
-    return drive_load_1541();
-}
-
-static int set_dos_rom_name_1541ii(resource_value_t v)
-{
-    const char *name = (const char *) v;
-
-    if (dos_rom_name_1541ii != NULL && name != NULL
-        && strcmp(name, dos_rom_name_1541ii) == 0)
-        return 0;
-
-    string_set(&dos_rom_name_1541ii, name);
-
-    return drive_load_1541ii();
-}
-
-static int set_dos_rom_name_1571(resource_value_t v)
-{
-    const char *name = (const char *) v;
-
-    if (dos_rom_name_1571 != NULL && name != NULL
-        && strcmp(name, dos_rom_name_1571) == 0)
-        return 0;
-
-    string_set(&dos_rom_name_1571, name);
-
-    return drive_load_1571();
-}
-
-static int set_dos_rom_name_1581(resource_value_t v)
-{
-    const char *name = (const char *) v;
-
-    if (dos_rom_name_1581 != NULL && name != NULL
-        && strcmp(name, dos_rom_name_1581) == 0)
-        return 0;
-
-    string_set(&dos_rom_name_1581, name);
-
-    return drive_load_1581();
-}
-
-
-static resource_t resources[] = {
-    { "DriveTrueEmulation", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &drive_true_emulation, set_drive_true_emulation },
-    { "Drive8Type", RES_INTEGER, (resource_value_t) DRIVE_TYPE_1541,
-      (resource_value_t *) &(drive[0].type), set_drive0_type },
-    { "Drive9Type", RES_INTEGER, (resource_value_t) DRIVE_TYPE_NONE,
-      (resource_value_t *) &(drive[1].type), set_drive1_type },
-    { "Drive8ParallelCable", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &(drive[0].parallel_cable_enabled),
-       set_drive0_parallel_cable_enabled },
-    { "Drive9ParallelCable", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &(drive[1].parallel_cable_enabled),
-       set_drive1_parallel_cable_enabled },
-    { "Drive8ExtendImagePolicy", RES_INTEGER,
-      (resource_value_t) DRIVE_EXTEND_NEVER, (resource_value_t *)
-      &(drive[0].extend_image_policy), set_drive0_extend_image_policy },
-    { "Drive9ExtendImagePolicy", RES_INTEGER,
-      (resource_value_t) DRIVE_EXTEND_NEVER, (resource_value_t *)
-      &(drive[1].extend_image_policy), set_drive1_extend_image_policy },
-    { "Drive8IdleMethod", RES_INTEGER, (resource_value_t) DRIVE_IDLE_TRAP_IDLE,
-      (resource_value_t *) &(drive[0].idling_method), set_drive0_idling_method },
-    { "Drive9IdleMethod", RES_INTEGER, (resource_value_t) DRIVE_IDLE_TRAP_IDLE,
-      (resource_value_t *) &(drive[1].idling_method), set_drive1_idling_method },
-    { "VideoStandard", RES_INTEGER, (resource_value_t) DRIVE_SYNC_PAL,
-      (resource_value_t *) &sync_factor, set_sync_factor },
-    { "DosName1541", RES_STRING, (resource_value_t) "dos1541",
-      (resource_value_t *) &dos_rom_name_1541, set_dos_rom_name_1541 },
-    { "DosName1541ii", RES_STRING, (resource_value_t) "d1541II",
-      (resource_value_t *) &dos_rom_name_1541ii, set_dos_rom_name_1541ii },
-    { "DosName1571", RES_STRING, (resource_value_t) "dos1571",
-      (resource_value_t *) &dos_rom_name_1571, set_dos_rom_name_1571 },
-    { "DosName1581", RES_STRING, (resource_value_t) "dos1581",
-      (resource_value_t *) &dos_rom_name_1581, set_dos_rom_name_1581 },
-    { "DosName2031", RES_STRING, (resource_value_t) "dos2031",
-      (resource_value_t *) &dos_rom_name_2031, set_dos_rom_name_2031 },
-    { "DosName1001", RES_STRING, (resource_value_t) "dos1001",
-      (resource_value_t *) &dos_rom_name_1001, set_dos_rom_name_1001 },
-    { NULL }
-};
-
-int drive_init_resources(void)
-{
-    return resources_register(resources);
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -613,21 +161,12 @@ int drive_init_cmdline_options(void)
 /* ------------------------------------------------------------------------- */
 
 /* RAM/ROM.  */
-#ifdef AVOID_STATIC_ARRAYS
-static BYTE *drive_rom1541;
-static BYTE *drive_rom1541ii;
-static BYTE *drive_rom1571;
-static BYTE *drive_rom1581;
-static BYTE *drive_rom2031;
-static BYTE *drive_rom1001;
-#else
 static BYTE drive_rom1541[DRIVE_ROM1541_SIZE];
 static BYTE drive_rom1541ii[DRIVE_ROM1541II_SIZE];
 static BYTE drive_rom1571[DRIVE_ROM1571_SIZE];
 static BYTE drive_rom1581[DRIVE_ROM1581_SIZE];
 static BYTE drive_rom2031[DRIVE_ROM2031_SIZE];
 static BYTE drive_rom1001[DRIVE_ROM1001_SIZE];
-#endif
 
 /* If nonzero, the ROM image has been loaded.  */
 static int rom1541_loaded = 0;
@@ -660,19 +199,11 @@ static int drive_led_color[2];
 				    + sector * NUM_BYTES_SECTOR_GCR)
 
 static void initialize_rotation(int freq, int dnr);
-static void initialize_rotation_table(int freq, int dnr);
 static void drive_extend_disk_image(int dnr);
 static void drive_set_half_track(int num, drive_t *dptr);
 inline static BYTE drive_sync_found(drive_t *dptr);
 inline static BYTE drive_write_protect_sense(drive_t *dptr);
 static int drive_load_rom_images(void);
-static void drive_setup_rom_image(int dnr);
-static int drive_write_image_snapshot_module(snapshot_t *s, int dnr);
-static int drive_write_gcrimage_snapshot_module(snapshot_t *s, int dnr);
-static int drive_read_image_snapshot_module(snapshot_t *s, int dnr);
-static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr);
-static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr);
-static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr);
 static void drive_clk_overflow_callback(CLOCK sub, void *data);
 static void drive_set_clock_frequency(int type, int dnr);
 
@@ -785,7 +316,7 @@ CLOCK drive_clk[2];
    once before anything else).  Return 0 on success, -1 on error.  */
 int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 {
-    int track, i;
+    int track, i, sync_factor;
 
     if (rom_loaded)
         return 0;
@@ -800,23 +331,14 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
         || drive_log == LOG_ERR)
         return -1;
 
-#ifdef AVOID_STATIC_ARRAYS
-    drive_rom1541 = xmalloc(DRIVE_ROM1541_SIZE);
-    drive_rom1541ii = xmalloc(DRIVE_ROM1541II_SIZE);
-    drive_rom1571 = xmalloc(DRIVE_ROM1571_SIZE);
-    drive_rom1581 = xmalloc(DRIVE_ROM1581_SIZE);
-    drive_rom2031 = xmalloc(DRIVE_ROM2031_SIZE);
-    drive_rom1001 = xmalloc(DRIVE_ROM1001_SIZE);
-#endif
-
     drive_clk[0] = 0L;
     drive_clk[1] = 0L;
     drive[0].clk = &drive_clk[0];
     drive[1].clk = &drive_clk[1];
 
     if (drive_load_rom_images() < 0) {
-        set_drive0_type((resource_value_t) DRIVE_TYPE_NONE);
-        set_drive1_type((resource_value_t) DRIVE_TYPE_NONE);
+        resources_set_value("Drive8Type", (resource_value_t)DRIVE_TYPE_NONE);
+        resources_set_value("Drive9Type", (resource_value_t)DRIVE_TYPE_NONE);
         return -1;
     }
 
@@ -833,9 +355,9 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     rom_loaded = 1;
 
     if (drive_check_type(drive[0].type, 0) < 1)
-        set_drive0_type((resource_value_t) DRIVE_TYPE_NONE);
+        resources_set_value("Drive8Type", (resource_value_t)DRIVE_TYPE_NONE);
     if (drive_check_type(drive[1].type, 1) < 1)
-        set_drive1_type((resource_value_t) DRIVE_TYPE_NONE);
+        resources_set_value("Drive9Type", (resource_value_t)DRIVE_TYPE_NONE);
 
     drive_setup_rom_image(0);
     drive_setup_rom_image(1);
@@ -889,7 +411,8 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     drive_cpu_init(&drive1_context, drive[1].type);
 
     /* Make sure the sync factor is acknowledged correctly.  */
-    set_sync_factor((resource_value_t) sync_factor);
+    resources_get_value("VideoStandard", (resource_value_t *)&sync_factor);
+    resources_set_value("VideoStandard", (resource_value_t)sync_factor);
 
     /* Make sure the traps are moved as needed.  */
     if (drive[0].enable)
@@ -900,7 +423,7 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     return 0;
 }
 
-static void drive_set_active_led_color(int type, int dnr)
+void drive_set_active_led_color(int type, int dnr)
 {
     switch (type) {
       case DRIVE_TYPE_1541:
@@ -956,8 +479,10 @@ static void drive_set_clock_frequency(int type, int dnr)
     }
 }
 
-static int drive_set_disk_drive_type(int type, int dnr)
+int drive_set_disk_drive_type(int type, int dnr)
 {
+    int sync_factor;
+
     switch (type) {
       case DRIVE_TYPE_1541:
         if (rom1541_loaded < 1 && rom_loaded)
@@ -1007,7 +532,8 @@ static int drive_set_disk_drive_type(int type, int dnr)
     drive[dnr].type = type;
     drive[dnr].side = 0;
     drive_setup_rom_image(dnr);
-    set_sync_factor((resource_value_t) sync_factor);
+    resources_get_value("VideoStandard", (resource_value_t *)&sync_factor);
+    resources_set_value("VideoStandard", (resource_value_t)sync_factor);
     drive_set_active_led_color(type, dnr);
 
     if (dnr == 0)
@@ -1018,7 +544,7 @@ static int drive_set_disk_drive_type(int type, int dnr)
     return 0;
 }
 
-static int drive_do_1541_checksum(void)
+int drive_do_1541_checksum(void)
 {
     int i;
     unsigned long s;
@@ -1033,14 +559,18 @@ static int drive_do_1541_checksum(void)
     return 0;
 }
 
-static int drive_load_1541(void)
+int drive_load_1541(void)
 {
+    char *rom_name = NULL;
+
     if (!drive_rom_load_ok)
         return 0;
 
+    resources_get_value("DosName1541", (resource_value_t *)&rom_name);
+
     /* Load the ROMs. */
-    if (sysfile_load(dos_rom_name_1541, drive_rom1541, DRIVE_ROM1541_SIZE,
-        DRIVE_ROM1541_SIZE) < 0) {
+    if (sysfile_load(rom_name, drive_rom1541, DRIVE_ROM1541_SIZE,
+                     DRIVE_ROM1541_SIZE) < 0) {
         log_error(drive_log,
                   "1541 ROM image not found.  "
                   "Hardware-level 1541 emulation is not available.");
@@ -1051,13 +581,17 @@ static int drive_load_1541(void)
     return -1;
 }
 
-static int drive_load_1541ii(void)
+int drive_load_1541ii(void)
 {
+    char *rom_name = NULL;
+
     if (!drive_rom_load_ok)
         return 0;
 
-    if (sysfile_load(dos_rom_name_1541ii, drive_rom1541ii,
-        DRIVE_ROM1541II_SIZE, DRIVE_ROM1541II_SIZE) < 0) {
+    resources_get_value("DosName1541ii", (resource_value_t *)&rom_name);
+
+    if (sysfile_load(rom_name, drive_rom1541ii, DRIVE_ROM1541II_SIZE,
+                     DRIVE_ROM1541II_SIZE) < 0) {
         log_error(drive_log,
                   "1541-II ROM image not found.  "
                   "Hardware-level 1541-II emulation is not available.");
@@ -1068,13 +602,17 @@ static int drive_load_1541ii(void)
     return -1;
 }
 
-static int drive_load_1571(void)
+int drive_load_1571(void)
 {
+    char *rom_name = NULL;
+
     if (!drive_rom_load_ok)
         return 0;
 
-    if (sysfile_load(dos_rom_name_1571, drive_rom1571, DRIVE_ROM1571_SIZE,
-        DRIVE_ROM1571_SIZE) < 0) {
+    resources_get_value("DosName1571", (resource_value_t *)&rom_name);
+
+    if (sysfile_load(rom_name, drive_rom1571, DRIVE_ROM1571_SIZE,
+                     DRIVE_ROM1571_SIZE) < 0) {
         log_error(drive_log,
                   "1571 ROM image not found.  "
                   "Hardware-level 1571 emulation is not available.");
@@ -1085,13 +623,17 @@ static int drive_load_1571(void)
     return -1;
 }
 
-static int drive_load_1581(void)
+int drive_load_1581(void)
 {
+    char *rom_name = NULL;
+
     if (!drive_rom_load_ok)
         return 0;
 
-    if (sysfile_load(dos_rom_name_1581, drive_rom1581, DRIVE_ROM1581_SIZE,
-        DRIVE_ROM1581_SIZE) < 0) {
+    resources_get_value("DosName1581", (resource_value_t *)&rom_name);
+
+    if (sysfile_load(rom_name, drive_rom1581, DRIVE_ROM1581_SIZE,
+                     DRIVE_ROM1581_SIZE) < 0) {
         log_error(drive_log,
                   "1581 ROM image not found.  "
                   "Hardware-level 1581 emulation is not available.");
@@ -1102,13 +644,17 @@ static int drive_load_1581(void)
     return -1;
 }
 
-static int drive_load_2031(void)
+int drive_load_2031(void)
 {
+    char *rom_name = NULL;
+
     if (!drive_rom_load_ok)
         return 0;
 
-    if (sysfile_load(dos_rom_name_2031, drive_rom2031, DRIVE_ROM2031_SIZE,
-        DRIVE_ROM2031_SIZE) < 0) {
+    resources_get_value("DosName2031", (resource_value_t *)&rom_name);
+
+    if (sysfile_load(rom_name, drive_rom2031, DRIVE_ROM2031_SIZE,
+                     DRIVE_ROM2031_SIZE) < 0) {
         log_error(drive_log,
                   "2031 ROM image not found.  "
                   "Hardware-level 2031 emulation is not available.");
@@ -1119,13 +665,17 @@ static int drive_load_2031(void)
     return -1;
 }
 
-static int drive_load_1001(void)
+int drive_load_1001(void)
 {
+    char *rom_name = NULL;
+
     if (!drive_rom_load_ok)
         return 0;
 
-    if (sysfile_load(dos_rom_name_1001, drive_rom1001, DRIVE_ROM1001_SIZE,
-        DRIVE_ROM1001_SIZE) < 0) {
+    resources_get_value("DosName1001", (resource_value_t *)&rom_name);
+
+    if (sysfile_load(rom_name, drive_rom1001, DRIVE_ROM1001_SIZE,
+                     DRIVE_ROM1001_SIZE) < 0) {
         log_error(drive_log,
                   "1001 ROM image not found.  "
                   "Hardware-level 1001/8050/8250 emulation is not available.");
@@ -1167,7 +717,7 @@ static int drive_load_rom_images(void)
     return 0;
 }
 
-static void drive_setup_rom_image(int dnr)
+void drive_setup_rom_image(int dnr)
 {
     if (rom_loaded) {
         switch (drive[dnr].type) {
@@ -1199,7 +749,7 @@ static void drive_setup_rom_image(int dnr)
     }
 }
 
-static void drive_initialize_rom_traps(int dnr)
+void drive_initialize_rom_traps(int dnr)
 {
     if (drive[dnr].type == DRIVE_TYPE_1541) {
         /* Save the ROM check.  */
@@ -1235,14 +785,17 @@ static void drive_initialize_rom_traps(int dnr)
 }
 
 /* Activate full drive emulation. */
-static int drive_enable(int dnr)
+int drive_enable(int dnr)
 {
-    int i;
+    int i, drive_true_emulation = 0;
 
     /* This must come first, because this might be called before the drive
        initialization.  */
     if (!rom_loaded)
         return -1;
+
+    resources_get_value("DriveTrueEmulation",
+                        (resource_value_t *)&drive_true_emulation);
 
     /* Always disable kernal traps. */
     if (drive_true_emulation)
@@ -1282,14 +835,17 @@ static int drive_enable(int dnr)
 }
 
 /* Disable full drive emulation.  */
-static void drive_disable(int dnr)
+void drive_disable(int dnr)
 {
-    int i;
+    int i, drive_true_emulation = 0;
 
     /* This must come first, because this might be called before the true
        drive initialization.  */
     drive[dnr].enable = 0;
     iec_calculate_callback_index();
+
+    resources_get_value("DriveTrueEmulation",
+                        (resource_value_t *)&drive_true_emulation);
 
     if (rom_loaded && !drive_true_emulation)
 	serial_install_traps();
@@ -1486,11 +1042,11 @@ int drive_detach_image(disk_image_t *image, int unit)
 
 static void initialize_rotation(int freq, int dnr)
 {
-    initialize_rotation_table(freq, dnr);
+    drive_initialize_rotation_table(freq, dnr);
     drive[dnr].bits_moved = drive[dnr].accum = 0;
 }
 
-static void initialize_rotation_table(int freq, int dnr)
+void drive_initialize_rotation_table(int freq, int dnr)
 {
     int i, j;
 
@@ -1976,13 +1532,13 @@ int drive_check_type(int drive_type, int dnr)
 
 /* Set the sync factor between the computer and the drive.  */
 
-static void drive_set_sync_factor(unsigned int factor)
+void drive_set_sync_factor(unsigned int factor)
 {
     drive_cpu_set_sync_factor(&drive0_context, drive[0].clock_frequency * factor);
     drive_cpu_set_sync_factor(&drive1_context, drive[1].clock_frequency * factor);
 }
 
-static void drive_set_pal_sync_factor(void)
+void drive_set_pal_sync_factor(void)
 {
     if (pal_cycles_per_sec != 0) {
         unsigned int new_sync_factor = (unsigned int)
@@ -1992,7 +1548,7 @@ static void drive_set_pal_sync_factor(void)
     }
 }
 
-static void drive_set_ntsc_sync_factor(void)
+void drive_set_ntsc_sync_factor(void)
 {
     if (ntsc_cycles_per_sec != 0) {
         unsigned int new_sync_factor = (unsigned int)
@@ -2005,12 +1561,15 @@ static void drive_set_ntsc_sync_factor(void)
 
 void drive_set_1571_sync_factor(int new_sync, int dnr)
 {
+    int sync_factor;
+
     if (rom_loaded) {
         if (drive[dnr].byte_ready_active == 0x06)
             drive_rotate_disk(&drive[dnr]);
         initialize_rotation(new_sync ? 1 : 0, dnr);
         drive[dnr].clock_frequency = (new_sync) ? 2 : 1;
-        set_sync_factor((resource_value_t) sync_factor);
+        resources_get_value("VideoStandard", (resource_value_t *)&sync_factor);
+        resources_set_value("VideoStandard", (resource_value_t)sync_factor);
     }
 }
 
@@ -2044,12 +1603,11 @@ void drive_update_ui_status(void)
 #ifdef __riscos
                 ui_display_drive_track_int(i, drive[i].current_half_track);
 #else
-                ui_display_drive_track(i,
-		    (i<2
-			  && drive[0].enable
-			  && DRIVE_IS_DUAL(drive[0].type))
-			 ? 0 : 8,
-                    ((float) drive[i].current_half_track / 2.0));
+                ui_display_drive_track(i, (i < 2 && drive[0].enable
+			               && DRIVE_IS_DUAL(drive[0].type))
+			               ? 0 : 8, 
+                                       ((float)drive[i].current_half_track
+                                       / 2.0));
 #endif
             }
         }
@@ -2070,854 +1628,6 @@ void drive_vsync_hook(void)
 /* ------------------------------------------------------------------------- */
 
 /*
-
-This is the format of the DRIVE snapshot module.
-
-Name                 Type   Size   Description
-
-SyncFactor           DWORD  1      sync factor main cpu <-> drive cpu
-
-Accum                DWORD  2
-AttachClk            CLOCK  2      write protect handling on attach
-BitsMoved            DWORD  2      number of bits moved since last access
-ByteReady            BYTE   2      flag: Byte ready
-ClockFrequency       BYTE   2      current clock frequency
-CurrentHalfTrack     WORD   2      current half track of the r/w head
-DetachClk            CLOCK  2      write protect handling on detach
-DiskID1              BYTE   2      disk ID1
-DiskID2              BYTE   2      disk ID2
-ExtendImagePolicy    BYTE   2      Is extending the disk image allowed
-FinishByte           BYTE   2      flag: Mode changed, finish byte
-GCRHeadOffset        DWORD  2      offset from the begin of the track
-GCRRead              BYTE   2      next value to read from disk
-GCRWriteValue        BYTE   2      next value to write to disk
-IdlingMethod         BYTE   2      What idle methode do we use
-LastMode             BYTE   2      flag: Was the last mode read or write
-ParallelCableEnabled BYTE   2      flag: Is the parallel cable enabed
-ReadOnly             BYTE   2      flag: This disk is read only
-RotationLastClk      CLOCK  2
-RotationTablePtr     DWORD  2      pointer to the rotation table
-                                   (offset to the rotation table is saved)
-Type                 DWORD  2      drive type
-
-*/
-
-#define DRIVE_SNAP_MAJOR 1
-#define DRIVE_SNAP_MINOR 0
-
-int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
-{
-    int i;
-    char snap_module_name[] = "DRIVE";
-    snapshot_module_t *m;
-    DWORD rotation_table_ptr[2];
-    BYTE GCR_image[2];
-
-    if (vdrive_write_snapshot_module(s, drive_true_emulation ? 10 : 8) < 0)
-        return -1;
-
-    if (!drive_true_emulation)
-        return 0;
-
-    /* Save changes to disk before taking a snapshot.  */
-    drive_GCR_data_writeback(0);
-    drive_GCR_data_writeback(1);
-
-    for (i = 0; i < 2; i++) {
-        rotation_table_ptr[i] = (DWORD) (drive[i].rotation_table_ptr
-                                         - drive[i].rotation_table[0]);
-        GCR_image[i] = (drive[i].GCR_image_loaded == 0
-                         || !save_disks) ? 0 : 1;
-    }
-
-    m = snapshot_module_create(s, snap_module_name, DRIVE_SNAP_MAJOR,
-                               DRIVE_SNAP_MINOR);
-    if (m == NULL)
-        return -1;
-
-    if (snapshot_module_write_dword(m, (DWORD) sync_factor) < 0) {
-        if (m != NULL)
-            snapshot_module_close(m);
-        return -1;
-    }
-
-    for (i = 0; i < 2; i++) {
-        if (0
-            || snapshot_module_write_dword(m, (DWORD) drive[i].accum) < 0
-            || snapshot_module_write_dword(m, (DWORD) drive[i].attach_clk) < 0
-            || snapshot_module_write_dword(m, (DWORD) drive[i].bits_moved) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].byte_ready) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].clock_frequency) < 0
-            || snapshot_module_write_word(m, (WORD) drive[i].current_half_track) < 0
-            || snapshot_module_write_dword(m, (DWORD) drive[i].detach_clk) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].diskID1) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].diskID2) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].extend_image_policy) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].finish_byte) < 0
-            || snapshot_module_write_dword(m, (DWORD) drive[i].GCR_head_offset) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].GCR_read) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].GCR_write_value) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].idling_method) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].last_mode) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].parallel_cable_enabled) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].read_only) < 0
-            || snapshot_module_write_dword(m, (DWORD) drive[i].rotation_last_clk) < 0
-            || snapshot_module_write_dword(m, (DWORD) (rotation_table_ptr[i])) < 0
-            || snapshot_module_write_dword(m, (DWORD) drive[i].type) < 0
-        ) {
-            if (m != NULL)
-                snapshot_module_close(m);
-            return -1;
-          }
-    }
-
-    if (snapshot_module_close(m) < 0)
-        return -1;
-
-    if (drive[0].enable) {
-        if (drive_cpu_write_snapshot_module(&drive0_context, s) < 0)
-            return -1;
-        if (drive[0].type == DRIVE_TYPE_1541
-            || drive[0].type == DRIVE_TYPE_1541II
-            || drive[0].type == DRIVE_TYPE_2031) {
-            if (via1d_write_snapshot_module(&drive0_context, s) < 0
-                || via2d_write_snapshot_module(&drive0_context, s) < 0)
-                return -1;
-        }
-        if (drive[0].type == DRIVE_TYPE_1571) {
-            if (via1d_write_snapshot_module(&drive0_context, s) < 0
-                || via2d_write_snapshot_module(&drive0_context, s) < 0
-                || cia1571d0_write_snapshot_module(s) < 0)
-                return -1;
-        }
-        if (drive[0].type == DRIVE_TYPE_1581) {
-            if (cia1581d0_write_snapshot_module(s) < 0)
-                return -1;
-        }
-	if ((drive[0].type == DRIVE_TYPE_1001)
-	    || (drive[0].type == DRIVE_TYPE_8050)
-	    || (drive[0].type == DRIVE_TYPE_8250)
-	    ) {
-	    if (riot1d0_write_snapshot_module(s) < 0
-		|| riot2d0_write_snapshot_module(s) < 0
-		|| fdc_write_snapshot_module(s, 0) < 0)
-		return -1;
-	}
-    }
-    if (drive[1].enable) {
-        if (drive_cpu_write_snapshot_module(&drive1_context, s) < 0)
-            return -1;
-        if (drive[1].type == DRIVE_TYPE_1541
-            || drive[1].type == DRIVE_TYPE_1541II
-            || drive[1].type == DRIVE_TYPE_2031) {
-            if (via1d_write_snapshot_module(&drive1_context, s) < 0
-                || via2d_write_snapshot_module(&drive1_context, s) < 0)
-                return -1;
-        }
-        if (drive[1].type == DRIVE_TYPE_1571) {
-            if (via1d_write_snapshot_module(&drive1_context, s) < 0
-                || via2d_write_snapshot_module(&drive1_context, s) < 0
-                || cia1571d1_write_snapshot_module(s) < 0)
-                return -1;
-        }
-        if (drive[1].type == DRIVE_TYPE_1581) {
-            if (cia1581d1_write_snapshot_module(s) < 0)
-                return -1;
-        }
-	if ((drive[1].type == DRIVE_TYPE_1001)
-	    || (drive[1].type == DRIVE_TYPE_8050)
-	    || (drive[1].type == DRIVE_TYPE_8250)
-	    ) {
-	    if (riot1d1_write_snapshot_module(s) < 0
-		|| riot2d1_write_snapshot_module(s) < 0
-		|| fdc_write_snapshot_module(s, 1) < 0)
-		return -1;
-	}
-    }
-
-    if (save_disks) {
-	if (GCR_image[0] > 0) {
-            if (drive_write_gcrimage_snapshot_module(s, 0) < 0)
-                return -1;
-	} else {
-            if (drive_write_image_snapshot_module(s, 0) < 0)
-		return -1;
-	}
-        if (GCR_image[1] > 0) {
-            if (drive_write_gcrimage_snapshot_module(s, 1) < 0)
-                return -1;
-	} else {
-            if (drive_write_image_snapshot_module(s, 1) < 0)
-		return -1;
-	}
-    }
-    if (save_roms && drive[0].enable)
-        if (drive_write_rom_snapshot_module(s, 0) < 0)
-            return -1;
-    if (save_roms && drive[1].enable)
-        if (drive_write_rom_snapshot_module(s, 1) < 0)
-            return -1;
-    return 0;
-}
-
-static int read_byte_into_int(snapshot_module_t *m, int *value_return)
-{
-    BYTE b;
-
-    if (snapshot_module_read_byte(m, &b) < 0)
-        return -1;
-    *value_return = (int) b;
-    return 0;
-}
-
-static int read_word_into_int(snapshot_module_t *m, int *value_return)
-{
-    WORD b;
-
-    if (snapshot_module_read_word(m, &b) < 0)
-        return -1;
-    *value_return = (int) b;
-    return 0;
-}
-
-static int read_dword_into_unsigned_long(snapshot_module_t *m,
-                                         unsigned long *value_return)
-{
-    DWORD b;
-
-    if (snapshot_module_read_dword(m, &b) < 0)
-        return -1;
-    *value_return = (unsigned long) b;
-    return 0;
-}
-
-static int read_dword_into_int(snapshot_module_t *m, int *value_return)
-{
-    DWORD b;
-
-    if (snapshot_module_read_dword(m, &b) < 0)
-        return -1;
-    *value_return = (int) b;
-    return 0;
-}
-
-int drive_read_snapshot_module(snapshot_t *s)
-{
-    BYTE major_version, minor_version;
-    int i;
-    snapshot_module_t *m;
-    char snap_module_name[] = "DRIVE";
-    DWORD rotation_table_ptr[2];
-
-    m = snapshot_module_open(s, snap_module_name,
-                             &major_version, &minor_version);
-    if (m == NULL) {
-        /* If this module is not found true emulation is off.  */
-        set_drive_true_emulation((resource_value_t) 0);
-        return 0;
-    }
-
-    if (major_version > DRIVE_SNAP_MAJOR || minor_version > DRIVE_SNAP_MINOR) {
-        log_error(drive_log,
-                  "Snapshot module version (%d.%d) newer than %d.%d.",
-                  major_version, minor_version,
-                  DRIVE_SNAP_MAJOR, DRIVE_SNAP_MINOR);
-    }
-
-    /* If this module exists true emulation is enabled.  */
-    drive_true_emulation = 1;
-
-    if (read_dword_into_int(m, &sync_factor) < 0) {
-        if (m != NULL)
-            snapshot_module_close(m);
-        return -1;
-    }
-
-    for (i = 0; i < 2; i++) {
-        if (0
-            || read_dword_into_unsigned_long(m, &drive[i].accum) < 0
-            || snapshot_module_read_dword(m, &drive[i].attach_clk) < 0
-            || read_dword_into_unsigned_long(m, &drive[i].bits_moved) < 0
-            || read_byte_into_int(m, &drive[i].byte_ready) < 0
-            || read_byte_into_int(m, &drive[i].clock_frequency) < 0
-            || read_word_into_int(m, &drive[i].current_half_track) < 0
-            || snapshot_module_read_dword(m, &drive[i].detach_clk) < 0
-            || snapshot_module_read_byte(m, &drive[i].diskID1) < 0
-            || snapshot_module_read_byte(m, &drive[i].diskID2) < 0
-            || read_byte_into_int(m, &drive[i].extend_image_policy) < 0
-            || read_byte_into_int(m, &drive[i].finish_byte) < 0
-            || read_dword_into_int(m, &drive[i].GCR_head_offset) < 0
-            || snapshot_module_read_byte(m, &drive[i].GCR_read) < 0
-            || snapshot_module_read_byte(m, &drive[i].GCR_write_value) < 0
-            || read_byte_into_int(m, &drive[i].idling_method) < 0
-            || read_byte_into_int(m, &drive[i].last_mode) < 0
-            || read_byte_into_int(m, &drive[i].parallel_cable_enabled) < 0
-            || read_byte_into_int(m, &drive[i].read_only) < 0
-            || snapshot_module_read_dword(m, &drive[i].rotation_last_clk) < 0
-            || snapshot_module_read_dword(m, &rotation_table_ptr[i]) < 0
-            || read_dword_into_int(m, &drive[i].type) < 0
-        ) {
-            if (m != NULL)
-                snapshot_module_close(m);
-            return -1;
-        }
-    }
-    snapshot_module_close(m);
-    m = NULL;
-
-    for (i = 0; i < 2; i++) {
-        drive[i].shifter = drive[i].bits_moved;
-        drive[i].rotation_table_ptr = drive[i].rotation_table[0]
-            + rotation_table_ptr[i];
-        drive[i].GCR_track_start_ptr = (drive[i].gcr->data
-                           + ((drive[i].current_half_track / 2 - 1)
-                              * NUM_MAX_BYTES_TRACK));
-        if (drive[i].type != DRIVE_TYPE_1571) {
-            if (drive[i].type == DRIVE_TYPE_1581) {
-                initialize_rotation_table(1, i);
-                set_sync_factor((resource_value_t) sync_factor);
-            } else {
-                drive[i].side = 0;
-                initialize_rotation_table(0, i);
-                set_sync_factor((resource_value_t) sync_factor);
-            }
-        }
-    }
-
-    switch (drive[0].type) {
-      case DRIVE_TYPE_1541:
-      case DRIVE_TYPE_1541II:
-      case DRIVE_TYPE_1571:
-      case DRIVE_TYPE_1581:
-      case DRIVE_TYPE_2031:
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        drive[0].enable = 1;
-        drive_setup_rom_image(0);
-        drive_mem_init(&drive0_context, drive[0].type);
-        set_drive0_idling_method((resource_value_t) drive[0].idling_method);
-        drive_initialize_rom_traps(0);
-        drive_set_active_led_color(drive[0].type, 0);
-        break;
-      case DRIVE_TYPE_NONE:
-        drive_disable(0);
-        break;
-      default:
-        return -1;
-    }
-
-    switch (drive[1].type) {
-      case DRIVE_TYPE_1541:
-      case DRIVE_TYPE_1541II:
-      case DRIVE_TYPE_1571:
-      case DRIVE_TYPE_1581:
-      case DRIVE_TYPE_2031:
-      case DRIVE_TYPE_1001:
-	/* drive 1 does not allow dual disk drive */
-        drive[1].enable = 1;
-        drive_setup_rom_image(1);
-        drive_mem_init(&drive1_context, drive[1].type);
-        set_drive1_idling_method((resource_value_t) drive[1].idling_method);
-        drive_initialize_rom_traps(1);
-        drive_set_active_led_color(drive[1].type, 1);
-        break;
-      case DRIVE_TYPE_NONE:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        drive_disable(1);
-        break;
-      default:
-        return -1;
-    }
-
-    /* Clear parallel cable before undumping parallel port values.  */
-    parallel_cable_drive0_write(0xff, 0);
-    parallel_cable_drive1_write(0xff, 0);
-
-    if (drive[0].enable) {
-        if (drive_cpu_read_snapshot_module(&drive0_context, s) < 0)
-            return -1;
-        if (drive[0].type == DRIVE_TYPE_1541
-            || drive[0].type == DRIVE_TYPE_1541II
-            || drive[0].type == DRIVE_TYPE_2031) {
-            if (via1d_read_snapshot_module(&drive0_context, s) < 0
-                || via2d_read_snapshot_module(&drive0_context, s) < 0)
-                return -1;
-        }
-        if (drive[0].type == DRIVE_TYPE_1571) {
-            if (via1d_read_snapshot_module(&drive0_context, s) < 0
-                || via2d_read_snapshot_module(&drive0_context, s) < 0
-                || cia1571d0_read_snapshot_module(s) < 0)
-                return -1;
-        }
-        if (drive[0].type == DRIVE_TYPE_1581) {
-            if (cia1581d0_read_snapshot_module(s) < 0)
-                return -1;
-        }
-	if ((drive[0].type == DRIVE_TYPE_1001)
-	    || (drive[0].type == DRIVE_TYPE_8050)
-	    || (drive[0].type == DRIVE_TYPE_8250)
-	    ) {
-	    if (riot1d0_read_snapshot_module(s) < 0
-		|| riot2d0_read_snapshot_module(s) < 0
-		|| fdc_read_snapshot_module(s, 0) < 0)
-		return -1;
-	}
-    }
-
-    if (drive[1].enable) {
-        if (drive_cpu_read_snapshot_module(&drive1_context, s) < 0)
-            return -1;
-        if (drive[1].type == DRIVE_TYPE_1541
-            || drive[1].type == DRIVE_TYPE_1541II
-            || drive[1].type == DRIVE_TYPE_2031) {
-            if (via1d_read_snapshot_module(&drive1_context, s) < 0
-                || via2d_read_snapshot_module(&drive1_context, s) < 0)
-                return -1;
-        }
-        if (drive[1].type == DRIVE_TYPE_1571) {
-            if (via1d_read_snapshot_module(&drive1_context, s) < 0
-                || via2d_read_snapshot_module(&drive1_context, s) < 0
-                || cia1571d1_read_snapshot_module(s) < 0)
-                return -1;
-        }
-        if (drive[1].type == DRIVE_TYPE_1581) {
-            if (cia1581d1_read_snapshot_module(s) < 0)
-                return -1;
-        }
-	if ((drive[1].type == DRIVE_TYPE_1001)
-	    || (drive[1].type == DRIVE_TYPE_8050)
-	    || (drive[1].type == DRIVE_TYPE_8250)
-	    ) {
-	    if (riot1d1_read_snapshot_module(s) < 0
-		|| riot2d1_read_snapshot_module(s) < 0
-		|| fdc_read_snapshot_module(s, 1) < 0)
-		return -1;
-	}
-    }
-    if (drive_read_image_snapshot_module(s, 0) < 0
-	|| drive_read_gcrimage_snapshot_module(s, 0) < 0)
-        return -1;
-    if (drive_read_image_snapshot_module(s, 1) < 0
-	|| drive_read_gcrimage_snapshot_module(s, 1) < 0)
-        return -1;
-    if (drive_read_rom_snapshot_module(s, 0) < 0)
-        return -1;
-    if (drive_read_rom_snapshot_module(s, 1) < 0)
-        return -1;
-
-    if (drive[0].type != DRIVE_TYPE_NONE)
-        drive_enable(0);
-    if (drive[1].type != DRIVE_TYPE_NONE)
-        drive_enable(1);
-
-    iec_calculate_callback_index();
-    iec_update_ports_embedded();
-    drive_update_ui_status();
-
-    if (vdrive_read_snapshot_module(s, drive_true_emulation ? 10 : 8) < 0)
-        return -1;
-
-    return 0;
-}
-
-/* -------------------------------------------------------------------- */
-/* read/write "normal" disk image snapshot module */
-
-#define IMAGE_SNAP_MAJOR 1
-#define IMAGE_SNAP_MINOR 0
-
-/*
- * This image format is pretty simple:
- *
- * WORD Type		Disk image type (1581, 8050, 8250)
- * 256 * blocks(disk image type) BYTE
- *			disk image
- *
- */
-
-static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
-{
-    char snap_module_name[10];
-    snapshot_module_t *m;
-    BYTE sector_data[0x100];
-    WORD word;
-    int track, sector;
-    int rc;
-
-    if (drive[dnr].image == NULL) {
-        return 0;
-    }
-
-    sprintf(snap_module_name, "IMAGE%i", dnr);
-
-    m = snapshot_module_create(s, snap_module_name, IMAGE_SNAP_MAJOR,
-                               IMAGE_SNAP_MINOR);
-    if (m == NULL)
-       return -1;
-
-    word = drive[dnr].image->type;
-    snapshot_module_write_word(m, word);
-
-    /* we use the return code to step through the tracks. So we do not
-       need any geometry info. */
-    for (track = 1; ; track++) {
-        rc = 0;
-        for (sector = 0; ; sector++) {
-            rc = disk_image_read_sector(drive[dnr].image, sector_data, track,
-                                        sector);
-            if (rc == 0) {
-                snapshot_module_write_byte_array(m, sector_data, 0x100);
-            } else {
-                break;
-            }
-        }
-        if (sector == 0) {
-            break;
-        }
-    }
-
-    if (snapshot_module_close(m) < 0)
-        return -1;
-    return 0;
-}
-
-static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
-{
-    BYTE major_version, minor_version;
-    snapshot_module_t *m;
-    char snap_module_name[10];
-    WORD word;
-    char *p, filename[L_tmpnam];
-    char request_str[100];
-    int len = 0;
-    FILE *fp;
-    BYTE sector_data[0x100];
-    int track, sector;
-    int rc;
-
-    sprintf(snap_module_name, "IMAGE%i", dnr);
-
-    m = snapshot_module_open(s, snap_module_name,
-                             &major_version, &minor_version);
-    if (m == NULL)
-        return 0;
-
-    if (major_version > IMAGE_SNAP_MAJOR || minor_version > IMAGE_SNAP_MINOR) {
-        log_error(drive_log,
-                  "Snapshot module version (%d.%d) newer than %d.%d.",
-                  major_version, minor_version,
-                  IMAGE_SNAP_MAJOR, IMAGE_SNAP_MINOR);
-    }
-
-    if (snapshot_module_read_word(m, &word) < 0) {
-	snapshot_module_close(m);
-	return -1;
-    }
-
-    switch(word) {
-    case 1581:
-	len = D81_FILE_SIZE;
-	break;
-    case 8050:
-	len = D80_FILE_SIZE;
-	break;
-    case 8250:
-	len = D82_FILE_SIZE;
-	break;
-    default:
-	log_error(drive_log, "Snapshot of disk image unknown (type %d)",
-		(int)word);
-        snapshot_module_close(m);
-	return -1;
-    }
-
-    /* create temporary file of the right size */
-    p = tmpnam(filename);
-    if (!p) {
-	log_error(drive_log, "Could not create temporary filename");
-        snapshot_module_close(m);
-	return -1;
-    }
-    fp = fopen(filename, "w+b");
-    if (!fp) {
-	log_error(drive_log, "Could not create temporary file");
-	log_error(drive_log, "filename=%s", filename);
-        snapshot_module_close(m);
-	return -1;
-    }
-    /* blow up the file to needed size */
-    if (fseek(fp, len - 1, SEEK_SET) < 0
-	|| (fputc(0, fp) == EOF)) {
-	log_error(drive_log, "Could not create large temporary file");
-	fclose(fp);
-        snapshot_module_close(m);
-	return -1;
-    }
-    fclose(fp);
-    if (file_system_attach_disk(dnr + 8, filename) < 0) {
-        log_error(drive_log, "Invalid Disk Image");
-        snapshot_module_close(m);
-	return -1;
-    }
-
-    sprintf(request_str, "Disk image unit #%d imported from snapshot", dnr + 8);
-    zfile_close_action(filename, ZFILE_REQUEST, request_str);
-
-    /* we use the return code to step through the tracks. So we do not
-       need any geometry info. */
-    snapshot_module_read_byte_array(m, sector_data, 0x100);
-    for (track = 1; ; track++) {
-        rc = 0;
-        for (sector = 0; ; sector++) {
-            rc = disk_image_write_sector(drive[dnr].image, sector_data, track,
-                                         sector);
-            if (rc == 0) {
-                snapshot_module_read_byte_array(m, sector_data, 0x100);
-            } else {
-                break;
-            }
-        }
-        if (sector == 0) {
-            break;
-        }
-    }
-
-    vdrive_bam_reread_bam(dnr + 8);
-
-    snapshot_module_close(m);
-    m = NULL;
-
-    return 0;
-}
-
-/* -------------------------------------------------------------------- */
-/* read/write GCR disk image snapshot module */
-
-#define GCRIMAGE_SNAP_MAJOR 1
-#define GCRIMAGE_SNAP_MINOR 0
-
-static int drive_write_gcrimage_snapshot_module(snapshot_t *s, int dnr)
-{
-    char snap_module_name[10];
-    snapshot_module_t *m;
-    BYTE *tmpbuf;
-    int i;
-
-    sprintf(snap_module_name, "GCRIMAGE%i", dnr);
-
-    m = snapshot_module_create(s, snap_module_name, GCRIMAGE_SNAP_MAJOR,
-                               GCRIMAGE_SNAP_MINOR);
-    if (m == NULL)
-       return -1;
-
-    tmpbuf = (char*)xmalloc(MAX_TRACKS_1571 * 4);
-
-    for (i = 0; i < MAX_TRACKS_1571; i++) {
-        tmpbuf[i * 4] = drive[dnr].gcr->track_size[i] & 0xff;
-        tmpbuf[i * 4 + 1] = (drive[dnr].gcr->track_size[i] >> 8) & 0xff;
-        tmpbuf[i * 4 + 2] = (drive[dnr].gcr->track_size[i] >> 16) & 0xff;
-        tmpbuf[i * 4 + 3] = (drive[dnr].gcr->track_size[i] >> 24) & 0xff;
-    }
-
-    if (0
-        || snapshot_module_write_byte_array(m, drive[dnr].gcr->data,
-            sizeof(drive[dnr].gcr->data)) < 0
-        || snapshot_module_write_byte_array(m, drive[dnr].gcr->speed_zone,
-            sizeof(drive[dnr].gcr->speed_zone)) < 0
-        || snapshot_module_write_byte_array(m, tmpbuf, MAX_TRACKS_1571 * 4) < 0
-        ) {
-        if (m != NULL)
-            snapshot_module_close(m);
-        free(tmpbuf);
-        return -1;
-    }
-    free(tmpbuf);
-    if (snapshot_module_close(m) < 0)
-        return -1;
-    return 0;
-}
-
-static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr)
-{
-    BYTE major_version, minor_version;
-    snapshot_module_t *m;
-    char snap_module_name[10];
-    BYTE *tmpbuf;
-    int i;
-
-    sprintf(snap_module_name, "GCRIMAGE%i", dnr);
-
-    m = snapshot_module_open(s, snap_module_name,
-                             &major_version, &minor_version);
-    if (m == NULL)
-        return 0;
-
-    if (major_version > GCRIMAGE_SNAP_MAJOR
-	|| minor_version > GCRIMAGE_SNAP_MINOR) {
-        log_error(drive_log,
-                  "Snapshot module version (%d.%d) newer than %d.%d.",
-                  major_version, minor_version,
-                  GCRIMAGE_SNAP_MAJOR, GCRIMAGE_SNAP_MINOR);
-    }
-
-    tmpbuf = (char*)xmalloc(MAX_TRACKS_1571 * 4);
-
-    if (0
-        || snapshot_module_read_byte_array(m, drive[dnr].gcr->data,
-            sizeof(drive[dnr].gcr->data)) < 0
-        || snapshot_module_read_byte_array(m, drive[dnr].gcr->speed_zone,
-            sizeof(drive[dnr].gcr->speed_zone)) < 0
-        || snapshot_module_read_byte_array(m, tmpbuf, MAX_TRACKS_1571 * 4) < 0
-        ) {
-        if (m != NULL)
-            snapshot_module_close(m);
-        free(tmpbuf);
-        return -1;
-    }
-    snapshot_module_close(m);
-    m = NULL;
-
-    for (i = 0; i < MAX_TRACKS_1571; i++)
-        drive[dnr].gcr->track_size[i] = tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
-            + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24);
-
-    free(tmpbuf);
-    drive[dnr].GCR_image_loaded = 1;
-    drive[dnr].image = NULL;
-    return 0;
-}
-
-/* -------------------------------------------------------------------- */
-
-#define ROM_SNAP_MAJOR 1
-#define ROM_SNAP_MINOR 0
-
-static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr)
-{
-    char snap_module_name[10];
-    snapshot_module_t *m;
-    BYTE *base;
-    int len;
-
-    sprintf(snap_module_name, "DRIVEROM%i", dnr);
-
-    m = snapshot_module_create(s, snap_module_name, ROM_SNAP_MAJOR,
-                               ROM_SNAP_MINOR);
-    if (m == NULL)
-       return -1;
-
-    switch (drive[dnr].type) {
-      case DRIVE_TYPE_1541:
-        base = &(drive[dnr].rom[0x4000]);
-        len = DRIVE_ROM1541_SIZE;
-        break;
-      case DRIVE_TYPE_1541II:
-        base = &(drive[dnr].rom[0x4000]);
-        len = DRIVE_ROM1541II_SIZE;
-        break;
-      case DRIVE_TYPE_1571:
-        base = drive[dnr].rom;
-        len = DRIVE_ROM1571_SIZE;
-        break;
-      case DRIVE_TYPE_1581:
-        base = drive[dnr].rom;
-        len = DRIVE_ROM1581_SIZE;
-        break;
-      case DRIVE_TYPE_2031:
-        base = &(drive[dnr].rom[0x4000]);
-        len = DRIVE_ROM2031_SIZE;
-        break;
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        base = &(drive[dnr].rom[0x4000]);
-        len = DRIVE_ROM1001_SIZE;
-        break;
-      default:
-        return -1;
-    }
-
-    if (snapshot_module_write_byte_array(m, base, len) < 0) {
-        if (m != NULL)
-            snapshot_module_close(m);
-        return -1;
-    }
-    if (snapshot_module_close(m) < 0)
-        return -1;
-    return 0;
-}
-
-static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr)
-{
-    BYTE major_version, minor_version;
-    snapshot_module_t *m;
-    char snap_module_name[10];
-    BYTE *base;
-    int len;
-
-    sprintf(snap_module_name, "DRIVEROM%i", dnr);
-
-    m = snapshot_module_open(s, snap_module_name,
-                             &major_version, &minor_version);
-    if (m == NULL)
-        return 0;
-
-    if (major_version > ROM_SNAP_MAJOR || minor_version > ROM_SNAP_MINOR) {
-        log_error(drive_log,
-                  "Snapshot module version (%d.%d) newer than %d.%d.",
-                  major_version, minor_version,
-                  ROM_SNAP_MAJOR, ROM_SNAP_MINOR);
-    }
-
-    switch (drive[dnr].type) {
-      case DRIVE_TYPE_1541:
-        base = &(drive[dnr].rom[0x4000]);
-        len = DRIVE_ROM1541_SIZE;
-        break;
-      case DRIVE_TYPE_1541II:
-        base = &(drive[dnr].rom[0x4000]);
-        len = DRIVE_ROM1541II_SIZE;
-        break;
-      case DRIVE_TYPE_1571:
-        base = drive[dnr].rom;
-        len = DRIVE_ROM1571_SIZE;
-        break;
-      case DRIVE_TYPE_1581:
-        base = drive[dnr].rom;
-        len = DRIVE_ROM1581_SIZE;
-        break;
-      case DRIVE_TYPE_2031:
-        base = &(drive[dnr].rom[0x4000]);
-        len = DRIVE_ROM2031_SIZE;
-        break;
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        base = &(drive[dnr].rom[0x4000]);
-        len = DRIVE_ROM1001_SIZE;
-        break;
-      default:
-        return -1;
-    }
-
-    if (snapshot_module_read_byte_array(m, base, len) < 0) {
-        if (m != NULL)
-            snapshot_module_close(m);
-        return -1;
-    }
-
-    if (drive[dnr].type == DRIVE_TYPE_1541) {
-	drive_do_1541_checksum();
-    }
-
-    snapshot_module_close(m);
-    return 0;
-}
-
-/* -------------------------------------------------------------------- */
-
 int reload_rom_1541(char *name) {
     char romsetnamebuffer[MAXPATHLEN];
     char *tmppath;
@@ -2932,14 +1642,15 @@ int reload_rom_1541(char *name) {
     strcpy(romsetnamebuffer,"dos1541-");
     strncat(romsetnamebuffer,name,MAXPATHLEN - strlen(romsetnamebuffer) - 1);
     if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
-      dos_rom_name_1541 = default_dos_rom_name_1541;
+        dos_rom_name_1541 = default_dos_rom_name_1541;
     } else {
-      dos_rom_name_1541 = stralloc(romsetnamebuffer);
+        dos_rom_name_1541 = stralloc(romsetnamebuffer);
     }
 
     drive_load_rom_images();
     return(1);
 }
+*/
 
 void drive0_parallel_set_atn(int state)
 {
