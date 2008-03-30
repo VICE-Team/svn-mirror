@@ -1,3 +1,55 @@
+1999-03-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.35.
+
+	* mon.c (mon_save_file, mon_load_file): Handle different memory
+	spaces.
+
+1998-03-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c64/c64cia1.c, cbm2/c610cia1.c, drive/cia1571drive0.c,
+	drive/cia1571drive1.c, drive/cia1581drive0.c, drive/cia1581drive1.c
+	(pulse_ciapc): new (empty) inline function 
+	(store_ciapa, store_ciapb): remove ADDRESS from function.
+
+	* c64/c64cia2.c (store_ciapa, store_ciapb): remove ADDRESS from 
+	function. only call parallel_cable_cpu_write function as when 
+	writing to DDRB (without handshake). Do not call 
+	pruser_write_data() anymore because this takes effect when handshaking
+	only
+	(pulse_ciapc): call parallel_cable_cpu_write function with handshake.
+	Also call pruser_write_data().
+
+	* ciacore.h (store_ciapa, store_ciapb): remove ADDRESS from function.
+	(pulse_ciapc): new prototype
+
+	* ciacore.c (store_mycia): store value to PA and DDRA calls 
+	store_ciapa only when value has changed.
+	store value to PB and DDRB calls store_ciapa only when value 
+	has changed, but pulse_ciapc is always called when storing 
+	to PB.
+	(read_mycia): after calling read_ciapb, call pulse_ciapc to
+	do handshake.
+	(peek_mycia): when peeking PB, use same code as read_mycia, but
+	do _not_ call pulse_ciapc
+
+1998-03-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* ciacore.c (reset_mycia, int_ciatod, mycia_write_snapshot_module,
+	mycia_read_snapshot_module): when setting the TOD alarm,
+	use new variable cia_todclk.
+	(mycia_prevent_clk_overflow): handle clock overflow for
+	cia_todclk.
+
+	* ciacore.h (cia_todclk): new variable
+
+1999-03-02  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
+
+	* unix/Makefile.am, arch/unix/xaw/ui.c, unix/xaw/c128ui.c,
+	unix/xaw/c64ui.c, unix/xaw/ui.c, xaw/ui.h, arch/unix/mouse.c,
+	arch/unix/mouse.h, sid/sid.c, main.c:
+	Added c1351-mouse support to unix-versions. 
+	
 1999-02-27  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.34.

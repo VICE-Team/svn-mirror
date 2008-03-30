@@ -348,7 +348,8 @@ ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/mon.h ../../../../src/mos6510.h \
 	../../../../src/interrupt.h ../../../../src/vmachine.h \
 	uihotkey.h uimenu.h uisettings.h ../../../../src/utils.h \
-	../../../../src/arch/unix/vsync.h
+	../../../../src/arch/unix/vsync.h \
+	../../../../src/arch/unix/mouse.h
 uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/config.h uicommands.h ui.h \
 	../../../../src/types.h ../../../../src/palette.h uimenu.h \

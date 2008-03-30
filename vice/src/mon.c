@@ -1633,47 +1633,54 @@ void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
     FILE   *fp;
     ADDRESS adr;
     int     b1=0, b2=0;
-    int     ch;
+    int     ch = 0;
+    MEMSPACE mem;
 
     if (NULL == (fp = fopen(filename, READ))) {
-	perror(filename);
-	fprintf(mon_output, "Loading failed.\n");
-	return;
+        perror(filename);
+        fprintf(mon_output, "Loading failed.\n");
+        return;
     }
 
     if (is_bload == FALSE) {
-       b1 = fgetc(fp);
-       b2 = fgetc(fp);
+        b1 = fgetc(fp);
+        b2 = fgetc(fp);
     }
 
     evaluate_default_addr(&start_addr);
     if (!is_valid_addr(start_addr)) {	/* No Load address given */
         if (is_bload == TRUE) {
-	   fprintf(mon_output, "No LOAD address given.\n");
-	   return;
+            fprintf(mon_output, "No LOAD address given.\n");
+            return;
         }
 
-	if (b1 == 1)	/* Load Basic */
-	    mem_get_basic_text(&adr, NULL);
-	else
-	    adr = (BYTE)b1 | ((BYTE)b2 << 8);
+        if (b1 == 1)	/* Load Basic */
+            mem_get_basic_text(&adr, NULL);
+        else
+            adr = (BYTE)b1 | ((BYTE)b2 << 8);
+        mem = e_comp_space;
     } else  {
-       adr = addr_location(start_addr);
+        adr = addr_location(start_addr);
+        mem = addr_memspace(start_addr);
     }
 
     fprintf(mon_output, "Loading %s", filename);
     fprintf(mon_output, " from %04X\n", adr);
 
-    ch = fread (ram + adr, 1, ram_size - adr, fp);
-    if (ch == ram_size - adr) {
-       /* May be more bytes... */
-       ch += fread (ram, 1, adr, fp);
-    }
+    do {
+        unsigned char load_byte;
+
+        if (fread((char *)&load_byte, 1, 1, fp) < 1)
+            break;
+        set_mem_val(mem, ADDR_LIMIT(adr + ch), load_byte);
+        ch ++;
+    } while(1);
+
     fprintf(mon_output, "%x bytes\n", ch);
 
     if (is_bload == FALSE) {
-       /* set end of load addresses like kernal load */
-       mem_set_basic_text(adr, adr + ch);
+        /* set end of load addresses like kernal load */
+        mem_set_basic_text(adr, adr + ch);
     }
 
     fclose(fp);
@@ -1681,44 +1688,54 @@ void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload)
 
 void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool is_bsave)
 {
-   FILE   *fp;
-   ADDRESS adr, end;
-   long len;
-   int ch;
+    FILE *fp = NULL;
+    ADDRESS adr, end;
+    long len;
+    int ch = 0;
+    MEMSPACE mem;
 
-   len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
-   if (len < 0) {
-      fprintf(mon_output, "Invalid range.\n");
-      return;
-   }
+    len = evaluate_address_range(&start_addr, &end_addr, TRUE, -1);
+    if (len < 0) {
+        fprintf(mon_output, "Invalid range.\n");
+        return;
+    }
 
-   adr = addr_location(start_addr);
-   end = addr_location(end_addr);
+    mem = addr_memspace(start_addr);
 
-   if (NULL == (fp = fopen(filename, WRITE))) {
-	fprintf(mon_output, "Saving for `%s' failed: %s.\n",
+    adr = addr_location(start_addr);
+    end = addr_location(end_addr);
+
+    if (end < adr) {
+        fprintf(mon_output,
+               "Start address must be below end address.\n");
+        fclose(fp);
+        return;
+    }
+
+    if (NULL == (fp = fopen(filename, WRITE))) {
+        fprintf(mon_output, "Saving for `%s' failed: %s.\n",
                 filename, strerror(errno));
-   } else {
-	printf("Saving file `%s'...\n", filename);
+    } else {
+        printf("Saving file `%s'...\n", filename);
 
         if (is_bsave == FALSE) {
-	   fputc((BYTE) adr & 0xff, fp);
-	   fputc((BYTE) (adr >> 8) & 0xff, fp);
+            fputc((BYTE) adr & 0xff, fp);
+            fputc((BYTE) (adr >> 8) & 0xff, fp);
         }
 
-        if (end < adr) {
-	   ch = fwrite((char *) (ram + adr), 1, ram_size-adr, fp);
-           if (ch == ram_size-adr)
-	      ch += fwrite((char *) ram, 1, end, fp);
-        } else
-	   ch = fwrite((char *) (ram + adr), 1, len, fp);
+        do {
+            unsigned char save_byte;
 
-        if (ch != len) {
-	   fprintf(mon_output, "Saving for `%s' failed: %s.\n",
-                   filename, strerror(errno));
-        }
-	fclose(fp);
-   }
+            save_byte = get_mem_val(mem, adr + ch);
+            if(fwrite((char *)&save_byte, 1, 1, fp) < 1) {
+                fprintf(mon_output, "Saving for `%s' failed: %s.\n",
+                        filename, strerror(errno));
+                fclose(fp);
+            }
+            ch++;
+        } while ((adr + ch) <= end);
+        fclose(fp);
+    }
 }
 
 void mon_verify_file(char *filename, MON_ADDR start_addr)

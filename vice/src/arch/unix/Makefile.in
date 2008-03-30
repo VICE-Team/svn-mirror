@@ -131,6 +131,8 @@ libarch_a_SOURCES = \
 	kbd.h \
 	kbdef.h \
 	kmap.c \
+	mouse.c \
+	mouse.h \
 	petkmap.c \
 	print.c \
 	rs232.c \
@@ -152,7 +154,7 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
-libarch_a_OBJECTS =  archdep.o coproc.o joystick.o kbd.o kmap.o \
+libarch_a_OBJECTS =  archdep.o coproc.o joystick.o kbd.o kmap.o mouse.o \
 petkmap.o print.o rs232.o video.o vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
@@ -315,6 +317,9 @@ kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h \
 kmap.o: kmap.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/types.h ../../../src/resources.h \
 	../../../src/cmdline.h ../../../src/utils.h kbd.h
+mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h mouse.h \
+	../../../src/types.h kbd.h ../../../src/log.h \
+	../../../src/resources.h ../../../src/cmdline.h
 petkmap.o: petkmap.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/types.h ../../../src/utils.h \
 	../../../src/resources.h ../../../src/cmdline.h kbd.h
