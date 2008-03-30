@@ -190,9 +190,8 @@ BEGIN
     POPUP "S&ettings"
     BEGIN
         MENUITEM "&Video settings...",     IDM_VIDEO_SETTINGS
-        MENUITEM "&Device settings...",    IDM_DEVICEMANAGER
+        MENUITEM "&Peripheral settings...", IDM_DEVICEMANAGER
         MENUITEM "D&rive settings...",     IDM_DRIVE_SETTINGS
-        MENUITEM "&Printer settings...",   IDM_PRINTER_SETTINGS
         MENUITEM "D&atasette settings...", IDM_DATASETTE_SETTINGS
         MENUITEM "&VIC-II settings...",    IDM_VICII_SETTINGS
         MENUITEM "&Joystick settings...",  IDM_JOY_SETTINGS

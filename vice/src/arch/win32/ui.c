@@ -63,12 +63,11 @@
 #include "tape.h"
 #include "types.h"
 #include "ui.h"
-#include "uiattach.h"
+#include "uiperipheral.h"
 #include "uicmdline.h"
 #include "uidatasette.h"
 #include "uijoystick.h"
 #include "uilib.h"
-#include "uiprinter.h"
 #include "uiram.h"
 #include "uisnapshot.h"
 #include "uisound.h"
@@ -1387,7 +1386,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
 
     switch (wparam) {
       case IDM_DEVICEMANAGER:
-        ui_attach_dialog(hwnd);
+        ui_peripheral_dialog(hwnd);
         break;
       case IDM_EXIT | 0x00010000:
       case IDM_EXIT:
@@ -1572,9 +1571,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         break;
       case IDM_RAM_SETTINGS:
         ui_ram_settings_dialog(hwnd);
-        break;
-      case IDM_PRINTER_SETTINGS:
-        ui_printer_settings_dialog(hwnd);
         break;
       case IDM_TOGGLE_FULLSCREEN | 0x00010000:
       case IDM_TOGGLE_FULLSCREEN:

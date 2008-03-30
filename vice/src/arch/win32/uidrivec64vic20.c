@@ -122,31 +122,38 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
 static void init_dialog(HWND hwnd, int num)
 {
     int drive_type, drive_extend_image_policy, drive_idle_method, n;
+    int drive_true_emulation, iecdevice, enabled;
+
+    resources_get_sprintf("IECDevice%i", (void *)&iecdevice, num);
+    resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
+    enabled = drive_true_emulation && !iecdevice;
 
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541),
-                 drive_check_type(DRIVE_TYPE_1541, num - 8));
+                 enabled && drive_check_type(DRIVE_TYPE_1541, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1541II),
-                 drive_check_type(DRIVE_TYPE_1541II, num - 8));
+                 enabled && drive_check_type(DRIVE_TYPE_1541II, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1570),
-                 drive_check_type(DRIVE_TYPE_1570, num - 8));
+                 enabled && drive_check_type(DRIVE_TYPE_1570, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1571),
-                 drive_check_type(DRIVE_TYPE_1571, num - 8));
+                 enabled && drive_check_type(DRIVE_TYPE_1571, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1581),
-                 drive_check_type(DRIVE_TYPE_1581, num - 8));
+                 enabled && drive_check_type(DRIVE_TYPE_1581, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2031),
-                 drive_check_type(DRIVE_TYPE_2031, num - 8));
+                 enabled && drive_check_type(DRIVE_TYPE_2031, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2040),
-                 drive_check_type(DRIVE_TYPE_2040, num - 8));
+                 enabled && drive_check_type(DRIVE_TYPE_2040, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_3040),
-                 drive_check_type(DRIVE_TYPE_3040, num - 8));
+                 enabled && drive_check_type(DRIVE_TYPE_3040, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_4040),
-                 drive_check_type(DRIVE_TYPE_4040, num - 8));
+                 enabled && drive_check_type(DRIVE_TYPE_4040, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1001),
-                 drive_check_type(DRIVE_TYPE_1001, num - 8));
+                 enabled && drive_check_type(DRIVE_TYPE_1001, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_8050),
-                 drive_check_type(DRIVE_TYPE_8050, num - 8));
+                 enabled && drive_check_type(DRIVE_TYPE_8050, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_8250),
-                 drive_check_type(DRIVE_TYPE_8250, num - 8));
+                 enabled && drive_check_type(DRIVE_TYPE_8250, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_NONE),
+                 enabled);
 
     resources_get_sprintf("Drive%dType",
                           (void *)&drive_type, num);
@@ -196,6 +203,9 @@ static void init_dialog(HWND hwnd, int num)
         n = IDC_SELECT_DRIVE_TYPE_8250;
         break;
     }
+
+    if( !enabled )
+      n = IDC_SELECT_DRIVE_TYPE_NONE;
 
     CheckRadioButton(hwnd, IDC_SELECT_DRIVE_TYPE_1541,
                      IDC_SELECT_DRIVE_TYPE_NONE, n);

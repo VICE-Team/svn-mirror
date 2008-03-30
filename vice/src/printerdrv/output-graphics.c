@@ -48,6 +48,7 @@ struct output_gfx_s
     gfxoutputdrv_t *gfxoutputdrv;
     screenshot_t screenshot;
     BYTE *line;
+    char *filename;
     unsigned int line_pos;
     unsigned int line_no;
 };
@@ -58,8 +59,6 @@ static output_gfx_t output_gfx[3];
 static unsigned int current_prnr;
 
 static int ppb;
-
-static char filename[]="prngfx00";
 
 static int set_ppb(resource_value_t v, void *param)
 {
@@ -133,10 +132,24 @@ static void output_graphics_line_data(screenshot_t *screenshot, BYTE *data,
 static int output_graphics_open(unsigned int prnr,
                                 output_parameter_t *output_parameter)
 {
+    int device = 0;
+    char *filename;
     output_gfx[prnr].gfxoutputdrv = gfxoutput_get_driver("BMP");
 
     if (output_gfx[prnr].gfxoutputdrv == NULL)
         return -1;
+
+    switch( prnr )
+      {
+      case 0: resources_get_value("Printer4TextDevice", (void *)&device); break;
+      case 1: resources_get_value("Printer5TextDevice", (void *)&device); break;
+      case 2: resources_get_value("PrinterUserportTextDevice", (void *)&device); break;
+      }
+
+    resources_get_sprintf("PrinterTextDevice%d", (void *)&filename, device+1);
+    if( filename==NULL ) filename = "prngfx";
+    output_gfx[prnr].filename = lib_malloc(strlen(filename)+3);
+    sprintf(output_gfx[prnr].filename, "%s00", filename);
 
     output_gfx[prnr].screenshot.width  = output_parameter->maxcol;
     output_gfx[prnr].screenshot.height = output_parameter->maxrow;
@@ -153,7 +166,7 @@ static int output_graphics_open(unsigned int prnr,
     output_gfx[prnr].screenshot.convert_line = output_graphics_line_data;
 
     output_gfx[prnr].gfxoutputdrv->open(&output_gfx[prnr].screenshot,
-                                        filename);
+                                        output_gfx[prnr].filename);
 
     return 0;
 }
@@ -186,16 +199,18 @@ static int output_graphics_putc(unsigned int prnr, BYTE b)
         output_gfx[prnr].line_pos = 0;
         output_gfx[prnr].line_no++;
         if (output_gfx[prnr].line_no == output_gfx[prnr].screenshot.height) {
+            int i;
             output_gfx[prnr].gfxoutputdrv->close(&output_gfx[prnr].screenshot);
             output_gfx[prnr].line_pos = 0;
             output_gfx[prnr].line_no = 0;
-            filename[7]++;
-            if (filename[7] > '9') {
-                filename[7] = '0';
-                filename[6]++;
+	    i = strlen(output_gfx[prnr].filename);
+	    output_gfx[prnr].filename[i-1]++;
+            if (output_gfx[prnr].filename[i-1] > '9') {
+                output_gfx[prnr].filename[i-1] = '0';
+                output_gfx[prnr].filename[i-2]++;
             }
             output_gfx[prnr].gfxoutputdrv->open(&output_gfx[prnr].screenshot,
-                                                filename);
+                                                output_gfx[prnr].filename);
         }
     } else {
         output_gfx[prnr].line[output_gfx[prnr].line_pos] = b;
@@ -243,6 +258,8 @@ int output_graphics_init_resources(void)
     output_select.output_flush = output_graphics_flush;
 
     output_select_register(&output_select);
+
+    
 
     return resources_register(resources);
 }

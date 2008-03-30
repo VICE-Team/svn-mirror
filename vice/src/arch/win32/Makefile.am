@@ -65,8 +65,8 @@ libarch_a_SOURCES = \
 	types.h \
 	ui.c \
 	ui.h \
-	uiattach.c \
-	uiattach.h \
+	uiperipheral.c \
+	uiperipheral.h \
 	uic128.c \
 	uic128.h \
 	uicbm2set.c \
@@ -92,8 +92,6 @@ libarch_a_SOURCES = \
 	uipetset.h \
 	uiplus4mem.c \
 	uiplus4mem.h \
-	uiprinter.c \
-	uiprinter.h \
 	uiram.c \
 	uiram.h \
 	uireu.c \

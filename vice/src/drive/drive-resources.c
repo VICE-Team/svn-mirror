@@ -150,7 +150,8 @@ static int drive0_resources_type(resource_value_t v, void *param)
         if (drive_true_emulation) {
             drive->enable = 1;
             drive_enable(drive_context[0]);
-            machine_bus_status_drivetype_set(8, 1);
+            /* 1551 drive does not use the IEC bus */
+            machine_bus_status_drivetype_set(8, type!=DRIVE_TYPE_1551);
         }
         drive_set_disk_drive_type(type, drive_context[0]);
         drive_rom_initialize_traps(drive);
@@ -225,7 +226,8 @@ static int drive1_resources_type(resource_value_t v, void *param)
         if (drive_true_emulation) {
             drive->enable = 1;
             drive_enable(drive_context[dnr]);
-            machine_bus_status_drivetype_set(9, 1);
+            /* 1551 drive does not use the IEC bus */
+            machine_bus_status_drivetype_set(9, type!=DRIVE_TYPE_1551);
         }
         drive_set_disk_drive_type(type, drive_context[dnr]);
         drive_rom_initialize_traps(drive);

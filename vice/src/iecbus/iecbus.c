@@ -179,42 +179,38 @@ static void iecbus_cpu_write_conf3(BYTE data, CLOCK clock)
 
     iec_update_cpu_bus(data);
 
-    if (iec_old_atn != (iecbus.cpu_bus & 0x10)) {
+    if (iec_old_atn != (iecbus.cpu_bus & 0x10)) 
+      {
         iec_old_atn = iecbus.cpu_bus & 0x10;
-
-        for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-            if (drive_context[dnr]->drive->type == DRIVE_TYPE_NONE)
-                continue;
-
-            if (drive_context[dnr]->drive->type != DRIVE_TYPE_1581)
+        
+        for (dnr = 0; dnr < DRIVE_NUM; dnr++) 
+          if( iecbus_device[8+dnr] == IECBUS_DEVICE_TRUEDRIVE )
+            {
+              if (drive_context[dnr]->drive->type != DRIVE_TYPE_1581)
                 viacore_signal(drive_context[dnr]->via1d1541, VIA_SIG_CA1,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
-            else
-                if (!iec_old_atn)
-                    ciacore_set_flag(drive_context[dnr]->cia1581);
+              else if (!iec_old_atn)
+                ciacore_set_flag(drive_context[dnr]->cia1581);
+            }
+      }
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) 
+      if( iecbus_device[8+dnr] == IECBUS_DEVICE_TRUEDRIVE )
+        {
+          unsigned int unit;
+          unit = dnr + 8;
+          if (drive_context[dnr]->drive->type != DRIVE_TYPE_1581)
+            iecbus.drv_bus[unit] = (((iecbus.drv_data[unit] << 3) & 0x40)
+                                    | ((iecbus.drv_data[unit] << 6)
+                                       & ((~iecbus.drv_data[unit]
+                                           ^ iecbus.cpu_bus) << 3) & 0x80));
+          else
+            iecbus.drv_bus[unit] = (((iecbus.drv_data[unit] << 3) & 0x40)
+                                    | ((iecbus.drv_data[unit] << 6)
+                                       & ((iecbus.drv_data[unit]
+                                           | iecbus.cpu_bus) << 3) & 0x80));
         }
-    }
-
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        unsigned int unit;
-
-        if (drive_context[dnr]->drive->type == DRIVE_TYPE_NONE)
-            continue;
-
-        unit = dnr + 8;
-
-        if (drive_context[dnr]->drive->type != DRIVE_TYPE_1581)
-            iecbus.drv_bus[unit] = (((iecbus.drv_data[unit] << 3) & 0x40)
-                                   | ((iecbus.drv_data[unit] << 6)
-                                   & ((~iecbus.drv_data[unit]
-                                   ^ iecbus.cpu_bus) << 3) & 0x80));
-        else
-            iecbus.drv_bus[unit] = (((iecbus.drv_data[unit] << 3) & 0x40)
-                                   | ((iecbus.drv_data[unit] << 6)
-                                   & ((iecbus.drv_data[unit]
-                                   | iecbus.cpu_bus) << 3) & 0x80));
-    }
-
+    
     iec_update_ports();
 }
 
@@ -222,10 +218,14 @@ static void calculate_callback_index(void)
 {
     unsigned int callback_index;
 
-    callback_index = (iecbus_device[8] << 0)
-                     | (iecbus_device[9] << 2)
-                     | (iecbus_device[10] << 4)
-                     | (iecbus_device[11] << 6);
+    callback_index =   (iecbus_device[ 8] <<  0)
+                     | (iecbus_device[ 9] <<  2)
+                     | (iecbus_device[10] <<  6)
+                     | (iecbus_device[11] <<  8)
+                     | (iecbus_device[ 4] << 10)
+                     | (iecbus_device[ 5] << 12)
+                     | (iecbus_device[ 6] << 14)
+                     | (iecbus_device[ 7] << 16);
 
     switch (callback_index) {
       case 0:
