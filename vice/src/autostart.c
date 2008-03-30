@@ -176,7 +176,7 @@ static int get_true_drive_emulation_state(void)
 static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
     if (autostart_program_name
-        && machine_read_snapshot((char *)autostart_program_name) < 0)
+        && machine_read_snapshot((char *)autostart_program_name, 0) < 0)
         ui_error("Cannot load snapshot file.");
     ui_update_menus();
 }

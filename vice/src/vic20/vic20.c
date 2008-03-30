@@ -43,6 +43,7 @@
 #include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "event.h"
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "ioutil.h"
@@ -478,7 +479,8 @@ void machine_change_timing(int timeval)
 #define SNAP_MAJOR          0
 #define SNAP_MINOR          0
 
-int machine_write_snapshot(const char *name, int save_roms, int save_disks)
+int machine_write_snapshot(const char *name, int save_roms, int save_disks,
+                           int event_mode)
 {
     snapshot_t *s;
     int ieee488;
@@ -496,7 +498,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || vic_snapshot_write_module(s) < 0
         || via1_snapshot_write_module(s) < 0
         || via2_snapshot_write_module(s) < 0
-        || drive_snapshot_write_module(s, save_disks, save_roms) < 0) {
+        || drive_snapshot_write_module(s, save_disks, save_roms) < 0
+        || event_snapshot_write_module(s, event_mode) < 0) {
         snapshot_close(s);
         ioutil_remove(name);
         return -1;
@@ -516,7 +519,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
     return 0;
 }
 
-int machine_read_snapshot(const char *name)
+int machine_read_snapshot(const char *name, int event_mode)
 {
     snapshot_t *s;
     BYTE minor, major;
@@ -538,7 +541,8 @@ int machine_read_snapshot(const char *name)
         || vic_snapshot_read_module(s) < 0
         || via1_snapshot_read_module(s) < 0
         || via2_snapshot_read_module(s) < 0
-        || drive_snapshot_read_module(s) < 0)
+        || drive_snapshot_read_module(s) < 0
+        || event_snapshot_read_module(s, event_mode) < 0)
         goto fail;
 
     if (ieeevia1_snapshot_read_module(s) < 0
