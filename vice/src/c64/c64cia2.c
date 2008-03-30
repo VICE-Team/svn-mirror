@@ -3,8 +3,9 @@
  * ($DD00).
  *
  * Written by
- *   André Fachat <fachat@physik.tu-chemnitz.de>
- *   Ettore Perazzoli <ettore@comm2000.it>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -36,7 +37,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
-#include "pruser.h"
+#include "printer.h"
 #include "types.h"
 #include "vicii.h"
 
@@ -108,8 +109,8 @@ static iec_cpu_write_callback_t iec_cpu_write_callback[4] = {
 
 static inline void do_reset_cia(void)
 {
-    pruser_write_strobe(1);
-    pruser_write_data((BYTE)0xff);
+    printer_interface_userport_write_strobe(1);
+    printer_interface_userport_write_data((BYTE)0xff);
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)0xff);
     rsuser_set_tx_bit(1);
@@ -148,7 +149,7 @@ static inline void store_ciapa(CLOCK rclk, BYTE byte)
             mem_set_vbank(new_vbank);
         }
         iec_cpu_write_callback[iec_callback_index]((BYTE)tmp);
-        pruser_write_strobe(tmp & 0x04);
+        printer_interface_userport_write_strobe(tmp & 0x04);
     }
 }
 
@@ -178,14 +179,14 @@ static inline void pulse_ciapc(CLOCK rclk)
 {
     if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
         parallel_cable_cpu_pulse();
-    pruser_write_data((BYTE)oldpb);
+    printer_interface_userport_write_data((BYTE)oldpb);
 }
 
 /* FIXME! */
 static inline void undump_ciapb(CLOCK rclk, BYTE byte)
 {
     parallel_cable_cpu_undump((BYTE)byte);
-    pruser_write_data((BYTE)byte);
+    printer_interface_userport_write_data((BYTE)byte);
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
@@ -236,7 +237,7 @@ static inline void store_sdr(BYTE byte) {}
 
 #include "ciacore.c"
 
-void pruser_set_busy(int flank)
+void printer_interface_userport_set_busy(int flank)
 {
     if(!flank) {
         cia2_set_flag();
