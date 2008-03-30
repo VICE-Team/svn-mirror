@@ -29,6 +29,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/ioctl.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -41,9 +42,22 @@
 
 typedef void (*voidfunc_t)(void);
 
-static BYTE sidbuf[0x20];
-static int sidfh=-1;
+#define MAXSID 2
 
+static BYTE sidbuf[0x20*MAXSID];
+static int sidfh=-1;
+static int ntsc=0;
+
+/* ioctls from cwsid.h ; see http://llg.cubic.org/cw */
+#define CWSID_IOCTL_TYPE ('S')
+#define CWSID_IOCTL_PAL     _IO(CWSID_IOCTL_TYPE, 0x11)
+#define CWSID_IOCTL_NTSC    _IO(CWSID_IOCTL_TYPE, 0x12)
+
+static void setfreq()
+{
+  if(sidfh>=0)
+    ioctl(sidfh, ntsc?CWSID_IOCTL_NTSC:CWSID_IOCTL_PAL);
+}
 
 int catweaselmkiii_init(void)
 {
@@ -64,7 +78,8 @@ int catweaselmkiii_init(void)
 
       memset(sidbuf, 0, sizeof(sidbuf));
       lseek(sidfh, 0, SEEK_SET);
-      write(sidfh, sidbuf, 0x19);
+      write(sidfh, sidbuf, sizeof(sidbuf));
+      setfreq();
     }
   log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: found");
 
@@ -89,7 +104,8 @@ int catweaselmkiii_open(void)
 
   memset(sidbuf, 0, sizeof(sidbuf));
   lseek(sidfh, 0, SEEK_SET);
-  write(sidfh, sidbuf, 0x19);
+  write(sidfh, sidbuf, sizeof(sidbuf));
+  setfreq();
 
   log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: opened");
 
@@ -102,7 +118,7 @@ int catweaselmkiii_close(void)
     {
       memset(sidbuf, 0, sizeof(sidbuf));
       lseek(sidfh, 0, SEEK_SET);
-      write(sidfh, sidbuf, 0x19);
+      write(sidfh, sidbuf, sizeof(sidbuf));
 
       close(sidfh);
       sidfh=-1;
@@ -114,13 +130,16 @@ int catweaselmkiii_close(void)
 
 int catweaselmkiii_read(ADDRESS addr, int chipno)
 {
-  if(chipno==0 && addr<0x20)
+  if(chipno<MAXSID && addr<0x20)
     {
       if(addr>=0x19 && addr<=0x1C && sidfh>=0)
         {
+	  addr+=chipno*0x20;
           lseek(sidfh, addr, SEEK_SET);
           read(sidfh, &sidbuf[addr], 1);
         }
+      else
+	addr+=chipno*0x20;
       return sidbuf[addr];
     }
   return 0;
@@ -128,8 +147,9 @@ int catweaselmkiii_read(ADDRESS addr, int chipno)
 
 void catweaselmkiii_store(ADDRESS addr, BYTE val, int chipno)
 {
-  if(chipno==0 && addr<=0x18)
+  if(chipno<MAXSID && addr<=0x18)
     {
+      addr+=chipno*0x20;
       sidbuf[addr]=val;
       if(sidfh>=0)
         {
@@ -141,5 +161,13 @@ void catweaselmkiii_store(ADDRESS addr, BYTE val, int chipno)
 
 void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 {
+  ntsc=(cycles_per_sec <= 1000000)?0:1;
+  setfreq();
 }
- 
+
+int catweaselmkiii_available(void)
+{
+    /* Return -1 if no hardware is found. */
+    return 0;
+}
+
