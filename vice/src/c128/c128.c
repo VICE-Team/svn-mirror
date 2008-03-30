@@ -379,6 +379,8 @@ void machine_reset(void)
     autostart_reset();
     drive_reset();
 
+    z80mem_initialize();
+
     z80_reset();
 }
 
