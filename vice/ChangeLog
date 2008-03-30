@@ -1,3 +1,13 @@
+2003-05-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.46.
+
+2003-05-23  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* configure.in: Fixed tests for Windows and BeOS.
+
+	* doc/Readme.beos: Some changes.
+
 2003-05-18  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.45.
