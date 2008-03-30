@@ -36,7 +36,4 @@
 extern int mem_load_sys_file(const char *path, const char *name,
 			     BYTE *dest, int minsize, int maxsize);
 
-extern FILE *open_sys_file(const char *path, const char *name, 
-		     	     const char **fname);
-
 #endif
