@@ -54,7 +54,7 @@
 #include "vmachine.h"
 #include "interrupt.h"
 #include "raster.h"
-#include "soundvic20.h"
+#include "vic20sound.h"
 #include "mem.h"
 #include "resources.h"
 #include "cmdline.h"

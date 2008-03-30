@@ -34,11 +34,12 @@
 #include "vice.h"
 #include "video.h"
 
-#ifdef PAL
+#if 1
 #define VIC_SCREEN_HEIGHT           312
 #define VIC_CYCLES_PER_LINE         71
 #define VIC_RFSH_PER_SEC            50
 #else				/* NTSC */
+#warning NTSC
 #define VIC_SCREEN_HEIGHT           261
 #define VIC_CYCLES_PER_LINE         63
 #define VIC_RFSH_PER_SEC            60
