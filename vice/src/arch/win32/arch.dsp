@@ -102,6 +102,10 @@ SOURCE=.\c64ui.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\catweaselmkiii.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\console.c
 # End Source File
 # Begin Source File
