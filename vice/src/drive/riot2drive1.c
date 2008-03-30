@@ -80,20 +80,21 @@
 #include "parallel.h"
 #include "riot.h"
 #include "riotd.h"
+#include "types.h"
 
 static int atn_active = 0;
 
 _RIOT_FUNC void set_handshake(BYTE pa)
 {
-    parallel_drv1_set_nrfd(
-	((pa & 0x4)==0) 
+    parallel_drv1_set_nrfd((char)
+	(((pa & 0x4) == 0) 
 	|| ((pa & 1) && !atn_active)
-	|| (((pa & 1)==0) && atn_active)
-	);
-    parallel_drv1_set_ndac(
-	(pa & 0x2) 
-	|| (((pa & 0x1)==0) && atn_active)
-	);
+	|| (((pa & 1) == 0) && atn_active)
+	));
+    parallel_drv1_set_ndac((char)
+	((pa & 0x2) 
+	|| (((pa & 0x1) == 0) && atn_active)
+	));
 }
  
 void drive1_riot_set_atn(int state) 

@@ -49,6 +49,7 @@
  */
 
 #include "interrupt.h"
+#include "types.h"
 
 #define myclk           drive_clk[0]
 #define mycpu_clk_guard drive0_clk_guard
@@ -85,15 +86,15 @@ static int atn_active = 0;
 
 _RIOT_FUNC void set_handshake(BYTE pa)
 {
-    parallel_drv0_set_nrfd(
-	((pa & 0x4)==0) 
+    parallel_drv0_set_nrfd((char)
+	(((pa & 0x4) == 0) 
 	|| ((pa & 1) && !atn_active)
-	|| (((pa & 1)==0) && atn_active)
-	);
-    parallel_drv0_set_ndac(
-	(pa & 0x2) 
-	|| (((pa & 0x1)==0) && atn_active)
-	);
+	|| (((pa & 1) == 0) && atn_active)
+	));
+    parallel_drv0_set_ndac((char)
+	((pa & 0x2) 
+	|| (((pa & 0x1) == 0) && atn_active)
+	));
 }
  
 void drive0_riot_set_atn(int state) 

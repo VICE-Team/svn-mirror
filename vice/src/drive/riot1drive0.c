@@ -70,6 +70,7 @@
 #include "iecdrive.h"
 #include "parallel.h"
 #include "riotd.h"
+#include "types.h"
 
 static void undump_pra(BYTE byte)
 {
@@ -86,7 +87,7 @@ static void undump_prb(BYTE byte)
 
 inline static void store_prb(BYTE byte)
 {
-    parallel_drv0_set_bus(parallel_atn ? 0xff : byte);
+    parallel_drv0_set_bus((BYTE)(parallel_atn ? 0xff : byte));
 }
 
 void riot1d0_set_pardata(void)
