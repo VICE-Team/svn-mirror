@@ -106,7 +106,10 @@ static UI_CALLBACK(cancel_callback)
     ui_popdown(emptydisk_dialog);
 }
 
-static char *extensions[] = { "d64", "d67", "d71", "d81", "d80", "d82", "g64" };
+#define NR_FORMATS 7
+
+static char *extensions[NR_FORMATS] = {
+    "d64", "d67", "d71", "d81", "d80", "d82", "g64" };
 
 static UI_CALLBACK(save_callback)
 {
@@ -157,7 +160,7 @@ static UI_CALLBACK(save_callback)
         }
     }
   
-    if (type_cnt < 0 || type_cnt > 5)
+    if (type_cnt < 0 || type_cnt >= NR_FORMATS)
 	return;
  
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
