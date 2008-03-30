@@ -45,7 +45,7 @@
 
 
 static char *PrinterDev[3] = { NULL, NULL, NULL };
-static unsigned int printer_device[3];
+static int printer_device[3];
 static FILE *output_fd[3] = { NULL, NULL, NULL };
 
 static int set_printer_device_name(resource_value_t v, void *param)
@@ -58,7 +58,7 @@ static int set_printer_device(resource_value_t v, void *param)
 {
     unsigned int prn_dev;
 
-    prn_dev = (unsigned int)v;
+    prn_dev = (int)v;
 
     if (prn_dev > 3)
         return -1;
@@ -67,28 +67,26 @@ static int set_printer_device(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "PrinterTextDevice1", RES_STRING,
-      (resource_value_t)ARCHDEP_PRINTER_DEFAULT_DEV1,
+static const resource_string_t resources_string[] = {
+    { "PrinterTextDevice1", ARCHDEP_PRINTER_DEFAULT_DEV1,
       RES_EVENT_NO, NULL,
-      (void *)&PrinterDev[0], set_printer_device_name, (void *)0 },
-    { "PrinterTextDevice2", RES_STRING,
-      (resource_value_t)ARCHDEP_PRINTER_DEFAULT_DEV2,
+      &PrinterDev[0], set_printer_device_name, (void *)0 },
+    { "PrinterTextDevice2", ARCHDEP_PRINTER_DEFAULT_DEV2,
       RES_EVENT_NO, NULL,
-      (void *)&PrinterDev[1], set_printer_device_name, (void *)1 },
-    { "PrinterTextDevice3", RES_STRING,
-      (resource_value_t)ARCHDEP_PRINTER_DEFAULT_DEV3,
+      &PrinterDev[1], set_printer_device_name, (void *)1 },
+    { "PrinterTextDevice3", ARCHDEP_PRINTER_DEFAULT_DEV3,
       RES_EVENT_NO, NULL,
-      (void *)&PrinterDev[2], set_printer_device_name, (void *)2 },
-    { "Printer4TextDevice", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&printer_device[0], set_printer_device, (void *)0 },
-    { "Printer5TextDevice", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&printer_device[1], set_printer_device, (void *)1 },
-    { "PrinterUserportTextDevice", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&printer_device[2], set_printer_device, (void *)2 },
+      &PrinterDev[2], set_printer_device_name, (void *)2 },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "Printer4TextDevice", 0, RES_EVENT_NO, NULL,
+      &printer_device[0], set_printer_device, (void *)0 },
+    { "Printer5TextDevice", 0, RES_EVENT_NO, NULL,
+      &printer_device[1], set_printer_device, (void *)1 },
+    { "PrinterUserportTextDevice", 0, RES_EVENT_NO, NULL,
+      &printer_device[2], set_printer_device, (void *)2 },
     { NULL }
 };
 
@@ -221,7 +219,10 @@ int output_text_init_resources(void)
 
     output_select_register(&output_select);
 
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 
 void output_text_shutdown_resources(void)

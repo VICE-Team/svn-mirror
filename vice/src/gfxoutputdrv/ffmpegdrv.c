@@ -152,34 +152,31 @@ static int set_video_codec(resource_value_t v, void *param)
 }
 
 /*---------- Resources ------------------------------------------------*/
-static const resource_t resources[] = {
-    { "FFMPEGFormat", RES_STRING, (resource_value_t)"avi",
-      RES_EVENT_NO, NULL,
-      (void *)&ffmpeg_format,
-      set_format, NULL },
-    { "FFMPEGAudioBitrate", RES_INTEGER, (resource_value_t)64000,
-      RES_EVENT_NO, NULL,
-      (void *)&audio_bitrate,
-      set_audio_bitrate, NULL },
-    { "FFMPEGVideoBitrate", RES_INTEGER, (resource_value_t)800000,
-      RES_EVENT_NO, NULL,
-      (void *)&video_bitrate,
-      set_video_bitrate, NULL },
-    { "FFMPEGAudioCodec", RES_INTEGER, (resource_value_t)CODEC_ID_MP3,
-      RES_EVENT_NO, NULL,
-      (void *)&audio_codec,
-      set_audio_codec, NULL },
-    { "FFMPEGVideoCodec", RES_INTEGER, (resource_value_t)CODEC_ID_MPEG4,
-      RES_EVENT_NO, NULL,
-      (void *)&video_codec,
-      set_video_codec, NULL },
+static const resource_string_t resources_string[] = {
+    { "FFMPEGFormat", "avi", RES_EVENT_NO, NULL,
+      &ffmpeg_format, set_format, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
+    { "FFMPEGAudioBitrate", 64000, RES_EVENT_NO, NULL,
+      &audio_bitrate, set_audio_bitrate, NULL },
+    { "FFMPEGVideoBitrate", 800000, RES_EVENT_NO, NULL,
+      &video_bitrate, set_video_bitrate, NULL },
+    { "FFMPEGAudioCodec", CODEC_ID_MP3, RES_EVENT_NO, NULL,
+      &audio_codec, set_audio_codec, NULL },
+    { "FFMPEGVideoCodec", CODEC_ID_MPEG4, RES_EVENT_NO, NULL,
+      &video_codec, set_video_codec, NULL },
     { NULL }
 };
 
 
 int ffmpegdrv_resources_init(void)
 {
-    return resources_register(resources);
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
+    return resources_register_int(resources_int);
 }
 /*---------------------------------------------------------------------*/
 

@@ -72,9 +72,9 @@ static int set_ppb(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "PixelsPerBit", RES_INTEGER, (resource_value_t)3,
-      (void *)&ppb, set_ppb, (void *)0 },
+static const resource_int_t resources_int[] = {
+    { "PixelsPerBit", 3, RES_EVENT_NO, NULL,
+      &ppb, set_ppb, (void *)0 },
     { NULL }
 };
 
@@ -297,6 +297,6 @@ int output_graphics_init_resources(void)
 
     output_select_register(&output_select);
 
-    return 1; /* resources_register(resources); */
+    return 1; /* resources_register_int(resources_int); */
 }
 

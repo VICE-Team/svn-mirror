@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-09-03 17:22+0200\n"
+"POT-Creation-Date: 2006-09-09 22:07+0200\n"
 "PO-Revision-Date: 2006-08-06 13:49+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -14,35 +14,35 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/vsync.c:143 src/sid/sid-cmdline-options.c:155
+#: src/vsync.c:141 src/sid/sid-cmdline-options.c:155
 #: src/sid/sid-cmdline-options.c:158
 msgid "<percent>"
 msgstr "<procent>"
 
-#: src/vsync.c:143
+#: src/vsync.c:141
 msgid "Limit emulation speed to specified value"
 msgstr "Begränsa emuleringshastighet till angivet värde"
 
-#: src/vsync.c:145 src/sound.c:257 src/sound.c:259 src/debug.c:213
-#: src/c64/cart/ide64.c:277 src/c64/cart/ide64.c:279 src/c64/cart/ide64.c:281
-#: src/datasette.c:184 src/datasette.c:187 src/gfxoutputdrv/ffmpegdrv.c:203
-#: src/gfxoutputdrv/ffmpegdrv.c:206 src/mouse.c:99 src/ram.c:104
+#: src/vsync.c:143 src/sound.c:251 src/sound.c:253 src/debug.c:205
+#: src/c64/cart/ide64.c:282 src/c64/cart/ide64.c:284 src/c64/cart/ide64.c:286
+#: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:200
+#: src/gfxoutputdrv/ffmpegdrv.c:203 src/mouse.c:97 src/ram.c:101
 msgid "<value>"
 msgstr "<värde>"
 
-#: src/vsync.c:145
+#: src/vsync.c:143
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"
 
-#: src/vsync.c:147
+#: src/vsync.c:145
 msgid "Enable warp mode"
 msgstr "Aktivera warpläge"
 
-#: src/vsync.c:149
+#: src/vsync.c:147
 msgid "Disable warp mode"
 msgstr "Inaktivera warpläge"
 
-#: src/vsync.c:478
+#: src/vsync.c:476
 msgid "Your machine is too slow for current settings!"
 msgstr "Din maskin är för långsam för nuvarande inställningar!"
 
@@ -54,23 +54,23 @@ msgstr "Endast en inspelning kan göras åt gången."
 msgid "Cannot load snapshot file."
 msgstr "Kan inte läsa in ögonblicksbildfil."
 
-#: src/sound.c:253
+#: src/sound.c:247
 msgid "Enable sound playback"
 msgstr "Aktivera ljudåtergivning"
 
-#: src/sound.c:255
+#: src/sound.c:249
 msgid "Disable sound playback"
 msgstr "Inaktivera ljudåtergivning"
 
-#: src/sound.c:257
+#: src/sound.c:251
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Sätt ljudsamplingshastighet till <värde> Hz"
 
-#: src/sound.c:259
+#: src/sound.c:253
 msgid "Set sound buffer size to <value> msec"
 msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 
-#: src/sound.c:261 src/sound.c:265 src/c128/c128-cmdline-options.c:108
+#: src/sound.c:255 src/sound.c:259 src/c128/c128-cmdline-options.c:108
 #: src/c128/c128-cmdline-options.c:110 src/c128/c128-cmdline-options.c:112
 #: src/c128/c128-cmdline-options.c:114 src/c128/c128-cmdline-options.c:116
 #: src/c128/c128-cmdline-options.c:118 src/c128/c128-cmdline-options.c:120
@@ -79,19 +79,19 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/c128/c128-cmdline-options.c:130 src/c128/c128-cmdline-options.c:132
 #: src/c128/c128-cmdline-options.c:134 src/c128/c128-cmdline-options.c:136
 #: src/c128/c128-cmdline-options.c:157 src/c128/c128-cmdline-options.c:159
-#: src/c128/functionrom.c:147 src/c128/functionrom.c:149
+#: src/c128/functionrom.c:151 src/c128/functionrom.c:153
 #: src/c64/c64-cmdline-options.c:91 src/c64/c64-cmdline-options.c:93
 #: src/c64/c64-cmdline-options.c:95 src/c64/c64-cmdline-options.c:112
 #: src/c64/c64-cmdline-options.c:114 src/c64/c64-cmdline-options.c:116
-#: src/c64/cart/c64cart.c:226 src/c64/cart/c64cart.c:229
-#: src/c64/cart/c64cart.c:232 src/c64/cart/c64cart.c:235
-#: src/c64/cart/c64cart.c:238 src/c64/cart/c64cart.c:241
-#: src/c64/cart/c64cart.c:244 src/c64/cart/c64cart.c:247
-#: src/c64/cart/c64cart.c:250 src/c64/cart/c64cart.c:253
-#: src/c64/cart/c64cart.c:256 src/c64/cart/c64cart.c:259
-#: src/c64/cart/c64cart.c:262 src/c64/cart/ide64.c:275 src/c64/c64_256k.c:212
-#: src/c64/georam.c:202 src/c64/plus256k.c:176 src/c64/plus60k.c:251
-#: src/c64/ramcart.c:233 src/c64/reu.c:240 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/cart/c64cart.c:230 src/c64/cart/c64cart.c:233
+#: src/c64/cart/c64cart.c:236 src/c64/cart/c64cart.c:239
+#: src/c64/cart/c64cart.c:242 src/c64/cart/c64cart.c:245
+#: src/c64/cart/c64cart.c:248 src/c64/cart/c64cart.c:251
+#: src/c64/cart/c64cart.c:254 src/c64/cart/c64cart.c:257
+#: src/c64/cart/c64cart.c:260 src/c64/cart/c64cart.c:263
+#: src/c64/cart/c64cart.c:266 src/c64/cart/ide64.c:280 src/c64/c64_256k.c:216
+#: src/c64/georam.c:206 src/c64/plus256k.c:181 src/c64/plus60k.c:255
+#: src/c64/ramcart.c:236 src/c64/reu.c:244 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -109,148 +109,148 @@ msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 #: src/drive/ieee/ieee-cmdline-options.c:57
 #: src/drive/ieee/ieee-cmdline-options.c:59
 #: src/drive/ieee/ieee-cmdline-options.c:61
-#: src/drive/tcbm/tcbm-cmdline-options.c:45 src/fliplist.c:122
+#: src/drive/tcbm/tcbm-cmdline-options.c:45 src/fliplist.c:121
 #: src/fsdevice/fsdevice-cmdline-options.c:76
 #: src/fsdevice/fsdevice-cmdline-options.c:78
 #: src/fsdevice/fsdevice-cmdline-options.c:80
 #: src/fsdevice/fsdevice-cmdline-options.c:82 src/initcmdline.c:208
 #: src/initcmdline.c:210 src/initcmdline.c:212 src/initcmdline.c:214
 #: src/initcmdline.c:216 src/initcmdline.c:218 src/initcmdline.c:220
-#: src/log.c:111 src/pet/pet-cmdline-options.c:116
+#: src/log.c:110 src/pet/pet-cmdline-options.c:116
 #: src/pet/pet-cmdline-options.c:118 src/pet/pet-cmdline-options.c:120
 #: src/pet/pet-cmdline-options.c:122 src/pet/pet-cmdline-options.c:124
 #: src/pet/pet-cmdline-options.c:126 src/pet/pet-cmdline-options.c:128
 #: src/pet/pet-cmdline-options.c:163 src/pet/pet-cmdline-options.c:166
 #: src/pet/pet-cmdline-options.c:169 src/pet/pet-cmdline-options.c:172
 #: src/pet/pet-cmdline-options.c:175 src/pet/pet-cmdline-options.c:178
-#: src/pet/petreu.c:218 src/plus4/plus4-cmdline-options.c:83
+#: src/pet/petreu.c:222 src/plus4/plus4-cmdline-options.c:83
 #: src/plus4/plus4-cmdline-options.c:85 src/plus4/plus4-cmdline-options.c:87
 #: src/plus4/plus4-cmdline-options.c:89 src/plus4/plus4-cmdline-options.c:91
 #: src/plus4/plus4-cmdline-options.c:93 src/plus4/plus4-cmdline-options.c:95
 #: src/plus4/plus4-cmdline-options.c:97 src/plus4/plus4-cmdline-options.c:104
-#: src/plus4/plus4-cmdline-options.c:106 src/printerdrv/driver-select.c:129
-#: src/printerdrv/driver-select.c:131 src/printerdrv/driver-select.c:133
-#: src/printerdrv/output-select.c:124 src/printerdrv/output-select.c:126
-#: src/printerdrv/output-select.c:129 src/printerdrv/output-text.c:119
-#: src/printerdrv/output-text.c:121 src/printerdrv/output-text.c:123
+#: src/plus4/plus4-cmdline-options.c:106 src/printerdrv/driver-select.c:126
+#: src/printerdrv/driver-select.c:128 src/printerdrv/driver-select.c:130
+#: src/printerdrv/output-select.c:121 src/printerdrv/output-select.c:123
+#: src/printerdrv/output-select.c:126 src/printerdrv/output-text.c:117
+#: src/printerdrv/output-text.c:119 src/printerdrv/output-text.c:121
+#: src/rs232drv/rs232drv.c:101 src/rs232drv/rs232drv.c:103
 #: src/rs232drv/rs232drv.c:105 src/rs232drv/rs232drv.c:107
-#: src/rs232drv/rs232drv.c:109 src/rs232drv/rs232drv.c:111
 #: src/vic20/vic20-cmdline-options.c:209 src/vic20/vic20-cmdline-options.c:211
 #: src/vic20/vic20-cmdline-options.c:213 src/vic20/vic20-cmdline-options.c:228
-#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:226
-#: src/vic20/vic20cartridge.c:228 src/vic20/vic20cartridge.c:230
-#: src/vic20/vic20cartridge.c:232 src/vic20/vic20cartridge.c:234
+#: src/vic20/vic20-cmdline-options.c:230 src/vic20/vic20cartridge.c:221
+#: src/vic20/vic20cartridge.c:223 src/vic20/vic20cartridge.c:225
+#: src/vic20/vic20cartridge.c:227 src/vic20/vic20cartridge.c:229
 #: src/video/video-cmdline-options.c:192
 msgid "<name>"
 msgstr "<namn>"
 
-#: src/sound.c:261
+#: src/sound.c:255
 msgid "Specify sound driver"
 msgstr "Ange ljuddrivrutin"
 
-#: src/sound.c:263 src/sound.c:267
+#: src/sound.c:257 src/sound.c:261
 msgid "<args>"
 msgstr "<flaggor>"
 
-#: src/sound.c:263
+#: src/sound.c:257
 msgid "Specify initialization parameters for sound driver"
 msgstr "Ange initieringsflaggor för ljuddrivrutin"
 
-#: src/sound.c:265
+#: src/sound.c:259
 msgid "Specify recording sound driver"
 msgstr "Ange ljuddrivrutin för inspelning"
 
-#: src/sound.c:267
+#: src/sound.c:261
 msgid "Specify initialization parameters for recording sound driver"
 msgstr "Ange initieringsflaggor för ljuddrivrutin för inspelning"
 
-#: src/sound.c:269
+#: src/sound.c:263
 msgid "<sync>"
 msgstr "<synk>"
 
-#: src/sound.c:269
+#: src/sound.c:263
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Ställ in ljudhastighetsjustering (0: flexibel, 1: justerande, 2: exakt)"
 
-#: src/sound.c:480
+#: src/sound.c:474
 msgid "write to sound device failed."
 msgstr "misslyckades att skriva till ljudenhet."
 
-#: src/sound.c:495
+#: src/sound.c:489
 msgid "Cannot open SID engine"
 msgstr "Kan inte öppna SID-motor"
 
-#: src/sound.c:534
+#: src/sound.c:528
 msgid "Cannot initialize SID engine"
 msgstr "Kan inte initiera SID-motor"
 
-#: src/sound.c:641
+#: src/sound.c:635
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "initiering misslyckades för enhet \"%s\"."
 
-#: src/sound.c:650
+#: src/sound.c:644
 msgid "sound device lacks stereo capability"
 msgstr "ljudenhet saknar stereofunktion"
 
-#: src/sound.c:700
+#: src/sound.c:694
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "enheten \"%s\" hittades eller stöds ej."
 
-#: src/sound.c:721
+#: src/sound.c:715
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Inspelningsenhet %s finns inte!"
 
-#: src/sound.c:729
+#: src/sound.c:723
 msgid "Recording device must be different from playback device"
 msgstr "Inspelningsenhet och återspelningsenhet kan inte vara samma"
 
-#: src/sound.c:739
+#: src/sound.c:733
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Varning! Inspelningsenheten %s verkar vara en realtidsenhet!"
 
-#: src/sound.c:750
+#: src/sound.c:744
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Initiering misslyckades för enhet \"%s\"."
 
-#: src/sound.c:765
+#: src/sound.c:759
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Inspelningsenheten stöder inte aktuella ljudinställningar"
 
-#: src/sound.c:846
+#: src/sound.c:840
 msgid "Sound buffer overflow (cycle based)"
 msgstr "För mycket data i ljudbufferten (cykelbaserad)"
 
-#: src/sound.c:860
+#: src/sound.c:854
 msgid "Sound buffer overflow."
 msgstr "För mycket data i ljudbufferten."
 
-#: src/sound.c:986
+#: src/sound.c:980
 msgid "cannot flush."
 msgstr "kan inte tömma."
 
-#: src/sound.c:1035
+#: src/sound.c:1029
 msgid "fragment problems."
 msgstr "fragmentprogram."
 
-#: src/sound.c:1065
+#: src/sound.c:1059
 msgid "Buffer drained"
 msgstr "Buffert tömd"
 
-#: src/sound.c:1104
+#: src/sound.c:1098
 msgid "running too slow."
 msgstr "går för långsamt."
 
-#: src/sound.c:1120 src/sound.c:1130
+#: src/sound.c:1114 src/sound.c:1124
 msgid "write to sounddevice failed."
 msgstr "misslyckades skriva till ljudenheten."
 
-#: src/sound.c:1381
+#: src/sound.c:1375
 msgid "store to sounddevice failed."
 msgstr "misslyckades spara i ljudenheten."
 
@@ -302,7 +302,7 @@ msgstr "Fel vid läsning av startögonblicksbildfil. Försökte med %s och %s"
 msgid "Error reading start snapshot file."
 msgstr "Fel vid läsning av startögonblicksbildfil."
 
-#: src/event.c:1234
+#: src/event.c:1236
 msgid "Playback recorded events"
 msgstr "Spela upp inspelade händelser"
 
@@ -329,191 +329,191 @@ msgstr ""
 ".\n"
 "Alla namngivna enheter kommer kopplas från."
 
-#: src/debug.c:179
+#: src/debug.c:171
 msgid "Trace the main CPU"
 msgstr "Spåra huvudprocessorn"
 
-#: src/debug.c:182
+#: src/debug.c:174
 msgid "Do not trace the main CPU"
 msgstr "Spåra inte huvudprocessorn"
 
-#: src/debug.c:185
+#: src/debug.c:177
 msgid "Trace the drive0 CPU"
 msgstr "Spåra processor i diskettstation 0"
 
-#: src/debug.c:188
+#: src/debug.c:180
 msgid "Do not trace the drive0 CPU"
 msgstr "Spåra inte processor i diskettstation 0"
 
-#: src/debug.c:191
+#: src/debug.c:183
 msgid "Trace the drive1 CPU"
 msgstr "Spåra processor i diskettstation 1"
 
-#: src/debug.c:194
+#: src/debug.c:186
 msgid "Do not trace the drive1 CPU"
 msgstr "Spåra inte processor i diskettstation 1"
 
-#: src/debug.c:198
+#: src/debug.c:190
 msgid "Trace the drive2 CPU"
 msgstr "Spåra processor i diskettstation 2"
 
-#: src/debug.c:201
+#: src/debug.c:193
 msgid "Do not trace the drive2 CPU"
 msgstr "Spåra inte processor i diskettstation 2"
 
-#: src/debug.c:206
+#: src/debug.c:198
 msgid "Trace the drive3 CPU"
 msgstr "Spåra processor i diskettstation 3"
 
-#: src/debug.c:209
+#: src/debug.c:201
 msgid "Do not trace the drive3 CPU"
 msgstr "Spåra inte processor i diskettstation 3"
 
-#: src/debug.c:213
+#: src/debug.c:205
 msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Spårningsläge (0=normal 1=liten 2=historik)"
 
-#: src/debug.c:446
+#: src/debug.c:438
 #, c-format
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr "Återspelningsfel: %s inte lika som rad %d i filen debug%06d"
 
-#: src/network.c:237
+#: src/network.c:235
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Kan inte växla mellan IPV4/IPV6 medan nätverksspel är aktivt."
 
-#: src/network.c:462
+#: src/network.c:460
 msgid "Testing best frame delay..."
 msgstr "Testar bästa ramfördröjning..."
 
-#: src/network.c:510
+#: src/network.c:508
 #, c-format
 msgid "Using %d frames delay."
 msgstr "Använder %d ramars fördröjning."
 
-#: src/network.c:534
+#: src/network.c:532
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kan inte läsa in ögonblicksbildfil för överföring."
 
-#: src/network.c:547
+#: src/network.c:545
 msgid "Sending snapshot to client..."
 msgstr "Sänder ögonblicksbild till klient..."
 
-#: src/network.c:556
+#: src/network.c:554
 msgid "Cannot send snapshot to client"
 msgstr "Kan inte sända ögonblicksbild till klient"
 
-#: src/network.c:582
+#: src/network.c:580
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kan inte skapa ögonblicksbildfil %s"
 
-#: src/network.c:620
+#: src/network.c:618
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kan inte öppna ögonblicksbildfil %s"
 
-#: src/network.c:779
+#: src/network.c:777
 msgid "Server is waiting for a client..."
 msgstr "Servern väntar på en klient..."
 
-#: src/network.c:816
+#: src/network.c:814
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr "Kan inte skapa ögonblicksbildfil %s. Välj en annan historikkatalog!"
 
-#: src/network.c:836
+#: src/network.c:834
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Kan inte slå upp %s"
 
-#: src/network.c:881
+#: src/network.c:879
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr "Kan inte ansluta till %s (ingen server igång på port %d)."
 
-#: src/network.c:895
+#: src/network.c:893
 msgid "Receiving snapshot from server..."
 msgstr "Tar emot ögoblicksbild från server..."
 
-#: src/network.c:1026
+#: src/network.c:1024
 msgid "Remote host disconnected."
 msgstr "Frånkopplad från fjärrvärd."
 
-#: src/network.c:1037
+#: src/network.c:1035
 msgid "Remote host suspending..."
 msgstr "FJärrvärden pausar..."
 
-#: src/network.c:1079
+#: src/network.c:1077
 msgid "Network out of sync - disconnecting."
 msgstr "Nätverket ur synk - kopplar från."
 
-#: src/aciacore.c:211
+#: src/aciacore.c:213
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "Ange RS232-enhet denna ACIA skall arbeta på"
 
-#: src/attach.c:167 src/attach.c:170 src/attach.c:173 src/attach.c:176
-#: src/drive/drive-cmdline-options.c:68 src/printerdrv/interface-serial.c:126
-#: src/printerdrv/interface-serial.c:129
+#: src/attach.c:163 src/attach.c:166 src/attach.c:169 src/attach.c:172
+#: src/drive/drive-cmdline-options.c:68 src/printerdrv/interface-serial.c:124
+#: src/printerdrv/interface-serial.c:127
 msgid "<type>"
 msgstr "<typ>"
 
-#: src/attach.c:168
+#: src/attach.c:164
 msgid "Set device type for device #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Ställ in enhetstyp för enhet 8 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
 
-#: src/attach.c:171
+#: src/attach.c:167
 msgid "Set device type for device #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Ställ in enhetstyp för enhet 9 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
 
-#: src/attach.c:174
+#: src/attach.c:170
 msgid "Set device type for device #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Ställ in enhetstyp för enhet 10 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
 
-#: src/attach.c:177
+#: src/attach.c:173
 msgid "Set device type for device #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr "Ställ in enhetstyp för enhet 11 (0: INGEN, 1: FS, 2: ÄKTA, 3: RÅ)"
 
-#: src/attach.c:180
+#: src/attach.c:176
 msgid "Attach disk image for drive #8 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 8 med skrivskydd"
 
-#: src/attach.c:183
+#: src/attach.c:179
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 8 skrivbar (om möjligt)"
 
-#: src/attach.c:186
+#: src/attach.c:182
 msgid "Attach disk image for drive #9 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 9 med skrivskydd"
 
-#: src/attach.c:189
+#: src/attach.c:185
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 9 skrivbar (om möjligt)"
 
-#: src/attach.c:192
+#: src/attach.c:188
 msgid "Attach disk image for drive #10 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 10 med skrivskydd"
 
-#: src/attach.c:195
+#: src/attach.c:191
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 10 skrivbar (om möjligt)"
 
-#: src/attach.c:198
+#: src/attach.c:194
 msgid "Attach disk image for drive #11 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 11 med skrivskydd"
 
-#: src/attach.c:201
+#: src/attach.c:197
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 11 skrivbar (om möjligt)"
 
 #: src/c128/c128-cmdline-options.c:104 src/c64/c64-cmdline-options.c:84
-#: src/c64/psid.c:154 src/plus4/plus4-cmdline-options.c:79
+#: src/c64/psid.c:152 src/plus4/plus4-cmdline-options.c:79
 #: src/vic20/vic20-cmdline-options.c:205
 msgid "Use PAL sync factor"
 msgstr "Använd PAL-synkfaktor"
 
 #: src/c128/c128-cmdline-options.c:106 src/c64/c64-cmdline-options.c:86
-#: src/c64/psid.c:157 src/plus4/plus4-cmdline-options.c:81
+#: src/c64/psid.c:155 src/plus4/plus4-cmdline-options.c:81
 #: src/vic20/vic20-cmdline-options.c:207
 msgid "Use NTSC sync factor"
 msgstr "Använd NTSC-synkfaktor"
@@ -611,7 +611,7 @@ msgid "Enable the $DE** ACIA RS232 interface emulation"
 msgstr "Aktivera $DE** ACIA RS232-gränssnittsemulering"
 
 #: src/c128/c128-cmdline-options.c:155 src/c64/c64-cmdline-options.c:110
-#: src/c64/psid.c:166 src/cbm2/cbm2-cmdline-options.c:176
+#: src/c64/psid.c:164 src/cbm2/cbm2-cmdline-options.c:176
 #: src/pet/pet-cmdline-options.c:161 src/plus4/plus4-cmdline-options.c:102
 #: src/vdc/vdc-cmdline-options.c:68 src/vic20/vic20-cmdline-options.c:226
 msgid "<number>"
@@ -634,39 +634,39 @@ msgstr "Ange fil för symbolisk tangentbordsemulering"
 msgid "Specify name of positional keymap file"
 msgstr "Ange fil för positionsriktig tangentbordsemulering"
 
-#: src/c128/c128mmu.c:107
+#: src/c128/c128mmu.c:106
 msgid "Activate 40 column mode"
 msgstr "Aktivera 40-kolumnersläge"
 
-#: src/c128/c128mmu.c:110
+#: src/c128/c128mmu.c:109
 msgid "Activate 80 column mode"
 msgstr "Aktivera 80-kolumnersläge"
 
-#: src/c128/functionrom.c:147
+#: src/c128/functionrom.c:151
 msgid "Specify name of internal Function ROM image"
 msgstr "Ange namn på intern funktions-ROM-avbildning"
 
-#: src/c128/functionrom.c:149
+#: src/c128/functionrom.c:153
 msgid "Specify name of external Function ROM image"
 msgstr "Ange namn på extern funktions-ROM-avbildning"
 
-#: src/c128/functionrom.c:151
+#: src/c128/functionrom.c:155
 msgid "Enable the internal Function ROM"
 msgstr "Aktivera internt funktions-ROM"
 
-#: src/c128/functionrom.c:153
+#: src/c128/functionrom.c:157
 msgid "Disable the internal Function ROM"
 msgstr "Inaktivera internt funktions-ROM"
 
-#: src/c128/functionrom.c:155
+#: src/c128/functionrom.c:159
 msgid "Enable the external Function ROM"
 msgstr "Aktivera externt funktions-ROM"
 
-#: src/c128/functionrom.c:157
+#: src/c128/functionrom.c:161
 msgid "Disable the external Function ROM"
 msgstr "Inaktivera externt funktions-ROM"
 
-#: src/c64/c64-cmdline-options.c:89 src/c64/psid.c:160
+#: src/c64/c64-cmdline-options.c:89 src/c64/psid.c:158
 msgid "Use old NTSC sync factor"
 msgstr "Använd gammal NTSC-synkfaktor"
 
@@ -701,213 +701,213 @@ msgstr ""
 msgid "Specify name of symbolic German keymap file"
 msgstr "Ange fil för tysk symbolisk tangentbordsemulering"
 
-#: src/c64/cart/c64cart.c:220
+#: src/c64/cart/c64cart.c:224
 msgid "Reset machine if a cartridge is attached or detached"
 msgstr "Nollställ maskinen om en insticksmodul kopplas till eller från"
 
-#: src/c64/cart/c64cart.c:223
+#: src/c64/cart/c64cart.c:227
 msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr "Nollställ inte maskinen om en insticksmodul kopplas till eller från"
 
-#: src/c64/cart/c64cart.c:226
+#: src/c64/cart/c64cart.c:230
 msgid "Attach CRT cartridge image"
 msgstr "Anslut CRT-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:229
+#: src/c64/cart/c64cart.c:233
 msgid "Attach generic 8KB cartridge image"
 msgstr "Anslut vanlig 8KB-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:232
+#: src/c64/cart/c64cart.c:236
 msgid "Attach generic 16KB cartridge image"
 msgstr "Anslut vanlig 16KB-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:235
+#: src/c64/cart/c64cart.c:239
 msgid "Attach raw 32KB Action Replay cartridge image"
 msgstr "Anslut rå 32KB-Action Replay-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:238
+#: src/c64/cart/c64cart.c:242
 msgid "Attach raw 64KB Retro Replay cartridge image"
 msgstr "Anslut rå 64KB-Retro Replay-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:241
+#: src/c64/cart/c64cart.c:245
 msgid "Attach raw 64KB IDE64 cartridge image"
 msgstr "Anslut rå 64KB IDE64-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:244
+#: src/c64/cart/c64cart.c:248
 msgid "Attach raw 32KB Atomic Power cartridge image"
 msgstr "Anslut rå 32KB Atomic Power-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:247
+#: src/c64/cart/c64cart.c:251
 msgid "Attach raw 8KB Epyx fastload cartridge image"
 msgstr "Anslut rå 8KB Epyx fastload-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:250
+#: src/c64/cart/c64cart.c:254
 msgid "Attach raw 32KB Super Snapshot cartridge image"
 msgstr "Anslut rå 32KB Super Snapshot-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:253
+#: src/c64/cart/c64cart.c:257
 msgid "Attach raw 64KB Super Snapshot cartridge image"
 msgstr "Anslut rå 64KB-Super Snapshot-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:256
+#: src/c64/cart/c64cart.c:260
 msgid "Attach CBM IEEE488 cartridge image"
 msgstr "Anslut CBM IEEE488-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:259
+#: src/c64/cart/c64cart.c:263
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "Anslut rå 16KB-Westermann learning-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:262
+#: src/c64/cart/c64cart.c:266
 msgid "Attach Structured Basic cartridge image"
 msgstr "Anslut Strucured Basic-insticksmodulfil"
 
-#: src/c64/cart/c64cart.c:265
+#: src/c64/cart/c64cart.c:269
 msgid "Enable expert cartridge"
 msgstr "Aktivera Expert Cartridge"
 
-#: src/c64/cart/ide64.c:275
+#: src/c64/cart/ide64.c:280
 msgid "Specify name of IDE64 image file"
 msgstr "Ange namn på IDE64-insticksmodulfil"
 
-#: src/c64/cart/ide64.c:277
+#: src/c64/cart/ide64.c:282
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr "Välj antal cylindrar för IDE64-emuleringen"
 
-#: src/c64/cart/ide64.c:279
+#: src/c64/cart/ide64.c:284
 msgid "Set number of heads for the IDE64 emulation"
 msgstr "Ange antal huvuden för IDE64-emuleringen"
 
-#: src/c64/cart/ide64.c:281
+#: src/c64/cart/ide64.c:286
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr "Ange antal sektorer för IDE64-emuleringen"
 
-#: src/c64/cart/ide64.c:284
+#: src/c64/cart/ide64.c:289
 msgid "Autodetect geometry of formatted images"
 msgstr "Autodetektera geometri från formaterad avbildningsfil"
 
-#: src/c64/cart/ide64.c:287
+#: src/c64/cart/ide64.c:292
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Autodetektera inte geometri från formaterad avbildningsfil"
 
-#: src/c64/c64_256k.c:208
+#: src/c64/c64_256k.c:212
 msgid "Enable the 256K RAM expansion"
 msgstr "Aktivera 256K RAM-expansion"
 
-#: src/c64/c64_256k.c:210
+#: src/c64/c64_256k.c:214
 msgid "Disable the 256K RAM expansion"
 msgstr "Inaktivera 256K RAM-expansion"
 
-#: src/c64/c64_256k.c:212
+#: src/c64/c64_256k.c:216
 msgid "Specify name of 256K image"
 msgstr "Ange namn på 256K-avbildning"
 
-#: src/c64/c64_256k.c:214 src/c64/plus60k.c:253
+#: src/c64/c64_256k.c:218 src/c64/plus60k.c:257
 #: src/sid/sid-cmdline-options.c:141
 msgid "<base address>"
 msgstr "<basadress>"
 
-#: src/c64/c64_256k.c:214
+#: src/c64/c64_256k.c:218
 msgid "Base address of the 256K expansion"
 msgstr "Basadress för 256K-expansionen"
 
-#: src/c64/georam.c:198
+#: src/c64/georam.c:202
 msgid "Enable the GEORAM expansion unit"
 msgstr "Aktivera GEORAM-expansionsenhet"
 
-#: src/c64/georam.c:200
+#: src/c64/georam.c:204
 msgid "Disable the GEORAM expansion unit"
 msgstr "Inaktivera GEORAM-expansionsenhet"
 
-#: src/c64/georam.c:202
+#: src/c64/georam.c:206
 msgid "Specify name of GEORAM image"
 msgstr "Ange namn på GEORAM-avbildning"
 
-#: src/c64/georam.c:204 src/c64/ramcart.c:235 src/c64/reu.c:242
-#: src/pet/petreu.c:220
+#: src/c64/georam.c:208 src/c64/ramcart.c:238 src/c64/reu.c:246
+#: src/pet/petreu.c:224
 msgid "<size in KB>"
 msgstr "<storlek i KB>"
 
-#: src/c64/georam.c:204
+#: src/c64/georam.c:208
 msgid "Size of the GEORAM expansion unit"
 msgstr "Storlek på GEORAM-expansionsenhet"
 
-#: src/c64/plus256k.c:172
+#: src/c64/plus256k.c:177
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Aktivera PLUS256K RAM-expansion"
 
-#: src/c64/plus256k.c:174
+#: src/c64/plus256k.c:179
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Inaktivera PLUS256K RAM-expansion"
 
-#: src/c64/plus256k.c:176
+#: src/c64/plus256k.c:181
 msgid "Specify name of PLUS256K image"
 msgstr "Ange namn på PLUS256K-avbildning"
 
-#: src/c64/plus60k.c:247
+#: src/c64/plus60k.c:251
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Aktivera PLUS60K RAM-expansionen"
 
-#: src/c64/plus60k.c:249
+#: src/c64/plus60k.c:253
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "Inaktivera PLUS60K RAM-expansion"
 
-#: src/c64/plus60k.c:251
+#: src/c64/plus60k.c:255
 msgid "Specify name of PLUS60K image"
 msgstr "Ange namn på plUS60K-avbildning"
 
-#: src/c64/plus60k.c:253
+#: src/c64/plus60k.c:257
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basadress för PLUS60K-expansion"
 
-#: src/c64/psid.c:162
+#: src/c64/psid.c:160
 msgid "SID player mode"
 msgstr "SID-spelarläge"
 
-#: src/c64/psid.c:164
+#: src/c64/psid.c:162
 msgid "Override PSID settings for Video standard and SID model"
 msgstr "Ersätt PSID-inställningar för videostandard och SID-modell"
 
-#: src/c64/psid.c:166
+#: src/c64/psid.c:164
 msgid "Specify PSID tune <number>"
 msgstr "Ange PSID-låt <nummer>"
 
-#: src/c64/ramcart.c:229
+#: src/c64/ramcart.c:232
 msgid "Enable the RAMCART expansion"
 msgstr "Aktivera RAMCART-expansion"
 
-#: src/c64/ramcart.c:231
+#: src/c64/ramcart.c:234
 msgid "Disable the RAMCART expansion"
 msgstr "Inaktivera RAMCART-expansion"
 
-#: src/c64/ramcart.c:233
+#: src/c64/ramcart.c:236
 msgid "Specify name of RAMCART image"
 msgstr "Ange namn på RAMCART-avbildning"
 
-#: src/c64/ramcart.c:235
+#: src/c64/ramcart.c:238
 msgid "Size of the RAMCART expansion"
 msgstr "Storlek på RAMCART-expansion"
 
-#: src/c64/reu.c:236
+#: src/c64/reu.c:240
 msgid "Enable the RAM expansion unit"
 msgstr "Aktivera RAM-expansionsenhet"
 
-#: src/c64/reu.c:238
+#: src/c64/reu.c:242
 msgid "Disable the RAM expansion unit"
 msgstr "Inaktivera RAM-expansionsenhet"
 
-#: src/c64/reu.c:240
+#: src/c64/reu.c:244
 msgid "Specify name of REU image"
 msgstr "Ange namn på REU-avbildning"
 
-#: src/c64/reu.c:242
+#: src/c64/reu.c:246
 msgid "Size of the RAM expansion unit"
 msgstr "Storlek på RAM-expansionsenhet"
 
-#: src/c64/tfe.c:1507
+#: src/c64/tfe.c:1509
 msgid "Enable the TFE (\"the final ethernet\") unit"
 msgstr "Aktivera TFE-enhet (\"the final ethernet\")"
 
-#: src/c64/tfe.c:1509
+#: src/c64/tfe.c:1511
 msgid "Disable the TFE (\"the final ethernet\") unit"
 msgstr "Inaktivera TFE-enhet (\"the final ethernet\")"
 
@@ -1046,19 +1046,19 @@ msgstr ""
 "Ange fil för positionsriktig tangentbordsemulering för tyskt \"business\"-"
 "tangentbord"
 
-#: src/datasette.c:178
+#: src/datasette.c:175
 msgid "Enable automatic Datasette-Reset"
 msgstr "Aktivera automatisk Datasetteåterställning"
 
-#: src/datasette.c:181
+#: src/datasette.c:178
 msgid "Disable automatic Datasette-Reset"
 msgstr "Inaktivera automatisk Datasetteåterställning"
 
-#: src/datasette.c:184
+#: src/datasette.c:181
 msgid "Set delay in cycles for a zero in the tap"
 msgstr "Ange väntecykler för nolla i tap-filen"
 
-#: src/datasette.c:187
+#: src/datasette.c:184
 msgid "Set number of cycles added to each gap in the tap"
 msgstr "Ange cykler som läggs till varje gap i tap-filen"
 
@@ -1185,7 +1185,7 @@ msgstr "Ange namn på 1001/8050/8250-DOS-ROM-avbildning"
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "Ange namn på 1551-DOS-ROM-avbildning"
 
-#: src/fliplist.c:122
+#: src/fliplist.c:121
 msgid "Specify name of the flip list file image"
 msgstr "Ange namn på vallistefilavbildningen"
 
@@ -1205,23 +1205,23 @@ msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 10"
 msgid "Use <name> as directory for file system device #11"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 11"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:203
+#: src/gfxoutputdrv/ffmpegdrv.c:200
 msgid "Set bitrate for audio stream in media file"
 msgstr "Ange bithastighet för ljudström i mediafil"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:206
+#: src/gfxoutputdrv/ffmpegdrv.c:203
 msgid "Set bitrate for video stream in media file"
 msgstr "Ange bithastighet för videoström i mediafil"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:567
+#: src/gfxoutputdrv/ffmpegdrv.c:564
 msgid "ffmpegdrv: Cannot open video stream"
 msgstr "ffmpegdrv: Kan inte öppna videoström"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:576
+#: src/gfxoutputdrv/ffmpegdrv.c:573
 msgid "ffmpegdrv: Cannot open audio stream"
 msgstr "ffmpegdrv: Kan inte öppna ljudström"
 
-#: src/gfxoutputdrv/ffmpegdrv.c:589
+#: src/gfxoutputdrv/ffmpegdrv.c:586
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Kan inte öppna %s"
@@ -1290,19 +1290,19 @@ msgstr "<sträng>"
 msgid "Put the specified string into the keyboard buffer"
 msgstr "Lägg den angivna strängen i tangentbordsbufferten"
 
-#: src/log.c:111
+#: src/log.c:110
 msgid "Specify log file name"
 msgstr "Ange namn på loggfil"
 
-#: src/mouse.c:95
+#: src/mouse.c:93
 msgid "Enable emulation of the 1351 proportional mouse"
 msgstr "Aktivera emulering av proportionell mus 1351"
 
-#: src/mouse.c:97
+#: src/mouse.c:95
 msgid "Disable emulation of the 1351 proportional mouse"
 msgstr "Inaktivera emulering av proportionell mus 1351"
 
-#: src/mouse.c:99
+#: src/mouse.c:97
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Ange vilken spelport musen är ansluten till"
 
@@ -1374,27 +1374,27 @@ msgstr "EOI tömmer skärmen"
 msgid "EOI does not blank screen"
 msgstr "EOI tömmer inte skärmen"
 
-#: src/pet/petpia1.c:121
+#: src/pet/petpia1.c:120
 msgid "Enable userport diagnostic pin"
 msgstr "Aktivera diagnostik på användarporten"
 
-#: src/pet/petpia1.c:123
+#: src/pet/petpia1.c:122
 msgid "Disable userport diagnostic pin"
 msgstr "Inaktivera diagnostik på användarporten"
 
-#: src/pet/petreu.c:214
+#: src/pet/petreu.c:218
 msgid "Enable the PET Ram and Expansion Unit"
 msgstr "Aktivera PET Ram- och -expansionsenhet"
 
-#: src/pet/petreu.c:216
+#: src/pet/petreu.c:220
 msgid "Disable the PET Ram and Expansion Unit"
 msgstr "Inaktivera PET Ram- och -expansionsenhet"
 
-#: src/pet/petreu.c:218
+#: src/pet/petreu.c:222
 msgid "Specify name of PET Ram and Expansion Unit image"
 msgstr "Ange namn på PET Ram- och -expansionsenhet"
 
-#: src/pet/petreu.c:220
+#: src/pet/petreu.c:224
 msgid "Size of the PET Ram and Expansion Unit"
 msgstr "Storlek på PET Ram- och -expansionsenhet"
 
@@ -1426,19 +1426,19 @@ msgstr "Ange namn på ROM-avbildning för högt insticksmodul 2-ROM"
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Ange storlek på installerat RAM i kb (16/32/64)"
 
-#: src/plus4/plus4memcsory256k.c:117
+#: src/plus4/plus4memcsory256k.c:116
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Aktivera CSORY 256K RAM-expansion"
 
-#: src/plus4/plus4memhannes256k.c:132
+#: src/plus4/plus4memhannes256k.c:131
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Aktivera HANNES 256K RAM-expansion"
 
-#: src/plus4/plus4memhannes256k.c:134
+#: src/plus4/plus4memhannes256k.c:133
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Aktivera HANNS 1024K RAM-expansion"
 
-#: src/plus4/plus4memhannes256k.c:136
+#: src/plus4/plus4memhannes256k.c:135
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Aktivera HANNES 4096K RAM-expansion"
 
@@ -1458,76 +1458,76 @@ msgstr "Ställ in ljusstyrka på internt beräknad palett [1100]"
 msgid "Set gamma of internal calculated palette [900]"
 msgstr "Ställ in gamma på internt beräknad palett [900]"
 
-#: src/printerdrv/driver-select.c:129
+#: src/printerdrv/driver-select.c:126
 msgid "Specify name of printer driver for device #4"
 msgstr "Ange namn på skrivardrivrutin för enhet 4"
 
-#: src/printerdrv/driver-select.c:131
+#: src/printerdrv/driver-select.c:128
 msgid "Specify name of printer driver for device #5"
 msgstr "Ange namn på skrivardrivrutin för enhet 5"
 
-#: src/printerdrv/driver-select.c:133
+#: src/printerdrv/driver-select.c:130
 msgid "Specify name of printer driver for the userport printer"
 msgstr "Ange namn på skrivardrivrutin för användarporten"
 
-#: src/printerdrv/interface-serial.c:127
+#: src/printerdrv/interface-serial.c:125
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Ange enhetstyp för enhet 4 (0: INGEN, 1: FS, 2: ÄKTA)"
 
-#: src/printerdrv/interface-serial.c:130
+#: src/printerdrv/interface-serial.c:128
 msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Ange enhetstyp för enhet 5 (0: INGEN, 1: FS, 2: ÄKTA)"
 
-#: src/printerdrv/interface-userport.c:94
+#: src/printerdrv/interface-userport.c:93
 msgid "Enable the userport printer emulation"
 msgstr "Aktivera emulering av skrivare på användarporten"
 
-#: src/printerdrv/interface-userport.c:97
+#: src/printerdrv/interface-userport.c:96
 msgid "Disable the userport printer emulation"
 msgstr "Inaktivera emulering av skrivare på användarporten"
 
-#: src/printerdrv/output-select.c:124
+#: src/printerdrv/output-select.c:121
 msgid "Specify name of output device for device #4"
 msgstr "Ange namn på utskriftsenhet för enhet 4"
 
-#: src/printerdrv/output-select.c:126
+#: src/printerdrv/output-select.c:123
 msgid "Specify name of output device for device #5"
 msgstr "Ange namn på utskriftsenhet för enhet 5"
 
-#: src/printerdrv/output-select.c:129
+#: src/printerdrv/output-select.c:126
 msgid "Specify name of output device for the userport printer"
 msgstr "Ange namn på utskriftsenhet för användarporten"
 
-#: src/printerdrv/output-text.c:119 src/printerdrv/output-text.c:121
-#: src/printerdrv/output-text.c:123
+#: src/printerdrv/output-text.c:117 src/printerdrv/output-text.c:119
+#: src/printerdrv/output-text.c:121
 msgid "Specify name of printer text device or dump file"
 msgstr "Ange namn på textenhet för utskrift eller dumpfil"
 
-#: src/printerdrv/output-text.c:126
+#: src/printerdrv/output-text.c:124
 msgid "Specify printer text output device for IEC printer #4"
 msgstr "Ange skrivartextutenhet för IEC-skrivare 4"
 
-#: src/printerdrv/output-text.c:129
+#: src/printerdrv/output-text.c:127
 msgid "Specify printer text output device for IEC printer #5"
 msgstr "Ange skrivartextutenhet för IEC-skrivare 5"
 
-#: src/printerdrv/output-text.c:132
+#: src/printerdrv/output-text.c:130
 msgid "Specify printer text output device for userport printer"
 msgstr "Ange skrivartextutenhet för användarportsskrivare"
 
-#: src/ram.c:104
+#: src/ram.c:101
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Ange värdet på den allra första RAM-adressen efter strömpåslag"
 
-#: src/ram.c:107 src/ram.c:110
+#: src/ram.c:104 src/ram.c:107
 msgid "<num of bytes>"
 msgstr "<antal byte>"
 
-#: src/ram.c:107
+#: src/ram.c:104
 msgid "Length of memory block initialized with the same value"
 msgstr "Längd på minnesblock som initierats med samma värde"
 
-#: src/ram.c:110
+#: src/ram.c:107
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Längd på minnesblock som initierats med samma mönster"
 
@@ -1539,87 +1539,87 @@ msgstr "Aktivera videocache"
 msgid "Disable the video cache"
 msgstr "Inaktivera videocache"
 
-#: src/rs232drv/rs232drv.c:105
+#: src/rs232drv/rs232drv.c:101
 msgid "Specify name of first RS232 device"
 msgstr "Ange namn på första RS232-enheten"
 
-#: src/rs232drv/rs232drv.c:107
+#: src/rs232drv/rs232drv.c:103
 msgid "Specify name of second RS232 device"
 msgstr "Ange namn på andra RS232-enheten"
 
-#: src/rs232drv/rs232drv.c:109
+#: src/rs232drv/rs232drv.c:105
 msgid "Specify name of third RS232 device"
 msgstr "Ange namn på tredje RS232-enheten"
 
-#: src/rs232drv/rs232drv.c:111
+#: src/rs232drv/rs232drv.c:107
 msgid "Specify name of fourth RS232 device"
 msgstr "Ange namn på fjärde RS232-enheten"
 
-#: src/rs232drv/rsuser.c:188
+#: src/rs232drv/rsuser.c:185
 msgid "Enable RS232 userport emulation"
 msgstr "Aktivera RS232-emulering på användarporten"
 
-#: src/rs232drv/rsuser.c:190
+#: src/rs232drv/rsuser.c:187
 msgid "Disable RS232 userport emulation"
 msgstr "Inaktivera RS232-emulering på användarporten"
 
-#: src/rs232drv/rsuser.c:192
+#: src/rs232drv/rsuser.c:189
 msgid "<baud>"
 msgstr "<baud>"
 
-#: src/rs232drv/rsuser.c:193
+#: src/rs232drv/rsuser.c:190
 msgid "Set the baud rate of the RS232 userport emulation."
 msgstr "Ange baudhastighet för RS232-emuleringen på användarporten."
 
-#: src/rs232drv/rsuser.c:196
+#: src/rs232drv/rsuser.c:193
 msgid "Specify VICE RS232 device for userport"
 msgstr "Ange VICE RS232-enhet för användarporten"
 
-#: src/serial/serial-iec-device.c:154
+#: src/serial/serial-iec-device.c:142
 msgid "Enable IEC device emulation for device #4"
 msgstr "Aktivera IEC-enhetsemulering för enhet 4"
 
-#: src/serial/serial-iec-device.c:157
+#: src/serial/serial-iec-device.c:145
 msgid "Disable IEC device emulation for device #4"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 4"
 
-#: src/serial/serial-iec-device.c:160
+#: src/serial/serial-iec-device.c:148
 msgid "Enable IEC device emulation for device #5"
 msgstr "Aktivera IEC-enhetsemulering för enhet 5"
 
-#: src/serial/serial-iec-device.c:163
+#: src/serial/serial-iec-device.c:151
 msgid "Disable IEC device emulation for device #5"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 5"
 
-#: src/serial/serial-iec-device.c:166
+#: src/serial/serial-iec-device.c:154
 msgid "Enable IEC device emulation for device #8"
 msgstr "Aktivera IEC-enhetsemulering för enhet 8"
 
-#: src/serial/serial-iec-device.c:169
+#: src/serial/serial-iec-device.c:157
 msgid "Disable IEC device emulation for device #8"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 8"
 
-#: src/serial/serial-iec-device.c:172
+#: src/serial/serial-iec-device.c:160
 msgid "Enable IEC device emulation for device #9"
 msgstr "Aktivera IEC-enhetsemulering för enhet 9"
 
-#: src/serial/serial-iec-device.c:175
+#: src/serial/serial-iec-device.c:163
 msgid "Disable IEC device emulation for device #9"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 9"
 
-#: src/serial/serial-iec-device.c:178
+#: src/serial/serial-iec-device.c:166
 msgid "Enable IEC device emulation for device #10"
 msgstr "Aktivera IEC-enhetsemulering för enhet 10"
 
-#: src/serial/serial-iec-device.c:181
+#: src/serial/serial-iec-device.c:169
 msgid "Disable IEC device emulation for device #10"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 10"
 
-#: src/serial/serial-iec-device.c:184
+#: src/serial/serial-iec-device.c:172
 msgid "Enable IEC device emulation for device #11"
 msgstr "Aktivera IEC-enhetsemulering för enhet 11"
 
-#: src/serial/serial-iec-device.c:187
+#: src/serial/serial-iec-device.c:175
 msgid "Disable IEC device emulation for device #11"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 11"
 
@@ -1734,19 +1734,19 @@ msgstr "Passband för reSID-resampling i procent av total bandbredd (0 - 90)"
 msgid "reSID gain in percent (90 - 100)"
 msgstr "Gain för reSID i procent (90 - 100)"
 
-#: src/sysfile.c:128
+#: src/sysfile.c:127
 msgid "<path>"
 msgstr "<sökväg>"
 
-#: src/sysfile.c:128
+#: src/sysfile.c:127
 msgid "Define search path to locate system files"
 msgstr "Ange sökväg för att hitta systemfiler"
 
-#: src/traps.c:126
+#: src/traps.c:125
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "Aktivera generella mekanismer för snabb disk-/bandemulering"
 
-#: src/traps.c:129
+#: src/traps.c:128
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "Inaktivera generella mekanismer för snabb disk-/bandemulering"
 
@@ -1778,23 +1778,23 @@ msgstr "Aktivera VIC-1112-IEEE488-gränssnitt"
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "Inaktivera VIC-1112-IEEE488-gränssnitt"
 
-#: src/vic20/vic20cartridge.c:226
+#: src/vic20/vic20cartridge.c:221
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $2000"
 
-#: src/vic20/vic20cartridge.c:228
+#: src/vic20/vic20cartridge.c:223
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $4000"
 
-#: src/vic20/vic20cartridge.c:230
+#: src/vic20/vic20cartridge.c:225
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $6000"
 
-#: src/vic20/vic20cartridge.c:232
+#: src/vic20/vic20cartridge.c:227
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Ange namn för 4/8K-utöknings-ROM på $A000"
 
-#: src/vic20/vic20cartridge.c:234
+#: src/vic20/vic20cartridge.c:229
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Ange namn för 4K-utöknings-ROM på $B000"
 
@@ -1906,129 +1906,129 @@ msgstr "<läge>"
 msgid "Select fullscreen mode"
 msgstr "Aktivera fullskärmsläge"
 
-#: src/arch/unix/joy.c:86
+#: src/arch/unix/joy.c:84
 msgid "Set device for joystick port 1"
 msgstr "Välj enhet för spelport 1"
 
-#: src/arch/unix/joy.c:88
+#: src/arch/unix/joy.c:86
 msgid "Set device for joystick port 2"
 msgstr "Välj enhet för spelport 2"
 
-#: src/arch/unix/joy.c:213 src/arch/unix/joy.c:262 src/arch/unix/joy.c:418
+#: src/arch/unix/joy.c:211 src/arch/unix/joy.c:260 src/arch/unix/joy.c:416
 #, c-format
 msgid "Cannot open joystick device `%s'."
 msgstr "Kan inte öppna styrspaksenhet \"%s\"."
 
-#: src/arch/unix/joy.c:224
+#: src/arch/unix/joy.c:222
 #, c-format
 msgid "Error reading joystick device `%s'."
 msgstr "Kan inte läsa styrspaksenhet \"%s\"."
 
-#: src/arch/unix/joy.c:243
+#: src/arch/unix/joy.c:241
 #, c-format
 msgid "Hardware joystick calibration for device `%s':"
 msgstr "Maskinvarustyrspakskalibrering för enhet \"%s\":"
 
-#: src/arch/unix/joy.c:296
+#: src/arch/unix/joy.c:294
 msgid "Error reading digital joystick device."
 msgstr "Fel vid läsning av digital styrspak."
 
-#: src/arch/unix/joy.c:316
+#: src/arch/unix/joy.c:314
 msgid "Error reading joystick device."
 msgstr "Fel vid läsning av styrspak."
 
-#: src/arch/unix/joy.c:366
+#: src/arch/unix/joy.c:364
 msgid "Linux joystick interface initialization..."
 msgstr "Initiering av Linuxstyrspaksgränssnitt..."
 
-#: src/arch/unix/joy.c:392
+#: src/arch/unix/joy.c:390
 #, c-format
 msgid "%s unknown type"
 msgstr "%s okänd typ"
 
-#: src/arch/unix/joy.c:394 src/arch/unix/joy.c:410
+#: src/arch/unix/joy.c:392 src/arch/unix/joy.c:408
 #, c-format
 msgid "Built in driver version: %d.%d.%d"
 msgstr "Inbyggd drivrutinsversion: %d.%d.%d"
 
-#: src/arch/unix/joy.c:397
+#: src/arch/unix/joy.c:395
 msgid "Kernel driver version  : 0.8 ??"
 msgstr "Kärnans drivrutinsversion: 0.8 ??"
 
-#: src/arch/unix/joy.c:399
+#: src/arch/unix/joy.c:397
 msgid "Please update your Joystick driver !"
 msgstr "Uppdatera din styrspaksdrivrutin (joystick driver)!"
 
-#: src/arch/unix/joy.c:400
+#: src/arch/unix/joy.c:398
 msgid "Fall back to old api routine"
 msgstr "Faller tillbaka till gammal API-rutin"
 
-#: src/arch/unix/joy.c:413
+#: src/arch/unix/joy.c:411
 #, c-format
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Kärnans drivrutinsversion: %d.%d.%d"
 
-#: src/arch/unix/rs232.c:108
+#: src/arch/unix/rs232.c:104
 msgid "Specify baudrate of first RS232 device"
 msgstr "Ange baudhastighet för första RS232-enheten"
 
-#: src/arch/unix/rs232.c:110
+#: src/arch/unix/rs232.c:106
 msgid "Specify baudrate of second RS232 device"
 msgstr "Ange baudhastighet för andra RS232-enheten"
 
-#: src/arch/unix/rs232.c:112
+#: src/arch/unix/rs232.c:108
 msgid "Specify baudrate of third RS232 device"
 msgstr "Ange baudhastighet för tredje RS232-enheten"
 
-#: src/arch/unix/rs232.c:114
+#: src/arch/unix/rs232.c:110
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Ange baudhastighet för fjärde RS232-enheten"
 
-#: src/arch/unix/rs232.c:245
+#: src/arch/unix/rs232.c:241
 msgid "No more devices available."
 msgstr "Inga fler enheter tillgängliga."
 
-#: src/arch/unix/rs232.c:250
+#: src/arch/unix/rs232.c:246
 #, c-format
 msgid "rs232_open(device=%d)."
 msgstr "rs232_open(enhet=%d)."
 
-#: src/arch/unix/rs232.c:270
+#: src/arch/unix/rs232.c:266
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr "Kan inte öppna fil \"%s\": %s"
 
-#: src/arch/unix/rs232.c:297
+#: src/arch/unix/rs232.c:293
 #, c-format
 msgid "Attempt to close invalid fd %d."
 msgstr "Försökte stänga ogiltigt filhandtag %d."
 
-#: src/arch/unix/rs232.c:301
+#: src/arch/unix/rs232.c:297
 #, c-format
 msgid "Attempt to close non-open fd %d."
 msgstr "Försökte stänga ej öppet filhandtag %d."
 
-#: src/arch/unix/rs232.c:321
+#: src/arch/unix/rs232.c:317
 #, c-format
 msgid "Attempt to write to invalid fd %d."
 msgstr "Försökte skriva till ogiltigt filhandtag %d."
 
-#: src/arch/unix/rs232.c:325
+#: src/arch/unix/rs232.c:321
 #, c-format
 msgid "Attempt to write to non-open fd %d."
 msgstr "Försökte skriva till ej öppet filhandtag %d."
 
-#: src/arch/unix/rs232.c:337
+#: src/arch/unix/rs232.c:333
 #, c-format
 msgid "Error writing: %s."
 msgstr "Fel vid skrivning: %s."
 
-#: src/arch/unix/rs232.c:352
+#: src/arch/unix/rs232.c:348
 #, c-format
 msgid "Attempt to read from invalid fd %d."
 msgstr "Försökte läsa från ogiltigt filhandtag %d."
 
-#: src/arch/unix/rs232.c:356
+#: src/arch/unix/rs232.c:352
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr "Försökte läsa från ej öppet filhandtag %d."
@@ -2300,7 +2300,7 @@ msgstr "Alternativ"
 #: src/arch/unix/gui/cbm2ui.c:486 src/arch/unix/gui/petui.c:424
 #: src/arch/unix/gui/plus4ui.c:242 src/arch/unix/gui/vic20ui.c:535
 #: src/arch/unix/gui/vsidui.c:272 src/arch/unix/x11/gnome/uinetplay.c:66
-#: src/arch/unix/x11/gnome/x11ui.c:1254 src/arch/unix/x11/gnome/x11ui.c:1346
+#: src/arch/unix/x11/gnome/x11ui.c:1256 src/arch/unix/x11/gnome/x11ui.c:1348
 msgid "Settings"
 msgstr "Inställningar"
 
@@ -3061,7 +3061,7 @@ msgstr "Om VICE..."
 
 #: src/arch/unix/gui/uicommands.c:531 src/arch/unix/gui/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:2032
+#: src/arch/unix/x11/gnome/x11ui.c:2034
 msgid "Reset"
 msgstr "Återställ"
 
@@ -3531,8 +3531,8 @@ msgid "Next: "
 msgstr "Nästa: "
 
 #: src/arch/unix/gui/uifliplist.c:245 src/arch/unix/gui/uifliplist.c:260
-#: src/arch/unix/x11/gnome/x11ui.c:906 src/arch/unix/x11/gnome/x11ui.c:916
-#: src/arch/unix/x11/gnome/x11ui.c:1613
+#: src/arch/unix/x11/gnome/x11ui.c:907 src/arch/unix/x11/gnome/x11ui.c:917
+#: src/arch/unix/x11/gnome/x11ui.c:1615
 msgid "<empty>"
 msgstr "<tom>"
 
@@ -4436,7 +4436,7 @@ msgstr "Maximal hastighet"
 msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
-#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1395
+#: src/arch/unix/gui/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1397
 #: src/arch/unix/x11/xaw/x11ui.c:1088
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
@@ -5274,189 +5274,189 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/uifileentry.c:52
-#: src/arch/unix/x11/gnome/x11ui.c:2676
+#: src/arch/unix/x11/gnome/x11ui.c:2678
 msgid "all files"
 msgstr "alla filer"
 
-#: src/arch/unix/x11/gnome/x11ui.c:431
+#: src/arch/unix/x11/gnome/x11ui.c:432
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Kan inte lägga till typsnittssökväg \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:433
+#: src/arch/unix/x11/gnome/x11ui.c:434
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Sätt typsnittssökväg: \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:641 src/arch/unix/x11/xaw/x11ui.c:506
+#: src/arch/unix/x11/gnome/x11ui.c:642 src/arch/unix/x11/xaw/x11ui.c:506
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dina grafikinställningar stöder inte %d-bitarsvy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:644 src/arch/unix/x11/xaw/x11ui.c:509
+#: src/arch/unix/x11/gnome/x11ui.c:645 src/arch/unix/x11/xaw/x11ui.c:509
 msgid "Please select a bit depth supported by your display."
 msgstr "Välj ett bitdjup som stöds av dina grafikinställningar."
 
-#: src/arch/unix/x11/gnome/x11ui.c:647 src/arch/unix/x11/gnome/x11ui.c:671
+#: src/arch/unix/x11/gnome/x11ui.c:648 src/arch/unix/x11/gnome/x11ui.c:672
 #: src/arch/unix/x11/xaw/x11ui.c:512 src/arch/unix/x11/xaw/x11ui.c:529
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Hittade %d-bitars/%s-vy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:656
+#: src/arch/unix/x11/gnome/x11ui.c:657
 #, c-format
 msgid "Found %dbit visual."
 msgstr "Hittade %d-bitarsvy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:679 src/arch/unix/x11/xaw/x11ui.c:537
+#: src/arch/unix/x11/gnome/x11ui.c:680 src/arch/unix/x11/xaw/x11ui.c:537
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan inte automatdetektera ett gällande grafikläge."
 
-#: src/arch/unix/x11/gnome/x11ui.c:687
+#: src/arch/unix/x11/gnome/x11ui.c:688
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Kan inte läsa texttypsnitt %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:694
+#: src/arch/unix/x11/gnome/x11ui.c:695
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Kan inte läsa CBM-typsnitt %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:808
+#: src/arch/unix/x11/gnome/x11ui.c:809
 msgid "PAL Controls"
 msgstr "PAL-styrning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:827
+#: src/arch/unix/x11/gnome/x11ui.c:828
 msgid "audio/video recording"
 msgstr "ljud-/bild-inspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:841 src/arch/unix/x11/gnome/x11ui.c:860
+#: src/arch/unix/x11/gnome/x11ui.c:842 src/arch/unix/x11/gnome/x11ui.c:861
 msgid "click to stop recording"
 msgstr "avbryt inspelningen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:846
+#: src/arch/unix/x11/gnome/x11ui.c:847
 msgid "event recording"
 msgstr "händelseinspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:866
+#: src/arch/unix/x11/gnome/x11ui.c:867
 msgid "event playback"
 msgstr "händelseåterspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:880
+#: src/arch/unix/x11/gnome/x11ui.c:881
 msgid "click to stop playback"
 msgstr "avbryt återspelningen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:892
+#: src/arch/unix/x11/gnome/x11ui.c:893
 #, c-format
 msgid "Drive %d: "
 msgstr "Enhet %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:1003
+#: src/arch/unix/x11/gnome/x11ui.c:1004
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1073 src/arch/unix/x11/xaw/x11ui.c:618
+#: src/arch/unix/x11/gnome/x11ui.c:1074 src/arch/unix/x11/xaw/x11ui.c:618
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximalt antal fönster på översta nivån har nåtts."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1252 src/arch/unix/x11/gnome/x11ui.c:1335
+#: src/arch/unix/x11/gnome/x11ui.c:1254 src/arch/unix/x11/gnome/x11ui.c:1337
 msgid "Commands"
 msgstr "Kommandon"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1258
+#: src/arch/unix/x11/gnome/x11ui.c:1260
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1378 src/arch/unix/x11/xaw/x11ui.c:1073
+#: src/arch/unix/x11/gnome/x11ui.c:1380 src/arch/unix/x11/xaw/x11ui.c:1073
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1385 src/arch/unix/x11/xaw/x11ui.c:1077
+#: src/arch/unix/x11/gnome/x11ui.c:1387 src/arch/unix/x11/xaw/x11ui.c:1077
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1392 src/arch/unix/x11/xaw/x11ui.c:1085
+#: src/arch/unix/x11/gnome/x11ui.c:1394 src/arch/unix/x11/xaw/x11ui.c:1085
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1437 src/arch/unix/x11/xaw/x11ui.c:1126
+#: src/arch/unix/x11/gnome/x11ui.c:1439 src/arch/unix/x11/xaw/x11ui.c:1126
 msgid "Using private colormap."
 msgstr "Använder egen färgkarta."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1457 src/arch/unix/x11/gnome/x11ui.c:1460
+#: src/arch/unix/x11/gnome/x11ui.c:1459 src/arch/unix/x11/gnome/x11ui.c:1462
 #: src/arch/unix/x11/xaw/x11ui.c:1154 src/arch/unix/x11/xaw/x11ui.c:1159
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1765
+#: src/arch/unix/x11/gnome/x11ui.c:1767
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1831 src/arch/unix/x11/xaw/x11ui.c:1401
+#: src/arch/unix/x11/gnome/x11ui.c:1833 src/arch/unix/x11/xaw/x11ui.c:1401
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1991
+#: src/arch/unix/x11/gnome/x11ui.c:1993
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2002
+#: src/arch/unix/x11/gnome/x11ui.c:2004
 msgid "VICE Error"
 msgstr "VICE-fel"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2033
+#: src/arch/unix/x11/gnome/x11ui.c:2035
 msgid "Hard Reset"
 msgstr "Hård nollställning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2034
+#: src/arch/unix/x11/gnome/x11ui.c:2036
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2078 src/arch/unix/x11/xaw/x11ui.c:1679
+#: src/arch/unix/x11/gnome/x11ui.c:2080 src/arch/unix/x11/xaw/x11ui.c:1679
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2079
+#: src/arch/unix/x11/gnome/x11ui.c:2081
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2092
+#: src/arch/unix/x11/gnome/x11ui.c:2094
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Kan inte starta automatiskt från enhet %d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2100 src/arch/unix/x11/gnome/x11ui.c:2109
+#: src/arch/unix/x11/gnome/x11ui.c:2102 src/arch/unix/x11/gnome/x11ui.c:2111
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2235 src/arch/unix/x11/gnome/x11ui.c:2245
+#: src/arch/unix/x11/gnome/x11ui.c:2237 src/arch/unix/x11/gnome/x11ui.c:2247
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "INNEH]LLSF\\RTECKNING SAKNAS"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2699
+#: src/arch/unix/x11/gnome/x11ui.c:2701
 msgid "Contents"
 msgstr "Innehåll"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2747
+#: src/arch/unix/x11/gnome/x11ui.c:2749
 msgid "Attach write protected"
 msgstr "Anslut skrivskyddat"
 
 #. show hidden files
-#: src/arch/unix/x11/gnome/x11ui.c:2753
+#: src/arch/unix/x11/gnome/x11ui.c:2755
 msgid "Show hidden files"
 msgstr "Visa dolda filer"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2765
+#: src/arch/unix/x11/gnome/x11ui.c:2767
 msgid "Autostart"
 msgstr "Starta automatiskt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2782
+#: src/arch/unix/x11/gnome/x11ui.c:2784
 msgid "Text cannot be displayed.\n"
 msgstr "Texten kan inte visas.\n"
 
@@ -5613,40 +5613,40 @@ msgstr "Inaktivera fullskärm"
 msgid "Specify X display depth (1..32)"
 msgstr "Ange färgdjup för X-display (1..32)"
 
-#: src/arch/unix/x11/video.c:190
+#: src/arch/unix/x11/video.c:193
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Anropa \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/video.c:193
+#: src/arch/unix/x11/video.c:196
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Anropa ej \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/video.c:196
+#: src/arch/unix/x11/video.c:199
 msgid "Use shared memory"
 msgstr "Använder delat minne"
 
-#: src/arch/unix/x11/video.c:199
+#: src/arch/unix/x11/video.c:202
 msgid "Never use shared memory (slower)"
 msgstr "Använd aldrig delat minne (långsammare)"
 
-#: src/arch/unix/x11/video.c:202
+#: src/arch/unix/x11/video.c:205
 msgid "Request YUV FOURCC format"
 msgstr "Be om YUV FOURCC-format"
 
-#: src/arch/unix/x11/video.c:204
+#: src/arch/unix/x11/video.c:207
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Välj bredd-/höjdförhållande (0,8-1,2)"
 
-#: src/arch/unix/x11/video.c:285
+#: src/arch/unix/x11/video.c:288
 msgid "The MITSHM extension is not supported on this display."
 msgstr "MITSHM-utökningarna stöds inte för denna display."
 
-#: src/arch/unix/x11/video.c:289
+#: src/arch/unix/x11/video.c:292
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-utökningar version %d.%d hittades."
 
-#: src/arch/unix/x11/video.c:359
+#: src/arch/unix/x11/video.c:362
 msgid "Cannot release shared memory!"
 msgstr "Kan inte släppa delat minne!"
 

@@ -80,22 +80,19 @@ static int set_output_device(resource_value_t v, void *param)
     return -1;
 }
 
-static const resource_t resources[] = {
-    { "Printer4Output", RES_STRING, (resource_value_t)"text",
-      RES_EVENT_NO, NULL,
-      (void *)&output_device[0], set_output_device, (void *)0 },
-    { "Printer5Output", RES_STRING, (resource_value_t)"text",
-      RES_EVENT_NO, NULL,
-      (void *)&output_device[1], set_output_device, (void *)1 },
-    { "PrinterUserportOutput", RES_STRING, (resource_value_t)"text",
-      RES_EVENT_NO, NULL,
-      (void *)&output_device[2], set_output_device, (void *)2 },
+static const resource_string_t resources_string[] = {
+    { "Printer4Output", "text", RES_EVENT_NO, NULL,
+      &output_device[0], set_output_device, (void *)0 },
+    { "Printer5Output", "text", RES_EVENT_NO, NULL,
+      &output_device[1], set_output_device, (void *)1 },
+    { "PrinterUserportOutput", "text", RES_EVENT_NO, NULL,
+      &output_device[2], set_output_device, (void *)2 },
     { NULL }
 };
 
 int output_select_init_resources(void)
 {
-    return resources_register(resources);
+    return resources_register_string(resources_string);
 }
 
 void output_select_shutdown_resources(void)

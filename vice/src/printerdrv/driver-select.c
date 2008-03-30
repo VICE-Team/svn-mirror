@@ -86,22 +86,19 @@ static int set_printer_driver(resource_value_t v, void *param)
     return -1;
 }
 
-static const resource_t resources[] = {
-    {"Printer4Driver", RES_STRING, (resource_value_t)"ascii",
-      RES_EVENT_NO, NULL,
-      (void *)&printer_driver[0], set_printer_driver, (void *)0 },
-    {"Printer5Driver", RES_STRING, (resource_value_t)"ascii",
-      RES_EVENT_NO, NULL,
-      (void *)&printer_driver[1], set_printer_driver, (void *)1 },
-    {"PrinterUserportDriver", RES_STRING, (resource_value_t)"ascii",
-      RES_EVENT_NO, NULL,
-      (void *)&printer_driver[2], set_printer_driver, (void *)2 },
+static const resource_string_t resources_string[] = {
+    {"Printer4Driver", "ascii", RES_EVENT_NO, NULL,
+      &printer_driver[0], set_printer_driver, (void *)0 },
+    {"Printer5Driver", "ascii", RES_EVENT_NO, NULL,
+      &printer_driver[1], set_printer_driver, (void *)1 },
+    {"PrinterUserportDriver", "ascii", RES_EVENT_NO, NULL,
+      &printer_driver[2], set_printer_driver, (void *)2 },
     { NULL }
 };
 
 int driver_select_init_resources(void)
 {
-    return resources_register(resources);
+    return resources_register_string(resources_string);
 }
 
 void driver_select_shutdown_resources(void)
