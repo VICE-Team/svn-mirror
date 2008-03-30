@@ -299,8 +299,8 @@ static ui_menu_entry_t pet_menu[] = {
     { N_("*PET userport diagnostic pin"),
       (ui_callback_t)toggle_DiagPin, NULL, NULL },
     { "--" },
-    { N_("*CRTC Screen color"),
-      NULL, NULL, crtc_palette_submenu },
+    { N_("Crtc settings"),
+      NULL, NULL, crtc_submenu },
     { NULL }
 };
 
@@ -327,11 +327,15 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
     { NULL }
 };
 
-/* ------------------------------------------------------------------------- */
+static void ui_create_dynamic_menus(void)
+{
+    uicrtc_create_menus();
+}
 
 int pet_ui_init(void)
 {
     ui_set_application_icon(pet_icon_data);
+    ui_create_dynamic_menus();
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -357,10 +361,6 @@ int pet_ui_init(void)
     ui_set_right_menu(ui_menu_create("RightMenu",
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
-                                     ui_crtc_video_settings_menu,
-#ifdef USE_XF86_EXTENSIONS
-                                     ui_fullscreen_settings_menu,
-#endif
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_par_drive_settings_menu,
@@ -409,17 +409,12 @@ int pet_ui_init(void)
                    ui_menu_create("Options",
                                   ui_performance_settings_menu,
                                   ui_menu_separator,
-#ifdef USE_XF86_EXTENSIONS
-                                  ui_fullscreen_settings_menu,
-                                  ui_menu_separator,
-#endif
                                   joystick_options_submenu,
                                   ui_menu_separator,
                                   ui_drive_options_submenu,
                                   NULL),
                    _("Settings"),
                    ui_menu_create("Settings",
-                                  ui_crtc_video_settings_menu,
                                   ui_peripheral_settings_menu,
                                   ui_drive_settings_menu,
                                   ui_keyboard_settings_menu,

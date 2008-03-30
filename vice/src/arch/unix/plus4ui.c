@@ -31,34 +31,21 @@
 
 #include "debug.h"
 #include "icon.h"
-#include "machine.h"
 #include "resources.h"
 #include "uicommands.h"
 #include "uidatasette.h"
 #include "uidrive.h"
 #include "uijoystick2.h"
 #include "uimenu.h"
-#include "uipalemu.h"
 #include "uiperipheral.h"
 #include "uirs232.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisound.h"
+#include "uited.h"
 #include "utils.h"
 #include "vsync.h"
 
-
-UI_MENU_DEFINE_RADIO(MachineVideoStandard)
-
-ui_menu_entry_t set_video_standard_submenu[] = {
-    { N_("*PAL-G"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
-    { N_("*NTSC-M"), (ui_callback_t)radio_MachineVideoStandard,
-      (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
 
 static UI_CALLBACK(save_screenshot)
 {
@@ -78,40 +65,6 @@ static UI_CALLBACK(save_screenshot)
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
     { N_("Screenshot..."),
       (ui_callback_t)save_screenshot, (ui_callback_data_t)0, NULL },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
-UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
-UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
-UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
-UI_MENU_DEFINE_TOGGLE(ExternalPalette)
-
-ui_menu_entry_t ted_submenu[] = {
-    { N_("*Double size"),
-      (ui_callback_t)toggle_TEDDoubleSize, NULL, NULL },
-    { N_("*Double scan"),
-      (ui_callback_t)toggle_TEDDoubleScan, NULL, NULL },
-    { N_("*Video cache"),
-      (ui_callback_t)toggle_TEDVideoCache, NULL, NULL },
-    { "--" },
-    { N_("*External color set"),
-      (ui_callback_t)toggle_ExternalPalette, NULL, NULL },
-    { "--" },
-    { N_("PAL Emulation"),
-      NULL, NULL, PALMode_submenu },
-#if 0
-    { N_("Color set"),
-      NULL, NULL, palette_submenu },
-    { "--" },
-    { N_("*Fast PAL emulation"),
-      (ui_callback_t)toggle_DelayLoopEmulation, NULL, NULL },
-#if 0
-    { N_("*PAL emulation"),
-      (ui_callback_t)toggle_PALEmulation, NULL, NULL },
-#endif
-#endif
     { NULL }
 };
 
@@ -143,9 +96,15 @@ static ui_menu_entry_t plus4_settings_menu[] = {
     { NULL }
 };
 
+static void ui_create_dynamic_menus(void)
+{
+    uited_create_menus();
+}
+
 int plus4_ui_init(void)
 {
     ui_set_application_icon(plus4_icon_data);
+    ui_create_dynamic_menus();
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -172,9 +131,6 @@ int plus4_ui_init(void)
                                      ui_performance_settings_menu,
                                      ui_menu_separator,
                                      ui_ted_video_settings_menu,
-#ifdef USE_XF86_EXTENSIONS
-                                     ui_fullscreen_settings_menu,
-#endif
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
                                      ui_drive_settings_menu,
@@ -218,10 +174,6 @@ int plus4_ui_init(void)
                    ui_menu_create("Options",
                                   ui_performance_settings_menu,
                                   ui_menu_separator,
-#ifdef USE_XF86_EXTENSIONS
-                                  ui_fullscreen_settings_menu,
-                                  ui_menu_separator,
-#endif
                                   joystick_options_submenu,
                                   ui_menu_separator,
                                   ui_drive_options_submenu,
