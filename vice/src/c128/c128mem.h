@@ -34,14 +34,19 @@
 #include "types.h"
 
 #define C128_RAM_SIZE                   0x20000
+
 #define C128_KERNAL_ROM_SIZE            0x2000
 #define C128_BASIC_ROM_SIZE             0x8000
 #define C128_EDITOR_ROM_SIZE            0x1000
+#define C128_Z80BIOS_ROM_SIZE           0x1000
 #define C128_CHARGEN_ROM_SIZE           0x2000
+
+#define C128_BASIC_ROM_IMAGELO_SIZE     0x4000
+#define C128_BASIC_ROM_IMAGEHI_SIZE     0x4000
+#define C128_KERNAL_ROM_IMAGE_SIZE      0x4000
 
 #define C128_KERNAL64_ROM_SIZE          0x2000
 #define C128_BASIC64_ROM_SIZE           0x2000
-#define C128_CHARGEN64_ROM_SIZE         0x1000
 
 #define C128_BASIC_CHECKSUM_85          38592
 #define C128_BASIC_CHECKSUM_86          2496
@@ -85,7 +90,6 @@ extern BYTE mem_kernal_rom[C128_KERNAL_ROM_SIZE];
 extern BYTE mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
 extern BYTE basic64_rom[C128_BASIC64_ROM_SIZE];
 extern BYTE kernal64_rom[C128_KERNAL64_ROM_SIZE];
-extern BYTE chargen64_rom[C128_CHARGEN64_ROM_SIZE];
 
 #endif
 
