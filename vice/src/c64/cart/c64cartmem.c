@@ -531,6 +531,18 @@ void cartridge_init_config(void)
     }
 }
 
+void cartridge_reset(void)
+{
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_ACTION_REPLAY:
+        actionreplay_reset();
+        break;
+      case CARTRIDGE_RETRO_REPLAY:
+        retroreplay_reset();
+        break;
+    }
+}
+
 void cartridge_attach(int type, BYTE *rawcart)
 {
     int cartridge_reset;
