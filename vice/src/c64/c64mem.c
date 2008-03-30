@@ -44,7 +44,6 @@
 #include "c64cart.h"
 #include "c64cia.h"
 #include "c64mem.h"
-#include "c64tpi.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "datasette.h"
@@ -96,9 +95,6 @@ static char *kernal_revision;
 
 /* Flag: Do we enable the Emulator ID?  */
 static int emu_id_enabled;
-
-/* Flag: Do we enable the IEEE488 interface emulation?  */
-static int ieee488_enabled;
 
 /* Flag: Do we enable the external REU?  */
 static int reu_enabled;
@@ -177,28 +173,13 @@ static int set_emu_id_enabled(resource_value_t v)
     }
 }
 
-static int set_ieee488_enabled(resource_value_t v)
-{
-    if (!(int) v) {
-        ieee488_enabled = 0;
-        return 0;
-    } else if (!reu_enabled && (mem_cartridge_type == CARTRIDGE_NONE)) {
-        ieee488_enabled = 1;
-        return 0;
-    } else {
-        /* The REU and the IEEE488 interface share the same address space, so
-           they cannot be enabled at the same time.  */
-        return -1;
-    }
-}
-
 /* FIXME: Should initialize the REU when turned on.  */
 static int set_reu_enabled(resource_value_t v)
 {
     if (!(int) v) {
         reu_enabled = 0;
         return 0;
-    } else if (!ieee488_enabled && (mem_cartridge_type == CARTRIDGE_NONE)) {
+    } else if (mem_cartridge_type == CARTRIDGE_NONE) {
         reu_enabled = 1;
         activate_reu();
         return 0;
@@ -237,8 +218,6 @@ static resource_t resources[] = {
      (resource_value_t *) &basic_rom_name, set_basic_rom_name },
     { "REU", RES_INTEGER, (resource_value_t) 0,
      (resource_value_t *) &reu_enabled, set_reu_enabled },
-    { "IEEE488", RES_INTEGER, (resource_value_t) 0,
-     (resource_value_t *) &ieee488_enabled, set_ieee488_enabled },
     { "EmuID", RES_INTEGER, (resource_value_t) 0,
      (resource_value_t *) &emu_id_enabled, set_emu_id_enabled },
     { "KernalRev", RES_STRING, (resource_value_t) NULL,
@@ -277,10 +256,6 @@ static cmdline_option_t cmdline_options[] =
       NULL, "Enable emulator identification" },
     { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 0,
       NULL, "Disable emulator identification" },
-    { "-ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t) 1,
-      NULL, "Enable the IEEE488 interface emulation" },
-    { "+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t) 0,
-      NULL, "Disable the IEEE488 interface emulation" },
     { "-kernalrev", SET_RESOURCE, 1, NULL, NULL, "KernalRev", NULL,
       "<revision>", "Patch the Kernal ROM to the specified <revision>" },
 #ifdef HAVE_RS232
@@ -512,8 +487,6 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
         cartridge_store_io2(addr, value);
     if (reu_enabled)
         store_reu(addr & 0x0f, value);
-    if (ieee488_enabled)
-        store_tpi(addr & 0x07, value);
     return;
 }
 
@@ -529,8 +502,6 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
     }
     if (reu_enabled)
         return read_reu(addr & 0x0f);
-    if (ieee488_enabled)
-        return read_tpi(addr & 0x07);
     return rand();
 }
 
@@ -1078,12 +1049,6 @@ void mem_toggle_reu(int flag)
     reu_enabled = flag;
 }
 
-/* Enable/disable the IEEE488 interface.  */
-void mem_toggle_ieee488(int flag)
-{
-    ieee488_enabled = flag;
-}
-
 /* Enable/disable the Emulator ID.  */
 void mem_toggle_emu_id(int flag)
 {
@@ -1491,10 +1456,6 @@ int mem_write_snapshot_module(snapshot_t *s, int save_roms)
     if (reu_enabled && reu_write_snapshot_module(s) < 0)
         goto fail;
 
-    /* IEEE 488 module.  */
-    if (ieee488_enabled && tpi_write_snapshot_module(s) < 0)
-        goto fail;
-
 #ifdef HAVE_RS232
     /* ACIA module.  */
     if (acia_de_enabled && acia1_write_snapshot_module(s) < 0)
@@ -1550,15 +1511,6 @@ int mem_read_snapshot_module(snapshot_t *s)
         reu_enabled = 0;
     } else {
         reu_enabled = 1;
-    }
-
-    /* IEEE488 module.  */
-    if (tpi_read_snapshot_module(s) < 0) {
-        ieee488_enabled = 0;
-    } else {
-        /* FIXME: Why do we need to do so???  */
-        reset_tpi();
-        ieee488_enabled = 1;
     }
 
 #ifdef HAVE_RS232

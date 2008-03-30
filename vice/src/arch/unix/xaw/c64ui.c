@@ -124,6 +124,9 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { "Attach Atomic Power image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ATOMIC_POWER, NULL },
+    { "Attach IEEE488 interface image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_IEEE488, NULL },
     { "Attach Super Snapshot 4 image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_SUPER_SNAPSHOT, NULL },
@@ -220,15 +223,12 @@ static ui_menu_entry_t sid_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
-UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(REU)
 UI_MENU_DEFINE_TOGGLE(Mouse)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
     { "*Emulator identification",
       (ui_callback_t) toggle_EmuID, NULL, NULL },
-    { "*IEEE488 interface emulation",
-      (ui_callback_t) toggle_IEEE488, NULL, NULL },
     { "*512K RAM Expansion Unit",
       (ui_callback_t) toggle_REU, NULL, NULL },
     { "*1351 Mouse Emulation",
