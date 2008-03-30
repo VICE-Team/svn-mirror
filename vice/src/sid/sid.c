@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
 /*#ifdef OS2
@@ -991,14 +992,14 @@ BYTE REGPARM1 sid_read(ADDRESS addr)
     machine_handle_pending_alarms(0);
     addr = addr & 0x1f;
 #ifdef HAVE_MOUSE
-    if (addr == 0x19 && _mouse_enabled) 
+    if (addr == 0x19 && _mouse_enabled)
         val = mouse_get_x();
     else if (addr == 0x1a && _mouse_enabled)
         val = mouse_get_y();
-    else 
+    else
 #endif
     val = sound_read(addr);
-   
+
     if (val < 0)
     {
         if (addr == 0x19 || addr == 0x1a)

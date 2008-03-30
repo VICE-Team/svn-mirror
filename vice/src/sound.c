@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #include "clkguard.h"
@@ -739,7 +740,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #endif
 
 #ifdef OS2
-    sound_init_mmos2_device();
+    //    sound_init_mmos2_device();
+    sound_init_dart_device();
+
 #endif
 
     sound_init_dummy_device();

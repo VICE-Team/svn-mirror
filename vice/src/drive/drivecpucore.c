@@ -29,6 +29,8 @@
 #include "drive.h"
 #include "mem.h"
 
+#include <string.h>
+
 /* Interrupt/alarm status.  */
 struct cpu_int_status mydrive_int_status;
 alarm_context_t mydrive_alarm_context;
@@ -269,7 +271,7 @@ void mydrive_cpu_set_sync_factor(unsigned int sync_factor)
 {
     unsigned long i;
 
-#ifdef AVOID_STATIC_ARRAYS    
+#ifdef AVOID_STATIC_ARRAYS
     if (!clk_conv_table)
     {
         clk_conv_table = xmalloc(sizeof(*clk_conv_table)*(MAX_TICKS + 1));
@@ -340,7 +342,7 @@ void mydrive_mem_init(int type)
         for (i = 0x80; i < 0x100; i++)
             read_func_nowatch[i] = mydrive_read_rom;
 
-    if ((type != DRIVE_TYPE_1001) 
+    if ((type != DRIVE_TYPE_1001)
 	&& (type != DRIVE_TYPE_8050)
 	&& (type != DRIVE_TYPE_8250)) {
 
@@ -357,14 +359,14 @@ void mydrive_mem_init(int type)
                 store_func_nowatch[i] = mydrive_store_ram;
             }
     } else {
-	/* The 1001/8050/8250 have 256 byte at $00xx, mirrored at 
+	/* The 1001/8050/8250 have 256 byte at $00xx, mirrored at
 	   $01xx, $04xx, $05xx, $08xx, $09xx, $0cxx, $0dxx.
 	   (From the 2 RIOT's 128 byte RAM each. The RIOT's I/O fill
-	   the gaps, x00-7f the first and x80-ff the second, at 
-	   $02xx, $03xx, $06xx, $07xx, $0axx, $0bxx, $0exx, $0fxx). 
+	   the gaps, x00-7f the first and x80-ff the second, at
+	   $02xx, $03xx, $06xx, $07xx, $0axx, $0bxx, $0exx, $0fxx).
 	   Then we have 4k of buffers, at $1000-13ff, 2000-23ff, 3000-33ff
-	   and 4000-43ff, each mirrored at $x400-$x7fff, $x800-$xbff, 
-	   and $xc00-$xfff. 
+	   and 4000-43ff, each mirrored at $x400-$x7fff, $x800-$xbff,
+	   and $xc00-$xfff.
 	
 	   Here we set zeropage, stack and buffer RAM as well as I/O */
 

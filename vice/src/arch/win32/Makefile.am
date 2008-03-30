@@ -35,6 +35,8 @@ libarch_a_SOURCES = \
 	kbd.c \
 	kbd.h \
 	lose32.h \
+	main_exit.c \
+        main_exit.h \
 	mouse.c \
 	mouse.h \
 	petkbd.c \

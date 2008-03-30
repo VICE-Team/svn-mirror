@@ -29,6 +29,15 @@
    This function is required for alloca.c support on those systems.  */
 /* #undef CRAY_STACKSEG_END */
 
+/* Define if you have the <io.h> header file */
+#define HAVE_IO_H 1
+
+/* Define if you have the <signal.h> header file */
+#define HAVE_SIGNAL_H 1
+
+/* Define if you have the <errno.h> header file */
+#define HAVE_ERRNO_H 1
+
 #ifdef __EMX__
 /* Define if you have alloca, as a function or macro.  */
 # define HAVE_ALLOCA 1

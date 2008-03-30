@@ -36,8 +36,10 @@
 #define DATASETTE_CONTROL_RECORD  4
 #define DATASETTE_CONTROL_RESET   5
 
-#define TAP_BUFFER_LENGTH   100000 
-#define TAPV0_ZERO_GAP      2500  /* FIXME: maybe should be a resource */
+#define TAP_BUFFER_LENGTH   100000
+
+/* at least every DATASETTE_MAX_GAP cycle there should be an alarm */ 
+#define DATASETTE_MAX_GAP   100000
 
 /* Counter is c=g*(sqrt(v*t/d*pi+r^2/d^2)-r/d)
    Some constants for the Datasette-Counter, maybe resourses in future */

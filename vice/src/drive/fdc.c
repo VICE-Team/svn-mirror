@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include <string.h>
+
 #include "alarm.h"
 #include "diskimage.h"
 #include "drive.h"
@@ -105,18 +107,18 @@ void fdc_reset(int fnum, int drive_type)
     }
 }
 
-static BYTE fdc_do_job(int fnum, int buf, 
+static BYTE fdc_do_job(int fnum, int buf,
 				int drv, BYTE job, BYTE *header)
 {
 #ifdef FDC_DEBUG
-static BYTE fdc_do_job_(int fnum, int buf, 
+static BYTE fdc_do_job_(int fnum, int buf,
 				int drv, BYTE job, BYTE *header);
     BYTE retval = fdc_do_job_(fnum, buf, drv, job, header);
     log_message(fdc_log, "  fdc_do_job (%02x) -> %02x\n",
 	job, retval);
     return retval;
 }
-static BYTE fdc_do_job_(int fnum, int buf, 
+static BYTE fdc_do_job_(int fnum, int buf,
 				int drv, BYTE job, BYTE *header)
 {
 #endif
@@ -240,17 +242,17 @@ static BYTE fdc_do_job_(int fnum, int buf,
 	rc = FDC_ERR_DRIVE;
 	break;
     case 0xE0:		/* execute when drive/head ready */
-	/* we have to check for standard format code that is copied 
+	/* we have to check for standard format code that is copied
 	   to buffers 0-3 */
 	if (!memcmp(fdc[fnum].iprom, &fdc[fnum].buffer[0x100], 0x300)) {
 	    int ntracks, nsectors = 0;
 	    /* detected format code */
 #ifdef FDC_DEBUG
 	    log_message(fdc_log, "format code: \n");
-	    log_message(fdc_log, "     track for zones side 0: %d %d %d %d\n", 
+	    log_message(fdc_log, "     track for zones side 0: %d %d %d %d\n",
 		fdc[fnum].buffer[0xb0], fdc[fnum].buffer[0xb1],
 		fdc[fnum].buffer[0xb2], fdc[fnum].buffer[0xb3]);
-	    log_message(fdc_log, "     track for zones side 1: %d %d %d %d\n", 
+	    log_message(fdc_log, "     track for zones side 1: %d %d %d %d\n",
 		fdc[fnum].buffer[0xb4], fdc[fnum].buffer[0xb5],
 		fdc[fnum].buffer[0xb6], fdc[fnum].buffer[0xb7]);
 	    log_message(fdc_log, "     secs per track: %d %d %d %d\n",
@@ -259,11 +261,11 @@ static BYTE fdc_do_job_(int fnum, int buf,
 	    log_message(fdc_log, "     vars: 870=%d 873=%d 875=%d\n",
 		fdc[fnum].buffer[0x470], fdc[fnum].buffer[0x473],
 		fdc[fnum].buffer[0x475]);
-	    log_message(fdc_log, "     track=%d, sector=%d\n", 
+	    log_message(fdc_log, "     track=%d, sector=%d\n",
 		track, sector);
-	    log_message(fdc_log, "     id=%02x,%02x (%c%c)\n", 
+	    log_message(fdc_log, "     id=%02x,%02x (%c%c)\n",
 		header[0],header[1], header[0],header[1]);
-	    log_message(fdc_log, "     sides=%d\n", 
+	    log_message(fdc_log, "     sides=%d\n",
 		fdc[fnum].buffer[0xac]);
 #endif
 	    if (fdc[dnr].image->read_only) {
@@ -305,7 +307,7 @@ static BYTE fdc_do_job_(int fnum, int buf,
 
             vdrive_bam_set_disk_id(dnr + 8, header);
 
-	    if (!rc) 
+	    if (!rc)
 	        rc = FDC_ERR_OK;
 	} else {
 	    rc = FDC_ERR_DRIVE;
@@ -366,7 +368,7 @@ static int int_fdc(int fnum, long offset)
 	    fdc[fnum].buffer[1] = 0x0e;
 	    fdc[fnum].buffer[2] = 0x2d;	
 	    /* number of sides on disk drive */
-	    fdc[fnum].buffer[0xac] = 
+	    fdc[fnum].buffer[0xac] =
 		(fdc[fnum].drive_type == DRIVE_TYPE_8050) ? 1 : 2;
 	    /* 0 = 4040 (2A), 1 = 8x80 (2C) drive type */
 	    fdc[fnum].buffer[0xea] = 1;	
@@ -410,7 +412,7 @@ static int int_fdc(int fnum, long offset)
 			fnum, i, fdc[fnum].buffer[i+3],
 			fdc[fnum].buffer[j+2],fdc[fnum].buffer[j+3]);
 #endif
-		fdc[fnum].buffer[i + 3] = 
+		fdc[fnum].buffer[i + 3] =
 			fdc_do_job(fnum, 			/* FDC# */
 				i,				/* buffer# */
 				fdc[fnum].buffer[i+3] & 1,	/* drive */
@@ -529,13 +531,13 @@ int fdc_detach_image(disk_image_t *image, int unit)
 /*
  * The dump data:
  *
- * UBYTE        STATE		FDC state 
- * DWORD        CLK		clk ticks till next fdc invocation 
- * UBYTE	NDRV		number of drives (1 or 2) 
- * UBYTE        LTRACK0		last track 
- * UBYTE        LSECTOR0	last sector 
- * UBYTE        LTRACK1		last track (if ndrv == 2) 
- * UBYTE        LSECTOR1	last sector (if ndrv == 2) 
+ * UBYTE        STATE		FDC state
+ * DWORD        CLK		clk ticks till next fdc invocation
+ * UBYTE	NDRV		number of drives (1 or 2)
+ * UBYTE        LTRACK0		last track
+ * UBYTE        LSECTOR0	last sector
+ * UBYTE        LTRACK1		last track (if ndrv == 2)
+ * UBYTE        LSECTOR1	last sector (if ndrv == 2)
  *
  */
 
@@ -567,7 +569,7 @@ int fdc_write_snapshot_module(snapshot_t *p, int fnum)
     /* last accessed track/sector */
     snapshot_module_write_byte(m, fdc[fnum].last_track);
     snapshot_module_write_byte(m, fdc[fnum].last_sector);
-   
+
     snapshot_module_close(m);
 
     return 0;
@@ -611,13 +613,13 @@ int fdc_read_snapshot_module(snapshot_t *p, int fnum)
 
     /* number of drives - so far 1 only */
     snapshot_module_read_byte(m, &ndrv);
-    
+
     /* last accessed track/sector */
     snapshot_module_read_byte(m, &byte);
     fdc[fnum].last_track = byte;
     snapshot_module_read_byte(m, &byte);
     fdc[fnum].last_sector = byte;
-  
+
     if (ndrv > 1) {
 	/* ignore drv 0 values */
         snapshot_module_read_byte(m, &byte);
@@ -629,4 +631,4 @@ int fdc_read_snapshot_module(snapshot_t *p, int fnum)
 
     return 0;
 }
- 
+

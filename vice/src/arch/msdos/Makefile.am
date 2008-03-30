@@ -38,6 +38,8 @@ libarch_a_SOURCES = \
 	joystick.h \
 	kbd.c \
 	kbd.h \
+        main_exit.c \
+        main_exit.h \
 	mouse.c \
 	mouse.h \
 	menudefs.c \

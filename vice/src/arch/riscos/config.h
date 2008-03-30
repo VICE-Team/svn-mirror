@@ -41,7 +41,7 @@
 #define PACKAGE "vice"
 
 /* Version number.  */
-#define VERSION "1.0"
+#define VERSION "1.1"
 
 /* The number of bytes in a unsigned int.  */
 #define SIZEOF_UNSIGNED_INT 4
@@ -67,5 +67,9 @@
 #define HAVE_STRNCASECMP 1
 #define HAS_JOYSTICK 1
 
+#define HAVE_ERRNO_H 1
+#define HAVE_SIGNAL_H 1
+#define HAVE_STRINGS_H 1
+#define HAVE_STDLIB_H 1
 
 #endif

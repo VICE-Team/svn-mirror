@@ -29,6 +29,7 @@
 #ifndef _ARCHAPI
 #define _ARCHAPI
 
+#include <stdio.h>
 #include <stdarg.h>
 
 /* Program start and signals.  */

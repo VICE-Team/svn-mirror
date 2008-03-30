@@ -40,6 +40,8 @@
 #include "log.h"
 #include "utils.h"
 
+#include "sounddrv.h"
+
 typedef struct _playlist
 {
     ULONG ulCommand;
@@ -54,20 +56,9 @@ PLAYLIST Playlist[3]={
     {EXIT_OPERATION,   0, 0, 0}   // maybe not needed
 };
 
-USHORT usSoundDevID;
+static USHORT usSoundDevID;
 //ULONG  ulSamplesPerSec;
 //USHORT usBitsPerSample;
-
-static int mmos2_err(ULONG rc, char *s)
-{
-    char text[128];
-    mciGetErrorString(rc, text, 128);  // angegebener einheitenname ungueltig
-    WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, text, s, 0, MB_OK);
-    log_message(LOG_DEFAULT, "soundmmos2.c: %s %li",s,rc);
-    log_message(LOG_DEFAULT, "soundmmos2.c: %s",text);
-    return 1;
-    //    WORD lo order=unsigned short
-}
 
 SWORD *dataBuf;
 
@@ -77,10 +68,10 @@ static void mmos2_close(warn_t *w)
     // MCI_WAIT hangs???
     log_message(LOG_DEFAULT, "soundmmos2.c: mmos2_close");
     rc=mciSendCommand(usSoundDevID, MCI_STOP, MCI_WAIT, NULL, 0);
-    if (rc != MCIERR_SUCCESS) mmos2_err(rc, "Error stopping MMOS2 Playback (MCI_STOP)");
+    if (rc != MCIERR_SUCCESS) sound_err(rc, "Error stopping MMOS2 Playback (MCI_STOP)");
     log_message(LOG_DEFAULT, "soundmmos2.c: MCI stopped");
     rc=mciSendCommand(usSoundDevID, MCI_CLOSE, MCI_WAIT, NULL, 0);
-    if (rc != MCIERR_SUCCESS) mmos2_err(rc, "Error closing MMOS2 Waveform Audio Device (MCI_CLOSE)");
+    if (rc != MCIERR_SUCCESS) sound_err(rc, "Error closing MMOS2 Waveform Audio Device (MCI_CLOSE)");
     log_message(LOG_DEFAULT, "soundmmos2.c: MCI closed");
     free(dataBuf);
     log_message(LOG_DEFAULT, "soundmmos2.c: dataBuf freed");
@@ -108,7 +99,7 @@ static int mmos2_init(warn_t *w, const char *param, int *speed,
                       MCI_OPEN_SHAREABLE,
                       &mciOpen, 0);
 
-    if (rc != MCIERR_SUCCESS) return mmos2_err(rc, "Error open MMOS2 Waveform Audio Device (MCI_OPEN)");
+    if (rc != MCIERR_SUCCESS) return sound_err(rc, "Error open MMOS2 Waveform Audio Device (MCI_OPEN)");
 
     usSoundDevID = mciOpen.usDeviceID;
 
@@ -120,7 +111,7 @@ static int mmos2_init(warn_t *w, const char *param, int *speed,
                       MCI_WAVE_SET_BITSPERSAMPLE,
                       &mciSet, 0);
 
-    if (rc != MCIERR_SUCCESS) return mmos2_err(rc, "Error setting Sample Rate or Saples Per Sec (MCI_SET)");
+    if (rc != MCIERR_SUCCESS) return sound_err(rc, "Error setting Sample Rate or Saples Per Sec (MCI_SET)");
 
     //    atexit(mmos2_close);
     pos=*fragsize*0;//3;//3*4;//14
@@ -135,7 +126,7 @@ static int mmos2_init(warn_t *w, const char *param, int *speed,
     Playlist[0].ulOperandTwo   = *fragsize*frag_numbers*sizeof(SWORD);
     Playlist[0].ulOperandThree = 0;
 //    rc=mciSendCommand(usSoundDevID, MCI_PLAY, 0, &mciOpen, 0);
-//    if (rc != MCIERR_SUCCESS) return mmos2_err(rc, "MCI_PLAY");
+//    if (rc != MCIERR_SUCCESS) return sound_err(rc, "MCI_PLAY");
     return 0;
 } // lautstaerke einstellen und speichern!!
 
@@ -148,7 +139,7 @@ static int mmos2_write(warn_t *w, SWORD *pbuf, int nr)
     memcpy(dataBuf+pos, pbuf, nr*sizeof(SWORD)); // dst, src, cnt
     if (!first) {
         int rc=mciSendCommand(usSoundDevID, MCI_PLAY, 0, &mciOpen, 0);
-        if (rc != MCIERR_SUCCESS) return mmos2_err(rc, "MCI_PLAY");
+        if (rc != MCIERR_SUCCESS) return sound_err(rc, "MCI_PLAY");
         first=TRUE;
     }
     pos += nr;  // fragsize
@@ -176,7 +167,7 @@ static int mmos2_suspend(warn_t *w)
     int rc;
     //    mmlog("pausing",0);
     rc=mciSendCommand(usSoundDevID, MCI_PAUSE, MCI_WAIT, NULL, 0);
-    if (rc != MCIERR_SUCCESS) mmos2_err(rc, "Error pausing MMOS2 Playback (MCI_PAUSE)");
+    if (rc != MCIERR_SUCCESS) sound_err(rc, "Error pausing MMOS2 Playback (MCI_PAUSE)");
     //    mmlog("paused",0);
     return 0;
 }
@@ -186,7 +177,7 @@ static int mmos2_resume(warn_t *w)
     int rc;
     //    mmlog("resuming",0);
     rc=mciSendCommand(usSoundDevID, MCI_RESUME, MCI_WAIT, NULL, 0);
-    if (rc != MCIERR_SUCCESS) mmos2_err(rc, "Error resuming MMOS2 Playback (MCI_RESUME)");
+    if (rc != MCIERR_SUCCESS) sound_err(rc, "Error resuming MMOS2 Playback (MCI_RESUME)");
     //    mmlog("resumed",0);
     return 0;
 }

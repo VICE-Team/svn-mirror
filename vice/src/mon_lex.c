@@ -8,8 +8,10 @@
 #define YY_FLEX_MAJOR_VERSION 2
 #define YY_FLEX_MINOR_VERSION 5
 
+#ifdef HAVE_IO_H
+#include <io.h>
+#endif
 #include <stdio.h>
-
 
 /* cfront 1.2 defines "c_plusplus" instead of "__cplusplus" */
 #ifdef c_plusplus

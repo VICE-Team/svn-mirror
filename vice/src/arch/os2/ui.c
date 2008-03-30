@@ -25,6 +25,7 @@
  */
 #define INCL_WINSYS
 #define INCL_GPILCIDS // vac++
+#define INCL_GPIPRIMITIVES
 #define INCL_WINSTDFILE
 #define INCL_WINFRAMEMGR
 #define INCL_WINWINDOWMGR
@@ -37,7 +38,9 @@
 #include <io.h>
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
 #include <unistd.h>
 //#ifdef __EMX__
 //#include <sys/hw.h>
@@ -51,21 +54,13 @@
 //#endif
 #include "machine.h"
 #include "mon.h"
+#include "log.h"
 #include "resources.h"
 #include "sound.h"
 #include "types.h"
 #include "utils.h"
 #include "vsync.h"
 #include "archdep.h"
-
-/*------------------------------------------------*/
-
-static void uilog(char *s, int i)
-{
-    FILE *fl=fopen("output","a");
-    fprintf(fl,"%s %i\n",s,i);
-    fclose(fl);
-}
 
 /* ------------------------ ui resources ------------------------ */
 
@@ -104,6 +99,12 @@ int ui_init_cmdline_options(void)
 
 /* ------------------------ VICE/2 Status Window ------------------------ */
 
+/* Tape related UI */
+void ui_set_tape_status(int tape_status) {}
+void ui_display_tape_motor_status(int motor) {}
+void ui_display_tape_control_status(int control) {}
+void ui_display_tape_counter(int counter) {}
+
 
 void ui_display_drive_led(int drive_number, int status)
 {
@@ -141,7 +142,7 @@ void ui_display_drive_track(int drive_number, int drive_base,
     rectl.xLeft   =rectl.xRight-(2-drive_number)*20-4;
     rectl.xRight  =rectl.xLeft+10+6;
     rectl.yBottom =height/2-10;
-    rectl.yTop    =height/2+5;
+    rectl.yTop   -=height/2+5;
     sprintf(str,"%.0f",track_number);
     WinDrawText(ui_status.hps, strlen(str), str, &rectl, 0, 0,
                 DT_TEXTATTRS|DT_VCENTER|DT_CENTER|DT_ERASERECT|
@@ -149,13 +150,14 @@ void ui_display_drive_track(int drive_number, int drive_base,
     ui_status.lastTrack[drive_number]=track_number;
 }
 
-void ui_enable_drive_status(int state, int *drive_led_color)
+extern void ui_enable_drive_status(ui_drive_enable_t state,
+                                   int *drive_led_color)
 {
     int i;
-    RECTL rectl;
-    int height=ui_status.rectl.yTop-ui_status.rectl.yBottom;
     if (!ui_status.init) return;
     for (i=0; i<2; i++) {
+        RECTL rectl;
+        int height=ui_status.rectl.yTop-ui_status.rectl.yBottom;
         rectl=ui_status.rectl;
         rectl.xLeft   = rectl.xRight-(2-i)*20-2;
         rectl.xRight  = rectl.xLeft+10+3;
@@ -175,24 +177,33 @@ void ui_enable_drive_status(int state, int *drive_led_color)
 }
 
 void ui_display_drive_current_image(int drive_number, const char *image)
-{
-}
+{   // what happens if the image name is to long to fit?
+    if (image) {
+        RECTL rectl;
+        char *text = xmalloc(strlen(image)+11);
 
-/* tape-related ui, dummies so far */
-void ui_set_tape_status(int tape_status)
-{
-}
+        strcpy(ui_status.lastImage[drive_number], image);
 
-void ui_display_tape_motor_status(int motor)
-{
-}
+        rectl.xLeft   = 2;
+        rectl.xRight  = ui_status.rectl.xRight-2;
+        rectl.yBottom = 2+ui_status.step*(3-drive_number);
+        rectl.yTop    = rectl.yBottom+ui_status.step-2;
+        WinFillRect(ui_status.hps, &rectl, SYSCLR_BUTTONDARK);
+        rectl.xLeft   += 1; rectl.xRight-=1;
+        rectl.yBottom += 1; rectl.yTop  -=1;
+        WinFillRect(ui_status.hps, &rectl, SYSCLR_BUTTONMIDDLE);
 
-void ui_display_tape_control_status(int control)
-{
-}
+        rectl.yBottom -= 1;
+        rectl.xLeft   += 2;
 
-void ui_display_tape_counter(int counter)
-{
+        sprintf(text, "Drive %2i: %s", drive_number+8, image);
+        GpiSetMix(ui_status.hps, FM_NOTXORSRC); // Draw Text in bar
+        WinDrawText(ui_status.hps, strlen(text), text, &rectl, 0, 0,
+                    DT_TEXTATTRS | DT_VCENTER | DT_LEFT);
+
+        free(text);
+    }
+
 }
 
 /* ------------------------ VICE only stuff ------------------------ */
@@ -206,18 +217,6 @@ int ui_init_finish(void)
 {
     ui_open_status_window();
     return 0;
-}
-
-void ui_main(char hotkey)
-{
-//    sound_suspend();
-//    speed_index = vsync_get_avg_speed_index();
-//    frame_rate = vsync_get_avg_frame_rate();
-
-//    if (speed_index > 0.0 && frame_rate > 0.0)
-//	sprintf(s, "%s emulator at %d%% speed, %d fps",
-//		machine_name, (int)floor(speed_index), (int)floor(frame_rate));
-//    suspend_speed_eval();
 }
 
 void ui_error(const char *format,...)
@@ -239,11 +238,6 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     return UI_JAM_HARD_RESET;  // Always hard reset.
 }
 
-void ui_show_text(char *title, char *text)
-{
-    ui_OK_dialog(title, text);
-}
-
 void ui_update_menus(void)
 {
 /*    if (ui_main_menu != NULL)
@@ -252,7 +246,7 @@ void ui_update_menus(void)
 
 int ui_extend_image_dialog(void)
 {
-    return ui_yesno_dialog("VICE/2 Extend Disk Image",
+    return ui_yesno_dialog(HWND_DESKTOP, "VICE/2 Extend Disk Image",
                            "Extend disk image in drive 8 to 40 tracks?");
 }
 
@@ -263,14 +257,15 @@ void ui_OK_dialog(char *title, char *msg)
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, msg, title, 0, MB_OK);
 }
 
-int ui_yesno_dialog(char *title, char *msg)
+int ui_yesno_dialog(HWND hwnd, char *title, char *msg)
 {
-    return (WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
+    return (WinMessageBox(HWND_DESKTOP, hwnd,
                           msg, title, 0, MB_YESNO)==MBID_YES);
 }
 
-int ui_file_dialog(char *title, char *drive,
-                   char *path, char *button, char *result)
+// path="\\path1\\path2\\"
+int ui_file_dialog(HWND hwnd, char *title, char *drive, char *path,
+                   char *mask, char *button, char *result)
 {
     FILEDLG filedlg;                      // File dialog info structure
     memset(&filedlg, 0, sizeof(FILEDLG)); // Initially set all fields to 0
@@ -281,14 +276,16 @@ int ui_file_dialog(char *title, char *drive,
     filedlg.pszTitle    = title;
     filedlg.pszOKButton = button;
     filedlg.pszIDrive   = drive;
-
-    strcpy(filedlg.szFullFile, path); // Init Path, Filter (*.t64)
+    strcat(strcat(strcpy(filedlg.szFullFile, path),"\\"), mask); // Init Path, Filter (*.t64)
 
     // Display the dialog and get the file
-    if (WinFileDlg(HWND_DESKTOP, HWND_DESKTOP, &filedlg))
+    if (WinFileDlg(HWND_DESKTOP, hwnd, &filedlg))
     {
-        strcpy(result, filedlg.szFullFile);
-        return filedlg.lReturn;
+        if (filedlg.lReturn==DID_OK) {
+            strcpy(result, filedlg.szFullFile);
+            return filedlg.lReturn;
+        }
     }
-    else return FALSE;
+    return NULL;
 }
+

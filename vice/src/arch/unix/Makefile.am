@@ -24,6 +24,8 @@ libarch_a_SOURCES = \
 	kbd.h \
 	kbdef.h \
 	kmap.c \
+	main_exit.c \
+        main_exit.h \
 	mouse.c \
 	mouse.h \
 	petkmap.c \

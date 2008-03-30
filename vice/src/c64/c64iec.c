@@ -29,6 +29,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "vice.h"
 
@@ -45,7 +46,7 @@
 #include "viad.h"
 
 /* Status of the IEC bus signals.  */
-static iec_info_t iec_info; 
+static iec_info_t iec_info;
 
 static BYTE iec_old_atn = 0x10;
 static BYTE parallel_cable_cpu_value = 0xff;
@@ -328,7 +329,7 @@ void parallel_cable_cpu_undump(BYTE data)
 }
 
 /* This function is called from ui_update_menus() */
-int iec_available_busses(void) 
+int iec_available_busses(void)
 {
     extern int carttype;
     return IEC_BUS_IEC | ((carttype == CARTRIDGE_IEEE488) ? IEC_BUS_IEEE : 0);

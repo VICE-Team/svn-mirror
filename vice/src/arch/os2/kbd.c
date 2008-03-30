@@ -30,11 +30,15 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <direct.h>
+
 
 #include "ui.h"
 #include "kbd.h"
+#include "sound.h"
 #include "vsync.h"
 #include "attach.h"        // file_system_attach_disk
 #include "machine.h"       // machine_powerup
@@ -140,13 +144,6 @@ inline static void set_keyarr(int row, int col, int value)
     }
 }
 
-void klog(char *s, int i) {
-    FILE *fl;
-    fl=fopen("output","a");
-    fprintf(fl,"%s 0x%x\n",s,i);
-    fclose(fl);
-}
-
 /* This is not a beautiful way, but the one I know :-) */
 void switch_capslock_led_off(void)
 {
@@ -156,23 +153,52 @@ void switch_capslock_led_off(void)
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
 }
 
-void ui_attach_disk(int number)
+#ifdef __EMXC__
+#define _getcwd _getcwd2
+#endif
+static void ui_attach_disk(HWND hwnd, int number)
 {
-    char result[CCHMAXPATH];
-    ui_file_dialog("Attach disk image", "g:",
-                   "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d64;*.d71;*.d81;*.g64;*.g41;*.x64",
-                   "Attach", result);
+    static char drive[3]="g:";                        // maybe a resource
+    static char path[CCHMAXPATH-2]="\\c64\\images";   // maybe a resource
+    char   result [CCHMAXPATH];
+    char   dirname[CCHMAXPATH];
+
+    _getcwd(dirname, CCHMAXPATH);        // store working dir
+
+    strcat(strcpy(result, drive),path);
+    if (chdir(result))                   // try if actual image dir exist
+    {                                    // if it doesn't exist, set
+        drive[0]=dirname[0];             // imagedir to working dir
+        drive[1]=':';                    // maybe drive is empty at first call
+        strcpy(path, dirname+2);
+    }
+    chdir(dirname);                      // change back to working dir
+
+    if (!ui_file_dialog(hwnd,"Attach disk image", drive, path,
+                        "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64",
+                        "Attach", result))
+        return;
     if (file_system_attach_disk(number, result) < 0)
+    {
         ui_error("Cannot attach specified file");
+        return;
+    }
+    drive[0]=result[0];
+    *strrchr(result,'\\')='\0';
+    strcpy(path, result+2);
 }
 
-void ui_hard_reset(void) {
-    if (ui_yesno_dialog("Hard Reset","Do you really want to hard reset the emulated machine?"))
+static void ui_hard_reset(HWND hwnd)
+{
+    if (ui_yesno_dialog(hwnd, "Hard Reset",
+                        "Do you really want to hard reset the emulated machine?"))
        machine_powerup();  // Hard_reset;
 }
 
-void ui_soft_reset(void) {
-    if (ui_yesno_dialog("Soft Reset","Do you really want to soft reset the emulated machine?"))
+static void ui_soft_reset(HWND hwnd)
+{
+    if (ui_yesno_dialog(hwnd, "Soft Reset",
+                        "Do you really want to soft reset the emulated machine?"))
        maincpu_trigger_reset();  // Soft Reset
 }
 
@@ -199,7 +225,7 @@ void toggle_dialog(char *resource_name, const char *text)
 //----------
 
 void wmChar(HWND hwnd, MPARAM mp1)
-{
+{   // super warp mode? ohne status window?
     USHORT fsFlags    = SHORT1FROMMP(mp1);
     CHAR   usScancode = CHAR4FROMMP (mp1);
     USHORT release;
@@ -212,12 +238,26 @@ void wmChar(HWND hwnd, MPARAM mp1)
     if (fsFlags&KC_ALT) {
         switch (usScancode)
         {
-        case  9/*8*/: ui_attach_disk(8); break;
-        case 10/*9*/: ui_attach_disk(9); break;
-        case 16/*Q*/: ui_hard_reset();   break;
-        case 19/*R*/: ui_soft_reset();   break;
-        case 31/*S*/: toggle_dialog("Sound", "Sound"); break;
+        case  9/*8*/: ui_attach_disk(hwnd, 8); break;
+        case 10/*9*/: ui_attach_disk(hwnd, 9); break;
+        case 16/*Q*/: /*suspend_speed_eval(void);*/ ui_hard_reset(hwnd);   break;
+        case 17/*W*/:
+            if (resources_save(NULL) < 0) ui_OK_dialog("Resources","Cannot save settings.");
+            else                          ui_OK_dialog("Resources","Settings written successfully.");
+            break;
+        case 19/*R*/: /*suspend_speed_eval(void);*/ ui_soft_reset(hwnd);   break;
+        //        case 31/*S*/: toggle_dialog("Sound", "Sound"); break;
+        //        if (toggle("Sound")) sound_suspend();
+        //         else sound_resume();
+        //         break;
+
+
         case 20/*T*/: toggle_dialog("DriveTrueEmulation", "True drive emulation"); break;
+/*        case 38 *L*
+            if (resources_load(NULL) < 0) ui_OK_dialog("Resources","Cannot load settings.");
+            else                          ui_OK_dialog("Resources","Settings loaded successfully.");
+            //            ui_update_menus();
+            break;*/
         }
     }
     else {

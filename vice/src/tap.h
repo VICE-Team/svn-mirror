@@ -68,6 +68,10 @@ typedef struct tap_s {
 
     /* Is the file opened read only?  */
     int read_only;
+
+    /* Has the tap changed? We correct the size then.  */
+    int has_changed;
+
 } tap_t;
 
 extern tap_t *tap_open(const char *name);

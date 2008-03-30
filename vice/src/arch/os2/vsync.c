@@ -1,5 +1,5 @@
 /*
- * vsync.c - End-of-frame handling for Unix.
+ * vsync.c - End-of-frame handling for Vice/2
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -39,25 +39,20 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
-#ifdef __IBMC__
-#include <sys/timeb.h>
-#endif
-
-#include "archdep.h"
-#include "clkguard.h"
-#include "cmdline.h"
-#include "interrupt.h"
-#include "kbd.h"
-#include "kbdbuf.h"
-#include "log.h"
-#include "maincpu.h"
-#include "resources.h"
-#include "sound.h"
-#include "types.h"
+#include "vsync.h"
 #include "ui.h"
 #include "ui_status.h"
-#include "vsync.h"
+#include "interrupt.h"
+#include "maincpu.h"
+#include "log.h"
+#include "kbdbuf.h"
+#include "sound.h"
+#include "resources.h"
+#include "cmdline.h"
+#include "kbd.h"
+#include "archdep.h"
 
 #include "usleep.h"
 
@@ -69,14 +64,6 @@
 #define SA_RESTART 0
 #endif
 
-
-void vlog(char *s, int i)
-{
-    FILE *fl;
-    fl=fopen("output","a");
-    fprintf(fl,"%s %i\n",s,i);
-    fclose(fl);
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -91,17 +78,17 @@ int warp_mode_enabled;
 
 /* FIXME: This should call `set_timers'.  */
 static int set_relative_speed(resource_value_t v)
-  {
+{
     relative_speed = (int) v;
     return 0;
-  }
+}
 
 static int set_refresh_rate(resource_value_t v)
-  {
+{
     if ((int) v < 0) return -1;
     refresh_rate = (int) v;
     return 0;
-  }
+}
 
 static int set_warp_mode(resource_value_t v)
 {
@@ -168,23 +155,22 @@ static int timer_disabled = 1;
 static int timer_speed    = 0;
 static int timer_patch    = 0;
 
-typedef ULONG _time;
-static  ULONG ulTmrFreq;  // Hertz (almost 1.2MHz at my PC)
+static ULONG ulTmrFreq;  // Hertz (almost 1.2MHz at my PC)
 
-ULONG gettime()
+ULONG gettime(void)
 {
     QWORD qwTmrTime; // now
     DosTmrQueryTime(&qwTmrTime);
     return qwTmrTime.ulLo;
 }
 
-static _time timer_ticks;
-static _time timer_time;
+static ULONG timer_ticks;
+static ULONG timer_time;
 
 static void update_elapsed_frames(int want)
 {
     static int pending;
-    _time now;
+    ULONG now;
 
     if (timer_disabled) return;
     if (!want && timer_patch > 0) {
@@ -252,6 +238,12 @@ int vsync_disable_timer(void)
 /* ------------------------------------------------------------------------- */
 
 static int speed_eval_suspended = 1;
+static CLOCK speed_eval_prev_clk;
+
+static void clk_overflow_callback(CLOCK amount, void *data)
+{
+    speed_eval_prev_clk -= amount;
+}
 
 /* This should be called whenever something that has nothing to do with the
    emulation happens, so that we don't display bogus speed values. */
@@ -261,36 +253,30 @@ void suspend_speed_eval(void)
     speed_eval_suspended = 1;
 }
 
-static void clk_overflow_callback(CLOCK amount, void *data)
-{
-    speed_eval_prev_clk -= amount;
-}
-
 void vsync_set_machine_parameter(double refresh_rate, long cycles)
 {
     refresh_frequency = refresh_rate;
-    cycles_per_sec = cycles;
+    cycles_per_sec    = cycles;
 }
 
 void vsync_init(void (*hook)(void))
 {
-    vsync_hook = hook;
-
-    suspend_speed_eval();
     vsync_disable_timer();
-    DosTmrQueryFreq(&ulTmrFreq);
+    suspend_speed_eval();
 
+    /* What's this - from unix */
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
-}
 
-static CLOCK speed_eval_prev_clk;
+    DosTmrQueryFreq(&ulTmrFreq);
+    vsync_hook        = hook;
+}
 
 static void display_speed(int num_frames)
 {
-    static _time vice_secs=0;
-    static _time prev_time;
+    static ULONG vice_secs=0;
+    static ULONG prev_time;
     if (!speed_eval_suspended) {
-        _time curr_time= gettime();
+        ULONG curr_time = gettime();
         float diff_clk    = clk - speed_eval_prev_clk;
         float time_diff   = (double)(curr_time - prev_time)/ulTmrFreq;
 	float speed_index = diff_clk/(time_diff*cycles_per_sec);
@@ -298,11 +284,16 @@ static void display_speed(int num_frames)
 
         ui_display_speed(speed_index*100, frame_rate, vice_secs++);
 
-        prev_time            = curr_time;
+        prev_time = curr_time;
     }
-    else prev_time=gettime();
+    else prev_time = gettime();
     speed_eval_prev_clk  = clk;
     speed_eval_suspended = 0;
+}
+
+void vsync_prevent_clk_overflow(CLOCK sub)
+{
+    speed_eval_prev_clk -= sub;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -322,17 +313,19 @@ int do_vsync(int been_skipped)
 
     if (timer_speed != relative_speed) {
 	frame_counter = USHRT_MAX;
-        if (set_timer_speed(relative_speed) < 0) {
-	    log_error(LOG_DEFAULT, "Trouble setting timers... giving up.");
+        /*if (*/
+        set_timer_speed(relative_speed);
+            /*< 0) {
+             log_error(LOG_DEFAULT, "Trouble setting timers... giving up.");*/
             /* FIXME: Hm, maybe we should be smarter.  But this is should
-               never happen.*/
-	    exit(-1);
-	}
+             never happen.*/
+            /*exit(-1);
+             }*/
     }
 
     if (warp_mode_enabled) {
         /* "Warp Mode".  Just skip as many frames as possible and do not
-           limit the maximum speed at all.  */
+         limit the maximum speed at all.  */
         if (skip_counter < MAX_SKIPPED_FRAMES) {
             skip_next_frame = 1;
             skip_counter++;
@@ -341,7 +334,7 @@ int do_vsync(int been_skipped)
         sound_flush(0);
     }
     else
-        if (refresh_rate != 0) {
+        if (refresh_rate) { // !=0
             update_elapsed_frames(0); /* Fixed refresh rate.  */
             if (timer_speed && skip_counter >= elapsed_frames) timer_sleep();
             if (skip_counter < refresh_rate - 1) {
@@ -373,6 +366,9 @@ int do_vsync(int been_skipped)
         display_speed(frame_counter + 1 - num_skipped_frames);
 	num_skipped_frames = 0;
 	frame_counter = 0;
+        // this is for better system response in warp_mode
+        // seems that it doesn't really make it slower
+        if (warp_mode_enabled) DosSleep(1);
     }
     else frame_counter++;
 

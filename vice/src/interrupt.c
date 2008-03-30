@@ -30,6 +30,7 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "interrupt.h"
 #include "snapshot.h"

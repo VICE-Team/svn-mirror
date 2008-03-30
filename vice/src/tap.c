@@ -81,11 +81,12 @@ tap_t *tap_open(const char *name)
     new->current_file_seek_position = 0;
     new->mode = DATASETTE_CONTROL_STOP;
     new->offset = TAP_HDR_SIZE;
+    new->has_changed = 0;
 
     fseek(fd, 0, SEEK_END);
-    new->size = ftell(fd);
+    new->size = ftell(fd) - TAP_HDR_SIZE;
 
-    if (new->size < (new->offset + 3)) {
+    if (new->size < 3) {
         zfclose(new->fd);
         free(new);
         return NULL;
@@ -103,6 +104,9 @@ int tap_close(tap_t *tap)
     int retval;
 
     if (tap->fd != NULL) {
+        if (tap->has_changed)
+            if (!fseek(tap->fd,TAP_HDR_LEN,SEEK_SET))
+                fwrite(&tap->size,4,1,tap->fd);
         retval = zfclose(tap->fd);
         tap->fd = NULL;
     } else {
