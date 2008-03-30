@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Manfred Spraul <manfreds@colorfullife.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -252,3 +253,237 @@ void ui_set_res_num(char *res, int value, int num)
     sprintf(tmp, res, num);
     resources_set_value(tmp, (resource_value_t *) value);
 }
+
+
+#if 0
+BOOL CALLBACK TextDlgProc(HWND hwndDlg,		// handle to dialog box
+			  UINT uMsg,		// message
+			  WPARAM wParam,	// first message parameter
+			  LPARAM lParam  );	// second message parameter
+struct TEXTDLGDATA {
+	char *szCaption;
+	char *szHeader;
+	char *szText;
+};
+
+void ui_show_text(HWND hParent, const char* szCaption, const char* szHeader,
+                  const char* szText)
+{
+	struct TEXTDLGDATA info;
+	char * szRNText;
+	int i,j;
+
+	szRNText = (char*)HeapAlloc(GetProcessHeap(),0,2*lstrlen(szText)+1);
+	i=j=0;
+	while(szText[i] != '\0') {
+		if(szText[i] == '\n')
+			szRNText[j++] = '\r';
+		szRNText[j++] = szText[i++];
+	}
+	szRNText[j] = '\0';
+
+	info.szCaption = (char *)szCaption;
+	info.szHeader = (char *)szHeader;
+	info.szText = szRNText;
+
+	DialogBoxParam(GetModuleHandle(NULL),
+	// GetModuleHandle(NULL) returns the instance handle
+	// of the executable that created the current process.
+	// Win32: module handle == instance handle == task [Win3.1 legacy]
+			MAKEINTRESOURCE(IDD_TEXTDLG),
+			hParent,
+			TextDlgProc,
+			(LPARAM)&info);
+	HeapFree(GetProcessHeap(),0,szRNText);
+}
+
+
+BOOL CALLBACK TextDlgProc(HWND hwndDlg,	// handle to dialog box
+			UINT uMsg,	// message
+			WPARAM wParam,	// first message parameter
+			LPARAM lParam)	// second message parameter
+{
+    switch (uMsg) {
+        case WM_INITDIALOG:
+		{
+			struct TEXTDLGDATA* pInfo = (struct TEXTDLGDATA*) lParam;
+			SetWindowText(hwndDlg,pInfo->szCaption);
+			SetDlgItemText(hwndDlg, IDC_HEADER, pInfo->szHeader);
+			SetDlgItemText(hwndDlg,	IDC_TEXT, pInfo->szText);
+
+			SendDlgItemMessage(hwndDlg,
+					IDC_TEXT,
+					EM_SETREADONLY,
+					1,	// wParam: read-only flag
+					0);	// lParam: unused.
+            return TRUE;
+		}
+		case WM_CTLCOLORSTATIC:
+			// The text box should use the normal colors, but the contents must
+			// be read-only.
+			// A read-only text box uses WM_CTLCOLORSTATIC, but a read-write
+			// text box uses WM_CTLCOLOREDIT.
+			if((HWND)lParam == GetDlgItem(hwndDlg,IDC_TEXT)) {
+				// the return value is passed directly,
+				// SetWindowLong(DWL_MSGRESULT) is ignored.
+				return DefDlgProc(hwndDlg, WM_CTLCOLOREDIT, wParam, lParam);
+			} else {
+				return FALSE;
+			}
+			
+        case WM_CLOSE:
+            EndDialog(hwndDlg,0);
+            return TRUE;
+        case WM_COMMAND:
+			switch(LOWORD(wParam)) {
+				case IDOK:
+	                EndDialog(hwndDlg, 0);
+		            return TRUE;
+			}
+            break;
+    }
+    return FALSE;
+}
+#endif
+
+
+BOOL CALLBACK GetParentEnumProc(HWND hwnd, LPARAM lParam)
+{
+	DWORD dwWndThread = GetWindowThreadProcessId(hwnd,NULL);
+
+
+	if(dwWndThread == GetCurrentThreadId()) {
+		*(HWND*)lParam = hwnd;
+		return FALSE;
+	}
+	return TRUE;	
+}
+
+HWND GetParentHWND()
+{
+	HWND hwndOut = NULL;
+
+	EnumWindows(GetParentEnumProc,
+				(LPARAM)&hwndOut);
+
+	if(hwndOut == NULL)
+		return NULL;
+	return GetLastActivePopup(hwndOut);
+}
+
+BOOL CALLBACK TextDlgProc(HWND hwndDlg,		// handle to dialog box
+			  UINT uMsg,		// message
+			  WPARAM wParam,	// first message parameter
+			  LPARAM lParam  );	// second message parameter
+struct TEXTDLGDATA {
+	char *szCaption;
+	char *szHeader;
+	char *szText;
+};
+
+void ui_show_text(HWND hWnd,
+		const char* szCaption,
+		const char* szHeader,
+		const char* szText)
+{
+	struct TEXTDLGDATA info;
+	char * szRNText;
+	int i,j;
+
+	szRNText = (char*)HeapAlloc(GetProcessHeap(),0,2*lstrlen(szText)+1);
+	i=j=0;
+	while(szText[i] != '\0') {
+		if(szText[i] == '\n')
+			szRNText[j++] = '\r';
+		szRNText[j++] = szText[i++];
+	}
+	szRNText[j] = '\0';
+
+	info.szCaption = (char *)szCaption;
+	info.szHeader = (char *)szHeader;
+	info.szText = szRNText;
+
+//	if(hWnd == HWND_AUTO)
+//		hWnd = GetParentHWND();
+	DialogBoxParam(GetModuleHandle(NULL),	// GetModuleHandle(NULL) returns the instance handle
+										// of the executable that created the current process.
+										// Win32: module handle == instance handle == task [Win3.1 legacy]
+			MAKEINTRESOURCE(IDD_TEXTDLG),
+			hWnd,
+			TextDlgProc,
+			(LPARAM)&info);
+	HeapFree(GetProcessHeap(),0,szRNText);
+}
+
+// FIXME: the client area with the scroll bars 
+//		disabled would be larger, this function
+//		is not perfect.
+void AutoHideScrollBar(HWND hWnd, int fnBar)
+{
+	BOOL bResult;
+	SCROLLINFO scInfo;
+	UINT uiDiff;
+	
+	scInfo.cbSize = sizeof(scInfo);
+	scInfo.fMask = SIF_RANGE|SIF_PAGE;
+	bResult = GetScrollInfo(hWnd, fnBar, &scInfo);
+
+	if(!bResult)
+		return;
+
+	uiDiff= scInfo.nMax-scInfo.nMin;
+	if(scInfo.nPage > uiDiff)
+		ShowScrollBar(hWnd,fnBar, 0);
+}
+
+
+
+BOOL CALLBACK TextDlgProc(HWND hwndDlg,		// handle to dialog box
+				UINT uMsg,	// message
+				WPARAM wParam,	// first message parameter
+				LPARAM lParam)	// second message parameter
+{
+    switch (uMsg) {
+        case WM_INITDIALOG:
+		{
+			struct TEXTDLGDATA* pInfo = (struct TEXTDLGDATA*) lParam;
+			SetWindowText(hwndDlg,pInfo->szCaption);
+			SetDlgItemText(hwndDlg, IDC_HEADER, pInfo->szHeader);
+
+			SetDlgItemText(hwndDlg,	IDC_TEXT, pInfo->szText);
+			SendDlgItemMessage(hwndDlg,
+								IDC_TEXT,
+								EM_SETREADONLY,
+								1,	// wParam: read-only flag
+								0);	// lParam: unused.
+			AutoHideScrollBar(GetDlgItem(hwndDlg, IDC_TEXT),SB_HORZ);
+			AutoHideScrollBar(GetDlgItem(hwndDlg, IDC_TEXT),SB_VERT);
+			return TRUE;
+		}
+		case WM_CTLCOLORSTATIC:
+			// The text box should use the normal colors, but the contents must
+			// be read-only.
+			// A read-only text box uses WM_CTLCOLORSTATIC, but a read-write
+			// text box uses WM_CTLCOLOREDIT.
+			if((HWND)lParam == GetDlgItem(hwndDlg,IDC_TEXT)) {
+				// the return value is passed directly,
+				// SetWindowLong(DWL_MSGRESULT) is ignored.
+				return DefDlgProc(hwndDlg, WM_CTLCOLOREDIT, wParam, lParam);
+			} else {
+				return FALSE;
+			}
+			
+        case WM_CLOSE:
+            EndDialog(hwndDlg,0);
+            return TRUE;
+        case WM_COMMAND:
+			switch(LOWORD(wParam)) {
+				case IDOK:
+	                EndDialog(hwndDlg, 0);
+		            return TRUE;
+			}
+            break;
+    }
+    return FALSE;
+}
+
