@@ -35,10 +35,9 @@
 #include "utils.h"
 
 
-
-
 static char *SerialFile=NULL;
 static int SerialBaud;
+static file_desc_t fd[3];
 
 static int set_serial_file(resource_value_t v)
 {
@@ -92,40 +91,44 @@ void rs232_reset(void)
 }
 
 
-file_desc_t rs232_open(int device)
+int rs232_open(int device)
 {
   switch (device)
   {
     case 0:
       if (SerialFile == NULL) return NULL;
-      return fopen(SerialFile, "ab+");
+      fd[0] = fopen(SerialFile, "ab+");
+      return 0;
     case 1:
-      return fopen("parallel:", "ab+");
+      fd[1] = fopen("parallel:", "ab+");
+      return 1;
     case 2:
-      return fopen("serial:", "ab+");
+      fd[2] = fopen("serial:", "ab+");
+      return 2;
     default:
-      return NULL;
+      return -1;
   }
 }
 
 
-void rs232_close(file_desc_t fd)
+void rs232_close(int fi)
 {
-  if (fd != NULL) fclose(fd);
+  if (fd[fi] != NULL) fclose(fd[fi]);
+  fd[fi] = NULL;
 }
 
 
-int rs232_putc(file_desc_t fd, BYTE b)
+int rs232_putc(int fi, BYTE b)
 {
-  if (fd == NULL) return -1;
-  fputc(b, fd);
+  if (fd[fi] == NULL) return -1;
+  fputc(b, fd[fi]);
   return 0;
 }
 
 
-int rs232_getc(file_desc_t fd, BYTE *b)
+int rs232_getc(int fi, BYTE *b)
 {
-  if (fd == NULL) return -1;
-  *b = fgetc(fd);
+  if (fd[fi] == NULL) return -1;
+  *b = fgetc(fd[fi]);
   return 0;
 }

@@ -48,6 +48,7 @@ static ciat_t ciatb;
 
 static CLOCK cia_read_clk = 0;
 static int cia_read_offset = 0;
+static BYTE cia_last_read = 0;	/* the byte read the last time (for RMW) */
 
 /* Make the TOD count 50/60Hz even if we do not run at 1MHz ... */
 #ifndef CYCLES_PER_SEC
@@ -272,6 +273,13 @@ void reset_mycia(void)
 void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 {
     CLOCK rclk;
+
+    if (mycpu_rmw_flag) {
+	myclk --;
+	mycpu_rmw_flag = 0;
+	store_mycia(addr, cia_last_read);
+	myclk ++;
+    }
 
     addr &= 0xf;
 
@@ -536,14 +544,7 @@ BYTE read_cia_(ADDRESS addr)
 
     /* Hack for opcode fetch, where the clock does not change */
     if (myclk <= cia_read_clk) {
-/*
-	printf("read opcode? pc=%04x, myclk=%d, cia_read_clk=%d", 
-					reg_pc, myclk, cia_read_clk);
-*/
 	rclk = cia_read_clk + (++cia_read_offset) - READ_OFFSET;
-/*
-	printf(" -> offset=%d\n",cia_read_offset);
-*/
     } else {
         cia_read_clk = myclk;
 	cia_read_offset = 0;
@@ -556,7 +557,8 @@ BYTE read_cia_(ADDRESS addr)
         /* WARNING: this pin reads the voltage of the output pins, not
            the ORA value. Value read might be different from what is 
 	   expected due to excessive load. */
-	return read_ciapa();
+	cia_last_read = read_ciapa();
+	return cia_last_read;
 	break;
 
       case CIA_PRB:		/* port B */
@@ -581,25 +583,34 @@ BYTE read_cia_(ADDRESS addr)
 		    byte |= 0x80;
 	    }
 	}
+	cia_last_read = byte;
 	return byte;
 	break;
 
 	/* Timers */
       case CIA_TAL:		/* timer A low */
 	cia_update_ta(rclk);
-	return ciat_read_timer(&ciata, rclk) & 0xff;
+	cia_last_read = ciat_read_timer(&ciata, rclk) & 0xff;
+	return cia_last_read;
+	break;
 
       case CIA_TAH:		/* timer A high */
 	cia_update_ta(rclk);
-	return (ciat_read_timer(&ciata, rclk) >> 8) & 0xff;
+	cia_last_read = (ciat_read_timer(&ciata, rclk) >> 8) & 0xff;
+	return cia_last_read;
+	break;
 
       case CIA_TBL:		/* timer B low */
 	cia_update_tb(rclk);
-	return ciat_read_timer(&ciatb, rclk) & 0xff;
+	cia_last_read = ciat_read_timer(&ciatb, rclk) & 0xff;
+	return cia_last_read;
+	break;
 
       case CIA_TBH:		/* timer B high */
 	cia_update_tb(rclk);
-	return (ciat_read_timer(&ciatb, rclk) >> 8) & 0xff;
+	cia_last_read = (ciat_read_timer(&ciatb, rclk) >> 8) & 0xff;
+	return cia_last_read;
+	break;
 
 	/*
 	 * TOD clock is latched by reading Hours, and released
@@ -617,33 +628,27 @@ BYTE read_cia_(ADDRESS addr)
 	    ciatodlatched = 0;
 	if (addr == CIA_TOD_HR)
 	    ciatodlatched = 1;
-	return ciatodlatch[addr - CIA_TOD_TEN];
+	cia_last_read = ciatodlatch[addr - CIA_TOD_TEN];
+	return cia_last_read;
+	break;
 
       case CIA_SDR:		/* Serial Port Shift Register */
-	return (cia[addr]);
+	cia_last_read = cia[CIA_SDR];
+	return cia_last_read;
+	break;
 
 	/* Interrupts */
 
       case CIA_ICR:		/* Interrupt Flag Register */
 	{
 	    BYTE t = 0;
-	    CLOCK tmp;
 
 	    CIAT_LOGIN(("read_icr: rclk=%d, rdi=%d", rclk, ciardi));
 
 	    ciardi = rclk;
 
-	    tmp = ciat_alarm_clk(&ciata);
-	    if (tmp <= rclk) 
-		int_ciata(myclk - tmp);
-	    else
-	        cia_update_ta(rclk);
-
-	    tmp = ciat_alarm_clk(&ciatb);
-	    if (tmp <= rclk) 
-		int_ciatb(myclk - tmp);
-	    else
-	        cia_update_tb(rclk);
+	    cia_update_ta(rclk);
+	    cia_update_tb(rclk);
 
 	    read_ciaicr();
 
@@ -670,17 +675,25 @@ BYTE read_cia_(ADDRESS addr)
 
 	    CIAT_LOGOUT((""));
 
+	    cia_last_read = t;
 	    return (t);
 	}
+	break;
+
       case CIA_CRA:		/* Control Register A */
 	cia_update_ta(rclk);
-	return (cia[CIA_CRA] & 0xfe) | ciat_is_running(&ciata, rclk);
+	cia_last_read = (cia[CIA_CRA] & 0xfe) | ciat_is_running(&ciata, rclk);
+	return cia_last_read;
+	break;
 
       case CIA_CRB:		/* Control Register B */
 	cia_update_tb(rclk);
-	return (cia[CIA_CRB] & 0xfe) | ciat_is_running(&ciatb, rclk);
+	cia_last_read = (cia[CIA_CRB] & 0xfe) | ciat_is_running(&ciatb, rclk);
+	return cia_last_read;
+	break;
     }				/* switch */
 
+    cia_last_read = cia[addr];
     return (cia[addr]);
 }
 
@@ -736,7 +749,7 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
       case CIA_TOD_TEN:	/* Time Of Day clock 1/10 s */
       case CIA_TOD_SEC:	/* Time Of Day clock sec */
       case CIA_TOD_MIN:	/* Time Of Day clock min */
-      case CIA_TOD_HR:		/* Time Of Day clock hour */
+      case CIA_TOD_HR:	/* Time Of Day clock hour */
 	if (!ciatodlatched)
 	    memcpy(ciatodlatch, cia + CIA_TOD_TEN, sizeof(ciatodlatch));
 	return cia[addr];
@@ -746,36 +759,40 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
       case CIA_ICR:		/* Interrupt Flag Register */
 	{
 	    BYTE t = 0;
+
+	    CIAT_LOGIN(("peek_icr: rclk=%d, rdi=%d", rclk, ciardi));
+
+	    /* ciardi = rclk; */
+
 	    cia_update_ta(rclk);
 	    cia_update_tb(rclk);
 
-	    read_ciaicr();
+	    /* read_ciaicr(); */
+
 #ifdef CIA_TIMER_DEBUG
 	    if (mycia_debugFlag)
-		log_message(cia_log,
-                            "cia read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d.",
-                            rclk, cia_tai, cia_tbi);
+		log_message(cia_log, "cia read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d, ciaint=%02x",
+			rclk, cia_tai, cia_tbi, (int)ciaint);
 #endif
 
 	    ciat_set_alarm(&ciata, rclk);
 	    ciat_set_alarm(&ciatb, rclk);
+
+            CIAT_LOG(("peek_icr -> ta alarm at %d, tb at %d", 
+		ciat_alarm_clk(&ciata), ciat_alarm_clk(&ciatb)));
+
 	    t = ciaint;
 
-#ifdef CIA_TIMER_DEBUG
-	    if (mycia_debugFlag)
-		log_message(cia_log,
-                            "read intfl gives ciaint=%02x -> %02x "
-                            "sr_bits=%d, clk=%d, ta=%d, tb=%d.",
-                            ciaint, t, ciasr_bits, clk,
-                            (cia_tac ? cia_tac : cia_tal),
-                            cia_tbc);
-#endif
-
+	    CIAT_LOG(( "peek intfl gives ciaint=%02x -> %02x "
+                            "sr_bits=%d, clk=%d",
+                            ciaint, t, ciasr_bits, clk));
 /*
 	    ciaint = 0;
-	    my_set_int(0, rclk);
+	    my_set_int(0, rclk + 1);
 */
-	    return (t);
+	    CIAT_LOGOUT((""));
+
+	    return (t);	
 	}
       default:
 	break;

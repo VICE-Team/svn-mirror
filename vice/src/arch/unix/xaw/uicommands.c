@@ -93,14 +93,10 @@ static UI_CALLBACK(attach_disk)
       case UI_BUTTON_OK:
  	if (file_system_attach_disk(unit, filename) < 0)
 	    ui_error("Invalid Disk Image");
-	else
-	    flip_set_current(unit, filename);
 	break;
       case UI_BUTTON_AUTOSTART:
 	if (autostart_disk(filename, NULL) < 0)
 	    ui_error("Invalid Disk Image");
-	else
-	    flip_set_current(unit, filename);
 	break;
       default:
 	/* Do nothing special.  */

@@ -41,7 +41,6 @@
 #define store_mycia store_cia2
 #define read_mycia read_cia2
 #define peek_mycia peek_cia2
-#define mycpu_clk_guard maincpu_clk_guard
 #define mycia_set_flag cia2_set_flag
 #define mycia_set_sdr cia2_set_sdr
 #define mycia_write_snapshot_module cia2_write_snapshot_module
@@ -63,7 +62,9 @@
 
 #define MYCIA_INT       IK_NMI
 
-#define myclk clk
+#define myclk 		clk
+#define mycpu_clk_guard maincpu_clk_guard
+#define	mycpu_rmw_flag	rmw_flag
 
 #define cia_set_int_clk(value,clk) \
                 set_int(&maincpu_int_status,(I_CIA2FL),(value),(clk))

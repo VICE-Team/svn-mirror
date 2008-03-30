@@ -37,6 +37,10 @@
 
 static char *PrinterFile=NULL;
 
+/* The handle to be returned by print_open() is architecture independent
+   and a simple int. We save the real file descriptor here */
+static file_desc_t fd[3]= NULL;
+
 static int set_printer_file(resource_value_t v)
 {
   const char *name = (const char*)v;
@@ -76,48 +80,52 @@ void print_reset(void)
 }
 
 
-file_desc_t print_open(int device)
+int print_open(int device)
 {
   switch (device)
   {
     case 0:
       if (PrinterFile == NULL) return NULL;
-      return fopen(PrinterFile, "ab+");
+      fd[0] = fopen(PrinterFile, "ab+");
+      return 0;
     case 1:
-      return fopen("parallel:", "ab+");
+      fd[1] = fopen("parallel:", "ab+");
+      return 1;
     case 2:
-      return fopen("serial:", "ab+");
+      fd[2] = fopen("serial:", "ab+");
+      return 2;
     default:
-      return NULL;
+      return -1;
   }
 }
 
 
-void print_close(file_desc_t fd)
+void print_close(int fi)
 {
-  if (fd != NULL) fclose(fd);
+  if (fd[fi] != NULL) fclose(fd[fi]);
+  fd[fi] = NULL;
 }
 
 
-int print_putc(file_desc_t fd, BYTE b)
+int print_putc(int fi, BYTE b)
 {
-  if (fd == NULL) return -1;
-  fputc(b, fd);
+  if (fd[fi] == NULL) return -1;
+  fputc(b, fd[fi]);
   return 0;
 }
 
 
-int print_getc(file_desc_t fd, BYTE *b)
+int print_getc(int fi, BYTE *b)
 {
-  if (fd == NULL) return -1;
-  *b = fgetc(fd);
+  if (fd[fi] == NULL) return -1;
+  *b = fgetc(fd[fi]);
   return 0;
 }
 
 
-int print_flush(file_desc_t fd)
+int print_flush(int fi)
 {
-  if (fd == NULL) return -1;
-  fflush(fd);
+  if (fd[fi] == NULL) return -1;
+  fflush(fd[fi]);
   return 0;
 }

@@ -39,6 +39,7 @@
 /* drive0, device #8.  */
 
 extern int drive0_traceflg;
+extern int drive0_rmw_flag;
 extern alarm_context_t drive0_alarm_context;
 extern clk_guard_t drive0_clk_guard;
 
@@ -62,6 +63,7 @@ extern int drive0_cpu_read_snapshot_module(snapshot_t *s);
 /* drive1, device #9.  */
 
 extern int drive1_traceflg;
+extern int drive1_rmw_flag;
 extern alarm_context_t drive1_alarm_context;
 extern clk_guard_t drive1_clk_guard;
 

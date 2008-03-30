@@ -31,9 +31,10 @@
 #include <stdio.h>
 #endif
 
+#include "attach.h"
+#include "fliplist.h"
 #include "resources.h"
 #include "vdrive.h"
-#include "attach.h"
 
 static int file_system_device_enabled[4];
 
@@ -194,6 +195,7 @@ int file_system_attach_disk(int unit, const char *filename)
         file_system_detach_disk(unit);
         return -1;
     } else {
+        flip_set_current(unit, filename);
         return 0;
     }
 }

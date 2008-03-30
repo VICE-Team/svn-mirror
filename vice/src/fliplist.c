@@ -38,7 +38,7 @@ struct fliplist_t {
 };
 
 static struct fliplist_t *fliplist = (struct fliplist_t *) NULL;
-static char *current_image;
+static const char *current_image;
 static int current_drive;
 
 static void show_fliplist(void);
@@ -47,7 +47,7 @@ static void show_fliplist(void);
 /* interface functions */
 
 void
-flip_set_current(int unit, char *filename)
+flip_set_current(int unit, const char *filename)
 {
     current_image = filename;
     current_drive = unit;

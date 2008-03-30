@@ -39,7 +39,6 @@
 #define store_mycia store_cia1581d0
 #define read_mycia read_cia1581d0
 #define peek_mycia peek_cia1581d0
-#define mycpu_clk_guard drive0_clk_guard
 #define mycia_set_flag cia1581d0_set_flag
 #define mycia_set_sdr cia1581d0_set_sdr
 #define mycia_write_snapshot_module cia1581d0_write_snapshot_module
@@ -53,6 +52,7 @@
  */
 
 #include "drive.h"
+#include "drivecpu.h"
 #include "ciad.h"
 #include "iecdrive.h"
 
@@ -60,7 +60,9 @@
 
 #define MYCIA_INT       IK_IRQ
 
-#define myclk drive_clk[0]
+#define myclk 		drive_clk[0]
+#define mycpu_clk_guard drive0_clk_guard
+#define	mycpu_rmw_flag	drive0_rmw_flag
 
 #define cia_set_int_clk(value,clk) \
                 set_int(&drive0_int_status,(I_CIA1FL),(value),(clk))
@@ -69,6 +71,10 @@
                 set_int_noclk(&drive0_int_status,(I_CIA1FL),(value))
 
 #define mycpu_alarm_context drive0_alarm_context
+
+/*************************************************************************
+ * Hardware binding
+ */
 
 static iec_info_t *iec_info;
 

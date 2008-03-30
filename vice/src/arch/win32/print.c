@@ -56,7 +56,7 @@ void print_reset(void)
 /* Opens a print window, returns handle to give to functions below.  */
 int print_open(int device)
 {
-    return 0;
+    return -1;
 }
 
 /* Closes the print window again.  */
@@ -67,12 +67,12 @@ void print_close(int fd)
 /* Sends a byte to the print line.  */
 int print_putc(int fd, BYTE b)
 {
-    return 0;
+    return -1;
 }
 
 /* Flushes buffer to printer.  */
 int print_flush(int fd)
 {
-    return 0;
+    return -1;
 }
 

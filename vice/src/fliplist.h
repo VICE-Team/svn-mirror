@@ -27,7 +27,7 @@
 #ifndef _FLIPLIST_H
 #define _FLIPLIST_H
 
-void flip_set_current(int unit, char *image);
+void flip_set_current(int unit, const char *image);
 void flip_add_image(void);
 void flip_remove(int unit, char *image);
 void flip_attach_head(int direction);

@@ -26,10 +26,10 @@
 
 /*
  * The RS232 emulation captures the bytes sent to the RS232 interfaces
- * available (currently only ACIA 6551, later UART 16550A, std C64,
- * and Daniel Dallmanns fast RS232 with 9600 Baud).
- * The characters captured are displayed in a special terminal window.
- * Characters typed in the terminal window are sent back to the
+ * available (currently ACIA 6551, std C64 and Daniel Dallmanns fast RS232 
+ * with 9600 Baud).
+ * The characters captured are sent to a file or an attached process.
+ * Characters sent from a process are sent back to the 
  * chip emulations.
  *
  */
