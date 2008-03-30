@@ -5479,7 +5479,7 @@ void z80_mainloop(interrupt_cpu_status_t *cpu_int_status,
             log_message(LOG_DEFAULT,
                         ".%04x %i %-25s A%02x F%02x B%02x C%02x D%02x E%02x "
                         "H%02x L%02x S%04x",
-                        z80_reg_pc, /*CLK*/ 0,
+                        (unsigned int)z80_reg_pc, /*CLK*/ 0,
                         mon_disassemble_to_string(e_comp_space, z80_reg_pc,
                         p0, p1, p2, p3, 1, "z80"),
                         reg_a, reg_f, reg_b, reg_c,
