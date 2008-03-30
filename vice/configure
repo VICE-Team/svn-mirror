@@ -1349,11 +1349,16 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=21
-VICE_VERSION_BUILD=0
+VICE_VERSION_BUILD=1
 
 
 
 
+
+
+cat >>confdefs.h <<\_ACEOF
+#define UNSTABLE
+_ACEOF
 
 
 if test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0" ; then
@@ -11028,6 +11033,8 @@ fi
 
 
     usbhid_header=no
+  usbhid_lib=no
+  usb_lib=no
   echo "$as_me:$LINENO: checking for hid_get_report_desc in -lusbhid" >&5
 echo $ECHO_N "checking for hid_get_report_desc in -lusbhid... $ECHO_C" >&6
 if test "${ac_cv_lib_usbhid_hid_get_report_desc+set}" = set; then
@@ -11093,7 +11100,11 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_usbhid_hid_get_report_desc" >&5
 echo "${ECHO_T}$ac_cv_lib_usbhid_hid_get_report_desc" >&6
 if test $ac_cv_lib_usbhid_hid_get_report_desc = yes; then
-  if test "${ac_cv_header_usbhid_h+set}" = set; then
+  usbhid_lib=yes
+fi
+
+  if test x"$usbhid_lib" = "xyes" ; then
+    if test "${ac_cv_header_usbhid_h+set}" = set; then
   echo "$as_me:$LINENO: checking for usbhid.h" >&5
 echo $ECHO_N "checking for usbhid.h... $ECHO_C" >&6
 if test "${ac_cv_header_usbhid_h+set}" = set; then
@@ -11236,9 +11247,11 @@ cat >>confdefs.h <<\_ACEOF
 #define HAVE_USBHID_H 1
 _ACEOF
 
-             usb_header=yes
-else
-  if test "${ac_cv_header_libusbhid_h+set}" = set; then
+                    usb_header=yes
+fi
+
+
+    if test "${ac_cv_header_libusbhid_h+set}" = set; then
   echo "$as_me:$LINENO: checking for libusbhid.h" >&5
 echo $ECHO_N "checking for libusbhid.h... $ECHO_C" >&6
 if test "${ac_cv_header_libusbhid_h+set}" = set; then
@@ -11381,24 +11394,393 @@ cat >>confdefs.h <<\_ACEOF
 #define HAVE_LIBUSBHID_H 1
 _ACEOF
 
-else
-  usbhid_header=no
+                    usb_header=yes
 fi
 
 
-fi
 
-
-        if test x"$usb_header" = "xyes" ; then
+    if test x"$usb_header" = "xyes" ; then
 
 cat >>confdefs.h <<\_ACEOF
 #define HAS_USB_JOYSTICK
 _ACEOF
 
-            LIBS="$LIBS -lusbhid"
-        fi
+      LIBS="$LIBS -lusbhid"
+    fi
+  else
+    echo "$as_me:$LINENO: checking for hid_get_report_desc in -lusb" >&5
+echo $ECHO_N "checking for hid_get_report_desc in -lusb... $ECHO_C" >&6
+if test "${ac_cv_lib_usb_hid_get_report_desc+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lusb  $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any gcc2 internal prototype to avoid an error.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+/* We use char because int might match the return type of a gcc2
+   builtin and then its argument prototype would still apply.  */
+char hid_get_report_desc ();
+int
+main ()
+{
+hid_get_report_desc ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
+  (eval $ac_link) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest$ac_exeext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_cv_lib_usb_hid_get_report_desc=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_cv_lib_usb_hid_get_report_desc=no
+fi
+rm -f conftest.err conftest.$ac_objext \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+echo "$as_me:$LINENO: result: $ac_cv_lib_usb_hid_get_report_desc" >&5
+echo "${ECHO_T}$ac_cv_lib_usb_hid_get_report_desc" >&6
+if test $ac_cv_lib_usb_hid_get_report_desc = yes; then
+  usb_lib=yes
 fi
 
+    if test x"$usb_lib" = "xyes"; then
+      if test "${ac_cv_header_usb_h+set}" = set; then
+  echo "$as_me:$LINENO: checking for usb.h" >&5
+echo $ECHO_N "checking for usb.h... $ECHO_C" >&6
+if test "${ac_cv_header_usb_h+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+fi
+echo "$as_me:$LINENO: result: $ac_cv_header_usb_h" >&5
+echo "${ECHO_T}$ac_cv_header_usb_h" >&6
+else
+  # Is the header compilable?
+echo "$as_me:$LINENO: checking usb.h usability" >&5
+echo $ECHO_N "checking usb.h usability... $ECHO_C" >&6
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+$ac_includes_default
+#include <usb.h>
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_header_compiler=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_header_compiler=no
+fi
+rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
+echo "${ECHO_T}$ac_header_compiler" >&6
+
+# Is the header present?
+echo "$as_me:$LINENO: checking usb.h presence" >&5
+echo $ECHO_N "checking usb.h presence... $ECHO_C" >&6
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <usb.h>
+_ACEOF
+if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
+  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } >/dev/null; then
+  if test -s conftest.err; then
+    ac_cpp_err=$ac_c_preproc_warn_flag
+    ac_cpp_err=$ac_cpp_err$ac_c_werror_flag
+  else
+    ac_cpp_err=
+  fi
+else
+  ac_cpp_err=yes
+fi
+if test -z "$ac_cpp_err"; then
+  ac_header_preproc=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+  ac_header_preproc=no
+fi
+rm -f conftest.err conftest.$ac_ext
+echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
+echo "${ECHO_T}$ac_header_preproc" >&6
+
+# So?  What about this header?
+case $ac_header_compiler:$ac_header_preproc:$ac_c_preproc_warn_flag in
+  yes:no: )
+    { echo "$as_me:$LINENO: WARNING: usb.h: accepted by the compiler, rejected by the preprocessor!" >&5
+echo "$as_me: WARNING: usb.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
+    { echo "$as_me:$LINENO: WARNING: usb.h: proceeding with the compiler's result" >&5
+echo "$as_me: WARNING: usb.h: proceeding with the compiler's result" >&2;}
+    ac_header_preproc=yes
+    ;;
+  no:yes:* )
+    { echo "$as_me:$LINENO: WARNING: usb.h: present but cannot be compiled" >&5
+echo "$as_me: WARNING: usb.h: present but cannot be compiled" >&2;}
+    { echo "$as_me:$LINENO: WARNING: usb.h:     check for missing prerequisite headers?" >&5
+echo "$as_me: WARNING: usb.h:     check for missing prerequisite headers?" >&2;}
+    { echo "$as_me:$LINENO: WARNING: usb.h: see the Autoconf documentation" >&5
+echo "$as_me: WARNING: usb.h: see the Autoconf documentation" >&2;}
+    { echo "$as_me:$LINENO: WARNING: usb.h:     section \"Present But Cannot Be Compiled\"" >&5
+echo "$as_me: WARNING: usb.h:     section \"Present But Cannot Be Compiled\"" >&2;}
+    { echo "$as_me:$LINENO: WARNING: usb.h: proceeding with the preprocessor's result" >&5
+echo "$as_me: WARNING: usb.h: proceeding with the preprocessor's result" >&2;}
+    { echo "$as_me:$LINENO: WARNING: usb.h: in the future, the compiler will take precedence" >&5
+echo "$as_me: WARNING: usb.h: in the future, the compiler will take precedence" >&2;}
+    (
+      cat <<\_ASBOX
+## ------------------------------------------ ##
+## Report this to the AC_PACKAGE_NAME lists.  ##
+## ------------------------------------------ ##
+_ASBOX
+    ) |
+      sed "s/^/$as_me: WARNING:     /" >&2
+    ;;
+esac
+echo "$as_me:$LINENO: checking for usb.h" >&5
+echo $ECHO_N "checking for usb.h... $ECHO_C" >&6
+if test "${ac_cv_header_usb_h+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_cv_header_usb_h=$ac_header_preproc
+fi
+echo "$as_me:$LINENO: result: $ac_cv_header_usb_h" >&5
+echo "${ECHO_T}$ac_cv_header_usb_h" >&6
+
+fi
+if test $ac_cv_header_usb_h = yes; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_USB_H 1
+_ACEOF
+
+                      usb_header=yes
+fi
+
+
+      if test "${ac_cv_header_libusb_h+set}" = set; then
+  echo "$as_me:$LINENO: checking for libusb.h" >&5
+echo $ECHO_N "checking for libusb.h... $ECHO_C" >&6
+if test "${ac_cv_header_libusb_h+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+fi
+echo "$as_me:$LINENO: result: $ac_cv_header_libusb_h" >&5
+echo "${ECHO_T}$ac_cv_header_libusb_h" >&6
+else
+  # Is the header compilable?
+echo "$as_me:$LINENO: checking libusb.h usability" >&5
+echo $ECHO_N "checking libusb.h usability... $ECHO_C" >&6
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+$ac_includes_default
+#include <libusb.h>
+_ACEOF
+rm -f conftest.$ac_objext
+if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
+  (eval $ac_compile) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } &&
+	 { ac_try='test -z "$ac_c_werror_flag"
+			 || test ! -s conftest.err'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; } &&
+	 { ac_try='test -s conftest.$ac_objext'
+  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
+  (eval $ac_try) 2>&5
+  ac_status=$?
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); }; }; then
+  ac_header_compiler=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+ac_header_compiler=no
+fi
+rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
+echo "$as_me:$LINENO: result: $ac_header_compiler" >&5
+echo "${ECHO_T}$ac_header_compiler" >&6
+
+# Is the header present?
+echo "$as_me:$LINENO: checking libusb.h presence" >&5
+echo $ECHO_N "checking libusb.h presence... $ECHO_C" >&6
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+#include <libusb.h>
+_ACEOF
+if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
+  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } >/dev/null; then
+  if test -s conftest.err; then
+    ac_cpp_err=$ac_c_preproc_warn_flag
+    ac_cpp_err=$ac_cpp_err$ac_c_werror_flag
+  else
+    ac_cpp_err=
+  fi
+else
+  ac_cpp_err=yes
+fi
+if test -z "$ac_cpp_err"; then
+  ac_header_preproc=yes
+else
+  echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+  ac_header_preproc=no
+fi
+rm -f conftest.err conftest.$ac_ext
+echo "$as_me:$LINENO: result: $ac_header_preproc" >&5
+echo "${ECHO_T}$ac_header_preproc" >&6
+
+# So?  What about this header?
+case $ac_header_compiler:$ac_header_preproc:$ac_c_preproc_warn_flag in
+  yes:no: )
+    { echo "$as_me:$LINENO: WARNING: libusb.h: accepted by the compiler, rejected by the preprocessor!" >&5
+echo "$as_me: WARNING: libusb.h: accepted by the compiler, rejected by the preprocessor!" >&2;}
+    { echo "$as_me:$LINENO: WARNING: libusb.h: proceeding with the compiler's result" >&5
+echo "$as_me: WARNING: libusb.h: proceeding with the compiler's result" >&2;}
+    ac_header_preproc=yes
+    ;;
+  no:yes:* )
+    { echo "$as_me:$LINENO: WARNING: libusb.h: present but cannot be compiled" >&5
+echo "$as_me: WARNING: libusb.h: present but cannot be compiled" >&2;}
+    { echo "$as_me:$LINENO: WARNING: libusb.h:     check for missing prerequisite headers?" >&5
+echo "$as_me: WARNING: libusb.h:     check for missing prerequisite headers?" >&2;}
+    { echo "$as_me:$LINENO: WARNING: libusb.h: see the Autoconf documentation" >&5
+echo "$as_me: WARNING: libusb.h: see the Autoconf documentation" >&2;}
+    { echo "$as_me:$LINENO: WARNING: libusb.h:     section \"Present But Cannot Be Compiled\"" >&5
+echo "$as_me: WARNING: libusb.h:     section \"Present But Cannot Be Compiled\"" >&2;}
+    { echo "$as_me:$LINENO: WARNING: libusb.h: proceeding with the preprocessor's result" >&5
+echo "$as_me: WARNING: libusb.h: proceeding with the preprocessor's result" >&2;}
+    { echo "$as_me:$LINENO: WARNING: libusb.h: in the future, the compiler will take precedence" >&5
+echo "$as_me: WARNING: libusb.h: in the future, the compiler will take precedence" >&2;}
+    (
+      cat <<\_ASBOX
+## ------------------------------------------ ##
+## Report this to the AC_PACKAGE_NAME lists.  ##
+## ------------------------------------------ ##
+_ASBOX
+    ) |
+      sed "s/^/$as_me: WARNING:     /" >&2
+    ;;
+esac
+echo "$as_me:$LINENO: checking for libusb.h" >&5
+echo $ECHO_N "checking for libusb.h... $ECHO_C" >&6
+if test "${ac_cv_header_libusb_h+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  ac_cv_header_libusb_h=$ac_header_preproc
+fi
+echo "$as_me:$LINENO: result: $ac_cv_header_libusb_h" >&5
+echo "${ECHO_T}$ac_cv_header_libusb_h" >&6
+
+fi
+if test $ac_cv_header_libusb_h = yes; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAVE_LIBUSB_H 1
+_ACEOF
+
+                      usb_header=yes
+fi
+
+
+      if test x"$usb_header" = "xyes" ; then
+
+cat >>confdefs.h <<\_ACEOF
+#define HAS_USB_JOYSTICK
+_ACEOF
+
+        LIBS="$LIBS -lusb"
+      fi
+    fi
+  fi
 fi
 
 if test x"$is_unix_macosx" = "xyes" ; then

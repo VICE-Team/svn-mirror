@@ -1,3 +1,81 @@
+2007-03-17  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.1.
+
+	* c64/c64-resources.c: Changed keyboard index defines.
+
+2007-03-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/make-bindist.sh, arch/beos/make-bindist.sh,
+	arch/msdos/make-bindist.sh, arch/unix/gp2x/make-bindist.sh,
+	arch/unix/macosx/make-bindist.sh,
+	arch/unix/qnx/make-bindist.sh,
+	arch/unix/solaris/make-bindist.sh,
+	arch/win32/make-bindist.sh: Updated for riscos .vkm files.
+
+	* resid/Makefile.in: Added AR change that was already present
+	in Makefile.am.
+
+	* arch/riscos/Makefile.am, arch/riscos/binfiles/ReadMeRO,
+	arch/riscos/binfiles/ReadMeSnd, arch/riscos/binfiles/bplot,
+	arch/riscos/binfiles/c64boot, arch/riscos/binfiles/help,
+	arch/riscos/binfiles/messages, arch/riscos/binfiles/rsrcboot,
+	arch/riscos/binfiles/rsrcrun,
+	arch/riscos/binfiles/rsrcsprites,
+	arch/riscos/binfiles/runc64, arch/riscos/binfiles/runothers,
+	arch/riscos/binfiles/runvsid, arch/riscos/binfiles/templates,
+	arch/riscos/binfiles/vicesprites,
+	arch/riscos/binfiles/vsidsprites,
+	arch/riscos/binfiles/x128.vra, arch/riscos/binfiles/x128.vrs,
+	arch/riscos/binfiles/x128basic,
+	arch/riscos/binfiles/x128charg64,
+	arch/riscos/binfiles/x128sprites,
+	arch/riscos/binfiles/x128vicerc, arch/riscos/binfiles/x64.vra,
+	arch/riscos/binfiles/x64sprites,
+	arch/riscos/binfiles/x64vicerc,
+	arch/riscos/binfiles/xcbm2.vra,
+	arch/riscos/binfiles/xcbm2sprites,
+	arch/riscos/binfiles/xcbm2vicerc,
+	arch/riscos/binfiles/xpet.vra,
+	arch/riscos/binfiles/xpetsprites,
+	arch/riscos/binfiles/xpetvicerc,
+	arch/riscos/binfiles/xplus4sprites,
+	arch/riscos/binfiles/xplus4vicerc,
+	arch/riscos/binfiles/xvic.vra,
+	arch/riscos/binfiles/xvicsprites,
+	arch/riscos/binfiles/xvicvicerc,
+	arch/riscos/binfiles/xvsidvicerc,
+	arch/riscos/binfiles/z80bios: Added extra files needed for the
+	riscos binary distribution.
+
+	* arch/riscos/make-bindist.sh: Added binary distribution
+	generation script for the riscos port.
+
+2007-03-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/uiattach.c: Changed to use the libcall pragmas
+	for AmigaOS3.
+
+	* arch/beos/make-bindist.sh: Changed to generate distributions
+	with x86 instead of i586.
+
+	* arch/unix/joy_usb.c: Fixed to work with DragonFly and
+	alternative usb headers.
+
+	* vice.h: Change for ppc-beos to define inline to nothing only
+	for C (not C++) compiles.
+
+2007-03-10  Gunnar Ruthenberg  <Krill.Plush@gmail.com>
+
+        * drive/iecieee/via2d.c, arch/win32/ui.c,
+        arch/win32/statusbar.c: Fixed general drive LED pwm emulation
+        and the WIN32 frontend for it.
+
+2007-03-05  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/x11ui.c (x11ui_open_canvas_window):
+	Don't attach size-allocate hook in vsid mode.
+
 2007-03-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.

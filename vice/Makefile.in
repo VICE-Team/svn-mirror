@@ -766,6 +766,12 @@ xcbm2:
 @WIN32_COMPILE_TRUE@bindistzip:
 @WIN32_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
 
+@RISCOS_COMPILE_TRUE@bindist:
+@RISCOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip $(top_srcdir)
+
+@RISCOS_COMPILE_TRUE@bindistzip:
+@RISCOS_COMPILE_TRUE@	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip $(top_srcdir)
+
 cleantrans:
 	rm `find $(top_srcdir) -name "*.po.c"`
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

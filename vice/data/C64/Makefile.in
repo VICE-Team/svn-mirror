@@ -296,6 +296,7 @@ c64_DATA = \
 	os2.vkm \
 	os2_sym.vkm \
 	pc64.vpl \
+	ROdflt.vkm \
 	vice.vpl \
 	win_sym_de.vkm \
 	win_sym_us.vkm \

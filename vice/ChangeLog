@@ -1,3 +1,39 @@
+2007-03-17  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.1.
+
+	* configure.in: Define `UNSTABLE'.
+	Added missing `; then' operator to usb joystick detection.
+
+	* doc/html/Makefile.am: Added `macosx.html'.
+
+2007-03-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* AUTHORS: Added Christian to the list.
+
+	* Makefile.am: Added 'make bindist(zip)' functionality for the
+	riscos port.
+
+	* build/Makefile.am, build/riscos/build-cross.sh: Added riscos
+	cross compiler based build script.
+
+	* data/C128/Makefile.am, data/C128/ROdflt.vkm,
+	data/C64/Makefile.am, data/C64/ROdflt.vkm,
+	data/CBM-II/Makefile.am, data/CBM-II/ROdflt.vkm,
+	data/PET/Makefile.am, data/PET/RObusi.vkm,
+	data/PET/ROgrph.vkm, data/PLUS4/Makefile.am,
+	data/PLUS4/ROdflt.vkm, data/VIC20/Makefile.am,
+	data/VIC20/ROdflt.vkm: Added riscos specific .vkm files.
+
+2007-03-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* build/amigaos/build-vbcc.sh: Changed the names of the WarpOS
+	and PowerUP binary distributions.
+
+	* build/beos/ppc-build.sh: Fixed a typo.
+
+	* configure.in: Added extra usb lib/header checks.
+
 2007-03-04  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.

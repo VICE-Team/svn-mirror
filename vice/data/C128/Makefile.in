@@ -306,6 +306,7 @@ c128_DATA = \
 	kernalse \
 	pc64.vpl \
 	os2.vkm \
+	ROdflt.vkm \
 	vdc_deft.vpl \
 	vice.vpl \
 	win_sym.vkm \

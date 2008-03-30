@@ -45,8 +45,8 @@
 
 
 #define KBD_INDEX_C64_SYM   0
-#define KBD_INDEX_C64_SYMDE 1
-#define KBD_INDEX_C64_POS   2
+#define KBD_INDEX_C64_POS   1
+#define KBD_INDEX_C64_SYMDE 2
 
 
 static int romset_firmware[3];

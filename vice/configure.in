@@ -9,13 +9,13 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=21
-VICE_VERSION_BUILD=0
+VICE_VERSION_BUILD=1
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
 AC_SUBST(VICE_VERSION_BUILD)
 
-dnl AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
+AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
 
 if test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0" ; then
   VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR
@@ -741,19 +741,40 @@ if test x"$is_unix_x11" = "xyes" ; then
 
   dnl NetBSD/FreeBSD USB joystick support
   usbhid_header=no
-  AC_CHECK_LIB(usbhid, hid_get_report_desc,
-        [AC_CHECK_HEADER(usbhid.h,
-            [AC_DEFINE(HAVE_USBHID_H,1,
-                [Define to 1 if you have the <usbhid.h> header file.])
-             usb_header=yes],
-             [AC_CHECK_HEADER(libusbhid.h,
-                [AC_DEFINE(HAVE_LIBUSBHID_H,1,
-                 [Define to 1 if you have the <libusbhid.h> header file.])],
-                usbhid_header=no)])
-        if test x"$usb_header" = "xyes" ; then
-            AC_DEFINE(HAS_USB_JOYSTICK,,[Enable emulation for USB joysticks.])
-            LIBS="$LIBS -lusbhid"
-        fi])
+  usbhid_lib=no
+  usb_lib=no
+  AC_CHECK_LIB(usbhid, hid_get_report_desc, usbhid_lib=yes)
+  if test x"$usbhid_lib" = "xyes" ; then
+    AC_CHECK_HEADER(usbhid.h,
+                    [AC_DEFINE(HAVE_USBHID_H,1,
+                      [Define to 1 if you have the <usbhid.h> header file.])
+                    usb_header=yes])
+    AC_CHECK_HEADER(libusbhid.h,
+                    [AC_DEFINE(HAVE_LIBUSBHID_H,1,
+                      [Define to 1 if you have the <libusbhid.h> header file.])
+                    usb_header=yes])
+ 
+    if test x"$usb_header" = "xyes" ; then
+      AC_DEFINE(HAS_USB_JOYSTICK,,[Enable emulation for USB joysticks.])
+      LIBS="$LIBS -lusbhid"
+    fi
+  else
+    AC_CHECK_LIB(usb, hid_get_report_desc, usb_lib=yes)
+    if test x"$usb_lib" = "xyes"; then
+      AC_CHECK_HEADER(usb.h,
+                      [AC_DEFINE(HAVE_USB_H,1,
+                        [Define to 1 if you have the <usb.h> header file.])
+                      usb_header=yes])
+      AC_CHECK_HEADER(libusb.h,
+                      [AC_DEFINE(HAVE_LIBUSB_H,1,
+                        [Define to 1 if you have the <libusb.h> header file.])
+                      usb_header=yes])
+      if test x"$usb_header" = "xyes" ; then
+        AC_DEFINE(HAS_USB_JOYSTICK,,[Enable emulation for USB joysticks.])
+        LIBS="$LIBS -lusb"
+      fi
+    fi
+  fi
 fi
 
 if test x"$is_unix_macosx" = "xyes" ; then

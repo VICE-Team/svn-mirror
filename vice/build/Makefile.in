@@ -277,7 +277,8 @@ EXTRA_DIST = \
 	macosx/build-readline.sh \
 	macosx/build-vice-dist.sh \
 	minix3/build.sh \
-	minix3/build-package.sh
+	minix3/build-package.sh \
+	riscos/build-cross.sh
 
 all: all-am
 
@@ -320,7 +321,7 @@ CTAGS:
 
 
 distdir: $(DISTFILES)
-	$(mkdir_p) $(distdir)/amigaos $(distdir)/beos $(distdir)/macosx $(distdir)/mingw32 $(distdir)/minix3
+	$(mkdir_p) $(distdir)/amigaos $(distdir)/beos $(distdir)/macosx $(distdir)/mingw32 $(distdir)/minix3 $(distdir)/riscos
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
