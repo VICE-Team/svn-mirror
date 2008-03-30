@@ -61,6 +61,7 @@
 #include "mon.h"
 #include "patchrom.h"
 #include "reu.h"
+#include "screenshot.h"
 #include "serial.h"
 #include "sid.h"
 #include "snapshot.h"
@@ -546,3 +547,13 @@ int machine_autodetect_psid(const char *name)
 void machine_play_psid(int tune)
 {
 }
+
+int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
+{
+  if (wn == 0)
+      return vic_ii_screenshot(screenshot);
+  if (wn == 1)
+      return vdc_screenshot(screenshot);
+  return -1;
+}
+

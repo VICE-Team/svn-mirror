@@ -62,6 +62,7 @@
 #include "psid.h"
 #include "resources.h"
 #include "reu.h"
+#include "screenshot.h"
 #include "serial.h"
 #include "sid.h"
 #include "snapshot.h"
@@ -206,7 +207,7 @@ int machine_init_resources(void)
         )
         return -1;
 
-    if (psid_mode && psid_init_resources() < 0)
+    if (vsid_mode && psid_init_resources() < 0)
         return -1;
 
     return 0;
@@ -215,7 +216,7 @@ int machine_init_resources(void)
 /* C64-specific command-line option initialization.  */
 int machine_init_cmdline_options(void)
 {
-    if (psid_mode) {
+    if (vsid_mode) {
         if (sound_init_cmdline_options() < 0
 	    || sid_init_cmdline_options() < 0
 	    || psid_init_cmdline_options() < 0
@@ -249,7 +250,6 @@ int machine_init_cmdline_options(void)
         || drive_init_cmdline_options() < 0
         || datasette_init_cmdline_options() < 0
         || cartridge_init_cmdline_options() < 0
-        || psid_init_cmdline_options() < 0
 	)
         return -1;
 
@@ -264,7 +264,7 @@ int machine_init(void)
 
     maincpu_init();
 
-    if (psid_mode) {
+    if (vsid_mode) {
 	mem_powerup();
 
 	psid_init_driver();
@@ -411,7 +411,7 @@ void machine_reset(void)
     cia2_reset();
     sid_reset();
 
-    if (psid_mode) {
+    if (vsid_mode) {
         vic_ii_reset();
 
         psid_init_driver();
@@ -452,16 +452,12 @@ void machine_powerup(void)
 void machine_shutdown(void)
 {
     /* Detach all disks.  */
-    if (!psid_mode) {
+    if (!vsid_mode) {
         file_system_detach_disk(-1);
     }
 
     /* and the tape */
     tape_detach_image();
-
-    if (!console_mode && psid_mode) {
-        vsid_ui_exit();
-    }
 
     console_close_all();
 }
@@ -478,7 +474,7 @@ static void vsync_hook(void)
 {
     CLOCK sub;
 
-    if (psid_mode) {
+    if (vsid_mode) {
         clk_guard_prevent_overflow(&maincpu_clk_guard);
 	return;
     }
@@ -627,3 +623,11 @@ void machine_play_psid(int tune)
 {
   psid_set_tune(tune);
 }
+
+int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
+{
+  if (wn == 0)
+      return vic_ii_screenshot(screenshot);
+  return -1;
+}
+

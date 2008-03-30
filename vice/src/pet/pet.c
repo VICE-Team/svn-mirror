@@ -61,6 +61,7 @@
 #include "petacia.h"
 #include "petpia.h"
 #include "resources.h"
+#include "screenshot.h"
 #include "serial.h"
 #include "snapshot.h"
 #include "sound.h"
@@ -542,4 +543,10 @@ void pet_crtc_set_screen(void)
     }
 }
 
+int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
+{
+  if (wn == 0)
+      return crtc_screenshot(screenshot);
+  return -1;
+}
 

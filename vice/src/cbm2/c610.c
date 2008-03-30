@@ -57,6 +57,7 @@
 #include "mem.h"
 #include "mon.h"
 #include "resources.h"
+#include "screenshot.h"
 #include "serial.h"
 #include "sid.h"
 #include "sound.h"
@@ -447,5 +448,12 @@ int machine_autodetect_psid(const char *name)
 
 void machine_play_psid(int tune)
 {
+}
+
+int machine_screenshot(screenshot_t *screenshot, unsigned int wn)
+{
+  if (wn == 0)
+      return crtc_screenshot(screenshot);
+  return -1;
 }
 
