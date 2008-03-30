@@ -280,6 +280,7 @@ extern int vdrive_bam_alloc_next_free_sector(DRIVE *floppy, BYTE *bam,
 extern int vdrive_bam_allocate_sector(int type, BYTE *bam, int track,
                                       int sector);
 extern int vdrive_bam_free_sector(int type, BYTE *bam, int track, int sector);
+extern int vdrive_bam_read_bam(DRIVE *floppy);
 extern int vdrive_bam_write_bam(DRIVE *floppy);
 
 /* Directory related functions.  */

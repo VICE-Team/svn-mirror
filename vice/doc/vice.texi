@@ -4229,6 +4229,8 @@ feeling;
 
 Every VICE emulator has a built-in snapshot feature, that saves the
 complete emulator state into one file for later use.
+You can therefore save the emulator state - including the state of
+the game you are playing for example - in a single file. 
 
 @menu
 * Snapshot usage::              
@@ -4246,31 +4248,18 @@ status.
 
 A snapshot file can be used to restore the emulator state by selecting
 the @code{load snapshot} menu entry at any time.
+Unfortunately attached ROM images/cartridges are only supported in the VIC20,
+the PET and the CBM-II emulators at this time.
 
-@b{Warning}: The complete state is saved, but the following things have to
-be considered:
-
-@itemize @bullet
-@item The ROMs if they are not saved in the snapshot. 
-This can pose problems when restoring the state of a
-PET 3032 into a PET 4032 for example.  Also attached cartridges are not
-saved.  I.e. you have to attach them before restoring a snapshot of a run
-of such a cartridge.  However, saving the ROMs in the snapshot
-fixes this behaviour.
-
-@item The memory configuration.
-The VIC20, PET and CBM-II emulators do
-have some memory expansion info.  This is saved and restored when the
-snapshot is loaded.
-
-@end itemize
+The memory configuration of the emulator is saved in the snapshot file as
+well. This configuration is restored when the snapshot is loaded.
 
 @node Snapshot format,  , Snapshot usage, Snapshots
 @section Snapshot format
 
-A snapshot file consists of several modules, and each module has a name.
-A module saves the state of an entity like a CIA, the CPU, or the
-memory.
+A snapshot file consists of several modules of mostly different types.
+Each module has a name and saves the state of an entity like a CIA, the CPU, 
+or the memory.
 
 @menu
 * Emulator modules::            
@@ -4307,6 +4296,9 @@ The modules in the x64 emulator are:
 @item C64MEM
 @tab Memory
 @tab Holds the RAM contents of the C64.  Also the CPU I/O register contents are saved here.
+@item C64ROM
+@tab ROM images
+@tab Dump of the system ROMs
 @item VIC-II
 @tab 656*
 @tab The VIC-II of the C64/128
@@ -4318,7 +4310,7 @@ The modules in the x64 emulator are:
 @tab The CIA for the userport, IEC-bus and RS232.
 @item SID
 @tab 6581
-@tab The SID sound chip of the C64
+@tab The SID sound chip of the C64/C128
 @item REU*
 @tab
 @tab The RAM Extension Unit state (optional)
@@ -4340,8 +4332,55 @@ the state the optional features are enabled, and disabled otherwise.
 @node x128 modules, xvic modules, x64 modules, Emulator modules
 @subsubsection x128 modules
 
+The modules in the x128 emulator are:
+
+@multitable @columnfractions .1 .4 .5
+@item Name
+@tab Type
+@tab Description
+@item MAINCPU
+@tab 6502
+@tab The Main CPU - although it is a 6510, only the 6502 core is saved here
+@item C128MEM
+@tab Memory
+@tab Holds the RAM contents of the C64.  Also the CPU I/O register contents are saved here.
+@item C128ROM
+@tab ROM images
+@tab Dump of the system ROMs
+@item VIC-II
+@tab 656*
+@tab The VIC-II of the C64/128
+@item CIA1
+@tab 6526
+@tab The CIA for the interrupts and the keyboard
+@item CIA2
+@tab 6526
+@tab The CIA for the userport, IEC-bus and RS232.
+@item SID
+@tab 6581
+@tab The SID sound chip of the C64/C128
+@item ACIA1
+@tab 6551
+@tab An ACIA at $DE00 (optional)
+@item TPI
+@tab 6525
+@tab A TPI at $DF00 for a parallel IEEE488 interface (optional)
+@item *
+@tab Drive modules
+@tab The emulated drive(s) have their own modules @pxref{Drive modules}
+@end multitable
+
+Some of the modules are optional and are only saved if the specific
+feature is enabled at save-time.  If the module is found when restoring
+the state the optional features are enabled, and disabled otherwise.
+
+Not yet supported are the 80 column video chip, cartridges and 
+RAM expansion unit.
+
 @node xvic modules, xpet modules, x128 modules, Emulator modules
 @subsubsection xvic modules
+
+The modules in the xvic emulator are:
 
 @multitable @columnfractions .1 .4 .5
 @item Name
@@ -4373,6 +4412,8 @@ the state the optional features are enabled, and disabled otherwise.
 @node xpet modules, xcbm2 modules, xvic modules, Emulator modules
 @subsubsection xpet modules
 
+The modules in the xpet emulator are:
+
 @multitable @columnfractions .1 .4 .5
 @item Name
 @tab Type
@@ -4388,8 +4429,7 @@ the state the optional features are enabled, and disabled otherwise.
 @tab Holds the ROM images of the PET, including possibly attached cartridges
 @item CRTC
 @tab 6545
-@tab The CRTC of the PET.  This can even be included if it is a dump
-of a PET without CRTC.
+@tab The CRTC of the PET.  This can even be included if it is a dump of a PET without CRTC.
 @item PIA1
 @tab 6520
 @tab The PIA for the interrupts, tape and the keyboard
@@ -4894,6 +4934,8 @@ Version numbers: Major 1, Minor 0.
 @node SID 6581 module, ACIA 6551 module, TPI 6525 module, Module formats
 @subsubsection SID module
 
+TODO
+
 @node ACIA 6551 module, VIC-I module, SID 6581 module, Module formats
 @subsubsection ACIA module
 
@@ -4936,14 +4978,18 @@ Version numbers: Major 1, Minor 0.
 @node VIC-I module, VIC-II module, ACIA 6551 module, Module formats
 @subsubsection VIC-I module
 
+TODO 
+
 @node VIC-II module, CRTC module, VIC-I module, Module formats
 @subsubsection VIC-II module
+
+TODO 
 
 @node CRTC module, C64 memory module, VIC-II module, Module formats
 @subsubsection CRTC module
 
 @b{Warning:} This module is still under construction.  Especially the
-RASTERLINE value might be bogus.
+RASTERY and RASTERLINE values might be bogus.
 
 @multitable @columnfractions .1 .4 .5
 @item Type
@@ -4963,29 +5009,125 @@ RASTERLINE value might be bogus.
 @tab Bit 0: 1= hardware cursor available.  Bit 1: 1= number of columns is doubled by external hardware
 @item 20 BYTE
 @tab REGISTERS
-@tab register DUMP of the CRTC registers.
+@tab register DUMP of the CRTC registers 0-19.
 @item BYTE
 @tab CRSRSTATE
-@tab Hardware cursor: Bits 0-3: frame counter till next crsr line
-toggle.  Bit 7: 1= cursor line active
+@tab Hardware cursor: Bits 0-3: frame counter till next crsr line toggle. Bit 7: 1= cursor line active
 @end multitable
 
 @node C64 memory module, C128 memory module, CRTC module, Module formats
 @subsubsection C64 memory module
 
+The C64 memory module actually consists of two modules.  The "C128MEM" module
+is mandatory and contains the RAM dump.  The "C64ROM" module is optional
+and contains a dump of the ROM images.
+
+The size of the C64 memory modules differs with each different memory
+configuration. The RAM configuration is saved in the snapshot, and
+restored when the snapshot is loaded. The attached cartridges are
+@b{not yet(!)} saved and not yet restored upon load.
+
+Version numbers: Major 0, Minor 0
+
+@b{The C64MEM module}
+
+@multitable @columnfractions .1 .4 .5
+@item Type
+@tab Name
+@tab Description
+@item BYTE
+@tab CPUDATA
+@tab CPU port data byte
+@item BYTE
+@tab CPUDIR
+@tab CPU port direction byte
+@item BYTE
+@tab EXROM
+@tab state of the EXROM line (?)
+@item BYTE
+@tab GAME
+@tab state of the GAME line (?)
+@item ARRAY
+@tab RAM
+@tab 64k RAM dump
+@end multitable
+
+@b{The C64ROM module}
+
+@multitable @columnfractions .1 .4 .5
+@item Type
+@tab Name
+@tab Description
+@item ARRAY
+@tab KERNAL
+@tab 8k dump of the kernal ROM
+@item ARRAY
+@tab BASIC
+@tab 8k dump of the basic ROM
+@item ARRAY
+@tab CHARGEN
+@tab 4k dump of the chargen ROM
+@end multitable
+
 @node C128 memory module, VIC20 memory module, C64 memory module, Module formats
 @subsubsection C128 memory module
+
+The C128 memory module actually consists of two modules.  The "C128MEM" module
+is mandatory and contains the RAM dump.  The "C128ROM" module is optional
+and contains a dump of the ROM images.
+
+The size of the C128 memory modules differs with each different memory
+configuration. The RAM configuration is saved in the snapshot, and
+restored when the snapshot is loaded. The attached cartridges are
+also restored upon load if they have been saved in the snapshot.
+
+Version numbers: Major 0, Minor 0
+
+@b{The C128MEM module}
+
+@multitable @columnfractions .1 .4 .5
+@item Type
+@tab Name
+@tab Description
+@item 12 BYTE
+@tab MMU
+@tab dump of the 12 MMU registers
+@item ARRAY
+@tab RAM
+@tab 128k RAM dump banks 0 and 1
+@end multitable
+
+@b{The C128ROM module}
+
+@multitable @columnfractions .1 .4 .5
+@item Type
+@tab Name
+@tab Description
+@item ARRAY
+@tab KERNAL
+@tab 8k dump of the kernal ROM
+@item ARRAY
+@tab BASIC
+@tab 32k dump of the basic ROM
+@item ARRAY
+@tab EDITOR
+@tab 4k dump of the editor ROM
+@item ARRAY
+@tab 4k CHARGEN
+@tab dump of the chargen ROM
+@end multitable
 
 @node VIC20 memory module, PET memory module, C128 memory module, Module formats
 @subsubsection VIC20 memory module
 
-The size of the VIC20 memory module differs with each different memory
-configuration.  The RAM configuration is saved in the snapshot, and
-restored when the snapshot is loaded.
+The VIC20 memory module actually consists of two modules.  The "VIC20MEM" module
+is mandatory and contains the RAM dump.  The "VIC20ROM" module is optional
+and contains a dump of the ROM images.
 
 The size of the VIC20 memory modules differs with each different memory
-configuration.  The RAM configuration is saved in the snapshot, and
-restored when the snapshot is loaded.
+configuration. The RAM configuration is saved in the snapshot, and
+restored when the snapshot is loaded. The attached cartridges are
+also restored upon load if they have been saved in the snapshot.
 
 Version numbers: Major 1, Minor 0
 
