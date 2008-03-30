@@ -47,6 +47,8 @@
 
 /* ------------------------------------------------------------------------- */
 
+#define TRACE
+
 /* MACHINE_STUFF should define/undef
 
  - NEED_REG_PC
