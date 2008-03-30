@@ -40,6 +40,7 @@
 #include "c64cia.h"
 #include "c64tpi.h"
 #include "cmdline.h"
+#include "datasette.h"
 #include "emuid.h"
 #include "log.h"
 #include "maincpu.h"
@@ -322,9 +323,6 @@ BYTE *ram_bank;
 /* Shared memory.  */
 static ADDRESS top_shared_limit, bottom_shared_limit;
 
-/* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
-static int tape_sense = 0;
-
 /* Pointers to pages 0 and 1 (which can be physically placed anywhere).  */
 BYTE *page_zero, *page_one;
 
@@ -350,6 +348,11 @@ static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
 static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 
+/* Processor port.  */
+static struct {
+    BYTE dir, data, data_out;
+} pport;
+
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
 
@@ -362,6 +365,15 @@ int roml_bank, romh_bank, export_ram;
 
 /* Flag: Ultimax (VIC-10) memory configuration enabled.  */
 int ultimax = 0;
+
+/* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
+static int tape_sense = 0;
+
+/* Tape motor status.  */
+static BYTE old_port_data_out = 0xff;
+
+/* Tape write line status.  */
+static BYTE old_port_write_bit = 0xff;
 
 /* Logging goes here.  */
 static log_t c128_mem_log = LOG_ERR;
@@ -426,6 +438,32 @@ void mem_set_ram_config(BYTE value)
         bottom_shared_limit = 0;
         DEBUG_PRINT(("MMU: No low shared RAM\n"));
     }
+}
+
+static void pla_config_changed(void)
+{
+    pport.data_out = (pport.data_out & ~pport.dir)
+                     | (pport.data & pport.dir);
+
+    ram[1] = ((pport.data | ~pport.dir) & (pport.data_out | 0x17));
+
+    if (!(pport.dir & 0x20))
+      ram[1] &= 0xdf;
+
+    if (tape_sense && !(pport.dir & 0x10))
+      ram[1] &= 0xef;
+
+    if (((pport.dir & pport.data) & 0x20) != old_port_data_out) {
+        old_port_data_out = (pport.dir & pport.data) & 0x20;
+        datasette_set_motor(!old_port_data_out);
+    }
+
+    if (((~pport.dir | pport.data) & 0x8) != old_port_write_bit) {
+        old_port_write_bit = (~pport.dir | pport.data) & 0x8;
+        datasette_toggle_write_bit((~pport.dir | pport.data) & 0x8);
+    }
+
+    ram[0] = pport.dir;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -554,7 +592,24 @@ BYTE REGPARM1 read_zero(ADDRESS addr)
 
 void REGPARM2 store_zero(ADDRESS addr, BYTE value)
 {
-    page_zero[addr] = value;
+    addr &= 0xff;
+
+    switch ((BYTE) addr) {
+      case 0:
+        if (pport.dir != value) {
+            pport.dir = value;
+            pla_config_changed();
+        }
+        break;
+      case 1:
+        if (pport.data != value) {
+            pport.data = value;
+            pla_config_changed();
+        }
+        break;
+      default:
+        page_zero[addr] = value;
+    }
 }
 
 static BYTE REGPARM1 read_one(ADDRESS addr)
@@ -1181,6 +1236,9 @@ void initialize_memory(void)
     _mem_write_tab_ptr = mem_write_tab[7];
     _mem_read_base_tab_ptr = mem_read_base_tab[7];
     mem_read_limit_tab_ptr = mem_read_limit_tab[7];
+
+    pport.data = 0x37;
+    pport.dir = 0x2f;
 }
 
 #ifdef _MSC_VER
@@ -1366,6 +1424,7 @@ void mem_toggle_watchpoints(int flag)
 void mem_set_tape_sense(int sense)
 {
     tape_sense = sense;
+    pla_config_changed();
 }
 
 /* Enable/disable the REU.  FIXME: should initialize the REU if necessary?  */
