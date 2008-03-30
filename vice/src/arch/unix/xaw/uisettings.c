@@ -1,5 +1,5 @@
 /*
- * settings.c - Implementation of common UI settings.
+ * uisettings.c - Implementation of common UI settings.
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
@@ -41,6 +41,11 @@
 
 /* ------------------------------------------------------------------------- */
 
+/* Big kludge to get the ticks right in the refresh rate submenu.  This only
+   works if the callback for the "custom" setting is the last one to be
+   called, and the "Auto" one is the first one.  */
+static int have_custom_refresh_rate;
+
 static UI_CALLBACK(set_refresh_rate)
 {
     int current_refresh_rate;
@@ -53,7 +58,14 @@ static UI_CALLBACK(set_refresh_rate)
 	    ui_update_menus();
 	}
     } else {
-	ui_menu_set_tick(w, current_refresh_rate == (int)client_data);
+        if ((int)client_data == 0)
+            have_custom_refresh_rate = 1;
+        if ((int)client_data == current_refresh_rate) {
+            ui_menu_set_tick(w, 1);
+            have_custom_refresh_rate = 0;
+        } else {
+            ui_menu_set_tick(w, 0);
+        }
 	if (client_data == 0) {
             int speed;
 
@@ -75,7 +87,6 @@ static UI_CALLBACK(set_custom_refresh_rate)
     char msg_string[256];
     ui_button_t button;
     int i, found;
-    /* ui_menu_entry_t *m = &SetRefreshRateSubmenu[0]; */
     int current_refresh_rate;
 
     resources_get_value("RefreshRate",
@@ -85,13 +96,11 @@ static UI_CALLBACK(set_custom_refresh_rate)
 	sprintf(input_string, "%d", current_refresh_rate);
 
     if (call_data) {
-#if 0
-	for (found = i = 0; m[i].callback == set_refresh_rate; i++) {
-	    if (current_refresh_rate == (int)m[i].callback_data)
-		found++;
-	}
-	ui_menu_set_tick(w, !found);
-#endif
+        if (have_custom_refresh_rate)
+            ui_menu_set_tick(w, 1);
+        else
+            ui_menu_set_tick(w, 0);
+        have_custom_refresh_rate = 0;
     } else {
         int current_speed;
 
@@ -110,6 +119,13 @@ static UI_CALLBACK(set_custom_refresh_rate)
     }
 }
 
+/* ------------------------------------------------------------------------- */
+
+/* Big kludge to get the ticks right in the maximum speed submenu.  This only
+   works if the callback for the "custom" setting is the last one to be
+   called, and the "100%" one is the first one.  */
+static int have_custom_maximum_speed;
+
 static UI_CALLBACK(set_maximum_speed)
 {
     int current_speed;
@@ -118,11 +134,18 @@ static UI_CALLBACK(set_maximum_speed)
 
     if (!call_data) {
 	if (current_speed != (int)client_data) {
-	    current_speed = (int)client_data;
+            resources_set_value("Speed", (resource_value_t) client_data);
 	    ui_update_menus();
 	}
     } else {
-	ui_menu_set_tick(w, current_speed == (int) client_data);
+        if ((int) client_data == 100)
+            have_custom_maximum_speed = 1;
+        if (current_speed == (int) client_data) {
+            ui_menu_set_tick(w, 1);
+            have_custom_maximum_speed = 0;
+        } else {
+            ui_menu_set_tick(w, 0);
+        }
 	if (client_data == 0) {
             int current_refresh_rate;
 
@@ -139,7 +162,6 @@ static UI_CALLBACK(set_custom_maximum_speed)
     char msg_string[256];
     ui_button_t button;
     int i, found;
-    /* ui_menu_entry_t *m = &SetMaximumSpeedSubmenu[0]; */
     int current_speed;
 
     resources_get_value("Speed", (resource_value_t *) &current_speed);
@@ -147,13 +169,11 @@ static UI_CALLBACK(set_custom_maximum_speed)
 	sprintf(input_string, "%d", current_speed);
 
     if (call_data) {
-#if 0
-	for (found = i = 0; m[i].callback == set_maximum_speed; i++) {
-	    if (current_speed == (int)m[i].callback_data)
-		found++;
-	}
-	ui_menu_set_tick(w, !found);
-#endif
+        if (have_custom_maximum_speed)
+            ui_menu_set_tick(w, 1);
+        else
+            ui_menu_set_tick(w, 0);
+        have_custom_maximum_speed = 0;
     } else {
 	suspend_speed_eval();
 	sprintf(msg_string, "Enter speed");
@@ -174,6 +194,8 @@ static UI_CALLBACK(set_custom_maximum_speed)
 	}
     }
 }
+
+/* ------------------------------------------------------------------------- */
 
 static UI_CALLBACK(save_resources)
 {
@@ -221,17 +243,17 @@ UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
 UI_MENU_DEFINE_TOGGLE(WarpMode)
 
 #if 0
-static UI_CALLBACK(UiSetKeymap)
+static UI_CALLBACK(set_keymap)
 {
     kbd_load_keymap((char*)client_data);
 }
 
-static UI_CALLBACK(UiLoadKeymap)
+static UI_CALLBACK(load_keymap)
 {
     kbd_load_keymap((char*)client_data);
 }
 
-static UI_CALLBACK(UiLoadUserKeymap)
+static UI_CALLBACK(load_user_keymap)
 {
     char *filename;
     ui_button_t button;
@@ -611,7 +633,7 @@ ui_menu_entry_t ui_performance_settings_menu[] = {
     { "Maximum speed",
       NULL, NULL, set_maximum_speed_submenu },
     { "*Enable warp mode",
-      (ui_callback_t) toggle_WarpMode, NULL, NULL },
+      (ui_callback_t) toggle_WarpMode, NULL, NULL, XK_F9, UI_HOTMOD_META },
     { NULL }
 };
 
