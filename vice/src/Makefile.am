@@ -209,7 +209,7 @@ vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = $(rs232_printer_ldadd) @ALLOCA@ @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
+common_libs = $(rs232_printer_ldadd) @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
 
 bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
 

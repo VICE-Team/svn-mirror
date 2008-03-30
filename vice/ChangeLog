@@ -1,3 +1,10 @@
+2000-07-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.3.
+
+	* configure.in: `libx11ui.a' has to be in `ARCH_LIBS' twice.
+	Do not check for `alloca' anymore.
+
 2000-07-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.2.
