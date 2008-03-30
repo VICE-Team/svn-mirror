@@ -393,8 +393,9 @@ console.o: console.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/console.h ../../../src/utils.h types.h
 coproc.o: coproc.c coproc.h ../../../src/log.h
 joy.o: joy.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/cmdline.h joy.h ../../../src/keyboard.h types.h \
-	../../../src/log.h ../../../src/resources.h
+	../../../src/cmdline.h joy.h ../../../src/joystick.h types.h \
+	../../../src/keyboard.h ../../../src/log.h \
+	../../../src/resources.h
 mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/keyboard.h types.h mouse.h \
 	../../../src/log.h ../../../src/resources.h ui.h \
