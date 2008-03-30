@@ -28,6 +28,8 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+
 #include "raster-cache.h"
 #include "raster-modes.h"
 #include "types.h"
@@ -229,7 +231,7 @@ static void draw_std_text(void)
     char_ptr = vdc.ram + vdc.chargen_adr
                + (vdc.raster.ycounter / vdc.raster_ycounter_divide);
 
-    for (i = 0; i < vdc.screen_text_cols; i++, p+= 8) {
+    for (i = 0; i < vdc.screen_text_cols; i++, p += 8) {
         PIXEL4 *ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
 
         int d = *(char_ptr
@@ -291,7 +293,7 @@ static int get_std_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
 static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
 {
     PIXEL *p;
-    PIXEL4 *table_ptr;
+    PIXEL4 *table_ptr, *ptr;
 
     unsigned int i;
 
@@ -304,7 +306,6 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
 
     if (vdc.regs[25] & 0x40) {
         for (i = xs; i <= xe; i++, p += 8) {
-            PIXEL4 *ptr;
             int d = cache->foreground_data[i];
 
             table_ptr = hr_table + (cache->color_data_1[i] & 0xf0);
@@ -317,8 +318,9 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
         table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
         for (i = xs; i <= xe; i++, p += 8) {
-            PIXEL4 *ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
             int d = cache->foreground_data[i];
+
+            ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
 
             *((PIXEL4 *)p) = *(ptr + (d >> 4));
             *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));

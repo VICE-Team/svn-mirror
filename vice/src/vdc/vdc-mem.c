@@ -285,8 +285,13 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
                                 ? VDC_BITMAP_MODE : VDC_TEXT_MODE;
 
         if ((vdc.regs[25] & 7) != vdc.xsmooth) {
+#ifdef ALLOW_UNALIGNED_ACCESS
             vdc.xsmooth = vdc.regs[25] & 7;
             vdc.raster.xsmooth = vdc.xsmooth;
+#else
+            vdc.xsmooth = 0;
+            vdc.raster.xsmooth = 0;
+#endif
         }
 #ifdef REG_DEBUG
         log_message(vdc.log, "Video mode: %s.",

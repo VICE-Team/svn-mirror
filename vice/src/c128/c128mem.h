@@ -72,11 +72,6 @@ extern void REGPARM2 top_shared_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 d7xx_read(ADDRESS addr);
 extern void REGPARM2 d7xx_store(ADDRESS addr, BYTE value);
 
-extern void REGPARM2 io1_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 io1_read(ADDRESS addr);
-extern void REGPARM2 io2_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 io2_read(ADDRESS addr);
-
 extern BYTE REGPARM1 lo_read(ADDRESS addr);
 extern void REGPARM2 lo_store(ADDRESS addr, BYTE value);
 

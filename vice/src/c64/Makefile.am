@@ -1,3 +1,5 @@
+SUBDIRS = cart
+
 if HAVE_RS232
 acia_libadd = c64acia1.o c64rsuser.o
 else
@@ -23,14 +25,14 @@ libc64_a_SOURCES = \
 	c64.c \
 	c64.h \
 	c64cart.h \
-	c64cartridge.c \
-	c64cartmem.c \
 	c64cia.h \
 	c64cia1.c \
 	c64cia2.c \
 	c64datasette.c \
 	c64iec.c \
 	c64iec.h \
+	c64io.c \
+	c64io.h \
 	c64mem.c \
 	c64mem.h \
 	c64memlimit.c \
@@ -49,8 +51,6 @@ libc64_a_SOURCES = \
 
 libc64c128_a_SOURCES = \
 	c64cart.h \
-	c64cartridge.c \
-	c64cartmem.c \
 	c64cia.h \
 	c64cia2.c \
 	c64datasette.c \
@@ -85,3 +85,8 @@ SUFFIXES = .a65
 %.h : %.a65
 	xa -R -G $< -o $(srcdir)/$*.o65
 	od -v -An -w8 -tx1 $(srcdir)/$*.o65 | sed 's/\w\w/0x&,/g' > $(srcdir)/$@
+
+.PHONY: cart
+cart:
+	(cd cart; $(MAKE))
+

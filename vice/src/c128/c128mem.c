@@ -35,6 +35,7 @@
 #include <string.h>
 
 #include "c128-resources.h"
+#include "c128io.h"
 #include "c128mem.h"
 #include "c128memlimit.h"
 #include "c128mmu.h"
@@ -600,59 +601,6 @@ BYTE REGPARM1 top_shared_read(ADDRESS addr)
 void REGPARM2 top_shared_store(ADDRESS addr, BYTE value)
 {
     STORE_TOP_SHARED(addr, value);
-}
-
-/* ------------------------------------------------------------------------- */
-/* those are approximate copies from the c64 versions....
- * they leave out the cartridge support
- */
-
-void REGPARM2 io1_store(ADDRESS addr, BYTE value)
-{
-    if (sid_stereo)
-        return sid2_store(addr, value);
-#ifdef HAVE_RS232
-        if (acia_de_enabled)
-            acia1_store(addr & 0x03, value);
-#endif
-    return;
-}
-
-BYTE REGPARM1 io1_read(ADDRESS addr)
-{
-    if (sid_stereo)
-        return sid2_read(addr);
-#ifdef HAVE_RS232
-        if (acia_de_enabled)
-            return acia1_read(addr & 0x03);
-#endif
-        return 0xff;  /* rand(); - C64 has rand(), which is correct? */
-}
-
-void REGPARM2 io2_store(ADDRESS addr, BYTE value)
-{
-    if (reu_enabled)
-        reu_store((ADDRESS)(addr & 0x0f), value);
-    if (ieee488_enabled) {
-        tpi_store((ADDRESS)(addr & 0x07), value);
-    }
-    return;
-}
-
-BYTE REGPARM1 io2_read(ADDRESS addr)
-{
-    if (emu_id_enabled && addr >= 0xdfa0) {
-        addr &= 0xff;
-        if (addr == 0xff)
-            emulator_id[addr - 0xa0] ^= 0xff;
-        return emulator_id[addr - 0xa0];
-    }
-    if (reu_enabled)
-        return reu_read((ADDRESS)(addr & 0x0f));
-    if (ieee488_enabled)
-        return tpi_read((ADDRESS)(addr & 0x07));
-
-    return 0xff;  /* rand(); - C64 has rand(), which is correct? */
 }
 
 /* ------------------------------------------------------------------------- */
