@@ -243,13 +243,6 @@ static void reset(void)
     /* Do machine-specific initialization.  */
     machine_reset();
 
-#if 0
-#if defined CBM64
-#elif defined PET
-
-#endif /* End of machine-specific initialization.  */
-#endif
-
     initialize_memory();
 
     clk = 6;			/* # of clock cycles needed for RESET.  */
@@ -348,7 +341,7 @@ void mainloop(ADDRESS start_address)
 #  define FORCE_INPUT           mon_force_import(e_comp_space)
 
 #  define ROM_TRAP_ALLOWED()    rom_trap_allowed(reg_pc)
-    
+
 #  include "6510core.c"
 
 #endif /* !NO_OPCODES */
