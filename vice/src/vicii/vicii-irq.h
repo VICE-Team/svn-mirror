@@ -29,6 +29,8 @@
 
 #include "types.h"
 
+extern void vicii_irq_raster_set(CLOCK mclk);
+extern void vicii_irq_raster_clear(CLOCK mclk);
 extern void vicii_irq_sbcoll_set(void);
 extern void vicii_irq_sbcoll_clear(void);
 extern void vicii_irq_sscoll_set(void);

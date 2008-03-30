@@ -57,16 +57,16 @@ static inline void vicii_irq_set_line_clk(CLOCK mclk)
     }
 }
 
-void vicii_irq_raster_set(void)
+void vicii_irq_raster_set(CLOCK mclk)
 {
     vic_ii.irq_status |= 0x1;
-    vicii_irq_set_line();
+    vicii_irq_set_line_clk(mclk);
 }
 
-void vicii_irq_raster_clear(void)
+void vicii_irq_raster_clear(CLOCK mclk)
 {
     vic_ii.irq_status &= 0xfe;
-    vicii_irq_set_line();
+    vicii_irq_set_line_clk(mclk);
 }
 
 void vicii_irq_sbcoll_set(void)
@@ -200,7 +200,7 @@ void vicii_irq_check_state(BYTE value, unsigned int high)
             trigger_irq = 1;
 
         if (trigger_irq)
-            vicii_irq_raster_set();
+            vicii_irq_raster_set(maincpu_clk);
     }
 }
 
