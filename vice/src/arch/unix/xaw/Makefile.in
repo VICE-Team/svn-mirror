@@ -325,6 +325,7 @@ c610ui.o: c610ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/vsync.h c610icon.xpm
 c64ui.o: c64ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/cartridge.h ../../../../src/types.h \
+	../../../../src/datasette.h ../../../../src/tap.h \
 	../../../../src/arch/unix/joystick.h \
 	../../../../src/resources.h uicommands.h ui.h \
 	../../../../src/palette.h uimenu.h uihotkey.h uisettings.h \
@@ -358,7 +359,6 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/fs_cbm.h ../../../../src/serial.h \
 	../../../../src/traps.h ../../../../src/log.h \
 	../../../../src/snapshot.h ../../../../src/autostart.h \
-	../../../../src/datasette.h ../../../../src/tap.h \
 	../../../../src/imagecontents.h ../../../../src/info.h \
 	../../../../src/interrupt.h ../../../../src/vmachine.h \
 	../../../../src/6510core.h ../../../../src/mem.h \
