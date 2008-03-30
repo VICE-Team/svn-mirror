@@ -36,6 +36,7 @@
 
 #include "drive.h"
 #include "fsdevice.h"
+#include "fullscreen.h"
 #include "kbd.h"
 #include "mem.h"
 #include "prdevice.h"
@@ -1378,7 +1379,7 @@ ui_menu_entry_t ui_performance_settings_menu[] = {
 static UI_CALLBACK(FullscreenMenu)
 {
     if (CHECK_MENUS) {
-        ui_menu_set_sensitive(w, ui_is_fullscreen_available());
+        ui_menu_set_sensitive(w, fullscreen_available());
     }
 }
 
