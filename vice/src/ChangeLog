@@ -1,3 +1,50 @@
+1999-04-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.51.
+
+	* arch/unix/xaw/uicommand.c (attach_disk): Removed calls to
+	`flip_set_current' as this belongs to `file_system_attach_disk'
+	and not to the UI!
+
+	* fliplist.c, fliplist.h (flip_set_current): `filename' is const.
+
+	* attach.c (file_system_attach_disk): Call `flip_set_current' when
+	a disk is attached.
+
+	* arch/msdos/menudefs.c: Added flip list menu.
+
+	* arch/msdos/kbd.c: Added flip list short-cuts.
+
+1998-04-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/riscos/print.c (print_open): return int value
+	(fd): new array to hold file descriptors for
+	the devices, indexed by int from print_open. Fix all occurances
+	* arch/riscos/rs232.c: likewise
+
+	* arch/win32/print.c (print_open, print_putc, print_flush): 
+	return -1 for error.
+
+	* c128/c128cia1.c (mycpu_rmw_flag): new define 
+	* c64/c64cia1.c: likewise
+	* c64/c64cia2.c: likewise
+	* cbm2/c610cia1.c: likewise
+
+	* drive/cia1571drive0.c (mycpu_rmw_flag): new define.
+	include drivecpu.h
+	* drive/cia1571drive1.c: likewise
+	* drive/cia1581drive0.c: likewise
+	* drive/cia1581drive1.c: likewise
+
+	* drive/drivecpu.h (drive0_rmw_flag, drive1_rmw_flag): new externals
+
+	* ciacore.c (cia_last_read): new variable to keep the byte
+	read the last time read_mycia() has been called.
+	(store_mycia): check rmw_flag and handle it.
+	(read_mycia): save every return value in cia_last_read.
+	Cleanup when reading ICR.
+	(peek_mycia): cleanup when reading ICR
+
 1999-04-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.50.
