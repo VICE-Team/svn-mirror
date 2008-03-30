@@ -34,8 +34,11 @@
 #include "functionrom.h"
 #include "lib.h"
 #include "resources.h"
-#include "util.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
+#include "util.h"
 
 
 #define INTERNAL_FUNCTION_ROM_SIZE 0x8000
@@ -118,6 +121,23 @@ void functionrom_resources_shutdown(void)
     lib_free(external_function_rom_name);
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-intfrom", SET_RESOURCE, 1, NULL, NULL, "InternalFunctionName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_INT_FUNC_ROM_NAME },
+    { "-extfrom", SET_RESOURCE, 1, NULL, NULL, "ExternalFunctionName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_EXT_FUNC_ROM_NAME },
+    { "-intfunc", SET_RESOURCE, 0, NULL, NULL, "InternalFunctionROM",
+      (resource_value_t)1, 0, IDCLS_ENABLE_INT_FUNC_ROM },
+    { "+intfunc", SET_RESOURCE, 0, NULL, NULL, "InternalFunctionROM",
+      (resource_value_t)0, 0, IDCLS_DISABLE_INT_FUNC_ROM },
+    { "-extfunc", SET_RESOURCE, 0, NULL, NULL, "ExternalFunctionROM",
+      (resource_value_t)1, 0, IDCLS_ENABLE_EXT_FUNC_ROM },
+    { "+extfunc", SET_RESOURCE, 0, NULL, NULL, "ExternalFunctionROM",
+      (resource_value_t)0, 0, IDCLS_DISABLE_EXT_FUNC_ROM },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-intfrom", SET_RESOURCE, 1, NULL, NULL, "InternalFunctionName", NULL,
       "<name>", "Specify name of internal Function ROM image" },
@@ -133,10 +153,15 @@ static const cmdline_option_t cmdline_options[] = {
       (resource_value_t)0, NULL, "Disable the external Function ROM" },
     { NULL }
 };
+#endif
 
 int functionrom_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 static int functionrom_load_internal(void)

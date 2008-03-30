@@ -32,7 +32,44 @@
 #include "machine.h"
 #include "plus4-cmdline-options.h"
 
+#ifdef HAS_TRANSLATION
+#include "translate.h"
 
+static const cmdline_option_trans_t cmdline_options[] =
+{
+    { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+      (void *)MACHINE_SYNC_PAL, 0, IDCLS_USE_PAL_SYNC_FACTOR },
+    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+      (void *)MACHINE_SYNC_NTSC, 0, IDCLS_USE_NTSC_SYNC_FACTOR },
+    { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_KERNAL_ROM_NAME },
+    { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_BASIC_ROM_NAME },
+    { "-functionlo", SET_RESOURCE, 1, NULL, NULL, "FunctionLowName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_FUNCTION_LOW_ROM_NAME },
+    { "-functionhi", SET_RESOURCE, 1, NULL, NULL, "FunctionHighName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_FUNCTION_HIGH_ROM_NAME },
+    { "-c1lo", SET_RESOURCE, 1, NULL, NULL, "c1loName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_CART_1_LOW_ROM_NAME },
+    { "-c1hi", SET_RESOURCE, 1, NULL, NULL, "c1hiName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_CART_1_HIGH_ROM_NAME },
+    { "-c2lo", SET_RESOURCE, 1, NULL, NULL, "c2loName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_CART_2_LOW_ROM_NAME },
+    { "-c2hi", SET_RESOURCE, 1, NULL, NULL, "c2hiName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_CART_2_HIGH_ROM_NAME },
+    { "-ramsize", SET_RESOURCE, 1, NULL, NULL, "RamSize", NULL,
+      IDCLS_P_RAMSIZE, IDCLS_SPECIFY_RAM_INSTALLED },
+#ifdef COMMON_KBD
+    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
+      IDCLS_P_NUMBER, IDCLS_SPECIFY_KEYMAP_FILE_INDEX },
+    { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME },
+    { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME },
+#endif
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] =
 {
     { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
@@ -67,9 +104,14 @@ static const cmdline_option_t cmdline_options[] =
 #endif
     { NULL }
 };
+#endif
 
 int plus4_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 

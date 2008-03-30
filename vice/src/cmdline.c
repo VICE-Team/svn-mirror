@@ -35,17 +35,48 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "resources.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 #include "uicmdline.h"
 #include "util.h"
 
 
+#ifdef HAS_TRANSLATION
+
+/* the current changes in this file for HAS_TRANSLATION
+   are temporary to make both the new and old command-line
+   stuff to work properly during the transition to string tables. */
+
+static unsigned int num_options_trans, num_allocated_options_trans;
+static cmdline_option_ram_trans_t *options_trans;
+
+#endif
+
 static unsigned int num_options, num_allocated_options;
 static cmdline_option_ram_t *options;
 
+#ifdef HAS_TRANSLATION
+int cmdline_init_trans(void)
+{
+    if (options_trans != NULL)
+        lib_free(options_trans);
+
+    num_allocated_options_trans = 100;
+    num_options_trans = 0;
+    options_trans = (cmdline_option_ram_trans_t *)lib_malloc(sizeof(cmdline_option_ram_trans_t)
+              * num_allocated_options_trans);
+
+    return 0;
+}
+#endif
 
 int cmdline_init(void)
 {
+#ifdef HAS_TRANSLATION
+    cmdline_init_trans();
+#endif
     if (options != NULL)
         lib_free(options);
 
@@ -56,6 +87,40 @@ int cmdline_init(void)
 
     return 0;
 }
+
+#ifdef HAS_TRANSLATION
+int cmdline_register_options_trans(const cmdline_option_trans_t *c)
+{
+    cmdline_option_ram_trans_t *p;
+
+    p = options_trans + num_options_trans;
+    for (; c->name != NULL; c++, p++) {
+        if (num_allocated_options_trans <= num_options_trans) {
+            num_allocated_options_trans *= 2;
+            options_trans = (cmdline_option_ram_trans_t *)lib_realloc(options_trans,
+                      (sizeof(cmdline_option_ram_trans_t) * num_allocated_options_trans));
+            p = options_trans + num_options_trans;
+        }
+
+        p->name = lib_stralloc(c->name);
+        p->type = c->type;
+        p->need_arg = c->need_arg;
+        p->set_func = c->set_func;
+        p->extra_param = c->extra_param;
+        if (c->resource_name != NULL)
+            p->resource_name = lib_stralloc(c->resource_name);
+        else
+            p->resource_name = NULL;
+        p->resource_value = c->resource_value;
+        p->param_name = c->param_name;
+        p->description = c->description;
+
+        num_options_trans++;
+    }
+
+    return 0;
+}
+#endif
 
 int cmdline_register_options(const cmdline_option_t *c)
 {
@@ -89,6 +154,18 @@ int cmdline_register_options(const cmdline_option_t *c)
     return 0;
 }
 
+#ifdef HAS_TRANSLATION
+static void cmdline_free_trans(void)
+{
+    unsigned int i;
+
+    for (i = 0; i < num_options_trans; i++) {
+        lib_free((options_trans + i)->name);
+        lib_free((options_trans + i)->resource_name);
+    }
+}
+#endif
+
 static void cmdline_free(void)
 {
     unsigned int i;
@@ -101,10 +178,44 @@ static void cmdline_free(void)
 
 void cmdline_shutdown(void)
 {
+#ifdef HAS_TRANSLATION
+    cmdline_free_trans();
+#endif
     cmdline_free();
 
     lib_free(options);
+#ifdef HAS_TRANSLATION
+    lib_free(options_trans);
+#endif
 }
+
+#ifdef HAS_TRANSLATION
+static cmdline_option_ram_trans_t *lookup_trans(const char *name, int *is_ambiguous)
+{
+    cmdline_option_ram_trans_t *match;
+    size_t name_len;
+    unsigned int i;
+
+    name_len = strlen(name);
+
+    match = NULL;
+    for (i = 0; i < num_options_trans; i++) {
+        if (strncmp(options_trans[i].name, name, name_len) == 0) {
+            if (options_trans[i].name[name_len] == '\0') {
+                *is_ambiguous = 0;
+                return &options_trans[i];
+            } else if (match != NULL) {
+                *is_ambiguous = 1;
+                return match;
+            }
+            match = &options_trans[i];
+        }
+    }
+
+    *is_ambiguous = 0;
+    return match;
+}
+#endif
 
 static cmdline_option_ram_t *lookup(const char *name, int *is_ambiguous)
 {
@@ -139,6 +250,10 @@ int cmdline_parse(int *argc, char **argv)
     while (i < *argc) {
         if (*argv[i] == '-' || *argv[i] == '+') {
             int is_ambiguous, retval;
+#ifdef HAS_TRANSLATION
+            int is_trans;
+            cmdline_option_ram_trans_t *p_trans;
+#endif
             cmdline_option_ram_t *p;
 
             if (argv[i][1] == '\0') {
@@ -153,8 +268,16 @@ int cmdline_parse(int *argc, char **argv)
             }
 
             p = lookup(argv[i], &is_ambiguous);
+#ifdef HAS_TRANSLATION
+            if (p == NULL)
+              p_trans=lookup_trans(argv[i], &is_ambiguous);
+            else
+              p_trans=NULL;
 
+            if (p == NULL && p_trans == NULL) {
+#else
             if (p == NULL) {
+#endif
                 archdep_startup_log_error("Unknown option '%s'.\n", argv[i]);
                 return -1;
             }
@@ -165,12 +288,95 @@ int cmdline_parse(int *argc, char **argv)
                 return -1;
             }
 
+#ifdef HAS_TRANSLATION
+            if (p != NULL)
+            {
+              if (p->need_arg && i >= *argc - 1)
+              {
+                archdep_startup_log_error("Option '%s' requires a parameter.\n",
+                                          p->name);
+                return -1;
+              }
+            }
+            else
+            {
+              if (p_trans->need_arg && i >= *argc - 1)
+              {
+                archdep_startup_log_error("Option '%s' requires a parameter.\n",
+                                          p_trans->name);
+                return -1;
+              }
+            }
+#else
             if (p->need_arg && i >= *argc - 1) {
                 archdep_startup_log_error("Option '%s' requires a parameter.\n",
                                           p->name);
                 return -1;
             }
+#endif
 
+#ifdef HAS_TRANSLATION
+            if (p!=NULL)
+            {
+              switch(p->type) {
+                case SET_RESOURCE:
+                  if (p->need_arg)
+                      retval = resources_set_value_string(p->resource_name,
+                                                          argv[i + 1]);
+                  else
+                      retval = resources_set_value(p->resource_name,
+                                                   p->resource_value);
+                  break;
+                case CALL_FUNCTION:
+                  retval = p->set_func(p->need_arg ? argv[i+1] : NULL,
+                           p->extra_param);
+                  break;
+                default:
+                  archdep_startup_log_error("Invalid type for option '%s'.\n",
+                                            p->name);
+                  return -1;
+              }
+              if (retval < 0) {
+                  if (p->need_arg)
+                      archdep_startup_log_error("Argument '%s' not valid for option `%s'.\n",
+                                                argv[i + 1], p->name);
+                  else
+                      archdep_startup_log_error("Option '%s' not valid.\n", p->name);
+                  return -1;
+              }
+              i += p->need_arg ? 2 : 1;
+            }
+            else
+            {
+              switch(p_trans->type) {
+                case SET_RESOURCE:
+                  if (p_trans->need_arg)
+                      retval = resources_set_value_string(p_trans->resource_name,
+                                                          argv[i + 1]);
+                  else
+                      retval = resources_set_value(p_trans->resource_name,
+                                                   p_trans->resource_value);
+                  break;
+                case CALL_FUNCTION:
+                  retval = p_trans->set_func(p_trans->need_arg ? argv[i+1] : NULL,
+                           p_trans->extra_param);
+                  break;
+                default:
+                  archdep_startup_log_error("Invalid type for option '%s'.\n",
+                                            p_trans->name);
+                  return -1;
+              }
+              if (retval < 0) {
+                  if (p_trans->need_arg)
+                      archdep_startup_log_error("Argument '%s' not valid for option `%s'.\n",
+                                                argv[i + 1], p_trans->name);
+                  else
+                      archdep_startup_log_error("Option '%s' not valid.\n", p_trans->name);
+                  return -1;
+              }
+              i += p_trans->need_arg ? 2 : 1;
+            }
+#else
             switch(p->type) {
               case SET_RESOURCE:
                 if (p->need_arg)
@@ -189,7 +395,6 @@ int cmdline_parse(int *argc, char **argv)
                                           p->name);
                 return -1;
             }
-
             if (retval < 0) {
                 if (p->need_arg)
                     archdep_startup_log_error("Argument '%s' not valid for option `%s'.\n",
@@ -200,6 +405,8 @@ int cmdline_parse(int *argc, char **argv)
             }
 
             i += p->need_arg ? 2 : 1;
+#endif
+
         } else
             break;
     }
@@ -219,7 +426,11 @@ int cmdline_parse(int *argc, char **argv)
 
 void cmdline_show_help(void *userparam)
 {
+#ifdef HAS_TRANSLATION
+    ui_cmdline_show_help(num_options, options, num_options_trans, options_trans, userparam);
+#else
     ui_cmdline_show_help(num_options, options, userparam);
+#endif
 }
 
 char *cmdline_options_string(void)
@@ -247,9 +458,32 @@ char *cmdline_options_string(void)
         lib_free(add_to_options3);
 
         lib_free(cmdline_string);
+
         cmdline_string = new_cmdline_string;
     }
 
+#ifdef HAS_TRANSLATION
+    for (i = 0; i < num_options_trans; i++) {
+        add_to_options1 = lib_msprintf("%s", options_trans[i].name);
+        add_to_options3 = lib_msprintf("\n\t%s\n", translate_text(options_trans[i].description));
+        if (options_trans[i].need_arg && translate_text(options_trans[i].param_name) != NULL) {
+            add_to_options2 = lib_msprintf(" %s", translate_text(options_trans[i].param_name));
+            new_cmdline_string = util_concat(cmdline_string, add_to_options1,
+                                             add_to_options2, add_to_options3,
+                                             NULL);
+            lib_free(add_to_options2);
+        } else {
+            new_cmdline_string = util_concat(cmdline_string, add_to_options1,
+                                             add_to_options3, NULL);
+        }
+        lib_free(add_to_options1);
+        lib_free(add_to_options3);
+
+        lib_free(cmdline_string);
+
+        cmdline_string = new_cmdline_string;
+    }
+#endif
+
     return cmdline_string;
 }
-

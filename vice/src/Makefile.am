@@ -585,7 +585,6 @@ c1541_SOURCES = \
 	c1541.c \
 	cbmdos.c \
 	charset.c \
-	cmdline.c \
 	findpath.c \
 	gcr.c \
 	cbmimage.c \
@@ -604,7 +603,6 @@ c1541_SOURCES = \
 # libs too then.
 c1541_LDADD = \
 	@ARCH_DIR@/archdep.o \
-	@ARCH_DIR@/uicmdline.o \
 	$(blockdev_lib) \
 	$(realdevice_lib) \
 	$(vdrive_lib) \
@@ -618,7 +616,6 @@ c1541_LDADD = \
 # petcat
 petcat_SOURCES = \
 	charset.c \
-	cmdline.c \
 	findpath.c \
 	ioutil.c \
 	lib.c \
@@ -632,7 +629,6 @@ petcat_SOURCES = \
 
 petcat_LDADD = \
 	@ARCH_DIR@/archdep.o \
-	@ARCH_DIR@/uicmdline.o \
 	$(fileio_lib) 
 
 # Special targets to build libraries in subdirectories.

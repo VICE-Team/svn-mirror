@@ -33,7 +33,51 @@
 #include "cmdline.h"
 #include "machine.h"
 
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] =
+{
+    { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+      (void *)MACHINE_SYNC_PAL, 0, IDCLS_USE_PAL_SYNC_FACTOR },
+    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+      (void *)MACHINE_SYNC_NTSC, 0, IDCLS_USE_NTSC_SYNC_FACTOR },
+    { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+      (void *)MACHINE_SYNC_NTSCOLD,
+      0, IDCLS_USE_OLD_NTSC_SYNC_FACTOR },
+    { "-kernal", SET_RESOURCE, 1, NULL, NULL, "KernalName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_KERNAL_ROM_NAME },
+    { "-basic", SET_RESOURCE, 1, NULL, NULL, "BasicName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_BASIC_ROM_NAME },
+    { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_CHARGEN_ROM_NAME },
+    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (void *)1,
+      0, IDCLS_ENABLE_EMULATOR_ID },
+    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (void *)0,
+      0, IDCLS_DISABLE_EMULATOR_ID },
+    { "-kernalrev", SET_RESOURCE, 1, NULL, NULL, "KernalRev", NULL,
+      IDCLS_P_REVISION, IDCLS_PATCH_KERNAL_TO_REVISION },
+#ifdef HAVE_RS232
+    { "-acia1", SET_RESOURCE, 0, NULL, NULL, "Acia1Enable", (void *)1,
+      0, IDCLS_ENABLE_DEXX_ACIA_RS232_EMU },
+    { "+acia1", SET_RESOURCE, 0, NULL, NULL, "Acia1Enable", (void *)0,
+      0, IDCLS_DISABLE_DEXX_ACIA_RS232_EMU },
+#endif
+#ifdef COMMON_KBD
+    { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
+      IDCLS_P_NUMBER, IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2 },
+    { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME },
+    { "-symdekeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymDeFile", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP },
+    { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME },
+#endif
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] =
 {
     { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
@@ -73,9 +117,14 @@ static const cmdline_option_t cmdline_options[] =
 #endif
     { NULL }
 };
+#endif
 
 int c64_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 

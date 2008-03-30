@@ -104,7 +104,10 @@ static int pngdrv_open(screenshot_t *screenshot, const char *filename)
     sdata->info_ptr->color_type = PNG_COLOR_TYPE_RGB_ALPHA;
 
     png_write_info(sdata->png_ptr, sdata->info_ptr);
+
+#ifdef PNG_READ_INVERT_ALPHA_SUPPORTED
     png_set_invert_alpha(sdata->png_ptr);
+#endif
 
     return 0;
 }

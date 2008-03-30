@@ -42,6 +42,9 @@
 #include "mem.h"
 #include "resources.h"
 #include "reu.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 #include "vdc.h"
 #include "vicii.h"
@@ -86,19 +89,35 @@ int mmu_resources_init(void)
     return resources_register(resources);
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-40col", SET_RESOURCE, 0, NULL, NULL, "40/80ColumnKey",
+      (resource_value_t) 1,
+      0, IDCLS_ACTIVATE_40_COL_MODE },
+    { "-80col", SET_RESOURCE, 0, NULL, NULL, "40/80ColumnKey",
+      (resource_value_t) 0,
+      0, IDCLS_ACTIVATE_80_COL_MODE },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-40col", SET_RESOURCE, 0, NULL, NULL, "40/80ColumnKey",
       (resource_value_t) 1,
       NULL, "Activate 40 column mode" },
     { "-80col", SET_RESOURCE, 0, NULL, NULL, "40/80ColumnKey",
       (resource_value_t) 0,
-      NULL, "Activate 80 comumn mode" },
+      NULL, "Activate 80 column mode" },
     { NULL }
 };
+#endif
 
 int mmu_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */

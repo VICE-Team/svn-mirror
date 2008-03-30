@@ -1,3 +1,61 @@
+2005-05-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.13.
+
+2005-05-28  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* drive/drive-cmdline-options.c,
+	drive/iec/iec-cmdline-options.c,
+	drive/iec128dcr/iec128dcr-cmdline-options.c,
+	drive/ieee/ieee-cmdline-options.c,
+	drive/tcbm/tcbm-cmdline-options.c,
+	fsdevice/fsdevice-cmdline-options.c,
+	gfxoutputdrv/ffmpegdrv.c, pet/pet-cmdline-options.c,
+	pet/petpia1.c, plus4/plus4-cmdline-options.c,
+	plus4/ted-cmdline-options.c, translate.c,
+	translate.h: More changes for the transition to string tables
+	for the internationalization of the command-line options help
+	text.
+
+2005-05-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/c64-cmdline-options.c, c64/ramcart.c,
+	cbm2/cbm2-cmdline-options.c, translate.c: Fixed my previous
+	mistakes.
+
+2005-05-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c128/c128mmu.c, c128/functionrom.c,
+	c64/c64-cmdline-options.c, c64/cart/c64cart.c,
+	c64/cart/ide64.c, c64/georam.c, c64/psid.c,
+	c64/ramcart.c, c64/reu.c, c64/tfe.c,
+	cbm2/cbm2-cmdline-options.c, translate.c,
+	translate.h: Transition of command-line options help text
+	to string tables for the internationalization.
+
+2005-05-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* gfxoutputdrv/pngdrv.c: Fixed png_set_invert_alpha() call by
+	only using it if the libpng package supports it.
+
+2005-05-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* sound.c, sounddrv/sounduss.c: Fix to make BSDI not use
+	sounduss.
+
+2005-05-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c1541.c, petcat.c: Added a dummy cmdline_register_options
+	function.
+
+	* Makefile.am: Got rid of the linking of cmdline.o and the
+	arch dependant uicmdline.o for the c1541 and petcat programs.
+
+	* arch/win32/uicmdline.c, c128/c128-cmdline-options.c,
+	cmdline.c, cmdline.h, translate.c, translate.h,
+	uicmdline.h: Start of the localization of the command-line
+	options help text.
+
 2005-05-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.12.

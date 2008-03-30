@@ -44,6 +44,9 @@
 #include "archdep.h"
 #include "cmdline.h"
 #include "fsdevice.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 
 
@@ -61,6 +64,19 @@ static int cmdline_fsdirectory(const char *param, void *extra_param)
     return 0;
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-fs8", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)8, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_USE_AS_DIRECTORY_FSDEVICE_8 },
+    { "-fs9", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)9, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_USE_AS_DIRECTORY_FSDEVICE_9 },
+    { "-fs10", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)10, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_USE_AS_DIRECTORY_FSDEVICE_10 },
+    { "-fs11", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)11, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_USE_AS_DIRECTORY_FSDEVICE_11 },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-fs8", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)8, NULL, NULL,
       "<name>", "Use <name> as directory for file system device #8" },
@@ -72,9 +88,14 @@ static const cmdline_option_t cmdline_options[] = {
       "<name>", "Use <name> as directory for file system device #11" },
     { NULL }
 };
+#endif
 
 int fsdevice_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 

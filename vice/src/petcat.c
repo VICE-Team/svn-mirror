@@ -59,6 +59,7 @@
 
 #include "archdep.h"
 #include "charset.h"            /* ctrl1, ctrl2, cbmkeys */
+#include "cmdline.h"
 #include "lib.h"
 #include "types.h"
 
@@ -375,6 +376,12 @@ static unsigned char sstrcmp(unsigned char *line, const char **wordlist,
 
 static FILE *source, *dest;
 static int kwlen;
+
+/* dummy function */
+int cmdline_register_options(const cmdline_option_t *c)
+{
+  return 0;
+}
 
 int main(int argc, char **argv)
 {

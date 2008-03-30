@@ -33,7 +33,54 @@
 #include "iec-cmdline-options.h"
 #include "lib.h"
 
+#ifdef HAS_TRANSLATION
+#include "translate.h"
 
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-dos1541", SET_RESOURCE, 1, NULL, NULL, "DosName1541", "dos1541",
+      IDCLS_P_NAME, IDCLS_SPECIFY_1541_DOS_ROM_NAME },
+    { "-dos1541II", SET_RESOURCE, 1, NULL, NULL, "DosName1541II", "d1541II",
+      IDCLS_P_NAME, IDCLS_SPECIFY_1541_II_DOS_ROM_NAME },
+    { "-dos1570", SET_RESOURCE, 1, NULL, NULL, "DosName1570", "dos1570",
+      IDCLS_P_NAME, IDCLS_SPECIFY_1570_DOS_ROM_NAME },
+    { "-dos1571", SET_RESOURCE, 1, NULL, NULL, "DosName1571", "dos1571",
+      IDCLS_P_NAME, IDCLS_SPECIFY_1571_DOS_ROM_NAME },
+    { "-dos1581", SET_RESOURCE, 1, NULL, NULL, "DosName1581", "dos1581",
+      IDCLS_P_NAME, IDCLS_SPECIFY_1581_DOS_ROM_NAME },
+    { NULL }
+};
+
+static cmdline_option_trans_t cmd_drive[] = {
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
+      0, IDCLS_ENABLE_PAR_CABLE },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
+      0, IDCLS_DISABLE_PAR_CABLE },
+    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, (void *)DRIVE_IDLE_TRAP_IDLE,
+      IDCLS_P_METHOD,
+      IDCLS_SET_IDLE_METHOD },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
+      0, IDCLS_ENABLE_DRIVE_RAM_2000 },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
+      0, IDCLS_DISABLE_DRIVE_RAM_2000 },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
+      0, IDCLS_ENABLE_DRIVE_RAM_4000 },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
+      0, IDCLS_DISABLE_DRIVE_RAM_4000 },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
+      0, IDCLS_ENABLE_DRIVE_RAM_6000 },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
+      0, IDCLS_DISABLE_DRIVE_RAM_6000 },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
+      0, IDCLS_ENABLE_DRIVE_RAM_8000 },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
+      0, IDCLS_DISABLE_DRIVE_RAM_8000 },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
+      0, IDCLS_ENABLE_DRIVE_RAM_A000 },
+    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
+      0, IDCLS_DISABLE_DRIVE_RAM_A000 },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-dos1541", SET_RESOURCE, 1, NULL, NULL, "DosName1541", "dos1541",
       "<name>", "Specify name of 1541 DOS ROM image" },
@@ -57,27 +104,28 @@ static cmdline_option_t cmd_drive[] = {
       "<method>",
       "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)" },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
-      NULL, "Enable 8KB RAM expansion from $2000-$3FFF" },
+      NULL, "Enable 8KB RAM expansion at $2000-$3FFF" },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
-      NULL, "Disable 8KB RAM expansion from $2000-$3FFF" },
+      NULL, "Disable 8KB RAM expansion at $2000-$3FFF" },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
-      NULL, "Enable 8KB RAM expansion from $4000-$5FFF" },
+      NULL, "Enable 8KB RAM expansion at $4000-$5FFF" },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
-      NULL, "Disable 8KB RAM expansion from $4000-$5FFF" },
+      NULL, "Disable 8KB RAM expansion at $4000-$5FFF" },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
-      NULL, "Enable 8KB RAM expansion from $6000-$7FFF" },
+      NULL, "Enable 8KB RAM expansion at $6000-$7FFF" },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
-      NULL, "Disable 8KB RAM expansion from $6000-$7FFF" },
+      NULL, "Disable 8KB RAM expansion at $6000-$7FFF" },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
-      NULL, "Enable 8KB RAM expansion from $8000-$9FFF" },
+      NULL, "Enable 8KB RAM expansion at $8000-$9FFF" },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
-      NULL, "Disable 8KB RAM expansion from $8000-$9FFF" },
+      NULL, "Disable 8KB RAM expansion at $8000-$9FFF" },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
-      NULL, "Enable 8KB RAM expansion from $A000-$BFFF" },
+      NULL, "Enable 8KB RAM expansion at $A000-$BFFF" },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
-      NULL, "Disable 8KB RAM expansion from $A000-$BFFF" },
+      NULL, "Disable 8KB RAM expansion at $A000-$BFFF" },
     { NULL }
 };
+#endif
 
 int iec_cmdline_options_init(void)
 {
@@ -124,7 +172,11 @@ int iec_cmdline_options_init(void)
         cmd_drive[12].resource_name
             = lib_msprintf("Drive%iRAMA000", dnr + 8);
 
+#ifdef HAS_TRANSLATION
+        if (cmdline_register_options_trans(cmd_drive) < 0)
+#else
         if (cmdline_register_options(cmd_drive) < 0)
+#endif
             return -1;
 
         for (i = 0; i < 13; i++) {
@@ -134,6 +186,10 @@ int iec_cmdline_options_init(void)
     }
 
 
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 

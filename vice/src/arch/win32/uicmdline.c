@@ -25,22 +25,37 @@
  *
  */
 
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
 
 #include "cmdline.h"
 #include "lib.h"
+#include "translate.h"
 #include "uilib.h"
 
 
-/* This does not work as stdout is directed to null.  */
+/* This does not work as stdout is directed to null.
+   This function is temporarily extended during the
+   transition to string tables.  */
+
 void ui_cmdline_show_help(unsigned int num_options,
-                          cmdline_option_ram_t *options, void *userparam)
+                          cmdline_option_ram_t *options,
+                          unsigned int num_options_trans,
+                          cmdline_option_ram_trans_t *options_trans,
+                          void *userparam)
 {
     unsigned int i;
 
     printf("\nAvailable command-line options:\n\n");
+    for (i = 0; i < num_options_trans; i++) {
+        fputs(options_trans[i].name, stdout);
+        if (options_trans[i].need_arg && translate_text(options_trans[i].param_name) != NULL)
+            printf(" %s", translate_text(options_trans[i].param_name));
+        printf("\n\t%s\n", translate_text(options_trans[i].description));
+    }
     for (i = 0; i < num_options; i++) {
         fputs(options[i].name, stdout);
         if (options[i].need_arg && options[i].param_name != NULL)
@@ -49,4 +64,3 @@ void ui_cmdline_show_help(unsigned int num_options,
     }
     putchar('\n');
 }
-

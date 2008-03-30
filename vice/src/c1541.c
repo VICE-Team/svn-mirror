@@ -56,6 +56,7 @@
 #include "cbmdos.h"
 #include "cbmimage.h"
 #include "charset.h"
+#include "cmdline.h"
 #include "diskimage.h"
 #include "fileio.h"
 #include "gcr.h"
@@ -149,6 +150,12 @@ BYTE *drive_rom1001;
 BYTE *drive_rom2040;
 
 /* ------------------------------------------------------------------------- */
+
+/* dummy function */
+int cmdline_register_options(const cmdline_option_t *c)
+{
+  return 0;
+}
 
 struct command {
     const char *name;

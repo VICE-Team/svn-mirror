@@ -31,15 +31,28 @@
 #include "cmdline.h"
 #include "iec128dcr-cmdline-options.h"
 
+#ifdef HAS_TRANSLATION
+#include "translate.h"
 
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-dos1571cr", SET_RESOURCE, 1, NULL, NULL, "DosName1571cr", "d1571cr",
+      IDCLS_P_NAME, IDCLS_SPECIFY_1571CR_DOS_ROM_NAME },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-dos1571cr", SET_RESOURCE, 1, NULL, NULL, "DosName1571cr", "d1571cr",
       "<name>", "Specify name of 1571CR DOS ROM image" },
     { NULL }
 };
+#endif
 
 int iec128dcr_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 

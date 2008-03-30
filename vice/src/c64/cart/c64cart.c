@@ -48,6 +48,9 @@
 #include "resources.h"
 #include "retroreplay.h"
 #include "supersnapshot.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "util.h"
 
 
@@ -151,6 +154,57 @@ static int attach_cartridge_cmdline(const char *param, void *extra_param)
     return cartridge_attach_image((int)extra_param, param);
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] =
+{
+    { "-cartreset", SET_RESOURCE, 0, NULL, NULL, "CartridgeReset",
+      (void *)1, 0,
+      IDCLS_CART_ATTACH_DETACH_RESET },
+    { "+cartreset", SET_RESOURCE, 0, NULL, NULL, "CartridgeReset",
+      (void *)0, 0,
+      IDCLS_CART_ATTACH_DETACH_NO_RESET },
+    { "-cartcrt", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_CRT, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_CRT_CART },
+    { "-cart8", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_GENERIC_8KB, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_GENERIC_8KB_CART },
+    { "-cart16", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_GENERIC_16KB, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_GENERIC_16KB_CART },
+    { "-cartar", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_ACTION_REPLAY_CART },
+    { "-cartrr", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_RETRO_REPLAY, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_RETRO_REPLAY_CART },
+    { "-cartide", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_IDE64, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_IDE64_CART },
+    { "-cartap", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_ATOMIC_POWER, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_ATOMIC_POWER_CART },
+    { "-cartepyx", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_EPYX_FASTLOAD, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART },
+    { "-cartss4", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_SUPER_SNAPSHOT, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_SS4_CART },
+    { "-cartss5", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_SUPER_SNAPSHOT_V5, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_SS5_CART },
+    { "-cartieee488", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_IEEE488, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_CBM_IEEE488_CART },
+    { "-cartwestermann", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_WESTERMANN, NULL, NULL,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_WESTERMANN_CART },
+    { "-cartexpert", CALL_FUNCTION, 0, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_EXPERT, NULL, NULL,
+      0, IDCLS_ENABLE_EXPERT_CART },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] =
 {
     { "-cartreset", SET_RESOURCE, 0, NULL, NULL, "CartridgeReset",
@@ -200,13 +254,18 @@ static const cmdline_option_t cmdline_options[] =
       NULL, "Enable expert cartridge" },
     { NULL }
 };
+#endif
 
 int cartridge_cmdline_options_init(void)
 {
     if (ide64_cmdline_options_init() < 0)
         return -1;
 
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */

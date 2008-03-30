@@ -28,11 +28,22 @@
 #ifndef _UICMDLINE_H
 #define _UICMDLINE_H
 
+#ifdef HAS_TRANSLATION
+struct cmdline_option_ram_trans_s;
+#endif
+
 struct cmdline_option_ram_s;
 
+#ifdef HAS_TRANSLATION
+extern void ui_cmdline_show_help(unsigned int num_options,
+                                 struct cmdline_option_ram_s *options,
+                                 unsigned int num_options_trans,
+                                 struct cmdline_option_ram_trans_s *options_trans,
+                                 void *userparam);
+#else
 extern void ui_cmdline_show_help(unsigned int num_options,
                                  struct cmdline_option_ram_s *options,
                                  void *userparam);
-
 #endif
 
+#endif

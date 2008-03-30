@@ -31,15 +31,28 @@
 #include "cmdline.h"
 #include "tcbm-cmdline-options.h"
 
+#ifdef HAS_TRANSLATION
+#include "translate.h"
 
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-dos1551", SET_RESOURCE, 1, NULL, NULL, "DosName1551", "dos1551",
+      IDCLS_P_NAME, IDCLS_SPECIFY_1551_DOS_ROM_NAME },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-dos1551", SET_RESOURCE, 1, NULL, NULL, "DosName1551", "dos1551",
       "<name>", "Specify name of 1551 DOS ROM image" },
     { NULL }
 };
+#endif
 
 int tcbm_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 

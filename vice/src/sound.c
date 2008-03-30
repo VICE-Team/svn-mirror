@@ -1201,9 +1201,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #endif
 #if defined(HAVE_LINUX_SOUNDCARD_H) || defined(HAVE_MACHINE_SOUNDCARD_H) || defined(HAVE_SYS_SOUNDCARD_H)
 
-/* don't use uss for FreeBSD */
+/* don't use uss for FreeBSD or BSDI */
 
-#ifndef __FreeBSD__
+#if !defined(__FreeBSD__) && !defined(__bsdi__)
     sound_init_uss_device();
 #endif
 #endif

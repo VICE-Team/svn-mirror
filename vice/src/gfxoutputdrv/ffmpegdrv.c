@@ -39,6 +39,9 @@
 #include "palette.h"
 #include "resources.h"
 #include "screenshot.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "ui.h"
 
 
@@ -113,6 +116,17 @@ int ffmpegdrv_resources_init(void)
 
 /*---------- Commandline options --------------------------------------*/
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-ffmpegaudiobitrate", SET_RESOURCE, 1, NULL, NULL,
+      "FFMPEGAudioBitrate", NULL,
+      IDCLS_P_VALUE, IDCLS_SET_AUDIO_STREAM_BITRATE },
+    { "-ffmpegvideobitrate", SET_RESOURCE, 1, NULL, NULL,
+      "FFMPEGVideoBitrate", NULL,
+      IDCLS_P_VALUE, IDCLS_SET_VIDEO_STREAM_BITRATE },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-ffmpegaudiobitrate", SET_RESOURCE, 1, NULL, NULL,
       "FFMPEGAudioBitrate", NULL,
@@ -122,11 +136,15 @@ static const cmdline_option_t cmdline_options[] = {
       "<value>", "Set bitrate for video stream in media file" },
     { NULL }
 };
-
+#endif
 
 int ffmpegdrv_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /*---------------------------------------------------------------------*/

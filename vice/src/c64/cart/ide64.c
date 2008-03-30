@@ -38,6 +38,9 @@
 #include "ide64.h"
 #include "log.h"
 #include "resources.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
@@ -241,6 +244,25 @@ int ide64_resources_init(void)
     return resources_register(resources);
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-IDE64image", SET_RESOURCE, 1, NULL, NULL, "IDE64Image", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_IDE64_NAME },
+    { "-IDE64cyl", SET_RESOURCE, 1, NULL, NULL, "IDE64Cylinders", NULL,
+      IDCLS_P_VALUE, IDCLS_SET_AMOUNT_CYLINDERS_IDE64 },
+    { "-IDE64hds", SET_RESOURCE, 1, NULL, NULL, "IDE64Heads", NULL,
+      IDCLS_P_VALUE, IDCLS_SET_AMOUNT_HEADS_IDE64 },
+    { "-IDE64sec", SET_RESOURCE, 1, NULL, NULL, "IDE64Sectors", NULL,
+      IDCLS_P_VALUE, IDCLS_SET_AMOUNT_SECTORS_IDE64 },
+    { "-IDE64autosize", SET_RESOURCE, 0, NULL, NULL,
+      "IDE64AutodetectSize", (void *)1,
+      0, IDCLS_AUTODETECT_IDE64_GEOMETRY },
+    { "+IDE64autosize", SET_RESOURCE, 0, NULL, NULL,
+      "IDE64AutodetectSize", (void *)0,
+      0, IDCLS_NO_AUTODETECT_IDE64_GEOMETRY },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-IDE64image", SET_RESOURCE, 1, NULL, NULL, "IDE64Image", NULL,
       "<name>", "Specify name of IDE64 image file" },
@@ -255,13 +277,18 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, "Autodetect geometry of formatted images" },
     { "+IDE64autosize", SET_RESOURCE, 0, NULL, NULL,
       "IDE64AutodetectSize", (void *)0,
-      NULL, "Do not autoetect geometry of formatted images" },
+      NULL, "Do not autodetect geometry of formatted images" },
     { NULL }
 };
+#endif
 
 int ide64_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 

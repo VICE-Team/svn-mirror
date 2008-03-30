@@ -27,9 +27,10 @@
 /* on FreeBSD SDL sound is to be used, even though
    the machine/soundcard.h file is present it is not
    compatible with this implementation of a uss
-   sound driver */
+   sound driver. For BSDI this uss sound driver should
+   not be used either. */
 
-#ifndef __FreeBSD__
+#if !defined(__FreeBSD__) && !defined(__bsdi__)
 
 #include "vice.h"
 

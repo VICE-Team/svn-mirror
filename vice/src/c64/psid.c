@@ -38,6 +38,9 @@
 #include "machine.h"
 #include "psid.h"
 #include "resources.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 #include "ui.h"
 #include "vsidui.h"
@@ -119,6 +122,28 @@ static int cmdline_psid_tune(const char *param, void *extra_param)
     return 0;
 }
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] =
+{
+    /* The Video Standard options are copied from the machine files. */
+    { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+      (resource_value_t)MACHINE_SYNC_PAL,
+      0, IDCLS_USE_PAL_SYNC_FACTOR },
+    { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+      (resource_value_t)MACHINE_SYNC_NTSC,
+      0, IDCLS_USE_NTSC_SYNC_FACTOR },
+    { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
+      (resource_value_t)MACHINE_SYNC_NTSCOLD,
+      0, IDCLS_USE_OLD_NTSC_SYNC_FACTOR },
+    { "-vsid", CALL_FUNCTION, 0, cmdline_vsid_mode, NULL, NULL, NULL,
+      0, IDCLS_SID_PLAYER_MODE },
+    { "-keepenv", CALL_FUNCTION, 0, cmdline_keepenv, NULL, NULL, NULL,
+      0, IDCLS_OVERWRITE_PSID_SETTINGS },
+    { "-tune", CALL_FUNCTION, 1, cmdline_psid_tune, NULL, NULL, NULL,
+      IDCLS_P_NUMBER, IDCLS_SPECIFY_PSID_TUNE_NUMBER },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] =
 {
     /* The Video Standard options are copied from the machine files. */
@@ -139,10 +164,15 @@ static const cmdline_option_t cmdline_options[] =
       "<number>", "Specify PSID tune <number>" },
     { NULL }
 };
+#endif
 
 int psid_init_cmdline_options(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 

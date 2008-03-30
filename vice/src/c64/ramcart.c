@@ -44,6 +44,9 @@
 #include "resources.h"
 #include "ramcart.h"
 #include "snapshot.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 #include "util.h"
 
@@ -202,6 +205,20 @@ void ramcart_resources_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] =
+{
+    { "-ramcart", SET_RESOURCE, 0, NULL, NULL, "RAMCART", (resource_value_t)1,
+      0, IDCLS_ENABLE_RAMCART },
+    { "+ramcart", SET_RESOURCE, 0, NULL, NULL, "RAMCART", (resource_value_t)0,
+      0, IDCLS_DISABLE_RAMCART },
+    { "-ramcartimage", SET_RESOURCE, 1, NULL, NULL, "RAMCARTfilename", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_RAMCART_NAME },
+    { "-ramcartsize", SET_RESOURCE, 1, NULL, NULL, "RAMCARTsize", NULL,
+      IDCLS_P_SIZE_IN_KB, IDCLS_RAMCART_SIZE },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] =
 {
     { "-ramcart", SET_RESOURCE, 0, NULL, NULL, "RAMCART", (resource_value_t)1,
@@ -214,10 +231,15 @@ static const cmdline_option_t cmdline_options[] =
       "<size in KB>", "Size of the RAMCART expansion" },
     { NULL }
 };
+#endif
 
 int ramcart_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */

@@ -44,6 +44,9 @@
 #include "log.h"
 #include "resources.h"
 #include "snapshot.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "tfe.h"
 #include "tfearch.h"
 #include "snapshot.h"
@@ -1495,8 +1498,17 @@ int tfe_resources_init(void)
 /* ------------------------------------------------------------------------- */
 /*    commandline support functions                                          */
 
-static 
-const cmdline_option_t cmdline_options[] =
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] =
+{
+    { "-tfe", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)1,
+      0, IDCLS_ENABLE_TFE },
+    { "+tfe", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)0,
+      0, IDCLS_DISABLE_TFE },
+    { NULL }
+};
+#else
+static const cmdline_option_t cmdline_options[] =
 {
     { "-tfe", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)1,
       NULL, "Enable the TFE (\"the final ethernet\") unit" },
@@ -1504,10 +1516,15 @@ const cmdline_option_t cmdline_options[] =
       NULL, "Disable the TFE (\"the final ethernet\") unit" },
     { NULL }
 };
+#endif
 
 int tfe_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 

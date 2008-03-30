@@ -33,8 +33,23 @@
 #include "ted-cmdline-options.h"
 #include "tedtypes.h"
 
+#ifdef HAS_TRANSLATION
+#include "translate.h"
 
 /* TED command-line options.  */
+static const cmdline_option_trans_t cmdline_options[] =
+{
+    { "-saturation", SET_RESOURCE, 1, NULL, NULL, "ColorSaturation", NULL,
+      IDCLS_P_0_2000, IDCLS_SET_SATURATION },
+    { "-contrast", SET_RESOURCE, 1, NULL, NULL, "ColorContrast", NULL,
+      IDCLS_P_0_2000, IDCLS_SET_CONTRAST },
+    { "-brightness", SET_RESOURCE, 1, NULL, NULL, "ColorBrightness", NULL,
+      IDCLS_P_0_2000, IDCLS_SET_BRIGHTNESS },
+    { "-gamma", SET_RESOURCE, 1, NULL, NULL, "ColorGamma", NULL,
+      IDCLS_P_0_2000, IDCLS_SET_GAMMA },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] =
 {
     { "-saturation", SET_RESOURCE, 1, NULL, NULL, "ColorSaturation", NULL,
@@ -47,12 +62,17 @@ static const cmdline_option_t cmdline_options[] =
       "<0-2000>", "Set gamma of internal calculated palette [900]" },
     { NULL }
 };
+#endif
 
 int ted_cmdline_options_init(void)
 {
     if (raster_cmdline_options_chip_init("TED", ted.video_chip_cap) < 0)
         return -1;
 
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 

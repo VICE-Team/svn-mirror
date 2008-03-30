@@ -35,6 +35,75 @@
 typedef enum cmdline_option_type { SET_RESOURCE, CALL_FUNCTION }
     cmdline_option_type_t;
 
+#ifdef HAS_TRANSLATION
+
+/* these 2 structures are temporary for use during the
+   transition to string tables */
+
+typedef struct cmdline_option_trans_s {
+    /* Name of command-line option.  */
+    const char *name;
+
+    /* Behavior of this command-line option.  */
+    cmdline_option_type_t type;
+
+    /* Flag: Does this option need an argument?  */
+    int need_arg;
+
+    /* Function to call if type is `CALL_FUNCTION'.  */
+    int (*set_func)(const char *value, void *extra_param);
+
+    /* Extra parameter to pass to `set_func' if type is `CALL_FUNCTION'.  */
+    void *extra_param;
+
+    /* Resource to change if `type' is `SET_RESOURCE'.  */
+    const char *resource_name;
+
+    /* Value to assign to `resource_name' if `type' is `SET_RESOURCE' and
+       `need_arg' is zero.  */
+    void *resource_value;
+
+    /* ID of the string to display after the option name in the help screen. */
+    const int param_name;
+
+    /* ID of the description string.  */
+    const int description;
+} cmdline_option_trans_t;
+
+
+
+typedef struct cmdline_option_ram_trans_s {
+    /* Name of command-line option.  */
+    char *name;
+
+    /* Behavior of this command-line option.  */
+    cmdline_option_type_t type;
+
+    /* Flag: Does this option need an argument?  */
+    int need_arg;
+
+    /* Function to call if type is `CALL_FUNCTION'.  */
+    int (*set_func)(const char *value, void *extra_param);
+
+    /* Extra parameter to pass to `set_func' if type is `CALL_FUNCTION'.  */
+    void *extra_param;
+
+    /* Resource to change if `type' is `SET_RESOURCE'.  */
+    char *resource_name;
+
+    /* Value to assign to `resource_name' if `type' is `SET_RESOURCE' and
+       `need_arg' is zero.  */
+    void *resource_value;
+
+    /* ID of the string to display after the option name in the help screen. */
+    int param_name;
+
+    /* ID of the description string.  */
+    int description;
+} cmdline_option_ram_trans_t;
+
+#endif
+
 typedef struct cmdline_option_s {
     /* Name of command-line option.  */
     const char *name;
@@ -65,6 +134,7 @@ typedef struct cmdline_option_s {
     /* Description string.  */
     const char *description;
 } cmdline_option_t;
+
 
 typedef struct cmdline_option_ram_s {
     /* Name of command-line option.  */
@@ -98,6 +168,11 @@ typedef struct cmdline_option_ram_s {
 } cmdline_option_ram_t;
 
 extern int cmdline_init(void);
+
+#ifdef HAS_TRANSLATION
+extern int cmdline_register_options_trans(const cmdline_option_trans_t *c);
+#endif
+
 extern int cmdline_register_options(const cmdline_option_t *c);
 extern void cmdline_shutdown(void);
 extern int cmdline_parse(int *argc, char **argv);
@@ -105,4 +180,3 @@ extern void cmdline_show_help(void *userparam);
 extern char *cmdline_options_string(void);
 
 #endif
-

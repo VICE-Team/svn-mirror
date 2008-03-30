@@ -31,7 +31,23 @@
 #include "cmdline.h"
 #include "ieee-cmdline-options.h"
 
+#ifdef HAS_TRANSLATION
+#include "translate.h"
 
+static const cmdline_option_trans_t cmdline_options[] = {
+    { "-dos2031", SET_RESOURCE, 1, NULL, NULL, "DosName2031", "dos2031",
+      IDCLS_P_NAME, IDCLS_SPECIFY_2031_DOS_ROM_NAME },
+    { "-dos2040", SET_RESOURCE, 1, NULL, NULL, "DosName2040", "dos2040",
+      IDCLS_P_NAME, IDCLS_SPECIFY_2040_DOS_ROM_NAME },
+    { "-dos3040", SET_RESOURCE, 1, NULL, NULL, "DosName3040", "dos3040",
+      IDCLS_P_NAME, IDCLS_SPECIFY_3040_DOS_ROM_NAME },
+    { "-dos4040", SET_RESOURCE, 1, NULL, NULL, "DosName4040", "dos4040",
+      IDCLS_P_NAME, IDCLS_SPECIFY_4040_DOS_ROM_NAME },
+    { "-dos1001", SET_RESOURCE, 1, NULL, NULL, "DosName1001", "dos1001",
+      IDCLS_P_NAME, IDCLS_SPECIFY_1001_DOS_ROM_NAME },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] = {
     { "-dos2031", SET_RESOURCE, 1, NULL, NULL, "DosName2031", "dos2031",
       "<name>", "Specify name of 2031 DOS ROM image" },
@@ -45,9 +61,14 @@ static const cmdline_option_t cmdline_options[] = {
       "<name>", "Specify name of 1001/8050/8250 DOS ROM image" },
     { NULL }
 };
+#endif
 
 int ieee_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 

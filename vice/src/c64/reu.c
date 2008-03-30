@@ -48,6 +48,9 @@
 #include "resources.h"
 #include "reu.h"
 #include "snapshot.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 #include "util.h"
 
@@ -223,6 +226,20 @@ void reu_resources_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
+#ifdef HAS_TRANSLATION
+static const cmdline_option_trans_t cmdline_options[] =
+{
+    { "-reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)1,
+      0, IDCLS_ENABLE_REU },
+    { "+reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)0,
+      0, IDCLS_DISABLE_REU },
+    { "-reuimage", SET_RESOURCE, 1, NULL, NULL, "REUfilename", NULL,
+      IDCLS_P_NAME, IDCLS_SPECIFY_REU_NAME },
+    { "-reusize", SET_RESOURCE, 1, NULL, NULL, "REUsize", NULL,
+      IDCLS_P_SIZE_IN_KB, IDCLS_REU_SIZE },
+    { NULL }
+};
+#else
 static const cmdline_option_t cmdline_options[] =
 {
     { "-reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)1,
@@ -235,10 +252,15 @@ static const cmdline_option_t cmdline_options[] =
       "<size in KB>", "Size of the RAM expansion unit" },
     { NULL }
 };
+#endif
 
 int reu_cmdline_options_init(void)
 {
+#ifdef HAS_TRANSLATION
+    return cmdline_register_options_trans(cmdline_options);
+#else
     return cmdline_register_options(cmdline_options);
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
