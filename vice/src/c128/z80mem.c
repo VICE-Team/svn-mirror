@@ -69,17 +69,10 @@ int *z80mem_read_limit_tab_ptr;
 #define NUM_CONFIGS 4
 
 /* Memory read and write tables.  */
-#ifdef AVOID_STATIC_ARRAYS
-static store_func_ptr_t (*mem_write_tab)[NUM_CONFIGS][0x101];
-static read_func_ptr_t (*mem_read_tab)[0x101];
-static BYTE *(*mem_read_base_tab)[0x101];
-static int mem_read_limit_tab[NUM_CONFIGS][0x101];
-#else
 static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
 static int mem_read_limit_tab[NUM_CONFIGS][0x101];
-#endif
 
 store_func_ptr_t io_write_tab[0x101];
 read_func_ptr_t io_read_tab[0x101];

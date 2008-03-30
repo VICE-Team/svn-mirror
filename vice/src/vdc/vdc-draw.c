@@ -40,22 +40,13 @@
    multi-dimensional arrays as we can optimize better this way...  */
 
 /* foreground(4) | background(4) | nibble(4) -> 4 pixels.  */
-#ifdef AVOID_STATIC_ARRAYS
-static PIXEL4 *hr_table;
-#else
 static PIXEL4 hr_table[16 * 16 * 16];
-#endif
 
 #ifdef VDC_NEED_2X
 /* foreground(4) | background(4) | idx(2) | nibble(4) -> 4 pixels.  */
-#ifdef AVOID_STATIC_ARRAYS
-static PIXEL4 *hr_table_2x;
-#else
 static PIXEL4 hr_table_2x[16 * 16 * 2 * 16];
 #endif
-#endif
 
-
 
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
 /*
@@ -81,7 +72,6 @@ draw_std_background_2x (unsigned int start_pixel,
 }
 #endif
 */
-
 
 /* Initialize the drawing tables.  */
 static void
@@ -89,16 +79,6 @@ init_drawing_tables (void)
 {
   DWORD i;
   unsigned int f, b;
-
-#ifdef AVOID_STATIC_ARRAYS
-  if (!hr_table)
-    {
-      hr_table = xmalloc (sizeof (*hr_table) * 16 * 16 * 16);
-#ifdef VDC_NEED_2X
-      hr_table_2x = xmalloc (sizeof (*hr_table_2x) * 16 * 16 * 2 * 16);
-#endif
-    }
-#endif
 
   for (i = 0; i <= 0xf; i++)
     {
@@ -174,10 +154,10 @@ get_std_text(raster_cache_t *cache,
         int crsrpos = vdc.crsrpos - vdc.mem_counter;
 
         if (crsrpos >= 0 && crsrpos < VDC_SCREEN_TEXTCOLS
-            && (vdc.raster.ycounter / vdc.raster_ycounter_divide)
-            >= (vdc.regs[10] & 0x1f)
-            && (vdc.raster.ycounter / vdc.raster_ycounter_divide)
-            < (vdc.regs[11] & 0x1f))
+            && (int)(vdc.raster.ycounter / vdc.raster_ycounter_divide)
+            >= (int)(vdc.regs[10] & 0x1f)
+            && (int)(vdc.raster.ycounter / vdc.raster_ycounter_divide)
+            < (int)(vdc.regs[11] & 0x1f))
             cache->foreground_data[crsrpos] ^= 0xff;
     }
     return r;
@@ -406,7 +386,6 @@ static void setup_double_size_modes(void)
                      NULL); /* draw_std_text_foreground */
 }
 
-
 
 void
 vdc_draw_init (void)
@@ -431,3 +410,4 @@ vdc_draw_set_double_size (int enabled)
 #endif
     setup_single_size_modes ();
 }
+

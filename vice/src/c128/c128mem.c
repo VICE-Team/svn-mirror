@@ -66,9 +66,9 @@
 /* #define DEBUG_MMU */
 
 #ifdef DEBUG_MMU
-#define DEBUG(x) printf x
+#define DEBUG_PRINT(x) printf x
 #else
-#define DEBUG(x)
+#define DEBUG_PRINT(x)
 #endif
 
 #define IS_NULL(s)  (s == NULL || *s == '\0')
@@ -337,17 +337,10 @@ int *mem_read_limit_tab_ptr;
 #define NUM_CONFIGS 32
 
 /* Memory read and write tables.  */
-#ifdef AVOID_STATIC_ARRAYS
-static store_func_ptr_t (*mem_write_tab)[NUM_CONFIGS][0x101];
-static read_func_ptr_t (*mem_read_tab)[0x101];
-static BYTE *(*mem_read_base_tab)[0x101];
-static int mem_read_limit_tab[NUM_CONFIGS][0x101];
-#else
 static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
 static int mem_read_limit_tab[NUM_CONFIGS][0x101];
-#endif
 
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
@@ -398,8 +391,8 @@ void mem_set_ram_config(BYTE value)
     /* XXX: We only support 128K here.  */
     vic_ii_set_ram_base(ram + ((value & 0x40) << 10));
 
-    DEBUG(("MMU: Store RCR = $%02x\n", value));
-    DEBUG(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
+    DEBUG_PRINT(("MMU: Store RCR = $%02x\n", value));
+    DEBUG_PRINT(("MMU: VIC-II base at $%05X\n", ((value & 0xc0) << 2)));
 
     if ((value & 0x3) == 0)
         shared_size = 1024;
@@ -409,21 +402,21 @@ void mem_set_ram_config(BYTE value)
     /* Share high memory?  */
     if (value & 0x8) {
         top_shared_limit = 0xffff - shared_size;
-        DEBUG(("MMU: Sharing high RAM from $%04X\n",
+        DEBUG_PRINT(("MMU: Sharing high RAM from $%04X\n",
               top_shared_limit + 1));
     } else {
         top_shared_limit = 0xffff;
-        DEBUG(("MMU: No high shared RAM\n"));
+        DEBUG_PRINT(("MMU: No high shared RAM\n"));
     }
 
     /* Share low memory?  */
     if (value & 0x4) {
         bottom_shared_limit = shared_size;
-        DEBUG(("MMU: Sharing low RAM up to $%04X\n",
+        DEBUG_PRINT(("MMU: Sharing low RAM up to $%04X\n",
               bottom_shared_limit - 1));
     } else {
         bottom_shared_limit = 0;
-        DEBUG(("MMU: No low shared RAM\n"));
+        DEBUG_PRINT(("MMU: No low shared RAM\n"));
     }
 }
 
@@ -706,9 +699,9 @@ BYTE REGPARM1 io2_read(ADDRESS addr)
     }
     if (reu_enabled)
         return reu_read(addr & 0x0f);
-    if (ieee488_enabled) {
+    if (ieee488_enabled)
         return tpi_read(addr & 0x07);
-    }
+
     return 0xff;  /* rand(); - C64 has rand(), which is correct? */
 }
 
@@ -1760,7 +1753,7 @@ static char snap_module_name[] = "C128MEM";
 int mem_write_snapshot_module(snapshot_t *s, int save_roms)
 {
     snapshot_module_t *m;
-    int i;
+    ADDRESS i;
 
     /* Main memory module.  */
 
@@ -1769,7 +1762,7 @@ int mem_write_snapshot_module(snapshot_t *s, int save_roms)
         return -1;
 
     /* Assuming no side-effects.  */
-    for (i=0; i<11; i++) {
+    for (i = 0; i < 11; i++) {
 	if ( snapshot_module_write_byte(m, mmu_read(i)) < 0)
 	    goto fail;
     }
@@ -1809,7 +1802,7 @@ int mem_read_snapshot_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
-    int i;
+    ADDRESS i;
     BYTE byte;
 
     /* Main memory module.  */
@@ -1827,8 +1820,8 @@ int mem_read_snapshot_module(snapshot_t *s)
         goto fail;
     }
 
-    for (i=0; i<11; i++) {
-	if ( snapshot_module_read_byte(m, &byte) < 0)
+    for (i = 0; i < 11; i++) {
+	if (snapshot_module_read_byte(m, &byte) < 0)
 	    goto fail;
         mmu_store(i, byte);	/* Assuming no side-effects */
     }

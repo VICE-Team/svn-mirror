@@ -27,8 +27,8 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "archdep.h"
 #include "c64cart.h"
@@ -46,18 +46,10 @@
 export_t export;
 
 /* Exansion port ROML/ROMH images.  */
-#ifdef AVOID_STATIC_ARRAYS
-BYTE *roml_banks, *romh_banks;
-#else
 BYTE roml_banks[0x80000], romh_banks[0x20000];
-#endif
 
 /* Exansion port RAM images.  */
-#ifdef AVOID_STATIC_ARRAYS
-BYTE *export_ram0;
-#else
 BYTE export_ram0[C64CART_RAM_LIMIT];
-#endif
 
 /* Expansion port ROML/ROMH/RAM banking.  */
 int roml_bank = 0, romh_bank = 0, export_ram = 0;
