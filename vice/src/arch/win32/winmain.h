@@ -32,7 +32,6 @@
 
 extern HINSTANCE winmain_instance;
 extern HINSTANCE winmain_prev_instance;
-extern LPSTR winmain_cmd_line;
 extern int winmain_cmd_show;
 
 #endif

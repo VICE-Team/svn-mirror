@@ -32,6 +32,7 @@
 #include <windowsx.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <tchar.h>
 
 #ifdef HAVE_CRTDBG
 #include <crtdbg.h>
@@ -49,18 +50,16 @@
 
 HINSTANCE winmain_instance;
 HINSTANCE winmain_prev_instance;
-LPSTR winmain_cmd_line;
 int winmain_cmd_show;
 
 extern int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
-                          LPSTR cmd_line, int cmd_show);
+                          TCHAR *cmd_line, int cmd_show);
 
 int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
-                   LPSTR cmd_line, int cmd_show)
+                   TCHAR *cmd_line, int cmd_show)
 {
     winmain_instance = instance;
     winmain_prev_instance = prev_instance;
-    winmain_cmd_line = cmd_line;
     winmain_cmd_show = cmd_show;
 
 #ifdef _MSC_VER
@@ -89,10 +88,12 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
 
 void main_exit(void)
 {
+#ifdef HAVE_SIGNAL_H
     /* Disable SIGINT.  This is done to prevent the user from keeping C-c
        pressed and thus breaking the cleanup process, which might be
        dangerous.  */
     signal(SIGINT, SIG_IGN);
+#endif
 
     log_message(LOG_DEFAULT, "\nExiting...");
 
