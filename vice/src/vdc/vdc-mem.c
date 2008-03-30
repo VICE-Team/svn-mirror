@@ -31,10 +31,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "maincpu.h"
 #include "types.h"
 #include "vdc-mem.h"
 #include "vdc.h"
 #include "vdctypes.h"
+#include "vicii.h"
 
 
 
@@ -93,9 +95,9 @@ static void vdc_perform_fillcopy(void)
 /* Store a value in a VDC register. */
 void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 {
-
-
     /*log_message(vdc.log, "store: addr = %x, byte = %x", addr, value);*/
+
+    vic_ii_handle_pending_alarms_external(maincpu_num_write_cycles());
 
     /* $d600 sets the internal vdc address pointer */
     if ((addr & 1) == 0)
@@ -255,6 +257,8 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 vdc_read(ADDRESS addr)
 {
+    vic_ii_handle_pending_alarms_external(0);
+
     if (addr & 1) {
 
     	/*og_message(vdc.log, "read: addr = %x", addr);*/
