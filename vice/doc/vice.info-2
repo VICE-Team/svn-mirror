@@ -1150,6 +1150,10 @@ Sound resources
 
         * `sdl', for the Simple DirectMedia Layer audio driver.
 
+        * `esd', for EsounD, the Enlightened Sound Daemon;
+          `SoundDeviceArg' specifies the ESD server (`host:port') to
+          connect, empty by default.
+
         * `dummy', fully emulating the SID, but not actually playing
           samples.
 
