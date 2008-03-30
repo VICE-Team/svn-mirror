@@ -52,13 +52,9 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#ifdef GEMDOS                   /* Atari ST */
-#define strchr index
-#else
 #include <string.h>
-#endif
 
+#include "archdep.h"
 #include "charset.h"            /* ctrl1, ctrl2, cbmkeys */
 #include "p00.h"
 #include "types.h"
@@ -390,8 +386,9 @@ int main(int argc, char **argv)
     int     fil = 0, outf = 0, overwrt = 0, textmode = 0;
     int     flg = 0;                            /* files on stdin */
 
-    /* Parse arguments */
+    archdep_init(&argc, argv);
 
+    /* Parse arguments */
     progname = argv[0];
     while (--argc && ((*++argv)[0] == '-')) {
 
