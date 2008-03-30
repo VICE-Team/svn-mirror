@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-29 23:03+0200\n"
+"POT-Creation-Date: 2007-05-05 14:34+0200\n"
 "PO-Revision-Date: 2007-02-24 14:42+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -24,7 +24,7 @@ msgstr "<percento>"
 msgid "Limit emulation speed to specified value"
 msgstr "Limita la velocità di emulazione al valore specificato"
 
-#: src/vsync.c:149 src/sound.c:256 src/sound.c:258 src/debug.c:205
+#: src/vsync.c:149 src/sound.c:275 src/sound.c:277 src/debug.c:205
 #: src/c64/cart/ide64.c:279 src/c64/cart/ide64.c:281 src/c64/cart/ide64.c:283
 #: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:200
 #: src/gfxoutputdrv/ffmpegdrv.c:203 src/mouse.c:95 src/ram.c:101
@@ -56,23 +56,23 @@ msgstr "Le registrazioni multiple non sono supportate."
 msgid "Cannot load snapshot file."
 msgstr "Non è possibile caricare il file di snapshot."
 
-#: src/sound.c:252 src/translate.c.po.c:4436
+#: src/sound.c:271 src/translate.c.po.c:4436
 msgid "Enable sound playback"
 msgstr "Attiva la riproduzione dell'audio"
 
-#: src/sound.c:254 src/translate.c.po.c:4446
+#: src/sound.c:273 src/translate.c.po.c:4446
 msgid "Disable sound playback"
 msgstr "Disattiva la riproduzione dell'audio"
 
-#: src/sound.c:256 src/translate.c.po.c:4456
+#: src/sound.c:275 src/translate.c.po.c:4456
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Imposta la velocità di campionamento dell'audio a <valore> Hz"
 
-#: src/sound.c:258 src/translate.c.po.c:4466
+#: src/sound.c:277 src/translate.c.po.c:4466
 msgid "Set sound buffer size to <value> msec"
 msgstr "Imposta la dimensione del buffer dell'audio a <valore> msec"
 
-#: src/sound.c:260 src/sound.c:264 src/c128/c128-cmdline-options.c:108
+#: src/sound.c:279 src/sound.c:283 src/c128/c128-cmdline-options.c:108
 #: src/c128/c128-cmdline-options.c:110 src/c128/c128-cmdline-options.c:112
 #: src/c128/c128-cmdline-options.c:114 src/c128/c128-cmdline-options.c:116
 #: src/c128/c128-cmdline-options.c:118 src/c128/c128-cmdline-options.c:120
@@ -95,7 +95,7 @@ msgstr "Imposta la dimensione del buffer dell'audio a <valore> msec"
 #: src/c64/cart/ide64.c:277 src/c64/c64_256k.c:210 src/c64/georam.c:209
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
 #: src/c64/plus60k.c:249 src/c64/ramcart.c:239 src/c64/reu.c:247
-#: src/c64/tfe.c:1936 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/tfe.c:1934 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -149,119 +149,119 @@ msgstr "Imposta la dimensione del buffer dell'audio a <valore> msec"
 msgid "<name>"
 msgstr "<nome>"
 
-#: src/sound.c:260 src/translate.c.po.c:4476
+#: src/sound.c:279 src/translate.c.po.c:4476
 msgid "Specify sound driver"
 msgstr "Specifica il driver audio"
 
-#: src/sound.c:262 src/sound.c:266 src/translate.c.po.c:4486
+#: src/sound.c:281 src/sound.c:285 src/translate.c.po.c:4486
 msgid "<args>"
 msgstr "<argomenti>"
 
-#: src/sound.c:262 src/translate.c.po.c:4496
+#: src/sound.c:281 src/translate.c.po.c:4496
 msgid "Specify initialization parameters for sound driver"
 msgstr "Specifica i parametri di inizializzazione del driver audio"
 
-#: src/sound.c:264 src/translate.c.po.c:4506
+#: src/sound.c:283 src/translate.c.po.c:4506
 msgid "Specify recording sound driver"
 msgstr "Specifica il driver audio di registrazione"
 
-#: src/sound.c:266 src/translate.c.po.c:4516
+#: src/sound.c:285 src/translate.c.po.c:4516
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
 "Specifica i parametri di inizializzazione per il driver audio di "
 "registrazione"
 
-#: src/sound.c:268 src/translate.c.po.c:4526
+#: src/sound.c:287 src/translate.c.po.c:4526
 msgid "<sync>"
 msgstr "<sync>"
 
-#: src/sound.c:268 src/translate.c.po.c:4536
+#: src/sound.c:287 src/translate.c.po.c:4536
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Imposta il tipo di adattamento della velocità dell'audio (0: flessibile, 1:"
 "adattabile, 2: esatta)"
 
-#: src/sound.c:478 src/translate.c.po.c:231
+#: src/sound.c:497 src/translate.c.po.c:231
 msgid "write to sound device failed."
 msgstr "scrittura sulla scheda audio fallita."
 
-#: src/sound.c:493 src/translate.c.po.c:241
+#: src/sound.c:512 src/translate.c.po.c:241
 msgid "Cannot open SID engine"
 msgstr "Non è possibile aprire il motore SID"
 
-#: src/sound.c:532 src/translate.c.po.c:251
+#: src/sound.c:551 src/translate.c.po.c:251
 msgid "Cannot initialize SID engine"
 msgstr "Non è possibile inizializzare il motore SID"
 
-#: src/sound.c:639
+#: src/sound.c:658
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "inizializzazione fallita per il device `%s'."
 
-#: src/sound.c:648
+#: src/sound.c:667
 msgid "sound device lacks stereo capability"
 msgstr "la scheda audio non dispone di una modalità stereofonica"
 
-#: src/sound.c:698 src/translate.c.po.c:271
+#: src/sound.c:717 src/translate.c.po.c:271
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "il device '%s' non è stato trovato oppure non è supportato."
 
-#: src/sound.c:719 src/translate.c.po.c:281
+#: src/sound.c:738 src/translate.c.po.c:281
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Il device di registrazione %s non esiste!"
 
-#: src/sound.c:727 src/translate.c.po.c:291
+#: src/sound.c:746 src/translate.c.po.c:291
 msgid "Recording device must be different from playback device"
 msgstr ""
 "Il device di registrazione deve essere differente da quello di riproduzione"
 
-#: src/sound.c:737 src/translate.c.po.c:303
+#: src/sound.c:756 src/translate.c.po.c:303
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
 "Attenzione! Il device di registrazione %s sembra essere un dispositivo "
 "realtime!"
 
-#: src/sound.c:748 src/translate.c.po.c:261
+#: src/sound.c:767 src/translate.c.po.c:261
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Inizializzazione fallita per il device `%s'."
 
-#: src/sound.c:763 src/translate.c.po.c:315
+#: src/sound.c:782 src/translate.c.po.c:315
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Il device di registrazione non supporta i parametri attuali"
 
-#: src/sound.c:844 src/translate.c.po.c:326
+#: src/sound.c:868 src/translate.c.po.c:326
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Overflow del buffer audio (cycle based)"
 
-#: src/sound.c:858 src/translate.c.po.c:336
+#: src/sound.c:882 src/translate.c.po.c:336
 msgid "Sound buffer overflow."
 msgstr "Overflow del buffer audio."
 
-#: src/sound.c:984 src/translate.c.po.c:346
+#: src/sound.c:1011 src/translate.c.po.c:346
 msgid "cannot flush."
 msgstr "non è possibile svuotare."
 
-#: src/sound.c:1033 src/translate.c.po.c:356
+#: src/sound.c:1060 src/translate.c.po.c:356
 msgid "fragment problems."
 msgstr "problemi di frammentazione."
 
-#: src/sound.c:1063
+#: src/sound.c:1090
 msgid "Buffer drained"
 msgstr "Buffer vuoto"
 
-#: src/sound.c:1102 src/translate.c.po.c:366
+#: src/sound.c:1129 src/translate.c.po.c:366
 msgid "running too slow."
 msgstr "esecuzione troppo lenta."
 
-#: src/sound.c:1118 src/sound.c:1128
+#: src/sound.c:1145 src/sound.c:1155
 msgid "write to sounddevice failed."
 msgstr "scrittura sulla scheda audio fallita."
 
-#: src/sound.c:1386 src/translate.c.po.c:376
+#: src/sound.c:1413 src/translate.c.po.c:376
 msgid "store to sounddevice failed."
 msgstr "memorizzazione sulla scheda audio fallita."
 
@@ -672,19 +672,19 @@ msgstr "Specifica il nome del file della mappa simbolica della tastiera"
 msgid "Specify name of positional keymap file"
 msgstr "Specifica il nome del file della mappa posizionale della tastiera"
 
-#: src/c128/c128mmu.c:124 src/translate.c.po.c:938
+#: src/c128/c128mmu.c:125 src/translate.c.po.c:938
 msgid "Activate 40 column mode"
 msgstr "Attiva la modalità a 40 colonne"
 
-#: src/c128/c128mmu.c:127 src/translate.c.po.c:948
+#: src/c128/c128mmu.c:128 src/translate.c.po.c:948
 msgid "Activate 80 column mode"
 msgstr "Attiva la modalità a 80 colonne"
 
-#: src/c128/c128mmu.c:130 src/translate.c.po.c:958
+#: src/c128/c128mmu.c:131 src/translate.c.po.c:958
 msgid "Always switch to C64 mode on reset"
 msgstr ""
 
-#: src/c128/c128mmu.c:133 src/translate.c.po.c:968
+#: src/c128/c128mmu.c:134 src/translate.c.po.c:968
 msgid "Always switch to C128 mode on reset"
 msgstr ""
 
@@ -1000,24 +1000,24 @@ msgstr "Specifica il nome dell'immagine REU"
 msgid "Size of the RAM expansion unit"
 msgstr "Dimensione dell'espansione di RAM"
 
-#: src/c64/tfe.c:1932 src/translate.c.po.c:1371
+#: src/c64/tfe.c:1930 src/translate.c.po.c:1371
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "Attiva l'unità TFE (\"The Final Ethernet\")"
 
-#: src/c64/tfe.c:1934 src/translate.c.po.c:1381
+#: src/c64/tfe.c:1932 src/translate.c.po.c:1381
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "Disattiva l'unità TFE (\"The Final Ethernet\")"
 
-#: src/c64/tfe.c:1936 src/translate.c.po.c:1391
+#: src/c64/tfe.c:1934 src/translate.c.po.c:1391
 msgid "Set the system ethernet interface for TFE emulation"
 msgstr ""
 
-#: src/c64/tfe.c:1938 src/translate.c.po.c:1401
+#: src/c64/tfe.c:1936 src/translate.c.po.c:1401
 #, fuzzy
 msgid "Enable RRNet mode of TFE emulation"
 msgstr "*Attiva l'emulazione hardware dei drive"
 
-#: src/c64/tfe.c:1940 src/translate.c.po.c:1411
+#: src/c64/tfe.c:1938 src/translate.c.po.c:1411
 #, fuzzy
 msgid "Disable RRNet mode of TFE emulation"
 msgstr "Disattiva l'emulazione della RS232 su userport"

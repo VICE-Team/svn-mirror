@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-04-29 23:03+0200\n"
+"POT-Creation-Date: 2007-05-05 14:34+0200\n"
 "PO-Revision-Date: 2007-02-14 16:16+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -25,7 +25,7 @@ msgstr "<százalék>"
 msgid "Limit emulation speed to specified value"
 msgstr "Emulációs sebesség lehatárolása adott értékre"
 
-#: src/vsync.c:149 src/sound.c:256 src/sound.c:258 src/debug.c:205
+#: src/vsync.c:149 src/sound.c:275 src/sound.c:277 src/debug.c:205
 #: src/c64/cart/ide64.c:279 src/c64/cart/ide64.c:281 src/c64/cart/ide64.c:283
 #: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:200
 #: src/gfxoutputdrv/ffmpegdrv.c:203 src/mouse.c:95 src/ram.c:101
@@ -57,23 +57,23 @@ msgstr "Sajnálom: többszörös fekvétel nem támogatott."
 msgid "Cannot load snapshot file."
 msgstr "Nem sikerült betölteni a pillanatkép fájlt."
 
-#: src/sound.c:252 src/translate.c.po.c:4436
+#: src/sound.c:271 src/translate.c.po.c:4436
 msgid "Enable sound playback"
 msgstr "Hangok engedélyezése"
 
-#: src/sound.c:254 src/translate.c.po.c:4446
+#: src/sound.c:273 src/translate.c.po.c:4446
 msgid "Disable sound playback"
 msgstr "Hangok tiltása"
 
-#: src/sound.c:256 src/translate.c.po.c:4456
+#: src/sound.c:275 src/translate.c.po.c:4456
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Hang mintavételezési ráta beállítása Hz-ben <érték>-re"
 
-#: src/sound.c:258 src/translate.c.po.c:4466
+#: src/sound.c:277 src/translate.c.po.c:4466
 msgid "Set sound buffer size to <value> msec"
 msgstr "A hangpuffer méretét <érték> mp-re állítja"
 
-#: src/sound.c:260 src/sound.c:264 src/c128/c128-cmdline-options.c:108
+#: src/sound.c:279 src/sound.c:283 src/c128/c128-cmdline-options.c:108
 #: src/c128/c128-cmdline-options.c:110 src/c128/c128-cmdline-options.c:112
 #: src/c128/c128-cmdline-options.c:114 src/c128/c128-cmdline-options.c:116
 #: src/c128/c128-cmdline-options.c:118 src/c128/c128-cmdline-options.c:120
@@ -96,7 +96,7 @@ msgstr "A hangpuffer méretét <érték> mp-re állítja"
 #: src/c64/cart/ide64.c:277 src/c64/c64_256k.c:210 src/c64/georam.c:209
 #: src/c64/mmc64.c:907 src/c64/mmc64.c:909 src/c64/plus256k.c:175
 #: src/c64/plus60k.c:249 src/c64/ramcart.c:239 src/c64/reu.c:247
-#: src/c64/tfe.c:1936 src/cbm2/cbm2-cmdline-options.c:132
+#: src/c64/tfe.c:1934 src/cbm2/cbm2-cmdline-options.c:132
 #: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
 #: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
 #: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
@@ -150,113 +150,113 @@ msgstr "A hangpuffer méretét <érték> mp-re állítja"
 msgid "<name>"
 msgstr "<név>"
 
-#: src/sound.c:260 src/translate.c.po.c:4476
+#: src/sound.c:279 src/translate.c.po.c:4476
 msgid "Specify sound driver"
 msgstr "Adja meg a hangmodul nevét"
 
-#: src/sound.c:262 src/sound.c:266 src/translate.c.po.c:4486
+#: src/sound.c:281 src/sound.c:285 src/translate.c.po.c:4486
 msgid "<args>"
 msgstr "<argumentumok>"
 
-#: src/sound.c:262 src/translate.c.po.c:4496
+#: src/sound.c:281 src/translate.c.po.c:4496
 msgid "Specify initialization parameters for sound driver"
 msgstr "Adja meg a hangmodul indulási paramétereit"
 
-#: src/sound.c:264 src/translate.c.po.c:4506
+#: src/sound.c:283 src/translate.c.po.c:4506
 msgid "Specify recording sound driver"
 msgstr "Adja meg a felvételhez használt hangmodult"
 
-#: src/sound.c:266 src/translate.c.po.c:4516
+#: src/sound.c:285 src/translate.c.po.c:4516
 msgid "Specify initialization parameters for recording sound driver"
 msgstr "Adja meg a felvételhez használt hangmodul indulási paramétereit"
 
-#: src/sound.c:268 src/translate.c.po.c:4526
+#: src/sound.c:287 src/translate.c.po.c:4526
 msgid "<sync>"
 msgstr "<sync>"
 
-#: src/sound.c:268 src/translate.c.po.c:4536
+#: src/sound.c:287 src/translate.c.po.c:4536
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Adja meg a zene sebesség igazítását (0: rugalmas. 1: igazodó, 2: pontos)"
 
-#: src/sound.c:478 src/translate.c.po.c:231
+#: src/sound.c:497 src/translate.c.po.c:231
 msgid "write to sound device failed."
 msgstr "Nem sikerült a hangeszközre írni"
 
-#: src/sound.c:493 src/translate.c.po.c:241
+#: src/sound.c:512 src/translate.c.po.c:241
 msgid "Cannot open SID engine"
 msgstr "Nem sikerült a SID motort megnyitni"
 
-#: src/sound.c:532 src/translate.c.po.c:251
+#: src/sound.c:551 src/translate.c.po.c:251
 msgid "Cannot initialize SID engine"
 msgstr "Nem sikerült a SID motort elindítani"
 
-#: src/sound.c:639
+#: src/sound.c:658
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "A `%s' eszközt nem sikerült elindítani."
 
-#: src/sound.c:648
+#: src/sound.c:667
 msgid "sound device lacks stereo capability"
 msgstr "A hangeszköz nem stereo"
 
-#: src/sound.c:698 src/translate.c.po.c:271
+#: src/sound.c:717 src/translate.c.po.c:271
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "A '%s' eszköz nem létezik, vagy nem támogatott."
 
-#: src/sound.c:719 src/translate.c.po.c:281
+#: src/sound.c:738 src/translate.c.po.c:281
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "A %s felvevõ eszköz nem létezik!"
 
-#: src/sound.c:727 src/translate.c.po.c:291
+#: src/sound.c:746 src/translate.c.po.c:291
 msgid "Recording device must be different from playback device"
 msgstr "A felvevõ és lejátszó eszközöknek különböznie kell!"
 
-#: src/sound.c:737 src/translate.c.po.c:303
+#: src/sound.c:756 src/translate.c.po.c:303
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Figyelem! A %s felvevõ eszköz úgy tûnik, valós idejû eszköz!"
 
-#: src/sound.c:748 src/translate.c.po.c:261
+#: src/sound.c:767 src/translate.c.po.c:261
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "A `%s' eszköz indítása nem sikerült."
 
-#: src/sound.c:763 src/translate.c.po.c:315
+#: src/sound.c:782 src/translate.c.po.c:315
 msgid "The recording device doesn't support current sound parameters"
 msgstr "A felvevõ eszköz nem támogatja az aktuális hangbeállításokat"
 
-#: src/sound.c:844 src/translate.c.po.c:326
+#: src/sound.c:868 src/translate.c.po.c:326
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Hangpuffer túlcsordulás (ciklus alapú)"
 
-#: src/sound.c:858 src/translate.c.po.c:336
+#: src/sound.c:882 src/translate.c.po.c:336
 msgid "Sound buffer overflow."
 msgstr "Hangpuffer túlcsordulás."
 
-#: src/sound.c:984 src/translate.c.po.c:346
+#: src/sound.c:1011 src/translate.c.po.c:346
 msgid "cannot flush."
 msgstr "nem sikerült üríteni a puffert."
 
-#: src/sound.c:1033 src/translate.c.po.c:356
+#: src/sound.c:1060 src/translate.c.po.c:356
 msgid "fragment problems."
 msgstr "töredékrész problémák."
 
-#: src/sound.c:1063
+#: src/sound.c:1090
 msgid "Buffer drained"
 msgstr "A puffer alulcsordult."
 
-#: src/sound.c:1102 src/translate.c.po.c:366
+#: src/sound.c:1129 src/translate.c.po.c:366
 msgid "running too slow."
 msgstr "túl lassan megy."
 
-#: src/sound.c:1118 src/sound.c:1128
+#: src/sound.c:1145 src/sound.c:1155
 msgid "write to sounddevice failed."
 msgstr "a hangeszközre történõ írás nem sikerült."
 
-#: src/sound.c:1386 src/translate.c.po.c:376
+#: src/sound.c:1413 src/translate.c.po.c:376
 msgid "store to sounddevice failed."
 msgstr "a hangeszközön történõ tárolás nem sikerült."
 
@@ -654,19 +654,19 @@ msgstr "Adja meg a szimbolikus leképzésfájl nevét"
 msgid "Specify name of positional keymap file"
 msgstr "Adja meg a pozíció szerinti leképzésfájl nevét"
 
-#: src/c128/c128mmu.c:124 src/translate.c.po.c:938
+#: src/c128/c128mmu.c:125 src/translate.c.po.c:938
 msgid "Activate 40 column mode"
 msgstr "40 oszlopos mód aktiválása"
 
-#: src/c128/c128mmu.c:127 src/translate.c.po.c:948
+#: src/c128/c128mmu.c:128 src/translate.c.po.c:948
 msgid "Activate 80 column mode"
 msgstr "80 oszlopos mód aktiválása"
 
-#: src/c128/c128mmu.c:130 src/translate.c.po.c:958
+#: src/c128/c128mmu.c:131 src/translate.c.po.c:958
 msgid "Always switch to C64 mode on reset"
 msgstr ""
 
-#: src/c128/c128mmu.c:133 src/translate.c.po.c:968
+#: src/c128/c128mmu.c:134 src/translate.c.po.c:968
 msgid "Always switch to C128 mode on reset"
 msgstr ""
 
@@ -978,24 +978,24 @@ msgstr "Adja meg a REU képmás nevét"
 msgid "Size of the RAM expansion unit"
 msgstr "RAM Expansion Unit mérete"
 
-#: src/c64/tfe.c:1932 src/translate.c.po.c:1371
+#: src/c64/tfe.c:1930 src/translate.c.po.c:1371
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "TFE (\"the final ethernet\") egység engedélyezése"
 
-#: src/c64/tfe.c:1934 src/translate.c.po.c:1381
+#: src/c64/tfe.c:1932 src/translate.c.po.c:1381
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "TFE (\"the final ethernet\") egység tiltása"
 
-#: src/c64/tfe.c:1936 src/translate.c.po.c:1391
+#: src/c64/tfe.c:1934 src/translate.c.po.c:1391
 msgid "Set the system ethernet interface for TFE emulation"
 msgstr ""
 
-#: src/c64/tfe.c:1938 src/translate.c.po.c:1401
+#: src/c64/tfe.c:1936 src/translate.c.po.c:1401
 #, fuzzy
 msgid "Enable RRNet mode of TFE emulation"
 msgstr "*Valós lemezegység emuláció engedélyezése"
 
-#: src/c64/tfe.c:1940 src/translate.c.po.c:1411
+#: src/c64/tfe.c:1938 src/translate.c.po.c:1411
 #, fuzzy
 msgid "Disable RRNet mode of TFE emulation"
 msgstr "RS232 userport emuláció tiltása"
