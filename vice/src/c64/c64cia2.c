@@ -1497,7 +1497,7 @@ int cia2_read_snapshot_module(snapshot_t *p)
     }
 #endif
     mem_set_vbank((byte ^ 3) & 3);
-    iec_cpu_write(byte ^ 0xff);
+    iec_cpu_undump(byte ^ 0xff);
         oldpa = byte;
 
         addr = CIA_DDRB;
