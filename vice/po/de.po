@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-01 21:23+0200\n"
+"POT-Creation-Date: 2007-07-16 00:55+0200\n"
 "PO-Revision-Date: 2007-02-26 20:53+0100\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -2912,7 +2912,7 @@ msgid "Smart-attach a file"
 msgstr "Smart Datei einleigen"
 
 #: src/arch/unix/gui/uiattach.c:301 src/arch/unix/gui/uiattach.c:310
-#: src/arch/unix/x11/xaw/x11ui.c:1780
+#: src/arch/unix/x11/xaw/x11ui.c:1785
 msgid "Unknown image type"
 msgstr "Unbekannter Image Typ."
 
@@ -4706,7 +4706,7 @@ msgid "Invalid speed value"
 msgstr "Ungültige Geschwindigkeit"
 
 #: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1426
-#: src/arch/unix/x11/xaw/x11ui.c:1095 src/arch/win32/res.rc.po.c:4900
+#: src/arch/unix/x11/xaw/x11ui.c:1100 src/arch/win32/res.rc.po.c:4900
 #: src/arch/amigaos/intl.c.po.c:1908
 msgid "Cannot save settings."
 msgstr "Fehler beim Speichern der Einstellungen."
@@ -5594,17 +5594,17 @@ msgstr "Schriftpfad hinzufügen ist fehlgeschlagen: `%s'.\n"
 msgid "Set fontpath: `%s'.\n"
 msgstr "Setze Fontpfad: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:643 src/arch/unix/x11/xaw/x11ui.c:507
+#: src/arch/unix/x11/gnome/x11ui.c:643 src/arch/unix/x11/xaw/x11ui.c:512
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dieses Display unterstützt keine passende %dbit Farbtiefe."
 
-#: src/arch/unix/x11/gnome/x11ui.c:646 src/arch/unix/x11/xaw/x11ui.c:510
+#: src/arch/unix/x11/gnome/x11ui.c:646 src/arch/unix/x11/xaw/x11ui.c:515
 msgid "Please select a bit depth supported by your display."
 msgstr "Bitte genaue Farbtiefe für Ihr Display spezifizieren."
 
 #: src/arch/unix/x11/gnome/x11ui.c:649 src/arch/unix/x11/gnome/x11ui.c:673
-#: src/arch/unix/x11/xaw/x11ui.c:513 src/arch/unix/x11/xaw/x11ui.c:530
+#: src/arch/unix/x11/xaw/x11ui.c:518 src/arch/unix/x11/xaw/x11ui.c:535
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "%dbit/%s Farbtiefe erkannt."
@@ -5614,7 +5614,7 @@ msgstr "%dbit/%s Farbtiefe erkannt."
 msgid "Found %dbit visual."
 msgstr "%dbit Farbtiefe erkannt."
 
-#: src/arch/unix/x11/gnome/x11ui.c:681 src/arch/unix/x11/xaw/x11ui.c:538
+#: src/arch/unix/x11/gnome/x11ui.c:681 src/arch/unix/x11/xaw/x11ui.c:543
 msgid "Cannot autodetect a proper visual."
 msgstr "Fehler beim automatischen erkennen der Farbtiefe."
 
@@ -5662,7 +5662,7 @@ msgstr "Laufwerk %d: "
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1094 src/arch/unix/x11/xaw/x11ui.c:624
+#: src/arch/unix/x11/gnome/x11ui.c:1094 src/arch/unix/x11/xaw/x11ui.c:629
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale Anzahl an Hauptfenster erreicht."
 
@@ -5674,24 +5674,24 @@ msgstr "Kommandos"
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1409 src/arch/unix/x11/xaw/x11ui.c:1081
+#: src/arch/unix/x11/gnome/x11ui.c:1409 src/arch/unix/x11/xaw/x11ui.c:1086
 msgid " emulator"
 msgstr " Emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1416 src/arch/unix/x11/xaw/x11ui.c:1085
+#: src/arch/unix/x11/gnome/x11ui.c:1416 src/arch/unix/x11/xaw/x11ui.c:1090
 msgid "Do you really want to exit?"
 msgstr "Wirklich beenden?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1423 src/arch/unix/x11/xaw/x11ui.c:1092
+#: src/arch/unix/x11/gnome/x11ui.c:1423 src/arch/unix/x11/xaw/x11ui.c:1097
 msgid "Save the current settings?"
 msgstr "Einstellungen speichern?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1468 src/arch/unix/x11/xaw/x11ui.c:1133
+#: src/arch/unix/x11/gnome/x11ui.c:1468 src/arch/unix/x11/xaw/x11ui.c:1138
 msgid "Using private colormap."
 msgstr "Benutze private Farbpalette."
 
 #: src/arch/unix/x11/gnome/x11ui.c:1488 src/arch/unix/x11/gnome/x11ui.c:1491
-#: src/arch/unix/x11/xaw/x11ui.c:1161 src/arch/unix/x11/xaw/x11ui.c:1166
+#: src/arch/unix/x11/xaw/x11ui.c:1166 src/arch/unix/x11/xaw/x11ui.c:1171
 msgid "(warp)"
 msgstr "(warp)"
 
@@ -5702,7 +5702,7 @@ msgstr "(warp)"
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1865 src/arch/unix/x11/xaw/x11ui.c:1408
+#: src/arch/unix/x11/gnome/x11ui.c:1865 src/arch/unix/x11/xaw/x11ui.c:1413
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausiert)"
@@ -5723,7 +5723,7 @@ msgstr "Harter Reset"
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2121 src/arch/unix/x11/xaw/x11ui.c:1712
+#: src/arch/unix/x11/gnome/x11ui.c:2121 src/arch/unix/x11/xaw/x11ui.c:1717
 msgid "Extend disk image"
 msgstr "Erweiterung Disk Image"
 
@@ -6132,20 +6132,20 @@ msgstr "Aktuelle ROMs mitspeichern:"
 msgid "Save snapshot"
 msgstr "Snapshot speichern"
 
-#: src/arch/unix/x11/xaw/x11ui.c:817
+#: src/arch/unix/x11/xaw/x11ui.c:822
 msgid "recording..."
 msgstr "Aufnahme..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:826
+#: src/arch/unix/x11/xaw/x11ui.c:831
 msgid "event recording..."
 msgstr "Event Aufnahme..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1260
+#: src/arch/unix/x11/xaw/x11ui.c:1265
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spur %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1597 src/arch/win32/res.rc.po.c:4895
+#: src/arch/unix/x11/xaw/x11ui.c:1602 src/arch/win32/res.rc.po.c:4895
 msgid "VICE Error!"
 msgstr "VICE Fehler!"
 

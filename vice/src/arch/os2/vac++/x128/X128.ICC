@@ -79,7 +79,8 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "c64printer.c",
             "c64rsuser.c",
             "c64sound.c",
-            "c64tpi.c"
+            "c64tpi.c",
+            "vicii-clock-stretch.c"
 
         include "../incl/archdep.icc"
         include "../incl/c128.icc"

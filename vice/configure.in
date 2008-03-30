@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=21
-VICE_VERSION_BUILD=11
+VICE_VERSION_BUILD=12
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -166,7 +166,7 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
   fi
 
-elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "xamithlon" -o x"$host_os" = "xaros" -o x"$host_os" = "xmorphos"; then
+elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "xamithlon" -o x"$host_os" = "xaros" -o x"$host_os" = "xmorphos" -o x"$host_os" = "xwarpos" -o x"$host_os" = "xpowerup"; then
   AM_CONDITIONAL(HAVE_RS232, true)
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
 
@@ -212,6 +212,16 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
     with_png=no
     with_zlib=no
+    is_amigaos4=no
+  fi
+
+  if test x"$host_os" = "xwarpos"; then
+    AC_DEFINE(AMIGA_WARPOS,,[Should we enable PPC Amiga WarpOS support.])
+    is_amigaos4=no
+  fi
+
+  if test x"$host_os" = "xpowerup"; then
+    AC_DEFINE(AMIGA_POWERUP,,[Should we enable PPC Amiga PowerUP support.])
     is_amigaos4=no
   fi
 
@@ -860,12 +870,10 @@ if test x"$with_zlib" != "xno" ; then
   if test x"$ac_cv_header_zlib_h" = "xyes" ; then
     ac_cv_lib_z_zlibVersion=yes
     if test x"$enable_zlibtest" != "xno" ; then
-      old_LIBS="$LIBS"
       AC_CHECK_LIB(z, zlibVersion,
-                 [ ZLIB_LIBS="-lz $LIBS";
+                 [ ZLIB_LIBS="-lz";
                    AC_DEFINE(HAVE_ZLIB,,
                              [Can we use the ZLIB compression library?]) ],,)
-      LIBS="$old_LIBS"
     fi
   fi
   if test x"$ac_cv_lib_z_zlibVersion" != "xyes"; then
@@ -897,12 +905,18 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = 
   if test x"$UNIX_NETWORK_HEADERS_PRESENT" = "xyes"; then
 
     dnl Check for possible extra needed network libraries
-    AC_CHECK_LIB(nsl, gethostbyname,[ NETPLAY_LIBS="-lnsl $NETPLAY_LIBS"],,)
-    AC_CHECK_LIB(socket, gethostbyname,[ NETPLAY_LIBS="-lsocket $NETPLAY_LIBS"],,)
-    AC_CHECK_LIB(bsd, gethostbyname,[ NETPLAY_LIBS="-lbsd $NETPLAY_LIBS"],,)
-    AC_CHECK_LIB(net, gethostbyname,[ NETPLAY_LIBS="-lnet $NETPLAY_LIBS"],,)
-    AC_CHECK_LIB(inet, gethostbyname,[ NETPLAY_LIBS="-linet $NETPLAY_LIBS"],,)
-    AC_CHECK_LIB(watt, gethostbyname,[ NETPLAY_LIBS="-lwatt $NETPLAY_LIBS"],,)
+    AC_CHECK_LIB(nsl, gethostbyname,[ NETPLAY_LIBS="-lnsl $NETPLAY_LIBS";
+                                      LIBS="-lnsl $LIBS"],,)
+    AC_CHECK_LIB(socket, gethostbyname,[ NETPLAY_LIBS="-lsocket $NETPLAY_LIBS";
+                                         LIBS="-lsocket $LIBS"],,)
+    AC_CHECK_LIB(bsd, gethostbyname,[ NETPLAY_LIBS="-lbsd $NETPLAY_LIBS";
+                                      LIBS="-lbsd $LIBS"],,)
+    AC_CHECK_LIB(net, gethostbyname,[ NETPLAY_LIBS="-lnet $NETPLAY_LIBS";
+                                      LIBS="-lnet $LIBS"],,)
+    AC_CHECK_LIB(inet, gethostbyname,[ NETPLAY_LIBS="-linet $NETPLAY_LIBS";
+                                       LIBS="-linet $LIBS"],,)
+    AC_CHECK_LIB(watt, gethostbyname,[ NETPLAY_LIBS="-lwatt $NETPLAY_LIBS";
+                                       LIBS="-lwatt $LIBS"],,)
 
     dnl Check for needed functions
     UNIX_NETWORK_FUNCS_PRESENT=yes
@@ -926,7 +940,8 @@ elif test x"$is_beos" = "xyes"; then
   if test x"$BEOS_NETWORK_HEADERS_PRESENT" = "xyes"; then
 
     dnl Check for possible extra needed network libraries
-    AC_CHECK_LIB(net, gethostbyname,[ NETPLAY_LIBS="-lnet -lnetapi $NETPLAY_LIBS"],,)
+    AC_CHECK_LIB(net, gethostbyname,[ NETPLAY_LIBS="-lnet -lnetapi $NETPLAY_LIBS";
+                                      LIBS="-lnet -lnetapi $LIBS"],,)
 
     dnl Check for needed functions
 
@@ -1591,7 +1606,7 @@ if test x"$is_unix_x11" = "xyes"; then
       echo
     fi
 
-    AC_CHECK_HEADERS(X11/Sunkeysym.h X11/xpm.h)
+    AC_CHECK_HEADERS(X11/Sunkeysym.h X11/xpm.h xpm.h)
   fi
 
   AC_CHECK_HEADER(GL/glx.h,,,[#include <GL/gl.h>])
@@ -1668,7 +1683,7 @@ elif test x"$is_amiga" = "xyes"; then
 
   dnl On Amiga, we already know what we want.
   if test x"$is_amiga_aros" != "xyes"; then
-    if test x"$host_os" != "xmorphos"; then
+    if test x"$host_os" != "xmorphos" -a x"$host_os" != "xwarpos" -a x"$host_os" != "xpowerup"; then
       LIBS="$LIBS -lauto"
     fi
   else

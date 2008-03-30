@@ -37,6 +37,7 @@
 #include "sound.h"
 #include "types.h"
 #include "vic20sound.h"
+#include "vic20click.h"
 #include "vic20.h"
 
 static BYTE vic20_sound_data[16];
@@ -65,6 +66,7 @@ struct sound_vic20_s
   unsigned short noisefoo;
   unsigned char vol;
   int cycles_per_sample;
+  int speed;
 };
 typedef struct sound_vic20_s sound_vic20_t;
 
@@ -72,15 +74,49 @@ static struct sound_vic20_s snd;
 
 int vic_sound_run(int cycles);
 
+static int sample_counter = -1;
+static int sample_volume = 0;
+static int current_volume = -1;
+
 static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                                     int interleave, int *delta_t)
 {
     int i;
 
+    if (current_volume == -1)
+        current_volume = snd.vol;
+
+    if (current_volume != snd.vol)
+    {
+        sample_volume = snd.vol - current_volume;
+        sample_counter = 0;
+        current_volume = snd.vol;
+    }
+
     for (i = 0; i < nr; i++)
     {
-      if (snd.vol)
-        pbuf[i * interleave] += (((vic_sound_run(snd.cycles_per_sample) * snd.vol) / (snd.cycles_per_sample))<<9) - (snd.vol*0x800);
+        SWORD vicbuf;
+        int real_sample_counter;
+
+        vicbuf = (((vic_sound_run(snd.cycles_per_sample) * snd.vol) / (snd.cycles_per_sample))<<9) - (snd.vol*0x800);
+        pbuf[i * interleave] += vicbuf;
+
+        if (vicbuf != 0 && sample_counter != -1)
+            sample_counter = -1;
+
+        if (sample_counter != -1)
+        {
+            real_sample_counter = sample_counter*44100/snd.speed;
+            if (real_sample_counter < VIC20CLICK_LEN)
+            {
+                pbuf[i * interleave] += (SWORD)vic20click[real_sample_counter]*sample_volume;
+                sample_counter++;
+            }
+            else
+            {
+                sample_counter = -1;
+            }
+        }
     }
     return 0;
 }
@@ -185,6 +221,9 @@ static int vic_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     memset((unsigned char*)&snd, 0, sizeof(snd));
 
     snd.cycles_per_sample = cycles_per_sec / speed;
+
+    snd.speed = speed;
+    sample_counter = -1;
 
     for (i = 0; i < 16; i++)
         vic_sound_machine_store(psid, (WORD)i, vic20_sound_data[i]);

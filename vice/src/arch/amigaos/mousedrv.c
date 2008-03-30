@@ -44,7 +44,7 @@ static int g_mx = 0, g_my = 0, g_mb = 0;
 #include <proto/exec.h>
 #endif
 
-#if defined(AMIGA_MORPHOS) || defined(__VBCC__)
+#if defined(AMIGA_MORPHOS) || defined(__VBCC__) || defined(AMIGA_WARPOS)
 #include <exec/interrupts.h>
 #endif
 

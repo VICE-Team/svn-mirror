@@ -38,6 +38,8 @@
    overflow handling.
 */
 
+int vsync_frame_counter;
+
 /* Port me... */
 #if !defined(MSDOS) && !defined(RISCOS)
 
@@ -67,8 +69,6 @@
 #include "vsyncapi.h"
 
 /* ------------------------------------------------------------------------- */
-
-int vsync_frame_counter;
 
 static int set_timer_speed(int speed);
 

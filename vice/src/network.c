@@ -45,6 +45,7 @@
 #ifndef AMIGA_OS4
 #ifdef AMIGA_M68K
 #include <utility/tagitem.h>
+#include <clib/exec_protos.h>
 #endif
 #ifdef AMIGA_AROS
 #include <proto/exec.h>
@@ -56,8 +57,7 @@ struct Library *SocketBase;
 #include <proto/bsdsocket.h>
 #endif
 #ifndef AMIGA_AROS
-#define select(nfds, read_fds, write_fds, except_fds, 
-timeout) \
+#define select(nfds, read_fds, write_fds, except_fds, timeout) \
         WaitSelect(nfds, read_fds, write_fds, except_fds, timeout, NULL)
 #endif
 #endif

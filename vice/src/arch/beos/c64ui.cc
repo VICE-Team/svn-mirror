@@ -156,7 +156,7 @@ ui_res_possible_values MMC64Revision[] = {
 ui_res_possible_values c64viciiBorders[] = {
         {0, MENU_VICII_BORDERS_NORMAL},
         {1, MENU_VICII_BORDERS_FULL},
-        {2, MENU_VICII_BORDERS_DEBUG),
+        {2, MENU_VICII_BORDERS_DEBUG},
         {-1, 0}
 };
 

@@ -84,8 +84,22 @@ static void color_owner_free(owner_list_t *owner)
     } while (owner != NULL);
 }
 
+static int color_has_owner(owner_list_t *owner, void *c)
+{
+    while (owner->next != NULL)
+    {
+        if (owner->color_owner == c)
+            return 1;
+        owner = owner->next;
+    }
+    return 0;
+}
+
 static void color_owner_add(owner_list_t *owner, void *c)
 {
+    if (color_has_owner(owner, c))
+        return;
+
     while (owner->next != NULL)
         owner = owner->next;
 

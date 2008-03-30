@@ -33,6 +33,7 @@
 
 #include "lib.h"
 #include "machine.h"
+#include "screenshot.h"
 #include "tui.h"
 #include "tuimenu.h"
 #include "tuifs.h"

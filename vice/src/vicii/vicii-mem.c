@@ -597,6 +597,9 @@ inline static void d01c_store(const BYTE value)
     int i;
     BYTE b;
     int raster_x;
+    int sprite_x;
+    int delayed_load, delayed_shift, delayed_pixel;
+    int x_exp;
 
     VICII_DEBUG_REGISTER(("Sprite Multicolor Enable register: $%02X", value));
 
@@ -610,20 +613,43 @@ inline static void d01c_store(const BYTE value)
 
         sprite = vicii.raster.sprite_status->sprites + i;
 
-#if 0
-        if (sprite->x < raster_x)
-            raster_changes_next_line_add_int(&vicii.raster,
-                                             &sprite->multicolor,
-                                             value & b ? 1 : 0);
-        else
-            sprite->multicolor = value & b ? 1 : 0;
-#else
-        /* FIXME: This is not exact at the edge of the sprite */
-        raster_changes_sprites_add_int
-            (&vicii.raster,
-            VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 6,
-            &sprite->multicolor, value & b ? 1 : 0);
-#endif
+        if ((vicii.regs[0x1c] & b) != (value & b)) {
+            /* Test for MC bug condition */
+            sprite_x = (vicii.regs[2 * i] | (vicii.regs[0x10] & b ? 0x100 : 0));
+            x_exp = vicii.regs[0x1d] & b;
+            delayed_pixel = 6;
+
+            if (sprite_x < raster_x 
+                && sprite_x + (x_exp ? 48 : 24) >= raster_x)
+            {
+                if (value & b) {
+                    /* HIRES -> MC */
+                    if (x_exp) {
+                        delayed_load = sprite_x % 2;
+                        delayed_shift = ((sprite_x & 1) == ((sprite_x >> 1) & 1) ? 1 : 0);
+                    } else {
+                        delayed_shift = (sprite_x & 1);
+                        delayed_load = 0;
+                    }
+                    delayed_pixel = 6 - delayed_load;
+                } else {
+                    /* MC -> HIRES */
+                    delayed_shift = 0;
+                    delayed_load = 0;
+                    if (x_exp)
+                        delayed_pixel = (sprite_x & 1 ? 7 : 8 - (sprite_x & 2));
+                    else
+                        delayed_pixel = 6 + (sprite_x & 1);
+                }
+                raster_changes_sprites_add_int(&vicii.raster,
+                    raster_x + delayed_pixel,
+                    &sprite->mc_bug, delayed_shift << 1 | delayed_load);
+            }
+
+            raster_changes_sprites_add_int(&vicii.raster,
+                raster_x + delayed_pixel,
+                &sprite->multicolor, value & b ? 1 : 0);
+        }
     }
 
     vicii.regs[0x1c] = value;
@@ -648,15 +674,6 @@ inline static void d01d_store(const BYTE value)
 
         sprite = vicii.raster.sprite_status->sprites + i;
 
-#if 0
-        /* FIXME: how is this handled in the middle of one line?  */
-        if (raster_x < sprite->x)
-            sprite->x_expanded = value & b ? 1 : 0;
-        else
-            raster_changes_next_line_add_int(&vicii.raster,
-                                             &sprite->x_expanded,
-                                             value & b ? 1 : 0);
-#else
         if ((value & b) != (vicii.regs[0x1d] & b)) {
             raster_changes_sprites_add_int(&vicii.raster,
                                            raster_x,
@@ -679,8 +696,6 @@ inline static void d01d_store(const BYTE value)
                                                sprite->x_shift_sum);
             }
         }
-
-#endif
     }
 
     vicii.regs[0x1d] = value;
@@ -777,19 +792,9 @@ inline static void d025_store(BYTE value)
 
     sprite_status = vicii.raster.sprite_status;
 
-#if 0
-    /* FIXME: this is approximated.  */
-    if (VICII_RASTER_CYCLE(maincpu_clk) > vicii.cycles_per_line / 2)
-        raster_changes_next_line_add_int(&vicii.raster,
-            (int *)&sprite_status->mc_sprite_color_1,
-            (int)value);
-    else
-        sprite_status->mc_sprite_color_1 = value;
-#else
     raster_changes_sprites_add_int(&vicii.raster,
         VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 1,
         (int *)&sprite_status->mc_sprite_color_1, (int)value);
-#endif
 
     vicii.regs[0x25] = value;
 }
@@ -807,19 +812,9 @@ inline static void d026_store(BYTE value)
 
     sprite_status = vicii.raster.sprite_status;
 
-#if 0
-    /* FIXME: this is approximated.  */
-    if (VICII_RASTER_CYCLE(maincpu_clk) > vicii.cycles_per_line / 2)
-        raster_changes_next_line_add_int(&vicii.raster,
-            (int *)&sprite_status->mc_sprite_color_2,
-            (int)value);
-    else
-        sprite_status->mc_sprite_color_2 = value;
-#else
     raster_changes_sprites_add_int(&vicii.raster,
         VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 1,
         (int*)&sprite_status->mc_sprite_color_2, (int)value);
-#endif
 
     vicii.regs[0x26] = value;
 }
@@ -841,18 +836,9 @@ inline static void sprite_color_store(WORD addr, BYTE value)
 
     sprite = vicii.raster.sprite_status->sprites + n;
 
-#if 0
-    if (sprite->x < VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)))
-        raster_changes_next_line_add_int(&vicii.raster,
-                                         (int *)&sprite->color,
-                                         (int)value);
-    else
-        sprite->color = value;
-#else
         raster_changes_sprites_add_int(&vicii.raster,
             VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)) + 1,
             (int *)&sprite->color, value);
-#endif
 
     vicii.regs[addr] = value;
 }

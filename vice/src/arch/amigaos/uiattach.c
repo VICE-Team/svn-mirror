@@ -45,9 +45,6 @@
 #include "uires.h"
 #include "mui/mui.h"
 
-#define SuspendFullscreenModeKeep(...) /* FIXME */
-#define ResumeFullscreenModeKeep(...) /* FIXME */
-
 #ifdef AMIGA_AROS
 void uiattach_aros(video_canvas_t *canvas, int unit)
 {
@@ -83,7 +80,6 @@ static void uiattach_disk_dialog(video_canvas_t *canvas, int idm)
     int unit = 8;
     int autostart_index = -1;
 
-    SuspendFullscreenModeKeep(hwnd);
     switch (idm) {
       case IDM_ATTACH_8:
         unit = 8;
@@ -114,7 +110,6 @@ static void uiattach_disk_dialog(video_canvas_t *canvas, int idm)
         }
         lib_free(name);
     }
-    ResumeFullscreenModeKeep(hwnd);
     lib_free(resource);
 }
 
@@ -123,7 +118,6 @@ static void uiattach_tape_dialog(video_canvas_t *canvas)
     char *name;
     int autostart_index = -1;
 
-    SuspendFullscreenModeKeep(hwnd);
     if ((name = uilib_select_file_autostart(translate_text(IDS_ATTACH_TAPE_IMAGE),
         UILIB_FILTER_TAPE | UILIB_FILTER_ZIP | UILIB_FILTER_ALL,
         UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_TAPE,
@@ -139,7 +133,6 @@ static void uiattach_tape_dialog(video_canvas_t *canvas)
         }
         lib_free(name);
     }
-    ResumeFullscreenModeKeep(hwnd);
 }
 
 static void uiattach_autostart_dialog(video_canvas_t *canvas)
@@ -147,7 +140,6 @@ static void uiattach_autostart_dialog(video_canvas_t *canvas)
     char *name;
     int autostart_index = 0;
 
-    SuspendFullscreenModeKeep(hwnd);
     if ((name = uilib_select_file_autostart(translate_text(IDS_AUTOSTART_IMAGE),
         UILIB_FILTER_DISK | UILIB_FILTER_TAPE | UILIB_FILTER_ZIP
         | UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_LOAD,
@@ -158,7 +150,6 @@ static void uiattach_autostart_dialog(video_canvas_t *canvas)
             ui_error(translate_text(IDMES_CANNOT_AUTOSTART_FILE));
         lib_free(name);
     }
-    ResumeFullscreenModeKeep(hwnd);
 }
 
 void uiattach_command(video_canvas_t *canvas, int idm)
@@ -199,4 +190,3 @@ void uiattach_command(video_canvas_t *canvas, int idm)
         break;
     }
 }
-

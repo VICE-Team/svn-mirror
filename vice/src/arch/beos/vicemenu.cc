@@ -336,7 +336,7 @@ BMenuBar *menu_create(int machine_class) {
 		if (machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_C64) {
 				menu->AddItem(submenu = new BMenu("VIC-II Border mode"));
 				submenu->SetRadioMode(true);
-				tsubmenu->AddItem(new BMenuItem("Normal",
+				submenu->AddItem(new BMenuItem("Normal",
 					new BMessage(MENU_VICII_BORDERS_NORMAL)));
 				submenu->AddItem(new BMenuItem("Full",
 					new BMessage(MENU_VICII_BORDERS_FULL)));

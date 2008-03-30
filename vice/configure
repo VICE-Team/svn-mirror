@@ -1351,7 +1351,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=21
-VICE_VERSION_BUILD=11
+VICE_VERSION_BUILD=12
 
 
 
@@ -3393,7 +3393,7 @@ _ACEOF
 
   fi
 
-elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "xamithlon" -o x"$host_os" = "xaros" -o x"$host_os" = "xmorphos"; then
+elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "xamithlon" -o x"$host_os" = "xaros" -o x"$host_os" = "xmorphos" -o x"$host_os" = "xwarpos" -o x"$host_os" = "xpowerup"; then
 
 
 if true; then
@@ -3537,6 +3537,24 @@ _ACEOF
 
     with_png=no
     with_zlib=no
+    is_amigaos4=no
+  fi
+
+  if test x"$host_os" = "xwarpos"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define AMIGA_WARPOS
+_ACEOF
+
+    is_amigaos4=no
+  fi
+
+  if test x"$host_os" = "xpowerup"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define AMIGA_POWERUP
+_ACEOF
+
     is_amigaos4=no
   fi
 
@@ -12575,7 +12593,6 @@ fi
   if test x"$ac_cv_header_zlib_h" = "xyes" ; then
     ac_cv_lib_z_zlibVersion=yes
     if test x"$enable_zlibtest" != "xno" ; then
-      old_LIBS="$LIBS"
       echo "$as_me:$LINENO: checking for zlibVersion in -lz" >&5
 echo $ECHO_N "checking for zlibVersion in -lz... $ECHO_C" >&6
 if test "${ac_cv_lib_z_zlibVersion+set}" = set; then
@@ -12641,7 +12658,7 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_z_zlibVersion" >&5
 echo "${ECHO_T}$ac_cv_lib_z_zlibVersion" >&6
 if test $ac_cv_lib_z_zlibVersion = yes; then
-   ZLIB_LIBS="-lz $LIBS";
+   ZLIB_LIBS="-lz";
 
 cat >>confdefs.h <<\_ACEOF
 #define HAVE_ZLIB
@@ -12649,7 +12666,6 @@ _ACEOF
 
 fi
 
-      LIBS="$old_LIBS"
     fi
   fi
   if test x"$ac_cv_lib_z_zlibVersion" != "xyes"; then
@@ -12904,7 +12920,8 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_nsl_gethostbyname" >&5
 echo "${ECHO_T}$ac_cv_lib_nsl_gethostbyname" >&6
 if test $ac_cv_lib_nsl_gethostbyname = yes; then
-   NETPLAY_LIBS="-lnsl $NETPLAY_LIBS"
+   NETPLAY_LIBS="-lnsl $NETPLAY_LIBS";
+                                      LIBS="-lnsl $LIBS"
 fi
 
     echo "$as_me:$LINENO: checking for gethostbyname in -lsocket" >&5
@@ -12972,7 +12989,8 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_socket_gethostbyname" >&5
 echo "${ECHO_T}$ac_cv_lib_socket_gethostbyname" >&6
 if test $ac_cv_lib_socket_gethostbyname = yes; then
-   NETPLAY_LIBS="-lsocket $NETPLAY_LIBS"
+   NETPLAY_LIBS="-lsocket $NETPLAY_LIBS";
+                                         LIBS="-lsocket $LIBS"
 fi
 
     echo "$as_me:$LINENO: checking for gethostbyname in -lbsd" >&5
@@ -13040,7 +13058,8 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_bsd_gethostbyname" >&5
 echo "${ECHO_T}$ac_cv_lib_bsd_gethostbyname" >&6
 if test $ac_cv_lib_bsd_gethostbyname = yes; then
-   NETPLAY_LIBS="-lbsd $NETPLAY_LIBS"
+   NETPLAY_LIBS="-lbsd $NETPLAY_LIBS";
+                                      LIBS="-lbsd $LIBS"
 fi
 
     echo "$as_me:$LINENO: checking for gethostbyname in -lnet" >&5
@@ -13108,7 +13127,8 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_net_gethostbyname" >&5
 echo "${ECHO_T}$ac_cv_lib_net_gethostbyname" >&6
 if test $ac_cv_lib_net_gethostbyname = yes; then
-   NETPLAY_LIBS="-lnet $NETPLAY_LIBS"
+   NETPLAY_LIBS="-lnet $NETPLAY_LIBS";
+                                      LIBS="-lnet $LIBS"
 fi
 
     echo "$as_me:$LINENO: checking for gethostbyname in -linet" >&5
@@ -13176,7 +13196,8 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_inet_gethostbyname" >&5
 echo "${ECHO_T}$ac_cv_lib_inet_gethostbyname" >&6
 if test $ac_cv_lib_inet_gethostbyname = yes; then
-   NETPLAY_LIBS="-linet $NETPLAY_LIBS"
+   NETPLAY_LIBS="-linet $NETPLAY_LIBS";
+                                       LIBS="-linet $LIBS"
 fi
 
     echo "$as_me:$LINENO: checking for gethostbyname in -lwatt" >&5
@@ -13244,7 +13265,8 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_watt_gethostbyname" >&5
 echo "${ECHO_T}$ac_cv_lib_watt_gethostbyname" >&6
 if test $ac_cv_lib_watt_gethostbyname = yes; then
-   NETPLAY_LIBS="-lwatt $NETPLAY_LIBS"
+   NETPLAY_LIBS="-lwatt $NETPLAY_LIBS";
+                                       LIBS="-lwatt $LIBS"
 fi
 
 
@@ -13801,7 +13823,8 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_net_gethostbyname" >&5
 echo "${ECHO_T}$ac_cv_lib_net_gethostbyname" >&6
 if test $ac_cv_lib_net_gethostbyname = yes; then
-   NETPLAY_LIBS="-lnet -lnetapi $NETPLAY_LIBS"
+   NETPLAY_LIBS="-lnet -lnetapi $NETPLAY_LIBS";
+                                      LIBS="-lnet -lnetapi $LIBS"
 fi
 
 
@@ -25363,7 +25386,8 @@ fi
 
 
 
-for ac_header in X11/Sunkeysym.h X11/xpm.h
+
+for ac_header in X11/Sunkeysym.h X11/xpm.h xpm.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if eval "test \"\${$as_ac_Header+set}\" = set"; then
@@ -26189,7 +26213,7 @@ elif test x"$is_dos" = "xyes"; then
 elif test x"$is_amiga" = "xyes"; then
 
     if test x"$is_amiga_aros" != "xyes"; then
-    if test x"$host_os" != "xmorphos"; then
+    if test x"$host_os" != "xmorphos" -a x"$host_os" != "xwarpos" -a x"$host_os" != "xpowerup"; then
       LIBS="$LIBS -lauto"
     fi
   else

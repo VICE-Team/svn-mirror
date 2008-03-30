@@ -33,7 +33,7 @@
 
 #include "uiapi.h"
 
-void statusbar_create(HWND hwnd, int width);
+void statusbar_create(HWND hwnd);
 void statusbar_destroy(void);
 void statusbar_create_brushes(void);
 void statusbar_delete_brushes(void);

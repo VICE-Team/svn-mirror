@@ -118,6 +118,10 @@ static void SetStatusWindowParts(HWND hwnd)
     GetWindowRect(hwnd, &rect);
     width = rect.right-rect.left;
 
+    /* Place the volume slider */
+    MoveWindow(FindWindowEx(hwnd, NULL,TRACKBAR_CLASS, "Volume"),
+                               width - 20, 3, 20, 36, 0);
+
     posx[i--] = width;
     width -= 20;
 
@@ -142,7 +146,7 @@ static void SetStatusWindowParts(HWND hwnd)
 }
 
 
-void statusbar_create(HWND hwnd, int width)
+void statusbar_create(HWND hwnd)
 {
     RECT rect;
     int res_val;
@@ -156,14 +160,13 @@ void statusbar_create(HWND hwnd, int width)
     
     GetClientRect(status_hwnd[number_of_status_windows], &rect);
     status_height = rect.bottom;
-    SetStatusWindowParts(status_hwnd[number_of_status_windows]);
 
     /* the volume part */
     slider_hwnd[number_of_status_windows] = CreateWindow(
                                TRACKBAR_CLASS,
-                               TEXT(""),
+                               TEXT("Volume"),
                                WS_CHILD|WS_VISIBLE|TBS_VERT|TBS_NOTICKS,
-                               width - 20, 3, 20, 36,
+                               0, 0, 0, 0,
                                status_hwnd[number_of_status_windows],
                                (HMENU)IDC_SLIDER,
                                NULL,NULL);
@@ -172,6 +175,8 @@ void statusbar_create(HWND hwnd, int width)
 
     /* Steps Wide for display the small lines */
     SendMessage(slider_hwnd[number_of_status_windows], TBM_SETTICFREQ, 25, 0);
+
+    SetStatusWindowParts(status_hwnd[number_of_status_windows]);
 
     number_of_status_windows++;
 

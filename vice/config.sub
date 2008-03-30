@@ -832,6 +832,10 @@ case $basic_machine in
 		;;
 	power)	basic_machine=power-ibm
 		;;
+        powerup)
+                basic_machine=powerpc-unknown
+                os=-powerup
+                ;;
 	ppc)	basic_machine=powerpc-unknown
 		;;
 	ppc-*)	basic_machine=powerpc-`echo $basic_machine | sed 's/^[^-]*-//'`
@@ -1045,6 +1049,10 @@ case $basic_machine in
 		basic_machine=hppa1.1-winbond
 		os=-proelf
 		;;
+        warpos)
+                basic_machine=powerpc-unknown
+                os=-warpos
+                ;;
 	xbox)
 		basic_machine=i686-pc
 		os=-mingw32
@@ -1171,7 +1179,7 @@ case $os in
 	      | -*vms* | -sco* | -esix* | -isc* | -aix* | -sunos | -sunos[34]*\
 	      | -hpux* | -unos* | -osf* | -luna* | -dgux* | -solaris* | -sym* \
 	      | -amigaos* | -amigados* | -msdos* | -newsos* | -unicos* | -aof* \
-	      | -aos* \
+	      | -aos* | -warpos* | -powerup* \
 	      | -nindy* | -vxsim* | -vxworks* | -ebmon* | -hms* | -mvs* \
 	      | -clix* | -riscos* | -uniplus* | -iris* | -rtu* | -xenix* \
 	      | -hiux* | -386bsd* | -knetbsd* | -mirbsd* | -netbsd* | -openbsd* \

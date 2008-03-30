@@ -703,7 +703,10 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
     int size_is_odd = 0;    /* which means size%4==1 in this case */
     int repeat_offset = 0;
     int shift_sprmsk;
+    int delayed_shift, delayed_load;
     BYTE cmsk = 0, sbit = 1 << n;
+    BYTE data0, data1;
+    int trim_size;
 
     mcsprmsk = (data_ptr[0] << 16) | (data_ptr[1] << 8) | data_ptr[2];
     collmsk = ((((msk_ptr[1] << 24) | (msk_ptr[2] << 16)
@@ -713,6 +716,30 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
     sprmsk = sprite_doubling_table[((mcsprtable[data_ptr[0]] << 8)
              | mcsprtable[data_ptr[1]])];
 
+    trim_size = 32;
+
+    delayed_shift = (sprite_status->sprites[n].mc_bug >> 1);
+    delayed_load = (sprite_status->sprites[n].mc_bug & 1);
+
+    /* Fixes for the MC bug */
+    if (delayed_shift) {
+
+        ptr += 2;
+        sptr += 2;
+        trim_size += 2;
+        mcsprmsk <<= 1;
+        collmsk = (collmsk << 2 ) 
+                | (((msk_ptr[5] << 8) | msk_ptr[6]) >> (14 - lshift));
+        data0 = (data_ptr[0] << 1) | (data_ptr[1] >> 7);
+        data1 = (data_ptr[1] << 1);
+        sprmsk = sprite_doubling_table[((mcsprtable[data0] << 8)
+             | mcsprtable[data1])];
+    }
+
+    if (delayed_load)
+        mcsprmsk &= ~(1 << (22 - (sprite_xs >> 1) + delayed_shift));
+
+    /* Fixes for the "Repeated pixels" bug */
     if (sprite_status->sprites[n].x > SPRITE_EXPANDED_REPEAT_PIXELS_START(n)
         && sprite_status->sprites[n].x < SPRITE_REPEAT_PIXELS_END(n)) {
         /* sprite #n repeats pixel SPRITE_REPEAT_BEGIN(n)-1 up to SPRITE_REPEAT_BEGIN(n)+6 */ 
@@ -731,7 +758,7 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
     }
 
     /* trim the masks regarding the display interval */
-    TRIM_MSK(trimmsk, 32);
+    TRIM_MSK(trimmsk, trim_size);
 
     collmsk &= trimmsk;
 
@@ -750,11 +777,20 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
     collmsk = ((((msk_ptr[5] << 8) | msk_ptr[6]) << lshift)
               | (msk_ptr[7] >> (8 - lshift)));
 
+    trim_size = 16;
+
+    if (delayed_shift) {
+        trim_size += 2;
+        sprmsk = sprite_doubling_table[mcsprtable[(data_ptr[2] << delayed_shift) & 0xff]];
+        collmsk = (collmsk << 2 ) 
+                | (((msk_ptr[7] << 8) | msk_ptr[8]) >> (14 - lshift));
+    }
+
     /* trim the masks regarding the display interval */
     sprite_xe -= 32;
     sprite_xs -= 32;
 
-    TRIM_MSK(trimmsk, 16);
+    TRIM_MSK(trimmsk, trim_size);
 
     collmsk &= trimmsk;
 
@@ -822,6 +858,9 @@ inline static void draw_mc_sprite_normal(BYTE *data_ptr, int n, DWORD *c,
     int must_repeat_pixels = 0;
     BYTE cmsk = 0, sbit = 1 << n;
     int i;
+    int delayed_shift;
+    BYTE data0, data1, data2;
+    int trim_size;
 
     mcsprmsk = (data_ptr[0] << 16) | (data_ptr[1] << 8) | data_ptr[2];
     collmsk = ((((msk_ptr[0] << 24) | (msk_ptr[1] << 16)
@@ -830,6 +869,27 @@ inline static void draw_mc_sprite_normal(BYTE *data_ptr, int n, DWORD *c,
     sprmsk = ((mcsprtable[data_ptr[0]] << 16)
              | (mcsprtable[data_ptr[1]] << 8)
              | mcsprtable[data_ptr[2]]);
+
+    trim_size = 24;
+
+    delayed_shift = (sprite_status->sprites[n].mc_bug >> 1);
+
+    /* Fixes for the MC bug */
+    if (delayed_shift) {
+
+        ptr++;
+        sptr++;
+        trim_size++;
+        mcsprmsk <<= 1;
+        collmsk = (collmsk << 1 ) 
+                | (((msk_ptr[4] << 8) | msk_ptr[6]) >> (15 - lshift));
+        data0 = (data_ptr[0] << 1) | (data_ptr[1] >> 7);
+        data1 = (data_ptr[1] << 1) | (data_ptr[2] >> 7);
+        data2 = (data_ptr[2] << 1);
+        sprmsk = ((mcsprtable[data0] << 16)
+             | (mcsprtable[data1] << 8)
+             | mcsprtable[data2]);
+    }
 
     if (sprite_status->sprites[n].x > SPRITE_NORMAL_REPEAT_PIXELS_START(n)
         && sprite_status->sprites[n].x < SPRITE_REPEAT_PIXELS_END(n)) {
@@ -846,7 +906,7 @@ inline static void draw_mc_sprite_normal(BYTE *data_ptr, int n, DWORD *c,
     }
 
     /* trim the masks regarding the display interval */
-    TRIM_MSK(trimmsk, 24);
+    TRIM_MSK(trimmsk, trim_size);
 
     collmsk &= trimmsk;
 
@@ -1042,6 +1102,8 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                     draw_sprite_partial(line_ptr, gfx_msk_ptr,
                         sprite_xs, sprite_xe, sprite_status, n, sprite_offset);
             }
+
+            sprite_status->sprites[n].mc_bug = 0;
         }
 
         vicii.sprite_sprite_collisions
@@ -1053,19 +1115,9 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
 
 static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
 {
-#if 0
-    draw_all_sprites_partial(line_ptr, gfx_msk_ptr, VICII_RASTER_X(0), -1);
-    draw_all_sprites_partial(line_ptr, gfx_msk_ptr, 0, 95);
-    draw_all_sprites_partial(line_ptr, gfx_msk_ptr, 96, 191);
-    draw_all_sprites_partial(line_ptr, gfx_msk_ptr, 192, 287);
-    draw_all_sprites_partial(line_ptr, gfx_msk_ptr, 288, 383);
-    draw_all_sprites_partial(line_ptr, gfx_msk_ptr, 384, 399);
-#else
     draw_all_sprites_partial(line_ptr, gfx_msk_ptr,
                     VICII_RASTER_X(0),
                     vicii.cycles_per_line * 8 + VICII_RASTER_X(0) - 1);
-
-#endif
 }
 
 static void update_cached_sprite_collisions(raster_cache_t *cache)
@@ -1091,6 +1143,7 @@ void vicii_sprites_init(void)
 
 /* Set the X coordinate of the `num'th sprite to `new_x'; the current
    vicii.raster X position is `raster_x'.  */
+/* FIXME: This is a beast and most probably not cycle exact */
 void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
 {
     raster_sprite_t *sprite;
@@ -1112,15 +1165,28 @@ void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x)
     }
 
     if (new_x < sprite->x) {
-        if (raster_x + x_offset <= new_x)
+        if (raster_x + x_offset <= new_x
+            && sprite->x < (int)SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num))
+        {
             sprite->x = new_x;
-        else if (raster_x + x_offset < sprite->x)
-            sprite->x = vicii.sprite_wrap_x;
+        } else {
+            if (raster_x + x_offset < sprite->x)
+                sprite->x = vicii.sprite_wrap_x;
+        }
         raster_changes_next_line_add_int(&vicii.raster, &sprite->x, new_x);
     } else {
         /* new_x >= sprite->x */
-        if (raster_x + x_offset < sprite->x)
+        if (new_x >= (int)SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num)
+            && sprite->x < (int)SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num))
+        {
+            raster_changes_sprites_add_int(&vicii.raster,
+                                            raster_x, &sprite->x, new_x);
+        }
+        if (raster_x + x_offset < sprite->x
+            && sprite->x < (int)SPRITE_DISPLAY_IMMEDIATE_DATA_FETCHED(num))
+        {
             sprite->x = new_x;
+        }
         raster_changes_next_line_add_int(&vicii.raster, &sprite->x, new_x);
     }
 }
@@ -1132,6 +1198,7 @@ void vicii_sprites_reset_xshift(void)
     for (n = 0; n < 8; n++) {
         vicii.raster.sprite_status->sprites[n].x_shift = 0;
         vicii.raster.sprite_status->sprites[n].x_shift_sum = 0;
+        vicii.raster.sprite_status->sprites[n].mc_bug = 0;
     }
 
     vicii.raster.sprite_status->sprite_sprite_collisions = 0;

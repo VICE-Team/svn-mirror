@@ -67,6 +67,7 @@ extern log_t joystick_log;
 
 #include <errno.h>
 #include <stdlib.h>
+#include <string.h>
 
 #if defined(HAVE_USBHID_H)
 #include <usbhid.h>
@@ -82,7 +83,7 @@ struct usb_joy_item {
     struct hid_item item;
     struct usb_joy_item *next;
 
-    int is_hat;
+    int type;
     int min_or;
     int min_val;
     int max_or;
@@ -110,10 +111,10 @@ static int usb_joy_add_item(struct usb_joy_item **item, struct hid_item *hi,
     *item = it;
 
     memcpy(&it->item, hi, sizeof(*hi));
+    it->type = type;
     switch (type) {
     case ITEM_AXIS:
 	w = (hi->logical_maximum-hi->logical_minimum)/3;
-	it->is_hat = 0;
 	it->min_or = orval;
 	it->min_val = hi->logical_minimum+w;
 	it->max_or = orval*2;
@@ -121,15 +122,13 @@ static int usb_joy_add_item(struct usb_joy_item **item, struct hid_item *hi,
 	break;
 
     case ITEM_BUTTON:
-	it->is_hat = 0;
 	it->min_or = 0;
-	it->min_val = -1;
+	it->min_val = hi->logical_minimum;
 	it->max_or = orval;
 	it->max_val = hi->logical_maximum-1;
 	break;
 
     case ITEM_HAT:
-	it->is_hat = 1;
 	it->min_val = hi->logical_minimum;
 	break;
     }
@@ -252,6 +251,7 @@ int usb_joystick_init(void)
 	usb_joy_fd[i] = fd;
 	i++;
     }
+    return 0;
 }
 
 void usb_joystick_close(void)
@@ -300,7 +300,7 @@ void usb_joystick(void)
 
 	for (it=usb_joy_item[jp]; it; it=it->next) {
 	    val = hid_get_data(usb_joy_buf[jp], &it->item);
-	    if (it->is_hat) {
+	    if (it->type == ITEM_HAT) {
 		val -= it->min_val;
 		if (val >= 0 && val <= 7)
 		    joystick_set_value_or(i+1, hat_or[val]);
@@ -318,4 +318,3 @@ void usb_joystick(void)
 }
 
 #endif /* HAS_JOYSTICK && HAS_USB_JOYSTICK */
-

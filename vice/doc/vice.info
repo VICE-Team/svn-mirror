@@ -6173,12 +6173,12 @@ in the development of X64 and VICE:
      the GEORAM and RamCart cartridge code. Wrote the c64 +60K, +256K
      and 256K memory expansions code. Wrote the pet REU code. Wrote the
      plus4 memory expansions code. Made the ethernet support for the
-     Msdos port. Maintains the QNX 6.x, Solaris, GP2X, Minix 3.x,
-     Amiga, ppc-BeOS, ZETA and newly resurrected OS/2 binary ports.
-     Added new .crt support. Added new screenshot formats. Added new
+     Msdos port. Maintains the RiscOS, QNX 6.x, Solaris, GP2X, Minix
+     3.x, Amiga, ppc-BeOS and newly resurrected OS/2 binary ports.
+     Added new .crt support. Added new screenshot formats.  Added new
      sound recording support. Added SIDcart support for pet, plus4 and
-     vic20. Added digimax support. Improved the MMC64 emulation.  And
-     lots of other fixes and improvements.
+     vic20. Added digimax support. Improved the MMC64 emulation. Added
+     2 MHz mode to x128. And lots of other fixes and improvements.
 
    * Christian Vogelgsang maintains the Mac OS X port. Added Intel Mac
      support and universal binary creation. Wrote the build scripts for
@@ -7233,14 +7233,14 @@ Node: T64 tape record223359
 Node: T64 file record224157
 Node: G64225417
 Node: Acknowledgments239411
-Node: Copyright250165
-Node: Contacts251790
-Node: Home page252302
-Node: Sending feedback252706
-Node: Contributing255056
-Node: Newsgroups256175
-Node: FAQs you should read256814
-Node: Concept Index257136
-Node: Resource Index278173
+Node: Copyright250193
+Node: Contacts251818
+Node: Home page252330
+Node: Sending feedback252734
+Node: Contributing255084
+Node: Newsgroups256203
+Node: FAQs you should read256842
+Node: Concept Index257164
+Node: Resource Index278201
 
 End Tag Table

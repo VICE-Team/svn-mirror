@@ -46,6 +46,9 @@ struct raster_sprite_s
     /* Multicolor mode flag. */
     int multicolor;
 
+    /* Flag for display bug when changing to MC within the sprite. */
+    int mc_bug;
+
     /* If 0, the sprite is in in foreground; if 1, it is in background.  */
     int in_background;
 

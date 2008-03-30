@@ -1,3 +1,25 @@
+2007-07-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.12.
+
+2007-07-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* build/amigaos/build-vbcc.sh: Fixed.
+
+	* configure.in, config.sub: Added gcc warpos compile support.
+
+2007-07-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/amigaos.html, doc/html/beos.html,
+	doc/html/index.html, doc/html/plain/NEWS,
+	doc/html/solaris.html, doc/vice.texi: Updated for the 1.22
+	release.
+
+2007-07-10  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed some library and function detection
+	issues.
+
 2007-07-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.11.

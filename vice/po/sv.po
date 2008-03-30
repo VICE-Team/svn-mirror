@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-01 21:23+0200\n"
+"POT-Creation-Date: 2007-07-16 00:55+0200\n"
 "PO-Revision-Date: 2006-10-01 17:43+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -2925,7 +2925,7 @@ msgid "Smart-attach a file"
 msgstr "Smartanslut en fil"
 
 #: src/arch/unix/gui/uiattach.c:301 src/arch/unix/gui/uiattach.c:310
-#: src/arch/unix/x11/xaw/x11ui.c:1780
+#: src/arch/unix/x11/xaw/x11ui.c:1785
 msgid "Unknown image type"
 msgstr "Okänd avbildningsfiltyp"
 
@@ -4740,7 +4740,7 @@ msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
 #: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1426
-#: src/arch/unix/x11/xaw/x11ui.c:1095 src/arch/win32/res.rc.po.c:4900
+#: src/arch/unix/x11/xaw/x11ui.c:1100 src/arch/win32/res.rc.po.c:4900
 #: src/arch/amigaos/intl.c.po.c:1908
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
@@ -5630,17 +5630,17 @@ msgstr "Kan inte lägga till typsnittssökväg \"%s\".\n"
 msgid "Set fontpath: `%s'.\n"
 msgstr "Sätt typsnittssökväg: \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:643 src/arch/unix/x11/xaw/x11ui.c:507
+#: src/arch/unix/x11/gnome/x11ui.c:643 src/arch/unix/x11/xaw/x11ui.c:512
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dina grafikinställningar stöder inte %d-bitarsvy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:646 src/arch/unix/x11/xaw/x11ui.c:510
+#: src/arch/unix/x11/gnome/x11ui.c:646 src/arch/unix/x11/xaw/x11ui.c:515
 msgid "Please select a bit depth supported by your display."
 msgstr "Välj ett bitdjup som stöds av dina grafikinställningar."
 
 #: src/arch/unix/x11/gnome/x11ui.c:649 src/arch/unix/x11/gnome/x11ui.c:673
-#: src/arch/unix/x11/xaw/x11ui.c:513 src/arch/unix/x11/xaw/x11ui.c:530
+#: src/arch/unix/x11/xaw/x11ui.c:518 src/arch/unix/x11/xaw/x11ui.c:535
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Hittade %d-bitars/%s-vy."
@@ -5650,7 +5650,7 @@ msgstr "Hittade %d-bitars/%s-vy."
 msgid "Found %dbit visual."
 msgstr "Hittade %d-bitarsvy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:681 src/arch/unix/x11/xaw/x11ui.c:538
+#: src/arch/unix/x11/gnome/x11ui.c:681 src/arch/unix/x11/xaw/x11ui.c:543
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan inte automatdetektera ett gällande grafikläge."
 
@@ -5698,7 +5698,7 @@ msgstr "Enhet %d: "
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1094 src/arch/unix/x11/xaw/x11ui.c:624
+#: src/arch/unix/x11/gnome/x11ui.c:1094 src/arch/unix/x11/xaw/x11ui.c:629
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximalt antal fönster på översta nivån har nåtts."
 
@@ -5710,24 +5710,24 @@ msgstr "Kommandon"
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1409 src/arch/unix/x11/xaw/x11ui.c:1081
+#: src/arch/unix/x11/gnome/x11ui.c:1409 src/arch/unix/x11/xaw/x11ui.c:1086
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1416 src/arch/unix/x11/xaw/x11ui.c:1085
+#: src/arch/unix/x11/gnome/x11ui.c:1416 src/arch/unix/x11/xaw/x11ui.c:1090
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1423 src/arch/unix/x11/xaw/x11ui.c:1092
+#: src/arch/unix/x11/gnome/x11ui.c:1423 src/arch/unix/x11/xaw/x11ui.c:1097
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1468 src/arch/unix/x11/xaw/x11ui.c:1133
+#: src/arch/unix/x11/gnome/x11ui.c:1468 src/arch/unix/x11/xaw/x11ui.c:1138
 msgid "Using private colormap."
 msgstr "Använder egen färgkarta."
 
 #: src/arch/unix/x11/gnome/x11ui.c:1488 src/arch/unix/x11/gnome/x11ui.c:1491
-#: src/arch/unix/x11/xaw/x11ui.c:1161 src/arch/unix/x11/xaw/x11ui.c:1166
+#: src/arch/unix/x11/xaw/x11ui.c:1166 src/arch/unix/x11/xaw/x11ui.c:1171
 msgid "(warp)"
 msgstr "(warp)"
 
@@ -5738,7 +5738,7 @@ msgstr "(warp)"
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1865 src/arch/unix/x11/xaw/x11ui.c:1408
+#: src/arch/unix/x11/gnome/x11ui.c:1865 src/arch/unix/x11/xaw/x11ui.c:1413
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
@@ -5759,7 +5759,7 @@ msgstr "Hård nollställning"
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2121 src/arch/unix/x11/xaw/x11ui.c:1712
+#: src/arch/unix/x11/gnome/x11ui.c:2121 src/arch/unix/x11/xaw/x11ui.c:1717
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
@@ -6165,20 +6165,20 @@ msgstr "Spara lästa ROMar:"
 msgid "Save snapshot"
 msgstr "Spara ögonblicksbild"
 
-#: src/arch/unix/x11/xaw/x11ui.c:817
+#: src/arch/unix/x11/xaw/x11ui.c:822
 msgid "recording..."
 msgstr "spelar in..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:826
+#: src/arch/unix/x11/xaw/x11ui.c:831
 msgid "event recording..."
 msgstr "spelar in händelser..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1260
+#: src/arch/unix/x11/xaw/x11ui.c:1265
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spår %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1597 src/arch/win32/res.rc.po.c:4895
+#: src/arch/unix/x11/xaw/x11ui.c:1602 src/arch/win32/res.rc.po.c:4895
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 

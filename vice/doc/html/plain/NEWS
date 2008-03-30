@@ -5,6 +5,52 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.22
+======================
+
+** C128 changes
+---------------
+
+- Added 2 MHz mode support.
+
+** VIC20 changes
+----------------
+
+- Improved the sound emulation where the 'volume change click' is
+  concerned, and normalized the audio output level.
+
+** Unix changes
+---------------
+
+- Fixed the usb support for bsd based platforms.
+
+- Changed the preferred libdir and docdir for netbsd and freebsd.
+
+** MS-Windows changes
+---------------------
+
+- The win32 port can now be compiled with openwatcom.
+
+** OS/2 changes
+---------------
+
+- The os/2 port can now be compiled with openwatcom.
+
+** RiscOS changes
+-----------------
+
+- Added a build script for the RiscOS port and all needed binary files
+  are now part of the source distribution.
+
+** AmigaOS changes
+------------------
+
+- Added netplay support for AmigaOS3 port.
+
+- Added netplay support for AROS port.
+
+- New VICE Volume control for all ports.
+
 * Changes in VICE 1.21
 ======================
 

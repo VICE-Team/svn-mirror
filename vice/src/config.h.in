@@ -18,8 +18,14 @@
 /* Enable alternate OS4 includes. */
 #undef AMIGA_OS4_ALT
 
+/* Should we enable PPC Amiga PowerUP support. */
+#undef AMIGA_POWERUP
+
 /* Should we enable Amigaos support. */
 #undef AMIGA_SUPPORT
+
+/* Should we enable PPC Amiga WarpOS support. */
+#undef AMIGA_WARPOS
 
 /* Enable support for BSD style joysticks. */
 #undef BSD_JOYSTICK
@@ -492,6 +498,9 @@
 
 /* Define to 1 if you have the <X11/xpm.h> header file. */
 #undef HAVE_X11_XPM_H
+
+/* Define to 1 if you have the <xpm.h> header file. */
+#undef HAVE_XPM_H
 
 /* Enable XRandR extension. */
 #undef HAVE_XRANDR

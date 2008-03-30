@@ -60,7 +60,12 @@
 #endif
 
 #ifdef HAVE_LIBXPM
+#ifdef HAVE_XPM_H
+#include <xpm.h>
+#endif
+#ifdef HAVE_X11_XPM_H
 #include <X11/xpm.h>
+#endif
 #endif
 
 #include "drive.h"

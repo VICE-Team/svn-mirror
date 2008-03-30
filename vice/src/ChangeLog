@@ -1,3 +1,97 @@
+2007-07-16  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.12.
+
+2007-07-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/make-bindist.sh, arch/amigaos/mousedrv.c,
+	arch/amigaos/uiattach.c: Added gcc warpos compile support.
+
+2007-07-11  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vicii-mem.c: Cleaned from old disabled code.
+	(d01c_store): All possible changes between MC and HIRES are
+	handled now.
+
+	* vicii/vicii-sprites.c (draw_mc_sprite_normal): Change to
+	MC within the sprite is implemented now.
+
+2007-07-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* info.c: Updated.
+
+2007-07-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/fullscrn.c, arch/win32/ui.c: Fixed the calls to
+	statusbar_create() function.
+
+2007-07-10  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/statusbar.c, statusbar.h (SetStatusWindowParts):
+	Move the volume slider to correct position.
+	(statusbar_create): Removed hwnd parameter. Slider is named
+	"Volume" now.
+
+	* raster/raster-sprite.h: Added new member mc_bug to sprite
+	struct.
+
+	* vicii/vicii-mem.c (d01c_store): Set mc_bug depending on
+	the x position of the sprite. Only HIRES->MC change is
+	handled for now.
+
+	* vicii/vicii-sprites.c (draw_mc_sprite_expanded): Handle
+	switch to MC within the sprite.
+	(draw_all_sprites_partial): Reset mc_bug.
+	(vicii_sprites_set_x_position): Handle changes to and from
+	the area behind the sprite fetch by using the raster_changes
+	API to make drawing a sprite twice in one emulated line
+	possible.
+
+2007-07-10  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/x11/xaw/x11ui.c: Added support for <xpm.h> type
+	include.
+
+2007-07-08  Fabrizio Gennari  <fabrizio.ge@tiscali.it>
+
+	* color.c: Prevent a color to have the same owner multiple
+	times (may happen because, in PAL emulation, palette can have
+	same color multiple times)
+
+2007-07-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* vic20/Makefile.am, vic20/vic20click.h, vic20/vic20sound.c:
+	Added emulation of the volume changing click.
+
+2007-07-08  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* build/beos/ppc-build.sh: Fixed a typo.
+
+	* arch/beos/c128ui.cc, arch/beos/c64ui.cc,
+	arch/beos/vicemenu.cc: Fixed.
+
+	* arch/msdos/uiscreenshot.c: Added a previously missing
+	include.
+
+	* arch/os2/dialogs/dialogs.rc, arch/os2/vac++/incl/iec.icc,
+	arch/os2/vac++/incl/vicii.icc,
+	arch/os2/vac++/x128/X128.ICC: Fixed.
+
+2007-07-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* network.c: Fixed for AmigaOS3.
+
+2007-07-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c128/c128mmu.c: Fixed for riscos.
+
+	* vsync.c: Fixed for riscos and msdos.
+
+2007-07-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/joy_usb.c: Applied the NetBSD fix provided by
+	Frank Wille <frank@phoenix.owl.de>.
+
 2007-07-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.11.

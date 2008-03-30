@@ -7,12 +7,14 @@
 
 compile_file()
 {
-  if [ ! -f $1.o ]; then
+  if [ ! -f $1.ok ]; then
     echo "compiling $1"
     vc $STDCFLAGS $STDINCFLAGS -c $1 -o $1.o
     if [ ! -f $1.o ]; then
       echo "compile of $1 failed"
       exit 1
+    else
+      echo >$1.ok ok
     fi
   else
     echo "$1 already compiled, skipping"
@@ -21,12 +23,14 @@ compile_file()
 
 compile_file_no_optimize()
 {
-  if [ ! -f $1.o ]; then
+  if [ ! -f $1.ok ]; then
     echo "compiling $1"
     vc $STDCFLAGSNO $STDINCFLAGS -c $1 -o $1.o
     if [ ! -f $1.o ]; then
       echo "compile of $1 failed"
       exit 1
+    else
+      echo >$1.ok ok
     fi
   else
     echo "$1 already compiled, skipping"
@@ -166,7 +170,8 @@ ar_file sounddrv
 #driveiecc64exp lib
 cd $srcdir/drive/iec/c64exp
 STDINCFLAGS="-I../../../ -I../../../arch/amigaos -I../../../drive"
-for i in c64exp-cmdline-options.c c64exp-resources.c iec-c64exp.c profdos.c
+for i in c64exp-cmdline-options.c c64exp-resources.c iec-c64exp.c profdos.c \
+         mc6821.c
 do
   compile_file $i
 done
@@ -185,7 +190,7 @@ ar_file driveiecplus4exp
 cd $srcdir/drive/iec
 STDINCFLAGS="-I../../ -I../../arch/amigaos -I../../drive"
 for i in cia1571d.c cia1581d.c glue1571.c iec-cmdline-options.c \
-         iec-resources.c iec.c iecrom.c mc6821.c memiec.c via1d1541.c wd1770.c
+         iec-resources.c iec.c iecrom.c memiec.c via1d1541.c wd1770.c
 do
   compile_file $i
 done

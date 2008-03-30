@@ -476,7 +476,7 @@ HWND ui_open_canvas_window(const char *title, unsigned int width,
     number_of_windows++;
 
     if (!fullscreen) {
-        statusbar_create(hwnd, width);
+        statusbar_create(hwnd);
     }
 
     ui_resize_canvas_window(hwnd, width, height);
@@ -1632,3 +1632,4 @@ void ui_display_volume(int vol)
 {
     statusbar_display_volume(vol);
 }
+
