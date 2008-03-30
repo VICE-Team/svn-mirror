@@ -1,3 +1,31 @@
+2000-07-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.1.
+
+	* c128/z80.c: Fixed opcodes.
+
+	* c128/z80mem.c (z80mem_initialize): Removed color RAM from
+	$1000-$13FF IO space.
+
+2000-07-26  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/archdep.c: set lower priority for main thread
+
+	* arch/os2/kbd/parse.c: added support for CLEAR and KSYM/KSCODE
+
+	* arch/os2/kbd/proc.c: added base support for symbolic mapping
+
+	* arch/os2/vac++/lpng.icc: added
+
+	* arch/os2/vac++/lzlib.icc: added
+
+	* arch/os2/video.c: added video/vdc_free, higher priority for
+	canvas mainloop,
+
+	* arch/os2/vsyncarch.c: removed video_free
+
+	* vdc/vdc.[ch]: added vdc_free
+
 2000-07-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.
