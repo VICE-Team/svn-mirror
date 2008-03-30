@@ -520,7 +520,8 @@ void mem_toggle_watchpoints(int flag, void *context)
 /* Initialize RAM for power-up.  */
 void mem_powerup(void)
 {
-    ram_init(mem_ram, VIC20_RAM_SIZE);
+    ram_init(mem_ram, 0x8000);
+    memset(mem_ram + 0x8000, 0, 0x8000);
 }
 
 /* ------------------------------------------------------------------------- */

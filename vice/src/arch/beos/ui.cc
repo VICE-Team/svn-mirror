@@ -631,8 +631,16 @@ void ui_dispatch_events(void)
                      info_warranty_text);
         		break;
 			case MENU_CMDLINE:
-				ui_cmdline_show_options(NULL);
+            {
+                char *options;
+
+                options = cmdline_options_string();
+                ui_show_text("Command line options",
+                             "Which command line options are available?",
+                             options);
+                free(options);
 				break;
+            }
 			case B_KEY_DOWN:
 			case B_UNMAPPED_KEY_DOWN:
 				message_queue[i].FindInt32("key",(int32*)&key);
@@ -808,19 +816,6 @@ void ui_show_text(
 {
 	new TextWindow(caption, header, text);
 }
-
-
-/* display all the commandline options */
-void ui_cmdline_show_options(void *param)
-{
-    char *options;
-
-    options = cmdline_options_string();
-    ui_show_text("Command line options",
-                 "Which command line options are available?", options);
-    free(options);
-}
-
 
 
 /* Report an error to the user (`printf()' style).  */
