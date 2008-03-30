@@ -59,31 +59,31 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
 };
 
 static ui_res_possible_values SidType[] = {
-    {0, IDM_SIDTYPE_6581},
-    {1, IDM_SIDTYPE_8580},
-    {-1,0}
+    { 0, IDM_SIDTYPE_6581 },
+    { 1, IDM_SIDTYPE_8580 },
+    { -1, 0 }
 };
 
 #ifdef HAVE_RESID
 static ui_res_possible_values SidResidSampling[] = {
-    {0, IDM_RESID_SAMPLE_FAST},
-    {1, IDM_RESID_SAMPLE_INTERPOLATE},
-    {2, IDM_RESID_SAMPLE_RESAMPLE},
-    {-1,0}
+    { 0, IDM_RESID_SAMPLE_FAST },
+    { 1, IDM_RESID_SAMPLE_INTERPOLATE },
+    { 2, IDM_RESID_SAMPLE_RESAMPLE },
+    { -1, 0 }
 };
 #endif
 
 ui_res_value_list c128_ui_res_values[] = {
-    {"SidModel", SidType},
+    { "SidModel", SidType },
 #ifdef HAVE_RESID
-    {"SidResidSampling", SidResidSampling},
+    { "SidResidSampling", SidResidSampling },
 #endif
-    {NULL,NULL}
+    { NULL, NULL }
 };
 
-void c128_ui_specific(WPARAM wparam, HWND hwnd)
+static void c128_ui_specific(WPARAM wparam, HWND hwnd)
 {
-char    *s;
+    char *s;
 
     switch (wparam) {
       case IDM_RESID_SAMPLE_FAST:
@@ -106,9 +106,11 @@ char    *s;
         break;
         case IDM_IFUNCTIONROM_NAME:
             SuspendFullscreenMode(hwnd);
-            s = ui_select_file(hwnd,"Function ROM image",UI_LIB_FILTER_ALL,FILE_SELECTOR_DEFAULT_STYLE,NULL);
+            s = ui_select_file(hwnd, "Function ROM image", UI_LIB_FILTER_ALL,
+                               FILE_SELECTOR_DEFAULT_STYLE, NULL);
             if (s != NULL) {
-                if (resources_set_value("InternalFunctionName", (resource_value_t) s) <0) {
+                if (resources_set_value("InternalFunctionName",
+                    (resource_value_t)s) <0) {
                     ui_error("Could not load function ROM image\n'%s'", s);
                 }
                 free(s);
@@ -117,9 +119,11 @@ char    *s;
             break;
         case IDM_EFUNCTIONROM_NAME:
             SuspendFullscreenMode(hwnd);
-            s = ui_select_file(hwnd,"Function ROM image",UI_LIB_FILTER_ALL,FILE_SELECTOR_DEFAULT_STYLE,NULL);
+            s = ui_select_file(hwnd, "Function ROM image", UI_LIB_FILTER_ALL,
+                               FILE_SELECTOR_DEFAULT_STYLE, NULL);
             if (s != NULL) {
-                if (resources_set_value("ExternalFunctionName", (resource_value_t) s) <0) {
+                if (resources_set_value("ExternalFunctionName",
+                    (resource_value_t)s) <0) {
                     ui_error("Could not load function ROM image\n'%s'", s);
                 }
                 free(s);

@@ -108,9 +108,10 @@ void REGPARM2 retroreplay_io1_store(ADDRESS addr, BYTE value)
         romh_bank = roml_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
         break;
       case 1:
-        romh_bank = roml_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
         if (write_once == 0) {
+            romh_bank = roml_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
             allow_bank = value & 2;
+            no_freeze = value & 4;
             reu_mapping = value & 0x40;
             write_once = 1;
         }

@@ -49,17 +49,17 @@ ui_menu_toggle  cbm2_ui_menu_toggles[]={
 };
 
 static ui_res_possible_values SidType[] = {
-    {0, IDM_SIDTYPE_6581},
-    {1, IDM_SIDTYPE_8580},
-    {-1,0}
+    { 0, IDM_SIDTYPE_6581 },
+    { 1, IDM_SIDTYPE_8580 },
+    { -1, 0 }
 };
 
 ui_res_value_list cbm2_ui_res_values[] = {
-    {"SidModel", SidType},
-    {NULL,NULL}
+    { "SidModel", SidType},
+    { NULL, NULL }
 };
 
-void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
+static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
       case IDM_CBM2_SETTINGS:

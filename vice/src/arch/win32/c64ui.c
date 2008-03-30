@@ -46,7 +46,7 @@
 #include "vsync.h"
 #include "winmain.h"
 
-ui_menu_toggle  c64_ui_menu_toggles[]={
+ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
@@ -60,116 +60,116 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
 };
 
 static ui_res_possible_values SidType[] = {
-    {0, IDM_SIDTYPE_6581},
-    {1, IDM_SIDTYPE_8580},
-    {-1,0}
+    { 0, IDM_SIDTYPE_6581 },
+    { 1, IDM_SIDTYPE_8580 },
+    { -1, 0}
 };
 
 #ifdef HAVE_RESID
 static ui_res_possible_values SidResidSampling[] = {
-    {0, IDM_RESID_SAMPLE_FAST},
-    {1, IDM_RESID_SAMPLE_INTERPOLATE},
-    {2, IDM_RESID_SAMPLE_RESAMPLE},
-    {-1,0}
+    { 0, IDM_RESID_SAMPLE_FAST },
+    { 1, IDM_RESID_SAMPLE_INTERPOLATE },
+    { 2, IDM_RESID_SAMPLE_RESAMPLE },
+    { -1, 0}
 };
 #endif
 
 ui_res_value_list c64_ui_res_values[] = {
-    {"SidModel", SidType},
+    { "SidModel", SidType },
 #ifdef HAVE_RESID
-    {"SidResidSampling", SidResidSampling},
+    { "SidResidSampling", SidResidSampling },
 #endif
-    {NULL,NULL}
+    { NULL, NULL }
 };
 
-static ui_cartridge_params c64_ui_cartridges[]={
+static ui_cartridge_params c64_ui_cartridges[] = {
     {
-    IDM_CART_ATTACH_CRT,
-    CARTRIDGE_CRT,
-    "Attach CRT cartridge image",
-    UI_LIB_FILTER_ALL | UI_LIB_FILTER_CRT
+        IDM_CART_ATTACH_CRT,
+        CARTRIDGE_CRT,
+        "Attach CRT cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_CRT
     },
     {
-    IDM_CART_ATTACH_8KB,
-    CARTRIDGE_GENERIC_8KB,
-    "Attach raw 8KB cartridge image",
-    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        IDM_CART_ATTACH_8KB,
+        CARTRIDGE_GENERIC_8KB,
+        "Attach raw 8KB cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
-    IDM_CART_ATTACH_16KB,
-    CARTRIDGE_GENERIC_16KB,
-    "Attach raw 16KB cartridge image",
-    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        IDM_CART_ATTACH_16KB,
+        CARTRIDGE_GENERIC_16KB,
+        "Attach raw 16KB cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
-    IDM_CART_ATTACH_AR,
-    CARTRIDGE_ACTION_REPLAY,
-    "Attach Action Replay cartridge image",
-    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        IDM_CART_ATTACH_AR,
+        CARTRIDGE_ACTION_REPLAY,
+        "Attach Action Replay cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
-    IDM_CART_ATTACH_AT,
-    CARTRIDGE_ATOMIC_POWER,
-    "Attach Atomic Power cartridge image",
-    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        IDM_CART_ATTACH_AT,
+        CARTRIDGE_ATOMIC_POWER,
+        "Attach Atomic Power cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
-    IDM_CART_ATTACH_EPYX,
-    CARTRIDGE_EPYX_FASTLOAD,
-    "Attach Epyx fastload cartridge image",
-    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        IDM_CART_ATTACH_EPYX,
+        CARTRIDGE_EPYX_FASTLOAD,
+        "Attach Epyx fastload cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
-    IDM_CART_ATTACH_IEEE488,
-    CARTRIDGE_IEEE488,
-    "Attach IEEE interface cartridge image",
-    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        IDM_CART_ATTACH_IEEE488,
+        CARTRIDGE_IEEE488,
+        "Attach IEEE interface cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
-    IDM_CART_ATTACH_RR,
-    CARTRIDGE_RETRO_REPLAY,
-    "Attach Retro Replay cartridge image",
-    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        IDM_CART_ATTACH_RR,
+        CARTRIDGE_RETRO_REPLAY,
+        "Attach Retro Replay cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
-    IDM_CART_ATTACH_SS4,
-    CARTRIDGE_SUPER_SNAPSHOT,
-    "Attach Super Snapshot 4 cartridge image",
-    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        IDM_CART_ATTACH_SS4,
+        CARTRIDGE_SUPER_SNAPSHOT,
+        "Attach Super Snapshot 4 cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
-    IDM_CART_ATTACH_SS5,
-    CARTRIDGE_SUPER_SNAPSHOT_V5,
-    "Attach Super Snapshot 5 cartridge image",
-    UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
+        IDM_CART_ATTACH_SS5,
+        CARTRIDGE_SUPER_SNAPSHOT_V5,
+        "Attach Super Snapshot 5 cartridge image",
+        UI_LIB_FILTER_ALL | UI_LIB_FILTER_BIN
     },
     {
-    0,0,NULL,0
+        0, 0, NULL, 0
     }
 };
 
-void c64_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
-                             ui_cartridge_params *cartridges)
+static void c64_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
+                                    ui_cartridge_params *cartridges)
 {
     int i;
     char *s;
 
     i = 0;
-    while ((cartridges[i].wparam!=wparam) && (cartridges[i].wparam!=0))
+    while ((cartridges[i].wparam != wparam) && (cartridges[i].wparam != 0))
         i++;
     if (cartridges[i].wparam == 0) {
         ui_error("Bad cartridge config in UI!");
         return;
     }
-    if ((s = ui_select_file(hwnd,cartridges[i].title,
-        cartridges[i].filter,FILE_SELECTOR_DEFAULT_STYLE,NULL)) != NULL) {
+    if ((s = ui_select_file(hwnd, cartridges[i].title,
+        cartridges[i].filter, FILE_SELECTOR_DEFAULT_STYLE, NULL)) != NULL) {
         if (cartridge_attach_image(cartridges[i].type, s) < 0)
             ui_error("Invalid cartridge image");
         free(s);
     }
 }
 
-void c64_ui_specific(WPARAM wparam, HWND hwnd)
+static void c64_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
       case IDM_CART_ATTACH_CRT:
@@ -179,9 +179,10 @@ void c64_ui_specific(WPARAM wparam, HWND hwnd)
       case IDM_CART_ATTACH_AT:
       case IDM_CART_ATTACH_EPYX:
       case IDM_CART_ATTACH_IEEE488:
+      case IDM_CART_ATTACH_RR:
       case IDM_CART_ATTACH_SS4:
       case IDM_CART_ATTACH_SS5:
-        c64_ui_attach_cartridge(wparam,hwnd,c64_ui_cartridges);
+        c64_ui_attach_cartridge(wparam, hwnd, c64_ui_cartridges);
         break;
       case IDM_CART_SET_DEFAULT:
         cartridge_set_default();
@@ -195,15 +196,15 @@ void c64_ui_specific(WPARAM wparam, HWND hwnd)
         cartridge_trigger_freeze();
         break;
       case IDM_RESID_SAMPLE_FAST:
-        resources_set_value("SidResidSampling", (resource_value_t) 0);
+        resources_set_value("SidResidSampling", (resource_value_t)0);
         vsync_suspend_speed_eval();
         break;
       case IDM_RESID_SAMPLE_INTERPOLATE:
-        resources_set_value("SidResidSampling", (resource_value_t) 1);
+        resources_set_value("SidResidSampling", (resource_value_t)1);
         vsync_suspend_speed_eval();
         break;
       case IDM_RESID_SAMPLE_RESAMPLE:
-        resources_set_value("SidResidSampling", (resource_value_t) 2);
+        resources_set_value("SidResidSampling", (resource_value_t)2);
         vsync_suspend_speed_eval();
         break;
       case IDM_VICII_SETTINGS:

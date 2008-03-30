@@ -44,7 +44,7 @@ ui_menu_toggle  pet_ui_menu_toggles[]={
     { NULL, 0 }
 };
 
-void pet_ui_specific(WPARAM wparam, HWND hwnd)
+static void pet_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
       case IDM_PET_SETTINGS:
