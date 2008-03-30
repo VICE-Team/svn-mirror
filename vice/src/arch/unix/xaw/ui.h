@@ -31,6 +31,7 @@
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
 
+#include "vice.h"
 #include "types.h"
 #include "palette.h"
 
@@ -135,5 +136,9 @@ void ui_popdown(Widget w);
 void ui_popup(Widget w, const char *title, Boolean wait_popdown);
 void ui_pause_emulation(int flag);
 int ui_emulation_is_paused(void);
+
+#ifdef USE_VIDMODE_EXTENSION
+void ui_restore_windowmode(void);
+#endif
 
 #endif /* !defined (_UI_XAW_H) */
