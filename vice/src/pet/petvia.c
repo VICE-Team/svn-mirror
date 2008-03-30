@@ -48,9 +48,71 @@
  *
  * Except for shift register and input latching everything should be ok now.
  */
+
+#include "vice.h"
+
+#include <stdio.h>
+#include <time.h>
+
+#include "vmachine.h"
+#include "via.h"
+#include "resources.h"
+
+
+#include "petvia.h"
+
+#include "../c64/sid.h"
+#include "crtc.h"
+#include "kbd.h"
+#include "parallel.h"
+#include "petsound.h"
+
+#ifdef HAVE_PRINTER
+#include "pruser.h"
+#endif
+
+#include "interrupt.h"
+
+/*#define VIA_TIMER_DEBUG */
+				/*#define VIA_NEED_PB7 *//* when PB7 is really used, set this
+				   to enable pulse output from the timer.
+				   Otherwise PB7 state is computed only
+				   when port B is read -
+				   not yet implemented */
+
+/* global */
+
+BYTE via[16];
+
+
+
+/*
+ * Local variables
+ */
+
+static int viaifr;		/* Interrupt Flag register for via */
+static int viaier;		/* Interrupt Enable register for via */
+
+static unsigned int viatal;	/* current timer A latch value */
+static unsigned int viatbl;	/* current timer B latch value */
+
+static CLOCK viatau;		/* time when via timer A is updated */
+static CLOCK viatbu;		/* time when via timer B is updated */
+static CLOCK viatai;		/* time when next timer A alarm is */
+static CLOCK viatbi;		/* time when next timer A alarm is */
+
+static int viapb7;		/* state of PB7 for pulse output... */
+static int viapb7x;		/* to be xored herewith  */
+static int viapb7o;		/* to be ored herewith  */
+static int viapb7xx;
+static int viapb7sx;
+
+/*
+ * local functions
+ */
+
 /*
  * 01apr98 a.fachat
- * New timer code. Should be cycle-exact.
  *
  * One-shot Timing (partly from 6522-VIA.txt):
 
@@ -90,106 +152,61 @@
 /* timer values do not depend on a certain value here, but PB7 does... */
 #define	TAUOFFSET	(-1)
 
-#define update_viairq() \
-        maincpu_set_irq(I_VIAFL, (viaifr & viaier & 0x7f) ? IK_IRQ : 0)
+inline static void update_viairq(void)
+{
+    maincpu_set_irq(I_VIAFL, (viaifr & viaier & 0x7f) ? IK_IRQ : 0);
+}
 
 /* the next two are used in read_via() */
-#define	viata() \
-	((clk<viatau-TAUOFFSET)?(viatau-TAUOFFSET-clk-2): \
-	(viatal-(clk-viatau+TAUOFFSET)%(viatal+2)))
 
-#define	viatb() \
-	(viatbu-clk-2)
+inline static unsigned int viata()
+{
+    if (clk < viatau - TAUOFFSET)
+        return viatau - TAUOFFSET - clk - 2;
+    else if (viatal == 0)
+        return 0;               /* EP 98.08.23 FIXME? */
+    else
+	return (viatal - (clk - viatau + TAUOFFSET) % (viatal + 2));
+}
 
-#define	update_viatal() \
-	viapb7x = 0; \
-	viapb7xx= 0; \
-	if(rclk>viatau) { \
-	  int nuf = (viatal + 1 + rclk-viatau)/(viatal+2); \
-/*  printf("rclk=%d, tau=%d, nuf=%d, tal=%d, pb7=%d ->",rclk,viatau,nuf,viatal ,viapb7); */\
-	  if(!(via[VIA_ACR] & 0x40)) { \
-	    if(((nuf-viapb7sx)>1) || (!viapb7)) { \
-	      viapb7o = 1; \
-	      viapb7sx= 0; \
-	    } \
-	  } \
-	  viapb7 ^= (nuf & 1); \
-	\
-	  viatau=TAUOFFSET+viatal+2+(rclk-(rclk-viatau+TAUOFFSET)%(viatal+2)); \
-	  if(rclk == viatau - viatal - 1) { \
-	    viapb7xx = 1; \
-	  }\
-	}\
-	if(viatau == rclk) { \
-	  viapb7x = 1;\
-	} \
-/* printf(" pb7=%d, pb7x=%d, pb7o=%d, tau=%d\n",viapb7, viapb7x,viapb7o, viatau);*/\
-	viatal = via[VIA_T1LL] + (via[VIA_T1LH] << 8)
+inline static unsigned int viatb(void)
+{
+    return viatbu - clk - 2;
+}
 
-#define	update_viatbl() \
-	viatbl = via[VIA_T2CL] + (via[VIA_T2CH] << 8)
+inline static void update_viatal(CLOCK rclk)
+{
+    viapb7x = 0;
+    viapb7xx = 0;
 
-#include "vice.h"
+    if (rclk > viatau) {
+	int nuf = (viatal + 1 + rclk - viatau) / (viatal + 2);
 
-#include <stdio.h>
-#include <time.h>
+	if (!(via[VIA_ACR] & 0x40)) {
+	    if (((nuf - viapb7sx) > 1) || (!viapb7)) {
+		viapb7o = 1;
+		viapb7sx = 0;
+	    }
+	}
+	viapb7 ^= (nuf & 1);
 
-#include "vmachine.h"
-#include "via.h"
-#include "resources.h"
+	viatau = TAUOFFSET + viatal + 2 + (rclk - (rclk - viatau + TAUOFFSET) % (viatal + 2));
+	if (rclk == viatau - viatal - 1) {
+	    viapb7xx = 1;
+	}
+    }
 
+    if (viatau == rclk)
+	viapb7x = 1;
 
-#include "petvia.h"
+    viatal = via[VIA_T1LL] + (via[VIA_T1LH] << 8);
+}
 
-#include "../c64/sid.h"
-#include "crtc.h"
-#include "kbd.h"
-#include "parallel.h"
-#include "petsound.h"
+inline static void update_viatbl(void)
+{
+    viatbl = via[VIA_T2CL] + (via[VIA_T2CH] << 8);
+}
 
-#ifdef HAVE_PRINTER
-#include "pruser.h"
-#endif
-
-#include "interrupt.h"
-
-/*#define VIA_TIMER_DEBUG */
-/*#define VIA_NEED_PB7 */	/* when PB7 is really used, set this
-				   to enable pulse output from the timer.
-				   Otherwise PB7 state is computed only
-				   when port B is read -
-				not yet implemented */
-
-/* global */
-
-BYTE    via[16];
-
-
-
-/*
- * local functions
- */
-
-/*
- * Local variables
- */
-
-static int   		viaifr;   /* Interrupt Flag register for via */
-static int   		viaier;   /* Interrupt Enable register for via */
-
-static unsigned int   	viatal;   /* current timer A latch value */
-static unsigned int   	viatbl;   /* current timer B latch value */
-
-static CLOCK 		viatau;   /* time when via timer A is updated */
-static CLOCK 		viatbu;   /* time when via timer B is updated */
-static CLOCK 		viatai;   /* time when next timer A alarm is */
-static CLOCK 		viatbi;   /* time when next timer A alarm is */
-
-static int 		viapb7;   /* state of PB7 for pulse output... */
-static int 		viapb7x;  /* to be xored herewith  */
-static int 		viapb7o;  /* to be ored herewith  */
-static int 		viapb7xx;
-static int 		viapb7sx;
 
 /* ------------------------------------------------------------------------- */
 /* VIA */
@@ -200,15 +217,18 @@ static int 		viapb7sx;
  * according to Rockwell, all internal registers are cleared, except
  * for the Timer (1 and 2, counter and latches) and the shift register.
  */
-void    reset_via(void)
+void reset_via(void)
 {
     int i;
 #ifdef VIA_TIMER_DEBUG
-    if(app_resources.debugFlag) printf("VIA: reset\n");
+    if (app_resources.debugFlag)
+	printf("VIA: reset\n");
 #endif
     /* clear registers */
-    for(i=0;i<4;i++) via[i]=0;
-    for(i=11;i<16;i++) via[i]=0;
+    for (i = 0; i < 4; i++)
+	via[i] = 0;
+    for (i = 11; i < 16; i++)
+	via[i] = 0;
 
     viatal = 0;
     viatbl = 0;
@@ -237,33 +257,34 @@ void    reset_via(void)
 
 }
 
-void via_signal(int line, int edge) {
-        switch(line) {
-        case VIA_SIG_CA1:
-                viaifr |= ((edge ^ via[VIA_PCR]) & 0x01) ?
-                                                        0 : VIA_IM_CA1;
-                update_viairq();
-                break;
-        case VIA_SIG_CA2:
-                if( !(via[VIA_PCR] & 0x08)) {
-                  viaifr |= (((edge<<2) ^ via[VIA_PCR]) & 0x04) ?
-                                                        0 : VIA_IM_CA2;
-                  update_viairq();
-                }
-                break;
-        case VIA_SIG_CB1:
-                viaifr |= (((edge<<4) ^ via[VIA_PCR]) & 0x10) ?
-                                                        0 : VIA_IM_CB1;
-                update_viairq();
-                break;
-        case VIA_SIG_CB2:
-                if( !(via[VIA_PCR] & 0x80)) {
-                  viaifr |= (((edge<<6) ^ via[VIA_PCR]) & 0x40) ?
-                                                        0 : VIA_IM_CB2;
-                  update_viairq();
-                }
-                break;
+void via_signal(int line, int edge)
+{
+    switch (line) {
+      case VIA_SIG_CA1:
+        viaifr |= ((edge ^ via[VIA_PCR]) & 0x01) ?
+            0 : VIA_IM_CA1;
+        update_viairq();
+        break;
+      case VIA_SIG_CA2:
+        if (!(via[VIA_PCR] & 0x08)) {
+            viaifr |= (((edge << 2) ^ via[VIA_PCR]) & 0x04) ?
+                0 : VIA_IM_CA2;
+            update_viairq();
         }
+        break;
+      case VIA_SIG_CB1:
+        viaifr |= (((edge << 4) ^ via[VIA_PCR]) & 0x10) ?
+            0 : VIA_IM_CB1;
+        update_viairq();
+        break;
+      case VIA_SIG_CB2:
+        if (!(via[VIA_PCR] & 0x80)) {
+            viaifr |= (((edge << 6) ^ via[VIA_PCR]) & 0x40) ?
+                0 : VIA_IM_CB2;
+            update_viairq();
+        }
+        break;
+    }
 }
 
 void REGPARM2 store_via(ADDRESS addr, BYTE byte)
@@ -272,24 +293,24 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 
     addr &= 0xf;
 #ifdef VIA_TIMER_DEBUG
-    if ((addr<10 && addr>3) || (addr==VIA_ACR) || app_resources.debugFlag)
+    if ((addr < 10 && addr > 3) || (addr == VIA_ACR) || app_resources.debugFlag)
 	printf("store via[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
-		(int) addr, (int) byte, rmw_flag, clk, rclk);
+	       (int) addr, (int) byte, rmw_flag, clk, rclk);
 #endif
 
     switch (addr) {
 
-	/* these are done with saving the value */
-      case VIA_PRA: /* port A */
+      /* these are done with saving the value */
+      case VIA_PRA:		/* port A */
         viaifr &= ~VIA_IM_CA1;
-        if( (via[VIA_PCR] & 0x0a) != 0x2) {
-          viaifr &= ~VIA_IM_CA2;
+        if ((via[VIA_PCR] & 0x0a) != 0x2) {
+            viaifr &= ~VIA_IM_CA2;
         }
         update_viairq();
 
-      case VIA_PRA_NHS: /* port A, no handshake */
-	via[VIA_PRA_NHS] = byte;
-	addr = VIA_PRA;
+      case VIA_PRA_NHS:	/* port A, no handshake */
+        via[VIA_PRA_NHS] = byte;
+        addr = VIA_PRA;
       case VIA_DDRA:
 
  	via[addr] = byte;
@@ -297,12 +318,12 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 #ifdef HAVE_PRINTER
 	userport_printer_write_data(byte);
 #endif
-	break;
+            break;
 
-      case VIA_PRB: /* port B */
+      case VIA_PRB:		/* port B */
         viaifr &= ~VIA_IM_CB1;
-        if( (via[VIA_PCR] & 0xa0) != 0x20) {
-          viaifr &= ~VIA_IM_CB2;
+        if ((via[VIA_PCR] & 0xa0) != 0x20) {
+            viaifr &= ~VIA_IM_CB2;
         }
         update_viairq();
 
@@ -315,54 +336,55 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 	byte = via[VIA_PRB] | ~via[VIA_DDRB];
         par_set_nrfd(!(byte & 0x02));
         par_set_atn(!(byte & 0x04));
-	break;
+            break;
 
-      case VIA_SR: /* Serial Port output buffer */
-	via[addr] = byte;
+      case VIA_SR:		/* Serial Port output buffer */
+        via[addr] = byte;
 
 	store_petsnd_sample(byte);
-	break;
+            break;
 
-	/* Timers */
+        /* Timers */
 
       case VIA_T1CL:
       case VIA_T1LL:
-	via[VIA_T1LL] = byte;
-	update_viatal();
-	break;
+        via[VIA_T1LL] = byte;
+        update_viatal(rclk);
+        break;
 
-      case VIA_T1CH /*TIMER_AH*/: /* Write timer A high */
+      case VIA_T1CH /*TIMER_AH */ :	/* Write timer A high */
 #ifdef VIA_TIMER_DEBUG
-	if(app_resources.debugFlag) printf("Write timer A high: %02x\n",byte);
+        if (app_resources.debugFlag)
+            printf("Write timer A high: %02x\n", byte);
 #endif
-	via[VIA_T1LH] = byte;
-	update_viatal();
+        via[VIA_T1LH] = byte;
+        update_viatal(rclk);
         /* load counter with latch value */
-	viatau = rclk + viatal + 3 + TAUOFFSET;
-	viatai = rclk + viatal + 2;
+        viatau = rclk + viatal + 3 + TAUOFFSET;
+        viatai = rclk + viatal + 2;
         maincpu_set_alarm_clk(A_VIAT1, viatai);
 
-	/* set pb7 state */
-	viapb7 = 0;
-	viapb7o= 0;
+        /* set pb7 state */
+        viapb7 = 0;
+        viapb7o = 0;
 
         /* Clear T1 interrupt */
         viaifr &= ~VIA_IM_T1;
         update_viairq();
         break;
 
-      case VIA_T1LH: /* Write timer A high order latch */
+      case VIA_T1LH:		/* Write timer A high order latch */
         via[addr] = byte;
-	update_viatal();
+        update_viatal(rclk);
 
         /* Clear T1 interrupt */
         viaifr &= ~VIA_IM_T1;
-	update_viairq();
+        update_viairq();
         break;
 
-      case VIA_T2LL:	/* Write timer 2 low latch */
-	via[VIA_T2LL] = byte;
-	update_viatbl();
+      case VIA_T2LL:		/* Write timer 2 low latch */
+        via[VIA_T2LL] = byte;
+        update_viatbl();
 
         store_petsnd_rate(2*byte+4);
 	if(!byte) {
@@ -370,94 +392,90 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
 	} else {
 	  store_petsnd_onoff(((via[VIA_ACR] & 0x1c)==0x10)?1:0);
 	}
-	break;
+            break;
 
-      case VIA_T2CH: /* Write timer 2 high */
+      case VIA_T2CH:		/* Write timer 2 high */
         via[VIA_T2CH] = byte;
-	update_viatbl();
-	viatbu = rclk + viatbl + 3;
-	viatbi = rclk + viatbl + 2;
+        update_viatbl();
+        viatbu = rclk + viatbl + 3;
+        viatbi = rclk + viatbl + 2;
         maincpu_set_alarm(A_VIAT2, viatbi);
 
         /* Clear T2 interrupt */
         viaifr &= ~VIA_IM_T2;
-	update_viairq();
+        update_viairq();
         break;
 
-	/* Interrupts */
+        /* Interrupts */
 
-      case VIA_IFR: /* 6522 Interrupt Flag Register */
+      case VIA_IFR:		/* 6522 Interrupt Flag Register */
         viaifr &= ~byte;
-	update_viairq();
+        update_viairq();
         break;
 
-      case VIA_IER: /* Interrupt Enable Register */
+      case VIA_IER:		/* Interrupt Enable Register */
 #if defined (VIA_TIMER_DEBUG)
-        printf ("Via#1 set VIA_IER: 0x%x\n", byte);
+        printf("Via#1 set VIA_IER: 0x%x\n", byte);
 #endif
         if (byte & VIA_IM_IRQ) {
             /* set interrupts */
             viaier |= byte & 0x7f;
-        }
-        else {
+        } else {
             /* clear interrupts */
             viaier &= ~byte;
         }
-	update_viairq();
+        update_viairq();
         break;
 
-	/* Control */
+        /* Control */
 
       case VIA_ACR:
-	/* bit 7 timer 1 output to PB7 */
-	update_viatal();
-	if((via[VIA_ACR] ^ byte) & 0x80) {
-	  if(byte & 0x80) {
-	    viapb7 = 1 ^ viapb7x;
-	  }
-	}
-	if((via[VIA_ACR] ^ byte) & 0x40) {
-/* printf("store_acr (%02x): pb7=%d, pb7x=%d, pb7o=%d, pb7xx=%d pb7sx=%d->",
-byte, viapb7, viapb7x, viapb7o, viapb7xx, viapb7sx);*/
-	  viapb7 ^= viapb7sx;
-          if((byte & 0x40)) {
-            if(viapb7x || viapb7xx) {
-	      if(viatal) {
-                viapb7o = 1;
-	      } else {
-                viapb7o = 0;
-               if((via[VIA_ACR]&0x80) && viapb7x && (!viapb7xx)) viapb7 ^= 1;
-	      }
+        /* bit 7 timer 1 output to PB7 */
+        update_viatal(rclk);
+        if ((via[VIA_ACR] ^ byte) & 0x80) {
+            if (byte & 0x80) {
+                viapb7 = 1 ^ viapb7x;
             }
-	  }
-/*printf("pb7o=%d\n",viapb7o);*/
-	}
-	viapb7sx = viapb7x;
-	via[addr] = byte;
+        }
+        if ((via[VIA_ACR] ^ byte) & 0x40) {
+            viapb7 ^= viapb7sx;
+            if ((byte & 0x40)) {
+                if (viapb7x || viapb7xx) {
+                    if (viatal) {
+                        viapb7o = 1;
+                    } else {
+                        viapb7o = 0;
+                        if ((via[VIA_ACR] & 0x80) && viapb7x && (!viapb7xx))
+                            viapb7 ^= 1;
+                    }
+                }
+            }
+        }
+        viapb7sx = viapb7x;
+        via[addr] = byte;
 
 
 	store_petsnd_onoff(via[VIA_T2LL] ? (((byte & 0x1c)==0x10)?1:0) : 0);
 
-	/* bit 5 timer 2 count mode */
-	if (byte & 32) {
-/* TODO */
-/*	    update_viatb(0);*/	/* stop timer if mode == 1 */
-	}
+        /* bit 5 timer 2 count mode */
+        if (byte & 32) {
+            /* TODO */
+            /* update_viatb(0); *//* stop timer if mode == 1 */
+        }
 
-	/* bit 4, 3, 2 shift register control */
-
-	/* bit 1, 0  latch enable port B and A */
-	break;
+        /* bit 4, 3, 2 shift register control */
+        /* bit 1, 0  latch enable port B and A */
+        break;
 
       case VIA_PCR:
 
-/*        if(viadebug) printf("VIA1: write %02x to PCR\n",byte);*/
+        /* if(viadebug) printf("VIA1: write %02x to PCR\n",byte); */
 
-	/* bit 7, 6, 5  CB2 handshake/interrupt control */
-	/* bit 4  CB1 interrupt control */
+        /* bit 7, 6, 5  CB2 handshake/interrupt control */
+        /* bit 4  CB1 interrupt control */
 
-	/* bit 3, 2, 1  CA2 handshake/interrupt control */
-	/* bit 0  CA1 interrupt control */
+        /* bit 3, 2, 1  CA2 handshake/interrupt control */
+        /* bit 0  CA1 interrupt control */
 
 
         if(byte != via[VIA_PCR]) {
@@ -471,13 +489,13 @@ byte, viapb7, viapb7x, viapb7o, viapb7xx, viapb7sx);*/
           userport_printer_write_strobe( byte & 0x20 );
 #endif
 	}
-	via[addr] = byte;
-	break;
+        via[addr] = byte;
+        break;
 
       default:
-	via[addr] = byte;
+        via[addr] = byte;
 
-    }  /* switch */
+    }				/* switch */
 }
 
 
@@ -489,8 +507,8 @@ BYTE REGPARM1 read_via(ADDRESS addr)
     BYTE read_via_(ADDRESS);
     BYTE retv = read_via_(addr);
     addr &= 0x0f;
-    if((addr>3 && addr<10) || app_resources.debugFlag)
-	printf("read_via(%x) -> %02x, clk=%d\n",addr,retv,clk);
+    if ((addr > 3 && addr < 10) || app_resources.debugFlag)
+	printf("read_via(%x) -> %02x, clk=%d\n", addr, retv, clk);
     return retv;
 }
 BYTE REGPARM1 read_via_(ADDRESS addr)
@@ -500,19 +518,21 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
 
     addr &= 0xf;
 
-    if(viatai && (viatai <= clk)) int_viat1(clk - viatai);
-    if(viatbi && (viatbi <= clk)) int_viat2(clk - viatbi);
+    if (viatai && (viatai <= clk))
+	int_viat1(clk - viatai);
+    if (viatbi && (viatbi <= clk))
+	int_viat2(clk - viatbi);
 
     switch (addr) {
 
-      case VIA_PRA: /* port A */
+      case VIA_PRA:		/* port A */
         viaifr &= ~VIA_IM_CA1;
-        if( (via[VIA_PCR] & 0x0a) != 0x02) {
-          viaifr &= ~VIA_IM_CA2;
+        if ((via[VIA_PCR] & 0x0a) != 0x02) {
+            viaifr &= ~VIA_IM_CA2;
         }
         update_viairq();
 
-      case VIA_PRA_NHS: /* port A, no handshake */
+      case VIA_PRA_NHS:	/* port A, no handshake */
 
         {
             BYTE    j = 255;
@@ -537,14 +557,16 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
             return ((j & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]));
         }
 
-      case VIA_PRB: /* port B */
+      case VIA_PRB:		/* port B */
         viaifr &= ~VIA_IM_CB1;
-        if( (via[VIA_PCR] & 0xa0) != 0x20) {
-          viaifr &= ~VIA_IM_CB2;
-        }
+
+        if ((via[VIA_PCR] & 0xa0) != 0x20)
+            viaifr &= ~VIA_IM_CB2;
+
         update_viairq();
-	{
-	  BYTE byte;
+        {
+            BYTE byte;
+
 
         {
             BYTE    j;
@@ -560,50 +582,49 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
 #endif
             byte = ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
         }
-	  if(via[VIA_ACR] & 0x80) {
-	    update_viatal();
-/*printf("read: rclk=%d, pb7=%d, pb7o=%d, pb7ox=%d, pb7x=%d, pb7xx=%d\n",
-               rclk, viapb7, viapb7o, viapb7ox, viapb7x, viapb7xx);*/
-	    byte = (byte & 0x7f) | (((viapb7 ^ viapb7x) | viapb7o) ? 0x80 : 0);
-	  }
-	  return byte;
-	}
 
-	/* Timers */
+            if (via[VIA_ACR] & 0x80) {
+                update_viatal(rclk);
+                byte = (byte & 0x7f) | (((viapb7 ^ viapb7x) | viapb7o) ? 0x80 : 0);
+            }
+            return byte;
+        }
 
-      case VIA_T1CL /*TIMER_AL*/: /* timer A low */
+        /* Timers */
+
+      case VIA_T1CL /*TIMER_AL */ :	/* timer A low */
         viaifr &= ~VIA_IM_T1;
-	update_viairq();
-	return viata() & 0xff;
+        update_viairq();
+        return viata() & 0xff;
 
-      case VIA_T1CH /*TIMER_AH*/: /* timer A high */
-	return (viata() >> 8) & 0xff;
+      case VIA_T1CH /*TIMER_AH */ :	/* timer A high */
+        return (viata() >> 8) & 0xff;
 
-      case VIA_T2CL /*TIMER_BL*/: /* timer B low */
+      case VIA_T2CL /*TIMER_BL */ :	/* timer B low */
         viaifr &= ~VIA_IM_T2;
-	update_viairq();
-	return viatb() & 0xff;
+        update_viairq();
+        return viatb() & 0xff;
 
-      case VIA_T2CH /*TIMER_BH*/: /* timer B high */
-	return (viatb() >> 8) & 0xff;
+      case VIA_T2CH /*TIMER_BH */ :	/* timer B high */
+        return (viatb() >> 8) & 0xff;
 
-      case VIA_SR: /* Serial Port Shift Register */
-	return (via[addr]);
+      case VIA_SR:		/* Serial Port Shift Register */
+        return (via[addr]);
 
-	/* Interrupts */
+        /* Interrupts */
 
-      case VIA_IFR: /* Interrupt Flag Register */
-	{
-	    BYTE    t = viaifr;
-	    if (viaifr & viaier /*[VIA_IER]*/)
-		t |= 0x80;
-	    return (t);
-	}
+      case VIA_IFR:		/* Interrupt Flag Register */
+        {
+            BYTE t = viaifr;
+            if (viaifr & viaier /*[VIA_IER] */ )
+                t |= 0x80;
+            return (t);
+        }
 
-      case VIA_IER: /* 6522 Interrupt Control Register */
-	    return (viaier /*[VIA_IER]*/ | 0x80);
+      case VIA_IER:		/* 6522 Interrupt Control Register */
+        return (viaier /*[VIA_IER] */  | 0x80);
 
-    }  /* switch */
+    }				/* switch */
 
     return (via[addr]);
 }
@@ -614,16 +635,19 @@ BYTE REGPARM1 peek_via(ADDRESS addr)
 
     addr &= 0xf;
 
-    if(viatai && (viatai <= clk)) int_viat1(clk - viatai);
-    if(viatbi && (viatbi <= clk)) int_viat2(clk - viatbi);
+    if (viatai && (viatai <= clk))
+	int_viat1(clk - viatai);
+    if (viatbi && (viatbi <= clk))
+	int_viat2(clk - viatbi);
 
     switch (addr) {
       case VIA_PRA:
-	return read_via(VIA_PRA_NHS);
+        return read_via(VIA_PRA_NHS);
 
-      case VIA_PRB: /* port B */
-	{
-	  BYTE byte;
+      case VIA_PRB:		/* port B */
+        {
+            BYTE byte;
+
 
         {
             BYTE    j;
@@ -639,26 +663,24 @@ BYTE REGPARM1 peek_via(ADDRESS addr)
 #endif
             byte = ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
         }
-	  if(via[VIA_ACR] & 0x80) {
-	    update_viatal();
-/*printf("read: rclk=%d, pb7=%d, pb7o=%d, pb7ox=%d, pb7x=%d, pb7xx=%d\n",
-               rclk, viapb7, viapb7o, viapb7ox, viapb7x, viapb7xx);*/
-	    byte = (byte & 0x7f) | (((viapb7 ^ viapb7x) | viapb7o) ? 0x80 : 0);
-	  }
-	  return byte;
-	}
+            if (via[VIA_ACR] & 0x80) {
+                update_viatal(rclk);
+                byte = (byte & 0x7f) | (((viapb7 ^ viapb7x) | viapb7o) ? 0x80 : 0);
+            }
+            return byte;
+        }
 
-	/* Timers */
+        /* Timers */
 
-      case VIA_T1CL /*TIMER_AL*/: /* timer A low */
-	return viata() & 0xff;
+      case VIA_T1CL /*TIMER_AL */ :	/* timer A low */
+        return viata() & 0xff;
 
-      case VIA_T2CL /*TIMER_BL*/: /* timer B low */
-	return viatb() & 0xff;
+      case VIA_T2CL /*TIMER_BL */ :	/* timer B low */
+        return viatb() & 0xff;
 
       default:
-	break;
-    }  /* switch */
+        break;
+    }				/* switch */
 
     return read_via(addr);
 }
@@ -666,7 +688,7 @@ BYTE REGPARM1 peek_via(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
-int    int_viat1(long offset)
+int int_viat1(long offset)
 {
 /*    CLOCK rclk = clk - offset; */
 #ifdef VIA_TIMER_DEBUG
@@ -674,36 +696,35 @@ int    int_viat1(long offset)
 	printf("via timer A interrupt\n");
 #endif
 
-    if (!(via[VIA_ACR] & 0x40)) { /* one-shot mode */
-#if 0 /* defined (VIA_TIMER_DEBUG) */
-        printf ("VIA Timer A interrupt -- one-shot mode: next int won't happen\n");
+    if (!(via[VIA_ACR] & 0x40)) {	/* one-shot mode */
+#if 0				/* defined (VIA_TIMER_DEBUG) */
+	printf("VIA Timer A interrupt -- one-shot mode: next int won't happen\n");
 #endif
-	maincpu_unset_alarm(A_VIAT1);		/*int_clk[I_VIAT1] = 0;*/
+	maincpu_unset_alarm(A_VIAT1);	/*int_clk[I_VIAT1] = 0; */
 	viatai = 0;
-    }
-    else {		/* continuous mode */
-        /* load counter with latch value */
+    } else {			/* continuous mode */
+	/* load counter with latch value */
 	viatai += viatal + 2;
-        maincpu_set_alarm_clk(A_VIAT1, viatai);
+	maincpu_set_alarm_clk(A_VIAT1, viatai);
     }
     viaifr |= VIA_IM_T1;
     update_viairq();
 
     /* TODO: toggle PB7? */
-    return 0; /*(viaier & VIA_IM_T1) ? 1:0;*/
+    return 0;			/*(viaier & VIA_IM_T1) ? 1:0; */
 }
 
 /*
  * Timer B is always in one-shot mode
  */
 
-int    int_viat2(long offset)
+int int_viat2(long offset)
 {
 #ifdef VIA_TIMER_DEBUG
     if (app_resources.debugFlag)
 	printf("VIA timer B interrupt\n");
 #endif
-    maincpu_unset_alarm(A_VIAT2);	/*int_clk[I_VIAT2] = 0;*/
+    maincpu_unset_alarm(A_VIAT2);	/*int_clk[I_VIAT2] = 0; */
 
     viaifr |= VIA_IM_T2;
     update_viairq();
@@ -713,12 +734,13 @@ int    int_viat2(long offset)
 
 void via_prevent_clk_overflow(CLOCK sub)
 {
-     unsigned int t;
-     t = (viatau - (clk + sub)) & 0xffff;
-     viatau = clk + t;
-     t = (viatbu - (clk + sub)) & 0xffff;
-     viatbu = clk + t;
-     if(viatai) viatai -= sub;
+    unsigned int t;
+    t = (viatau - (clk + sub)) & 0xffff;
+    viatau = clk + t;
+    t = (viatbu - (clk + sub)) & 0xffff;
+    viatbu = clk + t;
+    if (viatai)
+	viatai -= sub;
 }
 
 
@@ -728,5 +750,4 @@ void userport_printer_set_busy(int b)
     via_signal(VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
 #endif
-
 
