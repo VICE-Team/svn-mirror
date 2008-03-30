@@ -40,9 +40,12 @@
 #include "snapshot.h"
 #include "types.h"
 
+
 #undef  DEBUG
 
+
 static alarm_t *acia_alarm = NULL;
+static unsigned int acia_int_num;
 
 static int acia_ticks = 21111;  /* number of clock ticks per char */
 static int fd = -1;
@@ -92,9 +95,9 @@ static int acia_set_irq(resource_value_t v, void *param)
     new_irq = irq_tab[new_irq_res];
 
     if (acia_irq != new_irq) {
-        mycpu_set_int(I_MYACIA, IK_NONE);
+        mycpu_set_int(acia_int_num, IK_NONE);
         if (irq) {
-            mycpu_set_int(I_MYACIA, new_irq);
+            mycpu_set_int(acia_int_num, new_irq);
         }
     }
     acia_irq = new_irq;
@@ -141,7 +144,10 @@ static void clk_overflow_callback(CLOCK sub, void *var)
         acia_alarm_clk -= sub;
 }
 
-void myacia_init(void) {
+void myacia_init(void)
+{
+    acia_int_num = interrupt_cpu_status_int_new(maincpu_int_status);
+
     acia_alarm = alarm_new(mycpu_alarm_context, MYACIA, int_acia);
 
     clk_guard_add_callback(mycpu_clk_guard, clk_overflow_callback, NULL);
@@ -171,7 +177,7 @@ void myacia_reset(void)
     alarm_unset(acia_alarm);
     alarm_active = 0;
 
-    mycpu_set_int(I_MYACIA, 0);
+    mycpu_set_int(acia_int_num, 0);
     irq = 0;
 }
 
@@ -240,7 +246,7 @@ int myacia_snapshot_read_module(snapshot_t *p)
     alarm_unset(acia_alarm);   /* just in case we don't find module */
     alarm_active = 0;
 
-    mycpu_set_int_noclk(I_MYACIA, 0);
+    mycpu_set_int_noclk(acia_int_num, 0);
 
     m = snapshot_module_open(p, module_name, &vmajor, &vminor);
     if (m == NULL)
@@ -259,9 +265,9 @@ int myacia_snapshot_read_module(snapshot_t *p)
     if (status & 0x80) {
         status &= 0x7f;
         irq = 1;
-        mycpu_set_int_noclk(I_MYACIA, acia_irq);
+        mycpu_set_int_noclk(acia_int_num, acia_irq);
     } else {
-        mycpu_set_int_noclk(I_MYACIA, 0);
+        mycpu_set_int_noclk(acia_int_num, 0);
     }
 
     SMR_B(m, &cmd);
@@ -332,7 +338,7 @@ void REGPARM2 myacia_store(WORD a, BYTE b)
         status &= ~4;
         cmd &= 0xe0;
         intx = 0;
-        mycpu_set_int(I_MYACIA, 0);
+        mycpu_set_int(acia_int_num, 0);
         irq = 0;
         alarm_unset(acia_alarm);
         alarm_active = 0;
@@ -385,7 +391,7 @@ BYTE myacia_read_(WORD a)
       case ACIA_SR:
         {
             BYTE c = status | (irq ? 0x80 : 0);
-            mycpu_set_int(I_MYACIA, 0);
+            mycpu_set_int(acia_int_num, 0);
             irq = 0;
             acia_last_read = c;
             return c;
@@ -438,7 +444,7 @@ static void int_acia(CLOCK offset)
     }
 
     if ((rxirq && (!(cmd & 0x02))) || ((cmd & 0x0c) == 0x04) ) {
-        mycpu_set_int(I_MYACIA, acia_irq);
+        mycpu_set_int(acia_int_num, acia_irq);
         irq = 1;
     }
 

@@ -238,8 +238,7 @@ void maincpu_early_init(void)
 
 void maincpu_init(void)
 {
-    interrupt_cpu_status_init(maincpu_int_status, NUMOFINT,
-                              &last_opcode_info);
+    interrupt_cpu_status_init(maincpu_int_status, &last_opcode_info);
 }
 
 void maincpu_shutdown(void)

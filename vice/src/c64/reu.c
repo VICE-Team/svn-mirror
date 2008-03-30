@@ -94,6 +94,8 @@ static log_t reu_log = LOG_ERR;
 static int reu_activate(void);
 static int reu_deactivate(void);
 
+static unsigned int reu_int_num;
+
 /* ------------------------------------------------------------------------- */
 
 /* Flag: Do we enable the external REU?  */
@@ -255,6 +257,8 @@ int reu_cmdline_options_init(void)
 void reu_init(void)
 {
     reu_log = log_open("REU");
+
+    reu_int_num = interrupt_cpu_status_int_new(maincpu_int_status);
 }
 
 void reu_reset(void)
@@ -343,7 +347,7 @@ BYTE REGPARM1 reu_read(WORD addr)
         /* Bits 7-5 are cleared when register is read, and pending IRQs are
            removed. */
         reu[REU_REG_R_STATUS] &= ~0xe0;
-        maincpu_set_irq(I_REU, 0);
+        maincpu_set_irq(reu_int_num, 0);
         break;
 
       case REU_REG_RW_BANK:
@@ -570,7 +574,7 @@ static void reu_dma_compare(WORD host_addr, unsigned int reu_addr,
                Bit 5: interrupt on verify error */
             if (reu[REU_REG_RW_INTERRUPT] & 0xa0) {
                 reu[REU_REG_R_STATUS] |= 0x80;
-                maincpu_set_irq(I_REU, 1);
+                maincpu_set_irq(reu_int_num, 1);
             }
             break;
         }
@@ -659,7 +663,7 @@ void reu_dma(int immed)
     /* Bit 6: interrupt on end of block */
     if ((reu[REU_REG_RW_INTERRUPT] & 0xc0) == 0xc0) {
         reu[REU_REG_R_STATUS] |= 0x80;
-        maincpu_set_irq(I_REU, 1);
+        maincpu_set_irq(reu_int_num, 1);
     }
 }
 
@@ -723,9 +727,9 @@ int reu_read_snapshot_module(snapshot_t *s)
         goto fail;
 
     if (reu[REU_REG_R_STATUS] & 0x80)
-        interrupt_set_irq_noclk(maincpu_int_status, I_REU, 1);
+        interrupt_set_irq_noclk(maincpu_int_status, reu_int_num, 1);
     else
-        interrupt_set_irq_noclk(maincpu_int_status, I_REU, 0);
+        interrupt_set_irq_noclk(maincpu_int_status, reu_int_num, 0);
 
     snapshot_module_close(m);
     return 0;

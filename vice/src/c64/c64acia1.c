@@ -31,8 +31,6 @@
 
 #define myacia acia1
 
-#define I_MYACIA I_ACIA1
-
 /* resource defaults */
 #define	MYACIA		"Acia1"
 #define	MyDevice	0

@@ -91,6 +91,12 @@ static int via_read_offset = 0;
 static BYTE via_last_read = 0;  /* the byte read the last time (for RMW) */
 #endif
 
+#ifndef VIA_SHARED_CODE
+static alarm_t *myvia_t1_alarm;
+static alarm_t *myvia_t2_alarm;
+static unsigned int myvia_int_num;
+#endif
+
 /*
  * local prototypes
  */
@@ -162,8 +168,8 @@ static void int_myviat2(VIA_CONTEXT_PARAM CLOCK offset);
 
 
 #ifndef via_restore_int /* if VIA reports to other chip (TPI) for IRQ */
-#define via_restore_int(a)                                    \
-        interrupt_set_int_noclk(mycpu_int_status, I_MYVIAFL, \
+#define via_restore_int(a)                                       \
+        interrupt_set_int_noclk(mycpu_int_status, myvia_int_num, \
         (a) ? MYVIA_INT : 0)
 #endif
 
@@ -172,7 +178,7 @@ static void clk_overflow_callback(VIA_CONTEXT_PARAM CLOCK sub, void *data);
 
 inline static void update_myviairq(VIA_CONTEXT_PARVOID)
 {
-    via_set_int(I_MYVIAFL, (myviaifr & myviaier & 0x7f) ? MYVIA_INT : 0);
+    via_set_int(myvia_int_num, (myviaifr & myviaier & 0x7f) ? MYVIA_INT : 0);
 }
 
 /* the next two are used in myvia_read() */
@@ -229,13 +235,11 @@ inline static void update_myviatbl(VIA_CONTEXT_PARVOID)
 /* MYVIA */
 
 #ifndef VIA_SHARED_CODE
-static alarm_t *myvia_t1_alarm;
-static alarm_t *myvia_t2_alarm;
-
 void myvia_init(VIA_CONTEXT_PARVOID)
 {
-    if (myvia_log == LOG_ERR)
-        myvia_log = log_open(snap_module_name);
+    myvia_log = log_open(snap_module_name);
+
+    myvia_int_num = interrupt_cpu_status_int_new(mycpu_int_status);
 
     myvia_t1_alarm = alarm_new(mycpu_alarm_context, MYVIA_NAME "T1",
                                int_myviat1);

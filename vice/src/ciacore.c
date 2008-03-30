@@ -66,6 +66,13 @@ int mycia_debugFlag = 0;
 #define CYCLES_PER_SEC  1000000
 #endif
 
+#ifndef CIA_SHARED_CODE
+static alarm_t *cia_ta_alarm;
+static alarm_t *cia_tb_alarm;
+static alarm_t *cia_tod_alarm;
+static unsigned int cia_int_num;
+#endif
+
 
 /* The following is an attempt in rewriting the interrupt defines into
    static inline functions. This should not hurt, but I still kept the
@@ -235,15 +242,13 @@ static void clk_overflow_callback(CIA_CONTEXT_PARAM CLOCK sub, void *data)
 }
 
 /* -------------------------------------------------------------------------- */
-#ifndef CIA_SHARED_CODE
-static alarm_t *cia_ta_alarm;
-static alarm_t *cia_tb_alarm;
-static alarm_t *cia_tod_alarm;
 
+#ifndef CIA_SHARED_CODE
 void mycia_init(void)
 {
-    if (cia_log == LOG_ERR)
-        cia_log = log_open(MYCIA_NAME);
+    cia_log = log_open(MYCIA_NAME);
+
+    cia_int_num = interrupt_cpu_status_int_new(mycpu_int_status);
 
     cia_ta_alarm = alarm_new(mycpu_alarm_context, MYCIA_NAME "_TA", int_ciata);
     cia_tb_alarm = alarm_new(mycpu_alarm_context, MYCIA_NAME "_TB", int_ciatb);

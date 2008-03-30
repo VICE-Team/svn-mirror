@@ -68,8 +68,8 @@
 #define VIA_SET_CA2(a)
 #define VIA_SET_CB2(a)
 
-#define via_set_int             maincpu_set_irq
-#define VIA1_INT                IK_IRQ
+#define via_set_int maincpu_set_irq
+#define VIA1_INT IK_IRQ
 
 /* #define VIA1_TIMER_DEBUG */
 
