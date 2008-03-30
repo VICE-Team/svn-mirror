@@ -60,6 +60,17 @@ static void (*attention_callback_func)(void);
 static unsigned int serial_truedrive;
 
 
+static void serial_set_st(BYTE st)
+{
+    mem_store((WORD)0x90, (BYTE)(mem_read((WORD)0x90) | st));
+}
+
+static BYTE serial_get_st(void)
+{
+    return mem_read((WORD)0x90);
+}
+
+
 /* Command Serial Bus to TALK, LISTEN, UNTALK, or UNLISTEN, and send the
    Secondary Address to Serial Bus under Attention.  */
 int serial_trap_attention(void)
