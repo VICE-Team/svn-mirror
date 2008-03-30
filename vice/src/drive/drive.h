@@ -32,6 +32,7 @@
 #include "types.h"
 #include "vdrive.h"		/* DRIVE */
 #include "drivecpu.h"
+#include "log.h"
 
 /* VIA 1 drive 0 alarms.  */
 #define	A_VIA1D0T1	0
@@ -294,6 +295,9 @@ typedef struct drive_s {
 
     /* Pointer to the drive clock.  */
     CLOCK *clk;
+
+    /* Drive-specific logging goes here.  */
+    log_t log;
 } drive_t;
 
 extern drive_t drive[2];
