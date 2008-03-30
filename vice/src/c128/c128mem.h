@@ -66,8 +66,8 @@ extern int mem_load_kernal64(const char *rom_name);
 extern int mem_load_basic64(const char *rom_name);
 extern int mem_load_chargen64(const char *rom_name);
 
-extern BYTE REGPARM1 read_top_shared(ADDRESS addr);
-extern void REGPARM2 store_top_shared(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 top_shared_read(ADDRESS addr);
+extern void REGPARM2 top_shared_store(ADDRESS addr, BYTE value);
 
 extern BYTE REGPARM1 d7xx_read(ADDRESS addr);
 extern void REGPARM2 d7xx_store(ADDRESS addr, BYTE value);
@@ -77,11 +77,18 @@ extern BYTE REGPARM1 io1_read(ADDRESS addr);
 extern void REGPARM2 io2_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 io2_read(ADDRESS addr);
 
-extern BYTE REGPARM1 read_lo(ADDRESS addr);
-extern void REGPARM2 store_lo(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 lo_read(ADDRESS addr);
+extern void REGPARM2 lo_store(ADDRESS addr, BYTE value);
 
 extern BYTE REGPARM1 rom64_read(ADDRESS addr);
 extern void REGPARM2 rom64_store(ADDRESS addr, BYTE value);
+
+extern BYTE REGPARM1 basic_read(ADDRESS addr);
+extern void REGPARM2 basic_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 kernal_read(ADDRESS addr);
+extern void REGPARM2 kernal_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 chargen_read(ADDRESS addr);
+extern void REGPARM2 chargen_store(ADDRESS addr, BYTE value);
 
 extern BYTE *page_zero, *page_one, *ram_bank;
 

@@ -46,11 +46,10 @@
 extern int c64_mem_init_resources(void);
 extern int c64_mem_init_cmdline_options(void);
 extern void mem_set_vbank(int new_vbank);
-extern read_func_t read_basic, read_kernal, read_chargen;
-extern read_func_t read_roml, read_romh;
-extern read_func_t read_ultimax_a000_bfff;
-extern store_func_t ram_store, store_ram_hi;
-extern store_func_t store_roml, store_ultimax_a000_bfff;
+extern read_func_t roml_read, romh_read;
+extern read_func_t ultimax_a000_bfff_read;
+extern store_func_t ram_store, ram_hi_store;
+extern store_func_t roml_store, ultimax_a000_bfff_store;
 
 extern char** mem_get_romsets(void);
 extern int mem_get_numromsets(void);

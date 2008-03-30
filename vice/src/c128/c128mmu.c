@@ -30,7 +30,6 @@
 
 #include "c128mem.h"
 #include "c128mmu.h"
-#include "c64mem.h"
 #include "cmdline.h"
 #include "functionrom.h"
 #include "interrupt.h"
@@ -174,7 +173,7 @@ void mmu_set_config64(int config)
 
 BYTE REGPARM1 mmu_read(ADDRESS addr)
 {
-    vic_ii_handle_pending_alarms_external(0);
+    vic_ii_handle_pending_alarms(0);
 
     addr &= 0xff;
 
@@ -196,7 +195,7 @@ BYTE REGPARM1 mmu_read(ADDRESS addr)
 
 void REGPARM2 mmu_store(ADDRESS address, BYTE value)
 {
-    vic_ii_handle_pending_alarms_external(maincpu_num_write_cycles());
+    vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
 
     address &= 0xff;
 
@@ -263,11 +262,11 @@ BYTE REGPARM1 mmu_ffxx_read(ADDRESS addr)
         return mmu[0];
 
     if ((mmu[0] & 0x30) == 0x00)
-        return read_kernal(addr);
+        return kernal_read(addr);
     if ((mmu[0] & 0x30) == 0x10)
         return internal_function_rom_read(addr);
  
-    return read_top_shared(addr);
+    return top_shared_read(addr);
 }
 
 BYTE REGPARM1 mmu_ffxx_read_z80(ADDRESS addr)
@@ -275,7 +274,7 @@ BYTE REGPARM1 mmu_ffxx_read_z80(ADDRESS addr)
     if (addr == 0xff00)
         return mmu[0];
 
-    return read_top_shared(addr);
+    return top_shared_read(addr);
 }
 
 void REGPARM2 mmu_ffxx_store(ADDRESS addr, BYTE value)
@@ -290,7 +289,7 @@ void REGPARM2 mmu_ffxx_store(ADDRESS addr, BYTE value)
     else if (addr <= 0xff04)
         mmu_store(0, mmu[addr & 0xf]);
     else
-        store_top_shared(addr, value);
+        top_shared_store(addr, value);
 }
 
 /* ------------------------------------------------------------------------- */

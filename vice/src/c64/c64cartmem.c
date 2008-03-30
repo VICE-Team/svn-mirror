@@ -440,7 +440,7 @@ void REGPARM2 cartridge_store_io2(ADDRESS addr, BYTE value)
     return;
 }
 
-BYTE REGPARM1 read_roml(ADDRESS addr)
+BYTE REGPARM1 roml_read(ADDRESS addr)
 {
     if (mem_cartridge_type == CARTRIDGE_ZAXXON)
         romh_bank = (addr & 0x1000) ? 1 : 0;
@@ -453,7 +453,7 @@ BYTE REGPARM1 read_roml(ADDRESS addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-BYTE REGPARM1 read_romh(ADDRESS addr)
+BYTE REGPARM1 romh_read(ADDRESS addr)
 {
 	/*
 	 * CARTRIDGE_EXPERT: Mirror $8000-$9FFF at $E000-$FFFF in ultimax mode.
@@ -466,7 +466,7 @@ BYTE REGPARM1 read_romh(ADDRESS addr)
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
-void REGPARM2 store_roml(ADDRESS addr, BYTE value)
+void REGPARM2 roml_store(ADDRESS addr, BYTE value)
 {
     if (export_ram) {
         if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT_V5)
@@ -477,14 +477,14 @@ void REGPARM2 store_roml(ADDRESS addr, BYTE value)
     return;
 }
 
-BYTE REGPARM1 read_ultimax_a000_bfff(ADDRESS addr)
+BYTE REGPARM1 ultimax_a000_bfff_read(ADDRESS addr)
 {
     if (export_ram_at_a000)
         return export_ram0[addr & 0x1fff];
     return 0x55;
 }
 
-void REGPARM2 store_ultimax_a000_bfff(ADDRESS addr, BYTE value)
+void REGPARM2 ultimax_a000_bfff_store(ADDRESS addr, BYTE value)
 {
     if (export_ram_at_a000)
         export_ram0[addr & 0x1fff] = value;
