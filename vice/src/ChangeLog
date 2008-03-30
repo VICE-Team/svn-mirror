@@ -1,3 +1,47 @@
+2001-11-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.25.
+
+	* 6510core.c (BRANCH): Use `JUMP()' to change program counter.
+
+	* vice.h: Define `VIDEO_REMOVE_2X' here.
+
+	* raster/raster.c, vicii/vicii-color.c, vicii/vicii-draw.c,
+	vicii/vicii-resources.c, vicii/vicii-sprites.c,
+	vic20/vic-color.c, vic20/vic.c, plus4/ted-draw.c,
+	plus4/ted-resources.c, raster/raster.c: Do not depend on video
+	interface, fixed function names.
+
+	* video-color.c, video-color.h, video-render.c,
+	video-render.h, video-resources.c, video-resources.h: Moved to
+	separate directory.
+
+	* Makefile.am: Added new video library.
+
+	* video/Makefile.am: New file.
+
+	* video/video-color.c, video/video-color.h,
+	video/video-render.c, video/video-render.h,
+	video/video-resources.c, video/video-resources.h: Fixed
+	function names and includes.
+
+	* arch/win32/video.c: Do not inlcude "video-render.h".
+
+	* video/video-render.c: Moved specific renderer to separate
+	files.
+
+	* video/render1x1.c, video/render1x1.h, video/render2x2.c,
+	video/render2x2.c: New files.
+
+	* arch/unix/uisid.c, arch/unix/uisid.h: New files.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c: Moved common SID
+	specific menue entries to separate file.
+
+	* arch/unix/c610ui.c: Added SID menu entries.
+
+	* arch/win32/uimon.c (dis_window_proc): Initialize variable.
+
 2001-11-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.24.

@@ -522,7 +522,7 @@
               CLK += 3;                                                 \
               OPCODE_DELAYS_INTERRUPT();                                \
           }                                                             \
-          reg_pc = dest_addr & 0xffff;                                  \
+          JUMP(dest_addr & 0xffff);                                     \
       } else {                                                          \
           CLK += 2;                                                     \
           INC_PC(2);                                                    \
