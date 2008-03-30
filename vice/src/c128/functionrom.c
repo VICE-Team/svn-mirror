@@ -65,13 +65,8 @@ static int set_internal_function_rom_enabled(resource_value_t v, void *param)
 
 static int set_internal_function_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (internal_function_rom_name != NULL && name != NULL
-        && strcmp(name, internal_function_rom_name) == 0)
+    if (util_string_set(&internal_function_rom_name, (const char *)v))
         return 0;
-
-    util_string_set(&internal_function_rom_name, name);
 
     return functionrom_load_internal();
 }
@@ -84,13 +79,8 @@ static int set_external_function_rom_enabled(resource_value_t v, void *param)
 
 static int set_external_function_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (external_function_rom_name != NULL && name != NULL
-        && strcmp(name, external_function_rom_name) == 0)
+    if (util_string_set(&external_function_rom_name, (const char *)v))
         return 0;
-
-    util_string_set(&external_function_rom_name, name);
 
     return functionrom_load_external();
 }

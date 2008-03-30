@@ -125,87 +125,59 @@ static int set_video(resource_value_t v, void *param)
 
 static int set_chargen_rom_name(resource_value_t v, void *param)
 {
-    char *s = (char*) v;
-
-    if (s && petres.chargenName && !strcmp(s,petres.chargenName))
+    if (util_string_set(&petres.chargenName, (const char *)v))
         return 0;
-
-    util_string_set(&petres.chargenName, s);
 
     return mem_load_chargen();
 }
 
 static int set_kernal_rom_name(resource_value_t v, void *param)
 {
-    char *s = (char*) v;
-
-    if (s && petres.kernalName && !strcmp(s,petres.kernalName))
+    if (util_string_set(&petres.kernalName, (const char *)v))
         return 0;
-
-    util_string_set(&petres.kernalName, s);
 
     return mem_load_kernal();
 }
 
 static int set_basic_rom_name(resource_value_t v, void *param)
 {
-    char *s = (char*) v;
-
 /*  do we want to reload the basic even with the same name - romB can
     overload the basic ROM image and we can restore it only here ?
 */
-    if (s && petres.basicName && !strcmp(s,petres.basicName))
+    if (util_string_set(&petres.basicName, (const char *)v))
         return 0;
-
-    util_string_set(&petres.basicName, s);
 
     return mem_load_basic();
 }
 
 static int set_editor_rom_name(resource_value_t v, void *param)
 {
-    char *s = (char*) v;
-
-    if (s && petres.editorName && !strcmp(s,petres.editorName))
+    if (util_string_set(&petres.editorName, (const char *)v))
         return 0;
-
-    util_string_set(&petres.editorName, s);
 
     return mem_load_editor();
 }
 
 static int set_rom_module_9_name(resource_value_t v, void *param)
 {
-    char *s = (char*) v;
-
-    if (s && petres.mem9name && !strcmp(s,petres.mem9name))
+    if (util_string_set(&petres.mem9name, (const char *)v))
         return 0;
-
-    util_string_set(&petres.mem9name, s);
 
     return mem_load_rom9();
 }
 
 static int set_rom_module_a_name(resource_value_t v, void *param)
 {
-    char *s = (char*) v;
-
-    if (s && petres.memAname && !strcmp(s,petres.memAname))
+    if (util_string_set(&petres.memAname, (const char *)v))
         return 0;
-
-    util_string_set(&petres.memAname, s);
 
     return mem_load_romA();
 }
 
 static int set_rom_module_b_name(resource_value_t v, void *param)
 {
-    char *s = (char*) v;
-
-    if (s && petres.memBname && !strcmp(s,petres.memBname))
+    if (util_string_set(&petres.memBname, (const char *)v))
         return 0;
-
-    util_string_set(&petres.memBname, s);
 
     return mem_load_romB();
 }

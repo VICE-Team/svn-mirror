@@ -99,20 +99,15 @@ static int z80mem_load_bios(void)
 
 static int set_z80bios_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *) v;
-
-    if (z80bios_rom_name != NULL && name != NULL
-        && strcmp(name, z80bios_rom_name) == 0)
+    if (util_string_set(&z80bios_rom_name, (const char *)v))
         return 0;
-
-    util_string_set(&z80bios_rom_name, name);
 
     return z80mem_load_bios();
 }
 
 static resource_t resources[] = {
-    { "Z80BiosName", RES_STRING, (resource_value_t) "z80bios",
-      (resource_value_t *) &z80bios_rom_name,
+    { "Z80BiosName", RES_STRING, (resource_value_t)"z80bios",
+      (resource_value_t *)&z80bios_rom_name,
       set_z80bios_rom_name, NULL },
     { NULL }
 };

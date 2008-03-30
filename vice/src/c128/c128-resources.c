@@ -59,9 +59,6 @@ int emu_id_enabled;
 /* Flag: Do we enable the IEEE488 interface emulation?  */
 int ieee488_enabled;
 
-/* Flag: Do we enable the external REU?  */
-int reu_enabled;
-
 #ifdef HAVE_RS232
 /* Flag: Do we enable the $DE** ACIA RS232 interface emulation?  */
 int acia_de_enabled;
@@ -75,78 +72,48 @@ int acia_d7_enabled;
 
 static int set_chargen_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (chargen_rom_name != NULL && name != NULL
-        && strcmp(name, chargen_rom_name) == 0)
+    if (util_string_set(&chargen_rom_name, (const char *)v))
         return 0;
-
-    util_string_set(&chargen_rom_name, name);
 
     return mem_load_chargen(chargen_rom_name);
 }
 
 static int set_kernal_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (kernal_rom_name != NULL && name != NULL
-        && strcmp(name, kernal_rom_name) == 0)
+    if (util_string_set(&kernal_rom_name, (const char *)v))
         return 0;
-
-    util_string_set(&kernal_rom_name, name);
 
     return mem_load_kernal(kernal_rom_name);
 }
 
 static int set_basic_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (basic_rom_name != NULL && name != NULL
-        && strcmp(name, basic_rom_name) == 0)
+    if (util_string_set(&basic_rom_name, (const char *)v))
         return 0;
-
-    util_string_set(&basic_rom_name, name);
 
     return mem_load_basic(basic_rom_name);
 }
 
 static int set_chargen64_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (chargen64_rom_name != NULL && name != NULL
-        && strcmp(name, chargen64_rom_name) == 0)
+    if (util_string_set(&chargen64_rom_name, (const char *)v))
         return 0;
-
-    util_string_set(&chargen64_rom_name, name);
 
     return mem_load_chargen64(chargen64_rom_name);
 }
 
 static int set_kernal64_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (kernal64_rom_name != NULL && name != NULL
-        && strcmp(name, kernal64_rom_name) == 0)
+    if (util_string_set(&kernal64_rom_name, (const char *)v))
         return 0;
-
-    util_string_set(&kernal64_rom_name, name);
 
     return mem_load_kernal64(kernal64_rom_name);
 }
 
 static int set_basic64_rom_name(resource_value_t v, void *param)
 {
-    const char *name = (const char *)v;
-
-    if (basic64_rom_name != NULL && name != NULL
-        && strcmp(name, basic64_rom_name) == 0)
+    if (util_string_set(&basic64_rom_name, (const char *)v))
         return 0;
-
-    util_string_set(&basic64_rom_name, name);
 
     return mem_load_basic64(basic64_rom_name);
 }
@@ -167,31 +134,19 @@ static int set_ieee488_enabled(resource_value_t v, void *param)
     if (!(int)v) {
         ieee488_enabled = 0;
         return 0;
-    } else if (!reu_enabled) {
-        ieee488_enabled = 1;
-        return 0;
     } else {
-        /* The REU and the IEEE488 interface share the same address space, so
-           they cannot be enabled at the same time.  */
-        return -1;
-    }
-}
+        int reu_enabled;
 
-/* FIXME: Should initialize the REU when turned on.  */
-static int set_reu_enabled(resource_value_t v, void *param)
-{
-    if (!(int)v) {
-        reu_enabled = 0;
-        reu_deactivate();
-        return 0;
-    } else if (!ieee488_enabled) {
-        reu_enabled = 1;
-        reu_activate();
-        return 0;
-    } else {
-        /* The REU and the IEEE488 interface share the same address space, so
-           they cannot be enabled at the same time.  */
-        return -1;
+        resources_get_value("REU", (resource_value_t)&reu_enabled);
+
+        if (!reu_enabled) {
+            ieee488_enabled = 1;
+            return 0;
+        } else {
+            /* The REU and the IEEE488 interface share the same address
+               space, so they cannot be enabled at the same time.  */
+            return -1;
+        }
     }
 }
 
@@ -233,9 +188,6 @@ static resource_t resources[] =
     { "Basic64Name", RES_STRING, (resource_value_t)"basic64",
       (resource_value_t *)&basic64_rom_name,
       set_basic64_rom_name, NULL },
-    { "REU", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&reu_enabled,
-      set_reu_enabled, NULL },
     { "IEEE488", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&ieee488_enabled,
       set_ieee488_enabled, NULL },

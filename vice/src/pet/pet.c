@@ -105,7 +105,7 @@ static char *model_name;
 
 static int set_model_name(resource_value_t v, void *param)
 {
-    char *name = (char *)v;
+    const char *name = (const char *)v;
 
     if (pet_set_model(name, NULL) < 0) {
         log_error(pet_log, "Invalid PET model `%s'.", name);
@@ -231,8 +231,7 @@ void pet_monitor_init(void)
 /* PET-specific initialization.  */
 int machine_init(void)
 {
-    if (pet_log == LOG_ERR)
-        pet_log = log_open("PET");
+    pet_log = log_open("PET");
 
     pet_init_ok = 1;    /* used in pet_set_model() */
 
