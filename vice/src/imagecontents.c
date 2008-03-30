@@ -91,15 +91,15 @@ char *image_contents_to_string(image_contents_t *contents)
     buf = (char*)xmalloc(max_buf_size);
     buf_size = 0;
 
-    BUFCAT("0 \"", 3);
-    BUFCAT((char *)contents->name, strlen((char *)contents->name));
-    BUFCAT("\" ", 2);
-    BUFCAT((char *)contents->id, strlen((char *)contents->id));
+    buf = BUFCAT("0 \"", 3);
+    buf = BUFCAT((char *)contents->name, strlen((char *)contents->name));
+    buf = BUFCAT("\" ", 2);
+    buf = BUFCAT((char *)contents->id, strlen((char *)contents->id));
 
     if (contents->file_list == NULL) {
         const char *s = "\n(eMPTY IMAGE.)";
 
-        BUFCAT(s, strlen(s));
+        buf = BUFCAT(s, strlen(s));
     }
 
     for (p = contents->file_list; p != NULL; p = p->next) {
@@ -115,21 +115,21 @@ char *image_contents_to_string(image_contents_t *contents)
         }
 
         len = sprintf(line_buf, "\n%-5d \"%s\" ", p->size, print_name);
-        BUFCAT(line_buf, len);
+        buf = BUFCAT(line_buf, len);
 
         name_len = strlen((char *)print_name);
         if (name_len < IMAGE_CONTENTS_FILE_NAME_LEN)
-            BUFCAT(filler, IMAGE_CONTENTS_FILE_NAME_LEN
-                           - strlen(print_name));
-        BUFCAT((char *)p->type, strlen((char *)p->type));
+            buf = BUFCAT(filler, IMAGE_CONTENTS_FILE_NAME_LEN - name_len);
+
+        buf = BUFCAT((char *)p->type, strlen((char *)p->type));
     }
 
     if (contents->blocks_free >= 0) {
         len = sprintf(line_buf, "\n%d blocks free.", contents->blocks_free);
-        BUFCAT(line_buf, len);
+        buf = BUFCAT(line_buf, len);
     }
 
-    BUFCAT("\n", 2);              /* With a closing zero.  */
+    buf = BUFCAT("\n", 2); /* With a closing zero.  */
 
     petconvstring(buf, 1);
 
