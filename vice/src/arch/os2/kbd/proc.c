@@ -39,6 +39,8 @@
 #ifdef __X128__
 /* 40/80 column key.  */
 static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
+/* CAPS key.  */
+static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
 #endif
 
 // -----------------------------------------------------------------
@@ -127,6 +129,12 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
             if (key_ctrl_column4080_func)
                 key_ctrl_column4080_func();
             return;
+#if 0 /* FIXME!!! */
+        case ?which_key?: // press/release caps key 
+            if (key_ctrl_caps_func)
+                key_ctrl_caps_func();
+            return;
+#endif
 #endif
         case VK_F12:      // restore key pressed
             machine_set_restore_key(release);
@@ -183,6 +191,10 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
 #ifdef __X128__
     if (usScancode==K_V && key_ctrl_column4080_func)
         key_ctrl_column4080_func(); // press/release 40/80-key
+#if 0 /* FIXME!!! */
+    if (usScancode==K_V && key_ctrl_caps_func)
+        key_ctrl_caps_func(); // press/release caps key
+#endif
 #endif
 }
 
@@ -192,6 +204,11 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
 void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
 {
     key_ctrl_column4080_func = func;
+}
+
+void kbd_register_caps_key(key_ctrl_caps_func_t func)
+{
+    key_ctrl_caps_func = func;
 }
 #endif
 

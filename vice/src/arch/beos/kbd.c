@@ -59,6 +59,9 @@ BYTE joystick_value[3];
 /* 40/80 column key.  */
 static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
+/* CAPS key.  */
+static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
+
 struct _convmap {
     /* Conversion map.  */
     keyconv *map;
@@ -144,6 +147,14 @@ int kbd_handle_keydown(int kcode)
         }
     }
 
+#if 0
+    if (kcode == ?which?) /* F4 */ {
+        if (key_ctrl_caps_func != NULL) {
+            key_ctrl_caps_func();
+        }
+    }
+#endif
+
     if (kcode == 33) /* PgUp */ {
         machine_set_restore_key(1);
     }
@@ -200,5 +211,10 @@ const char *kbd_code_to_string(int kcode)
 void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
 {
     key_ctrl_column4080_func = func;
+}
+
+void kbd_register_caps_key(key_ctrl_caps_func_t func)
+{
+    key_ctrl_caps_func = func;
 }
 

@@ -188,9 +188,9 @@ vic_store(ADDRESS addr, BYTE value)
             
             int new_char_height = (value & 0x1) ? 16 : 8;
 
-            if (VIC_RASTER_Y(clk) == 0 && VIC_RASTER_CYCLE(clk) <= 1)
+            if (VIC_RASTER_Y(clk) == 0 && VIC_RASTER_CYCLE(clk) <= 2)
             {
-                /* changes up to cycle 1 of rasterline 0 are visible in current frame */
+                /* changes up to cycle 2 of rasterline 0 are visible in current frame */
                 vic.text_lines = new_text_lines;
             
                 vic.raster.geometry.gfx_size.height = new_text_lines * 8;

@@ -118,6 +118,9 @@ Joy_Keys JoystickKeys[2] = {
 /* 40/80 column key.  */
 static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
+/* CAPS key.  */
+static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
+
 static unsigned char last_keys[32];
 
 static int LastTasking = 0;
@@ -729,5 +732,10 @@ int kbd_dump_keymap(const char *filename, int number)
 void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
 {
     key_ctrl_column4080_func = func;
+}
+
+void kbd_register_caps_key(key_ctrl_caps_func_t func)
+{
+    key_ctrl_caps_func = func;
 }
 

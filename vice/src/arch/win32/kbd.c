@@ -48,14 +48,14 @@
 #ifdef DEBUG_KBD
 static void kbd_debug(const char *format, ...)
 {
-        char tmp[1024];
-        va_list args;
+    char tmp[1024];
+    va_list args;
 
-        va_start(args, format);
-        vsprintf(tmp, format, args);
-        va_end(args);
-        OutputDebugString(tmp);
-        printf(tmp);
+    va_start(args, format);
+    vsprintf(tmp, format, args);
+    va_end(args);
+    OutputDebugString(tmp);
+    printf(tmp);
 }
 #define KBD_DEBUG(x) kbd_debug x
 #else
@@ -79,6 +79,9 @@ BYTE joystick_value[3];
 
 /* 40/80 column key.  */
 static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
+
+/* CAPS key.  */
+static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
 
 struct _convmap {
     /* Conversion map.  */
@@ -106,23 +109,23 @@ static int keymap_index;
 int kbd_init(int num, ...)
 {
     KBD_DEBUG(("Allocating keymaps"));
-    keyconvmaps=(struct _convmap*)xmalloc(num*sizeof(struct _convmap));
+    keyconvmaps = (struct _convmap*)xmalloc(num * sizeof(struct _convmap));
     KBD_DEBUG(("Installing keymaps"));
     {
         va_list p;
         int i;
 
-        num_keyconvmaps=num;
+        num_keyconvmaps = num;
 
-        va_start(p,num);
-        for (i =0; i<num_keyconvmaps; i++) {
+        va_start(p, num);
+        for (i = 0; i < num_keyconvmaps; i++) {
             keyconv *map;
             unsigned int sizeof_map;
-            int shift_row,shift_column;
+            int shift_row, shift_column;
 
-            shift_row=va_arg(p,int);
-            shift_column=va_arg(p,int);
-            map=va_arg(p,keyconv*);
+            shift_row = va_arg(p, int);
+            shift_column = va_arg(p, int);
+            map = va_arg(p, keyconv *);
             sizeof_map=va_arg(p,unsigned int);
 
             keyconvmaps[i].map = map;
@@ -138,16 +141,16 @@ static int set_keymap_index(resource_value_t v, void *param)
 {
 int real_index;
 
-    keymap_index=(int)v;
-    real_index=keymap_index>>1;
-    keyconv_base=&keyconvmaps[real_index];
+    keymap_index = (int)v;
+    real_index = keymap_index >> 1;
+    keyconv_base = &keyconvmaps[real_index];
 
     return 0;
 }
 
 static resource_t resources[] = {
-    { "KeymapIndex", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &keymap_index, set_keymap_index, NULL },
+    { "KeymapIndex", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&keymap_index, set_keymap_index, NULL },
     { NULL }
 };
 
@@ -177,18 +180,24 @@ int kbd_handle_keydown(DWORD virtual_key, DWORD key_data)
     int kcode = (key_data >> 16) & 0xff;
 
     /*  Translate Extended scancodes */
-    if (key_data & (1<<24)) {
+    if (key_data & (1 << 24)) {
         kcode=_kbd_extended_key_tab[kcode];
     }
 
-    /* FIXME: We should read F7 and PGUP from the the *.vkm.  */
+    /* FIXME: We should read F4, F7 and PGUP from the the *.vkm.  */
     if (kcode == K_F7) {
         if (key_ctrl_column4080_func != NULL) {
             key_ctrl_column4080_func();
         }
     }
 
-    if (kcode==K_PGUP) {
+    if (kcode == K_F4) {
+        if (key_ctrl_caps_func != NULL) {
+            key_ctrl_caps_func();
+        }
+    }
+
+    if (kcode == K_PGUP) {
         machine_set_restore_key(1);
     }
 
@@ -209,7 +218,7 @@ int kbd_handle_keyup(DWORD virtual_key, DWORD key_data)
     int kcode = (key_data >> 16) & 0xff;
 
     /*  Translate Extended scancodes */
-    if (key_data & (1<<24)) {
+    if (key_data & (1 << 24)) {
         kcode=_kbd_extended_key_tab[kcode];
     }
 
@@ -254,5 +263,10 @@ const char *kbd_code_to_string(kbd_code_t kcode)
 void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
 {
     key_ctrl_column4080_func = func;
+}
+
+void kbd_register_caps_key(key_ctrl_caps_func_t func)
+{
+    key_ctrl_caps_func = func;
 }
 

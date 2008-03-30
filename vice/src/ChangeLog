@@ -1,3 +1,42 @@
+2001-05-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.21.
+
+	* raster/raster-cache.h
+	(raster_cache_data_fill_attr_text_const): New function.
+
+	* vdc/vdc-draw.c (get_std_text): Added register 26 support.
+
+	* c128/c128mem.c (mem_toggle_caps_key): New function.
+	(pla_config_changed): Use `caps_sense'.
+
+	* arch/unix/x11/kbd.c (kbd_register_caps_key): New function.
+	(kbd_parse_entry): Check for CAPS key.
+
+	* keyboard.h, arch/unix/x11/kbdef.h: Added prototypes.
+
+	* arch/unix/x11/xaw/x11kbd.c, arch/unix/x11/gnome/gnomekbd.c,
+	arch/unix/x11/fullscreenkbd.c: Added CAPS key support.
+
+	* arch/win32/kbd.c (kbd_register_caps_key): New function.
+	(kbd_handle_keydown): Added CAPS key support.
+
+	* arch/msdos/kbd.c (kbd_register_caps_key): New function.
+	(my_kbd_interrupt_handler): Added CAPS key support.
+
+	* arch/riscos/kbd.c (kbd_register_caps_key): New function.
+
+	* arch/os2/kbd/proc.c (kbd_register_caps_key): New function.
+	(kbd_proc): Added stubs for CAPS key support.
+
+	* arch/beos/kbd.c (kbd_register_caps_key): New function.
+	(kbd_handle_keydown): Added stubs for CAPS key support.
+
+2001-05-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic-mem.c (vic_store): vic.text_lines is latched after
+	cycle 2 of rasterline 0, not after cycle 1
+
 2001-05-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.20.

@@ -64,6 +64,9 @@ BYTE joystick_value[3] = { 0, 0, 0 };
 /* 40/80 column key.  */
 static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 
+/* CAPS key.  */
+static key_ctrl_caps_func_t key_ctrl_caps_func = NULL;
+
 /* ------------------------------------------------------------------------- */
 
 /* Segment info for the standard keyboard handler.  */
@@ -377,11 +380,16 @@ static void my_kbd_interrupt_handler(void)
           case K_SCROLLOCK:     /* Warp mode on/off */
             queue_command(KCMD_TOGGLE_WARP, (kbd_command_data_t) 0);
             break;
+          case K_F4: 
           case K_F7: /* 40/80 column screen switch */
-            if (key_ctrl_column4080_func != NULL) {
+            if (kcode == K_F7 && key_ctrl_column4080_func != NULL) {
                 key_ctrl_column4080_func();
                 break;
             } 
+            if (kcode == K_F4 && key_ctrl_caps_func != NULL) {
+                key_ctrl_caps_func();
+                break;
+            }
             /* Fall through */
           default:
             if (modifiers.left_alt && modifiers.left_ctrl) {
@@ -661,5 +669,10 @@ const char *kbd_code_to_string(kbd_code_t kcode)
 void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
 {
     key_ctrl_column4080_func = func;
+}
+
+void kbd_register_caps_key(key_ctrl_caps_func_t func)
+{
+    key_ctrl_caps_func = func;
 }
 
