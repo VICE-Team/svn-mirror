@@ -1,3 +1,70 @@
+2000-06-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.8.
+
+	* vicii/vicii.c, vicii/vicii.h (vic_ii_init): Return pointer
+	to raster_t structure instead of canvas.
+	* vdc/vdc.c, vdc/vdc.h (vdc_init): Changed likewise.
+	* crtc/crtc.c, crtc/crtc.h (crtc_init): Changed likewise.
+	* vic20/vic.c, vic20/vic.h (vic_init): Changed likewise.
+
+	* Makefile.am: Added `screenshot.c' and `screenshot.h'.
+
+	* screenshot.c, screenshot.h: New files.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c, machine.h (machine_screenshot): New function.
+
+	* vicii/vicii.c, vicii/vicii.h (vic_ii_screenshot): New
+	function.
+
+	* vdc/vdc.c, vdc/vdc.h (vdc_screenshot): New function.
+
+	* vic20/vic.c, vic20/vic.h (vic_screenshot): New function.
+
+	* crtc/crtc.c, crtc/crtc.h (crtc_screenshot): New function.
+
+	* raster/raster.c, raster/raster.h (raster_screenshot): New
+	function.
+
+	* arch/unix/x11/videoarch.h, arch/win32/videoarch.h,
+	arch/riscos/videoarch.h, arch/os2/videoarch.h: Frame buffer
+	struct is called `frame_buffer_s'.
+
+2000-06-01  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/gnomekbd.c (kbd_event_handler): Hotkey
+	handling in vsid mode.
+
+2000-06-01  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/xaw/ui.c (ui_dispatch_events): Removed check for
+	ui_menu_any_open(). This keeps the emulator running when menus are
+	used.
+
+	* arch/unix/uicommands.c: Pause = M-p, Exit = M-q.
+
+	* arch/unix/uisettings.c, arch/unix/uisettings.h: Made
+	sound_settings_submenu, set_sound_sample_rate_submenu,
+	set_sound_oversample_submenu public.
+
+	* arch/unix/c64ui.c, arch/unix/c64ui.h: Made sid_submenu public.
+
+	* arch/unix/vsidui.c: Added menu item for the builtin monitor.
+	
+2000-05-31  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/gnomekbd.c, arch/unix/x11/gnome/ui.c,
+	arch/unix/x11/gnome/uimenu.c, arch/unix/x11/video.c,
+	arch/unix/x11/xaw/ui.c, arch/unix/x11/xaw/uimenu.c,
+	arch/unix/x11/xaw/x11kbd.c, c64/c64.c, c64/psid.c, drive/drive.c,
+	machine.h, main.c, raster/raster.c, sid/sid.c, sound.c,
+	vicii/vicii.c, vsidui.h: Changed psid_mode to vsid_mode.
+	Removed GUI process to simplify porting.
+
+	* arch/unix/vsidproc.c, arch/unix/vsidproc.h: Removed.
+	* arch/unix/Makefile.am: Removed vsidproc.c and vsidproc.h.
+
 2000-05-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.7.

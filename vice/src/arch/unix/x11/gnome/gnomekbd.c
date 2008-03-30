@@ -50,13 +50,13 @@ void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp )
     gint key;
     int i;
 
-    if (psid_mode) {
-        return;
-    }
-
     if (ui_hotkey_event_handler(w, report, gp))
 	return;
     
+    if (vsid_mode) {
+        return;
+    }
+
     key = report->key.keyval;
 
     if (key != NoSymbol

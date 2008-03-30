@@ -42,7 +42,7 @@ extern const char machine_name[];
 #define VICE_MACHINE_CBM2      5
 
 extern int machine_class;
-extern int psid_mode;
+extern int vsid_mode;
 extern int console_mode;
 
 /* Initialize the machine's resources.  */
@@ -89,6 +89,10 @@ extern void machine_play_psid(int tune);
 
 /* Change the timing parameters of the maching (for example PAL/NTSC).  */
 extern void machine_change_timing(int timeval);
+
+/* Get screenshot data.  */
+struct screenshot_s;
+extern int machine_screenshot(struct screenshot_s *screenshot, unsigned int wn);
 
 #endif /* _MACHINE_H */
 
