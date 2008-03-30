@@ -20,5 +20,6 @@ libdriveiec_a_SOURCES = \
 	jobcode1581.h \
 	memiec.c \
 	memiec.h \
+	via1d1541.c \
 	wd1770.c \
 	wd1770.h

@@ -20,4 +20,5 @@ libdriveieee_a_SOURCES = \
 	memieee.h \
 	riot1d.c \
 	riot2d.c \
-	riotd.h
+	riotd.h \
+	via1d2031.c
