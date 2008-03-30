@@ -343,7 +343,7 @@ extern ted_t ted;
 /* Private function calls, used by the other TED modules.  */
 extern void ted_update_memory_ptrs(unsigned int cycle);
 extern void ted_update_video_mode(unsigned int cycle);
-extern void ted_raster_draw_alarm_handler(CLOCK offset);
+extern void ted_raster_draw_alarm_handler(CLOCK offset, void *data);
 extern void ted_resize(void);
 extern void ted_delay_clk(void);
 extern void ted_delay_oldclk(CLOCK num);

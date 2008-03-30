@@ -45,7 +45,7 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
     VIC_DEBUG_REGISTER (("VIC: write $90%02X, value = $%02X.", addr, value));
 
     if (maincpu_clk >= vic.draw_clk)
-        vic_raster_draw_alarm_handler(maincpu_clk - vic.draw_clk);
+        vic_raster_draw_alarm_handler(maincpu_clk - vic.draw_clk, NULL);
 
     switch (addr) {
       case 0:                     /* $9000  Screen X Location. */

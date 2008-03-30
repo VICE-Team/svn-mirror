@@ -99,7 +99,7 @@ inline static void REGPARM2 vicii_local_store_vbank(WORD addr, BYTE value)
                 vicii.store_addr = addr;
             }
 
-            vicii_fetch_alarm_handler(maincpu_clk - vicii.fetch_clk);
+            vicii_fetch_alarm_handler(maincpu_clk - vicii.fetch_clk, NULL);
             f = 1;
             /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
@@ -107,7 +107,7 @@ inline static void REGPARM2 vicii_local_store_vbank(WORD addr, BYTE value)
         }
 
         if (mclk >= vicii.draw_clk) {
-            vicii_raster_draw_alarm_handler(0);
+            vicii_raster_draw_alarm_handler(0, NULL);
             f = 1;
         }
         if (vicii.viciie != 0)
@@ -893,7 +893,7 @@ void REGPARM2 vicii_store(WORD addr, BYTE value)
        the raster.  Otherwise we might mix the changes for this line with the
        changes for the previous one.  */
     if (maincpu_clk >= vicii.draw_clk)
-        vicii_raster_draw_alarm_handler(maincpu_clk - vicii.draw_clk);
+        vicii_raster_draw_alarm_handler(maincpu_clk - vicii.draw_clk, NULL);
 
     VICII_DEBUG_REGISTER(("WRITE $D0%02X at cycle %d of current_line $%04X",
                          addr, VICII_RASTER_CYCLE(maincpu_clk),

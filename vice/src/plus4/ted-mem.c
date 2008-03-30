@@ -88,7 +88,7 @@ inline static void REGPARM2 ted_local_store_vbank(WORD addr, BYTE value)
         f = 0;
 
         if (mclk >= ted.draw_clk) {
-            ted_raster_draw_alarm_handler(0);
+            ted_raster_draw_alarm_handler(0, NULL);
             f = 1;
         }
 
@@ -98,7 +98,7 @@ inline static void REGPARM2 ted_local_store_vbank(WORD addr, BYTE value)
             if (mclk == ted.fetch_clk) {
                 mem_ram[addr] = value;
             }
-            ted_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
+            ted_fetch_alarm_handler(maincpu_clk - ted.fetch_clk, NULL);
             f = 1;
             /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
@@ -124,7 +124,7 @@ inline static void REGPARM2 ted_local_store_vbank_32k(WORD addr, BYTE value)
         f = 0;
 
         if (mclk >= ted.draw_clk) {
-            ted_raster_draw_alarm_handler(0);
+            ted_raster_draw_alarm_handler(0, NULL);
             f = 1;
         }
 
@@ -134,7 +134,7 @@ inline static void REGPARM2 ted_local_store_vbank_32k(WORD addr, BYTE value)
             if (mclk == ted.fetch_clk) {
                 mem_ram[addr & 0x7fff] = value;
             }
-            ted_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
+            ted_fetch_alarm_handler(maincpu_clk - ted.fetch_clk, NULL);
             f = 1;
             /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
@@ -160,7 +160,7 @@ inline static void REGPARM2 ted_local_store_vbank_16k(WORD addr, BYTE value)
         f = 0;
 
         if (mclk >= ted.draw_clk) {
-            ted_raster_draw_alarm_handler(0);
+            ted_raster_draw_alarm_handler(0, NULL);
             f = 1;
         }
 
@@ -170,7 +170,7 @@ inline static void REGPARM2 ted_local_store_vbank_16k(WORD addr, BYTE value)
             if (mclk == ted.fetch_clk) {
                 mem_ram[addr & 0x3fff] = value;
             }
-            ted_fetch_alarm_handler(maincpu_clk - ted.fetch_clk);
+            ted_fetch_alarm_handler(maincpu_clk - ted.fetch_clk, NULL);
             f = 1;
             /* WARNING: Assumes `maincpu_rmw_flag' is 0 or 1.  */
             mclk = maincpu_clk - maincpu_rmw_flag - 1;
@@ -709,7 +709,7 @@ void REGPARM2 ted_store(WORD addr, BYTE value)
        the raster.  Otherwise we might mix the changes for this line with the
        changes for the previous one.  */
     if (maincpu_clk >= ted.draw_clk)
-        ted_raster_draw_alarm_handler(maincpu_clk - ted.draw_clk);
+        ted_raster_draw_alarm_handler(maincpu_clk - ted.draw_clk, NULL);
 
     switch (addr) {
       case 0x00:

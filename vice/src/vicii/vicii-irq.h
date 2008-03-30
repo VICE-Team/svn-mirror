@@ -42,7 +42,7 @@ extern void vicii_irq_set_raster_line(unsigned int line);
 extern void vicii_irq_check_state(BYTE value, unsigned int high);
 extern void vicii_irq_set_line(void);
 extern void vicii_irq_next_frame(void);
-extern void vicii_irq_alarm_handler(CLOCK offset);
+extern void vicii_irq_alarm_handler(CLOCK offset, void *data);
 
 extern void vicii_irq_init(void);
 

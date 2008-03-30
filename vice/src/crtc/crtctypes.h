@@ -181,7 +181,6 @@ extern crtc_t crtc;
    Prepend names with `_'?  */
 extern int crtc_load_palette(const char *name);
 extern void crtc_resize(void);
-extern void crtc_raster_draw_alarm_handler(CLOCK offset);
 
 #endif
 

@@ -201,7 +201,7 @@ extern vic_t vic;
 extern struct raster_s *vic_init(void);
 extern struct video_canvas_s *vic_get_canvas(void);
 extern void vic_reset(void);
-extern void vic_raster_draw_alarm_handler(CLOCK offset);
+extern void vic_raster_draw_alarm_handler(CLOCK offset, void *data);
 
 extern int vic_resources_init(void);
 extern int vic_cmdline_options_init(void);
