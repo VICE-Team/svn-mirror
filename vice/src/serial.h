@@ -88,6 +88,7 @@ typedef struct serial_s
 } serial_t;
 
 extern int serial_init(const struct trap_s *trap_list, WORD tmpin);
+extern void serial_shutdown(void);
 extern int serial_install_traps(void);
 extern int serial_remove_traps(void);
 extern void serial_set_truedrive(int flag);

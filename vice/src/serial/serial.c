@@ -373,6 +373,14 @@ int serial_init(const trap_t *trap_list, WORD tmpin)
     return 0;
 }
 
+void serial_shutdown(void)
+{
+    unsigned int unit;
+
+    for (unit = 0; unit < SERIAL_MAXDEVICES; unit++)
+        serial_detach_device(unit);
+}
+
 int serial_install_traps(void)
 {
     if (!traps_installed && serial_traps != NULL) {
@@ -418,6 +426,9 @@ int serial_attach_device(unsigned int unit, const char *name,
 
     p = serial_device_get(unit);
 
+    if (p->inuse != 0)
+        serial_detach_device(unit);
+
     p->getf = getf;
     p->putf = putf;
     p->openf = openf;
@@ -448,12 +459,13 @@ int serial_detach_device(unsigned int unit)
         log_error(serial_log, "Illegal device number %d.", unit);
         return -1;
     }
+
     p = serial_device_get(unit);
 
-    if (!p || !(p->inuse)) {
-        log_error(serial_log, "Attempting to remove empty device #%d.", unit);
-    } else {
+    if (p != NULL && p->inuse != 0) {
         p->inuse = 0;
+        lib_free(p->name);
+        p->name = NULL;
     }
 
     return 0;
