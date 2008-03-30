@@ -1,3 +1,37 @@
+2002-12-27  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.36.
+
+	* drive/iec/iec-cmdline-options.c,
+	drive/iec/iec-cmdline-options.h,
+	drive/ieee/ieee-cmdline-options.c,
+	drive/ieee/ieee-cmdline-options.h,
+	drive/tcbm/tcbm-cmdline-options.c,
+	drive/tcbm/tcbm-cmdline-options.h: New files.
+
+	* drive/iec.h, drive/iec/iec.c, drive/ieee.h,
+	drive/ieee/ieee.c, drive/tcbm.h, drive/tcbm/tcbm.c,
+	drive/drive-cmdline-options.c, machine-drive.h,
+	c64/c64drive.c, vic20/vic20drive.c, pet/petdrive.c,
+	plus4/plus4drive.c, cbm2/cbm2drive.c: Moved command line
+	options to drive type specific code.
+
+	* drive/iec/Makefile.am, drive/ieee/Makefile.am,
+	drive/tcbm/Makefile.am: Updated.
+
+	* arch/unix/uidrive.c, arch/unix/petui.c, arch/unix/cbm2ui.c:
+	Moved IEEE specific UI to separate file.
+
+	* arch/unix/uidriveieee.c, arch/unix/uidriveieee.h: New files.
+
+	* arch/unix/Makefile.am: Updated.
+
+	* attach.c, attach.h, c1541.c, vdrive/vdrive-bam.c,
+	vdrive/vdrive-internal.c, vdrive/vdrive-snapshot.c,
+	fsdevice/fsdevice.c, serial/fsdrive.c, serial/serial.c,
+	monitor/mon_drive.c (file_system_get_vdrive): Changed return
+	type.
+
 2002-12-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.35.
