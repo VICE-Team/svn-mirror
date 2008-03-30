@@ -4,9 +4,6 @@
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
  *
- * Support for multiple visuals and depths by
- *  Teemu Rantanen (tvr@cs.hut.fi)
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -141,6 +138,7 @@ static UI_CALLBACK(submenu_popdown_callback)
 	XtPopdown((Widget)client_data);
 }
 
+/* Yes, this sucks.  Sorry.  */
 static void position_submenu_action(Widget w, XEvent * event,
                                     String * params, Cardinal * num_params)
 {
@@ -150,23 +148,23 @@ static void position_submenu_action(Widget w, XEvent * event,
 
     if (new_active_entry != active_entry) {
 	int i, level;
+        int level_found, active_found;
 
 	new_active_submenu = NULL;
 
-	/* Find the submenu for the current active menu item.  */
-	for (i = 0; i < num_submenus; i++) {
-	    if (submenus[i].parent == new_active_entry) {
+	/* Find the submenu for the current active menu item and the level of
+           this submenu.  */
+	for (level_found = active_found = 0, level = 0, i = 0;
+             i < num_submenus && !(level_found && active_found);
+             i++) {
+	    if (!active_found && submenus[i].parent == new_active_entry) {
 		new_active_submenu = submenus[i].widget;
-		break;
+                active_found = 1;
 	    }
-	}
-
-	/* Find the level of this submenu (0 = root menu).  */
-	for (level = i = 0; i < num_submenus ; i++) {
-	    if (submenus[i].widget == w) {
-		level = submenus[i].level;
-		break;
-	    }
+            if (!level_found && submenus[i].widget == w) {
+                level = submenus[i].level;
+                level_found = 1;
+            }
 	}
 
 	/* Remove all the submenus whose level is higher than this submenu.  */
