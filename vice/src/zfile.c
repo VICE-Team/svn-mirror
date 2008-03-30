@@ -688,7 +688,7 @@ struct valid_archives_s {
 };
 typedef struct valid_archives_s valid_archives_t;
 
-const valid_archives_t valid_archives[] = {
+static const valid_archives_t valid_archives[] = {
 #if (!defined(__MSDOS__) && !defined(__riscos))
     { "unzip",   "-l",   "-p",    ".zip",    "Name" },
     { "lha",     "lv",   "pq",    ".lzh",    NULL },

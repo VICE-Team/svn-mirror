@@ -29,11 +29,11 @@
 
 #include "types.h"
 
-extern void store_petsnd_onoff(int value);
-extern void store_petsnd_rate(CLOCK t);
-extern void store_petsnd_sample(BYTE value);
+extern void petsound_store_onoff(int value);
+extern void petsound_store_rate(CLOCK t);
+extern void petsound_store_sample(BYTE value);
 
-extern void petsnd_reset(void);
+extern void petsound_reset(void);
 
 #endif
 

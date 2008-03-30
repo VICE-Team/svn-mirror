@@ -127,13 +127,13 @@ void sound_machine_close(sound_t *psid)
     lib_free(psid);
 }
 
-void store_petsnd_onoff(int value)
+void petsound_store_onoff(int value)
 {
     snddata[0] = value;
     sound_store(0, snddata[0], 0);
 }
 
-void store_petsnd_rate(CLOCK t)
+void petsound_store_rate(CLOCK t)
 {
     snddata[2] = (BYTE)(t & 0xff);
     snddata[3] = (BYTE)((t >> 8) & 0xff);
@@ -141,7 +141,7 @@ void store_petsnd_rate(CLOCK t)
     sound_store(3, snddata[3], 0);
 }
 
-void store_petsnd_sample(BYTE sample)
+void petsound_store_sample(BYTE sample)
 {
     snddata[1] = sample;
     sound_store(1, snddata[1], 0);
@@ -170,10 +170,10 @@ void sound_machine_store(sound_t *psid, WORD addr, BYTE val)
     }
 }
 
-void petsnd_reset(void)
+void petsound_reset(void)
 {
     sound_reset();
-    store_petsnd_onoff(0);
+    petsound_store_onoff(0);
 }
 
 BYTE sound_machine_read(sound_t *psid, WORD addr)

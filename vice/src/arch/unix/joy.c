@@ -109,9 +109,9 @@ int joystick_init_cmdline_options(void)
 #include <errno.h>
 #define NEW_JOYSTICK 1
 #undef HAS_DIGITAL_JOYSTICK
-int     use_old_api=0;
+static int     use_old_api=0;
 #else
-int     use_old_api=1;
+static int     use_old_api=1;
 #endif
 
 #elif defined(BSD_JOYSTICK)

@@ -135,7 +135,8 @@ static const resource_t resources[] = {
     { NULL }
 };
 
-int rsuser_resources_init(void) {
+int rsuser_resources_init(void)
+{
     return resources_register(resources);
 }
 
