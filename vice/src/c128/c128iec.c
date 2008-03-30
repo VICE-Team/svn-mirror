@@ -334,6 +334,9 @@ void iec_calculate_callback_index(void)
 
 void iec_fast_cpu_write(BYTE data)
 {
+#if 1
+    return;
+#else
     if (drive[0].enable) {
        drive0_cpu_execute(clk);
        if (drive[0].type == DRIVE_TYPE_1571)
@@ -348,10 +351,15 @@ void iec_fast_cpu_write(BYTE data)
        if (drive[1].type == DRIVE_TYPE_1581)
            cia1581d1_set_sdr(data);
     }
+#endif
 }
 
 void iec_fast_drive_write(BYTE data)
 {
+#if 1
+    return;
+#else
     cia1_set_sdr(data);
+#endif
 }
 

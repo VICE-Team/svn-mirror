@@ -31,7 +31,8 @@ list of all the changes in the code.
 ** C128 changes
 ---------------
 
-- 80 column screen is emulated now.
+- 80 column screen is emulated now.  Currently the hardware cursor
+  is missing, but Infocom adventures and GEOS128 work.
 
 - REU emulation is available now.
 
@@ -88,6 +89,8 @@ list of all the changes in the code.
 
 - The RESTORE key is present now (PAGE UP).
 
+- Browse button in the device manager dialog works now.
+
 ** Miscellaneous changes
 ------------------------
 
@@ -95,6 +98,8 @@ list of all the changes in the code.
   works correctly.
 
 - Some P00 wildcard bug has been fixed.
+
+- An image content lister crash has been fixed.
 
 
 * Changes in VICE 1.0a
