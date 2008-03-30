@@ -1,5 +1,4 @@
-This is Info file vice.info, produced by Makeinfo version 1.68 from the
-input file vice.texi.
+This is vice.info, produced by makeinfo version 4.5 from vice.texi.
 
 START-INFO-DIR-ENTRY
 * VICE: (vice).        VICE, the Versatile Commodore Emulator.
@@ -15,72 +14,6 @@ preserved on all copies.
 this manual under the conditions for verbatim copying, provided that
 the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
-
-
-
-File: vice.info,  Node: VIC20 memory module,  Next: PET memory module,  Prev: C128 memory module,  Up: Module formats
-
-VIC20 memory module
-...................
-
-   The VIC20 memory module actually consists of two modules.  The
-"VIC20MEM" module is mandatory and contains the RAM dump.  The
-"VIC20ROM" module is optional and contains a dump of the ROM images.
-
-   The size of the VIC20 memory modules differs with each different
-memory configuration. The RAM configuration is saved in the snapshot,
-and restored when the snapshot is loaded. The attached cartridges are
-also restored upon load if they have been saved in the snapshot.
-
-   The VIC20MEM module
-
-   Version numbers: Major 1, Minor 0
-
-Type    Name                          Description                          
-BYTE    CONFIG                        Configuration register.  Bits        
-                                      0,1,2,3,5 reflect if the             
-                                      corresponding memory block is RAM    
-                                      (bit=1) or not (bit=0).              
-ARRAY   RAM0                          1k RAM dump $0000-$03ff              
-ARRAY   RAM1                          4k RAM dump $1000-$1fff              
-ARRAY   COLORRAM                      2k Color RAM, $9400-$9bff            
-ARRAY   BLK0                          if CONFIG & 1 then: 3k RAM dump      
-                                      $0400-$0fff                          
-ARRAY   BLK1                          if CONFIG & 2 then: 8k RAM dump      
-                                      $2000-$3fff                          
-ARRAY   BLK2                          if CONFIG & 4 then: 8k RAM dump      
-                                      $4000-$5fff                          
-ARRAY   BLK3                          if CONFIG & 8 then: 8k RAM dump      
-                                      $6000-$7fff                          
-ARRAY   BLK5                          if CONFIG & 32 then: 8k RAM dump     
-                                      $a000-$bfff                          
-
-   The VIC20ROM module
-
-   Version numbers: Major 1, Minor 1
-
-Type    Name                          Description                          
-BYTE    CONFIG                        Bit 0: 1= ROM block $2*** enabled.   
-                                      Bit 1: 1= ROM block $3*** enabled.   
-                                      Bit 2: 1= ROM block $4*** enabled.   
-                                      Bit 3: 1= ROM block $5*** enabled.   
-                                      Bit 4: 1= ROM block $6*** enabled.   
-                                      Bit 5: 1= ROM block $7*** enabled.   
-                                      Bit 6: 1= ROM block $A*** enabled.   
-                                      Bit 7: 1= ROM block $B*** enabled.   
-ARRAY   KERNAL                        8k KERNAL ROM image $e000-$ffff      
-ARRAY   BASIC                         16k BASIC ROM image $c000-$dfff      
-ARRAY   CHARGEN                       4k CHARGEN ROM image                 
-ARRAY   BLK1A                         4k ROM image $2*** (if CONFIG & 1)   
-ARRAY   BLK1B                         4k ROM image $3*** (if CONFIG & 2)   
-ARRAY   BLK3A                         4k ROM image $6*** (if CONFIG & 16)  
-ARRAY   BLK3B                         4k ROM image $7*** (if CONFIG & 32)  
-ARRAY   BLK5A                         4k ROM image $A*** (if CONFIG & 64)  
-ARRAY   BLK5B                         4k ROM image $B*** (if CONFIG & 128) 
-ARRAY   BLK2A                         4k ROM image $4*** (if CONFIG & 4;   
-                                      added in V1.1)                       
-ARRAY   BLK2B                         4k ROM image $5*** (if CONFIG & 8;   
-                                      added in V1.1)                       
 
 
 File: vice.info,  Node: PET memory module,  Next: CBM-II memory module,  Prev: VIC20 memory module,  Up: Module formats
@@ -100,40 +33,40 @@ restored when the snapshot is loaded.
 
    Version numbers: Major 1, Minor 2
 
-Type    Name                          Description                          
-BYTE    CONFIG                        Configuration value. Bits 0-3: 0=    
-                                      40 col PET without CRTC; 1= 40 col   
-                                      PET with CRTC; 2 = 80 col PET (with  
-                                      CRTC); 3= SuperPET; 4= 8096; 5=      
-                                      8296. Bit 6: 1= RAM at $9***. Bit    
-                                      7: 1= RAM at $A***.                  
-BYTE    KEYBOARD                      Keyboard type. 0= UK business; 1=    
-                                      Graphics; 2= German business         
-BYTE    MEMSIZE                       memory size of low 32k in k          
-                                      (possible values 4, 8, 16, 32)       
-BYTE    CONF8X96                      Value of the 8x96 configuration      
-                                      register                             
-BYTE    SUPERPET                      SuperPET config. Bit 0: 1= $9***     
-                                      RAM enabled. Bit 1: 1= RAM write     
-                                      protected. Bit 2: 1= CTRL register   
-                                      write protected. Bit 3: 0= DIAG pin  
-                                      active. Bits 4-7: RAM block in use.  
-ARRAY   RAM                           4-32k RAM (not 8296, size depends    
-                                      on MEMSIZE)                          
-ARRAY   VRAM                          2/4k RAM (not 8296, size depends on  
-                                      CONFIG)                              
-ARRAY   EXTRAM                        64k expansion RAM (SuperPET and      
-                                      8096 only)                           
-ARRAY   RAM                           128k RAM (8296 only)                 
--       -                             The following item has been added    
-                                      in V1.1                              
-BYTE    POSITIONAL                    bit 0=0 = symbolic keyboard          
-                                      mapping, bit 0=1 = positional        
-                                      mapping.                             
--       -                             The following item has been added    
-                                      in V1.1                              
-BYTE    EOIBLANK                      bit 0=0 = EOI does not blank         
-                                      screen, bit 0=1 = EOI blanks screen. 
+Type    Name                          Description
+BYTE    CONFIG                        Configuration value. Bits 0-3: 0=
+                                      40 col PET without CRTC; 1= 40 col
+                                      PET with CRTC; 2 = 80 col PET (with
+                                      CRTC); 3= SuperPET; 4= 8096; 5=
+                                      8296. Bit 6: 1= RAM at $9***. Bit
+                                      7: 1= RAM at $A***.
+BYTE    KEYBOARD                      Keyboard type. 0= UK business; 1=
+                                      Graphics; 2= German business
+BYTE    MEMSIZE                       memory size of low 32k in k
+                                      (possible values 4, 8, 16, 32)
+BYTE    CONF8X96                      Value of the 8x96 configuration
+                                      register
+BYTE    SUPERPET                      SuperPET config. Bit 0: 1= $9***
+                                      RAM enabled. Bit 1: 1= RAM write
+                                      protected. Bit 2: 1= CTRL register
+                                      write protected. Bit 3: 0= DIAG pin
+                                      active. Bits 4-7: RAM block in use.
+ARRAY   RAM                           4-32k RAM (not 8296, size depends
+                                      on MEMSIZE)
+ARRAY   VRAM                          2/4k RAM (not 8296, size depends on
+                                      CONFIG)
+ARRAY   EXTRAM                        64k expansion RAM (SuperPET and
+                                      8096 only)
+ARRAY   RAM                           128k RAM (8296 only)
+-       -                             The following item has been added
+                                      in V1.1
+BYTE    POSITIONAL                    bit 0=0 = symbolic keyboard
+                                      mapping, bit 0=1 = positional
+                                      mapping.
+-       -                             The following item has been added
+                                      in V1.1
+BYTE    EOIBLANK                      bit 0=0 = EOI does not blank
+                                      screen, bit 0=1 = EOI blanks screen.
 
    The last item has been added in PETMEM snapshot version 1.1. It is
 ignored by earlier restore routines (V1.0) and the V1.1 restore routines
@@ -147,21 +80,21 @@ resource.
 
    Version numbers: Major 1, Minor 0
 
-Type    Name                          Description                          
-BYTE    CONFIG                        Bit 0: 1= $9*** ROM included. Bit    
-                                      1: 1= $A*** ROM included. Bit 2: 1=  
-                                      $B*** ROM included. Bit 3: 1=        
-                                      $e900-$efff ROM included             
-ARRAY   KERNAL                        4k KERNAL ROM image $f000-$ffff      
-ARRAY   EDITOR                        2k EDITOR ROM image $e000-$e7ff      
-ARRAY   CHARGEN                       2k CHARGEN ROM image                 
-ARRAY   ROM9                          4k $9*** ROM image (if CONFIG & 1)   
-ARRAY   ROMA                          4k $A*** ROM image (if CONFIG & 2)   
-ARRAY   ROMB                          4k $B*** ROM image (if CONFIG & 4)   
-ARRAY   ROMC                          4k $C*** ROM image                   
-ARRAY   ROMD                          4k $D*** ROM image                   
-ARRAY   ROME9                         7 blocks $e900-$efff ROM image (if   
-                                      CONFIG & 8)                          
+Type    Name                          Description
+BYTE    CONFIG                        Bit 0: 1= $9*** ROM included. Bit
+                                      1: 1= $A*** ROM included. Bit 2: 1=
+                                      $B*** ROM included. Bit 3: 1=
+                                      $e900-$efff ROM included
+ARRAY   KERNAL                        4k KERNAL ROM image $f000-$ffff
+ARRAY   EDITOR                        2k EDITOR ROM image $e000-$e7ff
+ARRAY   CHARGEN                       2k CHARGEN ROM image
+ARRAY   ROM9                          4k $9*** ROM image (if CONFIG & 1)
+ARRAY   ROMA                          4k $A*** ROM image (if CONFIG & 2)
+ARRAY   ROMB                          4k $B*** ROM image (if CONFIG & 4)
+ARRAY   ROMC                          4k $C*** ROM image
+ARRAY   ROMD                          4k $D*** ROM image
+ARRAY   ROME9                         7 blocks $e900-$efff ROM image (if
+                                      CONFIG & 8)
 
 
 File: vice.info,  Node: CBM-II memory module,  Next: C500 data module,  Prev: PET memory module,  Up: Module formats
@@ -181,33 +114,33 @@ and restored when the snapshot is loaded.
 
    The CBM2MEM module
 
-Type    Name                          Description                          
-UBYTE   MEMSIZE                       Memory size in 128k blocks (1=128k,  
-                                      2=256k, 4=512k, 8=1024k)             
-UBYTE   CONFIG                        Bit 0 = $f0800-$f0fff RAM, Bit 1 =   
-                                      $f1000-$f1fff RAM, Bit 2 =           
-                                      $f2000-$f3fff RAM, Bit 3 =           
-                                      $f4000-$f5fff RAM, Bit 4 =           
-                                      $f6000-$f7fff RAM, Bit 5 =           
-                                      $fc000-$fcfff RAM, Bit 6 = is a C500 
-UBYTE   HWCONFIG                      Bit 0/1: model line configuration    
-UBYTE   EXECBANK                      CPUs execution bank register         
-UBYTE   INDBANK                       CPUs indirection bank register       
-ARRAY   SYSRAM                        2k system RAM $f0000-$f07ff          
-ARRAY   VIDEO                         2k video RAM $fd000-$fd7ff           
-ARRAY   RAM                           RAM dump, size according to MEMSIZE  
-ARRAY   RAM08                         if memsize < 1M and CONFIG & 1 : 2k  
-                                      RAM $f0800-$f0fff                    
-ARRAY   RAM1                          if memsize < 1M and CONFIG & 2 : 4k  
-                                      RAM $f1000-$f1fff                    
-ARRAY   RAM2                          if memsize < 1M and CONFIG & 4 : 8k  
-                                      RAM $f2000-$f3fff                    
-ARRAY   RAM4                          if memsize < 1M and CONFIG & 8 : 8k  
-                                      RAM $f4000-$f5fff                    
-ARRAY   RAM6                          if memsize < 1M and CONFIG & 16 :    
-                                      8k RAM $f6000-$f7fff                 
-ARRAY   RAMC                          if memsize < 1M and CONFIG & 32 :    
-                                      4k RAM $fc000-$fcfff                 
+Type    Name                          Description
+UBYTE   MEMSIZE                       Memory size in 128k blocks (1=128k,
+                                      2=256k, 4=512k, 8=1024k)
+UBYTE   CONFIG                        Bit 0 = $f0800-$f0fff RAM, Bit 1 =
+                                      $f1000-$f1fff RAM, Bit 2 =
+                                      $f2000-$f3fff RAM, Bit 3 =
+                                      $f4000-$f5fff RAM, Bit 4 =
+                                      $f6000-$f7fff RAM, Bit 5 =
+                                      $fc000-$fcfff RAM, Bit 6 = is a C500
+UBYTE   HWCONFIG                      Bit 0/1: model line configuration
+UBYTE   EXECBANK                      CPUs execution bank register
+UBYTE   INDBANK                       CPUs indirection bank register
+ARRAY   SYSRAM                        2k system RAM $f0000-$f07ff
+ARRAY   VIDEO                         2k video RAM $fd000-$fd7ff
+ARRAY   RAM                           RAM dump, size according to MEMSIZE
+ARRAY   RAM08                         if memsize < 1M and CONFIG & 1 : 2k
+                                      RAM $f0800-$f0fff
+ARRAY   RAM1                          if memsize < 1M and CONFIG & 2 : 4k
+                                      RAM $f1000-$f1fff
+ARRAY   RAM2                          if memsize < 1M and CONFIG & 4 : 8k
+                                      RAM $f2000-$f3fff
+ARRAY   RAM4                          if memsize < 1M and CONFIG & 8 : 8k
+                                      RAM $f4000-$f5fff
+ARRAY   RAM6                          if memsize < 1M and CONFIG & 16 :
+                                      8k RAM $f6000-$f7fff
+ARRAY   RAMC                          if memsize < 1M and CONFIG & 32 :
+                                      4k RAM $fc000-$fcfff
 
    The RAM* arrays are only saved if the RAM itself is less than 1M.
 If the memory size is 1M then those areas are taken from the bank 15
@@ -219,25 +152,25 @@ array also always starts at $00000.
 
    The CBM2ROM module
 
-Type    Name                          Description                          
-UBYTE   CONFIG                        Bit 1: 1= $1*** ROM image included.  
-                                      Bit 2: 1= $2000-$3fff ROM image      
-                                      included. Bit 3: 1= $4000-$5fff ROM  
-                                      image included. Bit 4: 1=            
-                                      $6000-$7fff ROM image included. Bit  
-                                      5: 1= chargen ROM is VIC-II          
-                                      chargen, 0= CRTC chargen.            
-ARRAY   KERNAL                        8 KERNAL ROM image ($e000-$efff)     
-ARRAY   BASIC                         BASIC ROM image ($8000-$bfff)        
-ARRAY   CHARGEN                       4k CHARGEN ROM image                 
-ARRAY   ROM1                          4k cartridge ROM image for $1***     
-                                      (if CONFIG & 2)                      
-ARRAY   ROM2                          8k cartridge ROM image for           
-                                      $2000-$3fff (if CONFIG & 4)          
-ARRAY   ROM4                          8k cartridge ROM image for           
-                                      $4000-$5fff (if CONFIG & 8)          
-ARRAY   ROM6                          8k cartridge ROM image for           
-                                      $6000-$7fff (if CONFIG & 16)         
+Type    Name                          Description
+UBYTE   CONFIG                        Bit 1: 1= $1*** ROM image included.
+                                      Bit 2: 1= $2000-$3fff ROM image
+                                      included. Bit 3: 1= $4000-$5fff ROM
+                                      image included. Bit 4: 1=
+                                      $6000-$7fff ROM image included. Bit
+                                      5: 1= chargen ROM is VIC-II
+                                      chargen, 0= CRTC chargen.
+ARRAY   KERNAL                        8 KERNAL ROM image ($e000-$efff)
+ARRAY   BASIC                         BASIC ROM image ($8000-$bfff)
+ARRAY   CHARGEN                       4k CHARGEN ROM image
+ARRAY   ROM1                          4k cartridge ROM image for $1***
+                                      (if CONFIG & 2)
+ARRAY   ROM2                          8k cartridge ROM image for
+                                      $2000-$3fff (if CONFIG & 4)
+ARRAY   ROM4                          8k cartridge ROM image for
+                                      $4000-$5fff (if CONFIG & 8)
+ARRAY   ROM6                          8k cartridge ROM image for
+                                      $6000-$7fff (if CONFIG & 16)
 
 
 File: vice.info,  Node: C500 data module,  Prev: CBM-II memory module,  Up: Module formats
@@ -252,8 +185,8 @@ saved in the other modules.
 
    The C500DATA module
 
-Type    Name                          Description                          
-DWORD   IRQCLK                        CPU clock ticks till next 50Hz IRQ   
+Type    Name                          Description
+DWORD   IRQCLK                        CPU clock ticks till next 50Hz IRQ
 
 
 File: vice.info,  Node: Monitor,  Next: c1541,  Prev: Snapshots,  Up: Top
@@ -350,6 +283,7 @@ Terminology
 `[...]'
      An optional argument.
 
+
 
 File: vice.info,  Node: Machine state commands,  Next: Memory commands,  Prev: Terminology,  Up: Monitor
 
@@ -377,6 +311,7 @@ Machine state commands
 `step [<count>]'
      Single step through instructions.  An optional count allows
      stepping more than a single instruction at a time.
+
 
 
 File: vice.info,  Node: Memory commands,  Next: Assembly commands,  Prev: Machine state commands,  Up: Monitor
@@ -446,6 +381,7 @@ Memory commands
 `> [<address>] <data_list>'
      Write the specified data at `address'.
 
+
 
 File: vice.info,  Node: Assembly commands,  Next: Checkpoint commands,  Prev: Memory commands,  Up: Monitor
 
@@ -464,6 +400,7 @@ Assembly commands
      instructions are disassembled.  If no addresses are specified, a
      default number of instructions are disassembled from the dot
      address.
+
 
 
 File: vice.info,  Node: Checkpoint commands,  Next: General commands,  Prev: Assembly commands,  Up: Monitor
@@ -520,6 +457,7 @@ Checkpoint commands
      "load" or "store" to determine on which operation the monitor
      breaks. If not specified, the monitor breaks on both operations.
 
+
 
 File: vice.info,  Node: General commands,  Next: Disk commands,  Prev: Checkpoint commands,  Up: Monitor
 
@@ -547,6 +485,7 @@ General commands
 `system <system command>'
      Nothing yet.
 
+
 
 File: vice.info,  Node: Disk commands,  Next: Command file commands,  Prev: General commands,  Up: Monitor
 
@@ -573,6 +512,7 @@ Disk commands
 `save "<filename>" <address1> <address2>'
      Save the memory from address1 to address2 to the specified file.
 
+
 
 File: vice.info,  Node: Command file commands,  Next: Label commands,  Prev: Disk commands,  Up: Monitor
 
@@ -590,6 +530,7 @@ Command file commands
 
 `stop'
      Stop recording commands.  See `record'.
+
 
 
 File: vice.info,  Node: Label commands,  Next: Miscellaneous commands,  Prev: Command file commands,  Up: Monitor
@@ -617,6 +558,7 @@ Label commands
      Display current label mappings.  If no memory space is specified,
      show all labels.
 
+
 
 File: vice.info,  Node: Miscellaneous commands,  Prev: Label commands,  Up: Monitor
 
@@ -634,6 +576,7 @@ Miscellaneous commands
 
 `~ <number>'
      Display the specified number in decimal, hex, octal and binary.
+
 
 
 File: vice.info,  Node: c1541,  Next: File formats,  Prev: Monitor,  Up: Top
@@ -827,6 +770,7 @@ according to CBM DOS, like "i0" for example.
      Create an X64 disk image out of a set of four Zipcoded files named
      `1!zipname', `2!zipname', `3!zipname' and `4!zipname'.
 
+
 
 File: vice.info,  Node: c1541 executing shell commands,  Prev: c1541 commands and options,  Up: c1541
 
@@ -878,11 +822,11 @@ File: vice.info,  Node: T64 file structure,  Next: T64 tape record,  Prev: T64, 
 T64 File structure
 ------------------
 
-Offset                 Size                   Description                   
-0                      64                     tape record                   
-64                     32*n                   file records for n directory  
-                                              entries                       
-64+32*n                varies                 binary contents of the files  
+Offset                 Size                   Description
+0                      64                     tape record
+64                     32*n                   file records for n directory
+                                              entries
+64+32*n                varies                 binary contents of the files
 
 
 File: vice.info,  Node: T64 tape record,  Next: T64 file record,  Prev: T64 file structure,  Up: T64
@@ -890,16 +834,16 @@ File: vice.info,  Node: T64 tape record,  Next: T64 file record,  Prev: T64 file
 Tape Record
 -----------
 
-Offset                 Size                   Description                   
-0                      32                     DOS tape description + EOF    
-                                              (for type)                    
-32                     2                      tape version ($0200)          
-34                     2                      number of directory entries   
-36                     2                      number of used entries (can   
-                                              be 0 in my loader)            
-38                     2                      free                          
-40                     24                     user description as           
-                                              displayed in tape menu        
+Offset                 Size                   Description
+0                      32                     DOS tape description + EOF
+                                              (for type)
+32                     2                      tape version ($0200)
+34                     2                      number of directory entries
+36                     2                      number of used entries (can
+                                              be 0 in my loader)
+38                     2                      free
+40                     24                     user description as
+                                              displayed in tape menu
 
 
 File: vice.info,  Node: T64 file record,  Prev: T64 tape record,  Up: T64
@@ -907,28 +851,28 @@ File: vice.info,  Node: T64 file record,  Prev: T64 tape record,  Up: T64
 File record
 -----------
 
-Offset                 Size                   Description                   
-0                      1                      entry type (see below)        
-1                      1                      C64 file type                 
-2                      2                      start address                 
-4                      2                      end address                   
-6                      2                      free                          
-8                      4                      offset of file contents       
-                                              start within T64 file         
-12                     4                      free                          
-16                     16                     C64 file name                 
+Offset                 Size                   Description
+0                      1                      entry type (see below)
+1                      1                      C64 file type
+2                      2                      start address
+4                      2                      end address
+6                      2                      free
+8                      4                      offset of file contents
+                                              start within T64 file
+12                     4                      free
+16                     16                     C64 file name
 
    Valid entry types are:
 
-Code                   Explanation                                        
-`0'                    free entry                                         
-`1'                    normal tape file                                   
-`2'                    tape file with header: header is saved just        
-                       before file data                                   
-`3'                    memory snapshot v0.9, uncompressed                 
-`4'                    tape block                                         
-`5'                    digitized stream                                   
-`6' ... `255'          reserved                                           
+Code                   Explanation
+`0'                    free entry
+`1'                    normal tape file
+`2'                    tape file with header: header is saved just
+                       before file data
+`3'                    memory snapshot v0.9, uncompressed
+`4'                    tape block
+`5'                    digitized stream
+`6' ... `255'          reserved
 
    Notes:
 
@@ -936,4 +880,272 @@ Code                   Explanation
 
    * Types `3', `4' and `5' are subject to change (and are rarely
      used).
+
+
+File: vice.info,  Node: G64,  Prev: T64,  Up: File formats
+
+The G64 GCR-encoded disk image format
+=====================================
+
+   (This section was contributed by Peter Schepers and slightly edited
+by Ettore Perazzoli.)
+
+   This format was defined in 1998 as a cooperative effort between
+several emulator people, mainly Per Håkan Sundell, author of the CCS64
+C64 emulator, Andreas Boose of the VICE CBM emulator team and Joe
+Forster/STA, the author of Star Commander.  It was the first real public
+attempt to create a format for the emulator community which removed
+almost all of the drawbacks of the other existing image formats, namely
+`D64'.
+
+   The intention behind `G64' is not to replace the widely used `D64'
+format, as `D64' works fine with the vast majority of disks in
+existence.  It is intended for those small percentage of programs which
+demand to work with the 1541 drive in a non-standard way, such as
+reading or writing data in a custom format.  The best example is with
+speeder software such as Action Cartridge in Warp Save mode or Vorpal
+which write track/sector data in another format other than standard
+GCR.  The other obvious example is copy-protected software which looks
+for some specific data on a track, like the disk ID, which is not
+stored in a standard `D64' image.
+
+   `G64' has a deceptively simply layout for what it is capable of
+doing.  We have a signature, version byte, some predefined size values,
+and a series of offsets to the track data and speed zones.  It is what's
+contained in the track data areas and speed zones which is really at the
+heart of this format.
+
+   Each track entry in simply the raw stream of GCR data, just what a
+read head would see when a diskette is rotating past it.  How the data
+gets interpreted is up to the program trying to access the disk.
+Because the data is stored in such a low-level manner, just about
+anything can be done.  Most of the time I would suspect the data in the
+track would be standard sectors, with SYNC, GAP, header, data and
+checksums.  The arrangement of the data when it is in a standard GCR
+sector layout is beyond the scope of this document.
+
+   Since it is a flexible format in both track count and track byte
+size, there is no "standard" file size.  However, given a few constants
+like 42 tracks and halftracks, a track size of 7928 bytes and no speed
+offset entries, the typical file size will a minimum of 333744 bytes.
+
+   Below is a dump of the header, broken down into its various parts.
+After that will be an explanation of the track offset and speed zone
+offset areas, as they demand much more explanation.
+
+     Addr  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+     ----  -----------------------------------------------
+     0000: 47 43 52 2D 31 35 34 31 00 54 F8 1E .. .. .. ..
+
+Offset         Description
+$0000-0007     File signature (`GCR-1541')
+$0008          `G64' version (presently only $00 defined)
+$0009          Number of tracks in image (usually $54, decimal 84)
+$000A-000B     Size of each stored track in bytes (usually 7928, or
+               $1EF8) in LO/HI format.
+
+   An obvious question here is "why are there 84 tracks defined when a
+normal `D64' disk only has 35 tracks?"  Well, by definition, this image
+includes all half-tracks, so there are actually 42 tracks and 42 half
+tracks.  The 1541 stepper motor can access up to 42 tracks and the
+in-between half-tracks.  Even though using more than 35 tracks is not
+typical, it was important to define this format from the start with what
+the 1541 is capable of doing, and not just what it typically does.
+
+   At first, the defined track size value of 7928 bytes may seem to be
+arbitrary, but it is not.  It is determined by the fastest write speed
+possible (speed zone 0), coupled with the average rotation speed of the
+disk (300 rpm).  After some math, the answer that actually comes up is
+7692 bytes.  Why the discrepency between the actual size of 7692 and the
+defined size of 7928? Simply put, not all drives rotate at 300 rpm.
+Some can be faster or slower, so a upper safety margin of +3% was built
+added, in case some disks rotate slower and can write more data.  After
+applying this safety factor, and some rounding-up, 7928 bytes per track
+was arrived at.
+
+   Also note that this upper limit of 7928 bytes per track really only
+applies to 1541 and compatible disks.  If this format were applied to
+another disk type like the SFD1001, this value would be higher.
+
+   Below is a dump of the first section of a `G64' file, showing the
+offsets to the data portion for each track and half-track entry.
+Following that is a dump of the speed zone offsets.
+
+     Addr  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+     ----  -----------------------------------------------
+     0000: .. .. .. .. .. .. .. .. .. .. .. .. AC 02 00 00
+     0010: 00 00 00 00 A6 21 00 00 00 00 00 00 A0 40 00 00
+     0020: 00 00 00 00 9A 5F 00 00 00 00 00 00 94 7E 00 00
+     0030: 00 00 00 00 8E 9D 00 00 00 00 00 00 88 BC 00 00
+     0040: 00 00 00 00 82 DB 00 00 00 00 00 00 7C FA 00 00
+     0050: 00 00 00 00 76 19 01 00 00 00 00 00 70 38 01 00
+     0060: 00 00 00 00 6A 57 01 00 00 00 00 00 64 76 01 00
+     0070: 00 00 00 00 5E 95 01 00 00 00 00 00 58 B4 01 00
+     0080: 00 00 00 00 52 D3 01 00 00 00 00 00 4C F2 01 00
+     0090: 00 00 00 00 46 11 02 00 00 00 00 00 40 30 02 00
+     00A0: 00 00 00 00 3A 4F 02 00 00 00 00 00 34 6E 02 00
+     00B0: 00 00 00 00 2E 8D 02 00 00 00 00 00 28 AC 02 00
+     00C0: 00 00 00 00 22 CB 02 00 00 00 00 00 1C EA 02 00
+     00D0: 00 00 00 00 16 09 03 00 00 00 00 00 10 28 03 00
+     00E0: 00 00 00 00 0A 47 03 00 00 00 00 00 04 66 03 00
+     00F0: 00 00 00 00 FE 84 03 00 00 00 00 00 F8 A3 03 00
+     0100: 00 00 00 00 F2 C2 03 00 00 00 00 00 EC E1 03 00
+     0110: 00 00 00 00 E6 00 04 00 00 00 00 00 E0 1F 04 00
+     0120: 00 00 00 00 DA 3E 04 00 00 00 00 00 D4 5D 04 00
+     0130: 00 00 00 00 CE 7C 04 00 00 00 00 00 C8 9B 04 00
+     0140: 00 00 00 00 C2 BA 04 00 00 00 00 00 BC D9 04 00
+     0150: 00 00 00 00 B6 F8 04 00 00 00 00 00 .. .. .. ..
+
+Offset         Description
+$000C-000F     Offset to stored track 1.0 ($000002AC, in LO/HI format,
+               see below for more)
+$0010-0013     Offset to stored track 1.5 ($00000000)
+$0014-0017     Offset to stored track 2.0 ($000021A6)
+...            
+$0154-0157     Offset to stored track 42.0 ($0004F8B6)
+$0158-015B     Offset to stored track 42.5 ($00000000)
+
+           00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+           -----------------------------------------------
+     0150: .. .. .. .. .. .. .. .. .. .. .. .. 03 00 00 00
+     0160: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+     0170: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+     0180: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+     0190: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+     01A0: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+     01B0: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+     01C0: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+     01D0: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+     01E0: 00 00 00 00 02 00 00 00 00 00 00 00 02 00 00 00
+     01F0: 00 00 00 00 02 00 00 00 00 00 00 00 02 00 00 00
+     0200: 00 00 00 00 02 00 00 00 00 00 00 00 02 00 00 00
+     0210: 00 00 00 00 02 00 00 00 00 00 00 00 01 00 00 00
+     0220: 00 00 00 00 01 00 00 00 00 00 00 00 01 00 00 00
+     0230: 00 00 00 00 01 00 00 00 00 00 00 00 01 00 00 00
+     0240: 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00
+     0250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+     0260: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+     0270: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+     0280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+     0290: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+     02A0: 00 00 00 00 00 00 00 00 00 00 00 00 .. .. .. ..
+
+Offset         Description
+$015C-015F     Speed zone entry for track 1 ($03, in LO/HI  format, see
+               below for more)
+$0160-0163     Speed zone entry for track 1.5 ($03)
+...            
+$02A4-02A7     Speed zone entry for track 42 ($00)
+$02A8-02AB     Speed zone entry for track 42.5 ($00)
+
+   Starting here at $02AC is the first track entry (from above, it is
+the first entry for track 1.0)
+
+   The track offsets (from above) require some explanation.  When one is
+set to all 0's, no track data exists for this entry.  If there is a
+value, it is an absolute reference into the file (starting from the
+beginning of the file).  From the track 1.0 entry we see it is set for
+$000002AC.  Going to that file offset, here is what we see...
+
+           00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+           -----------------------------------------------
+     02A0: .. .. .. .. .. .. .. .. .. .. .. .. 0C 1E FF FF
+     02B0: FF FF FF 52 54 B5 29 4B 7A 5E 95 55 55 55 55 55
+     02C0: 55 55 55 55 55 55 FF FF FF FF FF 55 D4 A5 29 4A
+     02D0: 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52
+
+Offset         Description
+$02AC-02AD     Actual size of stored track (7692 or $1E0C, in LO/HI
+               format)
+$02AE-02AE+$1E0CTrack data
+
+   Following the track data is filler bytes.  In this case, there are
+368 bytes of unused space.  This space can contain anything, but for the
+sake of those wishing to compress these images for storage, they should
+all be set to the same value.  In the sample I used, these are all set
+to $FF.
+
+   Below is a dump of the end of the track 1.0 data area.  Note the
+actual track data ends at address $20B9, with the rest of the block
+being unused, and set to $FF.
+
+           00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+           -----------------------------------------------
+     1FE0: 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52
+     1FF0: 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52 94
+     2000: A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5
+     2010: 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29
+     2020: 4A 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A
+     2030: 55 55 55 55 55 55 FF FF FF FF FF FF FF FF FF FF
+     2040: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2050: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2060: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2070: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2080: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2090: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     20A0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     20B0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     20C0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     20D0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     20E0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     20F0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2100: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2110: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2120: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2130: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2140: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2150: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2160: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2170: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2180: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     2190: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+     21A0: FF FF FF FF FF FF .. .. .. .. .. .. .. .. .. ..
+
+   The speed offset entries can be a little more complex. The 1541 has
+four speed zones defined, which means the drive can write data at four
+distinct speeds.  On a normal 1541 disk, these zones are as follows:
+
+Track Range                          Speed Zone
+1-17                                 3  (highest writing speed)
+18-24                                2
+25-30                                1
+31 and up                            0 (lowest writing speed)
+
+   Note that you can, through custom programming of the 1541, change the
+speed zone of any track to something different (change the 3 to a 0) and
+write data differently.  From the dump of the speed offset entries
+above, we see that all the entries are in the range of 0-3. If any entry
+is less than 4, this is not considered a speed offset but defines the
+whole track to be recorded at that one speed.
+
+   In the example I had, there were no offsets defined, so no speed zone
+dump can be shown.  However, I can define what should be there.  You
+will have a block of data, 1982 bytes long.  Each byte is encoded to
+represent the speed of 4 bytes in the track offset area, and is broken
+down as follows:
+
+     Speed entry $FF:  in binary %11111111
+                                  |'|'|'|'
+                                  | | | |
+                                  | | | +- 4'th byte speed (binary 11, 3 dec)
+                                  | | +--- 3'rd byte speed (binary 11, 3 dec)
+                                  | +----- 2'nd byte speed (binary 11, 3 dec)
+                                  +------- 1'st byte speed (binary 11, 3 dec)
+
+   It was very smart thinking to allow for two speed zone settings, one
+in the offset block and another defining the speed on a per-byte basis.
+If you are working with a normal disk, where each track is one constant
+speed, then you don't need the extra blocks of information hanging
+around the image, wasting space.
+
+   What may not be obvious is the flexibility of this format to add
+tracks and speed offset zones at will.  If a program decides to write a
+track out with varying speeds, and no speed offset exist, a new block
+will be created by appending it to the end of the image, and the offset
+pointer for that track set to point to the new block.  If a track has
+no offset yet, meaning it doesn't exist (like a half-track), and one
+needs to be added, the same procedure applies.  The location of the
+actual track or speed zone data is not important, meaning they do not
+have to be in any particular order since they are all referenced by the
+offsets at the beginning of the image.
 

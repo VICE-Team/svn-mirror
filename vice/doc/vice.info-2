@@ -1,5 +1,4 @@
-This is Info file vice.info, produced by Makeinfo version 1.68 from the
-input file vice.texi.
+This is vice.info, produced by makeinfo version 4.5 from vice.texi.
 
 START-INFO-DIR-ENTRY
 * VICE: (vice).        VICE, the Versatile Commodore Emulator.
@@ -36,6 +35,7 @@ files:
    * the "romset files", text files describing the different ROMs to
      load.
 
+
    The place where they will be searched for depends on the value of the
 `Directory' resource, which is a colon (`:')-separated search path
 list, like the UNIX `PATH' environment variable.  The default value is
@@ -70,7 +70,7 @@ specify a complete path instead of just a file name.  For example, if
 you specify `./kernal' as the kernal image name, the kernal image will
 be loaded from the current directory.  This can be done by using
 command-line options or by modifying resource values (*note Resource
-files::.).
+files::).
 
 * Menu:
 
@@ -94,6 +94,7 @@ the ROM set consists of the following files:
 
    * `chargen', the character generator ROM (4 Kbytes)
 
+
    The C128 needs the following files:
 
    * `kernal', the Kernal ROM (8 Kbytes)
@@ -101,6 +102,7 @@ the ROM set consists of the following files:
    * `basic', the Basic + Editor ROM (32 Kbytes)
 
    * `chargen', the character generator ROM (4 Kbytes)
+
 
    The C128, VIC20 and C64 emulators also need the following DOS ROMs
 for the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
@@ -112,6 +114,7 @@ for the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
    * `dos1571', the 1571 drive ROM (32 Kbytes)
 
    * `dos1581', the 1581 drive ROM (32 Kbytes)
+
 
    In addition to those all emulators can handle a parallel IEEE488
 interface (the C64 and C128 via `$df**' extension, the VIC20 via
@@ -132,6 +135,7 @@ drives:
 
    * `dos1001', the 1001/8050/8250 drive ROM (16 Kbytes) (DOS 2.7,
      Commodore ROM images 901887-01 and 901888-01)
+
 
    Note that there are other DOS images on the internet. The DOS 2.5
 images might be used with the 8050, but it cannot handle the double
@@ -240,6 +244,7 @@ full (256 char) character set is computed by inverting.
 
    * `chargen.700', character generator ROM for the C7x0 (4k)
 
+
 
 File: vice.info,  Node: Keymap files,  Next: Palette files,  Prev: ROM files,  Up: System files
 
@@ -281,6 +286,8 @@ like the following:
 
         * `8': the key can be (optionally) shifted by the user.
 
+
+
    The `SHIFTFLAG' is useful if you want certain keys to be
 "artificially" shifted by the emulator, and not by the user.  For
 example, <F2> is shifted on the C64 keyboard, but you might want it to
@@ -306,6 +313,7 @@ file; they are recognized because they start with an exclamation mark:
 
           !LSHIFT 1 7
           !RSHIFT 6 4
+
 
    Any line starting with the `#' sign, instead, is completely ignored.
 This is useful for adding comments within the keymap file.
@@ -472,7 +480,7 @@ documentation.  Notice that this requires VICE to be properly (and
 fully) installed with a `make install'.
 
    The browser can be specified via the `HTMLBrowserCommand' string
-resource (*note Settings and resources::. for information about
+resource (*note Settings and resources:: for information about
 resources).  Every `%s' in the string will be replaced with a URL to
 the VICE HTML pages.
 
@@ -531,6 +539,7 @@ and tape images:
 
    * Smart-attach a file
 
+
    The first four commands are used to insert and remove the virtual
 disks and cassettes from the respective units.  On the other hand, the
 last commands tries to guess the type of the image you are attaching
@@ -538,12 +547,12 @@ from its name and size, and attaches it to the most reasonable device.
 
    Supported formats are `D64' and `X64' for disk images (devices 8, 9
 and 10) and `T64' for tape images.  Notice that `T64' support is
-*read-only*, and that the cassette is automatically rewound when you
+_read-only_, and that the cassette is automatically rewound when you
 reach its end.
 
    Another important feature is that raw Commodore BASIC binary files
 and .P00 files can be attached as tapes.  As you can autostart a tape
-image when it is attached (*note Autostart::.), this allows you to
+image when it is attached (*note Autostart::), this allows you to
 autostart these particular files as well.
 
    You can attach a disk for which you do not have write permissions:
@@ -620,8 +629,8 @@ identified from the file extension.  The following formats are supported
 
    * Zoo (`.zoo').
 
-   PkZip, `tar.gz', `lha' and `zoo' support is *read-only* and always
-uses the *first* `T64' or `D64' file in the archive.  So archives
+   PkZip, `tar.gz', `lha' and `zoo' support is _read-only_ and always
+uses the _first_ `T64' or `D64' file in the archive.  So archives
 containing multiple files will always be handled as if they contain
 only a single file.
 
@@ -649,7 +658,7 @@ For this to work, the directory containing `c1541' must be in your
 `PATH'.
 
    This uses the `-unlynx' and `-zcreate' options of `c1541' (*note
-c1541 commands and options::.); these commands are not very reliable
+c1541 commands and options::); these commands are not very reliable
 yet, and could fail with certain kinds of Lynx and Zipcode images (for
 example, they cannot deal with `DEL' files properly).  So please use
 them with caution.
@@ -811,8 +820,8 @@ require one.
 
    Moreover, options beginning with a plus sign always have a
 counterpart with the same name, but with a minus sign; in that case,
-the option beginning with a minus sign is used to *enable* a certain
-feature, while the one beginning with a plus sign is used to *disable*
+the option beginning with a minus sign is used to _enable_ a certain
+feature, while the one beginning with a plus sign is used to _disable_
 the same feature (this is an X11 convention).  For example, `-mitshm'
 enables support of MITSHM, while `+mitshm' disables it.
 
@@ -871,6 +880,7 @@ Performance resources
 `WarpMode'
      Booolean specifying whether "warp mode" is turned on or not.
 
+
 
 File: vice.info,  Node: Performance options,  Prev: Performance resources,  Up: Performance settings
 
@@ -889,6 +899,7 @@ Performance command-line options
 `-warp'
 `+warp'
      Enables/disables warp mode (`WarpMode=1', `WarpMode=0').
+
 
 
 File: vice.info,  Node: Video settings,  Next: Keyboard settings,  Prev: Performance settings,  Up: Settings and resources
@@ -925,6 +936,7 @@ video chips.
      necessary on low-end systems to prevent it from consuming so many
      system resources that it becomes impossible for the user to
      interact with it.
+
 
 * Menu:
 
@@ -980,6 +992,7 @@ values apply to.
      String specifying the name of the palette file being used.  The
      `.vpl' extension is optional.
 
+
 
 File: vice.info,  Node: Video options,  Prev: Video resources,  Up: Video settings
 
@@ -1026,6 +1039,7 @@ Video command-line options
      Specify `NAME' as the palette file
      (`PaletteFile',`CrtcPaletteFile').
 
+
 
 File: vice.info,  Node: Keyboard settings,  Next: Sound settings,  Prev: Video settings,  Up: Settings and resources
 
@@ -1034,7 +1048,7 @@ Keyboard settings
 
    It is possible to specify whether the "positional" or "symbolic"
 keyboard mapping should be used with the "Keyboard mapping type"
-submenu (*note Keyboard emulation::. for an explanation of positional
+submenu (*note Keyboard emulation:: for an explanation of positional
 and symbolic mappings).
 
    The keyboard settings submenu also allows you to:
@@ -1064,29 +1078,30 @@ Keyboard resources
 
 `KeymapSymFile'
      String specifying the name of the keymap file for the symbolic
-     mapping (*note Keyboard emulation::., all but PET and CBM-II).
+     mapping (*note Keyboard emulation::, all but PET and CBM-II).
 
 `KeymapPosFile'
      String specifying the name of the keymap file for the positional
-     mapping (*note Keyboard emulation::., all but PET and CBM-II).
+     mapping (*note Keyboard emulation::, all but PET and CBM-II).
 
 `KeymapBusinessUKSymFile'
 `KeymapBusinessUKPosFile'
      String specifying the name of the keymap file for the symbolic and
      positional mapping for the UK business keyboard (*note Keyboard
-     emulation::., PET and CBM-II).
+     emulation::, PET and CBM-II).
 
 `KeymapGraphicsSymFile'
 `KeymapGraphicsPosFile'
      String specifying the name of the keymap file for the symbolic and
      positional mapping for the graphics keyboard (*note Keyboard
-     emulation::., PET only).
+     emulation::, PET only).
 
 `KeymapBusinessDESymFile'
 `KeymapBusinessDEPosFile'
      String specifying the name of the keymap file for the symbolic and
      positional mapping for the German business keyboard.  (*note
-     Keyboard emulation::., PET only).
+     Keyboard emulation::, PET only).
+
 
 
 File: vice.info,  Node: Keyboard options,  Prev: Keyboard resources,  Up: Keyboard settings
@@ -1122,6 +1137,7 @@ Keyboard command-line options
      Specify `NAME' as the symbolic/positional keymap file for the
      German business keyboard (`KeymapBusinessDESymFile',
      `KeymapBusinessDEPosFile', PET only).
+
 
 
 File: vice.info,  Node: Sound settings,  Next: Drive settings,  Prev: Keyboard settings,  Up: Settings and resources
@@ -1165,6 +1181,7 @@ Sound settings
 
    * "Oversample" specifies an oversampling factor, from 1 to 8 times
      (warning: this eats CPU cycles!).
+
 
 * Menu:
 
@@ -1255,6 +1272,7 @@ Sound resources
      String specifying an additional parameter for the audio driver (see
      `SoundDeviceName').
 
+
 
 File: vice.info,  Node: Sound options,  Prev: Sound resources,  Up: Sound settings
 
@@ -1282,4 +1300,5 @@ Sound command-line options
 `-soundarg ARG'
      Specifies an additional parameter for the audio device
      (`SoundDeviceArg').
+
 

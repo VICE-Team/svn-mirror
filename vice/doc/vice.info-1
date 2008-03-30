@@ -1,5 +1,4 @@
-This is Info file vice.info, produced by Makeinfo version 1.68 from the
-input file vice.texi.
+This is vice.info, produced by makeinfo version 4.5 from vice.texi.
 
 START-INFO-DIR-ENTRY
 * VICE: (vice).        VICE, the Versatile Commodore Emulator.
@@ -60,7 +59,6 @@ GNU GENERAL PUBLIC LICENSE
 **************************
 
                          Version 2, June 1991
-
      Copyright (C) 1989, 1991 Free Software Foundation, Inc.  675
      Mass Ave, Boston, MA 02111-1307, USA
      
@@ -119,7 +117,6 @@ patent must be licensed for everyone's free use or not licensed at all.
 modification follow.
 
     TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-
   0. This License applies to any program or other work which contains a
      notice placed by the copyright holder saying it may be distributed
      under the terms of this General Public License.  The "Program",
@@ -432,7 +429,7 @@ support the same file formats.
    *Important notice:* If you have no idea what a Commodore 8-bit
 computer is, or have questions about how these machines are used, how
 the file formats work or anything else that is not strictly related to
-VICE, you should read the appropriate FAQs *first*, as that kind of
+VICE, you should read the appropriate FAQs _first_, as that kind of
 information is not available here.  *Note Contacts::. for information
 about how to retrieve the FAQs.
 
@@ -440,13 +437,13 @@ about how to retrieve the FAQs.
 emulation of all the opcodes (both documented and undocumented ones)
 and accurate timing.  Unlike other emulators, VICE aims to be cycle
 accurate; it tries to emulate chip timings as precisely as possible and
-does so *efficiently*.
+does so _efficiently_.
 
-   Please do *not* expect the C128, PET, PLUS4 and CBM-II emulators to
+   Please do _not_ expect the C128, PET, PLUS4 and CBM-II emulators to
 be as good as the C64 or VIC20 one, as they are still under
 construction.
 
-   *Notice:* This documentation is written for the Unix release of VICE.
+   _Notice:_ This documentation is written for the Unix release of VICE.
 
 * Menu:
 
@@ -509,7 +506,7 @@ mode, so most graphical effects will work correctly.
 
    Sound support is implemented, but is still at an experimental stage.
 If you think it could be improved and know how to do so, feel free to
-contact us (*note Contacts::.).
+contact us (*note Contacts::).
 
    The VIC20 emulator now allows the use of the VIC1112 IEEE488
 interface. You have to enable the hardware (by menu, resource, or
@@ -573,7 +570,7 @@ and save, respectively, and not arbitrary unused secondary addresses.
 
    To select which model to run, specify it on the command line with
 the `-model MODEL' option, where `MODEL' can be one of a list of PET
-model numbers, all described in *note PET model::.
+model numbers, all described in *note PET model::
 
 
 File: vice.info,  Node: CBM-II emulator features,  Next: Keyboard emulation,  Prev: PET emulator features,  Up: Preface
@@ -619,7 +616,7 @@ ROM area, the I/O and the kernal/basic ROMs.  Some models have been
 modified to map RAM into the expansion ROM area.  Those modifications
 can be emulated as well.
 
-   The different settings are described in *note CBM-II model::..
+   The different settings are described in *note CBM-II model::.
 
 
 File: vice.info,  Node: Keyboard emulation,  Next: Joystick emulation,  Prev: CBM-II emulator features,  Up: Preface
@@ -632,7 +629,7 @@ The keyboard emulation
    The default way ("symbolic mapping") is to map every key combination
 to the corresponding key combination on the real machine: for example,
 if you press <*>, which is bound to `Shift-8' on a U.S. keyboard, in
-the C64 emulator, the emulated machine will have just the *unshifted*
+the C64 emulator, the emulated machine will have just the _unshifted_
 <*> key pressed (as <*> is unshifted on the C64 keyboard).  Likewise,
 pressing <'> on the same U.S. keyboard without any shift key will cause
 the combination `Shift-7' to be pressed in the emulated C64.  This way,
@@ -657,7 +654,7 @@ keyboard is more comfortable to use in those programs (such as some
 games) that require the keys to be in the correct positions.
 
    *Warning:* unlike the real C64, VICE "presses" the <Shift> key
-*together* with the key to shift when the <Shift> must be forced.  In
+_together_ with the key to shift when the <Shift> must be forced.  In
 most cases this should work fine, but some keyboard routines are quite
 picky and tend not to recognize the shift key because of this.  For
 instance, `F6' (which on the real C64 is obtained with `Shift + F5')
@@ -719,7 +716,7 @@ drives in one of four ways:
      for Linux hosts.
 
    When using disk images there are two available types of drive
-emulation.  One of them the "virtual drive" emulation.  It does *not*
+emulation.  One of them the "virtual drive" emulation.  It does _not_
 really emulate the serial line, but patches the kernal ROM (with the
 so-called "kernal traps") so that serial line operations can be
 emulated via C language routines.  This emulation is very fast, but
@@ -748,8 +745,8 @@ emulators.  It can only be used to emulate drive unit #8 or #9.  Other
 units are disabled if "hardware level" drive emulation is enabled.
 
    The PETs do not use a serial IEC bus to communicate with the floppy
-drive but instead use the parallel IEEE488 bus.  This does *byte by
-byte* transfers, as opposed to the *bit by bit* transfers of the C64
+drive but instead use the parallel IEEE488 bus.  This does _byte by
+byte_ transfers, as opposed to the _bit by bit_ transfers of the C64
 and VIC20, so making it feasible to emulate the parallel line
 completely while emulating the drive at DOS level only.  The IEEE488
 line interpreter maps the drives 8-11 (as described above) to the
@@ -832,7 +829,8 @@ Supported file formats
 
    * `P00' program files;
 
-   An utility (`c1541', *note c1541::.) is provided to allow transfers
+
+   An utility (`c1541', *note c1541::) is provided to allow transfers
 and conversions between these formats.
 
    Notice that the use of the `X64' file format is depreciated now.
@@ -895,14 +893,14 @@ Shared memory problems
 
    If you cannot start VICE because you get errors about shared memory,
 try to run it with the `+mitshm' command-line option (*note Video
-options::.).  This will completely disable usage of the MITSHM
+options::).  This will completely disable usage of the MITSHM
 extensions, that are normally used to speed up the emulation window
 updates.  Of course, this will also result in a big loss in speed.
 
    Reasons for this failure could be:
 
    * IPC support has been disabled at the system level; some system
-     administrators disable this for security reasons.  If *you* are the
+     administrators disable this for security reasons.  If _you_ are the
      system administrator, use a kernel that has IPC support compiled
      in and enabled.
 
@@ -973,6 +971,7 @@ Invoking the emulators
 
    * `xcbm2', the CBM-II emulator
 
+
    You can run each of them by simply typing the name from a shell.  If
 you want to run them from another application (e.g., a window manager or
 some other sort of program launcher) you should always run them from a
@@ -995,7 +994,7 @@ Command-line options used during initialization
 
    There are several options you can specify on the command line.  Some
 of them are used to specify emulation settings and will be described in
-detail later (*note Settings and resources::. for a complete list).  The
+detail later (*note Settings and resources:: for a complete list).  The
 remaining options are used only to give usage information or to
 initialize the emulator in some way:
 
@@ -1004,12 +1003,12 @@ initialize the emulator in some way:
      List all the available command-line options and their meaning.
 
 `-default'
-     Set default resources (*note Settings and resources::.).  This will
+     Set default resources (*note Settings and resources::).  This will
      override all the settings specified before, but not the settings
      specified afterwards on the command line.
 
 `-autostart IMAGE'
-     Autostart `IMAGE' (*note Command-line autostart::.).
+     Autostart `IMAGE' (*note Command-line autostart::).
 
 `-1 NAME'
      Attach `NAME' as a tape image file.
@@ -1027,7 +1026,7 @@ Autostarting programs from the command-line
 ===========================================
 
    It is possible to let the emulator "autostart" a disk or tape image
-file, by simply specifying its name as the *last* argument on the
+file, by simply specifying its name as the _last_ argument on the
 command line, for example
 
      x64 lovelygame.x64.gz

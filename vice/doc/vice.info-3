@@ -1,5 +1,4 @@
-This is Info file vice.info, produced by Makeinfo version 1.68 from the
-input file vice.texi.
+This is vice.info, produced by makeinfo version 4.5 from vice.texi.
 
 START-INFO-DIR-ENTRY
 * VICE: (vice).        VICE, the Versatile Commodore Emulator.
@@ -44,6 +43,7 @@ and 9 are being emulated.
      you specify whatever value you want.  Be careful when changing it,
      though, because a wrong value can break things and even corrupt
      disk images.
+
 
    The following settings, instead, are specific of each drive:
 
@@ -93,7 +93,7 @@ and 9 are being emulated.
      computer in sync.  On the other hand, if a program installs a
      non-standard idle loop in the drive, the drive CPU has to be
      emulated even when not necessary and the global emulation speed is
-     then *much* slower.
+     then _much_ slower.
 
    * "40-track image support" specifies how 40-track ("extended") disk
      images should be supported.  There are three possible ways:
@@ -108,6 +108,7 @@ and 9 are being emulated.
 
         * "Extend on access" simply extends the disk image as soon the
           program needs it, without prompting the user.
+
 
 * Menu:
 
@@ -148,7 +149,7 @@ Drive resources
 
 `DriveSyncFactor'
      Integer specifying the drive's clock sync factor (*note Drive
-     settings::.).  Special values `-1' and `-2' mean PAL and NTSC,
+     settings::).  Special values `-1' and `-2' mean PAL and NTSC,
      respectively.
 
 `DosName1541'
@@ -157,6 +158,7 @@ Drive resources
 `DosName2031'
      Strings specifying the names of the ROM images for the drive
      emulation.
+
 
 
 File: vice.info,  Node: Drive options,  Prev: Drive resources,  Up: Drive settings
@@ -215,6 +217,7 @@ Drive command-line options
 `-dos1001'
      Specify the ROM names for the 1541, 1571, 1581, 2031, 2040, 3040,
      4040 and 1001 emulation respectively.
+
 
 
 File: vice.info,  Node: Peripheral settings,  Next: RS232 settings,  Prev: Drive settings,  Up: Settings and resources
@@ -319,6 +322,7 @@ Resources for file system devices
      Strings specifying the directories to which drives 8, 9, 10 and 11
      have access.
 
+
 
 File: vice.info,  Node: File system device options,  Prev: File system device resources,  Up: File system device settings
 
@@ -332,6 +336,7 @@ Command-line options for file system devices
      Specify the paths for the file system access on drives 8, 9, 10
      and 11, respectively (`FSDevice8Dir', `FSDevice9Dir',
      `FSDevice10Dir' and `FSDevice11Dir').
+
 
 
 File: vice.info,  Node: Printer settings,  Next: No kernal traps,  Prev: File system device settings,  Up: Peripheral settings
@@ -381,15 +386,14 @@ Printer resources
 `PrDevice1'
 `PrDevice2'
 `PrDevice3'
-     Strings specifying the printer devices (*note Printer settings::.).
+     Strings specifying the printer devices (*note Printer settings::).
 
 `Printer4'
      Boolean specifying if the IEC printer (device 4) is being emulated.
 
 `Printer4Dev'
      Integer (ranging from 0 to 2, for device 1-3) specifying what
-     printer device (*note Printer settings::.) the IEC printer is
-     using.
+     printer device (*note Printer settings::) the IEC printer is using.
 
 `PrUser'
      Boolean specifying if the user-port printer is being emulated.
@@ -397,6 +401,7 @@ Printer resources
 `PrUserDev'
      Integer (ranging from 0 to 2, for device 1-3) specifying what
      printer device the user-port printer is using.
+
 
 
 File: vice.info,  Node: Printer options,  Prev: Printer resources,  Up: Printer settings
@@ -425,6 +430,7 @@ Printer command-line options
 
 `-pruserdev DEV'
      Specify device for the IEC printer (`PrUserDev').
+
 
 
 File: vice.info,  Node: No kernal traps,  Prev: Printer settings,  Up: Peripheral settings
@@ -455,6 +461,7 @@ Resources to control Kernal traps
      parallel IEEE488 devices use an own IEEE488 engine. Both are
      switched on and off with this resource.
 
+
 
 File: vice.info,  Node: No traps options,  Prev: No traps resources,  Up: No kernal traps
 
@@ -465,6 +472,7 @@ Command-line options to control Kernal traps
 `+virtualdev'
      Enable (`VirtualDevices=1') or disable (`VirtualDevices=0')
      virtual devices.
+
 
 
 File: vice.info,  Node: RS232 settings,  Next: Misc settings,  Prev: Peripheral settings,  Up: Settings and resources
@@ -548,7 +556,7 @@ RS232 resources
 `RsDevice2'
 `RsDevice3'
 `RsDevice4'
-     Strings specifying the RS232 devices (*note RS232 settings::.).
+     Strings specifying the RS232 devices (*note RS232 settings::).
 
 `RsDevice1Baud'
 `RsDevice2Baud'
@@ -556,7 +564,7 @@ RS232 resources
 `RsDevice4Baud'
      Integer specifying the RS232 baudrate devices if the device file
      points to a special device (like `/dev/ttyS0'; *note RS232
-     settings::.).
+     settings::).
 
 `AciaDE'
      Boolean specifying whether C64 or C128 should emulate ACIA 6551 in
@@ -564,7 +572,7 @@ RS232 resources
 
 `Acia1Dev'
      Integer (ranging from 0 to 3, for device 1-4) specifying what
-     RS232 device (*note RS232 settings::.) the ACIA is using (all
+     RS232 device (*note RS232 settings::) the ACIA is using (all
      except VIC20).
 
 `Acia1Irq'
@@ -580,6 +588,7 @@ RS232 resources
      Integer (ranging from 0 to 3, for device 1-4) specifying what
      RS232 device the user-port interface is using (C64, C128 and
      VIC20).
+
 
 
 File: vice.info,  Node: RS232 options,  Next: RS232 usage,  Prev: RS232 resources,  Up: RS232 settings
@@ -600,7 +609,7 @@ RS232 command-line options
 `-rsdev4 BAUDRATE'
      Specify `BAUDRATE' as baudrate for the RS232 devices if the device
      name specifies a special device (like `/dev/ttyS0' for example,
-     *note RS232 settings::.; `RsDevice1Baud', `RsDevice2Baud'
+     *note RS232 settings::; `RsDevice1Baud', `RsDevice2Baud'
      `RsDevice3Baud' and `RsDevice4Baud').
 
 `-acia1dev'
@@ -613,6 +622,7 @@ RS232 command-line options
 `-rsuserdev DEV'
      Specify device for the userport RS232 emulation (`RsUserDev'; C64,
      C128 and VIC20).
+
 
 
 File: vice.info,  Node: RS232 usage,  Prev: RS232 options,  Up: RS232 settings
@@ -653,6 +663,7 @@ the modem connected to your PC. The following list shows each step.
      try to detect the ACIA emulation   if enabled.    Otherwise just
      set the baudrate to either 300, 1200 or 9600 according   to what
      you enabled in the VICE menu for the userport.
+
 
 
 File: vice.info,  Node: Misc settings,  Prev: RS232 settings,  Up: Settings and resources
@@ -730,6 +741,7 @@ Miscellaneous resources
      joysticks might differ depending on operating system and joystick
      support in the OS (Linux joystick module must be available for
      example).
+
 
 
 File: vice.info,  Node: Misc options,  Prev: Misc resources,  Up: Misc settings
@@ -815,15 +827,6 @@ cartridge ROM images instead of disk images.
    * Epyx fastload images.
 
    * The Commodore IEEE488 interface cartridge
-
-
-
-
-
-
-
-
-
      (`http://www.funet.fi/pub/cbm/schematics/cartridges/c64/ieee-488/eprom.bin')
 
    * Retro Replay images.
@@ -890,6 +893,7 @@ chip used in both the C64 and the C128.
           the C64 graphics package GoDot
           (http://users.aol.com/howtogodot/welcome.htm).
 
+
 * Menu:
 
 * VIC-II resources::
@@ -909,6 +913,7 @@ VIC-II resources
      Boolean specifying whether the sprite-background hardware collision
      detection must be emulated.
 
+
 
 File: vice.info,  Node: VIC-II options,  Prev: VIC-II resources,  Up: VIC-II settings
 
@@ -924,6 +929,7 @@ VIC-II command-line options
 `+checksb'
      Enable (`CheckSbColl=1') and disable (`CheckSbColl=0') emulation
      of hardware sprite-background collision detection, respectively.
+
 
 
 File: vice.info,  Node: SID settings,  Next: C64 I/O extension settings,  Prev: VIC-II settings,  Up: C64/128-specific
@@ -987,6 +993,7 @@ audio chip.
      44.1kHz the passband percentage should be set to 90 (i.e. the
      transition band starting at almost 20kHz).
 
+
 * Menu:
 
 * SID resources::
@@ -1024,6 +1031,7 @@ SID resources
      Integer specifying the resampling filter passband in percentage of
      the total bandwidth (`0 - 90').
 
+
 
 File: vice.info,  Node: SID options,  Prev: SID resources,  Up: SID settings
 
@@ -1060,6 +1068,7 @@ SID command-line options
      Specifies the resampling filter passband in percentage of the total
      bandwidth (`SidResidPassband=0-90').
 
+
 
 File: vice.info,  Node: C64 I/O extension settings,  Next: C64/128 system ROM settings,  Prev: SID settings,  Up: C64/128-specific
 
@@ -1087,6 +1096,7 @@ might cause compatibility problems.
 
    * FIXME
 
+
 * Menu:
 
 * C64 I/O extension resources::
@@ -1110,6 +1120,7 @@ C64 I/O extension resources
      Boolean specifying whether the emulation identification extension
      should be emulated or not.
 
+
 
 File: vice.info,  Node: C64 I/O extension options,  Prev: C64 I/O extension resources,  Up: C64 I/O extension settings
 
@@ -1130,6 +1141,7 @@ C64 I/O extension command-line options
 `+emuid'
      Enable (`EmuID=1') or disable (`EmuID=0') the emulation
      identification extension.
+
 
 
 File: vice.info,  Node: C64/128 system ROM settings,  Prev: C64 I/O extension settings,  Up: C64/128-specific
@@ -1187,6 +1199,7 @@ C64/128 system ROM resources
     `4064'
           Commodore 4064 (also known as "PET64" or "Educator 64") ROM.
 
+
 
 File: vice.info,  Node: C64/128 system ROM options,  Prev: C64/128 system ROM resources,  Up: C64/128 system ROM settings
 
@@ -1204,6 +1217,7 @@ C64/128 system ROM command-line options
 
 `-kernalrev REVISION'
      Specify Kernal revision (`KernalRev').
+
 
 
 File: vice.info,  Node: VIC20-specific,  Next: PET-specific,  Prev: C64/128-specific,  Up: Machine-specific features
@@ -1226,7 +1240,7 @@ File: vice.info,  Node: VIC20 cartridges,  Next: VIC20 memory expansions,  Prev:
 Using cartridge images
 ----------------------
 
-   As with the C64 (*note C64 cartridges::.), it is possible to attach
+   As with the C64 (*note C64 cartridges::), it is possible to attach
 several types of cartridge images:
 
    * 4 or 8 Kbyte cartridges located at $2000;
@@ -1308,7 +1322,7 @@ the right-button menu:
 
    * 24K expansion (only blocks 1, 2 and 3 are enabled).
 
-   As with the X64 (*note C64 I/O extension settings::.), it is also
+   As with the X64 (*note C64 I/O extension settings::), it is also
 possible to enable a special emulator identification mechanism that uses
 certain memory locations to let a running program query information
 about the emulator itself; this is enabled by the "Emulator
@@ -1336,6 +1350,7 @@ VIC20 memory configuration resources
 `EmuID'
      Boolean specifying whether the emulation identification extension
      must be enabled.
+
 
 
 File: vice.info,  Node: VIC20 memconf options,  Prev: VIC20 memconf resources,  Up: VIC20 memory expansions
@@ -1383,6 +1398,7 @@ VIC20 memory configuration command-line options
      Enable (`EmuID=1') or disable (`EmuID=0') the emulation
      identification extension.
 
+
 
 File: vice.info,  Node: VIC20 system ROM settings,  Prev: VIC20 memory expansions,  Up: VIC20-specific
 
@@ -1420,6 +1436,7 @@ VIC20 system ROM resources
 `CartridgeFileB000'
      String specifying the name of the respective cartridge ROM images.
 
+
 
 File: vice.info,  Node: VIC20 system ROM options,  Prev: VIC20 system ROM resources,  Up: VIC20 system ROM settings
 
@@ -1442,6 +1459,7 @@ VIC20 system ROM command-line options
 `-cartB NAME'
      Specify `NAME' as the cartridge image to attach.
      (`CartridgeFile2000',...,`CartridgeFileB000').
+
 
 
 File: vice.info,  Node: PET-specific,  Next: CBM-II-specific,  Prev: VIC20-specific,  Up: Machine-specific features

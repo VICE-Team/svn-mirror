@@ -7008,9 +7008,8 @@ are rarely  used).
 @node G64,  , T64, File formats
 @section The G64 GCR-encoded disk image format
 
-(This section was contributed by Peter Schepers
-(@email{schepers@@ist.uwaterloo.ca}) and slightly edited by Ettore
-Perazzoli (@email{ettore@@comm2000.it}).)
+(This section was contributed by Peter Schepers and slightly edited by
+Ettore Perazzoli.)
 
 This format was defined in 1998 as a cooperative effort between several
 emulator people, mainly Per Håkan Sundell, author of the CCS64 C64
@@ -7325,12 +7324,11 @@ The VICE core team:
 @c The Texinfo manual says we should not use @b though!
 
 @item
-@b{Daniel Sladic} (@email{sladic@@eecg.toronto.edu}) started the work on
-hardware-level 1541 emulation and wrote the new monitor
-introduced with VICE 0.15.
+@b{Daniel Sladic} started the work on hardware-level 1541 emulation
+and wrote the new monitor introduced with VICE 0.15.
 
 @item
-@b{Andreas Boose} (@email{viceteam@@t-online.de}) gave lots of
+@b{Andreas Boose} gave lots of
 information and bug reports about the VIC-II, the 6510 and the
 CIAs; moreover, he wrote several test-routines that were used
 to improve the emulation.  He also added cartridge support and
@@ -7340,37 +7338,36 @@ MSDOS and MS-Windows ports. He rewrote the C128 emulation
 adding Z80 mode, C64 mode and function ROM support.
 
 @item
-@b{Dag Lem} (@email{resid@@nimrod.no}) implemented the reSID SID emulation
+@b{Dag Lem} implemented the reSID SID emulation
 engine.
 
 @item
-@b{Tibor Biczo} (@email{crown@@mail.matav.hu}) improved the MS-Windows port.
+@b{Tibor Biczo} improved the MS-Windows port.
 
 @item
-@b{Andreas Dehmel} (@email{dehmel@@forwiss.tu-muenchen.de}) wrote the Acorn
-RISC OS port.
+@b{Andreas Dehmel} wrote the Acorn RISC OS port.
 
 @item
-@b{Thomas Bretz} (@email{tbretz@@ph.tum.de}) responsible for the OS/2 port.
+@b{Thomas Bretz} responsible for the OS/2 port.
 
 @item
-@b{Andreas Matthies} (@email{andreas.matthies@@gmx.net}) improved the
+@b{Andreas Matthies} improved the
 datasette support, the VIC20 video emulation and some ui stuff
 in the Win32 and MSDOS port. He also wrote the BeOS port.
 
 @item
-@b{Martin Pottendorfer} (@email{Martin.Pottendorfer@@aut.alcatel.at})
+@b{Martin Pottendorfer}
 Implemented Gnome Port based on Oliver Schaertels GTK+ port
 Added support code for internationalization based on gettext
 Translated the Unix Port to German
 Implemented the fliplists + ui (unix).
 
 @item
-@b{Markus Brenner} (@email{markus@@brenner.de}) added VDC emulation to x128
+@b{Markus Brenner} added VDC emulation to x128
 and added support for some more cartridges.
 
 @item
-@b{Spiro Trikaliotis} (@email{Spiro.Trikaliotis@@gmx.de}) wrote the Win32
+@b{Spiro Trikaliotis} wrote the Win32
 console implementation for the built-in monitor and provided
 some further patches.
 
@@ -7381,7 +7378,7 @@ Former team members:
 @itemize @bullet
 
 @item
-@b{Ettore Perazzoli} (@email{ettore@@comm2000.it})
+@b{Ettore Perazzoli}
 Copyright @copyright{} 1996-1999
 Made the 6510, VIC-II, VIC-I and CRTC emulations, part of the
 hardware-level 1541 emulation, speed optimizations, bug fixes,
@@ -7392,28 +7389,28 @@ port and the initial MS-Windows port (well, somebody had to do
 it).
 
 @item
-@b{André Fachat} (@email{fachat@@physik.tu-chemnitz.de})
+@b{André Fachat}
 Copyright @copyright{} 1996-2001
 Wrote the PET and CBM-II emulators, the CIA and VIA emulation,
 the IEEE488 interface, implemented the IEC serial bus in `xvic'
 and made tons of bug fixes.
 
 @item
-@b{Teemu Rantanen} (@email{tvr@@cs.hut.fi})
+@b{Teemu Rantanen}
 Copyright @copyright{} 1993-1994, 1997-1999
 Implemented the SID emulation and the trap-based disk drive and
 serial bus implementation; added support for multiple display
 depths under X11.  Also wrote `c1541'
 
 @item
-@b{Jouko Valta} (@email{jopi@@stekt.oulu.fi})
+@b{Jouko Valta}
 Copyright @copyright{} 1993-1996
 Wrote `petcat' and `c1541', `T64' handling, user service and
 maintenance (most of the work in x64 0.3.x was made by him);
 retired from the project in July 96, after VICE 0.10.0.
 
 @item
-@b{Jarkko Sonninen} (@email{sonninen@@lut.fi})
+@b{Jarkko Sonninen}
 Copyright @copyright{} 1993-1994
 He was the founder of the project, wrote the old version of the
 6502 emulation and the XDebugger, and retired from the project
@@ -7426,13 +7423,13 @@ External contributors:
 @itemize @bullet
 
 @item
-@b{Michael Schwendt} (@email{sidplay@@geocities.com}) helped with the
+@b{Michael Schwendt} helped with the
 SID (audio) chip emulation, bringing important suggestions and bug
 reports, as well as the wave tables and filter emulation from his
 SIDplay emulator.
 
 @item
-@b{Christian Bauer} (@email{bauec002@@goofy.zdv.uni-mainz.de}) wrote
+@b{Christian Bauer} wrote
 the very interesting ``VIC article'' from which we got invaluable
 information about the VIC-II chip: without this, the VIC-II
 implementation would have not been possible.
@@ -7442,165 +7439,144 @@ implementation would have not been possible.
 to debug the CPU emulation.
 
 @item
-@b{Giuliano Procida} (@email{gpp10@@cam.ac.uk}) is the maintainer
+@b{Giuliano Procida} is the maintainer
 of the VICE @code{deb} package for the Debian distribution, and also
 helped proofreading the documentation.
 
 @item
-@b{Marko Mäkelä} (@email{msmakela@@nic.funet.fi}) wrote lots of CPU
-documentation.
+@b{Marko Mäkelä} wrote lots of CPU documentation.
 
 @item
-@b{Chris Sharp} (@email{sharpc@@hurlsey.ibm.com}) wrote the AIX sound
-driver.
+@b{Chris Sharp} wrote the AIX sound driver.
 
 @item
-@b{Krister Walfridsson} (@email{cato@@df.lth.se}) implemented joystick
-and sound support for NetBSD.
+@b{Krister Walfridsson} implemented joystick and sound support for
+NetBSD.
 
 @item
-@b{Mattias Engdegård} (@email{f91-men@@nada.kth.se}) got non-default
-depths to work.
+@b{Mattias Engdegård} got non-default depths to work.
 
 @item
-@b{Peter Andrew Felvegi aka Petschy} (@email{petschy@@derceto.sch.bme.hu})
+@b{Peter Andrew Felvegi aka Petschy}
 fixed a couple of bugs in the fast serial emulation.
 
 @item
-@b{Olaf Seibert} (@email{rhialto@@polder.ubc.kun.nl}) contributed some PET,
-and disk drive patches.
+@b{Olaf Seibert} contributed some PET, and disk drive patches.
 
 @item
-@b{Daniel Fandrich} (@email{dan@@fch.wimsey.bc.ca}) contributed some disk
-drive patches.
+@b{Daniel Fandrich} contributed some disk drive patches.
 
 @item
-@b{Heiko Selber} (@email{selber@@fhi-berlin.mpg.de}) contributed some VIC20
-I/O patches.
+@b{Heiko Selber} contributed some VIC20 I/O patches.
 
 @item
-@b{Steven Tieu} (@email{stieu@@physics.ubc.ca}) added initial support for
-16/24 bpp X11 displays.
+@b{Steven Tieu} added initial support for 16/24 bpp X11 displays.
 
 @item
-@b{Alexander Lehmann} (@email{alex@@mathematik.th-darmstadt.de}) added
-complete support for all the VIC20 memory configurations for the old
-VICE 0.12.
+@b{Alexander Lehmann} added complete support for all the VIC20 memory
+configurations for the old VICE 0.12.
 
 @item
-@b{Lionel Ulmer} implemented joystick support for Linux and a first try of a
-SID emulation for SGI machines.
+@b{Lionel Ulmer} implemented joystick support for Linux and a first
+try of a SID emulation for SGI machines.
 
 @item
-@b{Bernhard Kuhn} (@email{kuhn@@eikon.e-technik.tu-muenchen.de})
-made some joystick improvements for Linux.
+@b{Bernhard Kuhn} made some joystick improvements for Linux.
 
 @item
-@b{Gerhard Wesp} (@email{gwesp@@cosy.sbg.ac.at}) contributed the
+@b{Gerhard Wesp} contributed the
 @code{extract} command in @code{c1541}.
 
 @item
-@b{Ricardo Ferreira} (@email{storm@@esoterica.pt}) contributed the
+@b{Ricardo Ferreira} contributed the
 @code{unlynx} and @code{system} commands in @code{c1541}.
 
 @item
-@b{Tomi Ollila} (@email{Tomi.Ollila@@tfi.net}) donated @code{findpath.c}.
+@b{Tomi Ollila} donated @code{findpath.c}.
 
 @item
-@b{Richard Hable} (@email{hab@@fim.uni-linz.ac.at}) contributed the initial
-version of the REU Emulation.
+@b{Richard Hable} contributed the initial version of the REU
+Emulation.
 
 @item
-@b{Vesa-Matti Puro} (@email{vmp@@lut.fi}) wrote the very first 6502 CPU
+@b{Vesa-Matti Puro} wrote the very first 6502 CPU
 emulator in x64 0.1.0.  That was the beginning of the story@dots{}
 
 @item
-@b{Dan Miner} (@email{dminer@@nyx10.cs.du.edu}) contributed some patches
-to the fast disk drive emulation.
-@item
-@b{Frank Prindle} (@email{Frank.Prindle@@lambada.oit.unc.edu})
-contributed some patches.
+@b{Dan Miner} contributed some patches to the fast disk drive
+emulation.
 
 @item
-@b{Peter Weighill} (@email{stuce@@csv.warwick.ac.uk}) gave many ideas and
-contributed the ROM patcher.
+@b{Frank Prindle} contributed some patches.
 
 @item
-@b{Dominique Strigl} (@email{strigl@@sxb.bsf.alcatel.fr}), @b{Craig Jackson}
-(@email{Craig.Jackson@@lambada.oit.unc.edu}) and @b{Lasse Jyrkinen}
-((@email{Lasse.Jyrkinen@@uz.kuleuven.ac.be}) contributed miscellaneous
-patches in the old X64 times.
+@b{Peter Weighill} gave many ideas and contributed the ROM patcher.
 
 @item
-@b{Per Olofsson} (@email{MagerValp@@Goth.Org}) digitalized the C64 colors
-used in the default palette.
+@b{Dominique Strigl}, @b{Craig Jackson} and @b{Lasse Jyrkinen}
+contributed miscellaneous patches in the old X64 times.
 
 @item
-@b{Paul David Doherty} (@email{h0142kdd@@rz.hu-berlin.de}) wrote
+@b{Per Olofsson} digitalized the C64 colors used in the default
+palette.
+
+@item
+@b{Paul David Doherty} wrote
 @code{zip2disk}, on which the Zipcode support in @code{c1541} is based.
 
 @item
-@b{Robert H. Forsman Jr.}, @b{Brian Totty} (@email{totty@@cs.uiuc.edu})
-and @b{Robert W. McMullen} (@email{rwmcm@@orion.ae.utexas.edu}) provided the
-widget set for implementing the @code{Xaw} GUI.
+@b{Robert H. Forsman Jr.}, @b{Brian Totty} and @b{Robert W. McMullen}
+provided the widget set for implementing the @code{Xaw} GUI.
 
 @item
-@b{Shawn Hargreaves} (@email{shawn@@talula.demon.co.uk}) wrote
+@b{Shawn Hargreaves} wrote
 Allegro, the graphics and audio library used in the MS-DOS version.
 
 @item
-@b{Peter Schepers} (@email{schepers@@ist.uwaterloo.ca}) contributed a
-document describing the G64 image format.
+@b{Peter Schepers} contributed a document describing the G64 image
+format.
 
 @item
-@b{Oliver Schaertel} (@email{orschaer@@forwiss.uni-erlangen.de}) wrote
-the X11 full screen, parts of custom ROM set support and 1351 mouse
-emulation for unix.
+@b{Oliver Schaertel} wrote the X11 full screen, parts of custom ROM
+set support and 1351 mouse emulation for unix.
 
 @item
-@b{Luca Montecchiani} (@email{m.luca@@usa.net}) contributed a new Unix
-joystick driver.
+@b{Luca Montecchiani} contributed a new Unix joystick driver.
 
 @item
-@b{Dirk Farin} (@email{farin@@ti.uni-mannheim.de}) rewrote the MITSHM
-code.
+@b{Dirk Farin} rewrote the MITSHM code.
 
 @item
-@b{Manfred Spraul} (@email{manfreds@@colorfullife.com}) wrote the
-MS-Windows text lister.
+@b{Manfred Spraul} wrote the MS-Windows text lister.
 
 @item
 @b{Eric} provided the french translation for the Unix ports.
 
 @item
-@b{Andrea Musuruane} (@email{musuruan@@bmm.it}) provided the italian
-translation for the Unix ports
+@b{Andrea Musuruane} provided the italian translation for the Unix
+ports
 
 @item
-@b{Michael Klein} (@email{nip@@c64.org}) contributed the ESD sound driver
-and some patches.
+@b{Michael Klein} contributed the ESD sound driver and some patches.
 
 @item
-@b{David Holz} (@email{whiteflame52@@yahoo.com}) provided a label file which
-gives the built-in monitor the labels for the C64.
+@b{David Holz} provided a label file which gives the built-in monitor
+the labels for the C64.
 
 @item
-@b{Lasse Öörni} (@email{loorni@@mail.student.oulu.fi}) contributed the
-Windows Multimedia sound driver
+@b{Lasse Öörni} contributed the Windows Multimedia sound driver
 
 @item
-@b{Frank König} (@email{frank_koenig@@t-online.de}) contributed the Win32
-joystick autofire feature.
+@b{Frank König} contributed the Win32 joystick autofire feature.
 
 @item
-@b{John Selck} (@email{graham@@cruise.de}) wrote the fast PAL emulation.
+@b{John Selck} wrote the fast PAL emulation.
 
 @item
-@b{webulator} (@email{webulator@@mailandnews.com}) provided win32 drag &
-drop support
+@b{webulator} provided win32 drag & drop support
 
 @item
-@b{ck!} (@email{pixelite@@lycos.de}) provided a win32 cbm character font.
+@b{ck!} provided a win32 cbm character font.
 @end itemize
 
 @itemize @bullet
@@ -7608,31 +7584,31 @@ drop support
 @item
 @b{Lutz Sammer}
 @item
-@b{Ralph Mason} (@email{RALPHM@@msmail02.liffe.com})
+@b{Ralph Mason}
 @item
-@b{George Caswell} (@email{timbuktu@@the-eye.res.wpi.edu})
+@b{George Caswell}
 @item
-@b{Per Olofsson} (@email{MagerValp@@goth.org})
+@b{Per Olofsson}
 @item
-@b{Jasper Phillips} (@email{philljas@@newt.cs.orst.edu})
+@b{Jasper Phillips}
 @item
-@b{Luca Forcucci} (@email{frk@@geocities.com})
+@b{Luca Forcucci}
 @item
-@b{Asger Alstrup} (@email{alstrup@@diku.dk})
+@b{Asger Alstrup}
 @item
-@b{Bernhard Schwall} (@email{uzs484@@uni-bonn.de})
+@b{Bernhard Schwall}
 @item
-@b{Salvatore Valente} (@email{svalente@@mit.edu})
+@b{Salvatore Valente}
 @item
-@b{Arthur Hagen} (@email{art@@broomstick.com})
+@b{Arthur Hagen}
 @item
-@b{Douglas Carmichael} (@email{dcarmich@@mcs.com})
+@b{Douglas Carmichael}
 @item
-@b{Ferenc Veres} (@email{lion@@c64.rulez.org})
+@b{Ferenc Veres}
 @item
-@b{Andrea Musuruane} (@email{musuruan@@biella.alpcom.it})
+@b{Andrea Musuruane}
 @item
-@b{Frank Reichel} (@email{Frank.Reichel@@forchheim.baynet.de})
+@b{Frank Reichel}
 @item
 @b{Ullrich von Bassewitz}
 @item
@@ -7728,21 +7704,13 @@ fixed with a newer version.
 @section How to send feedback
 
 If you want to report bugs, make suggestions or contribute to
-the project, please email one of the following people:
+the project, please email the VICE team mailing list:
 
 @itemize @bullet
 
 @item
 VICE Mailing List (@email{vice-devel@@firenze.linux.it}) for all
 general questions, bug reports, suggestions.
-
-@item
-Andreas Boose (@email{viceteam@@t-online.de}) for disk drive,
-tape, cartridge and Z80 emulation;
-
-@item
-André Fachat (@email{fachat@@physik.tu-chemnitz.de}) for the PETs
-and CBM-II;
 
 @end itemize
 
