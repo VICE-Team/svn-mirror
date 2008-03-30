@@ -87,14 +87,10 @@ void drive_sync_clock_frequency(unsigned int type, unsigned int dnr)
         drive[dnr].clock_frequency = 1;
         break;
       case DRIVE_TYPE_1551:
-        drive[dnr].clock_frequency = 2;
-        break;
       case DRIVE_TYPE_1581:
         drive[dnr].clock_frequency = 2;
         break;
       case DRIVE_TYPE_2031:
-        drive[dnr].clock_frequency = 1;
-        break;
       case DRIVE_TYPE_2040:
       case DRIVE_TYPE_3040:
       case DRIVE_TYPE_4040:
