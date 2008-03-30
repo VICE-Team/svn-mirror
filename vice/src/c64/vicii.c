@@ -99,6 +99,26 @@ static palette_t *palette;
 /* VIC-II registers.  */
 static int vic[64];
 
+/* Unused bits in VIC-II registers.  */
+static int vic_unused_bits[64] = {
+    0x00 /* $D000 */, 0x00 /* $D001 */, 0x00 /* $D002 */, 0x00 /* $D003 */,
+    0x00 /* $D004 */, 0x00 /* $D005 */, 0x00 /* $D006 */, 0x00 /* $D007 */,
+    0x00 /* $D008 */, 0x00 /* $D009 */, 0x00 /* $D00A */, 0x00 /* $D00B */,
+    0x00 /* $D00C */, 0x00 /* $D00D */, 0x00 /* $D00E */, 0x00 /* $D00F */,
+    0x00 /* $D010 */, 0x00 /* $D011 */, 0x00 /* $D012 */, 0x00 /* $D013 */,
+    0x00 /* $D014 */, 0x00 /* $D015 */, 0x00 /* $D016 */, 0xc0 /* $D017 */,
+    0x01 /* $D018 */, 0x70 /* $D019 */, 0xf0 /* $D01A */, 0x00 /* $D01B */,
+    0x00 /* $D01C */, 0x00 /* $D01D */, 0x00 /* $D01E */, 0x00 /* $D01F */,
+    0xf0 /* $D020 */, 0xf0 /* $D021 */, 0xf0 /* $D022 */, 0xf0 /* $D023 */,
+    0xf0 /* $D024 */, 0xf0 /* $D025 */, 0xf0 /* $D026 */, 0xf0 /* $D027 */,
+    0xf0 /* $D028 */, 0xf0 /* $D029 */, 0xf0 /* $D02A */, 0xf0 /* $D02B */,
+    0xf0 /* $D02C */, 0xf0 /* $D02D */, 0xf0 /* $D02E */, 0xff /* $D02F */,
+    0xff /* $D030 */, 0xff /* $D031 */, 0xff /* $D032 */, 0xff /* $D033 */,
+    0xff /* $D034 */, 0xff /* $D035 */, 0xff /* $D036 */, 0xff /* $D037 */,
+    0xff /* $D038 */, 0xff /* $D039 */, 0xff /* $D03A */, 0xff /* $D03B */,
+    0xff /* $D03C */, 0xff /* $D03D */, 0xff /* $D03E */, 0xff /* $D03F */
+};
+
 /* Interrupt register.  */
 static int videoint = 0;
 
@@ -678,6 +698,10 @@ canvas_t vic_ii_init(void)
 void vic_ii_enable_extended_keyboard_rows(int flag)
 {
     extended_keyboard_rows_enabled = flag;
+    if (extended_keyboard_rows_enabled)
+        vic_unused_bits[0x2f] = 0xf8;
+    else
+        vic_unused_bits[0x2f] = 0xff;
 }
 
 /* Reset the VIC-II chip. */
@@ -894,7 +918,8 @@ inline static void store_d011(BYTE value)
 		    memset(cbuf + pos, ram_base[reg_pc] & 0xf, num_chars);
 		} else {
 		    memset(vbuf + pos, 0xff, num_0xff_fetches);
-		    memset(cbuf + pos, ram_base[reg_pc] & 0xf, num_0xff_fetches);
+		    memset(cbuf + pos, ram_base[reg_pc] & 0xf,
+                           num_0xff_fetches);
 		    fetch_matrix(pos + num_0xff_fetches,
 				 num_chars - num_0xff_fetches);
 		}
@@ -1020,6 +1045,10 @@ inline void REGPARM2 store_vbank(ADDRESS addr, BYTE value)
 	do {
 	    f = 0;
 	    if (mclk >= vic_ii_fetch_clk) {
+                /* If the fetch starts here, the sprite fetch routine should
+                   get the new value, not the old one.  */
+                if (mclk == vic_ii_fetch_clk)
+                    ram_base[addr] = value;
 		int_rasterfetch(clk - vic_ii_fetch_clk);
 		f = 1;
 		/* WARNING: Assumes `rmw_flag' is 0 or 1. */
@@ -1472,7 +1501,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 	return;
 
       case 0x21:		/* $D021: Background #0 color */
-      	value &= 0xf;
+        value &= 0xf;
         if (vic[0x21] != value) {
   	    vic[0x21] = value;
 
@@ -1491,7 +1520,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
       case 0x22:		/* $D022: Background #1 color */
       case 0x23:		/* $D023: Background #2 color */
       case 0x24:		/* $D024: Background #3 color */
-	value &= 0xf;
+        value &= 0xf;
 	if (vic[addr] != value) {
 	    vic[addr] = value;
 	    add_int_change_foreground(RASTER_CHAR(RASTER_CYCLE),
@@ -1503,7 +1532,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 	return;
 
       case 0x25:		/* $D025: Sprite multicolor register #0 */
-	value &= 0xf;
+        value &= 0xf;
 	if (vic[0x25] != value) {
 	    vic[0x25] = value;
 	    /* FIXME: this is approximated. */
@@ -1517,8 +1546,8 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 
       case 0x26:		/* $D026: Sprite multicolor register #1 */
 	value &= 0xf;
-	if (vic[0x26] != value) {
-	    vic[0x26] = value;
+	if (vic[addr] != value) {
+	    vic[addr] = value;
 	    /* FIXME: this is approximated. */
 	    if (RASTER_CYCLE > CYCLES_PER_LINE / 2)
 		add_int_change_next_line(&mc_sprite_color_2, value);
@@ -1584,6 +1613,32 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
     }
 }
 
+/* Helper function for reading from $D011/$D012.  */
+inline static unsigned int read_raster_y(void)
+{
+    int tmp = RASTER_Y;
+
+    /* Line 0 is 62 cycles long, while line (SCREEN_HEIGHT - 1) is 64
+       cycles long.  As a result, the counter is incremented one
+       cycle later on line 0.  */
+    if (tmp == 0 && RASTER_CYCLE == 0)
+        tmp = SCREEN_HEIGHT - 1;
+
+    return tmp;
+}
+
+/* Helper function for reading from $D019.  */
+inline static BYTE read_d019(void)
+{
+    if (RASTER_Y == int_raster_line && (vic[0x1a] & 0x1))
+        /* As int_raster() is called 2 cycles later than it should be to
+           emulate the 6510 internal IRQ delay, videoint might not have
+           bit 0 set as it should. */
+        return videoint | 0x71;
+    else
+        return videoint | 0x70;
+}
+
 /* Read a value from a VIC-II register. */
 BYTE REGPARM1 read_vic(ADDRESS addr)
 {
@@ -1595,6 +1650,8 @@ BYTE REGPARM1 read_vic(ADDRESS addr)
     DEBUG_REGISTER(("VIC: READ $D0%02X at cycle %d of rasterline $%04X:\n",
 		    addr, RASTER_CYCLE, RASTER_Y));
 
+    /* Note: we use hardcoded values instead of `vic_unused_bits[]' here
+       because this is a little bit faster.  */
     switch (addr) {
       case 0x0:		/* $D000: Sprite #0 X position LSB */
       case 0x2:		/* $D002: Sprite #1 X position LSB */
@@ -1628,16 +1685,10 @@ BYTE REGPARM1 read_vic(ADDRESS addr)
 				   and raster MSB */
       case 0x12:		/* $D012: Raster line compare */
 	{
-	    int tmp = RASTER_Y;
+	    unsigned int tmp = read_raster_y();
 
 	    DEBUG_REGISTER(("\tRaster Line register %s value = $%04X\n",
 			    (addr == 0x11 ? "(highest bit) " : ""), tmp));
-
-	    /* Line 0 is 62 cycles long, while line (SCREEN_HEIGHT - 1) is 64
-               cycles long.  As a result, the counter is incremented one
-               cycle later on line 0.  */
-	    if (tmp == 0 && RASTER_CYCLE == 0)
-		tmp = SCREEN_HEIGHT - 1;
 
 	    if (addr == 0x11)
 		return (vic[addr] & 0x7f) | ((tmp & 0x100) >> 1);
@@ -1671,16 +1722,14 @@ BYTE REGPARM1 read_vic(ADDRESS addr)
 	return vic[addr] | 0x1;
 
       case 0x19:		/* $D019: IRQ flag register */
-	DEBUG_RASTER(("VIC: read interrupt register: $%02X\n",
-		      videoint | 0x70));
-	DEBUG_REGISTER(("\tInterrupt register: $%02X\n", videoint | 0x70));
-	if (RASTER_Y == int_raster_line && (vic[0x1a] & 0x1))
-	    /* As int_raster() is called 2 cycles later than it should be to
-	       emulate the 6510 internal IRQ delay, videoint might not have
-	       bit 0 set as it should. */
-	    return videoint | 0x71;
-	else
-	    return videoint | 0x70;
+        {
+            BYTE tmp = read_d019();
+
+            DEBUG_RASTER(("VIC: read interrupt register: $%02X\n",
+                          videoint | 0x70));
+            DEBUG_REGISTER(("\tInterrupt register: $%02X\n", tmp));
+            return tmp;
+        }
 
       case 0x1a:		/* $D01A: IRQ mask register  */
 	DEBUG_REGISTER(("\tMask register: $%02X\n", vic[addr] | 0xf0));
@@ -1809,6 +1858,36 @@ BYTE REGPARM1 read_vic(ADDRESS addr)
 
       default:
 	return 0xff;
+    }
+}
+
+BYTE REGPARM1 peek_vic(ADDRESS addr)
+{
+    addr &= 0x3f;
+    switch (addr) {
+      case 0x11:		/* $D011: video mode, Y scroll, 24/25 line mode
+				   and raster MSB */
+      case 0x12:		/* $D012: Raster line compare */
+        {
+            unsigned int tmp = read_raster_y();
+
+	    if (addr == 0x11)
+		return (vic[addr] & 0x7f) | ((tmp & 0x100) >> 1);
+	    else
+		return tmp & 0xff;
+        }
+      case 0x13:		/* $D013: Light Pen X */
+	return light_pen.x;
+      case 0x14:		/* $D014: Light Pen Y */
+	return light_pen.y;
+      case 0x19:
+        return read_d019();
+      case 0x1e:		/* $D01E: Sprite-sprite collision */
+        return ss_collmask;
+      case 0x1f:		/* $D01F: Sprite-background collision */
+        return sb_collmask;
+      default:
+        return vic[addr] | vic_unused_bits[addr];
     }
 }
 

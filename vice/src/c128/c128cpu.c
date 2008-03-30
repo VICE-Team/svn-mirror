@@ -76,7 +76,7 @@
 /* If this is #defined, you can set the `traceflg' variable to non-zero to
    trace all the opcodes being executed.  This is mainly useful for
    debugging, and also makes things a bit slower.  */
-/* #define TRACE */
+#define TRACE
 
 /* Run without interpreting opcodes (just fetch them from memory).  */
 #undef NO_OPCODES
