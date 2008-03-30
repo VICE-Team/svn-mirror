@@ -140,6 +140,7 @@ noinst_HEADERS = \
 	crtc.h \
 	emuid.h \
 	file.h \
+	fixpoint.h \
 	findpath.h \
 	fs_cbm.h \
 	fsdevice.h \
@@ -248,6 +249,7 @@ EXTRA_DIST = \
 	cpu-tmpl.c \
 	crtc-tmpl.c \
 	convio \
+	fixpoint.c \
 	pia-tmpl.c \
 	raster.c \
 	tpi-tmpl.c \

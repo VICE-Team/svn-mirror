@@ -53,6 +53,8 @@ static int useresid;
 #include "mouse.h"
 #endif
 
+#include "fixpoint.h"
+
 /* ------------------------------------------------------------------------- */
 
 /* Resource handling -- Added by Ettore 98-04-26.  */
@@ -254,7 +256,7 @@ typedef struct voice_s
 #endif
 
     signed char		filtIO;
-    float		filtLow, filtRef;
+    vreal_t		filtLow, filtRef;
 } voice_t;
 
 /* needed data for SID */
@@ -308,11 +310,11 @@ static DWORD exptable[6] =
 /* clockcycles for each dropping bit when write-only register read is done */
 static DWORD sidreadclocks[9];
 
-static float lowPassParam[0x800];
+static vreal_t lowPassParam[0x800];
 #define filterTable lowPassParam
-static float bandPassParam[0x800];
-static float filterResTable[16];
-static float filterDy, filterResDy;
+static vreal_t bandPassParam[0x800];
+static vreal_t filterResTable[16];
+static vreal_t filterDy, filterResDy;
 static BYTE filterType = 0;
 static BYTE filterCurType = 0;
 static WORD filterValue;
@@ -321,7 +323,7 @@ static signed char ampMod1x8[256];
 
 inline static void dofilter(voice_t *pVoice)
 {
-    float sample, sample2;
+    vreal_t sample, sample2;
     int tmp;
 
     if ( pVoice->filter )
@@ -330,46 +332,48 @@ inline static void dofilter(voice_t *pVoice)
 	{
 	    if ( filterType == 0x20 )
 	    {
-		pVoice->filtLow += ( pVoice->filtRef * filterDy );
-		sample = pVoice->filtIO;
-		sample2 = sample - pVoice->filtLow;
-		sample2 -= pVoice->filtRef * filterResDy;
-		pVoice->filtRef += ( sample2 * filterDy );
-		pVoice->filtIO = (signed char)(pVoice->filtRef-pVoice->filtLow/4);
+                pVoice->filtLow += REAL_MULT( pVoice->filtRef, filterDy );
+                sample = REAL_VALUE(pVoice->filtIO);
+                sample2 = sample - pVoice->filtLow;
+                sample2 -= REAL_MULT(pVoice->filtRef, filterResDy);
+                pVoice->filtRef += REAL_MULT(sample2, filterDy );
+                pVoice->filtIO = (signed char)(REAL_TO_INT(pVoice->filtRef-pVoice->filtLow/4));
 	    }
 	    else if ( filterType == 0x40 )
 	    {
-		pVoice->filtLow += ( pVoice->filtRef * filterDy * 0.1 );
-		sample = pVoice->filtIO;
-		sample2 = sample - pVoice->filtLow;
-		sample2 -= pVoice->filtRef * filterResDy;
-		pVoice->filtRef += ( sample2 * filterDy );
-		sample2 = pVoice->filtRef - pVoice->filtIO/8;
-		if (sample2 < -128)
-		    sample2 = -128;
-		if (sample2 > 127)
-		    sample2 = 127;
-		pVoice->filtIO = (signed char)sample2;
+                pVoice->filtLow += REAL_MULT(REAL_MULT(pVoice->filtRef,
+                                                       filterDy),
+                                             REAL_VALUE(0.1) );
+                sample = REAL_VALUE(pVoice->filtIO);
+                sample2 = sample - pVoice->filtLow;
+                sample2 -= REAL_MULT(pVoice->filtRef, filterResDy);
+                pVoice->filtRef += REAL_MULT( sample2, filterDy );
+                sample2 = pVoice->filtRef - REAL_VALUE(pVoice->filtIO/8);
+                if (sample2 < REAL_VALUE(-128))
+                    sample2 = REAL_VALUE(-128);
+                if (sample2 > REAL_VALUE(127))
+                    sample2 = REAL_VALUE(127);
+                pVoice->filtIO = (signed char)(REAL_TO_INT(sample2));
 	    }
 	    else
 	    {
-		pVoice->filtLow += ( pVoice->filtRef * filterDy );
-		sample = pVoice->filtIO;
+                pVoice->filtLow += REAL_MULT( pVoice->filtRef, filterDy );
+                sample = REAL_VALUE(pVoice->filtIO);
 		sample2 = sample - pVoice->filtLow;
-		tmp = (int)sample2;
-		sample2 -= pVoice->filtRef * filterResDy;
-		pVoice->filtRef += ( sample2 * filterDy );
+                tmp = (int)(REAL_TO_INT(sample2));
+                sample2 -= REAL_MULT(pVoice->filtRef, filterResDy);
+                pVoice->filtRef += REAL_MULT( sample2, filterDy );
 
-		if ( filterType == 0x10 )
-		    pVoice->filtIO = (signed char)pVoice->filtLow;
-		else if ( filterType == 0x30 )
-		    pVoice->filtIO = (signed char)pVoice->filtLow;
-		else if ( filterType == 0x50 )
-		    pVoice->filtIO = (signed char)(sample - (tmp >> 1));
-		else if ( filterType == 0x60 )
-		    pVoice->filtIO = (signed char)tmp;
-		else if ( filterType == 0x70 )
-		    pVoice->filtIO = (signed char)(sample - (tmp >> 1));
+                if ( filterType == 0x10 )
+                    pVoice->filtIO = (signed char)(REAL_TO_INT(pVoice->filtLow));
+                else if ( filterType == 0x30 )
+                    pVoice->filtIO = (signed char)(REAL_TO_INT(pVoice->filtLow));
+                else if ( filterType == 0x50 )
+                    pVoice->filtIO = (signed char)(REAL_TO_INT(sample) - (tmp >> 1));
+                else if ( filterType == 0x60 )
+                    pVoice->filtIO = (signed char)tmp;
+                else if ( filterType == 0x70 )
+                    pVoice->filtIO = (signed char)(REAL_TO_INT(sample) - (tmp >> 1));
 	    }
 	}
 	else /* filterType == 0x00 */
@@ -558,8 +562,8 @@ inline static void setup_sid(sound_t *psid)
 	else
 	    filterDy = lowPassParam[filterValue];
 	filterResDy = filterResTable[psid->d[0x17]>>4]-filterDy;
-	if (filterResDy < 1.0)
-	    filterResDy = 1.0;
+        if (filterResDy < REAL_VALUE(1.0))
+            filterResDy = REAL_VALUE(1.0);
 	if (psid->d[0x17] & 0x07)
 	    warn(pwarn, 0, "program uses filters");
     }
@@ -812,7 +816,13 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 	    dofilter(&psid->v[2]);
 	    o2 = ((DWORD)(psid->v[2].filtIO)+0x80)<<(7+15);
 	}
-	pbuf[i] = ((SDWORD)((o0+o1+o2)>>20)-0x600)*psid->vol;
+
+#ifdef __riscos
+        /* FIXME: This should not be here!!!  */
+        ((unsigned char*)pbuf)[i] = LinToLog[(((((o0+o1+o2)>>20)-0x600)*psid->vol)>>3)&0x1fff];
+#else
+        pbuf[i] = ((SDWORD)((o0+o1+o2)>>20)-0x600)*psid->vol;
+#endif
     }
     return 0;
 }
@@ -821,7 +831,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 static void init_filter(sound_t *psid, int freq)
 {
     WORD uk;
-    float rk;
+    vreal_t rk;
     long int si;
 
     float yMax = 1.0;

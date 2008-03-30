@@ -1,4 +1,100 @@
+1998-11-25  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* sid/sid.c: Unconditionally #include "fixpoint.h".
+
+1998-11-23  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* fixpoint.c, fixpoint.h: New files for fixpoint numbers (see
+ 	sid.c changes).
+
+	* main.c: Added new commandline-switch "-logfile" for RISC OS,
+ 	changed logfile redirection, no signal handlers on RISC OS.
+
+	* maincpu.c: Only define function evaluate_speed when
+ 	EVALUATE_SPEED defined.
+	
+	* mon_lex.c: Always define YY_ALWAYS_INTERACTIVE on RISC OS.
+	
+	* rsuser.c, acia-tmpl.c, vdrive.c: Consistent change to
+ 	file_desc_t and ILLEGAL_FILE_DESC.
+
+	* snapshot.c: Define off_t on RISC OS, no inclusion of unistd.h
+	
+	* sound.c: Removed #undefs that were necessary with old
+ 	write/close hack on RISC OS.
+	
+	* sysfile.c: Fixed sysfile_open so it works on RISC OS _and_ Unix.
+	
+	* utils.c: Don't include sys/wait.h on RISC OS either.
+	
+	* types.h: Changed the POSIX-emulation from makros to wrapper
+ 	functions.
+	
+	* c128/c128.c, c64/c64.c, pet/pet.c, vic20/vic20.c: Removed
+ 	various stubs functions formerly introduced on RISC OS (these were
+ 	moved to arch/riscos).
+	  
+	* c128/c128.c, c64/c64.c, vic20/vic20.c, cbm2/c610.c: Don't
+ 	include unistd.h on RISC OS.
+	
+	* cbm2/c610mem.c: Made chargen and basic names into makros with
+ 	different initialisiers for RISC OS / other platforms.
+	
+	* drive/drive.c: Split function GCR_data_writeback into two
+ 	functions because I got internal compiler errors when compiling
+ 	with optimization on GCC 2.7.2.
+
+	* pets.c: Changed one remaining printf to fprintf(logfile,...)
+	
+	* sid.c: Changed synthesis code and table initializers to allow
+ 	fixpoint code.  On all platforms but RISC OS this translates to
+ 	exactly the same code as before.  Use vreal_t as the
+ 	float/fixpoint type, REAL_VALUE(x) to init a vreal_t number with
+ 	x, REAL_TO_INT(y) to transform a vreal_t number y to an int and
+ 	REAL_MULT(x,y) to multiply two vreal_t numbers.
+
+	* sounddrv/soundacorn.c: New file.
+
+	* raster.c: Corrected order of (i < length) statements (Array
+ 	Bound Reads in Purify).
+	
+	* c128/c128.c, c64/c64mem.c, drive/drive.c: Set m to NULL after a
+ 	successful call to snapshot_module_close (which frees m).
+  	Otherwise you can get Free Memory reads (Purify).
+
+1998-11-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* fs_cbm.h: Added drive constants for 1571 and 1581 drives.
+
+	* vdrive.c (floppy_free_block_count): Count free blocks for 1571
+	and 1581 as well.
+	(do_validate, alloc_next_free_sector): Use 1541 constants.
+	(find_next_directory_sector): New function.
+	(find_next_slot): Made 1571 and 1581 aware.
+
 1998-11-24  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/tuiimagebrowser.c (tui_image_browser): Help message
+ 	at the bottom of the screen.
+	(tui_image_browser): Do not react to left and right cursor keys
+ 	anymore.  Page Down, Page Up, Home and End now work as expected
+ 	too.
+
+	* autostart.c (load_snapshot_trap): Do not use
+ 	`autostart_program_name' inappropriately anymore.
+	(disk_attention_callback): Pass PETSCII strings instead of ASCII
+ 	to `kbd_buf_feed'.
+	(autostart_advance): Likewise.
+
+	* kbdbuf.c: Type of `queue' changed to `BYTE'.
+	(kbd_buf_feed): Type of parameter `s' changed from `const char *'
+ 	to `const BYTE *'.
+	(kbd_buf_flush): Do not convert from ASCII to PETSCII anymore.
+
+	* arch/msdos/kbd.c (menu_trap): Shut down compiler with an
+	additional cast.
+
+	* utils.c (spawn) [__MSDOS__]: Close file descriptors properly.
 
 	* Version 0.15.0.30.
 

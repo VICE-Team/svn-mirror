@@ -37,7 +37,7 @@
 #undef	DEBUG
 
 static int acia_ticks = 21111;	/* number of clock ticks per char */
-static int fd = ILLEGAL_FILE_DESC;
+static file_desc_t fd = ILLEGAL_FILE_DESC;
 static int intx = 0;	/* indicates that a transmit is currently ongoing */
 static int irq = 0;
 static BYTE cmd;
@@ -264,7 +264,7 @@ int acia1_read_snapshot_module(snapshot_t * p)
     } else
         if(fd>=0 && !(cmd&1)) {
         rs232_close(fd);
-        fd = -1;
+        fd = ILLEGAL_FILE_DESC;
     }
 
     snapshot_module_read_byte(m, &ctrl);

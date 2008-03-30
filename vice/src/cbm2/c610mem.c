@@ -100,6 +100,18 @@ static BYTE crtc_ptr = 0;
 /* prototype */
 void set_screen(void);
 
+#ifdef __riscos
+#define CBM2_CHARGEN600 "chargen/600"
+#define CBM2_CHARGEN700 "chargen/700"
+#define CBM2_BASIC128   "basic/128"
+#define CBM2_BASIC256   "basic/256"
+#else
+#define CBM2_CHARGEN600 "chargen.600"
+#define CBM2_CHARGEN700 "chargen.700"
+#define CBM2_BASIC128   "basic.128"
+#define CBM2_BASIC256   "basic.256"
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 static int ramsize;
@@ -312,11 +324,11 @@ static int set_cartC_ram(resource_value_t v)
 static resource_t resources[] = {
     {"RamSize", RES_INTEGER, (resource_value_t) 128,
      (resource_value_t *) & ramsize, set_ramsize},
-    { "ChargenName", RES_STRING, (resource_value_t) "chargen.600",
+    { "ChargenName", RES_STRING, (resource_value_t) CBM2_CHARGEN600,
      (resource_value_t *) &chargen_name, set_chargen_rom_name },
     { "KernalName", RES_STRING, (resource_value_t) "kernal",
      (resource_value_t *) &kernal_rom_name, set_kernal_rom_name },
-    { "BasicName", RES_STRING, (resource_value_t) "basic.128",
+    { "BasicName", RES_STRING, (resource_value_t) CBM2_BASIC128,
      (resource_value_t *) &basic_rom_name, set_basic_rom_name },
     { "Cart1Name", RES_STRING, (resource_value_t) NULL,
      (resource_value_t *) &cart_1_name, set_cart1_rom_name },
@@ -423,12 +435,12 @@ static struct {
 	const char *charrom;
 	int line;	/* 0=7x0 (50 Hz), 1=6x0 60Hz, 2=6x0 50Hz */
     } modtab[] = {
-    { "610",  128,  "basic.128", "chargen.600", 2  },
-    { "620",  256,  "basic.256", "chargen.600", 2  },
-    { "620+", 1024, "basic.256", "chargen.600", 2  },
-    { "710",  128,  "basic.128", "chargen.700", 0  },
-    { "720",  256,  "basic.256", "chargen.700", 0  },
-    { "720+", 1024, "basic.256", "chargen.700", 0  },
+    { "610",  128,  CBM2_BASIC128, CBM2_CHARGEN600, 2  },
+    { "620",  256,  CBM2_BASIC256, CBM2_CHARGEN600, 2  },
+    { "620+", 1024, CBM2_BASIC256, CBM2_CHARGEN600, 2  },
+    { "710",  128,  CBM2_BASIC128, CBM2_CHARGEN700, 0  },
+    { "720",  256,  CBM2_BASIC256, CBM2_CHARGEN700, 0  },
+    { "720+", 1024, CBM2_BASIC256, CBM2_CHARGEN700, 0  },
     { NULL }
 };
 
