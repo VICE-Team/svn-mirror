@@ -385,7 +385,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
             /* (-0xffff makes sure it's updated NOW.) */
             vic_ii_sprites_set_x_position(i, tmp, -0xffff);
 
-            sprite->y = (int) vic_ii.regs[i * 2 + 1];
+            sprite->y = (int)vic_ii.regs[i * 2 + 1];
             sprite->x_expanded = (int)(vic_ii.regs[0x1d] & msk);
             sprite->y_expanded = (int)(vic_ii.regs[0x17] & msk);
             sprite->multicolor = (int)(vic_ii.regs[0x1c] & msk);
@@ -397,6 +397,8 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
     }
 
     vic_ii.sprite_fetch_msk = vic_ii.raster.sprite_status->new_dma_msk;
+    vic_ii.sprite_fetch_clk = (VIC_II_LINE_START_CLK(maincpu_clk)
+                              + vic_ii.sprite_fetch_cycle);
 
     vic_ii.raster.xsmooth = vic_ii.regs[0x16] & 0x7;
     vic_ii.raster.ysmooth = vic_ii.regs[0x11] & 0x7;
