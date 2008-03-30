@@ -378,6 +378,23 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
 #endif
 
+#if defined __X64__ || defined __X128__ || defined __XVIC__
+    case IDM_PAL:
+        resources_set_value("VideoStandard",
+                            (resource_value_t*) DRIVE_SYNC_PAL);
+        return;
+    case IDM_NTSC:
+        resources_set_value("VideoStandard",
+                            (resource_value_t*) DRIVE_SYNC_NTSC);
+        return;
+#ifdef __X64__
+    case IDM_NTSCOLD:
+        resources_set_value("VideoStandard",
+                            (resource_value_t*) DRIVE_SYNC_NTSCOLD);
+        return;
+#endif // __X64__
+#endif //  __X64__ || __X128__ || __XVIC__
+
 #if defined __X64__ || defined __X128__
         /*
     case IDM_KERNALREV0:
@@ -400,21 +417,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         toggle("CheckSsColl");
         return;
 
-    case IDM_PAL:
-        resources_set_value("VideoStandard",
-                            (resource_value_t*) DRIVE_SYNC_PAL);
-        return;
-    case IDM_NTSC:
-        resources_set_value("VideoStandard",
-                            (resource_value_t*) DRIVE_SYNC_NTSC);
-        return;
-#ifdef __X64__
-    case IDM_NTSCOLD:
-        resources_set_value("VideoStandard",
-                            (resource_value_t*) DRIVE_SYNC_NTSCOLD);
-        return;
-#endif // __X64__
-
     case IDM_REU:
         toggle("REU");
         return;
@@ -431,7 +433,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
                             (resource_value_t*)((idm&0xff)<<7));
         return;
 #endif // __X64__ || __X128__
-
+#ifdef HAVE_MOUSE
     case IDM_MOUSE:
         toggle("Mouse");
         return;
@@ -439,6 +441,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_HIDEMOUSE:
         toggle("HideMousePtr");
         return;
+#endif // HAVE_MOUSE
 
     case IDM_PRT4IEC:
     case IDM_PRT5IEC:
@@ -954,7 +957,7 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
         return;
 
-#if defined __X64__ || defined __X128__
+#if defined __X64__ || defined __X128__ || defined __XVIC__
         /*
          //
          // A change online is not possible yet.
@@ -986,8 +989,10 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_CRTCDSIZE, "CrtcDoubleSize");
         WinCheckRes(hwnd, IDM_CRTCDSCAN, "CrtcDoubleScan");
 #endif
+#ifdef HAVE_MOUSE
         WinCheckRes(hwnd, IDM_MOUSE,     "Mouse");
         WinCheckRes(hwnd, IDM_HIDEMOUSE, "HideMousePtr");
+#endif // HAVE_MOUSE
         //WinCheckRes(hwnd, IDM_PRTIEC,    "Printer4");
         //WinCheckRes(hwnd, IDM_PRTUPORT,  "PrUser");
         WinCheckRes(hwnd, IDM_EMUID,     "EmuID");

@@ -33,6 +33,7 @@
 //  --------------- Resource Definitions ----------------
 //
 #define IDM_VICE2      0x0001
+//#define PTR_VICE2      0x0002
 #define DLG_DRIVE      0x1019
 #define DLG_ABOUT      0x1050
 #define DLG_COLOR      0x1051

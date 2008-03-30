@@ -1,0 +1,15 @@
+source type(c)
+    "cart\\actionreplay.c",
+    "cart\\atomicpower.c",
+    "cart\\c64cart.c",
+    "cart\\c64cartmem.c",
+    "cart\\crt.c",
+    "cart\\epyxfastload.c",
+    "cart\\expert.c",
+    "cart\\final.c",
+    "cart\\generic.c",
+    "cart\\kcs.c",
+    "cart\\retroreplay.c",
+    "cart\\supergames.c",
+    "cart\\supersnapshot.c",
+    "cart\\zaxxon.c"

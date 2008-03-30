@@ -68,7 +68,7 @@ BYTE basic_rom[PLUS4_BASIC_ROM_SIZE];
 BYTE kernal_rom[PLUS4_KERNAL_ROM_SIZE];
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
-static int rom_loaded = 0;
+static int plus4_rom_loaded = 0;
 
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
@@ -445,7 +445,7 @@ int mem_load_kernal(const char *rom_name)
 {
     int trapfl;
 
-    if (!rom_loaded)
+    if (!plus4_rom_loaded)
         return 0;
 
     /* Make sure serial code assumes there are no traps installed.  */
@@ -471,7 +471,7 @@ int mem_load_kernal(const char *rom_name)
 
 int mem_load_basic(const char *rom_name)
 {
-    if (!rom_loaded)
+    if (!plus4_rom_loaded)
         return 0;
 
     /* Load Basic ROM.  */
@@ -495,7 +495,7 @@ int mem_load(void)
     if (plus4_mem_log == LOG_ERR)
         plus4_mem_log = log_open("PLUS4MEM");
 
-    rom_loaded = 1;
+    plus4_rom_loaded = 1;
 
     if (resources_get_value("KernalName", (resource_value_t)&rom_name) < 0)
         return -1;

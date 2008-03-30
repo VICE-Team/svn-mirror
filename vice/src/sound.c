@@ -85,7 +85,7 @@ int sound_state_changed;
 int sid_state_changed;
 
 /* Sample based or cycle based sound engine. */
-static int cycle_based;
+static int cycle_based = 0;
 
 static int set_playback_enabled(resource_value_t v, void *param)
 {
@@ -367,6 +367,7 @@ static int sid_init(void)
 {
     int c, speed;
 
+#ifdef HAVE_RESID
     /* Special handling for cycle based as opposed to sample based sound
        engines. reSID is cycle based. */
     resources_get_value("SidUseResid", (resource_value_t*)&cycle_based);
@@ -383,7 +384,9 @@ static int sid_init(void)
     }
     /* For sample based sound engines, both simple average filtering
        and sample rate conversion is handled here. */
-    else {
+    else
+#endif
+    {
         snddata.oversampleshift = oversampling_factor;
 	snddata.oversamplenr = 1 << snddata.oversampleshift;
 	speed = sample_rate*snddata.oversamplenr;
@@ -594,7 +597,7 @@ static int sound_run_sound(void)
 						 snddata.channels,
 						 &delta_t);
 	    if (delta_t) {
-	        return sound_error("sound buffer overflow.");
+	        return sound_error("Sound buffer overflow (cycle based)");
 	    }
 	}
     }
@@ -604,7 +607,7 @@ static int sound_run_sound(void)
 	if (!nr)
 	    return 0;
 	if (snddata.bufptr + nr > BUFSIZE) {
-	    return sound_error("sound buffer overflow.");
+	    return sound_error("Sound buffer overflow.");
 	}
 	for (c = 0; c < snddata.channels; c++) {
 	    sound_machine_calculate_samples(snddata.psid[c],

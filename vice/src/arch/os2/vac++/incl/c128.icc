@@ -1,13 +1,14 @@
 source type(c)
+    "c128-cmdline-options.c",
+    "c128-resources.c",
     "c128.c",
     "c128cia1.c",
     "c128cpu.c",
     "c128iec.c",
     "c128mem.c",
+    "c128memlimit.c",
     "c128mmu.c",
-    "c128-resources.c",
-    "c128-cmdline-options.c",
     "daa.c",
+    "functionrom.c",
     "z80.c",
-    "z80mem.c",
-    "functionrom.c"
+    "z80mem.c"

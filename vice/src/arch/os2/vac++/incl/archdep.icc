@@ -4,7 +4,6 @@ source type(c)
     "ui.c",
     "kbd.c",
     "video.c",
-    "mouse.c",
     "uimon.c",
     "console.c",
     "archdep.c",

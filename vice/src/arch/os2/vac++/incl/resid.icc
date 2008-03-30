@@ -11,4 +11,4 @@ source type(c)
    "sid.c"
 
 source type(lib) 
-   "resid.lib"
+   "../resid.lib"

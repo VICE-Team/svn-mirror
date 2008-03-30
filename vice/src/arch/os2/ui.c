@@ -237,6 +237,7 @@ void ui_error(const char *format,...)
     txt = concat(" Error in emulation thread:\n ", tmp, NULL);
     free(tmp);
 
+    log_message(LOG_DEFAULT, txt);
     ViceErrorDlg(HWND_DESKTOP, PTR_SKULL, txt);
 
     free(txt);

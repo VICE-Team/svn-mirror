@@ -1,5 +1,6 @@
 source type(c)
 	"vic-cmdline-options.c",
+        "vic-color.c",
 	"vic-draw.c",
 	"vic-mem.c",
 	"vic-resources.c",

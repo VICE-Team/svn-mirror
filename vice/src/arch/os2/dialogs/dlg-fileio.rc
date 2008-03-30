@@ -27,7 +27,7 @@
 #include "dialogs.h"
 #include "dlg-fileio.h"  
 
-BITMAP DID_DIRUP "..\\icons\\dirup.bmp"
+BITMAP DID_DIRUP "..\\..\\icons\\dirup.bmp"
 
 DLGTEMPLATE DLG_FILEIO 850 MOVEABLE DISCARDABLE
 BEGIN

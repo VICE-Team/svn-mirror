@@ -132,7 +132,19 @@ BEGIN
       MENUITEM "Video ~Cache",         IDM_VCACHE,       MIS_TEXT
 #ifdef __X128__      
       MENUITEM "VDC Video Cache",      IDM_VDCVCACHE,    MIS_TEXT
-#endif      
+#endif 
+#ifdef VIC_NEED_2X
+      MENUITEM "VIC Double Size",      IDM_VICDSIZE,     MIS_TEXT
+      MENUITEM "VIC Double Scan",      IDM_VICDSCAN,     MIS_TEXT
+#endif
+#ifdef VIC_II_NEED_2X
+      MENUITEM "VIC-II Double Size",   IDM_VICDSIZE,     MIS_TEXT
+      MENUITEM "VIC-II Double Scan",   IDM_VICDSCAN,     MIS_TEXT
+#endif
+#if defined CRTC_NEED_2X
+      MENUITEM "Crtc Double Size",     IDM_CRTCDSIZE,    MIS_TEXT
+      MENUITEM "Crtc Double Scan",     IDM_CRTCDSCAN,    MIS_TEXT
+#endif
       SUBMENU "~Refresh Rate Ratio",   IDM_REFRATE,      MIS_TEXT
       BEGIN
          MENUITEM "1/~1",              IDM_REFRATE1,     MIS_TEXT
@@ -170,18 +182,13 @@ BEGIN
          MENUITEM "~old NTSC-M",           IDM_NTSCOLD,  MIS_TEXT
 #endif // __X64__
       END
+#endif
+#if defined __X64__ || defined __X128__
       SUBMENU "Sprite Collision ~Detection",  IDM_COLLISION,   MIS_TEXT
       BEGIN
         MENUITEM "Sprite-~Sprite",            IDM_SSCOLL,      MIS_TEXT
         MENUITEM "Sprite-~Background",        IDM_SBCOLL,      MIS_TEXT
       END
-#if defined __X64__ || defined __X128__ || defined __XCBM__
-      SUBMENU "V~IC-II Palette Control",      IDM_PALCONTROL,  MIS_TEXT
-      BEGIN
-        MENUITEM "Internal Palette",          IDM_INTERNALPAL, MIS_TEXT
-        MENUITEM "New Luminacees",            IDM_LUMINANCES,  MIS_TEXT
-      END
-#endif
 /*
       SUBMENU "Kernal Revision",  IDM_KERNALREV, MIS_TEXT
       BEGIN
@@ -192,6 +199,13 @@ BEGIN
       END
       */
 #endif // __X64__ || __X128__
+#if defined __X64__ || defined __X128__ || defined __XCBM__
+      SUBMENU "V~IC-II Palette Control",      IDM_PALCONTROL,  MIS_TEXT
+      BEGIN
+        MENUITEM "Internal Palette",          IDM_INTERNALPAL, MIS_TEXT
+        MENUITEM "New Luminacees",            IDM_LUMINANCES,  MIS_TEXT
+      END
+#endif
       MENUITEM SEPARATOR
       SUBMENU  "Printer ~Emulation",   IDM_PRINTER,     MIS_TEXT
       BEGIN
@@ -244,17 +258,16 @@ BEGIN
 #endif // HAVE_MOUSE
       MENUITEM SEPARATOR
 #if defined __XVIC__ || defined __X128__
-#ifdef __XVIC__
       MENUITEM "VIC-1112 IEEE~488 Interface",      IDM_IEEE,       MIS_TEXT
-#else
+#endif // __XVIC__ || __X128__
+#ifdef __X128__
       SUBMENU "Enable F~unction ROM",              IDM_FUNCROM,    MIS_TEXT
       BEGIN                                                       
          MENUITEM "~Internal",                     IDM_INTFUNCROM, MIS_TEXT
          MENUITEM "~External",                     IDM_EXTFUNCROM, MIS_TEXT
       END
       MENUITEM "I~EEE488 Interface",               IDM_IEEE,       MIS_TEXT
-#endif
-#endif // __X128__ || __XVIC__      
+#endif // __X128__
 #ifdef __XCBM__
       SUBMENU "Model",           IDM_MODEL,      MIS_TEXT
       BEGIN
@@ -423,6 +436,7 @@ BEGIN
        MENUITEM "~SID - File",          IDM_DEVSID,       MIS_TEXT
        MENUITEM "~WAV - File",          IDM_DEVWAV,       MIS_TEXT
        MENUITEM "~RAW - File",          IDM_DEVRAW,       MIS_TEXT
+       MENUITEM "Dumm~y Driver - NUL",  IDM_DEVDUMMY,     MIS_TEXT
      END
 #ifdef HAVE_RESID
      MENUITEM SEPARATOR
