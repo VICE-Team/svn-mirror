@@ -41,6 +41,8 @@ extern int event_record_start(void);
 extern int event_record_stop(void);
 extern int event_playback_start(void);
 extern int event_playback_stop(void);
+extern int event_record_active(void);
+extern int event_playback_active(void);
 
 extern void event_record(unsigned int type, void *data, unsigned int size);
 

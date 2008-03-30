@@ -66,7 +66,7 @@ static alarm_t event_alarm;
 
 static log_t event_log = LOG_DEFAULT;
 
-static unsigned int event_playback_active = 0, event_record_active = 0;
+static unsigned int playback_active = 0, record_active = 0;
 
 static char *event_start_snapshot = NULL;
 static char *event_end_snapshot = NULL;
@@ -75,9 +75,9 @@ void event_record(unsigned int type, void *data, unsigned int size)
 {
     void *event_data = NULL;
 
-    if (event_record_active == 0)
+    if (record_active == 0)
         return;
-
+printf("EVENT RECORD %i\n",type);
     switch (type) {
       case EVENT_KEYBOARD_MATRIX:
       case EVENT_JOYSTICK_VALUE:
@@ -101,7 +101,7 @@ void event_record(unsigned int type, void *data, unsigned int size)
 static void event_alarm_handler(CLOCK offset)
 {
     alarm_unset(&event_alarm);
-
+printf("EVENT PLAYBACK %i\n",event_list_current->type);
     switch (event_list_current->type) {
       case EVENT_KEYBOARD_MATRIX:
         keyboard_event_playback(offset, event_list_current->data);
@@ -117,6 +117,8 @@ static void event_alarm_handler(CLOCK offset)
 
     if (event_list_current->next != NULL)
         alarm_set(&event_alarm, event_list_current->clk);
+    else
+        event_playback_stop();
 }
 
 /*-----------------------------------------------------------------------*/
@@ -153,15 +155,15 @@ static void event_record_start_trap(ADDRESS addr, void *data)
     destroy_list();
     create_list();
 
-    event_record_active = 1;
+    record_active = 1;
 }
 
 int event_record_start(void)
 {
-    if (event_playback_active != 0)
+    if (playback_active != 0)
         return -1;
 
-    if (event_record_active != 0)
+    if (record_active != 0)
         return -1;
 
     interrupt_maincpu_trigger_trap(event_record_start_trap, (void *)0);
@@ -173,12 +175,12 @@ static void event_record_stop_trap(ADDRESS addr, void *data)
 {
     machine_write_snapshot(event_end_snapshot, 1, 1, 1);
 
-    event_record_active = 0;
+    record_active = 0;
 }
 
 int event_record_stop(void)
 {
-    if (event_record_active == 0)
+    if (record_active == 0)
         return -1;
 
     interrupt_maincpu_trigger_trap(event_record_stop_trap, (void *)0);
@@ -211,7 +213,7 @@ static void event_playback_start_trap(ADDRESS addr, void *data)
 
     event_list_current = event_list_base;
 
-    event_playback_active = 1;
+    playback_active = 1;
 
     if (event_list_current->next != NULL)
         alarm_set(&event_alarm, event_list_current->clk);
@@ -220,10 +222,10 @@ static void event_playback_start_trap(ADDRESS addr, void *data)
 
 int event_playback_start(void)
 {
-    if (event_record_active != 0)
+    if (record_active != 0)
         return -1;
 
-    if (event_playback_active != 0)
+    if (playback_active != 0)
         return -1;
 
     interrupt_maincpu_trigger_trap(event_playback_start_trap, (void *)0);
@@ -233,14 +235,26 @@ int event_playback_start(void)
 
 int event_playback_stop(void)
 {
-    if (event_playback_active == 0)
+    if (playback_active == 0)
         return -1;
 
-    event_playback_active = 0;
+    playback_active = 0;
 
     alarm_unset(&event_alarm);
 
     return 0;
+}
+
+/*-----------------------------------------------------------------------*/
+
+int event_record_active(void)
+{
+    return record_active;
+}
+
+int event_playback_active(void)
+{
+    return playback_active;
 }
 
 /*-----------------------------------------------------------------------*/
@@ -374,7 +388,14 @@ int event_resources_init(void)
 
 /*-----------------------------------------------------------------------*/
 
+static int cmdline_help(const char *param, void *extra_param)
+{
+    return event_playback_start();
+}
+
 static cmdline_option_t cmdline_options[] = {
+    { "-playback", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
+      NULL, "Playback recorded events" },
     { NULL }
 };
 

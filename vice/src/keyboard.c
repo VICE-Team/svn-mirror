@@ -201,6 +201,9 @@ static int left_shift_down, right_shift_down, virtual_shift_down;
 
 void keyboard_key_pressed(signed long key)
 {
+    if (event_playback_active())
+        return;
+
     /* Restore */
     if (((key == key_ctrl_restore1) || (key == key_ctrl_restore2))
         && machine_set_restore_key(1))
@@ -232,11 +235,13 @@ void keyboard_key_pressed(signed long key)
                 int column = keyconvmap[i].column;
 
                 if (row >= 0) {
-                    keyboard_set_keyarr(row, column, 1);
+                    keyboard_set_latch_keyarr(row, column, 1);
 
                     if (keyconvmap[i].shift == NO_SHIFT) {
-                        keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
-                        keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
+                        keyboard_set_latch_keyarr(kbd_lshiftrow,
+                                                  kbd_lshiftcol, 0);
+                        keyboard_set_latch_keyarr(kbd_rshiftrow,
+                                                  kbd_rshiftcol, 0);
                     } else {
                         if (keyconvmap[i].shift & VIRTUAL_SHIFT)
                             virtual_shift_down = 1;
@@ -244,15 +249,18 @@ void keyboard_key_pressed(signed long key)
                             left_shift_down = 1;
                         if (left_shift_down > 0
                             || (virtual_shift_down > 0 && vshift == KEY_LSHIFT))
-                            keyboard_set_keyarr(kbd_lshiftrow,
-                                                kbd_lshiftcol, 1);
+                            keyboard_set_latch_keyarr(kbd_lshiftrow,
+                                                      kbd_lshiftcol, 1);
                         if (keyconvmap[i].shift & RIGHT_SHIFT)
                             right_shift_down = 1;
                         if (right_shift_down > 0
                             || (virtual_shift_down > 0 && vshift == KEY_RSHIFT))
-                            keyboard_set_keyarr(kbd_rshiftrow,
-                                                kbd_rshiftcol, 1);
+                            keyboard_set_latch_keyarr(kbd_rshiftrow,
+                                                      kbd_rshiftcol, 1);
                     }
+
+                    alarm_set(&keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
+
                     return;
                 }
             }
@@ -262,6 +270,9 @@ void keyboard_key_pressed(signed long key)
 
 void keyboard_key_released(signed long key)
 {
+    if (event_playback_active())
+        return;
+
     /* Restore */
     if (((key == key_ctrl_restore1) || (key == key_ctrl_restore2))
         && machine_set_restore_key(0))
@@ -281,34 +292,46 @@ void keyboard_key_released(signed long key)
                 int column = keyconvmap[i].column;
 
                 if (row >= 0) {
-                    keyboard_set_keyarr(row, column, 0);
+                    keyboard_set_latch_keyarr(row, column, 0);
                     if (keyconvmap[i].shift & VIRTUAL_SHIFT)
                         virtual_shift_down = 0;
                     if (keyconvmap[i].shift & LEFT_SHIFT)
                         left_shift_down = 0;
                     if (keyconvmap[i].shift & RIGHT_SHIFT)
                         right_shift_down = 0;
+
+                    /* Map shift keys. */
+                    if (right_shift_down > 0
+                        || (virtual_shift_down > 0 && vshift == KEY_RSHIFT))
+                        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol,
+                                                  1);
+                    else
+                        keyboard_set_latch_keyarr(kbd_rshiftrow, kbd_rshiftcol,
+                                                  0);
+
+                    if (left_shift_down > 0
+                        || (virtual_shift_down > 0 && vshift == KEY_LSHIFT))
+                        keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol,
+                                                  1);
+                    else
+                        keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol,
+                                                  0);
+
+                    alarm_set(&keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
+
                 }
             }
         }
     }
 
-    /* Map shift keys. */
-    if (right_shift_down > 0
-        || (virtual_shift_down > 0 && vshift == KEY_RSHIFT))
-        keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 1);
-    else
-        keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 0);
-    if (left_shift_down > 0
-        || (virtual_shift_down > 0 && vshift == KEY_LSHIFT))
-        keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 1);
-    else
-        keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
-    return;                     /* KeyRelease */
+    return;
 }
 
 void keyboard_key_clear(void)
 {
+    if (event_playback_active())
+        return;
+
     keyboard_clear_keymatrix();
     joystick_clear_all();
     virtual_shift_down = left_shift_down = right_shift_down = 0;

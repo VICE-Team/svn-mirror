@@ -1,3 +1,38 @@
+2003-01-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.41.
+
+	* vicii/vicii-mem.c, vicii/viciitypes.h [last_read_d019]: Made
+	generic.  (read_d01112): New function.
+	(store_d011, store_d012): Changed IRQ code.
+
+	* vicii/vicii-irq.c, vicii/vicii-irq.h
+	(vicii_irq_check_state): Fixed $d011 RMW access.
+
+	* keyboard.c (keyboard_key_pressed, keyboard_key_released,
+	keyboard_key_clear): Only set keyboard alarm once per frame
+	and skip incoming events if playback is active.
+
+	* event.c, event.h (event_record_active,
+	event_playback_active): New functions.
+
+	* debug.c, debug.h (debug_drive, debug_text): New functions.
+
+	* 6510core.c: Use debug_* functions for logging.
+
+	* drive/drivetypes.h, vicii/viciitypes.h,
+	vicii/vicii-snapshot.c, crtc/crtctypes.h,
+	crtc/crtc-snapshot.c, vdc/vdctypes.h, plus4/tedtypes.h,
+	vic20/vic.h, vic20/vic-snapshot.c, drive/drive.h,
+	drive/drivecpu.c, drive/driveimage.c, drive/via1d.c,
+	drive/via2d.c, cbm2/cbm2iec.c: Changed `log.h' includes.
+
+	* vic20/vic.h, vic20/vic20.c, vic20/vic.c, vic20/vic20mem.c,
+	crtc/crtctypes.h: Changed includes.
+
+	* sid/sid.c, sid/sid.h, sid/sid-snapshot.c: Removed the
+	dependancy of `sound.h' from `sid.h'.
+
 2003-01-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.40.
