@@ -59,7 +59,6 @@
 #include "charsets.h"
 #include "drivecpu.h"
 #include "file.h"
-#include "misc.h"
 #include "interrupt.h"
 #include "resources.h"
 #include "vsync.h"
@@ -1054,9 +1053,9 @@ void mon_print_help(char *cmd)
    }
 }
 
+/* ------------------------------------------------------------------------- */
 
-/* *** ASSEMBLY/DISASSEMBLY *** */
-
+/* Assembler.  */
 
 void mon_start_assemble_mode(MON_ADDR addr, char *asm_line)
 {
@@ -1082,32 +1081,38 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
    /* FIXME (???) : It is impossible to specify absolute mode if the
     * address < 0x100 and there is a zero page mode available.
     */
-   for (i=0;i<=0xff;i++) {
-      if (!strcasecmp(lookup[i].mnemonic, opcode_name)) {
-         if (lookup[i].addr_mode == operand_mode) {
+   for (i = 0; i <= 0xff; i++) {
+      asm_opcode_info_t *opinfo;
+
+      opinfo = asm_opcode_info_get(i);
+      if (!strcasecmp(opinfo->mnemonic, opcode_name)) {
+         if (opinfo->addr_mode == operand_mode) {
             opcode = i;
             found = TRUE;
             break;
          }
 
          /* Special case: Register A not specified for ACCUMULATOR mode. */
-         if ( (operand_mode == IMPLIED) && (lookup[i].addr_mode == ACCUMULATOR) ) {
+         if (operand_mode == ASM_ADDR_MODE_IMPLIED
+             && opinfo->addr_mode == ASM_ADDR_MODE_ACCUMULATOR) {
             opcode = i;
-            operand_mode = ACCUMULATOR;
+            operand_mode = ASM_ADDR_MODE_ACCUMULATOR;
             found = TRUE;
             break;
          }
 
-         /* Special case: RELATIVE mode looks like ZERO_PAGE or ABSOLUTE modes */
-         if ( ((operand_mode == ZERO_PAGE) || (operand_mode == ABSOLUTE)) &&
-              (lookup[i].addr_mode == RELATIVE)) {
+         /* Special case: RELATIVE mode looks like ZERO_PAGE or ABSOLUTE
+            modes.  */
+         if ((operand_mode == ASM_ADDR_MODE_ZERO_PAGE
+              || operand_mode == ASM_ADDR_MODE_ABSOLUTE)
+             && opinfo->addr_mode == ASM_ADDR_MODE_RELATIVE) {
             branch_offset = operand_value - loc - 2;
-            if ( (branch_offset > 127) || (branch_offset < -128) ) {
-               fprintf(mon_output, "Branch offset too large\n");
+            if (branch_offset > 127 || branch_offset < -128) {
+               fprintf(mon_output, "Branch offset too large.\n");
                return -1;
             }
             operand_value = (branch_offset & 0xff);
-            operand_mode = RELATIVE;
+            operand_mode = ASM_ADDR_MODE_RELATIVE;
             opcode = i;
             found = TRUE;
             break;
@@ -1115,9 +1120,10 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
 
          /* Special case: opcode A - is A a register or $A? */
          /*   If second case, is it zero page or absolute?  */
-         if (operand_mode == ACCUMULATOR && (lookup[i].addr_mode == ZERO_PAGE)) {
+         if (operand_mode == ASM_ADDR_MODE_ACCUMULATOR
+             && opinfo->addr_mode == ASM_ADDR_MODE_ZERO_PAGE) {
             opcode = i;
-            operand_mode = ZERO_PAGE;
+            operand_mode = ASM_ADDR_MODE_ZERO_PAGE;
             operand_value = 0x000a;
             found = TRUE;
             break;
@@ -1125,9 +1131,10 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
          /* It's safe to assume ABSOULTE if ZERO_PAGE not yet found since ZERO_PAGE
           * versions always precede ABSOLUTE versions if they exist.
           */
-         if (operand_mode == ACCUMULATOR && (lookup[i].addr_mode == ABSOLUTE)) {
+         if (operand_mode == ASM_ADDR_MODE_ACCUMULATOR
+             && opinfo->addr_mode == ASM_ADDR_MODE_ABSOLUTE) {
             opcode = i;
-            operand_mode = ABSOLUTE;
+            operand_mode = ASM_ADDR_MODE_ABSOLUTE;
             operand_value = 0x000a;
             found = TRUE;
             break;
@@ -1141,7 +1148,7 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
       return -1;
    }
 
-   len = clength[operand_mode];
+   len = asm_addr_mode_get_size(operand_mode);
 
    /* EP 98.08.23 use correct memspace for assembling.  */
    set_mem_val(mem, loc, opcode);
@@ -1159,6 +1166,124 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
    return len;
 }
 
+/* ------------------------------------------------------------------------- */
+
+const char *mon_disassemble_to_string(ADDRESS addr,
+                                      BYTE x, BYTE p1, BYTE p2, int hex_mode)
+{
+    static char buff[256];
+    const char *string;
+    char *buffp, *addr_name;
+    int addr_mode;
+    int ival;
+    asm_opcode_info_t *opinfo;
+
+    ival = p1 & 0xFF;
+
+    buffp = buff;
+
+    opinfo = asm_opcode_info_get(x);
+    string = opinfo->mnemonic;
+    addr_mode = opinfo->addr_mode;
+
+    sprintf(buff, "$%02X %s", x, string); /* Print opcode and mnemonic. */
+    while (*++buffp)
+        ;
+
+    switch (addr_mode) {
+
+	/* Print arguments of the machine instruction. */
+
+      case ASM_ADDR_MODE_IMPLIED:
+	break;
+
+      case ASM_ADDR_MODE_ACCUMULATOR:
+	sprintf(buffp, " A");
+	break;
+
+      case ASM_ADDR_MODE_IMMEDIATE:
+	sprintf(buffp, (hex_mode ? " #$%02X" : " %3d"), ival);
+	break;
+
+      case ASM_ADDR_MODE_ZERO_PAGE:
+	sprintf(buffp, (hex_mode ? " $%02X" : " %3d"), ival);
+	break;
+
+      case ASM_ADDR_MODE_ZERO_PAGE_X:
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
+	   sprintf(buffp, (hex_mode ? " $%02X,X" : " %3d,X"), ival);
+        else
+	   sprintf(buffp, " %s,X", addr_name);
+	break;
+
+      case ASM_ADDR_MODE_ZERO_PAGE_Y:
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
+	   sprintf(buffp, (hex_mode ? " $%02X,Y" : " %3d,Y"), ival);
+        else
+	   sprintf(buffp, " %s,Y", addr_name);
+	break;
+
+      case ASM_ADDR_MODE_ABSOLUTE:
+	ival |= ((p2 & 0xFF) << 8);
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
+	   sprintf(buffp, (hex_mode ? " $%04X" : " %5d"), ival);
+        else
+	   sprintf(buffp, " %s", addr_name);
+	break;
+
+      case ASM_ADDR_MODE_ABSOLUTE_X:
+	ival |= ((p2 & 0xFF) << 8);
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
+	   sprintf(buffp, (hex_mode ? " $%04X,X" : " %5d,X"), ival);
+        else
+	   sprintf(buffp, " %s,X", addr_name);
+	break;
+
+      case ASM_ADDR_MODE_ABSOLUTE_Y:
+	ival |= ((p2 & 0xFF) << 8);
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
+	   sprintf(buffp, (hex_mode ? " $%04X,Y" : " %5d,Y"), ival);
+        else
+	   sprintf(buffp, " %s,Y", addr_name);
+	break;
+
+      case ASM_ADDR_MODE_INDIRECT_X:
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
+	   sprintf(buffp, (hex_mode ? " ($%02X,X)" : " (%3d,X)"), ival);
+        else
+	   sprintf(buffp, " (%s,X)", addr_name);
+	break;
+
+      case ASM_ADDR_MODE_INDIRECT_Y:
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
+	   sprintf(buffp, (hex_mode ? " ($%02X),Y" : " (%3d),Y"), ival);
+        else
+	   sprintf(buffp, " (%s),Y", addr_name);
+	break;
+
+      case ASM_ADDR_MODE_ABS_INDIRECT:
+	ival |= ((p2 & 0xFF) << 8);
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
+	   sprintf(buffp, (hex_mode ? " ($%04X)" : " (%5d)"), ival);
+        else
+	   sprintf(buffp, " (%s)", addr_name);
+	break;
+
+      case ASM_ADDR_MODE_RELATIVE:
+	if (0x80 & ival)
+	    ival -= 256;
+	ival += addr;
+	ival += 2;
+        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
+	   sprintf(buffp, (hex_mode ? " $%04X" : " %5d"), ival);
+        else
+	   sprintf(buffp, " %s", addr_name);
+	break;
+    }
+
+    return buff;
+}
+
 static unsigned disassemble_instr(MON_ADDR addr)
 {
    BYTE op, p1, p2;
@@ -1173,21 +1298,15 @@ static unsigned disassemble_instr(MON_ADDR addr)
    p1 = get_mem_val(mem, loc+1);
    p2 = get_mem_val(mem, loc+2);
 
-   /* sprint_disassembled() only supports hex and decimal.
-    * Unless the default radix is decimal, we default
-    * to hex.
-    */
-   hex_mode = (default_radix == e_decimal);
-
    fprintf(mon_output, ".%s:%04x   %s",memspace_string[mem],loc,
-           sprint_disassembled(loc, op, p1, p2, hex_mode));
+           mon_disassemble_to_string(loc, op, p1, p2, hex_mode));
 
    label = mon_symbol_table_lookup_name(mem, loc);
    if (label)
       fprintf(mon_output, "\t\t%s",label);
    fprintf(mon_output,"\n");
 
-   return clength[lookup[op].addr_mode];
+   return asm_addr_mode_get_size(asm_opcode_info_get(op)->addr_mode);
 }
 
 void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
@@ -1212,7 +1331,9 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
    }
 }
 
-/* *** MEMORY COMMANDS *** */
+/* ------------------------------------------------------------------------- */
+
+/* Memory.  */
 
 void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y)
 {
@@ -2692,7 +2813,9 @@ void mon(ADDRESS a)
 
         myinput = readline(prompt);
         stop_output = 0;
-        if (myinput) {
+        if (myinput == NULL) {
+            fprintf(mon_output, "\n");
+        } else {
             if (!myinput[0]) {
                 if (!asm_mode) {
                     /* Repeat previous command */
@@ -2720,8 +2843,6 @@ void mon(ADDRESS a)
                 if (playback)
                     playback_commands(playback_name);
             }
-        } else {
-            exit_mon = 1;
         }
         if (last_cmd)
             free(last_cmd);
