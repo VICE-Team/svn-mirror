@@ -255,7 +255,7 @@ maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 vice_toc.html: $(top_srcdir)/doc/vice.texi
 	(cd $(srcdir); \
-         $(PERL) texi2html -number -space_itemize -space_table -foreground 00000 -background ffffff -split_chapter -acc ../vice.texi)
+         $(PERL) texi2html -number -split_chapter ../vice.texi)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
