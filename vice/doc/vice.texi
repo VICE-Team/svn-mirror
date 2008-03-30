@@ -6549,21 +6549,23 @@ H@^akan Sundell for writing cool emulators to compete with.  @t{:-)}
 @node Copyright, Contacts, Acknowledgments, Top
 @chapter Copyright
 
-Copyright (C) 1996-1998 Ettore Perazzoli
+Copyright (C) 1996-1999 Ettore Perazzoli
 
-Copyright (C) 1996-1998 Andr@'e Fachat
+Copyright (C) 1996-1999 Andr@'e Fachat
 
-Copyright (C) 1993-1994, 1997-1998 Teemu Rantanen
+Copyright (C) 1993-1994, 1997-1999 Teemu Rantanen
 
-Copyright (C) 1997-1998 Daniel Sladic
+Copyright (C) 1997-1999 Daniel Sladic
 
-Copyright (C) 1998 Andreas Boose
+Copyright (C) 1998-1999 Andreas Boose
+
+Copyright (C) 1998-1999 Tibor Biczo
 
 Copyright (C) 1993-1996 Jouko Valta
 
 Copyright (C) 1993-1994 Jarkko Sonninen
 
-The reSID engine: Copyright (C) 1998 Dag Lem
+The reSID engine: Copyright (C) 1998-1999 Dag Lem
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -6600,7 +6602,7 @@ You can find the latest news about VICE at the official VICE
 home page:
 
 @example
-@uref{http://www.tu-chemnitz.de/~fachat/vice/vice.html}
+@uref{http://www.cs.cmu.edu/~dsladic/vice/vice.html}
 @end example
 
 Also the public patches and beta releases will be available there as
@@ -6664,7 +6666,7 @@ the VICE documentation (you are reading it!);
 @item
 the VICE FAQ (it is available on the Internet, and reachable from the
 VICE home page:
-@uref{http://www.tu-chemnitz.de/~fachat/vice/vice.html});
+@uref{http://www.cs.cmu.edu/~dsladic/vice/vice.html});
 @item
 the @code{comp.emulators.cbm} and @code{comp.sys.cbm} FAQs (@pxref{FAQs
 you should read}).

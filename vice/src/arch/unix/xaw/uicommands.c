@@ -429,11 +429,12 @@ static UI_CALLBACK(about)
 	     "(unstable)",
 #endif
              "",
-             "Copyright © 1996-1998 Ettore Perazzoli",
-             "Copyright © 1996-1998 André Fachat",
-             "Copyright © 1993-1994, 1997-1998 Teemu Rantanen",
-             "Copyright © 1997-1998 Daniel Sladic",
-             "Copyright © 1998 Andreas Boose",
+             "Copyright © 1996-1999 Ettore Perazzoli",
+             "Copyright © 1996-1999 André Fachat",
+             "Copyright © 1993-1994, 1997-1999 Teemu Rantanen",
+             "Copyright © 1997-1999 Daniel Sladic",
+             "Copyright © 1998-1999 Andreas Boose",
+             "Copyright C 1998-1999 Tibor Biczo",
              "Copyright © 1993-1996 Jouko Valta",
              "Copyright © 1993-1994 Jarkko Sonninen",
 #ifdef USE_RESID
@@ -442,7 +443,7 @@ static UI_CALLBACK(about)
 #endif
              "",
 	     "Official VICE homepage:",
-	     "http://www.tu-chemnitz.de/~fachat/vice/vice.html",
+	     "http://www.cs.cmu.edu/~dsladic/vice/vice.html",
              "",
              NULL);
     }

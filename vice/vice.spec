@@ -9,7 +9,7 @@ Release: %rel
 Copyright: GPL
 Group: X11/Applications/Emulators
 Source: ftp://ftp.funet.fi/pub/cbm/crossplatform/emulators/VICE/vice-%{version}.tar.gz
-URL: http://www.tu-chemnitz.de/%7Efachat/vice/vice.html
+URL: http://www.cs.cmu.edu/%7Edsladic/vice/vice.html
 Packager: Ettore Perazzoli <ettore@comm2000.it>
 Prefix: %{prefix}
 BuildRoot: /opt/rpm-build-root
