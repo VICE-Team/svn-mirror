@@ -56,12 +56,12 @@ static int set_drive_true_emulation(resource_value_t v, void *param)
             drive[1].enable = 1;
             drive_cpu_reset_clk(&drive1_context);
         }
-        drive_enable(0);
-        drive_enable(1);
+        drive_enable(&drive0_context);
+        drive_enable(&drive1_context);
         iec_calculate_callback_index();
     } else {
-        drive_disable(0);
-        drive_disable(1);
+        drive_disable(&drive0_context);
+        drive_disable(&drive1_context);
 
         /* update BAM after true drive emulation having probably
            changed the BAM on disk (14May1999) */
@@ -141,16 +141,16 @@ int drive0_resources_type(resource_value_t v, void *param)
         drive[0].type = type;
         if (drive_true_emulation) {
             drive[0].enable = 1;
-            drive_enable(0);
+            drive_enable(&drive0_context);
             iec_calculate_callback_index();
         }
-        drive_set_disk_drive_type(type, 0);
+        drive_set_disk_drive_type(type, &drive0_context);
         drive_rom_initialize_traps(0);
         machine_drive_idling_method(0);
         return 0;
       case DRIVE_TYPE_NONE:
         drive[0].type = type;
-        drive_disable(0);
+        drive_disable(&drive0_context);
         return 0;
       default:
         return -1;
@@ -210,16 +210,16 @@ int drive1_resources_type(resource_value_t v, void *param)
         drive[1].type = type;
         if (drive_true_emulation) {
             drive[1].enable = 1;
-            drive_enable(1);
+            drive_enable(&drive1_context);
             iec_calculate_callback_index();
         }
-        drive_set_disk_drive_type(type, 1);
+        drive_set_disk_drive_type(type, &drive1_context);
         drive_rom_initialize_traps(1);
         machine_drive_idling_method(1);
         return 0;
       case DRIVE_TYPE_NONE:
         drive[1].type = type;
-        drive_disable(1);
+        drive_disable(&drive1_context);
         return 0;
       default:
         return -1;
