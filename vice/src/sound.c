@@ -245,7 +245,7 @@ static int closesound(char *msg)
 {
     if (snddata.pdev)
     {
-	warn(snddata.pwarn, -1, "closing device '%s'", snddata.pdev->name);
+	warn(snddata.pwarn, -1, "closing device `%s'", snddata.pdev->name);
 	if (snddata.pdev->close)
 	    snddata.pdev->close(snddata.pwarndev);
 	snddata.pdev = NULL;
@@ -363,7 +363,7 @@ static int initsid(void)
 	    snddata.bufsize = fragsize*fragnr;
 	    snddata.bufptr = 0;
 	    warn(snddata.pwarn, -1,
-		 "opened device '%s' speed %dHz fragsize %.3fs bufsize %.3fs",
+		 "opened device `%s' speed %dHz fragsize %.3fs bufsize %.3fs",
 		 pdev->name, speed, (double)fragsize / speed,
 		 (double)snddata.bufsize / speed);
 	    sample_rate = speed;
@@ -641,21 +641,23 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #if defined(HAVE_LIBUMSOBJ) && defined(HAVE_UMS_UMSAUDIODEVICE_H) && defined(HAVE_UMS_UMSBAUDDEVICE_H)
     sound_init_aix_device();
 #endif
+#if defined(HAVE_SDL_AUDIO_H) && defined(HAVE_SDL_SLEEP_H)
+    sound_init_sdl_device();
+#endif
+
 #ifdef __MSDOS__
 #ifdef USE_MIDAS_SOUND
     sound_init_midas_device();
 #else
-    /* sound_init_allegro_device(); */
     sound_init_sb_device();
 #endif
 #endif
-#if defined(HAVE_SDL_AUDIO_H) && defined(HAVE_SDL_SLEEP_H)
-    sound_init_sdl_device();
-#endif
+
     sound_init_dummy_device();
     sound_init_fs_device();
     sound_init_speed_device();
     sound_init_dump_device();
+
 #if 0
     sound_init_test_device();	/* XXX: missing */
 #endif
