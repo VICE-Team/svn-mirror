@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.4.16)
+AM_INIT_AUTOMAKE(vice, 1.4.17)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -33,6 +33,7 @@ AC_ARG_WITH(midas, [  --with-midas            use MIDAS sound system instead of 
 AC_ARG_WITH(resid, [  --without-resid         do not use the reSID engine])
 AC_ARG_ENABLE(fullscreen, [  --disable-fullscreen    disable XFree86 fullscreen detection])
 AC_ARG_ENABLE(gnomeui,[  --enable-gnomeui        enables gnome ui support])
+AC_ARG_ENABLE(nls,[  --disable-nls        disables national language support])
 
 if test x"$enable_autobpp" = "xyes"; then
   AC_DEFINE(X_DISPLAY_DEPTH, 0)
@@ -213,17 +214,116 @@ AC_PROG_YACC
 AM_PROG_LEX
 
 dnl NLS stuff
-AC_CHECK_HEADER(libintl.h,
-  [AC_DEFINE(HAVE_LIBINTL_H)
-   have_libintl_h=yes],)
-if test x"$have_libintl_h" != x"" ; then
-  ALL_LINGUAS="de"
-  AM_GNU_GETTEXT
+dnl Its has been rejected to use the full GNU gettext package 
+dnl delivered within the source. This is a minimum replacement implementing
+dnl a simple check to find `libintl.h' and `gettext'.
+dnl
+
+dnl Add new languages here
+ALL_LINGUAS=de
+
+dnl These rules are solely for the distribution goal.  While doing this
+dnl we only have to keep exactly one list of the available catalogs
+dnl in configure.in.
+for lang in $ALL_LINGUAS; do
+  GMOFILES="$GMOFILES $lang.gmo"
+  POFILES="$POFILES $lang.po"
+done
+AC_SUBST(GMOFILES)
+AC_SUBST(POFILES)
+
+if test x"$enable_nls" != x"no" ; then
+  AC_CHECK_HEADER(libintl.h,
+    [AC_CACHE_CHECK([for gettext in libc], gt_cv_func_gettext_libc,
+      [AC_TRY_LINK([#include <libintl.h>], [return (int) gettext ("")],
+  	 gt_cv_func_gettext_libc=yes, gt_cv_func_gettext_libc=no)])
+     if test "$gt_cv_func_gettext_libc" = "yes" \
+  	|| test "$gt_cv_func_gettext_libintl" = "yes"; then
+  	AC_DEFINE(HAVE_GETTEXT)
+  	AM_PATH_PROG_WITH_TEST(MSGFMT, msgfmt,
+  	  [test -z "`$ac_dir/$ac_word -h 2>&1 | grep 'dv '`"], no)dnl
+  	if test "$MSGFMT" != "no"; then
+  	  AC_CHECK_FUNCS(dcgettext)
+  	  AC_PATH_PROG(GMSGFMT, gmsgfmt, $MSGFMT)
+  	  AM_PATH_PROG_WITH_TEST(XGETTEXT, xgettext,
+  	    [test -z "`$ac_dir/$ac_word -h 2>&1 | grep '(HELP)'`"], :)
+  	  AC_TRY_LINK(, [extern int _nl_msg_cat_cntr;
+  			 return _nl_msg_cat_cntr],
+  	    [CATOBJEXT=.gmo
+  	     DATADIRNAME=share],
+  	    [CATOBJEXT=.mo
+  	     DATADIRNAME=lib])
+  	  INSTOBJEXT=.mo
+  	fi
+        USE_NLS=yes
+      else
+        AC_MSG_WARN([libintl.h not found, disabling NLS])
+        USE_NLS=no
+      fi
+  ])
+  dnl Test whether we really found GNU xgettext.
+  if test "$XGETTEXT" != ":"; then
+    dnl If it is no GNU xgettext we define it as : so that the
+    dnl Makefiles still can work.
+    if $XGETTEXT --omit-header /dev/null 2> /dev/null; then
+      : ;
+    else
+      AC_MSG_RESULT(
+    	[found xgettext program is not GNU xgettext; ignore it])
+      XGETTEXT=":"
+    fi
+  fi
+
+  dnl Test wether GMSGFMT is there. Should fix `make dist'.
+  if test "$GMSGFMT" = "" ; then
+    GMSGFMT=":"
+  fi
+
+  # We need to process the po/ directory.
+  POSUB=po
+  
+  AC_OUTPUT_COMMANDS(
+    [case "$CONFIG_FILES" in *po/Makefile.in*)
+      sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile
+    esac])
+  
+  dnl Make all variables we use known to autoconf.
+  AC_SUBST(USE_INCLUDED_LIBINTL)
+  AC_SUBST(CATALOGS)
+  AC_SUBST(CATOBJEXT)
+  AC_SUBST(DATADIRNAME)
+  AC_SUBST(INSTOBJEXT)
+  AC_SUBST(INTLDEPS)
+  AC_SUBST(INTLLIBS)
+  AC_SUBST(INTLOBJS)
+  AC_SUBST(POSUB)
+  AC_SUBST(GENCAT)
+
+  dnl If the AC_CONFIG_AUX_DIR macro for autoconf is used we possibly
+  dnl find the mkinstalldirs script in another subdir but ($top_srcdir).
+  dnl Try to locate is.
+  MKINSTALLDIRS=
+  if test -n "$ac_aux_dir"; then
+    MKINSTALLDIRS="$ac_aux_dir/mkinstalldirs"
+  fi
+  if test -z "$MKINSTALLDIRS"; then
+    MKINSTALLDIRS="\$(top_srcdir)/mkinstalldirs"
+  fi
+  AC_SUBST(MKINSTALLDIRS)
+
+  dnl currently no catgets support, can't check it.
+  GENCAT=
+  AC_SUBST(GENCAT)
 else
-  AC_MSG_WARN([libintl.h not found, disabling NLS])
+  AC_MSG_WARN([disabling NLS on user request])
   USE_NLS=no
 fi
 
+if test x"$USE_NLS" = x"" ; then
+  USE_NLS=no
+fi
+AC_SUBST(USE_NLS)
+  
 dnl Check for a perl interpreter.
 
 AC_PATH_PROG(PERL, perl)
@@ -778,7 +878,6 @@ if test x"$USE_NLS" = "xyes" ; then
     NLS_LOCALEDIR="-DLOCALEDIR=\\\"\$(datadir)/locale\\\""
 fi
 
-
 AC_SUBST(NLS_LOCALEDIR)
 AC_SUBST(HAVE_READLINE)
 AC_SUBST(ARCH_INCLUDES)
@@ -895,7 +994,6 @@ AC_OUTPUT([Makefile
            src/vic20/Makefile
            src/vicii/Makefile
            src/version.h
-	   intl/Makefile
 	   po/Makefile.in
            ])
 

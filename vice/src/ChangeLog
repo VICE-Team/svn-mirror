@@ -1,3 +1,26 @@
+2000-06-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.17.
+
+	* color.c, color.h: New files.
+
+	* arch/unix/x11/xaw/uicolor.c: Call new color management code.
+
+2000-06-12  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/uicommands.c (ui_update_flip_menus): Added
+	`USE_GNOMEUI' around drive-settings menu entry, since this
+	just works under Gnome. This fixes the reported failure:
+	`Maximum number of menus reached!' from uimenu.c.
+
+	* Makefile.am (INCLUDES): Removed `-I$(top_srcdir)/intl'.
+	(common_libs): Removed `@INTLLIBS@'.
+
+2000-06-12  Dag Lem  <resid@nimrod.no>
+
+	* raster/raster.c: Added checks for console_mode and vsid_mode
+	to fix crashes.
+
 2000-06-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.16.
