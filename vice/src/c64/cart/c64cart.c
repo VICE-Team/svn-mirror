@@ -58,7 +58,9 @@ static int cartridge_mode;
 static int c64cartridge_reset;
 
 int c64cart_type = CARTRIDGE_NONE;
+
 int cartmode = CARTRIDGE_MODE_OFF;
+
 int cartres = 0;
 static char *cartfile = NULL;
 

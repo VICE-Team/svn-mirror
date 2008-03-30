@@ -61,7 +61,6 @@ static BYTE drive_bank_read(drive_context_t *drv, int bank, WORD address);
 static BYTE drive_bank_peek(drive_context_t *drv, int bank, WORD address);
 static void drive_bank_store(drive_context_t *drv, int bank, WORD address,
                              BYTE value);
-void drive_toggle_watchpoints(drive_context_t *drv, int flag);
 
 interrupt_cpu_status_t *drive0_int_status_ptr;
 interrupt_cpu_status_t *drive1_int_status_ptr;

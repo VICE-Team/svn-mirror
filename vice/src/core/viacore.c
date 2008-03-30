@@ -32,6 +32,7 @@
 #include "alarm.h"
 #include "clkguard.h"
 #include "interrupt.h"
+#include "lib.h"
 #include "log.h"
 #include "snapshot.h"
 #include "types.h"
