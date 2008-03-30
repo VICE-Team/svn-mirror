@@ -863,7 +863,7 @@ void raster_line_emulate(raster_t *raster)
             raster->num_cached_lines = 0;
         }
 
-#if 1
+#if 0
         /* this is a fix for the pal emulation bug at the left/right edges */
         /* hacked, but other solutions would cause changes in many places in
            the code */

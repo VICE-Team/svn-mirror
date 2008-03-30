@@ -1,5 +1,6 @@
 // C128 specific resources.
 //
+#include "debug.h"
 #include "res.rc"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -86,6 +87,14 @@ BEGIN
             MENUITEM "&Hard\tCtrl+Alt+R", IDM_HARD_RESET
             MENUITEM "&Soft\tAlt+R",      IDM_SOFT_RESET
         END
+#ifdef DEBUG
+		POPUP "&Debug"
+        BEGIN
+            MENUITEM "&Main CPU Trace\tAlt+F", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Drive&0 CPU Trace\tAlt+G", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Drive&1 CPU Trace\tAlt+H", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+        END
+#endif
         MENUITEM SEPARATOR
         MENUITEM "E&xit\tAlt+X", IDM_EXIT
     END

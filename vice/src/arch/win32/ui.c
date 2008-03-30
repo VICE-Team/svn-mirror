@@ -40,6 +40,7 @@
 #include "archdep.h"
 #include "cmdline.h"
 #include "datasette.h"
+#include "debug.h"
 #include "drive.h"
 #include "event.h"
 #include "fliplist.h"
@@ -117,6 +118,14 @@ static const ui_menu_toggle toggle_list[] = {
     { "SaveResourcesOnExit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT },
     { "ConfirmOnExit", IDM_TOGGLE_CONFIRM_ON_EXIT },
     { "FullScreenEnabled", IDM_TOGGLE_FULLSCREEN },
+#ifdef DEBUG
+    { "MainCPU_TRACE", IDM_TOGGLE_MAINCPU_TRACE },
+    { "MainCPU_TRACE", IDM_TOGGLE_MAINCPU_TRACE|0x00010000 },
+    { "Drive0CPU_TRACE", IDM_TOGGLE_DRIVE0CPU_TRACE },
+    { "Drive0CPU_TRACE", IDM_TOGGLE_DRIVE0CPU_TRACE|0x00010000 },
+    { "Drive1CPU_TRACE", IDM_TOGGLE_DRIVE1CPU_TRACE },
+    { "Drive1CPU_TRACE", IDM_TOGGLE_DRIVE1CPU_TRACE|0x00010000 },
+#endif
     { NULL, 0 }
 };
 
@@ -384,7 +393,18 @@ int ui_cmdline_options_init(void)
 }
 
 /* ------------------------------------------------------------------------ */
+#ifdef DEBUG
+#define NUM_OF_DEBUG_HOTKEYS 3
+#define UI_DEBUG_HOTKEYS                                                \
+    { FVIRTKEY | FALT | FNOINVERT, 'F', IDM_TOGGLE_MAINCPU_TRACE },     \
+    { FVIRTKEY | FALT | FNOINVERT, 'G', IDM_TOGGLE_DRIVE0CPU_TRACE },   \
+    { FVIRTKEY | FALT | FNOINVERT, 'H', IDM_TOGGLE_DRIVE1CPU_TRACE },
+#else
+#define NUM_OF_DEBUG_HOTKEYS 0
+#define UI_DEBUG_HOTKEYS
+#endif /* DEBUG*/
 
+#define NUM_OF_COMMON_HOTKEYS 22
 #define UI_COMMON_HOTKEYS                                               \
     { FVIRTKEY | FCONTROL | FALT | FNOINVERT, 'R', IDM_HARD_RESET},     \
     { FVIRTKEY | FALT | FNOINVERT, 'R', IDM_SOFT_RESET },               \
@@ -412,6 +432,7 @@ int ui_cmdline_options_init(void)
 static ACCEL c64_accel[] = {
     { FVIRTKEY | FALT | FNOINVERT, 'Z', IDM_CART_FREEZE },
     { FVIRTKEY | FALT | FNOINVERT, 'Q', IDM_MOUSE },
+    UI_DEBUG_HOTKEYS
     UI_COMMON_HOTKEYS
 };
 
@@ -453,33 +474,40 @@ int ui_init(int *argc, char **argv)
     switch (machine_class) {
       case VICE_MACHINE_C64:
         menu = IDR_MENUC64;
-        ui_accelerator = CreateAcceleratorTable(c64_accel, 24);
+        ui_accelerator = CreateAcceleratorTable(c64_accel, 
+            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS + 2);
         break;
       case VICE_MACHINE_C128:
         menu = IDR_MENUC128;
-        ui_accelerator = CreateAcceleratorTable(c128_accel, 23);
+        ui_accelerator = CreateAcceleratorTable(c128_accel, 
+            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS + 1);
         break;
       case VICE_MACHINE_VIC20:
         menu = IDR_MENUVIC;
-        ui_accelerator = CreateAcceleratorTable(vic_accel, 22);
+        ui_accelerator = CreateAcceleratorTable(vic_accel,
+            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS);
         break;
       case VICE_MACHINE_PET:
         menu = IDR_MENUPET;
-        ui_accelerator = CreateAcceleratorTable(pet_accel, 22);
+        ui_accelerator = CreateAcceleratorTable(pet_accel,
+            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS);
         break;
       case VICE_MACHINE_PLUS4:
         menu = IDR_MENUPLUS4;
-        ui_accelerator = CreateAcceleratorTable(plus4_accel, 22);
+        ui_accelerator = CreateAcceleratorTable(plus4_accel,
+            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS);
         break;
       case VICE_MACHINE_CBM2:
         menu = IDR_MENUCBM2;
-        ui_accelerator = CreateAcceleratorTable(cbm2_accel, 22);
+        ui_accelerator = CreateAcceleratorTable(cbm2_accel,
+            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS);
         break;
       default:
         log_debug("UI: No menu entries for this machine defined!");
         log_debug("UI: Using C64 type UI menues.");
         menu = IDR_MENUC64;
-        ui_accelerator = CreateAcceleratorTable(c64_accel, 22);
+        ui_accelerator = CreateAcceleratorTable(c64_accel,
+            NUM_OF_COMMON_HOTKEYS + NUM_OF_DEBUG_HOTKEYS);
     }
 
     /* Register the window class.  */
