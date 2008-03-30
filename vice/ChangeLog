@@ -1,3 +1,9 @@
+2003-01-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.1.
+
+	* configure.in: Define `UNSTABLE'.  Added `soundsid.o'.
+
 2003-01-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11a.
