@@ -92,10 +92,10 @@ static char *snapshot_selector(const char *title)
 static TUI_MENU_CALLBACK(file_name_callback)
 {
     if (been_activated) {
-        PATH_VAR(new_file_name);
+        char new_file_name[MAXPATHLEN];
 
         if (file_name == NULL)
-            memset(new_file_name, 0, GET_PATH_MAX);
+            memset(new_file_name, 0, MAXPATHLEN);
         else
             strcpy(new_file_name, file_name);
 
@@ -205,3 +205,4 @@ static TUI_MENU_CALLBACK(load_snapshot_callback)
 
     return NULL;
 }
+
