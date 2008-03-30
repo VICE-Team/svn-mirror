@@ -36,11 +36,14 @@ libarch_a_SOURCES = \
 	petui.h \
 	print.c \
 	rs232.c \
+	spritedrv.c \
 	types.h \
 	ui.c \
 	ui.h \
-        uicmdline.c \
-        uicmdline.h \
+	uicmdline.c \
+	uicmdline.h \
+	uiconfig.c \
+	uiconfig.h \
 	uidummy.c \
 	uiimage.c \
 	uiimage.h \

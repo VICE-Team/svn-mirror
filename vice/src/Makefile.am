@@ -43,8 +43,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/vdrive \
-	-I$(top_srcdir)/src/monitor \
-	@NLS_LOCALEDIR@
+	-I$(top_srcdir)/src/monitor 
 
 noinst_HEADERS = \
 	6510core.h \

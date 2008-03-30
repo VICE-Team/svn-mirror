@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.4.19)
+AM_INIT_AUTOMAKE(vice, 1.4.20)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -258,6 +258,10 @@ if test x"$enable_nls" != x"no" ; then
   	  INSTOBJEXT=.mo
   	fi
         USE_NLS=yes
+	AC_DEFINE(ENABLE_NLS)
+	AC_DEFINE(HAVE_LIBINTL_H)
+	dnl this is prefixed with PREFIX
+	AC_DEFINE(NLS_LOCALEDIR, PREFIX"lib/locale")
       else
         AC_MSG_WARN([libintl.h not found, disabling NLS])
         USE_NLS=no
@@ -325,6 +329,7 @@ if test x"$USE_NLS" = x"" ; then
   USE_NLS=no
 fi
 AC_SUBST(USE_NLS)
+AC_SUBST(NLS_LOCALEDIR)
   
 dnl Check for a perl interpreter.
 
@@ -876,11 +881,6 @@ if test x"$GCC" = "xyes" ; then
   esac
 fi
 
-if test x"$USE_NLS" = "xyes" ; then
-    NLS_LOCALEDIR="-DLOCALEDIR=\\\"\$(datadir)/locale\\\""
-fi
-
-AC_SUBST(NLS_LOCALEDIR)
 AC_SUBST(HAVE_READLINE)
 AC_SUBST(ARCH_INCLUDES)
 AC_SUBST(ARCH_LIBS)

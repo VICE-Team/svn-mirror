@@ -507,6 +507,21 @@ canvas_t *canvas_for_handle(int handle)
 }
 
 
+unsigned int canvas_number_for_handle(int handle)
+{
+  canvas_list_t *clist = CanvasList;
+  unsigned int num = 0;
+
+  while (clist != NULL)
+  {
+    if (clist->canvas->window->Handle == handle) return num;
+    clist = clist->next;
+    num++;
+  }
+  return UINT_MAX;
+}
+
+
 void canvas_next_active(int moveCaret)
 {
   canvas_list_t *clist = CanvasList;

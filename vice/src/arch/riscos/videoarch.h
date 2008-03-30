@@ -76,6 +76,7 @@ typedef struct canvas_list_t {
 
 extern void canvas_mode_change(void);
 extern canvas_t *canvas_for_handle(int handle);
+extern unsigned int canvas_number_for_handle(int handle);
 extern void canvas_next_active(int moveCaret);
 extern int canvas_get_number(void);
 

@@ -69,7 +69,7 @@ screendrv_t *screenshot_drivers_iter_next(void)
 
     return NULL;
 }
-    
+
 int screenshot_init(void)
 {
     /* Setup logging system.  */
@@ -85,6 +85,9 @@ int screenshot_init(void)
 #endif
 #if HAVE_PNG
     screenshot_init_png();
+#endif
+#ifdef __riscos
+    screenshot_init_sprite();
 #endif
     return 0;
 }

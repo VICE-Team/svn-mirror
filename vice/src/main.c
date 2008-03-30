@@ -402,7 +402,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     /* gettext stuff, not needed in Gnome, but here I can
        overrule the default locale path */
     setlocale (LC_ALL, "");
-    bindtextdomain (PACKAGE, LOCALEDIR);
+    bindtextdomain (PACKAGE, NLS_LOCALEDIR);
     textdomain (PACKAGE);
 #endif
 

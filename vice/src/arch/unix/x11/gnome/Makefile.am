@@ -20,4 +20,5 @@ libgnomeui_a_SOURCES = \
 	uiedisk.c \
 	uisnapshot.c \
 	about.c \
-	uicartridge.c
+	uicartridge.c \
+	uiscreenshot.c
