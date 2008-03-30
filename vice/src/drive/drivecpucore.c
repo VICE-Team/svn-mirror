@@ -554,6 +554,12 @@ inline static int drive_trap_handler(void)
     return 1;
 }
 
+static void drive_generic_dma(void)
+{
+    /* Generic DMA hosts can be implemented here.
+       Not very likey for disk drives. */
+}
+
 /* -------------------------------------------------------------------------- */
 
 /* Execute up to the current main CPU clock value.  This automatically
@@ -632,6 +638,8 @@ void mydrive_cpu_execute(CLOCK clk_value)
 #define ROM_TRAP_HANDLER() drive_trap_handler()
 
 #define CALLER mymonspace
+
+#define DMA_FUNC drive_generic_dma
 
 #define _drive_set_byte_ready(value) drive[mynumber].byte_ready = value
 

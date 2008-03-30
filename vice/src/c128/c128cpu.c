@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include "mem.h"
+#include "z80.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -43,6 +44,7 @@
  - PAGE_ONE
  - STORE_IND
  - LOAD_IND
+ - DMA_FUNC
 
 */
 
@@ -66,6 +68,7 @@ extern store_func_ptr_t _mem_write_tab[];
 #define LOAD_ZERO(addr) \
     page_zero[(addr) & 0xff]
 
+#define DMA_FUNC z80_mainloop
 
 #include "../maincpu.c"
 

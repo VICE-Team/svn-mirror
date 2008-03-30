@@ -187,6 +187,12 @@ inline static int mem_read_limit(int addr)
     return mem_read_limit_tab_ptr[addr >> 8];
 }
 
+void maincpu_generic_dma(void)
+{
+    /* Generic DMA hosts can be implemented here.
+       For example a very accurate REU emulation. */
+}
+
 /* Those may be overridden by the machine stuff.  Probably we want them in
    the .def files, but if most of the machines do not use, we might keep it
    here and only override it where needed.  */
@@ -204,6 +210,10 @@ inline static int mem_read_limit(int addr)
 
 #ifndef LOAD_IND
 #define LOAD_IND(addr) LOAD((addr))
+#endif
+
+#ifndef DMA_FUNC
+#define DMA_FUNC maincpu_generic_dma
 #endif
 
 /* ------------------------------------------------------------------------- */
