@@ -43,6 +43,7 @@
 #include "cmdline.h"
 #include "file.h"
 #include "interrupt.h"
+#include "log.h"
 #include "mem.h"
 #include "resources.h"
 #include "utils.h"
@@ -181,7 +182,8 @@ int cartridge_attach_image(int type, const char *filename)
     if (type == CARTRIDGE_NONE || *filename == '\0')
 	return 0;
 
-    fprintf(logfile, "Cartridge: Attach type %d, file=%s\n", type, filename);
+    log_message(LOG_DEFAULT, "Attached cartridge type %d, file=`%s'.",
+                type, filename);
 
     fd = zfopen(filename, READ);
     if (!fd)
