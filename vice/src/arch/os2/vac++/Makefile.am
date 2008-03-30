@@ -15,31 +15,35 @@ EXTRA_DIST = \
         lzlib.icc \
         lpng.icc \
         incl/archdep.icc \
+        incl/c128.icc \
         incl/c64.icc \
         incl/c64cart.icc \
-        incl/c128.icc \
-        incl/crtc.icc \
         incl/cbm2.icc \
+        incl/crtc.icc \
         incl/dialogs.icc \
+        incl/diskimage.icc \
         incl/drive.icc \
+        incl/fsdevice.icc \
+        incl/gfxoutputdrv.icc \
+        incl/imagecontents.icc \
+        incl/kbd.icc \
         incl/mainsrc.icc \
         incl/monitor.icc\
         incl/monz80.icc\
         incl/pet.icc \
-        incl/kbd.icc \
+        incl/plus4.icc \
+        incl/printerdrv.icc \
         incl/raster.icc \
         incl/resid.icc \
-        incl/plus4.icc \
+        incl/resources.icc \
         incl/sounddrv.icc \
-        incl/gfxoutputdrv.icc \
-        incl/printerdrv.icc \
+        incl/tape.icc \
         incl/vdc.icc \
         incl/vdrive.icc \
         incl/vic20.icc \
         incl/vicii.icc \
         incl/video.icc \
         incl/vsid.icc \
-        incl/resources.icc \
         ctools/biosdump.icc \
         ctools/cformat.icc \
         ctools/ctools.icc \
