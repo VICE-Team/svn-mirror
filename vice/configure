@@ -1567,7 +1567,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.13.37
+ VERSION=1.13.38
 
 
 cat >>confdefs.h <<_ACEOF
@@ -8535,9 +8535,12 @@ fi
 
 
 
+
+
+
 for ac_header in direct.h errno.h fcntl.h limits.h regex.h unistd.h \
 sys/dirent.h sys/ioctl.h sys/param.h sys/stat.h sys/time.h sys/types.h \
-dir.h io.h signal.h ffmpeg/avformat.h
+dir.h io.h signal.h ffmpeg/avformat.h commctrl.h shlobj.h winioctl.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if eval "test \"\${$as_ac_Header+set}\" = set"; then
@@ -8673,7 +8676,7 @@ if test `eval echo '${'$as_ac_Header'}'` = yes; then
   cat >>confdefs.h <<_ACEOF
 #define `echo "HAVE_$ac_header" | $as_tr_cpp` 1
 _ACEOF
- commctrl.h shlobj.h winioctl.h
+
 fi
 
 done

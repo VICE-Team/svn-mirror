@@ -1,4 +1,10 @@
-2003-12-04  Andreas Boose  <viceteam@t-online.de>
+2003-12-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.38.
+
+	* configure.in: Fixed comma in `AC_CHECK_HEADERS'.
+
+2003-12-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.37.
 

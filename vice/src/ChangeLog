@@ -1,3 +1,30 @@
+2003-12-10  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.38.
+
+	* fileio/fileio.c, fileio.h, fileio/p00.c, p00.h
+	fileio/cbmfile.c, fileio/cbmfile.h, rawfile.c, rawfile.h,
+	autostart.c: Added path to fileio API.
+
+	* fsdevice/fsdevice-read.c, fsdevice/fsdevice.c,
+	fsdevice/fsdevicetypes.h, fsdevice/fsdevice-open.c,
+	fsdevice/fsdevice-read.c, fsdevice/fsdevice-close.c:
+	Reorganized to use fileio API.
+
+	* ioutil.c, ioutil.h (ioutil_opendir, ioutil_readdir,
+	ioutil_closedir): New functions.
+
+2003-12-07  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/petui.c: enable true drive icons for PET
+
+	* arch/riscos/ui.c: init message windows as early as possible
+
+	* arch/riscos/uiconfig.c: removed Catweazel engine
+
+	* arch/riscos/video.c: cleanup (const pointers, explicit
+	initialization)
+
 2003-12-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.37.
