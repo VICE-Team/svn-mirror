@@ -127,7 +127,6 @@ static void update_config(HWND hwnd)
 
 static void init_dialog(HWND hwnd)
 {
-
     resources_get_value("RAMBlock0", (void *) &block0);
     resources_get_value("RAMBlock1", (void *) &block1);
     resources_get_value("RAMBlock2", (void *) &block2);
@@ -147,11 +146,11 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
         command = LOWORD(wparam);
         switch (command) {
           case IDOK:
-            resources_set_value("RAMBlock0", (resource_value_t) block0);
-            resources_set_value("RAMBlock1", (resource_value_t) block1);
-            resources_set_value("RAMBlock2", (resource_value_t) block2);
-            resources_set_value("RAMBlock3", (resource_value_t) block3);
-            resources_set_value("RAMBlock5", (resource_value_t) block5);
+            resources_set_value("RAMBlock0", (resource_value_t)block0);
+            resources_set_value("RAMBlock1", (resource_value_t)block1);
+            resources_set_value("RAMBlock2", (resource_value_t)block2);
+            resources_set_value("RAMBlock3", (resource_value_t)block3);
+            resources_set_value("RAMBlock5", (resource_value_t)block5);
           case IDCANCEL:
             EndDialog(hwnd,0);
             break;
@@ -174,19 +173,19 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg,
             update_blocks(MEM_ALL);
             break;
           case IDC_VIC_MEMORY_BLOCK0:
-            block0 = 1-block0;
+            block0 = 1 - block0;
             break;
           case IDC_VIC_MEMORY_BLOCK1:
-            block1 = 1-block1;
+            block1 = 1 - block1;
             break;
           case IDC_VIC_MEMORY_BLOCK2:
-            block2 = 1-block2;
+            block2 = 1 - block2;
             break;
           case IDC_VIC_MEMORY_BLOCK3:
-            block3 = 1-block3;
+            block3 = 1 - block3;
             break;
           case IDC_VIC_MEMORY_BLOCK5:
-            block5 = 1-block5;
+            block5 = 1 - block5;
             break;
           default:
             return FALSE;
