@@ -83,7 +83,7 @@ int sysfile_init(const char *boot_path, const char *emu_id)
                           boot_path, "/", emu_id, NULL);
 #endif
 
-    printf("Default path set to `%s'\n", default_path);
+    /* printf("Default path set to `%s'\n", default_path); */
     return 0;
 }
 
