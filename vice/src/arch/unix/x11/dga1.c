@@ -162,7 +162,7 @@ static video_canvas_t *active_canvas = NULL;
 int dga1_enable(struct video_canvas_s *canvas, int enable)
 {
     static int interval, prefer_blanking, allow_exposures;
-    static int dotclock;
+    static unsigned int dotclock;
 
     if (enable) {
         XF86VidModeModeInfo *vm;
@@ -258,7 +258,7 @@ int dga1_enable(struct video_canvas_s *canvas, int enable)
         for (i = 0; i < vm_mode_count; i++) {
             if (vm_modes[i]->hdisplay == restoremodeline.hdisplay &&
                 vm_modes[i]->vdisplay == restoremodeline.vdisplay &&
-                vm_modes[i]->dotclock == dotclock ) {
+                vm_modes[i]->dotclock == dotclock) {
                 XF86VidModeSwitchToMode(display, screen, vm_modes[i]);
                 break;
             }
@@ -330,7 +330,7 @@ void dga1_mode_callback(void *callback)
     mode_callback = callback;
 }
 
-void dga1_create_menus(struct ui_menu_entry_s menu[])
+void dga1_menu_create(struct ui_menu_entry_s menu[])
 {
     unsigned int i, amodes;
     ui_menu_entry_t *resolutions_submenu;
@@ -354,5 +354,32 @@ void dga1_create_menus(struct ui_menu_entry_s menu[])
             break;
         }
     }
+}
+
+void dga1_menu_shutdown(struct ui_menu_entry_s menu[])
+{
+    unsigned int i, amodes;
+    ui_menu_entry_t *resolutions_submenu = NULL;
+
+    amodes = vidmode_available_modes();
+
+    if (amodes == 0)
+        return;
+
+    for (i = 0; menu[i].string; i++) {
+        if (strncmp(menu[i].string, "DGA1", 4) == 0) {
+            resolutions_submenu = menu[i].sub_menu;
+            break;
+        }
+    }
+
+    menu[i].sub_menu = NULL;
+
+    if (resolutions_submenu != NULL) {
+        for (i = 0; i < amodes ; i++)
+            lib_free(resolutions_submenu[i].string);
+    }
+
+    lib_free(resolutions_submenu);
 }
 
