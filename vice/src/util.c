@@ -498,10 +498,19 @@ int util_dword_write(FILE *fd, DWORD *buf, size_t num)
 
 void util_dword_to_le_buf(BYTE *buf, DWORD data)
 {
-    buf[0] = (BYTE) (data & 0xff);
-    buf[1] = (BYTE) ((data >> 8) & 0xff);
-    buf[2] = (BYTE) ((data >> 16) & 0xff);
-    buf[3] = (BYTE) ((data >> 24) & 0xff);
+    buf[0] = (BYTE)(data & 0xff);
+    buf[1] = (BYTE)((data >> 8) & 0xff);
+    buf[2] = (BYTE)((data >> 16) & 0xff);
+    buf[3] = (BYTE)((data >> 24) & 0xff);
+}
+
+DWORD util_le_buf_to_dword(BYTE *buf)
+{
+    DWORD data;
+
+    data = buf[0] | (buf[1] << 8) | (buf[2] << 16) | (buf[3] << 24);
+
+    return data;
 }
 
 /* ------------------------------------------------------------------------- */

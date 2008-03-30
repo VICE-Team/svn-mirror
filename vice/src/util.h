@@ -70,6 +70,7 @@ extern int util_check_null_string(const char *string);
 extern int util_dword_read(FILE *fd, DWORD *buf, size_t num);
 extern int util_dword_write(FILE *fd, DWORD *buf, size_t num);
 extern void util_dword_to_le_buf(BYTE *buf, DWORD data);
+extern DWORD util_le_buf_to_dword(BYTE *buf);
 
 extern char *util_find_prev_line(const char *text, const char *pos);
 extern char *util_find_next_line(const char *pos);
