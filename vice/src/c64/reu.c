@@ -245,7 +245,7 @@ static int reu_activate(void)
     reu_ram = (BYTE *)xrealloc((void *)reu_ram, (size_t)reu_size);
     log_message(reu_log, "%dKB unit installed.", reu_size >> 10);
 
-    if (reu_filename != NULL) {
+    if (!util_check_null_string(reu_filename)) {
         if (util_load_file(reu_filename, (void *)reu_ram, reu_size) < 0) {
             log_message(reu_log,
                         "Reading REU image %s failed.", reu_filename);
@@ -270,7 +270,7 @@ static int reu_deactivate(void)
     if (reu_ram == NULL)
         return 0;
 
-    if (reu_filename != NULL) {
+    if (!util_check_null_string(reu_filename)) {
         if (util_save_file(reu_filename, (const void *)reu_ram, reu_size) < 0) {
             log_message(reu_log,
                         "Writing REU image %s failed.", reu_filename);
