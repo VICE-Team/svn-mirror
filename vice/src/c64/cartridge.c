@@ -238,11 +238,11 @@ int cartridge_attach_image(int type, const char *filename)
                 }
                 if (chipheader[0xb] > 3) {
                     fclose(fd);
-		    goto done;
+                    goto done;
                 }
                 if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
                     fclose(fd);
-		    goto done;
+                    goto done;
                 }
             }
             fclose(fd);
@@ -263,16 +263,51 @@ int cartridge_attach_image(int type, const char *filename)
                     goto done;
                 }
             }
-        fclose(fd);
+            fclose(fd);
+            break;
+          case 7:
+            while (1) {
+                if (fread(chipheader, 0x10, 1, fd) < 1) {
+                    fclose(fd);
+                    break;
+                }
+                if (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0) {
+                    fclose(fd);
+                    goto done;
+                }
+                if (fread(&rawcart[(((chipheader[0xb] >> 2) |
+                    (chipheader[0xb] & 1)) & 15) << 13], 0x2000, 1, fd) < 1) {
+                    fclose(fd);
+                    goto done;
+                }
+            }
+            fclose(fd);
+            break;
+          case 8:
+            while (1) {
+                if (fread(chipheader, 0x10, 1, fd) < 1) {
+                    fclose(fd);
+                    break;
+                }
+                if (chipheader[0xc] != 0x80 && chipheader[0xe] != 0x40
+                    && chipheader[0xb] > 3) {
+                    fclose(fd);
+                    goto done;
+                }
+                if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
+                    fclose(fd);
+                    goto done;
+                }
+            }
+            fclose(fd);
+            break;
+          default:
+            fclose(fd);
+            goto done;
+        }
         break;
-
-	  default:
-	    fclose(fd);
-	    goto done;
-	}
-	break;
       default:
-	goto done;
+        goto done;
     }
 
     carttype = type;
