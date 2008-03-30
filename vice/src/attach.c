@@ -157,8 +157,7 @@ void file_system_init(void)
 {
     unsigned int i;
 
-    if (attach_log == LOG_ERR)
-        attach_log = log_open("Attach");
+    attach_log = log_open("Attach");
 
     for (i = 0; i < 4; i++) {
         file_system[i].serial = serial_get_device(i + 8);;

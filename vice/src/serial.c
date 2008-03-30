@@ -575,12 +575,11 @@ int parallelreceivebyte(BYTE * data, int fake)
 
 /* ------------------------------------------------------------------------- */
 
-int serial_init(const trap_t * trap_list)
+int serial_init(const trap_t *trap_list)
 {
     int i;
 
-    if (serial_log == LOG_ERR)
-        serial_log = log_open("Serial");
+    serial_log = log_open("Serial");
 
     /* Remove installed traps, if any.  */
     serial_remove_traps();

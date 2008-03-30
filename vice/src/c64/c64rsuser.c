@@ -1,5 +1,5 @@
 /*
- * c64rsuser.h - C64 RS232 userport interface.
+ * c64rsuser.c - C64 RS232 userport interface.
  *
  * Written by
  *  André Fachat <a.fachat@physik.tu-chemnitz.de>
@@ -44,7 +44,7 @@
 
 void c64_rsuser_init(void)
 {
-    rsuser_init(machine_get_cycles_per_second(), 
-				cia2_set_flag, cia2_set_sdr);
+    rsuser_init(machine_get_cycles_per_second(),
+                cia2_set_flag, cia2_set_sdr);
 }
 
