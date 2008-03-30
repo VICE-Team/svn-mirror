@@ -31,6 +31,7 @@
 #include <ScrollView.h>
 #include <string.h>
 #include <Window.h>
+#include <CheckBox.h>
 
 extern "C" { 
 #include "resources.h"

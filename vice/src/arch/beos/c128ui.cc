@@ -44,6 +44,7 @@ ui_menu_toggle  c128_ui_menu_toggles[]={
     { "REU", MENU_TOGGLE_REU },
     { "GEORAM", MENU_TOGGLE_GEORAM },
     { "RAMCART", MENU_TOGGLE_RAMCART },
+    { "DIGIMAX", MENU_TOGGLE_DIGIMAX },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "VDCDoubleSize", MENU_TOGGLE_VDC_DOUBLESIZE },
@@ -54,7 +55,7 @@ ui_menu_toggle  c128_ui_menu_toggles[]={
     { NULL, 0 }
 };
 
-ui_res_possible_values ReuSize[] = {
+ui_res_possible_values c128ReuSize[] = {
         {128, MENU_REU_SIZE_128},
         {256, MENU_REU_SIZE_256},
         {512, MENU_REU_SIZE_512},
@@ -66,7 +67,7 @@ ui_res_possible_values ReuSize[] = {
         {-1, 0}
 };
 
-ui_res_possible_values GeoRAMSize[] = {
+ui_res_possible_values c128GeoRAMSize[] = {
         {64, MENU_GEORAM_SIZE_64},
         {128, MENU_GEORAM_SIZE_128},
         {256, MENU_GEORAM_SIZE_256},
@@ -77,16 +78,38 @@ ui_res_possible_values GeoRAMSize[] = {
         {-1, 0}
 };
 
-ui_res_possible_values RamCartSize[] = {
+ui_res_possible_values c128RamCartSize[] = {
         {64, MENU_RAMCART_SIZE_64},
         {128, MENU_RAMCART_SIZE_128},
         {-1, 0}
 };
 
+ui_res_possible_values c128DigimaxBase[] = {
+        {0xdd00, MENU_DIGIMAX_BASE_DD00},
+        {0xde00, MENU_DIGIMAX_BASE_DE00},
+        {0xde20, MENU_DIGIMAX_BASE_DE20},
+        {0xde40, MENU_DIGIMAX_BASE_DE40},
+        {0xde60, MENU_DIGIMAX_BASE_DE60},
+        {0xde80, MENU_DIGIMAX_BASE_DE80},
+        {0xdea0, MENU_DIGIMAX_BASE_DEA0},
+        {0xdec0, MENU_DIGIMAX_BASE_DEC0},
+        {0xdee0, MENU_DIGIMAX_BASE_DEE0},
+        {0xdf00, MENU_DIGIMAX_BASE_DF00},
+        {0xdf20, MENU_DIGIMAX_BASE_DF20},
+        {0xdf40, MENU_DIGIMAX_BASE_DF40},
+        {0xdf60, MENU_DIGIMAX_BASE_DF60},
+        {0xdf80, MENU_DIGIMAX_BASE_DF80},
+        {0xdfa0, MENU_DIGIMAX_BASE_DFA0},
+        {0xdfc0, MENU_DIGIMAX_BASE_DFC0},
+        {0xdfe0, MENU_DIGIMAX_BASE_DFE0},
+        {-1, 0}
+};
+
 ui_res_value_list c128_ui_res_values[] = {
-    {"REUsize", ReuSize},
-    {"GeoRAMsize", GeoRAMSize},
-    {"RAMCARTsize", RamCartSize},
+    {"REUsize", c128ReuSize},
+    {"GeoRAMsize", c128GeoRAMSize},
+    {"RAMCARTsize", c128RamCartSize},
+    {"DIGIMAXbase", c128DigimaxBase},
     {NULL,NULL}
 };
 

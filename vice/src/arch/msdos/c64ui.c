@@ -43,16 +43,17 @@
 #include "ui.h"
 #include "uic64_256k.h"
 #include "uic64cart.h"
-#include "uireu.h"
-#ifdef HAVE_TFE
-#include "uitfe.h"
-#endif
+#include "uidigimax.h"
 #include "uigeoram.h"
 #include "uimmc64.h"
 #include "uiplus256k.h"
 #include "uiplus60k.h"
 #include "uiramcart.h"
+#include "uireu.h"
 #include "uisid.h"
+#ifdef HAVE_TFE
+#include "uitfe.h"
+#endif
 
 
 TUI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
@@ -355,6 +356,8 @@ int c64ui_init(void)
     uic64_256k_init(ui_ioextensions_submenu);
 
     uimmc64_init(ui_ioextensions_submenu);
+
+    uidigimax_init(ui_ioextensions_submenu);
 
 #ifdef HAVE_TFE
     uitfe_init(ui_ioextensions_submenu);

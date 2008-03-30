@@ -420,6 +420,27 @@ BEGIN
         MENUITEM "~64kB",                IDM_RAMCART64,    MIS_TEXT
         MENUITEM "~128kB",                IDM_RAMCART128,    MIS_TEXT
       END
+      MENUITEM "~DIGIMAX - Cartridge", IDM_DIGIMAX,       MIS_TEXT
+      SUBMENU  "DIGIMAX ~Base",        IDM_DIGIMAXBASE,   MIS_TEXT
+      BEGIN
+        MENUITEM "Userport",                IDM_DIGIMAXDD00,    MIS_TEXT
+        MENUITEM "$DE00",                IDM_DIGIMAXDE00,    MIS_TEXT
+        MENUITEM "$DE20",                IDM_DIGIMAXDE20,    MIS_TEXT
+        MENUITEM "$DE40",                IDM_DIGIMAXDE40,    MIS_TEXT
+        MENUITEM "$DE60",                IDM_DIGIMAXDE60,    MIS_TEXT
+        MENUITEM "$DE80",                IDM_DIGIMAXDE80,    MIS_TEXT
+        MENUITEM "$DEA0",                IDM_DIGIMAXDEA0,    MIS_TEXT
+        MENUITEM "$DEC0",                IDM_DIGIMAXDEC0,    MIS_TEXT
+        MENUITEM "$DEE0",                IDM_DIGIMAXDEE0,    MIS_TEXT
+        MENUITEM "$DF00",                IDM_DIGIMAXDF00,    MIS_TEXT
+        MENUITEM "$DF20",                IDM_DIGIMAXDF20,    MIS_TEXT
+        MENUITEM "$DF40",                IDM_DIGIMAXDF40,    MIS_TEXT
+        MENUITEM "$DF60",                IDM_DIGIMAXDF60,    MIS_TEXT
+        MENUITEM "$DF80",                IDM_DIGIMAXDF80,    MIS_TEXT
+        MENUITEM "$DFA0",                IDM_DIGIMAXDFA0,    MIS_TEXT
+        MENUITEM "$DFC0",                IDM_DIGIMAXDFC0,    MIS_TEXT
+        MENUITEM "$DFE0",                IDM_DIGIMAXDFE0,    MIS_TEXT
+      END
 #endif // __X64__ || __X128__
 #ifdef __X64__
       MENUITEM "PLUS~60K - Memory Expansion", IDM_PLUS60K,       MIS_TEXT

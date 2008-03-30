@@ -50,8 +50,11 @@ typedef struct gfxoutputdrv_data_s
   unsigned int line;
 } gfxoutputdrv_data_t;
 
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+extern gfxoutputdrv_t pcx_drv;
+#else
 static gfxoutputdrv_t pcx_drv;
-
+#endif
 
 static int pcxdrv_write_file_header(screenshot_t *screenshot)
 {

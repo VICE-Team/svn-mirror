@@ -37,6 +37,7 @@
 /* Sound defaults.  */
 #define SOUND_SAMPLE_RATE 22050
 #define SOUND_CHANNELS_MAX 2
+#define SOUND_BUFSIZE 32768
 
 #ifdef __MSDOS__
 # define SOUND_SAMPLE_BUFFER_SIZE       100     /* ms */
@@ -142,6 +143,10 @@ extern int sound_init_wmm_device(void);
 extern int sound_init_ffmpegaudio_device(void);
 extern int sound_init_coreaudio_device(void);
 extern int sound_init_ahi_device(void);
+extern int sound_init_voc_device(void);
+extern int sound_init_iff_device(void);
+extern int sound_init_aiff_device(void);
+extern int sound_init_mp3_device(void);
 
 /* internal function for sound device registration */
 extern int sound_register_device(sound_device_t *pdevice);

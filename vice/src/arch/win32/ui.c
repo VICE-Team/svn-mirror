@@ -1288,6 +1288,13 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_LANG_SV:
         ui_set_language(wparam);
         break;
+      case IDM_SOUND_RECORD_START:
+        ui_sound_record_settings_dialog(hwnd);
+        break;
+      case IDM_SOUND_RECORD_STOP:
+        resources_set_string("SoundRecordDeviceName", "");
+        ui_display_statustext(translate_text(IDS_SOUND_RECORDING_STOPPED), 1);
+        break;
       default:
         handle_default_command(wparam, lparam, hwnd);
     }

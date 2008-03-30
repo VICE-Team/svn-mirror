@@ -50,7 +50,11 @@ typedef struct gfxoutputdrv_data_s
   unsigned int line;
 } gfxoutputdrv_data_t;
 
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+extern gfxoutputdrv_t jpeg_drv;
+#else
 static gfxoutputdrv_t jpeg_drv;
+#endif
 
 struct jpeg_compress_struct cinfo;
 struct jpeg_error_mgr jerr;

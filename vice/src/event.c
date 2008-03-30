@@ -297,6 +297,7 @@ void event_record_in_list(event_list_state_t *list, unsigned int type,
     list->current->next
         = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
     list->current = list->current->next;
+    list->current->type = EVENT_LIST_END;
 }
 
 void event_record(unsigned int type, void *data, unsigned int size)
@@ -657,6 +658,7 @@ static void event_record_start_trap(WORD addr, void *data)
       case EVENT_START_MODE_PLAYBACK:
         cut_list(event_list->current->next);
         event_list->current->next = NULL;
+        event_list->current->type = EVENT_LIST_END;
         event_destroy_image_list();
         event_write_version();
         record_active = 1;

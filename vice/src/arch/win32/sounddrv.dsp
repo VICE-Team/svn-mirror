@@ -82,6 +82,10 @@ LIB32=link.exe -lib
 # Name "sounddrv - Win32 Debug"
 # Begin Source File
 
+SOURCE=..\..\sounddrv\soundaiff.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\sounddrv\sounddummy.c
 # End Source File
 # Begin Source File
@@ -102,7 +106,15 @@ SOURCE=..\..\sounddrv\soundfs.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\sounddrv\soundiff.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\sounddrv\soundspeed.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\sounddrv\soundvoc.c
 # End Source File
 # Begin Source File
 

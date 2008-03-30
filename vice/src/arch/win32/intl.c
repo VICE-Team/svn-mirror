@@ -765,6 +765,16 @@ static int intl_table[][countof(language_table)] = {
 /* pl */  IDD_SIDCART_SETTINGS_DIALOG_PL,    /* fuzzy, size */
 /* sv */  IDD_SIDCART_SETTINGS_DIALOG_SV},   /* fuzzy, size */
 
+/* res.rc */
+/* en */ {IDD_SOUND_RECORD_SETTINGS_DIALOG,
+/* de */  IDD_SOUND_RECORD_SETTINGS_DIALOG_DE,    /* fuzzy, size */
+/* fr */  IDD_SOUND_RECORD_SETTINGS_DIALOG_FR,    /* fuzzy, size */
+/* hu */  IDD_SOUND_RECORD_SETTINGS_DIALOG_HU,    /* fuzzy, size */
+/* it */  IDD_SOUND_RECORD_SETTINGS_DIALOG_IT,    /* fuzzy, size */
+/* nl */  IDD_SOUND_RECORD_SETTINGS_DIALOG_NL,    /* size */
+/* pl */  IDD_SOUND_RECORD_SETTINGS_DIALOG_PL,    /* fuzzy, size */
+/* sv */  IDD_SOUND_RECORD_SETTINGS_DIALOG_SV},   /* fuzzy, size */
+
 
 /* ------------------------------ MENU RESOURCES ------------------------------ */ 
 
@@ -2761,6 +2771,26 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* pl */  IDS_ERROR_CONNECTING_CLIENT_PL,    /* fuzzy */
 /* sv */  IDS_ERROR_CONNECTING_CLIENT_SV},   /* fuzzy */
 #endif
+
+/* res.rc */
+/* en */ {IDS_SOUND_RECORDING_STARTED,
+/* de */  IDS_SOUND_RECORDING_STARTED_DE,    /* fuzzy */
+/* fr */  IDS_SOUND_RECORDING_STARTED_FR,    /* fuzzy */
+/* hu */  IDS_SOUND_RECORDING_STARTED_HU,    /* fuzzy */
+/* it */  IDS_SOUND_RECORDING_STARTED_IT,    /* fuzzy */
+/* nl */  IDS_SOUND_RECORDING_STARTED_NL,
+/* pl */  IDS_SOUND_RECORDING_STARTED_PL,    /* fuzzy */
+/* sv */  IDS_SOUND_RECORDING_STARTED_SV},   /* fuzzy */
+
+/* res.rc */
+/* en */ {IDS_SOUND_RECORDING_STOPPED,
+/* de */  IDS_SOUND_RECORDING_STOPPED_DE,    /* fuzzy */
+/* fr */  IDS_SOUND_RECORDING_STOPPED_FR,    /* fuzzy */
+/* hu */  IDS_SOUND_RECORDING_STOPPED_HU,    /* fuzzy */
+/* it */  IDS_SOUND_RECORDING_STOPPED_IT,    /* fuzzy */
+/* nl */  IDS_SOUND_RECORDING_STOPPED_NL,
+/* pl */  IDS_SOUND_RECORDING_STOPPED_PL,    /* fuzzy */
+/* sv */  IDS_SOUND_RECORDING_STOPPED_SV},   /* fuzzy */
 
 };
 

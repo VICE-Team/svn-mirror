@@ -39,6 +39,7 @@
 #include "uiacia.h"
 #include "uic64_256k.h"
 #include "uic64cart.h"
+#include "uidigimax.h"
 #include "uidrivec64vic20.h"
 #include "uigeoram.h"
 #include "uiide64.h"
@@ -165,6 +166,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_MMC64_SETTINGS:
         ui_mmc64_settings_dialog(hwnd);
+        break;
+      case IDM_DIGIMAX_SETTINGS:
+        ui_digimax_settings_dialog(hwnd);
         break;
       case IDM_IDE64_SETTINGS:
         uiide64_settings_dialog(hwnd);

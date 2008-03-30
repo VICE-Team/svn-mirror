@@ -101,7 +101,7 @@ openGL_sync_with_raster(void)
     unsigned int c;
     if (openGL_sync && !no_sync)
 	if ((r = glXWaitVideoSyncSGI(mult, 0, &c)))
-	    log_error(openGL_log, _("glXWaitVideoSyncSGI() returnd %d"), r);
+	    log_error(openGL_log, "glXWaitVideoSyncSGI() returned %d", r);
 }
 
 void
@@ -128,7 +128,7 @@ init_openGL(void)
 			 attributeListSgl); 
     if (vi == NULL) 
     {
-	log_error(openGL_log, _("glXChooseVisual() failed\n"));
+	log_error(openGL_log, "glXChooseVisual() failed\n");
 	no_sync = 1;
 	return;
     }
@@ -139,7 +139,7 @@ init_openGL(void)
     cx = glXCreateContext(dpy, vi, 0, GL_TRUE);
     if (!cx)
     {
-	log_error(openGL_log, _("glXCreateContext() failed\n"));
+	log_error(openGL_log, "glXCreateContext() failed\n");
 	no_sync = 1;
 	return;
     }
@@ -165,7 +165,7 @@ check_openGL(Display *dpy)
 	    if (strcmp(t2, "GLX_SGI_video_sync") == 0)
 	    {
 		log_message(openGL_log, 
-			    _("GLX_SGI_video_sync extension is supported"));
+			    "GLX_SGI_video_sync extension is supported");
 		lib_free(t1);
 		return 0;
 	    }
@@ -174,7 +174,7 @@ check_openGL(Display *dpy)
 	lib_free(t1);
     }
     log_message(openGL_log, 
-		_("GLX_SGI_video_sync extension not supported"));
+		"GLX_SGI_video_sync extension not supported");
     
     return 1;
 }
@@ -189,8 +189,8 @@ set_openGL_sync(int val, void *param)
     if (openGL_sync)
 	init_openGL();
 
-    log_message(openGL_log, _("%s openGL_sync"), 
-		openGL_sync? _("enabling") : _("disabling"));
+    log_message(openGL_log, "%s openGL_sync", 
+		openGL_sync? "enabling" : "disabling");
 	
     ui_update_menus();
     return 0;

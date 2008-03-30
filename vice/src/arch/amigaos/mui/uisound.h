@@ -28,6 +28,7 @@
 #define _UISOUND_H
 
 extern void ui_sound_settings_dialog(void);
+extern void ui_sound_record_settings_dialog(video_canvas_t *canvas);
 
 #endif
 

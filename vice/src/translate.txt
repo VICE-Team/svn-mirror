@@ -157,6 +157,9 @@ IDGS_AND
 /* c64/c64io.c */
 IDGS_ALL_DEVICES_DETACHED
 
+/* c64/digimax.c */
+IDGS_DIGIMAX_NOT_WITH_RESID
+
 
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
@@ -922,7 +925,7 @@ IDCLS_ENABLE_SECOND_SID
 /* sid/sid-cmdline-options.c */
 IDCLS_ENABLE_SIDCART
 
-/* sid/sid-cmdline-options.c, c64/plus60k.c, c64/c64_256k.c */
+/* sid/sid-cmdline-options.c, c64/plus60k.c, c64/c64_256k.c c64/digimax.c */
 IDCLS_P_BASE_ADDRESS
 
 /* sid/sid-cmdline-options.c */
@@ -1368,3 +1371,12 @@ IDCLS_ENABLE_H1024K_EXPANSION
 
 /* plus4/plus4memhannes256k.c */
 IDCLS_ENABLE_H4096K_EXPANSION
+
+/* c64/digimax.c */
+IDCLS_ENABLE_DIGIMAX
+
+/* c64/digimax.c */
+IDCLS_DISABLE_DIGIMAX
+
+/* c64/digimax.c */
+IDCLS_DIGIMAX_BASE

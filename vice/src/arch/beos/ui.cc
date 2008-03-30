@@ -40,6 +40,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+#include <string.h>
+#endif
+
 extern "C" {
 #include "attach.h"
 #include "autostart.h"

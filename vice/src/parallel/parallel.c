@@ -153,7 +153,12 @@ static const char *Trans[NTRANS] = {
         "NDAC low", "NDAC high", "NRFD low", "NRFD high"
 };
 
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+extern State_t State[];
+#else
 static State_t State[NSTATE];
+#endif
+
 static int state = WaitATN;
 
 #define Go(a)           state=(a);return

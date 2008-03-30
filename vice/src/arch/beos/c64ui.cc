@@ -56,6 +56,7 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
     { "PLUS60K", MENU_TOGGLE_PLUS60K },
     { "PLUS256K", MENU_TOGGLE_PLUS256K },
     { "256K", MENU_TOGGLE_C64_256K },
+    { "DIGIMAX", MENU_TOGGLE_DIGIMAX },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
@@ -105,12 +106,34 @@ ui_res_possible_values C64_256KBase[] = {
         {-1, 0}
 };
 
+ui_res_possible_values DigimaxBase[] = {
+        {0xdd00, MENU_DIGIMAX_BASE_DD00},
+        {0xde00, MENU_DIGIMAX_BASE_DE00},
+        {0xde20, MENU_DIGIMAX_BASE_DE20},
+        {0xde40, MENU_DIGIMAX_BASE_DE40},
+        {0xde60, MENU_DIGIMAX_BASE_DE60},
+        {0xde80, MENU_DIGIMAX_BASE_DE80},
+        {0xdea0, MENU_DIGIMAX_BASE_DEA0},
+        {0xdec0, MENU_DIGIMAX_BASE_DEC0},
+        {0xdee0, MENU_DIGIMAX_BASE_DEE0},
+        {0xdf00, MENU_DIGIMAX_BASE_DF00},
+        {0xdf20, MENU_DIGIMAX_BASE_DF20},
+        {0xdf40, MENU_DIGIMAX_BASE_DF40},
+        {0xdf60, MENU_DIGIMAX_BASE_DF60},
+        {0xdf80, MENU_DIGIMAX_BASE_DF80},
+        {0xdfa0, MENU_DIGIMAX_BASE_DFA0},
+        {0xdfc0, MENU_DIGIMAX_BASE_DFC0},
+        {0xdfe0, MENU_DIGIMAX_BASE_DFE0},
+        {-1, 0}
+};
+
 ui_res_value_list c64_ui_res_values[] = {
     {"REUsize", ReuSize},
     {"GeoRAMsize", GeoRAMSize},
     {"RAMCARTsize", RamCartSize},
     {"PLUS60Kbase", Plus60kBase},
     {"C64_256Kbase", C64_256KBase},
+    {"DIGIMAXbase", DigimaxBase},
     {NULL,NULL}
 };
 

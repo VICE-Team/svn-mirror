@@ -1551,6 +1551,15 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_MMC64_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_MMC64_SETTINGS_SV, "MMC64-inställningar..."},
 
+/* en */ {IDMS_DIGIMAX_SETTINGS,    "Digimax settings..."},
+/* de */ {IDMS_DIGIMAX_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_DIGIMAX_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_DIGIMAX_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDMS_DIGIMAX_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_DIGIMAX_SETTINGS_NL, "Digimax instellingen..."},
+/* pl */ {IDMS_DIGIMAX_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_DIGIMAX_SETTINGS_SV, ""},  /* fuzzy */
+
 /* en */ {IDMS_ETHERNET_SETTINGS,    "Ethernet settings..."},
 /* de */ {IDMS_ETHERNET_SETTINGS_DE, "Ethernet Einstellungen..."},
 /* fr */ {IDMS_ETHERNET_SETTINGS_FR, "Émulation Ethernet..."},
@@ -1820,6 +1829,25 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDMS_VIDEO_OVERLAY_NL, "Video overlay"},
 /* pl */ {IDMS_VIDEO_OVERLAY_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_VIDEO_OVERLAY_SV, "Video overlay"},
+
+/* en */ {IDMS_START_SOUND_RECORD,    "Start Sound Record..."},
+/* de */ {IDMS_START_SOUND_RECORD_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_START_SOUND_RECORD_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_START_SOUND_RECORD_HU, ""},  /* fuzzy */
+/* it */ {IDMS_START_SOUND_RECORD_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_START_SOUND_RECORD_NL, "Start Geluid Opname..."},
+/* pl */ {IDMS_START_SOUND_RECORD_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_START_SOUND_RECORD_SV, ""},  /* fuzzy */
+
+/* en */ {IDMS_STOP_SOUND_RECORD,    "Stop Sound Record"},
+/* de */ {IDMS_STOP_SOUND_RECORD_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_STOP_SOUND_RECORD_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_STOP_SOUND_RECORD_HU, ""},  /* fuzzy */
+/* it */ {IDMS_STOP_SOUND_RECORD_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_STOP_SOUND_RECORD_NL, "Stop Geluid Opname"},
+/* pl */ {IDMS_STOP_SOUND_RECORD_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_STOP_SOUND_RECORD_SV, ""},  /* fuzzy */
+
 
 /* ----------------------- AmigaOS Message/Error Strings ----------------------- */
 
@@ -4539,7 +4567,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ {IDS_COMPUTER_ROM_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDS_COMPUTER_ROM_SETTINGS_HU, ""},  /* fuzzy */
 /* it */ {IDS_COMPUTER_ROM_SETTINGS_IT, ""},  /* fuzzy */
-/* nl */ {IDS_COMPUTER_ROM_SETTINGS_NL, ""},  /* fuzzy */
+/* nl */ {IDS_COMPUTER_ROM_SETTINGS_NL, "Computer ROM instellingen"},
 /* pl */ {IDS_COMPUTER_ROM_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_COMPUTER_ROM_SETTINGS_SV, ""},  /* fuzzy */
 
@@ -4548,9 +4576,90 @@ intl_translate_t intl_string_table[] = {
 /* fr */ {IDS_DRIVE_ROM_SETTINGS_FR, ""},  /* fuzzy */
 /* hu */ {IDS_DRIVE_ROM_SETTINGS_HU, ""},  /* fuzzy */
 /* it */ {IDS_DRIVE_ROM_SETTINGS_IT, ""},  /* fuzzy */
-/* nl */ {IDS_DRIVE_ROM_SETTINGS_NL, ""},  /* fuzzy */
+/* nl */ {IDS_DRIVE_ROM_SETTINGS_NL, "Drive ROM instellingen"},
 /* pl */ {IDS_DRIVE_ROM_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDS_DRIVE_ROM_SETTINGS_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_DIGIMAX_ENABLED,    "Digimax Enabled"},
+/* de */ {IDS_DIGIMAX_ENABLED_DE, ""},  /* fuzzy */
+/* fr */ {IDS_DIGIMAX_ENABLED_FR, ""},  /* fuzzy */
+/* hu */ {IDS_DIGIMAX_ENABLED_HU, ""},  /* fuzzy */
+/* it */ {IDS_DIGIMAX_ENABLED_IT, ""},  /* fuzzy */
+/* nl */ {IDS_DIGIMAX_ENABLED_NL, "Digimax Aan/Uit"},
+/* pl */ {IDS_DIGIMAX_ENABLED_PL, ""},  /* fuzzy */
+/* sv */ {IDS_DIGIMAX_ENABLED_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_DIGIMAX_BASE,    "Digimax Base"},
+/* de */ {IDS_DIGIMAX_BASE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_DIGIMAX_BASE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_DIGIMAX_BASE_HU, ""},  /* fuzzy */
+/* it */ {IDS_DIGIMAX_BASE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_DIGIMAX_BASE_NL, "Digimax basis adres"},
+/* pl */ {IDS_DIGIMAX_BASE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_DIGIMAX_BASE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_DIGIMAX_SETTINGS,    "Digimax Settings"},
+/* de */ {IDS_DIGIMAX_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDS_DIGIMAX_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDS_DIGIMAX_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDS_DIGIMAX_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDS_DIGIMAX_SETTINGS_NL, "Digimax Instellingen"},
+/* pl */ {IDS_DIGIMAX_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_DIGIMAX_SETTINGS_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SOUND_RECORDING_STOPPED,    "Sound Recording stopped..."},
+/* de */ {IDS_SOUND_RECORDING_STOPPED_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SOUND_RECORDING_STOPPED_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SOUND_RECORDING_STOPPED_HU, ""},  /* fuzzy */
+/* it */ {IDS_SOUND_RECORDING_STOPPED_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SOUND_RECORDING_STOPPED_NL, "Geluid Opname gestopt..."},
+/* pl */ {IDS_SOUND_RECORDING_STOPPED_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SOUND_RECORDING_STOPPED_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SOUND_RECORDING_STARTED,    "Sound Recording started..."},
+/* de */ {IDS_SOUND_RECORDING_STARTED_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SOUND_RECORDING_STARTED_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SOUND_RECORDING_STARTED_HU, ""},  /* fuzzy */
+/* it */ {IDS_SOUND_RECORDING_STARTED_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SOUND_RECORDING_STARTED_NL, "Geluid Opname gestart..."},
+/* pl */ {IDS_SOUND_RECORDING_STARTED_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SOUND_RECORDING_STARTED_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SELECT_RECORD_FILE,    "Select Sound Record File"},
+/* de */ {IDS_SELECT_RECORD_FILE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SELECT_RECORD_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SELECT_RECORD_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDS_SELECT_RECORD_FILE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SELECT_RECORD_FILE_NL, "Selecteer Geluid Opname Bestand"},
+/* pl */ {IDS_SELECT_RECORD_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_RECORD_FILE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SOUND_RECORD_FORMAT,    "Sound Record Format"},
+/* de */ {IDS_SOUND_RECORD_FORMAT_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SOUND_RECORD_FORMAT_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SOUND_RECORD_FORMAT_HU, ""},  /* fuzzy */
+/* it */ {IDS_SOUND_RECORD_FORMAT_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SOUND_RECORD_FORMAT_NL, "Geluid Opname Formaat"},
+/* pl */ {IDS_SOUND_RECORD_FORMAT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SOUND_RECORD_FORMAT_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SOUND_RECORD_FILE,    "Sound Record File"},
+/* de */ {IDS_SOUND_RECORD_FILE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SOUND_RECORD_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SOUND_RECORD_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDS_SOUND_RECORD_FILE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SOUND_RECORD_FILE_NL, "Geluid Opname Bestand"},
+/* pl */ {IDS_SOUND_RECORD_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SOUND_RECORD_FILE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SOUND_RECORD_SETTINGS,    "Sound Record Settings"},
+/* de */ {IDS_SOUND_RECORD_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SOUND_RECORD_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SOUND_RECORD_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDS_SOUND_RECORD_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SOUND_RECORD_SETTINGS_NL, "Geluid Opname Instellingen"},
+/* pl */ {IDS_SOUND_RECORD_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SOUND_RECORD_SETTINGS_SV, ""},  /* fuzzy */
 
 };
 

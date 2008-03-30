@@ -24,6 +24,8 @@
  *
  */
 
+#include "vice.h"
+
 #include <string.h>
 
 #include "private.h"

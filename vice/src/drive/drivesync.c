@@ -26,7 +26,9 @@
 
 #include "vice.h"
 
+#if !defined(__BEOS__) || !defined(WORDS_BIGENDIAN)
 #include <math.h>
+#endif
 
 #include "drive.h"
 #include "drivesync.h"

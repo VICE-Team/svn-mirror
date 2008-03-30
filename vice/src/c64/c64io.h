@@ -53,6 +53,7 @@
 #define IO_SOURCE_EMUID              21
 #define IO_SOURCE_MIKRO_ASSEMBLER    22
 #define IO_SOURCE_MMC64              23
+#define IO_SOURCE_DIGIMAX            24
 
 #define IO_DETACH_CART       0
 #define IO_DETACH_RESOURCE   1

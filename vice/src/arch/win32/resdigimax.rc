@@ -1,0 +1,107 @@
+// DIGIMAX specific resources.
+//
+
+// original and default ENGLISH version of dialog
+
+IDD_DIGIMAX_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "", IDC_DIGIMAX_ENABLE,
+                    7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "",
+                    IDC_DIGIMAX_BASE_LABEL, 9, 24, 30, 8
+    COMBOBOX        IDC_DIGIMAX_BASE, 45, 22, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 30, 90, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 90, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_DIGIMAX_CAPTION             "Digimax Settings"
+    IDS_DIGIMAX_ENABLE              "&Enable digimax"
+    IDS_DIGIMAX_BASE                "Digimax base address"
+END
+
+// GERMAN text
+
+STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_DIGIMAX_CAPTION             "Digimax Settings"
+    IDS_DIGIMAX_ENABLE              "&Enable digimax"
+    IDS_DIGIMAX_BASE                "Digimax base address"
+END
+
+// FRENCH text
+
+STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_DIGIMAX_CAPTION             "Digimax Settings"
+    IDS_DIGIMAX_ENABLE              "&Enable digimax"
+    IDS_DIGIMAX_BASE                "Digimax base address"
+END
+
+
+// HUNGARIAN text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_DIGIMAX_CAPTION             "Digimax Settings"
+    IDS_DIGIMAX_ENABLE              "&Enable digimax"
+    IDS_DIGIMAX_BASE                "Digimax base address"
+END
+#pragma code_page(28591)
+
+
+// ITALIAN text
+
+STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_DIGIMAX_CAPTION             "Digimax Settings"
+    IDS_DIGIMAX_ENABLE              "&Enable digimax"
+    IDS_DIGIMAX_BASE                "Digimax base address"
+END
+
+// DUTCH text
+
+STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_DIGIMAX_CAPTION             "Digimax Instellingen"
+    IDS_DIGIMAX_ENABLE              "&Aktiveer digimax"
+    IDS_DIGIMAX_BASE                "Digimax basis adres"
+END
+
+// POLISH text
+
+#pragma code_page(28592)
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_DIGIMAX_CAPTION             "Digimax Settings"
+    IDS_DIGIMAX_ENABLE              "&Enable digimax"
+    IDS_DIGIMAX_BASE                "Digimax base address"
+END
+#pragma code_page(28591)
+
+// SWEDISH text
+
+STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_DIGIMAX_CAPTION             "Digimax Settings"
+    IDS_DIGIMAX_ENABLE              "&Enable digimax"
+    IDS_DIGIMAX_BASE                "Digimax base address"
+END

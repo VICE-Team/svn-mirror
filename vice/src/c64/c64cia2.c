@@ -38,6 +38,7 @@
 #include "c64cia.h"
 #include "c64parallel.h"
 #include "cia.h"
+#include "digimax.h"
 #include "iecbus.h"
 #include "interrupt.h"
 #include "lib.h"
@@ -54,6 +55,7 @@
 
 void REGPARM2 cia2_store(WORD addr, BYTE data)
 {
+    digimax_userport_store(addr, data);
     ciacore_store(machine_context.cia2, addr, data);
 }
 

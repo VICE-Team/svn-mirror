@@ -35,6 +35,8 @@
 #include "intl.h"
 #include "translate.h"
 
+static video_canvas_t *sound_canvas;
+
 static char *ui_sound_freq[] = {
   "8000 Hz",
   "11025 Hz",
@@ -108,6 +110,17 @@ static const int ui_sound_adjusting_values[] = {
   -1
 };
 
+static char *ui_sound_formats[] = {
+  "aiff",
+  "iff",
+  "voc",
+  "wav",
+#ifdef USE_LAMEMP3
+  "mp3",
+#endif
+  NULL
+};
+
 static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_CYCLE, "SoundSampleRate", ui_sound_freq, ui_sound_freq_values },
   { NULL, MUI_TYPE_CYCLE, "SoundBufferSize", ui_sound_buffer, ui_sound_buffer_values },
@@ -115,6 +128,23 @@ static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_CYCLE, "SoundSpeedAdjustment", ui_sound_adjusting, ui_sound_adjusting_values },
   UI_END /* mandatory */
 };
+
+static ui_to_from_t ui_to_from_record[] = {
+  { NULL, MUI_TYPE_FILENAME, "SoundRecordDeviceArg", NULL, NULL },
+  UI_END /* mandatory */
+};
+
+static ULONG Browse_Record_File( struct Hook *hook, Object *obj, APTR arg )
+{
+  char *fname=NULL;
+
+  fname=BrowseFile(translate_text(IDS_SELECT_RECORD_FILE), "#?", sound_canvas);
+
+  if (fname!=NULL)
+    set(ui_to_from_record[0].object, MUIA_String_Contents, fname);
+
+  return 0;
+}
 
 static APTR build_gui(void)
 {
@@ -126,9 +156,72 @@ static APTR build_gui(void)
   End;
 }
 
+static APTR format;
+
+static APTR build_gui_record(void)
+{
+  APTR app, ui, ok, browse_button, cancel;
+
+#ifdef AMIGA_MORPHOS
+  static const struct Hook BrowseRecordHook = { { NULL,NULL },(VOID *)HookEntry,(VOID *)Browse_Record_File, NULL};
+#else
+  static const struct Hook BrowseRecordHook = { { NULL,NULL },(VOID *)Browse_Record_File,NULL,NULL };
+#endif
+
+  app = mui_get_app();
+
+  ui = GroupObject,
+    CYCLE(format, translate_text(IDS_SOUND_RECORD_FORMAT), ui_sound_formats)
+    FILENAME(ui_to_from_record[0].object, translate_text(IDS_SOUND_RECORD_FILE), browse_button)
+    OK_CANCEL_BUTTON
+  End;
+
+  if (ui != NULL) {
+    DoMethod(cancel,
+      MUIM_Notify, MUIA_Pressed, FALSE,
+      app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+    DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+      app, 2, MUIM_Application_ReturnID, BTN_OK);
+
+    DoMethod(browse_button, MUIM_Notify, MUIA_Pressed, FALSE,
+      app, 2, MUIM_CallHook, &BrowseRecordHook);
+  }
+
+  return ui;
+}
+
 void ui_sound_settings_dialog(void)
 {
   intl_convert_mui_table(ui_sound_oversample_translate, ui_sound_oversample);
   intl_convert_mui_table(ui_sound_adjusting_translate, ui_sound_adjusting);
   mui_show_dialog(build_gui(), translate_text(IDS_SOUND_SETTINGS), ui_to_from);
+}
+
+void ui_sound_record_settings_dialog(video_canvas_t *canvas)
+{
+  APTR window;
+  int val;
+
+  sound_canvas=canvas;
+
+  window = mui_make_simple_window(build_gui_record(), translate_text(IDS_SOUND_RECORD_SETTINGS));
+
+  if (window != NULL) {
+    mui_add_window(window);
+    ui_get_to(ui_to_from_record);
+    set(format, MUIA_Cycle_Active, 1);
+    set(window, MUIA_Window_Open, TRUE);
+    if (mui_run() == BTN_OK)
+    {
+      ui_get_from(ui_to_from_record);
+      get(format, MUIA_Cycle_Active, (APTR)&val);
+      resources_set_string("SoundRecordDeviceName", "");
+      resources_set_string("SoundRecordDeviceName", ui_sound_formats[val]);
+      ui_display_statustext(translate_text(IDS_SOUND_RECORDING_STARTED), 1);
+    }
+    set(window, MUIA_Window_Open, FALSE);
+    mui_rem_window(window);
+    MUI_DisposeObject(window);
+  }
 }

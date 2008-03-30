@@ -40,6 +40,7 @@
 #include "uic64cart.h"
 #include "uicommands.h"
 #include "uidatasette.h"
+#include "uidigimax.h"
 #include "uidrive.h"
 #include "uidrivec128.h"
 #include "uiide64.h"
@@ -242,6 +243,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, ramcart_submenu },
     { N_("MMC64 emulation"),
       NULL, NULL, mmc64_submenu },
+    { N_("Digimax Cart"),
+      NULL, NULL, digimax_submenu },
     { N_("IDE64 emulation"),
       NULL, NULL, ide64_submenu },
 #ifdef HAVE_TFE

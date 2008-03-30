@@ -20,10 +20,11 @@ EXTRA_libsounddrv_a_SOURCES = \
 	sounddart.c \
 	sounddx.c \
 	soundesd.c \
+	soundffmpegaudio.c \
 	soundhpux.c \
 	soundmidas.c \
 	soundmmos2.c \
-	soundffmpegaudio.c \
+	soundmp3.c \
 	soundsdl.c \
 	soundsgi.c \
 	soundsun.c \
@@ -32,19 +33,25 @@ EXTRA_libsounddrv_a_SOURCES = \
 
 # These sources are always built.
 libsounddrv_a_SOURCES = \
+	soundaiff.c \
 	sounddummy.c \
 	sounddump.c \
 	soundfs.c \
+	soundiff.c \
 	soundspeed.c \
+	soundvoc.c \
 	soundwav.c
 
 libsounddrv_a_DEPENDENCIES = \
 	@SOUND_DRIVERS@ \
+	soundaiff.o \
 	sounddummy.o \
 	sounddump.o \
 	soundfs.o \
+	soundiff.o \
 	soundspeed.o \
-	soundwav.c
+	soundvoc.o \
+	soundwav.o
 
 libsounddrv_a_LIBADD = \
 	@SOUND_DRIVERS@

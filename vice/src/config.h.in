@@ -15,6 +15,9 @@
 /* Should we enable AmigaOS4 support. */
 #undef AMIGA_OS4
 
+/* Enable alternate OS4 includes. */
+#undef AMIGA_OS4_ALT
+
 /* Should we enable Amigaos support. */
 #undef AMIGA_SUPPORT
 
@@ -209,6 +212,9 @@
 /* Can we use the JPEG library? */
 #undef HAVE_JPEG
 
+/* Define to 1 if you have the <lame/lame.h> header file. */
+#undef HAVE_LAME_LAME_H
+
 /* Define to 1 if you have the `amd64' library (-lamd64). */
 #undef HAVE_LIBAMD64
 
@@ -319,6 +325,9 @@
 
 /* Define to 1 if you have the <proto/cybergraphics.h> header file. */
 #undef HAVE_PROTO_CYBERGRAPHICS_H
+
+/* Define to 1 if you have the <proto/Picasso96API.h> header file. */
+#undef HAVE_PROTO_PICASSO96API_H
 
 /* Define to 1 if you have the <proto/Picasso96.h> header file. */
 #undef HAVE_PROTO_PICASSO96_H
@@ -573,6 +582,9 @@
 
 /* Use GNOME UI. */
 #undef USE_GNOMEUI
+
+/* Enable lamemp3 support. */
+#undef USE_LAMEMP3
 
 /* Use MIDAS Sound System instead of the Allegro library. */
 #undef USE_MIDAS_SOUND

@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=20
-VICE_VERSION_BUILD=21
+VICE_VERSION_BUILD=22
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -676,6 +676,12 @@ if test x"$ac_cv_c_inline" = "xno" ; then
   CFLAGS="$CFLAGS -DNO_INLINE"
 fi
 
+if test x"$is_beos" = "xyes"; then
+  if test x"$host_cpu" = "xpowerpc" -o x"$host_cpu" = "xppc"; then
+    AC_DEFINE(inline)
+  fi
+fi
+
 dnl Define the type sizes.
 if [[ x"$ac_cv_prog_cc_cross" != "xyes" ]]; then
   AC_C_BIGENDIAN
@@ -1076,6 +1082,25 @@ if test x"$is_amiga" = "xyes"; then
                    [SOUND_DRIVERS="$SOUND_DRIVERS soundahi.o"; break])
 fi
 
+AC_CHECK_HEADERS(lame/lame.h,[AC_CHECK_LIB(mp3lame, lame_encode_buffer,
+                 [SOUND_DRIVERS="$SOUND_DRIVERS soundmp3.o";
+                 SOUND_LIBS="$SOUND_LIBS -lmp3lame";
+                 AC_DEFINE(USE_LAMEMP3,,[Enable lamemp3 support.])],,$SOUND_LIBS)])
+
+if test x"$is_amigaos4" = "xyes"; then
+  AC_MSG_CHECKING(whether devices/timer.h defines TimeVal)
+  AC_TRY_COMPILE([ #include <devices/timer.h> ],
+                 [ struct TimeVal djs; ],
+                 [ AC_DEFINE(AMIGA_OS4_ALT,,
+                             [Enable alternate OS4 includes.])
+                   AC_MSG_RESULT(yes) ], AC_MSG_RESULT(no))
+
+  dnl for AmigaOS4 native resid needs to be configured without dependency tracking
+  if test x"$cross_compiling" != "xyes"; then
+    ac_configure_args="$ac_configure_args --disable-dependency-tracking"
+  fi
+fi
+
 if test x"$is_dos" = "xyes"; then
     if test x"$with_midas" = "xyes"; then
         AC_CHECK_HEADERS(midasdll.h,
@@ -1256,12 +1281,19 @@ AC_SUBST(READLINE)
 dnl check Amiga graphics support
 if test x"$is_amiga" = "xyes"; then
   cgx_present=no
+  p96_present=no
   if test x"$with_picasso96" != "xyes"; then
     AC_CHECK_HEADERS(proto/cybergraphics.h,[cgx_present=yes],,)
   fi
 
   if test x"$cgx_present" = "xno"; then
-    AC_CHECK_HEADERS(proto/Picasso96.h)
+    AC_CHECK_HEADERS(proto/Picasso96.h,[p96_present=yes],,)
+    if test x"$p96_present" = "xno"; then
+      AC_CHECK_HEADERS(proto/Picasso96API.h,[p96_present=yes],,)
+      if test x"$p96_present" = "xno"; then
+        AC_MSG_ERROR([No CGX or P96 headers found])
+      fi
+    fi
   fi
 fi
 

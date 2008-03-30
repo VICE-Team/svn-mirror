@@ -263,6 +263,10 @@ SOURCE=.\uidatasette.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uidigimax.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uidrivec128.c
 # End Source File
 # Begin Source File

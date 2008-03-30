@@ -38,6 +38,8 @@ libarchgui_a_SOURCES = \
 	uicrtc.h \
 	uidatasette.c \
 	uidatasette.h \
+	uidigimax.c \
+	uidigimax.h \
 	uidrive.c \
 	uidrive.h \
 	uidrivec128.c \

@@ -156,7 +156,8 @@ fi
 #sounddrv lib
 cd $srcdir/sounddrv
 STDINCFLAGS="-I../ -I../arch/amigaos"
-for i in sounddummy.c sounddump.c soundfs.c soundspeed.c soundwav.c soundahi.c
+for i in sounddummy.c sounddump.c soundfs.c soundspeed.c soundwav.c \
+         soundahi.c soundvoc.c soundiff.c soundaiff.c
 do
   compile_file $i
 done
@@ -481,7 +482,7 @@ for i in c64-cmdline-options.c c64-resources.c c64-snapshot.c c64.c \
          c64drive.c c64export.c c64fastiec.c c64iec.c c64io.c c64keyboard.c \
          c64mem.c c64meminit.c c64memlimit.c c64memrom.c c64memsnapshot.c \
          c64parallel.c c64pla.c c64printer.c c64rom.c c64romset.c c64rsuser.c \
-         c64sound.c c64tpi.c c64video.c georam.c mmc64.c patchrom.c \
+         c64sound.c c64tpi.c c64video.c digimax.c georam.c mmc64.c patchrom.c \
          plus256k.c plus60k.c psid.c ramcart.c reloc65.c reu.c tfe.c
 do
   compile_file $i
@@ -495,7 +496,8 @@ if test x"$TARGET_AR" = "xar"; then
                c64export.c.o c64iec.c.o c64io.c.o c64keyboard.c.o \
                c64meminit.c.o c64memrom.c.o c64printer.c.o c64pla.c.o \
                c64parallel.c.o c64rsuser.c.o c64sound.c.o c64tpi.c.o \
-               georam.c.o mmc64.c.o patchrom.c.o ramcart.c.o reu.c.o tfe.c.o
+               digimax.c.o georam.c.o mmc64.c.o patchrom.c.o ramcart.c.o \
+               reu.c.o tfe.c.o
   if [ ! -f libcc.a ]; then
     echo "generation of libcc.a failed"
     exit 1
@@ -507,8 +509,8 @@ else
                       c64export.c.o c64iec.c.o c64io.c.o c64keyboard.c.o \
                       c64meminit.c.o c64memrom.c.o c64printer.c.o c64pla.c.o \
                       c64parallel.c.o c64rsuser.c.o c64sound.c.o c64tpi.c.o \
-                      georam.c.o mmc64.c.o patchrom.c.o ramcart.c.o reu.c.o \
-                      tfe.c.o 
+                      digimax.c.o georam.c.o mmc64.c.o patchrom.c.o ramcart.c.o \
+                      reu.c.o tfe.c.o 
 fi
 
 #c128 lib
@@ -606,18 +608,18 @@ for i in ahi.c amigamain.c archdep.c blockdev.c c128ui.c c64ui.c \
          tfearch.c timer.c ui.c uiapi.c uiattach.c uic64cart.c uicart.c \
          uicmdline.c uicolor.c uilib.c uimon.c vic20ui.c video.c vsidui.c \
          vsyncapi.c mui/filereq.c mui/mui.c mui/uiacia.c mui/uic64_256k.c \
-         mui/uic128settings.c mui/uidatasette.c mui/uicbm2settings.c \
-         mui/uidrivec128.c mui/uidrivec64vic20.c mui/uidrivepetcbm2.c \
-         mui/uidriveplus4.c mui/uifliplist.c mui/uigeoram.c mui/uiide64.c \
-         mui/uijoystick.c mui/uijoystickll.c mui/uimmc64.c mui/uinetwork.c \
-         mui/uipetreu.c mui/uipetsettings.c mui/uiplus256k.c \
-         mui/uiplus4settings.c mui/uiplus60k.c mui/uiram.c mui/uiramcart.c \
-         mui/uireu.c mui/uiromc128settings.c mui/uiromc64vic20settings.c \
-         mui/uiromcbm2settings.c mui/uirompetsettings.c \
-         mui/uiromplus4settings.c mui/uirs232user.c mui/uisid.c \
-         mui/uisidcart.c mui/uisnapshot.c mui/uisound.c mui/uivic20mem.c \
-         mui/uivicii.c mui/uivideoc128.c mui/uivideoc64plus4vic20.c \
-         mui/uivideocbm2pet.c
+         mui/uic128settings.c mui/uidatasette.c mui/uidigimax.c \
+         mui/uicbm2settings.c mui/uidrivec128.c mui/uidrivec64vic20.c \
+         mui/uidrivepetcbm2.c mui/uidriveplus4.c mui/uifliplist.c \
+         mui/uigeoram.c mui/uiide64.c mui/uijoystick.c mui/uijoystickll.c \
+         mui/uimmc64.c mui/uinetwork.c mui/uipetreu.c mui/uipetsettings.c \
+         mui/uiplus256k.c mui/uiplus4settings.c mui/uiplus60k.c mui/uiram.c \
+         mui/uiramcart.c mui/uireu.c mui/uiromc128settings.c \
+         mui/uiromc64vic20settings.c mui/uiromcbm2settings.c \
+         mui/uirompetsettings.c mui/uiromplus4settings.c mui/uirs232user.c \
+         mui/uisid.c mui/uisidcart.c mui/uisnapshot.c mui/uisound.c \
+         mui/uivic20mem.c mui/uivicii.c mui/uivideoc128.c \
+         mui/uivideoc64plus4vic20.c mui/uivideocbm2pet.c
 do
   compile_file $i
 done

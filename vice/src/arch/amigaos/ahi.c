@@ -36,7 +36,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #include <dos/dostags.h>
 
 #ifndef __VBCC__

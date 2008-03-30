@@ -24,6 +24,8 @@
  *
  */
 
+#include "vice.h"
+
 #define UI_PET
 #define UI_MENU_NAME pet_ui_translation_menu
 #define UI_TRANSLATED_MENU_NAME pet_ui_menu

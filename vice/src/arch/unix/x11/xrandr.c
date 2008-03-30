@@ -91,7 +91,7 @@ xrandr_mode(struct video_canvas_s *canvas, int mode)
 	return -1;
 
     if (xrandr_log != LOG_ERR)
-	log_message(xrandr_log, _("Selected mode: %s"), 
+	log_message(xrandr_log, "Selected mode: %s", 
 		    screen_info.all_modes[mode].mode_string);
     xrandr_selected_mode = mode;
     
@@ -104,7 +104,7 @@ xrandr_enable(struct video_canvas_s *canvas, int activate)
     int ret;
 
     if (canvas->fullscreenconfig->double_size)
-	log_message(xrandr_log, _("double size not implemented - use standard double size from menu."));
+	log_message(xrandr_log, "double size not implemented - use standard double size from menu.");
 
     ret = set_xrandr(activate);
     x11ui_fullscreen(activate);
@@ -124,7 +124,7 @@ xrandr_init(void)
     {
 	no_xrandr = 1;
 	log_message(xrandr_log, 
-		    _("X11 XRandR extension not available, using default display mode."));
+		    "X11 XRandR extension not available, using default display mode.");
 	return -1;
     }
     no_xrandr = 0;
@@ -209,7 +209,7 @@ init_XRandR(Display *dpy)
     screen_info.rotations = XRRConfigRotations (screen_info.config, 
 						&screen_info.current_rotation);
 				       
-    log_message(xrandr_log, _("XRandR reports current display: %dx%d@%d"), 
+    log_message(xrandr_log, "XRandR reports current display: %dx%d@%d", 
 		screen_info.sizes[screen_info.current_size].width,
 		screen_info.sizes[screen_info.current_size].height,
 		screen_info.current_rate);
@@ -275,8 +275,8 @@ set_xrandr(int val)
 	return 1;
 
     xrandr_active = val;
-    log_message(xrandr_log, _("%s XRandR"), 
-		xrandr_active ? _("enabling") : _("disabling"));
+    log_message(xrandr_log, "%s XRandR", 
+		xrandr_active ? "enabling" : "disabling");
     vsync_suspend_speed_eval();
     if (xrandr_active)
     {
@@ -289,7 +289,7 @@ set_xrandr(int val)
 				      screen_info.all_modes[xrandr_selected_mode].rate,
 				      0);
 	if (status) 
-	    log_message(xrandr_log, _("XRandR setting failed: %d"), status);
+	    log_message(xrandr_log, "XRandR setting failed: %d", status);
 	else
 	{
 	    switch (screen_info.all_modes[xrandr_selected_mode].rate)
@@ -315,7 +315,7 @@ set_xrandr(int val)
 				      screen_info.all_modes[0].rate,
 				      0);
 	if (status)
-	    log_message(xrandr_log, _("XRandR setting failed: %d"), status);
+	    log_message(xrandr_log, "XRandR setting failed: %d", status);
 	mult = 1;
     }
 	

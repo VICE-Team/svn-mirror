@@ -531,6 +531,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_RAMCART:
         toggle("RAMCART");
         return;
+    case IDM_DIGIMAX:
+        toggle("DIGIMAX");
+        return;
 #ifdef __X64__
     case IDM_PLUS60K:
         toggle("PLUS60K");
@@ -571,6 +574,28 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_RAMCART64:
     case IDM_RAMCART128:
         resources_set_int("RAMCARTSize", (idm&0xf)<<6);
+        return;
+
+    case IDM_DIGIMAXDD00:
+        resources_set_int("DIGIMAXbase", 0xdd00);
+        return;
+    case IDM_DIGIMAXDE00:
+    case IDM_DIGIMAXDE20:
+    case IDM_DIGIMAXDE40:
+    case IDM_DIGIMAXDE60:
+    case IDM_DIGIMAXDE80:
+    case IDM_DIGIMAXDEA0:
+    case IDM_DIGIMAXDEC0:
+    case IDM_DIGIMAXDEE0:
+    case IDM_DIGIMAXDF00:
+    case IDM_DIGIMAXDF20:
+    case IDM_DIGIMAXDF40:
+    case IDM_DIGIMAXDF60:
+    case IDM_DIGIMAXDF80:
+    case IDM_DIGIMAXDFA0:
+    case IDM_DIGIMAXDFC0:
+    case IDM_DIGIMAXDFE0:
+        resources_set_int("DIGIMAXbase", 0xde00+((idm&0xf)*0x20));
         return;
 
 #ifdef __X64__
@@ -1246,6 +1271,9 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_int("RAMCART", &val);
         WinCheckMenuItem(hwnd,  IDM_RAMCART,     val);
         WinEnableMenuItem(hwnd, IDM_RAMCARTSIZE, val);
+        resources_get_int("DIGIMAX", &val);
+        WinCheckMenuItem(hwnd,  IDM_DIGIMAX,     val);
+        WinEnableMenuItem(hwnd, IDM_DIGIMAXBASE, val);
 #endif
 #ifdef __X64__
         resources_get_int("PLUS60K", &val);
@@ -1352,6 +1380,27 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_int("RAMCARTSize", &val);
         WinCheckMenuItem(hwnd, IDM_RAMCART64,   val==64);
         WinCheckMenuItem(hwnd, IDM_RAMCART128,   val==128);
+        return;
+
+    case IDM_DIGIMAXBASE:
+        resources_get_int("DIGIMAXbase", &val);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDD00,   val==0xdd00);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDE00,   val==0xde00);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDE20,   val==0xde20);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDE40,   val==0xde40);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDE60,   val==0xde60);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDE80,   val==0xde80);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDEA0,   val==0xdea0);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDEC0,   val==0xdec0);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDEE0,   val==0xdee0);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDF00,   val==0xdf00);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDF20,   val==0xdf20);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDF40,   val==0xdf40);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDF60,   val==0xdf60);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDF80,   val==0xdf80);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDFA0,   val==0xdfa0);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDFC0,   val==0xdfc0);
+        WinCheckMenuItem(hwnd, IDM_DIGIMAXDFE0,   val==0xdfe0);
         return;
 
 #ifdef __X64__

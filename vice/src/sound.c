@@ -288,7 +288,6 @@ static int speed_percent;
 /* Flag: Is warp mode enabled?  */
 static int warp_mode_enabled;
 
-#define BUFSIZE 32768
 typedef struct
 {
     /* Number of sound channels (for multiple SIDs) */
@@ -316,7 +315,7 @@ typedef struct
     CLOCK lastclk;
 
     /* sample buffer */
-    SWORD buffer[SOUND_CHANNELS_MAX * BUFSIZE];
+    SWORD buffer[SOUND_CHANNELS_MAX * SOUND_BUFSIZE];
 
     /* sample buffer pointer */
     int bufptr;
@@ -835,7 +834,7 @@ static int sound_run_sound(void)
                                                  snddata.buffer
                                                  + snddata.bufptr
                                                  * snddata.channels + c,
-                                                 BUFSIZE - snddata.bufptr,
+                                                 SOUND_BUFSIZE - snddata.bufptr,
                                                  snddata.channels,
                                                  &delta_t);
             if (delta_t) {
@@ -852,7 +851,7 @@ static int sound_run_sound(void)
              / snddata.clkstep);
         if (!nr)
             return 0;
-        if (snddata.bufptr + nr > BUFSIZE) {
+        if (snddata.bufptr + nr > SOUND_BUFSIZE) {
 #ifdef HAS_TRANSLATION
             return sound_error(translate_text(IDGS_SOUND_BUFFER_OVERFLOW));
 #else
@@ -1322,6 +1321,13 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     sound_init_speed_device();
     sound_init_dump_device();
     sound_init_wav_device();
+    sound_init_voc_device();
+    sound_init_iff_device();
+    sound_init_aiff_device();
+
+#ifdef USE_LAMEMP3
+    sound_init_mp3_device();
+#endif
 
 #ifdef HAVE_FFMPEG
     sound_init_ffmpegaudio_device();

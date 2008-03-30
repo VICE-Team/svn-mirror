@@ -387,32 +387,59 @@ static UI_CALLBACK(events_return_ms)
     event_record_reset_milestone();
 }
 
-static UI_CALLBACK(sound_record)
+static void sound_record_stop(void)
+{
+    resources_set_string("SoundRecordDeviceName", "");
+    ui_display_statustext(_("Sound Recording stopped..."),10);
+}
+
+static void sound_record_start(char *format, char *extension)
 {
     ui_button_t button;
     char *s;
-    const char *devicename;
 
     vsync_suspend_speed_eval();
 
-    resources_get_string("SoundRecordDeviceName", &devicename);
-    if (devicename && !strcmp(devicename,"wav")) {
-        /* the recording is active; stop it  */
-        resources_set_string("SoundRecordDeviceName", "");
-/*        ui_display_statustext("");*/
-    } else {
-        s = ui_select_file(_("Record sound to file"), NULL, 0, False, NULL,
-                              "*.wav", &button, False, NULL);
-        if (button == UI_BUTTON_OK && s != NULL) {
-            util_add_extension(&s, "wav");
-            resources_set_string("SoundRecordDeviceArg", s);
-            resources_set_string("SoundRecordDeviceName", "wav");
-            resources_set_int("Sound", 1);
-            lib_free(s);
-/*            ui_display_statustext("Recording wav...");*/
-        }
+    resources_set_string("SoundRecordDeviceName", "");
+    s = ui_select_file(_("Record sound to file"), NULL, 0, False, NULL,
+                              extension, &button, False, NULL);
+    if (button == UI_BUTTON_OK && s != NULL)
+    {
+        util_add_extension(&s, format);
+        resources_set_string("SoundRecordDeviceArg", s);
+        resources_set_string("SoundRecordDeviceName", format);
+        resources_set_int("Sound", 1);
+        lib_free(s);
+        ui_display_statustext(_("Sound Recording started..."),10);
     }
 }
+
+static UI_CALLBACK(sound_record_wav)
+{
+    sound_record_start("wav","*.wav");
+}
+
+static UI_CALLBACK(sound_record_voc)
+{
+    sound_record_start("voc","*.voc");
+}
+
+static UI_CALLBACK(sound_record_iff)
+{
+    sound_record_start("iff","*.iff");
+}
+
+static UI_CALLBACK(sound_record_aiff)
+{
+    sound_record_start("aiff","*.aiff");
+}
+
+#ifdef USE_LAMEMP3
+static UI_CALLBACK(sound_record_mp3)
+{
+    sound_record_start("mp3","*.mp3");
+}
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -502,9 +529,20 @@ ui_menu_entry_t ui_snapshot_commands_menu[] = {
 };
 
 ui_menu_entry_t ui_sound_record_commands_menu[] = {
-    { N_("Sound record..."),
-      (ui_callback_t)sound_record, NULL, NULL,
-      XK_r, UI_HOTMOD_META },
+    { N_("Sound record WAV..."),
+      (ui_callback_t)sound_record_wav, NULL, NULL },
+    { N_("Sound record AIFF..."),
+      (ui_callback_t)sound_record_aiff, NULL, NULL },
+    { N_("Sound record VOC..."),
+      (ui_callback_t)sound_record_voc, NULL, NULL },
+    { N_("Sound record IFF..."),
+      (ui_callback_t)sound_record_iff, NULL, NULL },
+#ifdef USE_LAMEMP3
+    { N_("Sound record MP3..."),
+      (ui_callback_t)sound_record_mp3, NULL, NULL },
+#endif
+    { N_("Stop Sound record"),
+      (ui_callback_t)sound_record_stop, NULL, NULL },
     { NULL }
 };
 

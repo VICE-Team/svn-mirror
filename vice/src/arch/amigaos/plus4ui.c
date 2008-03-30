@@ -24,6 +24,8 @@
  *
  */
 
+#include "vice.h"
+
 #define UI_PLUS4
 #define UI_MENU_NAME plus4_ui_translation_menu
 #define UI_TRANSLATED_MENU_NAME plus4_ui_menu

@@ -28,6 +28,7 @@
 #define _UI_MUI_H
 
 #include "vice.h"
+
 #include "resources.h"
 #include "private.h"
 

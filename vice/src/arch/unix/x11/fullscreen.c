@@ -172,7 +172,7 @@ void fullscreen_menu_shutdown(struct ui_menu_entry_s *menu)
 #ifdef USE_XF86_DGA2_EXTENSIONS
     dga2_menu_shutdown(menu);
 #endif
-#ifdef USE_XF86_DGA2_EXTENSIONS
+#ifdef HAVE_XRANDR
     xrandr_menu_shutdown(menu);
 #endif
 }

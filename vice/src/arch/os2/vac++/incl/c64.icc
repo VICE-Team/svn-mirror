@@ -26,6 +26,7 @@ source type(c)
     "c64rsuser.c",
     "c64tpi.c",
     "c64video.c",
+    "digimax.c",
     "georam.c",
     "patchrom.c",
     "plus256k.c",

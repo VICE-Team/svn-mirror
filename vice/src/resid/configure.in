@@ -40,6 +40,7 @@ if test "$GXX" = yes; then
   fi
 fi
 
+AC_CHECK_PROG(AR, ar, ar, ar)
 AC_PROG_RANLIB
 AC_PATH_PROG(PERL, perl)
 

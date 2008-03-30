@@ -220,7 +220,7 @@ BMenuBar *menu_create(int machine_class) {
 			new BMessage(MENU_EVENT_SNAPSHOT_START)));
 		submenu->AddItem(new BMenuItem("Select end snapshot",
 			new BMessage(MENU_EVENT_SNAPSHOT_END)));
-		submenu->AddItem(submenu = new BMenu("Recording start mode"));
+		menu->AddItem(submenu = new BMenu("Recording start mode"));
 		submenu->AddItem(new BMenuItem("Save new snapshot",
 			new BMessage(MENU_EVENT_START_MODE_SAVE)));
 		submenu->AddItem(new BMenuItem("Load existing snapshot",
@@ -429,6 +429,45 @@ BMenuBar *menu_create(int machine_class) {
 				new BMessage(MENU_RAMCART_SIZE_64)));
 			submenu->AddItem(new BMenuItem("128 kB",
 				new BMessage(MENU_RAMCART_SIZE_128)));
+
+			menu->AddItem(new BMenuItem("Digimax emulation",
+				new BMessage(MENU_TOGGLE_DIGIMAX)));
+			menu->AddItem(submenu = new BMenu("Digimax base"));
+			submenu->SetRadioMode(true);
+			submenu->AddItem(new BMenuItem("Userport Interface",
+				new BMessage(MENU_DIGIMAX_BASE_DD00)));
+			submenu->AddItem(new BMenuItem("$DE00",
+				new BMessage(MENU_DIGIMAX_BASE_DE00)));
+			submenu->AddItem(new BMenuItem("$DE20",
+				new BMessage(MENU_DIGIMAX_BASE_DE20)));
+			submenu->AddItem(new BMenuItem("$DE40",
+				new BMessage(MENU_DIGIMAX_BASE_DE40)));
+			submenu->AddItem(new BMenuItem("$DE60",
+				new BMessage(MENU_DIGIMAX_BASE_DE60)));
+			submenu->AddItem(new BMenuItem("$DE80",
+				new BMessage(MENU_DIGIMAX_BASE_DE80)));
+			submenu->AddItem(new BMenuItem("$DEA0",
+				new BMessage(MENU_DIGIMAX_BASE_DEA0)));
+			submenu->AddItem(new BMenuItem("$DEC0",
+				new BMessage(MENU_DIGIMAX_BASE_DEC0)));
+			submenu->AddItem(new BMenuItem("$DEE0",
+				new BMessage(MENU_DIGIMAX_BASE_DEE0)));
+			submenu->AddItem(new BMenuItem("$DF00",
+				new BMessage(MENU_DIGIMAX_BASE_DF00)));
+			submenu->AddItem(new BMenuItem("$DF20",
+				new BMessage(MENU_DIGIMAX_BASE_DF20)));
+			submenu->AddItem(new BMenuItem("$DF40",
+				new BMessage(MENU_DIGIMAX_BASE_DF40)));
+			submenu->AddItem(new BMenuItem("$DF60",
+				new BMessage(MENU_DIGIMAX_BASE_DF60)));
+			submenu->AddItem(new BMenuItem("$DF80",
+				new BMessage(MENU_DIGIMAX_BASE_DF80)));
+			submenu->AddItem(new BMenuItem("$DFA0",
+				new BMessage(MENU_DIGIMAX_BASE_DFA0)));
+			submenu->AddItem(new BMenuItem("$DFC0",
+				new BMessage(MENU_DIGIMAX_BASE_DFC0)));
+			submenu->AddItem(new BMenuItem("$DFE0",
+				new BMessage(MENU_DIGIMAX_BASE_DFE0)));
 
 			menu->AddItem(new BMenuItem("PLUS60K emulation",
 				new BMessage(MENU_TOGGLE_PLUS60K)));

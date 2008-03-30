@@ -24,6 +24,7 @@
  *
  */
 
+#include "vice.h"
 
 #include <Alert.h>
 #include <Application.h>
@@ -31,6 +32,10 @@
 #include <FilePanel.h>
 #include <Locker.h>
 #include <MenuItem.h>
+
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+#include <string.h>
+#endif
 
 #include "vicemenu.h"
 

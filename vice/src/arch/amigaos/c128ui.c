@@ -24,6 +24,8 @@
  *
  */
 
+#include "vice.h"
+
 #define UI_C128
 #define UI_MENU_NAME c128_ui_translation_menu
 #define UI_TRANSLATED_MENU_NAME c128_ui_menu
@@ -36,6 +38,7 @@
 
 #include "mui/uiacia.h"
 #include "mui/uic128settings.h"
+#include "mui/uidigimax.h"
 #include "mui/uidrivec128.h"
 #include "mui/uigeoram.h"
 #include "mui/uiide64.h"
@@ -84,6 +87,9 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
         break;
       case IDM_RAMCART_SETTINGS:
         ui_ramcart_settings_dialog(canvas);
+        break;
+      case IDM_DIGIMAX_SETTINGS:
+        ui_digimax_settings_dialog(canvas);
         break;
       case IDM_IDE64_SETTINGS:
         ui_ide64_settings_dialog(canvas);

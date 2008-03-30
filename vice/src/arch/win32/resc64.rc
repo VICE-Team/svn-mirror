@@ -147,6 +147,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM SEPARATOR
         MENUITEM "Netplay (experimental)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Options"
@@ -231,6 +234,7 @@ BEGIN
             MENUITEM "PLUS2&56K settings...",      IDM_PLUS256K_SETTINGS
             MENUITEM "&256K settings...",      IDM_C64_256K_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64 settings...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet settings...", IDM_TFE_SETTINGS
@@ -405,6 +409,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Speichern/stop media Datei...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM SEPARATOR
         MENUITEM "Netplay (experimentell)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Optionen"
@@ -489,6 +496,7 @@ BEGIN
             MENUITEM "PLUS2&56K Einstellungen...",      IDM_PLUS256K_SETTINGS
             MENUITEM "&256K Einstellungen...",      IDM_C64_256K_SETTINGS
             MENUITEM "&MMC64 Einstellungen...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64 Einstellungen...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet Einstellungen...", IDM_TFE_SETTINGS
@@ -661,6 +669,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Enregistrer/Arrêter fichier média...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM SEPARATOR
         MENUITEM "Netplay (experimental)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Options"
@@ -745,6 +756,7 @@ BEGIN
             MENUITEM "Paramètres PLUS2&56K...",      IDM_PLUS256K_SETTINGS
             MENUITEM "Paramètres &256K...",      IDM_C64_256K_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "Paramètres &IDE64...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "Émulation &Ethernet...", IDM_TFE_SETTINGS
@@ -918,6 +930,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Videó készítése/megállítása...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM SEPARATOR
         MENUITEM "Hálózati játék (kísérleti)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Opciók"
@@ -1002,6 +1017,7 @@ BEGIN
             MENUITEM "PLUS2&56K beállításai...",      IDM_PLUS256K_SETTINGS
             MENUITEM "&256K beállításai...",      IDM_C64_256K_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64 beállításai...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet beállításai...", IDM_TFE_SETTINGS
@@ -1175,6 +1191,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Salva/arresta file multimediale...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM SEPARATOR
         MENUITEM "Netplay (sperimentale)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Opzioni"
@@ -1259,6 +1278,7 @@ BEGIN
             MENUITEM "Impostazioni del PLUS2&56K...",      IDM_PLUS256K_SETTINGS
             MENUITEM "Impostazioni del &256K...",      IDM_C64_256K_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "Impostazioni dell'&IDE64...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "Impostazioni dell'&Ethernet...", IDM_TFE_SETTINGS
@@ -1431,6 +1451,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Opslaan/stop media bestand...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
+        MENUITEM "Geluid Opname...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Geluid Opname", IDM_SOUND_RECORD_STOP
+        MENUITEM SEPARATOR
         MENUITEM "Netplay (experimenteel)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Opties"
@@ -1515,6 +1538,7 @@ BEGIN
             MENUITEM "PLUS2&56K instellingen...",      IDM_PLUS256K_SETTINGS
             MENUITEM "&256K instellingen...",      IDM_C64_256K_SETTINGS
             MENUITEM "&MMC64 instellingen...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX instellingen...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64 instellingen...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet instellingen...", IDM_TFE_SETTINGS
@@ -1688,6 +1712,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM SEPARATOR
         MENUITEM "Netplay (experimental)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Opcje"
@@ -1772,6 +1799,7 @@ BEGIN
             MENUITEM "Ustawienia PLUS2&56K...",      IDM_PLUS256K_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
             MENUITEM "Ustawienia &256K...",      IDM_C64_256K_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "Ustawienia &IDE64...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "Ustawienia &Ethernet...", IDM_TFE_SETTINGS
@@ -1945,6 +1973,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Starta/stoppa mediafil...\tAlt+C", IDM_MEDIAFILE
         MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
+        MENUITEM SEPARATOR
         MENUITEM "Netplay (experimental)...", IDM_NETWORK_SETTINGS
     END
     POPUP "&Alternativ"
@@ -2029,6 +2060,7 @@ BEGIN
             MENUITEM "PLUS2&56K-inställningar...",      IDM_PLUS256K_SETTINGS
             MENUITEM "&256K-inställningar...",      IDM_C64_256K_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64-inställningar...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernetinställningar...", IDM_TFE_SETTINGS

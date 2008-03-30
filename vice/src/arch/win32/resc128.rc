@@ -145,6 +145,9 @@ BEGIN
         MENUITEM "Select History files/directory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Options"
     BEGIN
@@ -233,6 +236,7 @@ BEGIN
             MENUITEM "&GEORAM settings...",      IDM_GEORAM_SETTINGS
             MENUITEM "&RAMCART settings...",      IDM_RAMCART_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64 settings...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet settings...", IDM_TFE_SETTINGS
@@ -405,6 +409,9 @@ BEGIN
         MENUITEM "Verzeichnis für Event Aufnahme",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Speichern/stop media Datei...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Optionen"
     BEGIN
@@ -493,6 +500,7 @@ BEGIN
             MENUITEM "&GEORAM Einstellungen...",      IDM_GEORAM_SETTINGS
             MENUITEM "&RAMCART Einstellungen...",      IDM_RAMCART_SETTINGS
             MENUITEM "&MMC64 Einstellungen...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64 Einstellungen...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet Einstellungen...", IDM_TFE_SETTINGS
@@ -663,6 +671,9 @@ BEGIN
         MENUITEM "Sélectionnez le répertoire des captures",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Enregistrer/Arrêter fichier média...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Options"
     BEGIN
@@ -751,6 +762,7 @@ BEGIN
             MENUITEM "Paramètres &GEORAM...",      IDM_GEORAM_SETTINGS
             MENUITEM "Paramètres &RAMCART...",      IDM_RAMCART_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "Paramètres &IDE64...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "Émulation &Ethernet...", IDM_TFE_SETTINGS
@@ -922,6 +934,9 @@ BEGIN
         MENUITEM "Válassza ki a felvételeket/könyvtárat",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Videó készítése/megállítása...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opciók"
     BEGIN
@@ -1010,6 +1025,7 @@ BEGIN
             MENUITEM "&GEORAM beállításai...",      IDM_GEORAM_SETTINGS
             MENUITEM "&RAMCART beállításai...",      IDM_RAMCART_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64 beállításai...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet beállításai...", IDM_TFE_SETTINGS
@@ -1181,6 +1197,9 @@ BEGIN
         MENUITEM "Seleziona i file/directory della cronologia",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Salva/arresta file multimediale...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opzioni"
     BEGIN
@@ -1269,6 +1288,7 @@ BEGIN
             MENUITEM "Impostazioni della &GEORAM...",      IDM_GEORAM_SETTINGS
             MENUITEM "Impostazioni del &RAMCART...",      IDM_RAMCART_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "Impostazioni dell'&IDE64...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "Impostazioni dell'&Ethernet...", IDM_TFE_SETTINGS
@@ -1439,6 +1459,9 @@ BEGIN
         MENUITEM "Selecteer Geschiedenis directory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Opslaan/stop media bestand...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Geluid Opname...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Geluid Opname", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opties"
     BEGIN
@@ -1527,6 +1550,7 @@ BEGIN
             MENUITEM "&GEORAM instellingen...",      IDM_GEORAM_SETTINGS
             MENUITEM "&RAMCART instellingen...",      IDM_RAMCART_SETTINGS
             MENUITEM "&MMC64 instellingen...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX instellingen...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64 instellingen...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet instellingen...", IDM_TFE_SETTINGS
@@ -1698,6 +1722,9 @@ BEGIN
         MENUITEM "Katalog systemu plików",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opcje"
     BEGIN
@@ -1786,6 +1813,7 @@ BEGIN
             MENUITEM "Ustawienia &GEORAM...",      IDM_GEORAM_SETTINGS
             MENUITEM "Ustawienia &RAMCART...",      IDM_RAMCART_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "Ustawienia &IDE64...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "Ustawienia &Ethernet...", IDM_TFE_SETTINGS
@@ -1957,6 +1985,9 @@ BEGIN
         MENUITEM "Välj historikfiler/-katalog",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Starta/stoppa mediafil...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Alternativ"
     BEGIN
@@ -2044,6 +2075,7 @@ BEGIN
             MENUITEM "&GEORAM-inställningar...",      IDM_GEORAM_SETTINGS
             MENUITEM "&RAMCART-inställningar...",      IDM_RAMCART_SETTINGS
             MENUITEM "&MMC64 settings...",    IDM_MMC64_SETTINGS
+            MENUITEM "&DIGIMAX settings...",  IDM_DIGIMAX_SETTINGS
             MENUITEM "&IDE64-inställningar...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernetinställningar...", IDM_TFE_SETTINGS

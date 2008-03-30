@@ -5074,6 +5074,164 @@ END
 
 // -----------------------------------------------------------------------------
 
+// original and default ENGLISH version of dialog
+
+IDD_SOUND_RECORD_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Sound Record Format",
+                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Sound Record File",
+                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
+    PUSHBUTTON      "Browse...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+END
+
+
+// GERMAN version of dialog
+
+IDD_SOUND_RECORD_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 180, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Sound Record Format",
+                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Sound Record File",
+                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
+    PUSHBUTTON      "Browse...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+END
+
+
+// FRENCH version of dialog
+
+IDD_SOUND_RECORD_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 180, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Sound Record Format",
+                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Sound Record File",
+                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
+    PUSHBUTTON      "Browse...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+END
+
+
+// HUNGARIAN version of dialog
+
+#pragma code_page(28592)
+IDD_SOUND_RECORD_SETTINGS_DIALOG_HU DIALOG DISCARDABLE  0, 0, 180, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Sound Record Format",
+                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Sound Record File",
+                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
+    PUSHBUTTON      "Browse...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
+// ITALIAN version of dialog
+
+IDD_SOUND_RECORD_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 180, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Sound Record Format",
+                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Sound Record File",
+                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
+    PUSHBUTTON      "Browse...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+END
+
+
+// DUTCH version of dialog
+
+IDD_SOUND_RECORD_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 180, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Geluid Opname Formaat",
+                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Geluid Opname Bestand",
+                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
+    PUSHBUTTON      "Bladeren...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+END
+
+
+// POLISH version of dialog
+
+#pragma code_page(28592)
+IDD_SOUND_RECORD_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 180, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Sound Record Format",
+                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Sound Record File",
+                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
+    PUSHBUTTON      "Browse...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+END
+#pragma code_page(28591)
+
+
+// SWEDISH version of dialog
+
+IDD_SOUND_RECORD_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Sound Record Format",
+                    IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
+    COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Sound Record File",
+                    IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
+    PUSHBUTTON      "Browse...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
+    EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 30, 64, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90, 64, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+
 // original and default ENGLISH text
 
 STRINGTABLE
@@ -5258,6 +5416,8 @@ BEGIN
   IDS_ERROR_STARTING_SERVER       "An error occured starting the server."
   IDS_ERROR_CONNECTING_CLIENT     "An error occured connecting the client."
 #endif
+  IDS_SOUND_RECORDING_STARTED     "Sound Recording started..."
+  IDS_SOUND_RECORDING_STOPPED     "Sound Recording stopped..."
 END
 
 STRINGTABLE
@@ -5454,6 +5614,8 @@ BEGIN
   IDS_ERROR_STARTING_SERVER_DE       "Fehler beim Starten des Netplay Servers."
   IDS_ERROR_CONNECTING_CLIENT_DE     "Fehler beim Verbindungsaufbau zum Client."
 #endif
+  IDS_SOUND_RECORDING_STARTED_DE     "Sound Recording started..."
+  IDS_SOUND_RECORDING_STOPPED_DE     "Sound Recording stopped..."
 END
 
 STRINGTABLE
@@ -5650,6 +5812,8 @@ BEGIN
   IDS_ERROR_STARTING_SERVER_FR       "An error occured starting the server."
   IDS_ERROR_CONNECTING_CLIENT_FR     "An error occured connecting the client."
 #endif
+  IDS_SOUND_RECORDING_STARTED_FR     "Sound Recording started..."
+  IDS_SOUND_RECORDING_STOPPED_FR     "Sound Recording stopped..."
 END
 
 STRINGTABLE
@@ -5847,6 +6011,8 @@ BEGIN
   IDS_ERROR_STARTING_SERVER_HU       "Hiba történt a játék kiszolgáló indításakor."
   IDS_ERROR_CONNECTING_CLIENT_HU     "Hiba történt a kapcsolódáskor."
 #endif
+  IDS_SOUND_RECORDING_STARTED_HU     "Sound Recording started..."
+  IDS_SOUND_RECORDING_STOPPED_HU     "Sound Recording stopped..."
 END
 
 STRINGTABLE
@@ -6044,6 +6210,8 @@ BEGIN
   IDS_ERROR_STARTING_SERVER_IT       "Si à verificato un errore durante l'avvio del server."
   IDS_ERROR_CONNECTING_CLIENT_IT     "Si à verificato un errore durante la connessione al client."
 #endif
+  IDS_SOUND_RECORDING_STARTED_IT     "Sound Recording started..."
+  IDS_SOUND_RECORDING_STOPPED_IT     "Sound Recording stopped..."
 END
 
 STRINGTABLE
@@ -6240,6 +6408,8 @@ BEGIN
   IDS_ERROR_STARTING_SERVER_NL       "Een fout is opgetreden bij het starten van de server."
   IDS_ERROR_CONNECTING_CLIENT_NL     "Een fout is opgetreden bij het verbinden."
 #endif
+  IDS_SOUND_RECORDING_STARTED_NL     "Geluid Opname gestart..."
+  IDS_SOUND_RECORDING_STOPPED_NL     "Geluid Opname gestopt..."
 END
 
 
@@ -6438,6 +6608,8 @@ BEGIN
   IDS_ERROR_STARTING_SERVER_PL       "An error occured starting the server."
   IDS_ERROR_CONNECTING_CLIENT_PL     "An error occured connecting the client."
 #endif
+  IDS_SOUND_RECORDING_STARTED_PL     "Sound Recording started..."
+  IDS_SOUND_RECORDING_STOPPED_PL     "Sound Recording stopped..."
 END
 
 STRINGTABLE
@@ -6637,6 +6809,8 @@ BEGIN
   IDS_ERROR_STARTING_SERVER_SV       "An error occured starting the server."
   IDS_ERROR_CONNECTING_CLIENT_SV     "An error occured connecting the client."
 #endif
+  IDS_SOUND_RECORDING_STARTED_SV     "Sound Recording started..."
+  IDS_SOUND_RECORDING_STOPPED_SV     "Sound Recording stopped..."
 END
 
 STRINGTABLE

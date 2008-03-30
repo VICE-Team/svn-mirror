@@ -39,6 +39,7 @@
 #include "uiacia.h"
 #include "uic128.h"
 #include "uic64cart.h"
+#include "uidigimax.h"
 #include "uidrivec128.h"
 #include "uiide64.h"
 #include "uikeyboard.h"
@@ -192,6 +193,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_MMC64_SETTINGS:
         ui_mmc64_settings_dialog(hwnd);
+        break;
+      case IDM_DIGIMAX_SETTINGS:
+        ui_digimax_settings_dialog(hwnd);
         break;
       case IDM_GEORAM_SETTINGS:
         ui_georam_settings_dialog(hwnd);

@@ -34,6 +34,7 @@
 #include "c64cart.h"
 #include "c64io.h"
 #include "cartridge.h"
+#include "digimax.h"
 #include "emuid.h"
 #include "lib.h"
 #include "mmc64.h"
@@ -104,6 +105,7 @@ static io_source_t io_source_table[] = {
     {IO_SOURCE_EMUID, "EMU ID", IO_DETACH_RESOURCE, "EmuID"},
     {IO_SOURCE_MIKRO_ASSEMBLER, "MIKRO ASSEMBLER", IO_DETACH_CART, NULL},
     {IO_SOURCE_MMC64, "MMC64", IO_DETACH_RESOURCE, "MMC64"},
+    {IO_SOURCE_DIGIMAX, "DIGIMAX", IO_DETACH_RESOURCE, "DIGIMAX"},
     {-1,NULL,0,NULL}
 };
 
@@ -135,8 +137,8 @@ static int get_io_source_index(int id)
   return 0;
 }
 
-#define MAX_IO1_RETURNS 7
-#define MAX_IO2_RETURNS 10
+#define MAX_IO1_RETURNS 8
+#define MAX_IO2_RETURNS 11
 
 #if MAX_IO1_RETURNS>MAX_IO2_RETURNS
 static int io_source_return[MAX_IO1_RETURNS];
@@ -244,6 +246,13 @@ BYTE REGPARM1 c64io1_read(WORD addr)
         io_source_counter++;
     }
 
+    if (digimax_enabled && addr >= digimax_address
+        && addr <= digimax_address + 3) {
+        return_value = digimax_sound_read((WORD)(addr & 3));
+        io_source_check(io_source_counter);
+        io_source_counter++;
+    }
+
     if (georam_enabled) {
         return_value = georam_window_read((WORD)(addr & 0xff));
         io_source_check(io_source_counter);
@@ -315,6 +324,10 @@ void REGPARM2 c64io1_store(WORD addr, BYTE value)
         && addr <= c64_256k_start + 0x7f) {
         c64_256k_store((WORD)(addr & 0x03), value);
     }
+    if (digimax_enabled && addr >= digimax_address
+        && addr <= digimax_address + 3) {
+        digimax_sound_store((WORD)(addr&3), value);
+    }
     if (georam_enabled) {
         georam_window_store((WORD)(addr & 0xff), value);
     }
@@ -370,6 +383,12 @@ BYTE REGPARM1 c64io2_read(WORD addr)
     if (c64_256k_enabled && addr >= c64_256k_start
         && addr <= c64_256k_start + 0x7f) {
         return_value = c64_256k_read((WORD)(addr & 0x03));
+        io_source_check(io_source_counter);
+        io_source_counter++;
+    }
+    if (digimax_enabled && addr >= digimax_address
+        && addr <= digimax_address + 3) {
+        return_value = digimax_sound_read((WORD)(addr & 0x03));
         io_source_check(io_source_counter);
         io_source_counter++;
     }
@@ -446,6 +465,10 @@ void REGPARM2 c64io2_store(WORD addr, BYTE value)
     if (c64_256k_enabled && addr >= c64_256k_start
         && addr <= c64_256k_start + 0x7f) {
         c64_256k_store((WORD)(addr & 0x03), value);
+    }
+    if (digimax_enabled && addr >= digimax_address
+        && addr <= digimax_address + 3) {
+        digimax_sound_store((WORD)(addr & 0x03), value);
     }
     if (reu_enabled) {
         reu_store((WORD)(addr & 0x0f), value);

@@ -51,7 +51,11 @@ typedef struct gfxoutputdrv_data_s
   int iff_rowbytes;
 } gfxoutputdrv_data_t;
 
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+extern gfxoutputdrv_t iff_drv;
+#else
 static gfxoutputdrv_t iff_drv;
+#endif
 
 static BYTE powers[8]= { 1,2,4,8,16,32,64,128 };
 

@@ -1,3 +1,15 @@
+2007-02-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* POTFILES.in: Added new digimax related files.
+
+2007-01-31  pottendo  <pottendo@utanet.at>
+
+	* de.po: Updated.
+
+2007-01-31  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* nl.po: Updated.
+
 2006-12-31  pottendo  <pottendo@utanet.at>
 
 	* POTFILES.in: New files: openGL_sync.c, xrandr.c

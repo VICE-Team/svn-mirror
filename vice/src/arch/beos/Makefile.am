@@ -84,4 +84,5 @@ libarch_a_SOURCES = \
 	vsyncarch.c
 
 EXTRA_DIST = \
-	make-bindist.sh
+	make-bindist.sh \
+	ppc-ar.sh

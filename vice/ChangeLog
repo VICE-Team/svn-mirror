@@ -1,3 +1,28 @@
+2007-02-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.22.
+
+2007-02-10  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* build/amigaos/build-vbcc.sh: Added the new sound drivers.
+
+	* configure.in: Added checking for libmp3lame for mp3 sound
+	record support and fixed the amiga graphics headers check.
+
+2007-02-05  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* build/Makefile.am, build/amigaos/build-os4-native.sh,
+	configure.in: Added native AmigaOS4 compile support, based on
+	the suggestions provided by Peter Gordon
+	<pete@petergordon.org.uk>.
+
+	* build/amigaos/build-vbcc.sh: Added digimax support.
+
+2007-02-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, build/Makefile.am, build/beos/ppc-build.sh,
+	configure.in: Added ppc-beos support.
+
 2007-01-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.21.

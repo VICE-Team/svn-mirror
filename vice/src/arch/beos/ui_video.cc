@@ -194,7 +194,7 @@ VideoWindow::VideoWindow()
 	
 	resources_get_string(chip_param_table[chip[0]].res_PaletteFile_name,	&palettefile_const);
         palettefile=lib_stralloc(palettefile_const);
-	util_add_extension((char *)&palettefile, "vpl");
+	util_add_extension(&palettefile, "vpl");
 	palettelistview = new BListView(BRect(110, 35, 220, 125), "Palette File");
 	palettelistview->SetSelectionMessage(
 		new BMessage(MESSAGE_VIDEO_PALETTEFILE));

@@ -22,8 +22,11 @@ NAME="`basename \"$0\"`"
 # find bundle
 BUNDLE="$DIR/../VICE.app"
 if [ ! -d "$BUNDLE" ]; then
-  echo "Error: associated bundle '$BUNDLE' not found!"
-  exit 1
+  BUNDLE="$DIR/../$NAME.app"
+  if [ ! -d "$BUNDLE" ]; then
+    echo "Error: associated bundle '$BUNDLE' not found!"
+    exit 1
+  fi
 fi
 
 # find launcher

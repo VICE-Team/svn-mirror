@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "digimax.h"
 #include "sid.h"
 #include "sound.h"
 #include "types.h"
@@ -51,6 +52,8 @@ sound_t *sound_machine_open(int chipno)
 
 int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
+    digimax_sound_machine_init(psid, speed, cycles_per_sec);
+
     return sid_sound_machine_init(psid, speed, cycles_per_sec);
 }
 
@@ -59,25 +62,43 @@ void sound_machine_close(sound_t *psid)
     sid_sound_machine_close(psid);
 }
 
+/* for read/store 0x00 <= addr <= 0x1f is the sid
+ *                0x20 <= addr <= 0x3f is the digimax
+ *
+ * future sound devices will be able to use 0x40 and up
+ */
+
 BYTE sound_machine_read(sound_t *psid, WORD addr)
 {
-    return sid_sound_machine_read(psid, addr);
+    if (addr>=0x20 && addr<=0x3f)
+        return digimax_sound_machine_read(psid, (WORD)(addr-0x20));
+    else
+        return sid_sound_machine_read(psid, addr);
 }
 
 void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 {
-    sid_sound_machine_store(psid, addr, byte);
+    if (addr>=0x20 && addr<=0x3f)
+        digimax_sound_machine_store(psid, (WORD)(addr-0x20), byte);
+    else
+        sid_sound_machine_store(psid, addr, byte);
 }
 
 void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
+    digimax_sound_reset();
     sid_sound_machine_reset(psid, cpu_clk);
 }
 
 int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                                     int interleave, int *delta_t)
 {
-    return sid_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    int temp;
+
+    temp=sid_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    digimax_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
+
+    return temp;
 }
 
 void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)

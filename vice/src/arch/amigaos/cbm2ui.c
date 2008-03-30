@@ -24,6 +24,8 @@
  *
  */
 
+#include "vice.h"
+
 #define UI_CBM2
 #define UI_MENU_NAME cbm2_ui_translation_menu
 #define UI_TRANSLATED_MENU_NAME cbm2_ui_menu

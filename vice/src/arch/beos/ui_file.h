@@ -28,6 +28,7 @@
 #define __UI_FILE_H__
 
 #include <FilePanel.h>
+#include <ListView.h>
 
 const uint32 AUTOSTART_MESSAGE = 'AS01';
 

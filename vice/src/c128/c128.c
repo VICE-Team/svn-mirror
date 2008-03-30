@@ -56,6 +56,7 @@
 #include "clkguard.h"
 #include "datasette.h"
 #include "debug.h"
+#include "digimax.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
 #include "drive.h"
@@ -379,6 +380,7 @@ int machine_resources_init(void)
         || reu_resources_init() < 0
         || georam_resources_init() < 0
         || ramcart_resources_init() < 0
+        || digimax_resources_init() < 0
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
 #endif
@@ -435,6 +437,7 @@ int machine_cmdline_options_init(void)
         || reu_cmdline_options_init() < 0
         || georam_cmdline_options_init() < 0
         || ramcart_cmdline_options_init() < 0
+        || digimax_cmdline_options_init() < 0
 #ifdef HAVE_TFE
         || tfe_cmdline_options_init() < 0
 #endif
@@ -470,7 +473,7 @@ static void c128_monitor_init(void)
     monitor_cpu_type_t asm6502, asmz80;
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
 
-#if defined(MINIXVMD) || defined(MINIX_SUPPORT) || defined(__VBCC__)
+#if defined(MINIXVMD) || defined(MINIX_SUPPORT) || defined(__VBCC__) || (defined(__BEOS__) && defined(WORDS_BIGENDIAN))
     monitor_cpu_type_t *asmarray[3];
     asmarray[0]=&asm6502;
     asmarray[1]=&asmz80;

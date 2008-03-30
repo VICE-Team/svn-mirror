@@ -66,6 +66,8 @@ libc64_a_SOURCES = \
 	c64tpi.c \
 	c64tpi.h \
 	c64video.c \
+	digimax.c \
+	digimax.h \
 	georam.c \
 	georam.h \
 	mmc64.c \
@@ -87,7 +89,7 @@ libc64_a_SOURCES = \
 	reu.h \
 	tfe.c \
 	tfe.h \
-        tfearch.h
+	tfearch.h
 
 libc64c128_a_SOURCES = \
 	c64acia.h \
@@ -119,6 +121,8 @@ libc64c128_a_SOURCES = \
 	c64sound.c \
 	c64tpi.c \
 	c64tpi.h \
+	digimax.c \
+	digimax.h \
 	georam.c \
 	georam.h \
 	mmc64.c \

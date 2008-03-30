@@ -8,6 +8,7 @@ src/sound.c
 src/event.c
 src/c64/c64export.c
 src/c64/c64io.c
+src/c64/digimax.c
 src/debug.c
 src/network.c
 
@@ -21,6 +22,7 @@ src/c64/c64-cmdline-options.c
 src/c64/cart/c64cart.c
 src/c64/cart/ide64.c
 src/c64/c64_256k.c
+src/c64/digimax.c
 src/c64/georam.c
 src/c64/mmc64.c
 src/c64/plus256k.c
@@ -97,6 +99,7 @@ src/arch/unix/gui/uicmdline.c
 src/arch/unix/gui/uicommands.c
 src/arch/unix/gui/uicrtc.c
 src/arch/unix/gui/uidatasette.c
+src/arch/unix/gui/uidigimax.c
 src/arch/unix/gui/uidrive.c
 src/arch/unix/gui/uidrivec128.c
 src/arch/unix/gui/uidrivec64.c
@@ -203,6 +206,7 @@ src/arch/win32/resc128.rc.po.c
 src/arch/win32/resc64.rc.po.c
 src/arch/win32/resc64_256k.rc.po.c
 src/arch/win32/rescbm2.rc.po.c
+src/arch/win32/resdigimax.rc.po.c
 src/arch/win32/resdrivec128.rc.po.c
 src/arch/win32/resdrivec64vic20.rc.po.c
 src/arch/win32/resdrivepetcbm2.rc.po.c

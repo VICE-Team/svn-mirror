@@ -110,10 +110,12 @@ libarch_a_SOURCES = \
 	mui/uic64_256k.h \
 	mui/uic128settings.c \
 	mui/uic128settings.h \
-	mui/uidatasette.c \
-	mui/uidatasette.h \
 	mui/uicbm2settings.c \
 	mui/uicbm2settings.h \
+	mui/uidatasette.c \
+	mui/uidatasette.h \
+	mui/uidigimax.c \
+	mui/uidigimax.h \
 	mui/uidrivec128.c \
 	mui/uidrivec128.h \
 	mui/uidrivec64vic20.c \
@@ -199,6 +201,7 @@ EXTRA_DIST = \
 	info-files/morphos/xplus4.info \
 	info-files/morphos/xvic.info \
 	config.h.vbcc \
+	fixdeps.c \
 	genintl_h.sh \
 	genintltable.sh \
 	intl.txt \

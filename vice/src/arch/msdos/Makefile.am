@@ -75,6 +75,8 @@ libarch_a_SOURCES = \
 	uic64cart.c \
 	uic64cart.h \
 	uicmdline.c \
+	uidigimax.c \
+	uidigimax.h \
 	uidrive.c \
 	uidrive.h \
 	uigeoram.c \

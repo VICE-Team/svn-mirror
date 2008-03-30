@@ -24,6 +24,8 @@
  *
  */
 
+#include "vice.h"
+
 #define UI_C64
 #define UI_MENU_NAME c64_ui_translation_menu
 #define UI_TRANSLATED_MENU_NAME c64_ui_menu
@@ -35,6 +37,7 @@
 
 #include "mui/uiacia.h"
 #include "mui/uic64_256k.h"
+#include "mui/uidigimax.h"
 #include "mui/uidrivec64vic20.h"
 #include "mui/uigeoram.h"
 #include "mui/uiide64.h"
@@ -92,6 +95,9 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
         break;
       case IDM_MMC64_SETTINGS:
         ui_mmc64_settings_dialog(canvas);
+        break;
+      case IDM_DIGIMAX_SETTINGS:
+        ui_digimax_settings_dialog(canvas);
         break;
       case IDM_IDE64_SETTINGS:
         ui_ide64_settings_dialog(canvas);

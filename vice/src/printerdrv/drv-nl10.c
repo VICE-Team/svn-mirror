@@ -110,8 +110,13 @@ static BYTE *drv_nl10_charset = drv_nl10_rom;
 static BYTE  drv_nl10_charset_nlq[CHARSET_SIZE * 47];
 static BYTE  drv_nl10_charset_nlq_italic[CHARSET_SIZE * 47];
 
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+extern const BYTE drv_nl10_charset_mapping_intl[3][8][14];
+extern const BYTE drv_nl10_charset_mapping[3][256];
+#else
 static const BYTE drv_nl10_charset_mapping_intl[3][8][14];
 static const BYTE drv_nl10_charset_mapping[3][256];
+#endif
 
 static int drv_nl10_init_charset(void);
 static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c);

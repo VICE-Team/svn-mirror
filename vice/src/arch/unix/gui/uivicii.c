@@ -190,8 +190,8 @@ ui_menu_entry_t vicii_submenu[] = {
       (ui_callback_t)NULL, NULL, NULL },
 #endif
 #ifdef HAVE_XRANDR
-    /* Translators: `OpenGL' must remain in the beginning of the translation:
-       e.g. German: "OpenGL Aufloesungen" */
+    /* Translators: `XRandR' must remain in the beginning of the translation:
+       e.g. German: "XRandR Aufloesungen" */
     { N_("XRandR Resolutions"),
       (ui_callback_t)NULL, NULL, NULL },
 #endif

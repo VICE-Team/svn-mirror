@@ -643,6 +643,18 @@ translate_t string_table[] = {
 /* pl */ {IDGS_ALL_DEVICES_DETACHED_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_ALL_DEVICES_DETACHED_SV, ".\nAlla namngivna enheter kommer kopplas från."},
 
+/* c64/digimax.c */
+/* en */ {IDGS_DIGIMAX_NOT_WITH_RESID,    "Digimax cannot be used with ReSID\nPlease switch SID Engine to FastSID"},
+/* de */ {IDGS_DIGIMAX_NOT_WITH_RESID_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_DIGIMAX_NOT_WITH_RESID_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_DIGIMAX_NOT_WITH_RESID_HU, ""},  /* fuzzy */
+/* it */ {IDGS_DIGIMAX_NOT_WITH_RESID_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_DIGIMAX_NOT_WITH_RESID_NL, "Digimax kan niet gebruikt worden met ReSID\nschakel de SID Kern over naar FastSID"},
+/* pl */ {IDGS_DIGIMAX_NOT_WITH_RESID_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_DIGIMAX_NOT_WITH_RESID_SV, ""},  /* fuzzy */
+
+
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
@@ -4789,7 +4801,37 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_H4096K_EXPANSION_IT, "Attiva l'espansione RAM HANNES 4096K"},
 /* nl */ {IDCLS_ENABLE_H4096K_EXPANSION_NL, "Aktiveer de HANNES 4096K geheugen uitbreiding"},
 /* pl */ {IDCLS_ENABLE_H4096K_EXPANSION_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_H4096K_EXPANSION_SV, "Aktivera HANNES 4096K RAM-expansion"}
+/* sv */ {IDCLS_ENABLE_H4096K_EXPANSION_SV, "Aktivera HANNES 4096K RAM-expansion"},
+
+/* c64/digimax.c */
+/* en */ {IDCLS_ENABLE_DIGIMAX,    "Enable the digimax cartridge"},
+/* de */ {IDCLS_ENABLE_DIGIMAX_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DIGIMAX_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DIGIMAX_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DIGIMAX_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DIGIMAX_NL, "Aktiveer de digimax cartridge"},
+/* pl */ {IDCLS_ENABLE_DIGIMAX_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DIGIMAX_SV, ""},  /* fuzzy */
+
+/* c64/digimax.c */
+/* en */ {IDCLS_DISABLE_DIGIMAX,    "Disable the digimax cartridge"},
+/* de */ {IDCLS_DISABLE_DIGIMAX_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DIGIMAX_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DIGIMAX_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DIGIMAX_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DIGIMAX_NL, "De digimax cartridge afsluiten"},
+/* pl */ {IDCLS_DISABLE_DIGIMAX_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DIGIMAX_SV, ""},  /* fuzzy */
+
+/* c64/digimax.c */
+/* en */ {IDCLS_DIGIMAX_BASE,    "Base address of the digimax cartridge"},
+/* de */ {IDCLS_DIGIMAX_BASE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DIGIMAX_BASE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DIGIMAX_BASE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DIGIMAX_BASE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DIGIMAX_BASE_NL, "Basis adres van de digimax cartridge"},
+/* pl */ {IDCLS_DIGIMAX_BASE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DIGIMAX_BASE_SV, ""}   /* fuzzy */
 
 };
 

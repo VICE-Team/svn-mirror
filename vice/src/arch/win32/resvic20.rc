@@ -125,6 +125,9 @@ BEGIN
         MENUITEM "Select History files/directory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Options"
     BEGIN
@@ -354,6 +357,9 @@ BEGIN
         MENUITEM "Verzeichnis für Event Aufnahme",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Speichern/stop media Datei...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Optionen"
     BEGIN
@@ -581,6 +587,9 @@ BEGIN
         MENUITEM "Sélectionnez le répertoire des captures",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Enregistrer/Arrêter fichier média...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Options"
     BEGIN
@@ -809,6 +818,9 @@ BEGIN
         MENUITEM "Válassza ki a felvételeket/könyvtárat",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Videó készítése/megállítása...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opciók"
     BEGIN
@@ -1037,6 +1049,9 @@ BEGIN
         MENUITEM "Seleziona i file/directory della cronologia",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Salva/arresta file multimediale...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opzioni"
     BEGIN
@@ -1264,6 +1279,9 @@ BEGIN
         MENUITEM "Selecteer Geschiedenis directory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Opslaan/stop media bestand...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Geluid Opname...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Geluid Opname", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opties"
     BEGIN
@@ -1492,6 +1510,9 @@ BEGIN
         MENUITEM "Katalog systemu plików",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Opcje"
     BEGIN
@@ -1720,6 +1741,9 @@ BEGIN
         MENUITEM "Välj historikfiler/-katalog",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
         MENUITEM "Starta/stoppa mediafil...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM SEPARATOR
+        MENUITEM "Record Sound...", IDM_SOUND_RECORD_START
+        MENUITEM "Stop Sound Recording", IDM_SOUND_RECORD_STOP
     END
     POPUP "&Alternativ"
     BEGIN

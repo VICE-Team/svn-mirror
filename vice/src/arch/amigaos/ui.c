@@ -616,6 +616,13 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
         ui_network_dialog();
         break;
 #endif
+      case IDM_SOUND_RECORD_START:
+        ui_sound_record_settings_dialog(canvas);
+        break;
+      case IDM_SOUND_RECORD_STOP:
+        resources_set_string("SoundRecordDeviceName", "");
+        ui_display_statustext(translate_text(IDS_SOUND_RECORDING_STOPPED), 1);
+        break;
       case IDM_LANGUAGE_ENGLISH:
         resources_get_value("Language", (void *)&curlang);
         if (strcasecmp(curlang,"en"))

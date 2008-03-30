@@ -228,6 +228,10 @@ void timer_usleep(void *t, int us)
 #endif
 #else
 
+#ifdef AMIGA_OS4_ALT
+#include <exec/io.h>
+#endif
+
 #include <proto/exec.h>
 #include <proto/timer.h>
 
@@ -235,7 +239,11 @@ void timer_usleep(void *t, int us)
 
 struct timer_s {
   struct MsgPort *TimerMP;
+#ifdef AMIGA_OS4_ALT
+  struct TimeRequest *TimerIO;
+#else
   struct timerequest *TimerIO;
+#endif
   struct Device *TimerBase;
   struct TimerIFace *ITimer;
 };
@@ -248,9 +256,17 @@ timer_t *timer_init(void)
   }
 
   if ((timer->TimerMP = IExec->AllocSysObject(ASOT_PORT, NULL))) {
+#ifdef AMIGA_OS4_ALT
+    id ((timer->TimerIO = IExec->AllocSysObjectTags(ASOT_IOREQUEST, ASOIOR_Size, sizeof(struct TimeRequest), ASOIOR_ReplyPort,timer->TimerMP, TAG_DONE))) {
+#else
     if ((timer->TimerIO = IExec->AllocSysObjectTags(ASOT_IOREQUEST, ASOIOR_Size, sizeof(struct timerequest), ASOIOR_ReplyPort, timer->TimerMP, TAG_DONE))) {
+#endif
       if (IExec->OpenDevice(TIMERNAME, UNIT_MICROHZ, (struct IORequest *)timer->TimerIO, 0) == 0) {
+#ifdef AMIGA_OS4_ALT
+        timer->TimerBase = timer->TimerIO->Request.io_Device;
+#else
         timer->TimerBase = timer->TimerIO->tr_node.io_Device;
+#endif
         timer->ITimer = (struct TimerIFace *)IExec->GetInterface((struct Library *)timer->TimerBase, "main", 1, NULL);
         if (timer->ITimer != NULL) {
           return timer;
@@ -286,14 +302,22 @@ void timer_exit(timer_t *timer)
 void timer_gettime(timer_t *timer, struct timeval *tv)
 {
   if (timer != NULL) {
+#ifdef AMIGA_OS4_ALT
+    timer->ITimer->GetUpTime((struct TimeVal *)tv);
+#else
     timer->ITimer->GetUpTime(tv);
+#endif
   }
 }
 
 void timer_subtime(timer_t *timer, struct timeval *dt, struct timeval *st)
 {
   if (timer != NULL) {
+#ifdef AMIGA_OS4_ALT
+    timer->ITimer->SubTime((struct TimeVal *)dt, (struct TimeVal *)st);
+#else
     timer->ITimer->SubTime(dt, st);
+#endif
   }
 }
 
@@ -301,9 +325,15 @@ void timer_usleep(timer_t *timer, int us)
 {
   if (timer != NULL) {
     /* setup */
+#ifdef AMIGA_OS4_ALT
+    timer->TimerIO->Request.io_Command = TR_ADDREQUEST;
+    timer->TimerIO->Time.Seconds = us / 1000000;
+    timer->TimerIO->Time.Microseconds = us % 1000000;
+#else
     timer->TimerIO->tr_node.io_Command = TR_ADDREQUEST;
     timer->TimerIO->tr_time.tv_secs = us / 1000000;
     timer->TimerIO->tr_time.tv_micro = us % 1000000;
+#endif
 
     /* send request */
     IExec->SetSignal(0, (1L << timer->TimerMP->mp_SigBit));

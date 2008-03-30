@@ -150,11 +150,7 @@ SOURCE=..\..\c64\c64tpi.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\c64\patchrom.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\c64\reu.c
+SOURCE=..\..\c64\digimax.c
 # End Source File
 # Begin Source File
 
@@ -162,11 +158,19 @@ SOURCE=..\..\c64\georam.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\mmc64.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\c64\patchrom.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\ramcart.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\c64\mmc64.c
+SOURCE=..\..\c64\reu.c
 # End Source File
 # Begin Source File
 
