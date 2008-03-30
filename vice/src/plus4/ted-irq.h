@@ -34,7 +34,7 @@ extern void ted_irq_raster_clear(CLOCK mclk);
 
 extern void ted_irq_set_raster_line(unsigned int line);
 extern void ted_irq_check_state(BYTE value, unsigned int high);
-
+extern void ted_irq_set_line(void);
 extern void ted_irq_next_frame(void);
 
 extern void ted_irq_init(void);
