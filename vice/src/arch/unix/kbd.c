@@ -254,16 +254,16 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
     count = XLookupString(&report->xkey, buffer, 20, &key, &compose);
 
     if (key != NoSymbol
-	     && ((key == key_ctrl_restore1)
-		|| (key == key_ctrl_restore2))
-	     ) {	/* Restore */
+        && ((key == key_ctrl_restore1)
+            || (key == key_ctrl_restore2))) {	/* Restore */
 	int retfl = 0;
 	if (report->type == KeyPress) {
 	    retfl = machine_set_restore_key(1);
 	} else if (report->type == KeyRelease) {
 	    retfl = machine_set_restore_key(0);
 	}
-	if(retfl) return;
+	if (retfl)
+            return;
     }
 
     switch (report->type) {
@@ -711,9 +711,9 @@ int kbd_dump_keymap(const char *filename)
             }
         }
 	/* Dump control keys. */
-	if(key_ctrl_restore1 != NoSymbol)
+	if (key_ctrl_restore1 != NoSymbol)
 	    fprintf(fp, "%s -3 0\n", XKeysymToString(key_ctrl_restore1));
-	if(key_ctrl_restore2 != NoSymbol)
+	if (key_ctrl_restore2 != NoSymbol)
 	    fprintf(fp, "%s -3 1\n", XKeysymToString(key_ctrl_restore2));
         fclose(fp);
     }
