@@ -28,6 +28,8 @@
  *
  */
 
+#include "clkguard.h"
+
 /*
  * 29jun1998 a.fachat
  *
@@ -72,7 +74,7 @@ static inline void my_set_int(int value, CLOCK rclk)
     }
 #endif
     if ((value)) {
-        /* ciaint |= 0x80; */
+        /*  ciaint |= 0x80; */
         cia_set_int_clk((MYCIA_INT), (rclk));
     } else {
         cia_set_int_clk(0, (rclk));
@@ -131,7 +133,7 @@ _CIA_FUNC void cia_do_step_tb(CLOCK rclk) {
 	cia_tbt = (cia_tbt + n) & 1;
     }
 }
-
+ 
 #if 0
 _CIA_FUNC void cia_do_step_ta(CLOCK rclk) {
     int n;
@@ -146,8 +148,7 @@ _CIA_FUNC void cia_do_step_ta(CLOCK rclk) {
 /*
  * Those functions are called everywhere but in the alarm functions.
  */
-
-
+ 
 _CIA_FUNC void cia_update_ta(CLOCK rclk) {
     CLOCK tmp, last_tmp;
 
@@ -186,7 +187,7 @@ _CIA_FUNC void cia_update_tb(CLOCK rclk) {
 /*
  * set interrupt line 
  */
-_CIA_FUNC cia_do_set_int(CLOCK rclk)
+_CIA_FUNC void cia_do_set_int(CLOCK rclk)
 {
     if ((ciardi != rclk - 1) || (MYCIA_INT == IK_NMI)) {
         if (ciaint & ciaier & 0x7f) {
@@ -198,9 +199,7 @@ _CIA_FUNC cia_do_set_int(CLOCK rclk)
         }
     }
 }
-
-/* ------------------------------------------------------------------------- */
-
+ 
 static void cia_strobe_ta(CLOCK rclk) 
 {
     cia_do_step_tb(rclk);
@@ -213,6 +212,28 @@ static void cia_strobe_tb(CLOCK rclk)
     cia_tbt = (cia_tbt + 1) & 1; 
 }
 
+/* -------------------------------------------------------------------------- */
+
+static void clk_overflow_callback(CLOCK sub, void *data)
+{
+    /* FIXME: cia_update_t* */
+    ciat_update(&ciata, myclk);
+    ciat_update(&ciatb, myclk);
+
+    ciat_prevent_clock_overflow(&ciata, sub);
+    ciat_prevent_clock_overflow(&ciatb, sub);
+
+    if (ciardi > sub)
+	ciardi -= sub;
+    else
+	ciardi = 0;
+
+    if(cia_todclk)
+	cia_todclk -= sub;
+}
+
+/* ------------------------------------------------------------------------- */
+
 void mycia_init(void)
 {
     alarm_init(&cia_ta_alarm, &mycpu_alarm_context, "ciaTimerA",
@@ -221,6 +242,8 @@ void mycia_init(void)
                int_ciatb);
     alarm_init(&cia_tod_alarm, &mycpu_alarm_context, "ciaTimeOfDay",
                int_ciatod);
+
+    clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);
 
     ciat_init(&ciata, "ciaTimerA", myclk, &cia_ta_alarm, cia_strobe_ta);
     ciat_init(&ciatb, "ciaTimerB", myclk, &cia_tb_alarm, cia_strobe_tb);
@@ -432,6 +455,7 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
 	cia_update_ta(rclk);
 
+
 	ciat_set_ctrl(&ciata, rclk, byte);
 
 #if defined (CIA_TIMER_DEBUG)
@@ -504,6 +528,7 @@ static int cia_read_offset = 0;
 
 BYTE REGPARM1 read_mycia(ADDRESS addr)
 {
+
 #if defined( CIA_TIMER_DEBUG )
 
     BYTE read_cia_(ADDRESS addr);
@@ -779,11 +804,9 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
-
 static int int_ciata(long offset)
 {
     CLOCK rclk = myclk - offset;
-    int n;
 
     CIAT_LOGIN(("ciaTimerA int_ciata: myclk=%d rclk=%d", myclk, rclk));
 
@@ -976,33 +999,6 @@ static int int_ciatod(long offset)
 	check_ciatodalarm(rclk);
     }
     return 0;
-}
-
-/* -------------------------------------------------------------------------- */
-
-
-void mycia_prevent_clk_overflow(CLOCK sub)
-{
-printf("mycia_prevent_clk_overflow()\n");
-    /* FIXME: cia_update_t* */
-    cia_update_ta(myclk);
-    cia_update_tb(myclk);
-
-    ciat_prevent_clock_overflow(&ciata, sub);
-    ciat_prevent_clock_overflow(&ciatb, sub);
-
-    if (ciardi > sub)
-	ciardi -= sub;
-    else
-	ciardi = 0;
-
-    if (cia_read_clk > sub)
-	cia_read_clk -= sub;
-    else
-	cia_read_clk = 0;
-
-    if (cia_todclk)
-	cia_todclk -= sub;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -1203,6 +1199,7 @@ int mycia_read_snapshot_module(snapshot_t *p)
     timerb.single = 0; /* FIXME */
 
     snapshot_module_read_word(m, &word);
+
 /*
     timera.latch = word;
 */

@@ -558,7 +558,7 @@ _CIAT_FUNC void ciat_set_latchhi(ciat_t *state, CLOCK cclk, BYTE byte)
 
 _CIAT_FUNC void ciat_set_latchlo(ciat_t *state, CLOCK cclk, BYTE byte)
 {
-    int i;
+/*  int i;*/
 /*
     printf("%s set_latchlo: nst=%d, st0.clk=%d, st1.clk=%d, cclk=%d, "
 		"st0.cnt=%d, st1.cnt=%d, byte=%02x, last_update=%d, lastz=%d\n", 
@@ -787,7 +787,7 @@ _CIAT_FUNC void ciat_ack_alarm(ciat_t *state, CLOCK cclk)
 
 	if(cclk == state->st[0].nextz) {
             ciat_state_t timer;
-            WORD current = ciat_read_timer(state, cclk+1);
+/*          WORD current = ciat_read_timer(state, cclk+1);*/
 /*
 printf("%s: ack_alarm hit @ cclk=%d!\n", state->name, cclk);
 	    timer = state->st[0];
