@@ -103,6 +103,7 @@ inline static void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
 /* ------------------------------------------------------------------------- */
 
 extern int video_init_resources(void);
+extern int video_init_cmdline_options(void);
 extern int video_init(void);
 extern int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 			      unsigned int height);
