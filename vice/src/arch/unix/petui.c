@@ -47,7 +47,7 @@
 #include "uimenu.h"
 #include "uiperipheralieee.h"
 #include "uiromset.h"
-#include "uirs232.h"
+#include "uirs232petplus4cbm2.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisound.h"
@@ -246,28 +246,6 @@ static ui_menu_entry_t pet_romset_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(SuperPET)
 
-static ui_menu_entry_t pet_rs232_submenu[] = {
-    { N_("ACIA device"),
-      NULL, NULL, acia1_device_submenu },
-    { "--" },
-    { N_("Serial 1 device..."), (ui_callback_t)set_rs232_device_file,
-      (ui_callback_data_t)"RsDevice1", NULL },
-    { N_("Serial 1 baudrate"),
-      NULL, NULL, ser1_baud_submenu },
-    { "--" },
-    { N_("Serial 2 device..."), (ui_callback_t)set_rs232_device_file,
-      (ui_callback_data_t)"RsDevice2", NULL },
-    { N_("Serial 2 baudrate"),
-      NULL, NULL, ser2_baud_submenu },
-    { "--" },
-    { N_("Dump filename..."), (ui_callback_t)set_rs232_dump_file,
-      (ui_callback_data_t)"RsDevice3", NULL },
-    { "--" },
-    { N_("Program name to exec..."), (ui_callback_t)set_rs232_exec_file,
-      (ui_callback_data_t)"RsDevice4", NULL },
-    { NULL }
-};
-
 static ui_menu_entry_t model_settings_submenu[] = {
     { N_("Model defaults"),
       NULL, NULL, model_defaults_submenu },
@@ -287,7 +265,7 @@ static ui_menu_entry_t model_settings_submenu[] = {
     { N_("*SuperPET I/O enable (disables 8x96)"),
       (ui_callback_t)toggle_SuperPET, NULL, NULL },
     { N_("SuperPET ACIA"),
-      NULL, NULL, pet_rs232_submenu },
+      NULL, NULL, uirs232petplus4cbm2_submenu },
     { "--" },
     { N_("*$9*** as RAM (8296 only)"),
       (ui_callback_t)toggle_Ram9, NULL, NULL },

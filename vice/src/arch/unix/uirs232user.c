@@ -1,8 +1,9 @@
 /*
- * uirs232.h
+ * uirs232user.c
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,17 +25,25 @@
  *
  */
 
-#ifndef _UI_RS232_H
-#define _UI_RS232_H
+#include "vice.h"
+
+#include <stdio.h>
 
 #include "uimenu.h"
+#include "uirs232user.h"
 
-extern struct ui_menu_entry_s ser1_baud_submenu[];
-extern struct ui_menu_entry_s ser2_baud_submenu[];
 
-extern UI_CALLBACK(set_rs232_device_file);
-extern UI_CALLBACK(set_rs232_exec_file);
-extern UI_CALLBACK(set_rs232_dump_file);
+UI_MENU_DEFINE_RADIO(RsUserDev)
 
-#endif
+ui_menu_entry_t rs232user_device_submenu[] = {
+    { N_("*Serial 1"),
+      (ui_callback_t)radio_RsUserDev, (ui_callback_data_t)0, NULL },
+    { N_("*Serial 2"),
+      (ui_callback_t)radio_RsUserDev, (ui_callback_data_t)1, NULL },
+    { N_("*Dump to file"),
+      (ui_callback_t)radio_RsUserDev, (ui_callback_data_t)2, NULL },
+    { N_("*Exec process"),
+      (ui_callback_t)radio_RsUserDev, (ui_callback_data_t)3, NULL },
+    { NULL }
+};
 

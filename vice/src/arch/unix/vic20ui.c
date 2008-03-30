@@ -48,6 +48,7 @@
 #include "uiperipheraliec.h"
 #include "uiromset.h"
 #include "uirs232.h"
+#include "uirs232user.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisound.h"
@@ -351,7 +352,7 @@ static ui_menu_entry_t vic20_rs232_submenu[] = {
     { N_("*Userport 1200 baud RS232 emulation"),
       (ui_callback_t)radio_RsUser, (ui_callback_data_t)1200, NULL },
     { N_("Userport RS232 device"),
-      NULL, NULL, rsuser_device_submenu },
+      NULL, NULL, rs232user_device_submenu },
     { "--" },
     { N_("Serial 1 device..."), (ui_callback_t)set_rs232_device_file,
       (ui_callback_data_t)"RsDevice1", NULL },

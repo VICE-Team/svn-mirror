@@ -38,46 +38,6 @@
 #include "vsync.h"
 
 
-UI_MENU_DEFINE_RADIO(RsUserDev)
-
-ui_menu_entry_t rsuser_device_submenu[] = {
-    { N_("*Serial 1"),
-      (ui_callback_t)radio_RsUserDev, (ui_callback_data_t)0, NULL },
-    { N_("*Serial 2"),
-      (ui_callback_t)radio_RsUserDev, (ui_callback_data_t)1, NULL },
-    { N_("*Dump to file"),
-      (ui_callback_t)radio_RsUserDev, (ui_callback_data_t)2, NULL },
-    { N_("*Exec process"),
-      (ui_callback_t)radio_RsUserDev, (ui_callback_data_t)3, NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_RADIO(Acia1Dev)
-
-ui_menu_entry_t acia1_device_submenu[] = {
-    { N_("*Serial 1"),
-      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)0, NULL },
-    { N_("*Serial 2"),
-      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)1, NULL },
-    { N_("*Dump to file"),
-      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)2, NULL },
-    { N_("*Exec process"),
-      (ui_callback_t)radio_Acia1Dev, (ui_callback_data_t)3, NULL },
-    { NULL }
-};
-
-UI_MENU_DEFINE_RADIO(Acia1Irq)
-
-ui_menu_entry_t acia1_irq_submenu[] = {
-    { N_("*No IRQ/NMI"),
-      (ui_callback_t)radio_Acia1Irq, (ui_callback_data_t)0, NULL },
-    { N_("*IRQ"),
-      (ui_callback_t)radio_Acia1Irq, (ui_callback_data_t)1, NULL },
-    { N_("*NMI"),
-      (ui_callback_t)radio_Acia1Irq, (ui_callback_data_t)2, NULL },
-    { NULL }
-};
-
 UI_MENU_DEFINE_RADIO(RsDevice1Baud)
 
 ui_menu_entry_t ser1_baud_submenu[] = {
@@ -145,45 +105,4 @@ UI_CALLBACK(set_rs232_dump_file)
     uilib_select_string((char *)UI_MENU_CB_PARAM, _("File to dump RS232 to"),
                         _("Dump file:"));
 }
-
-
-UI_MENU_DEFINE_TOGGLE(AciaDE)
-UI_MENU_DEFINE_RADIO(RsUser)
-
-ui_menu_entry_t rs232_submenu[] = {
-    { N_("*ACIA $DExx RS232 interface emulation"),
-      (ui_callback_t) toggle_AciaDE, NULL, NULL },
-    { N_("ACIA $DExx device"),
-      NULL, NULL, acia1_device_submenu },
-    { N_("ACIA $DExx Interrupt"),
-      NULL, NULL, acia1_irq_submenu },
-    { "--" },
-    { N_("*No Userport RS232 emulation"),
-      (ui_callback_t)radio_RsUser, (ui_callback_data_t)0, NULL },
-    { N_("*Userport 300 baud RS232 emulation"),
-      (ui_callback_t)radio_RsUser, (ui_callback_data_t)300, NULL },
-    { N_("*Userport 1200 baud RS232 emulation"),
-      (ui_callback_t)radio_RsUser, (ui_callback_data_t)1200, NULL },
-    { N_("*CIA 9600 baud RS232 emulation"),
-      (ui_callback_t)radio_RsUser, (ui_callback_data_t)9600, NULL },
-    { N_("Userport RS232 device"),
-      NULL, NULL, rsuser_device_submenu },
-    { "--" },
-    { N_("Serial 1 device..."), (ui_callback_t)set_rs232_device_file,
-      (ui_callback_data_t)"RsDevice1", NULL },
-    { N_("Serial 1 baudrate"),
-      NULL, NULL, ser1_baud_submenu },
-    { "--" },
-    { "Serial 2 device...", (ui_callback_t)set_rs232_device_file,
-      (ui_callback_data_t)"RsDevice2", NULL },
-    { N_("Serial 2 baudrate"),
-      NULL, NULL, ser2_baud_submenu },
-    { "--" },
-    { N_("Dump filename..."), (ui_callback_t)set_rs232_dump_file,
-      (ui_callback_data_t)"RsDevice3", NULL },
-    { "--" },
-    { N_("Program name to exec..."), (ui_callback_t)set_rs232_exec_file,
-      (ui_callback_data_t)"RsDevice4", NULL },
-    { NULL }
-};
 

@@ -48,7 +48,7 @@
 #include "uikeyboard.h"
 #include "uiperipheralieee.h"
 #include "uiromset.h"
-#include "uirs232.h"
+#include "uirs232petplus4cbm2.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisid.h"
@@ -334,31 +334,6 @@ static ui_menu_entry_t sid_options_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static ui_menu_entry_t cbm2_rs232_submenu[] = {
-    { N_("ACIA device"),
-      NULL, NULL, acia1_device_submenu },
-    { "--" },
-    { N_("Serial 1 device..."), (ui_callback_t)set_rs232_device_file,
-      (ui_callback_data_t)"RsDevice1", NULL },
-    { N_("Serial 1 baudrate"),
-      NULL, NULL, ser1_baud_submenu },
-    { "--" },
-    { N_("Serial 2 device..."), (ui_callback_t)set_rs232_device_file,
-      (ui_callback_data_t)"RsDevice2", NULL },
-    { N_("Serial 2 baudrate"),
-      NULL, NULL, ser2_baud_submenu },
-    { "--" },
-    { N_("Dump filename..."), (ui_callback_t)set_rs232_dump_file,
-      (ui_callback_data_t)"RsDevice3", NULL },
-    { "--" },
-    { N_("Program name to exec..."), (ui_callback_t)set_rs232_exec_file,
-      (ui_callback_data_t)"RsDevice4", NULL },
-    { NULL }
-};
-
-
-/* ------------------------------------------------------------------------- */
-
 static UI_CALLBACK(CrtcMenu)
 {
     if (CHECK_MENUS) {
@@ -377,7 +352,7 @@ static ui_menu_entry_t cbm2_menu[] = {
     { N_("CBM-II model settings"),
       NULL, NULL, model_settings_submenu },
     { N_("RS232 settings"),
-      NULL, NULL, cbm2_rs232_submenu },
+      NULL, NULL, uirs232petplus4cbm2_submenu },
     { "--" },
     { N_("Crtc settings"),
       (ui_callback_t)CrtcMenu, NULL, crtc_submenu },

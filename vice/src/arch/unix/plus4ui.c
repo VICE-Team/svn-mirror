@@ -44,7 +44,7 @@
 #include "uimenu.h"
 #include "uiperipheraliec.h"
 #include "uiromset.h"
-#include "uirs232.h"
+#include "uirs232petplus4cbm2.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisound.h"
@@ -134,6 +134,8 @@ static ui_menu_entry_t plus4_menu[] = {
       NULL, NULL, set_ram_submenu },
     { N_("TED settings"),
       NULL, NULL, ted_submenu },
+    { N_("RS232 settings"),
+      NULL, NULL, uirs232petplus4cbm2_submenu },
     { NULL }
 };
 

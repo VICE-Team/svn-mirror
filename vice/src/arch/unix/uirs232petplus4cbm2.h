@@ -1,5 +1,5 @@
 /*
- * uirs232.h
+ * uirs232petplus4cbm2.h
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,17 +24,10 @@
  *
  */
 
-#ifndef _UI_RS232_H
-#define _UI_RS232_H
+#ifndef _UIRS232PETPLUS4CBM2_H
+#define _UIRS232PETPLUS4CBM2_H
 
-#include "uimenu.h"
-
-extern struct ui_menu_entry_s ser1_baud_submenu[];
-extern struct ui_menu_entry_s ser2_baud_submenu[];
-
-extern UI_CALLBACK(set_rs232_device_file);
-extern UI_CALLBACK(set_rs232_exec_file);
-extern UI_CALLBACK(set_rs232_dump_file);
+extern struct ui_menu_entry_s uirs232petplus4cbm2_submenu[];
 
 #endif
 

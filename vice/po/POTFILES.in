@@ -21,6 +21,7 @@ src/arch/unix/plus4ui.c
 src/arch/unix/rs232.c
 src/arch/unix/signals.c
 src/arch/unix/ui.c
+src/arch/unix/uiacia1.c
 src/arch/unix/uiattach.c
 src/arch/unix/uic64cart.c
 src/arch/unix/uicmdline.c
@@ -50,6 +51,9 @@ src/arch/unix/uiprinterieee.c
 src/arch/unix/uireu.c
 src/arch/unix/uiromset.c
 src/arch/unix/uirs232.c
+src/arch/unix/uirs232c64c128.c
+src/arch/unix/uirs232petplus4cbm2.c
+src/arch/unix/uirs232user.c
 src/arch/unix/uisettings.c
 src/arch/unix/uisid.c
 src/arch/unix/uisound.c

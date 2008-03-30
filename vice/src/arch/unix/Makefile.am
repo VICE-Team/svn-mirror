@@ -49,6 +49,8 @@ libarch_a_SOURCES = \
 	types.h \
 	ui.c \
 	ui.h \
+	uiacia1.c \
+	uiacia1.h \
 	uiattach.c \
 	uiattach.h \
 	uic64cart.c \
@@ -109,6 +111,12 @@ libarch_a_SOURCES = \
 	uiromset.h \
 	uirs232.c \
 	uirs232.h \
+	uirs232c64c128.c \
+	uirs232c64c128.h \
+	uirs232petplus4cbm2.c \
+	uirs232petplus4cbm2.h \
+	uirs232user.c \
+	uirs232user.h \
 	uiscreenshot.h \
 	uisettings.h \
 	uisettings.c \
