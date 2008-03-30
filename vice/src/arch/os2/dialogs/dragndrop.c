@@ -86,7 +86,7 @@ MRESULT Drop(HWND hwnd, PDRAGINFO pDraginfo)
         !DrgQueryStrName(pditem->hstrSourceName, CCHMAXPATH-strlen(dir)-1, nam))
         return NULL;
 
-    if (autostart_autodetect(strcat(dir, nam), NULL, 0) >= 0)
+    if (autostart_autodetect(strcat(dir, nam), NULL, 0, AUTOSTART_MODE_RUN) >= 0)
         return NULL;
 
     ViceErrorDlg(hwnd, 0x101/*PTR_INFO*/, " Drop File:\n Cannot autostart file.");

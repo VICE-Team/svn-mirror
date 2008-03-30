@@ -940,7 +940,8 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 if (!GetFullFile(hwnd, szpath))
                     return FALSE;
 
-                if (autostart_autodetect(szpath, NULL, pos<0?0:pos))
+                if (autostart_autodetect(szpath, NULL, pos < 0 ? 0 : pos,
+                    AUTOSTART_MODE_RUN))
                     return FALSE;
             }
             break;

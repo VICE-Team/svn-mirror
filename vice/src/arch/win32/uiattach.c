@@ -131,7 +131,7 @@ static void init_dialog(HWND hwnd, unsigned int num)
         enable_controls_for_disk_device_type(hwnd, n);
     }
     if (num == 4) {
-        resources_get_value("Printer4", (resource_value_t *) &n);
+        resources_get_value("Printer4", (resource_value_t *)&n);
         CheckDlgButton(hwnd, IDC_TOGGLE_PRINTER,
                        n ? BST_CHECKED : BST_UNCHECKED);
     }
@@ -217,7 +217,7 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
 
                 if (s != NULL) {
                     SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
-                    if (autostart_autodetect(s, "*", 0) < 0)
+                    if (autostart_autodetect(s, "*", 0, AUTOSTART_MODE_RUN) < 0)
                         ui_error("Cannot autostart specified file.");
                     free(s);
                 }
@@ -228,31 +228,32 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
                 char s[MAX_PATH];
                 GetDlgItemText(hwnd, IDC_DIR, s, MAX_PATH);
                 resources_set_sprintf("FSDevice%dDir",
-                    (resource_value_t)s, num);
+                                      (resource_value_t)s, num);
             }
             break;
           case IDC_BROWSEDIR:
             {
-                BROWSEINFO    bi;
-                char          s[MAX_PATH];
-                LPITEMIDLIST  idlist;
+                BROWSEINFO bi;
+                char s[MAX_PATH];
+                LPITEMIDLIST idlist;
 
-                bi.hwndOwner=hwnd;
-                bi.pidlRoot=NULL;
-                bi.pszDisplayName=s;
-                bi.lpszTitle="Select file system directory";
-                bi.ulFlags=0;
-                bi.lpfn=NULL;
-                bi.lParam=0;
-                bi.iImage=0;
-                if ((idlist=SHBrowseForFolder(&bi))!=NULL) {
-                    SHGetPathFromIDList(idlist,s);
+                bi.hwndOwner = hwnd;
+                bi.pidlRoot = NULL;
+                bi.pszDisplayName = s;
+                bi.lpszTitle = "Select file system directory";
+                bi.ulFlags = 0;
+                bi.lpfn = NULL;
+                bi.lParam = 0;
+                bi.iImage = 0;
+                if ((idlist = SHBrowseForFolder(&bi)) != NULL) {
+                    SHGetPathFromIDList(idlist, s);
                     LocalFree(idlist);
                     /*
                     If a root directory is selected, \ is appended
                     and has to be deleted.
                     */
-                    if (s[strlen(s) - 1] == '\\') s[strlen(s) - 1] = '\0';
+                    if (s[strlen(s) - 1] == '\\')
+                        s[strlen(s) - 1] = '\0';
                     SetDlgItemText(hwnd, IDC_DIR, s);
                     resources_set_sprintf("FSDevice%dDir",
                                           (resource_value_t)s, num);
@@ -261,27 +262,27 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
             break;
           case IDC_TOGGLE_READP00:
             sprintf(tmp, "FSDevice%dConvertP00", num);
-            resources_get_value(tmp, (resource_value_t *) &n);
-            resources_set_value(tmp, (resource_value_t) !n);
+            resources_get_value(tmp, (resource_value_t *)&n);
+            resources_set_value(tmp, (resource_value_t)!n);
             break;
           case IDC_TOGGLE_WRITEP00:
             sprintf(tmp, "FSDevice%dSaveP00", num);
-            resources_get_value(tmp, (resource_value_t *) &n);
-            resources_set_value(tmp, (resource_value_t) !n);
+            resources_get_value(tmp, (resource_value_t *)&n);
+            resources_set_value(tmp, (resource_value_t)!n);
             break;
           case IDC_TOGGLE_HIDENONP00:
             sprintf(tmp, "FSDevice%dHideCBMFiles", num);
-            resources_get_value(tmp, (resource_value_t *) &n);
-            resources_set_value(tmp, (resource_value_t) !n);
+            resources_get_value(tmp, (resource_value_t *)&n);
+            resources_set_value(tmp, (resource_value_t)!n);
             break;
           case IDC_TOGGLE_ATTACH_READONLY:
             sprintf(tmp, "AttachDevice%dReadonly", num);
-            resources_get_value(tmp, (resource_value_t *) &n);
-            resources_set_value(tmp, (resource_value_t) !n);
+            resources_get_value(tmp, (resource_value_t *)&n);
+            resources_set_value(tmp, (resource_value_t)!n);
             break;
           case IDC_TOGGLE_PRINTER:
-            resources_get_value("Printer4", (resource_value_t *) &n);
-            resources_set_value("Printer4", (resource_value_t) !n);
+            resources_get_value("Printer4", (resource_value_t *)&n);
+            resources_set_value("Printer4", (resource_value_t)!n);
             break;
         }
         return TRUE;
@@ -375,3 +376,4 @@ void ui_attach_dialog(HWND hwnd)
 
     PropertySheet(&psh);
 }
+

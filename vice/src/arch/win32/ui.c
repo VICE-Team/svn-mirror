@@ -167,55 +167,55 @@ struct {
 
 static int set_fullscreen_device(resource_value_t v, void *param)
 {
-    ui_resources.fullscreendevice=(int) v;
+    ui_resources.fullscreendevice = (int)v;
     return 0;
 }
 
 static int set_fullscreen_bitdepth(resource_value_t v, void *param)
 {
-    ui_resources.fullscreenbitdepth=(int) v;
+    ui_resources.fullscreenbitdepth = (int)v;
     return 0;
 }
 
 static int set_fullscreen_width(resource_value_t v, void *param)
 {
-    ui_resources.fullscreenwidth=(int) v;
+    ui_resources.fullscreenwidth = (int)v;
     return 0;
 }
 
 static int set_fullscreen_height(resource_value_t v, void *param)
 {
-    ui_resources.fullscreenheight=(int) v;
+    ui_resources.fullscreenheight = (int)v;
     return 0;
 }
 
 static int set_fullscreen_refreshrate(resource_value_t v, void *param)
 {
-    ui_resources.fullscreenrefreshrate=(int) v;
+    ui_resources.fullscreenrefreshrate = (int)v;
     return 0;
 }
 
 static int set_fullscreen_enabled(resource_value_t v, void *param)
 {
-    ui_resources.fullscreenenabled=(int) v;
+    ui_resources.fullscreenenabled = (int)v;
     return 0;
 }
 
 static int set_save_resources_on_exit(resource_value_t v, void *param)
 {
-    ui_resources.save_resources_on_exit=(int) v;
+    ui_resources.save_resources_on_exit = (int)v;
     return 0;
 }
 
 static int set_confirm_on_exit(resource_value_t v, void *param)
 {
-    ui_resources.confirm_on_exit=(int) v;
+    ui_resources.confirm_on_exit = (int)v;
     return 0;
 }
 
 static int set_monitor_dimensions(resource_value_t v, void *param)
 {
-    const char *name = (const char *) v;
+    const char *name = (const char *)v;
     if (ui_resources.monitor_dimensions != NULL && name != NULL)
         if (strcmp(name, ui_resources.monitor_dimensions) == 0)
             return 0;
@@ -266,16 +266,16 @@ int ui_init_resources(void)
 
 static cmdline_option_t cmdline_options[] = {
     { "-saveres", SET_RESOURCE, 0, NULL, NULL,
-      "SaveResourcesOnExit", (resource_value_t) 1,
+      "SaveResourcesOnExit", (resource_value_t)1,
       NULL, "Save settings (resources) on exit" },
     { "+saveres", SET_RESOURCE, 0, NULL, NULL,
-      "SaveResourcesOnExit", (resource_value_t) 0,
+      "SaveResourcesOnExit", (resource_value_t)0,
       NULL, "Never save settings (resources) on exit" },
     { "-confirmexit", SET_RESOURCE, 0, NULL, NULL,
-      "ConfirmOnExit", (resource_value_t) 0,
+      "ConfirmOnExit", (resource_value_t)0,
       NULL, "Confirm quiting VICE" },
     { "+confirmexit", SET_RESOURCE, 0, NULL, NULL,
-      "ConfirmOnExit", (resource_value_t) 1,
+      "ConfirmOnExit", (resource_value_t)1,
       NULL, "Never confirm quiting VICE" },
     { NULL }
 };
@@ -353,29 +353,29 @@ WORD        menu;
     switch (machine_class) {
         case VICE_MACHINE_C64:
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel,25);
+            ui_accelerator=CreateAcceleratorTable(c64_accel, 25);
             break;
         case VICE_MACHINE_C128:
             menu = IDR_MENUC128;
-            ui_accelerator=CreateAcceleratorTable(c128_accel,24);
+            ui_accelerator=CreateAcceleratorTable(c128_accel, 24);
             break;
         case VICE_MACHINE_VIC20:
             menu = IDR_MENUVIC;
-            ui_accelerator=CreateAcceleratorTable(vic_accel,23);
+            ui_accelerator=CreateAcceleratorTable(vic_accel, 23);
             break;
         case VICE_MACHINE_PET:
             menu = IDR_MENUPET;
-            ui_accelerator=CreateAcceleratorTable(pet_accel,23);
+            ui_accelerator=CreateAcceleratorTable(pet_accel, 23);
             break;
         case VICE_MACHINE_CBM2:
             menu = IDR_MENUCBM2;
-            ui_accelerator=CreateAcceleratorTable(cbm2_accel,23);
+            ui_accelerator=CreateAcceleratorTable(cbm2_accel, 23);
             break;
         default:
             log_debug("UI: No menu entries for this machine defined!");
             log_debug("UI: Using C64 type UI menues.");
             menu = IDR_MENUC64;
-            ui_accelerator=CreateAcceleratorTable(c64_accel,24);
+            ui_accelerator=CreateAcceleratorTable(c64_accel, 24);
     }
 
     /* Register the window class.  */
@@ -480,11 +480,14 @@ HWND    hwnd;
                             NULL,
                             winmain_instance,
                             NULL);
-        SetWindowPos(hwnd,HWND_TOPMOST,0,0,GetSystemMetrics(SM_CXSCREEN),GetSystemMetrics(SM_CYSCREEN),SWP_NOCOPYBITS);
+        SetWindowPos(hwnd,HWND_TOPMOST, 0, 0, GetSystemMetrics(SM_CXSCREEN),
+                     GetSystemMetrics(SM_CYSCREEN), SWP_NOCOPYBITS);
     } else */{
         hwnd = CreateWindow(APPLICATION_CLASS,
                             hwnd_titles[number_of_windows],
-                            WS_OVERLAPPED|WS_CLIPCHILDREN|WS_BORDER|WS_DLGFRAME|WS_SYSMENU|WS_MINIMIZEBOX|WS_MAXIMIZEBOX,
+                            WS_OVERLAPPED | WS_CLIPCHILDREN | WS_BORDER
+                            | WS_DLGFRAME | WS_SYSMENU | WS_MINIMIZEBOX
+                            | WS_MAXIMIZEBOX,
                             CW_USEDEFAULT,
                             CW_USEDEFAULT,
                             CW_USEDEFAULT,
@@ -556,10 +559,12 @@ WINDOWPLACEMENT place;
                    wrect.bottom - wrect.top,
                    TRUE);
     } else {
-        place.rcNormalPosition.right=place.rcNormalPosition.left+wrect.right-wrect.left;
-        place.rcNormalPosition.bottom=place.rcNormalPosition.top+wrect.bottom-wrect.top;
-        SetWindowPlacement(w,&place);
-        InvalidateRect(w,NULL,FALSE);
+        place.rcNormalPosition.right = place.rcNormalPosition.left
+                                       + wrect.right - wrect.left;
+        place.rcNormalPosition.bottom = place.rcNormalPosition.top
+                                        + wrect.bottom - wrect.top;
+        SetWindowPlacement(w, &place);
+        InvalidateRect(w, NULL, FALSE);
     }
 }
 
@@ -589,14 +594,15 @@ static void update_menus(HWND hwnd)
     int result;
 
     for (i = 0; toggle_list[i].name != NULL; i++) {
-        resources_get_value(toggle_list[i].name, (resource_value_t *) &value);
+        resources_get_value(toggle_list[i].name, (resource_value_t *)&value);
         CheckMenuItem(menu, toggle_list[i].item_id,
                       value ? MF_CHECKED : MF_UNCHECKED);
     }
     
     if (machine_specific_toggles) {
         for (i = 0; machine_specific_toggles[i].name != NULL; i++) {
-            resources_get_value(machine_specific_toggles[i].name, (resource_value_t *) &value);
+            resources_get_value(machine_specific_toggles[i].name,
+                                (resource_value_t *)&value);
             CheckMenuItem(menu, machine_specific_toggles[i].item_id,
                           value ? MF_CHECKED : MF_UNCHECKED);
         }
@@ -604,7 +610,7 @@ static void update_menus(HWND hwnd)
 
     for (i = 0; value_list[i].name != NULL; i++) {
         result=resources_get_value(value_list[i].name,
-                                   (resource_value_t *) &value);
+                                   (resource_value_t *)&value);
         if (result==0) {
             for (j = 0; value_list[i].vals[j].item_id != 0; j++) {
                 if (value == value_list[i].vals[j].value) {
@@ -623,12 +629,13 @@ static void update_menus(HWND hwnd)
             result=resources_get_value(machine_specific_values[i].name,
                                        (resource_value_t *) &value);
             if (result==0) {
-                for (j = 0; machine_specific_values[i].vals[j].item_id != 0; j++) {
+                for (j = 0; machine_specific_values[i].vals[j].item_id != 0;
+                    j++) {
                     if (value == machine_specific_values[i].vals[j].value) {
-                        CheckMenuItem(menu,machine_specific_values[i].vals[j].item_id,
+                        CheckMenuItem(menu, machine_specific_values[i].vals[j].item_id,
                                       MF_CHECKED);
                     } else {
-                        CheckMenuItem(menu,machine_specific_values[i].vals[j].item_id,
+                        CheckMenuItem(menu, machine_specific_values[i].vals[j].item_id,
                                       MF_UNCHECKED);
                     }
                 }
@@ -824,7 +831,8 @@ void ui_display_drive_track(int drivenum, int drive_base, double track_number)
 
 /*    status_track[drivenum]=track_number;
     for (i=0; i<number_of_windows; i++) {
-        SendMessage(status_hwnd[i],SB_SETTEXT,(status_partindex[drivenum]+1)|SBT_OWNERDRAW,0);
+        SendMessage(status_hwnd[i], SB_SETTEXT,
+                    (status_partindex[drivenum] + 1) | SBT_OWNERDRAW, 0);
     }*/
 }
 
@@ -837,7 +845,8 @@ void ui_display_drive_led(int drivenum, int status)
 
 /*    status_led[drivenum]=status;
     for (i=0; i<number_of_windows; i++) {
-        SendMessage(status_hwnd[i],SB_SETTEXT,(status_partindex[drivenum]+1)|SBT_OWNERDRAW,0);
+        SendMessage(status_hwnd[i], SB_SETTEXT,
+                    (status_partindex[drivenum] + 1) | SBT_OWNERDRAW, 0);
     }*/
 }
 
@@ -953,13 +962,16 @@ char    *fullname2;
     } else {
         if (lastindex==9) {
             if (snapcounter==10) {
-                fullname=concat(archdep_boot_path(),"\\",machine_name,"\\",files[0].name,NULL);
+                fullname = concat(archdep_boot_path(), "\\", machine_name,
+                                  "\\", files[0].name, NULL);
                 DeleteFile(fullname);
                 free(fullname);
                 for (i=1; i<10; i++) {
-                    fullname=concat(archdep_boot_path(),"\\",machine_name,"\\",files[i].name,NULL);
-                    fullname2=concat(archdep_boot_path(),"\\",machine_name,"\\",files[i-1].name,NULL);
-                    MoveFile(fullname,fullname2);
+                    fullname = concat(archdep_boot_path(), "\\", machine_name,
+                                      "\\", files[i].name, NULL);
+                    fullname2 = concat(archdep_boot_path(), "\\", machine_name,
+                                       "\\", files[i-1].name, NULL);
+                    MoveFile(fullname, fullname2);
                     free(fullname);
                     free(fullname2);
                 }
@@ -971,9 +983,13 @@ char    *fullname2;
                     if (files[j].valid) {
                         strcpy(files[i].name,files[j].name);
                         files[i].name[strlen(files[i].name)-5]='0'+i;
-                        fullname=concat(archdep_boot_path(),"\\",machine_name,"\\",files[j].name,NULL);
-                        fullname2=concat(archdep_boot_path(),"\\",machine_name,"\\",files[i].name,NULL);
-                        MoveFile(fullname,fullname2);
+                        fullname = concat(archdep_boot_path(), "\\",
+                                          machine_name, "\\", files[j].name,
+                                          NULL);
+                        fullname2 = concat(archdep_boot_path(), "\\",
+                                           machine_name, "\\", files[i].name,
+                                           NULL);
+                        MoveFile(fullname, fullname2);
                         free(fullname);
                         free(fullname2);
                         i++;
@@ -986,7 +1002,8 @@ char    *fullname2;
         } else {
             strcpy(files[lastindex+1].name,files[lastindex].name);
             lastindex++;
-            files[lastindex].name[strlen(files[lastindex].name)-5]='0'+lastindex;
+            files[lastindex].name[strlen(files[lastindex].name) - 5]
+                = '0' + lastindex;
         }
     }
 
@@ -1001,7 +1018,8 @@ static void load_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
     char *fullname;
 
-    fullname=concat(archdep_boot_path(),"\\",machine_name,"\\",files[lastindex].name,NULL);
+    fullname = concat(archdep_boot_path(), "\\", machine_name, "\\",
+                      files[lastindex].name, NULL);
     if (machine_read_snapshot(fullname)<0) {
         ui_error("Cannot read snapshot image");
     }
@@ -1025,7 +1043,7 @@ void ui_dispatch_next_event(void)
     if (!GetMessage(&msg, NULL, 0, 0))
         exit(msg.wParam);
     if (ui_accelerator) {
-        if (!TranslateAccelerator(msg.hwnd,ui_accelerator,&msg)) {
+        if (!TranslateAccelerator(msg.hwnd,ui_accelerator, &msg)) {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
@@ -1078,8 +1096,9 @@ HANDLE              search_handle;
 int                 i;
 char                *dirname;
 
-    dirname=concat(archdep_boot_path(),"\\",machine_name,"\\quicksnap?.vsf",NULL);
-    search_handle=FindFirstFile(dirname,&file_info);
+    dirname = concat(archdep_boot_path(), "\\", machine_name,
+                     "\\quicksnap?.vsf", NULL);
+    search_handle=FindFirstFile(dirname, &file_info);
     snapcounter=0;
     lastindex=-1;
     for (i=0; i<10; i++) {
@@ -1186,7 +1205,8 @@ char *dname;
                 &autostart_filename)) != NULL) {
                 if (autostart_filename!=NULL) {
 /* FIXME: Set 2nd arg to NULL, use arg 3rd for program number */
-                    if (autostart_autodetect(s, autostart_filename, 0) < 0)
+                    if (autostart_autodetect(s, autostart_filename, 0,
+                        AUTOSTART_MODE_RUN) < 0)
                         ui_error("Cannot autostart specified file.");
                         free(autostart_filename);
                 } else {
@@ -1246,7 +1266,8 @@ char *dname;
                 &autostart_filename)) != NULL) {
                 if (autostart_filename!=NULL) {
 /* FIXME: Set 2nd arg to NULL, use arg 3rd for program number */
-                    if (autostart_autodetect(s, autostart_filename, 0) < 0)
+                    if (autostart_autodetect(s, autostart_filename, 0,
+                        AUTOSTART_MODE_RUN) < 0)
                         ui_error("Cannot autostart specified file.");
                         free(autostart_filename);
                 } else {
@@ -1295,7 +1316,8 @@ char *dname;
                 FILE_SELECTOR_DISK_AND_TAPE_STYLE,
                 &autostart_filename)) != NULL) {
 /* FIXME: Set 2nd arg to NULL, use arg 3rd for program number */
-                if (autostart_autodetect(s, autostart_filename, 0) < 0)
+                if (autostart_autodetect(s, autostart_filename, 0,
+                    AUTOSTART_MODE_RUN) < 0)
                     ui_error("Cannot autostart specified file.");
                 if (autostart_filename!=NULL) free(autostart_filename);
                 free(s);
@@ -1486,7 +1508,8 @@ char *dname;
             if (machine_specific_toggles) {
                 for (i = 0; machine_specific_toggles[i].name != NULL; i++) {
                     if (machine_specific_toggles[i].item_id == wparam) {
-                        resources_toggle(machine_specific_toggles[i].name, NULL);
+                        resources_toggle(machine_specific_toggles[i].name,
+                                         NULL);
                         break;
                     }
                 }
@@ -1603,9 +1626,12 @@ int     window_index;
                 if (((DRAWITEMSTRUCT*)lparam)->itemID==0) {
                     /* it's the status info */
                     led=((DRAWITEMSTRUCT*)lparam)->rcItem;
-                    SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENU));
-                    SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENUTEXT));
-                    DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,emu_status_text,-1,&led,0);
+                    SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,
+                               (COLORREF)GetSysColor(COLOR_MENU));
+                    SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,
+                                 (COLORREF)GetSysColor(COLOR_MENUTEXT));
+                    DrawText(((DRAWITEMSTRUCT*)lparam)->hDC, emu_status_text,
+                             -1, &led, 0);
                }
                 if ((((DRAWITEMSTRUCT*)lparam)->itemID==1) && tape_enabled) {
                     /* it's the tape status */
@@ -1616,16 +1642,20 @@ int     window_index;
                     led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+18;
                     led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+2;
                     led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+34;
-                    SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENU));
-                    SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENUTEXT));
-                    DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,"Tape:",-1,&led,0);
+                    SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,
+                               (COLORREF)GetSysColor(COLOR_MENU));
+                    SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,
+                                 (COLORREF)GetSysColor(COLOR_MENUTEXT));
+                    DrawText(((DRAWITEMSTRUCT*)lparam)->hDC, "Tape:",
+                             -1, &led, 0);
 
                     /* the tape-motor */
                     led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+1;
                     led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+15;
                     led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+36;
                     led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+50;
-                    FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,tape_motor?tape_motor_on_brush:tape_motor_off_brush);
+                    FillRect(((DRAWITEMSTRUCT*)lparam)->hDC, &led, tape_motor
+                             ? tape_motor_on_brush : tape_motor_off_brush);
 
                     /* the tape-control */
                     led.top+=3;
@@ -1640,19 +1670,23 @@ int     window_index;
                     tape_control_sign[2].y = led.top+8;
                     switch (tape_control) {
                         case DATASETTE_CONTROL_STOP:
-                            FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,led_black);
+                            FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,
+                                     &led, led_black);
                             break;
                         case DATASETTE_CONTROL_START:
                         case DATASETTE_CONTROL_RECORD:
-                            SelectObject(((DRAWITEMSTRUCT*)lparam)->hDC,led_black);
-                            Polygon(((DRAWITEMSTRUCT*)lparam)->hDC,tape_control_sign,3);
+                            SelectObject(((DRAWITEMSTRUCT*)lparam)->hDC,
+                                         led_black);
+                            Polygon(((DRAWITEMSTRUCT*)lparam)->hDC,
+                                    tape_control_sign, 3);
                             if (tape_control==DATASETTE_CONTROL_RECORD) {
-                                SelectObject(((DRAWITEMSTRUCT*)lparam)->hDC,led_red);
+                                SelectObject(((DRAWITEMSTRUCT*)lparam)->hDC,
+                                             led_red);
                                 Ellipse(((DRAWITEMSTRUCT*)lparam)->hDC,
-                                    led.left+17,
-                                    led.top+1,
-                                    led.left+24,
-                                    led.top+8);
+                                        led.left+17,
+                                        led.top+1,
+                                        led.left+24,
+                                        led.top+8);
                             }
                             break;
                         case DATASETTE_CONTROL_REWIND:
@@ -1660,11 +1694,13 @@ int     window_index;
                             tape_control_sign[1].x -= 4;
                             tape_control_sign[2].x += 4;
                         case DATASETTE_CONTROL_FORWARD:
-                            Polyline(((DRAWITEMSTRUCT*)lparam)->hDC,tape_control_sign,3);
+                            Polyline(((DRAWITEMSTRUCT*)lparam)->hDC,
+                                     tape_control_sign, 3);
                             tape_control_sign[0].x += 4;
                             tape_control_sign[1].x += 4;
                             tape_control_sign[2].x += 4;
-                            Polyline(((DRAWITEMSTRUCT*)lparam)->hDC,tape_control_sign,3);
+                            Polyline(((DRAWITEMSTRUCT*)lparam)->hDC,
+                                     tape_control_sign, 3);
                     }
 
                     /* the tape-counter */
@@ -1683,16 +1719,22 @@ int     window_index;
                     led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+18;
                     led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+2;
                     led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+84;
-                    sprintf(text,"%d: Track: %.1f",status_map[index]+8,status_track[status_map[index]]);
-                    SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENU));
-                    SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,(COLORREF)GetSysColor(COLOR_MENUTEXT));
+                    sprintf(text,"%d: Track: %.1f", status_map[index]+8,
+                            status_track[status_map[index]]);
+                    SetBkColor(((DRAWITEMSTRUCT*)lparam)->hDC,
+                               (COLORREF)GetSysColor(COLOR_MENU));
+                    SetTextColor(((DRAWITEMSTRUCT*)lparam)->hDC,
+                                 (COLORREF)GetSysColor(COLOR_MENUTEXT));
                     DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,text,-1,&led,0);
 
                     led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;
                     led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2+12;
                     led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86;
                     led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86+16;
-                    FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,status_led[status_map[index]] ? (drive_active_led[status_map[index]] ? led_green : led_red ) : led_black);
+                    FillRect(((DRAWITEMSTRUCT*)lparam)->hDC, &led,
+                             status_led[status_map[index]]
+                             ? (drive_active_led[status_map[index]]
+                             ? led_green : led_red ) : led_black);
                 }
             }
 #endif
@@ -1808,7 +1850,9 @@ int     window_index;
                 frame_coord[2]=update_rect.right;
                 frame_coord[3]=update_rect.bottom;
 
-                canvas_update(window, hdc,update_rect.left,update_rect.top,update_rect.right-update_rect.left, update_rect.bottom-update_rect.top);
+                canvas_update(window, hdc,update_rect.left, update_rect.top,
+                              update_rect.right - update_rect.left,
+                              update_rect.bottom - update_rect.top);
 
                 EndPaint(window, &ps);
                 return 0;
@@ -1870,3 +1914,4 @@ int ui_messagebox( LPCTSTR lpText, LPCTSTR lpCaption, UINT uType )
 
     return ret;
 }
+
