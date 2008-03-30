@@ -29,24 +29,51 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "archdep.h"
 #include "blockdev.h"
 #include "diskimage.h"
 #include "log.h"
 #include "rawimage.h"
+#include "resources.h"
 #include "types.h"
 #include "utils.h"
 
 
-static log_t rawimage_log = LOG_ERR;
+static log_t rawimage_log = LOG_DEFAULT;
 
+static char *raw_drive_driver = NULL;
+
+
+void rawimage_name_set(disk_image_t *image, char *name)
+{
+    rawimage_t *rawimage;
+
+    rawimage = (rawimage_t *)(image->media);
+
+    rawimage->name = name;
+}
+
+char *rawimage_name_get(disk_image_t *image)
+{
+    rawimage_t *rawimage;
+
+    rawimage = (rawimage_t *)(image->media);
+
+    return rawimage->name;
+}
+
+void rawimage_driver_name_set(disk_image_t *image)
+{
+    rawimage_name_set(image, stralloc(raw_drive_driver));
+}
+
+/*-----------------------------------------------------------------------*/
 
 void rawimage_media_create(disk_image_t *image)
 {
     rawimage_t *rawimage;
 
-    rawimage = (rawimage_t *)xmalloc(sizeof(rawimage_t));
-
-    rawimage->name = stralloc("DUMMY");
+    rawimage = (rawimage_t *)xcalloc(1, sizeof(rawimage_t));
 
     image->media = (void *)rawimage;
 }
@@ -66,17 +93,21 @@ void rawimage_media_destroy(disk_image_t *image)
 
 int rawimage_open(disk_image_t *image)
 {
+    char *name;
+
     image->type = DISK_IMAGE_TYPE_D81;
     image->tracks = 80;
 
-    blockdev_open(image);
+    name = rawimage_name_get(image);
+
+    blockdev_open(name, &(image->read_only));
 
     return 0;
 }
 
 int rawimage_close(disk_image_t *image)
 {
-    blockdev_close(image);
+    blockdev_close();
 
     return 0;
 }
@@ -86,13 +117,13 @@ int rawimage_close(disk_image_t *image)
 int rawimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
                          unsigned int sector)
 {
-    return blockdev_read_sector(image, buf, track, sector);
+    return blockdev_read_sector(buf, track, sector);
 }
 
 int rawimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
                           unsigned int sector)
 {
-    return 0;
+    return blockdev_write_sector(buf, track, sector);
 }
 
 /*-----------------------------------------------------------------------*/
@@ -104,10 +135,29 @@ void rawimage_init(void)
     blockdev_init();
 }
 
+/*-----------------------------------------------------------------------*/
+
+static int set_raw_drive_driver(resource_value_t v, void *param)
+{
+    if (util_string_set(&raw_drive_driver, (const char *)v))
+        return 0;
+
+    return 0;
+}
+
+static resource_t resources[] = {
+    { "RawDriveDriver", RES_STRING, (resource_value_t)ARCHDEP_RAWDRIVE_DEFAULT,
+      (resource_value_t *)&raw_drive_driver,
+      set_raw_drive_driver, NULL },
+    { NULL }
+};
+
 int rawimage_resources_init()
 {
-    return blockdev_resources_init();
+    return resources_register(resources) | blockdev_resources_init();
 }
+
+/*-----------------------------------------------------------------------*/
 
 int rawimage_cmdline_options_init()
 {

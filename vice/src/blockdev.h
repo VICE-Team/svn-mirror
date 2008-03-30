@@ -35,11 +35,12 @@ extern void blockdev_init(void);
 extern int blockdev_resources_init(void);
 extern int blockdev_cmdline_options_init(void);
 
-extern int blockdev_open(struct disk_image_s *image);
-extern int blockdev_close(struct disk_image_s *image);
-extern int blockdev_read_sector(struct disk_image_s *image, BYTE *buf,
-                                unsigned int track, unsigned int sector);
-extern int blockdev_write_sector(struct disk_image_s *image, BYTE *buf,
-                                 unsigned int track, unsigned int sector);
+extern int blockdev_open(const char *name, unsigned int *read_only);
+extern int blockdev_close(void);
+extern int blockdev_read_sector(BYTE *buf, unsigned int track,
+                                unsigned int sector);
+extern int blockdev_write_sector(BYTE *buf, unsigned int track,
+                                 unsigned int sector);
+
 #endif
 

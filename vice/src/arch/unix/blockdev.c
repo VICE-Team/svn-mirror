@@ -32,36 +32,44 @@
 #include <unistd.h>
 
 #include "blockdev.h"
-#include "diskimage.h"
 #include "log.h"
 #include "types.h"
 
 
-static log_t blockdev_log = LOG_ERR;
+/*static log_t blockdev_log = LOG_DEFAULT;*/
 
 static int device;
 
 
-int blockdev_open(disk_image_t *image)
+int blockdev_open(const char *name, unsigned int *read_only)
 {
-    device = open("/dev/fd0", O_RDONLY);
+    if (*read_only == 0) {
+        device = open(name, O_RDWR);
 
-    if (device == -1)
-        return -1;
+        if (device == -1) {
+            device = open(name, O_RDONLY);
+            if (device == -1)
+                return -1;
+            *read_only = 1;
+        }
+    } else {
+        device = open(name, O_RDONLY);
+
+        if (device == -1)
+            return -1;
+    }
 
     return 0;
 }
 
-int blockdev_close(disk_image_t *image)
+int blockdev_close(void)
 {
-    close(device);
-    return 0;
+    return close(device);
 }
 
 /*-----------------------------------------------------------------------*/
 
-int blockdev_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
-                         unsigned int sector)
+int blockdev_read_sector(BYTE *buf, unsigned int track, unsigned int sector)
 {
     off_t offset;
 
@@ -75,9 +83,17 @@ int blockdev_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
     return 0;
 }
 
-int blockdev_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
-                          unsigned int sector)
+int blockdev_write_sector(BYTE *buf, unsigned int track, unsigned int sector)
 {
+    off_t offset;
+
+    offset = ((track - 1) * 40 + sector) * 256;
+
+    lseek(device, offset, SEEK_SET);
+
+    if (write(device, (void *)buf, 256) != 256)
+        return -1;
+
     return 0;
 }
 
