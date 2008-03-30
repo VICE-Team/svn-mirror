@@ -1,3 +1,11 @@
+2002-04-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.7.
+
+	* vicii/vicii-draw.c: Added numerous new drawing functions for
+	all invalid modes.
+	(setup_single_size_modes): Register new functions.
+
 2002-04-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.6.
