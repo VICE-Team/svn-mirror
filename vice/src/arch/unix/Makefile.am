@@ -51,7 +51,11 @@ libarch_a_SOURCES = \
 	uicmdline.h \
 	uicommands.h \
 	uicommands.c \
-        uiedisk.h \
+	uicrtc.c \
+	uicrtc.h \
+	uidatasette.c \
+	uidatasette.h \
+	uiedisk.h \
 	uimenu.h \
 	uimon.c \
 	uiscreenshot.h \
