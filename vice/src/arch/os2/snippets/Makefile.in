@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@
 
 noinst_LIBRARIES = libpm.a
 
-libpm_a_SOURCES =  	dirport.c 	dirport.h 
+libpm_a_SOURCES =  	dirport.c 	dirport.h         filedlg.h         filedlg.c
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../src/config.h
@@ -150,7 +150,7 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libpm_a_LIBADD = 
-libpm_a_OBJECTS =  dirport.o
+libpm_a_OBJECTS =  dirport.o filedlg.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
