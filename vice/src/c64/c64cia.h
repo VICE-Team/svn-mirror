@@ -3,7 +3,6 @@
  * cia.h - Definitions for MOS6526 (CIA) chip emulation.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
  *  André Fachat (fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -44,6 +43,8 @@ extern void cia1_set_flag(void);
 extern void cia1_set_sdr(BYTE received_byte);
 extern void cia1_set_extended_keyboard_rows_mask(BYTE value);
 extern void cia1_enable_extended_keyboard_rows(int flag);
+extern int cia1_write_snapshot_module(FILE *p);
+extern int cia1_read_snapshot_module(FILE *p);
 
 extern void reset_cia2(void);
 extern void REGPARM2 store_cia2(ADDRESS addr, BYTE value);
@@ -55,5 +56,7 @@ extern int int_cia2tod(long offset);
 extern void cia2_prevent_clk_overflow(CLOCK sub);
 extern void cia2_set_flag(void);
 extern void cia2_set_sdr(BYTE received_byte);
+extern int cia2_write_snapshot_module(FILE *p);
+extern int cia2_read_snapshot_module(FILE *p);
 
 #endif				/* _C64_CIA_H */
