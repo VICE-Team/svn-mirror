@@ -1,3 +1,4 @@
+
 /*
  * ../../../src/c610/crtc.c
  * This file is generated from ../../../src/crtc-tmpl.c and ../../../src/c610/crtc.def,
