@@ -1,5 +1,3 @@
-##
-
 # Makefile.am for the Unix version of `libarch.a'.
 
 if NEED_READLINE
@@ -12,7 +10,8 @@ INCLUDES = \
 	-DPREFIX=\"@prefix@\" \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src
+	-I$(top_srcdir)/src \
+        @JOYSTICK@
 
 noinst_LIBRARIES = libarch.a
 
