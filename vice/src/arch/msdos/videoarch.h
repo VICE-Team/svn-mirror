@@ -42,8 +42,7 @@ typedef struct video_frame_buffer_s /* a bitmap structure */
    void *dat;                    /* the memory we allocated for the bitmap */
    int bitmap_id;                /* for identifying sub-bitmaps */
    void *extra;                  /* points to a structure with more info */
-   int x_ofs;                    /* horizontal offset (for sub-bitmaps) */
-   int y_ofs;                    /* vertical offset (for sub-bitmaps) */
+   int line_ofs;                 /* line offset (for screen sub-bitmaps) */
    int seg;                      /* bitmap segment */
    unsigned char *line[0];       /* pointers to the start of each line */
 } video_frame_buffer_t;

@@ -159,8 +159,15 @@ int video_init(void)
 int video_frame_buffer_alloc(video_frame_buffer_t **i, unsigned int width,
                              unsigned int height)
 {
+    if (sizeof(BITMAP) != sizeof(video_frame_buffer_t)) {
+        log_error(video_log,
+                  "Allegro BITMAP size does not match! (see videoarch.h)");
+        return -1;
+    }
+
     DEBUG(("Allocating bitmap width=%d, height=%d", width, height));
     *i = (video_frame_buffer_t *)create_bitmap(width, height);
+
 #ifdef DEBUG_VIDEO
     {
         int j;
@@ -169,6 +176,7 @@ int video_frame_buffer_alloc(video_frame_buffer_t **i, unsigned int width,
         }
     }
 #endif
+
     if (*i == NULL) {
 	DEBUG(("Bitmap allocation failed."));
 	return -1;
