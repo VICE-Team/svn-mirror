@@ -801,7 +801,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
         ted.allow_bad_lines = !ted.raster.blank;
 
     if (ted.idle_state) {
-        if (ted.regs[0x11] & 0x40) {
+        if (ted.regs[0x6] & 0x40) {
             ted.idle_data_location = IDLE_39FF;
             ted.idle_data = ram[0x39ff];
         } else {
