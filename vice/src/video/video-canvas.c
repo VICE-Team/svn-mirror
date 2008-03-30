@@ -53,6 +53,7 @@ video_canvas_t *video_canvas_init(void)
 
     canvas->videoconfig = (video_render_config_t *)lib_calloc(1,
         sizeof(video_render_config_t));
+
     canvas->draw_buffer = (draw_buffer_t *)lib_calloc(1, sizeof(draw_buffer_t));
     canvas->viewport = (viewport_t *)lib_calloc(1, sizeof(viewport_t));
     canvas->geometry = (geometry_t *)lib_calloc(1, sizeof(geometry_t));
