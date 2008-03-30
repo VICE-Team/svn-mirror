@@ -277,7 +277,7 @@ int machine_init_cmdline_options(void)
     return 0;
 }
 
-void c64_monitor_init(void)
+static void c64_monitor_init(void)
 {
     monitor_cpu_type_t asm6502;
     monitor_cpu_type_t *asmarray[2];
