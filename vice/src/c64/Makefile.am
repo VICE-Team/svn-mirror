@@ -1,14 +1,17 @@
 if HAVE_RESID
-resid_libadd = resid.o
+if HAVE_RS232
+resid_acia_libadd = resid.o c64acia1.o rsuser.o
 else
-resid_libadd =
+resid_acia_libadd = resid.o
+endif
+else
+if HAVE_RS232
+resid_acia_libadd = c64acia1.o rsuser.o
+else
+resid_acia_libadd =
+endif
 endif
 
-if HAVE_RS232
-acia_libadd = c64acia1.o rsuser.o
-else
-acia_libadd =
-endif
 
 SUFFIXES = .def
 
@@ -97,8 +100,9 @@ EXTRA_libc64c128_a_SOURCES = \
 	rsuser.c \
 	rsuser.h
 
-libc64_a_LIBADD = $(resid_libadd) $(acia_libadd)
-libc64c128_a_LIBADD = $(resid_libadd) $(acia_libadd)
+
+libc64_a_LIBADD = $(resid_acia_libadd)
+libc64c128_a_LIBADD = $(resid_acia_libadd)
 
 c64dir = $(top_srcdir)/src/c64
 

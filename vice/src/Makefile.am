@@ -149,7 +149,7 @@ x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) $(printer_ldadd) \
 	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
         @X_LIBS@ $(READLINE) -lm
 x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
-	$(printer_ldadd) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+	$(printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: x64-all
 x64-all: libc64 libsounddrv libtrue1541 libarch x64
 
@@ -159,7 +159,7 @@ x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(true1541_lib) \
 	$(printer_ldadd) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ \
 	@SOUND_LIBS@ @X_LIBS@ $(READLINE) -lm
 x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
-	$(printer_ldadd) $(true1541_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
+	$(printer_ldadd) $(true1541_lib) @ALLOCA@ @LIBOBJS@ \
 	@ARCH_LIBS@
 .PHONY: x128-all
 x128-all: libc128 libc64c128 libsounddrv libtrue1541 libarch x128
