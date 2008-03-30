@@ -366,7 +366,7 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/mos6510.h ../../../../src/resources.h \
 	../../../../src/sound.h ../../../../src/warn.h \
 	../../../../src/tape.h uisnapshot.h ../../../../src/utils.h \
-	../../../../src/arch/unix/vsync.h
+	../../../../src/arch/unix/vsync.h ../../../../src/fliplist.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	uihotkey.h ui.h ../../../../src/types.h \
 	../../../../src/palette.h ../../../../src/utils.h

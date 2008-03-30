@@ -127,7 +127,6 @@ libcbm2_a_SOURCES = \
 	c610acia1.c \
 	c610cia.h \
 	c610cia1.c \
-	c610cia1.def \
 	c610cpu.c \
 	c610datasette.c \
 	c610iec.c \
@@ -139,7 +138,7 @@ libcbm2_a_SOURCES = \
 	c610tpi2.c \
 	c610tpi2.def
 
-BUILT_SOURCES = c610tpi1.c c610tpi2.c c610cia1.c  
+BUILT_SOURCES = c610tpi1.c c610tpi2.c 
 
 c610dir = $(top_srcdir)/src/cbm2
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -324,16 +323,16 @@ c610acia1.o: c610acia1.c ../../src/maincpu.h ../../src/config.h \
 	../../src/vmachine.h c610tpi.h ../../src/aciacore.c \
 	../../src/vice.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/machine.h ../../src/rs232.h ../../src/acia.h
-c610cia1.o: c610cia1.c ../../src/vice.h ../../src/config.h \
-	../../src/cia.h ../../src/types.h ../../src/log.h \
-	../../src/resources.h ../../src/snapshot.h \
-	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
-	../../src/mem.h ../../src/pruser.h ../../src/arch/unix/kbd.h \
-	../../src/parallel.h ../../src/drive/drive.h ../../src/vdrive.h \
-	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	../../src/drive/drivecpu.h ../../src/alarm.h \
-	../../src/mos6510.h ../../src/mon.h c610cia.h \
-	../../src/maincpu.h c610tpi.h
+c610cia1.o: c610cia1.c ../../src/ciacore.h ../../src/vice.h \
+	../../src/config.h ../../src/cia.h ../../src/types.h \
+	../../src/log.h ../../src/resources.h ../../src/snapshot.h \
+	../../src/alarm.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h ../../src/maincpu.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/pruser.h \
+	../../src/arch/unix/kbd.h ../../src/parallel.h \
+	../../src/drive/drive.h ../../src/vdrive.h ../../src/fs_cbm.h \
+	../../src/serial.h ../../src/traps.h ../../src/drive/drivecpu.h \
+	c610cia.h c610tpi.h ../../src/ciacore.c
 c610cpu.o: c610cpu.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h ../../src/mem.h ../../src/snapshot.h \
 	../maincpu.c ../vice.h ../maincpu.h ../config.h ../6510core.h \
@@ -481,14 +480,6 @@ c610tpi2.c: c610tpi2.def $(top_srcdir)/src/tpi-tmpl.c $(top_srcdir)/src/convio
 	       $(PERL) $(top_srcdir)/src/convio \
 	           $(top_srcdir)/src/tpi-tmpl.c \
 	           $(c610dir)/c610tpi2.def $(c610dir)/c610tpi2.c; \
-	   fi )
-
-c610cia1.c: c610cia1.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`c610cia1.c'..."; \
-	   if [ -x $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/cia-tmpl.c \
-	           $(c610dir)/c610cia1.def $(c610dir)/c610cia1.c; \
 	   fi )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

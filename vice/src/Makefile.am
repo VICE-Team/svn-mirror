@@ -50,6 +50,7 @@ noinst_HEADERS = \
 	findpath.h \
 	fs_cbm.h \
 	fsdevice.h \
+	fliplist.h \
 	gcr.h \
 	iecdrive.h \
 	imagecontents.h \
@@ -104,6 +105,7 @@ base_sources = \
 	emuid.c \
 	findpath.c \
 	fsdevice.c \
+	fliplist.c \
 	gcr.c \
 	info.c \
 	interrupt.c \
@@ -157,7 +159,6 @@ EXTRA_DIST = \
 	ChangeLog.1 \
 	ChangeLog.2 \
 	aciacore.c \
-	cia-tmpl.c \
 	ciacore.c \
 	crtccore.c \
 	convio \

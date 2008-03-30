@@ -1,3 +1,95 @@
+1999-02-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.33.
+
+	* c128/c128mem.c (initialize_memory): Fixed typo.
+
+	* datasette.c (datasette_read_bit): Handle zero gaps.
+
+	* drive/cia1571drive0.def, drive/cia1571drive1.def,
+	drive/cia1581drive1.def, drive/cia1581drive1.def: Removed.
+
+	* drive/cia1571drive0.c, drive/cia1571drive0.c,
+	drive/cia1571drive0.c, drive/cia1571drive0.c: Changed to new CIA
+	core implementation.
+
+	* cia-tmpl.c: Removed.
+
+1998-02-23  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c128/Makefile.am: removed c128cia1.def and build rules for
+	c128cia1.c
+
+	* c128/c128cia1.def: removed file
+
+	* c128/c128cia1.c: basically a copy of the old c128cia1.def
+	with some renaming
+
+	* cbm2/Makefile.am: removed c610cia1.def and build rules for
+	c610cia1.c
+
+	* cbm2/c610cia1.def: removed file
+
+	* cbm2/c610cia1.c: basically a copy of the old c610cia1.def
+	with some renaming
+
+1998-02-23  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c64/Makefile.am [libc64_a_SOURCES, libc64c128_a_SOURCES]: remove
+	c64cia2.def
+	[BUILT_SOURCES, c64cia2.c]: remove build rules for c64cia2.c
+
+	* c64/c64cia1.c [CIA_TIMER_DEBUG]: new (old) define to log
+	debug information.
+	[mycia_debugFlag, MYCIA_NAME]: new defines
+	(store_ciapa, store_ciapb): add addr as parameter, because 
+	this is used to check whether port or ddr is being written to.
+
+	* ciacore.c (mycia_debugFlag, CIA_TIMER_DEBUG): fix all occurances
+	of those variable/define to make debug logging work again.
+	(ciaier, cia[CIA_ICR]): rename the latter to the former - 
+	consistent use makes reading easier
+	(reset_mycia): call log_open with MYCIA_NAME as parameter.
+	(store_mycia): add "addr" as parameter to store_ciapa/pb calls.
+	should this be made a separate "set_outfl" or so function?
+	(ciaflag): removed - was never set.
+
+	* ciacore.h (do_reset_cia, store_sdr, read_ciaicr, store_ciapa,
+	store_ciapb, undump_ciapa, undump_ciapb, read_ciapa, read_ciapb):
+	add prototypes for inline functions.
+	(ciaflag): removed.
+
+	* c64/c64cia2.def: removed
+
+	* c64/c64cia2.c: basically a copy of the old c64cia2.def, with
+	lots of renaming.
+
+1999-02-22  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+
+	* src/arch/riscos/*: added support for ROMSets and imagecontents.
+
+	* fixpoint.c: added missing space.
+
+	* imagecontents.c: needs ROlib.h for O_RDONLY on RISC OS.
+
+	* romset.c: fixed small bug when clearing the archive.
+
+	* sysfile.c: removed old romset hack on RISC OS.
+
+	* utils.c: defined get_current_dir() on RISC OS.
+
+1999-02-21  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* Makefile.am
+	(base_sources): Added fliplist.c
+	(noinst_HEADERS): Added fliplist.h
+
+	* fliplist.[ch]: New files; Implementation of fliplist handling.
+
+	* arch/unix/xaw/uicommands.c:
+	(attach_disk_image_submenu[]): Added menu entries + hotkeydefs for
+	fliplist functions.
+
 1999-02-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.32.
@@ -49,6 +141,18 @@
 	to bank_limit when compiling with WORDS_BIGENDIAN or without unaligned
 	memory access (!ALLOW_UNALIGNED_ACCESS), i.e. most RISC machines for
 	example.
+
+1999-02-21  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* Makefile.am 
+	(base_sources): Added fliplist.c
+	(noinst_HEADERS): Added fliplist.h
+
+	* fliplist.[ch]: New files; Implementation of fliplist handling.
+
+	* arch/unix/xaw/uicommands.c: 
+	(attach_disk_image_submenu[]): Added menu entries + hotkeydefs for
+	fliplist functions.
 
 1999-02-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
