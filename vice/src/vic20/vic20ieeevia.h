@@ -1,8 +1,9 @@
 /*
- * vic20ieeevia.h - VIA emulation.
+ * vic20ieeevia.h - IEEE488 interface VIA emulation.
  *
  * Written by
- *   Andre' Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,30 +25,43 @@
  *
  */
 
-#ifndef _VIC20_IEEE_VIA_H
-#define _VIC20_IEEE_VIA_H
+#ifndef _VIC20IEEEVIA_H
+#define _VIC20IEEEVIA_H
 
 #include "types.h"
 
+struct machine_context_s;
 struct snapshot_s;
+struct via_context_s;
 
-extern void ieeevia1_init(void);
-extern void ieeevia1_reset(void);
-extern void ieeevia1_signal(int line, int edge);
+extern void vic20ieeevia1_setup_context(struct machine_context_s
+                                        *machine_context);
+extern void ieeevia1_init(struct via_context_s *via_context);
+extern void ieeevia1_reset(struct via_context_s *via_context);
+extern void ieeevia1_signal(struct via_context_s *via_context, int line,
+                            int edge);
 extern void REGPARM2 ieeevia1_store(WORD addr, BYTE byte);
 extern BYTE REGPARM1 ieeevia1_read(WORD addr);
 extern BYTE REGPARM1 ieeevia1_peek(WORD addr);
-extern int ieeevia1_snapshot_write_module(struct snapshot_s *p);
-extern int ieeevia1_snapshot_read_module(struct snapshot_s *p);
+extern int ieeevia1_snapshot_write_module(struct via_context_s *via_context,
+                                          struct snapshot_s *p);
+extern int ieeevia1_snapshot_read_module(struct via_context_s *via_context,
+                                         struct snapshot_s *p);
 
-extern void ieeevia2_init(void);
-extern void ieeevia2_reset(void);
-extern void ieeevia2_signal(int line, int edge);
+extern void vic20ieeevia2_setup_context(struct machine_context_s
+                                        *machine_context);
+extern void ieeevia2_init(struct via_context_s *via_context);
+extern void ieeevia2_reset(struct via_context_s *via_context);
+extern void ieeevia2_signal(struct via_context_s *via_context, int line,
+                            int edge);
 extern void REGPARM2 ieeevia2_store(WORD addr, BYTE byte);
 extern BYTE REGPARM1 ieeevia2_read(WORD addr);
 extern BYTE REGPARM1 ieeevia2_peek(WORD addr);
-extern int ieeevia2_snapshot_write_module(struct snapshot_s *p);
-extern int ieeevia2_snapshot_read_module(struct snapshot_s *p);
+extern int ieeevia2_snapshot_write_module(struct via_context_s *via_context,
+                                          struct snapshot_s *p);
+extern int ieeevia2_snapshot_read_module(struct via_context_s *via_context,
+                                         struct snapshot_s *p);
+
 extern void ieeevia2_set_tape_sense(int v);
 
 #endif
