@@ -1,3 +1,26 @@
+1999-04-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.53.
+
+	* fliplist.c (flip_set_current): Copy filename instead of just
+	referencing it because on win32 the filename is already invalid
+	when `flip_add_image' is called.
+
+	* arch/win32/res.h, arch/win32/resc64.r, arch/win32/resc128.r,
+	arch/win32/resvic.r, arch/win32/rescbm2.r, arch/win32/respet.r,
+	arch/win32/ui.c: Added flip list support.
+
+	* rsuser.c, rsuser.h: Adapted to new overflow handling.
+
+	* drive/viad.h, vic20/vic20via.h, pet/petvia.h: Removed unused
+	prototypes.
+
+	* drive/drivecpucore.c, drive/drivecpu0.c, drive/drivecpu1.c,
+	drive/drivecpu.h (mydrive_cpu_early_init): New function.
+
+	* main.c (MAIN_PROGRAM): Setup drive overflow and alarm handling
+	before starting the machine specific initialization.
+
 1999-04-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.52.

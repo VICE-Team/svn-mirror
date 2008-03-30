@@ -51,6 +51,7 @@ extern void drive0_cpu_sleep(void);
 extern void drive0_cpu_wake_up(void);
 extern CLOCK drive0_cpu_prevent_clk_overflow(CLOCK sub);
 extern void drive0_cpu_set_sync_factor(unsigned int factor);
+extern void drive0_cpu_early_init(void);
 
 extern void REGPARM2 drive0_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 drive0_read(ADDRESS addr);
@@ -75,6 +76,7 @@ extern void drive1_cpu_sleep(void);
 extern void drive1_cpu_wake_up(void);
 extern CLOCK drive1_cpu_prevent_clk_overflow(CLOCK sub);
 extern void drive1_cpu_set_sync_factor(unsigned int factor);
+extern void drive1_cpu_early_init(void);
 
 extern void REGPARM2 drive1_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 drive1_read(ADDRESS addr);

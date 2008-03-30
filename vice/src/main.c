@@ -61,6 +61,7 @@
 #include "cartridge.h"
 #include "charsets.h"
 #include "cmdline.h"
+#include "drivecpu.h"
 #include "findpath.h"
 #include "fsdevice.h"
 #include "interrupt.h"
@@ -448,6 +449,9 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     if (video_init() < 0)
         return -1;
+
+    drive0_cpu_early_init();
+    drive1_cpu_early_init();
 
     /* Machine-specific initialization.  */
     if (machine_init() < 0) {

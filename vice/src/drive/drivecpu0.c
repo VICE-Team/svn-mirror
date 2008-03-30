@@ -90,6 +90,7 @@ int drive0_traceflg;
 #define mydrive_cpu_read_snapshot_module drive0_cpu_read_snapshot_module
 #define mydrive_traceflg drive0_traceflg
 #define mydrive_clk_guard drive0_clk_guard
+#define mydrive_cpu_early_init drive0_cpu_early_init
 
 #define mymonspace e_disk8_space
 #define IDENTIFICATION_STRING "DRIVE#8"
