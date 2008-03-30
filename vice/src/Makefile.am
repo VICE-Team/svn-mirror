@@ -91,6 +91,7 @@ noinst_HEADERS = \
 	keyboard.h \
 	lib.h \
 	log.h \
+	machine-bus.h \
 	machine-drive.h \
 	machine-printer.h \
 	machine.h \
