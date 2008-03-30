@@ -29,8 +29,8 @@
 
 #include "vice.h"
 
-struct _vic_resources
-  {
+struct vic_resources_s
+{
     /* Flag: Do we use double size?  */
     int double_size_enabled;
 
@@ -50,14 +50,13 @@ struct _vic_resources
     /* Flag: Do we copy lines in double size mode?  */
     int fullscreen_double_scan_enabled;
 #endif
-  };
-typedef struct _vic_resources vic_resources_t;
+};
+typedef struct vic_resources_s vic_resources_t;
 
 extern vic_resources_t vic_resources;
 
-
 
-extern int vic_resources_init (void);
+extern int vic_resources_init(void);
 
 #endif
 

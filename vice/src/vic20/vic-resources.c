@@ -42,109 +42,110 @@ vic_resources_t vic_resources;
 #define DEFAULT_VideoCache_VALUE 1
 #endif
 
-static int set_video_cache_enabled (resource_value_t v, void *param)
+static int set_video_cache_enabled(resource_value_t v, void *param)
 {
-  vic_resources.video_cache_enabled = (int) v;
-  if (vic.initialized)
-    raster_enable_cache (&vic.raster, vic_resources.video_cache_enabled);
+    vic_resources.video_cache_enabled = (int)v;
+    if (vic.initialized)
+        raster_enable_cache(&vic.raster, vic_resources.video_cache_enabled);
 
-  return 0;
+    return 0;
 }
 
-static int set_palette_file_name (resource_value_t v, void *param)
+static int set_palette_file_name(resource_value_t v, void *param)
 {
-  util_string_set(&vic_resources.palette_file_name, (char *)v);
-  if (vic.initialized)
-    return vic_load_palette (vic_resources.palette_file_name);
+    util_string_set(&vic_resources.palette_file_name, (char *)v);
+    if (vic.initialized)
+        return vic_load_palette(vic_resources.palette_file_name);
 
-  return 0;
+    return 0;
 }
 
 static resource_t resources[] =
-  {
-    { "PaletteFile", RES_STRING, (resource_value_t) "default",
-      (resource_value_t *) &vic_resources.palette_file_name,
+{
+    { "PaletteFile", RES_STRING, (resource_value_t)"default",
+      (resource_value_t *)&vic_resources.palette_file_name,
       set_palette_file_name, NULL },
-    { "VideoCache", RES_INTEGER, (resource_value_t) DEFAULT_VideoCache_VALUE,
-      (resource_value_t *) &vic_resources.video_cache_enabled,
+    { "VideoCache", RES_INTEGER, (resource_value_t)DEFAULT_VideoCache_VALUE,
+      (resource_value_t *)&vic_resources.video_cache_enabled,
       set_video_cache_enabled, NULL },
     { NULL }
-  };
+};
 
 #ifdef VIC_NEED_2X
 
-static int set_double_size_enabled (resource_value_t v, void *param)
+static int set_double_size_enabled(resource_value_t v, void *param)
 {
-  vic_resources.double_size_enabled = (int) v;
+    vic_resources.double_size_enabled = (int)v;
 #ifdef USE_XF86_EXTENSIONS
-  if (! fullscreen_is_enabled)
+    if (!fullscreen_is_enabled)
 #endif 
-  vic_resize ();
+        vic_resize();
 
-  return 0;
+    return 0;
 }
 
-static int set_double_scan_enabled (resource_value_t v, void *param)
+static int set_double_scan_enabled(resource_value_t v, void *param)
 {
-  vic_resources.double_scan_enabled = (int) v;
+    vic_resources.double_scan_enabled = (int)v;
 #ifdef USE_XF86_EXTENSIONS
-  if (vic.initialized && ! fullscreen_is_enabled)
+    if (vic.initialized && ! fullscreen_is_enabled)
 #else 
-  if (vic.initialized)
+    if (vic.initialized)
 #endif
-    raster_enable_double_scan (&vic.raster,
-                               vic_resources.double_scan_enabled);
-  vic_resize ();
+        raster_enable_double_scan(&vic.raster,
+                                  vic_resources.double_scan_enabled);
+    vic_resize();
 
-  return 0;
+    return 0;
 }
 
 #ifdef USE_XF86_EXTENSIONS
 static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
 {
-  vic_resources.fullscreen_double_size_enabled = (int) v;
-  if (fullscreen_is_enabled)
-    vic_resize ();
-  return 0;
+    vic_resources.fullscreen_double_size_enabled = (int)v;
+    if (fullscreen_is_enabled)
+        vic_resize();
+    return 0;
 }
 
 static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
 {
-  vic_resources.fullscreen_double_scan_enabled = (int) v;
-  if (vic.initialized && fullscreen_is_enabled)
-    raster_enable_double_scan (&vic.raster,
-                               vic_resources.fullscreen_double_scan_enabled);
-  return 0;
+    vic_resources.fullscreen_double_scan_enabled = (int)v;
+    if (vic.initialized && fullscreen_is_enabled)
+        raster_enable_double_scan(&vic.raster,
+                                  vic_resources.fullscreen_double_scan_enabled);
+    return 0;
 }
 #endif
 
 static resource_t resources_2x[] =
-  {
-    { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &vic_resources.double_size_enabled,
+{
+    { "DoubleSize", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&vic_resources.double_size_enabled,
       set_double_size_enabled, NULL },
-    { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &vic_resources.double_scan_enabled,
+    { "DoubleScan", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&vic_resources.double_scan_enabled,
       set_double_scan_enabled, NULL },
 #ifdef USE_XF86_EXTENSIONS
-    { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &vic_resources.fullscreen_double_size_enabled,
+    { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&vic_resources.fullscreen_double_size_enabled,
       set_fullscreen_double_size_enabled, NULL },
-    { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &vic_resources.fullscreen_double_scan_enabled,
+    { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&vic_resources.fullscreen_double_scan_enabled,
       set_fullscreen_double_scan_enabled, NULL },
 #endif
     { NULL }
-  };
+};
 
 #endif /* VIC_NEED_2X */
 
-int vic_resources_init (void)
+int vic_resources_init(void)
 {
 #ifdef VIC_NEED_2X
-  if (resources_register (resources_2x) < 0)
-    return -1;
+    if (resources_register(resources_2x) < 0)
+        return -1;
 #endif
 
-  return resources_register (resources);
+    return resources_register(resources);
 }
+
