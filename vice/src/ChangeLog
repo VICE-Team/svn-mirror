@@ -1,3 +1,55 @@
+1999-12-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.12.
+
+	* vdrive/vdrive-command.c (vdrive_command_format): Changed the
+	calling interface.
+
+	* vdrive/vdrive.c: Created functions to open, close and format
+	disk images for internal use.
+
+	* imagecontents.c, arch/unix/x11/xaw/uiedisk.c:
+	Use internal disk functions.
+
+	* arch/unix/uicommands.c (attach_empty_disk): Do not use
+	uninitialized memory.
+
+	* vdrive/vdrive-bam.c (vdrive_bam_create_empty_bam): Do not
+	expect a ":" as start of disk name.
+
+	* vdrive/vdrive-command.c (vdrive_command_execute): Replaced
+	completely bogus command line parsing by something that does
+	not currupt memory.
+
+	* arch/win32/uilib.c (hook_proc): Use new internal function to
+	create and format disks.
+
+	* arch/msdos/console.c: Fixed includes.
+
+	* c1541.c (floppy_read_directory): Use `size_t'.
+
+	* c128/c128mmu.c, vdc/vdc.c, vdc/vdc.h: Corrected name of
+	`vdc_set_canvas_refresh'.
+
+	* crtc/crtc-draw.c: Do not compile `draw_standard_line_2x'
+	and `draw_reverse_line_2x' if `CRTC_NEED_2X' is not defined.
+
+	* datasette.h: Do not redefine `PI' if it is already defined.
+
+	* arch/unix/x11/xaw/Makefile.am, arch/win32/Makefile.am,
+	arch/msdos/Makefile.am: Added `vdrive' to the include dir.
+
+	* arch/msdos/uiattach.c, arch/msdos/uiattach.h: New files.
+
+	* arch/msdos/menudefs.c: Attach disk menu entries moved to
+	`uiattach.c'.
+
+1999-12-26  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* datasette.c(datasette_read_bit): fixed bug in counter that
+	appears when changing the direction during a long gap
+	fixed text of +dsresetwithcounter cmdline
+
 1999-12-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.11.

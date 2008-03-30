@@ -61,6 +61,10 @@ static int datasette_alarm_pending = 0;
 
 static CLOCK datasette_long_gap_pending = 0;
 
+static CLOCK datasette_long_gap_elapsed = 0;
+
+static int datasette_last_direction = 0;
+
 static long datasette_cycles_per_second;
 
 /* Remember the reset of tape-counter.  */
@@ -124,7 +128,7 @@ static cmdline_option_t cmdline_options[] = {
     { "-dsresetwithcpu", SET_RESOURCE, 0, NULL, NULL, "DatasetteResetWithCPU", (resource_value_t) 0,
       NULL, "Disable automatic Datasette-Reset" },
     { "+dsresetwithcpu", SET_RESOURCE, 0, NULL, NULL, "DatasetteResetWithCPU", (resource_value_t) 1,
-      NULL, "Disable automatic Datasette-Reset" },
+      NULL, "Enable automatic Datasette-Reset" },
     { "-dszerogapdelay", SET_RESOURCE, 1, NULL, NULL, "DatasetteZeroGapDelay", NULL,
       "<value>", "Set delay in cycles for a zero in the tap" },
     { "-dsspeedtuning", SET_RESOURCE, 1, NULL, NULL, "DatasetteSpeedTuning", NULL,
@@ -334,11 +338,20 @@ static int datasette_read_bit(CLOCK offset)
         log_error(datasette_log, "Unknown datasette mode.");
         return 0;
     }
+    if (direction + datasette_last_direction == 0) {
+        /* the direction changed; read the gap from file,
+        but use use only the elapsed gap */
+        gap = datasette_read_gap(direction);
+        datasette_long_gap_pending = datasette_long_gap_elapsed;
+        datasette_long_gap_elapsed = gap - datasette_long_gap_elapsed;
+    }
     if (datasette_long_gap_pending) {
         gap = datasette_long_gap_pending;
         datasette_long_gap_pending = 0;
     } else {
         gap = datasette_read_gap(direction);
+        if (gap)
+            datasette_long_gap_elapsed = 0;
     }
     if (!gap) {
         datasette_control(DATASETTE_CONTROL_STOP);
@@ -348,6 +361,8 @@ static int datasette_read_bit(CLOCK offset)
         datasette_long_gap_pending = gap - DATASETTE_MAX_GAP;
         gap = DATASETTE_MAX_GAP;
     }
+    datasette_long_gap_elapsed += gap;
+    datasette_last_direction = direction;
     if (direction > 0)
         current_image->cycle_counter += gap / 8;
     else
@@ -453,6 +468,8 @@ void datasette_reset(void)
         fseek(current_image->fd, current_image->offset, SEEK_SET);
         datasette_counter_offset = 0;
         datasette_long_gap_pending = 0;
+        datasette_long_gap_elapsed = 0;
+        datasette_last_direction = 0;
         datasette_update_ui_counter();
     }
 }
