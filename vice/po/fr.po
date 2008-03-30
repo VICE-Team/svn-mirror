@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.19\n"
-"POT-Creation-Date: 2006-02-19 23:20+0100\n"
+"POT-Creation-Date: 2006-03-12 12:51+0100\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -1664,7 +1664,7 @@ msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
 msgstr ""
 
 #: src/sid/sid-cmdline-options.c:83
-msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4:ParSID)"
+msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 msgstr ""
 
 #: src/sid/sid-cmdline-options.c:85
@@ -1680,7 +1680,7 @@ msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"
 msgstr ""
 
 #: src/sid/sid-cmdline-options.c:97
-msgid "Specify SID engine (0: FastSID, 1: ReSID, 4:ParSID)"
+msgid "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID)"
 msgstr ""
 
 #: src/sid/sid-cmdline-options.c:99
@@ -1688,7 +1688,7 @@ msgid "Specify SID engine (0: FastSID, 1: ReSID)"
 msgstr ""
 
 #: src/sid/sid-cmdline-options.c:107
-msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4:ParSID)"
+msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 msgstr ""
 
 #: src/sid/sid-cmdline-options.c:109

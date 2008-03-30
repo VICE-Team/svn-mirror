@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-02-19 23:20+0100\n"
+"POT-Creation-Date: 2006-03-12 12:51+0100\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -1634,7 +1634,7 @@ msgstr ""
 
 #: src/sid/sid-cmdline-options.c:83
 #, fuzzy
-msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4:ParSID)"
+msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: "
 "Catweasel, 3: HardSID)"
@@ -1660,7 +1660,7 @@ msgstr ""
 
 #: src/sid/sid-cmdline-options.c:97
 #, fuzzy
-msgid "Specify SID engine (0: FastSID, 1: ReSID, 4:ParSID)"
+msgid "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID)"
 msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: "
 "HardSID)"
@@ -1671,7 +1671,7 @@ msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID)"
 
 #: src/sid/sid-cmdline-options.c:107
 #, fuzzy
-msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4:ParSID)"
+msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
 msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: "
 "HardSID)"

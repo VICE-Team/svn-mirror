@@ -294,6 +294,8 @@ libc64cart_a_SOURCES = \
 
 
 bin_SCRIPTS = delaep64.pl
+
+EXTRA_DIST = delaep64.pl
 subdir = src/c64/cart
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h

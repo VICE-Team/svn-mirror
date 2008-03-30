@@ -1,3 +1,36 @@
+2006-03-12  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.7.
+
+2006-02-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/msdos/parsid.c, arch/unix/parsid.c,
+	arch/win32/parsid.c: Cleaned up the sources.
+
+2006-02-22  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/uimediafile.c: Save Media (Alt-c) Dialog crashed
+	because of missing update function.
+	To replicate the crash:
+	- FFMPEG driver selected,
+	- mp3/wav format instead of avi,
+	- SHIFT-TAB (or reclick on FFMPEG driver)
+	- TAB x 2 (or click the erroneously enabled selector "(default)")
+
+	Now format/bitrate selectors are always dimmed when necessary.
+	Patch by iAN CooG <ian7102@libero.it>.
+
+2006-02-23  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/cart/Makefile.am, c64/cart/delaep64.pl: Fixed the make
+	dist problem.
+
+2006-02-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* sid/sid-cmdline-options.c: Fixed some text elements.
+
+	* sid/sid-resources.c: Fixed a port assignment issue.
+
 2006-02-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.6.
