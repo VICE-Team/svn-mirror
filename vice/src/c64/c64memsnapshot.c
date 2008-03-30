@@ -41,6 +41,7 @@
 #include "mem.h"
 #include "resources.h"
 #include "reu.h"
+#include "georam.h"
 #include "snapshot.h"
 #include "types.h"
 #include "ui.h"
@@ -205,6 +206,10 @@ int c64_snapshot_write_module(snapshot_t *s, int save_roms)
     if (reu_enabled && reu_write_snapshot_module(s) < 0)
         goto fail;
 
+    /* GEORAM module.  */
+    if (georam_enabled && georam_write_snapshot_module(s) < 0)
+        goto fail;
+
 #ifdef HAVE_RS232
     /* ACIA module.  */
     if (acia_de_enabled && acia1_snapshot_write_module(s) < 0)
@@ -265,6 +270,13 @@ int c64_snapshot_read_module(snapshot_t *s)
         reu_enabled = 0;
     } else {
         reu_enabled = 1;
+    }
+
+    /* GEORAM module.  */
+    if (georam_read_snapshot_module(s) < 0) {
+        georam_enabled = 0;
+    } else {
+        georam_enabled = 1;
     }
 
 #ifdef HAVE_RS232

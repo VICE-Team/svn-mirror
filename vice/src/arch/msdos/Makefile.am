@@ -77,6 +77,8 @@ libarch_a_SOURCES = \
 	uiprinter.h \
 	uireu.c \
 	uireu.h \
+	uigeoram.c \
+	uigeoram.h \
 	uisid.c \
 	uisid.h \
 	uisnapshot.c \

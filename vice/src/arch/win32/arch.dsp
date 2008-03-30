@@ -290,6 +290,10 @@ SOURCE=.\uireu.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uigeoram.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uirom.c
 # End Source File
 # Begin Source File

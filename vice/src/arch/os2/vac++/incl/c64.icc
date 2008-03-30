@@ -27,5 +27,6 @@ source type(c)
     "c64video.c",
     "patchrom.c",
     "reu.c",
+    "georam.c",
     "tfe.c",
     "tfearch.c"

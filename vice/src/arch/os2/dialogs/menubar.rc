@@ -393,6 +393,17 @@ BEGIN
         MENUITEM "81~92kB",               IDM_REU8192,   MIS_TEXT
         MENUITEM "16~384kB",              IDM_REU16384,  MIS_TEXT
       END
+      MENUITEM "G~EORAM - Memory Extension", IDM_GEORAM,       MIS_TEXT
+      SUBMENU  "GEORAM Memory ~Size",        IDM_GEORAMSIZE,   MIS_TEXT
+      BEGIN
+        MENUITEM "~64kB",                 IDM_GEORAM64,    MIS_TEXT
+        MENUITEM "~128kB",                IDM_GEORAM128,    MIS_TEXT
+        MENUITEM "~256kB",                IDM_GEORAM256,    MIS_TEXT
+        MENUITEM "~512kB",                IDM_GEORAM512,    MIS_TEXT
+        MENUITEM "102~4kB",               IDM_GEORAM1024,   MIS_TEXT
+        MENUITEM "204~8kB",               IDM_GEORAM2048,   MIS_TEXT
+        MENUITEM "409~6kB",               IDM_GEORAM4096,   MIS_TEXT
+      END
 #endif // __X64__ || __X128__
 #ifdef __X128__
       SUBMENU "Machine Type",          IDM_C128TYPE,     MIS_TEXT

@@ -254,6 +254,12 @@
 #define IDC_REU_FILE                    1333
 #define IDC_REU_BROWSE                  1334
 
+#define IDD_GEORAM_SETTINGS_DIALOG      1335
+#define IDC_GEORAM_ENABLE               1336
+#define IDC_GEORAM_SIZE                 1337
+#define IDC_GEORAM_FILE                 1338
+#define IDC_GEORAM_BROWSE               1339
+
 #define IDD_SID_GENERAL_SETTINGS_DIALOG 1340
 #define IDD_SID_RESID_SETTINGS_DIALOG   1341
 #define IDD_SID_HARDSID_SETTINGS_DIALOG 1342
@@ -778,6 +784,7 @@
 #define IDM_FLIP_LOAD                   40174
 #define IDM_FLIP_SAVE                   40175
 #define IDM_REU_SETTINGS                40180
+#define IDM_GEORAM_SETTINGS             40176
 #define IDM_TOGGLE_CRTCDOUBLESIZE       40181
 #define IDM_TOGGLE_CRTCDOUBLESCAN       40182
 #define IDM_TOGGLE_CRTCVIDEOCACHE       40183

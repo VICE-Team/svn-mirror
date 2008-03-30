@@ -359,6 +359,25 @@ BMenuBar *menu_create(int machine_class) {
 			submenu->AddItem(new BMenuItem("16384 kB",
 				new BMessage(MENU_REU_SIZE_16384)));
 
+			menu->AddItem(new BMenuItem("GEORAM emulation",
+				new BMessage(MENU_TOGGLE_GEORAM)));
+			menu->AddItem(submenu = new BMenu("GEORAM size"));
+			submenu->SetRadioMode(true);
+			submenu->AddItem(new BMenuItem("64 kB",
+				new BMessage(MENU_GEORAM_SIZE_64)));
+			submenu->AddItem(new BMenuItem("128 kB",
+				new BMessage(MENU_GEORAM_SIZE_128)));
+			submenu->AddItem(new BMenuItem("256 kB",
+				new BMessage(MENU_GEORAM_SIZE_256)));
+			submenu->AddItem(new BMenuItem("512 kB",
+				new BMessage(MENU_GEORAM_SIZE_512)));
+			submenu->AddItem(new BMenuItem("1024 kB",
+				new BMessage(MENU_GEORAM_SIZE_1024)));
+			submenu->AddItem(new BMenuItem("2048 kB",
+				new BMessage(MENU_GEORAM_SIZE_2048)));
+			submenu->AddItem(new BMenuItem("4096 kB",
+				new BMessage(MENU_GEORAM_SIZE_4096)));
+
 			menu->AddItem(new BMenuItem("Emulator ID",
 				new BMessage(MENU_TOGGLE_EMUID)));
 			menu->AddItem(new BMenuItem("1351 mouse",

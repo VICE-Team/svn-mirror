@@ -7,6 +7,7 @@
 #include "resacia.rc"
 #include "reside64.rc"
 #include "resreu.rc"
+#include "resgeoram.rc"
 #include "resrs232user.rc"
 #include "ressid.rc"
 #include "resvicii.rc"
@@ -238,6 +239,7 @@ BEGIN
         POPUP "&Cartridge Settings"
         BEGIN
             MENUITEM "&REU settings...",      IDM_REU_SETTINGS
+            MENUITEM "&GEORAM settings...",      IDM_GEORAM_SETTINGS
             MENUITEM "&IDE64 settings...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
             MENUITEM "&Ethernet settings...", IDM_TFE_SETTINGS

@@ -43,6 +43,7 @@
 #include "ui.h"
 #include "uic64cart.h"
 #include "uireu.h"
+#include "uigeoram.h"
 #include "uisid.h"
 
 
@@ -336,6 +337,8 @@ int c64ui_init(void)
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 
     uireu_init(ui_ioextensions_submenu);
+
+    uigeoram_init(ui_ioextensions_submenu);
 
     return 0;
 }

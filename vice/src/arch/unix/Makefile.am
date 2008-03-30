@@ -107,6 +107,8 @@ libarch_a_SOURCES = \
 	uiprinterieee.h \
 	uireu.c \
 	uireu.h \
+	uigeoram.c \
+	uigeoram.h \
 	uiromset.c \
 	uiromset.h \
 	uirs232.c \

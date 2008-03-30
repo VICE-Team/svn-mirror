@@ -34,6 +34,7 @@
 #include "emuid.h"
 #include "monitor.h"
 #include "reu.h"
+#include "georam.h"
 #include "sid-resources.h"
 #include "sid.h"
 #include "types.h"
@@ -50,6 +51,8 @@ BYTE REGPARM1 io1_read(WORD addr)
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end)
         return sid2_read(addr);
+    if (georam_enabled)
+        return georam_window_read((WORD)(addr & 0xff));
 #ifdef HAVE_TFE
     if (tfe_enabled)
         return tfe_read((WORD)(addr & 0x0f));
@@ -69,6 +72,10 @@ void REGPARM2 io1_store(WORD addr, BYTE value)
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end)
         sid2_store(addr, value);
+    if (georam_enabled) {
+        georam_window_store((WORD)(addr & 0xff), value);
+        return;
+    }
 #ifdef HAVE_TFE
     if (tfe_enabled)
         tfe_store((WORD)(addr & 0x0f), value);
@@ -92,6 +99,8 @@ BYTE REGPARM1 io2_read(WORD addr)
         return cartridge_read_io2(addr);
     if (reu_enabled)
         return reu_read((WORD)(addr & 0x0f));
+    if (georam_enabled)
+        return georam_reg_read((WORD)(addr & 0xff));
     if (mem_cartridge_type != CARTRIDGE_NONE)
         return cartridge_read_io2(addr);
     if (emu_id_enabled && addr >= 0xdfa0)
@@ -114,6 +123,10 @@ void REGPARM2 io2_store(WORD addr, BYTE value)
         reu_store((WORD)(addr & 0x0f), value);
         return;
     }
+    if (georam_enabled) {
+        georam_reg_store((WORD)(addr & 0xff), value);
+        return;
+    }
     if (mem_cartridge_type != CARTRIDGE_NONE) {
         cartridge_store_io2(addr, value);
         return;
@@ -125,6 +138,9 @@ void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
     if (reu_enabled)
         mon_ioreg_add_list(mem_ioreg_list, "REU", 0xdf00, 0xdf0f);
+    if (georam_enabled)
+        mon_ioreg_add_list(mem_ioreg_list, "REU", 0xde00, 0xdeff);
+        mon_ioreg_add_list(mem_ioreg_list, "REU", 0xdffe, 0xdfff);
 
 #ifdef HAVE_TFE
     if (tfe_enabled)

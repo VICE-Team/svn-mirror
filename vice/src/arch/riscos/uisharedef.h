@@ -117,6 +117,7 @@
 
 #define ICON_LIST_SYSTEM \
   {CONF_WIN_SYSTEM, Icon_ConfSys_REU}, {CONF_WIN_SYSTEM, Icon_ConfSys_IEEE488},\
+  {CONF_WIN_SYSTEM, Icon_ConfSys_GEORAM},\
   {CONF_WIN_SYSTEM, Icon_ConfSys_CheckSScoll}, {CONF_WIN_SYSTEM, Icon_ConfSys_CheckSBcoll},\
 
 #define ICON_LIST_SYS64 \

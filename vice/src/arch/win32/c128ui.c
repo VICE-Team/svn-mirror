@@ -42,6 +42,7 @@
 #include "uiide64.h"
 #include "uikeyboard.h"
 #include "uireu.h"
+#include "uigeoram.h"
 #include "uirom.h"
 #include "uirs232user.h"
 #include "uisid.h"
@@ -184,6 +185,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_REU_SETTINGS:
         ui_reu_settings_dialog(hwnd);
+        break;
+      case IDM_GEORAM_SETTINGS:
+        ui_georam_settings_dialog(hwnd);
         break;
       case IDM_IDE64_SETTINGS:
         uiide64_settings_dialog(hwnd);

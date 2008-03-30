@@ -42,6 +42,7 @@ ui_menu_toggle  c128_ui_menu_toggles[]={
     { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "REU", MENU_TOGGLE_REU },
+    { "GEORAM", MENU_TOGGLE_GEORAM },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "VDCDoubleSize", MENU_TOGGLE_VDC_DOUBLESIZE },
@@ -64,9 +65,20 @@ ui_res_possible_values ReuSize[] = {
         {-1, 0}
 };
 
+ui_res_possible_values GeoRAMSize[] = {
+        {64, MENU_GEORAM_SIZE_64},
+        {128, MENU_GEORAM_SIZE_128},
+        {256, MENU_GEORAM_SIZE_256},
+        {512, MENU_GEORAM_SIZE_512},
+        {1024, MENU_GEORAM_SIZE_1024},
+        {2048, MENU_GEORAM_SIZE_2048},
+        {4096, MENU_GEORAM_SIZE_4096},
+        {-1, 0}
+};
 
 ui_res_value_list c128_ui_res_values[] = {
     {"REUsize", ReuSize},
+    {"GeoRAMsize", GeoRAMSize},
     {NULL,NULL}
 };
 

@@ -38,8 +38,8 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "machine.h"
-#include "resources.h"
 #include "reu.h"
+#include "resources.h"
 #include "sid-resources.h"
 #include "util.h"
 

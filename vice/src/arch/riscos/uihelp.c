@@ -219,6 +219,7 @@ static help_icon_t Help_ConfigSystem[] = {
   {Icon_ConfSys_Kernal, "\\HelpConfSysKernal|M\\HelpConfSystemPath"},
   {Icon_ConfSys_Basic, "\\HelpConfSysBasic|M\\HelpConfSystemPath"},
   {Icon_ConfSys_REU, "\\HelpConfSysREU"},
+  {Icon_ConfSys_GEORAM, "\\HelpConfSysGEORAM"},
   {Icon_ConfSys_IEEE488, "\\HelpConfSysIEEE"},
   {Icon_ConfSys_EmuID, "\\HelpConfSysID"},
   {Icon_ConfSys_NoTraps, "\\HelpConfSysTraps"},

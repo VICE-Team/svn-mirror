@@ -121,6 +121,16 @@
 #define IDM_REU8192      0x640
 #define IDM_REU16384     0x680
 
+#define IDM_GEORAM       0x16b
+#define IDM_GEORAMSIZE   0x16c
+#define IDM_GEORAM64     0x901
+#define IDM_GEORAM128    0x902
+#define IDM_GEORAM256    0x904
+#define IDM_GEORAM512    0x908
+#define IDM_GEORAM1024   0x910
+#define IDM_GEORAM2048   0x920
+#define IDM_GEORAM4096   0x940
+
 #define IDM_TFE          0x158
 
 #define IDM_MOUSE        0x151

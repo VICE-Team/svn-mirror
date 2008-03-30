@@ -525,6 +525,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_REU:
         toggle("REU");
         return;
+    case IDM_GEORAM:
+        toggle("GEORAM");
+        return;
 #ifdef HAVE_TFE
     case IDM_TFE:
         toggle("ETHERNET_ACTIVE");
@@ -540,6 +543,17 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_REU16384:
         resources_set_value("REUSize",
                             (resource_value_t*)((idm&0xff)<<7));
+        return;
+
+    case IDM_GEORAM64:
+    case IDM_GEORAM128:
+    case IDM_GEORAM256:
+    case IDM_GEORAM512:
+    case IDM_GEORAM1024:
+    case IDM_GEORAM2048:
+    case IDM_GEORAM4096:
+        resources_set_value("GEORAMSize",
+                            (resource_value_t*)((idm&0xff)<<6));
         return;
 #endif // __X64__ || __X128__
 #ifdef HAVE_MOUSE
@@ -1175,6 +1189,9 @@ void menu_select(HWND hwnd, USHORT item)
         resources_get_value("REU", (void *)&val);
         WinCheckMenuItem(hwnd,  IDM_REU,     val);
         WinEnableMenuItem(hwnd, IDM_REUSIZE, val);
+        resources_get_value("GEORAM", (void *)&val);
+        WinCheckMenuItem(hwnd,  IDM_GEORAM,     val);
+        WinEnableMenuItem(hwnd, IDM_GEORAMSIZE, val);
 #endif
 #ifdef __XPET__
         WinCheckRes(hwnd, IDM_CHARSET,  "Basic1Chars");
@@ -1241,6 +1258,17 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_REU4096,  val==4096);
         WinCheckMenuItem(hwnd, IDM_REU8192,  val==8192);
         WinCheckMenuItem(hwnd, IDM_REU16384, val==16384);
+        return;
+
+    case IDM_GEORAMSIZE:
+        resources_get_value("GEORAMSize", (void *)&val);
+        WinCheckMenuItem(hwnd, IDM_GEORAM64,   val==64);
+        WinCheckMenuItem(hwnd, IDM_GEORAM128,   val==128);
+        WinCheckMenuItem(hwnd, IDM_GEORAM256,   val==256);
+        WinCheckMenuItem(hwnd, IDM_GEORAM512,   val==512);
+        WinCheckMenuItem(hwnd, IDM_GEORAM1024,  val==1024);
+        WinCheckMenuItem(hwnd, IDM_GEORAM2048,  val==2048);
+        WinCheckMenuItem(hwnd, IDM_GEORAM4096,  val==4096);
         return;
 #endif
 #ifdef __X128__

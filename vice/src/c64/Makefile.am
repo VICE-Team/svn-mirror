@@ -72,6 +72,8 @@ libc64_a_SOURCES = \
 	reloc65.c \
 	reu.c \
 	reu.h \
+	georam.c \
+	georam.h \
 	tfe.c \
 	tfe.h \
         tfearch.h
@@ -109,6 +111,8 @@ libc64c128_a_SOURCES = \
 	patchrom.h \
 	reu.c \
 	reu.h \
+	georam.c \
+	georam.h \
 	tfe.c \
 	tfe.h \
         tfearch.h

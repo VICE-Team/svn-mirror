@@ -199,6 +199,8 @@ int c128_snapshot_write_module(snapshot_t *s, int save_roms)
 
     /* REU module: FIXME.  */
 
+    /* GEORAM module: FIXME.  */
+
     /* IEEE 488 module.  */
     if (ieee488_enabled
         && tpicore_snapshot_write_module(machine_context.tpi1, s) < 0)
@@ -260,6 +262,8 @@ int c128_snapshot_read_module(snapshot_t *s)
         goto fail;
 
     /* REU module: FIXME.  */
+
+    /* GEORAM module: FIXME.  */
 
     /* IEEE488 module.  */
     if (tpicore_snapshot_read_module(machine_context.tpi1, s) < 0) {
