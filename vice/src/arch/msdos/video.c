@@ -514,13 +514,13 @@ inline void video_canvas_refresh(video_canvas_t *c,
 
     if (c->videoconfig->doublesizex) {
         xs *= 2;
-        xi *= 2;
+        xi /= 2;
         w *= 2;
     }
 
     if (c->videoconfig->doublesizey) {
         ys *= 2;
-        yi *= 2;
+        yi /= 2;
         h *= 2;
     }
 
@@ -557,13 +557,11 @@ inline void video_canvas_refresh(video_canvas_t *c,
                         c->bytes_per_line,
                         c->depth);
 
-    DEBUG(("video_render_main: FB:%p VR:%p w=%d h=%d xs=%d ys=%d xi=%d yi=%d linef=%d linev=%d",
-                      (BYTE *)(VIDEO_FRAME_BUFFER_START(f)),
+    DEBUG(("video_canvas_render: VR:%p w=%d h=%d xs=%d ys=%d xi=%d yi=%d linef=%d linev=%d",
                       (BYTE *)(c->render_bitmap->line[0]),
                       w, h,
                       xs, ys,
                       xi, yi,
-                      VIDEO_FRAME_BUFFER_LINE_SIZE(f),
                       c->bytes_per_line,
                       c->depth));
 

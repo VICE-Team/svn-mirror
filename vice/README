@@ -1,5 +1,5 @@
 
-  VICE  1.9 							April 2002
+  VICE  1.10 							September 2002
 
 
 		 _______________
@@ -19,7 +19,7 @@
  ----------------------------------------------------------------------------
 
 
- This is version 1.9 of VICE, the multi-platform C64, C128, VIC20, PET
+ This is version 1.10 of VICE, the multi-platform C64, C128, VIC20, PET
  and CBM-II emulator.  This version can be compiled for MSDOS, Win32,
  RiscOS, OS/2, BeOS and for most Unix system provided with the X Window
  System version 11, R5 or later.
@@ -133,5 +133,6 @@
   02111-1307  USA
 
  The ROM files in the `C128', `C64', `CBM-II', `DRIVES', `PET', `PLUS4'
- and `VIC20' directories are Copyright C by Commodore Business Machines.
+ `PRINTER' and `VIC20' directories are Copyright C by Commodore
+ Business Machines.
 

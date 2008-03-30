@@ -65,6 +65,7 @@ static void dump_fb(char *wo);
 #include "videoarch.h"
 #include "vsyncapi.h"
 #include "x11ui.h"
+#include "fullscreenarch.h"
 #include "dga2.h"
 
 typedef struct {

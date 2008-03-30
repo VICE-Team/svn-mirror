@@ -350,18 +350,6 @@ static ui_menu_entry_t c64_menu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t c64_settings_menu[] = {
-    { N_("ROM settings"),
-      NULL, NULL, c64_romset_submenu },
-    { N_("VIC-II settings"),
-      NULL, NULL, vicii_submenu },
-    { N_("SID settings"),
-      NULL, NULL, sid_submenu },
-    { N_("RS232 settings"),
-      NULL, NULL, rs232_submenu },
-    { NULL }
-};
-
 static void ui_create_dynamic_menus(void)
 {
     uivicii_create_menus();
@@ -454,13 +442,14 @@ int c64_ui_init(void)
                                   NULL),
                    _("Settings"),
                    ui_menu_create("Settings",
-                                  ui_peripheral_settings_menu,
-                                  ui_drive_settings_menu,
+				  ui_video_settings_menu,
                                   ui_keyboard_settings_menu,
-                                  joystick_settings_menu,
                                   ui_sound_settings_menu,
+                                  ui_drive_settings_menu,
+                                  ui_peripheral_settings_menu,
+                                  joystick_settings_menu,
                                   ui_menu_separator,
-                                  c64_settings_menu,
+                                  c64_menu,
                                   ui_menu_separator,
                                   ui_settings_settings_menu,
                                   NULL),
