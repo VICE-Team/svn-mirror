@@ -347,12 +347,12 @@ static void advance_hasdisk(void)
             if (traps) {
                 if (orig_drive_true_emulation_state)
                     log_message(autostart_log,
-                                "Switching true drive emulation off.");
+                                "Turning true drive emulation off.");
                 set_true_drive_emulation_mode(0);
             } else {
                 if (!orig_drive_true_emulation_state)
                     log_message(autostart_log,
-                                "Switching true drive emulation on.");
+                                "Turning true drive emulation on.");
                 set_true_drive_emulation_mode(1);
             }
         } else {
