@@ -315,10 +315,11 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
 	../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
 	../../src/machine.h ../../src/maincpu.h petmem.h pets.h \
 	petsound.h ../../src/arch/unix/xaw/petui.h petvia.h petacia.h \
-	petpia.h ../../src/serial.h ../../src/traps.h ../../src/sound.h \
-	../../src/warn.h ../../src/utils.h ../../src/via.h \
-	../../src/arch/unix/vsync.h ../../src/rs232.h ../../src/print.h \
-	../../src/prdevice.h ../../src/pruser.h
+	petpia.h ../../src/serial.h ../../src/diskimage.h \
+	../../src/traps.h ../../src/sound.h ../../src/warn.h \
+	../../src/utils.h ../../src/via.h ../../src/arch/unix/vsync.h \
+	../../src/rs232.h ../../src/print.h ../../src/prdevice.h \
+	../../src/pruser.h
 petacia1.o: petacia1.c ../../src/maincpu.h ../../src/config.h \
 	../../src/6510core.h ../../src/mem.h \
 	../../src/arch/unix/types.h ../../src/snapshot.h \

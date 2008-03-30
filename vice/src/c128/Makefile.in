@@ -298,9 +298,10 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h c128.h \
 	../../src/mon.h ../../src/mem.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/arch/unix/kbd.h \
 	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/c64/patchrom.h ../../src/serial.h ../../src/traps.h \
-	../../src/sid/sid.h ../../src/sound.h ../../src/warn.h \
-	../../src/tape.h ../../src/c64/c64tpi.h ../../src/utils.h \
+	../../src/c64/patchrom.h ../../src/serial.h \
+	../../src/diskimage.h ../../src/traps.h ../../src/sid/sid.h \
+	../../src/sound.h ../../src/warn.h ../../src/tape.h \
+	../../src/c64/c64tpi.h ../../src/utils.h \
 	../../src/vicii/vicii.h ../../src/c64/c64.h \
 	../../src/raster/raster.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
@@ -339,9 +340,10 @@ c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../vice.h ../maincpu.h ../config.h ../6510core.h ../mem.h \
 	../alarm.h ../log.h ../clkguard.h ../mon.h ../mos6510.h \
 	../interrupt.h ../snapshot.h ../datasette.h ../tap.h \
-	../machine.h ../resources.h ../serial.h ../traps.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/palette.h ../../src/uiapi.h ../6510core.c
+	../machine.h ../resources.h ../serial.h ../diskimage.h \
+	../traps.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/uiapi.h ../6510core.c
 c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/c64/c64cia.h ../../src/arch/unix/types.h \
 	../../src/cia.h ../../src/snapshot.h ../../src/c64/c64iec.h \

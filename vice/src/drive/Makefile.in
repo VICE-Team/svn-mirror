@@ -339,9 +339,10 @@ drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/log.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
 	fdc.h ../../src/gcr.h ../../src/iecdrive.h riotd.h \
-	../../src/serial.h ../../src/traps.h ../../src/sysfile.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/palette.h ../../src/uiapi.h ../../src/utils.h \
+	../../src/serial.h ../../src/diskimage.h ../../src/traps.h \
+	../../src/sysfile.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/xaw/ui.h ../../src/palette.h \
+	../../src/uiapi.h ../../src/utils.h \
 	../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive.h viad.h \
 	../../src/via.h wd1770.h ../../src/zfile.h
 drivecpu0.o: drivecpu0.c ../../src/vice.h ../../src/config.h \
@@ -368,7 +369,8 @@ fdc.o: fdc.c ../../src/vice.h ../../src/config.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/vdrive/vdrive-bam.h ../../src/vdrive/vdrive.h \
-	../../src/attach.h
+	../../src/attach.h ../../src/serial.h ../../src/diskimage.h \
+	../../src/traps.h
 riot1drive0.o: riot1drive0.c ../../src/riotcore.h ../../src/vice.h \
 	../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/log.h \
@@ -436,7 +438,8 @@ wd1770.o: wd1770.c ../../src/vice.h ../../src/config.h \
 	drivecpu.h ../../src/alarm.h ../../src/log.h \
 	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
 	../../src/snapshot.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/vdrive/vdrive.h ../../src/attach.h wd1770.h
+	../../src/vdrive/vdrive.h ../../src/attach.h ../../src/serial.h \
+	../../src/diskimage.h ../../src/traps.h wd1770.h
 
 info: info-recursive
 dvi: dvi-recursive
