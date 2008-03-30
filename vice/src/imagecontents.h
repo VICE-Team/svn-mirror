@@ -52,6 +52,13 @@ struct image_contents_s {
 };
 typedef struct image_contents_s image_contents_t;
 
+struct image_contents_screencode_s {
+    BYTE *line;
+    unsigned int length;
+    struct image_contents_screencode_s *next;
+};
+typedef struct image_contents_screencode_s image_contents_screencode_t;
+
 /* ------------------------------------------------------------------------- */
 
 extern void image_contents_destroy(image_contents_t *contents);
@@ -62,6 +69,9 @@ extern image_contents_t *image_contents_new(void);
 
 extern char *image_contents_to_string(image_contents_t *contents,
                                       unsigned int conversion_rule);
+extern image_contents_screencode_t *image_contents_to_screencode
+                                   (image_contents_t *contents);
+extern void image_contents_screencode_destroy(image_contents_screencode_t *c);
 
 /* FIXME: Some day this will have to be removed to the disk/tape image
    -specific modules.  */

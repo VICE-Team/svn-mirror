@@ -37,7 +37,7 @@
 #endif
 
 #include "archdep.h"
-#include "charsets.h"
+#include "charset.h"
 #include "diskimage.h"
 #include "imagecontents.h"
 #include "serial.h"
@@ -72,6 +72,92 @@ void image_contents_destroy(image_contents_t *contents)
     for (p = contents->file_list; p != NULL; h = p, p = p->next, free(h));
 
     free(contents);
+}
+
+void image_contents_screencode_destroy(image_contents_screencode_t *c)
+{
+    image_contents_screencode_t *h;
+
+    while (c != NULL) {
+        h = c->next;
+        free(c->line);
+        free(c);
+        c = h;
+    }
+}
+
+image_contents_screencode_t *image_contents_to_screencode(image_contents_t
+                                                          *contents)
+{
+    BYTE *buf, rawline[50];
+    unsigned int len, i;
+    image_contents_screencode_t *image_contents_screencode, *screencode_ptr;
+    image_contents_file_list_t *p;
+
+    image_contents_screencode = (image_contents_screencode_t *)xmalloc
+                                (sizeof(image_contents_screencode_t));
+
+    screencode_ptr = image_contents_screencode;
+
+    sprintf(rawline, "0 \"%s\" %s", contents->name, contents->id);
+    charset_petcii_to_screencode_line(rawline, &buf, &len);
+    screencode_ptr->line = buf;
+    screencode_ptr->length = len;
+    screencode_ptr->next = NULL;
+
+    if (contents->file_list == NULL) {
+        charset_petcii_to_screencode_line("(eMPTY IMAGE.)", &buf, &len);
+        screencode_ptr->next = (image_contents_screencode_t *)xmalloc
+                               (sizeof(image_contents_screencode_t));
+        screencode_ptr = screencode_ptr->next;
+
+        screencode_ptr->line = buf;
+        screencode_ptr->length = len;
+        screencode_ptr->next = NULL;
+    }
+
+    for (p = contents->file_list; p != NULL; p = p->next) {
+        memset(rawline, 0, sizeof(rawline));
+
+        sprintf((char *)rawline, "%-5d \"                  ", p->size);
+        memcpy(&rawline[7], p->name, IMAGE_CONTENTS_FILE_NAME_LEN);
+
+        for (i = 0; i < IMAGE_CONTENTS_FILE_NAME_LEN; i++) {
+            if (rawline[7 + i] == 0xa0) {
+                rawline[7 + i] = '"';
+                break;
+            }
+        }
+
+        if (i == IMAGE_CONTENTS_FILE_NAME_LEN)
+            rawline[7 + IMAGE_CONTENTS_FILE_NAME_LEN] = '"';
+
+        memcpy(&rawline[7 + IMAGE_CONTENTS_FILE_NAME_LEN + 2], p->type, 5);
+        charset_petcii_to_screencode_line(rawline, &buf, &len);
+
+        screencode_ptr->next = (image_contents_screencode_t *)xmalloc
+                               (sizeof(image_contents_screencode_t));
+        screencode_ptr = screencode_ptr->next;
+
+        screencode_ptr->line = buf;
+        screencode_ptr->length = len;
+        screencode_ptr->next = NULL;
+    }
+
+    if (contents->blocks_free >= 0) {
+        sprintf(rawline, "%d BLOCKS FREE.", contents->blocks_free);
+        charset_petcii_to_screencode_line(rawline, &buf, &len);
+
+        screencode_ptr->next = (image_contents_screencode_t *)xmalloc
+                               (sizeof(image_contents_screencode_t));
+        screencode_ptr = screencode_ptr->next;
+
+        screencode_ptr->line = buf;
+        screencode_ptr->length = len;
+        screencode_ptr->next = NULL;
+    }
+
+    return image_contents_screencode;
 }
 
 char *image_contents_to_string(image_contents_t *contents,
@@ -142,7 +228,7 @@ char *image_contents_to_string(image_contents_t *contents,
     buf = BUFCAT("\n", 2); /* With a closing zero.  */
 
     if (conversion_rule == IMAGE_CONTENTS_STRING_ASCII)
-        petconvstring(buf, 1);
+        charset_petconvstring(buf, 1);
 
     return buf;
 }

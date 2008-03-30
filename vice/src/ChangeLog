@@ -1,3 +1,44 @@
+2001-06-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.36.
+
+	* charsets.c, charsets.h: Renamed to charset.{ch}.
+	Fixed function names.
+	(charset_petcii_to_screencode,
+	charset_petcii_to_screencode_line): New functions.
+
+	* Makefile.am: Changed filenames.
+
+	* imagecontents.c: (image_contents_to_screencode
+	image_contents_screencode_destroy): New functions.
+
+	* autostart.c, c1541.c, fsdevice.c, imagecontents.c, main.c,
+	petcat.c, vdrive/vdrive.c, monitor/mon.c,
+	arch/unix/x11/gnome/ui.c, arch/os2/dialogs/dlg-fileio.c,
+	arch/os2/dialogs/dlg-create.c: Fixed charset.h include.
+
+	* c1541.c, ciacore.c, piacore.c, serial.c, tape.c, viacore.c,
+	c128/c128mem.c, c128/z80.c, vic20/vic20ieeevia1.c,
+	vic20/vic20sound.c, pet/petmem.c, pet/petpia1.c,
+	pet/petpia2.c, pet/petvia.c, crtc/crtc-snapshot.c,
+	cbm2/c610cia1.c, cbm2/c610mem.c, cbm2/c610tpi1.c,
+	monitor/mon.c, monitor/montypes.h, monitor/mon_assemble6502.c,
+	monitor/mon_assemblez80.c, monitor/mon_disassemble.c,
+	monitor/mon_register6502.c, monitor/mon_registerz80.c: Fixed
+	types.
+
+	* monitor/mon_registerz80.c (mon_register_set_val): Fixed
+	register selection.
+
+2001-06-01  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* utils.c: use FSDEV_DIR_SEP_CHR rather than '/' for
+	portability.
+
+	* arch/riscos/ui.{c,h}, arch/riscos/uiimage.{c,h}: extended
+	imagecontents-functionality to directories for convenient
+	autostarting.
+
 2001-05-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.35.
