@@ -31,37 +31,42 @@
 #include "vicii.h"
 #include "viciitypes.h"
 
-
-
 /* VIC-II command-line options.  */
 
 static cmdline_option_t cmdline_options[] =
 {
-  { "-vcache", SET_RESOURCE, 0, NULL, NULL,
-    "VideoCache", (resource_value_t) 1,
-    NULL, "Enable the video cache"},
-  { "+vcache", SET_RESOURCE, 0, NULL, NULL,
-    "VideoCache", (resource_value_t) 0,
-    NULL, "Disable the video cache"},
-  { "-checksb", SET_RESOURCE, 0, NULL, NULL,
-    "CheckSbColl", (resource_value_t) 1,
-    NULL, "Enable sprite-background collision registers"},
-  { "+checksb", SET_RESOURCE, 0, NULL, NULL,
-    "CheckSbColl", (resource_value_t) 0,
-    NULL, "Disable sprite-background collision registers"},
-  { "-checkss", SET_RESOURCE, 0, NULL, NULL,
-    "CheckSsColl", (resource_value_t) 1,
-    NULL, "Enable sprite-sprite collision registers"},
-  { "+checkss", SET_RESOURCE, 0, NULL, NULL,
-    "CheckSsColl", (resource_value_t) 0,
-    NULL, "Disable sprite-sprite collision registers"},
-  { "-palette", SET_RESOURCE, 1, NULL, NULL,
-    "PaletteFile", NULL,
-    "<name>", "Specify palette file name"},
-  { NULL }
+    { "-vcache", SET_RESOURCE, 0, NULL, NULL, "VideoCache",
+    (resource_value_t) 1, NULL, "Enable the video cache"},
+    { "+vcache", SET_RESOURCE, 0, NULL, NULL, "VideoCache",
+    (resource_value_t) 0, NULL, "Disable the video cache"},
+    { "-checksb", SET_RESOURCE, 0, NULL, NULL, "CheckSbColl",
+    (resource_value_t) 1, NULL, "Enable sprite-background collision registers"},
+    { "+checksb", SET_RESOURCE, 0, NULL, NULL, "CheckSbColl",
+    (resource_value_t) 0, NULL, "Disable sprite-background collision registers"},
+    { "-checkss", SET_RESOURCE, 0, NULL, NULL, "CheckSsColl",
+    (resource_value_t) 1, NULL, "Enable sprite-sprite collision registers"},
+    { "+checkss", SET_RESOURCE, 0, NULL, NULL, "CheckSsColl",
+    (resource_value_t) 0, NULL, "Disable sprite-sprite collision registers"},
+    { "-saturation", SET_RESOURCE, 1, NULL, NULL, "ColorSaturation", NULL,
+    "<number>", "Set saturation of internal calculated palette [1000]"},
+    { "-contrast", SET_RESOURCE, 1, NULL, NULL, "ColorContrast", NULL,
+    "<number>", "Set contrast of internal calculated palette [1100]"},
+    { "-brightness", SET_RESOURCE, 1, NULL, NULL, "ColorBrightness", NULL,
+    "<number>", "Set brightness of internal calculated palette [1100]"},
+    { "-gamma", SET_RESOURCE, 1, NULL, NULL, "ColorGamma", NULL,
+    "<number>", "Set gamma of internal calculated palette [900]"},
+    { "-newluminance", SET_RESOURCE, 0, NULL, NULL, "NewLuminances",
+    (resource_value_t)1, NULL, "Use new luminances"},
+    { "+newluminance", SET_RESOURCE, 0, NULL, NULL, "NewLuminances",
+    (resource_value_t)0, NULL, "Use old luminances"},
+    { "-intpal", SET_RESOURCE, 0, NULL, NULL, "ExternalPalette",
+    (resource_value_t)0, NULL, "Use an internal calculated palette"},
+    { "-extpal", SET_RESOURCE, 0, NULL, NULL, "ExternalPalette",
+    (resource_value_t)1, NULL, "Use an external palette (file)"},
+    { "-palette", SET_RESOURCE, 1, NULL, NULL, "PaletteFile",
+    NULL, "<name>", "Specify palette file name"},
+    { NULL }
 };
-
-
 
 /* VIC-II double-size-specific command-line options.  */
 
@@ -83,8 +88,6 @@ static cmdline_option_t cmdline_options_2x[] =
   { NULL }
 };
 #endif
-
-
 
 int 
 vic_ii_cmdline_options_init (void)

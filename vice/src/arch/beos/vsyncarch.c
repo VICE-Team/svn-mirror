@@ -68,7 +68,7 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 /* Sleep a number of timer units. */
 void vsyncarch_sleep(signed long delay)
 {
-    usleep(delay);
+    snooze(delay);
 }
 
 void vsyncarch_presync(void)

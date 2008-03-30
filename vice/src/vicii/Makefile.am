@@ -10,6 +10,8 @@ noinst_LIBRARIES = libvicii.a
 libvicii_a_SOURCES = \
 	vicii-cmdline-options.c \
 	vicii-cmdline-options.h \
+	vicii-color.c \
+	vicii-color.h \
 	vicii-draw.c \
 	vicii-draw.h \
 	vicii-mem.c \

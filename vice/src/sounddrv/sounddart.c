@@ -66,6 +66,14 @@ static int volume = 50;
 
 int get_volume()
 {
+    /*
+     LONG rc;
+     MCI_STATUS_PARMS mciStatus;
+     mciStatus.ulItem = MCI_STATUS_VOLUME;
+     rc = mciSendCommand(usDeviceID, MCI_STATUS, MCI_WAIT|MCI_STATUS_ITEM,
+     (PVOID) &mciStatus, 0);
+     log_debug("rc=%d, ulReturn=%d", rc, mciStatus.ulReturn);
+     */
     return volume;
 }
 
@@ -86,6 +94,8 @@ void set_volume(int vol)
 
         MciSetParms.ulLevel = vol;
         MciSetParms.ulAudio = MCI_SET_AUDIO_ALL;
+
+        log_debug("Dart: Setting volume to %d%%", vol);
 
         rc = mciSendCommand(usDeviceID, MCI_SET, MCI_WAIT|
                             MCI_SET_VOLUME|MCI_SET_AUDIO,

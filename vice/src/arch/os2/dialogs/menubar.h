@@ -43,24 +43,25 @@
 #define IDM_JOYSTICK     0x10b
 #define IDM_DATASETTE    0x10c
 #define IDM_LOGWIN       0x10d
+#define IDM_COLOR        0x10e
 
-#define IDM_SETUP        0x10e
-#define IDM_SOUND        0x10f
-#define IDM_SIDCHIP      0x110
-#define IDM_OVERSAMPLING 0x111
-#define IDM_SAMPLINGRATE 0x112
-#define IDM_SOUNDSYNC    0x113
-#define IDM_SOUNDDEV     0x114
-#define IDM_VDCMEMORY    0x115
-#define IDM_VIDEOSTD     0x116
-#define IDM_COLLISION    0x117
-#define IDM_REFRATE      0x118
-#define IDM_BUFFER       0x119
-#define IDM_STRETCH      0x11a
-#define IDM_MONITOR      0x11b
-#define IDM_HELP         0x11c
-#define IDM_CMDLINE      0x11d
-#define IDM_ABOUT        0x11e
+#define IDM_SETUP        0x10f
+#define IDM_SOUND        0x110
+#define IDM_SIDCHIP      0x111
+#define IDM_OVERSAMPLING 0x112
+#define IDM_SAMPLINGRATE 0x113
+#define IDM_SOUNDSYNC    0x114
+#define IDM_SOUNDDEV     0x115
+#define IDM_VDCMEMORY    0x116
+#define IDM_VIDEOSTD     0x117
+#define IDM_COLLISION    0x118
+#define IDM_REFRATE      0x119
+#define IDM_BUFFER       0x11a
+#define IDM_STRETCH      0x11b
+#define IDM_MONITOR      0x11c
+#define IDM_HELP         0x11d
+#define IDM_CMDLINE      0x11e
+#define IDM_ABOUT        0x11f
 
 #define IDM_ATTACHTAPE   0x120
 #define IDM_ATTACH8      0x121
@@ -315,6 +316,10 @@
 #define IDM_CRTEXPERT    0x50c
 #define IDM_CRTFREEZE    0x50d
 #define IDM_CRTSAVEIMG   0x50e
+
+#define IDM_PALCONTROL   0x510
+#define IDM_INTERNALPAL  0x511
+#define IDM_LUMINANCES   0x512
 
 void menu_action(HWND hwnd, USHORT item); //, MPARAM mp2);
 void menu_select(HWND hwnd, USHORT item);

@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.7.1)
+AM_INIT_AUTOMAKE(vice, 1.7.2)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -53,8 +53,6 @@ fi
 if test x"$enable_gnomeui" = "xyes" ; then
   AC_DEFINE(GNOMEUI,1)
   AC_DEFINE(USE_GNOMEUI)
-  AM_PATH_GLIB
-  AM_PATH_GTK
   AM_CONDITIONAL(GNOMEUI, test x"$enable_gnomeui" = "xyes")
 fi
 
@@ -881,7 +879,7 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_riscos" != "xyes
     ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix"
   else
     ARCH_LIBS="$ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/libarch.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/libarch.a"
-    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix `gnome-config --cflags gnomeui` $GTK_CFLAGS $GLIB_CFLAGS"
+    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix `gnome-config --cflags gnomeui`"
   fi
   AM_CONDITIONAL(UNIX_COMPILE, true)
   AM_CONDITIONAL(WIN32_COMPILE, false)

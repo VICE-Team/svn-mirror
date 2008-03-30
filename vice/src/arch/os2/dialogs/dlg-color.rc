@@ -1,0 +1,58 @@
+/*
+ * dialogs.rc - Resource script file
+ *
+ * Written by
+ *  Thomas Bretz <tbretz@gsi.de>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#include "dialogs.h"
+#include "dlg-color.h" 
+
+#define STY_SLIDER WC_SLIDER, SLS_HORIZONTAL | SLS_BOTTOM | \
+                   SLS_BUTTONSRIGHT | SLS_HOMELEFT | SLS_RIBBONSTRIP | \
+                   SLS_PRIMARYSCALE1 | WS_TABSTOP | WS_VISIBLE
+
+DLGTEMPLATE DLG_COLOR 850 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Color Settings", DLG_COLOR, 162, 122, 209, 83, STY_DIALOG|FCF_CLOSEBUTTON
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
+    BEGIN
+        CONTROL "Close", DID_CLOSE, 5,  5,  38, 12, STY_CLOSEBUTTON | WS_GROUP  
+        CONTROL "Color", ID_NONE,   7, 22, 185, 57, STY_GROUPBOX
+
+    	TEXT("Saturation",  11, 55, 45, 8)
+	TEXT("Contrast",    11, 45, 45, 8)
+    	TEXT("Brightness",  11, 35, 45, 8)
+    	TEXT("Gamma",       11, 25, 45, 8)
+
+        CONTROL "",      ID_SATURATION, 55, 55, 135, 16, STY_SLIDER
+                CTLDATA 12, 0, 201, 0, 0, 0
+        CONTROL "",      ID_CONTRAST,   55, 45, 135, 10, STY_SLIDER
+                CTLDATA 12, 0, 201, 0, 0, 0
+        CONTROL "",      ID_BRIGHTNESS, 55, 35, 135, 10, STY_SLIDER
+                CTLDATA 12, 0, 201, 0, 0, 0
+        CONTROL "",      ID_GAMMA,      55  25, 135, 10, STY_SLIDER
+                CTLDATA 12, 0, 201, 0, 0, 0
+
+    END
+END
+

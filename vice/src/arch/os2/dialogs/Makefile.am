@@ -18,6 +18,9 @@ libdialogs_a_SOURCES = \
         dlg-fileio.h \
         dlg-fileio.c \
 	dlg-fileio.rc \
+        dlg-color.h \
+        dlg-color.c \
+	dlg-color.rc \
         dlg-vsid.h \
         dlg-vsid.c \
         dlg-vsid.rc \

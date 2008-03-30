@@ -81,6 +81,7 @@
 #include "vicii-sprites.h"
 #include "vicii-resources.h"
 #include "vicii-snapshot.h"
+#include "vicii-color.h"
 #include "vsync.h"
 #ifdef __MSDOS__
 #include "videoarch.h"
@@ -349,7 +350,7 @@ static int init_raster (void)
 
     vic_ii_set_geometry();
 
-    if (vic_ii_load_palette(vic_ii_resources.palette_file_name) < 0) {
+    if (vic_ii_activate_palette() < 0) {
         log_error(vic_ii.log, "Cannot load palette.");
         return -1;
     }
@@ -1546,17 +1547,32 @@ static void vic_ii_raster_irq_alarm_handler(CLOCK offset)
   alarm_set (&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
 }
 
+static const char *color_names[VIC_II_NUM_COLORS] =
+{
+  "Black", "White", "Red", "Cyan", "Purple", "Green", "Blue",
+  "Yellow", "Orange", "Brown", "Light Red", "Dark Gray", "Medium Gray",
+  "Light Green", "Light Blue", "Light Gray"
+};
+
+int vic_ii_calc_palette(int sat,int con,int bri,int gam,int newlum)
+{
+  palette_t *palette;
+
+  palette = palette_create(VIC_II_NUM_COLORS, color_names);
+  if (palette == NULL)
+    return -1;
+
+  vic_ii_pal_initfilter(sat,con,bri,gam,newlum);
+  vic_ii_pal_fillpalette(palette);
+  return raster_set_palette(&vic_ii.raster, palette);
+}
+
+
 /* WARNING: This does not change the resource value.  External modules are
    expected to set the resource value to change the VIC-II palette instead of
    calling this function directly.  */
 int vic_ii_load_palette(const char *name)
 {
-  static const char *color_names[VIC_II_NUM_COLORS] =
-    {
-      "Black", "White", "Red", "Cyan", "Purple", "Green", "Blue",
-      "Yellow", "Orange", "Brown", "Light Red", "Dark Gray", "Medium Gray",
-      "Light Green", "Light Blue", "Light Gray"
-    };
   palette_t *palette;
 
   palette = palette_create(VIC_II_NUM_COLORS, color_names);

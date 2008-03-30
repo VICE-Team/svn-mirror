@@ -17,13 +17,13 @@ chargen2fnt ..\..\..\..\data\VIC20\chargen VIC20
 REM /*                        */
 REM /* Create font-dll        */
 REM /*                        */
-alp vice2.asm
-link386 vice2,,,,vice2.def
-rc vice2.rc vice2.dll
+alp -Mb vice2.asm
+link386 vice2,,,,vice2.def /NOLOGO
+rc -n vice2.rc vice2.dll
 
 REM /*                        */
 REM /* 'Rename' font-dll      */
 REM /*                        */
-move vice2.dll vice2.fon
+move vice2.dll vice2.fon > NUL
 
-del chargen*.fnt vice-*.fnt *.res *.obj *.map
+del chargen*.fnt vice-*.fnt *.res *.obj *.map > NUL

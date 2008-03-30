@@ -74,7 +74,6 @@ extern "C" {
 #include "ui_joystick.h"
 #include "ui_sound.h"
 #include "ui_vicii.h"
-#include "usleep.h"
 #include "utils.h"
 #include "version.h"
 #include "vsync.h"
@@ -360,7 +359,7 @@ static void pause_trap(ADDRESS addr, void *data)
     vsync_suspend_speed_eval();
     while (is_paused)
     {
-        usleep(1000);
+        snooze(1000);
         ui_dispatch_events();
     }
 }

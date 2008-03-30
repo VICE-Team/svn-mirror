@@ -2,6 +2,7 @@ source type (rc)
     "dialogs.rc",
     "menubar.rc",
     "dlg-datasette.rc",
+    "dlg-color.rc", // FIXME
     "dlg-drive.rc",
     "dlg-emulator.rc",
     "dlg-fileio.rc",

@@ -32,6 +32,7 @@
 //#include "video.h"         // canvas_*
 #include "dialogs.h"
 #include "menubar.h"
+#include "dlg-color.h"
 #include "dlg-drive.h"
 #include "dlg-monitor.h"
 //#include "dlg-emulator.h"
@@ -481,6 +482,18 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
     case IDM_DRIVE:
         drive_dialog(hwnd);
+        return;
+
+    case IDM_COLOR:
+        color_dialog(hwnd);
+        return;
+
+    case IDM_INTERNALPAL:
+        toggle("ExternalPalette");
+        return;
+
+    case IDM_LUMINANCES:
+        toggle("NewLuminances");
         return;
 /*
     case IDM_EMULATOR:
@@ -1014,6 +1027,14 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_VOL30,  val== 30);
         WinCheckMenuItem(hwnd, IDM_VOL20,  val== 20);
         WinCheckMenuItem(hwnd, IDM_VOL10,  val== 10);
+        return;
+
+    case IDM_PALCONTROL:
+        resources_get_value("ExternalPalette", (resource_value_t*)&val);
+        WinCheckMenuItem(hwnd, IDM_INTERNALPAL, !val);
+        WinCheckRes(hwnd, IDM_LUMINANCES, "NewLuminances");
+        WinEnableMenuItem(hwnd, IDM_LUMINANCES, !val);
+        return;
 
 #ifdef __X128__
     case IDM_VDCMEMORY:

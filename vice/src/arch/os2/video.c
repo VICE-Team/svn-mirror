@@ -1334,8 +1334,8 @@ int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
     rc=DiveSetSourcePalette(hDiveInst, offset, p->num_entries, (BYTE*)palette);
     if (rc)
         log_message(LOG_DEFAULT,"video.c: Error DiveSetSourcePalette (rc=0x%x).",rc);
-    else
-        log_message(LOG_DEFAULT,"video.c: Palette realized.");
+    //    else
+    //        log_message(LOG_DEFAULT,"video.c: Palette realized.");
 
     free(palette);
 

@@ -2,6 +2,7 @@ source type(c)
     "vicii.c",
     "vicii-mem.c",
     "vicii-draw.c",
+    "vicii-color.c",
     "vicii-resources.c",
     "vicii-snapshot.c",
     "vicii-sprites.c"  ,

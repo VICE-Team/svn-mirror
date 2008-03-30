@@ -113,6 +113,7 @@ BEGIN
    BEGIN
 //      MENUITEM "~Emulator Setup\tAlt-E",    IDM_EMULATOR,  MIS_TEXT
       MENUITEM "~Drive Setup\tAlt-D",       IDM_DRIVE,     MIS_TEXT
+      MENUITEM "~Color Settings",           IDM_COLOR,     MIS_TEXT
       MENUITEM "~Joystick Setup\tAlt-J",    IDM_JOYSTICK,  MIS_TEXT
       MENUITEM "Datasette ~Control\tAlt-C", IDM_DATASETTE, MIS_TEXT
       MENUITEM "~Logging Window\tAlt-L",    IDM_LOGWIN,    MIS_TEXT
@@ -161,10 +162,15 @@ BEGIN
          MENUITEM "~old NTSC-M",           IDM_NTSCOLD,  MIS_TEXT
 #endif // __X64__
       END
-      SUBMENU "Sprite Collision ~Detection",       IDM_COLLISION, MIS_TEXT
+      SUBMENU "Sprite Collision ~Detection",       IDM_COLLISION,   MIS_TEXT
       BEGIN
-        MENUITEM "Sprite-~Sprite",                 IDM_SSCOLL,    MIS_TEXT
-        MENUITEM "Sprite-~Background",             IDM_SBCOLL,    MIS_TEXT
+        MENUITEM "Sprite-~Sprite",                 IDM_SSCOLL,      MIS_TEXT
+        MENUITEM "Sprite-~Background",             IDM_SBCOLL,      MIS_TEXT
+      END
+      SUBMENU "Palette Control",                   IDM_PALCONTROL,  MIS_TEXT
+      BEGIN
+        MENUITEM "Internal Palette",               IDM_INTERNALPAL, MIS_TEXT
+        MENUITEM "New Luminacees",                 IDM_LUMINANCES,  MIS_TEXT
       END
       /*
       SUBMENU "Kernal Revision",  IDM_KERNALREV, MIS_TEXT

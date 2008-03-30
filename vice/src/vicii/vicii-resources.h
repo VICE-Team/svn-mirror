@@ -34,6 +34,17 @@
 /* VIC-II resources.  */
 struct _vic_ii_resources
   {
+	/* fixed point values */
+    int color_saturation;
+    int color_contrast;
+    int color_brightness;
+    int color_gamma;
+
+	/* Flag: New or old luminances? */
+	int new_luminances;
+
+	/* Flag: External palette used? */
+	int ext_palette;
 
     /* Flag: Do we emulate the sprite-sprite collision register and IRQ?  */
     int sprite_sprite_collisions_enabled;
@@ -68,9 +79,8 @@ typedef struct _vic_ii_resources vic_ii_resources_t;
 
 extern vic_ii_resources_t vic_ii_resources;
 
-
-
 int vic_ii_resources_init (void);
+int vic_ii_activate_palette(void);
 
 #endif
 

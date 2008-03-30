@@ -47,22 +47,99 @@
 
 vic_ii_resources_t vic_ii_resources;
 
+int vic_ii_activate_palette(void)
+{
+    if (vic_ii_resources.ext_palette)
+    {
+        /* external palette file */
+        return vic_ii_load_palette (vic_ii_resources.palette_file_name);
+  }
+    else
+    {
+        /* calculated palette */
+        vic_ii_calc_palette(
+                            vic_ii_resources.color_saturation,
+                            vic_ii_resources.color_contrast,
+                            vic_ii_resources.color_brightness,
+                            vic_ii_resources.color_gamma,
+                            vic_ii_resources.new_luminances);
+    }
+    return 0;
+}
 
-static int 
+static int
+set_color_saturation (resource_value_t v, void *param)
+{
+    int val;
+    val=(int)v;
+    if (val < 0) val=0;
+    if (val > 2000) val=2000;
+    vic_ii_resources.color_saturation = val;
+    return vic_ii_activate_palette();
+}
+
+static int
+set_color_contrast (resource_value_t v, void *param)
+{
+    int val;
+    val=(int)v;
+    if (val < 0) val=0;
+    if (val > 2000) val=2000;
+    vic_ii_resources.color_contrast = val;
+    return vic_ii_activate_palette();
+}
+
+static int
+set_color_brightness (resource_value_t v, void *param)
+{
+    int val;
+    val=(int)v;
+    if (val < 0) val=0;
+    if (val > 2000) val=2000;
+    vic_ii_resources.color_brightness = val;
+    return vic_ii_activate_palette();
+}
+
+static int
+set_color_gamma (resource_value_t v, void *param)
+{
+    int val;
+    val=(int)v;
+    if (val < 0) val=0;
+    if (val > 2000) val=2000;
+    vic_ii_resources.color_gamma = val;
+    return vic_ii_activate_palette();
+}
+
+static int
+set_new_luminances (resource_value_t v, void *param)
+{
+    vic_ii_resources.new_luminances = (int) v;
+    return vic_ii_activate_palette();
+}
+
+static int
+set_ext_palette (resource_value_t v, void *param)
+{
+    vic_ii_resources.ext_palette = (int) v;
+    return vic_ii_activate_palette();
+}
+
+static int
 set_sprite_sprite_collisions_enabled (resource_value_t v, void *param)
 {
   vic_ii_resources.sprite_sprite_collisions_enabled = (int) v;
   return 0;
 }
 
-static int 
+static int
 set_sprite_background_collisions_enabled (resource_value_t v, void *param)
 {
   vic_ii_resources.sprite_background_collisions_enabled = (int) v;
   return 0;
 }
 
-static int 
+static int
 set_video_cache_enabled (resource_value_t v, void *param)
 {
   vic_ii_resources.video_cache_enabled = (int) v;
@@ -73,18 +150,33 @@ set_video_cache_enabled (resource_value_t v, void *param)
   return 0;
 }
 
-static int 
+static int
 set_palette_file_name (resource_value_t v, void *param)
 {
   util_string_set (&vic_ii_resources.palette_file_name, (char *)v);
-  if (vic_ii.initialized)
-    return vic_ii_load_palette (vic_ii_resources.palette_file_name);
-
-  return 0;
+  return vic_ii_activate_palette();
 }
 
 static resource_t resources[] =
   {
+    { "ColorSaturation", RES_INTEGER, (resource_value_t) 1000,
+      (resource_value_t *) &vic_ii_resources.color_saturation,
+      set_color_saturation, NULL },
+    { "ColorContrast", RES_INTEGER, (resource_value_t) 1100,
+      (resource_value_t *) &vic_ii_resources.color_contrast,
+      set_color_contrast, NULL },
+    { "ColorBrightness", RES_INTEGER, (resource_value_t) 1100,
+      (resource_value_t *) &vic_ii_resources.color_brightness,
+      set_color_brightness, NULL },
+    { "ColorGamma", RES_INTEGER, (resource_value_t) 900,
+      (resource_value_t *) &vic_ii_resources.color_gamma,
+      set_color_gamma, NULL },
+    { "NewLuminances", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &vic_ii_resources.new_luminances,
+      set_new_luminances, NULL },
+    { "ExternalPalette", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &vic_ii_resources.ext_palette,
+      set_ext_palette, NULL },
     { "CheckSsColl", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &vic_ii_resources.sprite_sprite_collisions_enabled,
       set_sprite_sprite_collisions_enabled, NULL },
@@ -103,25 +195,25 @@ static resource_t resources[] =
 
 #ifdef VIC_II_NEED_2X
 
-static int 
+static int
 set_double_size_enabled (resource_value_t v, void *param)
 {
   vic_ii_resources.double_size_enabled = (int) v;
 #ifdef USE_XF86_EXTENSIONS
   if (! fullscreen_is_enabled)
-#endif 
+#endif
   vic_ii_resize ();
 
   return 0;
 }
 
-static int 
+static int
 set_double_scan_enabled (resource_value_t v, void *param)
 {
   vic_ii_resources.double_scan_enabled = (int) v;
 #ifdef USE_XF86_EXTENSIONS
   if (vic_ii.initialized && ! fullscreen_is_enabled)
-#else 
+#else
   if (vic_ii.initialized)
 #endif
     raster_enable_double_scan (&vic_ii.raster,
@@ -173,7 +265,7 @@ static resource_t resources_2x[] =
 #endif /* VIC_II_NEED_2X */
 
 
-int 
+int
 vic_ii_resources_init (void)
 {
 #ifdef VIC_II_NEED_2X

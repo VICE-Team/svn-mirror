@@ -1677,7 +1677,7 @@ void raster_force_repaint (raster_t *raster)
   raster->dont_cache = 1;
   raster->num_cached_lines = 0;
 
-  if (!console_mode && !vsid_mode)
+  if (!console_mode && !vsid_mode && raster->frame_buffer)
       video_frame_buffer_clear (raster->frame_buffer,
                                 RASTER_PIXEL (raster, 0));
 }
