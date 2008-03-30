@@ -184,7 +184,9 @@ ADDRESS scroll_down(struct mon_disassembly_private *pmdp, ADDRESS loc)
 static
 ADDRESS scroll_down_page(struct mon_disassembly_private *pmdp, ADDRESS loc)
 {
-    return determine_address_of_line( pmdp, loc, pmdp->Lines );
+    /* the count is one less than visible,
+       so there will be one visible line left on the screen! */
+    return determine_address_of_line( pmdp, loc, pmdp->Lines - 1 );
 }
 
 static
@@ -231,7 +233,7 @@ static
 ADDRESS scroll_up_page(struct mon_disassembly_private *pmdp, ADDRESS loc)
 {
     /* the count is one less than visible,
-       so there will be one line visible left! */
+       so there will be one visible line left on the screen! */
     return scroll_up_count( pmdp, loc, pmdp->Lines - 1);
 }
 

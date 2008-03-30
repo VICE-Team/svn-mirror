@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-08-31 22:30+0200\n"
+"POT-Creation-Date: 2002-09-07 16:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2318,27 +2318,27 @@ msgstr ""
 msgid "Can't create image `%s'."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:51
+#: src/arch/unix/x11/gnome/uipalcontrol.c:45
 msgid "Saturation"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:52
+#: src/arch/unix/x11/gnome/uipalcontrol.c:46
 msgid "Contrast"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:53
+#: src/arch/unix/x11/gnome/uipalcontrol.c:47
 msgid "Brightness"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:54
+#: src/arch/unix/x11/gnome/uipalcontrol.c:48
 msgid "Gamma"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:123
+#: src/arch/unix/x11/gnome/uipalcontrol.c:82
 msgid "PAL Settings"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:186
+#: src/arch/unix/x11/gnome/uipalcontrol.c:118
 msgid "Reset PAL Settings"
 msgstr ""
 

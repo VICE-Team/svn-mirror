@@ -37,49 +37,21 @@
 typedef struct pal_res_s {
     char *label;
     char *res;
-    char *xv_name;
-    Atom xv_atom;
-    int xv_min;
-    int xv_max;
     GtkObject *adj;
 } pal_res_t;
 
-static int xv_port;
-
 static pal_res_t ctrls[] =
 {
-  { N_("Saturation"), "ColorSaturation", "XV_SATURATION", 0, 0, 0, NULL },
-  { N_("Contrast"), "ColorContrast", "XV_CONTRAST", 0, 0, 0, NULL },
-  { N_("Brightness"), "ColorBrightness", "XV_BRIGHTNESS", 0, 0, 0, NULL },
-  { N_("Gamma"), "ColorGamma", "XV_GAMMA", 0, 0, 0, NULL },
+  { N_("Saturation"), "ColorSaturation", NULL },
+  { N_("Contrast"), "ColorContrast", NULL },
+  { N_("Brightness"), "ColorBrightness", NULL },
+  { N_("Gamma"), "ColorGamma", NULL },
 };
-
-static void upd_xv (int v_val, pal_res_t *p)
-{
-#ifdef HAVE_XVIDEO
-    if (use_xvideo && p->xv_atom) {
-        Display *dpy = x11ui_get_display_ptr();
-
-	/* Map from VICE [0,2000] to XVideo [xv_min, xv_max]. */
-	int v_min = 0, v_max = 2000;
-	int v_zero = (v_min + v_max)/2;
-	int v_range = v_max - v_min;
-
-	int xv_zero = (p->xv_min + p->xv_max)/2;
-	int xv_range = p->xv_max - p->xv_min;
-
-	int xv_val = (v_val - v_zero)*xv_range/v_range + xv_zero;
-
-	XvSetPortAttribute(dpy, xv_port, p->xv_atom, xv_val);
-    }
-#endif
-}
 
 static void upd_sb (GtkAdjustment *adj, gpointer data)
 {
     pal_res_t *p = (pal_res_t *) data;
     resources_set_value(p->res, (resource_value_t) (int) adj->value);
-    upd_xv(adj->value, p);
 }
 
 static void pal_ctrl_reset (GtkWidget *w, gpointer data)
@@ -93,7 +65,6 @@ static void pal_ctrl_reset (GtkWidget *w, gpointer data)
 	if (ctrls[i].adj) {
 	    gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[i].adj),
 				     (gfloat) tmp);
-	    upd_xv(tmp, &ctrls[i]);
 	}
     }      
 }
@@ -108,44 +79,12 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     GtkWidget *rb;
     int i, v;
 
-#ifdef HAVE_XVIDEO
-    int j, numattr;
-    Display *dpy = NULL;
-    XvAttribute *attr = NULL;
-
-    if (use_xvideo && canvas->xv_image) {
-        dpy = x11ui_get_display_ptr();
-        attr = XvQueryPortAttributes(dpy, canvas->xv_port, &numattr);
-	xv_port = canvas->xv_port;
-    }
-#endif
-    
     f = gtk_frame_new(_("PAL Settings"));
     
     b = gtk_vbox_new(FALSE, 5);
 
     for (i = 0; i < sizeof(ctrls)/sizeof(ctrls[0]); i++)
     {
-#ifdef HAVE_XVIDEO
-        ctrls[i].xv_atom = 0;
-
-        if (use_xvideo && canvas->xv_image) {
-	    for (j = 0; j < numattr; j++) {
-	        if (strcmp(ctrls[i].xv_name, attr[j].name) == 0) {
-		    ctrls[i].xv_atom = XInternAtom(dpy, ctrls[i].xv_name, False);
-		    ctrls[i].xv_min = attr[j].min_value;
-		    ctrls[i].xv_max = attr[j].max_value;
-		    break;
-		}
-	    }
-
-	    /* Don't create useless scrollbars. */
-	    if (!ctrls[i].xv_atom) {
-	        continue;
-	    }
-	}
-#endif
-    
 	hb = gtk_hbox_new(FALSE, 0);
 
 	c = gtk_hbox_new(FALSE, 0);
@@ -162,7 +101,6 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
 	
 	resources_get_value(ctrls[i].res, (resource_value_t *) &v);
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat) v);
-	upd_xv(v, &ctrls[i]);
 	sb = gtk_hscrollbar_new(GTK_ADJUSTMENT(adj));
 	gtk_range_set_update_policy(GTK_RANGE(sb),
 				    GTK_UPDATE_CONTINUOUS);
@@ -177,12 +115,6 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
 	gtk_widget_show(hb);
     }
 
-#ifdef HAVE_XVIDEO
-    if (attr) {
-        XFree(attr);
-    }
-#endif
-    
     rb = gtk_button_new_with_label(_("Reset PAL Settings"));
     gtk_box_pack_start(GTK_BOX(b), rb, FALSE, FALSE, 5);
     gtk_signal_connect(GTK_OBJECT(rb), "clicked",

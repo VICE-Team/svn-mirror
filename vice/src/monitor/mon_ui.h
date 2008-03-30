@@ -88,6 +88,7 @@ extern void mon_disassembly_disable_breakpoint( struct mon_disassembly_private *
 
 extern void mon_disassembly_goto_address( struct mon_disassembly_private *, ADDRESS addr );
 extern void mon_disassembly_goto_pc( struct mon_disassembly_private * );
+extern void mon_disassembly_goto_string( struct mon_disassembly_private *, char *addr );
 
 extern void mon_ui_init(void);
 

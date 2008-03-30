@@ -434,6 +434,24 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 #endif
 }
 
+
+#ifdef HAVE_XVIDEO
+/* Mapping between VICE and XVideo color settings. */
+struct {
+  char* name;
+  Atom atom;
+  int min;
+  int max;
+  int *value;
+}
+xv_settings[] = {
+  { "XV_SATURATION", 0, 0, 0, &video_resources.color_saturation },
+  { "XV_CONTRAST",   0, 0, 0, &video_resources.color_contrast },
+  { "XV_BRIGHTNESS", 0, 0, 0, &video_resources.color_brightness },
+  { "XV_GAMMA",      0, 0, 0, &video_resources.color_gamma }
+};
+#endif
+
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
                                     unsigned int *height, int mapped,
                                     const struct palette_s *palette)
@@ -458,9 +476,39 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     /* Request specified video format. */
     canvas->xv_format.id = fourcc;
 #endif
+
     if (video_arch_frame_buffer_alloc(canvas, new_width, new_height) < 0) {
         return NULL;
     }
+
+#ifdef HAVE_XVIDEO
+    /* Find XVideo color setting limits. */
+    if (use_xvideo && canvas->xv_image) {
+        int i, j;
+	int numattr = 0;
+        Display *dpy = x11ui_get_display_ptr();
+        XvAttribute *attr = XvQueryPortAttributes(dpy, canvas->xv_port, &numattr);
+	for (i = 0; i < sizeof(xv_settings)/sizeof(xv_settings[0]); i++) {
+	    xv_settings[i].atom = 0;
+
+	    for (j = 0; j < numattr; j++) {
+	        if (strcmp(xv_settings[i].name, attr[j].name) == 0) {
+		    xv_settings[i].atom = XInternAtom(dpy, xv_settings[i].name, False);
+		    xv_settings[i].min = attr[j].min_value;
+		    xv_settings[i].max = attr[j].max_value;
+		    break;
+		}
+	    }
+	}
+
+	if (attr) {
+	    XFree(attr);
+	}
+
+	/* Apply color settings to XVideo. */
+	video_canvas_set_palette(canvas, palette);
+    }
+#endif
 
     res = x11ui_open_canvas_window(canvas, canvas->viewport->title,
                                    new_width, new_height, 1);
@@ -495,6 +543,33 @@ int video_canvas_set_palette(video_canvas_t *c,
 {
     int res;
     
+#ifdef HAVE_XVIDEO
+    /* Apply color settings to XVideo. */
+    if (use_xvideo && c->xv_image) {
+        int i;
+
+	Display *dpy = x11ui_get_display_ptr();
+
+	for (i = 0; i < sizeof(xv_settings)/sizeof(xv_settings[0]); i++) {
+	    /* Map from VICE [0,2000] to XVideo [xv_min, xv_max]. */
+	    int v_min = 0, v_max = 2000;
+	    int v_zero = (v_min + v_max)/2;
+	    int v_range = v_max - v_min;
+
+	    int xv_zero = (xv_settings[i].min + xv_settings[i].max)/2;
+	    int xv_range = xv_settings[i].max - xv_settings[i].min;
+
+	    int xv_val = (*xv_settings[i].value - v_zero)*xv_range/v_range + xv_zero;
+
+	    if (!xv_settings[i].atom) {
+	        continue;
+	    }
+
+	    XvSetPortAttribute(dpy, c->xv_port, xv_settings[i].atom, xv_val);
+	}
+    }
+#endif
+
     c->palette = palette;
 
     res = uicolor_set_palette(c, palette);
@@ -640,4 +715,3 @@ void video_canvas_refresh(video_canvas_t *canvas,
     if (_video_use_xsync)
         XSync(display, False);
 }
-

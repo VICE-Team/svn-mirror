@@ -1517,7 +1517,7 @@ int ExecuteDisassemblyPopup( HWND hwnd, dis_private_t *pdp, LPARAM lParam, BOOL 
             mii.fType      = MFT_STRING;
 
         MAKE_ENTRY( IDM_MON_GOTO_PC, "go&to PC" );
-// @@@@@@        MAKE_ENTRY( IDM_MON_GOTO_ADDRESS, "&goto address" );
+        MAKE_ENTRY( IDM_MON_GOTO_ADDRESS, "&goto address" );
 
         MAKE_SEPARATOR();
 
@@ -1693,7 +1693,8 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         	    return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
 
             case SB_THUMBTRACK:
-                ScrollInfo.nPos  = mon_disassembly_scroll_to( pdp->pmdp, ScrollInfo.nTrackPos );
+                ScrollInfo.nPos = mon_disassembly_scroll_to( pdp->pmdp, ScrollInfo.nTrackPos );
+                changed         = TRUE;
         	    break;
 
             case SB_LINEUP:
@@ -1726,7 +1727,28 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         }
         break;
 
-	case WM_COMMAND:
+    case WM_KEYDOWN:
+        switch ((int)wParam) /* nVirtKey */
+        {
+        case VK_UP:
+            SendMessage( hwnd, WM_VSCROLL, SB_LINEUP, 0 );
+            return 0;
+
+        case VK_DOWN:
+            SendMessage( hwnd, WM_VSCROLL, SB_LINEDOWN, 0 );
+            return 0;
+
+        case VK_PRIOR:
+            SendMessage( hwnd, WM_VSCROLL, SB_PAGEUP, 0 );
+            return 0;
+
+        case VK_NEXT:
+            SendMessage( hwnd, WM_VSCROLL, SB_PAGEDOWN, 0 );
+            return 0;
+        }
+        break;
+
+    case WM_COMMAND:
         switch (LOWORD(wParam))
         {
         case IDM_MON_GOTO_PC:
@@ -1734,7 +1756,17 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
             break;
 
         case IDM_MON_GOTO_ADDRESS:
-            // @SRT not yet implemented
+/* @@@@@SRT not yet implemented
+            {
+                char *result;
+                result = uimon_inputaddress( "Please enter the address you want to go to:" );
+                if (result)
+                {
+                    mon_disassembly_goto_string( pdp->pmdp, result );
+                    free( result );
+                }
+            }
+*/
             break;
 
         case IDM_MON_SET_BP:     mon_disassembly_set_breakpoint( pdp->pmdp );     break;
