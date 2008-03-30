@@ -123,7 +123,7 @@ UI_CALLBACK(set_rs232_device_file)
                               NULL);
     switch (button) {
       case UI_BUTTON_OK:
-        resources_set_value(resource, (resource_value_t)filename);
+        resources_set_string(resource, filename);
         break;
       default:
         /* Do nothing special.  */

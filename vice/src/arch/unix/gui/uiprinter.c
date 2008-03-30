@@ -128,7 +128,7 @@ UI_CALLBACK(set_printer_dump_file)
                               NULL, False, last_dir, NULL, &button, False);
     switch (button) {
       case UI_BUTTON_OK:
-        resources_set_value(resource, (resource_value_t)filename);
+        resources_set_string(resource, filename);
         if (last_dir)
             lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);

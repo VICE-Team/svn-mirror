@@ -40,13 +40,13 @@ void uilib_select_string(const char *resname, const char *title,
                          const char *name)
 {
     ui_button_t button;
-    char *value;
+    const char *value;
     char *new_value;
     int len;
 
     vsync_suspend_speed_eval();
 
-    resources_get_value(resname, (void *)&value);
+    resources_get_string(resname, &value);
 
     if (value == NULL)
         value = "";
@@ -61,7 +61,7 @@ void uilib_select_string(const char *resname, const char *title,
     button = ui_input_string(title, name, new_value, len);
 
     if (button == UI_BUTTON_OK)
-        resources_set_value(resname, (resource_value_t)new_value);
+        resources_set_string(resname, new_value);
 
     lib_free(new_value);
 }

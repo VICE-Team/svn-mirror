@@ -106,7 +106,7 @@ static UI_CALLBACK(color_set)
     } else {
         int val;
 
-        resources_get_value("VICExternalPalette", (void *)&val);
+        resources_get_int("VICExternalPalette", &val);
 
         if (val)
             ui_menu_set_sensitive(w, True);

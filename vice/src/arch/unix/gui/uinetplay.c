@@ -54,39 +54,38 @@ static UI_CALLBACK(netplay)
 #else
 static UI_CALLBACK(ui_netplay_set_port)
 {
-  static char input_string[32];
-  char *msg_string;
-  ui_button_t button;
-  int i;
-  int current_port;
+    static char input_string[32];
+    char *msg_string;
+    ui_button_t button;
+    int i;
+    int current_port;
 
-  resources_get_value("NetworkServerPort", (void *)&current_port);
-  if (!*input_string)
-    sprintf(input_string, "%d", current_port);
+    resources_get_int("NetworkServerPort", &current_port);
 
-  vsync_suspend_speed_eval();
-  msg_string = lib_stralloc(_("Enter port"));
-  button = ui_input_string(_("Netplay TCP port"), msg_string, input_string, 32);
-  lib_free(msg_string);
-  if (button == UI_BUTTON_OK)
-  {
-    i = atoi(input_string);
-    if (i>0 && i<65536)
-    {
-      resources_set_value("NetworkServerPort", (resource_value_t)i);
-      ui_update_menus();
+    if (!*input_string)
+        sprintf(input_string, "%d", current_port);
+
+    vsync_suspend_speed_eval();
+    msg_string = lib_stralloc(_("Enter port"));
+    button = ui_input_string(_("Netplay TCP port"), msg_string, input_string,
+                             32);
+    lib_free(msg_string);
+
+    if (button == UI_BUTTON_OK) {
+        i = atoi(input_string);
+        if (i > 0 && i < 65536) {
+            resources_set_int("NetworkServerPort", i);
+            ui_update_menus();
+        } else {
+            ui_error(_("Invalid TCP port"));
+        }
     }
-    else
-    {
-      ui_error(_("Invalid TCP port"));
-    }
-  }
 }
 
 static UI_CALLBACK(ui_netplay_start_server)
 {
-  if (network_start_server() < 0)
-    ui_error(_("Error starting the netplay server."));
+    if (network_start_server() < 0)
+        ui_error(_("Error starting the netplay server."));
 }
 
 UI_CALLBACK(ui_netplay_set_host)
@@ -97,13 +96,13 @@ UI_CALLBACK(ui_netplay_set_host)
 
 static UI_CALLBACK(ui_netplay_connect_to_server)
 {
-  if (network_connect_client() < 0)
-    ui_error(_("Error connecting to server."));
+    if (network_connect_client() < 0)
+        ui_error(_("Error connecting to server."));
 }
 
 static UI_CALLBACK(ui_netplay_disconnect)
 {
-  network_disconnect();
+    network_disconnect();
 }
 #endif /* USE_GNOMEUI */
 
@@ -132,3 +131,4 @@ ui_menu_entry_t netplay_submenu[] = {
 };
 
 #endif	/* HAVE_NETWORK */
+

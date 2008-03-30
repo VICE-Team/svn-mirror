@@ -54,12 +54,11 @@ static UI_CALLBACK(set_refresh_rate)
 {
     int current_refresh_rate;
 
-    resources_get_value("RefreshRate", (void *)&current_refresh_rate);
+    resources_get_int("RefreshRate", &current_refresh_rate);
 
     if (!CHECK_MENUS) {
         if (current_refresh_rate != (int)UI_MENU_CB_PARAM) {
-            resources_set_value("RefreshRate",
-                                (resource_value_t)UI_MENU_CB_PARAM);
+            resources_set_int("RefreshRate", (int)UI_MENU_CB_PARAM);
             ui_update_menus();
         }
     } else {
@@ -74,7 +73,7 @@ static UI_CALLBACK(set_refresh_rate)
         if (UI_MENU_CB_PARAM == 0) {
             int speed;
 
-            resources_get_value("Speed", (void *)&speed);
+            resources_get_int("Speed", &speed);
             if (speed == 0) {
                 /* Cannot enable the `automatic' setting if a speed limit is
                    not specified. */
@@ -94,7 +93,7 @@ static UI_CALLBACK(set_custom_refresh_rate)
     int i;
     int current_refresh_rate;
 
-    resources_get_value("RefreshRate", (void *)&current_refresh_rate);
+    resources_get_int("RefreshRate", &current_refresh_rate);
 
     if (!*input_string)
         sprintf(input_string, "%d", current_refresh_rate);
@@ -115,10 +114,10 @@ static UI_CALLBACK(set_custom_refresh_rate)
         lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
-            resources_get_value("Speed", (void *)&current_speed);
+            resources_get_int("Speed", &current_speed);
             if (!(current_speed <= 0 && i <= 0) && i >= 0
                 && current_refresh_rate != i) {
-                resources_set_value("RefreshRate", (resource_value_t)i);
+                resources_set_int("RefreshRate", i);
                 ui_update_menus();
             }
         }
@@ -136,11 +135,11 @@ static UI_CALLBACK(set_maximum_speed)
 {
     int current_speed;
 
-    resources_get_value("Speed", (void *)&current_speed);
+    resources_get_int("Speed", &current_speed);
 
     if (!CHECK_MENUS) {
         if (current_speed != (int)UI_MENU_CB_PARAM) {
-            resources_set_value("Speed", (resource_value_t)UI_MENU_CB_PARAM);
+            resources_set_int("Speed", (int)UI_MENU_CB_PARAM);
             ui_update_menus();
         }
     } else {
@@ -155,7 +154,7 @@ static UI_CALLBACK(set_maximum_speed)
         if (UI_MENU_CB_PARAM == 0) {
             int current_refresh_rate;
 
-            resources_get_value("RefreshRate", (void *)&current_refresh_rate);
+            resources_get_int("RefreshRate", &current_refresh_rate);
 
             ui_menu_set_sensitive(w, current_refresh_rate != 0);
         }
@@ -170,7 +169,7 @@ static UI_CALLBACK(set_custom_maximum_speed)
     int i;
     int current_speed;
 
-    resources_get_value("Speed", (void *)&current_speed);
+    resources_get_int("Speed", &current_speed);
     if (!*input_string)
         sprintf(input_string, "%d", current_speed);
 
@@ -189,12 +188,12 @@ static UI_CALLBACK(set_custom_maximum_speed)
         if (button == UI_BUTTON_OK) {
             int current_refresh_rate;
 
-            resources_get_value("RefreshRate", (void *)&current_refresh_rate);
+            resources_get_int("RefreshRate", &current_refresh_rate);
 
             i = atoi(input_string);
             if (!(current_refresh_rate <= 0 && i <= 0) && i >= 0
                 && current_speed != i) {
-                resources_set_value("Speed", (resource_value_t)i);
+                resources_set_int("Speed", i);
                 ui_update_menus();
             } else {
                 ui_error(_("Invalid speed value"));

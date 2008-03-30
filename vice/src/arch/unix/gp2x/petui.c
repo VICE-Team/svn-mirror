@@ -38,7 +38,7 @@
 void petui_handle_sidengine_resource(int value)
 {
 #if 0
-  resources_set_value("SidEngine", (resource_value_t)value);
+  resources_set_int("SidEngine", value);
 #endif
 }
 
@@ -53,7 +53,7 @@ void petui_draw_resid_string(unsigned char *screen, int menu_x, int menu_y)
 #if 0
   int sidengine;
 
-  resources_get_value("SidEngine", (void *)&sidengine);
+  resources_get_int("SidEngine", &sidengine);
   if(sidengine)
   {
     draw_ascii_string(screen, display_width, menu_x, menu_y, "ReSID", menu_fg, menu_bg);

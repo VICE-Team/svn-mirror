@@ -36,7 +36,7 @@
 
 void c64ui_handle_sidengine_resource(int value)
 {
-  resources_set_value("SidEngine", (resource_value_t)value);
+  resources_set_int("SidEngine", value);
 }
 
 int c64ui_handle_X(int Xvalue)
@@ -60,7 +60,7 @@ void c64ui_draw_resid_string(unsigned char *screen, int menu_x, int menu_y)
 {
   int sidengine;
 
-  resources_get_value("SidEngine", (void *)&sidengine);
+  resources_get_int("SidEngine", &sidengine);
   if(sidengine)
   {
     draw_ascii_string(screen, display_width, menu_x, menu_y, "ReSID", menu_fg, menu_bg);

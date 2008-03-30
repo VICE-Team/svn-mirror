@@ -181,7 +181,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
     static int name_count = 0;
     char *menuname;
 
-    resources_get_value("DriveTrueEmulation", (void *)&true_emu);
+    resources_get_int("DriveTrueEmulation", &true_emu);
 
     for (drive = from_unit - 8;
         (drive <= to_unit - 8) && (drive < NUM_DRIVES);

@@ -87,7 +87,7 @@ void gp2x_poll_input() {
 
 	if(prefs_open||vkeyb_open) {
 		int rrate;
-		resources_get_value("RefreshRate", (void *)&rrate);
+		resources_get_int("RefreshRate", &rrate);
 		if(!rrate) rrate++;
 		if(joy_state&(GP2X_UP|GP2X_DOWN|GP2X_LEFT|GP2X_RIGHT)) joy_time+=rrate;
 		else joy_time=0;

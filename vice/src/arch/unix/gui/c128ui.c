@@ -209,7 +209,7 @@ UI_CALLBACK(set_function_rom_name)
                               last_dir, "*", &button, False, NULL);
 
     if (button == UI_BUTTON_OK && filename != NULL) {
-        if (resources_set_value(resname, (resource_value_t)filename) < 0)
+        if (resources_set_string(resname, filename) < 0)
             ui_error(_("Could not load function ROM image\n'%s'"), filename);
     }
 }

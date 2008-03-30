@@ -153,7 +153,7 @@ extern void machine_update_memory_ptrs(void);
 extern int machine_keymap_index;
 extern const char *machine_keymap_res_name_list[];
 extern char *machine_keymap_file_list[];
-extern unsigned int machine_num_keyboard_mappings(void);
+extern int machine_num_keyboard_mappings(void);
 
 struct image_contents_s;
 extern struct image_contents_s *machine_diskcontents_bus_read(unsigned int unit);

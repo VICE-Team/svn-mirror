@@ -52,7 +52,7 @@ static UI_CALLBACK(set_cylinders)
     if (CHECK_MENUS) {
         int autosize;
 
-        resources_get_value("IDE64AutodetectSize", (void *)&autosize);
+        resources_get_int("IDE64AutodetectSize", &autosize);
 
         if (autosize)
             ui_menu_set_sensitive(w, False);
@@ -66,7 +66,7 @@ static UI_CALLBACK(set_cylinders)
 
         vsync_suspend_speed_eval();
 
-        resources_get_value("IDE64Cylinders", (void *)&cylinders);
+        resources_get_int("IDE64Cylinders", &cylinders);
 
         sprintf(input_string, "%d", cylinders);
 
@@ -77,7 +77,7 @@ static UI_CALLBACK(set_cylinders)
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
             if (cylinders > 0 && cylinders <= 1024 && cylinders != i) {
-                resources_set_value("IDE64Cylinders", (resource_value_t)i);
+                resources_set_int("IDE64Cylinders", i);
                 ui_update_menus();
             }
         }
@@ -91,7 +91,7 @@ static UI_CALLBACK(set_heads)
     if (CHECK_MENUS) {
         int autosize;
 
-        resources_get_value("IDE64AutodetectSize", (void *)&autosize);
+        resources_get_int("IDE64AutodetectSize", &autosize);
 
         if (autosize)
             ui_menu_set_sensitive(w, False);
@@ -105,7 +105,7 @@ static UI_CALLBACK(set_heads)
 
         vsync_suspend_speed_eval();
 
-        resources_get_value("IDE64Heads", (void *)&heads);
+        resources_get_int("IDE64Heads", &heads);
 
         sprintf(input_string, "%d", heads);
 
@@ -116,7 +116,7 @@ static UI_CALLBACK(set_heads)
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
             if (heads > 0 && heads <= 16 && heads != i) {
-                resources_set_value("IDE64Heads", (resource_value_t)i);
+                resources_set_int("IDE64Heads", i);
                 ui_update_menus();
             }
         }
@@ -130,7 +130,7 @@ static UI_CALLBACK(set_sectors)
     if (CHECK_MENUS) {
         int autosize;
 
-        resources_get_value("IDE64AutodetectSize", (void *)&autosize);
+        resources_get_int("IDE64AutodetectSize", &autosize);
 
         if (autosize)
             ui_menu_set_sensitive(w, False);
@@ -144,7 +144,7 @@ static UI_CALLBACK(set_sectors)
 
         vsync_suspend_speed_eval();
 
-        resources_get_value("IDE64Sectors", (void *)&sectors);
+        resources_get_int("IDE64Sectors", &sectors);
 
         sprintf(input_string, "%d", sectors);
 
@@ -155,7 +155,7 @@ static UI_CALLBACK(set_sectors)
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
             if (sectors >= 0 && sectors <= 63 && sectors != i) {
-                resources_set_value("IDE64Sectors", (resource_value_t)i);
+                resources_set_int("IDE64Sectors", i);
                 ui_update_menus();
             }
         }

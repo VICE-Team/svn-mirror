@@ -764,7 +764,7 @@ int machine_sid2_check_range(unsigned int sid2_adr)
     return -1;
 }
 
-unsigned int machine_num_keyboard_mappings(void)
+int machine_num_keyboard_mappings(void)
 {
     return NUM_KEYBOARD_MAPPINGS;
 }

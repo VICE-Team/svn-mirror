@@ -102,16 +102,11 @@ static UI_CALLBACK(set_common_memory_configuration)
         fprintf(stderr, _("What?!\n"));
         blocks = 0;         /* Make compiler happy.  */
     }
-    resources_set_value("RamBlock0",
-                        (resource_value_t)(blocks & BLOCK_0 ? 1 : 0));
-    resources_set_value("RamBlock1",
-                        (resource_value_t)(blocks & BLOCK_1 ? 1 : 0));
-    resources_set_value("RamBlock2",
-                        (resource_value_t)(blocks & BLOCK_2 ? 1 : 0));
-    resources_set_value("RamBlock3",
-                        (resource_value_t)(blocks & BLOCK_3 ? 1 : 0));
-    resources_set_value("RamBlock5",
-                        (resource_value_t)(blocks & BLOCK_5 ? 1 : 0));
+    resources_set_int("RamBlock0", blocks & BLOCK_0 ? 1 : 0);
+    resources_set_int("RamBlock1", blocks & BLOCK_1 ? 1 : 0);
+    resources_set_int("RamBlock2", blocks & BLOCK_2 ? 1 : 0);
+    resources_set_int("RamBlock3", blocks & BLOCK_3 ? 1 : 0);
+    resources_set_int("RamBlock5", blocks & BLOCK_5 ? 1 : 0);
     ui_menu_update_all();
     vsync_suspend_speed_eval();
 }
@@ -293,12 +288,12 @@ static UI_CALLBACK(set_joystick_device)
 {
     vsync_suspend_speed_eval();
     if (!CHECK_MENUS) {
-        resources_set_value("JoyDevice1", (resource_value_t)UI_MENU_CB_PARAM);
+        resources_set_int("JoyDevice1", (int)UI_MENU_CB_PARAM);
         ui_update_menus();
     } else {
         int tmp;
 
-        resources_get_value("JoyDevice1", (void *)&tmp);
+        resources_get_int("JoyDevice1", &tmp);
         ui_menu_set_tick(w, tmp == (int)UI_MENU_CB_PARAM);
     }
 }

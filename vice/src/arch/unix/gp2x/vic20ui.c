@@ -39,7 +39,7 @@
 void vic20ui_handle_sidengine_resource(int value)
 {
 #if 0
-  resources_set_value("SidEngine", (resource_value_t)value);
+  resources_set_int("SidEngine", value);
 #endif
 }
 
@@ -55,11 +55,11 @@ int vic20ui_handle_X(int Xvalue)
 
 int vic20ui_set_ramblocks(int value)
 {
-  resources_set_value("RamBlock0", (resource_value_t)value);
-  resources_set_value("RamBlock1", (resource_value_t)value);
-  resources_set_value("RamBlock2", (resource_value_t)value);
-  resources_set_value("RamBlock3", (resource_value_t)value);
-  resources_set_value("RamBlock5", (resource_value_t)value);
+  resources_set_int("RamBlock0", value);
+  resources_set_int("RamBlock1", value);
+  resources_set_int("RamBlock2", value);
+  resources_set_int("RamBlock3", value);
+  resources_set_int("RamBlock5", value);
 
   return 1;
 }
@@ -70,7 +70,7 @@ void vic20ui_draw_resid_string(unsigned char *screen, int menu_x, int menu_y)
 #if 0
   int sidengine;
 
-  resources_get_value("SidEngine", (void *)&sidengine);
+  resources_get_int("SidEngine", &sidengine);
   if(sidengine)
   {
     draw_ascii_string(screen, display_width, menu_x, menu_y, "ReSID", menu_fg, menu_bg);

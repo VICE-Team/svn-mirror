@@ -41,11 +41,10 @@ UI_CALLBACK(radio_Drive8Type)
 {
     int current_value;
 
-    resources_get_value("Drive8Type", (void *)&current_value);
+    resources_get_int("Drive8Type", &current_value);
     if (!CHECK_MENUS) {
         if (current_value != (int)UI_MENU_CB_PARAM) {
-            resources_set_value("Drive8Type",
-                                (resource_value_t)UI_MENU_CB_PARAM);
+            resources_set_int("Drive8Type", (int)UI_MENU_CB_PARAM);
             ui_update_menus();
         }
     } else {
@@ -62,11 +61,10 @@ UI_CALLBACK(radio_Drive9Type)
 {
     int current_value;
 
-    resources_get_value("Drive9Type", (void *)&current_value);
+    resources_get_int("Drive9Type", &current_value);
     if (!CHECK_MENUS) {
         if (current_value != (int)UI_MENU_CB_PARAM) {
-            resources_set_value("Drive9Type",
-                                (resource_value_t)UI_MENU_CB_PARAM);
+            resources_set_int("Drive9Type", (int)UI_MENU_CB_PARAM);
             ui_update_menus();
         }
     } else {
@@ -83,11 +81,10 @@ UI_CALLBACK(radio_Drive10Type)
 {
     int current_value;
 
-    resources_get_value("Drive10Type", (void *)&current_value);
+    resources_get_int("Drive10Type", &current_value);
     if (!CHECK_MENUS) {
         if (current_value != (int)UI_MENU_CB_PARAM) {
-            resources_set_value("Drive10Type",
-                                (resource_value_t)UI_MENU_CB_PARAM);
+            resources_set_int("Drive10Type", (int)UI_MENU_CB_PARAM);
             ui_update_menus();
         }
     } else {
@@ -104,11 +101,10 @@ UI_CALLBACK(radio_Drive11Type)
 {
     int current_value;
 
-    resources_get_value("Drive11Type", (void *)&current_value);
+    resources_get_int("Drive11Type", &current_value);
     if (!CHECK_MENUS) {
         if (current_value != (int)UI_MENU_CB_PARAM) {
-            resources_set_value("Drive11Type",
-                                (resource_value_t)UI_MENU_CB_PARAM);
+            resources_set_int("Drive11Type", (int)UI_MENU_CB_PARAM);
             ui_update_menus();
         }
     } else {

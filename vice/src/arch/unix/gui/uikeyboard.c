@@ -46,13 +46,12 @@ static UI_CALLBACK(set_keymap_type)
 {
      int kindex, newindex = (int)UI_MENU_CB_PARAM;
 
-     if (resources_get_value("KeymapIndex", (void *)&kindex) < 0)
+     if (resources_get_int("KeymapIndex", &kindex) < 0)
          return;
 
      if (!CHECK_MENUS) {
         if ((kindex & 1) != newindex) {
-            resources_set_value("KeymapIndex", (resource_value_t)
-                                ((kindex & ~1) + newindex));
+            resources_set_int("KeymapIndex", (kindex & ~1) + newindex);
             ui_update_menus();
         }
      } else {
@@ -76,7 +75,7 @@ static UI_CALLBACK(select_user_keymap)
     int kindex;
     static char *last_dir;
 
-    resources_get_value("KeymapIndex", (void *)&kindex);
+    resources_get_int("KeymapIndex", &kindex);
     kindex = (kindex & ~1) + (int)UI_MENU_CB_PARAM;
     resname = machine_keymap_res_name_list[kindex];
 
@@ -86,7 +85,7 @@ static UI_CALLBACK(select_user_keymap)
 
     switch (button) {
       case UI_BUTTON_OK:
-        resources_set_value(resname, (resource_value_t)filename);
+        resources_set_string(resname, filename);
         if (last_dir)
             lib_free(last_dir);
         util_fname_split(filename, &last_dir, NULL);

@@ -143,7 +143,7 @@ static UI_CALLBACK(browse_manual)
 {
     const char *bcommand = NULL;
 
-    resources_get_value("HTMLBrowserCommand", (void *)&bcommand);
+    resources_get_string("HTMLBrowserCommand", &bcommand);
 
     if (bcommand == NULL ||
         *bcommand == '\0') {
@@ -351,7 +351,7 @@ static UI_CALLBACK(events_select_dir)
 	if (!is_dir)
             ui_error(_("Directory not found"));
 	else
-	    resources_set_value("EventSnapshotDir", (resource_value_t)wd);
+	    resources_set_string("EventSnapshotDir", wd);
     }
     lib_free(wd);
     
@@ -395,19 +395,19 @@ static UI_CALLBACK(sound_record)
 
     vsync_suspend_speed_eval();
 
-    resources_get_value("SoundRecordDeviceName",(void *) &devicename);
+    resources_get_string("SoundRecordDeviceName", &devicename);
     if (devicename && !strcmp(devicename,"wav")) {
         /* the recording is active; stop it  */
-        resources_set_value("SoundRecordDeviceName", "");
+        resources_set_string("SoundRecordDeviceName", "");
 /*        ui_display_statustext("");*/
     } else {
         s = ui_select_file(_("Record sound to file"), NULL, 0, False, NULL,
                               "*.wav", &button, False, NULL);
         if (button == UI_BUTTON_OK && s != NULL) {
             util_add_extension(&s, "wav");
-            resources_set_value("SoundRecordDeviceArg", s);
-            resources_set_value("SoundRecordDeviceName", "wav");
-            resources_set_value("Sound", (resource_value_t)1);
+            resources_set_string("SoundRecordDeviceArg", s);
+            resources_set_string("SoundRecordDeviceName", "wav");
+            resources_set_int("Sound", 1);
             lib_free(s);
 /*            ui_display_statustext("Recording wav...");*/
         }

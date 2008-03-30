@@ -60,8 +60,7 @@ UI_CALLBACK(ui_load_rom_file)
 
     switch (button) {
       case UI_BUTTON_OK:
-        if (resources_set_value(UI_MENU_CB_PARAM,
-            (resource_value_t)filename) < 0)
+        if (resources_set_string(UI_MENU_CB_PARAM, filename) < 0)
             ui_error(_("Could not load ROM file\n'%s'"), filename);
         if (last_dir)
             lib_free(last_dir);
@@ -78,7 +77,7 @@ UI_CALLBACK(ui_load_rom_file)
 
 UI_CALLBACK(ui_unload_rom_file)
 {
-    resources_set_value((char*)UI_MENU_CB_PARAM, (resource_value_t)NULL);
+    resources_set_string((char *)UI_MENU_CB_PARAM, NULL);
 }
 
 UI_MENU_DEFINE_RADIO(RomsetSourceFile)
@@ -193,10 +192,11 @@ static UI_CALLBACK(uiromset_archive_item_select)
 {
     static char input_string[32];
     ui_button_t button;
-    char *active;
+    const char *active;
 
     if (!CHECK_MENUS) {
-        resources_get_value("RomsetArchiveActive", (void *)&active);
+        /* FIXME: Apparently there are no boundary checks! */
+        resources_get_string("RomsetArchiveActive", &active);
 
         if (!*input_string)
             sprintf(input_string, "%s", active);
@@ -205,8 +205,7 @@ static UI_CALLBACK(uiromset_archive_item_select)
         button = ui_input_string(_("Active configuration"), _("Enter name"),
                                  input_string, 32);
         if (button == UI_BUTTON_OK) {
-            resources_set_value("RomsetArchiveActive",
-                                (resource_value_t)input_string);
+            resources_set_string("RomsetArchiveActive", input_string);
             ui_update_menus();
         }
     }

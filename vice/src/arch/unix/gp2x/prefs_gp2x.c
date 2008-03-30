@@ -742,17 +742,17 @@ void draw_prefs(unsigned char *screen) {
 			cur_port=1;
 		} else if(cursor_pos==FRAMESKIP) {
 			int rrate;
-			resources_get_value("RefreshRate", (void *)&rrate);
+			resources_get_int("RefreshRate", &rrate);
 			if(rrate>0) {
 				rrate--;
-				resources_set_value("RefreshRate", (resource_value_t)rrate);
+				resources_set_int("RefreshRate", rrate);
 			}
 		} else if(cursor_pos==WARP) {
-			resources_set_value("WarpMode", (resource_value_t)0);
+			resources_set_int("WarpMode", 0);
 		} else if(cursor_pos==TRUEDRIVE) {
-			resources_set_value("DriveTrueEmulation", (resource_value_t)0);
+			resources_set_int("DriveTrueEmulation", 0);
 		} else if(cursor_pos==VDEVICES) {
-			resources_set_value("VirtualDevices", (resource_value_t)0);
+			resources_set_int("VirtualDevices", 0);
 		} else if(cursor_pos==SIDENGINE) {
 			ui_handle_sidengine_resource(0);
 		} else if(cursor_pos==SCALED) {
@@ -792,17 +792,17 @@ void draw_prefs(unsigned char *screen) {
 			cur_port=2;
 		} else if(cursor_pos==FRAMESKIP) {
 			int rrate;
-			resources_get_value("RefreshRate", (void *)&rrate);
+			resources_get_int("RefreshRate", &rrate);
 			if(rrate<50) {
 				rrate++;
-				resources_set_value("RefreshRate", (resource_value_t)rrate);
+				resources_set_int("RefreshRate", rrate);
 			}
 		} else if(cursor_pos==WARP) {
-			resources_set_value("WarpMode", (resource_value_t)1);
+			resources_set_int("WarpMode", 1);
 		} else if(cursor_pos==TRUEDRIVE) {
-			resources_set_value("DriveTrueEmulation", (resource_value_t)1);
+			resources_set_int("DriveTrueEmulation", 1);
 		} else if(cursor_pos==VDEVICES) {
-			resources_set_value("VirtualDevices", (resource_value_t)1);
+			resources_set_int("VirtualDevices", 1);
 		} else if(cursor_pos==SIDENGINE) {
 			ui_handle_sidengine_resource(1);
 		} else if(cursor_pos==SCALED) {
@@ -1009,7 +1009,7 @@ void draw_prefs(unsigned char *screen) {
 	}
 	/* frameskip */
 	int cur_rrate;
-	resources_get_value("RefreshRate", (void *)&cur_rrate);
+	resources_get_int("RefreshRate", &cur_rrate);
 	if(cur_rrate==0)  {
         	draw_ascii_string(screen, display_width, MENU_X+(8*24), MENU_Y+(8*FRAMESKIP), 
 			"auto", menu_fg, menu_bg);
@@ -1021,7 +1021,7 @@ void draw_prefs(unsigned char *screen) {
 
 	/* warp mode */
 	int warpmode;
-	resources_get_value("WarpMode", (void *)&warpmode);
+	resources_get_int("WarpMode", &warpmode);
 	if(warpmode) {
         	draw_ascii_string(screen, display_width, MENU_X+(8*24), MENU_Y+(8*WARP), 
 			"On", menu_fg, menu_bg);
@@ -1032,7 +1032,7 @@ void draw_prefs(unsigned char *screen) {
 
 	/* truedrive emulation */
 	int truedrive;
-	resources_get_value("DriveTrueEmulation", (void *)&truedrive);
+	resources_get_int("DriveTrueEmulation", &truedrive);
 	if(truedrive) {
         	draw_ascii_string(screen, display_width, MENU_X+(8*24), MENU_Y+(8*TRUEDRIVE), 
 			"On", menu_fg, menu_bg);
@@ -1043,7 +1043,7 @@ void draw_prefs(unsigned char *screen) {
 
 	/* virtual devices */
 	int vdevices;
-	resources_get_value("VirtualDevices", (void *)&vdevices);
+	resources_get_int("VirtualDevices", &vdevices);
 	if(vdevices) 
         	draw_ascii_string(screen, display_width, MENU_X+(8*24), 
 			MENU_Y+(8*VDEVICES), "On", menu_fg, menu_bg);

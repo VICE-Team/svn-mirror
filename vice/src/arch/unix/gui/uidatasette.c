@@ -57,7 +57,7 @@ static UI_CALLBACK(datasette_settings)
         resource = "DatasetteZeroGapDelay";
     }
 
-    resources_get_value(resource, (void *)&current);
+    resources_get_int(resource, &current);
 
     sprintf(buf, "%d", current);
     button = ui_input_string(title, prompt, buf, 50);
@@ -67,7 +67,7 @@ static UI_CALLBACK(datasette_settings)
              ui_error(_("Invalid value: %s"), buf);
              return;
         }
-        resources_set_value(resource, (resource_value_t)res);
+        resources_set_int(resource, (int)res);
         break;
     default:
         break;

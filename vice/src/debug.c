@@ -368,29 +368,36 @@ static void debug_close_file(void)
 
 static void debug_create_new_file(void)
 {
-    char *filename, *directory;
-    char st[256];
+    char *filename, *st;
+    const char *directory;
 
     debug_close_file();
 
-    resources_get_value("EventSnapshotDir", (void *)&directory);
-    sprintf(st, "debug%06d", debug_file_current);
+    resources_get_string("EventSnapshotDir", &directory);
+
+    st = lib_msprintf("debug%06d", debug_file_current);
     filename = util_concat(directory, st, FSDEV_EXT_SEP_STR, "log", NULL);
+    lib_free(st);
+
     debug_file = fopen(filename, MODE_WRITE_TEXT);
+
     lib_free(filename);
 }
 
 static void debug_open_new_file(void)
 {
-    char *filename, *directory;
-    char st[256];
+    char *filename, *st;
+    const char *directory;
 
     if (debug_file != NULL)
         fclose(debug_file);
 
-    resources_get_value("EventSnapshotDir", (void *)&directory);
-    sprintf(st, "debug%06d", debug_file_current);
+    resources_get_int("EventSnapshotDir", &directory);
+
+    st = lib_msprintf("debug%06d", debug_file_current);
     filename = util_concat(directory, st, FSDEV_EXT_SEP_STR, "log", NULL);
+    lib_free(st);
+
     debug_file = fopen(filename, MODE_READ_TEXT);
     if (debug_file != NULL) {
         debug_buffer_size = fread(debug_buffer, sizeof(char), 

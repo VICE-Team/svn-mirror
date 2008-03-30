@@ -40,10 +40,10 @@ static UI_CALLBACK(set_joystick_device_1)
     int tmp;
 
     if (!CHECK_MENUS) {
-        resources_set_value("JoyDevice1", (resource_value_t)UI_MENU_CB_PARAM);
+        resources_set_int("JoyDevice1", (int)UI_MENU_CB_PARAM);
         ui_update_menus();
     } else {
-        resources_get_value("JoyDevice1", (void *)&tmp);
+        resources_get_int("JoyDevice1", &tmp);
         ui_menu_set_tick(w, tmp == (int)UI_MENU_CB_PARAM);
     }
 }
@@ -53,10 +53,10 @@ static UI_CALLBACK(set_joystick_device_2)
     int tmp;
 
     if (!CHECK_MENUS) {
-        resources_set_value("JoyDevice2", (resource_value_t)UI_MENU_CB_PARAM);
+        resources_set_int("JoyDevice2", (int)UI_MENU_CB_PARAM);
         ui_update_menus();
     } else {
-        resources_get_value("JoyDevice2", (void *)&tmp);
+        resources_get_int("JoyDevice2", &tmp);
         ui_menu_set_tick(w, tmp == (int)UI_MENU_CB_PARAM);
     }
 }
@@ -67,10 +67,10 @@ static UI_CALLBACK(swap_joystick_ports)
 
     if (w != NULL)
         vsync_suspend_speed_eval();
-    resources_get_value("JoyDevice1", (void *)&tmp1);
-    resources_get_value("JoyDevice2", (void *)&tmp2);
-    resources_set_value("JoyDevice1", (resource_value_t)tmp2);
-    resources_set_value("JoyDevice2", (resource_value_t)tmp1);
+    resources_get_int("JoyDevice1", &tmp1);
+    resources_get_int("JoyDevice2", &tmp2);
+    resources_set_int("JoyDevice1", tmp2);
+    resources_set_int("JoyDevice2", tmp1);
     ui_update_menus();
 }
 

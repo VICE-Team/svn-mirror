@@ -107,7 +107,7 @@ static UI_CALLBACK(color_set)
     } else {
         int val;
 
-        resources_get_value("TEDExternalPalette", (void *)&val);
+        resources_get_int("TEDExternalPalette", &val);
 
         if (val)
             ui_menu_set_sensitive(w, True);

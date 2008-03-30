@@ -552,7 +552,7 @@ int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
     return 0;
 }
 
-unsigned int machine_num_keyboard_mappings(void)
+int machine_num_keyboard_mappings(void)
 {
     return NUM_KEYBOARD_MAPPINGS;
 }
