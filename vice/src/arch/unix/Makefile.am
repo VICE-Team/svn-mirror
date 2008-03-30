@@ -41,8 +41,6 @@ libarch_a_SOURCES = \
 	videoarch.h \
 	vsync.c
 
-.PHONY: x11 readline
+.PHONY: x11
 x11:
 	(cd x11; $(MAKE))
-readline:
-	(cd readline; $(MAKE))
