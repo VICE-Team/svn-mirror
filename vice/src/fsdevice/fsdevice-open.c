@@ -56,7 +56,7 @@
 
 
 static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
-                                   cbmdos_cmd_parse_t *cmd_parse)
+                                   cbmdos_cmd_parse_t *cmd_parse, char *rname)
 {
     struct ioutil_dir_s *ioutil_dir;
     char *mask;
@@ -67,20 +67,22 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
         fsdevice_error(vdrive, CBMDOS_IPE_NOT_WRITE);
         return FLOPPY_ERROR;
     }
+
+    if (!(mask = strrchr(rname, '/')))
+        mask = rname;
+
     /* Test on wildcards.  */
-    if (!(mask = strrchr(cmd_parse->parsecmd, '/')))
-        mask = cmd_parse->parsecmd;
-    if (strchr(mask, '*') || strchr(mask, '?')) {
+    if (cbmdos_parse_wildcard_check(mask, strlen(mask))) {
         if (*mask == '/') {
-            strcpy(fs_dirmask, mask + 1);
+            strcpy(fs_info[secondary].fs_dirmask, mask + 1);
             *mask++ = 0;
         } else {
-            strcpy(fs_dirmask, mask);
+            strcpy(fs_info[secondary].fs_dirmask, mask);
             lib_free(cmd_parse->parsecmd);
             cmd_parse->parsecmd = lib_stralloc(fsdevice_get_path(vdrive->unit));
         }
     } else {
-        *fs_dirmask = 0;
+        fs_info[secondary].fs_dirmask[0] = '\0';
         if (!*(cmd_parse->parsecmd)) {
             lib_free(cmd_parse->parsecmd);
             cmd_parse->parsecmd = lib_stralloc(fsdevice_get_path(vdrive->unit));
@@ -312,7 +314,7 @@ int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
     }
 
     if (*name == '$') {
-        status = fsdevice_open_directory(vdrive, secondary, &cmd_parse);
+        status = fsdevice_open_directory(vdrive, secondary, &cmd_parse, rname);
     } else {
         status = fsdevice_open_file(vdrive, secondary, &cmd_parse, rname);
     }
