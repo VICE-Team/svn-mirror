@@ -15,6 +15,10 @@ release:
 - check the SID drivers (Sun/Linux are known to work, the other ones
   should be tested);
 
+- check that MIDAS-based builds do work;
+
+- make sound work again on the PET and VIC20.
+
 
 What are we going to do next
 ============================
