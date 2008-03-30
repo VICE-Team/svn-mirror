@@ -39,10 +39,12 @@
 #include "palette.h"
 #include "sysfile.h"
 #include "types.h"
+#include "lib.h"
 
 /* MAX_COL must be a multiple of 32 */
-#define BORDERX 32
-#define BORDERY 16
+/* 2432 x 3172 */
+#define BORDERX 16
+#define BORDERY 2
 #define MAX_COL (80 * 30 + 2 * BORDERX)
 #define MAX_ROW (66 * 48 + 2 * BORDERY)
 #define BUF_ROW (4 * 4 * 9 + 1)
@@ -78,14 +80,15 @@
 #define NL10_GFX_REVERSE   0x40
 #define NL10_GFX_7PIN      0x80
 
+#define NL10_ESCBUF_SIZE   60
 
 typedef struct nl10_s
 {
-  BYTE esc[100], esc_ctr;
+  BYTE esc[NL10_ESCBUF_SIZE], esc_ctr;
   BYTE line[BUF_ROW][MAX_COL];
   BYTE htabs[41], vtabs[41], macro[16];
   BYTE mapping[256];
-  BYTE char_ram[96*12], char_ram_nlq[96*47];
+  BYTE *char_ram, *char_ram_nlq;
   BYTE expand, expand_half;
 
   int  marg_l, marg_r, marg_t, marg_b;
@@ -196,7 +199,7 @@ static void init_mapping(nl10_t *nl10, int intl)
 
   nl10->mapping_intl_id = intl;
 
-  memcpy(nl10->mapping, drv_nl10_charset_mapping[mapping], 256*sizeof(int));
+  memcpy(nl10->mapping, drv_nl10_charset_mapping[mapping], 256);
   nl10->mapping[0x23] = drv_nl10_charset_mapping_intl[mapping][intl][ 0];
   nl10->mapping[0x24] = drv_nl10_charset_mapping_intl[mapping][intl][ 1];
   nl10->mapping[0x40] = drv_nl10_charset_mapping_intl[mapping][intl][ 2];
@@ -232,7 +235,7 @@ static void reset(nl10_t *nl10)
   nl10->marg_t     = 0;
   nl10->marg_b     = 0;
   nl10->pos_x      = nl10->marg_l;
-  init_mapping(nl10, 0);
+  //init_mapping(nl10, 0);
 
   for(i=0; i<40; i++)
     {
@@ -910,7 +913,7 @@ static void print_char(nl10_t *nl10, unsigned int prnr, const BYTE c)
     }
       
   /* ensure that bottom margin is honored */
-  if( nl10->line_nr > ((MAX_ROW-2*BORDERY)/(nl10->linespace*4/3) - nl10->marg_b) )
+  if( nl10->marg_b>0 && nl10->line_nr > ((MAX_ROW-2*BORDERY)/(nl10->linespace*4/3) - nl10->marg_b) )
     formfeed(nl10, prnr);
   
   /* check if character is part of a control sequence and, if so, process it there. 
@@ -935,6 +938,14 @@ static void print_char(nl10_t *nl10, unsigned int prnr, const BYTE c)
 
 static int handle_control_sequence(nl10_t *nl10, unsigned int prnr, const BYTE c)
 {
+  if( nl10->esc_ctr>=NL10_ESCBUF_SIZE )
+    {
+      /* We should never get here.  If we do then there is a bug 
+         in the ESC handling routine */
+      log_warning(drvnl10_log, "ESC counter overflow");
+      nl10->esc_ctr = 0;
+    }
+
   nl10->esc[nl10->esc_ctr] = c;
   switch( nl10->esc[0] )
     {
@@ -1284,24 +1295,23 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
       {
         /* download new character data to RAM */
         if( nl10->esc_ctr < 4 ||
-            nl10->esc_ctr < 4 + (is_mode(nl10, NL10_NLQ) ? 47 : 12) * (nl10->esc[4]-nl10->esc[3]+1) )
+            nl10->esc_ctr < 4 + (is_mode(nl10, NL10_NLQ) ? 47 : 12) )
           nl10->esc_ctr++;
         else
           {
-            if( nl10->esc[2]==0 )
+            int i;
+
+            i = nl10->esc[3];
+            if( (i>=32) && (i<=127) )
               {
-                int i;
-                for(i=nl10->esc[3]; i<=nl10->esc[4]; i++)
-                  if( i>=32 && i<=127 )
-                    {
-                      if( is_mode(nl10, NL10_NLQ) )
-                        store_char_nlq(nl10->char_ram_nlq+(i-32)*47, nl10->esc+5+(i-nl10->esc[3])*12);
-                      else 
-                        store_char(nl10->char_ram+(i-32)*12, nl10->esc+5+(i-nl10->esc[3])*12);
-                    }
+                if( is_mode(nl10, NL10_NLQ) )
+                  store_char_nlq(nl10->char_ram_nlq+(i-32)*47, nl10->esc+5);
+                else 
+                  store_char(nl10->char_ram+(i-32)*12, nl10->esc+5);
               }
 
-            nl10->esc_ctr = 0;
+            nl10->esc[3]++;
+            nl10->esc_ctr = (nl10->esc[3] <= nl10->esc[4]) ? 5 : 0;
           }
 
         break;
@@ -1468,12 +1478,12 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
     case 66:
       {
         /* set vertical tabs */
-        if( nl10->esc_ctr<3 || (nl10->esc[nl10->esc_ctr] > nl10->esc[nl10->esc_ctr-1]) )
+        if( nl10->esc_ctr<3 || (nl10->esc_ctr<42 && (nl10->esc[nl10->esc_ctr] > nl10->esc[nl10->esc_ctr-1]) ))
           nl10->esc_ctr++;
         else
           {
             int i;
-            for(i=2; i<nl10->esc_ctr && i<42; i++) nl10->vtabs[i-2] = nl10->esc[i];
+            for(i=2; i<nl10->esc_ctr; i++) nl10->vtabs[i-2] = nl10->esc[i];
             nl10->vtabs[i-2] = 0;
             nl10->esc_ctr=0;
           }
@@ -1508,12 +1518,12 @@ static int handle_esc_control_sequence(nl10_t *nl10, unsigned int prnr, const BY
     case 68:
       {
         /* set horizontal tabs */
-        if( nl10->esc_ctr<3 || (nl10->esc[nl10->esc_ctr] > nl10->esc[nl10->esc_ctr-1]) )
+        if( nl10->esc_ctr<3 || (nl10->esc_ctr<42 && (nl10->esc[nl10->esc_ctr] > nl10->esc[nl10->esc_ctr-1])) )
           nl10->esc_ctr++;
         else
           {
             int i;
-            for(i=2; i<nl10->esc_ctr && i<42; i++) nl10->htabs[i-2] = nl10->esc[i];
+            for(i=2; i<nl10->esc_ctr; i++) nl10->htabs[i-2] = nl10->esc[i];
             nl10->htabs[i-2] = 0;
             nl10->esc_ctr=0;
           }
@@ -1936,6 +1946,8 @@ int drv_nl10_init(void)
 
     for(i=0; i<2; i++)
       {
+        drv_nl10[i].char_ram     = lib_malloc(96*12);
+        drv_nl10[i].char_ram_nlq = lib_malloc(96*47);
 	reset_hard(&(drv_nl10[i]));
 	drv_nl10[i].isopen = 0;
       }
@@ -1951,6 +1963,8 @@ int drv_nl10_init(void)
       return -1;
     }
 
+    log_message(drvnl10_log, "Printer driver initialized.");
+
     return 0;
 }
 
@@ -1960,8 +1974,13 @@ void drv_nl10_shutdown(void)
   palette_free(palette);
 
   for(i=0; i<2; i++)
-    if( drv_nl10[i].isopen ) 
-      output_select_close(i);
+    {
+      if( drv_nl10[i].isopen ) 
+        output_select_close(i);
+
+      lib_free(drv_nl10[i].char_ram);
+      lib_free(drv_nl10[i].char_ram_nlq);
+    }
 }
 
 
@@ -2178,8 +2197,6 @@ static int drv_nl10_init_charset(void)
 	  drv_nl10_charset_nlq_italic[i*47 + j*4 + 26] = b;
 	}
     }
-
-  log_message(drvnl10_log, "Printer driver initialized.");
 
   return 0;
 }
