@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-06-24 21:49+0200\n"
+"POT-Creation-Date: 2002-06-25 22:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,20 +78,21 @@ msgstr ""
 msgid "*Revison 2"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:99 src/arch/unix/uicrtc.c:56
-#: src/arch/unix/uisettings.c:540 src/arch/unix/uisettings.c:558
+#: src/arch/unix/c128ui.c:99 src/arch/unix/plus4ui.c:92
+#: src/arch/unix/uicrtc.c:56 src/arch/unix/uisettings.c:540
+#: src/arch/unix/uivicii.c:72 src/arch/unix/vic20ui.c:424
 msgid "*Double size"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:101 src/arch/unix/plus4ui.c:91
+#: src/arch/unix/c128ui.c:101 src/arch/unix/plus4ui.c:94
 #: src/arch/unix/uicrtc.c:58 src/arch/unix/uisettings.c:542
-#: src/arch/unix/uivicii.c:71 src/arch/unix/vic20ui.c:423
+#: src/arch/unix/uivicii.c:74 src/arch/unix/vic20ui.c:426
 msgid "*Double scan"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:103 src/arch/unix/plus4ui.c:93
-#: src/arch/unix/uicrtc.c:60 src/arch/unix/uivicii.c:73
-#: src/arch/unix/vic20ui.c:425
+#: src/arch/unix/c128ui.c:103 src/arch/unix/plus4ui.c:96
+#: src/arch/unix/uicrtc.c:60 src/arch/unix/uivicii.c:76
+#: src/arch/unix/vic20ui.c:428
 msgid "*Video cache"
 msgstr ""
 
@@ -103,8 +104,8 @@ msgstr ""
 msgid "Revision"
 msgstr ""
 
-#: src/arch/unix/c128ui.c:111 src/arch/unix/plus4ui.c:102
-#: src/arch/unix/uivicii.c:88 src/arch/unix/vic20ui.c:431
+#: src/arch/unix/c128ui.c:111 src/arch/unix/plus4ui.c:105
+#: src/arch/unix/uivicii.c:91 src/arch/unix/vic20ui.c:434
 msgid "Color set"
 msgstr ""
 
@@ -294,26 +295,26 @@ msgstr ""
 
 #: src/arch/unix/c128ui.c:450 src/arch/unix/c64ui.c:415
 #: src/arch/unix/cbm2ui.c:458 src/arch/unix/petui.c:385
-#: src/arch/unix/plus4ui.c:191 src/arch/unix/vic20ui.c:508
+#: src/arch/unix/plus4ui.c:194 src/arch/unix/vic20ui.c:511
 #: src/arch/unix/vsidui.c:255
 msgid "File"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:469 src/arch/unix/c64ui.c:434
 #: src/arch/unix/cbm2ui.c:475 src/arch/unix/petui.c:402
-#: src/arch/unix/plus4ui.c:208 src/arch/unix/vic20ui.c:527
+#: src/arch/unix/plus4ui.c:211 src/arch/unix/vic20ui.c:530
 msgid "Snapshot"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:475 src/arch/unix/c64ui.c:440
 #: src/arch/unix/cbm2ui.c:481 src/arch/unix/petui.c:408
-#: src/arch/unix/plus4ui.c:214 src/arch/unix/vic20ui.c:533
+#: src/arch/unix/plus4ui.c:217 src/arch/unix/vic20ui.c:536
 msgid "Options"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:491 src/arch/unix/c64ui.c:456
 #: src/arch/unix/cbm2ui.c:495 src/arch/unix/petui.c:420
-#: src/arch/unix/plus4ui.c:226 src/arch/unix/vic20ui.c:543
+#: src/arch/unix/plus4ui.c:229 src/arch/unix/vic20ui.c:546
 #: src/arch/unix/vsidui.c:268 src/arch/unix/x11/gnome/x11ui.c:1107
 #: src/arch/unix/x11/gnome/x11ui.c:1199
 msgid "Settings"
@@ -323,7 +324,7 @@ msgstr ""
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:505 src/arch/unix/c64ui.c:470
 #: src/arch/unix/cbm2ui.c:512 src/arch/unix/petui.c:436
-#: src/arch/unix/plus4ui.c:239 src/arch/unix/vic20ui.c:560
+#: src/arch/unix/plus4ui.c:242 src/arch/unix/vic20ui.c:563
 msgid "RJHelp"
 msgstr ""
 
@@ -716,39 +717,39 @@ msgstr ""
 msgid "*PET userport diagnostic pin"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:96 src/arch/unix/uivicii.c:86
+#: src/arch/unix/plus4ui.c:99 src/arch/unix/uivicii.c:89
 msgid "*External color set"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:99 src/arch/unix/uivicii.c:91
+#: src/arch/unix/plus4ui.c:102 src/arch/unix/uivicii.c:94
 msgid "PAL Emulation"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:105
+#: src/arch/unix/plus4ui.c:108
 msgid "*Fast PAL emulation"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:108
+#: src/arch/unix/plus4ui.c:111
 msgid "*PAL emulation"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:120
+#: src/arch/unix/plus4ui.c:123
 msgid "*16KB"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:122
+#: src/arch/unix/plus4ui.c:125
 msgid "*32KB"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:124
+#: src/arch/unix/plus4ui.c:127
 msgid "*64KB"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:132
+#: src/arch/unix/plus4ui.c:135
 msgid "RAM settings"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:134
+#: src/arch/unix/plus4ui.c:137
 msgid "TED settings"
 msgstr ""
 
@@ -1253,7 +1254,7 @@ msgstr ""
 msgid "*White"
 msgstr ""
 
-#: src/arch/unix/uicrtc.c:62 src/arch/unix/uisettings.c:560
+#: src/arch/unix/uicrtc.c:62 src/arch/unix/uisettings.c:556
 msgid "*Use XSync()"
 msgstr ""
 
@@ -1708,7 +1709,7 @@ msgstr ""
 msgid "Enter refresh rate"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:128 src/arch/unix/uisettings.c:586
+#: src/arch/unix/uisettings.c:128 src/arch/unix/uisettings.c:582
 msgid "Refresh rate"
 msgstr ""
 
@@ -1843,47 +1844,47 @@ msgstr ""
 msgid "VidMode Resolutions"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:566
+#: src/arch/unix/uisettings.c:562
 msgid "VIC-II Video settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:572
+#: src/arch/unix/uisettings.c:568
 msgid "VIC Video settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:578
+#: src/arch/unix/uisettings.c:574
 msgid "TED Video settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:588
+#: src/arch/unix/uisettings.c:584
 msgid "Maximum speed"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:590
+#: src/arch/unix/uisettings.c:586
 msgid "*Enable warp mode"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:605
+#: src/arch/unix/uisettings.c:601
 msgid "*Fullscreen settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:613
+#: src/arch/unix/uisettings.c:609
 msgid "Keyboard settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:619
+#: src/arch/unix/uisettings.c:615
 msgid "Save settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:621
+#: src/arch/unix/uisettings.c:617
 msgid "Load settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:623
+#: src/arch/unix/uisettings.c:619
 msgid "Restore default settings"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:625
+#: src/arch/unix/uisettings.c:621
 msgid "*Save settings on exit"
 msgstr ""
 
@@ -2021,20 +2022,20 @@ msgstr ""
 msgid "*GoDot"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:76 src/arch/unix/vic20ui.c:428
+#: src/arch/unix/uivicii.c:79 src/arch/unix/vic20ui.c:431
 #: src/arch/unix/vsidui.c:173
 msgid "Video standard"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:79
+#: src/arch/unix/uivicii.c:82
 msgid "*Sprite-sprite collisions"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:81
+#: src/arch/unix/uivicii.c:84
 msgid "*Sprite-background collisions"
 msgstr ""
 
-#: src/arch/unix/uivicii.c:84
+#: src/arch/unix/uivicii.c:87
 msgid "*New Luminances"
 msgstr ""
 
@@ -2123,7 +2124,7 @@ msgstr ""
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:184 src/arch/unix/vic20ui.c:442
+#: src/arch/unix/vic20ui.c:184 src/arch/unix/vic20ui.c:445
 msgid "Memory expansions"
 msgstr ""
 
@@ -2155,11 +2156,11 @@ msgstr ""
 msgid "Detach cartridge image(s)"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:434
+#: src/arch/unix/vic20ui.c:437
 msgid "PAL Emulation Settings"
 msgstr ""
 
-#: src/arch/unix/vic20ui.c:440
+#: src/arch/unix/vic20ui.c:443
 msgid "VIC settings"
 msgstr ""
 

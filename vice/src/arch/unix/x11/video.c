@@ -221,14 +221,14 @@ void video_convert_color_table(unsigned int i, BYTE *data, unsigned int dither,
 
     switch (canvas->x_image->bits_per_pixel) {
       case 8:
-        video_render_setphysicalcolor(&canvas->videoconfig, i,
+        video_render_setphysicalcolor(canvas->videoconfig, i,
                                       (DWORD)(*data), 8);
         break;
       case 16:
       case 24:
       case 32:
       default:
-        video_render_setphysicalcolor(&canvas->videoconfig, i, (DWORD)(col),
+        video_render_setphysicalcolor(canvas->videoconfig, i, (DWORD)(col),
                                       canvas->x_image->bits_per_pixel);
 	break;
     }
@@ -243,7 +243,7 @@ static void convert_8to8n(BYTE *draw_buffer,
 			  int sx, int sy, int tx, int ty,
 			  int w, int h)
 {
-    video_render_main(&canvas->videoconfig, draw_buffer,
+    video_render_main(canvas->videoconfig, draw_buffer,
                       canvas->x_image->data,
                       w, h, sx, sy, tx, ty, draw_buffer_line_size,
                       canvas->x_image->bytes_per_line,
@@ -279,7 +279,7 @@ static void convert_8to1_dither(BYTE *draw_buffer,
         for (x = 0; x < w; x++) {
             /* XXX: trusts that real_pixel[0, 1] == black, white */
             XPutPixel(canvas->x_image, tx + x, ty + y,
-                      canvas->videoconfig.physical_colors[shade_table[src[x]]
+                      canvas->videoconfig->physical_colors[shade_table[src[x]]
                       > dither[(sx + x) % 4]]);
         }
     }
@@ -299,7 +299,7 @@ static void convert_8toall(BYTE *draw_buffer,
         src = SRCPTR(sx, sy + y);
         for (x = 0; x < w; x++)
             XPutPixel(canvas->x_image, tx + x, ty + y,
-                      canvas->videoconfig.physical_colors[src[x]]);
+                      canvas->videoconfig->physical_colors[src[x]]);
     }
 }
 
@@ -438,7 +438,7 @@ void video_register_raster(struct raster_s *raster)
 
 /* ------------------------------------------------------------------------- */
 
-video_canvas_t *video_canvas_init(void)
+video_canvas_t *video_canvas_init(video_render_config_t *videoconfig)
 {
     video_canvas_t *canvas;
 
@@ -462,7 +462,7 @@ video_canvas_t *video_canvas_init(void)
     /* Request specified video format. */
     canvas->xv_format.id = fourcc;
 #endif
-    video_render_initconfig(&canvas->videoconfig);
+    canvas->videoconfig = videoconfig;
 
     return canvas;
 }
@@ -479,10 +479,10 @@ int video_canvas_create(video_canvas_t *canvas, const char *win_name,
     new_width = *width;
     new_height = *height;
 
-    if (canvas->videoconfig.doublesizex)
+    if (canvas->videoconfig->doublesizex)
         new_width *= 2;
 
-    if (canvas->videoconfig.doublesizey)
+    if (canvas->videoconfig->doublesizey)
         new_height *= 2;
 
     if (video_arch_frame_buffer_alloc(canvas, new_width, new_height) < 0) {
@@ -545,10 +545,10 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
     if (console_mode || vsid_mode)
         return;
 
-    if (canvas->videoconfig.doublesizex)
+    if (canvas->videoconfig->doublesizex)
         width *= 2;
 
-    if (canvas->videoconfig.doublesizey)
+    if (canvas->videoconfig->doublesizey)
         height *= 2;
 
     video_arch_frame_buffer_free(canvas);
@@ -593,15 +593,16 @@ void video_canvas_refresh(video_canvas_t *canvas,
                           unsigned int w, unsigned int h)
 {
     Display *display;
-    /*log_debug("XS%i YS%i XI%i YI%i W%i H%i",xs, ys, xi, yi, w, h);*/
+    /*log_debug("XS%i YS%i XI%i YI%i W%i H%i PS%i", xs, ys, xi, yi, w, h,
+              draw_buffer_line_size);*/
 
-    if (canvas->videoconfig.doublesizex) {
+    if (canvas->videoconfig->doublesizex) {
         xs *= 2;
         xi *= 2;
         w *= 2;
     }
 
-    if (canvas->videoconfig.doublesizey) {
+    if (canvas->videoconfig->doublesizey) {
         ys *= 2;
         yi *= 2;
         h *= 2;
@@ -611,8 +612,8 @@ void video_canvas_refresh(video_canvas_t *canvas,
     if (use_xvideo) {
         raster_t *raster = raster_get_raster_from_canvas(canvas);
 
-        int doublesize = canvas->videoconfig.doublesizex
-	  && canvas->videoconfig.doublesizey;
+        int doublesize = canvas->videoconfig->doublesizex
+	  && canvas->videoconfig->doublesizey;
 
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
         Window root;
@@ -625,12 +626,12 @@ void video_canvas_refresh(video_canvas_t *canvas,
 	    return;
 	}
 
-	if (canvas->videoconfig.doublesizex) {
+	if (canvas->videoconfig->doublesizex) {
             xs /= 2;
             xi /= 2;
             w /= 2;
 	}
-	if (canvas->videoconfig.doublesizey) {
+	if (canvas->videoconfig->doublesizey) {
             ys /= 2;
             yi /= 2;
             h /= 2;
@@ -639,7 +640,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
 	display = x11ui_get_display_ptr();
 
 	render_yuv_image(doublesize,
-			 canvas->videoconfig.doublescan,
+			 canvas->videoconfig->doublescan,
 			 video_resources.pal_mode,
 			 video_resources.pal_scanlineshade*1024/1000,
 			 canvas->xv_format,

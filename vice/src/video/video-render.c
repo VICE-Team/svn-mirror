@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "log.h"
 #include "raster-canvas.h"
 #include "raster.h"
 #include "render1x1.h"
