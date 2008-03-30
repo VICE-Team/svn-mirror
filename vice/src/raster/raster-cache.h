@@ -186,32 +186,32 @@ inline static int raster_cache_data_fill_nibbles(BYTE *dest_hi,
 
         return 1;
     } else {
-      int i, x = 0;
-      BYTE b;
+        int i, x = 0;
+        BYTE b;
 
-      for (i = 0;
-           dest_hi[i] == (src[0] >> 4)
-           && dest_lo[i] == (src[0] & 0xf) && i < length;
-           i++, src += src_step)
-           /* do nothing */ ;
+        for (i = 0;
+            dest_hi[i] == (src[0] >> 4)
+            && dest_lo[i] == (src[0] & 0xf) && i < length;
+            i++, src += src_step)
+            /* do nothing */ ;
 
-      if (i < length) {
-          if (*xs > i)
-              *xs = i;
+        if (i < length) {
+            if (*xs > i)
+                *xs = i;
 
-          for (; i < length; i++, src += src_step)
-              if (dest_hi[i] != (b = (src[0] >> 4))) {
-                  dest_hi[i] = b;
+            for (; i < length; i++, src += src_step)
+                if (dest_hi[i] != (b = (src[0] >> 4))) {
+                    dest_hi[i] = b;
+                    x = i;
+                } else if (dest_lo[i] != (b = (src[0] & 0xf))) {
+                  dest_lo[i] = b;
                   x = i;
-              } else if (dest_lo[i] != (b = (src[0] & 0xf))) {
-                dest_lo[i] = b;
-                x = i;
-              }
+                }
 
-              if (*xe < x)
-                  *xe = x;
+            if (*xe < x)
+                *xe = x;
 
-              return 1;
+            return 1;
         } else {
             return 0;
         }
@@ -237,14 +237,14 @@ inline static int raster_cache_data_fill_text(BYTE *dest,
         *xs = 0;
         *xe = length - 1;
         for (i = 0; i < length; i++, src++)
-            dest[i] = _GET_CHAR_DATA (src[0], l);
+            dest[i] = _GET_CHAR_DATA(src[0], l);
         return 1;
     } else {
         BYTE b;
         int i;
 
         for (i = 0;
-            i < length && dest[i] == _GET_CHAR_DATA (src[0], l);
+            i < length && dest[i] == _GET_CHAR_DATA(src[0], l);
             i++, src++)
             /* do nothing */ ;
 
@@ -252,7 +252,7 @@ inline static int raster_cache_data_fill_text(BYTE *dest,
             *xs = *xe = i;
 
             for (; i < length; i++, src++)
-                if (dest[i] != (b = _GET_CHAR_DATA (src[0], l))) {
+                if (dest[i] != (b = _GET_CHAR_DATA(src[0], l))) {
                     dest[i] = b;
                     *xe = i;
             }
