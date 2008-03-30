@@ -1,4 +1,168 @@
+1998-09-08  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.4.
+
+	* maincpu.c (maincpu_read_snapshot_module): Megakludge: Set
+	`rmw_flag' to -1.
+
+	* c64/vicii.c (vic_ii_read_snapshot_module): Call
+ 	`force_repaint()'.
+	(vic_ii_read_snapshot_module): Handle `overscan_background_color'
+	and `force_black_overscan_background_color'.
+
+	* c128/c128cpu.c: Type of `last_opcode_info' changed to `DWORD'.
+
+	* maincpu.c: Type of `last_opcode_info' changed to `DWORD'.
+	(maincpu_write_snapshot_module): Dump `last_opcode_info'.
+	(maincpu_read_snapshot_module): Undump `last_opcode_info'.
+
+	* pet/pet.c (machine_write_snapshot): New function; it does
+ 	nothing for now.
+	(machine_read_snapshot): Ditto.
+
+	* vic20/vic20.c (machine_write_snapshot): New function; it does
+	nothing for now.
+	(machine_read_snapshot): Ditto.
+
+	* c128/c128.c (machine_write_snapshot): New function; it does
+	nothing for now.
+	(machine_read_snapshot): Ditto.
+
+	* c64/vicii.c (vic_ii_read_snapshot_module): Update `blank'.
+
+	* cia-tmpl.c (mycia_read_snapshot_module): Make sure the port A/B
+ 	values have effect.
+
+	* sounddrv/soundsun.c [__NetBSD__]: #include <sys/ioctl.h> and
+ 	<string.h> [reported by Ben <ben@cs.washington.edu> through the
+ 	online bugreport sytem].
+
+	* c64/vicii.c (vic_ii_read_snapshot_module): Update color
+ 	variables.
+
+	* cia-tmpl.c (mycia_read_snapshot_module): Do not change the IRQ
+ 	line.
+
+	* c64/vicii.c (vic_ii_read_snapshot_module): Set `oldclk'.
+
+	* maincpu.c (maincpu_read_snapshot_module): Write PC as a word.
+	(maincpu_write_snapshot_module): Write PC as a word.
+
+	* 6510core.c (IMPORT_REGISTERS): Use `JUMP' to change PC.
+
+	* arch/unix/xaw/uicommands.c: Snapshot commands
+ 	`ui_snapshot_commands_menu'.
+
+	* interrupt.h: Removed unused member
+	`should_check_pending_interrupt' in `struct cpu_int_status'.
+
+1998-09-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* arch/unix/xaw/uisettings.c (drive_settings_submenu): New menu
+	entry `DriveTrueEmulation'.
+
+	* autostart.c (set_true1541_mode, get_true1541_state): Changed
+	resource `Drive8' to `DriveTrueEmulation'.
+
+	* c128/Makefile.am: Added `.def' to `SUFFIXES'.  Added `c128iec.c',
+	`c128cia1.def' and `c128cia1.c' to `libc128_a_SOURCES'. Added rule
+	to create `c128cia1.c' from `c128cia1.def'.
+
+	* c128/c128cia1.def: New file.
+
+	* c128/c128iec.c: New file.
+
+	* c64/Makefile.am: Removed `c64cia1.c', `c64cia1.def', `c64iec.c'
+	and `c64iec.h' from `libc64c128_a_SOURCES'.
+
+	* c64/c64cia2.def: Changed all references to `drive_enabled[]' to
+	`drive[].enable'.
+	* c64/c64iec.c: Changed likewise.
+	* vic20/vic20iec.c: Changed likewise.
+	* drive/drive.c: Changed likewise.
+
+	* c64/c64iec.c (iec_fast_drive_write): Added stub
+	`iec_fast_drive_write'.
+	* vic20/vic20iec.c: Likewise.
+
+	* cia1571drive0.def, cia1571drive1.def: Added #include
+	"iecdrive.h".  (STORE_SDR): New function.
+
+	* cia1581drive0.def, cia1581drive1.def (STORE_SDR): New function.
+
+	* drive/drive.c: Moved `drive_enabled[]', `idling_method[]' and
+	`drive_rom_idle_trap[]' to struct drive_t.
+	Updated comments and error messages to new two drive support.
+	(set_drive_true_emulation): New function to switch true drive
+	emulation.  Just a stub yet.
+	(drive_set_1571_side): Call `GCR_data_writeback' when the side is
+	changed.
+
+	* drive/drive.h: Added new members `enable', `idling_method' and
+	`rom_idle_trap' to struct drive_t.
+
+	* iecdrive.h: New prototypes `iec_fast_drive_write' and
+	`iec_fast_cpu_write'.
+
+1998-09-0  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* cia-tmpl.c (mycia_undump): instead of STORE_* use UNDUMP_* for
+	the port values.
+
+	* via-tmpl.c (myvia_undump): dito
+
+	* c64/c64cia1.def, c64/c64cia2.def, c64/c64tpi.def,
+ 	drive/cia1571drive0.def, drive/cia1571drive1.def,
+ 	drive/cia1581drive0.def, drive/cia1581drive1.def,
+ 	drive/via1drive0.def, drive/via1drive1.def, drive/via2drive0.def,
+ 	drive/via2drive1.def, pet/petvia.def, vic20/vic20via1.def,
+ 	vic20/vic20via2.def (UNDUMP_PRA, UNDUMP_PRB, UNDUMP_CIAPA,
+ 	UNDUMP_CIAPB): new definitions to be used when undumping an I/O
+ 	port.
+
+1998-09-08  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* via-tmpl.c (oldpa, oldpb, READ_PRA, READ_PRB, STORE_PRA,
+ 	STORE_PRB): now both READ_* set the value "byte" to the value from
+ 	the outside, and in via-tmpl.c it is masked with the data
+ 	direction register and output register value.  Both STORE_* now
+ 	get as "byte" the value newly written to the pins, i.e. input pins
+ 	are set high already. They can now use oldpa and oldpb as the
+ 	values previously seen on the output pins.
+
+	* cia-tmpl.c (oldpa, oldpb, READ_CIAPA, READ_CIAPB, STORE_CIAPA,
+ 	STORE_CIAPB): see via-tmpl.c
+
+	* tpi-tmpl.c (oldpa, oldpb, oldpc): see via-tmpl.c
+
+	* c64/c64cia1.def, c64/c64cia2.def, c64/c64tpi.def,
+ 	drive/cia1571drive0.def, drive/cia1571drive1.def,
+ 	drive/cia1581drive0.def, drive/cia1581drive1.def,
+ 	drive/via1drive0.def, drive/via1drive1.def, drive/via2drive0.def,
+ 	drive/via2drive1.def, pet/petvia.def, vic20/vic20via1.def,
+ 	vic20/vic20via2.def
+	(STORE_PRA, STORE_PRB, STORE_CIAPA, STORE_CIAPB, READ_PRA,
+ 	READ_PRB, READ_CIAPA, READ_CIAPB): adapt to above change.
+
 1998-09-07  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* maincpu.c (maincpu_write_snapshot_module): Dump interrupt
+ 	status.
+	(maincpu_read_snapshot_module): Undump interrupt status.
+
+	* interrupt.c (interrupt_read_snapshot): New function.
+	(interrupt_write_snapshot): New function.
+
+	* c64/c64.c (machine_read_snapshot): Read CIA modules.
+	(machine_write_snapshot): Write CIA modules.
+
+	* via-tmpl.c (myvia_undump): Renamed to
+ 	`myvia_read_snapshot_module()'.
+	(myvia_dump): Renamed to `myvia_write_snapshot_module()'.
+
+	* cia-tmpl.c (mycia_undump): Renamed to
+ 	`mycia_read_snapshot_module()'.
+	(mycia_dump): Renamed to `mycia_write_snapshot_module()'.
 
 	* Version 0.15.0.3.
 
