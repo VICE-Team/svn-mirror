@@ -1,3 +1,32 @@
+2002-04-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.2.
+
+	* tape/tape.c: Use `CAS_TYPE_BAS'.
+
+	* vdrive/vdrive.h, vdrive/vdrive.c (vdrive_set_last_read,
+	vdrive_get_last_read): New functions.
+
+	* vdrive/vdrive-iec.c (vdrive_iec_open, vdrive_iec_read): Set
+	last read track, sector and buffer.
+
+	* autostart.c (disk_eof_callback): Get and set last track,
+	sector and buffer read.
+
+	* drive/drive.c (drive_set_last_read): New function.
+
+	* diskimage/Makefile.am, diskimage/createdisk.c,
+	diskimage/createdisk.h, diskimage/diskimage.c,
+	diskimage/probe.c, diskimage/probe.h, diskimage/x64.h,
+	diskconstants.h, tape/Makefile.am: New files.
+
+	* diskimage.c, t64.c, tap.c, tape.c: Moved around.
+
+	* vdrive/vdrive.h: Moved disk constants to other file.
+
+	* drive/drive-snapshot.c, drive/drive.c, vdrive/vdrive-bam.c,
+	vdrive/vdrive-dir.c, vdrive/vdrive.c: Fixed includes.
+
 2002-04-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.1.

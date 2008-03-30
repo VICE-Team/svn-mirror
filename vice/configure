@@ -713,7 +713,7 @@ fi
 
 PACKAGE=vice
 
-VERSION=1.9.1
+VERSION=1.9.2
 
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   { echo "configure: error: source directory already configured; run "make distclean" there first" 1>&2; exit 1; }
@@ -7787,6 +7787,7 @@ if false ; then
     mkdir -p c64/cart
     mkdir -p cbm2
     mkdir -p crtc
+    mkdir -p diskimage
     mkdir -p drive
     mkdir -p gfxoutputdrv
     mkdir -p monitor
@@ -7796,6 +7797,7 @@ if false ; then
     mkdir -p resid
     mkdir -p sid
     mkdir -p sounddrv
+    mkdir -p tape
     mkdir -p vdc
     mkdir -p vdrive
     mkdir -p vic20
@@ -7954,6 +7956,7 @@ trap 'rm -fr `echo "Makefile
            src/c64/cart/Makefile
            src/cbm2/Makefile
            src/crtc/Makefile
+           src/diskimage/Makefile
            src/drive/Makefile
            src/gfxoutputdrv/Makefile
            src/monitor/Makefile
@@ -7963,6 +7966,7 @@ trap 'rm -fr `echo "Makefile
            src/raster/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
+           src/tape/Makefile
            src/vdc/Makefile
            src/vdrive/Makefile
            src/vic20/Makefile
@@ -8194,6 +8198,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            src/c64/cart/Makefile
            src/cbm2/Makefile
            src/crtc/Makefile
+           src/diskimage/Makefile
            src/drive/Makefile
            src/gfxoutputdrv/Makefile
            src/monitor/Makefile
@@ -8203,6 +8208,7 @@ CONFIG_FILES=\${CONFIG_FILES-"Makefile
            src/raster/Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
+           src/tape/Makefile
            src/vdc/Makefile
            src/vdrive/Makefile
            src/vic20/Makefile
