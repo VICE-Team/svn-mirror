@@ -35,6 +35,5 @@ extern int vsync_init_cmdline_options(void);
 extern void vsync_init(double hertz, long cycles, void (*hook)(void));
 extern int do_vsync(int been_skipped);
 extern int vsync_disable_timer(void);
-extern void vsync_prevent_clk_overflow(CLOCK sub);
 
 #endif /* !_VSYNC_UNIX_H */

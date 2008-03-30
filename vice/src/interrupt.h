@@ -35,6 +35,10 @@
 #include <stdio.h>
 #endif
 
+#ifdef OS2
+#include <string.h>
+#endif
+
 #include "6510core.h"
 #include "snapshot.h"
 

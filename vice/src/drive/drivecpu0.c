@@ -89,6 +89,7 @@ int drive0_traceflg;
 #define mydrive_cpu_write_snapshot_module drive0_cpu_write_snapshot_module
 #define mydrive_cpu_read_snapshot_module drive0_cpu_read_snapshot_module
 #define mydrive_traceflg drive0_traceflg
+#define mydrive_clk_guard drive0_clk_guard
 
 #define mymonspace e_disk8_space
 #define IDENTIFICATION_STRING "DRIVE#8"
@@ -114,12 +115,6 @@ int drive0_traceflg;
 #define myvia2_init via2d0_init
 #define mycia1571_init cia1571d0_init
 #define mycia1581_init cia1581d0_init
-
-#define myvia1_prevent_clk_overflow via1d0_prevent_clk_overflow
-#define myvia2_prevent_clk_overflow via2d0_prevent_clk_overflow
-#define mycia1571_prevent_clk_overflow cia1571d0_prevent_clk_overflow
-#define mycia1581_prevent_clk_overflow cia1581d0_prevent_clk_overflow
-#define mywd1770_prevent_clk_overflow wd1770d0_prevent_clk_overflow
 
 #include "drivecpucore.c"
 

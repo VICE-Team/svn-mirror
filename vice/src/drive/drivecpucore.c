@@ -26,12 +26,17 @@
  *
  */
 
-/* Drive RAM.  */
-static BYTE drive_ram[DRIVE_RAM_SIZE];
-
 /* Interrupt/alarm status.  */
 struct cpu_int_status mydrive_int_status;
 alarm_context_t mydrive_alarm_context;
+
+/* Clk guard.  */
+clk_guard_t mydrive_clk_guard;
+
+/* ------------------------------------------------------------------------ */
+
+/* Drive RAM.  */
+static BYTE drive_ram[DRIVE_RAM_SIZE];
 
 /* Value of clk for the last time mydrive_cpu_execute() was called.  */
 static CLOCK last_clk;
@@ -357,6 +362,9 @@ void mydrive_cpu_init(int type)
 {
     alarm_context_init(&mydrive_alarm_context, IDENTIFICATION_STRING);
 
+    clk_guard_init(&mydrive_clk_guard, &drive_clk[mynumber],
+                   PREVENT_CLK_OVERFLOW_TICK);
+
     myvia1_init();
     myvia2_init();
     mycia1571_init();
@@ -386,11 +394,13 @@ inline void mydrive_cpu_sleep(void)
    have been decremented to prevent overflow.  */
 CLOCK mydrive_cpu_prevent_clk_overflow(CLOCK sub)
 {
-    CLOCK our_sub;
-
     /* First, get in sync with what the main CPU has done.  */
     last_clk -= sub;
 
+    /* Then, check our own clock counters.  */
+    return clk_guard_prevent_overflow(&mydrive_clk_guard);
+
+#if 0
     /* Then, check our own clock counters, and subtract from them if they are
        going to overflow.  The `baseval' is 1 because we don't need the
        number of cycles subtracted to be multiple of a particular value
@@ -406,6 +416,7 @@ CLOCK mydrive_cpu_prevent_clk_overflow(CLOCK sub)
 
     /* Let the caller know what we have done.  */
     return our_sub;
+#endif
 }
 
 /* Handle a ROM trap. */

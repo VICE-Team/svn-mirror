@@ -203,7 +203,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
             *complete_path_return = NULL;
         return NULL;
     } else {
-        f = fopen(p, "r");
+        f = fopen(p, "rb");
 
         if (f == NULL || complete_path_return == NULL) {
             free(p);

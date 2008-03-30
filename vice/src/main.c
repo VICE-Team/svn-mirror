@@ -47,6 +47,10 @@
 #include <limits.h>
 #endif
 
+#ifdef OS2
+#include <string.h>
+#endif
+
 #ifdef __riscos
 #include "ROlib.h"
 #endif

@@ -58,7 +58,7 @@
 
 /* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
    memory and (little) speed.  */
-#if(!defined(__MSDOS__) && !defined(__riscos))
+#if(!defined(__MSDOS__) && !defined(__riscos) && !defined(OS2))
 #define NEED_2x
 #else  /* __MSDOS__ */
 #define pixel_width 1
@@ -68,7 +68,6 @@
 #include "vicii.h"
 
 #include "alarm.h"
-#include "c64.h"
 #include "c64cart.h"
 #include "c64cia.h"
 #include "cmdline.h"

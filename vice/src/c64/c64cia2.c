@@ -41,7 +41,7 @@
 #define store_mycia store_cia2
 #define read_mycia read_cia2
 #define peek_mycia peek_cia2
-#define mycia_prevent_clk_overflow cia2_prevent_clk_overflow
+#define mycpu_clk_guard maincpu_clk_guard
 #define mycia_set_flag cia2_set_flag
 #define mycia_set_sdr cia2_set_sdr
 #define mycia_write_snapshot_module cia2_write_snapshot_module

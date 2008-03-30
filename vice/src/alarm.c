@@ -31,6 +31,10 @@
 #include "log.h"
 #include "utils.h"
 
+#ifdef OS2
+#include <stdlib.h>
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 alarm_context_t *alarm_context_new(const char *name)

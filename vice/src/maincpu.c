@@ -95,17 +95,17 @@
 /* If this is #defined, you can set the `traceflg' variable to non-zero to
    trace all the opcodes being executed.  This is mainly useful for
    debugging, and also makes things a bit slower.  */
-/* #define TRACE */
+/*#define TRACE*/
 
 /* Print a message whenever a program attempts to execute instructions fetched
    from the I/O area.  */
-# undef IO_AREA_WARNING
+#undef IO_AREA_WARNING
 
 /* Run without interpreting opcodes (just fetch them from memory).  */
-# undef NO_OPCODES
+#undef NO_OPCODES
 
 /* Do not handle CPU alarms, but measure speed instead.  */
-#  undef EVALUATE_SPEED
+#undef EVALUATE_SPEED
 
 /* Use a global variable for Program Counter.  This makes it slower, but also
    makes debugging easier.  This is needed by the VIC-II emulation, so avoid
@@ -360,10 +360,17 @@ inline static void evaluate_speed(unsigned long clk)
  
 /* ------------------------------------------------------------------------- */
 
+static void clk_overflow_callback(CLOCK sub, void *data)
+{
+    alarm_context_time_warp(&maincpu_alarm_context, sub, -1);
+}
+
 void maincpu_init(void)
 {
     alarm_context_init(&maincpu_alarm_context, "MainCPU");
+
     clk_guard_init(&maincpu_clk_guard, &clk, PREVENT_CLK_OVERFLOW_TICK);
+    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
 /* ------------------------------------------------------------------------- */

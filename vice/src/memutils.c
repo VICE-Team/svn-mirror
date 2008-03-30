@@ -37,6 +37,9 @@
 #ifdef __riscos
 #include "ROlib.h"
 #else
+#ifdef OS2
+#include <sys/types.h>
+#endif
 #include <sys/stat.h>
 #include <errno.h>
 #endif
@@ -76,7 +79,7 @@ int mem_load_sys_file(const char *name, BYTE *dest, int minsize, int maxsize)
 
 	/* Check if the file is large enough before loading it. */
 	if (fstat(fileno(fp), &s) == -1) {
-	    log_error(LOG_DEFAULT, "Cannot stat `%s': %s.",
+            log_error(LOG_DEFAULT, "Cannot stat `%s': %s.",
                       complete_path, strerror(errno));
             goto fail;
         }
@@ -100,8 +103,8 @@ int mem_load_sys_file(const char *name, BYTE *dest, int minsize, int maxsize)
 	    log_warning(LOG_DEFAULT, "ROM `%s': long file, discarding end.",
                         complete_path);
 	    rsize = maxsize;
-	}
-	if ((rsize = fread((char *)dest, 1, rsize, fp)) < minsize)
+        }
+        if ((rsize = fread((char *)dest, 1, rsize, fp)) < minsize)
             goto fail;
     }
 

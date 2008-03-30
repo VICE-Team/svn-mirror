@@ -251,7 +251,7 @@ static void reset_raster(void)
     int i;
 
     frame_buffer_ptr = (FRAME_BUFFER_START(frame_buffer)
-			+ 2 * SCREEN_MAX_SPRITE_WIDTH);
+                       + 2 * SCREEN_MAX_SPRITE_WIDTH);
 
     rasterline = 0;
     oldclk = 0;

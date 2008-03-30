@@ -41,8 +41,8 @@
 #include "ROlib.h"
 #else
 #include <fcntl.h>
-#include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #endif
 #endif
@@ -543,17 +543,16 @@ int path_is_relative(const char *directory)
 
 /* ------------------------------------------------------------------------- */
 
-/* Launch program `name' (searched via the PATH environment variable) passing
-   `argv' as the parameters, wait for it to exit and return its exit status.
-   If `stdout_redir' or `stderr_redir' are != NULL, redirect stdout or stderr
-   to the corresponding file.  */
+/* Launch program `name' (searched via the PATH environment variable)
+   passing `argv' as the parameters, wait for it to exit and return its
+   exit status. If `stdout_redir' or `stderr_redir' are != NULL,
+   redirect stdout or stderr to the corresponding file.  */
 int spawn(const char *name, char **argv,
 	  const char *stdout_redir, const char *stderr_redir)
 {
 #if !defined __MSDOS__ && !defined WIN32 && !defined WINCE && !defined(__riscos)
 
-    /* Unix version.  */
-
+    /* Unix & OS2(?) version.  */
     pid_t child_pid;
     int child_status;
 

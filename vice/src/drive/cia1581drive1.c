@@ -39,7 +39,7 @@
 #define store_mycia store_cia1581d1
 #define read_mycia read_cia1581d1
 #define peek_mycia peek_cia1581d1
-#define mycia_prevent_clk_overflow cia1581d1_prevent_clk_overflow
+#define mycpu_clk_guard drive1_clk_guard
 #define mycia_set_flag cia1581d1_set_flag
 #define mycia_set_sdr cia1581d1_set_sdr
 #define mycia_write_snapshot_module cia1581d1_write_snapshot_module

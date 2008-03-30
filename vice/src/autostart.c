@@ -37,6 +37,10 @@
 #include <errno.h>
 #endif
 
+#ifdef OS2
+#include <stdlib.h>
+#endif
+
 #include "autostart.h"
 
 #include "attach.h"

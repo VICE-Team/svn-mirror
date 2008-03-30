@@ -1131,7 +1131,8 @@ void sid_reset(void)
     for (i = 0; i < 32; i++)
 	sound_store(i, 0);
     warn_reset(pwarn);
-    sound_prevent_clk_overflow(clk);
+    /* ARGH!  FIXME!  Commenting this is looking for troubles!  */
+    /*  sound_prevent_clk_overflow(clk); */
 }
 
 void sound_machine_init(void)

@@ -77,8 +77,6 @@ extern void sound_set_warp_mode(int value);
 extern int  sound_init_resources(void);
 extern int  sound_init_cmdline_options(void);
 
-extern void sound_prevent_clk_overflow(CLOCK sub);
-
 
 /* device initialization prototypes */
 extern int  sound_init_aix_device(void);

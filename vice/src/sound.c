@@ -36,6 +36,7 @@
 
 #include "sound.h"
 
+#include "clkguard.h"
 #include "cmdline.h"
 #include "log.h"
 #include "maincpu.h"
@@ -433,6 +434,14 @@ static int sound_run_sound(void)
     return 0;
 }
 
+static void prevent_clk_overflow_callback(CLOCK sub, void *data)
+{
+    snddata.fclk -= sub;
+    snddata.wclk -= sub;
+    if (snddata.psid)
+	sound_machine_prevent_clk_overflow(snddata.psid, sub);
+}
+
 #ifdef __riscos
 void sound_synthesize(SWORD *buffer, int length)
 {
@@ -673,6 +682,9 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
     sound_machine_init();
 
+    clk_guard_add_callback(&maincpu_clk_guard, prevent_clk_overflow_callback,
+                           NULL);
+
 #if defined(HAVE_LINUX_SOUNDCARD_H) || defined(HAVE_MACHINE_SOUNDCARD_H)
     sound_init_uss_device();
 #endif
@@ -721,14 +733,6 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #if 0
     sound_init_test_device();	/* XXX: missing */
 #endif
-}
-
-void sound_prevent_clk_overflow(CLOCK sub)
-{
-    snddata.fclk -= sub;
-    snddata.wclk -= sub;
-    if (snddata.psid)
-	sound_machine_prevent_clk_overflow(snddata.psid, sub);
 }
 
 double sound_sample_position(void)

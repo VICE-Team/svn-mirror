@@ -32,6 +32,7 @@
 #include "types.h"
 
 #include "alarm.h"
+#include "clkguard.h"
 #include "mos6510.h"
 #include "mon.h"
 
@@ -39,6 +40,7 @@
 
 extern int drive0_traceflg;
 extern alarm_context_t drive0_alarm_context;
+extern clk_guard_t drive0_clk_guard;
 
 extern monitor_interface_t drive0_monitor_interface;
 
@@ -61,6 +63,7 @@ extern int drive0_cpu_read_snapshot_module(snapshot_t *s);
 
 extern int drive1_traceflg;
 extern alarm_context_t drive1_alarm_context;
+extern clk_guard_t drive1_clk_guard;
 
 extern monitor_interface_t drive1_monitor_interface;
 

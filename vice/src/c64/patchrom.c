@@ -44,6 +44,7 @@
 #include "log.h"
 #include "mem.h"
 #include "patchrom.h"
+#include "utils.h"
 
 /*
  * By an option on the x64 command line you can patch between the

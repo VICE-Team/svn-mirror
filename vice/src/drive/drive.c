@@ -51,6 +51,10 @@
 #include <math.h>
 #endif
 
+#ifdef OS2
+#include <sys/types.h>
+#endif
+
 #include "attach.h"
 #include "ciad.h"
 #include "cmdline.h"

@@ -172,7 +172,8 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE val)
 void petsnd_reset(void)
 {
     store_petsnd_onoff(0);
-    sound_prevent_clk_overflow(clk);
+    /* FIXME: This is looking for troubles.  */
+    /*  sound_prevent_clk_overflow(clk); */
 }
 
 BYTE sound_machine_read(sound_t *psid, ADDRESS addr)

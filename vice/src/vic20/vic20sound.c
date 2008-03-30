@@ -136,7 +136,9 @@ void sound_reset(void)
     for (i = 10; i < 15; i++)
 	store_sound(i, 0);
     warn_reset(pwarn);
-    sound_prevent_clk_overflow(clk);
+
+    /* FIXME: This is looking for troubles.  */
+    /*  sound_prevent_clk_overflow(clk); */
 }
 
 void sound_machine_init(void)
