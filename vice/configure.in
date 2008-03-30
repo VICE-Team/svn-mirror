@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.15.0.18)
+AM_INIT_AUTOMAKE(vice, 0.15.0.19)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -181,6 +181,7 @@ fi
 
 RESID_DIR=
 RESID_LIBS=
+RESID_INCLUDES=
 
 dnl Disable installation of reSID in $prefix.
 ac_cv_install_resid=no
@@ -206,6 +207,7 @@ else
     AC_CONFIG_SUBDIRS(src/resid)
     RESID_DIR=resid
     RESID_LIBS="-L\$(top_builddir)/src/resid -lresid"
+    RESID_INCLUDES="-I\$(top_builddir)/src/resid"
   else
     LDFLAGS="$LDFLAGS -L$with_resid/lib"
     CPPFLAGS="$CPPFLAGS -I$with_resid/include"
@@ -223,6 +225,7 @@ else
     AC_DEFINE(HAVE_RESID)
     RESID_DIR=
     RESID_LIBS="-L$with_resid/lib -lresid"
+    RESID_INCLUDES="-I$with_resid/include"
   fi
 fi
 
@@ -232,6 +235,7 @@ AM_CONDITIONAL(HAVE_RESID, test x"$with_resid" != "xno")
 
 AC_SUBST(RESID_DIR)
 AC_SUBST(RESID_LIBS)
+AC_SUBST(RESID_INCLUDES)
 
 dnl Check for typedefs, structures, and compiler characteristics.
 
