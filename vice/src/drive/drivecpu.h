@@ -31,8 +31,9 @@
 
 #include "types.h"
 
-/* avoid having to include drivetypes.h */
 struct drive_context_s;
+struct interrupt_cpu_status_s;
+struct monitor_interface_s;
 struct snapshot_s;
 
 extern void drive_cpu_setup_context(struct drive_context_s *drv);
@@ -63,12 +64,11 @@ extern int drive_cpu_snapshot_read_module(struct drive_context_s *drv,
 #define drive1_cpu_execute(c)   drivex_cpu_execute(&drive1_context, c)
 
 /* don't use these pointers before the context is set up! */
-struct monitor_interface_s;
 extern struct monitor_interface_s *drive0_get_monitor_interface_ptr(void);
 extern struct monitor_interface_s *drive1_get_monitor_interface_ptr(void);
-struct cpu_int_status_s;
-extern struct cpu_int_status_s *drive0_int_status_ptr;
-extern struct cpu_int_status_s *drive1_int_status_ptr;
+
+extern struct interrupt_cpu_status_s *drive0_int_status_ptr;
+extern struct interrupt_cpu_status_s *drive1_int_status_ptr;
 
 #endif
 

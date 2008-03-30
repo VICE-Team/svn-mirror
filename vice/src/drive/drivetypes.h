@@ -67,7 +67,7 @@ typedef struct drivecpu_context_s {
     int rmw_flag; /* init to 0 */
 
     /* Interrupt/alarm status.  */
-    struct cpu_int_status_s *int_status;
+    struct interrupt_cpu_status_s *int_status;
 
     struct alarm_context_s *alarm_context;
 

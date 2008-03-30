@@ -150,7 +150,7 @@ void maincpu_generic_dma(void)
 
 /* ------------------------------------------------------------------------- */
 
-struct cpu_int_status_s maincpu_int_status;
+struct interrupt_cpu_status_s maincpu_int_status;
 alarm_context_t *maincpu_alarm_context = NULL;
 clk_guard_t *maincpu_clk_guard = NULL;
 
@@ -259,7 +259,8 @@ void maincpu_reset(void)
 /* Return nonzero if a pending NMI should be dispatched now.  This takes
    account for the internal delays of the 6510, but does not actually check
    the status of the NMI line.  */
-inline static int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
+inline static int interrupt_check_nmi_delay(interrupt_cpu_status_t *cs,
+                                            CLOCK cpu_clk)
 {
     CLOCK nmi_clk = cs->nmi_clk + INTERRUPT_DELAY;
 
@@ -277,7 +278,8 @@ inline static int interrupt_check_nmi_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
 /* Return nonzero if a pending IRQ should be dispatched now.  This takes
    account for the internal delays of the 6510, but does not actually check
    the status of the IRQ line.  */
-inline static int interrupt_check_irq_delay(cpu_int_status_t *cs, CLOCK cpu_clk)
+inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
+                                            CLOCK cpu_clk)
 {
     CLOCK irq_clk = cs->irq_clk + INTERRUPT_DELAY;
 

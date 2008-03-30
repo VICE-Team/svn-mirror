@@ -35,7 +35,7 @@
    `start_clk'.  */
 void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub)
 {
-    cpu_int_status_t *cs = &maincpu_int_status;
+    interrupt_cpu_status_t *cs = &maincpu_int_status;
     CLOCK *clk_ptr = &maincpu_clk;
 
     if (num == 0)

@@ -31,11 +31,11 @@ struct z80_regs_s;
 
 extern struct z80_regs_s z80_regs;
 
-struct cpu_int_status_s;
+struct interrupt_cpu_status_s;
 struct alarm_context_s;
 
 extern void z80_reset(void);
-extern void z80_mainloop(struct cpu_int_status_s *cpu_int_status,
+extern void z80_mainloop(struct interrupt_cpu_status_s *cpu_int_status,
                          struct alarm_context_s *cpu_alarm_context);
 extern void z80_trigger_dma(void);
 
