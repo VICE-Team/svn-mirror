@@ -286,7 +286,7 @@ void keyboard_key_pressed(signed long key)
 
     latch = 0;
 
-    for (i = 0; keyconvmap[i].sym != 0; ++i) {
+    for (i = 0; i < keyc_num; ++i) {
         if (key == keyconvmap[i].sym) {
             if (keyboard_key_pressed_matrix(keyconvmap[i].row,
                                             keyconvmap[i].column,
@@ -364,7 +364,7 @@ void keyboard_key_released(signed long key)
 
     latch = 0;
 
-    for (i = 0; keyconvmap[i].sym != 0; i++) {
+    for (i = 0; i < keyc_num; i++) {
         if (key == keyconvmap[i].sym) {
             if (keyboard_key_released_matrix(keyconvmap[i].row,
                                              keyconvmap[i].column,
@@ -541,7 +541,7 @@ static void keyboard_parse_set_pos_row(signed long sym, int row, int col,
 {
     int i;
 
-    for (i = 0; keyconvmap[i].sym; i++) {
+    for (i = 0; i < keyc_num; i++) {
         if (sym == keyconvmap[i].sym && !(keyconvmap[i].shift & ALLOW_OTHER)) {
             keyconvmap[i].row = row;
             keyconvmap[i].column = col;
