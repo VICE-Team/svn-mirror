@@ -1,172 +1,63 @@
-MONITOR DOCUMENTATION
+### Terminology
+# address_space
+This refers to the range of memory locations and a set of registers.
+This can be the addresses available to the computer's processor, the
+disk drive's processor or a specific memory configuration of one of the
+mentioned processors.
 
-###
-<...> = type
-* = zero or more occurrence
-[...] = optional
-address_range: (address address) | (address|+offset) | (address|-offset)
-address_opt_range: (address_range) | address
-breakpoint = stop on address(range)
-tracepoint = print info on address(range)
-watchpoint = stop on memory(range) read/write
-checkpoint = breakpoint & tracepoint & watchpoint
+# register
+One of the following: program counter (PC), stack pointer (SP),
+accumulator (A), X register (X), or Y register (Y).
 
-prompt = [X,R:Y,W:Z]
-         X = [S|-] S == reads have side effects
-         Y = default read memory space
-         Z = default write memory space
-###
+# address
+A specific memory location in the range $0000 to $FFFF.
 
-COMMAND: add_label
-ABBREVIATIONS: al
-SYNTAX: add_label <address> <label>
+# address_range
+Two addresses. If the second address is less than the first, the range
+is assumed to wraparound from $FFFF to $0000. Both addresses must be in
+the same address space.
 
-FUNCTION: This function maps a given address to a label.
-This label can be used when entering assembly code and is shown
-during disassembly.
- TODO: Allow label to specify address in commands.
+# address_opt_range
+An address or an address range.
 
+# label
+Fixme.
 
-COMMAND: assemble
-ABBREVIATIONS: a
-SYNTAX: a <address> [ <instruction> [: <instruction>]* ]
+# prompt
+The prompt has the format [x:y]. If x is -, memory reads from the
+monitor do not have side effects. Otherwise, x is S. The second part of
+the prompt, y, shows the default address space.
 
-FUNCTION: Assemble instructions to the specified address.
-If more than one instruction is given, the command does not
-cause the monitor to enter assembly mode.
+# checkpoint
+The monitor has the ability to setup triggers that perform an action
+when a specified situation occurs. There are three types of checkpoints;
+breakpoints, tracepoints and watchpoints.
 
-COMMAND: bank
-ABBREVIATIONS: b
-SYNTAX: bank <number>
+# breakpoint
+A breakpoint is triggered based on the program counter. When it is
+triggered, the monitor is entered.
 
-FUNCTION: None yet.
+# tracepoint
+Like breakpoints, a tracepoint is triggered based on the program counter.
+Instead of entering the monitor, the program counter is printed and
+execution continues.
 
+# watchpoint
+Watchpoints are triggered by a read and/or write to an address. When
+a watchpoint is triggered, the monitor is entered.
 
-COMMAND: block read
-ABBREVIATIONS: none
-SYNTAX: br <track> <sector> [<address>]
+# <...>
+A data type.
 
-FUNCTION: This command reads the block at the specified track
-and sector. If an address is specified, the data is loaded into
-memory. If no address is given, the data is displayed on the 
-screen using the default datatype.
+# *
+zero or more occurrence
 
+# [...]
+An optional argument
 
-COMMAND: block write
-ABBREVIATIONS: none
-SYNTAX: bw <track> <sector> <address>
+### Monitor Commands
 
-FUNCTION: This command writes a block of data at address
-to the specified track and sector. 
-
-
-COMMAND: set or list breakpoints
-ABBREVIATIONS: none
-SYNTAX: break [<address> [if <cond_expr>] ]
-
-FUNCTION: This command allows setting a breakpoint or
-listing the current breakpoints. If no address is given,
-the currently valid checkpoints are printed. If an address
-is given, a breakpoint is set for that address and the
-breakpoint number is printed. A conditional expression can
-also be specified for the breakpoint. For more information
-on conditions, see the CONDITION command.
-
-
-COMMAND: Enter monitor on break.
-ABBREVIATIONS: none
-SYNTAX: brmon
-
-FUNCTION: None yet. Will toggle monitor entry on BRK.
-
-
-COMMAND: Change directory.
-ABBREVIATIONS: none
-SYNTAX: cd <directory>
-
-FUNCTION: Change the working directory.
-
-
-COMMAND: enable and disable checkpoints
-ABBREVIATIONS: none
-SYNTAX: enable/disable <checknum>
-
-FUNCTION: Each checkpoint can be enabled or disabled. This
-command allows changing between these states.
-
-
-COMMAND: Set a command to execute on checkpoint.
-ABBREVIATIONS: none
-SYNTAX: command <check_num> "<command>"
-
-FUNCTION: When checkpoint check_num is hit, the specified
-command is executed by the monitor. Note that the 'x' command
-is not yet supported as a command argument.
-
-
-COMMAND: Compare memory contents.
-ABBREVIATIONS: c
-SYNTAX: compare <address_range> <address>
-
-FUNCTION: Compare memory from the source specified by the address range to
-the destination specified by the address. The regions may overlap. Any values
-that miscompare are displayed using the default displaytype.
-
-
-COMMAND: Add a condition to a checkpoint.
-ABBREVIATIONS: cond
-SYNTAX: condition <checknum> if <cond_expr>
-
-FUNCTION: Each time the specified checkpoint is examined, the
-condition is evaluated. If it evalutes to true, the checkpoint
-is activated. Otherwise, it is ignores. If registers are specified
-in the expression, the values used are those at the time the
-checkpoint is examined, not when the condition is set.
- TODO: Add memory dereferencing.
-
-
-COMMAND: Delete a label.
-ABBREVIATIONS: dl
-SYNTAX: delete_label [<memspace>] <label>
-
-FUNCTION: The specified label is removed from label tables. If
-no memspace is checked, all tables are checked.
-
-
-COMMAND: Delete checkpoint.
-ABBREVIATIONS: del
-SYNTAX: delete <check_num>
-
-FUNCTION: Delete the specified checkpoint.
-
-
-COMMAND: Set the default device to read/write memory.
-ABBREVIATIONS: none
-SYNTAX: device [c:|d:]
-
-FUNCTION: Set the default memory device to either the computer
-or the disk. 
-
-
-COMMAND: Disassemble instructions.
-ABBREVIATIONS: none
-SYNTAX: d [<address> [<address>]]
-
-FUNCTION: Disassemble instructions. If two addresses are specified,
-they are used as a start and end address. If only one is specified, it
-is treated as the start address and a default number of instructions
-are disassembled. If no addresses are specified, a default number of
-instructions are disassembled from the dot address.
-
-
-COMMAND: Disk command.
-ABBREVIATIONS: none
-SYNTAX: @<disk command>
-
-FUNCTION: Perform a disk command on the currently attached disk
-image. The specified disk command is sent to the drive's channel #15.
- TODO: Allow drives other than 8, and support for GCR images.
-
+## Machine State Commands
 
 COMMAND: Go down a stackframe.
 ABBREVIATIONS: none
@@ -182,11 +73,70 @@ SYNTAX: dump/undump
 FUNCTION: Save and restore machine state.
 
 
-COMMAND: exit
-ABBREVIATIONS: x
-SYNTAX: exit
+COMMAND: goto
+ABBREVIATIONS: none
+SYNTAX: goto <address>
 
-FUNCTION: Leave the monitor and return to execution.
+FUNCTION: Change the PC to address and continue execution.
+
+
+COMMAND: Display IO registers.
+ABBREVIATIONS: none
+SYNTAX: io
+
+FUNCTION: Nothing yet. Will display VIC/VIA/CIA/SID registers.
+
+
+COMMAND: Goto next instruction.
+ABBREVIATIONS: n
+SYNTAX: next [<count>]
+
+FUNCTION: Advance to the next instruction. Subroutines are treated as
+a single instruction.
+
+
+COMMAND: registers
+ABBREVIATIONS: r
+SYNTAX: registers [<reg_name> = <number> [, <reg_name> = <number>]*]
+
+FUNCTION: This command allows displaying and setting the
+registers of the 6502 microprocessor. Valid register names
+are A, X, Y, PC and SP.
+
+
+COMMAND: return
+ABBREVIATIONS: none
+SYNTAX: return
+
+FUNCTION: This command continues the execution of the 6502 and returns
+to the monitor just before(after?) the next RTS or RTI is executed.
+
+
+COMMAND: Step through instructions.
+ABBREVIATIONS: z
+SYNTAX: step [<count>]
+
+FUNCTION: Single step through instructions. An optional
+count allows stepping more than a single instruction at a
+time.
+
+
+COMMAND: Go up a stack frame.
+ABBREVIATIONS: none
+SYNTAX: up
+
+FUNCTION: Nothing yet. Is this really useful?
+
+
+## Memory Commands
+
+COMMAND: Compare memory contents.
+ABBREVIATIONS: c
+SYNTAX: compare <address_range> <address>
+
+FUNCTION: Compare memory from the source specified by the address range to
+the destination specified by the address. The regions may overlap. Any values
+that miscompare are displayed using the default displaytype.
 
 
 COMMAND: Fill memory contents.
@@ -198,20 +148,6 @@ data in <data_list>. If the size of the address range is greater
 than the size of the data_list, the data_list is repeated.
 
 
-COMMAND: goto
-ABBREVIATIONS: none
-SYNTAX: goto <address>
-
-FUNCTION: Change the PC to address and continue execution.
-
-
-COMMAND: Help.
-ABBREVIATIONS: ?
-SYNTAX: help [topic]
-
-FUNCTION: Nothing yet.
-
-
 COMMAND: Hunt memory for data.
 ABBREVIATIONS: h
 SYNTAX: hunt <address_range> <data_list>
@@ -219,7 +155,7 @@ SYNTAX: hunt <address_range> <data_list>
 FUNCTION: Hunt memory in the specified address range for the
 data in <data_list>. If the data is found, the starting address
 of the match is displayed. The entire range is searched for all
-possible matches. 
+possible matches.
 
 
 COMMAND: Interpret memory data as PETSCII text.
@@ -227,41 +163,6 @@ ABBREVIATIONS: none
 SYNTAX: i <address_opt_range>
 
 FUNCTION: Display memory contents as PETSCII text.
-
-
-COMMAND: Ignore checkpoints.
-ABBREVIATIONS: none
-SYNTAX: ignore <checknum> [<count>]
-
-FUNCTION: This command allows ignoring a checkpoint
-a given number of crossings. If no count is given, the
-default value is 1.
-
-
-COMMAND: Display IO registers.
-ABBREVIATIONS: none
-SYNTAX: io
-
-FUNCTION: Nothing yet. Will display VIC/VIA/CIA/SID registers.
-
-
-COMMAND: Load file.
-ABBREVIATIONS: l
-SYNTAX: load "<filename>" <address>
-
-FUNCTION: Load the specified file into memory at the
-specified address.
- TODO: Allow no address? Load file from .d64, not FS.
-
-
-COMMAND: Load labels.
-ABBREVIATIONS: ll
-SYNTAX: load_labels [<memspace>] "<filename>"
-
-FUNCTION: Load a file containing a mapping of labels to
-addresses. If no memory space is specified, the default
-readspace is used.
- TODO: Include memspace in file format.
 
 
 COMMAND: display memory contents
@@ -287,51 +188,148 @@ COMMAND: display memory contents as sprite data
 ABBREVIATIONS: none
 SYNTAX: ms [data_type] [address_opt_range]
 
-FUNCTION: Display the contents of memory as sprite data.  If 
+FUNCTION: Display the contents of memory as sprite data.  If
 only one address is specified, only one sprite is displayed. If
 no addresses are given, the 'dot' address is used.
 
 
 COMMAND: move memory contents
 ABBREVIATIONS: t
-SYNTAX: move address_range address 
-SYNTAX: transfer address_range address 
+SYNTAX: move address_range address
+SYNTAX: transfer address_range address
 
 FUNCTION: Move memory from the source specified by the address range to
 the destination specified by the address. The regions may overlap.
 
 
-COMMAND: Goto next instruction.
-ABBREVIATIONS: n
-SYNTAX: next [<count>]
+COMMAND: Enter data.
+ABBREVIATIONS: none
+SYNTAX: > [address] <data_list>
 
-FUNCTION: Advance to the next instruction. Subroutines are treated as
-a single instruction.
-
-
-COMMAND: Playback commands from file.
-ABBREVIATIONS: pb
-SYNTAX: playback "<filename>"
-
-FUNCTION: Monitor commands from the specified file are read and
-executed. This command stops at the end of file or when a STOP
-command is read.
+FUNCTION: This displays the specified number in decimal, hex, octal
+and binary.
 
 
-COMMAND: Print expression.
-ABBREVIATIONS: p
-SYNTAX: print <expression>
+## Assembly Commands
 
-FUNCTION: The specified expression is evaluated and the result
-is output.
+COMMAND: assemble
+ABBREVIATIONS: a
+SYNTAX: a <address> [ <instruction> [: <instruction>]* ]
+
+FUNCTION: Assemble instructions to the specified address.
+If more than one instruction is given, the command does not
+cause the monitor to enter assembly mode.
 
 
-COMMAND: Quit.
-ABBREVIATIONS:
-SYNTAX: quit
+COMMAND: Disassemble instructions.
+ABBREVIATIONS: none
+SYNTAX: d [<address> [<address>]]
 
-FUNCTION: Exit VICE.
- TODO: prompt user.
+FUNCTION: Disassemble instructions. If two addresses are specified,
+they are used as a start and end address. If only one is specified, it
+is treated as the start address and a default number of instructions
+are disassembled. If no addresses are specified, a default number of
+instructions are disassembled from the dot address.
+
+
+## Checkpoint Commands
+
+COMMAND: set or list breakpoints
+ABBREVIATIONS: none
+SYNTAX: break [<address> [if <cond_expr>] ]
+
+FUNCTION: This command allows setting a breakpoint or
+listing the current breakpoints. If no address is given,
+the currently valid checkpoints are printed. If an address
+is given, a breakpoint is set for that address and the
+breakpoint number is printed. A conditional expression can
+also be specified for the breakpoint. For more information
+on conditions, see the CONDITION command.
+
+
+COMMAND: enable and disable checkpoints
+ABBREVIATIONS: none
+SYNTAX: enable/disable <checknum>
+
+FUNCTION: Each checkpoint can be enabled or disabled. This
+command allows changing between these states.
+
+
+COMMAND: Set a command to execute on checkpoint.
+ABBREVIATIONS: none
+SYNTAX: command <check_num> "<command>"
+
+FUNCTION: When checkpoint check_num is hit, the specified
+command is executed by the monitor. Note that the 'x' command
+is not yet supported as a command argument.
+
+
+COMMAND: Add a condition to a checkpoint.
+ABBREVIATIONS: cond
+SYNTAX: condition <checknum> if <cond_expr>
+
+FUNCTION: Each time the specified checkpoint is examined, the
+condition is evaluated. If it evalutes to true, the checkpoint
+is activated. Otherwise, it is ignores. If registers are specified
+in the expression, the values used are those at the time the
+checkpoint is examined, not when the condition is set.
+ TODO: Add memory dereferencing.
+
+
+COMMAND: Delete checkpoint.
+ABBREVIATIONS: del
+SYNTAX: delete <check_num>
+
+FUNCTION: Delete the specified checkpoint.
+
+
+COMMAND: Ignore checkpoints.
+ABBREVIATIONS: none
+SYNTAX: ignore <checknum> [<count>]
+
+FUNCTION: This command allows ignoring a checkpoint
+a given number of crossings. If no count is given, the
+default value is 1.
+
+
+COMMAND: set or list tracepoints
+ABBREVIATIONS: none
+SYNTAX: trace [address [address]]
+
+FUNCTION: This command is similar to the break command
+except that it operates on tracepoints. A tracepoint
+differs from a breakpoint by not stopping execution but
+simply printing the PC, giving the user an execution trace.
+The second optional address can be used to specify the
+end of an range of addresses to be traced.
+
+
+COMMAND: set or list watchpoints
+ABBREVIATIONS: none
+SYNTAX: watch [address [address]]
+
+FUNCTION: This command is similar to the previous two commands
+except that it operates on watchpoints. A watchpoint
+differs from the others by stopping on a read and/or write to
+an address or range of addresses. If no addresses are given,
+a list of all the checkpoints is printed.
+
+
+## General Commands
+
+COMMAND: Change directory.
+ABBREVIATIONS: none
+SYNTAX: cd <directory>
+
+FUNCTION: Change the working directory.
+
+
+COMMAND: Set the default device to read/write memory.
+ABBREVIATIONS: none
+SYNTAX: device [c:|d:]
+
+FUNCTION: Set the default memory device to either the computer
+or the disk.
 
 
 COMMAND: Change radix
@@ -340,33 +338,6 @@ SYNTAX: radix [H|D|O|B]
 
 FUNCTION: This command sets the default radix to hex, decimal,
 octal, or binary. With no argument, the current radix is printed.
-
-
-COMMAND: Record commands
-ABBREVIATIONS: rec
-SYNTAX: record "<filename>"
-
-FUNCTION: After this command, all commands entered are
-written to the specified file until the STOP command is
-entered.
- TODO: Don't enter bad commands.
-
-
-COMMAND: registers
-ABBREVIATIONS: r
-SYNTAX: registers [<reg_name> = <number> [, <reg_name> = <number>]*]
-
-FUNCTION: This command allows displaying and setting the
-registers of the 6502 microprocessor. Valid register names
-are A, X, Y, PC and SP. 
-
-
-COMMAND: return
-ABBREVIATIONS: none
-SYNTAX: return
-
-FUNCTION: This command continues the execution of the 6502 and returns
-to the monitor just before(after?) the next RTS or RTI is executed.
 
 
 COMMAND: sidefx
@@ -381,6 +352,51 @@ If the argument is 'toggle' then the current mode is switched.
 No argument displays the current state.
 
 
+COMMAND: Execute system command.
+ABBREVIATIONS: sys
+SYNTAX: system <system command>
+
+FUNCTION: Nothing yet.
+
+
+## Disk Commands
+
+COMMAND: block read
+ABBREVIATIONS: none
+SYNTAX: br <track> <sector> [<address>]
+
+FUNCTION: This command reads the block at the specified track
+and sector. If an address is specified, the data is loaded into
+memory. If no address is given, the data is displayed on the
+screen using the default datatype.
+
+
+COMMAND: block write
+ABBREVIATIONS: none
+SYNTAX: bw <track> <sector> <address>
+
+FUNCTION: This command writes a block of data at address
+to the specified track and sector.
+
+
+COMMAND: Disk command.
+ABBREVIATIONS: none
+SYNTAX: @<disk command>
+
+FUNCTION: Perform a disk command on the currently attached disk
+image. The specified disk command is sent to the drive's channel #15.
+ TODO: Allow drives other than 8, and support for GCR images.
+
+
+COMMAND: Load file.
+ABBREVIATIONS: l
+SYNTAX: load "<filename>" <address>
+
+FUNCTION: Load the specified file into memory at the
+specified address.
+ TODO: Allow no address? Load file from .d64, not FS.
+
+
 COMMAND: Save file.
 ABBREVIATIONS: s
 SYNTAX: save "<filename>" <address1> <address2>
@@ -388,6 +404,71 @@ SYNTAX: save "<filename>" <address1> <address2>
 FUNCTION: Save the memory from address1 to address2 to
 the specified file.
  TODO: Save to .d64 instead of FS.
+
+
+COMMAND: Verify a file.
+ABBREVIATIONS: v
+SYNTAX: v "<filename>" <address>
+
+FUNCTION: Nothing yet. Is this really needed?
+
+
+## Command File Commands
+
+COMMAND: Playback commands from file.
+ABBREVIATIONS: pb
+SYNTAX: playback "<filename>"
+
+FUNCTION: Monitor commands from the specified file are read and
+executed. This command stops at the end of file or when a STOP
+command is read.
+
+
+COMMAND: Record commands
+ABBREVIATIONS: rec
+SYNTAX: record "<filename>"
+
+FUNCTION: After this command, all commands entered are
+written to the specified file until the STOP command is
+entered.
+ TODO: Don't enter bad commands.
+
+
+COMMAND: Stop recording commands.
+ABBREVIATIONS: none
+SYNTAX: stop
+
+FUNCTION: Stop recording commands. See RECORD.
+
+
+## Label Commands
+
+COMMAND: add_label
+ABBREVIATIONS: al
+SYNTAX: add_label <address> <label>
+
+FUNCTION: This function maps a given address to a label.
+This label can be used when entering assembly code and is shown
+during disassembly.
+TODO: Allow label to specify address in commands.
+
+
+COMMAND: Delete a label.
+ABBREVIATIONS: dl
+SYNTAX: delete_label [<memspace>] <label>
+
+FUNCTION: The specified label is removed from label tables. If
+no memspace is checked, all tables are checked.
+
+
+COMMAND: Load labels.
+ABBREVIATIONS: ll
+SYNTAX: load_labels [<memspace>] "<filename>"
+
+FUNCTION: Load a file containing a mapping of labels to
+addresses. If no memory space is specified, the default
+readspace is used.
+ TODO: Include memspace in file format.
 
 
 COMMAND: Save labels.
@@ -407,64 +488,50 @@ FUNCTION: Display current label mappings. If no memory
 space is specified, show all labels.
 
 
-COMMAND: Step through instructions.
-ABBREVIATIONS: z
-SYNTAX: step [<count>]
+## Miscellaneous Commands
 
-FUNCTION: Single step through instructions. An optional
-count allows stepping more than a single instruction at a
-time.
+COMMAND: bank
+ABBREVIATIONS: b
+SYNTAX: bank <number>
+
+FUNCTION: None yet.
 
 
-COMMAND: Stop recording commands.
+COMMAND: Enter monitor on break.
 ABBREVIATIONS: none
-SYNTAX: stop
+SYNTAX: brmon
 
-FUNCTION: Stop recording commands. See RECORD.
+FUNCTION: None yet. Will toggle monitor entry on BRK.
 
 
-COMMAND: Execute system command.
-ABBREVIATIONS: sys
-SYNTAX: system <system command>
+COMMAND: exit
+ABBREVIATIONS: x
+SYNTAX: exit
+
+FUNCTION: Leave the monitor and return to execution.
+
+
+COMMAND: Help.
+ABBREVIATIONS: ?
+SYNTAX: help [topic]
 
 FUNCTION: Nothing yet.
 
 
-COMMAND: set or list tracepoints
-ABBREVIATIONS: none
-SYNTAX: trace [address [address]]
+COMMAND: Print expression.
+ABBREVIATIONS: p
+SYNTAX: print <expression>
 
-FUNCTION: This command is similar to the break command
-except that it operates on tracepoints. A tracepoint
-differs from a breakpoint by not stopping execution but
-simply printing the PC, giving the user an execution trace.
-The second optional address can be used to specify the
-end of an range of addresses to be traced.
+FUNCTION: The specified expression is evaluated and the result
+is output.
 
 
-COMMAND: Go up a stack frame.
-ABBREVIATIONS: none
-SYNTAX: up
+COMMAND: Quit.
+ABBREVIATIONS:
+SYNTAX: quit
 
-FUNCTION: Nothing yet. Is this really useful?
-
-
-COMMAND: Verify a file.
-ABBREVIATIONS: v
-SYNTAX: v "<filename>" <address>
-
-FUNCTION: Nothing yet. Is this really needed?
-
-
-COMMAND: set or list watchpoints
-ABBREVIATIONS: none
-SYNTAX: watch [address [address]]
-
-FUNCTION: This command is similar to the previous two commands
-except that it operates on watchpoints. A watchpoint
-differs from the others by stopping on a read and/or write to
-an address or range of addresses. If no addresses are given,
-a list of all the checkpoints is printed.
+FUNCTION: Exit VICE.
+ TODO: prompt user.
 
 
 COMMAND: Convert number base.
@@ -474,10 +541,4 @@ SYNTAX: ~ <number>
 FUNCTION: This displays the specified number in decimal, hex, octal
 and binary.
 
-
-COMMAND: Enter data.
-ABBREVIATIONS: none
-SYNTAX: > [address] <data_list>
-
-FUNCTION: This displays the specified number in decimal, hex, octal
-and binary.
+###
