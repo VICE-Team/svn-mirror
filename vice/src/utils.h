@@ -2,7 +2,8 @@
  * utils.h - Miscellaneous utility functions.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,6 +27,8 @@
 
 #ifndef _UTILS_H
 #define _UTILS_H
+
+#include "vice.h"
 
 #ifdef STDC_HEADERS
 #include <stdio.h>
