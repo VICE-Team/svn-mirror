@@ -83,7 +83,7 @@ static void set_pet_model(ADDRESS addr, void *model)
 }
 #endif
 
-#if defined __X64__ || defined __X128__ || defined __XVIC__
+#if defined __X64__ || defined __X128__ || defined __XVIC__ || defined __XPLUS4__
 static const char *VIDEO_CACHE="VideoCache";
 #else // __XPET__ || __XCBM__
 static const char *VIDEO_CACHE="CrtcVideoCache";
@@ -272,7 +272,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         WinActivateWindow(hwndLog, 1);
         return;
 
-#ifdef __X64__
+#if defined __X64__ || defined __X128__
     case IDM_CRTGEN:
     case IDM_CRTGEN8KB:
     case IDM_CRTGEN16KB:
@@ -372,7 +372,8 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         log_debug("Setting delayloop... done.");
         return;
 
-#if defined VIC_II_NEED_2X || defined VIC_NEED_2X
+//#if defined VIC_II_NEED_2X || defined VIC_NEED_2X
+#if defined HAVE_VIC_II || HAVE_VIC
     case IDM_VICDSIZE:
         maincpu_trigger_trap(toggle_async, "DoubleSize");
         return;
@@ -381,12 +382,20 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         maincpu_trigger_trap(toggle_async, "DoubleScan");
         return;
 #endif
-#ifdef CRTC_NEED_2X
+#ifdef HAVE_CRTC
     case IDM_CRTCDSIZE:
         toggle("CrtcDoubleSize");
         return;
     case IDM_CRTCDSCAN:
         toggle("CrtcDoubleScan");
+        return;
+#endif
+#ifdef VDC_NEED_2X
+    case IDM_CRTCDSIZE:
+        toggle("VDC_DoubleSize");
+        return;
+    case IDM_CRTCDSCAN:
+        toggle("VDC_DoubleScan");
         return;
 #endif
 
@@ -905,7 +914,7 @@ void menu_select(HWND hwnd, USHORT item)
 
     switch (item)
     {
-#ifdef __X64__
+#if defined __X64__ || defined __X128__
     case IDM_FILE:
         resources_get_value("CartridgeType", (resource_value_t*) &val);
         WinEnableMenuItem(hwnd, IDM_CRTFREEZE,
@@ -936,7 +945,7 @@ void menu_select(HWND hwnd, USHORT item)
         return;
 #endif
     case IDM_DETACH:
-#ifdef __X64__
+#if defined __X64__ || defined __X128__
         resources_get_value("CartridgeType", (resource_value_t*) &val);
         WinEnableMenuItem(hwnd, IDM_CARTRIDGEDET, val!=CARTRIDGE_NONE);
 #endif
@@ -995,11 +1004,16 @@ void menu_select(HWND hwnd, USHORT item)
     case IDM_SETUP:
         WinCheckRes(hwnd, IDM_FAKEPAL, "DelayLoopEmulation");
 
-#if defined VIC_II_NEED_2X || defined VIC_NEED_2X
+#if defined HAVE_VIC_II || defined HAVE_VIC
         WinCheckRes(hwnd, IDM_VICDSIZE, "DoubleSize");
         WinCheckRes(hwnd, IDM_VICDSCAN, "DoubleScan");
 #endif
-#ifdef CRTC_NEED_2X
+#ifdef VDC_NEED_2X
+        log_debug("Switching...");
+        WinCheckRes(hwnd, IDM_VDCDSIZE, "VDC_DoubleSize");
+        WinCheckRes(hwnd, IDM_VDCDSCAN, "VDC_DoubleScan");
+#endif
+#ifdef HAVE_CRTC
         WinCheckRes(hwnd, IDM_CRTCDSIZE, "CrtcDoubleSize");
         WinCheckRes(hwnd, IDM_CRTCDSCAN, "CrtcDoubleScan");
 #endif
@@ -1011,9 +1025,9 @@ void menu_select(HWND hwnd, USHORT item)
         //WinCheckRes(hwnd, IDM_PRTUPORT,  "PrUser");
         WinCheckRes(hwnd, IDM_EMUID,     "EmuID");
 #ifdef __XCBM__
-        WinCheckRes(hwnd, IDM_VCACHE,    val?"VideoCache":"CrtcVideoCache");
         resources_get_value("UseVicII", (resource_value_t*)&val);
         WinEnableMenuItem(hwnd, IDM_PALCONTROL, val);
+        WinCheckRes(hwnd, IDM_VCACHE, val?"VideoCache":"CrtcVideoCache");
 #else
         WinCheckRes(hwnd, IDM_VCACHE,    VIDEO_CACHE);
 #endif

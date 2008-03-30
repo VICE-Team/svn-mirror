@@ -1,6 +1,7 @@
 source type(c)
         "c610-cmdline-options.c",
         "c610-resources.c",
+        "c610-snapshot.c",
 	"c610.c",
 	"c610acia1.c",
 	"c610cia1.c",

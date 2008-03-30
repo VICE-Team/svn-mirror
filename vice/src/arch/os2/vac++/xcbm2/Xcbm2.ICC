@@ -21,6 +21,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\drive"),
     incl(searchpath, "..\\..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\..\\raster"),
+    incl(searchpath, "..\\..\\..\\..\\video"),
     incl(searchpath, "..\\..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\..\\sounddrv"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
@@ -50,6 +51,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/drive.icc"
         include "../incl/raster.icc"
         include "../incl/vdrive.icc"
+        include "../incl/video.icc"
         include "../incl/monitor.icc"
         include "../incl/sounddrv.icc"
         include "../incl/gfxoutputdrv.icc"

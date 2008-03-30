@@ -34,33 +34,28 @@ ICON    PTR_SKULL  "..\\..\\icons\\skull.ico"
 ICON    PTR_NOTE   "..\\..\\icons\\note.ico"
 
 #ifdef __X64__
-//DEFAULTICON "..\\icons\\x64.ico"
 ICON    IDM_VICE2  "..\\..\\icons\\x64.ico"
 ICON    DLG_VSID   "..\\..\\icons\\vsid.ico"
 #endif
 
 #ifdef __XPET__
-//DEFAULTICON "..\\icons\\xpet.ico"
 ICON    IDM_VICE2 "..\\..\\icons\\xpet.ico"
-//POINTER PTR_VICE2 "..\\..\\icons\\xpet.ico"
 #endif
 
 #ifdef __XCBM__
-//DEFAULTICON "..\\icons\\xcbm2.ico"
 ICON    IDM_VICE2 "..\\..\\icons\\xcbm2.ico"
-//POINTER PTR_VICE2 "..\\..\\icons\\xcbm2.ico"
 #endif
 
 #ifdef __X128__
-//DEFAULTICON "..\\icons\\x128.ico"
 ICON    IDM_VICE2 "..\\..\\icons\\x128.ico"
-//POINTER PTR_VICE2 "..\\..\\icons\\x128.ico"
 #endif
 
 #ifdef __XVIC__
-//DEFAULTICON "..\\icons\\xvic.ico"
 ICON    IDM_VICE2 "..\\..\\icons\\xvic.ico"
-//POINTER PTR_VICE2 "..\\..\\icons\\xvic.ico"
+#endif
+
+#ifdef __XPLUS4__
+ICON    IDM_VICE2 "..\\..\\icons\\xvic.ico"
 #endif
 
 DLGTEMPLATE DLG_ABOUT 850 MOVEABLE DISCARDABLE
@@ -69,30 +64,30 @@ BEGIN
   PRESPARAMS PP_FONTNAMESIZE, "11.System VIO" //9.Warp Sans Bold"
   BEGIN
     CONTROL "OK",  DID_CLOSE, 86,  5,  38,  12, STY_CLOSEBUTTON
-    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"  // ¸
     CONTROL "",    ID_NONE,     7, 22, 196, 188, STY_GROUPBOX
     ICON IDM_VICE2, ID_NONE, 27, 170/*231*/, 0, 0
     TEXT("V I C E",                                         15, 195, 180, 7)
     TEXT("the Versatile Commodore Emulator",                15, 188, 180, 7)
     TEXT("Version ",                                        65, 174,  35, 7)
     TEXT(VERSION,                                          100, 174,  25, 7)
-    TEXT("Copyright ¸ 1993-1999 Teemu Rantanen",            15, 160, 180, 7)
-    TEXT("Copyright ¸ 1993-1996 Jouko Valta",               15, 153, 180, 7)
-    TEXT("Copyright ¸ 1993-1994 Jarkko Sonninen",           15, 146, 180, 7)
-    TEXT("Copyright ¸ 1996-1999 Ettore Perazzoli",          15, 139, 180, 7)
-    TEXT("Copyright ¸ 1996-1999 Andr‚ Fachat",              15, 132, 180, 7)
-    TEXT("Copyright ¸ 1997-2001 Daniel Sladic",             15, 125, 180, 7)
-    TEXT("Copyright ¸ 1998-2001 Andreas Boose",             15, 118, 180, 7)
-    TEXT("Copyright ¸ 1998-2001 Tibor Biczo",               15, 111, 180, 7)
-    TEXT("Copyright ¸ 1999-2001 Andreas Dehmel",            15, 104, 180, 7)
-    TEXT("Copyright ¸ 1999-2001 Andreas Matthies",          15,  97, 180, 7)
-    TEXT("Copyright ¸ 1999-2001 Martin Pottendorfer",       15,  90, 180, 7)
-    TEXT("Copyright ¸ 2000-2001 Markus Brenner",            15,  83, 180, 7)
-    TEXT("Copyright ¸ 2000-2001 Spiro Trikaliotis",         15,  76, 180, 7)
+    TEXT("Copyright (c) 1993-1999 Teemu Rantanen",          15, 160, 180, 7)
+    TEXT("Copyright (c) 1993-1996 Jouko Valta",             15, 153, 180, 7)
+    TEXT("Copyright (c) 1993-1994 Jarkko Sonninen",         15, 146, 180, 7)
+    TEXT("Copyright (c) 1996-1999 Ettore Perazzoli",        15, 139, 180, 7)
+    TEXT("Copyright (c) 1996-1999 Andr‚ Fachat",            15, 132, 180, 7)
+    TEXT("Copyright (c) 1997-2002 Daniel Sladic",           15, 125, 180, 7)
+    TEXT("Copyright (c) 1998-2002 Andreas Boose",           15, 118, 180, 7)
+    TEXT("Copyright (c) 1998-2002 Tibor Biczo",             15, 111, 180, 7)
+    TEXT("Copyright (c) 1999-2002 Andreas Dehmel",          15, 104, 180, 7)
+    TEXT("Copyright (c) 1999-2002 Andreas Matthies",        15,  97, 180, 7)
+    TEXT("Copyright (c) 1999-2002 Martin Pottendorfer",     15,  90, 180, 7)
+    TEXT("Copyright (c) 2000-2002 Markus Brenner",          15,  83, 180, 7)
+    TEXT("Copyright (c) 2000-2002 Spiro Trikaliotis",       15,  76, 180, 7)
     TEXT("Vice/2 - Vice for OS/2",                          15,  66, 180, 7)
-    TEXT("Copyright ¸ 1999-2001 Thomas Bretz",              15,  59, 180, 7)
+    TEXT("Copyright (c) 1999-2002 Thomas Bretz",            15,  59, 180, 7)
     TEXT("reSID engine",                                    15,  49, 180, 7)
-    TEXT("Copyright ¸ 1998-2001 Dag Lem",                   15,  42, 180, 7)
+    TEXT("Copyright (c) 1998-2002 Dag Lem",                 15,  42, 180, 7)
     TEXT("Official VICE homepage:",                         15,  32, 180, 7)
     TEXT("http://www.cs.cmu.edu/~dsladic/vice/vice.html",   15,  25, 180, 7)
     //

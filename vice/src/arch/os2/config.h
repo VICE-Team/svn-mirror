@@ -79,24 +79,29 @@
 #endif
 
 /* Do we support a 1351 mouse?  */
-#if !defined __XPET__ && !defined __XVIC__
+#if !defined __XPET__ && !defined __XVIC__ && !defined __XPLUS4__
 #define HAVE_MOUSE            1
 #endif
 
 /* Do we have to emulate a joystick?  */
 #define HAS_JOYSTICK          1
 
-/* Doublesize/-scan  */
-#if defined __X64__ || defined __X128__ || defined __XCBM__
+/* VIC II Doublesize/-scan  */
+#if defined __X64__ || defined __X128__ || defined __XCBM__ || defined __XPLUS4__
 #define VIC_II_NEED_2X        1
+#define HAVE_VIC_II           1
 #endif
-
+//y-direction
+//#if defined __X128__
+//#define VDC_NEED_2X           1
+//#endif
 #if defined __XVIC__
 #define VIC_NEED_2X           1
+#define HAVE_VIC
 #endif
-
 #if defined __XCBM__ || defined __XPET__
 #define CRTC_NEED_2X          1
+#define HAVE_CRTC
 #endif
 
 /* Is digital joystick support avaiable?  */

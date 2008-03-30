@@ -86,9 +86,12 @@ copy ..\..\..\data\PET\rom4g40.vrs   Vice2\PET
 copy ..\..\..\data\PET\white.vpl     Vice2\PET
 
 md Vice2\PLUS4
+copy ..\..\..\data\PLUS4\basic         Vice2\PLUS4
 copy ..\..\..\data\PLUS4\default.vpl   Vice2\PLUS4
 copy ..\..\..\data\PLUS4\default.vrs   Vice2\PLUS4
-copy ..\..\..\data\PLUS4\vice.vpl.vrs  Vice2\PLUS4
+copy ..\..\..\data\PLUS4\kernal        Vice2\PLUS4
+copy ..\..\..\data\PLUS4\os2.vkm       Vice2\PLUS4
+copy ..\..\..\data\PLUS4\vice.vpl      Vice2\PLUS4
 
 md Vice2\VIC20
 copy ..\..\..\data\VIC20\basic         Vice2\VIC20

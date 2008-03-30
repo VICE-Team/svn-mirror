@@ -1,6 +1,7 @@
 source type(c)
     "plus4-cmdline-options.c",
     "plus4-resources.c",
+    "plus4-snapshot.c",
     "plus4.c",
     "plus4datasette.c",
     "plus4iec.c",

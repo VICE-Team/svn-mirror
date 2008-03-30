@@ -4,6 +4,7 @@ plus4_DATA = \
 	basic \
 	kernal \
 	vice.vpl \
+        os2.vkm \
 	default.vkm \
 	default.vpl \
 	default.vrs \

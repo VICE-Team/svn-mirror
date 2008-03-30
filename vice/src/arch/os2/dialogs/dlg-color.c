@@ -24,6 +24,7 @@
  *
  */
 
+#define INCL_DOSPROCESS     // DosSleep
 #define INCL_WINDIALOGS     // WinSendDlgItemMsg
 #define INCL_WINSTDSLIDER   // SL?_*
 #include "vice.h"
@@ -35,16 +36,23 @@
 
 #include "log.h"
 #include "resources.h"
+#include "interrupt.h"         // maincpu_trigger_trap
 #include "snippets\pmwin2.h"
 
-void SetSliderPos(HWND hwnd, USHORT id, SHORT val)
+
+static int canvas_set_value(const char *name, int val)
+{
+    return resources_set_value(name, (resource_value_t*)val);
+}
+
+static void SetSliderPos(HWND hwnd, USHORT id, SHORT val)
 {
     WinSendDlgItemMsg(hwnd, id, SLM_SETSLIDERINFO,
                       MPFROM2SHORT(SMA_SLIDERARMPOSITION, SMA_INCREMENTVALUE),
                       MPFROMSHORT(val));
 }
 
-void SetSliderTxt(HWND hwnd, USHORT id, SHORT val, const char *txt)
+static void SetSliderTxt(HWND hwnd, USHORT id, SHORT val, const char *txt)
 {
     WinSendDlgItemMsg(hwnd, id, SLM_SETSCALETEXT,
                       MPFROMSHORT(val), MPFROMP(txt));
@@ -76,10 +84,10 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         if (LONGFROMMP(mp1) != ID_DEFAULT)
             break;
 
-        resources_set_value("ColorSaturation", (resource_value_t*)1000);
-        resources_set_value("ColorContrast",   (resource_value_t*)1100);
-        resources_set_value("ColorBrightness", (resource_value_t*)1100);
-        resources_set_value("ColorGamma",      (resource_value_t*) 900);
+        canvas_set_value("ColorSaturation", 1000);
+        canvas_set_value("ColorContrast",   1100);
+        canvas_set_value("ColorBrightness", 1100);
+        canvas_set_value("ColorGamma",       900);
 
         SetSliderPos(hwnd, ID_SATURATION, 100);
         SetSliderPos(hwnd, ID_CONTRAST,   110);
@@ -96,16 +104,16 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         switch (SHORT1FROMMP(mp1))
         {
         case ID_SATURATION:
-            resources_set_value("ColorSaturation", (resource_value_t*)((int)mp2*10));
+            canvas_set_value("ColorSaturation", (int)mp2*10);
             break;
         case ID_CONTRAST:
-            resources_set_value("ColorContrast",   (resource_value_t*)((int)mp2*10));
+            canvas_set_value("ColorContrast",   (int)mp2*10);
             break;
         case ID_BRIGHTNESS:
-            resources_set_value("ColorBrightness", (resource_value_t*)((int)mp2*10));
+            canvas_set_value("ColorBrightness", (int)mp2*10);
             break;
         case ID_GAMMA:
-            resources_set_value("ColorGamma",      (resource_value_t*)((int)mp2*10));
+            canvas_set_value("ColorGamma",      (int)mp2*10);
             break;
         }
         break;

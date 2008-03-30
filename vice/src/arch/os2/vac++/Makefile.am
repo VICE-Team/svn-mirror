@@ -16,7 +16,6 @@ EXTRA_DIST = \
         lpng.icc \
         incl/archdep.icc \
         incl/c64.icc \
-        incl/c64cart.icc \
         incl/c128.icc \
         incl/crtc.icc \
         incl/cbm2.icc \

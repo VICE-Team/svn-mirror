@@ -59,6 +59,7 @@
 #include "utils.h"
 #include "archdep.h"
 #include "cmdline.h"
+#include "machine.h"   // vsid_mode
 #include "resources.h"
 
 /* ------------------------ ui resources ------------------------ */
@@ -84,7 +85,7 @@ static resource_t resources[] = {
 
 int ui_init_resources(void)
 {
-    return resources_register(resources);
+    return vsid_mode?0:resources_register(resources);
 }
 
 static cmdline_option_t cmdline_options[] = {
@@ -97,7 +98,7 @@ static cmdline_option_t cmdline_options[] = {
 
 int ui_init_cmdline_options(void)
 {
-    return cmdline_register_options(cmdline_options);
+    return vsid_mode?0:cmdline_register_options(cmdline_options);
 }
 
 int machine_ui_init(void)
@@ -271,7 +272,7 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
 
     va_start(ap, format);
     tmp = xmvsprintf(format, ap);
-    txt = concat("    Chipset:\n ", tmp, NULL);
+    txt = concat("    Chipset reported:\n ", tmp, NULL);
     free(tmp);
 
     rc = WinMessageBox2(HWND_DESKTOP, HWND_DESKTOP,

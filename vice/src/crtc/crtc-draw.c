@@ -94,6 +94,7 @@ static void draw_standard_background (int start_pixel, int end_pixel)
                end_pixel - start_pixel + 1);
 }
 
+#ifndef VIDEO_REMOVE_2X
 #ifdef CRTC_NEED_2X
 static void draw_standard_background_2x(int start_pixel, int end_pixel)
 {
@@ -102,6 +103,7 @@ static void draw_standard_background_2x(int start_pixel, int end_pixel)
                2 * (end_pixel - start_pixel + 1));
 }
 #endif
+#endif /* VIDEO_REMOVE_2X */
 
 /***************************************************************************/
 
@@ -228,6 +230,9 @@ static void draw_reverse_line(void)
 /***************************************************************************/
 
 /* inline function... */
+
+
+#ifndef VIDEO_REMOVE_2X
 static inline void DRAW_2x(int reverse_flag, int offset, int scr_rel,
                                                         int xs, int xc, int xe)
 {
@@ -353,6 +358,7 @@ static void draw_reverse_line_2x(void)
             (crtc.rl_len + 1) * crtc.hw_cols);
 }
 #endif
+#endif /* VIDEO_REMOVE_2X */
 
 /***************************************************************************/
 
@@ -394,6 +400,8 @@ static void draw_reverse_line_cached(raster_cache_t *l, int xs, int xe)
     DRAW_CACHED(l, xs, xe, 1);
 }
 
+
+#ifndef VIDEO_REMOVE_2X
 
 #define DRAW_CACHED_2x(l, xs, xe, reverse_flag)                \
     do {                                                       \
@@ -456,6 +464,7 @@ static void setup_double_size_modes (void)
                      NULL /* draw_rev_text_foreground*/);
 }
 #endif
+#endif /* VIDEO_REMOVE_2X */
 
 static void setup_single_size_modes (void)
 {
@@ -489,11 +498,13 @@ void crtc_draw_init(void)
 void crtc_draw_set_double_size(int enabled)
 {
     /* bit 0: double height, bit 1: double width */
+#ifndef VIDEO_REMOVE_2X
 #ifdef CRTC_NEED_2X
     if (enabled & 2)
         setup_double_size_modes();
     else
 #endif
+#endif /* VIDEO_REMOVE_2X */
         setup_single_size_modes();
 }
 

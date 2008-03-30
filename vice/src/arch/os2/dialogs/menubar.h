@@ -88,12 +88,15 @@
 #define IDM_HARDRESET     0x12d
 #define IDM_EXIT          0x12f
 
-#define IDM_VICDSIZE     0x13c
-#define IDM_VICDSCAN     0x13d
-#define IDM_FAKEPAL      0x13e
+#define IDM_VICDSIZE     0x131
+#define IDM_VICDSCAN     0x132
+#define IDM_FAKEPAL      0x133
 
-#define IDM_CRTCDSIZE    0x13f
-#define IDM_CRTCDSCAN    0x140
+#define IDM_CRTCDSIZE    0x134
+#define IDM_CRTCDSCAN    0x135
+
+#define IDM_VDCDSIZE     0x136
+#define IDM_VDCDSCAN     0x137
 
 #define IDM_VDC16K       0x141
 #define IDM_VDC64K       0x142

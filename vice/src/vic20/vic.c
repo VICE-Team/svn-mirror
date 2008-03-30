@@ -383,6 +383,8 @@ raster_t *vic_init(void)
 
   vic.initialized = 1;
 
+  vic_resize();
+
   return &vic.raster;
 }
 
@@ -473,6 +475,15 @@ void vic_resize (void)
 
       vic_draw_set_double_size (0);
     }
+
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled)
+		raster_enable_double_scan(&vic.raster,
+	                              vic_resources.fullscreen_double_scan_enabled);
+	else
+#endif
+		raster_enable_double_scan(&vic.raster,
+	                              vic_resources.double_scan_enabled);
 }
 
 /* Set the memory pointers according to the values stored in the VIC

@@ -243,15 +243,18 @@ void crtc_update_window(void)
 #endif
     {
         unsigned int pix_w = 2, pix_h = 2;
-		int mode = VIDEO_RENDER_RGB_1X2;
+		int mode = VIDEO_RENDER_RGB_2X2;
 
         if (width > 400)
-             pix_w = 1;
+		{
+            pix_w = 1;
+			mode = VIDEO_RENDER_RGB_1X2;
+		}
 
         if (height > 350)
 		{
-             pix_h = 1;
-			 mode = VIDEO_RENDER_RGB_1X1;
+            pix_h = 1;
+	        mode = VIDEO_RENDER_RGB_1X1;
 		}
 
         width *= pix_w;
@@ -448,6 +451,8 @@ raster_t *crtc_init(void)
     raster->display_xstart = CRTC_SCREEN_BORDERWIDTH;
     raster->display_xstop = crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH;
 */
+	crtc_resize();
+
     return &crtc.raster;
 }
 
@@ -534,7 +539,11 @@ void crtc_resize (void)
                 ? crtc_resources.double_size_enabled : 0;
 #endif
 
-	if (double_h) mode = VIDEO_RENDER_RGB_1X2;
+	if (double_h)
+	{
+		if (double_w) mode = VIDEO_RENDER_RGB_2X2;
+		else mode = VIDEO_RENDER_RGB_1X2;
+	}
 	else mode = VIDEO_RENDER_RGB_1X1;
 
     if (! crtc.initialized)
@@ -593,6 +602,15 @@ void crtc_resize (void)
     }
 
     crtc_draw_set_double_size((double_h ? 1 : 0) | (double_w ? 2 : 0));
+
+#ifdef USE_XF86_EXTENSIONS
+    if (fullscreen_is_enabled)
+	    raster_enable_double_scan(&crtc.raster,
+		                          crtc_resources.fullscreen_double_scan_enabled);
+	else
+#endif
+	    raster_enable_double_scan(&crtc.raster,
+	                              crtc_resources.double_scan_enabled);
 }
 
 

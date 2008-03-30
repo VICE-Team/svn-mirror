@@ -220,7 +220,7 @@ static void plus4_monitor_init(void)
 /* Plus4-specific initialization.  */
 int machine_init(void)
 {
-    plus4_log = log_open("PLUS4");
+    plus4_log = log_open("Plus4");
 
     maincpu_init();
 

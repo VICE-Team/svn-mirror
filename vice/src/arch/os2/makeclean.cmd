@@ -6,6 +6,8 @@ if "%1"=="" goto ALL
 
 echo  Cleaning vac++\%1\*.obj
 xdel vac++\%1\*.obj  /s /l /n /d
+echo  Cleaning vac++\%1\*.ics
+xdel vac++\%1\*.ics  /s /l /n /d
 goto END
 
 :ALL

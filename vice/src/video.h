@@ -40,17 +40,20 @@ struct video_frame_buffer_s;
 /* RGB is for anything which doesn't need any color filtering  */
 /* for display, like monochrome or rgbi (CRTC and VDC)         */
 
-#define VIDEO_RENDER_PAL_1X1	0
-#define VIDEO_RENDER_PAL_2X2	1
-#define VIDEO_RENDER_RGB_1X1	2
-#define VIDEO_RENDER_RGB_1X2	3
-#define VIDEO_RENDER_RGB_2X2	4
+#define VIDEO_RENDER_NULL		0
+#define VIDEO_RENDER_PAL_1X1	1
+#define VIDEO_RENDER_PAL_2X2	2
+#define VIDEO_RENDER_RGB_1X1	3
+#define VIDEO_RENDER_RGB_1X2	4
+#define VIDEO_RENDER_RGB_2X2	5
 
-typedef struct video_render_config_s {
+struct video_render_config_s {
     int rendermode;             /* what renderers are allowed? */
     int doublescan;             /* doublescan enabled?         */
     DWORD physical_colors[256];
-} video_render_config_t;
+};
+
+typedef struct video_render_config_s video_render_config_t;
 
 extern void video_render_initconfig(video_render_config_t *config);
 extern void video_render_setphysicalcolor(video_render_config_t *config, int index, DWORD color, int depth);

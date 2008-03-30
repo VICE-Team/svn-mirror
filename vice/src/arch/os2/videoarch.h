@@ -12,6 +12,7 @@
 #undef ADDRESS
 #define ADDRESS WORD
 
+#include "video.h"
 #include "palette.h"
 
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
@@ -31,6 +32,7 @@ typedef void (*canvas_redraw_t)(UINT width, UINT height);
 
 typedef struct video_canvas_s
 {
+    video_render_config_t videoconfig;
     HWND   hwndFrame;        // Handle to Frame of Window = WinQueryWindow(hwndClient, QW_PARENT)
     HWND   hwndClient;       // Handle to Paint Area of Window
     HWND   hwndMenu;         // Handle to menu bar
@@ -41,11 +43,12 @@ typedef struct video_canvas_s
     UINT   width;            // width of canvas graphic area
     UINT   height;           // width of canvas graphic area
     BYTE   stretch;          // actual stretch factor of canvas
-    DWORD *palette;          // number of 16-block of palette entries
+//    DWORD  palette[256];     // number of 16-block of palette entries
     BOOL   vrenabled;        // only BlitImage when Visible Region Enabled
     BYTE  *bitmaptrg;
     ULONG  ulBuffer; // DIVE buffer number
     HDIVE  hDiveInst;
+    BYTE  *pVram;
     SETUP_BLITTER divesetup;
     canvas_redraw_t exposure;
 };

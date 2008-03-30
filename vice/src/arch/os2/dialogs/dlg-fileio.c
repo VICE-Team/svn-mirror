@@ -181,7 +181,7 @@ static subaction_t SubPal[] = {
     {NULL}
 };
 
-#ifdef __X64__
+#if defined __X64__ || defined __X128__
 static subaction_t SubCart[] = {
     { "as Generic Cartridge",                  FilterCart },
     { "as Generic 8kB Cartridge",              FilterCart },
@@ -337,7 +337,7 @@ static action_t LoadAction[] = {
     { "Load ROM Image",            SubRom,     TRUE  },
     { "Load ROM Set",              SubRomSet,  FALSE },
     { "Load Configuration File",   SubCfg,     FALSE },
-#ifdef __X64__
+#if defined __X64__ || defined __X128__
     { "Attach Cartridge Image",    SubCart,    TRUE  },
 #endif
 #ifdef __XPET__
@@ -420,7 +420,7 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         return romset_load(szpath);
     case 9:
         return resources_load(szpath);
-#ifdef __X64__
+#if defined __X64__ || defined __X128__
     case 10:
         switch (sact)
         {
@@ -476,7 +476,7 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         return -1;
 #endif
 #ifdef __X128__
-    case 10:
+    case 11:
         switch (sact)
         {
         case 0:
@@ -498,7 +498,7 @@ static action_t SaveAction[] = {
     // { "Save Color Palette",      SubPal,   FALSE },
     // { "Save Keyboard Map",       SubKbd,   FALSE },
     { "Save ROM Set",       SubRomSet,   FALSE },
-#ifdef __X64__
+#if defined __X64__ || defined __X128__
     { "Save Expert Cardridge",   SubCart2, FALSE },
 #endif
     { NULL }
@@ -530,7 +530,7 @@ static BOOL FdmDoSaveAction(HWND hwnd, char *szpath, int act, int sact)
         return flip_save_list(sact+8, szpath);
     case 4:
         return romset_dump(szpath, mem_romset_resources_list);
-#ifdef __X64__
+#if defined __X64__ || defined __X128__
     case 5:
         return cartridge_save_image(szpath);
 #endif

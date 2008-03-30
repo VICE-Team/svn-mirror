@@ -33,7 +33,7 @@ BEGIN
    BEGIN
       MENUITEM "~Open...\tAlt-F3",        IDM_FILEOPEN,    MIS_TEXT
       MENUITEM "~Save as...\tAlt-F2",     IDM_FILESAVE,    MIS_TEXT
-#ifdef __X64__	
+#if defined __X64__ || defined __X128__
       MENUITEM SEPARATOR
       SUBMENU "~Attach Cartridge",        IDM_CARTRIDGE,    MIS_TEXT
       BEGIN
@@ -66,7 +66,7 @@ BEGIN
 */
       SUBMENU "~Detach Image from...", IDM_DETACH,       MIS_TEXT
       BEGIN
-#ifdef __X64__
+#if defined __X64__ || defined __X128__
  	 MENUITEM "~Cartridge",        IDM_CARTRIDGEDET, MIS_TEXT
          MENUITEM SEPARATOR
 #endif
@@ -133,19 +133,24 @@ BEGIN
 #ifdef __X128__      
       MENUITEM "VDC Video Cache",      IDM_VDCVCACHE,    MIS_TEXT
 #endif 
-#ifdef VIC_NEED_2X
+#ifdef HAVE_VIC
       MENUITEM "VIC Double Size",      IDM_VICDSIZE,     MIS_TEXT
       MENUITEM "VIC Double Scan",      IDM_VICDSCAN,     MIS_TEXT
 #endif
-#ifdef VIC_II_NEED_2X
-      MENUITEM "VIC-II Double Size",   IDM_VICDSIZE,     MIS_TEXT
-      MENUITEM "VIC-II Double Scan",   IDM_VICDSCAN,     MIS_TEXT
-#endif
-#if defined CRTC_NEED_2X
+#if defined HAVE_CRTC
       MENUITEM "Crtc Double Size",     IDM_CRTCDSIZE,    MIS_TEXT
       MENUITEM "Crtc Double Scan",     IDM_CRTCDSCAN,    MIS_TEXT
 #endif
-      MENUITEM "Fake PAL Emu",         IDM_FAKEPAL,      MIS_TEXT
+//#ifdef VIC_II_NEED_2X
+#ifdef HAVE_VIC_II
+      MENUITEM "VIC-II Double Size",   IDM_VICDSIZE,     MIS_TEXT
+      MENUITEM "VIC-II Double Scan",   IDM_VICDSCAN,     MIS_TEXT
+#endif
+#ifdef VDC_NEED_2X
+      MENUITEM "VDC Double Size",      IDM_VDCDSIZE,     MIS_TEXT
+      MENUITEM "VDC Double Scan",      IDM_VDCDSCAN,     MIS_TEXT
+#endif
+      MENUITEM "Fast PAL Emulation",   IDM_FAKEPAL,      MIS_TEXT
       SUBMENU "~Refresh Rate Ratio",   IDM_REFRATE,      MIS_TEXT
       BEGIN
          MENUITEM "1/~1",              IDM_REFRATE1,     MIS_TEXT
