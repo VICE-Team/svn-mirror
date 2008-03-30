@@ -32,6 +32,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#ifdef ENABLE_NLS
+#include <libintl.h>
+#else
+#define _(a) (a)		/* temporary, will go into vice.h */
+#define N_(a) (a)
+#endif
 
 #include "archdep.h"
 #include "attach.h"
@@ -92,7 +98,7 @@ static UI_CALLBACK(attach_disk)
     static char *last_dir;
 
     suspend_speed_eval();
-    sprintf(title, "Attach Disk Image as unit #%d", unit);
+    sprintf(title, _("Attach Disk Image as unit #%d"), unit);
     filename = ui_select_file(title, read_disk_image_contents,
                               unit == 8 ? True : False, last_dir,
                               "*.[gdxGDX]*", &button, True);
@@ -100,14 +106,14 @@ static UI_CALLBACK(attach_disk)
     switch (button) {
       case UI_BUTTON_OK:
  	if (file_system_attach_disk(unit, filename) < 0)
-	    ui_error("Invalid Disk Image");
+	    ui_error(_("Invalid Disk Image"));
 	if (last_dir)
 	    free(last_dir);
 	fname_split(filename, &last_dir, NULL);
 	break;
       case UI_BUTTON_AUTOSTART:
 	if (autostart_disk(filename, NULL, selection_from_image) < 0)
-	    ui_error("Invalid Disk Image or Filename");
+	    ui_error(_("Invalid Disk Image or Filename"));
 	if (last_dir)
 	    free(last_dir);
 	fname_split(filename, &last_dir, NULL);
@@ -170,13 +176,13 @@ static UI_CALLBACK(attach_tape)
 
     suspend_speed_eval();
 
-    filename = ui_select_file("Attach a tape image", read_tape_image_contents,
+    filename = ui_select_file(_("Attach a tape image"), read_tape_image_contents,
 			      True, last_dir, "*.[tT]*", &button, True);
 
     switch (button) {
       case UI_BUTTON_OK:
 	if (tape_attach_image(filename) < 0)
-	    ui_error("Invalid Tape Image");
+	    ui_error(_("Invalid Tape Image"));
 	else
 	    ui_display_tape_current_image(filename);
 	if (last_dir)
@@ -185,7 +191,7 @@ static UI_CALLBACK(attach_tape)
 	break;
       case UI_BUTTON_AUTOSTART:
 	if (autostart_tape(filename, NULL, selection_from_image) < 0)
-	    ui_error("Invalid Tape Image");
+	    ui_error(_("Invalid Tape Image"));
 	else
 	    ui_display_tape_current_image(filename);
 	if (last_dir)
@@ -223,7 +229,7 @@ static UI_CALLBACK(smart_attach)
 
     suspend_speed_eval();
 
-    filename = ui_select_file("Smart-attach a file",
+    filename = ui_select_file(_("Smart-attach a file"),
 			      read_disk_or_tape_image_contents,
 			      True, last_dir, NULL, &button, True);
 
@@ -231,7 +237,7 @@ static UI_CALLBACK(smart_attach)
       case UI_BUTTON_OK:
  	if (file_system_attach_disk(8, filename) < 0
 	    && tape_attach_image(filename) < 0) {
-	    ui_error("Unknown image type");
+	    ui_error(_("Unknown image type"));
 	}
 	if (last_dir)
 	    free(last_dir);
@@ -239,7 +245,7 @@ static UI_CALLBACK(smart_attach)
 	break;
       case UI_BUTTON_AUTOSTART:
 	if (autostart_autodetect(filename, NULL, selection_from_image) < 0)
-	    ui_error("Unknown image type");
+	    ui_error(_("Unknown image type"));
 	if (last_dir)
 	    free(last_dir);
 	fname_split(filename, &last_dir, NULL);
@@ -259,11 +265,11 @@ static UI_CALLBACK(change_working_directory)
 
     getcwd(wd, path_max);
     suspend_speed_eval();
-    if (ui_input_string("VICE setting", "Change current working directory",
+    if (ui_input_string(_("VICE setting"), _("Change current working directory"),
 			wd, path_max) != UI_BUTTON_OK)
 	return;
     else if (chdir(wd) < 0)
-	ui_error("Directory not found");
+	ui_error(_("Directory not found"));
 }
 
 #ifdef USE_VIDMODE_EXTENSION
@@ -302,15 +308,15 @@ static UI_CALLBACK(run_c1541)
     sound_close();
     switch (system("xterm -sb -e c1541 &")) {
       case 127:
-	ui_error("Couldn't run /bin/sh???");
+	ui_error(_("Couldn't run /bin/sh???"));
 	break;
       case -1:
-	ui_error("Couldn't run xterm");
+	ui_error(_("Couldn't run xterm"));
 	break;
       case 0:
 	break;
       default:
-	ui_error("Unknown error while running c1541");
+	ui_error(_("Unknown error while running c1541"));
     }
 }
 
@@ -330,7 +336,7 @@ static UI_CALLBACK(browse_manual)
 {
     if (_ui_resources.html_browser_command == NULL ||
 	*_ui_resources.html_browser_command == '\0') {
-	ui_error("No HTML browser is defined.");
+	ui_error(_("No HTML browser is defined."));
     } else {
 	/* FIXME: Argh.  Ugly!  */
 #define BROWSE_CMD_BUF_MAX 16384
@@ -349,7 +355,7 @@ static UI_CALLBACK(browse_manual)
 	if (res_ptr == NULL) {
 	    /* No substitution. */
 	    if (cmd_len + 2 > BROWSE_CMD_BUF_MAX - 1) {
-		ui_error("Browser command too long.");
+		ui_error(_("Browser command too long."));
 		return;
 	    }
 	    sprintf(buf, "%s &", _ui_resources.html_browser_command);
@@ -376,7 +382,7 @@ static UI_CALLBACK(browse_manual)
 	    while ((tmp_ptr = strstr(res_ptr, "%s")) != NULL) {
 		cmd_len += manual_path_len - 2;
 		if (cmd_len > BROWSE_CMD_BUF_MAX - 1) {
-		    ui_error("Browser command too long.");
+		    ui_error(_("Browser command too long."));
 		    return;
 		}
 		offs = tmp_ptr - res_ptr;
@@ -389,9 +395,9 @@ static UI_CALLBACK(browse_manual)
 	    sprintf(cmd_ptr, "%s &", res_ptr);
 	}
 
-	log_debug("Executing `%s'...", buf);
+	log_debug(_("Executing `%s'..."), buf);
 	if (system(buf) != 0)
-	    ui_error("Cannot run HTML browser.");
+	    ui_error(_("Cannot run HTML browser."));
     }
 }
 
@@ -428,7 +434,7 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *data)
     static char *last_dir;
 
     if (data) {
-        log_debug("Quickloading file %s.", (char *)data);
+        log_debug(_("Quickloading file %s."), (char *)data);
 	filename = data;
     } else {
         filename = ui_select_file("Load snapshot", NULL, False, last_dir,
@@ -441,7 +447,7 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *data)
     fname_split(filename, &last_dir, NULL);
 
     if (machine_read_snapshot(filename) < 0)
-        ui_error("Cannot load snapshot file\n`%s'", filename);
+        ui_error(_("Cannot load snapshot file\n`%s'"), filename);
     ui_update_menus();
 
     if (data) free(data);
@@ -470,9 +476,9 @@ static void save_snapshot_trap(ADDRESS unused_addr, void *data)
 {
     if (data) {
 	/* quick snapshot, save ROMs & disks (??) */
-        log_debug("Quicksaving file %s.", (char *)data);
+        log_debug(_("Quicksaving file %s."), (char *)data);
 	if (machine_write_snapshot(data, 1, 1) < 0) {
-            ui_error("Cannot write snapshot file\n`%s'\n", data);
+            ui_error(_("Cannot write snapshot file\n`%s'\n"), data);
 	}
 	free(data);
     } else {
@@ -573,7 +579,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	i = 0;
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
 	t0 = xmalloc(16);
-	sprintf(t0, "Attach #%d", drive + 8);
+	sprintf(t0, _("Attach #%d"), drive + 8);
 	flipmenu[drive][i].string = t0;
 	flipmenu[drive][i].callback = (ui_callback_t) attach_disk;
 	flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
@@ -581,7 +587,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
 	t5 = xmalloc(16);
-	sprintf(t5, "Detach #%d", drive + 8);
+	sprintf(t5, _("Detach #%d"), drive + 8);
 	flipmenu[drive][i].string = t5;
 	flipmenu[drive][i].callback = (ui_callback_t) detach_disk;
 	flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
@@ -610,7 +616,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
     
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
 	fname_split(flip_get_next(drive + 8), &dir, &image);
-	t1 = concat("Next: ", image ? image : "<empty>", NULL);
+	t1 = concat(_("Next: "), image ? image : _("<empty>"), NULL);
 	flipmenu[drive][i].string = t1;
 	flipmenu[drive][i].callback = (ui_callback_t) attach_from_fliplist;
 	cb_data[drive][CBD_NEXT].unit = drive + 8;
@@ -621,7 +627,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
     
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
 	fname_split(flip_get_prev(drive + 8), &dir, &image);
-	t2 = concat("Previous: ", image ? image : "<empty>", NULL);
+	t2 = concat(_("Previous: "), image ? image : _("<empty>"), NULL);
 	flipmenu[drive][i].string = t2;
 	flipmenu[drive][i].callback = (ui_callback_t) attach_from_fliplist;
 	cb_data[drive][CBD_PREV].unit = drive + 8;
@@ -632,7 +638,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
     
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
 	fname_split(last_attached_images[drive], &dir, &image);
-	t3 = concat("Add: ", image, NULL);
+	t3 = concat(_("Add: "), image, NULL);
 	flipmenu[drive][i].string = t3;
 	flipmenu[drive][i].callback = (ui_callback_t) add2fliplist2;
 	cb_data[drive][CBD_ADD].unit = drive + 8;
@@ -643,7 +649,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 
 	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
 	fname_split(last_attached_images[drive], &dir, &image);
-	t4 = concat("Remove: ", image, NULL);
+	t4 = concat(_("Remove: "), image, NULL);
 	flipmenu[drive][i].string = t4;
 	flipmenu[drive][i].callback = (ui_callback_t) remove_from_fliplist2;
 	cb_data[drive][CBD_REMOVE].unit = drive + 8;
@@ -701,110 +707,110 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t attach_empty_disk_image_submenu[] = {
-    { "Unit #8...",
+    { N_("Unit #8..."),
       (ui_callback_t) attach_empty_disk, (ui_callback_data_t) 8, NULL, },
-    { "Unit #9...",
+    { N_("Unit #9..."),
       (ui_callback_t) attach_empty_disk, (ui_callback_data_t) 9, NULL, },
-    { "Unit #10...",
+    { N_("Unit #10..."),
       (ui_callback_t) attach_empty_disk, (ui_callback_data_t) 10, NULL, },
-    { "Unit #11...",
+    { N_("Unit #11..."),
       (ui_callback_t) attach_empty_disk, (ui_callback_data_t) 11, NULL, },
     { NULL }
 };
 
 static ui_menu_entry_t attach_disk_image_submenu[] = {
-    { "Unit #8...",
+    { N_("Unit #8..."),
       (ui_callback_t) attach_disk, (ui_callback_data_t) 8, NULL,
       XK_8, UI_HOTMOD_META },
-    { "Unit #9...",
+    { N_("Unit #9..."),
       (ui_callback_t) attach_disk, (ui_callback_data_t) 9, NULL,
       XK_9, UI_HOTMOD_META },
-    { "Unit #10...",
+    { N_("Unit #10..."),
       (ui_callback_t) attach_disk, (ui_callback_data_t) 10, NULL,
       XK_0, UI_HOTMOD_META },
-    { "Unit #11...",
+    { N_("Unit #11..."),
       (ui_callback_t) attach_disk, (ui_callback_data_t) 11, NULL,
       XK_1, UI_HOTMOD_META },
     { NULL }
 };
 
 static ui_menu_entry_t detach_disk_image_submenu[] = {
-    { "Unit #8",
+    { N_("Unit #8"),
       (ui_callback_t) detach_disk, (ui_callback_data_t) 8, NULL },
-    { "Unit #9",
+    { N_("Unit #9"),
       (ui_callback_t) detach_disk, (ui_callback_data_t) 9, NULL },
-    { "Unit #10",
+    { N_("Unit #10"),
       (ui_callback_t) detach_disk, (ui_callback_data_t) 10, NULL },
-    { "Unit #11",
+    { N_("Unit #11"),
       (ui_callback_t) detach_disk, (ui_callback_data_t) 11, NULL },
     { "--" },
-    { "All",
+    { N_("All"),
       (ui_callback_t) detach_disk, (ui_callback_data_t) -1, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t reset_submenu[] = {
-    { "Soft",
+    { N_("Soft"),
       (ui_callback_t) reset, NULL, NULL,
       XK_F9, UI_HOTMOD_META },
-    { "Hard",
+    { N_("Hard"),
       (ui_callback_t) powerup_reset, NULL, NULL,
       XK_F12, UI_HOTMOD_META },
     { NULL }
 };
 
 static ui_menu_entry_t flip_submenu[] = {
-    { "Add current image",
+    { N_("Add current image"),
       (ui_callback_t) add2fliplist, (ui_callback_data_t) 0, NULL,
       XK_i, UI_HOTMOD_META },
-    { "Remove current image",
+    { N_("Remove current image"),
       (ui_callback_t) remove_from_fliplist, (ui_callback_data_t) 0, NULL,
       XK_k, UI_HOTMOD_META },
-    { "Attach next image",
+    { N_("Attach next image"),
       (ui_callback_t) attach_from_fliplist3, (ui_callback_data_t) 1, NULL,
       XK_n, UI_HOTMOD_META },
-    { "Attach previous image",
+    { N_("Attach previous image"),
       (ui_callback_t) attach_from_fliplist3, (ui_callback_data_t) 0, NULL,
       XK_N, UI_HOTMOD_META },
     { NULL }
 };
 
 ui_menu_entry_t ui_disk_commands_menu[] = {
-    { "Attach a disk image",
+    { N_("Attach a disk image"),
       NULL, NULL, attach_disk_image_submenu },
-    { "Create and attach an empty disk",
+    { N_("Create and attach an empty disk"),
       NULL, NULL, attach_empty_disk_image_submenu },
-    { "Detach disk image",
+    { N_("Detach disk image"),
       NULL, NULL, detach_disk_image_submenu },
-    { "Fliplist for drive #8",
+    { N_("Fliplist for drive #8"),
       NULL, NULL, flip_submenu },
     { NULL }
 };
 
 ui_menu_entry_t ui_tape_commands_menu[] = {
-    { "Attach a tape image...",
+    { N_("Attach a tape image..."),
       (ui_callback_t) attach_tape, NULL, NULL,
       XK_t, UI_HOTMOD_META},
-    { "Detach tape image",
+    { N_("Detach tape image"),
       (ui_callback_t) detach_tape, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_smart_attach_commands_menu[] = {
-    { "Smart-attach disk/tape...",
+    { N_("Smart-attach disk/tape..."),
       (ui_callback_t) smart_attach, NULL, NULL,
       XK_a, UI_HOTMOD_META },
     { NULL }
 };
 
 ui_menu_entry_t ui_directory_commands_menu[] = {
-    { "Change working directory...",
+    { N_("Change working directory..."),
       (ui_callback_t) change_working_directory, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t ui_snapshot_commands_submenu[] = {
-    { "Load snapshot...",
+    { N_("Load snapshot..."),
       (ui_callback_t) load_snapshot, NULL, NULL,
       XK_l, UI_HOTMOD_META },
     { "Save snapshot...",
