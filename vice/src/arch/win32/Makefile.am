@@ -45,6 +45,7 @@ libarch_a_SOURCES = \
 	rescbm2.rc \
 	respet.rc \
 	resvic.rc \
+	types.h \
 	ui.c \
 	ui.h \
 	uiattach.c \

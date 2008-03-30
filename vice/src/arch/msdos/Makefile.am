@@ -61,6 +61,7 @@ libarch_a_SOURCES = \
 	tuimenu.h \
 	tuiview.c \
 	tuiview.h \
+	types.h \
 	ui.c \
 	ui.h \
 	uisnapshot.c \

@@ -29,6 +29,7 @@ libarch_a_SOURCES = \
 	petkmap.c \
 	print.c \
 	rs232.c \
+	types.h \
 	ui.h \
 	video.c \
 	video.h \
