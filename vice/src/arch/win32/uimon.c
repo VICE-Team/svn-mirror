@@ -149,9 +149,10 @@ static HWND CreateAToolbar( HWND hwnd )
     free(ptbb);
     
 unlock:
+#ifdef HAS_UNLOCKRESOURCE
     UnlockResource(hGlobal);
+#endif
     FreeResource(hGlobal);
-
 quit:
     return hToolbar;
 }

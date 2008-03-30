@@ -11,6 +11,7 @@
 #define HAVE_MOUSE              1
 
 #define HAS_LONGLONG_INTEGER    1
+#define HAS_UNLOCKRESOURCE      1
 #define SIZEOF_UNSIGNED_INT     4
 #define SIZEOF_UNSIGNED_LONG    4
 #define SIZEOF_UNSIGNED_SHORT   2

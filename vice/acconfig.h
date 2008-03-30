@@ -91,3 +91,8 @@
 
 /* 64bit integer for Win32 performance counter */
 #undef HAS_LONGLONG_INTEGER
+
+/* Do we have UnlockResource()? Some mingw32 header do not provide this
+   function. */
+#undef HAS_UNLOCKRESOURCE
+
