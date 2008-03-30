@@ -48,17 +48,17 @@
 UI_MENU_DEFINE_STRING_RADIO(CrtcPaletteFile)
 
 static ui_menu_entry_t palette_submenu[] = {
-    { "*Default (Green)",
+    { N_("*Default (Green)"),
       (ui_callback_t) radio_CrtcPaletteFile, (ui_callback_data_t) "default", 
 	NULL },
-    { "*Amber",
+    { N_("*Amber"),
       (ui_callback_t) radio_CrtcPaletteFile, (ui_callback_data_t) "amber", 
 	NULL },
-    { "*White",
+    { N_("*White"),
       (ui_callback_t) radio_CrtcPaletteFile, (ui_callback_data_t) "white", 
 	NULL },
     { "--" },
-    { "Load custom",
+    { N_("Load custom"),
       (ui_callback_t) ui_load_palette,
       (ui_callback_data_t) "CrtcPaletteFile", NULL },
     { NULL }
@@ -67,48 +67,48 @@ static ui_menu_entry_t palette_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t cbm2_romset_submenu[] = {
-    { "Basic 128k, low chars",
+    { N_("Basic 128k, low chars"),
       (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom128l.vrs", NULL },
-    { "Basic 256k, low chars",
+    { N_("Basic 256k, low chars"),
       (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom256l.vrs", NULL },
-    { "Basic 128k, high chars",
+    { N_("Basic 128k, high chars"),
       (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom128h.vrs", NULL },
-    { "Basic 256k, high chars",
+    { N_("Basic 256k, high chars"),
       (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom256h.vrs", NULL },
     { "--" },
-    { "Load new Kernal",
+    { N_("Load new Kernal"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"KernalName", NULL },
-    { "Load new Chargen",
+    { N_("Load new Chargen"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"ChargenName", NULL },
     { "--" },
-    { "Load new Basic",
+    { N_("Load new Basic"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"BasicName", NULL },
-    { "Unload Basic ROM",
+    { N_("Unload Basic ROM"),
       (ui_callback_t) ui_unload_rom_file, (ui_callback_data_t)"BasicName", NULL },
     { "--" },
-    { "Load new Cart $1***",
+    { N_("Load new Cart $1***"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"Cart1Name", NULL },
-    { "Unload Cart $1***",
+    { N_("Unload Cart $1***"),
       (ui_callback_t) ui_unload_rom_file, (ui_callback_data_t)"Cart1Name", NULL },
     { "--" },
-    { "Load new Cart $2-3***",
+    { N_("Load new Cart $2-3***"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"Cart2Name", NULL },
-    { "Unload Cart $2-3***",
+    { N_("Unload Cart $2-3***"),
       (ui_callback_t) ui_unload_rom_file, (ui_callback_data_t)"Cart2Name", NULL },
     { "--" },
-    { "Load new Cart $4-5***",
+    { N_("Load new Cart $4-5***"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"Cart4Name", NULL },
-    { "Unload Cart $4-5***",
+    { N_("Unload Cart $4-5***"),
       (ui_callback_t) ui_unload_rom_file, (ui_callback_data_t)"Cart4Name", NULL },
     { "--" },
-    { "Load new Cart $6-7***",
+    { N_("Load new Cart $6-7***"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"Cart6Name", NULL },
-    { "Unload Cart $6-7***",
+    { N_("Unload Cart $6-7***"),
       (ui_callback_t) ui_unload_rom_file, (ui_callback_data_t)"Cart6Name", NULL },
     { "--" },
-    { "Load custom ROM set from file",
+    { N_("Load custom ROM set from file"),
       (ui_callback_t) ui_load_romset, NULL, NULL },
-    { "Dump ROM set definition to file",
+    { N_("Dump ROM set definition to file"),
       (ui_callback_t) ui_dump_romset, NULL, NULL },
     { NULL }
 };
@@ -184,9 +184,9 @@ static UI_CALLBACK(set_KeyboardType)
 }
 
 static ui_menu_entry_t c610_keybd_submenu[] = {
-    { "*Graphics",
+    { N_("*Graphics"),
         (ui_callback_t) set_KeyboardType, (ui_callback_data_t) 1, NULL },
-    { "*Business (UK)",
+    { N_("*Business (UK)"),
         (ui_callback_t) set_KeyboardType, (ui_callback_data_t) 0, NULL },
     { NULL }
 };
@@ -201,32 +201,32 @@ UI_MENU_DEFINE_TOGGLE(Ram6)
 UI_MENU_DEFINE_TOGGLE(RamC)
 
 static ui_menu_entry_t model_settings_submenu[] = {
-    { "Model defaults",
+    { N_("Model defaults"),
       NULL, NULL, model_defaults_submenu },
     { "--" },
-    { "ROM sets",
+    { N_("ROM sets"),
       NULL, NULL, cbm2_romset_submenu },
     { "--" },
-    { "Memory size",
+    { N_("Memory size"),
       NULL, NULL, c610_memsize_submenu },
-    { "Hardwired switches",
+    { N_("Hardwired switches"),
       NULL, NULL, c610_modelline_submenu },
     { "--" },
-    { "*Bank 15 $0800-$0FFF RAM",
+    { N_("*Bank 15 $0800-$0FFF RAM"),
       (ui_callback_t) toggle_Ram08, NULL, NULL },
-    { "*Bank 15 $1000-$1FFF RAM",
+    { N_("*Bank 15 $1000-$1FFF RAM"),
       (ui_callback_t) toggle_Ram1, NULL, NULL },
-    { "*Bank 15 $2000-$3FFF RAM",
+    { N_("*Bank 15 $2000-$3FFF RAM"),
       (ui_callback_t) toggle_Ram2, NULL, NULL },
-    { "*Bank 15 $4000-$5FFF RAM",
+    { N_("*Bank 15 $4000-$5FFF RAM"),
       (ui_callback_t) toggle_Ram4, NULL, NULL },
-    { "*Bank 15 $6000-$7FFF RAM",
+    { N_("*Bank 15 $6000-$7FFF RAM"),
       (ui_callback_t) toggle_Ram6, NULL, NULL },
-    { "*Bank 15 $C000-$CFFF RAM",
+    { N_("*Bank 15 $C000-$CFFF RAM"),
       (ui_callback_t) toggle_RamC, NULL, NULL },
 #if 0
     { "--" },
-    { "Keyboard type",
+    { N_("Keyboard type"),
       NULL, NULL, c610_keybd_submenu },
 #endif
     { NULL }
@@ -279,22 +279,22 @@ static UI_CALLBACK(swap_joystick_ports)
 }
 
 static ui_menu_entry_t set_joystick_device_1_submenu[] = {
-    { "*None",
+    { N_("*None"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_NONE, NULL },
-    { "*Numpad",
+    { N_("*Numpad"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_NUMPAD,
  NULL },
-    { "*Custom Keys",
+    { N_("*Custom Keys"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
-    { "*Analog Joystick 0",
+    { N_("*Analog Joystick 0"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
-    { "*Analog Joystick 1",
+    { N_("*Analog Joystick 1"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
-    { "*Digital Joystick 0",
+    { N_("*Digital Joystick 0"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
-    { "*Digital Joystick 1",
+    { N_("*Digital Joystick 1"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif
@@ -302,22 +302,22 @@ static ui_menu_entry_t set_joystick_device_1_submenu[] = {
 };
 
 static ui_menu_entry_t set_joystick_device_2_submenu[] = {
-    { "*None",
+    { N_("*None"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_NONE, NULL },
-    { "*Numpad",
+    { N_("*Numpad"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_NUMPAD,
  NULL },
-    { "*Custom Keys",
+    { N_("*Custom Keys"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
-    { "*Analog Joystick 0",
+    { N_("*Analog Joystick 0"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
-    { "*Analog Joystick 1",
+    { N_("*Analog Joystick 1"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
-    { "*Digital Joystick 0",
+    { N_("*Digital Joystick 0"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
-    { "*Digital Joystick 1",
+    { N_("*Digital Joystick 1"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif /* HAS_JOYSTICK */
@@ -325,18 +325,18 @@ static ui_menu_entry_t set_joystick_device_2_submenu[] = {
 };
 
 static ui_menu_entry_t joystick_settings_submenu[] = {
-    { "Joystick device in port 1",
+    { N_("Joystick device in port 1"),
       NULL, NULL, set_joystick_device_1_submenu },
-    { "Joystick device in port 2",
+    { N_("Joystick device in port 2"),
       NULL, NULL, set_joystick_device_2_submenu },
     { "--" },
-    { "Swap joystick ports",
+    { N_("Swap joystick ports"),
       (ui_callback_t) swap_joystick_ports, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t joystick_settings_menu[] = {
-    { "Joystick settings",
+    { N_("Joystick settings"),
       NULL, NULL, joystick_settings_submenu },
     { NULL }
 };
@@ -344,23 +344,23 @@ static ui_menu_entry_t joystick_settings_menu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t c610_rs232_submenu[] = {
-    { "ACIA device",
+    { N_("ACIA device"),
       NULL, NULL, acia1_device_submenu },
     { "--" },
-    { "Serial 1 device...", (ui_callback_t) set_rs232_device_file,
+    { N_("Serial 1 device..."), (ui_callback_t) set_rs232_device_file,
       (ui_callback_data_t) "RsDevice1", NULL },
-    { "Serial 1 baudrate",
+    { N_("Serial 1 baudrate"),
       NULL, NULL, ser1_baud_submenu },
     { "--" },
-    { "Serial 2 device...", (ui_callback_t) set_rs232_device_file,
+    { N_("Serial 2 device..."), (ui_callback_t) set_rs232_device_file,
       (ui_callback_data_t) "RsDevice2", NULL },
-    { "Serial 2 baudrate",
+    { N_("Serial 2 baudrate"),
       NULL, NULL, ser2_baud_submenu },
     { "--" },
-    { "Dump filename...", (ui_callback_t) set_rs232_dump_file,
+    { N_("Dump filename..."), (ui_callback_t) set_rs232_dump_file,
       (ui_callback_data_t) "RsDevice3", NULL },
     { "--" },
-    { "Program name to exec...", (ui_callback_t) set_rs232_exec_file,
+    { N_("Program name to exec..."), (ui_callback_t) set_rs232_exec_file,
       (ui_callback_data_t) "RsDevice4", NULL },
     { NULL }
 };
@@ -369,12 +369,12 @@ static ui_menu_entry_t c610_rs232_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t c610_menu[] = {
-    { "CBM-II model settings",
+    { N_("CBM-II model settings"),
       NULL, NULL, model_settings_submenu },
-    { "RS232 settings",
+    { N_("RS232 settings"),
       NULL, NULL, c610_rs232_submenu },
     { "--" },
-    { "Screen color",
+    { N_("Screen color"),
       NULL, NULL, palette_submenu },
     { NULL }
 };
@@ -388,23 +388,23 @@ static UI_CALLBACK(ui_datasette_control)
 }
 
 static ui_menu_entry_t datasette_control_submenu[] = {
-    { "Stop", (ui_callback_t) ui_datasette_control,
+    { N_("Stop"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_STOP, NULL },
-    { "Play", (ui_callback_t) ui_datasette_control,
+    { N_("Play"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_START, NULL },
-    { "Forward", (ui_callback_t) ui_datasette_control,
+    { N_("Forward"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_FORWARD, NULL },
-    { "Rewind", (ui_callback_t) ui_datasette_control,
+    { N_("Rewind"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_REWIND, NULL },
-    { "Record", (ui_callback_t) ui_datasette_control,
+    { N_("Record"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_RECORD, NULL },
-    { "Reset", (ui_callback_t) ui_datasette_control,
+    { N_("Reset"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_RESET, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_datasette_commands_menu[] = {
-    { "Datassette control",
+    { N_("Datassette control"),
       NULL, NULL, datasette_control_submenu },
     { NULL }
 };
@@ -427,7 +427,7 @@ static UI_CALLBACK(save_screenshot)
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
-    { "Screenshot...",
+    { N_("Screenshot..."),
       (ui_callback_t)save_screenshot, (ui_callback_data_t) 0, NULL },
     { NULL }
 };

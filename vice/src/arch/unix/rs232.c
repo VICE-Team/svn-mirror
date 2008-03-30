@@ -156,21 +156,21 @@ int rs232_init_resources(void)
 
 static cmdline_option_t cmdline_options[] = {
     { "-rsdev1", SET_RESOURCE, 1, NULL, NULL, "RsDevice1", NULL,
-     "<name>", "Specify name of first RS232 device (/dev/ttyS0)" },
+     "<name>", N_ ("Specify name of first RS232 device (/dev/ttyS0)") },
     { "-rsdev1baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice1Baud", NULL,
-     "<baudrate>", "Specify baudrate of first RS232 device" },
+     "<baudrate>", N_ ("Specify baudrate of first RS232 device") },
     { "-rsdev2", SET_RESOURCE, 1, NULL, NULL, "RsDevice2", NULL,
-     "<name>", "Specify name of second RS232 device (/dev/ttyS1)" },
+     "<name>", N_ ("Specify name of second RS232 device (/dev/ttyS1)") },
     { "-rsdev2baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice2Baud", NULL,
-     "<baudrate>", "Specify baudrate of second RS232 device" },
+     "<baudrate>", N_ ("Specify baudrate of second RS232 device") },
     { "-rsdev3", SET_RESOURCE, 1, NULL, NULL, "RsDevice3", NULL,
-     "<name>", "Specify name of third RS232 device (rs232.dump)" },
+     "<name>", N_ ("Specify name of third RS232 device (rs232.dump)") },
     { "-rsdev3baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice3Baud", NULL,
-     "<baudrate>", "Specify baudrate of third RS232 device" },
+     "<baudrate>", N_ ("Specify baudrate of third RS232 device") },
     { "-rsdev4", SET_RESOURCE, 1, NULL, NULL, "RsDevice4", NULL,
-     "<name>", "Specify command to pipe data in/out, preceed with '|' (|lpr)" },
+     "<name>", N_ ("Specify command to pipe data in/out, preceed with '|' (|lpr)") },
     { "-rsdev4baud", SET_RESOURCE, 1, NULL, NULL, "RsDevice4Baud", NULL,
-     "<baudrate>", "Specify baudrate of 4th RS232 device" },
+     "<baudrate>", N_ ("Specify baudrate of 4th RS232 device") },
     { NULL }
 };
 
@@ -300,12 +300,12 @@ int rs232_open(int device)
 	    break;
     }
     if (i >= MAXRS232) {
-	log_error(rs232_log, "No more devices available.");
+	log_error(rs232_log, _("No more devices available."));
 	return -1;
     }
 
 #ifdef DEBUG
-    log_message(rs232_log, "rs232_open(device=%d).", device);
+    log_message(rs232_log, _("rs232_open(device=%d)."), device);
 #endif
 
     if (devfile[device][0] == '|') {
@@ -320,7 +320,7 @@ int rs232_open(int device)
 	fd = open(devfile[device], O_RDWR | O_NOCTTY | O_CREAT | O_TRUNC,
 		  S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd < 0) {
-            log_error(rs232_log, "Cannot open file \"%s\": %s",
+            log_error(rs232_log, _("Cannot open file \"%s\": %s"),
                       devfile[device], strerror(errno));
 	    return -1;
 	}
@@ -347,11 +347,11 @@ void rs232_close(int fd)
 #endif
 
     if (fd < 0 || fd >= MAXRS232) {
-	log_error(rs232_log, "Attempt to close invalid fd %d.", fd);
+	log_error(rs232_log, _("Attempt to close invalid fd %d."), fd);
 	return;
     }
     if (!fds[fd].inuse) {
-	log_error(rs232_log, "Attempt to close non-open fd %d.", fd);
+	log_error(rs232_log, _("Attempt to close non-open fd %d."), fd);
 	return;
     }
 
@@ -371,11 +371,11 @@ int rs232_putc(int fd, BYTE b)
     ssize_t n;
 
     if (fd < 0 || fd >= MAXRS232) {
-	log_error(rs232_log, "Attempt to write to invalid fd %d.", fd);
+	log_error(rs232_log, _("Attempt to write to invalid fd %d."), fd);
 	return -1;
     }
     if (!fds[fd].inuse) {
-	log_error(rs232_log, "Attempt to write to non-open fd %d.", fd);
+	log_error(rs232_log, _("Attempt to write to non-open fd %d."), fd);
 	return -1;
     }
 
@@ -387,7 +387,7 @@ int rs232_putc(int fd, BYTE b)
     do {
 	n = write(fds[fd].fd_w, &b, 1);
 	if (n < 0)
-	    log_error(rs232_log, "Error writing: %s.", strerror(errno));
+	    log_error(rs232_log, _("Error writing: %s."), strerror(errno));
     } while (n != 1);
 
     return 0;
@@ -402,11 +402,11 @@ int rs232_getc(int fd, BYTE * b)
     struct timeval ti;
 
     if (fd < 0 || fd >= MAXRS232) {
-	log_error(rs232_log, "Attempt to read from invalid fd %d.", fd);
+	log_error(rs232_log, _("Attempt to read from invalid fd %d."), fd);
 	return -1;
     }
     if (!fds[fd].inuse) {
-	log_error(rs232_log, "Attempt to read from non-open fd %d.", fd);
+	log_error(rs232_log, _("Attempt to read from non-open fd %d."), fd);
 	return -1;
     }
 

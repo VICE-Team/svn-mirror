@@ -111,11 +111,11 @@ int print_init_resources(void)
 static cmdline_option_t cmdline_options[] =
 {
     { "-prdev1", SET_RESOURCE, 1, NULL, NULL, "PrDevice1", NULL,
-     "<name>", "Specify name of printer dump file (print.dump)" },
+     "<name>", N_ ("Specify name of printer dump file (print.dump)") },
     { "-prdev2", SET_RESOURCE, 1, NULL, NULL, "PrDevice2", NULL,
-     "<name>", "Specify command for printer 1 (|petlp |lpr)" },
+     "<name>", N_ ("Specify command for printer 1 (|petlp |lpr)") },
     { "-prdev3", SET_RESOURCE, 1, NULL, NULL, "PrDevice3", NULL,
-     "<name>", "Specify command for printer 2 (|lpr)" },
+     "<name>", N_ ("Specify command for printer 2 (|lpr)") },
     { NULL }
 };
 
@@ -173,12 +173,12 @@ int print_open(int device)
 	    break;
     }
     if (i >= MAXPRINT) {
-	log_error(printer_log, "No more devices available.");
+	log_error(printer_log, _("No more devices available."));
 	return -1;
     }
 
 #ifdef DEBUG
-    log_message(printer_log, "print_open(device=%d).", device);
+    log_message(printer_log, _("print_open(device=%d)."), device);
 #endif
 
     if (devfile[device][0] == '|') {
@@ -212,11 +212,11 @@ void print_close(int fd)
 #endif
 
     if (fd < 0 || fd >= MAXPRINT) {
-	log_error(printer_log, "Attempt to close invalid fd %d.", fd);
+	log_error(printer_log, _("Attempt to close invalid fd %d."), fd);
 	return;
     }
     if (!fds[fd].inuse) {
-	log_error(printer_log, "Attempt to close non-open fd %d.", fd);
+	log_error(printer_log, _("Attempt to close non-open fd %d."), fd);
 	return;
     }
     if (fds[fd].type == T_PROC) {
@@ -231,11 +231,11 @@ void print_close(int fd)
 int print_putc(int fd, BYTE b)
 {
     if (fd < 0 || fd >= MAXPRINT) {
-	log_error(printer_log, "Trying to write to invalid fd %d.", fd);
+	log_error(printer_log, _("Trying to write to invalid fd %d."), fd);
 	return -1;
     }
     if (!fds[fd].inuse) {
-	log_error(printer_log, "Trying to write to non-open fd %d.", fd);
+	log_error(printer_log, _("Trying to write to non-open fd %d."), fd);
 	return -1;
     }
     fputc(b, fds[fd].fp);
@@ -247,11 +247,11 @@ int print_putc(int fd, BYTE b)
 int print_flush(int fd)
 {
     if (fd < 0 || fd >= MAXPRINT) {
-	log_error(printer_log, "Trying to flush invalid fd %d.", fd);
+	log_error(printer_log, _("Trying to flush invalid fd %d."), fd);
 	return -1;
     }
     if (!fds[fd].inuse) {
-	log_error(printer_log, "Trying to flush non-open fd %d.", fd);
+	log_error(printer_log, _("Trying to flush non-open fd %d."), fd);
 	return -1;
     }
 

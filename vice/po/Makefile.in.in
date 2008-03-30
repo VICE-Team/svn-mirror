@@ -47,11 +47,11 @@ SOURCES = cat-id-tbl.c
 POFILES = @POFILES@
 GMOFILES = @GMOFILES@
 DISTFILES = ChangeLog Makefile.in.in POTFILES.in $(PACKAGE).pot \
-stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES)
+stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES) po2tbl.sed
 
 POTFILES = \
 
-CATALOGS = @CATALOGS@
+CATALOGS = $(POFILES:%.po=%$(CATOBJEXT))
 CATOBJEXT = @CATOBJEXT@
 INSTOBJEXT = @INSTOBJEXT@
 
@@ -73,7 +73,7 @@ INSTOBJEXT = @INSTOBJEXT@
 	  && rm -f $$file && $(GMSGFMT) -o $$file $<
 
 .po.cat:
-	sed -f ../intl/po2msg.sed < $< > $*.msg \
+	sed -f $(srcdir)/po2msg.sed < $< > $*.msg \
 	  && rm -f $@ && $(GENCAT) $@ $*.msg
 
 
@@ -93,7 +93,7 @@ $(srcdir)/$(PACKAGE).pot: $(POTFILES)
 $(srcdir)/cat-id-tbl.c: stamp-cat-id; @:
 $(srcdir)/stamp-cat-id: $(PACKAGE).pot
 	rm -f cat-id-tbl.tmp
-	sed -f ../intl/po2tbl.sed $(srcdir)/$(PACKAGE).pot \
+	sed -f $(srcdir)/po2tbl.sed $(srcdir)/$(PACKAGE).pot \
 		| sed -e "s/@PACKAGE NAME@/$(PACKAGE)/" > cat-id-tbl.tmp
 	if cmp -s cat-id-tbl.tmp $(srcdir)/cat-id-tbl.c; then \
 	  rm cat-id-tbl.tmp; \

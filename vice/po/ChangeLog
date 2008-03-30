@@ -1,3 +1,36 @@
+2000-07-14  pottendo  <pottendo@utanet.at>
+
+	* de.po: Fixed all fuzzy entries, translated rest.
+
+	* Makefile.in (CATALOGS): Fixed passing of value for LINGUAS.
+
+2000-07-13  pottendo  <pottendo@utanet.at>
+
+	* po2tbl.sed: New file.
+
+	* de.po: Added large amount of translations. Still work in
+	progress, as about 240 entries are fuzzy or untranslated.
+
+	* POTFILES.in: Adde:
+	uicommands.c \
+	c128ui.c \
+	c610ui.c \
+	c64ui.c \
+	uisettings.c \
+	uicmdline.c \
+	petui.c \
+	joystick.c \
+	kmap.c \
+	mouse.c \
+	petkmap.c \
+	print.c \
+	rs232.c \
+	x11/gnome/ui.c 
+
+	* Makefile.in.in 
+	(all): prefixed po2tbl.sed with $(srcdir).
+	(DISTFILES): added po2tbl.sed.
+
 2000-04-26  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
 
 	* Started ChangeLog.

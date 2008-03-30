@@ -23,6 +23,8 @@
  *  02111-1307  USA.
  *
  */
+#include "vice.h"
+
 #include <stdio.h>
 
 #include "cmdline.h"
@@ -31,7 +33,7 @@ void ui_cmdline_show_help(int num_options, cmdline_option_t *options)
 {
     int i;
 
-    printf("\nAvailable command-line options:\n\n");
+    printf(_("\nAvailable command-line options:\n\n"));
     for (i = 0; i < num_options; i++) {
         fputs(options[i].name, stdout);
         if (options[i].need_arg && options[i].param_name != NULL)

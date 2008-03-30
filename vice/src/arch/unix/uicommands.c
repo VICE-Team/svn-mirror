@@ -134,7 +134,7 @@ static UI_CALLBACK(attach_empty_disk)
 	return;
 
     if (file_system_attach_disk(unit, filename) < 0)
-        ui_error("Invalid Disk Image");
+        ui_error(_("Invalid Disk Image"));
 }
 
 static UI_CALLBACK(detach_disk)
@@ -369,7 +369,7 @@ static UI_CALLBACK(browse_manual)
 	    cmd_len += manual_path_len - 2;
 	    cmd_len += 2;	/* Trailing " &". */
 	    if (cmd_len > BROWSE_CMD_BUF_MAX - 1) {
-		ui_error("Browser command too long.");
+		ui_error(_("Browser command too long."));
 		return;
 	    }
 
@@ -438,7 +438,7 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *data)
         log_debug(_("Quickloading file %s."), (char *)data);
 	filename = data;
     } else {
-        filename = ui_select_file("Load snapshot", NULL, False, last_dir,
+        filename = ui_select_file(_("Load snapshot"), NULL, False, last_dir,
                               "*.vsf", &button, False);
         if (button != UI_BUTTON_OK)
             return;
@@ -819,29 +819,29 @@ static ui_menu_entry_t ui_snapshot_commands_submenu[] = {
     { N_("Load snapshot..."),
       (ui_callback_t) load_snapshot, NULL, NULL,
       XK_l, UI_HOTMOD_META },
-    { "Save snapshot...",
+    { N_ ("Save snapshot..."),
       (ui_callback_t) save_snapshot, NULL, NULL,
       XK_s, UI_HOTMOD_META },
     { "--" },
-    { "Quickload snapshot",
+    { N_ ("Quickload snapshot"),
       (ui_callback_t) load_quicksnap, NULL, NULL,
       XK_F10, UI_HOTMOD_META },
-    { "Quicksave snapshot",
+    { N_ ("Quicksave snapshot"),
       (ui_callback_t) save_quicksnap, NULL, NULL,
       XK_F11, UI_HOTMOD_META },
     { NULL }
 };
 
 ui_menu_entry_t ui_snapshot_commands_menu[] = {
-    { "Snapshot commands",
+    { N_ ("Snapshot commands"),
       NULL,  NULL, ui_snapshot_commands_submenu },
     { NULL }
 };
 
 ui_menu_entry_t ui_tool_commands_menu[] = {
-    { "Activate monitor",
+    { N_ ("Activate monitor"),
       (ui_callback_t) activate_monitor, NULL, NULL },
-    { "Run C1541",
+    { N_ ("Run C1541"),
       (ui_callback_t) run_c1541, NULL, NULL },
     { NULL }
 };
@@ -849,24 +849,24 @@ ui_menu_entry_t ui_tool_commands_menu[] = {
 extern ui_callback_t about;
 
 ui_menu_entry_t ui_help_commands_menu[] = {
-    { "Browse manuals",
+    { N_ ("Browse manuals"),
       (ui_callback_t) browse_manual, NULL, NULL },
-    { "About VICE...",
+    { N_ ("About VICE..."),
       (ui_callback_t) ui_about, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_run_commands_menu[] = {
-    { "Reset",
+    { N_ ("Reset"),
       NULL, NULL, reset_submenu },
-    { "*Pause",
+    { N_ ("*Pause"),
       (ui_callback_t) toggle_pause, NULL, NULL,
       XK_p, UI_HOTMOD_META },
     { NULL }
 };
 
 ui_menu_entry_t ui_exit_commands_menu[] = {
-    { "Exit emulator",
+    { N_ ("Exit emulator"),
       (ui_callback_t) do_exit, NULL, NULL,
       XK_q, UI_HOTMOD_META },
     { NULL }

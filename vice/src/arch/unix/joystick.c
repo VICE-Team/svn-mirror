@@ -78,9 +78,9 @@ static resource_t resources[] = {
 
 static cmdline_option_t cmdline_options[] = {
     {"-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
-     "<0-6>", "Set device for joystick port 1"},
+     "<0-6>", N_ ("Set device for joystick port 1")},
     {"-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
-     "<0-6>", "Set device for joystick port 2"},
+     "<0-6>", N_ ("Set device for joystick port 2")},
     {NULL},
 };
 
@@ -192,7 +192,7 @@ void old_joystick_init(void)
 	ajoyfd[i] = open(dev, O_RDONLY);
 	if (ajoyfd[i] < 0) {
 	    log_warning(joystick_log,
-                        "Cannot open joystick device `%s'.", dev);
+                        _("Cannot open joystick device `%s'."), dev);
 	} else {
 	    int j;
 
@@ -203,7 +203,7 @@ void old_joystick_init(void)
 
 		if (status != JS_RETURN) {
 		    log_warning(joystick_log,
-                                "Error reading joystick device `%s'.", dev);
+                                _("Error reading joystick device `%s'."), dev);
 		} else {
 		    /* determine average */
 		    joyxcal[i] += js.x;
@@ -222,7 +222,7 @@ void old_joystick_init(void)
 	    joyymax[i] = joyycal[i] + joyycal[i] / JOYSENSITIVITY;
 
 	    log_message(joystick_log,
-                        "Hardware joystick calibration for device `%s':", dev);
+                        _("Hardware joystick calibration for device `%s':"), dev);
 	    log_message(joystick_log,
                         "  X: min: %i , mid: %i , max: %i.",
                         joyxmin[i], joyxcal[i], joyxmax[i]);
@@ -241,7 +241,7 @@ void old_joystick_init(void)
 	djoyfd[i] = open(dev, O_RDONLY);
 	if (djoyfd[i] < 0)
 	    log_message(joystick_log,
-                        "Cannot open joystick device `%s'.", dev);
+                        _("Cannot open joystick device `%s'."), dev);
     }
 #endif
 }
@@ -275,7 +275,7 @@ void old_joystick(void)
 		status = read(djoyfd[djoyport], &djs, DJS_RETURN);
 		if (status != DJS_RETURN) {
 		    log_error(joystick_log,
-                              "Error reading digital joystick device.");
+                              _("Error reading digital joystick device."));
 		} else {
 		    joystick_value[i] = ((joystick_value[i] & 0xe0)
 				  | ((~(djs.switches >> 3)) & 0x1f));
@@ -291,7 +291,7 @@ void old_joystick(void)
 	    if (ajoyfd[ajoyport] > 0) {
 		status = read(ajoyfd[ajoyport], &js, JS_RETURN);
 		if (status != JS_RETURN) {
-		    log_error(joystick_log, "Error reading joystick device.");
+		    log_error(joystick_log, _("Error reading joystick device."));
 		} else {
 		    joystick_value[i] = 0;
 
@@ -332,7 +332,7 @@ void new_joystick_init (void)
   if (joystick_log == LOG_ERR)
     joystick_log = log_open ("Joystick");
 
-  log_message (joystick_log, "Linux joystick interface initialization...");
+  log_message (joystick_log, _("Linux joystick interface initialization..."));
   /* close all device files */
   for (i = 0; i < 2; i++)
     {
@@ -356,11 +356,11 @@ void new_joystick_init (void)
 	    }
 	  if (ioctl (ajoyfd[i], JSIOCGVERSION, &ver))
 	    {
-	      log_message (joystick_log, "%s unknown type", dev);
-	      log_message (joystick_log, "Built in driver version: %d.%d.%d", JS_VERSION >> 16, (JS_VERSION >> 8) & 0xff, JS_VERSION & 0xff);
-	      log_message (joystick_log, "Kernel driver version  : 0.8 ??");
-	      log_message (joystick_log, "Please update your Joystick driver !");
-	      log_message (joystick_log, "Fall back to old api routine");
+	      log_message (joystick_log, _("%s unknown type"), dev);
+	      log_message (joystick_log, _("Built in driver version: %d.%d.%d"), JS_VERSION >> 16, (JS_VERSION >> 8) & 0xff, JS_VERSION & 0xff);
+	      log_message (joystick_log, _("Kernel driver version  : 0.8 ??"));
+	      log_message (joystick_log, _("Please update your Joystick driver !"));
+	      log_message (joystick_log, _("Fall back to old api routine"));
 	      use_old_api = 1;
 	      old_joystick_init ();
 	      return;
@@ -370,12 +370,12 @@ void new_joystick_init (void)
 	  ioctl (ajoyfd[i], JSIOCGBUTTONS, &buttons);
 	  ioctl (ajoyfd[i], JSIOCGNAME (sizeof (name)), name);
 	  log_message (joystick_log, "%s is %s", dev, name);
-	  log_message (joystick_log, "Built in driver version: %d.%d.%d", JS_VERSION >> 16, (JS_VERSION >> 8) & 0xff, JS_VERSION & 0xff);
-	  log_message (joystick_log, "Kernel driver version  : %d.%d.%d", ver >> 16, (ver >> 8) & 0xff, ver & 0xff);
+	  log_message (joystick_log, _("Built in driver version: %d.%d.%d"), JS_VERSION >> 16, (JS_VERSION >> 8) & 0xff, JS_VERSION & 0xff);
+	  log_message (joystick_log, _("Kernel driver version  : %d.%d.%d"), ver >> 16, (ver >> 8) & 0xff, ver & 0xff);
 	  fcntl (ajoyfd[i], F_SETFL, O_NONBLOCK);
 	}
       else
-	log_warning (joystick_log, "Cannot open joystick device `%s'.", dev);
+	log_warning (joystick_log, _("Cannot open joystick device `%s'."), dev);
     }
 }
 

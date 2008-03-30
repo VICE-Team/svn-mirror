@@ -2,6 +2,20 @@
 
 # Architecture Unix
 src/arch/unix/uicommands.c
+src/arch/unix/c128ui.c
+src/arch/unix/c610ui.c
+src/arch/unix/c64ui.c
+src/arch/unix/uisettings.c
+src/arch/unix/uicmdline.c
+src/arch/unix/petui.c
+src/arch/unix/joystick.c
+src/arch/unix/kmap.c
+src/arch/unix/mouse.c
+src/arch/unix/petkmap.c
+src/arch/unix/print.c
+src/arch/unix/rs232.c
+
+
 
 # Gnome port
 src/arch/unix/x11/gnome/ui.c

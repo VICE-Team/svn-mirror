@@ -67,19 +67,19 @@ static UI_CALLBACK(attach_cartridge)
 			 * It's only emulation that should be enabled!
 			 */
 			if (cartridge_attach_image(type, NULL) < 0)
-				ui_error("Invalid cartridge");
+				ui_error(_("Invalid cartridge"));
 			break;
 
 		default:
 			{
-			filename = ui_select_file("Attach cartridge image",
+			filename = ui_select_file(_("Attach cartridge image"),
 				NULL, False, last_dir, "*.[cCbB][rRiI][tTnN]",
 				&button, False);
 
 			switch (button) {
 				case UI_BUTTON_OK:
 					if (cartridge_attach_image(type, filename) < 0)
-						ui_error("Invalid cartridge image");
+						ui_error(_("Invalid cartridge image"));
 					if (last_dir)
 						free(last_dir);
 					fname_split(filename, &last_dir, NULL);
@@ -116,17 +116,17 @@ static UI_CALLBACK(ui_datasette_control)
 }
 
 static ui_menu_entry_t datasette_control_submenu[] = {
-    { "Stop", (ui_callback_t) ui_datasette_control,
+    { N_("Stop"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_STOP, NULL },
-    { "Play", (ui_callback_t) ui_datasette_control,
+    { N_("Play"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_START, NULL },
-    { "Forward", (ui_callback_t) ui_datasette_control,
+    { N_("Forward"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_FORWARD, NULL },
-    { "Rewind", (ui_callback_t) ui_datasette_control,
+    { N_("Rewind"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_REWIND, NULL },
-    { "Record", (ui_callback_t) ui_datasette_control,
+    { N_("Record"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_RECORD, NULL },
-    { "Reset", (ui_callback_t) ui_datasette_control,
+    { N_("Reset"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_RESET, NULL },
     { NULL }
 };
@@ -167,64 +167,64 @@ static ui_menu_entry_t cartridge_control_submenu[] = {
 	{ "*On", (ui_callback_t) radio_CartridgeMode,
 		(ui_callback_data_t) CARTRIDGE_MODE_ON, NULL },
 	{ "--" },
-	{ "Save cartridge image...",
+	{ N_("Save cartridge image..."),
 	  (ui_callback_t) save_cartridge, NULL, NULL },
 	{ NULL }
 	};
 
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
-    { "Smart attach CRT image...",
+    { N_("Smart attach CRT image..."),
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_CRT, NULL },
     { "--" },
-    { "Attach generic 8KB image...",
+    { N_("Attach generic 8KB image..."),
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_GENERIC_8KB, NULL },
-    { "Attach generic 16KB image...",
+    { N_("Attach generic 16KB image..."),
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_GENERIC_16KB, NULL },
-    { "Attach Action Replay image...",
+    { N_("Attach Action Replay image..."),
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ACTION_REPLAY, NULL },
-    { "Attach Atomic Power image...",
+    { N_("Attach Atomic Power image..."),
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ATOMIC_POWER, NULL },
-    { "Attach Epyx fastload image...",
+    { N_("Attach Epyx fastload image..."),
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_EPYX_FASTLOAD, NULL },
-    { "Attach IEEE488 interface image...",
+    { N_("Attach IEEE488 interface image..."),
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_IEEE488, NULL },
-    { "Attach Super Snapshot 4 image...",
+    { N_("Attach Super Snapshot 4 image..."),
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_SUPER_SNAPSHOT, NULL },
-    { "Attach Super Snapshot 5 image...",
+    { N_("Attach Super Snapshot 5 image..."),
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_SUPER_SNAPSHOT_V5, NULL },
 	{ "--" },
-	{ "Enable Expert Cartridge...",
+	{ N_("Enable Expert Cartridge..."),
 	  (ui_callback_t) attach_cartridge, (ui_callback_data_t)
 	  CARTRIDGE_EXPERT, NULL },
 	{ "--" },
-    { "Set cartridge as default", (ui_callback_t)
+    { N_("Set cartridge as default"), (ui_callback_t)
       default_cartridge, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t ui_cartridge_commands_menu[] = {
-    { "Attach a cartridge image",
+    { N_("Attach a cartridge image"),
       NULL, NULL, attach_cartridge_image_submenu },
-    { "Detach cartridge image",
+    { N_("Detach cartridge image"),
       (ui_callback_t) detach_cartridge, NULL, NULL },
-    { "Cartridge freeze",
+    { N_("Cartridge freeze"),
       (ui_callback_t) freeze_cartridge, NULL, NULL, XK_f, UI_HOTMOD_META },
-	{ "*Cartridge control",
+	{ N_("*Cartridge control"),
 	  (ui_callback_t) control_cartridge, (ui_callback_data_t) 0, cartridge_control_submenu },
     { NULL }
 };
 
 ui_menu_entry_t ui_datasette_commands_menu[] = {
-    { "Datassette control",
+    { N_("Datassette control"),
       NULL, NULL, datasette_control_submenu },
     { NULL }
 };
@@ -234,11 +234,11 @@ ui_menu_entry_t ui_datasette_commands_menu[] = {
 UI_MENU_DEFINE_RADIO(VideoStandard)
 
 static ui_menu_entry_t set_video_standard_submenu[] = {
-    { "*PAL-G", (ui_callback_t) radio_VideoStandard,
+    { N_("*PAL-G"), (ui_callback_t) radio_VideoStandard,
       (ui_callback_data_t) DRIVE_SYNC_PAL, NULL },
-    { "*NTSC-M", (ui_callback_t) radio_VideoStandard,
+    { N_("*NTSC-M"), (ui_callback_t) radio_VideoStandard,
       (ui_callback_data_t) DRIVE_SYNC_NTSC, NULL },
-    { "*Old NTSC-M", (ui_callback_t) radio_VideoStandard,
+    { N_("*Old NTSC-M"), (ui_callback_t) radio_VideoStandard,
       (ui_callback_data_t) DRIVE_SYNC_NTSCOLD, NULL },
     { NULL }
 };
@@ -246,20 +246,20 @@ static ui_menu_entry_t set_video_standard_submenu[] = {
 UI_MENU_DEFINE_STRING_RADIO(PaletteFile)
 
 static ui_menu_entry_t palette_submenu[] = {
-    { "*Default",
+    { N_("*Default"),
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "default", NULL },
     { "*C64S",
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "c64s", NULL },
-    { "*CCS64",
+    { N_("*CCS64"),
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "ccs64", NULL },
-    { "*Frodo",
+    { N_("*Frodo"),
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "frodo", NULL },
-    { "*GoDot",
+    { N_("*GoDot"),
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "godot", NULL },
     { "*PC64",
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "pc64", NULL },
     { "--" },
-    { "Load custom",
+    { N_("Load custom"),
       (ui_callback_t) ui_load_palette,
       (ui_callback_data_t) "PaletteFile", NULL },
     { NULL }
@@ -269,17 +269,17 @@ UI_MENU_DEFINE_TOGGLE(CheckSsColl)
 UI_MENU_DEFINE_TOGGLE(CheckSbColl)
 
 static ui_menu_entry_t vic_submenu[] = {
-    { "Video standard",
+    { N_("Video standard"),
       NULL, NULL, set_video_standard_submenu },
     { "--",
       NULL, NULL, NULL },
-    { "*Sprite-sprite collisions",
+    { N_("*Sprite-sprite collisions"),
       (ui_callback_t) toggle_CheckSsColl, NULL, NULL },
-    { "*Sprite-background collisions",
+    { N_("*Sprite-background collisions"),
       (ui_callback_t) toggle_CheckSbColl, NULL, NULL },
     { "--",
       NULL, NULL, NULL },
-    { "Color set",
+    { N_("Color set"),
       NULL, NULL, palette_submenu },
     { NULL }
 };
@@ -289,9 +289,9 @@ static ui_menu_entry_t vic_submenu[] = {
 UI_MENU_DEFINE_RADIO(SidModel)
 
 static ui_menu_entry_t sid_model_submenu[] = {
-    { "*6581 (old)",
+    { N_("*6581 (old)"),
       (ui_callback_t) radio_SidModel, (ui_callback_data_t) 0, NULL },
-    { "*8580 (new)",
+    { N_("*8580 (new)"),
       (ui_callback_t) radio_SidModel, (ui_callback_data_t) 1, NULL },
     { NULL }
 };
@@ -302,13 +302,13 @@ UI_MENU_DEFINE_TOGGLE(SidUseResid)
 #endif
 
 ui_menu_entry_t sid_submenu[] = {
-    { "*Emulate filters",
+    { N_("*Emulate filters"),
       (ui_callback_t) toggle_SidFilters, NULL, NULL },
-    { "Chip model",
+    { N_("Chip model"),
       NULL, NULL, sid_model_submenu },
 #ifdef HAVE_RESID
     { "--" },
-    { "*Use reSID emulation",
+    { N_("*Use reSID emulation"),
       (ui_callback_t) toggle_SidUseResid, NULL, NULL },
 #endif
     { NULL },
@@ -323,12 +323,12 @@ UI_MENU_DEFINE_TOGGLE(Mouse)
 #endif
 
 static ui_menu_entry_t io_extensions_submenu[] = {
-    { "*Emulator identification",
+    { N_("*Emulator identification"),
       (ui_callback_t) toggle_EmuID, NULL, NULL },
-    { "*512K RAM Expansion Unit",
+    { N_("*512K RAM Expansion Unit"),
       (ui_callback_t) toggle_REU, NULL, NULL },
 #ifdef HAVE_MOUSE
-    { "*1351 Mouse Emulation",
+    { N_("*1351 Mouse Emulation"),
       (ui_callback_t) toggle_Mouse, NULL, NULL, XK_m, UI_HOTMOD_META },
 #endif
     { NULL }
@@ -379,21 +379,21 @@ static UI_CALLBACK(swap_joystick_ports)
 }
 
 static ui_menu_entry_t set_joystick_device_1_submenu[] = {
-    { "*None",
+    { N_("*None"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_NONE, NULL },
-    { "*Numpad",
+    { N_("*Numpad"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
-    { "*Custom Keys",
+    { N_("*Custom Keys"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
-    { "*Analog Joystick 0",
+    { N_("*Analog Joystick 0"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
-    { "*Analog Joystick 1",
+    { N_("*Analog Joystick 1"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
-    { "*Digital Joystick 0",
+    { N_("*Digital Joystick 0"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
-    { "*Digital Joystick 1",
+    { N_("*Digital Joystick 1"),
       (ui_callback_t) set_joystick_device_1, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif
@@ -401,21 +401,21 @@ static ui_menu_entry_t set_joystick_device_1_submenu[] = {
 };
 
 static ui_menu_entry_t set_joystick_device_2_submenu[] = {
-    { "*None",
+    { N_("*None"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_NONE, NULL },
-    { "*Numpad",
+    { N_("*Numpad"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
-    { "*Custom Keys",
+    { N_("*Custom Keys"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
-    { "*Analog Joystick 0",
+    { N_("*Analog Joystick 0"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
-    { "*Analog Joystick 1",
+    { N_("*Analog Joystick 1"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
-    { "*Digital Joystick 0",
+    { N_("*Digital Joystick 0"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
-    { "*Digital Joystick 1",
+    { N_("*Digital Joystick 1"),
       (ui_callback_t) set_joystick_device_2, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif /* HAS_JOYSTICK */
@@ -424,18 +424,18 @@ static ui_menu_entry_t set_joystick_device_2_submenu[] = {
 
 
 static ui_menu_entry_t joystick_settings_submenu[] = {
-    { "Joystick device in port 1",
+    { N_("Joystick device in port 1"),
       NULL, NULL, set_joystick_device_1_submenu },
-    { "Joystick device in port 2",
+    { N_("Joystick device in port 2"),
       NULL, NULL, set_joystick_device_2_submenu },
     { "--" },
-    { "Swap joystick ports",
+    { N_("Swap joystick ports"),
       (ui_callback_t) swap_joystick_ports, NULL, NULL, XK_j, UI_HOTMOD_META },
     { NULL }
 };
 
 static ui_menu_entry_t joystick_settings_menu[] = {
-    { "Joystick settings",
+    { N_("Joystick settings"),
       NULL, NULL, joystick_settings_submenu },
     { NULL }
 };
@@ -443,30 +443,30 @@ static ui_menu_entry_t joystick_settings_menu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t c64_romset_submenu[] = {
-    { "Load default ROMs",
+    { N_("Load default ROMs"),
       (ui_callback_t) ui_set_romset, (ui_callback_data_t)"default.vrs", NULL },
     { "--" },
-    { "Load new kernal ROM",
+    { N_("Load new kernal ROM"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"KernalName", NULL },
-    { "Load new BASIC ROM",
+    { N_("Load new BASIC ROM"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"BasicName", NULL },
-    { "Load new character ROM",
+    { N_("Load new character ROM"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"ChargenName", NULL },
     { "--" },
-    { "Load new 1541 ROM",
+    { N_("Load new 1541 ROM"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName1541", NULL },
-    { "Load new 1541-II ROM",
+    { N_("Load new 1541-II ROM"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName1541ii", NULL },
-    { "Load new 1571 ROM",
+    { N_("Load new 1571 ROM"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName1571", NULL },
-    { "Load new 1581 ROM",
+    { N_("Load new 1581 ROM"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName1581", NULL },
-    { "Load new 2031 ROM",
+    { N_("Load new 2031 ROM"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"DosName2031", NULL },
     { "--" },
-    { "Load custom ROM set from file",
+    { N_("Load custom ROM set from file"),
       (ui_callback_t) ui_load_romset, NULL, NULL },
-    { "Dump ROM set definition to file",
+    { N_("Dump ROM set definition to file"),
       (ui_callback_t) ui_dump_romset, NULL, NULL },
     { NULL }
 };
@@ -489,7 +489,7 @@ static UI_CALLBACK(save_screenshot)
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
-    { "Screenshot...",
+    { N_("Screenshot..."),
       (ui_callback_t)save_screenshot, (ui_callback_data_t) 0, NULL },
     { NULL }
 };
@@ -497,15 +497,15 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t c64_menu[] = {
-    { "ROM settings",
+    { N_("ROM settings"),
       NULL, NULL, c64_romset_submenu },
-    { "VIC-II settings",
+    { N_("VIC-II settings"),
       NULL, NULL, vic_submenu },
-    { "SID settings",
+    { N_("SID settings"),
       NULL, NULL, sid_submenu },
-    { "I/O extensions at $DFxx",
+    { N_("I/O extensions at $DFxx"),
       NULL, NULL, io_extensions_submenu },
-    { "RS232 settings",
+    { N_("RS232 settings"),
       NULL, NULL, rs232_submenu },
     { NULL }
 };
