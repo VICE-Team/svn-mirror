@@ -55,6 +55,6 @@ void vic20_rsuser_init(void)
 {
     /* The 1.0 is the CPU clk ratio to 1 MHz */
     rsuser_init(machine_get_cycles_per_second(), 
-				vic20_trigger_start, NULL);
+                vic20_trigger_start, NULL);
 }
 

@@ -30,7 +30,7 @@
 #include "types.h"
 
 /* This enables debugging.  Attention: It makes things a bit slower.  */
-/* #define DEBUG */
+#define DEBUG
 
 typedef struct debug_s {
 #ifdef DEBUG
