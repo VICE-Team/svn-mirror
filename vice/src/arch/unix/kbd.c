@@ -39,7 +39,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "vice.h"
 #include "vmachine.h"
+#include "machine.h"
 #include "video.h"
 #include "ui.h"
 #include "resources.h"
@@ -234,11 +236,13 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
     count = XLookupString(&report->xkey, buffer, 20, &key, &compose);
 
     if (key == XK_Tab) {	/* Restore */
-	if (report->type == KeyPress)
-	    maincpu_set_nmi(I_RESTORE, 1);
-	else if (report->type == KeyRelease)
-	    maincpu_set_nmi(I_RESTORE, 0);
-	return;
+	int retfl = 0;
+	if (report->type == KeyPress) {
+	    retfl = machine_set_restore_key(1);
+	} else if (report->type == KeyRelease) {
+	    retfl = machine_set_restore_key(0);
+	}
+	if(retfl) return;
     }
 
     switch (report->type) {

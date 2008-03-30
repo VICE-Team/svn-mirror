@@ -49,4 +49,8 @@ void machine_reset(void);
 /* Shutdown th emachine.  */
 void machine_shutdown(void);
 
+/* Set the state of the RESTORE key (!=0 means pressed); returns 1 if key had
+   been used.  */
+int machine_set_restore_key(int);
+
 #endif /* _MACHINE_H */

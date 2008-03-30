@@ -211,14 +211,14 @@ int machine_init(void)
 
     /* Initialize the tape emulation.  */
     tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, vic20_tape_traps,
-        0x277, 0xc6);
+              0x277, 0xc6);
 
     /* Fire up the hardware-level 1541 emulation. */
     true1541_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
     autostart_init(3 * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH, 1,
-	0xcc, 0xd1, 0xd3, 0xd5);
+                   0xcc, 0xd1, 0xd3, 0xd5);
 
     /* Initialize the VIC-I emulation.  */
     vic_init();
@@ -318,3 +318,10 @@ static void vsync_hook(void)
     joystick();
 #endif
 }
+
+int machine_set_restore_key(int v)
+{
+    via2_signal(VIA_SIG_CA1, v? VIA_SIG_FALL: VIA_SIG_RISE);
+    return 1;
+}
+
