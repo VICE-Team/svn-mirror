@@ -154,9 +154,9 @@ static int write_sequential_buffer(vdrive_t *vdrive, bufferinfo_t *bi,
  * directory slot.
  */
 
-int vdrive_open(void *flp, const char *name, int length, unsigned int secondary)
+int vdrive_open(vdrive_t *vdrive, const char *name, int length,
+                unsigned int secondary)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     char realname[256];
     unsigned int reallength, readmode, filetype, rl;
@@ -363,7 +363,7 @@ int vdrive_open(void *flp, const char *name, int length, unsigned int secondary)
      * Write
      */
 
-    if (vdrive->read_only) {
+    if (vdrive->image->read_only) {
         vdrive_command_set_error(vdrive, IPE_WRITE_PROTECT_ON, 0, 0);
         return SERIAL_ERROR;
     }
@@ -406,9 +406,8 @@ int vdrive_open(void *flp, const char *name, int length, unsigned int secondary)
 }
 
 
-int vdrive_close(void *flp, unsigned int secondary)
+int vdrive_close(vdrive_t *vdrive, unsigned int secondary)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
     BYTE *e;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
@@ -433,7 +432,7 @@ int vdrive_close(void *flp, unsigned int secondary)
              * Flush bytes and write slot to directory
              */
 
-            if (vdrive->read_only) {
+            if (vdrive->image->read_only) {
                 vdrive_command_set_error(vdrive, IPE_WRITE_PROTECT_ON, 0, 0);
                 return SERIAL_ERROR;
             }
@@ -490,9 +489,8 @@ int vdrive_close(void *flp, unsigned int secondary)
 }
 
 
-int vdrive_read(void *flp, BYTE *data, unsigned int secondary)
+int vdrive_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
 #ifdef DEBUG_DRIVE
@@ -569,12 +567,11 @@ int vdrive_read(void *flp, BYTE *data, unsigned int secondary)
 }
 
 
-int vdrive_write(void *flp, BYTE data, unsigned int secondary)
+int vdrive_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
-    if (vdrive->read_only && p->mode != BUFFER_COMMAND_CHANNEL) {
+    if (vdrive->image->read_only && p->mode != BUFFER_COMMAND_CHANNEL) {
         vdrive_command_set_error(vdrive, IPE_WRITE_PROTECT_ON, 0, 0);
         return SERIAL_ERROR;
     }
@@ -627,9 +624,8 @@ int vdrive_write(void *flp, BYTE data, unsigned int secondary)
     return SERIAL_OK;
 }
 
-void vdrive_flush(void *flp, unsigned int secondary)
+void vdrive_flush(vdrive_t *vdrive, unsigned int secondary)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     int status;
 

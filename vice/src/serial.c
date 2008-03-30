@@ -586,11 +586,11 @@ int serial_init(const trap_t * trap_list)
 	p = &serialdevices[i];
 
 	p->inuse = 0;
-	p->getf = (int (*)(void *, BYTE *, unsigned int)) fn;
-	p->putf = (int (*)(void *, BYTE, unsigned int)) fn;
-	p->openf = (int (*)(void *, const char *, int, unsigned int)) fn;
-	p->closef = (int (*)(void *, unsigned int)) fn;
-	p->flushf = (void (*)(void *, unsigned int)) NULL;
+	p->getf = (int (*)(vdrive_t *, BYTE *, unsigned int)) fn;
+	p->putf = (int (*)(vdrive_t *, BYTE, unsigned int)) fn;
+	p->openf = (int (*)(vdrive_t *, const char *, int, unsigned int)) fn;
+	p->closef = (int (*)(vdrive_t *, unsigned int)) fn;
+	p->flushf = (void (*)(vdrive_t *, unsigned int)) NULL;
     }
 
 #ifdef HAVE_PRINTER
@@ -625,11 +625,12 @@ int serial_remove_traps(void)
 }
 
 int serial_attach_device(unsigned int device, const char *name,
-                         int (*getf) (void *, BYTE *, unsigned int),
-                         int (*putf) (void *, BYTE, unsigned int),
-                         int (*openf) (void *, const char *, int, unsigned int),
-                         int (*closef) (void *, unsigned int),
-                         void (*flushf) (void *, unsigned int))
+                         int (*getf) (vdrive_t *, BYTE *, unsigned int),
+                         int (*putf) (vdrive_t *, BYTE, unsigned int),
+                         int (*openf) (vdrive_t *, const char *,
+                         int, unsigned int),
+                         int (*closef) (vdrive_t *, unsigned int),
+                         void (*flushf) (vdrive_t *, unsigned int))
 {
     serial_t *p;
     int i;

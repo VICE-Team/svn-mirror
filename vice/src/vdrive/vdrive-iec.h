@@ -30,16 +30,19 @@
 #include "types.h"
 
 struct bufferinfo_s;
+struct vdrive_s;
 
 extern void vdrive_iec_init(void);
 
 /* Generic IEC interface.  */
-extern int vdrive_open(void *vdrive, const char *name, int length,
+extern int vdrive_open(struct vdrive_s *vdrive, const char *name, int length,
                        unsigned int secondary);
-extern int vdrive_close(void *vdrive, unsigned int secondary);
-extern int vdrive_read(void *vdrive, BYTE *data, unsigned int secondary);
-extern int vdrive_write(void *vdrive, BYTE data, unsigned int secondary);
-extern void vdrive_flush(void *vdrive, unsigned int secondary);
+extern int vdrive_close(struct vdrive_s *vdrive, unsigned int secondary);
+extern int vdrive_read(struct vdrive_s *vdrive, BYTE *data,
+                       unsigned int secondary);
+extern int vdrive_write(struct vdrive_s *vdrive, BYTE data,
+                        unsigned int secondary);
+extern void vdrive_flush(struct vdrive_s *vdrive, unsigned int secondary);
 
 /* Low level access to IEC interface.  */
 extern void vdrive_open_create_dir_slot(struct bufferinfo_s *p, char *realname,

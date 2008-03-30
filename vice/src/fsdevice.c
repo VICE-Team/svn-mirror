@@ -450,9 +450,8 @@ static void fs_error(vdrive_t *vdrive, int code)
     fs_eptr = 0;
 }
 
-static void flush_fs(void *flp, unsigned int secondary)
+static void flush_fs(vdrive_t *vdrive, unsigned int secondary)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
     char *cmd, *realarg, *arg, *realarg2 = NULL, *arg2 = NULL;
     char cbmcmd[MAXPATHLEN], name1[MAXPATHLEN], name2[MAXPATHLEN];
     int er = IPE_SYNTAX;
@@ -616,10 +615,8 @@ static void flush_fs(void *flp, unsigned int secondary)
     fs_cptr = 0;
 }
 
-static int write_fs(void *flp, BYTE data, unsigned int secondary)
+static int write_fs(vdrive_t *vdrive, BYTE data, unsigned int secondary)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
-
     if (secondary == 15) {
         if (fs_cptr < MAXPATHLEN - 1) {         /* keep place for nullbyte */
             fs_cmdbuf[fs_cptr++] = data;
@@ -640,9 +637,8 @@ static int write_fs(void *flp, BYTE data, unsigned int secondary)
     return FLOPPY_ERROR;
 }
 
-static int read_fs(void *flp, BYTE * data, unsigned int secondary)
+static int read_fs(vdrive_t *vdrive, BYTE * data, unsigned int secondary)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
     int i, l, f;
     unsigned short blocks;
     struct dirent *dirp;        /* defined in /usr/include/sys/dirent.h */
@@ -866,10 +862,9 @@ static int read_fs(void *flp, BYTE * data, unsigned int secondary)
     return FLOPPY_ERROR;
 }
 
-static int open_fs(void *flp, const char *name, int length,
+static int open_fs(vdrive_t *vdrive, const char *name, int length,
                    unsigned int secondary)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
     FILE *fd;
     DIR *dp;
     BYTE *p, *linkp;
@@ -886,7 +881,7 @@ static int open_fs(void *flp, const char *name, int length,
 
     if (secondary == 15) {
         for (i = 0; i < length; i++)
-            status = write_fs(flp, name[i], 15);
+            status = write_fs(vdrive, name[i], 15);
         return status;
     }
 
@@ -1139,10 +1134,8 @@ static int open_fs(void *flp, const char *name, int length,
     return FLOPPY_COMMAND_OK;
 }
 
-static int close_fs(void *flp, unsigned int secondary)
+static int close_fs(vdrive_t *vdrive, unsigned int secondary)
 {
-    vdrive_t *vdrive = (vdrive_t *)flp;
-
 #ifdef __riscos
     ui_set_drive_leds(vdrive->unit - 8, 0);
 #endif

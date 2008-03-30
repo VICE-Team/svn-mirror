@@ -49,6 +49,7 @@
 
 struct disk_image_s;
 struct trap_s;
+struct vdrive_s;
 
 typedef struct serial_s
 {
@@ -56,11 +57,11 @@ typedef struct serial_s
     int isopen[16]; /* isopen flag for each secondary address */
     struct disk_image_s *image; /* pointer to the disk image data  */ 
     char *name; /* name of the device */
-    int (*getf)(void *, BYTE *, unsigned int); /* serial read function */
-    int (*putf)(void *, BYTE, unsigned int); /* serial write function */
-    int (*openf)(void *, const char *, int, unsigned int); /* serial open */
-    int (*closef)(void *, unsigned int);/* serial close function */
-    void (*flushf)(void *, unsigned int);/* tell device that write completed */
+    int (*getf)(struct vdrive_s *, BYTE *, unsigned int);
+    int (*putf)(struct vdrive_s *, BYTE, unsigned int);
+    int (*openf)(struct vdrive_s *, const char *, int, unsigned int);
+    int (*closef)(struct vdrive_s *, unsigned int);
+    void (*flushf)(struct vdrive_s *, unsigned int);
     BYTE nextbyte[16]; /* next byte to send, per sec. addr. */
     char nextok[16]; /* flag if nextbyte is valid */
 
@@ -79,12 +80,16 @@ extern int serial_init(const struct trap_s *trap_list);
 extern int serial_install_traps(void);
 extern int serial_remove_traps(void);
 extern int serial_attach_device(unsigned int device, const char *name,
-                                int (*getf)(void *, BYTE *, unsigned int),
-                                int (*putf)(void *, BYTE, unsigned int),
-                                int (*openf)(void *, const char *, int,
+                                int (*getf)(struct vdrive_s *,
+                                BYTE *, unsigned int),
+                                int (*putf)(struct vdrive_s *, BYTE,
                                 unsigned int),
-                                int (*closef)(void *, unsigned int),
-                                void (*flushf)(void *, unsigned int));
+                                int (*openf)(struct vdrive_s *,
+                                const char *, int,
+                                unsigned int),
+                                int (*closef)(struct vdrive_s *, unsigned int),
+                                void (*flushf)(struct vdrive_s *,
+                                unsigned int));
 extern int serial_detach_device(int device);
 extern serial_t *serial_get_device(int number);
 extern void serial_reset(void);
