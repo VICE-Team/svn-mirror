@@ -341,15 +341,15 @@ int set_physical_colors(video_canvas_t *c)
     if (format.dwFlags & DDPF_RGB) {
         log_debug("RGB surface...");
 #ifdef _ANONYMOUS_UNION
-        log_debug("dwRGBBitCount: %d", format.dwRGBBitCount);
-        log_debug("dwRBitMask: %08x", format.dwRBitMask);
-        log_debug("dwGBitMask: %08x", format.dwGBitMask);
-        log_debug("dwBBitMask: %08x", format.dwBBitMask);
+        log_debug("dwRGBBitCount: %d", (int)format.dwRGBBitCount);
+        log_debug("dwRBitMask: %08x", (unsigned int)format.dwRBitMask);
+        log_debug("dwGBitMask: %08x", (unsigned int)format.dwGBitMask);
+        log_debug("dwBBitMask: %08x", (unsigned int)format.dwBBitMask);
 #else
-        log_debug("dwRGBBitCount: %d", format.u1.dwRGBBitCount);
-        log_debug("dwRBitMask: %08x", format.u2.dwRBitMask);
-        log_debug("dwGBitMask: %08x", format.u3.dwGBitMask);
-        log_debug("dwBBitMask: %08x", format.u4.dwBBitMask);
+        log_debug("dwRGBBitCount: %d", (int)format.u1.dwRGBBitCount);
+        log_debug("dwRBitMask: %08x", (unsigned int)format.u2.dwRBitMask);
+        log_debug("dwGBitMask: %08x", (unsigned int)format.u3.dwGBitMask);
+        log_debug("dwBBitMask: %08x", (unsigned int)format.u4.dwBBitMask);
 #endif
         if (c->depth != 8) {
 
