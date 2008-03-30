@@ -134,7 +134,7 @@ BYTE REGPARM1 ide64_io1_read(ADDRESS addr)
     case 0x26:outd030=(ide_head | 0xa0);break;
     case 0x27:outd030=ide_status_cmd;break;
     case 0x2e:outd030=ide_status_cmd;break;
-    case 0x2f:outd030=vicii_read_phi1();break;
+    case 0x2f:outd030=(unsigned int)rand();break;
     case 0x30:return outd030;
     case 0x31:return outd030 >> 8;
     case 0x5f:
@@ -326,12 +326,12 @@ void REGPARM2 ide64_io1_store(ADDRESS addr, BYTE value)
     case 0xff:current_cfg=2;break;
     default:return;
     }
-    cartridge_config_changed(current_cfg | (current_bank << 3), CMODE_READ);
+    cartridge_config_changed(1, current_cfg | (current_bank << 3), CMODE_READ);
 }
 
 void ide64_config_init(void)
 {
-    cartridge_config_changed(0, CMODE_READ);
+    cartridge_config_changed(1, 0, CMODE_READ);
     current_bank=0;
     current_cfg=0;
     kill_port=0;
@@ -364,7 +364,7 @@ void ide64_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x10000);
     memcpy(romh_banks, rawcart, 0x10000);
-    cartridge_config_changed(0, CMODE_READ);
+    cartridge_config_changed(1, 0, CMODE_READ);
 }
 
 void ide64_detach(void)
