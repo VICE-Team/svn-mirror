@@ -65,6 +65,7 @@ static char *(*read_content_func)(const char *);
 static int *autostart_result;
 static char* fontfile;
 static int font_loaded;
+static char *res_readonly;
 
 struct uilib_filefilter_s {
     TCHAR *name;
@@ -360,6 +361,14 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
         }
         SetDlgItemText(hwnd, IDC_BLANK_IMAGE_NAME, TEXT("vice"));
         SetDlgItemText(hwnd, IDC_BLANK_IMAGE_ID, TEXT("1a"));
+        if (res_readonly != NULL) {
+            int ro;
+            resources_get_value(res_readonly, &ro);
+            CheckDlgButton(hwnd, IDC_TOGGLE_ATTACH_READONLY,
+                       ro ? BST_CHECKED : BST_UNCHECKED);
+        } else {
+            EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_ATTACH_READONLY),  FALSE);
+        }
         break;
       case WM_NOTIFY:
         if (((OFNOTIFY *)lparam)->hdr.code == CDN_SELCHANGE) {
@@ -384,6 +393,12 @@ static UINT APIENTRY uilib_select_hook_proc(HWND hwnd, UINT uimsg,
       case WM_COMMAND:
         msg_type = LOWORD(wparam);
         switch (msg_type) {
+          case IDC_TOGGLE_ATTACH_READONLY:
+            if (res_readonly)
+                resources_set_value(res_readonly, 
+                          (resource_value_t)(IsDlgButtonChecked(hwnd,
+                          IDC_TOGGLE_ATTACH_READONLY) == BST_CHECKED));
+            break;
           case IDC_BLANK_IMAGE:
             if (SendMessage(GetParent(hwnd),
                 CDM_GETSPEC, 256, (LPARAM)st_filename) <= 1) {
@@ -600,7 +615,8 @@ static int CALLBACK EnumFontProc(
 
 TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
                                    DWORD filterlist, unsigned int type,
-                                   int style, int *autostart)
+                                   int style, int *autostart,
+                                   char *resource_readonly)
 {
     TCHAR st_name[MAX_PATH];
     char name[MAX_PATH];
@@ -675,6 +691,7 @@ TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
 
     read_content_func = styles[style].content_read_function;
     autostart_result = autostart;
+    res_readonly = resource_readonly;
     vsync_suspend_speed_eval();
 
     if (type == UILIB_SELECTOR_TYPE_FILE_SAVE)
@@ -710,7 +727,7 @@ TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist,
                          unsigned int type, int style)
 {
     return uilib_select_file_autostart(hwnd, title, filterlist, type, style,
-                                       NULL);
+                                       NULL, NULL);
 }
 
 void uilib_select_browse(HWND hwnd, const TCHAR *title, DWORD filterlist,

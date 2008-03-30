@@ -66,7 +66,8 @@ extern TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist,
                                 unsigned int type, int style);
 extern TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title,
                                           DWORD filterlist, unsigned int type,
-                                          int style, int *autostart);
+                                          int style, int *autostart,
+                                          char *resource_readonly);
 extern void uilib_select_browse(HWND hwnd, const TCHAR *title,
                                 DWORD filterlist, unsigned int type, int idc);
 

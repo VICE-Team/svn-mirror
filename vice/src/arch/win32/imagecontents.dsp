@@ -80,9 +80,6 @@ LIB32=link.exe -lib
 
 # Name "imagecontents - Win32 Release"
 # Name "imagecontents - Win32 Debug"
-# Begin Group "Source Files"
-
-# PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
 SOURCE=..\..\imagecontents\diskcontents-block.c
@@ -103,10 +100,5 @@ SOURCE=..\..\imagecontents\imagecontents.c
 
 SOURCE=..\..\imagecontents\tapecontents.c
 # End Source File
-# End Group
-# Begin Group "Header Files"
-
-# PROP Default_Filter "h;hpp;hxx;hm;inl"
-# End Group
 # End Target
 # End Project
