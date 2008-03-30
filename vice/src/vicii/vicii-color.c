@@ -30,7 +30,6 @@
 
 #include "vice.h"
 
-#include "machine.h"
 #include "viciitypes.h"
 #include "vicii-color.h"
 #include "vicii-resources.h"

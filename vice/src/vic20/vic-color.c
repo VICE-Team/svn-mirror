@@ -30,7 +30,6 @@
 
 #include "vice.h"
 
-#include "machine.h"
 #include "vic.h"
 #include "video.h"
 

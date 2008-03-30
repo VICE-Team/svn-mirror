@@ -30,7 +30,6 @@
 
 #include "vice.h"
 
-#include "machine.h"
 #include "tedtypes.h"
 #include "ted-color.h"
 #include "ted-resources.h"

@@ -29,28 +29,27 @@
 
 #include <stdio.h>
 
+#include "archdep.h"
 #include "cmdline.h"
+#include "raster-cmdline-options.h"
 #include "vicii-cmdline-options.h"
-#include "vicii.h"
-#include "viciitypes.h"
 
 
 /* VIC-II command-line options.  */
-
 static cmdline_option_t cmdline_options[] =
 {
-    { "-vcache", SET_RESOURCE, 0, NULL, NULL, "VideoCache",
-      (void *)1, NULL, "Enable the video cache" },
-    { "+vcache", SET_RESOURCE, 0, NULL, NULL, "VideoCache",
-      (void *)0, NULL, "Disable the video cache" },
-    { "-checksb", SET_RESOURCE, 0, NULL, NULL, "CheckSbColl",
+    { "-checksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
       (void *)1, NULL, "Enable sprite-background collision registers" },
-    { "+checksb", SET_RESOURCE, 0, NULL, NULL, "CheckSbColl",
+    { "+checksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
       (void *)0, NULL, "Disable sprite-background collision registers" },
-    { "-checkss", SET_RESOURCE, 0, NULL, NULL, "CheckSsColl",
+    { "-checkss", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSsColl",
       (void *)1, NULL, "Enable sprite-sprite collision registers" },
-    { "+checkss", SET_RESOURCE, 0, NULL, NULL, "CheckSsColl",
+    { "+checkss", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSsColl",
       (void *)0, NULL, "Disable sprite-sprite collision registers" },
+    { "-newluminance", SET_RESOURCE, 0, NULL, NULL, "VICIINewLuminances",
+      (void *)1, NULL, "Use new luminances" },
+    { "+newluminance", SET_RESOURCE, 0, NULL, NULL, "VICIINewLuminances",
+      (void *)0, NULL, "Use old luminances" },
     { "-saturation", SET_RESOURCE, 1, NULL, NULL, "ColorSaturation", NULL,
       "<0-2000>", "Set saturation of internal calculated palette [1000]" },
     { "-contrast", SET_RESOURCE, 1, NULL, NULL, "ColorContrast", NULL,
@@ -59,10 +58,6 @@ static cmdline_option_t cmdline_options[] =
       "<0-2000>", "Set brightness of internal calculated palette [1100]" },
     { "-gamma", SET_RESOURCE, 1, NULL, NULL, "ColorGamma", NULL,
       "<0-2000>", "Set gamma of internal calculated palette [900]" },
-    { "-newluminance", SET_RESOURCE, 0, NULL, NULL, "NewLuminances",
-      (void *)1, NULL, "Use new luminances" },
-    { "+newluminance", SET_RESOURCE, 0, NULL, NULL, "NewLuminances",
-      (void *)0, NULL, "Use old luminances" },
     { "-intpal", SET_RESOURCE, 0, NULL, NULL, "ExternalPalette",
       (void *)0, NULL, "Use an internal calculated palette" },
     { "-extpal", SET_RESOURCE, 0, NULL, NULL, "ExternalPalette",
@@ -72,29 +67,33 @@ static cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
-/* VIC-II double-size-specific command-line options.  */
 
-#ifdef VIC_II_NEED_2X
+/* VIC-II double-size-specific command-line options.  */
 static cmdline_option_t cmdline_options_2x[] =
 {
+#if ARCHDEP_VICII_DSIZE == 1
     { "-dsize", SET_RESOURCE, 0, NULL, NULL, "DoubleSize",
       (void *)1, NULL, "Enable double size" },
     { "+dsize", SET_RESOURCE, 0, NULL, NULL, "DoubleSize",
       (void *)0, NULL, "Disable double size" },
+#endif
+#if ARCHDEP_VICII_DSCAN == 1
     { "-dscan", SET_RESOURCE, 0, NULL, NULL, "DoubleScan",
       (void *)1, NULL, "Enable double scan" },
     { "+dscan", SET_RESOURCE, 0, NULL, NULL, "DoubleScan",
       (void *)0, NULL, "Disable double scan" },
+#endif
     { NULL }
 };
-#endif
 
 int vic_ii_cmdline_options_init(void)
 {
-#ifdef VIC_II_NEED_2X
+#if (ARCHDEP_VICII_DSIZE == 1) || (ARCHDEP_VICII_DSCAN == 1)
     if (cmdline_register_options(cmdline_options_2x) < 0)
         return -1;
 #endif
+    if (raster_cmdline_options_chip_init("VICII") < 0)
+        return -1;
 
     return cmdline_register_options(cmdline_options);
 }

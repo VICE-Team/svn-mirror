@@ -28,20 +28,15 @@
 
 #include <stdio.h>
 
+#include "archdep.h"
 #include "cmdline.h"
+#include "raster-cmdline-options.h"
 #include "ted-cmdline-options.h"
-#include "ted.h"
-#include "tedtypes.h"
 
 
 /* TED command-line options.  */
-
 static cmdline_option_t cmdline_options[] =
 {
-    { "-vcache", SET_RESOURCE, 0, NULL, NULL, "VideoCache",
-      (void *)1, NULL, "Enable the video cache" },
-    { "+vcache", SET_RESOURCE, 0, NULL, NULL, "VideoCache",
-      (void *)0, NULL, "Disable the video cache" },
     { "-saturation", SET_RESOURCE, 1, NULL, NULL, "ColorSaturation", NULL,
       "<0-2000>", "Set saturation of internal calculated palette [1000]" },
     { "-contrast", SET_RESOURCE, 1, NULL, NULL, "ColorContrast", NULL,
@@ -50,10 +45,6 @@ static cmdline_option_t cmdline_options[] =
       "<0-2000>", "Set brightness of internal calculated palette [1100]" },
     { "-gamma", SET_RESOURCE, 1, NULL, NULL, "ColorGamma", NULL,
       "<0-2000>", "Set gamma of internal calculated palette [900]" },
-    { "-newluminance", SET_RESOURCE, 0, NULL, NULL, "NewLuminances",
-      (void *)1, NULL, "Use new luminances" },
-    { "+newluminance", SET_RESOURCE, 0, NULL, NULL, "NewLuminances",
-      (void *)0, NULL, "Use old luminances" },
     { "-intpal", SET_RESOURCE, 0, NULL, NULL, "ExternalPalette",
       (void *)0, NULL, "Use an internal calculated palette" },
     { "-extpal", SET_RESOURCE, 0, NULL, NULL, "ExternalPalette",
@@ -63,29 +54,32 @@ static cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
-/* VIC-II double-size-specific command-line options.  */
-
-#ifdef VIC_II_NEED_2X
+/* TED double-size-specific command-line options.  */
 static cmdline_option_t cmdline_options_2x[] =
 {
+#if ARCHDEP_TED_DSIZE == 1
     { "-dsize", SET_RESOURCE, 0, NULL, NULL, "DoubleSize",
       (void *)1, NULL, "Enable double size" },
     { "+dsize", SET_RESOURCE, 0, NULL, NULL, "DoubleSize",
       (void *)0, NULL, "Disable double size" },
+#endif
+#if ARCHDEP_TED_DSCAN == 1
     { "-dscan", SET_RESOURCE, 0, NULL, NULL, "DoubleScan",
       (void *)1, NULL, "Enable double scan" },
     { "+dscan", SET_RESOURCE, 0, NULL, NULL, "DoubleScan",
       (void *)0, NULL, "Disable double scan" },
+#endif
     { NULL }
 };
-#endif
 
 int ted_cmdline_options_init(void)
 {
-#ifdef VIC_II_NEED_2X
+#if (ARCHDEP_TED_DSIZE == 1) || (ARCHDEP_TED_DSCAN == 1)
     if (cmdline_register_options(cmdline_options_2x) < 0)
         return -1;
 #endif
+    if (raster_cmdline_options_chip_init("TED") < 0)
+        return -1;
 
     return cmdline_register_options(cmdline_options);
 }
