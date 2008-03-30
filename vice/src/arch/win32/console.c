@@ -36,11 +36,11 @@
 #include <windows.h>
 
 #include "console.h"
+#include "fullscreen.h"
 #include "res.h"
 #include "ui.h"
 #include "utils.h"
 #include "winmain.h"
-
 
 /*
  MAX_WIDTH is not allowed to be bigger than (MIN_XSIZE * MIN_YSIZE) !
@@ -84,7 +84,7 @@ typedef struct console_private_s
 	char		*pchName;			/*  the name of the window; 
 									this is used to recognize the window when re-opening */
 
-	char		*pchOnClose;		/* the string to be returned when the window is closes */
+	char		*pchOnClose;		/* the string to be returned when the window is closed */
 
 	char		*history[MAX_HISTORY];	/* ring buffer of pointers to the history entries */
 	unsigned	 nHistory;		/* index to next entry to be written in history buffer */
@@ -106,6 +106,7 @@ typedef struct console_private_s
 
 	HWND		 hwndConsole;	/* the HWND of the window */
 	HWND		 hwndPreviousActive;
+	HWND		 hwndParent;
 	HDC			 hdc;			/* a DC for writing inside the window */
 
 	int			 xWindow;		/* the position of the window for re-opening */
@@ -711,7 +712,6 @@ static long CALLBACK console_window_proc(HWND hwnd,
 		/* if the window is closed, i.e. by pressing the close
 		   button, we simulate the typing of a specific line
 		*/
-
 		if (pcp->achInputBuffer)
 		{
 			pcp->bInputReady       = TRUE;
@@ -1076,11 +1076,13 @@ static console_private_t *find_console_entry(const char *id)
 console_t *console_open(const char *id)
 {
 	console_private_t *pcp;
-
+	
 	pcp = find_console_entry( id );
 
 	allocate_window_memory( pcp );
 
+	pcp->hwndParent = GetActiveWindow();
+	SuspendFullscreenMode( pcp->hwndParent );
 
     pcp->hwndConsole = CreateWindow(CONSOLE_CLASS,
 		id,
@@ -1089,7 +1091,7 @@ console_t *console_open(const char *id)
         pcp->yWindow,
         1,
         1,
-        NULL,
+        pcp->hwndParent,
         NULL,
         winmain_instance,
         NULL);
@@ -1135,6 +1137,8 @@ int console_close(console_t *log)
 
 	/* set the previous active window as new active one */
 	SetActiveWindow( pcp->hwndPreviousActive );
+
+	ResumeFullscreenMode( pcp->hwndParent );
 
     return 0;
 }

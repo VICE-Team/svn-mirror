@@ -160,12 +160,14 @@ BEGIN
         MENUITEM "&VIC-II settings...",             IDM_VICII_SETTINGS
         MENUITEM "&Joystick settings...",           IDM_JOY_SETTINGS
         MENUITEM "S&ound settings...",              IDM_SOUND_SETTINGS
-	MENUITEM "&Fullscreen settings...",	    IDM_FULLSCREEN_SETTINGS
+	MENUITEM "F&ullscreen settings...",	    IDM_FULLSCREEN_SETTINGS
         MENUITEM SEPARATOR
         MENUITEM "&Save current settings",          IDM_SETTINGS_SAVE
         MENUITEM "&Load saved settings",            IDM_SETTINGS_LOAD
         MENUITEM "Set de&fault settings",           IDM_SETTINGS_DEFAULT
-	MENUITEM "Save settings on exit",	    IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+        MENUITEM SEPARATOR
+	MENUITEM "Save settings on e&xit",	    IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+	MENUITEM "&Confirm on exit",	            IDM_TOGGLE_CONFIRM_ON_EXIT
     END
     POPUP "&Help"
     BEGIN

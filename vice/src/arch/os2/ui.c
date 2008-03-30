@@ -232,7 +232,7 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     va_start(ap, format);
     txt = xmvsprintf(format, ap);
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
-                  txt, "VICE/2 CPU JAM happend", 0, MB_OK);
+                  txt, "VICE/2 CPU JAM happened", 0, MB_OK);
     free(txt);
     return UI_JAM_HARD_RESET;  // Always hard reset.
 }
