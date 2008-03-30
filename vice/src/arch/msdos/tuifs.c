@@ -177,11 +177,23 @@ static struct file_list *file_list_read_lfn(const char *path,
 
 	    if (stat(name, &s) != -1) {
 		type = S_ISDIR(s.st_mode) ? FT_DIR : FT_NORMAL;
-		if (pattern == NULL
-		    || fnmatch(pattern, d->d_name, 0) == 0
-		    || type == FT_DIR)
-		    file_list_add_item(fl, d->d_name, type);
-	    }
+                if (pattern == NULL || type == FT_DIR) {
+                    file_list_add_item(fl, d->d_name, type);
+                    continue;
+                }
+                {
+                    char *p = stralloc(pattern);
+                    char *element;
+
+                    element = strtok(p, ";");
+                    do {
+                        if (fnmatch(element, d->d_name, 0) == 0)
+                            file_list_add_item(fl, d->d_name, type);
+                        element = strtok(NULL, ";");
+                    } while (element != NULL);
+                    free(p);
+                }
+            }
 	}
 
 	_djstat_flags = old_djstat;
@@ -216,10 +228,23 @@ static struct file_list *file_list_read_nolfn(const char *path,
 
     while (!_dos_findnext(&f)) {
         strlwr(f.name);
-        if (pattern == NULL || (f.attrib & _A_SUBDIR)
-            || fnmatch(pattern, f.name, 0) == 0) {
+        if (pattern == NULL || (f.attrib & _A_SUBDIR)) {
             file_list_add_item(fl, f.name,
                                (f.attrib & _A_SUBDIR) ? FT_DIR : FT_NORMAL);
+            continue;
+        }
+        {
+            char *p = stralloc(pattern);
+            char *element;
+
+            element = strtok(p, ";");
+            do {
+                if (fnmatch(element, f.name, 0) == 0)
+                    file_list_add_item(fl, f.name,
+                                  (f.attrib & _A_SUBDIR) ? FT_DIR : FT_NORMAL);
+                element = strtok(NULL, ";");
+            } while (element != NULL);
+            free(p);
         }
     }
 
@@ -382,20 +407,21 @@ char *tui_file_selector(const char *title, const char *directory,
     int str_len = 0;
     tui_area_t backing_store = NULL;
 
-    *browse_file_return = NULL;
+    if (contents_func != NULL)
+        *browse_file_return = NULL;
 
     if (return_path == NULL)
-	free(return_path);
+        free(return_path);
     if (directory != NULL)
-	return_path = stralloc(directory);
+        return_path = stralloc(directory);
     else
-	return_path = get_current_dir();
+        return_path = get_current_dir();
 
     slashize_path(&return_path);
 
     fl = file_list_read(return_path, pattern);
     if (fl == NULL)
-	return NULL;
+        return NULL;
 
     first_item = curr_item = 0;
     num_cols = 4;
