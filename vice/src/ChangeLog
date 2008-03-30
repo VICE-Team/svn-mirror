@@ -1,3 +1,17 @@
+Tue May 19 00:07:35 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.28.
+
+	* true1541/1541cpu.c (true1541_cpu_reset): Set `last_clk' to zero.
+
+Mon May 18 23:04:00 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c128/c128.c: Corrected return addresses for "SerialReady" traps.
+
+	* c128/c128mem.c (initialize_memory): Fixed typo in `shared_size'
+ 	assignment.
+	(store_mmu): Re-initialize memory when register 0 is written to.
+
 Mon May 18 17:52:09 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.27.
