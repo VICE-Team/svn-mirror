@@ -33,19 +33,10 @@
 
 #include <X11/Intrinsic.h>
 
-#define	KBD_ROWS	11	/* maximum size of keyboard array */
-#if 0 
-#ifdef C128
-#define KBD_ROWS	11	/* C128 Keyboard size */
-#else
-#ifdef PET
-#define	KBD_ROWS	10	/* PET Keyboard size */
-#else
-#define KBD_ROWS	8	/* C64/VIC20/Plus4 Keyboard size */
-#endif
-#endif
-#endif /* 0 */
+/* Maximum of keyboard array (C128 values).  */
+#define	KBD_ROWS	11
 
+/* (This is actually the same for all the machines.) */
 #define KBD_COLS	8
 
 extern int keyarr[KBD_ROWS], rev_keyarr[KBD_COLS];
