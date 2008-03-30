@@ -1,17 +1,8 @@
 /*
- * fsdevice.h - File system device.
+ * fsdevice-cmdline-options.h - File system device, command line options.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
- *
- * Based on old code by
- *  Teemu Rantanen <tvr@cs.hut.fi>
- *  Jarkko Sonninen <sonninen@lut.fi>
- *  Jouko Valta <jopi@stekt.oulu.fi>
- *  Olaf Seibert <rhialto@mbfys.kun.nl>
- *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,14 +24,10 @@
  *
  */
 
-#ifndef _FSDEVICE_H
-#define _FSDEVICE_H
+#ifndef _FSDEVICE_CMDLINE_OPTIONS_H
+#define _FSDEVICE_CMDLINE_OPTIONS_H
 
 extern int fsdevice_cmdline_options_init(void);
-extern int fsdevice_resources_init(void);
-
-extern int fsdevice_attach(unsigned int device, const char *name);
-extern void fsdevice_set_directory(char *filename, unsigned int unit);
 
 #endif
 

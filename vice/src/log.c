@@ -60,7 +60,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int log_init_resources(void)
+int log_resources_init(void)
 {
     return resources_register(resources);
 }
@@ -71,7 +71,7 @@ static cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int log_init_cmdline_options(void)
+int log_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

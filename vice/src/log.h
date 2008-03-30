@@ -33,8 +33,8 @@ typedef signed int log_t;
 #define LOG_ERR     ((log_t)-1)
 #define LOG_DEFAULT ((log_t)-2)
 
-extern int log_init_resources(void);
-extern int log_init_cmdline_options(void);
+extern int log_resources_init(void);
+extern int log_cmdline_options_init(void);
 extern int log_init(void);
 extern int log_init_with_fd(FILE *f);
 extern log_t log_open(const char *id);
