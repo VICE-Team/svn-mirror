@@ -108,6 +108,9 @@ static int ram_block_2_enabled;
 static int ram_block_3_enabled;
 static int ram_block_5_enabled;
 
+/* Old program counter.  Not used without MMU support.  */
+unsigned int old_reg_pc;
+
 /* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
 {
@@ -572,6 +575,11 @@ static void set_mem(int start_page, int end_page,
 	    mem_read_limit_tab[i] = -1;
 	}
     }
+}
+
+void mem_set_bank_pointer(BYTE **base, int *limit)
+{
+    /* We do not need MMU support.  */
 }
 
 int vic20_mem_enable_rom_block(int num)
