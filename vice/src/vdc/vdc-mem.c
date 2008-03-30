@@ -62,12 +62,12 @@ static void vdc_perform_fillcopy(void)
     /* Word count, # of bytes to copy */
     blklen = vdc.regs[30] ? vdc.regs[30] : 256;
 
-    /* Block start address.  */
-    ptr2 = (vdc.regs[32] << 8) + vdc.regs[33];
     /* Update address.  */
     ptr = (vdc.regs[18] << 8) + vdc.regs[19];
 
     if (vdc.regs[24] & 0x80) { /* COPY flag */
+        /* Block start address.  */
+        ptr2 = (vdc.regs[32] << 8) + vdc.regs[33];
         /*log_message(vdc.log, "Blockcopy: src = %04x, dest = %04x, len = %02x,"
                     " data = %02x.", ptr2, ptr, blklen,
                     vdc.ram[ptr2 & vdc.vdc_address_mask]);*/
@@ -78,6 +78,7 @@ static void vdc_perform_fillcopy(void)
                         vdc.ram[(ptr2 + i) & vdc.vdc_address_mask]);*/
         }
         ptr2 += blklen;
+        vdc.regs[31] = vdc.ram[(ptr2 - 1) & vdc.vdc_address_mask];
         vdc.regs[32] = (ptr2 >> 8) & 0xff;
         vdc.regs[33] = ptr2 & 0xff;
     } else {
