@@ -1,4 +1,171 @@
+1998-11-29  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.32.
+
+	* arch/msdos/vicesb.c (vicesb_detect): SB Pro maximum frequency
+ 	changed to 45454 (we always do mono output!).
+
+	* sysfile.c (sysfile_init): Removed `boot_path' parameter.
+  	Removed system-specific #ifdefs.  Use
+ 	`sysdep_default_sysfile_pathlist()'.
+
+	* main.c: Removed `boot_path' and `progname'.  Removed
+	some system-specific #ifdefs.
+	(MAIN_PROGRAM): Call `sysdep_startup()'.  Do not call
+ 	`set_boot_path()' anymore.
+
+	* main.c [__riscos]: Removed `-logfile' command-line option.
+
+	* resources.c (default_resource_file): Removed.
+	(resources_load): Use `sysdep_resource_file_name()' instead of
+ 	`default_resource_file()'.
+	(resources_save): Likewise.
+
+	* arch/msdos/sysdep.c: New file, modeled after
+ 	`arch/unix/sysdep.c'.
+	
+	* arch/unix/sysdep.c: New file.
+	(sysdep_default_resource_file_name): New function.
+	(sysdep_open_default_log_file): New function.
+	(sysdep_startup): New function.
+	(sysdep_boot_path): New function.
+	(sysdep_default_sysfile_pathlist): New function
+
+	* arch/unix/sysdep.h: New file.
+
+	* arch/unix/archdefs.h: Removed.
+
+1998-11-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c128/c128mem.c (mem_read_rom_snapshot_module): If module is not
+ 	found return no error as this module is optional.
+
+	* c1541.c: Changed parameter for `vdrive_allocate_sector'.
+
+	* drive/drivecpu-tmpl.c (mydrive_mem_init): Turn on WD1770 support
+	for 1571 disk drive.
+
+	* fs_cbm.h: Removed `BAM_*' macros.
+
+	* vdrive.c, vdrive.h (check_track_sector): Fixed 1581 sector count.
+	(alloc_next_free_sector): Use the correct directory track.
+	(vdrive_bam_set, vdrive_bam_clr, vdrive_bam_isset): New functions
+	replacing `BAM_*' macros.
+	(vdrive_bam_calculate_track): New function.
+	(vdrive_bam_sector_free): New function.
+	(vdrive_allocate_sector, vdrive_free_sector): Changed to handle
+	1571 and 1581 disk drives.
+	(floppy_write_bam): Changed likewise.
+
+1998-11-29  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c64/c64.c (machine_read_snapshot): Enabled snapshot version
+	check again.
+
+	* arch/unix/joystick.c: `ajoyfd', `djoyfd', `joyxcal', `joyycal',
+ 	`joyxmin', `joyxmax', `joyymin', `joyymax' made static.
+
+	* Makefile.am (x128_LDADD): Add `@LEXLIB@'.
+	(xvic_LDADD): Likewise.
+	(xpet_LDADD): Likewise.
+	(xcbm2_LDADD): Likewise.
+
+1998-11-28  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* main.c (MAIN_PROGRAM): Convert `autostart_prg' to PETSCII before 
+	using.
+
+	* vic20/vic20.c: Removed `WriteHeader' trap.
+
+	* c128/c128.c: Removed `WriteHeader' trap.
+
+	* c64/c64.c: Removed `WriteHeader' trap.
+
+	* cbm2/c610cia.h: #include "snapshot.h".
+
+	* cbm2/c610acia.h: #include "snapshot.h".
+
+	* pet/petmem.c (pet4_tape_traps): Removed `WriteHeader' traps.
+
+1998-11-27  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* alloca.c (i00afunc): Reverted to use `stderr'.
+
+	* misc.c (print_stack): Removed.
+
+	* fsdevice.c: Removed debugging stuff.
+
+	* tapeunit.c (writeheader): Removed.
+	(tapereceive): Removed unused commands; only keep "read block".
+	(tape_attach_image): Do not use `perror()'.  Removed support for
+	creating files.
+
+	* parallel.c: Cruft!
+
+	* mon.c (mon_save_file): Converted back to use stdio and stderr.
+
+	* tape.h: #include <stdio.h>
+
+	* charsets.c (p_toichar): Removed.
+	(set_locale): Removed.
+	(str_to_lang): Removed.
+
+	* autostart.c (autostart_autodetect): Use `warn()' instead of
+ 	`printf()'.
+
+	* cbm2/c610mem.c: Even more cruft gone.
+
+	* pet/pet.c: Some more cruft removed.
+
+	* crtc-tmpl.c: Removed lots of cruft.  `dwg_table*' variables made 
+	static.
+
+	* vic20/vic20via1.def (show_keyarr): Removed.
+
+	* vdrive.c: `deleted files' made static.
+
+	* via-tmpl.c: Removed some debugging cruft.
+
+	* Updated all the files previously using `errfile' and `logfile'
+ 	to use the new logging facility.
+
+	* drive/drive.h: Added `log' to `struct drive_s'.
+
+	* vice.h: Removed `logfile' and `errfile' variables.  Do not
+ 	#include <stdio.h> anymore.
+
+	* main.c (MAIN_PROGRAM): Removed RISC-OS log initialization part.
+  	Removed `logfile' and `errfile' variables.  Call
+ 	`resources_init()' right after `atexit()'.
+	(MAIN_PROGRAM): Removed command-line and resource initialization.
+	(init_cmdline_options, init_resources): Moved here.  Initialize
+	log resources/command-line options.
+
+	* arch/msdos/log.c, arch/msdos/log.h: Removed.
+	
+	* log.c, log.h: New files.
+	(log_open): New function.
+	(log_close): New function.
+	(log_error): New function.
+	(log_message): New function.
+	(log_debug): New function.
+	(log_init_resources): New function.
+	(log_init_cmdline_options): New function.
+
+	* arch/msdos/kbd.c: Removed `DEBUG_KBD' stuff.
+
+	* arch/msdos/grabkey.c (install_kbd_handler): Removed debug message.
+
+	* arch/msdos/ui.c (ui_init_finish): Do not call `log_enable()'
+ 	anymore.
+
+	* arch/msdos/tuiimagebrowser.c (tui_image_browser): Added missing
+	`break' in case `K_Down'.
+	(go_backward): Removed cruft.
+
 1998-11-25  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.31.
 
 	* sid/sid.c: Unconditionally #include "fixpoint.h".
 
