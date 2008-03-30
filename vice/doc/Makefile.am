@@ -6,7 +6,6 @@ doc_DATA = \
 	PETdoc.txt \
 	cbm_basic_tokens.txt \
 	drive_info.txt \
-	g64.txt \
 	mnemonics.txt \
 	mon.txt \
 	serial.txt
