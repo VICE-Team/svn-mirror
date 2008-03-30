@@ -1483,7 +1483,6 @@
 
         FETCH_OPCODE(opcode);
 
-#if 0
 #if defined(TRACE)
 #ifdef __1541__
         if (TRACEFLG) {
@@ -1497,9 +1496,9 @@
         }
 #else
         if (TRACEFLG)
-            printf(".%04X\t%ld\t%s\n",
-                   reg_pc, (long)clk, sprint_opcode(reg_pc, 1));
-#endif
+            printf(".%04X\t%ld\t%s\tA=$%02X X=$%02X Y=$%02X\n",
+                   reg_pc, (long)clk, sprint_opcode(reg_pc, 1),
+                   reg_a, reg_x, reg_y);
 #endif
 #endif
 
