@@ -114,7 +114,7 @@ INCLUDES =
 
 noinst_LIBRARIES = libkbd.a
 
-libkbd_a_SOURCES =  	kbd-c64.c         kbd-c128.c         kbd-vic20.c         kbd-pet.c
+libkbd_a_SOURCES =  	kbd-c64.c         kbd-c128.c         kbd-vic20.c         kbd-c610.c         kbd-pet.c
 
 
 EXTRA_DIST = 
@@ -131,7 +131,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libkbd_a_LIBADD = 
-libkbd_a_OBJECTS =  kbd-c64.o kbd-c128.o kbd-vic20.o kbd-pet.o
+libkbd_a_OBJECTS =  kbd-c64.o kbd-c128.o kbd-vic20.o kbd-c610.o \
+kbd-pet.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)

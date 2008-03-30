@@ -110,28 +110,11 @@ xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
 xpet_LDFLAGS = @xpet_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES = 
-
-noinst_LIBRARIES = libvac.a
-
-libvac_a_SOURCES = 
-
-EXTRA_DIST =  	X64.ICC         X128.ICC         Xpet.ICC         C1541.ICC         RESID.ICC         VICE_INF.ICC
+EXTRA_DIST =  	X64.ICC         X128.ICC         Xcbm2.ICC         Xpet.ICC         Xvic.ICC         C1541.ICC         RESID.ICC         VICE_INF.ICC         incl/archdep.icc         incl/c64.icc         incl/c128.icc         incl/crtc.icc         incl/cbm2.icc         incl/dialogs.icc         incl/drive.icc         incl/mainsrc.icc         incl/monitor.icc         incl/pet.icc         incl/raster.icc         incl/sounddrv.icc         incl/vdc.icc         incl/vdrive.icc         incl/vic20.icc         incl/vicii.icc
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../src/config.h
 CONFIG_CLEAN_FILES = 
-LIBRARIES =  $(noinst_LIBRARIES)
-
-
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../../../src
-CPPFLAGS = @CPPFLAGS@
-X_CFLAGS = @X_CFLAGS@
-X_LIBS = @X_LIBS@
-X_EXTRA_LIBS = @X_EXTRA_LIBS@
-X_PRE_LIBS = @X_PRE_LIBS@
-libvac_a_LIBADD = 
-libvac_a_OBJECTS = 
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -139,12 +122,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libvac_a_SOURCES)
-OBJECTS = $(libvac_a_OBJECTS)
-
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/arch/os2/vac++/Makefile
 
@@ -152,39 +131,6 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
-
-mostlyclean-noinstLIBRARIES:
-
-clean-noinstLIBRARIES:
-	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)
-
-distclean-noinstLIBRARIES:
-
-maintainer-clean-noinstLIBRARIES:
-
-.c.o:
-	$(COMPILE) -c $<
-
-.s.o:
-	$(COMPILE) -c $<
-
-.S.o:
-	$(COMPILE) -c $<
-
-mostlyclean-compile:
-	-rm -f *.o core *.core
-
-clean-compile:
-
-distclean-compile:
-	-rm -f *.tab.c
-
-maintainer-clean-compile:
-
-libvac.a: $(libvac_a_OBJECTS) $(libvac_a_DEPENDENCIES)
-	-rm -f libvac.a
-	$(AR) cru libvac.a $(libvac_a_OBJECTS) $(libvac_a_LIBADD)
-	$(RANLIB) libvac.a
 tags: TAGS
 TAGS:
 
@@ -194,6 +140,7 @@ distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 subdir = src/arch/os2/vac++
 
 distdir: $(DISTFILES)
+	$(mkinstalldirs) $(distdir)/incl
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \
@@ -223,7 +170,7 @@ install-am: all-am
 install: install-am
 uninstall-am:
 uninstall: uninstall-am
-all-am: Makefile $(LIBRARIES)
+all-am: Makefile
 all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
@@ -239,34 +186,26 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
-mostlyclean-am:  mostlyclean-noinstLIBRARIES mostlyclean-compile \
-		mostlyclean-generic
+mostlyclean-am:  mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
-clean-am:  clean-noinstLIBRARIES clean-compile clean-generic \
-		mostlyclean-am
+clean-am:  clean-generic mostlyclean-am
 
 clean: clean-am
 
-distclean-am:  distclean-noinstLIBRARIES distclean-compile \
-		distclean-generic clean-am
+distclean-am:  distclean-generic clean-am
 
 distclean: distclean-am
 
-maintainer-clean-am:  maintainer-clean-noinstLIBRARIES \
-		maintainer-clean-compile maintainer-clean-generic \
-		distclean-am
+maintainer-clean-am:  maintainer-clean-generic distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
 maintainer-clean: maintainer-clean-am
 
-.PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
-clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
-mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile tags distdir info-am info dvi-am dvi check \
-check-am installcheck-am installcheck install-exec-am install-exec \
+.PHONY: tags distdir info-am info dvi-am dvi check check-am \
+installcheck-am installcheck install-exec-am install-exec \
 install-data-am install-data install-am install uninstall-am uninstall \
 all-redirect all-am all installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \

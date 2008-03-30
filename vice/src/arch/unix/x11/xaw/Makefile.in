@@ -307,10 +307,8 @@ distdir: $(DISTFILES)
 about.o: about.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/info.h ../../../../../src/version.h \
 	videoarch.h ../../../../../src/arch/unix/ui.h \
-	../../../../../src/arch/unix/types.h \
-	../../../../../src/palette.h ../../../../../src/uiapi.h \
-	uiarch.h uiarch.h ../videoarch.h ../../../../../src/resources.h \
-	../../../../../src/vsync.h
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
+	uiarch.h uiarch.h ../videoarch.h ../../../../../src/vsync.h
 ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/cmdline.h ../../../../../src/resources.h \
 	../../../../../src/drive/drive.h ../../../../../src/log.h \
@@ -318,10 +316,10 @@ ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/interrupt.h ../../../../../src/6510core.h \
 	../../../../../src/machine.h \
 	../../../../../src/arch/unix/mouse.h \
-	../../../../../src/c64/psid.h \
+	../../../../../src/palette.h ../../../../../src/c64/psid.h \
 	../../../../../src/arch/unix/vsidproc.h \
-	../../../../../src/arch/unix/ui.h ../../../../../src/palette.h \
-	../../../../../src/uiapi.h uiarch.h uihotkey.h uimenu.h \
+	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
+	uiarch.h uihotkey.h uimenu.h \
 	../../../../../src/arch/unix/uisettings.h \
 	../../../../../src/arch/unix/uimenu.h uimenu.h \
 	../../../../../src/utils.h ../../../../../src/vsync.h \
@@ -333,21 +331,19 @@ uiedisk.o: uiedisk.c ../../../../../src/vice.h \
 	../../../../../src/diskimage.h \
 	../../../../../src/arch/unix/types.h \
 	../../../../../src/machine.h ../../../../../src/arch/unix/ui.h \
-	../../../../../src/palette.h ../../../../../src/uiapi.h \
-	uiarch.h ../../../../../src/arch/unix/uiedisk.h \
+	../../../../../src/uiapi.h uiarch.h \
+	../../../../../src/arch/unix/uiedisk.h \
 	../../../../../src/utils.h ../../../../../src/vdrive/vdrive.h
 uihotkey.o: uihotkey.c ../../../../../src/vice.h \
 	../../../../../src/config.h uihotkey.h \
 	../../../../../src/arch/unix/ui.h \
-	../../../../../src/arch/unix/types.h \
-	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
 	uiarch.h ../../../../../src/utils.h
 uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
 	checkmark.xbm right_arrow.xbm ../../../../../src/machine.h \
 	../../../../../src/resources.h uimenu.h \
 	../../../../../src/arch/unix/ui.h \
-	../../../../../src/arch/unix/types.h \
-	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
 	uiarch.h uihotkey.h ../../../../../src/utils.h \
 	../../../../../src/arch/unix/vsidproc.h \
 	../../../../../src/vsync.h
@@ -355,22 +351,20 @@ uisnapshot.o: uisnapshot.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
 	../../../../../src/arch/unix/uisnapshot.h \
 	../../../../../src/machine.h ../../../../../src/arch/unix/ui.h \
-	../../../../../src/arch/unix/types.h \
-	../../../../../src/palette.h ../../../../../src/uiapi.h \
+	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
 	uiarch.h
 x11kbd.o: x11kbd.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/kbd.h \
 	../../../../../src/arch/unix/types.h \
 	../../../../../src/arch/unix/x11/kbdef.h \
 	../../../../../src/keyboard.h ../../../../../src/machine.h \
-	../../../../../src/arch/unix/ui.h ../../../../../src/palette.h \
-	../../../../../src/uiapi.h uiarch.h
+	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
+	uiarch.h
 x11video.o: x11video.c ../../../../../src/vice.h \
 	../../../../../src/config.h ../../../../../src/log.h \
 	../../../../../src/utils.h ../../../../../src/arch/unix/types.h \
 	videoarch.h ../../../../../src/arch/unix/ui.h \
-	../../../../../src/palette.h ../../../../../src/uiapi.h \
-	uiarch.h uiarch.h ../videoarch.h ../../../../../src/resources.h \
+	../../../../../src/uiapi.h uiarch.h uiarch.h ../videoarch.h \
 	../../../../../src/video.h
 
 info-am:

@@ -18,10 +18,12 @@ libarch_a_SOURCES = \
         c128ui.h \
 	c64ui.c \
 	c64ui.h \
+        c610ui.c \
+        c610ui.h \
+        vic20ui.c \
+        vic20ui.h \
 	config.h \
 	console.c \
-	contentsdlg.c \
-	contentsdlg.h \
 	dialogs.h \
 	dialogs.c \
 	dialogs.rc \
@@ -46,18 +48,20 @@ libarch_a_SOURCES = \
 	ui_status.h \
 	uicmdline.c \
 	uicmdline.h \
-	video_gpi.c \
-	video_gpi.h \
 	video.c \
 	videoarch.h \
 	vsidui.c \
-	vsync.c \
-	vsync_old.c \
-	vsync_old.h
+	vsync.c 
 
 EXTRA_DIST = \
 	vice.def \
-        install.cmd
+        install.cmd \
+        unused/contentsdlg.c \
+        unused/contentsdlg.h \
+        unused/video_gpi.h \
+        unused/video_gpi.c \
+        unused/vsync.c \
+        unused/vsync.h
 
 .PHONY: pm
 :pm

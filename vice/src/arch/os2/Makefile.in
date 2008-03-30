@@ -117,10 +117,10 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h         c128ui.c         c128ui.h 	c64ui.c 	c64ui.h 	config.h 	console.c 	contentsdlg.c 	contentsdlg.h 	dialogs.h 	dialogs.c 	dialogs.rc 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	main_exit.c 	main_exit.h 	petui.c 	petui.h         pm_cmdline.c         pm_cmdline.h 	rs232.c 	signals.h 	sounddrv.c 	sounddrv.h 	types.h 	ui.c 	ui.h 	ui_status.c 	ui_status.h 	uicmdline.c 	uicmdline.h 	video_gpi.c 	video_gpi.h 	video.c 	videoarch.h 	vsidui.c 	vsync.c 	vsync_old.c 	vsync_old.h
+libarch_a_SOURCES =  	archdep.c 	archdep.h         c128ui.c         c128ui.h 	c64ui.c 	c64ui.h         c610ui.c         c610ui.h         vic20ui.c         vic20ui.h 	config.h 	console.c 	dialogs.h 	dialogs.c 	dialogs.rc 	joystick.c 	joystick.h 	kbd.c 	kbd.h 	main_exit.c 	main_exit.h 	petui.c 	petui.h         pm_cmdline.c         pm_cmdline.h 	rs232.c 	signals.h 	sounddrv.c 	sounddrv.h 	types.h 	ui.c 	ui.h 	ui_status.c 	ui_status.h 	uicmdline.c 	uicmdline.h 	video.c 	videoarch.h 	vsidui.c 	vsync.c 
 
 
-EXTRA_DIST =  	vice.def         install.cmd
+EXTRA_DIST =  	vice.def         install.cmd         unused/contentsdlg.c         unused/contentsdlg.h         unused/video_gpi.h         unused/video_gpi.c         unused/vsync.c         unused/vsync.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
@@ -135,10 +135,10 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
-libarch_a_OBJECTS =  archdep.o c128ui.o c64ui.o console.o contentsdlg.o \
-dialogs.o joystick.o kbd.o main_exit.o petui.o pm_cmdline.o rs232.o \
-sounddrv.o ui.o ui_status.o uicmdline.o video_gpi.o video.o vsidui.o \
-vsync.o vsync_old.o
+libarch_a_OBJECTS =  archdep.o c128ui.o c64ui.o c610ui.o vic20ui.o \
+console.o dialogs.o joystick.o kbd.o main_exit.o petui.o pm_cmdline.o \
+rs232.o sounddrv.o ui.o ui_status.o uicmdline.o video.o vsidui.o \
+vsync.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -291,6 +291,7 @@ distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 subdir = src/arch/os2
 
 distdir: $(DISTFILES)
+	$(mkinstalldirs) $(distdir)/unused
 	@for file in $(DISTFILES); do \
 	  d=$(srcdir); \
 	  if test -d $$d/$$file; then \

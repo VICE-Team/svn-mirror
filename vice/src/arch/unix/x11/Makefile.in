@@ -314,16 +314,16 @@ kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/kbd.h kbdef.h \
 	../../../../src/keyboard.h ../../../../src/log.h \
 	../../../../src/machine.h ../../../../src/sysfile.h \
-	../../../../src/arch/unix/ui.h ../../../../src/palette.h \
+	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
+	xaw/uiarch.h ../../../../src/utils.h ../../../../src/video.h \
+	videoarch.h
+video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
+	../../../../src/cmdline.h ../../../../src/resources.h \
+	../../../../src/arch/unix/kbd.h \
+	../../../../src/arch/unix/types.h ../../../../src/log.h \
+	../../../../src/palette.h ../../../../src/arch/unix/ui.h \
 	../../../../src/uiapi.h xaw/uiarch.h ../../../../src/utils.h \
 	../../../../src/video.h videoarch.h
-video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/arch/unix/ui.h \
-	../../../../src/arch/unix/types.h ../../../../src/palette.h \
-	../../../../src/uiapi.h xaw/uiarch.h \
-	../../../../src/arch/unix/kbd.h ../../../../src/log.h \
-	../../../../src/cmdline.h ../../../../src/resources.h \
-	../../../../src/utils.h ../../../../src/video.h videoarch.h
 
 info-am:
 info: info-recursive
