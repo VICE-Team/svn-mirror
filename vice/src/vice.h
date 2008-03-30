@@ -29,11 +29,6 @@
 #ifndef _VICE_H
 #define _VICE_H
 
-/* AIX requires this to be the first thing in the file.  */
-#if defined (_AIX) && !defined (__GNUC__)
-#pragma alloca
-#endif
-
 /* We use <config.h> instead of "config.h" so that a compilation using
    -I. -I$srcdir will use ./config.h rather than $srcdir/config.h
    (which it would do because vice.h was found in $srcdir).  Well,
@@ -121,29 +116,8 @@
 #define	NEED_GET_PATH_MAX
 extern unsigned int get_path_max();
 #define	GET_PATH_MAX	(get_path_max())
-#define	PATH_VAR(var)	char *var = (char *) alloca (GET_PATH_MAX)
+#define	PATH_VAR(var)	char *var = (char *)alloca(GET_PATH_MAX)
 #endif
-
-/* ------------------------------------------------------------------------- */
-
-/* This `alloca()' portability stuff is from GNU make too.  */
-
-#ifdef	__GNUC__
-#undef	alloca
-#define	alloca(n)	__builtin_alloca (n)
-#else
-#ifdef HAVE_ALLOCA_H
-#include <alloca.h>
-#else	/* Not HAVE_ALLOCA_H.  */
-#if !defined(_AIX) && !defined(WINCE)
-#ifndef _MSC_VER
-extern char *alloca ();
-#else
-#define alloca(n)   _alloca(n)
-#endif  /* MSVC */
-#endif	/* Not AIX and not WINCE.  */
-#endif	/* HAVE_ALLOCA_H.  */
-#endif	/* GCC.  */
 
 /* ------------------------------------------------------------------------- */
 
