@@ -34,6 +34,19 @@
 #include "types.h"
 
 
+static BYTE REGPARM2 drive_read_ram(drive_context_t *drv, WORD address)
+{
+    /* FIXME: This breaks the 1541 RAM mirror!  */
+    return drv->cpud.drive_ram[address & 0x1fff];
+}
+
+static void REGPARM3 drive_store_ram(drive_context_t *drv, WORD address,
+                                     BYTE value)
+{
+    /* FIXME: This breaks the 1541 RAM mirror!  */
+    drv->cpud.drive_ram[address & 0x1fff] = value;
+}
+
 static BYTE REGPARM2 drive_read_1551zero(drive_context_t *drv, WORD address)
 {
     switch (address & 0xff) {
@@ -65,11 +78,17 @@ void mem1551_init(struct drive_context_s *drv, unsigned int type)
 {
     unsigned int i;
 
-    if (type == DRIVE_TYPE_1551)
+    if (type == DRIVE_TYPE_1551) {
+        drv->cpu.pageone = drv->cpud.drive_ram + 0x100;
+
+        /* Setup drive RAM.  */
+        for (i = 0x01; i < 0x08; i++) {
+            drv->cpud.read_func_nowatch[i] = drive_read_ram;
+            drv->cpud.store_func_nowatch[i] = drive_store_ram;
+        }
         for (i = 0xc0; i < 0x100; i++)
             drv->cpud.read_func_nowatch[i] = drive_read_rom;
 
-    if (type == DRIVE_TYPE_1551) {
         drv->cpud.read_func_nowatch[0] = drive_read_1551zero;
         drv->cpud.store_func_nowatch[0] = drive_store_1551zero;
 
