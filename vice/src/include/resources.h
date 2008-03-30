@@ -33,6 +33,8 @@ typedef void *resource_value_t;
 
 typedef int resource_set_func_t(resource_value_t v);
 
+/* Warning: all the pointers should point to areas that are valid throughout
+   the execution.  No reallocation is performed.  */
 typedef struct resource {
 
     /* Resource name.  */

@@ -69,9 +69,10 @@ int resources_register(const resource_t *r)
         if (num_allocated_resources <= num_resources) {
             num_allocated_resources *= 2;
             resources = xrealloc(resources,
-                                 num_resources * sizeof(resource_t));
+                                 num_allocated_resources * sizeof(resource_t));
+            dp = resources + num_resources;
         }
-        dp->name = stralloc(sp->name);
+        dp->name = sp->name;
         dp->type = sp->type;
         dp->factory_value = sp->factory_value;
         dp->value_ptr = sp->value_ptr;
