@@ -1379,6 +1379,7 @@ int via1d0_read_snapshot_module(snapshot_t * p)
         addr = VIA_DDRA;
 	byte = via1d0[VIA_PRA] | ~via1d0[VIA_DDRA];
 
+    iec_info = iec_get_drive_port();
     if (drive[0].type == DRIVE_TYPE_1571) {
         drive_set_1571_sync_factor(byte & 0x20, 0);        
         drive_set_1571_side((byte >> 2) & 1, 0);

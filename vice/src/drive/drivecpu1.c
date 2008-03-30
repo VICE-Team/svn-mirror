@@ -299,7 +299,7 @@ static void reset(void)
 	monitor_trap_on(&drive1_int_status);
 }
 
-static void drive1_mem_init(int type)
+void drive1_mem_init(int type)
 {
     int i;
 
@@ -444,6 +444,20 @@ CLOCK drive1_cpu_prevent_clk_overflow(CLOCK sub)
     return our_sub;
 }
 
+/* Handle a ROM trap. */
+inline static int drive1_trap_handler(void)
+{
+    if (MOS6510_REGS_GET_PC(&drive1_cpu_regs) == 0xec9b) {
+        /* Idle loop */
+        MOS6510_REGS_SET_PC(&drive1_cpu_regs, 0xebff);
+        if (drive[1].idling_method == DRIVE_IDLE_TRAP_IDLE)
+            drive_clk[1] = next_alarm_clk(&drive1_int_status);
+        } else
+            return 1;
+
+    return 0;
+}
+
 /* -------------------------------------------------------------------------- */
 
 /* Execute up to the current main CPU clock value.  This automatically
@@ -528,8 +542,7 @@ void drive1_cpu_execute(void)
 
 #define ROM_TRAP_ALLOWED() 1
 
-#define ROM_TRAP_HANDLER() \
-    drive1_trap_handler()
+#define ROM_TRAP_HANDLER() drive1_trap_handler()
 
 #define CALLER e_disk_space
 
@@ -553,7 +566,7 @@ void drive1_cpu_execute(void)
 
 /* ------------------------------------------------------------------------- */
 
-static char snap_module_name[] = "MYCPU";
+static char snap_module_name[] = "DRIVECPU1";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
@@ -623,6 +636,9 @@ int drive1_cpu_read_snapshot_module(snapshot_t *s)
     if (m == NULL)
         return -1;
 
+    /* Before we start make sure all devices are reset.  */
+    drive1_cpu_reset();
+
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0
         || snapshot_module_read_dword(m, &drive_clk[1]) < 0
@@ -638,6 +654,26 @@ int drive1_cpu_read_snapshot_module(snapshot_t *s)
         || snapshot_module_read_dword(m, &last_exc_cycles) < 0
         )
         goto fail;
+
+    printf("DRIVE#9: RESET (UNDUMP)\n");
+    cpu_int_status_init(&drive1_int_status, DRIVE_NUMOFINT,
+            DRIVE_NUMOFALRM, &drive1_last_opcode_info);
+    drive1_int_status.alarm_handler[A_VIA1D1T1] = int_via1d1t1;
+    drive1_int_status.alarm_handler[A_VIA1D1T2] = int_via1d1t2;
+    drive1_int_status.alarm_handler[A_VIA2D1T1] = int_via2d1t1;
+    drive1_int_status.alarm_handler[A_VIA2D1T2] = int_via2d1t2;
+    drive1_int_status.alarm_handler[A_CIA1571D1TOD] = int_cia1571d1tod;
+    drive1_int_status.alarm_handler[A_CIA1571D1TA] = int_cia1571d1ta;
+    drive1_int_status.alarm_handler[A_CIA1571D1TB] = int_cia1571d1tb;
+    drive1_int_status.alarm_handler[A_CIA1581D1TOD] = int_cia1581d1tod;
+    drive1_int_status.alarm_handler[A_CIA1581D1TA] = int_cia1581d1ta;
+    drive1_int_status.alarm_handler[A_CIA1581D1TB] = int_cia1581d1tb;
+
+    reset_via1d1();
+    reset_via2d1();
+    reset_cia1571d1();
+    reset_cia1581d1();
+    reset_wd1770d1();
 
     if (interrupt_read_snapshot(&drive1_int_status, m) < 0)
         goto fail;
