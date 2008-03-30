@@ -2220,12 +2220,16 @@ static int tape_cmd(int nargs, char **args)
     t64_t *t64;
     vdrive_t *drive;
     int count;
+    unsigned int read_only;
+
 
     if (check_drive(drive_number, CHK_RDY) < 0)
         return FD_NOTREADY;
     drive = drives[drive_number];
 
-    t64 = t64_open(args[1]);
+    read_only = 0;
+
+    t64 = t64_open(args[1], &read_only);
     if (t64 == NULL) {
         fprintf(stderr, "Cannot read T64 file `%s'.\n", args[1]);
         return FD_BADNAME;
