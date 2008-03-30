@@ -1,3 +1,37 @@
+2003-06-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.5.
+
+	* video.h: Added video chip capabilities to video render
+	config.
+
+	* video/video-resources.c (video_resources_chip_init): Set
+	video chip capabilities.
+
+	* arch/unix/x11/video.c, arch/unix/x11/videoarch.h,
+	arch/unix/x11/gnome/gnomevideo.c, color.c, uicolor.h,
+	arch/unix/x11/xaw/x11video.c, arch/unix/x11/xaw/uicolor.c:
+	Removed private render support.
+
+	* ciacore.c, drive/iec/cia1571d.c, drive/iec/cia1581d.c,
+	c64/c64cia1.c, c64/c64cia2.c, c128/c128cia1.c,
+	cbm2/cbm2cia1.c (read_sdr): New function.
+
+	* c128/z80.c: Use debug flags.
+
+	* c128/z80.c, 6510core.c, monitor/mon_disassemble.c,
+	monitor.h: Added CPU type to disassemble function.
+
+	* monitor.h, monitor/montypes.h, monitor/mon_parse.y,
+	arch/os2/dialogs/dlg-monitor.c: Moved and renamed prototype.
+
+	* monitor/mon_parse.y (yyerror): Removed abort.
+
+	* c128/z80.c, monitor/asmz80.c: Added some opcodes.
+
+	* drive/iec/wd1770.c (wd1770_command_readaddress): Return seek
+	error for 1571 drives.
+
 2003-06-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.4.

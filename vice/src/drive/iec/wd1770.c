@@ -26,7 +26,7 @@
 
 /* FIXME: wd1770 support is far from being complete.  */
 
-#undef WD_DEBUG
+/*#define WD_DEBUG*/
 
 #include "vice.h"
 
@@ -190,7 +190,7 @@ void wd1770d_reset(drive_context_t *drv)
 static void wd1770_store(WORD addr, BYTE byte, unsigned int dnr)
 {
 #ifdef WD_DEBUG
-    log_debug("WD READ ADDR: %i DATA:%x CLK:%i\n", addr, byte, drive_clk[dnr]);
+    log_debug("WD WRITE ADDR: %i DATA:%02x CLK:%i", addr, byte, drive_clk[dnr]);
 #endif
     wd1770[dnr].busy_clk = drive_clk[dnr];
 
@@ -281,6 +281,7 @@ static BYTE wd1770_read(WORD addr, unsigned int dnr)
         tmp = wd1770[dnr].reg[addr];
         break;
       case 3:
+log_debug("WD INDEX %02i", wd1770[dnr].data_buffer_index);
         if (wd1770[dnr].data_buffer_index < 0)
             tmp = wd1770[dnr].reg[addr];
         else
@@ -288,7 +289,7 @@ static BYTE wd1770_read(WORD addr, unsigned int dnr)
         break;
     }
 #ifdef WD_DEBUG
-    log_debug("WD READ ADDR: %i DATA:%x CLK:%i\n", addr, tmp, drive_clk[dnr]);
+    log_debug("WD READ ADDR: %i DATA:%02x CLK:%i", addr, tmp, drive_clk[dnr]);
 #endif
     return tmp;
 }
@@ -394,14 +395,22 @@ static void wd1770_command_writesector(BYTE command, unsigned int dnr)
 
 static void wd1770_command_readaddress(BYTE command, unsigned int dnr)
 {
-    wd1770[dnr].data_buffer[0] = 0xff;
-    wd1770[dnr].data_buffer[1] = 0xff;
-    wd1770[dnr].data_buffer[2] = 0x2;
-    wd1770[dnr].data_buffer[3] = 0x1;
-    wd1770[dnr].data_buffer[4] = 0x0;
-    wd1770[dnr].data_buffer[5] = 0x0;
+#ifdef WD_DEBUG
+    log_debug("WD COMMAND READ ADDRESS");
+#endif
+    if (drive[dnr].type == DRIVE_TYPE_1571) {
+        /* 1571 MFM disk images are not supported.  */
+        wd1770[dnr].reg[WD1770_STATUS] |= WD_STAT_SEEK_ERROR;
+    } else {
+        wd1770[dnr].data_buffer[0] = 0xff;
+        wd1770[dnr].data_buffer[1] = 0xff;
+        wd1770[dnr].data_buffer[2] = 0x2;
+        wd1770[dnr].data_buffer[3] = 0x1;
+        wd1770[dnr].data_buffer[4] = 0x0;
+        wd1770[dnr].data_buffer[5] = 0x0;
+        wd1770[dnr].data_buffer_index = 5;
+    }
 
-    wd1770[dnr].data_buffer_index = 5;
     wd1770[dnr].wp_status = 0;
 }
 

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.12\n"
-"POT-Creation-Date: 2003-06-24 01:32+0200\n"
+"POT-Creation-Date: 2003-06-24 15:25+0200\n"
 "PO-Revision-Date: 2003-05-30 18:25+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -2366,7 +2366,7 @@ msgstr "Wspó³pracownicy"
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "Inicjalizacji przy u¿yciu XVideo zakoñczona pomy¶lnie (%dx%d %.4s)."
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:120
+#: src/arch/unix/x11/gnome/gnomevideo.c:117
 msgid "Successfully initialized video."
 msgstr "Inicjalizacji wideo zakoñczona pomy¶lnie"
 
@@ -2409,10 +2409,10 @@ msgstr "Zapisywanie %s' zakoñczone sukcesem\n"
 msgid "XCreateImage failed."
 msgstr "B³±d XCreateImage"
 
-#: src/arch/unix/x11/gnome/uicolor.c:160 src/arch/unix/x11/gnome/uicolor.c:222
-#: src/arch/unix/x11/gnome/uicolor.c:227 src/arch/unix/x11/gnome/uicolor.c:232
-#: src/arch/unix/x11/xaw/uicolor.c:137 src/arch/unix/x11/xaw/uicolor.c:195
-#: src/arch/unix/x11/xaw/uicolor.c:200 src/arch/unix/x11/xaw/uicolor.c:205
+#: src/arch/unix/x11/gnome/uicolor.c:160 src/arch/unix/x11/gnome/uicolor.c:221
+#: src/arch/unix/x11/gnome/uicolor.c:226 src/arch/unix/x11/gnome/uicolor.c:231
+#: src/arch/unix/x11/xaw/uicolor.c:137 src/arch/unix/x11/xaw/uicolor.c:193
+#: src/arch/unix/x11/xaw/uicolor.c:198 src/arch/unix/x11/xaw/uicolor.c:203
 #, c-format
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
 msgstr "Nie mo¿na alokowaæ koloru \"#%04X%04X%04X\"."
@@ -2852,16 +2852,16 @@ msgstr "¯±daj formatu YUV FOURCC"
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Wspó³czynnik kszta³tu obrazu (0.8 - 1.2)"
 
-#: src/arch/unix/x11/video.c:374
+#: src/arch/unix/x11/video.c:286
 msgid "The MITSHM extension is not supported on this display."
 msgstr "Rozszerzenie MITSHM nie jest obs³ugiwane przez wy¶wietlacz."
 
-#: src/arch/unix/x11/video.c:378
+#: src/arch/unix/x11/video.c:290
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rozszerzenie wersji MITSHM %d.%d zosta³o wykryte."
 
-#: src/arch/unix/x11/video.c:444
+#: src/arch/unix/x11/video.c:356
 msgid "Cannot release shared memory!"
 msgstr "Nie mo¿na zwolniæ pamiêci dzielonej!"
 
