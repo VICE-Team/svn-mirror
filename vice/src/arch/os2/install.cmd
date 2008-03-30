@@ -103,7 +103,7 @@ do
     exit
 end
 
-setupstring='URL=/'curdir'\doc\html\vice_toc.html'
+setupstring='URL=file://'curdir'\html\vice_toc.html'
 if SysCreateObject("WPUrl","HTML Documetation","<VICE2_DOC>",setupstring,"update")<>1 then
 do
     say '!!! Can''t create a html object for HTML Documatation'

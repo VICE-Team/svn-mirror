@@ -750,8 +750,6 @@ MRESULT WmCreate(HWND hwnd)
 
     archdep_create_mutex_sem(&canvas_new->hmtx, "Video", FALSE);
 
-    canvas_new->video_draw_buffer_callback  = NULL;
-
     //
     // Setup divesetup, so that dive doesn't crash when trying to call
     // DiveSetupBlitter. This can happen as soon as hDiveInst != 0

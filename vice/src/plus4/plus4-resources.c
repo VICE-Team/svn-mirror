@@ -46,7 +46,7 @@ static char *tplus1lo_rom_name = NULL;
 static char *tplus1hi_rom_name = NULL;
 
 /* Size of RAM installed in kbytes */
-static int ram_size = 64;
+static int ram_size_plus4 = 64;
 
 static int set_kernal_rom_name(resource_value_t v, void *param)
 {
@@ -80,14 +80,14 @@ static int set_3plus1hi_rom_name(resource_value_t v, void *param)
     return mem_load_3plus1hi(tplus1hi_rom_name);
 }
 
-static int set_ram_size(resource_value_t v, void *param)
+static int set_ram_size_plus4(resource_value_t v, void *param)
 {
     int rs = (int)v;
 
     if ((rs != 64) && (rs != 32) && (rs !=16)) {
         return -1;
     }
-    ram_size = rs;
+    ram_size_plus4 = rs;
     vsync_suspend_speed_eval();
     mem_initialize_memory();
     mem_powerup();
@@ -109,8 +109,8 @@ static resource_t resources[] = {
       (resource_value_t *)&tplus1hi_rom_name,
       set_3plus1hi_rom_name, NULL },
     { "RamSize", RES_INTEGER, (resource_value_t)64,
-      (resource_value_t *)&ram_size,
-      set_ram_size, NULL },
+      (resource_value_t *)&ram_size_plus4,
+      set_ram_size_plus4, NULL },
     { NULL }
 };
 

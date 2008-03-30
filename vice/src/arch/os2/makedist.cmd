@@ -86,6 +86,8 @@ copy ..\..\..\data\PET\rom4g40.vrs   Vice2\PET
 copy ..\..\..\data\PET\white.vpl     Vice2\PET
 
 md Vice2\PLUS4
+copy ..\..\..\data\PLUS4\3plus1hi      Vice2\PLUS4
+copy ..\..\..\data\PLUS4\3plus1lo      Vice2\PLUS4
 copy ..\..\..\data\PLUS4\basic         Vice2\PLUS4
 copy ..\..\..\data\PLUS4\default.vpl   Vice2\PLUS4
 copy ..\..\..\data\PLUS4\default.vrs   Vice2\PLUS4
@@ -130,6 +132,7 @@ md Vice2\DRIVES
 copy ..\..\..\data\DRIVES\d1541II       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos1001       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos1541       Vice2\DRIVES
+copy ..\..\..\data\DRIVES\dos1551       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos1571       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos1581       Vice2\DRIVES
 copy ..\..\..\data\DRIVES\dos2031       Vice2\DRIVES

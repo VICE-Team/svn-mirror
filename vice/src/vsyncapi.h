@@ -28,6 +28,8 @@
 
 #include "vice.h"
 
+struct video_canvas_s;
+
 typedef void (*void_hook_t)(void);
 
 /* number of timer units per second - used to calc speed and fps */

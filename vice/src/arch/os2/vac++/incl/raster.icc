@@ -2,6 +2,7 @@ source type(c)
     "raster.c",
     "raster-cache.c",
     "raster-changes.c",
+    "raster-line.c",
     "raster-modes.c",
     "raster-sprite.c",
     "raster-sprite-status.c",
