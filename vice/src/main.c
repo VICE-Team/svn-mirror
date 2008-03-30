@@ -56,42 +56,35 @@
 #include <limits.h>
 #endif
 
-#if defined __MSDOS__ || defined WIN32
-#include <fcntl.h>
-#endif
-
 #ifdef __riscos
 #include "ROlib.h"
 #endif
 
 #include "machine.h"
-#include "maincpu.h"
-#include "serial.h"
-#include "interrupt.h"
-#include "sound.h"
-#include "ui.h"
-#include "vsync.h"
-#include "video.h"
-#include "kbd.h"
-#include "resources.h"
-#include "sysfile.h"
-#include "mon.h"
-#include "autostart.h"
-#include "findpath.h"
-#include "utils.h"
-#include "joystick.h"
 #include "attach.h"
-#include "cmdline.h"
-#include "fsdevice.h"
+#include "autostart.h"
 #include "cartridge.h"
+#include "charsets.h"
+#include "cmdline.h"
+#include "findpath.h"
+#include "fsdevice.h"
+#include "interrupt.h"
+#include "joystick.h"
+#include "kbd.h"
+#include "log.h"
+#include "maincpu.h"
+#include "mon.h"
+#include "resources.h"
+#include "serial.h"
+#include "sound.h"
+#include "sysfile.h"
+#include "sysdep.h"
+#include "ui.h"
+#include "utils.h"
+#include "video.h"
+#include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
-
-char *progname;
-char *boot_path;
-
-FILE *logfile;
-FILE *errfile;
 
 #ifndef __riscos
 static RETSIGTYPE break64(int sig);
@@ -99,64 +92,6 @@ static void exit64(void);
 #endif
 
 static int init_done;
-
-/* ------------------------------------------------------------------------- */
-
-#if defined __MSDOS__ || defined WIN32
-
-#ifdef __MSDOS__
-#include <dir.h>
-#endif
-
-static char *orig_workdir;
-
-static void restore_workdir(void)
-{
-    if (orig_workdir)
-	chdir(orig_workdir);
-}
-
-static void preserve_workdir(void)
-{
-    orig_workdir = getcwd(NULL, GET_PATH_MAX);
-    atexit(restore_workdir);
-}
-
-/* Warning!  This must be called *once*.  */
-static void set_boot_path(const char *prg_path)
-{
-    fname_split(prg_path, &boot_path, NULL);
-    if (boot_path == NULL)
-        boot_path = stralloc("./");
-}
-
-#else  /* __MSDOS__ */
-
-#ifdef __riscos
-static void set_boot_path(const char *prg_path)
-{
-  /* We don't need this, we use system variables */
-}
-
-int cmdline_logfile(const char *value, void *extra_params)
-{
-  /* just a dummy, as this argument has to be checked before everything else. */
-  return 0;
-}
-
-#else
-
-/* Warning!  This must be called *once*.  */
-static void set_boot_path(const char *prg_path)
-{
-    boot_path = findpath(prg_path, getenv("PATH"), X_OK);
-
-    /* Remove the program name.  */
-    *strrchr(boot_path, '/') = '\0';
-}
-
-#endif
-#endif /* __MSDOS__ */
 
 /* ------------------------------------------------------------------------- */
 
@@ -205,7 +140,7 @@ static int cmdline_attach(const char *param, void *extra_param)
         startup_disk_images[unit - 8] = stralloc(param);
         break;
       default:
-        fprintf(errfile, "cmdline_attach(): unexpected unit number %d?!\n",
+        fprintf(stderr, "cmdline_attach(): unexpected unit number %d?!\n",
                 unit);
     }
 
@@ -235,10 +170,6 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Allow production of core dumps" },
     { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
       NULL, "Do not produce core dumps" },
-#ifdef __riscos
-    { "-logfile", CALL_FUNCTION, 0, cmdline_logfile, NULL, NULL, NULL,
-      NULL, "Write log to Vice:<machine>.log" },
-#endif
     { NULL }
 };
 
@@ -261,127 +192,129 @@ static resource_t resources[] =
 
 /* ------------------------------------------------------------------------- */
 
+static int init_resources(void)
+{
+    if (resources_init(machine_name)) {
+        fprintf(stderr, "Cannot initialize resource handling.\n");
+        return -1;
+    }
+
+    if (log_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize log resource handling.\n");
+        return -1;
+    }
+    if (resources_register(resources) < 0) {
+        fprintf(stderr, "Cannot initialize main resources.\n");
+        return -1;
+    }
+    if (sysfile_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize resources for the system file locator.\n");
+        return -1;
+    }
+    if (ui_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize UI-specific resources.\n");
+        return -1;
+    }
+    if (file_system_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize file system-specific resources.\n");
+        return -1;
+    }
+
+    /* Initialize file system device-specific resources.  */
+    if (fsdevice_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize file system device-specific resources.\n");
+        return -1;
+    }
+    if (machine_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize machine-specific resources.\n");
+        return -1;
+    }
+
+    if (joystick_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize joystick-specific resources.\n");
+        return -1;
+    }
+
+    return 0;
+}
+
+static int init_cmdline_options(void)
+{
+    if (cmdline_init()) {
+        fprintf(stderr, "Cannot initialize resource handling.\n");
+        return -1;
+    }
+
+    if (log_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize log command-line option handling.\n");
+        return -1;
+    }
+    if (cmdline_register_options(cmdline_options) < 0) {
+        fprintf(stderr, "Cannot initialize main command-line options.\n");
+        return -1;
+    }
+    if (sysfile_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize command-line options for system file locator.\n");
+        return -1;
+    }
+    if (ui_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize UI-specific command-line options.\n");
+        return -1;
+    }
+    if (machine_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize machine-specific command-line options.\n");
+        return -1;
+    }
+    if (fsdevice_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize file system-specific command-line options.\n");
+        return -1;
+    }
+
+    if (joystick_init_cmdline_options() < 0) {
+        fprintf(stderr, "Cannot initialize joystick-specific command-line options.\n");
+        return -1;
+    }
+
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* This is the main program entry point.  When not compiling for Windows,
    this is `main()'; on Windows we have to #define the name to something
    different because the standard entry point is `WinMain()' there.  */
 int MAIN_PROGRAM(int argc, char **argv)
 {
-#ifdef __riscos
-    int i;
+    sysdep_startup(&argc, argv);
 
-    for (i = 1; i < argc; i++)
-       if (strcmp(argv[i], "-logfile") == 0)
-           break;
-
-    if (i < argc) {
-       char basename[256];
-
-       sprintf(basename, "Vice:%s.log", machine_name);
-       if ((logfile = open_logfile(basename)) == NULL) {
-           logfile = stdout;
-           errfile = stderr;
-       } else {
-           errfile = logfile;
-       }
-    } else {
-       logfile = fopen("null:", "w");
-       errfile = logfile;
-    }
-#else
-    logfile = stdout;
-    errfile = stderr;
     if (atexit (exit64) < 0) {
 	perror ("atexit");
 	return -1;
     }
-#endif
-
-#if defined __MSDOS__ || defined WIN32
-    /* Set the default file mode.  */
-    _fmode = O_BINARY;
-#endif
-
-#ifdef __MSDOS__
-    /* Avoid exiting to a different directory than the one we were called
-       from.  */
-    preserve_workdir();
-#endif
-
-    progname = strrchr(argv[0], '/');
-    if (!progname)
-	progname = argv[0];
-    else
-	progname++;
-
-    set_boot_path(argv[0]);
 
     /* Initialize system file locator.  */
-    sysfile_init(boot_path, machine_name);
+    sysfile_init(machine_name);
 
-    /* VICE boot sequence.  */
-    fprintf (logfile, "\n*** VICE Version %s ***\n", VERSION);
-    fprintf (logfile, "Welcome to %s, the free portable Commodore %s Emulator.\n\n",
-	    progname, machine_name);
-    fprintf (logfile, "Written by\n"
-	        "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic,\n"
-            "A. Boose, J. Valta and J. Sonninen.\n\n");
-    fprintf (logfile, "This is free software with ABSOLUTELY NO WARRANTY.\n");
-    fprintf (logfile, "See the \"About VICE\" command for more info.\n\n");
+    if (init_resources() < 0 || init_cmdline_options() < 0)
+        exit(-1);
+
+    /* Set factory defaults.  */
+    resources_set_defaults();
 
     /* Initialize the user interface.  `ui_init()' might need to handle the
        command line somehow, so we call it before parsing the options.
        (e.g. under X11, the `-display' option is handled independently).  */
     if (ui_init(&argc, argv) < 0) {
-        fprintf(errfile, "Cannot initialize the UI.\n");
+        fprintf(stderr, "Cannot initialize the UI.\n");
 	exit (-1);
     }
-
-    /* Initialize resource handling.  */
-    if (resources_init(machine_name)) {
-        fprintf(errfile, "Cannot initialize resource handling.\n");
-        exit(-1);
-    }
-    if (resources_register(resources) < 0) {
-        fprintf(errfile, "Cannot initialize main resources.\n");
-        exit(-1);
-    }
-    if (sysfile_init_resources() < 0) {
-        fprintf(errfile,
-                "Cannot initialize resources for the system file locator.\n");
-        exit(-1);
-    }
-    if (ui_init_resources() < 0) {
-        fprintf(errfile, "Cannot initialize UI-specific resources.\n");
-        exit(-1);
-    }
-    if (file_system_init_resources() < 0) {
-        fprintf(errfile, "Cannot initialize file system-specific resources.\n");
-        exit(-1);
-    }
-    /* Initialize file system device-specific resources.  */
-    if (fsdevice_init_resources() < 0) {
-        fprintf(errfile, "Cannot initialize file system device-specific resources.\n");
-        exit(-1);
-    }
-    if (machine_init_resources() < 0) {
-        fprintf(errfile, "Cannot initialize machine-specific resources.\n");
-        exit(-1);
-    }
-
-    if (joystick_init_resources() < 0) {
-        fprintf(errfile, "Cannot initialize joystick-specific resources.\n");
-        exit(-1);
-    }
-
-    /* Set factory defaults.  */
-    resources_set_defaults();
 
     /* Load the user's default configuration file.  */
     {
         int retval = resources_load(NULL);
 
         if (retval < 0) {
-            fprintf(errfile,
+            fprintf(stderr,
                     "Couldn't load user's configuration file: "
                     "using default settings.\n");
             /* The resource file might contain errors, and thus certain
@@ -398,37 +331,8 @@ int MAIN_PROGRAM(int argc, char **argv)
         }
     }
 
-    /* Initialize command-line options.  */
-
-    cmdline_init();
-    if (cmdline_register_options(cmdline_options) < 0) {
-        fprintf(errfile, "Cannot initialize main command-line options.\n");
-        exit(-1);
-    }
-    if (sysfile_init_cmdline_options() < 0) {
-        fprintf(errfile, "Cannot initialize command-line options for system file locator.\n");
-        exit(-1);
-    }
-    if (ui_init_cmdline_options() < 0) {
-        fprintf(errfile, "Cannot initialize UI-specific command-line options.\n");
-        exit(-1);
-    }
-    if (machine_init_cmdline_options() < 0) {
-        fprintf(errfile, "Cannot initialize machine-specific command-line options.\n");
-        exit(-1);
-    }
-    if (fsdevice_init_cmdline_options() < 0) {
-        fprintf(errfile, "Cannot initialize file system-specific command-line options.\n");
-        exit(-1);
-    }
-
-    if (joystick_init_cmdline_options() < 0) {
-        fprintf(errfile, "Cannot initialize joystick-specific command-line options.\n");
-        exit(-1);
-    }
-
     if (cmdline_parse(&argc, argv) < 0) {
-        fprintf(errfile, "Error parsing command-line options, bailing out.\n");
+        fprintf(stderr, "Error parsing command-line options, bailing out.\n");
         exit(-1);
     }
 
@@ -441,27 +345,43 @@ int MAIN_PROGRAM(int argc, char **argv)
     if (argc > 1) {
         int i;
 
-        fprintf(errfile, "Extra arguments on command-line:\n");
+        fprintf(stderr, "Extra arguments on command-line:\n");
         for (i = 1; i < argc; i++)
-            fprintf(errfile, "\t%s\n", argv[i]);
+            fprintf(stderr, "\t%s\n", argv[i]);
         exit(-1);
     }
 
-    putchar('\n');
+    if (log_init() < 0) {
+        fprintf(stderr, "Cannot startup logging system.\n");
+        exit(-1);
+    }
+
+    /* VICE boot sequence.  */
+    log_message(LOG_DEFAULT,
+                "\n*** VICE Version %s ***\n", VERSION);
+    log_message(LOG_DEFAULT,
+                "Welcome to %s, the free portable Commodore %s Emulator.\n",
+                argv[0], machine_name);
+    log_message(LOG_DEFAULT,
+                "Written by\n"
+                "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic,\n"
+                "A. Boose, J. Valta and J. Sonninen.\n");
+    log_message(LOG_DEFAULT,
+                "This is free software with ABSOLUTELY NO WARRANTY.");
+    log_message(LOG_DEFAULT,
+                "See the \"About VICE\" command for more info.\n");
 
     /* Complete the GUI initialization (after loading the resources and
        parsing the command-line) if necessary.  */
     if (ui_init_finish() < 0)
 	exit(-1);
 
-    putchar('\n');
-
 #ifndef __riscos
 #ifdef __MSDOS__
-    signal(SIGINT,   SIG_IGN);
+    signal(SIGINT, SIG_IGN);
 #else
-    signal(SIGINT,   break64);
-    signal(SIGTERM,  break64);
+    signal(SIGINT, break64);
+    signal(SIGTERM, break64);
 #endif
 
     if (!do_core_dumps) {
@@ -477,7 +397,6 @@ int MAIN_PROGRAM(int argc, char **argv)
     }
 #endif
 
-
     /* Initialize real joystick.  */
     joystick_init();
 
@@ -486,7 +405,7 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     /* Machine-specific initialization.  */
     if (machine_init() < 0) {
-        fprintf(errfile, "Machine initialization failed.\n");
+        log_error(LOG_DEFAULT, "Machine initialization failed.");
         exit(1);
     }
 
@@ -509,9 +428,9 @@ int MAIN_PROGRAM(int argc, char **argv)
             /* Does the image exist?  */
             if (autostart_fd) {
                 fclose(autostart_fd);
+                petconvstring(autostart_prg, 0);
                 autostart_autodetect(autostart_file, autostart_prg);
-            }
-            else
+            } else
                 autostart_autodetect(autostart_string, NULL);
             free(autostart_file);
         } else {
@@ -526,18 +445,17 @@ int MAIN_PROGRAM(int argc, char **argv)
         for (i = 0; i < 4; i++) {
             if (startup_disk_images[i] != NULL
                 && file_system_attach_disk(i + 8, startup_disk_images[i]) < 0)
-                fprintf(errfile, "Cannot attach disk image `%s' to unit %d.\n",
-                        startup_disk_images[i], i + 8);
+                log_error(LOG_DEFAULT,
+                          "Cannot attach disk image `%s' to unit %d.",
+                          startup_disk_images[i], i + 8);
         }
     }
 
     /* `-1': Attach specified tape image.  */
     if (startup_tape_image
-	&& serial_select_file(DT_TAPE, 1, startup_tape_image) < 0)
-        fprintf(errfile, "Cannot attach tape image `%s'.\n",
-                startup_tape_image);
-
-    putchar ('\n');
+        && serial_select_file(DT_TAPE, 1, startup_tape_image) < 0)
+        log_error(LOG_DEFAULT, "Cannot attach tape image `%s'.",
+                  startup_tape_image);
 
     init_done = 1;
 
@@ -545,17 +463,19 @@ int MAIN_PROGRAM(int argc, char **argv)
     maincpu_trigger_reset();
     mainloop(0);
 
-    fprintf(logfile, "perkele!\n");
+    log_error(LOG_DEFAULT, "perkele!");
     exit(0);   /* never reached */
 }
 
 #ifndef __riscos
+
 static RETSIGTYPE break64(int sig)
 {
 #ifdef SYS_SIGLIST_DECLARED
-    fprintf(errfile, "Received signal %d (%s).\n", sig, sys_siglist[sig]);
+    log_message(LOG_DEFAULT,
+                "Received signal %d (%s).", sig, sys_siglist[sig]);
 #else
-    fprintf(errfile, "Received signal %d.\n", sig);
+    log_message(LOG_DEFAULT, "Received signal %d.", sig);
 #endif
 
     exit (-1);
@@ -568,7 +488,7 @@ static void exit64(void)
        dangerous.  */
     signal(SIGINT, SIG_IGN);
 
-    fprintf(logfile, "\nExiting...\n");
+    log_message(LOG_DEFAULT, "\nExiting...");
 
     machine_shutdown();
     video_free();

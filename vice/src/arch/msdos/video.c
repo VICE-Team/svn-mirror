@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "log.h"
 #include "video.h"
 
 #include "cmdline.h"
@@ -51,18 +52,16 @@ vga_mode_t vga_modes[] = {
 canvas_t last_canvas;
 
 #ifdef DEBUG_VIDEO
-#define DEBUG(x)					\
-    do {						\
-        printf("%s, %d: ", __FUNCTION__, __LINE__);	\
-        printf x;					\
-        putchar('\n');					\
-    } while (0)
+#define DEBUG(x) log_debug x
 #else
 #define DEBUG(x)
 #endif
 
 /* Flag: are we in graphics mode?  */
 static int in_gfx_mode;
+
+/* Logging goes here.  */
+static log_t video_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
@@ -136,11 +135,14 @@ int video_init_cmdline_options(void)
 
 int video_init(void)
 {
-    if (allegro_init()) {
-	fprintf(stderr, "??? Cannot initialize the Allegro library ???\n");
-	exit(-1);
-    }
-    printf("Allegro initialized.\n");
+    if (video_log == LOG_ERR)
+        video_log = log_open("Video");
+
+    if (allegro_init())
+	log_error(video_log, "Cannot initialize Allegro.");
+
+    log_message(video_log, "Allegro initialized.");
+
     in_gfx_mode = 0;
 
     return 0;
@@ -203,15 +205,15 @@ static void canvas_set_vga_mode(canvas_t c)
                c->width, c->height));
         c->use_triple_buffering = 0;
     } else {
-        fprintf(stderr, "Cannot enable %dx%dx256 graphics.\n",
-                c->width, c->height);
+        log_error(video_log, "Cannot enable %dx%dx256 graphics.",
+                  c->width, c->height);
         exit(-1);
     }
 
-    printf("Using mode %dx%dx256 (%s)%s.\n",
-	   c->width, c->height,
-	   is_linear_bitmap(screen) ? "linear" : "planar",
-           c->use_triple_buffering ? "; triple buffering possible" : "");
+    log_message(video_log, "Using mode %dx%dx256 (%s)%s.",
+                c->width, c->height,
+                is_linear_bitmap(screen) ? "linear" : "planar",
+                c->use_triple_buffering ? "; triple buffering possible" : "");
     in_gfx_mode = 1;
 
 #ifndef USE_MIDAS_SOUND
@@ -243,7 +245,7 @@ canvas_t canvas_create(const char *win_name, unsigned int *width,
 
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
     if (palette->num_entries > NUM_AVAILABLE_COLORS) {
-	fprintf(stderr, "??? Too many colors requested! ???\n");
+	log_error(video_log, "Too many colors requested.");
 	return (canvas_t) NULL;
     }
     new_canvas = (canvas_t) malloc(sizeof(struct _canvas));

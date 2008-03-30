@@ -41,8 +41,6 @@
  *
  */
 
-/* #define DEBUG_SERIAL */
-
 #include "vice.h"
 
 #ifdef STDC_HEADERS
@@ -50,17 +48,16 @@
 #include <ctype.h>
 #endif
 
-#include "maincpu.h"
-#include "serial.h"
-#include "traps.h"
-#include "parallel.h"
-#include "utils.h"
-
-#include "vdrive.h"
 #include "drive.h"
+#include "log.h"
+#include "maincpu.h"
+#include "parallel.h"
+#include "serial.h"
 #include "tape.h"
 #include "tapeunit.h"
-
+#include "traps.h"
+#include "utils.h"
+#include "vdrive.h"
 
 /* Warning: these are only valid for the VIC20, C64 and C128, but *not* for
    the PET.  (FIXME?)  */
@@ -88,6 +85,9 @@ static int traps_installed = 0;
 /* Pointer to list of traps we are using.  */
 static const trap_t *serial_traps;
 
+/* Logging goes here.  */
+static log_t serial_log = LOG_ERR;
+
 /* ------------------------------------------------------------------------- */
 
 /* This is just a kludge for the autostart code (see `autostart.c'.  */
@@ -112,11 +112,6 @@ static int serialcommand()
     serial_t *p;
     int channel;
     int i, st = 0;
-
-#ifdef DEBUG_SERIAL
-    fprintf(logfile, "***SerialCommand %02x %02x %02x  BUF(%d) '%s'\n\n",
-           TrapDevice, TrapSecondary, ram[BSOUR], SerialPtr, SerialBuffer);
-#endif
 
     /*
      * which device ?
@@ -167,8 +162,9 @@ static int serialcommand()
                 p->isopen[channel] = 0;
                 (*(p->closef)) (p->info, channel);
 
-                fprintf(errfile, "Serial: Cannot open file. Status $%02x\n",
-                        st);
+                log_error(serial_log,
+                          "Cannot open file. Status $%02x.",
+                          st);
             }
         }
         if (p->flushf)
@@ -176,7 +172,7 @@ static int serialcommand()
         break;
 
       default:
-        fprintf(logfile, "Unknown command %02X\n\n", TrapSecondary & 0xff);
+        log_error(serial_log, "Unknown command %02X.", TrapSecondary & 0xff);
     }
 
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
@@ -196,10 +192,6 @@ void serialattention(void)
      * Which Secondary Address ?
      */
     b = mem_read(BSOUR);	/* BSOUR - character for serial bus */
-
-#ifdef DEBUG_SERIAL
-    fprintf(logfile, "SerialSaListen(%02x)\n", b);
-#endif
 
     /* do a flush if unlisten for close and command channel */
     if (b == 0x3f && (((TrapSecondary & 0xf0) == 0xf0)
@@ -223,9 +215,6 @@ void serialattention(void)
 	  case 0xf0:		/* Open File needs the filename first */
             TrapSecondary = b;
             serialdevices[TrapDevice & 0x0f].isopen[TrapSecondary & 0x0f] = 0;
-#ifdef DEBUG_SERIAL
-            fprintf(logfile, "close output.\n");
-#endif
             break;
 	}
 
@@ -254,18 +243,10 @@ void serialsendbyte(void)
 
     if (p->inuse) {
 	if (!p->isopen[TrapSecondary & 0x0f]) {
-
-#ifdef DEBUG_SERIAL
-	    fprintf(logfile, "SerialSendByte[%2d] = %02x\n", SerialPtr, data);
-#endif
 	    /* Store name here */
 	    if (SerialPtr < SERIAL_NAMELENGTH)
 		SerialBuffer[SerialPtr++] = data;
 	} else {
-
-#ifdef DEBUG_SERIAL
-	    fprintf(logfile, "SerialSendByte(%02x)\n", data);
-#endif
 	    /* Send to device */
 	    st = (*(p->putf)) (p->info, data, TrapSecondary & 0x0f);
 	    SET_ST(st);
@@ -300,11 +281,6 @@ void serialreceivebyte(void)
 	if (!st)
 	    p->nextok[secadr] = 1;
     }
-
-#ifdef DEBUG_SERIAL
-    fprintf(logfile, "SerialReceiveByte(%02x '%c', st=%02x)\n",
-	   data, isprint(data) ? data : ' ', st);
-#endif
 
     /* Set up serial success / data.  */
     if (st)
@@ -344,11 +320,6 @@ static int parallelcommand(void)
     BYTE b;
     int channel;
     int i, st = 0;
-
-#ifdef DEBUG_SERIAL
-    fprintf(logfile, "***ParallelCommand %02x %02x %02x  BUF(%d) '%s'\n\n",
-	 TrapDevice, TrapSecondary, ram[BSOUR], SerialPtr, SerialBuffer);
-#endif
 
     if ( ((TrapDevice & 0x0f) == 8 && drive[0].enable) 
 	|| ((TrapDevice & 0x0f) == 9 && drive[1].enable) ) {
@@ -400,8 +371,8 @@ static int parallelcommand(void)
 	      if (st) {
 		  p->isopen[channel] = 0;
 		  (*(p->closef)) (p->info, channel);
-		  fprintf(errfile, "Serial: Cannot open file. Status $%02x\n",
-			  st);
+		  log_error(serial_log, "Cannot open file. Status $%02x.",
+                            st);
 	      }
 	  }
 	  if (p->flushf)
@@ -409,7 +380,7 @@ static int parallelcommand(void)
 	  break;
 
       default:
-	  fprintf(logfile, "Unknown command %02X\n\n", TrapSecondary & 0xff);
+	  log_error(serial_log, "Unknown command %02X.", TrapSecondary & 0xff);
     }
     return (st);
 }
@@ -419,7 +390,7 @@ int parallelattention(int b)
     int st = 0;
 
     if (parallel_debug)
-	fprintf(logfile, "ParallelAttention(%02x)\n", b);
+	log_message(serial_log, "ParallelAttention(%02x).", b);
 
     if (b == 0x3f
 	&& (((TrapSecondary & 0xf0) == 0xf0)
@@ -441,8 +412,6 @@ int parallelattention(int b)
 	  case 0xf0:		/* Open File needs the filename first */
 	      TrapSecondary = b;
 	      serialdevices[TrapDevice & 0x0f].isopen[TrapSecondary & 0x0f] = 0;
-	      if (parallel_debug)
-		  fprintf(logfile, "close output.\n");
 	      break;
 	}
 
@@ -453,9 +422,6 @@ int parallelattention(int b)
 	TrapDevice = 0;
 	TrapSecondary = 0;
     }
-    if (parallel_debug)
-	fprintf(logfile, "ParallelAttention(%02x)->TrapDevice=%02x, st=%04x\n",
-	       b, TrapDevice, st + (TrapDevice << 8));
 
     st |= TrapDevice << 8;
 
@@ -481,7 +447,8 @@ int parallelsendbyte(int data)
 	if (!p->isopen[TrapSecondary & 0x0f]) {
 
 	    if (parallel_debug)
-		fprintf(logfile, "SerialSendByte[%2d] = %02x\n", SerialPtr, data);
+		log_message(serial_log,
+                            "SerialSendByte[%2d] = %02x.", SerialPtr, data);
 	    /* Store name here */
 	    if (SerialPtr < SERIAL_NAMELENGTH)
 		SerialBuffer[SerialPtr++] = data;
@@ -533,19 +500,16 @@ int parallelreceivebyte(BYTE * data, int fake)
     st += TrapDevice << 8;
 
     if (parallel_debug)
-	fprintf(logfile, "receive: sa=%02x lastb = %02x,  ok=%s, st=%04x, nextb = %02x, "
-	       "ok=%s, st=%04x\n", secadr,
-	       p->lastbyte[secadr], p->lastok[secadr] ? "ok" : "no",
-	       p->lastst[secadr],
-	       p->nextbyte[secadr], p->nextok[secadr] ? "ok" : "no",
-	       p->nextst[secadr]);
+	log_message(serial_log,
+                    "receive: sa=%02x lastb = %02x,  ok=%s, st=%04x, nextb = %02x, "
+                    "ok=%s, st=%04x.", secadr,
+                    p->lastbyte[secadr], p->lastok[secadr] ? "ok" : "no",
+                    p->lastst[secadr],
+                    p->nextbyte[secadr], p->nextok[secadr] ? "ok" : "no",
+                    p->nextst[secadr]);
 
     if ((!fake) && p->nextok[secadr] && p->nextst[secadr])
 	p->nextok[secadr] = 0;
-
-    if (parallel_debug)
-	fprintf(logfile, "faked = %d, return data =%02x ('%c'), st = %04x\n",
-	       fake, *data, isprint(*data) ? *data : '_', st);
 
     if ((st & 0x40) && eof_callback_func != NULL)
         eof_callback_func();
@@ -557,6 +521,9 @@ int parallelreceivebyte(BYTE * data, int fake)
 int serial_init(const trap_t * trap_list)
 {
     int i;
+
+    if (serial_log == LOG_ERR)
+        serial_log = log_open("Serial");
 
     /* Remove installed traps, if any.  */
     serial_remove_traps();
@@ -625,8 +592,9 @@ int serial_attach_device(int device, char *var, char *name,
     p = &serialdevices[device];
 
     if (p->inuse) {
-        fprintf(logfile, "warning. serial device %d (%s) in use\n",
-                device, name);
+        log_warning(serial_log,
+                    "Serial device %d (%s) in use.",
+                    device, name);
         return 1;
     }
     p->getf = getf;
@@ -667,7 +635,7 @@ int serial_select_file(int type, int number, const char *file)
 	    number = 8;
     }
     if (number < 0 || number >= MAXDEVICES) {
-	fprintf(errfile, "\nIllegal device number %d.\n", number);
+	log_error(serial_log, "Illegal device number %d.", number);
 	return -1;
     }
     p = &serialdevices[number];
@@ -677,7 +645,7 @@ int serial_select_file(int type, int number, const char *file)
        the devices must have been explicitly initialized before we get here.
        EP 98-04-24.  */
     if (!p || !(p->inuse)) {
-	fprintf(errfile, "No device for #%d\n", number);
+	log_error(serial_log, "No device for #%d.", number);
 	return -1;
     }
     /* should be based on p -> info.type */
@@ -720,11 +688,8 @@ int serial_remove(int number)
 
 	    if (p && p->inuse) {
 		if (number == -2) {	/* QUERY mode */
-		    fprintf(logfile, "    Unit #%d: %s.\n", i, p->name);	/* add file */
+		    log_message(serial_log, "    Unit #%d: %s.", i, p->name);	/* add file */
 		} else {
-#if (defined(DEBUG) || defined(DEBUG_SERIAL))
-		    fprintf(logfile, "remove unit #%d.\n", i);
-#endif
 		    serial_remove(i);
 		}
 	    }
@@ -733,13 +698,13 @@ int serial_remove(int number)
     /* number < 0 */
     else {
 	if (number < 0 || number >= MAXDEVICES) {
-	    fprintf(errfile, "\nIllegal device number %d.\n", number);
+	    log_error(serial_log, "Illegal device number %d.", number);
 	    return -1;
 	}
 	p = &serialdevices[number];
 
 	if (!p || !(p->inuse)) {
-	    fprintf(logfile, "I'm not here.  ;)\n");
+	    log_error(serial_log, "Attempting to remove empty device #%d.", number);
 	} else
 	    switch (number) {	/* should be based on actual type ... */
 	      case 1:
@@ -759,7 +724,7 @@ int serial_remove(int number)
 		  break;
 
 	      default:
-		  fprintf(logfile, "Orphan device #%d\n", number);
+		  log_error(serial_log, "Orphan device #%d.", number);
 		  return -1;
 	    }
 
