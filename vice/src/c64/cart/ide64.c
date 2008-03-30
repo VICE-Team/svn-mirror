@@ -24,6 +24,24 @@
  *
  */
 
+#include "vice.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "archdep.h"
+#include "c64cart.h"
+#include "c64cartmem.h"
+#include "cmdline.h"
+#include "ide64.h"
+#include "log.h"
+#include "resources.h"
+#include "types.h"
+#include "util.h"
+#include "vicii-phi1.h"
+
+
 #define IDE_BSY  0x80
 #define IDE_DRDY 0x40
 #define IDE_DF   0x20
@@ -40,21 +58,6 @@
 #define IDE_ABRT 0x04
 #define IDE_TK0N 0x02
 #define IDE_AMNF 0x01
-
-#include "vice.h"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "archdep.h"
-#include "c64cart.h"
-#include "c64cartmem.h"
-#include "ide64.h"
-#include "types.h"
-#include "util.h"
-#include "vicii-phi1.h"
-#include "log.h"
 
 
 /* Current IDE64 bank */
@@ -90,7 +93,7 @@ static BYTE ide_status;
 static BYTE ide_control;
 
 /* communication latch */
-static WORD out_d030,in_d030;
+static WORD out_d030, in_d030;
 
 /* buffer pointer */
 static unsigned int ide_bufp;
@@ -103,19 +106,143 @@ static FILE *ide_disk;
 char *ide64_image_file = NULL;
 
 /* config ram */
-char ide64_DS1302[65];
+static char ide64_DS1302[65];
 
-static BYTE ide_identify[128]=
-{
-    0x40,0x00,0x00,0x01,0x00,0x00,0x04,0x00,0x00,0x00,0x00,0x00,0x10,0x00,0x00,0x00,
-    0x00,0x00,0x00,0x00,0x30,0x32,0x33,0x30,0x38,0x30,0x35,0x31,0x20,0x20,0x20,0x20,
-    0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x00,0x00,0x00,0x00,0x00,0x00,0x20,0x32,
-    0x20,0x20,0x20,0x20,0x20,0x20,0x49,0x56,0x45,0x43,0x49,0x20,0x45,0x44,0x34,0x36,
-    0x20,0x3a,0x41,0x4b,0x54,0x4a,0x52,0x41,0x5a,0x20,0x4f,0x53,0x54,0x4c,0x28,0x20,
-    0x4f,0x53,0x49,0x43,0x53,0x2f,0x4e,0x49,0x55,0x47,0x41,0x4c,0x29,0x52,0x01,0x00,
-    0x00,0x00,0x00,0x02,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x00,0x00,0x01,0x04,0x00,
-    0x10,0x00,0x00,0x40,0x00,0x00,0x01,0x01,0x00,0x40,0x00,0x00,0x00,0x00,0x00,0x00
+static char *ide64_configuration_string = NULL;
+
+static unsigned int settings_cylinders, settings_heads, settings_sectors;
+
+static BYTE ide_identify[128] = {
+    0x40, 0x00, 0x00, 0x01, 0x00, 0x00, 0x04, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x30, 0x32, 0x33, 0x30,
+    0x38, 0x30, 0x35, 0x31, 0x20, 0x20, 0x20, 0x20,
+
+    0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20, 0x32,
+    0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x49, 0x56,
+    0x45, 0x43, 0x49, 0x20, 0x45, 0x44, 0x34, 0x36,
+
+    0x20, 0x3a, 0x41, 0x4b, 0x54, 0x4a, 0x52, 0x41,
+    0x5a, 0x20, 0x4f, 0x53, 0x54, 0x4c, 0x28, 0x20,
+    0x4f, 0x53, 0x49, 0x43, 0x53, 0x2f, 0x4e, 0x49,
+    0x55, 0x47, 0x41, 0x4c, 0x29, 0x52, 0x01, 0x00,
+
+    0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x01, 0x00, 0x00, 0x01, 0x04, 0x00,
+    0x10, 0x00, 0x00, 0x40, 0x00, 0x00, 0x01, 0x01,
+    0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
+
+
+static void geometry_update(void)
+{
+    ide_identify[108] = settings_cylinders & 255;
+    ide_identify[109] = settings_cylinders >> 8;
+    ide_identify[110] = settings_heads;
+    ide_identify[112] = settings_sectors;
+}
+
+static int set_ide64_config(resource_value_t v, void *param)
+{
+    const char *cfg = (const char *)v;
+    int i;
+
+    ide64_DS1302[64] = 0;
+    memset(ide64_DS1302, 0x40, 64);
+    ide64_configuration_string = ide64_DS1302;
+
+    if (cfg)
+        for (i = 0; cfg[i] && i < 64; i++)
+            ide64_DS1302[i] = cfg[i];
+
+    return try_cartridge_init(16);
+}
+
+static int set_ide64_image_file(resource_value_t v, void *param)
+{
+    const char *name = (const char *)v;
+
+    util_string_set(&ide64_image_file, name);
+
+    return try_cartridge_init(32);
+}
+
+static int set_cylinders(resource_value_t v, void *param)
+{
+    unsigned int cylinders = (unsigned int)v;
+
+    if (cylinders > 1024)
+        return -1;
+
+    settings_cylinders = cylinders;
+    geometry_update();
+
+    return 0;
+}
+
+static int set_heads(resource_value_t v, void *param)
+{
+    unsigned int heads = (unsigned int)v;
+
+    if (heads > 16)
+        return -1;
+
+    settings_heads = heads;
+    geometry_update();
+
+    return 0;
+}
+
+static int set_sectors(resource_value_t v, void *param)
+{
+    unsigned int sectors = (unsigned int)v;
+
+    if (sectors > 63)
+        return -1;
+
+    settings_sectors = sectors;
+    geometry_update();
+
+    return 0;
+}
+
+static const resource_t resources[] = {
+    { "IDE64Image", RES_STRING, (resource_value_t)"ide.hdd",
+      (void *)&ide64_image_file, set_ide64_image_file, NULL },
+    { "IDE64Config", RES_STRING, (resource_value_t)"",
+      (void *)&ide64_configuration_string, set_ide64_config, NULL },
+    { "IDE64Cylinders", RES_INTEGER, (resource_value_t)256,
+      (void *)&settings_cylinders, set_cylinders, NULL },
+    { "IDE64Heads", RES_INTEGER, (resource_value_t)4,
+      (void *)&settings_heads, set_heads, NULL },
+    { "IDE64Sectors", RES_INTEGER, (resource_value_t)16,
+      (void *)&settings_sectors, set_sectors, NULL },
+    { NULL }
+};
+
+int ide64_resources_init(void)
+{
+    return resources_register(resources);
+}
+
+static const cmdline_option_t cmdline_options[] = {
+    { "-IDE64image", SET_RESOURCE, 1, NULL, NULL, "IDE64Image", NULL,
+      "<name>", "Specify name of IDE64 image file" },
+    { "-IDE64cyl", SET_RESOURCE, 1, NULL, NULL, "IDE64Cylinders", NULL,
+      "<value>", "Set number of cylinders for the IDE64 emulation" },
+    { "-IDE64hds", SET_RESOURCE, 1, NULL, NULL, "IDE64Heads", NULL,
+      "<value>", "Set number of heads for the IDE64 emulation" },
+    { "-IDE64sec", SET_RESOURCE, 1, NULL, NULL, "IDE64Sectors", NULL,
+      "<value>", "Set number of sectors for the IDE64 emulation" },
+    { NULL }
+};
+
+int ide64_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
 
 /* drive reset response */
 static void ide64_reset(void)

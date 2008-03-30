@@ -1,3 +1,41 @@
+2003-12-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.41.
+
+	* cbmdos.c, cbmdos.h: New files.
+
+	* Makefile.am, arch/win32/base.dsp, arch/win32/c1541.dsp:
+	Added new files.
+
+	* vdrive/vdrive.c, vdrive/vdrive-bam.c, vdrive/vdrive-command,
+	cmvdrive/vdrive-iec.c, vdrive/vdrive-internal.c,
+	fsdevice/fsdevice-close.c, fsdevice/fsdevice-flush.c,
+	fsdevice/fsdevice-open.c, fsdevice/fsdevice.c, c1541.c,
+	vdrive/vdrive-command.h, fsdevice/fsdevice-read.c,
+	fileio/p00.c, vdrive/vdrive-dir.c,
+	imagecontents/diskcontents-block.c: Use cbmdos functions.
+
+	* fileio/fileio.c, fileio.h, fileio/cbmfile.c, fileio/p00.c,
+	fileio/cbmfile.h, p00.h, fsdevice/fsdevice-read.c,
+	fsdevice/fsdevice-write.c, fsdevice/fsdevice-close.c,
+	fsdevice/fsdevice-open.c, fsdevice/fsdevicetypes.h: Added read
+	and write support to fileio API.
+
+	* c1541.c (raw_cmd, list_cmd): Fixed.
+
+	* diskimage/diskimage.c, diskimage.h (disk_image_name_get):
+	New function.
+
+	* c64/cart/ide64.c, c64/cart/ide64.h: Added resources and
+	command line options to set geometry.
+
+	* c64/cart/c64cart.c (cartridge_resources_init,
+	cartridge_cmdline_options_init): Initialize ide64 resources
+	and command line options.
+
+	* c64/cart/c64cart.c, c64/c64cart.h, c64/cart/ide64.c,
+	c64/cart/ide64.h: Moved existing resources to ide64 file.
+
 2003-12-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.40.
