@@ -31,12 +31,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "machine.h"
 #include "maincpu.h"
 #include "types.h"
 #include "vdc-mem.h"
 #include "vdc.h"
 #include "vdctypes.h"
-#include "vicii.h"
 
 /* #define REG_DEBUG */
 
@@ -100,7 +100,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 {
     BYTE oldval;
 
-    vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
+    machine_handle_pending_alarms(maincpu_num_write_cycles());
 
     /* $d600 sets the internal vdc address pointer */
     if ((addr & 1) == 0) {
@@ -360,7 +360,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 vdc_read(ADDRESS addr)
 {
-    vic_ii_handle_pending_alarms(0);
+    machine_handle_pending_alarms(0);
 
     if (addr & 1) {
         /*log_message(vdc.log, "read: addr = %x", addr);*/
