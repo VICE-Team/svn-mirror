@@ -141,7 +141,7 @@ static ui_menu_entry_t ui_cartridge_commands_menu[] = {
 };
 
 ui_menu_entry_t ui_datasette_commands_menu[] = {
-    { "Datasette control",
+    { "Datassette control",
       NULL, NULL, datasette_control_submenu },
     { NULL }
 };

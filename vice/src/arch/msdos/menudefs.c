@@ -1581,36 +1581,36 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                          TUI_MENU_BEH_CONTINUE);
 
     if (has_datasette) {
-        ui_datasette_submenu = tui_menu_create("Datasette control", 1);
+        ui_datasette_submenu = tui_menu_create("Datassette control", 1);
         tui_menu_add_item(ui_datasette_submenu, "S_top",
-                  "Press the STOP key of the datasette",
+                  "Press the STOP key of the datassette",
                   datasette_callback, (void *)DATASETTE_CONTROL_STOP, 0,
                   TUI_MENU_BEH_RESUME);
         tui_menu_add_item(ui_datasette_submenu, "_Start",
-                  "Press the START key of the datasette",
+                  "Press the START key of the datassette",
                   datasette_callback, (void *)DATASETTE_CONTROL_START, 0,
                   TUI_MENU_BEH_RESUME);
         tui_menu_add_item(ui_datasette_submenu, "_Forward",
-                  "Press the FORWARD key of the datasette",
+                  "Press the FORWARD key of the datassette",
                   datasette_callback, (void *)DATASETTE_CONTROL_FORWARD, 0,
                   TUI_MENU_BEH_RESUME);
         tui_menu_add_item(ui_datasette_submenu, "_Rewind",
-                  "Press the REWIND key of the datasette",
+                  "Press the REWIND key of the datassette",
                   datasette_callback, (void *)DATASETTE_CONTROL_REWIND, 0,
                   TUI_MENU_BEH_RESUME);
 #if 0
         tui_menu_add_item(ui_datasette_submenu, "Re_cord",
-                  "Press the REWIND key of the datasette",
+                  "Press the REWIND key of the datassette",
                   datasette_callback, (void *)DATASETTE_CONTROL_RECORD, 0,
                   TUI_MENU_BEH_RESUME);
         tui_menu_add_item(ui_datasette_submenu, "R_eset",
-                  "Press the REWIND key of the datasette",
+                  "Press the REWIND key of the datassette",
                   datasette_callback, (void *)DATASETTE_CONTROL_RESET, 0,
                   TUI_MENU_BEH_RESUME);
 #endif
 
-        tui_menu_add_submenu(ui_main_menu, "Datasett_e Control...",
-                             "Press some buttons on the emulated datasette",
+        tui_menu_add_submenu(ui_main_menu, "Datassett_e Control...",
+                             "Press some buttons on the emulated datassette",
                              ui_datasette_submenu, NULL, 0,
                              TUI_MENU_BEH_CONTINUE);
     }

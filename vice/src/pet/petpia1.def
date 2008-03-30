@@ -152,9 +152,9 @@ E813	CB2	    output to cassette #1 motor: 0=on, 1=off
 READ_PA()
 {
     if (drive[0].enable)
-        drive0_cpu_execute();
+        drive0_cpu_execute(clk);
     if (drive[1].enable)
-        drive1_cpu_execute();
+        drive1_cpu_execute(clk);
 
     byte = 0xff
 	- (tape1_sense ? 16 : 0)

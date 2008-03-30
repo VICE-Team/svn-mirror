@@ -303,8 +303,7 @@ void store_tpi ( ADDRESS addr, BYTE byte ) {
 	tpi[addr] = byte;
 }
 
-BYTE read_tpi(ADDRESS addr)
-{
+BYTE read_tpi ( ADDRESS addr ) {
 	BYTE byte = 0xff;
     	switch ( addr ) {
 	case TPI_PA:
