@@ -28,7 +28,6 @@
 #ifndef _6510CORE_H
 #define _6510CORE_H
 
-#include "mem.h"
 #include "types.h"
 
 /* Information for one executed opcode.  */

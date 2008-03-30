@@ -11,8 +11,13 @@
  *
  */
 
+#ifndef _ACIA_H
+#define _ACIA_H
+
 #define   ACIA_DR   0		/* Data register */
 #define   ACIA_SR   1		/* R: status register W: programmed Reset */
 #define   ACIA_CMD  2		/* Command register */
 #define   ACIA_CTRL 3		/* Control register */
+
+#endif
 

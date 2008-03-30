@@ -31,13 +31,6 @@
 #define CPU_STR "Main CPU"
 #endif
 
-#if 0
-#define UNDOC_WARNING() \
-    log_warning(LOG_DEFAULT, CPU_STR " Warning: undocumented $%02X.", p0);
-#else
-#define UNDOC_WARNING()
-#endif
-
 #define IRQ_CYCLES      7
 #define NMI_CYCLES      7
 #define RESET_CYCLES    6
@@ -399,7 +392,6 @@
 
 #define ANC(value, clk_inc1, clk_inc2, pc_inc)  \
   do {                                          \
-      UNDOC_WARNING();                          \
       CLK += (clk_inc1);                        \
       reg_a &= (value);                         \
       LOCAL_SET_NZ(reg_a);                      \
@@ -419,7 +411,6 @@
 
 #define ANE(value, clk_inc1, clk_inc2, pc_inc)          \
   do {                                                  \
-      UNDOC_WARNING();                                  \
       CLK += (clk_inc1);                                \
       reg_a = ((reg_a | 0xee) & reg_x & (value));       \
       LOCAL_SET_NZ(reg_a);                              \
@@ -432,7 +423,6 @@
   do {                                                                  \
       unsigned int tmp;                                                 \
                                                                         \
-      UNDOC_WARNING();                                                  \
       CLK += (clk_inc1);                                                \
       tmp = reg_a & (value);                                            \
       CLK += (clk_inc2);                                                \
@@ -491,7 +481,6 @@
   do {                                          \
       unsigned int tmp;                         \
                                                 \
-      UNDOC_WARNING();                          \
       CLK += (clk_inc1);                        \
       tmp = reg_a & (value);                    \
       CLK += (clk_inc2);                        \
@@ -624,7 +613,6 @@
       unsigned int tmp, tmp_addr;                                       \
                                                                         \
       tmp_addr = (addr);                                                \
-      UNDOC_WARNING();                                                  \
       RMW_FLAG = 1;                                                     \
       CLK += (clk_inc1);                                                \
       tmp = load_func(tmp_addr);                                        \
@@ -641,7 +629,6 @@
       unsigned int tmp;                                         \
       unsigned int tmp_addr = LOAD_ZERO_ADDR(addr);             \
                                                                 \
-      UNDOC_WARNING();                                          \
       RMW_FLAG = 1;                                             \
       CLK += 5;                                                 \
       LOAD((tmp_addr & 0xff00) | ((tmp_addr + reg_y) & 0xff));  \
@@ -731,7 +718,6 @@
       BYTE my_src;                                                      \
       int my_addr = (addr);                                             \
                                                                         \
-      UNDOC_WARNING();                                                  \
       RMW_FLAG = 1;                                                     \
       CLK += (clk_inc1);                                                \
       my_src = load_func(my_addr);                                      \
@@ -747,7 +733,6 @@
       BYTE my_src;                                              \
       int my_addr = LOAD_ZERO_ADDR(addr);                       \
                                                                 \
-      UNDOC_WARNING();                                          \
       RMW_FLAG = 1;                                             \
       CLK += 5;                                                 \
       LOAD((my_addr & 0xff00) | ((my_addr + reg_y) & 0xff));    \
@@ -782,7 +767,6 @@
 
 #define LAS(value, clk_inc1, clk_inc2, pc_inc)          \
   do {                                                  \
-      UNDOC_WARNING();                                  \
       CLK += (clk_inc1);                                \
       reg_a = reg_x = reg_sp = reg_sp & (value);        \
       LOCAL_SET_NZ(reg_a);                              \
@@ -792,7 +776,6 @@
 
 #define LAX(value, clk_inc1, clk_inc2, pc_inc)  \
   do {                                          \
-      UNDOC_WARNING();                          \
       CLK += (clk_inc1);                        \
       reg_a = reg_x = (value);                  \
       LOCAL_SET_NZ(reg_a);                      \
@@ -856,7 +839,6 @@
    Moreover, the behavior is different from the one described in 64doc. */
 #define LXA(value, clk_inc1, clk_inc2, pc_inc)                  \
   do {                                                          \
-      UNDOC_WARNING();                                          \
       CLK += (clk_inc1);                                        \
       reg_a = reg_x = ((reg_a | 0xee) & (value));               \
       LOCAL_SET_NZ(reg_a);                                      \
@@ -934,7 +916,6 @@
       unsigned int tmp, tmp_addr;                                       \
                                                                         \
       tmp_addr = (addr);                                                \
-      UNDOC_WARNING();                                                  \
       RMW_FLAG = 1;                                                     \
       CLK += (clk_inc1);                                                \
       tmp = ((load_func(tmp_addr) << 1) | (reg_p & P_CARRY));           \
@@ -951,7 +932,6 @@
       unsigned int tmp;                                         \
       unsigned int tmp_addr = LOAD_ZERO_ADDR(addr);             \
                                                                 \
-      UNDOC_WARNING();                                          \
       RMW_FLAG = 1;                                             \
       CLK += 5;                                                 \
       LOAD((tmp_addr & 0xff00) | ((tmp_addr + reg_y) & 0xff));  \
@@ -1027,7 +1007,6 @@
       BYTE src;                                                         \
       unsigned int my_temp, tmp_addr;                                   \
                                                                         \
-      UNDOC_WARNING();                                                  \
       RMW_FLAG = 1;                                                     \
       CLK += (clk_inc1);                                                \
       tmp_addr = (addr);                                                \
@@ -1048,7 +1027,6 @@
       unsigned int my_tmp_addr;                                         \
       unsigned int my_temp;                                             \
                                                                         \
-      UNDOC_WARNING();                                                  \
       RMW_FLAG = 1;                                                     \
       CLK += 5;                                                         \
       my_tmp_addr = LOAD_ZERO_ADDR(addr);                               \
@@ -1097,7 +1075,6 @@
   do {                                          \
       unsigned int tmp;                         \
                                                 \
-      UNDOC_WARNING();                          \
       CLK += (clk_inc1);                        \
       tmp = (addr);                             \
       CLK += (clk_inc2);                        \
@@ -1107,7 +1084,6 @@
 
 #define SAX_ZERO(addr, clk_inc, pc_inc)         \
   do {                                          \
-      UNDOC_WARNING();                          \
       CLK += (clk_inc);                         \
       STORE_ZERO((addr), reg_a & reg_x);        \
       INC_PC(pc_inc);                           \
@@ -1151,7 +1127,6 @@
   do {                                          \
       unsigned int tmp;                         \
                                                 \
-      UNDOC_WARNING();                          \
       CLK += (clk_inc1);                        \
       tmp = (value);                            \
       CLK += (clk_inc2);                        \
@@ -1190,7 +1165,6 @@
   do {                                                                  \
       unsigned int tmp;                                                 \
                                                                         \
-      UNDOC_WARNING();                                                  \
       tmp = (addr);                                                     \
       INC_PC(3);                                                        \
       STORE_ABS_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
@@ -1200,7 +1174,6 @@
   do {                                                  \
       unsigned int tmp;                                 \
                                                         \
-      UNDOC_WARNING();                                  \
       CLK += 5;                                         \
       tmp = LOAD_ZERO_ADDR(addr);                       \
       LOAD((tmp & 0xff00) | ((tmp + reg_y) & 0xff));    \
@@ -1214,7 +1187,6 @@
   do {                                                          \
       unsigned int tmp;                                         \
                                                                 \
-      UNDOC_WARNING();                                          \
       tmp = (addr);                                             \
       INC_PC(3);                                                \
       STORE_ABS_Y(tmp, reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
@@ -1224,7 +1196,6 @@
   do {                                                          \
       unsigned int tmp;                                         \
                                                                 \
-      UNDOC_WARNING();                                          \
       tmp = (addr);                                             \
       INC_PC(3);                                                \
       STORE_ABS_X(tmp, reg_y & (((tmp + reg_x) >> 8) + 1), 5);  \
@@ -1234,7 +1205,6 @@
   do {                                                                  \
       int tmp = (addr);                                                 \
                                                                         \
-      UNDOC_WARNING();                                                  \
       INC_PC(3);                                                        \
       STORE_ABS_Y(tmp, reg_a & reg_x & (((tmp + reg_y) >> 8) + 1), 5);  \
       reg_sp = reg_a & reg_x;                                           \
@@ -1245,7 +1215,6 @@
       BYTE tmp_value;                                                   \
       int tmp_addr;                                                     \
                                                                         \
-      UNDOC_WARNING();                                                  \
       CLK += (clk_inc1);                                                \
       tmp_addr = (addr);                                                \
       tmp_value = load_func(tmp_addr);                                  \
@@ -1264,7 +1233,6 @@
       BYTE tmp_value;                                           \
       unsigned int tmp_addr;                                    \
                                                                 \
-      UNDOC_WARNING();                                          \
       CLK += 5;                                                 \
       tmp_addr = LOAD_ZERO_ADDR(addr);                          \
       LOAD((tmp_addr & 0xff00) | ((tmp_addr + reg_y) & 0xff));  \
@@ -1286,7 +1254,6 @@
       BYTE tmp;                                                         \
       unsigned int tmp_addr;                                            \
                                                                         \
-      UNDOC_WARNING();                                                  \
       RMW_FLAG = 1;                                                     \
       CLK += (clk_inc1);                                                \
       tmp_addr = (addr);                                                \
@@ -1305,7 +1272,6 @@
       BYTE tmp;                                                 \
       unsigned int tmp_addr = LOAD_ZERO_ADDR(addr);             \
                                                                 \
-      UNDOC_WARNING();                                          \
       RMW_FLAG = 1;                                             \
       CLK += 5;                                                 \
       LOAD((tmp_addr & 0xff00) | ((tmp_addr + reg_y) & 0xff));  \
