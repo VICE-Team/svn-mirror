@@ -66,7 +66,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION         "Impostazioni del Ethernet"
+    IDS_TFE_CAPTION         "Impostazioni Ethernet"
     IDS_TFE_ETHERNET        "&Ethernet"
     IDS_TFE_INTERFACE       "&Interfaccia"
 END

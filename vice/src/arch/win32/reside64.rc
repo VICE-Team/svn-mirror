@@ -75,14 +75,14 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION           "Paramètres IDE64"
-    IDS_IDE64_IMAGE             "&Nom d'image HD"
-    IDS_IDE64_GEOMETRY          "&Geometry"
+    IDS_IDE64_IMAGE             "Nom d'image &DD"
+    IDS_IDE64_GEOMETRY          "&Géométrie"
     IDS_IDE64_AUTODETECT        "&Autodétection"
     IDS_IDE64_CYLINDERS         "Cylindres"
     IDS_IDE64_HEADS             "Têtes"
     IDS_IDE64_SECTORS           "Secteurs"
-    IDS_IDE64_TOTAL_SIZE        "Total size: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Select HD image file"
+    IDS_IDE64_TOTAL_SIZE        "Taille totale: %iKo"
+    IDS_IDE64_SELECT_IMAGE      "Sélectionnez le fichier image du D.D."
 END
 
 // ITALIAN text
@@ -90,15 +90,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION           "Impostazioni del IDE64"
-    IDS_IDE64_IMAGE             "&Nome dell'immagine HD"
-    IDS_IDE64_GEOMETRY          "&Geometry"
-    IDS_IDE64_AUTODETECT        "&rileva automaticamente"
+    IDS_IDE64_CAPTION           "Impostazioni dell'IDE64"
+    IDS_IDE64_IMAGE             "Nome dell'immagine dell'&HD"
+    IDS_IDE64_GEOMETRY          "&Geometria"
+    IDS_IDE64_AUTODETECT        "&Rileva automaticamente"
     IDS_IDE64_CYLINDERS         "Cilindri"
     IDS_IDE64_HEADS             "Testine"
     IDS_IDE64_SECTORS           "Settori"
-    IDS_IDE64_TOTAL_SIZE        "Total size: %iKB"
-    IDS_IDE64_SELECT_IMAGE      "Select HD image file"
+    IDS_IDE64_TOTAL_SIZE        "Dimensione totale: %iKB"
+    IDS_IDE64_SELECT_IMAGE      "Seleziona il file dell'immagine dell'HD"
 END
 
 // DUTCH text

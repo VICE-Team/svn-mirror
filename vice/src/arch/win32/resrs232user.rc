@@ -55,9 +55,9 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_RS232USER_CAPTION       "Paramètres RS232 Userport"
-    IDS_RS232USER_ENABLE        "&Activer RS232 userport"
-    IDS_RS232USER_DEVICE        "Périphérique de Userport"
-    IDS_RS232USER_BAUD          "Userport baud rate"
+    IDS_RS232USER_ENABLE        "&Activer RS232 Userport"
+    IDS_RS232USER_DEVICE        "Périphérique Userport"
+    IDS_RS232USER_BAUD          "Vitesse du Userport"
 END
 
 // ITALIAN text
@@ -65,10 +65,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_RS232USER_CAPTION       "Impostazioni del RS232 Userport"
-    IDS_RS232USER_ENABLE        "&Attiva RS232 userport"
-    IDS_RS232USER_DEVICE        "Dispositivo Userport"
-    IDS_RS232USER_BAUD          "Velocità della Userport"
+    IDS_RS232USER_CAPTION       "Impostazioni della RS232 su userport"
+    IDS_RS232USER_ENABLE        "&Attiva la RS232 su userport"
+    IDS_RS232USER_DEVICE        "Dispositivo su userport"
+    IDS_RS232USER_BAUD          "VelocitÃ  della userport (in baud)"
 END
 
 // DUTCH text

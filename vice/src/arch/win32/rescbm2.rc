@@ -652,7 +652,7 @@ IDR_MENUCBM2_IT MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "&Autostart disk/tape image...", IDM_AUTOSTART
+        MENUITEM "&Avvia automaticamente l'immagine di un disco/cassetta...", IDM_AUTOSTART
         MENUITEM SEPARATOR
         POPUP "Seleziona l'immagine di un &disco"
         BEGIN
@@ -661,40 +661,38 @@ BEGIN
             MENUITEM "Drive 1&0\tAlt+0", IDM_ATTACH_10
             MENUITEM "Drive &11\tAlt+1", IDM_ATTACH_11
         END
-        POPUP "Rimuovi l'immagin&e di un disco"
+        POPUP "&Rimuovi l'immagine di un disco"
         BEGIN
             MENUITEM "Drive &8",  IDM_DETACH_8
             MENUITEM "Drive &9",  IDM_DETACH_9
             MENUITEM "Drive 1&0", IDM_DETACH_10
             MENUITEM "Drive &11", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "T&utti\tAlt+A",      IDM_DETACH_ALL
+            MENUITEM "&Tutti\tAlt+A",      IDM_DETACH_ALL
         END
         POPUP "&Flip list"
         BEGIN
             MENUITEM "&Aggiungi l'immagine attuale\tAlt+I",     IDM_FLIP_ADD
             MENUITEM "&Rimuovi l'immagine attuale\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Selezio&na la prossima immagine\tAlt+N",     IDM_FLIP_NEXT
+            MENUITEM "Seleziona la &prossima immagine\tAlt+N",     IDM_FLIP_NEXT
             MENUITEM "Seleziona l'immagine &precedente\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
-            MENUITEM "Carica i&l file della fliplist", IDM_FLIP_LOAD
-            MENUITEM "&Salva il file della fliplist", IDM_FLIP_SAVE
+            MENUITEM "&Carica fliplist", IDM_FLIP_LOAD
+            MENUITEM "&Salva fliplist", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Seleziona l'immagine di una casse&tta...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Seleziona l'immagine di una &cassetta...\tAlt+T", IDM_ATTACH_TAPE
         MENUITEM "Rimuo&vi l'immagine della cassetta",           IDM_DETACH_TAPE
-#if 1
         POPUP "Contro&llo del registratore"
         BEGIN
             MENUITEM "S&top",          IDM_DATASETTE_CONTROL_STOP
-            MENUITEM "&Start",         IDM_DATASETTE_CONTROL_START
-            MENUITEM "A&vanti",       IDM_DATASETTE_CONTROL_FORWARD
-            MENUITEM "Indiet&ro",        IDM_DATASETTE_CONTROL_REWIND
+            MENUITEM "&Inizia",         IDM_DATASETTE_CONTROL_START
+            MENUITEM "&Avanti",       IDM_DATASETTE_CONTROL_FORWARD
+            MENUITEM "&Indietro",        IDM_DATASETTE_CONTROL_REWIND
             MENUITEM "Re&cord",        IDM_DATASETTE_CONTROL_RECORD
             MENUITEM "R&eset",         IDM_DATASETTE_CONTROL_RESET
-            MENUITEM "Reset C&ounter", IDM_DATASETTE_RESET_COUNTER
+            MENUITEM "Reset c&ontantore", IDM_DATASETTE_RESET_COUNTER
         END
-#endif
         MENUITEM SEPARATOR
         MENUITEM "&Pausa\tAlt+Pause", IDM_PAUSE
         , CHECKED
@@ -712,46 +710,46 @@ BEGIN
 #ifdef DEBUG
         POPUP "&Debug"
         BEGIN
-            POPUP "M&ode"
+            POPUP "M&odalitÃ "
             BEGIN
-                MENUITEM "&Normal", IDM_DEBUG_MODE_NORMAL
-                MENUITEM "&Small", IDM_DEBUG_MODE_SMALL
+                MENUITEM "&Normale", IDM_DEBUG_MODE_NORMAL
+                MENUITEM "&Piccolo", IDM_DEBUG_MODE_SMALL
                 MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Drive&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "Traccia della CPU &principale\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Traccia della CPU del drive&0\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Traccia della CPU del drive&1\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "Es&ci\tAlt+X", IDM_EXIT
+        MENUITEM "E&sci\tAlt+X", IDM_EXIT
     END
     POPUP "Sna&pshot"
     BEGIN
-        MENUITEM "Car&ica snapshot...",          IDM_SNAPSHOT_LOAD
-        MENUITEM "Salva sna&pshot...",          IDM_SNAPSHOT_SAVE
-        MENUITEM "Caricamento ve&loce di uno snapshot\tAlt+L", IDM_LOADQUICK
-        MENUITEM "&alvataggio veloce di uno snapshot\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "Carica &immagine dello snapshot...",          IDM_SNAPSHOT_LOAD
+        MENUITEM "Salva immagine dello sna&pshot...",          IDM_SNAPSHOT_SAVE
+        MENUITEM "&Carica immagine quicksnapshot\tAlt+L", IDM_LOADQUICK
+        MENUITEM "Salva immagine quicksnapshot\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Inizia/Termina la &registrazione degli eventi",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Inizia/Termina l&a riproduzione degli eventi",        IDM_EVENT_TOGGLE_PLAYBACK
-        MENUITEM "Imposta pietra miliare\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Vai alla pietra miliare\tAlt+H",      IDM_EVENT_RESETMILESTONE
-        POPUP "Modalità di inizio registrazione"
+        MENUITEM "Start/Stop &Recording History",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "Start/Stop Pl&ayback History",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Imposta segnalibro\tAlt+G",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Vai al segnalibro\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        POPUP "ModalitÃ  di inizio registrazione"
         BEGIN
             MENUITEM "&Salva nuovo snapshot",      IDM_EVENT_START_MODE_SAVE
             MENUITEM "&Carica snapshot esistente", IDM_EVENT_START_MODE_LOAD
             MENUITEM "Inizia con &reset",       IDM_EVENT_START_MODE_RESET
-            MENUITEM "Sovrascrivi la ri&produzione",     IDM_EVENT_START_MODE_PLAYBACK
+            MENUITEM "Sovrascrivi la &riproduzione",     IDM_EVENT_START_MODE_PLAYBACK
         END
-        MENUITEM "Seleziona la directory della cronologia",    IDM_EVENT_DIRECTORY
+        MENUITEM "Select History files/directory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Salva/arresta file multimediale...\tAlt+C", IDM_MEDIAFILE
     END
     POPUP "&Opzioni"
     BEGIN
-        POPUP "Velocità di aggio&rnamento"
+        POPUP "&VelocitÃ  di aggiornamento"
         BEGIN
             MENUITEM "&Auto",   IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",    IDM_REFRESH_RATE_1
@@ -769,7 +767,7 @@ BEGIN
             MENUITEM "&Custom", IDM_REFRESH_RATE_CUSTOM
 #endif
         END
-        POPUP "Velocità &massima"
+        POPUP "VelocitÃ  &massima"
         BEGIN
             MENUITEM "&200%",     IDM_MAXIMUM_SPEED_200
             MENUITEM "&100%",     IDM_MAXIMUM_SPEED_100
@@ -780,24 +778,24 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Personalizzata",   IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Modalità turbo\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
+        MENUITEM "ModalitÃ  &turbo\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Schermo intero\tAlt+D", IDM_TOGGLE_FULLSCREEN
+        MENUITEM "A tutto schermo\tAlt+D", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
-        MENUITEM "Video &cache", IDM_TOGGLE_CRTCVIDEOCACHE
+        MENUITEM "&Cache video", IDM_TOGGLE_CRTCVIDEOCACHE
             , CHECKED
         MENUITEM "&Dimensione doppia", IDM_TOGGLE_CRTCDOUBLESIZE
             , CHECKED
-        MENUITEM "Scan&sione doppia", IDM_TOGGLE_CRTCDOUBLESCAN
+        MENUITEM "Scansione do&ppia", IDM_TOGGLE_CRTCDOUBLESCAN
             , CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Scambia le porte dei &joystick\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Scambia &joystick\tAlt+J", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
-        MENUITEM "Riproduzione del &Suono", IDM_TOGGLE_SOUND, CHECKED
+        MENUITEM "Riproduzione del &suono", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Emulazione hard&ware dei drive", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+        MENUITEM "Attiva l'emulazione &hardware dei drive", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
         MENUITEM "&Virtual device traps", IDM_TOGGLE_VIRTUAL_DEVICES
-        POPUP "Drive s&ync factor"
+        POPUP "Fattore di s&incronizzazione del drive"
         BEGIN
             MENUITEM "&PAL",  IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC", IDM_SYNC_FACTOR_NTSC
@@ -805,52 +803,52 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Identificazione dell'emulatore", IDM_TOGGLE_EMUID
     END
-    POPUP "Imposta&zioni"
+    POPUP "I&mpostazioni"
     BEGIN
         MENUITEM "Impostazioni &video...",     IDM_VIDEO_SETTINGS
-        MENUITEM "Impostazioni &CBM2...",      IDM_CBM2_SETTINGS
+        MENUITEM "Impostazioni del &CBM2...",      IDM_CBM2_SETTINGS
         MENUITEM "Impostazioni delle &periferiche...",IDM_DEVICEMANAGER
-        MENUITEM "Impostazioni dei &Drive...",     IDM_DRIVE_SETTINGS
-        MENUITEM "Impostazioni dei D&atasette...", IDM_DATASETTE_SETTINGS
-        MENUITEM "Impostazioni dei &VIC-II...",    IDM_VICII_SETTINGS
-        MENUITEM "Impostazioni dei &Joystick...",  IDM_JOY_SETTINGS
-        MENUITEM "Impostazioni della tastie&ra...",  IDM_KEYBOARD_SETTINGS
-        MENUITEM "Impostazioni del su&ono...",     IDM_SOUND_SETTINGS
+        MENUITEM "Impostazioni dei &drive...",     IDM_DRIVE_SETTINGS
+        MENUITEM "Impostazioni del r&egistratore...", IDM_DATASETTE_SETTINGS
+        MENUITEM "Impostazioni del &VIC-II...",    IDM_VICII_SETTINGS
+        MENUITEM "Impostazioni dei &joystick...",  IDM_JOY_SETTINGS
+        MENUITEM "Impostazioni della &tastiera...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Impostazioni del s&uono...",     IDM_SOUND_SETTINGS
         MENUITEM "Impostazioni del S&ID...",       IDM_SID_SETTINGS
         MENUITEM "Impostazioni delle &ROM...",       IDM_ROM_SETTINGS
         MENUITEM "Impostazioni delle RA&M...",       IDM_RAM_SETTINGS
         MENUITEM "Impostazioni della RS&232...",     IDM_RS232_SETTINGS
-        POPUP "Impostazioni del &Cartuccia"
+        POPUP "Impostazioni della &cartuccia/IO"
         BEGIN
-            MENUITEM "Impostazioni del &ACIA...",  IDM_ACIA_SETTINGS
+            MENUITEM "Impostazioni dell'&ACIA...",  IDM_ACIA_SETTINGS
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Salva le impostazioni", IDM_SETTINGS_SAVE
-        MENUITEM "Carica &le impostazioni",   IDM_SETTINGS_LOAD
-        MENUITEM "&Ripristina le impostazioni originarie",  IDM_SETTINGS_DEFAULT
+        MENUITEM "&Salva le impostazioni attuali", IDM_SETTINGS_SAVE
+        MENUITEM "&Carica le impostazioni salvate",   IDM_SETTINGS_LOAD
+        MENUITEM "Ripristina le impostazioni originarie",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-        MENUITEM "Salva le impostazioni in usc&ita", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+        MENUITEM "Salva le impostazioni in u&scita", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
         MENUITEM "&Conferma all'uscita",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "&Lingua"
     BEGIN
-        MENUITEM "&English", IDM_LANG_EN
-        MENUITEM "&German", IDM_LANG_DE
-        MENUITEM "&French", IDM_LANG_FR
-        MENUITEM "&Italian", IDM_LANG_IT
-        MENUITEM "&Dutch", IDM_LANG_NL
-        MENUITEM "&Polish", IDM_LANG_PL
-        MENUITEM "&Swedish", IDM_LANG_SV
+        MENUITEM "&Inglese", IDM_LANG_EN
+        MENUITEM "&Tedesco", IDM_LANG_DE
+        MENUITEM "&Francese", IDM_LANG_FR
+        MENUITEM "&Italiano", IDM_LANG_IT
+        MENUITEM "&Olandese", IDM_LANG_NL
+        MENUITEM "&Polacco", IDM_LANG_PL
+        MENUITEM "&Svedese", IDM_LANG_SV
     END
-    POPUP "Ai&uto"
+    POPUP "&Aiuto"
     BEGIN
 //        MENUITEM "H&elp", IDM_HELP
 //        MENUITEM SEPARATOR
-        MENUITEM "Inform&azioni su VICE...", IDM_ABOUT
+        MENUITEM "&Informazioni su VICE...", IDM_ABOUT
         MENUITEM SEPARATOR
-        MENUITEM "Command line &options", IDM_CMDLINE
+        MENUITEM "&Opzioni della riga di comando", IDM_CMDLINE
         MENUITEM SEPARATOR
-        MENUITEM "&Collaboratori del progetto VICE", IDM_CONTRIBUTORS
+        MENUITEM "&Collaboratori", IDM_CONTRIBUTORS
         MENUITEM "&Licenza",      IDM_LICENSE
         MENUITEM "Nessuna &garanzia",  IDM_WARRANTY
     END
@@ -1580,23 +1578,23 @@ BEGIN
     EDITTEXT    IDC_CBM2ROM_BASIC_FILE, 55,27,125,12,WS_TABSTOP
     PUSHBUTTON  "Parcourir...", IDC_CBM2ROM_BASIC_BROWSE, 185,27,50,14, 0
 
-    LTEXT       "Character", IDC_STATIC, 9,48,40,8
+    LTEXT       "Caractère", IDC_STATIC, 9,48,40,8
     EDITTEXT    IDC_CBM2ROM_CHARGEN_FILE, 55,47,125,12,WS_TABSTOP
     PUSHBUTTON  "Parcourir...", IDC_CBM2ROM_CHARGEN_BROWSE, 185,47,50,14, 0
 
-    LTEXT       "Cassette 1",IDC_STATIC, 9,68,40,8
+    LTEXT       "Cartouche 1",IDC_STATIC, 9,68,40,8
     EDITTEXT    IDC_CBM2ROM_CART1_FILE, 55,67,125,12,WS_TABSTOP
     PUSHBUTTON  "Parcourir...", IDC_CBM2ROM_CART1_BROWSE, 185,67,50,14, 0
 
-    LTEXT       "Cassette 2", IDC_STATIC, 9,88,40,8
+    LTEXT       "Cartouche 2", IDC_STATIC, 9,88,40,8
     EDITTEXT    IDC_CBM2ROM_CART2_FILE, 55,87,125,12,WS_TABSTOP
     PUSHBUTTON  "Parcourir...", IDC_CBM2ROM_CART2_BROWSE, 185,87,50,14, 0
 
-    LTEXT       "Cassette 4", IDC_STATIC, 9,108,40,8
+    LTEXT       "Cartouche 4", IDC_STATIC, 9,108,40,8
     EDITTEXT    IDC_CBM2ROM_CART4_FILE, 55,107,125,12,WS_TABSTOP
     PUSHBUTTON  "Parcourir...", IDC_CBM2ROM_CART4_BROWSE, 185,107,50,14, 0
 
-    LTEXT       "Cassette 6", IDC_STATIC, 9,128,40,8
+    LTEXT       "Cartouche 6", IDC_STATIC, 9,128,40,8
     EDITTEXT    IDC_CBM2ROM_CART6_FILE, 55,127,125,12,WS_TABSTOP
     PUSHBUTTON  "Parcourir...", IDC_CBM2ROM_CART6_BROWSE, 185,127,50,14, 0
 END
@@ -1606,7 +1604,7 @@ END
 
 IDD_CBM2ROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 150
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni del ROM"
+CAPTION "Impostazioni delle ROM"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "Kernal",IDC_STATIC, 9,8,40,8
@@ -1621,19 +1619,19 @@ BEGIN
     EDITTEXT    IDC_CBM2ROM_CHARGEN_FILE, 55,47,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_CBM2ROM_CHARGEN_BROWSE, 185,47,50,14, 0
 
-    LTEXT       "Cartuccia 1",IDC_STATIC, 9,68,40,8
+    LTEXT       "Cart 1",IDC_STATIC, 9,68,40,8
     EDITTEXT    IDC_CBM2ROM_CART1_FILE, 55,67,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_CBM2ROM_CART1_BROWSE, 185,67,50,14, 0
 
-    LTEXT       "Cartuccia 2", IDC_STATIC, 9,88,40,8
+    LTEXT       "Cart 2", IDC_STATIC, 9,88,40,8
     EDITTEXT    IDC_CBM2ROM_CART2_FILE, 55,87,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_CBM2ROM_CART2_BROWSE, 185,87,50,14, 0
 
-    LTEXT       "Cartuccia 4", IDC_STATIC, 9,108,40,8
+    LTEXT       "Cart 4", IDC_STATIC, 9,108,40,8
     EDITTEXT    IDC_CBM2ROM_CART4_FILE, 55,107,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_CBM2ROM_CART4_BROWSE, 185,107,50,14, 0
 
-    LTEXT       "Cartuccia 6", IDC_STATIC, 9,128,40,8
+    LTEXT       "Cart 6", IDC_STATIC, 9,128,40,8
     EDITTEXT    IDC_CBM2ROM_CART6_FILE, 55,127,125,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_CBM2ROM_CART6_BROWSE, 185,127,50,14, 0
 END
@@ -1844,7 +1842,7 @@ END
 
 IDD_CBM2DRIVEROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni del ROM"
+CAPTION "Impostazioni delle ROM"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "2031",IDC_STATIC,9,8,40,8
@@ -2021,24 +2019,24 @@ END
 
 IDD_CBM2ROM_RESOURCE_DIALOG_FR DIALOG DISCARDABLE  0, 0, 160, 145
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "les paramètres Computer"
+CAPTION "Ressources de l'ordinateur"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "les paramètres Computer effectuée au romset",
+    GROUPBOX        "Ressources de l'ordinateur enregistrées au Romset",
                     IDC_STATIC,4,3,151,115
     AUTOCHECKBOX    "Kernal",IDC_CBM2ROM_KERNAL_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Basic",IDC_CBM2ROM_BASIC_RESOURCE,
                     11,28,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Character",IDC_CBM2ROM_CHARGEN_RESOURCE,
+    AUTOCHECKBOX    "Caractère",IDC_CBM2ROM_CHARGEN_RESOURCE,
                     11,43,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Cassette 1",IDC_CBM2ROM_CART1_RESOURCE,
+    AUTOCHECKBOX    "Cartouche 1",IDC_CBM2ROM_CART1_RESOURCE,
                     11,58,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Cassette 2",IDC_CBM2ROM_CART2_RESOURCE,
+    AUTOCHECKBOX    "Cartouche 2",IDC_CBM2ROM_CART2_RESOURCE,
                     11,73,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Cassette 4",IDC_CBM2ROM_CART4_RESOURCE,
+    AUTOCHECKBOX    "Cartouche 4",IDC_CBM2ROM_CART4_RESOURCE,
                     11,88,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Cassette 6",IDC_CBM2ROM_CART6_RESOURCE,
+    AUTOCHECKBOX    "Cartouche 6",IDC_CBM2ROM_CART6_RESOURCE,
                     11,103,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 20,125,50,14, WS_TABSTOP
@@ -2050,10 +2048,10 @@ END
 
 IDD_CBM2ROM_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 145
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Computer resources"
+CAPTION "Risorse del computer"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Computer resources salvate del romset",
+    GROUPBOX        "Risorse del computer salvate nel ROM set",
                     IDC_STATIC,4,3,151,115
     AUTOCHECKBOX    "Kernal",IDC_CBM2ROM_KERNAL_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
@@ -2061,13 +2059,13 @@ BEGIN
                     11,28,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Character",IDC_CBM2ROM_CHARGEN_RESOURCE,
                     11,43,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Cartuccia 1",IDC_CBM2ROM_CART1_RESOURCE,
+    AUTOCHECKBOX    "Cart 1",IDC_CBM2ROM_CART1_RESOURCE,
                     11,58,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Cartuccia 2",IDC_CBM2ROM_CART2_RESOURCE,
+    AUTOCHECKBOX    "Cart 2",IDC_CBM2ROM_CART2_RESOURCE,
                     11,73,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Cartuccia 4",IDC_CBM2ROM_CART4_RESOURCE,
+    AUTOCHECKBOX    "Cart 4",IDC_CBM2ROM_CART4_RESOURCE,
                     11,88,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Cartuccia 6",IDC_CBM2ROM_CART6_RESOURCE,
+    AUTOCHECKBOX    "Cart 6",IDC_CBM2ROM_CART6_RESOURCE,
                     11,103,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 20,125,50,14, WS_TABSTOP
@@ -2219,10 +2217,10 @@ END
 
 IDD_CBM2ROMDRIVE_RESOURCE_DIALOG_FR DIALOG DISCARDABLE  0, 0, 160, 115
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Les paramètres de lecteur"
+CAPTION "Ressources des lecteurs"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "les paramètres de lecteur effectuée au romset",
+    GROUPBOX        "Ressources du lecteur sauvegardés dans le Romset",
                     IDC_STATIC,4,3,151,85
     AUTOCHECKBOX    "2031",IDC_DRIVEROM_2031_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
@@ -2244,10 +2242,10 @@ END
 
 IDD_CBM2ROMDRIVE_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 115
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Resources del drive"
+CAPTION "Risorse dei drive"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Resources del drive salvate del romset",
+    GROUPBOX        "Risorse del drive salvate nel ROM set",
                     IDC_STATIC,4,3,151,85
     AUTOCHECKBOX    "2031",IDC_DRIVEROM_2031_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
@@ -2395,14 +2393,14 @@ IDD_CBMII_SETTINGS_MODEL_DIALOG_FR DIALOG DISCARDABLE  0, 0, 230, 145
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Valeurs par &défaut du modèle",IDC_STATIC,5,15,70,111
+    GROUPBOX        "Valeurs par dé&faut du modèle",IDC_STATIC,5,15,70,111
     PUSHBUTTON "CBM 610",IDC_SELECT_CBMII_610,       15,28,50,14, WS_GROUP
     PUSHBUTTON "CBM 620",IDC_SELECT_CBMII_620,       15,43,50,14, WS_GROUP
     PUSHBUTTON "CBM 620+",IDC_SELECT_CBMII_620P,     15,58,50,14, WS_GROUP
     PUSHBUTTON "CBM 710",IDC_SELECT_CBMII_710,       15,73,50,14, WS_GROUP
     PUSHBUTTON "CBM 720",IDC_SELECT_CBMII_720,       15,88,50,14, WS_GROUP
     PUSHBUTTON "CBM 720+",IDC_SELECT_CBMII_720P,     15,103,50,14, WS_GROUP
-    GROUPBOX        "&Modèle line",IDC_STATIC,95,15,80,60
+    GROUPBOX        "Ligne du &modèle",IDC_STATIC,95,15,80,60
     AUTORADIOBUTTON "&7x0 (50 Hz)",IDC_SELECT_CBMII_HW0, 105,30,65,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "6x0 &60 Hz",IDC_SELECT_CBMII_HW1,   105,45,65,10,
@@ -2418,14 +2416,14 @@ IDD_CBMII_SETTINGS_MODEL_DIALOG_IT DIALOG DISCARDABLE  0, 0, 230, 145
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Modello &predefinito",IDC_STATIC,5,15,70,111
+    GROUPBOX        "Machine &defaults",IDC_STATIC,5,15,70,111
     PUSHBUTTON "CBM 610",IDC_SELECT_CBMII_610,       15,28,50,14, WS_GROUP
     PUSHBUTTON "CBM 620",IDC_SELECT_CBMII_620,       15,43,50,14, WS_GROUP
     PUSHBUTTON "CBM 620+",IDC_SELECT_CBMII_620P,     15,58,50,14, WS_GROUP
     PUSHBUTTON "CBM 710",IDC_SELECT_CBMII_710,       15,73,50,14, WS_GROUP
     PUSHBUTTON "CBM 720",IDC_SELECT_CBMII_720,       15,88,50,14, WS_GROUP
     PUSHBUTTON "CBM 720+",IDC_SELECT_CBMII_720P,     15,103,50,14, WS_GROUP
-    GROUPBOX        "&Modello line",IDC_STATIC,95,15,80,60
+    GROUPBOX        "&Model line",IDC_STATIC,95,15,80,60
     AUTORADIOBUTTON "&7x0 (50 Hz)",IDC_SELECT_CBMII_HW0, 105,30,65,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "6x0 &60 Hz",IDC_SELECT_CBMII_HW1,   105,45,65,10,
@@ -2585,21 +2583,21 @@ IDD_CBMII_SETTINGS_IO_DIALOG_FR DIALOG DISCARDABLE  0, 0, 230, 145
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "&Mémoire",IDC_STATIC,5,15,70,75
+    GROUPBOX        "Taille de la &mémoire",IDC_STATIC,5,15,70,75
     AUTORADIOBUTTON "12&8 kOctets",IDC_SELECT_CBMII_MEM_128,  15,30,55,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "2&56 kOctets",IDC_SELECT_CBMII_MEM_256,  15,45,55,10,
                             BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "512 &kOctets",IDC_SELECT_CBMII_MEM_512,  15,60,55,10,
                             BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "1024 kOct&ets",IDC_SELECT_CBMII_MEM_1024,15,75,55,10,
+    AUTORADIOBUTTON "102&4 kOctets",IDC_SELECT_CBMII_MEM_1024,15,75,55,10,
                             BS_AUTORADIOBUTTON
 //    GROUPBOX        "&Keyboard",IDC_STATIC,5,75,40,50
 //    AUTORADIOBUTTON "Graphics",IDC_SELECT_CBMII_KEYB_GRAPHICS, 15,90,35,10,
 //                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
 //    AUTORADIOBUTTON "Business (UK)",IDC_SELECT_CBMII_KEYB_BUSINESS,
 //                            15,105,35,10, BS_AUTORADIOBUTTON
-    GROUPBOX        "&Ram Banques",IDC_STATIC,95,15,130,105
+    GROUPBOX        "Banques de &RAM",IDC_STATIC,95,15,130,105
     AUTOCHECKBOX    "Banque 15 $&0800-$0FFF RAM",IDC_TOGGLE_CBMII_RAM08,
                     105,30,115,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Banque 15 $&1000-$1FFF RAM",IDC_TOGGLE_CBMII_RAM1,
@@ -2635,18 +2633,18 @@ BEGIN
 //                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
 //    AUTORADIOBUTTON "Business (UK)",IDC_SELECT_CBMII_KEYB_BUSINESS,
 //                            15,105,35,10, BS_AUTORADIOBUTTON
-    GROUPBOX        "&RAM del bancos",IDC_STATIC,95,15,130,105
-    AUTOCHECKBOX    "Banco 15 $&0800-$0FFF RAM",IDC_TOGGLE_CBMII_RAM08,
+    GROUPBOX        "Banchi di &Ram",IDC_STATIC,95,15,130,105
+    AUTOCHECKBOX    "RAM del banco 15 a $&0800-$0FFF",IDC_TOGGLE_CBMII_RAM08,
                     105,30,115,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Banco 15 $&1000-$1FFF RAM",IDC_TOGGLE_CBMII_RAM1,
+    AUTOCHECKBOX    "RAM del banco 15 a $&1000-$1FFF",IDC_TOGGLE_CBMII_RAM1,
                     105,45,115,10, BS_AUTOCHECKBOX
-    AUTOCHECKBOX    "Banco 15 $&2000-$3FFF RAM",IDC_TOGGLE_CBMII_RAM2,
+    AUTOCHECKBOX    "RAM del banco 15 a $&2000-$3FFF",IDC_TOGGLE_CBMII_RAM2,
                     105,60,115,10, BS_AUTOCHECKBOX
-    AUTOCHECKBOX    "Banco 15 $&4000-$5FFF RAM",IDC_TOGGLE_CBMII_RAM4,
+    AUTOCHECKBOX    "RAM del banco 15 a $&4000-$5FFF",IDC_TOGGLE_CBMII_RAM4,
                     105,75,115,10, BS_AUTOCHECKBOX
-    AUTOCHECKBOX    "Banco 15 $&6000-$7FFF RAM",IDC_TOGGLE_CBMII_RAM6,
+    AUTOCHECKBOX    "RAM del banco 15 a $&6000-$7FFF",IDC_TOGGLE_CBMII_RAM6,
                     105,90,115,10, BS_AUTOCHECKBOX
-    AUTOCHECKBOX    "Banco 15 $&C000-$CFFF RAM",IDC_TOGGLE_CBMII_RAMC,
+    AUTOCHECKBOX    "RAM del banco 15 a $&C000-$CFFF",IDC_TOGGLE_CBMII_RAMC,
                     105,105,115,10, BS_AUTOCHECKBOX
 END
 
@@ -2842,9 +2840,9 @@ IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 240, 160
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    AUTORADIOBUTTON "&Gr Sym.",IDC_CBM2KBD_MAPPING_SELECT_GRSYM,
+    AUTORADIOBUTTON "&GR Sym.",IDC_CBM2KBD_MAPPING_SELECT_GRSYM,
                     10,10,54,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "G&r Pos.",IDC_CBM2KBD_MAPPING_SELECT_GRPOS,
+    AUTORADIOBUTTON "G&R Pos.",IDC_CBM2KBD_MAPPING_SELECT_GRPOS,
                     10,30,54,10,BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "&UK Sym.",IDC_CBM2KBD_MAPPING_SELECT_UKSYM,
                     10,50,54,10,BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
@@ -2868,7 +2866,7 @@ BEGIN
     EDITTEXT    IDC_CBM2KBD_MAPPING_DEPOS, 65,109,110,12,WS_TABSTOP
     PUSHBUTTON  "Parcourir...", IDC_CBM2KBD_MAPPING_DEPOS_BROWSE, 185,109,50,14, 0
 
-    PUSHBUTTON  "Exporter le mappage clavier", IDC_CBM2KBD_MAPPING_DUMP, 10,134,50,14, 0
+    PUSHBUTTON  "Exporter le mappage clavier dans un fichier", IDC_CBM2KBD_MAPPING_DUMP, 10,134,50,14, 0
 
 END
 
@@ -2905,7 +2903,7 @@ BEGIN
     EDITTEXT    IDC_CBM2KBD_MAPPING_DEPOS, 65,109,110,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_CBM2KBD_MAPPING_DEPOS_BROWSE, 185,109,50,14, 0
 
-    PUSHBUTTON  "Scrivi la mappa della tastiera", IDC_CBM2KBD_MAPPING_DUMP, 10,134,50,14, 0
+    PUSHBUTTON  "Scrivi keyset", IDC_CBM2KBD_MAPPING_DUMP, 10,134,50,14, 0
 
 END
 
@@ -3046,8 +3044,8 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_MEMORY_FR          "Memory"
-  IDS_CBM2_SETTINGS_FR   "CBM2 settings"
+  IDS_MEMORY_FR          "Mémoire"
+  IDS_CBM2_SETTINGS_FR   "Paramètres CBM2"
 END
 
 
@@ -3055,8 +3053,8 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_MEMORY_IT          "Memory"
-  IDS_CBM2_SETTINGS_IT   "CBM2 settings"
+  IDS_MEMORY_IT          "Memoria"
+  IDS_CBM2_SETTINGS_IT   "Impostazioni del CBM2"
 END
 
 

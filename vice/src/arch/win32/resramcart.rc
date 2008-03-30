@@ -65,10 +65,10 @@ LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_RAMCART_CAPTION         "Paramètres RAMCART"
     IDS_RAMCART_ENABLE          "&Activer RAMCART"
-    IDS_RAMCART_READONLY        "&lecture seuel"
+    IDS_RAMCART_READONLY        "&Lecture seule"
     IDS_RAMCART_SIZE            "Taille du RAMCART"
-    IDS_RAMCART_FILE            "RAMCART image"
-    IDS_RAMCART_SELECT_FILE     "Select file for RAMCART"
+    IDS_RAMCART_FILE            "Fichier RAMCART"
+    IDS_RAMCART_SELECT_FILE     "Sélectionner fichier pour RAMCART"
 END
 
 // ITALIAN text
@@ -78,10 +78,10 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_RAMCART_CAPTION         "Impostazioni del RAMCART"
     IDS_RAMCART_ENABLE          "&Attiva RAMCART"
-    IDS_RAMCART_READONLY        "&sola lettura"
-    IDS_RAMCART_SIZE            "Dimensione"
-    IDS_RAMCART_FILE            "RAMCART file"
-    IDS_RAMCART_SELECT_FILE     "Select file for RAMCART"
+    IDS_RAMCART_READONLY        "&Accesso in sola lettura"
+    IDS_RAMCART_SIZE            "Dimensione RAMCART"
+    IDS_RAMCART_FILE            "File della RAMCART"
+    IDS_RAMCART_SELECT_FILE     "Seleziona il file per la RAMCART"
 END
 
 // DUTCH text

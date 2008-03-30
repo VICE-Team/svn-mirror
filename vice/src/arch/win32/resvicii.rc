@@ -57,9 +57,9 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION           "Paramètres VIC-II"
-    IDS_VICII_SPRITEGROUP       "Collisions sprite"
-    IDS_VICII_SPRITECOLL        "Collisions sprite-&sprite"
-    IDS_VICII_BACKCOLL          "&Collisions sprite-arrière-plan"
+    IDS_VICII_SPRITEGROUP       "Collisions de Sprites"
+    IDS_VICII_SPRITECOLL        "Collisions sprite-sprite"
+    IDS_VICII_BACKCOLL          "Collisions sprite-arrière-plan"
     IDS_VICII_LUMINANCE         "Nouvelles luminescences"
 END
 

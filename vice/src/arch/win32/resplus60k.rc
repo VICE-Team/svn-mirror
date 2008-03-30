@@ -49,8 +49,8 @@ LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_PLUS60K_CAPTION             "Paramètres +60K"
     IDS_PLUS60K_ENABLE              "&Activer +60K"
-    IDS_PLUS60K_FILE                "Taille du +60K"
-    IDS_PLUS60K_SELECT_FILE         "Select file for +60K"
+    IDS_PLUS60K_FILE                "Fichier +60K"
+    IDS_PLUS60K_SELECT_FILE         "Sélectionner fichier pour +60K"
 END
 
 // ITALIAN text
@@ -58,10 +58,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PLUS60K_CAPTION             "Impostazioni del +60K"
+    IDS_PLUS60K_CAPTION             "Impostazioni +60K"
     IDS_PLUS60K_ENABLE              "&Attiva +60K"
-    IDS_PLUS60K_FILE                "+60K file"
-    IDS_PLUS60K_SELECT_FILE         "Select file for +60K"
+    IDS_PLUS60K_FILE                "File +60K"
+    IDS_PLUS60K_SELECT_FILE         "Seleziona file per +60K"
 END
 
 // DUTCH text

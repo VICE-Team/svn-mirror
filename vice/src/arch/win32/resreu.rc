@@ -62,8 +62,8 @@ BEGIN
     IDS_REU_CAPTION             "Paramètres REU"
     IDS_REU_ENABLE              "&Activer REU"
     IDS_REU_SIZE                "Taille du REU"
-    IDS_REU_FILE                "REU image"
-    IDS_REU_SELECT_FILE         "Select file for REU"
+    IDS_REU_FILE                "Fichier REU"
+    IDS_REU_SELECT_FILE         "Sélectionner fichier pour REU"
 END
 
 // ITALIAN text
@@ -74,8 +74,8 @@ BEGIN
     IDS_REU_CAPTION             "Impostazioni del REU"
     IDS_REU_ENABLE              "&Attiva REU"
     IDS_REU_SIZE                "Dimensione"
-    IDS_REU_FILE                "REU file"
-    IDS_REU_SELECT_FILE         "Select file for REU"
+    IDS_REU_FILE                "File del REU"
+    IDS_REU_SELECT_FILE         "Seleziona il file per il REU"
 END
 
 // DUTCH text
