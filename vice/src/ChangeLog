@@ -1,3 +1,62 @@
+2005-11-12  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.17.6.
+
+2005-11-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/resc64.rc, resmenu.txt, ui.c : New menu item
+	to disconnect network.
+
+	* arch/win32/signals.c (break64): User gets visible message
+	if emulator crashes. Register SIGFPE for exception handler.
+
+	* arch/win32/uisnapshot.c (ui_save_snapshot): Don't convert
+	filter string as this is no string but a list of string pairs.
+	FIXME: This may need some further work if windows archs with
+	wide characters shall work with it.
+
+	* c64/c64.c, datasette.c, event.c, init.c, joystick.c,
+	keyboard.c, machine.c: Removed all HAVE_NETWORK tests. This
+	is handled in network.c now.
+
+	* network.c, network.h: Implement every public function as
+	dummies if HAVE_NETWORK isn't defined.
+	New function network_disconnect. Improved error handling and
+	proper disconnection. Different header includes and typedefs
+	for non-windows archs as suggested by Marco.
+
+	* cia.h, riot.h, via.h, core/ciacore.c, core/riotcore.c,
+	core/viacore.c: New member 'enabled' in the <chip>_context
+	struct which is set by <chip>_reset and cleared by
+	<chip>_disable. The overflow handler checks for enabled before
+	doing anything. This should fix the 1.17 clock overflow crash.
+
+2005-11-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/Makefile.am, arch/unix/minix/minix-ar.sh: Added an
+	'ar' wrapper for Minix-Vmd.
+
+	* arch/unix/archdep.c: For Minix-Vmd I split up the
+	default_path concat, there were too many parameters for
+	Minix-Vmd.
+
+	* arch/unix/rs232.c: Minix-Vmd doesn't have the select()
+	function, so it is not used for Minix-Vmd.
+
+	* arch/unix/x11/xaw/widgets/Directory.h: Added correct
+	definition of NAME_MAX for Minix-Vmd.
+
+	* c128/c128.c, c64/c64.c, cbm2/cbm2.c, pet/pet.c,
+	plus4/plus4.c, vic20/vic20.c: The Minix-Vmd compiler doesn't
+	like variable initializations with non-constant parameters,
+	so I fixed that problem.
+
+	* monitor/mon_parse.c, monitor/mon_parse.y: Fixed an alloca
+	definition problem for Minix-Vmd.
+
+	* vice.h: Undefined vfork for Minix-Vmd, it defines vfork
+	itself.
+
 2005-11-06  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.17.5.
