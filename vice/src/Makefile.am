@@ -111,6 +111,7 @@ noinst_HEADERS = \
 	vsidui.h \
 	vsync.h \
 	vsyncapi.h \
+	z80regs.h \
 	zfile.h \
 	zipcode.h
 

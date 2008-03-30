@@ -27,7 +27,9 @@
 #ifndef _Z80_H
 #define _Z80_H
 
-#include "types.h"
+struct z80_regs_s;
+
+extern struct z80_regs_s z80_regs;
 
 struct cpu_int_status_s;
 struct alarm_context_s;
