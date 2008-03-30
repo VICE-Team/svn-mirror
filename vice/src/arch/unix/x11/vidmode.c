@@ -50,8 +50,8 @@ int vm_is_enabled = 0;
 int vm_is_suspended = 0;
 
 static log_t vidmode_log = LOG_ERR;
-int vm_mode_count;
-static unsigned int vm_index;
+unsigned int vm_mode_count;
+static unsigned int vm_index = 0;
 static int vm_available = 0;
 static int saved_h, saved_w;
 
@@ -85,8 +85,8 @@ int vidmode_init(void)
             vm_bestmodes = (vm_bestvideomode_t *)lib_realloc(vm_bestmodes,
                            (vm_index + 1) * sizeof(vm_bestvideomode_t));
             vm_bestmodes[vm_index].modeindex = i;
-            hz = vm_modes[i]->dotclock * 1000 /
-                 (vm_modes[i]->vtotal * vm_modes[i]->htotal);
+            hz = vm_modes[i]->dotclock * 1000
+                 / (vm_modes[i]->vtotal * vm_modes[i]->htotal);
             vm_bestmodes[vm_index].name = lib_msprintf(" %ix%i-%iHz",
                                                        vm_modes[i]->hdisplay,
                                                        vm_modes[i]->vdisplay,
@@ -189,14 +189,20 @@ int vidmode_mode(struct video_canvas_s *canvas, int mode)
 
 void vidmode_shutdown(void)
 {
-    if (vm_is_enabled == 0)
+    unsigned int i;
+
+    if (vm_is_enabled > 0 && vm_is_suspended == 0) {
+        log_message(vidmode_log, "Disabling Vidmode");
+        XF86VidModeSwitchToMode(x11ui_get_display_ptr(), screen, vm_modes[0]);
+    }
+
+    if (vm_available == 0)
         return;
 
-    if (vm_is_suspended > 0)
-        return;
+    for (i = 0; i < vm_index; i++)
+        lib_free(vm_bestmodes[i].name);
 
-    log_message(vidmode_log, "Disabling Vidmode");
-    XF86VidModeSwitchToMode(x11ui_get_display_ptr(), screen, vm_modes[0]);
+    lib_free(vm_bestmodes);
 }
 
 void vidmode_suspend(int level)
@@ -243,7 +249,7 @@ void vidmode_mode_callback(void *callback)
     mode_callback = callback;
 }
 
-void vidmode_create_menus(struct ui_menu_entry_s menu[])
+void vidmode_menu_create(struct ui_menu_entry_s menu[])
 {
     unsigned int i, amodes;
     ui_menu_entry_t *resolutions_submenu;
@@ -267,5 +273,32 @@ void vidmode_create_menus(struct ui_menu_entry_s menu[])
             break;
         }
     }
+}
+
+void vidmode_menu_shutdown(struct ui_menu_entry_s menu[])
+{
+    unsigned int i, amodes;
+    ui_menu_entry_t *resolutions_submenu = NULL;
+
+    amodes = vidmode_available_modes();
+
+    if (amodes == 0)
+        return;
+
+    for (i = 0; menu[i].string; i++) {
+        if (strncmp(menu[i].string, "VidMode", 7) == 0) {
+            resolutions_submenu = menu[i].sub_menu;
+            break;
+        }
+    }
+
+    menu[i].sub_menu = NULL;
+
+    if (resolutions_submenu != NULL) {
+        for (i = 0; i < amodes ; i++)
+            lib_free(resolutions_submenu[i].string);
+    }
+
+    lib_free(resolutions_submenu);
 }
 

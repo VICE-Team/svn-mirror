@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <signal.h>
 
-#include "fullscreenarch.h"
 #include "log.h"
 #include "machine.h"
 #include "main.h"
@@ -51,10 +50,6 @@ void main_exit(void)
     log_message(LOG_DEFAULT, _("\nExiting..."));
 
     machine_shutdown();
-
-#ifdef USE_XF86_EXTENSIONS
-    fullscreen_shutdown();
-#endif
 
     putchar('\n');
 }

@@ -40,7 +40,7 @@ typedef struct vm_bestvideomode_s vm_bestvideomode_t;
 extern vm_bestvideomode_t *vm_bestmodes;
 
 extern int vm_is_enabled;
-extern int vm_mode_count;
+extern unsigned int vm_mode_count;
 
 extern int vidmode_init(void);
 extern int vidmode_available(void);
@@ -52,7 +52,8 @@ extern void vidmode_suspend(int level);
 extern void vidmode_resume(void);
 extern void vidmode_set_mouse_timeout(void);
 extern void vidmode_mode_callback(void *callback);
-extern void vidmode_create_menus(struct ui_menu_entry_s menu[]);
+extern void vidmode_menu_create(struct ui_menu_entry_s menu[]);
+extern void vidmode_menu_shutdown(struct ui_menu_entry_s menu[]);
 
 #endif
 

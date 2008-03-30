@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "fullscreenarch.h"
 #include "interrupt.h"
 #include "ui.h"
 #include "uicommands.h"
@@ -61,6 +62,10 @@ int ui_emulation_is_paused(void)
 
 void ui_common_shutdown(void)
 {
+#ifdef USE_XF86_EXTENSIONS
+    fullscreen_shutdown();
+#endif
+
     uicommands_shutdown();
 }
 
