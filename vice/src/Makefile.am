@@ -159,6 +159,7 @@ EXTRA_DIST = \
 	ChangeLog.2 \
 	aciacore.c \
 	ciacore.c \
+	ciatimer.c \
 	crtccore.c \
 	convio \
 	fixpoint.c \

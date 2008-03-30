@@ -87,6 +87,7 @@ extern int  sound_init_sb_device(void);
 extern int  sound_init_dummy_device(void);
 extern int  sound_init_dump_device(void);
 extern int  sound_init_fs_device(void);
+extern int  sound_init_wav_device(void);
 extern int  sound_init_hpux_device(void);
 extern int  sound_init_midas_device(void);
 extern int  sound_init_sdl_device(void);

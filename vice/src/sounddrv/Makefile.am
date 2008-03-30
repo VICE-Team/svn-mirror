@@ -27,14 +27,16 @@ libsounddrv_a_SOURCES = \
 	sounddummy.c \
 	sounddump.c \
 	soundfs.c \
-	soundspeed.c
+	soundspeed.c \
+	soundwav.c
 
 libsounddrv_a_DEPENDENCIES = \
 	@SOUND_DRIVERS@ \
 	sounddummy.o \
 	sounddump.o \
 	soundfs.o \
-	soundspeed.o
+	soundspeed.o \
+	soundwav.c
 
 libsounddrv_a_LIBADD = \
 	@SOUND_DRIVERS@

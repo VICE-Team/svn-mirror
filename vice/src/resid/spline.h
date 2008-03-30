@@ -142,6 +142,7 @@ void cubic_coefficients(double x1, double y1, double x2, double y2,
 // Evaluation of cubic polynomial by brute force.
 // ----------------------------------------------------------------------------
 template<class PointPlotter>
+inline
 void interpolate_brute_force(double x1, double y1, double x2, double y2,
 			     double k1, double k2,
 			     PointPlotter plot, double res)
@@ -160,6 +161,7 @@ void interpolate_brute_force(double x1, double y1, double x2, double y2,
 // Evaluation of cubic polynomial by forward differencing.
 // ----------------------------------------------------------------------------
 template<class PointPlotter>
+inline
 void interpolate_forward_difference(double x1, double y1, double x2, double y2,
 				    double k1, double k2,
 				    PointPlotter plot, double res)
@@ -179,13 +181,15 @@ void interpolate_forward_difference(double x1, double y1, double x2, double y2,
   }
 }
 
-template<class PointIter> inline
+template<class PointIter>
+inline
 double x(PointIter p)
 {
   return (*p)[0];
 }
 
-template<class PointIter> inline
+template<class PointIter>
+inline
 double y(PointIter p)
 {
   return (*p)[1];
@@ -198,6 +202,7 @@ double y(PointIter p)
 //   c1_curve(p, p, p + 10, p + 11, plot, res);
 // ----------------------------------------------------------------------------
 template<class PointIter, class PointPlotter>
+inline
 void interpolate(PointIter p0, PointIter p1, PointIter pm, PointIter pn,
 		 PointPlotter plot, double res)
 {

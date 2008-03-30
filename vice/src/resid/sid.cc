@@ -198,6 +198,38 @@ void SID::write(reg8 offset, reg8 value)
 
 
 // ----------------------------------------------------------------------------
+// Constructor.
+// ----------------------------------------------------------------------------
+SID::State::State()
+{
+  int i;
+
+  for (i = 0; i < 0x20; i++) {
+    sid_register[i] = 0;
+  }
+
+  bus_value = 0;
+  bus_value_ttl = 0;
+
+  for (i = 0; i < 3; i++) {
+    accumulator[i] = 0;
+    shift_register[i] = 0;
+    rate_counter[i] = 0;
+    exponential_counter[i] = 0;
+    envelope_counter[i] = 0;
+    hold_zero[i] = 0;
+  }
+
+  Vhp = 0;
+  Vbp = 0;
+  Vlp = 0;
+
+  extVhp = 0;
+  extVlp = 0;
+}
+
+
+// ----------------------------------------------------------------------------
 // Read state.
 // ----------------------------------------------------------------------------
 SID::State SID::read_state()

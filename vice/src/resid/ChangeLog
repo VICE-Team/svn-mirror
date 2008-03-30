@@ -1,3 +1,8 @@
+	* sid.cc (SID::State): Added constructor for proper initalization.
+
+	* spline.h: Inlined template functions to avoid problems at link
+	time with certain compilers.
+
 1999-02-25  Dag Lem  <resid@nimrod.no>
 
 	* Version 0.7 released.
@@ -21,7 +26,7 @@
 	filter.
 	(SID::fc_default): Return array of FC spline interpolation points.
 	(SID::fc_plotter): Return FC spline plotter object.
-	(SID:State, SID::read_state, SID::write_state): Read and write
+	(SID::State, SID::read_state, SID::write_state): Read and write
 	complete SID state.
 	
 	* sid.cc (SID::clock): Age bus value. Clock external filter.

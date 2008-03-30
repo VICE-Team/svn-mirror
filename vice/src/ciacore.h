@@ -60,7 +60,7 @@ static inline BYTE read_ciapa(void);
 static inline BYTE read_ciapb(void);
 
 
-#define	STORE_OFFSET 0
+#define	STORE_OFFSET 1
 #define	READ_OFFSET 0
 
 #define	CIAT_STOPPED	0
@@ -76,11 +76,6 @@ static int int_ciata(long offset);
 static int int_ciatb(long offset);
 static int int_ciatod(long offset);
 
-static void my_set_tbi_clk(CLOCK tbi_clk);
-static void my_unset_tbi(void);
-static void my_set_tai_clk(CLOCK tai_clk);
-static void my_unset_tai(void);
-
 #define	ciaier	cia[CIA_ICR]
 
 static alarm_t cia_ta_alarm;
@@ -90,18 +85,10 @@ static alarm_t cia_tod_alarm;
 static int ciaint;		/* Interrupt Flag register for cia 1 */
 static CLOCK ciardi;		/* real clock = clk-offset */
 
-static CLOCK cia_tau;		/* when is the next underflow? */
-static CLOCK cia_tai;		/* when is the next int_* scheduled? */
-static unsigned int cia_tal;	/* latch value */
-static unsigned int cia_tac;	/* counter value */
 static unsigned int cia_tat;	/* timer A toggle bit */
 static unsigned int cia_tap;	/* timer A port bit */
 static int cia_tas;		/* timer state (CIAT_*) */
 
-static CLOCK cia_tbu;		/* when is the next underflow? */
-static CLOCK cia_tbi;		/* when is the next int_* scheduled? */
-static unsigned int cia_tbl;	/* latch value */
-static unsigned int cia_tbc;	/* counter value */
 static unsigned int cia_tbt;	/* timer B toggle bit */
 static unsigned int cia_tbp;	/* timer B port bit */
 static int cia_tbs;		/* timer state (CIAT_*) */
@@ -127,7 +114,6 @@ static BYTE cia[16];
 
 /* local functions */
 
-static int update_cia(CLOCK rclk);
 static void check_ciatodalarm(CLOCK rclk);
 
 

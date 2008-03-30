@@ -61,6 +61,7 @@ sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
 
     psid = new sound_t;
     psid->sid.enable_filter(filters_enabled);
+    psid->sid.enable_external_filter(filters_enabled);
     psid->clk = 0.0;
     psid->sidclk = 0;
     psid->clkstep = (double)cycles_per_sec / speed;

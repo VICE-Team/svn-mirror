@@ -710,6 +710,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     sound_init_fs_device();
     sound_init_speed_device();
     sound_init_dump_device();
+    sound_init_wav_device();
 
 #if 0
     sound_init_test_device();	/* XXX: missing */

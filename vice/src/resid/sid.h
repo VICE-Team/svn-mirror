@@ -50,6 +50,8 @@ public:
   class State
   {
   public:
+    State();
+
     char sid_register[0x20];
 
     reg8 bus_value;
