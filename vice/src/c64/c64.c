@@ -35,8 +35,6 @@
 #endif
 #endif
 
-#include "machine.h"
-
 #include "attach.h"
 #include "autostart.h"
 #include "c64.h"
@@ -45,6 +43,7 @@
 #include "c64tpi.h"
 #include "c64ui.h"
 #include "cartridge.h"
+#include "ciatimer.h"
 #include "clkguard.h"
 #include "datasette.h"
 #include "drive.h"
@@ -52,10 +51,12 @@
 #include "kbd.h"
 #include "kbdbuf.h"
 #include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "mon.h"
 #include "patchrom.h"
 #include "psid.h"
+#include "resources.h"
 #include "reu.h"
 #include "serial.h"
 #include "sid.h"
@@ -65,8 +66,6 @@
 #include "utils.h"
 #include "vicii.h"
 #include "vsync.h"
-#include "resources.h"
-#include "ciatimer.h"
 
 #ifdef HAVE_RS232
 #include "c64acia.h"
@@ -334,7 +333,8 @@ int machine_init(void)
         return -1;
 
     /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface, &drive0_monitor_interface, &drive1_monitor_interface);
+    monitor_init(&maincpu_monitor_interface, &drive0_monitor_interface,
+                 &drive1_monitor_interface);
 
     /* Initialize vsync and register our hook function.  */
     vsync_init(C64_PAL_RFSH_PER_SEC, C64_PAL_CYCLES_PER_SEC, vsync_hook);
@@ -394,7 +394,6 @@ void machine_reset(void)
     reset_vic_ii();
 
     autostart_reset();
-
     drive_reset();
 }
 
