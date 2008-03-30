@@ -66,39 +66,42 @@ static ui_menu_entry_t pruser_driver_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_RADIO(PrinterUserportDevice)
+UI_MENU_DEFINE_RADIO(PrinterUserportTextDevice)
 
 static ui_menu_entry_t pruser_device_submenu[] = {
     { N_("*Printer 1 (file dump)"),
-      (ui_callback_t)radio_PrinterUserportDevice, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)radio_PrinterUserportTextDevice,
+      (ui_callback_data_t)0, NULL },
     { N_("*Printer 2 (exec)"),
-      (ui_callback_t)radio_PrinterUserportDevice, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)radio_PrinterUserportTextDevice,
+      (ui_callback_data_t)1, NULL },
     { N_("*Printer 3 (exec)"),
-      (ui_callback_t)radio_PrinterUserportDevice, (ui_callback_data_t)2, NULL },
+      (ui_callback_t)radio_PrinterUserportTextDevice,
+      (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
-UI_MENU_DEFINE_RADIO(Printer4Device)
+UI_MENU_DEFINE_RADIO(Printer4TextDevice)
 
 static ui_menu_entry_t pr4_device_submenu[] = {
     { N_("*Printer 1 (file dump)"),
-      (ui_callback_t)radio_Printer4Device, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)radio_Printer4TextDevice, (ui_callback_data_t)0, NULL },
     { N_("*Printer 2 (exec)"),
-      (ui_callback_t)radio_Printer4Device, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)radio_Printer4TextDevice, (ui_callback_data_t)1, NULL },
     { N_("*Printer 3 (exec)"),
-      (ui_callback_t)radio_Printer4Device, (ui_callback_data_t)2, NULL },
+      (ui_callback_t)radio_Printer4TextDevice, (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
-UI_MENU_DEFINE_RADIO(Printer5Device)
+UI_MENU_DEFINE_RADIO(Printer5TextDevice)
 
 static ui_menu_entry_t pr5_device_submenu[] = {
     { N_("*Printer 1 (file dump)"),
-      (ui_callback_t)radio_Printer5Device, (ui_callback_data_t)0, NULL },
+      (ui_callback_t)radio_Printer5TextDevice, (ui_callback_data_t)0, NULL },
     { N_("*Printer 2 (exec)"),
-      (ui_callback_t)radio_Printer5Device, (ui_callback_data_t)1, NULL },
+      (ui_callback_t)radio_Printer5TextDevice, (ui_callback_data_t)1, NULL },
     { N_("*Printer 3 (exec)"),
-      (ui_callback_t)radio_Printer5Device, (ui_callback_data_t)2, NULL },
+      (ui_callback_t)radio_Printer5TextDevice, (ui_callback_data_t)2, NULL },
     { NULL }
 };
 
@@ -176,7 +179,7 @@ ui_menu_entry_t printer_settings_menu[] = {
       (ui_callback_t)toggle_Printer4, NULL, NULL },
     { N_("IEC printer #4 driver"),
       NULL, NULL, pr4_driver_submenu },
-    { N_("IEC printer #4 output device"),
+    { N_("IEC printer #4 text output device"),
       NULL, NULL, pr4_device_submenu },
     { N_("Flush IEC printer #4 device"),
       (ui_callback_t)flush_printer, (ui_callback_data_t)4, NULL },
@@ -185,7 +188,7 @@ ui_menu_entry_t printer_settings_menu[] = {
       (ui_callback_t)toggle_Printer5, NULL, NULL },
     { N_("IEC printer #5 driver"),
       NULL, NULL, pr5_driver_submenu },
-    { N_("IEC printer #5 output device"),
+    { N_("IEC printer #5 text output device"),
       NULL, NULL, pr5_device_submenu },
     { N_("Flush IEC printer #5 device"),
       (ui_callback_t)flush_printer, (ui_callback_data_t)5, NULL },
@@ -194,15 +197,15 @@ ui_menu_entry_t printer_settings_menu[] = {
       (ui_callback_t)toggle_PrUser, NULL, NULL },
     { N_("Userport printer driver"),
       NULL, NULL, pruser_driver_submenu },
-    { N_("Userport printer output device"),
+    { N_("Userport printer text output device"),
       NULL, NULL, pruser_device_submenu },
     { "--" },
-    { N_("Printer device 1..."), (ui_callback_t)set_printer_exec_file,
-      (ui_callback_data_t)"PrinterDevice1", NULL },
-    { N_("Printer device 2..."), (ui_callback_t)set_printer_exec_file,
-      (ui_callback_data_t)"PrinterDevice2", NULL },
-    { N_("Printer device 3..."), (ui_callback_t)set_printer_exec_file,
-      (ui_callback_data_t)"PrinterDevice3", NULL },
+    { N_("Printer text device 1..."), (ui_callback_t)set_printer_exec_file,
+      (ui_callback_data_t)"PrinterTextDevice1", NULL },
+    { N_("Printer text device 2..."), (ui_callback_t)set_printer_exec_file,
+      (ui_callback_data_t)"PrinterTextDevice2", NULL },
+    { N_("Printer text device 3..."), (ui_callback_t)set_printer_exec_file,
+      (ui_callback_data_t)"PrinterTextDevice3", NULL },
     { NULL }
 };
 
