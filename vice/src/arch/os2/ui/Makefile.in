@@ -134,7 +134,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 
 noinst_LIBRARIES = libui.a
 
-libui_a_SOURCES =          c128ui.h 	c64ui.h         c610ui.h         plus4ui.h         vic20ui.h 	petui.h 
+libui_a_SOURCES =          c128ui.h 	c64ui.h         cbm2ui.h         plus4ui.h         vic20ui.h 	petui.h 
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../src/config.h

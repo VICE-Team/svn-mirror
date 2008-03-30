@@ -1,3 +1,54 @@
+2002-06-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.30.
+
+	* arch/unix/ui.h, arch/unix/x11/gnome/ui.c,
+	arch/unix/x11/xaw/ui.c (ui_open_canvas_window): Return int.
+
+	* arch/unix/x11/xaw/ui.c: Renamed.
+
+	* arch/unix/x11/x11ui.h: New file.
+
+	* arch/unix/ui.h: Moved x11 specific code to `x11ui.h'.
+
+	* arch/unix/x11/videoarch.h, arch/unix/x11/video.c,
+	arch/unix/vsidui.c, arch/unix/x11/gnome/gnomevideo.c,
+	arch/unix/x11/xaw/x11video.c, arch/unix/x11/dga2.c,
+	arch/unix/x11/fullscreen.c, arch/unix/x11/gnome/uicolor.c,
+	arch/unix/x11/xaw/uicolor.c, arch/unix/x11/xaw/x11video.c,
+	arch/unix/x11/kbd.c, arch/unix/x11/gnome/gnomekbd.c,
+	arch/unix/x11/xaw/x11kbd.c, arch/unix/x11/xaw/uicartridge.c,
+	arch/unix/kbd.h, arch/unix/x11/xaw/uiedisk.c,
+	arch/unix/x11/xaw/uimenu.c, arch/unix/x11/uihotkey.c,
+	arch/unix/uihotkey.h, arch/unix/x11/xaw/uisnapshot.c,
+	arch/unix/x11/xaw/uivsidcontrol.c, arch/unix/uisettings.h,
+	arch/unix/uirs232.h, arch/unix/uipalette.h,
+	arch/unix/x11/gnome/about.c, arch/unix/x11/gnome/uiedisk.c,
+	arch/unix/x11/gnome/uicartridge.c,
+	arch/unix/x11/gnome/uiscreenshot.c,
+	arch/unix/x11/gnome/uisnapshot.c,
+	arch/unix/x11/gnome/uivsidcontrol.c: Fixed includes.
+
+	* arch/unix/uisettings.c: Use `USE_XF86_EXTENSIONS'.
+
+2002-06-09  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/<arch>/Makefile.am: Renamed c610ui.? to cbm2ui.?
+
+	* arch/beos/Makefile.am, win32/Makefile.am: Removed *kbd.c
+
+	* arch/beos/c610ui.*, msdos/c610ui.*, os/ui/c610.h,
+	riscos/c610ui.*, win32/c610ui.*: Renamed to cbm2ui.*, renamed
+	function c610_ui_init ro cbm2_ui_init.
+
+	* arch/win32/arch.dsp: Removed *kbd.c.
+
+	* arch/win32/cbm2.dsp: Renamed c610* to cbm2*.
+
+	* arch/win32/plus4.dsp: Removed plus4cpu.c.
+
+	* arch/win32/xplus4.dsp: Added maincpu.c.
+
 2002-06-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.29.

@@ -261,10 +261,9 @@ pet-cmdline-options.o: pet-cmdline-options.c ../../src/vice.h \
 pet-resources.o: pet-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/crtc/crtc.h ../../src/arch/unix/types.h \
 	../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/kbd.h ../../src/arch/unix/ui.h \
-	../../src/uiapi.h ../../src/arch/unix/x11/xaw/uiarch.h \
-	../../src/keyboard.h ../../src/machine.h pet.h petmem.h \
-	petrom.h pets.h ../../src/resources.h ../../src/utils.h
+	../../src/arch/unix/kbd.h ../../src/keyboard.h \
+	../../src/machine.h pet.h petmem.h petrom.h pets.h \
+	../../src/resources.h ../../src/utils.h
 pet-snapshot.o: pet-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/autostart.h ../../src/arch/unix/types.h \
 	../../src/kbdbuf.h ../../src/log.h ../../src/mem.h pet.h \

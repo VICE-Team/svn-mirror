@@ -261,16 +261,15 @@ c128-cmdline-options.o: c128-cmdline-options.c ../../src/vice.h \
 c128-resources.o: c128-resources.c ../../src/vice.h ../../src/config.h \
 	c128rom.h ../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/arch/unix/kbd.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h ../../src/keyboard.h \
-	../../src/machine.h ../../src/resources.h ../../src/c64/reu.h \
-	../../src/sid/sid-resources.h ../../src/utils.h
+	../../src/keyboard.h ../../src/machine.h ../../src/resources.h \
+	../../src/c64/reu.h ../../src/sid/sid-resources.h \
+	../../src/utils.h
 c128-snapshot.o: c128-snapshot.c ../../src/vice.h ../../src/config.h \
 	c128-resources.h c128mem.h ../../src/arch/unix/types.h \
 	c128mmu.h c128rom.h ../../src/c64/c64tpi.h ../../src/log.h \
 	../../src/mem.h ../../src/resources.h ../../src/snapshot.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h ../../src/c64/c64acia.h
+	../../src/c64/c64acia.h
 c128.o: c128.c ../../src/vice.h ../../src/config.h \
 	../../src/monitor/asm.h ../../src/arch/unix/types.h \
 	../../src/attach.h ../../src/autostart.h c128-cmdline-options.h \
@@ -331,8 +330,7 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/monitor/mon.h ../../src/parallel.h \
 	../../src/c64/reu.h ../../src/sid/sid.h ../../src/sound.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h ../../src/utils.h \
 	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
 	../../src/vicii/vicii.h z80mem.h ../../src/mem.h \

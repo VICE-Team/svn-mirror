@@ -137,7 +137,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.c 	c128ui.h 	c610ui.c 	c610ui.h 	c64ui.c 	c64ui.h 	cbmcharsets.c 	cbmcharsets.h 	console.c 	grabkey.c 	grabkey.h 	joy.c 	joy.h 	kbd.c 	kbd.h 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	menudefs.c 	menudefs.h 	petui.c 	petui.h 	plus4ui.c 	plus4ui.h 	sidui.c 	sidui.h 	statusbar.c 	statusbar.h 	tui.c 	tui.h 	tui_backend.c 	tui_backend.h 	tuicharset.c 	tuicharset.h 	tuiimagebrowser.c 	tuiimagebrowser.h 	tuifs.c 	tuifs.h 	tuimenu.c 	tuimenu.h 	tuiview.c 	tuiview.h 	types.h 	ui.c 	ui.h 	uiattach.h 	uiattach.c 	uicmdline.c 	uicmdline.h 	uimon.c 	uisnapshot.c 	uisnapshot.h 	vic20ui.c 	vic20ui.h 	video.c 	videoarch.h 	vsidui.c 	vsync.c
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.c 	c128ui.h 	cbm2ui.c 	cbm2ui.h 	c64ui.c 	c64ui.h 	cbmcharsets.c 	cbmcharsets.h 	console.c 	grabkey.c 	grabkey.h 	joy.c 	joy.h 	kbd.c 	kbd.h 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	menudefs.c 	menudefs.h 	petui.c 	petui.h 	plus4ui.c 	plus4ui.h 	sidui.c 	sidui.h 	statusbar.c 	statusbar.h 	tui.c 	tui.h 	tui_backend.c 	tui_backend.h 	tuicharset.c 	tuicharset.h 	tuiimagebrowser.c 	tuiimagebrowser.h 	tuifs.c 	tuifs.h 	tuimenu.c 	tuimenu.h 	tuiview.c 	tuiview.h 	types.h 	ui.c 	ui.h 	uiattach.h 	uiattach.c 	uicmdline.c 	uicmdline.h 	uimon.c 	uisnapshot.c 	uisnapshot.h 	vic20ui.c 	vic20ui.h 	video.c 	videoarch.h 	vsidui.c 	vsync.c
 
 
 EXTRA_DIST =  	vicesb.c 	vicesb.h 	vmidas.c 	vmidas.h
@@ -156,7 +156,7 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 @USE_MIDAS_SOUND_TRUE@libarch_a_DEPENDENCIES =  vmidas.o
 @USE_MIDAS_SOUND_FALSE@libarch_a_DEPENDENCIES =  vicesb.o
-libarch_a_OBJECTS =  archdep.o c128ui.o c610ui.o c64ui.o cbmcharsets.o \
+libarch_a_OBJECTS =  archdep.o c128ui.o cbm2ui.o c64ui.o cbmcharsets.o \
 console.o grabkey.o joy.o kbd.o main_exit.o mouse.o menudefs.o petui.o \
 plus4ui.o sidui.o statusbar.o tui.o tui_backend.o tuicharset.o \
 tuiimagebrowser.o tuifs.o tuimenu.o tuiview.o ui.o uiattach.o \

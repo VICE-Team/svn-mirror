@@ -270,11 +270,9 @@ plus4-cmdline-options.o: plus4-cmdline-options.c ../../src/vice.h \
 plus4-resources.o: plus4-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/arch/unix/kbd.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
-	../../src/arch/unix/x11/xaw/uiarch.h ../../src/keyboard.h \
-	../../src/machine.h ../../src/mem.h plus4mem.h plus4rom.h \
-	../../src/resources.h ../../src/utils.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/vsync.h
+	../../src/keyboard.h ../../src/machine.h ../../src/mem.h \
+	plus4mem.h plus4rom.h ../../src/resources.h ../../src/utils.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/vsync.h
 plus4-snapshot.o: plus4-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/snapshot.h ../../src/arch/unix/types.h
 plus4.o: plus4.c ../../src/vice.h ../../src/config.h \

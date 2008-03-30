@@ -142,7 +142,7 @@ noinst_LIBRARIES = libx11ui.a
 EXTRA_libx11ui_a_SOURCES =  	dga2.c 	vidmode.c 	vidmode.h 	fullscreen-common.c 	fullscreen-common.h         fullscreen.c 
 
 
-libx11ui_a_SOURCES =  	c128icon.c 	c64icon.c 	cbm2icon.c 	kbd.c 	peticon.c 	plus4icon.c 	renderxv.c 	renderxv.h 	ui-cmdline-options.c 	ui-resources.c 	uihotkey.c 	vic20icon.c 	video.c 	videoarch.h 	x11menu.c 	x11menu.h
+libx11ui_a_SOURCES =  	c128icon.c 	c64icon.c 	cbm2icon.c 	kbd.c 	peticon.c 	plus4icon.c 	renderxv.c 	renderxv.h 	ui-cmdline-options.c 	ui-resources.c 	uihotkey.c 	vic20icon.c 	video.c 	videoarch.h 	x11menu.c 	x11menu.h 	x11ui.h
 
 
 libx11ui_a_DEPENDENCIES = @FULLSCREEN_DRIVERS@
@@ -337,14 +337,18 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 c128icon.o: c128icon.c
-c610icon.o: c610icon.c
 c64icon.o: c64icon.c
 cbm2icon.o: cbm2icon.c
+fullscreen-common.o: fullscreen-common.c ../../../../src/vice.h \
+	../../../../src/config.h fullscreen-common.h \
+	../../../../src/raster/raster.h \
+	../../../../src/raster/raster-changes.h \
+	../../../../src/arch/unix/types.h vidmode.h
 kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/arch/unix/kbd.h ../../../../src/arch/unix/ui.h \
-	../../../../src/arch/unix/types.h ../../../../src/uiapi.h \
-	xaw/uiarch.h ../../../../src/keyboard.h \
-	../../../../src/machine.h ../../../../src/arch/unix/uihotkey.h
+	../../../../src/arch/unix/kbd.h ../../../../src/keyboard.h \
+	../../../../src/arch/unix/types.h ../../../../src/machine.h \
+	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
+	../../../../src/arch/unix/uihotkey.h
 peticon.o: peticon.c
 plus4icon.o: plus4icon.c
 renderxv.o: renderxv.c ../../../../src/vice.h ../../../../src/config.h
@@ -355,23 +359,37 @@ ui-resources.o: ui-resources.c ../../../../src/vice.h \
 	../../../../src/utils.h ../../../../src/arch/unix/types.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/uihotkey.h \
+	../../../../src/arch/unix/uimenu.h xaw/uimenu.h \
 	../../../../src/arch/unix/ui.h \
 	../../../../src/arch/unix/types.h ../../../../src/uiapi.h \
-	xaw/uiarch.h ../../../../src/utils.h
+	xaw/uiarch.h xaw/../x11menu.h xaw/../xaw/uiarch.h \
+	../../../../src/utils.h
 vic20icon.o: vic20icon.c
 video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/color.h ../../../../src/arch/unix/types.h \
 	../../../../src/cmdline.h ../../../../src/log.h \
 	../../../../src/machine.h ../../../../src/resources.h \
 	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
-	xaw/uiarch.h ../../../../src/uicolor.h ../../../../src/utils.h \
+	../../../../src/uicolor.h ../../../../src/utils.h \
 	../../../../src/video.h videoarch.h \
-	../../../../src/fullscreen.h
+	../../../../src/fullscreen.h xaw/uiarch.h x11ui.h xaw/uiarch.h
+vidmode.o: vidmode.c ../../../../src/vice.h ../../../../src/config.h \
+	../../../../src/arch/unix/types.h vidmode.h \
+	../../../../src/log.h ../../../../src/resources.h \
+	../../../../src/arch/unix/uisettings.h \
+	../../../../src/arch/unix/uimenu.h gnome/uimenu.h \
+	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
+	gnome/../x11menu.h ../../../../src/arch/unix/uihotkey.h \
+	gnome/../gnome/uiarch.h ../../../../src/utils.h \
+	fullscreen-common.h ../../../../src/raster/raster.h \
+	../../../../src/raster/raster-changes.h videoarch.h \
+	../../../../src/fullscreen.h fullscreen-common.h \
+	../../../../src/video.h gnome/uiarch.h x11ui.h gnome/uiarch.h
 x11menu.o: x11menu.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/utils.h ../../../../src/arch/unix/types.h \
-	x11menu.h ../../../../src/arch/unix/ui.h \
-	../../../../src/uiapi.h xaw/uiarch.h \
-	../../../../src/arch/unix/uihotkey.h
+	../../../../src/arch/unix/ui.h \
+	../../../../src/arch/unix/types.h ../../../../src/uiapi.h \
+	../../../../src/utils.h x11menu.h \
+	../../../../src/arch/unix/uihotkey.h xaw/uiarch.h
 
 info-am:
 info: info-recursive
