@@ -617,24 +617,17 @@ int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
         return -1;
 
     if (0
-        || snapshot_module_write_dword(m, (DWORD) *(drv->clk_ptr)) < 0
-        || snapshot_module_write_byte(m,
-            (BYTE)MOS6510_REGS_GET_A(&(drv->cpu.cpu_regs))) < 0
-        || snapshot_module_write_byte(m,
-            (BYTE)MOS6510_REGS_GET_X(&(drv->cpu.cpu_regs))) < 0
-        || snapshot_module_write_byte(m,
-            (BYTE)MOS6510_REGS_GET_Y(&(drv->cpu.cpu_regs))) < 0
-        || snapshot_module_write_byte(m,
-            (BYTE)MOS6510_REGS_GET_SP(&(drv->cpu.cpu_regs))) < 0
-        || snapshot_module_write_word(m,
-            (WORD)MOS6510_REGS_GET_PC(&(drv->cpu.cpu_regs))) < 0
-        || snapshot_module_write_byte(m,
-            (BYTE)MOS6510_REGS_GET_STATUS(&(drv->cpu.cpu_regs))) < 0
-        || snapshot_module_write_dword(m,
-            (DWORD)(drv->cpu.last_opcode_info)) < 0
-        || snapshot_module_write_dword(m, (DWORD)(drv->cpu.last_clk)) < 0
-        || snapshot_module_write_dword(m, (DWORD)(drv->cpu.cycle_accum)) < 0
-        || snapshot_module_write_dword(m, (DWORD)(drv->cpu.last_exc_cycles)) < 0
+        || SMW_DW(m, (DWORD) *(drv->clk_ptr)) < 0
+        || SMW_B(m, (BYTE)MOS6510_REGS_GET_A(&(drv->cpu.cpu_regs))) < 0
+        || SMW_B(m, (BYTE)MOS6510_REGS_GET_X(&(drv->cpu.cpu_regs))) < 0
+        || SMW_B(m, (BYTE)MOS6510_REGS_GET_Y(&(drv->cpu.cpu_regs))) < 0
+        || SMW_B(m, (BYTE)MOS6510_REGS_GET_SP(&(drv->cpu.cpu_regs))) < 0
+        || SMW_W(m, (WORD)MOS6510_REGS_GET_PC(&(drv->cpu.cpu_regs))) < 0
+        || SMW_B(m, (BYTE)MOS6510_REGS_GET_STATUS(&(drv->cpu.cpu_regs))) < 0
+        || SMW_DW(m, (DWORD)(drv->cpu.last_opcode_info)) < 0
+        || SMW_DW(m, (DWORD)(drv->cpu.last_clk)) < 0
+        || SMW_DW(m, (DWORD)(drv->cpu.cycle_accum)) < 0
+        || SMW_DW(m, (DWORD)(drv->cpu.last_exc_cycles)) < 0
         )
         goto fail;
 
@@ -646,18 +639,16 @@ int drive_cpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
         || drv->drive_ptr->type == DRIVE_TYPE_1551
         || drv->drive_ptr->type == DRIVE_TYPE_1571
         || drv->drive_ptr->type == DRIVE_TYPE_2031) {
-        if (snapshot_module_write_byte_array(m, drv->cpud.drive_ram, 0x800) < 0)
+        if (SMW_BA(m, drv->cpud.drive_ram, 0x800) < 0)
             goto fail;
     }
 
     if (drv->drive_ptr->type == DRIVE_TYPE_1581) {
-        if (snapshot_module_write_byte_array(m,
-            drv->cpud.drive_ram, 0x2000) < 0)
+        if (SMW_BA(m, drv->cpud.drive_ram, 0x2000) < 0)
             goto fail;
     }
     if (DRIVE_IS_OLDTYPE(drv->drive_ptr->type)) {
-        if (snapshot_module_write_byte_array(m,
-            drv->cpud.drive_ram, 0x1100) < 0)
+        if (SMW_BA(m, drv->cpud.drive_ram, 0x1100) < 0)
             goto fail;
     }
 
@@ -685,17 +676,17 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0
-        || snapshot_module_read_dword(m, drv->clk_ptr) < 0
-        || snapshot_module_read_byte(m, &a) < 0
-        || snapshot_module_read_byte(m, &x) < 0
-        || snapshot_module_read_byte(m, &y) < 0
-        || snapshot_module_read_byte(m, &sp) < 0
-        || snapshot_module_read_word(m, &pc) < 0
-        || snapshot_module_read_byte(m, &status) < 0
-        || snapshot_module_read_dword(m, &(drv->cpu.last_opcode_info)) < 0
-        || snapshot_module_read_dword(m, &(drv->cpu.last_clk)) < 0
-        || snapshot_module_read_dword(m, &(drv->cpu.cycle_accum)) < 0
-        || snapshot_module_read_dword(m, &(drv->cpu.last_exc_cycles)) < 0
+        || SMR_DW(m, drv->clk_ptr) < 0
+        || SMR_B(m, &a) < 0
+        || SMR_B(m, &x) < 0
+        || SMR_B(m, &y) < 0
+        || SMR_B(m, &sp) < 0
+        || SMR_W(m, &pc) < 0
+        || SMR_B(m, &status) < 0
+        || SMR_DW(m, &(drv->cpu.last_opcode_info)) < 0
+        || SMR_DW(m, &(drv->cpu.last_clk)) < 0
+        || SMR_DW(m, &(drv->cpu.cycle_accum)) < 0
+        || SMR_DW(m, &(drv->cpu.last_exc_cycles)) < 0
         )
         goto fail;
 
@@ -723,17 +714,17 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
         || drv->drive_ptr->type == DRIVE_TYPE_1551
         || drv->drive_ptr->type == DRIVE_TYPE_1571
         || drv->drive_ptr->type == DRIVE_TYPE_2031) {
-        if (snapshot_module_read_byte_array(m, drv->cpud.drive_ram, 0x800) < 0)
+        if (SMR_BA(m, drv->cpud.drive_ram, 0x800) < 0)
             goto fail;
     }
 
     if (drv->drive_ptr->type == DRIVE_TYPE_1581) {
-        if (snapshot_module_read_byte_array(m, drv->cpud.drive_ram, 0x2000) < 0)
+        if (SMR_BA(m, drv->cpud.drive_ram, 0x2000) < 0)
             goto fail;
     }
 
     if (DRIVE_IS_OLDTYPE(drv->drive_ptr->type)) {
-        if (snapshot_module_read_byte_array(m, drv->cpud.drive_ram, 0x1100) < 0)
+        if (SMR_BA(m, drv->cpud.drive_ram, 0x1100) < 0)
             goto fail;
     }
 
