@@ -34,9 +34,5 @@ extern void iec_cpu_write(BYTE data);
 extern BYTE iec_cpu_read(void);
 extern void iec_cpu_undump(BYTE data);
 
-struct iec_info_s;
-
-extern struct iec_info_s *iec_get_drive_port(void);
-
 #endif
 

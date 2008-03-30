@@ -31,14 +31,10 @@
 
 #include "types.h"
 
-struct iec_info_s;
-
 extern void vic20iec_init(void);
 extern BYTE iec_pa_read(void);
 extern void iec_pa_write(BYTE data);
 extern void iec_pcr_write(BYTE data);
-
-extern struct iec_info_s *iec_get_drive_port(void);
 
 #endif
 

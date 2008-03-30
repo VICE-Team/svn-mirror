@@ -34,7 +34,6 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecbus.h"
-#include "iecdrive.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
@@ -102,7 +101,7 @@ static struct {
 static unsigned int mem_config;
 
 /* Pointer to the IEC structure.  */
-static iec_info_t *plus4_iec_info;
+static iecbus_t *plus4_iecbus;
 
 /* ------------------------------------------------------------------------- */
 
@@ -649,7 +648,7 @@ void mem_initialize_memory(void)
         break;
     }
 
-    plus4_iec_info = iec_get_drive_port();
+    plus4_iecbus = iecbus_drive_port();
 
     mem_limit_init(mem_read_limit_tab);
 
