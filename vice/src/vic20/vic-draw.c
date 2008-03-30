@@ -57,10 +57,10 @@ static void init_drawing_tables(void)
                     drawing_table[byte][color][pos]
                         = drawing_table[byte][color][pos + 1]
                         = (byte >> (6 - pos)) & 0x3;
-                else                      /* Standard mode. */
-                    for (pos = 0; pos < 8; pos++)
-                        drawing_table[byte][color][pos]
-                            = ((byte >> (7 - pos)) & 0x1) * 2;
+            else                      /* Standard mode. */
+                for (pos = 0; pos < 8; pos++)
+                    drawing_table[byte][color][pos]
+                        = ((byte >> (7 - pos)) & 0x1) * 2;
 }
 
 
@@ -122,7 +122,8 @@ inline static void draw(BYTE *p, unsigned int xs, unsigned int xe, int reverse,
 /* transparent>0: don't overwrite background */
 {
     static VIC_PIXEL c[4];
-    int b, i, x;
+    unsigned int i;
+    int b, x;
     BYTE d;
 
     /* Last character may exceed border, so we have some extra work */
