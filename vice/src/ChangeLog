@@ -1,3 +1,36 @@
+2002-12-14  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.33.
+
+	* drive/iec/*, drive/ieee/*: Moved iec and ieee specific code
+	here.
+
+	* drive/iec.h, drive/ieee.h: New files.
+
+	* machine-drive.h, c64/c64drive.c, vic20/vic20drive.c,
+	pet/petdrive.c, plus4/plus4drive.c, cbm2/cbm2drive.c: Added
+	calls for IEC and IEEE drives.
+
+	* c64/c64iec.c, c128/c128iec.c, vic20/vic20iec.c,
+	pet/petiec.c, cbm2/cbm2iec.c: Removed tcbm specific code.
+
+	* drive/drive-snapshot.c, drive/drive.c, drive/drivecpu.c,
+	drive/drivemem.c: Moved some iec and ieee specific code to
+	separate files.
+
+2002-12-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/c64.dsp, c64c128.dsp, cbm2.dsp, pet.dsp,
+	plus4.dsp, drive.dsp, serial.dsp, vic20.dsp, vice.dsw:
+	Updated with latest changes.
+
+	* arch/win32/tcbm.dsp: New file (added to Makefile.am).
+
+	* plus4/plus4.c (machine_change_timing): Reintroduced change.
+
+	* plus4/ted.c (ted_reset_registers): Return immediately if
+	ted isn't initialized.
+
 2002-12-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.32.

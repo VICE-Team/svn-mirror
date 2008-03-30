@@ -1,6 +1,14 @@
+2002-12-14  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.33.
+
+	* configure.in: Added drive/iec and drive/ieee directory.
+
 2002-12-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.32.
+
+	* configure.in: Added drive/tcbm directory.
 
 2002-12-07  Andreas Boose  <viceteam@t-online.de>
 
