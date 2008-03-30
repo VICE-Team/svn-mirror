@@ -551,10 +551,6 @@ int ui_init(int *argc, char **argv)
 
     finish_prepare_wm_command();
 
-#ifdef USE_VIDMODE_EXTENSION
-    vidmodeavail = vidmode_available();
-#endif
-
     return 0;
 }
 
@@ -660,6 +656,9 @@ int ui_init_finish(void)
                     wm_command_data,
                     wm_command_size);
 
+#ifdef USE_VIDMODE_EXTENSION
+    vidmodeavail = vidmode_available();
+#endif
     return ui_menu_init(app_context, display, screen);
 }
 
@@ -922,6 +921,9 @@ void ui_exit(void)
     b = ui_ask_confirmation(s, "Do you really want to exit?");
 
     if (b == UI_BUTTON_YES) {
+#ifdef USE_VIDMODE_EXTENSION
+        ui_restore_windowmode();
+#endif
 	if (_ui_resources.save_resources_on_exit) {
 	    b = ui_ask_confirmation(s, "Save the current settings?");
 	    if (b == UI_BUTTON_YES) {
@@ -1920,7 +1922,7 @@ int ui_emulation_is_paused(void)
 #ifdef USE_VIDMODE_EXTENSION
 void ui_restore_windowmode(void)
 {
-  set_fullscreen(0);
+    if(use_fullscreen) set_fullscreen(0);
 }
 #endif
 

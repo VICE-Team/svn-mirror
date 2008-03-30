@@ -77,6 +77,9 @@
 /* Is libXpm available?  */
 #undef HAVE_LIBXPM
 
+/* Do we want to use XFree86 VIDMODE extensions?  */
+#undef USE_VIDMODE_EXTENSION
+
 /* Are we using the `readline' library or one replacement?  */
 #undef HAVE_READLINE
 

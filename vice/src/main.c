@@ -222,10 +222,12 @@ static int init_resources(void)
         return -1;
     }
 
+#ifdef HAS_JOYSTICK
     if (joystick_init_resources() < 0) {
         fprintf(stderr, "Cannot initialize joystick-specific resources.\n");
         return -1;
     }
+#endif
 
     return 0;
 }
@@ -262,10 +264,12 @@ static int init_cmdline_options(void)
         return -1;
     }
 
+#ifdef HAS_JOYSTICK
     if (joystick_init_cmdline_options() < 0) {
         fprintf(stderr, "Cannot initialize joystick-specific command-line options.\n");
         return -1;
     }
+#endif
 
     return 0;
 }
@@ -438,7 +442,9 @@ int MAIN_PROGRAM(int argc, char **argv)
 #endif
 
     /* Initialize real joystick.  */
+#ifdef HAS_JOYSTICK
     joystick_init();
+#endif
 
     if (video_init() < 0)
         return -1;
@@ -534,15 +540,11 @@ static void exit64(void)
 
     log_message(LOG_DEFAULT, "\nExiting...");
 
-#ifdef USE_VIDMODE_EXTENSION
-    ui_restore_windowmode();
-#endif
-
     machine_shutdown();
     video_free();
     sound_close();
 
-#ifndef __MSDOS__
+#if defined(HAS_JOYSTICK) && !defined(__MSDOS__) 
     joystick_close();
 #endif
 

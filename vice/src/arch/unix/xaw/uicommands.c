@@ -152,7 +152,7 @@ static UI_CALLBACK(attach_tape)
 
 static UI_CALLBACK(detach_tape)
 {
-    serial_remove(1);
+    tape_detach_image();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -218,6 +218,9 @@ static void mon_trap(ADDRESS addr, void *unused_data)
 
 static UI_CALLBACK(activate_monitor)
 {
+#ifdef USE_VIDMODE_EXTENSION
+    ui_restore_windowmode();
+#endif
     suspend_speed_eval();
     ui_dispatch_events();		/* popdown the menu */
     ui_autorepeat_on();
@@ -230,6 +233,9 @@ static UI_CALLBACK(activate_monitor)
 
 static UI_CALLBACK(run_c1541)
 {
+#ifdef USE_VIDMODE_EXTENSION
+    ui_restore_windowmode();
+#endif
     suspend_speed_eval();
     sound_close();
     switch (system("xterm -sb -e c1541 &")) {
@@ -271,6 +277,9 @@ static UI_CALLBACK(browse_manual)
 	char *res_ptr;
 	int manual_path_len, cmd_len;
 
+#ifdef USE_VIDMODE_EXTENSION
+        ui_restore_windowmode();
+#endif
 	cmd_len = strlen(_ui_resources.html_browser_command);
 	manual_path_len = strlen(manual_path);
 
