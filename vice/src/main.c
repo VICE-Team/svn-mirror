@@ -2,10 +2,11 @@
  * main.c - VICE startup.
  *
  * Written by
+ *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Teemu Rantanen   (tvr@cs.hut.fi)
  *  Vesa-Matti Puro  (vmp@lut.fi)
  *  Jarkko Sonninen  (sonninen@lut.fi)
  *  Jouko Valta      (jopi@stekt.oulu.fi)
- *  Ettore Perazzoli (ettore@comm2000.it)
  *  André Fachat     (a.fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -43,12 +44,6 @@
 #include <stdlib.h>
 #include <signal.h>
 
-/* system info */
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <dirent.h>
-
 #ifdef __hpux
 #define _INCLUDE_XOPEN_SOURCE
 #define _XPG2
@@ -80,6 +75,8 @@
 #include "machspec.h"
 #include "utils.h"
 #include "joystick.h"
+#include "attach.h"
+#include "cmdline.h"
 
 #ifdef __MSDOS__
 #include "vmidas.h"
@@ -150,6 +147,58 @@ static void set_boot_path(const char *prg_path)
 
 /* ------------------------------------------------------------------------- */
 
+/* These are the command-line options for the initialization sequence.  */
+
+static char *autostart_string;
+static char *startup_disk_images[4];
+static char *startup_tape_image;
+
+static int cmdline_autostart(const char *param, void *extra_param)
+{
+    if (autostart_string != NULL)
+        free(autostart_string);
+    autostart_string = stralloc(param);
+    return 0;
+}
+
+static int cmdline_attach(const char *param, void *extra_param)
+{
+    int unit = (int) extra_param;
+
+    switch (unit) {
+      case 1:
+        if (startup_tape_image != NULL)
+            free(startup_tape_image);
+        startup_tape_image = stralloc(param);
+        break;
+      case 8:
+      case 9:
+      case 10:
+      case 11:
+        if (startup_disk_images[unit - 8] != NULL)
+            free(startup_disk_images);
+        startup_disk_images[unit - 8] = stralloc(param);
+        break;
+      default:
+        fprintf(stderr, "cmdline_attach(): unexpected unit number %d?!\n",
+                unit);
+    }
+
+    return 0;
+}
+
+static cmdline_option_t cmdline_options[] = {
+    { "-autostart", CALL_FUNCTION, 1, cmdline_autostart, NULL, NULL, NULL },
+    { "-1", CALL_FUNCTION, 1, cmdline_attach, (void *) 1, NULL, NULL },
+    { "-8", CALL_FUNCTION, 1, cmdline_attach, (void *) 8, NULL, NULL },
+    { "-9", CALL_FUNCTION, 1, cmdline_attach, (void *) 9, NULL, NULL },
+    { "-10", CALL_FUNCTION, 1, cmdline_attach, (void *) 10, NULL, NULL },
+    { "-11", CALL_FUNCTION, 1, cmdline_attach, (void *) 11, NULL, NULL },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 int main(int argc, char **argv)
 {
     if (atexit (exit64) < 0) {
@@ -183,9 +232,9 @@ int main(int argc, char **argv)
     printf ("\n*** VICE Version %s ***\n", VERSION);
     printf ("Welcome to %s, the Commodore %s Emulator for the X-Window System."
 	    "\n\n", progname, machdesc.machine_name);
-    printf ("Copyright (c) 1993-1998\n"
-	    "E. Perazzoli, T. Rantanen, A. Fachat, J. Valta, D. Sladic and "
-	    "J. Sonninen.\n\n");
+    printf ("Written by\n"
+	    "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic, A. Boose, \n"
+            "J. Valta and J. Sonninen.\n\n");
 
     /* Initialize the user interface.  UiInit() might need to handle the
        command line somehow, so we call it before parsing the options.
@@ -213,6 +262,12 @@ int main(int argc, char **argv)
         exit(-1);
     }
 
+    /* Initialize file system-specific resources.  */
+    if (file_system_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize file system-specific resources.\n");
+        exit(-1);
+    }
+
     /* Initialize machine-specific resources.  */
     if (machine_init_resources() < 0) {
         fprintf(stderr, "Cannot initialize machine-specific resources.\n");
@@ -221,6 +276,30 @@ int main(int argc, char **argv)
 
     /* Set factory defaults.  */
     resources_set_defaults();
+
+    /* Initialize command-line options.  */
+    cmdline_init();
+
+    cmdline_register_options(cmdline_options);
+
+    if (cmdline_parse(&argc, argv) < 0) {
+        fprintf(stderr, "Error parsing command-line options, bailing out.\n");
+        exit(-1);
+    }
+
+    /* The last orphan option is the same as `-autostart'.  */
+    if (argc > 1 && autostart_string == NULL) {
+        autostart_string = stralloc(argv[1]);
+        argc--, argv++;
+    }
+
+    if (argc > 1) {
+        int i;
+
+        fprintf(stderr, "Extra arguments being ignored:\n");
+        for (i = 1; i < argc; i++)
+            fprintf(stderr, "\t%s\n", argv[i]);
+    }
 
     /* Load the user's default configuration file.  */
     if (resources_load(NULL) == -1) {
@@ -234,14 +313,8 @@ int main(int argc, char **argv)
 
     putchar('\n');
 
-#if 0
-    /* Parse the command line. */
-    if (parse_cmd_line(&argc, argv))
-	exit(-1);
-#endif
-
-    /* Complete the GUI initialization (after loading the resources) if
-       necessary. */
+    /* Complete the GUI initialization (after loading the resources and
+       parsing the command-line) if necessary. */
     if (UiInitFinish() < 0)
 	exit(-1);
 
@@ -278,29 +351,54 @@ int main(int argc, char **argv)
         exit(1);
     }
 
-#if 0
+    /* Handle general-purpose command-line options.  */
 
-    /* Attach specified disk images. */
+    /* `-autostart' */
+    if (autostart_string != NULL) {
+        FILE *autostart_fd;
+        char *autostart_prg;
+        char *autostart_file;
+        char *tmp;
 
-    if (app_resources.floppyName
-	&& serial_select_file(DT_DISK | DT_1541, 8,
-			      app_resources.floppyName) < 0)
-	fprintf (stderr, "\nFloppy attachment on drive #8 failed.\n");
-    if (app_resources.floppy9Name
-	&& serial_select_file(DT_DISK | DT_1541, 9,
-			      app_resources.floppy9Name) < 0)
-	fprintf (stderr, "\nFloppy attachment on drive #9 failed.\n");
-    if (app_resources.floppy10Name
-	&& serial_select_file(DT_DISK | DT_1541, 10,
-			      app_resources.floppy10Name) < 0)
-	fprintf (stderr, "\nFloppy attachment on drive #10 failed.\n");
+        /* Check for image:prg -format.  */
+        tmp = strrchr(autostart_string, ':');
+        if (tmp) {
+            autostart_file = stralloc(autostart_string);
+            autostart_prg = strrchr(autostart_file, ':');
+            *autostart_prg++ = '\0';
+            autostart_fd = fopen(autostart_file, "r");
+            /* Does the image exist?  */
+            if (autostart_fd) {
+                fclose(autostart_fd);
+                autostart_autodetect(autostart_file, autostart_prg);
+            }
+            else
+                autostart_autodetect(autostart_string, NULL);
+            free(autostart_file);
+        } else {
+            autostart_autodetect(autostart_string, NULL);
+        }
+    }
 
-    if (app_resources.tapeName && *app_resources.tapeName)
-	if (serial_select_file(DT_TAPE, 1, app_resources.tapeName) < 0) {
-	    fprintf (stderr, "No Tape.\n");
-	}
+    /* `-8', `-9', `-10' and `-11': Attach specified disk image.  */
+    {
+        int i;
 
-#endif
+        for (i = 0; i < 4; i++) {
+            if (startup_disk_images[i] != NULL
+                && serial_select_file(DT_DISK | DT_1541, i + 8,
+                                      startup_disk_images[i]) < 0)
+                fprintf(stderr,
+                        "Cannot attach disk image `%s' to unit %d.\n",
+                        startup_disk_images[i], i + 8);
+        }
+    }
+
+    /* `-1': Attach specified tape image.  */
+    if (startup_tape_image
+	&& serial_select_file(DT_TAPE, 1, startup_tape_image) < 0)
+        fprintf(stderr, "Cannot attach tape image `%s'.\n",
+                startup_tape_image);
 
 #ifdef SOUND
 #ifdef __MSDOS__
@@ -310,14 +408,14 @@ int main(int argc, char **argv)
     }
 #endif
 
-    /* Fire up the sound emulation. */
+    /* Fire up the sound emulation.  */
     initialize_sound();
 #endif
 
     putchar ('\n');
 
+    /* Let's go...  */
     maincpu_trigger_reset();
-
     mainloop(0);
 
     printf("perkele!\n");
