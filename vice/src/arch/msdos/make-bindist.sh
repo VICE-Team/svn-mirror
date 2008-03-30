@@ -34,6 +34,7 @@ if test x"$4" = "xzip"; then
   else
     $ZIP vice$2$3.zip dosvice
   fi
+  rm -f -r dosvice
   echo MSDOS port binary distribution archive generated as vice$2$3.zip
 else
   echo MSDOS port binary distribution directory generated as dosvice

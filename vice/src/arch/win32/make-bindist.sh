@@ -33,6 +33,7 @@ if test x"$3" = "xzip"; then
   else
     $ZIP WinVICE-$2.zip WinVICE-$2
   fi
+  rm -f -r WinVICE-$2
   echo WIN32 port binary distribution archive generated as WinVICE-$2.zip
 else
   echo WIN32 port binary distribution directory generated as WinVICE-$2
