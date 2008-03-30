@@ -1,3 +1,61 @@
+Wed Aug 19 12:03:19 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/video.h (canvas_refresh): If we are busy doing a
+	previous flip, discard the frame.
+
+	* printer.h: Removed.
+
+	* serial.c: Do not #include "printer.h".
+
+	* arch/unix/xaw/uisettings.c: "Serial settings" renamed to
+	"Peripheral settings".  Printer settings moved to the "peripheral
+	settings" submenu; emulator-specific UIs updated accordingly.
+
+Tue Aug 18 21:55:52 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/Makefile.am: Compile `vmidas.c' if `USE_MIDAS_SOUND';
+	`vicesb.c' otherwise.
+
+	* arch/msdos/menudefs.c [USE_MIDAS_SOUND]: Disable toggle menu
+ 	item for triple buffering.
+
+	* arch/msdos/video.c [USE_MIDAS_SOUND]: Disable all the triple
+ 	buffering stuff.
+	(canvas_set_vga_mode) [USE_MIDAS_SOUND]: Do not try to use triple
+ 	buffering.
+
+Tue Aug 18 21:36:32 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* drive.c (floppy_create_directory): Output some spaces after
+	`BLOCKS FREE' message.  Do not calculate any basic link
+	information, set it to $0101 instead.
+
+Tue Aug 18 16:37:32 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/kbd.c (my_kbd_interrupt_handler): Alt filters all the
+ 	keypresses and does not let them reach the emulator.  PgUp and F12
+ 	can now be used in keymappings.
+
+	* vic20/vic20sound.c (store_sid): Removed unused variable `i'.
+
+	* c128/c128mem.c (set_reu_enabled): Removed unused Action Replay
+ 	stuff.
+
+	* pet/pet.c [__MSDOS__]: #include "petkbd.h".
+
+	* arch/msdos/kbd.c (kbd_init): Now allows the caller to specify a
+	different shift position for every map.
+	(my_kbd_interrupt_handler): Updated accordingly.
+
+	* arch/msdos/kbd.c (my_kbd_interrupt_handler): Reset moved to
+	Alt-F12; hard reset moved to Alt-Ctrl-F12.
+
+	* arch/msdos/menudefs.c: New True1541IdleMethod submenu, so that
+ 	it is possible to select the `TRUE1541_IDLE_NO_IDLE' method.
+  	Items for loading/saving/restoring settings moved to a separate
+ 	`ui_settings_submenu'.
+	Added 4x oversampling.
+
 Mon Aug 17 13:33:31 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* arch/unix/xaw/uicommands.c (browse_manual): Open
