@@ -32,8 +32,6 @@
 #ifndef _CRTCTYPES_H
 #define _CRTCTYPES_H
 
-#include "vice.h"
-
 #include "crtc-mem.h"
 #include "crtc.h"
 #include "log.h"
@@ -54,9 +52,10 @@ typedef enum crtc_video_mode_s crtc_video_mode_t;
 #define CRTC_NUM_COLORS 2
 
 struct alarm_s;
+struct video_chip_cap_s;
 
 struct crtc_s
-  {
+{
     /* Flag: Are we initialized?  */
     int initialized;
 
@@ -162,6 +161,9 @@ struct crtc_s
 
     /* Alarm to update a raster line.  */
     struct alarm_s *raster_draw_alarm;
+
+    /* Video chip capabilities.  */
+    struct video_chip_cap_s *video_chip_cap;
 };
 
 typedef struct crtc_s crtc_t;

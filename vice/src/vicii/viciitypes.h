@@ -28,8 +28,6 @@
 #ifndef _VICIITYPES_H
 #define _VICIITYPES_H
 
-#include "vice.h"
-
 #include "log.h"
 #include "raster.h"
 #include "types.h"
@@ -213,6 +211,7 @@ struct idle_3fff_s {
 typedef struct idle_3fff_s idle_3fff_t;
 
 struct alarm_s;
+struct video_chip_cap_s;
 
 struct vic_ii_s {
     /* Flag: Are we initialized?  */
@@ -401,6 +400,9 @@ struct vic_ii_s {
 
     /* Last value read from $d019.  */
     BYTE last_read_d019;
+
+    /* Video chip capabilities.  */
+    struct video_chip_cap_s *video_chip_cap;
 };
 typedef struct vic_ii_s vic_ii_t;
 
@@ -411,7 +413,6 @@ extern void vic_ii_set_raster_irq(unsigned int line);
 extern void vic_ii_update_memory_ptrs(unsigned int cycle);
 extern void vic_ii_update_video_mode(unsigned int cycle);
 extern void vic_ii_raster_draw_alarm_handler(CLOCK offset);
-extern void vic_ii_resize(void);
 extern void vic_ii_handle_pending_alarms(int num_write_cycles);
 extern void vic_ii_raster_irq_alarm_handler(CLOCK offset);
 extern void vic_ii_delay_clk(void);

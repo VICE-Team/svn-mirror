@@ -102,6 +102,7 @@ int vdc_resources_init(void)
     fullscreen_capability(&video_chip_cap->fullscreen);
 
     vdc_resources.palette_file_name = NULL;
+    vdc.video_chip_cap = video_chip_cap;
 
     if (raster_resources_chip_init("VDC", &vdc.raster, video_chip_cap) < 0)
         return -1;

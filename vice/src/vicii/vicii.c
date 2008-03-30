@@ -49,7 +49,6 @@
 #include <string.h>
 
 #include "alarm.h"
-#include "archdep.h"
 #include "c64.h"
 #include "cartridge.h"
 #include "c64cart.h"

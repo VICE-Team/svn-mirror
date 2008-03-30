@@ -94,6 +94,8 @@ int vic_ii_resources_init(void)
 
     fullscreen_capability(&video_chip_cap->fullscreen);
 
+    vic_ii.video_chip_cap = video_chip_cap;
+
     if (raster_resources_chip_init("VICII", &vic_ii.raster,
         video_chip_cap) < 0)
         return -1;

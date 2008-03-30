@@ -81,6 +81,7 @@ int crtc_resources_init(void)
         return -1;
 
     crtc_resources.palette_file_name = NULL;
+    crtc.video_chip_cap = video_chip_cap;
 
     return resources_register(resources);
 }

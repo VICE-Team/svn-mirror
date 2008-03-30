@@ -55,6 +55,8 @@ int vic_resources_init(void)
 
     fullscreen_capability(&video_chip_cap->fullscreen);
 
+    vic.video_chip_cap = video_chip_cap;
+
     if (raster_resources_chip_init("VIC", &vic.raster,
         video_chip_cap) < 0)
         return -1;

@@ -88,6 +88,7 @@ struct vdc_light_pen_s {
 typedef struct vdc_light_pen_s vdc_light_pen_t;
 
 struct alarm_s;
+struct video_chip_cap_s;
 
 struct vdc_s {
     /* Flag: Are we initialized?  */
@@ -195,6 +196,9 @@ struct vdc_s {
 
     /* VDC raster.  */
     raster_t raster;
+
+    /* Video chip capabilities.  */
+    struct video_chip_cap_s *video_chip_cap;
 
     /* Internal VDC video memory */
     BYTE ram[0x10000];

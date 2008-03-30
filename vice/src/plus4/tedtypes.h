@@ -296,6 +296,9 @@ struct ted_s {
 
     /* TED clock mode.  */
     unsigned int fastmode;
+
+    /* Video chip capabilities.  */
+    struct video_chip_cap_s *video_chip_cap;
 };
 typedef struct ted_s ted_t;
 

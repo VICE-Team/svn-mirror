@@ -55,6 +55,8 @@ int ted_resources_init(void)
 
     fullscreen_capability(&video_chip_cap->fullscreen);
 
+    ted.video_chip_cap = video_chip_cap;
+
     if (raster_resources_chip_init("TED", &ted.raster, video_chip_cap) < 0)
         return -1;
 
