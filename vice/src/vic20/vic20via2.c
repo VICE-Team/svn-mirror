@@ -72,6 +72,9 @@
 #ifdef HAVE_PRINTER
 #include "pruser.h"
 #endif
+#ifdef HAVE_RS232
+#include "rsuser.h"
+#endif
 
 #include "interrupt.h"
 
@@ -160,6 +163,16 @@ static BYTE oldpb;		/* the actual output on PB (input = high) */
 
 inline static void update_via2irq(void)
 {
+#if 0
+    static int irq = 0;
+    if(irq && !(via2ifr & via2ier & 0x7f)) {
+       printf("via2: clk=%d, IRQ off\n", clk);
+    }
+    if(!irq && (via2ifr & via2ier & 0x7f)) {
+       printf("via2: clk=%d, IRQ on\n", clk);
+    }
+    irq = (via2ifr & via2ier & 0x7f);
+#endif
     maincpu_set_nmi(I_VIA2FL, (via2ifr & via2ier & 0x7f) ? IK_NMI : 0);
 }
 
@@ -265,6 +278,10 @@ void reset_via2(void)
     userport_printer_write_data(0xff);
     userport_printer_write_strobe(1);
 #endif
+#ifdef HAVE_RS232
+    rsuser_write_ctrl(0xff);
+    rsuser_set_tx_bit(1);
+#endif
 
 }
 
@@ -304,7 +321,7 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
 
     addr &= 0xf;
 #ifdef VIA2_TIMER_DEBUG
-    if ((addr < 10 && addr > 3) || (addr == VIA_ACR) || app_resources.debugFlag)
+    if ((addr < 10 && addr > 3) || (addr == VIA_ACR))
 	printf("store via2[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
 	       (int) addr, (int) byte, rmw_flag, clk, rclk);
 #endif
@@ -343,6 +360,9 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
 
 #ifdef HAVE_PRINTER
     userport_printer_write_data(byte);
+#endif
+#ifdef HAVE_RS232
+    rsuser_write_ctrl(byte);
 #endif
 	oldpb = byte;
         break;
@@ -401,7 +421,7 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
         update_via2tbl();
         via2tbu = rclk + via2tbl + 3;
         via2tbi = rclk + via2tbl + 2;
-        maincpu_set_alarm(A_VIA2T2, via2tbi);
+        maincpu_set_alarm_clk(A_VIA2T2, via2tbi);
 
         /* Clear T2 interrupt */
         via2ifr &= ~VIA_IM_T2;
@@ -487,6 +507,11 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
 	if ((tmp & 0xc0) != 0xc0)
 	    tmp |= 0x20;
 	/* switching userport strobe with CB2 */
+#ifdef HAVE_RS232
+	if(rsuser_enabled) {
+	    rsuser_set_tx_bit(byte & 0x20);
+	}
+#endif
 #ifdef HAVE_PRINTER
 	userport_printer_write_strobe(byte & 0x20);
 #endif
@@ -579,7 +604,11 @@ BYTE REGPARM1 read_via2_(ADDRESS addr)
         update_via2irq();
 
 
+#ifdef HAVE_RS232
+    byte = rsuser_read_ctrl();
+#else
     byte = 0xff;
+#endif
         byte = (byte & ~via2[VIA_DDRB]) | (via2[VIA_PRB] & via2[VIA_DDRB]);
 
         if (via2[VIA_ACR] & 0x80) {
@@ -647,7 +676,11 @@ BYTE REGPARM1 peek_via2(ADDRESS addr)
             BYTE byte;
 
 
+#ifdef HAVE_RS232
+    byte = rsuser_read_ctrl();
+#else
     byte = 0xff;
+#endif
             if (via2[VIA_ACR] & 0x80) {
                 update_via2tal(rclk);
                 byte = (byte & 0x7f) | (((via2pb7 ^ via2pb7x) | via2pb7o) ? 0x80 : 0);
@@ -710,6 +743,7 @@ int int_via2t2(long offset)
 	printf("VIA2 timer B interrupt\n");
 #endif
     maincpu_unset_alarm(A_VIA2T2);	/*int_clk[I_VIA2T2] = 0; */
+    via2tbi = 0;
 
     via2ifr |= VIA_IM_T2;
     update_via2irq();
@@ -760,38 +794,44 @@ void via2_prevent_clk_overflow(CLOCK sub)
  *
  */
 
+/* FIXME!!!  Error check.  */
 
 int via2_write_snapshot_module(FILE * p)
 {
+    snapshot_module_t *m;
 
     if (via2tai && (via2tai <= clk))
         int_via2t1(clk - via2tai);
     if (via2tbi && (via2tbi <= clk))
         int_via2t2(clk - via2tbi);
 
-    snapshot_write_module_header(p, "VIA2",
-                        VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
+    m = snapshot_module_create(p, "VIA2",
+                               VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
+    if (m == NULL)
+        return -1;
 
-    snapshot_write_byte(p, via2[VIA_PRA]);
-    snapshot_write_byte(p, via2[VIA_DDRA]);
-    snapshot_write_byte(p, via2[VIA_PRB]);
-    snapshot_write_byte(p, via2[VIA_DDRB]);
+    snapshot_module_write_byte(m, via2[VIA_PRA]);
+    snapshot_module_write_byte(m, via2[VIA_DDRA]);
+    snapshot_module_write_byte(m, via2[VIA_PRB]);
+    snapshot_module_write_byte(m, via2[VIA_DDRB]);
 
-    snapshot_write_word(p, via2tal);
-    snapshot_write_word(p, via2ta());
-    snapshot_write_byte(p, via2tbl);
-    snapshot_write_word(p, via2tb());
+    snapshot_module_write_word(m, via2tal);
+    snapshot_module_write_word(m, via2ta());
+    snapshot_module_write_byte(m, via2tbl);
+    snapshot_module_write_word(m, via2tb());
 
-    snapshot_write_byte(p, via2[VIA_SR]);
-    snapshot_write_byte(p, via2[VIA_ACR]);
-    snapshot_write_byte(p, via2[VIA_PCR]);
+    snapshot_module_write_byte(m, via2[VIA_SR]);
+    snapshot_module_write_byte(m, via2[VIA_ACR]);
+    snapshot_module_write_byte(m, via2[VIA_PCR]);
 
-    snapshot_write_byte(p, via2ifr);
-    snapshot_write_byte(p, via2ier);
+    snapshot_module_write_byte(m, via2ifr);
+    snapshot_module_write_byte(m, via2ier);
 
 						/* FIXME! */
-    snapshot_write_byte(p, (((via2pb7 ^ via2pb7x) | via2pb7o) ? 0x80 : 0));
-    snapshot_write_byte(p, 0);			/* SRHBITS */
+    snapshot_module_write_byte(m, (((via2pb7 ^ via2pb7x) | via2pb7o) ? 0x80 : 0));
+    snapshot_module_write_byte(m, 0);			/* SRHBITS */
+
+    snapshot_module_close(m);
 
     return 0;
 }
@@ -805,15 +845,21 @@ int via2_read_snapshot_module(FILE * p)
     /* DWORD dword; */
     ADDRESS addr;
     CLOCK rclk = clk;
+    snapshot_module_t *m;
 
-    snapshot_read_module_header(p, name, &vmajor, &vminor);
+    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    if (m == NULL)
+        return -1;
 
-    if(strcmp(name, "VIA2") || vmajor != VIA_DUMP_VER_MAJOR) return -1;
+    if (strcmp(name, "VIA2") || vmajor != VIA_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
 
-    snapshot_read_byte(p, &via2[VIA_PRA]);
-    snapshot_read_byte(p, &via2[VIA_DDRA]);
-    snapshot_read_byte(p, &via2[VIA_PRB]);
-    snapshot_read_byte(p, &via2[VIA_DDRB]);
+    snapshot_module_read_byte(m, &via2[VIA_PRA]);
+    snapshot_module_read_byte(m, &via2[VIA_DDRA]);
+    snapshot_module_read_byte(m, &via2[VIA_PRB]);
+    snapshot_module_read_byte(m, &via2[VIA_DDRB]);
     {
         addr = VIA_DDRA;
 	byte = via2[VIA_PRA] | ~via2[VIA_DDRA];
@@ -832,28 +878,28 @@ int via2_read_snapshot_module(FILE * p)
 	oldpb = byte;
     }
 
-    snapshot_read_word(p, &word);
+    snapshot_module_read_word(m, &word);
     via2tal = word;
-    snapshot_read_word(p, &word);
+    snapshot_module_read_word(m, &word);
     via2tau = rclk + word + 1 /* 3 */ + TAUOFFSET;
     via2tai = rclk + word /* + 2 */;
     maincpu_set_alarm_clk(A_VIA2T1, via2tai);
 
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     via2tbl = byte;
-    snapshot_read_word(p, &word);
+    snapshot_module_read_word(m, &word);
     via2tbu = rclk + word + 1 /* 3 */;
     via2tbi = rclk + word /* + 2 */;
-    maincpu_set_alarm(A_VIA2T2, via2tbi);
+    maincpu_set_alarm_clk(A_VIA2T2, via2tbi);
 
-    snapshot_read_byte(p, &via2[VIA_SR]);
+    snapshot_module_read_byte(m, &via2[VIA_SR]);
     {
 	addr = via2[VIA_SR];
 	byte = via2[addr];
 	
     }
-    snapshot_read_byte(p, &via2[VIA_ACR]);
-    snapshot_read_byte(p, &via2[VIA_PCR]);
+    snapshot_module_read_byte(m, &via2[VIA_ACR]);
+    snapshot_module_read_byte(m, &via2[VIA_PCR]);
     {
 	addr = via2[VIA_PCR];
 	byte = via2[addr];
@@ -866,25 +912,30 @@ int via2_read_snapshot_module(FILE * p)
 	if ((tmp & 0xc0) != 0xc0)
 	    tmp |= 0x20;
 	/* switching userport strobe with CB2 */
+#ifdef HAVE_RS232
+	if(rsuser_enabled) {
+	    rsuser_set_tx_bit(byte & 0x20);
+	}
+#endif
 #ifdef HAVE_PRINTER
 	userport_printer_write_strobe(byte & 0x20);
 #endif
     }
     }
 
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     via2ifr = byte;
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     via2ier = byte;
     update_via2irq();
 						/* FIXME! */
-    snapshot_read_byte(p, &byte);
+    snapshot_module_read_byte(m, &byte);
     via2pb7 = byte ? 1 : 0;
     via2pb7x = 0;
     via2pb7o = 0;
-    snapshot_read_byte(p, &byte);		/* SRHBITS */
+    snapshot_module_read_byte(m, &byte);		/* SRHBITS */
 
-    return 0;
+    return snapshot_module_close(m);
 }
 
 

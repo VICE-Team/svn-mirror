@@ -91,14 +91,16 @@ PRE_PEEK_CIA()
 }
 
 #define RESET_CIA
-#define STORE_CIAPA     cia1[addr] = byte;
+#define STORE_CIAPA
+#define UNDUMP_CIAPA
+#define UNDUMP_CIAPB
 
 STORE_SDR()
 {
     iec_fast_cpu_write(cia1[CIA_SDR]);
 #ifdef HAVE_RS232
     if (rsuser_enabled) {
-	userport_serial_write_sr(cia1[CIA_SDR]);
+	rsuser_tx_byte(cia1[CIA_SDR]);
     }
 #endif
 }
@@ -107,16 +109,9 @@ STORE_SDR()
 STORE_CIAPB()
 {
     {
-	static int old_lp = 0x10;
-	int new_lp;
-
-	cia1[addr] = byte;
-
 	/* Handle software-triggered light pen.  */
-	new_lp = (cia1[CIA_PRB] | ~cia1[CIA_DDRB]) & 0x10;
-	if (new_lp != old_lp) {
+	if ( (byte ^ oldpb) & 0x10) {
 	    vic_ii_trigger_light_pen(rclk);
-	    old_lp = new_lp;
 	}
     }
 }
@@ -124,8 +119,8 @@ STORE_CIAPB()
 READ_CIAPA()
 {
     {
-	BYTE val = cia1[CIA_PRA] | ~cia1[CIA_DDRA];
-	BYTE msk = (cia1[CIA_PRB] | ~cia1[CIA_DDRB]) & ~joy[2];
+	BYTE val = oldpa;
+	BYTE msk = (oldpb) & ~joy[2];
 	BYTE m;
 	int i;
 
@@ -140,7 +135,7 @@ READ_CIAPB()
 {
     {
 	BYTE val = ~cia1[CIA_DDRB];
-	BYTE msk = (cia1[CIA_PRA] | ~cia1[CIA_DDRA]) & ~joy[1];
+	BYTE msk = (oldpa) & ~joy[1];
 	BYTE m;
 	int i;
 
@@ -153,7 +148,7 @@ READ_CIAPB()
 		if (!(extended_keyboard_rows_mask & m))
 		    val &= ~keyarr[i];
 
-	byte = (val | (cia1[CIA_PRB] & cia1[CIA_DDRB])) & ~joy[1];
+	byte = (val /* | (cia1[CIA_PRB] & cia1[CIA_DDRB])*/ ) & ~joy[1];
     }
 }
 
