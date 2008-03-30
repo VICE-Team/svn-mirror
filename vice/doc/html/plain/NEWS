@@ -28,7 +28,7 @@ list of all the changes in the code.
 - Some stupid char ROM display bug has been fixed.
 
 ** C128 changes
---------------
+---------------
 
 - Fixed crash using REU emulation or CP/M mode.
 
@@ -53,11 +53,12 @@ list of all the changes in the code.
   some TCP/IP port.
 
 - It is possible to use the opencbm library from the cbm4win project
-  to access real drives connected to the host machine.
+  to access real devices (drives or printer) connected to the host
+  machine.
 
-- Improved the keyboard emulation to allow symolic keyboard mappings.
-  Notice: Many symolic keyboard mapping definitions are still missing
-  at the moment.
+- Improved the keyboard emulation to allow symolic keyboard mappings
+  at least for US-style keyboards. Notice: Many symolic keyboard
+  mapping definitions are still missing at the moment.
 
 - The joystick fire button can be selected for hardware joysticks.
 
