@@ -45,15 +45,14 @@
 #include "drivemem.h"
 #include "drivetypes.h"
 #include "fdc.h"
-#include "glue1551.h"
 #include "interrupt.h"
+#include "machine-drive.h"
 #include "machine.h"
 #include "mem.h"
 #include "mon.h"
 #include "mos6510.h"
 #include "riotd.h"
 #include "snapshot.h"
-#include "tia1551.h"
 #include "types.h"
 #include "utils.h"
 #include "viad.h"
@@ -266,8 +265,7 @@ static void cpu_reset(drive_context_t *drv)
     riot1_reset(drv);
     riot2_reset(drv);
     fdc_reset(drv->mynumber, drv->drive_ptr->type);
-    tia1551_reset(drv);
-    glue1551_reset(drv);
+    machine_drive_reset(drv);
 
     if (preserve_monitor)
         interrupt_monitor_trap_on(drv->cpu.int_status);
@@ -332,8 +330,7 @@ void drive_cpu_early_init(drive_context_t *drv)
        Why donlly get a table for that...! */
     fdc_init(drv->mynumber, drv->cpud.drive_ram + 0x100,
              &(drv->drive_ptr->rom[0x4000]));
-    tia1551_init(drv);
-    glue1551_init(drv);
+    machine_drive_init(drv);
 }
 
 void drive_cpu_init(drive_context_t *drv, int type)
@@ -741,8 +738,7 @@ int drive_cpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     wd1770d_reset(drv);
     riot1_reset(drv);
     riot2_reset(drv);
-    tia1551_reset(drv);
-    glue1551_reset(drv);
+    machine_drive_reset(drv);
 
     if (interrupt_read_snapshot(drv->cpu.int_status, m) < 0)
         goto fail;

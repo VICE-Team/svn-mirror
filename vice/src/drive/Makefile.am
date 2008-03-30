@@ -1,3 +1,6 @@
+SUBDIRS = \
+	tcbm
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -32,16 +35,18 @@ libdrive_a_SOURCES = \
 	drivetypes.h \
 	fdc.h \
 	fdc.c \
-	glue1551.c \
-	glue1551.h \
 	riot1d.c \
 	riot2d.c \
 	riotd.h \
-	tia1551.c \
-	tia1551.h \
+	tcbm.h \
 	via1d.c \
 	via2d.c \
 	viad.h \
 	wd1770.c \
 	wd1770.h
+
+.PHONY: libdrivetcbm
+
+libdrivetcbm:
+	(cd tcbm; $(MAKE))
 
