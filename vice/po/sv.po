@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2001-09-01 22:34+0200\n"
+"POT-Creation-Date: 2001-10-03 23:31+0200\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -2404,48 +2404,48 @@ msgstr "Spara anslutna disketter"
 msgid "Save currently attached ROMs"
 msgstr "Spara anslutna ROMar"
 
-#: src/arch/unix/x11/fullscreen.c:125
+#: src/arch/unix/x11/fullscreen.c:135
 #, c-format
 msgid "Attach debugger to pid %d...\n"
 msgstr "Ansluter felsökare till pid %d...\n"
 
-#: src/arch/unix/x11/fullscreen.c:187
+#: src/arch/unix/x11/fullscreen.c:197
 msgid "Successfully forked DGA\n"
 msgstr "Lyckades grena DGA\n"
 
-#: src/arch/unix/x11/fullscreen.c:191 src/arch/unix/x11/fullscreen.c:218
+#: src/arch/unix/x11/fullscreen.c:201 src/arch/unix/x11/fullscreen.c:228
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
 "Kunde inte fråga efter version för grafikutökningar - deaktiverar "
 "fullskämsläge."
 
-#: src/arch/unix/x11/fullscreen.c:196 src/arch/unix/x11/fullscreen.c:223
+#: src/arch/unix/x11/fullscreen.c:206 src/arch/unix/x11/fullscreen.c:233
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
 "Kunde inte fråga efter information om grafikutökningar - deaktiverar "
 "fullskärmsläge."
 
-#: src/arch/unix/x11/fullscreen.c:204
+#: src/arch/unix/x11/fullscreen.c:214
 #, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
 msgstr "X-server kör en gammal XFree86-DGA-version (%d.%d)"
 
-#: src/arch/unix/x11/fullscreen.c:206 src/arch/unix/x11/fullscreen.c:234
+#: src/arch/unix/x11/fullscreen.c:216 src/arch/unix/x11/fullscreen.c:244
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
 msgstr "Minst version %d.%d krävs - deaktiverar fullskärmsläge."
 
-#: src/arch/unix/x11/fullscreen.c:232
+#: src/arch/unix/x11/fullscreen.c:242
 #, c-format
 msgid "Xserver is running an old XFree86-VidMode version (%d.  %d)"
 msgstr "X-server kör en gammal XFree86-VidMode-version (%d.  %d)"
 
-#: src/arch/unix/x11/fullscreen.c:241
+#: src/arch/unix/x11/fullscreen.c:251
 msgid "Error getting video mode information - disabling fullscreen."
 msgstr ""
 "Fel vid hämtning av information om grafikläge - deaktiverar fullskärmsläge."
 
-#: src/arch/unix/x11/fullscreen.c:248
+#: src/arch/unix/x11/fullscreen.c:258
 msgid ""
 "Vice is not running as root, DGA extension not possible - disabling "
 "fullscreen."
@@ -2453,27 +2453,27 @@ msgstr ""
 "Vice körs inte som root, DGA-utökning inte möjlig - deaktiverar "
 "fullskärmsläge."
 
-#: src/arch/unix/x11/fullscreen.c:255
+#: src/arch/unix/x11/fullscreen.c:265
 msgid "Problems with DGA - disabling fullscreen."
 msgstr "Problem med DGA - deaktiverar fullskärmsläge."
 
-#: src/arch/unix/x11/fullscreen.c:375 src/arch/unix/x11/fullscreen.c:404
+#: src/arch/unix/x11/fullscreen.c:385 src/arch/unix/x11/fullscreen.c:414
 #, c-format
 msgid "Switch to fullscreen %ix%i"
 msgstr "Växla till fullskärm %ix%i"
 
-#: src/arch/unix/x11/fullscreen.c:384 src/arch/unix/x11/fullscreen.c:410
-#: src/arch/unix/x11/fullscreen.c:415 src/arch/unix/x11/fullscreen.c:428
+#: src/arch/unix/x11/fullscreen.c:394 src/arch/unix/x11/fullscreen.c:420
+#: src/arch/unix/x11/fullscreen.c:425 src/arch/unix/x11/fullscreen.c:438
 #, c-format
 msgid "Error switching to fullscreen %ix%i\n"
 msgstr "Fel vid växling till fullskärm %ix%i\n"
 
-#: src/arch/unix/x11/fullscreen.c:395
+#: src/arch/unix/x11/fullscreen.c:405
 #, c-format
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr "DGA-utökning: adr:%p, bredd %d, bankstorlek %d minnesstorlek %d\n"
 
-#: src/arch/unix/x11/fullscreen.c:472
+#: src/arch/unix/x11/fullscreen.c:482
 msgid "Switch to windowmode"
 msgstr "Växla till fönsterläge"
 
