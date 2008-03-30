@@ -37,9 +37,7 @@
 #define TED_PAL_SCREEN_HEIGHT           312
 #define TED_NTSC_SCREEN_HEIGHT          263
 
-/* We need the full width for correct
-   sprite-sprite-collision in unvisible area */
-#define VIC_II_SCREEN_WIDTH             384
+#define TED_SCREEN_WIDTH                384
 
 #define TED_PAL_OFFSET                  0
 #define TED_NTSC_OFFSET                 0
@@ -48,10 +46,10 @@
 #define TED_SCREEN_YPIX                 200
 #define TED_SCREEN_TEXTCOLS             40
 #define TED_SCREEN_TEXTLINES            25
-#define VIC_II_SCREEN_PAL_BORDERWIDTH   32
-#define VIC_II_SCREEN_PAL_BORDERHEIGHT  51
-#define VIC_II_SCREEN_NTSC_BORDERWIDTH  32
-#define VIC_II_SCREEN_NTSC_BORDERHEIGHT 27
+#define TED_SCREEN_PAL_BORDERWIDTH      32
+#define TED_SCREEN_PAL_BORDERHEIGHT     51
+#define TED_SCREEN_NTSC_BORDERWIDTH     32
+#define TED_SCREEN_NTSC_BORDERHEIGHT    27
 
 #define TED_PAL_FIRST_DISPLAYED_LINE    0x10
 #define TED_PAL_LAST_DISPLAYED_LINE     0x11f
@@ -72,7 +70,6 @@
 #define TED_38COL_START_PIXEL           0x27
 #define TED_38COL_STOP_PIXEL            0x157
 
-#define VIC_II_MAX_SPRITE_WIDTH         48
 #define TED_NUM_COLORS                  128
 
 
@@ -101,19 +98,17 @@ typedef enum ted_video_mode_s ted_video_mode_t;
 #define VIC_II_NEED_2X 1
 #endif
 
-/* These timings are taken from the ``VIC Article'' by Christian Bauer
-   <bauec002@goofy.zdv.uni-mainz.de>.  Thanks Christian!
-   Note: we measure cycles from 0 to 62, not from 1 to 63 as he does.  */
+/* Note: we measure cycles from 0 to 62, not from 1 to 63.  */
 
 /* Number of cycles per line.  */
 #define TED_PAL_CYCLES_PER_LINE     PLUS4_PAL_CYCLES_PER_LINE
 #define TED_NTSC_CYCLES_PER_LINE    PLUS4_NTSC_CYCLES_PER_LINE
 
-/* Cycle # at which the VIC takes the bus in a bad line (BA goes low).  */
-#define VIC_II_FETCH_CYCLE          11
+/* Cycle # at which the TED takes the bus in a bad line (BA goes low).  */
+#define TED_FETCH_CYCLE             11
 
 /* Cycle # at which the current raster line is re-drawn.  It is set to
-   `VIC_II_CYCLES_PER_LINE', so this actually happens at the very beginning
+   `TED_CYCLES_PER_LINE', so this actually happens at the very beginning
    (i.e. cycle 0) of the next line.  */
 #define TED_PAL_DRAW_CYCLE          TED_PAL_CYCLES_PER_LINE
 #define TED_NTSC_DRAW_CYCLE         TED_NTSC_CYCLES_PER_LINE
@@ -123,7 +118,7 @@ typedef enum ted_video_mode_s ted_video_mode_t;
    that needs at least 2 cycles to detect it.  */
 #define TED_RASTER_IRQ_DELAY        2
 
-/* Current char being drawn by the raster.  < 0 or >= VIC_II_SCREEN_TEXTCOLS
+/* Current char being drawn by the raster.  < 0 or >= TED_SCREEN_TEXTCOLS
    if outside the visible range.  */
 #define TED_RASTER_CHAR(cycle)      ((int)(cycle) - 15)
 
@@ -160,12 +155,13 @@ typedef enum ted_video_mode_s ted_video_mode_t;
 /* TED structures.  This is meant to be used by TED modules
    *exclusively*!  */
 
-enum vic_ii_fetch_idx_s {
-    VIC_II_FETCH_MATRIX,
-    VIC_II_CHECK_SPRITE_DMA,
-    VIC_II_FETCH_SPRITE
+/*
+enum ted_fetch_idx_s {
+    TED_FETCH_MATRIX,
+    TED_FETCH_COLOR,
 };
-typedef enum vic_ii_fetch_idx_s vic_ii_fetch_idx_t;
+typedef enum ted_fetch_idx_s ted_fetch_idx_t;
+*/
 
 enum ted_idle_data_location_s {
     IDLE_NONE,
@@ -264,10 +260,10 @@ struct ted_s {
     alarm_t raster_fetch_alarm;
     alarm_t raster_draw_alarm;
     alarm_t raster_irq_alarm;
-
+#if 0
     /* What do we do when the `A_RASTERFETCH' event happens?  */
-    vic_ii_fetch_idx_t fetch_idx;
-
+    ted_fetch_idx_t fetch_idx;
+#endif
     /* Clock cycle for the next "raster fetch" alarm.  */
     CLOCK fetch_clk;
 
@@ -304,6 +300,7 @@ extern ted_t ted;
 
 /* Private function calls, used by the other TED modules.  */
 extern void ted_fetch_matrix(int offs, int num);
+extern void ted_fetch_color(int offs, int num);
 extern void ted_set_raster_irq(unsigned int line);
 extern void ted_update_memory_ptrs(unsigned int cycle);
 extern void ted_update_video_mode(unsigned int cycle);
