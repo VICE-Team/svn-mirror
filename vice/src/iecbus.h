@@ -63,7 +63,7 @@ extern BYTE (*iecbus_callback_read)(CLOCK);
 extern void (*iecbus_callback_write)(BYTE, CLOCK);
 
 extern BYTE iecbus_device_read(void);
-extern int  iecbus_device_write(BYTE unit, BYTE data);
+extern int  iecbus_device_write(unsigned int unit, BYTE data);
 extern void (*iecbus_update_ports)(void);
 
 #endif

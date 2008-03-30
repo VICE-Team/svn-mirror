@@ -335,7 +335,7 @@ BYTE iecbus_device_read(void)
 }
 
 
-int iecbus_device_write(BYTE unit, BYTE data)
+int iecbus_device_write(unsigned int unit, BYTE data)
 {
   if( unit<IECBUS_NUM )
     {

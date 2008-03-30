@@ -40,9 +40,9 @@
 #include "clkguard.h"
 #include "serial-iec-bus.h"
 
-void serial_iec_device_enable(int devnr);
-void serial_iec_device_disable(int devnr);
-static void serial_iec_device_exec_main(int devnr, CLOCK clk_value);
+void serial_iec_device_enable(unsigned int devnr);
+void serial_iec_device_disable(unsigned int devnr);
+static void serial_iec_device_exec_main(unsigned int devnr, CLOCK clk_value);
 
 /* ------------------------------------------------------------------------- */
 
@@ -171,7 +171,7 @@ static serial_iec_device_state_t serial_iec_device_state[IECBUS_NUM];
 
 static void serial_iec_device_clk_overflow_callback(CLOCK sub, void *data)
 {
-  int i;
+  unsigned int i;
 
 #if IEC_DEVICE_DEBUG > 0
   log_message(serial_iec_device_log, "serial_iec_device_clk_overflow_callback(%u)", sub);
@@ -185,7 +185,7 @@ static void serial_iec_device_clk_overflow_callback(CLOCK sub, void *data)
 
 void serial_iec_device_init(void)
 {
-  int i;
+  unsigned int i;
 #if IEC_DEVICE_DEBUG > 0
   serial_iec_device_log = log_open("Serial-IEC-Device");
   log_message(serial_iec_device_log, "serial_iec_device_init()");
@@ -209,7 +209,7 @@ void serial_iec_device_init(void)
 
 void serial_iec_device_reset(void)
 {
-  int i;
+  unsigned int i;
 
 #if IEC_DEVICE_DEBUG > 0
   log_message(serial_iec_device_log, "serial_iec_device_reset()");
@@ -226,7 +226,7 @@ void serial_iec_device_reset(void)
 }
 
 
-void serial_iec_device_enable(int devnr)
+void serial_iec_device_enable(unsigned int devnr)
 {
   if( !serial_iec_device_inited ) 
     return;
@@ -244,7 +244,7 @@ void serial_iec_device_enable(int devnr)
 }
 
 
-void serial_iec_device_disable(int devnr)
+void serial_iec_device_disable(unsigned int devnr)
 {
   if( !serial_iec_device_inited ) 
     return;
@@ -263,7 +263,7 @@ void serial_iec_device_disable(int devnr)
 
 void serial_iec_device_exec(CLOCK clk_value)
 {
-  int i;
+  unsigned int i;
 
   for(i=0; i<IECBUS_NUM; i++)
     if( serial_iec_device_state[i].enabled )
@@ -319,7 +319,7 @@ enum
   };
 
 
-static void serial_iec_device_exec_main(int devnr, CLOCK clk_value)
+static void serial_iec_device_exec_main(unsigned int devnr, CLOCK clk_value)
 {
   BYTE bus;
   serial_iec_device_state_t *iec = &(serial_iec_device_state[devnr]);
@@ -328,7 +328,7 @@ static void serial_iec_device_exec_main(int devnr, CLOCK clk_value)
   bus = iecbus_device_read();
 
 #if IEC_DEVICE_DEBUG > 4
-  log_message(serial_iec_device_log, "serial_iec_device_exec_main(%i, %u) F=%i, S=%i, ATN=%i CLK=%i DTA=%i", 
+  log_message(serial_iec_device_log, "serial_iec_device_exec_main(%u, %u) F=%i, S=%i, ATN=%i CLK=%i DTA=%i", 
               devnr, clk_value, iec->flags, iec->state,
               (bus & IECBUS_DEVICE_READ_ATN)  ? 1 : 0,
               (bus & IECBUS_DEVICE_READ_CLK)  ? 1 : 0,
@@ -541,7 +541,7 @@ static void serial_iec_device_exec_main(int devnr, CLOCK clk_value)
             if( bus & IECBUS_DEVICE_READ_CLK )
               {
                 /* sender set CLK=1, signaling that the DATA line represents a valid bit */
-                int bit = 1<<((iec->state-P_BIT0)/2);
+                BYTE bit = 1<<((BYTE)(iec->state-P_BIT0)/2);
                 iec->byte = (iec->byte & ~bit) | ((bus & IECBUS_DEVICE_READ_DATA) ? bit : 0);
 
                 /* go to associated P_BIT(n)w state, waiting for sender to set CLK=0 */
@@ -586,7 +586,7 @@ static void serial_iec_device_exec_main(int devnr, CLOCK clk_value)
                     else if( iec->secondary==0 )
                       iec->secondary = iec->byte;
 
-                    if( !(iec->primary & 0x10) && (iec->primary & 0x0f)!=devnr )
+                    if( !(iec->primary & 0x10) && (((unsigned int)iec->primary & 0x0f)!=devnr) )
                       {
                         /* This is NOT a UNLISTEN (0x3f) or UNTALK (0x5f) command
                            and the primary address is not ours => Don't acknowledge the frame and stop listening.

@@ -394,6 +394,7 @@ static void enable_printer_controls(unsigned int num, HWND hwnd)
   
   is_enabled = res_value == PRINTER_DEVICE_FS;
   
+  EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_FORMFEED), is_enabled);
   EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_DRIVER), is_enabled);
   EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_OUTPUT), is_enabled);
   EnableWindow(GetDlgItem(hwnd, IDC_PRINTER_TEXTOUT), is_enabled);
