@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.1.33)
+AM_INIT_AUTOMAKE(vice, 1.2)
 AM_CONFIG_HEADER(src/config.h)
 
 dnl AC_DEFINE(UNSTABLE)
@@ -684,8 +684,10 @@ if false ; then
 
     mkdir -p arch/msdos
     mkdir -p arch/os2
+    mkdir -p arch/os2/kbd
     mkdir -p arch/os2/snippets
     mkdir -p arch/os2/pm
+    mkdir -p arch/os2/vac++
     mkdir -p arch/riscos
     mkdir -p arch/unix
     mkdir -p arch/unix/readline
@@ -737,8 +739,10 @@ AC_OUTPUT([Makefile
            src/arch/Makefile
            src/arch/msdos/Makefile
            src/arch/os2/Makefile
+           src/arch/os2/kbd/Makefile
            src/arch/os2/pm/Makefile
            src/arch/os2/snippets/Makefile
+           src/arch/os2/vac++/Makefile
            src/arch/riscos/Makefile
            src/arch/unix/Makefile
            src/arch/unix/readline/Makefile
