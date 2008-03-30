@@ -1,5 +1,9 @@
 Thu May 14 21:02:07 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* Version 0.14.2.25.
+
+	* Makefile.in: Added missing files.
+
 	* Version 0.14.2.24.
 
 Thu May 14 00:08:06 1998  Teemu Rantanen  <tvr@cs.hut.fi>
@@ -72,13 +76,13 @@ Thu May 14 00:08:06 1998  Teemu Rantanen  <tvr@cs.hut.fi>
 
 	* arch/sdl/soundsdl.c: New file. SDL sound device.
 
-	* arch/soundfs.c: New file. Fs sound device.
+	* soundfs.c: New file. Fs sound device.
 
-	* arch/sounddump.c: New file. Dump sound device.
+	* sounddump.c: New file. Dump sound device.
 
-	* arch/sounddummy.c: New file. Dummy sound device.
+	* sounddummy.c: New file. Dummy sound device.
 
-	* arch/soundspeed.c: New file. Speed sound device.
+	* soundspeed.c: New file. Speed sound device.
 
 	* Makefile.in: Removed all references to the removed sid.c and
  	sid.h files. Added enough info about new object -files to compile.
