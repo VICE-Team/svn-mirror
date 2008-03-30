@@ -172,7 +172,9 @@ int psid_load_file(const char* filename)
   free(psid);
   psid = xmalloc(sizeof(psid_t));
 
-  if (fread(ptr, 1, 6, f) != 6 || memcmp(ptr, "PSID", 4) != 0) {
+  if (fread(ptr, 1, 6, f) != 6
+      || (memcmp(ptr, "PSID", 4) != 0 && memcmp(ptr, "RSID", 4) != 0))
+  {
     goto fail;
   }
 

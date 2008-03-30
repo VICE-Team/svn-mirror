@@ -1,3 +1,34 @@
+2002-11-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.26.
+
+	* vdrive/vdrive-command.c (vdrive_command_scratch): Moved
+	scratch code to separate functions and fixed serious bugs.
+
+	* vdrive/vdrive.c, vdrive/vdrive.h (vdrive_parse_name):
+	Renamed, make use of sane variable names, moved to command
+	file.
+
+	* vdrive/vdrive-iec.c, fsdevice/fsdevice-open.c,
+	vdrive/vdrive-command.c: Fixed call to
+	`vdrive_command_parse()'.
+
+	* vdrive/vdrive-internal.c (open_rawimage): Do not modify the
+	read only flag.
+
+	* tape/tapeimage.c, tape.h (tape_read): New function.
+
+	* c1541.c (tape_cmd): Changed t64 specific code to general
+	tape code.
+
+	* t64.h: Moved to tape directory.
+
+	* Makefile.am, tape/Makefile.am: Updated.
+
+2002-11-20  Dag Lem  <resid@nimrod.no>
+
+	* c64/psid.c (psid_init_driver): Accept "RSID" files.
+
 2002-11-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.25.

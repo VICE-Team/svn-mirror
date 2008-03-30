@@ -7,6 +7,7 @@ noinst_LIBRARIES = libtape.a
 
 libtape_a_SOURCES = \
 	t64.c \
+	t64.h \
 	tap.c \
 	tape-internal.c \
 	tape-internal.h \

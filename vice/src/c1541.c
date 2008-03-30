@@ -63,7 +63,7 @@
 #include "p00.h"
 #include "serial.h"
 #include "snapshot.h"
-#include "t64.h"
+#include "tape.h"
 #include "types.h"
 #include "utils.h"
 #include "vdrive-bam.h"
@@ -998,19 +998,20 @@ static int copy_cmd(int nargs, char **args)
 
 static int delete_cmd(int nargs, char **args)
 {
-    int i = 1;
+    int i = 1, status;
 
     if (check_drive(drive_number, CHK_RDY) < 0)
         return FD_NOTREADY;
 
     for (i = 1; i < nargs; i++) {
-        int unit;
+        int dnr;
         char *p, *name;
         char *command;
 
-        p = extract_unit_from_file_name(args[i], &unit);
+        p = extract_unit_from_file_name(args[i], &dnr);
+
         if (p == NULL) {
-            unit = drive_number;
+            dnr = drive_number;
             name = args[i];
         } else {
             name = p;
@@ -1025,9 +1026,14 @@ static int delete_cmd(int nargs, char **args)
         command = concat("s:", name, NULL);
         charset_petconvstring(command, 0);
 
-        printf("Deleting `%s' on unit %d.\n", name, unit + 8);
-        vdrive_command_execute(drives[unit], (BYTE *)command, strlen(command));
+        printf("Deleting `%s' on unit %d.\n", name, dnr + 8);
+
+        status = vdrive_command_execute(drives[dnr], (BYTE *)command,
+                                        strlen(command));
+
         free(command);
+
+        printf("ERRORCODE %i\n", status);
     }
 
     return FD_OK;
@@ -2225,33 +2231,31 @@ static int show_cmd(int nargs, char **args)
     return FD_OK;
 }
 
-/* Copy files from a T64 tape image.  */
+/* Copy files from a  tape image.  */
 static int tape_cmd(int nargs, char **args)
 {
-    t64_t *t64;
+    tape_image_t *tape_image;
     vdrive_t *drive;
     int count;
-    unsigned int read_only;
-
 
     if (check_drive(drive_number, CHK_RDY) < 0)
         return FD_NOTREADY;
+
     drive = drives[drive_number];
 
-    read_only = 0;
+    tape_image = tape_internal_open_tape_image(args[1], 1);
 
-    t64 = t64_open(args[1], &read_only);
-    if (t64 == NULL) {
-        fprintf(stderr, "Cannot read T64 file `%s'.\n", args[1]);
+    if (tape_image == NULL) {
+        fprintf(stderr, "Cannot read tape file `%s'.\n", args[1]);
         return FD_BADNAME;
     }
 
-    for (count = 0; t64_seek_to_next_file(t64, 0) >= 0;) {
-        t64_file_record_t *rec;
+    for (count = 0; tape_seek_to_next_file(tape_image, 0) >= 0;) {
+        tape_file_record_t *rec;
 
-        rec = t64_get_current_file_record(t64);
+        rec = tape_get_current_file_record(tape_image);
 
-        if (rec->entry_type == T64_FILE_RECORD_NORMAL) {
+        if (rec->type) {
             char *dest_name_ascii;
             char *dest_name_petscii;
             BYTE *buf;
@@ -2260,18 +2264,16 @@ static int tape_cmd(int nargs, char **args)
             int retval;
 
             /* Ignore traling spaces and 0xa0's.  */
-            name_len = T64_REC_CBMNAME_LEN;
-            while (name_len > 0 && (rec->cbm_name[name_len - 1] == 0xa0
-                                    || rec->cbm_name[name_len - 1] == 0x20))
+            name_len = strlen(rec->name);
+            while (name_len > 0 && (rec->name[name_len - 1] == 0xa0
+                || rec->name[name_len - 1] == 0x20))
                 name_len--;
 
-            dest_name_petscii = xmalloc(name_len + 1);
-            memcpy(dest_name_petscii, rec->cbm_name, name_len);
-            dest_name_petscii[name_len] = 0;
+            dest_name_petscii = xcalloc(1, name_len + 1);
+            memcpy(dest_name_petscii, rec->name, name_len);
 
-            dest_name_ascii = xmalloc(name_len + 1);
+            dest_name_ascii = xcalloc(1, name_len + 1);
             memcpy(dest_name_ascii, dest_name_petscii, name_len);
-            dest_name_ascii[name_len] = 0;
             charset_petconvstring(dest_name_ascii, 1);
 
             if (nargs > 2) {
@@ -2305,8 +2307,11 @@ static int tape_cmd(int nargs, char **args)
             vdrive_iec_write(drive, ((BYTE)(rec->start_addr >> 8)), 1);
 
             file_size = rec->end_addr - rec->start_addr;
+
             buf = xcalloc((size_t)file_size, 1);
-            retval = t64_read(t64, buf, file_size);
+
+            retval = tape_read(tape_image, buf, file_size);
+
             if (retval < 0 || retval != (int) file_size)
                 fprintf(stderr,
                         "Unexpected end of tape: file may be truncated.\n");
@@ -2314,8 +2319,9 @@ static int tape_cmd(int nargs, char **args)
                 int i;
 
                 for (i = 0; i < file_size; i++)
-                    if (vdrive_iec_write(drives[drive_number], ((BYTE)(buf[i])),                        1)) {
-                        t64_close(t64);
+                    if (vdrive_iec_write(drives[drive_number],
+                        ((BYTE)(buf[i])), 1)) {
+                        tape_internal_close_tape_image(tape_image);
                         free(dest_name_petscii);
                         free(dest_name_ascii);
                         free(buf);
@@ -2331,7 +2337,7 @@ static int tape_cmd(int nargs, char **args)
         }
     }
 
-    t64_close(t64);
+    tape_internal_close_tape_image(tape_image);
 
     printf("\n%d files copied.\n", count);
 
@@ -2762,7 +2768,7 @@ static int raw_cmd(int nargs, char **args)
         char *command = stralloc(args[1]);
 
         charset_petconvstring(command, 0);
-        vdrive_command_execute(floppy, (BYTE *) command, strlen(command));
+        vdrive_command_execute(floppy, (BYTE *)command, strlen(command));
         free(command);
     }
 

@@ -82,11 +82,11 @@ LIB32=link.exe -lib
 # Name "diskimage - Win32 Debug"
 # Begin Source File
 
-SOURCE="..\..\diskimage\createdisk.c"
+SOURCE="..\..\diskimage\diskimage.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\diskimage\diskimage.c"
+SOURCE="..\..\diskimage\fsimage-create.c"
 # End Source File
 # Begin Source File
 

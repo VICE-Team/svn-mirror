@@ -86,6 +86,10 @@ SOURCE="..\..\vdrive\vdrive-bam.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\vdrive\vdrive-command.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\vdrive\vdrive-dir.c"
 # End Source File
 # Begin Source File
@@ -94,11 +98,7 @@ SOURCE="..\..\vdrive\vdrive-iec.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\vdrive\vdrive.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\vdrive\vdrive-command.c
+SOURCE="..\..\vdrive\vdrive-internal.c"
 # End Source File
 # Begin Source File
 
@@ -106,7 +106,11 @@ SOURCE="..\..\vdrive\vdrive-rel.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\vdrive\vdrive-snapshot.c
+SOURCE="..\..\vdrive\vdrive-snapshot.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\vdrive\vdrive.c
 # End Source File
 # End Target
 # End Project

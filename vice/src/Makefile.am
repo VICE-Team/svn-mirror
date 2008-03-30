@@ -104,7 +104,6 @@ noinst_HEADERS = \
 	snapshot.h \
 	sound.h \
 	sysfile.h \
-	t64.h \
 	tap.h \
 	tape.h \
 	tpi.h \
