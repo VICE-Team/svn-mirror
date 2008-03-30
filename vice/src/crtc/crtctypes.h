@@ -73,8 +73,8 @@ struct _crtc
     /*---------------------------------------------------------------*/
 
     /* window size computed by crtc_set_screen_options() */
-    /*unsigned*/ int screen_width;
-    /*unsigned*/ int screen_height;
+    unsigned int screen_width;
+    unsigned int screen_height;
 
     /* hardware options as given to crtc_set_hw_options() */
     int hw_cursor;
