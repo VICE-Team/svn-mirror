@@ -60,7 +60,7 @@ static const char Rsrc_TrueIdle8[] = "Drive8IdleMethod";
 static const char Rsrc_TrueIdle9[] = "Drive9IdleMethod";
 static const char Rsrc_TrueType8[] = "Drive8Type";
 static const char Rsrc_TrueType9[] = "Drive9Type";
-static const char Rsrc_TrueSync[] = "VideoStandard";
+static const char Rsrc_VideoSync[] = "VideoStandard";
 static const char Rsrc_Dos1541[] = "DosName1541";
 static const char Rsrc_Dos15412[] = "DosName1541ii";
 static const char Rsrc_Dos1571[] = "DosName1571";
@@ -366,16 +366,16 @@ TRUE_DRIVE_IDLE_MENU(MenuTrueIdle9, "\\MenIdl9Tit")
 TRUE_DRIVE_TYPE_MENU(MenuTrueType9, "\\MenDtp9Tit")
 
 
-#define Menu_TrueSync_Items	3
-#define Menu_TrueSync_Width	200
-#define Menu_TrueSync_PAL	0
-#define Menu_TrueSync_NTSC	1
+#define Menu_VideoSync_Items	3
+#define Menu_VideoSync_Width	200
+#define Menu_VideoSync_PAL	0
+#define Menu_VideoSync_NTSC	1
 
-static struct MenuTrueSync {
+static struct MenuVideoSync {
   RO_MenuHead head;
-  RO_MenuItem item[Menu_TrueSync_Items];
-} MenuTrueSync = {
-  MENU_HEADER("\\MenSncTit", Menu_TrueSync_Width),
+  RO_MenuItem item[Menu_VideoSync_Items];
+} MenuVideoSync = {
+  MENU_HEADER("\\MenSncTit", Menu_VideoSync_Width),
   {
     MENU_ITEM("\\MenSncPAL"),
     MENU_ITEM("\\MenSncNTSC"),
@@ -828,12 +828,12 @@ static struct MenuSysKeyboard {
 
 
 
-static struct MenuDisplayTrueSync {
+static struct MenuDisplayVideoSync {
   disp_desc_t dd;
-  int values[Menu_TrueSync_Items];
-} MenuDisplayTrueSync = {
-  {Rsrc_TrueSync, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvSyncT},
-    (RO_MenuHead*)&MenuTrueSync, Menu_TrueSync_Items, 0, 1<<Menu_TrueSync_Custom},
+  int values[Menu_VideoSync_Items];
+} MenuDisplayVideoSync = {
+  {Rsrc_VideoSync, {CONF_WIN_SYSTEM, Icon_Conf_VideoSyncT},
+    (RO_MenuHead*)&MenuVideoSync, Menu_VideoSync_Items, 0, 1<<Menu_VideoSync_Custom},
   {DRIVE_SYNC_PAL, DRIVE_SYNC_NTSC, 0}
 };
 
@@ -1188,8 +1188,8 @@ menu_icon ConfigMenus[] = {
     {CONF_WIN_SOUND, Icon_Conf_SoundDev}},		/* 3 (sound.c) */
   {(RO_MenuHead*)&MenuSoundOver, Rsrc_SndOver,
     {CONF_WIN_SOUND, Icon_Conf_Oversample}},		/* 4 (sound.c) */
-  {(RO_MenuHead*)&MenuTrueSync, Rsrc_TrueSync,
-    {CONF_WIN_DRIVES, Icon_Conf_TrueDrvSync}},		/* 5 (drive.c) */
+  {(RO_MenuHead*)&MenuVideoSync, Rsrc_VideoSync,
+    {CONF_WIN_SYSTEM, Icon_Conf_VideoSync}},		/* 5 (drive.c) */
   {(RO_MenuHead*)&MenuTrueIdle8, Rsrc_TrueIdle8,
     {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle8}},		/* 6 */
   {(RO_MenuHead*)&MenuTrueExtend8, Rsrc_TrueExImg8,
@@ -1272,7 +1272,7 @@ disp_desc_t *ConfigDispDescs[] = {
   (disp_desc_t*)&MenuDisplaySampleRate,
   (disp_desc_t*)&MenuDisplaySoundDevice,
   (disp_desc_t*)&MenuDisplaySoundOver,
-  (disp_desc_t*)&MenuDisplayTrueSync,
+  (disp_desc_t*)&MenuDisplayVideoSync,
   (disp_desc_t*)&MenuDisplayTrueIdle8,
   (disp_desc_t*)&MenuDisplayTrueExtend8,
   (disp_desc_t*)&MenuDisplayTrueType8,

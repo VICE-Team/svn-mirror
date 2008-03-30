@@ -35,7 +35,7 @@ int _mouse_enabled;
 
 static int hide_mouseptr;
 static int visible=TRUE;
-static SHORT _mouse_x, _mouse_y; // -32768-32768
+static SHORT _mouse_x, _mouse_y; // [-32768, 32768]
 
 /* ----------------------------------------------------------- */
 
@@ -100,7 +100,7 @@ void mouse_init(void)
 {
 }
 
-const int mouse_step  = 15;
+const int mouse_step = 15;
 
 extern int stretch;  // video.c
 
@@ -108,34 +108,58 @@ inline BYTE mouse_get_x(void)
 {
     static SHORT last_mouse_x=0;
 
-    if (last_mouse_x - _mouse_x > mouse_step)
+    const SHORT diff = last_mouse_x - _mouse_x;
+
+    /*
+     * The problem is that if you click somewhere and your pointer
+     * is outside the window you would click something at the desktop
+     *
+     * POINTL ptl;
+     * APIRET rc=WinQueryPointerPos(HWND_DESKTOP, &ptl);
+     * _mouse_x = ptl.x;
+     *
+     */
+
+    if (diff > mouse_step)
         last_mouse_x -= mouse_step;
     else
-        if(_mouse_x - last_mouse_x > mouse_step)
+        if(diff < -mouse_step)
             last_mouse_x += mouse_step;
         else
             last_mouse_x = _mouse_x;
 
-    return ((last_mouse_x<<1)/(stretch
-#if defined __XVIC_
-                               *2
+    return ((last_mouse_x/stretch)
+#ifndef __XVIC_
+             <<1
 #endif
-                              )) & 0x7e;
+            )&0x7e;
 }
 
 inline BYTE mouse_get_y(void)
 {
     static SHORT last_mouse_y=0;
 
-    if (last_mouse_y - _mouse_y > mouse_step)
+    const SHORT diff = last_mouse_y - _mouse_y;
+
+    /*
+     * The problem is that if you click somewhere and your pointer
+     * is outside the window you would click something at the desktop
+     *
+     * POINTL ptl;
+     * APIRET rc=WinQueryPointerPos(HWND_DESKTOP, &ptl);
+     * _mouse_y = ptl.y;
+     *
+     */
+
+    if (diff > mouse_step)
         last_mouse_y -= mouse_step;
     else
-        if(_mouse_y - last_mouse_y > mouse_step)
+        if(diff < -mouse_step)
             last_mouse_y += mouse_step;
         else
             last_mouse_y = _mouse_y;
 
-    return ((last_mouse_y<<1)/stretch) & 0x7e;
+    return ((last_mouse_y/stretch)<<1)&0x7e;
 }
 
 /* ----------------- OS/2 specific ------------------------- */
@@ -153,9 +177,12 @@ void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
         {
             SWP swp;
             WinQueryWindowPos(hwnd, &swp);
+            //
+            // check whether the pointer is outside or inside the window
+            //
             if (_mouse_x>=0 && _mouse_x<swp.cx &&
                 _mouse_y>=0 && _mouse_y<swp.cy)
-            { // pointer is inside the window
+            {
                 if (visible && /*_mouse_enabled &&*/ hide_mouseptr)
                 {
                     WinSetCapture(HWND_DESKTOP, hwnd);
@@ -164,14 +191,17 @@ void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
                 }
             }
             else
-            { // pointer is outside of the window
+            {
                 if (!visible)
                 {
                     WinSetCapture(HWND_DESKTOP, NULLHANDLE);
                     WinShowPointer(HWND_DESKTOP, TRUE);
                     visible=TRUE;
                 }
-                // don't use 'outside'-values
+                //
+                // don't use 'outside'-values which appears one times
+                // if the mouse pointer leaves the window
+                //
                 if (_mouse_x<0) _mouse_x=0;
                 else
                     if (_mouse_x>=swp.cx)
@@ -185,16 +215,16 @@ void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
         }
         return;
     case WM_BUTTON1DOWN:
-        joystick_set_value_or(1, CBM_FIRE);      //joystick_value[1] |= 16;
+        joystick_set_value_or(1, CBM_FIRE);
         return;
     case WM_BUTTON1UP:
-        joystick_set_value_and(1, ~CBM_FIRE);    //joystick_value[1] &= ~16;
+        joystick_set_value_and(1, ~CBM_FIRE);
         return;
     case WM_BUTTON2DOWN:
-        joystick_set_value_or(1, CBM_NORTH);     //joystick_value[1] |= 1;
+        joystick_set_value_or(1, CBM_NORTH);
         return;
     case WM_BUTTON2UP:
-        joystick_set_value_and(1, ~CBM_NORTH);   //joystick_value[1] &= ~1;
+        joystick_set_value_and(1, ~CBM_NORTH);
         return;
     }
 }

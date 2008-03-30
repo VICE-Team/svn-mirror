@@ -52,6 +52,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "incl/sounddrv.icc"
         include "incl/screendrv.icc"
         include "incl/vicii.icc"
+        include "incl/vsid.icc"
         include "incl/resid.icc"
     }
 }

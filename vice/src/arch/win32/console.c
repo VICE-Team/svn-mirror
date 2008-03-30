@@ -734,8 +734,11 @@ static long CALLBACK console_window_proc(HWND hwnd,
         return 0;
 
 	case WM_SIZE:
-        if (pcp)
-    		external_resize_window( pcp, LOWORD(lParam), HIWORD(lParam) );
+		if (wParam != SIZE_MINIMIZED)
+		{
+			if (pcp)
+   				external_resize_window( pcp, LOWORD(lParam), HIWORD(lParam) );
+		}
         break;
 		// return 0;
 

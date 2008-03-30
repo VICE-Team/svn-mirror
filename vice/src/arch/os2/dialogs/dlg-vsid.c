@@ -52,9 +52,9 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         case DID_CLOSE:
             trigger_shutdown = 1;
             break;
-/*        case PB_DEFTUNE:
-            psid_set_tune(0);
-            return FALSE;*/
+        case ID_OPTIONS:
+            sound_dialog(hwnd);
+            return FALSE;
         }
         break;
 

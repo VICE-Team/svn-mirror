@@ -67,6 +67,10 @@ static MRESULT EXPENTRY pm_hardware(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             {
                 int val;
                 first=FALSE;
+#ifdef __X128__
+                resources_get_value("VDC_64KB", (resource_value_t*) &val);
+                WinCheckButton(hwnd, val?RB_VDC64K:RB_VDC16K, 1);
+#endif
 #if defined __X64__ || defined __X128__
                 resources_get_value("REU", (resource_value_t*) &val);
                 WinCheckButton(hwnd, CB_REU, val?1:0);
@@ -94,6 +98,14 @@ static MRESULT EXPENTRY pm_hardware(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             int ctrl = SHORT1FROMMP(mp1);
             switch (ctrl)
             {
+#ifdef __X128__
+            case RB_VDC16K:
+                resources_set_value("VDC_64KB", (resource_value_t*)0);
+                break;
+            case RB_VDC64K:
+                resources_set_value("VDC_64KB", (resource_value_t*)1);
+                break;
+#endif
 #if defined __X64__ || defined __X128__
             case RB_PAL:
                 resources_set_value("VideoStandard",

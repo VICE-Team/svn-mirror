@@ -1,3 +1,8 @@
+2000-12-01  pottendo  <pottendo@utanet.at>
+
+	* POTFILES.in: Added `src/print.c'.
+	* de.po: Updated.
+
 2000-10-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* POTFILES.in: Removed `arch/unix/print.c'.

@@ -129,7 +129,7 @@ int print_putc(int fi, BYTE b)
         return -1;
     fputc(b, fd[fi]);
 
-#if defined(__MSDOS__) || defined(WIN32) || defined(__BEOS__)
+#if defined(__MSDOS__) || defined(WIN32) || defined(OS2) || defined(__BEOS__)
     if (b == 13)
         fputc(10, fd[fi]);
 #endif

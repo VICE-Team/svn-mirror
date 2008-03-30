@@ -33,7 +33,7 @@
 
 /*  Parameter structure for ui_attach_cartridge */
 typedef struct {
-    int     wparam;
+    WPARAM  wparam;
     int     type;
     char    *title;
     char    *filter;

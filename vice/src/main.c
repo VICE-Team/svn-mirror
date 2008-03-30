@@ -476,7 +476,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     }
 
     if (cmdline_parse(&argc, argv) < 0) {
-        archdep_startup_log_error("Error parsing command-line options, bailing out. For help use '-h'\n");
+        archdep_startup_log_error("Error parsing command-line options, bailing out. For help use '-help'\n");
         return -1;
     }
 

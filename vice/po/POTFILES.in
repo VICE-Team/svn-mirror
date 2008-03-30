@@ -1,5 +1,8 @@
 # List of Files which already gettext aware.
 
+# Emulator core files
+src/print.c
+
 # Architecture Unix
 src/arch/unix/uicommands.c
 src/arch/unix/c128ui.c

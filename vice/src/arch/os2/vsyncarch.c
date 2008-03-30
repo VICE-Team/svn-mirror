@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#define INCL_DOS
 #define INCL_DOSSEMAPHORES   /* Semaphore values */
 #define INCL_DOSDATETIME     /* Timer support    */
 #define INCL_DOSPROFILE
@@ -59,11 +60,13 @@ static int emulator_paused=FALSE;
 
 static ULONG ulTmrFreq = 0;  // Hertz (almost 1.2MHz at my PC) FIXME!!!
 
+PULONG pms = 0;
+
 unsigned long vsyncarch_gettime()
 {
     QWORD qwTmrTime;
     DosTmrQueryTime(&qwTmrTime);
-    return qwTmrTime.ulLo;
+    return qwTmrTime.ulLo; // pms?*pms:0;
 }
 
 static HEV hevTimer = 0; // Event semaphore handle
@@ -82,6 +85,16 @@ void vsyncarch_init()
 
     if (rc)
         log_debug("vsync.c: DosCreateEventSem (rc=%u) - cannot synchronize properly", rc);
+
+    //
+    // This is much faster (DosQueryTmr takes about 40ms)
+    // but it only of a precision of 4ms
+    // This is only of interest if CPU Usage is 100%
+    //
+    // extern USHORT APIENTRY16 Dos16GetInfoSeg(PSEL pglob, PSEL ploc);
+    //    SEL sgs, sls;
+    //    Dos16GetInfoSeg(&sgs, &sls);
+    //    pms = MAKE16P(sgs, sizeof(ULONG));
 }
 
 unsigned long vsyncarch_timescale()
@@ -91,7 +104,7 @@ unsigned long vsyncarch_timescale()
     if (!ulTmrFreq)
         DosTmrQueryFreq(&ulTmrFreq);
 
-    return ulTmrFreq;
+    return ulTmrFreq; // 1000;
 }
 
 // -------------------------------------------------------------------------
@@ -142,6 +155,7 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 {
     WinSendMsg(hwndEmulator, WM_DISPLAY,
                (void*)(int)(speed+0.5), (void*)(int)(frame_rate+0.5));
+
     // this line calles every 2 seconds makes sure that the system
     // is able to respond independently from the CPU load
     DosSleep(1);

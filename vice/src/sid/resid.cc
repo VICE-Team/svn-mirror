@@ -28,7 +28,7 @@
 #include "resid/sid.h"
 
 extern "C" {
-    
+
 #include "log.h"
 #include "utils.h"
 #include "sound.h"
@@ -39,9 +39,9 @@ struct sound_s
     /* time of last sid.clock() */
     CLOCK		sidclk;
     /* clock */
-    double		clk;
+    soundclk_t		clk;
     /* clock step / sample */
-    double		clkstep;
+    soundclk_t		clkstep;
     /* resid sid implementation */
     SID			sid;
 };
@@ -56,9 +56,9 @@ sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
     psid = new sound_t;
     psid->sid.enable_filter(filters_enabled);
     psid->sid.enable_external_filter(filters_enabled);
-    psid->clk = 0.0;
+    psid->clk = SOUNDCLK_CONSTANT(0.0);
     psid->sidclk = 0;
-    psid->clkstep = (double)cycles_per_sec / speed;
+    psid->clkstep = SOUNDCLK_CONSTANT(cycles_per_sec) / speed;
     if (model == 0)
     {
 	psid->sid.set_chip_model(MOS6581);
@@ -84,8 +84,8 @@ BYTE resid_sound_machine_read(sound_t *psid, ADDRESS addr, CLOCK clk)
 {
     int					delta;
 
-    delta = (int) BIG_FLOAT_TO_INT(psid->clk + sound_sample_position()*psid->clkstep
-                                 - psid->sidclk);
+    delta = (int)SOUNDCLK_LONG(psid->clk + sound_sample_position() * psid->clkstep
+                               - SOUNDCLK_CONSTANT(psid->sidclk));
     if (delta > 0)
     {
 	psid->sid.clock(delta);
@@ -100,8 +100,8 @@ void resid_sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte,
 {
     int					delta;
 
-    delta = (int) BIG_FLOAT_TO_INT(psid->clk + sound_sample_position()*psid->clkstep
-                                 - psid->sidclk);
+    delta = (int)SOUNDCLK_LONG(psid->clk + sound_sample_position() * psid->clkstep
+                               - SOUNDCLK_CONSTANT(psid->sidclk));
     if (delta > 0)
     {
 	psid->sid.clock(delta);
@@ -116,7 +116,7 @@ int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
     int					i, delta;
 
     psid->clk += psid->clkstep;
-    delta = (int) (psid->clk - psid->sidclk);
+    delta = (int)SOUNDCLK_LONG(psid->clk - SOUNDCLK_CONSTANT(psid->sidclk));
     if (delta > 0)
     {
 	psid->sid.clock(delta);
@@ -126,16 +126,23 @@ int resid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
     for (i = 1; i < nr; i++)
     {
 	psid->clk += psid->clkstep;
-	delta = (int) (psid->clk - psid->sidclk);
+	delta = (int)SOUNDCLK_LONG(psid->clk - SOUNDCLK_CONSTANT(psid->sidclk));
 	psid->sid.clock(delta);
 	psid->sidclk += delta;
 	pbuf[i] = psid->sid.output();
+#ifdef SOUNDCLK_PREC
+	/* in fixpoint mode, resync every sample to avoid overflows */
+	psid->sidclk -= (psid->clk >> SOUNDCLK_PREC);
+	psid->clk &= ((1<<SOUNDCLK_PREC)-1);
+#endif
     }
+#ifndef SOUNDCLK_PREC
     if (psid->sidclk > 0x70000000)
     {
 	psid->sidclk -= 0x70000000 - 0x1000;
 	psid->clk -= 0x70000000 - 0x1000;
     }
+#endif
 
     return 0;
 }

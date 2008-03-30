@@ -266,8 +266,16 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         }
         break;
     case WM_DISPLAY:
-        WinSetSpinVal(hwnd, SPB_SPEEDDISP,   mp1);
-        WinSetSpinVal(hwnd, SPB_REFRATEDISP, mp2);
+        {
+            char txt1[8]="---%";
+            char txt2[8]="--fps";
+            if ((int)mp1<100000)
+                sprintf(txt1, "%5d%%", mp1);
+            if ((int)mp2<10000)
+                sprintf(txt2, "%4dfps", mp2);
+            WinSetDlgItemText(hwnd, ID_SPEEDDISP,   txt1);
+            WinSetDlgItemText(hwnd, ID_REFRATEDISP, txt2);
+        }
         return FALSE;
     case WM_CONTROL:
         {

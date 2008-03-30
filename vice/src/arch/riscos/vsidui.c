@@ -41,7 +41,7 @@
 #define Icon_VSid_Author	2
 #define Icon_VSid_Copyright	3
 #define Icon_VSid_TotalTunes	7
-#define Icon_VSid_Sync		8
+#define Icon_VSid_Speed		8
 #define Icon_VSid_Tune		11
 #define Icon_VSid_NextTune	12
 #define Icon_VSid_PrevTune	13
@@ -268,8 +268,6 @@ void vsid_ui_display_copyright(const char *copyright)
 void vsid_ui_display_sync(int sync)
 {
     log_message(LOG_DEFAULT, "Using %s sync", sync==DRIVE_SYNC_PAL?"PAL":"NTSC");
-
-    wimp_window_write_icon_text(VSidWindow, Icon_VSid_Sync, ((sync == DRIVE_SYNC_PAL) ? "PAL" : "NTSC"));
 }
 
 void vsid_ui_set_default_tune(int nr)
@@ -307,4 +305,12 @@ void vsid_ui_display_time(unsigned int sec)
       sprintf(buffer, "%2d:%02d", minutes, seconds);
       wimp_window_write_icon_text(VSidWindow, Icon_VSid_PlayTime, buffer);
     }
+}
+
+void vsid_ui_display_speed(int percent)
+{
+    char buffer[32];
+
+    sprintf(buffer, "%d%%", percent);
+    wimp_window_write_icon_text(VSidWindow, Icon_VSid_Speed, buffer);
 }

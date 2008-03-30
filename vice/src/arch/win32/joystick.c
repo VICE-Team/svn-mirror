@@ -223,7 +223,7 @@ JOYCAPS     joy_caps;
 
 void joystick_update(void)
 {
-int         value;
+BYTE        value;
 MMRESULT    result;
 
     if ((joystick_device_1==JOYDEV_HW1) || (joystick_device_2==JOYDEV_HW1)) {
@@ -283,7 +283,8 @@ MMRESULT    result;
                     value|=16;
                 }
                 if (joystick_device_1==JOYDEV_HW2) {
-                    joystick_set_value_absolute(1,value);
+                    
+					(1,value);
                 }
                 if (joystick_device_2==JOYDEV_HW2) {
                     joystick_set_value_absolute(2,value);
@@ -329,9 +330,9 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
                 joystick_set_value_or(2, value);
         } else {
             if (joystick_device_1 == device)
-                joystick_set_value_and(1, ~value);
+                joystick_set_value_and(1, (BYTE) ~value);
             if (joystick_device_2 == device)
-                joystick_set_value_and(2, ~value);
+                joystick_set_value_and(2, (BYTE) ~value);
         }
         return 1;
     }
@@ -341,7 +342,7 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
 
 int joystick_handle_key(kbd_code_t kcode, int pressed)
 {
-    int value = 0;
+    BYTE value = 0;
 
     /* The numpad case is handled specially because it allows users to use
        both `5' and `2' for "down".  */
@@ -390,9 +391,9 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
                 joystick_set_value_or(2, value);
         } else {
             if (joystick_device_1 == JOYDEV_NUMPAD)
-                joystick_set_value_and(1, ~value);
+                joystick_set_value_and(1, (BYTE) ~value);
             if (joystick_device_2 == JOYDEV_NUMPAD)
-                joystick_set_value_and(2, ~value);
+                joystick_set_value_and(2, (BYTE) ~value);
         }
     }
 

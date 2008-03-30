@@ -1279,7 +1279,7 @@ char *dname;
         if (1 /* !ui_emulation_is_paused()*/ )
             maincpu_trigger_trap(mon_trap, (void *) 0);
         else
-            mon_trap(MOS6510_REGS_GET_PC(&maincpu_regs), 0);
+            mon_trap((ADDRESS)MOS6510_REGS_GET_PC(&maincpu_regs), 0);
         break;
       case IDM_HARD_RESET+0x00010000:
       case IDM_SOFT_RESET+0x00010000:
@@ -1566,7 +1566,7 @@ int     window_index;
                     DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,text,-1,&led,0);
 
                 }
-                if (((DRAWITEMSTRUCT*)lparam)->itemID>tape_enabled?1:0) {
+                if (((DRAWITEMSTRUCT*)lparam)->itemID>(UINT)(tape_enabled?1:0)) {
                     int index=((DRAWITEMSTRUCT*)lparam)->itemID-(tape_enabled?2:1);
                     /* it's a disk */
                     led.top=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2;

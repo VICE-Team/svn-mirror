@@ -111,15 +111,26 @@ void vsid_ui_set_default_tune(int nr)
 
 void vsid_ui_display_tune_nr(int nr)
 {
-    WinSetSpinVal(hwndVsid, SPB_TUNENO, nr);
+    char txt[3]="-";
+    if (nr<100)
+        sprintf(txt, "%d", nr);
+    WinSetDlgItemText(hwndVsid, ID_TUNENO, txt);
     WinSetSpinVal(hwndVsid, SPB_SETTUNE, nr);
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
 {
-    WinSetSpinVal(hwndVsid, SPB_TUNES, count);
+    char txt[3]="-";
+    if (count<100)
+        sprintf(txt, "%d", count);
+    WinSetDlgItemText(hwndVsid, ID_TUNES, txt);
 }
 
 void vsid_ui_display_time(unsigned int sec)
 {
+    char txt[6]="--:--";
+    if (sec<600)
+        sprintf(txt, "%02d:%02d", (sec/60)%100, sec%60);
+    log_debug("sec: %s", txt);
+    WinSetDlgItemText(hwndVsid, ID_TIME, txt);
 }

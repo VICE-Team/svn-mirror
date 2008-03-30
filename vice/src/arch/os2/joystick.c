@@ -24,6 +24,7 @@
  *
  */
 
+#define INCL_DOSERRORS      // ERROR_OPEN_FAILED
 #define INCL_DOSPROFILE     // DosTmrQueryTime
 #define INCL_DOSFILEMGR     // DosOpen
 #define INCL_DOSDEVICES     // DosDevIOCtl
@@ -231,7 +232,12 @@ void joystick_init(void)
     if (rc=DosOpen("GAME$", &SWhGame, &action, 0,
                    FILE_READONLY, OPEN_ACTION_OPEN_IF_EXISTS/*FILE_OPEN*/,
                    OPEN_ACCESS_READONLY | OPEN_SHARE_DENYNONE, NULL))
+    {
         log_message(LOG_DEFAULT, "joystick.c: DosOpen (rc=%i)", rc);
+        if (rc==ERROR_OPEN_FAILED)
+            log_message(LOG_DEFAULT, "joystick.c: Cannot open device 'GAME$'.\n"
+                        "joystick.c: Have you installed a MPPM/2 joystick device driver?");
+    }
     else
     {
     	GAME_PARM_STRUCT parms;
@@ -239,15 +245,25 @@ void joystick_init(void)
         if (rc=DosDevIOCtl(SWhGame, IOCTL_CAT_USER, GAME_GET_PARMS,
                            NULL, 0, NULL, &parms, dataLen, &dataLen))
         {
-            number_joysticks = JOYDEV_HW1 & JOYDEV_HW2;
             log_message(LOG_DEFAULT, "joystick.c: DosDevIOCtl (rc=%i)", rc);
         }
         else
         {
-            if (parms.useA) number_joysticks |= JOYDEV_HW1;
-            if (parms.useB) number_joysticks |= JOYDEV_HW2;
+            if (parms.useA)
+            {
+                log_message(LOG_DEFAULT, "joystick.c: Joystick A found.");
+                number_joysticks |= JOYDEV_HW1;
+            }
+            if (parms.useB)
+            {
+                log_message(LOG_DEFAULT, "joystick.c: Joystick B found.");
+                number_joysticks |= JOYDEV_HW2;
+            }
+            if (number_joysticks==JOYDEV_NONE)
+                log_message(LOG_DEFAULT, "joystick.c: Sorry, no joystick found!");
         }
     }
+
     DosReleaseMutexSem(hmtxJoystick);
 }
 

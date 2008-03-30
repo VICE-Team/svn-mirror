@@ -237,6 +237,12 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
         case VK_F12:      // restore key pressed
             machine_set_restore_key(release);
             return;
+#ifdef __X128__
+        case VK_F11: // press/release 40/80-key
+            if (key_ctrl_column4080_func)
+                key_ctrl_column4080_func();
+            return;
+#endif
         }
     }
 

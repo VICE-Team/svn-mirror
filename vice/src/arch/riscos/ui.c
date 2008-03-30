@@ -395,8 +395,7 @@ static const conf_icon_id SidDependentIcons[] = {
   {CONF_WIN_SYSTEM, Icon_Conf_Basic},
 
 #define ICON_LIST_TRUE \
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrv}, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvSync}, \
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvSyncT}, \
+  {CONF_WIN_DRIVES, Icon_Conf_TrueDrv}, \
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt8}, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt8T}, \
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle8}, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle8T},\
   {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar8}, \
@@ -803,7 +802,7 @@ static struct MenuROMSetTmpl {
 /* ROMset actions */
 static char NewRomSetName[32];
 
-static char TrueSyncCustomField[16];
+static char VideoSyncCustomField[16];
 
 
 
@@ -839,7 +838,7 @@ static const char Rsrc_DriveF8[] = "DriveFile8";
 static const char Rsrc_DriveF9[] = "DriveFile9";
 static const char Rsrc_DriveF10[] = "DriveFile10";
 static const char Rsrc_DriveF11[] = "DriveFile11";
-static const char Rsrc_TrueSync[] = "VideoStandard";
+static const char Rsrc_VideoSync[] = "VideoStandard";
 static const char Rsrc_TapeFile[] = "TapeFile";
 static const char Rsrc_Conv8P00[] = "FSDevice8ConvertP00";
 static const char Rsrc_Conv9P00[] = "FSDevice9ConvertP00";
@@ -2230,11 +2229,11 @@ int ui_init(int *argc, char *argv[])
   item = (RO_MenuItem*)(ConfigMenus[CONF_MENU_SYSKBD].menu + 1);
   item[Menu_SysKbd_Save].submenu = (RO_MenuHead*)(SaveBox->Handle);
   item = (RO_MenuItem*)(ConfigMenus[CONF_MENU_TRUESYNC].menu + 1);
-  item[Menu_TrueSync_Custom].iflags |= IFlg_Indir;
-  dat = &(item[Menu_TrueSync_Custom].dat.ind);
-  dat->tit = (int*)TrueSyncCustomField; dat->val = (int*)-1; dat->len = sizeof(TrueSyncCustomField);
+  item[Menu_VideoSync_Custom].iflags |= IFlg_Indir;
+  dat = &(item[Menu_VideoSync_Custom].dat.ind);
+  dat->tit = (int*)VideoSyncCustomField; dat->val = (int*)-1; dat->len = sizeof(VideoSyncCustomField);
 
-  TrueSyncCustomField[0] = '\0';
+  VideoSyncCustomField[0] = '\0';
   sprintf(ROMSetItemFile, "rset/"RSETARCH_EXT);
   sprintf(SystemKeymapFile, "ROdflt/"KEYMAP_EXT);
   sprintf(ViceScreenshotFile, "scrshot");
@@ -4814,7 +4813,7 @@ void ui_poll(void)
     RelativeSpeed = (10000 * NumberOfFrames) / (FramesPerSecond * (now - LastSpeed));
     ui_display_speed(RelativeSpeed, (100 * NumberOfRefreshes) / (now - LastSpeed), 0);
     LastSpeed = now; NumberOfFrames = 0; NumberOfRefreshes = 0;
-    resources_get_value(Rsrc_TrueSync, &val);
+    resources_get_value(Rsrc_VideoSync, &val);
     FramesPerSecond = ((int)val == DRIVE_SYNC_PAL) ? 50 : 60;
   }
 
@@ -5015,14 +5014,21 @@ void ui_display_speed(int percent, int framerate, int warp_flag)
 {
   if (FullScreenMode == 0)
   {
-    char buffer[32];
+    if (vsid_mode == 0)
+    {
+      char buffer[32];
 
-    if (DisplayFPS == 0)
-      sprintf(buffer, SymbolStrings[Symbol_PaneSpd], percent);
+      if (DisplayFPS == 0)
+        sprintf(buffer, SymbolStrings[Symbol_PaneSpd], percent);
+      else
+        sprintf(buffer, SymbolStrings[Symbol_PaneFPS], framerate);
+
+      wimp_window_write_icon_text_u(EmuPane, Icon_Pane_Speed, buffer);
+    }
     else
-      sprintf(buffer, SymbolStrings[Symbol_PaneFPS], framerate);
-
-    wimp_window_write_icon_text_u(EmuPane, Icon_Pane_Speed, buffer);
+    {
+      vsid_ui_display_speed(percent);
+    }
   }
   else
   {

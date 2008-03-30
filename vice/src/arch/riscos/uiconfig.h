@@ -166,8 +166,6 @@ typedef struct {
 
 /* Drive config */
 #define Icon_Conf_TrueDrv	16
-#define Icon_Conf_TrueDrvSync	18
-#define Icon_Conf_TrueDrvSyncT	23
 #define Icon_Conf_TrueDrvPar8	17
 #define Icon_Conf_TrueDrvExt8	19
 #define Icon_Conf_TrueDrvExt8T	20
@@ -286,6 +284,8 @@ typedef struct {
 #define Icon_Conf_SetPalette	49
 #define Icon_Conf_Keyboard	50
 #define Icon_Conf_KeyboardT	51
+#define Icon_Conf_VideoSync	52
+#define Icon_Conf_VideoSyncT	53
 
 /* Joystick conf */
 #define Icon_Conf_JoyPort1	2
@@ -356,7 +356,7 @@ typedef struct {
 #define Menu_DriveFS_SaveP00	1
 #define Menu_DriveFS_HideCBM	2
 
-#define Menu_TrueSync_Custom	2
+#define Menu_VideoSync_Custom	2
 
 #define Menu_DriveType_Disk	0
 #define Menu_DriveType_FS	1

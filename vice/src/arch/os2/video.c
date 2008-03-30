@@ -49,9 +49,6 @@
 #include "log.h"
 #include "proc.h"
 #include "ui.h"
-#ifdef __X128__
-#include "vdc.h"      // vdc_free()
-#endif
 #include "ui_status.h"
 #include "utils.h"
 #include "machine.h"
@@ -68,6 +65,9 @@
 #endif
 
 #include "version.h"
+
+#define DEBUG(txt)
+//#define DEBUG(txt) log_debug(txt)
 
 extern void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState);
 
@@ -245,16 +245,11 @@ void video_close(void)
 {
     //
     // video_close is called from the main thread, that means, that
-    // vice is not blitting atthe same moment.
+    // vice is not blitting at the same moment.
     //
     APIRET rc;
 
-#if 0
-    video_free();
-#ifdef __X128__
-    vdc_free();
-#endif
-#endif
+    DEBUG("VIDEO CLOSE 0");
 
     if (rc=DiveClose(hDiveInst))
         log_message(LOG_DEFAULT, "video.c: Dive closed (rc=0x%x).", rc);
@@ -263,6 +258,8 @@ void video_close(void)
     hDiveInst = 0;
 
     free(divesetup.pVisDstRects);
+
+    DEBUG("VIDEO CLOSE 1");
 }
 
 /* ------------------------------------------------------------------------ */
@@ -299,6 +296,8 @@ void video_frame_buffer_free(video_frame_buffer_t *f)
     if (!f)
         return;
 
+    DEBUG("FRAME BUFFER FREE 0");
+
     if (rc=DiveFreeImageBuffer(hDiveInst, f->ulBuffer))
         log_message(LOG_DEFAULT,"video.c: Error DiveFreeImageBuffer (rc=0x%x).", rc);
     //
@@ -310,6 +309,8 @@ void video_frame_buffer_free(video_frame_buffer_t *f)
     //
     free(f->bitmap);
     free(f);
+
+    DEBUG("FRAME BUFFER FREE 1");
 }
 
 /* ------------------------------------------------------------------------ */
@@ -417,6 +418,9 @@ void wmVrn(HWND hwnd)
 {
     HPS  hps  = WinGetPS(hwnd);
     HRGN hrgn = GpiCreateRegion(hps, 0L, NULL);
+
+    DEBUG("WM VRN 0");
+
     if (hrgn) {  // this should be controlled again (clr/home, stretch 3)
         RGNRECT rgnCtl;
         WinQueryVisibleRegion(hwnd, hrgn);
@@ -440,11 +444,15 @@ void wmVrn(HWND hwnd)
         GpiDestroyRegion(hps, hrgn);
     }
     WinReleasePS(hps);
+
+    DEBUG("WM VRN 1");
 }
 
 void wmVrnEnabled(HWND hwnd)
 {
     canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd,QWL_USER);
+
+    DEBUG("WM VRN ENABLED 0");
 
     DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
     if (!hDiveInst || !initialized)
@@ -459,11 +467,15 @@ void wmVrnEnabled(HWND hwnd)
     // blit the whole visible area to the screen at next blit time
     //
     c->exposure_handler(c->width, c->height);
+
+    DEBUG("WM VRN ENABLED 1");
 }
 
 void wmVrnDisabled(HWND hwnd)
 {
     canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd,QWL_USER);
+
+    DEBUG("WM VRN DISABLED 0");
 
     DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
     if (!hDiveInst)
@@ -480,6 +492,8 @@ void wmVrnDisabled(HWND hwnd)
     //
     c->vrenabled=FALSE;
     DosReleaseMutexSem(hmtx);
+
+    DEBUG("WM VRN DISABLED 1");
 }
 
 MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
@@ -592,6 +606,9 @@ void PM_mainloop(VOID *arg)
     //
     // make sure, that the state of the VRN doesn't change anymore, don't blit anymore
     //
+
+    // FIXME: The disabeling can be done in WM_CLOSE???
+    WinSetVisibleRegionNotify(c->hwndClient, FALSE);
     initialized = FALSE;
     wmVrnDisabled(c->hwndClient);
 
@@ -603,26 +620,23 @@ void PM_mainloop(VOID *arg)
      Is this right, that I couldn't call this for xpet & xcbm2?
      ----------------------------------------------------------
      if (WinDestroyWindow ((*ptr)->hwndFrame))
-     log_message(LOG_DEFAULT,"video.c: Error! Graphic window destroy. (rc=%li)",rc);*/
+     */
 
-    /*
-     ----------------------------------------------------------
-     Do I need another solution for x128?
-     the thread of the second canvas hangs when trying to
-     to enable disable visible region
-     ---------------------------------------------------------- */
-    // Make sure, that the emulation thread doesn't
-    // try to blit the screen anymore
-    //#ifndef __X128__
-    //    DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
-    //#endif
+    //
+    // FIXME: For x128 this must be triggered before the Msg Queue is destroyed
+    // because sometimes WinDestroyMsgQueue seems to hang. For the second
+    // window the msg queue is never destroyed. Is it really necessary
+    // to destroy the msg queue?
+    //
+    log_debug("Triggering Shutdown of Emulation Thread.");
+    trigger_shutdown = 1;
 
+    log_debug("Destroying Msg Queue.");
     if (!WinDestroyMsgQueue(hmq))
         log_message(LOG_DEFAULT,"video.c: Error! Destroying Msg Queue.");
+    log_debug("Releasing PM Anchor.");
     if (!WinTerminate (hab))
         log_message(LOG_DEFAULT,"video.c: Error! Releasing PM anchor.");
-
-    trigger_shutdown = 1;
 
     DosSleep(5000); // wait 5 seconds
 
@@ -780,6 +794,8 @@ void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
     if (DosRequestMutexSem(hmtx, SEM_IMMEDIATE_RETURN) || !hDiveInst || !initialized)
         return;
 
+    DEBUG("CANVAS REFRESH 0");
+
     if (c->vrenabled)
     {
         //
@@ -806,9 +822,16 @@ void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
         // now setup the draw areas
         // (all other values are set already by WM_VRNENABLED)
         //
+        // Because x128 has two canvases we have
+        // to setup the absolute drawing area
+        //
         // FIXME: maybe this should only be done when
         //        video cache is enabled
+#ifdef __X128__
+        wmVrn(c->hwndClient);
+#else
         DiveSetupBlitter(hDiveInst, &divesetup);
+#endif
 
         //
         // and blit the image to the screen
@@ -816,5 +839,7 @@ void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
         DiveBlitImage(hDiveInst, f->ulBuffer, DIVE_BUFFER_SCREEN);
     }
     DosReleaseMutexSem(hmtx);
+
+    DEBUG("CANVAS REFRESH 1");
 };
 

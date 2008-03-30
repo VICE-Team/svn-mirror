@@ -6,13 +6,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-11-26 15:38+0100\n"
+"POT-Creation-Date: 2000-12-02 18:44+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: ENCODING\n"
+
+#: src/print.c:78 src/print.c:80 src/print.c:82
+msgid "Specify name of printer device or dump file"
+msgstr ""
 
 #: src/arch/unix/uicommands.c:96
 #, c-format
@@ -572,7 +576,7 @@ msgstr ""
 
 #: src/arch/unix/c128ui.c:472 src/arch/unix/c610ui.c:490
 #: src/arch/unix/c64ui.c:604 src/arch/unix/petui.c:517
-#: src/arch/unix/vic20ui.c:466
+#: src/arch/unix/vic20ui.c:466 src/arch/unix/vsidui.c:245
 msgid "File"
 msgstr ""
 
@@ -590,8 +594,8 @@ msgstr ""
 
 #: src/arch/unix/c128ui.c:510 src/arch/unix/c610ui.c:525
 #: src/arch/unix/c64ui.c:647 src/arch/unix/petui.c:552
-#: src/arch/unix/vic20ui.c:501 src/arch/unix/x11/gnome/ui.c:1105
-#: src/arch/unix/x11/gnome/ui.c:1197
+#: src/arch/unix/vic20ui.c:501 src/arch/unix/vsidui.c:258
+#: src/arch/unix/x11/gnome/ui.c:1105 src/arch/unix/x11/gnome/ui.c:1197
 msgid "Settings"
 msgstr ""
 

@@ -413,6 +413,7 @@ extern  int fullscreen_active;
    `palette'.  If specified width/height is not possible, return an
    alternative in `*width' and `*height'; return the pixel values for the
    requested palette in `pixel_return[]'.  */
+#define CANVAS_ERROR ((canvas_t *) -1)
 canvas_t *canvas_create(const char *title, unsigned int *width,
                         unsigned int *height, int mapped,
                         canvas_redraw_t exposure_handler,
@@ -448,7 +449,7 @@ int             refreshrate;
     device_guid=GetGUIDForActualDevice();
     ddresult = DirectDrawCreate(device_guid, &c->dd_object, NULL);
 
-    if (ddresult != DD_OK) return -1;
+    if (ddresult != DD_OK) return CANVAS_ERROR;
 
     if (IsFullscreenEnabled()) {
         /*  Set cooperative level */
@@ -456,14 +457,14 @@ int             refreshrate;
         if (ddresult != DD_OK) {
             ui_error("Cannot set DirectDraw cooperative level:\n%s",
                      dd_error(ddresult));
-            return -1;
+            return CANVAS_ERROR;
         }
     } else {
         ddresult = IDirectDraw_SetCooperativeLevel(c->dd_object, NULL, DDSCL_NORMAL);
         if (ddresult != DD_OK) {
             ui_error("Cannot set DirectDraw cooperative level:\n%s",
                      dd_error(ddresult));
-            return -1;
+            return CANVAS_ERROR;
         }
     }
 
@@ -505,20 +506,20 @@ int             refreshrate;
     ddresult = IDirectDraw2_CreateSurface(c->dd_object2, &desc, &c->primary_surface, NULL);
     if (ddresult != DD_OK) {
         DEBUG(("Cannot create primary surface: %s", dd_error(ddresult)));
-        return -1;
+        return CANVAS_ERROR;
     }
 
     ddresult = IDirectDraw2_CreateClipper(c->dd_object2, 0, &c->clipper, NULL);
     if (ddresult != DD_OK) {
         ui_error("Cannot create clipper for primary surface:\n%s",
                  dd_error(ddresult));
-        return -1;
+        return CANVAS_ERROR;
     }
     ddresult = IDirectDrawSurface_SetClipper(c->primary_surface, c->clipper);
     if (ddresult != DD_OK) {
         ui_error("Cannot set clipper for primary surface:\n%s",
                  dd_error(ddresult));
-        return -1;
+        return CANVAS_ERROR;
     }
 
     memset(&desc, 0, sizeof(desc));
@@ -1197,7 +1198,7 @@ offs1:
                                 dw=ct[*sp++];
                                 dw2=ct[*sp++];
                                 *((DWORD*)p)++=dw+(dw2<<24);
-                                *(WORD*)p=dw2>>8;
+                                *(WORD*)p=(WORD)(dw2>>8);
                                 break;
                             case 3:
                                 dw=ct[*sp++];
@@ -1205,7 +1206,7 @@ offs1:
                                 *((DWORD*)p)++=dw+(dw2<<24);
                                 dw=ct[*sp];
                                 *((DWORD*)p)++=(dw2>>8)+(dw<<16);
-                                *p=(dw>>16);
+                                *p=(BYTE)(dw>>16);
                                 break;
                         }
                     }

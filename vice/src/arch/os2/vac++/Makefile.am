@@ -30,6 +30,7 @@ EXTRA_DIST = \
         incl/vdrive.icc \
         incl/vic20.icc \
         incl/vicii.icc \
+        incl/vsid.icc \
         ctools/biosdump.icc \
         ctools/cformat.icc \
         ctools/ctools.icc \

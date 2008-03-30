@@ -82,7 +82,11 @@ LIB32=link.exe -lib
 # Name "monitor - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\monitor\asm.c
+SOURCE=..\..\monitor\asm6502.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\asmz80.c
 # End Source File
 # Begin Source File
 

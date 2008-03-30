@@ -461,9 +461,14 @@ static void vsync_hook(void)
 
     if (vsid_mode) {
         unsigned int playtime;
+        static unsigned int time=0;
 
         playtime = (psid_increment_frames() * cycles_per_rfsh) / cycles_per_sec;
-        vsid_ui_display_time(playtime);
+        if (playtime!=time)
+        {
+            vsid_ui_display_time(playtime);
+            time=playtime;
+        }
         clk_guard_prevent_overflow(&maincpu_clk_guard);
 	return;
     }

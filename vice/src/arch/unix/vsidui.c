@@ -240,6 +240,30 @@ static void vsid_create_menus(void)
 					psid_menu,
 					NULL));
 
+#ifdef USE_GNOMEUI
+  ui_set_topmenu("TopLevelMenu",
+		 _("File"),
+		 ui_menu_create("LeftMenu",
+				ui_load_commands_menu,
+				ui_tune_menu,
+				ui_menu_separator,
+				ui_tool_commands_menu,
+				ui_menu_separator,
+				ui_help_commands_menu,
+				ui_menu_separator,
+				ui_run_commands_menu,
+				ui_menu_separator,
+				ui_exit_commands_menu,
+				NULL),
+		 _("Settings"),
+		 ui_menu_create("File",
+				ui_sound_settings_menu,
+				ui_menu_separator,
+				psid_menu,
+				NULL),
+		 NULL);
+#endif
+
   ui_update_menus();
 }
 

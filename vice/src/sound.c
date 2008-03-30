@@ -46,6 +46,18 @@
 #include "utils.h"
 #include "vsync.h"
 
+
+/* multiply two sound clks (fixpoint case) */
+#ifdef SOUNDCLK_PREC
+soundclk_t soundclk_mult(soundclk_t a, soundclk_t b)
+{
+  unsigned long ia, ib, fa, fb;
+  ia = (a>>SOUNDCLK_PREC); fa = a & ((1<<SOUNDCLK_PREC)-1);
+  ib = (b>>SOUNDCLK_PREC); fb = b & ((1<<SOUNDCLK_PREC)-1);
+  return (((ia*ib)<<SOUNDCLK_PREC) + (ia*fb+ib*fa) + ((fa*fb)>>SOUNDCLK_PREC));
+}
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 #ifndef TRUE
@@ -221,15 +233,17 @@ typedef struct
     /* sid itself */
     sound_t		*psid;
     /* number of clocks between each sample. used value */
-    double		 clkstep;
+    soundclk_t		 clkstep;
     /* number of clocks between each sample. original value */
-    double		 origclkstep;
+    soundclk_t		 origclkstep;
     /* factor between those two clksteps */
-    double		 clkfactor;
+    soundclk_t		 clkfactor;
     /* time of last sample generated */
-    double		 fclk;
+    soundclk_t		 fclk;
     /* time of last write to sid. used for pdev->dump() */
     CLOCK		 wclk;
+    /* time of last call to sound_run_sound() */
+    CLOCK		 lastclk;
     /* sample buffer */
     SWORD		 buffer[BUFSIZE];
     /* sample buffer pointer */
@@ -398,7 +412,7 @@ static int initsid(void)
             }
 	    if (pdev->bufferstatus)
 		snddata.firststatus = pdev->bufferstatus(1);
-	    snddata.clkstep = (double)cycles_per_sec / speed;
+	    snddata.clkstep = SOUNDCLK_CONSTANT(cycles_per_sec) / speed;
 	    if (snddata.oversamplenr > 1)
 	    {
 		snddata.clkstep /= snddata.oversamplenr;
@@ -406,9 +420,10 @@ static int initsid(void)
 		     snddata.oversamplenr);
 	    }
 	    snddata.origclkstep = snddata.clkstep;
-	    snddata.clkfactor = 1.0;
-	    snddata.fclk = clk;
+	    snddata.clkfactor = SOUNDCLK_CONSTANT(1.0);
+	    snddata.fclk = SOUNDCLK_CONSTANT(clk);
 	    snddata.wclk = clk;
+            snddata.lastclk = clk;
 
 	    /* Set warp mode for non-realtime sound devices in vsid mode. */
 	    if (vsid_mode && !pdev->bufferstatus)
@@ -440,25 +455,33 @@ static int sound_run_sound(void)
     SoundMachineReady = 1;
     if (SoundThreadActive != 0) return 0;
 #endif
-    nr = (int)((clk - snddata.fclk) / snddata.clkstep);
+    nr = (int)((SOUNDCLK_CONSTANT(clk) - snddata.fclk) / snddata.clkstep);
     if (!nr)
 	return 0;
     if (snddata.bufptr + nr > BUFSIZE)
+    {
+#ifdef SOUNDCLK_PREC
+        /* can happen on a hard reset (lag between CPU reset and call to sound_reset() ) */
+        if ((long)(clk - snddata.lastclk) < 0)
+            return 0;
+#endif
         return closesound("Audio: sound buffer overflow.");
-
+    }
     sound_machine_calculate_samples(snddata.psid,
 				    snddata.buffer + snddata.bufptr,
 				    nr);
     snddata.bufptr += nr;
     snddata.fclk   += nr*snddata.clkstep;
+    snddata.lastclk = clk;
     return 0;
 }
 
 /* reset sid */
 void sound_reset(void)
 {
-    snddata.fclk = clk;
+    snddata.fclk = SOUNDCLK_CONSTANT(clk);
     snddata.wclk = clk;
+    snddata.lastclk = clk;
     snddata.bufptr = 0;		/* ugly hack! */
     if (snddata.psid)
 	sound_machine_reset(snddata.psid, clk);
@@ -466,7 +489,7 @@ void sound_reset(void)
 
 static void prevent_clk_overflow_callback(CLOCK sub, void *data)
 {
-    snddata.fclk -= sub;
+    snddata.fclk -= SOUNDCLK_CONSTANT(sub);
     snddata.wclk -= sub;
     if (snddata.psid)
 	sound_machine_prevent_clk_overflow(snddata.psid, sub);
@@ -603,14 +626,14 @@ int sound_flush(int relative_speed)
 	}
 	if (speed_adjustment_setting != SOUND_ADJUST_ADJUSTING) {
             if (relative_speed > 0)
-	        snddata.clkfactor = relative_speed / 100.0;
+	        snddata.clkfactor = SOUNDCLK_CONSTANT(relative_speed) / 100;
 	}
 	else
 	{
 	    if (snddata.prevfill)
 		snddata.prevused = used;
-	    snddata.clkfactor *= 1.0 + 0.9*(used - snddata.prevused)/
-		snddata.bufsize;
+	    snddata.clkfactor = SOUNDCLK_MULT(snddata.clkfactor, SOUNDCLK_CONSTANT(1.0)
+	        + (SOUNDCLK_CONSTANT(0.9)*(used - snddata.prevused))/snddata.bufsize);
 	}
 	snddata.prevused = used;
 	snddata.prevfill = fill;
@@ -633,9 +656,10 @@ int sound_flush(int relative_speed)
 	    }
 	}
 	else
-	    snddata.clkfactor *= 0.9 + (used+nr)*0.12/snddata.bufsize;
-	snddata.clkstep = snddata.origclkstep * snddata.clkfactor;
-	if (cycles_per_rfsh / snddata.clkstep >= snddata.bufsize)
+	    snddata.clkfactor = SOUNDCLK_MULT(snddata.clkfactor, SOUNDCLK_CONSTANT(0.9)
+	                      + ((used+nr)*SOUNDCLK_CONSTANT(0.12))/snddata.bufsize);
+	snddata.clkstep = SOUNDCLK_MULT(snddata.origclkstep, snddata.clkfactor);
+	if (SOUNDCLK_CONSTANT(cycles_per_rfsh) / snddata.clkstep >= snddata.bufsize)
 	{
             if (suspend_time > 0)
 	        suspendsound("running too slow");
@@ -737,7 +761,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
 #if defined(USE_ARTS)
     sound_init_arts_device();
-#endif                           
+#endif
 #if defined(HAVE_LINUX_SOUNDCARD_H) || defined(HAVE_MACHINE_SOUNDCARD_H)
     sound_init_uss_device();
 #endif
@@ -797,9 +821,14 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #endif
 }
 
-double sound_sample_position(void)
+long sound_sample_position(void)
 {
-    return (snddata.clkstep==0) ? 0.0 : (clk-snddata.fclk)/snddata.clkstep;
+#ifdef SOUNDCLK_PREC
+    /* can happen after a hard reset (lag between CPU reset and call to sound_reset() ) */
+    if ((long)(clk - snddata.lastclk) < 0)
+        return 0;
+#endif
+    return (snddata.clkstep==0) ? 0 : (long)(SOUNDCLK_CONSTANT(clk) - snddata.fclk) / snddata.clkstep;
 }
 
 int sound_read(ADDRESS addr)

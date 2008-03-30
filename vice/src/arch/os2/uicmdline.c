@@ -37,6 +37,8 @@
 
 extern HAB habMain;
 
+#include "archdep.h"
+
 void ui_cmdline_show_help(int num_options, cmdline_option_t *options)
 {
     int i, j;
@@ -83,7 +85,6 @@ void ui_cmdline_show_help(int num_options, cmdline_option_t *options)
         {
             WinPeekMsg (habMain, &qmsg, NULLHANDLE, 0, 0, PM_REMOVE);
             WinDispatchMsg (habMain, &qmsg);
-            DosSleep(1);
         }
     }
 

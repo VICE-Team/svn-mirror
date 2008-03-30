@@ -44,6 +44,32 @@
 #include "utils.h"
 #include "winmain.h"
 
+
+// #define DEBUG_UIMON
+
+/* Debugging stuff.  */
+#ifdef DEBUG_UIMON
+
+#include "log.h"
+
+static void uimon_debug(const char *format, ...)
+{
+        char tmp[1024];
+        va_list args;
+
+        va_start(args, format);
+        vsprintf(tmp, format, args);
+        va_end(args);
+        OutputDebugString(tmp);
+	    log_message(LOG_DEFAULT,tmp);
+        printf(tmp);
+}
+#define UIM_DEBUG(x) uimon_debug x
+#else
+#define UIM_DEBUG(x)
+#endif
+
+
 #define UIMON_EXPERIMENTAL 1
 
 #ifdef UIMON_EXPERIMENTAL
@@ -84,7 +110,6 @@ typedef struct CToolBarData
 static
 HWND CreateAToolbar( HWND hwnd )
 {
-    HMODULE       hMod     = NULL;
     HRSRC         hRes     = NULL;
     HGLOBAL       hGlobal  = NULL;
     HWND          hToolbar = NULL;
@@ -179,6 +204,12 @@ HWND OpenDisassembly( HWND hwnd )
 }
 
 static
+void DestroyMdiWindow(HWND hwndMdiClient, HWND hwndChild)
+{
+	SendMessage(hwndMdiClient,WM_MDIDESTROY,(WPARAM)hwndChild,0);
+}
+
+static
 void OpenConsole( HWND hwnd, BOOLEAN bOpen )
 {
     if (bOpen)
@@ -190,11 +221,12 @@ void OpenConsole( HWND hwnd, BOOLEAN bOpen )
 		  without this, the console window cannot be accessed almost always on first 
 		  opening if the monitor. Any hints why?
 		*/
-        DestroyWindow( OpenDisassembly(hwnd) );
+		DestroyMdiWindow(hwndMdiClient,OpenDisassembly(hwnd));
     }
     else
     {
-        DestroyWindow( hwndConsole );
+		DestroyMdiWindow(hwndMdiClient,hwndConsole);
+
         hwndConsole = NULL;
     }
 }
@@ -483,6 +515,13 @@ void SetMemspace( HWND hwnd, enum t_memspace memspace )
 	case e_comp_space:  bComputer = TRUE; break;
 	case e_disk8_space: bDrive8   = TRUE; break;
 	case e_disk9_space: bDrive9   = TRUE; break;
+
+    /* 
+        these two cases should not occur; 
+        they're just there to avoid the warning 
+    */
+    case e_default_space: /* FALL THROUGH */
+    case e_invalid_space: break; 
 	}
 
 	ENABLE( IDM_MON_COMPUTER, 1 );
@@ -772,7 +811,7 @@ static long CALLBACK dis_window_proc(HWND hwnd,
 			HDC hdc;
             RECT rect;
             unsigned int uAddress = mon_get_reg_val(pdp->memspace,e_PC);
-            unsigned int loc;
+            ADDRESS loc;
             unsigned int size;
             char buffer[512];
             const char *p;
@@ -940,10 +979,7 @@ console_t *arch_mon_window_open( void )
         NULL,
         winmain_instance,
         NULL);
-
-
     
-	
 	ShowWindow( hwnd, SW_SHOW );
 
     OpenConsole(hwnd,TRUE);
@@ -975,13 +1011,29 @@ void arch_mon_window_suspend( void )
 #endif // #ifdef UIMON_EXPERIMENTAL
 }
 
+static
+BOOL CALLBACK WindowUpdateProc( HWND hwnd, LPARAM lParam )
+{
+	InvalidateRect(hwnd,NULL,FALSE);
+	UpdateWindow(hwnd);
+	return TRUE;
+}
+ 
+static
+void UpdateAll(void)
+{
+	InvalidateRect(hwnd,NULL,FALSE);
+    UpdateWindow( hwnd );
+	EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowUpdateProc,(LPARAM)NULL);
+}
+
 console_t *arch_mon_window_resume( void )
 {
 #ifdef UIMON_EXPERIMENTAL
 
 	pRetValue = NULL;
 
-    UpdateWindow( hwnd );
+	UpdateAll();
     return &console_log_for_mon;
 
 #else // #ifdef UIMON_EXPERIMENTAL
@@ -1039,7 +1091,9 @@ char *arch_mon_in()
     if (pRetValue)
     {
         if (p)
+		{
             free(p);
+		}
         p = stralloc(pRetValue);
         pRetValue = NULL;
     }

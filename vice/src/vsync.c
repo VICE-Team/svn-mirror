@@ -202,18 +202,20 @@ void vsync_prevent_clk_overflow(CLOCK sub)
 /* Display speed (percentage) and frame rate (frames per second). */
 static void display_speed(int num_frames)
 {
-    unsigned long now = vsyncarch_gettime();
+    const unsigned long now = vsyncarch_gettime();
 
-    CLOCK  diff_clk = clk - speed_eval_prev_clk;
-    double diff_tm  = (double)(now - display_start)/vsyncarch_timescale();
+    const CLOCK  diff_clk = clk - speed_eval_prev_clk;
+    const double diff_tm  = (double)(now - display_start)/vsyncarch_timescale();
 
-    double speed_index = diff_clk/(cycles_per_sec*diff_tm);
-    double frame_rate  = num_frames/diff_tm;
+    const double speed_index = diff_clk/(cycles_per_sec*diff_tm);
+    const double frame_rate  = num_frames/diff_tm;
 
+#ifndef OS2
     if ((now - frame_start) / vsyncarch_timescale() >= 1.0)
     {
         suspend_speed_eval();
     }
+#endif
 
     vsyncarch_display_speed(speed_index*100, frame_rate, warp_mode_enabled);
 

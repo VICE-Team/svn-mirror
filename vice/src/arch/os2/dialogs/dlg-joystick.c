@@ -50,6 +50,8 @@
 #define JOYDEV_ALL (JOYDEV_HW1|JOYDEV_HW2|JOYDEV_NUMPAD| \
                     JOYDEV_KEYSET1|JOYDEV_KEYSET2)
 
+extern int number_joysticks;
+
 static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     static int first = TRUE;
@@ -77,7 +79,24 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             if (first)
             {
                 int joy1, joy2;
+                //
+                // disable controls of non existing joysticks
+                // remark: I think this cannot change while runtime
+                //
+                if (!(number_joysticks&JOYDEV_HW1))
+                {
+                    WinEnableControl(hwnd, CB_JOY11, 0);
+                    WinEnableControl(hwnd, CB_JOY12, 0);
+                }
+                if (!(number_joysticks&JOYDEV_HW2))
+                {
+                    WinEnableControl(hwnd, CB_JOY21, 0);
+                    WinEnableControl(hwnd, CB_JOY22, 0);
+                }
+                if (number_joysticks==0)
+                    WinEnableControl(hwnd, ID_CALIBRATE, 0);
                 first=FALSE;
+
                 resources_get_value("JoyDevice1", (resource_value_t*) &joy1);
                 resources_get_value("JoyDevice2", (resource_value_t*) &joy2);
                 WinSendMsg(hwnd, WM_SETCBS, (void*)joy1, (void*)joy2);

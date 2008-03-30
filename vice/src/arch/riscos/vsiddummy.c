@@ -45,3 +45,7 @@ int vsid_ui_message_hook(struct wimp_msg_desc_s *msg)
 {
   return 0;
 }
+
+void vsid_ui_display_speed(int percent)
+{
+}

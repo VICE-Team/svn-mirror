@@ -37,6 +37,7 @@
 
 #include "tape.h"
 #include "datasette.h"
+#include "resources.h"
 
 
 static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
@@ -56,6 +57,7 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
         {
             if (first)
             {
+                int val;
                 first=FALSE;
                 WinSendMsg(hwnd, WM_COUNTER,  (void*)ui_status.lastTapeCounter, 0);
                 WinSendMsg(hwnd, WM_TAPESTAT,
@@ -64,6 +66,13 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
                 WinShowDlg(hwnd, SS_SPIN,
                            (ui_status.lastTapeMotor && ui_status.lastTapeStatus)
                            ?1:0);
+
+                resources_get_value("DatasetteResetWithCPU", (resource_value_t *) &val);
+                WinCheckButton(hwnd, CB_RESETWCPU, val);
+                resources_get_value("DatasetteZeroGapDelay", (resource_value_t *) &val);
+                WinSetSpinVal(hwnd, SPB_DELAY, (val/100));
+                resources_get_value("DatasetteSpeedTuning", (resource_value_t *) &val);
+                WinSetSpinVal(hwnd, SPB_GAP, val);
             }
         }
         break;
@@ -107,6 +116,26 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
             tape_detach_image();
             return FALSE;
         }
+        break;
+    case WM_CONTROL:
+        switch (SHORT1FROMMP(mp1))
+        {
+        case SPB_DELAY:
+            if (SHORT2FROMMP(mp1)==SPBN_ENDSPIN) {
+                ULONG val;
+                WinGetSpinVal(hwnd, SPB_DELAY, &val);
+                resources_set_value("DatasetteZeroGapDelay", (resource_value_t)(val*100));
+            }
+            break;
+        case SPB_GAP:
+            if (SHORT2FROMMP(mp1)==SPBN_ENDSPIN) {
+                ULONG val;
+                WinGetSpinVal(hwnd, SPB_GAP, &val);
+                resources_set_value("DatasetteSpeedTuning", (resource_value_t)val);
+            }
+            break;
+        }
+        break;
     }
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }

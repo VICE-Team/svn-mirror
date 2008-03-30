@@ -122,6 +122,9 @@
 #define PB_RESETCNT    0x1076  /* DATASETTE_CONTROL_RESET_COUNTER  6 */
 #define SPB_COUNT      0x1077
 #define SS_SPIN        0x1078
+#define CB_RESETWCPU   0x1079
+#define SPB_DELAY      0x107a
+#define SPB_GAP        0x107b
 #define WM_COUNTER     WM_USER+0x1
 #define WM_TAPESTAT    WM_USER+0x2
 #define WM_SPINNING    WM_USER+0x3
@@ -192,8 +195,8 @@
 #define CB_SBCOLL        0x1096
 #define CB_SSCOLL        0x1097
 #define CB_EMUID         0x1098
-#define SPB_SPEEDDISP    0x1099
-#define SPB_REFRATEDISP  0x109a
+#define ID_SPEEDDISP     0x1099
+#define ID_REFRATEDISP   0x109a
 #define CB_MOUSE         0x109b
 #define CB_HIDEMOUSE     0x109c
 #define CBS_SSNAME       0x109d
@@ -227,16 +230,20 @@
 #define RB_NTSC        0x10e2
 #define RB_NTSCOLD     0x10e3
 #define CB_REU         0x10e4
+#define RB_VDC16K      0x10e5
+#define RB_VDC64K      0x10e6
 
 #define DLG_VSID       0x10f0
-#define SPB_TUNENO     0x10f1
-#define SPB_TUNES      0x10f2
+#define ID_TUNENO      0x10f1
+#define ID_TUNES       0x10f2
 #define SPB_SETTUNE    0x10f3
 #define PB_DEFTUNE     0x10f4
-#define ID_TNAME       0x10f5
-#define ID_TAUTHOR     0x10f6
-#define ID_TCOPYRIGHT  0x10f7
-#define ID_TSYNC       0x10f8
+#define ID_TIME        0x10f5
+#define ID_TNAME       0x10f6
+#define ID_TAUTHOR     0x10f7
+#define ID_TCOPYRIGHT  0x10f8
+#define ID_TSYNC       0x10f9
+#define ID_OPTIONS     0x10fa
 
 /* WinPM-Macros                                                     */
 /*----------------------------------------------------------------- */
