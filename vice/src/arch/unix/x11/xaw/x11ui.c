@@ -830,13 +830,6 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     return 0;
 }
 
-void ui_create_dynamic_menues()
-{
-#ifdef USE_XF86_EXTENSIONS
-    fullscreen_create_menus();
-#endif
-}
-
 /* Attach `w' as the left menu of all the current open windows.  */
 void ui_set_left_menu(Widget w)
 {
