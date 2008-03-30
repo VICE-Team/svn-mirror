@@ -343,6 +343,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
     if (vdc.raster.current_line == vdc.first_displayed_line * 2 + 1) {
         vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
                          & vdc.vdc_address_mask;
+        vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
+                            & vdc.vdc_address_mask;
     }
 
     if (vdc.raster.current_line == 0) {

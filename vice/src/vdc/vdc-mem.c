@@ -257,8 +257,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
 
       case 20:                  /* R20/21 Attribute Start Address hi/lo */
       case 21:
-        vdc.attribute_adr = ((vdc.regs[20] << 8) | vdc.regs[21])
-                            & vdc.vdc_address_mask;
+        /* Attribute address will be taken at first displayed line.  */
 #ifdef REG_DEBUG
         log_message(vdc.log, "Update attribute_adr: %x.", vdc.attribute_adr);
 #endif
@@ -296,9 +295,9 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 25:
-        if (7 - (vdc.regs[25] & 7) != vdc.xsmooth) {
+        if ((vdc.regs[25] & 15) != vdc.xsmooth) {
 #ifdef ALLOW_UNALIGNED_ACCESS
-            vdc.xsmooth = 7 - (vdc.regs[25] & 7);
+            vdc.xsmooth = (vdc.regs[25] & 15);
             vdc.raster.xsmooth = vdc.xsmooth;
 #else
             vdc.xsmooth = 0;
@@ -318,7 +317,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 26:
-        if ((!(vdc.regs[25] & 0x40)) && (vdc.regs[26] != oldval))
+        if ((vdc.regs[26] != oldval) && ((vdc.regs[25] & 0xC0) != 0xC0))
             vdc.force_repaint = 1;
 #ifdef REG_DEBUG
         log_message(vdc.log, "Color register %x.", vdc.regs[26]);
