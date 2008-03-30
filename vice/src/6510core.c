@@ -221,26 +221,34 @@
                 JUMP(LOAD_ADDR(0xfffc));                                 \
             }                                                            \
         }                                                                \
-        if (ik & (IK_MONITOR)) {					 \
-           caller_space = CALLER;					 \
-           if (mon_force_import(CALLER))				 \
-              IMPORT_REGISTERS();					 \
-           if (mon_mask[CALLER])					 \
-              EXPORT_REGISTERS();					 \
-           if (mon_mask[CALLER] & (MI_BREAK)) {				 \
-              if (check_breakpoints(CALLER, (ADDRESS) reg_pc)) {	 \
-                 mon((ADDRESS) reg_pc);					 \
-                 IMPORT_REGISTERS();					 \
-              }								 \
-           }								 \
-           if (mon_mask[CALLER] & (MI_STEP)) {				 \
-              mon_check_icount((ADDRESS) reg_pc);		         \
-              IMPORT_REGISTERS();					 \
-           }								 \
-           if (mon_mask[CALLER] & (MI_WATCH)) {				 \
-              mon_check_watchpoints((ADDRESS) reg_pc);   		 \
-              IMPORT_REGISTERS();					 \
-           }								 \
+        if (ik & (IK_MONITOR | IK_DMA)) {				 \
+            if (ik & IK_MONITOR) {					 \
+                caller_space = CALLER;					 \
+                if (mon_force_import(CALLER))				 \
+                   IMPORT_REGISTERS();					 \
+                if (mon_mask[CALLER])					 \
+                   EXPORT_REGISTERS();					 \
+                if (mon_mask[CALLER] & (MI_BREAK)) {			 \
+                   if (check_breakpoints(CALLER, (ADDRESS) reg_pc)) {	 \
+                      mon((ADDRESS) reg_pc);				 \
+                      IMPORT_REGISTERS();				 \
+                   }							 \
+                }							 \
+                if (mon_mask[CALLER] & (MI_STEP)) {			 \
+                   mon_check_icount((ADDRESS) reg_pc);		         \
+                   IMPORT_REGISTERS();					 \
+                }							 \
+                if (mon_mask[CALLER] & (MI_WATCH)) {			 \
+                   mon_check_watchpoints((ADDRESS) reg_pc);   		 \
+                   IMPORT_REGISTERS();					 \
+                }							 \
+            }								 \
+            if (ik & IK_DMA) {						 \
+                EXPORT_REGISTERS();					 \
+                DMA_FUNC();						 \
+                ack_dma(&CPU_INT_STATUS);				 \
+                IMPORT_REGISTERS();					 \
+            }								 \
         }								 \
     } while (0)
 
