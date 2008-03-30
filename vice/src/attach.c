@@ -32,10 +32,12 @@
 #endif
 
 #include "attach.h"
+#include "diskimage.h"
 #include "fliplist.h"
 #include "resources.h"
 #include "serial.h"
 #include "ui.h"
+#include "utils.h"
 #include "vdrive.h"
 
 static int file_system_device_enabled[4];
@@ -87,12 +89,16 @@ int file_system_set_hooks(int unit,
 
 void file_system_init(void)
 {
+    serial_t *p;
     int i;
 
     for (i = 0; i < 4; i++) {
-        initialize_1541(i + 8, ((file_system_device_enabled[0] ? DT_FS : DT_DISK)
-                                | DT_1541),
+        initialize_1541(i + 8, ((file_system_device_enabled[0] 
+                        ? DT_FS : DT_DISK) | DT_1541),
                         attach_hooks[i], detach_hooks[i], NULL);
+        p = serial_get_device(i + 8);
+        p->image = xmalloc(sizeof(disk_image_t));    
+        p->image->name = NULL;
     }
 }
 
@@ -193,12 +199,16 @@ int file_system_attach_disk(int unit, const char *filename)
                         floppy);
     }
 
+#if 0
     if (serial_select_file(DT_DISK | DT_1541, unit, filename) < 0) {
+#else
+    if (vdrive_attach_image(p->image, (DRIVE *)p->info, filename) < 0) {
+#endif
         file_system_detach_disk(unit);
         return -1;
     } else {
         flip_set_current(unit, filename);
-	ui_display_drive_current_image(unit - 8, filename);
+        ui_display_drive_current_image(unit - 8, filename);
         return 0;
     }
 }
