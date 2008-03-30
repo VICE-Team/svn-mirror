@@ -32,6 +32,7 @@
 #include "types.h"
 #include "diskimage.h"
 #include "drivecpu.h"
+#include "gcr.h"
 #include "log.h"
 
 /* VIA 1 drive 0 interrupts.  */
@@ -119,12 +120,6 @@
 /* Number of bytes in one raw sector.  */
 #define NUM_BYTES_SECTOR_GCR 360
 
-/* Number of bytes in one raw track.  */
-#define NUM_MAX_BYTES_TRACK 7928
-
-/* Number of tracks we emulate.  */
-#define MAX_GCR_TRACKS 70
-
 /* ------------------------------------------------------------------------- */
 
 #define ROTATION_TABLE_SIZE      0x1000
@@ -175,20 +170,11 @@ typedef struct drive_s {
     /* GCR value being written to the disk.  */
     BYTE GCR_write_value;
 
-    /* Raw GCR image of the disk.  */
-    BYTE GCR_data[MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK];
-
     /* Pointer to the start of the GCR data of this track.  */
     BYTE *GCR_track_start_ptr;
 
-    /* Speed zone image of the disk.  */
-    BYTE GCR_speed_zone[MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK];
-
     /* Size of the GCR data for the current track.  */
     int GCR_current_track_size;
-
-    /* Size of the GCR data of each track.  */
-    int GCR_track_size[MAX_GCR_TRACKS];
 
     /* Offset of the R/W head on the current track.  */
     int GCR_head_offset;
@@ -256,6 +242,9 @@ typedef struct drive_s {
 
     /* Pointer to the attached disk image.  */
     disk_image_t *image;
+
+    /* Pointer to the gcr image.  */
+    gcr_t *gcr;
 } drive_t;
 
 extern drive_t drive[2];
