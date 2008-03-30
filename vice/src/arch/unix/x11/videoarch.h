@@ -81,7 +81,6 @@ typedef struct _frame_buffer frame_buffer_t;
 typedef PIXEL *frame_buffer_ptr_t;
 typedef ui_exposure_handler_t canvas_redraw_t;
 
-extern Display *display;
 #if X_DISPLAY_DEPTH == 0
 extern void (*_convert_func) (frame_buffer_t *p, int x, int y, int w, int h);
 #endif
