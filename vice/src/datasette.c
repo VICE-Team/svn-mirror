@@ -44,14 +44,16 @@ static CLOCK last_write_clk = (CLOCK)0;
 
 static alarm_t datasette_alarm;
 
+static int datasette_alarm_pending = 0;
+
 static int datasette_read_bit(long offset)
 {
     alarm_unset(&datasette_alarm);
-    alarm_context_update_next_pending(datasette_alarm.context);
+    datasette_alarm_pending = 0;
 
     if (current_image == NULL)
         return 0;
-    /*printf("seek: %i\n",current_image->current_file_seek_position);*/
+
     switch (current_image->mode) {
       case DATASETTE_CONTROL_START:
         if (datasette_motor)
@@ -85,8 +87,14 @@ static int datasette_read_bit(long offset)
 
             if (gap > 0) {
                 alarm_set(&datasette_alarm, clk + gap);
-                return 0;
+                datasette_alarm_pending = 1;
+            } else {
+                /* If the offset is geater than the gap to the next flux
+                   change, the change happend during DMA.  Schedule it now.  */
+                alarm_set(&datasette_alarm, clk);
+                datasette_alarm_pending = 1;
             }
+            return 0;
         }
         break;
       case DATASETTE_CONTROL_FORWARD:
@@ -97,6 +105,7 @@ static int datasette_read_bit(long offset)
         } else {
             current_image->current_file_seek_position += 20;
             alarm_set(&datasette_alarm, clk + 10000);
+            datasette_alarm_pending = 1;
         }
         break;
       case DATASETTE_CONTROL_REWIND:
@@ -106,6 +115,7 @@ static int datasette_read_bit(long offset)
         } else {
             current_image->current_file_seek_position -= 20;
             alarm_set(&datasette_alarm, clk + 10000);
+            datasette_alarm_pending = 1;
         }
         break;
     }
@@ -137,9 +147,10 @@ static void datasette_forward(void)
        || current_image->mode == DATASETTE_CONTROL_REWIND)
     {
         alarm_unset(&datasette_alarm);
-        alarm_context_update_next_pending(datasette_alarm.context);
+        datasette_alarm_pending = 0;
     }
     alarm_set(&datasette_alarm, clk + 1000);
+    datasette_alarm_pending = 1;
 }
 
 static void datasette_rewind(void)
@@ -148,9 +159,10 @@ static void datasette_rewind(void)
        || current_image->mode == DATASETTE_CONTROL_FORWARD)
     {
         alarm_unset(&datasette_alarm);
-        alarm_context_update_next_pending(datasette_alarm.context);
+        datasette_alarm_pending = 0;
     }
     alarm_set(&datasette_alarm, clk + 1000);
+    datasette_alarm_pending = 1;
 }
 
 void datasette_reset(void)
@@ -158,8 +170,10 @@ void datasette_reset(void)
     if (current_image != NULL) {
         if (current_image->mode == DATASETTE_CONTROL_START
             || current_image->mode == DATASETTE_CONTROL_FORWARD
-            || current_image->mode == DATASETTE_CONTROL_REWIND)
+            || current_image->mode == DATASETTE_CONTROL_REWIND) {
             alarm_unset(&datasette_alarm);
+            datasette_alarm_pending = 0;
+        }
         datasette_control(DATASETTE_CONTROL_STOP);
         current_image->current_file_seek_position = 0;
         fseek(current_image->fd, current_image->offset, SEEK_SET);
@@ -205,7 +219,7 @@ void datasette_control(int command)
 
 void datasette_set_motor(int flag)
 {
-    /* printf("FL %i\n",flag); */
+    /*printf("MT %i\n",flag);*/
     if (current_image != NULL
         && current_image->mode != DATASETTE_CONTROL_REWIND
         && current_image->mode != DATASETTE_CONTROL_FORWARD) {
@@ -213,12 +227,15 @@ void datasette_set_motor(int flag)
         {
             fseek(current_image->fd, current_image->current_file_seek_position
                   + current_image->offset, SEEK_SET);
-            alarm_set(&datasette_alarm, clk + 1000);
+            if (!datasette_alarm_pending) {
+                alarm_set(&datasette_alarm, clk + 1000);
+                datasette_alarm_pending = 1;
+            }
         }
         if (!flag && datasette_motor)
         {
             alarm_unset(&datasette_alarm);
-            alarm_context_update_next_pending(datasette_alarm.context);
+            datasette_alarm_pending = 0;
         }
     }
     datasette_motor = flag;
