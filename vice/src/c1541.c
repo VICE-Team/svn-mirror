@@ -87,7 +87,7 @@
 
 /* Global */
 
-DRIVE *drives[4] = {NULL, NULL, NULL, NULL};
+vdrive_t *drives[4] = {NULL, NULL, NULL, NULL};
 
 typedef struct {
     signed char ImageFormat;		/* 1541/71/81 */
@@ -690,7 +690,7 @@ static int set_disk_size(FILE *fd, int tracks, int sides, int errblk)
    header.  */
 static int open_image(int dev, char *name, int create, int disktype)
 {
-    DRIVE *floppy;
+    vdrive_t *floppy;
     FILE *fd;
     int cdev = DT_1541, num_tracks = NUM_TRACKS_1541;
 
@@ -748,7 +748,7 @@ static int open_image(int dev, char *name, int create, int disktype)
 
 static int check_drive(int dev, int flags)
 {
-    DRIVE *floppy;
+    vdrive_t *floppy;
 
     dev &= 7;
     if (dev < 0 || dev > 3)
@@ -798,7 +798,7 @@ static int attach_cmd(int nargs, char **args)
 static int block_cmd(int nargs, char **args)
 {
     int drive, track, sector, disp;
-    DRIVE *floppy;
+    vdrive_t *floppy;
     BYTE *buf, str[20];
     int cnt;
     int channel = 2;
@@ -876,7 +876,7 @@ static int block_cmd(int nargs, char **args)
 
 static int create_cmd(int nargs, char **args)
 {
-    DRIVE *floppy = drives[drive_number];
+    vdrive_t *floppy = drives[drive_number];
     DiskFormats *format;
     char tmp[256];
     FILE *fsfd;
@@ -1123,7 +1123,7 @@ static int delete_cmd(int nargs, char **args)
 static int extract_cmd(int nargs, char **args)
 {
     int drive = 8, track, sector;
-    DRIVE *floppy;
+    vdrive_t *floppy;
     BYTE *buf, str[20];
     int err;
     int channel = 2;
@@ -1439,7 +1439,7 @@ static int help_cmd(int nargs, char **args)
 
 static int info_cmd(int nargs, char **args)
 {
-    DRIVE *floppy;
+    vdrive_t *floppy;
     hdrinfo hdr;
     int err;
     int unit;
@@ -1512,7 +1512,7 @@ static int name_cmd(int nargs, char **args)
     BYTE *dst;
     int i;
     int unit;
-    DRIVE *floppy;
+    vdrive_t *floppy;
 
     if (nargs > 2) {
         if (arg_to_int(args[2], &unit) < 0)
@@ -1748,7 +1748,7 @@ static int show_cmd(int nargs, char **args)
 static int tape_cmd(int nargs, char **args)
 {
     t64_t *t64;
-    DRIVE *drive;
+    vdrive_t *drive;
     int count;
 
     if (check_drive(drive_number, CHK_RDY) < 0)
@@ -1865,7 +1865,7 @@ static int unit_cmd(int nargs, char **args)
    1998-02-07.  Various fixes by Andreas Boose.  */
 static int unlynx_cmd(int nargs, char **args)
 {
-    DRIVE *floppy;
+    vdrive_t *floppy;
     FILE *f, *f2;
     int dev, cnt = 0;
     long dentries, lbsize, bsize, dirsize;
@@ -2159,7 +2159,7 @@ static int write_cmd(int nargs, char **args)
 /* FIXME: 1541 only? */
 static int zcreate_cmd(int nargs, char **args)
 {
-    DRIVE *floppy = drives[drive_number];
+    vdrive_t *floppy = drives[drive_number];
     DiskFormats *format = Legal_formats;
     char tmp[256];
     FILE *fsfd = NULL;
@@ -2295,7 +2295,7 @@ static int zcreate_cmd(int nargs, char **args)
 
 static int raw_cmd(int nargs, char **args)
 {
-    DRIVE *floppy = drives[drive_number];
+    vdrive_t *floppy = drives[drive_number];
 
     /* Write to the command channel.  */
     if (nargs >= 2) {
@@ -2407,7 +2407,7 @@ int main(int argc, char **argv)
 
 int attach_fsdevice(int device, char *var, const char *name)
 {
-    drives[device & 3] = (DRIVE *) var;
+    drives[device & 3] = (vdrive_t *) var;
     return 0;
 }
 
@@ -2418,7 +2418,7 @@ int serial_attach_device(int device, char *var, char const *name,
 			 int (*closef) (void *, int),
 			 void (*flushf) (void *, int))
 {
-    drives[device & 3] = (DRIVE *) var;
+    drives[device & 3] = (vdrive_t *) var;
     return 0;
 }
 
