@@ -32,24 +32,42 @@ extern "C" {
 #include <string.h>
 #include "log.h"
 #include "utils.h"
+#include "resources.h"
 #include "sound.h"
+#include "types.h"
 
 struct sound_s
 {
     /* resid sid implementation */
-    SID			sid;
+    SID	sid;
 };
 
 sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
-				  int filters_enabled, int model,
-				  int sampling, int passband_percentage,
-				  BYTE *sidstate)
+                                  BYTE *sidstate)
 {
-    sound_t			*psid;
-    int				 i;
+    sound_t *psid;
+    int	i;
     sampling_method method;
     char method_text[100];
-    double passband = speed*passband_percentage/200.0;
+    double passband;
+    int filters_enabled, model, sampling, passband_percentage;
+
+    if (resources_get_value("SidFilters",
+        (resource_value_t *)&filters_enabled) < 0)
+        return NULL;
+
+    if (resources_get_value("SidModel", (resource_value_t *)&model) < 0)
+        return NULL;
+
+    if (resources_get_value("SidResidSampling",
+        (resource_value_t *)&sampling) < 0)
+        return NULL;
+
+    if (resources_get_value("SidResidPassband",
+        (resource_value_t *)&passband_percentage) < 0)
+        return NULL;
+
+    passband = speed * passband_percentage / 200.0;
 
     psid = new sound_t;
 
@@ -74,9 +92,9 @@ sound_t *resid_sound_machine_open(int speed, int cycles_per_sec,
     }
 
     if (!psid->sid.set_sampling_parameters(cycles_per_sec, method,
-					   speed, passband))
-    {
-        log_warning(LOG_DEFAULT, "reSID: Out of spec, increase sampling rate or decrease maximum speed");
+					   speed, passband)) {
+        log_warning(LOG_DEFAULT,
+                    "reSID: Out of spec, increase sampling rate or decrease maximum speed");
 	delete psid;
 	return NULL;
     }
