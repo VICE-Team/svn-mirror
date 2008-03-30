@@ -24,6 +24,10 @@
  *
  */
 
+/* This module can either use the MIDAS timer or the Allegro one, depending
+   on what sound driver we are using.  In fact, Allegro timers cannot be used
+   if MIDAS is used to play sound.  */
+
 #include "vice.h"
 
 #include <stdlib.h>
@@ -36,37 +40,18 @@
 #undef EOF			/* Workaround for Allegro bug. */
 
 #include "vsync.h"
-#include "resources.h"
+
 #include "cmdline.h"
-#include "vmachine.h"
 #include "interrupt.h"
-#include "kbd.h"
-#include "ui.h"
-#include "true1541.h"
-#include "sid.h"
-#include "vmidas.h"
 #include "joystick.h"
-#include "autostart.h"
+#include "kbd.h"
 #include "kbdbuf.h"
-
-#if defined(VIC20)
-#include "vic.h"
-#include "via.h"
-#elif defined(PET)
-#include "crtc.h"
-#include "via.h"
-#elif defined(CBM64)
-#include "vicii.h"
-#include "cia.h"
-#endif
-
-/* If this is #defined, the emulator always runs at full speed. */
-#undef NO_SYNC
-
-/* If this is disabled, we reprogram the timer the hard way, thus making
-   the internal clock go crazy. (useful under DOSemu, where the MIDAS timer
-   might not work) */
-#define USE_MIDAS_TIMER
+#include "resources.h"
+#include "sid.h"
+#include "true1541.h"
+#include "ui.h"
+#include "vmachine.h"
+#include "vmidas.h"
 
 /* Maximum number of frames we can skip consecutively when adjusting the
    refresh rate dynamically.  */
@@ -210,7 +195,7 @@ double vsync_get_avg_speed_index(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* This prevents the clock counters from overflowing. */
+/* This prevents the clock counters from overflowing.  */
 void vsync_prevent_clk_overflow(CLOCK sub)
 {
     speed_eval_prev_clk -= sub;
@@ -218,10 +203,12 @@ void vsync_prevent_clk_overflow(CLOCK sub)
 
 /* ------------------------------------------------------------------------- */
 
-#if defined(USE_MIDAS_TIMER) && !defined(NO_SYNC)
-
 static volatile int elapsed_frames = 0;
 static int timer_speed = -1;
+
+#ifdef USE_MIDAS_SOUND
+
+/* Version for MIDAS timer.  */
 
 static void MIDAS_CALL my_timer_callback(void)
 {
@@ -229,7 +216,58 @@ static void MIDAS_CALL my_timer_callback(void)
 }
 END_OF_FUNCTION(my_timer_callback)
 
-inline static void set_timer_speed(void)
+inline static void register_timer_callback(void)
+{
+    printf("Installing MIDAS timer...\n");
+    if (timer_speed == 0) {
+	if (!vmidas_remove_timer_callbacks())
+	    fprintf(stderr, "%s: Warning: Could not remove timer callbacks.\n",
+		    __FUNCTION__);
+    } else {
+	DWORD rate = refresh_frequency * timer_speed * 10;
+
+	/* printf("%s: setting MIDAS timer at %d\n", __FUNCTION__, rate); */
+	if (vmidas_set_timer_callbacks(rate, FALSE,
+				       my_timer_callback, NULL, NULL) < 0) {
+	    fprintf(stderr, "%s: cannot set timer callback at %.2f Hz\n",
+		    __FUNCTION__, (double)rate / 1000.0);
+	    /* FIXME: is this necessary? */
+	    vmidas_remove_timer_callbacks();
+	    relative_speed = timer_speed = 0;
+	}
+    }
+}
+
+#else  /* !USE_MIDAS_SOUND */
+
+/* Version for Allegro timer.  */
+
+static void my_timer_callback(void)
+{
+    elapsed_frames++;
+}
+END_OF_FUNCTION(my_timer_callback)
+
+static void register_timer_callback(void)
+{
+    printf("Installing Allegro timer callback...  ");
+    if (timer_speed == 0) {
+        remove_int(my_timer_callback);
+    } else {
+        int rate = (int) ((1.0 / refresh_frequency) * 1000.0 + .5);
+
+        if (install_int(my_timer_callback, rate) < 0) {
+	    fprintf(stderr, "Failed!\n");
+	    relative_speed = timer_speed = 0;
+	} else {
+            printf("OK.\n");
+        }
+    }
+}
+
+#endif /* !USE_MIDAS_SOUND */
+
+static void set_timer_speed(void)
 {
     int new_timer_speed;
 
@@ -244,24 +282,10 @@ inline static void set_timer_speed(void)
 	return;
 
     timer_speed = new_timer_speed;
-    if (timer_speed == 0) {
-	if (!vmidas_remove_timer_callbacks())
-	    fprintf(stderr, "%s: Warning: Could not remove timer callbacks.\n",
-		    __FUNCTION__);
-    } else {
-	DWORD rate = (refresh_frequency * 1000 * timer_speed) / 100;
-
-	/* printf("%s: setting MIDAS timer at %d\n", __FUNCTION__, rate); */
-	if (vmidas_set_timer_callbacks(rate, FALSE,
-				       my_timer_callback, NULL, NULL) < 0) {
-	    fprintf(stderr, "%s: cannot set timer callback at %.2f Hz\n",
-		    __FUNCTION__, (double)rate / 1000.0);
-	    /* FIXME: is this necessary? */
-	    vmidas_remove_timer_callbacks();
-	    relative_speed = timer_speed = 0;
-	}
-    }
+    register_timer_callback();
 }
+
+/* ------------------------------------------------------------------------- */
 
 int do_vsync(int been_skipped)
 {
@@ -271,28 +295,25 @@ int do_vsync(int been_skipped)
     static int frame_counter = 0;
     int skip_next_frame = 0;
 
+    vsync_hook();
+
     set_timer_speed();
 
     if (been_skipped)
 	num_skipped_frames++;
 
-    if (refresh_rate != 0) {
-
-	/* Fixed refresh rate. */
-
+    if (refresh_rate != 0) {    /* Fixed refresh rate.  */
 	if (timer_speed != 0 && skip_counter >= elapsed_frames)
 	    while (skip_counter >= elapsed_frames)
-		/* Sleep... */;
+		/* Sleep...  */;
 	if (skip_counter < refresh_rate - 1) {
 	    skip_next_frame = 1;
 	    skip_counter++;
 	} else {
 	    skip_counter = elapsed_frames = 0;
 	}
-    } else {
-
-	/* Automatic refresh rate adjustment. */
-
+        sound_flush(relative_speed);
+    } else {                    /* Automatic refresh rate adjustment.  */
 	if (timer_speed && skip_counter >= elapsed_frames) {
 	    while (skip_counter >= elapsed_frames)
 		/* Sleep... */ ;
@@ -303,12 +324,13 @@ int do_vsync(int been_skipped)
 		skip_counter++;
 		skip_next_frame = 1;
 	    } else {
-		/* Give up, we are too slow. */
+		/* Give up, we are too slow.  */
 		skip_next_frame = 0;
 		skip_counter = 0;
 		elapsed_frames = 0;
 	    }
 	}
+        sound_flush(relative_speed);
     }
 
     if (frame_counter >= refresh_frequency * 2) {
@@ -319,88 +341,31 @@ int do_vsync(int been_skipped)
 	frame_counter++;
 
     kbd_flush_commands();
+    kbd_buf_flush();
+    joystick_update();
 
     if (_escape_requested) {
 	_escape_requested = 0;
 	maincpu_trigger_trap(ui_main);
     }
 
-    kbd_buf_flush();
-
     return skip_next_frame;
 }
-
-#else  /* !USE_MIDAS_TIMER || NO_VSYNC */
-
-int do_vsync(int been_skipped)
-{
-    extern int _escape_requested;
-    static long skip_counter = 0;
-    static long old_rawclock = 0;
-    int skip_next_frame = 0;
-    int curr_rawclock = rawclock();
-
-#ifdef HAVE_TRUE1541
-    do_drive();
-#endif
-
-#ifndef NO_SYNC
-    /* Here we always do automatic refresh rate adjustment. */
-    if (skip_counter >= (curr_rawclock - old_rawclock)) {
-    	while (skip_counter >= (rawclock() - old_rawclock))
-	    ;
-	skip_counter = 0;
-	old_rawclock = rawclock();
-    } else {
-	if (skip_counter < 10) {
-	    skip_counter++;
-	    skip_next_frame = 1;
-	} else {
-	    /* Give up, we are too slow. */
-	    skip_next_frame = 0;
-	    skip_counter = 0;
-	    old_rawclock = curr_rawclock;
-	}
-    }
-#else  /* NO_SYNC */
-    skip_next_frame = 0;
-#endif
-
-    if (_escape_requested) {
-	_escape_requested = 0;
-	maincpu_trigger_trap(UiMain);
-    }
-
-    vsync_prevent_clk_overflow();
-
-#if defined(CBM64) || defined(VIC20)
-    joystick_update();
-#endif
-
-#ifdef AUTOSTART
-    autostart_advance();
-#endif
-
-    return skip_next_frame;
-}
-
-#endif /* USE_MIDAS_TIMER && !NO_VSYNC */
 
 /* -------------------------------------------------------------------------- */
 
 void vsync_init(double hz, long cycles, void (*hook)(void))
 {
-#ifndef NO_SYNC
-#if defined(USE_MIDAS_TIMER)
     LOCK_VARIABLE(elapsed_frames);
     LOCK_FUNCTION(my_timer_callback);
+
+#ifdef USE_MIDAS_SOUND
     vmidas_startup();
     vmidas_init();
-#else
-    outportb(0x40, (BYTE)(0x1234dd / refresh_frequency));
-    outportb(0x40, (BYTE)((0x1234dd / refresh_frequency) >> 8));
-#endif
-#endif
+#else  /* !USE_MIDAS_SOUND */
+    install_timer();
+#endif /* !USE_MIDAS_SOUND */
+
     vsync_hook = hook;
     refresh_frequency = hz;
     cycles_per_sec = cycles;

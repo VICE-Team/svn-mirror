@@ -109,14 +109,19 @@ static int set_double_scan_enabled(resource_value_t v)
 }
 
 static resource_t resources[] = {
-    { "VideoCache", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
     { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_size_enabled, set_double_size_enabled },
     { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_scan_enabled, set_double_scan_enabled },
     { "PaletteFile", RES_STRING, (resource_value_t) "default",
       (resource_value_t *) &palette_file_name, set_palette_file_name },
+#ifndef __MSDOS__
+    { "VideoCache", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
+#else
+    { "VideoCache", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
+#endif
     { NULL }
 };
 
@@ -400,9 +405,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 #ifdef VIC_REGISTERS_DEBUG
 	printf("\t(sound register, not implemented)\n");
 #endif
-#ifdef SOUND
 	store_sound(addr, value);
-#endif
 	return;
 
       case 14:			/* $900E  Auxiliary Colour, Master Volume. */
@@ -411,9 +414,7 @@ void REGPARM2 store_vic(ADDRESS addr, BYTE value)
 	printf("\tauxiliary color set to $%02X\n", auxiliary_color);
 	printf("\t(master volume not implemented)\n");
 #endif
-#ifdef SOUND
 	store_sound(addr, value);
-#endif
 	return;
 
       case 15:			/* $900F  Screen and Border Colors,

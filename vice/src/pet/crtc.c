@@ -143,8 +143,6 @@ static int set_double_scan_enabled(resource_value_t v)
 }
 
 static resource_t resources[] = {
-    { "VideoCache", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
     { "PaletteFile", RES_STRING, (resource_value_t) "default",
       (resource_value_t *) &palette_file_name, set_palette_file_name },
 #ifdef NEED_2x
@@ -152,6 +150,13 @@ static resource_t resources[] = {
       (resource_value_t *) &double_size_enabled, set_double_size_enabled },
     { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_scan_enabled, set_double_scan_enabled },
+#endif
+#ifndef __MSDOS__
+    { "VideoCache", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
+#else
+    { "VideoCache", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
 #endif
     { NULL }
 };
