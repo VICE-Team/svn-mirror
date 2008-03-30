@@ -48,7 +48,7 @@
  *
  * Except for shift register and input latching everything should be ok now.
  */
-/* 
+/*
  * 01apr98 a.fachat
  * New timer code. Should be cycle-exact.
  *
@@ -145,10 +145,10 @@
 #include "interrupt.h"
 
 /*#define VIAD2_TIMER_DEBUG */
-/*#define VIAD2_NEED_PB7 */	/* when PB7 is really used, set this 
+/*#define VIAD2_NEED_PB7 */	/* when PB7 is really used, set this
 				   to enable pulse output from the timer.
 				   Otherwise PB7 state is computed only
-				   when port B is read - 
+				   when port B is read -
 				not yet implemented */
 
 /* global */
@@ -157,8 +157,8 @@ BYTE    viaD2[16];
 
 
 
-/* 
- * local functions 
+/*
+ * local functions
  */
 
 /*
@@ -179,8 +179,8 @@ static CLOCK 		viaD2tbi;   /* time when next timer A alarm is */
 static int 		viaD2pb7;   /* state of PB7 for pulse output... */
 static int 		viaD2pb7x;  /* to be xored herewith  */
 static int 		viaD2pb7o;  /* to be ored herewith  */
-static int 		viaD2pb7xx; 
-static int 		viaD2pb7sx; 
+static int 		viaD2pb7xx;
+static int 		viaD2pb7sx;
 
 /* ------------------------------------------------------------------------- */
 /* VIAD2 */
@@ -256,7 +256,7 @@ void REGPARM2 store_viaD2(ADDRESS addr, BYTE byte)
     addr &= 0xf;
 #ifdef VIAD2_TIMER_DEBUG
     if ((addr<10 && addr>3) || (addr==VIA_ACR) || app_resources.debugFlag)
-	printf("store viaD2[%x] %x, rmwf=%d, clk=%d, rclk=%d\n", 
+	printf("store viaD2[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
 		(int) addr, (int) byte, true1541_rmw_flag, true1541_clk, rclk);
 #endif
 
@@ -518,6 +518,7 @@ BYTE REGPARM1 read_viaD2_(ADDRESS addr)
 	  BYTE byte;
 
 	true1541_rotate_disk(0);
+
 	/* I hope I got the polarities right */
 	byte = (true1541_sync_found() ? 0 : 0x80)
 		| (true1541_write_protect_sense() ? 0 : 0x10);
@@ -619,14 +620,14 @@ int    int_viaD2t2(long offset)
     return 0;
 }
 
-void viaD2_prevent_clk_overflow(void)
+void viaD2_prevent_clk_overflow(CLOCK sub)
 {
      unsigned int t;
-     t = (viaD2tau - (true1541_clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     t = (viaD2tau - (true1541_clk + sub)) & 0xffff;
      viaD2tau = true1541_clk + t;
-     t = (viaD2tbu - (true1541_clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     t = (viaD2tbu - (true1541_clk + sub)) & 0xffff;
      viaD2tbu = true1541_clk + t;
-     if(viaD2tai) viaD2tai -= PREVENT_CLK_OVERFLOW_SUB;
+     if(viaD2tai) viaD2tai -= sub;
 }
 
 
