@@ -97,6 +97,24 @@ typedef struct drivecpu_context_s {
 
   MEMSPACE monspace;	/* init to e_disk[89]_space */
 
+  char snap_module_name[12];	/* init to "DRIVECPU[01]" */
+
+  char identification_string[8];	/* init to "DRIVE#[89]" */
+
+} drivecpu_context_t;
+
+
+/*
+ *  Large data used in the CPU emulation. Often more efficient to move
+ *  to the end of the drive context structure to minimize the average
+ *  offset of members within the context structure.
+ */
+
+typedef struct drivecpud_context_s {
+
+  /* Drive RAM */
+  BYTE drive_ram[DRIVE_RAM_SIZE];
+
   /* functions */
   drive_read_func_t  *read_func[0x101];
   drive_store_func_t *store_func[0x101];
@@ -108,14 +126,7 @@ typedef struct drivecpu_context_s {
   unsigned long clk_conv_table[MAX_TICKS + 1];
   unsigned long clk_mod_table[MAX_TICKS + 1];
 
-  /* Drive RAM */
-  BYTE drive_ram[DRIVE_RAM_SIZE];
-
-  char snap_module_name[12];	/* init to "DRIVECPU[01]" */
-
-  char identification_string[8];	/* init to "DRIVE#[89]" */
-
-} drivecpu_context_t;
+} drivecpud_context_t;
 
 
 
@@ -307,6 +318,7 @@ typedef struct drive_context_s {
   driveriot_context_t riot1;
   driveriot_context_t riot2;
   driveriot2_context_t riot2p;
+  drivecpud_context_t cpud;
 
 } drive_context_t;
 
