@@ -337,7 +337,8 @@ fullscreen.o: fullscreen.c ../../../../src/vice.h \
 	../../../../src/config.h ../../../../src/arch/unix/mouse.h \
 	../../../../src/arch/unix/types.h ../../../../src/resources.h \
 	../../../../src/log.h ../../../../src/arch/unix/ui.h \
-	../../../../src/uiapi.h xaw/uiarch.h ../../../../src/utils.h
+	../../../../src/uiapi.h xaw/uiarch.h ../../../../src/utils.h \
+	videoarch.h
 kbd.o: kbd.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/arch/unix/archdep.h ../../../../src/archapi.h \
 	../../../../src/cmdline.h ../../../../src/resources.h \
@@ -355,7 +356,10 @@ ui-cmdline-options.o: ui-cmdline-options.c ../../../../src/vice.h \
 	../../../../src/resources.h
 ui-resources.o: ui-resources.c ../../../../src/vice.h \
 	../../../../src/config.h ../../../../src/resources.h \
-	../../../../src/utils.h ../../../../src/arch/unix/types.h
+	../../../../src/utils.h ../../../../src/arch/unix/types.h \
+	../../../../src/fullscreen.h videoarch.h \
+	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
+	xaw/uiarch.h
 video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/color.h ../../../../src/arch/unix/types.h \
 	../../../../src/cmdline.h ../../../../src/resources.h \
@@ -363,7 +367,7 @@ video.o: video.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/machine.h ../../../../src/palette.h \
 	../../../../src/arch/unix/ui.h ../../../../src/uiapi.h \
 	xaw/uiarch.h ../../../../src/utils.h ../../../../src/video.h \
-	videoarch.h
+	videoarch.h ../../../../src/fullscreen.h
 x11menu.o: x11menu.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/utils.h ../../../../src/arch/unix/types.h \
 	x11menu.h ../../../../src/arch/unix/ui.h \

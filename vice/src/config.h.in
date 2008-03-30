@@ -58,8 +58,11 @@
 /* Is libXpm available?  */
 #undef HAVE_LIBXPM
 
-/* Do we want to use XFree86 VIDMODE extensions?  */
-#undef USE_VIDMODE_EXTENSION
+/* Do we want to use XFree86 VIDMODE and DGA extensions?  */
+#undef USE_XF86_EXTENSIONS
+
+/* Do we want to use XFree86 DGA2 extensions?  */
+#undef USE_XF86_DGA2_EXTENSIONS
 
 /* Does the architecture provide VSID UI?  */
 #undef USE_VSID

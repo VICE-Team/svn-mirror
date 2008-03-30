@@ -599,13 +599,13 @@ log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	autostart.h arch/unix/types.h cartridge.h charsets.h cmdline.h \
 	resources.h console.h diskimage.h drive/drive.h log.h \
-	drive/drivecpu.h fsdevice.h fullscreen.h interrupt.h 6510core.h \
-	arch/unix/joystick.h arch/unix/kbd.h kbdbuf.h keyboard.h \
-	machine.h maincpu.h arch/unix/main_exit.h sysfile.h \
-	screenshot.h tape.h arch/unix/ui.h uiapi.h \
-	arch/unix/x11/xaw/uiarch.h utils.h vdrive/vdrive.h version.h \
-	video.h arch/unix/videoarch.h arch/unix/x11/xaw/videoarch.h \
-	arch/unix/x11/xaw/../videoarch.h arch/unix/mouse.h
+	drive/drivecpu.h fsdevice.h fullscreen.h arch/unix/videoarch.h \
+	arch/unix/x11/xaw/videoarch.h arch/unix/ui.h uiapi.h \
+	arch/unix/x11/xaw/uiarch.h arch/unix/x11/xaw/../videoarch.h \
+	interrupt.h 6510core.h arch/unix/joystick.h arch/unix/kbd.h \
+	kbdbuf.h keyboard.h machine.h maincpu.h arch/unix/main_exit.h \
+	sysfile.h screenshot.h tape.h utils.h vdrive/vdrive.h version.h \
+	video.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 	alarm.h clkguard.h interrupt.h log.h machine.h maincpu.h mem.h \
 	monitor/mon.h mos6510.h snapshot.h traps.h arch/unix/ui.h \

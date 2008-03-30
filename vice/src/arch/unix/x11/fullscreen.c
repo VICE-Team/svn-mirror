@@ -25,425 +25,420 @@
  *
  */
 
+/*#define FS_DEBUG*/
+
 #include "vice.h"
 
+#ifdef USE_XF86_DGA2_EXTENSIONS
+#define CHECK_DGA_V2
+#endif
+
+#ifdef FS_DEBUG
 #include <signal.h>
+#endif
 #include <stdio.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
 
+#include <X11/extensions/xf86dga.h>
+#define DGA_MINMAJOR 0
+#define DGA_MINMINOR 0
+
+#include <X11/extensions/xf86vmode.h>
 #define VidMode_MINMAJOR 0
 #define VidMode_MINMINOR 0
-#include <X11/extensions/xf86vmode.h>
 
 #include "mouse.h"
 #include "resources.h"
 #include "log.h"
 #include "ui.h"
 #include "utils.h"
+#include "videoarch.h"
 
-extern Widget canvas, pane;
-extern int screen;
-
-extern Cursor blankCursor;
-extern int cursor_is_blank;
+extern void video_refresh(void);
 
 typedef struct {
   int modeindex;
-  char name[17];
+  char name[30];
 } fullscreen_bestvideomode_t;
 
-static fullscreen_bestvideomode_t bestmodes[10];
+static fullscreen_bestvideomode_t fullscreen_bestmodes[10];
 
-static XF86VidModeModeInfo **allmodes;
-static int vidmodecount;
 
-static int bestmode_counter;
-static int vidmodeavail = 0;
-static int selected_videomode_index;
-extern int use_fullscreen;
-static int use_fullscreen_at_start = 0;
+/* dga v1 */
+static XF86VidModeModeInfo **fullscreen_allmodes;
+static XF86VidModeModeLine restoremodeline;
+
+#ifdef CHECK_DGA_V2
+/* dga v2 */
+static XDGADevice* dgadev=NULL; 
+static XDGAMode *fullscreen_allmodes_dga2;
+static GC gcContext;
+#endif
+
+static int fullscreen_vidmodecount;
+
+static int fullscreen_bestmode_counter;
+static int fullscreen_vidmodeavail = 0;
+static int fullscreen_selected_videomode_index;
+static int fullscreen_use_fullscreen_at_start = 0;
 static int timeout;
+static int fullscreen_is_enabled_restore;
 
-static char *selected_videomode;
-static char *selected_videomode_at_start;
+int fullscreen_is_enabled;
+char *fullscreen_selected_videomode;
+char *fullscreen_selected_videomode_at_start;
+int fullscreen_width, fullscreen_height;
 
-/* Woah, away with this! */
-extern void video_setfullscreen(int v,int width, int height);
+int fullscreen_dga_major;
 
+static int fb_bank, fb_mem;
+static char *fb_addr;
+static int fb_width; 
+static int fb_depth;
 
-static void mouse_timeout(int signo)
-{
-    if (use_fullscreen && !cursor_is_blank)
-        XDefineCursor(ui_get_display_ptr(), XtWindow(canvas), blankCursor);
-}
+static Display *display;
+extern int screen;
 
-void fullscreen_set_mouse_timeout(void)
-{
-    if (!use_fullscreen)
+#ifdef FS_DEBUG
+void alarm_timeout(int signo) {
+  fullscreen_mode_off();
+}  
+
+void set_alarm_timeout() {
+    if (signal(SIGALRM, alarm_timeout) == SIG_ERR)
         return;
+    alarm(10);
+}   
+#endif
 
-    cursor_is_blank = 0;
-    if (signal(SIGALRM, mouse_timeout) == SIG_ERR)
-        return;
-    alarm(5);
-}
+void fullscreen_refresh_func(video_frame_buffer_t *f,
+			     int src_x, int src_y,
+			     int dest_x, int dest_y,
+			     unsigned int width, unsigned int height) {
+    int y;
+    
+    if ((dest_y + height) > fullscreen_height)
+      height = fullscreen_height;
 
-static void mouse_handler(Widget w, XtPointer client_data, XEvent *report,
-                          Boolean *ctd)
-{
-    if (report->type == LeaveNotify)
-        cursor_is_blank = 1;
-    else
-        cursor_is_blank = 0;
+    if ((dest_x + width) > fullscreen_width)
+      width = fullscreen_width;
 
-    if (!_mouse_enabled) {
-        XUndefineCursor(ui_get_display_ptr(), XtWindow(canvas));
-        if (cursor_is_blank == 0) {
-            if (signal(SIGALRM, mouse_timeout) == SIG_ERR)
-                return;
-            alarm(5);
-        }
+#ifdef CHECK_DGA_V2
+    if (fullscreen_dga_major <= 1) {
+#endif
+        for (y= 0; y < height ; y++) { 
+	    memcpy(fb_addr + (fb_width * (dest_y + y) + dest_x) * fb_depth, 
+		   f->x_image->data + (f->x_image->width * (src_y + y) + src_x) * fb_depth, 
+		   width * fb_depth);
+	}
+#ifdef CHECK_DGA_V2
+    } else {
+        XPutImage(display, dgadev->pixmap, gcContext,  f->x_image,
+		  src_x, src_y, dest_x, dest_y, width, height);
     }
-}
+#endif
+}   
 
 int fullscreen_vidmode_available(void)
 {
     int MajorVersion, MinorVersion;
     int EventBase, ErrorBase;
-    int i, hz = 0;
-    Display *display = ui_get_display_ptr();
+    int i, j, hz = 0;
 
-    bestmode_counter = 0;
-    vidmodeavail = 0;
+    fullscreen_bestmode_counter = 0;
+    fullscreen_vidmodeavail = 0;
 
-    if (! XF86VidModeQueryVersion (display, &MajorVersion, &MinorVersion)) {
-        log_error(LOG_DEFAULT, _("Unable to query video extension version"));
-        return 0;
+    display = ui_get_display_ptr();
+
+    if (! XF86DGAQueryVersion (display, &MajorVersion, &MinorVersion)) {
+        log_error(LOG_DEFAULT, _("Unable to query video extension version - disabling fullscreen."));
+	fullscreen_vidmodeavail = 0;
+        return 1;
     }
-    if (! XF86VidModeQueryExtension (display, &EventBase, &ErrorBase)) {
-        log_error(LOG_DEFAULT, _("Unable to query video extension information"));
-        return 0;
-    }
-    if (MajorVersion < VidMode_MINMAJOR
-        || (MajorVersion == VidMode_MINMAJOR && MinorVersion < VidMode_MINMINOR)
-) {
-        /* Fail if the extension version in the server is too old */
-        log_error(LOG_DEFAULT,
-                  _("Xserver is running an old XFree86-VidMode version (%d.  %d)"),
-	          MajorVersion, MinorVersion);
-        log_error(LOG_DEFAULT, _("Minimum required version is %d.%d"),
-	          VidMode_MINMAJOR, VidMode_MINMINOR);
-        return 0;
-    }
-    if (!XF86VidModeGetAllModeLines(display, screen, &vidmodecount,
-        &allmodes)) {
-        log_error(LOG_DEFAULT, _("Error getting video mode information"));
-        return 0;
+    if (! XF86DGAQueryExtension (display, &EventBase, &ErrorBase)) {
+        log_error(LOG_DEFAULT, _("Unable to query video extension information - disabling fullscreen."));
+	fullscreen_vidmodeavail = 0;
+        return 1;
+    }  
+
+
+    if (MajorVersion < DGA_MINMAJOR
+        || (MajorVersion == DGA_MINMAJOR && MinorVersion < DGA_MINMINOR))
+    {
+        log_error(LOG_DEFAULT, _("Xserver is running an old XFree86-DGA version (%d.%d) "), 
+				 MajorVersion, MinorVersion);
+        log_error(LOG_DEFAULT, _("Minimum required version is %d.%d - disabling fullscreen."),
+	          DGA_MINMAJOR, DGA_MINMINOR);
+	fullscreen_vidmodeavail = 0;
+        return 1;
     }
 
-    for (i = 0; i < vidmodecount; i++) {
-        if (allmodes[i]->hdisplay <= 800 &&
-	   allmodes[i]->hdisplay >= 320 &&
-	   allmodes[i]->vdisplay <= 600  &&
-	   allmodes[i]->vdisplay >= 200) {
-	      bestmodes[bestmode_counter].modeindex=i;
-	      hz = allmodes[i]->dotclock * 1000 /
-		( allmodes[i]->vtotal * allmodes[i]->htotal) ;
-	      snprintf(bestmodes[bestmode_counter].name,17," %ix%i-%iHz",
-		       allmodes[i]->hdisplay,
-		       allmodes[i]->vdisplay,
-		       hz);
-	      bestmode_counter++;
-	      if (bestmode_counter == 10) break;
+    fullscreen_dga_major = MajorVersion;
+
+#ifdef CHECK_DGA_V2
+    if (fullscreen_dga_major <= 1) {
+#endif
+        if (! XF86VidModeQueryVersion (display, &MajorVersion, &MinorVersion)) {
+	    log_error(LOG_DEFAULT, _("Unable to query video extension version - disabling fullscreen."));
+	    fullscreen_vidmodeavail = 0;
+	    return 1;
+	}
+	if (! XF86VidModeQueryExtension (display, &EventBase, &ErrorBase)) {
+	    log_error(LOG_DEFAULT, _("Unable to query video extension information - disabling fullscreen."));
+	    fullscreen_vidmodeavail = 0;
+	    return 1;
+	}
+	if (MajorVersion < VidMode_MINMAJOR
+	    || (MajorVersion == VidMode_MINMAJOR && MinorVersion < VidMode_MINMINOR)
+	    ) {
+	    /* Fail if the extension version in the server is too old */
+	    log_error(LOG_DEFAULT,
+		      _("Xserver is running an old XFree86-VidMode version (%d.  %d)"),
+		      MajorVersion, MinorVersion);
+	    log_error(LOG_DEFAULT, _("Minimum required version is %d.%d - disabling fullscreen."),
+		      VidMode_MINMAJOR, VidMode_MINMINOR);
+	    fullscreen_vidmodeavail = 0;
+	    return 1;
+	}
+	if (!XF86VidModeGetAllModeLines(display, screen, &fullscreen_vidmodecount,
+					&fullscreen_allmodes)) {
+	    log_error(LOG_DEFAULT, _("Error getting video mode information - disabling fullscreen."));
+	    fullscreen_vidmodeavail = 0;
+	    return 1;
+	}
+
+
+	if (geteuid () != 0) {
+  	    log_error(LOG_DEFAULT, _("Vice is not running as root, DGA extension not possible - disabling fullscreen."));
+	    fullscreen_vidmodeavail = 0;
+	    return 1;
+	}
+
+	if (! XF86DGAGetVideo (display, screen, &fb_addr, &fb_width, &fb_bank, &fb_mem)
+	    || fb_bank < fb_mem) {
+	      log_error(LOG_DEFAULT, _("Problems with DGA - disabling fullscreen."));
+	      fullscreen_vidmodeavail = 0;
+	      return 1;
+	}
+	for (i = 0; i < fullscreen_vidmodecount; i++) {
+  	    if (fullscreen_allmodes[i]->hdisplay <= 800 &&
+		fullscreen_allmodes[i]->hdisplay >= 320 &&
+		fullscreen_allmodes[i]->vdisplay <= 600  &&
+		fullscreen_allmodes[i]->vdisplay >= 200) {
+	        fullscreen_bestmodes[fullscreen_bestmode_counter].modeindex=i;
+		hz = fullscreen_allmodes[i]->dotclock * 1000 /
+		  ( fullscreen_allmodes[i]->vtotal * fullscreen_allmodes[i]->htotal) ;
+		snprintf(fullscreen_bestmodes[fullscreen_bestmode_counter].name,17," %ix%i-%iHz",
+			 fullscreen_allmodes[i]->hdisplay,
+			 fullscreen_allmodes[i]->vdisplay,
+			 hz);
+		fullscreen_bestmode_counter++;
+		if (fullscreen_bestmode_counter == 10) break;
+	    }
+	}
+#ifdef CHECK_DGA_V2
+    } else {
+        fullscreen_allmodes_dga2 = XDGAQueryModes(display,screen,&fullscreen_vidmodecount);
+	for (i = 0; i < fullscreen_vidmodecount; i++) {
+  	    if (fullscreen_allmodes_dga2[i].viewportWidth <= 800 &&
+		fullscreen_allmodes_dga2[i].viewportWidth >= 320 &&
+		fullscreen_allmodes_dga2[i].viewportHeight <= 600  &&
+		fullscreen_allmodes_dga2[i].viewportHeight >= 200 &&
+		fullscreen_allmodes_dga2[i].depth == ui_get_display_depth() &&
+		fullscreen_allmodes_dga2[i].visualClass != DirectColor &&
+		(fullscreen_allmodes_dga2[i].flags & XDGAPixmap)) {
+
+	        for (j = 0; j < fullscreen_bestmode_counter; j++) {
+
+		  if ( (fullscreen_allmodes_dga2[fullscreen_bestmodes[j].modeindex].viewportWidth == fullscreen_allmodes_dga2[i].viewportWidth) &&
+		       fullscreen_allmodes_dga2[fullscreen_bestmodes[j].modeindex].viewportHeight == fullscreen_allmodes_dga2[i].viewportHeight) 
+		      break;
+		}
+		if ( j == fullscreen_bestmode_counter) {
+		    fullscreen_bestmodes[fullscreen_bestmode_counter].modeindex=i;
+		    snprintf(fullscreen_bestmodes[fullscreen_bestmode_counter].name,17," %ix%i-%.1fHz",
+			     fullscreen_allmodes_dga2[i].viewportWidth ,
+			     fullscreen_allmodes_dga2[i].viewportHeight,
+			     fullscreen_allmodes_dga2[i].verticalRefresh);
+		    fullscreen_bestmode_counter++;
+		}
+		if (fullscreen_bestmode_counter == 10) break;
+	    }
 	}
     }
-
-    vidmodeavail = 1;
+#endif
+	
+    fullscreen_vidmodeavail = 1;
     return 1;
 }
 
-/*static*/ int set_fullscreen(resource_value_t v, void *param)
+int fullscreen_set_mode(resource_value_t v, void *param)
 {
-    static Dimension x,y,w,h;
-    static Dimension canvas_width, canvas_height;
-    static int root_x, root_y;
-    static int win_x,win_y;
     static int interval,prefer_blanking,allow_exposures;
-    static XF86VidModeModeLine restoremodeline;
     static int dotclock;
-    static int window_doublesize;
-    static int panecolor;
+
     int i;
-    Display *display = ui_get_display_ptr();
 
-    if ( !vidmodeavail || !bestmode_counter ) {
-        use_fullscreen_at_start = (int) v;
+    if ( !fullscreen_vidmodeavail || !fullscreen_bestmode_counter ) {
+        fullscreen_use_fullscreen_at_start = (int) v;
 	return 0;
     }
-    if ( selected_videomode_index == -1) {
+    if ( fullscreen_selected_videomode_index == -1) {
 	return 0;
     }
 
-    if (v && !use_fullscreen) {
-        log_message(LOG_DEFAULT, _("Switch to fullscreen %ix%i"),
-		    allmodes[selected_videomode_index]->hdisplay,
-		    allmodes[selected_videomode_index]->vdisplay);
-
-	XF86VidModeGetModeLine(display, screen, &dotclock, &restoremodeline);
-
-	XF86VidModeLockModeSwitch(display, screen, 1);
-	XtVaGetValues(XtParent(XtParent(canvas)),
-		      XtNx,          &x,
-		      XtNy,          &y,
-		      XtNwidth,      &w,
-		      XtNheight,     &h,
-		      NULL);
-	XtVaGetValues(canvas,
-		      XtNwidth, &canvas_width,
-		      XtNheight, &canvas_height,
-		      NULL);
-	XtVaGetValues(pane,
-		      XtNbackground, &panecolor,
-		      NULL);
-	XtVaSetValues(pane,
-		      XtNbackground, BlackPixel(display,screen),
-		      NULL);
-	if ( ! XF86VidModeSwitchToMode(display, screen,
-				       allmodes[selected_videomode_index])) {
-	    log_error(LOG_DEFAULT, _("Error switching to fullscreen %ix%i\n"),
-		      allmodes[selected_videomode_index]->hdisplay,
-		      allmodes[selected_videomode_index]->vdisplay);
-	    return 0;
-	}
-
-	XtVaSetValues(XtParent(XtParent(canvas)),
-		      XtNx,          0,
-		      XtNy,          0,
-		      XtNwidth,
-		      w + allmodes[selected_videomode_index]->hdisplay -
-		      canvas_width + 10,
-		      XtNheight,
-		      h + allmodes[selected_videomode_index]->vdisplay -
-		      canvas_height + 10,
-		      NULL);
-
-
-    /* A small hack!!!!  */
-	{
-	    Window root, child;
-	    unsigned int mask;
-
-	    XQueryPointer(display, XtWindow(canvas),
-			  &root, &child, &root_x, &root_y,
-			  &win_x, &win_y, &mask);
-
-	    XF86VidModeSetViewPort(display,XDefaultScreen(display),
-				   root_x - win_x - 1,
-				   root_y - win_y - 1);
-
-	}
-
-	XGrabKeyboard(display, XtWindow(canvas),
+    if (v && !fullscreen_is_enabled) {
+        XGrabKeyboard(display,  XRootWindow (display, screen),
 		      1, GrabModeAsync,
 		      GrabModeAsync,  CurrentTime);
-	XGrabPointer(display, XtWindow(canvas), 1,
+	XGrabPointer(display,  XRootWindow (display, screen), 1,
 		     PointerMotionMask | ButtonPressMask |
 		     ButtonReleaseMask,
 		     GrabModeAsync, GrabModeAsync,
-		     XtWindow(canvas),
-		     None, CurrentTime);
-
+		     None, None, CurrentTime);
+    
 	XGetScreenSaver(display,&timeout,&interval,
 			&prefer_blanking,&allow_exposures);
 	XSetScreenSaver(display,0,0,DefaultBlanking,DefaultExposures);
 
-	use_fullscreen = 1;
-	video_setfullscreen(1,allmodes[selected_videomode_index]->hdisplay - 2,
-			    allmodes[selected_videomode_index]->vdisplay - 2);
-	XtVaSetValues(XtParent(XtParent(canvas)),
-		      XtNwidth,
-		      w + allmodes[selected_videomode_index]->hdisplay -
-		      canvas_width - 2,
-		      XtNheight,
-		      h + allmodes[selected_videomode_index]->vdisplay -
-		      canvas_height - 2,
-		      NULL);
-	XWarpPointer(display, None,
-		     XtWindow(canvas),
-		     0, 0, 0, 0, 0, 0);
-	if (resources_get_value("DoubleSize",
-                            (resource_value_t *) &window_doublesize) < 0)
-	  window_doublesize = 0;
-	XtAddEventHandler(canvas,
-			  PointerMotionMask | ButtonPressMask |
-			  LeaveWindowMask,
-			  True,
-			  (XtEventHandler) mouse_handler, NULL);
-	XRaiseWindow(display, XtWindow(XtParent(XtParent(canvas))));
-	fullscreen_set_mouse_timeout();
-    } else if ((int) v == 2) {
-        int troot_x, troot_y;
-        int twin_x,twin_y;
 
-        log_message(LOG_DEFAULT, _("Change to fullscreen %ix%i"),
-		    allmodes[selected_videomode_index]->hdisplay,
-		    allmodes[selected_videomode_index]->vdisplay);
-	if ( ! XF86VidModeSwitchToMode(display, screen,
-				       allmodes[selected_videomode_index])) {
-	    log_error(LOG_DEFAULT, _("Error switching to fullscreen %ix%i\n"),
-		      allmodes[selected_videomode_index]->hdisplay,
-		      allmodes[selected_videomode_index]->vdisplay);
-	    return 0;
+#ifdef CHECK_DGA_V2
+	if (fullscreen_dga_major <= 1) {
+#endif
+	    log_message(LOG_DEFAULT, _("Switch to fullscreen %ix%i"),
+		      fullscreen_allmodes[fullscreen_selected_videomode_index]->hdisplay,
+		      fullscreen_allmodes[fullscreen_selected_videomode_index]->vdisplay);
+
+	    XF86VidModeGetModeLine(display, screen, &dotclock, &restoremodeline);
+
+	    XF86VidModeLockModeSwitch(display, screen, 1);
+	    if ( ! XF86VidModeSwitchToMode(display, screen,
+					   fullscreen_allmodes[fullscreen_selected_videomode_index])) {
+	        log_error(LOG_DEFAULT, _("Error switching to fullscreen %ix%i\n"),
+			  fullscreen_allmodes[fullscreen_selected_videomode_index]->hdisplay,
+			  fullscreen_allmodes[fullscreen_selected_videomode_index]->vdisplay);
+		return 0;
+	    } else {
+		fullscreen_width = fullscreen_allmodes[fullscreen_selected_videomode_index]->hdisplay;
+	        fullscreen_height = fullscreen_allmodes[fullscreen_selected_videomode_index]->vdisplay;
+
 	    }
-	{
-	    Window root, child;
-	    unsigned int mask;
 
-	    XQueryPointer(display, XtWindow(canvas),
-			  &root, &child, &troot_x, &troot_y,
-			  &twin_x, &twin_y, &mask);
+	    XF86DGAGetVideo (display, screen, &fb_addr, &fb_width, &fb_bank, &fb_mem);
+	    log_message(LOG_DEFAULT, _("DGA extension: addr:%X, width %d, bank size %d mem size %d\n"),
+			fb_addr, fb_width, fb_bank, fb_mem);  
 
-	    XF86VidModeSetViewPort(display,XDefaultScreen(display),
-				   troot_x - twin_x - 1,
-				   troot_y - twin_y - 1 );
+
+	    XF86DGADirectVideo (display, screen, XF86DGADirectGraphics | XF86DGADirectMouse | XF86DGADirectKeyb);
+	    XF86DGASetViewPort (display, screen, 0, 0); 
+#ifdef CHECK_DGA_V2
+	} else {
+	    int pm_x, pm_y;
+	    log_message(LOG_DEFAULT, _("Switch to fullscreen %ix%i"),
+			fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].viewportWidth,
+			fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].viewportHeight);
+
+	    dgadev = XDGASetMode(display,screen,fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].num); 
+	    if (!dgadev) {
+	        log_error(LOG_DEFAULT, _("Error switching to fullscreen %ix%i\n"),
+			  fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].viewportWidth, fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].viewportHeight);
+	        return 0;
+	    }
+	    if (!dgadev->pixmap) {
+	        log_error(LOG_DEFAULT, _("Error switching to fullscreen %ix%i\n"),
+			  fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].viewportWidth, fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].viewportHeight);
+		XDGASetMode(display,screen,0);
+		XFree(dgadev);
+	        return 0;
+	    }
+	    
+	    fb_width = fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].bytesPerScanline; 
+	    fullscreen_width = dgadev->mode.viewportWidth;
+	    fullscreen_height = dgadev->mode.viewportHeight;
+
+	    gcContext =  XCreateGC(display, dgadev->pixmap, 0, 0);
+ 	    if (!gcContext) {
+	      log_error(LOG_DEFAULT, _("Error switching to fullscreen %ix%i\n"),
+			fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].viewportWidth, fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].viewportHeight);
+ 	        XDGASetMode(display,screen,0);
+		XFree(dgadev);
+		ui_display_paused(1);
+		return 0;
+	    }
+	    XDGAChangePixmapMode(display, screen, &pm_x, &pm_y, XDGAPixmapModeLarge);
+	    XDGASetViewport (display, screen, 0, 0, XDGAFlipRetrace);
+
+	    while(XDGAGetViewportStatus(display, screen));
+	    XSetForeground(display, gcContext, 0);
+	    XFillRectangle(display, dgadev->pixmap, gcContext, 0, 0, fullscreen_width, fullscreen_height);
+	    XFlush(display);
 	}
-	XtVaSetValues(XtParent(XtParent(canvas)),
-		      XtNx,          0,
-		      XtNy,          0,
-		      XtNwidth,
-		      w + allmodes[selected_videomode_index]->hdisplay -
-		      canvas_width - 2 ,
-		      XtNheight,
-		      h + allmodes[selected_videomode_index]->vdisplay -
-		      canvas_height - 2,
-		      NULL);
-	video_setfullscreen(1,allmodes[selected_videomode_index]->hdisplay - 2,
-			    allmodes[selected_videomode_index]->vdisplay - 2);
-	XWarpPointer(display, None,
-		     XtWindow(canvas),
-		     0, 0, 0, 0, 0, 0);
-    } else if (use_fullscreen) {
-        int ds;
+#endif
+	fullscreen_is_enabled = 1;
+#ifdef FS_DEBUG
+	set_alarm_timeout();
+#endif
+    } else if (!v && fullscreen_is_enabled) {
         log_message(LOG_DEFAULT, _("Switch to windowmode"));
 
-	use_fullscreen = 0;
+#ifdef CHECK_DGA_V2
+	if (fullscreen_dga_major <= 1) {
+#endif
+	    XF86DGADirectVideo (display, screen, 0);
 
-	XUndefineCursor(display,XtWindow(canvas));
+	    XF86VidModeLockModeSwitch(display, screen, 0);
 
-	XtRemoveEventHandler(canvas,
-			     PointerMotionMask | ButtonPressMask |
-			     LeaveWindowMask,
-			     True,
-			     (XtEventHandler) mouse_handler,
-			     NULL);
-	XF86VidModeLockModeSwitch(display, screen, 0);
-
-	XtVaSetValues(pane,
-		      XtNbackground, panecolor,
-		      NULL);
-
-	/* Oh who has designed the vidmode extension API???? */
-	for (i = 0; i < vidmodecount; i++) {
-	    if (allmodes[i]->hdisplay == restoremodeline.hdisplay &&
-	       allmodes[i]->vdisplay == restoremodeline.vdisplay &&
-	       allmodes[i]->dotclock == dotclock ) {
-	      XF86VidModeSwitchToMode(display, screen, allmodes[i]);
-	      break;
+	    /* Oh who has designed the vidmode extension API???? */
+	    for (i = 0; i < fullscreen_vidmodecount; i++) {
+	      if (fullscreen_allmodes[i]->hdisplay == restoremodeline.hdisplay &&
+		  fullscreen_allmodes[i]->vdisplay == restoremodeline.vdisplay &&
+		  fullscreen_allmodes[i]->dotclock == dotclock ) {
+		XF86VidModeSwitchToMode(display, screen, fullscreen_allmodes[i]);
+		break;
+	      }
 	    }
-	}
-
-	video_setfullscreen(0,0,0);
-
-	if (use_fullscreen_at_start) {
-	    XtVaSetValues(XtParent(XtParent(canvas)),
-			  XtNx, 30,
-			  XtNy, 50,
-			  NULL);
-	    use_fullscreen_at_start = 0;
+#ifdef CHECK_DGA_V2
 	} else {
-	    XtVaSetValues(XtParent(XtParent(canvas)),
-			  XtNx,          x - root_x + win_x + 5,  /*???*/
-			  XtNy,          y - root_y + win_y + 5,  /*???*/
-			  NULL);
+	    XDGASetMode(display,screen,0);
+	    XFree(dgadev);
+	    XFreeGC(display, gcContext);
 	}
 
-	if (resources_get_value("DoubleSize", (resource_value_t *) &ds) < 0)
-            /* FIXME */ ;
-
-	if (ds < window_doublesize) {
-	  w -= canvas_width/2;
-	  h -= canvas_height/2;
-	} else if (ds > window_doublesize) {
-	  w += canvas_width;
-	  h += canvas_height;
-	}
-	XtVaSetValues(XtParent(XtParent(canvas)),
-		      XtNwidth,      w,
-		      XtNheight,     h,
-		      NULL);
+#endif
+	XSetScreenSaver(display,timeout,interval,prefer_blanking,allow_exposures);
 
 	XUngrabPointer(display, CurrentTime);
 	XUngrabKeyboard(display, CurrentTime);
 
-	XSetScreenSaver(display,timeout,interval,prefer_blanking,allow_exposures);
-	XWarpPointer(display, None,
-		     RootWindowOfScreen(XtScreen(canvas)),
-		     0, 0, 0, 0, root_x, root_y);
-
+	fullscreen_is_enabled = 0;
     }
+    video_refresh();
     ui_check_mouse_cursor();
     return 1;
 }
 
-void fullscreen_focus_window_again(void)
-{
-    Display *display;
 
-    if (!use_fullscreen)
-        return;
-
-    display = ui_get_display_ptr();
-
-    XGrabKeyboard(display, XtWindow(canvas),
-                  1, GrabModeAsync,
-                  GrabModeAsync,  CurrentTime);
-    XGrabPointer(display, XtWindow(canvas), 1,
-                 PointerMotionMask | ButtonPressMask |
-                 ButtonReleaseMask,
-                 GrabModeAsync, GrabModeAsync,
-                 XtWindow(canvas),
-                 None, CurrentTime);
-    XtVaSetValues(XtParent(XtParent(canvas)),
-                  XtNx,          0,
-                  XtNy,          0,
-                  None);
-    XWarpPointer(display, None,
-                 XtWindow(canvas),
-                 0, 0, 0, 0, 0, 0);
-    XRaiseWindow(display, XtWindow(XtParent(XtParent(canvas))));
-    fullscreen_set_mouse_timeout();
-}
-
-/*static*/ int set_bestmode(resource_value_t v, void *param)
+int fullscreen_set_bestmode(resource_value_t v, void *param)
 {
     int i;
-    if (!vidmodeavail) {
-        selected_videomode_at_start = (char*) stralloc(v);
+
+    if (!fullscreen_vidmodeavail) {
+        fullscreen_selected_videomode_at_start = (char*) stralloc(v);
         return(0);
     }
-    selected_videomode = (char*) v;
-    for (i = 0; i < bestmode_counter; i++) {
-        if (! strcmp(selected_videomode, bestmodes[i].name)) {
-	    selected_videomode_index = bestmodes[i].modeindex;
-	    if (use_fullscreen)
-                set_fullscreen((resource_value_t) 2, NULL);
+    fullscreen_selected_videomode = (char*) v;
+    for (i = 0; i < fullscreen_bestmode_counter; i++) {
+        if (! strcmp(fullscreen_selected_videomode, fullscreen_bestmodes[i].name)) {
+	    fullscreen_selected_videomode_index = fullscreen_bestmodes[i].modeindex;
+	    if (fullscreen_is_enabled)
+                fullscreen_set_mode((resource_value_t) 1, NULL);
 	    return(0);
 	}
     }
-    if (bestmode_counter > 0) {
-        selected_videomode_index = bestmodes[0].modeindex;
-        selected_videomode = bestmodes[0].name;
+    if (fullscreen_bestmode_counter > 0) {
+        fullscreen_selected_videomode_index = fullscreen_bestmodes[0].modeindex;
+        fullscreen_selected_videomode = fullscreen_bestmodes[0].name;
     }
 
     return(0);
@@ -453,8 +448,8 @@ void fullscreen_focus_window_again(void)
 
 int fullscreen_mode_on(void)
 {
-    if (!use_fullscreen) {
-        set_fullscreen((resource_value_t) 1, NULL);
+    if (!fullscreen_is_enabled) {
+        fullscreen_set_mode((resource_value_t) 1, NULL);
         ui_update_menus();
         return 0;
     }
@@ -463,44 +458,66 @@ int fullscreen_mode_on(void)
 
 int fullscreen_mode_off(void)
 {
-    if (use_fullscreen) {
-        set_fullscreen(0, NULL);
+    fullscreen_is_enabled_restore = 0;
+    if (fullscreen_is_enabled) {
+        fullscreen_set_mode(0, NULL);
         ui_update_menus();
         return 1;
     }
     return 0;
 }
 
+void fullscreen_mode_on_restore(void)
+{
+  if (fullscreen_is_enabled_restore)
+    fullscreen_is_enabled_restore = fullscreen_mode_on();
+}
+
+void fullscreen_mode_off_restore(void)
+{
+    fullscreen_is_enabled_restore = fullscreen_mode_off();
+}
+
 void fullscreen_mode_init(void)
 {
-    set_bestmode(selected_videomode_at_start, NULL);
-    if (selected_videomode_index == -1 && bestmode_counter > 0)
-        selected_videomode_index = bestmodes[0].modeindex;
-    if (use_fullscreen_at_start) {
+
+    fullscreen_set_bestmode(fullscreen_selected_videomode_at_start, NULL);
+    if (fullscreen_selected_videomode_index == -1 && fullscreen_bestmode_counter > 0)
+        fullscreen_selected_videomode_index = fullscreen_bestmodes[0].modeindex;
+
+    fb_depth = ui_get_display_depth()/8;
+
+    if (fullscreen_use_fullscreen_at_start) {
         fullscreen_mode_on();
-        XtVaSetValues(XtParent(XtParent(canvas)),
-                      XtNx,          0,
-                      XtNy,          0,
-                      None);
-        XWarpPointer(ui_get_display_ptr(), None,
-                     XtWindow(canvas),
-                     0, 0, 0, 0, 0, 0);
     }
     ui_update_menus();
 }
 
+void fullscreen_mode_exit(void)
+{
+    fullscreen_mode_off();
+#ifdef CHECK_DGA_V2
+    if (fullscreen_dga_major <= 1) {
+#endif
+#ifdef CHECK_DGA_V2
+    } else {
+        XFree(fullscreen_allmodes_dga2);
+    }
+#endif
+}
+
 int fullscreen_available(void)
 {
-    return (bestmode_counter ? 1 : 0);
+    return (fullscreen_bestmode_counter ? 1 : 0);
 }
 
 int fullscreen_available_modes(void)
 {
-    return bestmode_counter;
+    return fullscreen_bestmode_counter;
 }
 
 char *fullscreen_mode_name(int mode)
 {
-    return bestmodes[mode].name;
+    return fullscreen_bestmodes[mode].name;
 }
 

@@ -1,3 +1,74 @@
+2001-01-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.2.
+
+	* arch/unix/x11/fullscreen.c: Only define `CHECK_DGA_V2' if
+	DGA2 extensions are available.
+
+	* zfile.c (try_uncompress_with_gzip): Added missing return.
+	(compress_with_gzip): Use zlib if available.
+
+	* archapi.h, arch/unix/archdep.c, arch/msdos/archdep.c,
+	arch/win32/archdep.c, arch/riscos/archdep.c,
+	arch/os2/archdep.c, arch/beos/archdep.c
+	(archdep_file_is_gzip): New function.
+
+2001-01-16  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* raster/raster.c(update_canvas): checks width parameter
+	before calling canvas_refresh; this is needed when viewport
+	is smaller than the raster
+	(update_for_minor_changes_without_sprites): fixed typo (x~y)
+	(raster_resize_viewport): fixed viewport->last_line
+	(raster_emulate_line): checks for end of frame even inside
+	the display; VIC's last displayed line is (currently) the end
+	of frame
+
+	* vic20/vic-draw.c(draw,draw_2x): multicolor characters are
+	never displayed reverse
+
+	* vic/vic.c(init_raster): changed parameters of
+	raster_set_geometry (these values work for standard vic
+	settings and will be fixed later); raster_resize_value is
+	called with new value VIC_DISPLAY_WIDTH
+
+	* vic/vic.h: VIC_SCREEN_WIDTH changed, VIC_DISPLAY_WIDTH new
+
+	* vicii/vicii.c(vicii_set_geometry): fixed height
+
+2001-01-07  Oliver Schaertel  <schaertel@atrada.net>
+
+	* arch/unix/x11/gnome/ui.c: Added fullscreen support.
+
+2000-12-30  Oliver Schaertel  <schaertel@atrada.net>
+
+	* arch/unix/fullscreen.c: Added support for DGA2. Fixed some
+	DGA-problems.
+
+2000-12-29  Oliver Schaertel  <schaertel@atrada.net>
+
+	* arch/unix: Changed USE_VIDMODE_EXTENSION to
+	USE_XF86_EXTENSIONS.
+
+	* arch/unix/fullscreen.c: Implemented DGA fullscreen.
+
+	* fullscreen.h: Added new functions
+	fullscreen_mode_on_restore(), fullscreen_mode_off_restore().
+	Removed function fullscreen_mode_name(int mode).
+	
+	* arch/unix/uicommands.c, arch/unix/x11/ui-ressources, 
+	arch/unix/x11/ui-ressources.c: Fullscreen changes.	
+
+	* arch/unix/xaw/ui.c: Fullscreen changes for mouse. 
+	Disable fullscreen for dialogboxes.
+
+	* crtc/crtc-resources.c, crtc-resources.h, crtc/crtc.c,
+	crtc/crtc.h, vic20/vic-resources.c, vic20/vic-resources.h,
+	vic20/vic.c, vic20/vic, vicii/vicii-resources.c,
+	vicii/vicii-resources.h, vicii/vicii.c, vicii/vicii.h: Added
+	fullscreen hooks again, introduced new function video_refresh.
+	Removed video_setfullscreen.
+
 2000-12-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.1.

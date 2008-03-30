@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2000-12-02 18:44+0100\n"
+"POT-Creation-Date: 2001-01-20 10:47+0100\n"
 "PO-Revision-Date: 2000-12-01 21:31+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -17,87 +17,87 @@ msgstr ""
 msgid "Specify name of printer device or dump file"
 msgstr "Name für Druckerausgabe Datei definieren (print.dump)"
 
-#: src/arch/unix/uicommands.c:96
+#: src/arch/unix/uicommands.c:98
 #, c-format
 msgid "Attach Disk Image as unit #%d"
 msgstr "Disk Image als Laufwerk #%d benutzen"
 
-#: src/arch/unix/uicommands.c:113 src/arch/unix/uicommands.c:149
+#: src/arch/unix/uicommands.c:115 src/arch/unix/uicommands.c:151
 msgid "Invalid Disk Image"
 msgstr "Ungültiges Disk Image."
 
-#: src/arch/unix/uicommands.c:120
+#: src/arch/unix/uicommands.c:122
 msgid "Invalid Disk Image or Filename"
 msgstr "Ungültiges Disk Image oder Dateiname falsch."
 
-#: src/arch/unix/uicommands.c:186
+#: src/arch/unix/uicommands.c:188
 msgid "Attach a tape image"
 msgstr "Band Image einlegen"
 
-#: src/arch/unix/uicommands.c:193 src/arch/unix/uicommands.c:200
+#: src/arch/unix/uicommands.c:195 src/arch/unix/uicommands.c:202
 msgid "Invalid Tape Image"
 msgstr "Ungültiges Band Image."
 
-#: src/arch/unix/uicommands.c:238
+#: src/arch/unix/uicommands.c:240
 msgid "Smart-attach a file"
 msgstr "Smart Datei einleigen"
 
-#: src/arch/unix/uicommands.c:246 src/arch/unix/uicommands.c:254
+#: src/arch/unix/uicommands.c:248 src/arch/unix/uicommands.c:256
 msgid "Unknown image type"
 msgstr "Unbekannter Image Typ."
 
-#: src/arch/unix/uicommands.c:276 src/arch/unix/uisettings.c:330
+#: src/arch/unix/uicommands.c:278 src/arch/unix/uisettings.c:330
 msgid "VICE setting"
 msgstr "VICE Einstellungen"
 
-#: src/arch/unix/uicommands.c:277
+#: src/arch/unix/uicommands.c:279
 msgid "Change current working directory"
 msgstr "Arbeitsverzeichnis ändern."
 
-#: src/arch/unix/uicommands.c:280
+#: src/arch/unix/uicommands.c:282
 msgid "Directory not found"
 msgstr "Verzeichnis nicht gefunden."
 
-#: src/arch/unix/uicommands.c:322
+#: src/arch/unix/uicommands.c:316
 msgid "Couldn't run /bin/sh???"
 msgstr "Kann /bin/sh nicht starten."
 
-#: src/arch/unix/uicommands.c:325
+#: src/arch/unix/uicommands.c:319
 msgid "Couldn't run xterm"
 msgstr "Kann xterm nicht starten."
 
-#: src/arch/unix/uicommands.c:330
+#: src/arch/unix/uicommands.c:324
 msgid "Unknown error while running c1541"
 msgstr "Unbekannter Fehler beim starten von c1541."
 
-#: src/arch/unix/uicommands.c:354
+#: src/arch/unix/uicommands.c:348
 msgid "No HTML browser is defined."
 msgstr "Kein HTML Browser definiert."
 
-#: src/arch/unix/uicommands.c:373 src/arch/unix/uicommands.c:387
-#: src/arch/unix/uicommands.c:400
+#: src/arch/unix/uicommands.c:367 src/arch/unix/uicommands.c:381
+#: src/arch/unix/uicommands.c:394
 msgid "Browser command too long."
 msgstr "Browser Kommando zu lang."
 
-#: src/arch/unix/uicommands.c:413
+#: src/arch/unix/uicommands.c:407
 #, c-format
 msgid "Executing `%s'..."
 msgstr "Führe `%s' aus..."
 
-#: src/arch/unix/uicommands.c:415
+#: src/arch/unix/uicommands.c:409
 msgid "Cannot run HTML browser."
 msgstr "Kann HTML Browser nicht starten."
 
-#: src/arch/unix/uicommands.c:453
+#: src/arch/unix/uicommands.c:447
 #, c-format
 msgid "Quickloading file %s."
 msgstr "Schnell Laden von Datei %s."
 
-#: src/arch/unix/uicommands.c:456
+#: src/arch/unix/uicommands.c:450
 msgid "Load snapshot"
 msgstr "Snapshot Laden..."
 
-#: src/arch/unix/uicommands.c:469
+#: src/arch/unix/uicommands.c:463
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
@@ -105,12 +105,12 @@ msgid ""
 msgstr "Kann Snapshot Datei `%s' nicht laden."
 
 #. quick snapshot, save ROMs & disks (??)
-#: src/arch/unix/uicommands.c:499
+#: src/arch/unix/uicommands.c:493
 #, c-format
 msgid "Quicksaving file %s."
 msgstr "Schnell Speicherung von Datei %s."
 
-#: src/arch/unix/uicommands.c:501 src/arch/unix/x11/gnome/uisnapshot.c:125
+#: src/arch/unix/uicommands.c:495 src/arch/unix/x11/gnome/uisnapshot.c:125
 #: src/arch/unix/x11/xaw/uisnapshot.c:113
 #, c-format
 msgid ""
@@ -118,177 +118,177 @@ msgid ""
 "`%s'\n"
 msgstr "Kann Snapshot Datei `%s' nicht speichern.\n"
 
-#: src/arch/unix/uicommands.c:613
+#: src/arch/unix/uicommands.c:607
 #, c-format
 msgid "Attach #%d"
 msgstr "Laufwerk #%d"
 
-#: src/arch/unix/uicommands.c:620
+#: src/arch/unix/uicommands.c:614
 #, c-format
 msgid "Detach #%d"
 msgstr "Entfernen #%d"
 
-#: src/arch/unix/uicommands.c:662
+#: src/arch/unix/uicommands.c:656
 msgid "Next: "
 msgstr "Nächstes: "
 
-#: src/arch/unix/uicommands.c:662 src/arch/unix/uicommands.c:677
-#: src/arch/unix/x11/gnome/ui.c:771 src/arch/unix/x11/gnome/ui.c:781
-#: src/arch/unix/x11/gnome/ui.c:1449
+#: src/arch/unix/uicommands.c:656 src/arch/unix/uicommands.c:671
+#: src/arch/unix/x11/gnome/ui.c:758 src/arch/unix/x11/gnome/ui.c:768
+#: src/arch/unix/x11/gnome/ui.c:1436
 msgid "<empty>"
 msgstr "<leer>"
 
-#: src/arch/unix/uicommands.c:677
+#: src/arch/unix/uicommands.c:671
 msgid "Previous: "
 msgstr "Vorheriges: "
 
-#: src/arch/unix/uicommands.c:692
+#: src/arch/unix/uicommands.c:686
 msgid "Add: "
 msgstr "Hinzufügen: "
 
-#: src/arch/unix/uicommands.c:707
+#: src/arch/unix/uicommands.c:701
 msgid "Remove: "
 msgstr "Entfernen: "
 
-#: src/arch/unix/uicommands.c:798 src/arch/unix/uicommands.c:810
+#: src/arch/unix/uicommands.c:792 src/arch/unix/uicommands.c:804
 msgid "Unit #8..."
 msgstr "Laufwerk #8..."
 
-#: src/arch/unix/uicommands.c:800 src/arch/unix/uicommands.c:813
+#: src/arch/unix/uicommands.c:794 src/arch/unix/uicommands.c:807
 msgid "Unit #9..."
 msgstr "Laufwerk #9..."
 
-#: src/arch/unix/uicommands.c:802 src/arch/unix/uicommands.c:816
+#: src/arch/unix/uicommands.c:796 src/arch/unix/uicommands.c:810
 msgid "Unit #10..."
 msgstr "Laufwerk #10..."
 
-#: src/arch/unix/uicommands.c:804 src/arch/unix/uicommands.c:819
+#: src/arch/unix/uicommands.c:798 src/arch/unix/uicommands.c:813
 msgid "Unit #11..."
 msgstr "Laufwerk #11..."
 
-#: src/arch/unix/uicommands.c:826
+#: src/arch/unix/uicommands.c:820
 msgid "Unit #8"
 msgstr "Laufwerk #8..."
 
-#: src/arch/unix/uicommands.c:828
+#: src/arch/unix/uicommands.c:822
 msgid "Unit #9"
 msgstr "Laufwerk #9..."
 
-#: src/arch/unix/uicommands.c:830
+#: src/arch/unix/uicommands.c:824
 msgid "Unit #10"
 msgstr "Laufwerk #10..."
 
-#: src/arch/unix/uicommands.c:832
+#: src/arch/unix/uicommands.c:826
 msgid "Unit #11"
 msgstr "Laufwerk #11..."
 
-#: src/arch/unix/uicommands.c:835
+#: src/arch/unix/uicommands.c:829
 msgid "All"
 msgstr "Alle"
 
-#: src/arch/unix/uicommands.c:841
+#: src/arch/unix/uicommands.c:835
 msgid "Soft"
 msgstr "Weich"
 
-#: src/arch/unix/uicommands.c:844
+#: src/arch/unix/uicommands.c:838
 msgid "Hard"
 msgstr "Hart"
 
-#: src/arch/unix/uicommands.c:851
+#: src/arch/unix/uicommands.c:845
 msgid "Add current image"
 msgstr "Aktuelles Image hinzufügen"
 
-#: src/arch/unix/uicommands.c:854
+#: src/arch/unix/uicommands.c:848
 msgid "Remove current image"
 msgstr "Aktuelles Image entfernen"
 
-#: src/arch/unix/uicommands.c:857
+#: src/arch/unix/uicommands.c:851
 msgid "Attach next image"
 msgstr "Nächstes Image"
 
-#: src/arch/unix/uicommands.c:860
+#: src/arch/unix/uicommands.c:854
 msgid "Attach previous image"
 msgstr "Voriges Image"
 
-#: src/arch/unix/uicommands.c:867
+#: src/arch/unix/uicommands.c:861
 msgid "Attach a disk image"
 msgstr "Disk Image einlegen"
 
-#: src/arch/unix/uicommands.c:869
+#: src/arch/unix/uicommands.c:863
 msgid "Create and attach an empty disk"
 msgstr "Leeres Disk Image erzeugen"
 
-#: src/arch/unix/uicommands.c:871
+#: src/arch/unix/uicommands.c:865
 msgid "Detach disk image"
 msgstr "Disk Image entfernen"
 
-#: src/arch/unix/uicommands.c:873
+#: src/arch/unix/uicommands.c:867
 msgid "Fliplist for drive #8"
 msgstr "Flipliste für Laufwerk #8"
 
-#: src/arch/unix/uicommands.c:879
+#: src/arch/unix/uicommands.c:873
 msgid "Attach a tape image..."
 msgstr "Band Image einlegen..."
 
-#: src/arch/unix/uicommands.c:882
+#: src/arch/unix/uicommands.c:876
 msgid "Detach tape image"
 msgstr "Band Image entfernen"
 
-#: src/arch/unix/uicommands.c:888
+#: src/arch/unix/uicommands.c:882
 msgid "Smart-attach disk/tape..."
 msgstr "Smart-Einlegen von Disk/Tape Image..."
 
-#: src/arch/unix/uicommands.c:895
+#: src/arch/unix/uicommands.c:889
 msgid "Change working directory..."
 msgstr "Arbeitsverzeichnis ändern."
 
-#: src/arch/unix/uicommands.c:901
+#: src/arch/unix/uicommands.c:895
 msgid "Load snapshot..."
 msgstr "Snapshot Laden..."
 
-#: src/arch/unix/uicommands.c:904
+#: src/arch/unix/uicommands.c:898
 msgid "Save snapshot..."
 msgstr "Snapshot Speichern..."
 
-#: src/arch/unix/uicommands.c:908
+#: src/arch/unix/uicommands.c:902
 msgid "Quickload snapshot"
 msgstr "Snapshot schnell Laden..."
 
-#: src/arch/unix/uicommands.c:911
+#: src/arch/unix/uicommands.c:905
 msgid "Quicksave snapshot"
 msgstr "Snapshot schnell Speichern"
 
-#: src/arch/unix/uicommands.c:918
+#: src/arch/unix/uicommands.c:912
 msgid "Snapshot commands"
 msgstr "Snapshot Kommandos"
 
-#: src/arch/unix/uicommands.c:924
+#: src/arch/unix/uicommands.c:918
 msgid "Activate monitor"
 msgstr "Monitor Aktivieren"
 
-#: src/arch/unix/uicommands.c:926
+#: src/arch/unix/uicommands.c:920
 msgid "Run C1541"
 msgstr "C1541 starten"
 
-#: src/arch/unix/uicommands.c:934
+#: src/arch/unix/uicommands.c:928
 msgid "Browse manuals"
 msgstr "Dokumentation durchstöbern"
 
-#: src/arch/unix/uicommands.c:936
+#: src/arch/unix/uicommands.c:930
 msgid "About VICE..."
 msgstr "Über VICE..."
 
 #: src/arch/unix/c610ui.c:407 src/arch/unix/c64ui.c:133
-#: src/arch/unix/petui.c:432 src/arch/unix/uicommands.c:942
-#: src/arch/unix/vic20ui.c:275 src/arch/unix/x11/gnome/ui.c:1800
+#: src/arch/unix/petui.c:432 src/arch/unix/uicommands.c:936
+#: src/arch/unix/vic20ui.c:275 src/arch/unix/x11/gnome/ui.c:1785
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:944
+#: src/arch/unix/uicommands.c:938
 msgid "*Pause"
 msgstr "*Pause"
 
-#: src/arch/unix/uicommands.c:951
+#: src/arch/unix/uicommands.c:945
 msgid "Exit emulator"
 msgstr "Emulator beenden"
 
@@ -594,7 +594,7 @@ msgstr "Optionen"
 #: src/arch/unix/c128ui.c:510 src/arch/unix/c610ui.c:525
 #: src/arch/unix/c64ui.c:647 src/arch/unix/petui.c:552
 #: src/arch/unix/vic20ui.c:501 src/arch/unix/vsidui.c:258
-#: src/arch/unix/x11/gnome/ui.c:1105 src/arch/unix/x11/gnome/ui.c:1197
+#: src/arch/unix/x11/gnome/ui.c:1088 src/arch/unix/x11/gnome/ui.c:1180
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -928,8 +928,8 @@ msgstr "Maximale Geschwindigkeit"
 msgid "Invalid speed value"
 msgstr "Ungültige Geschwindigkeit"
 
-#: src/arch/unix/uisettings.c:215 src/arch/unix/x11/gnome/ui.c:1244
-#: src/arch/unix/x11/xaw/ui.c:1064
+#: src/arch/unix/uisettings.c:215 src/arch/unix/x11/gnome/ui.c:1231
+#: src/arch/unix/x11/xaw/ui.c:1066
 msgid "Cannot save settings."
 msgstr "Fehler beim Speichern der Einstellungen."
 
@@ -1940,7 +1940,7 @@ msgstr "Received signal %d (%s)."
 msgid "Received signal %d."
 msgstr "Received signal %d."
 
-#: src/arch/unix/main_exit.c:43
+#: src/arch/unix/main_exit.c:45
 msgid ""
 "\n"
 "Exiting..."
@@ -1984,150 +1984,150 @@ msgstr "VICE Hackers"
 msgid "Successfully initialized video."
 msgstr "Video erfolgreich initialisiert."
 
-#: src/arch/unix/x11/gnome/ui.c:418
+#: src/arch/unix/x11/gnome/ui.c:400
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Schriftpfad hinzufügen ist fehlgeschlagen: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/ui.c:420
+#: src/arch/unix/x11/gnome/ui.c:402
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Setze Fontpfad: `%s'.\n"
 
-#: src/arch/unix/x11/gnome/ui.c:653 src/arch/unix/x11/xaw/ui.c:474
+#: src/arch/unix/x11/gnome/ui.c:635 src/arch/unix/x11/xaw/ui.c:474
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dieses Display unterstützt keine passende %dbit Farbtiefe."
 
-#: src/arch/unix/x11/gnome/ui.c:657 src/arch/unix/x11/xaw/ui.c:478
+#: src/arch/unix/x11/gnome/ui.c:639 src/arch/unix/x11/xaw/ui.c:478
 msgid "Please select a bit depth supported by your display."
 msgstr "Bitte genaue Farbtiefe für Ihr Display spezifizieren."
 
-#: src/arch/unix/x11/gnome/ui.c:660 src/arch/unix/x11/xaw/ui.c:481
+#: src/arch/unix/x11/gnome/ui.c:642 src/arch/unix/x11/xaw/ui.c:481
 msgid "Please recompile the program for a supported bit depth."
 msgstr "Bitte VICE mit passender Farbtiefe neu übersetzen."
 
-#: src/arch/unix/x11/gnome/ui.c:664 src/arch/unix/x11/gnome/ui.c:682
+#: src/arch/unix/x11/gnome/ui.c:646 src/arch/unix/x11/gnome/ui.c:664
 #: src/arch/unix/x11/xaw/ui.c:485 src/arch/unix/x11/xaw/ui.c:502
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "%dbit/%s Farbtiefe erkannt."
 
-#: src/arch/unix/x11/gnome/ui.c:690 src/arch/unix/x11/xaw/ui.c:510
+#: src/arch/unix/x11/gnome/ui.c:672 src/arch/unix/x11/xaw/ui.c:510
 msgid "Cannot autodetect a proper visual."
 msgstr "Fehler beim automatischen erkennen der Farbtiefe."
 
-#: src/arch/unix/x11/gnome/ui.c:697
+#: src/arch/unix/x11/gnome/ui.c:679
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Laden der Textschrift `%s' fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/ui.c:704
+#: src/arch/unix/x11/gnome/ui.c:686
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Laden der CBM font `%s' fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/ui.c:757
+#: src/arch/unix/x11/gnome/ui.c:744
 #, c-format
 msgid "Drive %d: "
 msgstr "Laufwerk %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/ui.c:867
+#: src/arch/unix/x11/gnome/ui.c:854
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/ui.c:940 src/arch/unix/x11/xaw/ui.c:592
+#: src/arch/unix/x11/gnome/ui.c:927 src/arch/unix/x11/xaw/ui.c:591
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximale Anzahl an Hauptfenster erreicht."
 
-#: src/arch/unix/x11/gnome/ui.c:1103 src/arch/unix/x11/gnome/ui.c:1186
+#: src/arch/unix/x11/gnome/ui.c:1086 src/arch/unix/x11/gnome/ui.c:1169
 msgid "Commands"
 msgstr "Kommandos"
 
-#: src/arch/unix/x11/gnome/ui.c:1109
+#: src/arch/unix/x11/gnome/ui.c:1092
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/arch/unix/x11/gnome/ui.c:1228 src/arch/unix/x11/xaw/ui.c:1051
+#: src/arch/unix/x11/gnome/ui.c:1211 src/arch/unix/x11/xaw/ui.c:1050
 msgid " emulator"
 msgstr " Emulator"
 
-#: src/arch/unix/x11/gnome/ui.c:1230 src/arch/unix/x11/xaw/ui.c:1053
+#: src/arch/unix/x11/gnome/ui.c:1217 src/arch/unix/x11/xaw/ui.c:1056
 msgid "Do you really want to exit?"
 msgstr "Wirklich beenden?"
 
-#: src/arch/unix/x11/gnome/ui.c:1240 src/arch/unix/x11/xaw/ui.c:1061
+#: src/arch/unix/x11/gnome/ui.c:1227 src/arch/unix/x11/xaw/ui.c:1063
 msgid "Save the current settings?"
 msgstr "Einstellungen speichern?"
 
-#: src/arch/unix/x11/gnome/ui.c:1287 src/arch/unix/x11/xaw/ui.c:1101
+#: src/arch/unix/x11/gnome/ui.c:1274 src/arch/unix/x11/xaw/ui.c:1100
 msgid "Using private colormap."
 msgstr "Benutze private Farbpalette."
 
-#: src/arch/unix/x11/gnome/ui.c:1307 src/arch/unix/x11/gnome/ui.c:1310
-#: src/arch/unix/x11/xaw/ui.c:1122 src/arch/unix/x11/xaw/ui.c:1128
+#: src/arch/unix/x11/gnome/ui.c:1294 src/arch/unix/x11/gnome/ui.c:1297
+#: src/arch/unix/x11/xaw/ui.c:1121 src/arch/unix/x11/xaw/ui.c:1127
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/ui.c:1601
+#: src/arch/unix/x11/gnome/ui.c:1588
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/ui.c:1638 src/arch/unix/x11/xaw/ui.c:1332
+#: src/arch/unix/x11/gnome/ui.c:1625 src/arch/unix/x11/xaw/ui.c:1331
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausiert)"
 
-#: src/arch/unix/x11/gnome/ui.c:1763
+#: src/arch/unix/x11/gnome/ui.c:1744
 msgid "VICE Message"
 msgstr "VICE Nachricht"
 
-#: src/arch/unix/x11/gnome/ui.c:1774
+#: src/arch/unix/x11/gnome/ui.c:1759
 msgid "VICE Error"
 msgstr "VICE Fehler"
 
-#: src/arch/unix/x11/gnome/ui.c:1800
+#: src/arch/unix/x11/gnome/ui.c:1785
 msgid "Hard Reset"
 msgstr "Harter Reset"
 
-#: src/arch/unix/x11/gnome/ui.c:1800
+#: src/arch/unix/x11/gnome/ui.c:1785
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/ui.c:1844 src/arch/unix/x11/xaw/ui.c:1581
+#: src/arch/unix/x11/gnome/ui.c:1829 src/arch/unix/x11/xaw/ui.c:1571
 msgid "Extend disk image"
 msgstr "Erweiterung Disk Image"
 
-#: src/arch/unix/x11/gnome/ui.c:1845
+#: src/arch/unix/x11/gnome/ui.c:1830
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Soll das Diskimage auf 40 Spuren erweitert werden?"
 
-#: src/arch/unix/x11/gnome/ui.c:1858
+#: src/arch/unix/x11/gnome/ui.c:1843
 msgid "Autostart not possible for unit 9"
 msgstr "Autostart für Laufwerk 9 nicht möglich."
 
-#: src/arch/unix/x11/gnome/ui.c:1865 src/arch/unix/x11/gnome/ui.c:1873
+#: src/arch/unix/x11/gnome/ui.c:1850 src/arch/unix/x11/gnome/ui.c:1858
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Autostart von Selektion Nr. %d in Image %s fehlgeschlagen."
 
-#: src/arch/unix/x11/gnome/ui.c:2001 src/arch/unix/x11/gnome/ui.c:2006
+#: src/arch/unix/x11/gnome/ui.c:1986 src/arch/unix/x11/gnome/ui.c:1991
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "KEIN IMAGE VERZEICHNIS VERFUEGBAR."
 
-#: src/arch/unix/x11/gnome/ui.c:2465
+#: src/arch/unix/x11/gnome/ui.c:2454
 msgid "Contents"
 msgstr "Verzeichnis"
 
-#: src/arch/unix/x11/gnome/ui.c:2512
+#: src/arch/unix/x11/gnome/ui.c:2501
 msgid "Attach write protected"
 msgstr "Attach schreibgeschützt"
 
-#: src/arch/unix/x11/gnome/ui.c:2538
+#: src/arch/unix/x11/gnome/ui.c:2527
 msgid "Autostart"
 msgstr "Autostart"
 
@@ -2232,44 +2232,63 @@ msgstr "Aktuell eingelegte Diskimages mitspeichern"
 msgid "Save currently attached ROMs"
 msgstr "Aktuelle ROMs mitspeichern"
 
-#: src/arch/unix/x11/fullscreen.c:121
-msgid "Unable to query video extension version"
+#: src/arch/unix/x11/fullscreen.c:155 src/arch/unix/x11/fullscreen.c:183
+#, fuzzy
+msgid "Unable to query video extension version - disabling fullscreen."
 msgstr "Kann Version von Video Erweiterung nicht feststellen"
 
-#: src/arch/unix/x11/fullscreen.c:125
-msgid "Unable to query video extension information"
+#: src/arch/unix/x11/fullscreen.c:160 src/arch/unix/x11/fullscreen.c:188
+#, fuzzy
+msgid "Unable to query video extension information - disabling fullscreen."
 msgstr "Kann nötige Information für Video Erweiterung nicht abfragen"
 
-#: src/arch/unix/x11/fullscreen.c:133
+#: src/arch/unix/x11/fullscreen.c:169
+#, fuzzy, c-format
+msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
+msgstr "Alte Version der XFree86-VidMode Erweiterung erkannt (%d.  %d)"
+
+#: src/arch/unix/x11/fullscreen.c:171 src/arch/unix/x11/fullscreen.c:199
+#, fuzzy, c-format
+msgid "Minimum required version is %d.%d - disabling fullscreen."
+msgstr "Minimal erforderliche Version ist %d.%d"
+
+#: src/arch/unix/x11/fullscreen.c:197
 #, c-format
 msgid "Xserver is running an old XFree86-VidMode version (%d.  %d)"
 msgstr "Alte Version der XFree86-VidMode Erweiterung erkannt (%d.  %d)"
 
-#: src/arch/unix/x11/fullscreen.c:135
-#, c-format
-msgid "Minimum required version is %d.%d"
-msgstr "Minimal erforderliche Version ist %d.%d"
-
-#: src/arch/unix/x11/fullscreen.c:141
-msgid "Error getting video mode information"
+#: src/arch/unix/x11/fullscreen.c:206
+#, fuzzy
+msgid "Error getting video mode information - disabling fullscreen."
 msgstr "Fehler beim Abfragen der Video Modus Information"
 
-#: src/arch/unix/x11/fullscreen.c:189
+#: src/arch/unix/x11/fullscreen.c:213
+msgid ""
+"Vice is not running as root, DGA extension not possible - disabling "
+"fullscreen."
+msgstr ""
+
+#: src/arch/unix/x11/fullscreen.c:220
+msgid "Problems with DGA - disabling fullscreen."
+msgstr ""
+
+#: src/arch/unix/x11/fullscreen.c:309 src/arch/unix/x11/fullscreen.c:338
 #, c-format
 msgid "Switch to fullscreen %ix%i"
 msgstr "Aktiviere Vollbild Modus %ix%i"
 
-#: src/arch/unix/x11/fullscreen.c:214 src/arch/unix/x11/fullscreen.c:294
+#: src/arch/unix/x11/fullscreen.c:318 src/arch/unix/x11/fullscreen.c:344
+#: src/arch/unix/x11/fullscreen.c:349 src/arch/unix/x11/fullscreen.c:362
 #, c-format
 msgid "Error switching to fullscreen %ix%i\n"
 msgstr "Fehler beim Umschalten auf Vollbild Modus %ix%i\n"
 
-#: src/arch/unix/x11/fullscreen.c:289
+#: src/arch/unix/x11/fullscreen.c:329
 #, c-format
-msgid "Change to fullscreen %ix%i"
-msgstr "Umaschalten auf Vollbild Modus %ix%i"
+msgid "DGA extension: addr:%X, width %d, bank size %d mem size %d\n"
+msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:328
+#: src/arch/unix/x11/fullscreen.c:383
 msgid "Switch to windowmode"
 msgstr "Umschalten auf Fenster Modus"
 
@@ -2333,44 +2352,44 @@ msgstr "Deaktiviere Vollbild Modus"
 msgid "Specify X display depth (1..32)"
 msgstr "X Display Farbtiefe (1..32) definieren"
 
-#: src/arch/unix/x11/video.c:121
+#: src/arch/unix/x11/video.c:124
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "`XSync()' nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:124
+#: src/arch/unix/x11/video.c:127
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 "`XSync()' nicht nach jeder Aktualisierung des Emulator Fensters aufrufen"
 
-#: src/arch/unix/x11/video.c:127
+#: src/arch/unix/x11/video.c:130
 msgid "Never use shared memory (slower)"
 msgstr "Shared Memory nicht benutzen (langsamer)"
 
-#: src/arch/unix/x11/video.c:320
+#: src/arch/unix/x11/video.c:323
 #, c-format
 msgid "Only %ibpp supported by this emulator."
 msgstr "Lediglich %ibpp wird von diesem Emulator unterstützt."
 
-#: src/arch/unix/x11/video.c:322
+#: src/arch/unix/x11/video.c:325
 #, c-format
 msgid "Current X server depth is %ibpp."
 msgstr "Aktuelle X Server Farbtiefe ist %ibpp"
 
-#: src/arch/unix/x11/video.c:325
+#: src/arch/unix/x11/video.c:328
 msgid "Switch X server depth or recompile with --enable-autobpp."
 msgstr "Switch X server depth or recompile with --enable-autobpp."
 
-#: src/arch/unix/x11/video.c:360
+#: src/arch/unix/x11/video.c:363
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 "Die MITSHM X Server Erweiterung ist auf diesem Display nicht unterstützt."
 
-#: src/arch/unix/x11/video.c:364
+#: src/arch/unix/x11/video.c:367
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM X Server Eweiterung in Version %d.%d erkannt."
 
-#: src/arch/unix/x11/video.c:410
+#: src/arch/unix/x11/video.c:413
 msgid "Cannot release shared memory!"
 msgstr "Kann Shared Memory nicht freigeben!"
 
@@ -2378,16 +2397,16 @@ msgstr "Kann Shared Memory nicht freigeben!"
 msgid "VICE Information"
 msgstr "VICE Information"
 
-#: src/arch/unix/x11/xaw/ui.c:1211
+#: src/arch/unix/x11/xaw/ui.c:1210
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spur %.1f"
 
-#: src/arch/unix/x11/xaw/ui.c:1466
+#: src/arch/unix/x11/xaw/ui.c:1459
 msgid "VICE Error!"
 msgstr "VICE Fehler!"
 
-#: src/arch/unix/x11/xaw/ui.c:1650
+#: src/arch/unix/x11/xaw/ui.c:1640
 msgid "Unknown image type."
 msgstr "Unbekannter Image Typ."
 
@@ -2533,6 +2552,9 @@ msgstr "Performance wird nicht optimal sein."
 #: src/arch/unix/x11/xaw/x11video.c:186
 msgid "Successfully initialized without shared memory."
 msgstr "Video erfolgreich ohne Shared Memroy initialisiert."
+
+#~ msgid "Change to fullscreen %ix%i"
+#~ msgstr "Umaschalten auf Vollbild Modus %ix%i"
 
 #~ msgid "Specify command for printer 1 (|petlp |lpr)"
 #~ msgstr "Command für Drucker 1 definieren (|petlp |lpr)"
