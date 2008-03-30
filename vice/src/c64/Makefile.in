@@ -465,8 +465,9 @@ reloc65.o: reloc65.c
 reu.o: reu.c ../../src/vice.h ../../src/config.h c64cart.h \
 	../../src/arch/unix/types.h ../../src/cartridge.h \
 	../../src/cmdline.h ../../src/resources.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/log.h ../../src/maincpu.h \
-	../../src/mem.h reu.h ../../src/snapshot.h ../../src/utils.h
+	../../src/6510core.h ../../src/log.h ../../src/machine.h \
+	../../src/maincpu.h ../../src/mem.h reu.h ../../src/snapshot.h \
+	../../src/utils.h
 
 info-am:
 info: info-recursive
