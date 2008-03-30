@@ -288,31 +288,6 @@ DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(8)
 DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(9)
 
 TUI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
-
-static TUI_MENU_CALLBACK(toggle_DriveSyncFactor_callback)
-{
-    int value;
-
-    resources_get_value("VideoStandard", (resource_value_t *) &value);
-
-    if (been_activated) {
-	if (value == DRIVE_SYNC_PAL)
-	    value = DRIVE_SYNC_NTSC;
-	else
-	    value = DRIVE_SYNC_PAL;
-        resources_set_value("VideoStandard", (resource_value_t) value);
-    }
-
-    switch (value) {
-      case DRIVE_SYNC_PAL:
-	return "PAL";
-      case DRIVE_SYNC_NTSC:
-	return "NTSC";
-      default:
-	return "(Custom)";
-    }
-}
-
 TUI_MENU_DEFINE_RADIO(Drive8Type)
 TUI_MENU_DEFINE_RADIO(Drive9Type)
 
@@ -338,6 +313,16 @@ static TUI_MENU_CALLBACK(drive_type_submenu_callback)
         return "1581, 3\"1/2 DS";
       case DRIVE_TYPE_2031:
         return "2031, 5\"1/4 SS, IEEE488";
+      case DRIVE_TYPE_3040:
+        return "3040, 5\"1/4 SD, IEEE488";
+      case DRIVE_TYPE_4040:
+        return "4040, 5\"1/4 SD, IEEE488";
+      case DRIVE_TYPE_1001:
+        return "1001, 5\"1/4 DS, IEEE488";
+      case DRIVE_TYPE_8050:
+        return "8050, 5\"1/4 SD, IEEE488";
+      case DRIVE_TYPE_8250:
+        return "8250, 5\"1/4 DD, IEEE488";
       default:
 	return "(Unknown)";
     }
@@ -368,6 +353,26 @@ static tui_menu_item_def_t drive##num##_type_submenu[] = {                \
     { "_2031, 5\"1/4 SS IEEE488",                                         \
       "Emulate a 2031 5\"1/4 single-sided IEEE disk drive as unit #" #num,\
       radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_2031, 0,       \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { "_3040, 5\"1/4 SD IEEE488",                                         \
+      "Emulate a 3040 5\"1/4 SD IEEE disk drive as unit #" #num,          \
+      radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_3040, 0,       \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { "_4040, 5\"1/4 SD IEEE488",                                         \
+      "Emulate a 4040 5\"1/4 SD IEEE disk drive as unit #" #num,          \
+      radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_4040, 0,       \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { "1_001, 5\"1/4 DS IEEE488",                                         \
+      "Emulate a 1001 5\"1/4 DS IEEE disk drive as unit #" #num,          \
+      radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_1001, 0,       \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { "_8050, 5\"1/4 SD IEEE488",                                         \
+      "Emulate a 8050 5\"1/4 SD IEEE disk drive as unit #" #num,          \
+      radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_8050, 0,       \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { "8_520, 5\"1/4 DD IEEE488",                                         \
+      "Emulate a 8250 5\"1/4 DD IEEE disk drive as unit #" #num,          \
+      radio_Drive##num##Type_callback, (void *) DRIVE_TYPE_8250, 0,       \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { NULL }                                                              \
 };
@@ -468,11 +473,6 @@ static tui_menu_item_def_t drive_settings_submenu[] = {
       "Settings for dealing with 40-track disk images in drive #9",
       drive_extend_image_policy_submenu_callback, (void *) 9, 16,
       TUI_MENU_BEH_CONTINUE, drive9_extend_image_policy_submenu, "" },
-    { "--" },
-    { "Drive _Sync Factor:",
-      "Select drive/machine clock ratio",
-      toggle_DriveSyncFactor_callback, NULL, 8,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
 
@@ -1517,7 +1517,37 @@ static TUI_MENU_CALLBACK(speed_callback)
 
 TUI_MENU_DEFINE_TOGGLE(WarpMode)
 TUI_MENU_DEFINE_TOGGLE(UseLeds)
-TUI_MENU_DEFINE_TOGGLE(ShowStatusbar)
+TUI_MENU_DEFINE_TOGGLE(Printer4)
+
+static TUI_MENU_CALLBACK(toggle_ShowStatusbar_callback)
+{
+    int value;
+
+    resources_get_value("ShowStatusbar", (resource_value_t *) &value);
+
+    if (been_activated) {
+	    if (value == STATUSBAR_MODE_OFF)
+	        value = STATUSBAR_MODE_ON;
+	    else if (value == STATUSBAR_MODE_ON)
+	        value = STATUSBAR_MODE_AUTO;
+        else
+	        value = STATUSBAR_MODE_OFF;
+
+        resources_set_value("ShowStatusbar", (resource_value_t) value);
+    }
+
+    switch (value) {
+      case STATUSBAR_MODE_OFF:
+	return "Off";
+      case STATUSBAR_MODE_ON:
+	return "On";
+      case STATUSBAR_MODE_AUTO:
+	return "Auto";
+      default:
+	return "(Custom)";
+    }
+}
+
 
 static void create_special_submenu(int has_serial_traps)
 {
@@ -1596,8 +1626,14 @@ static void create_special_submenu(int has_serial_traps)
                       TUI_MENU_BEH_CONTINUE);
     tui_menu_add_item(ui_special_submenu,
                       "Show Status_bar:",
-                      "Shows a Statusbar to display Speed, Tape and Drive properties",
-                      toggle_ShowStatusbar_callback, NULL, 4,
+                      "Statusbar to display Speed, Tape and Drive properties; toggle with ALT-F5",
+                      toggle_ShowStatusbar_callback, NULL, 10,
+                      TUI_MENU_BEH_CONTINUE);
+    tui_menu_add_separator(ui_special_submenu);
+    tui_menu_add_item(ui_special_submenu,
+                      "_Printer Emulation (Device 4):",
+                      "Dumps Printer output to file",
+                      toggle_Printer4_callback, NULL, 4,
                       TUI_MENU_BEH_CONTINUE);
 }
 
