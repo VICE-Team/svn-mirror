@@ -76,29 +76,28 @@ void realdevice_close(unsigned int device, BYTE secondary,
 #endif
 }
 
-void realdevice_listentalk(unsigned int device, BYTE secondary,
-                           void(*st_func)(BYTE))
+void realdevice_listen(unsigned int device, BYTE secondary,
+                       void(*st_func)(BYTE))
 {
     vsync_suspend_speed_eval();
 
-    switch (device & 0xf0) {
-      case 0x20:
-        (*opencbmlib.p_cbm_listen)(realdevice_fd, device & 0x0f,
-                                   secondary & 0x0f);
+    (*opencbmlib.p_cbm_listen)(realdevice_fd, device & 0x0f, secondary & 0x0f);
 #ifdef DEBUG_RD
-        log_debug("LISTEN DEVICE %i SECONDARY %i", device & 0x0f,
-                  secondary & 0x0f);
+    log_debug("LISTEN DEVICE %i SECONDARY %i", device & 0x0f,
+              secondary & 0x0f);
 #endif
-        break;
-      case 0x40:
-        (*opencbmlib.p_cbm_talk)(realdevice_fd, device & 0x0f,
-                                 secondary & 0x0f);
+}
+
+void realdevice_talk(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
+{
+    vsync_suspend_speed_eval();
+
+    (*opencbmlib.p_cbm_talk)(realdevice_fd, device & 0x0f,
+                             secondary & 0x0f);
 #ifdef DEBUG_RD
-        log_debug("TALK DEVICE %i SECONDARY %i", device & 0x0f,
-                  secondary & 0x0f);
+    log_debug("TALK DEVICE %i SECONDARY %i", device & 0x0f,
+              secondary & 0x0f);
 #endif
-        break;
-    }
 }
 
 void realdevice_unlisten(void(*st_func)(BYTE))
