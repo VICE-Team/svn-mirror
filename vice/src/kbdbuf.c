@@ -30,13 +30,16 @@
 #include "vice.h"
 
 #ifdef STDC_HEADERS
+#include <ctype.h>
 #include <stdio.h>
 #endif
 
+#include "charsets.h"
+#include "cmdline.h"
 #include "maincpu.h"
 #include "kbdbuf.h"
 #include "types.h"
-#include "charsets.h"
+#include "utils.h"
 
 /* Maximum number of characters we can queue.  */
 #define QUEUE_SIZE	16384
@@ -66,11 +69,58 @@ static int num_pending;
 /* Flag if we are initialized already.  */
 static int kbd_buf_enabled = 0;
 
+/* String to feed into the keyboard buffer on startup.  */
+static char *kdb_buf_startup_string = NULL;
+
+/* ------------------------------------------------------------------------- */
+
+static int kdb_buf_feed_cmdline(const char *param, void *extra_param)
+{
+    int len, i, j;
+
+    len = strlen(param);
+
+    if (len > QUEUE_SIZE)
+        len = QUEUE_SIZE;
+
+    kdb_buf_startup_string = xmalloc(len + 1);
+    memset(kdb_buf_startup_string, 0, len + 1);
+
+    for (i = 0, j = 0; i < len; i++) {
+        if (param[i] == '\\' && i < (len - 2) && isxdigit(param[i + 1])
+            && isxdigit(param[i + 2])) {
+            char hexvalue[3];
+
+            hexvalue[0] = param[i + 1];
+            hexvalue[1] = param[i + 2];
+            hexvalue[2] = '\0';
+            kdb_buf_startup_string[j] = strtol(hexvalue, NULL, 16);
+            j++;
+            i += 2;
+        } else {
+            kdb_buf_startup_string[j] = param[i];
+            j++;
+        }
+    }
+    return 0;
+}
+
+static cmdline_option_t cmdline_options[] =
+{
+    {"-keybuf", CALL_FUNCTION, 1, kdb_buf_feed_cmdline, NULL, NULL, NULL,
+     "<string>", "Put the specified string into the keyboard buffer"},
+    {NULL}
+};
+
+int kbd_buf_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Initialization.  */
-int kbd_buf_init(int location, int plocation, int size,
-                 CLOCK mincycles)
+int kbd_buf_init(int location, int plocation, int size, CLOCK mincycles)
 {
     buffer_location = location;
     num_pending_location = plocation;
@@ -81,6 +131,11 @@ int kbd_buf_init(int location, int plocation, int size,
         kbd_buf_enabled = 1;
     } else {
         kbd_buf_enabled = 0;
+    }
+
+    if (kdb_buf_startup_string != NULL) {
+        kbd_buf_feed(kdb_buf_startup_string);
+        free(kdb_buf_startup_string);
     }
 
     return 0;
