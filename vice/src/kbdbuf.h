@@ -27,10 +27,10 @@
 #ifndef _KBDBUF_H
 #define _KBDBUF_H
 
-int kbd_buf_is_empty(void);
-int kbd_buf_init(int location, int plocation, int buffer_size,
-                 CLOCK mincycles);
-int kbd_buf_feed(const char *s);
-void kbd_buf_flush(void);
-
+extern int kbd_buf_is_empty(void);
+extern int kbd_buf_init(int location, int plocation, int buffer_size,
+                        CLOCK mincycles);
+extern int kbd_buf_feed(const char *s);
+extern void kbd_buf_flush(void);
+extern int kbd_buf_init_cmdline_options(void);
 #endif
