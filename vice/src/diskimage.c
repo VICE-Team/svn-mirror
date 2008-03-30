@@ -337,6 +337,8 @@ int disk_image_close(disk_image_t *image)
         return -1;
 
     zfclose(image->fd);
+    free(image->name);
+    image->name = NULL;
     return 0;
 }
 

@@ -86,7 +86,7 @@ void file_system_init(void)
         vdrive = (vdrive_t *)p->info;
         vdrive->image = NULL;
         vdrive_setup_device(vdrive, i + 8, ((file_system_device_enabled[0] 
-                            ? DT_FS : DT_DISK) | DT_1541));
+                            ? DT_FS : DT_DISK)));
         p->image = xmalloc(sizeof(disk_image_t));    
         p->image->name = NULL;
     }
@@ -113,7 +113,7 @@ static int set_file_system_device8(resource_value_t v)
 	if (floppy->image == NULL) {
 	    p->inuse = 0;
 	    vdrive_setup_device(floppy, 8, (file_system_device_enabled[0]
-                            ? DT_FS : DT_DISK) | DT_1541);
+                            ? DT_FS : DT_DISK));
 	}
     }
     return 0;
@@ -132,7 +132,7 @@ static int set_file_system_device9(resource_value_t v)
 	if (floppy->image == NULL) {
 	    p->inuse = 0;
 	    vdrive_setup_device(floppy, 9, (file_system_device_enabled[1]
-                                ? DT_FS : DT_DISK) | DT_1541);
+                                ? DT_FS : DT_DISK));
 	}
     }
     return 0;
@@ -151,7 +151,7 @@ static int set_file_system_device10(resource_value_t v)
 	if (floppy->image == NULL) {
 	    p->inuse = 0;
 	    vdrive_setup_device(floppy, 10, (file_system_device_enabled[2]
-                                 ? DT_FS : DT_DISK) | DT_1541);
+                                 ? DT_FS : DT_DISK));
 	}
     }
     return 0;
@@ -170,7 +170,7 @@ static int set_file_system_device11(resource_value_t v)
 	if (floppy->image == NULL) {
 	    p->inuse = 0;
 	    vdrive_setup_device(floppy, 11, (file_system_device_enabled[3]
-                                 ? DT_FS : DT_DISK) | DT_1541);
+                                 ? DT_FS : DT_DISK));
 	}
     }
     return 0;
@@ -178,8 +178,8 @@ static int set_file_system_device11(resource_value_t v)
 
 /* ------------------------------------------------------------------------- */
 
-int attach_disk_image(disk_image_t *image, vdrive_t *floppy, const char *filename,
-                      int unit)
+int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
+                      const char *filename, int unit)
 {
     disk_image_t new_image;
 
@@ -196,25 +196,28 @@ int attach_disk_image(disk_image_t *image, vdrive_t *floppy, const char *filenam
         return -1;
     }
 
-    switch (unit) {
-      case 8:
-        wd1770_detach_image(image, 8);
-        fdc_detach_image(image, 8);
-        drive_detach_image(image, 8);
-        vdrive_detach_image(image, 8, floppy);
-        break;
-      case 9:
-        wd1770_detach_image(image, 9);
-        fdc_detach_image(image, 9);
-        drive_detach_image(image, 9);
-        vdrive_detach_image(image, 9, floppy);
-        break;
-      case 10:
-        vdrive_detach_image(image, 10, floppy);
-        break;
-      case 11:
-        vdrive_detach_image(image, 11, floppy);
-        break;
+    if (image->name != NULL) {
+        switch (unit) {
+          case 8:
+            wd1770_detach_image(image, 8);
+            fdc_detach_image(image, 8);
+            drive_detach_image(image, 8);
+            vdrive_detach_image(image, 8, floppy);
+            break;
+          case 9:
+            wd1770_detach_image(image, 9);
+            fdc_detach_image(image, 9);
+            drive_detach_image(image, 9);
+            vdrive_detach_image(image, 9, floppy);
+            break;
+          case 10:
+            vdrive_detach_image(image, 10, floppy);
+            break;
+          case 11:
+            vdrive_detach_image(image, 11, floppy);
+            break;
+        }
+        disk_image_close(image);
     }
 
     memcpy(image, &new_image, sizeof(disk_image_t));
@@ -265,9 +268,7 @@ void detach_disk_image(disk_image_t *image, vdrive_t *floppy, int unit)
             vdrive_detach_image(image, 11, floppy);
             break;
         }
-
-        free(image->name);
-        image->name = NULL;
+        disk_image_close(image);
     }
 }
 
@@ -282,7 +283,7 @@ int file_system_attach_disk(int unit, const char *filename)
     floppy = (vdrive_t *)p->info;
     if ((floppy == NULL) || ((floppy->type & DT_FS) == DT_FS)) {
         p->inuse = 0;
-        vdrive_setup_device(floppy, unit, DT_DISK | DT_1541);
+        vdrive_setup_device(floppy, unit, DT_DISK);
     }
 
     if (attach_disk_image(p->image, (vdrive_t *)p->info, filename, unit) < 0) {
