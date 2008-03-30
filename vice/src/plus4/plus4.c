@@ -44,6 +44,7 @@
 #include "keyboard.h"
 #include "log.h"
 #include "machine-drive.h"
+#include "machine-printer.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "monitor.h"
@@ -69,6 +70,8 @@
 #include "video.h"
 #include "vsync.h"
 
+
+machine_context_t machine_context;
 
 #define NUM_KEYBOARD_MAPPINGS 2
 
@@ -300,6 +303,7 @@ static void plus4_monitor_init(void)
 
 void machine_setup_context(void)
 {
+    machine_printer_setup_context(&machine_context);
 }
 
 /* Plus4-specific initialization.  */

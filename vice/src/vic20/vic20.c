@@ -46,6 +46,7 @@
 #include "keyboard.h"
 #include "log.h"
 #include "machine-drive.h"
+#include "machine-printer.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -290,6 +291,7 @@ void machine_setup_context(void)
     vic20via2_setup_context(&machine_context);
     vic20ieeevia1_setup_context(&machine_context);
     vic20ieeevia2_setup_context(&machine_context);
+    machine_printer_setup_context(&machine_context);
 }
 
 /* VIC20-specific initialization.  */

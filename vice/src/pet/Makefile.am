@@ -30,6 +30,7 @@ libpet_a_SOURCES = \
 	petpia.h \
 	petpia1.c \
 	petpia2.c \
+	petprinter.c \
 	petrom.c \
 	petrom.h \
 	pets.h \

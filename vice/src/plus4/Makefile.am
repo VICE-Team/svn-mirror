@@ -36,6 +36,7 @@ libplus4_a_SOURCES = \
 	plus4pio1.h \
 	plus4pio2.c \
 	plus4pio2.h \
+	plus4printer.c \
 	plus4rom.c \
 	plus4rom.h \
 	plus4tcbm.c \

@@ -51,6 +51,7 @@
 #include "keyboard.h"
 #include "log.h"
 #include "machine-drive.h"
+#include "machine-printer.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -255,6 +256,7 @@ static void pet_monitor_init(void)
 void machine_setup_context(void)
 {
     petvia_setup_context(&machine_context);
+    machine_printer_setup_context(&machine_context);
 }
 
 /* PET-specific initialization.  */

@@ -57,6 +57,7 @@
 #include "keyboard.h"
 #include "log.h"
 #include "machine-drive.h"
+#include "machine-printer.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -248,6 +249,7 @@ void machine_setup_context(void)
     cia1_setup_context(&machine_context);
     tpi1_setup_context(&machine_context);
     tpi2_setup_context(&machine_context);
+    machine_printer_setup_context(&machine_context);
 }
 
 /* CBM-II-specific initialization.  */

@@ -1,5 +1,5 @@
 /*
- * printer.h - Common external printer interface.
+ * machine-printer.h - Interface to machine-specific printer implementation.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,37 +24,14 @@
  *
  */
 
-#ifndef _PRINTER_H
-#define _PRINTER_H
+#ifndef _MACHINE_PRINTER_H
+#define _MACHINE_PRINTER_H
 
-#include "types.h"
+struct machine_context_s;
 
-/* Generic interface.  */
-extern int printer_resources_init(void);
-extern void printer_resources_shutdown(void);
-extern int printer_cmdline_options_init(void);
-extern void printer_init(void);
-extern void printer_reset(void);
-extern void printer_shutdown(void);
-
-/* Serial interface.  */
-#define PRINTER_IEC_NUM 2
-
-#define PRINTER_DEVICE_NONE 0
-#define PRINTER_DEVICE_FS   1
-#define PRINTER_DEVICE_REAL 2
-
-extern void printer_serial_init(void);
-
-extern int printer_interface_serial_close(unsigned int unit);
-extern int printer_interface_serial_late_init(void);
-
-/* Userport interface.  */
-extern void printer_userport_init(void);
-
-extern void printer_interface_userport_write_data(BYTE b);
-extern void printer_interface_userport_write_strobe(int s);
-extern void printer_interface_userport_set_busy(int b);
+extern void machine_printer_setup_context(
+                struct machine_context_s *machine_context);
+extern void machine_printer_init(void);
 
 #endif
 

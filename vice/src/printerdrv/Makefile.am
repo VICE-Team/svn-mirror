@@ -25,5 +25,7 @@ libprinterdrv_a_SOURCES = \
 	output-text.c \
 	output-text.h \
 	output.h \
+	printer-serial.c \
+	printer-userport.c \
 	printer.c
 

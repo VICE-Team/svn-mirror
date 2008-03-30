@@ -61,6 +61,7 @@
 #include "keyboard.h"
 #include "log.h"
 #include "machine-drive.h"
+#include "machine-printer.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -343,6 +344,7 @@ void machine_setup_context(void)
     cia1_setup_context(&machine_context);
     cia2_setup_context(&machine_context);
     tpi_setup_context(&machine_context);
+    machine_printer_setup_context(&machine_context);
 }
 
 /* C64-specific initialization.  */

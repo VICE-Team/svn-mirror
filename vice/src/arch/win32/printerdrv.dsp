@@ -118,6 +118,14 @@ SOURCE="..\..\printerdrv\output-text.c"
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\printerdrv\printer-serial.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\printerdrv\printer-userport.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\printerdrv\printer.c
 # End Source File
 # End Target

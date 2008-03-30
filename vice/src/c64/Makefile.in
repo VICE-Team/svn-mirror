@@ -269,6 +269,7 @@ libc64_a_SOURCES = \
 	c64parallel.h \
 	c64pla.c \
 	c64pla.h \
+	c64printer.c \
 	c64rom.c \
 	c64rom.h \
 	c64rsuser.c \
@@ -305,10 +306,11 @@ libc64c128_a_SOURCES = \
 	c64meminit.h \
 	c64memrom.c \
 	c64memrom.h \
-	c64parallel.c \
-	c64parallel.h \
+	c64printer.c \
 	c64pla.c \
 	c64pla.h \
+	c64parallel.c \
+	c64parallel.h \
 	c64rsuser.c \
 	c64rsuser.h \
 	c64tpi.c \
@@ -342,17 +344,19 @@ am_libc64_a_OBJECTS = c64-cmdline-options.$(OBJEXT) \
 	c64iec.$(OBJEXT) c64io.$(OBJEXT) c64keyboard.$(OBJEXT) \
 	c64mem.$(OBJEXT) c64meminit.$(OBJEXT) c64memlimit.$(OBJEXT) \
 	c64memrom.$(OBJEXT) c64memsnapshot.$(OBJEXT) \
-	c64parallel.$(OBJEXT) c64pla.$(OBJEXT) c64rom.$(OBJEXT) \
-	c64rsuser.$(OBJEXT) c64tpi.$(OBJEXT) patchrom.$(OBJEXT) \
-	psid.$(OBJEXT) reloc65.$(OBJEXT) reu.$(OBJEXT) tfe.$(OBJEXT)
+	c64parallel.$(OBJEXT) c64pla.$(OBJEXT) c64printer.$(OBJEXT) \
+	c64rom.$(OBJEXT) c64rsuser.$(OBJEXT) c64tpi.$(OBJEXT) \
+	patchrom.$(OBJEXT) psid.$(OBJEXT) reloc65.$(OBJEXT) \
+	reu.$(OBJEXT) tfe.$(OBJEXT)
 libc64_a_OBJECTS = $(am_libc64_a_OBJECTS)
 libc64c128_a_AR = $(AR) cru
 libc64c128_a_LIBADD =
 am_libc64c128_a_OBJECTS = c64acia1.$(OBJEXT) c64cia2.$(OBJEXT) \
 	c64datasette.$(OBJEXT) c64drive.$(OBJEXT) c64iec.$(OBJEXT) \
 	c64keyboard.$(OBJEXT) c64meminit.$(OBJEXT) c64memrom.$(OBJEXT) \
-	c64parallel.$(OBJEXT) c64pla.$(OBJEXT) c64rsuser.$(OBJEXT) \
-	c64tpi.$(OBJEXT) patchrom.$(OBJEXT) reu.$(OBJEXT) tfe.$(OBJEXT)
+	c64printer.$(OBJEXT) c64pla.$(OBJEXT) c64parallel.$(OBJEXT) \
+	c64rsuser.$(OBJEXT) c64tpi.$(OBJEXT) patchrom.$(OBJEXT) \
+	reu.$(OBJEXT) tfe.$(OBJEXT)
 libc64c128_a_OBJECTS = $(am_libc64c128_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -370,10 +374,11 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/c64memlimit.Po ./$(DEPDIR)/c64memrom.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c64memsnapshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/c64parallel.Po ./$(DEPDIR)/c64pla.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/c64rom.Po ./$(DEPDIR)/c64rsuser.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/c64tpi.Po ./$(DEPDIR)/patchrom.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/psid.Po ./$(DEPDIR)/reloc65.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/reu.Po ./$(DEPDIR)/tfe.Po
+@AMDEP_TRUE@	./$(DEPDIR)/c64printer.Po ./$(DEPDIR)/c64rom.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/c64rsuser.Po ./$(DEPDIR)/c64tpi.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/patchrom.Po ./$(DEPDIR)/psid.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/reloc65.Po ./$(DEPDIR)/reu.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/tfe.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -437,6 +442,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64memsnapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64parallel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64pla.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64printer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64rom.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64rsuser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64tpi.Po@am__quote@

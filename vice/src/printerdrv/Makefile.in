@@ -244,6 +244,8 @@ libprinterdrv_a_SOURCES = \
 	output-text.c \
 	output-text.h \
 	output.h \
+	printer-serial.c \
+	printer-userport.c \
 	printer.c
 
 subdir = src/printerdrv
@@ -258,7 +260,8 @@ am_libprinterdrv_a_OBJECTS = driver-select.$(OBJEXT) drv-ascii.$(OBJEXT) \
 	drv-mps803.$(OBJEXT) drv-nl10.$(OBJEXT) \
 	interface-serial.$(OBJEXT) interface-userport.$(OBJEXT) \
 	output-graphics.$(OBJEXT) output-select.$(OBJEXT) \
-	output-text.$(OBJEXT) printer.$(OBJEXT)
+	output-text.$(OBJEXT) printer-serial.$(OBJEXT) \
+	printer-userport.$(OBJEXT) printer.$(OBJEXT)
 libprinterdrv_a_OBJECTS = $(am_libprinterdrv_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -271,7 +274,10 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/interface-userport.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/output-graphics.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/output-select.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/output-text.Po ./$(DEPDIR)/printer.Po
+@AMDEP_TRUE@	./$(DEPDIR)/output-text.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/printer-serial.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/printer-userport.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/printer.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -312,6 +318,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output-graphics.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output-select.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/output-text.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/printer-serial.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/printer-userport.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/printer.Po@am__quote@
 
 distclean-depend:

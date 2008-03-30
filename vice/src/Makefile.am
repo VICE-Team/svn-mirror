@@ -92,6 +92,7 @@ noinst_HEADERS = \
 	lib.h \
 	log.h \
 	machine-drive.h \
+	machine-printer.h \
 	machine.h \
 	main.h \
 	maincpu.h \

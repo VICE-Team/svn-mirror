@@ -1,5 +1,5 @@
 /*
- * machine-drive.h  - Interface to machine-specific drive implementation.
+ * machine-drive.h - Interface to machine-specific drive implementation.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>

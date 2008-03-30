@@ -32,6 +32,7 @@
 #include "drv-nl10.h"
 #include "interface-serial.h"
 #include "interface-userport.h"
+#include "machine-printer.h"
 #include "output-graphics.h"
 #include "output-select.h"
 #include "output-text.h"
@@ -81,7 +82,7 @@ void printer_init(void)
     drv_mps803_init();
     drv_nl10_init();
     driver_select_init();
-    interface_serial_init();
+    machine_printer_init();
 }
 
 void printer_reset(void)

@@ -50,6 +50,7 @@ libc64_a_SOURCES = \
 	c64parallel.h \
 	c64pla.c \
 	c64pla.h \
+	c64printer.c \
 	c64rom.c \
 	c64rom.h \
 	c64rsuser.c \
@@ -85,10 +86,11 @@ libc64c128_a_SOURCES = \
 	c64meminit.h \
 	c64memrom.c \
 	c64memrom.h \
-	c64parallel.c \
-	c64parallel.h \
+	c64printer.c \
 	c64pla.c \
 	c64pla.h \
+	c64parallel.c \
+	c64parallel.h \
 	c64rsuser.c \
 	c64rsuser.h \
 	c64tpi.c \

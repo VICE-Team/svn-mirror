@@ -255,6 +255,7 @@ libplus4_a_SOURCES = \
 	plus4pio1.h \
 	plus4pio2.c \
 	plus4pio2.h \
+	plus4printer.c \
 	plus4rom.c \
 	plus4rom.h \
 	plus4tcbm.c \
@@ -301,8 +302,8 @@ am_libplus4_a_OBJECTS = plus4-cmdline-options.$(OBJEXT) \
 	plus4datasette.$(OBJEXT) plus4drive.$(OBJEXT) \
 	plus4iec.$(OBJEXT) plus4mem.$(OBJEXT) plus4memlimit.$(OBJEXT) \
 	plus4memsnapshot.$(OBJEXT) plus4parallel.$(OBJEXT) \
-	plus4pio1.$(OBJEXT) plus4pio2.$(OBJEXT) plus4rom.$(OBJEXT) \
-	plus4tcbm.$(OBJEXT) ted-badline.$(OBJEXT) \
+	plus4pio1.$(OBJEXT) plus4pio2.$(OBJEXT) plus4printer.$(OBJEXT) \
+	plus4rom.$(OBJEXT) plus4tcbm.$(OBJEXT) ted-badline.$(OBJEXT) \
 	ted-cmdline-options.$(OBJEXT) ted-color.$(OBJEXT) \
 	ted-draw.$(OBJEXT) ted-fetch.$(OBJEXT) ted-irq.$(OBJEXT) \
 	ted-mem.$(OBJEXT) ted-resources.$(OBJEXT) \
@@ -324,8 +325,8 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/plus4memsnapshot.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4parallel.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/plus4pio1.Po ./$(DEPDIR)/plus4pio2.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/plus4rom.Po ./$(DEPDIR)/plus4tcbm.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/ted-badline.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/plus4printer.Po ./$(DEPDIR)/plus4rom.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/plus4tcbm.Po ./$(DEPDIR)/ted-badline.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ted-cmdline-options.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ted-color.Po ./$(DEPDIR)/ted-draw.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ted-fetch.Po ./$(DEPDIR)/ted-irq.Po \
@@ -379,6 +380,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4parallel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4pio1.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4pio2.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4printer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4rom.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4tcbm.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ted-badline.Po@am__quote@
