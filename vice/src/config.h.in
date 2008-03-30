@@ -135,6 +135,9 @@
 /* Can we use the PNG library? */
 #undef HAVE_PNG
 
+/* Do we want to use the new color management code? */
+#undef USE_COLOR_MANAGEMENT
+
 /* gettext stuff */
 #undef ENABLE_NLS
 #undef HAVE_CATGETS
