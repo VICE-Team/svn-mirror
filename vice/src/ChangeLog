@@ -1,3 +1,26 @@
+2002-04-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.4.
+
+	* raster/raster-line.c (fill_background): New function.
+
+2002-04-25  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vicii/vic-mem.c (store_d016): Use
+	raster_add_int_change_foreground to set new xsmooth.
+
+2002-04-24  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/diskimage.dsp, tape.dsp: New files.
+
+	* arch/win32/Makefile.am: Added new files.
+
+	* arch/win32/base.dsp, c1541.dsp: Removed files of new
+	libraries.
+
+	* arch/win32/vice.dsw: Added new projects diskimage, tape.
+	Updated dependencies.
+
 2002-04-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.3.

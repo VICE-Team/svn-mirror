@@ -162,8 +162,8 @@ inline static void update_sprite_collisions(raster_t *raster)
     if (raster->sprite_status->draw_function == NULL)
         return;
 
-    fake_draw_buffer_ptr = (raster->fake_draw_buffer_line
-                           + raster->geometry.extra_offscreen_border_left);
+    fake_draw_buffer_ptr = raster->fake_draw_buffer_line
+                           + raster->geometry.extra_offscreen_border_left;
 
     raster->sprite_status->draw_function(fake_draw_buffer_ptr,
                                          raster->zero_gfx_msk);
@@ -594,6 +594,56 @@ inline static int update_for_minor_changes(raster_t *raster,
                                                         changed_end);
 }
 
+inline static void fill_background(raster_t *raster)
+{
+    if (raster->xsmooth != 0) {
+        if (raster->draw_idle_state)
+            vid_memset(raster->draw_buffer_ptr
+                       + raster->geometry.gfx_position.x,
+                       raster->overscan_background_color,
+                       raster->xsmooth);
+        else
+            vid_memset(raster->draw_buffer_ptr
+                       + raster->geometry.gfx_position.x,
+                       raster->xsmooth_color,
+                       raster->xsmooth);
+    }
+
+    if (raster->open_left_border) {
+        if (raster->draw_idle_state)
+            vid_memset(raster->draw_buffer_ptr,
+                       raster->overscan_background_color,
+                       (raster->geometry.gfx_position.x + raster->xsmooth));
+        else
+            vid_memset(raster->draw_buffer_ptr,
+                       raster->xsmooth_color,
+                       (raster->geometry.gfx_position.x + raster->xsmooth));
+    }
+
+    if (raster->open_right_border) {
+        if (raster->draw_idle_state)
+            vid_memset(raster->draw_buffer_ptr +
+                       raster->geometry.gfx_position.x
+                       + raster->geometry.gfx_size.width
+                       + raster->xsmooth,
+                       raster->overscan_background_color,
+                       raster->geometry.screen_size.width
+                       - raster->geometry.gfx_position.x
+                       - raster->geometry.gfx_size.width
+                       - raster->xsmooth);
+        else
+            vid_memset(raster->draw_buffer_ptr +
+                       raster->geometry.gfx_position.x
+                       + raster->geometry.gfx_size.width
+                       + raster->xsmooth,
+                       raster->xsmooth_color,
+                       raster->geometry.screen_size.width
+                       - raster->geometry.gfx_position.x
+                       - raster->geometry.gfx_size.width
+                       - raster->xsmooth);
+    }
+}
+
 inline static int check_for_major_changes_and_update(raster_t *raster,
                                                      int *changed_start,
                                                      int *changed_end)
@@ -645,52 +695,7 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
         /* Fill the space between the border and the graphics with the
            background color (necessary if `xsmooth' is != 0).  */
 
-        if (raster->xsmooth != 0) {
-            if (raster->draw_idle_state)
-                vid_memset(raster->draw_buffer_ptr
-                           + raster->geometry.gfx_position.x,
-                           raster->overscan_background_color,
-                           raster->xsmooth);
-            else
-                vid_memset(raster->draw_buffer_ptr
-                           + raster->geometry.gfx_position.x,
-                           raster->xsmooth_color,
-                           raster->xsmooth);
-        }
-
-        if (raster->open_left_border) {
-            if (raster->draw_idle_state)
-                vid_memset(raster->draw_buffer_ptr,
-                           raster->overscan_background_color,
-                           (raster->geometry.gfx_position.x + raster->xsmooth));
-            else
-                vid_memset(raster->draw_buffer_ptr,
-                           raster->xsmooth_color,
-                           (raster->geometry.gfx_position.x + raster->xsmooth));
-        }
-
-        if (raster->open_right_border) {
-            if (raster->draw_idle_state)
-                vid_memset(raster->draw_buffer_ptr +
-                           raster->geometry.gfx_position.x
-                           + raster->geometry.gfx_size.width
-                           + raster->xsmooth,
-                           raster->overscan_background_color,
-                           raster->geometry.screen_size.width
-                           - raster->geometry.gfx_position.x
-                           - raster->geometry.gfx_size.width
-                           - raster->xsmooth);
-            else
-                vid_memset(raster->draw_buffer_ptr +
-                           raster->geometry.gfx_position.x
-                           + raster->geometry.gfx_size.width
-                           + raster->xsmooth,
-                           raster->xsmooth_color,
-                           raster->geometry.screen_size.width
-                           - raster->geometry.gfx_position.x
-                           - raster->geometry.gfx_size.width
-                           - raster->xsmooth);
-        }
+        fill_background(raster);
 
         raster_fill_sprite_cache(raster, cache,
                                  &changed_start_char,
@@ -760,54 +765,7 @@ inline static void handle_visible_line_without_cache(raster_t *raster)
     /* If screen is scrolled to the right, we need to fill with the
        background color the blank part on the left.  */
 
-    if (raster->xsmooth != 0) {
-        if (raster->draw_idle_state)
-            vid_memset(raster->draw_buffer_ptr
-                       + geometry->gfx_position.x,
-                       raster->overscan_background_color,
-                       raster->xsmooth);
-        else
-            vid_memset(raster->draw_buffer_ptr
-                       + geometry->gfx_position.x,
-                       raster->xsmooth_color,
-                       raster->xsmooth);
-    }
-
-    if (raster->open_left_border) {
-        if (raster->draw_idle_state)
-            vid_memset(raster->draw_buffer_ptr,
-                       raster->overscan_background_color,
-                       geometry->gfx_position.x
-                       + raster->xsmooth);
-        else
-            vid_memset(raster->draw_buffer_ptr,
-                       raster->xsmooth_color,
-                       geometry->gfx_position.x
-                       + raster->xsmooth);
-    }
-
-    if (raster->open_right_border) {
-        if (raster->draw_idle_state)
-            vid_memset(raster->draw_buffer_ptr +
-                       geometry->gfx_position.x
-                       + geometry->gfx_size.width
-                       + raster->xsmooth,
-                       raster->overscan_background_color,
-                       geometry->screen_size.width
-                       - geometry->gfx_position.x
-                       - geometry->gfx_size.width
-                       - raster->xsmooth);
-        else
-            vid_memset(raster->draw_buffer_ptr +
-                       geometry->gfx_position.x
-                       + geometry->gfx_size.width
-                       + raster->xsmooth,
-                       raster->xsmooth_color,
-                       geometry->screen_size.width
-                       - geometry->gfx_position.x
-                       - geometry->gfx_size.width
-                       - raster->xsmooth);
-    }
+    fill_background(raster);
 
     /* Draw the graphics and sprites.  */
     raster_modes_draw_line(raster->modes, get_real_mode(raster));
@@ -873,7 +831,7 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
     }
     if (xs <= (int)geometry->screen_size.width - 1)
         raster_modes_draw_background(raster->modes,
-                                     get_real_mode (raster),
+                                     get_real_mode(raster),
                                      xs,
                                      geometry->screen_size.width - 1);
 
@@ -892,12 +850,11 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
     }
     if (xs <= (int)geometry->text_size.width - 1)
         raster_modes_draw_foreground(raster->modes,
-                                     get_real_mode (raster),
+                                     get_real_mode(raster),
                                      xs,
                                      geometry->text_size.width - 1);
-    if (raster->sprite_status->draw_function != NULL)
-        raster->sprite_status->draw_function(raster->draw_buffer_ptr,
-                                             raster->gfx_msk);
+
+    draw_sprites(raster);
 
     /* Draw left border.  */
     xstop = raster->display_xstart - 1;
@@ -938,7 +895,7 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
             int xe = raster->changes.border.actions[i].where;
 
             if (xs < xe) {
-                draw_blank (raster, xs, xe - 1);
+                draw_blank(raster, xs, xe - 1);
                 xs = xe;
             }
             raster_changes_apply(&raster->changes.border, i);
