@@ -66,6 +66,9 @@ extern BYTE REGPARM1 io1_read(ADDRESS addr);
 extern void REGPARM2 io2_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 io2_read(ADDRESS addr);
 
+extern BYTE REGPARM1 read_lo(ADDRESS addr);
+extern void REGPARM2 store_lo(ADDRESS addr, BYTE value);
+
 extern BYTE *page_zero, *page_one, *ram_bank;
 
 /* ------------------------------------------------------------------------- */
