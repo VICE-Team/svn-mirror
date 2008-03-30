@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "drive-check.h"
 #include "drive.h"
 #include "drivetypes.h"
 #include "iecdrive.h"
