@@ -1,5 +1,51 @@
 1999-03-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 0.16.1.42.
+
+	* arch/msdos/archdep.c (archdep_default_sysfile_pathlist): Use
+	relative paths.
+
+	* drive/drive.c (GCR_data_writeback): Made extern and renamed to
+	`drive_GCR_data_writeback'.
+	(GCR_find_sector_data, GCR_find_sector_header): Do not use global
+	track constants.
+	(drive_read_block, drive_write_block): New functions.
+
+	* drive/wd1770.c, imagecontents.c, mon.c, vdrive-iec.c, vdrive.c:
+
+	* mon.c (mon_block_cmd): Added support for G64 image block
+	commands.  Can be removed soon in favour of a generic solution.
+
+	* vdrive.c (floppy_read_block): If a G64 disk image is attached
+	use GCR routines to read blocks.
+	(attach_floppy_image): Set drive constants for G64 images too.
+
+	* c1541.c (drive_read_block): Stub.
+
+1998-03-14  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c64/c64cia1.c, c64/c64cia2.c (CIAT_DEBUG): add definition to 
+	add debug code to cia timers
+	(myciat_logfl): add definition to allow global variable when debug
+	mode enabled.
+
+	* ciacore.c (store_mycia, read_mycia, int_ciata, int_ciatb): 
+	add calls to macros CIAT_LOGIN/CIAT_LOGOUT to print 
+	CIA timer debug code messages
+	(read_mycia): when reading ICR, call int_ciata and int_ciatb 
+	with the correct timer value.
+
+	* ciatimer.c (CIAR_DEBUG): new define to include debug code.
+	(is defined in c64/c64cia*.c, but undef'd here. If the undef
+	is removed, only the c64 CIAs get debug code.
+	(CIAT_LOGIN, CIAT_LOG, CIAT_LOGOUT): new macros to 
+	log debug messages to stdout. All functions use those macros now.
+	(myciat_logfl): variable that when 1, enabled logging.
+	(ciat_ack_alarm): debug code: when debugging is enabled,
+	produce a core file when ack_alarm is called too early.
+
+1999-03-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 0.16.1.41.
 
 	* mon.c (mon_block_cmd): Implemented block read and write
