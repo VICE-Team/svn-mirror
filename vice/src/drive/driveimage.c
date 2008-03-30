@@ -45,7 +45,7 @@
 static log_t driveimage_log = LOG_DEFAULT;
 
 /* Number of bytes per track size.  */
-static unsigned int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
+static const unsigned int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 
 
 inline static unsigned int sector_offset(unsigned int track,

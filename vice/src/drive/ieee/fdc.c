@@ -151,12 +151,12 @@ static BYTE fdc_do_format_D20(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
     BYTE sector_data[256];
 
     if (!memcmp(fdc[fnum].iprom + 0x2040, &fdc[fnum].buffer[0x100], 0x200)) {
-        static unsigned int sectorchangeat[4] = { 0, 17, 24, 30 };
-        static unsigned int nsecs[] = { 21, 20, 18, 17 };
+        static const unsigned int sectorchangeat[4] = { 0, 17, 24, 30 };
+        static const unsigned int nsecs[] = { 21, 20, 18, 17 };
         unsigned int ntracks, nsectors = 0;
 
         /*
-        static unsigned int sectorchangeat[4] = { 0, 17, 24, 30 };
+        static const unsigned int sectorchangeat[4] = { 0, 17, 24, 30 };
         int ntracks, nsectors = 0;
         */
 #ifdef FDC_DEBUG
@@ -218,7 +218,7 @@ static BYTE fdc_do_format_D40(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
     BYTE sector_data[256];
 
     if (!memcmp(fdc[fnum].iprom + 0x1000, &fdc[fnum].buffer[0x100], 0x200)) {
-        static unsigned int sectorchangeat[4] = { 0, 17, 24, 30 };
+        static const unsigned int sectorchangeat[4] = { 0, 17, 24, 30 };
         unsigned int ntracks, nsectors = 0;
 
 #ifdef FDC_DEBUG
@@ -362,12 +362,14 @@ static BYTE fdc_do_job(unsigned int fnum, int buf,
 static BYTE fdc_do_job_(unsigned int fnum, int buf,
                         unsigned int drv, BYTE job, BYTE *header);
     BYTE retval = fdc_do_job_(fnum, buf, drv, job, header);
-    char *jobs[] = { "Read", "Write", "Verify", "Seek", "Bump", "Jump",
-                        "ExecWhenRdy", "--" };
-    char *errors[] = { "--", "OK", "HEADER", "SYNC", "NOBLOCK",
-                        "DCHECK", "???", "VERIFY", "WPROT", "HCHECK",
-                        "BLENGTH", "ID", "FSPEED", "DRIVE",
-                        "DECODE" };
+    const char *jobs[] =
+        { "Read", "Write", "Verify", "Seek", "Bump", "Jump",
+          "ExecWhenRdy", "--" };
+    const char *errors[] =
+        { "--", "OK", "HEADER", "SYNC", "NOBLOCK",
+          "DCHECK", "???", "VERIFY", "WPROT", "HCHECK",
+          "BLENGTH", "ID", "FSPEED", "DRIVE",
+          "DECODE" };
 
     log_message(fdc_log, "  fdc_do_job (%s %02x) -> %02x (%s)\n",
                jobs[(job >> 4) & 7], job, retval,
@@ -517,7 +519,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
             }
         }
         if(DOS_IS_80(fdc[fnum].drive_type)) {
-            static BYTE jumpseq[] = { 0x78, 0x6c, 0xfc, 0xff };
+            static const BYTE jumpseq[] = { 0x78, 0x6c, 0xfc, 0xff };
             if (!memcmp(jumpseq, &fdc[fnum].buffer[0x100], 4)) {
                 fdc[fnum].fdc_state = FDC_RESET0;
                 return 0;

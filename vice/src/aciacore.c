@@ -131,7 +131,7 @@ int myacia_init_cmdline_options(void) {
 /******************************************************************/
 
 /* note: the first value is bogus. It should be 16*external clock. */
-static double acia_baud_table[16] = {
+static const double acia_baud_table[16] = {
     10, 50, 75, 109.92, 134.58, 150, 300, 600, 1200, 1800,
     2400, 3600, 4800, 7200, 9600, 19200
 };

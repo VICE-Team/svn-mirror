@@ -57,15 +57,15 @@ struct snapshot_s;
 struct clk_guard_s;
 struct monitor_interface_s;
 
-extern CLOCK _maincpu_opcode_write_cycles[];
+extern const CLOCK maincpu_opcode_write_cycles[];
 extern struct alarm_context_s *maincpu_alarm_context;
 extern struct clk_guard_s *maincpu_clk_guard;
 extern struct monitor_interface_s *maincpu_monitor_interface;
 
 /* Return the number of write accesses in the last opcode emulated. */
-inline static CLOCK maincpu_num_write_cycles(void)
+inline static const CLOCK maincpu_num_write_cycles(void)
 {
-    return _maincpu_opcode_write_cycles[OPINFO_NUMBER(last_opcode_info)];
+    return maincpu_opcode_write_cycles[OPINFO_NUMBER(last_opcode_info)];
 }
 
 extern void maincpu_init(void);

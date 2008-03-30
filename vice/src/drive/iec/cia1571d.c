@@ -228,7 +228,7 @@ static void int_ciad1tod(CLOCK c)
     int_ciatod(&drive1_context, c);
 }
 
-static cia_initdesc_t cia1571_initdesc[2] = {
+static const cia_initdesc_t cia1571_initdesc[2] = {
     { &drive0_context.cia1571,
       clk0_overflow_callback, int_ciad0ta, int_ciad0tb, int_ciad0tod },
     { &drive1_context.cia1571,

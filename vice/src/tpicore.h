@@ -38,7 +38,7 @@
 #define _TPI_FUNC       static inline
 #endif
 
-static BYTE pow2[] = { 1, 2, 4, 8, 16 };
+static const BYTE pow2[] = { 1, 2, 4, 8, 16 };
 
 static BYTE irq_previous;
 static BYTE irq_stack;

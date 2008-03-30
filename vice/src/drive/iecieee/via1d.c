@@ -468,7 +468,7 @@ static void int_via1d1t2(CLOCK c)
     int_myviat2(&drive1_context, c);
 }
 
-static via_initdesc_t via1_initdesc[2] = {
+static const via_initdesc_t via1_initdesc[2] = {
     { &drive0_context.via1, clk0_overflow_callback,
       int_via1d0t1, int_via1d0t2 },
     { &drive1_context.via1, clk1_overflow_callback,

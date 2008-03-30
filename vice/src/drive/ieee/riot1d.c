@@ -171,7 +171,7 @@ static void int_riot1d1(CLOCK c)
     int_riot(&drive1_context, c);
 }
 
-static riot_initdesc_t riot1_initdesc[] = {
+static const riot_initdesc_t riot1_initdesc[] = {
     { &drive0_context.riot1, clk0_overflow_callback, int_riot1d0 },
     { &drive1_context.riot1, clk1_overflow_callback, int_riot1d1 }
 };
