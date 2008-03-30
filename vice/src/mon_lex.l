@@ -108,13 +108,13 @@ if		{ BEGIN (COND_MODE); return IF; }
                      BEGIN (STR);
                   }
                 }
-<STR>\"		{ if (quote) {
+<STR>\" 	{ if (quote) {
                      quote = 0;
                      BEGIN (INITIAL);
                   }
                 }
-<STR>[0-9a-zA-Z ]+ { yylval.str = stralloc(yytext); return STRING; }
-<STR>\n 	{ puts("ERROR:"); exit(-1); }
+
+<STR>[^\"\n]*      { yylval.str = stralloc(yytext); return STRING; }
 
 
 \.\$		{ yylval.i = e_hexadecimal; return INPUT_SPEC; }
@@ -141,8 +141,13 @@ d:              { return MEM_DISK; }
 
 
 <*>[ \t]*
-<*>\n          { dont_match_reg_a = 0; new_cmd = 1; opt_asm = 0; return TRAIL; }
-
+<*>\n          { dont_match_reg_a = 0;
+                 new_cmd = 1;
+                 opt_asm = 0;
+                 quote = 0;
+                 BEGIN(INITIAL);
+                 return TRAIL;
+               }
 
 <FNAME>\".+\" { yytext[yyleng-1] = '\0';
                 yylval.str = stralloc(yytext+1);
