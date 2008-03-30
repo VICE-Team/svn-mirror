@@ -117,10 +117,11 @@ static enum {YES, NO, NOT_YET} check(const char *s)
 
 static void settrue1541mode(int on)
 {
-    if (on)
+    if (on) {
         true1541_enable();
-    else
+    } else {
         true1541_disable();
+    }
 
     UiUpdateMenus();
 }
@@ -199,26 +200,36 @@ void autostart_advance(void)
 	switch (check("READY."))
 	{
         case YES:
-	    warn(pwarn, -1, "loading disk");
-            /* FIXME */
-	    orig_true1541_state = true1541_enabled;
-	    if (1 /* || !app_resources.noTraps */) /* FIXME */
-	    {
-		if (orig_true1541_state)
-		    warn(pwarn, -1, "switching true 1541 emulation off");
-		settrue1541mode(0);
-	    }
-	    if (autostart_program_name) {
-		tmp = xmalloc(strlen(autostart_program_name) + 20);
-		sprintf(tmp, "load\"%s\",8,1\r", autostart_program_name);
-		kbd_buf_feed(tmp);
-		free(tmp);
-	    }
-	    else
-		kbd_buf_feed("load\"*\",8,1\r");
-	    autostartmode = AUTOSTART_LOADINGDISK;
-	    deallocate_program_name();
-            break;
+          {
+              int no_traps;
+
+              resources_get_value("NoTraps", (resource_value_t *) &no_traps);
+              warn(pwarn, -1, "loading disk");
+              orig_true1541_state = true1541_enabled;
+              if (!no_traps)
+              {
+                  if (orig_true1541_state)
+                      warn(pwarn, -1, "switching true 1541 emulation off");
+                  settrue1541mode(0);
+              }
+              else
+              {
+                  if (!orig_true1541_state)
+                      warn(pwarn, -1, "switching true 1541 emulation on");
+                  settrue1541mode(1);
+              }
+              if (autostart_program_name) {
+                  tmp = xmalloc(strlen(autostart_program_name) + 20);
+                  sprintf(tmp, "load\"%s\",8,1\r", autostart_program_name);
+                  kbd_buf_feed(tmp);
+                  free(tmp);
+              }
+              else
+                  kbd_buf_feed("load\"*\",8,1\r");
+              autostartmode = AUTOSTART_LOADINGDISK;
+              deallocate_program_name();
+              break;
+          }
         case NO:
             autostart_disable();
             break;
@@ -230,14 +241,13 @@ void autostart_advance(void)
 	switch (check("READY."))
 	{
         case YES:
-            /* FIXME */
-	    if (/* !app_resources.noTraps && */ orig_true1541_state)
-		warn(pwarn, -1, "switching true 1541 on and starting program");
-	    else
-		warn(pwarn, -1, "starting program");
-	    settrue1541mode(orig_true1541_state);
-	    kbd_buf_feed("run\r");
-	    autostartmode = AUTOSTART_DONE;
+            if (orig_true1541_state)
+                warn(pwarn, -1, "switching true 1541 on and starting program");
+            else
+                warn(pwarn, -1, "starting program");
+            settrue1541mode(orig_true1541_state);
+            kbd_buf_feed("run\r");
+            autostartmode = AUTOSTART_DONE;
             break;
         case NO:
             autostart_disable();
