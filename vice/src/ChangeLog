@@ -1,6 +1,37 @@
+1999-02-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.30.
+
+	* drive/drivecpu-tmpl.c (mydrive_trap_handler): Fixed typo.
+
+	* c128/c128mem.c (initialize_memory): Use fast opcode fetch for
+	RAM $c000-$feff of bank 0 too.
+
+	* c64/cartridge.c (cartridge_attach_image): Do not close a file
+	descriptor twice.
+
+1999-02-16  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/Makefile.am (libarch_a_SOURCES): Added winhack.h.
+
+	* arch/win32/archdep.c (archdep_default_sysfile_pathlist): Changed
+	  list of search paths from absolute into relative.
+
+	* arch/win32/res.h (IDM_HELP): Added menu identifier for Help menu
+	  item.
+
+	* arch/win32/resc128.r, arch/win32/resc64.r, arch/win32/rescbm2.r,
+	  arch/win32/respet.r, arch/win32/resvic.r: Added Help menu item.
+
+	* arch/win32/ui.c (handle_wm_command): Handle Help menu item.
+	  Starts application associated with html files on
+	  DOC\vice_toc.html .
+
+	* arch/win32/winhack.h: New file.
+
 1999-02-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-    * Version 0.16.1.29.
+	* Version 0.16.1.29.
 
 	* c64/cartridge.c (cartridge_attach_image): Free scratch buffer.
 

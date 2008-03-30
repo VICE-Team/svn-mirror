@@ -7,6 +7,81 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 0.99.0
+=========================
+
+** General changes
+------------------
+
+- Support for different ROM sets has been added.
+
+- Attaching a non-existant image via command line does not crash the
+  emulator anymore.
+
+** MS-DOS changes
+-----------------
+
+** MS-Windows changes
+---------------------
+
+- The monitor is available now.
+
+- Added more UI elements for sound settings.
+
+- Shortcut keys have been implemented.
+
+** Unix changes
+---------------
+
+- A full screen mode using XFree86 vmode extension has been added.
+
+- A new joystick driver that is compatible to both old and new Linux
+  joystick API has been added.
+
+- The source can be compiled on IRIX using the native compiler now.
+
+** Drive changes
+----------------
+
+- New 1541-II emulation.
+
+- Disk change detection has been improved.
+
+** C64 changes
+---------------
+
+- The emulation of the processor port has been corrected.
+
+- RAM/ROM banking is done 100% accurate now.
+
+- Ocean cartridge crash fixed.
+
+- Funplay and Super Games cartridges are supported now.
+
+- Doing a snapshot with REU enabled could crash the emulator. This is
+  fixed now.
+
+- Fixed huge memory leak.
+
+** C128 changes
+---------------
+
+- Speed up emulation.
+
+** VIC20 changes
+----------------
+
+** PET changes
+--------------
+
+** CBM-II changes
+-----------------
+
+** C1541 changes
+----------------
+
+- New function to set the name of the disk.
+
 * Changes in VICE 0.16.1a
 =========================
 
