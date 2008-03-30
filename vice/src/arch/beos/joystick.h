@@ -60,6 +60,7 @@ typedef enum {
 
 typedef struct _hardware_joystick {
 	char device_name[256];
+	int device_num;
 	int stick;
 	int axes;
 } hardware_joystick_t;

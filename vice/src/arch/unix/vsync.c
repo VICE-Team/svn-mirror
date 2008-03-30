@@ -165,7 +165,7 @@ static int set_timer_speed(int speed)
 {
   speed_eval_suspended = 1;
 
-  if (speed > 0) {
+  if (speed > 0 && refresh_frequency > 0) {
     timer_speed = speed;
     frame_usec = 1000000/refresh_frequency*100/speed;
   }

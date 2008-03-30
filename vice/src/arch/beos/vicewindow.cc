@@ -182,11 +182,11 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 	SetKeyMenuBar(NULL);
 
 	/* create the File Panel */
-	filepanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL,
+	filepanel = new ViceFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL,
 				B_FILE_NODE, false);
 
 	/* create the Save Panel */
-	savepanel = new BFilePanel(B_SAVE_PANEL, new BMessenger(this), NULL,
+	savepanel = new ViceFilePanel(B_SAVE_PANEL, new BMessenger(this), NULL,
 				B_FILE_NODE, false);
 		
 	/* the view for the canvas */

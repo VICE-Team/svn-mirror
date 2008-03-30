@@ -42,6 +42,8 @@
 #include "uilib.h"
 #include "winmain.h"
 #include "utils.h"
+#include "vsync.h"
+
 
 /* Mingw & pre VC 6 headers doesn't have this definition */
 #ifndef OFN_ENABLESIZING
@@ -138,6 +140,7 @@ char *ui_save_snapshot(const char *title, const char *filter,
     ofn.nFileOffset = 0;
     ofn.nFileExtension = 0;
     ofn.lpstrDefExt = NULL;
+    suspend_speed_eval();
 
     if (GetSaveFileName(&ofn)) {
         return stralloc(name);

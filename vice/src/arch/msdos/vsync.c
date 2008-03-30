@@ -391,6 +391,7 @@ void vsync_set_machine_parameter(double refresh_rate, long cycles)
 {
     refresh_frequency = refresh_rate;
     cycles_per_sec = cycles;
+    register_timer_callback();
 }
 
 void vsync_init(void (*hook)(void))

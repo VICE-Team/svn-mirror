@@ -35,6 +35,7 @@
 extern "C" {
 #include "statusbar.h"
 #include "ui.h"
+#include "ui_file.h"
 }
 
 class ViceWindow : public BWindow {
@@ -57,8 +58,8 @@ class ViceWindow : public BWindow {
 		BPoint			bitmap_offset;
 		BView			*view;
 		ViceStatusbar	*statusbar;
-		BFilePanel		*filepanel;	
-		BFilePanel		*savepanel;	
+		ViceFilePanel	*filepanel;	
+		ViceFilePanel	*savepanel;	
 };
 
 extern void about_vice(void);

@@ -2,11 +2,11 @@
  * vsync.c - End-of-frame handling
  *
  * Written by
- *  Andreas Boose    <boose@linux.rz.fh-hannover.de>
- *  Thomas Bretz     <tbretz@gsi.de>
- *  Dag Lem          <resid@nimrod.no>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Teemu Rantanen   <tvr@cs.hut.fi>
+ *  Andreas Boose    <boose@linux.rz.fh-hannover.de>
+ *  Dag Lem          <resid@nimrod.no>
+ *  Thomas Bretz     <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -212,7 +212,6 @@ static void display_speed(int num_frames)
 
     if ((now - frame_start) / vsyncarch_timescale() >= 1.0)
     {
-        log_warning(LOG_DEFAULT, "Missed more than 1 second. Your machine is too slow for current settings!");
         suspend_speed_eval();
     }
 

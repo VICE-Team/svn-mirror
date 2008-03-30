@@ -554,6 +554,15 @@ uses the *first* `T64' or `D64' file in the archive.  So archives
 containing multiple files will always be handled as if they contain
 only a single file.
 
+   Windows and MSDOS don't contain the needful programs to handle
+compressed archives. Get gzip and unzip for Windows at
+ftp://ftp.freesoftware.com/pub/infozip/WIN32 and for MSDOS at
+ftp://ftp.freesoftware.com/pub/infozip/MSDOS. Don't use pkunzip for
+MSDOS, it doesn't work. The programs to use BZip2 archives may be found
+at http://sourceware.cygnus.com/bzip2.  Just put the programs
+(unzip.exe, gzip.exe, bzip2.exe) into a directory of your search path
+(e.g. C:\DOS or C:\WINDOWS\COMMAND; have a look at the PATH variable).
+
 
 File: vice.info,  Node: Zipcode and Lynx,  Prev: Compressed files,  Up: Disk and tape images
 

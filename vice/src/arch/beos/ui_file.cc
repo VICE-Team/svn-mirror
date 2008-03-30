@@ -24,10 +24,16 @@
  *
  */
 
+#include <Button.h>
 #include <FilePanel.h>
+#include <Font.h>
+#include <ListView.h>
 #include <Message.h>
 #include <Path.h>
+#include <ScrollView.h>
 #include <stdio.h>
+#include <string.h>
+#include <View.h>
 #include <Window.h>
 
 extern "C" {
@@ -35,6 +41,7 @@ extern "C" {
 #include "autostart.h"
 #include "c64ui.h"
 #include "constants.h"
+#include "imagecontents.h"
 #include "machine.h"
 #include "tape.h"
 #include "ui.h"
@@ -46,6 +53,197 @@ extern "C" {
 
 static int last_fileparam[2]; /* 0=filepanel, 1=savepanel */
 static int last_filetype[2];
+
+
+char *read_disk_image_contents(const char *name)
+{
+	image_contents_t    *contents;
+	char                *s;
+
+    contents=image_contents_read_disk(name);
+    if (contents==NULL) {
+        return NULL;
+    }
+    s=image_contents_to_string(contents);
+    image_contents_destroy(contents);
+    return s;
+}
+
+char *read_tape_image_contents(const char *name)
+{
+image_contents_t    *contents;
+char                *s;
+
+    contents=image_contents_read_tape(name);
+    if (contents==NULL) {
+        return NULL;
+    }
+    s=image_contents_to_string(contents);
+    image_contents_destroy(contents);
+    return s;
+}
+
+char *read_disk_or_tape_image_contents(const char *name)
+{
+char    *tmp;
+
+    tmp=read_disk_image_contents(name);
+    if (tmp==NULL) {
+        tmp=read_tape_image_contents(name);
+    }
+    return tmp;
+}
+
+
+
+static void create_content_list(BListView *contentlist, char *text)
+{
+char    *start;
+char    buffer[256];
+int     index;
+
+	while (contentlist->CountItems()) {
+		BListItem *item = contentlist->FirstItem();
+		contentlist->RemoveItem(item);
+		delete item;
+	}
+
+    if (text==NULL) return;
+    start=text;
+    index=0;
+    while (1) {
+        if (*start=='\n') {
+            buffer[index]=0;
+            index=0;
+            contentlist->AddItem(new BStringItem(buffer));
+        } else if (*start==0x0d) {
+        } else if (*start==0) {
+            break;
+        } else {
+            buffer[index++]=*start;
+        }
+        start++;
+    }
+}
+
+
+VicePreview::VicePreview(BPoint origin)
+	: BWindow(
+		BRect(origin.x,origin.y,origin.x+300,origin.y+200),
+		"Image Contents", B_MODAL_WINDOW_LOOK, B_FLOATING_APP_WINDOW_FEEL, B_AVOID_FOCUS)
+{
+	BView *background;
+	BRect r;
+	BFont font(be_fixed_font);
+		
+	r = Bounds();
+	background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
+	background->SetViewColor(220,220,220,0);
+	AddChild(background);
+
+	r.InsetBy(10,10);
+	r.right -= 80;
+	contentlist = new BListView(r, "contents", B_SINGLE_SELECTION_LIST);
+	contentlist->SetInvocationMessage(new BMessage(AUTOSTART_MESSAGE));
+	
+	font.SetSize(10.0);
+	contentlist->SetFont(&font);
+	
+	background->AddChild(new BScrollView("scroll_contents", contentlist, 
+		B_FOLLOW_LEFT | B_FOLLOW_TOP, 0, false, true));
+	
+	background->AddChild(new BButton(BRect(r.right+20,10,r.right+80,30),
+		"Autostart", "Autostart", new BMessage(AUTOSTART_MESSAGE)));
+
+	Minimize(true);
+	Show();
+	Hide();
+}
+
+void VicePreview::DisplayContent(char* content)
+{
+	Lock();
+	if (content)
+	{
+		if (IsHidden())
+		{
+			Minimize(false);
+			Show();
+		}
+		create_content_list(contentlist, content);
+	} else {
+		if (!IsHidden())
+			Hide();			
+	}
+	Unlock();
+}
+
+
+void VicePreview::MessageReceived(BMessage *msg)
+{
+	int file_num;
+	
+	switch (msg->what) {
+		case AUTOSTART_MESSAGE:
+			file_num = contentlist->CurrentSelection();
+			if (file_num >= 0) {
+				autostart_autodetect(image_name, NULL, file_num);
+			}
+			break;
+		default:
+			BWindow::MessageReceived(msg);
+	}
+}
+
+
+ViceFilePanel::ViceFilePanel(
+	file_panel_mode mode,
+	BMessenger* target,
+	entry_ref* panel_directory,
+	uint32 node_flavors,
+	bool allow_multiple_selection)
+	
+	: BFilePanel(mode, target, panel_directory, node_flavors, allow_multiple_selection)
+{
+	if (mode == B_OPEN_PANEL)
+		previewwindow = new VicePreview(
+			BPoint(Window()->Frame().left, Window()->Frame().bottom));
+	else
+		previewwindow = NULL;
+}
+
+
+void ViceFilePanel::WasHidden(void)
+{
+	if (previewwindow)
+		previewwindow->DisplayContent(NULL);
+}
+	
+void ViceFilePanel::SelectionChanged(void)
+{
+	entry_ref ref;
+	BPath *path;
+	
+	Rewind();
+	if (GetNextSelectedRef(&ref) != B_ENTRY_NOT_FOUND && previewwindow)
+	{
+		path = new BPath(&ref);
+		if (path->Path() && read_disk_or_tape_image_contents(path->Path()))
+		{
+			strncpy(previewwindow->image_name, path->Path(), 255); 
+			previewwindow->DisplayContent(read_disk_or_tape_image_contents(path->Path()));
+			previewwindow->MoveTo(BPoint(Window()->Frame().left, Window()->Frame().bottom+5));
+			Window()->SendBehind(previewwindow);
+		} else
+		{
+			previewwindow->DisplayContent(NULL);
+		}
+		delete path;
+	}
+	
+	BFilePanel::SelectionChanged();
+}
+
 
 void ui_select_file(BFilePanel *filepanel, 
 					filetype_t filetype, 

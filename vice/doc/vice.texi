@@ -1816,6 +1816,15 @@ PkZip, @code{tar.gz}, @code{lha} and @code{zoo} support is
 @code{D64} file in the archive.  So archives containing multiple files
 will always be handled as if they contain only a single file.
 
+Windows and MSDOS don't contain the needful programs to handle
+compressed archives. Get gzip and unzip for Windows at
+@uref{ftp://ftp.freesoftware.com/pub/infozip/WIN32} and for MSDOS at
+@uref{ftp://ftp.freesoftware.com/pub/infozip/MSDOS}. Don't use pkunzip
+for MSDOS, it doesn't work. The programs to use BZip2 archives may be
+found at @uref{http://sourceware.cygnus.com/bzip2}.
+Just put the programs (unzip.exe, gzip.exe, bzip2.exe) into a directory
+of your search path (e.g. C:\DOS or C:\WINDOWS\COMMAND; have a look at 
+the PATH variable).
 
 @node Zipcode and Lynx,  , Compressed files, Disk and tape images
 @subsection Using Zipcode and Lynx images

@@ -29,6 +29,8 @@
 
 #include <FilePanel.h>
 
+const uint32 AUTOSTART_MESSAGE = 'AS01';
+
 enum filetype_t {
 	AUTOSTART_FILE,
 	DISK_FILE,
@@ -37,6 +39,25 @@ enum filetype_t {
 	SNAPSHOTLOAD_FILE,
 	C64_CARTRIDGE_FILE,
 	VIC20_CARTRIDGE_FILE,
+};
+
+class ViceFilePanel;
+
+class VicePreview : public BWindow {
+	public :
+		VicePreview(BPoint origin);
+		void DisplayContent(char *content);
+		void MessageReceived(BMessage *msg);
+		BListView *contentlist;
+		char image_name[256];
+};
+
+class ViceFilePanel : public BFilePanel {
+	public : 
+		ViceFilePanel(file_panel_mode, BMessenger*, entry_ref*, uint32, bool);
+		void SelectionChanged(void);
+		void WasHidden(void);
+		VicePreview *previewwindow;
 };
 
 extern void ui_select_file(BFilePanel *filepanel, 

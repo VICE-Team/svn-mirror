@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.51
-     from ../vice.texi on 1 October 2000 -->
+     from ../vice.texi on 8 November 2000 -->
 
 <TITLE>VICE Manual - 5  Basic operation</TITLE>
 </HEAD>
@@ -299,7 +299,18 @@ PkZip, <CODE>tar.gz</CODE>, <CODE>lha</CODE> and <CODE>zoo</CODE> support is
 will always be handled as if they contain only a single file.
 
 </P>
+<P>
+Windows and MSDOS don't contain the needful programs to handle
+compressed archives. Get gzip and unzip for Windows at
+@uref{ftp://ftp.freesoftware.com/pub/infozip/WIN32} and for MSDOS at
+@uref{ftp://ftp.freesoftware.com/pub/infozip/MSDOS}. Don't use pkunzip
+for MSDOS, it doesn't work. The programs to use BZip2 archives may be
+found at @uref{http://sourceware.cygnus.com/bzip2}.
+Just put the programs (unzip.exe, gzip.exe, bzip2.exe) into a directory
+of your search path (e.g. C:\DOS or C:\WINDOWS\COMMAND; have a look at 
+the PATH variable).
 
+</P>
 
 
 <H3><A NAME="SEC37" HREF="vice_toc.html#TOC37">5.5.4  Using Zipcode and Lynx images</A></H3>

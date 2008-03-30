@@ -59,7 +59,6 @@ typedef struct psid_s {
   WORD songs;
   WORD start_song;
   DWORD speed;
-  DWORD frames_played;
   BYTE name[32];
   BYTE author[32];
   BYTE copyright[32];
@@ -67,6 +66,8 @@ typedef struct psid_s {
   DWORD reserved;
   WORD data_size;
   BYTE data[65536];
+
+  DWORD frames_played;
 } psid_t;
 
 
@@ -228,25 +229,24 @@ fail:
 void psid_init_tune(void)
 {
   BYTE volume = 0x0f;
-  BYTE portval = 0x35;
   int start_song = psid_tune;
-  int sync;
+  resource_value_t sync;
   int i;
+  int speedbit;
+  char* irq;
 
   if (!psid) {
     return;
   }
 
   psid->frames_played = 0;
-  sync = (psid->speed == 0) ? DRIVE_SYNC_PAL : DRIVE_SYNC_NTSC;
   vsid_ui_display_name(psid->name);
   vsid_ui_display_author(psid->author);
   vsid_ui_display_copyright(psid->copyright);
 
   /* PAL/NTSC. */
-  resources_set_value("VideoStandard", (resource_value_t) sync);
-
-  vsid_ui_display_sync(sync);
+  resources_get_value("VideoStandard", &sync);
+  vsid_ui_display_sync((int)sync);
 
   /* Check tune number. */
   if (start_song == 0) {
@@ -258,6 +258,24 @@ void psid_init_tune(void)
     start_song = psid->start_song;
   }
 
+  /* Check tune speed. */
+  speedbit = 1;
+  for (i = 1; i < start_song && i < 32; i++) {
+    speedbit <<= 1;
+  }
+
+  irq = psid->speed & speedbit ? "CIA 1" : "VICII";
+
+  if (psid->play_addr) {
+    log_message(LOG_DEFAULT, "Using %s interrupt", irq);
+  }
+  else {
+    log_message(LOG_DEFAULT, "Using custom (%s ?) interrupt", irq);
+  }
+  
+  /*
+  vsid_ui_display_irq(psid->play_addr, psid->speed & speedbit);
+  */
   vsid_ui_display_tune_nr(start_song);
   vsid_ui_set_default_tune(psid->start_song);
   vsid_ui_display_nr_of_tunes(psid->songs);
@@ -268,9 +286,13 @@ void psid_init_tune(void)
   ram_store(0x0307, (BYTE)(psid->init_addr >> 8));
   ram_store(0x0308, (BYTE)(psid->play_addr & 0xff));
   ram_store(0x0309, (BYTE)(psid->play_addr >> 8));
-  ram_store(0x030a, (BYTE)(start_song - 1));
-  ram_store(0x030b, volume);
-  ram_store(0x030c, portval);
+  ram_store(0x030a, (BYTE)(psid->songs));
+  ram_store(0x030b, (BYTE)(start_song));
+  ram_store(0x030c, (BYTE)(psid->speed & 0x0f));
+  ram_store(0x030d, (BYTE)((psid->speed >> 8) & 0x0f));
+  ram_store(0x030e, (BYTE)((psid->speed >> 16) & 0x0f));
+  ram_store(0x030f, (BYTE)(psid->speed >> 24));
+  ram_store(0x0310, volume);
 
   /* Store binary C64 data. */
   for (i = 0; i < psid->data_size; i++) {
@@ -313,6 +335,7 @@ void psid_init_driver(void) {
   };
 
   ADDRESS addr;
+  resource_value_t sync;
   int i;
 
   /* 6510 vectors stored in both ROM and RAM. */
@@ -320,11 +343,20 @@ void psid_init_driver(void) {
     rom_store((ADDRESS)(addr + i), psid_driver[i]);
     ram_store((ADDRESS)(addr + i), psid_driver[i]);
   }
+  
+  /* EA31 IRQ return: jmp($0312). */
+  rom_store(0xea31, 0x6c);
+  rom_store(0xea32, 0x12);
+  rom_store(0xea33, 0x03);
 
-  /* Driver code. */
-  for (addr = 0x0300, i = 0x14; i < sizeof(psid_driver); i++) {
+  /* C64 interrupt vectors and PSID driver code. */
+  for (addr = 0x0300, i = 0x12; i < sizeof(psid_driver); i++) {
     ram_store(addr + i, (BYTE)(psid_driver[i]));
   }
+
+  /* C64 PAL/NTSC flag */
+  resources_get_value("VideoStandard", &sync);
+  ram_store(0x02a6, (int)sync == DRIVE_SYNC_PAL ? 1 : 0);
 }
 
 
