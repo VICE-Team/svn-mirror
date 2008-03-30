@@ -71,6 +71,12 @@
 #define ARCHDEP_TED_DSCAN     1
 #define ARCHDEP_TED_HWSCALE   0
 
+/* Default RS232 devices.  */
+#define ARCHDEP_RS232_DEV1 "10.0.0.1:25232"
+#define ARCHDEP_RS232_DEV2 "10.0.0.1:25232"
+#define ARCHDEP_RS232_DEV3 "10.0.0.1:25232"
+#define ARCHDEP_RS232_DEV4 "10.0.0.1:25232"
+
 /* Default location of raw disk images.  */
 #define ARCHDEP_RAWDRIVE_DEFAULT "A:"
 
