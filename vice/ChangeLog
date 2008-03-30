@@ -1,3 +1,13 @@
+2005-05-15  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.11.
+
+2005-05-13  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added HAS_TRANSLATION for platforms that
+	support the new internationalization scheme (currently only
+	win32).
+
 2005-05-08  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.10.
