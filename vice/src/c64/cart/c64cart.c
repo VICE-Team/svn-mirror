@@ -55,6 +55,7 @@ static int cartridge_type;
 static char *cartridge_file = NULL;
 static char *ide64_configuration_string = NULL;
 static int cartridge_mode;
+static int cartridge_reset;
 
 int carttype = CARTRIDGE_NONE;
 int cartmode = CARTRIDGE_MODE_OFF;
@@ -104,6 +105,13 @@ static int set_cartridge_mode(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_cartridge_reset(resource_value_t v, void *param)
+{
+    cartridge_reset = (int)v;
+
+    return 0;
+}
+
 static int set_ide64_config(resource_value_t v, void *param)
 {
     const char *cfg = (const char *)v;
@@ -130,16 +138,18 @@ static int set_ide64_image_file(resource_value_t v, void *param)
 }
 
 static const resource_t resources[] = {
-    { "IDE64Image", RES_STRING, (resource_value_t)"ide.hdd",
-      (void *)&ide64_image_file, set_ide64_image_file, NULL },
-    { "IDE64Config", RES_STRING, (resource_value_t)"",
-      (void *)&ide64_configuration_string, set_ide64_config, NULL },
     { "CartridgeType", RES_INTEGER, (resource_value_t)CARTRIDGE_NONE,
       (void *)&cartridge_type, set_cartridge_type, NULL },
     { "CartridgeFile", RES_STRING, (resource_value_t)"",
       (void *)&cartridge_file, set_cartridge_file, NULL },
     { "CartridgeMode", RES_INTEGER, (resource_value_t)CARTRIDGE_MODE_OFF,
       (void *)&cartridge_mode, set_cartridge_mode, NULL },
+    { "CartridgeReset", RES_INTEGER, (resource_value_t)1,
+      (void *)&cartridge_reset, set_cartridge_reset, NULL },
+    { "IDE64Image", RES_STRING, (resource_value_t)"ide.hdd",
+      (void *)&ide64_image_file, set_ide64_image_file, NULL },
+    { "IDE64Config", RES_STRING, (resource_value_t)"",
+      (void *)&ide64_configuration_string, set_ide64_config, NULL },
     { NULL }
 };
 
@@ -161,46 +171,52 @@ static int attach_cartridge_cmdline(const char *param, void *extra_param)
 
 static const cmdline_option_t cmdline_options[] =
 {
-    {"-cartcrt", CALL_FUNCTION, 1, attach_cartridge_cmdline,
-     (void *)CARTRIDGE_CRT, NULL, NULL,
-     "<name>", "Attach CRT cartridge image"},
-    {"-cart8", CALL_FUNCTION, 1, attach_cartridge_cmdline,
-     (void *)CARTRIDGE_GENERIC_8KB, NULL, NULL,
-     "<name>", "Attach generic 8KB cartridge image"},
-    {"-cart16", CALL_FUNCTION, 1, attach_cartridge_cmdline,
-     (void *)CARTRIDGE_GENERIC_16KB, NULL, NULL,
-     "<name>", "Attach generic 16KB cartridge image"},
-    {"-cartar", CALL_FUNCTION, 1, attach_cartridge_cmdline,
-     (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
-     "<name>", "Attach raw 32KB Action Replay cartridge image"},
-    {"-cartrr", CALL_FUNCTION, 1, attach_cartridge_cmdline,
-     (void *)CARTRIDGE_RETRO_REPLAY, NULL, NULL,
-     "<name>", "Attach raw 64KB Retro Replay cartridge image"},
-    {"-cartide", CALL_FUNCTION, 1, attach_cartridge_cmdline,
-     (void *)CARTRIDGE_IDE64, NULL, NULL,
-     "<name>", "Attach raw 64KB IDE64 cartridge image"},
-    {"-cartap", CALL_FUNCTION, 1, attach_cartridge_cmdline,
-     (void *)CARTRIDGE_ATOMIC_POWER, NULL, NULL,
-     "<name>", "Attach raw 32KB Atomic Power cartridge image"},
-    {"-cartepyx", CALL_FUNCTION, 1, attach_cartridge_cmdline,
-     (void *)CARTRIDGE_EPYX_FASTLOAD, NULL, NULL,
-     "<name>", "Attach raw 8KB Epyx fastload cartridge image"},
-    {"-cartss4", CALL_FUNCTION, 1, attach_cartridge_cmdline,
-     (void *)CARTRIDGE_SUPER_SNAPSHOT, NULL, NULL,
-     "<name>", "Attach raw 32KB Super Snapshot cartridge image"},
-    {"-cartss5", CALL_FUNCTION, 1, attach_cartridge_cmdline,
-     (void *)CARTRIDGE_SUPER_SNAPSHOT_V5, NULL, NULL,
-     "<name>", "Attach raw 64KB Super Snapshot cartridge image"},
-    {"-cartieee488", CALL_FUNCTION, 1, attach_cartridge_cmdline,
-     (void *)CARTRIDGE_IEEE488, NULL, NULL,
-     "<name>", "Attach CBM IEEE488 cartridge image"},
-    {"-cartwestermann", CALL_FUNCTION, 1, attach_cartridge_cmdline,
-     (void *)CARTRIDGE_WESTERMANN, NULL, NULL,
-     "<name>", "Attach raw 16KB Westermann learning cartridge image"},
-    {"-cartexpert", CALL_FUNCTION, 0, attach_cartridge_cmdline,
-     (void *)CARTRIDGE_EXPERT, NULL, NULL,
-     NULL, "Enable expert cartridge"},
-    {NULL}
+    { "-cartreset", SET_RESOURCE, 0, NULL, NULL, "CartridgeReset",
+      (void *)1, NULL,
+      "Reset machine if a cartridge is attached or detached" },
+    { "+cartreset", SET_RESOURCE, 0, NULL, NULL, "CartridgeReset",
+      (void *)0, NULL,
+      "Do not reset machine if a cartridge is attached or detached" },
+    { "-cartcrt", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_CRT, NULL, NULL,
+      "<name>", "Attach CRT cartridge image" },
+    { "-cart8", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_GENERIC_8KB, NULL, NULL,
+      "<name>", "Attach generic 8KB cartridge image" },
+    { "-cart16", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_GENERIC_16KB, NULL, NULL,
+      "<name>", "Attach generic 16KB cartridge image" },
+    { "-cartar", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_ACTION_REPLAY, NULL, NULL,
+      "<name>", "Attach raw 32KB Action Replay cartridge image" },
+    { "-cartrr", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_RETRO_REPLAY, NULL, NULL,
+      "<name>", "Attach raw 64KB Retro Replay cartridge image" },
+    { "-cartide", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_IDE64, NULL, NULL,
+      "<name>", "Attach raw 64KB IDE64 cartridge image" },
+    { "-cartap", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_ATOMIC_POWER, NULL, NULL,
+      "<name>", "Attach raw 32KB Atomic Power cartridge image" },
+    { "-cartepyx", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_EPYX_FASTLOAD, NULL, NULL,
+      "<name>", "Attach raw 8KB Epyx fastload cartridge image" },
+    { "-cartss4", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_SUPER_SNAPSHOT, NULL, NULL,
+      "<name>", "Attach raw 32KB Super Snapshot cartridge image" },
+    { "-cartss5", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_SUPER_SNAPSHOT_V5, NULL, NULL,
+      "<name>", "Attach raw 64KB Super Snapshot cartridge image" },
+    { "-cartieee488", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_IEEE488, NULL, NULL,
+      "<name>", "Attach CBM IEEE488 cartridge image" },
+    { "-cartwestermann", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_WESTERMANN, NULL, NULL,
+      "<name>", "Attach raw 16KB Westermann learning cartridge image" },
+    { "-cartexpert", CALL_FUNCTION, 0, attach_cartridge_cmdline,
+      (void *)CARTRIDGE_EXPERT, NULL, NULL,
+      NULL, "Enable expert cartridge" },
+    { NULL }
 };
 
 int cartridge_cmdline_options_init(void)

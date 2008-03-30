@@ -47,6 +47,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "resources.h"
 #include "retroreplay.h"
 #include "ide64.h"
 #include "supergames.h"
@@ -529,6 +530,8 @@ void cartridge_init_config(void)
 
 void cartridge_attach(int type, BYTE *rawcart)
 {
+    int cartridge_reset;
+
     mem_cartridge_type = type;
     roml_bank = romh_bank = 0;
     switch (type) {
@@ -602,13 +605,20 @@ void cartridge_attach(int type, BYTE *rawcart)
         mem_cartridge_type = CARTRIDGE_NONE;
     }
     
-    /* "Turn off machine before inserting cartridge" */
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    resources_get_value("CartridgeReset", (void *)&cartridge_reset);
+
+    if (cartridge_reset != 0) {
+        /* "Turn off machine before inserting cartridge" */
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    }
+
     return;
 }
 
 void cartridge_detach(int type)
 {
+    int cartridge_reset;
+
     switch (type) {
       case CARTRIDGE_IEEE488:
       /* FIXME: Insert interface removal here.  */
@@ -619,8 +629,14 @@ void cartridge_detach(int type)
     }
     cartridge_config_changed(6, 6, CMODE_READ);
     mem_cartridge_type = CARTRIDGE_NONE;
-    /* "Turn off machine before removeing cartridge" */
-    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+
+    resources_get_value("CartridgeReset", (void *)&cartridge_reset);
+
+    if (cartridge_reset != 0) {
+        /* "Turn off machine before removeing cartridge" */
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    }
+
     return;
 }
 
