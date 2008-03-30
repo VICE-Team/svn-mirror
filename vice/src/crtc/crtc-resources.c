@@ -30,6 +30,7 @@
 #include "crtc-resources.h"
 #include "crtc.h"
 #include "crtctypes.h"
+#include "resources.h"
 #include "utils.h"
 
 
