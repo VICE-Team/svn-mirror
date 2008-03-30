@@ -33,28 +33,28 @@
 #include "types.h"
 
 /* VIA 1 drive 0 interrupts.  */
-#define	I_VIA1D0FL	0
+#define I_VIA1D0FL      0
 /* VIA 2 drive 0 interrupts.  */
-#define	I_VIA2D0FL	1
+#define I_VIA2D0FL      1
 /* CIA 1571 drive 0 interrupts.  */
-#define I_CIA1571D0FL	2
+#define I_CIA1571D0FL   2
 /* CIA 1581 drive 0 interrupts.  */
 #define I_CIA1581D0FL   3
 /* RIOT 1001 drive 0 interrupts. */
-#define	I_RIOTD0FL	4
+#define I_RIOTD0FL      4
 
 /* VIA 1 drive 1 interrupts. */
-#define I_VIA1D1FL  	0
+#define I_VIA1D1FL      0
 /* VIA 2 drive 1 interrupts. */
-#define I_VIA2D1FL  	1
+#define I_VIA2D1FL      1
 /* CIA 1571 drive 1 interrupts.  */
-#define I_CIA1571D1FL	2
+#define I_CIA1571D1FL   2
 /* CIA 1581 drive 1 interrupts.  */
 #define I_CIA1581D1FL   3
 /* RIOT 1001 drive 1 interrupts. */
-#define	I_RIOTD1FL	4
+#define I_RIOTD1FL      4
 
-#define DRIVE_NUMOFINT 	5
+#define DRIVE_NUMOFINT  5
 
 
 #define DRIVE_ROM1541_SIZE          0x4000
@@ -64,9 +64,9 @@
 #define DRIVE_ROM1581_SIZE          0x8000
 #define DRIVE_ROM2031_SIZE          0x4000
 #define DRIVE_ROM1001_SIZE          0x4000 /* same as ROM8050 and ROM8250 !*/
-#define	DRIVE_ROM2040_SIZE          0x2000
-#define	DRIVE_ROM3040_SIZE          0x3000
-#define	DRIVE_ROM4040_SIZE          0x3000
+#define DRIVE_ROM2040_SIZE          0x2000
+#define DRIVE_ROM3040_SIZE          0x3000
+#define DRIVE_ROM4040_SIZE          0x3000
 #define DRIVE_ROM_SIZE              0x8000
 #define DRIVE_RAM_SIZE              0x2000
 
@@ -97,9 +97,9 @@
 #define DRIVE_TYPE_2040   2040  /* DOS 1 dual floppy drive, 170k/disk */
 #define DRIVE_TYPE_3040   3040  /* DOS 2.0 dual floppy drive, 170k/disk */
 #define DRIVE_TYPE_4040   4040  /* DOS 2.5 dual floppy drive, 170k/disk */
-#define DRIVE_TYPE_1001   1001	/* DOS 2.7 single floppy drive, 1M/disk */
-#define DRIVE_TYPE_8050   8050	/* DOS 2.7 dual floppy drive, 0.5M/disk */
-#define DRIVE_TYPE_8250   8250	/* DOS 2.7 dual floppy drive, 1M/disk */
+#define DRIVE_TYPE_1001   1001  /* DOS 2.7 single floppy drive, 1M/disk */
+#define DRIVE_TYPE_8050   8050  /* DOS 2.7 dual floppy drive, 0.5M/disk */
+#define DRIVE_TYPE_8250   8250  /* DOS 2.7 dual floppy drive, 1M/disk */
 
 /* some defines */
 
@@ -382,8 +382,7 @@ extern int drive_do_1541_checksum(void);
 extern int drive_read_block(int track, int sector, BYTE *readdata, int dnr);
 extern int drive_write_block(int track, int sector, BYTE *writedata, int dnr);
 */
-extern int drive_set_disk_drive_type(unsigned int drive_type, unsigned int dnr);
-extern int reload_rom_1541(char *name);
+extern int drive_set_disk_drive_type(unsigned int drive_type, unsigned int dnr);extern int reload_rom_1541(char *name);
 extern int drive_load_1541(void);
 extern int drive_load_1541ii(void);
 extern int drive_load_1571(void);
