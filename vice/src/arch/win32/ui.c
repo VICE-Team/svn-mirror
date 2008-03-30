@@ -49,7 +49,6 @@
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h"
-#include "ioutil.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -384,9 +383,17 @@ int ui_init_finalize(void)
 /* Exit.  */
 void ui_exit(void)
 {
+    int i;
+
+    for (i = 0; i < number_of_windows; i++)
+        lib_free(hwnd_titles[i]);
+
     if (ui_accelerator) {
         DestroyAcceleratorTable(ui_accelerator);
     }
+
+    ui_fullscreen_shutdown();
+    uilib_shutdown();
 }
 
 /*  Create a Window for the emulation.  */

@@ -125,14 +125,14 @@ static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
         /* It's a usual screenshot. */
         if ((drv->save)(screenshot, filename) < 0) {
             log_error(screenshot_log, "Saving failed...");
-            free(screenshot->color_map);
+            lib_free(screenshot->color_map);
             return -1;
         }
     } else {
         /* We're recording a movie */
         if ((recording_driver->record)(screenshot) < 0) {
             log_error(screenshot_log, "Recording failed...");
-            free(screenshot->color_map);
+            lib_free(screenshot->color_map);
             return -1;
         }
     }

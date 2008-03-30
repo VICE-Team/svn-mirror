@@ -247,7 +247,6 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
     static char *default_path;
 
     if (default_path == NULL) {
-#if 1
         const char *boot_path = archdep_boot_path();
 
         default_path = util_concat(boot_path, "\\", emu_id,
@@ -256,11 +255,6 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
                                    FINDPATH_SEPARATOR_STRING,
                                    boot_path, "\\PRINTER",
                                    NULL);
-#else
-        default_path = util_concat(emu_id,
-                                   FINDPATH_SEPARATOR_STRING,
-                                   "DRIVES", NULL);
-#endif
     }
 
     return default_path;
@@ -505,6 +499,8 @@ int archdep_file_is_chardev(const char *name)
 
 void archdep_shutdown(void)
 {
-
+    lib_free(boot_path);
+    lib_free(argv0);
+    lib_free(orig_workdir);
 }
 

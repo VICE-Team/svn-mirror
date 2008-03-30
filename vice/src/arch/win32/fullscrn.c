@@ -91,7 +91,7 @@ BOOL WINAPI DDEnumCallbackFunction(GUID FAR *lpGUID, LPSTR lpDriverDescription,
     DirectDrawDeviceList *new_device;
     DirectDrawDeviceList *search_device;
 
-    new_device = malloc(sizeof(DirectDrawDeviceList));
+    new_device = lib_malloc(sizeof(DirectDrawDeviceList));
     new_device->next = NULL;
 
     if (lpGUID != NULL) {
@@ -127,7 +127,7 @@ HRESULT WINAPI ModeCallBack(LPDDSURFACEDESC desc, LPVOID context)
     DirectDrawModeList *new_mode;
     DirectDrawModeList *search_mode;
 
-    new_mode=malloc(sizeof(DirectDrawModeList));
+    new_mode=lib_malloc(sizeof(DirectDrawModeList));
     new_mode->next = NULL;
     new_mode->devicenumber = *(int *)context;
     new_mode->width = new_mode->height = new_mode->bitdepth
@@ -420,7 +420,7 @@ void get_refreshratelist(int device, int bitdepth, int width, int height)
 
     //  We always need 'Default' as when support for different
     //  Refreshrates exists, then it is not reported back
-    value = malloc(sizeof(ValueList));
+    value = lib_malloc(sizeof(ValueList));
     value->value = 0;
     value->text = lib_stralloc("Default");
     InsertInto(&refresh_rates, value);
@@ -430,7 +430,7 @@ void get_refreshratelist(int device, int bitdepth, int width, int height)
         if ((mode->devicenumber == device) && (mode->bitdepth == bitdepth)
             && (mode->width == width) && (mode->height == height)) {
             if (GetIndexFromList(refresh_rates,mode->refreshrate) == -1) {
-                value = malloc(sizeof(ValueList));
+                value = lib_malloc(sizeof(ValueList));
                 value->value = mode->refreshrate;
                 itoa(mode->refreshrate, buff, 10);
                 value->text = lib_stralloc(buff);
@@ -452,7 +452,7 @@ void get_bitdepthlist(int device)
     while (mode != NULL) {
         if ((mode->devicenumber == device)) {
             if (GetIndexFromList(bitdepthlist, mode->bitdepth) == -1) {
-                value = malloc(sizeof(ValueList));
+                value = lib_malloc(sizeof(ValueList));
                 value->value = mode->bitdepth;
                 itoa(mode->bitdepth, buff, 10);
                 value->text = lib_stralloc(buff);
@@ -475,7 +475,7 @@ void get_resolutionlist(int device, int bitdepth)
         if ((mode->devicenumber == device) && (mode->bitdepth == bitdepth)) {
             if (GetIndexFromList(resolutionlist, ((mode->width << 16) +
                 mode->height)) == -1) {
-                value = malloc(sizeof(ValueList));
+                value = lib_malloc(sizeof(ValueList));
                 value->value = (mode->width << 16) + mode->height;
                 sprintf(buff, "%dx%d", mode->width, mode->height);
                 value->text=lib_stralloc(buff);
@@ -659,6 +659,27 @@ BOOL CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam,
 void ui_fullscreen_init(void)
 {
     fullscreen_getmodes();
+}
+
+void ui_fullscreen_shutdown(void)
+{
+    DirectDrawModeList *m1, *m2;
+    DirectDrawDeviceList *d1, *d2;
+
+    m1 = modes;
+    while (m1 != NULL) {
+        m2 = m1->next;
+        lib_free(m1);
+        m1 = m2;
+    }
+
+    d1 = devices;
+    while (d1 != NULL) {
+        d2 = d1->next;
+        lib_free(d1->desc);
+        lib_free(d1);
+        d1 = d2;
+    }
 }
 
 int IsFullscreenEnabled(void)

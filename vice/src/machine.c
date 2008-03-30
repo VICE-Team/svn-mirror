@@ -55,6 +55,7 @@
 #include "monitor.h"
 #include "printer.h"
 #include "resources.h"
+#include "romset.h"
 #include "sound.h"
 #include "sysfile.h"
 #include "tape.h"
@@ -237,6 +238,8 @@ void machine_shutdown(void)
     zfile_shutdown();
     ui_resources_shutdown();
     log_resources_shutdown();
+    fliplist_resources_shutdown();
+    romset_resources_shutdown();
 
     archdep_shutdown();
 

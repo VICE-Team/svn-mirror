@@ -152,7 +152,7 @@ tap_t *tap_open(const char *name, unsigned int *read_only)
     }
 
     new->file_name = lib_stralloc(name);
-    new->tap_file_record = calloc(1, sizeof(tape_file_record_t));
+    new->tap_file_record = lib_calloc(1, sizeof(tape_file_record_t));
     new->current_file_number = -1;
     new->current_file_data = NULL;
     new->current_file_size = 0;

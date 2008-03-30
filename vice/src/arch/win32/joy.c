@@ -102,7 +102,7 @@ JoyInfo *joy;
     joy = (JoyInfo*)pvRef;
 
     //  Save info about axis
-    axis = malloc(sizeof(JoyAxis));
+    axis = lib_malloc(sizeof(JoyAxis));
     axis->next = NULL;
     axis->id = DIDFT_GETINSTANCE(lpddoi->dwType);
     axis->name = lib_stralloc(lpddoi->tszName);
@@ -132,7 +132,7 @@ JoyInfo *joy;
     joy = (JoyInfo*)pvRef;
 
     //  Save info about button
-    button = malloc(sizeof(JoyButton));
+    button = lib_malloc(sizeof(JoyButton));
     button->next = NULL;
     button->id = DIDFT_GETINSTANCE(lpddoi->dwType);
     button->name = lib_stralloc(lpddoi->tszName);
@@ -159,7 +159,7 @@ static void joystick_release_axes(JoyAxis *axis)
 
         next = axis->next;
         lib_free(axis->name);
-        free(axis);
+        lib_free(axis);
         axis = next;
     }
 }
@@ -171,7 +171,7 @@ static void joystick_release_buttons(JoyButton *button)
 
         next = button->next;
         lib_free(button->name);
-        free(button);
+        lib_free(button);
         button = next;
     }
 }
@@ -189,7 +189,7 @@ JoyInfo     *joystick;
         lib_free(joystick->name);
         joystick_release_axes(joystick->axes);
         joystick_release_buttons(joystick->buttons);
-        free(joystick);
+        lib_free(joystick);
         joystick = next;
     }
 }
@@ -444,7 +444,7 @@ JoyInfo *new_joystick;
 //    log_debug("ProductName: %s", lpddi->tszProductName);
 //    log_debug("Instance Name: %s", lpddi->tszInstanceName);
 
-    new_joystick = malloc(sizeof(JoyInfo));
+    new_joystick = lib_malloc(sizeof(JoyInfo));
     new_joystick->next = NULL;
     memcpy(&new_joystick->guid, &lpddi->guidInstance, sizeof(GUID));
     new_joystick->name = lib_stralloc(lpddi->tszInstanceName);

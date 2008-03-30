@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "lib.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
@@ -218,6 +219,14 @@ int ui_resources_init(void)
 
 void ui_resources_shutdown(void)
 {
+    int i;
+
+    if (ui_resources.monitor_dimensions != NULL)
+        lib_free(ui_resources.monitor_dimensions);
+
+    for (i = 0; i < UILIB_SELECTOR_STYLES_NUM; i++)
+        if (ui_resources.initialdir[i] != NULL)
+            lib_free(ui_resources.initialdir[i]);
 }
 
 int ui_vblank_sync_enabled()

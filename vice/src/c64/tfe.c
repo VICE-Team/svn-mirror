@@ -580,6 +580,9 @@ void tfe_shutdown(void)
 
     if (tfe)
         tfe_deactivate();
+
+    if (tfe_interface != NULL)
+        lib_free(tfe_interface);
 }
 
 
@@ -601,52 +604,6 @@ TFE_PP_ADDR_MAC_ADDR        0x0158 * # RW - 4.6., p. 71 - 5.3., p. 86 *
                             0x015c
 */
 
-
-/* This is a helper for tfe_should_accept(), since that one 
-   needs a CRC32 value 
-*/
-static
-unsigned long crc32(const char *buffer, unsigned int len) 
-{
-    unsigned int i;
-    unsigned long crc;
-    unsigned long crc_result;
-
-    const char *pbuffer = buffer;
-
-    crc = 0xFFFFFFFF;
-
-    /* perform on every byte of the buffer */
-    for (i=0; i<len; i++ )
-    {
-        int act_byte = *pbuffer++;
-        unsigned int j;
-
-        /* now, perform on every bit of this byte */
-        for (j=8; j; j-- ) {
-
-            int highest_bit = crc >> 31;
-            crc <<= 1;
-
-            if (highest_bit ^ (act_byte & 1)) {
-                crc ^= 0x04C11DB6;
-                crc |= 1;
-            }
-
-            act_byte >>= 1;
-        }
-    }
-
-    /* Unfortunately, our CRC has wrong order. Reverse it */
-    crc_result = 0;
-
-    for (i=0; i<32; i++) {
-        crc_result = (crc_result << 1) | (crc & 1);
-        crc >>= 1;
-    }
-
-    return crc_result;
-}
 
 #ifdef TFE_DEBUG_FRAMES
     #define return( _x_ ) \
@@ -723,7 +680,7 @@ int tfe_should_accept(unsigned char *buffer, int length, int *phashed, int *phas
     }
 
 	/* now check if DA passes the hash filter */
-    hashreg = (crc32(buffer,6) >> 26) & 0x3F;
+    hashreg = (~util_crc32(buffer,6) >> 26) & 0x3F;
 
     *phashed = (tfe_hash_mask[(hashreg>=32)?1:0] & (1 << (hashreg&0x1F))) ? 1 : 0;
     if (*phashed) {

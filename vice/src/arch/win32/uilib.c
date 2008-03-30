@@ -223,6 +223,7 @@ static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                     if (read_content_func != NULL) {
                         contents = read_content_func(filename);
                         create_content_list(contents, preview);
+                        lib_free(contents);
                     }
                 }
             }
@@ -367,6 +368,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
                              system_wcstombs(filename, st_filename, 256);
                              contents = read_content_func(filename);
                              create_content_list(contents, preview);
+                             lib_free(contents);
                          }
                      }
             } else if (((OFNOTIFY*)lparam)->hdr.code == CDN_FOLDERCHANGE) {
@@ -874,3 +876,11 @@ void uilib_show_options(HWND param)
     lib_free(options);
 }
 
+void uilib_shutdown(void)
+{
+    int i;
+
+    for (i = 0; i < UILIB_SELECTOR_STYLES_NUM; i++)
+        if (ui_file_selector_initialfile[i] != NULL)
+            lib_free(ui_file_selector_initialfile[i]);
+}

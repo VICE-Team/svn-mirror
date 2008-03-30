@@ -31,6 +31,7 @@
 #define FLIP_PREV 0
 
 extern int fliplist_resources_init(void);
+extern void fliplist_resources_shutdown(void);
 extern int fliplist_cmdline_options_init(void);
 
 extern void flip_shutdown(void);

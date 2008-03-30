@@ -259,11 +259,10 @@ BOOL TfePcapOpenAdapter(const char *interface_name)
             while (tfe_enumadapter(&pname, &pdescription)) {
                 if (strcmp(pname, interface_name)==0) {
                     found = TRUE;
-                    break;
                 }
                 lib_free(pname);
                 lib_free(pdescription);
-
+                if (found) break;
                 TfePcapDevice = TfePcapNextDev;
             }
         }

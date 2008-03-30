@@ -100,6 +100,12 @@ int romset_resources_init(void)
     return resources_register(resources);
 }
 
+void romset_resources_shutdown(void)
+{
+    lib_free(romset_archivename);
+    lib_free(romset_filename);
+}
+
 int romset_file_load(const char *filename)
 {
     FILE *fp;

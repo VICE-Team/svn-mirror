@@ -95,6 +95,12 @@ int fliplist_resources_init(void)
     return 0;
 }
 
+void fliplist_resources_shutdown(void)
+{
+    lib_free(fliplist_file_name);
+    lib_free(resources[0].factory_value);
+}
+
 static const cmdline_option_t cmdline_options[] =
 {
     { "-flipname", SET_RESOURCE, 1, NULL, NULL, "FliplistName", NULL,
@@ -112,7 +118,8 @@ int fliplist_cmdline_options_init(void)
 
 void flip_shutdown(void)
 {
-    lib_free(current_image);
+    if (current_image != NULL)
+        lib_free(current_image);
 }
 
 void flip_set_current(unsigned int unit, const char *filename)

@@ -31,6 +31,7 @@ extern void GetCurrentModeParameters(int *width, int *height, int *bitdepth,
                                      int *refreshrate);
 extern GUID *GetGUIDForActualDevice();
 extern void ui_fullscreen_init(void);
+extern void ui_fullscreen_shutdown(void);
 extern int IsFullscreenEnabled(void);
 extern void SuspendFullscreenMode(HWND hwnd);
 extern void ResumeFullscreenMode(HWND hwnd);

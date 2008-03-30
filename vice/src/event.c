@@ -68,8 +68,16 @@ struct event_list_s {
 };
 typedef struct event_list_s event_list_t;
 
+struct event_image_list_s {
+    char *orig_filename;
+    char *mapped_filename;
+    struct event_image_list_s *next;
+};
+typedef struct event_image_list_s event_image_list_t;
 
 static event_list_t *event_list_base = NULL, *event_list_current;
+static event_image_list_t *event_image_list_base = NULL;
+static int image_number;
 
 static alarm_t *event_alarm = NULL;
 
@@ -97,6 +105,140 @@ static char *event_snapshot_path(const char *snapshot_file)
 
     return event_snapshot_path_str;
 }
+
+
+/* searches for a filename in the image list    */
+/* returns 0 if found                           */
+/* returns 1 and appends it if not found        */
+static int event_image_append(const char *filename, char **mapped_name)
+{
+    event_image_list_t *event_image_list_ptr = event_image_list_base;
+
+    while (event_image_list_ptr->next != NULL) {
+        if (strcmp(filename, event_image_list_ptr->next->orig_filename) == 0) {
+            if (mapped_name != NULL)
+                *mapped_name = lib_stralloc(event_image_list_ptr->next->mapped_filename);
+
+            return 0;
+        }
+
+        event_image_list_ptr = event_image_list_ptr->next;
+    }
+
+    event_image_list_ptr->next = (
+        event_image_list_t *) lib_calloc(1, sizeof(event_image_list_t));
+
+    event_image_list_ptr = event_image_list_ptr->next;
+    event_image_list_ptr->next = NULL;
+    event_image_list_ptr->orig_filename = lib_stralloc(filename);
+    event_image_list_ptr->mapped_filename = NULL;
+    if (mapped_name != NULL)
+        event_image_list_ptr->mapped_filename = lib_stralloc(*mapped_name);
+
+    return 1;
+}
+
+
+void event_record_attach_image(unsigned int unit, const char *filename,
+                        unsigned int read_only)
+{
+    char *event_data;
+    unsigned int size;
+
+    if (record_active == 0)
+        return;
+
+    event_list_current->type = EVENT_ATTACHIMAGE;
+    event_list_current->clk = maincpu_clk;
+    event_list_current->next
+        = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
+
+    size = strlen(filename) + 3;
+
+    event_data = lib_malloc(size);
+    event_data[0] = unit;
+    event_data[1] = read_only;
+    strcpy(&event_data[2], filename);
+
+    if (event_image_append(filename, NULL) == 1) {
+        FILE *fd;
+        size_t file_len = 0;
+        
+        fd = fopen(filename, MODE_READ);
+
+        if (fd != NULL) {
+            file_len = util_file_length(fd);
+            event_data = lib_realloc(event_data, size + file_len);
+
+            if (fread(&event_data[size], file_len, 1, fd) != 1)
+                log_error(event_log, "Cannot load image file %s", filename);
+
+            fclose(fd);
+        } else {
+            log_error(event_log, "Cannot open image file %s", filename);
+        }
+        size += file_len;
+    }
+
+    event_list_current->size = size;
+    event_list_current->data = event_data;
+    event_list_current = event_list_current->next;
+}
+
+
+static void event_playback_attach_image(void *data, unsigned int size)
+{
+    unsigned int unit, read_only;
+    char *orig_filename, *filename;
+    size_t file_len;
+    char str[16];
+
+    unit = (unsigned int)((char*)data)[0];
+    read_only = (unsigned int)((char*)data)[1];
+    orig_filename = &((char*)data)[2];
+    file_len  = size - strlen(orig_filename) - 3;
+
+    if (file_len > 0) {
+        FILE *fd;
+
+        sprintf(str, "img%04d", image_number++);
+        filename = util_concat(event_snapshot_dir, str, FSDEV_EXT_SEP_STR,
+                                util_get_extension(orig_filename), NULL);
+
+        fd = fopen(filename, MODE_WRITE);
+        if (fd == NULL) {
+            ui_error("Cannot create image file %s", filename);
+            goto error;
+        }
+
+        if (fwrite((char*)data + strlen(orig_filename) + 3, file_len, 1, fd) != 1) {
+            ui_error("Cannot write image file %s", filename);
+            goto error;
+        }
+
+        fclose(fd);
+        event_image_append(orig_filename, &filename);
+    } else {
+        if (event_image_append(orig_filename, &filename) != 0) {
+            ui_error("Cannot find mapped name for %s", orig_filename);
+            return;
+        }
+    }
+
+    /* now filename holds the name to attach    */
+    /* FIXME: read_only isn't handled for tape  */
+    if (unit == 1) {
+        tape_image_event_playback(unit, filename);
+    } else {
+        resources_set_sprintf("AttachDevice%dReadonly", 
+                                (resource_value_t) read_only, unit);
+        file_system_event_playback(unit, filename);
+    }
+    
+error:
+    lib_free(filename);
+}
+
 
 void event_record(unsigned int type, void *data, unsigned int size)
 {
@@ -186,11 +328,25 @@ static void event_alarm_handler(CLOCK offset, void *data)
       case EVENT_DATASETTE:
         datasette_event_playback(offset, event_list_current->data);
         break;
-      case EVENT_ATTACHDISK:
-        file_system_event_playback(offset, event_list_current->data);
+      case EVENT_ATTACHIMAGE:
+        event_playback_attach_image(event_list_current->data,
+                                    event_list_current->size);
         break;
+      case EVENT_ATTACHDISK:
       case EVENT_ATTACHTAPE:
-        tape_image_event_playback(offset, event_list_current->data);
+        {
+            /* old style attach via absolute filename and detach*/
+            unsigned int unit;
+            const char *filename;
+
+            unit = (unsigned int)((char*)event_list_current->data)[0];
+            filename = &((char*)event_list_current->data)[1];
+            
+            if (unit == 1)
+                tape_image_event_playback(unit, filename);
+            else
+                file_system_event_playback(unit, filename);
+        }
         break;
       case EVENT_RESETCPU:
         machine_reset_event_playback(offset, event_list_current->data);
@@ -218,11 +374,16 @@ static void create_list(void)
 {
     event_list_base = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
     event_list_current = event_list_base;
+
+    event_image_list_base = 
+        (event_image_list_t *)lib_calloc(1, sizeof(event_image_list_t));
+    image_number = 0;
 }
 
 static void destroy_list(void)
 {
     event_list_t *c1, *c2;
+    event_image_list_t *d1, *d2;
 
     c1 = event_list_base;
 
@@ -235,6 +396,19 @@ static void destroy_list(void)
 
     event_list_base = NULL;
     event_list_current = NULL;
+
+    d1 = event_image_list_base;
+
+    while (d1 != NULL) {
+        d2 = d1->next;
+        lib_free(d1->orig_filename);
+        if (d1->mapped_filename != NULL)
+            lib_free(d1->mapped_filename);
+        lib_free(d1);
+        d1 = d2;
+    }
+
+    event_image_list_base = NULL;
 }
 
 static void warp_end_list(void)
@@ -243,8 +417,13 @@ static void warp_end_list(void)
 
     curr = event_list_base;
 
-    while (curr->type != EVENT_LIST_END)
+    while (curr->type != EVENT_LIST_END) {
+
+        if (curr->type == EVENT_ATTACHIMAGE)
+            event_image_append(&((char*)curr->data)[2], NULL);
+
         curr = curr->next;
+    }
 
     memset(curr, 0, sizeof(event_list_t));
     event_list_current = curr;

@@ -532,6 +532,11 @@ void machine_specific_shutdown(void)
 
     reu_shutdown();
 
+#ifdef HAVE_TFE
+    /* Shutdown the TFE.  */
+    tfe_shutdown();
+#endif
+
     if (vsid_mode) {
         vsid_ui_close();
     }
