@@ -1,3 +1,18 @@
+2002-02-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.18.
+
+	* vicii/vicii-draw.c, vicii/vicii-mem.c, vicii/vicii.c,
+	raster/raster.c, raster/raster.h, raster/raster-cache.h,
+	vdc/vdc.c, crtc/crtc.c, vic20/vic.c, plus4/ted.c,
+	plus4/ted-mem.c: Added new member `xsmooth_color' to raster
+	API.
+	Replaced some hacks and kludges by using `xsmooth_color'.
+
+	* raster/raster-line.c, raster/raster-line.h: New files.
+
+	* raster/Makefile.am: Added new files.
+
 2002-02-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.17.
