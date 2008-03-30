@@ -40,7 +40,7 @@
 #include "z80.h"
 #include "z80mem.h"
 
-/* #define MMU_DEBUG */
+#define MMU_DEBUG
 
 /* MMU register.  */
 static BYTE mmu[11];
