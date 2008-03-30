@@ -55,12 +55,12 @@ static int uss_fd = -1;
 static int uss_8bit = 0;
 static int uss_bufsize = 0;
 static int uss_fragsize = 0;
-static int uss_stereo;
+static int uss_channels;
 
 static int uss_bufferspace(void);
 
 static int uss_init(const char *param, int *speed,
-		    int *fragsize, int *fragnr, int *stereo)
+		    int *fragsize, int *fragnr, int *channels)
 {
     int			 st, tmp, orig;
 
@@ -103,15 +103,14 @@ static int uss_init(const char *param, int *speed,
 	uss_8bit = 1;
     }
 
-    tmp = *stereo;
-    st = ioctl(uss_fd, SNDCTL_DSP_STEREO, &tmp);
+    tmp = *channels;
+    st = ioctl(uss_fd, SNDCTL_DSP_CHANNELS, &tmp);
     if (st < 0)
     {
-	log_message(LOG_DEFAULT, "SNDCTL_DSP_STEREO failed");
+	log_message(LOG_DEFAULT, "SNDCTL_DSP_CHANNELS failed");
 	/* no stereo */
-	*stereo = 0;
-	tmp = 0;
-	st = ioctl(uss_fd, SNDCTL_DSP_STEREO, &tmp);
+	tmp = *channels = 1;
+	st = ioctl(uss_fd, SNDCTL_DSP_CHANNELS, &tmp);
 	if (st < 0) {
 	    goto fail;
 	}
@@ -152,7 +151,7 @@ static int uss_init(const char *param, int *speed,
     }
     uss_bufsize = (*fragsize)*(*fragnr);
     uss_fragsize = *fragsize;
-    uss_stereo = *stereo;
+    uss_channels = *channels;
 
     return 0;
 fail:
@@ -212,8 +211,7 @@ static int uss_bufferspace(void)
     }
     if (!uss_8bit)
 	ret /= sizeof(SWORD);
-    if (uss_stereo)
-	ret /= 2;
+    ret /= uss_channels;
     if (ret > uss_bufsize)
     {
 	log_message(LOG_DEFAULT, "GETOSPACE: bytes > bufsize");

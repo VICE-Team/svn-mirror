@@ -40,12 +40,12 @@
 static int hpux_fd = -1;
 
 static int hpux_init(const char *param, int *speed,
-		     int *fragsize, int *fragnr, int *stereo)
+		     int *fragsize, int *fragnr, int *channels)
 {
     int				st, tmp, i;
 
     /* No stereo capability. */
-    *stereo = 0;
+    *channels = 1;
 
     if (!param)
 	param = "/dev/audio";

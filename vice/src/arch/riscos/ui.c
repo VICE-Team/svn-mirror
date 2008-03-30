@@ -135,6 +135,7 @@ static const char PRGFileExtension[] = "prg";
 #define FileType_Sprite		0xff9
 #define FileType_C64File	0x064
 #define FileType_D64Image	0x164
+#define FileType_SIDMusic	0x063
 
 
 /* Start scanning for internal keynumbers from here */
@@ -5196,6 +5197,19 @@ static void ui_user_msg_data_save_ack(int *b)
 }
 
 
+static void ui_user_msg_data_open(int *b)
+{
+  if ((vsid_mode) && (b[10] == FileType_SIDMusic))
+  {
+    if (vsid_ui_load_file(((char*)b)+44) == 0)
+    {
+      b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_DataLoadAck;
+      Wimp_SendMessage(18, b, b[MsgB_Sender], b[6]);
+    }
+  }
+}
+
+
 static void ui_user_msg_help_request(int *b)
 {
   const help_icon_t *hi = NULL;
@@ -5312,6 +5326,9 @@ static void ui_user_message(int *b)
       break;
     case Message_DataSaveAck:
       ui_user_msg_data_save_ack(b);
+      break;
+    case Message_DataOpen:
+      ui_user_msg_data_open(b);
       break;
     case Message_HelpRequest:
       ui_user_msg_help_request(b);

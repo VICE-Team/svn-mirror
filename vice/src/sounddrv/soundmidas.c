@@ -40,12 +40,12 @@ static int midas_bufsize = -1;
 static int midas_maxsize = -1;
 
 static int midas_init(const char *param, int *speed,
-		      int *fragsize, int *fragnr, int *stereo)
+		      int *fragsize, int *fragnr, int *channels)
 {
     BOOL		st;
 
     /* No stereo capability. */
-    *stereo = 0;
+    *channels = 1;
 
     st = vmidas_startup();
     if (st != TRUE)

@@ -37,12 +37,12 @@
 static int fd_esd;
 
 static int esd_init(const char *param, int *speed,
-		    int *fragsize, int *fragnr, int *stereo)
+		    int *fragsize, int *fragnr, int *channels)
 {
     esd_format_t format = ESD_STREAM | ESD_PLAY | ESD_MONO | ESD_BITS16;
 
     /* No stereo capability. */
-    *stereo = 0;
+    *channels = 1;
 
     fd_esd = esd_play_stream(format, *speed, param, "VICE");
 

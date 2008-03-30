@@ -142,6 +142,9 @@ void WaveformGenerator::clock()
   accumulator += freq;
   accumulator &= 0xffffff;
 
+  // Check whether the MSB is set high. This is used for synchronization.
+  msb_rising = !(accumulator_prev & 0x800000) && (accumulator & 0x800000);
+
   // Shift noise register once for each time accumulator bit 19 is set high.
   if (!(accumulator_prev & 0x080000) && (accumulator & 0x080000)) {
     reg24 bit0 = ((shift_register >> 22) ^ (shift_register >> 17)) & 0x1;
@@ -149,9 +152,6 @@ void WaveformGenerator::clock()
     shift_register &= 0x7fffff;
     shift_register |= bit0;
   }
-
-  // Check whether the MSB is set high. This is used for synchronization.
-  msb_rising = !(accumulator_prev & 0x800000) && (accumulator & 0x800000);
 }
 
 // ----------------------------------------------------------------------------
@@ -165,37 +165,39 @@ void WaveformGenerator::clock(cycle_count delta_t)
     return;
   }
 
-  // Calculate value to add to accumulator.
-  reg24 delta_accumulator = delta_t*freq;
+  reg24 accumulator_prev = accumulator;
 
   // Calculate new accumulator value;
-  reg24 accumulator_next = accumulator + delta_accumulator;
+  reg24 delta_accumulator = delta_t*freq;
+  accumulator += delta_accumulator;
+  accumulator &= 0xffffff;
+
+  // Check whether the MSB is set high. This is used for synchronization.
+  msb_rising = !(accumulator_prev & 0x800000) && (accumulator & 0x800000);
 
   // Shift noise register once for each time accumulator bit 19 is set high.
   // Bit 19 is set high each time 2^20 (0x100000) is added to the accumulator.
   reg24 shift_period = 0x100000;
-  reg24 shifts = delta_accumulator/shift_period;
-  reg24 accumulator_prev = (accumulator + shift_period*shifts);
 
-  // Determine whether bit 19 is set after the 2^20 multiple.
-  if (!(accumulator_prev & 0x080000) && (accumulator_next & 0x080000)) {
-    ++shifts;
-  }
+  while (delta_accumulator) {
+    if (delta_accumulator < shift_period) {
+      shift_period = delta_accumulator;
+      // Determine whether bit 19 is set on the last period.
+      // NB! Requires two's complement integer.
+      if (((accumulator - shift_period) & 0x080000) || !(accumulator & 0x080000)) {
+	break;
+      }
+    }
 
-  // Shift the noise/random register.
-  // NB! The shift is actually delayed 2 cycles, this is not modeled.
-  for (reg24 i = 0; i < shifts; i++) {
+    // Shift the noise/random register.
+    // NB! The shift is actually delayed 2 cycles, this is not modeled.
     reg24 bit0 = ((shift_register >> 22) ^ (shift_register >> 17)) & 0x1;
     shift_register <<= 1;
     shift_register &= 0x7fffff;
     shift_register |= bit0;
+
+    delta_accumulator -= shift_period;
   }
-
-  // Check whether the MSB is set high. This is used for synchronization.
-  msb_rising = !(accumulator & 0x800000) && (accumulator_next & 0x800000);
-
-  // Set new accumulator value.
-  accumulator = accumulator_next & 0xffffff;
 }
 
 

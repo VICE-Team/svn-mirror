@@ -52,12 +52,12 @@ long left_gain, right_gain;
 
 
 static int aix_init(const char *param, int *speed,
-		    int *fragsize, int *fragnr, int *stereo)
+		    int *fragsize, int *fragnr, int *channels)
 {
     int	st, tmp, i;
 
     /* No stereo capability. */
-    *stereo = 0;
+    *channels = 1;
 
     /* open device */
     ev = somGetGlobalEnvironment();

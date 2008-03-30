@@ -138,12 +138,12 @@ static void lock_mem(void)
 */
 
 static int sb_init(const char *param, int *speed,
-                   int *fragsize, int *fragnr, int *stereo)
+                   int *fragsize, int *fragnr, int *channels)
 {
     int tmp_fragsize = *fragsize;
 
     /* No stereo capability. */
-    *stereo = 0;
+    *channels = 1;
 
     if (!detect_done) {
         if (!vicesb_detect(&is_16bit))

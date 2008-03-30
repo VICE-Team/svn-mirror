@@ -48,14 +48,13 @@ static void le_store(BYTE* buf, DWORD val, int len)
 }
 
 static int wav_init(const char *param, int *speed,
-		   int *fragsize, int *fragnr, int *stereo)
+		   int *fragsize, int *fragnr, int *channels)
 {
     /* RIFF/WAV header. */
     BYTE header[45] =
       "RIFFllllWAVEfmt \020\0\0\0\001\0ccrrrrbbbb88\020\0datallll";
-    WORD channels = *stereo ? 2 : 1;
     DWORD sample_rate = *speed;
-    DWORD bytes_per_sec = *speed*channels*2;
+    DWORD bytes_per_sec = *speed**channels*2;
 
     wav_fd = fopen(param?param:"vicesnd.wav", MODE_WRITE);
     if (!wav_fd)
@@ -65,10 +64,10 @@ static int wav_init(const char *param, int *speed,
     samples = 0;
 
     /* Initialize header. */
-    le_store(header + 22, channels, 2);
+    le_store(header + 22, *channels, 2);
     le_store(header + 24, sample_rate, 4);
     le_store(header + 28, bytes_per_sec, 4);
-    le_store(header + 32, channels*2, 2);
+    le_store(header + 32, *channels*2, 2);
 
     return (fwrite(header, 1, 44, wav_fd) != 44);
 }

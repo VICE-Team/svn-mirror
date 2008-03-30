@@ -66,12 +66,12 @@ static void sdl_callback(void *userdata, Uint8 *stream, int len)
 }
 
 static int sdl_init(const char *param, int *speed,
-		    int *fragsize, int *fragnr, int *stereo)
+		    int *fragsize, int *fragnr, int *channels)
 {
     SDL_AudioSpec		spec;
 
     /* No stereo capability. */
-    *stereo = 0;
+    *channels = 1;
 
     memset(&spec, 0, sizeof(spec));
     spec.freq = *speed;

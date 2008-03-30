@@ -196,57 +196,49 @@ double y(PointIter p)
 
 // ----------------------------------------------------------------------------
 // Evaluation of complete interpolating function.
-// An end point will be interpolated by a curve segment if the pointer to the
-// end point is repeated, e.g. to interpolate the first point but not the last:
-//   interpolate(p, p, p + 10, p + 11, plot, res);
+// Note that since each curve segment is controlled by four points, the
+// end points will not be interpolated. If extra control points are not
+// desirable, the end points can simply be repeated to ensure interpolation.
+// Note also that points of non-differentiability and discontinuity can be
+// introduced by repeating points.
 // ----------------------------------------------------------------------------
 template<class PointIter, class PointPlotter>
 inline
-void interpolate(PointIter p0, PointIter p1, PointIter pm, PointIter pn,
-		 PointPlotter plot, double res)
+void interpolate(PointIter p0, PointIter pn, PointPlotter plot, double res)
 {
   double k1, k2;
 
-  // p1 and pm equal; single point.
-  if (p1 == pm) {
-    interpolate_segment(x(p1), y(p1), x(pm), y(pm), 0.0, 0.0, plot, res);
-    return;
-  }
-
+  // Set up points for first curve segment.
+  PointIter p1 = p0; ++p1;
   PointIter p2 = p1; ++p2;
-
-  // p0 and p3 missing; straight line.
-  if (p0 == p1 && p2 == pn) {
-    k1 = k2 = (y(p2) - y(p1))/(x(p2) - x(p1));
-    interpolate_segment(x(p1), y(p1), x(p2), y(p2), k1, k2, plot, res);
-    return;
-  }
-
   PointIter p3 = p2; ++p3;
 
-  // p0 missing; use f''(x1) = 0.
-  if (p0 == p1) {
-    k2 = (y(p3) - y(p1))/(x(p3) - x(p1));
-    k1 = (3*(y(p2) - y(p1))/(x(p2) - x(p1)) - k2)/2;
-    interpolate_segment(x(p1), y(p1), x(p2), y(p2), k1, k2, plot, res);
-    ++p1; ++p2; ++p3;
-  }
-  else {
-    k2 = (y(p2) - y(p0))/(x(p2) - x(p0));
-  }
+  // Draw each curve segment.
+  for (; p2 != pn; ++p0, ++p1, ++p2, ++p3) {
+    // p1 and p2 equal; single point.
+    if (x(p1) == x(p2)) {
+      continue;
+    }
+    // Both end points repeated; straight line.
+    if (x(p0) == x(p1) && x(p2) == x(p3)) {
+      k1 = k2 = (y(p2) - y(p1))/(x(p2) - x(p1));
+    }
+    // p0 and p1 equal; use f''(x1) = 0.
+    else if (x(p0) == x(p1)) {
+      k2 = (y(p3) - y(p1))/(x(p3) - x(p1));
+      k1 = (3*(y(p2) - y(p1))/(x(p2) - x(p1)) - k2)/2;
+    }
+    // p2 and p3 equal; use f''(x2) = 0.
+    else if (x(p2) == x(p3)) {
+      k1 = (y(p2) - y(p0))/(x(p2) - x(p0));
+      k2 = (3*(y(p2) - y(p1))/(x(p2) - x(p1)) - k1)/2;
+    }
+    // Normal curve.
+    else {
+      k1 = (y(p2) - y(p0))/(x(p2) - x(p0));
+      k2 = (y(p3) - y(p1))/(x(p3) - x(p1));
+    }
 
-  // p0, p1, p2, p3 all defined.
-  while (p2 != pn) {
-    k1 = k2;
-    k2 = (y(p3) - y(p1))/(x(p3) - x(p1));
-    interpolate_segment(x(p1), y(p1), x(p2), y(p2), k1, k2, plot, res);
-    ++p1; ++p2; ++p3;
-  }
-
-  // p3 missing; use f''(x2) = 0.
-  if (pm == pn) {
-    k1 = k2;
-    k2 = (3*(y(p2) - y(p1))/(x(p2) - x(p1)) - k1)/2;
     interpolate_segment(x(p1), y(p1), x(p2), y(p2), k1, k2, plot, res);
   }
 }

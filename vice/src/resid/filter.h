@@ -175,8 +175,9 @@ protected:
   // Output master volume.
   reg4 vol;
 
-  // Voice DC offset.
+  // Voice and mixer DC offsets.
   sound_sample voice_DC;
+  sound_sample mixer_DC;
 
   // State of filter.
   sound_sample Vhp; // highpass
@@ -188,11 +189,13 @@ protected:
   sound_sample w0;
   sound_sample _1024_div_Q;
 
-  // Cutoff frequency table.
+  // Cutoff frequency tables.
   // FC is an 11 bit register.
-  sound_sample f0[2048];
-  static fc_point f0_6581[];
-  static fc_point f0_8580[];
+  sound_sample f0_6581[2048];
+  sound_sample f0_8580[2048];
+  sound_sample* f0;
+  static fc_point f0_points_6581[];
+  static fc_point f0_points_8580[];
   fc_point* f0_points;
   int f0_count;
 
@@ -218,8 +221,8 @@ void Filter::clock(sound_sample voice1,
 {
   // Add separate DC offset to each voice.
   // Scale each voice down from 20 to 13 bits.
-  voice1 = (voice1 + voice_DC) >> 7;
-  voice2 = (voice2 + voice_DC) >> 7;
+  voice1 = (voice1 >> 7) + voice_DC;
+  voice2 = (voice2 >> 7) + voice_DC;
 
   // NB! Voice 3 is only silenced by voice3off if it is not routed through
   // the filter.
@@ -227,7 +230,7 @@ void Filter::clock(sound_sample voice1,
     voice3 = 0;
   }
   else {
-    voice3 = (voice3 + voice_DC) >> 7;
+    voice3 = (voice3 >> 7) + voice_DC;
   }
 
   // This is handy for testing.
@@ -307,8 +310,8 @@ void Filter::clock(cycle_count delta_t,
 {
   // Add separate DC offset to each voice.
   // Scale each voice down from 20 to 13 bits.
-  voice1 = (voice1 + voice_DC) >> 7;
-  voice2 = (voice2 + voice_DC) >> 7;
+  voice1 = (voice1 >> 7) + voice_DC;
+  voice2 = (voice2 >> 7) + voice_DC;
 
   // NB! Voice 3 is only silenced by voice3off if it is not routed through
   // the filter.
@@ -316,7 +319,7 @@ void Filter::clock(cycle_count delta_t,
     voice3 = 0;
   }
   else {
-    voice3 = (voice3 + voice_DC) >> 7;
+    voice3 = (voice3 >> 7) + voice_DC;
   }
 
   // Enable filter on/off.
@@ -379,7 +382,7 @@ void Filter::clock(cycle_count delta_t,
 
   // Limit f0 to 4kHz to keep filter stable.
   const double pi = 3.1415926535897932385;
-  const sound_sample w0_max = sound_sample(2*pi*4000*1.048576);
+  const sound_sample w0_max = static_cast<sound_sample>(2*pi*4000*1.048576);
   sound_sample w0_ceil = w0 <= w0_max ? w0 : w0_max;
 
   while (delta_t) {
@@ -416,7 +419,7 @@ sound_sample Filter::output()
 {
   // This is handy for testing.
   if (!enabled) {
-    return -(Vnf*static_cast<sound_sample>(vol));
+    return -(Vnf + mixer_DC)*static_cast<sound_sample>(vol);
   }
 
   // Mix highpass, bandpass, and lowpass outputs. The sum is not
@@ -462,7 +465,7 @@ sound_sample Filter::output()
   // Multiply the sum with volume.
   // The output is inverted. This should not make any audible difference,
   // but is included for correctness.
-  return -((Vnf + Vf)*static_cast<sound_sample>(vol));
+  return -(Vnf + Vf + mixer_DC)*static_cast<sound_sample>(vol);
 }
 
 #endif // RESID_INLINING || defined(__FILTER_CC__)

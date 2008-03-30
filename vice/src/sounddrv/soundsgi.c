@@ -47,13 +47,13 @@ static void sgi_errorhandler(long err, const char *msg, ...)
 }
 
 static int sgi_init(const char *param, int *speed,
-		    int *fragsize, int *fragnr, int *stereo)
+		    int *fragsize, int *fragnr, int *channels)
 {
     long	chpars[] = {AL_OUTPUT_RATE, 0};
     int		st;
 
     /* No stereo capability. */
-    *stereo = 0;
+    *channels = 1;
 
     ALseterrorhandler(sgi_errorhandler);
     chpars[1] = *speed;

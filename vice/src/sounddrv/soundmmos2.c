@@ -82,14 +82,14 @@ int pos, frag_size, frag_numbers;
 MCI_OPEN_PARMS mciOpen;
 
 static int mmos2_init(const char *param, int *speed,
-                      int *fragsize, int *fragnr, int *stereo)
+                      int *fragsize, int *fragnr, int *channels)
 {
     int rc, i;
     QWORD qwTmrTime1, qwTmrTime2;
     MCI_WAVE_SET_PARMS mciSet; // fragnr = refreshs / buffer; (gerundet)
 
     /* No stereo capability. */
-    *stereo = 0;
+    *channels = 1;
 
     if (usSoundDevID) return 1;
 

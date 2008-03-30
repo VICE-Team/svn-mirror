@@ -123,7 +123,7 @@ static int inactivity_timer;
 
 /* Prototypes */
 static int wmm_init(const char *param, int *speed,
-                   int *fragsize, int *fragnr, int *stereo);
+                   int *fragsize, int *fragnr, int *channels);
 static void wmm_close(void);
 static int wmm_bufferspace(void);
 static int wmm_write(SWORD *pbuf, size_t nr);
@@ -157,7 +157,7 @@ static void CALLBACK wmm_timercallback(UINT uTimerID, UINT uMsg, DWORD dwUser, D
     }
 }
 
-static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr, int *stereo)
+static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
     DWORD dwVersion;
 
@@ -165,7 +165,7 @@ static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr, i
            *speed, *fragsize, *fragnr));
 
     /* No stereo capability. */
-    *stereo = 0;
+    *channels = 1;
 
     /* If wanted to re-initialize, shutdown first */
     wmm_close();

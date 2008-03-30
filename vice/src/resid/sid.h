@@ -43,7 +43,7 @@ public:
 
   void clock();
   void clock(cycle_count delta_t);
-  int clock(cycle_count& delta_t, short* buf, int n);
+  int clock(cycle_count& delta_t, short* buf, int n, int interleave = 1);
   void reset();
   
   // Read/write registers.
@@ -79,9 +79,12 @@ public:
 
 protected:
   static double I0(double x);
-  RESID_INLINE int clock_fast(cycle_count& delta_t, short* buf, int n);
-  RESID_INLINE int clock_interpolate(cycle_count& delta_t, short* buf, int n);
-  RESID_INLINE int clock_resample(cycle_count& delta_t, short* buf, int n);
+  RESID_INLINE int clock_fast(cycle_count& delta_t, short* buf, int n,
+			      int interleave);
+  RESID_INLINE int clock_interpolate(cycle_count& delta_t, short* buf, int n,
+				     int interleave);
+  RESID_INLINE int clock_resample(cycle_count& delta_t, short* buf, int n,
+				  int interleave);
 
   Voice voice[3];
   Filter filter;

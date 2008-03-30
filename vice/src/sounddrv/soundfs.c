@@ -35,10 +35,10 @@
 static FILE *fs_fd = NULL;
 
 static int fs_init(const char *param, int *speed,
-		   int *fragsize, int *fragnr, int *stereo)
+		   int *fragsize, int *fragnr, int *channels)
 {
     /* No stereo capability. */
-    *stereo = 0;
+    *channels = 1;
 
     fs_fd = fopen(param?param:"vicesnd.raw", MODE_WRITE);
     return !fs_fd;

@@ -35,10 +35,10 @@
 static FILE *dump_fd = NULL;
 
 static int dump_init(const char *param, int *speed,
-		     int *fragsize, int *fragnr, int *stereo)
+		     int *fragsize, int *fragnr, int *channels)
 {
     /* No stereo capability. */
-    *stereo = 0;
+    *channels = 1;
 
     dump_fd = fopen(param?param:"vicesnd.sid", "w");
     return !dump_fd;

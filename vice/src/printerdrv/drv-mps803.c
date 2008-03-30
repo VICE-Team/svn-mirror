@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "driver-select.h"
 #include "log.h"
 #include "output-select.h"
@@ -396,8 +397,8 @@ int drv_mps803_init(void)
     if (palette == NULL)
         return -1;
 
-    if (palette_load("mps803.vpl", palette) < 0) {
-        log_error(drv803_log, "Cannot load palette file `%s'.", "mps803.vpl");
+    if (palette_load("mps803" FSDEV_EXT_SEP_STR "vpl", palette) < 0) {
+        log_error(drv803_log, "Cannot load palette file `%s'.", "mps803" FSDEV_EXT_SEP_STR "vpl");
         return -1;
     }
 

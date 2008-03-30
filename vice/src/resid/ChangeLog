@@ -1,4 +1,4 @@
-2001-09-xx  Dag Lem  <resid@nimrod.no>
+2001-10-20  Dag Lem  <resid@nimrod.no>
 
 	* Version 0.12 released.
 
@@ -6,11 +6,14 @@
 	Removed bool usage. This avoids unnecessary conversion to 1/0.
 
 	* filter.cc (Filter::set_chip_model): New function; selects voice
-	DC offset and mapping from the FC registers to filter cutoff
-	frequency. The voice DC offset for the MOS6581 is calculated from
-	measurements made by Hársfalvi, Levente in C= Hacking Issue #20.
+	and mixer DC offsets and mapping from the FC registers to filter
+	cutoff frequency. The voice and mixer DC offsets for the MOS6581 are
+	calculated from	measurements made by Hársfalvi, Levente in
+	C= Hacking Issue #20.
 	(Filter::Filter): Call set_chip_model.
-	(Filter::f0_6581, Filter::f0_8580): Separate FC mappings.
+	(Filter::f0_6581, Filter::f0_8580): Separate FC mapping tables.
+	(Filter::f0_points_6581, Filter::f0_points_8580): Separate FC mapping
+	points.
 
 	* extfilt.cc, extfilt.h (ExternalFilter::set_chip_model): New
 	function supporting separate DC correction for MOS6581 and MOS8580.
@@ -20,10 +23,16 @@
 	(SID::clock_fast): Corrected sample calculation.
 	(SID::set_chip_model): Set filter chip model.
 	(SID::output): Added audio clipping.
+	(SID::clock, SID::clock_fast, SID::clock_interpolate,
+	SID::clock_resample): Added sample interleaving.
+
+	* spline.h (interpolate): Generalized to accept repeated points to
+	introduce points of non-differentiability and discontinuity.
 	
 	* wave.h (WaveformGenerator::output____): No selected waveform
 	yields maximum wave output level. This was found by Hársfalvi,
 	Levente in C= Hacking Issue #20.
+	(WaveformGenerator::clock): Optimized for speed (no division).
 
 2001-03-10  Dag Lem  <resid@nimrod.no>
 

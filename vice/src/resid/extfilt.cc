@@ -55,9 +55,9 @@ void ExternalFilter::enable_filter(bool enable)
 void ExternalFilter::set_chip_model(chip_model model)
 {
   if (model == MOS6581) {
-    // Maximum mixer DC level; to be removed if the external filter is
-    // turned off.
-    mixer_DC = (4095*255/4 >> 7)*3*0x0f;
+    // Maximum mixer DC output level; to be removed if the external
+    // filter is turned off.
+    mixer_DC = ((4095*255/4*3 - 4095*255/25) >> 7)*0x0f;
   }
   else {
     // No DC offsets in MOS8580.

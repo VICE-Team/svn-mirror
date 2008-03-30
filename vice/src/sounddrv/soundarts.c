@@ -66,10 +66,10 @@ static int artsdrv_suspended=0;
 static int artsdrv_bufferspace(void);
 
 static int artsdrv_init(const char *param, int *speed,
-		    int *fragsize, int *fragnr, int *stereo)
+		    int *fragsize, int *fragnr, int *channels)
 {
     /* No stereo capability. */
-    *stereo = 0;
+    *channels = 1;
 
     /*
     ** Connect to ARTS

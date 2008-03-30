@@ -25,9 +25,10 @@
 //
 // Measurements indicate a cutoff frequency range of approximately
 // 220Hz - 18kHz on a MOS6581 fitted with 470pF capacitors. The function
-// mapping FC to cutoff frequency has the shape of the tanh function.
+// mapping FC to cutoff frequency has the shape of the tanh function, with
+// a discontinuity at FCHI = 0x80.
 // In contrast, the MOS8580 almost perfectly corresponds with the
-// specificaion of a linear mapping from 30Hz to 12kHz.
+// specification of a linear mapping from 30Hz to 12kHz.
 // 
 // The mappings have been measured by feeding the SID with an external
 // signal since the chip itself is incapable of generating waveforms of
@@ -41,10 +42,11 @@
 // NB! Cutoff frequency characteristics may vary, we have modeled two
 // particular Commodore 64s.
 
-fc_point Filter::f0_6581[] =
+fc_point Filter::f0_points_6581[] =
 {
   //  FC      f         FCHI FCLO
   // ----------------------------
+  {    0,   220 },   // 0x00      - repeated end point
   {    0,   220 },   // 0x00
   {  128,   230 },   // 0x10
   {  256,   250 },   // 0x20
@@ -59,8 +61,8 @@ fc_point Filter::f0_6581[] =
   { 1008,  5400 },   // 0x7e
   { 1016,  5700 },   // 0x7f
   { 1023,  6000 },   // 0x7f 0x07
-  { 1023,  6000 },   // 0x7f 0x07
-  { 1024,  4600 },   // 0x80
+  { 1023,  6000 },   // 0x7f 0x07 - discontinuity
+  { 1024,  4600 },   // 0x80      -
   { 1024,  4600 },   // 0x80
   { 1032,  4800 },   // 0x81
   { 1056,  5300 },   // 0x84
@@ -73,13 +75,15 @@ fc_point Filter::f0_6581[] =
   { 1664, 16000 },   // 0xd0
   { 1792, 17100 },   // 0xe0
   { 1920, 17700 },   // 0xf0
-  { 2047, 18000 }    // 0xff 0x07
+  { 2047, 18000 },   // 0xff 0x07
+  { 2047, 18000 }    // 0xff 0x07 - repeated end point
 };
 
-fc_point Filter::f0_8580[] =
+fc_point Filter::f0_points_8580[] =
 {
   //  FC      f         FCHI FCLO
   // ----------------------------
+  {    0,     0 },   // 0x00      - repeated end point
   {    0,     0 },   // 0x00
   {  128,   800 },   // 0x10
   {  256,  1600 },   // 0x20
@@ -96,7 +100,8 @@ fc_point Filter::f0_8580[] =
   { 1664, 10500 },   // 0xd0
   { 1792, 11000 },   // 0xe0
   { 1920, 11700 },   // 0xf0
-  { 2047, 12500 }    // 0xff 0x07
+  { 2047, 12500 },   // 0xff 0x07
+  { 2047, 12500 }    // 0xff 0x07 - repeated end point
 };
 
 
@@ -106,7 +111,13 @@ fc_point Filter::f0_8580[] =
 Filter::Filter()
 {
   enable_filter(true);
+
+  // Create mappings from FC to cutoff frequency.
+  set_chip_model(MOS8580);
+  interpolate(f0_points, f0_points + f0_count - 1, fc_plotter(), 1.0);
   set_chip_model(MOS6581);
+  interpolate(f0_points, f0_points + f0_count - 1, fc_plotter(), 1.0);
+
   reset();
 }
 
@@ -130,42 +141,52 @@ void Filter::set_chip_model(chip_model model)
     // range of one voice. This is calculated as follows from results
     // in C= Hacking Issue #20:
     //
-    // * The "zero" output level of the mixer at full volume is 5.43V.
+    // * The "zero" output level of the mixer at full volume is 5.39V.
     // * Routing one voice to the mixer at full volume yields
     //     5.29V at maximum voice output
     //     5.69V at "zero" voice output
     //     6.34V at minimum voice output
     //   This confirms that the mixer output is inverted.
-    // * The DC offset of one voice is -(5.69V - 5.43V) = -0.26V
+    // * The DC offset of one voice is -(5.69V - 5.39V) = -0.30V
     // * The dynamic range of one voice is |5.29V - 6.34V| = 1.05V
-    // * The DC offset is thus -0.26V/1.05V = -1/4 of the dynamic range.
+    // * The DC offset is thus -0.30V/1.05V ~ -1/4 of the dynamic range.
     //
     // Note that by removing the DC offset, we get the following ranges for
     // one voice:
-    //     y > 0: -(5.29V - 5.43V) - (-0.26V) =  0.40V
-    //     y < 0: -(6.34V - 5.43V) - (-0.26V) = -0.65V
+    //     y > 0: -(5.29V - 5.39V) - (-0.30V) =  0.40V
+    //     y < 0: -(6.34V - 5.39V) - (-0.30V) = -0.65V
     // The scaling of the voice amplitude is thus not symmetric about y = 0.
     // The asymmetric scaling happens either in the envelope multiplying
     // D/A converters, in the mixer, or both.
     // NB! This is not modeled.
 
-    voice_DC = -4095*255/4;
+    voice_DC = -4095*255/4 >> 7;
 
-    f0_points = f0_6581;
-    f0_count = sizeof(f0_6581)/sizeof(*f0_6581);
+    // The mixer also has a small input DC offset, approximately 1/25
+    // of the dynamic range of one voice. This is calculated as
+    // follows:
+    //
+    // The "zero" output level of the mixer is 5.43V at zero volume,
+    // and 5.39V at full volume. This yields an input DC offset of
+    // -(5.39V - 5.43V) = 0.04V.
+    // The DC offset is thus 0.04V/1.05V ~ 1/25 of the dynamic range
+    // of one voice.
+
+    mixer_DC = 4095*255/25 >> 7;
+
+    f0 = f0_6581;
+    f0_points = f0_points_6581;
+    f0_count = sizeof(f0_points_6581)/sizeof(*f0_points_6581);
   }
   else {
     // No DC offsets in MOS8580.
     voice_DC = 0;
+    mixer_DC = 0;
 
-    f0_points = f0_8580;
-    f0_count = sizeof(f0_8580)/sizeof(*f0_8580);
+    f0 = f0_8580;
+    f0_points = f0_points_8580;
+    f0_count = sizeof(f0_points_8580)/sizeof(*f0_points_8580);
   }
-
-  // Create mapping from FC to cutoff frequency.
-  interpolate(f0_points, f0_points,
-	      f0_points + f0_count - 1, f0_points + f0_count - 1,
-	      fc_plotter(), 1.0);
 }
 
 
@@ -239,7 +260,7 @@ void Filter::set_w0()
 
   // Multiply with 1.048576 to facilitate division by 1 000 000 by right-
   // shifting 20 times (2 ^ 20 = 1048576).
-  w0 = sound_sample(2*pi*f0[fc]*1.048576);
+  w0 = static_cast<sound_sample>(2*pi*f0[fc]*1.048576);
 }
 
 // Set filter resonance.
@@ -251,7 +272,7 @@ void Filter::set_Q()
 
   // The coefficient 1024 is dispensed of later by right-shifting 10 times
   // (2 ^ 10 = 1024).
-  _1024_div_Q = sound_sample(1024.0/(0.707 + 1.0*res/0x0f));
+  _1024_div_Q = static_cast<sound_sample>(1024.0/(0.707 + 1.0*res/0x0f));
 }
 
 // ----------------------------------------------------------------------------
@@ -271,8 +292,10 @@ void Filter::fc_default(const fc_point*& points, int& count)
 // ----------------------------------------------------------------------------
 // Given an array of interpolation points p with n points, the following
 // statement will specify a new FC mapping:
-//   interpolate(p, p, p + n - 1, p + n - 1, filter.fc_plotter());
-// Note that the x range of the interpolation points *must* be [0, 2047].
+//   interpolate(p, p + n - 1, filter.fc_plotter(), 1.0);
+// Note that the x range of the interpolation points *must* be [0, 2047],
+// and that additional end points *must* be present since the end points
+// are not interpolated.
 // ----------------------------------------------------------------------------
 PointPlotter<sound_sample> Filter::fc_plotter()
 {
