@@ -90,7 +90,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
 	fname_split(s, &directory, &default_item);
 
 	name = tui_file_selector("Attach a disk image", directory,
-				 "*.[dx]6[4z]", default_item,
+				 "*.[dxg]6[4z]", default_item,
 				 read_disk_image_contents);
 
 	if (name != NULL

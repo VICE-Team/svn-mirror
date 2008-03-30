@@ -915,6 +915,8 @@ For instance, @kbd{F6} (which on the real C64 is obtained with
 the shift key manually (i.e. type @kbd{Shift + F5} in the example).
 Yes, we know this is a bug.
 
+The @kbd{RESTORE} key is mapped to @kbd{Page Up} (or @kbd{Prev}).
+
 
 @node Joystick emulation, Disk drive emulation, Keyboard emulation, Preface
 @section The joystick emulation
@@ -1569,16 +1571,8 @@ menu item.  In VICE, all the shortcuts must begin with the @key{Meta} or
 corresponding menu item displays ``M-8''), you have to press the
 @key{Meta} (or @key{Alt}) and then @key{8}.
 
-@c If you have an @key{AltGr} key, or some other key that sends the
-@c @code{Mode_switch} keysym, you can also use that one instead of
-@c @key{Meta} or @key{Alt}; for example, this is useful if your window
-@c manager wants to use @key{Alt} for its own purposes and you have no
-@c @key{Meta} key.
-
-@c Notice that, while @key{Meta}, @key{Alt} or @key{AltGr}
-Notice that, while @key{Meta} or @key{Alt}
-is pressed, pressing other keys has no effect at all on the emulated
-machine.
+Notice that, while @key{Meta} or @key{Alt} is pressed, pressing other
+keys has no effect at all on the emulated machine.
 
 
 @node Help, File Selector, Menus, Basics
