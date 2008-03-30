@@ -35,8 +35,10 @@ extern void serial_iec_bus_open(unsigned int device, BYTE secondary,
                                 void(*st_func)(BYTE));
 extern void serial_iec_bus_close(unsigned int device, BYTE secondary,
                                  void(*st_func)(BYTE));
-extern void serial_iec_bus_listentalk(unsigned int device, BYTE secondary,
-                                      void(*st_func)(BYTE));
+extern void serial_iec_bus_listen(unsigned int device, BYTE secondary,
+                                  void(*st_func)(BYTE));
+extern void serial_iec_bus_talk(unsigned int device, BYTE secondary,
+                                void(*st_func)(BYTE));
 extern void serial_iec_bus_unlisten(unsigned int device, BYTE secondary,
                                     void(*st_func)(BYTE));
 extern void serial_iec_bus_untalk(unsigned int device, BYTE secondary,

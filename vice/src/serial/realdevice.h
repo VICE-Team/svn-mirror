@@ -35,8 +35,10 @@ extern void realdevice_open(unsigned int device, BYTE secondary,
                             void(*st_func)(BYTE));
 extern void realdevice_close(unsigned int device, BYTE secondary,
                              void(*st_func)(BYTE));
-extern void realdevice_listentalk(unsigned int device, BYTE secondary,
-                                  void(*st_func)(BYTE));
+extern void realdevice_listen(unsigned int device, BYTE secondary,
+                              void(*st_func)(BYTE));
+extern void realdevice_talk(unsigned int device, BYTE secondary,
+                            void(*st_func)(BYTE));
 extern void realdevice_unlisten(void(*st_func)(BYTE));
 extern void realdevice_untalk(void(*st_func)(BYTE));
 extern void realdevice_write(BYTE data, void(*st_func)(BYTE));

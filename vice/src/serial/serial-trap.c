@@ -107,7 +107,15 @@ int serial_trap_attention(void)
             break;
           case 0x60:
             TrapSecondary = b;
-            serial_iec_bus_listentalk(TrapDevice, TrapSecondary, serial_set_st);
+            switch (TrapDevice & 0xf0) {
+              case 0x20:
+                serial_iec_bus_listen(TrapDevice, TrapSecondary,
+                                      serial_set_st);
+                break;
+              case 0x40:
+                serial_iec_bus_talk(TrapDevice, TrapSecondary, serial_set_st);
+                break;
+            }
             break;
           case 0xe0:
             TrapSecondary = b;

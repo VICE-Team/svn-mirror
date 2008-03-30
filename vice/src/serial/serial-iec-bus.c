@@ -55,12 +55,23 @@ void serial_iec_bus_close(unsigned int device, BYTE secondary,
         fsdrive_close(device, secondary, st_func);
 }
 
-void serial_iec_bus_listentalk(unsigned int device, BYTE secondary,
-                               void(*st_func)(BYTE))
+void serial_iec_bus_listen(unsigned int device, BYTE secondary,
+                           void(*st_func)(BYTE))
 {
 #ifdef HAVE_OPENCBM
     if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL)
-        realdevice_listentalk(device, secondary, st_func);
+        realdevice_listen(device, secondary, st_func);
+    else
+#endif
+        fsdrive_listentalk(device, secondary, st_func);
+}
+
+void serial_iec_bus_talk(unsigned int device, BYTE secondary,
+                         void(*st_func)(BYTE))
+{
+#ifdef HAVE_OPENCBM
+    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL)
+        realdevice_talk(device, secondary, st_func);
     else
 #endif
         fsdrive_listentalk(device, secondary, st_func);
