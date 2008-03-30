@@ -254,7 +254,7 @@ int vsync_do_vsync(int been_skipped)
     /* Adjustment of frame output frequency. */
     static unsigned long adjust_start;
     static int frames_adjust;
-    static signed long min_sdelay;
+    static signed long min_sdelay, prev_sdelay;
 
     double sound_delay;
     int skip_next_frame;
@@ -283,16 +283,16 @@ int vsync_do_vsync(int been_skipped)
      *  - We need some statistict to get an avarage number for the
      *    frame-rate without staticstics it would also jump around
      */
+    frame_counter++;
+
     if (!speed_eval_suspended &&
-	(signed long)(now - display_start) > 2*vsyncarch_freq)
+	(signed long)(now - display_start) >= 2*vsyncarch_freq)
     {
         display_speed(frame_counter - skipped_frames);
         display_start  = now;
         frame_counter  = 0;
         skipped_frames = 0;
     }
-    else
-        frame_counter++;
 
     if (been_skipped) {
         skipped_frames++;
@@ -312,6 +312,7 @@ int vsync_do_vsync(int been_skipped)
         adjust_start = now;
         frames_adjust = 0;
         min_sdelay = LONG_MAX;
+        prev_sdelay = 0;
 
         display_start = now;
         frame_counter = 0;
@@ -373,7 +374,7 @@ int vsync_do_vsync(int been_skipped)
      * Check whether the hardware can keep up.
      * Allow up to one second lag.
      */
-    if ((signed long)(now - next_frame_start) > vsyncarch_freq) {
+    if ((signed long)(now - next_frame_start) >= vsyncarch_freq) {
 #ifndef __OS2__
         if (!warp_mode_enabled && relative_speed) {
             log_warning(LOG_DEFAULT, _("Your machine is too slow for current settings!"));
@@ -384,30 +385,31 @@ int vsync_do_vsync(int been_skipped)
 
     /* Adjust frame output frequency to match sound speed.
        This only kicks in for cycle based sound and SOUND_ADJUST_EXACT. */
-    if ((signed long)(now - adjust_start) > 3*vsyncarch_freq)
+    if (frames_adjust < INT_MAX) {
+        frames_adjust++;
+    }
+
+    if ((signed long)(now - adjust_start) >= 3*vsyncarch_freq)
     {
         if (min_sdelay != LONG_MAX) { 
+	    /* Account for both relative and absolute delay. */
+	    signed long adjust = (min_sdelay - prev_sdelay + min_sdelay/2)/frames_adjust;
 	    /* Maximum adjustment step 1%. */
-	    signed long adjust = min_sdelay/frames_adjust;
 	    if (labs(adjust) > frame_ticks/100) {
 	        adjust = adjust/labs(adjust)*frame_ticks/100;
 	    }
 	    frame_ticks -= adjust;
-	    next_frame_start -= min_sdelay;
 
 	    log_message(LOG_DEFAULT, "frames_adjust = %d, min_sdelay= %ld, frame_ticks = %ld", frames_adjust, min_sdelay, frame_ticks);
 
 	    frames_adjust = 0;
+	    prev_sdelay = min_sdelay;
 	    min_sdelay = LONG_MAX;
 	}
 
 	adjust_start = now;
     }
     else {
-        if (frames_adjust < INT_MAX) {
-	    frames_adjust++;
-	}
-
 	if (sound_delay) {
 	    /* Actual sound delay is sound delay minus vsync delay. */
 	    signed long sdelay =
