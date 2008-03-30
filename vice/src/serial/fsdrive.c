@@ -58,7 +58,7 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
     channel = secondary & 0x0f;
 
     if ((device & 0x0f) >= 8)
-        vdrive = (vdrive_t *)file_system_get_vdrive(device & 0x0f);
+        vdrive = (void *)file_system_get_vdrive(device & 0x0f);
     else
         vdrive = NULL;
 
@@ -133,7 +133,7 @@ void fsdrive_open(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
     p = serial_device_get(device & 0x0f);
     if (p->isopen[secondary & 0x0f] == 2) {
         if ((device & 0x0f) >= 8)
-            vdrive = file_system_get_vdrive(device & 0x0f);
+            vdrive = (void *)file_system_get_vdrive(device & 0x0f);
         else
             vdrive = NULL;
         (*(p->closef))(vdrive, secondary & 0x0f);
@@ -189,7 +189,7 @@ void fsdrive_write(unsigned int device, BYTE secondary, BYTE data,
     p = serial_device_get(device & 0x0f);
 
     if ((device & 0x0f) >= 8)
-        vdrive = file_system_get_vdrive(device & 0x0f);
+        vdrive = (void *)file_system_get_vdrive(device & 0x0f);
     else
         vdrive = NULL;
 
@@ -218,7 +218,7 @@ BYTE fsdrive_read(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
     p = serial_device_get(device & 0x0f);
 
     if ((device & 0x0f) >= 8)
-        vdrive = file_system_get_vdrive(device & 0x0f);
+        vdrive = (void *)file_system_get_vdrive(device & 0x0f);
     else
         vdrive = NULL;
 
@@ -252,7 +252,7 @@ void fsdrive_reset(void)
         if (p->inuse) {
             for (j = 0; j < 16; j++) {
                 if (p->isopen[j]) {
-                    vdrive = file_system_get_vdrive(i);
+                    vdrive = (void *)file_system_get_vdrive(i);
                     p->isopen[j] = 0;
                     (*(p->closef))(vdrive, j);
                 }

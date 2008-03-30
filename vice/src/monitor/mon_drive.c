@@ -48,7 +48,7 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
 
     mon_evaluate_default_addr(&addr);
 
-    floppy = (vdrive_t *)file_system_get_vdrive(8);
+    floppy = file_system_get_vdrive(8);
 
     if (!floppy || floppy->image == NULL) {
         mon_out("No disk attached\n");
@@ -118,7 +118,7 @@ void mon_drive_execute_disk_cmd(char *cmd)
     vdrive_t *floppy;
 
     /* FIXME */
-    floppy = (vdrive_t *)file_system_get_vdrive(8);
+    floppy = file_system_get_vdrive(8);
 
     len = (unsigned int)strlen(cmd);
 

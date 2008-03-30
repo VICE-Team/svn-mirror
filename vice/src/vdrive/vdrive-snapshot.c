@@ -53,7 +53,7 @@ int vdrive_snapshot_module_write(snapshot_t *s, int start)
 
     for (i = start; i <= 11; i++) {
 
-        floppy = (vdrive_t *)file_system_get_vdrive(i);
+        floppy = file_system_get_vdrive(i);
         if (floppy->image != NULL) {
             sprintf(snap_module_name, "VDRIVEIMAGE%i", i);
             m = snapshot_module_create(s, snap_module_name, ((BYTE)SNAP_MAJOR),

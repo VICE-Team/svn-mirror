@@ -580,7 +580,7 @@ int vdrive_bam_read_bam(vdrive_t *vdrive)
 /* Temporary hack.  */
 int vdrive_bam_reread_bam(unsigned int unit)
 {
-    return vdrive_bam_read_bam((vdrive_t *)file_system_get_vdrive(unit));
+    return vdrive_bam_read_bam(file_system_get_vdrive(unit));
 }
 
 int vdrive_bam_write_bam(vdrive_t *vdrive)

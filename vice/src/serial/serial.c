@@ -126,7 +126,7 @@ static int parallelcommand(void)
 
     /* which device ? */
     p = serial_device_get(TrapDevice & 0x0f);
-    vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
+    vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f);
     channel = TrapSecondary & 0x0f;
 
     /* if command on a channel, reset output buffer... */
@@ -214,7 +214,7 @@ int parallelattention(int b)
           case 0xf0:            /* Open File needs the filename first */
             TrapSecondary = b;
             p = serial_device_get(TrapDevice & 0x0f);
-            vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
+            vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f);
             if (p->isopen[b & 0x0f] == 2) {
                (*(p->closef))(vdrive, b & 0x0f);
             }
@@ -252,7 +252,7 @@ int parallelsendbyte(BYTE data)
     }
 
     p = serial_device_get(TrapDevice & 0x0f);
-    vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
+    vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f);
 
     if (p->inuse) {
         if (p->isopen[TrapSecondary & 0x0f] == 1) {
@@ -286,7 +286,7 @@ int parallelreceivebyte(BYTE * data, int fake)
     }
 
     p = serial_device_get(TrapDevice & 0x0f);
-    vdrive = file_system_get_vdrive(TrapDevice & 0x0f);
+    vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f);
 
     /* first fill up buffers */
     if (!p->lastok[secadr]) {

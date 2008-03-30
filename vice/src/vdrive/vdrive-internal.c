@@ -76,7 +76,7 @@ static vdrive_t *open_rawimage(unsigned int unit, unsigned int read_only)
 {
     vdrive_t *vdrive;
 
-    vdrive = (vdrive_t *)file_system_get_vdrive(unit);
+    vdrive = file_system_get_vdrive(unit);
 
     return vdrive;
 }

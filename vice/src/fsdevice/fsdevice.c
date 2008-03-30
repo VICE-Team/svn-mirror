@@ -468,7 +468,7 @@ int fsdevice_attach(unsigned int device, const char *name)
 {
     vdrive_t *vdrive;
 
-    vdrive = (vdrive_t *)file_system_get_vdrive(device);
+    vdrive = file_system_get_vdrive(device);
 
     if (serial_attach_device(device, name, fsdevice_read, fsdevice_write,
                              fsdevice_open, fsdevice_close, fsdevice_flush))

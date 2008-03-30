@@ -207,13 +207,14 @@ void file_system_init(void)
 }
 
 
-void *file_system_get_vdrive(unsigned int unit)
+struct vdrive_s *file_system_get_vdrive(unsigned int unit)
 {
     if (unit < 8 || unit > 11) {
         log_error(attach_log, "Wrong unit for vdrive");
         return NULL;
     }
-    return (void *)(file_system[unit - 8].vdrive);
+
+    return file_system[unit - 8].vdrive;
 }
 
 const char *file_system_get_disk_name(unsigned int unit)
@@ -289,7 +290,7 @@ static int set_file_system_device(resource_value_t v, void *param)
     unit = (unsigned int)param;
     old_device_enabled = file_system_device_enabled[unit - 8];
 
-    vdrive = (vdrive_t *)file_system_get_vdrive(unit);
+    vdrive = file_system_get_vdrive(unit);
 
     switch ((unsigned int)v) {
       case ATTACH_DEVICE_NONE:
@@ -478,7 +479,7 @@ int file_system_attach_disk(unsigned int unit, const char *filename)
 {
     vdrive_t *vdrive;
 
-    vdrive = (vdrive_t *)file_system_get_vdrive(unit);
+    vdrive = file_system_get_vdrive(unit);
     /* FIXME: Is this clever?  */
     vdrive_setup_device(vdrive, unit);
     serial_device_type_set(SERIAL_DEVICE_VIRT, unit);
