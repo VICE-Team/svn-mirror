@@ -219,7 +219,7 @@ UI_CALLBACK(Cbm2modelMenu)
 }
 
 static ui_menu_entry_t model_settings_submenu[] = {
-    { N_("*Model defaults"),
+    { N_("Model defaults"),
       (ui_callback_t)Cbm2modelMenu, NULL, model_defaults_submenu },
     { "--" },
     { N_("ROM sets"),
