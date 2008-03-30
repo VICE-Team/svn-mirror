@@ -95,6 +95,7 @@ clk_overflow_callback (CLOCK sub, void *unused_data)
 void vic_ii_change_timing(void)
 {
     resource_value_t mode;
+
     resources_get_value("VideoStandard", &mode);
     switch ((int)mode) {
       case -2:
