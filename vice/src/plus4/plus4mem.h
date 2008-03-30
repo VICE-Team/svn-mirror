@@ -41,6 +41,7 @@ extern int plus4_mem_init_resources(void);
 extern int plus4_mem_init_cmdline_options(void);
 
 extern void mem_config_ram_set(unsigned int config);
+extern BYTE *mem_get_tedmem_base(unsigned int segment);
 
 extern int mem_load_kernal(const char *rom_name);
 extern int mem_load_basic(const char *rom_name);
