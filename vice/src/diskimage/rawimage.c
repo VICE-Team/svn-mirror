@@ -49,7 +49,7 @@ void rawimage_name_set(disk_image_t *image, char *name)
 {
     rawimage_t *rawimage;
 
-    rawimage = (rawimage_t *)(image->media);
+    rawimage = image->media.rawimage;
 
     rawimage->name = name;
 }
@@ -58,7 +58,7 @@ char *rawimage_name_get(disk_image_t *image)
 {
     rawimage_t *rawimage;
 
-    rawimage = (rawimage_t *)(image->media);
+    rawimage = image->media.rawimage;
 
     return rawimage->name;
 }
@@ -76,14 +76,14 @@ void rawimage_media_create(disk_image_t *image)
 
     rawimage = (rawimage_t *)lib_calloc(1, sizeof(rawimage_t));
 
-    image->media = (void *)rawimage;
+    image->media.rawimage = rawimage;
 }
 
 void rawimage_media_destroy(disk_image_t *image)
 {
     rawimage_t *rawimage;
 
-    rawimage = (rawimage_t *)(image->media);
+    rawimage = image->media.rawimage;
 
     lib_free(rawimage->name);
 

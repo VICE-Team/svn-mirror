@@ -54,7 +54,7 @@ static int fsimage_create_gcr(disk_image_t *image)
     unsigned int track, sector;
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     strcpy((char *)gcr_header, "GCR-1541");
 
@@ -162,7 +162,7 @@ int fsimage_create(const char *name, unsigned int type)
     image = (disk_image_t *)lib_malloc(sizeof(disk_image_t));
     fsimage = (fsimage_t *)lib_malloc(sizeof(fsimage_t));
 
-    image->media = fsimage;
+    image->media.fsimage = fsimage;
     image->device = DISK_IMAGE_DEVICE_FS;
 
     fsimage->name = lib_stralloc(name);

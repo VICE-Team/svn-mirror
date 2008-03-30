@@ -52,10 +52,15 @@
 #define DISK_IMAGE_TYPE_TAP 1531
 
 
+struct fsimage_s;
+struct rawimage_s;
 struct gcr_s;
 
 struct disk_image_s {
-    void *media;
+    union media_u {
+        struct fsimage_s *fsimage;
+        struct rawimage_s *rawimage;
+    } media;
     unsigned int read_only;
     unsigned int device;
     unsigned int type;

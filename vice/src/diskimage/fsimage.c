@@ -50,7 +50,7 @@ void fsimage_name_set(disk_image_t *image, char *name)
 {
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     fsimage->name = name;
 }
@@ -59,7 +59,7 @@ char *fsimage_name_get(disk_image_t *image)
 {
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     return fsimage->name;
 }
@@ -68,7 +68,7 @@ void *fsimage_fd_get(disk_image_t *image)
 {
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     return (void *)(fsimage->fd);
 }
@@ -96,14 +96,14 @@ void fsimage_media_create(disk_image_t *image)
 
     fsimage = (fsimage_t *)lib_calloc(1, sizeof(fsimage_t));
 
-    image->media = (void *)fsimage;
+    image->media.fsimage = fsimage;
 }
 
 void fsimage_media_destroy(disk_image_t *image)
 {
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     lib_free(fsimage->name);
     fsimage_error_info_destroy(fsimage);
@@ -117,7 +117,7 @@ int fsimage_open(disk_image_t *image)
 {
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     if (image->read_only) {
         fsimage->fd = zfopen(fsimage->name, MODE_READ);
@@ -148,7 +148,7 @@ int fsimage_close(disk_image_t *image)
 {
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     if (fsimage->fd == NULL) {
         log_error(fsimage_log, "Cannot close file `%s'.",  fsimage->name);
@@ -171,7 +171,7 @@ int fsimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
     long offset;
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     if (fsimage->fd == NULL) {
         log_error(fsimage_log, "Attempt to read without disk image.");
@@ -260,7 +260,7 @@ int fsimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
     long offset;
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     if (fsimage->fd == NULL) {
         log_error(fsimage_log, "Attempt to write without disk image.");

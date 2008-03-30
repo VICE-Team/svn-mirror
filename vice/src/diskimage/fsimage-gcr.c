@@ -52,7 +52,7 @@ int fsimage_read_gcr_image(disk_image_t *image)
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     num_tracks = image->tracks;
 
@@ -148,7 +148,7 @@ int fsimage_gcr_read_track(disk_image_t *image, unsigned int track,
     long offset;
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     if (fsimage->fd == NULL) {
         log_error(fsimage_gcr_log, "Attempt to read without disk image.");
@@ -209,8 +209,7 @@ int fsimage_gcr_write_track(disk_image_t *image, unsigned int track,
     int offset;
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
-
+    fsimage = image->media.fsimage;
 
     if (fsimage->fd == NULL) {
         log_error(fsimage_gcr_log, "Attempt to write without disk image.");

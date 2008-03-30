@@ -55,7 +55,7 @@ static void disk_image_check_log(disk_image_t *image, const char *type)
 {
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     log_message(disk_image_probe_log,
                 "%s disk image recognised: %s, %d tracks%s",
@@ -83,7 +83,7 @@ static int disk_image_check_for_d64(disk_image_t *image)
     size_t countbytes, checkimage_blocks, checkimage_realsize;
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     checkimage_errorinfo = 0;
     checkimage_realsize = util_file_length(fsimage->fd);
@@ -149,7 +149,7 @@ static int disk_image_check_for_d67(disk_image_t *image)
     BYTE block[256];
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     if (!(IS_D67_LEN(util_file_length(fsimage->fd))))
         return 0;
@@ -188,7 +188,7 @@ static int disk_image_check_for_d71(disk_image_t *image)
     BYTE block[256];
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     if (!(IS_D71_LEN(util_file_length(fsimage->fd))))
         return 0;
@@ -226,7 +226,7 @@ static int disk_image_check_for_d81(disk_image_t *image)
     BYTE block[256];
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     if (!(IS_D81_LEN(util_file_length(fsimage->fd))))
         return 0;
@@ -264,7 +264,7 @@ static int disk_image_check_for_d80(disk_image_t *image)
     BYTE block[256];
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     if (!(IS_D80_LEN(util_file_length(fsimage->fd))))
         return 0;
@@ -302,7 +302,7 @@ static int disk_image_check_for_d82(disk_image_t *image)
     BYTE block[256];
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     if (!(IS_D82_LEN(util_file_length(fsimage->fd))))
         return 0;
@@ -338,7 +338,7 @@ static int disk_image_check_for_x64(disk_image_t *image)
     BYTE header[X64_HEADER_LENGTH];
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     rewind(fsimage->fd);
 
@@ -367,7 +367,7 @@ static int disk_image_check_for_gcr(disk_image_t *image)
     BYTE header[32];
     fsimage_t *fsimage;
 
-    fsimage = (fsimage_t *)(image->media);
+    fsimage = image->media.fsimage;
 
     fseek(fsimage->fd, 0, SEEK_SET);
     if (fread((BYTE *)header, sizeof (header), 1, fsimage->fd) < 1) {
