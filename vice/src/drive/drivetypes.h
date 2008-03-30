@@ -286,7 +286,7 @@ typedef struct driveriot_context_s {
 
 
 /*
- *  additional data for RIOT2.
+ *  Additional data for RIOT2.
  */
 
 typedef struct driveriot2_context_s {
@@ -296,6 +296,24 @@ typedef struct driveriot2_context_s {
 
 } driveriot2_context_t;
 
+
+/*
+ *  Private drive TPI data
+ */
+
+typedef struct drivetpi_context_s {
+
+    BYTE c_tpi[8];
+
+    BYTE irq_previous;
+    BYTE irq_stack;
+
+    BYTE tpi_last_read;
+    unsigned int tpi_int_num;
+
+    char myname[12];
+
+} drivetpi_context_t;
 
 
 /*
@@ -319,6 +337,7 @@ typedef struct drive_context_s {
     driveriot_context_t riot1;
     driveriot_context_t riot2;
     driveriot2_context_t riot2p;
+    drivetpi_context_t tpid;
     drivecpud_context_t cpud;
 
 } drive_context_t;
