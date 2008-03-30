@@ -84,7 +84,7 @@ int sid_read_off(ADDRESS addr, int chipno)
         val = 0xff;
     else {
         if (addr == 0x1b || addr == 0x1c)
-            val = maincpu_clk % 256;
+            val = (BYTE)(maincpu_clk % 256);
         else
             val = 0;
     }

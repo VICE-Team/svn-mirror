@@ -906,7 +906,7 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
                             * pixel_width);
         }
         if (cut_bottomline
-            > c->draw_buffer->draw_buffer_height * pixel_height) {
+            > (int)(c->draw_buffer->draw_buffer_height * pixel_height)) {
             cut_bottomline = c->draw_buffer->draw_buffer_height * pixel_height;
         }
 

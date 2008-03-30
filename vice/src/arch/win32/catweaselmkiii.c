@@ -65,7 +65,7 @@ static HANDLE sidhandle[MAXCARDS] = {
 BYTE sidbuf[MAXCARDS*0x20];
 
 /* 0 = pal, !0 = ntsc */
-static int ntsc=0;
+static BYTE ntsc=0;
 
 /* set all CatWeasels frequency to buf. buf=0: pal ; buf=1: ntsc */
 static void setfreq(BYTE buf)
@@ -211,7 +211,7 @@ void catweaselmkiii_store(ADDRESS addr, BYTE val, int chipno)
    choose between pal and ntsc frequencies */
 void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 {
-  ntsc=(cycles_per_sec <= 1000000)?0:1;
+  ntsc=(BYTE)((cycles_per_sec <= 1000000)?0:1);
   setfreq(ntsc);
 }
 

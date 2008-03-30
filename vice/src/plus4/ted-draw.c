@@ -233,7 +233,7 @@ inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe,
                 d = *(char_ptr + ted.vbuf[i] * 8);
             }
 
-            if (i == (int)cursor_pos)
+            if ((int)i == cursor_pos)
                 d ^= 0xff;
 
             *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
@@ -250,7 +250,7 @@ inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe,
                 d = *(char_ptr + (ted.vbuf[i] & 0x7f) * 8)
                     ^ (ted.vbuf[i] & 0x80 ? 0xff : 0x00);
             }
-            if (i == (int)cursor_pos)
+            if ((int)i == cursor_pos)
                 d ^= 0xff;
 
             *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
@@ -336,7 +336,7 @@ static void draw_std_text_foreground(unsigned int start_char,
             } else {
                 b = char_ptr[ted.vbuf[i] * 8];
             }
-            if (i == (int)cursor_pos)
+            if ((int)i == cursor_pos)
                 b ^= 0xff;
             f = ted.cbuf[i] & 0x7f;
 
@@ -352,7 +352,7 @@ static void draw_std_text_foreground(unsigned int start_char,
                 b = char_ptr[(ted.vbuf[i] & 0x7f) * 8]
                     ^ (ted.vbuf[i] & 0x80 ? 0xff : 0x00);
             }
-            if (i == (int)cursor_pos)
+            if ((int)i == cursor_pos)
                 b ^= 0xff;
             f = ted.cbuf[i] & 0x7f;
 

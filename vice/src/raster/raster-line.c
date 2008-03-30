@@ -272,7 +272,7 @@ inline static int raster_fill_sprite_cache(raster_t *raster,
             if (sprite_cache->visible) {
                 sprite_cache->visible = 0;
                 sxe = sprite_cache->x + (sprite_cache->x_expanded ? 24 : 48);
-                xs_return = MIN(xs_return, sprite_cache->x);
+                xs_return = MIN((int)xs_return, sprite_cache->x);
                 xe_return = MAX(xe_return, sxe);
                 rr = 1;
             }
@@ -399,8 +399,8 @@ inline static int update_for_minor_changes_with_sprites(raster_t *raster,
 
             /* The borders have not changed, so do not repaint them even
                if there are sprites under them.  */
-            *changed_start = MAX(*changed_start, raster->display_xstart);
-            *changed_end = MIN(*changed_end, raster->display_xstop);
+            *changed_start = MAX((int)(*changed_start), raster->display_xstart);
+            *changed_end = MIN((int)(*changed_end), raster->display_xstop);
         }
     } else {
         update_cached_sprite_collisions(raster);

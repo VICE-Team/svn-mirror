@@ -1618,23 +1618,23 @@ static BYTE fetch_tab[] = {
 #ifdef DEBUG
 #ifdef DRIVE_CPU
         if (TRACEFLG) {
-            BYTE op = p0;
-            BYTE lo = p1;
-            BYTE hi = p2 >> 8;
+            BYTE op = (BYTE)(p0);
+            BYTE lo = (BYTE)(p1);
+            BYTE hi = (BYTE)(p2 >> 8);
 
             debug_drive(reg_pc, drive_clk[0],
                       mon_disassemble_to_string(e_disk8_space, reg_pc, op, lo,
-                      hi, 0, 1), reg_a);
+                      hi, (BYTE)0, 1), reg_a);
         }
 #else
         if (TRACEFLG) {
-            BYTE op = p0;
-            BYTE lo = p1;
-            BYTE hi = p2 >> 8;
+            BYTE op = (BYTE)(p0);
+            BYTE lo = (BYTE)(p1);
+            BYTE hi = (BYTE)(p2 >> 8);
 
             debug_maincpu(reg_pc, maincpu_clk,
                           mon_disassemble_to_string(e_comp_space, reg_pc, op,
-                          lo, hi, 0, 1), reg_a, reg_x, reg_y, reg_sp);
+                          lo, hi, (BYTE)0, 1), reg_a, reg_x, reg_y, reg_sp);
         }
 #endif
 #endif
