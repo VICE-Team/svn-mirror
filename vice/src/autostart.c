@@ -34,10 +34,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_ERRNO_H
-#include <errno.h>
-#endif
-
 #include "archdep.h"
 #include "autostart.h"
 #include "attach.h"
@@ -100,6 +96,9 @@ static int handle_drive_true_emulation;
 
 /* Flag: autostart is initialized.  */
 static int autostart_enabled = 0;
+
+/* Flag: Autostart the file or just load it?  */
+static unsigned int autostart_run_mode;
 
 /* ------------------------------------------------------------------------- */
 
@@ -219,7 +218,10 @@ static void disk_eof_callback(void)
         }
     }
 
-    log_message(autostart_log, "Starting program.");
+    if (autostart_run_mode == AUTOSTART_MODE_RUN)
+        log_message(autostart_log, "Starting program.");
+    else
+        log_message(autostart_log, "Program loaded.");
 
     autostartmode = AUTOSTART_DONE;
 
@@ -230,7 +232,8 @@ static void disk_eof_callback(void)
    returning.  */
 static void disk_attention_callback(void)
 {
-    kbd_buf_feed("RUN\r");
+    if (autostart_run_mode == AUTOSTART_MODE_RUN)
+        kbd_buf_feed("RUN\r");
 
     serial_set_attention_callback(NULL);
 
@@ -301,7 +304,7 @@ void autostart_advance(void)
                     = get_true_drive_emulation_state();
                 if (handle_drive_true_emulation) {
                     resources_get_value("VirtualDevices",
-                                        (resource_value_t *) &traps);
+                                        (resource_value_t *)&traps);
                     if (traps) {
                         if (orig_drive_true_emulation_state)
                             log_message(autostart_log,
@@ -317,19 +320,21 @@ void autostart_advance(void)
                     traps = 1;
                 }
                 if (autostart_program_name)
-                    tmp = xmsprintf("LOAD\"%s\",8,1\r", autostart_program_name);                else
+                    tmp = xmsprintf("LOAD\"%s\",8,1\r", autostart_program_name);
+                else
                     tmp = stralloc("LOAD\"*\",8,1\r");
                 kbd_buf_feed(tmp);
                 free(tmp);
 
                 if (!traps) {
-                    kbd_buf_feed("RUN\r");
+                    if (autostart_run_mode == AUTOSTART_MODE_RUN)
+                        kbd_buf_feed("RUN\r");
                     autostartmode = AUTOSTART_DONE;
                 } else {
                     autostartmode = AUTOSTART_LOADINGDISK;
-                    deallocate_program_name();
                     serial_set_attention_callback(disk_attention_callback);
                 }
+                deallocate_program_name();
                 break;
             }
           case NO:
@@ -339,12 +344,11 @@ void autostart_advance(void)
             break;
         }
         break;
-
       case AUTOSTART_HASSNAPSHOT:
         switch (check("READY.")) {
           case YES:
             log_message(autostart_log, "Restoring snapshot.");
-            maincpu_trigger_trap(load_snapshot_trap,(void*)0);
+            maincpu_trigger_trap(load_snapshot_trap, (void*)0);
             autostartmode = AUTOSTART_DONE;
             break;
           case NO:
@@ -369,7 +373,8 @@ void autostart_advance(void)
 static int autostart_ignore_reset = 0;
 
 /* Clean memory and reboot for autostart.  */
-static void reboot_for_autostart(const char *program_name, int mode)
+static void reboot_for_autostart(const char *program_name, unsigned int mode,
+                                 unsigned int runmode)
 {
     if (!autostart_enabled)
         return;
@@ -385,6 +390,7 @@ static void reboot_for_autostart(const char *program_name, int mode)
     /* The autostartmode must be set AFTER the shutdown to make the autostart
        threadsafe for OS/2 */
     autostartmode = mode;
+    autostart_run_mode = runmode;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -411,14 +417,14 @@ int autostart_snapshot(const char *file_name, const char *program_name)
     /*autostart_program_name = (BYTE *)stralloc(file_name);
     maincpu_trigger_trap(load_snapshot_trap, (void*)0);*/
     /* use for snapshot */
-    reboot_for_autostart(file_name, AUTOSTART_HASSNAPSHOT);
+    reboot_for_autostart(file_name, AUTOSTART_HASSNAPSHOT, AUTOSTART_MODE_RUN);
 
     return 0;
 }
 
 /* Autostart tape image `file_name'.  */
 int autostart_tape(const char *file_name, const char *program_name,
-                   unsigned int program_number)
+                   unsigned int program_number, unsigned int runmode)
 {
     char *name = NULL;
 
@@ -436,7 +442,7 @@ int autostart_tape(const char *file_name, const char *program_name,
     if (!(tape_attach_image(file_name) < 0)) {
         log_message(autostart_log,
                     "Attached file `%s' as a tape image.", file_name);
-        reboot_for_autostart(name, AUTOSTART_HASTAPE);
+        reboot_for_autostart(name, AUTOSTART_HASTAPE, runmode);
         free(name);
 
         return 0;
@@ -475,7 +481,7 @@ static void autostart_disk_cook_name(char **name)
 
 /* Autostart disk image `file_name'.  */
 int autostart_disk(const char *file_name, const char *program_name,
-                   unsigned int program_number)
+                   unsigned int program_number, unsigned int runmode)
 {
     char *name = NULL;
 
@@ -494,8 +500,8 @@ int autostart_disk(const char *file_name, const char *program_name,
         autostart_disk_cook_name(&name);
         if (!(file_system_attach_disk(8, file_name) < 0)) {
             log_message(autostart_log,
-                        "Attached file `%s' as a tape image.", file_name);
-            reboot_for_autostart(name, AUTOSTART_HASDISK);
+                        "Attached file `%s' as a disk image.", file_name);
+            reboot_for_autostart(name, AUTOSTART_HASDISK, runmode);
             free(name);
 
             return 0;
@@ -513,7 +519,7 @@ int autostart_disk(const char *file_name, const char *program_name,
 /* Autostart PRG file `file_name'.  The PRG file can either be a raw CBM file
    or a P00 file, and the FS-based drive emulation is set up so that its
    directory becomes the current one on unit #8.  */
-int autostart_prg(const char *file_name)
+int autostart_prg(const char *file_name, unsigned int runmode)
 {
     FILE *f;
     char *cbm_name;
@@ -524,13 +530,7 @@ int autostart_prg(const char *file_name)
 
     f = fopen(file_name, MODE_READ);
     if (f == NULL) {
-#ifdef HAVE_ERRNO_H
-        log_error(autostart_log, "Cannot open `%s': %s",
-                  file_name, strerror(errno));
-#else
-        log_error(autostart_log, "Cannot open `%s'.",
-                  file_name);
-#endif
+        log_error(autostart_log, "Cannot open `%s'.", file_name);
         return -1;
     }
 
@@ -573,13 +573,13 @@ int autostart_prg(const char *file_name)
     /* Setup FS-based drive emulation.  */
     fsdevice_set_directory(directory ? directory : ".", 8);
     set_true_drive_emulation_mode(0);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
-    resources_set_value("FSDevice8ConvertP00", (resource_value_t) 1);
+    resources_set_value("VirtualDevices", (resource_value_t)1);
+    resources_set_value("FSDevice8ConvertP00", (resource_value_t)1);
     file_system_detach_disk(8);
     ui_update_menus();
 
     /* Now it's the same as autostarting a disk image.  */
-    reboot_for_autostart(cbm_name, AUTOSTART_HASDISK);
+    reboot_for_autostart(cbm_name, AUTOSTART_HASDISK, runmode);
 
     free(directory);
     free(file);
@@ -596,7 +596,7 @@ int autostart_prg(const char *file_name)
 
 /* Autostart `file_name', trying to auto-detect its type.  */
 int autostart_autodetect(const char *file_name, const char *program_name,
-                         unsigned int program_number)
+                         unsigned int program_number, unsigned int runmode)
 {
     if (file_name == NULL)
         return -1;
@@ -609,10 +609,10 @@ int autostart_autodetect(const char *file_name, const char *program_name,
 
     log_message(autostart_log, "Autodetecting image type of `%s'.", file_name);
 
-    if (autostart_disk(file_name, program_name, program_number) == 0) {
+    if (autostart_disk(file_name, program_name, program_number, runmode) == 0) {
         log_message(autostart_log, "`%s' recognized as disk image.", file_name);        return 0;
     }
-    if (autostart_tape(file_name, program_name, program_number) == 0) {
+    if (autostart_tape(file_name, program_name, program_number, runmode) == 0) {
         log_message(autostart_log, "`%s' recognized as tape image.", file_name);        return 0;
     }
     if (autostart_snapshot(file_name, program_name) == 0) {
@@ -621,7 +621,7 @@ int autostart_autodetect(const char *file_name, const char *program_name,
         return 0;
     }
 
-    if (autostart_prg(file_name) == 0) {
+    if (autostart_prg(file_name, runmode) == 0) {
         log_message(autostart_log, "`%s' recognized as program/p00 file.",
                     file_name);
         return 0;
@@ -639,10 +639,10 @@ int autostart_device(int num)
 
     switch (num) {
       case 8:
-        reboot_for_autostart(NULL, AUTOSTART_HASDISK);
+        reboot_for_autostart(NULL, AUTOSTART_HASDISK, AUTOSTART_MODE_RUN);
         return 0;
       case 1:
-        reboot_for_autostart(NULL, AUTOSTART_HASTAPE);
+        reboot_for_autostart(NULL, AUTOSTART_HASTAPE, AUTOSTART_MODE_RUN);
         return 0;
     }
     return -1;

@@ -110,7 +110,7 @@ static UI_CALLBACK(attach_disk)
         resources_set_sprintf("AttachDevice%dReadonly",
                               (resource_value_t)attach_wp, unit);
     }
-    
+
     switch (button) {
       case UI_BUTTON_OK:
         if (file_system_attach_disk(unit, filename) < 0)
@@ -120,7 +120,8 @@ static UI_CALLBACK(attach_disk)
         util_fname_split(filename, &last_dir, NULL);
         break;
       case UI_BUTTON_AUTOSTART:
-        if (autostart_disk(filename, NULL, selection_from_image) < 0)
+        if (autostart_disk(filename, NULL, selection_from_image,
+            AUTOSTART_MODE_RUN) < 0)
             ui_error(_("Invalid Disk Image or Filename"));
         if (last_dir)
             free(last_dir);
@@ -146,7 +147,7 @@ static UI_CALLBACK(attach_empty_disk)
     /* The following code depends on a zeroed filename.  */
     memset(filename, 0, 1024);
 
-    if (ui_empty_disk_dialog(filename) < 0) 
+    if (ui_empty_disk_dialog(filename) < 0)
         return;
 
     if (file_system_attach_disk(unit, filename) < 0)
@@ -204,7 +205,8 @@ static UI_CALLBACK(attach_tape)
         util_fname_split(filename, &last_dir, NULL);
         break;
       case UI_BUTTON_AUTOSTART:
-        if (autostart_tape(filename, NULL, selection_from_image) < 0)
+        if (autostart_tape(filename, NULL, selection_from_image,
+            AUTOSTART_MODE_RUN) < 0)
             ui_error(_("Invalid Tape Image"));
         if (last_dir)
             free(last_dir);
@@ -258,7 +260,8 @@ static UI_CALLBACK(smart_attach)
         util_fname_split(filename, &last_dir, NULL);
         break;
       case UI_BUTTON_AUTOSTART:
-        if (autostart_autodetect(filename, NULL, selection_from_image) < 0)
+        if (autostart_autodetect(filename, NULL, selection_from_image,
+            AUTOSTART_MODE_RUN) < 0)
             ui_error(_("Unknown image type"));
         if (last_dir)
             free(last_dir);
@@ -301,10 +304,10 @@ static UI_CALLBACK(activate_monitor)
     fullscreen_mode_off();
 #endif
     vsync_suspend_speed_eval();
-    ui_dispatch_events();		/* popdown the menu */
+    ui_dispatch_events();               /* popdown the menu */
     ui_autorepeat_on();
 
-    if (!ui_emulation_is_paused()) 
+    if (!ui_emulation_is_paused())
         maincpu_trigger_trap(mon_trap, (void *)0);
     else
         mon_trap(MOS6510_REGS_GET_PC(&maincpu_regs), 0);
@@ -527,22 +530,22 @@ extern ui_drive_enable_t enabled_drives;
 
 struct cb_data_t {
     int unit;
-    long data;			/* should be enough for a pointer */
+    long data;                  /* should be enough for a pointer */
 };
 
-typedef enum { 
-    CBD_NEXT, CBD_PREV, CBD_ADD, CBD_REMOVE 
+typedef enum {
+    CBD_NEXT, CBD_PREV, CBD_ADD, CBD_REMOVE
 } cbd_enum_t;
 
 static UI_CALLBACK(attach_from_fliplist)
 {
-    flip_attach_head(((struct cb_data_t *) UI_MENU_CB_PARAM)->unit, 
+    flip_attach_head(((struct cb_data_t *) UI_MENU_CB_PARAM)->unit,
                      (int) ((struct cb_data_t *) UI_MENU_CB_PARAM)->data);
 }
 
 static UI_CALLBACK(attach_from_fliplist2)
 {
-    file_system_attach_disk(flip_get_unit((void *) UI_MENU_CB_PARAM), 
+    file_system_attach_disk(flip_get_unit((void *) UI_MENU_CB_PARAM),
                             flip_get_image((void *) UI_MENU_CB_PARAM));
 }
 
@@ -559,11 +562,11 @@ static UI_CALLBACK(add2fliplist)
 
 static UI_CALLBACK(add2fliplist2)
 {
-    flip_set_current(((struct cb_data_t *) UI_MENU_CB_PARAM)->unit, 
+    flip_set_current(((struct cb_data_t *) UI_MENU_CB_PARAM)->unit,
                      (char *) ((struct cb_data_t *) UI_MENU_CB_PARAM)->data);
     flip_add_image(((struct cb_data_t *) UI_MENU_CB_PARAM)->unit);
     ui_update_flip_menus(((struct cb_data_t *) UI_MENU_CB_PARAM)->unit,
-			 ((struct cb_data_t *) UI_MENU_CB_PARAM)->unit);
+                         ((struct cb_data_t *) UI_MENU_CB_PARAM)->unit);
 }
 
 static UI_CALLBACK(remove_from_fliplist)
@@ -574,10 +577,10 @@ static UI_CALLBACK(remove_from_fliplist)
 
 static UI_CALLBACK(remove_from_fliplist2)
 {
-    flip_remove(((struct cb_data_t *) UI_MENU_CB_PARAM)->unit, 
+    flip_remove(((struct cb_data_t *) UI_MENU_CB_PARAM)->unit,
                 (char *) ((struct cb_data_t *) UI_MENU_CB_PARAM)->data);
     ui_update_flip_menus(((struct cb_data_t *) UI_MENU_CB_PARAM)->unit,
-			 ((struct cb_data_t *) UI_MENU_CB_PARAM)->unit);
+                         ((struct cb_data_t *) UI_MENU_CB_PARAM)->unit);
 }
 
 #ifdef USE_GNOMEUI
@@ -589,9 +592,9 @@ UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
 void ui_update_flip_menus(int from_unit, int to_unit)
 {
     /* Yick, allocate dynamically */
-    static ui_menu_entry_t flipmenu[NUM_DRIVES][FLIPLIST_MENU_LIMIT]; 
+    static ui_menu_entry_t flipmenu[NUM_DRIVES][FLIPLIST_MENU_LIMIT];
     static struct cb_data_t cb_data[NUM_DRIVES][sizeof(cbd_enum_t)];
-    
+
     char *image = NULL, *t0 = NULL, *t1 = NULL, *t2 = NULL, *t3 = NULL;
     char *t4 = NULL, *t5 = NULL, *dir;
     void *fl_iterator;
@@ -599,8 +602,8 @@ void ui_update_flip_menus(int from_unit, int to_unit)
     static int name_count = 0;
     char *menuname;
 
-    resources_get_value("DriveTrueEmulation", 
-                        (resource_value_t *) &true_emu);
+    resources_get_value("DriveTrueEmulation",
+                        (resource_value_t *)&true_emu);
 
     for (drive = from_unit - 8;
         (drive <= to_unit - 8) && (drive < NUM_DRIVES);
@@ -612,14 +615,14 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         t0 = xmsprintf(_("Attach #%d"), drive + 8);
         flipmenu[drive][i].string = t0;
-        flipmenu[drive][i].callback = (ui_callback_t) attach_disk;
+        flipmenu[drive][i].callback = (ui_callback_t)attach_disk;
         flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
         i++;
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         t5 = xmsprintf(_("Detach #%d"), drive + 8);
         flipmenu[drive][i].string = t5;
-        flipmenu[drive][i].callback = (ui_callback_t) detach_disk;
+        flipmenu[drive][i].callback = (ui_callback_t)detach_disk;
         flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
         i++;
 
@@ -661,26 +664,26 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         util_fname_split(flip_get_next(drive + 8), &dir, &image);
         t1 = concat(_("Next: "), image ? image : _("<empty>"), NULL);
         flipmenu[drive][i].string = t1;
-        flipmenu[drive][i].callback = (ui_callback_t) attach_from_fliplist;
+        flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist;
         cb_data[drive][CBD_NEXT].unit = drive + 8;
         cb_data[drive][CBD_NEXT].data = 1;
         flipmenu[drive][i].callback_data =
-            (ui_callback_data_t) &(cb_data[drive][CBD_NEXT]);
+            (ui_callback_data_t)&(cb_data[drive][CBD_NEXT]);
         if (dir)
             free(dir);
         if (image)
             free(image);
         i++;
-    
+
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         util_fname_split(flip_get_prev(drive + 8), &dir, &image);
         t2 = concat(_("Previous: "), image ? image : _("<empty>"), NULL);
         flipmenu[drive][i].string = t2;
-        flipmenu[drive][i].callback = (ui_callback_t) attach_from_fliplist;
+        flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist;
         cb_data[drive][CBD_PREV].unit = drive + 8;
         cb_data[drive][CBD_PREV].data = 0;
         flipmenu[drive][i].callback_data =
-            (ui_callback_data_t) &(cb_data[drive][CBD_PREV]);
+            (ui_callback_data_t)&(cb_data[drive][CBD_PREV]);
         if (dir)
             free(dir);
         if (image)
@@ -691,11 +694,11 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         util_fname_split(last_attached_images[drive], &dir, &image);
         t3 = concat(_("Add: "), image, NULL);
         flipmenu[drive][i].string = t3;
-        flipmenu[drive][i].callback = (ui_callback_t) add2fliplist2;
+        flipmenu[drive][i].callback = (ui_callback_t)add2fliplist2;
         cb_data[drive][CBD_ADD].unit = drive + 8;
         cb_data[drive][CBD_ADD].data = (long) last_attached_images[drive];
         flipmenu[drive][i].callback_data =
-            (ui_callback_data_t) &(cb_data[drive][CBD_ADD]);
+            (ui_callback_data_t)&(cb_data[drive][CBD_ADD]);
         if (dir)
             free(dir);
         if (image)
@@ -706,11 +709,11 @@ void ui_update_flip_menus(int from_unit, int to_unit)
         util_fname_split(last_attached_images[drive], &dir, &image);
         t4 = concat(_("Remove: "), image, NULL);
         flipmenu[drive][i].string = t4;
-        flipmenu[drive][i].callback = (ui_callback_t) remove_from_fliplist2;
+        flipmenu[drive][i].callback = (ui_callback_t)remove_from_fliplist2;
         cb_data[drive][CBD_REMOVE].unit = drive + 8;
         cb_data[drive][CBD_REMOVE].data = (long) last_attached_images[drive];
         flipmenu[drive][i].callback_data =
-            (ui_callback_data_t) &(cb_data[drive][CBD_REMOVE]);
+            (ui_callback_data_t)&(cb_data[drive][CBD_REMOVE]);
         if (dir)
             free(dir);
         if (image)
@@ -729,9 +732,9 @@ void ui_update_flip_menus(int from_unit, int to_unit)
             util_fname_split(flip_get_image(fl_iterator), &dir, &image);
             flipmenu[drive][i].string = concat(NO_TRANS, image, NULL);
             flipmenu[drive][i].callback =
-                (ui_callback_t) attach_from_fliplist2;
+                (ui_callback_t)attach_from_fliplist2;
             flipmenu[drive][i].callback_data =
-                (ui_callback_data_t) fl_iterator;
+                (ui_callback_data_t)fl_iterator;
 
             fl_iterator = flip_next_iterate(drive + 8);
             if (dir)
@@ -739,7 +742,8 @@ void ui_update_flip_menus(int from_unit, int to_unit)
             if (image)
                 free(image);
             i++;
-            if (i >= (FLIPLIST_MENU_LIMIT - 1)) /* the end delimitor must fit */            {
+            if (i >= (FLIPLIST_MENU_LIMIT - 1)) {
+                /* the end delimitor must fit */ 
                 log_warning(LOG_DEFAULT,
                             "Number of fliplist menu entries exceeded."
                             "Cutting after %d entries.", i);

@@ -1,5 +1,5 @@
 /*
- * autostart.c - Automatic image loading and starting.
+ * autostart.h - Automatic image loading and starting.
  *
  * Written by
  *  Teemu Rantanen <tvr@cs.hut.fi>
@@ -31,19 +31,26 @@
 
 #include "types.h"
 
+#define AUTOSTART_MODE_RUN  0
+#define AUTOSTART_MODE_LOAD 1
+
 extern int autostart_init(CLOCK _min_cycles, int _handle_drive_true_emulation,
                           int _blnsw, int _pnt, int _pntr, int _lnmx);
-extern void autostart_disable(void);
-extern void autostart_advance(void);
-extern int autostart_tape(const char *file_name, const char *program_name,
-                          unsigned int program_number);
-extern int autostart_disk(const char *file_name, const char *program_name,
-                          unsigned int program_number);
+
 extern int autostart_autodetect(const char *file_name,
                                 const char *program_name,
-                                unsigned int program_number);
+                                unsigned int program_number,
+                                unsigned int runmode);
+extern int autostart_disk(const char *file_name, const char *program_name,
+                          unsigned int program_number, unsigned int runmode);
+extern int autostart_tape(const char *file_name, const char *program_name,
+                          unsigned int program_number, unsigned int runmode);
+extern int autostart_prg(const char *file_name, unsigned int runmode);
+
+extern void autostart_disable(void);
+extern void autostart_advance(void);
+
 extern int autostart_device(int num);
-extern int autostart_prg(const char *file_name);
 extern void autostart_reset(void);
 
 #endif /* !_AUTOSTART_H */
