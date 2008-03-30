@@ -675,7 +675,7 @@ int drive_check_type(unsigned int drive_type, unsigned int dnr)
             /* A second dual drive is not supported.  */
             return 0;
         } else {
-            if (drive_context[1]->drive->type != DRIVE_TYPE_NONE)
+            if (drive_context[dnr]->drive->type != DRIVE_TYPE_NONE)
                 /* Disable dual drive if second drive is enabled.  */
                 return 0;
         }

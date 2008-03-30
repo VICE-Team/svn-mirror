@@ -164,18 +164,19 @@ static int drive0_resources_type(resource_value_t v, void *param)
 
 static int drive1_resources_type(resource_value_t v, void *param)
 {
-    unsigned int type;
+    unsigned int type, dnr;
     int busses;
     drive_t *drive, *drive0;
 
-    drive = drive_context[1]->drive;
+    dnr = (unsigned int)param;
+    drive = drive_context[dnr]->drive;
     drive0 = drive_context[0]->drive;
 
     type = (unsigned int)v;
     busses = iec_available_busses();
 
     /* if bus for drive type is not allowed, set to default value for bus */
-    if (!drive_match_bus(type, 1, busses)) {
+    if (!drive_match_bus(type, dnr, busses)) {
         if (busses & IEC_BUS_IEC) {
             type = DRIVE_TYPE_1541;
         } else
@@ -219,16 +220,16 @@ static int drive1_resources_type(resource_value_t v, void *param)
         drive->type = type;
         if (drive_true_emulation) {
             drive->enable = 1;
-            drive_enable(drive_context[1]);
+            drive_enable(drive_context[dnr]);
             iec_calculate_callback_index();
         }
-        drive_set_disk_drive_type(type, drive_context[1]);
+        drive_set_disk_drive_type(type, drive_context[dnr]);
         drive_rom_initialize_traps(drive);
-        machine_drive_idling_method(1);
+        machine_drive_idling_method(dnr);
         return 0;
       case DRIVE_TYPE_NONE:
         drive->type = type;
-        drive_disable(drive_context[1]);
+        drive_disable(drive_context[dnr]);
         return 0;
       default:
         return -1;
@@ -241,6 +242,8 @@ static int drive_resources_type(resource_value_t v, void *param)
       case 0:
         return drive0_resources_type(v, param);
       case 1:
+      case 2:
+      case 3:
         return drive1_resources_type(v, param);
     }
 
