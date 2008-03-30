@@ -38,9 +38,6 @@ struct vdc_resources_s
     /* Flag: Do we use double size?  */
     int double_size_enabled;
 
-    /* Flag: Do we copy lines in double size mode?  */
-    int double_scan_enabled;
-
     /* Flag: VDC memory size.  */
     int vdc_64kb_expansion;
 

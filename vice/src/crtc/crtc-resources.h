@@ -45,9 +45,6 @@ struct crtc_resources_s
     /* Flag: Do we use double size?  */
     int double_size_enabled;
 
-    /* Flag: Do we copy lines in double size mode?  */
-    int double_scan_enabled;
-
 #ifdef USE_XF86_EXTENSIONS
 
     /* Flag: Do we use double size?  */
