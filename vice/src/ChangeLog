@@ -1,3 +1,155 @@
+2001-03-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.8.
+
+2001-03-03  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/Makefile.am: vsidui.c changed to vsidui.cc
+
+	* arch/beos/c128ui.cc: support for new resid sampling methods
+
+	* arch/beos/c64ui.cc: support for new resid sampling methods,
+	new function (c64_play_vsid), handles loading psid files and
+	selecting tunes for vsid mode, some new includes
+
+	* arch/beos/constants.h: new ids for resid sampling and vsid
+
+	* arch/beos/ui.cc: don't handle keystrokes in vsid mode
+
+	* arch/beos/ui.h: removed unused stuff
+
+	* arch/beos/ui_file.cc: handles now loading of psid files
+
+	* arch/beos/vicemenu.cc: checks for vsid_mode to show only
+	the needed menus; new entries for resid sampling; new
+	functions (vicemenu_free_tune_menu),(vicemenu_tune_menu_add)
+	to build the vsid's tunes menu dynamically
+
+	* arch/beos/vicewindow.cc(~ViceWindow): Checks for the vsid
+	view and removes it
+
+	* arch/beos/vsidui.cc: new file, mainly to display sid infos
+
+	* resources.c(resources_save): small change to avoid empty
+	lines growing at start of resource file
+
+2001-03-03  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/vsync.c (display_speed): Removed speed warning for
+	warp mode.
+
+	* resid/: Upgrade of not-yet-released reSID 0.11. VICE
+	specific static const int workaround for a certain braindead
+	compiler.
+
+	* sound.c (initsid): Override "No limit" speed for cycle based
+	sound engines.
+	(sound_synthesize, sound_read, sound_store): Removed sound
+	thread example cruft.
+
+2001-03-02  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c: added new widgets for reSID 0.11 configs;
+	renamed speed limit resource; extended interactive help;
+	fixed old cartridge detach bug.
+
+	* arch/riscos/uiconfig.{c,h}: added configs for reSID 0.11;
+	renamed speed limit resource; added [2-4]040 drive types;
+	added latest cartridges;
+
+2001-02-28  Dag Lem  <resid@nimrod.no>
+
+	* resid/sid.cc (SID::set_sampling_parameters): Corrected
+	floating point error.
+
+2001-02-28  Dag Lem  <resid@nimrod.no>
+
+	* parallel.c, parallel.h: Removed superfluous macro pasting.
+
+	* pet/petsound.c: Reverted previous change (2001-02-26).
+
+	* vic20/vic20sound.c: Likewise.
+
+	* sid/resid.cc, sid/resid.h: Likewise.
+
+	* sid.c: Likewise.
+
+	* sound.h: Likewise.
+
+	* sound.c (sound_synthesize): Refined RISC OS audio thread
+	syncronization.
+	(sound_read, sound_store); Added RISC OS audio thread
+	synchronization.
+
+2001-02-27  Dag Lem  <resid@nimrod.no>
+
+	* vic20/vic20sound.c (sound_machine_read,
+	sound_machine_store): Added dummy parameter lastclk.
+
+	* pet/petsound.c (sound_machine_read, sound_machine_store):
+	Likewise.
+
+	* sid/sid.h (sound_machine_read, sound_machine_store): Added
+	parameter lastclk.
+
+	* sid/sid.c (sound_machine_read, sound_machine_store):
+	Likewise.
+
+	* sid/resid.h (sound_machine_read, sound_machine_store):
+	Likewise.
+
+	* sid/resid.cc (sound_machine_read, sound_machine_store):
+	Added RISC OS sound thread synchronization.
+
+	* sound.c (sound_synthesize): Likewise.
+
+2001-02-26  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/c64ui.c: Added settings for reSID sampling.
+
+	* pet/petsound.c, vic20/vic20sound.c
+	(sound_machine_calculate_samples): Added dummy parameter
+	delta_t.
+
+	* resid/: Upgraded to reSID 0.11.
+
+	* sid/resid.h, sid/resid.cc: Rewrote sound interface to be
+	based instead of sample based. Added sampling method
+	functionality from reSID 0.11.
+
+	* sid/sid.c: Added settings for reSID sampling.
+	(sid_reset): Corrected bug writing SID registers before
+	calling sound_reset. This bug was causing clock overflows in
+	sound.c.
+
+	* sound.h, sound.c: Added special handling for cycle based
+	sound engines (reSID).
+
+2001-02-25  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/Makefile.am, arch/riscos/vsidarch.h: new file
+	with VSID specific defines and prototypes.
+
+	* arch/riscos/ui.h: moved VSID specific prototypes to
+	vsidarch.h
+
+	* arch/riscos/uiimage.c: close viewer when double clicking
+	with right mouse button.
+
+	* arch/riscos/vsidui.c: moved icon number defines to
+	vsidarch.h; invert prev/next semantics when using the right
+	mouse button.
+
+	* arch/riscos/ui.c: added interactive help messages.
+
+2001-02-24  Markus Brenner  <markus@brenner.de>
+
+	* cartridge.h: added CARTRIDGE_ZAXXON define
+
+	* c64/c64cartridge.c: additions for Zaxxon cartridge
+
+	* c64/c64cartmem.c: additions for Zaxxon cartridge
+
 2001-02-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.7.

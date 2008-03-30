@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2000  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2001  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -33,15 +33,14 @@
 class WaveformGenerator
 {
 public:
-  // Constructor parameter is sync_source.
-  WaveformGenerator(WaveformGenerator*);
+  WaveformGenerator();
 
-  // Set chip model.
+  void set_sync_source(WaveformGenerator*);
   void set_chip_model(chip_model model);
 
-  void clock();
-  void clock(cycle_count delta_t);
-  void synchronize();
+  RESID_INLINE void clock();
+  RESID_INLINE void clock(cycle_count delta_t);
+  RESID_INLINE void synchronize();
   void reset();
 
   void writeFREQ_LO(reg8);
@@ -52,7 +51,7 @@ public:
   reg8 readOSC();
 
   // 12-bit waveform output.
-  reg12 output();
+  RESID_INLINE reg12 output();
 
 protected:
   const WaveformGenerator* sync_source;
@@ -80,22 +79,22 @@ protected:
   // The gate bit is handled by the EnvelopeGenerator.
 
   // 16 possible combinations of waveforms.
-  reg12 output____();
-  reg12 output___T();
-  reg12 output__S_();
-  reg12 output__ST();
-  reg12 output_P__();
-  reg12 output_P_T();
-  reg12 output_PS_();
-  reg12 output_PST();
-  reg12 outputN___();
-  reg12 outputN__T();
-  reg12 outputN_S_();
-  reg12 outputN_ST();
-  reg12 outputNP__();
-  reg12 outputNP_T();
-  reg12 outputNPS_();
-  reg12 outputNPST();
+  RESID_INLINE reg12 output____();
+  RESID_INLINE reg12 output___T();
+  RESID_INLINE reg12 output__S_();
+  RESID_INLINE reg12 output__ST();
+  RESID_INLINE reg12 output_P__();
+  RESID_INLINE reg12 output_P_T();
+  RESID_INLINE reg12 output_PS_();
+  RESID_INLINE reg12 output_PST();
+  RESID_INLINE reg12 outputN___();
+  RESID_INLINE reg12 outputN__T();
+  RESID_INLINE reg12 outputN_S_();
+  RESID_INLINE reg12 outputN_ST();
+  RESID_INLINE reg12 outputNP__();
+  RESID_INLINE reg12 outputNP_T();
+  RESID_INLINE reg12 outputNPS_();
+  RESID_INLINE reg12 outputNPST();
 
   // Sample data for combinations of waveforms.
   static reg8 wave6581__ST[];
@@ -124,14 +123,12 @@ friend class SID;
 // time a sample is calculated.
 // ----------------------------------------------------------------------------
 
-#if RESID_INLINE || defined(__WAVE_CC__)
+#if RESID_INLINING || defined(__WAVE_CC__)
 
 // ----------------------------------------------------------------------------
 // SID clocking - 1 cycle.
 // ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 void WaveformGenerator::clock()
 {
   // No operation if test bit is set.
@@ -160,9 +157,7 @@ void WaveformGenerator::clock()
 // ----------------------------------------------------------------------------
 // SID clocking - delta_t cycles.
 // ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 void WaveformGenerator::clock(cycle_count delta_t)
 {
   // No operation if test bit is set.
@@ -211,9 +206,7 @@ void WaveformGenerator::clock(cycle_count delta_t)
 // Note that the oscillators must be clocked exactly on the cycle when the
 // MSB is set high for hard sync to operate correctly. See SID::clock().
 // ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 void WaveformGenerator::synchronize()
 {
   // A special case occurs when a sync source is synced itself on the same
@@ -234,9 +227,7 @@ void WaveformGenerator::synchronize()
 // No waveform:
 // No output.
 //
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::output____()
 {
   return 0;
@@ -249,9 +240,7 @@ reg12 WaveformGenerator::output____()
 // left-shifted (half the resolution, full amplitude).
 // Ring modulation substitutes the MSB with MSB EOR sync_source MSB.
 //
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::output___T()
 {
   reg24 msb = (ring_mod ? accumulator ^ sync_source->accumulator : accumulator)
@@ -262,9 +251,7 @@ reg12 WaveformGenerator::output___T()
 // Sawtooth:
 // The output is identical to the upper 12 bits of the accumulator.
 //
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::output__S_()
 {
   return accumulator >> 12;
@@ -280,9 +267,7 @@ reg12 WaveformGenerator::output__S_()
 // The test bit, when set to one, holds the pulse waveform output at 0xfff
 // regardless of the pulse width setting.
 //
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::output_P__()
 {
   return (test || (accumulator >> 12) >= pw) ? 0xfff : 0x000;
@@ -307,9 +292,7 @@ reg12 WaveformGenerator::output_P__()
 //
 // Since waveform output is 12 bits the output is left-shifted 4 times.
 //
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::outputN___()
 {
   return
@@ -381,33 +364,25 @@ reg12 WaveformGenerator::outputN___()
 // The sawtooth output is used to look up an OSC3 sample.
 // The sample is output if the pulse output is on.
 // 
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::output__ST()
 {
   return wave__ST[output__S_()] << 4;
 }
 
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::output_P_T()
 {
   return (wave_P_T[output___T() >> 1] << 4) & output_P__();
 }
 
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::output_PS_()
 {
   return (wave_PS_[output__S_()] << 4) & output_P__();
 }
 
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::output_PST()
 {
   return (wave_PST[output__S_()] << 4) & output_P__();
@@ -422,57 +397,43 @@ reg12 WaveformGenerator::output_PST()
 // there is very little audible output from waveform combinations including
 // noise. We hope that nobody is actually using it.
 //
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::outputN__T()
 {
   return 0;
 }
 
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::outputN_S_()
 {
   return 0;
 }
 
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::outputN_ST()
 {
   return 0;
 }
 
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::outputNP__()
 {
   return 0;
 }
 
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::outputNP_T()
 {
   return 0;
 }
 
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::outputNPS_()
 {
   return 0;
 }
 
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::outputNPST()
 {
   return 0;
@@ -481,9 +442,7 @@ reg12 WaveformGenerator::outputNPST()
 // ----------------------------------------------------------------------------
 // Select one of 16 possible combinations of waveforms.
 // ----------------------------------------------------------------------------
-#if RESID_INLINE
-inline
-#endif
+RESID_INLINE
 reg12 WaveformGenerator::output()
 {
   // It may seem cleaner to use an array of member functions to return
@@ -526,6 +485,6 @@ reg12 WaveformGenerator::output()
   }
 }
 
-#endif // RESID_INLINE || defined(__WAVE_CC__)
+#endif // RESID_INLINING || defined(__WAVE_CC__)
 
 #endif // not __WAVE_H__

@@ -64,6 +64,7 @@ PERL = @PERL@
 RANLIB = @RANLIB@
 RESID_HAVE_BOOL = @RESID_HAVE_BOOL@
 RESID_INLINE = @RESID_INLINE@
+RESID_INLINING = @RESID_INLINING@
 VERSION = @VERSION@
 
 noinst_LIBRARIES = libresid.a
@@ -72,13 +73,13 @@ libresid_a_SOURCES = sid.cc voice.cc wave.cc envelope.cc filter.cc extfilt.cc po
 
 BUILT_SOURCES = $(noinst_DATA:.dat=.cc)
 
-noinst_HEADERS = siddefs.h sid.h voice.h wave.h envelope.h filter.h extfilt.h pot.h spline.h
+pkginclude_HEADERS = siddefs.h sid.h voice.h wave.h envelope.h filter.h extfilt.h pot.h spline.h
 
 noinst_DATA = wave6581_PST.dat wave6581_PS_.dat wave6581_P_T.dat wave6581__ST.dat wave8580_PST.dat wave8580_PS_.dat wave8580_P_T.dat wave8580__ST.dat
 
 noinst_SCRIPTS = samp2src.pl
 
-EXTRA_DIST = $(noinst_DATA) $(noinst_SCRIPTS)
+EXTRA_DIST = $(noinst_DATA) $(noinst_SCRIPTS) README.VICE
 
 SUFFIXES = .dat
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -109,7 +110,7 @@ CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
 DATA =  $(noinst_DATA)
 
-HEADERS =  $(noinst_HEADERS)
+HEADERS =  $(pkginclude_HEADERS)
 
 DIST_COMMON =  README AUTHORS COPYING ChangeLog INSTALL Makefile.am \
 Makefile.in NEWS THANKS TODO aclocal.m4 configure configure.in \
@@ -177,6 +178,21 @@ libresid.a: $(libresid_a_OBJECTS) $(libresid_a_DEPENDENCIES)
 	$(RANLIB) libresid.a
 .cc.o:
 	$(CXXCOMPILE) -c $<
+
+install-pkgincludeHEADERS: $(pkginclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(pkgincludedir)
+	@list='$(pkginclude_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(pkgincludedir)/$$p"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(pkgincludedir)/$$p; \
+	done
+
+uninstall-pkgincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	list='$(pkginclude_HEADERS)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(pkgincludedir)/$$p; \
+	done
 
 tags: TAGS
 
@@ -266,19 +282,20 @@ installcheck: installcheck-am
 install-exec-am:
 install-exec: install-exec-am
 
-install-data-am:
+install-data-am: install-pkgincludeHEADERS
 install-data: install-data-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-am
-uninstall-am:
+uninstall-am: uninstall-pkgincludeHEADERS
 uninstall: uninstall-am
 all-am: Makefile $(LIBRARIES) $(SCRIPTS) $(DATA) $(HEADERS)
 all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs:
+	$(mkinstalldirs)  $(DESTDIR)$(pkgincludedir)
 
 
 mostlyclean-generic:
@@ -319,7 +336,8 @@ maintainer-clean: maintainer-clean-am
 .PHONY: mostlyclean-noinstLIBRARIES distclean-noinstLIBRARIES \
 clean-noinstLIBRARIES maintainer-clean-noinstLIBRARIES \
 mostlyclean-compile distclean-compile clean-compile \
-maintainer-clean-compile tags mostlyclean-tags distclean-tags \
+maintainer-clean-compile uninstall-pkgincludeHEADERS \
+install-pkgincludeHEADERS tags mostlyclean-tags distclean-tags \
 clean-tags maintainer-clean-tags distdir info-am info dvi-am dvi check \
 check-am installcheck-am installcheck install-exec-am install-exec \
 install-data-am install-data install-am install uninstall-am uninstall \
