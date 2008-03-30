@@ -22,6 +22,7 @@ src/c64/cart/c64cart.c
 src/c64/cart/ide64.c
 src/c64/c64_256k.c
 src/c64/georam.c
+src/c64/mmc64.c
 src/c64/plus256k.c
 src/c64/plus60k.c
 src/c64/psid.c
@@ -97,6 +98,7 @@ src/arch/unix/gui/uidatasette.c
 src/arch/unix/gui/uidrive.c
 src/arch/unix/gui/uidrivec128.c
 src/arch/unix/gui/uidrivec64.c
+src/arch/unix/gui/uidrivec64c128.c
 src/arch/unix/gui/uidrivec64vic20.c
 src/arch/unix/gui/uidriveiec.c
 src/arch/unix/gui/uidrivepetcbm2.c
@@ -108,6 +110,7 @@ src/arch/unix/gui/uiide64.c
 src/arch/unix/gui/uijoystick2.c
 src/arch/unix/gui/uikeyboard.c
 src/arch/unix/gui/uilib.c
+src/arch/unix/gui/uimmc64.c
 src/arch/unix/gui/uimon.c
 src/arch/unix/gui/uimouse.c
 src/arch/unix/gui/uinetplay.c
@@ -201,6 +204,7 @@ src/arch/win32/resdrivepetcbm2.rc.po.c
 src/arch/win32/resdriveplus4.rc.po.c
 src/arch/win32/resgeoram.rc.po.c
 src/arch/win32/reside64.rc.po.c
+src/arch/win32/resmmc64.rc.po.c
 src/arch/win32/respet.rc.po.c
 src/arch/win32/respetreu.rc.po.c
 src/arch/win32/resplus256k.rc.po.c
