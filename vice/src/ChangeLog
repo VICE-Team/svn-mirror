@@ -1,3 +1,56 @@
+2005-04-12  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.5
+
+	* arch/win32/intl.c: Fixed includes.
+
+2005-05-12  pottendo  <pottendo@utanet.at>
+
+	* info.c: Added Marco to contributors.
+
+2005-04-12  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* cia.h, riot.h, via.h, core/ciacore.c, core/riotcore.c,
+	core/viacore.c: New functions <chip>_disable mainly to
+	stop pending alarms.
+
+	* drive/iec/iec.c, drive/iecieee/iecieee.c, drive/ieee/ieee.c
+	(*_drive_reset): Resets or disables the chips depending on
+	the drive type.
+
+2005-04-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/x11/xaw/widgets/RegExp.h: Fixed BSD compile.
+
+2005-04-09  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+        * arch/win32/Makefile.am, arch/win32/arch.dsp,
+        arch/win32/c128ui.c, arch/win32/c64ui.c, arch/win32/cbm2ui.c,
+        arch/win32/intl.c, arch/win32/intl.h, arch/win32/petui.c,
+        arch/win32/plus4ui.c, arch/win32/res.h, arch/win32/resacia.rc,
+        arch/win32/resc128.rc, arch/win32/resc64.rc,
+        arch/win32/rescbm2.rc, arch/win32/resdrivec64vic20.rc,
+        arch/win32/resdrivepetcbm2.rc, arch/win32/resgeoram.rc,
+        arch/win32/reside64.rc, arch/win32/respet.rc,
+        arch/win32/resplus4.rc, arch/win32/resramcart.rc,
+        arch/win32/resreu.rc, arch/win32/resrs232user.rc,
+        arch/win32/ressid.rc, arch/win32/restfe.rc,
+        arch/win32/resvicii.rc, arch/win32/ui-resources.c,
+        arch/win32/uiacia.c, arch/win32/uic128.c,
+        arch/win32/uicbm2set.c, arch/win32/uidrivec128.c,
+        arch/win32/uidrivec64vic20.c, arch/win32/uidrivepetcbm2.c,
+        arch/win32/uidriveplus4.c, arch/win32/uigeoram.c,
+        arch/win32/uiide64.c, arch/win32/uikeyboard.c,
+        arch/win32/uipetset.c, arch/win32/uiplus4mem.c,
+        arch/win32/uiramcart.c, arch/win32/uireu.c,
+        arch/win32/uirom.c, arch/win32/uirs232user.c,
+        arch/win32/uisid.c, arch/win32/uitfe.c, arch/win32/uivicii.c:
+        Added internationalization support.
+
+2005-04-09  Andreas Dehmel  <zarquon@t-online.de>
+
+        * arch/riscos/archdep.h: defines for rs232-devices.
+
 2005-04-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.4
