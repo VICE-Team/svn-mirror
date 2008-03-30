@@ -38,6 +38,8 @@
 
 static iec_info_t iec_info;
 
+static BYTE iec_old_atn = 0x10;
+
 static BYTE parallel_cable_cpu_value = 0xff;
 static BYTE parallel_cable_drive_value = 0xff;
 
@@ -78,9 +80,15 @@ void iec_cpu_write(BYTE data)
     iec_info.cpu_bus = (((data << 2) & 0x80)
 	       | ((data << 2) & 0x40)
 	       | ((data << 1) & 0x10));
-
+#if 0
     /* FIXME: this is slow, we should avoid doing it when not necessary.  */
     set_atn(!(iec_info.cpu_bus & 0x10));
+#else
+    if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
+	iec_old_atn = iec_info.cpu_bus & 0x10;
+	viaD1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+    }
+#endif
 
     iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
 		 | ((iec_info.drive_data << 6)
