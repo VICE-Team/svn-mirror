@@ -15,6 +15,7 @@ SUBDIRS = \
 	sounddrv \
 	drive \
 	vdrive \
+	fsdevice \
 	diskimage \
 	tape \
 	imagecontents \
@@ -138,7 +139,6 @@ base_sources = \
 	debug.c \
 	emuid.c \
 	findpath.c \
-	fsdevice.c \
 	fliplist.c \
 	gcr.c \
 	info.c \
@@ -199,6 +199,7 @@ c64cart_lib = $(top_builddir)/src/c64/cart/libc64cart.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 diskimage_lib = $(top_builddir)/src/diskimage/libdiskimage.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
+fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
@@ -238,6 +239,7 @@ x64_libs =  \
 	$(video_lib) \
 	$(monitor_lib) \
 	$(diskimage_lib) \
+	$(fsdevice_lib) \
 	$(tape_lib) \
 	$(imagecontents_lib) \
 	$(common_libs)
@@ -264,6 +266,7 @@ x64-all: \
 	libarch \
 	libmonitor \
 	libdiskimage \
+	libfsdevice \
 	libtape \
 	libimagecontents \
 	x64
@@ -286,6 +289,7 @@ x128_libs =  \
 	$(video_lib) \
 	$(monitor_lib) \
 	$(diskimage_lib) \
+	$(fsdevice_lib) \
 	$(tape_lib) \
 	$(imagecontents_lib) \
 	$(common_libs)
@@ -313,6 +317,7 @@ x128-all: \
 	libvideo \
 	libmonitor \
 	libdiskimage \
+	libfsdevice \
 	libtape \
 	libimagecontents \
 	@RESID_DEP@ \
@@ -331,6 +336,7 @@ xvic_libs =  \
 	$(video_lib) \
 	$(monitor_lib) \
 	$(diskimage_lib) \
+	$(fsdevice_lib) \
 	$(tape_lib) \
 	$(imagecontents_lib) \
 	$(common_libs)
@@ -353,6 +359,7 @@ xvic-all: \
 	libarch \
 	libmonitor \
 	libdiskimage \
+	libfsdevice \
 	libtape \
 	libimagecontents \
 	xvic
@@ -371,6 +378,7 @@ xpet_libs =  \
 	$(video_lib) \
 	$(monitor_lib) \
 	$(diskimage_lib) \
+	$(fsdevice_lib) \
 	$(tape_lib) \
 	$(imagecontents_lib) \
 	$(common_libs)
@@ -394,6 +402,7 @@ xpet-all: \
 	libarch \
 	libmonitor \
 	libdiskimage \
+	libfsdevice \
 	libtape \
 	libimagecontents \
 	xpet 
@@ -411,6 +420,7 @@ xplus4_libs =  \
 	$(video_lib) \
 	$(monitor_lib) \
 	$(diskimage_lib) \
+	$(fsdevice_lib) \
 	$(tape_lib) \
 	$(imagecontents_lib) \
 	$(common_libs)
@@ -433,6 +443,7 @@ xplus4-all: \
         libarch \
         libmonitor \
 	libdiskimage \
+	libfsdevice \
 	libtape \
 	libimagecontents \
         xplus4
@@ -453,6 +464,7 @@ xcbm2_libs = \
 	$(video_lib) \
 	$(monitor_lib) \
 	$(diskimage_lib) \
+	$(fsdevice_lib) \
 	$(tape_lib) \
 	$(imagecontents_lib) \
 	$(common_libs)
@@ -479,6 +491,7 @@ xcbm2-all: \
 	libvideo \
 	libmonitor \
 	libdiskimage \
+	libfsdevice \
 	libtape \
 	libimagecontents \
 	xcbm2
@@ -529,8 +542,8 @@ petcat_LDADD = \
 # Special targets to build libraries in subdirectories.
 
 .PHONY: libc64 libc128 libvic20 libpet libplus4 libcbm2 libdrive libvdrive
-	libprinterdrv libgfxoutputdrv libsounddrv libdiskimage libtape \
-	libarch libvicii libvdc libsid libcrtc libvideo @RESID_DEP@
+	libprinterdrv libgfxoutputdrv libsounddrv libdiskimage libfsdevice
+	libtape libarch libvicii libvdc libsid libcrtc libvideo @RESID_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -544,10 +557,20 @@ libc64cart:
 	(cd c64 && $(MAKE) libc64cart)
 libcbm2:
 	(cd cbm2 && $(MAKE))
+libcrtc:
+	(cd crtc && $(MAKE))
 libdiskimage:
 	(cd diskimage && $(MAKE))
 libdrive:
 	(cd drive && $(MAKE))
+libgfxoutputdrv:
+	(cd gfxoutputdrv && $(MAKE))
+libfsdevice:
+	(cd fsdevice && $(MAKE))
+libimagecontents:
+	(cd imagecontents && $(MAKE))
+libmonitor:
+	(cd monitor && $(MAKE))
 libpet:
 	(cd pet && $(MAKE))
 libplus4:
@@ -564,22 +587,14 @@ libsounddrv:
 	(cd sounddrv && $(MAKE))
 libtape:
 	(cd tape && $(MAKE))
-libgfxoutputdrv:
-	(cd gfxoutputdrv && $(MAKE))
+libvdc:
+	(cd vdc && $(MAKE))
 libvdrive:
 	(cd vdrive && $(MAKE))
 libvic20:
 	(cd vic20 && $(MAKE))
 libvicii:
 	(cd vicii && $(MAKE))
-libvdc:
-	(cd vdc && $(MAKE))
-libcrtc:
-	(cd crtc && $(MAKE))
 libvideo:
 	(cd video && $(MAKE))
-libmonitor:
-	(cd monitor && $(MAKE))
-libimagecontents:
-	(cd imagecontents && $(MAKE))
 
