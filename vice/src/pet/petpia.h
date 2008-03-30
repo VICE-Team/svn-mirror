@@ -55,8 +55,8 @@ extern BYTE REGPARM1 pia1_read(ADDRESS addr);
 extern BYTE REGPARM1 pia1_peek(ADDRESS addr);
 extern void pia1_set_tape_sense(int v);
 
-extern int pia1_read_snapshot_module(struct snapshot_s *);
-extern int pia1_write_snapshot_module(struct snapshot_s *);
+extern int pia1_snapshot_read_module(struct snapshot_s *);
+extern int pia1_snapshot_write_module(struct snapshot_s *);
 
 extern void pia2_init(void);
 extern void pia2_reset(void);
@@ -65,8 +65,8 @@ extern void REGPARM2 pia2_store(ADDRESS addr, BYTE value);
 extern BYTE REGPARM1 pia2_read(ADDRESS addr);
 extern BYTE REGPARM1 pia2_peek(ADDRESS addr);
 
-extern int pia2_read_snapshot_module(struct snapshot_s *);
-extern int pia2_write_snapshot_module(struct snapshot_s *);
+extern int pia2_snapshot_read_module(struct snapshot_s *);
+extern int pia2_snapshot_write_module(struct snapshot_s *);
 
 #endif
 

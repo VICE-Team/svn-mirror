@@ -596,13 +596,13 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
     if (s == NULL)
         return -1;
 
-    if (maincpu_write_snapshot_module(s) < 0
+    if (maincpu_snapshot_write_module(s) < 0
         || c128_snapshot_write_module(s, save_roms) < 0
-        || cia1_write_snapshot_module(s) < 0
-        || cia2_write_snapshot_module(s) < 0
-        || sid_write_snapshot_module(s) < 0
-        || drive_write_snapshot_module(s, save_disks, save_roms) < 0
-        || vic_ii_write_snapshot_module(s) < 0) {
+        || cia1_snapshot_write_module(s) < 0
+        || cia2_snapshot_write_module(s) < 0
+        || sid_snapshot_read_module(s) < 0
+        || drive_snapshot_write_module(s, save_disks, save_roms) < 0
+        || vic_ii_snapshot_write_module(s) < 0) {
         snapshot_close(s);
         util_file_remove(name);
         return -1;
@@ -630,13 +630,13 @@ int machine_read_snapshot(const char *name)
 
     vic_ii_prepare_for_snapshot();
 
-    if (maincpu_read_snapshot_module(s) < 0
+    if (maincpu_snapshot_read_module(s) < 0
         || c128_snapshot_read_module(s) < 0
-        || cia1_read_snapshot_module(s) < 0
-        || cia2_read_snapshot_module(s) < 0
-        || sid_read_snapshot_module(s) < 0
-        || drive_read_snapshot_module(s) < 0
-        || vic_ii_read_snapshot_module(s) < 0)
+        || cia1_snapshot_read_module(s) < 0
+        || cia2_snapshot_read_module(s) < 0
+        || sid_snapshot_read_module(s) < 0
+        || drive_snapshot_read_module(s) < 0
+        || vic_ii_snapshot_read_module(s) < 0)
        goto fail;
 
     snapshot_close(s);

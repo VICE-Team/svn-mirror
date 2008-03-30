@@ -559,16 +559,6 @@ void vic_update_memory_ptrs (void)
   }
 }
 
-int vic_write_snapshot_module (snapshot_t *s)
-{
-  return vic_snapshot_write_module (s);
-}
-
-int vic_read_snapshot_module (snapshot_t *s)
-{
-  return vic_snapshot_read_module (s);
-}
-
 void vic_free (void)
 {
   raster_free(&vic.raster);

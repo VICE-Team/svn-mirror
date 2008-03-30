@@ -37,6 +37,7 @@
 #include "datasette.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
+#include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
@@ -251,7 +252,7 @@ int machine_init(void)
     drive_init(PLUS4_PAL_CYCLES_PER_SEC, PLUS4_PAL_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
-    autostart_init((CLOCK)(3 * rfsh_per_sec * cycles_per_rfsh),
+    autostart_init((CLOCK)(2 * rfsh_per_sec * cycles_per_rfsh),
                    0, 0, 0xc8, 0xca, -40);
 
     if (!ted_init())
@@ -396,8 +397,9 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
     if (drive[1].enable)
         drive1_cpu_execute(clk);
 
-    if (maincpu_write_snapshot_module(s) < 0
+    if (maincpu_snapshot_write_module(s) < 0
         || plus4_snapshot_write_module(s, save_roms) < 0
+        || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         || ted_snapshot_write_module(s) < 0) {
         snapshot_close(s);
         util_file_remove(name);
@@ -426,8 +428,9 @@ int machine_read_snapshot(const char *name)
 
     ted_prepare_for_snapshot();
 
-    if (maincpu_read_snapshot_module(s) < 0
+    if (maincpu_snapshot_read_module(s) < 0
         || plus4_snapshot_read_module(s) < 0
+        || drive_snapshot_read_module(s) < 0
         || ted_snapshot_read_module(s) < 0)
         goto fail;
 

@@ -48,8 +48,8 @@ extern void crtc_reset(void);
 extern int crtc_resources_init(void);
 extern int crtc_cmdline_options_init(void);
 
-extern int crtc_write_snapshot_module(struct snapshot_s *s);
-extern int crtc_read_snapshot_module(struct snapshot_s *s);
+extern int crtc_snapshot_write_module(struct snapshot_s *s);
+extern int crtc_snapshot_read_module(struct snapshot_s *s);
 
 extern void crtc_set_screen_addr(BYTE *screen);
 extern void crtc_set_chargen_offset(int offset);

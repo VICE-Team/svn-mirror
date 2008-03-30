@@ -40,8 +40,8 @@ extern BYTE REGPARM1 cia1_peek(ADDRESS addr);
 extern void cia1_prevent_clk_overflow(CLOCK sub);
 extern void cia1_set_flag(void);
 extern void cia1_set_sdr(BYTE received_byte);
-extern int cia1_write_snapshot_module(struct snapshot_s *p);
-extern int cia1_read_snapshot_module(struct snapshot_s *p);
+extern int cia1_snapshot_write_module(struct snapshot_s *p);
+extern int cia1_snapshot_read_module(struct snapshot_s *p);
 
 extern void cia1_set_ieee_dir(int);
 

@@ -192,8 +192,8 @@ extern void vic_raster_draw_alarm_handler(CLOCK offset);
 extern int vic_resources_init(void);
 extern int vic_cmdline_options_init(void);
 
-extern int vic_write_snapshot_module(struct snapshot_s *s);
-extern int vic_read_snapshot_module(struct snapshot_s *s);
+extern int vic_snapshot_write_module(struct snapshot_s *s);
+extern int vic_snapshot_read_module(struct snapshot_s *s);
 
 extern int vic_screenshot(struct screenshot_s *screenshot);
 extern void vic_free(void);

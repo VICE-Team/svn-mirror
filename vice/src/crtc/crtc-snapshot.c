@@ -44,7 +44,7 @@ static char snap_module_name[] = "CRTC";
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 1
 
-int crtc_write_snapshot_module(snapshot_t * s)
+int crtc_snapshot_write_module(snapshot_t * s)
 {
     int i, ef = 0;
     int current_char;
@@ -169,7 +169,7 @@ int crtc_write_snapshot_module(snapshot_t * s)
 }
 
 
-int crtc_read_snapshot_module(snapshot_t * s)
+int crtc_snapshot_read_module(snapshot_t * s)
 {
     int i, ef = 0;
     snapshot_module_t *m;

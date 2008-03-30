@@ -456,12 +456,12 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
     }
 
     /* FIXME: Missing sound.  */
-    if (maincpu_write_snapshot_module(s) < 0
+    if (maincpu_snapshot_write_module(s) < 0
         || vic20_snapshot_write_module(s, save_roms) < 0
-        || vic_write_snapshot_module(s) < 0
-        || via1_write_snapshot_module(s) < 0
-        || via2_write_snapshot_module(s) < 0
-        || drive_write_snapshot_module(s, save_disks, save_roms) < 0) {
+        || vic_snapshot_write_module(s) < 0
+        || via1_snapshot_write_module(s) < 0
+        || via2_snapshot_write_module(s) < 0
+        || drive_snapshot_write_module(s, save_disks, save_roms) < 0) {
         snapshot_close(s);
         util_file_remove(name);
         return -1;
@@ -469,8 +469,8 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
 
     resources_get_value("IEEE488", (resource_value_t*) &ieee488);
     if (ieee488) {
-        if (ieeevia1_write_snapshot_module(s) < 0
-            || ieeevia2_write_snapshot_module(s) < 0) {
+        if (ieeevia1_snapshot_write_module(s) < 0
+            || ieeevia2_snapshot_write_module(s) < 0) {
             snapshot_close(s);
             util_file_remove(name);
             return 1;
@@ -498,20 +498,20 @@ int machine_read_snapshot(const char *name)
     }
 
     /* FIXME: Missing sound.  */
-    if (maincpu_read_snapshot_module(s) < 0
+    if (maincpu_snapshot_read_module(s) < 0
         || vic20_snapshot_read_module(s) < 0
-        || vic_read_snapshot_module(s) < 0
-        || via1_read_snapshot_module(s) < 0
-        || via2_read_snapshot_module(s) < 0
-        || drive_read_snapshot_module(s) < 0)
+        || vic_snapshot_read_module(s) < 0
+        || via1_snapshot_read_module(s) < 0
+        || via2_snapshot_read_module(s) < 0
+        || drive_snapshot_read_module(s) < 0)
         goto fail;
 
-    if (ieeevia1_read_snapshot_module(s) < 0
-        || ieeevia2_read_snapshot_module(s) < 0) {
+    if (ieeevia1_snapshot_read_module(s) < 0
+        || ieeevia2_snapshot_read_module(s) < 0) {
         /* IEEE488 module not undumped */
-        resources_set_value("IEEE488", (resource_value_t) 0);
+        resources_set_value("IEEE488", (resource_value_t)0);
     } else {
-        resources_set_value("IEEE488", (resource_value_t) 1);
+        resources_set_value("IEEE488", (resource_value_t)1);
     }
 
     snapshot_close(s);

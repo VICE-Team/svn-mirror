@@ -417,19 +417,19 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         perror(name);
         return -1;
     }
-    if (maincpu_write_snapshot_module(s) < 0
+    if (maincpu_snapshot_write_module(s) < 0
         || pet_snapshot_write_module(s, save_roms) < 0
-        || crtc_write_snapshot_module(s) < 0
-        || pia1_write_snapshot_module(s) < 0
-        || pia2_write_snapshot_module(s) < 0
-        || via_write_snapshot_module(s) < 0
-        || drive_write_snapshot_module(s, save_disks, save_roms) < 0
+        || crtc_snapshot_write_module(s) < 0
+        || pia1_snapshot_write_module(s) < 0
+        || pia2_snapshot_write_module(s) < 0
+        || via_snapshot_write_module(s) < 0
+        || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         ) {
         ef = -1;
     }
 
     if ((!ef) && petres.superpet) {
-        ef = acia1_write_snapshot_module(s);
+        ef = acia1_snapshot_write_module(s);
     }
 
     snapshot_close(s);
@@ -459,19 +459,19 @@ int machine_read_snapshot(const char *name)
     }
 
     if (ef
-        || maincpu_read_snapshot_module(s) < 0
+        || maincpu_snapshot_read_module(s) < 0
         || pet_snapshot_read_module(s) < 0
-        || crtc_read_snapshot_module(s) < 0
-        || pia1_read_snapshot_module(s) < 0
-        || pia2_read_snapshot_module(s) < 0
-        || via_read_snapshot_module(s) < 0
-        || drive_read_snapshot_module(s) < 0
+        || crtc_snapshot_read_module(s) < 0
+        || pia1_snapshot_read_module(s) < 0
+        || pia2_snapshot_read_module(s) < 0
+        || via_snapshot_read_module(s) < 0
+        || drive_snapshot_read_module(s) < 0
         ) {
         ef = -1;
     }
 
     if (!ef) {
-        acia1_read_snapshot_module(s);  /* optional, so no error check */
+        acia1_snapshot_read_module(s);  /* optional, so no error check */
     }
 
     snapshot_close(s);

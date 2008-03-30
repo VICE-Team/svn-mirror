@@ -27,8 +27,8 @@ extern void REGPARM2 acia1_store(ADDRESS a, BYTE b);
 extern int acia1_cmdline_options_init(void);
 extern int acia1_resources_init(void);
 
-extern int acia1_write_snapshot_module(struct snapshot_s *p);
-extern int acia1_read_snapshot_module(struct snapshot_s *p);
+extern int acia1_snapshot_write_module(struct snapshot_s *p);
+extern int acia1_snapshot_read_module(struct snapshot_s *p);
 
 #endif
 

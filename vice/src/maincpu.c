@@ -512,7 +512,7 @@ static char snap_module_name[] = "MAINCPU";
 #define SNAP_MAJOR 1
 #define SNAP_MINOR 0
 
-int maincpu_write_snapshot_module(snapshot_t *s)
+int maincpu_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
@@ -544,7 +544,7 @@ fail:
     return -1;
 }
 
-int maincpu_read_snapshot_module(snapshot_t *s)
+int maincpu_snapshot_read_module(snapshot_t *s)
 {
     BYTE a, x, y, sp, status;
     WORD pc;

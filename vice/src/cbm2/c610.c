@@ -103,8 +103,8 @@ int isC500 = 0;
 
 /* ------------------------------------------------------------------------- */
 
-static int c500_write_snapshot_module(snapshot_t *p);
-static int c500_read_snapshot_module(snapshot_t *p);
+static int c500_snapshot_write_module(snapshot_t *p);
+static int c500_snapshot_read_module(snapshot_t *p);
 
 /* ------------------------------------------------------------------------- */
 
@@ -436,17 +436,17 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         perror(name);
         return -1;
     }
-    if (maincpu_write_snapshot_module(s) < 0
+    if (maincpu_snapshot_write_module(s) < 0
         || c610_snapshot_write_module(s, save_roms) < 0
-        || ((!isC500) && crtc_write_snapshot_module(s) < 0)
-        || cia1_write_snapshot_module(s) < 0
-        || tpi1_write_snapshot_module(s) < 0
-        || tpi2_write_snapshot_module(s) < 0
-        || acia1_write_snapshot_module(s) < 0
-        || sid_write_snapshot_module(s) < 0
-        || drive_write_snapshot_module(s, save_disks, save_roms) < 0
-        || (isC500 && vic_ii_write_snapshot_module(s) < 0)
-        || (isC500 && c500_write_snapshot_module(s) < 0)
+        || ((!isC500) && crtc_snapshot_write_module(s) < 0)
+        || cia1_snapshot_write_module(s) < 0
+        || tpi1_snapshot_write_module(s) < 0
+        || tpi2_snapshot_write_module(s) < 0
+        || acia1_snapshot_write_module(s) < 0
+        || sid_snapshot_write_module(s) < 0
+        || drive_snapshot_write_module(s, save_disks, save_roms) < 0
+        || (isC500 && vic_ii_snapshot_write_module(s) < 0)
+        || (isC500 && c500_snapshot_write_module(s) < 0)
         ) {
         snapshot_close(s);
         util_file_remove(name);
@@ -478,17 +478,17 @@ int machine_read_snapshot(const char *name)
         vic_ii_prepare_for_snapshot();
     }
 
-    if (maincpu_read_snapshot_module(s) < 0
-        || ((!isC500) && crtc_read_snapshot_module(s) < 0)
-        || (isC500 && vic_ii_read_snapshot_module(s) < 0)
-        || (isC500 && c500_read_snapshot_module(s) < 0)
+    if (maincpu_snapshot_read_module(s) < 0
+        || ((!isC500) && crtc_snapshot_read_module(s) < 0)
+        || (isC500 && vic_ii_snapshot_read_module(s) < 0)
+        || (isC500 && c500_snapshot_read_module(s) < 0)
         || c610_snapshot_read_module(s) < 0
-        || cia1_read_snapshot_module(s) < 0
-        || tpi1_read_snapshot_module(s) < 0
-        || tpi2_read_snapshot_module(s) < 0
-        || acia1_read_snapshot_module(s) < 0
-        || sid_read_snapshot_module(s) < 0
-        || drive_read_snapshot_module(s) < 0
+        || cia1_snapshot_read_module(s) < 0
+        || tpi1_snapshot_read_module(s) < 0
+        || tpi2_snapshot_read_module(s) < 0
+        || acia1_snapshot_read_module(s) < 0
+        || sid_snapshot_read_module(s) < 0
+        || drive_snapshot_read_module(s) < 0
         )
         goto fail;
 
@@ -546,12 +546,12 @@ int machine_canvas_screenshot(screenshot_t *screenshot,
 
 static const char module_name[] = "C500DATA";
 
-static int c500_write_snapshot_module(snapshot_t *p)
+static int c500_snapshot_write_module(snapshot_t *p)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(p, module_name,
-                          C500DATA_DUMP_VER_MAJOR, C500DATA_DUMP_VER_MINOR);
+    m = snapshot_module_create(p, module_name, C500DATA_DUMP_VER_MAJOR,
+                               C500DATA_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
 
@@ -562,7 +562,7 @@ static int c500_write_snapshot_module(snapshot_t *p)
     return 0;
 }
 
-static int c500_read_snapshot_module(snapshot_t *p)
+static int c500_snapshot_read_module(snapshot_t *p)
 {
     BYTE vmajor, vminor;
     snapshot_module_t *m;
@@ -579,7 +579,7 @@ static int c500_read_snapshot_module(snapshot_t *p)
 
     snapshot_module_read_dword(m, &dword);
     c500_powerline_clk = clk + dword;
-    alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk);
+    alarm_set(&c500_powerline_clk_alarm, c500_powerline_clk);
 
     snapshot_module_close(m);
 
