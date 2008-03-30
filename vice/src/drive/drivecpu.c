@@ -489,16 +489,16 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 
 #define DMA_ON_RESET
 
-#define _drive_byte_ready_egde_clear()            \
+#define drivecpu_byte_ready_egde_clear()          \
     do {                                          \
         if (drv->drive->byte_ready_active == 0x6) \
             rotation_rotate_disk(drv->drive);     \
         drv->drive->byte_ready_edge = 0;          \
     } while (0)
 
-#define _drive_byte_ready() ((drv->drive->byte_ready_active == 0x6) \
-                                ? rotation_rotate_disk(drv->drive), \
-                                drv->drive->byte_ready_edge : 0)    \
+#define drivecpu_byte_ready() ((drv->drive->byte_ready_active == 0x6) \
+                               ? rotation_rotate_disk(drv->drive),    \
+                               drv->drive->byte_ready_edge : 0)       \
 
 #define cpu_reset() (cpu_reset)(drv)
 #define bank_limit (cpu->d_bank_limit)
