@@ -386,9 +386,11 @@ int machine_init(void)
         acia1_init();
 #endif
 
+#ifndef COMMON_KBD
         /* Initialize the keyboard.  */
         if (c64_kbd_init() < 0)
             return -1;
+#endif
     }
 
     c64_monitor_init();

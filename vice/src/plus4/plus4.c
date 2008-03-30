@@ -326,8 +326,10 @@ int machine_init(void)
     acia_init();
 #endif
 
+#ifndef COMMON_KBD
     if (plus4_kbd_init() < 0)
         return -1;
+#endif
 
     plus4_monitor_init();
 

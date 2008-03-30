@@ -298,9 +298,11 @@ int machine_init(void)
     tpi1_init();
     tpi2_init();
 
+#ifndef COMMON_KBD
     /* Initialize the keyboard.  */
     if (c610_kbd_init() < 0)
         return -1;
+#endif
 
     /* Initialize the datasette emulation.  */
     datasette_init();

@@ -454,9 +454,11 @@ int machine_init(void)
     acia1_init();
 #endif
 
+#ifndef COMMON_KBD
     /* Initialize the keyboard.  */
     if (c128_kbd_init() < 0)
         return -1;
+#endif
 
     c128_monitor_init();
 

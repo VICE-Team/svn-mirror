@@ -332,9 +332,11 @@ int machine_init(void)
     ieeevia1_init();
     ieeevia2_init();
 
+#ifndef COMMON_KBD
     /* Load the default keymap file.  */
     if (vic20_kbd_init() < 0)
         return -1;
+#endif
 
     vic20_monitor_init();
 

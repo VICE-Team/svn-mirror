@@ -286,9 +286,11 @@ int machine_init(void)
     pia2_init();
     acia1_init();
 
+#ifndef COMMON_KBD
     /* Initialize the keyboard.  */
     if (pet_kbd_init() < 0)
         return -1;
+#endif
 
     /* Initialize the datasette emulation.  */
     datasette_init();
