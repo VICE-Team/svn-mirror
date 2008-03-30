@@ -161,10 +161,11 @@ char *util_bufcat(char *buf, int *buf_size, size_t *max_buf_size,
         char *new_buf;
 
         *max_buf_size = (((*buf_size + src_size) / BUFCAT_GRANULARITY + 1)
-                          * BUFCAT_GRANULARITY);
+                        * BUFCAT_GRANULARITY);
         new_buf = (char *)xrealloc(buf, *max_buf_size);
         buf = new_buf;
     }
+
     memcpy(buf + *buf_size, src, src_size);
     *buf_size += src_size;
     return buf;
