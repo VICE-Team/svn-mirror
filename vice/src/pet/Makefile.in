@@ -133,7 +133,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libpet.a
 
-libpet_a_SOURCES =  	pet.c 	pet.h 	petacia.h 	petacia1.c 	petdatasette.c 	petiec.c 	petmem.c 	petmem.h 	petpia.h 	petpia1.c 	petpia2.c 	pets.h 	petsound.c 	petsound.h 	petvia.c 	petvia.h
+libpet_a_SOURCES =  	pet-resources.c 	pet-resources.h 	pet.c 	pet.h 	petacia.h 	petacia1.c 	petdatasette.c 	petiec.c 	petmem.c 	petmem.h 	petpia.h 	petpia1.c 	petpia2.c 	pets.h 	petsound.c 	petsound.h 	petvia.c 	petvia.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -148,8 +148,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libpet_a_LIBADD = 
-libpet_a_OBJECTS =  pet.o petacia1.o petdatasette.o petiec.o petmem.o \
-petpia1.o petpia2.o petsound.o petvia.o
+libpet_a_OBJECTS =  pet-resources.o pet.o petacia1.o petdatasette.o \
+petiec.o petmem.o petpia1.o petpia2.o petsound.o petvia.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -252,6 +252,9 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+pet-resources.o: pet-resources.c ../../src/vice.h ../../src/config.h \
+	../../src/crtc/crtc.h ../../src/arch/unix/types.h pet.h \
+	petmem.h pets.h ../../src/resources.h ../../src/utils.h
 pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/arch/unix/types.h ../../src/attach.h \
 	../../src/autostart.h ../../src/clkguard.h ../../src/cmdline.h \
@@ -263,9 +266,9 @@ pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/kbdbuf.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/mem.h ../../src/monitor/mon.h pet.h petmem.h pets.h \
-	petsound.h ../../src/arch/unix/petui.h petvia.h petacia.h \
-	petpia.h ../../src/prdevice.h ../../src/print.h \
+	../../src/mem.h ../../src/monitor/mon.h pet-resources.h pet.h \
+	petmem.h pets.h petsound.h ../../src/arch/unix/petui.h petvia.h \
+	petacia.h petpia.h ../../src/prdevice.h ../../src/print.h \
 	../../src/pruser.h ../../src/screenshot.h ../../src/serial.h \
 	../../src/snapshot.h ../../src/sound.h ../../src/tape.h \
 	../../src/traps.h ../../src/utils.h ../../src/via.h \
@@ -293,7 +296,7 @@ petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
 	../../src/emuid.h ../../src/interrupt.h ../../src/6510core.h \
 	../../src/arch/unix/kbd.h ../../src/kbdbuf.h ../../src/log.h \
 	../../src/maincpu.h ../../src/mem.h ../../src/monitor/mon.h \
-	pet.h petacia.h petmem.h petpia.h pets.h petvia.h \
+	pet.h petacia.h petmem.h pets.h petpia.h petvia.h \
 	../../src/snapshot.h ../../src/sysfile.h ../../src/tape.h \
 	../../src/traps.h ../../src/utils.h ../../src/vsync.h
 petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \

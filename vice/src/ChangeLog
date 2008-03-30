@@ -1,3 +1,25 @@
+2001-05-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.23.
+
+	* c64/c64-resources.c, c64/c64-resources.h,
+	c128/c128-resources.c, c128/c128-resources.h,
+	vic20/vic20-resources.c, vic20/vic20-resources.h,
+	pet/pet-resources.c, pet/pet-resources.h,
+	cbm2/c610-resources.c, cbm2/c610-resources.h: New files.
+
+	* c64/c64mem.c, c128/c128mem.c, vic20/vic20mem.c.
+	pet/petmem.c, cbm2/c610mem.c: Moved resource code to separate
+	files.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20mem.c, pet/pet.c,
+	cbm2/c610.c (machine_init_resources): Init machine resources.
+
+	* c128/c128mem.c (mem_load_kernal64, mem_load_basic64,
+	mem_load_chargen64): New functions.
+
+	* c128/c128mem.h: Added ROM image sizes.
+
 2001-05-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.22.
