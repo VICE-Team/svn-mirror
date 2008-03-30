@@ -253,34 +253,6 @@ int initialize_1541(int dev, int type,
     return 0;
 }
 
-
-/*
- * This routine is used by the standalone version and ML monitor
- * in order to get around standard serial bus connection.
- * Device number is searched in filename if it's not NULL.
- * 'dev' contains the default in range 0...3 or 8...11.
- */
-
-int  find_devno(int dev, const char *name)
-{
-    int num, len;
-    const char *p;
-
-    if (name && *name) {
-	p = name;
-	while (isspace((int)*p)) ++p;
-
-	if (sscanf(p, "%d%n", &num, &len) == 1) {
-	    p += len;
-	    while (isspace((int)*p)) ++p;
-	    if (*p == ':')
-		return (num);
-	}
-    }	/* name */
-
-    return (dev);	/* Default drive */
-}
-
 /* ------------------------------------------------------------------------- */
 
 /*
@@ -322,7 +294,7 @@ void vdrive_command_set_error(bufferinfo_t *p, int code, int track, int sector)
     p->bufptr = 0;
 
     if (code && code != IPE_DOS_VERSION)
-        log_message(vdrive_log, "ERR = %02d, %s, %02d, %02d\n",
+        log_message(vdrive_log, "ERR = %02d, %s, %02d, %02d",
                     code == IPE_DELETED ? deleted_files : code,
                     message, track, sector);
 
@@ -1170,6 +1142,9 @@ static int vdrive_command_format(DRIVE *floppy, char *name, BYTE *id,
 
     if (floppy->ReadOnly)
         return IPE_WRITE_PROTECT_ON;
+
+    if (floppy->ActiveFd < 0)
+        return IPE_NOT_READY;
 
     /*
      * If id, skip comma
@@ -2046,7 +2021,11 @@ int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
         floppy->ReadOnly = 0;
     }
 
-    if (fd != ILLEGAL_FILE_DESC) {
+    if (fd == ILLEGAL_FILE_DESC) {
+        log_error(vdrive_log, "Unit %d: Cannot open file `%s': %s.", 
+                  floppy->unit, name);
+        return -1;
+    } else{
         if (check_header(fd, &hdr)) {
             log_error(vdrive_log,
                       "File `%s' was not recognized as a disk image in unit %d.",
@@ -2138,11 +2117,8 @@ int attach_floppy_image(DRIVE *floppy, const char *name, int mode)
                         "attached (CBM%d format%s): `%s'.",
                         floppy->unit, hdr.v_major, hdr.v_minor, DType,
                         floppy->ReadOnly ? ", read only" : "", name);
-    } else {
-        log_error(vdrive_log, "Unit %d: Couldn't open file `%s'.", 
-                  floppy->unit, name);
-        return -1;
     }
+
     return 0;
 }
 

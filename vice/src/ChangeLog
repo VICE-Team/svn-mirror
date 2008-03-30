@@ -1,4 +1,121 @@
+1998-12-01  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/c64ui.c: "Freeze" command renamed to "Cartridge
+ 	freeze".
+
+	* c1541.c: Version bumped up to 3.0.
+
+	* mshell.c, mshell.h: Removed.  Yahoo!
+
+	* fsdevice.c (fs_error): Removed newline in log message.
+
+	* vdrive.c (vdrive_command_set_error): Removed newline in log
+ 	message.
+
+	* c1541.c: Massive rewrite to get rid of various problems.  Syntax
+ 	has been changed, and you can now specify a drive number with a
+ 	"@n:" (where `n' is 8 or 9) whenever a file name is required.
+  	Several potential buffer overflows have been fixed.  `extract'
+	command made portable.
+
+1998-11-30  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* vdrive.c (vdrive_command_format): If `ActiveFd' is negative for
+	this unit, return `IPE_NOT_READY'.
+
+	* c1541.c: Renamed `DriveNum' to `drive_number'.  Renamed
+	`DriveData' to `drives'.
+	(create_image): Return -1 if something fails instead of exiting
+	the program.
+
+	* arch/win32/ui.c (ui_init): Removed newlines from logging
+	messages and changed log channel from `LOG_ERR' to `LOG_DEFAULT'.
+
+1998-11-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c1541.c (disk_extract): Retrive file names in a much more sane
+	way.
+	(disk_unlynx): Do not use `vdrive_open()' to create files as it
+	does not allow the creation of files with invalid file name.  Use
+	new low-level function `vdrive_open_create_dir_slot()' instead.
+
+	* vdrive-iec.c (vdrive_open_create_dir_slot): New function.
+	(vdrive_open): Call `vdrive_open_create_dir_slot' to create files.
+
+1998-11-30  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* parallel.c (DoTrans) [PARALLEL_DEBUG_VERBOSE]: Debugging
+	definition put back in.
+
+	* log.c: Renamed `LogFile' into `LogFileName'.
+	(log_init): Use the default log file name if `LogFile' is an empty 
+	string.
+
+	* c1541.c: Removed all the `COPY_TO_LEFT'.  Removed `values' and
+ 	`types' arrays.  Temporarily disabled all the device number
+ 	handling (default to `DevNum').  Do not #include <mshell.h>
+ 	anymore.
+	All the `disk_*' functions now take two parameters, `nargs' and
+	`args', for the parameter list, instead of using globals.
+	Removed `newname' global.
+	(split_args): New function.
+	(main): Use it.
+	(disk_sectordump): Make all arguments (except `dev') mandatory.
+	(usage): Split the string on multiple lines in a portable way.
+	[__riscos] (ui_set_drive_leds): Removed.
+	(print_error_message): New function.
+	(lookup_and_execute_command): New function.
+	(main): Heavily restructured to take advantage of the new
+ 	functions.
+	(read_line): New function.
+	(disk_raw_command): Removed `OPEN15' cruft.
+	(disk_list): Only allow one pattern.
+	(disk_system): Do not return the return value from `system()'
+	anymore.
+	(main): Definition changed to ANSI style (with prototype).
+
+	* mshell.c (read_line): Removed.
+
+	* serial.c (serial_select_file): Do not find the device number in
+	the file name if the given device number is negative anymore.
+
+	* vdrive.c (find_devno): Removed.
+
+	* mshell.c (split_args): Removed.
+
+	* asm.h: Removed lots of cruft.
+
+	* misc.c (sprint_ophex): Removed.
+
+	* asm.c (ass): Removed.
+	(interpret_line): Removed.
+	(interpret_instr): Removed.
+	(find_instr): Removed.
+	(parse_arguments): Removed.
+	(modename): Removed.
+
+	* main.c (end64): Removed.
+	(MAIN_PROGRAM): Use `return' instead of `exit()' for consistency.
+
+	* tapeunit.c (tape_attach_image): If the file format is invalid,
+	detach the tape.
+
+1998-11-29  Tibor Biczo <crown@mail.matav.hu>
+
+	* arch/win32/Makefile.am (libarch_a_SOURCES): Added archdep.c,
+ 	archdep.h. Removed archdefs.h
+
+	* arch/win32/archdefs.h: Renamed file to archdep.h.
+
+	* arch/win32/archdep.c: New file.
+
+	* arch/win32/resvic.r: Fixed typo.
+
+	* arch/win32/ui.c (ui_init): Changed fprintf to log_error.
+
 1998-11-29  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.33.
 
 	* main.c (MAIN_PROGRAM): Use `archdep_program_name()' to put the
  	program name into the log intro.
@@ -175,7 +292,7 @@
 	(sysdep_open_default_log_file): New function.
 	(sysdep_startup): New function.
 	(sysdep_boot_path): New function.
-	(sysdep_default_sysfile_pathlist): New function
+	(sysdep_default_sysfile_pathlist): New function.
 
 	* arch/unix/sysdep.h: New file.
 

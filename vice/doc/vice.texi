@@ -81,7 +81,7 @@ notice identical to this one.
 
 @ifinfo
 
-This is the documentation for version 0.15 of VICE, the Versatile
+This is the documentation for version 1.0 of VICE, the Versatile
 Commodore Emulator.
 
 @end ifinfo
@@ -106,6 +106,8 @@ Commodore Emulator.
 * Snapshots::                   Save the emulator state in one file
 * Monitor::                     The VICE built-in monitor.
 * c1541::                       The disk-image maintenance utility.
+
+* File formats::                Technical description of file formats.
 
 * Acknowledgments::             People involved in VICE.
 * Copyright::                   Legal stuff.
@@ -548,7 +550,7 @@ good as the C64 one, as they are still under construction.
 * Keyboard emulation::          
 * Joystick emulation::          
 * Disk drive emulation::        
-* File formats::                
+* Supported file formats::      
 * Common problems::             
 @end menu
 
@@ -759,7 +761,7 @@ The @dfn{custom} layout uses the keys @key{w}, @key{e}, @key{r},
 and @key{space} for the fire button instead.
 
 
-@node Disk drive emulation, File formats, Joystick emulation, Preface
+@node Disk drive emulation, Supported file formats, Joystick emulation, Preface
 @section The disk drive emulation
 
 All the emulators support up to 4 external disk drives as
@@ -812,7 +814,7 @@ to the IEEE488 disk units, and no kernal traps are needed.  The same
 emulation of the Commodore IEEE488 bus interface is available for the
 C64.
 
-@node File formats, Common problems, Disk drive emulation, Preface
+@node Supported file formats, Common problems, Disk drive emulation, Preface
 @section Supported file formats
 
 VICE supports the most popular Commodore file formats:
@@ -848,8 +850,10 @@ UNIX @code{dd} command:
 dd bs=64 skip=1 if=IMAGE.X64 of=IMAGE.D64
 @end example
 
+@xref{File formats} for a technical description of the supported file
+formats.
 
-@node Common problems,  , File formats, Preface
+@node Common problems,  , Supported file formats, Preface
 @section Common problems
 
 This section tries to describe the most common known problems with VICE,
@@ -3164,7 +3168,7 @@ itself.  Of course, it is also possible to detach a currently attached
 cartridge image (``Detach cartridge image'').
 
 If you are using an Action Replay cartridge, you can emulate the
-cartridge's freeze button with the ``Freeze'' command.
+cartridge's freeze button with the ``Cartridge freeze'' command.
 
 
 @node VIC-II settings, SID settings, C64 cartridges, C64/128-specific
@@ -3193,11 +3197,18 @@ being used by choosing one of the available predefined color sets:
 @item
 @file{default.vpl} (``default''), the default VICE palette;
 @item
-@file{ccs64.vpl} (``CCS64''), palette taken from the CCS64 emulator by
-Per H@^akan Sundell (@uref{http://www.fatal-design.com/ccs64/}).
+@file{c64s.vpl} (``C64S''), palette taken from the shareware C64S
+emulator by Miha Peternel.
 @item
-@file{frodo.vpl} (``Frodo''), palette taken from the Frodo emulator by
-Christian Bauer (@uref{http://www.uni-mainz.de/~bauec002/FRMain.html}).
+@file{ccs64.vpl} (``CCS64''), palette taken from the shareware CCS64
+emulator by Per H@^akan Sundell.
+@item
+@file{frodo.vpl} (``Frodo''), palette taken from the free Frodo emulator
+by Christian Bauer
+(@uref{http://www.uni-mainz.de/~bauec002/FRMain.html}).
+@item
+@file{pc64.vpl} (``PC64''), palette taken from the free PC64 emulator by
+Wolfgang Lorenz.
 @item
 @file{godot.vpl} (``GoDot''), palette as suggested by the authors of the
 C64 graphics package GoDot
@@ -3425,7 +3436,6 @@ Enable (@code{EmuID=1}) or disable (@code{EmuID=0}) the emulation
 identification extension.
 
 @end table
-
 
 @c @node RS232 settings, C64/128 system ROM settings, C64 I/O extension settings, C64/128-specific
 @c @subsection RS232 settings
@@ -5621,7 +5631,7 @@ Display the specified number in decimal, hex, octal and binary.
 @end table
 
 
-@node c1541, Acknowledgments, Monitor, Top
+@node c1541, File formats, Monitor, Top
 @chapter c1541
 
 VICE is provided with a complete stand-alone disk image maintenance
@@ -5781,8 +5791,447 @@ line.
 @c @node Examples,  , Commands, c1541
 @c @section c1541 examples
 
+@node File formats, Acknowledgments, c1541, Top
+@chapter The emulator file formats
 
-@node Acknowledgments, Copyright, c1541, Top
+This chapter gives a technical description of the various files
+supported by the emulators.
+
+@menu
+* T64::                         The tape image format
+* G64::                         The GCR-encoded disk image format
+@end menu
+
+@node T64, G64, File formats, File formats
+@section The T64 tape image format
+
+(This section was taken from the C64S distribution.)
+
+The @code{T64} File Structure was developed by Miha Peternel for use in
+the C64S emulator.  It is easy to use and allows future extensions.
+
+@menu
+* T64 file structure::          
+* T64 tape record::             
+* T64 file record::             
+@end menu
+
+@node T64 file structure, T64 tape record, T64, T64
+@subsection T64 File structure
+
+@multitable @columnfractions .3 .3 .4
+@item @b{Offset}
+@tab @b{Size}
+@tab @b{Description}
+@item 0
+@tab 64
+@tab tape record
+@item 64
+@tab 32*n
+@tab file records for n directory entries
+@item 64+32*n
+@tab varies
+@tab binary contents of the files
+@end multitable
+
+@node T64 tape record, T64 file record, T64 file structure, T64
+@subsection Tape Record
+
+@multitable @columnfractions .3 .3 .4
+@item @b{Offset}
+@tab @b{Size}
+@tab @b{Description}
+@item 0
+@tab 32
+@tab DOS tape description + EOF (for type)
+@item 32
+@tab 2
+@tab tape version ($0200)
+@item 34
+@tab 2
+@tab number of directory entries
+@item 36
+@tab 2
+@tab number of used entries (can be 0 in my loader)
+@item 38
+@tab 2
+@tab free
+@item 40
+@tab 4
+@tab user description as displayed in tape menu
+@end multitable
+
+@node T64 file record,  , T64 tape record, T64
+@subsection  File record
+
+@multitable @columnfractions .3 .3 .4
+@item @b{Offset}
+@tab @b{Size}
+@tab @b{Description}
+@item 0
+@tab 1
+@tab entry type (see below)
+@item 1
+@tab 1
+@tab C64 file type
+@item 2
+@tab 2
+@tab start address
+@item 4
+@tab 2
+@tab end address
+@item 6
+@tab 2
+@tab free
+@item 8
+@tab 4
+@tab offset of file contents start within T64 file
+@item 12
+@tab 4
+@tab free
+@item 16
+@tab 16
+@tab C64 file name
+@end multitable
+
+Valid file types are:
+
+@multitable @columnfractions .3 .7
+@item @b{Code}
+@tab @b{Explanation}
+@item @code{0}
+@tab free entry
+@item @code{1}
+@tab normal tape file
+@item @code{2}
+@tab tape file with header: header is saved just before file data
+@item @code{3}
+@tab memory snapshot v0.9, uncompressed
+@item @code{4}
+@tab tape block
+@item @code{5}
+@tab digitized stream
+@item @code{6} @dots{} @code{255}
+@tab reserved
+@end multitable
+
+Notes:
+
+@itemize @bullet
+@item VICE only supports file type @code{1}.
+@item Types @code{3}, @code{4} and @code{5} are subject to change (and
+are rarely  used).
+@end itemize
+
+@node G64,  , T64, File formats
+@section The G64 GCR-encoded disk image format
+
+(This section was contributed by Peter Schepers
+(@email{schepers@@ist.uwaterloo.ca}) and slightly edited by Ettore
+Perazzoli (@email{ettore@@comm2000.it}).)
+
+This format was defined in 1998 as a cooperative effort between several
+emulator people, mainly Per Hakan Sundell, author of the CCS64 C64
+emulator, Andreas Boose of the VICE CBM emulator team and Joe
+Forster/STA, the author of Star Commander.  It was the first real public
+attempt to create a format for the emulator community which removed
+almost all of the drawbacks of the other existing image formats, namely
+@code{D64}.
+
+The intention behind @code{G64} is not to replace the widely used
+@code{D64} format, as @code{D64} works fine with the vast majority of
+disks in existence.  It is intended for those small percentage of
+programs which demand to work with the 1541 drive in a non-standard way,
+such as reading or writing data in a custom format.  The best example is
+with speeder software such as Action Cartridge in Warp Save mode or
+Vorpal which write track/sector data in another format other than
+standard GCR.  The other obvious example is copy-protected software
+which looks for some specific data on a track, like the disk ID, which
+is not stored in a standard @code{D64} image.
+
+@code{G64} has a deceptively simply layout for what it is capable of
+doing.  We have a signature, version byte, some predefined size values,
+and a series of offsets to the track data and speed zones.  It is what's
+contained in the track data areas and speed zones which is really at the
+heart of this format.
+
+Each track entry in simply the raw stream of GCR data, just what a read
+head would see when a diskette is rotating past it.  How the data gets
+interpreted is up to the program trying to access the disk.  Because the
+data is stored in such a low-level manner, just about anything can be
+done.  Most of the time I would suspect the data in the track would be
+standard sectors, with SYNC, GAP, header, data and checksums.  The
+arrangement of the data when it is in a standard GCR sector layout is
+beyond the scope of this document.
+
+Since it is a flexible format in both track count and track byte size,
+there is no ``standard'' file size.  However, given a few constants like
+42 tracks and halftracks, a track size of 7928 bytes and no speed offset
+entries, the typical file size will a minimum of 333744 bytes.
+
+Below is a dump of the header, broken down into its various parts.
+After that will be an explanation of the track offset and speed zone
+offset areas, as they demand much more explanation.
+
+@example
+Addr  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+----  -----------------------------------------------
+0000: 47 43 52 2D 31 35 34 31 00 54 F8 1E .. .. .. ..
+@end example
+
+@multitable @columnfractions .2 .8
+@item @b{Offset}
+@tab @b{Description}
+@item $0000-0007
+@tab File signature (@code{GCR-1541})
+@item $0008
+@tab @code{G64} version (presently only $00 defined)
+@item $0009
+@tab Number of tracks in image (usually $54, decimal 84)
+@item $000A-000B
+@tab Size of each stored track in bytes (usually 7928, or $1EF8) in LO/HI format.
+@end multitable
+
+An obvious question here is ``why are there 84 tracks defined when a
+normal @code{D64} disk only has 35 tracks?''  Well, by definition, this
+image includes all half-tracks, so there are actually 42 tracks and 42
+half tracks.  The 1541 stepper motor can access up to 42 tracks and the
+in-between half-tracks.  Even though using more than 35 tracks is not
+typical, it was important to define this format from the start with what
+the 1541 is capable of doing, and not just what it typically does.
+
+At first, the defined track size value of 7928 bytes may seem to be
+arbitrary, but it is not.  It is determined by the fastest write speed
+possible (speed zone 0), coupled with the average rotation speed of the
+disk (300 rpm).  After some math, the answer that actually comes up is
+7692 bytes.  Why the discrepency between the actual size of 7692 and the
+defined size of 7928? Simply put, not all drives rotate at 300 rpm.
+Some can be faster or slower, so a upper safety margin of +3% was built
+added, in case some disks rotate slower and can write more data.  After
+applying this safety factor, and some rounding-up, 7928 bytes per track
+was arrived at.
+
+Also note that this upper limit of 7928 bytes per track really only
+applies to 1541 and compatible disks.  If this format were applied to
+another disk type like the SFD1001, this value would be higher.
+
+Below is a dump of the first section of a @code{G64} file, showing the offsets
+to the data portion for each track and half-track entry. Following that
+is a dump of the speed zone offsets.
+
+@example
+Addr  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+----  -----------------------------------------------
+0000: .. .. .. .. .. .. .. .. .. .. .. .. AC 02 00 00
+0010: 00 00 00 00 A6 21 00 00 00 00 00 00 A0 40 00 00
+0020: 00 00 00 00 9A 5F 00 00 00 00 00 00 94 7E 00 00
+0030: 00 00 00 00 8E 9D 00 00 00 00 00 00 88 BC 00 00
+0040: 00 00 00 00 82 DB 00 00 00 00 00 00 7C FA 00 00
+0050: 00 00 00 00 76 19 01 00 00 00 00 00 70 38 01 00
+0060: 00 00 00 00 6A 57 01 00 00 00 00 00 64 76 01 00
+0070: 00 00 00 00 5E 95 01 00 00 00 00 00 58 B4 01 00
+0080: 00 00 00 00 52 D3 01 00 00 00 00 00 4C F2 01 00
+0090: 00 00 00 00 46 11 02 00 00 00 00 00 40 30 02 00
+00A0: 00 00 00 00 3A 4F 02 00 00 00 00 00 34 6E 02 00
+00B0: 00 00 00 00 2E 8D 02 00 00 00 00 00 28 AC 02 00
+00C0: 00 00 00 00 22 CB 02 00 00 00 00 00 1C EA 02 00
+00D0: 00 00 00 00 16 09 03 00 00 00 00 00 10 28 03 00
+00E0: 00 00 00 00 0A 47 03 00 00 00 00 00 04 66 03 00
+00F0: 00 00 00 00 FE 84 03 00 00 00 00 00 F8 A3 03 00
+0100: 00 00 00 00 F2 C2 03 00 00 00 00 00 EC E1 03 00
+0110: 00 00 00 00 E6 00 04 00 00 00 00 00 E0 1F 04 00
+0120: 00 00 00 00 DA 3E 04 00 00 00 00 00 D4 5D 04 00
+0130: 00 00 00 00 CE 7C 04 00 00 00 00 00 C8 9B 04 00
+0140: 00 00 00 00 C2 BA 04 00 00 00 00 00 BC D9 04 00
+0150: 00 00 00 00 B6 F8 04 00 00 00 00 00 .. .. .. ..
+@end example
+
+@multitable @columnfractions .2 .8
+@item @b{Offset}
+@tab @b{Description}
+@item $000C-000F
+@tab Offset to stored track 1.0 ($000002AC, in LO/HI format, see below for more)
+@item $0010-0013
+@tab Offset to stored track 1.5 ($00000000)
+@item $0014-0017
+@tab Offset to stored track 2.0 ($000021A6)
+@item ...
+@item $0154-0157
+@tab Offset to stored track 42.0 ($0004F8B6)
+@item $0158-015B
+@tab Offset to stored track 42.5 ($00000000)
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+      -----------------------------------------------
+0150: .. .. .. .. .. .. .. .. .. .. .. .. 03 00 00 00
+0160: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+0170: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+0180: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+0190: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+01A0: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+01B0: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+01C0: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+01D0: 00 00 00 00 03 00 00 00 00 00 00 00 03 00 00 00
+01E0: 00 00 00 00 02 00 00 00 00 00 00 00 02 00 00 00
+01F0: 00 00 00 00 02 00 00 00 00 00 00 00 02 00 00 00
+0200: 00 00 00 00 02 00 00 00 00 00 00 00 02 00 00 00
+0210: 00 00 00 00 02 00 00 00 00 00 00 00 01 00 00 00
+0220: 00 00 00 00 01 00 00 00 00 00 00 00 01 00 00 00
+0230: 00 00 00 00 01 00 00 00 00 00 00 00 01 00 00 00
+0240: 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00
+0250: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0260: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0270: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0290: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+02A0: 00 00 00 00 00 00 00 00 00 00 00 00 .. .. .. ..
+@end example
+
+@multitable @columnfractions .2 .8
+@item @b{Offset}
+@tab @b{Description}
+@item $015C-015F
+@tab Speed zone entry for track 1 ($03, in LO/HI  format, see below for more)
+@item $0160-0163
+@tab Speed zone entry for track 1.5 ($03)
+@item ...
+@item $02A4-02A7
+@tab Speed zone entry for track 42 ($00)
+@item $02A8-02AB
+@tab Speed zone entry for track 42.5 ($00)
+@end multitable
+
+Starting here at $02AC is the first track entry (from above, it is the
+first entry for track 1.0)
+
+The track offsets (from above) require some explanation.  When one is
+set to all 0's, no track data exists for this entry.  If there is a
+value, it is an absolute reference into the file (starting from the
+beginning of the file).  From the track 1.0 entry we see it is set for
+$000002AC.  Going to that file offset, here is what we see...
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+      -----------------------------------------------
+02A0: .. .. .. .. .. .. .. .. .. .. .. .. 0C 1E FF FF
+02B0: FF FF FF 52 54 B5 29 4B 7A 5E 95 55 55 55 55 55
+02C0: 55 55 55 55 55 55 FF FF FF FF FF 55 D4 A5 29 4A
+02D0: 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52
+@end example
+
+@multitable @columnfractions .2 .8
+@item @b{Offset}
+@tab @b{Description}
+@item $02AC-02AD
+@tab Actual size of stored track (7692 or $1E0C, in LO/HI format)
+@item $02AE-02AE+$1E0C
+@tab Track data
+@end multitable
+
+Following the track data is filler bytes.  In this case, there are 368
+bytes of unused space.  This space can contain anything, but for the
+sake of those wishing to compress these images for storage, they should
+all be set to the same value.  In the sample I used, these are all set
+to $FF.
+
+Below is a dump of the end of the track 1.0 data area.  Note the actual
+track data ends at address $20B9, with the rest of the block being
+unused, and set to $FF.
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+      -----------------------------------------------
+1FE0: 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52
+1FF0: 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52 94
+2000: A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5
+2010: 29 4A 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29
+2020: 4A 52 94 A5 29 4A 52 94 A5 29 4A 52 94 A5 29 4A
+2030: 55 55 55 55 55 55 FF FF FF FF FF FF FF FF FF FF
+2040: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2050: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2060: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2070: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2080: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2090: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+20A0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+20B0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+20C0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+20D0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+20E0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+20F0: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2100: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2110: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2120: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2130: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2140: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2150: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2160: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2170: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2180: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+2190: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+21A0: FF FF FF FF FF FF .. .. .. .. .. .. .. .. .. ..
+@end example
+
+The speed offset entries can be a little more complex. The 1541 has four
+speed zones defined, which means the drive can write data at four
+distinct speeds.  On a normal 1541 disk, these zones are as follows:
+
+@multitable @columnfractions .5 .5
+@item @b{Track Range}
+@tab @b{Speed Zone}
+@item 1-17
+@tab 3  (lowest writing speed)
+@item 18-24
+@tab 2
+@item 25-30
+@tab 1
+@item 31 and up
+@tab 0 (highest writing speed)
+@end multitable
+
+Note that you can, through custom programming of the 1541, change the
+speed zone of any track to something different (change the 3 to a 0) and
+write data differently.  From the dump of the speed offset entries
+above, we see that all the entries are in the range of 0-3. If any entry
+is less than 4, this is not considered a speed offset but defines the
+whole track to be recorded at that one speed.
+
+In the example I had, there were no offsets defined, so no speed zone
+dump can be shown.  However, I can define what should be there.  You
+will have a block of data, 1982 bytes long.  Each byte is encoded to
+represent the speed of 4 bytes in the track offset area, and is broken
+down as follows:
+
+@example
+Speed entry $FF:  in binary %11111111
+                             |'|'|'|'
+                             | | | |
+                             | | | +- 4'th byte speed (binary 11, 3 dec)
+                             | | +--- 3'rd byte speed (binary 11, 3 dec)
+                             | +----- 2'nd byte speed (binary 11, 3 dec)
+                             +------- 1'st byte speed (binary 11, 3 dec)
+@end example
+
+It was very smart thinking to allow for two speed zone settings, one in
+the offset block and another defining the speed on a per-byte basis.  If
+you are working with a normal disk, where each track is one constant
+speed, then you don't need the extra blocks of information hanging
+around the image, wasting space.
+
+What may not be obvious is the flexibility of this format to add tracks
+and speed offset zones at will.  If a program decides to write a track
+out with varying speeds, and no speed offset exist, a new block will be
+created by appending it to the end of the image, and the offset pointer
+for that track set to point to the new block.  If a track has no offset
+yet, meaning it doesn't exist (like a half-track), and one needs to be
+added, the same procedure applies.  The location of the actual track or
+speed zone data is not important, meaning they do not have to be in any
+particular order since they are all referenced by the offsets at the
+beginning of the image.
+
+@node Acknowledgments, Copyright, File formats, Top
 @chapter Acknowledgments
 
 VICE derives from X64, the first Commodore 64 emulator for the X Window
