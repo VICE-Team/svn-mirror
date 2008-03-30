@@ -44,12 +44,12 @@
 #include "drivetypes.h"
 #include "fdc.h"
 #include "interrupt.h"
+#include "machine.h"
 #include "mem.h"
 #include "mon.h"
 #include "riotd.h"
 #include "snapshot.h"
 #include "types.h"
-#include "ui.h"
 #include "viad.h"
 #include "wd1770.h"
 
@@ -510,7 +510,7 @@ void drive_set_bank_base(drive_context_t *drv)
 /* Inlining this fuction makes no sense and would only bloat the code.  */
 static void drive_jam(drive_context_t *drv)
 {
-    int tmp;
+    unsigned int tmp;
     char *dname = "  Drive";
 
     switch(drv->drive_ptr->type) {
@@ -549,20 +549,20 @@ static void drive_jam(drive_context_t *drv)
       break;
     }
 
-    tmp = ui_jam_dialog("%s CPU: JAM at $%04X  ", dname, (int)reg_pc);
+    tmp = machine_jam("%s CPU: JAM at $%04X  ", dname, (int)reg_pc);
     switch (tmp) {
-      case UI_JAM_RESET:
+      case JAM_RESET:
         reg_pc = 0xeaa0;
         drive_set_bank_base(drv);
         maincpu_trigger_reset();
         break;
-      case UI_JAM_HARD_RESET:
+      case JAM_HARD_RESET:
         reg_pc = 0xeaa0;
         drive_set_bank_base(drv);
         mem_powerup();
         maincpu_trigger_reset();
         break;
-      case UI_JAM_MONITOR:
+      case JAM_MONITOR:
         caller_space = drv->cpu.monspace;
         mon((ADDRESS)(reg_pc));
         break;
