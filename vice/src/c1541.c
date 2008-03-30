@@ -803,9 +803,9 @@ static int block_cmd(int nargs, char **args)
 
     /* block <track> <sector> <disp> [<drive>]  show disk blocks in hex form */
     if (arg_to_int(args[1], &track) < 0 || arg_to_int(args[2], &sector) < 0)
-	return FD_BAD_TS;
+        return FD_BAD_TS;
     if (arg_to_int(args[3], &disp) < 0)
-	return FD_BADVAL;
+        return FD_BADVAL;
 
     if (nargs == 5) {
         if (arg_to_int(args[4], &drive) < 0)
@@ -818,27 +818,27 @@ static int block_cmd(int nargs, char **args)
     }
 
     if (check_drive(drive, CHK_RDY) < 0)
-	return FD_NOTREADY;
+        return FD_NOTREADY;
     floppy = drives[drive & 3];
 
     if (vdrive_check_track_sector(floppy->ImageFormat, track, sector) < 0) {
-	/* FIXME: disk drives other than 1541? */
-	sector = 0;
-	track = DIR_TRACK_1541;
-	return FD_BAD_TS;
+        sector = 0;
+        track = floppy->Dir_Track;
+        return FD_BAD_TS;
     }
     /* Read one block */
 
     if (vdrive_open(floppy, "#", 1, channel)) {
-	fprintf(stderr, "Cannot open buffer #%d in unit %d.\n", channel, drive + 8);
-	return FD_RDERR;
+        fprintf(stderr,
+                "Cannot open buffer #%d in unit %d.\n", channel, drive + 8);
+        return FD_RDERR;
     }
     sprintf((char *) str, "B-R:%d 0 %d %d", channel, track, sector);
-    if (vdrive_command_execute(floppy, (BYTE *) str, strlen((char *) str)) != 0) {
-	/* FIXME: disk drives other than 1541? */
-	track = DIR_TRACK_1541;
-	sector = 0;
-	return FD_RDERR;
+    if (vdrive_command_execute(floppy, (BYTE *) str,
+                               strlen((char *) str)) != 0) {
+        track = floppy->Dir_Track;
+        sector = 0;
+        return FD_RDERR;
     }
     buf = floppy->buffers[channel].buffer;
 
@@ -847,25 +847,26 @@ static int block_cmd(int nargs, char **args)
     printf("<%2d: %2d %2d>\n", drive, track, sector);
     str[16] = 0;
     for (; disp < 256;) {
-	printf("> %02X ", disp & 255);
-	for (cnt = 0; cnt < 16; cnt++, disp++) {
-	    printf(" %02X", buf[disp & 255]);
-	    str[cnt] = (buf[disp & 255] < ' ' ?
-			'.' : p_toascii(buf[disp & 255], 0));
-	}
-	printf("  ;%s\n", str);
+        printf("> %02X ", disp & 255);
+        for (cnt = 0; cnt < 16; cnt++, disp++) {
+            printf(" %02X", buf[disp & 255]);
+            str[cnt] = (buf[disp & 255] < ' ' ?
+            '.' : p_toascii(buf[disp & 255], 0));
+        }
+        printf("  ;%s\n", str);
     }
 
     /* Find next sector for the file being traced.  */
     if (buf[0] && buf[1]) {
-	track = buf[0];
-	sector = buf[1];
-    } else if (vdrive_check_track_sector(floppy->ImageFormat, track,
-					 ++sector) < 0) {
-	sector = 0;
-	/* FIXME: disk drives other than 1541? */
-	if (++track > floppy->NumTracks)
-	    track = DIR_TRACK_1541;
+        track = buf[0];
+        sector = buf[1];
+    } else {
+        if (vdrive_check_track_sector(floppy->ImageFormat, track,
+            ++sector) < 0) {
+            sector = 0;
+            if (++track > floppy->NumTracks)
+                track = floppy->Dir_Track;
+        }
     }
     vdrive_close(floppy, channel);
     return FD_OK;
@@ -1119,87 +1120,91 @@ static int delete_cmd(int nargs, char **args)
 
 static int extract_cmd(int nargs, char **args)
 {
-    /* FIXME: disk drives other than 1541? */
-    int drive = 8, track = DIR_TRACK_1541, sector = DIR_SECTOR_1541;
+    int drive = 8, track, sector;
     DRIVE *floppy;
     BYTE *buf, str[20];
     int err;
     int channel = 2;
 
     if ((err = check_drive(drive, CHK_RDY)) < 0)
-	return err;
+        return err;
     floppy = drives[drive & 3];
 
     if (vdrive_open(floppy, "#", 1, channel)) {
-	fprintf(stderr, "Cannot open buffer #%d in unit %d.\n", channel, drive + 8);
-	return FD_RDERR;
+        fprintf(stderr, "Cannot open buffer #%d in unit %d.\n", channel,
+                drive + 8);
+        return FD_RDERR;
     }
+
+    track = floppy->Dir_Track;
+    sector = floppy->Dir_Sector;
 
     while (1) {
-	int i;
+        int i;
 
-	sprintf((char *) str, "B-R:%d 0 %d %d", channel, track, sector);
-	if (vdrive_command_execute(floppy, (BYTE *) str, strlen((char *) str)))
-	    return FD_RDERR;
+        sprintf((char *) str, "B-R:%d 0 %d %d", channel, track, sector);
+        if (vdrive_command_execute(floppy, (BYTE *) str, strlen((char *) str)))
+            return FD_RDERR;
 
-	buf = floppy->buffers[channel].buffer;
+        buf = floppy->buffers[channel].buffer;
 
-	for (i = 0; i < 256; i += 32) {
+        for (i = 0; i < 256; i += 32) {
             BYTE file_type = buf[i + SLOT_TYPE_OFFSET];
 
-	    if (((file_type & 7) == FT_SEQ
-                 || (file_type & 7) == FT_PRG
-                 || (file_type & 7) == FT_USR)
+            if (((file_type & 7) == FT_SEQ
+                || (file_type & 7) == FT_PRG
+                || (file_type & 7) == FT_USR)
                 && (file_type & FT_CLOSED)) {
-		int len;
+                int len;
                 BYTE *file_name = buf + i + SLOT_NAME_OFFSET;
-		BYTE c, name[17], cbm_name[17];
-		FILE *fd;
+                BYTE c, name[17], cbm_name[17];
+                FILE *fd;
 
-		memset(name, 0, 17);
-		memset(cbm_name, 0, 17);
-		for (len = 0; len < 16; len++) {
-		    if (file_name[len] == 0xa0) {
-			break;
-		    } else {
-			name[len] = file_name[len];
-			cbm_name[len] = file_name[len];
-		    }
-		}
+                memset(name, 0, 17);
+                memset(cbm_name, 0, 17);
+                for (len = 0; len < 16; len++) {
+                    if (file_name[len] == 0xa0) {
+                        break;
+                    } else {
+                        name[len] = file_name[len];
+                        cbm_name[len] = file_name[len];
+                    }
+                }
 
-		petconvstring((char *) name, 1);
-		printf("%s\n", name);
-		unix_filename((char *) name);	/* For now, convert '/' to '_'. */
+                petconvstring((char *) name, 1);
+                printf("%s\n", name);
+                unix_filename((char *) name); /* For now, convert '/' to '_'. */
 
-		if (vdrive_open(floppy, (char *) cbm_name, len, 0)) {
-		    fprintf(stderr, "Cannot open `%s' on unit %d.\n", name, drive + 8);
-		    continue;
-		}
+                if (vdrive_open(floppy, (char *) cbm_name, len, 0)) {
+                    fprintf(stderr,
+                            "Cannot open `%s' on unit %d.\n", name, drive + 8);
+                    continue;
+                }
                 fd = fopen((char *) name, "wb");
                 if (fd == NULL) {
-		    fprintf(stderr, "Cannot create file `%s': %s.",
-                            name, strerror(errno));
-		    vdrive_close(floppy, 0);
-		    continue;
-		}
-		while (!vdrive_read(floppy, &c, 0))
-		    fputc(c, fd);
+                    fprintf(stderr, "Cannot create file `%s': %s.",
+                    name, strerror(errno));
+                    vdrive_close(floppy, 0);
+                    continue;
+                }
+                while (!vdrive_read(floppy, &c, 0))
+                    fputc(c, fd);
 
-		vdrive_close(floppy, 0);
+                vdrive_close(floppy, 0);
 
-		if (fclose(fd)) {
-		    perror("fclose");
-		    return FD_RDERR;
-		}
-	    }
-	}
-	if (buf[0] && buf[1]) {
-	    track = buf[0];
-	    sector = buf[1];
-	} else
-	    break;
+                if (fclose(fd)) {
+                    perror("fclose");
+                    return FD_RDERR;
+                }
+            }
+        }
+        if (buf[0] && buf[1]) {
+            track = buf[0];
+            sector = buf[1];
+        } else {
+            break;
+        }
     }
-
     vdrive_close(floppy, channel);
     return FD_OK;
 }

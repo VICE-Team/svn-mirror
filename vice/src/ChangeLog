@@ -1,6 +1,52 @@
 1999-04-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 1.0.0.1
+	* Version 1.0.0.2.
+
+	* fsdevice.c (read_fs) [Directory]: Corrected off by one error in
+	directory listing.
+
+	* c1541.c (block_cmd, extract_cmd): Removed special 1541 handling.
+
+	* c64/c64mem.c (read_io1, store_io1, read_io2, store_io2): Removed
+	cartirdge specific routines.
+	(mem_attach_cartridge, mem_detach_cartridge,
+	mem_freeze_cartridge, cartridge_config_changed, read_roml,
+	read_romh, store_roml): Removed.
+	(pla_config_changed): Made non-static.
+
+	* c64/c64cartmem.c: New file.
+
+	* c64/c64cart.h: New prototypes for `c64cartmem.c'.
+
+	* c64/Makefile.am: Added `c64cartmem.c' to `libc64_a_SOURCES'.
+
+	* mem.h: Removed cartridge specific functions.
+
+	* cartridge.h (cartridge_attach, cartridge_detach,
+	cartridge_freeze): Prototypes moved here.
+
+	* vic20/cartridge.c: #include "vic20mem.h".
+
+	* vic20/vic20mem.h: Added prototypes for `mem_attach_cartridge'
+	and `mem_detach_cartridge'.
+
+	* interrupt.h: Defined interrupt types here.
+
+	* vmachine.h: Removed.
+
+	* autostart.c, kbdbuf.c, maincpu.c, interrupt.h, raster.h,
+	c64/c64.c, c64/c64cia1.c, c64/c64cia2.c, c64/c64mem.c,
+	c64/cartridge.c, viacore.h, aciacore.c, crtccore.c, raster.c,
+	rsuser.c, c128/c128.c, c128/c128cia1.c, c128/c128mem.c,
+	vic20/cartridge.c, vic20/vic.c, vic20/vic20.c, vic20/vic20mem.c,
+	pet/pet.c, pet/petmem.c, pet/petpia1.c, cbm2/c610.c,
+	cbm2/c610cia1.c, cbm2/c610mem.c, vicii/vicii.c, arch/unix/kbd.c,
+	arch/msdos/kbd.c, arch/msdos/vsync.c, arch/riscos/kbd.c: Do not
+	include `vmachine.h'.
+
+1999-04-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.0.1.
 
 	* Makefile.am, arch/unix/Makefile.am, arch/unix/xaw/Makefile.am,
 	arch/win32/Makefile.am, arch/msdos/Makefile.am,

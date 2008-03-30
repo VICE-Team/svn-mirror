@@ -347,8 +347,8 @@ ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
 	../../../../src/snapshot.h ../../../../src/alarm.h \
 	../../../../src/clkguard.h ../../../../src/mon.h \
 	../../../../src/mos6510.h ../../../../src/interrupt.h \
-	../../../../src/vmachine.h uihotkey.h uimenu.h uisettings.h \
-	../../../../src/utils.h ../../../../src/arch/unix/vsync.h \
+	uihotkey.h uimenu.h uisettings.h ../../../../src/utils.h \
+	../../../../src/arch/unix/vsync.h \
 	../../../../src/arch/unix/mouse.h
 uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/config.h uicommands.h ui.h \
@@ -359,15 +359,14 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/traps.h ../../../../src/log.h \
 	../../../../src/snapshot.h ../../../../src/autostart.h \
 	../../../../src/imagecontents.h ../../../../src/info.h \
-	../../../../src/interrupt.h ../../../../src/vmachine.h \
-	../../../../src/6510core.h ../../../../src/mem.h \
-	../../../../src/machine.h ../../../../src/maincpu.h \
-	../../../../src/alarm.h ../../../../src/clkguard.h \
-	../../../../src/mon.h ../../../../src/mos6510.h \
-	../../../../src/resources.h ../../../../src/sound.h \
-	../../../../src/warn.h ../../../../src/tape.h uisnapshot.h \
-	../../../../src/utils.h ../../../../src/arch/unix/vsync.h \
-	../../../../src/fliplist.h
+	../../../../src/interrupt.h ../../../../src/6510core.h \
+	../../../../src/mem.h ../../../../src/machine.h \
+	../../../../src/maincpu.h ../../../../src/alarm.h \
+	../../../../src/clkguard.h ../../../../src/mon.h \
+	../../../../src/mos6510.h ../../../../src/resources.h \
+	../../../../src/sound.h ../../../../src/warn.h \
+	../../../../src/tape.h uisnapshot.h ../../../../src/utils.h \
+	../../../../src/arch/unix/vsync.h ../../../../src/fliplist.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	uihotkey.h ui.h ../../../../src/types.h \
 	../../../../src/palette.h ../../../../src/utils.h
@@ -389,10 +388,9 @@ uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/clkguard.h ../../../../src/mos6510.h \
 	../../../../src/mon.h ../../../../src/mem.h \
 	../../../../src/snapshot.h ../../../../src/interrupt.h \
-	../../../../src/vmachine.h ../../../../src/6510core.h \
-	../../../../src/arch/unix/vsync.h ../../../../src/utils.h \
-	../../../../src/iecdrive.h ../../../../src/romset.h \
-	../../../../src/prdevice.h
+	../../../../src/6510core.h ../../../../src/arch/unix/vsync.h \
+	../../../../src/utils.h ../../../../src/iecdrive.h \
+	../../../../src/romset.h ../../../../src/prdevice.h
 uisnapshot.o: uisnapshot.c ../../../../src/vice.h \
 	../../../../src/config.h widgets/TextField.h uisnapshot.h \
 	../../../../src/machine.h ../../../../src/types.h ui.h \
