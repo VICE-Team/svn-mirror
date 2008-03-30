@@ -34,8 +34,12 @@
 #include "gfxoutput.h"
 #include "lib.h"
 #include "log.h"
-#include "mpegdrv.h"
 #include "pngdrv.h"
+
+#ifdef HAVE_FFMPEG
+#include "ffmpegdrv.h"
+#include "ffmpeglib.h"
+#endif
 
 
 struct gfxoutputdrv_list_s {
@@ -88,8 +92,9 @@ int gfxoutput_init(void)
 #ifdef HAVE_PNG
     gfxoutput_init_png();
 #endif
-#ifdef HAVE_FFMPEG_AVCODEC_H
-    gfxoutput_init_mpeg();
+#ifdef HAVE_FFMPEG
+    if (ffmpeglib_open() >= 0)
+        gfxoutput_init_ffmpeg();
 #endif
     return 0;
 }
@@ -105,6 +110,10 @@ void gfxoutput_shutdown(void)
         lib_free(list);
         list = next;
     }
+
+#ifdef HAVE_FFMPEG
+    ffmpeglib_close();
+#endif
 }
 
 /*-----------------------------------------------------------------------*/
