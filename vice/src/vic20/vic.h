@@ -101,7 +101,7 @@ enum _vic_video_mode
   {
     VIC_STANDARD_MODE,
     VIC_REVERSE_MODE,
-    VIC_NUM_VMODES,
+    VIC_NUM_VMODES
   };
 typedef enum _vic_video_mode vic_video_mode_t;
 

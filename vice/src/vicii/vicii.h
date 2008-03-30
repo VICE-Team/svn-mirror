@@ -92,7 +92,7 @@ enum _vic_ii_video_mode
     VIC_II_IDLE_MODE,		/* Special mode for idle state.  */
     VIC_II_NUM_VMODES
   };
-typedef enum vic_ii_video_mode vic_ii_video_mode_t;
+typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 
 #define VIC_II_IS_ILLEGAL_MODE(x)	((x) >= VIC_II_ILLEGAL_TEXT_MODE \
 					 && (x) != VIC_II_IDLE_MODE)
