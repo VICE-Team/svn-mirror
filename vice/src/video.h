@@ -110,8 +110,8 @@ typedef struct video_draw_buffer_callback_s {
                              unsigned int *fb_pitch);
     void (*draw_buffer_free)(struct video_canvas_s *canvas, BYTE *draw_buffer);
     void (*draw_buffer_clear)(struct video_canvas_s *canvas, BYTE *draw_buffer,
-                             BYTE value, unsigned int fb_width, unsigned int fb_height,
-                             unsigned int fb_pitch);
+                             BYTE value, unsigned int fb_width,
+                             unsigned int fb_height, unsigned int fb_pitch);
 } video_draw_buffer_callback_t;
 
 /* These constants tell the video layer what */
@@ -121,7 +121,12 @@ typedef struct video_draw_buffer_callback_s {
 #define VIDEO_RESOURCES_PAL        2 /* c64, c128, vic20 */
 #define VIDEO_RESOURCES_PAL_NOFAKE 3 /* plus4 (fake pal emu not possible here) */
 
+struct raster_s;
+
 extern int video_resources_init(int mode);
+extern int video_resources_chip_init(const char *chipname,
+                                     struct raster_s *raster);
+extern int video_cmdline_options_chip_init(const char *chipname);
 extern int video_arch_init_resources(void);
 
 

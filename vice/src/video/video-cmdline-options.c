@@ -1,8 +1,8 @@
 /*
- * video-resources.h - Resources for the video output
+ * video-cmdline-options.c
  *
  * Written by
- *  John Selck <graham@cruise.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,31 +24,11 @@
  *
  */
 
-#ifndef _VIDEO_RESOURCES_H
-#define _VIDEO_RESOURCES_H
+#include "vice.h"
 
-#define VIDEO_RESOURCE_PAL_MODE_FAST	0
-#define VIDEO_RESOURCE_PAL_MODE_SHARP	1
-#define VIDEO_RESOURCE_PAL_MODE_BLUR	2
 
-struct video_resources_s
+int video_cmdline_options_chip_init(const char *chipname)
 {
-    int color_saturation;
-    int color_contrast;
-    int color_brightness;
-    int color_gamma;
-
-    int ext_palette;		/* external palette used? */
-    char *palette_file_name;
-
-    int delayloop_emulation;	/* fake PAL emu */
-    int pal_scanlineshade;
-    int pal_mode;
-};
-
-typedef struct video_resources_s video_resources_t;
-
-extern video_resources_t video_resources;
-
-#endif
+    return 0;
+}
 

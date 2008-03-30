@@ -17,6 +17,8 @@ libvideo_a_SOURCES = \
 	render2x2.h \
 	render2x2pal.c \
 	render2x2pal.h \
+	video-cmdline-options.c \
+	video-cmdline-options.h \
 	video-color.c \
 	video-color.h \
 	video-render.c \
