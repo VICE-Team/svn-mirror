@@ -62,6 +62,8 @@ static int io_in;
 /* State of the 40/80 column key.  */
 static int mmu_column4080_key = 1;
 
+static int mmu_config64;
+
 /* Logging goes here.  */
 static log_t mmu_log = LOG_ERR;
 
@@ -138,6 +140,34 @@ static void mmu_set_ram_bank(BYTE value)
 #ifdef MMU_DEBUG
     log_message(mmu_log, "Set RAM bank %i.", (value & 0x40) ? 1 : 0);
 #endif
+}
+
+static void mmu_update_config(void)
+{
+#ifdef MMU_DEBUG
+    log_message(mmu_log, "MMU5 %02x, MMU0 %02x, MMUC %02x\n",
+                mmu[5] & 0x40, mmu[0], mmu_config64);
+#endif
+
+    if (mmu[5] & 0x40) {
+        mem_update_config(0x80 + mmu_config64);
+    } else {
+        mem_update_config((((mmu[0] & 0x2)) ? 0 : 1)
+                          | ((mmu[0] & 0x0c) >> 1)
+                          | ((mmu[0] & 0x30) >> 1)
+                          | ((mmu[0] & 0x40) ? 32 : 0)
+                          | (((mmu[0] & 0x1)) ? 0 : 64)
+                          | ((mmu[5] & 0x40) << 1));
+        z80mem_update_config((((mmu[0] & 0x1)) ? 0 : 1)
+                          | ((mmu[0] & 0x40) ? 2 : 0)
+                          | ((mmu[0] & 0x80) ? 4 : 0));
+    }
+}
+
+void mmu_set_config64(int config)
+{
+    mmu_config64 = config;
+    mmu_update_config();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -221,11 +251,7 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
             break;
         }
 
-        mem_update_config(((basic_lo_in) ? 1 : 0) | ((mmu[0] & 0x0c) >> 1)
-                          | ((mmu[0] & 0x30) >> 1) | ((mmu[0] & 0x40) ? 32 : 0)
-                          | ((io_in) ? 64 : 0));
-        z80mem_update_config(((io_in) ? 1 : 0) | ((mmu[0] & 0x40) ? 2 : 0)
-                          | ((mmu[0] & 0x80) ? 4 : 0));
+        mmu_update_config();
     }
 }
 
