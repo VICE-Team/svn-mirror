@@ -1,3 +1,42 @@
+2001-04-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.15.
+
+	* machine.c: New file.
+
+	* Makefile.am: Added `machine.c'.
+
+	* maincpu.c, drive/drivecpu.c: Call `machine_jam' instead of
+	`ui_jam_dialog'.
+
+	* uiapi.h, arch/win32/ui.c: Removed references to
+	`UI_JAM_DEBUG'.
+
+	* aciacore.c: Alarm callback now returns void.
+
+	* uimon.h, arch/unix/uimon.c, arch/msdos/uimon.c,
+	arch/win32/uimon.c, arch/riscos/uimon.c, arch/os2/uimon.c,
+	arch/beos/uimon.c: Removed unnecessary includes from
+	`uimon.h'.
+
+	* c128/z80.c: Removed 6502 include.
+
+	* interrupt.c, interrupt.h: Moved some functions to main file.
+
+	* c64/c64cia1.c, c64/c64cia2.c, c128/c128cia1.c,
+	drive/cia1571d.c, drive/cia1581d.c, drive/riot2d.c,
+	pet/petpia1.c, pet/petpia2.c, cbm2/c610tpi1.c, c64/c64acia1.c:
+	Do not use generic interrupt set/unset routines as we have
+	much faster ones.
+
+	* sound.c (closesound, sound_flush): Added Dag's patch.
+
+	* main.c: Fixed C++ style comment.
+
+	* info.c, arch/win32/res.rc, arch/unix/x11/xaw/about.c,
+	arch/unix/x11/gnome/about.c, arch/msdos/menudefs.c, main.c,
+	c1541.c: Updated contributors.
+
 2001-04-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.14.

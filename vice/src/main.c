@@ -517,8 +517,8 @@ int MAIN_PROGRAM(int argc, char **argv)
                 archdep_program_name(), machine_name);
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Written by");
-    log_message(LOG_DEFAULT, "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic, A. Boose,");
-    log_message(LOG_DEFAULT, "T. Biczo, J. Valta, J. Sonninen and T. Bretz.");
+    log_message(LOG_DEFAULT, "D. Sladic, A. Boose, D. Lem, T. Biczo, A. Dehmel, T. Bretz,");
+    log_message(LOG_DEFAULT, "A. Matthies, M. Pottendorfer, M. Brenner, S. Trikaliotis.");
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "This is free software with ABSOLUTELY NO WARRANTY.");
     log_message(LOG_DEFAULT, "See the \"About VICE\" command for more info.");
@@ -567,7 +567,7 @@ int MAIN_PROGRAM(int argc, char **argv)
         return -1;
     }
 
-    // FIXME: what's about uimon_init???
+    /* FIXME: what's about uimon_init??? */
     if (!vsid_mode && console_init() < 0) {
         log_error(LOG_DEFAULT, "Console initialization failed.");
         return -1;

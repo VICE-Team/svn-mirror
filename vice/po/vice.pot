@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-04-02 23:37+0200\n"
+"POT-Creation-Date: 2001-04-06 15:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2014,19 +2014,19 @@ msgstr ""
 msgid "The VICE Team"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:77 src/arch/unix/x11/xaw/about.c:150
+#: src/arch/unix/x11/gnome/about.c:76 src/arch/unix/x11/xaw/about.c:149
 msgid "Official VICE homepage:"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:90
+#: src/arch/unix/x11/gnome/about.c:89
 msgid "License"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:96
+#: src/arch/unix/x11/gnome/about.c:95
 msgid "Warranty"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:102
+#: src/arch/unix/x11/gnome/about.c:101
 msgid "Contributors"
 msgstr ""
 
@@ -2447,7 +2447,7 @@ msgstr ""
 msgid "Cannot release shared memory!"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/about.c:156
+#: src/arch/unix/x11/xaw/about.c:155
 msgid "VICE Information"
 msgstr ""
 

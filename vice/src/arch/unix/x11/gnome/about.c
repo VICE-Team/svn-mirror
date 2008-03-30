@@ -59,18 +59,17 @@ void ui_about(gpointer data)
 #else
 	"The VICE Team",
 #endif
-	"Copyright @ 1996-1999 Ettore Perazzoli\n",
-	"Copyright @ 1997-2000 Daniel Sladic\n",
-	"Copyright @ 1998-2000 Andreas Boose\n",
-	"Copyright @ 1998-2000 Tibor Biczo\n",
-	"Copyright @ 1999-2000 Andreas Dehmel\n",
-	"Copyright @ 1999-2000 Thomas Bretz\n",
-	"Copyright @ 1999-2000 Andreas Matthies\n",
-	"Copyright @ 1999-2000 Martin Pottendorfer\n",
-	"Copyright @ 1996-1999 André Fachat\n",
-	"Copyright @ 1993-1994, 1997-1999 Teemu Rantanen\n",
+        "Copyright @ 1997-2001 Daniel Sladic\n",
+        "Copyright @ 1998-2001 Andreas Boose\n",
+        "Copyright @ 1998-2001 Tibor Biczo\n",
+        "Copyright @ 1999-2001 Andreas Dehmel\n",
+        "Copyright @ 1999-2001 Thomas Bretz\n",
+        "Copyright @ 1999-2001 Andreas Matthies\n",
+        "Copyright @ 1999-2001 Martin Pottendorfer\n",
+        "Copyright @ 2000-2001 Markus Brenner\n",
+        "Copyright @ 2000-2001 Spiro Trikaliotis\n",
 #ifdef HAVE_RESID
-	"reSID engine Copyright © 1999 Dag Lem",
+	"reSID engine Copyright © 1999-2001 Dag Lem",
 #endif
 	"",
 #ifdef __GNUC__
