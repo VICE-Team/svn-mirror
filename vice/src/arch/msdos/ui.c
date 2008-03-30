@@ -100,7 +100,7 @@ int ui_init_finish(void)
     return 0;
 }
 
-void ui_main(ADDRESS addr)
+void ui_main(char hotkey)
 {
     char s[256];
     double speed_index, frame_rate;
@@ -140,7 +140,7 @@ void ui_main(ADDRESS addr)
     /* FIXME: This should not be necessary.  */
     tui_menu_update(ui_main_menu);
 
-    tui_menu_handle(ui_main_menu);
+    tui_menu_handle(ui_main_menu, hotkey);
 
     disable_text();
     suspend_speed_eval();
