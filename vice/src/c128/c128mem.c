@@ -54,10 +54,11 @@
 #include "sid.h"
 #include "snapshot.h"
 #include "sysfile.h"
+#include "ui.h"
 #include "utils.h"
 #include "vdc.h"
-#include "ui.h"
 #include "vicii.h"
+#include "z80mem.h"
 
 #ifdef HAVE_RS232
 #include "c64acia.h"
@@ -458,6 +459,8 @@ BYTE REGPARM1 read_chargen(ADDRESS addr)
 BYTE REGPARM1 read_rom(ADDRESS addr)
 {
     switch (addr & 0xf000) {
+      case 0x0000:
+        return read_bios(addr);
       case 0xe000:
       case 0xf000:
         return read_kernal(addr);
@@ -478,6 +481,9 @@ BYTE REGPARM1 read_rom(ADDRESS addr)
 void REGPARM2 store_rom(ADDRESS addr, BYTE value)
 {
     switch (addr & 0xf000) {
+      case 0x0000:
+        store_bios(addr, value);
+        break;
       case 0xe000:
       case 0xf000:
         store_kernal(addr, value);
@@ -1557,6 +1563,9 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
             return read_bank_io(addr);
         }
       case 2:                   /* rom */
+        if (addr <= 0x0FFF) {
+            return read_bios(addr);
+        }
         if (addr >= 0x4000 && addr <= 0xCFFF) {
             return basic_rom[addr - 0x4000];
         }
