@@ -50,7 +50,7 @@
 #undef TRACE
 
 /* Force `TRACE' in unstable versions.  */
-#if defined UNSTABLE && !defined TRACE
+#if 0 && defined UNSTABLE && !defined TRACE
 #define TRACE
 #endif
 
