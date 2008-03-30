@@ -28,14 +28,18 @@
 #ifndef _VIDMODE_H
 #define _VIDMODE_H
 
-extern int vm_selected_videomode;
+struct video_canvas_s;
+struct ui_menu_entry_s;
+
 extern int vm_is_enabled;
 
 extern int vidmode_init(void);
-extern int vidmode_set_bestmode(void *v, void *p);
-extern int vidmode_set_mode(void *v, void *p);
 extern int vidmode_available(void);
-extern void vidmode_create_menus(void);
+
+extern int vidmode_enable(struct video_canvas_s *canvas, int enable);
+extern int vidmode_mode(struct video_canvas_s *canvas, int mode);
+extern void vidmode_mode_callback(void *callback);
+extern void vidmode_create_menus(struct ui_menu_entry_s menu[]);
 
 #endif
 
