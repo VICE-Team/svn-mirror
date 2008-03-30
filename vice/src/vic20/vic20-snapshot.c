@@ -36,6 +36,8 @@
 #include "drive-snapshot.h"
 #include "event.h"
 #include "ioutil.h"
+#include "joystick.h"
+#include "keyboard.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -76,7 +78,9 @@ int vic20_snapshot_write(const char *name, int save_roms, int save_disks,
         || viacore_snapshot_write_module(machine_context.via2, s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         || event_snapshot_write_module(s, event_mode) < 0
-        || tape_snapshot_write_module(s, save_disks) < 0) {
+        || tape_snapshot_write_module(s, save_disks) < 0
+        || keyboard_snapshot_write_module(s)
+        || joystick_snapshot_write_module(s)) {
         snapshot_close(s);
         ioutil_remove(name);
         return -1;
@@ -121,7 +125,9 @@ int vic20_snapshot_read(const char *name, int event_mode)
         || viacore_snapshot_read_module(machine_context.via2, s) < 0
         || drive_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
-        || tape_snapshot_read_module(s) < 0)
+        || tape_snapshot_read_module(s) < 0
+        || keyboard_snapshot_read_module(s) < 0
+        || joystick_snapshot_read_module(s) < 0)
         goto fail;
 
     if (viacore_snapshot_read_module(machine_context.ieeevia1, s) < 0

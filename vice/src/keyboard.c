@@ -47,6 +47,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "sysfile.h"
 #include "types.h"
 #include "util.h"
@@ -903,3 +904,48 @@ void keyboard_shutdown(void)
 #endif
 }
 
+/*--------------------------------------------------------------------------*/
+int keyboard_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, "KEYBOARD", 1, 0);
+    if (m == NULL)
+       return -1;
+
+    if (0
+        || SMW_DWA(m, keyarr, KBD_ROWS) < 0
+        || SMW_DWA(m, rev_keyarr, KBD_COLS) < 0)
+    {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (snapshot_module_close(m) < 0)
+        return -1;
+
+    return 0;
+}
+
+int keyboard_snapshot_read_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, "KEYBOARD",
+                             &major_version, &minor_version);
+    if (m == NULL) {
+        return 0;
+    }
+
+    if (0
+        || SMR_DWA(m, keyarr, KBD_ROWS) < 0
+        || SMR_DWA(m, rev_keyarr, KBD_COLS) < 0)
+    {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}

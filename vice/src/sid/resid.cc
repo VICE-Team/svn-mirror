@@ -103,7 +103,11 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
 	strcpy(method_text, "interpolating");
 	break;
       case 2:
-        method = SAMPLE_RESAMPLE;
+        method = SAMPLE_RESAMPLE_INTERPOLATE;
+	sprintf(method_text, "resampling, pass to %dHz", (int)passband);
+	break;
+      case 3:
+        method = SAMPLE_RESAMPLE_FAST;
 	sprintf(method_text, "resampling, pass to %dHz", (int)passband);
 	break;
     }

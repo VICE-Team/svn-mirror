@@ -35,6 +35,7 @@
 #define DEBUG_NORMAL    0
 #define DEBUG_SMALL     1
 #define DEBUG_HISTORY   2
+#define DEBUG_AUTOPLAY  3
 
 #define DEBUG_HISTORY_MAXFILESIZE   4000000
 #define DEBUG_MAXLINELEN             128
@@ -68,6 +69,9 @@ extern void debug_start_recording(void);
 extern void debug_stop_recording(void);
 extern void debug_start_playback(void);
 extern void debug_stop_playback(void);
+extern void debug_set_milestone(void);
+extern void debug_reset_milestone(void);
+extern void debug_check_autoplay_mode(void);
 
 #endif
 

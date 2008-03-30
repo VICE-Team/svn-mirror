@@ -873,13 +873,14 @@ int datasette_read_snapshot(snapshot_t *s)
     ui_set_tape_status(current_image ? 1 : 0);
     datasette_update_ui_counter();
     ui_display_tape_motor_status(datasette_motor);
-    if (current_image)
+    if (current_image) {
         ui_display_tape_control_status(current_image->mode);
 
-    if (current_image->mode > 0)
-        datasette_set_tape_sense(1);
-    else
-        datasette_set_tape_sense(0);
+        if (current_image->mode > 0)
+            datasette_set_tape_sense(1);
+        else
+            datasette_set_tape_sense(0);
+    }
 
     /* reset buffer */
     next_tap = last_tap = 0;

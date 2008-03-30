@@ -64,7 +64,7 @@ static const cmdline_option_t cmdline_options[] = {
 #ifdef HAVE_RESID
     { "-residsamp <method>", SET_RESOURCE, 1, NULL, NULL, "SidResidSampling",
       (void *)0, NULL,
-      "reSID sampling method (0: fast, 1: interpolating, 2: resampling)" },
+      "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast resampling)" },
     { "-residpass <percent>", SET_RESOURCE, 1, NULL, NULL, "SidResidPassband",
       (void *)90, NULL,
       "reSID resampling passband in percentage of total bandwidth (0 - 90)" },

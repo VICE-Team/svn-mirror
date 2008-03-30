@@ -333,14 +333,15 @@ int drive_image_detach(disk_image_t *image, unsigned int unit)
           default:
             return -1;
         }
-
-        drive_gcr_data_writeback(drive);
-        memset(drive->gcr->data, 0, MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK);
-        drive->detach_clk = drive_clk[dnr];
-        drive->GCR_image_loaded = 0;
-        drive->read_only = 0;
-        drive->image = NULL;
     }
+
+    drive_gcr_data_writeback(drive);
+    memset(drive->gcr->data, 0, MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK);
+    drive->detach_clk = drive_clk[dnr];
+    drive->GCR_image_loaded = 0;
+    drive->read_only = 0;
+    drive->image = NULL;
+
     return 0;
 }
 

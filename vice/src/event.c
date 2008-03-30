@@ -696,6 +696,9 @@ static void event_record_set_milestone_trap(WORD addr, void *data)
     } else {
         milestone_timestamp_alarm = last_timestamp_alarm;
         milestone_timestamp = current_timestamp;
+#ifdef  DEBUG
+        debug_set_milestone();
+#endif
     }
 }
 
@@ -725,8 +728,12 @@ static void event_record_reset_milestone_trap(WORD addr, void *data)
     record_active = 1;
     if (milestone_timestamp_alarm > 0) {
         alarm_set(event_alarm, milestone_timestamp_alarm);
+        last_timestamp_alarm = milestone_timestamp_alarm;
         current_timestamp = milestone_timestamp;
     }
+#ifdef  DEBUG
+    debug_reset_milestone();
+#endif
 }
 
 int event_record_reset_milestone(void)

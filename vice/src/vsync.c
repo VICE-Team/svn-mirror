@@ -294,6 +294,11 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     /* Run vsync jobs. */
     vsync_hook();
 
+#ifdef DEBUG
+    /* switch between recording and playback in history debug mode */
+    debug_check_autoplay_mode();
+#endif
+
     /*
      * Update display every two second (pc system time)
      * This has some reasons:

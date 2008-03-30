@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-05-10 22:00+0200\n"
+"POT-Creation-Date: 2004-05-20 13:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgstr ""
 msgid "Disable warp mode"
 msgstr ""
 
-#: src/vsync.c:429
+#: src/vsync.c:434
 msgid "Your machine is too slow for current settings!"
 msgstr ""
 
@@ -129,7 +129,7 @@ msgstr ""
 msgid "Could not create start snapshot file %s."
 msgstr ""
 
-#: src/event.c:480 src/event.c:720
+#: src/event.c:480 src/event.c:723
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
@@ -2389,13 +2389,17 @@ msgstr ""
 msgid "*Resampling"
 msgstr ""
 
-#: src/arch/unix/uisid.c:93
+#: src/arch/unix/uisid.c:78
+msgid "*Fast Resampling"
+msgstr ""
+
+#: src/arch/unix/uisid.c:95
 msgid ""
 "Enter passband in percentage of total bandwidth\n"
 "(0 - 90, lower is faster, higher is better)"
 msgstr ""
 
-#: src/arch/unix/uisid.c:94
+#: src/arch/unix/uisid.c:96
 msgid "Passband percentage"
 msgstr ""
 

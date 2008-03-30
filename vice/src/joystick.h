@@ -43,6 +43,8 @@ extern void joystick_clear_all(void);
 extern BYTE joystick_get_value_absolute(unsigned int joyport);
 
 extern void joystick_event_playback(CLOCK offset, void *data);
+extern int joystick_snapshot_write_module(struct snapshot_s *s);
+extern int joystick_snapshot_read_module(struct snapshot_s *s);
 
 #endif
 

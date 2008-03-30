@@ -35,6 +35,20 @@ SID::SID()
   bus_value_ttl = 0;
 
   ext_in = 0;
+
+  // Initialize pointers.
+  sample = 0;
+  fir = 0;
+}
+
+
+// ----------------------------------------------------------------------------
+// Destructor.
+// ----------------------------------------------------------------------------
+SID::~SID()
+{
+  delete[] sample;
+  delete[] fir;
 }
 
 
@@ -373,7 +387,7 @@ void SID::enable_external_filter(bool enable)
 double SID::I0(double x)
 {
   // Max error acceptable in I0.
-  const double I0e = 1E-21;
+  const double I0e = 1e-6;
 
   double sum, u, halfx, temp;
   int n;
@@ -418,9 +432,10 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
 				  double filter_scale)
 {
   // Check resampling constraints.
-  if (method == SAMPLE_RESAMPLE) {
+  if (method == SAMPLE_RESAMPLE_INTERPOLATE || method == SAMPLE_RESAMPLE_FAST)
+  {
     // Check whether the sample ring buffer would overfill.
-    if (FIR_N*clock_freq/sample_freq >= 16384) {
+    if (FIR_N*clock_freq/sample_freq >= RINGSIZE) {
       return false;
     }
 
@@ -454,7 +469,12 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   sample_prev = 0;
 
   // FIR initialization is only necessary for resampling.
-  if (sampling != SAMPLE_RESAMPLE) {
+  if (method != SAMPLE_RESAMPLE_INTERPOLATE && method != SAMPLE_RESAMPLE_FAST)
+  {
+    delete[] sample;
+    delete[] fir;
+    sample = 0;
+    fir = 0;
     return true;
   }
 
@@ -487,7 +507,11 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   // The filter length must be an odd number (sinc is symmetric about x = 0).
   fir_N = int(N*f_cycles_per_sample) + 1;
   fir_N |= 1;
-  fir_RES = int(FIR_RES/f_cycles_per_sample);
+  fir_RES = int((method == SAMPLE_RESAMPLE_INTERPOLATE ? FIR_RES_INTERPOLATE : FIR_RES_FAST)/f_cycles_per_sample);
+
+  // Allocate memory for FIR tables.
+  delete[] fir;
+  fir = new short[fir_N*fir_RES];
 
   // Calculate fir_RES FIR tables for linear interpolation.
   for (int i = 0; i < fir_RES; i++) {
@@ -509,8 +533,12 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
     }
   }
 
+  // Allocate sample buffer.
+  if (!sample) {
+    sample = new short[RINGSIZE*2];
+  }
   // Clear sample buffer.
-  for (unsigned int j = 0; j < sizeof(sample)/sizeof(*sample); j++) {
+  for (int j = 0; j < RINGSIZE*2; j++) {
     sample[j] = 0;
   }
   sample_index = 0;
@@ -695,8 +723,10 @@ int SID::clock(cycle_count& delta_t, short* buf, int n, int interleave)
     return clock_fast(delta_t, buf, n, interleave);
   case SAMPLE_INTERPOLATE:
     return clock_interpolate(delta_t, buf, n, interleave);
-  case SAMPLE_RESAMPLE:
-    return clock_resample(delta_t, buf, n, interleave);
+  case SAMPLE_RESAMPLE_INTERPOLATE:
+    return clock_resample_interpolate(delta_t, buf, n, interleave);
+  case SAMPLE_RESAMPLE_FAST:
+    return clock_resample_fast(delta_t, buf, n, interleave);
   }
 }
 
@@ -806,21 +836,25 @@ int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
 // current hardware.
 //
 // Further possible optimizations are:
-// * Increasing the number of filter tables would make it possible to
-//   drop the linear interpolation step; this would double the speed.
 // * An equiripple filter design could yield a lower filter order, see
 //   http://www.mwrf.com/Articles/ArticleID/7229/7229.html
-// * Successive halving of the sampling frequency down from 1MHz could
-//   bring part of the computational effort down from O(n*n) to O(n*log2(n))
-//   by leveraging the fact that every second sample can be omitted in the
-//   convolution (every second sample falls on a zero crossing).
+// * The Convolution Theorem could be used to bring the complexity of
+//   convolution down from O(n*n) to O(n*log(n)) using the Fast Fourier
+//   Transform, see http://en.wikipedia.org/wiki/Convolution_theorem
+// * Simply resampling in two steps can also yield computational
+//   savings, since the transition band will be wider in the first step
+//   and the required filter order is thus lower in this step.
+//   Laurent Ganier has found the optimal intermediate sampling frequency
+//   to be (via derivation of sum of two steps):
+//     2 * pass_freq + sqrt [ 2 * pass_freq * orig_sample_freq
+//       * (dest_sample_freq - 2 * pass_freq) / dest_sample_freq ]
 //
 // NB! the result of right shifting negative numbers is really
 // implementation dependent in the C++ standard.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-int SID::clock_resample(cycle_count& delta_t, short* buf, int n,
-			int interleave)
+int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
+				    int interleave)
 {
   int s = 0;
 
@@ -835,7 +869,7 @@ int SID::clock_resample(cycle_count& delta_t, short* buf, int n,
     }
     for (int i = 0; i < delta_t_sample; i++) {
       clock();
-      sample[sample_index] = sample[sample_index + 16384] = output();
+      sample[sample_index] = sample[sample_index + RINGSIZE] = output();
       ++sample_index;
       sample_index &= 0x3fff;
     }
@@ -844,27 +878,27 @@ int SID::clock_resample(cycle_count& delta_t, short* buf, int n,
 
     int fir_offset = sample_offset*fir_RES >> 10;
     int fir_offset_rmd = sample_offset*fir_RES & 0x3ff;
-    int fir_start = fir_offset*fir_N;
-    // Leave one sample at the end for linear interpolation.
-    int sample_start = sample_index - fir_N - 1 + 16384;
+    short* fir_start = fir + fir_offset*fir_N;
+    short* sample_start = sample + sample_index - fir_N + RINGSIZE;
 
     // Convolution with filter impulse response.
     int v1 = 0;
     for (int j = 0; j < fir_N; j++) {
-      v1 += sample[sample_start + j]*fir[fir_start + j];
+      v1 += sample_start[j]*fir_start[j];
     }
 
-    // Use next FIR table, wrap around to first FIR table using next sample.
+    // Use next FIR table, wrap around to first FIR table using
+    // previous sample.
     if (++fir_offset == fir_RES) {
       fir_offset = 0;
-      ++sample_start;
+      --sample_start;
     }
-    fir_start = fir_offset*fir_N;
+    fir_start = fir + fir_offset*fir_N;
 
     // Convolution with filter impulse response.
     int v2 = 0;
     for (int j = 0; j < fir_N; j++) {
-      v2 += sample[sample_start + j]*fir[fir_start + j];
+      v2 += sample_start[j]*fir_start[j];
     }
 
     // Linear interpolation.
@@ -888,7 +922,70 @@ int SID::clock_resample(cycle_count& delta_t, short* buf, int n,
 
   for (int i = 0; i < delta_t; i++) {
     clock();
-    sample[sample_index] = sample[sample_index + 16384] = output();
+    sample[sample_index] = sample[sample_index + RINGSIZE] = output();
+    ++sample_index;
+    sample_index &= 0x3fff;
+  }
+  sample_offset -= delta_t << 10;
+  delta_t = 0;
+  return s;
+}
+
+
+// ----------------------------------------------------------------------------
+// SID clocking with audio sampling - cycle based with audio resampling.
+// ----------------------------------------------------------------------------
+RESID_INLINE
+int SID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
+			     int interleave)
+{
+  int s = 0;
+
+  for (;;) {
+    cycle_count next_sample_offset = sample_offset + cycles_per_sample;
+    cycle_count delta_t_sample = next_sample_offset >> 10;
+    if (delta_t_sample > delta_t) {
+      break;
+    }
+    if (s >= n) {
+      return s;
+    }
+    for (int i = 0; i < delta_t_sample; i++) {
+      clock();
+      sample[sample_index] = sample[sample_index + RINGSIZE] = output();
+      ++sample_index;
+      sample_index &= 0x3fff;
+    }
+    delta_t -= delta_t_sample;
+    sample_offset = next_sample_offset & 0x3ff;
+
+    int fir_offset = sample_offset*fir_RES >> 10;
+    short* fir_start = fir + fir_offset*fir_N;
+    short* sample_start = sample + sample_index - fir_N + RINGSIZE;
+
+    // Convolution with filter impulse response.
+    int v = 0;
+    for (int j = 0; j < fir_N; j++) {
+      v += sample_start[j]*fir_start[j];
+    }
+
+    v >>= FIR_SHIFT;
+
+    // Saturated arithmetics to guard against 16 bit sample overflow.
+    const int half = 1 << 15;
+    if (v >= half) {
+      v = half - 1;
+    }
+    else if (v < -half) {
+      v = -half;
+    }
+
+    buf[s++*interleave] = v;
+  }
+
+  for (int i = 0; i < delta_t; i++) {
+    clock();
+    sample[sample_index] = sample[sample_index + RINGSIZE] = output();
     ++sample_index;
     sample_index &= 0x3fff;
   }

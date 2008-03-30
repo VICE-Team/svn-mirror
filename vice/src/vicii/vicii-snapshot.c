@@ -340,9 +340,35 @@ int vicii_snapshot_read_module(snapshot_t *s)
     }
 
     /* FIXME: Recalculate alarms and derived values.  */
+#if 1
+    {
+        /* 
+            We cannot use vicii_irq_set_raster_line as this would delay
+            an alarm on line 0 for one frame
+        */
+        unsigned int line = vicii.regs[0x12] | ((vicii.regs[0x11] & 0x80) << 1);
 
+        if (line < (unsigned int)vicii.screen_height) {
+            vicii.raster_irq_clk = (VICII_LINE_START_CLK(maincpu_clk)
+                                    + VICII_RASTER_IRQ_DELAY - INTERRUPT_DELAY
+                                    + (vicii.cycles_per_line * line));
+
+            /* Raster interrupts on line 0 are delayed by 1 cycle.  */
+            if (line == 0)
+                vicii.raster_irq_clk++;
+
+            alarm_set(vicii.raster_irq_alarm, vicii.raster_irq_clk);
+        } else {
+            vicii.raster_irq_clk = CLOCK_MAX;
+            alarm_unset(vicii.raster_irq_alarm);
+        }
+        vicii.raster_irq_line = line;
+    }
+
+#else
     vicii_irq_set_raster_line(vicii.regs[0x12]
                               | ((vicii.regs[0x11] & 0x80) << 1));
+#endif
 
     /* compatibility with older versions */
     vicii.ram_base_phi2 = vicii.ram_base_phi1;

@@ -1,4 +1,4 @@
-2004-05-05  Dag Lem  <resid@nimrod.no>
+2004-05-18  Dag Lem  <resid@nimrod.no>
 
 	* Version 0.16 released.
 
@@ -10,8 +10,11 @@
 
 	* sid.cc (SID::set_sampling_parameters): Build shifted FIR tables
 	with samples according to the sampling frequency.
-	(SID::clock_resample): Factorized linear interpolation out from
-	filter convolutions, and made convolutions vectorizable.
+	(SID::clock_resample_interpolate): New function; Factorized linear
+	interpolation out from filter convolutions, and made convolutions
+	vectorizable.
+	(SID::clock_resample_fast): New function; Single convolution, same
+	accuracy as with interpolation by using more filter tables.
 
 2003-10-20  Dag Lem  <resid@nimrod.no>
 

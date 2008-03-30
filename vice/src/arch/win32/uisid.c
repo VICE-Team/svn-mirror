@@ -56,7 +56,8 @@ static const TCHAR *ui_sid_engine[] =
 
 static const TCHAR *ui_sid_samplemethod[] = 
 {
-    TEXT("fast"), TEXT("interpolating"), TEXT("resample"), NULL
+    TEXT("fast"), TEXT("interpolating"), TEXT("resampling"),
+    TEXT("fast resampling"), NULL
 };
 
 static const int ui_sid_c64baseaddress[] =

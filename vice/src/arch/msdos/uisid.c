@@ -82,7 +82,7 @@ static TUI_MENU_CALLBACK(toggle_ResidSampling_callback)
 
     resources_get_value("SidResidSampling", (void *)&value);
     if (been_activated) {
-        value = (value + 1) % 3;
+        value = (value + 1) % 4;
         resources_set_value("SidResidSampling", (resource_value_t) value);
     }
 

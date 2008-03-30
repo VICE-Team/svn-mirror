@@ -81,7 +81,7 @@ interpolation to be factorized out from the convolution. Secondly, he
 duplicated elements in the sample ring buffer, achieving contiguous
 storage of the samples. The current resampling implementation builds
 on these ideas, improving on them by using shifted filter tables for
-generalization and accuracy in linear interpolation.
+generalization and accuracy.
 
 Finally I would like to thank my business partner Stian W. Arnesen for
 putting up with all this nonsense.

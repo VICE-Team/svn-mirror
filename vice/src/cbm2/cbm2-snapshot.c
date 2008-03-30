@@ -40,6 +40,8 @@
 #include "drivecpu.h"
 #include "event.h"
 #include "ioutil.h"
+#include "joystick.h"
+#include "keyboard.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -80,7 +82,9 @@ int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
         || (cbm2_isC500 && vicii_snapshot_write_module(s) < 0)
         || (cbm2_isC500 && cbm2_c500_snapshot_write_module(s) < 0)
         || event_snapshot_write_module(s, event_mode) < 0
-        || tape_snapshot_write_module(s, save_disks) < 0) {
+        || tape_snapshot_write_module(s, save_disks) < 0
+        || keyboard_snapshot_write_module(s)
+        || joystick_snapshot_write_module(s)) {
         snapshot_close(s);
         ioutil_remove(name);
         return -1;
@@ -122,7 +126,9 @@ int cbm2_snapshot_read(const char *name, int event_mode)
         || sid_snapshot_read_module(s) < 0
         || drive_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
-        || tape_snapshot_read_module(s) < 0)
+        || tape_snapshot_read_module(s) < 0
+        || keyboard_snapshot_read_module(s) < 0
+        || joystick_snapshot_read_module(s) < 0)
         goto fail;
 
     sound_snapshot_finish();

@@ -1990,7 +1990,8 @@ void UpdateAll(void)
 {
     uimon_client_windows_t *p;
 
-	EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowUpdateProc,(LPARAM)NULL);
+    if (hwndMdiClient)
+	    EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowUpdateProc,(LPARAM)NULL);
 
     for (p = first_client_window; p; p=p->next )
         WindowUpdateProc( p->hwnd, 0 );
@@ -2011,7 +2012,8 @@ void update_shown(void)
 {
     uimon_client_windows_t *p;
 
-	EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowUpdateShown,(LPARAM)NULL);
+    if (hwndMdiClient)
+        EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowUpdateShown,(LPARAM)NULL);
 
     for (p = first_client_window; p; p=p->next )
         WindowUpdateShown( p->hwnd, 0 );

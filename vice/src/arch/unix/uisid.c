@@ -75,6 +75,8 @@ ui_menu_entry_t sid_resid_sampling_submenu[] = {
       (ui_callback_t)radio_SidResidSampling, (ui_callback_data_t)1, NULL },
     { N_("*Resampling"),
       (ui_callback_t)radio_SidResidSampling, (ui_callback_data_t)2, NULL },
+    { N_("*Fast Resampling"),
+      (ui_callback_t)radio_SidResidSampling, (ui_callback_data_t)3, NULL },
     { NULL }
 };
 

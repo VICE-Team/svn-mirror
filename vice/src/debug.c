@@ -55,6 +55,8 @@ static int set_do_core_dumps(resource_value_t v, void *param)
 }
 
 #ifdef DEBUG
+static int debug_autoplay_frames;
+
 static int set_maincpu_traceflg(resource_value_t v, void *param)
 {
     debug.maincpu_traceflg = (int)v;
@@ -70,6 +72,12 @@ static int set_drive_traceflg(resource_value_t v, void *param)
 static int set_trace_mode(resource_value_t v, void *param)
 {
     debug.trace_mode = (int)v;
+    return 0;
+}
+
+static int set_autoplay_frames(resource_value_t v, void *param)
+{
+    debug_autoplay_frames = (int)v;
     return 0;
 }
 
@@ -96,6 +104,8 @@ static const resource_t resources[] = {
 #endif
     { "TraceMode", RES_INTEGER, (resource_value_t)0,
       (void *)&debug.trace_mode, set_trace_mode, NULL },
+    { "AutoPlaybackFrames", RES_INTEGER, (resource_value_t)200,
+      (void *)&debug_autoplay_frames, set_autoplay_frames, NULL },
 #endif
     { NULL }
 };
@@ -196,6 +206,7 @@ void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
         break;
       }
       case DEBUG_HISTORY:
+      case DEBUG_AUTOPLAY:
       {
         char st[DEBUG_MAXLINELEN];
 
@@ -225,14 +236,14 @@ void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis,
 
     sprintf(st, "Drive: .%04X %10ld %-20s %02x%02x%02x%02x", (unsigned int)reg_pc,
               (long)mclk, dis, reg_a, reg_x, reg_y, reg_sp);
-    if (debug.trace_mode == DEBUG_HISTORY)
+    if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY)
         debug_history_step(st);
     else
         log_debug(st);
 }
 
 void debug_text(const char *text)
-{    if (debug.trace_mode == DEBUG_HISTORY)
+{    if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY)
         debug_history_step(text);
     else
         log_debug(text);
@@ -254,7 +265,7 @@ static void debug_int(interrupt_cpu_status_t *cs, const char *name,
         }
     }
 
-    if (debug.trace_mode == DEBUG_HISTORY)
+    if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY)
         debug_history_step(textout);
     else
         log_debug(textout);
@@ -281,6 +292,8 @@ static int debug_buffer_size;
 static int debug_file_current;
 static int debug_file_line;
 static int debug_file_milestone;
+static int debug_autoplay_nextmode;
+static int debug_autoplay_current_frame;
 
 static void debug_close_file(void)
 {
@@ -338,6 +351,7 @@ inline static void debug_history_step(const char *st)
     if (event_record_active()) {
         
         if (debug_buffer_ptr + DEBUG_MAXLINELEN >= DEBUG_HISTORY_MAXFILESIZE) {
+
             debug_create_new_file();
         }
         
@@ -367,6 +381,10 @@ inline static void debug_history_step(const char *st)
 
 void debug_start_recording(void)
 {
+    if (debug.trace_mode < DEBUG_HISTORY)
+        return;
+
+    debug_autoplay_current_frame = 0;
     debug_file_current = 0;
     debug_file_milestone = 0;
     debug_buffer_ptr = 0;
@@ -376,12 +394,18 @@ void debug_start_recording(void)
 
 void debug_stop_recording(void)
 {
+    if (debug.trace_mode < DEBUG_HISTORY)
+        return;
+
     debug_close_file();
     lib_free(debug_buffer);
 }
 
 void debug_start_playback(void)
 {
+    if (debug.trace_mode < DEBUG_HISTORY)
+        return;
+
     debug_file_current = 0;
     debug_file_milestone = 0;
     debug_buffer_ptr = 0;
@@ -391,11 +415,71 @@ void debug_start_playback(void)
 
 void debug_stop_playback(void)
 {
+    if (debug.trace_mode < DEBUG_HISTORY)
+        return;
+
     if (debug_file != NULL) {
         fclose(debug_file);
         debug_file = NULL;
     }
     lib_free(debug_buffer);
+
+    if (debug.trace_mode == DEBUG_AUTOPLAY)
+        debug_autoplay_nextmode = 1; /* start recording next */
+
+}
+
+void debug_set_milestone(void)
+{
+    if (debug.trace_mode < DEBUG_HISTORY)
+        return;
+
+    debug_create_new_file();
+    debug_file_milestone = debug_file_current;
+}
+
+void debug_reset_milestone(void)
+{
+    if (debug.trace_mode < DEBUG_HISTORY)
+        return;
+
+    debug_file_current = debug_file_milestone - 1;
+    debug_create_new_file();
+}
+
+void debug_check_autoplay_mode(void)
+{
+    if (debug.trace_mode != DEBUG_AUTOPLAY)
+        return;
+
+    if (debug_autoplay_nextmode == 2)
+    {
+        event_playback_start();
+        debug_autoplay_nextmode = 0;
+        return;
+    }
+
+    if (debug_autoplay_nextmode == 1) {
+        /* AUTPLAY mode needs to start recording */
+        event_record_start();
+        debug_autoplay_nextmode = 0;
+        return;
+    }
+
+    debug_autoplay_current_frame++;
+
+    if (debug_autoplay_current_frame >= debug_autoplay_frames)
+    {
+        debug_autoplay_current_frame = 0;
+
+        if (event_record_active())
+        {
+            event_record_stop();
+            debug_autoplay_nextmode = 2; /* start playback next */
+            return;
+        }
+
+    }
 }
 
 #endif

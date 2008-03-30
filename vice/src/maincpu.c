@@ -450,7 +450,7 @@ int maincpu_snapshot_read_module(snapshot_t *s)
 
     /* FIXME: This is a mighty kludge to prevent VIC-II from stealing the
        wrong number of cycles.  */
-    maincpu_rmw_flag = -1;
+    maincpu_rmw_flag = 0;
 
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0

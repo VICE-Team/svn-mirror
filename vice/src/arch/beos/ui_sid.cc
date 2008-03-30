@@ -51,6 +51,7 @@ static char *samplingmode[] = {
 	"fast sampling",
 	"interpolating",
 	"resampling",
+	"fast resampling",
 	NULL
 };
 

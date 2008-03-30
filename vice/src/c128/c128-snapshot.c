@@ -38,6 +38,8 @@
 #include "drivecpu.h"
 #include "event.h"
 #include "ioutil.h"
+#include "joystick.h"
+#include "keyboard.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -73,7 +75,9 @@ int c128_snapshot_write(const char *name, int save_roms, int save_disks,
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
         || vicii_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
-        || tape_snapshot_write_module(s, save_disks) < 0) {
+        || tape_snapshot_write_module(s, save_disks) < 0
+        || keyboard_snapshot_write_module(s)
+        || joystick_snapshot_write_module(s)) {
         snapshot_close(s);
         ioutil_remove(name);
         return -1;
@@ -109,7 +113,9 @@ int c128_snapshot_read(const char *name, int event_mode)
         || drive_snapshot_read_module(s) < 0
         || vicii_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
-        || tape_snapshot_read_module(s) < 0)
+        || tape_snapshot_read_module(s) < 0
+        || keyboard_snapshot_read_module(s) < 0
+        || joystick_snapshot_read_module(s) < 0)
        goto fail;
 
     snapshot_close(s);

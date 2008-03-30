@@ -1377,7 +1377,9 @@ int set_tfe_rr_net(resource_value_t v, void *param)
             }
 
             /* virtually reset the LAN chip */
-            tfe_reset();
+            if (tfe) {
+                tfe_reset();
+	    }
             return 0;
         }
 
@@ -1446,7 +1448,9 @@ int set_tfe_interface(resource_value_t v, void *param)
         }
 
         /* virtually reset the LAN chip */
-        tfe_reset();
+        if (tfe) {
+            tfe_reset();
+        }
     }
     return 0;
 }

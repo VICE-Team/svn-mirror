@@ -169,6 +169,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
             || SMW_DW(m, (DWORD)(drive->snap_rotation_last_clk)) < 0
             || SMW_DW(m, (DWORD)(rotation_table_ptr[i])) < 0
             || SMW_DW(m, (DWORD)(drive->type)) < 0
+            || SMW_DW(m, (DWORD)(drive->attach_detach_clk)) < 0
         ) {
             if (m != NULL)
                 snapshot_module_close(m);
@@ -283,6 +284,9 @@ int drive_snapshot_read_module(snapshot_t *s)
                 snapshot_module_close(m);
             return -1;
         }
+
+        /* this one is new, so don't test so stay compatible with old snapshots */
+        SMR_DW(m, &(drive->attach_detach_clk));
     }
     snapshot_module_close(m);
     m = NULL;

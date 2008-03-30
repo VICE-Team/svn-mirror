@@ -41,6 +41,7 @@
 #include "joy.h"
 #include "joystick.h"
 #include "maincpu.h"
+#include "snapshot.h"
 #include "ui.h"
 #include "types.h"
 #include "log.h"
@@ -247,3 +248,46 @@ int joystick_init(void)
     return joy_arch_init();
 }
 
+/*--------------------------------------------------------------------------*/
+int joystick_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, "JOYSTICK", 1, 0);
+    if (m == NULL)
+       return -1;
+
+    if (0
+        || SMW_BA(m, joystick_value, JOYSTICK_NUM) < 0)
+    {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (snapshot_module_close(m) < 0)
+        return -1;
+
+    return 0;
+}
+
+int joystick_snapshot_read_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, "JOYSTICK",
+                             &major_version, &minor_version);
+    if (m == NULL) {
+        return 0;
+    }
+
+    if (0
+        || SMR_BA(m, joystick_value, JOYSTICK_NUM) < 0)
+    {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
