@@ -32,12 +32,14 @@
 #include <string.h>
 #include <windows.h>
 #include <commdlg.h>
+#include <tchar.h>
 
 #include "drive.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uilib.h"
 #include "winmain.h"
@@ -60,7 +62,7 @@ static void init_snapshot_dialog(HWND hwnd)
                    ? BST_CHECKED : BST_UNCHECKED);
     CheckDlgButton(hwnd, IDC_TOGGLE_SNAPSHOT_SAVE_ROMS, save_roms
                    ? BST_CHECKED : BST_UNCHECKED);
-    SetDlgItemText(hwnd, IDC_SNAPSHOT_SAVE_IMAGE, "");
+    SetDlgItemText(hwnd, IDC_SNAPSHOT_SAVE_IMAGE, TEXT(""));
 }
 
 
@@ -85,14 +87,18 @@ static UINT APIENTRY hook_save_snapshot(HWND hwnd, UINT uimsg, WPARAM wparam,
 char *ui_save_snapshot(const char *title, const char *filter, 
                        HWND hwnd, int dialog_template)
 {
-    char name[1024] = "";
+    TCHAR name[1024] = "";
     OPENFILENAME ofn;
+    char *ret = NULL;
+    TCHAR *st_filter;
+
+    st_filter = system_mbstowcs_alloc(filter);
 
     memset(&ofn, 0, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = hwnd;
     ofn.hInstance = winmain_instance;
-    ofn.lpstrFilter = filter;
+    ofn.lpstrFilter = st_filter;
     ofn.lpstrCustomFilter = NULL;
     ofn.nMaxCustFilter = 0;
     ofn.nFilterIndex = 1;
@@ -120,11 +126,10 @@ char *ui_save_snapshot(const char *title, const char *filter,
     ofn.lpstrDefExt = NULL;
     vsync_suspend_speed_eval();
 
-    if (GetSaveFileName(&ofn)) {
-        return lib_stralloc(name);
-    } else {
-        return NULL;
-    }
+    if (GetSaveFileName(&ofn))
+        ret = system_wcstombs_alloc(name);
+
+    return ret;
 }
 
 

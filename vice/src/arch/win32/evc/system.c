@@ -31,8 +31,10 @@
 #include <prsht.h>
 #include <tchar.h>
 
+#include <stdio.h>
 #include <stdlib.h>
 
+#include "lib.h"
 #include "system.h"
 
 
@@ -49,9 +51,46 @@ size_t system_wcstombs(char *mbs, const wchar_t *wcs, size_t len)
     return wcstombs(mbs, wcs, len);
 }
 
-size_t system_mbstowcs(wchar_t *wcs, const wchar_t *mbs, size_t len)
+size_t system_mbstowcs(wchar_t *wcs, const char *mbs, size_t len)
 {
-    _tcsnccpy(wcs, mbs, len);
-    return _tcsclen(wcs);
+    return mbstowcs(wcs, mbs, len);
+}
+
+wchar_t *system_mbstowcs_alloc(const char *mbs)
+{
+    wchar_t *wcs;
+
+    if (mbs == NULL)
+        return NULL;
+
+    wcs = lib_malloc((strlen(mbs) + 1) * sizeof(wchar_t));
+    system_mbstowcs(wcs, mbs, strlen(mbs) + 1);
+
+    return wcs;
+}
+
+void system_mbstowcs_free(wchar_t *wcs)
+{
+    if (wcs != NULL)
+        lib_free(wcs);
+}
+
+char *system_wcstombs_alloc(const wchar_t *wcs)
+{
+    char *mbs;
+
+    if (wcs == NULL)
+        return NULL;
+
+    mbs = lib_malloc((_tcsclen(wcs) + 1) * sizeof(char));
+    system_wcstombs(mbs, wcs, _tcsclen(wcs) + 1);
+
+    return mbs;
+}
+
+void system_wcstombs_free(char *mbs)
+{
+    if (mbs != NULL)
+        lib_free(mbs);
 }
 

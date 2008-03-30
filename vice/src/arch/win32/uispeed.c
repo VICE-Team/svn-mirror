@@ -28,10 +28,12 @@
 
 #include <string.h>
 #include <windows.h>
+#include <tchar.h>
 
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
+#include "system.h"
 #include "ui.h"
 #include "uispeed.h"
 #include "winmain.h"
@@ -50,11 +52,14 @@ static void init_speed_dialog(HWND hwnd)
 {
     int res_value;
     char *speedstr;
+    TCHAR *st_speedstr;
 
     resources_get_value("Speed", (void *)&res_value);
 
     speedstr = lib_msprintf("%i", res_value);
+    st_speedstr = system_mbstowcs_alloc(speedstr);
     SetDlgItemText(hwnd, IDC_CUSTOM_SPEED, speedstr);
+    system_mbstowcs_free(st_speedstr);
     lib_free(speedstr);
 }
 
@@ -63,15 +68,15 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 {
     int command;
     int speed;
-    char s[20];
+    TCHAR st[20];
 
     switch (msg) {
       case WM_COMMAND:
         command = LOWORD(wparam);
         switch (command) {
           case IDOK:
-            GetDlgItemText(hwnd, IDC_CUSTOM_SPEED, s, 20);
-            speed = atoi(s);
+            GetDlgItemText(hwnd, IDC_CUSTOM_SPEED, st, 20);
+            speed = _ttoi(st);
             if (speed > 0 && speed < 1000000)
                 resources_set_value("Speed", (resource_value_t)speed);
           case IDCANCEL:

@@ -39,6 +39,10 @@ extern void system_psh_settings(PROPSHEETHEADER *ppsh);
 
 extern size_t system_wcstombs(char *mbs, const char *wcs, size_t len);
 extern size_t system_mbstowcs(char *wcs, const char *mbs, size_t len);
+extern char *system_mbstowcs_alloc(const char *mbs);
+extern void system_mbstowcs_free(char *wcs);
+extern char *system_wcstombs_alloc(const char *wcs);
+extern void system_wcstombs_free(char *mbs);
 
 #endif
 

@@ -2,8 +2,8 @@
  * system.h - System dependant functions.
  *
  * Written by
- *  Markus Brenner <markus@brenner.de>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Markus Brenner <markus@brenner.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -40,7 +40,11 @@ extern void system_init_dialog(HWND hwnd);
 extern void system_psh_settings(PROPSHEETHEADER *ppsh);
 
 extern size_t system_wcstombs(char *mbs, const wchar_t *wcs, size_t len);
-extern size_t system_mbstowcs(wchar_t *wcs, const wchar_t *mbs, size_t len);
+extern size_t system_mbstowcs(wchar_t *wcs, const char *mbs, size_t len);
+extern wchar_t *system_mbstowcs_alloc(const char *mbs);
+extern void system_mbstowcs_free(wchar_t *wcs);
+extern char *system_wcstombs_alloc(const wchar_t *wcs);
+extern void system_wcstombs_free(char *mbs);
 
 #endif
 

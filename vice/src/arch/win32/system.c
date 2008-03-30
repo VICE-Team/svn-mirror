@@ -30,9 +30,11 @@
 #include <windows.h>
 #include <prsht.h>
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "lib.h"
 #include "system.h"
 
 
@@ -54,5 +56,43 @@ size_t system_mbstowcs(char *wcs, const char *mbs, size_t len)
 {
     strncpy(wcs, mbs, len);
     return strlen(wcs);
+}
+
+char *system_mbstowcs_alloc(const char *mbs)
+{
+    char *wcs;
+
+    if (mbs == NULL)
+        return NULL;
+
+    wcs = lib_malloc((strlen(mbs) + 1) * sizeof(char));
+    system_mbstowcs(wcs, mbs, strlen(mbs) + 1);
+
+    return wcs;
+}
+
+void system_mbstowcs_free(char *wcs)
+{
+    if (wcs != NULL)
+        lib_free(wcs);
+}
+
+char *system_wcstombs_alloc(const char *wcs)
+{
+    char *mbs;
+
+    if (wcs == NULL)
+        return NULL;
+
+    mbs = lib_malloc((strlen(wcs) + 1) * sizeof(char));
+    system_wcstombs(mbs, wcs, strlen(wcs) + 1);
+
+    return mbs;
+}
+
+void system_wcstombs_free(char *mbs)
+{
+    if (mbs != NULL)
+        lib_free(mbs);
 }
 
