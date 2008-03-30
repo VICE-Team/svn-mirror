@@ -92,8 +92,7 @@ static unsigned int resources_calc_hash_key(const char *name)
             shift = 0;
 
         key ^= (sym << shift);
-        if (shift + 8 > logHashSize)
-        {
+        if (shift + 8 > logHashSize) {
             key ^= (((unsigned int)sym) >> (logHashSize - shift));
         }
         shift++;
@@ -537,10 +536,10 @@ int resources_read_item_from_file(FILE *f)
 
         switch (r->type) {
           case RES_INTEGER:
-            result = (*r->set_func)((resource_value_t) atoi(arg_ptr), r->param);
+            result = (*r->set_func)((resource_value_t)atoi(arg_ptr), r->param);
             break;
           case RES_STRING:
-            result = (*r->set_func)((resource_value_t) arg_ptr, r->param);
+            result = (*r->set_func)((resource_value_t)arg_ptr, r->param);
             break;
           default:
             log_error(LOG_DEFAULT, "Unknown resource type for `%s'.",

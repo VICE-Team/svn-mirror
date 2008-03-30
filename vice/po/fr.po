@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.11\n"
-"POT-Creation-Date: 2003-03-02 20:39+0100\n"
+"POT-Creation-Date: 2003-03-08 21:21+0100\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -29,7 +29,7 @@ msgstr "Activer mode turbo"
 msgid "Disable warp mode"
 msgstr "Désactiver mode turbo"
 
-#: src/vsync.c:421
+#: src/vsync.c:426
 msgid "Your machine is too slow for current settings!"
 msgstr "Votre machine est trop lente pour les paramètres courants!"
 

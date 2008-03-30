@@ -1,3 +1,38 @@
+2003-03-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.12.
+
+	* arch/win32/catweaselmkiii.c: Use `HAVE_WINIOCTL_H'.
+
+	* vicii/vicii-irq.c (vicii_irq_set_raster_line): Set IRQ clock
+	to `CLOCK_MAX' as suggested my AndreasM.
+
+	* c128/c128memlimit.c, c64/c64memlimit.c,
+	plus4/plus4memlimit.c: Arrays are const.
+
+	* attach.c, datasette.c, debug.c, event.c, log.c, ram.c,
+	sound.c, sysfile.c, traps.c, vsync.c, aciacore.c,
+	drive/drive-resources.c, drive/iec/iec-resources.c,
+	drive/ieee/ieee-resources.c, drive/tcbm/tcbm-resources.c,
+	fsdevice/fsdevice-resources.c, diskimage/rawimage.c,
+	video/video-resources.c, vicii/vicii-resources.c,
+	vdc/vdc-resources.c, crtc/crtc-resources.c,
+	sid/sid-resources.c, printerdrv/driver-select.c,
+	printerdrv/interface-serial.c, printerdrv/output-graphics.c,
+	printerdrv/interface-userport.c, printerdrv/output-select.c,
+	printerdrv/output-text.c, rs232drv/rsuser.c, c64/psid.c,
+	c64/c64-resources.c, c64/reu.c, c64/cart/c64cart.c,
+	c128/c128-resources.c, c128/c128mmu.c, c128/functionrom.c,
+	c128/z80mem.c, vic20/vic20-resources.c,
+	vic20/vic20cartridge.c, pet/pet-resources.c, pet/pet.c,
+	pet/petpia1.c, plus4/plus4-resources.c, cbm2/cbm2-resources.c:
+	Resource struct is const.
+
+2003-03-06  Tibor Biczo <crown@axelero.hu>
+
+	* vsync.c (vsync_do_vsync): Fixed overflow of frame skip check
+	for fast machines.
+
 2003-03-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.11.
