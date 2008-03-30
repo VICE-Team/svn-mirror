@@ -85,27 +85,22 @@
 
 /* VIC II Doublesize/-scan  */
 #if defined __X64__ || defined __X128__ || defined __XCBM__
-#define VIC_II_NEED_2X        1
 #define HAVE_VIC_II           1
 #endif
 
 #if defined __XVIC__
-#define VIC_NEED_2X           1
 #define HAVE_VIC
 #endif
 
 #ifdef __XPLUS4__
-#define VIC_II_NEED_2X        1
 #define HAVE_TED              1
 #endif
 
 //y-direction
 #ifdef __X128__
-#define VDC_NEED_2X           1
 #define HAVE_VDC
 #endif
 #if defined __XCBM__ || defined __XPET__
-#define CRTC_NEED_2X          1
 #define HAVE_CRTC
 #endif
 

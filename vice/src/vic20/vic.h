@@ -111,12 +111,6 @@ typedef enum vic_video_mode_s vic_video_mode_t;
 
 #define VIC_IDLE_MODE VIC_STANDARD_MODE
 
-/* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
-   memory and (little) speed.  */
-#if !defined(__MSDOS__) && !defined(__riscos) && !defined(__OS2__)
-#define VIC_NEED_2X 1
-#endif
-
 struct snapshot_s;
 struct screenshot_s;
 struct palette_s;

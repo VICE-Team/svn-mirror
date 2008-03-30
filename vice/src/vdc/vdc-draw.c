@@ -45,11 +45,6 @@
 /* foreground(4) | background(4) | nibble(4) -> 4 pixels.  */
 static DWORD hr_table[16 * 16 * 16];
 
-#ifdef VDC_NEED_2X
-/* foreground(4) | background(4) | idx(2) | nibble(4) -> 4 pixels.  */
-static DWORD hr_table_2x[16 * 16 * 2 * 16];
-#endif
-
 
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
 /*
@@ -60,16 +55,6 @@ static void draw_std_background(unsigned int start_pixel,
            vdc.raster.overscan_background_color,
            end_pixel - start_pixel + 1);
 }
-
-#ifdef VDC_NEED_2X
-static void draw_std_background_2x(unsigned int start_pixel,
-                                   unsigned int end_pixel)
-{
-    memset(vdc.raster.draw_buffer_ptr + 2 * start_pixel,
-           vdc.raster.overscan_background_color,
-           2 * (end_pixel - start_pixel + 1));
-}
-#endif
 */
 
 /* Initialize the drawing tables.  */
@@ -94,14 +79,6 @@ static void init_drawing_tables(void)
                 *(p + 1) = i & 0x4 ? fp : bp;
                 *(p + 2) = i & 0x2 ? fp : bp;
                 *(p + 3) = i & 0x1 ? fp : bp;
-
-#ifdef VDC_NEED_2X
-                p = (BYTE *)(hr_table_2x + (offset << 1) + i);
-                *p = *(p + 1) = i & 0x8 ? fp : bp;
-                *(p + 2) = *(p + 3) = i & 0x4 ? fp : bp;
-                *(p + 0x40) = *(p + 0x41) = i & 0x2 ? fp : bp;
-                *(p + 0x42) = *(p + 0x43) = i & 0x1 ? fp : bp;
-#endif
             }
         }
     }
