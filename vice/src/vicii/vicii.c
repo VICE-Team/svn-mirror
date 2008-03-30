@@ -386,22 +386,19 @@ static int init_raster(void)
    care of the 10-bit counter wraparound.  */
 inline void vic_ii_fetch_matrix(int offs, int num)
 {
-    BYTE *p;
     int start_char;
     int c;
 
     /* Matrix fetches are done during Phi2, the fabulous "bad lines" */
-    p = vic_ii.ram_base_phi2 + vic_ii.vbank_phi2
-                                + ((vic_ii.regs[0x18] & 0xf0) << 6);
     start_char = (vic_ii.mem_counter + offs) & 0x3ff;
     c = 0x3ff - start_char + 1;
 
     if (c >= num) {
-        memcpy(vic_ii.vbuf + offs, p + start_char, num);
+        memcpy(vic_ii.vbuf + offs, vic_ii.screen_base + start_char, num);
         memcpy(vic_ii.cbuf + offs, vic_ii.color_ram + start_char, num);
     } else {
-        memcpy(vic_ii.vbuf + offs, p + start_char, c);
-        memcpy(vic_ii.vbuf + offs + c, p, num - c);
+        memcpy(vic_ii.vbuf + offs, vic_ii.screen_base + start_char, c);
+        memcpy(vic_ii.vbuf + offs + c, vic_ii.screen_base, num - c);
         memcpy(vic_ii.cbuf + offs, vic_ii.color_ram + start_char, c);
         memcpy(vic_ii.cbuf + offs + c, vic_ii.color_ram, num - c);
     }
@@ -856,7 +853,7 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
     static int old_vbank_p1 = -1;
     static int old_vbank_p2 = -1;
     ADDRESS screen_addr;          /* Screen start address.  */
-    BYTE *screen_base;            /* Pointer to screen memory.  */
+    /*BYTE *screen_base;*/            /* Pointer to screen memory.  */
     BYTE *char_base;              /* Pointer to character memory.  */
     BYTE *bitmap_base;            /* Pointer to bitmap memory.  */
     int tmp;
@@ -868,10 +865,10 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
 
     if ((screen_addr & vic_ii.vaddr_chargen_mask_phi2)
         != vic_ii.vaddr_chargen_value_phi2) {
-        screen_base = vic_ii.ram_base_phi2 + screen_addr;
+        vic_ii.screen_base = vic_ii.ram_base_phi2 + screen_addr;
         VIC_II_DEBUG_REGISTER(("\tVideo memory at $%04X\n", screen_addr));
     } else {
-        screen_base = chargen_rom + (screen_addr & 0x800);
+        vic_ii.screen_base = chargen_rom + (screen_addr & 0x800);
         VIC_II_DEBUG_REGISTER(("\tVideo memory at Character ROM + $%04X\n",
                               screen_addr & 0x800));
     }
@@ -918,22 +915,23 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
     }
 
     if (tmp <= 0 && clk < vic_ii.draw_clk) {
-        old_screen_ptr = vic_ii.screen_ptr = screen_base;
+        old_screen_ptr = vic_ii.screen_ptr = vic_ii.screen_base;
         old_bitmap_ptr = vic_ii.bitmap_ptr = bitmap_base;
         old_chargen_ptr = vic_ii.chargen_ptr = char_base;
         old_vbank_p1 = vic_ii.vbank_phi1;
         old_vbank_p2 = vic_ii.vbank_phi2;
         /* vic_ii.vbank_ptr = vic_ii.ram_base + vic_ii.vbank; */
-        vic_ii.raster.sprite_status->ptr_base = screen_base + 0x3f8;
+        vic_ii.raster.sprite_status->ptr_base = vic_ii.screen_base + 0x3f8;
     } else if (tmp < VIC_II_SCREEN_TEXTCOLS) {
-        if (screen_base != old_screen_ptr) {
+        if (vic_ii.screen_base != old_screen_ptr) {
             raster_add_ptr_change_foreground(&vic_ii.raster, tmp,
                                              (void **)&vic_ii.screen_ptr,
-                                             (void *)screen_base);
+                                             (void *)vic_ii.screen_base);
             raster_add_ptr_change_foreground(&vic_ii.raster, tmp,
                               (void **)&vic_ii.raster.sprite_status->ptr_base,
-                                             (void *)(screen_base + 0x3f8));
-            old_screen_ptr = screen_base;
+                                             (void *)(vic_ii.screen_base
+                                             + 0x3f8));
+            old_screen_ptr = vic_ii.screen_base;
         }
 
         if (bitmap_base != old_bitmap_ptr) {
@@ -967,14 +965,15 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
             old_vbank_p2 = vic_ii.vbank_phi2;
         }
     } else {
-        if (screen_base != old_screen_ptr) {
+        if (vic_ii.screen_base != old_screen_ptr) {
             raster_add_ptr_change_next_line(&vic_ii.raster,
                                             (void **)&vic_ii.screen_ptr,
-                                            (void *)screen_base);
+                                            (void *)vic_ii.screen_base);
             raster_add_ptr_change_next_line(&vic_ii.raster,
                               (void **)&vic_ii.raster.sprite_status->ptr_base,
-                                            (void *)(screen_base + 0x3f8));
-            old_screen_ptr = screen_base;
+                                            (void *)(vic_ii.screen_base
+                                            + 0x3f8));
+            old_screen_ptr = vic_ii.screen_base;
         }
         if (bitmap_base != old_bitmap_ptr) {
             raster_add_ptr_change_next_line(&vic_ii.raster,

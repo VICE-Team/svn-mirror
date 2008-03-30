@@ -1,3 +1,15 @@
+2002-05-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.9.
+
+	* vicii/viciitypes.h: Added `screen_base' to struct `vic_ii'.
+
+	* vicii/vicii.c (vic_ii_update_memory_ptrs): Update
+	`screen_base'.
+	(vic_ii_fetch_matrix): Changed to use `screen_base'.
+
+	* vicii/vicii-sprites.c: Some reorganization.
+
 2002-05-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.8.
