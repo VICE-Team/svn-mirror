@@ -37,6 +37,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "sid-snapshot.h"
 #include "sid.h"
 #include "sound.h"
 #include "snapshot.h"
@@ -986,6 +987,13 @@ void fastsid_prevent_clk_overflow(sound_t *psid, CLOCK sub)
     psid->laststoreclk -= sub;
 }
 
+void fastsid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
+{
+}
+
+void fastsid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
+{
+}
 
 sid_engine_t fastsid_hooks =
 {
@@ -997,6 +1005,8 @@ sid_engine_t fastsid_hooks =
     fastsid_reset,
     fastsid_calculate_samples,
     fastsid_prevent_clk_overflow,
-    fastsid_dump_state
+    fastsid_dump_state,
+    fastsid_state_read,
+    fastsid_state_write
 };
 
