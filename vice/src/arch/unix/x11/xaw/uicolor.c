@@ -39,7 +39,6 @@
 #include "utils.h"
 #include "video.h"
 
-extern Display *display;
 extern int screen;
 extern int have_truecolor;
 extern Colormap colormap;
@@ -151,7 +150,17 @@ int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
 #endif
     log_message(LOG_DEFAULT, "Color request for canvas %p.", c);
 
-    color_alloc_colors(c, palette, pixel_return);
+    if (color_alloc_colors(c, palette, pixel_return) < 0) {
+        Display *display = ui_get_display_ptr();
+        if (colormap == DefaultColormap(display, screen)) {
+            log_warning(LOG_DEFAULT,
+                        "Automatically using a private colormap.");
+            colormap = XCreateColormap(display, RootWindow(display, screen),
+                                       visual, AllocNone);
+            XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
+            return color_alloc_colors(c, palette, pixel_return);
+        }
+    }
     return 0;
 
 #if 0
@@ -177,8 +186,7 @@ int ui_canvas_set_palette(canvas_t *c, ui_window_t w, const palette_t *palette,
 {
     log_message(LOG_DEFAULT, "Change color request for canvas %p.", c);
 
-    color_alloc_colors(c, palette, pixel_return);
-    return 0;
+    return color_alloc_colors(c, palette, pixel_return);
 
 #if 0
     if (!have_truecolor) {
@@ -253,6 +261,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     XColor color;
     XImage *im;
     PIXEL *data = (PIXEL *)xmalloc(4);
+    Display *display = ui_get_display_ptr();
 
     /* This is a kludge to map pixels to zimage values. Is there a better
        way to do this? //tvr */
@@ -271,6 +280,8 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     if (!XAllocColor(display, colormap, &color)) {
         log_error(LOG_DEFAULT, "Cannot allocate color \"#%04X%04X%04X\".",
                   color.red, color.green, color.blue);
+        XDestroyImage(im);
+        return -1;
     }
     XPutPixel(im, 0, 0, color.pixel);
 
@@ -287,7 +298,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
 void uicolor_free_color(unsigned int red, unsigned int green,
                         unsigned int blue, unsigned long color_pixel)
 {
-    if (!XFreeColors(display, colormap, &color_pixel, 1, 0))
+    if (!XFreeColors(ui_get_display_ptr(), colormap, &color_pixel, 1, 0))
         log_error(LOG_DEFAULT, "XFreeColors failed.");
 }
 

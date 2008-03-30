@@ -42,7 +42,6 @@
 #include "ui.h"
 #include "utils.h"
 
-extern Display *display;
 extern Widget canvas, pane;
 extern int screen;
 
@@ -76,7 +75,7 @@ extern void video_setfullscreen(int v,int width, int height);
 static void mouse_timeout(int signo)
 {
     if (use_fullscreen && !cursor_is_blank)
-        XDefineCursor(display, XtWindow(canvas), blankCursor);
+        XDefineCursor(ui_get_display_ptr(), XtWindow(canvas), blankCursor);
 }
 
 void fullscreen_set_mouse_timeout(void)
@@ -98,11 +97,11 @@ static void mouse_handler(Widget w, XtPointer client_data, XEvent *report,
     else
         cursor_is_blank = 0;
 
-    if (! _mouse_enabled) {
-        XUndefineCursor(display,XtWindow(canvas));
+    if (!_mouse_enabled) {
+        XUndefineCursor(ui_get_display_ptr(), XtWindow(canvas));
         if (cursor_is_blank == 0) {
             if (signal(SIGALRM, mouse_timeout) == SIG_ERR)
-              return;
+                return;
             alarm(5);
         }
     }
@@ -113,6 +112,7 @@ int fullscreen_vidmode_available(void)
     int MajorVersion, MinorVersion;
     int EventBase, ErrorBase;
     int i, hz = 0;
+    Display *display = ui_get_display_ptr();
 
     bestmode_counter = 0;
     vidmodeavail = 0;
@@ -175,6 +175,7 @@ int fullscreen_vidmode_available(void)
     static int window_doublesize;
     static int panecolor;
     int i;
+    Display *display = ui_get_display_ptr();
 
     if ( !vidmodeavail || !bestmode_counter ) {
         use_fullscreen_at_start = (int) v;
@@ -397,8 +398,13 @@ int fullscreen_vidmode_available(void)
 
 void fullscreen_focus_window_again(void)
 {
+    Display *display;
+
     if (!use_fullscreen)
         return;
+
+    display = ui_get_display_ptr();
+
     XGrabKeyboard(display, XtWindow(canvas),
                   1, GrabModeAsync,
                   GrabModeAsync,  CurrentTime);
@@ -475,7 +481,7 @@ void fullscreen_mode_init(void)
                       XtNx,          0,
                       XtNy,          0,
                       None);
-        XWarpPointer(display, None,
+        XWarpPointer(ui_get_display_ptr, None,
                      XtWindow(canvas),
                      0, 0, 0, 0, 0, 0);
     }
