@@ -40,7 +40,6 @@
 #include "resources.h"
 #include "serial.h"
 #include "ui.h"
-#include "uidrive.h"
 #include "uilib.h"
 #include "winmain.h"
 #include "utils.h"

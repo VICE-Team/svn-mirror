@@ -42,7 +42,6 @@
 #include "serial.h"
 #include "sound.h"
 #include "ui.h"
-#include "uidrive.h"
 #include "uilib.h"
 #include "winmain.h"
 #include "utils.h"

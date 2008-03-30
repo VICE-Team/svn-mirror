@@ -28,6 +28,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <windows.h>
 
 #ifdef HAVE_SHLOBJ_H
@@ -49,6 +50,7 @@
 #include "uiattach.h"
 #include "uilib.h"
 #include "winmain.h"
+
 
 static void enable_controls_for_disk_device_type(HWND hwnd, int type)
 {

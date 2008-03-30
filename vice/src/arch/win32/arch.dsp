@@ -174,7 +174,7 @@ SOURCE=.\uidatasette.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\uidrive.c
+SOURCE=.\uidrivec64c128vic20.c
 # End Source File
 # Begin Source File
 

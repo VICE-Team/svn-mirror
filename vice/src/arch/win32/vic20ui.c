@@ -35,6 +35,7 @@
 #include "lib.h"
 #include "res.h"
 #include "ui.h"
+#include "uidrivec64c128vic20.h"
 #include "uilib.h"
 #include "uivideo.h"
 #include "vic20ui.h"
@@ -130,6 +131,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
+        break;
+      case IDM_DRIVE_SETTINGS:
+        uidrivec64c128vic20_settings_dialog(hwnd);
         break;
     }
 }

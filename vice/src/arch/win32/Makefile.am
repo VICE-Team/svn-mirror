@@ -72,8 +72,8 @@ libarch_a_SOURCES = \
 	uiconsole.c \
 	uidatasette.c \
 	uidatasette.h \
-	uidrive.c \
-	uidrive.h \
+	uidrivec64c128vic20.c \
+	uidrivec64c128vic20.h \
 	uijoystick.c \
 	uijoystick.h \
 	uilib.c \

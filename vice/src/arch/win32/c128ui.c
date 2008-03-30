@@ -42,6 +42,7 @@
 #include "resources.h"
 #include "sid.h"
 #include "ui.h"
+#include "uidrivec64c128vic20.h"
 #include "uireu.h"
 #include "uivicii.h"
 #include "uivideo.h"
@@ -255,6 +256,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         break;
       case IDM_VIDEO_SETTINGS:
         ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
+        break;
+      case IDM_DRIVE_SETTINGS:
+        uidrivec64c128vic20_settings_dialog(hwnd);
         break;
      }
 }
