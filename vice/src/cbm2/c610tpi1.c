@@ -26,11 +26,12 @@
 
 #include "tpicore.h"
 
-#include "parallel.h"
-#include "drive.h"
 #include "c610cia.h"
 #include "crtc.h"
+#include "datasette.h"
+#include "drive.h"
 #include "maincpu.h"
+#include "parallel.h"
 
 /*----------------------------------------------------------------------*/
 /* renaming of exported functions */
@@ -59,6 +60,16 @@
 #define	MYIRQ	IK_IRQ
 
 #define	I_MYTPI I_TPI1
+
+/*----------------------------------------------------------------------*/
+/* TPI resources. */
+
+static int tape1_sense = 0;
+
+void tpi1_set_tape_sense(int v)
+{
+    tape1_sense = v;
+}
 
 /*----------------------------------------------------------------------*/
 /* I/O */
@@ -129,6 +140,10 @@ _TPI_FUNC void undump_pa(BYTE byte)
 
 _TPI_FUNC void store_pb(BYTE byte) 
 {
+    if ((byte ^ oldpb) & 0x40)
+        datasette_set_motor(!(byte & 0x40));
+    if ((byte ^ oldpb) & 0x20)
+        datasette_toggle_write_bit(byte & 0x20);
 }
 
 _TPI_FUNC void store_pc(BYTE byte) 
@@ -167,7 +182,11 @@ _TPI_FUNC BYTE read_pa(void)
 _TPI_FUNC BYTE read_pb(void)
 {
     BYTE byte;
-    byte = (0xff & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
+
+    byte = 0x7f;
+    byte += tape1_sense ? 0x80 : 0;
+
+    byte = (byte & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
     return byte;
 }
 
