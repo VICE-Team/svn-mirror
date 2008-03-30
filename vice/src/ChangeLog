@@ -1,3 +1,92 @@
+Mon Jun  1 21:46:49 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.32.
+
+	* c64/vicii.c (store_d011): (Hopefully) fixed 24->25 and 25->24
+ 	line mode switches on the start/stop lines of the respective modes.
+
+Mon Jun  1 15:40:19 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* attach.c (file_system_attach_disk): Fixed typo.
+
+Mon Jun  1 00:23:30 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* vice.h: Added `alloca()' portability stuff, ripped from GNU
+ 	make.
+
+	* Makefile.am: Link all the executables to `@ALLOCA@' and
+ 	`@LIBOBJS@'.  Removed depenendencies to `.PHONY' target from
+	executable targets.
+
+	* alloca.c: New file.
+
+	* arch/unix/xaw/widgets/FileSel.c: #define `VICE'.
+
+	* arch/unix/xaw/ui.c (ui_init): Call `ui_hotkey_init()'.
+
+	* arch/unix/xaw/uicommands.c: Added a few shortcuts for attaching
+	disk images and resetting the machine.
+
+	* arch/unix/xaw/ui.c (handle_hotkeys): Removed.
+
+	* arch/unix/xaw/uimenu.c (ui_menu_create): If this is item has no
+ 	submenu and the `hotkey_keysym' is nonzero, register the specified
+ 	`hotkey_keysym'/`hotkey_modifier' couple as an hotkey shortcut for
+ 	it.
+
+	* arch/unix/xaw/uimenu.h: New members `hotkey_keysym' and
+	`hotkey_modifier' in `ui_menu_entry_t'.
+
+	* arch/unix/xaw/ui.c (ui_open_canvas_window): Add
+ 	`ui_hotkey_event_handler' as the event handler for `KeyPress' and
+ 	`KeyRelease' events.
+
+Sun May 31 23:24:06 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/uihotkey.c, arch/unix/xaw/uihotkey.h: New files.
+
+	* arch/unix/xaw/uicommands.c (browse_manual): Browse the docs in
+	`DOCDIR', not in `LIBDIR "/" DOCDIR'.
+
+	* vice.h: Changed `DOCDIR' to `LIBDIR "/doc"'.
+
+	* arch/unix/xaw/ui.c (activate_xdebug_window): Removed.
+	(ui_jam_dialog): Removed "Debug" button.
+	(close_action): Do not handle the XDebugger special case anymore.
+
+	* arch/unix/xaw/uicommands.c: Removed commands for activating the
+ 	XDebugger.
+
+	* arch/unix/xaw/xdebug.c, arch/unix/xaw/xdebug.h: Removed.
+  	Requiescat In Pace.
+
+	* arch/unix/xaw/uicommands.c (do_exit): Added missing space in
+	quit message.
+
+	* arch/unix/xaw/uisettings.c (set_maximum_speed): Fixed to set the
+	speed correctly.
+	(set_maximum_speed, set_custom_maximum_speed): Update the tick of
+	the "Custom" entry properly.
+	(set_refresh_rate, set_custom_refresh_rate): Update the tick of
+	the "Custom" entry properly.
+
+Sun May 31 16:47:59 1998  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* fsdevice.c (fs_error): Updated identification string.
+	(flush_fs): Implemented P00 scratch and rename support.
+	(write_fs): Allow writes if the file is opened in append mode.
+	(open_fs): Rewritten to handle P00 files and append mode access.
+	(fs_buffer_info): New member `type'.
+	(fsdevice_evaluate_name_p00): New function.
+	(flush_fs): Added P00 file scratch support.
+	(read_fs): New file type handling.
+	(open_fs): Added access mode override support.
+
+Sat May 30 15:26:02 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c64/vicii.c (set_palette_file_name): Load the new palette file
+ 	correctly.
+
 Thu May 28 19:25:28 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.31.
@@ -530,8 +619,8 @@ Thu May 14 00:08:06 1998  Teemu Rantanen  <tvr@cs.hut.fi>
 	* arch/unix/xaw/ui.c: Changed sound includes.
 
 	* arch/unix/vsync.c, arch/msdos/ui.c, arch/msdos/vsync.c, main.c:
-	Changed sound includes. Renamed all changed calls to common
- 	sound functions.
+ 	Changed sound includes.  Renamed all changed calls to common sound
+ 	functions.
 
 	* arch/unix/sounduss.c: New file. USS sound device.
 

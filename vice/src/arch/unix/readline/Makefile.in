@@ -268,12 +268,6 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-complete.o: complete.c editline.h ../../../../src/config.h unix.h
-editline.o: editline.c editline.h ../../../../src/config.h unix.h
-editline2.o: editline2.c editline.h ../../../../src/config.h unix.h
-sysunix.o: sysunix.c editline.h ../../../../src/config.h unix.h
-testit.o: testit.c
-version.o: version.c
 
 info: info-recursive
 dvi: dvi-recursive

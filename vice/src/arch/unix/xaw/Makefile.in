@@ -117,15 +117,15 @@ libxawui_a_SOURCES = \
 	ui.h \
 	uicommands.c \
 	uicommands.h \
+	uihotkey.c \
+	uihotkey.h \
 	uimenu.c \
 	uimenu.h \
 	uisettings.c \
 	uisettings.h \
 	vic20icon.xpm \
 	vic20ui.c \
-	vic20ui.h \
-	xdebug.c \
-	xdebug.h
+	vic20ui.h
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -139,8 +139,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libxawui_a_LIBADD = 
-libxawui_a_OBJECTS =  c64ui.o petui.o ui.o uicommands.o uimenu.o \
-uisettings.o vic20ui.o xdebug.o
+libxawui_a_OBJECTS =  c64ui.o petui.o ui.o uicommands.o uihotkey.o \
+uimenu.o uisettings.o vic20ui.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -283,44 +283,37 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-c64ui.o: c64ui.c ../../../../src/vice.h ../../../../src/config.h \
-	uimenu.h ui.h ../../../../src/types.h xdebug.h \
-	../../../../src/palette.h ../../../../src/resources.h \
-	uicommands.h uisettings.h ../../../../src/arch/unix/joystick.h \
-	c64icon.xpm
-petui.o: petui.c ../../../../src/vice.h ../../../../src/config.h petui.h \
-	uimenu.h ui.h ../../../../src/types.h xdebug.h \
-	../../../../src/palette.h ../../../../src/resources.h \
-	uicommands.h uisettings.h ../../../../src/arch/unix/joystick.h \
-	c64icon.xpm
 ui.o: ui.c ../../../../src/vice.h ../../../../src/config.h \
 	widgets/Canvas.h widgets/FileSel.h widgets/ScrList.h \
 	widgets/DirMgr.h widgets/Directory.h widgets/TextField.h ui.h \
 	../../../../src/types.h xdebug.h ../../../../src/palette.h \
-	uimenu.h ../../../../src/machine.h ../../../../src/resources.h \
-	../../../../src/cmdline.h ../../../../src/utils.h \
-	../../../../src/arch/unix/vsync.h
+	uimenu.h uihotkey.h ../../../../src/machine.h \
+	../../../../src/resources.h ../../../../src/cmdline.h \
+	../../../../src/utils.h ../../../../src/arch/unix/vsync.h
 uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/config.h uicommands.h ui.h \
 	../../../../src/types.h xdebug.h ../../../../src/palette.h \
-	uimenu.h ../../../../src/interrupt.h ../../../../src/vmachine.h \
-	../../../../src/6510core.h ../../../../src/mem.h \
-	../../../../src/arch/unix/vsync.h ../../../../src/drive.h \
-	../../../../src/fs_cbm.h ../../../../src/serial.h \
-	../../../../src/traps.h ../../../../src/tapeunit.h \
-	../../../../src/tape.h ../../../../src/attach.h \
-	../../../../src/autostart.h ../../../../src/mon.h \
-	../../../../src/mos6510.h ../../../../src/info.h \
-	../../../../src/resources.h ../../../../src/machine.h \
-	../../../../src/utils.h
+	uimenu.h uihotkey.h ../../../../src/interrupt.h \
+	../../../../src/vmachine.h ../../../../src/6510core.h \
+	../../../../src/mem.h ../../../../src/arch/unix/vsync.h \
+	../../../../src/drive.h ../../../../src/fs_cbm.h \
+	../../../../src/serial.h ../../../../src/traps.h \
+	../../../../src/tapeunit.h ../../../../src/tape.h \
+	../../../../src/attach.h ../../../../src/autostart.h \
+	../../../../src/mon.h ../../../../src/mos6510.h \
+	../../../../src/info.h ../../../../src/resources.h \
+	../../../../src/machine.h ../../../../src/utils.h
+uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
+	uihotkey.h ui.h ../../../../src/types.h xdebug.h \
+	../../../../src/palette.h ../../../../src/utils.h
 uimenu.o: uimenu.c ../../../../src/vice.h ../../../../src/config.h \
 	checkmark.xbm right_arrow.xbm uimenu.h ui.h \
 	../../../../src/types.h xdebug.h ../../../../src/palette.h \
-	../../../../src/arch/unix/vsync.h
+	uihotkey.h ../../../../src/arch/unix/vsync.h
 uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/config.h uisettings.h ui.h \
 	../../../../src/types.h xdebug.h ../../../../src/palette.h \
-	uimenu.h ../../../../src/resources.h \
+	uimenu.h uihotkey.h ../../../../src/resources.h \
 	../../../../src/arch/unix/vsync.h \
 	../../../../src/true1541/true1541.h ../../../../src/drive.h \
 	../../../../src/fs_cbm.h ../../../../src/serial.h \
@@ -329,22 +322,6 @@ uisettings.o: uisettings.c ../../../../src/vice.h \
 	../../../../src/mem.h ../../../../src/interrupt.h \
 	../../../../src/vmachine.h ../../../../src/6510core.h \
 	../../../../src/fsdevice.h
-vic20ui.o: vic20ui.c ../../../../src/vice.h ../../../../src/config.h \
-	uimenu.h ui.h ../../../../src/types.h xdebug.h \
-	../../../../src/palette.h ../../../../src/resources.h \
-	uicommands.h uisettings.h ../../../../src/arch/unix/joystick.h \
-	vic20icon.xpm
-xdebug.o: xdebug.c ../../../../src/vice.h ../../../../src/config.h \
-	../../../../src/vmachine.h ../../../../src/misc.h \
-	../../../../src/types.h ../../../../src/arch/unix/video.h \
-	../../../../src/palette.h ../../../../src/arch/unix/ui.h ui.h \
-	xdebug.h ../../../../src/resources.h \
-	../../../../src/interrupt.h ../../../../src/6510core.h \
-	../../../../src/mem.h ../../../../src/serial.h \
-	../../../../src/traps.h ../../../../src/mshell.h \
-	../../../../src/maincpu.h ../../../../src/mos6510.h \
-	../../../../src/mon.h ../../../../src/arch/unix/vsync.h \
-	../../../../src/asm.h
 
 info: info-recursive
 dvi: dvi-recursive

@@ -208,28 +208,31 @@ bin_PROGRAMS = x64 x128 xvic xpet
 # x64
 x64_SOURCES = $(base_sources)
 x64_LDADD = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
-	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
-x64_DEPENDENCIES = libc64 libtrue1541 libsounddrv libarch @ARCH_LIBS@
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
+x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # x128
 # Notice that this works by overriding some symbols from the C64 library.
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(c128_lib) $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
-	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
-x128_DEPENDENCIES = libc128 libc64 libtrue1541 libsounddrv libarch \
-	@ARCH_LIBS@
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
+x128_DEPENDENCIES = $(c128_lib) $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # xvic
 xvic_SOURCES = $(base_sources)
 xvic_LDADD = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
-	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
-xvic_DEPENDENCIES = libvic20 libtrue1541 libsounddrv libarch @ARCH_LIBS@
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
+xvic_DEPENDENCIES = $(vic20_lib) $(sounddrv_lib) $(true1541_lib) \
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # xpet
 xpet_SOURCES = $(base_sources)
 xpet_LDADD = $(pet_lib) $(sounddrv_lib) \
-	@ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
-xpet_DEPENDENCIES = libpet libsounddrv libarch @ARCH_LIBS@
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm
+xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) \
+	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES = 
@@ -273,8 +276,8 @@ COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
 HEADERS =  $(noinst_HEADERS)
 
-DIST_COMMON =  ChangeLog Makefile.am Makefile.in config.h.in mon_lex.c \
-mon_parse.c stamp-h.in
+DIST_COMMON =  ChangeLog Makefile.am Makefile.in alloca.c config.h.in \
+memcmp.c mon_lex.c mon_parse.c stamp-h.in usleep.c
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
@@ -470,79 +473,8 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-asm.o: asm.c vice.h config.h asm.h types.h misc.h mshell.h
 attach.o: attach.c vice.h config.h resources.h drive.h types.h fs_cbm.h \
 	serial.h traps.h attach.h
-autostart.o: autostart.c vice.h config.h vmachine.h mem.h types.h \
-	serial.h traps.h warn.h resources.h drive.h fs_cbm.h tape.h \
-	interrupt.h 6510core.h arch/unix/ui.h arch/unix/xaw/ui.h \
-	arch/unix/xaw/xdebug.h palette.h autostart.h utils.h kbdbuf.h
-charsets.o: charsets.c vice.h config.h charsets.h types.h
-cmdline.o: cmdline.c vice.h config.h utils.h cmdline.h resources.h
-drive.o: drive.c vice.h config.h serial.h types.h traps.h drive.h \
-	fs_cbm.h file.h zfile.h utils.h charsets.h fsdevice.h
-findpath.o: findpath.c vice.h config.h findpath.h utils.h
-fsdevice.o: fsdevice.c vice.h config.h resources.h drive.h types.h \
-	fs_cbm.h serial.h traps.h file.h charsets.h tape.h utils.h \
-	fsdevice.h
-gcr.o: gcr.c vice.h config.h gcr.h types.h
-info.o: info.c
-kbdbuf.o: kbdbuf.c vice.h config.h maincpu.h types.h mem.h mos6510.h \
-	6510core.h mon.h interrupt.h vmachine.h kbdbuf.h charsets.h
-main.o: main.c vice.h config.h machine.h types.h maincpu.h mem.h \
-	mos6510.h 6510core.h mon.h interrupt.h vmachine.h serial.h \
-	traps.h sound.h warn.h arch/unix/ui.h arch/unix/xaw/ui.h \
-	arch/unix/xaw/xdebug.h palette.h arch/unix/vsync.h \
-	arch/unix/video.h resources.h arch/unix/kbd.h sysfile.h \
-	autostart.h findpath.h utils.h arch/unix/joystick.h attach.h \
-	drive.h fs_cbm.h cmdline.h fsdevice.h
-maincpu.o: maincpu.c vice.h config.h maincpu.h types.h mem.h mos6510.h \
-	6510core.h mon.h interrupt.h vmachine.h machine.h \
-	arch/unix/ui.h arch/unix/xaw/ui.h arch/unix/xaw/xdebug.h \
-	palette.h resources.h traps.h misc.h drive.h fs_cbm.h serial.h \
-	6510core.c
-memutils.o: memutils.c vice.h config.h memutils.h types.h resources.h \
-	file.h utils.h sysfile.h
-misc.o: misc.c vice.h config.h maincpu.h types.h mem.h mos6510.h \
-	6510core.h mon.h interrupt.h vmachine.h misc.h mshell.h asm.h \
-	resources.h
-mon.o: mon.c vice.h config.h asm.h types.h mon.h mos6510.h mem.h \
-	interrupt.h vmachine.h 6510core.h charsets.h file.h misc.h \
-	mshell.h resources.h arch/unix/vsync.h drive.h fs_cbm.h \
-	serial.h traps.h mon_parse.h utils.h
-mon_lex.o: mon_lex.c vice.h config.h types.h mon.h mos6510.h mem.h \
-	interrupt.h vmachine.h 6510core.h mon_parse.h utils.h
-mon_parse.o: mon_parse.c vice.h config.h types.h asm.h utils.h mon.h \
-	mos6510.h mem.h interrupt.h vmachine.h 6510core.h
-mshell.o: mshell.c vice.h config.h types.h mshell.h
-palette.o: palette.c vice.h config.h utils.h types.h palette.h sysfile.h
-parallel.o: parallel.c vice.h config.h types.h parallel.h serial.h \
-	traps.h
-resources.o: resources.c vice.h config.h resources.h utils.h \
-	arch/unix/ui.h arch/unix/xaw/ui.h types.h \
-	arch/unix/xaw/xdebug.h palette.h
-serial.o: serial.c vice.h config.h maincpu.h types.h mem.h mos6510.h \
-	6510core.h mon.h interrupt.h vmachine.h serial.h traps.h \
-	parallel.h utils.h drive.h fs_cbm.h tape.h tapeunit.h
-sound.o: sound.c vice.h config.h sound.h types.h warn.h cmdline.h \
-	resources.h arch/unix/vsync.h arch/unix/ui.h arch/unix/xaw/ui.h \
-	arch/unix/xaw/xdebug.h palette.h maincpu.h mem.h mos6510.h \
-	6510core.h mon.h interrupt.h vmachine.h utils.h
-sysfile.o: sysfile.c vice.h config.h resources.h cmdline.h findpath.h \
-	sysfile.h utils.h
-tape.o: tape.c vice.h config.h drive.h types.h fs_cbm.h serial.h traps.h \
-	tape.h zfile.h utils.h charsets.h
-tapeunit.o: tapeunit.c vice.h config.h tapeunit.h tape.h types.h traps.h \
-	maincpu.h mem.h mos6510.h 6510core.h mon.h interrupt.h \
-	vmachine.h serial.h file.h drive.h fs_cbm.h c1541.h zfile.h \
-	utils.h resources.h charsets.h
-traps.o: traps.c vice.h config.h traps.h types.h maincpu.h mem.h \
-	mos6510.h 6510core.h mon.h interrupt.h vmachine.h resources.h \
-	cmdline.h utils.h
-utils.o: utils.c vice.h config.h utils.h
-warn.o: warn.c vice.h config.h warn.h utils.h
-zfile.o: zfile.c vice.h config.h utils.h zfile.h zipcode.h
-zipcode.o: zipcode.c vice.h config.h
 
 info: info-recursive
 dvi: dvi-recursive
