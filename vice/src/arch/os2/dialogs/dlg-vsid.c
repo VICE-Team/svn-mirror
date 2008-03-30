@@ -128,7 +128,7 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         if (mp1==MPFROM2SHORT(SPB_SETTUNE, SPBN_ENDSPIN))
         {
             const ULONG val = WinGetSpinVal((HWND)mp2);
-            resources_set_value("PSIDTune", (resource_value_t)val);
+            resources_set_int("PSIDTune", (int)val);
         }
         break;
 

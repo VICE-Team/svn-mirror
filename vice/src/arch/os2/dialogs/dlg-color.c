@@ -42,7 +42,7 @@
 
 static int canvas_set_value(const char *name, int val)
 {
-    return resources_set_value(name, (resource_value_t*)val);
+    return resources_set_int(name, val);
 }
 
 static void SetSliderPos(HWND hwnd, USHORT id, SHORT val)
@@ -64,22 +64,22 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     {
     case WM_INITDLG:
         {
-            long val;
+            int val;
             SetSliderTxt(hwnd, ID_SATURATION,   0, "0");
             SetSliderTxt(hwnd, ID_SATURATION, 100, "1.0");
             SetSliderTxt(hwnd, ID_SATURATION, 200, "2.0");
 
-            resources_get_value("ColorSaturation", (void *)&val);
+            resources_get_int("ColorSaturation", &val);
             SetSliderPos(hwnd, ID_SATURATION, val/10);
-            resources_get_value("ColorContrast", (void *)&val);
+            resources_get_("ColorContrast", &val);
             SetSliderPos(hwnd, ID_CONTRAST, val/10);
-            resources_get_value("ColorBrightness", (void *)&val);
+            resources_get_int("ColorBrightness", &val);
             SetSliderPos(hwnd, ID_BRIGHTNESS, val/10);
-            resources_get_value("ColorGamma", (void *)&val);
+            resources_get_int("ColorGamma", &val);
             SetSliderPos(hwnd, ID_GAMMA, val/10);
-            resources_get_value("PALScanLineShade", (void *)&val);
+            resources_get_int("PALScanLineShade", &val);
             SetSliderPos(hwnd, ID_SCANLINE, val/5);
-            resources_get_value("PALBlur", (void *)&val);
+            resources_get_int("PALBlur", &val);
             SetSliderPos(hwnd, ID_BLUR, val/5);
         }
         break;

@@ -234,7 +234,7 @@ int archdep_default_logger(const char *lvl, const char *txt)
 
 FILE *archdep_open_default_log_file()
 {
-    long val;
+    int val;
 
     char *fname = util_concat(archdep_boot_path(), "\\vice2.log", NULL);
     fLog = fopen(fname, "w");
@@ -242,7 +242,7 @@ FILE *archdep_open_default_log_file()
     if (fLog)
         setbuf(fLog, NULL);
 #ifndef __X1541__
-    resources_get_value("Logwin", (void *)&val);
+    resources_get_int("Logwin", &val);
     log_dialog(val);
 #endif
 
@@ -467,6 +467,23 @@ char *archdep_filename_parameter(const char *name)
 char *archdep_tmpnam(void)
 {
     return lib_stralloc(tmpnam(NULL));
+}
+
+FILE *archdep_mkstemp_fd(char **filename, const char *mode)
+{
+    char *tmp;
+    FILE *fd;
+
+    tmp = lib_stralloc(tmpnam(NULL));
+
+    fd = fopen(tmp, mode);
+
+    if (fd == NULL)
+        return NULL;
+
+    *filename = tmp;
+
+    return fd;
 }
 
 int archdep_file_is_gzip(const char *name)

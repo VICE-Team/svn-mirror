@@ -118,14 +118,14 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     {
     case WM_INITDLG:
         {
-            long val, i=0;
+            int val, i=0;
 
             HWND ihwnd = WinWindowFromID(hwnd, CBS_IMAGE);
 
             while (i<10 && ui_status.imageHist[i][0])
                 WinLboxInsertItem(ihwnd, ui_status.imageHist[i++]);
             WinLboxInsertItem(ihwnd, "");
-            resources_get_value("DriveTrueEmulation", (void *)&val);
+            resources_get_int("DriveTrueEmulation", &val);
             WinCheckButton(hwnd, CB_TRUEDRIVE, val);
             WinCheckButton(hwnd, RB_DRIVE8|drive, 1);
             WinSendMsg(hwnd, WM_SWITCH, (void*)drive, 0);
@@ -329,10 +329,10 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
             int i;
             int type=0;
-            long val;
+            int val;
             int res;
             int drive89=(drive==0 || drive==1);
-            resources_get_value("DriveTrueEmulation", (void *)&val);
+            resources_get_int("DriveTrueEmulation", &val);
 
             WinLboxEmpty(lbox);
 

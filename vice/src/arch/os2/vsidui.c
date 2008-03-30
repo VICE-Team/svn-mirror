@@ -103,7 +103,7 @@ void vsid_mainloop(VOID *arg)
 
 int vsid_ui_init(void)
 {
-    // resources_set_value("SoundDeviceName", (resource_value_t*)"dart2");
+    // resources_set_string("SoundDeviceName", "dart2");
     vsidlog = log_open("Vsidui");
 
     _beginthread(vsid_mainloop, NULL, 0x4000, NULL);

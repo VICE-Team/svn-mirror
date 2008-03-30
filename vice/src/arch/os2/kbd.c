@@ -47,9 +47,9 @@ int kbd_init(void)
     // the keymap is loaded
     //
 
-    char *name;
-    resources_get_value("KeymapFile", (void *)&name);
-    resources_set_value("KeymapFile", name);
+    const char *name;
+    resources_get_string("KeymapFile", &name);
+    resources_set_string("KeymapFile", name);
 
     return 0;
 }

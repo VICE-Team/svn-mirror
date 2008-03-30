@@ -68,7 +68,7 @@ void main_exit(void)
     log_message(LOG_DEFAULT, "\nExiting...");
     signal(SIGINT, SIG_IGN);
 
-    //---    resources_set_value("Sound", (resource_value_t)FALSE);
+    //---    resources_set_int("Sound", (int)FALSE);
     //---    DosSleep(500);
 
     //---    machine_shutdown();

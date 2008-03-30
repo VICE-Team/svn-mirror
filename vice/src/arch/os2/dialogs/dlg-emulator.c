@@ -143,7 +143,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
     {
     case WM_INITDLG:
         {
-            long val=0;
+            int val=0;
 /*
             while (val<10 && screenshotHist[val][0])
                 WinLboxInsertItem(hwnd, CBS_SSNAME, screenshotHist[val++]);
@@ -154,10 +154,10 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
 */
             for (val=0; val<11; val++)
                 WinDlgLboxInsertItem(hwnd, CBS_REFRATE, psz[val]);
-            resources_get_value("Speed", (void *)&val);
+            resources_get_int("Speed", &val);
             WinSetDlgSpinVal(hwnd, SPB_SPEED, val);
             WinEnableControl(hwnd, PB_SPEED100, (val!=100));
-            resources_get_value("RefreshRate", (void *)&val);
+            resources_get_int("RefreshRate", &val);
             WinDlgLboxSelectItem(hwnd, CBS_REFRATE, val);
         }
         break;
@@ -168,7 +168,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         case PB_SPEED100:
             WinSetDlgSpinVal(hwnd, SPB_SPEED, 100);
             vsync_suspend_speed_eval();
-            resources_set_value("Speed", (resource_value_t)100);
+            resources_set_int("Speed", 100);
             WinEnableControl(hwnd, PB_SPEED100, FALSE);
             return FALSE;
 /*
@@ -224,7 +224,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 {
                     const ULONG val = WinGetSpinVal((HWND)mp2);
                     vsync_suspend_speed_eval();
-                    resources_set_value("Speed", (resource_value_t)val);
+                    resources_set_int("Speed", val);
                     WinEnableControl(hwnd, PB_SPEED100, (val!=100));
                 }
                 break;
@@ -232,7 +232,7 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 if (SHORT2FROMMP(mp1)==/*LN_ENTER*/LN_SELECT)
                 {
                     const int val = WinQueryLboxSelectedItem((HWND)mp2);
-                    resources_set_value("RefreshRate", (resource_value_t)val);
+                    resources_set_int("RefreshRate", val);
                 }
                 break;
 /*

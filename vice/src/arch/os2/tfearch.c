@@ -197,7 +197,7 @@ int tfe_arch_activate(const char *interface_name)
 
     log_message( tfe_arch_log, "tfe_arch_activated." );
 
-    //resources_set_value("ETHERNET_AS_RR", (resource_value_t)1);
+    //resources_set_int("ETHERNET_AS_RR", 1);
 
     return 1;
 }

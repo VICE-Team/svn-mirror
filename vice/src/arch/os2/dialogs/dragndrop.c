@@ -107,7 +107,7 @@ MRESULT Drop(HWND hwnd, PDRAGINFO pDraginfo)
         if (machine_autodetect_psid(dir) >= 0)
         {
             psid_init_driver();
-            resources_set_value("PSIDTune", (resource_value_t)0);
+            resources_set_int("PSIDTune", 0);
             return NULL;
         }
     }
