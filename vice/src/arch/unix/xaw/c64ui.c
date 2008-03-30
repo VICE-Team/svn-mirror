@@ -106,7 +106,7 @@ static ui_menu_entry_t ui_cartridge_commands_menu[] = {
     { "Detach cartridge image",
       (ui_callback_t) detach_cartridge, NULL, NULL },
     { "Freeze",
-      (ui_callback_t) freeze_cartridge, NULL, NULL, XK_f, UI_HOTMOD_CTRL },
+      (ui_callback_t) freeze_cartridge, NULL, NULL, XK_f, UI_HOTMOD_META },
     { NULL }
 };
 
@@ -152,7 +152,7 @@ static ui_menu_entry_t sid_model_submenu[] = {
       (ui_callback_t) radio_SidModel, (ui_callback_data_t) 1, NULL },
 #ifdef HAVE_RESID
     { "--" },
-    { "*6581 (old) reSID emulation",
+    { "*6581 (old) with reSID",
       (ui_callback_t) radio_SidModel, (ui_callback_data_t) 2, NULL },
 #endif
     { NULL }

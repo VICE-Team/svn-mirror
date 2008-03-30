@@ -33,7 +33,7 @@
 
 typedef enum {
     UI_HOTMOD_NONE = 0,
-    UI_HOTMOD_CTRL = 1 << 0,
+    UI_HOTMOD_CONTROL = 1 << 0,
     UI_HOTMOD_ALT = 1 << 1,
     UI_HOTMOD_META = 1 << 2,
     UI_HOTMOD_SHIFT = 1 << 3
