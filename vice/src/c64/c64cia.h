@@ -42,6 +42,8 @@ extern int int_cia1tod(long offset);
 extern void cia1_prevent_clk_overflow(CLOCK sub);
 extern void cia1_set_flag(void);
 extern void cia1_set_sdr(BYTE received_byte);
+extern void cia1_set_extended_keyboard_rows_mask(BYTE value);
+extern void cia1_enable_extended_keyboard_rows(int flag);
 
 extern void reset_cia2(void);
 extern void REGPARM2 store_cia2(ADDRESS addr, BYTE value);
