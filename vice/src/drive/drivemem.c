@@ -321,8 +321,7 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
         if (drv->drive_ptr->drive_ram2_enabled) {
             if (drv->drive_ptr->drive_ram_expand2 != NULL)
                 free(drv->drive_ptr->drive_ram_expand2);
-            drv->drive_ptr->drive_ram_expand2 = xmalloc(0x2000);
-            memset(drv->drive_ptr->drive_ram_expand2, 0, 0x2000);
+            drv->drive_ptr->drive_ram_expand2 = xcalloc(1, 0x2000);
             for (i = 0x20; i < 0x40; i++) {
                 drv->cpud.read_func_nowatch[i] = drive_read_ram2;
                 drv->cpud.store_func_nowatch[i] = drive_store_ram2;
@@ -331,8 +330,7 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
         if (drv->drive_ptr->drive_ram4_enabled) {
             if (drv->drive_ptr->drive_ram_expand4 != NULL)
                 free(drv->drive_ptr->drive_ram_expand4);
-            drv->drive_ptr->drive_ram_expand4 = xmalloc(0x2000);
-            memset(drv->drive_ptr->drive_ram_expand4, 0, 0x2000);
+            drv->drive_ptr->drive_ram_expand4 = xcalloc(1, 0x2000);
             for (i = 0x40; i < 0x60; i++) {
                 drv->cpud.read_func_nowatch[i] = drive_read_ram4;
                 drv->cpud.store_func_nowatch[i] = drive_store_ram4;
@@ -341,8 +339,7 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
         if (drv->drive_ptr->drive_ram6_enabled) {
             if (drv->drive_ptr->drive_ram_expand6 != NULL)
                 free(drv->drive_ptr->drive_ram_expand6);
-            drv->drive_ptr->drive_ram_expand6 = xmalloc(0x2000);
-            memset(drv->drive_ptr->drive_ram_expand6, 0, 0x2000);
+            drv->drive_ptr->drive_ram_expand6 = xcalloc(1, 0x2000);
             for (i = 0x60; i < 0x80; i++) {
                 drv->cpud.read_func_nowatch[i] = drive_read_ram6;
                 drv->cpud.store_func_nowatch[i] = drive_store_ram6;
@@ -351,8 +348,7 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
         if (drv->drive_ptr->drive_ram8_enabled) {
             if (drv->drive_ptr->drive_ram_expand8 != NULL)
                 free(drv->drive_ptr->drive_ram_expand8);
-            drv->drive_ptr->drive_ram_expand8 = xmalloc(0x2000);
-            memset(drv->drive_ptr->drive_ram_expand8, 0, 0x2000);
+            drv->drive_ptr->drive_ram_expand8 = xcalloc(1, 0x2000);
             for (i = 0x80; i < 0xa0; i++) {
                 drv->cpud.read_func_nowatch[i] = drive_read_ram8;
                 drv->cpud.store_func_nowatch[i] = drive_store_ram8;
@@ -361,8 +357,7 @@ void drive_mem_init(drive_context_t *drv, unsigned int type)
         if (drv->drive_ptr->drive_rama_enabled) {
             if (drv->drive_ptr->drive_ram_expanda != NULL)
                 free(drv->drive_ptr->drive_ram_expanda);
-            drv->drive_ptr->drive_ram_expanda = xmalloc(0x2000);
-            memset(drv->drive_ptr->drive_ram_expanda, 0, 0x2000);
+            drv->drive_ptr->drive_ram_expanda = xcalloc(1, 0x2000);
             for (i = 0xa0; i < 0xc0; i++) {
                 drv->cpud.read_func_nowatch[i] = drive_read_rama;
                 drv->cpud.store_func_nowatch[i] = drive_store_rama;

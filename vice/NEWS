@@ -92,7 +92,7 @@ list of all the changes in the code.
 
 - Added support for cartridges in x128
 
-- Changed the video/drive support internally (in case of problems please
+- Changed the video/DIVE support internally (in case of problems please
   report!)
 
 - Added support for Double Size / Double Scan

@@ -107,12 +107,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 
 sound_t *sound_machine_open(int chipno)
 {
-    sound_t *psid;
-
-    psid = xmalloc(sizeof(sound_t));
-    memset(psid, 0, sizeof(sound_t));
-
-    return psid;
+    return (sound_t*)xcalloc(1, sizeof(sound_t));
 }
 
 int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)

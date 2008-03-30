@@ -71,7 +71,7 @@ static void vdc_set_geometry(void)
 
     raster = &vdc.raster;
 
-    // FIXME? y should be vdc_resources.double_size_enabled
+    /* FIXME? y should be vdc_resources.double_size_enabled */
     raster_enable_double_size(raster, 0, 0);
 
     screen_width = VDC_SCREEN_WIDTH;

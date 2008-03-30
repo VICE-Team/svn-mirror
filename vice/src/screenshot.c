@@ -100,8 +100,7 @@ static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
                        - screenshot->first_displayed_line;
     screenshot->y_offset = screenshot->first_displayed_line;
 
-    screenshot->color_map = (PIXEL *)xmalloc(256 * sizeof(PIXEL));
-    memset(screenshot->color_map, 0, 256 * sizeof(PIXEL));
+    screenshot->color_map = (PIXEL *)xcalloc(256, sizeof(PIXEL));
 
     for (i = 0; i < screenshot->palette->num_entries; i++)
         screenshot->color_map[screenshot->pixel_table_sing[i]] = i;

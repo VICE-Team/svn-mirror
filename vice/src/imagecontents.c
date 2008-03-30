@@ -53,16 +53,14 @@
 
 image_contents_t *image_contents_new(void)
 {
-    image_contents_t *new;
+    image_contents_t *newimg;
 
-    new = xmalloc(sizeof(image_contents_t));
+    newimg = xcalloc(1, sizeof(image_contents_t));
 
-    memset(new->name, 0, sizeof(new->name));
-    memset(new->id, 0, sizeof(new->id));
-    new->blocks_free = -1;
-    new->file_list = NULL;
+    newimg->blocks_free = -1;
+    newimg->file_list = NULL;
 
-    return new;
+    return newimg;
 }
 
 void image_contents_destroy(image_contents_t *contents)

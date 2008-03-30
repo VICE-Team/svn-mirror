@@ -172,7 +172,8 @@ static void drive_read_image_d64_d71(unsigned int dnr)
         for (track = 0; track < MAX_TRACKS_1541; track++) {
             drive[dnr].gcr->track_size[track] =
                 raw_track_size[disk_image_speed_map_1541(track)];
-            memset(drive[dnr].gcr->speed_zone, disk_image_speed_map_1541(track),                   NUM_MAX_BYTES_TRACK);
+            memset(drive[dnr].gcr->speed_zone, disk_image_speed_map_1541(track),
+                   NUM_MAX_BYTES_TRACK);
         }
     }
     if (drive[dnr].image->type == DISK_IMAGE_TYPE_D71
@@ -1116,7 +1117,7 @@ int drive_detach_image(disk_image_t *image, unsigned int unit)
         }
 
         drive_gcr_data_writeback(dnr);
-        memset(drive[dnr].gcr->data, 0, sizeof(drive[dnr].gcr->data));
+        memset(drive[dnr].gcr->data, 0, MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK);
         drive[dnr].detach_clk = drive_clk[dnr];
         drive[dnr].GCR_image_loaded = 0;
         drive[dnr].read_only = 0;

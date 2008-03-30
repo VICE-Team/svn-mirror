@@ -810,9 +810,10 @@ sound_t *fastsid_open(BYTE *sidstate)
 {
     sound_t *psid;
 
-    psid = xmalloc(sizeof(*psid));
-    memset(psid, 0, sizeof(*psid));
+    psid = (sound_t*)xcalloc(1, sizeof(sound_t));
+
     memcpy(psid->d, sidstate, 32);
+
     return psid;
 }
 

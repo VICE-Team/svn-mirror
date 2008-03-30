@@ -147,18 +147,17 @@ int t64_file_record_get_size(t64_file_record_t *rec)
 
 t64_t *t64_new(void)
 {
-    t64_t *new;
+    t64_t *new64;
 
-    new = xmalloc(sizeof(t64_t));
+    new64 = xcalloc(1, sizeof(t64_t));
 
-    new->file_name = NULL;
-    new->fd = NULL;
-    memset(&new->header, 0, sizeof(new->header));
-    new->file_records = NULL;
-    new->current_file_number = -1;
-    new->current_file_seek_position = 0;
+    new64->file_name = NULL;
+    new64->fd = NULL;
+    new64->file_records = NULL;
+    new64->current_file_number = -1;
+    new64->current_file_seek_position = 0;
 
-    return new;
+    return new64;
 }
 
 void t64_destroy(t64_t *t64)

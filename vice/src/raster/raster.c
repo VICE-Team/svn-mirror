@@ -1521,7 +1521,7 @@ int raster_realize(raster_t *raster)
 {
     raster_list_t *rlist;
 
-    if (!console_mode)
+    if (!console_mode && !vsid_mode)
         if (realize_canvas(raster) < 0)
             return -1;
 
@@ -1858,11 +1858,9 @@ int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
 
 void raster_free(raster_t *raster)
 {
-    if (!console_mode)
+    if (!console_mode && !vsid_mode)
     {
         video_canvas_destroy(raster->viewport.canvas);
-    }
-    if (!console_mode && !vsid_mode) {
         video_frame_buffer_free(raster->frame_buffer);
     }
     free(raster->viewport.title);

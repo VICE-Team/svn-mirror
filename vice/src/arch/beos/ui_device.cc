@@ -193,7 +193,7 @@ DeviceWindow::DeviceWindow()
 	printerview->SetViewColor(220,220,220,0);
 	
     resources_get_value("Printer4",	(resource_value_t *) &printer4);
-    resources_get_value("PrinterDevice1",	(resource_value_t *) &printerfile);
+    resources_get_value("PrinterTextDevice1",	(resource_value_t *) &printerfile);
 	r.InsetBy(10,10);
 	box = new BBox(r);
 	printerview->AddChild(box);
@@ -248,7 +248,7 @@ void DeviceWindow::MessageReceived(BMessage *msg) {
 		    resources_set_value("Printer4",	(resource_value_t) !res_val);
 			break;
 		case MESSAGE_DEVICE_PRINTERFILE:
-		    resources_set_value("PrinterDevice1",
+		    resources_set_value("PrinterTextDevice1",
 		  		(resource_value_t) printertextcontrol->Text());
 		  	break;
 		case MESSAGE_DEVICE_P00:

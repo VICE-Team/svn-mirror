@@ -528,8 +528,7 @@ vdrive_t *vdrive_internal_open_disk_image(const char *name,
         return NULL;
     }
 
-    vdrive = (vdrive_t *)xmalloc(sizeof(vdrive_t));
-    memset(vdrive, 0, sizeof(vdrive_t));
+    vdrive = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
 
     vdrive_setup_device(vdrive, 100);
     vdrive->image = image;

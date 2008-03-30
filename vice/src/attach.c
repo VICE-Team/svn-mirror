@@ -161,8 +161,7 @@ void file_system_init(void)
 
     for (i = 0; i < 4; i++) {
         file_system[i].serial = serial_get_device(i + 8);;
-        file_system[i].vdrive = (vdrive_t *)xmalloc(sizeof(vdrive_t));
-        memset(file_system[i].vdrive, 0, sizeof(vdrive_t));
+        file_system[i].vdrive = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
         vdrive_setup_device(file_system[i].vdrive, i + 8);
         file_system_set_serial_hooks(i + 8, file_system_device_enabled[i]);
     }

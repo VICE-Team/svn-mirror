@@ -63,76 +63,78 @@ static int sprite_open(screenshot_t *screenshot, const char *filename)
   {
     const palette_t *pal = screenshot->palette;
     const palette_entry_t *pe;
-    int bpp, pal_size;
-    int sprdesc[4+11];
-    int sprmode;
+    int bpp, pal_size, pal_bytes, header_size;
+    unsigned int *sprpalette;
+    sprite_area_t *sarea;
     int x;
 
     if (pal->num_entries <= 2)
     {
       /* 1bpp sprite */
       god->ldbpp = 0;
-      sprmode = 25;
     }
     else if (pal->num_entries <= 16)
     {
       /* 4bpp sprite */
       god->ldbpp = 2;
-      sprmode = 27;
     }
     else
     {
       /* 8bpp sprite */
       god->ldbpp = 3;
-      sprmode = 28;
     }
 
-    bpp = (1 << god->ldbpp); pal_size = (1 << bpp);
-    god->pitch = ((screenshot->width + (1 << (5 - god->ldbpp)) - 1) >> (3 - god->ldbpp)) & ~3;
+    bpp = (1 << god->ldbpp); pal_size = (1 << bpp); pal_bytes = 2*pal_size*sizeof(unsigned int);
+    if ((sprpalette = (unsigned int*)malloc(pal_bytes)) == NULL)
+    {
+      fclose(god->fp);
+      god->fp = NULL;
+      return -1;
+    }
 
-    /* sprite area control block */
-    sprdesc[0] = (4 + 11 + 2*pal_size) * sizeof(int) + god->pitch * screenshot->height;
-    sprdesc[1] = 1;
-    sprdesc[2] = 16;
-    sprdesc[3] = sprdesc[0];
-
-    /* sprite header */
-    sprdesc[4] = sprdesc[0] - 4*sizeof(int);
-    memset(sprdesc + 5, 0, 12);
-    strncpy((char*)(sprdesc + 5), "vicescreen", 12);
-    sprdesc[8]  = (god->pitch >> 2) - 1;
-    sprdesc[9]  = screenshot->height - 1;
-    sprdesc[10] = 0;
-    sprdesc[11] = ((screenshot->width << god->ldbpp) - 1) & 31;
-    sprdesc[12] = 44 + 2*pal_size*sizeof(int);
-    sprdesc[13] = sprdesc[12];
-    sprdesc[14] = sprmode;
-    fwrite(sprdesc+1, sizeof(int), 4+11-1, god->fp);
-
-    /* write palette */
+    /* create palette */
     for (x=0, pe=pal->entries; x<pal->num_entries; x++, pe++)
     {
-      sprdesc[0] = 0x10 | (pe->red << 8) | (pe->green << 16) | (pe->blue << 24);
-      sprdesc[1] = sprdesc[0];
-      fwrite(sprdesc, sizeof(int), 2, god->fp);
+      sprpalette[x] = 0x10 | (pe->red << 8) | (pe->green << 16) | (pe->blue << 24);
     }
     /* The number of colours might be smaller than the colour depth. Set rest to 0 */
     for (; x<pal_size; x++)
     {
-      sprdesc[0] = 0x10; sprdesc[0] = 0x10;
-      fwrite(sprdesc, sizeof(int), 2, god->fp);
+      sprpalette[x] = 0x10;
     }
 
-    god->data = (BYTE *)xmalloc((screenshot->width + 3) & ~3);
+    header_size = sizeof(sprite_area_t) + sizeof(sprite_desc_t) + pal_bytes;
+    if ((sarea = (sprite_area_t*)malloc(header_size)) != NULL)
+    {
+      sprite_desc_t *sprite;
 
-    if (god->ldbpp != 3)
-      god->linedata = (BYTE *)xmalloc(god->pitch);
-    else
-      god->linedata = god->data;
+      /* sprite area control block */
+      sarea->tsize = sizeof(sprite_area_t) + SpriteCalcSize(screenshot->width, screenshot->height, bpp, sprpalette, 0);
+      sarea->numsprites = 1;
+      sarea->firstoff = sizeof(sprite_area_t);
+      sarea->firstfree = sarea->tsize;
 
-    memset(god->linedata, 0, god->pitch);
+      sprite = SpriteGetSprite(sarea);
+      SpriteInitSprite(sprite, screenshot->width, screenshot->height, bpp, "vicescreen", sprpalette, 0);
 
-    return 0;
+      god->pitch = (sprite->wwidth + 1) << 2;
+      fwrite(&(sarea->numsprites), 1, header_size-4, god->fp);
+
+      god->data = (BYTE *)xmalloc((screenshot->width + 3) & ~3);
+
+      if (god->ldbpp != 3)
+        god->linedata = (BYTE *)xmalloc(god->pitch);
+      else
+        god->linedata = god->data;
+
+      memset(god->linedata, 0, god->pitch);
+
+      free(sarea);
+      free(sprpalette);
+
+      return 0;
+    }
+    free(sprpalette);
   }
   return -1;
 }

@@ -429,7 +429,7 @@ int archdep_spawn(const char *name, char **argv,
     log_message(archlog, "Spawning \"cmd.exe %s\"", cmdline);
 #endif
 
-    memset(&sd,0,sizeof(STARTDATA));
+    memset(&sd, 0, sizeof(STARTDATA));
     sd.Length     = sizeof(STARTDATA);
     sd.FgBg       = SSF_FGBG_BACK;      /* Start session in background */
     sd.Related    = SSF_RELATED_CHILD;  /* Start a child session       */

@@ -82,8 +82,7 @@ static int kdb_buf_feed_cmdline(const char *param, void *extra_param)
     if (len > QUEUE_SIZE)
         len = QUEUE_SIZE;
 
-    kdb_buf_startup_string = xmalloc(len + 1);
-    memset(kdb_buf_startup_string, 0, len + 1);
+    kdb_buf_startup_string = xcalloc(1, len + 1);
 
     for (i = 0, j = 0; i < len; i++) {
         if (param[i] == '\\' && i < (len - 2) && isxdigit(param[i + 1])

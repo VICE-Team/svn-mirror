@@ -2775,10 +2775,8 @@ int main(int argc, char **argv)
         args[i] = NULL;
     nargs = 0;
 
-    drives[0] = (vdrive_t *)xmalloc(sizeof(vdrive_t));
-    drives[1] = (vdrive_t *)xmalloc(sizeof(vdrive_t));
-    memset(drives[0], 0, sizeof(vdrive_t));
-    memset(drives[1], 0, sizeof(vdrive_t));
+    drives[0] = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
+    drives[1] = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
 
     retval = 0;
 
