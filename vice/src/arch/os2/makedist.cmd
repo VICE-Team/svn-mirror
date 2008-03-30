@@ -6,15 +6,16 @@ xdel Vice2\*.*  /s /l /n /d
 
 md "Vice2"
 type install.cmd > Vice2\install.cmd
-copy ..\..\..\data\x64.exe    Vice2
-copy ..\..\..\data\x128.exe   Vice2
-copy ..\..\..\data\xvic.exe   Vice2
-copy ..\..\..\data\xpet.exe   Vice2
-copy ..\..\..\data\xcbm2.exe  Vice2
-copy ..\..\..\data\c1541.exe  Vice2
-copy ..\..\..\data\petcat.exe Vice2
-copy ..\..\..\data\vice2.dll  Vice2
-copy ..\..\..\data\vice2.fon  Vice2
+copy ..\..\..\data\x64.exe     Vice2
+copy ..\..\..\data\x128.exe    Vice2
+copy ..\..\..\data\xvic.exe    Vice2
+copy ..\..\..\data\xpet.exe    Vice2
+copy ..\..\..\data\xplus4.exe  Vice2
+copy ..\..\..\data\xcbm2.exe   Vice2
+copy ..\..\..\data\x1541.exe   Vice2
+copy ..\..\..\data\petcat.exe  Vice2
+copy ..\..\..\data\vice2.dll   Vice2
+copy ..\..\..\data\vice2.fon   Vice2
 
 md "Vice2\Icons"
 copy icons\folder1.ico Vice2\Icons
@@ -83,6 +84,11 @@ copy ..\..\..\data\PET\rom4b40.vrs   Vice2\PET
 copy ..\..\..\data\PET\rom4b80.vrs   Vice2\PET
 copy ..\..\..\data\PET\rom4g40.vrs   Vice2\PET
 copy ..\..\..\data\PET\white.vpl     Vice2\PET
+
+md Vice2\PLUS4
+copy ..\..\..\data\PLUS4\default.vpl   Vice2\PLUS4
+copy ..\..\..\data\PLUS4\default.vrs   Vice2\PLUS4
+copy ..\..\..\data\PLUS4\vice.vpl.vrs  Vice2\PLUS4
 
 md Vice2\VIC20
 copy ..\..\..\data\VIC20\basic         Vice2\VIC20

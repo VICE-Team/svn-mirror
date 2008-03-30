@@ -40,7 +40,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "maincpu.c"
         source type(c)
             "kbd-c64.c",
-            "c64ui.c",
             "c64memlimit.c",
             "dialogs\\dlg-color.c"
 

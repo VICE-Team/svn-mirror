@@ -54,8 +54,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "maincpu.c"
         source type(c)
             "rs232.c",
-            "vic20ui.c",
-            "kbd\\kbd-vic20.c"
+            "kbd-vic20.c"
 
     }
 }

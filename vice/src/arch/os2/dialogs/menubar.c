@@ -361,6 +361,23 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
 #endif
 
+#if defined VIC_II_NEED_2X || defined VIC_NEED_2X
+    case IDM_VICDSIZE:
+        toggle("DoubleSize");
+        return;
+    case IDM_VICDSCAN:
+        toggle("DoubleScan");
+        return;
+#endif
+#ifdef CRTC_NEED_2X
+    case IDM_CRTCDSIZE:
+        toggle("CrtcDoubleSize");
+        return;
+    case IDM_CRTCDSCAN:
+        toggle("CrtcDoubleScan");
+        return;
+#endif
+
 #if defined __X64__ || defined __X128__
         /*
     case IDM_KERNALREV0:
@@ -625,6 +642,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
     case IDM_DEVDART:
         resources_set_value("SoundDeviceName", (resource_value_t)"dart");
+        return;
+    case IDM_DEVDUMMY:
+        resources_set_value("SoundDeviceName", (resource_value_t)"dummy");
         return;
     case IDM_DEVSID: // no sampleparams
         resources_set_value("SoundDeviceName", (resource_value_t)"dump");
@@ -958,6 +978,14 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 
     case IDM_SETUP:
+#if defined VIC_II_NEED_2X || defined VIC_NEED_2X
+        WinCheckRes(hwnd, IDM_VICDSIZE, "DoubleSize");
+        WinCheckRes(hwnd, IDM_VICDSCAN, "DoubleScan");
+#endif
+#ifdef CRTC_NEED_2X
+        WinCheckRes(hwnd, IDM_CRTCDSIZE, "CrtcDoubleSize");
+        WinCheckRes(hwnd, IDM_CRTCDSCAN, "CrtcDoubleScan");
+#endif
         WinCheckRes(hwnd, IDM_MOUSE,     "Mouse");
         WinCheckRes(hwnd, IDM_HIDEMOUSE, "HideMousePtr");
         //WinCheckRes(hwnd, IDM_PRTIEC,    "Printer4");
@@ -1070,10 +1098,11 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_value("SoundDeviceName", (resource_value_t*)&dev);
             if (!dev || !dev[0])
                 dev = "dart";
-            WinCheckMenuItem(hwnd, IDM_DEVDART, !strcasecmp(dev, "dart"));
-            WinCheckMenuItem(hwnd, IDM_DEVSID,  !strcasecmp(dev, "dump"));
-            WinCheckMenuItem(hwnd, IDM_DEVWAV,  !strcasecmp(dev, "wav"));
-            WinCheckMenuItem(hwnd, IDM_DEVRAW,  !strcasecmp(dev, "fs"));
+            WinCheckMenuItem(hwnd, IDM_DEVDART,  !strcasecmp(dev, "dart"));
+            WinCheckMenuItem(hwnd, IDM_DEVSID,   !strcasecmp(dev, "dump"));
+            WinCheckMenuItem(hwnd, IDM_DEVDUMMY, !strcasecmp(dev, "dummy"));
+            WinCheckMenuItem(hwnd, IDM_DEVWAV,   !strcasecmp(dev, "wav"));
+            WinCheckMenuItem(hwnd, IDM_DEVRAW,   !strcasecmp(dev, "fs"));
         }
         return;
 

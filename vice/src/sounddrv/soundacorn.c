@@ -80,11 +80,12 @@ void sound_get_vidc_frequency(int *speed, int *period)
 
 /* configure sound, taking into account that the desire buffer size may
    not be available (the limit seems to be 512 bytes) */
-static int sound_configure_vidc(int *speed, int *fragsize, int *fragnr, int sync)
+static int sound_configure_vidc(int *speed, int *fragsize, int *fragnr, int *chanptr, int sync)
 {
   _kernel_oserror *err;
   int period;
   int newsound;
+  int channelnum;
 
   if (*fragsize > MaxBufferSize)
   {
@@ -115,9 +116,15 @@ static int sound_configure_vidc(int *speed, int *fragsize, int *fragnr, int sync
 
   resources_get_value("Use16BitSound", (resource_value_t*)&newsound);
 
+  channelnum = *chanptr;
+
   if (newsound != 0)
   {
-    if (DigitalRenderer_Activate16(1, *fragsize, *speed, 1) != NULL)
+    /* 16bit linear sound only allows mono or stereo */
+    if (channelnum > 2)
+      channelnum = 2;
+
+    if (DigitalRenderer_Activate16(channelnum, *fragsize, *speed, 1) != NULL)
       newsound = 0;
     else
       *speed = DigitalRenderer_GetFrequency();
@@ -125,9 +132,16 @@ static int sound_configure_vidc(int *speed, int *fragsize, int *fragnr, int sync
 
   if (newsound == 0)
   {
+    /* 8bit logarithmic allows 1,2,4 and 8 channels */
+    channelnum = *chanptr;
+    if (channelnum == 3)
+      channelnum = 4;
+    else if (channelnum > 4)
+      channelnum = 8;
+
     /* adapt sample speed */
     sound_get_vidc_frequency(speed, &period);
-    if ((err = DigitalRenderer_Activate(1, *fragsize, period)) != NULL)
+    if ((err = DigitalRenderer_Activate(channelnum, *fragsize, period)) != NULL)
     {
       log_error(vidc_log, err->errmess);
       return -1;
@@ -136,6 +150,7 @@ static int sound_configure_vidc(int *speed, int *fragsize, int *fragnr, int sync
 
   buffersize = *fragsize;
   numbuffers = *fragnr;
+  *chanptr = channelnum;
 
   return 0;
 }
@@ -146,9 +161,6 @@ static int sound_configure_vidc(int *speed, int *fragsize, int *fragnr, int sync
  */
 static int init_vidc_device(const char *device, int *speed, int *fragsize, int *fragnr, int *channels)
 {
-  /* No stereo capability. */
-  *channels = 1;
-
   if ((DigitalRenderer_ReadState() & DRState_Active) != 0)
     return 1;
 
@@ -162,10 +174,10 @@ static int init_vidc_device(const char *device, int *speed, int *fragsize, int *
     }
   }
 
-  if (sound_configure_vidc(speed, fragsize, fragnr, 0) != 0)
+  if (sound_configure_vidc(speed, fragsize, fragnr, channels, 0) != 0)
     return 1;
 
-  if ((VIDCSampleBuffer = (SWORD*)xmalloc(buffersize*sizeof(SWORD))) == NULL)
+  if ((VIDCSampleBuffer = (SWORD*)xmalloc(buffersize*(*channels)*sizeof(SWORD))) == NULL)
   {
     log_error(vidc_log, "Can't claim memory for sound buffer!");
     DigitalRenderer_Deactivate();
@@ -337,13 +349,10 @@ void sound_wimp_safe_exit(void)
  */
 static int init_vidc_sync_device(const char *device, int *speed, int *fragsize, int *fragnr, int *channels)
 {
-  /* No stereo capability. */
-  *channels = 1;
-
   if ((DigitalRenderer_ReadState() &DRState_Active) != 0)
     return 1;
 
-  if (sound_configure_vidc(speed, fragsize, fragnr, 1) != 0)
+  if (sound_configure_vidc(speed, fragsize, fragnr, channels, 1) != 0)
     return 1;
 
   /* unthreaded sound */

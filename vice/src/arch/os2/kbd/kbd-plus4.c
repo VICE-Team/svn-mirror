@@ -1,8 +1,8 @@
 /*
- * sounddrv.c - Implementation of Sound for Vice/2
+ * kbd-plus4.c -- Plus4 keyboard for MS-DOS.
  *
  * Written by
- *  Thomas Bretz <tbretz@gsi.de>
+ *  Thomas Bretz <tbretz@uni-sw.gwdg.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,26 +24,11 @@
  *
  */
 
-#include <os2.h>
-#include <os2me.h>
+#include "vice.h"
 
-#include <ctype.h>
+#include "kbd.h"
 
-#include "log.h"
-
-int sound_err(log_t log, ULONG rc, char *s)
+int plus4_kbd_init(void)
 {
-    char text[128];
-
-    log_error(log, s);
-    mciGetErrorString(rc, text, 128);
-
-    if (!isprint(text[0]))
-        return 1;
-
-    log_error(log, "%s (rc=%li)",text, rc);
-    //WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, text, s, 0, MB_OK);
-    //WORD lo order=unsigned short
-    return 1;
+    return kbd_init();
 }
-

@@ -39,6 +39,9 @@ list of all the changes in the code.
 
 - Implemented drag'n'drop for vsid mode.
 
+- fixed a bug in the compilation of c1541
+
+- renamed c1541 to x1541
 
 * Changes in VICE 1.7
 =====================

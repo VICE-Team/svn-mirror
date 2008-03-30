@@ -57,6 +57,9 @@
 #include "utils.h"
 #include "vsync.h"
 #include "video.h"
+#ifdef USE_XF86_EXTENSIONS
+#include "fullscreen.h"
+#endif
 
 
 /* FIXME: PAL/NTSC constants should be moved from drive.h */

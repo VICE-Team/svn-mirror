@@ -27,8 +27,8 @@
 #ifndef _SOUNDDRV_H
 #define _SOUNDDRV_H
 
-#include "types.h"
+#include "log.h"
 
-int sound_err(ULONG rc, char *s);
+extern int sound_err(log_t log, ULONG rc, char *s);
 
 #endif

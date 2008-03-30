@@ -27,6 +27,8 @@
 #ifndef _C128UI_H
 #define _C128UI_H
 
+#define c128_ui_init machine_ui_init
+
 extern int c128_ui_init(void);
 
 #endif

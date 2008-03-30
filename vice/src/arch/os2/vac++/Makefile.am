@@ -1,10 +1,11 @@
 EXTRA_DIST = \
 	X64.ICC \
         X128.ICC \
+        X1541.ICC \
         Xcbm2.ICC \
         Xpet.ICC \
+        Xplus4.ICC \
         Xvic.ICC \
-        C1541.ICC \
         Fonts.icc \
         PETcat.ICC \
         RESID.ICC \
@@ -27,6 +28,7 @@ EXTRA_DIST = \
         incl/kbd.icc \
         incl/raster.icc \
         incl/resid.icc \
+        incl/plus4.icc \
         incl/sounddrv.icc \
         incl/gfxoutputdrv.icc \
         incl/printerdrv.icc \

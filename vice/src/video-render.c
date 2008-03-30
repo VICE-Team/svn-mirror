@@ -41,8 +41,8 @@ static void render_08_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	int x,y,wstart,wfast,wend;
 	register DWORD rcolor;
 
-	src=src + pitchs*ys + xs;
-	trg=trg + pitcht*yt + xt;
+	src += pitchs*ys + xs;
+	trg += pitcht*yt + xt;
 	if (width < 4)
 	{
 		wstart=width;
@@ -51,9 +51,9 @@ static void render_08_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	for (y=0;y<height;y++)
 	{
@@ -64,8 +64,10 @@ static void render_08_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 			*tmptrg++=(BYTE)colortab[*tmpsrc++];
 		}
 		for (x=0;x<wfast;x++)
-		{
-			rcolor=*((DWORD *)tmpsrc)++;
+                {
+			rcolor=*((DWORD *)tmpsrc);
+                        tmpsrc += sizeof(DWORD);
+
 			*tmptrg++=(BYTE)colortab[(BYTE)rcolor];
 			rcolor >>= 8;
 			*tmptrg++=(BYTE)colortab[(BYTE)rcolor];
@@ -100,9 +102,9 @@ static void render_16_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	for (y=0;y<height;y++)
 	{
@@ -114,7 +116,9 @@ static void render_16_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 		}
 		for (x=0;x<wfast;x++)
 		{
-			rcolor=*((DWORD *)tmpsrc)++;
+			rcolor=*((DWORD *)tmpsrc);
+         tmpsrc += sizeof(DWORD);
+
 			*tmptrg++=(WORD)colortab[(BYTE)rcolor];
 			rcolor >>= 8;
 			*tmptrg++=(WORD)colortab[(BYTE)rcolor];
@@ -149,9 +153,9 @@ static void render_24_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	for (y=0;y<height;y++)
 	{
@@ -224,9 +228,9 @@ static void render_32_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	for (y=0;y<height;y++)
 	{
@@ -238,7 +242,9 @@ static void render_32_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 		}
 		for (x=0;x<wfast;x++)
 		{
-			rcolor=*((DWORD *)tmpsrc)++;
+			rcolor=*((DWORD *)tmpsrc);
+         tmpsrc += sizeof(DWORD);
+
 			*tmptrg++=colortab[(BYTE)rcolor];
 			rcolor >>= 8;
 			*tmptrg++=colortab[(BYTE)rcolor];
@@ -284,9 +290,9 @@ static void render_08_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	for (y=ys;y<(ys+height);y++)
 	{
@@ -306,7 +312,9 @@ static void render_08_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 			}
 			for (x=0;x<wfast;x++)
 			{
-				rcolor=*((DWORD *)tmpsrc)++;
+				rcolor=*((DWORD *)tmpsrc);
+            tmpsrc += sizeof(DWORD);
+
 				color=(BYTE)colortab[(BYTE)rcolor];
 				*tmptrg++=color;
 				*tmptrg++=color;
@@ -367,9 +375,9 @@ static void render_16_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	for (y=ys;y<(ys+height);y++)
 	{
@@ -389,7 +397,9 @@ static void render_16_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 			}
 			for (x=0;x<wfast;x++)
 			{
-				rcolor=*((DWORD *)tmpsrc)++;
+				rcolor=*((DWORD *)tmpsrc);
+            tmpsrc += sizeof(DWORD);
+
 				color=(WORD)colortab[(BYTE)rcolor];
 				*tmptrg++=color;
 				*tmptrg++=color;
@@ -449,9 +459,9 @@ static void render_24_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	for (y=ys;y<(ys+height);y++)
 	{
@@ -591,9 +601,9 @@ static void render_32_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	for (y=ys;y<(ys+height);y++)
 	{
@@ -613,7 +623,9 @@ static void render_32_2x2_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 			}
 			for (x=0;x<wfast;x++)
 			{
-				rcolor=*((DWORD *)tmpsrc)++;
+				rcolor=*((DWORD *)tmpsrc);
+            tmpsrc += sizeof(DWORD);
+
 				color=colortab[(BYTE)rcolor];
 				*tmptrg++=color;
 				*tmptrg++=color;
@@ -672,9 +684,9 @@ static void render_08_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	tmppre = src-pitchs-1;
 	for (y=0;y<height;y++)
@@ -719,9 +731,9 @@ static void render_16_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	tmppre = src-pitchs-1;
 	for (y=0;y<height;y++)
@@ -767,9 +779,9 @@ static void render_24_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	tmppre = src-pitchs-1;
 	for (y=0;y<height;y++)
@@ -844,9 +856,9 @@ static void render_32_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	tmppre = src-pitchs-1;
 	for (y=0;y<height;y++)
@@ -903,9 +915,9 @@ static void render_08_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	pre = src-pitchs-1;
 	for (y=ys;y<(ys+height);y++)
@@ -989,9 +1001,9 @@ static void render_16_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	pre = src-pitchs-1;
 	for (y=ys;y<(ys+height);y++)
@@ -1075,9 +1087,9 @@ static void render_24_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	pre = src-pitchs-1;
 	for (y=ys;y<(ys+height);y++)
@@ -1224,9 +1236,9 @@ static void render_32_2x2_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int h
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			// alignment: 4 pixels
-		wfast =(width - wstart) >> 2;		// fast loop for 4 pixel segments
-		wend  =(width - wstart) & 0x03;		// do not forget the rest
+		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
+		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
 	pre = src-pitchs-1;
 	for (y=ys;y<(ys+height);y++)

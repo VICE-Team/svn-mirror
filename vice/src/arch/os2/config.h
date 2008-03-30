@@ -10,6 +10,11 @@
 
 //#define MAIN_PROGRAM Main
 
+/*
+ * VAC++ doesn't define __i386__, __i386__ is used in vice.h
+ */
+#define __i386__ 1
+
 /* Define if using alloca.c.  */
 /* #undef C_ALLOCA */
 
@@ -78,6 +83,20 @@
 
 /* Do we have to emulate a joystick?  */
 #define HAS_JOYSTICK          1
+
+/* VIC II Doublesize/-scan  */
+/*
+ #if defined __X64__ || defined __X128__ || defined __XCBM__
+ #define VIC_II_NEED_2X        1
+ #endif
+ #if defined __XVIC__
+ #define VIC_NEED_2X
+ #endif
+ #if defined __XCBM__ || defined __XPET__
+ #define CRTC_NEED_2X
+ #endif
+ */
+
 
 /* Is digital joystick support avaiable?  */
 /* #undef HAS_DIGITAL_JOYSTICK */

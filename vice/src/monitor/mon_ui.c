@@ -99,7 +99,7 @@ struct mon_disassembly *mon_disassembly_get_lines(
     ADDRESS loc;
     unsigned int size;
     int  i;
-    int  have_label = pmdp->have_label;
+    unsigned int  have_label = pmdp->have_label;
     struct mon_disassembly *contents = NULL;
     struct mon_disassembly *ret;
 
@@ -115,7 +115,7 @@ struct mon_disassembly *mon_disassembly_get_lines(
 
         if (ret == NULL)
         {
-            ret      = 
+            ret      =
             contents = newcont;
         }
         else
@@ -131,7 +131,7 @@ struct mon_disassembly *mon_disassembly_get_lines(
         /* @SRT: just for testing! */
         contents->flags.breakpoint_active = loc == 0xA47B;
 
-	contents->content = 
+	contents->content =
         mon_disassemble_with_label(pmdp->memspace, loc, 1, &size, &have_label);
 
         contents->length  = strlen(contents->content);
@@ -151,7 +151,7 @@ ADDRESS scroll_down(struct mon_disassembly_private *pmdp, ADDRESS loc)
     char *content;
 
 	content = mon_disassemble_with_label(pmdp->memspace, loc, 1, &size,
-                                             &pmdp->have_label );
+                                             (unsigned int*)&pmdp->have_label );
 
     free(content);
 
@@ -169,7 +169,7 @@ ADDRESS scroll_down_page(struct mon_disassembly_private *pmdp, ADDRESS loc)
         char *content;
 
         content = mon_disassemble_with_label(pmdp->memspace, loc, 1, &size,
-                                             &pmdp->have_label );
+                                             (unsigned int*)&pmdp->have_label );
 
         free(content);
 
@@ -201,7 +201,7 @@ ADDRESS scroll_up_count(struct mon_disassembly_private *pmdp, ADDRESS loc,
             storepos = 0;
 
 	    content = mon_disassemble_with_label(pmdp->memspace, testloc, 1,
-                                                 &size, &have_label );
+                                                 &size, (unsigned int*)&have_label );
 
         free(content);
 

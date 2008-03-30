@@ -68,7 +68,7 @@ char *mon_disassemble_with_label(MEMSPACE memspace, ADDRESS loc, int hex,
     return xmsprintf( (hex ? "%04X: %s%10s" : "05u: %s%10s"), loc, p, "");
 }
 
-
+#ifndef __OS2__
 char *pchCommandLine = NULL;
 
 void mon_set_command(console_t *console_log, char *command,
@@ -106,4 +106,5 @@ char *uimon_in()
     /* return the command (the one or other way...) */
     return p;
 }
+#endif
 

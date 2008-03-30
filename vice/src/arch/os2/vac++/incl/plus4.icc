@@ -1,0 +1,17 @@
+source type(c)
+    "plus4-cmdline-options.c",
+    "plus4-resources.c",
+    "plus4.c",
+    "plus4datasette.c",
+    "plus4iec.c",
+    "plus4mem.c",
+    "plus4memlimit.c",
+    "plus4tia1.c",
+    "ted-cmdline-options.c",
+    "ted-color.c",
+    "ted-draw.c",
+    "ted-mem.c",
+    "ted-resources.c",
+    "ted-snapshot.c",
+    "ted-sound.c",
+    "ted.c"

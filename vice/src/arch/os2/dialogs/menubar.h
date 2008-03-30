@@ -88,6 +88,12 @@
 #define IDM_HARDRESET     0x12d
 #define IDM_EXIT          0x12f
 
+#define IDM_VICDSIZE     0x13c
+#define IDM_VICDSCAN     0x13d
+
+#define IDM_CRTCDSIZE    0x13e
+#define IDM_CRTCDSCAN    0x13f
+
 #define IDM_VDC16K       0x140
 #define IDM_VDC64K       0x141
 
@@ -178,6 +184,7 @@
 #define IDM_DEVSID       0x216
 #define IDM_DEVWAV       0x217
 #define IDM_DEVRAW       0x218
+#define IDM_DEVDUMMY     0x219
 
 #define IDM_VOLUME       0x400
 #define IDM_VOL100       0x40a

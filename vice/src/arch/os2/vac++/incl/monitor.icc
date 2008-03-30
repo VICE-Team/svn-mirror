@@ -9,5 +9,6 @@ source type(c)
     "mon_file.c",
     "mon_lex.c",
     "mon_parse.c",
-    "mon_register6502.c"/*,
-    "mon_util.c"*/
+    "mon_register6502.c",
+    "mon_ui.c",
+    "mon_util.c"

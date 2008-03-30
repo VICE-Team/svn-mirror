@@ -64,7 +64,7 @@
 #include "signals.h"
 #include "vsyncapi.h"
 
-#ifndef __C1541__
+#ifndef __X1541__
 #include "dialogs.h"    // WM_INSERT
 #include "resources.h"  // Logwin
 #endif
@@ -116,7 +116,7 @@ void PM_open(void)
 //    atexit(PM_close);
 }
 
-#if !defined __C1541__ && !defined __PETCAT__
+#if !defined __X1541__ && !defined __PETCAT__
 /* ------------------------------------------------------------------------ */
 void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState)
 {
@@ -147,7 +147,7 @@ int archdep_startup(int *argc, char **argv)
     atexit(restore_workdir);
 
     PM_open();
-#if !defined __C1541__ && !defined __PETCAT__
+#if !defined __X1541__ && !defined __PETCAT__
     archdep_create_mutex_sem(&hmtxSpawn, "Spawn", FALSE);
 #endif
     return 0;
@@ -222,7 +222,7 @@ int archdep_default_logger(const char *lvl, const char *txt)
     //
     // This is used if archdep_open_default_log_file returns NULL
     //
-#ifndef __C1541__
+#ifndef __X1541__
     char *text = concat(lvl, txt, NULL);
     WinSendMsg(hwndLog, WM_INSERT, text, FALSE);
     free(text);
@@ -241,7 +241,7 @@ FILE *archdep_open_default_log_file()
     free(fname);
     if (fLog)
         setbuf(fLog, NULL);
-#ifndef __C1541__
+#ifndef __X1541__
     resources_get_value("Logwin", (resource_value_t*)&val);
     log_dialog(val);
 #endif
@@ -272,7 +272,7 @@ int archdep_num_text_columns(void)
 #endif
 }
 
-#if !defined __C1541__ && !defined __PETCAT__
+#if !defined __X1541__ && !defined __PETCAT__
 extern int trigger_shutdown;
 #endif
 
@@ -282,7 +282,7 @@ static RETSIGTYPE break64(int sig)
     sigtxt = xmsprintf("Received signal %d (%s). Vice will be closed.",
                        sig, sys_siglist[sig]);
     log_message(archlog, sigtxt);
-#if !defined __C1541__ && !defined __PETCAT__
+#if !defined __X1541__ && !defined __PETCAT__
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
                   sigtxt, "VICE/2 Exception", 0, MB_OK);
     trigger_shutdown = TRUE;
@@ -425,7 +425,7 @@ int archdep_spawn(const char *name, char **argv,
 
     // Make the needed command string
     cmdline = archdep_cmdline(fqName, argv, stdout_redir, stderr_redir);
-#if !defined __C1541__ && !defined __PETCAT__
+#if !defined __X1541__ && !defined __PETCAT__
     log_message(archlog, "Spawning \"cmd.exe %s\"", cmdline);
 #endif
 
@@ -444,7 +444,7 @@ int archdep_spawn(const char *name, char **argv,
      from the termination queue */
 
     // this prevents you from closing Vice while a child is running
-#if !defined __C1541__ && !defined __PETCAT__
+#if !defined __X1541__ && !defined __PETCAT__
     if (DosRequestMutexSem(hmtxSpawn, SEM_INDEFINITE_WAIT))
         return 0;
 #endif
@@ -468,7 +468,7 @@ int archdep_spawn(const char *name, char **argv,
         }
         DosCloseQueue(hqQueue);
     }
-#if !defined __C1541__ && !defined __PETCAT__
+#if !defined __X1541__ && !defined __PETCAT__
     DosReleaseMutexSem(hmtxSpawn);
 #endif
     free(cmdline);
@@ -481,7 +481,7 @@ void archdep_startup_log_error(const char *format, ...)
     va_list ap;
     va_start(ap, format);
     txt = xmvsprintf(format, ap);
-#if !defined __C1541__ && !defined __PETCAT__
+#if !defined __X1541__ && !defined __PETCAT__
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
                   txt, "VICE/2 Startup Error", 0, MB_OK);
 #else

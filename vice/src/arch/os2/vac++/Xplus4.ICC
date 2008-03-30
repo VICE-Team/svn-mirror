@@ -12,12 +12,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\kbd"),
     incl(searchpath, "..\\dialogs"),
     incl(searchpath, "..\\..\\.."),
-    incl(searchpath, "..\\..\\..\\c64"),
-    incl(searchpath, "..\\..\\..\\sid"),
-    incl(searchpath, "..\\..\\..\\cbm2"),
-    incl(searchpath, "..\\..\\..\\crtc"),
-    incl(searchpath, "..\\..\\..\\vicii"),
-    incl(searchpath, "..\\..\\..\\resid"),
+    incl(searchpath, "..\\..\\..\\plus4"),
     incl(searchpath, "..\\..\\..\\drive"),
     incl(searchpath, "..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\raster"),
@@ -28,39 +23,34 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\..\\zlib"),
     incl(searchpath, "..\\..\\..\\..\\..\\lpng"),
     incl(searchpathfirst, "yes"),
-    define("__XCBM__", ),
-    res_rc_options("-i ..\\dialogs -x1 -d __XCBM__")
+    define("__XPLUS4__", ),
+    res_rc_options("-i ..\\dialogs -d __XPLUS4__ -x1")
 {
-    target type(exe) "..\\..\\..\\..\\data\\xcbm2.exe"
+    target type(exe) "..\\..\\..\\..\\data\\xplus4.exe"
     {
         source type (lib)
             "mmpm2.lib",
             "..\\..\\..\\..\\data\\vice2.lib"
         source type (dll)
             "..\\..\\..\\..\\data\\vice2.dll"
+        source type(c)
+            "maincpu.c"
+        source type(c)
+            "kbd-plus4.c",
+            "rs232.c"
 
         include "incl/resources.icc"
-        include "incl/kbd.icc"
-        include "incl/cbm2.icc"
-        include "incl/crtc.icc"
-        include "incl/vicii.icc"
-        include "incl/mainsrc.icc"
         include "incl/archdep.icc"
+        include "incl/mainsrc.icc"
+        include "incl/plus4.icc"
+        include "incl/kbd.icc"
         include "incl/dialogs.icc"
+        include "incl/monitor.icc"
         include "incl/drive.icc"
         include "incl/raster.icc"
         include "incl/vdrive.icc"
-        include "incl/monitor.icc"
         include "incl/sounddrv.icc"
         include "incl/gfxoutputdrv.icc"
         include "incl/printerdrv.icc"
-        include "incl/resid.icc"
-
-        source type(c)
-            "kbd-c610.c",
-            "kbd-pet.c",
-            "dlg-color.c"
     }
 }
-
-

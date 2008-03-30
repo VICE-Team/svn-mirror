@@ -27,6 +27,8 @@
 #ifndef _C64UI_H
 #define _C64UI_H
 
+#define c64_ui_init machine_ui_init
+
 extern int c64_ui_init(void);
 
 #endif

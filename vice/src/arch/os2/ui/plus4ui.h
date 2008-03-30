@@ -1,8 +1,8 @@
 /*
- * sounddrv.c - Implementation of Sound for Vice/2
+ * plus4ui.h - Implementation of the plus4-specific part of the UI.
  *
  * Written by
- *  Thomas Bretz <tbretz@gsi.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,26 +24,11 @@
  *
  */
 
-#include <os2.h>
-#include <os2me.h>
+#ifndef _PLUS4UI_H
+#define _PLUS4UI_H
 
-#include <ctype.h>
+#define plus4_ui_init machine_ui_init
 
-#include "log.h"
+extern int plus4_ui_init(void);
 
-int sound_err(log_t log, ULONG rc, char *s)
-{
-    char text[128];
-
-    log_error(log, s);
-    mciGetErrorString(rc, text, 128);
-
-    if (!isprint(text[0]))
-        return 1;
-
-    log_error(log, "%s (rc=%li)",text, rc);
-    //WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, text, s, 0, MB_OK);
-    //WORD lo order=unsigned short
-    return 1;
-}
-
+#endif

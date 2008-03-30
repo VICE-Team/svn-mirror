@@ -27,6 +27,8 @@
 #ifndef _C610UI_H
 #define _C610UI_H
 
+#define c610_ui_init machine_ui_init
+
 extern int c610_ui_init(void);
 
 #endif

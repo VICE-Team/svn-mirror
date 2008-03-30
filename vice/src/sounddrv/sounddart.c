@@ -38,7 +38,6 @@
 #include <stdlib.h>
 
 #include "sound.h"
-#include "log.h"
 #include "utils.h"
 
 #include "sounddrv.h"
@@ -56,6 +55,8 @@ static UINT pos  = 0; // this is the position to which buffer we have to write
 
 static HMTX hmtxSnd;
 static HMTX hmtxOC;  // Open, Close  // not _really_ necessary
+
+static log_t dlog=LOG_ERR;
 
 // --------------------------------------------------------------------------
 
@@ -83,7 +84,7 @@ void set_volume(int vol)
 
     if ((rc=DosRequestMutexSem(hmtxOC, SEM_INDEFINITE_WAIT)))
     {
-        log_debug("sounddart.c: set_volume, DosRequestMutexSem rc=%i", rc);
+        log_warning(dlog, "set_volume, DosRequestMutexSem rc=%i", rc);
         return;
     }
     if (usDeviceID)
@@ -95,13 +96,13 @@ void set_volume(int vol)
         MciSetParms.ulLevel = vol;
         MciSetParms.ulAudio = MCI_SET_AUDIO_ALL;
 
-        log_debug("Dart: Setting volume to %d%%", vol);
+        log_message(dlog, "Setting volume to %d%%", vol);
 
         rc = mciSendCommand(usDeviceID, MCI_SET, MCI_WAIT|
                             MCI_SET_VOLUME|MCI_SET_AUDIO,
                             (PVOID) &MciSetParms, 0);
         if (rc != MCIERR_SUCCESS)
-            sound_err(rc, "Error setting up Volume (MCI_SET).");
+            sound_err(dlog, rc, "Setting up Volume (MCI_SET).");
     }
     volume=vol;
     DosReleaseMutexSem(hmtxOC);
@@ -113,7 +114,7 @@ void mute(int state)
 
     if ((rc=DosRequestMutexSem(hmtxOC, SEM_INDEFINITE_WAIT)))
     {
-        log_debug("sounddart.c: mute, DosRequestMutexSem rc=%i", rc);
+        log_warning(dlog, "mute, DosRequestMutexSem rc=%i", rc);
         return;
     }
     if (usDeviceID)
@@ -127,7 +128,7 @@ void mute(int state)
                             (PVOID) &MciSetParms, 0);
 
         if (rc != MCIERR_SUCCESS)
-            sound_err(rc, "Error setting mute state (MCI_SET_ON/OFF).");
+            sound_err(dlog, rc, "Setting mute state (MCI_SET_ON/OFF).");
     }
     DosReleaseMutexSem(hmtxOC);
 
@@ -171,25 +172,25 @@ LONG APIENTRY DARTEvent (ULONG ulStatus, PMCI_MIX_BUFFER pBuffer, ULONG ulFlags)
         DosReleaseMutexSem(hmtxSnd);
 
         if (rc != MCIERR_SUCCESS)
-            sound_err(rc, "Error writing to Mixer (pmixWrite).");
+            sound_err(dlog, rc, "Writing to Mixer (pmixWrite, MIX_WRITE_COMPLETE).");
         return TRUE;
 
     case MIX_STREAM_ERROR | MIX_WRITE_COMPLETE: // 130  /* error occur in device */
         switch (ulStatus)
         {
         case ERROR_DEVICE_UNDERRUN: // 5626
-            sound_err(ulStatus, "Error device underrun.");
+            sound_err(dlog, ulStatus, "Device underrun.");
             play += 2;
             play %= BufferParms.ulNumBuffers;
             break;
         case ERROR_DEVICE_OVERRUN:  // 5627
-            sound_err(ulStatus, "Error device overrun.");
+            sound_err(dlog, ulStatus, "Device overrun.");
             break;
         }
         rc=MixSetupParms.pmixWrite(MixSetupParms.ulMixHandle,
                                    &(buffers[play]), 1);
         if (rc != MCIERR_SUCCESS)
-            sound_err(rc, "Error writing to Mixer (pmixWrite).");
+            sound_err(dlog, rc, "Writing to Mixer (pmixWrite, MIX_STREAM_ERROR).");
 
         return TRUE;
     }
@@ -203,6 +204,48 @@ static int   written; // number of totaly written samples
 // this is used because the number of samples is not
 // devidable by the size of one buffer
 static int rest;
+
+static int DartOpen(void)
+{
+    ULONG rc;
+    MCI_AMP_OPEN_PARMS AmpOpenParms;
+
+    memset(&AmpOpenParms, 0, sizeof (MCI_AMP_OPEN_PARMS));
+
+    AmpOpenParms.usDeviceID    = (USHORT) 0;
+    AmpOpenParms.pszDeviceType = (PSZ) MCI_DEVTYPE_AUDIO_AMPMIX;
+    AmpOpenParms.hwndCallback  = 0;
+
+    rc = mciSendCommand(0, MCI_OPEN,
+                        MCI_WAIT|MCI_OPEN_TYPE_ID|MCI_OPEN_SHAREABLE /* | MCI_DOS_QUEUE*/,
+                        (PVOID) &AmpOpenParms, 0);
+
+    if (rc != MCIERR_SUCCESS)
+    {
+        usDeviceID = 0;
+        sound_err(dlog, rc, "Opening DART (MCI_OPEN).");
+
+        return FALSE;
+    }
+
+    usDeviceID = AmpOpenParms.usDeviceID;
+    return TRUE;
+}
+
+static void DartClose(void)
+{
+    MCI_GENERIC_PARMS GenericParms = {0};
+
+    ULONG rc = mciSendCommand(usDeviceID, MCI_CLOSE, MCI_WAIT,
+                              (PVOID) &GenericParms, 0);
+
+    if (rc != MCIERR_SUCCESS)
+        sound_err(dlog, rc, "Closing Dart (MCI_CLOSE).");
+
+    log_message(dlog, "Sound closed.");
+
+    usDeviceID = 0;
+}
 
 static int dart_init(const char *param, int *speed,
                      int *fragsize, int *fragnr, int *channels)
@@ -225,38 +268,24 @@ static int dart_init(const char *param, int *speed,
  // MCI_DEVTYPE_WAVEFORM_AUDIO.
 
     ULONG i, rc;
-    MCI_AMP_OPEN_PARMS AmpOpenParms;
-
-    /* No stereo capability. */
-    *channels = 1;
 
     if (DosRequestMutexSem(hmtxOC, SEM_IMMEDIATE_RETURN))
         return TRUE;
 
     // ---------
-    memset (&AmpOpenParms, 0, sizeof (MCI_AMP_OPEN_PARMS));
-
-    AmpOpenParms.usDeviceID    = (USHORT) 0;
-    AmpOpenParms.pszDeviceType = (PSZ) MCI_DEVTYPE_AUDIO_AMPMIX;
-    AmpOpenParms.hwndCallback  = 0;
-
-    rc = mciSendCommand(0, MCI_OPEN,
-                        MCI_WAIT|MCI_OPEN_TYPE_ID|MCI_OPEN_SHAREABLE /* | MCI_DOS_QUEUE*/,
-                        (PVOID) &AmpOpenParms, 0);
-
-    if (rc != MCIERR_SUCCESS)
-        return sound_err(rc, "Error opening DART (MCI_OPEN).");
-
-    usDeviceID = AmpOpenParms.usDeviceID;
-
+    if (!DartOpen())
+    {
+        DosReleaseMutexSem(hmtxOC);
+        return 1;
+    }
     // ---------
 
     memset(&MixSetupParms, 0, sizeof(MCI_MIXSETUP_PARMS));
 
     MixSetupParms.ulBitsPerSample = 16;
     MixSetupParms.ulFormatTag     = MCI_WAVE_FORMAT_PCM;
-    MixSetupParms.ulSamplesPerSec = *speed; //22050;
-    MixSetupParms.ulChannels      = 1;      /* Mono */
+    MixSetupParms.ulSamplesPerSec = *speed; 
+    MixSetupParms.ulChannels      = *channels; /* Stereo/Mono */
     MixSetupParms.ulFormatMode    = MCI_PLAY;
     MixSetupParms.ulDeviceType    = MCI_DEVTYPE_WAVEFORM_AUDIO;
 
@@ -266,7 +295,7 @@ static int dart_init(const char *param, int *speed,
      MCI_WAIT | MCI_MIXSETUP_QUERYMODE,
      (PVOID) &MixSetupParms, 0);
 
-     if (rc != MCIERR_SUCCESS) return sound_err(rc, "Can't play.");*/
+     if (rc != MCIERR_SUCCESS) return sound_err(dlog, (rc, "Can't play.");*/
 
     // The mixer will inform us of entry points to
     // read/write buffers to and also give us a
@@ -276,11 +305,17 @@ static int dart_init(const char *param, int *speed,
 
     // MCI_MIXSETUP_INIT (DEINIT)
     // Initializes the mixer for the correct mode (MCI_MIXSETUP_PARMS)
-    rc = mciSendCommand(usDeviceID, MCI_MIXSETUP, MCI_WAIT|MCI_MIXSETUP_INIT,
+    rc = mciSendCommand(usDeviceID, MCI_MIXSETUP,
+                        MCI_WAIT|MCI_MIXSETUP_INIT,
                         (PVOID) &MixSetupParms, 0);
 
     if (rc != MCIERR_SUCCESS)
-        return sound_err(rc, "Error initialising mixer device (MCI_MIXSETUP_INIT).");
+    {
+        sound_err(dlog, rc, "Initialising mixer device (MCI_MIXSETUP_INIT).");
+        DartClose();
+        DosReleaseMutexSem(hmtxOC);
+        return 1;
+    }
 
     //log_message(LOG_DEFAULT, "sounddart.c: %3i buffers   %6i bytes (suggested by dart)", MixSetupParms.ulNumBuffers, MixSetupParms.ulBufferSize);
     //log_message(LOG_DEFAULT, "sounddart.c: %3i buffers   %6i bytes (wanted by vice)", *fragnr, *fragsize*sizeof(SWORD));
@@ -297,7 +332,7 @@ static int dart_init(const char *param, int *speed,
      The pBufList field contains a pointer to an array of MCI_MIX_BUFFER
      structures where the allocated information is to be returned.*/
 
-    buffers = xcalloc(1, *fragnr*sizeof(MCI_MIX_BUFFER));
+    buffers = xcalloc(*fragnr, sizeof(MCI_MIX_BUFFER));
 
     BufferParms.pBufList     = buffers;
     BufferParms.ulNumBuffers = *fragnr;
@@ -307,7 +342,12 @@ static int dart_init(const char *param, int *speed,
                         (PVOID) &BufferParms, 0);
 
     if (rc != MCIERR_SUCCESS)
-        return sound_err(rc, "Error allocating Memory (MCI_ALLOCATE_MEMORY).");
+    {
+        sound_err(dlog, rc, "Allocating Memory (MCI_ALLOCATE_MEMORY).");
+        DartClose();
+        DosReleaseMutexSem(hmtxOC);
+        return 1;
+    }
 
     // MCI driver will return the number of buffers it
     // was able to allocate
@@ -317,12 +357,12 @@ static int dart_init(const char *param, int *speed,
     if (*fragnr  !=BufferParms.ulNumBuffers)
     {
         *fragnr   = BufferParms.ulNumBuffers;
-        log_message(LOG_DEFAULT, "Dart: got %3i buffers   %6i bytes.", BufferParms.ulNumBuffers, BufferParms.ulBufferSize);
+        log_message(dlog, "got %3i buffers   %6i bytes.", BufferParms.ulNumBuffers, BufferParms.ulBufferSize);
     }
     if (*fragsize!=BufferParms.ulBufferSize/sizeof(SWORD))
     {
         *fragsize = BufferParms.ulBufferSize/sizeof(SWORD);
-        log_message(LOG_DEFAULT, "Dart: got %3i buffers   %6i bytes.", BufferParms.ulNumBuffers, BufferParms.ulBufferSize);
+        log_message(dlog, "got %3i buffers   %6i bytes.", BufferParms.ulNumBuffers, BufferParms.ulBufferSize);
     }
 
     // SECURITY for *fragnr <2 ????
@@ -358,7 +398,7 @@ static void dart_close()
 
     if ((rc=DosRequestMutexSem(hmtxOC, SEM_INDEFINITE_WAIT)))
     {
-        log_debug("sounddart.c: dart_close, DosRequestMutexSem rc=%i", rc);
+        log_warning(dlog, "dart_close, DosRequestMutexSem rc=%i", rc);
         return;
     }
 
@@ -368,25 +408,22 @@ static void dart_close()
 
     rc = mciSendCommand(usDeviceID, MCI_STOP, MCI_WAIT,
                         (PVOID) &GenericParms, 0);
-    if (rc != MCIERR_SUCCESS) sound_err(rc, "DART_ERR_CLOSE_MIXER");
+    if (rc != MCIERR_SUCCESS)
+        sound_err(dlog, rc, "Stopping device (MCI_STOP).");
 
     //log_message(LOG_DEFAULT, "sounddrv.c: Sound stopped.");
 
     rc = mciSendCommand(usDeviceID, MCI_BUFFER, MCI_WAIT|MCI_DEALLOCATE_MEMORY,
                         (PVOID) &BufferParms, 0);
-    if (rc != MCIERR_SUCCESS) sound_err(rc, "DART_ERR_DEALLOC_BUFFER");
+    if (rc != MCIERR_SUCCESS)
+        sound_err(dlog, rc, "Deallocating buffer (MCI_DEALLOCATE).");
 
     //log_message(LOG_DEFAULT, "sounddrv.c: Buffer deallocated.");
     /*    rc = mciSendCommand(usDeviceID, MCI_MIXSETUP, MCI_WAIT|MCI_MIXSETUP_DEINIT,
      (PVOID) &MixSetupParms, 0);
-     if (rc != MCIERR_SUCCESS) return sound_err(rc, "DART_ERR_MIXSETUP_DEINIT");*/
+     if (rc != MCIERR_SUCCESS) return sound_err(dlog, (rc, "DART_ERR_MIXSETUP_DEINIT");*/
 
-    rc = mciSendCommand(usDeviceID, MCI_CLOSE, MCI_WAIT,
-                        (PVOID) &GenericParms, 0);
-    if (rc != MCIERR_SUCCESS) sound_err(rc, "DART_ERR_CLOSE_MIXER");
-
-    usDeviceID = 0;
-    log_message(LOG_DEFAULT, "Dart: Sound closed.");
+    DartClose();
 
     free(buffers);
     //log_message(LOG_DEFAULT, "sounddrv.c: Buffer freed.");
@@ -463,7 +500,7 @@ static int dart_write2(SWORD *pbuf, size_t nr)
 
         if ((rc=DosRequestMutexSem(hmtxSnd, SEM_INDEFINITE_WAIT)))
         {
-            log_debug("sounddart.c: dart_write2, DosRequestMutexSem rc=%i", rc);
+            log_warning(dlog, "dart_write2, DosRequestMutexSem rc=%i", rc);
             return 1;
         }
 
@@ -513,7 +550,7 @@ static int dart_bufferspace(void)
     ULONG rc;
     if ((rc=DosRequestMutexSem(hmtxSnd, SEM_INDEFINITE_WAIT)))
     {
-        log_debug("sounddart.c: dart_bufferspace, DosRequestMutexSem rc=%i", rc);
+        log_warning(dlog, "dart_bufferspace, DosRequestMutexSem rc=%i", rc);
         return -1;
     }
 
@@ -524,7 +561,7 @@ static int dart_bufferspace(void)
     if (pos>last)
         rc += BufferParms.ulNumBuffers;
 
-    return rc * BufferParms.ulBufferSize / sizeof(SWORD);
+    return rc * BufferParms.ulBufferSize / (MixSetupParms.ulChannels * sizeof(SWORD));
     /*
     LONG rc;
     MCI_STATUS_PARMS mciStatus;
@@ -570,14 +607,14 @@ static int dart_bufferspace(void)
 static int dart_suspend()
 {
     mute(MUTE_ON);
-    log_message(LOG_DEFAULT, "Dart: Sound output suspended.");
+    log_message(dlog, "Sound output suspended.");
     return 0;
 }
 
 static int dart_resume()
 {
     mute(MUTE_OFF);
-    log_message(LOG_DEFAULT, "Dart: Sound output resumed.");
+    log_message(dlog, "Sound output resumed.");
     return 0;
 }
 
@@ -624,13 +661,15 @@ static sound_device_t dart2_device =
 
 void sound_init_dart(void)
 {
-    static int first=TRUE;
+/*    static int first=TRUE;
     if (!first)
         return;
+*/
+    dlog = log_open("Dart");
 
     DosCreateMutexSem("\\SEM32\\Vice2\\Sound\\OC.sem",    &hmtxOC,  0, FALSE);
     DosCreateMutexSem("\\SEM32\\Vice2\\Sound\\Write.sem", &hmtxSnd, 0, FALSE);
-    first=FALSE;
+/*    first=FALSE;*/
 }
 
 int sound_init_dart_device(void)

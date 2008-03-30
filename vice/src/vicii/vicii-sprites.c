@@ -913,13 +913,12 @@ inline static void draw_mc_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
                                     repeat_color, cmsk);
             }
 
-            if (cmsk)
-                vic_ii.raster.sprite_status->sprite_sprite_collisions
-                    |= cmsk | (sbit);
-
-
-
         }
+
+        if (cmsk)
+            vic_ii.raster.sprite_status->sprite_sprite_collisions
+                |= cmsk | (sbit);
+
     }
 }
 

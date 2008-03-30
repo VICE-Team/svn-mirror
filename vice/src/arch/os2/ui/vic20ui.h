@@ -27,6 +27,8 @@
 #ifndef _VIC20UI_H
 #define _VIC20UI_H
 
+#define vic20_ui_init machine_ui_init
+
 extern int vic20_ui_init(void);
 
 #endif

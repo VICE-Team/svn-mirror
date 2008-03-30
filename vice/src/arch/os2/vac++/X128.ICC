@@ -41,7 +41,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
 
         source type(c)
             "rs232.c",
-            "c128ui.c",
             "c128memlimit.c",
             "kbd\\kbd-c128.c",
             "dialogs\\dlg-color.c"

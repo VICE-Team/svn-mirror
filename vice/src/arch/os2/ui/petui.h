@@ -28,6 +28,8 @@
 #ifndef _PETUI_H
 #define _PETUI_H
 
+#define pet_ui_init machine_ui_init
+
 extern int pet_ui_init(void);
 
 #endif

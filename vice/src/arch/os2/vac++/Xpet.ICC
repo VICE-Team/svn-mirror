@@ -54,8 +54,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         source type(c)
             "maincpu.c"
         source type(c)
-            "petui.c",
-            "kbd\\kbd-pet.c"
+            "kbd-pet.c"
 
     }
 }

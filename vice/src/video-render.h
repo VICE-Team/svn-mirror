@@ -38,7 +38,7 @@ extern int video_get_fake_pal_state(void);
 
 /* This define will completely remove the 2x drawing from the vic-ii
    and raster layer. */
-#if defined(WIN32)
+#if defined(WIN32) || defined(__OS2__)
 #define VIDEO_REMOVE_2X 1
 #endif
 

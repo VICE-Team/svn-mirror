@@ -100,6 +100,11 @@ int ui_init_cmdline_options(void)
     return cmdline_register_options(cmdline_options);
 }
 
+int machine_ui_init(void)
+{
+    return 0;
+}
+
 int ui_init(int *argc, char **argv)
 {
     return 0;
@@ -229,7 +234,7 @@ void ui_error(const char *format,...)
     va_list ap;
     va_start(ap, format);
     tmp = xmvsprintf(format, ap);
-    txt = concat(" Emulation thread error:\n ", tmp);
+    txt = concat(" Error in emulation thread:\n ", tmp, NULL);
     free(tmp);
 
     ViceErrorDlg(HWND_DESKTOP, PTR_SKULL, txt);
@@ -293,9 +298,5 @@ int ui_extend_image_dialog(void)
 //------------------------------------------------------------------------
 
 void ui_update_menus(void)
-{
-}
-
-void ui_proc_write_msg(char* msg)
 {
 }
