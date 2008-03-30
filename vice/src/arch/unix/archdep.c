@@ -96,6 +96,13 @@ const char *archdep_boot_path(void)
 
 const char *archdep_home_path(void)
 {
+#ifdef GP2X
+    char *home;
+
+    home = ".";
+
+    return home;
+#else
     char *home;
 
     home = getenv("HOME");
@@ -111,6 +118,7 @@ const char *archdep_home_path(void)
     }
 
     return home;
+#endif
 }
 
 char *archdep_default_sysfile_pathlist(const char *emu_id)
@@ -341,7 +349,13 @@ char *archdep_quote_parameter(const char *name)
 
 char *archdep_tmpnam(void)
  {
-#ifdef HAVE_MKSTEMP
+#ifdef GP2X
+    static unsigned int tmp_string_counter=0;
+    char tmp_string[32];
+
+    sprintf(tmp_string,"vice%d.tmp",tmp_string_counter++);
+    return lib_stralloc(tmp_string);
+#elif HAVE_MKSTEMP
     char *tmpName;
     const char mkstempTemplate[] = "/vice.XXXXXX";
     int fd;

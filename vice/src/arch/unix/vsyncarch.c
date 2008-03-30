@@ -79,6 +79,9 @@ void vsyncarch_sleep(signed long delay)
 
 void vsyncarch_presync(void)
 {
+#ifdef GP2X
+    (*ui_dispatch_hook)();
+#endif
     kbdbuf_flush();
 #ifdef HAS_JOYSTICK
     joystick();
@@ -94,5 +97,7 @@ void_hook_t vsync_set_event_dispatcher(void_hook_t hook)
 
 void vsyncarch_postsync(void)
 {
+#ifndef GP2X
     (*ui_dispatch_hook)();
+#endif
 }
