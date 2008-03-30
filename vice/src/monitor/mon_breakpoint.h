@@ -29,6 +29,12 @@
 
 #include "montypes.h"
 
+typedef enum mon_breakpoint_type_e {
+    BP_NONE,
+    BP_INACTIVE,
+    BP_ACTIVE
+} mon_breakpoint_type_t;
+
 extern void mon_breakpoint_init(void);
 
 extern void mon_breakpoint_switch_checkpoint(int op, int breakpt_num);
@@ -42,18 +48,10 @@ extern int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
                                          bool is_trace, bool is_load,
                                          bool is_store, bool is_temp);
 
-
-typedef enum mon_breakpoint_type_e
-{
-    BP_NONE,
-    BP_INACTIVE,
-    BP_ACTIVE
-} mon_breakpoint_type_t;
-
-extern mon_breakpoint_type_t mon_is_breakpoint( MON_ADDR address );
-extern void mon_set_breakpoint( MON_ADDR address );
-extern void mon_unset_breakpoint( MON_ADDR address );
-extern void mon_enable_breakpoint( MON_ADDR address );
-extern void mon_disable_breakpoint( MON_ADDR address );
+extern mon_breakpoint_type_t mon_breakpoint_is(MON_ADDR address);
+extern void mon_breakpoint_set(MON_ADDR address);
+extern void mon_breakpoint_unset(MON_ADDR address);
+extern void mon_breakpoint_enable(MON_ADDR address);
+extern void mon_breakpoint_disable(MON_ADDR address);
 
 #endif

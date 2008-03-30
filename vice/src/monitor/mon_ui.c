@@ -132,7 +132,7 @@ struct mon_disassembly *mon_disassembly_get_lines(
         contents->flags.active_line = loc == pmdp->CurrentAddress ? 1 : 0;
 
         /* determine type of breakpoint */
-        bptype = mon_is_breakpoint(new_addr(pmdp->memspace, loc));
+        bptype = mon_breakpoint_is(new_addr(pmdp->memspace, loc));
 
         contents->flags.is_breakpoint = bptype != BP_NONE;
         contents->flags.breakpoint_active = bptype == BP_ACTIVE;
@@ -271,22 +271,22 @@ WORD mon_disassembly_scroll_to(struct mon_disassembly_private *pmdp,
 
 void mon_disassembly_set_breakpoint(struct mon_disassembly_private *pmdp)
 {
-    mon_set_breakpoint(pmdp->AddrClicked);
+    mon_breakpoint_set(pmdp->AddrClicked);
 }
 
 void mon_disassembly_unset_breakpoint(struct mon_disassembly_private *pmdp)
 {
-    mon_unset_breakpoint(pmdp->AddrClicked);
+    mon_breakpoint_unset(pmdp->AddrClicked);
 }
 
 void mon_disassembly_enable_breakpoint(struct mon_disassembly_private *pmdp)
 {
-    mon_enable_breakpoint(pmdp->AddrClicked);
+    mon_breakpoint_enable(pmdp->AddrClicked);
 }
 
 void mon_disassembly_disable_breakpoint(struct mon_disassembly_private *pmdp)
 {
-    mon_disable_breakpoint(pmdp->AddrClicked);
+    mon_breakpoint_disable(pmdp->AddrClicked);
 }
 
 void mon_disassembly_goto_address(struct mon_disassembly_private *pmdp,
@@ -317,7 +317,7 @@ void mon_disassembly_determine_popup_commands(
 
     CurrentAddress = new_addr(pmdp->memspace, determine_address_of_line(pmdp,
                               pmdp->StartAddress, yPos));
-    mbt = mon_is_breakpoint(CurrentAddress);
+    mbt = mon_breakpoint_is(CurrentAddress);
 
     /* remember values to be re-used when command is executed */
     pmdp->AddrClicked = CurrentAddress;

@@ -490,7 +490,7 @@ int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
                                   is_temp, TRUE );
 }
 
-mon_breakpoint_type_t mon_is_breakpoint(MON_ADDR address)
+mon_breakpoint_type_t mon_breakpoint_is(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
     WORD addr = addr_location(address);
@@ -504,7 +504,7 @@ mon_breakpoint_type_t mon_is_breakpoint(MON_ADDR address)
     return (ptr->brkpt->enabled == e_ON) ? BP_ACTIVE : BP_INACTIVE;
 }
 
-void mon_set_breakpoint(MON_ADDR address)
+void mon_breakpoint_set(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
     WORD addr = addr_location(address);
@@ -522,7 +522,7 @@ void mon_set_breakpoint(MON_ADDR address)
     }
 }
 
-void mon_unset_breakpoint(MON_ADDR address)
+void mon_breakpoint_unset(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
     WORD addr = addr_location(address);
@@ -536,7 +536,7 @@ void mon_unset_breakpoint(MON_ADDR address)
     }
 }
 
-void mon_enable_breakpoint(MON_ADDR address)
+void mon_breakpoint_enable(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
     WORD addr = addr_location(address);
@@ -550,7 +550,7 @@ void mon_enable_breakpoint(MON_ADDR address)
     }
 }
 
-void mon_disable_breakpoint(MON_ADDR address)
+void mon_breakpoint_disable(MON_ADDR address)
 {
     MEMSPACE mem = addr_memspace(address);
     WORD addr = addr_location(address);
