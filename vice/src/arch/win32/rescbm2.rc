@@ -119,6 +119,7 @@ BEGIN
 	MENUITEM "Swap &Joystick\tAlt+J",           IDM_SWAP_JOYSTICK
 	MENUITEM SEPARATOR
         MENUITEM "&Sound playback",                 IDM_TOGGLE_SOUND, CHECKED
+#if 0
 #ifdef HAVE_RESID
         MENUITEM "&Enable resid",                   IDM_TOGGLE_SOUND_RESID
         , CHECKED
@@ -131,6 +132,7 @@ BEGIN
             MENUITEM "&8580 (New)",                 IDM_SIDTYPE_8580
         END
         MENUITEM SEPARATOR
+#endif
         MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
         MENUITEM "&Virtual device traps",           IDM_TOGGLE_VIRTUAL_DEVICES
         POPUP "Drive s&ync factor"

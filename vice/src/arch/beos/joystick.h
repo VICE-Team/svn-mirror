@@ -25,7 +25,7 @@
  */
 
 #ifndef _VICEJOYSTICK_H
-#define _VIVEJOYSTICK_H
+#define _VICEJOYSTICK_H
 
 #include "kbd.h"
 
@@ -34,15 +34,16 @@
 #define JOYBORDER_MAXX	16384
 #define JOYBORDER_MINY	-16384
 #define JOYBORDER_MAXY	16384
-#define NUM_OF_JOYDEVICES	6
+
+/* devices without the hardware sticks */
+#define NUM_OF_SOFTDEVICES	4
+#define MAX_HARDWARE_JOYSTICK 16
 
 typedef enum {
     JOYDEV_NONE,
     JOYDEV_NUMPAD,
     JOYDEV_KEYSET1,
-    JOYDEV_KEYSET2,
-    JOYDEV_HW1,
-    JOYDEV_HW2
+    JOYDEV_KEYSET2
 } joystick_device_t;
 
 typedef enum {
@@ -56,6 +57,12 @@ typedef enum {
     KEYSET_W,
     KEYSET_FIRE
 } joystick_direction_t;
+
+typedef struct _hardware_joystick {
+	char device_name[256];
+	int stick;
+} hardware_joystick_t;
+	
 
 extern int joystick_init(void);
 extern int joystick_init_resources(void);

@@ -103,7 +103,6 @@ extern void ui_update_flip_menus(int from_unit, int to_unit);
 
 extern void archdep_ui_init(int argc, char *argv[]);
 extern void ui_set_application_icon(const char *icon_data[]);
-extern void ui_display_tape_current_image(char *image);
 extern void ui_proc_start(void);
 extern void ui_destroy_widget(ui_window_t w);
 extern void ui_set_topmenu(void);

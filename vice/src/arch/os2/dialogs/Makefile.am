@@ -10,6 +10,7 @@ libdialogs_a_SOURCES = \
         dialogs.c \
         dialogs.h \
         dialogs.rc \
+        dlg-vsid.c \
         dlg-attach.c \
         dlg-cmdopt.c \
 	dlg-contents.c \

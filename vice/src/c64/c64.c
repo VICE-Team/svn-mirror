@@ -272,7 +272,8 @@ int machine_init(void)
 
     maincpu_init();
 
-    if (vsid_mode) {
+    if (vsid_mode)
+    {
 	mem_powerup();
 
 	psid_init_driver();
@@ -282,78 +283,52 @@ int machine_init(void)
 	if (vic_ii_init() == NULL)
 	    return -1;
 	*/
-	vic_ii_init();
-	vic_ii_enable_extended_keyboard_rows(0);
-	cia1_enable_extended_keyboard_rows(0);
-
-	ciat_init_table();
-	cia1_init();
-	cia2_init();
-
-	/* Initialize the monitor.  */
-	monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
-		     drive1_monitor_interface_ptr);
-
-	/* Initialize vsync and register our hook function.  */
-	vsync_set_machine_parameter(rfsh_per_sec, cycles_per_sec);
-	vsync_init(vsync_hook);
-
-	/* Initialize sound.  Notice that this does not really open the audio
-	   device yet.  */
-	sound_init(cycles_per_sec, cycles_per_rfsh);
-
-	/* Initialize keyboard buffer.  */
-	kbd_buf_init(631, 198, 10,
-                     (CLOCK)(rfsh_per_sec * cycles_per_rfsh));
-
-	/* Initialize the C64-specific part of the UI.  */
-	if (!console_mode) {
-	    vsid_ui_init();
-	}
-
-	return 0;
     }
 
-    if (mem_load() < 0)
-        return -1;
+    if (!vsid_mode)
+    {
+        if (mem_load() < 0)
+            return -1;
 
-    /* Setup trap handling.  */
-    traps_init();
+        /* Setup trap handling.  */
+        traps_init();
 
-    /* Initialize serial traps.  */
-    serial_init(c64_serial_traps);
+        /* Initialize serial traps.  */
+        serial_init(c64_serial_traps);
 
-    /* Initialize drives. */
-    file_system_init();
+        /* Initialize drives. */
+        file_system_init();
 
 #ifdef HAVE_RS232
-    /* Initialize RS232 handler.  */
-    rs232_init();
-    c64_rsuser_init();
+        /* Initialize RS232 handler.  */
+        rs232_init();
+        c64_rsuser_init();
 #endif
 
 #ifdef HAVE_PRINTER
-    /* Initialize print devices.  */
-    print_init();
+        /* Initialize print devices.  */
+        print_init();
 #endif
 
-    /* Initialize the tape emulation.  */
-    tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, 0x277, 0xc6,
-              c64_tape_traps);
+        /* Initialize the tape emulation.  */
+        tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, 0x277, 0xc6,
+                  c64_tape_traps);
 
-    /* Initialize the datasette emulation.  */
-    datasette_init();
+        /* Initialize the datasette emulation.  */
+        datasette_init();
 
-    /* Fire up the hardware-level drive emulation.  */
-    drive_init(C64_PAL_CYCLES_PER_SEC, C64_NTSC_CYCLES_PER_SEC);
+        /* Fire up the hardware-level drive emulation.  */
+        drive_init(C64_PAL_CYCLES_PER_SEC, C64_NTSC_CYCLES_PER_SEC);
 
-    /* Initialize autostart.  */
-    autostart_init((CLOCK)(3 * rfsh_per_sec * cycles_per_rfsh),
-                   1, 0xcc, 0xd1, 0xd3, 0xd5);
+        /* Initialize autostart.  */
+        autostart_init((CLOCK)(3 * rfsh_per_sec * cycles_per_rfsh),
+                       1, 0xcc, 0xd1, 0xd3, 0xd5);
+    }
 
-    /* Initialize the VIC-II emulation.  */
-    if (vic_ii_init() == NULL && !console_mode)
+    /* Initialize the VIC-II emulation. */
+    if (!vic_ii_init() && !console_mode && !vsid_mode)
         return -1;
+
     vic_ii_enable_extended_keyboard_rows(0);
 
     cia1_enable_extended_keyboard_rows(0);
@@ -362,15 +337,18 @@ int machine_init(void)
     cia1_init();
     cia2_init();
 
-    tpi_init();
+    if (!vsid_mode)
+    {
+        tpi_init();
 
 #ifdef HAVE_RS232
-    acia1_init();
+        acia1_init();
 #endif
 
-    /* Initialize the keyboard.  */
-    if (c64_kbd_init() < 0)
-        return -1;
+        /* Initialize the keyboard.  */
+        if (c64_kbd_init() < 0)
+            return -1;
+    }
 
     /* Initialize the monitor.  */
     monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
@@ -390,20 +368,27 @@ int machine_init(void)
 
     /* Initialize the C64-specific part of the UI.  */
     if (!console_mode) {
-        c64_ui_init();
+
+        if (vsid_mode)
+            vsid_ui_init();
+        else
+            c64_ui_init();
     }
 
-    /* Initialize the REU.  */
-    reu_init();
+    if (!vsid_mode)
+    {
+        /* Initialize the REU.  */
+        reu_init();
 
 #ifdef HAVE_MOUSE
-    /* Initialize mouse support (if present).  */
-    mouse_init();
+        /* Initialize mouse support (if present).  */
+        mouse_init();
 #endif
 
-    iec_init();
+        iec_init();
 
-    cartridge_init();
+        cartridge_init();
+    }
 
     return 0;
 }
@@ -417,31 +402,33 @@ void machine_reset(void)
     cia2_reset();
     sid_reset();
 
-    if (vsid_mode) {
-        vic_ii_reset();
+    if (!vsid_mode)
+    {
+        tpi_reset();
 
+#ifdef HAVE_RS232
+        acia1_reset();
+        rs232_reset();
+        rsuser_reset();
+#endif
+
+#ifdef HAVE_PRINTER
+        print_reset();
+#endif
+
+        /* FIXME */
+        /* reset_reu(); */
+    }
+
+    /* The VIC-II must be the *last* to be reset.  */
+    vic_ii_reset();
+
+    if (vsid_mode)
+    {
         psid_init_driver();
 	psid_init_tune();
 	return;
     }
-
-    tpi_reset();
-
-#ifdef HAVE_RS232
-    acia1_reset();
-    rs232_reset();
-    rsuser_reset();
-#endif
-
-#ifdef HAVE_PRINTER
-    print_reset();
-#endif
-
-    /* FIXME */
-    /* reset_reu(); */
-
-    /* The VIC-II must be the *last* to be reset.  */
-    vic_ii_reset();
 
     autostart_reset();
     drive_reset();

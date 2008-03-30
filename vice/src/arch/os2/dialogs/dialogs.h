@@ -87,6 +87,7 @@
 #define PB_CREATE      0x103a
 #define PB_ATTACH      0x103b
 #define PB_DETACH      0x103c
+#define CB_READONLY    0x103d
 
 #define RB_NEVER       0x1040
 #define RB_ASK         0x1041
@@ -187,6 +188,8 @@
 #define DLG_CMDOPT     0x10d0
 #define LB_CMDOPT      0x10d1
 
+#define DLG_VSID       0x10e0
+
 /* WinPM-Macros                                                     */
 /*----------------------------------------------------------------- */
 
@@ -277,6 +280,8 @@ extern void softreset_dialog (HWND hwnd);
 extern void joystick_dialog  (HWND hwnd);
 extern void calibrate_dialog (HWND hwnd);
 #endif
+
+extern void vsid_dialog(void);
 
 #endif
 

@@ -196,15 +196,16 @@ BEGIN
                 CTLDATA 24, 0, 2, 0, 0, 0, 50, 0, 0, 0, 0, 0
 	CONTROL "+",           SS_HALFTRACK9, 77, 109+16,  5, 8, WC_STATIC, 
                                SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
-	CONTROL "LED8",        SS_LED8,  83, 109+16,  18, 8, WC_STATIC, 
+	CONTROL "LED8",        SS_LED8,  83, 109+16,  22, 8, WC_STATIC, 
                                SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
-	CONTROL "LED9",        SS_LED9, 105, 109+16,  18, 8, WC_STATIC, 
+	CONTROL "LED9",        SS_LED9, 105, 109+16,  22, 8, WC_STATIC, 
                                SS_TEXT | DT_CENTER | DT_VCENTER | WS_VISIBLE
 
         TEXT("Drive Sync Factor:", 173, 133+16,  77, 8)
         CONTROL "PAL",         RB_PAL,     173, 121+16,  29, 10, STY_AUTORADIOBUTTON |
                                                               WS_GROUP
         CONTROL "NTSC",        RB_NTSC,    205, 121+16,  39, 10, STY_AUTORADIOBUTTON
+        CONTROL "Readonly",    CB_READONLY,173, 109+16,  50, 10, STY_AUTOCHECKBOX
         TEXT("Drive:", 12, 120+16, 26, 8)
         CONTROL "8",           RB_DRIVE8,   40, 119+16,  16, 10, STY_AUTORADIOBUTTON |
                                                               WS_GROUP
@@ -382,3 +383,14 @@ BEGIN
         LISTBOX  LB_CMDOPT, 0, 0, 152+150, 87+200, LS_NOADJUSTPOS|LS_HORZSCROLL
     END
 END
+
+DLGTEMPLATE DLG_VSID 850 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Vice/2 SID Player", DLG_VSID, 162, 122, 135, 88, STY_DIALOG
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
+    BEGIN
+        CONTROL "Close",        DID_CLOSE,     5,  5,  38, 12, STY_CLOSEBUTTON |
+                                WS_GROUP 
+    END
+END
+

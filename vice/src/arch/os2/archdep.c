@@ -85,11 +85,11 @@ void PM_close(void)
 
     rc=WinDestroyMsgQueue(hmqMain);  // Destroy Msg Queue
     if (!rc)
-        log_message(LOG_DEFAULT, "archdep.c: Error! Msg Queue not destroyed (rc=%li)",rc);
+        log_message(LOG_DEFAULT, "archdep.c: Error! WinDestroyMsgQueue.");
 
     rc=WinTerminate(habMain);  // Release Anchor to PM
     if (!rc)
-        log_message(LOG_DEFAULT, "archdep.c: Error! PM anchor release.");
+        log_message(LOG_DEFAULT, "archdep.c: Error! WinTerminate.");
 }
 
 void PM_open(void)
@@ -99,12 +99,12 @@ void PM_open(void)
     habMain = WinInitialize(0);              // Initialize PM
     hmqMain = WinCreateMsgQueue(habMain, 0); // Create Msg Queue
 
-    // this hould make sure, that the system doesn't hang because
+    // this should make sure, that the system doesn't hang because
     // vice uses 100% CPU time
     if (rc=DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, -1, 0))
         log_debug("archdep.c: Error DosSetPriority (rc=%li)", rc);
 
-    atexit(PM_close);
+//    atexit(PM_close);
 }
 
 #if !defined __C1541__ && !defined __PETCAT__
@@ -323,12 +323,14 @@ int archdep_search_path(const char *name, char *pBuf, int lBuf)
     // Search the program in the path
     if (DosScanEnv("PATH",&path))
         log_message(LOG_DEFAULT, "archdep.c: Environment variable PATH not found.");
+
     if (DosSearchPath(flags, path, pgmName, pBuf, lBuf))
     {
         log_message(LOG_DEFAULT, "archdep.c: File \"%s\" not found.", pgmName);
         return -1;
     }
     free(pgmName);
+
     return 0;
 }
 
@@ -336,17 +338,29 @@ char *archdep_cmdline(const char *name, char **argv, const char *sout, const cha
 {
     char *res;
     int length = 0;
-    int i      = 0;
-    while (argv[++i]) length += strlen(argv[i]);
-    length += i+strlen(name)+3+
-        (sout?strlen(sout)+5:0)+
-        (serr?strlen(serr)+6:0); // need space for the spaces
+
+    int i = 0;
+    while (argv[++i])
+        length += strlen(argv[i]);
+
+    length += i+1
+        +(name?strlen(name):0)+3
+        +(sout?strlen(sout):0)+5
+        +(serr?strlen(serr):0)+6; // need space for the spaces
     res = xcalloc(1,length);
-    i = 0;
+
     strcat(strcpy(res,"/c "),name);
-    while (argv[++i]) strcat(strcat(res," "), argv[i]);
-    if (sout) strcat(strcat(strcat(res,  " > \""), sout), "\"");
-    if (serr) strcat(strcat(strcat(res, " 2> \""), serr), "\"");
+
+    i = 0;
+    while (argv[++i])
+        strcat(strcat(res," "), argv[i]);
+
+    if (sout)
+        strcat(strcat(strcat(res,  " > \""), sout), "\"");
+
+    if (serr)
+        strcat(strcat(strcat(res, " 2> \""), serr), "\"");
+
     return res;
 }
 
@@ -402,7 +416,6 @@ int archdep_spawn(const char *name, char **argv,
     if (DosRequestMutexSem(hmtxSpawn, SEM_INDEFINITE_WAIT))
         return 0;
 #endif
-
     if(rc=DosCreateQueue(&hqQueue, QUE_FIFO|QUE_CONVERT_ADDRESS, sd.TermQ))
         log_message(LOG_DEFAULT,"archdep.c: Error in DosCreateQueue (rc=%li).",rc);
     else
@@ -426,7 +439,6 @@ int archdep_spawn(const char *name, char **argv,
     DosReleaseMutexSem(hmtxSpawn);
 #endif
     free(cmdline);
-    //    DosSleep(1000);
     if (rc)
         log_message(LOG_DEFAULT, "archdep.c: Return Code: rc = %li", rc);
 

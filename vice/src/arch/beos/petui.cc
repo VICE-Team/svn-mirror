@@ -1,5 +1,8 @@
 /*
- * main_exit.c - VICE shutdown.
+ * petui.cc - PET-specific user interface.
+ *
+ * Written by
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -21,31 +24,40 @@
  *
  */
 
+#include "vice.h"
+
+#include <Message.h>
 #include <stdio.h>
-#include <signal.h>
 
-#include "main_exit.h"
+extern "C" {
+#include "constants.h"
+#include "petui.h"
+#include "ui.h"
+}
 
-#include "log.h"
+ui_menu_toggle  pet_ui_menu_toggles[]={
+    { "CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
+    { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { NULL, 0 }
+};
 
-void main_exit(void)
+void pet_ui_specific(void *msg)
 {
-    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
-       pressed and thus breaking the cleanup process, which might be
-       dangerous.  */
-    log_message(LOG_DEFAULT, "\nExiting...");
-    signal(SIGINT, SIG_IGN);
+    switch (((BMessage*)msg)->what) {
+      case MENU_PET_SETTINGS:
+        //ui_pet_settings_dialog(); /* later */
+        break;
+      default: ;
+    }
+}
 
-    //---    resources_set_value("Sound", (resource_value_t)FALSE);
-    //---    DosSleep(500);
 
-    //---    machine_shutdown();
-    //       video_free();
-    //       sound_close(); // Be sure sound device is closed.
-    // Maybe we need some DosSleep(500)...
-
-    //---#ifdef HAS_JOYSTICK
-    //---    joystick_close();
-    //---#endif
+int pet_ui_init(void)
+{
+    ui_register_machine_specific(pet_ui_specific);
+    ui_register_menu_toggles(pet_ui_menu_toggles);
+    ui_update_menus();
+    return 0;
 }
 

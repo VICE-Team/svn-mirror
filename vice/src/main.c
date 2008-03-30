@@ -149,12 +149,19 @@ static cmdline_option_t vsid_cmdline_options[] = {
       NULL, "Show a list of the available options and exit normally" },
     { "-?", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
+#ifndef OS2
     { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
       NULL, "Console mode (for playing music)" },
     { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
       NULL, "Allow production of core dumps" },
     { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
       NULL, "Do not produce core dumps" },
+#else
+    { "-debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
+      NULL, "Don't call exception handler" },
+    { "+debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
+      NULL, "Call exception handler (default)" },
+#endif
     { NULL }
 };
 
@@ -205,8 +212,8 @@ static int set_do_core_dumps(resource_value_t v, void *param)
 
 static resource_t resources[] =
 {
-    { "DoCoreDump", RES_INTEGER, (resource_value_t) 0,
-    (resource_value_t *)&do_core_dumps, set_do_core_dumps, NULL },
+    {"DoCoreDump", RES_INTEGER, (resource_value_t) 0,
+    (resource_value_t *) &do_core_dumps, set_do_core_dumps, NULL},
     {NULL}
 };
 
@@ -394,10 +401,12 @@ int MAIN_PROGRAM(int argc, char **argv)
        -console => no user interface
        -vsid    => user interface in separate process */
     for (i = 0; i < argc; i++) {
+#ifndef OS2
         if (strcmp(argv[i], "-console") == 0) {
 	    console_mode = 1;
-	}
-	else if (strcmp(argv[i], "-vsid") == 0) {
+	} else
+#endif
+	if (strcmp(argv[i], "-vsid") == 0) {
 	    vsid_mode = 1;
 	}
     }
@@ -462,7 +471,7 @@ int MAIN_PROGRAM(int argc, char **argv)
     }
 
     if (cmdline_parse(&argc, argv) < 0) {
-        archdep_startup_log_error("Error parsing command-line options, bailing out.\n");
+        archdep_startup_log_error("Error parsing command-line options, bailing out. For help use '-h'\n");
         return -1;
     }
 
@@ -501,8 +510,8 @@ int MAIN_PROGRAM(int argc, char **argv)
                 archdep_program_name(), machine_name);
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Written by");
-    log_message(LOG_DEFAULT, "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic,");
-    log_message(LOG_DEFAULT, "A. Boose, T. Biczo, J. Valta and J. Sonninen.");
+    log_message(LOG_DEFAULT, "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic, A. Boose,");
+    log_message(LOG_DEFAULT, "T. Biczo, J. Valta, J. Sonninen and T. Bretz.");
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "This is free software with ABSOLUTELY NO WARRANTY.");
     log_message(LOG_DEFAULT, "See the \"About VICE\" command for more info.");
@@ -529,16 +538,9 @@ int MAIN_PROGRAM(int argc, char **argv)
 		      autostart_string);
 	    return -1;
 	}
-
-        if (machine_init() < 0)
-        {
-	    log_error(LOG_DEFAULT, "Machine initialization failed.");
-	    return -1;
-	}
-
-	keyboard_init();
     }
-    else
+
+    if (!vsid_mode)
     {
         /* Initialize real joystick.  */
 #ifdef HAS_JOYSTICK
@@ -549,19 +551,23 @@ int MAIN_PROGRAM(int argc, char **argv)
 
         drive0_cpu_early_init();
         drive1_cpu_early_init();
+    }
 
-        /* Machine-specific initialization.  */
-        if (machine_init() < 0) {
-            log_error(LOG_DEFAULT, "Machine initialization failed.");
-            return -1;
-        }
+    /* Machine-specific initialization.  */
+    if (machine_init() < 0) {
+        log_error(LOG_DEFAULT, "Machine initialization failed.");
+        return -1;
+    }
 
-        if (console_init() < 0) {
-            log_error(LOG_DEFAULT, "Console initialization failed.");
-            return -1;
-        }
+    if (!vsid_mode && console_init() < 0) {
+        log_error(LOG_DEFAULT, "Console initialization failed.");
+        return -1;
+    }
 
-        keyboard_init();
+    keyboard_init();
+
+    if (!vsid_mode)
+    {
         disk_image_init();
         vdrive_init();
 

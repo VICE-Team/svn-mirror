@@ -23,7 +23,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\sounddrv"),
     incl(searchpath, "..\\..\\..\\screendrv"),
     incl(searchpath, "..\\..\\..\\..\\..\\zlib"),
-    incl(searchpath, "..\\..\\..\\..\\..\\lpng106"),
+    incl(searchpath, "..\\..\\..\\..\\..\\lpng"),
     incl(searchpathfirst, "yes"),
     define("__XCBM__", ),
     res_rc_options("-i ..\\dialogs -x1 -d __XCBM__")

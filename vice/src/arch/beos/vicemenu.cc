@@ -169,8 +169,9 @@ BMenuBar *menu_create(int machine_class) {
 	menu->AddItem(new BMenuItem("Warp Mode", 
 		new BMessage(MENU_TOGGLE_WARP_MODE),'W'));
 	menu->AddSeparatorItem();
-
-	if (machine_class == VICE_MACHINE_C64) {
+	menu->AddItem(new BMenuItem("Video Cache", 
+		new BMessage(MENU_TOGGLE_VIDEOCACHE)));
+	if (machine_class != VICE_MACHINE_VIC20) {
 		menu->AddItem(new BMenuItem("Double Size", 
 			new BMessage(MENU_TOGGLE_DOUBLESIZE),'D'));
 		menu->AddItem(new BMenuItem("Double Scan", 
@@ -182,19 +183,20 @@ BMenuBar *menu_create(int machine_class) {
 	menu->AddItem(new BMenuItem("Sound", 
 		new BMessage(MENU_TOGGLE_SOUND)));
 	/* C64 */
-	if (machine_class == VICE_MACHINE_C64) {
+	if (machine_class == VICE_MACHINE_C64
+		|| machine_class == VICE_MACHINE_C128) {
 #ifdef HAVE_RESID
 		menu->AddItem(new BMenuItem("Use reSID", 
 			new BMessage(MENU_TOGGLE_SOUND_RESID)));
 #endif
+		menu->AddItem(new BMenuItem("SID filters", 
+			new BMessage(MENU_TOGGLE_SIDFILTERS)));
 		menu->AddItem(submenu = new BMenu("SID type"));
 		submenu->SetRadioMode(true);
 		submenu->AddItem(new BMenuItem("6581 (old)", 
 			new BMessage(MENU_SIDTYPE_6581)));
 		submenu->AddItem(new BMenuItem("8580 (new)", 
 			new BMessage(MENU_SIDTYPE_8580)));
-		menu->AddItem(new BMenuItem("SID filters", 
-			new BMessage(MENU_TOGGLE_SIDFILTERS)));
 	}
 	menu->AddSeparatorItem();
 	
@@ -203,19 +205,60 @@ BMenuBar *menu_create(int machine_class) {
 	menu->AddItem(new BMenuItem("Virtual Devices", 
 		new BMessage(MENU_TOGGLE_VIRTUAL_DEVICES)));
 	menubar->AddItem(menu);
+	menu->AddSeparatorItem();
+
+	if (machine_class == VICE_MACHINE_C64
+		|| machine_class == VICE_MACHINE_C128) {
+		menu->AddItem(submenu = new BMenu("Video Standard"));
+		submenu->SetRadioMode(true);
+		submenu->AddItem(new BMenuItem("PAL-G", 
+			new BMessage(MENU_SYNC_FACTOR_PAL)));
+		submenu->AddItem(new BMenuItem("NTSC-M", 
+			new BMessage(MENU_SYNC_FACTOR_NTSC)));
+		submenu->AddItem(new BMenuItem("Old NTSC-M", 
+			new BMessage(MENU_SYNC_FACTOR_NTSCOLD)));
+	} else {
+		menu->AddItem(submenu = new BMenu("Drive sync factor"));
+		submenu->SetRadioMode(true);
+		submenu->AddItem(new BMenuItem("PAL", 
+			new BMessage(MENU_SYNC_FACTOR_PAL)));
+		submenu->AddItem(new BMenuItem("NTSC", 
+			new BMessage(MENU_SYNC_FACTOR_NTSC)));
+	}
+
+	if (machine_class == VICE_MACHINE_C64) {
+		menu->AddSeparatorItem();
+		menu->AddItem(new BMenuItem("Emulator ID",
+			new BMessage(MENU_TOGGLE_EMUID)));
+		menu->AddItem(new BMenuItem("REU emulation",
+			new BMessage(MENU_TOGGLE_REU)));
+		menu->AddItem(new BMenuItem("1351 mouse",
+			new BMessage(MENU_TOGGLE_MOUSE)));
+			
+	}
+		
 	
 	/* create the SETTINGS menu */
 	menu = new BMenu("Settings");
-	menu->AddItem(new BMenuItem("Drive Settings", 
-		new BMessage(MENU_DRIVE_SETTINGS)));
-	menu->AddItem(new BMenuItem("Device Settings (not yet)", 
+	if (machine_class == VICE_MACHINE_CBM2) {
+		menu->AddItem(new BMenuItem("CBM 2 ... (not yet)", 
+			new BMessage(MENU_CBM2_SETTINGS)));
+	}
+	if (machine_class == VICE_MACHINE_PET) {
+		menu->AddItem(new BMenuItem("PET ... (not yet)", 
+			new BMessage(MENU_CBM2_SETTINGS)));
+	}
+	
+	menu->AddItem(new BMenuItem("Device ... (not yet)", 
 		new BMessage(MENU_DEVICE_SETTINGS)));
-	menu->AddItem(new BMenuItem("Sound Settings (not yet)", 
-		new BMessage(MENU_SOUND_SETTINGS)));
-	menu->AddItem(new BMenuItem("Joystick Settings", 
-		new BMessage(MENU_JOYSTICK_SETTINGS)));
-	menu->AddItem(new BMenuItem("Datasette Settings (not yet)", 
+	menu->AddItem(new BMenuItem("Drive ...", 
+		new BMessage(MENU_DRIVE_SETTINGS)));
+	menu->AddItem(new BMenuItem("Datasette ...", 
 		new BMessage(MENU_DATASETTE_SETTINGS)));
+	menu->AddItem(new BMenuItem("Joystick ...", 
+		new BMessage(MENU_JOYSTICK_SETTINGS)));
+	menu->AddItem(new BMenuItem("Sound ...", 
+		new BMessage(MENU_SOUND_SETTINGS)));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem("Load Settings", 
 		new BMessage(MENU_SETTINGS_LOAD)));
@@ -229,14 +272,16 @@ BMenuBar *menu_create(int machine_class) {
 	menu = new BMenu("Help");
 	menu->AddItem(new BMenuItem("About BeVICE...", 
 		new BMessage(MENU_ABOUT)));
+	menu->AddSeparatorItem();
+	menu->AddItem(new BMenuItem("Commandline Options", 
+		new BMessage(MENU_CMDLINE)));
+	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem("Contributors", 
 		new BMessage(MENU_CONTRIBUTORS)));
 	menu->AddItem(new BMenuItem("License", 
 		new BMessage(MENU_LICENSE)));
 	menu->AddItem(new BMenuItem("No Warranty", 
 		new BMessage(MENU_WARRANTY)));
-	menu->AddItem(new BMenuItem("Commandline Options", 
-		new BMessage(MENU_CMDLINE)));
 	menubar->AddItem(menu);
 	
 	return menubar;

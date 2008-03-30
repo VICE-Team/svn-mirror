@@ -32,6 +32,7 @@
 #include "resources.h"
 
 int _mouse_enabled;
+
 static int hide_mouseptr;
 static int visible=TRUE;
 static SHORT _mouse_x, _mouse_y; // -32768-32768
@@ -41,8 +42,9 @@ static SHORT _mouse_x, _mouse_y; // -32768-32768
 static int set_mouse_enabled(resource_value_t v, void *param)
 {
     _mouse_enabled = (int) v;
-    if (!_mouse_enabled)
-        joystick_value[1] &= ~1 & ~16;
+
+    joystick_clear(1);
+
     return 0;
 }
 
@@ -114,7 +116,11 @@ inline BYTE mouse_get_x(void)
         else
             last_mouse_x = _mouse_x;
 
-    return ((last_mouse_x<<1)/stretch) & 0x7e;
+    return ((last_mouse_x<<1)/(stretch
+#if defined __XVIC_
+                               *2
+#endif
+                              )) & 0x7e;
 }
 
 inline BYTE mouse_get_y(void)
@@ -136,6 +142,9 @@ inline BYTE mouse_get_y(void)
 
 void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
 {
+    if (!_mouse_enabled)
+        return;
+
     switch (msg)
     {
     case WM_MOUSEMOVE:
@@ -147,7 +156,7 @@ void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
             if (_mouse_x>=0 && _mouse_x<swp.cx &&
                 _mouse_y>=0 && _mouse_y<swp.cy)
             { // pointer is inside the window
-                if (visible && _mouse_enabled && hide_mouseptr)
+                if (visible && /*_mouse_enabled &&*/ hide_mouseptr)
                 {
                     WinSetCapture(HWND_DESKTOP, hwnd);
                     WinShowPointer(HWND_DESKTOP, FALSE);
@@ -165,24 +174,27 @@ void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
                 // don't use 'outside'-values
                 if (_mouse_x<0) _mouse_x=0;
                 else
-                    if (_mouse_x>=swp.cx) _mouse_x=swp.cx-1;
+                    if (_mouse_x>=swp.cx)
+                        _mouse_x=swp.cx-1;
+
                 if (_mouse_y<0) _mouse_y=0;
                 else
-                    if (_mouse_y>=swp.cy) _mouse_y=swp.cy-1;
+                    if (_mouse_y>=swp.cy)
+                        _mouse_y=swp.cy-1;
             }
         }
         return;
     case WM_BUTTON1DOWN:
-        joystick_value[1] |= 16;
+        joystick_set_value_or(1, CBM_FIRE);      //joystick_value[1] |= 16;
         return;
     case WM_BUTTON1UP:
-        joystick_value[1] &= ~16;
+        joystick_set_value_and(1, ~CBM_FIRE);    //joystick_value[1] &= ~16;
         return;
     case WM_BUTTON2DOWN:
-        joystick_value[1] |= 1;
+        joystick_set_value_or(1, CBM_NORTH);     //joystick_value[1] |= 1;
         return;
     case WM_BUTTON2UP:
-        joystick_value[1] &= ~1;
+        joystick_set_value_and(1, ~CBM_NORTH);   //joystick_value[1] &= ~1;
         return;
     }
 }

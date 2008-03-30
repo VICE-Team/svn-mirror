@@ -175,8 +175,7 @@ static void LoadFont(HWND hwnd)
 static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     CHAR achFont[] = "11.System VIO";
-    static char image_name[CCHMAXPATH];
-    static image_contents_t *image;
+    static char *image_name=NULL;
     static int first = TRUE;
 
     switch (msg)
@@ -184,13 +183,12 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
     case WM_INITDLG:
         setDlgOpen(DLGO_CONTENTS);
 
-        image=image_contents_read_disk(mp2);
-        if (!image) WinSendMsg(hwnd, WM_CLOSE, NULL, NULL);
-
-        strcpy(image_name, mp2);
+        image_name = stralloc(mp2);
         first = TRUE;
         break;
     case WM_CLOSE:
+        if (image_name)
+            free(image_name);
         delDlgOpen(DLGO_CONTENTS);
         break;
     case WM_PAINT:
@@ -198,7 +196,18 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             if (first)
             {
                 char *text;
-                image_contents_file_list_t *entry=image->file_list;
+                image_contents_file_list_t *entry;
+
+                image_contents_t *image=image_contents_read_disk(image_name);
+
+                if (!image)
+                {
+                    log_debug("dlg-contents.c: Unable to read '%s'.", image_name);
+                    WinSendMsg(hwnd, WM_CLOSE, NULL, NULL);
+                    break;
+                }
+
+                entry=image->file_list;
 
                 if (!WinSetDlgFont(hwnd, LB_CONTENTS, achFont))
                     log_debug("dlg-contents.c: Unable to set font %s.",
@@ -208,18 +217,20 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
 
                 text=xmsprintf(" 0 \"%s\" %s", p2a(image->name), p2a(image->id));
                 WinLboxInsertItem(hwnd, LB_CONTENTS, text);
+                free(text);
                 while (entry)
                 {
-                    free(text);
                     text=xmsprintf(" %-5i\"%s\"%6s", entry->size,
                                    p2a(entry->name), p2a(entry->type));
                     WinLboxInsertItem(hwnd, LB_CONTENTS, text);
+                    free(text);
                     entry = entry->next;
                 }
-                free(text);
                 text=xmsprintf(" %i blocks free.", image->blocks_free);
                 WinLboxInsertItem(hwnd, LB_CONTENTS, text);
                 free(text);
+
+                image_contents_destroy(image);
                 first=FALSE;
             }
         }
@@ -246,38 +257,11 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             if (SHORT2FROMMP(mp1)==LN_ENTER)
             {
                 int pos=WinLboxQuerySelectedItem(hwnd, LB_CONTENTS);
-                image_contents_file_list_t *entry=image->file_list;
-
-                if (!pos)
-                {
-                    if (autostart_autodetect(image_name,"*",0))
-                        ;// WinError(hwnd, "Cannot autostart specified image.");
-                    else
-                        WinSendMsg(hwnd, WM_CLOSE, 0, 0);
-                    return FALSE;
-                }
-
-                while (--pos && entry) entry = entry->next;
-
-                if (!entry)
-                {
-                    // WinError(hwnd, "Cannot autostart specified file.");
-                    return FALSE;
-                }
-                {
-                    char name[32];
-                    strcpy(name, entry->name);
-                    if (strlen(name))
-                    {
-                        char *end = name+strlen(name);
-                        while (strrchr(name,' ')==(--end)) *end='\0';
-                    }
-                    if (autostart_autodetect(image_name, p2a(name),0))
-                        ;// WinError(hwnd, "Cannot autostart specified image.");
-                    else
-                        WinSendMsg(hwnd, WM_CLOSE, 0, 0);
-                    return FALSE;
-                }
+                if (autostart_autodetect(image_name, NULL, pos))
+                    ;// WinError(hwnd, "Cannot autostart specified image.");
+                else
+                    WinSendMsg(hwnd, WM_CLOSE, NULL, NULL);
+                return FALSE;
             }
         }
         break;

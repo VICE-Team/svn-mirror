@@ -66,9 +66,11 @@ extern "C" {
 #include "tape.h"
 #include "types.h"
 #include "ui.h"
+#include "ui_datasette.h"
 #include "ui_drive.h"
 #include "ui_file.h"
 #include "ui_joystick.h"
+#include "ui_sound.h"
 #include "utils.h"
 #include "version.h"
 #include "vsync.h"
@@ -491,11 +493,29 @@ void ui_dispatch_events(void)
       		case MENU_MAXIMUM_SPEED_NO_LIMIT:
         		resources_set_value("Speed", (resource_value_t) 0);
         		break;
+			case MENU_SYNC_FACTOR_PAL:
+        		resources_set_value("VideoStandard",
+                	(resource_value_t) DRIVE_SYNC_PAL);
+        		break;
+      		case MENU_SYNC_FACTOR_NTSC:
+        		resources_set_value("VideoStandard",
+                	(resource_value_t) DRIVE_SYNC_NTSC);
+        		break;
+      		case MENU_SYNC_FACTOR_NTSCOLD:
+        		resources_set_value("VideoStandard",
+                	(resource_value_t) DRIVE_SYNC_NTSCOLD);
+        		break;
         	case MENU_DRIVE_SETTINGS:
         		ui_drive();
         		break;	
+        	case MENU_DATASETTE_SETTINGS:
+        		ui_datasette();
+        		break;	
 			case MENU_JOYSTICK_SETTINGS:
 				ui_joystick();
+				break;
+			case MENU_SOUND_SETTINGS:
+				ui_sound();
 				break;
 			case MENU_SETTINGS_LOAD:
 	        	if (resources_load(NULL) < 0) {
@@ -655,6 +675,7 @@ TextWindow::TextWindow(
 		B_WILL_DRAW);
 	textview->MakeEditable(false);
 	textview->MakeSelectable(false);
+	textview->SetViewColor(230,240,230,0);
 
 	scrollview = new BScrollView(
 		"vice scroller",
@@ -784,7 +805,8 @@ static ui_drive_enable_t    ui_drive_enabled;
 static int                  ui_status_led[2];
 static double               ui_status_track[2];
 static int                  *ui_drive_active_led;
-static char 				*ui_image_name[2];
+static char 				*ui_drive_image_name[2];
+static char 				*ui_tape_image_name;
 	
 
 void ui_display_drive_status(int drive_num)
@@ -843,11 +865,16 @@ void ui_display_drive_led(int drivenum, int status)
 static void ui_display_image(int drivenum)
 {
     int i;
+    char *image;
     
+    if (drivenum<0)
+    	image = ui_tape_image_name;
+    else
+    	image = ui_drive_image_name[drivenum];
     for (i=0; i<window_count; i++) {
 		while (!windowlist[i]->Lock());
 		if (windowlist[i]->statusbar) {
-       		windowlist[i]->statusbar->DisplayImage(drivenum, ui_image_name[drivenum]);
+       		windowlist[i]->statusbar->DisplayImage(drivenum, image);
 		}
 		windowlist[i]->Unlock();
 	}
@@ -856,18 +883,27 @@ static void ui_display_image(int drivenum)
 /* display current image */
 void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 {
-	int i;
 	char *directory_name;
 	
-	/* FIXME: displaying thetape image would be nice */
 	if (drivenum>=2)
 		return;
 		
-	if (ui_image_name[drivenum]) free(ui_image_name[drivenum]);
+	if (ui_drive_image_name[drivenum]) free(ui_drive_image_name[drivenum]);
 				
-	fname_split(image, &directory_name, &ui_image_name[drivenum]);
+	fname_split(image, &directory_name, &ui_drive_image_name[drivenum]);
     free(directory_name);
     ui_display_image(drivenum);
+}
+
+void ui_display_tape_current_image(const char *image)
+{
+	char *directory_name;
+	
+	if (ui_tape_image_name) free(ui_tape_image_name);
+				
+	fname_split(image, &directory_name, &ui_tape_image_name);
+    free(directory_name);
+    ui_display_image(-1);
 }
 
 
@@ -938,6 +974,7 @@ void ui_statusbar_update()
 	ui_display_image(0);
 	ui_display_drive_status(1);
 	ui_display_image(1);
+	ui_display_image(-1);
 	ui_draw_tape_status();
 }	
 

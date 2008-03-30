@@ -106,7 +106,7 @@ void save_screenshot(HWND hwnd)
 {
     const char *type = screenshot_type();
     const char *name = screenshot_name();
-    if (!screenshot_canvas_save(type, name, (canvas_t *)WinQueryWindowPtr(hwnd,QWL_USER)))
+    if (!screenshot_canvas_save(type, name, (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER)))
         log_debug("proc.c: Screenshot successfully saved as %s (%s)", name, type);
 }
 

@@ -2,7 +2,6 @@
  * joystick.h - Joystick support for MS-DOS.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
  *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -25,44 +24,30 @@
  *
  */
 
-#ifndef _VICE_JOYSTICK_H
-#define _VICE_JOYSTICK_H
-
-#include <stddef.h>
+#ifndef JOYSTICK_H
+#define JOYSTICK_H
 
 #include "kbd.h"
 
-typedef enum {
-    JOYDEV_NONE   =0x00,
-    JOYDEV_HW1    =0x01,
-    JOYDEV_HW2    =0x02,
-    JOYDEV_NUMPAD =0x04,
-    JOYDEV_KEYSET1=0x08,
-    JOYDEV_KEYSET2=0x10
-} joystick_device_t;
-
-typedef enum {
-    KEYSET_NW,
-    KEYSET_N,
-    KEYSET_NE,
-    KEYSET_E,
-    KEYSET_SE,
-    KEYSET_S,
-    KEYSET_SW,
-    KEYSET_W,
-    KEYSET_FIRE
-} joystick_direction_t;
+extern int  joystick_init_resources(void);
+extern int  joystick_init_cmdline_options(void);
 
 extern void joystick_init(void);
 extern void joystick_close(void);
-extern int  joystick_init_resources(void);
-extern int  joystick_init_cmdline_options(void);
+
 extern void joystick_update(void);
 extern int  joystick_handle_key(kbd_code_t kcode, int pressed);
-extern const char *joystick_direction_to_string(joystick_direction_t
-                                                direction);
 
-// ---------- OS/2 specific stuff ---------
+// --------------------- OS/2 specific stuff -----------------------------
+typedef enum {
+    JOYDEV_NONE    = 0x00,
+    JOYDEV_HW1     = 0x01,
+    JOYDEV_HW2     = 0x02,
+    JOYDEV_NUMPAD  = 0x04,
+    JOYDEV_KEYSET1 = 0x08,
+    JOYDEV_KEYSET2 = 0x10
+} joystick_device_t;
+
 
 int set_joyA_autoCal(const char *value, void *extra_param);
 int set_joyB_autoCal(const char *value, void *extra_param);

@@ -40,7 +40,9 @@ class ViceWindow : public BWindow {
 						ViceWindow(BRect frame, char const *title);
 						~ViceWindow();
 		void 			Resize(unsigned int width, unsigned int height);
-		void			DrawBitmap(void);
+		void			DrawBitmap(BBitmap *framebitmap, 
+				int xs, int ys, int xi, int yi, int w, int h);
+		
 		void			Update_Menus(		
 							ui_menu_toggle *toggle_list,
 							ui_res_value_list *value_list);
@@ -50,6 +52,7 @@ class ViceWindow : public BWindow {
 		BMenuBar		*menubar;
 
 		BBitmap			*bitmap;
+		BPoint			bitmap_offset;
 		BView			*view;
 		ViceStatusbar	*statusbar;
 		BFilePanel		*filepanel;	

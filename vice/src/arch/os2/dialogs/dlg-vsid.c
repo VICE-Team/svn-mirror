@@ -1,5 +1,8 @@
 /*
- * main_exit.c - VICE shutdown.
+ * dlg-attach.c - The attach-dialog.
+ *
+ * Written by
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -21,31 +24,32 @@
  *
  */
 
-#include <stdio.h>
-#include <signal.h>
+#include "vice.h"
+#include "dialogs.h"
 
-#include "main_exit.h"
-
-#include "log.h"
-
-void main_exit(void)
+static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
-       pressed and thus breaking the cleanup process, which might be
-       dangerous.  */
-    log_message(LOG_DEFAULT, "\nExiting...");
-    signal(SIGINT, SIG_IGN);
-
-    //---    resources_set_value("Sound", (resource_value_t)FALSE);
-    //---    DosSleep(500);
-
-    //---    machine_shutdown();
-    //       video_free();
-    //       sound_close(); // Be sure sound device is closed.
-    // Maybe we need some DosSleep(500)...
-
-    //---#ifdef HAS_JOYSTICK
-    //---    joystick_close();
-    //---#endif
+    static int first=TRUE;
+    extern int trigger_shutdown;
+    switch (msg)
+    {
+    case WM_CLOSE:
+        trigger_shutdown = 1;
+        break;
+    case WM_COMMAND:
+        switch (LONGFROMMP(mp1))
+        {
+        case DID_CLOSE:
+            trigger_shutdown = 1;
+            break;
+        }
+    }
+    return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }
 
+
+void vsid_dialog()
+{
+    WinLoadDlg(HWND_DESKTOP, HWND_DESKTOP, pm_vsid, NULLHANDLE,
+               DLG_VSID, NULL);
+}

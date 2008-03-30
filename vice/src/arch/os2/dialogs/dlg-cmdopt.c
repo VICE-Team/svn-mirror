@@ -55,11 +55,9 @@ static MRESULT EXPENTRY pm_cmdopt(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             if (first)
             {
                 CHAR achFont[] = "11.System VIO";
-                char text[1024];
+                WinSetDlgFont(hwnd, LB_CMDOPT, achFont);
 
                 first=FALSE;
-
-                WinSetDlgFont(hwnd, LB_CMDOPT, achFont);
             }
         }
         break;

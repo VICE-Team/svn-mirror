@@ -171,6 +171,10 @@ void statusbar_prepare(void)
     rubbish remaining at left and right of the bar
     */
     BITMAP *bm_clear;
+
+    if (!video_in_gfx_mode())
+        return;
+
     bm_clear = create_bitmap(vga_width,STATUSBAR_HEIGHT);
     if (bm_clear)
     {

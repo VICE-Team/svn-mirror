@@ -1,4 +1,5 @@
 source type(c)
+    "dialogs\\dlg-vsid.c",
     "dialogs\\dlg-drive.c",
     "dialogs\\dlg-reset.c",
     "dialogs\\dlg-create.c",

@@ -108,21 +108,11 @@ const int driveRes[nDRIVES] = {
     DRIVE_TYPE_8250
 };
 
-static int driveTypeNo(int type)
-{
-    int i;
-    for (i=0; i<nDRIVES; i++)
-        if (driveRes[i]==type)
-            return i;
-    return -1;
-}
-
 static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     static int drive = 0;
+    static int exist[nDRIVES];
     static int first = TRUE;
-
-    //    static char image_hist[10][CCHMAXPATH];
 
     switch (msg)
     {
@@ -141,11 +131,8 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 while (i<10 && ui_status.imageHist[i][0])
                     WinLboxInsertItem(hwnd, CBS_IMAGE, ui_status.imageHist[i++]);
                 WinLboxInsertItem(hwnd, CBS_IMAGE, "");
-                for (i=0; i<nDRIVES; i++)
-                    WinLboxInsertItem(hwnd, CBS_TYPE, driveName[i]);
                 resources_get_value("DriveTrueEmulation", (resource_value_t*) &val);
                 WinCheckButton(hwnd, CB_TRUEDRIVE, val);
-
                 resources_get_value("VideoStandard", (resource_value_t*) &val);
                 WinCheckButton(hwnd, val==DRIVE_SYNC_PAL?RB_PAL:RB_NTSC, 1);
                 WinCheckButton(hwnd, RB_DRIVE8|drive, 1);
@@ -198,7 +185,7 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 WinSendMsg(hwnd, WM_SWITCH, (void*)(SHORT1FROMMP(mp1)&0x3), 0);
                 break;
             case CB_TRUEDRIVE:
-                toggle("DriveTrueEmulation");
+                /*WinEnableControl(hwnd, CB_READONLY,*/ toggle("DriveTrueEmulation")/*)*/;
                 break;
             case CB_CONVERTP00:
                 WinEnableControl(hwnd, CB_HIDENONP00,
@@ -212,6 +199,9 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 break;
             case CB_HIDENONP00:
                 toggle_drive_res("FSDevice%dHideCBMFiles", drive);
+                break;
+            case CB_READONLY:
+                toggle_drive_res("AttachDevice%dReadonly", drive);
                 break;
             case CB_PARALLEL:
                 if (drive==0 || drive==1)
@@ -259,15 +249,10 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 }
                 return FALSE;
             case CBS_TYPE:
-                // log_debug("CBS_TYPE %d %d", SHORT2FROMMP(mp1)==CBN_ENTER, drive);
                 if (SHORT2FROMMP(mp1)==CBN_ENTER && (drive==0 || drive==1))
                 {
-                    /* log_debug("set_type: %d %d",
-                     WinLboxQuerySelectedItem(hwnd, CBS_TYPE),
-                     driveRes[WinLboxQuerySelectedItem(hwnd, CBS_TYPE)]);
-                     */
-                    set_drive_res("Drive%dType", drive,
-                                  driveRes[WinLboxQuerySelectedItem(hwnd, CBS_TYPE)]);
+                    int nr = WinLboxQuerySelectedItem(hwnd, CBS_TYPE);
+                    set_drive_res("Drive%dType", drive, exist[nr]);
                 }
                 return FALSE;
             }
@@ -276,11 +261,15 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_DRIVEIMAGE:
         {
             int pos;
-            for (pos=0; pos<9; pos++) WinLboxDeleteItem(hwnd, CBS_IMAGE, 0);
+            for (pos=0; pos<9; pos++)
+                WinLboxDeleteItem(hwnd, CBS_IMAGE, 0);
+
             pos=0;
             while (pos<10 && ui_status.imageHist[pos][0])
                 WinLboxInsertItem(hwnd, CBS_IMAGE, ui_status.imageHist[pos++]);
+
             WinLboxInsertItem(hwnd, CBS_IMAGE, "");
+
             if (drive==(int)mp2)
                 WinLboxSelectItem(hwnd, CBS_IMAGE, *((char*)mp1)?0:pos);
         }
@@ -306,15 +295,37 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
     case WM_SWITCH:
         drive = (int)mp1;
         {
+            int i;
+            int type;
+            int max = WinLboxQueryCount(hwnd, CBS_TYPE);
             int drive89=(drive==0 || drive==1);
+
+            for (i=0; i<max; i++)
+                WinLboxDeleteItem(hwnd, CBS_TYPE, 0);
+
             if (drive89)
             {
+                int i, nr;
                 WinCheckButton(hwnd, RB_NEVER |
                                get_drive_res("Drive%dExtendImagePolicy",
                                              drive), 1);
                 WinCheckButton(hwnd, RB_NONE |
                                get_drive_res("Drive%dIdleMethod",
                                              drive), 1);
+                nr = 0;
+                for (i=0; i<nDRIVES; i++)
+                {
+                    if (drive_check_type(driveRes[i] ,drive))
+                    {
+                        WinLboxInsertItem(hwnd, CBS_TYPE, driveName[i]);
+                        exist[nr++] = driveRes[i];
+                    }
+                }
+
+                nr = get_drive_res("Drive%dType", drive);
+                for (type=0; type<nDRIVES; type++)
+                    if (nr==exist[type])
+                        break;
             }
             else
             {
@@ -325,10 +336,9 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 WinCheckButton(hwnd, RB_SKIP,   0);
                 WinCheckButton(hwnd, RB_TRAP,   0);
             }
+            WinLboxSelectItem(hwnd, CBS_TYPE, drive89 ? type : 0);
             WinCheckButton(hwnd, CB_PARALLEL, drive89 ?
                            (get_drive_res("Drive%dParallelCable", drive)!=0):0);
-            WinLboxSelectItem(hwnd, CBS_TYPE, drive89 ?
-                              driveTypeNo(get_drive_res("Drive%dType", drive)):0);
             WinEnableControl(hwnd, CB_PARALLEL, drive89);
             WinEnableControl(hwnd, RB_NEVER,    drive89);
             WinEnableControl(hwnd, RB_ASK,      drive89);
@@ -337,6 +347,8 @@ static MRESULT EXPENTRY pm_drive(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             WinEnableControl(hwnd, RB_SKIP,     drive89);
             WinEnableControl(hwnd, RB_TRAP,     drive89);
             WinEnableControl(hwnd, CBS_TYPE,    drive89);
+            WinCheckButton(hwnd, CB_READONLY,
+                           get_drive_res("AttachDevice%dReadonly", drive)!=0);
             WinCheckButton(hwnd, CB_SAVEP00,
                            get_drive_res("FSDevice%dSaveP00", drive)!=0);
             WinCheckButton(hwnd, CB_ALLOWACCESS,

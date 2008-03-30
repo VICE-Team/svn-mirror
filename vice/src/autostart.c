@@ -282,11 +282,7 @@ void autostart_advance(void)
             {
                 int traps;
 
-                if (autostart_program_name)
-                    log_message(autostart_log, "Loading program '%s'",
-                                autostart_program_name);
-                else
-                    log_message(autostart_log, "Loading program '*'");
+                log_message(autostart_log, "Loading program '%s'", autostart_program_name?autostart_program_name:"*");
                 orig_true1541_state = get_true1541_state();
                 if (handle_true1541) {
                     resources_get_value("VirtualDevices",
@@ -305,12 +301,7 @@ void autostart_advance(void)
                 } else
                     traps = 1;
 
-                if (autostart_program_name)
-                    tmp = xmsprintf("LOAD\"%s\",8,1\r",
-                                    autostart_program_name);
-                else
-                    tmp = xmsprintf("LOAD\"*\",8,1\r", autostart_program_name);
-
+                tmp = xmsprintf("LOAD\"%s\",8,1\r", autostart_program_name?autostart_program_name:"*");
                 kbd_buf_feed(tmp);
                 free(tmp);
 
@@ -396,79 +387,89 @@ int autostart_snapshot(const char *file_name, const char *program_name)
 int autostart_tape(const char *file_name, const char *program_name,
                    unsigned int program_number)
 {
+    char *number_name = NULL;
+
     if (file_name == NULL || !autostart_enabled)
 	return -1;
 
-    if (tape_attach_image(file_name) >= 0)
-    {
-        log_message(autostart_log, "Attached file `%s' as a tape image.",
-                    file_name);
+    /* get program name first to avoid more than one file handle open on image */
+    if (program_name == NULL && program_number > 0) {
+        number_name = image_contents_tape_filename_by_number(file_name,
+                                                             program_number);
 
-        if (program_name == NULL && program_number > 0) {
-            char *number_name;
-
-            /* If we don't close the file here we cannot access it to get the image
-             contents because the file is open (OS/2) */
-            tape_detach_image();
-            number_name = image_contents_tape_filename_by_number(file_name,
-                                                                 program_number);
-            if (number_name)
-            {
-                tape_attach_image(file_name);
-                reboot_for_autostart(number_name, AUTOSTART_HASTAPE);
-                free (number_name);
-                return 0;
-            }
-        }
-        else
-        {
-            reboot_for_autostart(program_name, AUTOSTART_HASTAPE);
-            return 0;
+        if (number_name == NULL) {
+            autostartmode = AUTOSTART_ERROR;
+            deallocate_program_name();
+            return -1;
         }
     }
 
-    autostartmode = AUTOSTART_ERROR;
-    deallocate_program_name();
-    return -1;
+    if (tape_attach_image(file_name) < 0) {
+	autostartmode = AUTOSTART_ERROR;
+	deallocate_program_name();
+	if (number_name != NULL)
+	    free(number_name);
+	return -1;
+    }
+
+    log_message(autostart_log, "Attached file `%s' as a tape image.",
+                file_name);
+    autostartmode = AUTOSTART_HASTAPE;
+
+    if (number_name != NULL) {
+        reboot_for_autostart(number_name, AUTOSTART_HASTAPE);
+        free (number_name);
+    } else {
+        reboot_for_autostart(program_name, AUTOSTART_HASTAPE);
+    }
+
+    return 0;
 }
 
 /* Autostart disk image `file_name'.  */
 int autostart_disk(const char *file_name, const char *program_name,
                    unsigned int program_number)
 {
+    char *number_name = NULL;
+
     if (file_name == NULL || !autostart_enabled)
 	return -1;
 
-    if (file_system_attach_disk(8, file_name) >= 0)
-    {
-        if (program_name == NULL && program_number > 0)
-        {
-            char *number_name;
-            /* If we don't close the file here we cannot access it to get the image
-             contents because the file is open (OS/2) */
+    /* get program name first to avoid more than one file handle open on image */
+    if (program_name == NULL && program_number > 0) {
+        number_name = image_contents_disk_filename_by_number(file_name,
+                                                             program_number);
+
+        if (number_name == NULL) {
             file_system_detach_disk(8);
-            number_name=image_contents_disk_filename_by_number(file_name,
-                                                                     program_number);
-            if (number_name)
-            {
-                file_system_attach_disk(8, file_name);
-                log_message(autostart_log, "Attached file `%s' as a disk image to device #8.",
-                            file_name);
-                reboot_for_autostart(number_name, AUTOSTART_HASDISK);
-                free (number_name);
-                return 0;
-            }
-        }
-        else
-        {
-            reboot_for_autostart(program_name, AUTOSTART_HASDISK);
-            return 0;
+            autostartmode = AUTOSTART_ERROR;
+            deallocate_program_name();
+            return -1;
         }
     }
 
-    autostartmode = AUTOSTART_ERROR;
-    deallocate_program_name();
-    return -1;
+    if (file_system_attach_disk(8, file_name) < 0) {
+	file_system_detach_disk(8);
+	autostartmode = AUTOSTART_ERROR;
+	deallocate_program_name();
+	if (number_name != NULL)
+	    free(number_name);
+	return -1;
+    }
+
+    log_message(autostart_log, "Attached file `%s' as a disk image to device #8.",
+                file_name);
+
+    autostartmode = AUTOSTART_HASDISK;
+
+    if (number_name != NULL) {
+        reboot_for_autostart(number_name, AUTOSTART_HASDISK);
+        free(number_name);
+    } else {
+        reboot_for_autostart(program_name, AUTOSTART_HASDISK);
+    }
+
+    return 0;
 }
 
 /* Autostart PRG file `file_name'.  The PRG file can either be a raw CBM file

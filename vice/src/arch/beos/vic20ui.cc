@@ -1,5 +1,8 @@
 /*
- * main_exit.c - VICE shutdown.
+ * vic20ui.cc - VIC20-specific user interface.
+ *
+ * Written by
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -21,31 +24,31 @@
  *
  */
 
+#include "vice.h"
+
+#include <Message.h>
 #include <stdio.h>
-#include <signal.h>
 
-#include "main_exit.h"
+extern "C" {
+#include "constants.h"
+#include "ui.h"
+#include "vic20ui.h"
+}
 
-#include "log.h"
 
-void main_exit(void)
+ui_menu_toggle  vic20_ui_menu_toggles[]={
+    { "DoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "DoubleScan", MENU_TOGGLE_DOUBLESCAN },
+    { "VideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "IEEE488", MENU_TOGGLE_IEEE488 },
+    { NULL, 0 }
+};
+
+
+int vic20_ui_init(void)
 {
-    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
-       pressed and thus breaking the cleanup process, which might be
-       dangerous.  */
-    log_message(LOG_DEFAULT, "\nExiting...");
-    signal(SIGINT, SIG_IGN);
-
-    //---    resources_set_value("Sound", (resource_value_t)FALSE);
-    //---    DosSleep(500);
-
-    //---    machine_shutdown();
-    //       video_free();
-    //       sound_close(); // Be sure sound device is closed.
-    // Maybe we need some DosSleep(500)...
-
-    //---#ifdef HAS_JOYSTICK
-    //---    joystick_close();
-    //---#endif
+    ui_register_menu_toggles(vic20_ui_menu_toggles);
+    ui_update_menus();
+    return 0;
 }
 

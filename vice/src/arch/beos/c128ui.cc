@@ -1,5 +1,5 @@
 /*
- * c64ui.cc - C64-specific user interface.
+ * c128ui.cc - C128-specific user interface.
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -30,25 +30,26 @@
 #include <stdio.h>
 
 extern "C" {
-#include "c64ui.h"
-#include "cartridge.h"
-#include "constants.h"
-#include "kbd.h"
-#include "keyboard.h"
+#include "c128ui.h"
+#include "constants.h" 
 #include "resources.h"
 #include "ui.h"
 }
 
-ui_menu_toggle  c64_ui_menu_toggles[]={
+ui_menu_toggle  c128_ui_menu_toggles[]={
     { "DoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "DoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "REU", MENU_TOGGLE_REU },
+    { "IEEE488", MENU_TOGGLE_IEEE488 },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "SidFilters", MENU_TOGGLE_SIDFILTERS },
 #ifdef HAVE_RESID
     { "SidUseResid", MENU_TOGGLE_SOUND_RESID },
 #endif
+    { "VDC_DoubleSize", MENU_TOGGLE_VDC_DOUBLESIZE },
+    { "VDC_DoubleScan", MENU_TOGGLE_VDC_DOUBLESCAN },
+    { "VDC_64KB", MENU_TOGGLE_VDC_64KB },
     { NULL, 0 }
 };
 
@@ -58,13 +59,13 @@ static ui_res_possible_values SidType[] = {
     {-1,0}
 };
 
-ui_res_value_list c64_ui_res_values[] = {
+ui_res_value_list c128_ui_res_values[] = {
     {"SidModel", SidType},
     {NULL,NULL}
 };
 
 
-void c64_ui_specific(void *msg)
+void c128_ui_specific(void *msg)
 {
     switch (((BMessage*)msg)->what) {
 		case MENU_SIDTYPE_6581:
@@ -81,12 +82,11 @@ void c64_ui_specific(void *msg)
     }
 }
 
-int c64_ui_init(void)
+int c128_ui_init(void)
 {
-    ui_register_machine_specific(c64_ui_specific);
-    ui_register_menu_toggles(c64_ui_menu_toggles);
-    ui_register_res_values(c64_ui_res_values);
+    ui_register_machine_specific(c128_ui_specific);
+    ui_register_menu_toggles(c128_ui_menu_toggles);
+    ui_register_res_values(c128_ui_res_values);
     ui_update_menus();
     return 0;
 }
-

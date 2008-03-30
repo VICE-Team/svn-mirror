@@ -7,8 +7,9 @@
 #undef BYTE
 #undef ADDRESS
 #define INCL_GPIBITMAPS
-//#define INCL_DOSSEMAPHORES  // HMTX
+#define INCL_DOSSEMAPHORES
 #include <os2.h>
+#include <dive.h>
 #undef ADDRESS
 #define ADDRESS WORD
 
@@ -24,7 +25,7 @@ typedef struct video_frame_buffer_s {
 } video_frame_buffer_t;
 
 /* This is necessary because DIVE calculates the optimum line size itself
-   it seems to be x*sizeof(ULONG), see DiveAllocImageBuffer */
+   it seems to be x*sizeof(ULONG), see DiveAllocImageBuffer               */
 extern const int FBMULT;
 
 #define VIDEO_FRAME_BUFFER_LINE_START(f,n)  ((f->bitmap) + ((f->width) \
@@ -34,19 +35,20 @@ extern const int FBMULT;
 
 typedef void (*canvas_redraw_t)(UINT width, UINT height);
 
-typedef struct canvas_s {
-    //    HPS   hps;
-    //    BOOL  init_ready;       // dont't use exposure_handler to early
+typedef struct canvas_s
+{
     HWND  hwndFrame;        // Handle to Frame of Window
     HWND  hwndClient;       // Handle to Paint Area of Window
-//    HMTX  hmtx;
+    HMTX  hmtx;
     char *title;
     UINT  width;            // width of canvas graphic area
     UINT  height;           // width of canvas graphic area
-    //    RGB2 *palette;          // pointer to structure which stores colorinfo
     BOOL  vrenabled;        // only BlitImage when Visible Region Enabled
+    SETUP_BLITTER sb;
     canvas_redraw_t exposure_handler;
-} canvas_t;
+};
+
+typedef struct canvas_s canvas_t;
 
 #endif
 

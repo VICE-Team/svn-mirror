@@ -41,12 +41,15 @@
 #include "sound.h"     // sound_close
 #include "kbdbuf.h"    // kbd_buf_flush
 #include "machine.h"   // machine_shutdown
-#include "ui_status.h" // ui_display_speed
+//#include "ui_status.h" // ui_display_speed
 #include "dialogs.h"
 
 #ifdef HAS_JOYSTICK
 #include "joystick.h"
 #endif
+
+extern void PM_close(void);
+extern void video_close(void);
 
 #include "vsyncarch.h"
 // -------------------------------------------------------------------------
@@ -125,6 +128,10 @@ void vice_exit(void)
     if (rc)
         log_debug("vsync.c: DosCloseEventSem (rc=%u)", rc);
 
+    video_close();
+
+    PM_close();
+
     exit(0);
 }
 
@@ -176,7 +183,10 @@ int trigger_shutdown=0;
 void vsyncarch_presync()
 {
     if (trigger_shutdown)
+    {
+        log_debug("vsync: Vice shutdown triggered.");
         vice_exit();
+    }
 }
 
 void vsyncarch_postsync()

@@ -40,6 +40,7 @@
 extern int mouse_init_resources(void);
 extern int mouse_init_cmdline_options(void);
 extern void mouse_init(void);
+
 BYTE mouse_get_x(void);
 BYTE mouse_get_y(void);
 

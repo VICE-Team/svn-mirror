@@ -1,5 +1,8 @@
 /*
- * main_exit.c - VICE shutdown.
+ * ui_sound.h - Drive settings
+ *
+ * Written by
+ *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -21,31 +24,14 @@
  *
  */
 
-#include <stdio.h>
-#include <signal.h>
+#ifndef __UI_SOUND_H__
+#define __UI_SOUND_H__
 
-#include "main_exit.h"
+const uint32 MESSAGE_SOUND_FREQ				= 'MS01';
+const uint32 MESSAGE_SOUND_BUFF				= 'MS02';
+const uint32 MESSAGE_SOUND_SAMPLE			= 'MS03';
+const uint32 MESSAGE_SOUND_SYNC				= 'MS04';
 
-#include "log.h"
+extern void ui_sound(void);
 
-void main_exit(void)
-{
-    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
-       pressed and thus breaking the cleanup process, which might be
-       dangerous.  */
-    log_message(LOG_DEFAULT, "\nExiting...");
-    signal(SIGINT, SIG_IGN);
-
-    //---    resources_set_value("Sound", (resource_value_t)FALSE);
-    //---    DosSleep(500);
-
-    //---    machine_shutdown();
-    //       video_free();
-    //       sound_close(); // Be sure sound device is closed.
-    // Maybe we need some DosSleep(500)...
-
-    //---#ifdef HAS_JOYSTICK
-    //---    joystick_close();
-    //---#endif
-}
-
+#endif

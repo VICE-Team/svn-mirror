@@ -82,7 +82,10 @@ const uint32 MENU_TOGGLE_VIDEOCACHE				= 'M108';
 const uint32 MENU_TOGGLE_REU					= 'M109';
 const uint32 MENU_TOGGLE_MOUSE					= 'M110';
 const uint32 MENU_TOGGLE_SIDFILTERS				= 'M111';
-
+const uint32 MENU_TOGGLE_IEEE488				= 'M112';
+const uint32 MENU_TOGGLE_VDC_64KB				= 'M113';
+const uint32 MENU_TOGGLE_VDC_DOUBLESIZE			= 'M114';
+const uint32 MENU_TOGGLE_VDC_DOUBLESCAN			= 'M115';
 
 const uint32 MENU_REFRESH_RATE_AUTO				= 'M120';
 const uint32 MENU_REFRESH_RATE_1				= 'M121';
@@ -114,6 +117,9 @@ const uint32 MENU_DEVICE_SETTINGS				= 'M201';
 const uint32 MENU_SOUND_SETTINGS				= 'M202';
 const uint32 MENU_JOYSTICK_SETTINGS				= 'M203';
 const uint32 MENU_DATASETTE_SETTINGS			= 'M204';
+const uint32 MENU_CBM2_SETTINGS					= 'M205';
+const uint32 MENU_PET_SETTINGS					= 'M206';
+const uint32 MENU_VICII_SETTINGS				= 'M207';
 
 const uint32 MENU_SETTINGS_LOAD					= 'M210';
 const uint32 MENU_SETTINGS_SAVE					= 'M211';

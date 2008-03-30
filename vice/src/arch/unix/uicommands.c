@@ -182,8 +182,6 @@ static UI_CALLBACK(attach_tape)
       case UI_BUTTON_OK:
 	if (tape_attach_image(filename) < 0)
 	    ui_error(_("Invalid Tape Image"));
-	else
-	    ui_display_tape_current_image(filename);
 	if (last_dir)
 	    free(last_dir);
 	fname_split(filename, &last_dir, NULL);
@@ -191,8 +189,6 @@ static UI_CALLBACK(attach_tape)
       case UI_BUTTON_AUTOSTART:
 	if (autostart_tape(filename, NULL, selection_from_image) < 0)
 	    ui_error(_("Invalid Tape Image"));
-	else
-	    ui_display_tape_current_image(filename);
 	if (last_dir)
 	    free(last_dir);
 	fname_split(filename, &last_dir, NULL);

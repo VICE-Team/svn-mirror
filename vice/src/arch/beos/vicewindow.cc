@@ -133,10 +133,14 @@ ViceView::ViceView(BRect rect)
 }
 
 void ViceView::Draw(BRect rect) {
+	BRect source_rect = rect;
 	ViceWindow *wnd = (ViceWindow *)Window();
-	DrawBitmap(wnd->bitmap,rect,rect);
-}
 
+	if (wnd->bitmap) {
+		source_rect.OffsetBy(wnd->bitmap_offset);
+		DrawBitmap(wnd->bitmap, source_rect, rect);
+	}
+}
 
 ViceWindow::ViceWindow(BRect frame, char const *title) 
 		: BWindow(frame, title,
@@ -159,13 +163,15 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 	savepanel = new BFilePanel(B_SAVE_PANEL, new BMessenger(this), NULL,
 				B_FILE_NODE, false);
 		
-	/* the bitmap and the corresponding view */
-	bitmap = new BBitmap(frame,B_CMAP8,false,true);
+	/* the view for the canvas */
 	r = menubar->Frame();
 	view = new ViceView(BRect(frame.left,frame.top+r.Height()+1,
 						frame.right,frame.bottom+r.Height()+2));
 	AddChild(view);
-
+	
+	/* bitmap is NULL; will be registered by canvas_refresh */
+	bitmap = NULL;
+	
 	/* the statusbar is created in Resize() */
 	statusbar = NULL;
 
@@ -212,10 +218,11 @@ void ViceWindow::MessageReceived(BMessage *message) {
 }
 
 void ViceWindow::Resize(unsigned int width, unsigned int height) {
-	BRect oldsize;
 	BRect statusbar_frame;
 	float new_windowheight;
 	
+	/* bitmap has to be reregistered with new framebuffer */ 
+	bitmap = NULL;
 	if (BWindow::Lock()) {
 		view->ResizeTo(width, height);
 		if (statusbar) {
@@ -233,22 +240,20 @@ void ViceWindow::Resize(unsigned int width, unsigned int height) {
 		new_windowheight = 	menubar->Frame().Height()+
 			view->Frame().Height()+
 			statusbar->Frame().Height();
-		BWindow::ResizeTo(width, new_windowheight);
+		BWindow::ResizeTo(width-1, new_windowheight);
+		/* who knows why the window width has to be width-1 */
 		BWindow::Unlock();
-	}
-	/* create new bitmap if size has changed */
-	/* notice, that BRect sizes are simply differences of coordinates */
-	oldsize = bitmap->Bounds();
-	if ((oldsize.Width()+1) != width || (oldsize.Height()+1) != height) {
-		delete bitmap;
-		bitmap = new BBitmap(BRect(0,0,width-1,height-1),B_CMAP8,false,true);
 	}
 }
 
-void ViceWindow::DrawBitmap(void) {
+void ViceWindow::DrawBitmap(BBitmap *framebitmap, 
+	int xs, int ys, int xi, int yi, int w, int h) {
 	if	(BWindow::Lock()) {
-		view->DrawBitmap(bitmap);
+		view->DrawBitmap(framebitmap, 
+			BRect(xs,ys,xs+w,ys+h),
+			BRect(xi,yi,xi+w,yi+h) );
 		view->Sync();
 		BWindow::Unlock();
 	} 
 }
+	

@@ -152,6 +152,11 @@ void ui_display_tape_counter(int counter)
     WinSendMsg(hwndDatasette, WM_COUNTER, (void*)counter, 0);
 }
 
+void ui_display_tape_current_image(const char *image)
+{
+}
+
+
 /* --------------------------- Drive related UI ------------------------ */
 
 void ui_display_drive_led(int drive_number, int status)

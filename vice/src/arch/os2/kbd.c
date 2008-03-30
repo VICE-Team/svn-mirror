@@ -61,7 +61,7 @@ static int set_keymap_index(resource_value_t v)
     return 0;
 }
 
-static int set_keymap_file(resource_value_t vi, void *param)
+static int set_keymap_file(resource_value_t v, void *param)
 {
     string_set(&keymapfile, (const char*) v);
 

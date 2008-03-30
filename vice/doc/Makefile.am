@@ -4,6 +4,7 @@ doc_DATA = \
 	64doc.txt \
 	Evaluation \
 	PETdoc.txt \
+	Readme.beos \
 	Readme.dos \
 	Win32-Howto.txt \
 	cbm_basic_tokens.txt \

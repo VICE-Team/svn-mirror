@@ -70,7 +70,7 @@ int console_close(console_t *log)
 
 int console_out(console_t *log, const char *format, ...)
 {
-    static char out[1024]; // FIXME
+    static char *out = NULL;
     char *in;
     char *txt, *mid;
     va_list ap;
@@ -78,16 +78,11 @@ int console_out(console_t *log, const char *format, ...)
     if (!hwndMonitor)
         return 0;
 
+    if (!out)
+       out=xcalloc(1, 1);
+
     va_start(ap, format);
     in=xmvsprintf(format, ap);
-
-    /*
-     if (strlen(in)+strlen(out)>1023)
-     {
-     out[0]='\0';
-     return 0;
-     }
-     */
 
     txt=in;
     while (strrchr(txt,'\n') && strchr(txt,'\n') != txt+strlen(txt))
@@ -95,9 +90,7 @@ int console_out(console_t *log, const char *format, ...)
         mid=strchr(txt,'\n')+1;
         *strchr(txt,'\n')='\0';
 
-        strcat(out, txt);
-
-        WinSendMsg(hwndMonitor, WM_INSERT, out, NULL);
+        WinSendMsg(hwndMonitor, WM_INSERT, concat(out, txt, NULL), NULL);
         out[0]='\0';
 
         while (*mid=='\n') mid++;
@@ -105,7 +98,11 @@ int console_out(console_t *log, const char *format, ...)
     }
 
     if (mid != txt)
-        strcat(out, txt);
+    {
+        char *line = concat(out, txt, NULL);
+        free(out);
+        out = line;
+    }
 
     free(in);
 
@@ -136,7 +133,7 @@ char *console_in(console_t *log)
 
 int console_close_all(void)
 {
-    WinSendMsg(hwndMonitor, WM_CLOSE, 0, 0);
+    WinSendMsg(hwndMonitor, WM_CLOSE, NULL, NULL);
     hwndMonitor=NULLHANDLE;
     return 0;
 }

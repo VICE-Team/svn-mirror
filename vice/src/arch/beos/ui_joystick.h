@@ -28,6 +28,9 @@
 #define __UI_JOYSTICK_H__
 
 const uint32 JOYMESSAGE_DEVPORT = 'J000';
+const uint32 JOYMESSAGE_KEYSET1 = 'J001';
+const uint32 JOYMESSAGE_KEYSET2 = 'J002';
+const uint32 JOYMESSAGE_KEYTEXT = 'J003';
 
 extern void ui_joystick(void);
 

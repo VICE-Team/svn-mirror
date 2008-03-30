@@ -23,10 +23,10 @@ libarch_a_SOURCES = \
 	archdep.h \
 	beos.h \
 	c128kbd.c \
-	c128ui.c \
+	c128ui.cc \
 	c128ui.h \
 	c610kbd.c \
-	c610ui.c \
+	c610ui.cc \
 	c610ui.h \
 	c64kbd.c \
 	c64ui.cc \
@@ -44,7 +44,7 @@ libarch_a_SOURCES = \
 	mouse.c \
 	mouse.h \
 	petkbd.c \
-	petui.c \
+	petui.cc \
 	petui.h \
 	print.c \
 	statusbar.cc \
@@ -52,16 +52,20 @@ libarch_a_SOURCES = \
 	types.h \
 	ui.cc \
 	ui.h \
+	ui_datasette.cc \
+	ui_datasette.h \
 	ui_drive.cc \
 	ui_drive.h \
 	ui_file.cc \
 	ui_file.h \
 	ui_joystick.cc \
 	ui_joystick.h \
+	ui_sound.cc \
+	ui_sound.h \
 	uicmdline.c \
 	uicmdline.h \
 	vic20kbd.c \
-	vic20ui.c \
+	vic20ui.cc \
 	vic20ui.h \
 	vicemenu.cc \
 	vicemenu.h \

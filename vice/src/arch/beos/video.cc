@@ -27,6 +27,7 @@
 #define EXACT_TYPE_NEEDED
 
 #include "vicewindow.h"
+#include <Bitmap.h>
 #include <Screen.h>
 #include <stdlib.h>
 
@@ -93,11 +94,16 @@ int video_frame_buffer_alloc(video_frame_buffer_t **f,
                        unsigned int width,
                        unsigned int height)
 {
-	*f = (video_frame_buffer_t *) xmalloc(sizeof(video_frame_buffer_t *));
+	*f = (video_frame_buffer_t *) xmalloc(sizeof(video_frame_buffer_t));
 	(*f)->width = width;
 	(*f)->height = height;
-    (*f)->buffer = (PIXEL*)xmalloc(width*height*sizeof(PIXEL));
-	DEBUG(("video_frame_buffer_alloc: %dx%d at %x",width,height,(*f)->buffer));   	
+	(*f)->bitmap =
+		new BBitmap(BRect(0,0,width-1,height-1),B_CMAP8,false,true);
+	(*f)->buffer = (PIXEL*) (*f)->bitmap->Bits();
+	(*f)->real_width = (*f)->bitmap->BytesPerRow();
+	(*f)->vicewindow = NULL;
+	DEBUG(("video_frame_buffer_alloc: %dx%d at %x",width,height,(*f)->buffer)); 
+	  	
     return 0;
 }
 
@@ -105,8 +111,12 @@ void video_frame_buffer_free(video_frame_buffer_t *f)
 {
 	if (!f)
 		return;
-	DEBUG(("video_frame_buffer_free: %x",f->buffer));   	
-	free(f->buffer);
+
+	DEBUG(("video_frame_buffer_free: %x",f->buffer)); 
+	/* avoid update of the window with an already deleted bitmap */
+	if (f->vicewindow)
+		f->vicewindow->bitmap = NULL;
+	delete f->bitmap;
 	free(f);
 }
 
@@ -196,14 +206,11 @@ void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
                     unsigned int xi, unsigned int yi,
                     unsigned int w, unsigned int h)
 {
-	int y;
-
-	for (y=0; y<h; y++)
-	{
-		if (yi+y >= 0 && yi+y < c->height)
-			memcpy((PIXEL*)c->vicewindow->bitmap->Bits()
-				+ (yi+y) * c->vicewindow->bitmap->BytesPerRow() + xi,
-				(PIXEL*)f->buffer + (ys+y) * VIDEO_FRAME_BUFFER_LINE_SIZE(f) + xs,w);
+	c->vicewindow->DrawBitmap(f->bitmap,xs,ys,xi,yi,w,h);
+	/* we need a connection from the canvas to his framebuffer for window update */ 
+	if (c->vicewindow->bitmap == NULL) {
+		c->vicewindow->bitmap_offset = BPoint(xs-xi,ys-yi);
+		c->vicewindow->bitmap = f->bitmap;
+		f->vicewindow = c->vicewindow;
 	}
-	c->vicewindow->DrawBitmap();
 }

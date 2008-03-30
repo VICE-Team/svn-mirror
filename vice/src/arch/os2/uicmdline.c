@@ -61,22 +61,21 @@ void ui_cmdline_show_help(int num_options, cmdline_option_t *options)
 
     cmdopt_dialog(HWND_DESKTOP);
 
-    ui_cmdline_textopt=(char*)xcalloc(1,jmax+1);
     ui_cmdline_text   =(char*)xcalloc(1,ui_cmdline_chars+1);
 
     for (i=0; i<num_options; i++)
     {
-        sprintf(ui_cmdline_textopt, "%s %s",
-                options[i].name,
-                (options[i].need_arg && options[i].param_name)?options[i].param_name:"");
-        sprintf(ui_cmdline_text, optFormat, ui_cmdline_textopt,
-                options[i].description);
+        ui_cmdline_textopt = xmsprintf("%s %s", options[i].name,
+                                       (options[i].need_arg && options[i].param_name)?
+                                       options[i].param_name:"");
+        ui_cmdline_text = xmsprintf(optFormat, ui_cmdline_textopt,
+                                    options[i].description);
+        free(ui_cmdline_textopt);
 
         WinSendMsg(hwndCmdopt, WM_INSERT, ui_cmdline_text, 0);
     }
 
     free(ui_cmdline_text);
-    free(ui_cmdline_textopt);
 
     {
         QMSG qmsg;

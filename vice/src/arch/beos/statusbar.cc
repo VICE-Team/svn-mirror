@@ -182,6 +182,9 @@ void ViceStatusbar::DisplayImage(
 {
 	BRect frame;
 	
+	if (drive_num<0)
+		drive_num=2; /* tape image */
+	
 	frame = BRect(220,1+drive_num*13,250,13+drive_num*13);
 	frame.right = Bounds().Width()-5;
 	statusbitmap->Lock();

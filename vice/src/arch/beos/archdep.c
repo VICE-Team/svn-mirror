@@ -216,82 +216,42 @@ int archdep_path_is_relative(const char *path)
 int archdep_spawn(const char *name, char **argv,
                   const char *stdout_redir, const char *stderr_redir)
 {
-}
+    pid_t child_pid;
+    int child_status;
 
-#if 0 // this is from MSDOS
-
-#ifndef _S_IREAD
-#define _S_IREAD S_IREAD
-#endif
-#ifndef _S_IWRITE
-#define _S_IWRITE S_IWRITE
-#endif
-
-    int new_stdout, new_stderr;
-    int old_stdout_mode, old_stderr_mode;
-    int old_stdout, old_stderr;
-    int retval;
-
-    new_stdout = new_stderr = old_stdout = old_stderr = -1;
-
-    /* Make sure we are in binary mode.  */
-    old_stdout_mode = _setmode(STDOUT_FILENO, _O_BINARY);
-    old_stderr_mode = _setmode(STDERR_FILENO, _O_BINARY);
-
-    /* Redirect stdout and stderr as requested, saving the old
-       descriptors.  */
-    if (stdout_redir != NULL) {
-        old_stdout = _dup(STDOUT_FILENO);
-        new_stdout = _open(stdout_redir, _O_WRONLY | _O_TRUNC | _O_CREAT,
-                           _S_IWRITE | _S_IREAD);
-        if (new_stdout == -1) {
-            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
+    child_pid = vfork();
+    if (child_pid < 0) {
+    log_error(LOG_DEFAULT, "vfork() failed: %s.", strerror(errno));
+    return -1;
+    } else if (child_pid == 0) {
+    if (stdout_redir && freopen(stdout_redir, "w", stdout) == NULL) {
+        log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.",
                       stdout_redir, strerror(errno));
-            retval = -1;
-            goto cleanup;
-        }
-        _dup2(new_stdout, STDOUT_FILENO);
+        _exit(-1);
     }
-    if (stderr_redir != NULL) {
-        old_stderr = _dup(STDERR_FILENO);
-        new_stderr = _open(stderr_redir, _O_WRONLY | _O_TRUNC | _O_CREAT,
-                           _S_IWRITE | _S_IREAD);
-        if (new_stderr == -1) {
-            log_error(LOG_DEFAULT, "open(\"%s\") failed: %s.",
-                        stderr_redir, strerror(errno));
-            retval = -1;
-            goto cleanup;
-        }
-        _dup2(new_stderr, STDERR_FILENO);
+    if (stderr_redir && freopen(stderr_redir, "w", stderr) == NULL) {
+        log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.",
+                      stderr_redir, strerror(errno));
+        _exit(-1);
+    }
+    execvp(name, argv);
+    _exit(-1);
     }
 
-    /* Spawn the child process.  */
-    retval = _spawnvp(_P_WAIT, name, argv);
-
-cleanup:
-    if (old_stdout >= 0) {
-        _dup2(old_stdout, STDOUT_FILENO);
-        _close(old_stdout);
+    if (waitpid(child_pid, &child_status, 0) != child_pid) {
+        log_error(LOG_DEFAULT, "waitpid() failed: %s", strerror(errno));
+    return -1;
     }
-    if (old_stderr >= 0) {
-        _dup2(old_stderr, STDERR_FILENO);
-        _close(old_stderr);
-    }
-    if (old_stdout_mode >= 0)
-        _setmode(STDOUT_FILENO, old_stdout_mode);
-    if (old_stderr_mode >= 0)
-        _setmode(STDERR_FILENO, old_stderr_mode);
-    if (new_stdout >= 0)
-        _close(new_stdout);
-    if (new_stderr >= 0)
-        _close(new_stderr);
 
-    return retval;
+    if (WIFEXITED(child_status))
+    return WEXITSTATUS(child_status);
+    else
+    return -1;
+
 }
-#endif
 
 
-/* return malloc´d version of full pathname of orig_name */
+/* return malloced version of full pathname of orig_name */
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
     /*  BeOS version   */
@@ -311,9 +271,7 @@ void archdep_startup_log_error(const char *format, ...)
 
 char *archdep_quote_parameter(const char *name)
 {
-    char *a;
-    a = concat("\"", name, "\"", NULL);
-    return a;
+    return stralloc(name);
 }
 
 char *archdep_filename_parameter(const char *name)
@@ -328,11 +286,5 @@ char *archdep_filename_parameter(const char *name)
 
 char *archdep_tmpnam(void)
 {
-    if (getenv("temp"))
-        return concat(getenv("temp"),tmpnam(NULL),NULL);
-    else if (getenv("tmp"))
-        return concat(getenv("tmp"),tmpnam(NULL),NULL);
-    else
-        return stralloc(tmpnam(NULL));
+    return stralloc(tmpnam(NULL));
 }
-

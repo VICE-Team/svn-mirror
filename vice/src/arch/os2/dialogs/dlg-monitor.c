@@ -108,8 +108,9 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         break;*/
     case WM_INSERT:
         WinLboxInsertItem(hwnd, LB_MONOUT, (char*)mp1);
+        free(mp1);
         WinSendDlgMsg(hwnd, LB_MONOUT, LM_SETTOPINDEX,
-                      WinLboxQueryCount(hwnd, LB_MONOUT),0);
+                      WinLboxQueryCount(hwnd, LB_MONOUT), 0);
         return FALSE;
     case WM_ADJUSTWINDOWPOS:
         {

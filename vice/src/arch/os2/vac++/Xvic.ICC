@@ -22,7 +22,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\screendrv"),
     incl(searchpath, "..\\..\\..\\vicii"),
     incl(searchpath, "..\\..\\..\\..\\..\\zlib"),
-    incl(searchpath, "..\\..\\..\\..\\..\\lpng106"),
+    incl(searchpath, "..\\..\\..\\..\\..\\lpng"),
     incl(searchpathfirst, "yes"),
     define("__XVIC__", ),
     res_rc_options("-i ..\\dialogs -x1 -d __XVIC__")

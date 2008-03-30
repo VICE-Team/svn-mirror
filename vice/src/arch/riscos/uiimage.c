@@ -31,6 +31,7 @@
 
 #include "wimp.h"
 
+#include "attach.h"
 #include "autostart.h"
 #include "imagecontents.h"
 #include "ui.h"
@@ -386,18 +387,14 @@ void ui_image_contents_click(int *block)
     filenum = (filenum - WindowBorder) / LineHeight;
     if ((filenum >= 1) && (filenum <= NumberOfLines))
     {
-      image_contents_file_list_t *file;
-      int i;
-
       force_line_redraw(MarkedLine);
       MarkedLine = filenum;
       force_line_redraw(MarkedLine);
-      file = contents->file_list;
-      for (i=1; (i<filenum) && (file != NULL); i++, file = file->next) ;
+      file_system_detach_disk(8);
       if (image_content_type == IMAGE_CONTENT_DISK)
-        autostart_disk(image_content_file, file->name, 0);
+        autostart_disk(image_content_file, NULL, filenum);
       else if (image_content_type == IMAGE_CONTENT_TAPE)
-        autostart_tape(image_content_file, file->name, 0);
+        autostart_tape(image_content_file, NULL, filenum);
     }
   }
 }

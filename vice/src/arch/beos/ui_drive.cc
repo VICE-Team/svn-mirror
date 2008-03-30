@@ -1,5 +1,5 @@
 /*
- * ui_joystick.cc - Joystick settings
+ * ui_drive.cc - Joystick settings
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>

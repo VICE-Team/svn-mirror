@@ -806,6 +806,11 @@ int i;
     }
 }
 
+/* display the attched tape image */
+void ui_display_tape_current_image(const char *image)
+{
+}
+
 /* Toggle displaying of paused state.  */
 void ui_display_paused(int flag)
 {

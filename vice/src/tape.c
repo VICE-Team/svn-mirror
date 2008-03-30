@@ -51,6 +51,7 @@
 #include "tape.h"
 #include "traps.h"
 #include "types.h"
+#include "uiapi.h"
 #include "utils.h"
 #include "zfile.h"
 
@@ -194,7 +195,8 @@ int tape_detach_image(void)
         /* Gone.  */
         retval = t64_close(attached_t64_tape);
         attached_t64_tape = NULL;
-
+		ui_display_tape_current_image("");
+        
         /* Tape detached: release play button.  */
         datasette_set_tape_sense(0);
 
@@ -208,6 +210,7 @@ int tape_detach_image(void)
         /* Gone.  */
         retval = tap_close(attached_tap_tape);
         attached_tap_tape = NULL;
+		ui_display_tape_current_image("");
         datasette_set_tape_image(NULL);
 
         tape_traps_install();
@@ -232,6 +235,7 @@ int tape_attach_image(const char *name)
     {
         tape_detach_image();
         attached_t64_tape = new_t64_tape;
+		ui_display_tape_current_image(name);
 
         log_message(tape_log, "T64 image '%s' attached.", name);
 
@@ -246,6 +250,7 @@ int tape_attach_image(const char *name)
     {
         tape_detach_image();
         attached_tap_tape = new_tap_tape;
+		ui_display_tape_current_image(name);
 
         datasette_set_tape_image(new_tap_tape);
 

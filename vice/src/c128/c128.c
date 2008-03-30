@@ -467,6 +467,11 @@ void machine_change_timing(int timeval)
         cycles_per_rfsh = C128_NTSC_CYCLES_PER_RFSH;
         rfsh_per_sec = C128_NTSC_RFSH_PER_SEC;
         break;
+      case DRIVE_SYNC_NTSCOLD:
+        cycles_per_sec = C128_NTSCOLD_CYCLES_PER_SEC;
+        cycles_per_rfsh = C128_NTSCOLD_CYCLES_PER_RFSH;
+        rfsh_per_sec = C128_NTSC_OLDRFSH_PER_SEC;
+        break;
       default:
         log_error(c128_log, "Unknown machine timing.");
     }

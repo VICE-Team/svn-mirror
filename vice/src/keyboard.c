@@ -117,3 +117,7 @@ void joystick_set_value_and(unsigned int joyport, BYTE value)
     alarm_set(&joystick_alarm, clk + 1000);
 }
 
+void joystick_clear(unsigned int joyport)
+{
+    latch_joystick_value[joyport] = 0;
+}

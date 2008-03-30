@@ -1315,7 +1315,7 @@ void ui_display_tape_counter(int counter)
 {
 }
 
-void ui_display_tape_current_image(char *image)
+void ui_display_tape_current_image(const char *image)
 {
 }
 

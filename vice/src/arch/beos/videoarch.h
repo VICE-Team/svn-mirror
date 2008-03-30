@@ -57,14 +57,21 @@ typedef struct canvas_s canvas_t;
 /* ------------------------------------------------------------------------- */
 
 typedef struct video_frame_buffer_s {
+    PIXEL   *buffer;
     int     width;
     int     height;
-    PIXEL   *buffer;
-    
+#ifdef EXACT_TYPE_NEEDED
+    BBitmap *bitmap;
+    ViceWindow *vicewindow;
+#else
+    void 	*bitmap;
+    void	*vicewindow;
+#endif
+    int		real_width;		/* differs for widht%8 != 0 */
 } video_frame_buffer_t;
 
-#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->width
-#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->buffer+(n)*(f)->width)
+#define VIDEO_FRAME_BUFFER_LINE_SIZE(f)     (f)->real_width
+#define VIDEO_FRAME_BUFFER_LINE_START(f, n) ((f)->buffer+(n)*(f)->real_width)
 #define VIDEO_FRAME_BUFFER_START(f)         (VIDEO_FRAME_BUFFER_LINE_START(f, 0))
 
 /* ------------------------------------------------------------------------- */

@@ -176,22 +176,20 @@ int kbd_handle_keyup(int kcode)
     return 0;
 }
 
-const char *kbd_code_to_string(kbd_code_t kcode)
+const char *kbd_code_to_string(int kcode)
 {
     static char *tab[256] = {
-        "None", "Esc", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-",
-        "=", "Backspace", "Tab", "Q", "W", "E", "R", "T", "Y", "U", "I", "O",
-        "P", "{", "}", "Enter", "Left Ctrl", "A", "S", "D", "F", "G", "H", "J",
-        "K", "L", ";", "'", "`", "Left Shift", "\\", "Z", "X", "C", "V", "B",
-        "N", "M", ",", ".", "/", "Right Shift", "Numpad *", "Left Alt",
-        "Space", "Caps Lock", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8",
-        "F9", "F10", "Num Lock", "Scroll Lock", "Numpad 7", "Numpad 8",
-        "Numpad 9", "Numpad -", "Numpad 4", "Numpad 5", "Numpad 6",
-        "Numpad +", "Numpad 1", "Numpad 2", "Numpad 3", "Numpad 0",
-        "Numpad .", "SysReq", "85", "86", "F11", "F12", "Home",
-        "Up", "PgUp", "Left", "Right", "End", "Down", "PgDown", "Ins", "Del",
-        "Numpad Enter", "Right Ctrl", "Pause", "PrtScr", "Numpad /",
-        "Right Alt", "Break", "Left Win95", "Right Win95"
+        "<None>", "Esc", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", 
+        "F11", "F12", "PrtScr", "Scroll Lock", "16", "^", "1", "2", "3", "4",
+        "5", "6", "7", "8", "9", "0", "-", "=", "Backspace", "Ins", "Home",
+        "PgUp", "Num Lock", "Numpad /", "Numpad *", "Numpad -", "Tab", "Q", "W", "E", "R", 
+        "T", "Y", "U", "I", "O", "P", "{", "}", "\\", "Del", "End",
+        "PgDown", "Numpad 7", "Numpad 8", "Numpad 9", "Numpad +", "Caps Lock", "A", "S", "D", "F",
+        "G", "H", "J", "K", "L", ";", "'", "Enter", "Numpad 4", "Numpad 5", "Numpad 6",
+        "Left Shift", "Z", "X", "C", "V", "B", "N", "M", ",", ".", "/", 
+        "Right Shift", "Up", "Numpad 1", "Numpad 2", "Numpad 3", "Numpad Enter", "Left Ctrl", "Left ALt",
+        "Space", "Right Alt", "Right Ctrl", "Left", "Down", "Right", "Numpad 0", "Numpad Dot",
+        "Left Win95", "Right Win95", "Break"
     };
 
     return tab[(int) kcode];

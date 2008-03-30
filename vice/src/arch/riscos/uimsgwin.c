@@ -207,7 +207,7 @@ static int ui_message_window_is_flag(message_window_e mwin, int flag)
 }
 
 
-static textwin_event_handler MsgCloseEvents[msg_win_number] = {
+static textwin_event_handler_func MsgCloseEvents[msg_win_number] = {
   mon_close_event,
   msgwin_close_license,
   msgwin_close_warranty,
