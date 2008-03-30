@@ -38,7 +38,7 @@
 
 #include "log.h"
 #include "utils.h"
-#include "drive.h"            // DRIVE_SYNC_PAL
+#include "machine.h"            // MACHINE_SYNC_PAL
 #include "resources.h"
 #include "snippets\pmwin2.h"  // Win*Spin
 
@@ -143,13 +143,13 @@ void vsid_ui_display_sync(int sync)
     char *txt;
     switch (sync)
     {
-    case DRIVE_SYNC_PAL:
+    case MACHINE_SYNC_PAL:
         txt = "Synchronization: PAL";
         break;
-    case DRIVE_SYNC_NTSC:
+    case MACHINE_SYNC_NTSC:
         txt =  "Synchronization: NTSC";
         break;
-    case DRIVE_SYNC_NTSCOLD:
+    case MACHINE_SYNC_NTSCOLD:
         txt =  "Synchronization: NTSC (old)";
         break;
     }
