@@ -595,7 +595,7 @@ vic_ii_update_memory_ptrs (unsigned int cycle)
 
   if (ultimax != 0)
     char_base = ((tmp & 0x3fff) >= 0x3000
-                 ? romh_banks + (romh_bank << 13) + (tmp & 0x7ff) + 0x1000
+                 ? romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000
                  : vic_ii.ram_base + tmp);
 
   tmp = VIC_II_RASTER_CHAR (cycle);
