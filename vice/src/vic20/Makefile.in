@@ -361,17 +361,17 @@ vic-mem.o: vic-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h vic-mem.h
 vic-resources.o: vic-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/utils.h ../../src/arch/unix/types.h vic.h \
+	../../src/resources.h ../../src/utils.h \
+	../../src/arch/unix/types.h vic-resources.h vic.h \
 	../../src/alarm.h ../../src/log.h ../../src/snapshot.h vic20.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/resources.h ../../src/raster/raster.h \
-	../../src/raster/raster-cache.h \
+	../../src/raster/raster.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-changes.h \
 	../../src/raster/raster-modes.h \
 	../../src/raster/raster-sprite-status.h \
-	../../src/raster/raster-sprite.h vic-mem.h vic-resources.h
+	../../src/raster/raster-sprite.h vic-mem.h
 vic-snapshot.o: vic-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
 	../../src/arch/unix/types.h ../../src/snapshot.h \
