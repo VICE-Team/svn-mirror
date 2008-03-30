@@ -52,7 +52,6 @@
 #include "cartridge.h"
 #include "ciatimer.h"
 #include "clkguard.h"
-#include "console.h"
 #include "datasette.h"
 #include "debug.h"
 #include "drive-cmdline-options.h"
@@ -524,7 +523,7 @@ void machine_powerup(void)
     maincpu_trigger_reset();
 }
 
-void machine_shutdown(void)
+void machine_specific_shutdown(void)
 {
     /* Detach all disks.  */
     file_system_detach_disk_shutdown();
@@ -532,14 +531,9 @@ void machine_shutdown(void)
     /* and the tape */
     tape_image_detach(1);
 
-    /* printer */
-    printer_shutdown();
-
-    console_close_all();
-
     /* close the video chip(s) */
-    vicii_free();
-    vdc_free();
+    vicii_shutdown();
+    vdc_shutdown();
 
     reu_shutdown();
 }

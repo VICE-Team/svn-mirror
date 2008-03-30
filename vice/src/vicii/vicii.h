@@ -55,7 +55,7 @@ extern void vicii_reset_registers(void);
 extern void vicii_update_memory_ptrs_external(void);
 extern void vicii_handle_pending_alarms_external(int num_write_cycles);
 extern void vicii_screenshot(struct screenshot_s *screenshot);
-extern void vicii_free(void);
+extern void vicii_shutdown(void);
 extern void vicii_change_timing(struct machine_timing_s *machine_timing);
 
 extern int vicii_snapshot_write_module(struct snapshot_s *s);

@@ -29,8 +29,6 @@
 #ifndef _VDC_H
 #define _VDC_H
 
-#include "vice.h"
-
 struct snapshot_s;
 struct screenshot_s;
 struct canvas_refresh_s;
@@ -51,7 +49,7 @@ extern int vdc_write_snapshot_module(struct snapshot_s *s);
 extern int vdc_read_snapshot_module(struct snapshot_s *s);
 
 extern void vdc_set_canvas_refresh(int enable);
-extern void vdc_free (void);
+extern void vdc_shutdown(void);
 
 #endif
 

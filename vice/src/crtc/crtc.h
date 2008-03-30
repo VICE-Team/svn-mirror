@@ -63,7 +63,7 @@ extern void crtc_set_retrace_type(int type);
 extern void crtc_enable_hw_screen_blank(int enable);
 extern void crtc_screenshot(struct screenshot_s *screenshot);
 extern void crtc_async_refresh(struct canvas_refresh_s *refresh);
-extern void crtc_free(void);
+extern void crtc_shutdown(void);
 
 extern void crtc_screen_enable(int);
 

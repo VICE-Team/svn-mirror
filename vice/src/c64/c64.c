@@ -50,7 +50,6 @@
 #include "cartridge.h"
 #include "ciatimer.h"
 #include "clkguard.h"
-#include "console.h"
 #include "datasette.h"
 #include "debug.h"
 #include "drive-cmdline-options.h"
@@ -473,7 +472,7 @@ void machine_powerup(void)
     maincpu_trigger_reset();
 }
 
-void machine_shutdown(void)
+void machine_specific_shutdown(void)
 {
     /* Detach all disks.  */
     if (!vsid_mode) {
@@ -486,13 +485,8 @@ void machine_shutdown(void)
     /* and cartridge */
     cartridge_detach_image();
 
-    /* printer */
-    printer_shutdown();
-
-    console_close_all();
-
     /* close the video chip(s) */
-    vicii_free();
+    vicii_shutdown();
 
     reu_shutdown();
 

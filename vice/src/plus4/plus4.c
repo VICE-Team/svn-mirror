@@ -33,7 +33,6 @@
 #include "attach.h"
 #include "autostart.h"
 #include "clkguard.h"
-#include "console.h"
 #include "datasette.h"
 #include "debug.h"
 #include "drive-cmdline-options.h"
@@ -384,18 +383,13 @@ void machine_powerup(void)
     maincpu_trigger_reset();
 }
 
-void machine_shutdown(void)
+void machine_specific_shutdown(void)
 {
     file_system_detach_disk_shutdown();
 
     tape_image_detach(1);
 
-    /* printer */
-    printer_shutdown();
-
-    console_close_all();
-
-    ted_free();
+    ted_shutdown();
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

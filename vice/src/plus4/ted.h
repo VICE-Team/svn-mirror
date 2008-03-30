@@ -46,7 +46,7 @@ extern void ted_reset_registers(void);
 extern void ted_handle_pending_alarms(int num_write_cycles);
 extern void ted_screenshot(struct screenshot_s *screenshot);
 extern void ted_async_refresh(struct canvas_refresh_s *r);
-extern void ted_free(void);
+extern void ted_shutdown(void);
 extern void ted_change_timing(void);
 
 extern int ted_snapshot_write_module(struct snapshot_s *s);
