@@ -79,7 +79,8 @@ static int acia_set_device(resource_value_t v, void *param)
         log_error(acia_log,
                   "Device open, change effective only after close!");
     }
-    acia_device = (int) v;
+
+    acia_device = (int)v;
     return 0;
 }
 
