@@ -83,6 +83,9 @@
 /* Does libXext have XShmPutImage?  */
 #undef HAVE_XSHMPUTIMAGE
 
+/* Is libXpm available?  */
+#undef HAVE_LIBXPM
+
 /* Are we using the `readline' library or one replacement?  */
 #undef HAVE_READLINE
 
@@ -196,27 +199,6 @@
 
 /* Define if you have the UMSobj library (-lUMSobj).  */
 #undef HAVE_LIBUMSOBJ
-
-/* Define if you have the X11 library (-lX11).  */
-#undef HAVE_LIBX11
-
-/* Define if you have the Xaw library (-lXaw).  */
-#undef HAVE_LIBXAW
-
-/* Define if you have the Xaw3d library (-lXaw3d).  */
-#undef HAVE_LIBXAW3D
-
-/* Define if you have the Xext library (-lXext).  */
-#undef HAVE_LIBXEXT
-
-/* Define if you have the Xmu library (-lXmu).  */
-#undef HAVE_LIBXMU
-
-/* Define if you have the Xpm library (-lXpm).  */
-#undef HAVE_LIBXPM
-
-/* Define if you have the Xt library (-lXt).  */
-#undef HAVE_LIBXT
 
 /* Define if you have the audio library (-laudio).  */
 #undef HAVE_LIBAUDIO
