@@ -309,7 +309,7 @@ drivemem.o: drivemem.c ../../src/vice.h ../../src/config.h ciad.h \
 	../../src/arch/unix/types.h drive.h ../../src/log.h \
 	drivetypes.h ../../src/alarm.h ../../src/ciatimer.h \
 	../../src/snapshot.h ../../src/clkguard.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/mos6510.h fdc.h \
+	../../src/6510core.h ../../src/mos6510.h fdc.h ../../src/mem.h \
 	../../src/monitor/mon.h riotd.h ../../src/utils.h viad.h \
 	wd1770.h
 fdc.o: fdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \

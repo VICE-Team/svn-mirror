@@ -1,3 +1,37 @@
+2001-05-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.31.
+
+	* monitor/mon_register6502.c, monitor/mon_registerz80.c
+	(mon_register_list_get, mon_register_list_set): New functions.
+
+	* monitor/mon_breakpoint.c, monitor/mon_breakpoint.h,
+	monitor/mon.c, monitor/mon.h, monitor/mon_parse.y: Use
+	standard structure names.
+
+	* c128/c128mem.c: Added function ROM, C64 ROM and cart monitor
+	access.
+
+	* mem.h, c64/c64mem.c, c128/c128mem.c, vic20/vic20mem.c,
+	pet/petmem.c, cbm2/c610mem.c (mem_ioreg_list_get): New
+	function.
+
+	* drive/drivemem.c, drive/drivemem.h (drive_ioreg_list_get):
+	New function.
+
+	* monitor/mon.c, monitor/mon.h, maincpu.c, drive/drivecpu.c:
+	Added support for accessing IO through the monitor interface.
+
+	* monitor/asmz80.c, monitor/mon_assemblez80.c,
+	monitor/mon_lex.l: Added more opcodes.
+
+2001-05-21  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/monitor.dsp: added missing files
+
+	* arch/win32/uimon.c: added define for mon_get_reg_val()
+	as temporary fix
+
 2001-05-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.30.
