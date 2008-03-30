@@ -4,6 +4,9 @@
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
  *
+ * Patches by
+ *  André Fachat     (a.fachat@physik.tu-chemnitz.de)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -59,7 +62,7 @@ static int head_idx;
 /* Number of pending characters.  */
 static int num_pending;
 
-/* flag if we are initialized already... */
+/* Flag if we are initialized already.  */
 static int kbd_buf_enabled = 0;
 
 /* ------------------------------------------------------------------------- */
@@ -73,7 +76,11 @@ int kbd_buf_init(int location, int plocation, int size,
     buffer_size = size;
     kernal_init_cycles = mincycles;
 
-    kbd_buf_enabled = 1;
+    if (mincycles) {
+        kbd_buf_enabled = 1;
+    } else {
+        kbd_buf_enabled = 0;
+    }
 
     return 0;
 }
@@ -107,9 +114,9 @@ void kbd_buf_flush(void)
     BYTE *p;
     int i, n;
 
-    if ( (!kbd_buf_enabled) 
-	  || num_pending == 0 
-	  || clk < kernal_init_cycles 
+    if ( (!kbd_buf_enabled)
+	  || num_pending == 0
+	  || clk < kernal_init_cycles
 	  || !kbd_buf_is_empty())
 	return;
 

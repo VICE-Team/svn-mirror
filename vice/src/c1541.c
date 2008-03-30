@@ -463,8 +463,8 @@ static int  disk_gcrformat (void)
     gcr_header[10] = 7928 % 256;
     gcr_header[11] = 7928 / 256;
 
-    if (write(fd, (char *)gcr_header, sizeof(gcr_header)) !=
-						sizeof(gcr_header)) {
+    if (write(fd, (char *)gcr_header, sizeof(gcr_header))
+        != sizeof(gcr_header)) {
 	printf("Cannot write header.\n");
 	close(fd);
 	return 0;
@@ -477,15 +477,13 @@ static int  disk_gcrformat (void)
 	gcr_speed_p[track * 2 + 1] = 0;
     }
 
-    if (write(fd, (char *)gcr_track_p, sizeof(gcr_track_p)) != 
-						sizeof(gcr_track_p)) {
+    if (write_dword(fd, gcr_track_p, sizeof(gcr_track_p)) < 0) {
 	printf("Cannot write track header.\n");
 	close(fd);
 	return 0;
     }
 
-    if (write(fd, (char *)gcr_speed_p, sizeof(gcr_speed_p)) !=
-						sizeof(gcr_speed_p)) {
+    if (write_dword(fd, gcr_speed_p, sizeof(gcr_speed_p)) < 0) {
 	printf("Cannot write speed header.\n");
 	close(fd);
 	return 0;
@@ -532,8 +530,8 @@ static int  disk_gcrformat (void)
 	    gcrptr += 360;
 	}
 
-	if(write(fd, (char *)gcr_track, sizeof(gcr_track)) != 
-						sizeof(gcr_track)) {
+	if (write(fd, (char *)gcr_track, sizeof(gcr_track))
+            != sizeof(gcr_track)) {
 	    printf("Cannot write track data.\n");
 	    close(fd);
 	    return 0;
@@ -1410,7 +1408,7 @@ static int  disk_extract(void)
 		BYTE name[17];
 		BYTE *l= memccpy(name,entry->FileName,0xa0,16);
 
-		if(l) {
+		if (l) {
 		    *(l - 1)= 0;	/* terminate by 0 */
 		    len= l - 1 - name;
 		} else {
@@ -1428,7 +1426,7 @@ static int  disk_extract(void)
 		    continue;
 		}
 
-		if(!(fd= fopen(name,"wb"))) {
+		if (!(fd= fopen(name,"wb"))) {
 		    perror("Couldn't open unix file");
 		    close_1541(floppy,0);
 		    continue;
@@ -1439,7 +1437,7 @@ static int  disk_extract(void)
 
 		close_1541(floppy,0);
 
-		if(fclose(fd)) {
+		if (fclose(fd)) {
 		    perror("fclose");
 		    return FD_RDERR;
 		}

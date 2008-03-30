@@ -41,7 +41,7 @@
 #include "kbdbuf.h"
 #include "sid.h"
 #include "reu.h"
-#include "tpi.h"
+#include "c64tpi.h"
 #include "true1541.h"
 #include "1541cpu.h"
 #include "traps.h"
@@ -77,39 +77,39 @@ const char machine_name[] = "C64";
 /* Serial traps.  */
 static trap_t c64_serial_traps[] = {
     {
-	"SerialListen",
-	0xED24,
+        "SerialListen",
+        0xED24,
         0xEDAB,
-	{0x20, 0x97, 0xEE},
-	serialattention
+        {0x20, 0x97, 0xEE},
+        serialattention
     },
     {
-	"SerialSaListen",
-	0xED36,
+        "SerialSaListen",
+        0xED36,
         0xEDAB,
-	{0x78, 0x20, 0x8E},
-	serialattention
+        {0x78, 0x20, 0x8E},
+        serialattention
     },
     {
-	"SerialSendByte",
-	0xED40,
+        "SerialSendByte",
+        0xED40,
         0xEDAB,
-	{0x78, 0x20, 0x97},
-	serialsendbyte
+        {0x78, 0x20, 0x97},
+        serialsendbyte
     },
     {
-	"SerialReceiveByte",
-	0xEE13,
+        "SerialReceiveByte",
+        0xEE13,
         0xEDAB,
-	{0x78, 0xA9, 0x00},
-	serialreceivebyte
+        {0x78, 0xA9, 0x00},
+        serialreceivebyte
     },
     {
-	"SerialReady",
-	0xEEA9,
+        "SerialReady",
+        0xEEA9,
         0xEDAB,
-	{0xAD, 0x00, 0xDD},
-	trap_serial_ready
+        {0xAD, 0x00, 0xDD},
+        trap_serial_ready
     },
 
     {
@@ -124,25 +124,25 @@ static trap_t c64_serial_traps[] = {
 /* Tape traps.  */
 static trap_t c64_tape_traps[] = {
     {
-	"FindHeader",
-	0xF72F,
+        "FindHeader",
+        0xF72F,
         0xF732,
-	{0x20, 0x41, 0xF8},
-	findheader
+        {0x20, 0x41, 0xF8},
+        findheader
     },
     {
-	"WriteHeader",
-	0xF7BE,
+        "WriteHeader",
+        0xF7BE,
         0xF7C1,
-	{0x20, 0x6B, 0xF8},
-	writeheader
+        {0x20, 0x6B, 0xF8},
+        writeheader
     },
     {
-	"TapeReceive",
-	0xF8A1,
+        "TapeReceive",
+        0xF8A1,
         0xFC93,
-	{0x20, 0xBD, 0xFC},
-	tapereceive
+        {0x20, 0xBD, 0xFC},
+        tapereceive
     },
     {
         NULL,
@@ -169,12 +169,12 @@ int machine_init_resources(void)
 #ifdef HAVE_RS232
         || acia1_init_resources() < 0
         || rs232_init_resources() < 0
-	|| rsuser_init_resources() < 0
+        || rsuser_init_resources() < 0
 #endif
 #ifdef HAVE_PRINTER
-	|| print_init_resources() < 0
-	|| prdevice_init_resources() < 0
-	|| pruser_init_resources() < 0
+        || print_init_resources() < 0
+        || prdevice_init_resources() < 0
+        || pruser_init_resources() < 0
 #endif
         || kbd_init_resources() < 0
         || true1541_init_resources() < 0)
@@ -199,9 +199,9 @@ int machine_init_cmdline_options(void)
         || rsuser_init_cmdline_options() < 0
 #endif
 #ifdef HAVE_PRINTER
-	|| print_init_cmdline_options() < 0
-	|| prdevice_init_cmdline_options() < 0
-	|| pruser_init_cmdline_options() < 0
+        || print_init_cmdline_options() < 0
+        || prdevice_init_cmdline_options() < 0
+        || pruser_init_cmdline_options() < 0
 #endif
         || kbd_init_cmdline_options() < 0
         || true1541_init_cmdline_options() < 0)
@@ -214,7 +214,7 @@ int machine_init_cmdline_options(void)
 int machine_init(void)
 {
     if (mem_load() < 0)
-	return -1;
+        return -1;
 
     printf("\nInitializing Serial Bus...\n");
 
@@ -242,14 +242,14 @@ int machine_init(void)
 
     /* Initialize the tape emulation.  */
     tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, c64_tape_traps,
-	0x277, 0xc6);
+              0x277, 0xc6);
 
     /* Fire up the hardware-level 1541 emulation.  */
     true1541_init(C64_PAL_CYCLES_PER_SEC, C64_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
     autostart_init(3 * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH, 1,
-	0xcc, 0xd1, 0xd3, 0xd5);
+                   0xcc, 0xd1, 0xd3, 0xd5);
 
     /* Initialize the VIC-II emulation.  */
     if (vic_ii_init() == NULL)
@@ -258,7 +258,7 @@ int machine_init(void)
     /* Initialize the keyboard.  */
     /* FIXME */
 #ifndef __MSDOS__
-    if (kbd_init(/* "default.vkm" */) < 0)
+    if (kbd_init( /* "default.vkm" */ ) < 0)
         return -1;
 #else
     if (c64_kbd_init() < 0)
@@ -319,7 +319,7 @@ void machine_reset(void)
     print_reset();
 #endif
 
-    /* reset_reu(); */                /* FIXME */
+    /* reset_reu(); *//* FIXME */
 
     autostart_reset();
 
@@ -331,7 +331,7 @@ void machine_shutdown(void)
 #if 0                           /* FIXME */
     /* Detach REU.  */
     if (app_resources.reu)
-	close_reu(app_resources.reuName);
+        close_reu(app_resources.reuName);
 #endif
 
     /* Detach all devices.  */
@@ -354,13 +354,12 @@ static void vsync_hook(void)
        nuts.  */
     sub = maincpu_prevent_clk_overflow(C64_PAL_CYCLES_PER_RFSH);
     if (sub > 0) {
-	vic_ii_prevent_clk_overflow(sub);
-	cia1_prevent_clk_overflow(sub);
-	cia2_prevent_clk_overflow(sub);
+        vic_ii_prevent_clk_overflow(sub);
+        cia1_prevent_clk_overflow(sub);
+        cia2_prevent_clk_overflow(sub);
         sound_prevent_clk_overflow(sub);
         vsync_prevent_clk_overflow(sub);
     }
-
     /* The 1541 has to deal both with our overflowing and its own one, so it
        is called even when there is no overflowing in the main CPU.  */
     true1541_prevent_clk_overflow(sub);
@@ -368,4 +367,10 @@ static void vsync_hook(void)
 #ifdef HAS_JOYSTICK
     joystick();
 #endif
+}
+
+int machine_set_restore_key(int v)
+{
+    maincpu_set_nmi(I_RESTORE, v ? 1 : 0);
+    return 1;
 }
