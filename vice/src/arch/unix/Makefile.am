@@ -81,6 +81,8 @@ libarch_a_SOURCES = \
 	uijoystick2.h \
 	uikeyboard.c \
 	uikeyboard.h \
+	uilib.c \
+	uilib.h \
 	uimenu.h \
 	uimon.c \
 	uipalemu.c \
@@ -113,6 +115,8 @@ libarch_a_SOURCES = \
 	uisound.h \
 	uited.c \
 	uited.h \
+	uitfe.c \
+	uitfe.h \
 	uivdc.c \
 	uivdc.h \
 	uivic.c \
