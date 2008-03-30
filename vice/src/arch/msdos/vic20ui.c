@@ -79,7 +79,7 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
             fname_split(s, &directory, &default_item);
 
         name = tui_file_selector("Attach cartridge image",
-                                 directory, "*", default_item, NULL);
+                                 directory, "*", default_item, NULL, NULL);
         if (name != NULL
             && (s == NULL || strcasecmp(name, s) != 0)
             && cartridge_attach_image(type, name) < 0)
