@@ -7,8 +7,12 @@ These are the most important known problems with VICE 1.5:
 - In the C128 emulation VIC-II and VDC palette can not coexist
   currently in some ports.
 
-- The Z80 emulation is not complete.  Some CP/M applications may not
-  work.
+- The Z80 emulation is not complete.  Some CP/M applications and ZP/M
+  may not work.
+
+- The German translation doesn't work properly under
+  Solaris/gettext. The menus are just partially filled, other entries
+  are blanked and some are wrong.
 
 - The custom TextField widget is buggy and can cause crashes on
   DEC/Alpha machines, and possibly on other systems too.  If you get
