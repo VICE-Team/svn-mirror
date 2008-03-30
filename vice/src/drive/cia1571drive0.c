@@ -1381,6 +1381,11 @@ printf("CIA1571D0: write cia1571d0int=%02x, cia1571d0ier=%02x\n", cia1571d0int, 
     snapshot_module_write_dword(m, (drive0_int_status.alarm_clk[A_CIA1571D0TOD]
                                     - drive_clk[0]));
 
+    snapshot_module_write_byte(m, (get_int(&drive0_int_status, I_CIA1571D0FL)
+                                   ? 0xff : 0x00));
+    snapshot_module_write_byte(m, (get_int(&drive0_int_status, I_CIA1571D0TOD)
+                                   ? 0xff : 0x00));
+
     snapshot_module_close(m);
 
     return 0;
@@ -1466,13 +1471,6 @@ int cia1571d0_read_snapshot_module(snapshot_t *p)
 
 #ifdef CIA1571D0_DUMP_DEBUG
 printf("CIA1571D0: read cia1571d0int=%02x, cia1571d0ier=%02x\n", cia1571d0int, cia1571d0ier);
-#endif
-#if 0
-    if(cia1571d0int & cia1571d0ier & 0x7f) {
-	my_set_int(I_CIA1571D0FL, IK_IRQ, drive_clk[0]);
-    } else {
-	my_set_int(I_CIA1571D0FL, 0, drive_clk[0]);
-    }
 #endif
 
     snapshot_module_read_byte(m, &byte);
@@ -1560,6 +1558,13 @@ printf("CIA1571D0: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",drive_clk[0], c
 printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia1571d0_tai, cia1571d0_tau, cia1571d0_tac, cia1571d0_tal);
 printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1571d0_tbi, cia1571d0_tbu, cia1571d0_tbc, cia1571d0_tbl);
 #endif
+
+    snapshot_module_read_byte(m, &byte);
+    if (byte)
+        set_int_noclk(&drive0_int_status, I_CIA1571D0FL, IK_IRQ);
+    snapshot_module_read_byte(m, &byte);
+    if (byte)
+        set_int_noclk(&drive0_int_status, I_CIA1571D0TOD, IK_IRQ);
 
     if (snapshot_module_close(m) < 0)
         return -1;

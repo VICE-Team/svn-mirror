@@ -1361,6 +1361,11 @@ printf("MYCIA: write myciaint=%02x, myciaier=%02x\n", myciaint, myciaier);
     snapshot_module_write_dword(m, (mycpu_int_status.alarm_clk[A_MYCIATOD]
                                     - myclk));
 
+    snapshot_module_write_byte(m, (get_int(&mycpu_int_status, I_MYCIAFL)
+                                   ? 0xff : 0x00));
+    snapshot_module_write_byte(m, (get_int(&mycpu_int_status, I_MYCIATOD)
+                                   ? 0xff : 0x00));
+
     snapshot_module_close(m);
 
     return 0;
@@ -1445,13 +1450,6 @@ int mycia_read_snapshot_module(snapshot_t *p)
 
 #ifdef MYCIA_DUMP_DEBUG
 printf("MYCIA: read myciaint=%02x, myciaier=%02x\n", myciaint, myciaier);
-#endif
-#if 0
-    if(myciaint & myciaier & 0x7f) {
-	my_set_int(I_MYCIAFL, MYCIA_INT, myclk);
-    } else {
-	my_set_int(I_MYCIAFL, 0, myclk);
-    }
 #endif
 
     snapshot_module_read_byte(m, &byte);
@@ -1539,6 +1537,13 @@ printf("MYCIA: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",myclk, mycia[CIA_CR
 printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",mycia_tai, mycia_tau, mycia_tac, mycia_tal);
 printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",mycia_tbi, mycia_tbu, mycia_tbc, mycia_tbl);
 #endif
+
+    snapshot_module_read_byte(m, &byte);
+    if (byte)
+        set_int_noclk(&mycpu_int_status, I_MYCIAFL, MYCIA_INT);
+    snapshot_module_read_byte(m, &byte);
+    if (byte)
+        set_int_noclk(&mycpu_int_status, I_MYCIATOD, MYCIA_INT);
 
     if (snapshot_module_close(m) < 0)
         return -1;

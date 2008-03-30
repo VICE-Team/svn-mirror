@@ -461,6 +461,14 @@ extern int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m);
 extern int interrupt_write_snapshot(cpu_int_status_t *cs,
                                     snapshot_module_t *m);
 
+extern void set_irq_noclk(cpu_int_status_t *cs, int int_num, int value);
+extern void set_nmi_noclk(cpu_int_status_t *cs, int int_num, int value);
+extern void set_int_noclk(cpu_int_status_t *cs, int int_num,
+                          enum cpu_int value);
+extern int get_irq(cpu_int_status_t *cs, int int_num);
+extern int get_nmi(cpu_int_status_t *cs, int int_num);
+extern enum cpu_int get_int(cpu_int_status_t *cs, int int_num);
+
 /* ------------------------------------------------------------------------- */
 
 extern cpu_int_status_t maincpu_int_status;

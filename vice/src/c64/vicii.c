@@ -3813,10 +3813,10 @@ int vic_ii_write_snapshot_module(snapshot_t *s)
             goto fail;
     }
 
-   if (0
-       || snapshot_module_write_dword(m, vic_ii_fetch_clk - clk) < 0 /* FetchEventTick */
-       || snapshot_module_write_byte(m, fetch_idx) < 0 /* FetchEventType */
-       )
+    if (0
+        || snapshot_module_write_dword(m, vic_ii_fetch_clk - clk) < 0 /* FetchEventTick */
+        || snapshot_module_write_byte(m, fetch_idx) < 0 /* FetchEventType */
+        )
         goto fail;
 
     return snapshot_module_close(m);
@@ -4039,6 +4039,9 @@ int vic_ii_read_snapshot_module(snapshot_t *s)
         fetch_idx = b;
         maincpu_set_alarm_clk(A_RASTERFETCH, vic_ii_fetch_clk);
     }
+
+    if (videoint & 0x80)
+        set_int_noclk(&maincpu_int_status, I_RASTER, 1);
 
     force_repaint();
     return 0;

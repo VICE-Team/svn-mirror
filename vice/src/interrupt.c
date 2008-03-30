@@ -84,14 +84,85 @@ CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk, CLOCK baseval)
 
 /* ------------------------------------------------------------------------- */
 
+/* These functions are used by snaphots only: they update the IRQ/NMI line
+   value, but do not update the variables used to emulate the timing.  This
+   is necessary to allow the chip modules to dump their own IRQ/NMI status
+   information; the global timing status is stored in the CPU module (see
+   `interrupt_write_snapshot()' and `interrupt_read_snapshot()'). */
+
+void set_irq_noclk(cpu_int_status_t *cs, int int_num, int value)
+{
+    if (value) {
+	if (!(cs->pending_int[int_num] & IK_IRQ)) {
+	    cs->nirq++;
+	    cs->global_pending_int |= IK_IRQ;
+	    cs->pending_int[int_num] |= IK_IRQ;
+	}
+    } else {
+	if (cs->pending_int[int_num] & IK_IRQ) {
+	    if (cs->nirq > 0) {
+		cs->pending_int[int_num] &= ~IK_IRQ;
+ 		if (--cs->nirq == 0)
+		    cs->global_pending_int &= ~IK_IRQ;
+	    }
+	}
+    }
+}
+
+void set_nmi_noclk(cpu_int_status_t *cs, int int_num, int value)
+{
+    if (value) {
+	if (!(cs->pending_int[int_num] & IK_NMI)) {
+	    if (cs->nnmi == 0 && !(cs->global_pending_int & IK_NMI))
+		cs->global_pending_int |= IK_NMI;
+	    cs->nnmi++;
+	    cs->pending_int[int_num] |= IK_NMI;
+	}
+    } else {
+	if (cs->pending_int[int_num] & IK_NMI) {
+	    if (cs->nnmi > 0) {
+		cs->nnmi--;
+		cs->pending_int[int_num] &= ~IK_NMI;
+		if (clk == cs->nmi_clk)
+		    cs->global_pending_int &= ~IK_NMI;
+	    }
+	}
+    }
+}
+
+void set_int_noclk(cpu_int_status_t *cs, int int_num, enum cpu_int value)
+{
+    set_nmi(cs, int_num, value & IK_NMI, clk);
+    set_irq(cs, int_num, value & IK_IRQ, clk);
+}
+
+int get_irq(cpu_int_status_t *cs, int int_num)
+{
+    return cs->pending_int[int_num] & IK_IRQ;
+}
+
+int get_nmi(cpu_int_status_t *cs, int int_num)
+{
+    return cs->pending_int[int_num] & IK_NMI;
+}
+
+enum cpu_int get_int(cpu_int_status_t *cs, int int_num)
+{
+    return cs->pending_int[int_num];
+}
+
+/* ------------------------------------------------------------------------- */
+
 int interrupt_write_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
 {
     int i;
 
+#if 0
     for (i = 0; i < cs->num_ints; i++) {
         if (snapshot_module_write_byte(m, cs->pending_int[i]) < 0)
             return -1;
     }
+#endif
 
     /* FIXME: could we avoid some of this info?  */
     if (snapshot_module_write_dword(m, cs->irq_clk) < 0
@@ -118,6 +189,7 @@ int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
     cs->global_pending_int = IK_NONE;
     cs->nirq = cs->nnmi = cs->reset = cs->trap = 0;
 
+#if 0
     for (i = 0; i < cs->num_ints; i++) {
         BYTE b;
 
@@ -129,6 +201,7 @@ int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
            from the snapshot.  */
         set_int(cs, i, b, (CLOCK) 0);
     }
+#endif
 
     if (snapshot_module_read_dword(m, &cs->irq_clk) < 0
         || snapshot_module_read_dword(m, &cs->nmi_clk) < 0)

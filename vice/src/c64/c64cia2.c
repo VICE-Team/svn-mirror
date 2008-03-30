@@ -1445,6 +1445,11 @@ printf("CIA2: write cia2int=%02x, cia2ier=%02x\n", cia2int, cia2ier);
     snapshot_module_write_dword(m, (maincpu_int_status.alarm_clk[A_CIA2TOD]
                                     - clk));
 
+    snapshot_module_write_byte(m, (get_int(&maincpu_int_status, I_CIA2FL)
+                                   ? 0xff : 0x00));
+    snapshot_module_write_byte(m, (get_int(&maincpu_int_status, I_CIA2TOD)
+                                   ? 0xff : 0x00));
+
     snapshot_module_close(m);
 
     return 0;
@@ -1546,13 +1551,6 @@ int cia2_read_snapshot_module(snapshot_t *p)
 #ifdef CIA2_DUMP_DEBUG
 printf("CIA2: read cia2int=%02x, cia2ier=%02x\n", cia2int, cia2ier);
 #endif
-#if 0
-    if(cia2int & cia2ier & 0x7f) {
-	my_set_int(I_CIA2FL, IK_NMI, clk);
-    } else {
-	my_set_int(I_CIA2FL, 0, clk);
-    }
-#endif
 
     snapshot_module_read_byte(m, &byte);
     cia2_tat = (byte & 0x40) ? 1 : 0;
@@ -1639,6 +1637,13 @@ printf("CIA2: clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d\n",clk, cia2[CIA_CRA], 
 printf("tai=%d, tau=%d, tac=%04x, tal=%04x\n",cia2_tai, cia2_tau, cia2_tac, cia2_tal);
 printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia2_tbi, cia2_tbu, cia2_tbc, cia2_tbl);
 #endif
+
+    snapshot_module_read_byte(m, &byte);
+    if (byte)
+        set_int_noclk(&maincpu_int_status, I_CIA2FL, IK_NMI);
+    snapshot_module_read_byte(m, &byte);
+    if (byte)
+        set_int_noclk(&maincpu_int_status, I_CIA2TOD, IK_NMI);
 
     if (snapshot_module_close(m) < 0)
         return -1;

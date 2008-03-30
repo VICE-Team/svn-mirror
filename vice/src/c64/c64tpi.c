@@ -230,7 +230,7 @@ void store_tpi ( ADDRESS addr, BYTE byte ) {
 	        }
 	    } else {
 	        byte = tpi[TPI_PC] | tpi[TPI_DDPC];
-
+	        
 		oldpc = byte;
 	    }
 	    return;
@@ -395,7 +395,7 @@ void tpi_set_int(int bit, int state)
  */
 
 /* FIXME!!!  Error check.  */
-int tpi_write_snapshot_module(snapshot_t * p)
+int tpi_write_snapshot_module(snapshot_t *p)
 {
     snapshot_module_t *m;
     int byte;
@@ -417,7 +417,7 @@ int tpi_write_snapshot_module(snapshot_t * p)
     snapshot_module_write_byte(m, irq_previous);
     snapshot_module_write_byte(m, irq_stack);
 
-    snapshot_module_write_byte(m,
+    snapshot_module_write_byte(m, 
 			(ca_state ? 0x80 : 0) | (cb_state ? 0x40 : 0) );
 
     snapshot_module_close(m);
@@ -425,7 +425,7 @@ int tpi_write_snapshot_module(snapshot_t * p)
     return 0;
 }
 
-int tpi_read_snapshot_module(snapshot_t * p)
+int tpi_read_snapshot_module(snapshot_t *p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
