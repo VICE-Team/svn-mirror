@@ -393,8 +393,8 @@ c64kbd.o: c64kbd.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	kbd.h types.h
 c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h lose32.h ui.h \
 	video.h types.h ../../../src/palette.h c64ui.h \
-	../../../src/cartridge.h kbd.h res.h uilib.h uivicii.h \
-	winmain.h
+	../../../src/cartridge.h kbd.h ../../../src/keyboard.h res.h \
+	uilib.h uivicii.h winmain.h
 dirent.o: dirent.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/utils.h types.h dirent.h
 joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
@@ -402,7 +402,7 @@ joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
 	joystick.h kbd.h types.h winmain.h
 kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h lose32.h kbd.h \
 	types.h ../../../src/cmdline.h ../../../src/resources.h \
-	joystick.h
+	../../../src/keyboard.h joystick.h
 petkbd.o: petkbd.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	kbd.h types.h
 petui.o: petui.c ../../../src/vice.h ../../../src/config.h lose32.h \
@@ -422,9 +422,10 @@ ui.o: ui.c ../../../src/vice.h ../../../src/config.h lose32.h ui.h \
 	../../../src/clkguard.h ../../../src/mos6510.h \
 	../../../src/mon.h ../../../src/mem.h ../../../src/interrupt.h \
 	../../../src/6510core.h ../../../src/fliplist.h kbd.h \
-	../../../src/machine.h ../../../src/maincpu.h res.h \
-	../../../src/tape.h uiattach.h uidrive.h uijoystick.h uilib.h \
-	uisnapshot.h uisound.h ../../../src/utils.h vsync.h winmain.h
+	../../../src/keyboard.h ../../../src/machine.h \
+	../../../src/maincpu.h res.h ../../../src/tape.h uiattach.h \
+	uidrive.h uijoystick.h uilib.h uisnapshot.h uisound.h \
+	../../../src/utils.h vsync.h winmain.h
 uiattach.o: uiattach.c ../../../src/vice.h ../../../src/config.h \
 	lose32.h ../../../src/attach.h types.h ../../../src/vdrive.h \
 	../../../src/fs_cbm.h ../../../src/serial.h \

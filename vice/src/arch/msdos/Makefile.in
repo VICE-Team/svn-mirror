@@ -381,8 +381,9 @@ kbd.o: kbd.c ../../../src/vice.h ../../../src/config.h kbd.h types.h \
 	../../../src/cmdline.h ../../../src/resources.h \
 	../../../src/fliplist.h ../../../src/interrupt.h \
 	../../../src/6510core.h ../../../src/mem.h \
-	../../../src/snapshot.h joystick.h ../../../src/log.h \
-	../../../src/machine.h ui.h tuimenu.h vsync.h
+	../../../src/snapshot.h joystick.h ../../../src/keyboard.h \
+	../../../src/log.h ../../../src/machine.h ui.h tuimenu.h \
+	vsync.h
 menudefs.o: menudefs.c ../../../src/vice.h ../../../src/config.h \
 	menudefs.h tuimenu.h ../../../src/resources.h \
 	../../../src/datasette.h ../../../src/tap.h types.h grabkey.h \

@@ -358,14 +358,14 @@ petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
 	../../src/snapshot.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/crtc.h ../../src/arch/unix/video.h \
 	../../src/palette.h ../../src/arch/unix/ui.h \
-	../../src/arch/unix/xaw/ui.h ../../src/arch/unix/kbd.h \
-	../../src/parallel.h ../../src/drive/drive.h ../../src/vdrive.h \
-	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	../../src/drive/drivecpu.h ../../src/alarm.h \
+	../../src/arch/unix/xaw/ui.h ../../src/drive/drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/drive/drivecpu.h ../../src/alarm.h \
 	../../src/clkguard.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/mem.h ../../src/interrupt.h ../../src/6510core.h \
-	pets.h petmem.h petpia.h ../../src/maincpu.h \
-	../../src/piacore.c
+	../../src/arch/unix/kbd.h ../../src/keyboard.h \
+	../../src/maincpu.h ../../src/parallel.h pets.h petmem.h \
+	petpia.h ../../src/piacore.c
 petpia2.o: petpia2.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/piacore.h ../../src/log.h \
 	../../src/snapshot.h ../../src/parallel.h \

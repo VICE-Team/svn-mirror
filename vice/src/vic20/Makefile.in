@@ -381,8 +381,9 @@ vic20via1.o: vic20via1.c ../../src/vice.h ../../src/config.h \
 	../../src/via.h ../../src/maincpu.h ../../src/mon.h \
 	../../src/mos6510.h ../../src/drive/drive.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	../../src/drive/drivecpu.h ../../src/arch/unix/kbd.h vic20iec.h \
-	../../src/iecdrive.h vic20via.h ../../src/viacore.c
+	../../src/drive/drivecpu.h ../../src/arch/unix/kbd.h \
+	../../src/keyboard.h vic20iec.h ../../src/iecdrive.h vic20via.h \
+	../../src/viacore.c
 vic20via2.o: vic20via2.c ../../src/vice.h ../../src/config.h \
 	../../src/viacore.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/log.h \

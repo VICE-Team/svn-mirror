@@ -380,9 +380,10 @@ c610tpi1.o: c610tpi1.c ../../src/tpicore.h ../../src/vice.h \
 c610tpi2.o: c610tpi2.c ../../src/tpicore.h ../../src/vice.h \
 	../../src/config.h ../../src/arch/unix/types.h ../../src/log.h \
 	../../src/snapshot.h ../../src/tpi.h ../../src/arch/unix/kbd.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
-	../../src/alarm.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/mos6510.h ../../src/interrupt.h ../../src/tpicore.c
+	../../src/keyboard.h ../../src/maincpu.h ../../src/6510core.h \
+	../../src/mem.h ../../src/alarm.h ../../src/clkguard.h \
+	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
+	../../src/tpicore.c
 crtc.o: crtc.c ../../src/config.h ../../src/arch/unix/types.h \
 	../../src/snapshot.h c610tpi.h ../../src/crtc.h \
 	../../src/vice.h ../../src/arch/unix/video.h \
