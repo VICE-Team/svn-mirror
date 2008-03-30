@@ -51,7 +51,7 @@ static int n_allocated_pixels = 0;
 static unsigned long allocated_pixels[0x100];
 #endif
 
-extern Display *display;
+extern int screen;
 extern int depth;
 extern int have_truecolor;
 extern GdkColormap *colormap;
@@ -232,7 +232,18 @@ int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
 
     log_message(LOG_DEFAULT, "Color request for canvas %p.", c);
 #ifdef USE_COLOR_MANAGEMENT
-    color_alloc_colors(c, palette, pixel_return);
+    if (color_alloc_colors(c, palette, pixel_return) < 0) {
+/*
+        if (colormap == DefaultColormap(display, screen)) {
+            log_warning(LOG_DEFAULT,
+                        "Automatically using a private colormap.");
+            colormap = XCreateColormap(display, RootWindow(display, screen),
+                                       visual, AllocNone);
+            XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
+            return color_alloc_colors(c, palette, pixel_return);
+        }
+*/
+    }
     return 0;
 #else
     failed = do_alloc_colors(palette, pixel_return, 1);
@@ -311,6 +322,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     GdkColor color;
     XImage *im;
     PIXEL *data = (PIXEL *)xmalloc(4);
+    Display *display = ui_get_display_ptr();
 
     /* This is a kludge to map pixels to zimage values. Is there a better
        way to do this? //tvr */
@@ -328,6 +340,8 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     if (!gdk_color_alloc(colormap, &color)) {
         log_error(LOG_DEFAULT, "Cannot allocate color \"#%04X%04X%04X\".",
                   color.red, color.green, color.blue);
+        XDestroyImage(im);
+        return -1;
     }
     XPutPixel(im, 0, 0, color.pixel);
 

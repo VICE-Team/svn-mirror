@@ -98,8 +98,8 @@ int have_truecolor;
 char last_attached_images[NUM_DRIVES][256]; /* FIXME MP */
 char *last_attached_tape;
 
-Display *display;
-static int screen;
+static Display *display;
+int screen;
 int depth = X_DISPLAY_DEPTH;
 
 /* UI logging goes here.  */

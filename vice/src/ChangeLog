@@ -1,3 +1,55 @@
+2000-06-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.20.
+
+	* drive/wd1770.c (wd1770_handle_job_code): Fixed typo.
+
+	* arch/unix/x11/xaw/uicolor.c, arch/unix/x11/gnome/uicolor.c
+	(uicolor_alloc_color): Return error if color allocation
+	failed.
+
+	* color.c (color_alloc_colors, color_alloc_new_colors): Error
+	handling.
+
+	* raster/raster.c, raster/raster.h (raster_set_palette):
+	Return error code.
+
+	* vicii/vicii.c, crtc/crtc.c, vic20/vic.c, vdc/vdc.c: Better
+	error handling.
+
+	* c128/z80mem.c: Fixed loading ROM.
+
+	* arch/unix/x11/xaw/ui.c, arch/unix/x11/xaw/uicolor.c,
+	arch/unix/x11/fullscreen.c, arch/unix/x11/gnome/ui.c:
+	arch/unix/x11/gnome/uicolor.c: `display' made static.
+
+2000-06-16  pottendo  <pottendo@utanet.at>
+
+	* main.c (MAIN_PROGRAM): Chaged LOCALEDIR to NLS_LOCALEDIR.
+
+	* arch/unix/x11/gnome/uiscreenshot.c: New File.
+
+	* arch/unix/x11/gnome/Makefile.am (libgnomeui_a_SOURCES): Added
+	`uiscreenshot.c'.
+
+	* Makefile.am (INCLUDES): Removed @NLS_LOCALEDIR@.
+
+2000-06-14  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* screenshot.c: added initialization of RISC OS sprite driver.
+
+	* arch/riscos/spritedrv.c: (new file) RISC OS sprite driver.
+
+	* arch/riscos/ui.c: added ui support for screenshots.
+
+	* arch/riscos/ui.c, arch/riscos/uiconfig.h,
+	arch/riscos/uiconfig.c: moved configuration data structures
+	and prototypes to new files uiconfig.* to cut down the size of
+	ui.c somewhat.
+
+	* arch/riscos/videoarch.h, arch/riscos/video.c: added function
+	canvas_number_for_handle().
+
 2000-06-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.19.
