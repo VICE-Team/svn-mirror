@@ -37,6 +37,7 @@
 #include "raster-cache.h"
 #include "raster-canvas.h"
 #include "raster-modes.h"
+#include "raster-resources.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "raster.h"
@@ -491,6 +492,8 @@ void raster_shutdown(raster_t *raster)
     }
 
     lib_free(raster->fake_draw_buffer_line);
+
+    raster_resources_chip_shutdown(raster);
 
     video_color_palette_free(raster->canvas->palette);
     video_canvas_destroy(raster->canvas);

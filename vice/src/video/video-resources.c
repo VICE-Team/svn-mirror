@@ -368,6 +368,7 @@ int video_resources_chip_init(const char *chipname,
 
     resource_chip
         = (video_resource_chip_t *)lib_calloc(1, sizeof(video_resource_chip_t));
+    (*canvas)->video_resource_chip = resource_chip;
 
     video_render_initconfig((*canvas)->videoconfig);
     (*canvas)->videoconfig->cap = video_chip_cap;
@@ -390,6 +391,8 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_scan[0].param = (void *)resource_chip;
         if (resources_register(resources_chip_scan) < 0)
             return -1;
+
+        lib_free((char *)(resources_chip_scan[0].name));
     }
 
     if (video_chip_cap->scale2x_allowed != 0) {
@@ -400,6 +403,8 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_scale2x[0].param = (void *)resource_chip;
         if (resources_register(resources_chip_scale2x) < 0)
             return -1;
+
+        lib_free((char *)(resources_chip_scale2x[0].name));
     }
 
     if (video_chip_cap->dsize_allowed != 0) {
@@ -412,6 +417,8 @@ int video_resources_chip_init(const char *chipname,
         resources_chip_size[0].param = (void *)resource_chip;
         if (resources_register(resources_chip_size) < 0)
             return -1;
+
+        lib_free((char *)(resources_chip_size[0].name));
     }
 
     if (video_chip_cap->fullscreen.device_num > 0) {
@@ -446,6 +453,11 @@ int video_resources_chip_init(const char *chipname,
         if (resources_register(resources_chip_fullscreen) < 0)
             return -1;
 
+        lib_free((char *)(resources_chip_fullscreen[0].name));
+        lib_free((char *)(resources_chip_fullscreen[1].name));
+        lib_free((char *)(resources_chip_fullscreen[2].name));
+        lib_free((char *)(resources_chip_fullscreen[3].name));
+
         for (i = 0; i < video_chip_cap->fullscreen.device_num; i++) {
             resource_chip_mode = (video_resource_chip_mode_t *)lib_malloc(
                                  sizeof(video_resource_chip_mode_t));
@@ -463,6 +475,8 @@ int video_resources_chip_init(const char *chipname,
 
             if (resources_register(resources_chip_fullscreen_mode) < 0)
                 return -1;
+
+            lib_free((char *)(resources_chip_fullscreen_mode[0].name));
         }
     }
 
@@ -489,7 +503,17 @@ int video_resources_chip_init(const char *chipname,
     if (resources_register(resources_chip_palette) < 0)
         return -1;
 
+    lib_free((char *)(resources_chip_palette[0].name));
+    if (video_chip_cap->internal_palette_allowed != 0)
+        lib_free((char *)(resources_chip_palette[1].name));
+
     return 0;
+}
+
+void video_resources_chip_shutdown(struct video_canvas_s *canvas)
+{
+    lib_free(canvas->video_resource_chip->external_palette_name);
+    lib_free(canvas->video_resource_chip);
 }
 
 void video_resources_update_ui(video_resource_chip_t *video_resource_chip)

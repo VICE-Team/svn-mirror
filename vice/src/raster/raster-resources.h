@@ -33,6 +33,7 @@ struct video_chip_cap_s;
 extern int raster_resources_chip_init(const char *chipname,
                                       struct raster_s *raster,
                                       struct video_chip_cap_s *video_chip_cap);
+extern void raster_resources_chip_shutdown(struct raster_s *raster);
 extern void raster_resources_shutdown(void);
 
 #endif
