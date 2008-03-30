@@ -76,7 +76,7 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Use NTSC sync factor" },
     { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "VideoStandard",
       (resource_value_t) DRIVE_SYNC_NTSCOLD,
-      NULL, "Use sync factor" },
+      NULL, "Use old NTSC sync factor" },
     { "-dos1541", SET_RESOURCE, 1, NULL, NULL, "DosName1541", "dos1541",
       "<name>", "Specify name of 1541 DOS ROM image name" },
     { "-dos1541II", SET_RESOURCE, 1, NULL, NULL, "DosName1541II", "d1541II",
