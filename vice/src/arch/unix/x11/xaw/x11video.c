@@ -49,15 +49,22 @@ void video_init_arch(void)
 }
 
 /* Allocate a frame buffer. */
-int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
+int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
                              unsigned int height)
 {
     int sizeofpixel = sizeof(PIXEL);
     int depth;
     Display *display;
+    video_frame_buffer_t *i;
 #ifdef USE_MITSHM
     int (*olderrorhandler)(Display*,XErrorEvent*);
     int dummy;
+#endif
+
+    i = (video_frame_buffer_t *)xmalloc(sizeof(video_frame_buffer_t));
+    *ip = i;
+
+#ifdef USE_MITSHM
     i->using_mitshm = use_mitshm;
 #endif
 
