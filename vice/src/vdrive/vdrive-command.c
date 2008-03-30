@@ -160,15 +160,15 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
         status = vdrive_command_copy(vdrive, (char *)name, length);
         break;
 
-      case 'D':		/* Backup unused */
+      case 'D':         /* Backup unused */
         status = IPE_INVAL;
         break;
 
-      case 'R':		/* Rename */
+      case 'R':         /* Rename */
         status = vdrive_command_rename(vdrive, (char *)name, length);
         break;
 
-      case 'S':		/* Scratch */
+      case 'S':         /* Scratch */
         {
             BYTE *slot;
             char *realname = name;
@@ -214,98 +214,98 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
         break;
 
       case 'I':
-	status = vdrive_command_initialize(vdrive);
-	break;
+        status = vdrive_command_initialize(vdrive);
+        break;
 
       case 'N':
         /* Skip ":" at the start of the name.  */
-	status = vdrive_command_format(vdrive,
+        status = vdrive_command_format(vdrive,
                                        (name == NULL) ? NULL : name + 1);
-	break;
+        break;
 
       case 'V':
-	status = vdrive_command_validate(vdrive);
-	break;
+        status = vdrive_command_validate(vdrive);
+        break;
 
       case 'B': /* Block, Buffer */
-        if (!name)	/* B-x does not require a : */
+        if (!name)      /* B-x does not require a : */
             name = (char *)(p + 2);
         if (!minus)
             status = IPE_INVAL;
-	else
-	    status = vdrive_command_block(vdrive, minus[1], name + 1);
-	break;
+        else
+            status = vdrive_command_block(vdrive, minus[1], name + 1);
+        break;
 
       case 'M': /* Memory */
         if (!minus)     /* M-x does not allow a : */
             status = IPE_INVAL;
         else
             status = vdrive_command_memory(vdrive, minus + 1, length);
-	break;
+        break;
 
       case 'P': /* Position */
-	status = vdrive_command_position(vdrive, p + 1, length);
-	break;
+        status = vdrive_command_position(vdrive, p + 1, length);
+        break;
 
       case 'U': /* User */
         if (!name)
             name = (char *)(p + 1);
-	if (p[1] == '0') {
-	    status = IPE_OK;
-	} else {
- 	    switch ((p[1] - 1) & 0x0f) {
- 	      case 0: /* UA */
- 	        /* XXX incorrect: U1 is not exactly the same as B-R */
- 	        /*      -- should store the buffer pointer */
- 	        if (name)
-		    status = vdrive_command_block(vdrive, 'R', name + 1);
- 	        break;
+        if (p[1] == '0') {
+            status = IPE_OK;
+        } else {
+            switch ((p[1] - 1) & 0x0f) {
+              case 0: /* UA */
+                /* XXX incorrect: U1 is not exactly the same as B-R */
+                /*      -- should store the buffer pointer */
+                if (name)
+                    status = vdrive_command_block(vdrive, 'R', name + 1);
+                break;
 
- 	      case 1: /* UB */
- 	        /* XXX incorrect: U2 is not exactly the same as B-W */
- 	        /*      -- should store the buffer pointer */
- 	        if (name)
- 		    status = vdrive_command_block(vdrive, 'W', name + 1);
- 	        break;
+              case 1: /* UB */
+                /* XXX incorrect: U2 is not exactly the same as B-W */
+                /*      -- should store the buffer pointer */
+                if (name)
+                    status = vdrive_command_block(vdrive, 'W', name + 1);
+                break;
 
- 	      case 2: /* Jumps */
- 	      case 3:
- 	      case 4:
- 	      case 5:
- 	      case 6:
- 	      case 7:
- 	        status = IPE_NOT_READY;
- 	        break;
+              case 2: /* Jumps */
+              case 3:
+              case 4:
+              case 5:
+              case 6:
+              case 7:
+                status = IPE_NOT_READY;
+                break;
 
- 	      case 8: /* UI */
- 	        if (p[2] == '-' || p[2] == '+') {
- 		    status = IPE_OK;	/* Set IEC bus speed */
- 	        } else {
- 		    vdrive_close_all_channels(vdrive); /* Warm reset */
- 		    status = IPE_DOS_VERSION;
- 	        }
- 	        break;
+              case 8: /* UI */
+                if (p[2] == '-' || p[2] == '+') {
+                    status = IPE_OK;    /* Set IEC bus speed */
+                } else {
+                    vdrive_close_all_channels(vdrive); /* Warm reset */
+                    status = IPE_DOS_VERSION;
+                }
+                break;
 
- 	      case 9: /* UJ */
- 	        vdrive_close_all_channels(vdrive); /* Cold reset */
- 	        status = IPE_DOS_VERSION;
- 	        break;
+              case 9: /* UJ */
+                vdrive_close_all_channels(vdrive); /* Cold reset */
+                status = IPE_DOS_VERSION;
+                break;
 
- 	      case 10: /* UK..UP */
- 	      case 11:
- 	      case 12:
- 	      case 13:
- 	      case 14:
- 	      case 15:
- 	        status = IPE_NOT_READY;
- 	        break;
- 	    }
-	} /* Un */
-	break;
+              case 10: /* UK..UP */
+              case 11:
+              case 12:
+              case 13:
+              case 14:
+              case 15:
+                status = IPE_NOT_READY;
+                break;
+            }
+        } /* Un */
+        break;
 
       default:
-	status = IPE_INVAL;
-	break;
+        status = IPE_INVAL;
+        break;
     } /* commands */
 
     if (status == IPE_INVAL)
@@ -322,7 +322,7 @@ static int vdrive_get_block_parameters(char *buf, int *p1, int *p2, int *p3,
 {
     int ip;
     char *bp, endsign;
-    int *p[4];	/* This is a kludge */
+    int *p[4];  /* This is a kludge */
     p[0] = p1;
     p[1] = p2;
     p[2] = p3;
@@ -331,17 +331,17 @@ static int vdrive_get_block_parameters(char *buf, int *p1, int *p2, int *p3,
     bp = buf;
 
     for (ip = 0; ip < 4; ip++) {
-	while (*bp == ' ' || *bp == ')' || *bp == ',' || *bp == '#')
-	    bp++;
-	if (*bp == 0)
-	    break;
-	/* Convert and skip over decimal number.  */
-	*p[ip] = strtol(bp, &bp, 10);
+        while (*bp == ' ' || *bp == ')' || *bp == ',' || *bp == '#')
+            bp++;
+        if (*bp == 0)
+            break;
+        /* Convert and skip over decimal number.  */
+        *p[ip] = strtol(bp, &bp, 10);
     }
     endsign = *bp;
     if (isalnum((int)endsign) && (ip == 4))
-	return IPE_SYNTAX;
-    return -ip;			/* negative of # arguments found */
+        return IPE_SYNTAX;
+    return -ip;                 /* negative of # arguments found */
 }
 
 static int vdrive_command_block(vdrive_t *vdrive, char command, char *buffer)
@@ -637,7 +637,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
     status = vdrive_bam_allocate_chain(vdrive, vdrive->Bam_Track,
                                        vdrive->Bam_Sector);
     if (status != IPE_OK) {
-	/* FIXME: size of BAM define */
+        /* FIXME: size of BAM define */
         memcpy(vdrive->bam, oldbam, 5 * 256);
         return status;
     }
@@ -844,11 +844,11 @@ int vdrive_command_memory_read(vdrive_t *vdrive, ADDRESS addr,
         if (addr >= 0x8000) {
             switch (vdrive->image_format) {
               case VDRIVE_IMAGE_FORMAT_2040:
-		if (rom2040_loaded)
-		    val = drive_rom2040[addr & 0x3fff];
-		else
-		    val = 0x55;
-		break;
+                if (rom2040_loaded)
+                    val = drive_rom2040[addr & 0x3fff];
+                else
+                    val = 0x55;
+                break;
               case VDRIVE_IMAGE_FORMAT_1541:
                 if (rom1541_loaded)
                     val = drive_rom1541[addr & 0x3fff];

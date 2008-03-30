@@ -36,6 +36,7 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <string.h>
 
 #include "diskimage.h"
@@ -109,7 +110,7 @@ static void vdrive_dir_free_chain(vdrive_t *vdrive, int t, int s)
         break;
       case VDRIVE_IMAGE_FORMAT_2040:
         disk_type = DISK_IMAGE_TYPE_D67;
-	break;
+        break;
       case VDRIVE_IMAGE_FORMAT_1571:
         disk_type = DISK_IMAGE_TYPE_D71;
         break;

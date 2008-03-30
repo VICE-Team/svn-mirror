@@ -148,7 +148,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
     BYTE *slot; /* Current directory entry */
 
     if ((!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL)  /* EP */
-        return SERIAL_NO_DEVICE;	/* Routine was called incorrectly. */
+        return SERIAL_NO_DEVICE;        /* Routine was called incorrectly. */
 
    /* No floppy in drive?   */
    if (vdrive->image == NULL
@@ -162,7 +162,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
 
 #ifdef DEBUG_DRIVE
     log_debug("VDRIVE#%i: OPEN: FD = %p - Name '%s' (%d) on ch %d.",
-	          vdrive->unit, vdrive->image->fd, name, length, secondary);
+                  vdrive->unit, vdrive->image->fd, name, length, secondary);
 #endif
 #ifdef __riscos
     ui_set_drive_leds(vdrive->unit - 8, 1);
@@ -195,9 +195,9 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
      */
     if (p->mode != BUFFER_NOT_IN_USE) {
 #ifdef DEBUG_DRIVE
-	log_debug("Cannot open channel %d. Mode is %d.", secondary, p->mode);
+        log_debug("Cannot open channel %d. Mode is %d.", secondary, p->mode);
 #endif
-	vdrive_command_set_error(vdrive, IPE_NO_CHANNEL, 0, 0);
+        vdrive_command_set_error(vdrive, IPE_NO_CHANNEL, 0, 0);
         return SERIAL_ERROR;
     }
 
@@ -479,39 +479,39 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 
     switch (p->mode) {
       case BUFFER_NOT_IN_USE:
-	vdrive_command_set_error(vdrive, IPE_NOT_OPEN, 0, 0);
-	return SERIAL_ERROR;
+        vdrive_command_set_error(vdrive, IPE_NOT_OPEN, 0, 0);
+        return SERIAL_ERROR;
 
       case BUFFER_DIRECTORY_READ:
-	if (p->bufptr >= p->length) {
+        if (p->bufptr >= p->length) {
             *data = 0xc7;
 #ifdef DEBUG_DRIVE
             if (p->mode == BUFFER_COMMAND_CHANNEL)
                 log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
                           p->mode, 0, 0, *data, (isprint(*data) ? *data : '.'));
 #endif
-	    return SERIAL_EOF;
+            return SERIAL_EOF;
         }
-	*data = p->buffer[p->bufptr];
-	p->bufptr++;
-	break;
+        *data = p->buffer[p->bufptr];
+        p->bufptr++;
+        break;
 
       case BUFFER_MEMORY_BUFFER:
-	if (p->bufptr >= 256) {
+        if (p->bufptr >= 256) {
             *data = 0xc7;
-	    return SERIAL_EOF;
+            return SERIAL_EOF;
         }
-	*data = p->buffer[p->bufptr];
-	p->bufptr++;
-	break;
+        *data = p->buffer[p->bufptr];
+        p->bufptr++;
+        break;
 
       case BUFFER_SEQUENTIAL:
-	if (p->readmode != FAM_READ)
-	    return SERIAL_ERROR;
+        if (p->readmode != FAM_READ)
+            return SERIAL_ERROR;
 
-	/*
-	 * Read next block if needed
-	 */
+        /*
+         * Read next block if needed
+         */
         if (p->buffer[0]) {
             if (p->bufptr >= 256) {
                 if (disk_image_read_sector(vdrive->image, p->buffer,
@@ -535,14 +535,14 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
             }
         }
 
-	*data = p->buffer[p->bufptr];
-	p->bufptr++;
-	break;
+        *data = p->buffer[p->bufptr];
+        p->bufptr++;
+        break;
       case BUFFER_COMMAND_CHANNEL:
-	if (p->bufptr > p->length) {
-	    vdrive_command_set_error(vdrive, IPE_OK, 0, 0);
+        if (p->bufptr > p->length) {
+            vdrive_command_set_error(vdrive, IPE_OK, 0, 0);
 #ifdef DEBUG_DRIVE
-	    log_debug("End of buffer in command channel.");
+            log_debug("End of buffer in command channel.");
 #endif
             *data = 0xc7;
 #ifdef DEBUG_DRIVE
@@ -550,11 +550,11 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
                 log_debug("Disk read  %d [%02d %02d] data %02x (%c).",
                           p->mode, 0, 0, *data, (isprint(*data) ? *data : '.'));
 #endif
-	    return SERIAL_EOF;
-	}
-	*data = p->buffer[p->bufptr];
-	p->bufptr++;
-	break;
+            return SERIAL_EOF;
+        }
+        *data = p->buffer[p->bufptr];
+        p->bufptr++;
+        break;
       case BUFFER_RELATIVE:
         if (p->bufptr > p->length) {
             vdrive_command_set_error(vdrive, IPE_OK, 0, 0);
@@ -571,8 +571,8 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
         break;
 
       default:
-	log_error(vdrive_iec_log, "Fatal: unknown buffermode on floppy-read.");
-	exit(-1);
+        log_error(vdrive_iec_log, "Fatal: unknown buffermode on floppy-read.");
+        exit(-1);
     }
 
 #ifdef DEBUG_DRIVE
