@@ -60,6 +60,7 @@
 #define DRIVE_ROM1541_SIZE          0x4000
 #define DRIVE_ROM1541_SIZE_EXPANDED 0x8000
 #define DRIVE_ROM1541II_SIZE        0x4000
+#define DRIVE_ROM1551_SIZE          0x8000
 #define DRIVE_ROM1571_SIZE          0x8000
 #define DRIVE_ROM1581_SIZE          0x8000
 #define DRIVE_ROM2031_SIZE          0x4000
@@ -91,6 +92,7 @@
 #define DRIVE_TYPE_NONE      0
 #define DRIVE_TYPE_1541   1541
 #define DRIVE_TYPE_1541II 1542
+#define DRIVE_TYPE_1551   1551
 #define DRIVE_TYPE_1571   1571
 #define DRIVE_TYPE_1581   1581
 #define DRIVE_TYPE_2031   2031
@@ -332,6 +334,7 @@ extern int rom_loaded;
 /* RAM/ROM.  */
 extern BYTE drive_rom1541[];
 extern BYTE drive_rom1541ii[];
+extern BYTE drive_rom1551[];
 extern BYTE drive_rom1571[];
 extern BYTE drive_rom1581[];
 extern BYTE drive_rom2031[];
@@ -343,6 +346,7 @@ extern BYTE drive_rom4040[];
 /* If nonzero, the ROM image has been loaded.  */
 extern unsigned int rom1541_loaded;
 extern unsigned int rom1541ii_loaded;
+extern unsigned int rom1551_loaded;
 extern unsigned int rom1571_loaded;
 extern unsigned int rom1581_loaded;
 extern unsigned int rom2031_loaded;
@@ -385,6 +389,7 @@ extern int drive_write_block(int track, int sector, BYTE *writedata, int dnr);
 extern int drive_set_disk_drive_type(unsigned int drive_type, unsigned int dnr);extern int reload_rom_1541(char *name);
 extern int drive_load_1541(void);
 extern int drive_load_1541ii(void);
+extern int drive_load_1551(void);
 extern int drive_load_1571(void);
 extern int drive_load_1581(void);
 extern int drive_load_2031(void);

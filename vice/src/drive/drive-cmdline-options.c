@@ -81,6 +81,8 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Specify name of 1541 DOS ROM image" },
     { "-dos1541II", SET_RESOURCE, 1, NULL, NULL, "DosName1541II", "d1541II",
       "<name>", "Specify name of 1541-II DOS ROM image" },
+    { "-dos1551", SET_RESOURCE, 1, NULL, NULL, "DosName1551", "dos1551",
+      "<name>", "Specify name of 1551 DOS ROM image" },
     { "-dos1571", SET_RESOURCE, 1, NULL, NULL, "DosName1571", "dos1571",
       "<name>", "Specify name of 1571 DOS ROM image" },
     { "-dos1581", SET_RESOURCE, 1, NULL, NULL, "DosName1581", "dos1581",

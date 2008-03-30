@@ -53,6 +53,7 @@ static int sync_factor;
 /* Name of the DOS ROMs.  */
 static char *dos_rom_name_1541 = 0;
 static char *dos_rom_name_1541ii = 0;
+static char *dos_rom_name_1551 = 0;
 static char *dos_rom_name_1571 = 0;
 static char *dos_rom_name_1581 = 0;
 static char *dos_rom_name_2031 = 0;
@@ -126,6 +127,7 @@ static int set_drive0_type(resource_value_t v, void *param)
     switch (type) {
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1541II:
+      case DRIVE_TYPE_1551:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
@@ -194,6 +196,7 @@ static int set_drive1_type(resource_value_t v, void *param)
     switch (type) {
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1541II:
+      case DRIVE_TYPE_1551:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
       case DRIVE_TYPE_2031:
@@ -374,6 +377,14 @@ static int set_dos_rom_name_1541ii(resource_value_t v, void *param)
     return drive_load_1541ii();
 }
 
+static int set_dos_rom_name_1551(resource_value_t v, void *param)
+{
+    if (util_string_set(&dos_rom_name_1551, (const char *)v))
+        return 0;
+
+    return drive_load_1551();
+}
+
 static int set_dos_rom_name_1571(resource_value_t v, void *param)
 {
     if (util_string_set(&dos_rom_name_1571, (const char *)v))
@@ -475,6 +486,9 @@ static resource_t resources[] = {
     { "DosName1541ii", RES_STRING, (resource_value_t)"d1541II",
       (resource_value_t *)&dos_rom_name_1541ii,
       set_dos_rom_name_1541ii, NULL },
+    { "DosName1551", RES_STRING, (resource_value_t)"dos1551",
+      (resource_value_t *)&dos_rom_name_1551,
+      set_dos_rom_name_1551, NULL },
     { "DosName1571", RES_STRING, (resource_value_t)"dos1571",
       (resource_value_t *)&dos_rom_name_1571,
       set_dos_rom_name_1571, NULL },

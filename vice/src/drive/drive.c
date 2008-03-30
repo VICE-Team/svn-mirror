@@ -100,6 +100,7 @@ static int drive_rom_load_ok = 0;
 /* RAM/ROM.  */
 BYTE drive_rom1541[DRIVE_ROM1541_SIZE_EXPANDED];
 BYTE drive_rom1541ii[DRIVE_ROM1541II_SIZE];
+BYTE drive_rom1551[DRIVE_ROM1551_SIZE];
 BYTE drive_rom1571[DRIVE_ROM1571_SIZE];
 BYTE drive_rom1581[DRIVE_ROM1581_SIZE];
 BYTE drive_rom2031[DRIVE_ROM2031_SIZE];
@@ -111,6 +112,7 @@ BYTE drive_rom4040[DRIVE_ROM4040_SIZE];
 /* If nonzero, the ROM image has been loaded.  */
 unsigned int rom1541_loaded = 0;
 unsigned int rom1541ii_loaded = 0;
+unsigned int rom1551_loaded = 0;
 unsigned int rom1571_loaded = 0;
 unsigned int rom1581_loaded = 0;
 unsigned int rom2031_loaded = 0;
@@ -457,62 +459,51 @@ int drive_set_disk_drive_type(unsigned int type, unsigned int dnr)
       case DRIVE_TYPE_1541:
         if (rom1541_loaded < 1 && rom_loaded)
             return -1;
-        if (drive[dnr].byte_ready_active == 0x06)
-            drive_rotate_disk(&drive[dnr]);
         break;
       case DRIVE_TYPE_1541II:
         if (rom1541ii_loaded < 1 && rom_loaded)
             return -1;
-        if (drive[dnr].byte_ready_active == 0x06)
-            drive_rotate_disk(&drive[dnr]);
+        break;
+      case DRIVE_TYPE_1551:
+        if (rom1551_loaded < 1 && rom_loaded)
+            return -1;
         break;
       case DRIVE_TYPE_1571:
         if (rom1571_loaded < 1 && rom_loaded)
             return -1;
-        if (drive[dnr].byte_ready_active == 0x06)
-            drive_rotate_disk(&drive[dnr]);
         break;
       case DRIVE_TYPE_1581:
         if (rom1581_loaded < 1 && rom_loaded)
             return -1;
-        if (drive[dnr].byte_ready_active == 0x06)
-            drive_rotate_disk(&drive[dnr]);
         break;
       case DRIVE_TYPE_2031:
         if (rom2031_loaded < 1 && rom_loaded)
             return -1;
-        if (drive[dnr].byte_ready_active == 0x06)
-            drive_rotate_disk(&drive[dnr]);
         break;
       case DRIVE_TYPE_2040:
         if (rom2040_loaded < 1 && rom_loaded)
             return -1;
-        if (drive[dnr].byte_ready_active == 0x06)
-            drive_rotate_disk(&drive[dnr]);
         break;
       case DRIVE_TYPE_3040:
         if (rom3040_loaded < 1 && rom_loaded)
             return -1;
-        if (drive[dnr].byte_ready_active == 0x06)
-            drive_rotate_disk(&drive[dnr]);
         break;
       case DRIVE_TYPE_4040:
         if (rom4040_loaded < 1 && rom_loaded)
             return -1;
-        if (drive[dnr].byte_ready_active == 0x06)
-            drive_rotate_disk(&drive[dnr]);
         break;
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
         if (rom1001_loaded < 1 && rom_loaded)
             return -1;
-        if (drive[dnr].byte_ready_active == 0x06)
-            drive_rotate_disk(&drive[dnr]);
         break;
       default:
         return -1;
     }
+
+    if (drive[dnr].byte_ready_active == 0x06)
+        drive_rotate_disk(&drive[dnr]);
 
     drive_set_clock_frequency(type, dnr);
 
@@ -591,6 +582,27 @@ int drive_load_1541ii(void)
                   "Hardware-level 1541-II emulation is not available.");
     } else {
         rom1541ii_loaded = 1;
+        return 0;
+    }
+    return -1;
+}
+
+int drive_load_1551(void)
+{
+    char *rom_name = NULL;
+
+    if (!drive_rom_load_ok)
+        return 0;
+
+    resources_get_value("DosName1551", (resource_value_t *)&rom_name);
+
+    if (sysfile_load(rom_name, drive_rom1551, DRIVE_ROM1551_SIZE,
+                     DRIVE_ROM1551_SIZE) < 0) {
+        log_error(drive_log,
+                  "1551 ROM image not found.  "
+                  "Hardware-level 1551 emulation is not available.");
+    } else {
+        rom1551_loaded = 1;
         return 0;
     }
     return -1;
