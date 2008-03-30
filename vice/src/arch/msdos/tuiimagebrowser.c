@@ -111,35 +111,6 @@ static void display_title(int x, int y, BYTE *name, BYTE *id)
     }
 }
 
-/* FIXME: not optimized for the `n < 0' case.  */
-static int go_backward(int n,
-                       image_contents_file_list_t **first,
-                       int *first_number,
-                       image_contents_file_list_t **current,
-                       int *current_number,
-                       int height)
-{
-    int i;
-    int update;
-
-    if (*first == NULL || *current == NULL)
-        return 0;
-
-    update = 0;
-    for (i = 0; (n < 0 || i < n) && (*current)->prev != NULL; i++) {
-        *current = (*current)->prev;
-        (*current_number)--;
-        if (*current_number < *first_number) {
-            *first = (*first)->prev;
-            (*first_number)--;
-            update = 1;
-        }
-    }
-
-    return update;
-}
-
-/* FIXME: colors.  */
 char *tui_image_browser(const char *filename,
                         image_contents_t *(*contents_func)(const char *))
 {
@@ -292,6 +263,7 @@ char *tui_image_browser(const char *filename,
                         need_update = 1;
                     }
                 }
+                break;
               case K_End:
                 if (contents->file_list != NULL) {
                     while (current->next != NULL) {
