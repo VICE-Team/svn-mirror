@@ -158,10 +158,9 @@ int rsuser_cmdline_options_init(void)
 static unsigned char code[256];
 static unsigned int buf;
 static unsigned int valid;
-static unsigned int masks[] = {
-        1, 2, 4, 8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400, 0x800,
-        0x1000, 0x2000, 0x4000, 0x8000
-};
+static const unsigned int masks[] =
+    { 1, 2, 4, 8, 0x10, 0x20, 0x40, 0x80, 0x100, 0x200, 0x400, 0x800,
+      0x1000, 0x2000, 0x4000, 0x8000 };
 
 void rsuser_init(long cycles, void (*startfunc)(void), void (*bytefunc)(BYTE))
 {
