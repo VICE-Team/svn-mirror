@@ -52,9 +52,6 @@ typedef signed char SIGNED_CHAR;
 #if SIZEOF_UNSIGNED_SHORT == 2
 typedef unsigned short WORD;
 typedef signed short SWORD;
-#elif SIZEOF_UNSIGNED_INT == 2
-typedef unsigned int WORD;
-typedef signed int SWORD;
 #else
 #error Cannot find a proper 16-bit type!
 #endif

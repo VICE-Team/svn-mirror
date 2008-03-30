@@ -79,10 +79,10 @@ typedef struct tap_s {
     struct tape_file_record_s *tap_file_record;
 
     /* Tape counter in machine-cycles/8 for even looong tapes */
-    long cycle_counter;
+    int cycle_counter;
 
     /* Tape length in machine-cycles/8 */
-    long cycle_counter_total;
+    int cycle_counter_total;
 
     /* Tape counter.  */
     int counter;
