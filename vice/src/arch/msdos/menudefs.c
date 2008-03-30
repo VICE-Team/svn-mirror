@@ -44,6 +44,7 @@
 #include "fsdevice.h"
 #include "imagecontents.h"
 #include "info.h"
+#include "interrupt.h"
 #include "ioutil.h"
 #include "joy.h"
 #include "kbd.h"
