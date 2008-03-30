@@ -40,6 +40,9 @@
 #ifdef HAVE_IO_H
 #include <io.h>
 #endif
+#ifdef HAVE_LIMITS_H
+#include <limits.h>
+#endif
 #ifdef HAVE_FCNTL_H
 #include <fcntl.h>
 #endif
@@ -127,6 +130,19 @@ char *ioutil_getcwd(char *buf, int size)
 int ioutil_isatty(int desc)
 {
     return isatty(desc);
+}
+
+#ifndef PATH_MAX
+#ifdef MAX_PATH
+#define PATH_MAX MAX_PATH
+#else
+#define PATH_MAX 1024
+#endif
+#endif
+
+int ioutil_maxpathlen(void)
+{
+    return PATH_MAX;
 }
 
 int ioutil_mkdir(const char *pathname, int mode)

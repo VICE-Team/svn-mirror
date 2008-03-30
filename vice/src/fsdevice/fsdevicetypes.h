@@ -27,6 +27,10 @@
 #ifndef _FSDEVICETYPES_H
 #define _FSDEVICETYPES_H
 
+#ifdef HAVE_LIMITS_H
+#include <limits.h>
+#endif
+
 #include "tape.h"
 #include "types.h"
 
@@ -42,8 +46,8 @@ struct fs_buffer_info_s {
     struct ioutil_dir_s *ioutil_dir;
     tape_image_t tape;
     enum fsmode mode;
-    char dir[MAXPATHLEN];
-    BYTE name[MAXPATHLEN + 5];
+    char dir[PATH_MAX];
+    BYTE name[PATH_MAX];
     int buflen;
     BYTE *bufp;
     int eof;

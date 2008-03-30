@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -265,7 +266,7 @@ static char *create_image_selector(const char *title)
 static TUI_MENU_CALLBACK(create_disk_image_name_callback)
 {
     if (been_activated) {
-        char new_file_name[MAXPATHLEN];
+        char new_file_name[PATH_MAX];
 
         if (file_name == NULL)
             memset(new_file_name, 0, PATH_MAX);

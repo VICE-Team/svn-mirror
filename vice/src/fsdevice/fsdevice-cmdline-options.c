@@ -29,6 +29,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef HAVE_LIMITS_H
+#include <limits.h>
+#endif
+
 #include "archdep.h"
 #include "cmdline.h"
 #include "fsdevice.h"
@@ -37,7 +41,7 @@
 static int cmdline_fsdirectory(const char *param, void *extra_param)
 {
     unsigned int unit;
-    char directory[MAXPATHLEN];
+    char directory[PATH_MAX];
 
     unit = (unsigned int)extra_param;
     strcpy(directory, param);
