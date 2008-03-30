@@ -5,6 +5,7 @@ doc_DATA = \
 	NLS-Howto.txt \
 	Readme.beos \
 	Readme.dos \
+	ReadmeMacOSX.txt \
 	Win32-Howto.txt \
 	iec-bus.txt \
 	mon.txt
