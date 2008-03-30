@@ -34,7 +34,7 @@
 
 #include "dialogs.h"
 #include "dlg-vsid.h"
-#include "dlg-emulator.h" // hwndEmulator
+#include "dlg-emulator.h" // hwndVsidEmulator
 
 #include "log.h"
 #include "utils.h"
@@ -44,7 +44,7 @@
 
 extern int trigger_shutdown;
 
-static HWND hwnd;
+HWND hwndVsid;
 
 void vsid_mainloop(VOID *arg)
 {
@@ -59,10 +59,7 @@ void vsid_mainloop(VOID *arg)
     //
     // open dialog
     //
-    hwnd = vsid_dialog();
-
-    // FIXME !
-    hwndEmulator = hwnd;
+    hwndVsid = vsid_dialog();
 
     if (rc=DosSetPriority(PRTYS_THREAD, PRTYC_REGULAR, +1, 0))
         log_message(LOG_DEFAULT, "vsidui.c: Error DosSetPriority (rc=%li)", rc);
@@ -70,14 +67,14 @@ void vsid_mainloop(VOID *arg)
     //
     // MAINLOOP
     //
-    WinProcessDlg(hwnd);
+    WinProcessDlg(hwndVsid);
 
     //
     // WinProcessDlg() does NOT destroy the window on return! Do it here,
     // otherwise the window procedure won't ever get a WM_DESTROY,
     // which we may want :-)
     //
-    WinDestroyWindow(hwnd);
+    WinDestroyWindow(hwndVsid);
 
     //
     // destroy msg queue, release pm anchor
@@ -111,23 +108,23 @@ int vsid_ui_init(void)
 void vsid_ui_display_irqtype(const char *irq)
 {
     char *txt = xmsprintf("using %s interrupt", irq);
-    WinSetDlgItemText(hwnd, ID_TIRQ, txt);
+    WinSetDlgItemText(hwndVsid, ID_TIRQ, txt);
     free(txt);
 }
 
 void vsid_ui_display_name(const char *name)
 {
-    WinSetDlgItemText(hwnd, ID_TNAME, (char*)name);
+    WinSetDlgItemText(hwndVsid, ID_TNAME, (char*)name);
 }
 
 void vsid_ui_display_author(const char *author)
 {
-    WinSetDlgItemText(hwnd, ID_TAUTHOR, (char*)author);
+    WinSetDlgItemText(hwndVsid, ID_TAUTHOR, (char*)author);
 }
 
 void vsid_ui_display_copyright(const char *copyright)
 {
-    WinSetDlgItemText(hwnd, ID_TCOPYRIGHT, (char*)copyright);
+    WinSetDlgItemText(hwndVsid, ID_TCOPYRIGHT, (char*)copyright);
 }
 
 void vsid_ui_display_sync(int sync)
@@ -135,13 +132,13 @@ void vsid_ui_display_sync(int sync)
     switch (sync)
     {
     case DRIVE_SYNC_PAL:
-        WinSetDlgItemText(hwnd, ID_TSYNC, "using PAL synchronization");
+        WinSetDlgItemText(hwndVsid, ID_TSYNC, "using PAL synchronization");
         return;
     case DRIVE_SYNC_NTSC:
-        WinSetDlgItemText(hwnd, ID_TSYNC, "using NTSC synchronization");
+        WinSetDlgItemText(hwndVsid, ID_TSYNC, "using NTSC synchronization");
         return;
     case DRIVE_SYNC_NTSCOLD:
-        WinSetDlgItemText(hwnd, ID_TSYNC, "using old NTSC synchronization");
+        WinSetDlgItemText(hwndVsid, ID_TSYNC, "using old NTSC synchronization");
         return;
     }
 }
@@ -155,8 +152,8 @@ void vsid_ui_display_tune_nr(int nr)
     char txt[3]="-";
     if (nr<100)
         sprintf(txt, "%d", nr);
-    WinSetDlgItemText(hwnd, ID_TUNENO, txt);
-    WinSetDlgSpinVal(hwnd, SPB_SETTUNE, nr);
+    WinSetDlgItemText(hwndVsid, ID_TUNENO, txt);
+    WinSetDlgSpinVal(hwndVsid, SPB_SETTUNE, nr);
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
@@ -164,7 +161,7 @@ void vsid_ui_display_nr_of_tunes(int count)
     char txt[3]="-";
     if (count<100)
         sprintf(txt, "%d", count);
-    WinSetDlgItemText(hwnd, ID_TUNES, txt);
+    WinSetDlgItemText(hwndVsid, ID_TUNES, txt);
 }
 
 void vsid_ui_display_time(unsigned int sec)
@@ -172,5 +169,5 @@ void vsid_ui_display_time(unsigned int sec)
     char txt[6]="--:--";
     if (sec<600)
         sprintf(txt, "%02d:%02d", (sec/60)%100, sec%60);
-    WinSetDlgItemText(hwnd, ID_TIME, txt);
+    WinSetDlgItemText(hwndVsid, ID_TIME, txt);
 }

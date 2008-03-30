@@ -148,13 +148,13 @@ protected:
 
   // External audio input routed through filter.
   // NB! Not modeled.
-  bool filtex;
+  reg8 filtex;
 
   // Voices routed through filter.
   reg8 filt3_filt2_filt1;
 
   // Switch voice 3 off.
-  bool voice3off;
+  reg8 voice3off;
 
   // Highpass, bandpass, and lowpass filter modes.
   reg8 hp_bp_lp;

@@ -27,7 +27,7 @@
 #ifndef _MON_REGISTER_H
 #define _MON_REGISTER_H
 
-typedef struct mon_reg_list_s {
+struct mon_reg_list_s {
     /* Name of the register.  */
     const char *name;
     /* Value of the register.  */
@@ -38,7 +38,8 @@ typedef struct mon_reg_list_s {
     unsigned int flags;
     /* Pointer to the next register list entry.  */
     struct mon_reg_list_s *next;
-} mon_reg_list_t;
+};
+typedef struct mon_reg_list_s mon_reg_list_t;
 
 struct monitor_cpu_type_s;
 

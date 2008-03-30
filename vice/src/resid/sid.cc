@@ -398,6 +398,7 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
     }
   }
 
+  clock_frequency = clock_freq;
   sampling = method;
 
   cycles_per_sample =
@@ -458,6 +459,25 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   sample_index = 0;
 
   return true;
+}
+
+
+// ----------------------------------------------------------------------------
+// Adjustment of SID sampling frequency.
+//
+// In some applications, e.g. a C64 emulator, it can be desirable to
+// synchronize sound with a timer source. This is supported by adjustment of
+// the SID sampling frequency.
+//
+// NB! Adjustment of the sampling frequency may lead to noticeable shifts in
+// frequency, and should only be used for interactive applications. Note also
+// that any adjustment of the sampling frequency will change the
+// characteristics of the resampling filter, since the filter is not rebuilt.
+// ----------------------------------------------------------------------------
+void SID::adjust_sampling_frequency(double sample_freq)
+{
+  cycles_per_sample =
+    cycle_count(clock_frequency/sample_freq*(1 << 10) + 0.5);
 }
 
 

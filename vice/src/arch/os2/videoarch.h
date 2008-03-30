@@ -35,6 +35,7 @@ typedef struct canvas_s
     HWND  hwndFrame;        // Handle to Frame of Window
     HWND  hwndClient;       // Handle to Paint Area of Window
     HWND  hwndMenu;         // Handle to menu bar
+    HWND  hwndTitlebar;     // Hwndle to titlebar
     HWND  hwndPopupMenu;    // Handle to popup menu
     HMTX  hmtx;
     char *title;

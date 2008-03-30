@@ -34,12 +34,14 @@
 
 #include <os2.h>
 
+#include <stdlib.h>
+
 #include "dialogs.h"
 #include "dlg-vsid.h"
-#include "dlg-emulator.h" // WM_DISPLAY
 #include "menubar.h"
 
 #include "psid.h"
+#include "utils.h"
 #include "resources.h"
 
 #include "snippets\pmwin2.h"
@@ -108,12 +110,12 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             resources_set_value("PSIDTune", (resource_value_t)val);
         }
         break;
+
     case WM_DISPLAY:
         {
-            char txt[8]="---%";
-            if ((int)mp1<100000)
-                sprintf(txt, "%5d%%", mp1);
-            WinSetDlgItemText(hwnd, ID_SPEEDDISP, txt);
+            char *txt=xmsprintf("Vice/2 SID Player - %d%%", mp1);
+            WinSetDlgItemText(hwnd, FID_TITLEBAR, txt);
+            free(txt);
         }
         return FALSE;
     }

@@ -412,9 +412,10 @@ static int initsid(void)
         snddata.bufsize = fragsize*fragnr;
         snddata.bufptr = 0;
         log_message(LOG_DEFAULT,
-                    "SOUND: Opened device `%s' speed %dHz fragsize %.3fs bufsize %.3fs",
-                    pdev->name, speed, (double)fragsize / speed,
-                    (double)snddata.bufsize / speed);
+                    "SOUND: Opened device `%s', speed %dHz, fragment size %dms, buffer size %dms",
+                    pdev->name, speed,
+                    (int)(1000.0*fragsize/speed),
+                    (int)(1000.0*snddata.bufsize/speed));
         sample_rate = speed;
         /* Cycle based sound engines must do their own filtering,
          and handle sample rate conversion. */

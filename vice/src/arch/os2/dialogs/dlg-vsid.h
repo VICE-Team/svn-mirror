@@ -36,6 +36,8 @@
 #define ID_TSYNC       0x18
 #define ID_TIRQ        0x19
 
+#define WM_DISPLAY     WM_USER+1
+
 extern HWND hwndVsid;
 
 extern HWND vsid_dialog(void);

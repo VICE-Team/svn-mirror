@@ -47,6 +47,7 @@
 #include "cmdline.h"
 #include "log.h"
 #include "maincpu.h"
+#include "machine.h"  // vsid_mode
 #include "sound.h"
 #include "vsync.h"
 #include "vsyncapi.h"
@@ -142,7 +143,7 @@ static void (*vsync_hook)(void);
 /* ------------------------------------------------------------------------- */
 
 /* static guarantees zero values. */
-static long vsyncarch_freq;
+static long vsyncarch_freq=0;
 static unsigned long now;
 static unsigned long display_start;
 static long frame_ticks, frame_ticks_orig;
@@ -280,8 +281,6 @@ int vsync_do_vsync(int been_skipped)
     /* Run vsync jobs. */
     vsync_hook();
 
-    vsyncarch_postsync();
-
     /*
      * Update display every two second (pc system time)
      * This has some reasons:
@@ -371,10 +370,10 @@ int vsync_do_vsync(int been_skipped)
      *         If we are becoming faster a small deviation because of
      *         threading results in a frame rate correction suddenly.
      */
-    if (skipped_redraw < MAX_SKIPPED_FRAMES
+    if (vsid_mode || skipped_redraw < MAX_SKIPPED_FRAMES
         && (warp_mode_enabled
             || (skipped_redraw < refresh_rate - 1)
-            || ((!timer_speed || delay > 2*frame_ticks*timer_speed/100)
+            || ((!timer_speed || delay > 3*frame_ticks*timer_speed/100)
                 && !refresh_rate
                )
            )
@@ -445,6 +444,8 @@ int vsync_do_vsync(int been_skipped)
     }
 
     next_frame_start += frame_ticks;
+
+    vsyncarch_postsync();
 
     return skip_next_frame;
 }

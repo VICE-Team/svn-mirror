@@ -45,6 +45,7 @@
 #include <stdlib.h>
 
 #include "mon.h"             // e_*
+#include "mon_register.h"    // mon_reg_list_t
 #include "mon_disassemble.h" // mon_disassemble_to_string_ex
 
 #include "utils.h"
@@ -91,9 +92,15 @@ static const char *mon_dis(MEMSPACE mem, ADDRESS loc, unsigned int *size)
     return mon_disassemble_to_string_ex(mem, loc, loc, op, p1, p2, 1, size);
 }
 
+
 int mon_get_reg_val(int i, int j)
 {
-    return 0;
+    monitor_cpu_type_t cpu;
+
+    mon_register6502_init(&cpu);
+    //mon_registerz80_init(&cpu);
+
+    return cpu.mon_register_get_val(i, j);
 }
 
 static void UpdateDisassembly(HWND hwnd)
@@ -231,30 +238,50 @@ static void UpdateMemory(HWND hwnd)
 static void UpdateRegisters(HWND hwnd)
 {
     const MEMSPACE mem = (MEMSPACE)WinQueryWindowPtr(hwnd, QWL_USER);
+    const HWND    lbox = WinWindowFromID(hwnd, LB_MONDIS);
 
-    //
-    // Update CPU register values
-    //
-    const int flags = mon_get_reg_val(mem, e_FLAGS);
+    monitor_cpu_type_t cpu;
+    mon_reg_list_t    *list;
 
-    //
-    // FIXME: check for changes -> change color
-    //
-    WinSetDlgItemText(hwnd, ID_REGA,  fmt(mon_get_reg_val(mem, e_PC), 4));
-    WinSetDlgItemText(hwnd, ID_REGAC, fmt(mon_get_reg_val(mem, e_A),  2));
-    WinSetDlgItemText(hwnd, ID_REGX,  fmt(mon_get_reg_val(mem, e_X),  2));
-    WinSetDlgItemText(hwnd, ID_REGY,  fmt(mon_get_reg_val(mem, e_Y),  2));
-    WinSetDlgItemText(hwnd, ID_REGSP, fmt(mon_get_reg_val(mem, e_SP), 2));
-    WinSetDlgItemText(hwnd, ID_REG01, fmt(mon_get_mem_val(mem, 1),    2));
+    mon_register6502_init(&cpu);
+    //mon_registerz80_init(&cpu);
 
-    WinEnableControl(hwnd, ID_REGC, flags&P_CARRY);
-    WinEnableControl(hwnd, ID_REGZ, flags&P_ZERO);
-    WinEnableControl(hwnd, ID_REGI, flags&P_INTERRUPT);
-    WinEnableControl(hwnd, ID_REGD, flags&P_DECIMAL);
-    WinEnableControl(hwnd, ID_REGB, flags&P_BREAK);
-    WinEnableControl(hwnd, ID_REGM, flags&P_UNUSED);
-    WinEnableControl(hwnd, ID_REGV, flags&P_OVERFLOW);
-    WinEnableControl(hwnd, ID_REGN, flags&P_SIGN);
+    list=cpu.mon_register_list_get(mem);
+
+    WinLboxEmpty(lbox);
+    while (list)
+    {
+        char *txt;
+
+        if (list->flags)
+        {
+            char str[9]="00000000";
+            char val[33];
+
+            _itoa(list->val, val, 2);
+
+            val[9]='\0';
+
+            strcpy(str+8-strlen(val), val);
+
+            txt = xmsprintf("%s: %08s", list->name, str);
+        }
+        else
+            switch (list->size)
+            {
+            case 16:
+                txt=xmsprintf("%s: 0x%04x", list->name, list->val);
+                break;
+            case 8:
+                txt=xmsprintf("%s: 0x%02x", list->name, list->val);
+                break;
+            }
+
+        WinInsertLboxItem(lbox, LIT_END, txt);
+        free(txt);
+
+        list = list->next;
+    }
 }
 
 // --------------------------------------------------------------------------
@@ -505,6 +532,7 @@ static MRESULT EXPENTRY pm_monitor(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             WinActivateWindow(hwndMondis8, FALSE);
             WinActivateWindow(hwndMonmem9, FALSE);
             WinActivateWindow(hwndMonmem8, FALSE);
+
         }
         break;
 

@@ -67,11 +67,11 @@ void Filter::reset()
 
   res = 0;
 
-  filtex = false;
+  filtex = 0;
 
   filt3_filt2_filt1 = 0;
 
-  voice3off = false;
+  voice3off = 0;
 
   hp_bp_lp = 0;
 
@@ -108,13 +108,13 @@ void Filter::writeRES_FILT(reg8 res_filt)
   res = (res_filt >> 4) & 0x0f;
   set_Q();
 
-  filtex = res_filt & 0x08 ? true : false;
+  filtex = res_filt & 0x08;
   filt3_filt2_filt1 = res_filt & 0x07;
 }
 
 void Filter::writeMODE_VOL(reg8 mode_vol)
 {
-  voice3off = mode_vol & 0x80 ? true : false;
+  voice3off = mode_vol & 0x80;
 
   hp_bp_lp = (mode_vol >> 4) & 0x07;
 

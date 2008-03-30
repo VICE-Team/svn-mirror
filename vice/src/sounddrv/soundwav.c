@@ -32,6 +32,7 @@
 #include "sound.h"
 #include "types.h"
 #include "utils.h"
+#include "archdep.h"
 
 static FILE *wav_fd = NULL;
 static int samples = 0;
@@ -46,7 +47,7 @@ static int wav_init(const char *param, int *speed,
     DWORD bytes_per_sec = *speed*2;
     int i;
 
-    wav_fd = fopen(param?param:"vicesnd.wav", "w");
+    wav_fd = fopen(param?param:"vicesnd.wav", MODE_WRITE);
     if (!wav_fd)
 	return 1;
 

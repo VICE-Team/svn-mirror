@@ -61,7 +61,7 @@ protected:
   reg4 sustain;
   reg4 release;
 
-  bool gate;
+  reg8 gate;
 
   enum { ATTACK, DECAY_SUSTAIN, RELEASE } state;
 

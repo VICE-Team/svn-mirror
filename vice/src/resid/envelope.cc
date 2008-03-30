@@ -40,7 +40,7 @@ void EnvelopeGenerator::reset()
   sustain = 0;
   release = 0;
 
-  gate = false;
+  gate = 0;
 
   rate_counter = 0;
   exponential_counter = 0;
@@ -202,7 +202,7 @@ reg8 EnvelopeGenerator::sustain_level[] = {
 // ----------------------------------------------------------------------------
 void EnvelopeGenerator::writeCONTROL_REG(reg8 control)
 {
-  bool gate_next = control & 0x01;
+  reg8 gate_next = control & 0x01;
 
   // The rate counter is never reset, thus there will be a delay before the
   // envelope counter starts counting up (attack) or down (release).

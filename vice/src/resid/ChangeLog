@@ -1,3 +1,10 @@
+	* envelope.cc, envelope.h, filter.cc, filter.h, wave.cc, wave.h:
+	Removed bool usage. This avoids unnecessary conversion to 1/0.
+
+	* sid.cc, sid.h (adjust_sampling_frequency): New function for
+	on-the-fly adjustment of sampling frequency.
+	(clock_fast): Corrected sample calculation.
+
 2001-03-10  Dag Lem  <resid@nimrod.no>
 
 	* Version 0.11 released.

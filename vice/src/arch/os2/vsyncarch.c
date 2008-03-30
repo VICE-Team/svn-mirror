@@ -37,7 +37,7 @@
 #include <stdlib.h>    // exit
 
 #include "dialogs.h"
-#include "dlg-emulator.h"
+#include "dlg-vsid.h"
 
 #include "log.h"
 #include "utils.h"     // xmsprintf
@@ -147,12 +147,23 @@ void vice_exit(void)
 }
 
 // -------------------------------------------------------------------------
+extern void CanvasDisplaySpeed(int speed, int frame_rate, int warp_enabled);
 
 // Display speed (percentage) and frame rate (frames per second).
 void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 {
-    WinSendMsg(hwndEmulator, WM_DISPLAY,
-               (void*)(int)(speed+0.5), (void*)(int)(frame_rate+0.5));
+    //
+    // FIXME !!!
+    //
+#ifdef __X64__
+    if (!vsid_mode)
+#endif
+        CanvasDisplaySpeed(speed+0.5, frame_rate+1, warp_enabled);
+#ifdef __X64__
+    else
+        WinSendMsg(hwndVsid, WM_DISPLAY,
+                   (void*)(int)(speed+0.5), (void*)(int)(frame_rate+0.5));
+#endif
 
     // this line calles every 2 seconds makes sure that the system
     // is able to respond independently from the CPU load

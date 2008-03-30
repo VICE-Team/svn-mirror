@@ -73,9 +73,9 @@ protected:
   reg8 waveform;
 
   // The remaining control register bits.
-  bool test;
-  bool ring_mod;
-  bool sync;
+  reg8 test;
+  reg8 ring_mod;
+  reg8 sync;
   // The gate bit is handled by the EnvelopeGenerator.
 
   // 16 possible combinations of waveforms.

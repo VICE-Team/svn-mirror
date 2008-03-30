@@ -285,6 +285,9 @@
 
 #define IDM_FLIPLIST     0x284
 
+#define IDM_PLUS         0x285
+#define IDM_MINUS        0x286
+
 #define IDM_FLIPPREV8    0x480
 #define IDM_FLIPNEXT8    0x481
 

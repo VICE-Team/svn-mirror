@@ -143,7 +143,6 @@ void AddToWindowList(HWND hwnd)
     hwndlist[i]   = hwnd;
     hwndlist[i+1] = NULLHANDLE;
 }
-
 static int set_stretch_factor(resource_value_t v, void *param)
 {
     int i=0;
@@ -184,6 +183,30 @@ static int set_stretch_factor(resource_value_t v, void *param)
     }
 
     return 0;
+}
+
+void CanvasDisplaySpeed(int speed, int frame_rate, int warp_enabled)
+{
+    int i=0;
+
+    if (!hwndlist)
+        return;
+
+
+    //
+    // disable visible region (stop blitting to display)
+    //
+    i = 0;
+    while (hwndlist[i])
+    {
+        const canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwndlist[i++], QWL_USER);
+
+        char *txt=xmsprintf("%s - %d%% - %dfps %s",
+                            c->title, speed, frame_rate,
+                            warp_enabled?"(Warp)":"");
+        WinSetWindowText(c->hwndTitlebar, txt);
+        free(txt);
+    }
 }
 
 /* ------------------------------------------------------------------------ */
@@ -1067,6 +1090,11 @@ void PM_mainloop(VOID *arg)
     WinSetWindowPtr(c->hwndClient, QWL_USER, (VOID*)c);
 
     //
+    // initialize titlebare usage
+    //
+    c->hwndTitlebar = WinWindowFromID(c->hwndFrame, FID_TITLEBAR);
+
+    //
     // initialize menu bar
     //
     InitMenuBar(c);
@@ -1177,6 +1205,8 @@ canvas_t *canvas_create(const char *title, UINT *width,
     }
 
     canvas_new = (canvas_t *)xcalloc(1, sizeof(canvas_t));
+
+    *strrchr(title, ' ')=0; // FIXME?
 
     canvas_new->title            =  concat(szTitleBarText, " - ", title+6, NULL);
     canvas_new->width            = *width;

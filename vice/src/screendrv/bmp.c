@@ -110,13 +110,13 @@ int bmp_write_bitmap_info(screenshot_t *screenshot, FILE *fd)
 
 int bmp_write_bitmap_data(screenshot_t *screenshot, FILE *fd)
 {
-    unsigned int line, row;
+    int line, row;
     BYTE *data, *bmp_data;
 
     data = (BYTE *)xmalloc(screenshot->width);
     bmp_data = (BYTE *)xmalloc(screenshot->width / 2);
 
-    for (line = screenshot->height - 1; line >= 0; line--) {
+    for (line = (int) screenshot->height - 1; line >= 0; line--) {
         screenshot_line_data(screenshot, data, line, SCREENSHOT_MODE_PALETTE);
         for (row = 0; row < screenshot->width / 2; row++) {
             bmp_data[row] = ((data[row * 2] & 0xf) << 4)

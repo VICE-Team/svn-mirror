@@ -195,7 +195,7 @@ void VicePreview::MessageReceived(BMessage *msg)
 			file_num = contentlist->CurrentSelection();
 			if (file_num >= 0) {
 				father->Hide();
-				autostart_autodetect(image_name, NULL, file_num);
+				autostart_autodetect(image_name, NULL, file_num, AUTOSTART_MODE_RUN);
 			}
 			break;
 		default:
@@ -351,7 +351,7 @@ void ui_select_file_action(BMessage *msg) {
     		if (tape_attach_image(path->Path()) < 0)
         		ui_error("Cannot attach specified file");
 		} else if (last_filetype[0] == AUTOSTART_FILE) {
-			if (autostart_autodetect(path->Path(), NULL, 0) < 0)
+			if (autostart_autodetect(path->Path(), NULL, 0, AUTOSTART_MODE_RUN) < 0)
   				ui_error("Cannot autostart specified file.");
 		} else if (last_filetype[0] == SNAPSHOTLOAD_FILE) {
 	    	if (machine_read_snapshot(path->Path())<0) {

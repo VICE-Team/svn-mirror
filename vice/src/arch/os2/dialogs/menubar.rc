@@ -111,7 +111,7 @@ BEGIN
    END
    SUBMENU "~View",                    IDM_VIEW,         MIS_TEXT
    BEGIN
-      MENUITEM "~Emulator Setup\tAlt-E",    IDM_EMULATOR,  MIS_TEXT
+//      MENUITEM "~Emulator Setup\tAlt-E",    IDM_EMULATOR,  MIS_TEXT
       MENUITEM "~Drive Setup\tAlt-D",       IDM_DRIVE,     MIS_TEXT
       MENUITEM "~Joystick Setup\tAlt-J",    IDM_JOYSTICK,  MIS_TEXT
       MENUITEM "Datasette ~Control\tAlt-C", IDM_DATASETTE, MIS_TEXT
@@ -416,7 +416,7 @@ BEGIN
    "b",          IDM_MENUBAR,     ALT
    "c",          IDM_DATASETTE,   ALT
    "d",          IDM_DRIVE,       ALT
-   "e",          IDM_EMULATOR,    ALT
+//   "e",          IDM_EMULATOR,    ALT
 #ifdef HAS_JOYSTICK
    "j",          IDM_JOYSTICK,    ALT
 #endif
@@ -431,6 +431,8 @@ BEGIN
 //   "u",          IDM_SETUP,       ALT
 //   "v",          IDM_VIEW,        ALT
    "w",          IDM_WRITECONFIG, ALT
+   "+",          IDM_PLUS,        ALT
+   "-",          IDM_MINUS,       ALT
 END
 
 HELPTABLE IDM_VICE2 MOVEABLE DISCARDABLE

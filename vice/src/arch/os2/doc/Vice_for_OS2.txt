@@ -26,13 +26,14 @@
 Scrllck:    Warp mode on/off
 Esc:        Run/Stop
 Pg up, F12: Restore
+Alt-+:      Increase running speed
+Alt--:      Decrease running speed
 Alt-0:      Attach tape image to Datasette
 Alt-8:      Attach disk image to Drive 8
 Alt-9:      Attach disk image to Drive 9
 Alt-A:      Open about-dialog
 Alt-C:      Open datasette-control-dialog
 Alt-D:      Open drive-dialog
-Alt-E:      Open emulator-dialog
 Alt-H:      Open hardware-dialog
 Alt-J:      Open joystick-dialog
 Alt-M:      Open monitor
@@ -44,9 +45,7 @@ Alt-T:      Switch true drive emulation on/off
        F10: Switch CAPS-Key on/off (x128 only)
 Alt-V, F11: Switch VDC-Key on/off  (x128 only)
 Alt-W:      Write actual configuration to file
-Alt-PrtScr: Write screenshot to file (setup file-type and 
-            -name in the emulator dialog)
-            
+
 
   Additional info
 -------------------

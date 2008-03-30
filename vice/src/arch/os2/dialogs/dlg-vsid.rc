@@ -50,8 +50,8 @@ BEGIN
         CONTROL "Copyright", ID_TCOPYRIGHT,  10, 45, 150,  9, STY_TEXT
         CONTROL "",          ID_TSYNC,       10, 36, 150,  9, STY_TEXT
         CONTROL "",          ID_TIRQ,        10, 27, 150,  9, STY_TEXT
-	CONTROL "Speed:",    ID_NONE,       105,  6,  30,  9, STY_TEXT
-        CONTROL "---%",      ID_SPEEDDISP,  135,  6,  25,  9, STY_TEXT | DT_CENTER
+//	CONTROL "Speed:",    ID_NONE,       105,  6,  30,  9, STY_TEXT
+//      CONTROL "---%",      ID_SPEEDDISP,  135,  6,  25,  9, STY_TEXT | DT_CENTER
         CONTROL "Close",     DID_CLOSE,       7,  5,  38, 12, STY_CLOSEBUTTON | WS_GROUP 
     END
 END

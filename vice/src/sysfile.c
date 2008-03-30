@@ -181,7 +181,11 @@ FILE *sysfile_open(const char *name, char **complete_path_return,
         sprintf(buffer, "Vice:DRIVES.%s", name);
         if (access(buffer, R_OK))
         {
-            buffer[0] = '\0';
+            sprintf(buffer, "Vice:PRINTER.%s", name);
+            if (access(buffer, R_OK))
+            {
+                buffer[0] = '\0';
+            }
         }
     }
     if (buffer[0] != '\0') f = fopen(buffer, open_mode);

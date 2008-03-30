@@ -280,7 +280,7 @@ void psid_init_tune(void)
       log_message(LOG_DEFAULT, "Using %s interrupt", irq);
   }
   else {
-      log_message(LOG_DEFAULT, "Using custom (%s ?) interrupt", irq);
+    log_message(LOG_DEFAULT, "Using custom (%s ?) interrupt", irq);
   }
   
   /*

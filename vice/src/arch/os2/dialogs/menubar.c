@@ -33,7 +33,7 @@
 #include "menubar.h"
 #include "dlg-drive.h"
 #include "dlg-monitor.h"
-#include "dlg-emulator.h"
+//#include "dlg-emulator.h"
 #include "dlg-joystick.h"
 #include "dlg-datasette.h"
 
@@ -46,10 +46,13 @@
 #include "mon.h"         // mon
 #include "tape.h"        // tape_detach_image
 #include "drive.h"       // DRIVE_SYNC_*
+#include "utils.h"       // xmsprintf
 #include "sound.h"       // SOUND_ADJUST_*
 #include "attach.h"      // file_system_detach_disk
-//#include "machine.h"     // machine_read/write_snapshot
+#include "archdep.h"     // archdep_boot_path
+#include "machine.h"     // machine_read/write_snapshot
 #include "cmdline.h"     // cmdline_show_help, include resources.h
+#include "vsyncapi.h"    // vsyncarch
 #include "fliplist.h"    // flip_attach_head
 #include "cartridge.h"   // CARTRIDGE_*
 #include "interrupt.h"   // maincpu_trigger_trap
@@ -93,41 +96,88 @@ static void mon_trap(ADDRESS addr, void *unused_data)
 {
     mon(addr);
 }
-/*
-extern char *get_snapshot(int *save_roms, int *save_disks);
-static void save_snapshot(ADDRESS addr, void *hwnd)
-{
-    int save_roms, save_disks;
-    char *s=get_snapshot(&save_roms, &save_disks);
-
-    if (machine_write_snapshot(s, save_roms, save_disks) < 0)
-            WinMessageBox(HWND_DESKTOP, (HWND)hwnd,
-                          "Unable to save snapshot - sorry!",
-                          "Save Snapshot", 0, MB_OK);
-}
 
 static void load_snapshot(ADDRESS addr, void *hwnd)
 {
-    int save_roms, save_disks;
-    char *s=get_snapshot(&save_roms, &save_disks);
-
-    if (machine_read_snapshot(s) < 0)
+    char *name = concat(archdep_boot_path(), "\\vice2.vsf", NULL);
+    if (machine_read_snapshot(name) < 0)
         WinMessageBox(HWND_DESKTOP, (HWND)hwnd,
                       "Unable to load snapshot - sorry!",
                       "Load Snapshot", 0, MB_OK);
+    else
+        log_debug("Snapshot '%s' loaded successfully.", name);
+    free(name);
 }
 
-extern char *screenshot_name(void);
-extern char *screenshot_type(void);
+static void save_snapshot(ADDRESS addr, void *hwnd)
+{
+    // FIXME !!!!! roms, disks
+    char *name = concat(archdep_boot_path(), "\\vice2.vsf", NULL);
+    if (machine_write_snapshot(name, 1, 1) < 0)
+            WinMessageBox(HWND_DESKTOP, (HWND)hwnd,
+                          "Unable to save snapshot - sorry!",
+                          "Save Snapshot", 0, MB_OK);
+    else
+        log_debug("Snapshot saved as '%s' successfully.", name);
+    free(name);
+}
 
 void save_screenshot(HWND hwnd)
 {
-    const char *type = screenshot_type();
-    const char *name = screenshot_name();
-    if (!screenshot_canvas_save(type, name, (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER)))
-        log_debug("proc.c: Screenshot successfully saved as %s (%s)", name, type);
+    char *name = concat(archdep_boot_path(), "\\vice2.png", NULL);
+    if (!screenshot_canvas_save("PNG", name, (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER)))
+        log_debug("Screenshot saved as '%s' successfully.", name);
+    free(name);
 }
-*/
+
+// --------------------------------------------------------------------------
+
+void ChangeSpeed(HWND hwnd, int idm)
+{
+    static ULONG tm    = 0; //vsyncarch_gettime();
+    static int   step  = 1;
+    static int   calls = 0;
+
+    const canvas_t *c = (canvas_t *)WinQueryWindowPtr(hwnd, QWL_USER);
+
+    ULONG time = vsyncarch_gettime();
+
+    char *txt;
+
+    unsigned int speed;
+    resources_get_value("Speed", (resource_value_t*) &speed);
+
+    if ((signed long)(time-tm) < vsyncarch_frequency())
+    {
+        if (calls==25)
+        {
+            calls=0;
+            step*=5;
+
+            if (step>100)
+                step=100;
+        }
+    }
+    else
+    {
+        step=1;
+        calls=0;
+    }
+    tm=time;
+
+    calls++;
+
+    speed += idm==IDM_PLUS ? step : -step;
+
+    resources_set_value("Speed", (resource_value_t)speed);
+
+    if (speed)
+        txt=xmsprintf("%s - Set Max.Speed: %d%%", c->title, speed);
+    else
+        txt=xmsprintf("%s - Set Max.Speed: unlimited", c->title);
+    WinSetWindowText(c->hwndTitlebar, txt);
+    free(txt);
+}
 
 // --------------------------------------------------------------------------
 
@@ -135,6 +185,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 {
     switch (idm)
     {
+    case IDM_PLUS:
+    case IDM_MINUS:
+        ChangeSpeed(hwnd, idm);
+        return;
+
     case IDM_FILEOPEN:
         ViceFileDialog(hwnd, 0, FDS_OPEN_DIALOG);
         return;
@@ -227,7 +282,19 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_FLIPPREV9:
         flip_attach_head((idm>>4)&0xf, idm&1);
         return;
-/*
+
+    case IDM_WRITECONFIG:
+        WinMessageBox(HWND_DESKTOP, hwnd,
+                      resources_save(NULL)<0?"Cannot save settings.":
+                      "Settings written successfully.",
+                      "Resources", 0, MB_OK);
+        return;
+
+        /*
+         case IDM_READCONFIG:
+         return;
+         */
+
     case IDM_SNAPLOAD:
         maincpu_trigger_trap(load_snapshot, (void*)hwnd);
         return;
@@ -236,20 +303,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         maincpu_trigger_trap(save_snapshot, (void*)hwnd);
         return;
 
-    case IDM_READCONFIG:
-        return;
-*/
-    case IDM_WRITECONFIG:
-        WinMessageBox(HWND_DESKTOP, hwnd,
-                      resources_save(NULL)<0?"Cannot save settings.":
-                      "Settings written successfully.",
-                      "Resources", 0, MB_OK);
-        return;
-/*
     case IDM_PRINTSCRN:
         save_screenshot(hwnd);
         return;
-*/
+
     case IDM_HARDRESET:
         hardreset_dialog(hwnd);
         return;
@@ -421,11 +478,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_DRIVE:
         drive_dialog(hwnd);
         return;
-
+/*
     case IDM_EMULATOR:
         emulator_dialog(hwnd);
         return;
-
+*/
     case IDM_SOUNDON:
         toggle("Sound");
         return;

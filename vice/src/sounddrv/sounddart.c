@@ -102,7 +102,7 @@ static void dart_close()
     if (rc != MCIERR_SUCCESS) sound_err(rc, "DART_ERR_CLOSE_MIXER");
 
     usDeviceID = 0;
-    log_message(LOG_DEFAULT, "sounddrv.c: Sound closed.");
+    log_message(LOG_DEFAULT, "Dart: Sound closed.");
 
     free(buffers);
     //log_message(LOG_DEFAULT, "sounddrv.c: Buffer freed.");
@@ -349,12 +349,12 @@ static int dart_init(const char *param, int *speed,
     if (*fragnr  !=BufferParms.ulNumBuffers)
     {
         *fragnr   = BufferParms.ulNumBuffers;
-        log_message(LOG_DEFAULT, "sounddart.c: %3i buffers   %6i bytes (got from dart)", BufferParms.ulNumBuffers, BufferParms.ulBufferSize);
+        log_message(LOG_DEFAULT, "Dart: got %3i buffers   %6i bytes.", BufferParms.ulNumBuffers, BufferParms.ulBufferSize);
     }
     if (*fragsize!=BufferParms.ulBufferSize/sizeof(SWORD))
     {
         *fragsize = BufferParms.ulBufferSize/sizeof(SWORD);
-        log_message(LOG_DEFAULT, "sounddart.c: %3i buffers   %6i bytes (got from dart)", BufferParms.ulNumBuffers, BufferParms.ulBufferSize);
+        log_message(LOG_DEFAULT, "Dart: got %3i buffers   %6i bytes.", BufferParms.ulNumBuffers, BufferParms.ulBufferSize);
     }
 
     // SECURITY for *fragnr <2 ????
@@ -492,38 +492,78 @@ static int dart_write2(SWORD *pbuf, size_t nr)
 /* return number of free samples in the kernel buffer at the moment */
 static int dart_bufferspace(void)
 {
+    //
+    // FIXME!!! This is not the best I can do...
+    // but better than nothing
+    //
+    ULONG rc;
+    if ((rc=DosRequestMutexSem(hmtxSnd, SEM_INDEFINITE_WAIT)))
+    {
+        log_debug("sounddart.c: dart_bufferspace, DosRequestMutexSem rc=%i", rc);
+        return -1;
+    }
 
-    MCI_STATUS_PARMS mciStatus;
+    rc = last-pos;  // remember: last is nothing else than play-1
+
+    DosReleaseMutexSem(hmtxSnd);
+
+    if (pos>last)
+        rc += BufferParms.ulNumBuffers;
+
+    return rc * BufferParms.ulBufferSize / sizeof(SWORD);
+    /*
     LONG rc;
-    MCI_SET_PARMS  MciSetParms;
-    static int offset;
+    MCI_STATUS_PARMS mciStatus;
+
+    const int bufsz = BufferParms.ulBufferSize/sizeof(SWORD)*BufferParms.ulNumBuffers;
 
     mciStatus.ulItem = MCI_STATUS_POSITION;
 
-    /* mciSendCommand() query for MCI_STATUS_POSITION returns position
-       in MMTIME units (currently set to milliseconds). */
+    //
+    // mciSendCommand() query for MCI_STATUS_POSITION returns position
+    // in MMTIME units (currently set to milliseconds).
+    //
     rc = mciSendCommand(usDeviceID, MCI_STATUS,
-                              MCI_WAIT|MCI_STATUS_ITEM,
-                              (PVOID) &mciStatus, 0);
+                        MCI_WAIT|MCI_STATUS_ITEM,
+                        (PVOID) &mciStatus, 0);
 
-    rc = rest + (int)(mmtime*mciStatus.ulReturn);
-//    log_debug("w: %i  p: %i  r: %i", written, (int)(mmtime*mciStatus.ulReturn), rc<0?0:rc);
+    //
+    // number of samples unplayed in the kernel buffer at the moment
+    //
+    // The number can become negative if we are running too slow,
+    // because then we played more samples than we have written actually
+    //
+    // written:   all samples ever written
+    // mciStatus: all samples ever played
+    //
+    rc = written - mmtime*mciStatus.ulReturn;
 
-//    return BufferParms.ulBufferSize/sizeof(SWORD);
-    return rc;
+    //
+    // It would also be possible to return 'rest'. But rest are doesn't
+    // store the actual number of free samples. It stores the number
+    // of free samples at the time dart_write2 was called the last time
+    //
+    if (bufsz<rc)
+        return 0;
+
+    if (rc<0)
+        return bufsz;
+
+    return bufsz-rc;
+    */
 }
 
 static int dart_suspend()
 {
     mute(MUTE_ON);
-    log_message(LOG_DEFAULT, "dart_suspend");
+    log_message(LOG_DEFAULT, "Dart: Sound output suspended.");
     return 0;
 }
 
 static int dart_resume()
 {
     mute(MUTE_OFF);
-    log_message(LOG_DEFAULT, "dart_resume");
+    log_message(LOG_DEFAULT, "Dart: Sound output resumed.");
     return 0;
 }
 
