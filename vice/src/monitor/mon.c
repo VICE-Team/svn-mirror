@@ -140,7 +140,7 @@ int sidefx;
 RADIXTYPE default_radix;
 MEMSPACE default_memspace;
 static bool inside_monitor = FALSE;
-static unsigned instruction_count;
+static unsigned int instruction_count;
 static bool skip_jsrs;
 static int wait_for_return_level;
 BREAK_LIST *breakpoints[NUM_MEMSPACES];
@@ -155,18 +155,18 @@ const char *_mon_space_strings[] = {
 
 static ADDRESS watch_load_array[10][NUM_MEMSPACES];
 static ADDRESS watch_store_array[10][NUM_MEMSPACES];
-static unsigned watch_load_count[NUM_MEMSPACES];
-static unsigned watch_store_count[NUM_MEMSPACES];
+static unsigned int watch_load_count[NUM_MEMSPACES];
+static unsigned int watch_store_count[NUM_MEMSPACES];
 static bool force_array[NUM_MEMSPACES];
 static symbol_table_t monitor_labels[NUM_MEMSPACES];
 
 static MON_ADDR dot_addr[NUM_MEMSPACES];
 static int breakpoint_count;
 static unsigned char data_buf[256];
-static unsigned data_buf_len;
+static unsigned int data_buf_len;
 bool asm_mode;
 static MON_ADDR asm_mode_addr;
-static unsigned next_or_step_stop;
+static unsigned int next_or_step_stop;
 unsigned mon_mask[NUM_MEMSPACES];
 
 static bool watch_load_occurred;
@@ -2139,7 +2139,7 @@ void mon_instructions_step(int count)
    skip_jsrs = FALSE;
    exit_mon = 1;
 
-   if (instruction_count==1)
+   if (instruction_count == 1)
 	   mon_console_close_on_leaving = 0;
 
    mon_mask[caller_space] |= MI_STEP;
@@ -2873,20 +2873,22 @@ bool mon_force_import(MEMSPACE mem)
 void mon_check_icount(ADDRESS a)
 {
     if (instruction_count) {
-        if (!wait_for_return_level)
+        if (wait_for_return_level == 0)
            instruction_count--;
 
-        if (GET_OPCODE(caller_space) == OP_JSR)
-           wait_for_return_level++;
+        if (skip_jsrs == TRUE) {
+            if (GET_OPCODE(caller_space) == OP_JSR)
+               wait_for_return_level++;
 
-        if (GET_OPCODE(caller_space) == OP_RTS)
-           wait_for_return_level--;
+            if (GET_OPCODE(caller_space) == OP_RTS)
+               wait_for_return_level--;
 
-        /* FIXME: Should this set the return level to 0? */
-        if (GET_OPCODE(caller_space) == OP_RTI)
-           wait_for_return_level--;
+            /* FIXME: Should this set the return level to 0? */
+            if (GET_OPCODE(caller_space) == OP_RTI)
+               wait_for_return_level--;
+        }
 
-        if (!instruction_count) {
+        if (instruction_count == 0) {
            if (mon_mask[caller_space] & MI_STEP) {
               mon_mask[caller_space] &= ~MI_STEP;
               disassemble_on_entry = 1;
@@ -2953,14 +2955,10 @@ void mon(ADDRESS a)
 {
     char prompt[40];
 
-	if (mon_console_close_on_leaving)
-	{
-	    console_log = console_open("Monitor");
-	}
-	else
-	{
-		mon_console_close_on_leaving = 1;
-	}
+    if (mon_console_close_on_leaving)
+        console_log = console_open("Monitor");
+    else
+        mon_console_close_on_leaving = 1;
 
     old_handler = signal(SIGINT, handle_abort);
 #ifdef __riscos
