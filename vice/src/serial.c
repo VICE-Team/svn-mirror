@@ -64,13 +64,16 @@
 #include "utils.h"
 #include "vdrive.h"
 
+
 #define MAXDEVICES 16
 
 /* Warning: these are only valid for the VIC20, C64 and C128, but *not* for
    the PET.  (FIXME?)  */
 #define SET_ST(b) mem_store((ADDRESS)0x90, (BYTE)(mem_read((ADDRESS)0x90) | b))
 #define BSOUR 0x95 /* Buffered Character for IEEE Bus */
-#define TMP_IN 0xA4
+
+/* Address of serial TMP register.  */
+static ADDRESS tmp_in;
 
 /* Initialized serial devices.  */
 static serial_t serialdevices[MAXDEVICES];
@@ -324,7 +327,7 @@ void serialreceivebyte(void)
     /* Set up serial success / data.  */
     if (st)
         SET_ST(st);
-    mem_store(TMP_IN, data);
+    mem_store(tmp_in, data);
 
     /* If at EOF, call specified callback function.  */
     if ((st & 0x40) && eof_callback_func != NULL)
@@ -575,11 +578,13 @@ int parallelreceivebyte(BYTE * data, int fake)
 
 /* ------------------------------------------------------------------------- */
 
-int serial_init(const trap_t *trap_list)
+int serial_init(const trap_t *trap_list, ADDRESS tmpin)
 {
     unsigned int i;
 
     serial_log = log_open("Serial");
+
+    tmp_in = tmpin;
 
     /* Remove installed traps, if any.  */
     serial_remove_traps();

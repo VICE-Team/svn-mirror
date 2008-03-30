@@ -1,5 +1,53 @@
 2002-01-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
+	* Version 1.7.58.
+
+	* serial.c, serial.h (serial_init): Set address of TMP IN
+	register.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/c610.c (machine_init): Pass address of
+	TMP IN register for this machine.
+
+2002-01-07  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* NEWS:
+	replaced a incorrect fix (dive->drive) by the correct DIVE
+
+	* attach.c, c1541.c, diskimage.c, drive/drive.c,
+	drive/drivemem.c, imagecontents.c, kbdbuf.c, palette.c,
+	pet/petsound.c, plus4/ted-sound.c, screenshot.c,
+	sid/fastsid.c, sid/sid.c, t64.c, vdrive/vdrive-dir.c,
+	vdrive/vdrive.c, vic20/vic20sound.c, vicii/vicii.c:
+	replaced malloc/memset combination by calloc call
+	corrected some bugs using sizeof() in memset
+	emoved some sizeofs in memset (replaced by numkbers or defines)
+
+	* pet/pet.c: small change in log_message output
+
+	* raster/raster.c: 
+	removed call to canvas_create/destroy in vsid_mode again
+
+2002-01-07  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/ui_device.cc: Fixed resource name for the
+	printer file.
+
+2002-01-07  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/spritedrv.c: reniced sprite interface
+
+	* arch/riscos/videoarch.h: prepared for different colour
+	depths
+
+	* vdc/vdc.c: replaced C++ commentary
+
+2002-01-07  Tibor Biczo <crown@axelero.hu>
+
+	* plus4/plus4.c (plus4_serial_traps): Updated serial traps.
+
+2002-01-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
 	* Version 1.7.57.
 
 	* plus4/ted.c (ted_raster_draw_alarm_handler): Update the
