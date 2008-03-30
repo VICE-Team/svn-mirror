@@ -123,6 +123,7 @@ init_raster (void)
   raster_set_exposure_handler (raster, exposure_handler);
   raster_enable_cache (raster, vic_resources.video_cache_enabled);
   raster_enable_double_scan (raster, vic_resources.double_scan_enabled);
+  raster_set_canvas_refresh(raster, 1);
 
   raster_set_geometry (raster,
                        VIC_SCREEN_WIDTH, VIC_SCREEN_HEIGHT,
