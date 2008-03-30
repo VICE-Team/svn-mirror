@@ -69,7 +69,6 @@ extern void mem_powerup(void);
 extern int mem_load(void);
 extern void mem_get_basic_text(ADDRESS * start, ADDRESS * end);
 extern void mem_set_basic_text(ADDRESS start, ADDRESS end);
-extern void mem_set_tape_sense(int value);
 extern void mem_toggle_watchpoints(int flag);
 extern int mem_rom_trap_allowed(ADDRESS addr);
 extern void mem_set_bank_pointer(BYTE **base, int *limit);

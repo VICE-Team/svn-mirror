@@ -45,6 +45,7 @@ void datasette_reset(void);
 
 /* Emulator specific functions.  */
 void datasette_trigger_flux_change(void);
+void datasette_set_tape_sense(int sense);
 
 #endif
 

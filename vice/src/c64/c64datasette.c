@@ -27,10 +27,15 @@
 #include "vice.h"
 
 #include "c64cia.h"
-#include "datasette.h"
+#include "c64mem.h"
 
 void datasette_trigger_flux_change(void)
 {
     cia1_set_flag();
+}
+
+void datasette_set_tape_sense(int sense)
+{
+    mem_set_tape_sense(sense);
 }
 
