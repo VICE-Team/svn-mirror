@@ -455,6 +455,9 @@ int c610_ui_init(void)
                                     datasette_control_submenu, 
 				    NULL));
     ui_set_topmenu();
+    ui_set_speedmenu(ui_menu_create("SpeedMenu",
+				    ui_performance_settings_menu, 
+				    NULL));
     ui_update_menus();
 
     return 0;

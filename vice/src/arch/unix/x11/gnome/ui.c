@@ -83,6 +83,7 @@
 #include "vsidproc.h"
 #include "vsync.h"
 #include "drive/drive.h"
+#include "charsets.h"
 
 /* FIXME: We want these to be static.  */
 Display *display;
@@ -109,14 +110,16 @@ static int tape_control_status = -1;
 #define CTRL_WIDTH 13
 #define CTRL_HEIGHT 11
 
-static GtkWidget *drive8menu, *drive9menu, *tape_menu;
+static GtkWidget *drive8menu, *drive9menu, *tape_menu, *speed_menu;
 static GtkWidget *status_bar;
 static GdkCursor *blankCursor;
 static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
 static char *(*current_image_contents_func)(const char *);
-static GdkFont *fixedfont;
+static GdkFont *fixedfont, *textfont;
 /* FIXME, ask Xresources here */
-static char *fixedfontname="-*-lucidatypewriter-medium-r-*-*-12-*";	
+static char *textfontname="-*-lucidatypewriter-medium-r-*-*-12-*";
+static char *fixedfontname="-freetype-mycbm64-medium-r-normal-medium-12-120-100-72-m-104-symbol-0";
+static int have_cbm_font = 0;
 
 static int cursor_is_blank = 0;
 
@@ -569,29 +572,9 @@ void ui_restore_mouse() {
     }
 }
 
-
 void initBlankCursor() {
-  /*  static unsigned char no_data[] = { 0,0,0,0, 0,0,0,0 };
-      static Pixmap blank;
-      XColor trash, dummy;
-
-      XAllocNamedColor(display,
-		       DefaultColormapOfScreen(DefaultScreenOfDisplay(display)),
-		       "black",&trash,&dummy);
-
-      blank = XCreateBitmapFromData(display, XtWindow(canvas),
-				    no_data, 8,8);
-
-      blankCursor = XCreatePixmapCursor(display,
-					blank,
-					blank,
-					&trash, &trash, 0, 0);
-  */
-  /*    static GdkPixmap blank;*/
-    
     blankCursor = gdk_cursor_new(GDK_MOUSE);
 }
-
 
 /* Warning: This cannot actually be changed at runtime.  */
 static int set_depth(resource_value_t v)
@@ -771,8 +754,6 @@ GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel,
 
 static int alloc_colormap(void);
 static int alloc_colors(const palette_t *palette, PIXEL pixel_return[]);
-static void ui_block_shells(void);
-static void ui_unblock_shells(void);
 static GtkWidget* build_file_selector(ui_button_t *button_return,
 				      GtkWidget **image_contents_widget,
 				      GtkWidget **autostart_button_widget);
@@ -942,6 +923,7 @@ void fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 	if ((int) data == 0) 
 	{
 	    ui_update_flip_menus(8, 8);
+	    ui_menu_update_all_GTK();
 	    if (drive8menu)
 		gtk_menu_popup(GTK_MENU(drive8menu),NULL,NULL,NULL,NULL,
 			       bevent->button, bevent->time);
@@ -949,6 +931,7 @@ void fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 	if ((int) data == 1)
 	{
 	    ui_update_flip_menus(9, 9);
+	    ui_menu_update_all_GTK();
 	    if (drive9menu)
 		gtk_menu_popup(GTK_MENU(drive9menu),NULL,NULL,NULL,NULL,
 			       bevent->button, bevent->time);
@@ -977,6 +960,19 @@ static void filesel_autostart_cb(GtkWidget *w, gpointer data)
     *((ui_button_t *)data) = UI_BUTTON_AUTOSTART;
 }
 
+static void speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
+{
+    if(event->type == GDK_BUTTON_PRESS) {
+        GdkEventButton *bevent = (GdkEventButton*) event;
+	
+	if (speed_menu)
+	{
+	    ui_menu_update_all_GTK();
+	    gtk_menu_popup(GTK_MENU(speed_menu),NULL,NULL,NULL,NULL,
+			   bevent->button, bevent->time);
+	}
+    }
+}
 
 /* Continue GUI initialization after resources are set. */
 int ui_init_finish(void)
@@ -1043,16 +1039,26 @@ int ui_init_finish(void)
 	}
     }
 
+    textfont = gdk_font_load(textfontname);
+    if (!textfont)
+	log_error(ui_log, "Cannot load text font %s.", fixedfontname);
+
     fixedfont = gdk_font_load(fixedfontname);
-    if (!fixedfont)
-	log_error(ui_log, "Cannot load font %s.", fixedfontname);
+    if (fixedfont)
+	have_cbm_font = TRUE;
+    else
+    {
+	log_warning(ui_log, "Cannot load CBM font %s.", fixedfontname);
+	fixedfont = textfont;
+	have_cbm_font = FALSE;
+    }
     return ui_menu_init();
 }
 
 void ui_create_status_bar(GtkWidget *pane, int width, int height)
 {
     /* Create the status bar on the bottom.  */
-    GtkWidget *speed_label, *drive_box, *frame;
+    GtkWidget *speed_label, *drive_box, *frame, *event_box;
     int i;
     app_shell_type *as;
 
@@ -1061,9 +1067,16 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     gtk_container_add(GTK_CONTAINER(pane),status_bar);
     gtk_widget_show(status_bar);
 
+    event_box = gtk_event_box_new();
+    gtk_box_pack_start(GTK_BOX(status_bar), event_box, TRUE, TRUE,0);
+    gtk_widget_show(event_box);
+    gtk_signal_connect(GTK_OBJECT(event_box),
+		       "button-press-event",
+		       GTK_SIGNAL_FUNC(speed_popup_cb), (gpointer) NULL);
+    
     frame = gtk_frame_new(NULL);
     gtk_frame_set_shadow_type (GTK_FRAME(frame), GTK_SHADOW_IN);
-    gtk_box_pack_start(GTK_BOX(status_bar),frame,TRUE,TRUE,0);
+    gtk_container_add(GTK_CONTAINER(event_box), frame);
     gtk_widget_show(frame);
     
     speed_label = gtk_label_new("");
@@ -1235,6 +1248,10 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     }
     gtk_widget_hide(as->tape_status.event_box);	/* Hide Tape widget */
     gdk_window_set_cursor (as->tape_status.event_box->window, 
+			   gdk_cursor_new (GDK_HAND1)); 
+
+    /* finalize event-box */
+    gdk_window_set_cursor (event_box->window, 
 			   gdk_cursor_new (GDK_HAND1)); 
 }
 
@@ -1430,6 +1447,13 @@ void ui_set_topmenu(void)
 	gtk_menu_bar_append(GTK_MENU_BAR(app_shells[i].topmenu), help);
 	gtk_widget_show(app_shells[i].topmenu);
     }
+}
+
+void ui_set_speedmenu(GtkWidget *s)
+{
+    if (speed_menu)
+	gtk_widget_destroy(speed_menu);
+    speed_menu = s;
 }
 
 #else  /* GNOME_MENUS */
@@ -2222,7 +2246,9 @@ void ui_error(const char *format, ...)
 void ui_make_window_transient(GtkWidget *parent,GtkWidget *window)
 {
     gtk_window_set_transient_for(GTK_WINDOW(window),GTK_WINDOW(parent));
+#if 0
     gdk_window_set_colormap(window->window,colormap);
+#endif
 }
 
 /* Report a message to the user, allow different buttons. */
@@ -2318,12 +2344,15 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
     if (!contents)
 	contents = stralloc("No image contents available");
 
-    style = gtk_style_new();
-    gdk_font_unref(style->font);
-    style->font = fixedfont;
-    gdk_font_ref(style->font);
-    gtk_widget_set_style(image_preview_list, style);
-    gtk_style_unref(style);
+    if (fixedfont)
+    {
+	style = gtk_style_new();
+	gdk_font_unref(style->font);
+	style->font = fixedfont;
+	gdk_font_ref(style->font);
+	gtk_widget_set_style(image_preview_list, style);
+	gtk_style_unref(style);
+    }
 
     tmp1 = tmp2 = contents;
     text[1] = NULL;
@@ -2336,6 +2365,8 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
     while (tmp1 > tmp2)
     {
 	*(tmp1 - 1) = '\0';
+	if (!have_cbm_font)
+	    tmp2 = petconvstring(tmp2, 1);
 	text[0] = tmp2;
 	gtk_clist_append(GTK_CLIST(image_preview_list), text);
 	tmpw = gdk_string_width(image_preview_list->style->font, tmp2);
@@ -2612,14 +2643,14 @@ void ui_update_menus(void)
     ui_menu_update_all();
 }
 
-static void ui_block_shells(void)
+void ui_block_shells(void)
 {
     int i;
     for (i = 0; i < num_app_shells; i++)
 	gtk_widget_set_sensitive(app_shells[i].shell, FALSE);
 }
 
-static void ui_unblock_shells(void)
+void ui_unblock_shells(void)
 {
     int i;
     for (i = 0; i < num_app_shells; i++)
@@ -2759,7 +2790,6 @@ static GtkWidget *build_file_selector(ui_button_t *button_return,
     gtk_widget_set_usize(image_preview_list, 180, 180);
 
     gtk_clist_column_titles_passive (GTK_CLIST (image_preview_list));
-    *image_contents_widget = image_preview_list;
     
     /* Contents preview */
     scrollw = gtk_scrolled_window_new(NULL, NULL);
@@ -2836,7 +2866,7 @@ static GtkWidget *build_file_selector(ui_button_t *button_return,
 
 static GtkWidget* build_show_text(const String text, int width, int height)
 {
-    GtkWidget *show_text, *textw, *vs, *hs , *table;
+    GtkWidget *show_text, *textw, *scrollw;
 
     show_text = gnome_dialog_new("",
 				 GNOME_STOCK_BUTTON_CLOSE,
@@ -2844,27 +2874,19 @@ static GtkWidget* build_show_text(const String text, int width, int height)
 
     gtk_widget_set_usize(show_text, width, height);
 
-    table = gtk_table_new(2,2,FALSE);
-    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(show_text)->vbox),
-		       table,TRUE, TRUE, GNOME_PAD);
-    gtk_widget_show(table);
-
+    scrollw = gtk_scrolled_window_new(NULL, NULL);
+    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrollw),
+				    GTK_POLICY_AUTOMATIC,
+				    GTK_POLICY_AUTOMATIC);
+    
     textw = gtk_text_new(NULL,NULL);
     gtk_text_set_line_wrap(GTK_TEXT(textw),FALSE);
-    gtk_text_insert(GTK_TEXT(textw), fixedfont, NULL, NULL, text, -1);
-    gtk_table_attach(GTK_TABLE(table), textw, 0, 1, 0, 1,
-		     GTK_FILL|GTK_EXPAND,GTK_FILL|GTK_EXPAND,0,0);
+    gtk_text_insert(GTK_TEXT(textw), textfont, NULL, NULL, text, -1);
+    gtk_container_add(GTK_CONTAINER(scrollw), textw);
     gtk_widget_show(textw);
-
-    vs = gtk_vscrollbar_new(GTK_TEXT(textw)->vadj);
-    gtk_table_attach(GTK_TABLE(table), vs, 1, 2, 0, 1,
-		     GTK_FILL,GTK_FILL,0,0);
-    gtk_widget_show(vs);
-
-    hs = gtk_hscrollbar_new(GTK_TEXT(textw)->hadj);
-    gtk_table_attach(GTK_TABLE(table), hs, 0, 1, 1, 2,
-		     GTK_FILL,GTK_FILL,0,0);
-    gtk_widget_show(hs);
+    gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(show_text)->vbox),
+		       scrollw, TRUE, TRUE, GNOME_PAD);
+    gtk_widget_show(scrollw);
 
     return show_text;
 }

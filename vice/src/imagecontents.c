@@ -97,7 +97,11 @@ char *image_contents_to_string(image_contents_t *contents)
     buf = BUFCAT((char *)contents->id, strlen((char *)contents->id));
 
     if (contents->file_list == NULL) {
+#ifdef USE_GNOMEUI
+        const char *s = "\n(EMPTY IMAGE.)";
+#else
         const char *s = "\n(eMPTY IMAGE.)";
+#endif
 
         buf = BUFCAT(s, strlen(s));
     }
@@ -125,13 +129,19 @@ char *image_contents_to_string(image_contents_t *contents)
     }
 
     if (contents->blocks_free >= 0) {
+#ifdef USE_GNOMEUI
+        len = sprintf(line_buf, "\n%d BLOCKS FREE.", contents->blocks_free);
+#else
         len = sprintf(line_buf, "\n%d blocks free.", contents->blocks_free);
+#endif
         buf = BUFCAT(line_buf, len);
     }
 
     buf = BUFCAT("\n", 2); /* With a closing zero.  */
 
+#ifndef USE_GNOMEUI
     petconvstring(buf, 1);
+#endif
 
     return buf;
 }

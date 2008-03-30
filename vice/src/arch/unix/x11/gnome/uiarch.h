@@ -64,6 +64,7 @@ void ui_set_right_menu(GnomeUIInfo *w);
 void ui_set_drive8_menu(GtkWidget *w);
 void ui_set_drive9_menu(GtkWidget *w);
 void ui_set_tape_menu(GtkWidget *w);
+void ui_set_speedmenu(GtkWidget *w);
 
 GtkWidget *ui_create_transient_shell(GtkWidget *parent, const char *name);
 void ui_popdown(GtkWidget *w);
@@ -71,5 +72,7 @@ void ui_popup(GtkWidget *w, const char *title, Boolean wait_popdown);
 void ui_make_window_transient(GtkWidget *parent,GtkWidget *window);
 void ui_about(gpointer data);
 gint ui_hotkey_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp);
+void ui_block_shells(void);
+void ui_unblock_shells(void);
 
 #endif /* !defined (_UIARCH_H) */

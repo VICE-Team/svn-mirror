@@ -3,6 +3,7 @@
 
 Missing features
 - Internationalization
+- Drag'n'Drop support
 - Session Management
 
 Known Bugs (help is appreciated !):
@@ -13,7 +14,6 @@ Known Bugs (help is appreciated !):
   doesn't happen on my 16bit Xserver@home; problem maybe with 8bit color depth?
 
 Things, which will change:
-- CBM Charset for Image preview
 - Monitor GUI
 - VIC20 Cartridge attach Heuristic for image pairs
 

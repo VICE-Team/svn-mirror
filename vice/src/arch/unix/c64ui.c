@@ -465,6 +465,9 @@ int c64_ui_init(void)
                                      NULL));
 
     ui_set_topmenu();
+    ui_set_speedmenu(ui_menu_create("SpeedMenu",
+				    ui_performance_settings_menu, 
+				    NULL));
     ui_set_tape_menu(ui_menu_create("TapeMenu",
 				    ui_tape_commands_menu,
 				    ui_menu_separator,

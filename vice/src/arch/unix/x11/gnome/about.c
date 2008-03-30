@@ -31,6 +31,7 @@
 #include "ui.h"
 
 #include <gnome.h>
+GtkWidget *about;
 
 static void license_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
@@ -71,32 +72,39 @@ void ui_about(gpointer data)
 	"Official VICE homepage:",
 	"http://www.cs.cmu.edu/~dsladic/vice/vice.html",
 	NULL};
-    GtkWidget *about = 
-	gnome_about_new("V I C E",
-			VERSION,
-			"", 
-			authors,
-			"",
-			NULL);
+    if (!about)
+    {
+	about = gnome_about_new("V I C E", VERSION, "", authors, "", NULL);
+	gtk_signal_connect(GTK_OBJECT(about),
+			   "destroy",
+			   GTK_SIGNAL_FUNC(gtk_widget_destroyed),
+			   &about);
+	button = gnome_stock_or_ordinary_button ("License");
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(about)->action_area), 
+			    button, TRUE, TRUE, 0);
+	gtk_signal_connect(GTK_OBJECT(button), "clicked",
+			   GTK_SIGNAL_FUNC(license_cb), NULL);
+	gtk_widget_show(button);
+	button = gnome_stock_or_ordinary_button ("Warranty");
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(about)->action_area), 
+			    button, TRUE, TRUE, 0);
+	gtk_signal_connect(GTK_OBJECT(button), "clicked",
+			   GTK_SIGNAL_FUNC(warranty_cb), NULL);
+	gtk_widget_show(button);
+	button = gnome_stock_or_ordinary_button ("Contributors");
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(about)->action_area), 
+			    button, TRUE, TRUE, 0);
+	gtk_signal_connect(GTK_OBJECT(button), "clicked",
+			   GTK_SIGNAL_FUNC(contrib_cb), NULL);
+	gtk_widget_show(button);
+    }
+    else
+    {
+	gdk_window_show(about->window);
+	gdk_window_raise(about->window);
+    }
 
-    button = gnome_stock_or_ordinary_button ("License");
-    gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(about)->action_area), 
-			button, TRUE, TRUE, 0);
-    gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		       GTK_SIGNAL_FUNC(license_cb), NULL);
-    gtk_widget_show(button);
-    button = gnome_stock_or_ordinary_button ("Warranty");
-    gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(about)->action_area), 
-			button, TRUE, TRUE, 0);
-    gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		       GTK_SIGNAL_FUNC(warranty_cb), NULL);
-    gtk_widget_show(button);
-    button = gnome_stock_or_ordinary_button ("Contributors");
-    gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(about)->action_area), 
-			button, TRUE, TRUE, 0);
-    gtk_signal_connect(GTK_OBJECT(button), "clicked",
-		       GTK_SIGNAL_FUNC(contrib_cb), NULL);
-    gtk_widget_show(button);
+    ui_make_window_transient(_ui_top_level, about);
     gtk_widget_show(about);
 }
 

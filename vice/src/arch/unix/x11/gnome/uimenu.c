@@ -49,9 +49,6 @@
 #include <gnome.h>
 #endif
 #include "uimenu.h"
-#ifdef HASH_MENUS
-#include <glib.h>		/* hastable */
-#endif
 
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
@@ -72,23 +69,23 @@ static struct {
 /* This keeps a list of the menus with a checkmark on the left.  Each time
    some setting is changed, we have to update them. */
 #define MAX_UPDATE_MENU_LIST_SIZE 1024
-static struct {
+typedef struct {
+    char *name;
 #ifdef GNOME_MENUS
-  GnomeUIInfo *uiinfo;
+    GnomeUIInfo *uiinfo;
 #else
-  GtkWidget *w;
+    GtkWidget *w;
 #endif
-  ui_callback_t cb;
-  ui_menu_cb_obj obj;
-  gint handlerid;
-} checkmark_menu_items[MAX_UPDATE_MENU_LIST_SIZE];
+    ui_callback_t cb;
+    ui_menu_cb_obj obj;
+    gint handlerid;
+} checkmark_t;
+
+static GList *checkmark_list = NULL;
 
 int num_checkmark_menu_items = 0; /* !static because vsidui needs it. ugly! */
-static int num_submenus = 0;
-#ifdef HASH_MENUS
-static GHashTable *menu_hash_table = NULL;
-#endif
 
+static int num_submenus = 0;
 /* ------------------------------------------------------------------------- */
 
 
@@ -255,6 +252,16 @@ GnomeUIInfo* ui_menu_create(const char *menu_name, ...)
 
 #else  /* !GNOME_MENUS */
 
+static void delete_checkmark_cb(GtkWidget *w, gpointer data)
+{
+    checkmark_t *cm;
+    
+    cm = (checkmark_t *) data;
+    checkmark_list = g_list_remove(checkmark_list, data);
+    free(cm->name);
+    free(cm);
+}
+
 GtkWidget* ui_menu_create(const char *menu_name, ...)
 {
     static int level = 0;
@@ -267,22 +274,6 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
     level++;
     va_start(ap, menu_name);
 
-#ifdef HASH_MENUS
-    printf("Creating menu: %s\n", menu_name);
-    if (!menu_hash_table)
-	menu_hash_table = g_hash_table_new(g_str_hash, g_str_equal);
-    else
-    {
-	w = (GtkWidget *)g_hash_table_lookup(menu_hash_table, menu_name);
-	if (w)
-	{
-	    printf("Menu already there: %s\n", menu_name);
-	    gtk_object_ref(GTK_OBJECT(w));
-	    return w;
-	}
-    }
-#endif
-    
     w = gtk_menu_new();
 
     while ((list = va_arg(ap, ui_menu_entry_t *)) != NULL) {
@@ -291,67 +282,66 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
             char name[256];
 
             sprintf(name, "MenuItem%d", j);	/* ugly... */
-            switch (*list[i].string) {
-              case '-':		/* line */
+            switch (*list[i].string) 
+	    {
+	    case '-':		/* line */
 		new_item  = gtk_menu_item_new();
                 break;
-              case '*':		/* toggle */
-                {
-		    char *label = make_menu_label(&list[i]);
-                    /* Add this item to the list of calls to perform to update the
-                       menu status. */
-                    if (list[i].callback) {
-		        new_item = gtk_check_menu_item_new_with_label(label+1);
-		        if (num_checkmark_menu_items < MAX_UPDATE_MENU_LIST_SIZE) {
-              		    obj = &checkmark_menu_items[num_checkmark_menu_items].obj;
-			    checkmark_menu_items[num_checkmark_menu_items].w =
-			      new_item;
-			    checkmark_menu_items[num_checkmark_menu_items].cb =
-			      list[i].callback;
-			    checkmark_menu_items[num_checkmark_menu_items].obj.value =
-			      (void*) list[i].callback_data;
-			    checkmark_menu_items[num_checkmark_menu_items].obj.status =
-			      CB_NORMAL;
-
-			    checkmark_menu_items[num_checkmark_menu_items].handlerid = 
-			      gtk_signal_connect(GTK_OBJECT(new_item),"activate",
-						 GTK_SIGNAL_FUNC(list[i].callback),
-						 (gpointer) obj); 
-			    num_checkmark_menu_items++;
-			} else {
-                            fprintf(stderr,
-                                    "Maximum number of menus reached!  "
-                                    "Please fix the code.\n");
-                            exit(-1);
-                        }
-		    } else {
-		      new_item = gtk_menu_item_new_with_label(label+1);
-		    }
-                    j++;
-                    free(label);
-                }
-                break;
-              default:
-                {
-                    char *label = make_menu_label(&list[i]);
-                    new_item = gtk_menu_item_new_with_label(label);
-		    if (list[i].callback) {
-		        obj = (ui_menu_cb_obj*) xmalloc(sizeof(ui_menu_cb_obj));
-			obj->value = (void*) list[i].callback_data;
-
+	    case '*':		/* toggle */
+	    {
+		char *label = make_menu_label(&list[i]);
+		/* Add this item to the list of calls to perform to update the
+		   menu status. */
+		if (list[i].callback) 
+		{
+		    checkmark_t *cmt;
+		    new_item = gtk_check_menu_item_new_with_label(label+1);
+		    
+		    cmt = (checkmark_t *) xmalloc(sizeof(checkmark_t));
+		    cmt->name = stralloc(label+1);
+		    cmt->w = new_item;
+		    cmt->cb = list[i].callback;
+		    cmt->obj.value = (void*) list[i].callback_data;
+		    cmt->obj.status = CB_NORMAL;
+		    cmt->handlerid = 
 			gtk_signal_connect(GTK_OBJECT(new_item),"activate",
 					   GTK_SIGNAL_FUNC(list[i].callback),
-					   (gpointer) obj); 
-		    }
-                    free(label);
-                    j++;
-                }
-            }
+					   (gpointer) &(cmt->obj)); 
+		    gtk_signal_connect(GTK_OBJECT(new_item), "destroy",
+				       GTK_SIGNAL_FUNC(delete_checkmark_cb),
+				       (gpointer) cmt);
+		    checkmark_list = g_list_prepend(checkmark_list, cmt);
+		    obj = &cmt->obj;
+		} 
+		else 
+		    new_item = gtk_menu_item_new_with_label(label+1);
 
+		j++;
+		free(label);
+		break;
+	    }
+	    default:
+	    {
+		char *label = make_menu_label(&list[i]);
+		new_item = gtk_menu_item_new_with_label(label);
+		if (list[i].callback) {
+		    obj = (ui_menu_cb_obj*) xmalloc(sizeof(ui_menu_cb_obj));
+		    obj->value = (void*) list[i].callback_data;
+		    
+		    gtk_signal_connect(GTK_OBJECT(new_item),"activate",
+				       GTK_SIGNAL_FUNC(list[i].callback),
+				       (gpointer) obj); 
+		}
+		free(label);
+		j++;
+	    }
+            }
+	    
 	    gtk_menu_append(GTK_MENU(w),new_item);
 	    gtk_widget_show(new_item);
 
-            if (list[i].sub_menu) {
+            if (list[i].sub_menu) 
+	    {
                 GtkWidget *sub;
 		char subname[10];
 
@@ -369,34 +359,24 @@ GtkWidget* ui_menu_create(const char *menu_name, ...)
                 submenus[num_submenus].parent = new_item;
                 submenus[num_submenus].level = level;
                 num_submenus++;
-            } else {            /* no submenu */
+            } 
+	    else 
+	    {            /* no submenu */
 	        if (list[i].hotkey_keysym != (KeySym) 0
-		  && list[i].callback != NULL)
+		    && list[i].callback != NULL)
 		    ui_hotkey_register(list[i].hotkey_modifier,
                                        list[i].hotkey_keysym,
                                        list[i].callback,
                                        obj);
             }
-
         }
     }
-
+    
     level--;
 
-#ifdef HASH_MENUS
-    printf("inserting menu: %s\n", menu_name);
-    g_hash_table_insert(menu_hash_table, (gpointer) menu_name, (gpointer) w);
-#endif
     va_end(ap);
     return w;
 }
-
-#ifdef HASH_MENUS
-void ui_menu_discard_cache(const char *menu)
-{
-    g_hash_table_remove(menu_hash_table, menu);
-}
-#endif /* HASH_MENUS */
 
 #endif /* !GNOME_MENUS */
 
@@ -405,35 +385,41 @@ int ui_menu_any_open(void)
     return menu_popup;
 }
 
-int refresh_dummy = 1;
+static void menu_handle_block(gpointer data, gpointer user_data)
+{
+    checkmark_t *cm = (checkmark_t *)data;
+
+    if (user_data)
+	gtk_signal_handler_block(GTK_OBJECT(cm->w), cm->handlerid);
+    else
+	gtk_signal_handler_unblock(GTK_OBJECT(cm->w), cm->handlerid);
+}
+
+static void menu_update_checkmarks(gpointer data, gpointer user_data)
+{
+    checkmark_t *cm = (checkmark_t *) data;
+    
+    cm->obj.status = CB_REFRESH;
+    ((void*(*)(GtkWidget*, ui_callback_data_t))
+     cm->cb)(cm->w, (ui_callback_data_t) &cm->obj);
+    cm->obj.status = CB_NORMAL;
+}
 
 void ui_menu_update_all_GTK(void)
 {
-  int i;
-
 #ifndef GNOME_MENUS		/* Well, with GNOME_MENUS this won't
 				   won't work */
-  for (i = 0; i < num_checkmark_menu_items; i++) {
-      gtk_signal_handler_block(GTK_OBJECT(checkmark_menu_items[i].w),
-			       checkmark_menu_items[i].handlerid);
-  } 
+    g_list_foreach(checkmark_list, menu_handle_block, (gpointer) 1);
+    g_list_foreach(checkmark_list, menu_update_checkmarks, NULL);
+    ui_dispatch_events();
+    g_list_foreach(checkmark_list, menu_handle_block, (gpointer) 0);
+#else
+    fprintf(stderr,
+	    "Gnome menus not supported."
+	    "Please fix the code.\n");
+    exit(-1);
 #endif
-  refresh_dummy = 0;
-  for (i = 0; i < num_checkmark_menu_items; i++) {
-    checkmark_menu_items[i].obj.status = CB_REFRESH;
-    ((void*(*)(GtkWidget*, ui_callback_data_t))
-     checkmark_menu_items[i].cb)(checkmark_menu_items[i].w,
-     (ui_callback_data_t) &checkmark_menu_items[i].obj);
-    checkmark_menu_items[i].obj.status = CB_NORMAL;
-  }
-  ui_dispatch_events();
-  refresh_dummy = 1;
-#ifndef GNOME_MENUS
-  for (i = 0; i < num_checkmark_menu_items; i++) {
-      gtk_signal_handler_unblock(GTK_OBJECT(checkmark_menu_items[i].w),
-			       checkmark_menu_items[i].handlerid);
-  }
-#endif
+    
 }
 
 void ui_menu_update_all(void)

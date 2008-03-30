@@ -587,14 +587,12 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
 	i++;
 	
-#ifdef HASH_MENUS
 	/* drivesettings */
 	/* this won't work so far, because the checkmarks aren't updated
 	   when a menu is destroyed, as the flipmenu is constantly */
 	memcpy(&flipmenu[drive][i], (const char *)ui_drive_settings_menu, 
 	       sizeof (ui_menu_entry_t));
 	i++;
-#endif
 	
 	/* don't update menu deeply when drive has not been enabled 
 	   or nothing has been attached */
@@ -680,17 +678,11 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	/* ugly ... */
 	if (drive == 0)
 	{
-#ifdef HASH_MENUS
-	    ui_menu_discard_cache("LeftDrive8Menu");
-#endif
 	    ui_set_drive8_menu(ui_menu_create("LeftDrive8Menu", 
 					      flipmenu[drive], NULL));
 	}
 	else
 	{
-#ifdef HASH_MENUS
-	    ui_menu_discard_cache("LeftDrive9Menu");
-#endif
 	    ui_set_drive9_menu(ui_menu_create("LeftDrive9Menu", 
 					      flipmenu[drive], NULL));
 	}

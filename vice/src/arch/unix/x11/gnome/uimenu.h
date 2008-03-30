@@ -63,11 +63,9 @@ extern void ui_menu_update_all(void);
 extern void ui_menu_update_all_GTK(void);
 #ifndef GNOME_MENUS
 extern GtkWidget* ui_menu_create(const char *menu_name, ...);
-extern void ui_menu_discard_cache(const char *menu);
 #else
 extern GnomeUIInfo* ui_menu_create(const char *menu_name, ...);
 #endif
-extern int refresh_dummy;
 
 /* ------------------------------------------------------------------------- */
 
