@@ -1,12 +1,12 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 17 August 1998 -->
+     from ../vice.texi on 19 August 1998 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
 <BODY BGCOLOR="#ffffff" TEXT="#00000">
-Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_1.html">previous</A>, <A HREF="vice_3.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_1.html">previous</A>, <A HREF="vice_3.html">next</A>, <A HREF="vice_14.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 <P><HR><P>
 
 
@@ -25,7 +25,7 @@ same settings and support the same file formats.
 8-bit computer is, or have questions about how these machines are used,
 how the file formats work or everything else that is not strictly
 related to VICE, you should read the appropriate FAQs <EM>first</EM>, as
-this kind of information is not available here.  See section <A HREF="vice_12.html#SEC68">12  Contact information</A> for
+this kind of information is not available here.  See section <A HREF="vice_12.html#SEC97">12  Contact information</A> for
 information about how to retrieve the the FAQs.
 
 </P>
@@ -102,7 +102,7 @@ graphical effects will not work correctly.
 <P>
 Sound is implemented, but is still at the experimental stage.  If
 you think it does not sound right and know how to improve it, feel
-free to contact us (see section <A HREF="vice_12.html#SEC68">12  Contact information</A>).
+free to contact us (see section <A HREF="vice_12.html#SEC97">12  Contact information</A>).
 
 </P>
 
@@ -188,13 +188,13 @@ There are two ways of emulating the keyboard in VICE.
 <P>
 The default way (<EM>symbolic mapping</EM>) is to map every X11 key
 combination to the corresponding key combination on the real machine:
-for example, if you press <KBD>*</KBD>, which is bound to <KBD>Shift-8</KBD> on
-the U.S. keyboard layout, in the C64 emulator, the emulated machine will
-have just the <EM>unshifted</EM> <KBD>*</KBD> key pressed (as <KBD>*</KBD> is
-unshifted on the C64 keyboard).  Likewise, pressing <KBD>'</KBD> on the same
-U.S. keyboard without any shift key will cause the combination
-<KBD>Shift-7</KBD> to be pressed in the emulated C64.  This way, it becomes
-quite obvious what keys should be typed to obtain all the symbols.
+for example, if you press <KBD>*</KBD>, which is bound to <KBD>Shift-8</KBD> on a
+U.S. keyboard, in the C64 emulator, the emulated machine will have just
+the <EM>unshifted</EM> <KBD>*</KBD> key pressed (as <KBD>*</KBD> is unshifted on the
+C64 keyboard).  Likewise, pressing <KBD>'</KBD> on the same U.S. keyboard
+without any shift key will cause the combination <KBD>Shift-7</KBD> to be
+pressed in the emulated C64.  This way, it becomes quite obvious what
+keys should be typed to obtain all the symbols.
 
 </P>
 <P>
@@ -223,6 +223,7 @@ are quite picky and tend not to recognize the shift key because of this.
 For instance, <KBD>F6</KBD> (which on the real C64 is obtained with
 <KBD>Shift + F5</KBD>) could be recognized as <KBD>F5</KBD>.  In that case, use
 the shift key manually (i.e. type <KBD>Shift + F5</KBD> in the example).
+Yes, we know this is a bug.
 
 </P>
 
@@ -250,7 +251,7 @@ diagonal ones; <KBD>0</KBD> emulates the fire button.
 <P>
 The <EM>custom</EM> layout uses the keys <KBD>q</KBD>, <KBD>w</KBD>, <KBD>e</KBD>,
 <KBD>a</KBD>, <KBD>s</KBD>, <KBD>d</KBD>, <KBD>z</KBD>, <KBD>x</KBD>, <KBD>c</KBD> for the directions
-and <KBD></KBD> for the fire button instead.
+and <KBD>space</KBD> for the fire button instead.
 
 </P>
 
@@ -284,7 +285,7 @@ read and write files in the <CODE>P00</CODE> format (again, consult the
 Moreover, there are two available types of 1541 emulation for the first
 kind of emulation.  One of them the <EM>DOS level</EM> drive emulation.  It
 does <EM>not</EM> really emulate the serial line, but patches the kernal
-ROM (with the so-called <EM>serial traps</EM>) so that serial line
+ROM (with the so-called <EM>kernal traps</EM>) so that serial line
 operations can be emulated via C language routines.  This emulation is
 very fast, but only allows use of standard DOS functions (and not even
 all of them).
@@ -293,12 +294,12 @@ all of them).
 <P>
 The other alternative is a <EM>hardware level</EM> drive emulation.  The
 Commodore 1541 disk drive was provided with its own CPU (a 6502 as the
-VIC20) and its own RAM and ROM.  So, in order to more closely emulate
-its features, a complete emulation of this hardware must be provided and
-that is what the <EM>hardware level</EM> emulation does.  When the
-<EM>hardware level</EM> emulation is used, the kernal routines are no
-longer patched and the serial line is fully emulated.  The problem with
-this emulation is that it needs a lot of processing power, mainly
+VIC20 and the PETs) and its own RAM and ROM.  So, in order to more
+closely emulate its features, a complete emulation of this hardware must
+be provided and that is what the <EM>hardware level</EM> emulation does.
+When the <EM>hardware level</EM> emulation is used, the kernal routines are
+no longer patched and the serial line is fully emulated.  The problem
+with this emulation is that it needs a lot of processing power, mainly
 because the emulator has to emulate two CPUs instead of one.
 
 </P>
@@ -347,7 +348,7 @@ VICE supports the most popular Commodore file formats:
 </UL> </P>
 
 <P>
-An utility (<CODE>c1541</CODE>, see section <A HREF="vice_9.html#SEC63">9  C1541</A>) is provided to allow transfers
+An utility (<CODE>c1541</CODE>, see section <A HREF="vice_9.html#SEC92">9  c1541</A>) is provided to allow transfers
 between these formats.
 
 </P>
@@ -394,6 +395,6 @@ finding HP-UX and SUN consoles to work at...
 </P>
 
 <P><HR><P>
-Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_1.html">previous</A>, <A HREF="vice_3.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_1.html">previous</A>, <A HREF="vice_3.html">next</A>, <A HREF="vice_14.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 </BODY>
 </HTML>

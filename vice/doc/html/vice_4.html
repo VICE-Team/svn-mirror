@@ -1,12 +1,12 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 17 August 1998 -->
+     from ../vice.texi on 19 August 1998 -->
 
 <TITLE>VICE Manual - 4  System files</TITLE>
 </HEAD>
 <BODY BGCOLOR="#ffffff" TEXT="#00000">
-Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_3.html">previous</A>, <A HREF="vice_5.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_3.html">previous</A>, <A HREF="vice_5.html">next</A>, <A HREF="vice_14.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 <P><HR><P>
 
 
@@ -75,7 +75,8 @@ And system files will be searched for under
 System files can still be installed in a different directory if you
 specify a complete path instead of just a file name.  For example, if
 you specify <TT>`./kernal'</TT> as the kernal image name, the kernal image
-will be loaded from the current directory.
+will be loaded from the current directory.  This can be done by using
+command-line options or by modifying resource values (see section <A HREF="vice_6.html#SEC31">6.1  Format of resource files</A>).
 
 </P>
 
@@ -257,30 +258,30 @@ is bound to any key;
 
 <P> <LI>
 
-<CODE>0</CODE>: the key is never shifted
+<CODE>0</CODE>: the key is never shifted;
 
 <P> <LI>
 
-<CODE>1</CODE>: the key is shifted
+<CODE>1</CODE>: the key is shifted;
 
 <P> <LI>
 
-<CODE>2</CODE>: the key is the left shift
+<CODE>2</CODE>: the key is the left shift;
 
 <P> <LI>
 
-<CODE>4</CODE>: the key is the right shift
+<CODE>4</CODE>: the key is the right shift;
 
 <P> <LI>
 
-<CODE>8</CODE>: the key can be shifted by the user
+<CODE>8</CODE>: the key can be (optionally) shifted by the user.
 
 </UL> </P>
 
 </UL> </P>
 
 <P>
-The <CODE>ShiftFlag</CODE> is useful if you want certain keys to be
+The <CODE>SHIFTFLAG</CODE> is useful if you want certain keys to be
 "artificially" shifted by the emulator, and not by the user.  For
 example, <KBD>F2</KBD> is shifted on the C64 keyboard, but you might want it
 to be mapped to the unshifted <KBD>F2</KBD> key on the PC keyboard.  To do
@@ -299,7 +300,7 @@ keyboard matrix), and <CODE>1</CODE> specifies that every time the user presses
 
 </P>
 <P>
-There are also some special commands you can add to the keyboard file;
+There are also some special commands you can put into the keyboard file;
 they are recognized because they start with an exclamation mark:
 
 </P>
@@ -395,6 +396,6 @@ background and 1 for foreground), looks like the following:
 </PRE>
 
 <P><HR><P>
-Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_3.html">previous</A>, <A HREF="vice_5.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_3.html">previous</A>, <A HREF="vice_5.html">next</A>, <A HREF="vice_14.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 </BODY>
 </HTML>

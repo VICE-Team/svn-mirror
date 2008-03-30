@@ -1,20 +1,20 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 17 August 1998 -->
+     from ../vice.texi on 19 August 1998 -->
 
 <TITLE>VICE Manual - 7  Machine-specific features</TITLE>
 </HEAD>
 <BODY BGCOLOR="#ffffff" TEXT="#00000">
-Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_6.html">previous</A>, <A HREF="vice_8.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_6.html">previous</A>, <A HREF="vice_8.html">next</A>, <A HREF="vice_14.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 <P><HR><P>
 
 
-<H1><A NAME="SEC38" HREF="vice_toc.html#TOC38">7  Machine-specific features</A></H1>
+<H1><A NAME="SEC58" HREF="vice_toc.html#TOC58">7  Machine-specific features</A></H1>
 
 
 
-<H2><A NAME="SEC39" HREF="vice_toc.html#TOC39">7.1  C64/128-specific commands and settings</A></H2>
+<H2><A NAME="SEC59" HREF="vice_toc.html#TOC59">7.1  C64/128-specific commands and settings</A></H2>
 
 <P>
 This section lists the settings and commands that are C64/128 specific
@@ -24,7 +24,7 @@ and thus are not present in the other emulators.
 
 
 
-<H3><A NAME="SEC40" HREF="vice_toc.html#TOC40">7.1.1  Using cartridge images</A></H3>
+<H3><A NAME="SEC60" HREF="vice_toc.html#TOC60">7.1.1  Using cartridge images</A></H3>
 
 <P>
 <EM>Cartridge images</EM> are like disk images, but mirror the contents of
@@ -65,10 +65,10 @@ cartridge's freeze button with the "Freeze" command.
 
 
 
-<H3><A NAME="SEC41" HREF="vice_toc.html#TOC41">7.1.2  VIC-II settings</A></H3>
+<H3><A NAME="SEC61" HREF="vice_toc.html#TOC61">7.1.2  VIC-II settings</A></H3>
 
 <P>
-These resources control the emulation of the VIC-II (MOS6569) video chip
+These settings control the emulation of the VIC-II (MOS6569) video chip
 used in both the C64 and the C128.
 
 </P>
@@ -77,20 +77,20 @@ used in both the C64 and the C128.
 
 <P> <LI>
 
-<CODE>CheckSsColl</CODE> ("Sprite-sprite collisions") and <CODE>CheckSbColl</CODE>
-("Sprite-background collisions") are boolean resources; if set to a
-nonzero value, they cause the hardware detection of sprite-to-sprite and
-sprite-to-background collision to be emulated.  This feature is used by
-many games, and disabling either of the two detection systems can
-sometimes make you invincible (although there is also a chance that also
-enemies become invincible then).
+<A NAME="IDX84"></A>
+ 
+"Sprite-sprite collisions" and "Sprite-background collisions", if
+enabled, cause the hardware detection of sprite-to-sprite and
+sprite-to-background collisions of the VIC-II to be emulated.  This
+feature is used by many games, and disabling either of the two detection
+systems can sometimes make you invincible (although there is also a
+chance that also enemies become invincible then).
 
+<A NAME="IDX85"></A>
 <P> <LI>
 
-<CODE>PaletteFile</CODE> ("Color set") is a string resource whose value
-identifies the name of the palette file being used (see section <A HREF="vice_4.html#SEC19">4.3  Palette files</A> for a description of palette files).  You can dynamically change
-its value at runtime by choosing one of the available predefined color
-sets:
+"Color set" can be used to dynamically change the palette file
+being used by choosing one of the available predefined color sets:
 
 
 <P> <UL>
@@ -116,10 +116,68 @@ C64 graphics package GoDot
 
 
 
-<H3><A NAME="SEC42" HREF="vice_toc.html#TOC42">7.1.3  SID settings</A></H3>
+<H4><A NAME="SEC62" HREF="vice_toc.html#TOC62">7.1.2.1  VIC-II resources</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>CheckSsColl</CODE>
+<DD>
+<A NAME="IDX86"></A>
+ 
+Boolean specifying whether the sprite-sprite hardware collision
+detection must be emulated.
+
+<A NAME="IDX87"></A>
+<P><DT><CODE>CheckSbColl</CODE>
+<DD>
+Boolean specifying whether the sprite-background hardware collision
+detection must be emulated.
+
+<A NAME="IDX88"></A>
+<P><DT><CODE>PaletteFile</CODE>
+<DD>
+String specifying the name of the palette file being used.  The
+<TT>`.vpl'</TT> extension is optional.
+
+</DL>
+
+
+
+<H4><A NAME="SEC63" HREF="vice_toc.html#TOC63">7.1.2.2  VIC-II command-line options</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>-checkss</CODE>
+<DD>
+<A NAME="IDX89"></A>
+ 
+<DT><CODE>+checkss</CODE>
+<DD>
+Enable (<CODE>CheckSsColl=1</CODE>) and disable (<CODE>CheckSsColl=0</CODE>)
+emulation of hardware sprite-sprite collision detection, respectively.
+<A NAME="IDX90"></A>
+
+<A NAME="IDX91"></A>
+<P><DT><CODE>-checksb</CODE>
+<DD>
+<DT><CODE>+checksb</CODE>
+<DD>
+Enable (<CODE>CheckSbColl=1</CODE>) and disable (<CODE>CheckSbColl=0</CODE>)
+emulation of hardware sprite-background collision detection,
+respectively.
+
+<P><DT><CODE>-palette NAME</CODE>
+<DD>
+Specify <CODE>NAME</CODE> as the palette file (<CODE>PaletteFile</CODE>).
+
+</DL>
+
+
+
+<H3><A NAME="SEC64" HREF="vice_toc.html#TOC64">7.1.3  SID settings</A></H3>
 
 <P>
-These resources control the emulation of the SID (MOS6581 or MOS8580)
+These settings control the emulation of the SID (MOS6581 or MOS8580)
 audio chip.
 
 </P>
@@ -128,22 +186,67 @@ audio chip.
 
 <P> <LI>
 
-<CODE>SidFilters</CODE> is a boolean resource; if enabled, it causes the
-built-in programmable filters of the SID chip to be emulated.  A lot of
-C64 music requires them to be emulated properly, but their emulation
-requires some additional processor power.
+<A NAME="IDX92"></A>
+ 
+"Emulate filters" causes the built-in programmable filters of the SID
+chip to be emulated.  A lot of C64 music requires them to be emulated
+properly, but their emulation requires some additional processor power.
 
+<A NAME="IDX93"></A>
 <P> <LI>
 
-<CODE>SidModel</CODE> specifies the model of the SID chip being emulated:
-there are two slightly different generations of SID chips: MOS6581 ones
-(<CODE>0</CODE>) and MOS8580 ones (<CODE>1</CODE>).
+"ChipModel" specifies the model of the SID chip being emulated: there
+are two slightly different generations of SID chips: MOS6581 ones and
+MOS8580 ones.
 
 </UL> </P>
 
 
 
-<H3><A NAME="SEC43" HREF="vice_toc.html#TOC43">7.1.4  I/O extension settings</A></H3>
+<H4><A NAME="SEC65" HREF="vice_toc.html#TOC65">7.1.3.1  SID resources</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>SidFilters</CODE>
+<DD>
+<A NAME="IDX94"></A>
+ 
+Boolean specifying whether the built-in SID filters must be emulated.
+
+<A NAME="IDX95"></A>
+<P><DT><CODE>SidModel</CODE>
+<DD>
+Integer specifying what model of the SID must be emulated (<CODE>0</CODE>:
+MOS6581, <CODE>1</CODE>: MOS8580).
+
+</DL>
+
+
+
+<H4><A NAME="SEC66" HREF="vice_toc.html#TOC66">7.1.3.2  SID command-line options</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>-sidmodel MODEL</CODE>
+<DD>
+<A NAME="IDX96"></A>
+ 
+Specifies <CODE>MODEL</CODE> as the emulated model of the SID chip
+(<CODE>SidModel</CODE>).
+
+<A NAME="IDX97"></A>
+<P><DT><CODE>-sidfilters</CODE>
+<DD>
+<DT><CODE>+sidfilters</CODE>
+<DD>
+Enable (<CODE>SidFilters=1</CODE>) or disable (<CODE>SidFilters=0</CODE>) emulation
+of the built-in SID filters.
+
+</DL>
+
+
+
+<H3><A NAME="SEC67" HREF="vice_toc.html#TOC67">7.1.4  I/O extension settings</A></H3>
 
 <P>
 There are three I/O extensions available: they are located at the
@@ -157,22 +260,24 @@ might cause compatibility problems.
 
 <P> <LI>
 
-The "emulator identification" extension (related to the <CODE>EmuID</CODE>
-resource) allows programs to identify the kind of emulator they are
-running on, according to the emulation detection proposal by Wolfgang
-Lorenz.  This basically means that, when some locations in the $DFxx I/O
-space are read, the emulator returns some values which identify the
-emulator itself, its version and a copyright message.  If this extension
-is disabled, programs will have virtually no way to realize they are
-running on an emulator.
+<A NAME="IDX98"></A>
+ 
+The "emulator identification" extension allows programs to
+identify the kind of emulator they are running on, according to the
+emulation detection proposal by Wolfgang Lorenz.  This basically means
+that, when some locations in the $DFxx I/O space are read, the emulator
+returns some values which identify the emulator itself, its version and
+a copyright message.  If this extension is disabled, programs will have
+virtually no way to realize they are running on an emulator.
 
+<A NAME="IDX99"></A>
 <P> <LI>
 
-The "IEEE488 interface emulation" extension (enabled by the
-<CODE>IEEE488</CODE> resource) emulates a standard Commodore IEEE488 interface
-connected to the IEC bus; one possible use for this is André Fachat's
-OS/A65 multitasking operating system.
+The "IEEE488 interface emulation" extension emulates a standard
+Commodore IEEE488 interface connected to the IEC bus; one possible use
+for this is André Fachat's OS/A65 multitasking operating system.
 
+<A NAME="IDX100"></A>
 <P> <LI>
 
 The "512K RAM Expansion Unit" extension (enabled by the <CODE>REU</CODE>
@@ -184,7 +289,67 @@ advantage of it.  This currently works only in the C64 emulator.
 
 
 
-<H3><A NAME="SEC44" HREF="vice_toc.html#TOC44">7.1.5  RS232 settings</A></H3>
+<H4><A NAME="SEC68" HREF="vice_toc.html#TOC68">7.1.4.1  I/O extension resources</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>IEEE488</CODE>
+<DD>
+<A NAME="IDX101"></A>
+ 
+Boolean specifying whether the IEEE488 interface should
+be emulated or not.
+
+<A NAME="IDX102"></A>
+<P><DT><CODE>REU</CODE>
+<DD>
+Boolean specifying whether the 512K RAM Expansion Unit should be
+emulated or not.
+
+<A NAME="IDX103"></A>
+<P><DT><CODE>EmuID</CODE>
+<DD>
+Boolean specifying whether the emulation identification extension should
+be emulated or not.
+
+</DL>
+
+
+
+<H4><A NAME="SEC69" HREF="vice_toc.html#TOC69">7.1.4.2  I/O extension command-line options</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>-ieee488</CODE>
+<DD>
+<A NAME="IDX104"></A>
+ 
+<DT><CODE>+ieee488</CODE>
+<DD>
+Enable (<CODE>IEEE488=1</CODE>) or disable (<CODE>IEEE488=0</CODE>) emulation of the
+IEEE488 interface.
+
+<A NAME="IDX105"></A>
+<P><DT><CODE>-reu</CODE>
+<DD>
+<DT><CODE>+reu</CODE>
+<DD>
+Enable (<CODE>REU=1</CODE>) or disable (<CODE>REU=0</CODE>) emulation of the
+512K RAM Expansion Unit.
+
+<A NAME="IDX106"></A>
+<P><DT><CODE>-emuid</CODE>
+<DD>
+<DT><CODE>+emuid</CODE>
+<DD>
+Enable (<CODE>EmuID=1</CODE>) or disable (<CODE>EmuID=0</CODE>) emulation of the
+emulation identification extension.
+
+</DL>
+
+
+
+<H3><A NAME="SEC70" HREF="vice_toc.html#TOC70">7.1.5  RS232 settings</A></H3>
 
 <P>
 X64 and X128 can support RS232 in the following ways:
@@ -194,12 +359,10 @@ X64 and X128 can support RS232 in the following ways:
 <P> <UL>
 <P> <LI>
 
-By emulating Daniel Dallmann's 9600 baud userport-based RS232 interface
-(enabled by the <CODE>RsUser</CODE> boolean resource).
+By emulating Daniel Dallmann's 9600 baud userport-based RS232 interface.
 <P> <LI>
 
-By emulating a 6551-based RS232 interface located at $DE00 (enabled by
-the <CODE>AciaDE</CODE> boolean resource).
+By emulating a 6551-based RS232 interface located at $DE00.
 </UL> </P>
 
 <P>
@@ -222,35 +385,61 @@ piped through a process.
 <P>
 It is possible to define up to two UNIX serial devices, and then decide
 which interface should be connected to which device.  Devices are
-defined through the following resources:
+defined through the following settings:
 
 </P>
 
 <P> <UL>
 <P> <LI>
 
-<CODE>RsDevice1</CODE> and <CODE>RsDevice2</CODE> ("Serial 1
-device..." and "Serial 2 device..." in the submenu) are
-strings specifying the pathnames of the serial devices, and can be
-specified at runtime via the file selector;
+"Serial 1 device..." and "Serial 2 device..." are used to specify
+the the pathnames of the serial devices, with the file selector;
 <P> <LI>
 
-<CODE>RsDevice1Baud</CODE> and <CODE>RsDevice2Baud</CODE> ("Serial 1 baudrate" and
-"Serial 2 baudrate" in the submenu) specify the baudrate.
+"Serial 1 baudrate" and "Serial 2 baudrate" specify the baudrate.
 </UL> </P>
 
-<P>
-The dump file name is specified through the <CODE>RsDevice3</CODE> resource,
-while the name of the program to pipe the RS232 data through is defined
-by the <CODE>RsDevice4</CODE> resource.
 
-</P>
-<P>
-Finally, <CODE>RsUserDev</CODE> and <CODE>Acia1Dev</CODE> are numeric resources used
-to specify how the userport-based interface and the ACIA-based one are
-emulated.  The possible values are:
 
-</P>
+<H4><A NAME="SEC71" HREF="vice_toc.html#TOC71">7.1.5.1  RS232 resources</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>RsDevice1</CODE>
+<DD>
+<A NAME="IDX107"></A>
+ 
+<A NAME="IDX108"></A>
+<DT><CODE>RsDevice2</CODE>
+<DD>
+Strings specifying the pathnames of the two available serial devices.
+
+<A NAME="IDX109"></A>
+<P><DT><CODE>RsDevice1Baud</CODE>
+<DD>
+<A NAME="IDX110"></A>
+<DT><CODE>RsDevice2Baud</CODE>
+<DD>
+Integers specifying the baudrates.
+
+<A NAME="IDX111"></A>
+<P><DT><CODE>RsDevice3</CODE>
+<DD>
+String defining the name of the file used when dumping RS232 output.
+
+<A NAME="IDX112"></A>
+<P><DT><CODE>RsDevice4</CODE>
+<DD>
+String defining the name of the process to pipe the RS232 data through.
+
+<A NAME="IDX113"></A>
+<P><DT><CODE>RsUserDev</CODE>
+<DD>
+<A NAME="IDX114"></A>
+<DT><CODE>Acia1Dev</CODE>
+<DD>
+Integers specifying how the userport-based interface and the ACIA-based
+one are emulated.  The possible values are:
 
 <P> <UL>
 <P> <LI>
@@ -264,12 +453,14 @@ emulated.  The possible values are:
 <CODE>2</CODE>: dump to file;
 <P> <LI>
 
-<CODE>3</CODE>: exec an external process;
+<CODE>3</CODE>: exec an external process.
 </UL> </P>
 
+</DL>
 
 
-<H2><A NAME="SEC45" HREF="vice_toc.html#TOC45">7.2  VIC20-specific commands and settings</A></H2>
+
+<H2><A NAME="SEC72" HREF="vice_toc.html#TOC72">7.2  VIC20-specific commands and settings</A></H2>
 
 <P>
 This section lists the settings and commands that are VIC20-specific and
@@ -279,10 +470,10 @@ thus are not present in the other emulators.
 
 
 
-<H3><A NAME="SEC46" HREF="vice_toc.html#TOC46">7.2.1  Using cartridge images</A></H3>
+<H3><A NAME="SEC73" HREF="vice_toc.html#TOC73">7.2.1  Using cartridge images</A></H3>
 
 <P>
-As with the C64 (see section <A HREF="vice_7.html#SEC40">7.1.1  Using cartridge images</A>), it is possible to attach
+As with the C64 (see section <A HREF="vice_7.html#SEC60">7.1.1  Using cartridge images</A>), it is possible to attach
 several types of cartridge images:
 
 </P>
@@ -318,7 +509,7 @@ specified in the file name) and use the "attach" command twice.
 
 
 
-<H3><A NAME="SEC47" HREF="vice_toc.html#TOC47">7.2.2  Changing memory configuration</A></H3>
+<H3><A NAME="SEC74" HREF="vice_toc.html#TOC74">7.2.2  Changing memory configuration</A></H3>
 
 <P>
 It is possible to change the VIC20 memory configuration in two ways: by
@@ -387,7 +578,7 @@ all RAM expansion blocks enabled;
 </UL> </P>
 
 <P>
-As with the X64 (see section <A HREF="vice_7.html#SEC43">7.1.4  I/O extension settings</A>), it is also possible to
+As with the X64 (see section <A HREF="vice_7.html#SEC67">7.1.4  I/O extension settings</A>), it is also possible to
 enable a special emulator identification mechanism that uses certain
 memory locations to let a running program query information about the
 emulator itself.
@@ -396,7 +587,102 @@ emulator itself.
 
 
 
-<H2><A NAME="SEC48" HREF="vice_toc.html#TOC48">7.3  PET-specific commands and settings</A></H2>
+<H4><A NAME="SEC75" HREF="vice_toc.html#TOC75">7.2.2.1  VIC20 memory configuration resources</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>RAMBlock0</CODE>
+<DD>
+<A NAME="IDX115"></A>
+ 
+<A NAME="IDX116"></A>
+<DT><CODE>RAMBlock1</CODE>
+<DD>
+<A NAME="IDX117"></A>
+<DT><CODE>RAMBlock2</CODE>
+<DD>
+<A NAME="IDX118"></A>
+<DT><CODE>RAMBlock3</CODE>
+<DD>
+<A NAME="IDX119"></A>
+<DT><CODE>RAMBlock5</CODE>
+<DD>
+Booleans specifying whether RAM blocks 0, 1, 2, 3 and 5 must be enabled.
+
+</DL>
+
+
+
+<H4><A NAME="SEC76" HREF="vice_toc.html#TOC76">7.2.2.2  VIC20 memory configuration command-line options</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>-memory CONFIG</CODE>
+<DD>
+<A NAME="IDX120"></A>
+ 
+Specify memory configuration.  It must be a comma-separated list of
+options, each of which can be one the following:
+
+
+<P> <UL>
+<P> <LI>
+
+<CODE>none</CODE> (no extension);
+<P> <LI>
+
+<CODE>all</CODE> (all blocks);
+<P> <LI>
+
+<CODE>3k</CODE> (3k space in block 0);
+<P> <LI>
+
+<CODE>8k</CODE> (first 8k extension block);
+<P> <LI>
+
+<CODE>16k</CODE> (first and second 8k extension blocks);
+<P> <LI>
+
+<CODE>24k</CODE> (first, second and 3rd extension blocks);
+<P> <LI>
+
+<CODE>0</CODE>, <CODE>1</CODE>, <CODE>2</CODE>, <CODE>3</CODE>, <CODE>5</CODE> (memory in respective
+blocks);
+<P> <LI>
+
+<CODE>04</CODE>, <CODE>20</CODE>, <CODE>40</CODE>, <CODE>60</CODE>, <CODE>A0</CODE> (memory at
+respective address.
+</UL> </P>
+
+Examples:
+
+
+<PRE>
+xvic -memory none
+</PRE>
+
+gives an unexpanded VIC20.  While
+
+
+<PRE>
+xvic -memory 60,a0
+</PRE>
+
+or
+
+
+<PRE>
+xvic -memory 3,5
+</PRE>
+
+enables memory in blocks 3 and 5, which is the usual configuration for
+16k ROM modules.
+
+</DL>
+
+
+
+<H2><A NAME="SEC77" HREF="vice_toc.html#TOC77">7.3  PET-specific commands and settings</A></H2>
 
 <P>
 This section lists the settings and commands that are PET-specific and
@@ -406,7 +692,7 @@ thus are not present in the other emulators.
 
 
 
-<H3><A NAME="SEC49" HREF="vice_toc.html#TOC49">7.3.1  Changing PET model settings</A></H3>
+<H3><A NAME="SEC78" HREF="vice_toc.html#TOC78">7.3.1  Changing PET model settings</A></H3>
 
 <P>
 With XPET, it is possible to change at runtime the characteristics of
@@ -422,7 +708,7 @@ file, command line options or right-menu items):
 </P>
 
 <P> <UL>
-<P> <LI>
+<P> <LI>(None yet.)
 
 </UL> </P>
 
@@ -483,7 +769,7 @@ will emulate a PET 3032 while <SAMP>`xpet -model 8296'</SAMP> will emulate a PET
 
 
 
-<H3><A NAME="SEC50" HREF="vice_toc.html#TOC50">7.3.2  The PET diagnostic pin</A></H3>
+<H3><A NAME="SEC79" HREF="vice_toc.html#TOC79">7.3.2  The PET diagnostic pin</A></H3>
 
 <P>
 It is possible to enable or disable emulation of the PET diagnostic pin
@@ -494,7 +780,7 @@ item in the right-button menu.
 
 
 
-<H3><A NAME="SEC51" HREF="vice_toc.html#TOC51">7.3.3  Changing screen colors</A></H3>
+<H3><A NAME="SEC80" HREF="vice_toc.html#TOC80">7.3.3  Changing screen colors</A></H3>
 
 <P>
 It is also possible to choose what color set is used for the emulation
@@ -517,6 +803,6 @@ feeling;
 </UL> </P>
 
 <P><HR><P>
-Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_6.html">previous</A>, <A HREF="vice_8.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_6.html">previous</A>, <A HREF="vice_8.html">next</A>, <A HREF="vice_14.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 </BODY>
 </HTML>

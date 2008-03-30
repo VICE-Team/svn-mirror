@@ -17,7 +17,490 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
-File: vice.info,  Node: Acknowledgments,  Next: Copyright,  Prev: C1541,  Up: Top
+File: vice.info,  Node: PET colors,  Prev: PET diagnostic pin,  Up: PET-specific
+
+Changing screen colors
+----------------------
+
+   It is also possible to choose what color set is used for the
+emulation window.  This is done by specifying a palette file name
+(*note Palette files::.) in the `PaletteName' resource.  The menu
+provides the following values:
+
+   * `default.vpl' ("default (green)"), the good old green-on-black
+     feeling;
+
+   * `amber.vpl' ("amber"), an amber phosphor lookalike;
+
+   * `white.vpl' ("white"), simple white-on-black palette.
+
+
+File: vice.info,  Node: Monitor,  Next: c1541,  Prev: Machine-specific features,  Up: Top
+
+Monitor
+*******
+
+   Every VICE emulator has a complete built-in monitor, which can be
+used to examine, disassemble and assemble machine language programs, as
+well as debug them through breakpoints.  It can be activated by using
+the "Activate monitor" command (left button menu).  Notice that you have
+to run the emulator from a terminal emulation program (such as `rxvt'
+or `xterm') in order to use the monitor.
+
+   Warning: this version of the monitor is still under construction,
+and some of the features are not fully working yet.
+
+* Menu:
+
+* Terminology::
+* Machine state commands::
+* Memory commands::
+* Assembly commands::
+* Checkpoint commands::
+* General commands::
+* Disk commands::
+* Command file commands::
+* Label commands::
+* Miscellaneous commands::
+
+
+File: vice.info,  Node: Terminology,  Next: Machine state commands,  Prev: Monitor,  Up: Monitor
+
+Terminology
+===========
+
+`address_space'
+     This refers to the range of memory locations and a set of
+     registers.  This can be the addresses available to the computer's
+     processor, the disk drive's processor or a specific memory
+     configuration of one of the mentioned processors.
+
+`register'
+     One of the following: program counter (PC), stack pointer (SP),
+     accumulator (A), X register (X), or Y register (Y).
+
+`address'
+     A specific memory location in the range $0000 to $FFFF.
+
+`address_range'
+     Two addresses.  If the second address is less than the first, the
+     range is assumed to wraparound from $FFFF to $0000.  Both
+     addresses must be in the same address space.
+
+`address_opt_range'
+     An address or an address range.
+
+`label'
+     Fixme.
+
+`prompt'
+     The prompt has the format [x:y].  If x is -, memory reads from the
+     monitor do not have side effects.  Otherwise, x is S.  The second
+     part of the prompt, y, shows the default address space.
+
+`checkpoint'
+     The monitor has the ability to setup triggers that perform an
+     action when a specified situation occurs.  There are three types
+     of checkpoints; breakpoints, tracepoints and watchpoints.
+
+`breakpoint'
+     A breakpoint is triggered based on the program counter.  When it is
+     triggered, the monitor is entered.
+
+`tracepoint'
+     Like breakpoints, a tracepoint is triggered based on the program
+     counter.  Instead of entering the monitor, the program counter is
+     printed and execution continues.
+
+`watchpoint'
+     Watchpoints are triggered by a read and/or write to an address.
+     When a watchpoint is triggered, the monitor is entered.
+
+`<...>'
+     A data type.
+
+`*'
+     Zero or more occurrences.
+
+`[...]'
+     An optional argument.
+
+
+File: vice.info,  Node: Machine state commands,  Next: Memory commands,  Prev: Terminology,  Up: Monitor
+
+Machine state commands
+======================
+
+`goto <address>'
+     Change the PC to address and continue execution.
+
+`io'
+     Nothing yet.  Will display VIC/VIA/CIA/SID registers.
+
+`next [<count>]'
+     Advance to the next instruction.  Subroutines are treated as a
+     single instruction.
+
+`registers [<reg_name> = <number> [, <reg_name> = <number>]*]'
+     This command allows displaying and setting the registers of the
+     6502 microprocessor.  Valid register names are A, X, Y, PC and SP.
+
+`return'
+     Continues the execution of the 6502 and returns to the monitor just
+     before(after?) the next RTS or RTI is executed.
+
+`step [<count>]'
+     Single step through instructions.  An optional count allows
+     stepping more than a single instruction at a time.
+
+
+File: vice.info,  Node: Memory commands,  Next: Assembly commands,  Prev: Machine state commands,  Up: Monitor
+
+Memory commands
+===============
+
+`compare <address_range> <address>'
+     Compare memory from the source specified by the address range to
+     the destination specified by the address.  The regions may
+     overlap.  Any values that miscompare are displayed using the
+     default displaytype.
+
+`fill <address_range> <data_list>'
+     Fill memory in the specified address range with the data in
+     <data_list>.  If the size of the address range is greater than the
+     size of the data_list, the data_list is repeated.
+
+`hunt <address_range> <data_list>'
+     Hunt memory in the specified address range for the data in
+     <data_list>.  If the data is found, the starting address of the
+     match is displayed.  The entire range is searched for all possible
+     matches.
+
+`i <address_opt_range>'
+     Display memory contents as PETSCII text.
+
+`m [data_type] [address_opt_range]'
+     Display the contents of memory.  If no datatype is given, the
+     default is used.  If only one address is specified, the length of
+     data displayed is based on the datatype.  If no addresses are
+     given, the 'dot' address is used.
+
+`mc [data_type] [address_opt_range]'
+     Display the contents of memory as character data.  If only one
+     address is specified, only one character is displayed.  If no
+     addresses are given, the "dot" address is used.
+
+`ms [data_type] [address_opt_range]'
+     Display the contents of memory as sprite data.  If only one
+     address is specified, only one sprite is displayed.  If no
+     addresses are given, the "dot" address is used.
+
+`move address_range address'
+`transfer address_range address'
+     Move memory from the source specified by the address range to the
+     destination specified by the address.  The regions may overlap.
+
+`> [address] <data_list>'
+     Display the specified number in decimal, hex, octal and binary.
+
+
+File: vice.info,  Node: Assembly commands,  Next: Checkpoint commands,  Prev: Memory commands,  Up: Monitor
+
+Assembly commands
+=================
+
+`a <address> [ <instruction> [: <instruction>]* ]'
+     Assemble instructions to the specified address.  If more than one
+     instruction is given, the command does not cause the monitor to
+     enter assembly mode.
+
+`d [<address> [<address>]]'
+     Disassemble instructions.  If two addresses are specified, they
+     are used as a start and end address.  If only one is specified, it
+     is treated as the start address and a default number of
+     instructions are disassembled.  If no addresses are specified, a
+     default number of instructions are disassembled from the dot
+     address.
+
+
+File: vice.info,  Node: Checkpoint commands,  Next: General commands,  Prev: Assembly commands,  Up: Monitor
+
+Checkpoint commands
+===================
+
+`break [<address> [if <cond_expr>] ]'
+     This command allows setting a breakpoint or listing the current
+     breakpoints.  If no address is given, the currently valid
+     checkpoints are printed.  If an address is given, a breakpoint is
+     set for that address and the breakpoint number is printed.  A
+     conditional expression can also be specified for the breakpoint.
+     For more information on conditions, see the CONDITION command.
+
+`enable/disable <checknum>'
+     Each checkpoint can be enabled or disabled.  This command allows
+     changing between these states.
+
+`command <check_num> "<command>"'
+     When checkpoint check_num is hit, the specified command is
+     executed by the monitor.  Note that the 'x' command is not yet
+     supported as a command argument.
+
+`condition <checknum> if <cond_expr>'
+     Each time the specified checkpoint is examined, the condition is
+     evaluated.  If it evalutes to true, the checkpoint is activated.
+     Otherwise, it is ignores.  If registers are specified in the
+     expression, the values used are those at the time the checkpoint
+     is examined, not when the condition is set.
+
+`delete <check_num>'
+     Delete the specified checkpoint.
+
+`ignore <checknum> [<count>]'
+     Ignore a checkpoint a given number of crossings.  If no count is
+     given, the default value is 1.
+
+`trace [address [address]]'
+     This command is similar to the `break' command except that it
+     operates on tracepoints.  A tracepoint differs from a breakpoint
+     by not stopping execution but simply printing the PC, giving the
+     user an execution trace.  The second optional address can be used
+     to specify the end of an range of addresses to be traced.
+
+`watch [address [address]]'
+     This command is similar to the previous two commands except that it
+     operates on watchpoints.  A watchpoint differs from the others by
+     stopping on a read and/or write to an address or range of
+     addresses.  If no addresses are given, a list of all the
+     checkpoints is printed.
+
+
+File: vice.info,  Node: General commands,  Next: Disk commands,  Prev: Checkpoint commands,  Up: Monitor
+
+General commands
+================
+
+`cd <directory>'
+     Change the working directory.
+
+`device [c:|d:]'
+     Set the default memory device to either the computer or the disk.
+
+`radix [H|D|O|B]'
+     Set the default radix to hex, decimal, octal, or binary.  With no
+     argument, the current radix is printed.
+
+`sidefx [on|off|toggle]'
+     Control how monitor generated reads affect memory locations that
+     have read side-effects.  If the argument is 'on' then reads may
+     cause side-effects.  If the argument is 'off' then reads don't
+     cause side-effects.  If the argument is 'toggle' then the current
+     mode is switched.  No argument displays the current state.
+     (Unfinished!)
+
+`system <system command>'
+     Nothing yet.
+
+
+File: vice.info,  Node: Disk commands,  Next: Command file commands,  Prev: General commands,  Up: Monitor
+
+Disk commands
+=============
+
+`br <track> <sector> [<address>]'
+     Read the block at the specified track and sector.  If an address is
+     specified, the data is loaded into memory.  If no address is
+     given, the data is displayed on the screen using the default
+     datatype.
+
+`bw <track> <sector> <address>'
+     This command writes a block of data at address to the specified
+     track and sector.
+
+`@<disk command>'
+     Perform a disk command on the currently attached disk image.  The
+     specified disk command is sent to the drive's channel #15.
+
+`load "<filename>" <address>'
+     Load the specified file into memory at the specified address.
+
+`save "<filename>" <address1> <address2>'
+     Save the memory from address1 to address2 to the specified file.
+
+`v "<filename>" <address>'
+     Nothing yet.  Is this really needed?
+
+
+File: vice.info,  Node: Command file commands,  Next: Label commands,  Prev: Disk commands,  Up: Monitor
+
+Command file commands
+=====================
+
+`playback "<filename>"'
+     Monitor commands from the specified file are read and executed.
+     This command stops at the end of file or when a STOP command is
+     read.
+
+`record "<filename>"'
+     After this command, all commands entered are written to the
+     specified file until the STOP command is entered.
+
+`stop'
+     Stop recording commands.  See `record'.
+
+
+File: vice.info,  Node: Label commands,  Next: Miscellaneous commands,  Prev: Command file commands,  Up: Monitor
+
+Label commands
+==============
+
+`add_label <address> <label>'
+     Map a given address to a label.  This label can be used when
+     entering assembly code and is shown during disassembly.
+
+`delete_label [<memspace>] <label>'
+     Remove the specified label from the label tables.  If no memory
+     space is checked, all tables are checked.
+
+`load_labels [<memspace>] "<filename>"'
+     Load a file containing a mapping of labels to addresses.  If no
+     memory space is specified, the default readspace is used.
+
+`save_labels [<memspace>] "<filename>"'
+     Save labels to a file.  If no memory space is specified, all of the
+     labels are saved.
+
+`show_labels [<memspace>]'
+     Display current label mappings.  If no memory space is specified,
+     show all labels.
+
+
+File: vice.info,  Node: Miscellaneous commands,  Prev: Label commands,  Up: Monitor
+
+Miscellaneous commands
+======================
+
+`exit'
+     Leave the monitor and return to execution.
+
+`print <expression>'
+     Evaluate the specified expression and output the result.
+
+`quit'
+     Exit the emulator immediately.
+
+`~ <number>'
+     Display the specified number in decimal, hex, octal and binary.
+
+
+File: vice.info,  Node: c1541,  Next: Acknowledgments,  Prev: Monitor,  Up: Top
+
+c1541
+*****
+
+   VICE is provided with a complete stand-alone disk image maintenance
+utility, called `c1541'.  You can either invoke it from the command
+line or from within one of the VICE emulators, using the "Run c1541"
+command which will open a new `xterm' window with a running `c1541' in
+it.
+
+   The syntax is:
+
+     c1541 OPTIONS IMAGE
+
+   If some `OPTIONS' but no `IMAGE' are specified, `c1541' runs in
+batch mode; otherwise, it attaches the `IMAGE' if present and enters
+interactive mode, where you can type commands that are executed when
+you press Enter (abbreviations are allowed).  As with the monitor, file
+name completion and command line editing with history are provided via
+GNU `readline'.  Use the command `quit' to exit.
+
+   Notice that `c1541' always creates `X64' files, but can read and
+write `D64' and `T64' files automatically, without the need for any
+special options.
+
+* Menu:
+
+* Commands::                    List of the available commands.
+* Examples::                    Using c1541 in practice.
+
+
+File: vice.info,  Node: Commands,  Next: Examples,  Prev: c1541,  Up: c1541
+
+c1541 commands
+==============
+
+   Each command-line option has an interactive-mode counterpart, that is
+shown in parenthesis: (abbreviations are allowed when not ambiguous)
+
+`-attach IMAGE (attach IMAGE)'
+     Attach the disk image `IMAGE' for use.  All the following commands
+     will refer to this image.
+
+`-detach (detach)'
+     Detach the currently attached disk image.
+
+`-format IMAGE 'NAME,ID' (format IMAGE 'NAME,ID)'
+     Format disk image `IMAGE', giving the specified label.  If `IMAGE'
+     does not exist, create it.
+
+`-delete IMAGE FILES... (delete FILES...)'
+     Delete  FILES  from `IMAGE'.
+
+`-list IMAGE (list)'
+     List files in `IMAGE'.
+
+`-validate IMAGE (validate)'
+     Validate the disk.
+
+`-copy IMAGE OLDNAME1 [OLDNAME2...] NEWNAME (copy OLDNAME1 [OLDNAME2...] NEWNAME)'
+     Concatenate `OLDNAME1', `OLDNAME2'.. into `NEWNAME' on `IMAGE'
+     (can be used to copy files).
+
+`-create IMAGE DUMP ['DESCR'] (create IMAGE DUMP'
+     ['DESCR'])
+
+     Build `IMAGE' from raw dump file `DUMP' (i.e. convert from `D64'
+     to `X64' file).
+
+`-zcreate IMAGE DUMP ['DESCR'] (create IMAGE DUMP ['DESCR'])'
+     Build `IMAGE' from a Zipcoded image called 1!DUMP, 2!DUMP, 3!DUMP,
+     4!DUMP.
+
+`-tape IMAGE TAPEIMAGE [FILES...]  (tape IMAGE TAPEIMAGE [FILES...])'
+     Transfer `FILES' from `TAPEIMAGE' to `IMAGE' (default is copy all
+     files).
+
+`-read IMAGE 1541NAME [FSNAME] (read 1541NAME [FSNAME])'
+     Extract `1541NAME' from the disk image into `FSNAME' (1541NAME by
+     default) from `IMAGE'.
+
+`-extract IMAGE (extract)'
+     Extract all files from `IMAGE'.
+
+`-write IMAGE FSNAME [1541NAME] (write FSNAME [1541NAME])'
+     Write `FSNAME' to `IMAGE' as `1541NAME' (`FSNAME' by default).
+     (works with `P00' files as well)
+
+`-block [DRIVE:] [TRACK] [SECTOR] [DISP] (block [DRIVE:] [TRACK] [SECTOR] [DISP])'
+     Show disk blocks in hex format.
+
+`-info IMAGE ['DESCRIPTION'] (info ['DESCRIPTION'])'
+     Show version information about `IMAGE'.
+
+   When more than one command is specified in batch mode, all of them
+are executed in the same order they have on the command line.
+
+   This information should also be available in section 1 of the
+on-line manual pages (`man 1 c1541').
+
+
+File: vice.info,  Node: Examples,  Prev: Commands,  Up: c1541
+
+c1541 examples
+==============
+
+
+File: vice.info,  Node: Acknowledgments,  Next: Copyright,  Prev: c1541,  Up: Top
 
 Acknowledgments
 ***************
@@ -236,7 +719,7 @@ along with this program; if not, write to the Free Software Foundation,
 Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
 
 
-File: vice.info,  Node: Contacts,  Prev: Copyright,  Up: Top
+File: vice.info,  Node: Contacts,  Next: Concept Index,  Prev: Copyright,  Up: Top
 
 Contact information
 *******************
@@ -321,11 +804,7 @@ team.
      your PC; this has been asked a gazillion times through email.  To
      transfer disks, you can use the Star Commander
      (http://ludens.elte.hu/~sta/sc.html).  And no, you cannot read C64
-     disks with your old 5"1/4 PC drive.  To transfer tapes, we have
-     been told a tool is in the works.  If you are impatient, you'll
-     have to write your own tool (and of course make it available as
-     *free* software with open sources, so that other people can enjoy
-     it as much as you do).
+     disks with your old 5"1/4 PC drive.
 
    * Please don't ask us where to find games for the emulator on the
      Internet.
@@ -398,5 +877,142 @@ FAQs you should read
    We recommend reading the `comp.emulators.cbm' and `comp.sys.cbm'
 FAQs, which are posted regularly on the corresponding newsgroups and
 are also available via FTP from ftp://rtfm.mit.edu.
+
+
+File: vice.info,  Node: Concept Index,  Next: Resource Index,  Prev: Contacts,  Up: Top
+
+Concept Index
+*************
+
+* Menu:
+
+* -1541, +1541:                          1541 options.
+* -checksb, +checksb:                    VIC-II options.
+* -checkss, +checkss:                    VIC-II options.
+* -dosname:                              1541 options.
+* -driveidle:                            1541 options.
+* -drivesync:                            1541 options.
+* -dscan, +dscan:                        Video options.
+* -emuid, +emuid:                        I/O extension options.
+* -fs10:                                 File system device options.
+* -fs11:                                 File system device options.
+* -fs8:                                  File system device options.
+* -fs9:                                  File system device options.
+* -ieee488, +ieee488:                    I/O extension options.
+* -keymap:                               Keyboard options.
+* -memory:                               VIC20 memconf options.
+* -ntscdrive:                            1541 options.
+* -paldrive:                             1541 options.
+* -parallel, +parallel:                  1541 options.
+* -prdev1:                               Printer options.
+* -prdev2:                               Printer options.
+* -prdev3:                               Printer options.
+* -refresh:                              Performance options.
+* -reu, +reu:                            I/O extension options.
+* -sidfilters, +sidfilters:              SID options.
+* -sidmodel:                             SID options.
+* -sound, +sound:                        Sound options.
+* -soundarg:                             Sound options.
+* -soundbufsize:                         Sound options.
+* -sounddev:                             Sound options.
+* -soundrate:                            Sound options.
+* -speed:                                Performance options.
+* -traps, +traps:                        No traps options.
+* -vcache, +vcache:                      Video options.
+* -warp, +warp:                          Performance options.
+* Adaptive Playback:                     Sound settings.
+* Audio buffer size:                     Sound settings.
+* C64/128 emulator identification:       I/O extension settings.
+* Double-scan mode.:                     Video settings.
+* Double-size mode:                      Video settings.
+* IEEE488 interface emulation:           I/O extension settings.
+* Limiting emulation speed:              Performance settings.
+* Loosing control on low-end systems:    Video settings.
+* Oversampling:                          Sound settings.
+* Refresh rate:                          Performance settings.
+* REU:                                   I/O extension settings.
+* Sample rate:                           Sound settings.
+* SID filters:                           SID settings.
+* SID models:                            SID settings.
+* Sound buffer size:                     Sound settings.
+* Sound suspend time:                    Sound settings.
+* Sprite collision detection:            VIC-II settings.
+* Turning sound playback on/off:         Sound settings.
+* Using XSync():                         Video settings.
+* VIC-II color sets:                     VIC-II settings.
+* Video cache:                           Video settings.
+* Warp speed mode:                       Performance settings.
+
+
+File: vice.info,  Node: Resource Index,  Prev: Concept Index,  Up: Top
+
+Index of Resources
+******************
+
+* Menu:
+
+* Acia1Dev:                              RS232 resources.
+* CheckSbColl:                           VIC-II resources.
+* CheckSsColl:                           VIC-II resources.
+* DosName:                               1541 resources.
+* DoubleScan:                            Video resources.
+* DoubleSize:                            Video resources.
+* EmuID:                                 I/O extension resources.
+* FSDevice10ConvertP00:                  File system device resources.
+* FSDevice10Dir:                         File system device resources.
+* FSDevice10HideCBMFiles:                File system device resources.
+* FSDevice10SaveP00:                     File system device resources.
+* FSDevice11ConvertP00:                  File system device resources.
+* FSDevice11Dir:                         File system device resources.
+* FSDevice11HideCBMFiles:                File system device resources.
+* FSDevice11SaveP00:                     File system device resources.
+* FSDevice8ConvertP00:                   File system device resources.
+* FSDevice8Dir:                          File system device resources.
+* FSDevice8HideCBMFiles:                 File system device resources.
+* FSDevice8SaveP00:                      File system device resources.
+* FSDevice9ConvertP00:                   File system device resources.
+* FSDevice9Dir:                          File system device resources.
+* FSDevice9HideCBMFiles:                 File system device resources.
+* FSDevice9SaveP00:                      File system device resources.
+* IEEE488:                               I/O extension resources.
+* KeymapIndex:                           Keyboard resources.
+* NoTraps:                               No traps resources.
+* PaletteFile:                           VIC-II resources.
+* PrDevice1:                             Printer resources.
+* PrDevice2:                             Printer resources.
+* PrDevice3:                             Printer resources.
+* RAMBlock0:                             VIC20 memconf resources.
+* RAMBlock1:                             VIC20 memconf resources.
+* RAMBlock2:                             VIC20 memconf resources.
+* RAMBlock3:                             VIC20 memconf resources.
+* RAMBlock5:                             VIC20 memconf resources.
+* RefreshRate:                           Performance resources.
+* REU:                                   I/O extension resources.
+* RsDevice1:                             RS232 resources.
+* RsDevice1Baud:                         RS232 resources.
+* RsDevice2:                             RS232 resources.
+* RsDevice2Baud:                         RS232 resources.
+* RsDevice3:                             RS232 resources.
+* RsDevice4:                             RS232 resources.
+* RsUserDev:                             RS232 resources.
+* SidFilters:                            SID resources.
+* SidModel:                              SID resources.
+* Sound:                                 Sound resources.
+* SoundBufferSize:                       Sound resources.
+* SoundDeviceArg:                        Sound resources.
+* SoundDeviceName:                       Sound resources.
+* SoundOversample:                       Sound resources.
+* SoundSampleRate:                       Sound resources.
+* SoundSpeedAdjustment:                  Sound resources.
+* SoundSuspendTime:                      Sound resources.
+* Speed:                                 Performance resources.
+* True1541:                              1541 resources.
+* True1541ExtendImagePolicy:             1541 resources.
+* True1541IdleMethod:                    1541 resources.
+* True1541ParallelCable:                 1541 resources.
+* True1541SyncFactor:                    1541 resources.
+* UseXSync:                              Video resources.
+* VideoCache:                            Video resources.
+* WarpMode:                              Performance resources.
 
 

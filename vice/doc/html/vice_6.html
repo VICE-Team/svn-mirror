@@ -1,12 +1,12 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 17 August 1998 -->
+     from ../vice.texi on 19 August 1998 -->
 
 <TITLE>VICE Manual - 6  Settings and resources</TITLE>
 </HEAD>
 <BODY BGCOLOR="#ffffff" TEXT="#00000">
-Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_5.html">previous</A>, <A HREF="vice_7.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_5.html">previous</A>, <A HREF="vice_7.html">next</A>, <A HREF="vice_14.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 <P><HR><P>
 
 
@@ -42,12 +42,6 @@ A special resource, <CODE>SaveResourcesOnExit</CODE>, if set to a non zero
 value, causes the emulator to ask you if you want to save the current
 (changed) settings before exiting, and can be toggled with the "Save
 settings on exit" command from the right-button menu.
-
-</P>
-<P>
-When describing resources in the following sections, we will put both
-their name and the text of the corresponding menu item in parenthesis.
-This will help in case you want to edit <TT>`.vicerc'</TT> by hand.
 
 </P>
 
@@ -112,35 +106,74 @@ unchanged.
 </P>
 
 
-
-<H2><A NAME="SEC32" HREF="vice_toc.html#TOC32">6.2  Performance settings</A></H2>
+<H2><A NAME="SEC32" HREF="vice_toc.html#TOC32">6.2  Using command-line options to change resources</A></H2>
 
 <P>
-You can control the emulation speed by changing the <CODE>Speed</CODE>
-resource, which controls the maximum speed (in percent) of the emulated
-machine.  The default setting is <CODE>100</CODE>, which causes the emulation
-to never run faster than the real machine.  A higher value makes the
-emulator faster, a lower one makes it slower.  A value of zero means to
-run as fast as possible, without limiting speed.  These values can also
-be set using the "Maximum Speed" submenu in the settings menu.
+Resources can also be changed via command-line options.
 
 </P>
 <P>
+Command-line options always override the defaults from <CODE>.vicerc</CODE>,
+and their value lasts for the whole session.  So, if you specify a
+certain command-line option that changes a certain resource from its
+default value and then use "Save Settings", the value specified with
+the command-line option will be saved.
+
+</P>
+<P>
+Command-line options can begin with with the minus sign (<SAMP>`-'</SAMP>) or
+with the plus sign (<SAMP>`+'</SAMP>).  Options beginning with the minus sign
+can require an additional parameter, while the ones beginning with the
+plus sign never require one.
+
+</P>
+<P>
+Moreover, options beginning with the plus sign always have a counterpart
+with the same name, but with the minus sign; in that case, the option
+beginning with the minus sign is used to <EM>enable</EM> a certain
+feature, while the one beginning with the plus sign is used to
+<EM>disable</EM> the same feature (this is an X11 convention).  For
+example, <CODE>-mitshm</CODE> enables support of MITSHM, while <CODE>+mitshm</CODE>
+disables it.
+
+</P>
+
+
+
+<H2><A NAME="SEC33" HREF="vice_toc.html#TOC33">6.3  Performance settings</A></H2>
+
+<P>
+<A NAME="IDX1"></A>
+It is possible to control the emulation speed by using the "Maximum
+speed" menu item in the right-button menu.  The default setting is
+<CODE>100</CODE>, which causes the emulation to never run faster than the real
+machine.  A higher value makes the emulator faster, a lower one makes it
+slower.  The setting "No limit" means to run as fast as possible,
+without limiting speed.
+
+</P>
+<P>
+<A NAME="IDX2"></A>
 It is also possible to control the amount of screen frames the emulator
-calculates; the value ranges from <CODE>1</CODE> (update as 1/1 of the frames
-of the real machine, that is 50 frames per second) to <CODE>10</CODE> (update
-1 every 10 frames), is stored in the resource <CODE>RefreshRate</CODE> and can
-be changed via the "Refresh Rate" submenu.  The special value "zero"
-means to dynamically adapt the refresh rate to the current speed of the
-host machine, making sure the maximum speed specified by the
-<CODE>Speed</CODE> resource is always reached if possible.  In any case, the
+calculates with the "Refresh rate" setting; the value ranges from
+"1/1" (update 1/1 of the frames of the real machine, that is 50 frames
+per second) to "1/10" (update 1 every 10 frames) and can be changed
+via the "Refresh Rate" submenu.  The setting "auto means to
+dynamically adapt the refresh rate to the current speed of the host
+machine, making sure the maximum speed specified by the via "Maxium
+speed" resource is always reached if possible.  In any case, the
 refresh rate will never be worse than 1/10 if this value is specified.
 
 </P>
 <P>
-Moreover, a special <EM>warp speed</EM> mode is provided by the
-<CODE>WarpMode</CODE> resource, which can be toggled with the "Enable Warp
-Mode" menu item.  If <CODE>WarpMode</CODE> contains a nonzero value, warp
+Notice that you cannot specify "Auto" as the refresh rate and "No
+limit" as the maximum speed at the same time.
+
+</P>
+<P>
+<A NAME="IDX3"></A>
+Moreover, a special <EM>warp speed</EM> mode is provided and can be toggled
+with the "Enable Warp Mode" menu item.  If this mode is enabled, warp
 speed mode will be enabled and will cause the emulator to disable any
 speed limit, turn sound emulation off and use a 1/10 refresh rate, so
 that it will run at the maximum possible speed.
@@ -149,69 +182,228 @@ that it will run at the maximum possible speed.
 
 
 
-<H2><A NAME="SEC33" HREF="vice_toc.html#TOC33">6.3  Video settings</A></H2>
+<H3><A NAME="SEC34" HREF="vice_toc.html#TOC34">6.3.1  Performance resources</A></H3>
+
+<DL COMPACT>
+
+<P><DT><CODE>Speed</CODE>
+<DD>
+<A NAME="IDX4"></A>
+ 
+Integer specifying the maximum relative speed, in percent.  <CODE>0</CODE>
+stands for "no limit".
+
+<A NAME="IDX5"></A>
+<P><DT><CODE>RefreshRate</CODE>
+<DD>
+Integer specifying the refresh rate; a value of <CODE>n</CODE> specifies a
+refresh rate of 1/<CODE>n</CODE>.  A value of <CODE>0</CODE> enables automatic frame
+skipping.
+
+<A NAME="IDX6"></A>
+<P><DT><CODE>WarpMode</CODE>
+<DD>
+Booolean specifying whether "warp mode" is turned on or not.
+
+</DL>
+
+
+
+<H3><A NAME="SEC35" HREF="vice_toc.html#TOC35">6.3.2  Performance command-line options</A></H3>
+
+<DL COMPACT>
+
+<P><DT><CODE>-speed VALUE</CODE>
+<DD>
+<A NAME="IDX7"></A>
+ 
+Specifies the maximum speed in percent.  <CODE>0</CODE> stands for "no
+limit".  (Same as setting the <CODE>Speed</CODE> resource.)
+
+<A NAME="IDX8"></A>
+<P><DT><CODE>-refresh VALUE</CODE>
+<DD>
+Specifies refresh rate; a value of <CODE>n</CODE> specifies a refresh rate of
+1/<CODE>n</CODE>.  A value of <CODE>0</CODE> enables automatic frame skipping.
+(Same as setting the <CODE>RefreshRate</CODE> resource.)
+
+<A NAME="IDX9"></A>
+<P><DT><CODE>-warp</CODE>
+<DD>
+<DT><CODE>+warp</CODE>
+<DD>
+Enables/disables warp mode (<CODE>WarpMode=1</CODE>, <CODE>WarpMode=1</CODE>).
+
+</DL>
+
+
+
+<H2><A NAME="SEC36" HREF="vice_toc.html#TOC36">6.4  Video settings</A></H2>
+
+<P>
+The following right-button menu items control the video output:
+
+</P>
+
+<P> <UL>
+
+<P> <LI>
+
+<A NAME="IDX10"></A>
+ 
+"Video Cache" enables a video cache that can speed up the emulation
+when little graphics activity is going on.
+
+<A NAME="IDX11"></A>
+<P> <LI>
+
+"Double Size" toggles <EM>double-size mode</EM>, which makes the
+emulation window twice as big (when emulating a 80-column PET, only the
+height is doubled, so that the aspect ratio is more similiar to the one
+of the real thing).
+
+<A NAME="IDX12"></A>
+<P> <LI>
+
+"Double Scan" toggless <EM>double-scan mode</EM>, which causes the
+emulator to draw only odd lines when running in double-size mode (this
+saves some CPU time and also makes the emulation window look more like
+an old monitor).
+
+<A NAME="IDX13"></A>
+<A NAME="IDX14"></A>
+<P> <LI>
+
+`Use XSync()" causes the emulator to call the X11 function
+<CODE>XSync()</CODE> before updating the emulation window: this might be
+necessary on low-end systems to prevent it from stealing so many system
+resources that it would become impossible for the user to interact with
+it.
+
+</UL> </P>
+
+
+
+<H3><A NAME="SEC37" HREF="vice_toc.html#TOC37">6.4.1  Video resources</A></H3>
 
 <P>
 The following resources affect the screen emulation:
 
 </P>
+<DL COMPACT>
 
-<P> <UL>
+<P><DT><CODE>VideoCache</CODE>
+<DD>
+<A NAME="IDX15"></A>
+ 
+Boolean specifying whether the video cache is turned on.
 
-<P> <LI>
+<A NAME="IDX16"></A>
+<P><DT><CODE>DoubleSize</CODE>
+<DD>
+Boolean specifying whether double-size mode is turned on.
 
-<CODE>VideoCache</CODE> ("Video Cache") enables a video cache that can speed
-up the emulation when little graphics activity is going on.
+<A NAME="IDX17"></A>
+<P><DT><CODE>DoubleScan</CODE>
+<DD>
+Boolean specifying whether double-scan mode is turned on.
 
-<P> <LI>
+<A NAME="IDX18"></A>
+<P><DT><CODE>UseXSync</CODE>
+<DD>
+Boolean specifying whether <CODE>XSync()</CODE> is called after updating the
+emulation window.
 
-<CODE>DoubleSize</CODE> ("Double Size") makes the emulation window twice as
-big (when emulating a 80-column PET, only the height is doubled, so that
-the aspect ratio is more similiar to the one of the real thing).
-
-<P> <LI>
-
-<CODE>DoubleScan</CODE> ("Double Scan"), if disabled, causes the emulator to
-draw only odd lines when running in double-size mode (this saves some
-CPU time and also makes the emulation window look more like an old
-monitor).
-
-<P> <LI>
-
-<CODE>UseXSync</CODE> ("Use XSync()") causes the emulator to call the X11
-function <CODE>XSync()</CODE> before updating the emulation window: this might
-be necessary on low-end systems to prevent it from stealing so many
-system resources that it would become impossible for the user to
-interact with it.
-
-</UL> </P>
+</DL>
 
 
 
-<H2><A NAME="SEC34" HREF="vice_toc.html#TOC34">6.4  Keyboard settings</A></H2>
+<H3><A NAME="SEC38" HREF="vice_toc.html#TOC38">6.4.2  Video command-line options</A></H3>
+
+<DL COMPACT>
+
+<P><DT><CODE>-vcache</CODE>
+<DD>
+<A NAME="IDX19"></A>
+ 
+<DT><CODE>+vcache</CODE>
+<DD>
+Enable/disable the video cache (<CODE>VideoCache=1</CODE>, <CODE>VideoCache=0</CODE>).
+
+<A NAME="IDX20"></A>
+<P><DT><CODE>-dscan</CODE>
+<DD>
+<DT><CODE>+dscan</CODE>
+<DD>
+Enable/disable the double scan mode (<CODE>DoubleScan=1</CODE>,
+<CODE>DoubleScan=0</CODE>).
+
+</DL>
+
+
+
+<H2><A NAME="SEC39" HREF="vice_toc.html#TOC39">6.5  Keyboard settings</A></H2>
 
 <P>
 It is possible to specify whether the "positional" or "symbolic"
-keyboard mapping is being used with the "Keyboard mapping type
-submenu".  The value is saved in the <CODE>KeymapIndex</CODE> resource
-(see section <A HREF="vice_2.html#SEC10">2.5  The keyboard emulation</A> for a description of positional and symbolic
-mapping); a value of <CODE>0</CODE> identifies symbolic mapping, a value
-<CODE>1</CODE> positional mapping.
+keyboard mapping is being used with the "Keyboard mapping type"
+submenu (see section <A HREF="vice_2.html#SEC10">2.5  The keyboard emulation</A> for an explanation of positional
+and symbolic mappings).
 
 </P>
 <P>
-The keyboard settings submenu also allows you to load custom-made
-positional and symbolic keymap files, and to dump the current keymap to
-a user-defined keymap file.
+The keyboard settings submenu also allows you to:
 
 </P>
 
+<P> <UL>
+<P> <LI>
+
+Load custom-made positional and symbolic keymap files
+("Set symbolic keymap file" and "Set positional keymap file").
+<P> <LI>
+
+Dump the current keymap to a user-defined keymap file ("Dump to keymap
+file").
+</UL> </P>
 
 
-<H2><A NAME="SEC35" HREF="vice_toc.html#TOC35">6.5  Sound settings</A></H2>
+
+<H3><A NAME="SEC40" HREF="vice_toc.html#TOC40">6.5.1  Keyboard resources</A></H3>
+
+<DL COMPACT>
+
+<P><DT><CODE>KeymapIndex</CODE>
+<DD>
+<A NAME="IDX21"></A>
+ 
+Integer identifying which keymap is being used; <CODE>0</CODE> identifies
+symbolic mapping, <CODE>1</CODE> positional mapping.
+
+</DL>
+
+
+
+<H3><A NAME="SEC41" HREF="vice_toc.html#TOC41">6.5.2  Keyboard command-line options</A></H3>
+
+<DL COMPACT>
+
+<P><DT><CODE>-keymap N</CODE>
+<DD>
+<A NAME="IDX22"></A>
+ 
+Specifies which keymap is being used; <CODE>0</CODE> identifies symbolic
+mapping, <CODE>1</CODE> positional mapping (same as the <CODE>KeymapIndex</CODE>
+resource).
+
+</DL>
+
+
+
+<H2><A NAME="SEC42" HREF="vice_toc.html#TOC42">6.6  Sound settings</A></H2>
 
 <P>
-The following resources affect sound output:
+The following menu items control sound output:
 
 </P>
 
@@ -219,44 +411,192 @@ The following resources affect sound output:
 
 <P> <LI>
 
-<CODE>Sound</CODE> ("Enable sound playback") toggles sound emulation on and
-off.
+<A NAME="IDX23"></A>
+ 
+"Enable sound playback" turns sound emulation on and off.
 
+<A NAME="IDX24"></A>
 <P> <LI>
 
-<CODE>SoundSpeedAdjustment</CODE> ("Enable adaptive playback") enables a
-special playback mode that is able to adapt the sound output to the
-speed of the emulated machine, trying to avoid "clicks".
+"Enable adaptive playback" enables a special playback mode that is
+able to adapt the sound output to the speed of the emulated machine,
+trying to avoid "clicks".
 
+<A NAME="IDX25"></A>
 <P> <LI>
 
-<CODE>SoundSampleRate</CODE> ("Sample rate") specifies the sampling
-frequency, ranging from 8000 to 48000 Hz (not all the sound cards and/or
-sound drivers can support all the frequencies, so actually the nearmost
-candidate will be picked up).
+"Sample rate" specifies the sampling frequency, ranging from 8000 to
+48000 Hz (not all the sound cards and/or sound drivers can support all
+the frequencies, so actually the nearmost candidate will be picked up).
 
+<A NAME="IDX26"></A>
+<A NAME="IDX27"></A>
 <P> <LI>
 
-<CODE>SoundBufferSize</CODE> ("Buffer size") specifies the size of the audio
-buffer; the bigger the buffer, the longer the delay with which sounds are
-played.  You should pick the smallest value your machine can handle
-without problems.
+"Buffer size" specifies the size of the audio buffer; the bigger the
+buffer, the longer the delay with which sounds are played.  You should
+pick the smallest value your machine can handle without problems.
 
+<A NAME="IDX28"></A>
 <P> <LI>
 
-<CODE>SoundSuspendTime</CODE> ("Suspend time"), if different from zero
-("Keep going"), will cause the audio playback to pause for the
-specified number of seconds whenever some clicking happens.
+"Sound suspend time", will cause the audio playback to pause for the
+specified number of seconds whenever some clicking happens.  If "Keep
+going" is selected, no pausing is done.
 
+<A NAME="IDX29"></A>
 <P> <LI>
 
-<CODE>SoundOversample</CODE> ("Oversample") specifies an oversampling factor.
+"Oversample" specifies an oversampling factor, from 1 to 8 times
+(warning: this eats CPU cycles!).
 
 </UL> </P>
 
 
 
-<H2><A NAME="SEC36" HREF="vice_toc.html#TOC36">6.6  1541 settings</A></H2>
+<H3><A NAME="SEC43" HREF="vice_toc.html#TOC43">6.6.1  Sound resources</A></H3>
+
+<DL COMPACT>
+
+<P><DT><CODE>Sound</CODE>
+<DD>
+<A NAME="IDX30"></A>
+ 
+Boolean specifying whether audio emulation is turned on.
+
+<A NAME="IDX31"></A>
+<P><DT><CODE>SoundSpeedAdjustment</CODE>
+<DD>
+Boolean specifying whether <EM>adaptive playback mode</EM> is turned on.
+
+<A NAME="IDX32"></A>
+<P><DT><CODE>SoundSampleRate</CODE>
+<DD>
+Integer specifying the sampling frequency, ranging from 8000 to 48000 Hz
+(not all the sound cards and/or sound drivers can support all the
+frequencies, so actually the nearmost candidate will be picked up).
+
+<A NAME="IDX33"></A>
+<P><DT><CODE>SoundBufferSize</CODE>
+<DD>
+Integer specifying the size of the audio buffer, in milliseconds.
+
+<A NAME="IDX34"></A>
+<P><DT><CODE>SoundSuspendTime</CODE>
+<DD>
+Integer specifying the pause interval when audio underflows ("clicks")
+happen.  <CODE>0</CODE> means no pause is done.
+
+<A NAME="IDX35"></A>
+<P><DT><CODE>SoundOversample</CODE>
+<DD>
+Integer specifying the oversampling factor, ranging from <CODE>1</CODE> (no
+oversampling) to <CODE>8</CODE> (8 times oversampling).
+
+<A NAME="IDX36"></A>
+<P><DT><CODE>SoundDeviceName</CODE>
+<DD>
+String specifying the audio driver.
+
+Implemented drivers are:
+
+
+<P> <UL>
+<P> <LI>
+
+<CODE>aix</CODE>, for IBM AIX.
+<P> <LI>
+
+<CODE>uss</CODE>, for the Linux/FreeBSD Universal Sound System driver
+(<CODE>SoundDeviceArg</CODE> specifies the audio device, <TT>`/dev/dsp'</TT> by
+default);
+<P> <LI>
+
+<CODE>sgi</CODE>, for the Silicon Graphics audio device (<CODE>SoundDeviceArg</CODE>
+specifies the audio device, <TT>`/dev/audio'</TT> by default);
+<P> <LI>
+
+<CODE>sun</CODE>, for the Solaris audio device (unfinished;
+<CODE>SoundDeviceArg</CODE> specifies the audio device, <TT>`/dev/audio'</TT> by
+default).
+<P> <LI>
+
+<CODE>hpux</CODE>, for the HP-UX audio device (unfinished;
+<CODE>SoundDeviceArg</CODE> specifies the audio device, <TT>`/dev/audio'</TT> by
+default).
+<P> <LI>
+
+<CODE>sdl</CODE>, for the Simple DirectMedia Layer audio driver.
+<P> <LI>
+
+<CODE>dummy</CODE>, fully emulating the SID, but not actually playing samples.
+<P> <LI>
+
+<CODE>dump</CODE>, writing all the write accesses to the registers to a file
+(specified by <CODE>SoundDeviceArg</CODE>, default value is
+<CODE>vicesnd.sid</CODE>);
+<P> <LI>
+
+<CODE>speed</CODE>, like <CODE>dummy</CODE> but also calculating samples (mainly
+used to evaluate the speed of the sample generator);
+<P> <LI>
+
+<CODE>fs</CODE>, writing samples to a file (specified by
+<CODE>SoundDeviceArg</CODE>; default is <TT>`vicesnd.raw'</TT>);
+</UL> </P>
+
+These drivers will actually be present only if the VICE configuration
+script detected the corresponding devices at the time of installation.
+
+<A NAME="IDX37"></A>
+<P><DT><CODE>SoundDeviceArg</CODE>
+<DD>
+String specifying an additional parameter for the audio driver (see
+<CODE>SoundDeviceName</CODE>).
+
+</DL>
+
+
+
+<H3><A NAME="SEC44" HREF="vice_toc.html#TOC44">6.6.2  Sound command-line options</A></H3>
+
+<DL COMPACT>
+
+<P><DT><CODE>-sound</CODE>
+<DD>
+<A NAME="IDX38"></A>
+ 
+<DT><CODE>+sound</CODE>
+<DD>
+Turns sound emulation on (<CODE>Sound=1</CODE>) and off (<CODE>Sound=0</CODE>).
+
+<A NAME="IDX39"></A>
+<P><DT><CODE>-soundrate RATE</CODE>
+<DD>
+Specifies the sound playback sample rate (<CODE>SoundSampleRate</CODE>).
+
+<A NAME="IDX40"></A>
+<P><DT><CODE>-soundbufsize SIZE</CODE>
+<DD>
+Specifies the size of the audio buffer in milliseconds
+(<CODE>SoundBufferSize</CODE>).
+
+<A NAME="IDX41"></A>
+<P><DT><CODE>-sounddev NAME</CODE>
+<DD>
+Specifies the name of the audio device (<CODE>SoundDeviceName</CODE>).
+
+<A NAME="IDX42"></A>
+<P><DT><CODE>-soundarg ARG</CODE>
+<DD>
+Specifies an additional parameter for the audio device
+(<CODE>SoundDeviceArg</CODE>).
+
+</DL>
+
+
+
+<H2><A NAME="SEC45" HREF="vice_toc.html#TOC45">6.7  1541 settings</A></H2>
 
 <P>
 These settings are used to control the emulation of the 1541 drive.
@@ -267,60 +607,55 @@ These settings are used to control the emulation of the 1541 drive.
 
 <P> <LI>
 
-<CODE>True1541</CODE> ("Enable true 1541 emulation") enables the slow
-hardware-level emulation of the 1541 drive number 8 for maximum
-compatibility.
+"Enable true 1541 emulation") enables the slow hardware-level
+emulation of the 1541 drive number 8 for maximum compatibility.
 
 <P> <LI>
 
-<CODE>True1541ParallelCable</CODE> ("Enable parallel cable") enables
-emulation of a SpeedDOS parallel cable; if you switch this option on and
-replace the original Commodore ROMs with SpeedDOS-compatible ones, you
-can speed up the loading speed.
+"Enable parallel cable" enables emulation of a SpeedDOS parallel
+cable; if you switch this option on and replace the original Commodore
+ROMs with SpeedDOS-compatible ones, you can speed up the loading speed.
 
 <P> <LI>
 
-<CODE>True1541SyncFactor</CODE> ("True 1541 sync factor") specifies the
-speed of the 1541 CPU.  This can be used to help loading certain games,
-eg. NTSC ones, that have trouble with the default setting.  The ratio
-is calculated as follows:
+"True 1541 sync factor" specifies the speed of the 1541 CPU.  This can
+be used to help loading certain games, eg. NTSC ones, that have trouble
+with the default setting.  The ratio is calculated as follows:
+
 
 <PRE>
-True1541SyncFactor = 65536 * clk_1541 / clk_machine
+sync_factor = 65536 * clk_1541 / clk_machine
 </PRE>
 
-where <CODE>clk_1541</CODE> and <CODE>clk_machine</CODE> is the clock speed in MHz.
+where <CODE>clk_1541</CODE> and <CODE>clk_machine</CODE> are clock speeds, in MHz.
 The menu lets you choose between the PAL and NTSC values, and also lets
 you specify whatever value you want.  Be careful when changing it,
-though.  Also notice that the special values <CODE>-1</CODE> and <CODE>-2</CODE>
-identify the PAL and NTSC sync factors, respectively.
+though, because it can break things and even corrupt disk images.
 
 <P> <LI>
 
-<CODE>True1541IdleMethod</CODE> ("True 1541 idle method") specify which
-method the 1541 emulation should use to save CPU cycles when nothing is
-really happening.  There are three methods:
+"True 1541 idle method" specifies which method the 1541 emulation
+should use to save CPU cycles.  There are three methods:
 
 
 <P> <UL>
 <P> <LI>
 
-<EM>Skip cycles</EM> (<CODE>True1541IdleMethod=1</CODE>): Each time the serial
-line is accessed by the C64, the drive executes all the cycles since the
-last time it was running.  If the number of elapsed cycles is larger
-than a certain value, the drive discards part of them.
+<EM>Skip cycles</EM>: Each time the serial line is accessed by the C64, the
+drive executes all the cycles since the last time it was running.  If
+the number of elapsed cycles is larger than a certain value, the drive
+discards part of them.
 <P> <LI>
 
-<EM>Trap idle</EM> (<CODE>True1541IdleMethod=2</CODE>): The disk drive is still
-emulated upon serial line accesses as with the previous option, but it
-is also always emulated at the end of each screen frame.  If the drive
-gets into the DOS idle loop, only pending interrupts are emulated to
-save time.
+<EM>Trap idle</EM>: The disk drive is still emulated upon serial line
+accesses as with the previous option, but it is also always emulated at
+the end of each screen frame.  If the drive gets into the DOS idle loop,
+only pending interrupts are emulated to save time.
 <P> <LI>
 
-<EM>No traps</EM> (<CODE>True1541IdleMethod=0</CODE>): Like "Trap idle", but
-without traps at all.  So basically the 1541 works exactly as with the
-real thing, and nothing is done to reduce memory consumption.
+<EM>No traps</EM>: Like "Trap idle", but without traps at all.  So
+basically the 1541 works exactly as with the real thing, and nothing is
+done to reduce memory consumption.
 </UL> </P>
 
 The first option ("Skip cycles") is usually better for performance, as
@@ -345,81 +680,412 @@ global emulation speed is then <EM>much</EM> slower.
 
 <P> <LI>
 
-<CODE>True1541ExtendImagePolicy</CODE> ("40-track image support") specifies
-how 40-track ("extended") disk images should be supported.  There are
-three possible ways:
+"40-track image support" specifies how 40-track ("extended") disk
+images should be supported.  There are three possible ways:
 
 
 <P> <UL>
 <P> <LI>
 
-"Never extend" (<CODE>True1541ExtendImagePolicy=0</CODE>) never extends
-disk images at all (so if a program tries to write tracks beyond the
-35th, it is not allowed to do so);
+"Never extend" never extends disk images at all (so if a program tries
+to write tracks beyond the 35th, it is not allowed to do so);
 <P> <LI>
 
-"Ask on extend" (<CODE>True1541ExtendImagePolicy=1</CODE>) prompts the user
-as soon as a program tries to write tracks beyond the 35th, and the user
-can then choose whether she wants the disk image to be extended or not;
+"Ask on extend" prompts the user as soon as a program tries to write
+tracks beyond the 35th, and the user can then choose whether she wants
+the disk image to be extended or not;
 <P> <LI>
 
-"Extend on access" (<CODE>True1541ExtendImagePolicy=2</CODE>) simply extends
-the disk image as soon the program needs it, without prompting the user.
+"Extend on access" simply extends the disk image as soon the program
+needs it, without prompting the user.
 </UL> </P>
 
 </UL> </P>
 
 
 
-<H2><A NAME="SEC37" HREF="vice_toc.html#TOC37">6.7  Serial settings</A></H2>
+<H3><A NAME="SEC46" HREF="vice_toc.html#TOC46">6.7.1  1541 resources</A></H3>
+
+<DL COMPACT>
+
+<P><DT><CODE>True1541</CODE>
+<DD>
+<A NAME="IDX43"></A>
+ 
+Boolean controlling whether the "true" 1541 emulation emulation is
+turned on.
+
+<A NAME="IDX44"></A>
+<P><DT><CODE>True1541ParallelCable</CODE>
+<DD>
+Boolean controlling whether the SpeedDOS-compatible cable is emulated or
+not.
+
+<A NAME="IDX45"></A>
+<P><DT><CODE>True1541ExtendImagePolicy</CODE>
+<DD>
+Integer specifying the policy for 40-track support.  Possible values
+are <CODE>0</CODE> (never extend), <CODE>1</CODE> (ask on extend), <CODE>2</CODE> (extend
+on access).
+
+<A NAME="IDX46"></A>
+<P><DT><CODE>True1541IdleMethod</CODE>
+<DD>
+Integer specifying the idling method for the 1541 CPU.  Possible values
+are <CODE>0</CODE> (none), <CODE>1</CODE> (skip cycles), <CODE>2</CODE> (trap idle).
+See section <A HREF="vice_6.html#SEC45">6.7  1541 settings</A>.
+
+<A NAME="IDX47"></A>
+<P><DT><CODE>True1541SyncFactor</CODE>
+<DD>
+Integer specifying the true 1541 clock sync factor (see section <A HREF="vice_6.html#SEC45">6.7  1541 settings</A>).  Special values <CODE>-1</CODE> and <CODE>-2</CODE> mean PAL and NTSC,
+respectively.
+
+<A NAME="IDX48"></A>
+<P><DT><CODE>DosName</CODE>
+<DD>
+String specifying the name of the ROM image name for the 1541
+emulation.
+
+</DL>
+
+
+
+<H3><A NAME="SEC47" HREF="vice_toc.html#TOC47">6.7.2  1541 command-line options</A></H3>
+
+<DL COMPACT>
+
+<P><DT><CODE>-1541</CODE>
+<DD>
+<A NAME="IDX49"></A>
+ 
+<DT><CODE>+1541</CODE>
+<DD>
+Turns true 1541 emulation on (<CODE>True1541=1</CODE>) and off
+(<CODE>True1541=0</CODE>), respectively.
+
+<A NAME="IDX50"></A>
+<P><DT><CODE>-parallel</CODE>
+<DD>
+<DT><CODE>+parallel</CODE>
+<DD>
+Turns emulation of the SpeedDOS-compatible parallel cable on
+(<CODE>True1541ParallelCable=1</CODE>) and off
+(<CODE>True1541ParallelCable=0</CODE>), respectively.
+
+<A NAME="IDX51"></A>
+<P><DT><CODE>-driveidle NUM</CODE>
+<DD>
+Specifies <CODE>NUM</CODE> as the 1541 idling method
+(<CODE>True1541IdleMethod</CODE>).
+
+<A NAME="IDX52"></A>
+<P><DT><CODE>-paldrive</CODE>
+<DD>
+Specifies a PAL sync factor for the 1541 emulation
+(<CODE>True1541SyncFactor=-1</CODE>).
+
+<A NAME="IDX53"></A>
+<P><DT><CODE>-ntscdrive</CODE>
+<DD>
+Specifies an NTSC sync factor for the 1541 emulation
+(<CODE>True1541SyncFactor=-2</CODE>).
+
+<A NAME="IDX54"></A>
+<P><DT><CODE>-drivesync NUM</CODE>
+<DD>
+Specifies a generic sync factor for the 1541 emulation
+(<CODE>True1541SyncFactor=-2</CODE>).
+
+<A NAME="IDX55"></A>
+<P><DT><CODE>-dosname NAME</CODE>
+<DD>
+Specifies the name of the DOS ROM image (<CODE>DosName</CODE>).
+
+</DL>
+
+
+
+<H2><A NAME="SEC48" HREF="vice_toc.html#TOC48">6.8  Peripheral settings</A></H2>
 
 <P>
-These settings deal with the drive-like peripherals connected to the bus
-of the emulated machine.  Four peripherals, numbered from 8 to 11, are
-accessible; each of them provides the following settings (substitute
-<CODE>X</CODE> in the resource names with the number of the corresponding
-peripheral):
+VICE is able to support some special peripherals:
 
 </P>
 
 <P> <UL>
 <P> <LI>
 
-<CODE>FileSystemDeviceX</CODE> ("File system access"), if enabled, allows
-device number <CODE>X</CODE> to emulate a drive accessing a file system
-directory;
+<EM>file system devices</EM>, pseudo-drives accessing the Unix file system;
 <P> <LI>
 
-<CODE>FSDeviceXDir</CODE> ("File system directory") specifies what directory
-is accessed;
-<P> <LI>
-
-<CODE>FSDeviceXConvertP00</CODE> ("Convert P00 file names"), if enabled,
-allows access to P00 files using their built-in name on drive number
-<CODE>X</CODE>;
-<P> <LI>
-
-<CODE>FSDeviceXSaveP00</CODE> ("Create P00 files on save"), if enabled,
-creates P00 files (instead of raw files) when a program creates a file
-on drive number <CODE>X</CODE>.
+printers.
 </UL> </P>
 
 <P>
-This feature depends on some <EM>serial traps</EM> that replace the
+These features depend on some <EM>kernal traps</EM> that replace the
 existing routines in the original Commodore operating system with
 custom-made C routines.
 
 </P>
+
+
+
+<H3><A NAME="SEC49" HREF="vice_toc.html#TOC49">6.8.1  Settings for file system devices</A></H3>
+
 <P>
-If you have compatibility problems, you can completely disable serial
-traps by setting the <CODE>NoTraps</CODE> resource to a nonzero value.  This
-will also disable those features that depend on it, such as the fast
-1541 emulation (so you will have to turn true 1541 emulation on if you
-want to be able to read or write disk images).
+These settings deal with the drive-like peripherals connected to the bus
+of the emulated machine.  Four peripherals, numbered from 8 to 11, are
+accessible; each of them provides the following settings:
 
 </P>
 
+<P> <UL>
+<P> <LI>
+
+"File system access", if enabled, allows the device to emulate a drive
+accessing a file system directory; notice that if a disk is attached to
+the same drive, the directory is not visible anymore.
+<P> <LI>
+
+"File system directory" specifies what directory is accessed by the
+drive.
+<P> <LI>
+
+"Convert P00 file names", if enabled, allows access to P00 files using
+their built-in name instead of the Unix one.
+<P> <LI>
+
+"Create P00 files on save", if enabled, creates P00 files (instead of
+raw CBM files) whenever a program creates a file.
+</UL> </P>
+
+
+
+<H4><A NAME="SEC50" HREF="vice_toc.html#TOC50">6.8.1.1  Resources for file system devices</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>FSDevice8ConvertP00</CODE>
+<DD>
+<A NAME="IDX56"></A>
+ 
+<A NAME="IDX57"></A>
+<DT><CODE>FSDevice9ConvertP00</CODE>
+<DD>
+<A NAME="IDX58"></A>
+<DT><CODE>FSDevice10ConvertP00</CODE>
+<DD>
+<A NAME="IDX59"></A>
+<DT><CODE>FSDevice11ConvertP00</CODE>
+<DD>
+Booleans specifying whether on-read support for P00 files is enabled on
+drives 8, 9, 10 and 11 respectively.
+
+<A NAME="IDX60"></A>
+<P><DT><CODE>FSDevice8SaveP00</CODE>
+<DD>
+<A NAME="IDX61"></A>
+<DT><CODE>FSDevice9SaveP00</CODE>
+<DD>
+<A NAME="IDX62"></A>
+<DT><CODE>FSDevice10SaveP00</CODE>
+<DD>
+<A NAME="IDX63"></A>
+<DT><CODE>FSDevice11SaveP00</CODE>
+<DD>
+Booleans specifying whether the drives should create P00 files instead
+of plain CBM ones.
+
+<A NAME="IDX64"></A>
+<P><DT><CODE>FSDevice8HideCBMFiles</CODE>
+<DD>
+<A NAME="IDX65"></A>
+<DT><CODE>FSDevice9HideCBMFiles</CODE>
+<DD>
+<A NAME="IDX66"></A>
+<DT><CODE>FSDevice10HideCBMFiles</CODE>
+<DD>
+<A NAME="IDX67"></A>
+<DT><CODE>FSDevice11HideCBMFiles</CODE>
+<DD>
+Booleans specifying whether non-P00 files should be invisible to
+programs running in the emulator.
+
+<A NAME="IDX68"></A>
+<P><DT><CODE>FSDevice8Dir</CODE>
+<DD>
+<A NAME="IDX69"></A>
+<DT><CODE>FSDevice9Dir</CODE>
+<DD>
+<A NAME="IDX70"></A>
+<DT><CODE>FSDevice10Dir</CODE>
+<DD>
+<A NAME="IDX71"></A>
+<DT><CODE>FSDevice11Dir</CODE>
+<DD>
+Strings specifying the paths of the directories drives 8, 9, 10 and 11
+have access to.
+
+</DL>
+
+
+
+<H4><A NAME="SEC51" HREF="vice_toc.html#TOC51">6.8.1.2  Command-line options for file system devices</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>-fs8 PATH</CODE>
+<DD>
+<A NAME="IDX72"></A>
+ 
+<A NAME="IDX73"></A>
+<DT><CODE>-fs9 PATH</CODE>
+<DD>
+<A NAME="IDX74"></A>
+<DT><CODE>-fs10 PATH</CODE>
+<DD>
+<A NAME="IDX75"></A>
+<DT><CODE>-fs11 PATH</CODE>
+<DD>
+Specify the path for the file-system access on drives 8, 9, 10 and 11,
+respectively (<CODE>FSDevice8Dir</CODE>, <CODE>FSDevice9Dir</CODE>,
+<CODE>FSDevice10Dir</CODE> and <CODE>FSDevice11Dir</CODE>).
+
+</DL>
+
+
+
+<H3><A NAME="SEC52" HREF="vice_toc.html#TOC52">6.8.2  Printer settings</A></H3>
+
+<P>
+The VICE emulators can emulate printers connected to either the IEC
+buffer or the user port.  Emulation can be achieved by redirecting the
+printer output to a file or by piping it through an external process.
+This is defined by so-called <EM>printer device file names</EM>; a printer
+device file name can be either a simple path, or a command name
+prepended by the pipe symbol <SAMP>`|'</SAMP>.
+
+</P>
+<P>
+For example, printer device <SAMP>`filename'</SAMP> will cause the output to be
+appended to file <TT>`filename'</TT>, while printer device <SAMP>`|lpr'</SAMP> will
+cause the <CODE>lpr</CODE> command to be executed and fed with the printer
+output.
+
+</P>
+<P>
+Up to three printer devices can be specified through the following
+resources:
+
+</P>
+
+<P> <UL>
+<P> <LI>
+
+device 1, whose default value is <CODE>print.dump</CODE>;
+<P> <LI>
+
+device 2, whose default value is <CODE>|petlp |lpr</CODE>;
+<P> <LI>
+
+device 3, whose default value is <CODE>|lpr</CODE>.
+</UL> </P>
+
+<P>
+So, basically, by default printer device 1 will simply dump printer
+output to <TT>`print.dump'</TT>; printer device 2 will print it via
+<CODE>petlp</CODE> (a not-complete-yet utility that will produce Postscript
+output from it) and <CODE>lpr</CODE>; printer device 2 will print it through
+<CODE>lpr</CODE>.
+
+</P>
+
+
+
+<H4><A NAME="SEC53" HREF="vice_toc.html#TOC53">6.8.2.1  Printer resources</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>PrDevice1</CODE>
+<DD>
+<A NAME="IDX76"></A>
+ 
+<A NAME="IDX77"></A>
+<DT><CODE>PrDevice2</CODE>
+<DD>
+<A NAME="IDX78"></A>
+<DT><CODE>PrDevice3</CODE>
+<DD>
+Strings specifying the printer devices (see section <A HREF="vice_6.html#SEC52">6.8.2  Printer settings</A>).
+
+</DL>
+
+
+
+<H4><A NAME="SEC54" HREF="vice_toc.html#TOC54">6.8.2.2  Printer command-line options</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>-prdev1 NAME</CODE>
+<DD>
+<A NAME="IDX79"></A>
+ 
+<A NAME="IDX80"></A>
+<DT><CODE>-prdev2 NAME</CODE>
+<DD>
+<A NAME="IDX81"></A>
+<DT><CODE>-prdev3 NAME</CODE>
+<DD>
+Specify <CODE>NAME</CODE> as printer devices 1, 2 and 3, respectively
+(<CODE>PrDevice1</CODE>, <CODE>PrDevice2</CODE> and <CODE>PrDevice3</CODE>).
+
+</DL>
+
+
+
+<H3><A NAME="SEC55" HREF="vice_toc.html#TOC55">6.8.3  Disabling kernal traps</A></H3>
+
+<P>
+If you have compatibility problems, you can completely disable Kernal
+traps with the "Disable serial traps" option.  This will of course
+disable all the features that depend on it, such as the fast 1541
+emulation (so you will have to turn true 1541 emulation on if you want
+to be able to read or write disk images) and tape support.
+
+</P>
+
+
+
+<H4><A NAME="SEC56" HREF="vice_toc.html#TOC56">6.8.3.1  Resources to control Kernal traps</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>NoTraps</CODE>
+<DD>
+<A NAME="IDX82"></A>
+ 
+Boolean specifying whether all the Kernal trap should be disabled.
+
+</DL>
+
+
+
+<H4><A NAME="SEC57" HREF="vice_toc.html#TOC57">6.8.3.2  Command-line options to control Kernal traps</A></H4>
+
+<DL COMPACT>
+
+<P><DT><CODE>-traps</CODE>
+<DD>
+<A NAME="IDX83"></A>
+ 
+<DT><CODE>+traps</CODE>
+<DD>
+Enable (<CODE>NoTraps=0</CODE>) or disable (<CODE>NoTraps=1</CODE>) kernal traps.
+
+</DL>
+
 <P><HR><P>
-Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_5.html">previous</A>, <A HREF="vice_7.html">next</A>, <A HREF="vice_12.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
+Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_5.html">previous</A>, <A HREF="vice_7.html">next</A>, <A HREF="vice_14.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.
 </BODY>
 </HTML>
