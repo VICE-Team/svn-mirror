@@ -82,7 +82,7 @@ void machine_bus_attention_callback_set(void (*func)(void))
     parallel_trap_attention_callback_set(func);
 }
 
-void machine_bus_init(void)
+void machine_bus_init_machine(void)
 {
 }
 

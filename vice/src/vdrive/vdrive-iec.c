@@ -54,7 +54,7 @@
 #include "diskimage.h"
 #include "lib.h"
 #include "log.h"
-#include "serial.h"
+#include "machine-bus.h"
 #include "types.h"
 #include "vdrive-bam.h"
 #include "vdrive-command.h"
@@ -741,8 +741,8 @@ void vdrive_iec_flush(vdrive_t *vdrive, unsigned int secondary)
 
 int vdrive_iec_attach(unsigned int unit, const char *name)
 {
-    return serial_attach_device(unit, name, vdrive_iec_read, vdrive_iec_write,
-                                vdrive_iec_open, vdrive_iec_close,
-                                vdrive_iec_flush);
+    return machine_bus_device_attach(unit, name, vdrive_iec_read,
+                                     vdrive_iec_write, vdrive_iec_open,
+                                     vdrive_iec_close, vdrive_iec_flush);
 }
 
