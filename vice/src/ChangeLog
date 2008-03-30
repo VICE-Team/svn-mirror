@@ -1,10 +1,60 @@
+2000-05-26  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.6.
+
+	* crtc/crtctypes.h: Use signed varibales for screen size for
+	now.
+
+2000-05-24  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* console.h: added console_flush()
+
+	* monitor/mon.{c,h}: alternative monitor interface with
+	separate calls to open the monitor, process a command and
+	close the monitor.
+
+	* arch/riscos/ui.{c,h}, arch/riscos/console.c: changed monitor
+	to a GUI window.
+
+2000-05-23  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/uiconsole.c: file was missing after last
+	contribution (from 2000-05-21)
+
 2000-05-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.5.
 
+2000-05-21  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: deleted some debugging stuff
+
+	* arch/win32/console.c: the output of the console can now be
+	output into a file
+
+	* arch/win32/res.h, arch/win32/res.rc, arch/win32/uiconsole.c,
+	arch/win32/arch.dsp: additions for "save as" dialog box which
+	is used to determine where to store the log file of the
+	console (see above)
+
+	* arch/win32/ui.h, arch/win32/ui.c: added
+	ui_ensure_extension() for console "save as" dialog and
+	snapshot "save as" dialog
+
+	* arch/win32/uisnapshot.c: fixed error: when the user enters a
+	file name w/o extension, the default extension should be
+	added. The implementation did not work in case the path to the
+	file contained a period (like in "C:\VICE.WORK\HELLO"). Now,
+	ui_ensure_extension() performs this task.
+
 2000-05-19  Dag Lem  <resid@nimrod.no>
 
 	* resid/: Version 0.9 of reSID (fixed filter output weighting bug).
+
+2000-05-14  Andre Fachat   <a.fachat@physik.tu-chemnitz.de>
+
+	* vdrive/vdrive-bam.c (vdrive_bam_create_empty_bam): fix last
+	track number for 8050 format.
 
 2000-05-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 

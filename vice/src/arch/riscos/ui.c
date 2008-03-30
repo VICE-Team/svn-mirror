@@ -32,11 +32,13 @@
 #include <stdarg.h>
 
 #include "wimp.h"
+#include "textwin.h"
 
 #include "attach.h"
 #include "c610ui.h"
 #include "c64mem.h"
 #include "cartridge.h"
+#include "console.h"
 #include "datasette.h"
 #include "drive.h"
 #include "fsdevice.h"
@@ -79,7 +81,8 @@ extern void sound_wimp_safe_exit(void);
 
 
 /* Declare some static functions */
-static int  ui_poll_core(int *block);
+static void ui_monitor_enter(void *context, int line, const char *str);
+static void ui_monitor_close(void);
 static void ui_poll_prologue(void);
 static void ui_poll_epilogue(void);
 static void ui_temp_suspend_sound(void);
@@ -427,6 +430,7 @@ static int JoystickWindowOpen = 0;
 static int WithinUiPoll = 0;
 static int DoCoreDump = 0;
 static int DatasetteCounter = -1;
+static int MonitorBusy = 0;
 static int WimpBlock[64];
 
 static int SnapshotPending = 0;
@@ -622,6 +626,7 @@ int RelativeSpeed = 100;
 int EmuPaused;
 int SingleTasking = 0;
 int ShowEmuPane = 1;
+int MonitorWindowOpen = 0;
 char *PetModelName = NULL;
 char *CBM2ModelName = NULL;
 char *ROMSetName = NULL;
@@ -661,9 +666,18 @@ RO_Window *SaveBox;
 RO_Window *ImgContWindow;
 RO_Window *MessageWindow;
 RO_Window *ConfWindows[CONF_WIN_NUMBER];
+RO_Window *MonitorWindow;
 
 #define TitleBarOffset	40
 RO_Window *ConfWinPositions[CONF_WIN_NUMBER];
+
+
+static text_window_t MonitorWinDesc = {
+  "corpus.medium", TWIN_FLAG_LINEEDIT, 12, 12, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 0, {&MonitorWinDesc, ui_monitor_enter}
+};
+
+text_window_t *MonWinDescPtr = &MonitorWinDesc;
+
 
 
 
@@ -3250,6 +3264,7 @@ int ui_init(int *argc, char *argv[])
     ui_load_template("SaveBox", &SaveBox, msg);
     ui_load_template("ImageCont", &ImgContWindow, msg);
     ui_load_template("MsgWindow", &MessageWindow, msg);
+    ui_load_template("MsgWindow", &MonitorWindow, msg);
 
     Wimp_CloseTemplate();
   }
@@ -5609,17 +5624,23 @@ static void ui_poll_epilogue(void)
 }
 
 /* Core polling function */
-static int ui_poll_core(int *block)
+int ui_poll_core(int *block)
 {
   int event;
 
-  if ((EmuPaused == 0) || (LastDrag == DRAG_TYPE_VOLUME) || (JoystickWindowOpen != 0))
+  if ((EmuPaused == 0) || (LastDrag == DRAG_TYPE_VOLUME) || (JoystickWindowOpen != 0) || (MonitorWindowOpen != 0))
     PollMask &= ~1;
   else
     PollMask |= 1;
 
   ui_poll_prologue();
   event = Wimp_Poll(PollMask, block, NULL);
+
+  if (MonitorWindowOpen)
+  {
+    if (textwin_process_event(MonWinDescPtr, event, block) != 0)
+      return event;
+  }
 
   switch (event)
   {
@@ -6017,7 +6038,38 @@ void ui_update_menus(void)
 }
 
 
-static void mon_trap(ADDRESS addr, void *unused_data)
+static void ui_monitor_close(void)
+{
+  mon_close(0);
+  EmuPaused = 0;
+  ui_display_paused(EmuPaused);
+}
+
+
+static void ui_monitor_enter(void *context, int line, const char *str)
+{
+  char *s;
+  int status;
+
+  s = (char*)xmalloc(wimp_strlen(str) + 1);
+  wimp_strcpy(s, str);
+
+  MonitorBusy = 1;
+  textwin_buffer_input(MonWinDescPtr);
+  status = mon_process(s);
+  textwin_add_flush(MonWinDescPtr);
+  textwin_mark_prompt(MonWinDescPtr);
+  textwin_flush_input(MonWinDescPtr);
+  MonitorBusy = 0;
+
+  if (status)
+  {
+    ui_monitor_close();
+  }
+}
+
+
+static void mon_trap_full(ADDRESS addr, void *unused_data)
 {
   ui_temp_suspend_sound();
   OS_FlushBuffer(0);
@@ -6027,9 +6079,42 @@ static void mon_trap(ADDRESS addr, void *unused_data)
 }
 
 
+/* monitor window close event handler */
+static int mon_close_event(text_window_t *tw, int *block)
+{
+  /* closing the monitor window also destroys it, but only if the monitor isn't busy */
+  if (block[WindowB_Handle] == MonitorWindow->Handle)
+  {
+    if (MonitorBusy == 0)
+      ui_monitor_close();
+
+    return 1;
+  }
+  return 0;
+}
+
+
+static void mon_trap_wimp(ADDRESS addr, void *unused_data)
+{
+  /* no reentrancy! */
+  if (MonitorWindowOpen == 0)
+  {
+    EmuPaused = 1;
+    ui_display_paused(EmuPaused);
+    mon_open(addr);
+    (MonWinDescPtr->Events)[WimpEvt_CloseWin] = mon_close_event;
+    textwin_add_flush(MonWinDescPtr);
+    textwin_mark_prompt(MonWinDescPtr);
+  }
+}
+
+
 void ui_activate_monitor(void)
 {
-  maincpu_trigger_trap(mon_trap, (void*)0);
+  if (FullScreenMode != 0)
+    maincpu_trigger_trap(mon_trap_full, (void*)0);
+  else
+    maincpu_trigger_trap(mon_trap_wimp, (void*)0);
 }
 
 
