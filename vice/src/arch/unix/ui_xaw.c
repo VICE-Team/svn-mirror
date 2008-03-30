@@ -83,6 +83,7 @@
 #include "drive.h"
 #include "tape.h"
 #include "resources.h"
+#include "cmdline.h"
 #include "mon.h"
 #include "utils.h"
 #include "kbd.h"
@@ -157,6 +158,31 @@ static resource_t resources[] = {
 int ui_init_resources(void)
 {
     return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
+static cmdline_option_t cmdline_options[] = {
+    { "-htmlbrowser", SET_RESOURCE, 1, NULL, NULL, "HTMLBrowserCommand", NULL,
+      "<command>", "Specify an HTML browser for the on-line help" },
+    { "-install", SET_RESOURCE, 0, NULL, NULL,
+      "PrivateColormap", (resource_value_t) 1,
+      NULL, "Install a private colormap" },
+    { "+install", SET_RESOURCE, 0, NULL, NULL,
+      "PrivateColormap", (resource_value_t) 0,
+      NULL, "Use the default colormap" },
+    { "-saveres", SET_RESOURCE, 0, NULL, NULL,
+      "SaveResourcesOnExit", (resource_value_t) 1,
+      NULL, "Save settings (resources) on exit" },
+    { "+saveres", SET_RESOURCE, 0, NULL, NULL,
+      "SaveResourcesOnExit", (resource_value_t) 0,
+      NULL, "Never save settings (resources) on exit" },
+    { NULL }
+};
+
+int ui_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -2242,9 +2268,19 @@ CallbackFunc(UiInfo)
 #ifdef UNSTABLE
 	     "(unstable)",
 #endif
+             "",
+             "Copyright © 1996-1998 Ettore Perazzoli, André Fachat",
+             "Copyright © 1993-1994, 1997-1998 Teemu Rantanen",
+             "Copyright © 1997-1998 Daniel Sladic",
+             "Copyright © 1998 Andreas Boose",
+             "Copyright © 1993-1996 Jouko Valta",
+             "Copyright © 1993-1994 Jarkko Sonninen",
+#if 0
 	     "", "Copyright (c) 1993-1998",
 	     "E. Perazzoli, T. Rantanen, A. Fachat,",
-	     "D. Sladic, A. Boose, J. Valta and J. Sonninen", "",
+	     "D. Sladic, A. Boose, J. Valta and J. Sonninen",
+#endif
+             "",
 	     "Official VICE homepage:",
 	     "http://www.tu-chemnitz.de/~fachat/vice/vice.html", "", NULL);
     }
