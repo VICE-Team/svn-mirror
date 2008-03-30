@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "c128mem.h"
+#include "c128memrom.h"
 #include "c128mmu.h"
 #include "c64cart.h"
 #include "cmdline.h"
@@ -254,7 +255,7 @@ BYTE REGPARM1 mmu_ffxx_read(WORD addr)
         return mmu[addr & 0xf];
 
     if ((mmu[0] & 0x30) == 0x00)
-        return kernal_read(addr);
+        return c128memrom_kernal_read(addr);
     if ((mmu[0] & 0x30) == 0x10)
         return internal_function_rom_read(addr);
  

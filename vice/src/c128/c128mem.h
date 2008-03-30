@@ -114,12 +114,7 @@ extern void REGPARM2 basic_hi_store(WORD addr, BYTE value);
 
 extern BYTE *ram_bank;
 
-extern BYTE mem_basic_rom[C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE];
-extern BYTE mem_kernal_rom[C128_KERNAL_ROM_SIZE];
 extern BYTE mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
-extern BYTE mem_basic64_rom[C128_BASIC64_ROM_SIZE];
-extern BYTE mem_kernal64_rom[C128_KERNAL64_ROM_SIZE];
-extern BYTE mem_kernal64_trap_rom[C128_KERNAL64_ROM_SIZE];
 
 #endif
 

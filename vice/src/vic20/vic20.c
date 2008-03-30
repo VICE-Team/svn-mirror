@@ -71,6 +71,7 @@
 #include "vic20iec.h"
 #include "vic20ieeevia.h"
 #include "vic20mem.h"
+#include "vic20memrom.h"
 #include "vic20sound.h"
 #include "vic20rsuser.h"
 #include "vic20ui.h"
@@ -105,8 +106,8 @@ static const trap_t vic20_serial_traps[] = {
         0xEEB2,
         { 0x20, 0xA0, 0xE4 },
         serial_trap_attention,
-        rom_read,
-        rom_store
+        vic20memrom_trap_read,
+        vic20memrom_trap_store
     },
     {
         "SerialSaListen",
@@ -114,8 +115,8 @@ static const trap_t vic20_serial_traps[] = {
         0xEEB2,
         { 0x20, 0x8D, 0xEF },
         serial_trap_attention,
-        rom_read,
-        rom_store
+        vic20memrom_trap_read,
+        vic20memrom_trap_store
     },
     {
         "SerialSendByte",
@@ -123,8 +124,8 @@ static const trap_t vic20_serial_traps[] = {
         0xEEB2,
         { 0x78, 0x20, 0xA0 },
         serial_trap_send,
-        rom_read,
-        rom_store
+        vic20memrom_trap_read,
+        vic20memrom_trap_store
     },
     {
         "SerialReceiveByte",
@@ -132,8 +133,8 @@ static const trap_t vic20_serial_traps[] = {
         0xEEB2,
         { 0x78, 0xA9, 0x00 },
         serial_trap_receive,
-        rom_read,
-        rom_store
+        vic20memrom_trap_read,
+        vic20memrom_trap_store
     },
     {
         "SerialReady",
@@ -141,8 +142,8 @@ static const trap_t vic20_serial_traps[] = {
         0xEEB2,
         { 0xAD, 0x1F, 0x91 },
         serial_trap_ready,
-        rom_read,
-        rom_store
+        vic20memrom_trap_read,
+        vic20memrom_trap_store
     },
     {
         NULL,
@@ -163,8 +164,8 @@ static const trap_t vic20_tape_traps[] = {
         0xF7B5,
         { 0x20, 0xC0, 0xF8 },
         tape_find_header_trap,
-        rom_read,
-        rom_store
+        vic20memrom_trap_read,
+        vic20memrom_trap_store
     },
     {
         "TapeReceive",
@@ -172,8 +173,8 @@ static const trap_t vic20_tape_traps[] = {
         0xFCCF,
         { 0x20, 0xFB, 0xFC },
         tape_receive_trap,
-        rom_read,
-        rom_store
+        vic20memrom_trap_read,
+        vic20memrom_trap_store
     },
     {
         NULL,
