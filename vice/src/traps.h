@@ -47,8 +47,8 @@ typedef struct trap_s
 } trap_t;
 
 extern void traps_init(void);
-extern int traps_init_resources(void);
-extern int traps_init_cmdline_options(void);
+extern int traps_resources_init(void);
+extern int traps_cmdline_options_init(void);
 extern int traps_add(const trap_t *t);
 extern int traps_remove(const trap_t *t);
 extern int traps_handler(void);

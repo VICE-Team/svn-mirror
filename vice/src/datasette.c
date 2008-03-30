@@ -72,7 +72,7 @@ static long datasette_cycles_per_second;
 /* Remember the reset of tape-counter.  */
 static int datasette_counter_offset = 0;
 
-/* app_ressource datasette */
+/* app_resource datasette */
 /* shall the datasette reset when the CPU does? */
 static int reset_datasette_with_maincpu;
 
@@ -119,7 +119,7 @@ static resource_t resources[] = {
 };
 
 
-int datasette_init_resources(void)
+int datasette_resources_init(void)
 {
     return resources_register(resources);
 }
@@ -145,7 +145,7 @@ static cmdline_option_t cmdline_options[] = {
 };
 
 
-int datasette_init_cmdline_options(void)
+int datasette_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

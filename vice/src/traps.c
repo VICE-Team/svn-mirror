@@ -96,7 +96,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int traps_init_resources(void)
+int traps_resources_init(void)
 {
     return resources_register(resources);
 }
@@ -115,7 +115,7 @@ static cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int traps_init_cmdline_options(void)
+int traps_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
