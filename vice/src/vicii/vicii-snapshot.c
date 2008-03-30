@@ -344,13 +344,13 @@ vic_ii_snapshot_read_module (snapshot_t *s)
 
   if (vic_ii.regs[0x11] & 0x8)
     {
-      vic_ii.raster.display_ystart = VIC_II_25ROW_START_LINE;
-      vic_ii.raster.display_ystop = VIC_II_25ROW_STOP_LINE;
+      vic_ii.raster.display_ystart = vic_ii.row_25_start_line;
+      vic_ii.raster.display_ystop = vic_ii.row_25_stop_line;
     }
   else
     {
-      vic_ii.raster.display_ystart = VIC_II_24ROW_START_LINE;
-      vic_ii.raster.display_ystop = VIC_II_24ROW_STOP_LINE;
+      vic_ii.raster.display_ystart = vic_ii.row_24_start_line;
+      vic_ii.raster.display_ystop = vic_ii.row_24_stop_line;
     }
 
   if (vic_ii.regs[0x16] & 0x8)
@@ -376,8 +376,8 @@ vic_ii_snapshot_read_module (snapshot_t *s)
 
   vic_ii_update_video_mode (VIC_II_RASTER_CYCLE (clk));
 
-  vic_ii.draw_clk = clk + (VIC_II_DRAW_CYCLE - VIC_II_RASTER_CYCLE (clk));
-  vic_ii.last_emulate_line_clk = vic_ii.draw_clk - VIC_II_CYCLES_PER_LINE;
+  vic_ii.draw_clk = clk + (vic_ii.draw_cycle - VIC_II_RASTER_CYCLE (clk));
+  vic_ii.last_emulate_line_clk = vic_ii.draw_clk - vic_ii.cycles_per_line;
   alarm_set (&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
 
   {
