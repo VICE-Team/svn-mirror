@@ -1,3 +1,15 @@
+2005-06-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.14.
+
+2005-06-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added a autoconf bug workaround.
+
+2005-05-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed windres and wrc checking.
+
 2005-05-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.13.

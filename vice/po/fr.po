@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.16\n"
-"POT-Creation-Date: 2005-05-29 19:07+0200\n"
+"POT-Creation-Date: 2005-06-05 22:47+0200\n"
 "PO-Revision-Date: 2005-01-18 21:38+0100\n"
 "Last-Translator: Paul Dubé (alias Kaddict) <dube.paul@sympatico.ca>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -19,23 +19,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 "Report-Msgid-Bugs-To: \n"
 
-#: src/vsync.c:123
+#: src/vsync.c:139
 msgid "Limit emulation speed to specified value"
 msgstr "Limiter la vitesse d'émulation à une valeur specifiée"
 
-#: src/vsync.c:125
+#: src/vsync.c:141
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Mise à jour toutes les <valeur> images (`0' pour auto.)"
 
-#: src/vsync.c:127
+#: src/vsync.c:143
 msgid "Enable warp mode"
 msgstr "Activer mode turbo"
 
-#: src/vsync.c:129
+#: src/vsync.c:145
 msgid "Disable warp mode"
 msgstr "Désactiver mode turbo"
 
-#: src/vsync.c:438
+#: src/vsync.c:459
 msgid "Your machine is too slow for current settings!"
 msgstr ""
 "Désolé mais votre ordinateur est trop lent pour les paramètres choisis!"
@@ -48,90 +48,90 @@ msgstr "Désolé. Vous ne pouvez enregistrer plus d'une chose à la fois."
 msgid "Cannot load snapshot file."
 msgstr "Impossible de charger le fichier de sauvegarde."
 
-#: src/sound.c:431
+#: src/sound.c:459
 msgid "write to sound device failed."
 msgstr "Impossible d'écriture sur le périphérique de son."
 
-#: src/sound.c:446
+#: src/sound.c:474
 msgid "Cannot open SID engine"
 msgstr "Erreur de chargement de l'engin de son SID"
 
-#: src/sound.c:485
+#: src/sound.c:513
 msgid "Cannot initialize SID engine"
 msgstr "Erreur d'initialisation de l'engin de son SID"
 
-#: src/sound.c:591
+#: src/sound.c:619
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "erreur d'initialisation du périphérique `%s'."
 
-#: src/sound.c:600
+#: src/sound.c:628
 msgid "sound device lacks stereo capability"
 msgstr "le périphérique de son n'est pas stéréo"
 
-#: src/sound.c:649
+#: src/sound.c:677
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "périphérique '%s' non trouvé ou non supporté."
 
-#: src/sound.c:670
+#: src/sound.c:698
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Le périphérique d'enregistrement %s n'existe pas!"
 
-#: src/sound.c:678
+#: src/sound.c:706
 msgid "Recording device must be different from playback device"
 msgstr ""
 "Le périphérique d'enregistrement doit être différent du périphérique de "
 "lecture"
 
-#: src/sound.c:688
+#: src/sound.c:716
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
 "Attention! Le périphérique d'enregistrement %s semble être un périphérique "
 "en temps réel"
 
-#: src/sound.c:698
+#: src/sound.c:726
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Échec de l'initialisation du périphérique `%s'."
 
-#: src/sound.c:713
+#: src/sound.c:741
 msgid "The recording device doesn't support current sound parameters"
 msgstr ""
 "Le périphérique d'enregistrement ne supporte pas les paramètres de son "
 "actuellement configurés"
 
-#: src/sound.c:794
+#: src/sound.c:822
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Erreur de dépassement de limite du tampon son (basé sur les cycles)"
 
-#: src/sound.c:808
+#: src/sound.c:836
 msgid "Sound buffer overflow."
 msgstr "Erreur de dépassement de limite du tampon son."
 
-#: src/sound.c:934
+#: src/sound.c:962
 msgid "cannot flush."
 msgstr "impossible de vider."
 
-#: src/sound.c:983
+#: src/sound.c:1011
 msgid "fragment problems."
 msgstr "problèmes de fragments."
 
-#: src/sound.c:1013
+#: src/sound.c:1041
 msgid "Buffer drained"
 msgstr "Tampon vide"
 
-#: src/sound.c:1052
+#: src/sound.c:1080
 msgid "running too slow."
 msgstr "l'exécution est trop lente."
 
-#: src/sound.c:1068 src/sound.c:1078
+#: src/sound.c:1096 src/sound.c:1106
 msgid "write to sounddevice failed."
 msgstr "erreur d'écriture sur le périphérique de son."
 
-#: src/sound.c:1320
+#: src/sound.c:1348
 msgid "store to sounddevice failed."
 msgstr "erreur d'enregistrement sur le périphérique de son."
 

@@ -1,3 +1,117 @@
+2005-06-05  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.14.
+
+2005-06-05  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/c1541.dsp: Fixed to not link to cmdline.c.
+
+	* arch/win32/petcat.dsp: Fixed to not link to cmdline.c.
+
+	* arch/win32/intl.c: Removed left over codepage 28605 code.
+
+2005-06-05  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/intl.c, arch/win32/res.rc,
+	arch/win32/resacia.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/rescbm2.rc,
+	arch/win32/resdrivec64vic20.rc,
+	arch/win32/resdrivepetcbm2.rc, arch/win32/resgeoram.rc,
+	arch/win32/reside64.rc, arch/win32/respet.rc,
+	arch/win32/resplus4.rc, arch/win32/resramcart.rc,
+	arch/win32/resreu.rc, arch/win32/resrs232user.rc,
+	arch/win32/ressid.rc, arch/win32/restfe.rc,
+	arch/win32/resvic20.rc, arch/win32/resvicii.rc,
+	translate.c, : Removed the 29605 codepage as was used for the
+	italian language.
+
+2005-06-04  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* aciacore.c, attach.c, c1541.c, datasette.c,
+	debug.c, event.c, fliplist.c, initcmdline.c, kbdbuf.c,
+	log.c, mouse.c, petcat.c, ram.c, sound.c, sysfile.c,
+	translate.c, translate.h, traps.c,
+	video/video-cmdline-options.c, vsync.c: Finished up the
+	transition of the common command-line options help text to
+	string tables.
+
+2005-05-31  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* core/ciacore.c (ciacore_intta): Initialize sr_bits with 14
+	instead of 8.
+	Well, this isn't confirmed by a test suite yet but fixes two
+	bugs (Athena, Combat school) and seems reasonable by reading
+	the 64PRG p.432: "shifted out on the SP pin at 1/2 the
+	underflow rate of TIMER A" and remembering that the first
+	underflow already happened when sr_bits is initialized.
+
+2005-05-31  pottendo  <pottendo@utanet.at>
+
+	* arch/win32/Makefile.am (resXXX.o): prefixed source files with
+	`$(srcdir)/', added --include-dir $(top_builddir)/src to $(WRC)
+	command line. 
+
+2005-05-30  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/Makefile.am (vice.manifest): Added new file.
+
+	* arch/win32/intl.c: Removed SID setting dialog related IDs
+	from translation table.
+	(intl_text_table2): Temporary table until all texts are
+	switched over to new method.
+	(intl_text_init): Alternate load method for strings.
+	(intl_text_free): Free alternate table as well.
+	(intl_translate_text_new): Alternate translation method.
+
+	* arch/win32/intl.h (intl_translate_text_new): New function.
+
+	* arch/win32/msvc/config.h: Disable warning 4996 for MSVC8
+	compilation.
+	MSVC8 deprecates most of the standard C library functions,
+	this turns off warnings for those functions.
+	Define HAVE_STRCASECMP, this is a required fix for MSVC8
+	compilation.
+
+	* arch/win32/res.h: Removed unused IDs, and added new IDs for
+	SID settings dialog.
+
+	* arch/win32/res.rc: Added manifest file. This enables XP
+	styles.
+
+	* arch/win32/rescommon.h: Define Language IDS.
+
+	* arch/win32/ressid.rc: Reorganized resources.
+
+	* arch/win32/uilib.c (uilib_get_general_window_extents): New
+	function. Calculates window size based on text and used font.
+
+	* arch/win32/uilib.h (uilib_get_general_window_extents): New
+	function.
+
+	* arch/win32/uisid.c (init_general_sid_dialog,
+	init_resid_sid_dialog, init_hardsid_sid_dialog): Set localized
+	strings.
+	(resize_general_sid_dialog, resize_resid_sid_dialog,
+	resize_hardsid_sid_dialog): New functions, positions and sizes
+	control elements.
+
+	* arch/win32/vice.manifest: New file. Enables use of Common
+	Controls Version 6 if available (XP only), which switches UI
+	to XP style.
+
+2005-05-29  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* printerdrv/driver-select.c, printerdrv/interface-serial.c,
+	printerdrv/interface-userport.c, printerdrv/output-select.c,
+	printerdrv/output-text.c, raster/raster-cmdline-options.c,
+	rs232drv/rs232drv.c, rs232drv/rsuser.c,
+	serial/serial-iec-device.c, sid/sid-cmdline-options.c,
+	translate.c, translate.h, vdc/vdc-cmdline-options.c,
+	vic20/vic20-cmdline-options.c, vic20/vic20cartridge.c,
+	vicii/vicii-cmdline-options.c: Transition to string tables for
+	the internationalization of the command-line options help
+	text.
+
 2005-05-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.13.

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-05-29 19:07+0200\n"
+"POT-Creation-Date: 2005-06-05 22:47+0200\n"
 "PO-Revision-Date: 2005-01-11 23:04+0100\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -14,23 +14,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8-bit\n"
 "Report-Msgid-Bugs-To: \n"
 
-#: src/vsync.c:123
+#: src/vsync.c:139
 msgid "Limit emulation speed to specified value"
 msgstr "Ograniczaj prêdko¶æ emulacji do podanej warto¶ci"
 
-#: src/vsync.c:125
+#: src/vsync.c:141
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Aktualizuj co <warto¶æ> klatek (`0' - automatycznie)"
 
-#: src/vsync.c:127
+#: src/vsync.c:143
 msgid "Enable warp mode"
 msgstr "W³±cz tryb przy¶pieszony (Turbo)"
 
-#: src/vsync.c:129
+#: src/vsync.c:145
 msgid "Disable warp mode"
 msgstr "Wy³±cz tryb przy¶pieszony (Turbo)"
 
-#: src/vsync.c:438
+#: src/vsync.c:459
 msgid "Your machine is too slow for current settings!"
 msgstr "Twój komputer jest zbyt wolny na obecne ustawienia!"
 
@@ -45,86 +45,86 @@ msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/sound.c:431
+#: src/sound.c:459
 msgid "write to sound device failed."
 msgstr ""
 
-#: src/sound.c:446
+#: src/sound.c:474
 #, fuzzy
 msgid "Cannot open SID engine"
 msgstr "Ustawienia uk³adu SID"
 
-#: src/sound.c:485
+#: src/sound.c:513
 msgid "Cannot initialize SID engine"
 msgstr ""
 
-#: src/sound.c:591
+#: src/sound.c:619
 #, fuzzy, c-format
 msgid "initialization failed for device `%s'."
 msgstr "Kalibracja sprzêtowego joysticka dla urz±dzenia `%s':"
 
-#: src/sound.c:600
+#: src/sound.c:628
 msgid "sound device lacks stereo capability"
 msgstr ""
 
-#: src/sound.c:649
+#: src/sound.c:677
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr ""
 
-#: src/sound.c:670
+#: src/sound.c:698
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr ""
 
-#: src/sound.c:678
+#: src/sound.c:706
 msgid "Recording device must be different from playback device"
 msgstr ""
 
-#: src/sound.c:688
+#: src/sound.c:716
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
 
-#: src/sound.c:698
+#: src/sound.c:726
 #, fuzzy, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Kalibracja sprzêtowego joysticka dla urz±dzenia `%s':"
 
-#: src/sound.c:713
+#: src/sound.c:741
 msgid "The recording device doesn't support current sound parameters"
 msgstr ""
 
-#: src/sound.c:794
+#: src/sound.c:822
 msgid "Sound buffer overflow (cycle based)"
 msgstr ""
 
-#: src/sound.c:808
+#: src/sound.c:836
 msgid "Sound buffer overflow."
 msgstr ""
 
-#: src/sound.c:934
+#: src/sound.c:962
 msgid "cannot flush."
 msgstr ""
 
-#: src/sound.c:983
+#: src/sound.c:1011
 msgid "fragment problems."
 msgstr ""
 
-#: src/sound.c:1013
+#: src/sound.c:1041
 #, fuzzy
 msgid "Buffer drained"
 msgstr "Rozmiar buffora"
 
-#: src/sound.c:1052
+#: src/sound.c:1080
 msgid "running too slow."
 msgstr ""
 
-#: src/sound.c:1068 src/sound.c:1078
+#: src/sound.c:1096 src/sound.c:1106
 msgid "write to sounddevice failed."
 msgstr ""
 
-#: src/sound.c:1320
+#: src/sound.c:1348
 msgid "store to sounddevice failed."
 msgstr ""
 

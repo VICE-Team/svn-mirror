@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.16\n"
-"POT-Creation-Date: 2005-05-29 19:07+0200\n"
+"POT-Creation-Date: 2005-06-05 22:47+0200\n"
 "PO-Revision-Date: 2005-05-12 21:33+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -14,23 +14,23 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/vsync.c:123
+#: src/vsync.c:139
 msgid "Limit emulation speed to specified value"
 msgstr "Limiteer emulatie snelheid tot de opgegeven waarde"
 
-#: src/vsync.c:125
+#: src/vsync.c:141
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Elke <waarde> beeld vernieuwen (`0' voor automatisch)"
 
-#: src/vsync.c:127
+#: src/vsync.c:143
 msgid "Enable warp mode"
 msgstr "Aktiveer warp modus"
 
-#: src/vsync.c:129
+#: src/vsync.c:145
 msgid "Disable warp mode"
 msgstr "Warp modus afsluiten"
 
-#: src/vsync.c:438
+#: src/vsync.c:459
 msgid "Your machine is too slow for current settings!"
 msgstr "Uw machine is te traag voor de huidige instellingen!"
 
@@ -42,84 +42,84 @@ msgstr "Sorry. Meerdere opnames wordt niet ondersteund."
 msgid "Cannot load snapshot file."
 msgstr "Kan momentopname bestand niet laden."
 
-#: src/sound.c:431
+#: src/sound.c:459
 msgid "write to sound device failed."
 msgstr "schrijf actie naar geluidsapparaat faalt."
 
-#: src/sound.c:446
+#: src/sound.c:474
 msgid "Cannot open SID engine"
 msgstr "Kan de SID kern niet openen"
 
-#: src/sound.c:485
+#: src/sound.c:513
 msgid "Cannot initialize SID engine"
 msgstr "Kan de SID kern niet initialiseren"
 
-#: src/sound.c:591
+#: src/sound.c:619
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "initialisatie voor apparaat `%s' faalt."
 
-#: src/sound.c:600
+#: src/sound.c:628
 msgid "sound device lacks stereo capability"
 msgstr "geluidsapparaat heeft geen stereo ondersteuning"
 
-#: src/sound.c:649
+#: src/sound.c:677
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "apparaat '%s' niet gevonden of wordt niet ondersteund"
 
-#: src/sound.c:670
+#: src/sound.c:698
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Opname apparaat %s bestaat niet!"
 
-#: src/sound.c:678
+#: src/sound.c:706
 msgid "Recording device must be different from playback device"
 msgstr "Opname apparaat moet anders zijn dan afspeel apparaat"
 
-#: src/sound.c:688
+#: src/sound.c:716
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Waarschuwing! Opname apparaat %s lijkt een realtime apparaat te zijn!"
 
-#: src/sound.c:698
+#: src/sound.c:726
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Initialisatie faalt voor apparaat `%s'."
 
-#: src/sound.c:713
+#: src/sound.c:741
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Het opname apparaat ondersteunt de huidige geluid opties niet"
 
-#: src/sound.c:794
+#: src/sound.c:822
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Geluidsbuffer overstroming (cyclus gebaseerd)"
 
-#: src/sound.c:808
+#: src/sound.c:836
 msgid "Sound buffer overflow."
 msgstr "Geluidsbuffer overstroming."
 
-#: src/sound.c:934
+#: src/sound.c:962
 msgid "cannot flush."
 msgstr "kan niet spoelen."
 
-#: src/sound.c:983
+#: src/sound.c:1011
 msgid "fragment problems."
 msgstr "fragment problemen."
 
-#: src/sound.c:1013
+#: src/sound.c:1041
 msgid "Buffer drained"
 msgstr "Buffer leeg"
 
-#: src/sound.c:1052
+#: src/sound.c:1080
 msgid "running too slow."
 msgstr "draait te langzaam."
 
-#: src/sound.c:1068 src/sound.c:1078
+#: src/sound.c:1096 src/sound.c:1106
 msgid "write to sounddevice failed."
 msgstr "schrijf actie naar geluidsapparaat faalt."
 
-#: src/sound.c:1320
+#: src/sound.c:1348
 msgid "store to sounddevice failed."
 msgstr "opslag naar geluidsapparaat faalt."
 

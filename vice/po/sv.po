@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
-"POT-Creation-Date: 2005-05-29 19:07+0200\n"
+"POT-Creation-Date: 2005-06-05 22:47+0200\n"
 "PO-Revision-Date: 2005-01-15 15:45+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -14,23 +14,23 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
 
-#: src/vsync.c:123
+#: src/vsync.c:139
 msgid "Limit emulation speed to specified value"
 msgstr "Begränsa emuleringshastighet till angivet värde"
 
-#: src/vsync.c:125
+#: src/vsync.c:141
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"
 
-#: src/vsync.c:127
+#: src/vsync.c:143
 msgid "Enable warp mode"
 msgstr "Aktivera warpläge"
 
-#: src/vsync.c:129
+#: src/vsync.c:145
 msgid "Disable warp mode"
 msgstr "Deaktivera warpläge"
 
-#: src/vsync.c:438
+#: src/vsync.c:459
 msgid "Your machine is too slow for current settings!"
 msgstr "Din maskin är för långsam för nuvarande inställningar!"
 
@@ -42,84 +42,84 @@ msgstr "Endast en inspelning kan göras åt gången."
 msgid "Cannot load snapshot file."
 msgstr "Kan inte ladda ögonblicksbildfil."
 
-#: src/sound.c:431
+#: src/sound.c:459
 msgid "write to sound device failed."
 msgstr "misslyckades att skriva till ljudenhet."
 
-#: src/sound.c:446
+#: src/sound.c:474
 msgid "Cannot open SID engine"
 msgstr "Kan inte öppna SID-motor"
 
-#: src/sound.c:485
+#: src/sound.c:513
 msgid "Cannot initialize SID engine"
 msgstr "Kan inte initiera SID-motor"
 
-#: src/sound.c:591
+#: src/sound.c:619
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "initiering misslyckades för enhet \"%s\"."
 
-#: src/sound.c:600
+#: src/sound.c:628
 msgid "sound device lacks stereo capability"
 msgstr "ljudenhet saknar stereofunktion"
 
-#: src/sound.c:649
+#: src/sound.c:677
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "enheten \"%s\" hittades eller stöds ej."
 
-#: src/sound.c:670
+#: src/sound.c:698
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Inspelningsenhet %s finns inte!"
 
-#: src/sound.c:678
+#: src/sound.c:706
 msgid "Recording device must be different from playback device"
 msgstr "Inspelningsenhet och återspelningsenhet kan inte vara samma"
 
-#: src/sound.c:688
+#: src/sound.c:716
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Varning! Inspelningsenheten %s verkar vara en realtidsenhet!"
 
-#: src/sound.c:698
+#: src/sound.c:726
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Initiering misslyckades för enhet \"%s\"."
 
-#: src/sound.c:713
+#: src/sound.c:741
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Inspelningsenheten stöder inte aktuella ljudinställningar"
 
-#: src/sound.c:794
+#: src/sound.c:822
 msgid "Sound buffer overflow (cycle based)"
 msgstr "För mycket data i ljudbufferten (cykelbaserad)"
 
-#: src/sound.c:808
+#: src/sound.c:836
 msgid "Sound buffer overflow."
 msgstr "För mycket data i ljudbufferten."
 
-#: src/sound.c:934
+#: src/sound.c:962
 msgid "cannot flush."
 msgstr "kan inte tömma."
 
-#: src/sound.c:983
+#: src/sound.c:1011
 msgid "fragment problems."
 msgstr "fragmentprogram."
 
-#: src/sound.c:1013
+#: src/sound.c:1041
 msgid "Buffer drained"
 msgstr "Buffert tömd"
 
-#: src/sound.c:1052
+#: src/sound.c:1080
 msgid "running too slow."
 msgstr "går för långsamt."
 
-#: src/sound.c:1068 src/sound.c:1078
+#: src/sound.c:1096 src/sound.c:1106
 msgid "write to sounddevice failed."
 msgstr "misslyckades skriva till ljudenheten."
 
-#: src/sound.c:1320
+#: src/sound.c:1348
 msgid "store to sounddevice failed."
 msgstr "misslyckades spara i ljudenheten."
 
