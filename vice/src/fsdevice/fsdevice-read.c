@@ -50,6 +50,7 @@
 #include "fsdevice-read.h"
 #include "fsdevice-resources.h"
 #include "fsdevicetypes.h"
+#include "ioutil.h"
 #include "types.h"
 #include "vdrive.h"
 
@@ -125,7 +126,8 @@ static void command_directory_get(vdrive_t *vdrive, fs_buffer_info_t *info,
             break;
 
         finfo = fileio_open(direntry, fs_info[secondary].dir, format,
-                            FILEIO_COMMAND_READ | FILEIO_COMMAND_FSNAME);
+                            FILEIO_COMMAND_READ | FILEIO_COMMAND_FSNAME,
+                            FILEIO_TYPE_PRG);
 
         if (finfo == NULL)
             continue;
@@ -157,7 +159,7 @@ static void command_directory_get(vdrive_t *vdrive, fs_buffer_info_t *info,
             }
         }
         if (f > 0)
-            fileio_destroy(finfo);
+            fileio_close(finfo);
     } while (f);
     if (direntry != NULL) {
         BYTE *p = info->name;
@@ -284,7 +286,7 @@ static void command_directory_get(vdrive_t *vdrive, fs_buffer_info_t *info,
         info->buflen = 32;
         info->eof++;
     }
-    fileio_destroy(finfo);
+    fileio_close(finfo);
 }
 
 

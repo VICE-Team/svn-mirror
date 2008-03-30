@@ -36,27 +36,42 @@
 #include "types.h"
 
 
-fileio_info_t *cbmfile_info(const char *file_name, const char *path,
-                            unsigned int command)
+fileio_info_t *cbmfile_open(const char *file_name, const char *path,
+                            unsigned int command, unsigned int type)
 {
     BYTE *cbm_name;
     fileio_info_t *info;
     struct rawfile_info_s *rawfile;
+    char *fsname;
 
-    rawfile = rawfile_open(file_name, path, command & FILEIO_COMMAND_MASK);
+    fsname = lib_stralloc(file_name);
+
+    if (!(command & FILEIO_COMMAND_FSNAME))
+        charset_petconvstring(fsname, 1);
+
+    rawfile = rawfile_open(fsname, path, command & FILEIO_COMMAND_MASK);
+
+    lib_free(fsname);
 
     if (rawfile == NULL)
         return NULL;
 
-    cbm_name = (BYTE *)lib_stralloc(rawfile->name);
-    charset_petconvstring(cbm_name, 0);
+    cbm_name = lib_stralloc(file_name);
+
+    if (command & FILEIO_COMMAND_FSNAME)
+        charset_petconvstring(cbm_name, 0);
 
     info = (fileio_info_t *)lib_malloc(sizeof(fileio_info_t));
     info->name = cbm_name;
-    info->type = FILEIO_TYPE_PRG;
+    info->type = type;
     info->format = FILEIO_FORMAT_RAW;
     info->rawfile = rawfile;
 
     return info;
+}
+
+void cbmfile_close(fileio_info_t *info)
+{
+    rawfile_destroy(info->rawfile);
 }
 

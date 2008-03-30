@@ -610,7 +610,8 @@ int autostart_prg(const char *file_name, unsigned int runmode)
     fileio_info_t *finfo;
 
     finfo = fileio_open(file_name, NULL, FILEIO_FORMAT_RAW | FILEIO_FORMAT_P00,
-                        FILEIO_COMMAND_READ | FILEIO_COMMAND_FSNAME);
+                        FILEIO_COMMAND_READ | FILEIO_COMMAND_FSNAME,
+                        FILEIO_TYPE_PRG);
 
     if (finfo == NULL) {
         log_error(autostart_log, "Cannot open `%s'.", file_name);
@@ -644,7 +645,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
 
     lib_free(directory);
     lib_free(file);
-    fileio_destroy(finfo);
+    fileio_close(finfo);
 
     log_message(autostart_log, "Preparing to load PRG file `%s'.",
                 file_name);

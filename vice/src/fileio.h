@@ -29,11 +29,12 @@
 
 #include "types.h"
 
-#define FILEIO_COMMAND_READ   0
-#define FILEIO_COMMAND_WRITE  1
-#define FILEIO_COMMAND_APPEND 2
-#define FILEIO_COMMAND_MASK   15
-#define FILEIO_COMMAND_FSNAME 16
+#define FILEIO_COMMAND_READ        0
+#define FILEIO_COMMAND_WRITE       1
+#define FILEIO_COMMAND_APPEND      2
+#define FILEIO_COMMAND_APPEND_READ 3
+#define FILEIO_COMMAND_MASK        15
+#define FILEIO_COMMAND_FSNAME      16
 
 #define FILEIO_FORMAT_RAW (1 << 0)
 #define FILEIO_FORMAT_P00 (1 << 1)
@@ -57,8 +58,9 @@ struct fileio_info_s {
 typedef struct fileio_info_s fileio_info_t;
 
 extern fileio_info_t *fileio_open(const char *file_name, const char *path,
-                                  unsigned int format, unsigned int command);
-extern void fileio_destroy(fileio_info_t *info);
+                                  unsigned int format, unsigned int command,
+                                  unsigned int type);
+extern void fileio_close(fileio_info_t *info);
 
 #endif
 

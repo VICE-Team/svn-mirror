@@ -31,9 +31,11 @@
 
 struct fileio_info_s;
 
-extern struct fileio_info_s *cbmfile_info(const char *file_name,
+extern struct fileio_info_s *cbmfile_open(const char *file_name,
                                           const char *path,
-                                          unsigned int command);
+                                          unsigned int command,
+                                          unsigned int type);
+extern void cbmfile_close(struct fileio_info_s *info);
 
 #endif
 
