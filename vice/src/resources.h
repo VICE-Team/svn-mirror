@@ -30,7 +30,7 @@
 
 #include <stdio.h>
 
-typedef enum resource_type {RES_INTEGER, RES_STRING} resource_type_t;
+typedef enum resource_type { RES_INTEGER, RES_STRING } resource_type_t;
 
 typedef void *resource_value_t;
 
@@ -98,7 +98,7 @@ extern int resources_load(const char *fname);
 extern int resources_write_item_to_file(FILE *fp, const char *name);
 extern int resources_read_item_from_file(FILE *fp);
 
-extern void resources_set_defaults(void);
+extern int resources_set_defaults(void);
 
 /* Register a callback for a resource; use name=NULL to register a callback for all.
    Resource-specific callbacks are always called with a valid resource name as parameter.

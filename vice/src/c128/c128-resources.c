@@ -31,9 +31,11 @@
 
 #include "c128mem.h"
 #include "drive.h"
+#include "keyboard.h"
 #include "machine.h"
 #include "resources.h"
 #include "reu.h"
+#include "sid-resources.h"
 #include "utils.h"
 
 
@@ -246,6 +248,22 @@ static resource_t resources[] =
       set_acia_d7_enabled, NULL },
 #endif
 #endif
+#ifdef COMMON_KBD
+    { "KeymapIndex", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&machine_keymap_index,
+      keyboard_set_keymap_index, NULL },
+    { "KeymapSymFile", RES_STRING,
+      (resource_value_t)"default.vkm",
+      (resource_value_t *)&machine_keymap_file_list[0],
+      keyboard_set_keymap_file, (void *)0 },
+    { "KeymapPosFile", RES_STRING,
+      (resource_value_t)"position.vkm",
+      (resource_value_t *)&machine_keymap_file_list[1],
+      keyboard_set_keymap_file, (void *)1 },
+#endif
+    { "SidStereoAddressStart", RES_INTEGER, (resource_value_t)0xde00,
+      (resource_value_t *)&sid_stereo_address_start,
+      sid_set_sid_stereo_address, NULL },
     { NULL }
 };
 

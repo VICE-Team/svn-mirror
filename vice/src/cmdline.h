@@ -27,13 +27,11 @@
 #ifndef _CMDLINE_H
 #define _CMDLINE_H
 
-#include "resources.h"
-
 /* This describes a command-line option.  */
 /* Warning: all the pointers should point to areas that are valid throughout
    the execution.  No reallocation is performed.  */
 
-typedef enum cmdline_option_type {SET_RESOURCE, CALL_FUNCTION}
+typedef enum cmdline_option_type { SET_RESOURCE, CALL_FUNCTION }
     cmdline_option_type_t;
 
 typedef struct cmdline_option_s {
@@ -58,7 +56,7 @@ typedef struct cmdline_option_s {
 
     /* Value to assign to `resource_name' if `type' is `SET_RESOURCE' and
        `need_arg' is zero.  */
-    resource_value_t resource_value;
+    void *resource_value;
 
     /* String to display after the option name in the help screen.  (Can be
        NULL).  */

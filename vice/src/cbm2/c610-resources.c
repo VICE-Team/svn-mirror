@@ -34,10 +34,17 @@
 #include "c610mem.h"
 #include "c610tpi.h"
 #include "crtc.h"
+#include "drive.h"
 #include "interrupt.h"
+#include "keyboard.h"
+#include "machine.h"
 #include "resources.h"
+#include "sid-resources.h"
 #include "utils.h"
 #include "vsync.h"
+
+
+static int sync_factor;
 
 static char *kernal_rom_name = NULL;
 static char *chargen_name = NULL;
@@ -229,8 +236,43 @@ static int set_emu_id_enabled(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_sync_factor(resource_value_t v, void *param)
+{
+    int change_timing = 0;
+
+    if (sync_factor != (int)v)
+        change_timing = 1;
+
+    switch ((int)v) {
+      case MACHINE_SYNC_PAL:
+        sync_factor = (int) v;
+        drive_set_pal_sync_factor();
+        if (change_timing)
+            machine_change_timing(MACHINE_SYNC_PAL);
+        break;
+      case MACHINE_SYNC_NTSC:
+        sync_factor = (int)v;
+        drive_set_ntsc_sync_factor();
+        if (change_timing)
+            machine_change_timing(MACHINE_SYNC_NTSC);
+        break;
+      default:
+        if ((int)v > 0) {
+            sync_factor = (int)v;
+            drive_set_sync_factor((unsigned int)v);
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+}
+
+
 static resource_t resources[] = {
-    {"RamSize", RES_INTEGER, (resource_value_t)128,
+    { "MachineVideoStandard", RES_INTEGER, (resource_value_t)MACHINE_SYNC_PAL,
+      (resource_value_t *)&sync_factor,
+      set_sync_factor, NULL },
+    { "RamSize", RES_INTEGER, (resource_value_t)128,
       (resource_value_t *)&ramsize,
       set_ramsize, NULL },
     { "ChargenName", RES_STRING, (resource_value_t)CBM2_CHARGEN600,
@@ -281,6 +323,38 @@ static resource_t resources[] = {
     { "EmuID", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&emu_id_enabled,
       set_emu_id_enabled, NULL },
+#ifdef COMMON_KBD
+    { "KeymapIndex", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&machine_keymap_index,
+      keyboard_set_keymap_index, NULL },
+    { "KeymapBusinessUKSymFile", RES_STRING,
+      (resource_value_t)"busi_uk.vkm",
+      (resource_value_t *)&machine_keymap_file_list[0],
+      keyboard_set_keymap_file, (void *)0 },
+    { "KeymapBusinessUKPosFile", RES_STRING,
+      (resource_value_t)"buk_pos.vkm",
+      (resource_value_t *)&machine_keymap_file_list[1],
+      keyboard_set_keymap_file, (void *)1 },
+    { "KeymapGraphicsSymFile", RES_STRING,
+      (resource_value_t)"graphics.vkm",
+      (resource_value_t *)&machine_keymap_file_list[2],
+      keyboard_set_keymap_file, (void *)2 },
+    { "KeymapGraphicsPosFile", RES_STRING,
+      (resource_value_t)"posg_de.vkm",
+      (resource_value_t *)&machine_keymap_file_list[3],
+      keyboard_set_keymap_file, (void *)3 },
+    { "KeymapBusinessDESymFile", RES_STRING,
+      (resource_value_t)"busi_de.vkm",
+      (resource_value_t *)&machine_keymap_file_list[4],
+      keyboard_set_keymap_file, (void *)4 },
+    { "KeymapBusinessDEPosFile", RES_STRING,
+      (resource_value_t)"bde_pos.vkm",
+      (resource_value_t *)&machine_keymap_file_list[5],
+      keyboard_set_keymap_file, (void *)5 },
+#endif
+    { "SidStereoAddressStart", RES_INTEGER, (resource_value_t)0xda20,
+      (resource_value_t *)&sid_stereo_address_start,
+      sid_set_sid_stereo_address, NULL },
     { NULL }
 };
 
