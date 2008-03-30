@@ -11,25 +11,26 @@ INCLUDES = \
 noinst_LIBRARIES = libcbm2.a
 
 libcbm2_a_SOURCES = \
-	c610-cmdline-options.c \
-	c610-cmdline-options.h \
-	c610-resources.c \
-	c610-resources.h \
-	c610-snapshot.c \
-	c610-snapshot.h \
-	c610.c \
-	c610.h \
-	c610acia.h \
-	c610acia1.c \
-	c610cia.h \
-	c610cia1.c \
-	c610cpu.c \
-	c610datasette.c \
-	c610iec.c \
-	c610mem.c \
-	c610mem.h \
-	c610rom.c \
-	c610rom.h \
-	c610tpi.h \
-	c610tpi1.c \
-	c610tpi2.c
+	cbm2-cmdline-options.c \
+	cbm2-cmdline-options.h \
+	cbm2-resources.c \
+	cbm2-resources.h \
+	cbm2-snapshot.c \
+	cbm2-snapshot.h \
+	cbm2.c \
+	cbm2.h \
+	cbm2acia.h \
+	cbm2acia1.c \
+	cbm2cia.h \
+	cbm2cia1.c \
+	cbm2cpu.c \
+	cbm2datasette.c \
+	cbm2iec.c \
+	cbm2mem.c \
+	cbm2mem.h \
+	cbm2rom.c \
+	cbm2rom.h \
+	cbm2tpi.h \
+	cbm2tpi1.c \
+	cbm2tpi2.c
+
