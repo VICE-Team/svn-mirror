@@ -1677,7 +1677,7 @@ XfwfFileSelectorWidget fsw;
 
         l = strlen (home);
         if (!strncmp (FSCurrentDirectory(fsw), home, l)
-	    && strlen (FSCurrentDirectory(fsw) - l + 1) < MAXPATHLEN) /* safety... */
+	    && strlen (FSCurrentDirectory(fsw)) - l + 1 < MAXPATHLEN) /* safety... */
 	  {
 	    sprintf (tmpstr, "~%s", FSCurrentDirectory(fsw) + l);
 	    TextWidgetSetText (FSNthWidget (fsw, FS_I_CUR_DIR_TEXT),
