@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
-<!-- This HTML file has been created by texi2html 1.51
-     from ../vice.texi on 8 November 2000 -->
+<!-- This HTML file has been created by texi2html 1.52
+     from ../vice.texi on 10 December 2000 -->
 
 <TITLE>VICE Manual - 5  Basic operation</TITLE>
 </HEAD>
@@ -24,20 +24,20 @@ has been fired up.
 
 <P>
 When the emulator is run, the screen of the emulated machine is
-displayed in a standard X Window which we will call the <STRONG>emulation
-window</STRONG>.  This window will be updated in real time, displaying the same
+displayed in a standard X Window which we will call the <EM>emulation
+window</EM>.  This window will be updated in real time, displaying the same
 contents that a real monitor or TV set would.
 
 </P>
 <P>
 Below the emulation window there is an area which is used to display
 information about the state of the emulator; we will call this area the
-<STRONG>status bar</STRONG>.
+<EM>status bar</EM>.
 
 </P>
 <P>
-On the extreme left of the status bar, there is a <STRONG>performance
-meter</STRONG>.  This displays the current relative speed of the emulator (as a
+On the extreme left of the status bar, there is a <EM>performance
+meter</EM>.  This displays the current relative speed of the emulator (as a
 percentage) and the update frequency (in frames per second).  All the
 machines emulated are PAL, so the update frequency will be 50 frames
 per second if your system is fast enough to allow emulation at
@@ -45,8 +45,8 @@ the speed of the real machine.
 
 </P>
 <P>
-On the extreme right of the status bar, there is a <STRONG>drive status
-indicator</STRONG>.  This is only visible if the hardware-level ("True") 1541
+On the extreme right of the status bar, there is a <EM>drive status
+indicator</EM>.  This is only visible if the hardware-level ("True") 1541
 emulation is turned on.  In that case, the drive status indicator will
 contain a rectangle emulating the drive LED and will display the current
 track position of the drive's read/write head.
@@ -60,9 +60,9 @@ track position of the drive's read/write head.
 It is possible to execute some commands and change emulation parameters
 while the emulator is running: when the pointer is over the emulation
 window, two menus are available by pressing either the left or right
-mouse buttons.  The left mouse button will open the <STRONG>command menu</STRONG>
+mouse buttons.  The left mouse button will open the <EM>command menu</EM>
 from which several emulation-related commands can be executed; the right
-mouse button will open the <STRONG>settings menu</STRONG> from which emulation
+mouse button will open the <EM>settings menu</EM> from which emulation
 parameters can be changed.  The basic difference between the command and
 the settings menu is that, while commands have only effect on the
 current session, settings can be saved and later used with the "Save
@@ -73,7 +73,7 @@ work in VICE.
 
 </P>
 <P>
-Sometimes commands can be reached via <STRONG>shortcuts</STRONG> or <STRONG>hotkeys</STRONG>,
+Sometimes commands can be reached via <EM>shortcuts</EM> or <EM>hotkeys</EM>,
 i.e., it is possible to execute them by pressing a sequence of keys
 instead of going through the menu with the mouse.  Where shortcuts
 exist, they are displayed in parentheses at the right edge of the menu
@@ -129,8 +129,8 @@ becomes the active selection.
 
 </P>
 <P>
-At the top, there is a <STRONG>directory box</STRONG>, with the complete path of
-the current directory, and a <STRONG>file name box</STRONG>, with the name of the
+At the top, there is a <EM>directory box</EM>, with the complete path of
+the current directory, and a <EM>file name box</EM>, with the name of the
 currently selected file.  At the bottom there are two buttons: "OK"
 confirms the selected file and "Cancel" abandons the file selector
 without cancelling the operation.
@@ -150,9 +150,9 @@ name ends with either <TT>`.d64'</TT> or with <TT>`.x64'</TT>.
 
 <P>
 The emulator is able to emulate disk drives and (read-only) tape
-recorders if provided with suitable <STRONG>disk images</STRONG> or <STRONG>tape
-images</STRONG>.  An <STRONG>image</STRONG> is a raw dump of the contents of the media, and
-must be <STRONG>attached</STRONG> before the emulator can use it.  "Attaching" a
+recorders if provided with suitable <EM>disk images</EM> or <EM>tape
+images</EM>.  An <EM>image</EM> is a raw dump of the contents of the media, and
+must be <EM>attached</EM> before the emulator can use it.  "Attaching" a
 disk or tape image is like "virtually" inserting a diskette or a
 cassette into the disk drive or the tape recorder: once an image is
 attached, the emulator is able to use it as a storage media.
@@ -302,10 +302,10 @@ will always be handled as if they contain only a single file.
 <P>
 Windows and MSDOS don't contain the needful programs to handle
 compressed archives. Get gzip and unzip for Windows at
-@uref{ftp://ftp.freesoftware.com/pub/infozip/WIN32} and for MSDOS at
-@uref{ftp://ftp.freesoftware.com/pub/infozip/MSDOS}. Don't use pkunzip
+<A HREF="ftp://ftp.freesoftware.com/pub/infozip/WIN32">ftp://ftp.freesoftware.com/pub/infozip/WIN32</A> and for MSDOS at
+<A HREF="ftp://ftp.freesoftware.com/pub/infozip/MSDOS">ftp://ftp.freesoftware.com/pub/infozip/MSDOS</A>. Don't use pkunzip
 for MSDOS, it doesn't work. The programs to use BZip2 archives may be
-found at @uref{http://sourceware.cygnus.com/bzip2}.
+found at <A HREF="http://sourceware.cygnus.com/bzip2">http://sourceware.cygnus.com/bzip2</A>.
 Just put the programs (unzip.exe, gzip.exe, bzip2.exe) into a directory
 of your search path (e.g. C:\DOS or C:\WINDOWS\COMMAND; have a look at 
 the PATH variable).
@@ -376,15 +376,15 @@ command from the command menu.  There are two types of reset:
 <UL>
 <LI>
 
-<STRONG>soft reset</STRONG>, which simply resets the CPU and all the other chips;
+<EM>soft reset</EM>, which simply resets the CPU and all the other chips;
 <LI>
 
-<STRONG>hard reset</STRONG>, which also clears up the contents of RAM.
+<EM>hard reset</EM>, which also clears up the contents of RAM.
 </UL>
 
 <P>
-A <STRONG>soft reset</STRONG> is the same as a hardware reset achieved by pulling
-the RESET line down; a <STRONG>hard reset</STRONG> is more like a power
+A <EM>soft reset</EM> is the same as a hardware reset achieved by pulling
+the RESET line down; a <EM>hard reset</EM> is more like a power
 on/power off sequence in that it makes sure the whole RAM is cleared.
 
 </P>

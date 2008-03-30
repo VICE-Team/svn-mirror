@@ -209,6 +209,9 @@ involved in the development of X64 and VICE:
      console implementation for the built-in monitor and provided some
      further patches.
 
+   * Michael Klein (<nip@c64.org>) contributed the ESD sound driver and
+     some patches.
+
    (We hope we have not forgotten anybody; if you think we have, please
 tell us.)
 

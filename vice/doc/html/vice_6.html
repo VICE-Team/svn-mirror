@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
-<!-- This HTML file has been created by texi2html 1.51
-     from ../vice.texi on 8 November 2000 -->
+<!-- This HTML file has been created by texi2html 1.52
+     from ../vice.texi on 10 December 2000 -->
 
 <TITLE>VICE Manual - 6  Settings and resources</TITLE>
 </HEAD>
@@ -14,7 +14,7 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_5.html">previous</A>, <
 
 <P>
 In the VICE emulators, all the settings are stored in entities known as
-called <STRONG>resources</STRONG>.  Each resource has a name and a value which may
+called <EM>resources</EM>.  Each resource has a name and a value which may
 be either an integer or a string.  Integer values are often used as
 boolean values with the usual convention of using zero for "false"
 and any other value for "true".
@@ -22,12 +22,12 @@ and any other value for "true".
 </P>
 <P>
 Resource values can be changed via the right-button menu (the
-<STRONG>settings</STRONG> menu), via command-line options or via the <STRONG>resource
-file</STRONG>.
+<EM>settings</EM> menu), via command-line options or via the <EM>resource
+file</EM>.
 
 </P>
 <P>
-The <STRONG>resource file</STRONG> is a human-readable file containing resource
+The <EM>resource file</EM> is a human-readable file containing resource
 values: it is called <TT>`vicerc'</TT> and is stored in the directory 
 <TT>`.vice/'</TT> in the user's home
 directory.  It is possible to dump the current values of the resources
@@ -178,7 +178,7 @@ and "No limit" as the maximum speed..
 </P>
 <P>
 <A NAME="IDX18"></A>
-Moreover, a special <STRONG>warp speed</STRONG> mode is provided and can be toggled
+Moreover, a special <EM>warp speed</EM> mode is provided and can be toggled
 with the "Enable Warp Mode" menu item.  If this mode is enabled, it
 will cause the emulator to disable any speed limit, turn sound emulation
 off and use a 1/10 refresh rate, so that it will run at the maximum
@@ -271,7 +271,7 @@ would be wasted by not using it (if any).
 <A NAME="IDX26"></A>
 <LI>
 
-"Double Size" toggles <STRONG>double-size mode</STRONG>, which makes the
+"Double Size" toggles <EM>double-size mode</EM>, which makes the
 emulation window twice as big.  When emulating a 80-column PET, only the
 height is doubled, so that the aspect ratio is closer to that of the
 real thing.
@@ -279,7 +279,7 @@ real thing.
 <A NAME="IDX27"></A>
 <LI>
 
-"Double Scan" toggles <STRONG>double-scan mode</STRONG>, which causes the
+"Double Scan" toggles <EM>double-scan mode</EM>, which causes the
 emulator to draw only odd lines when running in double-size mode (this
 saves some CPU time and also makes the emulation window look more like
 an old monitor).
@@ -884,19 +884,19 @@ save CPU cycles in the host CPU.  There are three methods:
 <UL>
 <LI>
 
-<STRONG>Skip cycles</STRONG>: Each time the serial line is accessed by the C64, the
+<EM>Skip cycles</EM>: Each time the serial line is accessed by the C64, the
 drive executes all the cycles since the last time it ran.  If
 the number of elapsed cycles is larger than a certain value, the drive
 discards part of them.
 <LI>
 
-<STRONG>Trap idle</STRONG>: The disk drive is still emulated upon serial line
+<EM>Trap idle</EM>: The disk drive is still emulated upon serial line
 accesses as with the previous option, but it is also always emulated at
 the end of each screen frame.  If the drive gets into the DOS idle loop,
 only pending interrupts are emulated to save time.
 <LI>
 
-<STRONG>No traps</STRONG>: Like "Trap idle", but without any traps at all.  So
+<EM>No traps</EM>: Like "Trap idle", but without any traps at all.  So
 basically the drive works exactly as with the real thing, and nothing is
 done to reduce the power needs of the drive emulation.
 </UL>
@@ -1127,14 +1127,14 @@ VICE is able to support some special peripherals:
 <UL>
 <LI>
 
-<STRONG>file system devices</STRONG>, pseudo-drives accessing the Unix file system;
+<EM>file system devices</EM>, pseudo-drives accessing the Unix file system;
 <LI>
 
 printers.
 </UL>
 
 <P>
-These features depend on some <STRONG>kernal traps</STRONG> that replace the
+These features depend on some <EM>kernal traps</EM> that replace the
 existing routines in the original Commodore operating system with
 custom-made C routines.
 
@@ -1301,7 +1301,7 @@ respectively (<CODE>FSDevice8Dir</CODE>, <CODE>FSDevice9Dir</CODE>,
 The VICE emulators can emulate printers connected to either the IEC
 buffer or the user port.  Emulation can be achieved by redirecting the
 printer output to a file or by piping it through an external process.
-This is defined by so-called <STRONG>printer device file names</STRONG>; a printer
+This is defined by so-called <EM>printer device file names</EM>; a printer
 device file name can be either a simple path, or a command name
 preceeded by a pipe symbol <SAMP>`|'</SAMP>.
 
@@ -1513,7 +1513,7 @@ piping through a process.
 <P>
 It is possible to define up to four UNIX serial devices, and then decide
 which interface should be connected to which device.  This is done by
-so-called <STRONG>rs232 device file names</STRONG>; an rs232 device file name can
+so-called <EM>rs232 device file names</EM>; an rs232 device file name can
 be either a simple path, or a command name preceeded by a pipe symbol
 <SAMP>`|'</SAMP>.  If the path specifies a special device (e.g. <TT>`/dev/ttyS0'</TT>) it
 is recognized by VICE and the emulator can set the baudrate.

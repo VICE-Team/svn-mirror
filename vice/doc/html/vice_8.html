@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
-<!-- This HTML file has been created by texi2html 1.51
-     from ../vice.texi on 8 November 2000 -->
+<!-- This HTML file has been created by texi2html 1.52
+     from ../vice.texi on 10 December 2000 -->
 
 <TITLE>VICE Manual - 8  Snapshots</TITLE>
 </HEAD>
@@ -78,61 +78,75 @@ emulators snapshot files.
 The modules in the x64 emulator are:
 
 </P>
+<TABLE BORDER>
+
+<TR><TD>Name</TD>
+
+<TD>Type</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>MAINCPU</TD>
+
+<TD>6502</TD>
+<TD>The Main CPU - although it is a 6510, only the 6502 core is saved here</TD>
+</TR>
+<TR><TD>C64MEM</TD>
+
+<TD>Memory</TD>
+<TD>Holds the RAM contents of the C64.  Also the CPU I/O register contents are saved here.</TD>
+</TR>
+<TR><TD>C64ROM</TD>
+
+<TD>ROM images</TD>
+<TD>Dump of the system ROMs</TD>
+</TR>
+<TR><TD>VIC-II</TD>
+
+<TD>656*</TD>
+<TD>The VIC-II of the C64/128</TD>
+</TR>
+<TR><TD>CIA1</TD>
+
+<TD>6526</TD>
+<TD>The CIA for the interrupts and the keyboard</TD>
+</TR>
+<TR><TD>CIA2</TD>
+
+<TD>6526</TD>
+<TD>The CIA for the userport, IEC-bus and RS232.</TD>
+</TR>
+<TR><TD>SID</TD>
+
+<TD>6581</TD>
+<TD>The SID sound chip of the C64/C128</TD>
+</TR>
+<TR><TD>REU*</TD>
+
+<TD></TD>
+<TD>The RAM Extension Unit state (optional)</TD>
+</TR>
+<TR><TD>ACIA1</TD>
+
+<TD>6551</TD>
+<TD>An ACIA (RS232 interface) at $DE00 (optional)</TD>
+</TR>
+<TR><TD>TPI</TD>
+
+<TD>6525</TD>
+<TD>A TPI at $DF00 for a parallel IEEE488 interface (optional)</TD>
+</TR>
+<TR><TD>*</TD>
+
+<TD>Drive modules</TD>
+<TD>The emulated drive(s) have their own modules see section <A HREF="vice_8.html#SEC115">8.2.1.6  Drive modules</A></TD>
+</TR></TABLE>
+
 <P>
-@multitable @columnfractions .1 .4 .5
-<LI>Name
-
-@tab Type
-@tab Description
-<LI>MAINCPU
-
-@tab 6502
-@tab The Main CPU - although it is a 6510, only the 6502 core is saved here
-<LI>C64MEM
-
-@tab Memory
-@tab Holds the RAM contents of the C64.  Also the CPU I/O register contents are saved here.
-<LI>C64ROM
-
-@tab ROM images
-@tab Dump of the system ROMs
-<LI>VIC-II
-
-@tab 656*
-@tab The VIC-II of the C64/128
-<LI>CIA1
-
-@tab 6526
-@tab The CIA for the interrupts and the keyboard
-<LI>CIA2
-
-@tab 6526
-@tab The CIA for the userport, IEC-bus and RS232.
-<LI>SID
-
-@tab 6581
-@tab The SID sound chip of the C64/C128
-<LI>REU*
-
-@tab
-@tab The RAM Extension Unit state (optional)
-<LI>ACIA1
-
-@tab 6551
-@tab An ACIA (RS232 interface) at $DE00 (optional)
-<LI>TPI
-
-@tab 6525
-@tab A TPI at $DF00 for a parallel IEEE488 interface (optional)
-<LI>*
-
-@tab Drive modules
-@tab The emulated drive(s) have their own modules see section <A HREF="vice_8.html#SEC115">8.2.1.6  Drive modules</A>
-
 Some of the modules are optional and are only saved if the specific
 feature is enabled at save-time.  If the module is found when restoring
 the state the optional features are enabled, and disabled otherwise.
 
+</P>
 
 
 <H4><A NAME="SEC111" HREF="vice_toc.html#TOC111">8.2.1.2  x128 modules</A></H4>
@@ -141,60 +155,75 @@ the state the optional features are enabled, and disabled otherwise.
 The modules in the x128 emulator are:
 
 </P>
+<TABLE BORDER>
+
+<TR><TD>Name</TD>
+
+<TD>Type</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>MAINCPU</TD>
+
+<TD>6502</TD>
+<TD>The Main CPU - although it is a 6510, only the 6502 core is saved here</TD>
+</TR>
+<TR><TD>C128MEM</TD>
+
+<TD>Memory</TD>
+<TD>Holds the RAM contents of the C64.  Also the CPU I/O register contents are saved here.</TD>
+</TR>
+<TR><TD>C128ROM</TD>
+
+<TD>ROM images</TD>
+<TD>Dump of the system ROMs</TD>
+</TR>
+<TR><TD>VIC-II</TD>
+
+<TD>656*</TD>
+<TD>The VIC-II of the C64/128</TD>
+</TR>
+<TR><TD>CIA1</TD>
+
+<TD>6526</TD>
+<TD>The CIA for the interrupts and the keyboard</TD>
+</TR>
+<TR><TD>CIA2</TD>
+
+<TD>6526</TD>
+<TD>The CIA for the userport, IEC-bus and RS232.</TD>
+</TR>
+<TR><TD>SID</TD>
+
+<TD>6581</TD>
+<TD>The SID sound chip of the C64/C128</TD>
+</TR>
+<TR><TD>ACIA1</TD>
+
+<TD>6551</TD>
+<TD>An ACIA at $DE00 (optional)</TD>
+</TR>
+<TR><TD>TPI</TD>
+
+<TD>6525</TD>
+<TD>A TPI at $DF00 for a parallel IEEE488 interface (optional)</TD>
+</TR>
+<TR><TD>*</TD>
+
+<TD>Drive modules</TD>
+<TD>The emulated drive(s) have their own modules see section <A HREF="vice_8.html#SEC115">8.2.1.6  Drive modules</A></TD>
+</TR></TABLE>
+
 <P>
-@multitable @columnfractions .1 .4 .5
-<LI>Name
-
-@tab Type
-@tab Description
-<LI>MAINCPU
-
-@tab 6502
-@tab The Main CPU - although it is a 6510, only the 6502 core is saved here
-<LI>C128MEM
-
-@tab Memory
-@tab Holds the RAM contents of the C64.  Also the CPU I/O register contents are saved here.
-<LI>C128ROM
-
-@tab ROM images
-@tab Dump of the system ROMs
-<LI>VIC-II
-
-@tab 656*
-@tab The VIC-II of the C64/128
-<LI>CIA1
-
-@tab 6526
-@tab The CIA for the interrupts and the keyboard
-<LI>CIA2
-
-@tab 6526
-@tab The CIA for the userport, IEC-bus and RS232.
-<LI>SID
-
-@tab 6581
-@tab The SID sound chip of the C64/C128
-<LI>ACIA1
-
-@tab 6551
-@tab An ACIA at $DE00 (optional)
-<LI>TPI
-
-@tab 6525
-@tab A TPI at $DF00 for a parallel IEEE488 interface (optional)
-<LI>*
-
-@tab Drive modules
-@tab The emulated drive(s) have their own modules see section <A HREF="vice_8.html#SEC115">8.2.1.6  Drive modules</A>
-
 Some of the modules are optional and are only saved if the specific
 feature is enabled at save-time.  If the module is found when restoring
 the state the optional features are enabled, and disabled otherwise.
 
+</P>
+<P>
 Not yet supported are the 80 column video chip, cartridges and 
 RAM expansion unit.
 
+</P>
 
 
 <H4><A NAME="SEC112" HREF="vice_toc.html#TOC112">8.2.1.3  xvic modules</A></H4>
@@ -203,40 +232,48 @@ RAM expansion unit.
 The modules in the xvic emulator are:
 
 </P>
-<P>
-@multitable @columnfractions .1 .4 .5
-<LI>Name
+<TABLE BORDER>
 
-@tab Type
-@tab Description
-<LI>MAINCPU
+<TR><TD>Name</TD>
 
-@tab 6502
-@tab The Main CPU 
-<LI>VIC20MEM
+<TD>Type</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>MAINCPU</TD>
 
-@tab Memory
-@tab Holds the RAM contents of the VIC20.
-<LI>VIC20ROM
+<TD>6502</TD>
+<TD>The Main CPU </TD>
+</TR>
+<TR><TD>VIC20MEM</TD>
 
-@tab ROM images
-@tab Holds the ROM images of the VIC20, including possibly attached cartridges
-<LI>VIC-I
+<TD>Memory</TD>
+<TD>Holds the RAM contents of the VIC20.</TD>
+</TR>
+<TR><TD>VIC20ROM</TD>
 
-@tab 656*
-@tab The VIC-I of the VIC20
-<LI>VIA1
+<TD>ROM images</TD>
+<TD>Holds the ROM images of the VIC20, including possibly attached cartridges</TD>
+</TR>
+<TR><TD>VIC-I</TD>
 
-@tab 6522
-@tab The VIA for the interrupts and the keyboard
-<LI>VIA2
+<TD>656*</TD>
+<TD>The VIC-I of the VIC20</TD>
+</TR>
+<TR><TD>VIA1</TD>
 
-@tab 6522
-@tab The VIA for the userport, IEC-bus and RS232.
-<LI>*
+<TD>6522</TD>
+<TD>The VIA for the interrupts and the keyboard</TD>
+</TR>
+<TR><TD>VIA2</TD>
 
-@tab Drive modules
-@tab The emulated drive(s) have their own modules see section <A HREF="vice_8.html#SEC115">8.2.1.6  Drive modules</A>
+<TD>6522</TD>
+<TD>The VIA for the userport, IEC-bus and RS232.</TD>
+</TR>
+<TR><TD>*</TD>
+
+<TD>Drive modules</TD>
+<TD>The emulated drive(s) have their own modules see section <A HREF="vice_8.html#SEC115">8.2.1.6  Drive modules</A></TD>
+</TR></TABLE>
 
 
 
@@ -246,48 +283,58 @@ The modules in the xvic emulator are:
 The modules in the xpet emulator are:
 
 </P>
-<P>
-@multitable @columnfractions .1 .4 .5
-<LI>Name
+<TABLE BORDER>
 
-@tab Type
-@tab Description
-<LI>MAINCPU
+<TR><TD>Name</TD>
 
-@tab 6502
-@tab The Main CPU 
-<LI>PETMEM
+<TD>Type</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>MAINCPU</TD>
 
-@tab Memory
-@tab Holds the RAM contents of the PET.
-<LI>PETROM
+<TD>6502</TD>
+<TD>The Main CPU </TD>
+</TR>
+<TR><TD>PETMEM</TD>
 
-@tab ROM images
-@tab Holds the ROM images of the PET, including possibly attached cartridges
-<LI>CRTC
+<TD>Memory</TD>
+<TD>Holds the RAM contents of the PET.</TD>
+</TR>
+<TR><TD>PETROM</TD>
 
-@tab 6545
-@tab The CRTC of the PET. This is also included if it is a dump of a PET without CRTC, because the video state is saved here anyway.
-<LI>PIA1
+<TD>ROM images</TD>
+<TD>Holds the ROM images of the PET, including possibly attached cartridges</TD>
+</TR>
+<TR><TD>CRTC</TD>
 
-@tab 6520
-@tab The PIA for the interrupts, tape and the keyboard
-<LI>PIA2
+<TD>6545</TD>
+<TD>The CRTC of the PET. This is also included if it is a dump of a PET without CRTC, because the video state is saved here anyway.</TD>
+</TR>
+<TR><TD>PIA1</TD>
 
-@tab 6520
-@tab The PIA for the IEEE488-bus
-<LI>VIA
+<TD>6520</TD>
+<TD>The PIA for the interrupts, tape and the keyboard</TD>
+</TR>
+<TR><TD>PIA2</TD>
 
-@tab 6522
-@tab The VIA for IEEE488, userport, sound
-<LI>ACIA1
+<TD>6520</TD>
+<TD>The PIA for the IEEE488-bus</TD>
+</TR>
+<TR><TD>VIA</TD>
 
-@tab 6551
-@tab The ACIA for the SuperPET.  This module is optional.
-<LI>*
+<TD>6522</TD>
+<TD>The VIA for IEEE488, userport, sound</TD>
+</TR>
+<TR><TD>ACIA1</TD>
 
-@tab Drive modules
-@tab The emulated drive(s) have their own modules see section <A HREF="vice_8.html#SEC115">8.2.1.6  Drive modules</A>
+<TD>6551</TD>
+<TD>The ACIA for the SuperPET.  This module is optional.</TD>
+</TR>
+<TR><TD>*</TD>
+
+<TD>Drive modules</TD>
+<TD>The emulated drive(s) have their own modules see section <A HREF="vice_8.html#SEC115">8.2.1.6  Drive modules</A></TD>
+</TR></TABLE>
 
 
 
@@ -297,61 +344,75 @@ The modules in the xpet emulator are:
 The modules in the xcbm2 emulator are:
 
 </P>
+<TABLE BORDER>
+
+<TR><TD>Name</TD>
+
+<TD>Type</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>MAINCPU</TD>
+
+<TD>6502</TD>
+<TD>The Main CPU - although it is a 6509, only the 6502 core is saved here</TD>
+</TR>
+<TR><TD>CBM2MEM</TD>
+
+<TD>Memory</TD>
+<TD>Holds the RAM contents of the CBM-II models.  Also holds the exec-bank and indirection bank registers</TD>
+</TR>
+<TR><TD>CBM2ROM</TD>
+
+<TD>Memory</TD>
+<TD>optional.  Holds the ROM images.</TD>
+</TR>
+<TR><TD>CRTC</TD>
+
+<TD>6545</TD>
+<TD>The video chip for the C6*0 and C7*0 models (only those models).</TD>
+</TR>
+<TR><TD>VIC-II</TD>
+
+<TD>656?</TD>
+<TD>The video chip for the C5*0 models (only the C5*0 models).</TD>
+</TR>
+<TR><TD>CIA1</TD>
+
+<TD>6526</TD>
+<TD>The CIA for IEEE 488 and userport.</TD>
+</TR>
+<TR><TD>TPI1</TD>
+
+<TD>6525</TD>
+<TD>TPI 1 for IEEE488</TD>
+</TR>
+<TR><TD>TPI2</TD>
+
+<TD>6525</TD>
+<TD>TPI 2 for interrupts and keyboard.</TD>
+</TR>
+<TR><TD>ACIA1</TD>
+
+<TD>6551</TD>
+<TD>The RS232 interface</TD>
+</TR>
+<TR><TD>SID</TD>
+
+<TD>6581</TD>
+<TD>The CBM2s SID sound chip</TD>
+</TR>
+<TR><TD>*</TD>
+
+<TD>Drive modules</TD>
+<TD>The emulated drive(s) have their own modules see section <A HREF="vice_8.html#SEC115">8.2.1.6  Drive modules</A></TD>
+</TR></TABLE>
+
 <P>
-@multitable @columnfractions .1 .4 .5
-<LI>Name
-
-@tab Type
-@tab Description
-<LI>MAINCPU
-
-@tab 6502
-@tab The Main CPU - although it is a 6509, only the 6502 core is saved here
-<LI>CBM2MEM
-
-@tab Memory
-@tab Holds the RAM contents of the CBM-II models.  Also holds the exec-bank and indirection bank registers
-<LI>CBM2ROM
-
-@tab Memory
-@tab optional.  Holds the ROM images.
-<LI>CRTC
-
-@tab 6545
-@tab The video chip for the C6*0 and C7*0 models (only those models).
-<LI>VIC-II
-
-@tab 656?
-@tab The video chip for the C5*0 models (only the C5*0 models).
-<LI>CIA1
-
-@tab 6526
-@tab The CIA for IEEE 488 and userport.
-<LI>TPI1
-
-@tab 6525
-@tab TPI 1 for IEEE488
-<LI>TPI2
-
-@tab 6525
-@tab TPI 2 for interrupts and keyboard.
-<LI>ACIA1
-
-@tab 6551
-@tab The RS232 interface
-<LI>SID
-
-@tab 6581
-@tab The CBM2s SID sound chip
-<LI>*
-
-@tab Drive modules
-@tab The emulated drive(s) have their own modules see section <A HREF="vice_8.html#SEC115">8.2.1.6  Drive modules</A>
-
 The snapshot either contains CRTC or VIC-II snapshot modules, but
 not both.  Depending on which module is found, a C5*0 or C6*0/C7*0 is
 emulated.
 
+</P>
 
 
 <H4><A NAME="SEC115" HREF="vice_toc.html#TOC115">8.2.1.6  Drive modules</A></H4>
@@ -361,20 +422,23 @@ The modules for the real disk drive emulation are included in the emulator
 when the emulation is enabled during the writing of the snapshot.
 
 </P>
-<P>
-@multitable @columnfractions .1 .4 .5
-<LI>Name
+<TABLE BORDER>
 
-@tab Type
-@tab Description
-<LI>*CPU
+<TR><TD>Name</TD>
 
-@tab 6502
-@tab The Drive 0 CPU
-<LI>*
+<TD>Type</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>*CPU</TD>
 
-@tab *
-@tab *
+<TD>6502</TD>
+<TD>The Drive 0 CPU</TD>
+</TR>
+<TR><TD>*</TD>
+
+<TD>*</TD>
+<TD>*</TD>
+</TR></TABLE>
 
 
 
@@ -433,31 +497,39 @@ The VICE snapshot file starts with the magic string and includes the
 fileformat version number.
 
 </P>
+<TABLE BORDER>
+
+<TR><TD>Type</TD>
+
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>19 BYTE</TD>
+
+<TD>MAGIC</TD>
+<TD>"VICE Snapshot File\032", padded with 0</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>VMAJOR</TD>
+<TD>fileformat major version number</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>VMINOR</TD>
+<TD>fileformat minor version number</TD>
+</TR>
+<TR><TD>16 BYTE</TD>
+
+<TD>MACHINENAME</TD>
+<TD>Name of emulated machine, like "PET", "CBM-II", "VIC20", "C64" or "C128". zerobyte-padded.</TD>
+</TR></TABLE>
+
 <P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
-
-@tab Name
-@tab Description
-<LI>19 BYTE
-
-@tab MAGIC
-@tab "VICE Snapshot File\032", padded with 0
-<LI>BYTE
-
-@tab VMAJOR
-@tab fileformat major version number
-<LI>BYTE
-
-@tab VMINOR
-@tab fileformat minor version number
-<LI>16 BYTE
-
-@tab MACHINENAME
-@tab Name of emulated machine, like "PET", "CBM-II", "VIC20", "C64" or "C128". zerobyte-padded.
-
 The file header is followed by a number of different snapshot modules.
 
+</P>
+<P>
 Each module has a header with the information given in the table below.
 The header includes two version numbers, VMAJOR and VMINOR.  Modules
 with the same VMAJOR should be able to be exchanged.  I.e. higher VMINOR
@@ -467,27 +539,34 @@ restore routines must accept the fewer info from lower VMINOR dumps.
 Changes in VMAJOR might introduce any incompatibility you like, but
 that's what VMAJOR is for after all :-)
 
-@multitable @columnfractions .1 .4 .5
-<LI>Type
+</P>
+<TABLE BORDER>
 
-@tab Name
-@tab Description
-<LI>16 BYTE
+<TR><TD>Type</TD>
 
-@tab MODULENAME
-@tab The name of the module in ASCII, padded with 0 to 16 byte.
-<LI>BYTE
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>16 BYTE</TD>
 
-@tab VMAJOR
-@tab major version number
-<LI>BYTE
+<TD>MODULENAME</TD>
+<TD>The name of the module in ASCII, padded with 0 to 16 byte.</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab VMINOR
-@tab minor version number
-<LI>DWORD
+<TD>VMAJOR</TD>
+<TD>major version number</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab SIZE
-@tab size of the module, not including this header
+<TD>VMINOR</TD>
+<TD>minor version number</TD>
+</TR>
+<TR><TD>DWORD</TD>
+
+<TD>SIZE</TD>
+<TD>size of the module, not including this header</TD>
+</TR></TABLE>
 
 
 
@@ -506,60 +585,73 @@ information that is not sure to be VICE-independent.  If in doubt, read
 the source.
 
 </P>
-<P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
+<TABLE BORDER>
 
-@tab Name
-@tab Description
-<LI>DWORD
+<TR><TD>Type</TD>
 
-@tab CLK
-@tab the current CPU clock value.  All other clock values are relative to this.
-<LI>BYTE
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>DWORD</TD>
 
-@tab AC
-@tab Accumulator
-<LI>BYTE
+<TD>CLK</TD>
+<TD>the current CPU clock value.  All other clock values are relative to this.</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab XR
-@tab X index register
-<LI>BYTE
+<TD>AC</TD>
+<TD>Accumulator</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab YR
-@tab Y index register
-<LI>BYTE
+<TD>XR</TD>
+<TD>X index register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab SP
-@tab Stack Pointer
-<LI>WORD
+<TD>YR</TD>
+<TD>Y index register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab PC
-@tab Programm Counter
-<LI>BYTE
+<TD>SP</TD>
+<TD>Stack Pointer</TD>
+</TR>
+<TR><TD>WORD</TD>
 
-@tab ST
-@tab Status Registers
-<LI>DWORD
+<TD>PC</TD>
+<TD>Programm Counter</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab LASTOPCODE
-@tab ?
-<LI>DWORD
+<TD>ST</TD>
+<TD>Status Registers</TD>
+</TR>
+<TR><TD>DWORD</TD>
 
-@tab IRQCLK
-@tab absolute CLK when the IRQ line came active
-<LI>DOWRD
+<TD>LASTOPCODE</TD>
+<TD>?</TD>
+</TR>
+<TR><TD>DWORD</TD>
 
-@tab NMICLK
-@tab absolute CLK when the NMI line came active
-<LI>DWORD
+<TD>IRQCLK</TD>
+<TD>absolute CLK when the IRQ line came active</TD>
+</TR>
+<TR><TD>DOWRD</TD>
 
-@tab ?
-@tab ?
-<LI>DWORD
+<TD>NMICLK</TD>
+<TD>absolute CLK when the NMI line came active</TD>
+</TR>
+<TR><TD>DWORD</TD>
 
-@tab ?
-@tab ?
+<TD>?</TD>
+<TD>?</TD>
+</TR>
+<TR><TD>DWORD</TD>
+
+<TD>?</TD>
+<TD>?</TD>
+</TR></TABLE>
 
 
 
@@ -574,145 +666,180 @@ two timers, a Time of Day clock and interrupts.
 Version numbers: Major 1, Minor 1.
 
 </P>
+<TABLE BORDER>
+
+<TR><TD>Type</TD>
+
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>ORA</TD>
+<TD>Output register A</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>ORB</TD>
+<TD>Output register B</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>DDRA</TD>
+<TD>Data direction register A</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>DDRB</TD>
+<TD>Data direction register B</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>TAC</TD>
+<TD>Timer A counter value</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>TBC</TD>
+<TD>Timer B counter value</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>TOD_TEN</TD>
+<TD>Time of Day - current tenth of second</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>TOD_SEC</TD>
+<TD>Time of Day - current seconds</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>TOD_MIN</TD>
+<TD>Time of Day - current minutes</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>TOD_HR</TD>
+<TD>Time of Day - current hours</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>SDR</TD>
+<TD>contents of shift register</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>IER</TD>
+<TD>mask of enabled interrupt masks</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CRA</TD>
+<TD>Control register A</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CRB</TD>
+<TD>Control register B</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>TAL</TD>
+<TD>Timer A latch value</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>TBL</TD>
+<TD>Timer B latch value</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>IFR</TD>
+<TD>mask of currently active interrupts</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>PBSTATE</TD>
+<TD>Bit 6/7 reflect the PB6/7 toggle bit state.  Bit 2/3 reflect the corresponding port bit state.</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>SRHBITS</TD>
+<TD>number of half-bits to still shift in/out SDR</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>ALARM_TEN</TD>
+<TD>Time of Day - alarm tenth of second</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>ALARM_SEC</TD>
+<TD>Time of Day - alarm seconds</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>ALARM_MIN</TD>
+<TD>Time of Day - alarm minutes</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>ALARM_HR</TD>
+<TD>Time of Day - alarm hours</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>READICR</TD>
+<TD>current clock minus the clock when ICR was read last plus 128.</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>TODLATCHED</TD>
+<TD>Bit 0: 1= latched for reading, Bit 1: 2=stopped for writing</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>TODL_TEN</TD>
+<TD>Time of Day - latched tenth of second</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>TODL_SEC</TD>
+<TD>Time of Day - latched seconds</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>TODL_MIN</TD>
+<TD>Time of Day - latched minutes</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>TODL_HR</TD>
+<TD>Time of Day - latched hours</TD>
+</TR>
+<TR><TD>DWORD</TD>
+
+<TD>TOD_TICKS</TD>
+<TD>clk ticks till next tenth of second</TD>
+</TR>
+<TR><TD>--</TD>
+
+<TD>--</TD>
+<TD>The next items have been added in V1.1</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>TASTATE</TD>
+<TD>The state bits of the CIA timer A, according to ciatimer.h</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>TBSTATE</TD>
+<TD>The state bits of the CIA timer B, according to ciatimer.h</TD>
+</TR></TABLE>
+
 <P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
-
-@tab Name
-@tab Description
-<LI>BYTE
-
-@tab ORA
-@tab Output register A
-<LI>BYTE
-
-@tab ORB
-@tab Output register B
-<LI>BYTE
-
-@tab DDRA
-@tab Data direction register A
-<LI>BYTE
-
-@tab DDRB
-@tab Data direction register B
-<LI>WORD
-
-@tab TAC
-@tab Timer A counter value
-<LI>WORD
-
-@tab TBC
-@tab Timer B counter value
-<LI>BYTE
-
-@tab TOD_TEN
-@tab Time of Day - current tenth of second
-<LI>BYTE
-
-@tab TOD_SEC
-@tab Time of Day - current seconds
-<LI>BYTE
-
-@tab TOD_MIN
-@tab Time of Day - current minutes
-<LI>BYTE
-
-@tab TOD_HR
-@tab Time of Day - current hours
-<LI>BYTE
-
-@tab SDR
-@tab contents of shift register
-<LI>BYTE
-
-@tab IER
-@tab mask of enabled interrupt masks
-<LI>BYTE
-
-@tab CRA
-@tab Control register A
-<LI>BYTE
-
-@tab CRB
-@tab Control register B
-<LI>WORD
-
-@tab TAL
-@tab Timer A latch value
-<LI>WORD
-
-@tab TBL
-@tab Timer B latch value
-<LI>BYTE
-
-@tab IFR
-@tab mask of currently active interrupts
-<LI>BYTE
-
-@tab PBSTATE
-@tab Bit 6/7 reflect the PB6/7 toggle bit state.  Bit 2/3 reflect the corresponding port bit state.
-<LI>BYTE
-
-@tab SRHBITS
-@tab number of half-bits to still shift in/out SDR
-<LI>BYTE
-
-@tab ALARM_TEN
-@tab Time of Day - alarm tenth of second
-<LI>BYTE
-
-@tab ALARM_SEC
-@tab Time of Day - alarm seconds
-<LI>BYTE
-
-@tab ALARM_MIN
-@tab Time of Day - alarm minutes
-<LI>BYTE
-
-@tab ALARM_HR
-@tab Time of Day - alarm hours
-<LI>BYTE
-
-@tab READICR
-@tab current clock minus the clock when ICR was read last plus 128.
-<LI>BYTE
-
-@tab TODLATCHED
-@tab Bit 0: 1= latched for reading, Bit 1: 2=stopped for writing
-<LI>BYTE
-
-@tab TODL_TEN
-@tab Time of Day - latched tenth of second
-<LI>BYTE
-
-@tab TODL_SEC
-@tab Time of Day - latched seconds
-<LI>BYTE
-
-@tab TODL_MIN
-@tab Time of Day - latched minutes
-<LI>BYTE
-
-@tab TODL_HR
-@tab Time of Day - latched hours
-<LI>DWORD
-
-@tab TOD_TICKS
-@tab clk ticks till next tenth of second
-<LI>--
-
-@tab --
-@tab The next items have been added in V1.1
-<LI>WORD
-
-@tab TASTATE
-@tab The state bits of the CIA timer A, according to ciatimer.h
-<LI>WORD
-
-@tab TBSTATE
-@tab The state bits of the CIA timer B, according to ciatimer.h
-
 The last two items have been added in CIA snapshot version 1.1 due
 to the improved CIA emulation in the newer VICE versions. 
 Some state bits correspond to the CIA state as described in the
@@ -720,6 +847,7 @@ Some state bits correspond to the CIA state as described in the
 some are delayed versions. For more read the source file 
 <CODE>ciatimer.h</CODE>.
 
+</P>
 
 
 <H4><A NAME="SEC121" HREF="vice_toc.html#TOC121">8.2.2.5  VIA module</A></H4>
@@ -734,88 +862,108 @@ two timers and interrupts.
 Version numbers: Major 1, Minor 0.
 
 </P>
-<P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
+<TABLE BORDER>
 
-@tab Name
-@tab Description
-<LI>BYTE
+<TR><TD>Type</TD>
 
-@tab ORA
-@tab Output register A
-<LI>BYTE
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab DDRA
-@tab Data direction register A
-<LI>BYTE
+<TD>ORA</TD>
+<TD>Output register A</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab ORB
-@tab Output register B
-<LI>BYTE
+<TD>DDRA</TD>
+<TD>Data direction register A</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab DDRB
-@tab Data direction register B
-<LI>WORD
+<TD>ORB</TD>
+<TD>Output register B</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab T1L
-@tab Timer 1 Latch value
-<LI>WORD
+<TD>DDRB</TD>
+<TD>Data direction register B</TD>
+</TR>
+<TR><TD>WORD</TD>
 
-@tab T1C
-@tab Timer 1 counter value
-<LI>BYTE
+<TD>T1L</TD>
+<TD>Timer 1 Latch value</TD>
+</TR>
+<TR><TD>WORD</TD>
 
-@tab T2L
-@tab Timer 2 latch (8 bit as only lower byte is used)
-<LI>WORD
+<TD>T1C</TD>
+<TD>Timer 1 counter value</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab T2C
-@tab Timer 2 counter value
-<LI>BYTE
+<TD>T2L</TD>
+<TD>Timer 2 latch (8 bit as only lower byte is used)</TD>
+</TR>
+<TR><TD>WORD</TD>
 
-@tab RUNFL
-@tab bit 7: timer 1 will generate IRQ on underflow; bit 6: timer 2 will generate IRQ on underflow
-<LI>BYTE
+<TD>T2C</TD>
+<TD>Timer 2 counter value</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab SR
-@tab Shift register value
-<LI>BYTE
+<TD>RUNFL</TD>
+<TD>bit 7: timer 1 will generate IRQ on underflow; bit 6: timer 2 will generate IRQ on underflow</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab ACR
-@tab Auxiliary control register
-<LI>BYTE
+<TD>SR</TD>
+<TD>Shift register value</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab PCR
-@tab Peripheral control register
-<LI>BYTE
+<TD>ACR</TD>
+<TD>Auxiliary control register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab IFR
-@tab active interrupts
-<LI>BYTE
+<TD>PCR</TD>
+<TD>Peripheral control register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab IER
-@tab interrupt mask
-<LI>BYTE
+<TD>IFR</TD>
+<TD>active interrupts</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab PB7
-@tab bit 7 = pb7 state
-<LI>BYTE
+<TD>IER</TD>
+<TD>interrupt mask</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab SRHBITS
-@tab number of half-bits to shift out on SR
-<LI>BYTE
+<TD>PB7</TD>
+<TD>bit 7 = pb7 state</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab CABSTATE
-@tab bit 7: state of CA2 pin, bit 6: state of CB2 pin
-<LI>BYTE
+<TD>SRHBITS</TD>
+<TD>number of half-bits to shift out on SR</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab ILA
-@tab Port A Input Latch (see ACR bit 0)
-<LI>BYTE
+<TD>CABSTATE</TD>
+<TD>bit 7: state of CA2 pin, bit 6: state of CB2 pin</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab ILB
-@tab Port B Input Latch (see ACR bit 1)
+<TD>ILA</TD>
+<TD>Port A Input Latch (see ACR bit 0)</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>ILB</TD>
+<TD>Port B Input Latch (see ACR bit 1)</TD>
+</TR></TABLE>
 
 
 
@@ -832,40 +980,48 @@ and port B on write operation.
 Version numbers: Major 1, Minor 0.
 
 </P>
-<P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
+<TABLE BORDER>
 
-@tab Name
-@tab Description
-<LI>UBYTE
+<TR><TD>Type</TD>
 
-@tab ORA
-@tab Output register A
-<LI>UBYTE
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>UBYTE</TD>
 
-@tab DDRA
-@tab Data Direction Register A
-<LI>UBYTE
+<TD>ORA</TD>
+<TD>Output register A</TD>
+</TR>
+<TR><TD>UBYTE</TD>
 
-@tab CTRLA
-@tab Control Register A
-<LI>UBYTE
+<TD>DDRA</TD>
+<TD>Data Direction Register A</TD>
+</TR>
+<TR><TD>UBYTE</TD>
 
-@tab ORB
-@tab Output register B
-<LI>UBYTE
+<TD>CTRLA</TD>
+<TD>Control Register A</TD>
+</TR>
+<TR><TD>UBYTE</TD>
 
-@tab DDRB
-@tab Data Direction Register B
-<LI>UBYTE
+<TD>ORB</TD>
+<TD>Output register B</TD>
+</TR>
+<TR><TD>UBYTE</TD>
 
-@tab CTRLB
-@tab Control Register B
-<LI>UBYTE
+<TD>DDRB</TD>
+<TD>Data Direction Register B</TD>
+</TR>
+<TR><TD>UBYTE</TD>
 
-@tab CABSTATE
-@tab Bit 7 = state of CA2, Bit 6 = state of CB2
+<TD>CTRLB</TD>
+<TD>Control Register B</TD>
+</TR>
+<TR><TD>UBYTE</TD>
+
+<TD>CABSTATE</TD>
+<TD>Bit 7 = state of CA2, Bit 6 = state of CB2</TD>
+</TR></TABLE>
 
 
 
@@ -881,52 +1037,63 @@ to save the states of the interrupt stack etc.
 Version numbers: Major 1, Minor 0.
 
 </P>
-<P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
+<TABLE BORDER>
 
-@tab Name
-@tab Description
-<LI>BYTE
+<TR><TD>Type</TD>
 
-@tab PRA
-@tab Port A output register
-<LI>BYTE
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab PRB
-@tab Port B output register
-<LI>BYTE
+<TD>PRA</TD>
+<TD>Port A output register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab PRC
-@tab Port C output register (doubles as IRQ latch register)
-<LI>BYTE
+<TD>PRB</TD>
+<TD>Port B output register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab DDRA
-@tab Port A data direction register
-<LI>BYTE
+<TD>PRC</TD>
+<TD>Port C output register (doubles as IRQ latch register)</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab DDRB
-@tab Port B data direction register
-<LI>BYTE
+<TD>DDRA</TD>
+<TD>Port A data direction register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab DDRC
-@tab Port C data direction register (doubles as IRQ mask register)
-<LI>BYTE
+<TD>DDRB</TD>
+<TD>Port B data direction register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab CR
-@tab Control Register
-<LI>BYTE
+<TD>DDRC</TD>
+<TD>Port C data direction register (doubles as IRQ mask register)</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab AIR
-@tab Active interrupt register
-<LI>BYTE
+<TD>CR</TD>
+<TD>Control Register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab STACK
-@tab Interrupt stack - the interrupt bits that are not (yet) served.
-<LI>BYTE
+<TD>AIR</TD>
+<TD>Active interrupt register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab CABSTATE
-@tab State of CA/CB pins.  Bit 7 = state of CA, Bit 6 = state of CB
+<TD>STACK</TD>
+<TD>Interrupt stack - the interrupt bits that are not (yet) served.</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CABSTATE</TD>
+<TD>State of CA/CB pins.  Bit 7 = state of CA, Bit 6 = state of CB</TD>
+</TR></TABLE>
 
 
 
@@ -946,52 +1113,63 @@ RIOT snapshot, but in the memory section.
 Version numbers: Major 0, Minor 0.
 
 </P>
-<P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
+<TABLE BORDER>
 
-@tab Name
-@tab Description
-<LI>BYTE
+<TR><TD>Type</TD>
 
-@tab ORA
-@tab Port A output register
-<LI>BYTE
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab DDRA
-@tab Port A data direction register
-<LI>BYTE
+<TD>ORA</TD>
+<TD>Port A output register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab ORB
-@tab Port B output register
-<LI>BYTE
+<TD>DDRA</TD>
+<TD>Port A data direction register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab DDRB
-@tab Port B data direction register
-<LI>BYTE
+<TD>ORB</TD>
+<TD>Port B output register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab EDGECTRL
-@tab Bit 0/1: A0/A1 address bits written to edgecontrol registers
-<LI>BYTE
+<TD>DDRB</TD>
+<TD>Port B data direction register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab IRQFL
-@tab Bit 6/7: A6/A7 IRQ flag register. Bit 0: state of the IRQ line (0=inactive, 1=active)
-<LI>BYTE
+<TD>EDGECTRL</TD>
+<TD>Bit 0/1: A0/A1 address bits written to edgecontrol registers</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab N
-@tab timer value
-<LI>WORD
+<TD>IRQFL</TD>
+<TD>Bit 6/7: A6/A7 IRQ flag register. Bit 0: state of the IRQ line (0=inactive, 1=active)</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab DIVIDER
-@tab Pre-scale divider value (1, 8, 64, or 1024)
-<LI>WORD
+<TD>N</TD>
+<TD>timer value</TD>
+</TR>
+<TR><TD>WORD</TD>
 
-@tab REST
-@tab cycles since the last counter change
-<LI>BYTE
+<TD>DIVIDER</TD>
+<TD>Pre-scale divider value (1, 8, 64, or 1024)</TD>
+</TR>
+<TR><TD>WORD</TD>
 
-@tab IRQEN
-@tab Bit 0: 0= timer IRQ disabled, 1= timer IRQ enabled
+<TD>REST</TD>
+<TD>cycles since the last counter change</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>IRQEN</TD>
+<TD>Bit 0: 0= timer IRQ disabled, 1= timer IRQ enabled</TD>
+</TR></TABLE>
 
 
 
@@ -1018,40 +1196,48 @@ instead.  If no connection is open, a carrier/DTR drop is emulated.
 Version numbers: Major 1, Minor 0.
 
 </P>
-<P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
+<TABLE BORDER>
 
-@tab Name
-@tab Description
-<LI>BYTE
+<TR><TD>Type</TD>
 
-@tab TDR
-@tab Transmit Data Register
-<LI>BYTE
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab RDR
-@tab Receiver Data Register
-<LI>BYTE
+<TD>TDR</TD>
+<TD>Transmit Data Register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab SR
-@tab Status Register
-<LI>BYTE
+<TD>RDR</TD>
+<TD>Receiver Data Register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab CMD
-@tab Command Register
-<LI>BYTE
+<TD>SR</TD>
+<TD>Status Register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab CTRL
-@tab Ctrl Register
-<LI>BYTE
+<TD>CMD</TD>
+<TD>Command Register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab INTX
-@tab 0 = no data to tx; 1 = Data is being transmitted; 2 = Data is being transmitted while data in TDR waiting to be put to internal transmit register
-<LI>DWORD
+<TD>CTRL</TD>
+<TD>Ctrl Register</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab TICKS
-@tab Clock ticks till the next TDR empty interrupt
+<TD>INTX</TD>
+<TD>0 = no data to tx; 1 = Data is being transmitted; 2 = Data is being transmitted while data in TDR waiting to be put to internal transmit register</TD>
+</TR>
+<TR><TD>DWORD</TD>
+
+<TD>TICKS</TD>
+<TD>Clock ticks till the next TDR empty interrupt</TD>
+</TR></TABLE>
 
 
 
@@ -1090,175 +1276,220 @@ RASTERY and RASTERLINE values might be bogus.
 Version numbers: Major 1, Minor 0.
 
 </P>
+<TABLE BORDER>
+
+<TR><TD>Type</TD>
+
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD></TD>
+
+<TD></TD>
+<TD>Hardware options</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>VADDR_MASK</TD>
+<TD>Mask of the address bits valid when accessing the video memory</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>VADDR_CHARSWITCH</TD>
+<TD>If one bit in the video address is used to switch the character generator, it is masked here.</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>VADDR_CHAROFFSET</TD>
+<TD>The offset in characters in the character generator that CHARSWITCH switches.</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>VADDR_REVSWITCH</TD>
+<TD>If one bit in the video address inverts the screen, it is masked here. If &#62; 0 then must be set for standard; if &#60; 0 then inverted bit must not be set.</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>CHARGEN_MASK</TD>
+<TD>size of character generator in byte - 1</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>CHARGEN_OFFSET</TD>
+<TD>offset given by external circuitry</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>HW_CURSOR</TD>
+<TD>external hardware cursor circuitry enabled</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>HW_COLS</TD>
+<TD>number of displayed columns during one character clock cycle</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>HW_BLANK</TD>
+<TD>set if the hardware blank feature is available</TD>
+</TR>
+<TR><TD></TD>
+
+<TD></TD>
+<TD>CRTC register</TD>
+</TR>
+<TR><TD>20 BYTE</TD>
+
+<TD>REGISTERS</TD>
+<TD>register DUMP of the CRTC registers 0-19.</TD>
+</TR>
+<TR><TD></TD>
+
+<TD></TD>
+<TD>CRTC internal registers</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>REGNO</TD>
+<TD>The current index in the CRTC register file</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CHAR</TD>
+<TD>The current cycle within the current rasterline</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CHARLINE</TD>
+<TD>The current character line</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>YCOUNTER</TD>
+<TD>The current rasterline in the character</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CRSRCNT</TD>
+<TD>Framecounter for the blinking cursor</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CRSRSTATE</TD>
+<TD>if set the hardware cursor is visible</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CRSRLINES</TD>
+<TD>set if ycounter is within the active cursor rasterlines for a char</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>CHARGEN_REL</TD>
+<TD>relative base of currently used character generator in ROM (in byte)</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>SCREEN_REL</TD>
+<TD>screen address to load the counter at the beginning of the next rasterline</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>VSYNC</TD>
+<TD>number of rasterlines left within vsync; 0 = not in vsync</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>VENABLE</TD>
+<TD>vertical enable flipflop; 1= display, 0= blank.</TD>
+</TR>
+<TR><TD></TD>
+
+<TD></TD>
+<TD>(VICE-dependent?) variables</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>SCREEN_WIDTH</TD>
+<TD>width of the current display window</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>SCREEN_HEIGHT</TD>
+<TD>height of the current display window</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>SCREEN_XOFFSET</TD>
+<TD>x position where the first character in a line starts in the window...</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>HJITTER</TD>
+<TD>...but only after adding this jitter</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>SCREEN_YOFFSET</TD>
+<TD>x position where the first character in a line starts in the window...</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>FRAMELINES</TD>
+<TD>expected number of rasterlines for the current frame</TD>
+</TR>
+<TR><TD>WORD</TD>
+
+<TD>CURRENT_LINE</TD>
+<TD>current rasterline as seen from the CRTC</TD>
+</TR></TABLE>
+
 <P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
-
-@tab Name
-@tab Description
-<LI>
-
-@tab
-@tab Hardware options
-<LI>WORD
-
-@tab VADDR_MASK
-@tab Mask of the address bits valid when accessing the video memory
-<LI>WORD
-
-@tab VADDR_CHARSWITCH
-@tab If one bit in the video address is used to switch the character generator, it is masked here.
-<LI>WORD
-
-@tab VADDR_CHAROFFSET
-@tab The offset in characters in the character generator that CHARSWITCH switches.
-<LI>WORD
-
-@tab VADDR_REVSWITCH
-@tab If one bit in the video address inverts the screen, it is masked here. If &#62; 0 then must be set for standard; if &#60; 0 then inverted bit must not be set.
-<LI>WORD
-
-@tab CHARGEN_MASK
-@tab size of character generator in byte - 1
-<LI>WORD
-
-@tab CHARGEN_OFFSET
-@tab offset given by external circuitry
-<LI>BYTE
-
-@tab HW_CURSOR
-@tab external hardware cursor circuitry enabled
-<LI>BYTE
-
-@tab HW_COLS
-@tab number of displayed columns during one character clock cycle
-<LI>BYTE
-
-@tab HW_BLANK
-@tab set if the hardware blank feature is available
-<LI>
-
-@tab
-@tab CRTC register
-<LI>20 BYTE
-
-@tab REGISTERS
-@tab register DUMP of the CRTC registers 0-19.
-<LI>
-
-@tab
-@tab CRTC internal registers
-<LI>BYTE
-
-@tab REGNO
-@tab The current index in the CRTC register file
-<LI>BYTE
-
-@tab CHAR
-@tab The current cycle within the current rasterline
-<LI>BYTE
-
-@tab CHARLINE
-@tab The current character line
-<LI>BYTE
-
-@tab YCOUNTER
-@tab The current rasterline in the character
-<LI>BYTE
-
-@tab CRSRCNT
-@tab Framecounter for the blinking cursor
-<LI>BYTE
-
-@tab CRSRSTATE
-@tab if set the hardware cursor is visible
-<LI>BYTE
-
-@tab CRSRLINES
-@tab set if ycounter is within the active cursor rasterlines for a char
-<LI>WORD
-
-@tab CHARGEN_REL
-@tab relative base of currently used character generator in ROM (in byte)
-<LI>WORD
-
-@tab SCREEN_REL
-@tab screen address to load the counter at the beginning of the next rasterline
-<LI>WORD
-
-@tab VSYNC
-@tab number of rasterlines left within vsync; 0 = not in vsync
-<LI>BYTE
-
-@tab VENABLE
-@tab vertical enable flipflop; 1= display, 0= blank.
-<LI>
-
-@tab
-@tab (VICE-dependent?) variables
-<LI>WORD
-
-@tab SCREEN_WIDTH
-@tab width of the current display window
-<LI>WORD
-
-@tab SCREEN_HEIGHT
-@tab height of the current display window
-<LI>WORD
-
-@tab SCREEN_XOFFSET
-@tab x position where the first character in a line starts in the window...
-<LI>WORD
-
-@tab HJITTER
-@tab ...but only after adding this jitter
-<LI>WORD
-
-@tab SCREEN_YOFFSET
-@tab x position where the first character in a line starts in the window...
-<LI>WORD
-
-@tab FRAMELINES
-@tab expected number of rasterlines for the current frame
-<LI>WORD
-
-@tab CURRENT_LINE
-@tab current rasterline as seen from the CRTC
-
 Here is the reference for the previous CRTC snapshot module. It is outdated
 and should not be used anymore.
 
+</P>
+<P>
 Version numbers: Major 0, Minor 0.
 
-@multitable @columnfractions .1 .4 .5
-<LI>Type
+</P>
+<TABLE BORDER>
 
-@tab Name
-@tab Description
-<LI>BYTE
+<TR><TD>Type</TD>
 
-@tab RASTERY
-@tab The number of clock cycles from rasterlines start
-<LI>WORD
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab RASTERLINE
-@tab The current rasterline 
-<LI>WORD
+<TD>RASTERY</TD>
+<TD>The number of clock cycles from rasterlines start</TD>
+</TR>
+<TR><TD>WORD</TD>
 
-@tab ADDRMASK
-@tab The address mask valid for the CRTC.  All memory accesses are masked with this value
-<LI>BYTE
+<TD>RASTERLINE</TD>
+<TD>The current rasterline </TD>
+</TR>
+<TR><TD>WORD</TD>
 
-@tab HWFLAG
-@tab Bit 0: 1= hardware cursor available.  Bit 1: 1= number of columns is doubled by external hardware
-<LI>20 BYTE
+<TD>ADDRMASK</TD>
+<TD>The address mask valid for the CRTC.  All memory accesses are masked with this value</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab REGISTERS
-@tab register DUMP of the CRTC registers 0-19.
-<LI>BYTE
+<TD>HWFLAG</TD>
+<TD>Bit 0: 1= hardware cursor available.  Bit 1: 1= number of columns is doubled by external hardware</TD>
+</TR>
+<TR><TD>20 BYTE</TD>
 
-@tab CRSRSTATE
-@tab Hardware cursor: Bits 0-3: frame counter till next crsr line toggle. Bit 7: 1= cursor line active
+<TD>REGISTERS</TD>
+<TD>register DUMP of the CRTC registers 0-19.</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CRSRSTATE</TD>
+<TD>Hardware cursor: Bits 0-3: frame counter till next crsr line toggle. Bit 7: 1= cursor line active</TD>
+</TR></TABLE>
 
 
 
@@ -1285,52 +1516,65 @@ Version numbers: Major 0, Minor 0
 <B>The C64MEM module</B>
 
 </P>
+<TABLE BORDER>
+
+<TR><TD>Type</TD>
+
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CPUDATA</TD>
+<TD>CPU port data byte</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CPUDIR</TD>
+<TD>CPU port direction byte</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>EXROM</TD>
+<TD>state of the EXROM line (?)</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>GAME</TD>
+<TD>state of the GAME line (?)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>RAM</TD>
+<TD>64k RAM dump</TD>
+</TR></TABLE>
+
 <P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
-
-@tab Name
-@tab Description
-<LI>BYTE
-
-@tab CPUDATA
-@tab CPU port data byte
-<LI>BYTE
-
-@tab CPUDIR
-@tab CPU port direction byte
-<LI>BYTE
-
-@tab EXROM
-@tab state of the EXROM line (?)
-<LI>BYTE
-
-@tab GAME
-@tab state of the GAME line (?)
-<LI>ARRAY
-
-@tab RAM
-@tab 64k RAM dump
-
 <B>The C64ROM module</B>
 
-@multitable @columnfractions .1 .4 .5
-<LI>Type
+</P>
+<TABLE BORDER>
 
-@tab Name
-@tab Description
-<LI>ARRAY
+<TR><TD>Type</TD>
 
-@tab KERNAL
-@tab 8k dump of the kernal ROM
-<LI>ARRAY
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab BASIC
-@tab 8k dump of the basic ROM
-<LI>ARRAY
+<TD>KERNAL</TD>
+<TD>8k dump of the kernal ROM</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab CHARGEN
-@tab 4k dump of the chargen ROM
+<TD>BASIC</TD>
+<TD>8k dump of the basic ROM</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>CHARGEN</TD>
+<TD>4k dump of the chargen ROM</TD>
+</TR></TABLE>
 
 
 
@@ -1357,44 +1601,55 @@ Version numbers: Major 0, Minor 0
 <B>The C128MEM module</B>
 
 </P>
+<TABLE BORDER>
+
+<TR><TD>Type</TD>
+
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>12 BYTE</TD>
+
+<TD>MMU</TD>
+<TD>dump of the 12 MMU registers</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>RAM</TD>
+<TD>128k RAM dump banks 0 and 1</TD>
+</TR></TABLE>
+
 <P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
-
-@tab Name
-@tab Description
-<LI>12 BYTE
-
-@tab MMU
-@tab dump of the 12 MMU registers
-<LI>ARRAY
-
-@tab RAM
-@tab 128k RAM dump banks 0 and 1
-
 <B>The C128ROM module</B>
 
-@multitable @columnfractions .1 .4 .5
-<LI>Type
+</P>
+<TABLE BORDER>
 
-@tab Name
-@tab Description
-<LI>ARRAY
+<TR><TD>Type</TD>
 
-@tab KERNAL
-@tab 8k dump of the kernal ROM
-<LI>ARRAY
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab BASIC
-@tab 32k dump of the basic ROM
-<LI>ARRAY
+<TD>KERNAL</TD>
+<TD>8k dump of the kernal ROM</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab EDITOR
-@tab 4k dump of the editor ROM
-<LI>ARRAY
+<TD>BASIC</TD>
+<TD>32k dump of the basic ROM</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab 4k CHARGEN
-@tab dump of the chargen ROM
+<TD>EDITOR</TD>
+<TD>4k dump of the editor ROM</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>4k CHARGEN</TD>
+<TD>dump of the chargen ROM</TD>
+</TR></TABLE>
 
 
 
@@ -1421,106 +1676,134 @@ also restored upon load if they have been saved in the snapshot.
 Version numbers: Major 1, Minor 0
 
 </P>
+<TABLE BORDER>
+
+<TR><TD>Type</TD>
+
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CONFIG</TD>
+<TD>Configuration register.  Bits 0,1,2,3,5 reflect if the corresponding memory block is RAM (bit=1) or not (bit=0).</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>RAM0</TD>
+<TD>1k RAM dump $0000-$03ff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>RAM1</TD>
+<TD>4k RAM dump $1000-$1fff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>COLORRAM</TD>
+<TD>2k Color RAM, $9400-$9bff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>BLK0</TD>
+<TD>if CONFIG &#38; 1 then: 3k RAM dump $0400-$0fff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>BLK1</TD>
+<TD>if CONFIG &#38; 2 then: 8k RAM dump $2000-$3fff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>BLK2</TD>
+<TD>if CONFIG &#38; 4 then: 8k RAM dump $4000-$5fff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>BLK3</TD>
+<TD>if CONFIG &#38; 8 then: 8k RAM dump $6000-$7fff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>BLK5</TD>
+<TD>if CONFIG &#38; 32 then: 8k RAM dump $a000-$bfff</TD>
+</TR></TABLE>
+
 <P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
-
-@tab Name
-@tab Description
-<LI>BYTE
-
-@tab CONFIG
-@tab Configuration register.  Bits 0,1,2,3,5 reflect if the corresponding memory block is RAM (bit=1) or not (bit=0).
-<LI>ARRAY
-
-@tab RAM0
-@tab 1k RAM dump $0000-$03ff
-<LI>ARRAY
-
-@tab RAM1
-@tab 4k RAM dump $1000-$1fff
-<LI>ARRAY
-
-@tab COLORRAM
-@tab 2k Color RAM, $9400-$9bff
-<LI>ARRAY
-
-@tab BLK0
-@tab if CONFIG &#38; 1 then: 3k RAM dump $0400-$0fff
-<LI>ARRAY
-
-@tab BLK1
-@tab if CONFIG &#38; 2 then: 8k RAM dump $2000-$3fff
-<LI>ARRAY
-
-@tab BLK2
-@tab if CONFIG &#38; 4 then: 8k RAM dump $4000-$5fff
-<LI>ARRAY
-
-@tab BLK3
-@tab if CONFIG &#38; 8 then: 8k RAM dump $6000-$7fff
-<LI>ARRAY
-
-@tab BLK5
-@tab if CONFIG &#38; 32 then: 8k RAM dump $a000-$bfff
-
 <B>The VIC20ROM module</B>
 
+</P>
+<P>
 Version numbers: Major 1, Minor 1
 
-@multitable @columnfractions .1 .4 .5
-<LI>Type
+</P>
+<TABLE BORDER>
 
-@tab Name
-@tab Description
-<LI>BYTE
+<TR><TD>Type</TD>
 
-@tab CONFIG
-@tab Bit 0: 1= ROM block $2*** enabled.  Bit 1: 1= ROM block $3*** enabled. Bit 2: 1= ROM block $4*** enabled.  Bit 3: 1= ROM block $5*** enabled. Bit 4: 1= ROM block $6*** enabled. Bit 5: 1= ROM block $7*** enabled. Bit 6: 1= ROM block $A*** enabled. Bit 7: 1= ROM block $B*** enabled.
-<LI>ARRAY
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab KERNAL
-@tab 8k KERNAL ROM image $e000-$ffff
-<LI>ARRAY
+<TD>CONFIG</TD>
+<TD>Bit 0: 1= ROM block $2*** enabled.  Bit 1: 1= ROM block $3*** enabled. Bit 2: 1= ROM block $4*** enabled.  Bit 3: 1= ROM block $5*** enabled. Bit 4: 1= ROM block $6*** enabled. Bit 5: 1= ROM block $7*** enabled. Bit 6: 1= ROM block $A*** enabled. Bit 7: 1= ROM block $B*** enabled.</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab BASIC
-@tab 16k BASIC ROM image $c000-$dfff
-<LI>ARRAY
+<TD>KERNAL</TD>
+<TD>8k KERNAL ROM image $e000-$ffff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab CHARGEN
-@tab 4k CHARGEN ROM image
-<LI>ARRAY
+<TD>BASIC</TD>
+<TD>16k BASIC ROM image $c000-$dfff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab BLK1A
-@tab 4k ROM image $2*** (if CONFIG &#38; 1)
-<LI>ARRAY
+<TD>CHARGEN</TD>
+<TD>4k CHARGEN ROM image</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab BLK1B
-@tab 4k ROM image $3*** (if CONFIG &#38; 2)
-<LI>ARRAY
+<TD>BLK1A</TD>
+<TD>4k ROM image $2*** (if CONFIG &#38; 1)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab BLK3A
-@tab 4k ROM image $6*** (if CONFIG &#38; 16)
-<LI>ARRAY
+<TD>BLK1B</TD>
+<TD>4k ROM image $3*** (if CONFIG &#38; 2)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab BLK3B
-@tab 4k ROM image $7*** (if CONFIG &#38; 32)
-<LI>ARRAY
+<TD>BLK3A</TD>
+<TD>4k ROM image $6*** (if CONFIG &#38; 16)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab BLK5A
-@tab 4k ROM image $A*** (if CONFIG &#38; 64)
-<LI>ARRAY
+<TD>BLK3B</TD>
+<TD>4k ROM image $7*** (if CONFIG &#38; 32)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab BLK5B
-@tab 4k ROM image $B*** (if CONFIG &#38; 128)
-<LI>ARRAY
+<TD>BLK5A</TD>
+<TD>4k ROM image $A*** (if CONFIG &#38; 64)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab BLK2A
-@tab 4k ROM image $4*** (if CONFIG &#38; 4; added in V1.1)
-<LI>ARRAY
+<TD>BLK5B</TD>
+<TD>4k ROM image $B*** (if CONFIG &#38; 128)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab BLK2B
-@tab 4k ROM image $5*** (if CONFIG &#38; 8; added in V1.1)
+<TD>BLK2A</TD>
+<TD>4k ROM image $4*** (if CONFIG &#38; 4; added in V1.1)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>BLK2B</TD>
+<TD>4k ROM image $5*** (if CONFIG &#38; 8; added in V1.1)</TD>
+</TR></TABLE>
 
 
 
@@ -1546,122 +1829,156 @@ restored when the snapshot is loaded.
 Version numbers: Major 1, Minor 2
 
 </P>
+<TABLE BORDER>
+
+<TR><TD>Type</TD>
+
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CONFIG</TD>
+<TD>Configuration value. Bits 0-3: 0= 40 col PET without CRTC; 1= 40 col PET with CRTC; 2 = 80 col PET (with CRTC); 3= SuperPET; 4= 8096; 5= 8296. Bit 6: 1= RAM at $9***. Bit 7: 1= RAM at $A***.</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>KEYBOARD</TD>
+<TD>Keyboard type. 0= UK business; 1= Graphics; 2= German business</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>MEMSIZE</TD>
+<TD>memory size of low 32k in k (possible values 4, 8, 16, 32)</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>CONF8X96</TD>
+<TD>Value of the 8x96 configuration register</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>SUPERPET</TD>
+<TD>SuperPET config. Bit 0: 1= $9*** RAM enabled. Bit 1: 1= RAM write protected. Bit 2: 1= CTRL register write protected. Bit 3: 0= DIAG pin active. Bits 4-7: RAM block in use. </TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>RAM</TD>
+<TD>4-32k RAM (not 8296, size depends on MEMSIZE)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>VRAM</TD>
+<TD>2/4k RAM (not 8296, size depends on CONFIG)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>EXTRAM</TD>
+<TD>64k expansion RAM (SuperPET and 8096 only)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>RAM</TD>
+<TD>128k RAM (8296 only)</TD>
+</TR>
+<TR><TD>--</TD>
+
+<TD>--</TD>
+<TD>The following item has been added in V1.1</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>POSITIONAL</TD>
+<TD>bit 0=0 = symbolic keyboard mapping, bit 0=1 = positional mapping.</TD>
+</TR>
+<TR><TD>--</TD>
+
+<TD>--</TD>
+<TD>The following item has been added in V1.1</TD>
+</TR>
+<TR><TD>BYTE</TD>
+
+<TD>EOIBLANK</TD>
+<TD>bit 0=0 = EOI does not blank screen, bit 0=1 = EOI blanks screen.</TD>
+</TR></TABLE>
+
 <P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
-
-@tab Name
-@tab Description
-<LI>BYTE
-
-@tab CONFIG
-@tab Configuration value. Bits 0-3: 0= 40 col PET without CRTC; 1= 40 col PET with CRTC; 2 = 80 col PET (with CRTC); 3= SuperPET; 4= 8096; 5= 8296. Bit 6: 1= RAM at $9***. Bit 7: 1= RAM at $A***.
-<LI>BYTE
-
-@tab KEYBOARD
-@tab Keyboard type. 0= UK business; 1= Graphics; 2= German business
-<LI>BYTE
-
-@tab MEMSIZE
-@tab memory size of low 32k in k (possible values 4, 8, 16, 32)
-<LI>BYTE
-
-@tab CONF8X96
-@tab Value of the 8x96 configuration register
-<LI>BYTE
-
-@tab SUPERPET
-@tab SuperPET config. Bit 0: 1= $9*** RAM enabled. Bit 1: 1= RAM write protected. Bit 2: 1= CTRL register write protected. Bit 3: 0= DIAG pin active. Bits 4-7: RAM block in use. 
-<LI>ARRAY
-
-@tab RAM
-@tab 4-32k RAM (not 8296, size depends on MEMSIZE)
-<LI>ARRAY
-
-@tab VRAM
-@tab 2/4k RAM (not 8296, size depends on CONFIG)
-<LI>ARRAY
-
-@tab EXTRAM
-@tab 64k expansion RAM (SuperPET and 8096 only)
-<LI>ARRAY
-
-@tab RAM
-@tab 128k RAM (8296 only)
-<LI>--
-
-@tab --
-@tab The following item has been added in V1.1
-<LI>BYTE
-
-@tab POSITIONAL
-@tab bit 0=0 = symbolic keyboard mapping, bit 0=1 = positional mapping.
-<LI>--
-
-@tab --
-@tab The following item has been added in V1.1
-<LI>BYTE
-
-@tab EOIBLANK
-@tab bit 0=0 = EOI does not blank screen, bit 0=1 = EOI blanks screen.
-
 The last item has been added in PETMEM snapshot version 1.1. It is
 ignored by earlier restore routines (V1.0) and the V1.1 restore routines
 do not change the current setting when reading a V1.0 snapshot.
 
+</P>
+<P>
 In V1.2 the new EOIBLANK variable has been added. This implements
 the "blank screen on EOI" feature that was previously linked to a wrong 
 resource.
 
+</P>
+<P>
 <B>The PETROM module</B>
 
+</P>
+<P>
 Version numbers: Major 1, Minor 0
 
-@multitable @columnfractions .1 .4 .5
-<LI>Type
+</P>
+<TABLE BORDER>
 
-@tab Name
-@tab Description
-<LI>BYTE
+<TR><TD>Type</TD>
 
-@tab CONFIG
-@tab Bit 0: 1= $9*** ROM included. Bit 1: 1= $A*** ROM included. Bit 2: 1= $B*** ROM included. Bit 3: 1= $e900-$efff ROM included
-<LI>ARRAY
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>BYTE</TD>
 
-@tab KERNAL
-@tab 4k KERNAL ROM image $f000-$ffff
-<LI>ARRAY
+<TD>CONFIG</TD>
+<TD>Bit 0: 1= $9*** ROM included. Bit 1: 1= $A*** ROM included. Bit 2: 1= $B*** ROM included. Bit 3: 1= $e900-$efff ROM included</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab EDITOR
-@tab 2k EDITOR ROM image $e000-$e7ff
-<LI>ARRAY
+<TD>KERNAL</TD>
+<TD>4k KERNAL ROM image $f000-$ffff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab CHARGEN
-@tab 2k CHARGEN ROM image
-<LI>ARRAY
+<TD>EDITOR</TD>
+<TD>2k EDITOR ROM image $e000-$e7ff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab ROM9
-@tab 4k $9*** ROM image (if CONFIG &#38; 1)
-<LI>ARRAY
+<TD>CHARGEN</TD>
+<TD>2k CHARGEN ROM image</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab ROMA
-@tab 4k $A*** ROM image (if CONFIG &#38; 2)
-<LI>ARRAY
+<TD>ROM9</TD>
+<TD>4k $9*** ROM image (if CONFIG &#38; 1)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab ROMB
-@tab 4k $B*** ROM image (if CONFIG &#38; 4)
-<LI>ARRAY
+<TD>ROMA</TD>
+<TD>4k $A*** ROM image (if CONFIG &#38; 2)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab ROMC
-@tab 4k $C*** ROM image  
-<LI>ARRAY
+<TD>ROMB</TD>
+<TD>4k $B*** ROM image (if CONFIG &#38; 4)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab ROMD
-@tab 4k $D*** ROM image
-<LI>ARRAY
+<TD>ROMC</TD>
+<TD>4k $C*** ROM image  </TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab ROME9
-@tab 7 blocks $e900-$efff ROM image (if CONFIG &#38; 8)
+<TD>ROMD</TD>
+<TD>4k $D*** ROM image</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>ROME9</TD>
+<TD>7 blocks $e900-$efff ROM image (if CONFIG &#38; 8)</TD>
+</TR></TABLE>
 
 
 
@@ -1687,112 +2004,141 @@ Version numbers: Major 1, Minor 0
 <B>The CBM2MEM module</B>
 
 </P>
+<TABLE BORDER>
+
+<TR><TD>Type</TD>
+
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>UBYTE</TD>
+
+<TD>MEMSIZE</TD>
+<TD>Memory size in 128k blocks (1=128k, 2=256k, 4=512k, 8=1024k)</TD>
+</TR>
+<TR><TD>UBYTE</TD>
+
+<TD>CONFIG</TD>
+<TD>Bit 0 = $f0800-$f0fff RAM, Bit 1 = $f1000-$f1fff RAM, Bit 2 = $f2000-$f3fff RAM, Bit 3 = $f4000-$f5fff RAM, Bit 4 = $f6000-$f7fff RAM, Bit 5 = $fc000-$fcfff RAM</TD>
+</TR>
+<TR><TD>UBYTE</TD>
+
+<TD>HWCONFIG</TD>
+<TD>Bit 0: 0 = CRTC, 1 = VIC-II video chip (Basically the destinction between C500 and C600/700)</TD>
+</TR>
+<TR><TD>UBYTE</TD>
+
+<TD>EXECBANK</TD>
+<TD>CPUs execution bank register</TD>
+</TR>
+<TR><TD>UBYTE</TD>
+
+<TD>INDBANK</TD>
+<TD>CPUs indirection bank register</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>SYSRAM</TD>
+<TD>2k system RAM $f0000-$f07ff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>VIDEO</TD>
+<TD>2k video RAM $fd000-$fd7ff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>RAM</TD>
+<TD>RAM dump, size according to MEMSIZE</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>RAM08</TD>
+<TD>if memsize &#60; 1M and CONFIG &#38; 1 : 2k RAM $f0800-$f0fff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>RAM1</TD>
+<TD>if memsize &#60; 1M and CONFIG &#38; 2 : 4k RAM $f1000-$f1fff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>RAM2</TD>
+<TD>if memsize &#60; 1M and CONFIG &#38; 4 : 8k RAM $f2000-$f3fff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>RAM4</TD>
+<TD>if memsize &#60; 1M and CONFIG &#38; 8 : 8k RAM $f4000-$f5fff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>RAM6</TD>
+<TD>if memsize &#60; 1M and CONFIG &#38; 16 : 8k RAM $f6000-$f7fff</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>RAMC</TD>
+<TD>if memsize &#60; 1M and CONFIG &#38; 32 : 4k RAM $fc000-$fcfff</TD>
+</TR></TABLE>
+
 <P>
-@multitable @columnfractions .1 .4 .5
-<LI>Type
-
-@tab Name
-@tab Description
-<LI>UBYTE
-
-@tab MEMSIZE
-@tab Memory size in 128k blocks (1=128k, 2=256k, 4=512k, 8=1024k)
-<LI>UBYTE
-
-@tab CONFIG
-@tab Bit 0 = $f0800-$f0fff RAM, Bit 1 = $f1000-$f1fff RAM, Bit 2 = $f2000-$f3fff RAM, Bit 3 = $f4000-$f5fff RAM, Bit 4 = $f6000-$f7fff RAM, Bit 5 = $fc000-$fcfff RAM
-<LI>UBYTE
-
-@tab HWCONFIG
-@tab Bit 0: 0 = CRTC, 1 = VIC-II video chip (Basically the destinction between C500 and C600/700)
-<LI>UBYTE
-
-@tab EXECBANK
-@tab CPUs execution bank register
-<LI>UBYTE
-
-@tab INDBANK
-@tab CPUs indirection bank register
-<LI>ARRAY
-
-@tab SYSRAM
-@tab 2k system RAM $f0000-$f07ff
-<LI>ARRAY
-
-@tab VIDEO
-@tab 2k video RAM $fd000-$fd7ff
-<LI>ARRAY
-
-@tab RAM
-@tab RAM dump, size according to MEMSIZE
-<LI>ARRAY
-
-@tab RAM08
-@tab if memsize &#60; 1M and CONFIG &#38; 1 : 2k RAM $f0800-$f0fff
-<LI>ARRAY
-
-@tab RAM1
-@tab if memsize &#60; 1M and CONFIG &#38; 2 : 4k RAM $f1000-$f1fff
-<LI>ARRAY
-
-@tab RAM2
-@tab if memsize &#60; 1M and CONFIG &#38; 4 : 8k RAM $f2000-$f3fff
-<LI>ARRAY
-
-@tab RAM4
-@tab if memsize &#60; 1M and CONFIG &#38; 8 : 8k RAM $f4000-$f5fff
-<LI>ARRAY
-
-@tab RAM6
-@tab if memsize &#60; 1M and CONFIG &#38; 16 : 8k RAM $f6000-$f7fff
-<LI>ARRAY
-
-@tab RAMC
-@tab if memsize &#60; 1M and CONFIG &#38; 32 : 4k RAM $fc000-$fcfff
-
 The RAM* arrays are only saved if the RAM itself is less than 1M.
 If the memory size is 1M then those areas are taken from the
 bank 15 area of the normal RAM.
 
+</P>
+<P>
 <B>The CBM2ROM module</B>
 
-@multitable @columnfractions .1 .4 .5
-<LI>Type
+</P>
+<TABLE BORDER>
 
-@tab Name
-@tab Description
-<LI>UBYTE
+<TR><TD>Type</TD>
 
-@tab CONFIG
-@tab Bit 1: 1= $1*** ROM image included. Bit 2: 1= $2000-$3fff ROM image included. Bit 3: 1= $4000-$5fff ROM image included. Bit 4: 1= $6000-$7fff ROM image included.
-<LI>ARRAY
+<TD>Name</TD>
+<TD>Description</TD>
+</TR>
+<TR><TD>UBYTE</TD>
 
-@tab KERNAL
-@tab 8 KERNAL ROM image ($e000-$efff)
-<LI>ARRAY
+<TD>CONFIG</TD>
+<TD>Bit 1: 1= $1*** ROM image included. Bit 2: 1= $2000-$3fff ROM image included. Bit 3: 1= $4000-$5fff ROM image included. Bit 4: 1= $6000-$7fff ROM image included.</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab BASIC
-@tab BASIC ROM image ($8000-$bfff)
-<LI>ARRAY
+<TD>KERNAL</TD>
+<TD>8 KERNAL ROM image ($e000-$efff)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab CHARGEN
-@tab 4k CHARGEN ROM image
-<LI>ARRAY
+<TD>BASIC</TD>
+<TD>BASIC ROM image ($8000-$bfff)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab ROM1
-@tab 4k cartridge ROM image for $1*** (if CONFIG &#38; 2)
-<LI>ARRAY
+<TD>CHARGEN</TD>
+<TD>4k CHARGEN ROM image</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab ROM2
-@tab 8k cartridge ROM image for $2000-$3fff (if CONFIG &#38; 4)
-<LI>ARRAY
+<TD>ROM1</TD>
+<TD>4k cartridge ROM image for $1*** (if CONFIG &#38; 2)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab ROM4
-@tab 8k cartridge ROM image for $4000-$5fff (if CONFIG &#38; 8)
-<LI>ARRAY
+<TD>ROM2</TD>
+<TD>8k cartridge ROM image for $2000-$3fff (if CONFIG &#38; 4)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
 
-@tab ROM6
-@tab 8k cartridge ROM image for $6000-$7fff (if CONFIG &#38; 16)
+<TD>ROM4</TD>
+<TD>8k cartridge ROM image for $4000-$5fff (if CONFIG &#38; 8)</TD>
+</TR>
+<TR><TD>ARRAY</TD>
+
+<TD>ROM6</TD>
+<TD>8k cartridge ROM image for $6000-$7fff (if CONFIG &#38; 16)</TD>
+</TR></TABLE>
 
 <P><HR><P>
 Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_7.html">previous</A>, <A HREF="vice_9.html">next</A>, <A HREF="vice_16.html">last</A> section, <A HREF="vice_toc.html">table of contents</A>.

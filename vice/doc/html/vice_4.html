@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
-<!-- This HTML file has been created by texi2html 1.51
-     from ../vice.texi on 8 November 2000 -->
+<!-- This HTML file has been created by texi2html 1.52
+     from ../vice.texi on 10 December 2000 -->
 
 <TITLE>VICE Manual - 4  System files</TITLE>
 </HEAD>
@@ -22,21 +22,21 @@ files:
 
 <LI>
 
-the <STRONG>system ROMs</STRONG>, raw binary files containing copies of the original ROMs
+the <EM>system ROMs</EM>, raw binary files containing copies of the original ROMs
 of the machine you are emulating;
 
 <LI>
 
-the <STRONG>keyboard maps</STRONG>, text files describing the keyboard layout;
+the <EM>keyboard maps</EM>, text files describing the keyboard layout;
 
 <LI>
 
-the <STRONG>palette files</STRONG>, text files describing the colors of the machine you
+the <EM>palette files</EM>, text files describing the colors of the machine you
 are emulating.
 
 <LI>
 
-the <STRONG>romset files</STRONG>, text files describing the different ROMs to load.
+the <EM>romset files</EM>, text files describing the different ROMs to load.
 
 </UL>
 
@@ -374,7 +374,7 @@ full (256 char) character set is computed by inverting.
 <H2><A NAME="SEC25" HREF="vice_toc.html#TOC25">4.2  Keymap files</A></H2>
 
 <P>
-<STRONG>Keymap files</STRONG> are used to define the keyboard layout, defining which
+<EM>Keymap files</EM> are used to define the keyboard layout, defining which
 key (or combination of keys) must be mapped to each keysym.
 
 </P>
@@ -382,7 +382,7 @@ key (or combination of keys) must be mapped to each keysym.
 In other words, the keyboard emulation works like this: whenever the
 user presses or releases a key while the emulation window has the input
 focus, the emulator receives an X-Window event with a value that
-identifies that key.  That value is called a <STRONG>keysym</STRONG> and is unique
+identifies that key.  That value is called a <EM>keysym</EM> and is unique
 to that key.  The emulator then looks up that keysym in an internal
 table that tells it which key(s) to press or release on the emulated
 keyboard.
@@ -510,7 +510,7 @@ mapping.
 <H2><A NAME="SEC26" HREF="vice_toc.html#TOC26">4.3  Palette files</A></H2>
 
 <P>
-<STRONG>Palette files</STRONG> are used to specify the colors used in the
+<EM>Palette files</EM> are used to specify the colors used in the
 emulators.  They are made up of lines like the following:
 
 </P>
