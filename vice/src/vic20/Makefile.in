@@ -273,12 +273,15 @@ vic-color.o: vic-color.c ../../src/vice.h ../../src/config.h vic.h \
 	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
 	../../src/viewport.h vic-mem.h vic20.h ../../src/video.h
 vic-draw.o: vic-draw.c ../../src/vice.h ../../src/config.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/arch/unix/types.h ../../src/viewport.h \
+	../../src/raster/raster-cache-fill.h \
+	../../src/arch/unix/types.h \
+	../../src/raster/raster-cache-text-std.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
-	../../src/raster/raster-modes.h vic.h ../../src/log.h vic-mem.h \
-	vic20.h ../../src/video.h vic-draw.h
+	../../src/raster/raster-modes.h vic.h ../../src/log.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/viewport.h vic-mem.h vic20.h ../../src/video.h \
+	vic-draw.h
 vic-mem.o: vic-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \

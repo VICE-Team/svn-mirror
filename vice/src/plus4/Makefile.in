@@ -344,12 +344,16 @@ ted-color.o: ted-color.c ../../src/vice.h ../../src/config.h tedtypes.h \
 	../../src/viewport.h ted-color.h ted-resources.h \
 	../../src/video.h
 ted-draw.o: ted-draw.c ../../src/vice.h ../../src/config.h \
+	../../src/raster/raster-cache-fill.h \
+	../../src/arch/unix/types.h \
+	../../src/raster/raster-cache-nibbles.h \
+	../../src/raster/raster-cache-text-ext.h \
+	../../src/raster/raster-cache-text-std.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
-	../../src/arch/unix/types.h ../../src/raster/raster-modes.h \
-	ted-draw.h ted.h tedtypes.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/viewport.h
+	../../src/raster/raster-modes.h ted-draw.h ted.h tedtypes.h \
+	../../src/log.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/viewport.h
 ted-fetch.o: ted-fetch.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/interrupt.h ../../src/maincpu.h ted-fetch.h \

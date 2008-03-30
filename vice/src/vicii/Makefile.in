@@ -272,12 +272,18 @@ vicii-color.o: vicii-color.c ../../src/vice.h ../../src/config.h \
 	../../src/viewport.h vicii-color.h vicii-resources.h \
 	../../src/video.h
 vicii-draw.o: vicii-draw.c ../../src/vice.h ../../src/config.h \
+	../../src/raster/raster-cache-fill.h \
+	../../src/arch/unix/types.h \
+	../../src/raster/raster-cache-fill-1fff.h \
+	../../src/raster/raster-cache-fill-39ff.h \
+	../../src/raster/raster-cache-nibbles.h \
+	../../src/raster/raster-cache-text-ext.h \
+	../../src/raster/raster-cache-text-std.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
-	../../src/arch/unix/types.h ../../src/raster/raster-modes.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/viewport.h vicii-draw.h vicii.h viciitypes.h \
-	../../src/log.h
+	../../src/raster/raster-modes.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/viewport.h \
+	vicii-draw.h vicii.h viciitypes.h ../../src/log.h
 vicii-fetch.o: vicii-fetch.c ../../src/vice.h ../../src/config.h \
 	../../src/alarm.h ../../src/arch/unix/types.h \
 	../../src/c64/c64cart.h ../../src/interrupt.h \

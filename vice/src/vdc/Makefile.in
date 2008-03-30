@@ -261,12 +261,14 @@ vdc-cmdline-options.o: vdc-cmdline-options.c ../../src/vice.h \
 	../../src/raster/raster-changes.h ../../src/arch/unix/types.h \
 	../../src/viewport.h
 vdc-draw.o: vdc-draw.c ../../src/vice.h ../../src/config.h \
+	../../src/raster/raster-cache-const.h \
+	../../src/arch/unix/types.h \
+	../../src/raster/raster-cache-fill.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
-	../../src/arch/unix/types.h ../../src/raster/raster-modes.h \
-	vdc-draw.h vdc-resources.h vdc.h vdctypes.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/viewport.h
+	../../src/raster/raster-modes.h vdc-draw.h vdc-resources.h \
+	vdc.h vdctypes.h ../../src/log.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/viewport.h
 vdc-mem.o: vdc-mem.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h ../../src/maincpu.h \
 	../../src/arch/unix/types.h vdc-mem.h vdc.h vdctypes.h \
