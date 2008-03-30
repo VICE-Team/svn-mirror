@@ -50,4 +50,8 @@ extern int rom_loaded;
 extern read_func_t read_basic, read_kernal, read_chargen, read_via;
 extern store_func_t store_via;
 
+extern int vic20_mem_init_resources(void);
+extern int vic20_mem_disable_ram_block(int num);
+extern int vic20_mem_enable_ram_block(int num);
+
 #endif

@@ -52,6 +52,54 @@
 
 /* ------------------------------------------------------------------------- */
 
+/* VIC resources.  */
+
+/* Flag: Do we use double size?  */
+static int double_size_enabled;
+
+/* Flag: Do we enable the video cache?  */
+static int video_cache_enabled;
+
+/* Flag: Do we copy lines in double size mode?  */
+static int double_scan_enabled;
+
+static int set_video_cache_enabled(resource_value_t v)
+{
+    video_cache_enabled = (int) v;
+    return 0;
+}
+
+static int set_double_size_enabled(resource_value_t v)
+{
+    double_size_enabled = (int) v;
+    video_resize();
+    return 0;
+}
+
+static int set_double_scan_enabled(resource_value_t v)
+{
+    double_scan_enabled = (int) v;
+    video_resize();
+    return 0;
+}
+
+static resource_t resources[] = {
+    { "VideoCache", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
+    { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &double_size_enabled, set_double_size_enabled },
+    { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &double_scan_enabled, set_double_scan_enabled },
+    { NULL }
+};
+
+int vic_init_resources(void)
+{
+    return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static void set_memory_ptrs(void);
 static void init_drawing_table(void);
 static int fill_cache(struct line_cache *l, int *xs, int *xe, int r);
@@ -136,7 +184,7 @@ void video_resize(void)
 {
     static int old_size = 0;
 
-    if (app_resources.doubleSize) {
+    if (double_size_enabled) {
 	pixel_width = 2 * VIC_PIXEL_WIDTH;
 	pixel_height = 2;
 	video_modes[VIC_STANDARD_MODE].fill_cache = fill_cache;
@@ -163,7 +211,7 @@ void video_resize(void)
 	    window_height /= 2;
 	}
     }
-    old_size = app_resources.doubleSize ? 2 : 1;
+    old_size = double_size_enabled ? 2 : 1;
 
     if (canvas) {
 	resize(window_width, window_height);

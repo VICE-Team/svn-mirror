@@ -3,7 +3,6 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
- *  Alexander Lehmann (alex@mathematik.th-darmstadt.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -44,6 +43,110 @@
 #include "via.h"
 #include "vic.h"
 #include "mon.h"
+#include "utils.h"
+
+/* ------------------------------------------------------------------------- */
+
+/* VIC20 memory-related resources.  */
+
+/* Name of the character ROM.  */
+static char *chargen_rom_name;
+
+/* Name of the BASIC ROM.  */
+static char *basic_rom_name;
+
+/* Name of the Kernal ROM.  */
+static char *kernal_rom_name;
+
+/* Flag: Do we have RAM block `n'?  */
+static int ram_block_0_enabled;
+static int ram_block_1_enabled;
+static int ram_block_2_enabled;
+static int ram_block_3_enabled;
+static int ram_block_5_enabled;
+
+/* FIXME: Should load the new character ROM.  */
+static int set_chargen_rom_name(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (chargen_rom_name != NULL && name != NULL
+        && strcmp(name, chargen_rom_name) == 0)
+        return 0;
+
+    string_set(&chargen_rom_name, name);
+    return 0;
+}
+
+/* FIXME: Should load the new Kernal ROM.  */
+static int set_kernal_rom_name(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (kernal_rom_name != NULL && name != NULL
+        && strcmp(name, kernal_rom_name) == 0)
+        return 0;
+
+    string_set(&kernal_rom_name, name);
+    return 0;
+}
+
+/* FIXME: Should load the new BASIC ROM.  */
+static int set_basic_rom_name(resource_value_t v)
+{
+    const char *name = (const char *) v;
+
+    if (basic_rom_name != NULL && name != NULL
+        && strcmp(name, basic_rom_name) == 0)
+        return 0;
+
+    string_set(&basic_rom_name, name);
+    return 0;
+}
+
+/* Ugly hack...  */
+#define DEFINE_SET_BLOCK_FUNC(num)                                      \
+    static int set_ram_block_##num##_enabled(resource_value_t v)        \
+    {                                                                   \
+        int value = (int) v;                                            \
+                                                                        \
+        ram_block_##num##_enabled = value;                              \
+        if (value)                                                      \
+            return vic20_mem_enable_ram_block(num);                     \
+        else                                                            \
+            return vic20_mem_disable_ram_block(num);                    \
+    }
+
+DEFINE_SET_BLOCK_FUNC(0)
+DEFINE_SET_BLOCK_FUNC(1)
+DEFINE_SET_BLOCK_FUNC(2)
+DEFINE_SET_BLOCK_FUNC(3)
+DEFINE_SET_BLOCK_FUNC(5)
+
+static resource_t resources[] = {
+    { "ChargenName", RES_STRING, (resource_value_t) "chargen",
+      (resource_value_t *) &chargen_rom_name, set_chargen_rom_name },
+    { "KernalName", RES_STRING, (resource_value_t) "kernal",
+      (resource_value_t *) &kernal_rom_name, set_kernal_rom_name },
+    { "BasicName", RES_STRING, (resource_value_t) "basic",
+      (resource_value_t *) &basic_rom_name, set_basic_rom_name },
+    { "RAMBlock0", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &ram_block_0_enabled, set_ram_block_0_enabled },
+    { "RAMBlock1", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &ram_block_1_enabled, set_ram_block_1_enabled },
+    { "RAMBlock2", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &ram_block_2_enabled, set_ram_block_2_enabled },
+    { "RAMBlock3", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &ram_block_3_enabled, set_ram_block_3_enabled },
+    { "RAMBlock5", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &ram_block_5_enabled, set_ram_block_5_enabled },
+    { NULL }
+};
+
+int vic20_mem_init_resources(void)
+{
+    return resources_register(resources);
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -72,9 +175,6 @@ BYTE **_mem_read_base_tab_ptr;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded. */
 int rom_loaded = 0;
-
-/* VIC20 memory configuration. */
-static int vic_memconf;
 
 /* ------------------------------------------------------------------------- */
 
@@ -262,6 +362,8 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
+#if 0
+
 /* This function parses the mem config string given as -memory and
  * returns the appropriate values or'ed together.
  *
@@ -367,6 +469,8 @@ static int get_memconf(void)
     return memconf;
 }
 
+#endif
+
 static void set_mem(int start_page, int end_page,
 		    read_func_ptr_t read_func,
 		    store_func_ptr_t store_func,
@@ -395,65 +499,65 @@ static void set_mem(int start_page, int end_page,
     }
 }
 
-void initialize_memory(void)
+int vic20_mem_enable_ram_block(int num)
 {
-    vic_memconf = get_memconf();
-
-    /* Setup low standard RAM at $0000-$7FFF. */
-
-    set_mem(0, 0x03,
-	    read_ram, store_ram,
-	    read_ram_watch, store_ram_watch,
-	    ram, 0xffff);
-
-    if (vic_memconf & VIC_BLK0)
+    printf(__FUNCTION__ ": Enabling RAM block %d\n", num);
+    if (num == 0) {
 	set_mem(0x04, 0x0f,
 		read_ram, store_ram,
 		read_ram_watch, store_ram_watch,
 		ram, 0xffff);
-    else
+        return 0;
+    } else if (num > 0 && num != 4 && num <= 5) {
+	set_mem(num * 0x20, num * 0x20 + 0x1f,
+		read_ram, store_ram,
+		read_ram_watch, store_ram_watch,
+		ram, 0xffff);
+        return 0;
+    } else
+        return -1;
+}
+
+int vic20_mem_disable_ram_block(int num)
+{
+    printf(__FUNCTION__ ": Disabling RAM block %d\n", num);
+    if (num == 0) {
 	set_mem(0x04, 0x0f,
 		read_dummy, store_dummy,
 		read_dummy_watch, store_dummy_watch,
-		NULL, 0);
+		ram, 0xffff);
+        return 0;
+    } else if (num > 0 && num != 4 && num <= 5) {
+	set_mem(num * 0x20, num * 0x20 + 0x1f,
+		read_dummy, store_dummy,
+		read_dummy_watch, store_dummy_watch,
+		ram, 0xffff);
+        return 0;
+    } else
+        return -1;
+}
 
+void initialize_memory(void)
+{
+    /* Setup low standard RAM at $0000-$0300. */
+    set_mem(0x00, 0x03,
+	    read_ram, store_ram,
+	    read_ram_watch, store_ram_watch,
+	    ram, 0xffff);
+
+    /* Setup more low RAM at $1000-$1FFFF.  */
     set_mem(0x10, 0x1f,
 	    read_ram, store_ram,
 	    read_ram_watch, store_ram_watch,
 	    ram, 0xffff);
 
-    if (vic_memconf & VIC_BLK1)
-	set_mem(0x20, 0x3f,
-		read_ram, store_ram,
-		read_ram_watch, store_ram_watch,
-		ram, 0xffff);
-    else
-	set_mem(0x20, 0x3f,
-		read_dummy, store_dummy,
-		read_dummy_watch, store_dummy_watch,
-		NULL, 0);
-
-    if (vic_memconf & VIC_BLK2)
-	set_mem(0x40, 0x5f,
-		read_ram, store_ram,
-		read_ram_watch, store_ram_watch,
-		ram, 0xffff);
-    else
-	set_mem(0x40, 0x5f,
-		read_dummy, store_dummy,
-		read_dummy_watch, store_dummy_watch,
-		NULL, 0);
-
-    if (vic_memconf & VIC_BLK3)
-	set_mem(0x60, 0x7f,
-		read_ram, store_ram,
-		read_ram_watch, store_ram_watch,
-		ram, 0xffff);
-    else
-	set_mem(0x60, 0x7f,
-		read_dummy, store_dummy,
-		read_dummy_watch, store_dummy_watch,
-		NULL, 0);
+    /* Enable all the other possible RAM blocks, just to make sure we have
+       some working setup.  */
+    vic20_mem_enable_ram_block(0); /* $0400-$0F00 */
+    vic20_mem_enable_ram_block(1); /* $2000-$3F00 */
+    vic20_mem_enable_ram_block(2); /* $4000-$5FFF */
+    vic20_mem_enable_ram_block(3); /* $6000-$7FFF */
+    vic20_mem_enable_ram_block(5); /* $A000-$BFFF */
 
     /* Setup character generator ROM at $8000-$8FFF. */
     set_mem(0x80, 0x8f,
@@ -485,18 +589,6 @@ void initialize_memory(void)
 	    read_dummy, store_dummy,
 	    read_dummy_watch, store_dummy_watch,
 	    NULL, 0);
-
-    /* Setup extra RAM block at $A000-$BFFF. */
-    if (vic_memconf & VIC_BLK5)
-	set_mem(0xa0, 0xbf,
-		read_ram, store_ram,
-		read_ram_watch, store_ram_watch,
-		ram, 0xffff);
-    else
-	set_mem(0xa0, 0xbf,
-		read_dummy, store_dummy,
-		read_dummy_watch, store_dummy_watch,
-		NULL, 0);
 
     /* Setup BASIC ROM at $C000-$DFFF. */
     set_mem(0xc0, 0xdf,
@@ -558,16 +650,10 @@ int mem_load(void)
     WORD sum;			/* ROM checksum */
     int i;
 
-    /* Try to load a RAM image if available. */
-
-    if (mem_load_sys_file(app_resources.directory, app_resources.ramName,
-			  ram, VIC20_RAM_SIZE, VIC20_RAM_SIZE) < 0) {
-	mem_powerup();
-    }
+    mem_powerup();
 
     /* Load Kernal ROM. */
-
-    if (mem_load_sys_file(app_resources.directory, app_resources.kernalName,
+    if (mem_load_sys_file(kernal_rom_name,
 			  kernal_rom, VIC20_KERNAL_ROM_SIZE,
 			  VIC20_KERNAL_ROM_SIZE) < 0) {
 	fprintf(stderr,"Couldn't load kernal ROM.\n\n");
@@ -575,7 +661,6 @@ int mem_load(void)
     }
 
     /* Check Kernal ROM.  */
-
     for (i = 0, sum = 0; i < VIC20_KERNAL_ROM_SIZE; i++)
 	sum += kernal_rom[i];
 
@@ -585,8 +670,7 @@ int mem_load(void)
     }
 
     /* Load Basic ROM. */
-
-    if (mem_load_sys_file(app_resources.directory, app_resources.basicName,
+    if (mem_load_sys_file(basic_rom_name,
 			  basic_rom, VIC20_BASIC_ROM_SIZE,
 			  VIC20_BASIC_ROM_SIZE) < 0) {
 	fprintf(stderr, "Couldn't load basic ROM.\n\n");
@@ -594,7 +678,6 @@ int mem_load(void)
     }
 
     /* Check Basic ROM. */
-
     for (i = 0, sum = 0; i < VIC20_BASIC_ROM_SIZE; i++)
 	sum += basic_rom[i];
 
@@ -603,8 +686,7 @@ int mem_load(void)
 		sum, sum);
 
     /* Load chargen ROM. */
-
-    if (mem_load_sys_file(app_resources.directory, app_resources.charName,
+    if (mem_load_sys_file(chargen_rom_name,
 			  chargen_rom, VIC20_CHARGEN_ROM_SIZE,
 			  VIC20_CHARGEN_ROM_SIZE) < 0) {
 	fprintf(stderr, "Couldn't load character ROM.\n");

@@ -84,6 +84,8 @@ static void update_sprite_collisions(void);
 
 /* ------------------------------------------------------------------------- */
 
+/* VIC-II resources.  */
+
 /* Flag: Do we emulate the sprite-sprite collision register and IRQ?  */
 static int sprite_sprite_collisions_enabled;
 

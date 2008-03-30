@@ -26,9 +26,11 @@
  */
 
 #include "vice.h"
+
 #include "types.h"
 #include "resources.h"
 #include "iecdrive.h"
+#include "true1541.h"
 
 #define NOT(x) ((x)^1)
 
@@ -54,9 +56,6 @@ void iec_drive_write(BYTE data)
 {
     static int last_write = 0;
 
-    if (!app_resources.true1541)
-	return;
-
     data = ~data;
     drive_data = ((data & 2) >> 1);
     drive_clock = ((data & 8) >> 3);
@@ -71,9 +70,6 @@ void iec_drive_write(BYTE data)
 
 BYTE iec_drive_read(void)
 {
-    if (!app_resources.true1541)
-	return 0;
-
     drive_bus_val = bus_data | (bus_clock << 2) | (bus_atn << 7);
 
     return drive_bus_val;
@@ -96,7 +92,7 @@ BYTE iec_drive_read(void)
 BYTE iec_pa_read(void)
 
 {
-    if (!app_resources.true1541)
+    if (!true1541_enabled)
 	return 0;
 
     true1541_cpu_execute();
@@ -110,7 +106,7 @@ void iec_pa_write(BYTE data)
 {
     static int last_write = 0;
 
-    if (!app_resources.true1541)
+    if (!true1541_enabled)
 	return;
 
     true1541_cpu_execute();
@@ -140,7 +136,7 @@ void iec_pcr_write(BYTE data)
 {
     static int last_write = 0;
 
-    if (!app_resources.true1541)
+    if (!true1541_enabled)
 	return;
 
     true1541_cpu_execute();

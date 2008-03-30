@@ -138,6 +138,7 @@ static color_def_t color_defs[VIC_NUM_COLORS] =
 
 /* ------------------------------------------------------------------------- */
 
+extern int vic_init_resources(void);
 extern void video_resize(void);
 extern void video_free(void);
 extern int int_rasterdraw(long offset);
