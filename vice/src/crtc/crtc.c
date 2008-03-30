@@ -46,6 +46,7 @@
 #include "palette.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "raster-canvas.h"
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "screenshot.h"
@@ -725,7 +726,7 @@ void crtc_raster_draw_alarm_handler(CLOCK offset)
     if (crtc.framelines == crtc.screen_yoffset) {
 */
     if ((crtc.framelines - crtc.current_line) == crtc.screen_yoffset) {
-        raster_line_handle_end_of_frame(&crtc.raster);
+        raster_canvas_handle_end_of_frame(&crtc.raster);
         raster_skip_frame(&crtc.raster,
                           vsync_do_vsync(crtc.raster.viewport.canvas, crtc.raster.skip_frame));
     }

@@ -1,5 +1,5 @@
 /*
- * raster-line.h - Raster-based video chip emulation helper.
+ * raster-canvas.h - Raster-based video chip emulation helper.
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
@@ -24,12 +24,13 @@
  *
  */
 
-#ifndef _RASTER_LINE_H
-#define _RASTER_LINE_H
+#ifndef _RASTER_CANVAS_H
+#define _RASTER_CANVAS_H
 
 struct raster_s;
 
-extern void raster_line_emulate(struct raster_s *raster);
+extern void raster_canvas_handle_end_of_frame(struct raster_s *raster);
+extern void raster_canvas_update_all(struct raster_s *raster);
 
 #endif
 

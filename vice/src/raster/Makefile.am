@@ -8,6 +8,8 @@ noinst_LIBRARIES = libraster.a
 libraster_a_SOURCES = \
 	raster-cache.c \
 	raster-cache.h \
+	raster-canvas.c \
+	raster-canvas.h \
 	raster-changes.c \
 	raster-changes.h \
 	raster-line.c \
