@@ -305,9 +305,9 @@ xvic-all: \
 # xpet
 xpet_libs =  \
 	@XPET_WINRES@ \
+	$(pet_lib) \
 	$(drive_lib) \
 	$(vdrive_lib) \
-	$(pet_lib) \
 	$(sounddrv_lib) \
 	$(crtc_lib) \
 	$(raster_lib) \
@@ -332,9 +332,9 @@ xpet-all: \
 # xcbm2
 xcbm2_libs = \
 	@XCBM2_WINRES@ \
+	$(xcbm2_lib) \
 	$(drive_lib) \
 	$(vdrive_lib) \
-	$(xcbm2_lib) \
 	$(sounddrv_lib) \
 	$(sid_lib) \
 	$(crtc_lib) \
