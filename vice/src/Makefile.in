@@ -624,10 +624,9 @@ parallel.o: parallel.c vice.h config.h cmdline.h resources.h \
 	maincpu.h 6510core.h alarm.h clkguard.h mon.h interrupt.h \
 	snapshot.h mos6510.h parallel.h serial.h traps.h
 petcat.o: petcat.c vice.h config.h charsets.h p00.h arch/unix/types.h
-prdevice.o: prdevice.c vice.h config.h charsets.h arch/unix/types.h \
-	cmdline.h resources.h log.h prdevice.h print.h serial.h \
-	diskimage.h gcr.h traps.h utils.h vdrive/vdrive.h attach.h \
-	snapshot.h
+prdevice.o: prdevice.c vice.h config.h charsets.h cmdline.h resources.h \
+	log.h prdevice.h print.h arch/unix/types.h serial.h diskimage.h \
+	gcr.h traps.h utils.h vdrive/vdrive.h attach.h snapshot.h
 pruser.o: pruser.c vice.h config.h cmdline.h resources.h print.h \
 	arch/unix/types.h pruser.h
 resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \

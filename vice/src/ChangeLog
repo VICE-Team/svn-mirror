@@ -1,3 +1,53 @@
+1999-11-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.30.
+
+	* sound.h: Added missing `extern'.
+
+	* sound.c: Define `sound_state_changed' here.
+
+	* vdc/vdc.c, vdc/vdc.h, vdc/vdc-draw.c,
+	vdc/vdc-cmdline-options.c, vdc/vdc-resources.c: Implemented
+	double size mode.  Removed `VDC_NEED_2X'.
+	(vdc_set_geometry, vdc_resize): New functions.
+	(vdc_raster_draw_alarm_handler, init_raster, vdc_init):
+	Changed to support single and double size mode.
+
+1999-11-17  Andreas Matthies <andreas.matthies@arcormail.de>
+
+	* win32/drive.dsp: updated filelist with last changes again
+
+	* win32/video.c,win32/uivicii.c: implemented change of palette
+
+1999-11-17  Andreas Dehmel (dehmel@forwiss.tu-muenchen.de)
+
+	* drivetypes.h, drivecpu.c: encapsulated the large data of the
+	drive CPU in a new context struct drivecpud_context_t and
+	moved that to the end of the drive context structure in order
+	to minimize the average offset of context variables.
+
+1999-11-16  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* os2/config.h, ui_status.c, video.c, vsync.c: minor changes
+
+	* os2/contentsdlg.[ch], dialogs.[ch,rc]: added
+
+	* os2/joystick.c: ability to use joystick twice added
+
+	* os2/kbd.c: uses keyboard.[hc] now, added dialogs, made one
+	function for attaching images out of two, added
+	suspend_speed_eval to resets
+
+	* os2/main_exit.c: added sound support
+
+	* sounddrv/sounddart.c: made multithread safe, added
+	get_/set_volume
+
+	* os2/ui.c: changed default file dialog
+
+	* sid.c, sound.c: changed handling of changing parameters to
+	be multithreadsafe on OS/2
+
 1999-11-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.29.
