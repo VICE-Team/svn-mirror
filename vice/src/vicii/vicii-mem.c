@@ -688,11 +688,27 @@ inline static void store_d019(ADDRESS addr, BYTE value)
 {
     if (rmw_flag) { /* (emulates the Read-Modify-Write bug) */
         vic_ii.irq_status = 0;
+        if (clk >= vic_ii.raster_irq_clk) {
+            vic_ii.raster_irq_clk += vic_ii.screen_height
+                                     * vic_ii.cycles_per_line;
+            alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
+        }
     } else {
         vic_ii.irq_status &= ~((value & 0xf) | 0x80);
         if (vic_ii.irq_status & vic_ii.regs[0x1a])
             vic_ii.irq_status |= 0x80;
+        if ((value & 1) && clk >= vic_ii.raster_irq_clk) {
+            vic_ii.raster_irq_clk += vic_ii.screen_height
+                                     * vic_ii.cycles_per_line;
+            alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
+        }
     }
+
+    if (clk >= vic_ii.raster_irq_clk) {
+        vic_ii.raster_irq_clk += vic_ii.screen_height * vic_ii.cycles_per_line;
+        alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
+    }
+
 
     /* Update the IRQ line accordingly...
        The external VIC IRQ line is an AND of the internal collision and
