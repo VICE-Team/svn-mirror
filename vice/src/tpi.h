@@ -38,5 +38,35 @@
 #define TPI_CREG        6
 #define TPI_AIR         7
 
-#endif /* _TPI_H */
+typedef struct tpi_context_s {
+    BYTE c_tpi[8];
+
+    BYTE irq_previous;
+    BYTE irq_stack;
+
+    BYTE tpi_last_read;
+    unsigned int tpi_int_num;
+
+    BYTE oldpa;
+    BYTE oldpb;
+    BYTE oldpc;
+
+    BYTE ca_state;
+    BYTE cb_state;
+
+    signed int log;
+
+    char myname[12];
+
+    int irq_line;                 /* IK_... */
+    unsigned int int_num;
+
+    CLOCK *clk_ptr;
+    int *rmw_flag;
+
+    void *prv;
+    void *context;
+} tpi_context_t;
+
+#endif
 
