@@ -284,7 +284,7 @@ static int init_raster(void)
     char *title;
 
     raster = &vicii.raster;
-    video_color_set_raster(raster);
+    video_color_set_canvas(raster->canvas);
 
     raster_sprite_status_new(raster, VICII_NUM_SPRITES);
     raster_line_changes_sprite_init(raster);
