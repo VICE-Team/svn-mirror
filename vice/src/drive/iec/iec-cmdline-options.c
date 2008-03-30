@@ -51,10 +51,9 @@ static const cmdline_option_t cmdline_options[] = {
 };
 
 static cmdline_option_t cmd_drive[] = {
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
-      0, IDCLS_ENABLE_PAR_CABLE },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
-      0, IDCLS_DISABLE_PAR_CABLE },
+    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, (void *)DRIVE_PC_NONE,
+      IDCLS_P_TYPE,
+      IDCLS_PAR_CABLE_TYPE },
     { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, (void *)DRIVE_IDLE_TRAP_IDLE,
       IDCLS_P_METHOD,
       IDCLS_SET_IDLE_METHOD },
@@ -96,10 +95,9 @@ static const cmdline_option_t cmdline_options[] = {
 };
 
 static cmdline_option_t cmd_drive[] = {
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)1,
-      NULL, N_("Enable SpeedDOS-compatible parallel cable") },
-    { NULL, SET_RESOURCE, 0, NULL, NULL, NULL, (void *)0,
-      NULL, N_("Disable SpeedDOS-compatible parallel cable") },
+    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, (void *)DRIVE_PC_NONE,
+      N_("<type>"),
+      N_("Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)") },
     { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, (void *)DRIVE_IDLE_TRAP_IDLE,
       N_("<method>"),
       N_("Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)") },
@@ -135,41 +133,38 @@ int iec_cmdline_options_init(void)
         cmd_drive[0].name = lib_msprintf("-parallel%i", dnr + 8);
         cmd_drive[0].resource_name
             = lib_msprintf("Drive%iParallelCable", dnr + 8);
-        cmd_drive[1].name = lib_msprintf("+parallel%i", dnr + 8);
+        cmd_drive[1].name = lib_msprintf("-drive%iidle", dnr + 8);
         cmd_drive[1].resource_name
-            = lib_msprintf("Drive%iParallelCable", dnr + 8);
-        cmd_drive[2].name = lib_msprintf("-drive%iidle", dnr + 8);
-        cmd_drive[2].resource_name
             = lib_msprintf("Drive%iIdleMethod", dnr + 8);
-        cmd_drive[3].name = lib_msprintf("-drive%iram2000", dnr + 8);
+        cmd_drive[2].name = lib_msprintf("-drive%iram2000", dnr + 8);
+        cmd_drive[2].resource_name
+            = lib_msprintf("Drive%iRAM2000", dnr + 8);
+        cmd_drive[3].name = lib_msprintf("+drive%iram2000", dnr + 8);
         cmd_drive[3].resource_name
             = lib_msprintf("Drive%iRAM2000", dnr + 8);
-        cmd_drive[4].name = lib_msprintf("+drive%iram2000", dnr + 8);
+        cmd_drive[4].name = lib_msprintf("-drive%iram4000", dnr + 8);
         cmd_drive[4].resource_name
-            = lib_msprintf("Drive%iRAM2000", dnr + 8);
-        cmd_drive[5].name = lib_msprintf("-drive%iram4000", dnr + 8);
+            = lib_msprintf("Drive%iRAM4000", dnr + 8);
+        cmd_drive[5].name = lib_msprintf("+drive%iram4000", dnr + 8);
         cmd_drive[5].resource_name
             = lib_msprintf("Drive%iRAM4000", dnr + 8);
-        cmd_drive[6].name = lib_msprintf("+drive%iram4000", dnr + 8);
+        cmd_drive[6].name = lib_msprintf("-drive%iram6000", dnr + 8);
         cmd_drive[6].resource_name
-            = lib_msprintf("Drive%iRAM4000", dnr + 8);
-        cmd_drive[7].name = lib_msprintf("-drive%iram6000", dnr + 8);
+            = lib_msprintf("Drive%iRAM6000", dnr + 8);
+        cmd_drive[7].name = lib_msprintf("+drive%iram6000", dnr + 8);
         cmd_drive[7].resource_name
             = lib_msprintf("Drive%iRAM6000", dnr + 8);
-        cmd_drive[8].name = lib_msprintf("+drive%iram6000", dnr + 8);
+        cmd_drive[8].name = lib_msprintf("-drive%iram8000", dnr + 8);
         cmd_drive[8].resource_name
-            = lib_msprintf("Drive%iRAM6000", dnr + 8);
-        cmd_drive[9].name = lib_msprintf("-drive%iram8000", dnr + 8);
+            = lib_msprintf("Drive%iRAM8000", dnr + 8);
+        cmd_drive[9].name = lib_msprintf("+drive%iram8000", dnr + 8);
         cmd_drive[9].resource_name
             = lib_msprintf("Drive%iRAM8000", dnr + 8);
-        cmd_drive[10].name = lib_msprintf("+drive%iram8000", dnr + 8);
+        cmd_drive[10].name = lib_msprintf("-drive%irama000", dnr + 8);
         cmd_drive[10].resource_name
-            = lib_msprintf("Drive%iRAM8000", dnr + 8);
-        cmd_drive[11].name = lib_msprintf("-drive%irama000", dnr + 8);
-        cmd_drive[11].resource_name
             = lib_msprintf("Drive%iRAMA000", dnr + 8);
-        cmd_drive[12].name = lib_msprintf("+drive%irama000", dnr + 8);
-        cmd_drive[12].resource_name
+        cmd_drive[11].name = lib_msprintf("+drive%irama000", dnr + 8);
+        cmd_drive[11].resource_name
             = lib_msprintf("Drive%iRAMA000", dnr + 8);
 
         if (cmdline_register_options(cmd_drive) < 0)

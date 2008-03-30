@@ -1395,6 +1395,16 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_ATTACH_GENERIC_16KB_CART_SV, "Anslut vanlig 16KB-insticksmodulfil"},
 
 /* c64/cart/c64cart.c */
+/* en */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART,    "Attach raw 16KB Action Replay III cartridge image"},
+/* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_DE, "16K Action Replay III Image einlegen"},
+/* fr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_SV, ""},  /* fuzzy */
+
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART,    "Attach raw 32KB Action Replay cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_DE, "32K Action Replay Image einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_FR, "Insérer une cartouche Action Replay 32KO"},
@@ -1898,7 +1908,7 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_DISABLE_TRUE_DRIVE_SV, "Inaktivera emulering av diskettstationer på maskinvarunivå"},
 
 /* drive/drive-cmdline-options.c, printerdrv/interface-serial.c,
-   attach.c */
+   attach.c, drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_P_TYPE,    "<type>"},
 /* de */ {IDCLS_P_TYPE_DE, "<Typ>"},
 /* fr */ {IDCLS_P_TYPE_FR, "<type>"},
@@ -1990,24 +2000,14 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME_SV, "Ange namn på 1581-DOS-ROM-avbildning"},
 
 /* drive/iec/iec-cmdline-options.c */
-/* en */ {IDCLS_ENABLE_PAR_CABLE,    "Enable SpeedDOS-compatible parallel cable"},
-/* de */ {IDCLS_ENABLE_PAR_CABLE_DE, "SpeedDOS kompatibles Parallelkabel aktivieren"},
-/* fr */ {IDCLS_ENABLE_PAR_CABLE_FR, "Activer l'utilisation du câble parallèle compatible SpeedDOS"},
-/* hu */ {IDCLS_ENABLE_PAR_CABLE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_PAR_CABLE_IT, "Attiva il cavo parallelo compatibile con SpeedDOS"},
-/* nl */ {IDCLS_ENABLE_PAR_CABLE_NL, "Aktiveer SpeedDOS-compatible parallel kabel"},
-/* pl */ {IDCLS_ENABLE_PAR_CABLE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_PAR_CABLE_SV, "Aktivera SpeedDOS-kompatibel parallellkabel"},
-
-/* drive/iec/iec-cmdline-options.c */
-/* en */ {IDCLS_DISABLE_PAR_CABLE,    "Disable SpeedDOS-compatible parallel cable"},
-/* de */ {IDCLS_DISABLE_PAR_CABLE_DE, "SpeedDOS kompatibles Parallelkabel deaktivieren"},
-/* fr */ {IDCLS_DISABLE_PAR_CABLE_FR, "Désactiver l'utilisation du câble parallèle  compatible SpeedDOS"},
-/* hu */ {IDCLS_DISABLE_PAR_CABLE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_PAR_CABLE_IT, "Disttiva il cavo parallelo compatibile con SpeedDOS"},
-/* nl */ {IDCLS_DISABLE_PAR_CABLE_NL, "SpeedDOS-compatible parallel kabel afsluiten"},
-/* pl */ {IDCLS_DISABLE_PAR_CABLE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_PAR_CABLE_SV, "Inaktivera SpeedDOS-kompatibel parallellkabel"},
+/* en */ {IDCLS_PAR_CABLE_TYPE,    "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)"},
+/* de */ {IDCLS_PAR_CABLE_TYPE_DE, "Setze Parallelkabeltyp (0: keins, 1: Standard, 2: Dolphin DOS 3)"},
+/* fr */ {IDCLS_PAR_CABLE_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PAR_CABLE_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PAR_CABLE_TYPE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_PAR_CABLE_TYPE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PAR_CABLE_TYPE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_PAR_CABLE_TYPE_SV, ""},  /* fuzzy */
 
 /* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SET_IDLE_METHOD,    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"},
