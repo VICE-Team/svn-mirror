@@ -2,8 +2,8 @@
  * mem.h - Memory interface.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,13 +28,8 @@
 #ifndef _MEM_H_
 #define _MEM_H_
 
-#ifdef STDC_HEADERS
-#include <stdio.h>
-#endif
-
-#include "types.h"
-
 #include "snapshot.h"
+#include "types.h"
 
 typedef BYTE REGPARM1 read_func_t(ADDRESS addr);
 typedef read_func_t *read_func_ptr_t;
@@ -95,3 +90,4 @@ extern int mem_write_snapshot_module(snapshot_t *s, int save_roms);
 extern int mem_read_snapshot_module(snapshot_t *s);
 
 #endif
+

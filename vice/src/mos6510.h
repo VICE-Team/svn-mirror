@@ -2,7 +2,7 @@
  * mos6510.h - Definitions for emulation of the 6510 processor.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -114,3 +114,4 @@ typedef struct _mos6510_regs {
      | (MOS6510_REGS_GET_ZERO(regs) ? P_ZERO : 0))
 
 #endif
+

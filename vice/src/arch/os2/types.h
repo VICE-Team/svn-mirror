@@ -32,7 +32,7 @@
 #ifndef _VICE_TYPES_H
 #define _VICE_TYPES_H
 
-#include <limits.h>
+#include "vice.h"
 
 #undef VERSION
 

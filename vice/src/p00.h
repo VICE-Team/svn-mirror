@@ -2,12 +2,12 @@
  * p00.h - Utility functions for P00 file support.
  *
  * Written by
- *  Ettore Perazzoli     (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * Based on older code by
- *  Dan Fandrich         (dan@fch.wimsey.bc.ca)
- *  Jouko Valta          (jopi@stekt.oulu.fi)
- *  Martin Pottendorfer  (Martin.Pottendorfer@autalcatel.at)
+ *  Dan Fandrich         <dan@fch.wimsey.bc.ca>
+ *  Jouko Valta          <jopi@stekt.oulu.fi>
+ *  Martin Pottendorfer  <Martin.Pottendorfer@autalcatel.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -32,11 +32,14 @@
 #ifndef P00_H
 #define P00_H
 
+#include <stdio.h>
+
 #include "types.h"
 
-int p00_check_name(const char *name);
-int p00_read_header(FILE * fd, BYTE *cbmname_return,
-                    unsigned int *recsize_return);
-int p00_write_header(FILE * fd, BYTE *cbmname, BYTE recsize);
+extern int p00_check_name(const char *name);
+extern int p00_read_header(FILE * fd, BYTE *cbmname_return,
+                           unsigned int *recsize_return);
+extern int p00_write_header(FILE * fd, BYTE *cbmname, BYTE recsize);
 
 #endif
+

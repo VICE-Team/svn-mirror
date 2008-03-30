@@ -2,8 +2,9 @@
  * mon.h - The VICE built-in monitor.
  *
  * Written by
- *  Daniel Sladic (sladic@eecg.toronto.edu)
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,9 +29,7 @@
 #ifndef _MON_H
 #define _MON_H
 
-#ifdef STDC_HEADERS
 #include <stdio.h>
-#endif
 
 #include "interrupt.h"
 #include "mem.h"
