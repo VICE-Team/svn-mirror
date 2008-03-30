@@ -167,6 +167,7 @@ struct {
     int save_resources_on_exit;
     int confirm_on_exit;
     char *monitor_dimensions;
+    char *initialdir[NUM_OF_FILE_SELECTOR_STYLES];
 } ui_resources;
 
 static int set_fullscreen_device(resource_value_t v, void *param)
@@ -227,6 +228,16 @@ static int set_monitor_dimensions(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_initial_dir(resource_value_t v, void *param)
+{
+    const char *name = (const char *)v;
+    int index = (int)param;
+    if (ui_resources.initialdir[index] != NULL && name != NULL)
+        if (strcmp(name, ui_resources.initialdir[index]) == 0)
+            return 0;
+    util_string_set(&ui_resources.initialdir[index], name ? name : "");
+    return 0;
+}
 
 static resource_t resources[] = {
     {"FullscreenDevice",RES_INTEGER, (resource_value_t)0,
@@ -256,6 +267,24 @@ static resource_t resources[] = {
     {"MonitorDimensions",RES_STRING, (resource_value_t)"",
      (resource_value_t *)&ui_resources.monitor_dimensions,
      set_monitor_dimensions, NULL },
+    {"InitialDefaultDir", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&ui_resources.initialdir[0],
+      set_initial_dir, (void *)0 },
+    {"InitialTapeDir", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&ui_resources.initialdir[1],
+      set_initial_dir, (void *)1 },
+    {"InitialDiskDir", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&ui_resources.initialdir[2],
+      set_initial_dir, (void *)2 },
+    {"InitialAutostartDir", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&ui_resources.initialdir[3],
+      set_initial_dir, (void *)3 },
+    {"InitialCartDir", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&ui_resources.initialdir[4],
+      set_initial_dir, (void *)4 },
+    {"InitialSnapshotDir", RES_STRING, (resource_value_t)"",
+      (resource_value_t *)&ui_resources.initialdir[5],
+      set_initial_dir, (void *)5 },
     { NULL }
 };
 

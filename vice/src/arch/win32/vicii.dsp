@@ -82,6 +82,10 @@ LIB32=link.exe -lib
 # Name "vicii - Win32 Debug"
 # Begin Source File
 
+SOURCE="..\..\vicii\vicii-badline.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\vicii\vicii-cmdline-options.c"
 # End Source File
 # Begin Source File

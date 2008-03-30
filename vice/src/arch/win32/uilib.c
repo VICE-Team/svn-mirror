@@ -35,6 +35,7 @@
 #include <windowsx.h>
 #include <commctrl.h>
 
+#include "archdep.h"
 #include "diskimage.h"
 #include "fullscrn.h"
 #include "imagecontents.h"
@@ -54,6 +55,7 @@
 
 static char *(*read_content_func)(const char *);
 static int *autostart_result;
+static char* fontfile;
 
 static struct { char *name; char *pattern; } uilib_filefilter[] = {
     { "All files (*.*)", "*.*" },
@@ -74,6 +76,7 @@ typedef struct {
     char*           (*content_read_function)(const char *);
     LPOFNHOOKPROC   hook_proc;
     int             TemplateID;
+    char*           initialdir_resource;
 } ui_file_selector_style_type;
 
 static UINT APIENTRY tape_hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam,
@@ -87,20 +90,29 @@ char *read_disk_or_tape_image_contents(const char *name);
 static ui_file_selector_style_type styles[] = {
     /* FILE_SELECTOR_DEFAULT_STYLE */
     { NULL,
-      NULL, 0 },
+      NULL, 0, "InitialDefaultDir" },
     /* FILE_SELECTOR_TAPE_STYLE */
     { read_tape_image_contents,
-     tape_hook_proc, IDD_OPENTAPE_TEMPLATE },
+     tape_hook_proc, IDD_OPENTAPE_TEMPLATE, "InitialTapeDir" },
     /* FILE_SELECTOR_DISK_STYLE */
     { read_disk_image_contents,
-     hook_proc, IDD_OPEN_TEMPLATE },
+     hook_proc, IDD_OPEN_TEMPLATE, "InitialDiskDir" },
     /* FILE_SELECTOR_DISK_AND_TAPE_STYLE */
     { read_disk_or_tape_image_contents,
-     hook_proc, IDD_OPEN_TEMPLATE},
+     hook_proc, IDD_OPEN_TEMPLATE, "InitialAutostartDir"},
+    /* FILE_SELECTOR_CART_STYLE */
+    { NULL,
+      NULL, 0, "InitialCartDir" },
+    /* FILE_SELECTOR_SNAPSHOT_STYLE */
+    { NULL,
+      NULL, 0, "InitialSnapshotDir" },
     /* DUMMY entry Insert new styles before this */
     {NULL,
-     NULL, 0 }
+     NULL, 0, NULL }
 };
+
+static char* ui_file_selector_initialfile[NUM_OF_FILE_SELECTOR_STYLES];
+
 
 char *read_disk_image_contents(const char *name)
 {
@@ -111,7 +123,7 @@ char *read_disk_image_contents(const char *name)
     if (contents == NULL) {
         return NULL;
     }
-    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_ASCII);
+    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
     image_contents_destroy(contents);
     return s;
 }
@@ -125,7 +137,7 @@ char *read_tape_image_contents(const char *name)
     if (contents == NULL) {
         return NULL;
     }
-    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_ASCII);
+    s = image_contents_to_string(contents, IMAGE_CONTENTS_STRING_PETSCII);
     image_contents_destroy(contents);
     return s;
 }
@@ -181,10 +193,16 @@ char    *extension;
     switch (uimsg) {
         case WM_INITDIALOG:
             SetWindowText(GetDlgItem(GetParent(hwnd),IDOK),"&Attach");
-            /*  maybe there's a better font-definition (FIXME) */
-            /*  I think it's OK now (Tibor) */
-            hfont = CreateFont(-12,-7,0,0,400,0,0,0,0,0,0,
-                DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,NULL);
+
+            if (AddFontResource(fontfile))
+                hfont = CreateFont(-12,0,0,0,0,0,0,0,0,0,0,
+                    0,0,"cbm-directory-charset/ck!");
+            else
+                /*  maybe there's a better font-definition (FIXME) */
+                /*  I think it's OK now (Tibor) */
+                hfont = CreateFont(-12,-7,0,0,400,0,0,0,0,0,0,
+                    DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,NULL);
+
             if (hfont)
                 SendDlgItemMessage(hwnd,IDC_PREVIEW,WM_SETFONT,
                     (WPARAM)hfont,MAKELPARAM(TRUE,0));
@@ -308,10 +326,17 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
                 (LPARAM)image_type_name[counter]);
         }
         SendMessage(image_type_list,CB_SETCURSEL,(WPARAM)0,0);
-        /* maybe there's a better font-definition (FIXME) */
-        /*  I think it's OK now (Tibor) */
-        hfont = CreateFont(-12,-7,0,0,400,0,0,0,0,0,0,
-            DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,NULL);
+
+        /* Try to use the cbm font */
+        if (AddFontResource(fontfile))
+            hfont = CreateFont(-12,0,0,0,0,0,0,0,0,0,0,
+                0,0,"cbm-directory-charset/ck!");
+        else
+            /*  maybe there's a better font-definition (FIXME) */
+            /*  I think it's OK now (Tibor) */
+            hfont = CreateFont(-12,-7,0,0,400,0,0,0,0,0,0,
+                DRAFT_QUALITY,FIXED_PITCH|FF_MODERN,NULL);
+
         if (hfont) {
             SendDlgItemMessage(hwnd,IDC_PREVIEW,WM_SETFONT,
                 (WPARAM)hfont,MAKELPARAM(TRUE,0));
@@ -544,10 +569,21 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
                      int style, int *autostart)
 {
     char name[1024] = "";
+    char *initialdir;
     char filter[UI_LIB_MAX_FILTER_LENGTH];
     DWORD filterindex;
     OPENFILENAME ofn;
     int result;
+
+    resources_get_value(styles[style].initialdir_resource,
+        (resource_value_t*)&initialdir);
+
+    if (ui_file_selector_initialfile[style] != NULL)
+        strcpy(name, ui_file_selector_initialfile[style]);
+
+    if (fontfile == NULL)
+        fontfile = concat(archdep_boot_path(), 
+            "\\fonts\\cbm-directory-charset.fon", NULL);
 
     memset(&ofn, 0, sizeof(ofn));
     ofn.lStructSize = sizeof(ofn);
@@ -562,7 +598,7 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
     ofn.nMaxFile = sizeof(name);
     ofn.lpstrFileTitle = NULL;
     ofn.nMaxFileTitle = 0;
-    ofn.lpstrInitialDir = NULL;
+    ofn.lpstrInitialDir = initialdir;
     ofn.lpstrTitle = title;
     if (styles[style].TemplateID!=0) {
         ofn.Flags = (OFN_EXPLORER
@@ -594,6 +630,11 @@ char *ui_select_file(HWND hwnd, const char *title, DWORD filterlist,
     result = GetOpenFileName(&ofn);
     update_filter_history(ofn.nFilterIndex);
     if (result) {
+        if (ui_file_selector_initialfile[style] != NULL)
+            free(ui_file_selector_initialfile[style]);
+        util_fname_split(name, &initialdir, 
+            &ui_file_selector_initialfile[style]);
+        resources_set_value(styles[style].initialdir_resource, initialdir);
         return stralloc(name);
     } else {
         return NULL;

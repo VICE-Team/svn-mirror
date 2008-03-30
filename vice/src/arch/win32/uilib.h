@@ -55,6 +55,9 @@ extern void ui_show_text(HWND hParent, const char *szCaption,
 #define FILE_SELECTOR_TAPE_STYLE            1
 #define FILE_SELECTOR_DISK_STYLE            2
 #define FILE_SELECTOR_DISK_AND_TAPE_STYLE   3
+#define FILE_SELECTOR_CART_STYLE            4
+#define FILE_SELECTOR_SNAPSHOT_STYLE        5
+#define NUM_OF_FILE_SELECTOR_STYLES         6
 
 
 #define UI_LIB_FILTER_ALL                   1

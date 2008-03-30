@@ -132,7 +132,7 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 
 fontsdir = $(prefix)/lib/vice/fonts
 
-fonts_DATA =  	vice-cbm.bdf
+fonts_DATA =  	cbm-directory-charset.fon 	vice-cbm.bdf
 
 
 EXTRA_DIST = $(fonts_DATA)

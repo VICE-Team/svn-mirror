@@ -1,3 +1,13 @@
+2002-08-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.67.
+
+	* data/fonts/Makefile.am: Added new font file.
+
+2002-08-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* data/fonts/cbm-directory-charset.fon: New file.
+
 2002-08-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.66.

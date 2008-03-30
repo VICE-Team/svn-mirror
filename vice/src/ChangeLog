@@ -1,3 +1,39 @@
+2002-08-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.67.
+
+	* vicii/vicii.c (vic_ii_update_video_mode): Add backgound
+	change if video mode changes.
+
+	* vicii/vicii-draw.c (draw_std_background): Background color
+	is black in invalid modes.
+
+	* raster/raster-line.c (handle_visible_line_with_changes):
+	Save old video mode for foreground changes.
+
+2002-08-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/c128ui.c, c64ui.c, vic20ui.c: Use new
+	FILE_SELECTOR_CART_STYLE to open file.
+
+	* arch/win32/res.rc: Enlarged preview box for new font.
+
+	* arch/win32/ui.c: Added resources Initial<Filetype>Dir and
+	function set_initial_dir.
+
+	* arch/win32/uilib.c: Include archdep.h. Added name of the
+	InitialDir resource to ui_file_selector_style_type. Added
+	styles for cartridge and snapshot. Added variable
+	ui_file_selector_initialfile to remember last selected file.
+	Use IMAGE_CONTENTS_STRING_PETSCII in contents list.
+	(hook_proc), (tape_hook_proc): Try to use new font
+	cbm-directory-charset.
+	(ui_select_file): Use new resources and variable to set
+	initial directory and file. Update them after a file was
+	selected.
+
+	* arch/win32/uilib.h: Added new file selector types.
+
 2002-08-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.66.

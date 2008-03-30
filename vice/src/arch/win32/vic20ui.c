@@ -101,7 +101,7 @@ static void vic20_ui_attach_cartridge(WPARAM wparam, HWND hwnd,
         return;
     }
     if ((s = ui_select_file(hwnd,cartridges[i].title,
-        cartridges[i].filter, FILE_SELECTOR_DEFAULT_STYLE, NULL)) != NULL) {
+        cartridges[i].filter, FILE_SELECTOR_CART_STYLE, NULL)) != NULL) {
         if (cartridge_attach_image(cartridges[i].type, s) < 0)
             ui_error("Invalid cartridge image");
         free(s);

@@ -1,6 +1,7 @@
 fontsdir = $(prefix)/lib/vice/fonts
 
 fonts_DATA = \
+	cbm-directory-charset.fon \
 	vice-cbm.bdf
 
 EXTRA_DIST = $(fonts_DATA)
