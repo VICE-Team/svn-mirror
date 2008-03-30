@@ -8,7 +8,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src \
 	-DPREFIX=\"@prefix@\"
 
-YFLAGS = -t
+YFLAGS = -dt
 
 noinst_HEADERS = \
 	6510core.h \
@@ -103,6 +103,8 @@ EXTRA_DIST = \
 	convio \
 	raster.c \
 	via-tmpl.c
+
+BUILT_SOURCES = mon_parse.h mon_parse.c
 
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
 true1541_lib = $(top_builddir)/src/true1541/libtrue1541.a
