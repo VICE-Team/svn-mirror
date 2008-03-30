@@ -143,19 +143,5 @@ extern void video_convert_color_table(int i, PIXEL *pixel_return, PIXEL *data,
                                       long col, int depth);
 #endif
 
-#if C64UI == 1
-#include "c64icon.xpm"
-#elif C128UI == 1
-#include "c128icon.xpm"
-#elif VIC20UI == 1
-#include "vic20icon.xpm"
-#elif PETUI == 1
-#include "peticon.xpm"
-#elif C610UI == 1
-#include "c610icon.xpm"
-#elif VSIDUI == 1
-#include "c64icon.xpm"		/* Dag, provide a VSID icon! ;^) */
-#endif
-
 #endif /* !_VIDEOARCH_H */
 
