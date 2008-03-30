@@ -358,6 +358,7 @@ static const conf_icon_id SidDependentIcons[] = {
   {CONF_WIN_SOUND, Icon_Conf_ResidSampT},
   {CONF_WIN_SOUND, Icon_Conf_ResidPass},
   {CONF_WIN_SOUND, Icon_Conf_SidStereo},
+  {CONF_WIN_SOUND, Icon_Conf_Sid2Addr},
   {0xff, 0xff}
 };
 
@@ -1104,6 +1105,7 @@ static help_icon_t Help_ConfigSound[] = {
   {Icon_Conf_ResidPass, "\\HelpConfSndRePass"},
   {Icon_Conf_Sound16Bit, "\\HelpConfSnd16Bit"},
   {Icon_Conf_SidStereo, "\\HelpConfSndStereo"},
+  {Icon_Conf_Sid2Addr, "\\HelpConfSndSid2Addr"},
   {Help_Icon_End, NULL}
 };
 
@@ -1146,6 +1148,9 @@ static help_icon_t Help_ConfigSystem[] = {
   {Icon_Conf_VideoSync, "\\HelpConfSysVsync"},
   {Icon_Conf_VideoSyncT, "\\HelpConfSysVsyncT"},
   {Icon_Conf_UseBPlot, "\\HelpConfSysUseBPlot"},
+  {Icon_Conf_PALDepth, "\\HelpConfSysPALDepth"},
+  {Icon_Conf_PALDepthT, "\\HelpConfSysPALDepthT"},
+  {Icon_Conf_PALDouble, "\\HelpConfSysPALDouble"},
   {Help_Icon_End, NULL}
 };
 
@@ -3078,14 +3083,24 @@ static void ui_redraw_window(int *b)
 
   if ((canvas = canvas_for_handle(b[RedrawB_Handle])) != NULL)
   {
-    graph_env ge;
+    video_redraw_desc_t vrd;
     video_frame_buffer_t *fb = &(canvas->fb);
+    int shs;
 
-    ge.dimx = fb->pitch; ge.dimy = fb->height;
+    vrd.ge.dimx = fb->pitch; vrd.ge.dimy = fb->height;
+    vrd.block = b;
+    shs = (canvas->scale == 1) ? 0 : 1;
+
     more = Wimp_RedrawWindow(b);
     while (more != 0)
     {
-      video_canvas_redraw_core(canvas, &ge, b);
+      /* transform WIMP coordinates back to canvas coordinates */
+      vrd.xs = (((b[RedrawB_CMinX]-(b[RedrawB_VMinX]-b[RedrawB_ScrollX])) >> ScreenMode.eigx) - canvas->shiftx) >> shs;
+      vrd.ys = ((((b[RedrawB_VMaxY]-b[RedrawB_ScrollY])-b[RedrawB_CMaxY]) >> ScreenMode.eigy) + canvas->shifty) >> shs;
+      vrd.w = (b[RedrawB_CMaxX] - b[RedrawB_CMinX]) >> (ScreenMode.eigx + shs);
+      vrd.h = (b[RedrawB_CMaxY] - b[RedrawB_CMinY]) >> (ScreenMode.eigy + shs);
+      /*log_message(LOG_DEFAULT, "REDRAW %d,%d,%d,%d", vrd.xs, vrd.ys, vrd.w, vrd.h);*/
+      video_canvas_redraw_core(canvas, &vrd);
       more = Wimp_GetRectangle(b);
     }
   }

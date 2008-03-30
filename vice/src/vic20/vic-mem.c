@@ -215,7 +215,7 @@ vic_store(ADDRESS addr, BYTE value)
                 /* this is quite strange */
                 if (vic.raster.ycounter == 7 && !vic.raster.blank_this_line) {
                     if (old_char_height == 8 && new_char_height == 16) {
-                        vic.row_offset = (VIC_RASTER_CYCLE(clk)
+                        vic.row_offset = (int) (VIC_RASTER_CYCLE(clk)
                              - vic.raster.display_xstart / 
                              (4 * VIC_PIXEL_WIDTH) - 3) / 2;
                     } else {

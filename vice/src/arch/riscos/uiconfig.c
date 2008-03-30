@@ -32,6 +32,7 @@
 #include "joystick.h"
 #include "sound.h"
 #include "uiconfig.h"
+#include "videoarch.h"
 #include "drive/drive.h"
 
 
@@ -104,6 +105,7 @@ static const char Rsrc_ReSidSamp[] = "SidResidSampling";
 static const char Rsrc_ReSidPass[] = "SidResidPassband";
 static const char Rsrc_SidMod[] = "SidModel";
 static const char Rsrc_SidStereo[] = "SidStereo";
+static const char Rsrc_Sid2Addr[] = "SidStereoAddressStart";
 static const char Rsrc_CharGen[] = "CharGenName";
 static const char Rsrc_Kernal[] = "KernalName";
 static const char Rsrc_Basic[] = "BasicName";
@@ -164,7 +166,8 @@ static const char Rsrc_ReadOnly8[] = "AttachDevice8Readonly";
 static const char Rsrc_ReadOnly9[] = "AttachDevice9Readonly";
 static const char Rsrc_ReadOnly10[] = "AttachDevice10Readonly";
 static const char Rsrc_ReadOnly11[] = "AttachDevice11Readonly";
-
+static const char Rsrc_PALDepth[] = "PALEmuDepth";
+static const char Rsrc_PALDouble[] = "PALEmuDouble";
 
 
 
@@ -315,6 +318,64 @@ static struct MenuResidSampling {
     MENU_ITEM("\\MenRSmpFst"),
     MENU_ITEM("\\MenRSmpInt"),
     MENU_ITEM_LAST("\\MenRSmpRes")
+  }
+};
+
+#define Menu_Sid2Addr_Items	7+5*8
+#define Menu_Sid2Addr_Width	200
+static struct MenuSid2Address {
+  RO_MenuHead head;
+  RO_MenuItem item[Menu_Sid2Addr_Items];
+} MenuSid2Address = {
+  MENU_HEADER("\\MenSid2ATit", Menu_Sid2Addr_Width),
+  {
+    MENU_ITEM("D420"),
+    MENU_ITEM("D440"),
+    MENU_ITEM("D460"),
+    MENU_ITEM("D480"),
+    MENU_ITEM("D4A0"),
+    MENU_ITEM("D4C0"),
+    MENU_ITEM("D4E0"),
+    MENU_ITEM("D500"),
+    MENU_ITEM("D520"),
+    MENU_ITEM("D540"),
+    MENU_ITEM("D560"),
+    MENU_ITEM("D580"),
+    MENU_ITEM("D5A0"),
+    MENU_ITEM("D5C0"),
+    MENU_ITEM("D5E0"),
+    MENU_ITEM("D600"),
+    MENU_ITEM("D620"),
+    MENU_ITEM("D640"),
+    MENU_ITEM("D660"),
+    MENU_ITEM("D680"),
+    MENU_ITEM("D6A0"),
+    MENU_ITEM("D6C0"),
+    MENU_ITEM("D6E0"),
+    MENU_ITEM("D700"),
+    MENU_ITEM("D720"),
+    MENU_ITEM("D740"),
+    MENU_ITEM("D760"),
+    MENU_ITEM("D780"),
+    MENU_ITEM("D7A0"),
+    MENU_ITEM("D7C0"),
+    MENU_ITEM("D4E0"),
+    MENU_ITEM("DE00"),
+    MENU_ITEM("DE20"),
+    MENU_ITEM("DE40"),
+    MENU_ITEM("DE60"),
+    MENU_ITEM("DE80"),
+    MENU_ITEM("DEA0"),
+    MENU_ITEM("DEC0"),
+    MENU_ITEM("DEE0"),
+    MENU_ITEM("DF00"),
+    MENU_ITEM("DF20"),
+    MENU_ITEM("DF40"),
+    MENU_ITEM("DF60"),
+    MENU_ITEM("DF80"),
+    MENU_ITEM("DFA0"),
+    MENU_ITEM("DFC0"),
+    MENU_ITEM_LAST("DFE0")
   }
 };
 
@@ -601,6 +662,22 @@ static struct MenuCartridgeType {
     MENU_ITEM("\\MenCrtWrp"),
     MENU_ITEM("\\MenCrtDin"),
     MENU_ITEM_LAST("\\MenCrtZax")
+  }
+};
+
+#define Menu_PALDepth_Items	5
+#define Menu_PALDepth_Width	200
+static struct MenuPALDepth {
+  RO_MenuHead head;
+  RO_MenuItem item[Menu_PALDepth_Items];
+} MenuPALDepth = {
+  MENU_HEADER("\\MenPALDepT", Menu_PALDepth_Width),
+  {
+    MENU_ITEM("\\MenPALDOff"),
+    MENU_ITEM("\\MenPALDAut"),
+    MENU_ITEM("\\MenPALD8"),
+    MENU_ITEM("\\MenPALD16"),
+    MENU_ITEM_LAST("\\MenPALD32")
   }
 };
 
@@ -982,6 +1059,20 @@ static struct MenuDisplayResidSampling {
   { 0, 1, 2 }
 };
 
+static struct MenuDisplaySid2Address {
+  disp_desc_t dd;
+  int values[Menu_Sid2Addr_Items];
+} MenuDisplaySid2Address = {
+  {Rsrc_Sid2Addr, {CONF_WIN_SOUND, Icon_Conf_Sid2AddrT},
+    (RO_MenuHead*)&MenuSid2Address, Menu_Sid2Addr_Items, 0, 0},
+  { 0xd420, 0xd440, 0xd460, 0xd480, 0xd4a0, 0xd4c0, 0xd4e0,
+    0xd500, 0xd520, 0xd540, 0xd560, 0xd580, 0xd5a0, 0xd5c0, 0xd5e0,
+    0xd600, 0xd620, 0xd640, 0xd660, 0xd680, 0xd6a0, 0xd6c0, 0xd6e0,
+    0xd700, 0xd720, 0xd740, 0xd760, 0xd780, 0xd7a0, 0xd7c0, 0xd7e0,
+    0xde00, 0xde20, 0xde40, 0xde60, 0xde80, 0xdea0, 0xdec0, 0xdee0,
+    0xdf00, 0xdf20, 0xdf40, 0xdf60, 0xdf80, 0xdfa0, 0xdfc0, 0xdfe0 }
+};
+
 static struct MenuDisplaySpeedLimit {
   disp_desc_t dd;
   int values[Menu_SpeedLimit_Items];
@@ -1059,6 +1150,15 @@ static struct MenuDisplayCartridgeType {
    CARTRIDGE_FUNPLAY, CARTRIDGE_SUPER_GAMES, CARTRIDGE_IEEE488, CARTRIDGE_ATOMIC_POWER,
    CARTRIDGE_EPYX_FASTLOAD, CARTRIDGE_WESTERMANN, CARTRIDGE_WESTERMANN, CARTRIDGE_REX,
    CARTRIDGE_GS, CARTRIDGE_WARPSPEED, CARTRIDGE_DINAMIC, CARTRIDGE_ZAXXON}
+};
+
+static struct MenuDisplayPALDepth {
+  disp_desc_t dd;
+  int values[Menu_PALDepth_Items];
+} MenuDisplayPALDepth = {
+  {Rsrc_PALDepth, {CONF_WIN_SYSTEM, Icon_Conf_PALDepthT},
+    (RO_MenuHead*)&MenuPALDepth, Menu_PALDepth_Items, 0, 0},
+  {PAL_EMU_DEPTH_NONE, PAL_EMU_DEPTH_AUTO, PAL_EMU_DEPTH_8, PAL_EMU_DEPTH_16, PAL_EMU_DEPTH_32}
 };
 
 static struct MenuDisplayPetMemory {
@@ -1321,6 +1421,10 @@ menu_icon ConfigMenus[] = {
     {CONF_WIN_SOUND, Icon_Conf_SpeedAdjust}},		/* 41 */
   {(RO_MenuHead*)&MenuResidSampling, Rsrc_ReSidSamp,
     {CONF_WIN_SOUND, Icon_Conf_ResidSamp}},		/* 42 */
+  {(RO_MenuHead*)&MenuSid2Address, Rsrc_Sid2Addr,
+    {CONF_WIN_SOUND, Icon_Conf_Sid2Addr}},		/* 43 */
+  {(RO_MenuHead*)&MenuPALDepth, Rsrc_PALDepth,
+    {CONF_WIN_SYSTEM, Icon_Conf_PALDepth}},		/* 44 */
   {NULL, NULL, {0, 0}}
 };
 
@@ -1369,6 +1473,8 @@ disp_desc_t *ConfigDispDescs[] = {
   NULL,
   (disp_desc_t*)&MenuDisplaySpeedAdjust,
   (disp_desc_t*)&MenuDisplayResidSampling,
+  (disp_desc_t*)&MenuDisplaySid2Address,
+  (disp_desc_t*)&MenuDisplayPALDepth,
   NULL
 };
 
@@ -1437,5 +1543,6 @@ config_item Configurations[] = {
   {Rsrc_ReadOnly9, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_DriveRdOnly9}},
   {Rsrc_ReadOnly10, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_DriveRdOnly10}},
   {Rsrc_ReadOnly11, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_DriveRdOnly11}},
+  {Rsrc_PALDouble, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_PALDouble}},
   {NULL, 0, {0, 0}}
 };
