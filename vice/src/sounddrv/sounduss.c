@@ -66,28 +66,30 @@ static SWORD buffer[2*BUFSIZE];
 static int uss_bufferspace(void);
 
 static int uss_init(const char *param, int *speed,
-		    int *fragsize, int *fragnr, int *channels)
+                    int *fragsize, int *fragnr, int *channels)
 {
-    int			 st, tmp, orig;
+    int st, tmp, orig;
 
-    if (!param)
-      {
-	struct stat buf;
-	if(!stat("/dev/dsp", &buf))
-	param = "/dev/dsp";
-	else if(!stat("/dev/sound/dsp", &buf))
-	  param="/dev/sound/dsp";
-      }
-    if(!param)
-      {
+    if (!param) {
+        struct stat buf;
+        if (!stat("/dev/dsp", &buf))
+            param = "/dev/dsp";
+        else if(!stat("/dev/sound/dsp", &buf))
+            param="/dev/sound/dsp";
+    }
+
+    if (!param) {
         log_message(LOG_DEFAULT, "Did not find any uss device");
-	return 1;
-      }
+        return 1;
+    }
+
     uss_fd = open(param, O_WRONLY, 0777);
+
     if (uss_fd < 0) {
         log_message(LOG_DEFAULT, "Cannot open '%s' for writing", param);
         return 1;
     }
+
     /* samplesize 16 bits */
 #ifdef WORDS_BIGENDIAN
     orig = tmp = AFMT_S16_BE;
@@ -95,77 +97,76 @@ static int uss_init(const char *param, int *speed,
     orig = tmp = AFMT_S16_LE;
 #endif
     st = ioctl(uss_fd, SNDCTL_DSP_SETFMT, &tmp);
-    if (st < 0 || orig != tmp || getenv("USS8BIT"))
-    {
-	/* samplesize 8 bits */
-	orig = tmp = AFMT_U8;
-	st = ioctl(uss_fd, SNDCTL_DSP_SETFMT, &tmp);
-	if (st < 0 || orig != tmp)
-	{
-	    log_message(LOG_DEFAULT, "SNDCTL_DSP_SETFMT failed");
-	    goto fail;
-	}
-	log_message(LOG_DEFAULT, "Playing 8bit sample");
-	uss_8bit = 1;
+
+    if (st < 0 || orig != tmp || getenv("USS8BIT")) {
+        /* samplesize 8 bits */
+        orig = tmp = AFMT_U8;
+        st = ioctl(uss_fd, SNDCTL_DSP_SETFMT, &tmp);
+        if (st < 0 || orig != tmp) {
+            log_message(LOG_DEFAULT, "SNDCTL_DSP_SETFMT failed");
+            goto fail;
+        }
+        log_message(LOG_DEFAULT, "Playing 8bit sample");
+        uss_8bit = 1;
     }
 
     tmp = *channels;
     st = ioctl(uss_fd, SNDCTL_DSP_CHANNELS, &tmp);
-    if (st < 0 || tmp != *channels)
-    {
+    if (st < 0 || tmp != *channels) {
         /* Intel ICH and ICH0 only support 2 channels */
         if (*channels == 1 && tmp == 2) {
-	    uss_duplicate = 1;
-	}
-	else {
-	    log_message(LOG_DEFAULT, "SNDCTL_DSP_CHANNELS failed");
-	    /* no stereo */
-	    tmp = *channels = 1;
-	    st = ioctl(uss_fd, SNDCTL_DSP_CHANNELS, &tmp);
-	    if (st < 0 || tmp != *channels) {
-	        goto fail;
-	    }
-	}
+            uss_duplicate = 1;
+        }
+        else {
+            log_message(LOG_DEFAULT, "SNDCTL_DSP_CHANNELS failed");
+            /* no stereo */
+            tmp = *channels = 1;
+            st = ioctl(uss_fd, SNDCTL_DSP_CHANNELS, &tmp);
+            if (st < 0 || tmp != *channels) {
+                goto fail;
+            }
+        }
     }
+
     /* speed */
     tmp = *speed;
     st = ioctl(uss_fd, SNDCTL_DSP_SPEED, &tmp);
-    if (st < 0 || tmp <= 0)
-    {
-	log_message(LOG_DEFAULT, "SNDCTL_DSP_SPEED failed");
-	goto fail;
+    if (st < 0 || tmp <= 0) {
+        log_message(LOG_DEFAULT, "SNDCTL_DSP_SPEED failed");
+        goto fail;
     }
     *speed = tmp;
+
     /* fragments */
     for (tmp = 1; 1 << tmp < *fragsize; tmp++);
     orig = tmp = tmp + (*fragnr << 16) + !uss_8bit;
     st = ioctl(uss_fd, SNDCTL_DSP_SETFRAGMENT, &tmp);
-    if (st < 0 || (tmp^orig)&0xffff)
-    {
-	log_message(LOG_DEFAULT, "SNDCTL_DSP_SETFRAGMENT failed");
-	goto fail;
+
+    if (st < 0 || (tmp ^ orig) & 0xffff) {
+        log_message(LOG_DEFAULT, "SNDCTL_DSP_SETFRAGMENT failed");
+        goto fail;
     }
-    if (tmp != orig)
-    {
-	if (tmp >> 16 > *fragnr)
-	{
-	    log_message(LOG_DEFAULT,
+
+    if (tmp != orig) {
+        if (tmp >> 16 > *fragnr) {
+            log_message(LOG_DEFAULT,
                         "SNDCTL_DSP_SETFRAGMENT: too many fragments");
-	    goto fail;
-	}
-	*fragnr = tmp >> 16;
-	if (*fragnr < 3)
-	{
-	    log_message(LOG_DEFAULT,
+            goto fail;
+        }
+        *fragnr = tmp >> 16;
+        if (*fragnr < 3) {
+            log_message(LOG_DEFAULT,
                         "SNDCTL_DSP_SETFRAGMENT: too few fragments");
-	    goto fail;
-	}
+            goto fail;
+        }
     }
-    uss_bufsize = (*fragsize)*(*fragnr);
+
+    uss_bufsize = (*fragsize) * (*fragnr);
     uss_fragsize = *fragsize;
     uss_channels = *channels;
 
     return 0;
+
 fail:
     close(uss_fd);
     uss_fd = -1;
@@ -182,65 +183,58 @@ static int uss_write(SWORD *pbuf, size_t nr)
     size_t total;
 
     if (uss_duplicate) {
-        for (i = 0; i < nr; i++) {
-	    buffer[i*2] = pbuf[i];
-	    buffer[i*2 + 1] = pbuf[i];
-	}
-	pbuf = buffer;
-	nr *= 2;
+        for (i = 0; (size_t)i < nr; i++) {
+            buffer[i * 2] = pbuf[i];
+            buffer[i * 2 + 1] = pbuf[i];
+        }
+        pbuf = buffer;
+        nr *= 2;
     }
 
-    if (uss_8bit)
-    {
-	for (i = 0; i < nr; i++)
-	    ((char *)buffer)[i] = pbuf[i]/256 + 128;
-	pbuf = buffer;
-	total = nr;
-    }
-    else
-	total = nr*sizeof(SWORD);
+    if (uss_8bit) {
+        for (i = 0; (size_t)i < nr; i++)
+            ((char *)buffer)[i] = pbuf[i] / 256 + 128;
+        pbuf = buffer;
+        total = nr;
+    } else
+        total = nr*sizeof(SWORD);
 
-    for (i = 0; i < total; i += now)
-    {
-	now = write(uss_fd, (char *)pbuf + i, total - i);
-	if (now <= 0)
-	{
-	    if (now < 0)
-		perror("uss_write");
-	    return 1;
-	}
+    for (i = 0; (size_t)i < total; i += now) {
+        now = write(uss_fd, (char *)pbuf + i, total - i);
+        if (now <= 0) {
+            if (now < 0)
+                perror("uss_write");
+            return 1;
+        }
     }
     return 0;
 }
 
 static int uss_bufferspace(void)
 {
-    audio_buf_info		info;
-    int				st, ret;
+    audio_buf_info info;
+    int st, ret;
 
     /* ioctl(uss_fd, SNDCTL_DSP_GETOSPACE, &info) yields space in bytes
        in info.bytes. */
     st = ioctl(uss_fd, SNDCTL_DSP_GETOSPACE, &info);
-    if (st < 0)
-    {
-	log_message(LOG_DEFAULT, "SNDCTL_DSP_GETOSPACE failed");
-	return -1;
+    if (st < 0) {
+        log_message(LOG_DEFAULT, "SNDCTL_DSP_GETOSPACE failed");
+        return -1;
     }
     ret = info.bytes;
-    if (ret < 0)
-    {
+    if (ret < 0) {
         log_message(LOG_DEFAULT, "GETOSPACE: bytes < 0");
-	ret = 0;
+        ret = 0;
     }
     if (!uss_8bit)
-	ret /= sizeof(SWORD);
+        ret /= sizeof(SWORD);
     ret /= uss_channels;
-    if (ret > uss_bufsize)
-    {
+    if (ret > uss_bufsize) {
 #ifndef DEBUG
-	log_message(LOG_DEFAULT, "GETOSPACE: bytes > bufsize");
+        log_message(LOG_DEFAULT, "GETOSPACE: bytes > bufsize");
 #endif
-	ret = uss_bufsize;
+        ret = uss_bufsize;
     }
     return ret;
 }
@@ -257,12 +251,11 @@ static void uss_close(void)
 
 static int uss_suspend(void)
 {
-    int			 st;
+    int st;
     st = ioctl(uss_fd, SNDCTL_DSP_POST, NULL);
-    if (st < 0)
-    {
-	log_message(LOG_DEFAULT, "SNDCTL_DSP_POST failed");
-	return 1;
+    if (st < 0) {
+        log_message(LOG_DEFAULT, "SNDCTL_DSP_POST failed");
+        return 1;
     }
     return 0;
 }
@@ -285,3 +278,4 @@ int sound_init_uss_device(void)
 {
     return sound_register_device(&uss_device);
 }
+

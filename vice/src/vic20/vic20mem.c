@@ -86,8 +86,10 @@ BYTE mem_cartrom[0x10000];
 BYTE mem_chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
 
 /* Memory read and write tables.  */
+/*
 static read_func_ptr_t _mem_read_tab[0x101];
 static store_func_ptr_t _mem_write_tab[0x101];
+*/
 static BYTE *_mem_read_base_tab[0x101];
 static int mem_read_limit_tab[0x101];
 

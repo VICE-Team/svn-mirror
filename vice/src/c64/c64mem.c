@@ -95,9 +95,6 @@ BYTE *mem_color_ram_cpu, *mem_color_ram_vicii;
 /* Pointer to the chargen ROM.  */
 BYTE *mem_chargen_rom_ptr;
 
-/* Size of RAM...  */
-static int ram_size = C64_RAM_SIZE;
-
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;

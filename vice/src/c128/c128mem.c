@@ -108,9 +108,6 @@ BYTE *mem_color_ram_cpu, *mem_color_ram_vicii;
 /* Pointer to the chargen ROM.  */
 BYTE *mem_chargen_rom_ptr;
 
-/* Size of RAM...  */
-static int ram_size = C128_RAM_SIZE;
-
 /* Currently selected RAM bank.  */
 BYTE *ram_bank;
 
