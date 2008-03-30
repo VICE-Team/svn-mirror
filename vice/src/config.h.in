@@ -6,6 +6,12 @@
 /* NLS datadirname. */
 #undef DATADIRNAME
 
+/* Can we use the dos WATTCP library? */
+#undef DOS_TCP
+
+/* Can we use the dos PCAP library? */
+#undef DOS_TFE
+
 /* Is DWORD defined as long or int in the Windows header files? */
 #undef DWORD_IS_LONG
 
@@ -70,6 +76,9 @@
 
 /* Define to 1 if you have the <dmedia/audio.h> header file. */
 #undef HAVE_DMEDIA_AUDIO_H
+
+/* Can we use the dos NET library? */
+#undef HAVE_DOS_LIBNET
 
 /* Define to 1 if you have the <errno.h> header file. */
 #undef HAVE_ERRNO_H

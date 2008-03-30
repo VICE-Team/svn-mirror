@@ -1,3 +1,13 @@
+2005-04-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.4
+
+	* doc/Makefile.am: Added `MSDOS-Ethernet-Howto.txt'.
+
+2005-04-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in, po/nl.po: Added dutch translation.
+
 2005-03-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.3

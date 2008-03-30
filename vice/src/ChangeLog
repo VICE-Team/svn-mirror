@@ -1,3 +1,18 @@
+2005-04-09  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.4
+
+	* arch/unix/x11/xaw/uiscreenshot.c: #include "util.h".
+
+	* sounddrv/soundalsa.c (alsa_init): Fixed warning.
+
+2005-03-29  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/msdos/Makefile.am, arch/msdos/c128ui.c,
+	arch/msdos/c64ui.c, arch/msdos/tfearch.c, arch/msdos/uitfe.c,
+	arch/msdos/uitfe.h, c64/tfe.c: Added TFE/RR-NET support for
+	the MSDOS version of VICE.
+
 2005-03-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.3

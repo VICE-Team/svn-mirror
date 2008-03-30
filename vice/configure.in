@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=16
-VICE_VERSION_BUILD=3
+VICE_VERSION_BUILD=4
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -255,7 +255,7 @@ dnl a simple check to find `libintl.h' and `gettext'.
 dnl
 
 dnl Add new languages here
-ALL_LINGUAS="de fr it sv pl"
+ALL_LINGUAS="de fr it sv pl nl"
 
 dnl These rules are solely for the distribution goal.  While doing this
 dnl we only have to keep exactly one list of the available catalogs
@@ -603,15 +603,36 @@ if test x"$enable_ffmpeg" = "xyes"; then
   GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o"
 fi
 
-if test x"$enable_ethernet" = "xyes"; then
-dnl /usr/lib/libpcap.a
-dnl /usr/lib/libnet.a
-  AC_CHECK_LIB(pcap, pcap_open_live,[AC_CHECK_LIB(net, libnet_write_link_layer,[
-    AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
-    LIBS="$LIBS -lpcap `libnet-config --libs`"
-    CFLAGS="$CFLAGS `libnet-config --defines`"
-  ],,$LIBS)],,$LIBS)
+if test x"$is_dos" = "xyes" ; then
+  if test x"$enable_ethernet" = "xyes"; then
+    AC_CHECK_LIB(watt, gethostbyname,
+                 [ LIBS="-lwatt $LIBS";
+                   AC_DEFINE(DOS_TCP,,
+                             [Can we use the dos WATTCP library?]) ],,)
+    AC_CHECK_LIB(pcap, pcap_open_live,
+                 [ AC_DEFINE(DOS_TFE,,
+                             [Can we use the dos PCAP library?])
+                   AC_DEFINE(HAVE_TFE,,
+                             [Support for The Final Ethernet]) ],,)
+    AC_CHECK_LIB(net, libnet_write_link_layer,
+                 [ LIBS="-lnet $LIBS";
+                   AC_DEFINE(HAVE_DOS_LIBNET,,
+                             [Can we use the dos NET library?]) ],,)
+    DOS_TFE_PCAP_LIB="libpcap_nodma.a"
+  fi
+else
+  if test x"$enable_ethernet" = "xyes"; then
+  dnl /usr/lib/libpcap.a
+  dnl /usr/lib/libnet.a
+    AC_CHECK_LIB(pcap, pcap_open_live,[AC_CHECK_LIB(net, libnet_write_link_layer,[
+      AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
+      LIBS="$LIBS -lpcap `libnet-config --libs`"
+      CFLAGS="$CFLAGS `libnet-config --defines`"
+    ],,$LIBS)],,$LIBS)
+  fi
 fi
+
+AC_SUBST(DOS_TFE_PCAP_LIB)
 
 if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" -a x"$is_riscos" != "xyes"; then
 
@@ -1099,7 +1120,11 @@ elif [[ x"$is_win32" != "xno" ]]; then
 elif [[ x"$is_dos" != "xno" ]]; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos"
   ARCH_DIR="\$(top_builddir)/src/arch/msdos"
+  if test $ac_cv_lib_pcap_pcap_open_live = yes; then
+  ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/libpcap_nodma.a"
+  else
   ARCH_LIBS="$ARCH_DIR/libarch.a"
+  fi
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, true)
