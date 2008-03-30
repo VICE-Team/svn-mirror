@@ -439,17 +439,8 @@ void mainloop(ADDRESS start_address)
     mem_set_bank_pointer(&bank_base, &bank_limit);
 #endif
 
-/*
-    reset();
-    DMA_ON_RESET;
-
-    if (start_address)
-	JUMP(start_address);
-    else
-	JUMP(LOAD_ADDR(0xfffc));
-*/
     maincpu_trigger_reset();
-    log_message(LOG_DEFAULT, "Main CPU: starting at $%04X.", reg_pc);
+    log_message(LOG_DEFAULT, "Main CPU: starting at ($FFFC).");
 
     while (1) {
 
