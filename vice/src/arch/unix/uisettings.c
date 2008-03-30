@@ -552,11 +552,7 @@ ui_menu_entry_t ui_fullscreen_settings_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_TOGGLE(DoubleSize)
-
 ui_menu_entry_t video_settings_submenu[] = {
-    { N_("*Double size"),
-      (ui_callback_t)toggle_DoubleSize, NULL, NULL },
     { N_("*Use XSync()"),
       (ui_callback_t)toggle_UseXSync, NULL, NULL },
     { NULL }
