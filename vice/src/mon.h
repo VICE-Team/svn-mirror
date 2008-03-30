@@ -32,7 +32,6 @@
 #include <stdio.h>
 
 #include "interrupt.h"
-#include "mem.h"
 #include "mos6510.h"
 #include "types.h"
 
