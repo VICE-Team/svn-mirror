@@ -1056,6 +1056,7 @@ static int mem_load_kernal(void)
         && sum != C128_KERNAL_CHECKSUM_R01GER)
         log_error(c128_mem_log, "Warning: Kernal image may be corrupted. Sum: %d.",
                   sum);
+    return 0;
 }
 
 static int mem_load_basic(void)
@@ -1097,6 +1098,7 @@ static int mem_load_basic(void)
                   sum);
         log_error(c128_mem_log, "Check your Basic ROM.");
     }
+    return 0;
 }
 
 static int mem_load_chargen(void)
@@ -1111,6 +1113,7 @@ static int mem_load_chargen(void)
                   chargen_rom_name);
         return -1;
     }
+    return 0;
 }
 
 /* Load ROMs at startup.  This is half-stolen from the old `load_mem()' in
