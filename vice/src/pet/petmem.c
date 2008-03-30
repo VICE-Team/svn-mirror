@@ -30,10 +30,6 @@
  *
  */
 
-#ifndef PET
-#define PET                     /* for mkdep */
-#endif
-
 #include "vice.h"
 
 #include <stdio.h>
