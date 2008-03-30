@@ -34,16 +34,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#endif
+
+#ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif
 
-#ifdef OS2
-#include <stdlib.h>
-#endif
-
-#include "autostart.h"
-
 #include "archdep.h"
+#include "autostart.h"
 #include "attach.h"
 #include "charsets.h"
 #include "datasette.h"
