@@ -88,7 +88,7 @@ static UI_CALLBACK(browse_callback)
     char *filename;
 
     filename = ui_select_file(_("Save emptydisk file"), NULL, False, NULL, "*",
-                              &button, 0);
+                              &button, 0, NULL);
 
     if (button == UI_BUTTON_OK)
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);
