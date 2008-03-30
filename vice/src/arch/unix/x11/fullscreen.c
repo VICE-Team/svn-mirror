@@ -4,6 +4,7 @@
  * Written by
  *  Oliver Schaertel <orschaer@forwiss.uni-erlangen.de>
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Martin Pottendorfer <pottendo@utanet.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,7 +26,9 @@
  *
  */
 
-/*#define FS_DEBUG*/
+/* 
+#define FS_DEBUG
+*/
 
 #include "vice.h"
 
@@ -52,6 +55,7 @@
 #include "resources.h"
 #include "log.h"
 #include "ui.h"
+#include "vsync.h"
 #include "utils.h"
 #include "videoarch.h"
 
@@ -74,6 +78,10 @@ static XF86VidModeModeLine restoremodeline;
 static XDGADevice* dgadev=NULL; 
 static XDGAMode *fullscreen_allmodes_dga2;
 static GC gcContext;
+
+static Colormap cm;
+static unsigned long colors[256];
+static void_hook_t old_ui_hook;
 #endif
 
 static int fullscreen_vidmodecount;
@@ -84,8 +92,10 @@ static int fullscreen_selected_videomode_index;
 static int fullscreen_use_fullscreen_at_start = 0;
 static int timeout;
 static int fullscreen_is_enabled_restore;
+static int EventBase, ErrorBase;
 
 int fullscreen_is_enabled;
+int request_fullscreen_mode = 0;
 char *fullscreen_selected_videomode;
 char *fullscreen_selected_videomode_at_start;
 int fullscreen_width, fullscreen_height;
@@ -100,22 +110,36 @@ static int fb_depth;
 static Display *display;
 extern int screen;
 
+int fullscreen_mode_off (void);
+static void fullscreen_dispatch_events(void);
+
 #ifdef FS_DEBUG
 void alarm_timeout(int signo) {
-  fullscreen_mode_off();
+    volatile int i = 1;
+    
+    fullscreen_mode_off();
+    while (i)
+    {
+	log_message(LOG_DEFAULT, _("Attach debugger to pid %d...\n"), 
+		    getpid());
+	sleep(1);		/* Set breakpoint here to debug */
+    }
 }  
 
 void set_alarm_timeout() {
+    if (signal(SIGSEGV, alarm_timeout) == SIG_ERR)
+        return;
     if (signal(SIGALRM, alarm_timeout) == SIG_ERR)
         return;
-    alarm(10);
+    alarm(20);
 }   
 #endif
 
 void fullscreen_refresh_func(video_frame_buffer_t *f,
 			     int src_x, int src_y,
 			     int dest_x, int dest_y,
-			     unsigned int width, unsigned int height) {
+			     unsigned int width, unsigned int height) 
+{
     int y;
     
     if ((dest_y + height) > fullscreen_height)
@@ -143,13 +167,21 @@ void fullscreen_refresh_func(video_frame_buffer_t *f,
 int fullscreen_vidmode_available(void)
 {
     int MajorVersion, MinorVersion;
-    int EventBase, ErrorBase;
     int i, j, hz = 0;
 
     fullscreen_bestmode_counter = 0;
     fullscreen_vidmodeavail = 0;
 
     display = ui_get_display_ptr();
+
+#ifndef FS_DEBUG
+    if (XF86DGAForkApp(XDefaultScreen(display)) != 0)
+    {
+	perror("Can't fork for DGA; quitting");
+	exit(1);
+    }
+    log_message(LOG_DEFAULT, _("Successfully forked DGA\n"));
+#endif
 
     if (! XF86DGAQueryVersion (display, &MajorVersion, &MinorVersion)) {
         log_error(LOG_DEFAULT, _("Unable to query video extension version - disabling fullscreen."));
@@ -161,7 +193,6 @@ int fullscreen_vidmode_available(void)
 	fullscreen_vidmodeavail = 0;
         return 1;
     }  
-
 
     if (MajorVersion < DGA_MINMAJOR
         || (MajorVersion == DGA_MINMAJOR && MinorVersion < DGA_MINMINOR))
@@ -273,11 +304,31 @@ int fullscreen_vidmode_available(void)
     return 1;
 }
 
+int fullscreen_request_set_mode(resource_value_t v, void *param)
+{
+#ifdef CHECK_DGA_V2
+    if (!v)
+    {
+	request_fullscreen_mode = 2; /* toggle to window mode */
+	if (old_ui_hook)
+	    (void) vsync_set_event_dispatcher(old_ui_hook);
+    }
+    else
+    {
+	request_fullscreen_mode = 1; /* toggle to fullscreen mode */
+	old_ui_hook = vsync_set_event_dispatcher(fullscreen_dispatch_events);
+    }
+    return 0;
+#else
+    return fullscreen_set_mode(v, param);
+#endif
+}
+
 int fullscreen_set_mode(resource_value_t v, void *param)
 {
     static int interval,prefer_blanking,allow_exposures;
     static int dotclock;
-
+    XColor TheColor;
     int i;
 
     if ( !fullscreen_vidmodeavail || !fullscreen_bestmode_counter ) {
@@ -289,6 +340,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
     }
 
     if (v && !fullscreen_is_enabled) {
+#ifndef CHECK_DGA_V2
         XGrabKeyboard(display,  XRootWindow (display, screen),
 		      1, GrabModeAsync,
 		      GrabModeAsync,  CurrentTime);
@@ -301,7 +353,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	XGetScreenSaver(display,&timeout,&interval,
 			&prefer_blanking,&allow_exposures);
 	XSetScreenSaver(display,0,0,DefaultBlanking,DefaultExposures);
-
+#endif
 
 #ifdef CHECK_DGA_V2
 	if (fullscreen_dga_major <= 1) {
@@ -326,7 +378,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	    }
 
 	    XF86DGAGetVideo (display, screen, &fb_addr, &fb_width, &fb_bank, &fb_mem);
-	    log_message(LOG_DEFAULT, _("DGA extension: addr:%X, width %d, bank size %d mem size %d\n"),
+	    log_message(LOG_DEFAULT, _("DGA extension: addr:%p, width %d, bank size %d mem size %d\n"),
 			fb_addr, fb_width, fb_bank, fb_mem);  
 
 
@@ -334,7 +386,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	    XF86DGASetViewPort (display, screen, 0, 0); 
 #ifdef CHECK_DGA_V2
 	} else {
-	    int pm_x, pm_y;
+	    int pm_x = 0, pm_y = 0;
 	    log_message(LOG_DEFAULT, _("Switch to fullscreen %ix%i"),
 			fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].viewportWidth,
 			fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].viewportHeight);
@@ -366,12 +418,35 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 		ui_display_paused(1);
 		return 0;
 	    }
-	    XDGAChangePixmapMode(display, screen, &pm_x, &pm_y, XDGAPixmapModeLarge);
+
+	    XDGASelectInput(display, screen,
+		    PointerMotionMask | 
+		    ButtonPressMask | 
+		    KeyPressMask | 
+		    KeyReleaseMask);
+    
+	    cm = XDGACreateColormap(display, screen, dgadev, AllocNone);
+
+	    for(i = 0; i < 256; i++) {
+		TheColor.blue = TheColor.red = (i << 8) | i;
+		TheColor.green = 128;
+	
+		TheColor.flags = DoRed | DoGreen | DoBlue;
+		XAllocColor(display, cm, &TheColor);
+		colors[i] = TheColor.pixel;
+	    }
+	    XDGAInstallColormap(display, screen, cm);
+    
+	    XDGAChangePixmapMode(display, screen, &pm_x, &pm_y, 
+				 XDGAPixmapModeLarge);
 	    XDGASetViewport (display, screen, 0, 0, XDGAFlipRetrace);
 
 	    while(XDGAGetViewportStatus(display, screen));
 	    XSetForeground(display, gcContext, 0);
-	    XFillRectangle(display, dgadev->pixmap, gcContext, 0, 0, fullscreen_width, fullscreen_height);
+
+	    XFillRectangle(display, dgadev->pixmap, gcContext, 0, 0, 
+			   fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].maxViewportX, 
+			   fullscreen_allmodes_dga2[fullscreen_selected_videomode_index].maxViewportY);
 	    XFlush(display);
 	}
 #endif
@@ -417,7 +492,6 @@ int fullscreen_set_mode(resource_value_t v, void *param)
     ui_check_mouse_cursor();
     return 1;
 }
-
 
 int fullscreen_set_bestmode(resource_value_t v, void *param)
 {
@@ -480,7 +554,6 @@ void fullscreen_mode_off_restore(void)
 
 void fullscreen_mode_init(void)
 {
-
     fullscreen_set_bestmode(fullscreen_selected_videomode_at_start, NULL);
     if (fullscreen_selected_videomode_index == -1 && fullscreen_bestmode_counter > 0)
         fullscreen_selected_videomode_index = fullscreen_bestmodes[0].modeindex;
@@ -520,4 +593,43 @@ char *fullscreen_mode_name(int mode)
 {
     return fullscreen_bestmodes[mode].name;
 }
+
+#ifdef CHECK_DGA_V2
+
+/* event & keyboard handling */
+static void fullscreen_kbd_event_handler(XKeyEvent *event, int type);
+
+static void fullscreen_dispatch_events_2(void)
+{
+    XDGAEvent event;
+    XKeyEvent xk;
+    
+    while (XPending(display))
+    {
+	XNextEvent(display, (XEvent *) &event);
+	switch (event.type - EventBase)
+	{
+	case KeyPress:
+	case KeyRelease:
+ 	    XDGAKeyEventToXKeyEvent(&(event.xkey), &xk); 
+  	    fullscreen_kbd_event_handler(&xk, event.type - EventBase);
+	    break;
+	default:
+	    break;
+	}
+    }
+}
+
+static void fullscreen_dispatch_events(void)
+{
+    fullscreen_dispatch_events_2();
+    if (request_fullscreen_mode == 1)
+	fullscreen_mode_on();
+    if (request_fullscreen_mode == 2)
+	fullscreen_mode_off();
+    request_fullscreen_mode = 0;
+}
+
+#include "fullscreenkbd.c"
+#endif
 

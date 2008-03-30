@@ -64,11 +64,21 @@ static ULONG ulTmrFreq = 0;  // Hertz (almost 1.2MHz at my PC) FIXME!!!
 
 PULONG pms = 0;
 
+unsigned long vsyncarch_timescale()
+{
+    static ULONG ulTmrFreq=0;
+
+    if (!ulTmrFreq)
+        DosTmrQueryFreq(&ulTmrFreq);
+
+    return ulTmrFreq; // 1000;
+}
+
 unsigned long vsyncarch_gettime()
 {
     QWORD qwTmrTime;
     DosTmrQueryTime(&qwTmrTime);
-    return qwTmrTime.ulLo; // pms?*pms:0;
+    return (unsigned long)(1000000.0/vsyncarch_timescale()*qwTmrTime.ulLo); // pms?*pms:0;
 }
 
 static HEV hevTimer = 0; // Event semaphore handle
@@ -97,16 +107,6 @@ void vsyncarch_init()
     //    SEL sgs, sls;
     //    Dos16GetInfoSeg(&sgs, &sls);
     //    pms = MAKE16P(sgs, sizeof(ULONG));
-}
-
-unsigned long vsyncarch_timescale()
-{
-    static ULONG ulTmrFreq=0;
-
-    if (!ulTmrFreq)
-        DosTmrQueryFreq(&ulTmrFreq);
-
-    return ulTmrFreq; // 1000;
 }
 
 // -------------------------------------------------------------------------
@@ -176,7 +176,7 @@ void vsyncarch_sleep(long delay)
     ULONG  ret;
     HTIMER htimer = 0; // Timer handle
 
-    delay *= 1000.0/vsyncarch_timescale();
+    delay /= 1000;
 
     if (delay<1)
         return;

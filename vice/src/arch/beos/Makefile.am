@@ -84,4 +84,4 @@ libarch_a_SOURCES = \
 	video.cc \
 	videoarch.h \
 	vsidui.cc \
-	vsync.c
+	vsyncarch.c

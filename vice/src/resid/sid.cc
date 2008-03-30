@@ -452,8 +452,8 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   sample_delay = cycle_count(fir_N*clock_freq/sample_freq + 0.5);
 
   // Clear sample buffer.
-  for (int i = 0; i < 4096; i++) {
-    sample[i] = 0;
+  for (int j = 0; j < 4096; j++) {
+    sample[j] = 0;
   }
   sample_index = 0;
 

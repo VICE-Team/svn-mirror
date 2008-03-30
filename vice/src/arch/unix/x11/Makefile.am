@@ -14,7 +14,8 @@ INCLUDES = \
 noinst_LIBRARIES = libx11ui.a
 
 EXTRA_libx11ui_a_SOURCES = \
-        fullscreen.c
+        fullscreen.c \
+	fullscreenkbd.c 
 
 libx11ui_a_SOURCES = \
 	kbd.c \

@@ -2,6 +2,7 @@
 
 # Emulator core files
 src/print.c
+src/vsync.c
 
 # Architecture Unix
 src/arch/unix/uicommands.c
@@ -17,7 +18,6 @@ src/arch/unix/mouse.c
 src/arch/unix/petkmap.c
 src/arch/unix/rs232.c
 src/arch/unix/vsidui.c
-src/arch/unix/vsync.c
 src/arch/unix/vic20ui.c
 src/arch/unix/archdep.c
 src/arch/unix/console.c

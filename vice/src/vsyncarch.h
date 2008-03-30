@@ -28,7 +28,7 @@
 
 #include "vice.h"
 
-/* provide the actual time in uu (user units), eg. usec or clock-ticks */
+/* provide the actual time in microseconds */
 unsigned long vsyncarch_gettime(void);
 
 /* call when vsync_init is called */
@@ -37,12 +37,8 @@ void vsyncarch_init(void);
 /* display speed(%) and framerate(fps) */
 void vsyncarch_display_speed(double speed, double fps, int warp_enabled);
 
-/* sleep the given amount of uu */
+/* sleep the given amount of microseconds */
 void vsyncarch_sleep(long delay);
-
-/* number of user unis per second - used to calc speed and fps
-  eg. 1uu=1usec --> vsyncarch_timesacale=1000000 */
-unsigned long vsyncarch_timescale(void);
 
 /* this is called before do_vsync does the synchroniation */
 void vsyncarch_presync(void);

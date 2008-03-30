@@ -1640,7 +1640,7 @@ void ui_dispatch_next_event(void)
 void ui_dispatch_events(void)
 {
     while (gtk_events_pending())
-        ui_dispatch_next_event();
+	ui_dispatch_next_event();
 }
 
 /* Resize one window. */
@@ -1692,9 +1692,9 @@ void ui_autorepeat_off(void)
 /* Button callbacks.  */
 
 #define DEFINE_BUTTON_CALLBACK(button)          \
-    void  cb_##button##(GtkWidget *w, ui_callback_data_t client_data) \
+    void  cb_##button(GtkWidget *w, ui_callback_data_t client_data) \
     {                                           \
-        *((ui_button_t *)client_data) = ##button##; \
+        *((ui_button_t *)client_data) = button; \
     }
 
 DEFINE_BUTTON_CALLBACK(UI_BUTTON_OK)

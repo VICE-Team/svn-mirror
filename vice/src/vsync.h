@@ -27,6 +27,8 @@
 #ifndef _VSYNC_H
 #define _VSYNC_H
 
+typedef void (*void_hook_t)(void);
+
 extern void suspend_speed_eval(void);
 extern int vsync_init_resources(void);
 extern int vsync_init_cmdline_options(void);
@@ -34,6 +36,7 @@ extern void vsync_init(void (*hook)(void));
 extern void vsync_set_machine_parameter(double refresh_rate, long cycles);
 extern int do_vsync(int been_skipped);
 extern int vsync_disable_timer(void);
+extern void_hook_t vsync_set_event_dispatcher(void_hook_t hook);
 
 #endif
 

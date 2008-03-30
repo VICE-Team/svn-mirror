@@ -1,9 +1,14 @@
 /*
- * gnomekbd.c - Simple Gnome-based graphical user interface.
+ * fullscreenx11kbd.c - Simple Xaw-based graphical user interface.  
+ * It uses widgets 
+ * from the Free Widget Foundation and Robert W. McMullen.
  *
  * Written by
- *  Oliver Schaertel
- *  Martin Pottendorfer <Martin.Pottendorfer@alcatel.at>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andre Fachat <fachat@physik.tu-chemnitz.de>
+ *
+ * Support for multiple visuals and depths by
+ *  Teemu Rantanen <tvr@cs.hut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -23,8 +28,9 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
  *
- * GTK Keyboard driver
  */
+
+/* X11 keyboard driver. */
 
 #include "vice.h"
 
@@ -32,55 +38,59 @@
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
 
-#include <string.h>		/* memset() */
-#include <gtk/gtk.h>
-
-#include "keyboard.h"
-#include "machine.h"
 #include "kbd.h"
 #include "kbdef.h"
+#include "keyboard.h"
+#include "machine.h"
+#include "ui.h"
+
+/* 
+#define DEBUG_KBD 1
+*/
 
 /* Meta status (used to filter out keypresses when meta is pressed).  */
-extern int meta_count;	/* coming from uihotkey.c */
-int ui_hotkey_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp);
+static int meta_count = 0;
 
 static int left_shift_down, right_shift_down, virtual_shift_down;
 
-void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp )
+void fullscreen_kbd_event_handler(XKeyEvent *keyevent, int type)
 {
-    gint key;
-    int i;
+    static char buffer[20];
+    KeySym key;
+    XComposeStatus compose;
+    int count, i;
 
-    if (ui_hotkey_event_handler(w, report, gp))
-	return;
-    
+    count = XLookupString(keyevent, buffer, 20, &key, &compose);
+
     if (vsid_mode) {
         return;
     }
 
-    key = report->key.keyval;
-
     if (key != NoSymbol
         && ((key == key_ctrl_restore1)
-            || (key == key_ctrl_restore2))) {	/* Restore */
-	int retfl = 0;
-	if (report->type == GDK_KEY_PRESS) {
-	    retfl = machine_set_restore_key(1);
-	} else if (report->type == GDK_KEY_RELEASE) {
-	    retfl = machine_set_restore_key(0);
-	}
-	if (retfl)
+        || (key == key_ctrl_restore2))) {   /* Restore */
+        int retfl = 0;
+        if (type == KeyPress) {
+            retfl = machine_set_restore_key(1);
+        } else if (type == KeyRelease) {
+            retfl = machine_set_restore_key(0);
+        }
+        if (retfl)
             return;
     }
 
-    switch (report->type) {
-	
-    case GDK_KEY_PRESS:
-	
+    switch (type) {
+
+      case KeyPress:
+
 #ifdef DEBUG_KBD
         log_debug("KeyPress `%s'.", XKeysymToString(key));
 #endif
 
+#ifdef FS_DEBUG
+	alarm(0);
+	alarm(20);
+#endif	
         if (key == XK_Meta_R
             || key == XK_Meta_L
 #ifdef ALT_AS_META
@@ -92,58 +102,61 @@ void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp )
 #endif
             )
             meta_count++;
-	
-	if (key != NoSymbol && key == key_ctrl_column4080) {
+
+        if (key != NoSymbol && key == key_ctrl_column4080) {
             if (key_ctrl_column4080_func != NULL)
                 key_ctrl_column4080_func();
             break;
         }
-	
-	if (meta_count != 0)
-	    break;
 
-	if (check_set_joykeys(key, 1))
-	    break;
-	if (check_set_joykeys(key, 2))
-	    break;
-	
-	if (keyconvmap) {
-	    for (i = 0; keyconvmap[i].sym != 0; ++i) {
-		if (key == keyconvmap[i].sym) {
-		    int row = keyconvmap[i].row;
-		    int column = keyconvmap[i].column;
-		    
-		    if (row >= 0) {
-			keyboard_set_keyarr(row, column, 1);
-			
-			if (keyconvmap[i].shift == NO_SHIFT) {
-			    keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 
-						0);
-			    keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol, 
-						0);
-			} else {
-			    if (keyconvmap[i].shift & VIRTUAL_SHIFT)
-				virtual_shift_down++;
-			    if (keyconvmap[i].shift & LEFT_SHIFT)
-				left_shift_down++;
-			    if (left_shift_down + virtual_shift_down > 0)
-				keyboard_set_keyarr(kbd_lshiftrow, 
-						    kbd_lshiftcol, 1);
-			    if (keyconvmap[i].shift & RIGHT_SHIFT)
-				right_shift_down++;
-			    if (right_shift_down > 0)
-				keyboard_set_keyarr(kbd_rshiftrow, 
-						    kbd_rshiftcol, 1);
-			}
-			break;
-		    }
-		}
-	    }
+	if (meta_count && (key == XK_d))
+	    fullscreen_request_set_mode(0, NULL);
+	    
+        if (meta_count != 0)
+            break;
+
+        if (check_set_joykeys(key, 1))
+            break;
+        if (check_set_joykeys(key, 2))
+            break;
+
+        if (keyconvmap) {
+            for (i = 0; keyconvmap[i].sym != 0; ++i) {
+                if (key == keyconvmap[i].sym) {
+                    int row = keyconvmap[i].row;
+                    int column = keyconvmap[i].column;
+
+                    if (row >= 0) {
+                        keyboard_set_keyarr(row, column, 1);
+
+                        if (keyconvmap[i].shift == NO_SHIFT) {
+                            keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol,
+                                                0);
+                            keyboard_set_keyarr(kbd_rshiftrow, kbd_rshiftcol,
+                                                0);
+                        } else {
+                            if (keyconvmap[i].shift & VIRTUAL_SHIFT)
+                                virtual_shift_down++;
+                            if (keyconvmap[i].shift & LEFT_SHIFT)
+                                left_shift_down++;
+                            if (left_shift_down + virtual_shift_down > 0)
+                                keyboard_set_keyarr(kbd_lshiftrow,
+                                                    kbd_lshiftcol, 1);
+                            if (keyconvmap[i].shift & RIGHT_SHIFT)
+                                right_shift_down++;
+                            if (right_shift_down > 0)
+                                keyboard_set_keyarr(kbd_rshiftrow,
+                                                    kbd_rshiftcol, 1);
+                        }
+                        break;
+                    }
+                }
+            }
 	}
-	break;		/* KeyPress */
-	
-    case GDK_KEY_RELEASE:
-      
+	break;			/* KeyPress */
+
+      case KeyRelease:
+
 #ifdef DEBUG_KBD
         log_debug("KeyRelease `%s'.", XKeysymToString(key));
 #endif
@@ -161,7 +174,7 @@ void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp )
                the behavior of multiple keys.  Does anybody know a way to
                avoid this X11 oddity?  */
             keyboard_clear_keymatrix();
-	    virtual_shift_down = 0;
+            virtual_shift_down = 0;
 	    /* TODO: do we have to cleanup joypads here too? */
 	}
 
@@ -187,22 +200,22 @@ void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp )
             break;
 
 	if (keyconvmap) {
-	    for (i = 0; keyconvmap[i].sym != 0; i++) {
-		if (key == keyconvmap[i].sym) {
-		    int row = keyconvmap[i].row;
-		    int column = keyconvmap[i].column;
+            for (i = 0; keyconvmap[i].sym != 0; i++) {
+                if (key == keyconvmap[i].sym) {
+                    int row = keyconvmap[i].row;
+                    int column = keyconvmap[i].column;
 
-		    if (row >= 0) {
-			keyboard_set_keyarr(row, column, 0);
-			if (keyconvmap[i].shift & VIRTUAL_SHIFT)
-			    virtual_shift_down--;
-			if (keyconvmap[i].shift & LEFT_SHIFT)
-			    left_shift_down--;
-			if (keyconvmap[i].shift & RIGHT_SHIFT)
-			    right_shift_down--;
-		    }
-		}
-	    }
+                    if (row >= 0) {
+                        keyboard_set_keyarr(row, column, 0);
+                        if (keyconvmap[i].shift & VIRTUAL_SHIFT)
+                            virtual_shift_down--;
+                        if (keyconvmap[i].shift & LEFT_SHIFT)
+                            left_shift_down--;
+                        if (keyconvmap[i].shift & RIGHT_SHIFT)
+                            right_shift_down--;
+                    }
+                }
+            }
 	}
 
 	/* Map shift keys. */
@@ -216,8 +229,8 @@ void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp )
 	    keyboard_set_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
 	break;			/* KeyRelease */
 
-      case GDK_ENTER_NOTIFY:
-      case GDK_LEAVE_NOTIFY:
+      case EnterNotify:
+      case LeaveNotify:
 	/* Clean up. */
         keyboard_clear_keymatrix();
 	memset(joystick_value, 0, sizeof(joystick_value));

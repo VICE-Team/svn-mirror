@@ -34,6 +34,8 @@
 #include "fullscreen.h"
 #endif
 
+extern int fullscreen_request_set_mode(resource_value_t r, void *a);
+
 /* ------------------------------------------------------------------------- */
 
 struct ui_resources_s {
@@ -93,7 +95,7 @@ static resource_t resources[] = {
 #ifdef USE_XF86_EXTENSIONS
     { "UseFullscreen", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &fullscreen_is_enabled,
-      fullscreen_set_mode, NULL },
+      fullscreen_request_set_mode, NULL },
     { "SelectedFullscreenMode", RES_STRING, (resource_value_t) "",
       (resource_value_t *) &fullscreen_selected_videomode,
       fullscreen_set_bestmode, NULL },

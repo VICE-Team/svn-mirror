@@ -44,26 +44,6 @@
 
 static unsigned long frequency = 0;
 
-unsigned long vsyncarch_gettime()
-{
-	LARGE_INTEGER li;
-	if (!QueryPerformanceCounter(&li)) {
-		ui_error("Can't get performance counter");
-		return 0;
-	}
-	
-#ifdef HAS_LONGLONG_INTEGER
-	return (unsigned long)li.QuadPart;
-#else
-	return (unsigned long)li.LowPart;
-#endif
-		
-}
-
-void vsyncarch_init()
-{
-}
-
 unsigned long vsyncarch_timescale()
 {
 	LARGE_INTEGER li;
@@ -81,6 +61,26 @@ unsigned long vsyncarch_timescale()
 	return frequency;
 }
 
+unsigned long vsyncarch_gettime()
+{
+	LARGE_INTEGER li;
+	if (!QueryPerformanceCounter(&li)) {
+		ui_error("Can't get performance counter");
+		return 0;
+	}
+	
+#ifdef HAS_LONGLONG_INTEGER
+	return (unsigned long)(1000000.0/vsyncarch_timescale()*li.QuadPart);
+#else
+	return (unsigned long)(1000000.0/vsyncarch_timescale()*li.LowPart);
+#endif
+		
+}
+
+void vsyncarch_init()
+{
+}
+
 // -------------------------------------------------------------------------
 
 // Display speed (percentage) and frame rate (frames per second).
@@ -96,6 +96,9 @@ void vsyncarch_sleep(long delay)
 	
 	if (delay <= 0)
 		return;
+
+	delay *= vsyncarch_timescale()/1000000.0;
+
 	QueryPerformanceCounter(&start);
 	do {
 		Sleep(10);
