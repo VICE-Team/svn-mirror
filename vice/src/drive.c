@@ -376,6 +376,9 @@ int     open_1541(void *flp, char *name, int length, int secondary)
                           &readmode, &filetype, &rl) != SERIAL_OK)
 	return SERIAL_ERROR;
 
+    /* Limit file name to 16 chars.  */
+    reallength = (reallength > 16) ? 16 : reallength;
+
     /*
      * Internal buffer ?
      */
@@ -1849,12 +1852,14 @@ int  do_validate(DRIVE *floppy)
     int     t, s;
     BYTE   *b;
     int     status;
+    BYTE oldbam[256];
 
     status = do_initialize(floppy);
     if (status != IPE_OK)
 	return status;
     if (floppy->ReadOnly)
 	return IPE_WRITE_PROTECT_ON;
+    memcpy(oldbam, floppy->bam, 256);
 
     for (t = 1; t <= floppy->NumTracks; t++) {
 
@@ -1879,8 +1884,10 @@ int  do_validate(DRIVE *floppy)
     /* XXX  -- advanced drives ... */
 
     status = allocate_chain(floppy, DSK_BAM_TRACK, DSK_BAM_SECTOR);
-    if (status != IPE_OK)
-	goto error;
+    if (status != IPE_OK) {
+	memcpy(floppy->bam, oldbam, 256);
+	return status;
+    }
 
     set_find_first_slot(floppy, "*", 1, 0);
 
@@ -1891,12 +1898,18 @@ int  do_validate(DRIVE *floppy)
 	if (*filetype & FT_CLOSED) {
 	    status = allocate_chain(floppy, b[SLOT_FIRST_TRACK],
 	                                    b[SLOT_FIRST_SECTOR]);
-	    if (status != IPE_OK)
-		goto error;
+	    if (status != IPE_OK) {
+		memcpy(floppy->bam, oldbam, 256);
+		return status;
+	    }
+	    /* The 1541 drive always validates side sectors even if the file
+	       type is not REL.  */
 	    status = allocate_chain(floppy, b[SLOT_SIDE_TRACK],
 	                                    b[SLOT_SIDE_SECTOR]);
-	    if (status != IPE_OK)
-		goto error;
+	    if (status != IPE_OK) {
+		memcpy(floppy->bam, oldbam, 256);
+		return status;
+	    }
 	} else {
 	    *filetype = FT_DEL;
 
@@ -1908,7 +1921,7 @@ int  do_validate(DRIVE *floppy)
 	}
     }
 
-error:
+    /* Write back BAM only if validate was successful.  */
     floppy_write_bam(floppy);
 
     return status;

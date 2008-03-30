@@ -835,13 +835,12 @@ int open_fs(void *flp, char *name, int length, int secondary)
 			  &fs_info[secondary].type, &rl) != SERIAL_OK)
 	return SERIAL_ERROR;
 
-	if (fs_info[secondary].type == FT_DEL)
-	    fs_info[secondary].type = (secondary < 2) ? FT_PRG : FT_SEQ;
-
-    if (fsdevice_save_p00_enabled[(floppy->unit) - 8] == 0)
-	petconvstring(fsname, 1);	/* CBM name to FSname */
+    if (fs_info[secondary].type == FT_DEL)
+	fs_info[secondary].type = (secondary < 2) ? FT_PRG : FT_SEQ;
 
     fsname[reallength] = 0;
+
+    petconvstring(fsname, 1);	/* CBM name to FSname */
 
     switch (readmode) {
       case FAM_WRITE:
