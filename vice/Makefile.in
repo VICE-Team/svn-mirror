@@ -96,8 +96,6 @@ SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 VERSION = @VERSION@
-VSID = @VSID@
-VSID_DIR = @VSID_DIR@
 X128_WINRES = @X128_WINRES@
 X64_WINRES = @X64_WINRES@
 XCBM2_WINRES = @XCBM2_WINRES@
@@ -105,7 +103,6 @@ XPET_WINRES = @XPET_WINRES@
 XVIC_WINRES = @XVIC_WINRES@
 YACC = @YACC@
 cxx = @cxx@
-vsid_LDFLAGS = @vsid_LDFLAGS@
 x128_LDFLAGS = @x128_LDFLAGS@
 x64_LDFLAGS = @x64_LDFLAGS@
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
@@ -346,9 +343,6 @@ xpet:
 
 xcbm2:
 	(cd src; $(MAKE) xcbm2-all)
-
-vsid:
-	(cd src; $(MAKE) vsid-all)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

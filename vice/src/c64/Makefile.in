@@ -95,8 +95,6 @@ SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
-VSID = @VSID@
-VSID_DIR = @VSID_DIR@
 X128_WINRES = @X128_WINRES@
 X64_WINRES = @X64_WINRES@
 XCBM2_WINRES = @XCBM2_WINRES@
@@ -104,7 +102,6 @@ XPET_WINRES = @XPET_WINRES@
 XVIC_WINRES = @XVIC_WINRES@
 YACC = @YACC@
 cxx = @cxx@
-vsid_LDFLAGS = @vsid_LDFLAGS@
 x128_LDFLAGS = @x128_LDFLAGS@
 x64_LDFLAGS = @x64_LDFLAGS@
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
@@ -143,7 +140,11 @@ libc64_a_SOURCES = \
 	reu.c \
 	reu.h \
 	c64tpi.c \
-	c64tpi.h
+	c64tpi.h \
+	psid.c \
+	psid.h \
+	psiddrv.a65 \
+	psiddrv.h
 
 libc64c128_a_SOURCES = \
 	c64cia.h \
@@ -175,10 +176,14 @@ EXTRA_libc64c128_a_SOURCES = \
 	c64rsuser.c \
 	c64rsuser.h
 
+BUILT_SOURCES = psiddrv.h
+
 EXTRA_DIST =
 
 libc64_a_LIBADD = $(acia_libadd)
 libc64c128_a_LIBADD = $(acia_libadd)
+
+SUFFIXES = .a65
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -194,7 +199,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 @HAVE_RS232_FALSE@libc64_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
 libc64_a_OBJECTS =  c64.o c64cartmem.o c64cia1.o c64cia2.o \
-c64datasette.o c64iec.o c64mem.o cartridge.o patchrom.o reu.o c64tpi.o
+c64datasette.o c64iec.o c64mem.o cartridge.o patchrom.o reu.o c64tpi.o \
+psid.o
 @HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64c128_a_DEPENDENCIES =  c64acia1.o c64rsuser.o
 libc64c128_a_OBJECTS =  c64cia2.o c64datasette.o patchrom.o c64tpi.o
@@ -216,7 +222,7 @@ OBJECTS = $(libc64_a_OBJECTS) $(libc64c128_a_OBJECTS) $(libc64vsid_a_OBJECTS)
 all: all-recursive all-am
 
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
+.SUFFIXES: .S .a65 .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/c64/Makefile
 
@@ -363,7 +369,7 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/machine.h \
 	../../src/drive/drivecpu.h ../../src/alarm.h \
 	../../src/mos6510.h ../../src/mon.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/arch/unix/kbd.h \
-	../../src/kbdbuf.h ../../src/maincpu.h patchrom.h reu.h \
+	../../src/kbdbuf.h ../../src/maincpu.h patchrom.h psid.h reu.h \
 	../../src/sid/sid.h ../../src/sound.h ../../src/warn.h \
 	../../src/tape.h ../../src/utils.h ../../src/vicii/vicii.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
@@ -455,6 +461,10 @@ cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
 patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/mem.h ../../src/arch/unix/types.h \
 	../../src/snapshot.h patchrom.h ../../src/utils.h
+psid.o: psid.c ../../src/vice.h ../../src/config.h psid.h \
+	../../src/arch/unix/types.h c64mem.h ../../src/mem.h \
+	../../src/snapshot.h ../../src/cmdline.h ../../src/resources.h \
+	../../src/log.h ../../src/utils.h ../../src/zfile.h psiddrv.h
 reu.o: reu.c ../../src/vice.h ../../src/config.h reu.h \
 	../../src/arch/unix/types.h ../../src/snapshot.h \
 	../../src/log.h ../../src/maincpu.h ../../src/6510core.h \
@@ -537,6 +547,10 @@ installcheck all-am install-exec install-data install uninstall all \
 installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
+
+%.h : %.a65
+	xa $< -o $(srcdir)/$*.o65
+	od -v -An -w8 -tx1 $(srcdir)/$*.o65 | sed 's/\w\w/0x&,/g' > $(srcdir)/$@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

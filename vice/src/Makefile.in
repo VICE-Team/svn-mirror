@@ -96,8 +96,6 @@ SOUND_SDL_OBJ = @SOUND_SDL_OBJ@
 SOUND_SGI_OBJ = @SOUND_SGI_OBJ@
 SOUND_USS_OBJ = @SOUND_USS_OBJ@
 VERSION = @VERSION@
-VSID = @VSID@
-VSID_DIR = @VSID_DIR@
 X128_WINRES = @X128_WINRES@
 X64_WINRES = @X64_WINRES@
 XCBM2_WINRES = @XCBM2_WINRES@
@@ -115,7 +113,7 @@ LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS = @RESID_DIR@ @VSID_DIR@ sounddrv drive c64 c128 vic20 pet cbm2 sid vicii arch
+SUBDIRS = @RESID_DIR@ sounddrv drive c64 c128 vic20 pet cbm2 sid vicii arch
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -242,25 +240,6 @@ base_sources = \
 	zfile.c \
 	zipcode.c
 
-vsid_sources = \
-	alarm.c \
-	ciatimer.c \
-	clkguard.c \
-	cmdline.c \
-	emuid.c \
-	findpath.c \
-	interrupt.c \
-	kbdbuf.c \
-	log.c \
-	memutils.c \
-	palette.c \
-	resources.c \
-	sound.c \
-	sysfile.c \
-	traps.c \
-	utils.c \
-	warn.c
-
 cpucore_sources = \
 	6510core.c
 
@@ -303,15 +282,13 @@ sid_lib = $(top_builddir)/src/sid/libsid.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
-c64vsid_lib = $(top_builddir)/src/c64/libc64vsid.a
 c128_lib = $(top_builddir)/src/c128/libc128.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
-vsid_lib = $(top_builddir)/src/vsidlib/libvsid.a
 
-bin_PROGRAMS = x64 x128 @VSID@ xvic xpet xcbm2 c1541 petcat
-EXTRA_PROGRAMS = vsid
+bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
+EXTRA_PROGRAMS =
 
 # x64
 x64_SOURCES = $(base_sources) $(maincpu_sources)
@@ -360,16 +337,6 @@ xcbm2_DEPENDENCIES = $(drive_lib) $(xcbm2_lib) $(sounddrv_lib) \
 	$(rs232_printer_ldadd) $(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
 	@ARCH_LIBS@
 xcbm2_LDFLAGS = @xcbm2_LDFLAGS@
-
-# vsid
-vsid_SOURCES = $(vsid_sources) $(maincpu_sources)
-vsid_LDADD = $(vsid_lib) $(c64vsid_lib) $(sounddrv_lib) \
-	$(sid_lib) @RESID_LIBS@ $(vicii_lib) @ALLOCA@ \
-	@LIBOBJS@ @ARCH_DIR@/archdep.o @SOUND_LIBS@ @READLINE@
-vsid_DEPENDENCIES = $(vsid_lib) $(c64vsid_lib) $(sounddrv_lib) \
-	$(sid_lib) @RESID_LIBS@ @ALLOCA@ \
-	@LIBOBJS@ @ARCH_LIBS@
-vsid_LDFLAGS = @vsid_LDFLAGS@ 
 
 # c1541
 c1541_SOURCES = \
@@ -420,9 +387,6 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-vsid_OBJECTS =  alarm.o ciatimer.o clkguard.o cmdline.o emuid.o \
-findpath.o interrupt.o kbdbuf.o log.o memutils.o palette.o resources.o \
-sound.o sysfile.o traps.o utils.o warn.o maincpu.o
 x64_OBJECTS =  alarm.o asm.o attach.o autostart.o charsets.o ciatimer.o \
 clkguard.o cmdline.o datasette.o emuid.o findpath.o fsdevice.o \
 fliplist.o gcr.o info.o interrupt.o imagecontents.o kbdbuf.o keyboard.o \
@@ -481,8 +445,8 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-SOURCES = $(vsid_SOURCES) $(x64_SOURCES) $(x128_SOURCES) $(xvic_SOURCES) $(xpet_SOURCES) $(xcbm2_SOURCES) $(c1541_SOURCES) $(petcat_SOURCES)
-OBJECTS = $(vsid_OBJECTS) $(x64_OBJECTS) $(x128_OBJECTS) $(xvic_OBJECTS) $(xpet_OBJECTS) $(xcbm2_OBJECTS) $(c1541_OBJECTS) $(petcat_OBJECTS)
+SOURCES = $(x64_SOURCES) $(x128_SOURCES) $(xvic_SOURCES) $(xpet_SOURCES) $(xcbm2_SOURCES) $(c1541_SOURCES) $(petcat_SOURCES)
+OBJECTS = $(x64_OBJECTS) $(x128_OBJECTS) $(xvic_OBJECTS) $(xpet_OBJECTS) $(xcbm2_OBJECTS) $(c1541_OBJECTS) $(petcat_OBJECTS)
 
 all: all-recursive-am all-am
 
@@ -560,10 +524,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 maintainer-clean-compile:
-
-vsid: $(vsid_OBJECTS) $(vsid_DEPENDENCIES)
-	@rm -f vsid
-	$(LINK) $(vsid_LDFLAGS) $(vsid_OBJECTS) $(vsid_LDADD) $(LIBS)
 
 x64: $(x64_OBJECTS) $(x64_DEPENDENCIES)
 	@rm -f x64
@@ -918,14 +878,11 @@ xvic-all: libvic20 libsounddrv libdrive libarch xvic
 xpet-all: libpet libsounddrv libarch libdrive xpet 
 .PHONY: xcbm2-all
 xcbm2-all: libcbm2 libsounddrv libarch libsid @RESID_DEP@ libdrive xcbm2
-.PHONY: vsid-all
-vsid-all: libvsid libc64vsid libsounddrv libarch libsid \
-	libvicii @RESID_DEP@ vsid
 
 # Special targets to build libraries in subdirectories.
 
 .PHONY: libc64 libc128 libvic20 libpet libcbm2 libdrive libsounddrv libarch \
-	libvicii libsid @RESID_DEP@ libvsid
+	libvicii libsid @RESID_DEP@
 
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
@@ -951,8 +908,6 @@ libresid:
 	(cd resid && $(MAKE))
 libvicii:
 	(cd vicii && $(MAKE))
-libvsid:
-	(cd vsidlib && $(MAKE))
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
