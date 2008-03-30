@@ -46,4 +46,6 @@ libxawui_a_SOURCES = \
 	vic20ui.c \
 	vic20ui.h \
 	vsidui.c \
-	vsidui.h
+	vsidui.h \
+	video.h \
+	video.c

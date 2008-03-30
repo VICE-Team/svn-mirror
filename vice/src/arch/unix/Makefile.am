@@ -1,9 +1,23 @@
 # Makefile.am for the Unix version of `libarch.a'.
 
-if NEED_READLINE
-SUBDIRS = xaw
+if GNOMEUI
+
+UI = gnome
+
 else
-SUBDIRS = xaw readline
+
+UI = xaw
+
+endif
+
+if NEED_READLINE
+
+SUBDIRS = $(UI) readline
+
+else
+
+SUBDIRS = $(UI)
+
 endif
 
 INCLUDES = \
@@ -35,10 +49,15 @@ libarch_a_SOURCES = \
 	ui.h \
         uicmdline.c \
         uicmdline.h \
-	video.c \
-	video.h \
 	vsync.c
+
+#	video.c \
+#	video.h \
 
 .PHONY: xaw
 xaw:
 	(cd xaw; $(MAKE))
+
+.PHONY: gnome
+gnome:
+	(cd gnome; $(MAKE))
