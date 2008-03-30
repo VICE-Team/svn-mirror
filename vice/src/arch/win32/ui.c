@@ -697,7 +697,7 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     free(txt2);
     free(txt);
     return (ret==IDYES) ? UI_JAM_MONITOR : UI_JAM_HARD_RESET;
-//    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_DEBUG
+//    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR
 }
 
 /* Handle the "Do you want to extend the disk image to 40-track format"?

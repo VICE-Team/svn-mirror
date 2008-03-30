@@ -30,7 +30,7 @@
 #define _UIAPI
 
 typedef enum {
-    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_DEBUG
+    UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR
 } ui_jam_action_t;
 
 typedef enum {

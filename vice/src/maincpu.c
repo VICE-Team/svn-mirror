@@ -41,7 +41,6 @@
 #include "snapshot.h"
 #include "traps.h"
 #include "types.h"
-#include "ui.h"
 #include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
@@ -475,28 +474,28 @@ void mainloop(ADDRESS start_address)
 #define ROM_TRAP_HANDLER() \
    traps_handler()
 
-#define JAM()                                                         \
-   do {                                                               \
-      int tmp;                                                        \
-                                                                      \
-      EXPORT_REGISTERS();                                             \
-      tmp = ui_jam_dialog("   " CPU_STR ": JAM at $%04X   ", reg_pc); \
-      switch (tmp) {                                                  \
-        case UI_JAM_RESET:                                            \
-          DO_INTERRUPT(IK_RESET);                                     \
-          break;                                                      \
-        case UI_JAM_HARD_RESET:                                       \
-          mem_powerup();                                              \
-          DO_INTERRUPT(IK_RESET);                                     \
-          break;                                                      \
-        case UI_JAM_MONITOR:                                          \
-          caller_space = e_comp_space;                                \
-          mon(reg_pc);                                                \
-          IMPORT_REGISTERS();                                         \
-          break;                                                      \
-        default:                                                      \
-          CLK++;                                                      \
-      }                                                               \
+#define JAM()                                                       \
+   do {                                                             \
+      unsigned int tmp;                                             \
+                                                                    \
+      EXPORT_REGISTERS();                                           \
+      tmp = machine_jam("   " CPU_STR ": JAM at $%04X   ", reg_pc); \
+      switch (tmp) {                                                \
+        case JAM_RESET:                                             \
+          DO_INTERRUPT(IK_RESET);                                   \
+          break;                                                    \
+        case JAM_HARD_RESET:                                        \
+          mem_powerup();                                            \
+          DO_INTERRUPT(IK_RESET);                                   \
+          break;                                                    \
+        case JAM_MONITOR:                                           \
+          caller_space = e_comp_space;                              \
+          mon(reg_pc);                                              \
+          IMPORT_REGISTERS();                                       \
+          break;                                                    \
+        default:                                                    \
+          CLK++;                                                    \
+      }                                                             \
    } while (0)
 
 #define CALLER		e_comp_space
