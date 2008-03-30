@@ -74,9 +74,11 @@ void image_contents_destroy(image_contents_t *contents)
     free(contents);
 }
 
-char *image_contents_to_string(image_contents_t *contents)
+char *image_contents_to_string(image_contents_t *contents,
+                               unsigned int conversion_rule)
 {
-    static char filler[IMAGE_CONTENTS_FILE_NAME_LEN+1] = "                "; /* 16 spaces are a 17byte string. is this ok with '+1' ? */
+    /* 16 spaces are a 17byte string. is this ok with '+1' ? */
+    static char filler[IMAGE_CONTENTS_FILE_NAME_LEN+1] = "                ";
     image_contents_file_list_t *p;
     char line_buf[256];
     char *buf;
@@ -96,11 +98,12 @@ char *image_contents_to_string(image_contents_t *contents)
     buf = BUFCAT((char *)contents->id, strlen((char *)contents->id));
 
     if (contents->file_list == NULL) {
-#ifdef USE_GNOMEUI
-        const char *s = "\n(EMPTY IMAGE.)";
-#else
-        const char *s = "\n(eMPTY IMAGE.)";
-#endif
+        const char *s;
+
+        if (conversion_rule == IMAGE_CONTENTS_STRING_PETSCII)
+            s = "\n(EMPTY IMAGE.)";
+        else
+            s = "\n(eMPTY IMAGE.)";
 
         buf = BUFCAT(s, strlen(s));
     }
@@ -128,19 +131,18 @@ char *image_contents_to_string(image_contents_t *contents)
     }
 
     if (contents->blocks_free >= 0) {
-#ifdef USE_GNOMEUI
-        len = sprintf(line_buf, "\n%d BLOCKS FREE.", contents->blocks_free);
-#else
-        len = sprintf(line_buf, "\n%d blocks free.", contents->blocks_free);
-#endif
+        if (conversion_rule == IMAGE_CONTENTS_STRING_PETSCII)
+            len = sprintf(line_buf, "\n%d BLOCKS FREE.", contents->blocks_free);
+        else
+            len = sprintf(line_buf, "\n%d blocks free.", contents->blocks_free);
+
         buf = BUFCAT(line_buf, len);
     }
 
     buf = BUFCAT("\n", 2); /* With a closing zero.  */
 
-#ifndef USE_GNOMEUI
-    petconvstring(buf, 1);
-#endif
+    if (conversion_rule == IMAGE_CONTENTS_STRING_ASCII)
+        petconvstring(buf, 1);
 
     return buf;
 }
