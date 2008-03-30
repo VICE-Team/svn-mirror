@@ -41,6 +41,10 @@
 #include "vsync.h"
 
 
+#define KBD_INDEX_PLUS4_SYM 0
+#define KBD_INDEX_PLUS4_POS 1
+
+
 /* What sync factor between the CPU and the drive?  If equal to
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
@@ -153,7 +157,7 @@ static const resource_t resources[] = {
       (resource_value_t *)&ram_size_plus4,
       set_ram_size_plus4, NULL },
 #ifdef COMMON_KBD
-    { "KeymapIndex", RES_INTEGER, (resource_value_t)0,
+    { "KeymapIndex", RES_INTEGER, (resource_value_t)KBD_INDEX_PLUS4_DEFAULT,
       (resource_value_t *)&machine_keymap_index,
       keyboard_set_keymap_index, NULL },
     { "KeymapSymFile", RES_STRING,

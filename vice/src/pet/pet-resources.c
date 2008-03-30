@@ -43,6 +43,14 @@
 #include "utils.h"
 
 
+#define KBD_INDEX_PET_BUKS  0
+#define KBD_INDEX_PET_BUKP  1
+#define KBD_INDEX_PET_BGRS  2
+#define KBD_INDEX_PET_BGRP  3
+#define KBD_INDEX_PET_BDES  4
+#define KBD_INDEX_PET_BDEP  5
+
+
 /* Flag: Do we enable the Emulator ID?  */
 int emu_id_enabled;
 
@@ -325,7 +333,7 @@ static const resource_t resources[] = {
       (resource_value_t *)&emu_id_enabled,
       set_emu_id_enabled, NULL },
 #ifdef COMMON_KBD
-    { "KeymapIndex", RES_INTEGER, (resource_value_t)0,
+    { "KeymapIndex", RES_INTEGER, (resource_value_t)KBD_INDEX_PET_BUKS,
       (resource_value_t *)&machine_keymap_index,
       keyboard_set_keymap_index, NULL },
     { "KeymapBusinessUKSymFile", RES_STRING,

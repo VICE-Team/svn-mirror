@@ -53,6 +53,13 @@ extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 #define KBD_CBM2_BGRS "x11_bgrs.vkm"
 #define KBD_CBM2_BGRP "x11_bgrp.vkm"
 
+#define KBD_INDEX_C64_DEFAULT   KBD_INDEX_C64_SYM
+#define KBD_INDEX_C128_DEFAULT  KBD_INDEX_C128_SYM
+#define KBD_INDEX_VIC20_DEFAULT KBD_INDEX_VIC20_SYM
+#define KBD_INDEX_PET_DEFAULT   KBD_INDEX_PET_BUKS
+#define KBD_INDEX_PLUS4_DEFAULT KBD_INDEX_PLUS4_SYM
+#define KBD_INDEX_CBM2_DEFAULT  KBD_INDEX_CBM2_BUKS
+
 extern void x11kbd_press(signed long key);
 extern void x11kbd_release(signed long key);
 extern void x11kbd_enter_leave(void);

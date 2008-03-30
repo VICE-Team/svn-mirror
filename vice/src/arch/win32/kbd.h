@@ -55,6 +55,12 @@ extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 #define KBD_CBM2_BGRS "win_bgrs.vkm"
 #define KBD_CBM2_BGRP "win_bgrp.vkm"
 
+#define KBD_INDEX_C64_DEFAULT   KBD_INDEX_C64_POS
+#define KBD_INDEX_C128_DEFAULT  KBD_INDEX_C128_POS
+#define KBD_INDEX_VIC20_DEFAULT KBD_INDEX_VIC20_POS
+#define KBD_INDEX_PET_DEFAULT   KBD_INDEX_PET_BUKP
+#define KBD_INDEX_PLUS4_DEFAULT KBD_INDEX_PLUS4_POS
+#define KBD_INDEX_CBM2_DEFAULT  KBD_INDEX_CBM2_BUKP
 
 /* Keymap definition structure.  */
 typedef struct {

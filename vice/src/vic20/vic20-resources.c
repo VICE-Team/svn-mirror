@@ -41,6 +41,10 @@
 #include "vic20rom.h"
 
 
+#define KBD_INDEX_VIC20_SYM 0
+#define KBD_INDEX_VIC20_POS 1
+
+
 /* What sync factor between the CPU and the drive?  If equal to
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
@@ -201,7 +205,7 @@ static const resource_t resources[] =
       (resource_value_t *)&ieee488_enabled,
       set_ieee488_enabled, NULL },
 #ifdef COMMON_KBD
-    { "KeymapIndex", RES_INTEGER, (resource_value_t)0,
+    { "KeymapIndex", RES_INTEGER, (resource_value_t)KBD_INDEX_VIC20_DEFAULT,
       (resource_value_t *)&machine_keymap_index,
       keyboard_set_keymap_index, NULL },
     { "KeymapSymFile", RES_STRING,
