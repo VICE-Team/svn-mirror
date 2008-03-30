@@ -42,7 +42,7 @@ int serial_iec_lib_directory(unsigned int unit, const char *pattern,
 {
     int length, status;
     BYTE data, *tmpbuf;
-    unsigned int maxlen = 0;
+    size_t maxlen = 0;
 
     serial_iec_open(unit, 0, pattern, strlen(pattern));
 

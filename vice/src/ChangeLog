@@ -1,3 +1,36 @@
+2003-09-20  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.34.
+
+	* sid/sid-resources.c: ReSID is default now.
+
+	* arch/win32/vsyncarch.c, vsyncapi.h: Fixed prototype.
+
+	* drive/drive-snapshot.c (drive_snapshot_read_module): Fixed
+	typo.
+
+	* drive/iec/via1d1541.c (via1d1541_setup_context): Fixed VIA
+	module name.
+
+	* log.c (log_helper): Return if logging has not been
+	initialized.
+
+	* c64/cart/c64cartmem.c (cartridge_store_io1): Fixed typo
+	found by AndreasM.
+
+	* arch/msdos/joy.c, arch/msdos/mouse.c: #include "joystick.h".
+
+	* serial/serial-iec-lib.c (serial_iec_lib_directory): Fixed
+	warning.
+
+2003-09-19  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c128/c128io.c: Added support for TFE on C128.
+
+2003-09-17  Dag Lem  <resid@nimrod.no>
+
+	* resid/: Fixed resampling clipping bug.
+
 2003-09-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.33.

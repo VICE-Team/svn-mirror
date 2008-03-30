@@ -31,10 +31,12 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "joystick.h"
 #include "keyboard.h"
 #include "mouse.h"
 #include "log.h"
 #include "resources.h"
+
 
 int _mouse_enabled;
 int _mouse_available;
