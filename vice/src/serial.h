@@ -50,9 +50,6 @@
 #define DT_FS			0x0100	/* Filesystem Drive */
 #define DT_DISK			0x0200
 #define DT_PRINTER		0x0400
-
-#define DT_TAPE			0x0800
-
 #define DT_MASK			0xFF
 
 
