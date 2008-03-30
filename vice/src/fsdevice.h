@@ -39,19 +39,12 @@
 #ifndef _FSDEVICE_H
 #define _FSDEVICE_H
 
-#include "types.h"
-
 extern int fsdevice_init_resources(void);
 extern int fsdevice_init_cmdline_options(void);
 
 extern void fs_error(int code);
-extern void flush_fs(void *flp, int secondary);
-extern int write_fs(void *flp, BYTE data, int secondary);
-extern int read_fs(void *flp, BYTE *data, int secondary);
-extern int open_fs(void *flp, const char *name, int length, int secondary);
-extern int close_fs(void *flp, int secondary);
 
-extern int attach_fsdevice(int device, char *var, const char *name);
+extern int fsdevice_attach(int device, const char *name);
 extern void fsdevice_set_directory(char *filename, int unit);
 
 #endif	/* _FSDEVICE_H */

@@ -351,15 +351,6 @@ int fsdevice_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-int attach_fsdevice(int device, char *var, const char *name)
-{
-    if (serial_attach_device(device, (char *) var, (char *) name,
-                             read_fs, write_fs, open_fs, close_fs, flush_fs))
-        return 1;
-    fs_error(IPE_DOS_VERSION);
-    return 0;
-}
-
 void fsdevice_set_directory(char *filename, int unit)
 {
     switch (unit) {
@@ -435,7 +426,7 @@ void fs_error(int code)
         log_message(LOG_DEFAULT, "Fsdevice: ERR = %02d, %s", code, message);
 }
 
-void flush_fs(void *flp, int secondary)
+static void flush_fs(void *flp, int secondary)
 {
     vdrive_t *floppy = (vdrive_t *)flp;
     char *cmd, *realarg, *arg, *realarg2 = NULL, *arg2 = NULL;
@@ -590,7 +581,7 @@ void flush_fs(void *flp, int secondary)
     fs_cptr = 0;
 }
 
-int write_fs(void *flp, BYTE data, int secondary)
+static int write_fs(void *flp, BYTE data, int secondary)
 {
     if (secondary == 15) {
         if (fs_cptr < MAXPATHLEN - 1) {         /* keep place for nullbyte */
@@ -612,7 +603,7 @@ int write_fs(void *flp, BYTE data, int secondary)
     return FLOPPY_ERROR;
 }
 
-int read_fs(void *flp, BYTE * data, int secondary)
+static int read_fs(void *flp, BYTE * data, int secondary)
 {
     vdrive_t *floppy = (vdrive_t *)flp;
     int i, l, f;
@@ -839,7 +830,7 @@ int read_fs(void *flp, BYTE * data, int secondary)
     return FLOPPY_ERROR;
 }
 
-int open_fs(void *flp, const char *name, int length, int secondary)
+static int open_fs(void *flp, const char *name, int length, int secondary)
 {
     vdrive_t *floppy = (vdrive_t *)flp;
     FILE *fd;
@@ -1106,7 +1097,7 @@ int open_fs(void *flp, const char *name, int length, int secondary)
     return FLOPPY_COMMAND_OK;
 }
 
-int close_fs(void *flp, int secondary)
+static int close_fs(void *flp, int secondary)
 {
 #ifdef __riscos
     vdrive_t *floppy = (vdrive_t *)flp;
@@ -1424,5 +1415,14 @@ static int fsdevice_evaluate_name_p00(char *name, int length, char *filename)
         j++;
     }
     return ((j > 8) ? fsdevice_reduce_filename_p00(filename, j) : j);
+}
+
+int fsdevice_attach(int device, const char *name)
+{
+    if (serial_attach_device(device, (char *) name,
+                             read_fs, write_fs, open_fs, close_fs, flush_fs))
+        return 1;
+    fs_error(IPE_DOS_VERSION);
+    return 0;
 }
 
