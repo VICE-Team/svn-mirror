@@ -613,7 +613,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
         return -1;
     }
 
-    vdrive_setup_device(vdrive, unit, VDRIVE_DEVICE_VIRT);
+    vdrive_setup_device(vdrive, unit);
     vdrive->image = image;
     vdrive_attach_image(image, unit, vdrive);
     return 0;

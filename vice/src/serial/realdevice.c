@@ -28,11 +28,8 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
 
 #include "log.h"
-#include "mem.h"
 #include "realdevice.h"
 #include "serial.h"
 #include "types.h"
@@ -48,30 +45,30 @@ static unsigned int realdevice_enabled = 0;
 static CBM_FILE realdevice_fd;
 
 
-void realdevice_open(unsigned int device, BYTE b)
+void realdevice_open(unsigned int device, BYTE secondary)
 {
     vsync_suspend_speed_eval();
 
-    cbm_open(realdevice_fd, device & 0x0f, b & 0x0f, NULL, 0);
+    cbm_open(realdevice_fd, device & 0x0f, secondary & 0x0f, NULL, 0);
 }
 
-void realdevice_close(unsigned int device, BYTE b)
+void realdevice_close(unsigned int device, BYTE secondary)
 {
     vsync_suspend_speed_eval();
 
-    cbm_close(realdevice_fd, device & 0x0f, b & 0x0f);
+    cbm_close(realdevice_fd, device & 0x0f, secondary & 0x0f);
 }
 
-void realdevice_listentalk(unsigned int device, BYTE b)
+void realdevice_listentalk(unsigned int device, BYTE secondary)
 {
     vsync_suspend_speed_eval();
 
     switch (device & 0xf0) {
       case 0x20:
-        cbm_listen(realdevice_fd, device & 0x0f, b & 0x0f);
+        cbm_listen(realdevice_fd, device & 0x0f, secondary & 0x0f);
         break;
       case 0x40:
-        cbm_talk(realdevice_fd, device & 0x0f, b & 0x0f);
+        cbm_talk(realdevice_fd, device & 0x0f, secondary & 0x0f);
         break;
     }
 }
@@ -92,9 +89,13 @@ void realdevice_untalk(void)
 
 void realdevice_write(BYTE data)
 {
+    BYTE st;
+
     vsync_suspend_speed_eval();
 
-    SERIAL_SET_ST((write(realdevice_fd, &data, 1) == 1) ? 0 : 0x83);
+    st = (cbm_raw_write(realdevice_fd, &data, 1) == 1) ? 0 : 0x83;
+
+    serial_set_st(st);
 }
 
 BYTE realdevice_read(void)
@@ -103,13 +104,13 @@ BYTE realdevice_read(void)
 
     vsync_suspend_speed_eval();
 
-    st = (read(realdevice_fd, &data, 1) == 1) ? 0 : 2;
+    st = (cbm_raw_read(realdevice_fd, &data, 1) == 1) ? 0 : 2;
 
     if (cbm_get_eoi(realdevice_fd))
         st |= 0x40;
 
     if (st)
-        SERIAL_SET_ST(st);
+        serial_set_st(st);
 
     return data;
 }
@@ -127,24 +128,28 @@ void realdevice_reset(void)
 
 int realdevice_enable(void)
 {
-    if (cbm_driver_open(&realdevice_fd, 0) < 0) {
-        log_warning(realdevice_log,
-               "Cannot open %s, realdevice not available",
-               cbm_get_driver_name(0));
-        return -1;
-    }
+    if (!realdevice_enabled) {
+        if (cbm_driver_open(&realdevice_fd, 0) < 0) {
+            log_warning(realdevice_log,
+                   "Cannot open %s, realdevice not available",
+                   cbm_get_driver_name(0));
+            return -1;
+        }
 
-    realdevice_enabled = 1;
-    log_message(realdevice_log, "%s opened", cbm_get_driver_name(0));
+        realdevice_enabled = 1;
+        log_message(realdevice_log, "%s opened", cbm_get_driver_name(0));
+    }
 
     return 0;
 }
 
 void realdevice_disable(void)
 {
-    cbm_driver_close(realdevice_fd);
+    if (realdevice_enabled) {
+        cbm_driver_close(realdevice_fd);
 
-    realdevice_enabled = 0;
-    log_message(realdevice_log, "%s closed", cbm_get_driver_name(0));
+        realdevice_enabled = 0;
+        log_message(realdevice_log, "%s closed", cbm_get_driver_name(0));
+    }
 }
 
