@@ -30,7 +30,6 @@
 extern int c64_init_resources(void);
 
 extern int emu_id_enabled;
-extern int reu_enabled;
 extern int acia_de_enabled;
 extern char *kernal_revision;
 

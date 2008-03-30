@@ -273,7 +273,8 @@ void REGPARM2 ram_store(ADDRESS addr, BYTE value)
 void REGPARM2 store_ram_hi(ADDRESS addr, BYTE value)
 {
     ram[addr] = value;
-    if (reu_enabled && addr == 0xff00)
+
+    if (addr == 0xff00)
         reu_dma(-1);
 }
 
