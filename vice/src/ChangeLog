@@ -1,3 +1,63 @@
+1999-04-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.55.
+
+	* clkguard.c (clk_guard_prevent_overflow): Fixed calculation of
+	the `sub' value.
+
+1998-04-08  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/kbd.c (kbd_event_handler): Ignore key events when 
+	keymap is not loaded.
+
+1999-04-07  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/*: fixed Andre's acia-fixes, double-clicking on
+	  imagecontents-file autostarts it, added datasette support, several
+	  small updates.
+
+	* ciatimer.c: additional include for varargs.
+
+	* pruser.c, rsuser.c, rs232.h, print.h: removed remaining occurrances
+	  of file_desc_t and ILLEGAL_FILE_DESC.
+
+1998-04-07  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/kmap.c (set_keymap_file): fix "brown paper bag" type typo
+
+1998-04-06  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* data/PET/Makefile.am: add chargen.de and busi_de.vkm to file lists
+
+	* data/PET/busi_de.vkm: new file, contributed by U. Guettich
+	Now uses busi_uk.vkm as template and does only changes.
+
+	* data/PET/busi_uk.vkm: fix some keys
+
+	* data/PET/graphics.vkm: fix some keys
+
+	* data/PET/posg_de.vkm: fix some keys
+
+	* doc/vice.texi: update docs on PET keymap resources/options/ROM names.
+
+	* arch/unix/kmap.c (NUM_KEYBOARD_MAPPINGS): new define to limit
+	the number of keymap file entries
+	(set_keymap_file): check range.
+	* arch/unix/petkmap.c: likewise
+
+	* arch/unix/petkmap.c (my_keymap_res_name_list, keymap_file_list):
+	add German keymap files
+	(set_keymap_gr_sym_file, set_keymap_gr_pos_file,
+	set_keymap_buk_sym_file, set_keymap_buk_pos_file): fix keymap index
+	(set_keymap_bde_sym_file, set_keymap_bde_pos_file): new functions
+	(resources). fix keymap index, add German keymap resources.
+	(cmdline_options): add German keymap options.
+
+	* arch/unix/xaw/petui.c (pet_keybd_submenu): add German keymap entry
+	(radio_ChargenName): new callback to set ChargenName resource
+	(pet_romset_submenu): add entries to load Original or German 
+	charset.
+
 1999-04-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.54.
