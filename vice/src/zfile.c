@@ -1018,6 +1018,13 @@ int zclose_all(void)
 		ret = -1;
 	} else {
 	    fprintf(stderr, "Inconsistent zfile list!\n");
+            if (p->orig_name != NULL)
+                free(p->orig_name);
+            if (p->tmp_name != NULL)
+                free(p->tmp_name);
+            pnext = p->next;
+            free(p);
+            p = pnext;
 	    continue;
 	}
 	/* Recompress into the original file.  */
