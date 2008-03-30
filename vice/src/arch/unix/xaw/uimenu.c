@@ -187,6 +187,9 @@ static void popdown_submenus_action(Widget w, XEvent * event,
 {
     int i;
 
+    if (menu_popup == 0)
+        return;
+
     /* Pop down all the submenus and the top ones.  */
 
     for (i = 0; i < num_submenus; i++)
