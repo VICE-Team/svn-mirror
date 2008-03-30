@@ -8,12 +8,99 @@ list of all the changes in the code.
 * Changes in VICE 1.20
 ======================
 
+** General
+----------
+
+- New GP2X port.
+
+- New AmigaOS3, AmigaOS4, MorphOS and AROS (x86/ppc) ports.
+
+- Mac OSX X11 port is included in the main distribution now.
+
+- Fixed some unusual CPU opcodes.
+
+** C64 changes
+--------------
+
+- Fixed some longstanding RMW to IO area VIC-II DMA timing bug.
+
+- Added Mikro Assembler, Dela EP7x8, Dela EP256 and Rex EP256
+  cart support.
+
+- Fixed the KCS cart emulation.
+
+- Added swiftlink and turbo232 support.
+
+- Added +256k memory expansion support.
+
+- Added I/O source read collision detection support, making
+  simultanious use of multiple expansions possible, like on
+  the real machine.
+
+- Fixed the RR-net address decoding and REU compatibility.
+
+- Fixed a problem with traps using the SX Kernal ROM.
+
+- Some IDE64 ultimax bug has been fixed.
+
+** PET changes
+--------------
+
+- Added 128kb REU memory expansion support.
+
+** PLUS4 changes
+----------------
+
+- Added 256k csory memory expansion support.
+
+- Added 256k, 1024k and 4096k hannes memory expansion support.
+
 ** Unix changes
 ---------------
+
 - Gnome1 is no longer supported.
 
 - Gnome2 is now supported - everthing except the Image preview with
   CBM font should work.
+
+- Gnome 2 port supports dimmable drive LED now.
+- Added experimental ParSID support.
+
+- Added support for minix3.
+
+- Fixed some compile problems with the ffmpeg library.
+
+** MS-Windows changes
+---------------------
+
+- Added experimental ParSID support.
+
+** MS-DOS changes
+-----------------
+
+- Added experimental ParSID support.
+
+** Mac OSX X11 changes
+----------------------
+
+- Added support for Intel build.
+
+- Added USB joystick support.
+
+** Miscellaneous changes
+------------------------
+
+- Added support for more 3rd party basic extenders to petcat.
+
+- Added a c64/c128 cartridge conversion program (cartconv).
+
+- Added binary distribution (package) creation functionality.
+
+- Fixed a bug in the trap emulation with caused programs probing
+  devices on the IEC bus to fail.
+
+- Lots of small fixes to the monitor.
+
 
 * Changes in VICE 1.19
 ======================
