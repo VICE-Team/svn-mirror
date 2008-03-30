@@ -43,6 +43,8 @@ typedef enum { Button_None, Button_Close, Button_Ok, Button_Cancel,
 typedef struct { unsigned short red, green, blue; BYTE dither; } UiColorDef;
 typedef XtPointer UiCallbackDataPtr;
 
+extern int ui_init_resources(void);
+
 extern int UiInit(int *argc, char **argv);
 extern int UiInitFinish(void);
 extern UiWindow UiOpenCanvasWindow(const char *title, int width, int height,

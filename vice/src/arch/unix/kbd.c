@@ -47,7 +47,7 @@
 #include "kbd.h"
 #include "kbdef.h"
 #include "interrupt.h"
-#include "findpath.h"
+#include "sysfile.h"
 #include "utils.h"
 
 #ifdef HAS_JOYSTICK
@@ -152,7 +152,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 		int row = keyconvmap[i].row;
 		int column = keyconvmap[i].column;
 
-		if (app_resources.numpadJoystick && row < 0) {
+		if (row < 0) {
                     if (row == -1) {
                         if (joypad_bits[column]) {
                             joy[1] |= joypad_bits[column];
@@ -279,8 +279,6 @@ static int keyc_num = 0;
 
 int kbd_init(const char *keymap_name)
 {
-    app_resources.numpadJoystick = 1;
-
     default_keymap_name = keymap_name;
 
     if (kbd_load_keymap(NULL) < 0) {
@@ -415,40 +413,35 @@ static int kbd_parse_keymap(const char *filename)
     if (!filename)
         return -1;
 
-    complete_path = findpath(filename, app_resources.directory, R_OK);
-    if (complete_path == NULL) {
-        printf("Cannot find keymap `%s'.\n", filename);
+    fp = sysfile_open(filename, &complete_path);
+    if (!fp) {
+        perror(complete_path);
+        free(complete_path);
         return -1;
     }
 
     printf("Parsing keymap `%s'.\n", complete_path);
 
-    fp = fopen(complete_path, "r");
-
-    if (!fp) {
-        perror(complete_path);
-    } else {
-	do {
-            buffer[0] = 0;
-            if (fgets(buffer, 999, fp)) {
-                buffer[strlen(buffer)-1] = 0;
-                switch(*buffer) {
-                  case 0:
-                  case '#':
-                    break;
-                  case '!':
-                    /* keyword handling */
-                    kbd_parse_keyword(buffer);
-                    break;
-                  default:
-                    /* table entry handling */
-                    kbd_parse_entry(buffer);
-                    break;
-                }
+    do {
+        buffer[0] = 0;
+        if (fgets(buffer, 999, fp)) {
+            buffer[strlen(buffer)-1] = 0;
+            switch(*buffer) {
+              case 0:
+              case '#':
+                break;
+              case '!':
+                /* keyword handling */
+                kbd_parse_keyword(buffer);
+                break;
+              default:
+                /* table entry handling */
+                kbd_parse_entry(buffer);
+                break;
             }
-	} while(!feof(fp));
-	fclose(fp);
-    }
+        }
+    } while(!feof(fp));
+    fclose(fp);
 
     free(complete_path);
 

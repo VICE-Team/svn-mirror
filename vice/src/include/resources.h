@@ -3,10 +3,6 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
- *  Jarkko Sonninen (sonninen@lut.fi)
- *  Jouko Valta (jopi@stekt.oulu.fi)
- *  Teemu Rantanen (tvr@cs.hut.fi)
- *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,145 +27,41 @@
 #ifndef _RESOURCES_H
 #define _RESOURCES_H
 
-/* FIXME: some of these are unused. */
+typedef enum resource_type {RES_INTEGER, RES_STRING} resource_type_t;
 
-typedef struct _AppResources {
-    char *directory;
-    char *projectDir;
-    char *gamepath;
+typedef void *resource_value_t;
 
-    char *basicName;
-    char *kernalName;
-    char *charName;
+typedef int resource_set_func_t(resource_value_t v);
 
-    char *basicRev;
-    char *kernalRev;
+typedef struct resource {
 
-    char *exromName;
-    char *module;
-    char *reuName;
-    char *reusize;
+    /* Resource name.  */
+    const char *name;
 
-    char *biosName;		/* CP/M BIOS ROM */
+    /* Type of resource.  */
+    resource_type_t type;
 
-    char *ramName;
-    char *programName;
-    char *reloc;
-    char *startAddr;		/* PC */
+    /* Factory default value.  */
+    resource_value_t factory_value;
 
-    int colors;
-    int asmFlag;
-    int hexFlag;
-    int debugFlag;
-    int traceFlag;
-    int verboseFlag;
-    int haltFlag;
-    int noTraps;
+    /* Pointer to the value.  This is only used for *reading* it.  To change
+       it, use `set_func'.  */
+    resource_value_t *value_ptr;
 
-    char *tapeName;
+    /* Function to call to set the value.  */
+    resource_set_func_t *set_func;
 
-    char *dosName;
-    char *floppyName;
-    char *floppy9Name;
-    char *floppy10Name;
+} resource_t;
 
-    char *autostartName;
+/* ------------------------------------------------------------------------- */
 
-    char *printCommand;
-    char *PrinterLang;
-    char *Locale;
+int resources_init(const char *machine);
+int resources_register(const resource_t *r);
+int resources_set_value(const char *name, resource_value_t value);
+int resources_get_value(const char *name, resource_value_t *value_return);
+resource_type_t resources_query_type(const char *name);
+int resources_save(const char *fname);
+int resources_load(const char *fname);
+void resources_set_defaults(void);
 
-    char *memoryExp;
-
-    int joyPort;
-
-    int joyDevice1;
-    int joyDevice2;  /* added 03-25-97 BK */
-
-    int checkSsColl;
-    int checkSbColl;
-    int speed;
-
-    int videoWidth;	/* PET video mode (05feb98 AF) */
-    char *keyboardType;	/* PET keyboard mode (05feb98 AF) */
-    char *petModel;	/* PET model (05feb98 AF) */
-
-    char *petrom9Name;	/* PET extension ROMs */
-    char *petromAName;
-    char *petromBName;
-    char *petromBasic;
-    char *petromEditor;
-
-    int petram9;	/* PET 8296 RAM mapping for $9*** */
-    int petramA;	/* PET 8296 RAM mapping for $A*** */
-    int petdiag;	/* PET diagnostic pin (PIA1 PB7) */
-    int numpadJoystick;/* joystick emulation via numpad (currently PET-only) */
-
-    char *keymapFile;
-
-    int video80;
-    int video40;
-
-    int refreshRate;
-
-    int mitshm;
-
-    int videoCache;
-    int videoCache80;
-    int doubleSize;
-    int doubleScan;
-
-    int sound;
-    int soundSampleRate;
-
-    int emuID;
-
-    int privateColormap;
-
-    int true1541;
-
-    char *soundDeviceName;
-    char *soundDeviceArg;
-    int soundBufferSize;
-    int soundSuspendTime;
-    int soundSpeedAdjustment;
-    int doSoundSetup;		/* MS-DOS only */
-    int soundOversample;
-
-    int sidModel;		/* 0: old SID, 1: new sid */
-    int sidFilters;
-
-    int true1541SyncFactor;
-    int vgaMode;
-
-    int ieee488;
-    int reu;
-    int mouse;
-
-    int true1541IdleMethod;
-
-    int displayDepth;
-
-    int saveResourcesOnExit;
-
-    char *htmlBrowserCommand;
-
-    int useXSync;
-
-    int true1541ParallelCable;
-    int true1541ExtendImage;
-} AppResources;
-
-extern AppResources app_resources;
-
-extern void resources_set_defaults();
-extern int resources_load(const char *fname, const char *emu_string);
-extern int resources_save(const char *fname, const char *emu_string);
-
-extern int parse_cmd_line(int *argc, char **argv);
-extern void describe_cmd_line_options(void);
-
-extern void resources_set_string(char **s, const char *value);
-extern int resources_set_value(const char *name, const char *value);
-
-#endif
+#endif /* _RESOURCES_H */

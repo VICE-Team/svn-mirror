@@ -168,6 +168,7 @@ static color_def_t color_defs[VIC_II_NUM_COLORS] =
 
 #endif /* defined(__VIC_II__) */
 
+extern int vic_ii_init_resources(void);
 extern canvas_t vic_ii_init(void);
 extern void vic_ii_exposure_handler(unsigned int width, unsigned int height);
 extern BYTE REGPARM1 read_vic(ADDRESS addr);

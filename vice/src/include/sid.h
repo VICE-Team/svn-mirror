@@ -32,6 +32,8 @@
 
 #include "types.h"
 
+extern int sid_init_resources(void);
+
 #if defined(CBM64) || defined(C128) || defined(VIC20)
 #define SID
 #endif
@@ -51,7 +53,7 @@ void store_petsnd_sample(BYTE value);
 #endif
 
 #ifdef SOUND
-int flush_sound(void);
+int flush_sound(int relative_speed);
 void close_sound(void);
 void initialize_sound(void);
 void sid_prevent_clk_overflow(void);

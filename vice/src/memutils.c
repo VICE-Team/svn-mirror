@@ -35,27 +35,25 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#include "findpath.h"
 #include "memutils.h"
 #include "resources.h"
 #include "file.h"
 #include "utils.h"
+#include "sysfile.h"
 
+/* ------------------------------------------------------------------------- */
 
-int mem_load_sys_file(const char *path, const char *name, BYTE *dest,
-		      int minsize, int maxsize)
+int mem_load_sys_file(const char *name, BYTE *dest, int minsize, int maxsize)
 {
     FILE *fp = NULL;
     size_t rsize = 0;
     char *complete_path;
 
-    complete_path = findpath(name, path, R_OK);
-    if (complete_path == NULL)
-        return -1;
-
-    fp = fopen(complete_path, READ);
+    fp = sysfile_open(name, &complete_path);
     if (fp == NULL)
         goto fail;
+
+    printf("Loading file `%s'\n", complete_path);
 
     {
 	struct stat s;
