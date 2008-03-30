@@ -38,8 +38,9 @@
 
 #define NUM_AVAILABLE_COLORS	0x100
 
-struct video_draw_buffer_callback_s;
 struct palette_s;
+struct video_draw_buffer_callback_s;
+struct video_resource_chip_s;
 
 struct video_canvas_s {
     unsigned int initialized;
@@ -50,6 +51,7 @@ struct video_canvas_s {
     struct viewport_s *viewport;
     struct geometry_s *geometry;
     struct palette_s *palette;
+    struct video_resource_chip_s *video_resource_chip;
     RGB colors[NUM_AVAILABLE_COLORS];
 
     /* If set to nonzero, it means we are doing triple buffering on this
