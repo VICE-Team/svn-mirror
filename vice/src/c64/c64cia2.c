@@ -116,6 +116,9 @@ static inline void do_reset_cia(void)
     rsuser_set_tx_bit(1);
 #endif
     iec_info = iec_get_drive_port();
+
+    vbank = 0;
+    mem_set_vbank(vbank);
 }
 
 
