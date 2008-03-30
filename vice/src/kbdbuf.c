@@ -57,8 +57,8 @@ int kbd_buf_feed(const char *s)
 void kbd_buf_flush(void)
 {
     BYTE *p;
-    int i, q, n;
-    
+    int i, n;
+
     if (num_pending == 0 || clk < CYCLES_PER_RFSH * RFSH_PER_SEC
 	|| ram[kernal_kbd_buf.num_pending_location] != 0)
 	return;

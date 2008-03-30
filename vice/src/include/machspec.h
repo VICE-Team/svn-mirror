@@ -64,6 +64,9 @@ typedef struct {
 /* Description of the machine's features.  */
 machdesc_t machdesc;
 
+/* Initialize the machine.  */
+void machine_init(void);
+
 /* Reset the machine.  */
 void machine_reset(void);
 

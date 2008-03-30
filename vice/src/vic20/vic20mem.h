@@ -47,7 +47,7 @@ extern BYTE chargen_rom[VIC20_CHARGEN_ROM_SIZE];
 
 extern int rom_loaded;
 
-extern read_func_t read_basic, read_kernal, read_chargen, read_zero, read_rom, read_via;
-extern store_func_t store_zero, store_rom, store_via;
+extern read_func_t read_basic, read_kernal, read_chargen, read_via;
+extern store_func_t store_via;
 
 #endif

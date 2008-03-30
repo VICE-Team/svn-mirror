@@ -45,7 +45,7 @@
 #define C64_KERNAL_CHECKSUM_R64		49680
 
 extern void mem_set_vbank(int new_vbank);
-extern read_func_t read_zero, read_basic, read_kernal, read_chargen, read_ram, read_io2, read_rom;
-extern store_func_t store_zero, store_ram, store_ram_hi, store_io2, store_rom;
+extern read_func_t read_basic, read_kernal, read_chargen, read_ram, read_io2;
+extern store_func_t store_ram, store_ram_hi, store_io2;
 
 #endif /* _C64MEM_H */
