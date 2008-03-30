@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "cmdline.h"
 #include "types.h"
 #include "uicmdline.h"
@@ -105,7 +107,7 @@ int cmdline_parse(int *argc, char **argv)
             cmdline_option_t *p;
 
             if (argv[i][1] == '\0') {
-                fprintf(stderr, "Invalid option `%s'.\n", argv[i]);
+                archdep_startup_log_error("Invalid option `%s'.\n", argv[i]);
                 return -1;
             }
 
@@ -118,18 +120,19 @@ int cmdline_parse(int *argc, char **argv)
             p = lookup(argv[i], &is_ambiguous);
 
             if (p == NULL) {
-                fprintf(stderr, "Unknown option `%s'.\n", argv[i]);
+                archdep_startup_log_error("Unknown option `%s'.\n", argv[i]);
                 return -1;
             }
 
             if (is_ambiguous) {
-                fprintf(stderr, "Option `%s' is ambiguous.\n", argv[i]);
+                archdep_startup_log_error("Option `%s' is ambiguous.\n",
+                                          argv[i]);
                 return -1;
             }
 
             if (p->need_arg && i >= *argc - 1) {
-                fprintf(stderr, "Option `%s' requires a parameter.\n",
-                        p->name);
+                archdep_startup_log_error("Option `%s' requires a parameter.\n",
+                                          p->name);
                 return -1;
             }
 
@@ -146,19 +149,17 @@ int cmdline_parse(int *argc, char **argv)
                 retval = p->set_func(p->need_arg?argv[i+1]:NULL, p->extra_param);
                 break;
               default:
-                fprintf(stderr, "Invalid type for option `%s'.\n",
-                        p->name);
+                archdep_startup_log_error("Invalid type for option `%s'.\n",
+                                          p->name);
                 return -1;
             }
 
             if (retval < 0) {
                 if (p->need_arg)
-                    fprintf(stderr,
-                            "Argument `%s' not valid for option `%s'.\n",
-                            argv[i + 1], p->name);
+                    archdep_startup_log_error("Argument `%s' not valid for option `%s'.\n",
+                                              argv[i + 1], p->name);
                 else
-                    fprintf(stderr,
-                            "Option `%s' not valid.\n", p->name);
+                    archdep_startup_log_error("Option `%s' not valid.\n", p->name);
                 return -1;
             }
 
@@ -184,3 +185,33 @@ void cmdline_show_help(void)
 {
     ui_cmdline_show_help(num_options, options);
 }
+
+char *cmdline_options_string(void)
+{
+    unsigned int i;
+    char *cmdline_string, *new_cmdline_string;
+    char add_to_options1[1000];
+    char add_to_options2[1000];
+    char add_to_options3[1000];
+
+    cmdline_string = stralloc("\n");
+
+    for (i = 0; i < num_options; i++) {
+        sprintf(add_to_options1, "%s", options[i].name);
+        sprintf(add_to_options3, "\n\t%s\n", options[i].description);
+        if (options[i].need_arg && options[i].param_name != NULL) {
+            sprintf(add_to_options2, " %s", options[i].param_name);
+            new_cmdline_string = concat(cmdline_string, add_to_options1,
+                                        add_to_options2, add_to_options3, NULL);
+        } else {
+            new_cmdline_string = concat(cmdline_string, add_to_options1,
+                                        add_to_options3, NULL);
+        }
+
+        free(cmdline_string);
+        cmdline_string = new_cmdline_string;
+    }
+
+    return cmdline_string;
+}
+
