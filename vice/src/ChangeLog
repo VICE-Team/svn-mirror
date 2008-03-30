@@ -1,3 +1,125 @@
+2001-05-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.35.
+
+	* printerdrv/prt-mps803.c: Added file header, added includes.
+	(print_cbm_char, write_line, bitmode_off, print_bitmask):
+	Fixed variable declaration.
+	(mps803bmp_open, mps803bmp_close): `new' and `delete' are no
+	ISO C. Fixed memset size bug.
+	(mps803bmp_putc, mps803bmp_close): Make it compile.
+	(init_charset): Load charset from rom image.
+
+	* printerdrv/Makefile.am: New file.
+
+	* Makefile.am: Added `printerdrvlib.a'.
+
+	* arch/unix/archdep.c, arch/msdos/archdep.c,
+	arch/win32/archdep.c, arch/os2/archdep.c, arch/beos/archdep.c
+	(archdep_default_sysfile_pathlist): Added `PRINTER' to path.
+
+	* arch/os2/Makefile.am: Added icons and bitmaps.
+
+	* c64/psid.c (psid_init_tune): Commented out reference to
+	`vsid_ui_display_irqtype()'.
+
+2001-05-30  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/dialogs.h:
+	moved Dialog IDs here
+   
+	* arch/os2/dialogs/dialogs.rc:
+	added vsid-icon
+   
+	* arch/os2/dialogs/dlg-datasette.c:
+	some small changes to the datasette dialog handling
+   
+	* arch/os2/dialogs/dlg-datasette.h:
+	renumbered controls
+   
+	* arch/os2/dialogs/dlg-drive.c:
+	removed workaround for readonly
+   
+	* arch/os2/dialogs/dlg-drive.h,
+	arch/os2/dialogs/dlg-emulator.h,
+	arch/os2/dialogs/dlg-fileio.h,
+	arch/os2/dialogs/dlg-joystick.h: removed dlg ID
+   
+	* arch/os2/dialogs/dlg-fileio.c:
+	added some X128 features
+   
+	* arch/os2/dialogs/dlg-joystick.c:
+	code more structured
+
+	* arch/os2/dialogs/dlg-vsid.c:
+	added vsid-icon, speed display
+
+	* arch/os2/dialogs/dlg-vsid.h:
+	renumbered controls
+   
+	* arch/os2/dialogs/dlg-vsid.rc:
+	added the new controls to vsid
+   
+	* arch/os2/dialogs/menubar.[h,c,rc]:
+	added function rom controls, new reu controls, vdc video
+	cache, fixed a bug for sound device type
+   
+	* arch/os2/doc/Vice_for_OS2.txt:
+	fixed to changed
+   
+	* arch/os2/install.cmd:
+	added vsid icon
+   
+	* arch/os2/joystick.c:
+	commented out a debug line
+   
+	* arch/os2/kbd/proc.c:
+	added CAPS key support
+   
+	* arch/os2/makedist.cmd:
+	added vsid-icon
+   
+	* arch/os2/vac++/incl/*.icc:
+	some changes because of new files
+   
+	* arch/os2/video.c:
+	fixed some small errors
+   
+	* arch/os2/vsidui.c:
+	added the new features/controls
+   
+	* c64/psid.c:
+	added vsid_ui_display-irqtype
+   
+	* sounddrv/sounddart.c:
+	made working with new bufferspace style
+   
+	* vsidui.h:
+	added new function vsid_ui_display_irqtype
+   
+2001-05-28  Dag Lem  <resid@nimrod.no>
+
+	* c128/c128.c (machine_init): Fixed vsync initialization order.
+
+	* c64/c64.c (machine_init): Likewise.
+
+	* cbm2/c610.c (machine_init): Likewise.
+
+	* pet/pet.c (machine_init): Likewise.
+
+	* vic20/vic20.c (machine_init): Likewise.
+
+	* vsync.c (vsync_init): Moved setting of vsyncarch_freq back
+	from set_timer_speed.
+
+2001-05-29  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/c128ui.c: removed now superfluous cartridge stub
+	functions.
+
+	* arch/riscos/ui.c: suspend sound on snapshot operations,
+	close sound on extraordinary exits.
+
 2001-05-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.34.
