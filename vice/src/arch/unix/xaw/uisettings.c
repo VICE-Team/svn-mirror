@@ -215,9 +215,17 @@ static UI_CALLBACK(save_resources)
 
 static UI_CALLBACK(load_resources)
 {
+    int r;
+
     suspend_speed_eval();
-    if (resources_load(NULL) < 0)
-	ui_error("Cannot load settings.");
+    r = resources_load(NULL);
+
+    if (r < 0) {
+        if (r == RESERR_FILE_INVALID)
+            ui_error("Cannot load settings:\nresource file not valid.");
+        else
+            ui_error("Cannot load settings:\nresource file not found.");
+    }
 #if 0
     else if (w != NULL)
             ui_message("Settings loaded.");
