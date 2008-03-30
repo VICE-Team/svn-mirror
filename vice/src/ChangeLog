@@ -1,3 +1,17 @@
+Wed May 20 19:20:21 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.29.
+
+	* arch/unix/readline: `Readline' replacement put back in.
+
+Wed May 20 00:06:34 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* fsdevice.c (fs_test_pc64_name): Changed to handle separate
+ 	directories.
+	(fsdevice_compare_pc64_name, fsdevice_compare_file_name): New
+ 	functions.
+	(open_fs): Changed to handle wildcards.
+
 Tue May 19 00:07:35 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.28.

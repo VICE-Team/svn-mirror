@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 0.14.2.28)
+AM_INIT_AUTOMAKE(vice, 0.14.2.29)
 AM_CONFIG_HEADER(src/config.h)
 
 dnl Try to find out which system we are on...
@@ -20,7 +20,7 @@ AC_ARG_ENABLE(16bpp,[  --enable-16bpp          enable 16-bit only display depth 
 AC_ARG_ENABLE(24bpp,[  --enable-24bpp          enable 24-bit only display depth support])
 AC_ARG_ENABLE(textfield,[  --disable-textfield     disable enhanced text field widget])
 AC_ARG_WITH(xaw3d, [  --with-xaw3d            use Xaw3d library instead of plain Xaw])
-AC_ARG_WITH(readline, [ --without-readline       do not try to use the system's readline library])
+AC_ARG_WITH(readline, [  --without-readline      do not try to use the system's readline library])
 
 if test x"$enable_autobpp" = "xyes"; then
   AC_DEFINE(X_DISPLAY_DEPTH, 0)
@@ -240,12 +240,14 @@ dnl Check whether we have GNU readline.  If not, use our replacement.
 dnl The user can force us to use the replacement with `--without-readline'.
 
 if test x"$with_readline" != "xno" ; then
+  AC_CHECK_LIB(ncurses, tputs, [LIBS="-lncurses $LIBS"],,,)
   AC_CHECK_LIB(readline, readline,
                [ READLINE="" LIBS="-lreadline $LIBS"],
-               [ READLINE="\$(READLINEODIR)/readline.a" ],,)
+               [ READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a" ],,)
 else
-  READLINE="\$(READLINEODIR)/readline.a"
+  READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a"
 fi
+AM_CONDITIONAL(NEED_READLINE, test x"$READLINE" = "x")
 AC_SUBST(READLINE)
 
 dnl Check for X11 libraries and header files
@@ -310,7 +312,7 @@ dnl Setup the system-specific object files.
 
 if test x"$host_vendor" != "xgo32" -a x"$host_vendor" != "xmsdos"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/unix/ -I\$(top_srcdir)/src/arch/unix/xaw"
-  ARCH_LIBS="\$(top_builddir)/src/arch/unix/libarch.a \$(top_builddir)/src/arch/unix/xaw/libxawui.a \$(top_builddir)/src/arch/unix/xaw/widgets/libwidgets.a"
+  ARCH_LIBS="$READLINE \$(top_builddir)/src/arch/unix/libarch.a \$(top_builddir)/src/arch/unix/xaw/libxawui.a \$(top_builddir)/src/arch/unix/xaw/widgets/libwidgets.a"
   AM_CONDITIONAL(UNIX_COMPILE, true)
 else
   ARCH_INCLUDES=
@@ -360,6 +362,7 @@ AC_OUTPUT(Makefile
           src/arch/unix/Makefile \
           src/arch/unix/xaw/Makefile \
           src/arch/unix/xaw/widgets/Makefile \
+          src/arch/unix/readline/Makefile \
           src/true1541/Makefile \
           src/c64/Makefile \
           src/c128/Makefile \
