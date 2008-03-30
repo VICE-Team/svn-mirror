@@ -40,10 +40,10 @@
 /* backup for non-6509 CPUs */
 
 #ifndef LOAD_IND
-#define        LOAD_IND(a)     LOAD(a)
+#define LOAD_IND(a)     LOAD(a)
 #endif
 #ifndef STORE_IND
-#define        STORE_IND(a,b)  STORE(a,b)
+#define STORE_IND(a,b)  STORE(a,b)
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -1477,10 +1477,6 @@
         }
     }
 
-#ifdef EXECUTE_EXTERN
-    EXECUTE_EXTERN();
-#endif
-
     {
         opcode_t opcode;
         FETCH_OPCODE(opcode);
@@ -1838,13 +1834,11 @@
             break;
 
         case 0x50:                      /* BVC $nnnn */
-#ifndef DRIVE_CPU
-            BRANCH(!LOCAL_OVERFLOW(), p1);
-#else
+#ifdef DRIVE_CPU
             if (_drive_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
-            BRANCH(!LOCAL_OVERFLOW(), p1);
 #endif
+            BRANCH(!LOCAL_OVERFLOW(), p1);
             break;
 
         case 0x51:                      /* EOR ($nn),Y */
@@ -1950,13 +1944,11 @@
             break;
 
         case 0x70:                      /* BVS $nnnn */
-#ifndef DRIVE_CPU
-            BRANCH(LOCAL_OVERFLOW(), p1);
-#else
+#ifdef DRIVE_CPU
             if (_drive_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
-            BRANCH(LOCAL_OVERFLOW(), p1);
 #endif
+            BRANCH(LOCAL_OVERFLOW(), p1);
             break;
 
         case 0x71:                      /* ADC ($nn),Y */
