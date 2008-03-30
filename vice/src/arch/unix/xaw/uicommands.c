@@ -402,6 +402,10 @@ static UI_CALLBACK(about)
              "Copyright © 1998 Andreas Boose",
              "Copyright © 1993-1996 Jouko Valta",
              "Copyright © 1993-1994 Jarkko Sonninen",
+#ifdef USE_RESID
+             "reSID engine",
+             "Copyright © 1998 Dag Lem",
+#endif
              "",
 	     "Official VICE homepage:",
 	     "http://www.tu-chemnitz.de/~fachat/vice/vice.html",
@@ -443,21 +447,7 @@ static UI_CALLBACK(load_snapshot)
 
 static void save_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
-#if 0
-    ui_button_t button;
-    PATH_VAR(filename);
-
-    *filename = '\0';
-    button = ui_input_string("Save snapshot", "Enter file name:", filename,
-                             GET_PATH_MAX);
-    if (button != UI_BUTTON_OK)
-        return;
-
-    if (machine_write_snapshot(filename) < 0)
-        ui_error("Cannot write snapshot file\n`%s'", filename);
-#else
     ui_snapshot_dialog();
-#endif
 }
 
 static UI_CALLBACK(save_snapshot)
@@ -539,9 +529,11 @@ ui_menu_entry_t ui_directory_commands_menu[] = {
 
 static ui_menu_entry_t ui_snapshot_commands_submenu[] = {
     { "Load snapshot...",
-      (ui_callback_t) load_snapshot, NULL, NULL },
+      (ui_callback_t) load_snapshot, NULL, NULL,
+      XK_l, UI_HOTMOD_META },
     { "Save snapshot...",
-      (ui_callback_t) save_snapshot, NULL, NULL },
+      (ui_callback_t) save_snapshot, NULL, NULL,
+      XK_s, UI_HOTMOD_META },
     { NULL }
 };
 
