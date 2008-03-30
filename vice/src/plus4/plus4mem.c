@@ -111,7 +111,7 @@ inline void pla_config_changed(void)
 static void mem_proc_port_store(void)
 {
     BYTE tmp;
-/*printf("WR\n");*/
+
     tmp = ~(pport.data | ~pport.dir);
 
     iec_cpu_write_callback[iec_callback_index]((BYTE)tmp);
@@ -119,7 +119,6 @@ static void mem_proc_port_store(void)
 
 static BYTE mem_proc_port_read(ADDRESS addr)
 {
-/*printf("RD\n");*/
     if (addr == 0) {
         return pport.dir;
     } else {
@@ -419,6 +418,12 @@ void mem_initialize_memory(void)
     mem_write_tab[0][1][0xff] = rom_ffxx_store;
     mem_read_base_tab[1][0xff] = NULL;
 
+    mem_read_tab[0][0x100] = mem_read_tab[0][0];
+    mem_write_tab[0][0][0x100] = mem_write_tab[0][0][0];
+    mem_read_base_tab[0][0x100] = mem_read_base_tab[0][0];
+    mem_read_tab[1][0x100] = mem_read_tab[1][0];
+    mem_write_tab[0][1][0x100] = mem_write_tab[0][1][0];
+    mem_read_base_tab[1][0x100] = mem_read_base_tab[1][0];
 
     mem_config = 1;
     _mem_read_tab_ptr = mem_read_tab[mem_config];
