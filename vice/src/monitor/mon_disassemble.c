@@ -28,10 +28,10 @@
 
 #include "vice.h"
 
-#include <assert.h>
 #include <stdio.h>
 
 #include "asm.h"
+#include "log.h"
 #include "mon.h"
 #include "mon_disassemble.h"
 #include "types.h"
@@ -99,54 +99,6 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         sprintf(buffp, " A");
         break;
 
-      case ASM_ADDR_MODE_REG_B:
-        sprintf(buffp, " B");
-        break;
-
-      case ASM_ADDR_MODE_REG_C:
-        sprintf(buffp, " C");
-        break;
-
-      case ASM_ADDR_MODE_REG_D:
-        sprintf(buffp, " D");
-        break;
-
-      case ASM_ADDR_MODE_REG_E:
-        sprintf(buffp, " E");
-        break;
-
-      case ASM_ADDR_MODE_REG_H:
-        sprintf(buffp, " H");
-        break;
-
-      case ASM_ADDR_MODE_REG_L:
-        sprintf(buffp, " L");
-        break;
-
-      case ASM_ADDR_MODE_REG_AF:
-        sprintf(buffp, " AF");
-        break;
-
-      case ASM_ADDR_MODE_REG_BC:
-        sprintf(buffp, " BC");
-        break;
-
-      case ASM_ADDR_MODE_REG_DE:
-        sprintf(buffp, " DE");
-        break;
-
-      case ASM_ADDR_MODE_REG_HL:
-        sprintf(buffp, " HL");
-        break;
-
-      case ASM_ADDR_MODE_REG_SP:
-        sprintf(buffp, " HL");
-        break;
-
-      case ASM_ADDR_MODE_REG_IND_HL:
-        sprintf(buffp, " (HL)");
-        break;
-
       case ASM_ADDR_MODE_IMMEDIATE:
         sprintf(buffp, (hex_mode ? " #$%02X" : " %3d"), ival);
         break;
@@ -170,11 +122,12 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         break;
 
       case ASM_ADDR_MODE_ABSOLUTE:
-	ival |= ((p2 & 0xff) << 8);
+        ival |= ((p2 & 0xff) << 8);
         if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
- 	   sprintf(buffp, " %s", addr_name);
+           sprintf(buffp, " %s", addr_name);
         } else {
-            if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival - 1)))
+            if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
+                ival - 1)))
                 sprintf(buffp, " %s+1", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " $%04X" : " %5d"), ival);
@@ -182,7 +135,7 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         break;
 
       case ASM_ADDR_MODE_ABSOLUTE_X:
-	ival |= ((p2 & 0xff) << 8);
+        ival |= ((p2 & 0xff) << 8);
         if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)))
             sprintf(buffp, (hex_mode ? " $%04X,X" : " %5d,X"), ival);
         else
@@ -190,11 +143,19 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         break;
 
       case ASM_ADDR_MODE_ABSOLUTE_Y:
-	ival |= ((p2 & 0xff) << 8);
+        ival |= ((p2 & 0xff) << 8);
         if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)))
             sprintf(buffp, (hex_mode ? " $%04X,Y" : " %5d,Y"), ival);
         else
             sprintf(buffp, " %s,Y", addr_name);
+        break;
+
+      case ASM_ADDR_MODE_ABS_INDIRECT:
+        ival |= ((p2 & 0xff) << 8);
+        if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)))
+            sprintf(buffp, (hex_mode ? " ($%04X)" : " (%5d)"), ival);
+        else
+            sprintf(buffp, " (%s)", addr_name);
         break;
 
       case ASM_ADDR_MODE_INDIRECT_X:
@@ -211,16 +172,8 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
             sprintf(buffp, " (%s),Y", addr_name);
         break;
 
-      case ASM_ADDR_MODE_ABS_INDIRECT:
-        ival |= ((p2 & 0xff) << 8);
-        if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)))
-            sprintf(buffp, (hex_mode ? " ($%04X)" : " (%5d)"), ival);
-        else
-            sprintf(buffp, " (%s)", addr_name);
-        break;
-
       case ASM_ADDR_MODE_RELATIVE:
-	if (0x80 & ival)
+        if (0x80 & ival)
             ival -= 256;
         ival += addr;
         ival += 2;
@@ -235,7 +188,8 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
            sprintf(buffp, " (%s),A", addr_name);
         } else {
-            if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival - 1)))
+            if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
+                ival - 1)))
                 sprintf(buffp, " (%s+1),A", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " ($%04X),A" : " (%5d),A"), ival);
@@ -247,7 +201,8 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
            sprintf(buffp, " (%s),HL", addr_name);
         } else {
-            if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival - 1)))
+            if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
+                ival - 1)))
                 sprintf(buffp, " (%s+1),HL", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " ($%04X),HL" : " (%5d),HL"), ival);
@@ -259,7 +214,8 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
             sprintf(buffp, " (%s),IX", addr_name);
         } else {
-            if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival - 1)))
+            if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
+                ival - 1)))
                 sprintf(buffp, " (%s+1),IX", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " ($%04X),IX" : " (%5d),IX"), ival);
@@ -271,7 +227,8 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
             sprintf(buffp, " (%s),IY", addr_name);
         } else {
-            if ((addr_name = mon_symbol_table_lookup_name(e_comp_space, ival - 1)))
+            if ((addr_name = mon_symbol_table_lookup_name(e_comp_space,
+                ival - 1)))
                 sprintf(buffp, " (%s+1),IY", addr_name);
             else
                 sprintf(buffp, (hex_mode ? " ($%04X),IY" : " (%5d),IY"), ival);
@@ -283,6 +240,97 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, ADDRESS addr,
         sprintf(buffp, (hex_mode ? " #$%04X" : " %5d"), ival);
         break;
 
+      case ASM_ADDR_MODE_REG_B:
+        sprintf(buffp, " B");
+        break;
+
+      case ASM_ADDR_MODE_REG_C:
+        sprintf(buffp, " C");
+        break;
+
+      case ASM_ADDR_MODE_REG_D:
+        sprintf(buffp, " D");
+        break;
+
+      case ASM_ADDR_MODE_REG_E:
+        sprintf(buffp, " E");
+        break;
+
+      case ASM_ADDR_MODE_REG_H:
+        sprintf(buffp, " H");
+        break;
+
+      case ASM_ADDR_MODE_REG_IXH:
+        sprintf(buffp, " IXH");
+        break;
+
+      case ASM_ADDR_MODE_REG_IYH:
+        sprintf(buffp, " IYH");
+        break;
+
+      case ASM_ADDR_MODE_REG_L:
+        sprintf(buffp, " L");
+        break;
+
+      case ASM_ADDR_MODE_REG_IXL:
+        sprintf(buffp, " IXL");
+        break;
+
+      case ASM_ADDR_MODE_REG_IYL:
+        sprintf(buffp, " IYL");
+        break;
+
+      case ASM_ADDR_MODE_REG_AF:
+        sprintf(buffp, " AF");
+        break;
+
+      case ASM_ADDR_MODE_REG_BC:
+        sprintf(buffp, " BC");
+        break;
+
+      case ASM_ADDR_MODE_REG_DE:
+        sprintf(buffp, " DE");
+        break;
+
+      case ASM_ADDR_MODE_REG_HL:
+        sprintf(buffp, " HL");
+        break;
+
+      case ASM_ADDR_MODE_REG_IX:
+        sprintf(buffp, " IX");
+        break;
+
+      case ASM_ADDR_MODE_REG_IY:
+        sprintf(buffp, " IY");
+        break;
+
+      case ASM_ADDR_MODE_REG_SP:
+        sprintf(buffp, " SP");
+        break;
+
+      case ASM_ADDR_MODE_REG_IND_BC:
+        sprintf(buffp, " (BC)");
+        break;
+
+      case ASM_ADDR_MODE_REG_IND_DE:
+        sprintf(buffp, " (DE)");
+        break;
+
+      case ASM_ADDR_MODE_REG_IND_HL:
+        sprintf(buffp, " (HL)");
+        break;
+
+      case ASM_ADDR_MODE_REG_IND_IX:
+        sprintf(buffp, " (IX)");
+        break;
+
+      case ASM_ADDR_MODE_REG_IND_IY:
+        sprintf(buffp, " (IY)");
+        break;
+
+      case ASM_ADDR_MODE_REG_IND_SP:
+        sprintf(buffp, " (SP)");
+        break;
     }
 
     return buff;
@@ -302,9 +350,9 @@ unsigned mon_disassemble_instr(MON_ADDR addr)
     loc = addr_location(addr);
 
     op = mon_get_mem_val(mem, loc);
-    p1 = mon_get_mem_val(mem, loc+1);
-    p2 = mon_get_mem_val(mem, loc+2);
-    p3 = mon_get_mem_val(mem, loc+3);
+    p1 = mon_get_mem_val(mem, loc + 1);
+    p2 = mon_get_mem_val(mem, loc + 2);
+    p3 = mon_get_mem_val(mem, loc + 3);
 
     /* Print the label for this location - if we have one */
     label = mon_symbol_table_lookup_name(mem, loc);
@@ -328,8 +376,12 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
     long len, i, bytes;
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE,
-                                    DEFAULT_DISASSEMBLY_SIZE);
-    assert(len >= 0);
+                                     DEFAULT_DISASSEMBLY_SIZE);
+
+    if (len < 0) {
+        log_error(LOG_ERR, "Invalid address range");
+        return;
+    }
 
     mem = addr_memspace(start_addr);
     dot_addr[mem] = start_addr;
