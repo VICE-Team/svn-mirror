@@ -39,46 +39,35 @@
 static void drive_clk_overflow_callback(CLOCK sub, void *data)
 {
     unsigned int dnr;
-    drive_t *d;
+    drive_t *drive;
 
     dnr = (unsigned int)data;
-    d = &drive[dnr];
+    drive = drive_context[dnr]->drive;
 
-    if (d->byte_ready_active == 0x06)
-        rotation_rotate_disk(&drive[dnr]);
+    if (drive->byte_ready_active == 0x06)
+        rotation_rotate_disk(drive);
 
     rotation_overflow_callback(sub, dnr);
 
-    if (d->attach_clk > (CLOCK) 0)
-        d->attach_clk -= sub;
-    if (d->detach_clk > (CLOCK) 0)
-        d->detach_clk -= sub;
-    if (d->attach_detach_clk > (CLOCK) 0)
-        d->attach_detach_clk -= sub;
+    if (drive->attach_clk > (CLOCK) 0)
+        drive->attach_clk -= sub;
+    if (drive->detach_clk > (CLOCK) 0)
+        drive->detach_clk -= sub;
+    if (drive->attach_detach_clk > (CLOCK) 0)
+        drive->attach_detach_clk -= sub;
 
-    /* FIXME: Having to do this by hand sucks *big time*!  These should be in
-       `drive_t'.  */
-    switch (dnr) {
-      case 0:
-        alarm_context_time_warp(drive0_context.cpu->alarm_context, sub, -1);
-        interrupt_cpu_status_time_warp(drive0_context.cpu->int_status, sub, -1);
-        break;
-      case 1:
-        alarm_context_time_warp(drive1_context.cpu->alarm_context, sub, -1);
-        interrupt_cpu_status_time_warp(drive1_context.cpu->int_status, sub, -1);
-        break;
-      default:
-        log_error(LOG_DEFAULT,
-                  "Unexpected drive number %d in drive_clk_overflow_callback",
-                  dnr);
-    }
+    alarm_context_time_warp(drive_context[dnr]->cpu->alarm_context, sub, -1);
+    interrupt_cpu_status_time_warp(drive_context[dnr]->cpu->int_status, sub,
+                                   -1);
 }
 
 void drive_overflow_init(void)
 {
-    clk_guard_add_callback(drive0_context.cpu->clk_guard,
-                           drive_clk_overflow_callback, (void *)0);
-    clk_guard_add_callback(drive1_context.cpu->clk_guard,
-                           drive_clk_overflow_callback, (void *)1);
+    unsigned int dnr;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        clk_guard_add_callback(drive_context[dnr]->cpu->clk_guard,
+                               drive_clk_overflow_callback, (void *)dnr);
+    }
 }
 
