@@ -42,5 +42,11 @@ extern int ioutil_rename(const char *oldpath, const char *newpath);
 
 extern char *ioutil_current_dir(void);
 
+struct ioutil_dir_s;
+
+extern struct ioutil_dir_s *ioutil_opendir(const char *path);
+extern char *ioutil_readdir(struct ioutil_dir_s *ioutil_dir);
+extern void ioutil_closedir(struct ioutil_dir_s *ioutil_dir);
+
 #endif
 
