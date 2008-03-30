@@ -84,12 +84,7 @@ int machine_init(void)
     printf("\nInitializing IEEE488 bus...\n");
 
     /* No traps installed on the PET.  */
-    initialize_serial(NULL);
-
-#if 0
-    /* This is disabled because currently broken. */
-    initialize_printer(4, app_resources.PrinterLang, app_resources.Locale);
-#endif
+    serial_init(NULL);
 
     /* Initialize drives.  */
     initialize_drives();
@@ -109,6 +104,13 @@ int machine_init(void)
     /* Initialize vsync and register our hook function.  */
     vsync_init(RFSH_PER_SEC, CYCLES_PER_SEC, vsync_hook);
 
+    /* Initialize sound.  Notice that this does not really open the audio
+       device yet.  */
+    sound_init(PET_CYCLES_PER_SEC, PET_CYCLES_PER_RFSH);
+
+    /* Initialize keyboard buffer.  FIXME: Is this correct?  */
+    kbd_buf_init(631, 198, 10, PET_CYCLES_PER_RFSH * PET_RFSH_PER_SEC);
+
     return 0;
 }
 
@@ -127,7 +129,7 @@ void machine_reset(void)
 void machine_shutdown(void)
 {
     /* Detach all devices.  */
-    remove_serial(-1);
+    serial_remove(-1);
 }
 
 /* Return nonzero if `addr' is in the trappable address space.  */

@@ -78,8 +78,7 @@ static serial_t serialdevices[MAXDEVICES];
 static BYTE SerialBuffer[SERIAL_NAMELENGTH +1];
 static int SerialPtr;
 
-
-/* Flag: On which channel did listen happen to ?  */
+/* On which channel did listen happen to?  */
 static int TrapDevice;
 static int TrapSecondary;
 
@@ -181,7 +180,7 @@ static int  serialcommand()
 
 /* Command Serial Bus to TALK, LISTEN, UNTALK, or UNLISTEN, and send the
    Secondary Address to Serial Bus under Attention.  */
-void serialattention()
+void serialattention(void)
 {
     int     b;
     int     st;
@@ -232,7 +231,7 @@ void serialattention()
 }
 
 /* Send one byte on the serial bus.  */
-void serialsendbyte()
+void serialsendbyte(void)
 {
     int     data, st;
     serial_t *p;
@@ -272,7 +271,7 @@ void serialsendbyte()
 }
 
 /* Receive one byte from the serial bus.  */
-void serialreceivebyte()
+void serialreceivebyte(void)
 {
     int     st = 0, secadr = TrapSecondary & 0x0f;
     BYTE    data;
@@ -326,7 +325,7 @@ void trap_serial_ready(void)
 /* ------------------------------------------------------------------------- */
 
 /* These routines work for IEEE488 emulation on both C64 and PET.  */
-static int  parallelcommand()
+static int  parallelcommand(void)
 {
     serial_t *p;
     BYTE    b;
@@ -524,16 +523,16 @@ int parallelreceivebyte(BYTE *data, int fake)
 
 /* ------------------------------------------------------------------------- */
 
-int initialize_serial(const trap_t *trap_list)
+int serial_init(const trap_t *trap_list)
 {
     int     i;
 
     /* Remove installed traps, if any.  */
-    remove_serial_traps();
+    serial_remove_traps();
 
     /* Install specified traps.  */
     serial_traps = trap_list;
-    install_serial_traps();
+    serial_install_traps();
 
     /*
      * Clear serial device functions
@@ -553,38 +552,38 @@ int initialize_serial(const trap_t *trap_list)
     return 0;
 }
 
-int	install_serial_traps(void)
+int serial_install_traps(void)
 {
     if (!traps_installed && serial_traps != NULL) {
         const trap_t *p;
 
         for (p = serial_traps; p->func != NULL; p++)
-            set_trap(p);
+            traps_add(p);
 	traps_installed = 1;
     }
     return 0;
 }
 
 
-int	remove_serial_traps(void)
+int serial_remove_traps(void)
 {
     if (traps_installed && serial_traps != NULL) {
         const trap_t *p;
 
         for (p = serial_traps; p->func != NULL; p++)
-            remove_trap(p);
+            traps_remove(p);
 	traps_installed = 0;
     }
     return 0;
 }
 
 
-int     attach_serial_device(int device, char *var, char *name,
-			     int (*getf)(void *, BYTE * , int),
-			     int (*putf)(void *, BYTE , int),
-			     int (*openf)(void *, char *, int , int),
-			     int (*closef)(void *, int),
-			     void (*flushf)(void *, int))
+int serial_attach_device(int device, char *var, char *name,
+                         int (*getf)(void *, BYTE * , int),
+                         int (*putf)(void *, BYTE , int),
+                         int (*openf)(void *, char *, int , int),
+                         int (*closef)(void *, int),
+                         void (*flushf)(void *, int))
 {
     serial_t *p;
     int i;
@@ -618,7 +617,7 @@ int     attach_serial_device(int device, char *var, char *name,
 /* Attach a file for use to specified peripheral.  The device numbed is
    searched in filename if device # == -1.  Note that tape and RS-232 are
    handled here as well.  */
-int  serial_select_file(int type, int number, const char *file)
+int serial_select_file(int type, int number, const char *file)
 {
     serial_t *p;
 
@@ -652,7 +651,7 @@ int  serial_select_file(int type, int number, const char *file)
     switch (number) {
 
       case 1:
-	return (attach_tape_image ((TAPE *)p -> info, file, 0));
+	return (tape_attach_image((TAPE *)p -> info, file, 0));
 
 #ifdef PRINTER
       case 4:
@@ -675,7 +674,7 @@ int  serial_select_file(int type, int number, const char *file)
 
 
 /* Detach and kill serial devices.  Detach all (shutdown) if device# == -1.  */
-int  remove_serial(int number)
+int serial_remove(int number)
 {
     serial_t *p;
     int  i;
@@ -693,7 +692,7 @@ int  remove_serial(int number)
 #if (defined(DEBUG) || defined(DEBUG_SERIAL))
 		    printf("remove unit #%d.\n", i);
 #endif
-		    remove_serial(i);
+		    serial_remove(i);
 		}
 	    }
 	}
@@ -712,7 +711,7 @@ int  remove_serial(int number)
 	else
 	    switch (number) {  /* should be based on actual type ... */
 	      case 1:
-		detach_tape_image ((TAPE *)p -> info);
+		tape_detach_image((TAPE *)p -> info);
 		break;
 #ifdef PRINTER
 	      case 4:
@@ -737,13 +736,13 @@ int  remove_serial(int number)
     return (0);
 }
 
-serial_t *get_serial_device(int device)
+serial_t *serial_get_device(int device)
 {
     return &serialdevices[device];
 }
 
 /* Return the name of the image attached at unit `number', NULL if none.  */
-char *image_file_name(int number)
+char *serial_get_file_name(int number)
 {
     char *p;
 
@@ -769,7 +768,6 @@ char *image_file_name(int number)
 	return NULL;
     }
 }
-
 
 /* Close all files.  */
 void serial_reset(void)

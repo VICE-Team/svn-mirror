@@ -246,6 +246,11 @@ typedef unsigned short u16_t;
 typedef short s16_t;
 typedef unsigned char u8_t;
 
+/* timing constants */
+unsigned int cycles_per_sec;
+unsigned int cycles_per_rfsh;
+double rfsh_per_sec;
+
 #ifdef SID
 
 #ifdef CBM64
@@ -300,11 +305,6 @@ static u16_t wavetable70[8192];
 static u8_t noiseMSB[NOISETABLESIZE];
 static u8_t noiseMID[NOISETABLESIZE];
 static u8_t noiseLSB[NOISETABLESIZE];
-
-/* Timing constants */
-unsigned int cycles_per_sec;
-unsigned int cycles_per_rfsh;
-double rfsh_per_sec;
 
 /* needed data for one voice */
 typedef struct voice_s
@@ -2867,7 +2867,7 @@ void resume_sound(void)
 }
 
 /* initialize sid at program start -time */
-void initialize_sound(unsigned int clock_rate, unsigned int ticks_per_frame)
+void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 {
     cycles_per_sec = clock_rate;
     cycles_per_rfsh = ticks_per_frame;

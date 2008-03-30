@@ -642,7 +642,7 @@ static BYTE *GCR_find_sector_data(BYTE *offset)
 
 /* Initialize the hardware-level 1541 emulation (should be called at least once
    before anything else).  Return 0 on success, -1 on error.  */
-int initialize_true1541(CLOCK pal_hz, CLOCK ntsc_hz)
+int true1541_init(CLOCK pal_hz, CLOCK ntsc_hz)
 {
     int track;
 
@@ -714,7 +714,7 @@ int true1541_enable(void)
         return -1;
 
     /* Always disable kernal traps. */
-    remove_serial_traps();
+    serial_remove_traps();
 
     if (true1541_floppy != NULL)
         true1541_attach_floppy(true1541_floppy);
@@ -732,7 +732,7 @@ void true1541_disable(void)
     puts(__FUNCTION__);
 
     if (rom_loaded)
-        install_serial_traps();
+        serial_install_traps();
 
     true1541_enabled = 0;
     true1541_cpu_sleep();

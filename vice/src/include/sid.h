@@ -58,7 +58,7 @@ void store_petsnd_sample(BYTE value);
 #ifdef SOUND
 int flush_sound(int relative_speed);
 void close_sound(void);
-void initialize_sound(unsigned int clock_rate, unsigned int ticks_per_frame);
+void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame);
 void sid_prevent_clk_overflow(CLOCK sub);
 void suspend_sound(void);
 void resume_sound(void);

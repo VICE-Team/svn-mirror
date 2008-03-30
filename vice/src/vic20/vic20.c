@@ -110,7 +110,7 @@ static trap_t vic20_serial_traps[] = {
 	serialreceivebyte
     },
     {
-	"Serial ready",
+	"SerialReady",
 	0xE4B2,
         0xEEB2,
 	{0xAD, 0x1F, 0x91},
@@ -131,7 +131,8 @@ static trap_t vic20_serial_traps[] = {
    initializing the machine itself with `machine_init()'.  */
 int machine_init_resources(void)
 {
-    if (vsync_init_resources() < 0
+    if (traps_init_resources()
+        || vsync_init_resources() < 0
         || video_init_resources() < 0
         || vic20_mem_init_resources() < 0
         || vic_init_resources() < 0
@@ -145,7 +146,8 @@ int machine_init_resources(void)
 /* VIC20-specific command-line option initialization.  */
 int machine_init_cmdline_options(void)
 {
-    if (vsync_init_cmdline_options() < 0
+    if (traps_init_cmdline_options()
+        || vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
         || vic20_mem_init_cmdline_options() < 0
         || vic_init_cmdline_options() < 0
@@ -164,18 +166,18 @@ int machine_init(void)
 
     printf("\nInitializing Serial Bus...\n");
 
-    /* Setup trap handling. */
-    initialize_traps();
+    /* Setup trap handling.  */
+    traps_init();
 
     /* Initialize serial traps.  If user does not want them, or if the
-       ``true1541'' emulation is used, do not install them. */
-    initialize_serial(vic20_serial_traps);
+       ``true1541'' emulation is used, do not install them.  */
+    serial_init(vic20_serial_traps);
 
     /* Initialize drives.  Only drive #8 allows true 1541 emulation.  */
     initialize_drives();
 
     /* Fire up the hardware-level 1541 emulation. */
-    initialize_true1541(VIC20_PAL_CYCLES_PER_SEC, VIC20_NTSC_CYCLES_PER_SEC);
+    true1541_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_NTSC_CYCLES_PER_SEC);
 
     /* Initialize autostart.  */
     autostart_init(3 * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH);
@@ -195,7 +197,7 @@ int machine_init(void)
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
-    initialize_sound(VIC20_PAL_CYCLES_PER_SEC, VIC20_PAL_CYCLES_PER_RFSH);
+    sound_init(VIC20_PAL_CYCLES_PER_SEC, VIC20_PAL_CYCLES_PER_RFSH);
 
     /* Initialize keyboard buffer.  */
     kbd_buf_init(631, 198, 10,
@@ -224,7 +226,7 @@ void machine_reset(void)
 void machine_shutdown(void)
 {
     /* Detach all devices.  */
-    remove_serial(-1);
+    serial_remove(-1);
 }
 
 /* Return nonzero if `addr' is in the trappable address space.  */
@@ -259,4 +261,8 @@ static void vsync_hook(void)
     /* The 1541 has to deal both with our overflowing and its own one, so it
        is called even when there is no overflowing in the main CPU.  */
     true1541_prevent_clk_overflow(sub);
+
+#ifdef HAS_JOYSTICK
+    joystick();
+#endif
 }

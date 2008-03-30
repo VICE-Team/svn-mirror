@@ -88,14 +88,14 @@ static char *typenames[] = {
 /* ------------------------------------------------------------------------- */
 
 /* Initialize the tape emulation, using the traps in `trap_list'.  */
-int  initialize_tape (const trap_t *trap_list)
+int tape_init(const trap_t *trap_list)
 {
     const trap_t *p;
 
     tape_traps = trap_list;
     if (tape_traps != 0) {
         for (p = tape_traps; p->func != NULL; p++)
-            set_trap(p);
+            traps_add(p);
     }
 
     /*
@@ -110,7 +110,7 @@ int  initialize_tape (const trap_t *trap_list)
 
     /* Add cassette drive to serial device list, so that Monitor
        can handle it.  The device number (1) is hardcoded.  */
-    if (attach_serial_device (1, (char *)tape, "Cassette unit",
+    if (serial_attach_device (1, (char *)tape, "Cassette unit",
                               (int (*)(void *, BYTE *, int))fn,
                               (int (*)(void *, BYTE, int))fn,
                               (int (*)(void *, char *, int, int))fn,
@@ -127,7 +127,7 @@ int  initialize_tape (const trap_t *trap_list)
 
 /* Functions to attach the tape image files.  */
 
-void  detach_tape_image (TAPE *tape)
+void  tape_detach_image (TAPE *tape)
 {
     if (!tape)
 	return;
@@ -171,14 +171,14 @@ static int is_valid_prgfile(FILE *fd)
 }
 
 /* Attach a tape image.  */
-int   attach_tape_image (TAPE *tape, const char *name, int mode)
+int   tape_attach_image(TAPE *tape, const char *name, int mode)
 {
     char   realname[24];
     int    reclen = 0;
     int    format = -1, entries = 0;
     long   flen;
 
-    detach_tape_image(tape);
+    tape_detach_image(tape);
 
     if (!name || !*name) {
 	printf("No name, detaching image.\n");

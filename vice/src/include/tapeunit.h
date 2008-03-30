@@ -31,10 +31,10 @@
 #include "traps.h"
 
 /* Global functions */
-extern void detach_tape_image(TAPE *tape);
-extern int attach_tape_image(TAPE *tape, const char *name, int mode);
+extern void tape_detach_image(TAPE *tape);
+extern int tape_attach_image(TAPE *tape, const char *name, int mode);
 extern int check_tape(void);
-extern int initialize_tape(const trap_t *tape);
+extern int tape_init(const trap_t *tape);
 extern void findheader (void);
 extern void writeheader (void);
 /* extern void checkplay (void); */
