@@ -275,9 +275,8 @@ int machine_init(void)
         crtc_set_hw_options( 1, 0x7ff, 0x1000, 512, -0x2000);
     } else {
         /* Initialize the VIC-II emulation.  */
-        if (vic_ii_init() == NULL)
+        if (vic_ii_init(VICII_STANDARD) == NULL)
             return -1;
-        vic_ii_enable_extended_vicii(0);
 
         /*
         c500_set_phi1_bank(15);

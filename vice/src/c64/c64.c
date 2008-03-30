@@ -369,10 +369,8 @@ int machine_init(void)
     }
 
     /* Initialize the VIC-II emulation. */
-    if (!vic_ii_init() && !console_mode && !vsid_mode)
+    if (!vic_ii_init(VICII_STANDARD) && !console_mode && !vsid_mode)
         return -1;
-
-    vic_ii_enable_extended_vicii(0);
 
     cia1_enable_extended_keyboard_rows(0);
 
