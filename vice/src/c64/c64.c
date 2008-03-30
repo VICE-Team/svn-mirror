@@ -257,9 +257,8 @@ int machine_init(void)
         return -1;
 
     /* Initialize the keyboard.  */
-    /* FIXME */
 #ifndef __MSDOS__
-    if (kbd_init( /* "default.vkm" */ ) < 0)
+    if (kbd_init() < 0)
         return -1;
 #else
     if (c64_kbd_init() < 0)
@@ -329,12 +328,6 @@ void machine_reset(void)
 
 void machine_shutdown(void)
 {
-#if 0                           /* FIXME */
-    /* Detach REU.  */
-    if (app_resources.reu)
-        close_reu(app_resources.reuName);
-#endif
-
     /* Detach all devices.  */
     serial_remove(-1);
 }

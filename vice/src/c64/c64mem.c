@@ -127,7 +127,8 @@ static int set_basic_rom_name(resource_value_t v)
 {
     const char *name = (const char *) v;
 
-    if (basic_rom_name != NULL && name != NULL
+    if (basic_rom_name != NULL
+        && name != NULL
         && strcmp(name, basic_rom_name) == 0)
         return 0;
 

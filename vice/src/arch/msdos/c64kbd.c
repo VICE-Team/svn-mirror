@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "c64kbd.h"
+#include "cartridge.h"
 #include "kbd.h"
 
 static keyconv c64_keyboard[256] = {
@@ -144,5 +145,6 @@ static keyconv c64_keyboard[256] = {
 
 int c64_kbd_init(void)
 {
-    return kbd_init(c64_keyboard, sizeof(c64_keyboard), 7, 1);
+    kbd_set_freeze_function(cartridge_trigger_freeze);
+    return kbd_init(7, 1, c64_keyboard, sizeof(c64_keyboard), NULL);
 }
