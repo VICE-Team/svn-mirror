@@ -28,26 +28,27 @@
 
 #include <stdio.h>
 
-#include "machine.h"
-#include "vic20.h"
 #include "1541cpu.h"
 #include "attach.h"
 #include "autostart.h"
+#include "cartridge.h"
 #include "cmdline.h"
 #include "interrupt.h"
 #include "kbd.h"
 #include "kbdbuf.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
-#include "vic20sound.h"
+#include "tapeunit.h"
 #include "traps.h"
 #include "true1541.h"
 #include "vic.h"
+#include "vic20.h"
 #include "vic20mem.h"
+#include "vic20sound.h"
 #include "vic20ui.h"
 #include "vic20via.h"
 #include "vmachine.h"
-#include "tapeunit.h"
 #include "vsync.h"
 
 #ifdef HAVE_PRINTER

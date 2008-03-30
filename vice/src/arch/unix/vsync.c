@@ -97,6 +97,7 @@ static int set_refresh_rate(resource_value_t v)
 static int set_warp_mode(resource_value_t v)
 {
     warp_mode_enabled = (int) v;
+    sound_set_warp_mode(warp_mode_enabled);
     return 0;
 }
 
@@ -320,7 +321,7 @@ int do_vsync(int been_skipped)
         } else {
             skip_counter = elapsed_frames = 0;
         }
-        sound_flush(0);
+        /* sound_flush(0); */
     } else if (refresh_rate != 0) {
 	/* Fixed refresh rate.*/
 	update_elapsed_frames(0);
