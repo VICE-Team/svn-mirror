@@ -1558,7 +1558,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_DIGIMAX_SETTINGS_IT, "Impostazioni digimax..."},
 /* nl */ {IDMS_DIGIMAX_SETTINGS_NL, "Digimax instellingen..."},
 /* pl */ {IDMS_DIGIMAX_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_DIGIMAX_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_DIGIMAX_SETTINGS_SV, "Digimaxinställningar..."},
 
 /* en */ {IDMS_ETHERNET_SETTINGS,    "Ethernet settings..."},
 /* de */ {IDMS_ETHERNET_SETTINGS_DE, "Ethernet Einstellungen..."},
@@ -1837,7 +1837,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_START_SOUND_RECORD_IT, "Avvia la registrazione audio..."},
 /* nl */ {IDMS_START_SOUND_RECORD_NL, "Start Geluid Opname..."},
 /* pl */ {IDMS_START_SOUND_RECORD_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_START_SOUND_RECORD_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_START_SOUND_RECORD_SV, "Starta ljudinspelning..."},
 
 /* en */ {IDMS_STOP_SOUND_RECORD,    "Stop Sound Record"},
 /* de */ {IDMS_STOP_SOUND_RECORD_DE, "Tonaufnahme stoppen"},
@@ -1846,7 +1846,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDMS_STOP_SOUND_RECORD_IT, "Interrompi la registrazione audio"},
 /* nl */ {IDMS_STOP_SOUND_RECORD_NL, "Stop Geluid Opname"},
 /* pl */ {IDMS_STOP_SOUND_RECORD_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_STOP_SOUND_RECORD_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_STOP_SOUND_RECORD_SV, "Stoppa ljudinspelning"},
 
 
 /* ----------------------- AmigaOS Message/Error Strings ----------------------- */
@@ -2148,7 +2148,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_CURRENT_MODE_IT, "Modalità attuale"},
 /* nl */ {IDS_CURRENT_MODE_NL, "Huidige modus"},
 /* pl */ {IDS_CURRENT_MODE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_CURRENT_MODE_SV, "Aktuellt läge"},
+/* sv */ {IDS_CURRENT_MODE_SV, "Nuvarande läge"},
 
 /* en */ {IDS_TCP_PORT,    "TCP-Port"},
 /* de */ {IDS_TCP_PORT_DE, "TCP-Port"},
@@ -4587,7 +4587,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_DIGIMAX_ENABLED_IT, "Digimax attivato"},
 /* nl */ {IDS_DIGIMAX_ENABLED_NL, "Digimax Aan/Uit"},
 /* pl */ {IDS_DIGIMAX_ENABLED_PL, ""},  /* fuzzy */
-/* sv */ {IDS_DIGIMAX_ENABLED_SV, ""},  /* fuzzy */
+/* sv */ {IDS_DIGIMAX_ENABLED_SV, "Digimax aktiverad"},
 
 /* en */ {IDS_DIGIMAX_BASE,    "Digimax Base"},
 /* de */ {IDS_DIGIMAX_BASE_DE, "Digimax Basis"},
@@ -4596,7 +4596,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_DIGIMAX_BASE_IT, "Base Digimax"},
 /* nl */ {IDS_DIGIMAX_BASE_NL, "Digimax basis adres"},
 /* pl */ {IDS_DIGIMAX_BASE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_DIGIMAX_BASE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_DIGIMAX_BASE_SV, "Digimaxbas"},
 
 /* en */ {IDS_DIGIMAX_SETTINGS,    "Digimax Settings"},
 /* de */ {IDS_DIGIMAX_SETTINGS_DE, "Digimax Einstellungen"},
@@ -4605,7 +4605,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_DIGIMAX_SETTINGS_IT, "Impostazioni digimax"},
 /* nl */ {IDS_DIGIMAX_SETTINGS_NL, "Digimax Instellingen"},
 /* pl */ {IDS_DIGIMAX_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_DIGIMAX_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_DIGIMAX_SETTINGS_SV, "Digimaxinställningar"},
 
 /* en */ {IDS_SOUND_RECORDING_STOPPED,    "Sound Recording stopped..."},
 /* de */ {IDS_SOUND_RECORDING_STOPPED_DE, "Tonaufnahme gestoppt..."},
@@ -4614,7 +4614,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SOUND_RECORDING_STOPPED_IT, "Registrazione audio interrotta..."},
 /* nl */ {IDS_SOUND_RECORDING_STOPPED_NL, "Geluid Opname gestopt..."},
 /* pl */ {IDS_SOUND_RECORDING_STOPPED_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SOUND_RECORDING_STOPPED_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SOUND_RECORDING_STOPPED_SV, "Ljudinspelning stoppad..."},
 
 /* en */ {IDS_SOUND_RECORDING_STARTED,    "Sound Recording started..."},
 /* de */ {IDS_SOUND_RECORDING_STARTED_DE, "Tonaufnahme gestartet..."},
@@ -4623,7 +4623,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SOUND_RECORDING_STARTED_IT, "Registrazione audio avviata..."},
 /* nl */ {IDS_SOUND_RECORDING_STARTED_NL, "Geluid Opname gestart..."},
 /* pl */ {IDS_SOUND_RECORDING_STARTED_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SOUND_RECORDING_STARTED_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SOUND_RECORDING_STARTED_SV, "Ljudinspelning startad..."},
 
 /* en */ {IDS_SELECT_RECORD_FILE,    "Select Sound Record File"},
 /* de */ {IDS_SELECT_RECORD_FILE_DE, "Tonaufnahmedatei definieren"},
@@ -4632,7 +4632,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SELECT_RECORD_FILE_IT, "Seleziona il file per la registrazione dell'audio"},
 /* nl */ {IDS_SELECT_RECORD_FILE_NL, "Selecteer Geluid Opname Bestand"},
 /* pl */ {IDS_SELECT_RECORD_FILE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SELECT_RECORD_FILE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_RECORD_FILE_SV, "Välj ljudinspelningsfil"},
 
 /* en */ {IDS_SOUND_RECORD_FORMAT,    "Sound Record Format"},
 /* de */ {IDS_SOUND_RECORD_FORMAT_DE, "Tonaufnahmeformat"},
@@ -4641,7 +4641,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SOUND_RECORD_FORMAT_IT, "Formato di registrazione dell'audio"},
 /* nl */ {IDS_SOUND_RECORD_FORMAT_NL, "Geluid Opname Formaat"},
 /* pl */ {IDS_SOUND_RECORD_FORMAT_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SOUND_RECORD_FORMAT_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SOUND_RECORD_FORMAT_SV, "Format för ljudinspelning"},
 
 /* en */ {IDS_SOUND_RECORD_FILE,    "Sound Record File"},
 /* de */ {IDS_SOUND_RECORD_FILE_DE, "Tonaufnahmedatei"},
@@ -4650,7 +4650,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SOUND_RECORD_FILE_IT, "File per la registrazione dell'audio"},
 /* nl */ {IDS_SOUND_RECORD_FILE_NL, "Geluid Opname Bestand"},
 /* pl */ {IDS_SOUND_RECORD_FILE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SOUND_RECORD_FILE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SOUND_RECORD_FILE_SV, "Ljudinspelningsfil"},
 
 /* en */ {IDS_SOUND_RECORD_SETTINGS,    "Sound Record Settings"},
 /* de */ {IDS_SOUND_RECORD_SETTINGS_DE, "Tonaufnahme Einstellungen"},
@@ -4659,52 +4659,52 @@ intl_translate_t intl_string_table[] = {
 /* it */ {IDS_SOUND_RECORD_SETTINGS_IT, "Impostazioni di registrazione audio"},
 /* nl */ {IDS_SOUND_RECORD_SETTINGS_NL, "Geluid Opname Instellingen"},
 /* pl */ {IDS_SOUND_RECORD_SETTINGS_PL, ""},  /* fuzzy */
-/* sv */ {IDS_SOUND_RECORD_SETTINGS_SV, ""},  /* fuzzy */
+/* sv */ {IDS_SOUND_RECORD_SETTINGS_SV, "Inställningar för ljudinspelning"},
 
 /* en */ {IDS_BORDER_MODE,    "Border mode"},
-/* de */ {IDS_BORDER_MODE_DE, ""},  /* fuzzy */
+/* de */ {IDS_BORDER_MODE_DE, "Rahmen Modus"},
 /* fr */ {IDS_BORDER_MODE_FR, ""},  /* fuzzy */
-/* hu */ {IDS_BORDER_MODE_HU, ""},  /* fuzzy */
-/* it */ {IDS_BORDER_MODE_IT, ""},  /* fuzzy */
+/* hu */ {IDS_BORDER_MODE_HU, "Keret mód"},
+/* it */ {IDS_BORDER_MODE_IT, "Modalità del bordo"},
 /* nl */ {IDS_BORDER_MODE_NL, "Border modus"},
 /* pl */ {IDS_BORDER_MODE_PL, ""},  /* fuzzy */
-/* sv */ {IDS_BORDER_MODE_SV, ""},  /* fuzzy */
+/* sv */ {IDS_BORDER_MODE_SV, "Ramläge"},
 
 /* en */ {IDMS_NORMAL,    "Normal"},
-/* de */ {IDMS_NORMAL_DE, ""},  /* fuzzy */
+/* de */ {IDMS_NORMAL_DE, "Normal"},
 /* fr */ {IDMS_NORMAL_FR, ""},  /* fuzzy */
-/* hu */ {IDMS_NORMAL_HU, ""},  /* fuzzy */
-/* it */ {IDMS_NORMAL_IT, ""},  /* fuzzy */
+/* hu */ {IDMS_NORMAL_HU, "Normál"},
+/* it */ {IDMS_NORMAL_IT, "Normale"},
 /* nl */ {IDMS_NORMAL_NL, "Normaal"},
 /* pl */ {IDMS_NORMAL_PL, ""},  /* fuzzy */
-/* sv */ {IDMS_NORMAL_SV, ""},  /* fuzzy */
+/* sv */ {IDMS_NORMAL_SV, "Normal"},
 
 /* en */ {IDS_FULL,    "Full"},
-/* de */ {IDS_FULL_DE, ""},  /* fuzzy */
+/* de */ {IDS_FULL_DE, "Full"},
 /* fr */ {IDS_FULL_FR, ""},  /* fuzzy */
-/* hu */ {IDS_FULL_HU, ""},  /* fuzzy */
-/* it */ {IDS_FULL_IT, ""},  /* fuzzy */
+/* hu */ {IDS_FULL_HU, "Teljes"},
+/* it */ {IDS_FULL_IT, "Intero"},
 /* nl */ {IDS_FULL_NL, "Volledig"},
 /* pl */ {IDS_FULL_PL, ""},  /* fuzzy */
-/* sv */ {IDS_FULL_SV, ""},  /* fuzzy */
+/* sv */ {IDS_FULL_SV, "Full"},
 
 /* en */ {IDS_DEBUG,    "Debug"},
-/* de */ {IDS_DEBUG_DE, ""},  /* fuzzy */
+/* de */ {IDS_DEBUG_DE, "Debug"},
 /* fr */ {IDS_DEBUG_FR, ""},  /* fuzzy */
-/* hu */ {IDS_DEBUG_HU, ""},  /* fuzzy */
-/* it */ {IDS_DEBUG_IT, ""},  /* fuzzy */
+/* hu */ {IDS_DEBUG_HU, "Nyomkövetés"},
+/* it */ {IDS_DEBUG_IT, "Debug"},
 /* nl */ {IDS_DEBUG_NL, "Debug"},
 /* pl */ {IDS_DEBUG_PL, ""},  /* fuzzy */
-/* sv */ {IDS_DEBUG_SV, ""},  /* fuzzy */
+/* sv */ {IDS_DEBUG_SV, "Felsök"},
 
 /* en */ {IDS_VOLUME,    "Volume (0-100%)"},
-/* de */ {IDS_VOLUME_DE, ""},  /* fuzzy */
+/* de */ {IDS_VOLUME_DE, "Lautstärke (0-100%)"},
 /* fr */ {IDS_VOLUME_FR, ""},  /* fuzzy */
-/* hu */ {IDS_VOLUME_HU, ""},  /* fuzzy */
-/* it */ {IDS_VOLUME_IT, ""},  /* fuzzy */
+/* hu */ {IDS_VOLUME_HU, "Hangerõ (0-100%)"},
+/* it */ {IDS_VOLUME_IT, "Volume (0-100%)"},
 /* nl */ {IDS_VOLUME_NL, "Volume (0-100%)"},
 /* pl */ {IDS_VOLUME_PL, ""},  /* fuzzy */
-/* sv */ {IDS_VOLUME_SV, ""},  /* fuzzy */
+/* sv */ {IDS_VOLUME_SV, "Volym (0-100 %)"},
 
 };
 

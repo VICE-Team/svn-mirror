@@ -651,7 +651,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_DIGIMAX_NOT_WITH_RESID_IT, "Digimax non può essere usato con il ReSID\nCambia il motore SID a FastSID"},
 /* nl */ {IDGS_DIGIMAX_NOT_WITH_RESID_NL, "Digimax kan niet gebruikt worden met ReSID\nschakel de SID Kern over naar FastSID"},
 /* pl */ {IDGS_DIGIMAX_NOT_WITH_RESID_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_DIGIMAX_NOT_WITH_RESID_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_DIGIMAX_NOT_WITH_RESID_SV, "Digimax kan inte användas med ReSID\nByt SID-motor till FastSID"},
 
 
 
@@ -1009,23 +1009,23 @@ translate_t string_table[] = {
 
 /* c128/c128mmu.c */
 /* en */ {IDCLS_GO64_MODE,    "Always switch to C64 mode on reset"},
-/* de */ {IDCLS_GO64_MODE_DE, "Bei Reset immer in den C64 Modus schalten"},
+/* de */ {IDCLS_GO64_MODE_DE, "Immer bei Reset in C64 Modus schalten"},
 /* fr */ {IDCLS_GO64_MODE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_GO64_MODE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_GO64_MODE_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_GO64_MODE_HU, "Mindig C64 módban újraindítás után"},
+/* it */ {IDCLS_GO64_MODE_IT, "Cambia sempre in modalita C64 al reset"},
 /* nl */ {IDCLS_GO64_MODE_NL, "Start altijd op in C64 modus na reset"},
 /* pl */ {IDCLS_GO64_MODE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_GO64_MODE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_GO64_MODE_SV, "Växla alltid till C64-läge vid återställning"},
 
 /* c128/c128mmu.c */
 /* en */ {IDCLS_GO128_MODE,    "Always switch to C128 mode on reset"},
-/* de */ {IDCLS_GO128_MODE_DE, "Bei Reset immer in den C128 Modus schalten"},
+/* de */ {IDCLS_GO128_MODE_DE, "Immer be Reset in C128 Modus schalten"},
 /* fr */ {IDCLS_GO128_MODE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_GO128_MODE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_GO128_MODE_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_GO128_MODE_HU, "Mindig C128 mód újraindítás után"},
+/* it */ {IDCLS_GO128_MODE_IT, "Cambia sempre in modalita C128 al reset"},
 /* nl */ {IDCLS_GO128_MODE_NL, "Start altijd op in C128 modus na reset"},
 /* pl */ {IDCLS_GO128_MODE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_GO128_MODE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_GO128_MODE_SV, "Växla alltid till C128-läge vid återställning"},
 
 /* c128/functionrom.c */
 /* en */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME,    "Specify name of internal Function ROM image"},
@@ -1449,31 +1449,31 @@ translate_t string_table[] = {
 /* en */ {IDCLS_TFE_INTERFACE,    "Set the system ethernet interface for TFE emulation"},
 /* de */ {IDCLS_TFE_INTERFACE_DE, "Setze die System Ethernet Schnittstelle für die TFE Emulation"},
 /* fr */ {IDCLS_TFE_INTERFACE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_TFE_INTERFACE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_TFE_INTERFACE_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_TFE_INTERFACE_HU, "Rendszer ethernet eszköz beállítása TFE emulációhoz"},
+/* it */ {IDCLS_TFE_INTERFACE_IT, "Imposta l'interfaccia ethernet per l'emulazione TFE"},
 /* nl */ {IDCLS_TFE_INTERFACE_NL, "Zet de systeem ethernet interface voor de TFE emulatie"},
 /* pl */ {IDCLS_TFE_INTERFACE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_TFE_INTERFACE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_TFE_INTERFACE_SV, "Ställ in systemets ethernetgränssnitt för TFE-emulering"},
 
 /* c64/tfe.c */
 /* en */ {IDCLS_ENABLE_TFE_AS_RRNET,    "Enable RRNet mode of TFE emulation"},
 /* de */ {IDCLS_ENABLE_TFE_AS_RRNET_DE, "RRNet Modus der TFE Emulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_TFE_AS_RRNET_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_TFE_AS_RRNET_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_TFE_AS_RRNET_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_TFE_AS_RRNET_HU, "RRNet mód engedélyezése TFE emulációhoz"},
+/* it */ {IDCLS_ENABLE_TFE_AS_RRNET_IT, "Attiva la modalità RRNet dell'emulazione TFE"},
 /* nl */ {IDCLS_ENABLE_TFE_AS_RRNET_NL, "Aktiveer RRNet modus van de TFE emulatie"},
 /* pl */ {IDCLS_ENABLE_TFE_AS_RRNET_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_TFE_AS_RRNET_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_TFE_AS_RRNET_SV, "Aktivera RRNet-läge på TFE-emulering"},
 
 /* c64/tfe.c */
 /* en */ {IDCLS_DISABLE_TFE_AS_RRNET,    "Disable RRNet mode of TFE emulation"},
 /* de */ {IDCLS_DISABLE_TFE_AS_RRNET_DE, "RRNet Modus der TFE Emulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_TFE_AS_RRNET_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_TFE_AS_RRNET_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_TFE_AS_RRNET_IT, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_TFE_AS_RRNET_HU, "RRNet mód tiltása TFE emulációhoz"},
+/* it */ {IDCLS_DISABLE_TFE_AS_RRNET_IT, "Disattiva la modalità RRNet dell'emulazione TFE"},
 /* nl */ {IDCLS_DISABLE_TFE_AS_RRNET_NL, "RRNet modus van de TFE emulatie afsluiten"},
 /* pl */ {IDCLS_DISABLE_TFE_AS_RRNET_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_TFE_AS_RRNET_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_TFE_AS_RRNET_SV, "Inaktivera RRNet-läge på TFE-emulering"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -3348,7 +3348,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: Catweasel)"},
 /* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: Catweasel)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: Catweasel)"},
 #endif
 
 #if !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
@@ -3360,7 +3360,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: HardSID)"},
 /* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: HardSID)"},
 #endif
 
 #if !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
@@ -3372,7 +3372,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 3: ParSID)"},
 /* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: ParSID)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 3: ParSID)"},
 #endif
 
 #if defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
@@ -3384,7 +3384,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: Catweasel, 2: HardSID)"},
 /* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: Catweasel, 2: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: Catweasel, 2: HardSID)"},
 #endif
 
 #if defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
@@ -3396,7 +3396,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: Catweasel, 3: ParSID)"},
 /* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: Catweasel, 3: ParSID)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: Catweasel, 3: ParSID)"},
 #endif
 
 #if !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
@@ -3408,7 +3408,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: HardSID, 3: ParSID)"},
 /* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: HardSID, 3: ParSID)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: HardSID, 3: ParSID)"},
 #endif
 
 #if defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
@@ -3420,7 +3420,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
 /* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
 /* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
 #endif
 
 /* sid/sid-cmdline-options.c */
@@ -3667,13 +3667,13 @@ translate_t string_table[] = {
 
 /* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_BORDER_MODE, "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"},
-/* de */ {IDCLS_SET_BORDER_MODE_DE, ""}, /* fuzzy */
+/* de */ {IDCLS_SET_BORDER_MODE_DE, "VIC-II Rahmen Darstellung Modus (0: normal, 1: full, 2: debug)"},
 /* fr */ {IDCLS_SET_BORDER_MODE_FR, ""}, /* fuzzy */
-/* hu */ {IDCLS_SET_BORDER_MODE_HU, ""}, /* fuzzy */
-/* it */ {IDCLS_SET_BORDER_MODE_IT, ""}, /* fuzzy */
+/* hu */ {IDCLS_SET_BORDER_MODE_HU, "VIC-II keret megjelenítési mód (0: normál, 1: teljes, 2: hibakeresés)"},
+/* it */ {IDCLS_SET_BORDER_MODE_IT, "Imposta la modalità di visualizzazione del bordo del VIC-II (0: normale, 1: intero, 2: debug)"},
 /* nl */ {IDCLS_SET_BORDER_MODE_NL, "Zet VIC-II border weergave modus (0: normaal, 1: volledig, 2: debug)"},
 /* pl */ {IDCLS_SET_BORDER_MODE_PL, ""}, /* fuzzy */
-/* sv */ {IDCLS_SET_BORDER_MODE_SV, ""}, /* fuzzy */
+/* sv */ {IDCLS_SET_BORDER_MODE_SV, "Välj VIC II-ramvisningsläge (0: normal, 1: full, 2: felsökning)"},
 
 /* vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_SPRITE_BACKGROUND,    "Enable sprite-background collision registers"},
@@ -4871,7 +4871,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_DIGIMAX_IT, "Attiva la cartuccia digimax"},
 /* nl */ {IDCLS_ENABLE_DIGIMAX_NL, "Aktiveer de digimax cartridge"},
 /* pl */ {IDCLS_ENABLE_DIGIMAX_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DIGIMAX_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DIGIMAX_SV, "Aktivera Digimax-cartridge"},
 
 /* c64/digimax.c */
 /* en */ {IDCLS_DISABLE_DIGIMAX,    "Disable the digimax cartridge"},
@@ -4881,7 +4881,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_DIGIMAX_IT, "Disattiva la cartuccia digimax"},
 /* nl */ {IDCLS_DISABLE_DIGIMAX_NL, "De digimax cartridge afsluiten"},
 /* pl */ {IDCLS_DISABLE_DIGIMAX_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DIGIMAX_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DIGIMAX_SV, "Inaktivera Digimax Cartridge"},
 
 /* c64/digimax.c */
 /* en */ {IDCLS_DIGIMAX_BASE,    "Base address of the digimax cartridge"},
@@ -4891,7 +4891,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DIGIMAX_BASE_IT, "Indirizzo base della cartuccia digimax"},
 /* nl */ {IDCLS_DIGIMAX_BASE_NL, "Basis adres van de digimax cartridge"},
 /* pl */ {IDCLS_DIGIMAX_BASE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DIGIMAX_BASE_SV, ""}   /* fuzzy */
+/* sv */ {IDCLS_DIGIMAX_BASE_SV, "Basadress för Digimax-cartridge"}
 
 };
 

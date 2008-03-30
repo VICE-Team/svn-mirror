@@ -56,14 +56,14 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION           "VIC-II Einstellungen"
-    IDS_VICII_BORDERSGROUP      "Borders"
+    IDS_VICII_BORDERSGROUP      "Rahmen"
     IDS_VICII_NORMALBORDERS     "&Normal"
-    IDS_VICII_FULLBORDERS       "&Full"
+    IDS_VICII_FULLBORDERS       "&Voll"
     IDS_VICII_DEBUGBORDERS      "&Debug"
     IDS_VICII_SPRITEGROUP       "Sprite Kollisionen"
     IDS_VICII_SPRITECOLL        "Sprite-&sprite Kollisionen"
     IDS_VICII_BACKCOLL          "Sprite-Hintergrund &Kollisionen"
-    IDS_VICII_LUMINANCE         "Neue Helligkeitsemulation"
+    IDS_VICII_LUMINANCE         "Neue He&lligkeitsemulation"
 END
 
 
@@ -91,14 +91,14 @@ STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION           "VIC-II beállításai"
-    IDS_VICII_BORDERSGROUP      "Borders"
-    IDS_VICII_NORMALBORDERS     "&Normal"
-    IDS_VICII_FULLBORDERS       "&Full"
+    IDS_VICII_BORDERSGROUP      "Keretek"
+    IDS_VICII_NORMALBORDERS     "&Normál"
+    IDS_VICII_FULLBORDERS       "&Teljes"
     IDS_VICII_DEBUGBORDERS      "&Debug"
     IDS_VICII_SPRITEGROUP       "Sprite ütközések"
     IDS_VICII_SPRITECOLL        "&Sprite-sprite ütközések"
     IDS_VICII_BACKCOLL          "Sprite-&háttér ütközések"
-    IDS_VICII_LUMINANCE         "Új fényerõk"
+    IDS_VICII_LUMINANCE         "Új &fényerõk"
 END
 #pragma code_page(28591)
 
@@ -109,14 +109,14 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION           "Impostazioni VIC-II"
-    IDS_VICII_BORDERSGROUP      "Borders"
-    IDS_VICII_NORMALBORDERS     "&Normal"
-    IDS_VICII_FULLBORDERS       "&Full"
+    IDS_VICII_BORDERSGROUP      "Bordi"
+    IDS_VICII_NORMALBORDERS     "&Normale"
+    IDS_VICII_FULLBORDERS       "&Intero"
     IDS_VICII_DEBUGBORDERS      "&Debug"
     IDS_VICII_SPRITEGROUP       "Collisioni sprite"
     IDS_VICII_SPRITECOLL        "Collisioni sprite-&sprite"
     IDS_VICII_BACKCOLL          "&Collisioni sprite-sfondo"
-    IDS_VICII_LUMINANCE         "Nuove luminanze"
+    IDS_VICII_LUMINANCE         "Nuove &Luminanze"
 END
 
 

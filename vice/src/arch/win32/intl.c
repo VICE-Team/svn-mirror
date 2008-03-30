@@ -763,7 +763,7 @@ static int intl_table[][countof(language_table)] = {
 /* it */  IDD_NETWORK_SETTINGS_DIALOG_IT,    /* size */
 /* nl */  IDD_NETWORK_SETTINGS_DIALOG_NL,    /* size */
 /* pl */  IDD_NETWORK_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_NETWORK_SETTINGS_DIALOG_SV},   /* fuzzy, size */
+/* sv */  IDD_NETWORK_SETTINGS_DIALOG_SV},   /* size */
 
 /* ressidcart.rc */
 /* en */ {IDD_SIDCART_SETTINGS_DIALOG,
@@ -783,7 +783,7 @@ static int intl_table[][countof(language_table)] = {
 /* it */  IDD_SOUND_RECORD_SETTINGS_DIALOG_IT,    /* size */
 /* nl */  IDD_SOUND_RECORD_SETTINGS_DIALOG_NL,    /* size */
 /* pl */  IDD_SOUND_RECORD_SETTINGS_DIALOG_PL,    /* fuzzy, size */
-/* sv */  IDD_SOUND_RECORD_SETTINGS_DIALOG_SV},   /* fuzzy, size */
+/* sv */  IDD_SOUND_RECORD_SETTINGS_DIALOG_SV},   /* size */
 
 
 /* ------------------------------ MENU RESOURCES ------------------------------ */ 
@@ -802,8 +802,8 @@ static int intl_table[][countof(language_table)] = {
 /* en */ {IDR_MENUC128,
 /* de */  IDR_MENUC128_DE,
 /* fr */  IDR_MENUC128_FR,
-/* hu */  IDR_MENUC128_HU,    /* fuzzy */
-/* it */  IDR_MENUC128_IT,    /* fuzzy */
+/* hu */  IDR_MENUC128_HU,
+/* it */  IDR_MENUC128_IT,
 /* nl */  IDR_MENUC128_NL,
 /* pl */  IDR_MENUC128_PL,    /* fuzzy */
 /* sv */  IDR_MENUC128_SV},
@@ -812,8 +812,8 @@ static int intl_table[][countof(language_table)] = {
 /* en */ {IDR_MENUC64,
 /* de */  IDR_MENUC64_DE,
 /* fr */  IDR_MENUC64_FR,
-/* hu */  IDR_MENUC64_HU,    /* fuzzy */
-/* it */  IDR_MENUC64_IT,    /* fuzzy */
+/* hu */  IDR_MENUC64_HU,
+/* it */  IDR_MENUC64_IT,
 /* nl */  IDR_MENUC64_NL,
 /* pl */  IDR_MENUC64_PL,    /* fuzzy */
 /* sv */  IDR_MENUC64_SV},
@@ -822,8 +822,8 @@ static int intl_table[][countof(language_table)] = {
 /* en */ {IDR_MENUCBM2,
 /* de */  IDR_MENUCBM2_DE,
 /* fr */  IDR_MENUCBM2_FR,
-/* hu */  IDR_MENUCBM2_HU,    /* fuzzy */
-/* it */  IDR_MENUCBM2_IT,    /* fuzzy */
+/* hu */  IDR_MENUCBM2_HU,
+/* it */  IDR_MENUCBM2_IT,
 /* nl */  IDR_MENUCBM2_NL,
 /* pl */  IDR_MENUCBM2_PL,    /* fuzzy */
 /* sv */  IDR_MENUCBM2_SV},
@@ -832,8 +832,8 @@ static int intl_table[][countof(language_table)] = {
 /* en */ {IDR_MENUPET,
 /* de */  IDR_MENUPET_DE,
 /* fr */  IDR_MENUPET_FR,
-/* hu */  IDR_MENUPET_HU,    /* fuzzy */
-/* it */  IDR_MENUPET_IT,    /* fuzzy */
+/* hu */  IDR_MENUPET_HU,
+/* it */  IDR_MENUPET_IT,
 /* nl */  IDR_MENUPET_NL,
 /* pl */  IDR_MENUPET_PL,    /* fuzzy */
 /* sv */  IDR_MENUPET_SV},
@@ -842,8 +842,8 @@ static int intl_table[][countof(language_table)] = {
 /* en */ {IDR_MENUPLUS4,
 /* de */  IDR_MENUPLUS4_DE,
 /* fr */  IDR_MENUPLUS4_FR,
-/* hu */  IDR_MENUPLUS4_HU,    /* fuzzy */
-/* it */  IDR_MENUPLUS4_IT,    /* fuzzy */
+/* hu */  IDR_MENUPLUS4_HU,
+/* it */  IDR_MENUPLUS4_IT,
 /* nl */  IDR_MENUPLUS4_NL,
 /* pl */  IDR_MENUPLUS4_PL,    /* fuzzy */
 /* sv */  IDR_MENUPLUS4_SV},
@@ -852,8 +852,8 @@ static int intl_table[][countof(language_table)] = {
 /* en */ {IDR_MENUVIC,
 /* de */  IDR_MENUVIC_DE,
 /* fr */  IDR_MENUVIC_FR,
-/* hu */  IDR_MENUVIC_HU,    /* fuzzy */
-/* it */  IDR_MENUVIC_IT,    /* fuzzy */
+/* hu */  IDR_MENUVIC_HU,
+/* it */  IDR_MENUVIC_IT,
 /* nl */  IDR_MENUVIC_NL,
 /* pl */  IDR_MENUVIC_PL,    /* fuzzy */
 /* sv */  IDR_MENUVIC_SV},
@@ -1056,13 +1056,13 @@ static int intl_translate_text_table[][countof(language_table)] = {
 
 /* res.rc */
 /* en */ {IDS_FRAME_NUMBER,
-/* de */  IDS_FRAME_NUMBER_DE,    /* fuzzy */
+/* de */  IDS_FRAME_NUMBER_DE,
 /* fr */  IDS_FRAME_NUMBER_FR,    /* fuzzy */
-/* hu */  IDS_FRAME_NUMBER_HU,    /* fuzzy */
-/* it */  IDS_FRAME_NUMBER_IT,    /* fuzzy */
+/* hu */  IDS_FRAME_NUMBER_HU,
+/* it */  IDS_FRAME_NUMBER_IT,
 /* nl */  IDS_FRAME_NUMBER_NL,
 /* pl */  IDS_FRAME_NUMBER_PL,    /* fuzzy */
-/* sv */  IDS_FRAME_NUMBER_SV},   /* fuzzy */
+/* sv */  IDS_FRAME_NUMBER_SV},
 
 /* res.rc */
 /* en */ {IDS_RESUMED,
@@ -2729,7 +2729,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* it */  IDS_IDLE_IT,
 /* nl */  IDS_IDLE_NL,
 /* pl */  IDS_IDLE_PL,    /* fuzzy */
-/* sv */  IDS_IDLE_SV},   /* fuzzy */
+/* sv */  IDS_IDLE_SV},
 
 /* res.rc */
 /* en */ {IDS_SERVER_LISTENING,
@@ -2739,7 +2739,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* it */  IDS_SERVER_LISTENING_IT,
 /* nl */  IDS_SERVER_LISTENING_NL,
 /* pl */  IDS_SERVER_LISTENING_PL,    /* fuzzy */
-/* sv */  IDS_SERVER_LISTENING_SV},   /* fuzzy */
+/* sv */  IDS_SERVER_LISTENING_SV},
 
 /* res.rc */
 /* en */ {IDS_CONNECTED_SERVER,
@@ -2759,7 +2759,7 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* it */  IDS_CONNECTED_CLIENT_IT,
 /* nl */  IDS_CONNECTED_CLIENT_NL,
 /* pl */  IDS_CONNECTED_CLIENT_PL,    /* fuzzy */
-/* sv */  IDS_CONNECTED_CLIENT_SV},   /* fuzzy */
+/* sv */  IDS_CONNECTED_CLIENT_SV},
 
 /* res.rc */
 /* en */ {IDS_INVALID_PORT_NUMBER,
@@ -2800,17 +2800,17 @@ static int intl_translate_text_table[][countof(language_table)] = {
 /* it */  IDS_SOUND_RECORDING_STARTED_IT,
 /* nl */  IDS_SOUND_RECORDING_STARTED_NL,
 /* pl */  IDS_SOUND_RECORDING_STARTED_PL,    /* fuzzy */
-/* sv */  IDS_SOUND_RECORDING_STARTED_SV},   /* fuzzy */
+/* sv */  IDS_SOUND_RECORDING_STARTED_SV},
 
 /* res.rc */
 /* en */ {IDS_SOUND_RECORDING_STOPPED,
-/* de */  IDS_SOUND_RECORDING_STOPPED_DE,    /* fuzzy */
+/* de */  IDS_SOUND_RECORDING_STOPPED_DE,
 /* fr */  IDS_SOUND_RECORDING_STOPPED_FR,    /* fuzzy */
 /* hu */  IDS_SOUND_RECORDING_STOPPED_HU,
 /* it */  IDS_SOUND_RECORDING_STOPPED_IT,
 /* nl */  IDS_SOUND_RECORDING_STOPPED_NL,
 /* pl */  IDS_SOUND_RECORDING_STOPPED_PL,    /* fuzzy */
-/* sv */  IDS_SOUND_RECORDING_STOPPED_SV},   /* fuzzy */
+/* sv */  IDS_SOUND_RECORDING_STOPPED_SV},
 
 };
 

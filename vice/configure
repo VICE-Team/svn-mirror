@@ -1350,17 +1350,12 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 VICE_VERSION_MAJOR=1
-VICE_VERSION_MINOR=21
-VICE_VERSION_BUILD=13
+VICE_VERSION_MINOR=22
+VICE_VERSION_BUILD=0
 
 
 
 
-
-
-cat >>confdefs.h <<\_ACEOF
-#define UNSTABLE
-_ACEOF
 
 
 if test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0" ; then

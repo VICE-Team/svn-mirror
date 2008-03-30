@@ -5035,38 +5035,38 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Netplay Settings"
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Aktuellt läge",IDC_STATIC, 9,8,45,8
+    LTEXT           "Nuvarande läge",IDC_STATIC, 9,8,45,8
     EDITTEXT        IDC_NETWORK_MODE, 60,7,75,12,WS_TABSTOP
     LTEXT           "TCP-port",IDC_STATIC, 9,32,30,8
     EDITTEXT        IDC_NETWORK_PORT, 45,31,30,12,WS_TABSTOP
-    PUSHBUTTON      "Start Server", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
+    PUSHBUTTON      "Starta server", IDC_NETWORK_SERVER, 85,30,48,14,WS_TABSTOP
     PUSHBUTTON      "Anslut till", IDC_NETWORK_CLIENT, 9,54,70,14,WS_TABSTOP
     EDITTEXT        IDC_NETWORK_SERVERNAME, 85,55,50,12,WS_TABSTOP
-    PUSHBUTTON      "Disconnect", IDC_NETWORK_DISCONNECT, 37,78,60,14,WS_TABSTOP
-    GROUPBOX        "Control",IDC_STATIC,140,5,115,100
+    PUSHBUTTON      "Koppla från", IDC_NETWORK_DISCONNECT, 37,78,60,14,WS_TABSTOP
+    GROUPBOX        "Styrning",IDC_STATIC,140,5,115,100
     LTEXT           "Server", IDC_STATIC, 195,15,25,10
-    LTEXT           "Client", IDC_STATIC, 225,15,25,10
-    LTEXT           "Keyboard", IDC_STATIC, 150,30,45,10
+    LTEXT           "Klient", IDC_STATIC, 225,15,25,10
+    LTEXT           "Tangentbord", IDC_STATIC, 150,30,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_KEYB_SERVER,200,30,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_KEYB_CLIENT,230,30,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "Joystick 1", IDC_STATIC, 150,42,45,10
+    LTEXT           "Styrspak 1", IDC_STATIC, 150,42,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_JOY1_SERVER,200,42,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_JOY1_CLIENT,230,42,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "Joystick 2", IDC_STATIC, 150,54,45,10
+    LTEXT           "Styrspak 2", IDC_STATIC, 150,54,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_JOY2_SERVER,200,54,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_JOY2_CLIENT,230,54,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "Devices", IDC_STATIC, 150,66,45,10
+    LTEXT           "Enheter", IDC_STATIC, 150,66,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_DEVC_SERVER,200,66,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_DEVC_CLIENT,230,66,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    LTEXT           "Settings", IDC_STATIC, 150,78,45,10
+    LTEXT           "Inställningar", IDC_STATIC, 150,78,45,10
     AUTOCHECKBOX    "",IDC_NETWORK_RSRC_SERVER,200,78,10,10,
                     BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "",IDC_NETWORK_RSRC_CLIENT,230,78,10,10,
@@ -5218,11 +5218,11 @@ IDD_SOUND_RECORD_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 180, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT           "Sound Record Format",
+    LTEXT           "Format för ljudinspelning",
                     IDC_SOUND_RECORD_FORMAT_LABEL, 9, 9, 53, 8
     COMBOBOX        IDC_SOUND_RECORD_FORMAT, 66, 7, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "&Sound Record File",
+    LTEXT           "&Fil för ljudinspelning",
                     IDC_SOUND_RECORD_FILE_LABEL, 9, 24, 50, 8
     PUSHBUTTON      "Bläddra...", IDC_SOUND_RECORD_BROWSE, 66, 24, 50, 14, 0
     EDITTEXT        IDC_SOUND_RECORD_FILE, 9, 40, 160, 12, WS_TABSTOP
@@ -5454,7 +5454,7 @@ BEGIN
   IDS_HISTORY_RECORDED_UNKNOWN_DE    "History mit unbekanter Version aufgezeichnet"
   IDS_HISTORY_RECORDED_VICE_S_DE     "History mit Vice-%s aufgezeichnet"
   IDS_PAUSED_DE                      "pausiert"
-  IDS_FRAME_NUMBER_DE                "frame #"
+  IDS_FRAME_NUMBER_DE                "Rahmen #"
   IDS_RESUMED_DE                     "wiederhergestellt"
   IDS_REALLY_EXIT_DE                 "Willst Du wirklich beenden?\012\012Daten im emulierten Speicher RAM gehen verloren."
   IDS_CANNOT_AUTOSTART_FILE_DE       "Autostart von angeforderter Datei fehlgeschlagen."
@@ -5853,7 +5853,7 @@ BEGIN
   IDS_HISTORY_RECORDED_UNKNOWN_HU    "Esemény rögzítés ismeretlen verzióval készült"
   IDS_HISTORY_RECORDED_VICE_S_HU     "Esemény rögzítés VICE-%s verzióval készült"
   IDS_PAUSED_HU                      "szünet"
-  IDS_FRAME_NUMBER_HU                "frame #"
+  IDS_FRAME_NUMBER_HU                "képkocka #"
   IDS_RESUMED_HU                     "folytatás"
   IDS_REALLY_EXIT_HU                 "Biztosan kilép?\012\012Az emulált memória teljes tartalma el fog veszni."
   IDS_CANNOT_AUTOSTART_FILE_HU       "Nem lehet automatikusan elindítani a megadott fájlt."
@@ -6053,7 +6053,7 @@ BEGIN
   IDS_HISTORY_RECORDED_UNKNOWN_IT    "Cronologia registrata con una release sconosciuta"
   IDS_HISTORY_RECORDED_VICE_S_IT     "Cronologia registrata con VICE-%s"
   IDS_PAUSED_IT                      "pausa"
-  IDS_FRAME_NUMBER_IT                "frame #"
+  IDS_FRAME_NUMBER_IT                "frame n."
   IDS_RESUMED_IT                     "ripreso"
   IDS_REALLY_EXIT_IT                 "Uscire davvero?\012\012Tutti i dati presenti nella RAM emulata saranno persi."
   IDS_CANNOT_AUTOSTART_FILE_IT       "Non è possibile avviare automaticamente il file specificato."
@@ -6655,7 +6655,7 @@ BEGIN
   IDS_HISTORY_RECORDED_UNKNOWN_SV    "Historik inspelad med okänd version"
   IDS_HISTORY_RECORDED_VICE_S_SV     "Historik inspelad med VICE-%s"
   IDS_PAUSED_SV                      "pausad"
-  IDS_FRAME_NUMBER_SV                "frame #"
+  IDS_FRAME_NUMBER_SV                "ram nr"
   IDS_RESUMED_SV                     "återupptagen"
   IDS_REALLY_EXIT_SV                 "Vill du verkligen avsluta?\012\012Alla data i emulerat RAM kommer förloras."
   IDS_CANNOT_AUTOSTART_FILE_SV       "Kan inte autostarta angiven fil."
@@ -6810,16 +6810,16 @@ BEGIN
   IDS_RECEIVED_SIGNAL_D_SV           "Ett okänt fel uppstod. Tog emot signal %d."
 #endif
 #ifdef HAVE_NETWORK
-  IDS_IDLE_SV                        "Idle"
-  IDS_SERVER_LISTENING_SV            "Server listening"
+  IDS_IDLE_SV                        "Väntar"
+  IDS_SERVER_LISTENING_SV            "Servern lyssnar"
   IDS_CONNECTED_SERVER_SV            "Ansluten server"
-  IDS_CONNECTED_CLIENT_SV            "Connected client"
+  IDS_CONNECTED_CLIENT_SV            "Ansluten klient"
   IDS_INVALID_PORT_NUMBER_SV         "Ogiltigt portnummer"
   IDS_ERROR_STARTING_SERVER_SV       "Fel vid anslutning till server."
   IDS_ERROR_CONNECTING_CLIENT_SV     "Fel vid anslutning till klient."
 #endif
-  IDS_SOUND_RECORDING_STARTED_SV     "Sound Recording started..."
-  IDS_SOUND_RECORDING_STOPPED_SV     "Sound Recording stopped..."
+  IDS_SOUND_RECORDING_STARTED_SV     "Ljudinspelning startad..."
+  IDS_SOUND_RECORDING_STOPPED_SV     "Ljudinspelning stoppad..."
 END
 
 STRINGTABLE
