@@ -69,11 +69,10 @@ void *xmalloc(size_t size)
 {
     void *p = malloc(size);
 
-    if (!p) {
+    if (size > 0 && p == NULL) {
 	log_error(LOG_DEFAULT,
-                  "xmalloc - virtual memory exhausted: cannot allocate %lu bytes.",
-                  (unsigned long)size);
-        if (!size) return NULL;
+                  "xmalloc - virtual memory exhausted: "
+                  "cannot allocate %lu bytes.", (unsigned long)size);
 	exit(-1);
     }
 
