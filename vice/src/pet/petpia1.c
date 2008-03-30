@@ -118,9 +118,9 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t)1,
-      NULL, "Enable userport diagnostic pin" },
+      NULL, N_("Enable userport diagnostic pin") },
     { "+diagpin", SET_RESOURCE, 0, NULL, NULL, "DiagPin", (resource_value_t)1,
-      NULL, "Disable userport diagnostic pin" },
+      NULL, N_("Disable userport diagnostic pin") },
     { NULL }
 };
 #endif

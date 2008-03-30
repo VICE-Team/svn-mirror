@@ -243,13 +243,13 @@ static const cmdline_option_t cmdline_options[] =
 static const cmdline_option_t cmdline_options[] =
 {
     { "-reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)1,
-      NULL, "Enable the RAM expansion unit" },
+      NULL, N_("Enable the RAM expansion unit") },
     { "+reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)0,
-      NULL, "Disable the RAM expansion unit" },
+      NULL, N_("Disable the RAM expansion unit") },
     { "-reuimage", SET_RESOURCE, 1, NULL, NULL, "REUfilename", NULL,
-      "<name>", "Specify name of REU image" },
+      N_("<name>"), N_("Specify name of REU image") },
     { "-reusize", SET_RESOURCE, 1, NULL, NULL, "REUsize", NULL,
-      "<size in KB>", "Size of the RAM expansion unit" },
+      N_("<size in KB>"), N_("Size of the RAM expansion unit") },
     { NULL }
 };
 #endif

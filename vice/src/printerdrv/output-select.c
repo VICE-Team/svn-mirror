@@ -118,12 +118,12 @@ static const cmdline_option_t cmdline_options[] =
 static const cmdline_option_t cmdline_options[] =
 {
     { "-pr4output", SET_RESOURCE, 1, NULL, NULL, "Printer4Output", NULL,
-      "<name>", "Specify name of output device for device #4" },
+      N_("<name>"), N_("Specify name of output device for device #4") },
     { "-pr5output", SET_RESOURCE, 1, NULL, NULL, "Printer5Output", NULL,
-      "<name>", "Specify name of output device for device #5" },
+      N_("<name>"), N_("Specify name of output device for device #5") },
     { "-pruseroutput", SET_RESOURCE, 1, NULL, NULL,
       "PrinterUserportOutput", NULL,
-      "<name>", "Specify name of output device for the userport printer" },
+      N_("<name>"), N_("Specify name of output device for the userport printer") },
     { NULL }
 };
 #endif

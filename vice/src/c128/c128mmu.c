@@ -103,10 +103,10 @@ static const cmdline_option_t cmdline_options[] = {
 static const cmdline_option_t cmdline_options[] = {
     { "-40col", SET_RESOURCE, 0, NULL, NULL, "40/80ColumnKey",
       (resource_value_t) 1,
-      NULL, "Activate 40 column mode" },
+      NULL, N_("Activate 40 column mode") },
     { "-80col", SET_RESOURCE, 0, NULL, NULL, "40/80ColumnKey",
       (resource_value_t) 0,
-      NULL, "Activate 80 column mode" },
+      NULL, N_("Activate 80 column mode") },
     { NULL }
 };
 #endif

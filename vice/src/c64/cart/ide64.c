@@ -265,19 +265,19 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-IDE64image", SET_RESOURCE, 1, NULL, NULL, "IDE64Image", NULL,
-      "<name>", "Specify name of IDE64 image file" },
+      N_("<name>"), N_("Specify name of IDE64 image file") },
     { "-IDE64cyl", SET_RESOURCE, 1, NULL, NULL, "IDE64Cylinders", NULL,
-      "<value>", "Set number of cylinders for the IDE64 emulation" },
+      N_("<value>"), N_("Set number of cylinders for the IDE64 emulation") },
     { "-IDE64hds", SET_RESOURCE, 1, NULL, NULL, "IDE64Heads", NULL,
-      "<value>", "Set number of heads for the IDE64 emulation" },
+      N_("<value>"), N_("Set number of heads for the IDE64 emulation") },
     { "-IDE64sec", SET_RESOURCE, 1, NULL, NULL, "IDE64Sectors", NULL,
-      "<value>", "Set number of sectors for the IDE64 emulation" },
+      N_("<value>"), N_("Set number of sectors for the IDE64 emulation") },
     { "-IDE64autosize", SET_RESOURCE, 0, NULL, NULL,
       "IDE64AutodetectSize", (void *)1,
-      NULL, "Autodetect geometry of formatted images" },
+      NULL, N_("Autodetect geometry of formatted images") },
     { "+IDE64autosize", SET_RESOURCE, 0, NULL, NULL,
       "IDE64AutodetectSize", (void *)0,
-      NULL, "Do not autodetect geometry of formatted images" },
+      NULL, N_("Do not autodetect geometry of formatted images") },
     { NULL }
 };
 #endif

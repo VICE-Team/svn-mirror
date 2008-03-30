@@ -110,20 +110,20 @@ static const cmdline_option_t cmdline_options[] =
 static const cmdline_option_t cmdline_options[] =
 {
     { "-prtxtdev1", SET_RESOURCE, 1, NULL, NULL, "PrinterTextDevice1", NULL,
-     "<name>", N_("Specify name of printer text device or dump file") },
+     N_("<name>"), N_("Specify name of printer text device or dump file") },
     { "-prtxtdev2", SET_RESOURCE, 1, NULL, NULL, "PrinterTextDevice2", NULL,
-     "<name>", N_("Specify name of printer text device or dump file") },
+     N_("<name>"), N_("Specify name of printer text device or dump file") },
     { "-prtxtdev3", SET_RESOURCE, 1, NULL, NULL, "PrinterTextDevice3", NULL,
-     "<name>", N_("Specify name of printer text device or dump file") },
+     N_("<name>"), N_("Specify name of printer text device or dump file") },
     { "-pr4txtdev", SET_RESOURCE, 1, NULL, NULL, "Printer4TextDevice",
       (resource_value_t)0,
-      "<0-2>", "Specify printer text output device for IEC printer #4" },
+      "<0-2>", N_("Specify printer text output device for IEC printer #4") },
     { "-pr5txtdev", SET_RESOURCE, 1, NULL, NULL, "Printer5TextDevice",
       (resource_value_t)0,
-      "<0-2>", "Specify printer text output device for IEC printer #5" },
+      "<0-2>", N_("Specify printer text output device for IEC printer #5") },
     { "-prusertxtdev", SET_RESOURCE, 1, NULL, NULL, "PrinterUserportTextDevice",
       (resource_value_t)0,
-      "<0-2>", "Specify printer text output device for userport printer" },
+      "<0-2>", N_("Specify printer text output device for userport printer") },
     { NULL }
 };
 #endif

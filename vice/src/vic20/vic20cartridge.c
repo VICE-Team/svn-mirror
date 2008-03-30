@@ -213,15 +213,15 @@ static const cmdline_option_t cmdline_options[] =
 static const cmdline_option_t cmdline_options[] =
 {
     { "-cart2", CALL_FUNCTION, 1, attach_cart2, NULL, NULL, NULL,
-      "<name>", "Specify 4/8/16K extension ROM name at $2000" },
+      N_("<name>"), N_("Specify 4/8/16K extension ROM name at $2000") },
     { "-cart4", CALL_FUNCTION, 1, attach_cart4, NULL, NULL, NULL,
-      "<name>", "Specify 4/8/16K extension ROM name at $4000" },
+      N_("<name>"), N_("Specify 4/8/16K extension ROM name at $4000") },
     { "-cart6", CALL_FUNCTION, 1, attach_cart6, NULL, NULL, NULL,
-      "<name>", "Specify 4/8/16K extension ROM name at $6000" },
+      N_("<name>"), N_("Specify 4/8/16K extension ROM name at $6000") },
     { "-cartA", CALL_FUNCTION, 1, attach_cartA, NULL, NULL, NULL,
-      "<name>", "Specify 4/8K extension ROM name at $A000" },
+      N_("<name>"), N_("Specify 4/8K extension ROM name at $A000") },
     { "-cartB", CALL_FUNCTION, 1, attach_cartB, NULL, NULL, NULL,
-      "<name>", "Specify 4K extension ROM name at $B000" },
+      N_("<name>"), N_("Specify 4K extension ROM name at $B000") },
     { NULL }
 };
 #endif

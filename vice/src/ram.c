@@ -98,13 +98,13 @@ static const cmdline_option_t cmdline_options[] = {
 static const cmdline_option_t cmdline_options[] = {
     { "-raminitstartvalue", SET_RESOURCE, 1, NULL, NULL,
       "RAMInitStartValue", NULL,
-      "<value>", "Set the value for the very first RAM address after powerup" },
+      N_("<value>"), N_("Set the value for the very first RAM address after powerup") },
     { "-raminitvalueinvert", SET_RESOURCE, 1, NULL, NULL,
       "RAMInitValueInvert", NULL,
-      "<num of bytes>", "Length of memory block initialized with the same value" },
+      N_("<num of bytes>"), N_("Length of memory block initialized with the same value") },
     { "-raminitpatterninvert", SET_RESOURCE, 1, NULL, NULL,
       "RAMInitPatternInvert", NULL,
-      "<num of bytes>", "Length of memory block initialized with the same pattern" },
+      N_("<num of bytes>"), N_("Length of memory block initialized with the same pattern") },
     { NULL }
 };
 #endif

@@ -124,7 +124,7 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-directory", SET_RESOURCE, 1, NULL, NULL, "Directory", NULL,
-      "<path>", "Define search path to locate system files" },
+      N_("<path>"), N_("Define search path to locate system files") },
     { NULL },
 };
 #endif

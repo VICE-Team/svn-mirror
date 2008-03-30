@@ -152,23 +152,23 @@ static const cmdline_option_t common_cmdline_options[] = {
 #else
 static const cmdline_option_t common_cmdline_options[] = {
     { "-help", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
-      NULL, "Show a list of the available options and exit normally" },
+      NULL, N_("Show a list of the available options and exit normally") },
     { "-?", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
-      NULL, "Show a list of the available options and exit normally" },
+      NULL, N_("Show a list of the available options and exit normally") },
     { "-h", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
-      NULL, "Show a list of the available options and exit normally" },
+      NULL, N_("Show a list of the available options and exit normally") },
 #if (!defined  __OS2__ && !defined __BEOS__)
     { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
-      NULL, "Console mode (for music playback)" },
+      NULL, N_("Console mode (for music playback)") },
     { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)1,
-      NULL, "Allow production of core dumps" },
+      NULL, N_("Allow production of core dumps") },
     { "+core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)0,
-      NULL, "Do not produce core dumps" },
+      NULL, N_("Do not produce core dumps") },
 #else
     { "-debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)1,
-      NULL, "Don't call exception handler" },
+      NULL, N_("Don't call exception handler") },
     { "+debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t)0,
-      NULL, "Call exception handler (default)" },
+      NULL, N_("Call exception handler (default)") },
 #endif
     { NULL }
 };
@@ -203,21 +203,21 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-default", CALL_FUNCTION, 0, cmdline_default, NULL, NULL, NULL,
-      NULL, "Restore default (factory) settings" },
+      NULL, N_("Restore default (factory) settings") },
     { "-autostart", CALL_FUNCTION, 1, cmdline_autostart, NULL, NULL, NULL,
-      "<name>", "Attach and autostart tape/disk image <name>" },
+      N_("<name>"), N_("Attach and autostart tape/disk image <name>") },
     { "-autoload", CALL_FUNCTION, 1, cmdline_autoload, NULL, NULL, NULL,
-      "<name>", "Attach and autoload tape/disk image <name>" },
+      N_("<name>"), N_("Attach and autoload tape/disk image <name>") },
     { "-1", CALL_FUNCTION, 1, cmdline_attach, (void *)1, NULL, NULL,
-      "<name>", "Attach <name> as a tape image" },
+      N_("<name>"), N_("Attach <name> as a tape image") },
     { "-8", CALL_FUNCTION, 1, cmdline_attach, (void *)8, NULL, NULL,
-      "<name>", "Attach <name> as a disk image in drive #8" },
+      N_("<name>"), N_("Attach <name> as a disk image in drive #8") },
     { "-9", CALL_FUNCTION, 1, cmdline_attach, (void *)9, NULL, NULL,
-      "<name>", "Attach <name> as a disk image in drive #9" },
+      N_("<name>"), N_("Attach <name> as a disk image in drive #9") },
     { "-10", CALL_FUNCTION, 1, cmdline_attach, (void *)10, NULL, NULL,
-      "<name>", "Attach <name> as a disk image in drive #10" },
+      N_("<name>"), N_("Attach <name> as a disk image in drive #10") },
     { "-11", CALL_FUNCTION, 1, cmdline_attach, (void *)11, NULL, NULL,
-      "<name>", "Attach <name> as a disk image in drive #11" },
+      N_("<name>"), N_("Attach <name> as a disk image in drive #11") },
     { NULL }
 };
 #endif

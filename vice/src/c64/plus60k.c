@@ -199,11 +199,11 @@ static const cmdline_option_t cmdline_options[] =
 static const cmdline_option_t cmdline_options[] =
 {
     { "-60k", SET_RESOURCE, 0, NULL, NULL, "PLUS60K", (resource_value_t)1,
-      NULL, "Enable the +60K RAM expansion" },
+      NULL, N_("Enable the +60K RAM expansion") },
     { "+60k", SET_RESOURCE, 0, NULL, NULL, "PLUS60K", (resource_value_t)0,
-      NULL, "Disable the +60K RAM expansion" },
+      NULL, N_("Disable the +60K RAM expansion") },
     { "-60kimage", SET_RESOURCE, 1, NULL, NULL, "PLUS60Kfilename", NULL,
-      "<name>", "Geef de naam van het +60K bestand" },
+      N_("<name>"), N_("Specify name of +60K image") },
     { NULL }
 };
 #endif

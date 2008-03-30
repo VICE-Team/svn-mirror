@@ -119,7 +119,7 @@ static const cmdline_option_t cmdline_options[] =
 static const cmdline_option_t cmdline_options[] =
 {
     { "-flipname", SET_RESOURCE, 1, NULL, NULL, "FliplistName", NULL,
-      "<name>", "Specify name of the flip list file image" },
+      N_("<name>"), N_("Specify name of the flip list file image") },
     { NULL }
 };
 #endif

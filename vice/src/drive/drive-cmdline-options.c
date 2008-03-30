@@ -48,9 +48,9 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-truedrive", SET_RESOURCE, 0, NULL, NULL, "DriveTrueEmulation",
-      (void *)1, NULL, "Enable hardware-level emulation of disk drives" },
+      (void *)1, NULL, N_("Enable hardware-level emulation of disk drives") },
     { "+truedrive", SET_RESOURCE, 0, NULL, NULL, "DriveTrueEmulation",
-      (void *)0, NULL, "Disable hardware-level emulation of disk drives" },
+      (void *)0, NULL, N_("Disable hardware-level emulation of disk drives") },
     { NULL }
 };
 #endif
@@ -65,10 +65,10 @@ static cmdline_option_t cmd_drive[] = {
 };
 #else
 static cmdline_option_t cmd_drive[] = {
-    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, NULL, "<type>",
-      "Set drive type (0: no drive)" },
-    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, NULL, "<method>",
-      "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"},
+    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, NULL, N_("<type>"),
+      N_("Set drive type (0: no drive)") },
+    { NULL, SET_RESOURCE, 1, NULL, NULL, NULL, NULL, N_("<method>"),
+      N_("Set drive 40 track extension policy (0: never, 1: ask, 2: on access)")},
     { NULL }
 };
 #endif

@@ -123,11 +123,11 @@ static const cmdline_option_t cmdline_options[] =
 static const cmdline_option_t cmdline_options[] =
 {
     { "-pr4drv", SET_RESOURCE, 1, NULL, NULL, "Printer4Driver", NULL,
-     "<name>", "Specify name of printer driver for device #4" },
+     N_("<name>"), N_("Specify name of printer driver for device #4") },
     { "-pr5drv", SET_RESOURCE, 1, NULL, NULL, "Printer5Driver", NULL,
-     "<name>", "Specify name of printer driver for device #5" },
+     N_("<name>"), N_("Specify name of printer driver for device #5") },
     { "-pruserdrv", SET_RESOURCE, 1, NULL, NULL, "PrinterUserportDriver", NULL,
-     "<name>", "Specify name of printer driver for the userport printer" },
+     N_("<name>"), N_("Specify name of printer driver for the userport printer") },
     { NULL }
 };
 #endif

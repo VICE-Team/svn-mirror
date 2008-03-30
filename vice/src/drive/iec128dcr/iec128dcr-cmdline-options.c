@@ -42,7 +42,7 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-dos1571cr", SET_RESOURCE, 1, NULL, NULL, "DosName1571cr", "d1571cr",
-      "<name>", "Specify name of 1571CR DOS ROM image" },
+      N_("<name>"), N_("Specify name of 1571CR DOS ROM image") },
     { NULL }
 };
 #endif

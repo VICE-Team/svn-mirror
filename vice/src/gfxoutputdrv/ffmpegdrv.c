@@ -130,10 +130,10 @@ static const cmdline_option_t cmdline_options[] = {
 static const cmdline_option_t cmdline_options[] = {
     { "-ffmpegaudiobitrate", SET_RESOURCE, 1, NULL, NULL,
       "FFMPEGAudioBitrate", NULL,
-      "<value>", "Set bitrate for audio stream in media file" },
+      N_("<value>"), N_("Set bitrate for audio stream in media file") },
     { "-ffmpegvideobitrate", SET_RESOURCE, 1, NULL, NULL,
       "FFMPEGVideoBitrate", NULL,
-      "<value>", "Set bitrate for video stream in media file" },
+      N_("<value>"), N_("Set bitrate for video stream in media file") },
     { NULL }
 };
 #endif

@@ -208,13 +208,13 @@ static const cmdline_option_t cmdline_options[] =
 static const cmdline_option_t cmdline_options[] =
 {
     { "-georam", SET_RESOURCE, 0, NULL, NULL, "GEORAM", (resource_value_t)1,
-      NULL, "Enable the GEORAM expansion unit" },
+      NULL, N_("Enable the GEORAM expansion unit") },
     { "+georam", SET_RESOURCE, 0, NULL, NULL, "GEORAM", (resource_value_t)0,
-      NULL, "Disable the GEORAM expansion unit" },
+      NULL, N_("Disable the GEORAM expansion unit") },
     { "-georamimage", SET_RESOURCE, 1, NULL, NULL, "GEORAMfilename", NULL,
-      "<name>", "Specify name of GEORAM image" },
+      N_("<name>"), N_("Specify name of GEORAM image") },
     { "-georamsize", SET_RESOURCE, 1, NULL, NULL, "GEORAMsize", NULL,
-      "<size in KB>", "Size of the GEORAM expansion unit" },
+      N_("<size in KB>"), N_("Size of the GEORAM expansion unit") },
     { NULL }
 };
 #endif

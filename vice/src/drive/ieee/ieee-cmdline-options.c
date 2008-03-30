@@ -50,15 +50,15 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-dos2031", SET_RESOURCE, 1, NULL, NULL, "DosName2031", "dos2031",
-      "<name>", "Specify name of 2031 DOS ROM image" },
+      N_("<name>"), N_("Specify name of 2031 DOS ROM image") },
     { "-dos2040", SET_RESOURCE, 1, NULL, NULL, "DosName2040", "dos2040",
-      "<name>", "Specify name of 2040 DOS ROM image" },
+      N_("<name>"), N_("Specify name of 2040 DOS ROM image") },
     { "-dos3040", SET_RESOURCE, 1, NULL, NULL, "DosName3040", "dos3040",
-      "<name>", "Specify name of 3040 DOS ROM image" },
+      N_("<name>"), N_("Specify name of 3040 DOS ROM image") },
     { "-dos4040", SET_RESOURCE, 1, NULL, NULL, "DosName4040", "dos4040",
-      "<name>", "Specify name of 4040 DOS ROM image" },
+      N_("<name>"), N_("Specify name of 4040 DOS ROM image") },
     { "-dos1001", SET_RESOURCE, 1, NULL, NULL, "DosName1001", "dos1001",
-      "<name>", "Specify name of 1001/8050/8250 DOS ROM image" },
+      N_("<name>"), N_("Specify name of 1001/8050/8250 DOS ROM image") },
     { NULL }
 };
 #endif

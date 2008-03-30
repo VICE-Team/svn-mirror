@@ -140,17 +140,18 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-intfrom", SET_RESOURCE, 1, NULL, NULL, "InternalFunctionName", NULL,
-      "<name>", "Specify name of internal Function ROM image" },
+      N_("<name>"), N_("Specify name of internal Function ROM image") },
     { "-extfrom", SET_RESOURCE, 1, NULL, NULL, "ExternalFunctionName", NULL,
-      "<name>", "Specify name of external Function ROM image" },
+      N_("<name>"), N_("Specify name of external Function ROM image") },
     { "-intfunc", SET_RESOURCE, 0, NULL, NULL, "InternalFunctionROM",
-      (resource_value_t)1, NULL, "Enable the internal Function ROM" },
+      (resource_value_t)1, NULL, N_("Enable the internal Function ROM") },
     { "+intfunc", SET_RESOURCE, 0, NULL, NULL, "InternalFunctionROM",
-      (resource_value_t)0, NULL, "Disable the internal Function ROM" },
+      (resource_value_t)0, NULL, N_("Disable the internal Function ROM") },
     { "-extfunc", SET_RESOURCE, 0, NULL, NULL, "ExternalFunctionROM",
-      (resource_value_t)1, NULL, "Enable the external Function ROM" },
+      (resource_value_t)1, NULL, N_("Enable the external Function ROM") },
     { "+extfunc", SET_RESOURCE, 0, NULL, NULL, "ExternalFunctionROM",
-      (resource_value_t)0, NULL, "Disable the external Function ROM" },
+      (resource_value_t)0, NULL, N_("Disable the external Function ROM") 
+},
     { NULL }
 };
 #endif

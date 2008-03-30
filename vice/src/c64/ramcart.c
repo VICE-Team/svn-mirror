@@ -221,13 +221,13 @@ static const cmdline_option_t cmdline_options[] =
 static const cmdline_option_t cmdline_options[] =
 {
     { "-ramcart", SET_RESOURCE, 0, NULL, NULL, "RAMCART", (resource_value_t)1,
-      NULL, "Enable the RAMCART expansion" },
+      NULL, N_("Enable the RAMCART expansion") },
     { "+ramcart", SET_RESOURCE, 0, NULL, NULL, "RAMCART", (resource_value_t)0,
-      NULL, "Disable the RAMCART expansion" },
+      NULL, N_("Disable the RAMCART expansion") },
     { "-ramcartimage", SET_RESOURCE, 1, NULL, NULL, "RAMCARTfilename", NULL,
-      "<name>", "Specify name of RAMCART image" },
+      N_("<name>"), N_("Specify name of RAMCART image") },
     { "-ramcartsize", SET_RESOURCE, 1, NULL, NULL, "RAMCARTsize", NULL,
-      "<size in KB>", "Size of the RAMCART expansion" },
+      N_("<size in KB>"), N_("Size of the RAMCART expansion") },
     { NULL }
 };
 #endif

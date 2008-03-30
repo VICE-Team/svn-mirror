@@ -306,7 +306,7 @@ extern int translate_res(int en_resource);
 
 /* COMMAND-LINE STRING ID DEFINITIONS */
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
+/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
 #define IDCLS_USE_PAL_SYNC_FACTOR               0x11000
@@ -328,12 +328,12 @@ extern int translate_res(int en_resource);
 #define IDCLS_USE_NTSC_SYNC_FACTOR_PL           0x1100c
 #define IDCLS_USE_NTSC_SYNC_FACTOR_SV           0x1100d
 
-/* c128/c128-cmdline-options.c, c128/functionrom.c
+/* c128/c128-cmdline-options.c, c128/functionrom.c,
    c64/c64-cmdline-options.c, c64/georam.c,
-   c64/rancart.c, c64/reu.c, c64/c64cart.c,
-   c64/ide64.c, cbm2/cbm2-cmdline-options.c,
-   drive/iec-cmdline-options.c, drive/iec128dcr-cmdline-options.c,
-   drive/ieee-cmdline-options.c, drive/tcbm-cmdline-options.c,
+   c64/ramcart.c, c64/reu.c, c64/cart/c64cart.c,
+   c64/cart/ide64.c, cbm2/cbm2-cmdline-options.c,
+   drive/iec/iec-cmdline-options.c, drive/iec128dcr/iec128dcr-cmdline-options.c,
+   drive/ieee/ieee-cmdline-options.c, drive/tcbm/tcbm-cmdline-options.c,
    fsdevice/fsdevice-cmdline-options.c, pet/pet-cmdline-options.c,
    plus4/plus4-cmdline-options.c, printerdrv/driver-select.c,
    printerdrv/output-select.c, printerdrv/output-text.c,
@@ -561,7 +561,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_SV    0x110b5
 #endif
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-optionc.c,
+/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, cbm2/cbm2-cmdline-options.c,
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
    vdc/vdc-cmdline-options.c, vic20/vic20-cmdline-options.c */
@@ -584,7 +584,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_KEYMAP_FILE_INDEX_PL      0x110c2
 #define IDCLS_SPECIFY_KEYMAP_FILE_INDEX_SV      0x110c3
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
+/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
 #define IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME      0x110c4
 #define IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DE   0x110c5
@@ -902,7 +902,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_DISABLE_TFE_SV                    0x111b1
 #endif
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_CART_ATTACH_DETACH_RESET          0x111b2
 #define IDCLS_CART_ATTACH_DETACH_RESET_DE       0x111b3
 #define IDCLS_CART_ATTACH_DETACH_RESET_FR       0x111b4
@@ -911,7 +911,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_CART_ATTACH_DETACH_RESET_PL       0x111b7
 #define IDCLS_CART_ATTACH_DETACH_RESET_SV       0x111b8
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_CART_ATTACH_DETACH_NO_RESET       0x111b9
 #define IDCLS_CART_ATTACH_DETACH_NO_RESET_DE    0x111ba
 #define IDCLS_CART_ATTACH_DETACH_NO_RESET_FR    0x111bb
@@ -920,7 +920,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_CART_ATTACH_DETACH_NO_RESET_PL    0x111be
 #define IDCLS_CART_ATTACH_DETACH_NO_RESET_SV    0x111bf
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_ATTACH_CRT_CART                   0x111c0
 #define IDCLS_ATTACH_CRT_CART_DE                0x111c1
 #define IDCLS_ATTACH_CRT_CART_FR                0x111c2
@@ -929,7 +929,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ATTACH_CRT_CART_PL                0x111c5
 #define IDCLS_ATTACH_CRT_CART_SV                0x111c6
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_ATTACH_GENERIC_8KB_CART           0x111c7
 #define IDCLS_ATTACH_GENERIC_8KB_CART_DE        0x111c8
 #define IDCLS_ATTACH_GENERIC_8KB_CART_FR        0x111c9
@@ -938,7 +938,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ATTACH_GENERIC_8KB_CART_PL        0x111cc
 #define IDCLS_ATTACH_GENERIC_8KB_CART_SV        0x111cd
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_ATTACH_GENERIC_16KB_CART          0x111ce
 #define IDCLS_ATTACH_GENERIC_16KB_CART_DE       0x111cf
 #define IDCLS_ATTACH_GENERIC_16KB_CART_FR       0x111d0
@@ -947,7 +947,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ATTACH_GENERIC_16KB_CART_PL       0x111d3
 #define IDCLS_ATTACH_GENERIC_16KB_CART_SV       0x111d4
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_ATTACH_RAW_ACTION_REPLAY_CART     0x111d5
 #define IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_DE  0x111d6
 #define IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_FR  0x111d7
@@ -956,7 +956,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_PL  0x111da
 #define IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_SV  0x111db
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_ATTACH_RAW_RETRO_REPLAY_CART      0x111dc
 #define IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_DE   0x111dd
 #define IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_FR   0x111de
@@ -965,7 +965,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_PL   0x111e1
 #define IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_SV   0x111e2
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_ATTACH_RAW_IDE64_CART             0x111e3
 #define IDCLS_ATTACH_RAW_IDE64_CART_DE          0x111e4
 #define IDCLS_ATTACH_RAW_IDE64_CART_FR          0x111e5
@@ -974,7 +974,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ATTACH_RAW_IDE64_CART_PL          0x111e8
 #define IDCLS_ATTACH_RAW_IDE64_CART_SV          0x111e9
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_ATTACH_RAW_ATOMIC_POWER_CART      0x111ea
 #define IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_DE   0x111eb
 #define IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_FR   0x111ec
@@ -983,7 +983,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_PL   0x111ef
 #define IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_SV   0x111f0
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART     0x111f1
 #define IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_DE  0x111f2
 #define IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_FR  0x111f3
@@ -992,7 +992,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_PL  0x111f6
 #define IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_SV  0x111f7
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_ATTACH_RAW_SS4_CART               0x111f8
 #define IDCLS_ATTACH_RAW_SS4_CART_DE            0x111f9
 #define IDCLS_ATTACH_RAW_SS4_CART_FR            0x111fa
@@ -1001,7 +1001,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ATTACH_RAW_SS4_CART_PL            0x111fd
 #define IDCLS_ATTACH_RAW_SS4_CART_SV            0x111fe
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_ATTACH_RAW_SS5_CART               0x111ff
 #define IDCLS_ATTACH_RAW_SS5_CART_DE            0x11200
 #define IDCLS_ATTACH_RAW_SS5_CART_FR            0x11201
@@ -1010,7 +1010,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ATTACH_RAW_SS5_CART_PL            0x11204
 #define IDCLS_ATTACH_RAW_SS5_CART_SV            0x11205
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_ATTACH_CBM_IEEE488_CART           0x11206
 #define IDCLS_ATTACH_CBM_IEEE488_CART_DE        0x11207
 #define IDCLS_ATTACH_CBM_IEEE488_CART_FR        0x11208
@@ -1019,7 +1019,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ATTACH_CBM_IEEE488_CART_PL        0x1120b
 #define IDCLS_ATTACH_CBM_IEEE488_CART_SV        0x1120c
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_ATTACH_RAW_WESTERMANN_CART        0x1120d
 #define IDCLS_ATTACH_RAW_WESTERMANN_CART_DE     0x1120e
 #define IDCLS_ATTACH_RAW_WESTERMANN_CART_FR     0x1120f
@@ -1028,7 +1028,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ATTACH_RAW_WESTERMANN_CART_PL     0x11212
 #define IDCLS_ATTACH_RAW_WESTERMANN_CART_SV     0x11213
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 #define IDCLS_ENABLE_EXPERT_CART                0x11214
 #define IDCLS_ENABLE_EXPERT_CART_DE             0x11215
 #define IDCLS_ENABLE_EXPERT_CART_FR             0x11216
@@ -1037,7 +1037,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ENABLE_EXPERT_CART_PL             0x11219
 #define IDCLS_ENABLE_EXPERT_CART_SV             0x1121a
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 #define IDCLS_SPECIFY_IDE64_NAME                0x1121b
 #define IDCLS_SPECIFY_IDE64_NAME_DE             0x1121c
 #define IDCLS_SPECIFY_IDE64_NAME_FR             0x1121d
@@ -1046,7 +1046,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_IDE64_NAME_PL             0x11220
 #define IDCLS_SPECIFY_IDE64_NAME_SV             0x11221
 
-/* c64/ide64.c, gfxoutputdrv/ffmpegdrv.c, datasette.c,
+/* c64/cart/ide64.c, gfxoutputdrv/ffmpegdrv.c, datasette.c,
    debug.c, mouse.c, ram.c, sound.c, vsync.c */
 #define IDCLS_P_VALUE                           0x11222
 #define IDCLS_P_VALUE_DE                        0x11223
@@ -1056,7 +1056,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_P_VALUE_PL                        0x11227
 #define IDCLS_P_VALUE_SV                        0x11228
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 #define IDCLS_SET_AMOUNT_CYLINDERS_IDE64        0x11229
 #define IDCLS_SET_AMOUNT_CYLINDERS_IDE64_DE     0x1122a
 #define IDCLS_SET_AMOUNT_CYLINDERS_IDE64_FR     0x1122b
@@ -1065,7 +1065,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SET_AMOUNT_CYLINDERS_IDE64_PL     0x1122e
 #define IDCLS_SET_AMOUNT_CYLINDERS_IDE64_SV     0x1122f
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 #define IDCLS_SET_AMOUNT_HEADS_IDE64            0x11230
 #define IDCLS_SET_AMOUNT_HEADS_IDE64_DE         0x11231
 #define IDCLS_SET_AMOUNT_HEADS_IDE64_FR         0x11232
@@ -1074,7 +1074,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SET_AMOUNT_HEADS_IDE64_PL         0x11235
 #define IDCLS_SET_AMOUNT_HEADS_IDE64_SV         0x11236
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 #define IDCLS_SET_AMOUNT_SECTORS_IDE64          0x11237
 #define IDCLS_SET_AMOUNT_SECTORS_IDE64_DE       0x11238
 #define IDCLS_SET_AMOUNT_SECTORS_IDE64_FR       0x11239
@@ -1083,7 +1083,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SET_AMOUNT_SECTORS_IDE64_PL       0x1123c
 #define IDCLS_SET_AMOUNT_SECTORS_IDE64_SV       0x1123d
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 #define IDCLS_AUTODETECT_IDE64_GEOMETRY         0x1123e
 #define IDCLS_AUTODETECT_IDE64_GEOMETRY_DE      0x1123f
 #define IDCLS_AUTODETECT_IDE64_GEOMETRY_FR      0x11240
@@ -1092,7 +1092,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_AUTODETECT_IDE64_GEOMETRY_PL      0x11243
 #define IDCLS_AUTODETECT_IDE64_GEOMETRY_SV      0x11244
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 #define IDCLS_NO_AUTODETECT_IDE64_GEOMETRY      0x11245
 #define IDCLS_NO_AUTODETECT_IDE64_GEOMETRY_DE   0x11246
 #define IDCLS_NO_AUTODETECT_IDE64_GEOMETRY_FR   0x11247
@@ -1437,7 +1437,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SET_DRIVE_EXTENSION_POLICY_PL     0x11327
 #define IDCLS_SET_DRIVE_EXTENSION_POLICY_SV     0x11328
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_SPECIFY_1541_DOS_ROM_NAME         0x11329
 #define IDCLS_SPECIFY_1541_DOS_ROM_NAME_DE      0x1132a
 #define IDCLS_SPECIFY_1541_DOS_ROM_NAME_FR      0x1132b
@@ -1446,7 +1446,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_1541_DOS_ROM_NAME_PL      0x1132e
 #define IDCLS_SPECIFY_1541_DOS_ROM_NAME_SV      0x1132f
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_SPECIFY_1541_II_DOS_ROM_NAME      0x11330
 #define IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_DE   0x11331
 #define IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_FR   0x11332
@@ -1455,7 +1455,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_PL   0x11335
 #define IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_SV   0x11336
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_SPECIFY_1570_DOS_ROM_NAME         0x11337
 #define IDCLS_SPECIFY_1570_DOS_ROM_NAME_DE      0x11338
 #define IDCLS_SPECIFY_1570_DOS_ROM_NAME_FR      0x11339
@@ -1464,7 +1464,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_1570_DOS_ROM_NAME_PL      0x1133c
 #define IDCLS_SPECIFY_1570_DOS_ROM_NAME_SV      0x1133d
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_SPECIFY_1571_DOS_ROM_NAME         0x1133e
 #define IDCLS_SPECIFY_1571_DOS_ROM_NAME_DE      0x1133f
 #define IDCLS_SPECIFY_1571_DOS_ROM_NAME_FR      0x11340
@@ -1473,7 +1473,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_1571_DOS_ROM_NAME_PL      0x11343
 #define IDCLS_SPECIFY_1571_DOS_ROM_NAME_SV      0x11344
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_SPECIFY_1581_DOS_ROM_NAME         0x11345
 #define IDCLS_SPECIFY_1581_DOS_ROM_NAME_DE      0x11346
 #define IDCLS_SPECIFY_1581_DOS_ROM_NAME_FR      0x11347
@@ -1482,7 +1482,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_1581_DOS_ROM_NAME_PL      0x1134a
 #define IDCLS_SPECIFY_1581_DOS_ROM_NAME_SV      0x1134b
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_ENABLE_PAR_CABLE                  0x1134c
 #define IDCLS_ENABLE_PAR_CABLE_DE               0x1134d
 #define IDCLS_ENABLE_PAR_CABLE_FR               0x1134e
@@ -1491,7 +1491,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ENABLE_PAR_CABLE_PL               0x11351
 #define IDCLS_ENABLE_PAR_CABLE_SV               0x11352
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_DISABLE_PAR_CABLE                 0x11353
 #define IDCLS_DISABLE_PAR_CABLE_DE              0x11354
 #define IDCLS_DISABLE_PAR_CABLE_FR              0x11355
@@ -1500,7 +1500,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_DISABLE_PAR_CABLE_PL              0x11358
 #define IDCLS_DISABLE_PAR_CABLE_SV              0x11359
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_SET_IDLE_METHOD                   0x1135a
 #define IDCLS_SET_IDLE_METHOD_DE                0x1135b
 #define IDCLS_SET_IDLE_METHOD_FR                0x1135c
@@ -1509,7 +1509,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SET_IDLE_METHOD_PL                0x1135f
 #define IDCLS_SET_IDLE_METHOD_SV                0x11360
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_ENABLE_DRIVE_RAM_2000             0x11361
 #define IDCLS_ENABLE_DRIVE_RAM_2000_DE          0x11362
 #define IDCLS_ENABLE_DRIVE_RAM_2000_FR          0x11363
@@ -1518,7 +1518,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ENABLE_DRIVE_RAM_2000_PL          0x11366
 #define IDCLS_ENABLE_DRIVE_RAM_2000_SV          0x11367
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_DISABLE_DRIVE_RAM_2000            0x11368
 #define IDCLS_DISABLE_DRIVE_RAM_2000_DE         0x11369
 #define IDCLS_DISABLE_DRIVE_RAM_2000_FR         0x1136a
@@ -1527,7 +1527,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_DISABLE_DRIVE_RAM_2000_PL         0x1136d
 #define IDCLS_DISABLE_DRIVE_RAM_2000_SV         0x1136e
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_ENABLE_DRIVE_RAM_4000             0x1136f
 #define IDCLS_ENABLE_DRIVE_RAM_4000_DE          0x11370
 #define IDCLS_ENABLE_DRIVE_RAM_4000_FR          0x11371
@@ -1536,7 +1536,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ENABLE_DRIVE_RAM_4000_PL          0x11374
 #define IDCLS_ENABLE_DRIVE_RAM_4000_SV          0x11375
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_DISABLE_DRIVE_RAM_4000            0x11376
 #define IDCLS_DISABLE_DRIVE_RAM_4000_DE         0x11377
 #define IDCLS_DISABLE_DRIVE_RAM_4000_FR         0x11378
@@ -1545,7 +1545,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_DISABLE_DRIVE_RAM_4000_PL         0x1137b
 #define IDCLS_DISABLE_DRIVE_RAM_4000_SV         0x1137c
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_ENABLE_DRIVE_RAM_6000             0x1137d
 #define IDCLS_ENABLE_DRIVE_RAM_6000_DE          0x1137e
 #define IDCLS_ENABLE_DRIVE_RAM_6000_FR          0x1137f
@@ -1554,7 +1554,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ENABLE_DRIVE_RAM_6000_PL          0x11382
 #define IDCLS_ENABLE_DRIVE_RAM_6000_SV          0x11383
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_DISABLE_DRIVE_RAM_6000            0x11384
 #define IDCLS_DISABLE_DRIVE_RAM_6000_DE         0x11385
 #define IDCLS_DISABLE_DRIVE_RAM_6000_FR         0x11386
@@ -1563,7 +1563,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_DISABLE_DRIVE_RAM_6000_PL         0x11389
 #define IDCLS_DISABLE_DRIVE_RAM_6000_SV         0x1138a
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_ENABLE_DRIVE_RAM_8000             0x1138b
 #define IDCLS_ENABLE_DRIVE_RAM_8000_DE          0x1138c
 #define IDCLS_ENABLE_DRIVE_RAM_8000_FR          0x1138d
@@ -1572,7 +1572,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ENABLE_DRIVE_RAM_8000_PL          0x11390
 #define IDCLS_ENABLE_DRIVE_RAM_8000_SV          0x11391
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_DISABLE_DRIVE_RAM_8000            0x11392
 #define IDCLS_DISABLE_DRIVE_RAM_8000_DE         0x11393
 #define IDCLS_DISABLE_DRIVE_RAM_8000_FR         0x11394
@@ -1581,7 +1581,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_DISABLE_DRIVE_RAM_8000_PL         0x11397
 #define IDCLS_DISABLE_DRIVE_RAM_8000_SV         0x11398
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_ENABLE_DRIVE_RAM_A000             0x11399
 #define IDCLS_ENABLE_DRIVE_RAM_A000_DE          0x1139a
 #define IDCLS_ENABLE_DRIVE_RAM_A000_FR          0x1139b
@@ -1590,7 +1590,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_ENABLE_DRIVE_RAM_A000_PL          0x1139e
 #define IDCLS_ENABLE_DRIVE_RAM_A000_SV          0x1139f
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 #define IDCLS_DISABLE_DRIVE_RAM_A000            0x113a0
 #define IDCLS_DISABLE_DRIVE_RAM_A000_DE         0x113a1
 #define IDCLS_DISABLE_DRIVE_RAM_A000_FR         0x113a2
@@ -1599,7 +1599,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_DISABLE_DRIVE_RAM_A000_PL         0x113a5
 #define IDCLS_DISABLE_DRIVE_RAM_A000_SV         0x113a6
 
-/* drive/iec128dcr-cmdline-options.c */
+/* drive/iec128dcr/iec128dcr-cmdline-options.c */
 #define IDCLS_SPECIFY_1571CR_DOS_ROM_NAME       0x113a7
 #define IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_DE    0x113a8
 #define IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_FR    0x113a9
@@ -1608,7 +1608,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_PL    0x113ac
 #define IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_SV    0x113ad
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 #define IDCLS_SPECIFY_2031_DOS_ROM_NAME         0x113ae
 #define IDCLS_SPECIFY_2031_DOS_ROM_NAME_DE      0x113af
 #define IDCLS_SPECIFY_2031_DOS_ROM_NAME_FR      0x113b0
@@ -1617,7 +1617,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_2031_DOS_ROM_NAME_PL      0x113b3
 #define IDCLS_SPECIFY_2031_DOS_ROM_NAME_SV      0x113b4
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 #define IDCLS_SPECIFY_2040_DOS_ROM_NAME         0x113b5
 #define IDCLS_SPECIFY_2040_DOS_ROM_NAME_DE      0x113b6
 #define IDCLS_SPECIFY_2040_DOS_ROM_NAME_FR      0x113b7
@@ -1626,7 +1626,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_2040_DOS_ROM_NAME_PL      0x113ba
 #define IDCLS_SPECIFY_2040_DOS_ROM_NAME_SV      0x113bb
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 #define IDCLS_SPECIFY_3040_DOS_ROM_NAME         0x113bc
 #define IDCLS_SPECIFY_3040_DOS_ROM_NAME_DE      0x113bd
 #define IDCLS_SPECIFY_3040_DOS_ROM_NAME_FR      0x113be
@@ -1635,7 +1635,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_3040_DOS_ROM_NAME_PL      0x113c1
 #define IDCLS_SPECIFY_3040_DOS_ROM_NAME_SV      0x113c2
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 #define IDCLS_SPECIFY_4040_DOS_ROM_NAME         0x113c3
 #define IDCLS_SPECIFY_4040_DOS_ROM_NAME_DE      0x113c4
 #define IDCLS_SPECIFY_4040_DOS_ROM_NAME_FR      0x113c5
@@ -1644,7 +1644,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_4040_DOS_ROM_NAME_PL      0x113c8
 #define IDCLS_SPECIFY_4040_DOS_ROM_NAME_SV      0x113c9
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 #define IDCLS_SPECIFY_1001_DOS_ROM_NAME         0x113ca
 #define IDCLS_SPECIFY_1001_DOS_ROM_NAME_DE      0x113cb
 #define IDCLS_SPECIFY_1001_DOS_ROM_NAME_FR      0x113cc
@@ -1653,7 +1653,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_SPECIFY_1001_DOS_ROM_NAME_PL      0x113cf
 #define IDCLS_SPECIFY_1001_DOS_ROM_NAME_SV      0x113d0
 
-/* drive/tcbm-cmdline-options.c */
+/* drive/tcbm/tcbm-cmdline-options.c */
 #define IDCLS_SPECIFY_1551_DOS_ROM_NAME         0x113d1
 #define IDCLS_SPECIFY_1551_DOS_ROM_NAME_DE      0x113d2
 #define IDCLS_SPECIFY_1551_DOS_ROM_NAME_FR      0x113d3

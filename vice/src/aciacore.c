@@ -139,7 +139,7 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-myaciadev", SET_RESOURCE, 1, NULL, NULL, MYACIA "Dev", NULL,
-      "<0-3>", "Specify RS232 device this ACIA should work on" },
+      "<0-3>", N_("Specify RS232 device this ACIA should work on") },
     { NULL }
 };
 #endif

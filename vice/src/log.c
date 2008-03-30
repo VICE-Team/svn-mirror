@@ -107,7 +107,7 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-logfile", SET_RESOURCE, 1, NULL, NULL,
-      "LogFileName", NULL, "<name>", "Specify log file name" },
+      "LogFileName", NULL, N_("<name>"), N_("Specify log file name") },
     { NULL }
 };
 #endif

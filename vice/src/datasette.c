@@ -171,16 +171,16 @@ static const cmdline_option_t cmdline_options[] = {
 static const cmdline_option_t cmdline_options[] = {
     { "-dsresetwithcpu", SET_RESOURCE, 0, NULL, NULL,
       "DatasetteResetWithCPU", (resource_value_t)1,
-      NULL, "Enable automatic Datasette-Reset" },
+      NULL, N_("Enable automatic Datasette-Reset") },
     { "+dsresetwithcpu", SET_RESOURCE, 0, NULL, NULL,
       "DatasetteResetWithCPU", (resource_value_t)0,
-      NULL, "Disable automatic Datasette-Reset" },
+      NULL, N_("Disable automatic Datasette-Reset") },
     { "-dszerogapdelay", SET_RESOURCE, 1, NULL, NULL,
       "DatasetteZeroGapDelay", NULL,
-      "<value>", "Set delay in cycles for a zero in the tap" },
+      N_("<value>"), N_("Set delay in cycles for a zero in the tap") },
     { "-dsspeedtuning", SET_RESOURCE, 1, NULL, NULL,
       "DatasetteSpeedTuning", NULL,
-      "<value>", "Set number of cycles added to each gap in the tap" },
+      N_("<value>"), N_("Set number of cycles added to each gap in the tap") },
     { NULL }
 };
 #endif

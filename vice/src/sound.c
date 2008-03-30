@@ -240,23 +240,23 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)1,
-      NULL, "Enable sound playback" },
+      NULL, N_("Enable sound playback") },
     { "+sound", SET_RESOURCE, 0, NULL, NULL, "Sound", (resource_value_t)0,
-      NULL, "Disable sound playback" },
+      NULL, N_("Disable sound playback") },
     { "-soundrate", SET_RESOURCE, 1, NULL, NULL, "SoundSampleRate", NULL,
-      "<value>", "Set sound sample rate to <value> Hz" },
+      N_("<value>"), N_("Set sound sample rate to <value> Hz") },
     { "-soundbufsize", SET_RESOURCE, 1, NULL, NULL, "SoundBufferSize", NULL,
-      "<value>", "Set sound buffer size to <value> msec" },
+      N_("<value>"), N_("Set sound buffer size to <value> msec") },
     { "-sounddev", SET_RESOURCE, 1, NULL, NULL, "SoundDeviceName", NULL,
-      "<name>", "Specify sound driver" },
+      N_("<name>"), N_("Specify sound driver") },
     { "-soundarg", SET_RESOURCE, 1, NULL, NULL, "SoundDeviceArg", NULL,
-      "<args>", "Specify initialization parameters for sound driver" },
+      N_("<args>"), N_("Specify initialization parameters for sound driver") },
     { "-soundrecdev", SET_RESOURCE, 1, NULL, NULL, "SoundRecordDeviceName",
-      NULL, "<name>", "Specify recording sound driver" },
+      NULL, N_("<name>"), N_("Specify recording sound driver") },
     { "-soundrecarg", SET_RESOURCE, 1, NULL, NULL, "SoundRecordDeviceArg", NULL,
-      "<args>", "Specify initialization parameters for recording sound driver" },
+      N_("<args>"), N_("Specify initialization parameters for recording sound driver") },
     { "-soundsync", SET_RESOURCE, 1, NULL, NULL, "SoundSpeedAdjustment", NULL,
-      "<sync>", "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)" },
+      N_("<sync>"), N_("Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)") },
     { NULL }
 };
 #endif

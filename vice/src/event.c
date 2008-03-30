@@ -1129,7 +1129,7 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-playback", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
-      NULL, "Playback recorded events" },
+      NULL, N_("Playback recorded events") },
     { NULL }
 };
 #endif

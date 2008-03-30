@@ -94,7 +94,7 @@ static const cmdline_option_t cmdline_options[] = {
     { "+mouse", SET_RESOURCE, 0, NULL, NULL,
       "Mouse", NULL, NULL, N_("Disable emulation of the 1351 proportional mouse") },
     { "-mouseport", SET_RESOURCE, 1, NULL, NULL,
-      "Mouseport", NULL, "<value>", "Select the joystick port the mouse is attached to" },
+      "Mouseport", NULL, N_("<value>"), N_("Select the joystick port the mouse is attached to") },
     { NULL }
 };
 #endif

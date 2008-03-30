@@ -57,9 +57,9 @@ static cmdline_option_t cmdline_options_chip_size[] =
 static cmdline_option_t cmdline_options_chip_size[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, "Enable double size" },
+      (void *)1, NULL, N_("Enable double size") },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, "Disable double size" },
+      (void *)0, NULL, N_("Disable double size") },
     { NULL }
 };
 #endif
@@ -84,9 +84,9 @@ static cmdline_option_t cmdline_options_chip_scan[] =
 static cmdline_option_t cmdline_options_chip_scan[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, "Enable double scan" },
+      (void *)1, NULL, N_("Enable double scan") },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, "Disable double scan" },
+      (void *)0, NULL, N_("Disable double scan") },
     { NULL }
 };
 #endif
@@ -111,9 +111,9 @@ static cmdline_option_t cmdline_options_chip_hwscale[] =
 static cmdline_option_t cmdline_options_chip_hwscale[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, "Enable hardware scaling" },
+      (void *)1, NULL, N_("Enable hardware scaling") },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, "Disable hardware scaling" },
+      (void *)0, NULL, N_("Disable hardware scaling") },
     { NULL }
 };
 #endif
@@ -138,9 +138,9 @@ static cmdline_option_t cmdline_options_chip_scale2x[] =
 static cmdline_option_t cmdline_options_chip_scale2x[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, "Enable Scale2x" },
+      (void *)1, NULL, N_("Enable Scale2x") },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, "Disable Scale2x" },
+      (void *)0, NULL, N_("Disable Scale2x") },
     { NULL }
 };
 #endif
@@ -165,9 +165,9 @@ static cmdline_option_t cmdline_options_chip_internal_palette[] =
 static cmdline_option_t cmdline_options_chip_internal_palette[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, "Use an internal calculated palette" },
+      (void *)0, NULL, N_("Use an internal calculated palette") },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, "Use an external palette (file)" },
+      (void *)1, NULL, N_("Use an external palette (file)") },
     { NULL }
 };
 #endif
@@ -189,7 +189,7 @@ static cmdline_option_t cmdline_options_chip_palette[] =
 static cmdline_option_t cmdline_options_chip_palette[] =
 {
     { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
-      NULL, "<name>", "Specify name of file of external palette" },
+      NULL, N_("<name>"), N_("Specify name of file of external palette") },
     { NULL }
 };
 #endif
@@ -229,19 +229,19 @@ static cmdline_option_t cmdline_options_chip_fullscreen[] =
 static cmdline_option_t cmdline_options_chip_fullscreen[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, "Enable fullscreen mode" },
+      (void *)1, NULL, N_("Enable fullscreen mode") },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, "Disable fullscreen mode" },
+      (void *)0, NULL, N_("Disable fullscreen mode") },
     { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
-      NULL, "<device>", "Select fullscreen device" },
+      NULL, N_("<device>"), N_("Select fullscreen device") },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, "Enable double size in fullscreen mode" },
+      (void *)1, NULL, N_("Enable double size in fullscreen mode") },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, "Disable double size in fullscreen mode" },
+      (void *)0, NULL, N_("Disable double size in fullscreen mode") },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, "Enable double scan in fullscreen mode" },
+      (void *)1, NULL, N_("Enable double scan in fullscreen mode") },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, "Disable double scan in fullscreen mode" },
+      (void *)0, NULL, N_("Disable double scan in fullscreen mode") },
     { NULL }
 };
 #endif
@@ -263,7 +263,7 @@ static cmdline_option_t cmdline_options_chip_fullscreen_mode[] =
 static cmdline_option_t cmdline_options_chip_fullscreen_mode[] =
 {
     { NULL, SET_RESOURCE, 1, NULL, NULL, NULL,
-      NULL, "<mode>", "Select fullscreen mode" },
+      NULL, N_("<mode>"), N_("Select fullscreen mode") },
     { NULL }
 };
 #endif

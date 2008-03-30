@@ -121,11 +121,11 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-device4", SET_RESOURCE, 1, NULL, NULL, "Printer4",
-      (void *)PRINTER_DEVICE_FS, "<type>",
-      "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)" },
+      (void *)PRINTER_DEVICE_FS, N_("<type>"),
+      N_("Set device type for device #4 (0: NONE, 1: FS, 2: REAL)") },
     { "-device5", SET_RESOURCE, 1, NULL, NULL, "Printer5",
-      (void *)PRINTER_DEVICE_FS, "<type>",
-      "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)" },
+      (void *)PRINTER_DEVICE_FS, N_("<type>"),
+      N_("Set device type for device #5 (0: NONE, 1: FS, 2: REAL)") },
     { NULL }
 };
 #endif

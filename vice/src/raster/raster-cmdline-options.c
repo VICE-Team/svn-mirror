@@ -56,9 +56,9 @@ static cmdline_option_t cmdline_options_chip[] =
 static cmdline_option_t cmdline_options_chip[] =
 {
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)1, NULL, "Enable the video cache" },
+      (void *)1, NULL, N_("Enable the video cache") },
     { NULL, SET_RESOURCE, 0, NULL, NULL, NULL,
-      (void *)0, NULL, "Disable the video cache" },
+      (void *)0, NULL, N_("Disable the video cache") },
     { NULL }
 };
 #endif

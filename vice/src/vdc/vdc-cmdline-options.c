@@ -59,13 +59,13 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-VDC16KB", SET_RESOURCE, 0, NULL, NULL,
       "VDC64KB", (void *)0,
-      NULL, "Set the VDC memory size to 16KB" },
+      NULL, N_("Set the VDC memory size to 16KB") },
     { "-VDC64KB", SET_RESOURCE, 0, NULL, NULL,
       "VDC64KB", (void *)1,
-      NULL, "Set the VDC memory size to 64KB" },
+      NULL, N_("Set the VDC memory size to 64KB") },
     { "-VDCRevision", SET_RESOURCE, 1, NULL, NULL,
       "VDCRevision", (void *)2,
-      "<number>", "Set VDC revision (0..2)" },
+      N_("<number>"), N_("Set VDC revision (0..2)") },
     { NULL }
 };
 #endif

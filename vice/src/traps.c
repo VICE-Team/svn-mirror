@@ -122,10 +122,10 @@ static const cmdline_option_t cmdline_options[] = {
 static const cmdline_option_t cmdline_options[] = {
     { "-virtualdev", SET_RESOURCE, 0, NULL, NULL, "VirtualDevices",
         (resource_value_t)1,
-      NULL, "Enable general mechanisms for fast disk/tape emulation" },
+      NULL, N_("Enable general mechanisms for fast disk/tape emulation") },
     { "+virtualdev", SET_RESOURCE, 0, NULL, NULL, "VirtualDevices",
         (resource_value_t)0,
-      NULL, "Disable general mechanisms for fast disk/tape emulation" },
+      NULL, N_("Disable general mechanisms for fast disk/tape emulation") },
     { NULL }
 };
 #endif

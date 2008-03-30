@@ -387,7 +387,7 @@ translate_t string_table[] = {
 
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
+/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_USE_PAL_SYNC_FACTOR,    "Use PAL sync factor"},
@@ -409,12 +409,12 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_USE_NTSC_SYNC_FACTOR_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_USE_NTSC_SYNC_FACTOR_SV, ""},  /* fuzzy */
 
-/* c128/c128-cmdline-options.c, c128/functionrom.c
+/* c128/c128-cmdline-options.c, c128/functionrom.c,
    c64/c64-cmdline-options.c, c64/georam.c,
-   c64/rancart.c, c64/reu.c, c64/c64cart.c,
-   c64/ide64.c, cbm2/cbm2-cmdline-options.c,
-   drive/iec-cmdline-options.c, drive/iec128dcr-cmdline-options.c,
-   drive/ieee-cmdline-options.c, drive/tcbm-cmdline-options.c,
+   c64/ramcart.c, c64/reu.c, c64/cart/c64cart.c,
+   c64/cart/ide64.c, cbm2/cbm2-cmdline-options.c,
+   drive/iec/iec-cmdline-options.c, drive/iec128dcr/iec128dcr-cmdline-options.c,
+   drive/ieee/ieee-cmdline-options.c, drive/tcbm/tcbm-cmdline-options.c,
    fsdevice/fsdevice-cmdline-options.c, pet/pet-cmdline-options.c,
    plus4/plus4-cmdline-options.c, printerdrv/driver-select.c,
    printerdrv/output-select.c, printerdrv/output-text.c,
@@ -642,7 +642,7 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_SV, ""},  /* fuzzy */
 #endif
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-optionc.c,
+/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, cbm2/cbm2-cmdline-options.c,
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
    vdc/vdc-cmdline-options.c, vic20/vic20-cmdline-options.c */
@@ -665,7 +665,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_KEYMAP_FILE_INDEX_SV, ""},  /* fuzzy */
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
+/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME,    "Specify name of symbolic keymap file"},
 /* de */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DE, "Dateiname für symbolische Tastaturbelegung"},
@@ -983,7 +983,7 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_DISABLE_TFE_SV, ""},  /* fuzzy */
 #endif
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_CART_ATTACH_DETACH_RESET,    "Reset machine if a cartridge is attached or detached"},
 /* de */ {IDCLS_CART_ATTACH_DETACH_RESET_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_CART_ATTACH_DETACH_RESET_FR, ""},  /* fuzzy */
@@ -992,7 +992,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_CART_ATTACH_DETACH_RESET_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_CART_ATTACH_DETACH_RESET_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_CART_ATTACH_DETACH_NO_RESET,    "Do not reset machine if a cartridge is attached or detached"},
 /* de */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_FR, ""},  /* fuzzy */
@@ -1001,7 +1001,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_CART_ATTACH_DETACH_NO_RESET_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_CRT_CART,    "Attach CRT cartridge image"},
 /* de */ {IDCLS_ATTACH_CRT_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_CRT_CART_FR, ""},  /* fuzzy */
@@ -1010,7 +1010,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ATTACH_CRT_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_CRT_CART_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_GENERIC_8KB_CART,    "Attach generic 8KB cartridge image"},
 /* de */ {IDCLS_ATTACH_GENERIC_8KB_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_GENERIC_8KB_CART_FR, ""},  /* fuzzy */
@@ -1019,7 +1019,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ATTACH_GENERIC_8KB_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_GENERIC_8KB_CART_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_GENERIC_16KB_CART,    "Attach generic 16KB cartridge image"},
 /* de */ {IDCLS_ATTACH_GENERIC_16KB_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_GENERIC_16KB_CART_FR, ""},  /* fuzzy */
@@ -1028,7 +1028,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ATTACH_GENERIC_16KB_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_GENERIC_16KB_CART_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART,    "Attach raw 32KB Action Replay cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_FR, ""},  /* fuzzy */
@@ -1037,7 +1037,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART,    "Attach raw 64KB Retro Replay cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_FR, ""},  /* fuzzy */
@@ -1046,7 +1046,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_IDE64_CART,    "Attach raw 64KB IDE64 cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_IDE64_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_RAW_IDE64_CART_FR, ""},  /* fuzzy */
@@ -1055,7 +1055,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ATTACH_RAW_IDE64_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_IDE64_CART_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART,    "Attach raw 32KB Atomic Power cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_FR, ""},  /* fuzzy */
@@ -1064,7 +1064,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART,    "Attach raw 8KB Epyx fastload cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_FR, ""},  /* fuzzy */
@@ -1073,7 +1073,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_SS4_CART,    "Attach raw 32KB Super Snapshot cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_SS4_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_RAW_SS4_CART_FR, ""},  /* fuzzy */
@@ -1082,7 +1082,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ATTACH_RAW_SS4_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_SS4_CART_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_SS5_CART,    "Attach raw 64KB Super Snapshot cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_SS5_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_RAW_SS5_CART_FR, ""},  /* fuzzy */
@@ -1091,7 +1091,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ATTACH_RAW_SS5_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_SS5_CART_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_CBM_IEEE488_CART,    "Attach CBM IEEE488 cartridge image"},
 /* de */ {IDCLS_ATTACH_CBM_IEEE488_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_CBM_IEEE488_CART_FR, ""},  /* fuzzy */
@@ -1100,7 +1100,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ATTACH_CBM_IEEE488_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_CBM_IEEE488_CART_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_WESTERMANN_CART,    "Attach raw 16KB Westermann learning cartridge image"},
 /* de */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_FR, ""},  /* fuzzy */
@@ -1109,7 +1109,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_SV, ""},  /* fuzzy */
 
-/* c64/c64cart.c */
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ENABLE_EXPERT_CART,    "Enable expert cartridge"},
 /* de */ {IDCLS_ENABLE_EXPERT_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_EXPERT_CART_FR, ""},  /* fuzzy */
@@ -1118,7 +1118,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ENABLE_EXPERT_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_EXPERT_CART_SV, ""},  /* fuzzy */
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 /* en */ {IDCLS_SPECIFY_IDE64_NAME,    "Specify name of IDE64 image file"},
 /* de */ {IDCLS_SPECIFY_IDE64_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_IDE64_NAME_FR, ""},  /* fuzzy */
@@ -1127,7 +1127,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_IDE64_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_IDE64_NAME_SV, ""},  /* fuzzy */
 
-/* c64/ide64.c, gfxoutputdrv/ffmpegdrv.c, datasette.c,
+/* c64/cart/ide64.c, gfxoutputdrv/ffmpegdrv.c, datasette.c,
    debug.c, mouse.c, ram.c, sound.c, vsync.c */
 /* en */ {IDCLS_P_VALUE,    "<value>"},
 /* de */ {IDCLS_P_VALUE_DE, ""},  /* fuzzy */
@@ -1137,7 +1137,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_P_VALUE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_VALUE_SV, ""},  /* fuzzy */
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 /* en */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64,    "Set number of cylinders for the IDE64 emulation"},
 /* de */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_FR, ""},  /* fuzzy */
@@ -1146,7 +1146,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64_SV, ""},  /* fuzzy */
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 /* en */ {IDCLS_SET_AMOUNT_HEADS_IDE64,    "Set number of heads for the IDE64 emulation"},
 /* de */ {IDCLS_SET_AMOUNT_HEADS_IDE64_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_AMOUNT_HEADS_IDE64_FR, ""},  /* fuzzy */
@@ -1155,7 +1155,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SET_AMOUNT_HEADS_IDE64_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_AMOUNT_HEADS_IDE64_SV, ""},  /* fuzzy */
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 /* en */ {IDCLS_SET_AMOUNT_SECTORS_IDE64,    "Set number of sectors for the IDE64 emulation"},
 /* de */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_FR, ""},  /* fuzzy */
@@ -1164,7 +1164,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_AMOUNT_SECTORS_IDE64_SV, ""},  /* fuzzy */
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 /* en */ {IDCLS_AUTODETECT_IDE64_GEOMETRY,    "Autodetect geometry of formatted images"},
 /* de */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_FR, ""},  /* fuzzy */
@@ -1173,7 +1173,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_SV, ""},  /* fuzzy */
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 /* en */ {IDCLS_NO_AUTODETECT_IDE64_GEOMETRY,    "Do not autoetect geometry of formatted images"},
 /* de */ {IDCLS_NO_AUTODETECT_IDE64_GEOMETRY_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_NO_AUTODETECT_IDE64_GEOMETRY_FR, ""},  /* fuzzy */
@@ -1501,7 +1501,7 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_SET_DRIVE_TYPE_SV, ""},  /* fuzzy */
 
 /* drive/drive-cmdline-options.c,
-   drive/iec-cmdline-options.c */
+   drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_P_METHOD,    "<method>"},
 /* de */ {IDCLS_P_METHOD_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_P_METHOD_FR, ""},  /* fuzzy */
@@ -1519,7 +1519,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DRIVE_EXTENSION_POLICY_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME,    "Specify name of 1541 DOS ROM image"},
 /* de */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME_FR, ""},  /* fuzzy */
@@ -1528,7 +1528,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1541_II_DOS_ROM_NAME,    "Specify name of 1541-II DOS ROM image"},
 /* de */ {IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_FR, ""},  /* fuzzy */
@@ -1537,7 +1537,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1570_DOS_ROM_NAME,    "Specify name of 1570 DOS ROM image"},
 /* de */ {IDCLS_SPECIFY_1570_DOS_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_1570_DOS_ROM_NAME_FR, ""},  /* fuzzy */
@@ -1546,7 +1546,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_1570_DOS_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_1570_DOS_ROM_NAME_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1571_DOS_ROM_NAME,    "Specify name of 1571 DOS ROM image"},
 /* de */ {IDCLS_SPECIFY_1571_DOS_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_1571_DOS_ROM_NAME_FR, ""},  /* fuzzy */
@@ -1555,7 +1555,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_1571_DOS_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_1571_DOS_ROM_NAME_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME,    "Specify name of 1581 DOS ROM image"},
 /* de */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME_FR, ""},  /* fuzzy */
@@ -1564,7 +1564,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_PAR_CABLE,    "Enable SpeedDOS-compatible parallel cable"},
 /* de */ {IDCLS_ENABLE_PAR_CABLE_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_PAR_CABLE_FR, ""},  /* fuzzy */
@@ -1573,7 +1573,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ENABLE_PAR_CABLE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_PAR_CABLE_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_PAR_CABLE,    "Disable SpeedDOS-compatible parallel cable"},
 /* de */ {IDCLS_DISABLE_PAR_CABLE_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_PAR_CABLE_FR, ""},  /* fuzzy */
@@ -1582,7 +1582,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_DISABLE_PAR_CABLE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_PAR_CABLE_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SET_IDLE_METHOD,    "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"},
 /* de */ {IDCLS_SET_IDLE_METHOD_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_IDLE_METHOD_FR, ""},  /* fuzzy */
@@ -1591,7 +1591,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SET_IDLE_METHOD_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_IDLE_METHOD_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DRIVE_RAM_2000,    "Enable 8KB RAM expansion at $2000-$3FFF"},
 /* de */ {IDCLS_ENABLE_DRIVE_RAM_2000_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_DRIVE_RAM_2000_FR, ""},  /* fuzzy */
@@ -1600,7 +1600,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ENABLE_DRIVE_RAM_2000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DRIVE_RAM_2000_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_2000,    "Disable 8KB RAM expansion at $2000-$3FFF"},
 /* de */ {IDCLS_DISABLE_DRIVE_RAM_2000_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_DRIVE_RAM_2000_FR, ""},  /* fuzzy */
@@ -1609,7 +1609,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_DISABLE_DRIVE_RAM_2000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DRIVE_RAM_2000_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DRIVE_RAM_4000,    "Enable 8KB RAM expansion at $4000-$5FFF"},
 /* de */ {IDCLS_ENABLE_DRIVE_RAM_4000_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_DRIVE_RAM_4000_FR, ""},  /* fuzzy */
@@ -1618,7 +1618,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ENABLE_DRIVE_RAM_4000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DRIVE_RAM_4000_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_4000,    "Disable 8KB RAM expansion at $4000-$5FFF"},
 /* de */ {IDCLS_DISABLE_DRIVE_RAM_4000_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_DRIVE_RAM_4000_FR, ""},  /* fuzzy */
@@ -1627,7 +1627,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_DISABLE_DRIVE_RAM_4000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DRIVE_RAM_4000_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DRIVE_RAM_6000,    "Enable 8KB RAM expansion at $6000-$7FFF"},
 /* de */ {IDCLS_ENABLE_DRIVE_RAM_6000_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_DRIVE_RAM_6000_FR, ""},  /* fuzzy */
@@ -1636,7 +1636,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ENABLE_DRIVE_RAM_6000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DRIVE_RAM_6000_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_6000,    "Disable 8KB RAM expansion at $6000-$7FFF"},
 /* de */ {IDCLS_DISABLE_DRIVE_RAM_6000_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_DRIVE_RAM_6000_FR, ""},  /* fuzzy */
@@ -1645,7 +1645,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_DISABLE_DRIVE_RAM_6000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DRIVE_RAM_6000_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DRIVE_RAM_8000,    "Enable 8KB RAM expansion at $8000-$9FFF"},
 /* de */ {IDCLS_ENABLE_DRIVE_RAM_8000_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_DRIVE_RAM_8000_FR, ""},  /* fuzzy */
@@ -1654,7 +1654,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ENABLE_DRIVE_RAM_8000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DRIVE_RAM_8000_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_8000,    "Disable 8KB RAM expansion at $8000-$9FFF"},
 /* de */ {IDCLS_DISABLE_DRIVE_RAM_8000_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_DRIVE_RAM_8000_FR, ""},  /* fuzzy */
@@ -1663,7 +1663,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_DISABLE_DRIVE_RAM_8000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DRIVE_RAM_8000_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DRIVE_RAM_A000,    "Enable 8KB RAM expansion at $A000-$BFFF"},
 /* de */ {IDCLS_ENABLE_DRIVE_RAM_A000_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_DRIVE_RAM_A000_FR, ""},  /* fuzzy */
@@ -1672,7 +1672,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ENABLE_DRIVE_RAM_A000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DRIVE_RAM_A000_SV, ""},  /* fuzzy */
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_A000,    "Disable 8KB RAM expansion at $A000-$BFFF"},
 /* de */ {IDCLS_DISABLE_DRIVE_RAM_A000_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_DRIVE_RAM_A000_FR, ""},  /* fuzzy */
@@ -1681,7 +1681,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_DISABLE_DRIVE_RAM_A000_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DRIVE_RAM_A000_SV, ""},  /* fuzzy */
 
-/* drive/iec128dcr-cmdline-options.c */
+/* drive/iec128dcr/iec128dcr-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME,    "Specify name of 1571CR DOS ROM image"},
 /* de */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_FR, ""},  /* fuzzy */
@@ -1690,7 +1690,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_SV, ""},  /* fuzzy */
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_2031_DOS_ROM_NAME,    "Specify name of 2031 DOS ROM image"},
 /* de */ {IDCLS_SPECIFY_2031_DOS_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_2031_DOS_ROM_NAME_FR, ""},  /* fuzzy */
@@ -1699,7 +1699,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_2031_DOS_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_2031_DOS_ROM_NAME_SV, ""},  /* fuzzy */
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_2040_DOS_ROM_NAME,    "Specify name of 2040 DOS ROM image"},
 /* de */ {IDCLS_SPECIFY_2040_DOS_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_2040_DOS_ROM_NAME_FR, ""},  /* fuzzy */
@@ -1708,7 +1708,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_2040_DOS_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_2040_DOS_ROM_NAME_SV, ""},  /* fuzzy */
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_3040_DOS_ROM_NAME,    "Specify name of 3040 DOS ROM image"},
 /* de */ {IDCLS_SPECIFY_3040_DOS_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_3040_DOS_ROM_NAME_FR, ""},  /* fuzzy */
@@ -1717,7 +1717,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_3040_DOS_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_3040_DOS_ROM_NAME_SV, ""},  /* fuzzy */
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_4040_DOS_ROM_NAME,    "Specify name of 4040 DOS ROM image"},
 /* de */ {IDCLS_SPECIFY_4040_DOS_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_4040_DOS_ROM_NAME_FR, ""},  /* fuzzy */
@@ -1726,7 +1726,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_4040_DOS_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_4040_DOS_ROM_NAME_SV, ""},  /* fuzzy */
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1001_DOS_ROM_NAME,    "Specify name of 1001/8050/8250 DOS ROM image"},
 /* de */ {IDCLS_SPECIFY_1001_DOS_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_1001_DOS_ROM_NAME_FR, ""},  /* fuzzy */
@@ -1735,7 +1735,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SPECIFY_1001_DOS_ROM_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_1001_DOS_ROM_NAME_SV, ""},  /* fuzzy */
 
-/* drive/tcbm-cmdline-options.c */
+/* drive/tcbm/tcbm-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME,    "Specify name of 1551 DOS ROM image"},
 /* de */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME_FR, ""},  /* fuzzy */
@@ -3958,7 +3958,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDGS_RESOURCE_S_BLOCKED_BY_S_PL,
 /* sv */  IDGS_RESOURCE_S_BLOCKED_BY_S_SV},
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
+/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_USE_PAL_SYNC_FACTOR,
@@ -3980,18 +3980,18 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_USE_NTSC_SYNC_FACTOR_PL,
 /* sv */  IDCLS_USE_NTSC_SYNC_FACTOR_SV},
 
-/* c128/c128-cmdline-options.c, c128/functionrom.c
+/* c128/c128-cmdline-options.c, c128/functionrom.c,
    c64/c64-cmdline-options.c, c64/georam.c,
-   c64/rancart.c, c64/reu.c, c64/c64cart.c,
-   c64/ide64.c, cbm2/cbm2-cmdline-options.c,
-   drive/iec-cmdline-options.c, drive/iec128dcr-cmdline-options.c,
-   drive/ieee-cmdline-options.c, drive/tcbm-cmdline-options.c,
+   c64/ramcart.c, c64/reu.c, c64/c64cart.c,
+   c64/cart/ide64.c, cbm2/cbm2-cmdline-options.c,
+   drive/iec/iec-cmdline-options.c, drive/iec128dcr/iec128dcr-cmdline-options.c,
+   drive/ieee/ieee-cmdline-options.c, drive/tcbm/tcbm-cmdline-options.c,
    fsdevice/fsdevice-cmdline-options.c, pet/pet-cmdline-options.c,
    plus4/plus4-cmdline-options.c, printerdrv/driver-select.c,
    printerdrv/output-select.c, printerdrv/output-text.c,
    rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
-   fliplist.c, initcmdline.c, log.c, sound.c */
+   fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c */
 /* en */ {IDCLS_P_NAME,
 /* de */  IDCLS_P_NAME_DE,
 /* fr */  IDCLS_P_NAME_FR,
@@ -4213,7 +4213,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* sv */  IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_SV},
 #endif
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-optionc.c,
+/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, cbm2/cbm2-cmdline-options.c,
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
    vdc/vdc-cmdline-options.c, vic20/vic20-cmdline-options.c */
@@ -4236,7 +4236,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_KEYMAP_FILE_INDEX_PL,
 /* sv */  IDCLS_SPECIFY_KEYMAP_FILE_INDEX_SV},
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options,
+/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME,
 /* de */  IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DE,
@@ -4689,7 +4689,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_ENABLE_EXPERT_CART_PL,
 /* sv */  IDCLS_ENABLE_EXPERT_CART_SV},
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 /* en */ {IDCLS_SPECIFY_IDE64_NAME,
 /* de */  IDCLS_SPECIFY_IDE64_NAME_DE,
 /* fr */  IDCLS_SPECIFY_IDE64_NAME_FR,
@@ -4698,7 +4698,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_IDE64_NAME_PL,
 /* sv */  IDCLS_SPECIFY_IDE64_NAME_SV},
 
-/* c64/ide64.c, gfxoutputdrv/ffmpegdrv.c, datasette.c,
+/* c64/cart/ide64.c, gfxoutputdrv/ffmpegdrv.c, datasette.c,
    debug.c, mouse.c, ram.c, sound.c, vsync.c */
 /* en */ {IDCLS_P_VALUE,
 /* de */  IDCLS_P_VALUE_DE,
@@ -4708,7 +4708,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_P_VALUE_PL,
 /* sv */  IDCLS_P_VALUE_SV},
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 /* en */ {IDCLS_SET_AMOUNT_CYLINDERS_IDE64,
 /* de */  IDCLS_SET_AMOUNT_CYLINDERS_IDE64_DE,
 /* fr */  IDCLS_SET_AMOUNT_CYLINDERS_IDE64_FR,
@@ -4717,7 +4717,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SET_AMOUNT_CYLINDERS_IDE64_PL,
 /* sv */  IDCLS_SET_AMOUNT_CYLINDERS_IDE64_SV},
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 /* en */ {IDCLS_SET_AMOUNT_HEADS_IDE64,
 /* de */  IDCLS_SET_AMOUNT_HEADS_IDE64_DE,
 /* fr */  IDCLS_SET_AMOUNT_HEADS_IDE64_FR,
@@ -4726,7 +4726,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SET_AMOUNT_HEADS_IDE64_PL,
 /* sv */  IDCLS_SET_AMOUNT_HEADS_IDE64_SV},
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 /* en */ {IDCLS_SET_AMOUNT_SECTORS_IDE64,
 /* de */  IDCLS_SET_AMOUNT_SECTORS_IDE64_DE,
 /* fr */  IDCLS_SET_AMOUNT_SECTORS_IDE64_FR,
@@ -4735,7 +4735,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SET_AMOUNT_SECTORS_IDE64_PL,
 /* sv */  IDCLS_SET_AMOUNT_SECTORS_IDE64_SV},
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 /* en */ {IDCLS_AUTODETECT_IDE64_GEOMETRY,
 /* de */  IDCLS_AUTODETECT_IDE64_GEOMETRY_DE,
 /* fr */  IDCLS_AUTODETECT_IDE64_GEOMETRY_FR,
@@ -4744,7 +4744,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_AUTODETECT_IDE64_GEOMETRY_PL,
 /* sv */  IDCLS_AUTODETECT_IDE64_GEOMETRY_SV},
 
-/* c64/ide64.c */
+/* c64/cart/ide64.c */
 /* en */ {IDCLS_NO_AUTODETECT_IDE64_GEOMETRY,
 /* de */  IDCLS_NO_AUTODETECT_IDE64_GEOMETRY_DE,
 /* fr */  IDCLS_NO_AUTODETECT_IDE64_GEOMETRY_FR,
@@ -5089,7 +5089,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SET_DRIVE_EXTENSION_POLICY_PL,
 /* sv */  IDCLS_SET_DRIVE_EXTENSION_POLICY_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1541_DOS_ROM_NAME,
 /* de */  IDCLS_SPECIFY_1541_DOS_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_1541_DOS_ROM_NAME_FR,
@@ -5098,7 +5098,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_1541_DOS_ROM_NAME_PL,
 /* sv */  IDCLS_SPECIFY_1541_DOS_ROM_NAME_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1541_II_DOS_ROM_NAME,
 /* de */  IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_FR,
@@ -5107,7 +5107,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_PL,
 /* sv */  IDCLS_SPECIFY_1541_II_DOS_ROM_NAME_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1570_DOS_ROM_NAME,
 /* de */  IDCLS_SPECIFY_1570_DOS_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_1570_DOS_ROM_NAME_FR,
@@ -5116,7 +5116,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_1570_DOS_ROM_NAME_PL,
 /* sv */  IDCLS_SPECIFY_1570_DOS_ROM_NAME_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1571_DOS_ROM_NAME,
 /* de */  IDCLS_SPECIFY_1571_DOS_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_1571_DOS_ROM_NAME_FR,
@@ -5125,7 +5125,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_1571_DOS_ROM_NAME_PL,
 /* sv */  IDCLS_SPECIFY_1571_DOS_ROM_NAME_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1581_DOS_ROM_NAME,
 /* de */  IDCLS_SPECIFY_1581_DOS_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_1581_DOS_ROM_NAME_FR,
@@ -5134,7 +5134,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_1581_DOS_ROM_NAME_PL,
 /* sv */  IDCLS_SPECIFY_1581_DOS_ROM_NAME_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_PAR_CABLE,
 /* de */  IDCLS_ENABLE_PAR_CABLE_DE,
 /* fr */  IDCLS_ENABLE_PAR_CABLE_FR,
@@ -5143,7 +5143,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_ENABLE_PAR_CABLE_PL,
 /* sv */  IDCLS_ENABLE_PAR_CABLE_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_PAR_CABLE,
 /* de */  IDCLS_DISABLE_PAR_CABLE_DE,
 /* fr */  IDCLS_DISABLE_PAR_CABLE_FR,
@@ -5152,7 +5152,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_DISABLE_PAR_CABLE_PL,
 /* sv */  IDCLS_DISABLE_PAR_CABLE_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SET_IDLE_METHOD,
 /* de */  IDCLS_SET_IDLE_METHOD_DE,
 /* fr */  IDCLS_SET_IDLE_METHOD_FR,
@@ -5161,7 +5161,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SET_IDLE_METHOD_PL,
 /* sv */  IDCLS_SET_IDLE_METHOD_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DRIVE_RAM_2000,
 /* de */  IDCLS_ENABLE_DRIVE_RAM_2000_DE,
 /* fr */  IDCLS_ENABLE_DRIVE_RAM_2000_FR,
@@ -5170,7 +5170,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_ENABLE_DRIVE_RAM_2000_PL,
 /* sv */  IDCLS_ENABLE_DRIVE_RAM_2000_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_2000,
 /* de */  IDCLS_DISABLE_DRIVE_RAM_2000_DE,
 /* fr */  IDCLS_DISABLE_DRIVE_RAM_2000_FR,
@@ -5179,7 +5179,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_DISABLE_DRIVE_RAM_2000_PL,
 /* sv */  IDCLS_DISABLE_DRIVE_RAM_2000_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DRIVE_RAM_4000,
 /* de */  IDCLS_ENABLE_DRIVE_RAM_4000_DE,
 /* fr */  IDCLS_ENABLE_DRIVE_RAM_4000_FR,
@@ -5188,7 +5188,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_ENABLE_DRIVE_RAM_4000_PL,
 /* sv */  IDCLS_ENABLE_DRIVE_RAM_4000_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_4000,
 /* de */  IDCLS_DISABLE_DRIVE_RAM_4000_DE,
 /* fr */  IDCLS_DISABLE_DRIVE_RAM_4000_FR,
@@ -5197,7 +5197,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_DISABLE_DRIVE_RAM_4000_PL,
 /* sv */  IDCLS_DISABLE_DRIVE_RAM_4000_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DRIVE_RAM_6000,
 /* de */  IDCLS_ENABLE_DRIVE_RAM_6000_DE,
 /* fr */  IDCLS_ENABLE_DRIVE_RAM_6000_FR,
@@ -5206,7 +5206,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_ENABLE_DRIVE_RAM_6000_PL,
 /* sv */  IDCLS_ENABLE_DRIVE_RAM_6000_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_6000,
 /* de */  IDCLS_DISABLE_DRIVE_RAM_6000_DE,
 /* fr */  IDCLS_DISABLE_DRIVE_RAM_6000_FR,
@@ -5215,7 +5215,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_DISABLE_DRIVE_RAM_6000_PL,
 /* sv */  IDCLS_DISABLE_DRIVE_RAM_6000_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DRIVE_RAM_8000,
 /* de */  IDCLS_ENABLE_DRIVE_RAM_8000_DE,
 /* fr */  IDCLS_ENABLE_DRIVE_RAM_8000_FR,
@@ -5224,7 +5224,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_ENABLE_DRIVE_RAM_8000_PL,
 /* sv */  IDCLS_ENABLE_DRIVE_RAM_8000_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_8000,
 /* de */  IDCLS_DISABLE_DRIVE_RAM_8000_DE,
 /* fr */  IDCLS_DISABLE_DRIVE_RAM_8000_FR,
@@ -5233,7 +5233,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_DISABLE_DRIVE_RAM_8000_PL,
 /* sv */  IDCLS_DISABLE_DRIVE_RAM_8000_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DRIVE_RAM_A000,
 /* de */  IDCLS_ENABLE_DRIVE_RAM_A000_DE,
 /* fr */  IDCLS_ENABLE_DRIVE_RAM_A000_FR,
@@ -5242,7 +5242,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_ENABLE_DRIVE_RAM_A000_PL,
 /* sv */  IDCLS_ENABLE_DRIVE_RAM_A000_SV},
 
-/* drive/iec-cmdline-options.c */
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DRIVE_RAM_A000,
 /* de */  IDCLS_DISABLE_DRIVE_RAM_A000_DE,
 /* fr */  IDCLS_DISABLE_DRIVE_RAM_A000_FR,
@@ -5251,7 +5251,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_DISABLE_DRIVE_RAM_A000_PL,
 /* sv */  IDCLS_DISABLE_DRIVE_RAM_A000_SV},
 
-/* drive/iec128dcr-cmdline-options.c */
+/* drive/iec128dcr/iec128dcr-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1571CR_DOS_ROM_NAME,
 /* de */  IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_FR,
@@ -5260,7 +5260,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_PL,
 /* sv */  IDCLS_SPECIFY_1571CR_DOS_ROM_NAME_SV},
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_2031_DOS_ROM_NAME,
 /* de */  IDCLS_SPECIFY_2031_DOS_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_2031_DOS_ROM_NAME_FR,
@@ -5269,7 +5269,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_2031_DOS_ROM_NAME_PL,
 /* sv */  IDCLS_SPECIFY_2031_DOS_ROM_NAME_SV},
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_2040_DOS_ROM_NAME,
 /* de */  IDCLS_SPECIFY_2040_DOS_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_2040_DOS_ROM_NAME_FR,
@@ -5278,7 +5278,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_2040_DOS_ROM_NAME_PL,
 /* sv */  IDCLS_SPECIFY_2040_DOS_ROM_NAME_SV},
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_3040_DOS_ROM_NAME,
 /* de */  IDCLS_SPECIFY_3040_DOS_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_3040_DOS_ROM_NAME_FR,
@@ -5287,7 +5287,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_3040_DOS_ROM_NAME_PL,
 /* sv */  IDCLS_SPECIFY_3040_DOS_ROM_NAME_SV},
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_4040_DOS_ROM_NAME,
 /* de */  IDCLS_SPECIFY_4040_DOS_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_4040_DOS_ROM_NAME_FR,
@@ -5296,7 +5296,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_4040_DOS_ROM_NAME_PL,
 /* sv */  IDCLS_SPECIFY_4040_DOS_ROM_NAME_SV},
 
-/* drive/ieee-cmdline-options.c */
+/* drive/ieee/ieee-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1001_DOS_ROM_NAME,
 /* de */  IDCLS_SPECIFY_1001_DOS_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_1001_DOS_ROM_NAME_FR,
@@ -5305,7 +5305,7 @@ static int translate_text_table[][countof(language_table)] = {
 /* pl */  IDCLS_SPECIFY_1001_DOS_ROM_NAME_PL,
 /* sv */  IDCLS_SPECIFY_1001_DOS_ROM_NAME_SV},
 
-/* drive/tcbm-cmdline-options.c */
+/* drive/tcbm/tcbm-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_1551_DOS_ROM_NAME,
 /* de */  IDCLS_SPECIFY_1551_DOS_ROM_NAME_DE,
 /* fr */  IDCLS_SPECIFY_1551_DOS_ROM_NAME_FR,

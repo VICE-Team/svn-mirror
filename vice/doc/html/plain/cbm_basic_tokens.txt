@@ -1,9 +1,9 @@
 
-PETCAT version 2.02 PL 1					12 Dec 1996
+PETCAT version 2.08 PL 1					08 Sep 2005
 
 
   Listed below are keywords and token codes for all CBM Basic versions
-  supported on petcat v2.02 PL 1. They include the following:
+  supported on petcat v2.08 PL 1. They include the following:
  
 	Basic 1.0
 	Basic 2.0
@@ -11,6 +11,13 @@ PETCAT version 2.02 PL 1					12 Dec 1996
 	Basic 2.0 and Simon's Basic
 	Basic 2.0 with Speech Basic v2.7
 	Basic 2.0 with AtBasic
+	Basic 2.0 with Final Cartridge III
+	Basic 2.0 with Ultrabasic-64
+	Basic 2.0 with Graphics basic
+	Basic 2.0 with WS basic
+        Basic 2.0 with Turtle basic
+        Basic 2.0 with Mighty basic
+        Basic 2.0 with Pegasus basic 4.0
 	Basic 4.0
 	Basic 4.0 extension for C64
 	Basic 3.5
@@ -313,46 +320,68 @@ fe3d			 highlight
  Third party products for VIC-20
 
 
- Turtle Basic v1.0 Keywords
+ Turtle Basic v1.0 Keywords (Tokens CC - ED)
+ Mighty Basic      Keywords (Tokens CC - FE)
 
-cc	graphic
-cd	old
-ce	turn
-cf	pen
+        Turtle   Mighty
 
-d0	draw
-d1	move
-d2	point
-d3	kill
-d4	write
-d5	repeat
-d6	screen
-d7	doke
+cc	graphic  delete
+cd	old      old
+ce	turn     renumber
+cf	pen      help
 
-d8	reloc
-d9	fill
-da	rtime
-db	base
-dc	pause
-dd	pop
-de	color
-df	merge
+d0	draw     header
+d1	move     move
+d2	point    trace
+d3	kill     kill
+d4	write    dump
+d5	repeat   dsave
+d6	screen   dload
+d7	doke     dverify
 
-e0	char
-e1	take
-e2	sound
-e3	vol
-e4	put
-e5	place
-e6	cls
-e7	accept
+d8	reloc    dresave
+d9	fill     scratch
+da	rtime    directory
+db	base     key
+dc	pause    send
+dd	pop      pop
+de	color    off
+df	merge    bsave
 
-e8	reset
-e9	grab
-ea	rdot
-eb	plr$
-ec	deek
-ed	joy
+e0	char     bload
+e1	take     find
+e2	sound    auto
+e3	vol      pprint
+e4	put      accept
+e5	place    reset
+e6	cls      else
+e7	accept   color
+
+e8	reset    take
+e9	grab     pause
+ea	rdot     base
+eb	plr$     copychr
+ec	deek     char
+ed	joy      beep
+ee               cls
+ef               fill
+
+f0               merge
+f1               sound
+f2               give
+f3               plist
+f4               put
+f5               volume
+f6               rtime
+f7               msb
+
+f8               lsb
+f9               vector
+fa               joy
+fb               dec
+fc               hex$
+fd               grab
+fe               ds$
 
 
  -----------------------------------------------------------------------------
@@ -379,58 +408,72 @@ e3	monitor
 
   Speech Basic v2.7 Keywords (Tokens CC - E6)
   @Basic (Atbasic)  Keywords (Tokens CC - F6)
+  Final Cartridge 3 Keywords (Tokens CC - E8)
+  Ultrabasic-64     Keywords (Tokens CC - FE)
+  Graphics basic    Keywords (Tokens CC - FE)
+  WS basic          Keywords (Tokens CC - FE)
+  Pegasus basic 4.0 Keywords (Tokens CC - EC)
 
 
-Token	Speech		AtBasic
+Token  Speech  AtBasic    FC3      Ultra   Graph       WS     Peg
 
-cc	reset		trace
-cd	basic		delete
-ce	help		auto
-cf	key		old
+cc     reset   trace      off      dot     background  copy    off
+cd     basic   delete     auto     draw    border      old     asc(
+ce     help    auto       del      box     dir         port    sin(
+cf     key     old        renum    tic     disk        doke    cos(
 
-d0	himem		dump
-d1	disk		find
-d2	dir		renumber
-d3	bload		dload
-d4	bsave		dsave
-d5	map		dverify
-d6	mem		directory
-d7	pause		catalog
+d0     himem   dump       ?ERROR?  copy    fill        vpoke   tan(
+d1     disk    find       find     sprite  key         fill    atn(
+d2     dir     renumber   old      off     circle      error   deg(
+d3     bload   dload      dload    mode    procedure   send    rad(
+d4     bsave   dsave      dverify  norm    dot         call    frac(
+d5     map     dverify    dsave    graph   find        bit     mod(
+d6     mem     directory  append   dump    change      dir     round(
+d7     pause   catalog    dappend  gread   ren         bload   dec(
 
-d8	block		scratch
-d9	hear		collect
-da	record		rename
-db	play		copy
-dc	voldef		backup
-dd	coldef		disk
-de	hex		header
-df	dez		append
+d8     block   scratch    dos      char    else        bsave   bin(
+d9     hear    collect    kill     place   copy        find    deek(
+da     record  rename     mon      multi   scroll      speed   instr(
+db     play    copy       pdir     hires   roll        pitch   joy(
+dc     voldef  backup     plist    hex     box         say     pot(
+dd     coldef  disk       bar      bit     scale       fast    screen(
+de     hex     header     desktop  colors  do          slow    test(
+df     dez     append     dump     pixel   line        talk    using
 
-e0	screen		merge
-e1	exec		mload
-e2	mon		mverify
-e3	<-		msave
-e4	from		key
-e5	speed		basic
-e6	off		reset
-e7			exit
+e0     screen  merge      array    fill    sprite      shutup  ds$
+e1     exec    mload      mem      circle  color       stash   hex$(
+e2     mon     mverify    trace    block   hires       fetch   bin$(
+e3     <-      msave      replace  sdata   clear       swap    space$(
+e4     from    key        order    vol     text        off     ucase$(
+e5     speed   basic      pack     gen     window      screen  string$(
+e6     off     reset      unpack   scoll   off         device  input$(
+e7             exit       mread    bcoll   at          object  time$
 
-e8			enter
-e9			doke
-ea			set
-eb			help
-ec			screen
-ed			lomem
-ee			himem
-ef			colour
+e8             enter      mwrite   joy     shape       vstash  spritex(
+e9             doke                paddle  xysize      vfetch  spritey(
+ea             set                 pen     speed       quiet   turtlex(
+eb             help                sound   from        color   turtley(
+ec             screen              tune    setorigin   cls     turtleang
+ed             lomem               tdata   animate     curpos
+ee             himem               set     multi       monitor
+ef             colour              turnto  eze         subend
 
-f0			type
-f1			time
-f2			deek
-f3			hex$
-f4			bin$
-f5			off
-f6			alarm
+f0             type                turn    move        do
+f1             time                tup     under       loop
+f2             deek                tdown   edit        exit
+f3             hex$                tcolor  reset       deek
+f4             bin$                turtle  xpos        rsc
+f5             off                 move    gprint      rsm
+f6             alarm               bye     voice       dec
+f7                                 rotate  adsr        hex$
+
+f8                                 tpos    wave        hi
+f9                                 ctr     ne          lo
+fa                                 sctr    volume      ds$
+fb                                 [       play        line
+fc                                 ]       ypos        vpeek
+fd                                 hard    sound       row
+fe                                 exit    joy         joy
 
 
 

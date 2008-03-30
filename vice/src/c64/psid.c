@@ -149,19 +149,19 @@ static const cmdline_option_t cmdline_options[] =
     /* The Video Standard options are copied from the machine files. */
     { "-pal", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
       (resource_value_t)MACHINE_SYNC_PAL,
-      NULL, "Use PAL sync factor" },
+      NULL, N_("Use PAL sync factor") },
     { "-ntsc", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
       (resource_value_t)MACHINE_SYNC_NTSC,
-      NULL, "Use NTSC sync factor" },
+      NULL, N_("Use NTSC sync factor") },
     { "-ntscold", SET_RESOURCE, 0, NULL, NULL, "MachineVideoStandard",
       (resource_value_t)MACHINE_SYNC_NTSCOLD,
-      NULL, "Use old NTSC sync factor" },
+      NULL, N_("Use old NTSC sync factor") },
     { "-vsid", CALL_FUNCTION, 0, cmdline_vsid_mode, NULL, NULL, NULL,
-      NULL, "SID player mode" },
+      NULL, N_("SID player mode") },
     { "-keepenv", CALL_FUNCTION, 0, cmdline_keepenv, NULL, NULL, NULL,
-      NULL, "Override PSID settings for Video standard and SID model" },
+      NULL, N_("Override PSID settings for Video standard and SID model") },
     { "-tune", CALL_FUNCTION, 1, cmdline_psid_tune, NULL, NULL, NULL,
-      "<number>", "Specify PSID tune <number>" },
+      N_("<number>"), N_("Specify PSID tune <number>") },
     { NULL }
 };
 #endif

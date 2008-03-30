@@ -182,15 +182,15 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-rsuser", SET_RESOURCE, 0, NULL, NULL, "RsUserEnable", (void *)1,
-      NULL, "Enable RS232 userport emulation" },
+      NULL, N_("Enable RS232 userport emulation") },
     { "+rsuser", SET_RESOURCE, 0, NULL, NULL, "RsUserEnable", (void *)0,
-      NULL, "Disable RS232 userport emulation" },
+      NULL, N_("Disable RS232 userport emulation") },
     { "-rsuserbaud", SET_RESOURCE, 1, NULL, NULL, "RsUserBaud",
-      (resource_value_t)300, "<baud>",
-      "Set the baud rate of the RS232 userport emulation." },
+      (resource_value_t)300, N_("<baud>"),
+      N_("Set the baud rate of the RS232 userport emulation.") },
     { "-rsuserdev", SET_RESOURCE, 1, NULL, NULL, "RsUserDev",
       (resource_value_t)0,
-      "<0-3>", "Specify VICE RS232 device for userport" },
+      "<0-3>", N_("Specify VICE RS232 device for userport") },
     { NULL }
 };
 #endif

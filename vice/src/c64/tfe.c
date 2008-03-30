@@ -1511,9 +1511,9 @@ static const cmdline_option_t cmdline_options[] =
 static const cmdline_option_t cmdline_options[] =
 {
     { "-tfe", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)1,
-      NULL, "Enable the TFE (\"the final ethernet\") unit" },
+      NULL, N_("Enable the TFE (\"the final ethernet\") unit") },
     { "+tfe", SET_RESOURCE, 0, NULL, NULL, "ETHERNET_ACTIVE", (resource_value_t)0,
-      NULL, "Disable the TFE (\"the final ethernet\") unit" },
+      NULL, N_("Disable the TFE (\"the final ethernet\") unit") },
     { NULL }
 };
 #endif

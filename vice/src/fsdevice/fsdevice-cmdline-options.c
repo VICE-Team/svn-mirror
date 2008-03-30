@@ -79,13 +79,13 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-fs8", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)8, NULL, NULL,
-      "<name>", "Use <name> as directory for file system device #8" },
+      N_("<name>"), N_("Use <name> as directory for file system device #8") },
     { "-fs9", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)9, NULL, NULL,
-      "<name>", "Use <name> as directory for file system device #9" },
+      N_("<name>"), N_("Use <name> as directory for file system device #9") },
     { "-fs10", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)10, NULL, NULL,
-      "<name>", "Use <name> as directory for file system device #10" },
+      N_("<name>"), N_("Use <name> as directory for file system device #10") },
     { "-fs11", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)11, NULL, NULL,
-      "<name>", "Use <name> as directory for file system device #11" },
+      N_("<name>"), N_("Use <name> as directory for file system device #11") },
     { NULL }
 };
 #endif

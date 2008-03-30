@@ -136,9 +136,9 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-speed", SET_RESOURCE, 1, NULL, NULL, "Speed", NULL,
-      "<percent>", N_("Limit emulation speed to specified value") },
+      N_("<percent>"), N_("Limit emulation speed to specified value") },
     { "-refresh", SET_RESOURCE, 1, NULL, NULL, "RefreshRate", NULL,
-      "<value>", N_("Update every <value> frames (`0' for automatic)") },
+      N_("<value>"), N_("Update every <value> frames (`0' for automatic)") },
     { "-warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)1,
       NULL, N_("Enable warp mode") },
     { "+warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t)0,

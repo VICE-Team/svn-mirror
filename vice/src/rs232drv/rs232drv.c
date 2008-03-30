@@ -98,13 +98,13 @@ static const cmdline_option_t cmdline_options[] = {
 #else
 static const cmdline_option_t cmdline_options[] = {
     { "-rsdev1", SET_RESOURCE, 1, NULL, NULL, "RsDevice1", NULL,
-      "<name>", N_("Specify name of first RS232 device") },
+      N_("<name>"), N_("Specify name of first RS232 device") },
     { "-rsdev2", SET_RESOURCE, 1, NULL, NULL, "RsDevice2", NULL,
-      "<name>", N_("Specify name of second RS232 device") },
+      N_("<name>"), N_("Specify name of second RS232 device") },
     { "-rsdev3", SET_RESOURCE, 1, NULL, NULL, "RsDevice3", NULL,
-      "<name>", N_("Specify name of third RS232 device") },
+      N_("<name>"), N_("Specify name of third RS232 device") },
     { "-rsdev4", SET_RESOURCE, 1, NULL, NULL, "RsDevice4", NULL,
-      "<name>", N_("Specify name of fourth RS232 device") },
+      N_("<name>"), N_("Specify name of fourth RS232 device") },
     { NULL }
 };
 #endif
