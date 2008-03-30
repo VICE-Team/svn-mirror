@@ -40,6 +40,7 @@ extern const char machine_name[];
 #define VICE_MACHINE_VIC20     3
 #define VICE_MACHINE_PET       4
 #define VICE_MACHINE_CBM2      5
+#define VICE_MACHINE_PLUS4     6
 
 extern int machine_class;
 extern int vsid_mode;
