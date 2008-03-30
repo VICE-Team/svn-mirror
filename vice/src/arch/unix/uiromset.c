@@ -33,6 +33,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
+#include "romset.h"
 #include "uimenu.h"
 #include "uiromset.h"
 #include "util.h"
@@ -41,72 +42,22 @@
 
 UI_CALLBACK(ui_set_romset)
 {
-    machine_romset_load(UI_MENU_CB_PARAM);
+    machine_romset_file_load(UI_MENU_CB_PARAM);
     ui_update_menus();
-}
-
-UI_CALLBACK(ui_load_romset)
-{
-    char *filename, *title;
-    ui_button_t button;
-    static char *last_dir;
-
-    vsync_suspend_speed_eval();
-    title = lib_stralloc(_("Load custom ROM set definition"));
-    filename = ui_select_file(title, NULL, 0, False, last_dir, "*.vrs",
-                              &button, False, NULL);
-
-    lib_free(title);
-    switch (button) {
-      case UI_BUTTON_OK:
-        if (machine_romset_load(filename) < 0)
-            ui_error(_("Could not load ROM set file\n'%s'"), filename);
-        if (last_dir)
-            lib_free(last_dir);
-        util_fname_split(filename, &last_dir, NULL);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
-    }
-    ui_update_menus();
-    if (filename != NULL)
-        lib_free(filename);
-}
-
-UI_CALLBACK(ui_dump_romset)
-{
-    char *title, *new_value;
-    ui_button_t button;
-    int len = 512;
-
-    vsync_suspend_speed_eval();
-    title = lib_stralloc(_("File to dump ROM set definition to"));
-
-    new_value = lib_malloc(len + 1);
-    strcpy(new_value, "");
-
-    button = ui_input_string(title, _("ROM set file:"), new_value, len);
-    lib_free(title);
-
-    if (button == UI_BUTTON_OK)
-        machine_romset_save(new_value);
-
-    lib_free(new_value);
 }
 
 UI_CALLBACK(ui_load_rom_file)
 {
-    char *filename, *title;
+    char *filename;
     ui_button_t button;
     static char *last_dir;
 
     vsync_suspend_speed_eval();
-    title = lib_stralloc(_("Load ROM file"));
-    filename = ui_select_file(title, NULL, 0, False, last_dir, "*", &button,
+
+    filename = ui_select_file(_("Load ROM file"),
+                              NULL, 0, False, last_dir, "*", &button,
                               False, NULL);
 
-    lib_free(title);
     switch (button) {
       case UI_BUTTON_OK:
         if (resources_set_value(UI_MENU_CB_PARAM,
@@ -130,7 +81,156 @@ UI_CALLBACK(ui_unload_rom_file)
     resources_set_value((char*)UI_MENU_CB_PARAM, (resource_value_t)NULL);
 }
 
-UI_CALLBACK(ui_list_romset)
+UI_MENU_DEFINE_RADIO(RomsetSourceFile)
+
+ui_menu_entry_t uiromset_type_submenu[] = {
+    { "*Archive", (ui_callback_t)radio_RomsetSourceFile,
+      (ui_callback_data_t)0, NULL },
+    { "*File", (ui_callback_t)radio_RomsetSourceFile,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
+static UI_CALLBACK(uiromset_archive_load)
+{
+    char *filename;
+    ui_button_t button;
+    static char *last_dir;
+
+    vsync_suspend_speed_eval();
+
+    filename = ui_select_file(_("Load custom ROM set archive"),
+                              NULL, 0, False, last_dir, "*.vra",
+                              &button, False, NULL);
+
+    switch (button) {
+      case UI_BUTTON_OK:
+        if (romset_archive_load(filename, 0) < 0)
+            ui_error(_("Could not load ROM set archive\n'%s'"), filename);
+        if (last_dir)
+            lib_free(last_dir);
+        util_fname_split(filename, &last_dir, NULL);
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
+    }
+
+    ui_update_menus();
+
+    if (filename != NULL)
+        lib_free(filename);
+}
+
+static UI_CALLBACK(uiromset_archive_save)
+{
+    char *new_value;
+    ui_button_t button;
+    int len = 512;
+
+    vsync_suspend_speed_eval();
+
+    new_value = lib_malloc(len + 1);
+    strcpy(new_value, "");
+
+    button = ui_input_string(_("File to dump ROM set archive to"),
+                             _("ROM set archive:"), new_value, len);
+
+    if (button == UI_BUTTON_OK)
+        romset_archive_save(new_value);
+
+    lib_free(new_value);
+}
+
+static UI_CALLBACK(uiromset_archive_list)
+{
+}
+
+static UI_CALLBACK(uiromset_archive_item_create)
+{
+    char *new_value;
+    ui_button_t button;
+    int len = 512;
+
+    vsync_suspend_speed_eval();
+
+    new_value = lib_malloc(len + 1);
+    strcpy(new_value, "");
+
+    button = ui_input_string(_("ROM set item name to create"),
+                             _("ROM set name:"), new_value, len);
+
+    if (button == UI_BUTTON_OK)
+        machine_romset_archive_item_create(new_value);
+
+    lib_free(new_value);
+}
+
+ui_menu_entry_t uiromset_archive_submenu[] = {
+    { N_("Load custom ROM set from file"),
+      (ui_callback_t)uiromset_archive_load, NULL, NULL },
+    { N_("Dump ROM set definition to file"),
+      (ui_callback_t)uiromset_archive_save, NULL, NULL },
+    { N_("List current ROM set"),
+      (ui_callback_t)uiromset_archive_list, NULL, NULL },
+    { "--" },
+    { N_("Create ROM set item"),
+      (ui_callback_t)uiromset_archive_item_create, NULL, NULL },
+    { NULL }
+};
+
+static UI_CALLBACK(uiromset_file_load)
+{
+    char *filename;
+    ui_button_t button;
+    static char *last_dir;
+
+    vsync_suspend_speed_eval();
+
+    filename = ui_select_file(_("Load custom ROM set file"),
+                              NULL, 0, False, last_dir, "*.vrs",
+                              &button, False, NULL);
+
+    switch (button) {
+      case UI_BUTTON_OK:
+        if (machine_romset_file_load(filename) < 0)
+            ui_error(_("Could not load ROM set file\n'%s'"), filename);
+        if (last_dir)
+            lib_free(last_dir);
+        util_fname_split(filename, &last_dir, NULL);
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
+    }
+
+    ui_update_menus();
+
+    if (filename != NULL)
+        lib_free(filename);
+}
+
+static UI_CALLBACK(uiromset_file_save)
+{
+    char *new_value;
+    ui_button_t button;
+    int len = 512;
+
+    vsync_suspend_speed_eval();
+
+    new_value = lib_malloc(len + 1);
+    strcpy(new_value, "");
+
+    button = ui_input_string(_("File to dump ROM set definition to"),
+                             _("ROM set file:"), new_value, len);
+
+    if (button == UI_BUTTON_OK)
+        machine_romset_file_save(new_value);
+
+    lib_free(new_value);
+}
+
+static UI_CALLBACK(uiromset_file_list)
 {
     char *list;
 
@@ -140,4 +240,14 @@ UI_CALLBACK(ui_list_romset)
 
     lib_free(list);
 }
+
+ui_menu_entry_t uiromset_file_submenu[] = {
+    { N_("Load custom ROM set from file"),
+      (ui_callback_t)uiromset_file_load, NULL, NULL },
+    { N_("Dump ROM set definition to file"),
+      (ui_callback_t)uiromset_file_save, NULL, NULL },
+    { N_("List current ROM set"),
+      (ui_callback_t)uiromset_file_list, NULL, NULL },
+    { NULL }
+};
 
