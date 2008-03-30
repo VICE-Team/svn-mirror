@@ -39,10 +39,11 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     WORD operand_value = LO16(operand);
     WORD operand_mode = HI16_TO_LO16(operand);
     BYTE opcode = 0;
-    int i, j, len, branch_offset;
+    int len, branch_offset;
+    BYTE i, j;
     bool found = FALSE;
     MEMSPACE mem;
-    unsigned loc;
+    ADDRESS loc;
     BYTE prefix[5] = { 0x00, 0xcb, 0xdd, 0xed, 0xfd };
 
     mem = addr_memspace(asm_mode_addr);
@@ -77,7 +78,8 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
                     break;
                 }
 
-                /* Special case: Register A not specified for ACCUMULATOR mode. */
+                /* Special case:
+                   Register A not specified for ACCUMULATOR mode. */
                 if (operand_mode == ASM_ADDR_MODE_IMPLIED
                     && opinfo->addr_mode == ASM_ADDR_MODE_ACCUMULATOR) {
                     opcode = i;
@@ -142,16 +144,16 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     if (prefix[j] == 0x00) {
         mon_set_mem_val(mem, loc, opcode);
         if (len >= 2)
-            mon_set_mem_val(mem, loc + 1, operand_value & 0xff);
+            mon_set_mem_val(mem, loc + 1, (BYTE)(operand_value & 0xff));
         if (len >= 3)
-            mon_set_mem_val(mem, loc + 2, (operand_value >> 8) & 0xff);
+            mon_set_mem_val(mem, loc + 2, (BYTE)((operand_value >> 8) & 0xff));
     } else {
         mon_set_mem_val(mem, loc, prefix[j]);
         mon_set_mem_val(mem, loc + 1, opcode);
         if (len >= 3)
-            mon_set_mem_val(mem, loc + 2, operand_value & 0xff);
+            mon_set_mem_val(mem, loc + 2, (BYTE)(operand_value & 0xff));
         if (len >= 4)
-            mon_set_mem_val(mem, loc + 3, (operand_value >> 8) & 0xff);
+            mon_set_mem_val(mem, loc + 3, (BYTE)((operand_value >> 8) & 0xff));
     }
 
     if (len >= 0) {

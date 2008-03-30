@@ -40,10 +40,11 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     WORD operand_value = LO16(operand);
     WORD operand_mode = HI16_TO_LO16(operand);
     BYTE opcode = 0;
-    int i, len, branch_offset;
+    int len, branch_offset;
+    BYTE i;
     bool found = FALSE;
     MEMSPACE mem;
-    unsigned loc;
+    ADDRESS loc;
 
     mem = addr_memspace(asm_mode_addr);
     loc = addr_location(asm_mode_addr);
@@ -124,9 +125,9 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     /* EP 98.08.23 use correct memspace for assembling.  */
     mon_set_mem_val(mem, loc, opcode);
     if (len >= 2)
-        mon_set_mem_val(mem, loc + 1, operand_value & 0xff);
+        mon_set_mem_val(mem, loc + 1, (BYTE)(operand_value & 0xff));
     if (len >= 3)
-        mon_set_mem_val(mem, loc + 2, (operand_value >> 8) & 0xff);
+        mon_set_mem_val(mem, loc + 2, (BYTE)((operand_value >> 8) & 0xff));
 
     if (len >= 0) {
         mon_inc_addr_location(&asm_mode_addr, len);
