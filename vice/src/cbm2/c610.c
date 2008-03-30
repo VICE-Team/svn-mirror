@@ -56,6 +56,9 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
+#include "prdevice.h"
+#include "print.h"
+#include "pruser.h"
 #include "resources.h"
 #include "screenshot.h"
 #include "serial.h"
@@ -69,12 +72,6 @@
 #include "via.h"
 #include "video.h"
 #include "vsync.h"
-
-#ifdef HAVE_PRINTER
-#include "print.h"
-#include "prdevice.h"
-#include "pruser.h"
-#endif
 
 #ifdef HAVE_RS232
 #include "rs232.h"
@@ -134,11 +131,9 @@ int machine_init_resources(void)
 #ifdef HAVE_RS232
         || rs232_init_resources() < 0
 #endif
-#ifdef HAVE_PRINTER
         || print_init_resources() < 0
         || prdevice_init_resources() < 0
         || pruser_init_resources() < 0
-#endif
         || pet_kbd_init_resources() < 0
 	)
         return -1;
@@ -161,11 +156,9 @@ int machine_init_cmdline_options(void)
 #ifdef HAVE_RS232
         || rs232_init_cmdline_options() < 0
 #endif
-#ifdef HAVE_PRINTER
         || print_init_cmdline_options() < 0
         || prdevice_init_cmdline_options() < 0
         || pruser_init_cmdline_options() < 0
-#endif
         || pet_kbd_init_cmdline_options() < 0
 	)
         return -1;
@@ -215,10 +208,8 @@ int machine_init(void)
     rs232_init();
 #endif
 
-#ifdef HAVE_PRINTER
     /* initialize print devices */
     print_init();
-#endif
 
     /* Initialize the CRTC emulation.  */
     if (crtc_init() == NULL)
@@ -282,9 +273,7 @@ void machine_reset(void)
     crtc_reset();
     sid_reset();
 
-#ifdef HAVE_PRINTER
     print_reset();
-#endif
 
 #ifdef HAVE_RS232
     rs232_reset();

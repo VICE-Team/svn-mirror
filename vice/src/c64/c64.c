@@ -59,6 +59,9 @@
 #include "mem.h"
 #include "mon.h"
 #include "patchrom.h"
+#include "prdevice.h"
+#include "print.h"
+#include "pruser.h"
 #include "psid.h"
 #include "resources.h"
 #include "reu.h"
@@ -81,12 +84,6 @@
 #include "c64rsuser.h"
 #include "rs232.h"
 #include "rsuser.h"
-#endif
-
-#ifdef HAVE_PRINTER
-#include "print.h"
-#include "prdevice.h"
-#include "pruser.h"
 #endif
 
 #ifdef HAVE_MOUSE
@@ -196,11 +193,9 @@ int machine_init_resources(void)
         || rs232_init_resources() < 0
         || rsuser_init_resources() < 0
 #endif
-#ifdef HAVE_PRINTER
         || print_init_resources() < 0
         || prdevice_init_resources() < 0
         || pruser_init_resources() < 0
-#endif
         /* FIXME: This is done already in main.c
          #ifdef HAVE_MOUSE
          || mouse_init_resources() < 0
@@ -244,11 +239,9 @@ int machine_init_cmdline_options(void)
         || rs232_init_cmdline_options() < 0
         || rsuser_init_cmdline_options() < 0
 #endif
-#ifdef HAVE_PRINTER
         || print_init_cmdline_options() < 0
         || prdevice_init_cmdline_options() < 0
         || pruser_init_cmdline_options() < 0
-#endif
         /* FIXME: This is done already in main.c
         #ifdef HAVE_MOUSE
         || mouse_init_cmdline_options() < 0
@@ -305,10 +298,8 @@ int machine_init(void)
         c64_rsuser_init();
 #endif
 
-#ifdef HAVE_PRINTER
         /* Initialize print devices.  */
         print_init();
-#endif
 
         /* Initialize the tape emulation.  */
         tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, 0x277, 0xc6,
@@ -412,9 +403,7 @@ void machine_reset(void)
         rsuser_reset();
 #endif
 
-#ifdef HAVE_PRINTER
         print_reset();
-#endif
 
         /* FIXME */
         /* reset_reu(); */

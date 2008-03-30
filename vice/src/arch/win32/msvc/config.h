@@ -9,7 +9,6 @@
 #define HAVE_RESID              1
 #define HAS_JOYSTICK            1
 #define HAVE_MOUSE              1
-#define HAVE_PRINTER            1
 
 #define SIZEOF_UNSIGNED_INT     4
 #define SIZEOF_UNSIGNED_LONG    4

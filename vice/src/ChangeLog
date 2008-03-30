@@ -1,3 +1,87 @@
+2000-10-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.15.
+
+	* Makefile.am, arch/win32/msvc/config.h, arch/os2/config.h,
+	arch/riscos/config.h, serial.c, c64/c64.c, c64/c64cia2.c,
+	c128/c128.c, vic20/vic20.c, vic20/vic20via2.c, pet/pet.c,
+	pet/petvia.c, cbm2/c610.c, cbm2/c610cia1.c: Removed special
+	printer defines.
+
+2000-10-07  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/uimon.c: added new functionality, corrected
+	errors (but it's FAR from finished!)
+
+2000-10-05  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/c128ui.cc,c610ui.cc,c64ui.cc,petui.cc,vic20ui.cc:
+	minor changes, new parameter in ..._ui_specific,
+	implementation for VIC20 and C64 cartridges
+
+	* arch/beos/constants.h: new menu IDs for cartridges
+
+	* arch/beos/ui.cc: minor changes
+
+	* arch/beos/ui.h: new type ui_cartridge_t;
+
+	* arch/beos/ui_device.cc: uses resource 'PrinterDevice1'
+	instead of 'PrinterFile'
+
+	* arch/beos/ui_file.cc: (ui_select_file) and
+	(ui_select_file_action) support cartridge files;
+
+	* arch/beos/vicemenu.cc: new menu items for cartridges; some
+	changes in the order of items
+
+	* arch/os2/vsyncarch.c: (vsyncarch_display_speed) gets third
+	parameter 'warp_enabled'; not used yet
+
+	* arch/win32/Makefile.am,arch.dsp: vsync.c replaced by
+	vsyncarch.c
+
+	* arch/win32/ui.c: added some 'suspend_speed_eval()'
+
+	* arch/win32/uilib.c: 'suspend_speed_eval' after filename is
+	selected
+
+	* arch/win32/vsyncarch.c: new file to support common vsync code
+
+	* arch/win32/x128.dsp,x64.dsp,xcbm2.dsp,xpet.dsp,xvic.dsp:
+	added common vsync.c to project
+
+	* maincpu.c: (cpu_resets) calls 'suspend_speed_eval()'
+
+	* snapshot.c: (snapshot_open) calls 'suspend_speed_eval()'
+
+	* vsync.c: now compiled under WIN32
+	frame_ticks changed to 'signed long' do make
+	(delay+frame_ticks < 0) become possible in (do_vsync)
+	(vsyncarch_display_speed) is called with third param
+	'warp_mode_enabled'; new prototype in vsyncarch.h
+
+2000-10-05  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/archdep.h, arch/riscos/kbd.c: added required
+	include.
+
+	* arch/riscos/ui.c: resync sound and frame rate after pause,
+	small changes to fliplist handling.
+
+2000-10-04  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* monitor/mon.c: no C++ comments in common C source, please.
+
+2000-10-04  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* monitor/mon.c: doesn't use the console directly, but only
+	via arch_mon_...()
+
+	* arch/win32/uimon.c: added new functionality, corrected
+	errors (but it's FAR from finished!)
+
+	* arch/.../uimon.c: Added arch_mon_in(), arch_mon_out()
+
 2000-10-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
         * Version 1.5.14.

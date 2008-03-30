@@ -88,12 +88,9 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
+#include "pruser.h"
 #include "types.h"
 #include "vicii.h"
-
-#ifdef HAVE_PRINTER
-#include "pruser.h"
-#endif
 
 #ifdef HAVE_RS232
 #include "rsuser.h"
@@ -113,10 +110,8 @@ static iec_cpu_write_callback_t iec_cpu_write_callback[4] = {
 
 static inline void do_reset_cia(void)
 {
-#ifdef HAVE_PRINTER
     pruser_write_strobe(1);
     pruser_write_data((BYTE)0xff);
-#endif
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)0xff);
     rsuser_set_tx_bit(1);
@@ -155,9 +150,7 @@ static inline void store_ciapa(CLOCK rclk, BYTE byte)
             mem_set_vbank(new_vbank);
         }
         iec_cpu_write_callback[iec_callback_index]((BYTE)tmp);
-#ifdef HAVE_PRINTER
         pruser_write_strobe(tmp & 0x04);
-#endif
     }
 }
 
@@ -187,18 +180,14 @@ static inline void pulse_ciapc(CLOCK rclk)
 { 
     if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
         parallel_cable_cpu_pulse();
-#ifdef HAVE_PRINTER
     pruser_write_data((BYTE)oldpb);
-#endif
 }
 
 /* FIXME! */
 static inline void undump_ciapb(CLOCK rclk, BYTE byte)
 {
     parallel_cable_cpu_undump((BYTE)byte);
-#ifdef HAVE_PRINTER
     pruser_write_data((BYTE)byte);
-#endif
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
@@ -251,12 +240,10 @@ static inline void store_sdr(BYTE byte) {}
 
 #include "ciacore.c"
 
-#ifdef HAVE_PRINTER
 void pruser_set_busy(int flank)
 {
     if(!flank) {
 	cia2_set_flag();
     }
 }
-#endif
 

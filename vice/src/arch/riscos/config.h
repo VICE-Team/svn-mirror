@@ -30,9 +30,6 @@
 /* Do we want to enable RS232 support via ACIA emulation?  */
 #define HAVE_RS232 1
 
-/* Do we want to enable Printer support?  */
-#define HAVE_PRINTER 1
-
 /* Do we want to enable the ReSID code support?  */
 /* #undef HAVE_RESID */
 #define HAVE_RESID 1

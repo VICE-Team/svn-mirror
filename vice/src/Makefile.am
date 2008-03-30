@@ -3,17 +3,9 @@
 LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
 
 if HAVE_RS232
-if HAVE_PRINTER
-rs232_printer_ldadd = pruser.o prdevice.o rsuser.o
+rs232_ldadd = rsuser.o
 else
-rs232_printer_ldadd = rsuser.o
-endif
-else
-if HAVE_PRINTER
-rs232_printer_ldadd = pruser.o prdevice.o
-else
-rs232_printer_ldadd =
-endif
+rs232_ldadd =
 endif
 
 ARCH_LIBS = @ARCH_LIBS@
@@ -86,7 +78,9 @@ noinst_HEADERS = \
 	palette.h \
 	parallel.h \
 	piacore.h \
+	prdevice.h \
 	print.h \
+	pruser.h \
 	resources.h \
 	riot.h \
 	riotcore.h \
@@ -116,7 +110,7 @@ noinst_HEADERS = \
 	video.h \
 	vsidui.h \
 	vsync.h \
-        vsyncarch.h \
+	vsyncarch.h \
 	zfile.h \
 	zipcode.h
 
@@ -147,7 +141,9 @@ base_sources = \
 	palette.c \
 	parallel.c \
 	resources.c \
+	prdevice.c \
 	print.c \
+	pruser.c \
 	romset.c \
 	screenshot.c \
 	serial.c \
@@ -159,7 +155,7 @@ base_sources = \
 	tape.c \
 	traps.c \
 	utils.c \
-        vsync.c \
+	vsync.c \
 	zfile.c \
 	zipcode.c
 
@@ -168,12 +164,6 @@ cpucore_sources = \
 
 maincpu_sources = \
 	maincpu.c
-
-printer_sources = \
-	prdevice.c \
-	prdevice.h \
-	pruser.c \
-	pruser.h
 
 rs232_sources = \
 	rsuser.c \
@@ -192,7 +182,6 @@ EXTRA_DIST = \
 	riotcore.c \
 	tpicore.c \
 	viacore.c \
-	$(printer_sources) \
 	$(rs232_sources)
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
@@ -212,7 +201,7 @@ vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = $(rs232_printer_ldadd) @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
+common_libs = $(rs232_ldadd) @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
 
 bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
 

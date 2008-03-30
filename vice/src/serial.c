@@ -605,9 +605,7 @@ int serial_init(const trap_t * trap_list)
 	p->flushf = (void (*)(vdrive_t *, unsigned int)) NULL;
     }
 
-#ifdef HAVE_PRINTER
     prdevice_late_init();
-#endif
 
     return 0;
 }

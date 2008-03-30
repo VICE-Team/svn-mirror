@@ -64,9 +64,6 @@
 /* Do we want to enable RS232 support via ACIA emulation?  */
 //#define HAVE_RS232 1
 
-/* Do we want to enable Printer support?  */
-//#define HAVE_PRINTER 1
-
 /* Do we want to enable the ReSID code support?  */
 #if defined __X64__ || defined __X128__ || defined __XCBM__
 #define HAVE_RESID            1

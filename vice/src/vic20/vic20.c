@@ -49,6 +49,9 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mon.h"
+#include "prdevice.h"
+#include "print.h"
+#include "pruser.h"
 #include "resources.h"
 #include "screenshot.h"
 #include "serial.h"
@@ -67,12 +70,6 @@
 #include "vic20ui.h"
 #include "vic20via.h"
 #include "vsync.h"
-
-#ifdef HAVE_PRINTER
-#include "print.h"
-#include "prdevice.h"
-#include "pruser.h"
-#endif
 
 #ifdef HAVE_RS232
 #include "rs232.h"
@@ -177,11 +174,9 @@ int machine_init_resources(void)
         || rs232_init_resources() < 0
         || rsuser_init_resources() < 0
 #endif
-#ifdef HAVE_PRINTER
         || print_init_resources() < 0
         || prdevice_init_resources() < 0
         || pruser_init_resources() < 0
-#endif
         || kbd_init_resources() < 0
         || drive_init_resources() < 0
         || datasette_init_resources() < 0
@@ -204,11 +199,9 @@ int machine_init_cmdline_options(void)
         || rs232_init_cmdline_options() < 0
         || rsuser_init_cmdline_options() < 0
 #endif
-#ifdef HAVE_PRINTER
         || print_init_cmdline_options() < 0
         || prdevice_init_cmdline_options() < 0
         || pruser_init_cmdline_options() < 0
-#endif
         || kbd_init_cmdline_options() < 0
         || drive_init_cmdline_options() < 0
         || datasette_init_cmdline_options() < 0
@@ -245,10 +238,8 @@ int machine_init(void)
     vic20_rsuser_init();
 #endif
 
-#ifdef HAVE_PRINTER
     /* initialize print devices.  */
     print_init();
-#endif
 
     /* Initialize the tape emulation.  */
     tape_init(0xb2, 0x90, 0x93, 0x29f, 0, 0xc1, 0xae, 0x277, 0xc6,
@@ -324,9 +315,7 @@ void machine_reset(void)
     rs232_reset();
     rsuser_reset();
 #endif
-#ifdef HAVE_PRINTER
     print_reset();
-#endif
     autostart_reset();
     drive_reset();
     datasette_reset();

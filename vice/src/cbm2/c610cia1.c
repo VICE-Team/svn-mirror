@@ -103,10 +103,8 @@ void cia1_set_ieee_dir(int isout)
 
 static inline void do_reset_cia(void)
 {
-#ifdef HAVE_PRINTER
     pruser_write_strobe(1);
     pruser_write_data(0xff);
-#endif
 }
 
 static inline void pulse_ciapc(CLOCK rclk) { }
@@ -129,11 +127,9 @@ static inline void undump_ciapb(CLOCK rclk, BYTE b) {}
 
 static inline void store_ciapb(CLOCK rclk, BYTE byte)
 {
-#ifdef HAVE_PRINTER
     pruser_write_data(byte);
     pruser_write_strobe(0);
     pruser_write_strobe(1);
-#endif
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -174,13 +170,10 @@ static inline void read_ciaicr(void) {}
 
 #include "ciacore.c"
 
-#ifdef HAVE_PRINTER
 void pruser_set_busy(int flank)
 {
     if(!flank) {
         cia1_set_flag();
     }
 }
-#endif
-
 

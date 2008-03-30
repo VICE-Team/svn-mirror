@@ -62,14 +62,12 @@
 #include "kbd.h"
 #include "keyboard.h"
 #include "maincpu.h"
+#include "pruser.h"
 #include "types.h"
 #include "viacore.h"
 #include "vic20iec.h"
 #include "vic20via.h"
 
-#ifdef HAVE_PRINTER
-#include "pruser.h"
-#endif
 #ifdef HAVE_RS232
 #include "rsuser.h"
 #endif
@@ -103,16 +101,12 @@ inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
 
 static void undump_prb(BYTE byte)
 {
-#ifdef HAVE_PRINTER
     pruser_write_data(byte);
-#endif
 }
 
 inline static void store_prb(BYTE byte, BYTE myoldpb, ADDRESS addr)
 {
-#ifdef HAVE_PRINTER
     pruser_write_data(byte);
-#endif
 #ifdef HAVE_RS232
     rsuser_write_ctrl(byte);
 #endif
@@ -126,10 +120,8 @@ static void res_via(void)
 {
 /*    iec_pa_write(0xff);*/
 
-#ifdef HAVE_PRINTER
     pruser_write_data(0xff);
     pruser_write_strobe(1);
-#endif
 #ifdef HAVE_RS232
     rsuser_write_ctrl(0xff);
     rsuser_set_tx_bit(1);
@@ -155,9 +147,7 @@ inline static BYTE store_pcr(BYTE byte, ADDRESS addr)
 	    rsuser_set_tx_bit(byte & 0x20);
 	}
 #endif
-#ifdef HAVE_PRINTER
 	pruser_write_strobe(byte & 0x20);
-#endif
     }
     return byte;
 }
@@ -224,12 +214,10 @@ inline static BYTE read_prb(void)
     return byte;
 }
 
-#ifdef HAVE_PRINTER
 void pruser_set_busy(int b)
 {
     via2_signal(VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
-#endif
 
 #include "viacore.c"
 
