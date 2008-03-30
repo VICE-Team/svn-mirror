@@ -1210,6 +1210,7 @@ void video_canvas_destroy(video_canvas_t *s)
     s->current_palette = NULL;
   }
 
+  video_canvas_shutdown(s);
   free(s);
 }
 

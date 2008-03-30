@@ -1917,6 +1917,7 @@ void video_canvas_destroy(video_canvas_t *c)
     // Free title and canvas structure
     //
     free(c->title);
+    video_canvas_shutdown(c);
     free(c);
 
     //    DosReleaseMutexSem(hmtx);

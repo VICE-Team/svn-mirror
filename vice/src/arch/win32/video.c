@@ -691,6 +691,8 @@ error:
 /* Destroy `s'.  */
 void video_canvas_destroy(video_canvas_t *canvas)
 {
+    video_canvas_shutdown(canvas);
+
     if (canvas != NULL) {
         if (canvas->hwnd !=0) {
             DestroyWindow(canvas->hwnd);

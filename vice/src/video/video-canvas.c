@@ -26,6 +26,9 @@
 
 #include "vice.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "machine.h"
 #include "types.h"
 #include "utils.h"
@@ -55,6 +58,16 @@ video_canvas_t *video_canvas_init(void)
     video_arch_canvas_init(canvas);
 
     return canvas;
+}
+
+void video_canvas_shutdown(video_canvas_t *canvas)
+{
+    if (canvas != NULL) {
+        free(canvas->videoconfig);
+        free(canvas->draw_buffer);
+        free(canvas->viewport);
+        free(canvas->geometry);
+    }
 }
 
 void video_canvas_render(video_canvas_t *canvas, BYTE *trg, int width,
