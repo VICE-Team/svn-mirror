@@ -2,15 +2,15 @@
  * vdrive-bam.c - Virtual disk-drive implementation. BAM specific functions.
  *
  * Written by
- *  Andreas Boose       <boose@linux.rz.fh-hannover.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * Based on old code by
- *  Teemu Rantanen      <tvr@cs.hut.fi>
- *  Jarkko Sonninen     <sonninen@lut.fi>
- *  Jouko Valta         <jopi@stekt.oulu.fi>
- *  Olaf Seibert        <rhialto@mbfys.kun.nl>
- *  André Fachat        <a.fachat@physik.tu-chemnitz.de>
- *  Ettore Perazzoli    <ettore@comm2000.it>
+ *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Jarkko Sonninen <sonninen@lut.fi>
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Olaf Seibert <rhialto@mbfys.kun.nl>
+ *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *  Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -382,7 +382,7 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, BYTE *id)
 
         memset(vdrive->bam + vdrive->bam_name, 0xa0,
                (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581) ? 25 : 27);
-        mystrncpy(vdrive->bam + vdrive->bam_name, (BYTE *)name + 1, 16);
+        mystrncpy(vdrive->bam + vdrive->bam_name, (BYTE *)name, 16);
         mystrncpy(vdrive->bam + vdrive->bam_id, id, 2);
     }
 
@@ -424,7 +424,7 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, BYTE *id)
         /* byte 3-5 unused */
         /* bytes 6- disk name + id + version */
         memset(vdrive->bam + vdrive->bam_name, 0xa0, 27);
-        mystrncpy(vdrive->bam + vdrive->bam_name, (BYTE *)name + 1, 16);
+        mystrncpy(vdrive->bam + vdrive->bam_name, (BYTE *)name, 16);
         mystrncpy(vdrive->bam + vdrive->bam_id, id, 2);
         vdrive->bam[BAM_VERSION_8050] = 50;
         vdrive->bam[BAM_VERSION_8050 + 1] = 67;
