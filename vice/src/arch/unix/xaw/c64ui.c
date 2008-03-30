@@ -136,7 +136,7 @@ static ui_menu_entry_t vic_submenu[] = {
     { "*Sprite-sprite collisions",
       (ui_callback_t) toggle_CheckSsColl, NULL, NULL },
     { "*Sprite-background collisions",
-      (ui_callback_t) toggle_CheckSsColl, NULL, NULL },
+      (ui_callback_t) toggle_CheckSbColl, NULL, NULL },
     { "--",
       NULL, NULL, NULL },
     { "Color set",
