@@ -43,7 +43,6 @@
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
-#include "misc.h"
 #include "mon.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -92,13 +91,13 @@
 
 /* Print a message whenever a program attempts to execute instructions fetched
    from the I/O area.  */
-#undef IO_AREA_WARNING
+# undef IO_AREA_WARNING
 
 /* Run without interpreting opcodes (just fetch them from memory).  */
-#undef NO_OPCODES
+# undef NO_OPCODES
 
 /* Do not handle CPU alarms, but measure speed instead.  */
-#undef EVALUATE_SPEED
+#  undef EVALUATE_SPEED
 
 /* Use a global variable for Program Counter.  This makes it slower, but also
    makes debugging easier.  This is needed by the VIC-II emulation, so avoid
@@ -276,9 +275,11 @@ monitor_interface_t maincpu_monitor_interface = {
 
 
 
+#ifdef EVALUATE_SPEED
+
 #include <sys/time.h>
 
-#  define EVALUATE_INTERVAL	10000000L
+#define EVALUATE_INTERVAL	10000000L
 
 #ifdef WIN32
 #undef BYTE
@@ -303,11 +304,10 @@ inline static void evaluate_speed(unsigned long clk)
         diff_time=current_time-old_time;
         diff_sec=diff_time/1000.0;
 	if (old_clk)
-	    log_message (LOG_DEFAULT,
-                         "%ld cycles in %f seconds: %f%% speed.",
-                         clk - old_clk, diff_sec,
-                         100.0 * (((double)(clk - old_clk)
-                                   / diff_sec) / 1108405.0));
+	    log_debug ("%ld cycles in %f seconds: %f%% speed\n",
+		    clk - old_clk, diff_sec,
+		    100.0 * (((double)(clk - old_clk)
+			      / diff_sec) / 1108405.0));
 	old_clk = clk;
 	next_clk = old_clk + EVALUATE_INTERVAL;
 	old_time = current_time;
@@ -326,23 +326,24 @@ inline static void evaluate_speed(unsigned long clk)
 	current_time = (double)tv.tv_sec + ((double)tv.tv_usec) / 1000000.0;
 
 	if (old_clk)
-	    log_message (LOG_DEFAULT,
-                         "%ld cycles in %f seconds: %f%% speed.",
-                         clk - old_clk, current_time - old_time,
-                         100.0 * (((double)(clk - old_clk)
-                                   / (current_time - old_time)) / 1108405.0));
+	    fprintf (logfile, "%ld cycles in %f seconds: %f%% speed\n",
+		    clk - old_clk, current_time - old_time,
+		    100.0 * (((double)(clk - old_clk)
+			      / (current_time - old_time)) / 1108405.0));
 
 	old_clk = clk;
 	next_clk = old_clk + EVALUATE_INTERVAL;
 	old_time = current_time;
     }
 #else
-    /* Sorry can't evaluate performance */
+    /* Sorry, can't evaluate performance.  */
     return;
 #endif
 #endif
 }
 
+#endif /* EVALUATE_SPEED */
+ 
 
 /* ------------------------------------------------------------------------- */
 
@@ -392,11 +393,9 @@ void mainloop(ADDRESS start_address)
 #endif
 
 
-
 #ifdef INSTRUCTION_FETCH_HACK
     BYTE *bank_base;
 #endif
-
 
     reset();
 
@@ -410,19 +409,16 @@ void mainloop(ADDRESS start_address)
     while (1) {
 
 
-
 #ifdef EVALUATE_SPEED
-	evaluate_speed(clk);
+    evaluate_speed(clk);
 #endif /* !EVALUATE_SPEED */
 
 #ifdef IO_AREA_WARNING
-	if (!bank_base)
-	    log_warning (LOG_DEFAULT,
-                         "Executing from I/O area at $%04X: "
-                         "$%02X $%02X $%04X at clk %ld.",
-                         reg_pc, p0, p1, p2, clk);
+    if (!bank_base)
+        log_debug ("Main CPU: Executing from I/O area at $%04X: "
+                   "$%02X $%02X $%04X at clk %ld\n",
+                   reg_pc, p0, p1, p2, clk);
 #endif
-
 
 #ifdef NO_OPCODES
 
