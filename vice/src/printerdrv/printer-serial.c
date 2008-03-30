@@ -30,12 +30,12 @@
 #include "printer.h"
 
 
-int printer_interface_serial_init_resources(void)
+int printer_serial_init_resources(void)
 {
     return interface_serial_init_resources();
 }
 
-int printer_interface_serial_init_cmdline_options(void)
+int printer_serial_init_cmdline_options(void)
 {
     return interface_serial_init_cmdline_options();
 }
@@ -45,7 +45,17 @@ void printer_serial_init(void)
     interface_serial_init();
 }
 
-void printer_serial_interface_shutdown(void)
+int printer_serial_late_init(void)
+{
+    return interface_serial_late_init();
+}
+
+int printer_serial_close(unsigned int unit)
+{
+    return interface_serial_close(unit);
+}
+
+void printer_serial_shutdown(void)
 {
     interface_serial_shutdown();
 }
