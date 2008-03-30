@@ -95,6 +95,8 @@ typedef struct mos6510_regs_s {
     ((regs)->reg_sp)
 #define MOS6510_REGS_GET_PC(regs) \
     ((regs)->reg_pc)
+#define MOS6510_REGS_GET_FLAGS(regs) \
+    ((regs)->reg_p)
 #define MOS6510_REGS_GET_OVERFLOW(regs) \
     ((regs)->reg_p & P_OVERFLOW)
 #define MOS6510_REGS_GET_BREAK(regs) \

@@ -56,7 +56,8 @@ enum t_reg_id {
    e_X,
    e_Y,
    e_PC,
-   e_SP
+   e_SP,
+   e_FLAGS
 };
 typedef enum t_reg_id REG_ID;
 
@@ -294,6 +295,7 @@ extern void mon_display_io_regs(void);
 
 extern unsigned int mon_get_reg_val(MEMSPACE mem, REG_ID reg_id);
 extern void mon_set_reg_val(MEMSPACE mem, REG_ID reg_id, WORD val);
+unsigned char mon_get_mem_val(MEMSPACE mem, unsigned mem_addr);
 extern void mon_print_registers(MEMSPACE mem);
 extern void mon_jump(MON_ADDR addr);
 
@@ -322,5 +324,7 @@ extern void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem);
 
 extern const char *mon_disassemble_to_string(ADDRESS addr, BYTE x, BYTE p1,
                                              BYTE p2, int hex_mode);
+extern const char *mon_disassemble_to_string_ex(ADDRESS addr, BYTE x, BYTE p1,
+                                             BYTE p2, int hex_mode, unsigned *len);
 
 #endif

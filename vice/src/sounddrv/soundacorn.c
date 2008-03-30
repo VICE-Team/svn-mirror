@@ -57,6 +57,9 @@ SWORD *VIDCSampleBuffer;
 static int SndTimerActive = 0;
 static int buffersize;
 
+/* maximum size of DMA buffer */
+static int MaxBufferSize = 0;
+
 static int timerPeriod = 0;
 
 
@@ -73,14 +76,57 @@ void sound_get_vidc_frequency(int *speed, int *period)
 }
 
 
+/* configure sound, taking into account that the desire buffer size may
+   not be available (the limit seems to be 512 bytes) */
+static int sound_configure_vidc(int *speed, int *fragsize, int *fragnr, int sync)
+{
+  _kernel_oserror *err;
+  int period;
+
+  if (*fragsize > MaxBufferSize)
+  {
+    int channels, slength, speriod;
+    int oldenable;
+    int oldslength;
+
+    oldenable = Sound_Enable(1);
+    channels = 0; slength = *fragsize; speriod = 0;
+    Sound_Configure(&channels, &slength, &speriod);
+    oldslength = slength;
+    while (*fragsize > slength)
+    {
+      *fragsize >>= 1; *fragnr <<= 1;
+      channels = 0; slength = *fragsize; speriod = 0;
+      Sound_Configure(&channels, &slength, &speriod);
+    }
+    /* reinstate previous settings */
+    channels = 0; speriod = 0;
+    Sound_Configure(&channels, &oldslength, &speriod);
+    Sound_Enable(oldenable);
+    MaxBufferSize = *fragsize;
+  }
+
+  *fragsize = (*fragsize + 15) & ~15;
+
+  /* adapt sample speed */
+  sound_get_vidc_frequency(speed, &period);
+  DigitalRenderer_NumBuffers((sync == 0) ? 0 : *fragnr);
+  if ((err = DigitalRenderer_Activate(1, *fragsize, period)) != NULL)
+  {
+    log_error(vidc_log, err->errmess);
+    return -1;
+  }
+  buffersize = *fragsize;
+
+  return 0;
+}
+
+
 /*
  *  Asynchronous sound device code
  */
 static int init_vidc_device(const char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
 {
-  _kernel_oserror *err;
-  int period;
-
   if ((DigitalRenderer_ReadState() & DRState_Active) != 0)
     return 1;
 
@@ -94,16 +140,8 @@ static int init_vidc_device(const char *device, int *speed, int *fragsize, int *
     }
   }
 
-  *fragsize = (*fragsize + 15) & ~15;
-  buffersize = *fragsize;
-  /* adapt sample speed */
-  sound_get_vidc_frequency(speed, &period);
-  DigitalRenderer_NumBuffers(0);
-  if ((err = DigitalRenderer_Activate(1, buffersize, period)) != NULL)
-  {
-    log_error(vidc_log, err->errmess);
+  if (sound_configure_vidc(speed, fragsize, fragnr, 0) != 0)
     return 1;
-  }
 
   if ((VIDCSampleBuffer = (SWORD*)xmalloc(buffersize*sizeof(SWORD))) == NULL)
   {
@@ -278,23 +316,11 @@ void sound_wimp_safe_exit(void)
 
 static int init_vidc_sync_device(const char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
 {
-  _kernel_oserror *err;
-  int period;
-
   if ((DigitalRenderer_ReadState() &DRState_Active) != 0)
     return 1;
 
-  *fragsize = (*fragsize + 15) &~ 15;
-  buffersize = *fragsize;
-  /* adapt sample speed */
-  sound_get_vidc_frequency(speed, &period);
-
-  DigitalRenderer_NumBuffers(*fragnr);
-  if ((err = DigitalRenderer_Activate(1, buffersize, period)) != NULL)
-  {
-    log_error(vidc_log, err->errmess);
+  if (sound_configure_vidc(speed, fragsize, fragnr, 1) != 0)
     return 1;
-  }
 
   /* unthreaded sound */
   SoundThreadActive = 0;

@@ -47,6 +47,7 @@ libarch_a_SOURCES = \
 	uidummy.c \
 	uiimage.c \
 	uiimage.h \
+	uimon.c \
 	uimsgwin.c \
 	uimsgwin.h \
 	vic20ui.c \

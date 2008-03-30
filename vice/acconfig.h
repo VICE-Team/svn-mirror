@@ -1,3 +1,6 @@
+/* Define if we want to use aRts */
+#undef USE_ARTS
+
 /* Define to your X11 display depth.  */
 #undef X_DISPLAY_DEPTH
 

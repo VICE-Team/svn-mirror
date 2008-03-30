@@ -77,6 +77,7 @@ libarch_a_SOURCES = \
 	uiattach.c \
 	uicmdline.c \
 	uicmdline.h \
+	uimon.c \
 	uisnapshot.c \
 	uisnapshot.h \
 	vic20kbd.c \

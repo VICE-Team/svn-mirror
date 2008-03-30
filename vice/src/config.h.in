@@ -43,6 +43,9 @@
 /* Define if lex declares yytext as a char * by default, not a char[].  */
 #undef YYTEXT_POINTER
 
+/* Define if we want to use aRts */
+#undef USE_ARTS
+
 /* Define to your X11 display depth.  */
 #undef X_DISPLAY_DEPTH
 
@@ -268,6 +271,9 @@
 
 /* Define if you have the UMSobj library (-lUMSobj).  */
 #undef HAVE_LIBUMSOBJ
+
+/* Define if you have the artsc library (-lartsc).  */
+#undef HAVE_LIBARTSC
 
 /* Define if you have the audio library (-laudio).  */
 #undef HAVE_LIBAUDIO

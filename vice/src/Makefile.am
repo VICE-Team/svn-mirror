@@ -105,6 +105,7 @@ noinst_HEADERS = \
 	traps.h \
 	uiapi.h \
 	uicolor.h \
+	uimon.h \
 	usleep.h \
 	utils.h \
 	version.h.in \

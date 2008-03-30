@@ -70,6 +70,7 @@
 #include "mos6510.h"
 #include "resources.h"
 #include "types.h"
+#include "uimon.h"
 #include "utils.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
@@ -94,7 +95,7 @@ static int stop_output;
 #define ADDR_LIMIT(x) (LO16(x))
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 
-#define GET_OPCODE(mem) (get_mem_val(mem, mon_get_reg_val(mem, e_PC)))
+#define GET_OPCODE(mem) (mon_get_mem_val(mem, mon_get_reg_val(mem, e_PC)))
 
 console_t *console_log = NULL;
 
@@ -494,19 +495,13 @@ static const char *cond_op_string[] = { "",
                                        };
 
 
-static int default_display_number[] = {128, /* default = hex */
-                                       128, /* hexadecimal */
-                                       80, /* decimal */
-                                       40, /* octal */
-                                       24, /* binary */
+static int radix_chars_per_byte[] = { 2, /* default = hex */
+                                      2, /* hexadecimal */
+                                      3, /* decimal */
+                                      3, /* octal */
+                                      8, /* binary */
                                       };
 
-static int default_display_per_line[] = { 16, /* default = hex */
-                                          16, /* hexadecimal */
-                                          8, /* decimal */
-                                          8, /* octal */
-                                          3, /* binary */
-                                        };
 
 static const char *memspace_string[] = {"default", "C", "8", "9" };
 
@@ -698,7 +693,7 @@ void mon_bank(MEMSPACE mem, char *bankname)
     }
 }
 
-static unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr)
+unsigned char mon_get_mem_val(MEMSPACE mem, unsigned mem_addr)
 {
    int bank = mon_interfaces[mem]->current_bank;
 
@@ -757,6 +752,8 @@ unsigned int mon_get_reg_val(MEMSPACE mem, REG_ID reg_id)
         return MOS6510_REGS_GET_PC(reg_ptr);
       case e_SP:
         return MOS6510_REGS_GET_SP(reg_ptr);
+      case e_FLAGS:
+        return MOS6510_REGS_GET_FLAGS(reg_ptr);
       default:
         assert(FALSE);
     }
@@ -828,7 +825,7 @@ void mon_print_registers(MEMSPACE mem)
                 mon_get_reg_val(mem, e_X),
                 mon_get_reg_val(mem, e_Y),
                 mon_get_reg_val(mem, e_SP),
-                get_mem_val(mem, 1),
+                mon_get_mem_val(mem, 1),
                 TEST(MOS6510_REGS_GET_SIGN(regs)),
                 TEST(MOS6510_REGS_GET_OVERFLOW(regs)),
                 '1',
@@ -922,7 +919,7 @@ static void memory_to_string(char *buf, MEMSPACE mem, ADDRESS addr, unsigned len
     int i, val;
 
     for (i=0;i<len;i++) {
-       val = get_mem_val(mem, addr);
+       val = mon_get_mem_val(mem, addr);
 
        if (petscii)
           buf[i] = p_toascii(val,0);
@@ -1190,6 +1187,12 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
 const char *mon_disassemble_to_string(ADDRESS addr,
                                       BYTE x, BYTE p1, BYTE p2, int hex_mode)
 {
+    return mon_disassemble_to_string_ex(addr,x,p1,p2,hex_mode,NULL);
+}
+
+const char *mon_disassemble_to_string_ex(ADDRESS addr, BYTE x, BYTE p1,
+                                             BYTE p2, int hex_mode, unsigned *opc_size_p)
+{
     static char buff[256];
     const char *string;
     char *buffp, *addr_name;
@@ -1206,6 +1209,9 @@ const char *mon_disassemble_to_string(ADDRESS addr,
     string = opinfo->mnemonic;
     addr_mode = opinfo->addr_mode;
     opc_size = asm_addr_mode_get_size(addr_mode);
+
+    if (opc_size_p)
+        *opc_size_p = opc_size;
 
     switch (opc_size) {
       case 1:
@@ -1327,13 +1333,14 @@ static unsigned disassemble_instr(MON_ADDR addr)
    unsigned loc;
    int hex_mode = 1;
    char *label;
+   unsigned opc_size;
 
    mem = addr_memspace(addr);
    loc = addr_location(addr);
 
-   op = get_mem_val(mem, loc);
-   p1 = get_mem_val(mem, loc+1);
-   p2 = get_mem_val(mem, loc+2);
+   op = mon_get_mem_val(mem, loc);
+   p1 = mon_get_mem_val(mem, loc+1);
+   p2 = mon_get_mem_val(mem, loc+2);
 
    /* Print the label for this location - if we have one */
    label = mon_symbol_table_lookup_name(mem, loc);
@@ -1343,9 +1350,9 @@ static unsigned disassemble_instr(MON_ADDR addr)
 
    /* Print the disassembled instruction */
    console_out(console_log, ".%s:%04x   %s\n",memspace_string[mem],loc,
-               mon_disassemble_to_string(loc, op, p1, p2, hex_mode));
+               mon_disassemble_to_string_ex(loc, op, p1, p2, hex_mode,&opc_size));
 
-   return asm_addr_mode_get_size(asm_opcode_info_get(op)->addr_mode);
+   return opc_size; // asm_addr_mode_get_size(asm_opcode_info_get(op)->addr_mode);
 }
 
 void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
@@ -1388,7 +1395,7 @@ void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x, int y)
       for(i=0;i<y;i++) {
          console_out(console_log, ">%s:%04x ",memspace_string[mem],addr);
          for(j=0; j < (x / 8); j++) {
-            print_bin(get_mem_val(mem,ADDR_LIMIT(addr+j)),'.','*');
+            print_bin(mon_get_mem_val(mem,ADDR_LIMIT(addr+j)),'.','*');
             cnt++;
          }
          console_out(console_log, "\n");
@@ -1409,15 +1416,28 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
    ADDRESS addr=0;
    char printables[50];
    MEMSPACE mem;
-
-   len = evaluate_address_range(&start_addr, &end_addr, FALSE, default_display_number[radix_type]);
-   mem = addr_memspace(start_addr);
-   addr = addr_location(start_addr);
+   int display_number;
 
    if (radix_type)
-      max_width = default_display_per_line[radix_type];
+   {
+      if (radix_type != e_hexadecimal)
+          max_width = (console_log->console_xres-12) / (radix_chars_per_byte[radix_type]+2); 
+      else
+          max_width = (4*(console_log->console_xres-12)) / (4*(radix_chars_per_byte[radix_type]+2)+1); 
+      
+      max_width &= ~3;
+
+      display_number = max_width * ((console_log->console_yres-6)/2);
+   }
    else
+   {
       max_width = 40;
+      display_number = 128;
+   }
+
+   len = evaluate_address_range(&start_addr, &end_addr, FALSE, display_number);
+   mem = addr_memspace(start_addr);
+   addr = addr_location(start_addr);
 
    while (cnt < len) {
       console_out(console_log, ">%s:%04x ",memspace_string[mem],addr);
@@ -1425,7 +1445,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
          switch(radix_type) {
             case 0: /* special case == petscii text */
                console_out(console_log, "%c",
-                           p_toascii(get_mem_val(mem, ADDR_LIMIT(addr+i)), 1));
+                           p_toascii(mon_get_mem_val(mem, ADDR_LIMIT(addr+i)), 1));
                real_width++;
                cnt++;
                break;
@@ -1433,7 +1453,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
                memset(printables,0,50);
                if (cnt < len) {
                   console_out(console_log, "%3d ",
-                              get_mem_val(mem, ADDR_LIMIT(addr+i)));
+                              mon_get_mem_val(mem, ADDR_LIMIT(addr+i)));
                   real_width++;
                   cnt++;
                }
@@ -1443,10 +1463,10 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
             case e_hexadecimal:
                memset(printables,0,50);
                if (cnt < len) {
-		  if(!(cnt%4))
+                  if(!(cnt%4))
                       console_out(console_log, " ");
                   console_out(console_log, "%02x ",
-                              get_mem_val(mem, ADDR_LIMIT(addr+i)));
+                              mon_get_mem_val(mem, ADDR_LIMIT(addr+i)));
                   real_width++;
                   cnt++;
                }
@@ -1457,7 +1477,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
                memset(printables,0,50);
                if (cnt < len) {
                   console_out(console_log, "%03o ",
-                              get_mem_val(mem, ADDR_LIMIT(addr+i)));
+                              mon_get_mem_val(mem, ADDR_LIMIT(addr+i)));
                   real_width++;
                   cnt++;
                }
@@ -1467,7 +1487,7 @@ void mon_display_memory(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr)
             case e_binary:
                memset(printables,0,50);
                if (cnt < len) {
-                  print_bin(get_mem_val(mem, ADDR_LIMIT(addr+i)),'1','0');
+                  print_bin(mon_get_mem_val(mem, ADDR_LIMIT(addr+i)),'1','0');
                   console_out(console_log, " ");
                   real_width++;
                   cnt++;
@@ -1502,7 +1522,7 @@ void mon_display_screen(void) {
    mem_get_screen_parameter(&base, &rows, &cols);
    for (r=0;r<rows;r++) {
       for (c=0;c<cols;c++) {
-         console_out(console_log, "%c",p_toascii(get_mem_val(e_comp_space,
+         console_out(console_log, "%c",p_toascii(mon_get_mem_val(e_comp_space,
                  ADDR_LIMIT(base++)),1));
       }
       console_out(console_log, "\n");
@@ -1556,7 +1576,7 @@ void mon_move_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
   buf = (BYTE *) xmalloc(sizeof(BYTE) * len);
 
   for (i=0; i<len; i++)
-     buf[i] = get_mem_val(src_mem, ADDR_LIMIT(start+i));
+     buf[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(start+i));
 
   for (i=0; i<len; i++)
      set_mem_val(dest_mem, ADDR_LIMIT(dst+i), buf[i]);
@@ -1584,8 +1604,8 @@ void mon_compare_memory(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
   dest_mem = addr_memspace(dest);
 
   for (i=0; i<len; i++) {
-     byte1 = get_mem_val(src_mem, ADDR_LIMIT(start+i));
-     byte2 = get_mem_val(dest_mem, ADDR_LIMIT(dst+i));
+     byte1 = mon_get_mem_val(src_mem, ADDR_LIMIT(start+i));
+     byte2 = mon_get_mem_val(dest_mem, ADDR_LIMIT(dst+i));
 
      if (byte1 != byte2)
         console_out(console_log, "$%04x $%04x: %02x %02x\n",
@@ -1648,7 +1668,7 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
 
   /* Fill buffer */
   for (i = 0; i < data_buf_len; i++)
-     buf[i] = get_mem_val(mem, ADDR_LIMIT(start+i));
+     buf[i] = mon_get_mem_val(mem, ADDR_LIMIT(start+i));
 
   /* Do compares */
   next_read = start + data_buf_len;
@@ -1659,7 +1679,7 @@ void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
 
      if (data_buf_len > 1)
         memmove(&(buf[0]), &(buf[1]), data_buf_len - 1);
-     buf[data_buf_len-1] = get_mem_val(mem, next_read);
+     buf[data_buf_len-1] = mon_get_mem_val(mem, next_read);
    }
 
   clear_buffer();
@@ -1777,7 +1797,7 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool 
         do {
             unsigned char save_byte;
 
-            save_byte = get_mem_val(mem, adr + ch);
+            save_byte = mon_get_mem_val(mem, adr + ch);
             if(fwrite((char *)&save_byte, 1, 1, fp) < 1) {
                 console_out(console_log, "Saving for `%s' failed: %s.\n",
                             filename, strerror(errno));
@@ -2257,7 +2277,7 @@ void mon_block_cmd(int op, int track, int sector, MON_ADDR addr)
         src_mem = addr_memspace(addr);
 
         for (i = 0; i < 256; i++)
-            writedata[i] = get_mem_val(src_mem, ADDR_LIMIT(src+i));
+            writedata[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(src+i));
 
         if (disk_image_write_sector(floppy->image, writedata, track, sector)) {
             console_out(console_log, "Error writing track %d sector %d\n",
@@ -2995,9 +3015,13 @@ void mon_open(ADDRESS a)
     char prompt[40];
 
     if (mon_console_close_on_leaving)
-        console_log = console_open("Monitor");
+        console_log = arch_mon_window_open(); // @SRT console_open("Monitor");
     else
+    {
+        console_log = arch_mon_window_resume(); // @SRT
         mon_console_close_on_leaving = 1;
+    }
+
 
     old_handler = signal(SIGINT, handle_abort);
 
@@ -3102,7 +3126,14 @@ void mon_close(int check)
 		mon_console_close_on_leaving = 1;
 
 	if (mon_console_close_on_leaving)
-		console_close(console_log);
+    {
+//		console_close(console_log); // @SRT
+        arch_mon_window_close();
+    }
+    else
+    {
+        arch_mon_window_suspend();
+    }
 }
 
 

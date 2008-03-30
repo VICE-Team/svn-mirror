@@ -73,6 +73,7 @@ libarch_a_SOURCES = \
 	uijoystick.h \
 	uilib.c \
 	uilib.h \
+	uimon.c \
 	uipetset.c \
 	uipetset.h \
 	uisnapshot.h \
@@ -126,6 +127,7 @@ EXTRA_DIST = \
 	xpet.dsp \
 	xvic.dsp \
 	vice.dsw \
+        montb.bmp \
         c64.ico 
 
 resc128.o : resc128.rc res.rc res.h

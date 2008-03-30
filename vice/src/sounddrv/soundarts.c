@@ -59,6 +59,9 @@ static int artsdrv_fragnr;
 static double artsdrv_bufsize;
 static int artsdrv_lastbs=0;
 static int artsdrv_suspended=0;
+/*
+ * static int artsdrv_bs=0;
+*/
 
 static int artsdrv_bufferstatus(int first);
 
@@ -97,7 +100,8 @@ static int artsdrv_init(const char *param, int *speed,
     artsdrv_speed=*speed;
     artsdrv_fragsize=*fragsize;
     artsdrv_fragnr=*fragnr;
-    artsdrv_bufsize=(*fragsize)*(*fragnr);
+    artsdrv_bufsize=arts_stream_get(arts_st,ARTS_P_BUFFER_SIZE);
+/*    artsdrv_bs=artsdrv_bufsize;*/
     return 0;
 }
 
@@ -109,17 +113,7 @@ static int artsdrv_write(SWORD *pbuf, size_t nr)
 
 static int artsdrv_bufferstatus(int first)
 {
-int d;
-
-    if (artsdrv_suspended == 0) {
-        d=arts_stream_get(arts_st,ARTS_P_BUFFER_SIZE);
-        d=((artsdrv_bufsize)-arts_stream_get(arts_st,ARTS_P_BUFFER_SPACE));
-        if (d < 0) d=-d;
-        artsdrv_lastbs=d;
-    } else {
-        d=artsdrv_lastbs;
-    };
-    return d;
+    return arts_stream_get(arts_st,ARTS_P_BUFFER_SPACE)/sizeof(SWORD);
 }
 
 static void artsdrv_close(void)
@@ -129,6 +123,12 @@ static void artsdrv_close(void)
     arts_free();
 }
 
+
+/*
+** As the aRts C API doesn't support a DSP_SNDCTL_POST equivalent
+** function, i tried to emulate but apparently its not needed so
+** i don't use them.
+*/
 static int artsdrv_suspend(void)
 {
 
@@ -144,7 +144,6 @@ static int artsdrv_suspend(void)
 
 int artsdrv_resume(void)
 {
-
     if (artsdrv_suspended==1) {
         arts_st=arts_play_stream(artsdrv_speed,artsdrv_bits,1,"vice");
         arts_stream_set(arts_st,ARTS_P_BUFFER_SIZE,artsdrv_bufsize*sizeof(SWORD));
@@ -163,7 +162,7 @@ static sound_device_t artsdrv_device =
     artsdrv_bufferstatus,
     artsdrv_close,
     NULL,//artsdrv_suspend,
-    NULL//artsdrv_resume
+    NULL //artsdrv_resume
 };
 
 int sound_init_arts_device(void)

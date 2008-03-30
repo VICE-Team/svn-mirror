@@ -33,8 +33,9 @@
 #define IDR_MENUVIC                     103
 #define IDR_MENUPET                     104
 #define IDR_MENUCBM2                    105
-
-#define IDI_ICON1                       106
+#define IDR_MENUMONITOR                 106
+#define IDR_MONTOOLBAR                  107
+#define IDI_ICON1                       108
 
 #define IDD_ABOUT                       109
 #define IDC_ABOUT_VERSION               1002
@@ -353,5 +354,7 @@
 #define IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT	40199
 #define IDM_TOGGLE_FULLSCREEN		40200
 #define IDM_TOGGLE_CONFIRM_ON_EXIT	40201
+
+#define IDM_WNDCHILD                    45000
 #endif
 

@@ -1,3 +1,13 @@
+2000-09-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.13.
+
+2000-09-27  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* data/c64mem.sym: added symbol file for C64.
+	The "original" file is from White Flame (aka David Holtz), I
+	found it on the net
+
 2000-09-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.12.
