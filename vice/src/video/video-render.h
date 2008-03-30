@@ -28,5 +28,14 @@
 #ifndef _VIDEORENDER_H
 #define _VIDEORENDER_H
 
+#include "types.h"
+
+struct video_render_config_s;
+
+extern void video_render_main(struct video_render_config_s *config, BYTE *src,
+                              BYTE *trg, int width, int height,
+                              int xs, int ys, int xt, int yt,
+                              int pitchs, int pitcht, int depth);
+
 #endif
 
