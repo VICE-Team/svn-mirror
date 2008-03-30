@@ -111,9 +111,14 @@ struct vdc_s {
 
     /* VDC geometry constants that differ in doulbe size mode.  */
     unsigned int screen_height;
+    unsigned int screen_xpix;
     unsigned int screen_ypix;
+    unsigned int first_displayed_line;
     unsigned int last_displayed_line;
+    unsigned int row25_start_line;
     unsigned int row25_stop_line;
+    unsigned int border_height;
+    unsigned int border_width;
     unsigned int raster_ycounter_max;
     unsigned int raster_ycounter_divide;
 
@@ -196,6 +201,9 @@ struct vdc_s {
 
     /* 0..7 pixel y shift.  */
     int ysmooth;
+
+    /* VDC Revision.  */
+    unsigned int revision;
 
     /* VDC raster.  */
     raster_t raster;
