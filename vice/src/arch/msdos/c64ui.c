@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -270,38 +271,42 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
 
 static tui_menu_item_def_t rom_menu_items[] = {
     { "--" },
-    { "Load new _kernal ROM...",
-      "Load new kernal ROM",
+    { "Load new _Kernal ROM...",
+      "Load new Kernal ROM",
       load_rom_file_callback, "KernalName", 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Load new _BASIC ROM...",
       "Load new BASIC ROM",
       load_rom_file_callback, "BasicName", 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Load new _character ROM...",
-      "Load new character ROM",
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Load new Character ROM...",
+      "Load new Character ROM",
       load_rom_file_callback, "ChargenName", 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Load new _1541 ROM...",
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Load new 15_41 ROM...",
       "Load new 1541 ROM",
       load_rom_file_callback, "DosName1541", 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Load new 1541-_II ROM...",
       "Load new 1541-II ROM",
       load_rom_file_callback, "DosName1541ii", 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Load new 15_71 ROM...",
       "Load new 1571 ROM",
       load_rom_file_callback, "DosName1571", 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Load new 15_81 ROM...",
       "Load new 1581 ROM",
       load_rom_file_callback, "DosName1581", 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Load new _2031 ROM...",
       "Load new 2031 ROM",
       load_rom_file_callback, "DosName2031", 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Load new _1001 ROM...",
+      "Load new 1001 ROM",
+      load_rom_file_callback, "DosName1001", 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
 
@@ -313,16 +318,15 @@ int c64_ui_init(void)
 
     tui_menu_add(ui_attach_submenu, attach_cartridge_menu_items);
     tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);
-
     tui_menu_add_separator(ui_video_submenu);
+
     add_palette_submenu(ui_video_submenu);
+
     tui_menu_add(ui_video_submenu, vic_ii_menu_items);
-
     tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
-
     tui_menu_add(ui_special_submenu, special_menu_items);
-/*
     tui_menu_add(ui_rom_submenu, rom_menu_items);
-*/
+
     return 0;
 }
+

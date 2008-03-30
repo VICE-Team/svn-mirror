@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -985,7 +986,10 @@ static tui_menu_item_def_t double_joystick_submenu[] = {
 static TUI_MENU_CALLBACK(set_romset_callback)
 {
     if (been_activated) {
-        romset_load((char *)param);
+        if (romset_load((char *)param) < 0)
+            tui_error("Could not load ROM set '%s'", param);
+        else
+            tui_message("ROM set loaded successfully.");
     }
     return NULL;
 }
@@ -1025,9 +1029,9 @@ static TUI_MENU_CALLBACK(dump_romset_callback)
 static tui_menu_item_def_t rom_submenu[] = {
     { "_Default ROM set",
       "Load default ROM set file",
-      set_romset_callback, NULL, 0,
+      set_romset_callback, "default.vrs", 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_Custom ROM set",
+    { "C_ustom ROM set",
       "Load custom ROM set from a *.vrs file",
       load_romset_callback, NULL, 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
@@ -1534,6 +1538,11 @@ static void create_special_submenu(int has_serial_traps)
                           toggle_NoTraps_callback, NULL, 4,
                           TUI_MENU_BEH_CONTINUE);
 
+    tui_menu_add_item(ui_special_submenu, "_Change Working Directory...",
+                      "Change the current working directory",
+                      change_workdir_callback, NULL, 0,
+                      TUI_MENU_BEH_CONTINUE);
+
     tui_menu_add_separator(ui_special_submenu);
     tui_menu_add_item(ui_special_submenu,
                       "Use _Keyboard LEDs:",
@@ -1675,11 +1684,6 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                              TUI_MENU_BEH_CONTINUE);
     }
 
-    tui_menu_add_item(ui_main_menu, "Change _Working Directory...",
-		      "Change the current working directory",
-		      change_workdir_callback, NULL, 0,
-		      TUI_MENU_BEH_CONTINUE);
-
     tui_menu_add_separator(ui_main_menu);
 
     create_ui_video_submenu();
@@ -1718,15 +1722,12 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                          single_joystick_submenu);
     }
 
-/*
     ui_rom_submenu = tui_menu_create("Firmware ROM Settings", 1);
-
     tui_menu_add(ui_rom_submenu, rom_submenu);
     tui_menu_add_submenu(ui_main_menu, "_ROM Settings...",
              "Firmware ROMs the emulator is using",
              ui_rom_submenu, NULL, 0,
              TUI_MENU_BEH_CONTINUE);
-*/
 
     create_special_submenu(has_serial_traps);
 
