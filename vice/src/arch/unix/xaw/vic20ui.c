@@ -66,6 +66,7 @@ static UI_CALLBACK(set_common_memory_configuration)
         switch ((int) client_data) {
           case MEM_NONE:
             blocks = 0;
+            break;
           case MEM_ALL:
             blocks = BLOCK_0 | BLOCK_1 | BLOCK_2 | BLOCK_3 | BLOCK_5;
             break;
@@ -102,8 +103,9 @@ static UI_CALLBACK(set_common_memory_configuration)
 }
 
 static ui_menu_entry_t common_memory_configurations_submenu[] = {
-    { "None",
+    { "No expansion memory",
       set_common_memory_configuration, (ui_callback_data_t) MEM_NONE, NULL },
+    { "--" },
     { "3K (block 0)",
       set_common_memory_configuration, (ui_callback_data_t) MEM_3K, NULL },
     { "8K (block 1)",
