@@ -224,7 +224,7 @@ bool mon_inc_addr_location(MON_ADDR *a, unsigned inc)
 void mon_evaluate_default_addr(MON_ADDR *a)
 {
     if (addr_memspace(*a) == e_default_space)
-        set_addr_memspace(a,default_memspace);
+        set_addr_memspace(a, default_memspace);
 }
 
 bool mon_is_in_range(MON_ADDR start_addr, MON_ADDR end_addr, unsigned loc)
