@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-10-19 22:20+0200\n"
+"POT-Creation-Date: 2006-10-21 20:52+0200\n"
 "PO-Revision-Date: 2006-10-01 17:44+0200\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -120,15 +120,15 @@ msgstr "A hangpuffer méretét <érték> mp-re állítja"
 #: src/c64/cart/c64cart.c:265 src/c64/cart/c64cart.c:268
 #: src/c64/cart/c64cart.c:271 src/c64/cart/c64cart.c:274
 #: src/c64/cart/ide64.c:277 src/c64/c64_256k.c:205 src/c64/georam.c:204
-#: src/c64/plus256k.c:170 src/c64/plus60k.c:244 src/c64/ramcart.c:234
-#: src/c64/reu.c:242 src/cbm2/cbm2-cmdline-options.c:132
-#: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
-#: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
-#: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
-#: src/cbm2/cbm2-cmdline-options.c:178 src/cbm2/cbm2-cmdline-options.c:181
-#: src/cbm2/cbm2-cmdline-options.c:184 src/cbm2/cbm2-cmdline-options.c:187
-#: src/cbm2/cbm2-cmdline-options.c:190 src/cbm2/cbm2-cmdline-options.c:193
-#: src/drive/iec/iec-cmdline-options.c:85
+#: src/c64/mmc64.c:896 src/c64/mmc64.c:898 src/c64/plus256k.c:170
+#: src/c64/plus60k.c:244 src/c64/ramcart.c:234 src/c64/reu.c:242
+#: src/cbm2/cbm2-cmdline-options.c:132 src/cbm2/cbm2-cmdline-options.c:134
+#: src/cbm2/cbm2-cmdline-options.c:136 src/cbm2/cbm2-cmdline-options.c:139
+#: src/cbm2/cbm2-cmdline-options.c:141 src/cbm2/cbm2-cmdline-options.c:143
+#: src/cbm2/cbm2-cmdline-options.c:145 src/cbm2/cbm2-cmdline-options.c:178
+#: src/cbm2/cbm2-cmdline-options.c:181 src/cbm2/cbm2-cmdline-options.c:184
+#: src/cbm2/cbm2-cmdline-options.c:187 src/cbm2/cbm2-cmdline-options.c:190
+#: src/cbm2/cbm2-cmdline-options.c:193 src/drive/iec/iec-cmdline-options.c:85
 #: src/drive/iec/iec-cmdline-options.c:87
 #: src/drive/iec/iec-cmdline-options.c:89
 #: src/drive/iec/iec-cmdline-options.c:91
@@ -810,7 +810,7 @@ msgstr "$DE** ACIA RS232 interfész emuláció engedélyezése"
 #: src/c64/psid.c:164 src/cbm2/cbm2-cmdline-options.c:176
 #: src/pet/pet-cmdline-options.c:161 src/plus4/plus4-cmdline-options.c:102
 #: src/vdc/vdc-cmdline-options.c:68 src/vic20/vic20-cmdline-options.c:226
-#: src/arch/win32/res.rc.po.c:5181 src/translate.c.po.c:934
+#: src/arch/win32/res.rc.po.c:5182 src/translate.c.po.c:934
 msgid "<number>"
 msgstr "<szám>"
 
@@ -1102,6 +1102,57 @@ msgstr "<méret KB-ban>"
 #: src/c64/georam.c:206 src/translate.c.po.c:1166
 msgid "Size of the GEORAM expansion unit"
 msgstr "GEORAM Expansion Unit mérete"
+
+#. c64/mmc64.c
+#: src/c64/mmc64.c:892 src/translate.c.po.c:1286
+#, fuzzy
+msgid "Enable the MMC64 expansion"
+msgstr "RAMCART bõvítés engedélyezése"
+
+#. fuzzy
+#. fuzzy
+#. c64/mmc64.c
+#: src/c64/mmc64.c:894 src/translate.c.po.c:1296
+#, fuzzy
+msgid "Disable the MMC64 expansion"
+msgstr "RAMCART bõvítés tiltása"
+
+#. fuzzy
+#. fuzzy
+#. c64/mmc64.c
+#: src/c64/mmc64.c:896 src/translate.c.po.c:1306
+#, fuzzy
+msgid "Specify name of MMC64 BIOS image"
+msgstr "Adja meg a C64 módú BASIC ROM képmás nevét"
+
+#. fuzzy
+#. fuzzy
+#. c64/mmc64.c
+#: src/c64/mmc64.c:898 src/translate.c.po.c:1316
+#, fuzzy
+msgid "Specify name of MMC64 image"
+msgstr "Adja meg a 256K-s képmás nevét"
+
+#. fuzzy
+#. fuzzy
+#. c64/mmc64.c
+#: src/c64/mmc64.c:900 src/translate.c.po.c:1326
+msgid "Set the MMC64 card to read-only"
+msgstr ""
+
+#. fuzzy
+#. fuzzy
+#. c64/mmc64.c
+#: src/c64/mmc64.c:902 src/translate.c.po.c:1336
+msgid "Set the MMC64 card to read/write"
+msgstr ""
+
+#. fuzzy
+#. fuzzy
+#. c64/mmc64.c
+#: src/c64/mmc64.c:904 src/translate.c.po.c:1346
+msgid "Save the MMC64 bios when changed"
+msgstr ""
 
 #. fuzzy
 #. fuzzy
@@ -2854,7 +2905,7 @@ msgstr "Memória és I/O beállítása"
 
 #: src/arch/unix/gui/c128ui.c:376 src/arch/unix/gui/c64ui.c:367
 #: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/plus4ui.c:147
-#: src/arch/unix/gui/vic20ui.c:376
+#: src/arch/unix/gui/vic20ui.c:379
 msgid "RS232 settings"
 msgstr "RS232 beállítása"
 
@@ -2865,28 +2916,28 @@ msgstr "Modell beállítása"
 #. ----------------------- AmigaOS Menu Strings -----------------------
 #: src/arch/unix/gui/c128ui.c:502 src/arch/unix/gui/c64ui.c:491
 #: src/arch/unix/gui/cbm2ui.c:505 src/arch/unix/gui/petui.c:446
-#: src/arch/unix/gui/plus4ui.c:271 src/arch/unix/gui/vic20ui.c:558
+#: src/arch/unix/gui/plus4ui.c:271 src/arch/unix/gui/vic20ui.c:561
 #: src/arch/unix/gui/vsidui.c:231 src/arch/amigaos/intl.c.po.c:121
 msgid "File"
 msgstr "Fájl"
 
 #: src/arch/unix/gui/c128ui.c:504 src/arch/unix/gui/c64ui.c:493
 #: src/arch/unix/gui/cbm2ui.c:507 src/arch/unix/gui/petui.c:448
-#: src/arch/unix/gui/plus4ui.c:273 src/arch/unix/gui/vic20ui.c:560
+#: src/arch/unix/gui/plus4ui.c:273 src/arch/unix/gui/vic20ui.c:563
 #: src/arch/amigaos/intl.c.po.c:697
 msgid "Snapshot"
 msgstr "Pillanatkép"
 
 #: src/arch/unix/gui/c128ui.c:506 src/arch/unix/gui/c64ui.c:495
 #: src/arch/unix/gui/cbm2ui.c:509 src/arch/unix/gui/petui.c:450
-#: src/arch/unix/gui/plus4ui.c:275 src/arch/unix/gui/vic20ui.c:562
+#: src/arch/unix/gui/plus4ui.c:275 src/arch/unix/gui/vic20ui.c:565
 #: src/arch/amigaos/intl.c.po.c:850
 msgid "Options"
 msgstr "Opciók"
 
 #: src/arch/unix/gui/c128ui.c:508 src/arch/unix/gui/c64ui.c:497
 #: src/arch/unix/gui/cbm2ui.c:511 src/arch/unix/gui/petui.c:452
-#: src/arch/unix/gui/plus4ui.c:277 src/arch/unix/gui/vic20ui.c:564
+#: src/arch/unix/gui/plus4ui.c:277 src/arch/unix/gui/vic20ui.c:567
 #: src/arch/unix/gui/vsidui.c:233 src/arch/unix/x11/gnome/uinetplay.c:65
 #: src/arch/unix/x11/gnome/x11ui.c:1264 src/arch/unix/x11/gnome/x11ui.c:1329
 #: src/arch/win32/res.rc.po.c:4687 src/arch/amigaos/intl.c.po.c:1255
@@ -2897,7 +2948,7 @@ msgstr "Beállítások"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/gui/c128ui.c:512 src/arch/unix/gui/c64ui.c:501
 #: src/arch/unix/gui/cbm2ui.c:515 src/arch/unix/gui/petui.c:456
-#: src/arch/unix/gui/plus4ui.c:281 src/arch/unix/gui/vic20ui.c:568
+#: src/arch/unix/gui/plus4ui.c:281 src/arch/unix/gui/vic20ui.c:571
 msgid "RJHelp"
 msgstr "RJSegítség"
 
@@ -2933,7 +2984,7 @@ msgstr "Új character ROM betöltése"
 
 #: src/arch/unix/gui/c64ui.c:351 src/arch/unix/gui/cbm2ui.c:381
 #: src/arch/unix/gui/petui.c:320 src/arch/unix/gui/plus4ui.c:71
-#: src/arch/unix/gui/vic20ui.c:417
+#: src/arch/unix/gui/vic20ui.c:420
 msgid "Save media file"
 msgstr "Fénykép készítése"
 
@@ -3349,7 +3400,8 @@ msgid "256K image name"
 msgstr "256K képmás neve"
 
 #: src/arch/unix/gui/uic64_256k.c:41 src/arch/unix/gui/uigeoram.c:42
-#: src/arch/unix/gui/uiide64.c:43 src/arch/unix/gui/uipetreu.c:42
+#: src/arch/unix/gui/uiide64.c:43 src/arch/unix/gui/uimmc64.c:45
+#: src/arch/unix/gui/uimmc64.c:51 src/arch/unix/gui/uipetreu.c:42
 #: src/arch/unix/gui/uiplus256k.c:41 src/arch/unix/gui/uiplus60k.c:42
 #: src/arch/unix/gui/uiramcart.c:43 src/arch/unix/gui/uireu.c:42
 #: src/arch/unix/gui/uitfe.c:44
@@ -3624,7 +3676,7 @@ msgid "Return to milestone"
 msgstr "Visszaugrás az elõzõ kilóméterkõhöz"
 
 #: src/arch/unix/gui/uicommands.c:488 src/arch/win32/resc128.rc.po.c:138
-#: src/arch/win32/resc64.rc.po.c:138 src/arch/win32/rescbm2.rc.po.c:110
+#: src/arch/win32/resc64.rc.po.c:139 src/arch/win32/rescbm2.rc.po.c:110
 #: src/arch/win32/respet.rc.po.c:108 src/arch/win32/resplus4.rc.po.c:120
 #: src/arch/win32/resvic20.rc.po.c:118 src/arch/amigaos/intl.c.po.c:778
 msgid "Recording start mode"
@@ -3813,18 +3865,17 @@ msgstr "*Megkérdezi, hogy kiterjessze-e"
 msgid "*Extend on access"
 msgstr "*Hozzáféréskor kiterjeszti"
 
-#: src/arch/unix/gui/uidrive.c:182 src/arch/unix/gui/uidrivec128.c:205
-#: src/arch/unix/gui/uidrivec64.c:105 src/arch/unix/gui/uidrivepetcbm2.c:93
-#: src/arch/unix/gui/uidriveplus4.c:171 src/arch/unix/gui/uidrivevic20.c:43
+#: src/arch/unix/gui/uidrive.c:182 src/arch/unix/gui/uidrivec128.c:145
+#: src/arch/unix/gui/uidrivec64.c:44 src/arch/unix/gui/uidrivepetcbm2.c:93
+#: src/arch/unix/gui/uidriveplus4.c:211 src/arch/unix/gui/uidrivevic20.c:67
 msgid "*Enable true drive emulation"
 msgstr "*Valós emuláció engedélyezése"
 
-#: src/arch/unix/gui/uidrivec128.c:65 src/arch/unix/gui/uidrivec128.c:75
-#: src/arch/unix/gui/uidrivec128.c:85 src/arch/unix/gui/uidrivec128.c:95
-#: src/arch/unix/gui/uidrivec128.c:105 src/arch/unix/gui/uidrivec128.c:137
-#: src/arch/unix/gui/uidrivec128.c:159 src/arch/unix/gui/uidrivec128.c:181
-#: src/arch/unix/gui/uidrivec64.c:65 src/arch/unix/gui/uidrivec64.c:75
-#: src/arch/unix/gui/uidrivec64.c:85 src/arch/unix/gui/uidrivec64.c:95
+#: src/arch/unix/gui/uidrivec128.c:45 src/arch/unix/gui/uidrivec128.c:77
+#: src/arch/unix/gui/uidrivec128.c:99 src/arch/unix/gui/uidrivec128.c:121
+#: src/arch/unix/gui/uidrivec64c128.c:70 src/arch/unix/gui/uidrivec64c128.c:80
+#: src/arch/unix/gui/uidrivec64c128.c:90
+#: src/arch/unix/gui/uidrivec64c128.c:100
 #: src/arch/unix/gui/uidrivec64vic20.c:40
 #: src/arch/unix/gui/uidrivec64vic20.c:70
 #: src/arch/unix/gui/uidrivec64vic20.c:90
@@ -3833,9 +3884,9 @@ msgstr "*Valós emuláció engedélyezése"
 #: src/arch/unix/gui/uidrivepetcbm2.c:73 src/arch/unix/gui/uidrivepetcbm2.c:83
 #: src/arch/unix/gui/uidriveplus4.c:65 src/arch/unix/gui/uidriveplus4.c:73
 #: src/arch/unix/gui/uidriveplus4.c:81 src/arch/unix/gui/uidriveplus4.c:89
-#: src/arch/unix/gui/uidriveplus4.c:97 src/arch/unix/gui/uidriveplus4.c:115
-#: src/arch/unix/gui/uidriveplus4.c:133 src/arch/unix/gui/uidriveplus4.c:151
-#: src/arch/unix/gui/uijoystick2.c:78 src/arch/unix/gui/uijoystick2.c:127
+#: src/arch/unix/gui/uidriveplus4.c:137 src/arch/unix/gui/uidriveplus4.c:155
+#: src/arch/unix/gui/uidriveplus4.c:173 src/arch/unix/gui/uidriveplus4.c:191
+#: src/arch/unix/gui/uijoystick2.c:79 src/arch/unix/gui/uijoystick2.c:131
 #: src/arch/unix/gui/uiperipheral.c:60 src/arch/unix/gui/uiperipheral.c:74
 #: src/arch/unix/gui/uiperipheral.c:88 src/arch/unix/gui/uiperipheral.c:102
 #: src/arch/unix/gui/uiprinter.c:158 src/arch/unix/gui/uiprinter.c:170
@@ -3843,245 +3894,236 @@ msgstr "*Valós emuláció engedélyezése"
 msgid "*None"
 msgstr "*Nincs"
 
-#: src/arch/unix/gui/uidrivec128.c:67 src/arch/unix/gui/uidrivec128.c:77
-#: src/arch/unix/gui/uidrivec128.c:87 src/arch/unix/gui/uidrivec128.c:97
-#: src/arch/unix/gui/uidrivec64.c:67 src/arch/unix/gui/uidrivec64.c:77
-#: src/arch/unix/gui/uidrivec64.c:87 src/arch/unix/gui/uidrivec64.c:97
-#: src/arch/unix/gui/uidriveplus4.c:67 src/arch/unix/gui/uidriveplus4.c:75
-#: src/arch/unix/gui/uidriveplus4.c:83 src/arch/unix/gui/uidriveplus4.c:91
-#, fuzzy
-msgid "*Standard Userport"
-msgstr "Adja meg a portot"
-
-#: src/arch/unix/gui/uidrivec128.c:69 src/arch/unix/gui/uidrivec128.c:79
-#: src/arch/unix/gui/uidrivec128.c:89 src/arch/unix/gui/uidrivec128.c:99
-#: src/arch/unix/gui/uidrivec64.c:69 src/arch/unix/gui/uidrivec64.c:79
-#: src/arch/unix/gui/uidrivec64.c:89 src/arch/unix/gui/uidrivec64.c:99
-msgid "*Dolphin DOS 3"
-msgstr ""
-
-#: src/arch/unix/gui/uidrivec128.c:208 src/arch/unix/gui/uidrivec64.c:108
-#: src/arch/unix/gui/uidriveplus4.c:174 src/arch/unix/gui/uidrivevic20.c:46
+#: src/arch/unix/gui/uidrivec128.c:148 src/arch/unix/gui/uidrivec64.c:47
+#: src/arch/unix/gui/uidriveplus4.c:214 src/arch/unix/gui/uidrivevic20.c:70
 msgid "Drive #8 model"
 msgstr "Lemezegység #8 típus"
 
-#: src/arch/unix/gui/uidrivec128.c:210 src/arch/unix/gui/uidrivec64.c:110
-#: src/arch/unix/gui/uidriveplus4.c:176 src/arch/unix/gui/uidrivevic20.c:48
+#: src/arch/unix/gui/uidrivec128.c:150 src/arch/unix/gui/uidrivec64.c:49
+#: src/arch/unix/gui/uidriveplus4.c:216 src/arch/unix/gui/uidrivevic20.c:72
 #, fuzzy
-msgid "*Drive #8 RAM expansion"
+msgid "*Drive #8 expansion"
 msgstr "Lemezegység #8 RAM bõvítés"
 
-#: src/arch/unix/gui/uidrivec128.c:213 src/arch/unix/gui/uidrivec64.c:113
-#: src/arch/unix/gui/uidriveplus4.c:179
-#, fuzzy
-msgid "*Drive #8 parallel cable"
-msgstr "*Lemezegység #8 párhuzamos kábel engedélyezése"
-
-#: src/arch/unix/gui/uidrivec128.c:216 src/arch/unix/gui/uidrivec64.c:116
-#: src/arch/unix/gui/uidrivepetcbm2.c:98 src/arch/unix/gui/uidriveplus4.c:182
-#: src/arch/unix/gui/uidrivevic20.c:51
+#: src/arch/unix/gui/uidrivec128.c:153 src/arch/unix/gui/uidrivec64.c:52
+#: src/arch/unix/gui/uidrivepetcbm2.c:98 src/arch/unix/gui/uidriveplus4.c:219
+#: src/arch/unix/gui/uidrivevic20.c:75
 #, fuzzy
 msgid "*Drive #8 40-track image support"
 msgstr "Lemezegység #8 40-sávos mód"
 
-#: src/arch/unix/gui/uidrivec128.c:219 src/arch/unix/gui/uidrivec64.c:119
-#: src/arch/unix/gui/uidriveplus4.c:185 src/arch/unix/gui/uidrivevic20.c:54
+#: src/arch/unix/gui/uidrivec128.c:156 src/arch/unix/gui/uidrivec64.c:55
+#: src/arch/unix/gui/uidriveplus4.c:222 src/arch/unix/gui/uidrivevic20.c:78
 #, fuzzy
 msgid "*Drive #8 idle method"
 msgstr "Lemezegység #8 üresjárat"
 
-#: src/arch/unix/gui/uidrivec128.c:223 src/arch/unix/gui/uidrivec64.c:123
-#: src/arch/unix/gui/uidriveplus4.c:189 src/arch/unix/gui/uidrivevic20.c:58
+#: src/arch/unix/gui/uidrivec128.c:160 src/arch/unix/gui/uidrivec64.c:59
+#: src/arch/unix/gui/uidriveplus4.c:226 src/arch/unix/gui/uidrivevic20.c:82
 msgid "Drive #9 model"
 msgstr "Lemezegység #9 típus"
 
-#: src/arch/unix/gui/uidrivec128.c:225 src/arch/unix/gui/uidrivec64.c:125
-#: src/arch/unix/gui/uidriveplus4.c:191 src/arch/unix/gui/uidrivevic20.c:60
+#: src/arch/unix/gui/uidrivec128.c:162 src/arch/unix/gui/uidrivec64.c:61
+#: src/arch/unix/gui/uidriveplus4.c:228 src/arch/unix/gui/uidrivevic20.c:84
 #, fuzzy
-msgid "*Drive #9 RAM expansion"
+msgid "*Drive #9 expansion"
 msgstr "Lemezegység #9 RAM bõvítés"
 
-#: src/arch/unix/gui/uidrivec128.c:228 src/arch/unix/gui/uidrivec64.c:128
-#: src/arch/unix/gui/uidriveplus4.c:194
-#, fuzzy
-msgid "*Drive #9 parallel cable"
-msgstr "*Lemezegység #9 párhuzamos kábel engedélyezése"
-
-#: src/arch/unix/gui/uidrivec128.c:231 src/arch/unix/gui/uidrivec64.c:131
-#: src/arch/unix/gui/uidrivepetcbm2.c:104 src/arch/unix/gui/uidriveplus4.c:197
-#: src/arch/unix/gui/uidrivevic20.c:63
+#: src/arch/unix/gui/uidrivec128.c:165 src/arch/unix/gui/uidrivec64.c:64
+#: src/arch/unix/gui/uidrivepetcbm2.c:104 src/arch/unix/gui/uidriveplus4.c:231
+#: src/arch/unix/gui/uidrivevic20.c:87
 #, fuzzy
 msgid "*Drive #9 40-track image support"
 msgstr "Lemezegység #9 40-sávos mód"
 
-#: src/arch/unix/gui/uidrivec128.c:234 src/arch/unix/gui/uidrivec64.c:134
-#: src/arch/unix/gui/uidriveplus4.c:200 src/arch/unix/gui/uidrivevic20.c:66
+#: src/arch/unix/gui/uidrivec128.c:168 src/arch/unix/gui/uidrivec64.c:67
+#: src/arch/unix/gui/uidriveplus4.c:234 src/arch/unix/gui/uidrivevic20.c:90
 #, fuzzy
 msgid "*Drive #9 idle method"
 msgstr "Lemezegység #9 üresjárat"
 
-#: src/arch/unix/gui/uidrivec128.c:238 src/arch/unix/gui/uidrivec64.c:138
-#: src/arch/unix/gui/uidriveplus4.c:204 src/arch/unix/gui/uidrivevic20.c:70
+#: src/arch/unix/gui/uidrivec128.c:172 src/arch/unix/gui/uidrivec64.c:71
+#: src/arch/unix/gui/uidriveplus4.c:238 src/arch/unix/gui/uidrivevic20.c:94
 msgid "Drive #10 model"
 msgstr "Lemezegység #10 típus"
 
-#: src/arch/unix/gui/uidrivec128.c:240 src/arch/unix/gui/uidrivec64.c:140
-#: src/arch/unix/gui/uidriveplus4.c:206 src/arch/unix/gui/uidrivevic20.c:72
+#: src/arch/unix/gui/uidrivec128.c:174 src/arch/unix/gui/uidrivec64.c:73
+#: src/arch/unix/gui/uidriveplus4.c:240 src/arch/unix/gui/uidrivevic20.c:96
 #, fuzzy
-msgid "*Drive #10 RAM expansion"
+msgid "*Drive #10 expansion"
 msgstr "Lemezegység #10 RAM bõvítés"
 
-#: src/arch/unix/gui/uidrivec128.c:243 src/arch/unix/gui/uidrivec64.c:143
-#: src/arch/unix/gui/uidriveplus4.c:209
-#, fuzzy
-msgid "*Drive #10 parallel cable"
-msgstr "*Lemezegység #10 párhuzamos kábel engedélyezése"
-
-#: src/arch/unix/gui/uidrivec128.c:246 src/arch/unix/gui/uidrivec64.c:146
-#: src/arch/unix/gui/uidrivepetcbm2.c:110 src/arch/unix/gui/uidriveplus4.c:212
-#: src/arch/unix/gui/uidrivevic20.c:75
+#: src/arch/unix/gui/uidrivec128.c:177 src/arch/unix/gui/uidrivec64.c:76
+#: src/arch/unix/gui/uidrivepetcbm2.c:110 src/arch/unix/gui/uidriveplus4.c:243
+#: src/arch/unix/gui/uidrivevic20.c:99
 #, fuzzy
 msgid "*Drive #10 40-track image support"
 msgstr "Lemezegység #10 40-sávos mód"
 
-#: src/arch/unix/gui/uidrivec128.c:249 src/arch/unix/gui/uidrivec64.c:149
-#: src/arch/unix/gui/uidriveplus4.c:215 src/arch/unix/gui/uidrivevic20.c:78
+#: src/arch/unix/gui/uidrivec128.c:180 src/arch/unix/gui/uidrivec64.c:79
+#: src/arch/unix/gui/uidriveplus4.c:246 src/arch/unix/gui/uidrivevic20.c:102
 #, fuzzy
 msgid "*Drive #10 idle method"
 msgstr "Lemezegység #10 üresjárat"
 
-#: src/arch/unix/gui/uidrivec128.c:253 src/arch/unix/gui/uidrivec64.c:153
-#: src/arch/unix/gui/uidriveplus4.c:219 src/arch/unix/gui/uidrivevic20.c:82
+#: src/arch/unix/gui/uidrivec128.c:184 src/arch/unix/gui/uidrivec64.c:83
+#: src/arch/unix/gui/uidriveplus4.c:250 src/arch/unix/gui/uidrivevic20.c:106
 msgid "Drive #11 model"
 msgstr "Lemezegység #11 típus"
 
-#: src/arch/unix/gui/uidrivec128.c:255 src/arch/unix/gui/uidrivec64.c:155
-#: src/arch/unix/gui/uidriveplus4.c:221 src/arch/unix/gui/uidrivevic20.c:84
+#: src/arch/unix/gui/uidrivec128.c:186 src/arch/unix/gui/uidrivec64.c:85
+#: src/arch/unix/gui/uidriveplus4.c:252 src/arch/unix/gui/uidrivevic20.c:108
 #, fuzzy
-msgid "*Drive #11 RAM expansion"
+msgid "*Drive #11 expansion"
 msgstr "Lemezegység #11 RAM bõvítés"
 
-#: src/arch/unix/gui/uidrivec128.c:258 src/arch/unix/gui/uidrivec64.c:158
-#: src/arch/unix/gui/uidriveplus4.c:224
-#, fuzzy
-msgid "*Drive #11 parallel cable"
-msgstr "*Lemezegység #11 párhuzamos kábel engedélyezése"
-
-#: src/arch/unix/gui/uidrivec128.c:261 src/arch/unix/gui/uidrivec64.c:161
-#: src/arch/unix/gui/uidrivepetcbm2.c:116 src/arch/unix/gui/uidriveplus4.c:227
-#: src/arch/unix/gui/uidrivevic20.c:87
+#: src/arch/unix/gui/uidrivec128.c:189 src/arch/unix/gui/uidrivec64.c:88
+#: src/arch/unix/gui/uidrivepetcbm2.c:116 src/arch/unix/gui/uidriveplus4.c:255
+#: src/arch/unix/gui/uidrivevic20.c:111
 #, fuzzy
 msgid "*Drive #11 40-track image support"
 msgstr "Lemezegység #11 40-sávos mód"
 
-#: src/arch/unix/gui/uidrivec128.c:264 src/arch/unix/gui/uidrivec64.c:164
-#: src/arch/unix/gui/uidriveplus4.c:230 src/arch/unix/gui/uidrivevic20.c:90
+#: src/arch/unix/gui/uidrivec128.c:192 src/arch/unix/gui/uidrivec64.c:91
+#: src/arch/unix/gui/uidriveplus4.c:258 src/arch/unix/gui/uidrivevic20.c:114
 #, fuzzy
 msgid "*Drive #11 idle method"
 msgstr "Lemezegység #11 üresjárat"
 
-#: src/arch/unix/gui/uidrivec128.c:271 src/arch/unix/gui/uidrivec64.c:171
-#: src/arch/unix/gui/uidrivepetcbm2.c:123 src/arch/unix/gui/uidriveplus4.c:237
-#: src/arch/unix/gui/uidrivevic20.c:97
+#: src/arch/unix/gui/uidrivec128.c:199 src/arch/unix/gui/uidrivec64.c:98
+#: src/arch/unix/gui/uidrivepetcbm2.c:123 src/arch/unix/gui/uidriveplus4.c:265
+#: src/arch/unix/gui/uidrivevic20.c:121
 msgid "Drive settings"
 msgstr "Meghajtók beállításai"
 
-#: src/arch/unix/gui/uidrivec128.c:279 src/arch/unix/gui/uidrivec64vic20.c:132
-#: src/arch/unix/gui/uidriveplus4.c:245
+#: src/arch/unix/gui/uidrivec128.c:207 src/arch/unix/gui/uidrivec64vic20.c:132
+#: src/arch/unix/gui/uidriveplus4.c:273
 msgid "Load new 1541 ROM"
 msgstr "Új 1541 ROM betöltése"
 
-#: src/arch/unix/gui/uidrivec128.c:282 src/arch/unix/gui/uidrivec64vic20.c:135
-#: src/arch/unix/gui/uidriveplus4.c:248
+#: src/arch/unix/gui/uidrivec128.c:210 src/arch/unix/gui/uidrivec64vic20.c:135
+#: src/arch/unix/gui/uidriveplus4.c:276
 msgid "Load new 1541-II ROM"
 msgstr "Új 1541-II ROM betöltése"
 
-#: src/arch/unix/gui/uidrivec128.c:285 src/arch/unix/gui/uidrivec64vic20.c:138
-#: src/arch/unix/gui/uidriveplus4.c:254
+#: src/arch/unix/gui/uidrivec128.c:213 src/arch/unix/gui/uidrivec64vic20.c:138
+#: src/arch/unix/gui/uidriveplus4.c:282
 msgid "Load new 1570 ROM"
 msgstr "Új 1570 ROM betöltése"
 
-#: src/arch/unix/gui/uidrivec128.c:288 src/arch/unix/gui/uidrivec64vic20.c:141
-#: src/arch/unix/gui/uidriveplus4.c:257
+#: src/arch/unix/gui/uidrivec128.c:216 src/arch/unix/gui/uidrivec64vic20.c:141
+#: src/arch/unix/gui/uidriveplus4.c:285
 msgid "Load new 1571 ROM"
 msgstr "Új 1571 ROM betöltése"
 
-#: src/arch/unix/gui/uidrivec128.c:291
+#: src/arch/unix/gui/uidrivec128.c:219
 msgid "Load new 1571CR ROM"
 msgstr "Új 1571CR ROM betöltése"
 
-#: src/arch/unix/gui/uidrivec128.c:294 src/arch/unix/gui/uidrivec64vic20.c:144
-#: src/arch/unix/gui/uidriveplus4.c:260
+#: src/arch/unix/gui/uidrivec128.c:222 src/arch/unix/gui/uidrivec64vic20.c:144
+#: src/arch/unix/gui/uidriveplus4.c:288
 msgid "Load new 1581 ROM"
 msgstr "Új 1581 ROM betöltése"
 
-#: src/arch/unix/gui/uidrivec128.c:297 src/arch/unix/gui/uidrivec64vic20.c:147
+#: src/arch/unix/gui/uidrivec128.c:225 src/arch/unix/gui/uidrivec64vic20.c:147
 #: src/arch/unix/gui/uidrivepetcbm2.c:131
 msgid "Load new 2031 ROM"
 msgstr "Új 2031 ROM betöltése"
 
-#: src/arch/unix/gui/uidrivec128.c:300 src/arch/unix/gui/uidrivec64vic20.c:150
+#: src/arch/unix/gui/uidrivec128.c:228 src/arch/unix/gui/uidrivec64vic20.c:150
 #: src/arch/unix/gui/uidrivepetcbm2.c:134
 msgid "Load new 2040 ROM"
 msgstr "Új 2040 ROM betöltése"
 
-#: src/arch/unix/gui/uidrivec128.c:303 src/arch/unix/gui/uidrivec64vic20.c:153
+#: src/arch/unix/gui/uidrivec128.c:231 src/arch/unix/gui/uidrivec64vic20.c:153
 #: src/arch/unix/gui/uidrivepetcbm2.c:137
 msgid "Load new 3040 ROM"
 msgstr "Új 3040 ROM betöltése"
 
-#: src/arch/unix/gui/uidrivec128.c:306 src/arch/unix/gui/uidrivec64vic20.c:156
+#: src/arch/unix/gui/uidrivec128.c:234 src/arch/unix/gui/uidrivec64vic20.c:156
 #: src/arch/unix/gui/uidrivepetcbm2.c:140
 msgid "Load new 4040 ROM"
 msgstr "Új 4040 ROM betöltése"
 
-#: src/arch/unix/gui/uidrivec128.c:309 src/arch/unix/gui/uidrivec64vic20.c:159
+#: src/arch/unix/gui/uidrivec128.c:237 src/arch/unix/gui/uidrivec64vic20.c:159
 #: src/arch/unix/gui/uidrivepetcbm2.c:143
 msgid "Load new 1001 ROM"
 msgstr "Új 1001 ROM betöltése"
 
-#: src/arch/unix/gui/uidriveiec.c:126 src/arch/unix/gui/uidriveiec.c:143
-#: src/arch/unix/gui/uidriveiec.c:160 src/arch/unix/gui/uidriveiec.c:177
-msgid "*$2000-$3FFF RAM expansion"
-msgstr "*$2000-$3FFF RAM bõvítés"
+#: src/arch/unix/gui/uidrivec64c128.c:72 src/arch/unix/gui/uidrivec64c128.c:82
+#: src/arch/unix/gui/uidrivec64c128.c:92
+#: src/arch/unix/gui/uidrivec64c128.c:102 src/arch/unix/gui/uidriveplus4.c:67
+#: src/arch/unix/gui/uidriveplus4.c:75 src/arch/unix/gui/uidriveplus4.c:83
+#: src/arch/unix/gui/uidriveplus4.c:91
+#, fuzzy
+msgid "*Standard Userport"
+msgstr "Adja meg a portot"
 
-#: src/arch/unix/gui/uidriveiec.c:128 src/arch/unix/gui/uidriveiec.c:145
-#: src/arch/unix/gui/uidriveiec.c:162 src/arch/unix/gui/uidriveiec.c:179
-msgid "*$4000-$5FFF RAM expansion"
-msgstr "*$4000-$5FFF RAM bõvítés"
-
-#: src/arch/unix/gui/uidriveiec.c:130 src/arch/unix/gui/uidriveiec.c:147
-#: src/arch/unix/gui/uidriveiec.c:164 src/arch/unix/gui/uidriveiec.c:181
-msgid "*$6000-$7FFF RAM expansion"
-msgstr "*$6000-$7FFF RAM bõvítés"
-
-#: src/arch/unix/gui/uidriveiec.c:132 src/arch/unix/gui/uidriveiec.c:149
-#: src/arch/unix/gui/uidriveiec.c:166 src/arch/unix/gui/uidriveiec.c:183
-msgid "*$8000-$9FFF RAM expansion"
-msgstr "*$8000-$9FFF RAM bõvítés"
-
-#: src/arch/unix/gui/uidriveiec.c:134 src/arch/unix/gui/uidriveiec.c:151
-#: src/arch/unix/gui/uidriveiec.c:168 src/arch/unix/gui/uidriveiec.c:185
-msgid "*$A000-$BFFF RAM expansion"
-msgstr "*$A000-$BFFF RAM bõvítés"
-
-#: src/arch/unix/gui/uidriveiec.c:137 src/arch/unix/gui/uidriveiec.c:154
-#: src/arch/unix/gui/uidriveiec.c:171 src/arch/unix/gui/uidriveiec.c:188
-msgid "*Professional DOS expansion"
+#: src/arch/unix/gui/uidrivec64c128.c:74 src/arch/unix/gui/uidrivec64c128.c:84
+#: src/arch/unix/gui/uidrivec64c128.c:94
+#: src/arch/unix/gui/uidrivec64c128.c:104
+msgid "*Dolphin DOS 3"
 msgstr ""
 
+#: src/arch/unix/gui/uidrivec64c128.c:110
+#: src/arch/unix/gui/uidrivec64c128.c:123
+#: src/arch/unix/gui/uidrivec64c128.c:136
+#: src/arch/unix/gui/uidrivec64c128.c:149 src/arch/unix/gui/uidriveplus4.c:97
+#: src/arch/unix/gui/uidriveplus4.c:107 src/arch/unix/gui/uidriveplus4.c:117
+#: src/arch/unix/gui/uidriveplus4.c:127
+#, fuzzy
+msgid "*Parallel cable"
+msgstr "*Lemezegység #8 párhuzamos kábel engedélyezése"
+
+#: src/arch/unix/gui/uidrivec64c128.c:117
+#: src/arch/unix/gui/uidrivec64c128.c:130
+#: src/arch/unix/gui/uidrivec64c128.c:143
+#: src/arch/unix/gui/uidrivec64c128.c:156
+msgid "*Enable Professional DOS"
+msgstr ""
+
+#: src/arch/unix/gui/uidriveiec.c:118 src/arch/unix/gui/uidriveiec.c:132
+#: src/arch/unix/gui/uidriveiec.c:146 src/arch/unix/gui/uidriveiec.c:160
+#, fuzzy
+msgid "*$2000-$3FFF RAM"
+msgstr "*Bank 15 $2000-$3FFF RAM"
+
+#: src/arch/unix/gui/uidriveiec.c:120 src/arch/unix/gui/uidriveiec.c:134
+#: src/arch/unix/gui/uidriveiec.c:148 src/arch/unix/gui/uidriveiec.c:162
+#, fuzzy
+msgid "*$4000-$5FFF RAM"
+msgstr "*Bank 15 $4000-$5FFF RAM"
+
+#: src/arch/unix/gui/uidriveiec.c:122 src/arch/unix/gui/uidriveiec.c:136
+#: src/arch/unix/gui/uidriveiec.c:150 src/arch/unix/gui/uidriveiec.c:164
+#, fuzzy
+msgid "*$6000-$7FFF RAM"
+msgstr "*Bank 15 $6000-$7FFF RAM"
+
+#: src/arch/unix/gui/uidriveiec.c:124 src/arch/unix/gui/uidriveiec.c:138
+#: src/arch/unix/gui/uidriveiec.c:152 src/arch/unix/gui/uidriveiec.c:166
+#, fuzzy
+msgid "*$8000-$9FFF RAM"
+msgstr "*$8000-$9FFF RAM bõvítés"
+
+#: src/arch/unix/gui/uidriveiec.c:126 src/arch/unix/gui/uidriveiec.c:140
+#: src/arch/unix/gui/uidriveiec.c:154 src/arch/unix/gui/uidriveiec.c:168
+#, fuzzy
+msgid "*$A000-$BFFF RAM"
+msgstr "*$A000-$BFFF RAM bõvítés"
+
+#: src/arch/unix/gui/uidriveiec.c:174 src/arch/unix/gui/uidriveiec.c:184
 #: src/arch/unix/gui/uidriveiec.c:194 src/arch/unix/gui/uidriveiec.c:204
-#: src/arch/unix/gui/uidriveiec.c:214 src/arch/unix/gui/uidriveiec.c:224
 msgid "*No traps"
 msgstr "*Folyamatos emuláció"
 
+#: src/arch/unix/gui/uidriveiec.c:176 src/arch/unix/gui/uidriveiec.c:186
 #: src/arch/unix/gui/uidriveiec.c:196 src/arch/unix/gui/uidriveiec.c:206
-#: src/arch/unix/gui/uidriveiec.c:216 src/arch/unix/gui/uidriveiec.c:226
 msgid "*Skip cycles"
 msgstr "*Ciklusok kihagyása"
 
+#: src/arch/unix/gui/uidriveiec.c:178 src/arch/unix/gui/uidriveiec.c:188
 #: src/arch/unix/gui/uidriveiec.c:198 src/arch/unix/gui/uidriveiec.c:208
-#: src/arch/unix/gui/uidriveiec.c:218 src/arch/unix/gui/uidriveiec.c:228
 msgid "*Trap idle"
 msgstr "*DOS üres ciklusainak kihagyása"
 
@@ -4101,7 +4143,7 @@ msgstr "Lemezegység #10 típusa"
 msgid "Drive #11 floppy disk type"
 msgstr "Lemezegység #11 típusa"
 
-#: src/arch/unix/gui/uidriveplus4.c:251
+#: src/arch/unix/gui/uidriveplus4.c:279
 msgid "Load new 1551 ROM"
 msgstr "Új 1551 ROM betöltése"
 
@@ -4264,75 +4306,87 @@ msgstr "*Fejek..."
 msgid "*Sectors..."
 msgstr "*Szektorok..."
 
-#: src/arch/unix/gui/uijoystick2.c:81 src/arch/unix/gui/uijoystick2.c:130
+#: src/arch/unix/gui/uijoystick2.c:82 src/arch/unix/gui/uijoystick2.c:134
 #: src/arch/unix/gui/vic20ui.c:306
 msgid "*Numpad"
 msgstr "*Numerikus billentyûk"
 
-#: src/arch/unix/gui/uijoystick2.c:84 src/arch/unix/gui/uijoystick2.c:133
+#: src/arch/unix/gui/uijoystick2.c:85 src/arch/unix/gui/uijoystick2.c:137
 #: src/arch/unix/gui/vic20ui.c:309
-msgid "*Custom Keys"
-msgstr "*Egyéni billentyûk"
+#, fuzzy
+msgid "*Keyset 1"
+msgstr "Reset"
 
-#: src/arch/unix/gui/uijoystick2.c:88 src/arch/unix/gui/uijoystick2.c:137
-#: src/arch/unix/gui/vic20ui.c:313
+#: src/arch/unix/gui/uijoystick2.c:88 src/arch/unix/gui/uijoystick2.c:140
+#: src/arch/unix/gui/vic20ui.c:312
+#, fuzzy
+msgid "*Keyset 2"
+msgstr "Reset"
+
+#: src/arch/unix/gui/uijoystick2.c:92 src/arch/unix/gui/uijoystick2.c:144
+#: src/arch/unix/gui/vic20ui.c:316
 msgid "*Analog Joystick 0"
 msgstr "*Analóg botkormány 0"
 
-#: src/arch/unix/gui/uijoystick2.c:91 src/arch/unix/gui/uijoystick2.c:140
-#: src/arch/unix/gui/vic20ui.c:316
+#: src/arch/unix/gui/uijoystick2.c:95 src/arch/unix/gui/uijoystick2.c:147
+#: src/arch/unix/gui/vic20ui.c:319
 msgid "*Analog Joystick 1"
 msgstr "*Analóg botkormány 1"
 
-#: src/arch/unix/gui/uijoystick2.c:94 src/arch/unix/gui/uijoystick2.c:143
+#: src/arch/unix/gui/uijoystick2.c:98 src/arch/unix/gui/uijoystick2.c:150
 msgid "*Analog Joystick 2"
 msgstr "*Analóg botkormány 2"
 
-#: src/arch/unix/gui/uijoystick2.c:97 src/arch/unix/gui/uijoystick2.c:146
+#: src/arch/unix/gui/uijoystick2.c:101 src/arch/unix/gui/uijoystick2.c:153
 msgid "*Analog Joystick 3"
 msgstr "*Analóg botkormány 3"
 
-#: src/arch/unix/gui/uijoystick2.c:100 src/arch/unix/gui/uijoystick2.c:149
+#: src/arch/unix/gui/uijoystick2.c:104 src/arch/unix/gui/uijoystick2.c:156
 msgid "*Analog Joystick 4"
 msgstr "*Analóg botkormány 4"
 
-#: src/arch/unix/gui/uijoystick2.c:103 src/arch/unix/gui/uijoystick2.c:152
+#: src/arch/unix/gui/uijoystick2.c:107 src/arch/unix/gui/uijoystick2.c:159
 msgid "*Analog Joystick 5"
 msgstr "*Analóg botkormány 5"
 
-#: src/arch/unix/gui/uijoystick2.c:107 src/arch/unix/gui/uijoystick2.c:156
-#: src/arch/unix/gui/vic20ui.c:320
+#: src/arch/unix/gui/uijoystick2.c:111 src/arch/unix/gui/uijoystick2.c:163
+#: src/arch/unix/gui/vic20ui.c:323
 msgid "*Digital Joystick 0"
 msgstr "*Digitális botkormány 0"
 
-#: src/arch/unix/gui/uijoystick2.c:110 src/arch/unix/gui/uijoystick2.c:159
-#: src/arch/unix/gui/vic20ui.c:323
+#: src/arch/unix/gui/uijoystick2.c:114 src/arch/unix/gui/uijoystick2.c:166
+#: src/arch/unix/gui/vic20ui.c:326
 msgid "*Digital Joystick 1"
 msgstr "*Digitális botkormány 1"
 
-#: src/arch/unix/gui/uijoystick2.c:115 src/arch/unix/gui/uijoystick2.c:164
-#: src/arch/unix/gui/vic20ui.c:328
+#: src/arch/unix/gui/uijoystick2.c:119 src/arch/unix/gui/uijoystick2.c:171
+#: src/arch/unix/gui/vic20ui.c:331
 msgid "*USB Joystick 0"
 msgstr "*USB botkormány 0"
 
-#: src/arch/unix/gui/uijoystick2.c:118 src/arch/unix/gui/uijoystick2.c:167
-#: src/arch/unix/gui/vic20ui.c:331
+#: src/arch/unix/gui/uijoystick2.c:122 src/arch/unix/gui/uijoystick2.c:174
+#: src/arch/unix/gui/vic20ui.c:334
 msgid "*USB Joystick 1"
 msgstr "*USB botkormány 1"
 
-#: src/arch/unix/gui/uijoystick2.c:177
+#: src/arch/unix/gui/uijoystick2.c:184
 msgid "Joystick device in port 1"
 msgstr "Botkormány az 1-es porton"
 
-#: src/arch/unix/gui/uijoystick2.c:179
+#: src/arch/unix/gui/uijoystick2.c:186
 msgid "Joystick device in port 2"
 msgstr "Botkormány a 2-es porton"
 
-#: src/arch/unix/gui/uijoystick2.c:182 src/arch/unix/gui/uijoystick2.c:188
+#: src/arch/unix/gui/uijoystick2.c:190
+#, fuzzy
+msgid "Define keysets"
+msgstr "Billentyûzetleképzés fájlba írása"
+
+#: src/arch/unix/gui/uijoystick2.c:194 src/arch/unix/gui/uijoystick2.c:200
 msgid "Swap joystick ports"
 msgstr "Portok felcserélése"
 
-#: src/arch/unix/gui/uijoystick2.c:194 src/arch/unix/gui/vic20ui.c:340
+#: src/arch/unix/gui/uijoystick2.c:206 src/arch/unix/gui/vic20ui.c:343
 #: src/arch/win32/res.rc.po.c:1111
 msgid "Joystick settings"
 msgstr "Botkormány beállítása"
@@ -4372,6 +4426,47 @@ msgstr "Billentyûzetleképzés fájlba írása"
 #: src/arch/unix/gui/uikeyboard.c:134 src/arch/win32/res.rc.po.c:5067
 msgid "Keyboard settings"
 msgstr "Billentyûzet beállítása"
+
+#: src/arch/unix/gui/uimmc64.c:44
+msgid "MMC64 BIOS name"
+msgstr ""
+
+#: src/arch/unix/gui/uimmc64.c:50
+#, fuzzy
+msgid "MMC64 image name"
+msgstr "IDE64 képmás név"
+
+#: src/arch/unix/gui/uimmc64.c:63
+#, fuzzy
+msgid "*Enable MMC64"
+msgstr "*IPV6 engedélyezése"
+
+#: src/arch/unix/gui/uimmc64.c:65
+#, fuzzy
+msgid "*MMC64 Revision"
+msgstr "Változatszám"
+
+#: src/arch/unix/gui/uimmc64.c:67
+msgid "*Enable MMC64 flashjumper"
+msgstr ""
+
+#: src/arch/unix/gui/uimmc64.c:69
+msgid "*Enable MMC64 BIOS save when changed"
+msgstr ""
+
+#: src/arch/unix/gui/uimmc64.c:71
+msgid "MMC64 BIOS name..."
+msgstr ""
+
+#: src/arch/unix/gui/uimmc64.c:74
+#, fuzzy
+msgid "*Enable MMC64 image read-only"
+msgstr "RAMCART bõvítés engedélyezése"
+
+#: src/arch/unix/gui/uimmc64.c:76
+#, fuzzy
+msgid "MMC64 image name..."
+msgstr "IDE64 képmás név..."
 
 #: src/arch/unix/gui/uimouse.c:50
 msgid "*Enable mouse"
@@ -5001,41 +5096,41 @@ msgstr "ACIA $DExx megszakítás"
 msgid "ACIA $DExx Emulation Mode"
 msgstr "ACIA $DExx emuláció módja"
 
-#: src/arch/unix/gui/uirs232c64c128.c:76 src/arch/unix/gui/vic20ui.c:350
+#: src/arch/unix/gui/uirs232c64c128.c:76 src/arch/unix/gui/vic20ui.c:353
 msgid "*Userport RS232 emulation"
 msgstr "*Userport RS232 emuláció"
 
-#: src/arch/unix/gui/uirs232c64c128.c:78 src/arch/unix/gui/vic20ui.c:352
+#: src/arch/unix/gui/uirs232c64c128.c:78 src/arch/unix/gui/vic20ui.c:355
 #: src/arch/amigaos/intl.c.po.c:3221
 msgid "Userport RS232 baud rate"
 msgstr "Userport RS232 átviteli ráta"
 
-#: src/arch/unix/gui/uirs232c64c128.c:80 src/arch/unix/gui/vic20ui.c:354
+#: src/arch/unix/gui/uirs232c64c128.c:80 src/arch/unix/gui/vic20ui.c:357
 msgid "Userport RS232 device"
 msgstr "Userport RS232 eszköz"
 
 #: src/arch/unix/gui/uirs232c64c128.c:83
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:42 src/arch/unix/gui/vic20ui.c:357
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:42 src/arch/unix/gui/vic20ui.c:360
 msgid "Serial 1 device..."
 msgstr "Soros eszköz 1..."
 
 #: src/arch/unix/gui/uirs232c64c128.c:85
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:44 src/arch/unix/gui/vic20ui.c:359
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:44 src/arch/unix/gui/vic20ui.c:362
 msgid "Serial 1 baudrate"
 msgstr "Soros átviteli sebesség 1"
 
 #: src/arch/unix/gui/uirs232c64c128.c:90
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:49 src/arch/unix/gui/vic20ui.c:364
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:49 src/arch/unix/gui/vic20ui.c:367
 msgid "Serial 2 baudrate"
 msgstr "Soros átviteli sebesség 2"
 
 #: src/arch/unix/gui/uirs232c64c128.c:93
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:52 src/arch/unix/gui/vic20ui.c:367
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:52 src/arch/unix/gui/vic20ui.c:370
 msgid "Dump filename..."
 msgstr "Kimeneti fájl neve..."
 
 #: src/arch/unix/gui/uirs232c64c128.c:96
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:55 src/arch/unix/gui/vic20ui.c:370
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:55 src/arch/unix/gui/vic20ui.c:373
 msgid "Program name to exec..."
 msgstr "Végrehajtandó program neve..."
 
@@ -5044,7 +5139,7 @@ msgstr "Végrehajtandó program neve..."
 msgid "ACIA device"
 msgstr "ACIA eszköz"
 
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:47 src/arch/unix/gui/vic20ui.c:362
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:47 src/arch/unix/gui/vic20ui.c:365
 msgid "Serial 2 device..."
 msgstr "Soros eszköz 2"
 
@@ -5363,7 +5458,7 @@ msgid "*Hardware scaling"
 msgstr "*Átméretezés hardverbõl"
 
 #: src/arch/unix/gui/uited.c:140 src/arch/unix/gui/uivicii.c:148
-#: src/arch/win32/resc128.rc.po.c:188 src/arch/win32/resc64.rc.po.c:190
+#: src/arch/win32/resc128.rc.po.c:188 src/arch/win32/resc64.rc.po.c:191
 #: src/arch/win32/resplus4.rc.po.c:174 src/arch/win32/resvic20.rc.po.c:172
 #: src/arch/amigaos/intl.c.po.c:1084
 msgid "PAL Emulation"
@@ -5513,7 +5608,7 @@ msgstr "*Blokk 3 (8K $6000-$7FFF címen)"
 msgid "*Block 5 (8K at $A000-$BFFF)"
 msgstr "*Blokk 5 (8K $A000-$BFFF címen)"
 
-#: src/arch/unix/gui/vic20ui.c:204 src/arch/unix/gui/vic20ui.c:425
+#: src/arch/unix/gui/vic20ui.c:204 src/arch/unix/gui/vic20ui.c:428
 msgid "Memory expansions"
 msgstr "Memória bõvítések"
 
@@ -5550,7 +5645,7 @@ msgstr "4KB képmás csatolása $B000 címre..."
 msgid "Detach cartridge image(s)"
 msgstr "Cartridge képmás(ok) leválasztása"
 
-#: src/arch/unix/gui/vic20ui.c:423
+#: src/arch/unix/gui/vic20ui.c:426
 msgid "VIC settings"
 msgstr "VIC beállítása"
 
@@ -5593,7 +5688,7 @@ msgid "VICE is FREE software!"
 msgstr "A VICE egy szabad szoftver!"
 
 #: src/arch/unix/x11/gnome/about.c:42 src/arch/unix/x11/xaw/about.c:65
-#: src/arch/win32/res.rc.po.c:5136
+#: src/arch/win32/res.rc.po.c:5137
 msgid "No warranty!"
 msgstr "Nincs garancia!"
 
@@ -5631,7 +5726,7 @@ msgstr ""
 msgid "(c) 1998 - 2006 The Vice Team"
 msgstr "(c) 1998 - 2006 A Vice Csapat"
 
-#: src/arch/unix/x11/gnome/about.c:109 src/arch/win32/res.rc.po.c:5135
+#: src/arch/unix/x11/gnome/about.c:109 src/arch/win32/res.rc.po.c:5136
 #: src/arch/amigaos/intl.c.po.c:1624
 msgid "License"
 msgstr "Licensz"
@@ -5775,11 +5870,11 @@ msgstr "Eszközök"
 msgid "Invalid Port number"
 msgstr "Érvénytelen port szám"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:138 src/arch/win32/res.rc.po.c:5197
+#: src/arch/unix/x11/gnome/uinetplay.c:138 src/arch/win32/res.rc.po.c:5198
 msgid "Idle"
 msgstr "Tétlen"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:143 src/arch/win32/res.rc.po.c:5198
+#: src/arch/unix/x11/gnome/uinetplay.c:143 src/arch/win32/res.rc.po.c:5199
 msgid "Server listening"
 msgstr "Várakozás kliensre"
 
@@ -5787,7 +5882,7 @@ msgstr "Várakozás kliensre"
 msgid "Connected Server"
 msgstr "Kiszolgáló a kapcsolatban"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:153 src/arch/win32/res.rc.po.c:5200
+#: src/arch/unix/x11/gnome/uinetplay.c:153 src/arch/win32/res.rc.po.c:5201
 msgid "Connected Client"
 msgstr "Kliens a kapcsolatban"
 
@@ -6252,22 +6347,22 @@ msgstr "Privát színpaletta telepítése"
 msgid "Use the default colormap"
 msgstr "Alapértelmezett színpaletta használata"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:5184
+#: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:5185
 #: src/arch/amigaos/intl.c.po.c:3023
 msgid "Save settings (resources) on exit"
 msgstr "Erõforrásbeállítások mentése kilépéskor"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:5187
+#: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:5188
 #: src/arch/amigaos/intl.c.po.c:3050
 msgid "Never confirm quiting VICE"
 msgstr "Sosem kér megerõsítést kilépés elõtt"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:5186
+#: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:5187
 #: src/arch/amigaos/intl.c.po.c:3041
 msgid "Confirm quiting VICE"
 msgstr "Megerõsítés kilépés elõtt"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:5185
+#: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:5186
 #: src/arch/amigaos/intl.c.po.c:3032
 msgid "Never save settings (resources) on exit"
 msgstr "Sose mentse az erõforrásbeállításokat kilépéskor"
@@ -6357,15 +6452,15 @@ msgstr "Fájlnév:"
 #: src/arch/win32/resc128.rc.po.c:2683 src/arch/win32/resc128.rc.po.c:2687
 #: src/arch/win32/resc128.rc.po.c:2691 src/arch/win32/resc128.rc.po.c:3851
 #: src/arch/win32/resc128.rc.po.c:3859 src/arch/win32/resc128.rc.po.c:4061
-#: src/arch/win32/resc128.rc.po.c:4063 src/arch/win32/resc64.rc.po.c:2073
-#: src/arch/win32/resc64.rc.po.c:2077 src/arch/win32/resc64.rc.po.c:2081
-#: src/arch/win32/resc64.rc.po.c:2244 src/arch/win32/resc64.rc.po.c:2248
+#: src/arch/win32/resc128.rc.po.c:4063 src/arch/win32/resc64.rc.po.c:2081
+#: src/arch/win32/resc64.rc.po.c:2085 src/arch/win32/resc64.rc.po.c:2089
 #: src/arch/win32/resc64.rc.po.c:2252 src/arch/win32/resc64.rc.po.c:2256
 #: src/arch/win32/resc64.rc.po.c:2260 src/arch/win32/resc64.rc.po.c:2264
 #: src/arch/win32/resc64.rc.po.c:2268 src/arch/win32/resc64.rc.po.c:2272
 #: src/arch/win32/resc64.rc.po.c:2276 src/arch/win32/resc64.rc.po.c:2280
-#: src/arch/win32/resc64.rc.po.c:3098 src/arch/win32/resc64.rc.po.c:3100
-#: src/arch/win32/resc64.rc.po.c:3102 src/arch/win32/rescbm2.rc.po.c:1728
+#: src/arch/win32/resc64.rc.po.c:2284 src/arch/win32/resc64.rc.po.c:2288
+#: src/arch/win32/resc64.rc.po.c:3106 src/arch/win32/resc64.rc.po.c:3108
+#: src/arch/win32/resc64.rc.po.c:3110 src/arch/win32/rescbm2.rc.po.c:1728
 #: src/arch/win32/rescbm2.rc.po.c:1732 src/arch/win32/rescbm2.rc.po.c:1736
 #: src/arch/win32/rescbm2.rc.po.c:1740 src/arch/win32/rescbm2.rc.po.c:1744
 #: src/arch/win32/rescbm2.rc.po.c:1748 src/arch/win32/rescbm2.rc.po.c:1752
@@ -6374,7 +6469,8 @@ msgstr "Fájlnév:"
 #: src/arch/win32/rescbm2.rc.po.c:2043 src/arch/win32/rescbm2.rc.po.c:3189
 #: src/arch/win32/rescbm2.rc.po.c:3191 src/arch/win32/rescbm2.rc.po.c:3193
 #: src/arch/win32/rescbm2.rc.po.c:3195 src/arch/win32/rescbm2.rc.po.c:3197
-#: src/arch/win32/rescbm2.rc.po.c:3199 src/arch/win32/respet.rc.po.c:1696
+#: src/arch/win32/rescbm2.rc.po.c:3199 src/arch/win32/resmmc64.rc.po.c:26
+#: src/arch/win32/resmmc64.rc.po.c:32 src/arch/win32/respet.rc.po.c:1696
 #: src/arch/win32/respet.rc.po.c:1700 src/arch/win32/respet.rc.po.c:1704
 #: src/arch/win32/respet.rc.po.c:1708 src/arch/win32/respet.rc.po.c:1712
 #: src/arch/win32/respet.rc.po.c:1716 src/arch/win32/respet.rc.po.c:1720
@@ -6400,15 +6496,15 @@ msgstr "Tallózás..."
 #: src/arch/win32/res.rc.po.c:1146 src/arch/win32/res.rc.po.c:1486
 #: src/arch/win32/res.rc.po.c:1726 src/arch/win32/res.rc.po.c:3516
 #: src/arch/win32/res.rc.po.c:3709 src/arch/win32/res.rc.po.c:4374
-#: src/arch/win32/res.rc.po.c:4502 src/arch/win32/res.rc.po.c:5211
+#: src/arch/win32/res.rc.po.c:4502 src/arch/win32/res.rc.po.c:5212
 #: src/arch/win32/resc128.rc.po.c:3110 src/arch/win32/resc128.rc.po.c:3465
-#: src/arch/win32/resc64.rc.po.c:2647 src/arch/win32/resc64.rc.po.c:2832
+#: src/arch/win32/resc64.rc.po.c:2655 src/arch/win32/resc64.rc.po.c:2840
 #: src/arch/win32/rescbm2.rc.po.c:2278 src/arch/win32/rescbm2.rc.po.c:2509
-#: src/arch/win32/resgeoram.rc.po.c:27 src/arch/win32/respet.rc.po.c:2246
-#: src/arch/win32/respet.rc.po.c:2477 src/arch/win32/resplus4.rc.po.c:2320
-#: src/arch/win32/resplus4.rc.po.c:2512 src/arch/win32/resplus4.rc.po.c:2731
-#: src/arch/win32/resvic20.rc.po.c:1954 src/arch/win32/resvic20.rc.po.c:2139
-#: src/arch/amigaos/intl.c.po.c:2033
+#: src/arch/win32/resgeoram.rc.po.c:27 src/arch/win32/resmmc64.rc.po.c:35
+#: src/arch/win32/respet.rc.po.c:2246 src/arch/win32/respet.rc.po.c:2477
+#: src/arch/win32/resplus4.rc.po.c:2320 src/arch/win32/resplus4.rc.po.c:2512
+#: src/arch/win32/resplus4.rc.po.c:2731 src/arch/win32/resvic20.rc.po.c:1954
+#: src/arch/win32/resvic20.rc.po.c:2139 src/arch/amigaos/intl.c.po.c:2033
 msgid "Cancel"
 msgstr "Mégsem"
 
@@ -6466,13 +6562,13 @@ msgstr "A felcsatolt lemezek elmentése:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:222
 #: src/arch/unix/x11/xaw/uisnapshot.c:261 src/arch/win32/resc128.rc.po.c:86
-#: src/arch/win32/resc64.rc.po.c:86 src/arch/amigaos/intl.c.po.c:598
+#: src/arch/win32/resc64.rc.po.c:87 src/arch/amigaos/intl.c.po.c:598
 msgid "Off"
 msgstr "Ki"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:234
 #: src/arch/unix/x11/xaw/uisnapshot.c:273 src/arch/win32/resc128.rc.po.c:88
-#: src/arch/win32/resc64.rc.po.c:88 src/arch/amigaos/intl.c.po.c:616
+#: src/arch/win32/resc64.rc.po.c:89 src/arch/amigaos/intl.c.po.c:616
 msgid "On"
 msgstr "Be"
 
@@ -6573,7 +6669,7 @@ msgid "E&xit\tAlt+F4"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:87 src/arch/win32/resc128.rc.po.c:110
-#: src/arch/win32/resc64.rc.po.c:110 src/arch/win32/rescbm2.rc.po.c:82
+#: src/arch/win32/resc64.rc.po.c:111 src/arch/win32/rescbm2.rc.po.c:82
 #: src/arch/win32/respet.rc.po.c:80 src/arch/win32/resplus4.rc.po.c:92
 #: src/arch/win32/resvic20.rc.po.c:90
 msgid "&Debug"
@@ -6689,14 +6785,15 @@ msgstr "A VICE-ról..."
 #: src/arch/win32/res.rc.po.c:1725 src/arch/win32/res.rc.po.c:2687
 #: src/arch/win32/res.rc.po.c:3515 src/arch/win32/res.rc.po.c:3708
 #: src/arch/win32/res.rc.po.c:4373 src/arch/win32/res.rc.po.c:4501
-#: src/arch/win32/res.rc.po.c:5210 src/arch/win32/resc128.rc.po.c:3109
-#: src/arch/win32/resc128.rc.po.c:3464 src/arch/win32/resc64.rc.po.c:2646
-#: src/arch/win32/resc64.rc.po.c:2831 src/arch/win32/rescbm2.rc.po.c:2277
+#: src/arch/win32/res.rc.po.c:5211 src/arch/win32/resc128.rc.po.c:3109
+#: src/arch/win32/resc128.rc.po.c:3464 src/arch/win32/resc64.rc.po.c:2654
+#: src/arch/win32/resc64.rc.po.c:2839 src/arch/win32/rescbm2.rc.po.c:2277
 #: src/arch/win32/rescbm2.rc.po.c:2508 src/arch/win32/resgeoram.rc.po.c:26
-#: src/arch/win32/respet.rc.po.c:2245 src/arch/win32/respet.rc.po.c:2476
-#: src/arch/win32/resplus4.rc.po.c:2319 src/arch/win32/resplus4.rc.po.c:2511
-#: src/arch/win32/resplus4.rc.po.c:2730 src/arch/win32/resvic20.rc.po.c:1953
-#: src/arch/win32/resvic20.rc.po.c:2138 src/arch/amigaos/intl.c.po.c:1779
+#: src/arch/win32/resmmc64.rc.po.c:34 src/arch/win32/respet.rc.po.c:2245
+#: src/arch/win32/respet.rc.po.c:2476 src/arch/win32/resplus4.rc.po.c:2319
+#: src/arch/win32/resplus4.rc.po.c:2511 src/arch/win32/resplus4.rc.po.c:2730
+#: src/arch/win32/resvic20.rc.po.c:1953 src/arch/win32/resvic20.rc.po.c:2138
+#: src/arch/amigaos/intl.c.po.c:1779
 msgid "OK"
 msgstr ""
 
@@ -6794,7 +6891,7 @@ msgid "&None"
 msgstr "*Nincs"
 
 #: src/arch/win32/res.rc.po.c:662 src/arch/win32/res.rc.po.c:3172
-#: src/arch/win32/res.rc.po.c:3404 src/arch/win32/res.rc.po.c:5213
+#: src/arch/win32/res.rc.po.c:3404 src/arch/win32/res.rc.po.c:5214
 #: src/arch/win32/resgeoram.rc.po.c:23 src/arch/win32/resvic20.rc.po.c:2563
 #, fuzzy
 msgid "&Browse..."
@@ -6817,7 +6914,7 @@ msgid "Bro&wse..."
 msgstr "Tallózás..."
 
 #: src/arch/win32/res.rc.po.c:669 src/arch/win32/resc128.rc.po.c:149
-#: src/arch/win32/resc64.rc.po.c:151 src/arch/win32/rescbm2.rc.po.c:121
+#: src/arch/win32/resc64.rc.po.c:152 src/arch/win32/rescbm2.rc.po.c:121
 #: src/arch/win32/respet.rc.po.c:119 src/arch/win32/resplus4.rc.po.c:131
 #: src/arch/win32/resvic20.rc.po.c:129
 #, fuzzy
@@ -7194,8 +7291,8 @@ msgid "Output file #3 name"
 msgstr "Kimeneti fájl neve..."
 
 #: src/arch/win32/res.rc.po.c:4085 src/arch/win32/resc128.rc.po.c:2092
-#: src/arch/win32/resc128.rc.po.c:2647 src/arch/win32/resc64.rc.po.c:2069
-#: src/arch/win32/resc64.rc.po.c:2240 src/arch/win32/rescbm2.rc.po.c:1724
+#: src/arch/win32/resc128.rc.po.c:2647 src/arch/win32/resc64.rc.po.c:2077
+#: src/arch/win32/resc64.rc.po.c:2248 src/arch/win32/rescbm2.rc.po.c:1724
 #: src/arch/win32/rescbm2.rc.po.c:2023 src/arch/win32/respet.rc.po.c:1692
 #: src/arch/win32/respet.rc.po.c:1991 src/arch/win32/resplus4.rc.po.c:1836
 #: src/arch/win32/resplus4.rc.po.c:2039
@@ -7714,338 +7811,343 @@ msgstr "64KB-os IDE64 cartridge képmás csatolása"
 msgid "Attach Action Replay cartridge image"
 msgstr "32KB-os Action Replay cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5116 src/arch/amigaos/intl.c.po.c:2186
+#: src/arch/win32/res.rc.po.c:5116
+#, fuzzy
+msgid "Attach Action Replay III cartridge image"
+msgstr "32KB-os Action Replay cartridge képmás csatolása"
+
+#: src/arch/win32/res.rc.po.c:5117 src/arch/amigaos/intl.c.po.c:2186
 #, fuzzy
 msgid "Attach Atomic Power cartridge image"
 msgstr "32KB-os Atomic Power cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5117 src/arch/amigaos/intl.c.po.c:2195
+#: src/arch/win32/res.rc.po.c:5118 src/arch/amigaos/intl.c.po.c:2195
 #, fuzzy
 msgid "Attach Epyx fastload cartridge image"
 msgstr "8KB-os Epyx gyorstöltõ cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5118 src/arch/amigaos/intl.c.po.c:2204
+#: src/arch/win32/res.rc.po.c:5119 src/arch/amigaos/intl.c.po.c:2204
 #, fuzzy
 msgid "Attach IEEE interface cartridge image"
 msgstr "Cartridge képmás csatlakoztatása"
 
-#: src/arch/win32/res.rc.po.c:5119 src/arch/amigaos/intl.c.po.c:2213
+#: src/arch/win32/res.rc.po.c:5120 src/arch/amigaos/intl.c.po.c:2213
 #, fuzzy
 msgid "Attach Retro Replay cartridge image"
 msgstr "64KB-os Retro Replay cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5120 src/arch/amigaos/intl.c.po.c:2222
+#: src/arch/win32/res.rc.po.c:5121 src/arch/amigaos/intl.c.po.c:2222
 #, fuzzy
 msgid "Attach IDE64 interface cartridge image"
 msgstr "IDE64 interfész képmás csatlakoztatása..."
 
-#: src/arch/win32/res.rc.po.c:5121 src/arch/amigaos/intl.c.po.c:2231
+#: src/arch/win32/res.rc.po.c:5122 src/arch/amigaos/intl.c.po.c:2231
 #, fuzzy
 msgid "Attach Super Snapshot 4 cartridge image"
 msgstr "32KB-os Super Snapshot cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5122 src/arch/amigaos/intl.c.po.c:2240
+#: src/arch/win32/res.rc.po.c:5123 src/arch/amigaos/intl.c.po.c:2240
 #, fuzzy
 msgid "Attach Super Snapshot 5 cartridge image"
 msgstr "32KB-os Super Snapshot cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5123 src/arch/amigaos/intl.c.po.c:2249
+#: src/arch/win32/res.rc.po.c:5124 src/arch/amigaos/intl.c.po.c:2249
 msgid "Attach Structured Basic cartridge image"
 msgstr "Structured Basic cartridge képmás csatolása"
 
-#: src/arch/win32/res.rc.po.c:5124
+#: src/arch/win32/res.rc.po.c:5125
 #, fuzzy
 msgid "Model"
 msgstr "<modell>"
 
-#: src/arch/win32/res.rc.po.c:5125 src/arch/amigaos/intl.c.po.c:2789
+#: src/arch/win32/res.rc.po.c:5126 src/arch/amigaos/intl.c.po.c:2789
 #, fuzzy
 msgid "Drive Settings"
 msgstr "Meghajtók beállításai"
 
-#: src/arch/win32/res.rc.po.c:5126 src/arch/amigaos/intl.c.po.c:2123
+#: src/arch/win32/res.rc.po.c:5127 src/arch/amigaos/intl.c.po.c:2123
 msgid "Select start snapshot for event history"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5127 src/arch/amigaos/intl.c.po.c:2132
+#: src/arch/win32/res.rc.po.c:5128 src/arch/amigaos/intl.c.po.c:2132
 #, fuzzy
 msgid "Select end snapshot for event history"
 msgstr "Pillanatkép fogadása a szerverrõl..."
 
-#: src/arch/win32/res.rc.po.c:5129
+#: src/arch/win32/res.rc.po.c:5130
 #, c-format
 msgid "Version %s *UNSTABLE*"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5131
+#: src/arch/win32/res.rc.po.c:5132
 #, c-format
 msgid "Version %s"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5133 src/arch/amigaos/intl.c.po.c:1788
+#: src/arch/win32/res.rc.po.c:5134 src/arch/amigaos/intl.c.po.c:1788
 #, fuzzy
 msgid "VICE contributors"
 msgstr "Közremûködõk"
 
-#: src/arch/win32/res.rc.po.c:5134 src/arch/amigaos/intl.c.po.c:1797
+#: src/arch/win32/res.rc.po.c:5135 src/arch/amigaos/intl.c.po.c:1797
 msgid "Who made what?"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5137 src/arch/amigaos/intl.c.po.c:1806
+#: src/arch/win32/res.rc.po.c:5138 src/arch/amigaos/intl.c.po.c:1806
 msgid "VICE is distributed WITHOUT ANY WARRANTY!"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5138
+#: src/arch/win32/res.rc.po.c:5139
 msgid "Press key for NorthWest"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5139
+#: src/arch/win32/res.rc.po.c:5140
 msgid "Press key for North"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5140
+#: src/arch/win32/res.rc.po.c:5141
 msgid "Press key for NorthEast"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5141
+#: src/arch/win32/res.rc.po.c:5142
 msgid "Press key for East"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5142
+#: src/arch/win32/res.rc.po.c:5143
 msgid "Press key for SouthEast"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5143
+#: src/arch/win32/res.rc.po.c:5144
 msgid "Press key for South"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5144
+#: src/arch/win32/res.rc.po.c:5145
 msgid "Press key for SouthWest"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5145
+#: src/arch/win32/res.rc.po.c:5146
 msgid "Press key for West"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5146
+#: src/arch/win32/res.rc.po.c:5147
 msgid "Press key for Fire"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5147
+#: src/arch/win32/res.rc.po.c:5148
 msgid "Numpad + RCtrl"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5148
+#: src/arch/win32/res.rc.po.c:5149
 #, fuzzy
 msgid "Keyset A"
 msgstr "Reset"
 
-#: src/arch/win32/res.rc.po.c:5149
+#: src/arch/win32/res.rc.po.c:5150
 #, fuzzy
 msgid "Keyset B"
 msgstr "Reset"
 
-#: src/arch/win32/res.rc.po.c:5150
+#: src/arch/win32/res.rc.po.c:5151
 msgid "All buttons used as fire"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5151
+#: src/arch/win32/res.rc.po.c:5152
 msgid "numeric (see above)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5152
+#: src/arch/win32/res.rc.po.c:5153
 msgid "No button - Autofire disabled"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5153
+#: src/arch/win32/res.rc.po.c:5154
 #, fuzzy
 msgid "All files (*.*)"
 msgstr "összes fájl"
 
-#: src/arch/win32/res.rc.po.c:5154
+#: src/arch/win32/res.rc.po.c:5155
 msgid "VICE palette files (*.vpl)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5155
+#: src/arch/win32/res.rc.po.c:5156
 #, fuzzy
 msgid "VICE snapshot files (*.vsf)"
 msgstr "Pillanatkép fájl mentése"
 
-#: src/arch/win32/res.rc.po.c:5156
+#: src/arch/win32/res.rc.po.c:5157
 msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5157
+#: src/arch/win32/res.rc.po.c:5158
 msgid "Tape image files (*.t64;*.p00;*.tap;*.prg)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5158
+#: src/arch/win32/res.rc.po.c:5159
 msgid "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5159
+#: src/arch/win32/res.rc.po.c:5160
 #, fuzzy
 msgid "CRT cartridge image files (*.crt)"
 msgstr "Cartridge képmás fájl mentése"
 
-#: src/arch/win32/res.rc.po.c:5160
+#: src/arch/win32/res.rc.po.c:5161
 #, fuzzy
 msgid "Raw cartridge image files (*.bin)"
 msgstr "Cartridge képmás fájl mentése"
 
-#: src/arch/win32/res.rc.po.c:5161
+#: src/arch/win32/res.rc.po.c:5162
 #, fuzzy
 msgid "VICE flip list files (*.vfl)"
 msgstr "Lemezlista betöltése"
 
-#: src/arch/win32/res.rc.po.c:5162
+#: src/arch/win32/res.rc.po.c:5163
 msgid "VICE romset files (*.vrs)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5163
+#: src/arch/win32/res.rc.po.c:5164
 msgid "VICE romset archives (*.vra)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5164
+#: src/arch/win32/res.rc.po.c:5165
 msgid "VICE keymap files (*.vkm)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5165 src/arch/amigaos/intl.c.po.c:3365
+#: src/arch/win32/res.rc.po.c:5166 src/arch/amigaos/intl.c.po.c:3365
 #, fuzzy
 msgid "Flexible"
 msgstr "*Rugalmas"
 
-#: src/arch/win32/res.rc.po.c:5166 src/arch/amigaos/intl.c.po.c:3374
+#: src/arch/win32/res.rc.po.c:5167 src/arch/amigaos/intl.c.po.c:3374
 #, fuzzy
 msgid "Adjusting"
 msgstr "*Igazodó"
 
-#: src/arch/win32/res.rc.po.c:5167 src/arch/amigaos/intl.c.po.c:3383
+#: src/arch/win32/res.rc.po.c:5168 src/arch/amigaos/intl.c.po.c:3383
 #, fuzzy
 msgid "Exact"
 msgstr "*Pontos"
 
-#: src/arch/win32/res.rc.po.c:5168
+#: src/arch/win32/res.rc.po.c:5169
 #, fuzzy
 msgid "Sound driver: DirectX"
 msgstr "Hangmodul argumentum"
 
-#: src/arch/win32/res.rc.po.c:5169
+#: src/arch/win32/res.rc.po.c:5170
 #, fuzzy
 msgid "Sound driver: WMM"
 msgstr "Hangmodul argumentum"
 
-#: src/arch/win32/res.rc.po.c:5170
+#: src/arch/win32/res.rc.po.c:5171
 msgid ""
 "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
 "mpg)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5171
+#: src/arch/win32/res.rc.po.c:5172
 msgid " kB"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5172
+#: src/arch/win32/res.rc.po.c:5173
 msgid "Configure Keyset A"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5173
+#: src/arch/win32/res.rc.po.c:5174
 msgid "Configure Keyset B"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5174
+#: src/arch/win32/res.rc.po.c:5175
 #, fuzzy
 msgid "Save media image"
 msgstr "Fénykép készítése"
 
-#: src/arch/win32/res.rc.po.c:5175 src/arch/amigaos/intl.c.po.c:2312
+#: src/arch/win32/res.rc.po.c:5176 src/arch/amigaos/intl.c.po.c:2312
 #, c-format
 msgid "%s at %d%% speed, %d fps%s"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5176
+#: src/arch/win32/res.rc.po.c:5177
 #, fuzzy
 msgid "Tape:"
 msgstr "Magnószalag 000"
 
-#: src/arch/win32/res.rc.po.c:5177
+#: src/arch/win32/res.rc.po.c:5178
 #, fuzzy
 msgid "Joystick:"
 msgstr "Botkormány 2"
 
-#: src/arch/win32/res.rc.po.c:5178
+#: src/arch/win32/res.rc.po.c:5179
 #, c-format
 msgid ""
 "Recording\n"
 "%02d:%02d"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5179
+#: src/arch/win32/res.rc.po.c:5180
 #, c-format
 msgid ""
 "Playback\n"
 "%02d:%02d (%02d:%02d)"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5180
+#: src/arch/win32/res.rc.po.c:5181
 #, fuzzy
 msgid "Unknown"
 msgstr "<ismeretlen>"
 
-#: src/arch/win32/res.rc.po.c:5182
+#: src/arch/win32/res.rc.po.c:5183
 #, fuzzy
 msgid "Set input device for joystick #1"
 msgstr "Port 1-es botkormány eszköz megadása"
 
-#: src/arch/win32/res.rc.po.c:5183
+#: src/arch/win32/res.rc.po.c:5184
 #, fuzzy
 msgid "Set input device for joystick #2"
 msgstr "Port 2-es botkormány eszköz megadása"
 
-#: src/arch/win32/res.rc.po.c:5188
+#: src/arch/win32/res.rc.po.c:5189
 msgid "Use all CPU on SMP systems"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5189
+#: src/arch/win32/res.rc.po.c:5190
 msgid "Use only first CPU on SMP systems"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5190
+#: src/arch/win32/res.rc.po.c:5191
 #, fuzzy
 msgid "Start VICE in fullscreen mode"
 msgstr "Teljesképernyõs mód engedélyezése"
 
-#: src/arch/win32/res.rc.po.c:5192
+#: src/arch/win32/res.rc.po.c:5193
 #, fuzzy, c-format
 msgid "An unexpected error occured. Received signal %d (%s)."
 msgstr "Signal érkezett %d (%s)."
 
-#: src/arch/win32/res.rc.po.c:5194
+#: src/arch/win32/res.rc.po.c:5195
 #, c-format
 msgid "An unexpected error occured. Received signal %d."
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:5199
+#: src/arch/win32/res.rc.po.c:5200
 #, fuzzy
 msgid "Connected server"
 msgstr "Kiszolgáló a kapcsolatban"
 
-#: src/arch/win32/res.rc.po.c:5201 src/arch/amigaos/intl.c.po.c:1968
+#: src/arch/win32/res.rc.po.c:5202 src/arch/amigaos/intl.c.po.c:1968
 #, fuzzy
 msgid "Invalid port number"
 msgstr "Érvénytelen port szám"
 
-#: src/arch/win32/res.rc.po.c:5202 src/arch/amigaos/intl.c.po.c:1950
+#: src/arch/win32/res.rc.po.c:5203 src/arch/amigaos/intl.c.po.c:1950
 #, fuzzy
 msgid "An error occured starting the server."
 msgstr "Hiba történt a játék kiszolgáló indításakor"
 
-#: src/arch/win32/res.rc.po.c:5203 src/arch/amigaos/intl.c.po.c:1959
+#: src/arch/win32/res.rc.po.c:5204 src/arch/amigaos/intl.c.po.c:1959
 #, fuzzy
 msgid "An error occured connecting the client."
 msgstr "Hiba történt a kapcsolódáskor."
 
-#: src/arch/win32/res.rc.po.c:5212 src/arch/win32/resdrivec128.rc.po.c:51
+#: src/arch/win32/res.rc.po.c:5213 src/arch/win32/resdrivec128.rc.po.c:51
 #: src/arch/win32/resdrivec64vic20.rc.po.c:49
 #: src/arch/win32/resdriveplus4.rc.po.c:37 src/arch/amigaos/intl.c.po.c:2465
 #, fuzzy
@@ -8312,288 +8414,288 @@ msgstr "Általános 16KB képmás csatlakoztatása..."
 msgid "&Action Replay image..."
 msgstr "Action Replay képmás csatlakoztatása..."
 
-#: src/arch/win32/resc128.rc.po.c:74 src/arch/win32/resc64.rc.po.c:74
+#: src/arch/win32/resc128.rc.po.c:74 src/arch/win32/resc64.rc.po.c:75
 #, fuzzy
 msgid "Atomic &Power image..."
 msgstr "Atomic Power képmás csatlakoztatása..."
 
-#: src/arch/win32/resc128.rc.po.c:75 src/arch/win32/resc64.rc.po.c:75
+#: src/arch/win32/resc128.rc.po.c:75 src/arch/win32/resc64.rc.po.c:76
 #, fuzzy
 msgid "&Epyx fastload image..."
 msgstr "Epyx gyorstöltõ képmás csatlakoztatása..."
 
-#: src/arch/win32/resc128.rc.po.c:76 src/arch/win32/resc64.rc.po.c:76
+#: src/arch/win32/resc128.rc.po.c:76 src/arch/win32/resc64.rc.po.c:77
 #, fuzzy
 msgid "&IEEE488 interface image..."
 msgstr "IEEE488 interfész képmás csatlakoztatása..."
 
-#: src/arch/win32/resc128.rc.po.c:77 src/arch/win32/resc64.rc.po.c:77
+#: src/arch/win32/resc128.rc.po.c:77 src/arch/win32/resc64.rc.po.c:78
 #, fuzzy
 msgid "&Retro Replay image..."
 msgstr "Retro Replay képmás csatlakoztatása..."
 
-#: src/arch/win32/resc128.rc.po.c:78 src/arch/win32/resc64.rc.po.c:78
+#: src/arch/win32/resc128.rc.po.c:78 src/arch/win32/resc64.rc.po.c:79
 #, fuzzy
 msgid "IDE&64 interface image..."
 msgstr "IDE64 interfész képmás csatlakoztatása..."
 
-#: src/arch/win32/resc128.rc.po.c:79 src/arch/win32/resc64.rc.po.c:79
+#: src/arch/win32/resc128.rc.po.c:79 src/arch/win32/resc64.rc.po.c:80
 #, fuzzy
 msgid "Super Snapshot &4 image..."
 msgstr "Super Snapshot 4 képmás csatlakoztatása..."
 
-#: src/arch/win32/resc128.rc.po.c:80 src/arch/win32/resc64.rc.po.c:80
+#: src/arch/win32/resc128.rc.po.c:80 src/arch/win32/resc64.rc.po.c:81
 #, fuzzy
 msgid "Super Snapshot &5 image..."
 msgstr "Super Snapshot 5 képmás csatlakoztatása..."
 
-#: src/arch/win32/resc128.rc.po.c:81 src/arch/win32/resc64.rc.po.c:81
+#: src/arch/win32/resc128.rc.po.c:81 src/arch/win32/resc64.rc.po.c:82
 #, fuzzy
 msgid "Structured &Basic image..."
 msgstr "Structured Basic képmás csatlakoztatása..."
 
-#: src/arch/win32/resc128.rc.po.c:82 src/arch/win32/resc64.rc.po.c:82
+#: src/arch/win32/resc128.rc.po.c:82 src/arch/win32/resc64.rc.po.c:83
 #: src/arch/amigaos/intl.c.po.c:580
 #, fuzzy
 msgid "Expert Cartridge"
 msgstr "Expert cartridge engedélyezése"
 
-#: src/arch/win32/resc128.rc.po.c:84 src/arch/win32/resc64.rc.po.c:84
+#: src/arch/win32/resc128.rc.po.c:84 src/arch/win32/resc64.rc.po.c:85
 #: src/arch/amigaos/intl.c.po.c:589
 #, fuzzy
 msgid "Enable"
 msgstr "*REU engedélyezése"
 
-#: src/arch/win32/resc128.rc.po.c:87 src/arch/win32/resc64.rc.po.c:87
+#: src/arch/win32/resc128.rc.po.c:87 src/arch/win32/resc64.rc.po.c:88
 #: src/arch/amigaos/intl.c.po.c:607
 msgid "Prg"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:91 src/arch/win32/resc64.rc.po.c:91
+#: src/arch/win32/resc128.rc.po.c:91 src/arch/win32/resc64.rc.po.c:92
 #, fuzzy
 msgid "Set cartridge as &default"
 msgstr "Cartridge alapértelmezetté tétele"
 
-#: src/arch/win32/resc128.rc.po.c:92 src/arch/win32/resc64.rc.po.c:92
+#: src/arch/win32/resc128.rc.po.c:92 src/arch/win32/resc64.rc.po.c:93
 msgid "Reset &on cart change"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:94 src/arch/win32/resc64.rc.po.c:94
+#: src/arch/win32/resc128.rc.po.c:94 src/arch/win32/resc64.rc.po.c:95
 #: src/arch/win32/resplus4.rc.po.c:76
 #, fuzzy
 msgid "Detach cartridge &image"
 msgstr "Cartridge képmás leválasztása"
 
-#: src/arch/win32/resc128.rc.po.c:95 src/arch/win32/resc64.rc.po.c:95
+#: src/arch/win32/resc128.rc.po.c:95 src/arch/win32/resc64.rc.po.c:96
 #, fuzzy
 msgid "Cartridge free&ze\tAlt+Z"
 msgstr "Fagyasztás Cartridge-el"
 
-#: src/arch/win32/resc128.rc.po.c:97 src/arch/win32/resc64.rc.po.c:97
+#: src/arch/win32/resc128.rc.po.c:97 src/arch/win32/resc64.rc.po.c:98
 #: src/arch/win32/rescbm2.rc.po.c:68 src/arch/win32/respet.rc.po.c:66
 #: src/arch/win32/resplus4.rc.po.c:78 src/arch/win32/resvic20.rc.po.c:76
 msgid "&Pause\tAlt+Pause"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:98 src/arch/win32/resc64.rc.po.c:98
+#: src/arch/win32/resc128.rc.po.c:98 src/arch/win32/resc64.rc.po.c:99
 #: src/arch/win32/rescbm2.rc.po.c:70 src/arch/win32/respet.rc.po.c:68
 #: src/arch/win32/resplus4.rc.po.c:80 src/arch/win32/resvic20.rc.po.c:78
 #, fuzzy
 msgid "&Monitor\tAlt+M"
 msgstr "Monitor"
 
-#: src/arch/win32/resc128.rc.po.c:99 src/arch/win32/resc64.rc.po.c:99
+#: src/arch/win32/resc128.rc.po.c:99 src/arch/win32/resc64.rc.po.c:100
 #: src/arch/win32/rescbm2.rc.po.c:71 src/arch/win32/respet.rc.po.c:69
 #: src/arch/win32/resplus4.rc.po.c:81 src/arch/win32/resvic20.rc.po.c:79
 #, fuzzy
 msgid "&Reset"
 msgstr "Reset"
 
-#: src/arch/win32/resc128.rc.po.c:101 src/arch/win32/resc64.rc.po.c:101
+#: src/arch/win32/resc128.rc.po.c:101 src/arch/win32/resc64.rc.po.c:102
 #: src/arch/win32/rescbm2.rc.po.c:73 src/arch/win32/respet.rc.po.c:71
 #: src/arch/win32/resplus4.rc.po.c:83 src/arch/win32/resvic20.rc.po.c:81
 msgid "&Hard\tCtrl+Alt+R"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:102 src/arch/win32/resc64.rc.po.c:102
+#: src/arch/win32/resc128.rc.po.c:102 src/arch/win32/resc64.rc.po.c:103
 #: src/arch/win32/rescbm2.rc.po.c:74 src/arch/win32/respet.rc.po.c:72
 #: src/arch/win32/resplus4.rc.po.c:84 src/arch/win32/resvic20.rc.po.c:82
 msgid "&Soft\tAlt+R"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:104 src/arch/win32/resc64.rc.po.c:104
+#: src/arch/win32/resc128.rc.po.c:104 src/arch/win32/resc64.rc.po.c:105
 #: src/arch/win32/rescbm2.rc.po.c:76 src/arch/win32/respet.rc.po.c:74
 #: src/arch/win32/resplus4.rc.po.c:86 src/arch/win32/resvic20.rc.po.c:84
 #, fuzzy
 msgid "Drive #&8"
 msgstr "Lemezegység #8 típus"
 
-#: src/arch/win32/resc128.rc.po.c:105 src/arch/win32/resc64.rc.po.c:105
+#: src/arch/win32/resc128.rc.po.c:105 src/arch/win32/resc64.rc.po.c:106
 #: src/arch/win32/rescbm2.rc.po.c:77 src/arch/win32/respet.rc.po.c:75
 #: src/arch/win32/resplus4.rc.po.c:87 src/arch/win32/resvic20.rc.po.c:85
 #, fuzzy
 msgid "Drive #&9"
 msgstr "Lemezegység #9 típus"
 
-#: src/arch/win32/resc128.rc.po.c:106 src/arch/win32/resc64.rc.po.c:106
+#: src/arch/win32/resc128.rc.po.c:106 src/arch/win32/resc64.rc.po.c:107
 #: src/arch/win32/rescbm2.rc.po.c:78 src/arch/win32/respet.rc.po.c:76
 #: src/arch/win32/resplus4.rc.po.c:88 src/arch/win32/resvic20.rc.po.c:86
 #, fuzzy
 msgid "Drive #1&0"
 msgstr "Lemezegység #10 típus"
 
-#: src/arch/win32/resc128.rc.po.c:107 src/arch/win32/resc64.rc.po.c:107
+#: src/arch/win32/resc128.rc.po.c:107 src/arch/win32/resc64.rc.po.c:108
 #: src/arch/win32/rescbm2.rc.po.c:79 src/arch/win32/respet.rc.po.c:77
 #: src/arch/win32/resplus4.rc.po.c:89 src/arch/win32/resvic20.rc.po.c:87
 #, fuzzy
 msgid "Drive #&11"
 msgstr "Lemezegység #11 típus"
 
-#: src/arch/win32/resc128.rc.po.c:112 src/arch/win32/resc64.rc.po.c:112
+#: src/arch/win32/resc128.rc.po.c:112 src/arch/win32/resc64.rc.po.c:113
 #: src/arch/win32/rescbm2.rc.po.c:84 src/arch/win32/respet.rc.po.c:82
 #: src/arch/win32/resplus4.rc.po.c:94 src/arch/win32/resvic20.rc.po.c:92
 msgid "M&ode"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:114 src/arch/win32/resc64.rc.po.c:114
+#: src/arch/win32/resc128.rc.po.c:114 src/arch/win32/resc64.rc.po.c:115
 #: src/arch/win32/rescbm2.rc.po.c:86 src/arch/win32/respet.rc.po.c:84
 #: src/arch/win32/resplus4.rc.po.c:96 src/arch/win32/resvic20.rc.po.c:94
 #, fuzzy
 msgid "&Normal"
 msgstr "*Normális"
 
-#: src/arch/win32/resc128.rc.po.c:115 src/arch/win32/resc64.rc.po.c:115
+#: src/arch/win32/resc128.rc.po.c:115 src/arch/win32/resc64.rc.po.c:116
 #: src/arch/win32/rescbm2.rc.po.c:87 src/arch/win32/respet.rc.po.c:85
 #: src/arch/win32/resplus4.rc.po.c:97 src/arch/win32/resvic20.rc.po.c:95
 msgid "&Small"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:116 src/arch/win32/resc64.rc.po.c:116
+#: src/arch/win32/resc128.rc.po.c:116 src/arch/win32/resc64.rc.po.c:117
 #: src/arch/win32/rescbm2.rc.po.c:88 src/arch/win32/respet.rc.po.c:86
 #: src/arch/win32/resplus4.rc.po.c:98 src/arch/win32/resvic20.rc.po.c:96
 msgid "&History"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:117 src/arch/win32/resc64.rc.po.c:117
+#: src/arch/win32/resc128.rc.po.c:117 src/arch/win32/resc64.rc.po.c:118
 #: src/arch/win32/rescbm2.rc.po.c:89 src/arch/win32/respet.rc.po.c:87
 #: src/arch/win32/resplus4.rc.po.c:99 src/arch/win32/resvic20.rc.po.c:97
 msgid "&History Autoplay"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:119 src/arch/win32/resc64.rc.po.c:119
+#: src/arch/win32/resc128.rc.po.c:119 src/arch/win32/resc64.rc.po.c:120
 #: src/arch/win32/rescbm2.rc.po.c:91 src/arch/win32/respet.rc.po.c:89
 #: src/arch/win32/resplus4.rc.po.c:101 src/arch/win32/resvic20.rc.po.c:99
 msgid "&Main CPU Trace\tAlt+F10"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:120 src/arch/win32/resc64.rc.po.c:120
+#: src/arch/win32/resc128.rc.po.c:120 src/arch/win32/resc64.rc.po.c:121
 #: src/arch/win32/rescbm2.rc.po.c:92 src/arch/win32/respet.rc.po.c:90
 #: src/arch/win32/resplus4.rc.po.c:102 src/arch/win32/resvic20.rc.po.c:100
 msgid "Drive&0 CPU Trace\tAlt+F11"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:121 src/arch/win32/resc64.rc.po.c:121
+#: src/arch/win32/resc128.rc.po.c:121 src/arch/win32/resc64.rc.po.c:122
 #: src/arch/win32/rescbm2.rc.po.c:93 src/arch/win32/respet.rc.po.c:91
 #: src/arch/win32/resplus4.rc.po.c:103 src/arch/win32/resvic20.rc.po.c:101
 msgid "Drive&1 CPU Trace\tAlt+F12"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:125 src/arch/win32/resc64.rc.po.c:125
+#: src/arch/win32/resc128.rc.po.c:125 src/arch/win32/resc64.rc.po.c:126
 #: src/arch/win32/rescbm2.rc.po.c:97 src/arch/win32/respet.rc.po.c:95
 #: src/arch/win32/resplus4.rc.po.c:107 src/arch/win32/resvic20.rc.po.c:105
 msgid "E&xit\tAlt+X"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:127 src/arch/win32/resc64.rc.po.c:127
+#: src/arch/win32/resc128.rc.po.c:127 src/arch/win32/resc64.rc.po.c:128
 #: src/arch/win32/rescbm2.rc.po.c:99 src/arch/win32/respet.rc.po.c:97
 #: src/arch/win32/resplus4.rc.po.c:109 src/arch/win32/resvic20.rc.po.c:107
 #, fuzzy
 msgid "Sna&pshot"
 msgstr "Pillanatkép"
 
-#: src/arch/win32/resc128.rc.po.c:129 src/arch/win32/resc64.rc.po.c:129
+#: src/arch/win32/resc128.rc.po.c:129 src/arch/win32/resc64.rc.po.c:130
 #: src/arch/win32/rescbm2.rc.po.c:101 src/arch/win32/respet.rc.po.c:99
 #: src/arch/win32/resplus4.rc.po.c:111 src/arch/win32/resvic20.rc.po.c:109
 #, fuzzy
 msgid "Load snapshot &image..."
 msgstr "Pillanatkép betöltése..."
 
-#: src/arch/win32/resc128.rc.po.c:130 src/arch/win32/resc64.rc.po.c:130
+#: src/arch/win32/resc128.rc.po.c:130 src/arch/win32/resc64.rc.po.c:131
 #: src/arch/win32/rescbm2.rc.po.c:102 src/arch/win32/respet.rc.po.c:100
 #: src/arch/win32/resplus4.rc.po.c:112 src/arch/win32/resvic20.rc.po.c:110
 #, fuzzy
 msgid "Save sna&pshot image..."
 msgstr "Pillanatkép mentése..."
 
-#: src/arch/win32/resc128.rc.po.c:131 src/arch/win32/resc64.rc.po.c:131
+#: src/arch/win32/resc128.rc.po.c:131 src/arch/win32/resc64.rc.po.c:132
 #: src/arch/win32/rescbm2.rc.po.c:103 src/arch/win32/respet.rc.po.c:101
 #: src/arch/win32/resplus4.rc.po.c:113 src/arch/win32/resvic20.rc.po.c:111
 msgid "&Load quicksnapshot image\tAlt+L"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:132 src/arch/win32/resc64.rc.po.c:132
+#: src/arch/win32/resc128.rc.po.c:132 src/arch/win32/resc64.rc.po.c:133
 #: src/arch/win32/rescbm2.rc.po.c:104 src/arch/win32/respet.rc.po.c:102
 #: src/arch/win32/resplus4.rc.po.c:114 src/arch/win32/resvic20.rc.po.c:112
 #, fuzzy
 msgid "&Save quicksnapshot image\tAlt+S"
 msgstr "Pillanatkép fájl mentése"
 
-#: src/arch/win32/resc128.rc.po.c:134 src/arch/win32/resc64.rc.po.c:134
+#: src/arch/win32/resc128.rc.po.c:134 src/arch/win32/resc64.rc.po.c:135
 #: src/arch/win32/rescbm2.rc.po.c:106 src/arch/win32/respet.rc.po.c:104
 #: src/arch/win32/resplus4.rc.po.c:116 src/arch/win32/resvic20.rc.po.c:114
 #, fuzzy
 msgid "Start/Stop &Recording History"
 msgstr "Eseményfelvétel indítása"
 
-#: src/arch/win32/resc128.rc.po.c:135 src/arch/win32/resc64.rc.po.c:135
+#: src/arch/win32/resc128.rc.po.c:135 src/arch/win32/resc64.rc.po.c:136
 #: src/arch/win32/rescbm2.rc.po.c:107 src/arch/win32/respet.rc.po.c:105
 #: src/arch/win32/resplus4.rc.po.c:117 src/arch/win32/resvic20.rc.po.c:115
 msgid "Start/Stop Pl&ayback History"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:136 src/arch/win32/resc64.rc.po.c:136
+#: src/arch/win32/resc128.rc.po.c:136 src/arch/win32/resc64.rc.po.c:137
 #: src/arch/win32/rescbm2.rc.po.c:108 src/arch/win32/respet.rc.po.c:106
 #: src/arch/win32/resplus4.rc.po.c:118 src/arch/win32/resvic20.rc.po.c:116
 #, fuzzy
 msgid "Set Recording Milestone\tAlt+G"
 msgstr "Kilóméterkõ elhelyezése a felvételben"
 
-#: src/arch/win32/resc128.rc.po.c:137 src/arch/win32/resc64.rc.po.c:137
+#: src/arch/win32/resc128.rc.po.c:137 src/arch/win32/resc64.rc.po.c:138
 #: src/arch/win32/rescbm2.rc.po.c:109 src/arch/win32/respet.rc.po.c:107
 #: src/arch/win32/resplus4.rc.po.c:119 src/arch/win32/resvic20.rc.po.c:117
 #, fuzzy
 msgid "Return to Milestone\tAlt+H"
 msgstr "Visszaugrás az elõzõ kilóméterkõhöz"
 
-#: src/arch/win32/resc128.rc.po.c:140 src/arch/win32/resc64.rc.po.c:140
+#: src/arch/win32/resc128.rc.po.c:140 src/arch/win32/resc64.rc.po.c:141
 #: src/arch/win32/rescbm2.rc.po.c:112 src/arch/win32/respet.rc.po.c:110
 #: src/arch/win32/resplus4.rc.po.c:122 src/arch/win32/resvic20.rc.po.c:120
 #, fuzzy
 msgid "&Save new snapshot"
 msgstr "*Új pillanatkép mentése"
 
-#: src/arch/win32/resc128.rc.po.c:141 src/arch/win32/resc64.rc.po.c:141
+#: src/arch/win32/resc128.rc.po.c:141 src/arch/win32/resc64.rc.po.c:142
 #: src/arch/win32/rescbm2.rc.po.c:113 src/arch/win32/respet.rc.po.c:111
 #: src/arch/win32/resplus4.rc.po.c:123 src/arch/win32/resvic20.rc.po.c:121
 #, fuzzy
 msgid "&Load existing snapshot"
 msgstr "*Létezõ pillanatkép betöltése"
 
-#: src/arch/win32/resc128.rc.po.c:142 src/arch/win32/resc64.rc.po.c:142
+#: src/arch/win32/resc128.rc.po.c:142 src/arch/win32/resc64.rc.po.c:143
 #: src/arch/win32/rescbm2.rc.po.c:114 src/arch/win32/respet.rc.po.c:112
 #: src/arch/win32/resplus4.rc.po.c:124 src/arch/win32/resvic20.rc.po.c:122
 #, fuzzy
 msgid "Start with &reset"
 msgstr "*Indulás RESET-tel"
 
-#: src/arch/win32/resc128.rc.po.c:143 src/arch/win32/resc64.rc.po.c:143
+#: src/arch/win32/resc128.rc.po.c:143 src/arch/win32/resc64.rc.po.c:144
 #: src/arch/win32/rescbm2.rc.po.c:115 src/arch/win32/respet.rc.po.c:113
 #: src/arch/win32/resplus4.rc.po.c:125 src/arch/win32/resvic20.rc.po.c:123
 #, fuzzy
 msgid "Overwrite &Playback"
 msgstr "*A futó visszajátszás felülírása"
 
-#: src/arch/win32/resc128.rc.po.c:145 src/arch/win32/resc64.rc.po.c:145
+#: src/arch/win32/resc128.rc.po.c:145 src/arch/win32/resc64.rc.po.c:146
 #: src/arch/win32/rescbm2.rc.po.c:117 src/arch/win32/respet.rc.po.c:115
 #: src/arch/win32/resplus4.rc.po.c:127 src/arch/win32/resvic20.rc.po.c:125
 #: src/arch/amigaos/intl.c.po.c:823
@@ -8601,89 +8703,89 @@ msgstr "*A futó visszajátszás felülírása"
 msgid "Select History files/directory"
 msgstr "Pillanatképek könyvtára"
 
-#: src/arch/win32/resc128.rc.po.c:147 src/arch/win32/resc64.rc.po.c:147
+#: src/arch/win32/resc128.rc.po.c:147 src/arch/win32/resc64.rc.po.c:148
 #: src/arch/win32/rescbm2.rc.po.c:119 src/arch/win32/respet.rc.po.c:117
 #: src/arch/win32/resplus4.rc.po.c:129 src/arch/win32/resvic20.rc.po.c:127
 #, fuzzy
 msgid "Save/stop media file...\tAlt+C"
 msgstr "Fénykép készítése"
 
-#: src/arch/win32/resc128.rc.po.c:151 src/arch/win32/resc64.rc.po.c:153
+#: src/arch/win32/resc128.rc.po.c:151 src/arch/win32/resc64.rc.po.c:154
 #: src/arch/win32/rescbm2.rc.po.c:123 src/arch/win32/respet.rc.po.c:121
 #: src/arch/win32/resplus4.rc.po.c:133 src/arch/win32/resvic20.rc.po.c:131
 #, fuzzy
 msgid "&Refresh rate"
 msgstr "Frissítési ráta"
 
-#: src/arch/win32/resc128.rc.po.c:153 src/arch/win32/resc64.rc.po.c:155
+#: src/arch/win32/resc128.rc.po.c:153 src/arch/win32/resc64.rc.po.c:156
 #: src/arch/win32/rescbm2.rc.po.c:125 src/arch/win32/respet.rc.po.c:123
 #: src/arch/win32/resplus4.rc.po.c:135 src/arch/win32/resvic20.rc.po.c:133
 #, fuzzy
 msgid "&Auto"
 msgstr "*Automatikus"
 
-#: src/arch/win32/resc128.rc.po.c:154 src/arch/win32/resc64.rc.po.c:156
+#: src/arch/win32/resc128.rc.po.c:154 src/arch/win32/resc64.rc.po.c:157
 #: src/arch/win32/rescbm2.rc.po.c:126 src/arch/win32/respet.rc.po.c:124
 #: src/arch/win32/resplus4.rc.po.c:136 src/arch/win32/resvic20.rc.po.c:134
 msgid "1/&1"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:155 src/arch/win32/resc64.rc.po.c:157
+#: src/arch/win32/resc128.rc.po.c:155 src/arch/win32/resc64.rc.po.c:158
 #: src/arch/win32/rescbm2.rc.po.c:127 src/arch/win32/respet.rc.po.c:125
 #: src/arch/win32/resplus4.rc.po.c:137 src/arch/win32/resvic20.rc.po.c:135
 msgid "1/&2"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:156 src/arch/win32/resc64.rc.po.c:158
+#: src/arch/win32/resc128.rc.po.c:156 src/arch/win32/resc64.rc.po.c:159
 #: src/arch/win32/rescbm2.rc.po.c:128 src/arch/win32/respet.rc.po.c:126
 #: src/arch/win32/resplus4.rc.po.c:138 src/arch/win32/resvic20.rc.po.c:136
 msgid "1/&3"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:157 src/arch/win32/resc64.rc.po.c:159
+#: src/arch/win32/resc128.rc.po.c:157 src/arch/win32/resc64.rc.po.c:160
 #: src/arch/win32/rescbm2.rc.po.c:129 src/arch/win32/respet.rc.po.c:127
 #: src/arch/win32/resplus4.rc.po.c:139 src/arch/win32/resvic20.rc.po.c:137
 msgid "1/&4"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:158 src/arch/win32/resc64.rc.po.c:160
+#: src/arch/win32/resc128.rc.po.c:158 src/arch/win32/resc64.rc.po.c:161
 #: src/arch/win32/rescbm2.rc.po.c:130 src/arch/win32/respet.rc.po.c:128
 #: src/arch/win32/resplus4.rc.po.c:140 src/arch/win32/resvic20.rc.po.c:138
 msgid "1/&5"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:159 src/arch/win32/resc64.rc.po.c:161
+#: src/arch/win32/resc128.rc.po.c:159 src/arch/win32/resc64.rc.po.c:162
 #: src/arch/win32/rescbm2.rc.po.c:131 src/arch/win32/respet.rc.po.c:129
 #: src/arch/win32/resplus4.rc.po.c:141 src/arch/win32/resvic20.rc.po.c:139
 msgid "1/&6"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:160 src/arch/win32/resc64.rc.po.c:162
+#: src/arch/win32/resc128.rc.po.c:160 src/arch/win32/resc64.rc.po.c:163
 #: src/arch/win32/rescbm2.rc.po.c:132 src/arch/win32/respet.rc.po.c:130
 #: src/arch/win32/resplus4.rc.po.c:142 src/arch/win32/resvic20.rc.po.c:140
 msgid "1/&7"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:161 src/arch/win32/resc64.rc.po.c:163
+#: src/arch/win32/resc128.rc.po.c:161 src/arch/win32/resc64.rc.po.c:164
 #: src/arch/win32/rescbm2.rc.po.c:133 src/arch/win32/respet.rc.po.c:131
 #: src/arch/win32/resplus4.rc.po.c:143 src/arch/win32/resvic20.rc.po.c:141
 msgid "1/&8"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:162 src/arch/win32/resc64.rc.po.c:164
+#: src/arch/win32/resc128.rc.po.c:162 src/arch/win32/resc64.rc.po.c:165
 #: src/arch/win32/rescbm2.rc.po.c:134 src/arch/win32/respet.rc.po.c:132
 #: src/arch/win32/resplus4.rc.po.c:144 src/arch/win32/resvic20.rc.po.c:142
 msgid "1/&9"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:163 src/arch/win32/resc64.rc.po.c:165
+#: src/arch/win32/resc128.rc.po.c:163 src/arch/win32/resc64.rc.po.c:166
 #: src/arch/win32/rescbm2.rc.po.c:135 src/arch/win32/respet.rc.po.c:133
 #: src/arch/win32/resplus4.rc.po.c:145 src/arch/win32/resvic20.rc.po.c:143
 msgid "1/1&0"
 msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:166 src/arch/win32/resc128.rc.po.c:178
-#: src/arch/win32/resc64.rc.po.c:168 src/arch/win32/resc64.rc.po.c:180
+#: src/arch/win32/resc64.rc.po.c:169 src/arch/win32/resc64.rc.po.c:181
 #: src/arch/win32/rescbm2.rc.po.c:138 src/arch/win32/rescbm2.rc.po.c:150
 #: src/arch/win32/respet.rc.po.c:136 src/arch/win32/respet.rc.po.c:148
 #: src/arch/win32/resplus4.rc.po.c:148 src/arch/win32/resplus4.rc.po.c:160
@@ -8692,63 +8794,63 @@ msgstr ""
 msgid "&Custom"
 msgstr "*Egyéni..."
 
-#: src/arch/win32/resc128.rc.po.c:169 src/arch/win32/resc64.rc.po.c:171
+#: src/arch/win32/resc128.rc.po.c:169 src/arch/win32/resc64.rc.po.c:172
 #: src/arch/win32/rescbm2.rc.po.c:141 src/arch/win32/respet.rc.po.c:139
 #: src/arch/win32/resplus4.rc.po.c:151 src/arch/win32/resvic20.rc.po.c:149
 #, fuzzy
 msgid "&Maximum Speed"
 msgstr "Maximális sebesség"
 
-#: src/arch/win32/resc128.rc.po.c:171 src/arch/win32/resc64.rc.po.c:173
+#: src/arch/win32/resc128.rc.po.c:171 src/arch/win32/resc64.rc.po.c:174
 #: src/arch/win32/rescbm2.rc.po.c:143 src/arch/win32/respet.rc.po.c:141
 #: src/arch/win32/resplus4.rc.po.c:153 src/arch/win32/resvic20.rc.po.c:151
 msgid "&200%"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:172 src/arch/win32/resc64.rc.po.c:174
+#: src/arch/win32/resc128.rc.po.c:172 src/arch/win32/resc64.rc.po.c:175
 #: src/arch/win32/rescbm2.rc.po.c:144 src/arch/win32/respet.rc.po.c:142
 #: src/arch/win32/resplus4.rc.po.c:154 src/arch/win32/resvic20.rc.po.c:152
 msgid "&100%"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:173 src/arch/win32/resc64.rc.po.c:175
+#: src/arch/win32/resc128.rc.po.c:173 src/arch/win32/resc64.rc.po.c:176
 #: src/arch/win32/rescbm2.rc.po.c:145 src/arch/win32/respet.rc.po.c:143
 #: src/arch/win32/resplus4.rc.po.c:155 src/arch/win32/resvic20.rc.po.c:153
 msgid "&50%"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:174 src/arch/win32/resc64.rc.po.c:176
+#: src/arch/win32/resc128.rc.po.c:174 src/arch/win32/resc64.rc.po.c:177
 #: src/arch/win32/rescbm2.rc.po.c:146 src/arch/win32/respet.rc.po.c:144
 #: src/arch/win32/resplus4.rc.po.c:156 src/arch/win32/resvic20.rc.po.c:154
 msgid "&20%"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:175 src/arch/win32/resc64.rc.po.c:177
+#: src/arch/win32/resc128.rc.po.c:175 src/arch/win32/resc64.rc.po.c:178
 #: src/arch/win32/rescbm2.rc.po.c:147 src/arch/win32/respet.rc.po.c:145
 #: src/arch/win32/resplus4.rc.po.c:157 src/arch/win32/resvic20.rc.po.c:155
 msgid "1&0%"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:176 src/arch/win32/resc64.rc.po.c:178
+#: src/arch/win32/resc128.rc.po.c:176 src/arch/win32/resc64.rc.po.c:179
 #: src/arch/win32/rescbm2.rc.po.c:148 src/arch/win32/respet.rc.po.c:146
 #: src/arch/win32/resplus4.rc.po.c:158 src/arch/win32/resvic20.rc.po.c:156
 #, fuzzy
 msgid "No &limit"
 msgstr "*Nincs határ"
 
-#: src/arch/win32/resc128.rc.po.c:180 src/arch/win32/resc64.rc.po.c:182
+#: src/arch/win32/resc128.rc.po.c:180 src/arch/win32/resc64.rc.po.c:183
 #: src/arch/win32/rescbm2.rc.po.c:152 src/arch/win32/respet.rc.po.c:150
 #: src/arch/win32/resplus4.rc.po.c:162 src/arch/win32/resvic20.rc.po.c:160
 msgid "&Warp mode\tAlt+W"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:184 src/arch/win32/resc64.rc.po.c:185
+#: src/arch/win32/resc128.rc.po.c:184 src/arch/win32/resc64.rc.po.c:186
 #: src/arch/win32/rescbm2.rc.po.c:155 src/arch/win32/respet.rc.po.c:154
 #: src/arch/win32/resplus4.rc.po.c:166 src/arch/win32/resvic20.rc.po.c:164
 msgid "Always on Top"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:185 src/arch/win32/resc64.rc.po.c:187
+#: src/arch/win32/resc128.rc.po.c:185 src/arch/win32/resc64.rc.po.c:188
 #: src/arch/win32/rescbm2.rc.po.c:157 src/arch/win32/respet.rc.po.c:156
 #: src/arch/win32/resplus4.rc.po.c:168 src/arch/win32/resvic20.rc.po.c:166
 #, fuzzy
@@ -8756,7 +8858,7 @@ msgid "Video &cache"
 msgstr "*Videó cache"
 
 #: src/arch/win32/resc128.rc.po.c:186 src/arch/win32/resc128.rc.po.c:192
-#: src/arch/win32/resc64.rc.po.c:188 src/arch/win32/rescbm2.rc.po.c:159
+#: src/arch/win32/resc64.rc.po.c:189 src/arch/win32/rescbm2.rc.po.c:159
 #: src/arch/win32/respet.rc.po.c:157 src/arch/win32/resplus4.rc.po.c:170
 #: src/arch/win32/resvic20.rc.po.c:168
 #, fuzzy
@@ -8764,14 +8866,14 @@ msgid "&Double size"
 msgstr "*Dupla méret"
 
 #: src/arch/win32/resc128.rc.po.c:187 src/arch/win32/resc128.rc.po.c:193
-#: src/arch/win32/resc64.rc.po.c:189 src/arch/win32/rescbm2.rc.po.c:161
+#: src/arch/win32/resc64.rc.po.c:190 src/arch/win32/rescbm2.rc.po.c:161
 #: src/arch/win32/respet.rc.po.c:158 src/arch/win32/resplus4.rc.po.c:172
 #: src/arch/win32/resvic20.rc.po.c:170
 #, fuzzy
 msgid "Dou&ble scan"
 msgstr "*Dupla pásztázás"
 
-#: src/arch/win32/resc128.rc.po.c:189 src/arch/win32/resc64.rc.po.c:191
+#: src/arch/win32/resc128.rc.po.c:189 src/arch/win32/resc64.rc.po.c:192
 #: src/arch/win32/resplus4.rc.po.c:176 src/arch/win32/resvic20.rc.po.c:174
 #: src/arch/amigaos/intl.c.po.c:1093
 #, fuzzy
@@ -8788,53 +8890,53 @@ msgstr "VDC beállítása"
 msgid "64KB video &memory"
 msgstr "*64KB képernyõ memória"
 
-#: src/arch/win32/resc128.rc.po.c:198 src/arch/win32/resc64.rc.po.c:193
+#: src/arch/win32/resc128.rc.po.c:198 src/arch/win32/resc64.rc.po.c:194
 #: src/arch/win32/rescbm2.rc.po.c:164 src/arch/win32/respet.rc.po.c:160
 #: src/arch/win32/resplus4.rc.po.c:179 src/arch/win32/resvic20.rc.po.c:177
 #, fuzzy
 msgid "Swap &Joystick\tAlt+J"
 msgstr "Portok felcserélése"
 
-#: src/arch/win32/resc128.rc.po.c:200 src/arch/win32/resc64.rc.po.c:195
+#: src/arch/win32/resc128.rc.po.c:200 src/arch/win32/resc64.rc.po.c:196
 #: src/arch/win32/rescbm2.rc.po.c:166 src/arch/win32/respet.rc.po.c:162
 #: src/arch/win32/resplus4.rc.po.c:181 src/arch/win32/resvic20.rc.po.c:179
 #, fuzzy
 msgid "&Sound playback"
 msgstr "Hangok engedélyezése"
 
-#: src/arch/win32/resc128.rc.po.c:202 src/arch/win32/resc64.rc.po.c:197
+#: src/arch/win32/resc128.rc.po.c:202 src/arch/win32/resc64.rc.po.c:198
 #: src/arch/win32/rescbm2.rc.po.c:168 src/arch/win32/respet.rc.po.c:164
 #: src/arch/win32/resplus4.rc.po.c:183 src/arch/win32/resvic20.rc.po.c:181
 #, fuzzy
 msgid "&True drive emulation"
 msgstr "*Valós emuláció engedélyezése"
 
-#: src/arch/win32/resc128.rc.po.c:203 src/arch/win32/resc64.rc.po.c:198
+#: src/arch/win32/resc128.rc.po.c:203 src/arch/win32/resc64.rc.po.c:199
 #: src/arch/win32/rescbm2.rc.po.c:169 src/arch/win32/respet.rc.po.c:165
 #: src/arch/win32/resplus4.rc.po.c:184 src/arch/win32/resvic20.rc.po.c:182
 #, fuzzy
 msgid "&Virtual device traps"
 msgstr "*Virtuális eszközök engedélyezése"
 
-#: src/arch/win32/resc128.rc.po.c:205 src/arch/win32/resc64.rc.po.c:200
+#: src/arch/win32/resc128.rc.po.c:205 src/arch/win32/resc64.rc.po.c:201
 #: src/arch/win32/resplus4.rc.po.c:186 src/arch/win32/resvic20.rc.po.c:184
 #, fuzzy
 msgid "Vide&o standard"
 msgstr "Videó szabvány"
 
-#: src/arch/win32/resc128.rc.po.c:207 src/arch/win32/resc64.rc.po.c:202
+#: src/arch/win32/resc128.rc.po.c:207 src/arch/win32/resc64.rc.po.c:203
 #: src/arch/win32/resplus4.rc.po.c:188 src/arch/win32/resvic20.rc.po.c:186
 #, fuzzy
 msgid "&PAL-G"
 msgstr "*PAL-G"
 
-#: src/arch/win32/resc128.rc.po.c:208 src/arch/win32/resc64.rc.po.c:203
+#: src/arch/win32/resc128.rc.po.c:208 src/arch/win32/resc64.rc.po.c:204
 #: src/arch/win32/resplus4.rc.po.c:189 src/arch/win32/resvic20.rc.po.c:187
 #, fuzzy
 msgid "&NTSC-M"
 msgstr "*NTSC-M"
 
-#: src/arch/win32/resc128.rc.po.c:211 src/arch/win32/resc64.rc.po.c:207
+#: src/arch/win32/resc128.rc.po.c:211 src/arch/win32/resc64.rc.po.c:208
 #: src/arch/win32/rescbm2.rc.po.c:176 src/arch/win32/respet.rc.po.c:172
 #: src/arch/win32/resvic20.rc.po.c:190
 #, fuzzy
@@ -8846,87 +8948,87 @@ msgstr "*Emulátor azonosító"
 msgid "IEEE&488 Interface emulation"
 msgstr "*IEEE488 interfész emuláció"
 
-#: src/arch/win32/resc128.rc.po.c:213 src/arch/win32/resc64.rc.po.c:208
+#: src/arch/win32/resc128.rc.po.c:213 src/arch/win32/resc64.rc.po.c:209
 #, fuzzy
 msgid "&1351 mouse emulation\tAlt+Q"
 msgstr "*1351 egér emuláció"
 
-#: src/arch/win32/resc128.rc.po.c:215 src/arch/win32/resc64.rc.po.c:210
+#: src/arch/win32/resc128.rc.po.c:215 src/arch/win32/resc64.rc.po.c:211
 #: src/arch/win32/rescbm2.rc.po.c:178 src/arch/win32/respet.rc.po.c:174
 #: src/arch/win32/resplus4.rc.po.c:193 src/arch/win32/resvic20.rc.po.c:193
 #, fuzzy
 msgid "S&ettings"
 msgstr "Beállítások"
 
-#: src/arch/win32/resc128.rc.po.c:217 src/arch/win32/resc64.rc.po.c:212
+#: src/arch/win32/resc128.rc.po.c:217 src/arch/win32/resc64.rc.po.c:213
 #: src/arch/win32/rescbm2.rc.po.c:180 src/arch/win32/respet.rc.po.c:176
 #: src/arch/win32/resplus4.rc.po.c:195 src/arch/win32/resvic20.rc.po.c:195
 #, fuzzy
 msgid "&Video settings..."
 msgstr "Modell beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:218 src/arch/win32/resc64.rc.po.c:213
+#: src/arch/win32/resc128.rc.po.c:218 src/arch/win32/resc64.rc.po.c:214
 #: src/arch/win32/rescbm2.rc.po.c:182 src/arch/win32/respet.rc.po.c:178
 #: src/arch/win32/resplus4.rc.po.c:196 src/arch/win32/resvic20.rc.po.c:197
 #, fuzzy
 msgid "&Peripheral settings..."
 msgstr "Perifériák beállításai"
 
-#: src/arch/win32/resc128.rc.po.c:219 src/arch/win32/resc64.rc.po.c:214
+#: src/arch/win32/resc128.rc.po.c:219 src/arch/win32/resc64.rc.po.c:215
 #: src/arch/win32/rescbm2.rc.po.c:183 src/arch/win32/respet.rc.po.c:179
 #: src/arch/win32/resplus4.rc.po.c:197 src/arch/win32/resvic20.rc.po.c:198
 #, fuzzy
 msgid "&Drive settings..."
 msgstr "Meghajtók beállításai"
 
-#: src/arch/win32/resc128.rc.po.c:220 src/arch/win32/resc64.rc.po.c:215
+#: src/arch/win32/resc128.rc.po.c:220 src/arch/win32/resc64.rc.po.c:216
 #: src/arch/win32/rescbm2.rc.po.c:184 src/arch/win32/respet.rc.po.c:180
 #: src/arch/win32/resplus4.rc.po.c:198 src/arch/win32/resvic20.rc.po.c:199
 #, fuzzy
 msgid "D&atasette settings..."
 msgstr "Magnó sebesség hangolása"
 
-#: src/arch/win32/resc128.rc.po.c:221 src/arch/win32/resc64.rc.po.c:216
+#: src/arch/win32/resc128.rc.po.c:221 src/arch/win32/resc64.rc.po.c:217
 #: src/arch/amigaos/intl.c.po.c:1336
 #, fuzzy
 msgid "VIC-II settings..."
 msgstr "VIC-II beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:222 src/arch/win32/resc64.rc.po.c:217
+#: src/arch/win32/resc128.rc.po.c:222 src/arch/win32/resc64.rc.po.c:218
 #: src/arch/win32/rescbm2.rc.po.c:186 src/arch/win32/respet.rc.po.c:181
 #: src/arch/win32/resplus4.rc.po.c:200 src/arch/win32/resvic20.rc.po.c:200
 #, fuzzy
 msgid "&Joystick settings..."
 msgstr "Botkormány beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:223 src/arch/win32/resc64.rc.po.c:218
+#: src/arch/win32/resc128.rc.po.c:223 src/arch/win32/resc64.rc.po.c:219
 #: src/arch/win32/rescbm2.rc.po.c:187 src/arch/win32/respet.rc.po.c:182
 #: src/arch/win32/resplus4.rc.po.c:201 src/arch/win32/resvic20.rc.po.c:201
 #, fuzzy
 msgid "&Keyboard settings..."
 msgstr "Billentyûzet beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:224 src/arch/win32/resc64.rc.po.c:219
+#: src/arch/win32/resc128.rc.po.c:224 src/arch/win32/resc64.rc.po.c:220
 #: src/arch/win32/rescbm2.rc.po.c:188 src/arch/win32/respet.rc.po.c:183
 #: src/arch/win32/resplus4.rc.po.c:202 src/arch/win32/resvic20.rc.po.c:202
 #, fuzzy
 msgid "S&ound settings..."
 msgstr "Hang beállításai"
 
-#: src/arch/win32/resc128.rc.po.c:225 src/arch/win32/resc64.rc.po.c:220
+#: src/arch/win32/resc128.rc.po.c:225 src/arch/win32/resc64.rc.po.c:221
 #: src/arch/win32/rescbm2.rc.po.c:189
 #, fuzzy
 msgid "S&ID settings..."
 msgstr "SID beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:226 src/arch/win32/resc64.rc.po.c:221
+#: src/arch/win32/resc128.rc.po.c:226 src/arch/win32/resc64.rc.po.c:222
 #: src/arch/win32/rescbm2.rc.po.c:190 src/arch/win32/respet.rc.po.c:184
 #: src/arch/win32/resplus4.rc.po.c:203 src/arch/win32/resvic20.rc.po.c:203
 #, fuzzy
 msgid "&ROM settings..."
 msgstr "ROM-ok beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:227 src/arch/win32/resc64.rc.po.c:222
+#: src/arch/win32/resc128.rc.po.c:227 src/arch/win32/resc64.rc.po.c:223
 #: src/arch/win32/rescbm2.rc.po.c:191 src/arch/win32/respet.rc.po.c:185
 #: src/arch/win32/resplus4.rc.po.c:204 src/arch/win32/resvic20.rc.po.c:204
 #, fuzzy
@@ -8938,7 +9040,7 @@ msgstr "RAM beállítása"
 msgid "C&128 settings..."
 msgstr "VDC beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:229 src/arch/win32/resc64.rc.po.c:223
+#: src/arch/win32/resc128.rc.po.c:229 src/arch/win32/resc64.rc.po.c:224
 #: src/arch/win32/rescbm2.rc.po.c:192 src/arch/win32/respet.rc.po.c:186
 #: src/arch/win32/resplus4.rc.po.c:205 src/arch/win32/resvic20.rc.po.c:205
 #, fuzzy
@@ -8950,139 +9052,139 @@ msgstr "RS232 beállítása"
 msgid "&Cartridge Settings"
 msgstr "Crtc beállításas"
 
-#: src/arch/win32/resc128.rc.po.c:232 src/arch/win32/resc64.rc.po.c:226
+#: src/arch/win32/resc128.rc.po.c:232 src/arch/win32/resc64.rc.po.c:227
 #, fuzzy
 msgid "&REU settings..."
 msgstr "ROM-ok beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:233 src/arch/win32/resc64.rc.po.c:227
+#: src/arch/win32/resc128.rc.po.c:233 src/arch/win32/resc64.rc.po.c:228
 #, fuzzy
 msgid "&GEORAM settings..."
 msgstr "RAM beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:234 src/arch/win32/resc64.rc.po.c:228
+#: src/arch/win32/resc128.rc.po.c:234 src/arch/win32/resc64.rc.po.c:229
 #, fuzzy
 msgid "&RAMCART settings..."
 msgstr "RAM beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:235 src/arch/win32/resc64.rc.po.c:232
+#: src/arch/win32/resc128.rc.po.c:235 src/arch/win32/resc64.rc.po.c:233
 #, fuzzy
 msgid "&MMC64 settings..."
 msgstr "SID beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:236 src/arch/win32/resc64.rc.po.c:233
+#: src/arch/win32/resc128.rc.po.c:236 src/arch/win32/resc64.rc.po.c:234
 #, fuzzy
 msgid "&IDE64 settings..."
 msgstr "SID beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:238 src/arch/win32/resc64.rc.po.c:235
+#: src/arch/win32/resc128.rc.po.c:238 src/arch/win32/resc64.rc.po.c:236
 #, fuzzy
 msgid "&Ethernet settings..."
 msgstr "Ethernet emuláció"
 
-#: src/arch/win32/resc128.rc.po.c:240 src/arch/win32/resc64.rc.po.c:237
+#: src/arch/win32/resc128.rc.po.c:240 src/arch/win32/resc64.rc.po.c:238
 #: src/arch/win32/rescbm2.rc.po.c:195 src/arch/win32/respet.rc.po.c:189
 #: src/arch/win32/resplus4.rc.po.c:208
 #, fuzzy
 msgid "&ACIA settings..."
 msgstr "VDC beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:241 src/arch/win32/resc64.rc.po.c:238
+#: src/arch/win32/resc128.rc.po.c:241 src/arch/win32/resc64.rc.po.c:239
 #: src/arch/win32/resvic20.rc.po.c:208
 #, fuzzy
 msgid "RS&232 userport settings..."
 msgstr "RS232 beállítása"
 
-#: src/arch/win32/resc128.rc.po.c:244 src/arch/win32/resc64.rc.po.c:241
+#: src/arch/win32/resc128.rc.po.c:244 src/arch/win32/resc64.rc.po.c:242
 #: src/arch/win32/rescbm2.rc.po.c:198 src/arch/win32/respet.rc.po.c:193
 #: src/arch/win32/resplus4.rc.po.c:211 src/arch/win32/resvic20.rc.po.c:211
 #, fuzzy
 msgid "&Save current settings"
 msgstr "Elmentsem a jelenlegi beállításokat?"
 
-#: src/arch/win32/resc128.rc.po.c:245 src/arch/win32/resc64.rc.po.c:242
+#: src/arch/win32/resc128.rc.po.c:245 src/arch/win32/resc64.rc.po.c:243
 #: src/arch/win32/rescbm2.rc.po.c:199 src/arch/win32/respet.rc.po.c:194
 #: src/arch/win32/resplus4.rc.po.c:212 src/arch/win32/resvic20.rc.po.c:212
 #, fuzzy
 msgid "&Load saved settings"
 msgstr "Beállítások betöltése"
 
-#: src/arch/win32/resc128.rc.po.c:246 src/arch/win32/resc64.rc.po.c:243
+#: src/arch/win32/resc128.rc.po.c:246 src/arch/win32/resc64.rc.po.c:244
 #: src/arch/win32/rescbm2.rc.po.c:200 src/arch/win32/respet.rc.po.c:195
 #: src/arch/win32/resplus4.rc.po.c:213 src/arch/win32/resvic20.rc.po.c:213
 #, fuzzy
 msgid "Set de&fault settings"
 msgstr "Alapértelmezés visszaállítása"
 
-#: src/arch/win32/resc128.rc.po.c:248 src/arch/win32/resc64.rc.po.c:245
+#: src/arch/win32/resc128.rc.po.c:248 src/arch/win32/resc64.rc.po.c:246
 #: src/arch/win32/rescbm2.rc.po.c:202 src/arch/win32/respet.rc.po.c:197
 #: src/arch/win32/resplus4.rc.po.c:215 src/arch/win32/resvic20.rc.po.c:215
 #, fuzzy
 msgid "Save settings on e&xit"
 msgstr "*Beállítások mentése kilépéskor"
 
-#: src/arch/win32/resc128.rc.po.c:249 src/arch/win32/resc64.rc.po.c:246
+#: src/arch/win32/resc128.rc.po.c:249 src/arch/win32/resc64.rc.po.c:247
 #: src/arch/win32/rescbm2.rc.po.c:203 src/arch/win32/respet.rc.po.c:198
 #: src/arch/win32/resplus4.rc.po.c:216 src/arch/win32/resvic20.rc.po.c:216
 #, fuzzy
 msgid "&Confirm on exit"
 msgstr "*Megerõsítés kilépéskor"
 
-#: src/arch/win32/resc128.rc.po.c:252 src/arch/win32/resc64.rc.po.c:249
+#: src/arch/win32/resc128.rc.po.c:252 src/arch/win32/resc64.rc.po.c:250
 #: src/arch/win32/rescbm2.rc.po.c:206 src/arch/win32/respet.rc.po.c:201
 #: src/arch/win32/resplus4.rc.po.c:219 src/arch/win32/resvic20.rc.po.c:219
 msgid "&Language"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:254 src/arch/win32/resc64.rc.po.c:251
+#: src/arch/win32/resc128.rc.po.c:254 src/arch/win32/resc64.rc.po.c:252
 #: src/arch/win32/rescbm2.rc.po.c:208 src/arch/win32/respet.rc.po.c:203
 #: src/arch/win32/resplus4.rc.po.c:221 src/arch/win32/resvic20.rc.po.c:221
 msgid "&English"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:255 src/arch/win32/resc64.rc.po.c:252
+#: src/arch/win32/resc128.rc.po.c:255 src/arch/win32/resc64.rc.po.c:253
 #: src/arch/win32/rescbm2.rc.po.c:209 src/arch/win32/respet.rc.po.c:204
 #: src/arch/win32/resplus4.rc.po.c:222 src/arch/win32/resvic20.rc.po.c:222
 msgid "&German"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:256 src/arch/win32/resc64.rc.po.c:253
+#: src/arch/win32/resc128.rc.po.c:256 src/arch/win32/resc64.rc.po.c:254
 #: src/arch/win32/rescbm2.rc.po.c:210 src/arch/win32/respet.rc.po.c:205
 #: src/arch/win32/resplus4.rc.po.c:223 src/arch/win32/resvic20.rc.po.c:223
 msgid "&French"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:257 src/arch/win32/resc64.rc.po.c:254
+#: src/arch/win32/resc128.rc.po.c:257 src/arch/win32/resc64.rc.po.c:255
 #: src/arch/win32/rescbm2.rc.po.c:211 src/arch/win32/respet.rc.po.c:206
 #: src/arch/win32/resplus4.rc.po.c:224 src/arch/win32/resvic20.rc.po.c:224
 msgid "&Hungarian"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:258 src/arch/win32/resc64.rc.po.c:255
+#: src/arch/win32/resc128.rc.po.c:258 src/arch/win32/resc64.rc.po.c:256
 #: src/arch/win32/rescbm2.rc.po.c:212 src/arch/win32/respet.rc.po.c:207
 #: src/arch/win32/resplus4.rc.po.c:225 src/arch/win32/resvic20.rc.po.c:225
 msgid "&Italian"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:259 src/arch/win32/resc64.rc.po.c:256
+#: src/arch/win32/resc128.rc.po.c:259 src/arch/win32/resc64.rc.po.c:257
 #: src/arch/win32/rescbm2.rc.po.c:213 src/arch/win32/respet.rc.po.c:208
 #: src/arch/win32/resplus4.rc.po.c:226 src/arch/win32/resvic20.rc.po.c:226
 msgid "&Dutch"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:260 src/arch/win32/resc64.rc.po.c:257
+#: src/arch/win32/resc128.rc.po.c:260 src/arch/win32/resc64.rc.po.c:258
 #: src/arch/win32/rescbm2.rc.po.c:214 src/arch/win32/respet.rc.po.c:209
 #: src/arch/win32/resplus4.rc.po.c:227 src/arch/win32/resvic20.rc.po.c:227
 msgid "&Polish"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:261 src/arch/win32/resc64.rc.po.c:258
+#: src/arch/win32/resc128.rc.po.c:261 src/arch/win32/resc64.rc.po.c:259
 #: src/arch/win32/rescbm2.rc.po.c:215 src/arch/win32/respet.rc.po.c:210
 #: src/arch/win32/resplus4.rc.po.c:228 src/arch/win32/resvic20.rc.po.c:228
 msgid "&Swedish"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:264 src/arch/win32/resc64.rc.po.c:261
+#: src/arch/win32/resc128.rc.po.c:264 src/arch/win32/resc64.rc.po.c:262
 #: src/arch/win32/rescbm2.rc.po.c:218 src/arch/win32/respet.rc.po.c:213
 #: src/arch/win32/resplus4.rc.po.c:231 src/arch/win32/resvic20.rc.po.c:231
 #, fuzzy
@@ -9099,14 +9201,14 @@ msgstr "Segítség"
 #. MENUITEM SEPARATOR
 #. MENUITEM "H&elp",               IDM_HELP
 #. MENUITEM SEPARATOR
-#: src/arch/win32/resc128.rc.po.c:268 src/arch/win32/resc64.rc.po.c:265
+#: src/arch/win32/resc128.rc.po.c:268 src/arch/win32/resc64.rc.po.c:266
 #: src/arch/win32/rescbm2.rc.po.c:222 src/arch/win32/respet.rc.po.c:217
 #: src/arch/win32/resplus4.rc.po.c:235 src/arch/win32/resvic20.rc.po.c:235
 #, fuzzy
 msgid "&About..."
 msgstr "A VICE-ról..."
 
-#: src/arch/win32/resc128.rc.po.c:270 src/arch/win32/resc64.rc.po.c:267
+#: src/arch/win32/resc128.rc.po.c:270 src/arch/win32/resc64.rc.po.c:268
 #: src/arch/win32/rescbm2.rc.po.c:224 src/arch/win32/respet.rc.po.c:219
 #: src/arch/win32/resplus4.rc.po.c:237 src/arch/win32/resvic20.rc.po.c:237
 #, fuzzy
@@ -9116,21 +9218,21 @@ msgstr ""
 "Lehetséges parancssori opciók:\n"
 "\n"
 
-#: src/arch/win32/resc128.rc.po.c:272 src/arch/win32/resc64.rc.po.c:269
+#: src/arch/win32/resc128.rc.po.c:272 src/arch/win32/resc64.rc.po.c:270
 #: src/arch/win32/rescbm2.rc.po.c:226 src/arch/win32/respet.rc.po.c:221
 #: src/arch/win32/resplus4.rc.po.c:239 src/arch/win32/resvic20.rc.po.c:239
 #, fuzzy
 msgid "&Contributors"
 msgstr "Közremûködõk"
 
-#: src/arch/win32/resc128.rc.po.c:273 src/arch/win32/resc64.rc.po.c:270
+#: src/arch/win32/resc128.rc.po.c:273 src/arch/win32/resc64.rc.po.c:271
 #: src/arch/win32/rescbm2.rc.po.c:227 src/arch/win32/respet.rc.po.c:222
 #: src/arch/win32/resplus4.rc.po.c:240 src/arch/win32/resvic20.rc.po.c:240
 #, fuzzy
 msgid "&License"
 msgstr "Licensz"
 
-#: src/arch/win32/resc128.rc.po.c:274 src/arch/win32/resc64.rc.po.c:271
+#: src/arch/win32/resc128.rc.po.c:274 src/arch/win32/resc64.rc.po.c:272
 #: src/arch/win32/rescbm2.rc.po.c:228 src/arch/win32/respet.rc.po.c:223
 #: src/arch/win32/resplus4.rc.po.c:241 src/arch/win32/resvic20.rc.po.c:241
 #, fuzzy
@@ -9198,7 +9300,7 @@ msgid "Basic C64"
 msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:2649 src/arch/win32/resc128.rc.po.c:3441
-#: src/arch/win32/resc64.rc.po.c:2242 src/arch/win32/resc64.rc.po.c:2810
+#: src/arch/win32/resc64.rc.po.c:2250 src/arch/win32/resc64.rc.po.c:2818
 #: src/arch/win32/resplus4.rc.po.c:2041 src/arch/win32/resplus4.rc.po.c:2498
 #: src/arch/win32/resvic20.rc.po.c:1861 src/arch/win32/resvic20.rc.po.c:2117
 #, fuzzy
@@ -9206,14 +9308,14 @@ msgid "1541"
 msgstr "C1541 futtatása"
 
 #: src/arch/win32/resc128.rc.po.c:2653 src/arch/win32/resc128.rc.po.c:3443
-#: src/arch/win32/resc64.rc.po.c:2246 src/arch/win32/resc64.rc.po.c:2812
+#: src/arch/win32/resc64.rc.po.c:2254 src/arch/win32/resc64.rc.po.c:2820
 #: src/arch/win32/resplus4.rc.po.c:2045 src/arch/win32/resplus4.rc.po.c:2500
 #: src/arch/win32/resvic20.rc.po.c:1865 src/arch/win32/resvic20.rc.po.c:2119
 msgid "1541-II"
 msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:2657 src/arch/win32/resc128.rc.po.c:3445
-#: src/arch/win32/resc64.rc.po.c:2250 src/arch/win32/resc64.rc.po.c:2814
+#: src/arch/win32/resc64.rc.po.c:2258 src/arch/win32/resc64.rc.po.c:2822
 #: src/arch/win32/resdrivec128.rc.po.c:19
 #: src/arch/win32/resdrivec64vic20.rc.po.c:19
 #: src/arch/win32/resdriveplus4.rc.po.c:21
@@ -9223,7 +9325,7 @@ msgid "1570"
 msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:2661 src/arch/win32/resc128.rc.po.c:3447
-#: src/arch/win32/resc64.rc.po.c:2254 src/arch/win32/resc64.rc.po.c:2816
+#: src/arch/win32/resc64.rc.po.c:2262 src/arch/win32/resc64.rc.po.c:2824
 #: src/arch/win32/resplus4.rc.po.c:2057 src/arch/win32/resplus4.rc.po.c:2506
 #: src/arch/win32/resvic20.rc.po.c:1873 src/arch/win32/resvic20.rc.po.c:2123
 msgid "1571"
@@ -9234,14 +9336,14 @@ msgid "1571CR"
 msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:2669 src/arch/win32/resc128.rc.po.c:3451
-#: src/arch/win32/resc64.rc.po.c:2258 src/arch/win32/resc64.rc.po.c:2818
+#: src/arch/win32/resc64.rc.po.c:2266 src/arch/win32/resc64.rc.po.c:2826
 #: src/arch/win32/resplus4.rc.po.c:2061 src/arch/win32/resplus4.rc.po.c:2508
 #: src/arch/win32/resvic20.rc.po.c:1877 src/arch/win32/resvic20.rc.po.c:2125
 msgid "1581"
 msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:2673 src/arch/win32/resc128.rc.po.c:3453
-#: src/arch/win32/resc64.rc.po.c:2262 src/arch/win32/resc64.rc.po.c:2820
+#: src/arch/win32/resc64.rc.po.c:2270 src/arch/win32/resc64.rc.po.c:2828
 #: src/arch/win32/rescbm2.rc.po.c:2025 src/arch/win32/rescbm2.rc.po.c:2497
 #: src/arch/win32/respet.rc.po.c:1993 src/arch/win32/respet.rc.po.c:2465
 #: src/arch/win32/resvic20.rc.po.c:1881 src/arch/win32/resvic20.rc.po.c:2127
@@ -9249,7 +9351,7 @@ msgid "2031"
 msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:2677 src/arch/win32/resc128.rc.po.c:3455
-#: src/arch/win32/resc64.rc.po.c:2266 src/arch/win32/resc64.rc.po.c:2822
+#: src/arch/win32/resc64.rc.po.c:2274 src/arch/win32/resc64.rc.po.c:2830
 #: src/arch/win32/rescbm2.rc.po.c:2029 src/arch/win32/rescbm2.rc.po.c:2499
 #: src/arch/win32/respet.rc.po.c:1997 src/arch/win32/respet.rc.po.c:2467
 #: src/arch/win32/resvic20.rc.po.c:1885 src/arch/win32/resvic20.rc.po.c:2129
@@ -9257,7 +9359,7 @@ msgid "2040"
 msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:2681 src/arch/win32/resc128.rc.po.c:3457
-#: src/arch/win32/resc64.rc.po.c:2270 src/arch/win32/resc64.rc.po.c:2824
+#: src/arch/win32/resc64.rc.po.c:2278 src/arch/win32/resc64.rc.po.c:2832
 #: src/arch/win32/rescbm2.rc.po.c:2033 src/arch/win32/rescbm2.rc.po.c:2501
 #: src/arch/win32/respet.rc.po.c:2001 src/arch/win32/respet.rc.po.c:2469
 #: src/arch/win32/resvic20.rc.po.c:1889 src/arch/win32/resvic20.rc.po.c:2131
@@ -9265,7 +9367,7 @@ msgid "3040"
 msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:2685 src/arch/win32/resc128.rc.po.c:3459
-#: src/arch/win32/resc64.rc.po.c:2274 src/arch/win32/resc64.rc.po.c:2826
+#: src/arch/win32/resc64.rc.po.c:2282 src/arch/win32/resc64.rc.po.c:2834
 #: src/arch/win32/rescbm2.rc.po.c:2037 src/arch/win32/rescbm2.rc.po.c:2503
 #: src/arch/win32/respet.rc.po.c:2005 src/arch/win32/respet.rc.po.c:2471
 #: src/arch/win32/resvic20.rc.po.c:1893 src/arch/win32/resvic20.rc.po.c:2133
@@ -9273,20 +9375,20 @@ msgid "4040"
 msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:2689 src/arch/win32/resc128.rc.po.c:3461
-#: src/arch/win32/resc64.rc.po.c:2278 src/arch/win32/resc64.rc.po.c:2828
+#: src/arch/win32/resc64.rc.po.c:2286 src/arch/win32/resc64.rc.po.c:2836
 #: src/arch/win32/rescbm2.rc.po.c:2041 src/arch/win32/rescbm2.rc.po.c:2505
 #: src/arch/win32/respet.rc.po.c:2009 src/arch/win32/respet.rc.po.c:2473
 #: src/arch/win32/resvic20.rc.po.c:1897 src/arch/win32/resvic20.rc.po.c:2135
 msgid "1001"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:3074 src/arch/win32/resc64.rc.po.c:2635
+#: src/arch/win32/resc128.rc.po.c:3074 src/arch/win32/resc64.rc.po.c:2643
 #: src/arch/win32/rescbm2.rc.po.c:2258 src/arch/win32/respet.rc.po.c:2226
 #: src/arch/win32/resplus4.rc.po.c:2306 src/arch/win32/resvic20.rc.po.c:1942
 msgid "Computer resources"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:3076 src/arch/win32/resc64.rc.po.c:2637
+#: src/arch/win32/resc128.rc.po.c:3076 src/arch/win32/resc64.rc.po.c:2645
 #: src/arch/win32/rescbm2.rc.po.c:2260 src/arch/win32/respet.rc.po.c:2228
 #: src/arch/win32/resplus4.rc.po.c:2308 src/arch/win32/resvic20.rc.po.c:1944
 msgid "Computer resources saved to romset"
@@ -9351,14 +9453,14 @@ msgstr "Új Kernal betöltése"
 msgid "C64 mode Basic"
 msgstr "Új Basic betöltése"
 
-#: src/arch/win32/resc128.rc.po.c:3437 src/arch/win32/resc64.rc.po.c:2806
+#: src/arch/win32/resc128.rc.po.c:3437 src/arch/win32/resc64.rc.po.c:2814
 #: src/arch/win32/rescbm2.rc.po.c:2493 src/arch/win32/respet.rc.po.c:2461
 #: src/arch/win32/resplus4.rc.po.c:2494 src/arch/win32/resvic20.rc.po.c:2113
 #, fuzzy
 msgid "Drive resources"
 msgstr "Meghajtók beállításai"
 
-#: src/arch/win32/resc128.rc.po.c:3439 src/arch/win32/resc64.rc.po.c:2808
+#: src/arch/win32/resc128.rc.po.c:3439 src/arch/win32/resc64.rc.po.c:2816
 #: src/arch/win32/rescbm2.rc.po.c:2495 src/arch/win32/respet.rc.po.c:2463
 #: src/arch/win32/resplus4.rc.po.c:2496 src/arch/win32/resvic20.rc.po.c:2115
 msgid "Drive resources saved to romset"
@@ -9395,12 +9497,12 @@ msgstr "*Külsõ Function ROM engedélyezése"
 msgid "&Symbolic"
 msgstr "*Szimbolikus leképzés"
 
-#: src/arch/win32/resc128.rc.po.c:4057 src/arch/win32/resc64.rc.po.c:3094
+#: src/arch/win32/resc128.rc.po.c:4057 src/arch/win32/resc64.rc.po.c:3102
 #: src/arch/win32/resplus4.rc.po.c:2935 src/arch/win32/resvic20.rc.po.c:2399
 msgid "&Positional"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:4065 src/arch/win32/resc64.rc.po.c:3104
+#: src/arch/win32/resc128.rc.po.c:4065 src/arch/win32/resc64.rc.po.c:3112
 #: src/arch/win32/rescbm2.rc.po.c:3201 src/arch/win32/respet.rc.po.c:3455
 #: src/arch/win32/resplus4.rc.po.c:2943 src/arch/win32/resvic20.rc.po.c:2407
 #, fuzzy
@@ -9422,44 +9524,49 @@ msgstr "Adja meg a külsõ Function ROM képmás nevét"
 msgid "C128 settings"
 msgstr "VDC beállítása"
 
-#: src/arch/win32/resc64.rc.po.c:149 src/arch/amigaos/intl.c.po.c:841
+#: src/arch/win32/resc64.rc.po.c:74
+#, fuzzy
+msgid "Action Replay &III image..."
+msgstr "Action Replay képmás csatlakoztatása..."
+
+#: src/arch/win32/resc64.rc.po.c:150 src/arch/amigaos/intl.c.po.c:841
 #, fuzzy
 msgid "Netplay (experimental)..."
 msgstr "Hálózati játék (szakértõ)"
 
-#: src/arch/win32/resc64.rc.po.c:184 src/arch/win32/rescbm2.rc.po.c:154
+#: src/arch/win32/resc64.rc.po.c:185 src/arch/win32/rescbm2.rc.po.c:154
 #: src/arch/win32/respet.rc.po.c:153 src/arch/win32/resplus4.rc.po.c:165
 #: src/arch/win32/resvic20.rc.po.c:163
 #, fuzzy
 msgid "Fullscreen\tAlt+D"
 msgstr "Teljesképernyõs eszköz"
 
-#: src/arch/win32/resc64.rc.po.c:204
+#: src/arch/win32/resc64.rc.po.c:205
 #, fuzzy
 msgid "&Old NTSC-M"
 msgstr "*Régi NTSC-M"
 
-#: src/arch/win32/resc64.rc.po.c:224 src/arch/win32/resvic20.rc.po.c:206
+#: src/arch/win32/resc64.rc.po.c:225 src/arch/win32/resvic20.rc.po.c:206
 #, fuzzy
 msgid "&Cartridge/IO settings"
 msgstr "Crtc beállításas"
 
-#: src/arch/win32/resc64.rc.po.c:229
+#: src/arch/win32/resc64.rc.po.c:230
 #, fuzzy
 msgid "PLUS&60K settings..."
 msgstr "PLUS60K képmás neve..."
 
-#: src/arch/win32/resc64.rc.po.c:230
+#: src/arch/win32/resc64.rc.po.c:231
 #, fuzzy
 msgid "PLUS2&56K settings..."
 msgstr "PLUS256K képmás neve..."
 
-#: src/arch/win32/resc64.rc.po.c:231
+#: src/arch/win32/resc64.rc.po.c:232
 #, fuzzy
 msgid "&256K settings..."
 msgstr "RS232 beállítása"
 
-#: src/arch/win32/resc64.rc.po.c:2071 src/arch/win32/resc64.rc.po.c:2639
+#: src/arch/win32/resc64.rc.po.c:2079 src/arch/win32/resc64.rc.po.c:2647
 #: src/arch/win32/rescbm2.rc.po.c:1726 src/arch/win32/rescbm2.rc.po.c:2262
 #: src/arch/win32/respet.rc.po.c:1694 src/arch/win32/respet.rc.po.c:2230
 #: src/arch/win32/resplus4.rc.po.c:1838 src/arch/win32/resplus4.rc.po.c:2310
@@ -9467,7 +9574,7 @@ msgstr "RS232 beállítása"
 msgid "Kernal"
 msgstr ""
 
-#: src/arch/win32/resc64.rc.po.c:2075 src/arch/win32/resc64.rc.po.c:2641
+#: src/arch/win32/resc64.rc.po.c:2083 src/arch/win32/resc64.rc.po.c:2649
 #: src/arch/win32/rescbm2.rc.po.c:1730 src/arch/win32/rescbm2.rc.po.c:2264
 #: src/arch/win32/respet.rc.po.c:1698 src/arch/win32/respet.rc.po.c:2232
 #: src/arch/win32/resplus4.rc.po.c:1842 src/arch/win32/resplus4.rc.po.c:2312
@@ -9475,19 +9582,19 @@ msgstr ""
 msgid "Basic"
 msgstr ""
 
-#: src/arch/win32/resc64.rc.po.c:2079 src/arch/win32/resc64.rc.po.c:2643
+#: src/arch/win32/resc64.rc.po.c:2087 src/arch/win32/resc64.rc.po.c:2651
 #: src/arch/win32/rescbm2.rc.po.c:1734 src/arch/win32/rescbm2.rc.po.c:2266
 #: src/arch/win32/respet.rc.po.c:1702 src/arch/win32/respet.rc.po.c:2234
 #: src/arch/win32/resvic20.rc.po.c:1950 src/arch/win32/resvic20.rc.po.c:2562
 msgid "Character"
 msgstr ""
 
-#: src/arch/win32/resc64.rc.po.c:3090
+#: src/arch/win32/resc64.rc.po.c:3098
 #, fuzzy
 msgid "&Symbolic US"
 msgstr "*Szimbolikus leképzés"
 
-#: src/arch/win32/resc64.rc.po.c:3092
+#: src/arch/win32/resc64.rc.po.c:3100
 #, fuzzy
 msgid "&Symbolic DE"
 msgstr "*Szimbolikus leképzés"
@@ -9965,6 +10072,38 @@ msgstr ""
 #, fuzzy
 msgid "Select HD image file"
 msgstr "Válassza ki az RS232 eszközfájlt"
+
+#: src/arch/win32/resmmc64.rc.po.c:14
+#, fuzzy
+msgid "&Enable MMC64"
+msgstr "*256K engedélyezése"
+
+#: src/arch/win32/resmmc64.rc.po.c:16
+#, fuzzy
+msgid "BIOS Revision"
+msgstr "Változatszám"
+
+#: src/arch/win32/resmmc64.rc.po.c:20
+msgid "Enable BIOS &Flash Jumper"
+msgstr ""
+
+#: src/arch/win32/resmmc64.rc.po.c:22
+msgid "&Save BIOS when changed"
+msgstr ""
+
+#: src/arch/win32/resmmc64.rc.po.c:24
+#, fuzzy
+msgid "&BIOS File"
+msgstr "I/O méret"
+
+#: src/arch/win32/resmmc64.rc.po.c:28
+msgid "MMC/SD Image read-only"
+msgstr ""
+
+#: src/arch/win32/resmmc64.rc.po.c:30
+#, fuzzy
+msgid "MMC/SD &Image File"
+msgstr "IDE64 képmás név"
 
 #: src/arch/win32/respet.rc.po.c:177
 #, fuzzy
@@ -10664,57 +10803,6 @@ msgstr "*Sprite-háttér ütközések"
 #, fuzzy
 msgid "New Luminances"
 msgstr "*Új fényerõk"
-
-#. c64/mmc64.c
-#: src/translate.c.po.c:1286
-#, fuzzy
-msgid "Enable the MMC64 expansion"
-msgstr "RAMCART bõvítés engedélyezése"
-
-#. fuzzy
-#. fuzzy
-#. c64/mmc64.c
-#: src/translate.c.po.c:1296
-#, fuzzy
-msgid "Disable the MMC64 expansion"
-msgstr "RAMCART bõvítés tiltása"
-
-#. fuzzy
-#. fuzzy
-#. c64/mmc64.c
-#: src/translate.c.po.c:1306
-#, fuzzy
-msgid "Specify name of MMC64 BIOS image"
-msgstr "Adja meg a C64 módú BASIC ROM képmás nevét"
-
-#. fuzzy
-#. fuzzy
-#. c64/mmc64.c
-#: src/translate.c.po.c:1316
-#, fuzzy
-msgid "Specify name of MMC64 image"
-msgstr "Adja meg a 256K-s képmás nevét"
-
-#. fuzzy
-#. fuzzy
-#. c64/mmc64.c
-#: src/translate.c.po.c:1326
-msgid "Set the MMC64 card to read-only"
-msgstr ""
-
-#. fuzzy
-#. fuzzy
-#. c64/mmc64.c
-#: src/translate.c.po.c:1336
-msgid "Set the MMC64 card to read/write"
-msgstr ""
-
-#. fuzzy
-#. fuzzy
-#. c64/mmc64.c
-#: src/translate.c.po.c:1346
-msgid "Save the MMC64 bios when changed"
-msgstr ""
 
 #. plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c
 #: src/translate.c.po.c:2585
@@ -11824,6 +11912,36 @@ msgstr "*Sprite-sprite ütközések"
 #, fuzzy
 msgid "Sprite Background Collisions"
 msgstr "*Sprite-háttér ütközések"
+
+#, fuzzy
+#~ msgid "*Drive #9 parallel cable"
+#~ msgstr "*Lemezegység #9 párhuzamos kábel engedélyezése"
+
+#, fuzzy
+#~ msgid "*Drive #10 parallel cable"
+#~ msgstr "*Lemezegység #10 párhuzamos kábel engedélyezése"
+
+#, fuzzy
+#~ msgid "*Drive #11 parallel cable"
+#~ msgstr "*Lemezegység #11 párhuzamos kábel engedélyezése"
+
+#~ msgid "*$2000-$3FFF RAM expansion"
+#~ msgstr "*$2000-$3FFF RAM bõvítés"
+
+#~ msgid "*$4000-$5FFF RAM expansion"
+#~ msgstr "*$4000-$5FFF RAM bõvítés"
+
+#~ msgid "*$6000-$7FFF RAM expansion"
+#~ msgstr "*$6000-$7FFF RAM bõvítés"
+
+#~ msgid "*$8000-$9FFF RAM expansion"
+#~ msgstr "*$8000-$9FFF RAM bõvítés"
+
+#~ msgid "*$A000-$BFFF RAM expansion"
+#~ msgstr "*$A000-$BFFF RAM bõvítés"
+
+#~ msgid "*Custom Keys"
+#~ msgstr "*Egyéni billentyûk"
 
 #, fuzzy
 #~ msgid "Cannot create image file"

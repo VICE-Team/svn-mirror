@@ -58,19 +58,19 @@ am_libarchgui_a_OBJECTS = c128ui.$(OBJEXT) c64ui.$(OBJEXT) \
 	uic64_256k.$(OBJEXT) uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) \
 	uicommands.$(OBJEXT) uicrtc.$(OBJEXT) uidatasette.$(OBJEXT) \
 	uidrive.$(OBJEXT) uidrivec128.$(OBJEXT) uidrivec64.$(OBJEXT) \
-	uidrivec64vic20.$(OBJEXT) uidriveiec.$(OBJEXT) \
-	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
-	uidrivevic20.$(OBJEXT) uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) \
-	uiide64.$(OBJEXT) uijoystick2.$(OBJEXT) uikeyboard.$(OBJEXT) \
-	uilib.$(OBJEXT) uimmc64.$(OBJEXT) uimon.$(OBJEXT) \
-	uimouse.$(OBJEXT) uinetplay.$(OBJEXT) uipalemu.$(OBJEXT) \
-	uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
-	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
-	uipetreu.$(OBJEXT) uiplus256k.$(OBJEXT) uiplus60k.$(OBJEXT) \
-	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
-	uiprinteriecplus4.$(OBJEXT) uiprinterieee.$(OBJEXT) \
-	uiramcart.$(OBJEXT) uireu.$(OBJEXT) uiromset.$(OBJEXT) \
-	uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
+	uidrivec64c128.$(OBJEXT) uidrivec64vic20.$(OBJEXT) \
+	uidriveiec.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
+	uidriveplus4.$(OBJEXT) uidrivevic20.$(OBJEXT) \
+	uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) uiide64.$(OBJEXT) \
+	uijoystick2.$(OBJEXT) uikeyboard.$(OBJEXT) uilib.$(OBJEXT) \
+	uimmc64.$(OBJEXT) uimon.$(OBJEXT) uimouse.$(OBJEXT) \
+	uinetplay.$(OBJEXT) uipalemu.$(OBJEXT) uipalette.$(OBJEXT) \
+	uiperipheral.$(OBJEXT) uiperipheraliec.$(OBJEXT) \
+	uiperipheralieee.$(OBJEXT) uipetreu.$(OBJEXT) \
+	uiplus256k.$(OBJEXT) uiplus60k.$(OBJEXT) uiprinter.$(OBJEXT) \
+	uiprinteriec.$(OBJEXT) uiprinteriecplus4.$(OBJEXT) \
+	uiprinterieee.$(OBJEXT) uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
+	uiromset.$(OBJEXT) uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
 	uirs232petplus4cbm2.$(OBJEXT) uirs232user.$(OBJEXT) \
 	uisettings.$(OBJEXT) uisid.$(OBJEXT) uisound.$(OBJEXT) \
 	uited.$(OBJEXT) uitfe.$(OBJEXT) uivdc.$(OBJEXT) \
@@ -347,6 +347,8 @@ libarchgui_a_SOURCES = \
 	uidrivec128.h \
 	uidrivec64.c \
 	uidrivec64.h \
+	uidrivec64c128.c \
+	uidrivec64c128.h \
 	uidrivec64vic20.c \
 	uidrivec64vic20.h \
 	uidriveiec.c \
@@ -367,6 +369,7 @@ libarchgui_a_SOURCES = \
 	uiide64.h \
 	uijoystick2.c \
 	uijoystick2.h \
+	uijoystickkeys.h \
 	uikeyboard.c \
 	uikeyboard.h \
 	uilib.c \
@@ -501,6 +504,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec128.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64c128.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64vic20.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveiec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivepetcbm2.Po@am__quote@

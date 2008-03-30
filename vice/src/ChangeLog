@@ -1,3 +1,26 @@
+2006-10-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.14.
+
+	* arch/unix/gui/uidrivec64.c, arch/unix/gui/uidrivec128.c,
+	arch/unix/gui/uidrivevic20.c, arch/unix/gui/uidriveplus4.c,
+	arch/unix/gui/uidriveiec.c: Reorganized drive expansion UI.
+
+	* arch/unix/gui/uidrivec64c128.c,
+	arch/unix/gui/uidrivec64c128.h: New files.
+
+	* arch/unix/gui/Makefile.am: Added new files.
+	Added missing `uijoystickkeys.h'.
+
+	* arch/win32/uic64cart.c, resmenu.txt, resstrings.txt,
+	arch/win32/intl.c, arch/win32/res.rc: Added Action Replay III
+	attach UI.
+
+2006-10-20  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/c64io.c, c64/mmc64.c, c64/mmc64.h: Added (RR-NET)
+	clockport support to MMC64.
+
 2006-10-19  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.13.

@@ -52,10 +52,10 @@ libgnomeui_a_AR = $(AR) $(ARFLAGS)
 libgnomeui_a_LIBADD =
 am_libgnomeui_a_OBJECTS = about.$(OBJEXT) gnomekbd.$(OBJEXT) \
 	gnomevideo.$(OBJEXT) uicartridge.$(OBJEXT) uicolor.$(OBJEXT) \
-	uiedisk.$(OBJEXT) uimenu.$(OBJEXT) uinetplay.$(OBJEXT) \
-	uipalcontrol.$(OBJEXT) uiscreenshot.$(OBJEXT) \
-	uisnapshot.$(OBJEXT) uivsidcontrol.$(OBJEXT) \
-	uifileentry.$(OBJEXT) x11ui.$(OBJEXT)
+	uiedisk.$(OBJEXT) uijoystickkeys.$(OBJEXT) uimenu.$(OBJEXT) \
+	uinetplay.$(OBJEXT) uipalcontrol.$(OBJEXT) \
+	uiscreenshot.$(OBJEXT) uisnapshot.$(OBJEXT) \
+	uivsidcontrol.$(OBJEXT) uifileentry.$(OBJEXT) x11ui.$(OBJEXT)
 libgnomeui_a_OBJECTS = $(am_libgnomeui_a_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -300,6 +300,7 @@ libgnomeui_a_SOURCES = \
 	uicartridge.c \
 	uicolor.c \
 	uiedisk.c \
+	uijoystickkeys.c \
 	uimenu.c \
 	uimenu.h \
 	uinetplay.c \
@@ -366,6 +367,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicolor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiedisk.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uifileentry.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystickkeys.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimenu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uinetplay.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipalcontrol.Po@am__quote@

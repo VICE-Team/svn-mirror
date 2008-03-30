@@ -44,6 +44,8 @@ libarchgui_a_SOURCES = \
 	uidrivec128.h \
 	uidrivec64.c \
 	uidrivec64.h \
+	uidrivec64c128.c \
+	uidrivec64c128.h \
 	uidrivec64vic20.c \
 	uidrivec64vic20.h \
 	uidriveiec.c \
@@ -64,6 +66,7 @@ libarchgui_a_SOURCES = \
 	uiide64.h \
 	uijoystick2.c \
 	uijoystick2.h \
+	uijoystickkeys.h \
 	uikeyboard.c \
 	uikeyboard.h \
 	uilib.c \
