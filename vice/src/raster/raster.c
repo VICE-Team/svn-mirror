@@ -323,8 +323,6 @@ int raster_init(raster_t *raster,
 
     raster->update_area.is_null = 1;
 
-    raster->do_double_scan = 0;
-
     raster->fake_draw_buffer_line = NULL;
 
     raster->refresh_tables = NULL;
@@ -602,9 +600,17 @@ void raster_set_pixel_size(raster_t *raster,
 {
     raster->viewport.pixel_size.width = width;
     raster->viewport.pixel_size.height = height;
-    if (raster->viewport.canvas)
+    if (raster->viewport.canvas) {
         raster->viewport.canvas->videoconfig.rendermode = videorendermode;
-
+        if (width > 1)
+            raster->viewport.canvas->videoconfig.doublesizex = 1;
+        else
+            raster->viewport.canvas->videoconfig.doublesizex = 0;
+        if (height > 1)
+            raster->viewport.canvas->videoconfig.doublesizey = 1;
+        else
+            raster->viewport.canvas->videoconfig.doublesizey = 0;
+    }
     realize_frame_buffer(raster);
     raster_force_repaint(raster);
 }
@@ -683,19 +689,8 @@ void raster_enable_cache(raster_t *raster, int enable)
     raster_force_repaint (raster);
 }
 
-void raster_enable_double_size(raster_t *raster, int enablex, int enabley)
-{
-    if (!raster->viewport.canvas)
-        return;
-
-    raster->viewport.canvas->videoconfig.doublesizex = enablex;
-    raster->viewport.canvas->videoconfig.doublesizey = enabley;
-}
-
 void raster_enable_double_scan(raster_t *raster, int enable)
 {
-    raster->do_double_scan = enable;
-
     if (raster->viewport.canvas)
         raster->viewport.canvas->videoconfig.doublescan = enable;
 

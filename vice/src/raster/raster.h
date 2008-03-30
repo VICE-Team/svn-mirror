@@ -157,12 +157,6 @@ struct raster_s {
         int have_on_this_line;
     } changes;
 
-    struct {
-        BYTE sing[0x100];
-        WORD doub[0x100];
-        DWORD quad[0x100];
-    } pixel_table;
-
     /* FIXME: This has go into struct draw_buffer_t.  */
     /* All video chips draw into this buffer.  */
     BYTE *draw_buffer;
@@ -181,18 +175,6 @@ struct raster_s {
 
     /* Palette used for drawing.  */
     struct palette_s *palette;
-
-    /* This is a bit mask representing each pixel on the screen (1 =
-       foreground, 0 = background) and is used both for sprite-background
-       collision checking and background sprite drawing.  When cache is
-       turned on, a cached mask for each line is used instead (see
-       `raster_cache_t.gfx_msk').  */
-    BYTE gfx_msk[RASTER_GFX_MSK_SIZE];
-
-    /* This is a temporary graphics mask used for sprite collision checking
-       without drawing to the real frame buffer, and is set up to be always
-       filled with zeroes.  */
-    BYTE zero_gfx_msk[RASTER_GFX_MSK_SIZE];
 
     /* Smooth scroll values for the graphics (not the whole screen).  */
     int xsmooth, ysmooth;
@@ -267,11 +249,27 @@ struct raster_s {
     /* Area to update.  */
     raster_area_t update_area;
 
-    unsigned int do_double_scan;
-
     /* Function to call when internal tables have to be refreshed after a
        mode change. E.g. vicii::init_drawing_tables(). NULL allowed */
     void (*refresh_tables)(void);
+
+    /* This is a bit mask representing each pixel on the screen (1 =
+       foreground, 0 = background) and is used both for sprite-background
+       collision checking and background sprite drawing.  When cache is
+       turned on, a cached mask for each line is used instead (see
+       `raster_cache_t.gfx_msk').  */
+    BYTE gfx_msk[RASTER_GFX_MSK_SIZE];
+
+    /* This is a temporary graphics mask used for sprite collision checking
+       without drawing to the real frame buffer, and is set up to be always
+       filled with zeroes.  */
+    BYTE zero_gfx_msk[RASTER_GFX_MSK_SIZE];
+
+    struct {
+        BYTE sing[0x100];
+        WORD doub[0x100];
+        DWORD quad[0x100];
+    } pixel_table;
 };
 typedef struct raster_s raster_t;
 
@@ -312,7 +310,6 @@ extern void raster_set_title(raster_t *raster, const char *title);
 extern void raster_skip_frame(raster_t *raster, int skip);
 extern void raster_enable_cache(raster_t *raster, int enable);
 extern void raster_enable_double_scan(raster_t *raster, int enable);
-extern void raster_enable_double_size(raster_t *raster, int enablex, int enabley);
 extern void raster_mode_change(void);
 extern void raster_rebuild_tables(raster_t *raster);
 extern void raster_set_canvas_refresh(raster_t *raster, int enable);
