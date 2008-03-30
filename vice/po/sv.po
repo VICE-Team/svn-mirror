@@ -1,15 +1,15 @@
 # Swedish translation file for VICE
 # Peter Karlsson <peter@softwolves.pp.se>
-# Copyright 2000-2006
+# Copyright 2000-2007
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 1.21\n"
+"Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-16 00:55+0200\n"
-"PO-Revision-Date: 2006-10-01 17:43+0200\n"
+"POT-Creation-Date: 2007-08-04 15:35+0200\n"
+"PO-Revision-Date: 2007-07-30 20:49+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
-"Language-Team: Swedish <sv@li.org>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -655,11 +655,11 @@ msgstr "Aktivera 80-kolumnersläge"
 
 #: src/c128/c128mmu.c:131 src/translate.c.po.c:958
 msgid "Always switch to C64 mode on reset"
-msgstr ""
+msgstr "Växla alltid till C64-läge vid återställning"
 
 #: src/c128/c128mmu.c:134 src/translate.c.po.c:968
 msgid "Always switch to C128 mode on reset"
-msgstr ""
+msgstr "Växla alltid till C128-läge vid återställning"
 
 #: src/c128/functionrom.c:151 src/translate.c.po.c:978
 msgid "Specify name of internal Function ROM image"
@@ -837,19 +837,16 @@ msgid "Base address of the 256K expansion"
 msgstr "Basadress för 256K-expansionen"
 
 #: src/c64/digimax.c:133 src/translate.c.po.c:4806
-#, fuzzy
 msgid "Enable the digimax cartridge"
-msgstr "Aktivera Expert Cartridge"
+msgstr "Aktivera Digimax-cartridge"
 
 #: src/c64/digimax.c:135 src/translate.c.po.c:4816
-#, fuzzy
 msgid "Disable the digimax cartridge"
-msgstr "Aktivera Expert Cartridge"
+msgstr "Inaktivera Digimax Cartridge"
 
 #: src/c64/digimax.c:137 src/translate.c.po.c:4826
-#, fuzzy
 msgid "Base address of the digimax cartridge"
-msgstr "Basadress för 256K-expansionen"
+msgstr "Basadress för Digimax-cartridge"
 
 #: src/c64/georam.c:205 src/translate.c.po.c:1100
 msgid "Enable the GEORAM expansion unit"
@@ -982,17 +979,15 @@ msgstr "Inaktivera TFE-enhet (\"The Final Ethernet\")"
 
 #: src/c64/tfe.c:1934 src/translate.c.po.c:1391
 msgid "Set the system ethernet interface for TFE emulation"
-msgstr ""
+msgstr "Ställ in systemets ethernetgränssnitt för TFE-emulering"
 
 #: src/c64/tfe.c:1936 src/translate.c.po.c:1401
-#, fuzzy
 msgid "Enable RRNet mode of TFE emulation"
-msgstr "*Aktivera äkta diskettenhetsemulering"
+msgstr "Aktivera RRNet-läge på TFE-emulering"
 
 #: src/c64/tfe.c:1938 src/translate.c.po.c:1411
-#, fuzzy
 msgid "Disable RRNet mode of TFE emulation"
-msgstr "Inaktivera RS232-emulering på användarporten"
+msgstr "Inaktivera RRNet-läge på TFE-emulering"
 
 #: src/cbm2/cbm2-cmdline-options.c:121 src/pet/pet-cmdline-options.c:114
 #: src/translate.c.po.c:1652
@@ -1929,7 +1924,7 @@ msgstr "<läge>"
 
 #: src/vicii/vicii-cmdline-options.c:98 src/translate.c.po.c:3608
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
-msgstr ""
+msgstr "Välj VIC II-ramvisningsläge (0: normal, 1: full, 2: felsökning)"
 
 #: src/vicii/vicii-cmdline-options.c:100 src/translate.c.po.c:3618
 msgid "Enable sprite-background collision registers"
@@ -2294,9 +2289,8 @@ msgid "MMC64 emulation"
 msgstr "MMC64-emulering"
 
 #: src/arch/unix/gui/c128ui.c:246 src/arch/unix/gui/c64ui.c:284
-#, fuzzy
 msgid "Digimax Cart"
-msgstr "SID-modul"
+msgstr "Digimaxmodul"
 
 #: src/arch/unix/gui/c128ui.c:248 src/arch/unix/gui/c64ui.c:286
 msgid "IDE64 emulation"
@@ -2399,7 +2393,7 @@ msgstr "ROM-uppsättningar"
 
 #: src/arch/unix/gui/c128ui.c:368
 msgid "*Always switch to C64 mode"
-msgstr ""
+msgstr "*Växla alltid till C64-läge"
 
 #: src/arch/unix/gui/c128ui.c:376 src/arch/unix/gui/c64ui.c:364
 msgid "VIC-II settings"
@@ -2454,7 +2448,7 @@ msgstr "Alternativ"
 #: src/arch/unix/gui/cbm2ui.c:511 src/arch/unix/gui/petui.c:493
 #: src/arch/unix/gui/plus4ui.c:319 src/arch/unix/gui/vic20ui.c:609
 #: src/arch/unix/gui/vsidui.c:233 src/arch/unix/x11/gnome/uinetplay.c:65
-#: src/arch/unix/x11/gnome/x11ui.c:1312 src/arch/unix/x11/gnome/x11ui.c:1377
+#: src/arch/unix/x11/gnome/x11ui.c:1278 src/arch/unix/x11/gnome/x11ui.c:1343
 #: src/arch/win32/res.rc.po.c:4418 src/arch/amigaos/intl.c.po.c:1230
 msgid "Settings"
 msgstr "Inställningar"
@@ -2925,7 +2919,7 @@ msgid "Smart-attach a file"
 msgstr "Smartanslut en fil"
 
 #: src/arch/unix/gui/uiattach.c:301 src/arch/unix/gui/uiattach.c:310
-#: src/arch/unix/x11/xaw/x11ui.c:1785
+#: src/arch/unix/x11/xaw/x11ui.c:1791
 msgid "Unknown image type"
 msgstr "Okänd avbildningsfiltyp"
 
@@ -3136,9 +3130,8 @@ msgstr "Ange historikkatalog"
 
 #: src/arch/unix/gui/uicommands.c:393 src/arch/win32/res.rc.po.c:5077
 #: src/arch/amigaos/intl.c.po.c:4583
-#, fuzzy
 msgid "Sound Recording stopped..."
-msgstr "Ljudinspelning..."
+msgstr "Ljudinspelning stoppad..."
 
 #: src/arch/unix/gui/uicommands.c:404
 msgid "Record sound to file"
@@ -3146,9 +3139,8 @@ msgstr "Spela in ljud till fil"
 
 #: src/arch/unix/gui/uicommands.c:413 src/arch/win32/res.rc.po.c:5076
 #: src/arch/amigaos/intl.c.po.c:4592
-#, fuzzy
 msgid "Sound Recording started..."
-msgstr "Spelar in startläge"
+msgstr "Ljudinspelning startad..."
 
 #: src/arch/unix/gui/uicommands.c:447 src/arch/amigaos/intl.c.po.c:654
 msgid "Soft"
@@ -3234,34 +3226,28 @@ msgid "Snapshot commands"
 msgstr "Kommandon för ögonblicksbilder"
 
 #: src/arch/unix/gui/uicommands.c:532
-#, fuzzy
 msgid "Sound record WAV..."
-msgstr "Ljudinspelning..."
+msgstr "Spela in WAV-ljud..."
 
 #: src/arch/unix/gui/uicommands.c:534
-#, fuzzy
 msgid "Sound record AIFF..."
-msgstr "Ljudinspelning..."
+msgstr "Spela in AIFF-ljud..."
 
 #: src/arch/unix/gui/uicommands.c:536
-#, fuzzy
 msgid "Sound record VOC..."
-msgstr "Ljudinspelning..."
+msgstr "Spela in VOC-ljud..."
 
 #: src/arch/unix/gui/uicommands.c:538
-#, fuzzy
 msgid "Sound record IFF..."
-msgstr "Ljudinspelning..."
+msgstr "Spela in IFF-ljud..."
 
 #: src/arch/unix/gui/uicommands.c:541
-#, fuzzy
 msgid "Sound record MP3..."
-msgstr "Ljudinspelning..."
+msgstr "Spela in MP3-ljud..."
 
 #: src/arch/unix/gui/uicommands.c:544
-#, fuzzy
 msgid "Stop Sound record"
-msgstr "Ljudinspelning..."
+msgstr "Stoppa ljudinspelning"
 
 #: src/arch/unix/gui/uicommands.c:550
 msgid "Activate monitor"
@@ -3281,7 +3267,7 @@ msgstr "Om VICE..."
 
 #: src/arch/unix/gui/uicommands.c:569 src/arch/unix/gui/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:153
-#: src/arch/unix/x11/gnome/x11ui.c:2075 src/arch/amigaos/intl.c.po.c:312
+#: src/arch/unix/x11/gnome/x11ui.c:2021 src/arch/amigaos/intl.c.po.c:312
 msgid "Reset"
 msgstr "Återställ"
 
@@ -3313,7 +3299,7 @@ msgstr "Läs egen"
 
 #: src/arch/unix/gui/uicrtc.c:93 src/arch/unix/gui/uicrtc.c:106
 #: src/arch/unix/gui/uited.c:120 src/arch/unix/gui/uited.c:149
-#: src/arch/unix/gui/uivdc.c:98 src/arch/unix/gui/uivdc.c:111
+#: src/arch/unix/gui/uivdc.c:105 src/arch/unix/gui/uivdc.c:118
 #: src/arch/unix/gui/uivic.c:119 src/arch/unix/gui/uivic.c:144
 #: src/arch/unix/gui/uivicii.c:153 src/arch/unix/gui/uivicii.c:185
 msgid "*Double size"
@@ -3321,14 +3307,14 @@ msgstr "*Dubbel storlek"
 
 #: src/arch/unix/gui/uicrtc.c:95 src/arch/unix/gui/uicrtc.c:108
 #: src/arch/unix/gui/uited.c:122 src/arch/unix/gui/uited.c:151
-#: src/arch/unix/gui/uivdc.c:100 src/arch/unix/gui/uivdc.c:113
+#: src/arch/unix/gui/uivdc.c:107 src/arch/unix/gui/uivdc.c:120
 #: src/arch/unix/gui/uivic.c:121 src/arch/unix/gui/uivic.c:146
 #: src/arch/unix/gui/uivicii.c:155 src/arch/unix/gui/uivicii.c:187
 msgid "*Double scan"
 msgstr "*Dubbelskanning"
 
 #: src/arch/unix/gui/uicrtc.c:97 src/arch/unix/gui/uited.c:124
-#: src/arch/unix/gui/uivdc.c:102 src/arch/unix/gui/uivic.c:123
+#: src/arch/unix/gui/uivdc.c:109 src/arch/unix/gui/uivic.c:123
 #: src/arch/unix/gui/uivicii.c:157
 msgid "*Video cache"
 msgstr "*Grafikcache"
@@ -3339,31 +3325,31 @@ msgid "*Scale 2x render"
 msgstr "*Skala 2x-rendrering"
 
 #: src/arch/unix/gui/uicrtc.c:104 src/arch/unix/gui/uited.c:147
-#: src/arch/unix/gui/uivdc.c:109 src/arch/unix/gui/uivic.c:142
+#: src/arch/unix/gui/uivdc.c:116 src/arch/unix/gui/uivic.c:142
 #: src/arch/unix/gui/uivicii.c:183
 msgid "*Enable fullscreen"
 msgstr "*Aktivera fullskärm"
 
 #: src/arch/unix/gui/uicrtc.c:110 src/arch/unix/gui/uited.c:153
-#: src/arch/unix/gui/uivdc.c:115 src/arch/unix/gui/uivic.c:148
+#: src/arch/unix/gui/uivdc.c:122 src/arch/unix/gui/uivic.c:148
 #: src/arch/unix/gui/uivicii.c:189
 msgid "Fullscreen device"
 msgstr "Fullskärmsenhet"
 
 #: src/arch/unix/gui/uicrtc.c:115 src/arch/unix/gui/uited.c:158
-#: src/arch/unix/gui/uivdc.c:120 src/arch/unix/gui/uivic.c:153
+#: src/arch/unix/gui/uivdc.c:127 src/arch/unix/gui/uivic.c:153
 #: src/arch/unix/gui/uivicii.c:194
 msgid "VidMode Resolutions"
 msgstr "VidMode-upplösningar"
 
 #: src/arch/unix/gui/uicrtc.c:119 src/arch/unix/gui/uited.c:162
-#: src/arch/unix/gui/uivdc.c:124 src/arch/unix/gui/uivic.c:157
+#: src/arch/unix/gui/uivdc.c:131 src/arch/unix/gui/uivic.c:157
 #: src/arch/unix/gui/uivicii.c:198
 msgid "DGA1 Resolutions"
 msgstr "DGA1-upplösningar"
 
 #: src/arch/unix/gui/uicrtc.c:123 src/arch/unix/gui/uited.c:166
-#: src/arch/unix/gui/uivdc.c:128 src/arch/unix/gui/uivic.c:161
+#: src/arch/unix/gui/uivdc.c:135 src/arch/unix/gui/uivic.c:161
 #: src/arch/unix/gui/uivicii.c:202
 msgid "DGA2 Resolutions"
 msgstr "DGA2-upplösningar"
@@ -3373,7 +3359,7 @@ msgid "*CRTC Screen color"
 msgstr "*CRTC-skärmfärg"
 
 #: src/arch/unix/gui/uicrtc.c:131 src/arch/unix/gui/uited.c:174
-#: src/arch/unix/gui/uivdc.c:105 src/arch/unix/gui/uivic.c:169
+#: src/arch/unix/gui/uivdc.c:112 src/arch/unix/gui/uivic.c:169
 #: src/arch/unix/gui/uivicii.c:224
 msgid "*Use XSync()"
 msgstr "*Använd XSync()"
@@ -3420,13 +3406,12 @@ msgid "Datassette control"
 msgstr "Datasettestyrning"
 
 #: src/arch/unix/gui/uidigimax.c:77
-#, fuzzy
 msgid "*Enable digimax"
-msgstr "*Aktivera mus"
+msgstr "*Aktivera Digimax"
 
 #: src/arch/unix/gui/uidigimax.c:79
 msgid "Digimax base"
-msgstr ""
+msgstr "Digimax-bas"
 
 #: src/arch/unix/gui/uidrive.c:62 src/arch/unix/gui/uidrive.c:72
 #: src/arch/unix/gui/uidrive.c:82 src/arch/unix/gui/uidrive.c:92
@@ -3784,8 +3769,8 @@ msgid "Next: "
 msgstr "Nästa: "
 
 #: src/arch/unix/gui/uifliplist.c:245 src/arch/unix/gui/uifliplist.c:260
-#: src/arch/unix/x11/gnome/x11ui.c:912 src/arch/unix/x11/gnome/x11ui.c:922
-#: src/arch/unix/x11/gnome/x11ui.c:1644
+#: src/arch/unix/x11/gnome/x11ui.c:894 src/arch/unix/x11/gnome/x11ui.c:904
+#: src/arch/unix/x11/gnome/x11ui.c:1610
 msgid "<empty>"
 msgstr "<tom>"
 
@@ -4739,7 +4724,7 @@ msgstr "Maximal hastighet"
 msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
-#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1426
+#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1392
 #: src/arch/unix/x11/xaw/x11ui.c:1100 src/arch/win32/res.rc.po.c:4900
 #: src/arch/amigaos/intl.c.po.c:1908
 msgid "Cannot save settings."
@@ -5052,15 +5037,21 @@ msgstr "*Utgåva 1"
 msgid "*Revison 2"
 msgstr "*Utgåva 2"
 
-#: src/arch/unix/gui/uivdc.c:133
+#. Translators: `XRandR' must remain in the beginning of the translation:
+#. e.g. German: "XRandR Aufloesungen"
+#: src/arch/unix/gui/uivdc.c:141 src/arch/unix/gui/uivicii.c:208
+msgid "XRandR Resolutions"
+msgstr "XRandR-upplösningar"
+
+#: src/arch/unix/gui/uivdc.c:146
 msgid "*64KB display memory"
 msgstr "*64KB grafikminne"
 
-#: src/arch/unix/gui/uivdc.c:135
+#: src/arch/unix/gui/uivdc.c:148
 msgid "Revision"
 msgstr "Utgåva"
 
-#: src/arch/unix/gui/uivdc.c:138
+#: src/arch/unix/gui/uivdc.c:151
 msgid "Color set"
 msgstr "Färguppsättning"
 
@@ -5082,12 +5073,11 @@ msgstr "*GoDot"
 
 #: src/arch/unix/gui/uivicii.c:73
 msgid "*Full"
-msgstr ""
+msgstr "*Full"
 
 #: src/arch/unix/gui/uivicii.c:75
-#, fuzzy
 msgid "*Debug"
-msgstr "&Felsök"
+msgstr "*Felsök"
 
 #: src/arch/unix/gui/uivicii.c:160
 msgid "*New Luminances"
@@ -5097,15 +5087,9 @@ msgstr "*Nya ljusstyrkor"
 msgid "*OpenGL Rastersynchronization"
 msgstr "*OpenGL-rastersynkronisering"
 
-#. Translators: `XRandR' must remain in the beginning of the translation:
-#. e.g. German: "XRandR Aufloesungen"
-#: src/arch/unix/gui/uivicii.c:208
-msgid "XRandR Resolutions"
-msgstr "XRandR-upplösningar"
-
 #: src/arch/unix/gui/uivicii.c:216
 msgid "*Border mode"
-msgstr ""
+msgstr "*Kantläge"
 
 #: src/arch/unix/gui/uivicii.c:219
 msgid "*Sprite-sprite collisions"
@@ -5278,7 +5262,6 @@ msgid "Official VICE homepage:"
 msgstr "Officiell VICE-webbsida:"
 
 #: src/arch/unix/x11/gnome/about.c:91
-#, fuzzy
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Karlsson - Swedish\n"
@@ -5294,11 +5277,11 @@ msgstr ""
 "Paul Dube - franska\n"
 "Marco van den Heuvel - nederländska\n"
 "Flooder - polska\n"
+"Czirkos Zoltan, Karai Csaba - ungerska\n"
 
 #: src/arch/unix/x11/gnome/about.c:104
-#, fuzzy
 msgid "(c) 1998 - 2007 The Vice Team"
-msgstr "© 1998 - 2006 Vice-gruppen"
+msgstr "© 1998 - 2007 Vice-gruppen"
 
 #: src/arch/unix/x11/gnome/about.c:115 src/arch/win32/res.rc.po.c:5006
 #: src/arch/amigaos/intl.c.po.c:1662
@@ -5616,189 +5599,189 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/uifileentry.c:52
-#: src/arch/unix/x11/gnome/x11ui.c:2720
+#: src/arch/unix/x11/gnome/x11ui.c:2666
 msgid "all files"
 msgstr "alla filer"
 
-#: src/arch/unix/x11/gnome/x11ui.c:433
+#: src/arch/unix/x11/gnome/x11ui.c:432
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr "Kan inte lägga till typsnittssökväg \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:435
+#: src/arch/unix/x11/gnome/x11ui.c:434
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr "Sätt typsnittssökväg: \"%s\".\n"
 
-#: src/arch/unix/x11/gnome/x11ui.c:643 src/arch/unix/x11/xaw/x11ui.c:512
+#: src/arch/unix/x11/gnome/x11ui.c:642 src/arch/unix/x11/xaw/x11ui.c:512
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr "Dina grafikinställningar stöder inte %d-bitarsvy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:646 src/arch/unix/x11/xaw/x11ui.c:515
+#: src/arch/unix/x11/gnome/x11ui.c:645 src/arch/unix/x11/xaw/x11ui.c:515
 msgid "Please select a bit depth supported by your display."
 msgstr "Välj ett bitdjup som stöds av dina grafikinställningar."
 
-#: src/arch/unix/x11/gnome/x11ui.c:649 src/arch/unix/x11/gnome/x11ui.c:673
+#: src/arch/unix/x11/gnome/x11ui.c:648 src/arch/unix/x11/gnome/x11ui.c:672
 #: src/arch/unix/x11/xaw/x11ui.c:518 src/arch/unix/x11/xaw/x11ui.c:535
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr "Hittade %d-bitars/%s-vy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:658
+#: src/arch/unix/x11/gnome/x11ui.c:657
 #, c-format
 msgid "Found %dbit visual."
 msgstr "Hittade %d-bitarsvy."
 
-#: src/arch/unix/x11/gnome/x11ui.c:681 src/arch/unix/x11/xaw/x11ui.c:543
+#: src/arch/unix/x11/gnome/x11ui.c:680 src/arch/unix/x11/xaw/x11ui.c:543
 msgid "Cannot autodetect a proper visual."
 msgstr "Kan inte automatdetektera ett gällande grafikläge."
 
-#: src/arch/unix/x11/gnome/x11ui.c:689
+#: src/arch/unix/x11/gnome/x11ui.c:688
 #, c-format
 msgid "Cannot load text font %s."
 msgstr "Kan inte läsa texttypsnitt %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:696
+#: src/arch/unix/x11/gnome/x11ui.c:695
 #, c-format
 msgid "Cannot load CBM font %s."
 msgstr "Kan inte läsa CBM-typsnitt %s."
 
-#: src/arch/unix/x11/gnome/x11ui.c:814
+#: src/arch/unix/x11/gnome/x11ui.c:796
 msgid "PAL Controls"
 msgstr "PAL-styrning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:833
+#: src/arch/unix/x11/gnome/x11ui.c:815
 msgid "audio/video recording"
 msgstr "ljud-/bild-inspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:847 src/arch/unix/x11/gnome/x11ui.c:866
+#: src/arch/unix/x11/gnome/x11ui.c:829 src/arch/unix/x11/gnome/x11ui.c:848
 msgid "click to stop recording"
 msgstr "avbryt inspelningen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:852
+#: src/arch/unix/x11/gnome/x11ui.c:834
 msgid "event recording"
 msgstr "händelseinspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:872
+#: src/arch/unix/x11/gnome/x11ui.c:854
 msgid "event playback"
 msgstr "händelseåterspelning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:886
+#: src/arch/unix/x11/gnome/x11ui.c:868
 msgid "click to stop playback"
 msgstr "avbryt återspelningen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:898
+#: src/arch/unix/x11/gnome/x11ui.c:880
 #, c-format
 msgid "Drive %d: "
 msgstr "Enhet %d: "
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:1009
+#: src/arch/unix/x11/gnome/x11ui.c:991
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1094 src/arch/unix/x11/xaw/x11ui.c:629
+#: src/arch/unix/x11/gnome/x11ui.c:1076 src/arch/unix/x11/xaw/x11ui.c:629
 msgid "Maximum number of toplevel windows reached."
 msgstr "Maximalt antal fönster på översta nivån har nåtts."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1310 src/arch/unix/x11/gnome/x11ui.c:1366
+#: src/arch/unix/x11/gnome/x11ui.c:1276 src/arch/unix/x11/gnome/x11ui.c:1332
 msgid "Commands"
 msgstr "Kommandon"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1316 src/arch/amigaos/intl.c.po.c:1626
+#: src/arch/unix/x11/gnome/x11ui.c:1282 src/arch/amigaos/intl.c.po.c:1626
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1409 src/arch/unix/x11/xaw/x11ui.c:1086
+#: src/arch/unix/x11/gnome/x11ui.c:1375 src/arch/unix/x11/xaw/x11ui.c:1086
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1416 src/arch/unix/x11/xaw/x11ui.c:1090
+#: src/arch/unix/x11/gnome/x11ui.c:1382 src/arch/unix/x11/xaw/x11ui.c:1090
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1423 src/arch/unix/x11/xaw/x11ui.c:1097
+#: src/arch/unix/x11/gnome/x11ui.c:1389 src/arch/unix/x11/xaw/x11ui.c:1097
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1468 src/arch/unix/x11/xaw/x11ui.c:1138
+#: src/arch/unix/x11/gnome/x11ui.c:1434 src/arch/unix/x11/xaw/x11ui.c:1138
 msgid "Using private colormap."
 msgstr "Använder egen färgkarta."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1488 src/arch/unix/x11/gnome/x11ui.c:1491
+#: src/arch/unix/x11/gnome/x11ui.c:1454 src/arch/unix/x11/gnome/x11ui.c:1457
 #: src/arch/unix/x11/xaw/x11ui.c:1166 src/arch/unix/x11/xaw/x11ui.c:1171
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1793
+#: src/arch/unix/x11/gnome/x11ui.c:1759
 #, c-format
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1865 src/arch/unix/x11/xaw/x11ui.c:1413
+#: src/arch/unix/x11/gnome/x11ui.c:1811 src/arch/unix/x11/xaw/x11ui.c:1413
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2034 src/arch/amigaos/intl.c.po.c:1854
+#: src/arch/unix/x11/gnome/x11ui.c:1980 src/arch/amigaos/intl.c.po.c:1854
 msgid "VICE Message"
 msgstr "VICE-meddelande"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2045 src/arch/amigaos/intl.c.po.c:1926
+#: src/arch/unix/x11/gnome/x11ui.c:1991 src/arch/amigaos/intl.c.po.c:1926
 msgid "VICE Error"
 msgstr "VICE-fel"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2076
+#: src/arch/unix/x11/gnome/x11ui.c:2022
 msgid "Hard Reset"
 msgstr "Hård nollställning"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2077 src/arch/amigaos/intl.c.po.c:636
+#: src/arch/unix/x11/gnome/x11ui.c:2023 src/arch/amigaos/intl.c.po.c:636
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2121 src/arch/unix/x11/xaw/x11ui.c:1717
+#: src/arch/unix/x11/gnome/x11ui.c:2067 src/arch/unix/x11/xaw/x11ui.c:1723
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2122
+#: src/arch/unix/x11/gnome/x11ui.c:2068
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2135
+#: src/arch/unix/x11/gnome/x11ui.c:2081
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Kan inte starta automatiskt från enhet %d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2143 src/arch/unix/x11/gnome/x11ui.c:2152
+#: src/arch/unix/x11/gnome/x11ui.c:2089 src/arch/unix/x11/gnome/x11ui.c:2098
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Kan inte starta valet %d i avbildningsfilen %s automatiskt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2279 src/arch/unix/x11/gnome/x11ui.c:2289
+#: src/arch/unix/x11/gnome/x11ui.c:2225 src/arch/unix/x11/gnome/x11ui.c:2235
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "INNEH]LLSF\\RTECKNING SAKNAS"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2743
+#: src/arch/unix/x11/gnome/x11ui.c:2689
 msgid "Contents"
 msgstr "Innehåll"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2791
+#: src/arch/unix/x11/gnome/x11ui.c:2737
 msgid "Attach write protected"
 msgstr "Anslut skrivskyddat"
 
 #. show hidden files
-#: src/arch/unix/x11/gnome/x11ui.c:2797
+#: src/arch/unix/x11/gnome/x11ui.c:2743
 msgid "Show hidden files"
 msgstr "Visa dolda filer"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2809
+#: src/arch/unix/x11/gnome/x11ui.c:2755
 msgid "Autostart"
 msgstr "Starta automatiskt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2826
+#: src/arch/unix/x11/gnome/x11ui.c:2772
 msgid "Text cannot be displayed.\n"
 msgstr "Texten kan inte visas.\n"
 
@@ -5959,40 +5942,40 @@ msgstr "Inaktivera fullskärm"
 msgid "Specify X display depth (1..32)"
 msgstr "Ange färgdjup för X-display (1..32)"
 
-#: src/arch/unix/x11/video.c:195
+#: src/arch/unix/x11/video.c:198
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Anropa \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/video.c:198
+#: src/arch/unix/x11/video.c:201
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Anropa ej \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/video.c:201
+#: src/arch/unix/x11/video.c:204
 msgid "Use shared memory"
 msgstr "Använder delat minne"
 
-#: src/arch/unix/x11/video.c:204
+#: src/arch/unix/x11/video.c:207
 msgid "Never use shared memory (slower)"
 msgstr "Använd aldrig delat minne (långsammare)"
 
-#: src/arch/unix/x11/video.c:207
+#: src/arch/unix/x11/video.c:210
 msgid "Request YUV FOURCC format"
 msgstr "Be om YUV FOURCC-format"
 
-#: src/arch/unix/x11/video.c:209
+#: src/arch/unix/x11/video.c:212
 msgid "Set aspect ratio (0.8 - 1.2)"
 msgstr "Välj bredd-/höjdförhållande (0,8-1,2)"
 
-#: src/arch/unix/x11/video.c:290
+#: src/arch/unix/x11/video.c:293
 msgid "The MITSHM extension is not supported on this display."
 msgstr "MITSHM-utökningarna stöds inte för denna display."
 
-#: src/arch/unix/x11/video.c:294
+#: src/arch/unix/x11/video.c:297
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-utökningar version %d.%d hittades."
 
-#: src/arch/unix/x11/video.c:364
+#: src/arch/unix/x11/video.c:367
 msgid "Cannot release shared memory!"
 msgstr "Kan inte släppa delat minne!"
 
@@ -6001,9 +5984,9 @@ msgid "Error getting video mode information - disabling vidmode extension."
 msgstr ""
 "Fel vid hämtning av information om grafikläge - inaktiverar vidmode-utökning."
 
-#: src/arch/unix/x11/xrandr.c:241
+#: src/arch/unix/x11/xrandr.c:254
 msgid "*Desktop"
-msgstr ""
+msgstr "*Skrivbord"
 
 #: src/arch/unix/x11/xaw/about.c:154 src/arch/win32/res.rc.po.c:4896
 msgid "VICE Information"
@@ -6178,7 +6161,7 @@ msgstr "spelar in händelser..."
 msgid "%d: Track %.1f"
 msgstr "%d: Spår %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1602 src/arch/win32/res.rc.po.c:4895
+#: src/arch/unix/x11/xaw/x11ui.c:1608 src/arch/win32/res.rc.po.c:4895
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 
@@ -6373,68 +6356,67 @@ msgstr "OK"
 
 #: src/arch/win32/res.rc.po.c:557
 msgid "VICE"
-msgstr ""
+msgstr "VICE"
 
 #: src/arch/win32/res.rc.po.c:558
 msgid "Versatile Commodore Emulator"
-msgstr ""
+msgstr "Versatile Commodore Emulator - Den mångsidiga Commodoreemulatorn"
 
 #: src/arch/win32/res.rc.po.c:559
-#, fuzzy
 msgid "Version 0.0"
-msgstr "Version %s"
+msgstr "Version 0.0"
 
 #: src/arch/win32/res.rc.po.c:560
 msgid "Copyright (c) 1998-2007 Andreas Boose"
-msgstr ""
+msgstr "Upphovsrättsskyddad © 1998-2007 Andreas Boose"
 
 #: src/arch/win32/res.rc.po.c:561
 msgid "Copyright (c) 1998-2007 Dag Lem"
-msgstr ""
+msgstr "Upphovsrättsskyddad © 1998-2007 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:562
 msgid "Copyright (c) 1998-2007 Tibor Biczo"
-msgstr ""
+msgstr "Upphovsrättsskyddad © 1998-2007 Tibor Biczo"
 
 #: src/arch/win32/res.rc.po.c:563
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
-msgstr ""
+msgstr "Upphovsrättsskyddad © 1999-2007 Andreas Dehmel"
 
 #: src/arch/win32/res.rc.po.c:564
 msgid "Copyright (c) 1999-2007 Andreas Matthies"
-msgstr ""
+msgstr "Upphovsrättsskyddad © 1999-2007 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:565
 msgid "Copyright (c) 1999-2007 Martin Pottendorfer"
-msgstr ""
+msgstr "Upphovsrättsskyddad © 1999-2007 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:566
 msgid "Copyright (c) 2000-2007 Spiro Trikaliotis"
-msgstr ""
+msgstr "Upphovsrättsskyddad © 2000-2007 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:567
 msgid "Copyright (c) 2005-2007 Marco van den Heuvel"
-msgstr ""
+msgstr "Upphovsrättsskyddad © 2005-2007 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:568
 msgid "Copyright (c) 2006-2007 Christian Vogelgsang"
-msgstr ""
+msgstr "Upphovsrättsskyddad © 2006-2007 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:569
 msgid "Copyright (c) 1999-2005 Thomas Bretz"
-msgstr ""
+msgstr "Upphovsrättsskyddad © 1999-2005 Thomas Bretz"
 
 #: src/arch/win32/res.rc.po.c:570
 msgid "Copyright (c) 2003-2005 David Hansel"
-msgstr ""
+msgstr "Upphovsrättsskyddad © 2003-2005 David Hansel"
 
 #: src/arch/win32/res.rc.po.c:571
 msgid "Copyright (c) 2000-2004 Markus Brenner"
-msgstr ""
+msgstr "Upphovsrättsskyddad © 2000-2004 Markus Brenner"
 
 #: src/arch/win32/res.rc.po.c:572
 msgid " "
-msgstr ""
+msgstr " "
 
 #: src/arch/win32/res.rc.po.c:579 src/arch/win32/res.rc.po.c:3595
 msgid "&Use IEC Device"
@@ -6652,34 +6634,28 @@ msgid "Save currently loaded &ROM images"
 msgstr "Spara lästa &ROM-avbildningar"
 
 #: src/arch/win32/res.rc.po.c:2216
-#, fuzzy
 msgid "Select Driver:"
-msgstr "Drivrutin:"
+msgstr "Välj drivrutin:"
 
 #: src/arch/win32/res.rc.po.c:2219
-#, fuzzy
 msgid "FFMPEG settings"
-msgstr "PET-inställningar"
+msgstr "FFMPEG-inställningar"
 
 #: src/arch/win32/res.rc.po.c:2220
-#, fuzzy
 msgid "Format:"
-msgstr "Bildformat"
+msgstr "Format:"
 
 #: src/arch/win32/res.rc.po.c:2223
-#, fuzzy
 msgid "Audio: codec"
-msgstr "Skärmbredd"
+msgstr "Ljud: omkodare"
 
 #: src/arch/win32/res.rc.po.c:2226 src/arch/win32/res.rc.po.c:2232
-#, fuzzy
 msgid "bitrate"
-msgstr "Videobithastighet"
+msgstr "bithastighet"
 
 #: src/arch/win32/res.rc.po.c:2229
-#, fuzzy
 msgid "Video: codec"
-msgstr "Skärmbredd"
+msgstr "Video: omkodare"
 
 #: src/arch/win32/res.rc.po.c:2434
 msgid "&Append log to existing file"
@@ -6910,29 +6886,24 @@ msgid "RS232 device 4"
 msgstr "RS232-enhet 4"
 
 #: src/arch/win32/res.rc.po.c:4387 src/arch/amigaos/intl.c.po.c:2117
-#, fuzzy
 msgid "Current mode"
-msgstr "Nuvarande ROM-uppsättningar"
+msgstr "Nuvarande läge"
 
 #: src/arch/win32/res.rc.po.c:4389 src/arch/amigaos/intl.c.po.c:2126
-#, fuzzy
 msgid "TCP-Port"
-msgstr "TCP-port: "
+msgstr "TCP-port"
 
 #: src/arch/win32/res.rc.po.c:4392 src/arch/amigaos/intl.c.po.c:2144
-#, fuzzy
 msgid "Connect to"
-msgstr "Anslut till "
+msgstr "Anslut till"
 
 #: src/arch/win32/res.rc.po.c:4748 src/arch/amigaos/intl.c.po.c:4610
-#, fuzzy
 msgid "Sound Record Format"
-msgstr "Ljudinspelning..."
+msgstr "Format för ljudinspelning"
 
 #: src/arch/win32/res.rc.po.c:4752
-#, fuzzy
 msgid "&Sound Record File"
-msgstr "Ljudinspelning..."
+msgstr "&Fil för ljudinspelning"
 
 #: src/arch/win32/res.rc.po.c:4897
 msgid "VICE question"
@@ -7007,7 +6978,7 @@ msgstr "pausad"
 
 #: src/arch/win32/res.rc.po.c:4913
 msgid "frame #"
-msgstr ""
+msgstr "ram nr"
 
 #: src/arch/win32/res.rc.po.c:4914
 msgid "resumed"
@@ -7065,9 +7036,9 @@ msgid "VICE console logging files (*.dbg)"
 msgstr "VICE konsolloggfiler (*.dbg)"
 
 #: src/arch/win32/res.rc.po.c:4928
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write log file `%s'."
-msgstr "Kan inte skriva avbildningsfil %s"
+msgstr "Kan inte skriva loggfil \"%s\"."
 
 #: src/arch/win32/res.rc.po.c:4929 src/arch/amigaos/intl.c.po.c:3980
 msgid "Load flip list file"
@@ -7143,7 +7114,6 @@ msgid "Select file system directory"
 msgstr "Ange filsystemskatalog"
 
 #: src/arch/win32/res.rc.po.c:4948
-#, fuzzy
 msgid "Printer Userport"
 msgstr "Skrivare användarport"
 
@@ -7172,7 +7142,6 @@ msgid "Drive 11"
 msgstr "Enhet 11"
 
 #: src/arch/win32/res.rc.po.c:4955
-#, fuzzy
 msgid "Peripheral Settings"
 msgstr "Inställningar för kringutrustning"
 
@@ -7181,9 +7150,8 @@ msgid "Can't write snapshot file."
 msgstr "Kan inte skriva ögonblicksbildfil."
 
 #: src/arch/win32/res.rc.po.c:4957 src/arch/amigaos/intl.c.po.c:4115
-#, fuzzy
 msgid "Cannot read snapshot image"
-msgstr "Kan inte läsa in ögonblicksbildfil."
+msgstr "Kan inte läsa in ögonblicksbildfil"
 
 #: src/arch/win32/res.rc.po.c:4958
 #, c-format
@@ -7223,11 +7191,9 @@ msgid "Save snapshot image"
 msgstr "Spara ögonblicksbildfil"
 
 #: src/arch/win32/res.rc.po.c:4970 src/arch/amigaos/intl.c.po.c:4106
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot write snapshot file `%s'."
-msgstr ""
-"Kan inte skriva ögonblicksbildfil\n"
-"\"%s\"\n"
+msgstr "Kan inte skriva ögonblicksbildfil \"%s\"."
 
 #: src/arch/win32/res.rc.po.c:4971 src/arch/amigaos/intl.c.po.c:4079
 msgid "Load snapshot image"
@@ -7279,9 +7245,8 @@ msgid "Attach Action Replay cartridge image"
 msgstr "Anslut Action Replay-avbildningsfil"
 
 #: src/arch/win32/res.rc.po.c:4986
-#, fuzzy
 msgid "Attach Action Replay III cartridge image"
-msgstr "Anslut Action Replay-avbildningsfil"
+msgstr "Anslut Action Replay III-avbildningsfil"
 
 #: src/arch/win32/res.rc.po.c:4987 src/arch/amigaos/intl.c.po.c:2369
 msgid "Attach Atomic Power cartridge image"
@@ -7328,9 +7293,8 @@ msgid "Select start snapshot for event history"
 msgstr "Välj startögonblicksmodul för händelsehistorik"
 
 #: src/arch/win32/res.rc.po.c:4998 src/arch/amigaos/intl.c.po.c:2315
-#, fuzzy
 msgid "Select end snapshot for event history"
-msgstr "Välj startögonblicksmodul för händelsehistorik"
+msgstr "Välj slutögonblicksbild för händelsehistorik"
 
 #: src/arch/win32/res.rc.po.c:5000
 #, c-format
@@ -7415,9 +7379,8 @@ msgid "No button - Autofire disabled"
 msgstr "Ingen knapp - Autofire inaktiverad"
 
 #: src/arch/win32/res.rc.po.c:5024
-#, fuzzy
 msgid "All files (*.*)"
-msgstr "alla filer"
+msgstr "Alla filer (*.)"
 
 #: src/arch/win32/res.rc.po.c:5025
 msgid "VICE palette files (*.vpl)"
@@ -7476,20 +7439,20 @@ msgid "Exact"
 msgstr "Exakt"
 
 #: src/arch/win32/res.rc.po.c:5039
-#, fuzzy
 msgid "Sound driver: DirectX"
-msgstr "Argument till ljuddrivrutin"
+msgstr "Ljuddrivrutin: DirectX"
 
 #: src/arch/win32/res.rc.po.c:5040
 msgid "Sound driver: WMM"
 msgstr "Ljuddrivrutin: WMM"
 
 #: src/arch/win32/res.rc.po.c:5041
-#, fuzzy
 msgid ""
 "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
 "mpg)"
-msgstr "Mediafiler (*.bmp;*.png;*.wav;*.mp3;*.avi;*.mpg)"
+msgstr ""
+"Mediafiler (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
+"mpg)"
 
 #: src/arch/win32/res.rc.po.c:5042
 msgid " kB"
@@ -7504,9 +7467,8 @@ msgid "Configure Keyset B"
 msgstr "Konfigurera uppsättning B"
 
 #: src/arch/win32/res.rc.po.c:5045
-#, fuzzy
 msgid "Save media image"
-msgstr "Spara mediafil"
+msgstr "Spara mediaavbild"
 
 #: src/arch/win32/res.rc.po.c:5046 src/arch/amigaos/intl.c.po.c:2495
 #, c-format
@@ -7518,9 +7480,8 @@ msgid "Tape:"
 msgstr "Band:"
 
 #: src/arch/win32/res.rc.po.c:5048
-#, fuzzy
 msgid "Joystick:"
-msgstr "Styrspak 2"
+msgstr "Styrspak:"
 
 #: src/arch/win32/res.rc.po.c:5049
 #, c-format
@@ -7541,7 +7502,6 @@ msgstr ""
 "%02d:%02d (%02d:%02d)"
 
 #: src/arch/win32/res.rc.po.c:5051
-#, fuzzy
 msgid "Unknown"
 msgstr "Okänd"
 
@@ -7566,34 +7526,30 @@ msgid "Start VICE in fullscreen mode"
 msgstr "Starta VICE i fullskärmsläge"
 
 #: src/arch/win32/res.rc.po.c:5063
-#, fuzzy, c-format
+#, c-format
 msgid "An unexpected error occured. Received signal %d (%s)."
-msgstr "Tog emot signal %d (%s)."
+msgstr "Ett okänt fel uppstod. Tog emot signal %d (%s)."
 
 #: src/arch/win32/res.rc.po.c:5065
-#, fuzzy, c-format
+#, c-format
 msgid "An unexpected error occured. Received signal %d."
-msgstr "Tog emot signal %d (%s)."
+msgstr "Ett okänt fel uppstod. Tog emot signal %d."
 
 #: src/arch/win32/res.rc.po.c:5070 src/arch/amigaos/intl.c.po.c:2180
-#, fuzzy
 msgid "Connected server"
 msgstr "Ansluten server"
 
 #: src/arch/win32/res.rc.po.c:5072 src/arch/amigaos/intl.c.po.c:2052
-#, fuzzy
 msgid "Invalid port number"
-msgstr "Ogiltigt filnamn"
+msgstr "Ogiltigt portnummer"
 
 #: src/arch/win32/res.rc.po.c:5073 src/arch/amigaos/intl.c.po.c:2034
-#, fuzzy
 msgid "An error occured starting the server."
-msgstr "Fel vid start av nätverksspelsserver."
+msgstr "Fel vid start av servern."
 
 #: src/arch/win32/res.rc.po.c:5074 src/arch/amigaos/intl.c.po.c:2043
-#, fuzzy
 msgid "An error occured connecting the client."
-msgstr "Fel vid anslutning til server."
+msgstr "Fel vid anslutning til klienten."
 
 #: src/arch/win32/res.rc.po.c:5085 src/arch/win32/resdrivec128.rc.po.c:48
 #: src/arch/win32/resdrivec64.rc.po.c:46
@@ -8092,16 +8048,14 @@ msgstr "Starta/stoppa mediafil...\tAlt+C"
 #: src/arch/win32/resc128.rc.po.c:142 src/arch/win32/resc64.rc.po.c:143
 #: src/arch/win32/rescbm2.rc.po.c:114 src/arch/win32/respet.rc.po.c:112
 #: src/arch/win32/resplus4.rc.po.c:124 src/arch/win32/resvic20.rc.po.c:122
-#, fuzzy
 msgid "Record Sound..."
-msgstr "spelar in..."
+msgstr "Spela in ljud..."
 
 #: src/arch/win32/resc128.rc.po.c:143 src/arch/win32/resc64.rc.po.c:144
 #: src/arch/win32/rescbm2.rc.po.c:115 src/arch/win32/respet.rc.po.c:113
 #: src/arch/win32/resplus4.rc.po.c:125 src/arch/win32/resvic20.rc.po.c:123
-#, fuzzy
 msgid "Stop Sound Recording"
-msgstr "Sluta spela in händelser"
+msgstr "Stoppa ljudinspelning"
 
 #: src/arch/win32/resc128.rc.po.c:147 src/arch/win32/resc64.rc.po.c:150
 #: src/arch/win32/rescbm2.rc.po.c:119 src/arch/win32/respet.rc.po.c:117
@@ -8426,9 +8380,8 @@ msgid "&MMC64 settings..."
 msgstr "&MMC64-inställningar..."
 
 #: src/arch/win32/resc128.rc.po.c:230 src/arch/win32/resc64.rc.po.c:230
-#, fuzzy
 msgid "&DIGIMAX settings..."
-msgstr "&ACIA-inställningar..."
+msgstr "&DIGIMAX-inställningar..."
 
 #: src/arch/win32/resc128.rc.po.c:231 src/arch/win32/resc64.rc.po.c:231
 msgid "&IDE64 settings..."
@@ -9088,19 +9041,16 @@ msgid "CBM2 settings"
 msgstr "CBM2-inställningar"
 
 #: src/arch/win32/resdigimax.rc.po.c:20 src/arch/amigaos/intl.c.po.c:4574
-#, fuzzy
 msgid "Digimax Settings"
-msgstr "Diskettenhetsinställningar"
+msgstr "Digimaxinställningar"
 
 #: src/arch/win32/resdigimax.rc.po.c:21
-#, fuzzy
 msgid "&Enable digimax"
-msgstr "Aktiverad"
+msgstr "&Aktivera Digimax"
 
 #: src/arch/win32/resdigimax.rc.po.c:22
-#, fuzzy
 msgid "Digimax base address"
-msgstr "<basadress>"
+msgstr "Basadress för Digimax"
 
 #: src/arch/win32/resdrivec128.rc.po.c:11
 #: src/arch/win32/resdrivec64.rc.po.c:11
@@ -9983,12 +9933,11 @@ msgstr "VIC-II-inställningar"
 
 #: src/arch/win32/resvicii.rc.po.c:35
 msgid "Borders"
-msgstr ""
+msgstr "Ramar"
 
 #: src/arch/win32/resvicii.rc.po.c:37
-#, fuzzy
 msgid "&Full"
-msgstr "&Arkiv"
+msgstr "&Full"
 
 #: src/arch/win32/resvicii.rc.po.c:39
 msgid "Sprite Collisions"
@@ -10003,15 +9952,16 @@ msgid "Sprite-background &collisions"
 msgstr "Sprite-&bakgrundkollisioner"
 
 #: src/arch/win32/resvicii.rc.po.c:42
-#, fuzzy
 msgid "New &Luminances"
-msgstr "Nya ljusstyrkor"
+msgstr "Nya &ljusstyrkor"
 
 #: src/translate.c.po.c:620
 msgid ""
 "Digimax cannot be used with ReSID\n"
 "Please switch SID Engine to FastSID"
 msgstr ""
+"Digimax kan inte användas med ReSID\n"
+"Byt SID-motor till FastSID"
 
 #: src/translate.c.po.c:2626
 msgid "<0-2000>"
@@ -10510,9 +10460,8 @@ msgid "MMC64 settings..."
 msgstr "MMC64-inställningar..."
 
 #: src/arch/amigaos/intl.c.po.c:1527
-#, fuzzy
 msgid "Digimax settings..."
-msgstr "Diskettenhetsinställningar..."
+msgstr "Digimaxinställningar..."
 
 #: src/arch/amigaos/intl.c.po.c:1536
 msgid "Ethernet settings..."
@@ -10619,14 +10568,12 @@ msgid "Video overlay"
 msgstr "Video-overlay"
 
 #: src/arch/amigaos/intl.c.po.c:1806
-#, fuzzy
 msgid "Start Sound Record..."
-msgstr "Ljudinspelning..."
+msgstr "Starta ljudinspelning..."
 
 #: src/arch/amigaos/intl.c.po.c:1815
-#, fuzzy
 msgid "Stop Sound Record"
-msgstr "Ljudinspelning..."
+msgstr "Stoppa ljudinspelning"
 
 #: src/arch/amigaos/intl.c.po.c:1935
 #, c-format
@@ -11243,288 +11190,37 @@ msgid "Drive ROM settings"
 msgstr "ROM-inställningar för diskettenhet"
 
 #: src/arch/amigaos/intl.c.po.c:4556
-#, fuzzy
 msgid "Digimax Enabled"
-msgstr "Aktiverad"
+msgstr "Digimax aktiverad"
 
 #: src/arch/amigaos/intl.c.po.c:4565
 msgid "Digimax Base"
-msgstr ""
+msgstr "Digimaxbas"
 
 #: src/arch/amigaos/intl.c.po.c:4601
-#, fuzzy
 msgid "Select Sound Record File"
-msgstr "Välj utskriftsdumpfil"
+msgstr "Välj ljudinspelningsfil"
 
 #: src/arch/amigaos/intl.c.po.c:4619
-#, fuzzy
 msgid "Sound Record File"
-msgstr "Ljudinspelning..."
+msgstr "Ljudinspelningsfil"
 
 #: src/arch/amigaos/intl.c.po.c:4628
-#, fuzzy
 msgid "Sound Record Settings"
-msgstr "Ljudinställningar"
+msgstr "Inställningar för ljudinspelning"
 
 #: src/arch/amigaos/intl.c.po.c:4637
-#, fuzzy
 msgid "Border mode"
-msgstr "Nuvarande ROM-uppsättningar"
+msgstr "Ramläge"
 
 #: src/arch/amigaos/intl.c.po.c:4655
-#, fuzzy
 msgid "Full"
-msgstr "&Arkiv"
+msgstr "Full"
 
 #: src/arch/amigaos/intl.c.po.c:4664
-#, fuzzy
 msgid "Debug"
-msgstr "&Felsök"
+msgstr "Felsök"
 
 #: src/arch/amigaos/intl.c.po.c:4673
 msgid "Volume (0-100%)"
-msgstr ""
-
-#, fuzzy
-#~ msgid "glXChooseVisual() failed"
-#~ msgstr "XCreateImage misslyckades."
-
-#, fuzzy
-#~ msgid "glXCreateContext() failed"
-#~ msgstr "XCreateImage misslyckades."
-
-#, fuzzy
-#~ msgid "enabling"
-#~ msgstr "omsamplande"
-
-#, fuzzy
-#~ msgid "disabling"
-#~ msgstr "omsamplande"
-
-#, fuzzy
-#~ msgid "Ebable SID Cartridge"
-#~ msgstr "Spara insticksmodul"
-
-#~ msgid "Quicksaving file %s."
-#~ msgstr "Snabbsparar fil %s."
-
-#, fuzzy
-#~ msgid "*Drive #8 parallel cable"
-#~ msgstr "*Aktivera parallellkabel för enhet 8"
-
-#, fuzzy
-#~ msgid "*Drive #9 parallel cable"
-#~ msgstr "*Aktivera parallellkabel för enhet 9"
-
-#, fuzzy
-#~ msgid "*Drive #10 parallel cable"
-#~ msgstr "*Aktivera parallellkabel för enhet 10"
-
-#, fuzzy
-#~ msgid "*Drive #11 parallel cable"
-#~ msgstr "*Aktivera parallellkabel för enhet 11"
-
-#~ msgid "*$2000-$3FFF RAM expansion"
-#~ msgstr "*$2000-$3FFF minnesutökning"
-
-#~ msgid "*$4000-$5FFF RAM expansion"
-#~ msgstr "*$4000-$5FFF minnesutökning"
-
-#~ msgid "*$6000-$7FFF RAM expansion"
-#~ msgstr "*$6000-$7FFF minnesutökning"
-
-#~ msgid "*$8000-$9FFF RAM expansion"
-#~ msgstr "*$8000-$9FFF minnesutökning"
-
-#~ msgid "*$A000-$BFFF RAM expansion"
-#~ msgstr "*$A000-$BFFF minnesutökning"
-
-#~ msgid "*Custom Keys"
-#~ msgstr "*Användardefinierade tangenter"
-
-#, fuzzy
-#~ msgid "Cannot create image file"
-#~ msgstr "Kan inte skapa avbildningsfil %s"
-
-#, fuzzy
-#~ msgid "Enable the TFE (\")The Final Ethernet\") unit"
-#~ msgstr "Aktivera TFE-enhet (\"the final ethernet\")"
-
-#, fuzzy
-#~ msgid "Disable the TFE (\")The Final Ethernet\") unit"
-#~ msgstr "Inaktivera TFE-enhet (\"the final ethernet\")"
-
-#~ msgid "Enable SpeedDOS-compatible parallel cable"
-#~ msgstr "Aktivera SpeedDOS-kompatibel parallellkabel"
-
-#~ msgid "Disable SpeedDOS-compatible parallel cable"
-#~ msgstr "Inaktivera SpeedDOS-kompatibel parallellkabel"
-
-#~ msgid "Filename: "
-#~ msgstr "Filnamn: "
-
-#~ msgid "VIC II Screenshot"
-#~ msgstr "VIC II-skärmdump"
-
-#~ msgid "VDC Screenshot"
-#~ msgstr "VDC-skärmdump"
-
-#~ msgid "Screenshot..."
-#~ msgstr "Skärmdump..."
-
-#~ msgid "IDE64: Using imagefile `%s'."
-#~ msgstr "IDE64: Använder avbildningsfil \"%s\"."
-
-#~ msgid "IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"
-#~ msgstr "IDE64: Kan inte använda avbildningsfil \"%s\". INGEN DISKEMULERING!"
-
-#~ msgid "IDE64: Couldn't read disk geometry from image, using default 8MB."
-#~ msgstr ""
-#~ "IDE64: Kunde inte läsa diskgeometri från avbildningsfil, använder normal "
-#~ "8MB."
-
-#~ msgid "IDE64: Disk is not formatted, using default 8MB."
-#~ msgstr "IDE64: Disken är inte formaterad, använder normal 8MB."
-
-#~ msgid "IDE64: using %i/%i/%i CHS geometry, %lu sectors total."
-#~ msgstr "IDE64: använder CHS-geometrin %i/%i/%i, totalt %lu sektorer."
-
-#~ msgid "IDE64: LBA geometry, %lu sectors total."
-#~ msgstr "IDE64: LBA-geometri, %lu sektorer totalt."
-
-#, fuzzy
-#~ msgid "Cannot read received snapshot file"
-#~ msgstr "Kan inte läsa in ögonblicksbildfil."
-
-#~ msgid "Save as"
-#~ msgstr "Spara som"
-
-#~ msgid "Specify name of first RS232 device (/dev/ttyS0)"
-#~ msgstr "Ange namn på första RS232-enheten (/dev/ttyS0)"
-
-#~ msgid "Specify name of second RS232 device (/dev/ttyS1)"
-#~ msgstr "Ange namn för andra RS232-enheten (/dev/ttyS1)"
-
-#~ msgid "Specify name of third RS232 device (rs232.dump)"
-#~ msgstr "Ange namn för tredje RS232-enheten (rs232.dump)"
-
-#~ msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
-#~ msgstr "Ange kommando som sänder/tar emot data, inled med \"|\" (|lpr)"
-
-#~ msgid "Unknown image type."
-#~ msgstr "Okänd avbildningsfiltyp."
-
-#~ msgid "Use XVideo Extension (hardware scaling)"
-#~ msgstr "Använd XVideo-utökning (maskinvaruskalning)"
-
-#~ msgid "Use software rendering"
-#~ msgstr "Använd programvarurendrering"
-
-#~ msgid "*Userport 300 baud RS232 emulation"
-#~ msgstr "*Emulering av 300 baud-RS232 på användarporten"
-
-#~ msgid "*Userport 1200 baud RS232 emulation"
-#~ msgstr "*Emulering av 1200 baud-RS232 på användarporten"
-
-#~ msgid "*CIA 9600 baud RS232 emulation"
-#~ msgstr "*Emulering av 9600 baud-CIA"
-
-#~ msgid "Load custom ROM set definition"
-#~ msgstr "Ladda egen ROM-uppsättningsdefinition"
-
-#~ msgid "Unload Basic ROM"
-#~ msgstr "Ladda ur Basic-ROM"
-
-#~ msgid "Flush IEC printer #4 device"
-#~ msgstr "Töm IEC-skrivarenhet 4"
-
-#~ msgid "Flush IEC printer #5 device"
-#~ msgstr "Töm IEC-skrivarenhet 5"
-
-#~ msgid "*Sharp PAL Emulation (Y/C Input)"
-#~ msgstr "*Skarp PAL-emulering (Y/C-signal)"
-
-#~ msgid "*Blurry PAL Emulation (Composite Input)"
-#~ msgstr "*Suddig PAL-emulering (kompositsignal)"
-
-#~ msgid "Memory settings"
-#~ msgstr "Minnesinställningar"
-
-#~ msgid "*3.00 sec"
-#~ msgstr "*3,00 s"
-
-#~ msgid "VIC-II Video settings"
-#~ msgstr "VIC-II-grafikinställningar"
-
-#~ msgid "TED Video settings"
-#~ msgstr "TED-grafikinställningar"
-
-#~ msgid "Successfully forked DGA\n"
-#~ msgstr "Lyckades grena DGA\n"
-
-#~ msgid "Xserver is running an old XFree86-VidMode version (%d.  %d)"
-#~ msgstr "X-server kör en gammal XFree86-VidMode-version (%d.  %d)"
-
-#~ msgid ""
-#~ "Vice is not running as root, DGA extension not possible - disabling "
-#~ "fullscreen."
-#~ msgstr ""
-#~ "Vice körs inte som root, DGA-utökning inte möjlig - inaktiverar "
-#~ "fullskärmsläge."
-
-#~ msgid "Could not find KeySym `%s'!"
-#~ msgstr "Kunde inte hitta tangentbordssymbol \"%s\"!"
-
-#~ msgid "Bad row/column value (%d/%d) for keysym `%s'."
-#~ msgstr "Fel rad-/kolumnvärde (%d/%d) för tangentbordssymbol \"%s\"."
-
-#~ msgid "Loading keymap `%s'."
-#~ msgstr "Laddar tangentbordsinställning \"%s\"."
-
-#~ msgid "Cannot load keymap `%s'."
-#~ msgstr "Kan inte ladda tangentbordsbeskrivning \"%s\"."
-
-#~ msgid "(null)"
-#~ msgstr "(null)"
-
-#~ msgid "Please recompile the program for a supported bit depth."
-#~ msgstr "Kompilera om programmet för ett understött färgdjup."
-
-#~ msgid "Only %ibpp supported by this emulator."
-#~ msgstr "Enbart %ibitar/pixel stöds av denna emulator."
-
-#~ msgid "Current X server depth is %ibpp."
-#~ msgstr "Nuvarande färgdjup i X är %ibitar/pixel."
-
-#~ msgid "Switch X server depth or recompile with --enable-autobpp."
-#~ msgstr "Byt färgdjup i X eller kompilera med --enable-autobpp."
-
-#~ msgid "*Model defaults"
-#~ msgstr "*Modellens förval"
-
-#~ msgid "Screen color"
-#~ msgstr "Skärmfärg"
-
-#~ msgid "Change to fullscreen %ix%i"
-#~ msgstr "Växla till fullskärm %ix%i"
-
-#~ msgid "Specify command for printer 1 (|petlp |lpr)"
-#~ msgstr "Ange kommando för skrivare 1 (|petlp |lpr)"
-
-#~ msgid "Specify command for printer 2 (|lpr)"
-#~ msgstr "Ange kommando för skrivare 2 (|lpr)"
-
-#~ msgid "print_open(device=%d)."
-#~ msgstr "print_open(enhet=%d)."
-
-#~ msgid "Trying to write to invalid fd %d."
-#~ msgstr "Försökte skriva till ogiltigt filhandtag %d."
-
-#~ msgid "Trying to write to non-open fd %d."
-#~ msgstr "Försökta skriva till ej öppet filhandtag %d."
-
-#~ msgid "Trying to flush invalid fd %d."
-#~ msgstr "Försökte tömma ogiltigt filhandtag %d."
-
-#~ msgid "Trying to flush non-open fd %d."
-#~ msgstr "Försökte tömma ej öppet filhandtag %d."
+msgstr "Volym (0-100 %)"

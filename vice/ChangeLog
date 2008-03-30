@@ -1,3 +1,22 @@
+2007-08-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.13.
+
+	* doc/html/plain/NEWS: Updated.
+
+2007-08-02  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* doc/html/index.html, doc/html/plain/NEWS: Some additions.
+
+2007-07-29  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* doc/html/macosx.html: updated for 1.22 release
+
+2007-07-27  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-dist.sh: fixed lib refs in ppc and
+	non-ub compilation
+
 2007-07-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.12.

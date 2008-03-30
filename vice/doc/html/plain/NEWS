@@ -11,7 +11,11 @@ list of all the changes in the code.
 ** C128 changes
 ---------------
 
-- Added 2 MHz mode support.
+- Added 2 MHz mode support (experimental).
+
+- The cursor keys are mapped differently in C64-mode now.
+
+- Fixed C64-mode autostart support.
 
 ** VIC20 changes
 ----------------
@@ -19,15 +23,36 @@ list of all the changes in the code.
 - Improved the sound emulation where the 'volume change click' is
   concerned, and normalized the audio output level.
 
+** VIC-II
+---------
+
+- The VIC-II border mode can be selected now (normal, full, debug).
+
+- Some sprite fixes needed for Krestage 3 demo.
+
+** Drive changes
+----------------
+
+- Improved drive LED emulation.
+
 ** Unix changes
 ---------------
+
+- Fixed the "black screen" bug caused by some X11 library security
+  update.
 
 - Fixed the usb support for bsd based platforms.
 
 - Changed the preferred libdir and docdir for netbsd and freebsd.
 
+- Xaw/XRandR fullscreen mode is supposed to work.
+
 ** MS-Windows changes
 ---------------------
+
+- Positional keyboard mapping is used as default again.
+
+- New volume slider control.
 
 - The win32 port can now be compiled with openwatcom.
 
@@ -50,6 +75,12 @@ list of all the changes in the code.
 - Added netplay support for AROS port.
 
 - New VICE Volume control for all ports.
+
+** C1541 changes
+----------------
+
+- Fixed some unlynx bugs.
+
 
 * Changes in VICE 1.21
 ======================
