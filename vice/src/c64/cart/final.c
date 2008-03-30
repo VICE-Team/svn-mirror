@@ -44,6 +44,14 @@ static const c64export_resource_t export_res_v1 = {
     "Final V1", 1, 1, 1, 0
 };
 
+static const c64export_resource_t export_res_westermann = {
+    "Westermann", 1, 1, 1, 0
+};
+
+static const c64export_resource_t export_res_warpspeed = {
+    "Warpspeed", 1, 1, 1, 0
+};
+
 static const c64export_resource_t export_res_v3 = {
     "Final V3", 1, 1, 1, 0
 };
@@ -181,7 +189,7 @@ void final_v3_config_setup(BYTE *rawcart)
     cartridge_config_changed(1, 1, CMODE_READ);
 }
 
-int final_v1_crt_attach(FILE *fd, BYTE *rawcart)
+static int generic_final_v1_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
 
@@ -194,7 +202,37 @@ int final_v1_crt_attach(FILE *fd, BYTE *rawcart)
     if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1)
         return -1;
 
+    return 0;
+}
+
+int final_v1_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    if (generic_final_v1_crt_attach(fd, rawcart) < 0)
+        return -1;
+
     if (c64export_add(&export_res_v1) < 0)
+        return -1;
+
+    return 0;
+}
+
+int westermann_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    if (generic_final_v1_crt_attach(fd, rawcart) < 0)
+        return -1;
+
+    if (c64export_add(&export_res_westermann) < 0)
+        return -1;
+
+    return 0;
+}
+
+int warpspeed_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    if (generic_final_v1_crt_attach(fd, rawcart) < 0)
+        return -1;
+
+    if (c64export_add(&export_res_warpspeed) < 0)
         return -1;
 
     return 0;
@@ -227,8 +265,17 @@ void final_v1_detach(void)
     c64export_remove(&export_res_v1);
 }
 
+void westermann_detach(void)
+{
+    c64export_remove(&export_res_westermann);
+}
+
+void warpspeed_detach(void)
+{
+    c64export_remove(&export_res_warpspeed);
+}
+
 void final_v3_detach(void)
 {
     c64export_remove(&export_res_v3);
 }
-

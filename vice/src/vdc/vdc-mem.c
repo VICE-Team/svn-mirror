@@ -404,7 +404,8 @@ BYTE REGPARM1 vdc_read(WORD addr)
         return 0xff;
     } else {
         /* Emulate vblank bit.  */
-        if (vdc.raster.current_line > vdc.last_displayed_line)
+        if ((vdc.raster.current_line < vdc.first_displayed_line) ||
+           (vdc.raster.current_line > vdc.last_displayed_line))
             return 0xb8 | vdc.revision;
 
         return 0x98 | vdc.revision;

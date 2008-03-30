@@ -37,8 +37,12 @@
 #include "types.h"
 
 
-static const c64export_resource_t export_res = {
+static const c64export_resource_t export_res_epyx = {
     "Epyx Fastload", 0, 1, 0, 0
+};
+
+static const c64export_resource_t export_res_rex = {
+    "REX", 0, 1, 0, 0
 };
 
 
@@ -62,7 +66,7 @@ void epyxfastload_config_setup(BYTE *rawcart)
     cartridge_config_changed(0, 0, CMODE_READ);
 }
 
-int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
+static int generic_epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
 
@@ -72,7 +76,26 @@ int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
     if (fread(rawcart, 0x2000, 1, fd) < 1)
         return -1;
 
-    if (c64export_add(&export_res) < 0)
+    return 0;
+}
+
+int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    if (generic_epyxfastload_crt_attach(fd,rawcart) < 0)
+        return -1;
+
+    if (c64export_add(&export_res_epyx) < 0)
+        return -1;
+
+    return 0;
+}
+
+int rex_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    if (generic_epyxfastload_crt_attach(fd,rawcart) < 0)
+        return -1;
+
+    if (c64export_add(&export_res_rex) < 0)
         return -1;
 
     return 0;
@@ -80,6 +103,10 @@ int epyxfastload_crt_attach(FILE *fd, BYTE *rawcart)
 
 void epyxfastload_detach(void)
 {
-    c64export_remove(&export_res);
+    c64export_remove(&export_res_epyx);
 }
 
+void rex_detach(void)
+{
+    c64export_remove(&export_res_rex);
+}

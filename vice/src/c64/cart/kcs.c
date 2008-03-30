@@ -37,8 +37,12 @@
 #include "types.h"
 
 
-static const c64export_resource_t export_res = {
+static const c64export_resource_t export_res_kcs = {
     "KCS Power", 1, 1, 1, 1
+};
+
+static const c64export_resource_t export_res_simon = {
+    "Simon's Basic", 1, 1, 1, 1
 };
 
 
@@ -84,7 +88,7 @@ void kcs_config_setup(BYTE *rawcart)
     cartridge_config_changed(0, 0, CMODE_READ);
 }
 
-int kcs_crt_attach(FILE *fd, BYTE *rawcart)
+static int generic_kcs_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
     int i;
@@ -100,7 +104,26 @@ int kcs_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
     }
 
-    if (c64export_add(&export_res) < 0)
+    return 0;
+}
+
+int kcs_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    if (generic_kcs_crt_attach(fd,rawcart) < 0)
+      return -1;
+
+    if (c64export_add(&export_res_kcs) < 0)
+        return -1;
+
+    return 0;
+}
+
+int simon_crt_attach(FILE *fd, BYTE *rawcart)
+{
+    if (generic_kcs_crt_attach(fd,rawcart) < 0)
+      return -1;
+
+    if (c64export_add(&export_res_simon) < 0)
         return -1;
 
     return 0;
@@ -108,6 +131,10 @@ int kcs_crt_attach(FILE *fd, BYTE *rawcart)
 
 void kcs_detach(void)
 {
-    c64export_remove(&export_res);
+    c64export_remove(&export_res_kcs);
 }
 
+void simon_detach(void)
+{
+    c64export_remove(&export_res_simon);
+}

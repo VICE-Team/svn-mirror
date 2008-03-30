@@ -41,7 +41,9 @@ extern void kcs_freeze(void);
 extern void kcs_config_init(void);
 extern void kcs_config_setup(BYTE *rawcart);
 extern int kcs_crt_attach(FILE *fd, BYTE *rawcart);
+extern int simon_crt_attach(FILE *fd, BYTE *rawcart);
 extern void kcs_detach(void);
+extern void simon_detach(void);
 
 #endif
 

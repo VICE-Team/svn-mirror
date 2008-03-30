@@ -95,7 +95,17 @@ int crt_attach(const char *filename, BYTE *rawcart)
             return -1;
         break;
       case CARTRIDGE_WESTERMANN:
+        rc = westermann_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
       case CARTRIDGE_WARPSPEED:
+        rc = warpspeed_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
       case CARTRIDGE_FINAL_I:
         rc = final_v1_crt_attach(fd, rawcart);
         fclose(fd);
@@ -114,8 +124,13 @@ int crt_attach(const char *filename, BYTE *rawcart)
         if (rc < 0)
             return -1;
         break;
-      case CARTRIDGE_KCS_POWER:
       case CARTRIDGE_SIMONS_BASIC:
+        rc = simon_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_KCS_POWER:
         rc = kcs_crt_attach(fd, rawcart);
         fclose(fd);
         if (rc < 0)
@@ -171,8 +186,13 @@ int crt_attach(const char *filename, BYTE *rawcart)
             return -1;
         break;
       case CARTRIDGE_EPYX_FASTLOAD:
-      case CARTRIDGE_REX:
         rc = epyxfastload_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_REX:
+        rc = rex_crt_attach(fd, rawcart);
         fclose(fd);
         if (rc < 0)
             return -1;

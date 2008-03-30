@@ -718,11 +718,20 @@ void cartridge_detach(int type)
       case CARTRIDGE_EPYX_FASTLOAD:
         epyxfastload_detach();
         break;
+      case CARTRIDGE_REX:
+        rex_detach();
+        break;
       case CARTRIDGE_EXPERT:
         expert_detach();
         break;
       case CARTRIDGE_FINAL_I:
         final_v1_detach();
+        break;
+      case CARTRIDGE_WESTERMANN:
+        westermann_detach();
+        break;
+      case CARTRIDGE_WARPSPEED:
+        warpspeed_detach();
         break;
       case CARTRIDGE_FINAL_III:
         final_v3_detach();
@@ -741,6 +750,9 @@ void cartridge_detach(int type)
         break;
       case CARTRIDGE_KCS_POWER:
         kcs_detach();
+        break;
+      case CARTRIDGE_SIMONS_BASIC:
+        simon_detach();
         break;
       case CARTRIDGE_MAGIC_FORMEL:
         magicformel_detach();
