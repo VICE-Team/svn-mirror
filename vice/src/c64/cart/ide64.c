@@ -429,11 +429,12 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
                     _("IDE64: Cannot use image file `%s'. NO DRIVE EMULATION!"),
                     ide64_image_file);
 
-    /* try to get drive geometry */
-    unsigned char idebuf[20];
-    int  heads, sectors, cyll, cylh, cyl, res;
-    unsigned long size;
     if (ide_disk) {
+        /* try to get drive geometry */
+        unsigned char idebuf[20];
+        int  heads, sectors, cyll, cylh, cyl, res;
+        unsigned long size;
+
         /* read header */
         res = fread(idebuf, 1, 20, ide_disk);
         if (res<20) {
