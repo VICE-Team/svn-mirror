@@ -86,8 +86,8 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             if (number_joysticks==0)
                 WinEnableControl(hwnd, ID_CALIBRATE, 0);
 
-            resources_get_value("JoyDevice1", (resource_value_t*) &joy1);
-            resources_get_value("JoyDevice2", (resource_value_t*) &joy2);
+            resources_get_value("JoyDevice1", (void *)&joy1);
+            resources_get_value("JoyDevice2", (void *)&joy2);
             WinSendMsg(hwnd, WM_SETCBS, (void*)joy1, (void*)joy2);
         }
         break;
@@ -120,8 +120,8 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             {
                 long joy1, joy2;
 
-                resources_get_value("JoyDevice1", (resource_value_t*) &joy1);
-                resources_get_value("JoyDevice2", (resource_value_t*) &joy2);
+                resources_get_value("JoyDevice1", (void *)&joy1);
+                resources_get_value("JoyDevice2", (void *)&joy2);
 
                 resources_set_value("JoyDevice1", (resource_value_t) joy2);
                 resources_set_value("JoyDevice2", (resource_value_t) joy1);
@@ -143,10 +143,10 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             int state=WinQueryButtonCheckstate(hwnd, button);
             int port = button & JOY_PORT1;
             long joya, joyb;
-            resources_get_value(port?"JoyDevice1":"JoyDevice2",
-                                (resource_value_t*) &joya);
-            resources_get_value(port?"JoyDevice2":"JoyDevice1",
-                                (resource_value_t*) &joyb);
+            resources_get_value(port ? "JoyDevice1" : "JoyDevice2",
+                                (void *)&joya);
+            resources_get_value(port ? "JoyDevice2" : "JoyDevice1",
+                                (void *)&joyb);
             if (state)
                 joya |= button & JOYDEV_ALL;
             else
@@ -204,8 +204,8 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
         {
             long j1, j2;
 
-            resources_get_value("JoyDevice1", (resource_value_t*) &j1);
-            resources_get_value("JoyDevice2", (resource_value_t*) &j2);
+            resources_get_value("JoyDevice1", (void *)&j1);
+            resources_get_value("JoyDevice2", (void *)&j2);
             WinSendMsg(hwnd, WM_PROCESS,
                        (void*)!!((j1|j2)&JOYDEV_HW1),
                        (void*)!!((j1|j2)&JOYDEV_HW2));
@@ -291,13 +291,13 @@ static MRESULT EXPENTRY pm_calibrate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
     case WM_FILLSPB:
         {
             long val;
-            resources_get_value(joy1?"JoyAup":"JoyBup", (resource_value_t *) &val);
+            resources_get_value(joy1?"JoyAup":"JoyBup", (void *)&val);
             WinSetDlgSpinVal(hwnd, SPB_UP, val);
-            resources_get_value(joy1?"JoyAdown":"JoyBdown", (resource_value_t *) &val);
+            resources_get_value(joy1?"JoyAdown":"JoyBdown", (void *)&val);
             WinSetDlgSpinVal(hwnd, SPB_DOWN, val);
-            resources_get_value(joy1?"JoyAleft":"JoyBleft", (resource_value_t *) &val);
+            resources_get_value(joy1?"JoyAleft":"JoyBleft", (void *)&val);
             WinSetDlgSpinVal(hwnd, SPB_LEFT, val);
-            resources_get_value(joy1?"JoyAright":"JoyBright", (resource_value_t *) &val);
+            resources_get_value(joy1?"JoyAright":"JoyBright", (void *)&val);
             WinSetDlgSpinVal(hwnd, SPB_RIGHT,val);
         }
         return FALSE;
@@ -336,7 +336,7 @@ static int ResGetKeyVal(int num, USHORT id)
     long val;
 
     char *res=lib_msprintf("KeySet%d%s", num?1:2, GetDirection(id));
-    resources_get_value(res, (resource_value_t*) &val);
+    resources_get_value(res, (void *)&val);
     lib_free (res);
 
     return val;
@@ -386,8 +386,8 @@ static MRESULT EXPENTRY pm_keyset(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         {
             long j1, j2;
 
-            resources_get_value("JoyDevice1", (resource_value_t*) &j1);
-            resources_get_value("JoyDevice2", (resource_value_t*) &j2);
+            resources_get_value("JoyDevice1", (void *)&j1);
+            resources_get_value("JoyDevice2", (void *)&j2);
             WinSendMsg(hwnd, WM_KPROCESS,
                        (void*)!!((j1|j2)&JOYDEV_KEYSET1),
                        (void*)!!((j1|j2)&JOYDEV_KEYSET2));

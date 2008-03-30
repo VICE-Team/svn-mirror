@@ -147,7 +147,7 @@ static UI_CALLBACK(set_printer_exec_file)
     vsync_suspend_speed_eval();
     title = lib_stralloc(_("Command to execute for printing (preceed with '|')"));
 
-    resources_get_value(resname, (resource_value_t *)&value);
+    resources_get_value(resname, (void *)&value);
     len = strlen(value) * 2;
     if (len < 255)
         len = 255;

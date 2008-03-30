@@ -73,7 +73,7 @@ static UI_CALLBACK(set_KeyboardType)
 {
     int current_value, new_value = 2 * (int)UI_MENU_CB_PARAM;
 
-    resources_get_value("KeymapIndex", (resource_value_t *)&current_value);
+    resources_get_value("KeymapIndex", (void *)&current_value);
     if (!CHECK_MENUS) {
         if ((current_value & ~1) != new_value) {
             resources_set_value("KeymapIndex",

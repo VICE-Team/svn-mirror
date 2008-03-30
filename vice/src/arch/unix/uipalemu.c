@@ -40,8 +40,8 @@ static UI_CALLBACK(toggle_DelayLoopEmulation)
 {
     int delayloopemulation;
 
-    resources_get_value("PALEmulation",
-                        (resource_value_t *)&delayloopemulation);
+    resources_get_value("PALEmulation", (void *)&delayloopemulation);
+
     if (!CHECK_MENUS) {
         resources_set_value("PALEmulation",
                             (resource_value_t)!delayloopemulation);
@@ -49,8 +49,8 @@ static UI_CALLBACK(toggle_DelayLoopEmulation)
     } else {
         int video_standard;
 
-        resources_get_value("MachineVideoStandard",
-                            (resource_value_t *)&video_standard);
+        resources_get_value("MachineVideoStandard", (void *)&video_standard);
+
         ui_menu_set_tick(w, delayloopemulation);
 
         if (video_standard == MACHINE_SYNC_PAL)
@@ -69,7 +69,7 @@ static UI_CALLBACK(PAL_scanline_shade_cb)
     long res;
     int current;
 
-    resources_get_value("PALScanLineShade", (resource_value_t)&current);
+    resources_get_value("PALScanLineShade", (void *)&current);
     current /= 10;
     sprintf(buf, "%d", current);
     button = ui_input_string(_("PAL Scanline shade"),

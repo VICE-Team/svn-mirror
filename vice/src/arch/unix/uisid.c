@@ -87,7 +87,7 @@ UI_CALLBACK(set_sid_resid_passband)
 
     vsync_suspend_speed_eval();
 
-    resources_get_value("SidResidPassband", (resource_value_t *)&i);
+    resources_get_value("SidResidPassband", (void *)&i);
 
     sprintf(input_string, "%d", i);
     msg_string = lib_stralloc(_("Enter passband in percentage of total bandwidth\n(0 - 90, lower is faster, higher is better)"));

@@ -214,7 +214,7 @@ static TUI_MENU_CALLBACK(resolution_submenu_callback)
 {
     int mode;
 
-    resources_get_value("VGAMode", (resource_value_t *)&mode);
+    resources_get_value("VGAMode", (void *)&mode);
     return vga_modes[mode].description;
 }
 
@@ -224,7 +224,7 @@ static TUI_MENU_CALLBACK(refresh_rate_submenu_callback)
 {
     int v;
 
-    resources_get_value("RefreshRate", (resource_value_t *)&v);
+    resources_get_value("RefreshRate", (void *)&v);
     if (v == 0) {
         return "Auto";
     } else {
@@ -253,7 +253,7 @@ static TUI_MENU_CALLBACK(drive_extend_image_policy_submenu_callback)
     int v;
 
     rname = lib_msprintf("Drive%dExtendImagePolicy", unit);
-    resources_get_value(rname, (resource_value_t *)&v);
+    resources_get_value(rname, (void *)&v);
     lib_free(rname);
 
     switch (v) {
@@ -300,9 +300,9 @@ static TUI_MENU_CALLBACK(drive_type_submenu_callback)
     int value;
 
     if ((int)param == 8)
-        resources_get_value("Drive8Type", (resource_value_t *)&value);
+        resources_get_value("Drive8Type", (void *)&value);
     else
-        resources_get_value("Drive9Type", (resource_value_t *)&value);
+        resources_get_value("Drive9Type", (void *)&value);
 
     switch (value) {
       case 0:
@@ -392,9 +392,9 @@ static TUI_MENU_CALLBACK(drive_idle_method_submenu_callback)
     int value;
 
     if ((int)param == 8)
-        resources_get_value("Drive8IdleMethod", (resource_value_t *)&value);
+        resources_get_value("Drive8IdleMethod", (void *)&value);
     else
-        resources_get_value("Drive9IdleMethod", (resource_value_t *)&value);
+        resources_get_value("Drive9IdleMethod", (void *)&value);
 
     switch (value) {
       case DRIVE_IDLE_NO_IDLE:
@@ -492,7 +492,7 @@ static TUI_MENU_CALLBACK(datasette_speedtuning_submenu_callback)
     int value;
     static char s[100];
 
-    resources_get_value("DatasetteSpeedTuning", (resource_value_t *)&value);
+    resources_get_value("DatasetteSpeedTuning", (void *)&value);
     sprintf(s,"%d",value);
     return s;
 }
@@ -502,7 +502,7 @@ static TUI_MENU_CALLBACK(datasette_zerogapdelay_submenu_callback)
     int value;
     static char s[100];
 
-    resources_get_value("DatasetteZeroGapDelay", (resource_value_t *)&value);
+    resources_get_value("DatasetteZeroGapDelay", (void *)&value);
     sprintf(s,"%8d",value);
     return s;
 }
@@ -602,7 +602,7 @@ static TUI_MENU_CALLBACK(sound_sample_rate_submenu_callback)
     static char s[256];
     int value;
 
-    resources_get_value("SoundSampleRate", (resource_value_t *)&value);
+    resources_get_value("SoundSampleRate", (void *)&value);
     sprintf(s, "%d Hz", value);
     return s;
 }
@@ -616,7 +616,7 @@ static TUI_MENU_CALLBACK(sound_buffer_size_submenu_callback)
     static char s[256];
     int value;
 
-    resources_get_value("SoundBufferSize", (resource_value_t *)&value);
+    resources_get_value("SoundBufferSize", (void *)&value);
     sprintf(s, "%d msec", value);
     return s;
 }
@@ -628,7 +628,7 @@ static TUI_MENU_CALLBACK(sound_oversample_submenu_callback)
     static char s[40];
     int value;
 
-    resources_get_value("SoundOversample", (resource_value_t *)&value);
+    resources_get_value("SoundOversample", (void *)&value);
     if (value != 0) {
         int n = 1, i;
 
@@ -646,7 +646,7 @@ static TUI_MENU_CALLBACK(sound_synchronization_submenu_callback)
 {
     int value;
 
-    resources_get_value("SoundSpeedAdjustment", (resource_value_t *)&value);
+    resources_get_value("SoundSpeedAdjustment", (void *)&value);
 
     switch (value) {
       case SOUND_ADJUST_FLEXIBLE:
@@ -782,7 +782,7 @@ static TUI_MENU_CALLBACK(get_joystick_device_callback)
     char *resource = port == 1 ? "JoyDevice1" : "JoyDevice2";
     int value;
 
-    resources_get_value(resource, (resource_value_t *)&value);
+    resources_get_value(resource, (void *)&value);
     switch (value) {
       case JOYDEV_NONE:
         return "None";
@@ -812,7 +812,7 @@ static TUI_MENU_CALLBACK(set_joy_device_callback)
     } else {
         int value;
 
-        resources_get_value(resource, (resource_value_t *)&value);
+        resources_get_value(resource, (void *)&value);
         if (value == ((int)param & 0xff))
             *become_default = 1;
     }
@@ -825,8 +825,8 @@ static TUI_MENU_CALLBACK(swap_joysticks_callback)
     int value1, value2, tmp;
 
     if (been_activated) {
-        resources_get_value("JoyDevice1", (resource_value_t *)&value1);
-        resources_get_value("JoyDevice2", (resource_value_t *)&value2);
+        resources_get_value("JoyDevice1", (void *)&value1);
+        resources_get_value("JoyDevice2", (void *)&value2);
 
         tmp = value1;
         value1 = value2;
@@ -941,7 +941,7 @@ static TUI_MENU_CALLBACK(keyset_callback)
         resources_set_value(rname, (resource_value_t)key);
     }
 
-    resources_get_value(rname, (resource_value_t *)&value);
+    resources_get_value(rname, (void *)&value);
     lib_free(rname);
     return kbd_code_to_string((kbd_code_t)value);
 }
@@ -1409,7 +1409,7 @@ static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
         char *path;
         int len = 255;
 
-        resources_get_value(rname, (resource_value_t *)&v);
+        resources_get_value(rname, (void *)&v);
         if (len < strlen(v) * 2)
             len = strlen(v) * 2;
         path = alloca(len + 1);
@@ -1421,7 +1421,7 @@ static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
         }
     }
 
-    resources_get_value(rname, (resource_value_t *)&v);
+    resources_get_value(rname, (void *)&v);
     lib_free(rname);
     return v;
 }
@@ -1486,7 +1486,7 @@ static TUI_MENU_CALLBACK(speed_submenu_callback)
     static char s[1024];
     int value;
 
-    resources_get_value("Speed", (resource_value_t *)&value);
+    resources_get_value("Speed", (void *)&value);
     if (value) {
         sprintf(s, "%d%%", value);
         return s;
@@ -1528,7 +1528,7 @@ static TUI_MENU_CALLBACK(toggle_ShowStatusbar_callback)
 {
     int value;
 
-    resources_get_value("ShowStatusbar", (resource_value_t *)&value);
+    resources_get_value("ShowStatusbar", (void *)&value);
 
     if (been_activated) {
             if (value == STATUSBAR_MODE_OFF)

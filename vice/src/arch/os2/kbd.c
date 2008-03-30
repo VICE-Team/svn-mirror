@@ -48,7 +48,7 @@ int kbd_init(void)
     //
 
     char *name;
-    resources_get_value("KeymapFile", (resource_value_t)&name);
+    resources_get_value("KeymapFile", (void *)&name);
     resources_set_value("KeymapFile", name);
 
     return 0;
@@ -66,7 +66,7 @@ static int set_keymap_file(resource_value_t v, void *param)
 
 static const resource_t resources[] = {
     { "KeymapFile", RES_STRING, (resource_value_t)"os2.vkm",
-      (resource_value_t *) &keymapfile, set_keymap_file, NULL },
+      (void *)&keymapfile, set_keymap_file, NULL },
     NULL
 };
 

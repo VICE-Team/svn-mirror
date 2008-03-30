@@ -59,11 +59,11 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
             WinShowDlg(hwnd, SS_SPIN,
                        ui_status.lastTapeMotor && ui_status.lastTapeStatus);
 
-            resources_get_value("DatasetteResetWithCPU", (resource_value_t *) &val);
+            resources_get_value("DatasetteResetWithCPU", (void *)&val);
             WinCheckButton(hwnd, CB_RESETWCPU, val);
-            resources_get_value("DatasetteZeroGapDelay", (resource_value_t *) &val);
+            resources_get_value("DatasetteZeroGapDelay", (void *)&val);
             WinSetDlgSpinVal(hwnd, SPB_DELAY, (val/100));
-            resources_get_value("DatasetteSpeedTuning",  (resource_value_t *) &val);
+            resources_get_value("DatasetteSpeedTuning", (void *)&val);
             WinSetDlgSpinVal(hwnd, SPB_GAP, val);
         }
         break;

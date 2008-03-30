@@ -41,7 +41,7 @@ UI_CALLBACK(radio_Drive8Type)
 {
     int current_value;
 
-    resources_get_value("Drive8Type", (resource_value_t *)&current_value);
+    resources_get_value("Drive8Type", (void *)&current_value);
     if (!CHECK_MENUS) {
         if (current_value != (int)UI_MENU_CB_PARAM) {
             resources_set_value("Drive8Type",
@@ -62,7 +62,7 @@ UI_CALLBACK(radio_Drive9Type)
 {
     int current_value;
 
-    resources_get_value("Drive9Type", (resource_value_t *)&current_value);
+    resources_get_value("Drive9Type", (void *)&current_value);
     if (!CHECK_MENUS) {
         if (current_value != (int)UI_MENU_CB_PARAM) {
             resources_set_value("Drive9Type",

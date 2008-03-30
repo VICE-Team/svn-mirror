@@ -242,7 +242,7 @@ FILE *archdep_open_default_log_file()
     if (fLog)
         setbuf(fLog, NULL);
 #ifndef __X1541__
-    resources_get_value("Logwin", (resource_value_t*)&val);
+    resources_get_value("Logwin", (void *)&val);
     log_dialog(val);
 #endif
 

@@ -184,7 +184,7 @@ void set_printer_res(const char *res, int num, resource_value_t *val)
 void get_printer_res(const char *res, int num, resource_value_t *val)
 {
     char *txt = printer_res(res, num);
-    resources_get_value(txt, val);
+    resources_get_value(txt, (void *)val);
     lib_free(txt);
 }
 
@@ -203,7 +203,7 @@ void ChangeSpeed(HWND hwnd, int idm)
     char *txt;
 
     long speed;
-    resources_get_value("Speed", (resource_value_t*) &speed);
+    resources_get_value("Speed", (void *)&speed);
 
     if ((signed long)(time-tm) < vsyncarch_frequency())
     {
@@ -309,7 +309,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_CRTEXPERT:
         {
             long val;
-            resources_get_value("CartridgeType", (resource_value_t*) &val);
+            resources_get_value("CartridgeType", (void *)&val);
             if (val!=CARTRIDGE_EXPERT)
             {
                 cartridge_attach_image(CARTRIDGE_EXPERT, NULL);
@@ -389,8 +389,8 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_TOGGLEPAL:
         {
             long val1, val2;
-            resources_get_value("PALEmulation", (resource_value_t*)&val1);
-            resources_get_value("PALMode", (resource_value_t*)&val2);
+            resources_get_value("PALEmulation", (void *)&val1);
+            resources_get_value("PALMode", (void *)&val2);
             if (!val1)
             {
 #ifdef HAVE_TED
@@ -588,7 +588,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 #ifdef __XCBM__
         {
             long val;
-            resources_get_value("UseVicII", (resource_value_t*) &val);
+            resources_get_value("UseVicII", (void *) &val);
             toggle(val?VIDEO_CACHE:"CrtcVideoCache");
         }
 #else
@@ -989,7 +989,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 static void WinCheckRes(HWND hwnd, USHORT id, const char *name)
 {
     long val;
-    resources_get_value(name, (resource_value_t*) &val);
+    resources_get_value(name, (void *) &val);
     WinCheckMenuItem(hwnd, id, val);
 }
 
@@ -1001,7 +1001,7 @@ void menu_select(HWND hwnd, USHORT item)
     {
 #if defined __X64__ || defined __X128__
     case IDM_FILE:
-        resources_get_value("CartridgeType", (resource_value_t*) &val);
+        resources_get_value("CartridgeType", (void *)&val);
         WinEnableMenuItem(hwnd, IDM_CRTFREEZE,
                           val == CARTRIDGE_ACTION_REPLAY     ||
                           val == CARTRIDGE_KCS_POWER         ||
@@ -1015,7 +1015,7 @@ void menu_select(HWND hwnd, USHORT item)
         return;
 
     case IDM_CARTRIDGE:
-        resources_get_value("CartridgeType", (resource_value_t*) &val);
+        resources_get_value("CartridgeType", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_CRTGEN,     val==CARTRIDGE_CRT);
         WinCheckMenuItem(hwnd, IDM_CRTGEN8KB,  val==CARTRIDGE_GENERIC_8KB);
         WinCheckMenuItem(hwnd, IDM_CRTGEN16KB, val==CARTRIDGE_GENERIC_16KB);
@@ -1032,7 +1032,7 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
     case IDM_DETACH:
 #if defined __X64__ || defined __X128__
-        resources_get_value("CartridgeType", (resource_value_t*) &val);
+        resources_get_value("CartridgeType", (void *)&val);
         WinEnableMenuItem(hwnd, IDM_CARTRIDGEDET, val!=CARTRIDGE_NONE);
 #endif
         WinEnableMenuItem(hwnd, IDM_DETACHTAPE, tape_get_file_name());
@@ -1051,14 +1051,14 @@ void menu_select(HWND hwnd, USHORT item)
         WinEnableMenuItem(hwnd, IDM_LOGWIN,  hwndLog    !=NULLHANDLE);
         WinEnableMenuItem(hwnd, IDM_MONITOR, hwndMonitor!=NULLHANDLE);
 #if defined __X64__ || defined __X128__
-        resources_get_value("ExternalPalette", (resource_value_t*) &val);
+        resources_get_value("ExternalPalette", (void *)&val);
         WinEnableMenuItem(hwnd, IDM_COLOR, !val);
 #endif
 #ifdef __XCBM__
         {
             long val1, val2;
-            resources_get_value("ExternalPalette", (resource_value_t*) &val1);
-            resources_get_value("UseVicII",        (resource_value_t*) &val2);
+            resources_get_value("ExternalPalette", (void *)&val1);
+            resources_get_value("UseVicII", (void *)&val2);
             WinEnableMenuItem(hwnd, IDM_COLOR, !val && val2);
         }
 #endif
@@ -1070,7 +1070,7 @@ void menu_select(HWND hwnd, USHORT item)
          // A change online is not possible yet.
          //
          case IDM_KERNALREV:
-         resources_get_value("KernalRev", (resource_value_t*) &val);
+         resources_get_value("KernalRev", (void *)&val);
          WinCheckMenuItem(hwnd, IDM_KERNALREV0,    strcmp(val, "0"));
          WinCheckMenuItem(hwnd, IDM_KERNALREV3,    strcmp(val, "3"));
          WinCheckMenuItem(hwnd, IDM_KERNALREVSX,   strcmp(val, "sx");
@@ -1078,7 +1078,7 @@ void menu_select(HWND hwnd, USHORT item)
          return;
          */
     case IDM_VIDEOSTD:
-        resources_get_value("MachineVideoStandard", (resource_value_t*)&val);
+        resources_get_value("MachineVideoStandard", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_PAL,     val == MACHINE_SYNC_PAL);
         WinCheckMenuItem(hwnd, IDM_NTSC,    val == MACHINE_SYNC_NTSC);
 #ifdef __X64__
@@ -1092,8 +1092,8 @@ void menu_select(HWND hwnd, USHORT item)
         {
             long val1, val2;
 
-            resources_get_value("UseVicII",       (resource_value_t*)&val1);
-            resources_get_value("CrtcDoubleSize", (resource_value_t*)&val2);
+            resources_get_value("UseVicII", (void *)&val1);
+            resources_get_value("CrtcDoubleSize", (void *)&val2);
 
             WinEnableMenuItem(hwnd, IDM_DSIZE,      val1);
             WinEnableMenuItem(hwnd, IDM_DSCAN,      val1);
@@ -1110,19 +1110,19 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_VCACHE, VIDEO_CACHE);
 #endif
 #if defined HAVE_CRTC && !defined __XCBM__
-        resources_get_value("CrtcDoubleSize", (resource_value_t*)&val);
+        resources_get_value("CrtcDoubleSize", (void *)&val);
         WinEnableMenuItem(hwnd, IDM_CRTCDSCAN, val);
         WinCheckMenuItem(hwnd,  IDM_CRTCDSIZE, val);
         WinCheckRes(hwnd, IDM_CRTCDSCAN, "CrtcDoubleScan");
 #endif
 #ifdef HAVE_PAL
-        resources_get_value(DOUBLE_SIZE, (resource_value_t*)&val);
+        resources_get_value(DOUBLE_SIZE, (void *)&val);
         WinEnableMenuItem(hwnd, IDM_DSCAN, val);
         WinCheckMenuItem(hwnd,  IDM_DSIZE, val);
         WinCheckRes(hwnd, IDM_DSCAN, DOUBLE_SCAN);
 #endif
 #ifdef HAVE_VDC
-        resources_get_value("VDCDoubleSize", (resource_value_t*)&val);
+        resources_get_value("VDCDoubleSize", (void *)&val);
         WinEnableMenuItem(hwnd, IDM_VDCDSCAN, val);
         WinCheckMenuItem(hwnd,  IDM_VDCDSIZE, val);
         WinCheckRes(hwnd, IDM_VDCDSCAN,  "VDCDoubleScan");
@@ -1144,7 +1144,7 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_IEEE,      "IEEE488");
 #endif // __X128__ || __XVIC__
 #if defined __X64__ || defined __X128__
-        resources_get_value("REU", (resource_value_t*)&val);
+        resources_get_value("REU", (void *)&val);
         WinCheckMenuItem(hwnd,  IDM_REU,     val);
         WinEnableMenuItem(hwnd, IDM_REUSIZE, val);
 #endif
@@ -1203,7 +1203,7 @@ void menu_select(HWND hwnd, USHORT item)
 
 #if defined __X64__ || defined __X128__
     case IDM_REUSIZE:
-        resources_get_value("REUSize", (resource_value_t*)&val);
+        resources_get_value("REUSize", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_REU128,   val==128);
         WinCheckMenuItem(hwnd, IDM_REU256,   val==256);
         WinCheckMenuItem(hwnd, IDM_REU512,   val==512);
@@ -1218,7 +1218,7 @@ void menu_select(HWND hwnd, USHORT item)
     case IDM_C128TYPE:
         {
             int i;
-            resources_get_value("MachineType", (resource_value_t*)&val);
+            resources_get_value("MachineType", (void *)&val);
             for (i=0; i<7; i++)
                 WinCheckMenuItem(hwnd, IDM_C128INT|i, val==i);
         }
@@ -1230,7 +1230,7 @@ void menu_select(HWND hwnd, USHORT item)
         return;
 
     case IDM_REFRATE:
-        resources_get_value("RefreshRate", (resource_value_t*)&val);
+        resources_get_value("RefreshRate", (void *)&val);
         {
             int i;
             for (i=0x0; i<0xb; i++)
@@ -1240,7 +1240,7 @@ void menu_select(HWND hwnd, USHORT item)
     case IDM_SOUNDDEV:
         {
             char *dev;
-            resources_get_value("SoundDeviceName", (resource_value_t*)&dev);
+            resources_get_value("SoundDeviceName", (void *)&dev);
             if (!dev || !dev[0])
                 dev = "dart";
             WinCheckMenuItem(hwnd, IDM_DEVDART,  !strcasecmp(dev, "dart"));
@@ -1254,7 +1254,7 @@ void menu_select(HWND hwnd, USHORT item)
     case IDM_SOUND:
         WinCheckRes(hwnd, IDM_SOUNDON, "Sound");
 #ifdef HAVE_RESID
-        resources_get_value("SidEngine", (resource_value_t*)&val);
+        resources_get_value("SidEngine", (void *)&val);
         WinCheckMenuItem (hwnd, IDM_RESID,         val);
         WinEnableMenuItem(hwnd, IDM_RESIDMETHOD,   val);
         WinEnableMenuItem(hwnd, IDM_OVERSAMPLING, !val);
@@ -1268,7 +1268,7 @@ void menu_select(HWND hwnd, USHORT item)
 
 #ifdef HAVE_RESID
     case IDM_RESIDMETHOD:
-        resources_get_value("SidResidSampling", (resource_value_t*)&val);
+        resources_get_value("SidResidSampling", (void *)&val);
         WinCheckMenuItem (hwnd, IDM_RESIDFAST,     val==0);
         WinCheckMenuItem (hwnd, IDM_RESIDINTERPOL, val==1);
         WinCheckMenuItem (hwnd, IDM_RESIDRESAMPLE, val==2);
@@ -1276,7 +1276,7 @@ void menu_select(HWND hwnd, USHORT item)
         return;
 
     case IDM_RESIDBAND:
-        resources_get_value("SidResidPassband", (resource_value_t*)&val);
+        resources_get_value("SidResidPassband", (void *)&val);
         {
             int i;
             for (i=0; i<10; i++)
@@ -1286,20 +1286,20 @@ void menu_select(HWND hwnd, USHORT item)
 #endif // HAVE_RESID
 #if defined __X64__ || defined __X128__ || defined __XCBM__
     case IDM_SIDCHIP:
-        resources_get_value("SidModel", (resource_value_t*)&val);
+        resources_get_value("SidModel", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_SC6581, !val);
         WinCheckMenuItem(hwnd, IDM_SC8580,  val);
         return;
 #endif // __X64__ || __X128__ || __XCBM__
     case IDM_SOUNDSYNC:
-        resources_get_value("SoundSpeedAdjustment", (resource_value_t*)&val);
+        resources_get_value("SoundSpeedAdjustment", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_SYNCFLEX,   val==SOUND_ADJUST_FLEXIBLE);
         WinCheckMenuItem(hwnd, IDM_SYNCADJUST, val==SOUND_ADJUST_ADJUSTING);
         WinCheckMenuItem(hwnd, IDM_SYNCEXACT,  val==SOUND_ADJUST_EXACT);
         return;
 
     case IDM_OVERSAMPLING:
-        resources_get_value("SoundOversample", (resource_value_t*)&val);
+        resources_get_value("SoundOversample", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_OSOFF, val==0);
         WinCheckMenuItem(hwnd, IDM_OS2X,  val==1);
         WinCheckMenuItem(hwnd, IDM_OS4X,  val==2);
@@ -1307,7 +1307,7 @@ void menu_select(HWND hwnd, USHORT item)
         return;
 
     case IDM_SAMPLINGRATE:
-        resources_get_value("SoundSampleRate", (resource_value_t*)&val);
+        resources_get_value("SoundSampleRate", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_SR8000,  val== 8000);
         WinCheckMenuItem(hwnd, IDM_SR11025, val==11025);
         WinCheckMenuItem(hwnd, IDM_SR22050, val==22050);
@@ -1315,7 +1315,7 @@ void menu_select(HWND hwnd, USHORT item)
         return;
 
     case IDM_BUFFER:
-        resources_get_value("SoundBufferSize", (resource_value_t*)&val);
+        resources_get_value("SoundBufferSize", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_BUF010, val== 100);
         WinCheckMenuItem(hwnd, IDM_BUF025, val== 250);
         WinCheckMenuItem(hwnd, IDM_BUF040, val== 400);
@@ -1344,8 +1344,8 @@ void menu_select(HWND hwnd, USHORT item)
         {
             long val1, val2;
 
-            resources_get_value("PALEmulation", (resource_value_t*)&val1);
-            resources_get_value("ExternalPalette",    (resource_value_t*)&val2);
+            resources_get_value("PALEmulation", (void *)&val1);
+            resources_get_value("ExternalPalette", (void *)&val2);
             WinEnableMenuItem(hwnd, IDM_PALEMU,      !val2);
             WinEnableMenuItem(hwnd, IDM_INTERNALPAL, !val1);
             WinEnableMenuItem(hwnd, IDM_LUMINANCES,  !val2 || val1);
@@ -1360,8 +1360,8 @@ void menu_select(HWND hwnd, USHORT item)
     {
         long val1, val2;
 
-        resources_get_value("PALEmulation", (resource_value_t*)&val1);
-        resources_get_value("PALMode", (resource_value_t*)&val2);
+        resources_get_value("PALEmulation", (void *)&val1);
+        resources_get_value("PALMode", (void *)&val2);
 
         WinCheckMenuItem(hwnd, IDM_PALOFF,   !val1);
 #ifndef HAVE_TED
@@ -1375,7 +1375,7 @@ void menu_select(HWND hwnd, USHORT item)
 
 #ifdef HAVE_VDC
     case IDM_VDCMEMORY:
-        resources_get_value("VDC64KB", (resource_value_t*)&val);
+        resources_get_value("VDC64KB", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_VDC16K, val==0);
         WinCheckMenuItem(hwnd, IDM_VDC64K, val==1);
         return;
@@ -1387,7 +1387,7 @@ void menu_select(HWND hwnd, USHORT item)
 #endif // __X128__
 
     case IDM_STRETCH:
-        resources_get_value("WindowStretchFactor", (resource_value_t*)&val);
+        resources_get_value("WindowStretchFactor", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_STRETCH1, val==1);
         WinCheckMenuItem(hwnd, IDM_STRETCH2, val==2);
         WinCheckMenuItem(hwnd, IDM_STRETCH3, val==3);
@@ -1404,14 +1404,14 @@ void menu_select(HWND hwnd, USHORT item)
         return;
 
     case IDM_MODELLINE:
-        resources_get_value("ModelLine", (resource_value_t*)&val);
+        resources_get_value("ModelLine", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_MODEL750, val==0);
         WinCheckMenuItem(hwnd, IDM_MODEL660, val==1);
         WinCheckMenuItem(hwnd, IDM_MODEL650, val==2);
         return;
 
     case IDM_RAMSIZE:
-        resources_get_value("RamSize", (resource_value_t*)&val);
+        resources_get_value("RamSize", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_RAM64,   val==0x040); /*   64 */
         WinCheckMenuItem(hwnd, IDM_RAM128,  val==0x080); /*  128 */
         WinCheckMenuItem(hwnd, IDM_RAM256,  val==0x100); /*  256 */
@@ -1440,7 +1440,7 @@ void menu_select(HWND hwnd, USHORT item)
         return;
 
     case IDM_IOMEM:
-        resources_get_value("IOSize", (resource_value_t*)&val);
+        resources_get_value("IOSize", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_IOMEM256, val==0x100);
         WinCheckMenuItem(hwnd, IDM_IOMEM2K,  val==0x800);
         return;
@@ -1451,7 +1451,7 @@ void menu_select(HWND hwnd, USHORT item)
         return;
 
     case IDM_RAMSIZE:
-        resources_get_value("RamSize", (resource_value_t*)&val);
+        resources_get_value("RamSize", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_PETRAM4,   val==0x04); /*   4 */
         WinCheckMenuItem(hwnd, IDM_PETRAM8,   val==0x08); /*   8 */
         WinCheckMenuItem(hwnd, IDM_PETRAM16,  val==0x10); /*  16 */
@@ -1461,7 +1461,7 @@ void menu_select(HWND hwnd, USHORT item)
         return;
 
     case IDM_VIDEOSIZE:
-        resources_get_value("VideoSize", (resource_value_t*)&val);
+        resources_get_value("VideoSize", (void *)&val);
         WinCheckMenuItem(hwnd, IDM_VSDETECT, val== 0);
         WinCheckMenuItem(hwnd, IDM_VS40,     val==40);
         WinCheckMenuItem(hwnd, IDM_VS80,     val==80);

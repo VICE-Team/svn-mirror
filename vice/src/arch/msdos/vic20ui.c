@@ -50,7 +50,7 @@ static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
 {
     int value;
 
-    resources_get_value("MachineVideoStandard", (resource_value_t *)&value);
+    resources_get_value("MachineVideoStandard", (void *)&value);
 
     if (been_activated) {
 	    if (value == MACHINE_SYNC_PAL)
@@ -78,7 +78,7 @@ static TUI_MENU_CALLBACK(toggle_PALMode_callback)
 {
     int value;
 
-    resources_get_value("PALMode", (resource_value_t *)&value);
+    resources_get_value("PALMode", (void *)&value);
 
     if (been_activated) {
         value = (value + 1) % 3;

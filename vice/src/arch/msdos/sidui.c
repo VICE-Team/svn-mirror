@@ -40,7 +40,7 @@ static TUI_MENU_CALLBACK(toggle_SidModel_callback)
     if (been_activated) {
         resources_toggle("SidModel", (resource_value_t *) &value);
     } else {
-        resources_get_value("SidModel", (resource_value_t *) &value);
+        resources_get_value("SidModel", (void *)&value);
     }
 
     return value ? "8580 (New)" : "6581 (Old)";
@@ -50,7 +50,7 @@ static TUI_MENU_CALLBACK(toggle_ResidSampling_callback)
 {
     int value;
 
-    resources_get_value("SidResidSampling", (resource_value_t *) &value);
+    resources_get_value("SidResidSampling", (void *)&value);
     if (been_activated) {
         value = (value + 1) % 3;
         resources_set_value("SidResidSampling", (resource_value_t) value);

@@ -342,7 +342,7 @@ static UI_CALLBACK(browse_manual)
 {
     const char *bcommand = NULL;
 
-    resources_get_value("HTMLBrowserCommand", (resource_value_t *)&bcommand);
+    resources_get_value("HTMLBrowserCommand", (void *)&bcommand);
 
     if (bcommand == NULL ||
         *bcommand == '\0') {
@@ -651,8 +651,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
     static int name_count = 0;
     char *menuname;
 
-    resources_get_value("DriveTrueEmulation",
-                        (resource_value_t *)&true_emu);
+    resources_get_value("DriveTrueEmulation", (void *)&true_emu);
 
     for (drive = from_unit - 8;
         (drive <= to_unit - 8) && (drive < NUM_DRIVES);

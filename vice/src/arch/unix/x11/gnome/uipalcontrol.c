@@ -99,7 +99,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
 	
 	ctrls[i].adj = adj = gtk_adjustment_new(0, 0, 2100, 1, 100, 100);
 	
-	resources_get_value(ctrls[i].res, (resource_value_t *) &v);
+	resources_get_value(ctrls[i].res, (void *)&v);
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat) v);
 	sb = gtk_hscrollbar_new(GTK_ADJUSTMENT(adj));
 	gtk_range_set_update_policy(GTK_RANGE(sb),

@@ -413,8 +413,7 @@ void _ui_menu_toggle_helper(Widget w,
 {
     int current_value;
 
-    if (resources_get_value(resource_name,
-                            (resource_value_t *)&current_value) < 0)
+    if (resources_get_value(resource_name, (void *)&current_value) < 0)
         return;
 
     if (!call_data) {
@@ -432,7 +431,7 @@ void _ui_menu_radio_helper(Widget w,
 {
     int current_value;
 
-    resources_get_value(resource_name, (resource_value_t *)&current_value);
+    resources_get_value(resource_name, (void *)&current_value);
 
     if (!call_data) {
         if (current_value != (int)client_data) {
@@ -452,7 +451,7 @@ void _ui_menu_string_radio_helper(Widget w,
 {
     resource_value_t current_value;
 
-    resources_get_value(resource_name, &current_value);
+    resources_get_value(resource_name, (void *)&current_value);
 
     if( current_value == 0) return;
 

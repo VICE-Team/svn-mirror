@@ -279,7 +279,7 @@ static UI_CALLBACK(set_joystick_device)
     } else {
         int tmp;
 
-        resources_get_value("JoyDevice1", (resource_value_t *)&tmp);
+        resources_get_value("JoyDevice1", (void *)&tmp);
         ui_menu_set_tick(w, tmp == (int)UI_MENU_CB_PARAM);
     }
 }

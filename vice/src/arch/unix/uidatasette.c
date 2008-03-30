@@ -33,6 +33,7 @@
 #include "uimenu.h"
 #include "utils.h"
 
+
 static UI_CALLBACK(ui_datasette_control)
 {
     int command = (int)UI_MENU_CB_PARAM;
@@ -47,33 +48,29 @@ static UI_CALLBACK(datasette_settings)
     ui_button_t button;
     int current;
     long res;
-    
-    if (what)
-    {
-	prompt = title = _("Datasette speed tuning");
-	resource = "DatasetteSpeedTuning";
-    } 
-    else 
-    {
-	prompt = title = _("Datasette zero gap delay");
-	resource = "DatasetteZeroGapDelay";
+
+    if (what) {
+        prompt = title = _("Datasette speed tuning");
+        resource = "DatasetteSpeedTuning";
+    } else {
+        prompt = title = _("Datasette zero gap delay");
+        resource = "DatasetteZeroGapDelay";
     }
-    resources_get_value(resource,  
-			(resource_value_t *)&current);
+
+    resources_get_value(resource, (void *)&current);
+
     sprintf(buf, "%d", current);
     button = ui_input_string(title, prompt, buf, 50);
-    switch (button)
-    {
-    case UI_BUTTON_OK:
-	if (util_string_to_long(buf, NULL, 10, &res) != 0)
-	{
-	     ui_error(_("Invalid value: %s"), buf);
-	     return;
-	}
-	resources_set_value(resource, (resource_value_t)res);
-	break;
+    switch (button) {
+      case UI_BUTTON_OK:
+        if (util_string_to_long(buf, NULL, 10, &res) != 0) {
+             ui_error(_("Invalid value: %s"), buf);
+             return;
+        }
+        resources_set_value(resource, (resource_value_t)res);
+        break;
     default:
-	break;
+        break;
     }
 }
 

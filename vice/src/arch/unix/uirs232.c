@@ -144,7 +144,8 @@ UI_CALLBACK(set_rs232_exec_file)
     vsync_suspend_speed_eval();
     title = lib_stralloc(_("Command to execute for RS232 (preceed with '|')"));
 
-    resources_get_value(resname, (resource_value_t *)&value);
+    resources_get_value(resname, (void *)&value);
+
     len = strlen(value) * 2;
     if (len < 255)
         len = 255;
@@ -173,7 +174,7 @@ UI_CALLBACK(set_rs232_dump_file)
     vsync_suspend_speed_eval();
     title = lib_stralloc(_("File to dump RS232 to"));
 
-    resources_get_value(resname, (resource_value_t *)&value);
+    resources_get_value(resname, (void *)&value);
     len = strlen(value) * 2;
     if (len < 255)
         len = 255;

@@ -120,7 +120,8 @@ void ui_check_mouse_cursor()
 #ifdef USE_XF86_EXTENSIONS
         if (fullscreen_is_enabled) {
             if (resources_get_value("FullscreenDoubleSize",
-                                    (resource_value_t *)&window_doublesize) < 0)                return;
+                (void *)&window_doublesize) < 0)
+                return;
         } else
 #endif
 
@@ -459,7 +460,7 @@ int ui_init_finish(void)
 
     ui_log = log_open("X11");
 
-    resources_get_value("DisplayDepth", (resource_value_t *)&depth);
+    resources_get_value("DisplayDepth", (void *)&depth);
 
     if (depth != 0) {
         int i;
@@ -1014,7 +1015,7 @@ void ui_exit(void)
     if (b == UI_BUTTON_YES) {
         int save_resources_on_exit;
         resources_get_value("SaveResourcesOnExit",
-                            (resource_value_t *)&save_resources_on_exit);
+                            (void *)&save_resources_on_exit);
         if (save_resources_on_exit) {
             b = ui_ask_confirmation(s, _("Save the current settings?"));
             if (b == UI_BUTTON_YES) {
@@ -1050,8 +1051,7 @@ static int alloc_colormap(void)
     if (colormap)
         return 0;
 
-    resources_get_value("PrivateColormap",
-                        (resource_value_t *)&use_private_colormap);
+    resources_get_value("PrivateColormap", (void *)&use_private_colormap);
 
     if (!use_private_colormap
         && depth == DefaultDepth(display, screen)
@@ -1104,7 +1104,9 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
     /* -1 should be safe, otherwise the display code in `ui_display_*'
        was wrong before. */
     memset(drive_mapping, -1, sizeof(drive_mapping));
-    resources_get_value("DriveTrueEmulation", (resource_value_t *) &true_emu);
+
+    resources_get_value("DriveTrueEmulation", (void *)&true_emu);
+
     if (true_emu) {
         /* num == number of drives which are active;
            drive_mapping[i] stores the widget number into which the i'th drive

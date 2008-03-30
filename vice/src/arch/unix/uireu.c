@@ -50,7 +50,7 @@ UI_CALLBACK(set_reu_image_name)
     vsync_suspend_speed_eval();
     title = lib_stralloc(_("REU image name"));
 
-    resources_get_value(resname, (resource_value_t *)&value);
+    resources_get_value(resname, (void *)&value);
 
     if (value == NULL)
         value = "";

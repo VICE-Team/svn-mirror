@@ -267,8 +267,7 @@ void _ui_menu_toggle_helper(GtkWidget *w,
 {
     int current_value;
 
-    if (resources_get_value(resource_name,
-                            (resource_value_t *) &current_value) < 0)
+    if (resources_get_value(resource_name, (void *)&current_value) < 0)
         return;
 
     if(!CHECK_MENUS) {
@@ -285,7 +284,7 @@ void _ui_menu_radio_helper(GtkWidget *w,
 {
     int current_value;
 
-    resources_get_value(resource_name, (resource_value_t *) &current_value);
+    resources_get_value(resource_name, (void *)&current_value);
 
     if (!CHECK_MENUS) {
         if (current_value != (int) UI_MENU_CB_PARAM) {
@@ -304,7 +303,7 @@ void _ui_menu_string_radio_helper(GtkWidget *w,
 {
     resource_value_t current_value;
 
-    resources_get_value(resource_name, &current_value);
+    resources_get_value(resource_name, (void *)&current_value);
 
     if( current_value == 0) return;
 

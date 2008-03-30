@@ -154,10 +154,10 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
 */
             for (val=0; val<11; val++)
                 WinDlgLboxInsertItem(hwnd, CBS_REFRATE, psz[val]);
-            resources_get_value("Speed", (resource_value_t *) &val);
+            resources_get_value("Speed", (void *)&val);
             WinSetDlgSpinVal(hwnd, SPB_SPEED, val);
             WinEnableControl(hwnd, PB_SPEED100, (val!=100));
-            resources_get_value("RefreshRate", (resource_value_t *) &val);
+            resources_get_value("RefreshRate", (void *)&val);
             WinDlgLboxSelectItem(hwnd, CBS_REFRATE, val);
         }
         break;

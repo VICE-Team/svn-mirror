@@ -86,7 +86,7 @@ static TUI_MENU_CALLBACK(palette_menu_callback)
     char *s;
     int i;
 
-    resources_get_value("PaletteFile", (resource_value_t *) &s);
+    resources_get_value("PaletteFile", (void *)&s);
     for (i = 0; palette_items[i].name != NULL; i++) {
         if (strcmp(s, palette_items[i].name) == 0)
            return palette_items[i].brief_description;

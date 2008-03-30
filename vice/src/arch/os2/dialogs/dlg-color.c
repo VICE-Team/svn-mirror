@@ -69,13 +69,13 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             SetSliderTxt(hwnd, ID_SATURATION, 100, "1.0");
             SetSliderTxt(hwnd, ID_SATURATION, 200, "2.0");
 
-            resources_get_value("ColorSaturation", (resource_value_t*)&val);
+            resources_get_value("ColorSaturation", (void *)&val);
             SetSliderPos(hwnd, ID_SATURATION, val/10);
-            resources_get_value("ColorContrast", (resource_value_t*)&val);
+            resources_get_value("ColorContrast", (void *)&val);
             SetSliderPos(hwnd, ID_CONTRAST, val/10);
-            resources_get_value("ColorBrightness", (resource_value_t*)&val);
+            resources_get_value("ColorBrightness", (void *)&val);
             SetSliderPos(hwnd, ID_BRIGHTNESS, val/10);
-            resources_get_value("ColorGamma", (resource_value_t*)&val);
+            resources_get_value("ColorGamma", (void *)&val);
             SetSliderPos(hwnd, ID_GAMMA, val/10);
         }
         break;
