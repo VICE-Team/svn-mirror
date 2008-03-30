@@ -1,3 +1,116 @@
+1999-01-31  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.17.
+
+	* resources.h: #include <stdio.h>.
+
+	* drive/drive.h: Added `attach_detach_clk' to struct `drive_t'.
+
+	* drive/drive.c: Added correct write protection bit emulation when
+	a disk image is attached and an existing one is automatically
+	detached.
+
+1998-01-31  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* data/PET/Makefile.am (romsets): new list of romset files
+
+	* data/PET/default.vrs, data/PET/rom1.vrs, /data/PET/rom2b.vrs,
+	data/PET/rom2g.vrs, data/PET/rom4b4.vrs, data/PET/rom4b8.vrs,
+	data/PET/rom4g.vrs: new romset definition files.
+
+	* Makefile.am (noinst_HEADERS, base_sources): add romset.[ch]
+
+	* arch/unix/xaw/petui.c (petui_dump_romset): new function to 
+	dump a romset file.
+	(pet_romset_submenu): new submenu with the romset entries.
+	(model_settings_submenu): add entry for ROMset submenu
+
+	* arch/unix/xaw/uisettings.c (ui_set_romset, ui_load_romset):
+	new functions to set (load) a predefined romset or prompt
+	the user for a romset file.
+
+	* arch/unix/xaw/uisettings.h (ui_set_romset, ui_load_romset):
+	new prototypes 
+
+	* resources.c (resources_write_item_to_file): new function to 
+	save a resource given by name to a given file.
+	(resources_get_default_value): new function, returns const
+	pointer to the default value for the resource. Thought I'd
+	use it, but is not used so far.
+	(read_resource_item, resources_read_item_from_file):
+	renamed from former to latter and made publicly available.
+
+	* resources.h (resources_get_default_value, 
+	resources_write_item_to_file, resources_read_item_from_file):
+	new prototypes
+
+	* romset.c, romset.h: new file. contains 
+	(romset_load): loads a file that contains a number of resource 
+	lines and then calls mem_load().
+	(romset_dump): writes out a file with the given resources in it.
+
+1998-01-30  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* arch/unix/print.c (resources): set default for PrDevice2 to
+	"|petlp -F PS|lpr" instead of without the "-F PS". This option
+	enables postscript output by default.
+
+	* prdevice.c (write_pr): automagically open the printer device
+	if the printer is written to without a previous open_pr.
+	(prdevice_detach): flush & close printer device.
+	(attach_prdevice, detach_prdevice): new empty functions
+	for calling from serial_select_file and serial_remove_file.
+
+	* serial.c (serialcommand, serialattention, serialsendbyte, 
+	parallelcommand, parallelattention, parallelsendbyte): 
+	change semantics of the serialdevice[]->isopen[] entry. 
+	If 0, then no open has been done on the channel. 
+	If 1, then open is in progress (computer is sending the
+	filename).
+	If 2, then the file has successfully been opened.
+	Also now, even if isopen[] is _0_, send the byte to the
+	device code! This is needed as "OPEN1,4" does not 
+	send the open to the bus, thus the printer cannot be
+	opened the usual way.
+	(serial_remove, serial_remove_file): rename serial_remove to 
+	serial_remove_file. Call detach_prdevice for printers 4 and 5.
+	(serial_select_file): Call attach_prdevice for printers 4 and 5.
+	(serial_detach_device): new function. Set the "inuse" flag to 0,
+	such that accessing the device returns "Device not present".
+
+	* serial.h (serial_remove): removed prototype
+	(serial_remove_file,serial_detach_device): new prototypes
+
+	* attach.c, c128/c128.c, c64/c64.c, cbm2/c610.c, pet/pet.c,
+	vic20/vic20.c (machine_shutdown): rename serial_remove to 
+	serial_remove_file.
+
+	* autostart.c (rawaddr): new variable. Points to a list of valid
+	BASIC prg start addresses for the current emulator.
+	(autostart_init): add parameter _rawaddr.
+	(autostartmode): add AUTOSTART_HASFILE to enum
+	(autostart_advance): check for _HASFILE and handle it.
+	(autostart_rawfile): new function to detect a raw CBM file.
+	Does not work for compressed files.
+	(autostart_autodetect): check raw CBM files.
+
+	* autostart.h (autostart_init): changed prototype.
+
+	* c128/c128.c, c64/c64.c, pet/petmem.c, vic20/vic20.c, cbm2/c610mem.c 
+	(machine_init, mem_load): when calling autostart_init, 
+	add rawaddrs parameter. 
+
+1999-01-30  Oliver Schaertel  <orschaer@forwiss.uni-erlangen.de>
+
+	* arch/unix/xaw/ui.c: Fixed compiling problems on machines
+ 	without XFree86 with videomodextensions.
+	Added commandline option for fullscreen option.
+
+	* c64/c64mem.c, drive/drive.c: Fixed some bugs in RomSet-code.
+
+	* c64/vicii.c, crtc-tmpl.c, vic20/vic.c: Added commandline options
+	for doublesize and doublescan in fullscreen-mode.
+	
 1999-01-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.16.
