@@ -590,6 +590,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
     image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
     image->name = stralloc(name);
     image->gcr = gcr_create_image();
+    image->read_only = 0;
 
     if (disk_image_open(image) < 0) {
         free(image->name);
