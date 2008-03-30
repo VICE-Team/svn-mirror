@@ -52,6 +52,7 @@
 #include "types.h"
 #include "ui.h"
 #include "util.h"
+#include "version.h"
 
 
 #define EVENT_START_SNAPSHOT "start" FSDEV_EXT_SEP_STR "vsf"
@@ -86,14 +87,18 @@ static log_t event_log = LOG_DEFAULT;
 static unsigned int playback_active = 0, record_active = 0;
 
 static unsigned int current_timestamp, milestone_timestamp, playback_time;
-static CLOCK last_timestamp_alarm;
+static CLOCK next_timestamp_clk;
 static CLOCK milestone_timestamp_alarm;
+
+/* the VICE version an event history was made with */
+static char event_version[16];
 
 static char *event_snapshot_dir = NULL;
 static char *event_start_snapshot = NULL;
 static char *event_end_snapshot = NULL;
 static char *event_snapshot_path_str = NULL;
 static unsigned int event_start_mode;
+
 
 static char *event_snapshot_path(const char *snapshot_file)
 {
@@ -251,7 +256,7 @@ void event_record(unsigned int type, void *data, unsigned int size)
 
     switch (type) {
       case EVENT_RESETCPU:
-        last_timestamp_alarm -= maincpu_clk;
+        next_timestamp_clk -= maincpu_clk;
       case EVENT_KEYBOARD_MATRIX:
       case EVENT_KEYBOARD_RESTORE:
       case EVENT_JOYSTICK_VALUE:
@@ -261,9 +266,6 @@ void event_record(unsigned int type, void *data, unsigned int size)
       case EVENT_INITIAL:
         event_data = lib_malloc(size);
         memcpy(event_data, data, size);
-        break;
-      case EVENT_TIMESTAMP:
-        ui_display_event_time(current_timestamp++, 0);
         break;
       case EVENT_LIST_END:
         break;
@@ -303,12 +305,12 @@ static void event_alarm_handler(CLOCK offset, void *data)
 {
     alarm_unset(event_alarm);
 
-    /* when recording write a timestamp */
+    /* when recording set a timestamp */
     if (record_active) {
-        event_record(EVENT_TIMESTAMP, NULL, 0);
-        last_timestamp_alarm = last_timestamp_alarm 
+        ui_display_event_time(current_timestamp++, 0);
+        next_timestamp_clk = next_timestamp_clk 
                                 + machine_get_cycles_per_second();
-        alarm_set(event_alarm, last_timestamp_alarm);
+        alarm_set(event_alarm, next_timestamp_clk);
         return;
     }
 
@@ -380,12 +382,12 @@ static void create_list(void)
     image_number = 0;
 }
 
-static void destroy_list(void)
+
+static void cut_list(event_list_t *cut_base)
 {
     event_list_t *c1, *c2;
-    event_image_list_t *d1, *d2;
 
-    c1 = event_list_base;
+    c1 = cut_base;
 
     while (c1 != NULL) {
         c2 = c1->next;
@@ -394,9 +396,12 @@ static void destroy_list(void)
         c1 = c2;
     }
 
-    event_list_base = NULL;
-    event_list_current = NULL;
+}
 
+static void destroy_image_list(void)
+{
+    event_image_list_t *d1, *d2;
+ 
     d1 = event_image_list_base;
 
     while (d1 != NULL) {
@@ -409,6 +414,15 @@ static void destroy_list(void)
     }
 
     event_image_list_base = NULL;
+}
+
+static void destroy_list(void)
+{
+    cut_list(event_list_base);
+    destroy_image_list();
+
+    event_list_base = NULL;
+    event_list_current = NULL;
 }
 
 static void warp_end_list(void)
@@ -428,8 +442,46 @@ static void warp_end_list(void)
     memset(curr, 0, sizeof(event_list_t));
     event_list_current = curr;
 }
-
 /*-----------------------------------------------------------------------*/
+/* writes or replaces version string in the initial event                */
+static void event_write_version(void)
+{
+    BYTE *new_data;
+    BYTE *data;
+    unsigned int ver_idx;
+
+    if (event_list_base->type != EVENT_INITIAL) {
+        /* EVENT_INITIAL is missing (bug in 1.14.xx); fix it */
+        event_list_t *new_event;
+
+        new_event = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
+        new_event->clk = event_list_base->clk;
+        new_event->size = strlen(event_start_snapshot) + 2;
+        new_event->type = EVENT_INITIAL;
+        data = lib_malloc(new_event->size);
+        data[0] = EVENT_START_MODE_FILE_SAVE;
+        strcpy((char *)&data[1], event_start_snapshot);
+        new_event->data = data;
+        new_event->next = event_list_base;
+        event_list_base = new_event;
+    }
+
+    data = event_list_base->data;
+
+    ver_idx = 1;
+    if (data[0] == EVENT_START_MODE_FILE_SAVE)
+        ver_idx += strlen((char *)&data[1]) + 1;
+
+    event_list_base->size = ver_idx + strlen(VERSION) + 1;
+    new_data = lib_malloc(event_list_base->size);
+
+    memcpy(new_data, data, ver_idx);
+
+    strcpy((char *)&new_data[ver_idx], VERSION);
+
+    event_list_base->data = new_data;
+    lib_free(data);
+}
 
 static void event_initial_write(void)
 {
@@ -452,6 +504,8 @@ static void event_initial_write(void)
 
     event_record(EVENT_INITIAL, (void *)data, (unsigned int)len);
 
+    event_write_version();
+
     lib_free(data);
 }
 
@@ -470,8 +524,9 @@ static void event_record_start_trap(WORD addr, void *data)
         }
         destroy_list();
         create_list();
+        record_active = 1;
         event_initial_write();
-        last_timestamp_alarm = maincpu_clk;
+        next_timestamp_clk = maincpu_clk;
         current_timestamp = 0;
         break;
       case EVENT_START_MODE_FILE_LOAD:
@@ -482,23 +537,30 @@ static void event_record_start_trap(WORD addr, void *data)
             return;
         }
         warp_end_list();
-        last_timestamp_alarm = maincpu_clk;
+        record_active = 1;
+        next_timestamp_clk = maincpu_clk;
         current_timestamp = playback_time;
         break;
       case EVENT_START_MODE_RESET:
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
         destroy_list();
         create_list();
+        record_active = 1;
         event_initial_write();
-        last_timestamp_alarm = 0;
+        next_timestamp_clk = 0;
         current_timestamp = 0;
+        break;
+      case EVENT_START_MODE_PLAYBACK:
+        cut_list(event_list_current->next);
+        destroy_image_list();
+        event_write_version();
+        record_active = 1;
+        next_timestamp_clk = maincpu_clk;
         break;
       default:
         log_error(event_log, "Unknown event start mode %i", event_start_mode); 
         return;
     }
-
-    record_active = 1;
 
 #ifdef  DEBUG
     debug_start_recording();
@@ -506,16 +568,21 @@ static void event_record_start_trap(WORD addr, void *data)
 
     /* use alarm for timestamps */
     milestone_timestamp_alarm = 0;
-    alarm_set(event_alarm, last_timestamp_alarm);
+    alarm_set(event_alarm, next_timestamp_clk);
 }
 
 int event_record_start(void)
 {
-    if (playback_active != 0)
-        return -1;
+    if (event_start_mode == EVENT_START_MODE_PLAYBACK) {
+        if (playback_active != 0)
+            event_playback_stop();
+        else
+            return -1;
+    }
 
     if (record_active != 0)
         return -1;
+
 
     interrupt_maincpu_trigger_trap(event_record_start_trap, (void *)0);
 
@@ -575,7 +642,7 @@ void event_reset_ack(void)
 
     /* timestamp alarm needs to be set */
     if (record_active)
-        alarm_set(event_alarm, last_timestamp_alarm);
+        alarm_set(event_alarm, next_timestamp_clk);
 }
 
 static void event_playback_start_trap(WORD addr, void *data)
@@ -583,13 +650,15 @@ static void event_playback_start_trap(WORD addr, void *data)
     snapshot_t *s;
     BYTE minor, major;
 
+    event_version[0] = 0;
+
     s = snapshot_open(
         event_snapshot_path(event_end_snapshot), &major, &minor, machine_name);
 
     if (s == NULL) {
         ui_error(_("Could not open end snapshot file %s."), 
                     event_snapshot_path(event_end_snapshot));
-        ui_display_playback(0);
+        ui_display_playback(0, NULL);
         return;
     }
 
@@ -599,7 +668,7 @@ static void event_playback_start_trap(WORD addr, void *data)
     if (event_snapshot_read_module(s, 1) < 0) {
         snapshot_close(s);
         ui_error(_("Could not find event section in end snapshot file."));
-        ui_display_playback(0);
+        ui_display_playback(0, NULL);
         return;
     }
 
@@ -621,15 +690,21 @@ static void event_playback_start_trap(WORD addr, void *data)
                 ui_error(_("Error reading start snapshot file. Tried %s and %s"),
                             st, event_snapshot_path(event_start_snapshot));
                 lib_free(st);
-                ui_display_playback(0);
+                ui_display_playback(0, NULL);
                 return;
             }
+
+            if (event_list_current->size > strlen(&data[1]) + 2)
+                strncpy(event_version, (char *)(&data[strlen(&data[1]) + 2]), 15);
+
             next_current_list();
             next_alarm_set();
             break;
           case EVENT_START_MODE_RESET:
             /*log_debug("RESET MODE!");*/
             machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+            if (event_list_current->size > 1)
+                strncpy(event_version, (char *)(&data[1]), 15);
             next_current_list();
             /* Alarm will be set if reset is ack'ed.  */
             playback_reset_ack = 1;
@@ -639,7 +714,7 @@ static void event_playback_start_trap(WORD addr, void *data)
         if (machine_read_snapshot(
                 event_snapshot_path(event_start_snapshot), 0) < 0) {
             ui_error(_("Error reading start snapshot file."));
-            ui_display_playback(0);
+            ui_display_playback(0, NULL);
             return;
         }
         next_alarm_set();
@@ -647,6 +722,8 @@ static void event_playback_start_trap(WORD addr, void *data)
 
     playback_active = 1;
     current_timestamp = 0;
+
+    ui_display_playback(1, event_version);
 
 #ifdef  DEBUG
     debug_start_playback();
@@ -664,8 +741,6 @@ int event_playback_start(void)
 
     interrupt_maincpu_trigger_trap(event_playback_start_trap, (void *)0);
 
-    ui_display_playback(1);
-
     return 0;
 }
 
@@ -678,7 +753,7 @@ int event_playback_stop(void)
 
     alarm_unset(event_alarm);
 
-    ui_display_playback(0);
+    ui_display_playback(0, NULL);
 
 #ifdef  DEBUG
     debug_stop_playback();
@@ -694,7 +769,7 @@ static void event_record_set_milestone_trap(WORD addr, void *data)
             ui_error(_("Could not create end snapshot file %s."),
                         event_snapshot_path(event_end_snapshot));
     } else {
-        milestone_timestamp_alarm = last_timestamp_alarm;
+        milestone_timestamp_alarm = next_timestamp_clk;
         milestone_timestamp = current_timestamp;
 #ifdef  DEBUG
         debug_set_milestone();
@@ -728,7 +803,7 @@ static void event_record_reset_milestone_trap(WORD addr, void *data)
     record_active = 1;
     if (milestone_timestamp_alarm > 0) {
         alarm_set(event_alarm, milestone_timestamp_alarm);
-        last_timestamp_alarm = milestone_timestamp_alarm;
+        next_timestamp_clk = milestone_timestamp_alarm;
         current_timestamp = milestone_timestamp;
     }
 #ifdef  DEBUG
@@ -785,36 +860,74 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
     curr = event_list_base;
     num_of_timestamps = 0;
     playback_time = 0;
+    next_timestamp_clk = -1;
 
     while (1) {
-        if (SMR_DW_INT(m, (int*)&(curr->type)) < 0) {
-            snapshot_module_close(m);
-            return -1;
-        }
+        unsigned int type, size;
+        CLOCK clk;
+        BYTE *data;
 
-        if (SMR_DW(m, &(curr->clk)) < 0) {
-            snapshot_module_close(m);
-            return -1;
-        }
+        /* 
+            throw away recorded timestamp (recording them  was introduced in
+            1.14.x so there might exist history files with TIMESTAMP events)
+        */
+        do {
+            if (SMR_DW_INT(m, (int*)&(type)) < 0) {
+                snapshot_module_close(m);
+                return -1;
+            }
 
-        if (SMR_DW_INT(m, (int*)&(curr->size)) < 0) {
-            snapshot_module_close(m);
-            return -1;
-        }
+            if (SMR_DW(m, &(clk)) < 0) {
+                snapshot_module_close(m);
+                return -1;
+            }
 
-        if (curr->size > 0) {
-            curr->data = lib_malloc(curr->size);
-            if (SMR_BA(m, curr->data, curr->size) < 0) {
+            if (SMR_DW_INT(m, (int*)&(size)) < 0) {
+                snapshot_module_close(m);
+                return -1;
+            }
+
+        } while (type == EVENT_TIMESTAMP);
+
+        if (size > 0) {
+            data = lib_malloc(size);
+            if (SMR_BA(m, data, size) < 0) {
                 snapshot_module_close(m);
                 return -1;
             }
         }
 
-        if (curr->type == EVENT_LIST_END)
+        if (next_timestamp_clk == -1) /* if EVENT_INITIAL is missing */
+            next_timestamp_clk = clk;
+
+        if (type == EVENT_INITIAL) {
+            if (data[0] == EVENT_START_MODE_RESET)
+                next_timestamp_clk = 0;
+            else
+                next_timestamp_clk = clk;
+        } else {
+            /* insert timestamps each second */
+           while (next_timestamp_clk < clk) {
+                curr->type = EVENT_TIMESTAMP;
+                curr->clk = next_timestamp_clk;
+                curr->size = 0;
+                curr->next = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
+                curr = curr->next;
+                next_timestamp_clk += machine_get_cycles_per_second();
+                num_of_timestamps++;
+            }
+        }
+
+        curr->type = type;
+        curr->clk = clk;
+        curr->size = size;
+        curr->data = (size > 0 ? data : NULL);
+
+        if (type == EVENT_LIST_END)
             break;
 
-        if (curr->type == EVENT_TIMESTAMP)
-            num_of_timestamps++;
+        if (type == EVENT_RESETCPU)
+            next_timestamp_clk -= clk;
 
         curr->next = (event_list_t *)lib_calloc(1, sizeof(event_list_t));
         curr = curr->next;
@@ -844,11 +957,12 @@ int event_snapshot_write_module(struct snapshot_s *s, int event_mode)
     curr = event_list_base;
 
     while (curr != NULL) {
-        if (0
+        if (curr->type != EVENT_TIMESTAMP
+            && (0
             || SMW_DW(m, (DWORD)curr->type) < 0
             || SMW_DW(m, (DWORD)curr->clk) < 0
             || SMW_DW(m, (DWORD)curr->size) < 0
-            || SMW_BA(m, curr->data, curr->size) < 0) {
+            || SMW_BA(m, curr->data, curr->size) < 0)) {
             snapshot_module_close(m);
             return -1;
         }
@@ -903,7 +1017,8 @@ static int set_event_start_mode(resource_value_t v, void *param)
 
     if (mode != EVENT_START_MODE_FILE_SAVE
         && mode != EVENT_START_MODE_FILE_LOAD
-        && mode != EVENT_START_MODE_RESET)
+        && mode != EVENT_START_MODE_RESET
+        && mode != EVENT_START_MODE_PLAYBACK)
         return -1;
 
     event_start_mode = mode;

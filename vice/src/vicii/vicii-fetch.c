@@ -371,8 +371,10 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
             BYTE *dest;
             int my_memptr;
 
+#ifdef DEBUG
             if (debug.maincpu_traceflg)
                 log_debug("SDMA %i",i);
+#endif
 
             src = bank + (*spr_base << 6);
             my_memptr = sprite_status->sprites[i].memptr;

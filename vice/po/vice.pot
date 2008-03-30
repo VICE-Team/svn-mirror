@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-08-07 21:35+0200\n"
+"POT-Creation-Date: 2004-08-21 21:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,36 +124,36 @@ msgstr ""
 msgid "store to sounddevice failed."
 msgstr ""
 
-#: src/event.c:466
+#: src/event.c:520
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr ""
 
-#: src/event.c:480 src/event.c:723
+#: src/event.c:535 src/event.c:798
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
 
-#: src/event.c:531 src/event.c:694
+#: src/event.c:598 src/event.c:769
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr ""
 
-#: src/event.c:590
+#: src/event.c:659
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr ""
 
-#: src/event.c:601
+#: src/event.c:670
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:621
+#: src/event.c:690
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 
-#: src/event.c:641
+#: src/event.c:716
 msgid "Error reading start snapshot file."
 msgstr ""
 
@@ -1147,7 +1147,7 @@ msgid ""
 "`%s'\n"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:324 src/arch/unix/uicommands.c:447
+#: src/arch/unix/uicommands.c:324 src/arch/unix/uicommands.c:449
 msgid "Select history directory"
 msgstr ""
 
@@ -1179,85 +1179,89 @@ msgstr ""
 msgid "*Start with reset"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:433
+#: src/arch/unix/uicommands.c:429
+msgid "*Overwrite running playback"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:435
 msgid "Load snapshot..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:436
+#: src/arch/unix/uicommands.c:438
 msgid "Save snapshot..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:440
+#: src/arch/unix/uicommands.c:442
 msgid "Quickload snapshot"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:443
+#: src/arch/unix/uicommands.c:445
 msgid "Quicksave snapshot"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:449
+#: src/arch/unix/uicommands.c:451
 msgid "Start recording events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:451
+#: src/arch/unix/uicommands.c:453
 msgid "Stop recording events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:453
+#: src/arch/unix/uicommands.c:455
 msgid "Start playing back events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:455
+#: src/arch/unix/uicommands.c:457
 msgid "Stop playing back events"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:457
+#: src/arch/unix/uicommands.c:459
 msgid "Set recording milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:459
+#: src/arch/unix/uicommands.c:461
 msgid "Return to milestone"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:462
+#: src/arch/unix/uicommands.c:464
 msgid "Recording start mode"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:468
+#: src/arch/unix/uicommands.c:470
 msgid "Snapshot commands"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:474
+#: src/arch/unix/uicommands.c:476
 msgid "Sound record..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:481
+#: src/arch/unix/uicommands.c:483
 msgid "Activate monitor"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:484
+#: src/arch/unix/uicommands.c:486
 msgid "Run C1541"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:492
+#: src/arch/unix/uicommands.c:494
 msgid "Browse manuals"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:494
+#: src/arch/unix/uicommands.c:496
 msgid "About VICE..."
 msgstr ""
 
-#: src/arch/unix/uicommands.c:500 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:502 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1942
 msgid "Reset"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:502
+#: src/arch/unix/uicommands.c:504
 msgid "*Pause"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:509
+#: src/arch/unix/uicommands.c:511
 msgid "Exit emulator"
 msgstr ""
 

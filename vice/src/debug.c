@@ -46,7 +46,9 @@
 debug_t debug;
 
 
+#ifdef DEBUG
 inline static void debug_history_step(const char *st);
+#endif
 
 static int set_do_core_dumps(resource_value_t v, void *param)
 {
@@ -356,6 +358,7 @@ static void debug_open_new_file(void)
     lib_free(filename);
 }
 
+#ifdef DEBUG
 inline static void debug_history_step(const char *st)
 {
     if (event_record_active()) {
@@ -388,6 +391,7 @@ inline static void debug_history_step(const char *st)
         debug_buffer_ptr += line_len;
     }
 }
+#endif
 
 void debug_start_recording(void)
 {
