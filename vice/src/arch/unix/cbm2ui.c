@@ -40,6 +40,7 @@
 #include "uicrtc.h"
 #include "uidatasette.h"
 #include "uidrive.h"
+#include "uidriveieee.h"
 #include "uijoystick2.h"
 #include "uiperipheral.h"
 #include "uirs232.h"

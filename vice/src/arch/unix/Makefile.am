@@ -61,6 +61,8 @@ libarch_a_SOURCES = \
 	uidatasette.h \
 	uidrive.c \
 	uidrive.h \
+	uidriveieee.c \
+	uidriveieee.h \
 	uiedisk.h \
 	uihotkey.h \
 	uijoystick2.c \

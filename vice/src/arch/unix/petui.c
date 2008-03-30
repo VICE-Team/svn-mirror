@@ -39,6 +39,7 @@
 #include "uicrtc.h"
 #include "uidatasette.h"
 #include "uidrive.h"
+#include "uidriveieee.h"
 #include "uijoystick2.h"
 #include "uimenu.h"
 #include "uiperipheral.h"
@@ -50,22 +51,15 @@
 
 
 UI_MENU_DEFINE_TOGGLE(DiagPin)
-
 UI_MENU_DEFINE_TOGGLE(Crtc)
-
 UI_MENU_DEFINE_TOGGLE(Ram9)
-
 UI_MENU_DEFINE_TOGGLE(RamA)
-
 UI_MENU_DEFINE_RADIO(VideoSize)
-
 UI_MENU_DEFINE_RADIO(RamSize)
-
 UI_MENU_DEFINE_RADIO(IOSize)
-
 UI_MENU_DEFINE_TOGGLE(Basic1)
-
 UI_MENU_DEFINE_TOGGLE(Basic1Chars)
+
 
 static UI_CALLBACK(petui_set_model)
 {
