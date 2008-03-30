@@ -31,7 +31,7 @@
 #include "types.h"
 
 
-#define ACCUM_MAX           0x10000
+#define ACCUM_MAX 0x10000
 
 #define ROTATION_TABLE_SIZE 0x1000
 
@@ -280,8 +280,9 @@ BYTE rotation_sync_found(drive_t *dptr)
                            ? dptr->GCR_head_offset - 1
                            : dptr->GCR_current_track_size - 1);
 
-    sync_bits = count_sync_from_right(dptr->GCR_track_start_ptr[previous_head_offset])
-              + count_sync_from_left(val);
+    sync_bits = count_sync_from_right(
+                dptr->GCR_track_start_ptr[previous_head_offset])
+                + count_sync_from_left(val);
 
     if (sync_bits >= 10)
         return 0; /* found! */
@@ -302,5 +303,23 @@ BYTE rotation_sync_found(drive_t *dptr)
     /* As the current rotation code cannot cope with non byte aligned
        writes, do not change `drive[].bits_moved'!  */
     /* dptr->bits_moved = 0; */
+}
+
+void rotation_byte_read(drive_t *dptr)
+{
+    if (dptr->attach_clk != (CLOCK)0) {
+        if (*(dptr->clk) - dptr->attach_clk < DRIVE_ATTACH_DELAY)
+            dptr->GCR_read = 0;
+        else
+            dptr->attach_clk = (CLOCK)0;
+    } else if (dptr->attach_detach_clk != (CLOCK)0) {
+        if (*(dptr->clk) - dptr->attach_detach_clk < DRIVE_ATTACH_DETACH_DELAY)
+            dptr->GCR_read = 0;
+        else
+            dptr->attach_detach_clk = (CLOCK)0;
+    } else {
+        if (dptr->byte_ready_active == 0x06)
+            rotation_rotate_disk(dptr);
+    }
 }
 

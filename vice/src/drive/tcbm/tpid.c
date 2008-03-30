@@ -33,6 +33,7 @@ struct drive_context_s;
 #include "drivetypes.h"
 #include "iecdrive.h"
 #include "interrupt.h"
+#include "rotation.h"
 #include "tpi.h"
 #include "tpicore.h"
 #include "tpid.h"
@@ -115,7 +116,10 @@ _TPI_FUNC void store_pa(TPI_CONTEXT_PARAM BYTE byte)
 
 _TPI_FUNC void store_pb(TPI_CONTEXT_PARAM BYTE byte)
 {
-    plus4tcbm_update_pb(byte, ctxptr->mynumber);
+    if (ctxptr->drive_ptr->byte_ready_active == 0x06)
+        rotation_rotate_disk(ctxptr->drive_ptr);
+
+    ctxptr->drive_ptr->GCR_write_value = byte;
 }
 
 _TPI_FUNC void undump_pa(TPI_CONTEXT_PARAM BYTE byte)
@@ -129,6 +133,14 @@ _TPI_FUNC void undump_pb(TPI_CONTEXT_PARAM BYTE byte)
 _TPI_FUNC void store_pc(TPI_CONTEXT_PARAM BYTE byte)
 {
     plus4tcbm_update_pc(byte, ctxptr->mynumber);
+
+    ctxptr->drive_ptr->read_write_mode = byte & 0x10;
+
+    if ((byte & 0x10) != (oldpc & 0x10)) {
+        if (ctxptr->drive_ptr->byte_ready_active == 0x06)
+            rotation_rotate_disk(ctxptr->drive_ptr);
+        rotation_change_mode(ctxptr->mynumber);
+    }
 }
 
 _TPI_FUNC void undump_pc(TPI_CONTEXT_PARAM BYTE byte)
@@ -140,11 +152,9 @@ _TPI_FUNC BYTE read_pa(TPI_CONTEXT_PARVOID)
     /* TCBM data port */
     BYTE byte;
 
-#if 0
-    log_debug("TPI READ DATA %02x DDR %02x TCBM %02x",
-              tpi[TPI_PA], tpi[TPI_DDPA], plus4tcbm_outputa[ctxptr->mynumber]);
-#endif
     byte = (tpi[TPI_PA] | ~tpi[TPI_DDPA]) & plus4tcbm_outputa[ctxptr->mynumber];
+
+    ctxptr->drive_ptr->byte_ready_level = 0;
 
     return byte;
 }
@@ -154,7 +164,11 @@ _TPI_FUNC BYTE read_pb(TPI_CONTEXT_PARVOID)
     /* GCR data port */
     BYTE byte;
 
-    byte = (tpi[TPI_PB] | ~tpi[TPI_DDPB]);
+    rotation_byte_read(ctxptr->drive_ptr);
+
+    byte = (tpi[TPI_PB] | ~tpi[TPI_DDPB]) & ctxptr->drive_ptr->GCR_read;
+
+    ctxptr->drive_ptr->byte_ready_level = 0;
 
     return byte;
 }
@@ -164,13 +178,18 @@ _TPI_FUNC BYTE read_pc(TPI_CONTEXT_PARVOID)
     /* TCBM control / GCR data control */
     BYTE byte;
 
+    if (ctxptr->drive_ptr->byte_ready_active == 0x06)
+        rotation_rotate_disk(ctxptr->drive_ptr);
+
     byte = (tpi[TPI_PC] | ~tpi[TPI_DDPC])
            /* Bit 0, 1 */
            & (plus4tcbm_outputb[ctxptr->mynumber] | ~0x03)
            /* Bit 3 */
            & ((plus4tcbm_outputc[ctxptr->mynumber] >> 4) | ~0x08)
            /* Bit 5 */
-           & (ctxptr->mynumber ? 0xff : ~0x20)
+           & (~0x20)
+           /* Bit 6 */
+           & (rotation_sync_found(ctxptr->drive_ptr) ? 0xff : ~0x40)
            /* Bit 7 */
            & ((plus4tcbm_outputc[ctxptr->mynumber] << 1) | ~0x80);
 
