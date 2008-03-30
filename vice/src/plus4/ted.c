@@ -211,7 +211,7 @@ static void ted_set_geometry(void)
     {
       width *= 2;
       height *= 2;
-      raster_set_pixel_size(&ted.raster, 2, 2);
+      raster_set_pixel_size(&ted.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
     }
 #endif
 
@@ -1050,12 +1050,12 @@ void ted_resize(void)
     {
       if (ted.raster.viewport.pixel_size.width == 1
           && ted.raster.viewport.canvas != NULL) {
-        raster_set_pixel_size(&ted.raster, 2, 2);
+        raster_set_pixel_size(&ted.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
         raster_resize_viewport(&ted.raster,
                                ted.raster.viewport.width * 2,
                                ted.raster.viewport.height * 2);
       } else {
-          raster_set_pixel_size(&ted.raster, 2, 2);
+          raster_set_pixel_size(&ted.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
       }
 
       ted_draw_set_double_size(1);
@@ -1064,12 +1064,12 @@ void ted_resize(void)
     {
       if (ted.raster.viewport.pixel_size.width == 2
           && ted.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size(&ted.raster, 1, 1);
+          raster_set_pixel_size(&ted.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
         raster_resize_viewport(&ted.raster,
                                ted.raster.viewport.width / 2,
                                ted.raster.viewport.height / 2);
       } else {
-          raster_set_pixel_size(&ted.raster, 1, 1);
+          raster_set_pixel_size(&ted.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
       }
 
       ted_draw_set_double_size(0);
