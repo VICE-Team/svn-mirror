@@ -110,9 +110,10 @@ PETSRC = $(PETDIR)/viap.c $(PETDIR)/petmem.c $(PETDIR)/crtc.c \
 	$(PETDIR)/petmem.h $(PETDIR)/pets.h $(PETDIR)/pet.c
 
 VICESRC = $(SRCDIR)/1541cpu.c $(SRCDIR)/6510core.c $(SRCDIR)/asm.c \
-	$(SRCDIR)/autostart.c $(SRCDIR)/c1541.c $(SRCDIR)/charsets.c \
-	$(SRCDIR)/cia-tmpl.c $(SRCDIR)/drive.c $(SRCDIR)/findpath.c \
-	$(SRCDIR)/gcr.c $(SRCDIR)/info.c $(SRCDIR)/kbdbuf.c $(SRCDIR)/main.c \
+	$(SRCDIR)/attach.c $(SRCDIR)/autostart.c $(SRCDIR)/c1541.c \
+	$(SRCDIR)/charsets.c $(SRCDIR)/cia-tmpl.c $(SRCDIR)/cmdline.c \
+	$(SRCDIR)/drive.c $(SRCDIR)/findpath.c $(SRCDIR)/gcr.c \
+	$(SRCDIR)/info.c $(SRCDIR)/kbdbuf.c $(SRCDIR)/main.c \
 	$(SRCDIR)/maincpu.c $(SRCDIR)/memcmp.c $(SRCDIR)/memutils.c \
 	$(SRCDIR)/misc.c $(SRCDIR)/mon.c $(SRCDIR)/mon_cli.l \
 	$(SRCDIR)/mon_cli.y $(SRCDIR)/mon_lex.c $(SRCDIR)/mon_parse.c \
@@ -127,14 +128,14 @@ VICESRC = $(SRCDIR)/1541cpu.c $(SRCDIR)/6510core.c $(SRCDIR)/asm.c \
 	$(SRCDIR)/zipcode.c
 
 VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h \
-	$(INCLUDEDIR)/asm.h $(INCLUDEDIR)/autostart.h $(INCLUDEDIR)/c1541.h \
-	$(INCLUDEDIR)/charsets.h $(INCLUDEDIR)/cia.h $(INCLUDEDIR)/vice.h \
-	$(INCLUDEDIR)/crtc.h $(INCLUDEDIR)/drive.h $(INCLUDEDIR)/file.h \
-	$(INCLUDEDIR)/findpath.h $(INCLUDEDIR)/fs_cbm.h $(INCLUDEDIR)/gcr.h\
-	$(INCLUDEDIR)/iecdrive.h $(INCLUDEDIR)/icon.h $(INCLUDEDIR)/info.h \
-	$(INCLUDEDIR)/interrupt.h $(INCLUDEDIR)/kbdbuf.h \
+	$(INCLUDEDIR)/asm.h $(INCLUDEDIR)/attach.h $(INCLUDEDIR)/autostart.h \
+	$(INCLUDEDIR)/c1541.h $(INCLUDEDIR)/charsets.h $(INCLUDEDIR)/cia.h \
+	$(INCLUDEDIR)/cmdline.h $(INCLUDEDIR)/crtc.h $(INCLUDEDIR)/drive.h \
+	$(INCLUDEDIR)/file.h $(INCLUDEDIR)/findpath.h $(INCLUDEDIR)/fs_cbm.h \
+	$(INCLUDEDIR)/gcr.h $(INCLUDEDIR)/iecdrive.h $(INCLUDEDIR)/icon.h \
+	$(INCLUDEDIR)/info.h $(INCLUDEDIR)/interrupt.h $(INCLUDEDIR)/kbdbuf.h \
 	$(INCLUDEDIR)/machspec.h $(INCLUDEDIR)/maincpu.h $(INCLUDEDIR)/mem.h \
-        $(INCLUDEDIR)/memutils.h $(INCLUDEDIR)/misc.h $(INCLUDEDIR)/mon.h \
+	$(INCLUDEDIR)/memutils.h $(INCLUDEDIR)/misc.h $(INCLUDEDIR)/mon.h \
 	$(INCLUDEDIR)/mon_parse.h $(INCLUDEDIR)/mos6510.h \
 	$(INCLUDEDIR)/mshell.h $(INCLUDEDIR)/op.h $(INCLUDEDIR)/parallel.h \
 	$(INCLUDEDIR)/patchlevel.h $(INCLUDEDIR)/patchrom.h \
@@ -145,8 +146,8 @@ VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h \
 	$(INCLUDEDIR)/sysfile.h $(INCLUDEDIR)/tape.h $(INCLUDEDIR)/tapeunit.h \
 	$(INCLUDEDIR)/traps.h $(INCLUDEDIR)/tpi.h $(INCLUDEDIR)/true1541.h \
 	$(INCLUDEDIR)/types.h $(INCLUDEDIR)/utils.h $(INCLUDEDIR)/via.h \
-	$(INCLUDEDIR)/viad.h $(INCLUDEDIR)/vic.h $(INCLUDEDIR)/vicii.h \
-	$(INCLUDEDIR)/vmachine.h $(INCLUDEDIR)/warn.h \
+	$(INCLUDEDIR)/viad.h $(INCLUDEDIR)/vic.h $(INCLUDEDIR)/vice.h \
+	$(INCLUDEDIR)/vicii.h $(INCLUDEDIR)/vmachine.h $(INCLUDEDIR)/warn.h \
 	$(INCLUDEDIR)/wave6581.h $(INCLUDEDIR)/wave8580.h \
 	$(INCLUDEDIR)/zfile.h $(INCLUDEDIR)/zipcode.h \
 	$(INCLUDEDIR)/acconfig.h $(INCLUDEDIR)/autoconf.h.in
@@ -284,10 +285,11 @@ XPET_SYSPEC_OBJS = @XPET_SYSPEC_OBJS@
 
 JOY_OBJS = @JOY_OBJS@
 
-COMMON_OBJS = charsets.o info.o mshell.o main.o tape.o tapeunit.o warn.o \
-	utils.o gcr.o zfile.o misc.o mon_parse.o mon_lex.o memutils.o drive.o \
-	asm.o kbdbuf.o findpath.o maincpu.o zipcode.o serial.o parallel.o \
-	traps.o mon.o sysfile.o resources.o autostart.o @SYSPEC_OBJS@ @LIBOBJS@
+COMMON_OBJS = charsets.o cmdline.o info.o mshell.o main.o tape.o tapeunit.o \
+	warn.o utils.o gcr.o zfile.o misc.o mon_parse.o mon_lex.o memutils.o \
+	drive.o asm.o kbdbuf.o findpath.o maincpu.o zipcode.o serial.o \
+	parallel.o traps.o mon.o sysfile.o resources.o autostart.o attach.o \
+	@SYSPEC_OBJS@ @LIBOBJS@
 
 COMMON_LIBS = @COMMON_LIBS@
 
