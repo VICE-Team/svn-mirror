@@ -271,7 +271,7 @@ void crtc_update_window(void)
                         0,
                         CRTC_SCREEN_BORDERHEIGHT,
                         crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
-                        0);
+                        0, 0);
 
     crtc.raster.display_ystart = CRTC_SCREEN_BORDERHEIGHT;
     crtc.raster.display_ystop = crtc.screen_height

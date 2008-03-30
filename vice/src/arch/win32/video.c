@@ -1129,14 +1129,14 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 		r->viewport.first_line,
 		r->viewport.pixel_size.width,
 		r->viewport.pixel_size.height,
-		r->geometry.extra_offscreen_border
+		r->geometry.extra_offscreen_border_left
 		));
 */
 
         //  Calculate upperleft point's framebuffer coords
         xs = xclient - ((rect.right - window_canvas_xsize[window_index]) / 2)
              - r->viewport.x_offset
-             + (r->viewport.first_x + r->geometry.extra_offscreen_border)
+             + (r->viewport.first_x + r->geometry.extra_offscreen_border_left)
              * r->viewport.pixel_size.width;
         ys = yclient - ((rect.bottom - statusbar_get_status_height()
              - window_canvas_ysize[window_index]) / 2)
@@ -1146,7 +1146,7 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
         xi = xclient;
         yi = yclient;
 
-        safex = (r->viewport.first_x + r->geometry.extra_offscreen_border)
+        safex = (r->viewport.first_x + r->geometry.extra_offscreen_border_left)
                 * r->viewport.pixel_size.width - r->viewport.x_offset;
         safey = r->viewport.first_line
                 * r->viewport.pixel_size.height-r->viewport.y_offset;
@@ -1207,7 +1207,9 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
     }
 }
 
-void video_canvas_refresh(video_canvas_t *c, video_frame_buffer_t *f,
+void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
+                          unsigned int draw_buffer_line_size,
+                          video_frame_buffer_t *f,
                           unsigned int xs, unsigned int ys,
                           unsigned int xi, unsigned int yi,
                           unsigned int w, unsigned int h)

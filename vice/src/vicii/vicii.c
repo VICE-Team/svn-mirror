@@ -314,7 +314,9 @@ static void vic_ii_set_geometry(void)
                         vic_ii.first_displayed_line,
                         vic_ii.last_displayed_line,
                         vic_ii.sprite_wrap_x - VIC_II_SCREEN_XPIX -
-                            vic_ii.screen_borderwidth * 2);
+                        vic_ii.screen_borderwidth * 2,
+                        vic_ii.sprite_wrap_x - VIC_II_SCREEN_XPIX -
+                        vic_ii.screen_borderwidth * 2);
 #ifdef USE_XF86_EXTENSIONS
     if (!fullscreen_is_enabled)
 #endif

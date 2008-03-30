@@ -122,7 +122,7 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
                         0,
                         first_displayed_line,
                         last_displayed_line,
-                        0);
+                        0, 0);
 
     raster_resize_viewport(raster, displayed_width, displayed_height);
 

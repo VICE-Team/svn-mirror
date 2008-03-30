@@ -119,6 +119,7 @@ static void vic_set_geometry(void)
                         1,
                         vic.first_displayed_line,
                         vic.last_displayed_line,
+                        vic.screen_width + VIC_SCREEN_MAX_TEXT_COLS * 8,
                         vic.screen_width + VIC_SCREEN_MAX_TEXT_COLS * 8);
 
     width = vic.display_width * VIC_PIXEL_WIDTH;

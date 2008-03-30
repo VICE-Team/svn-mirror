@@ -215,7 +215,7 @@ static void ted_set_geometry(void)
                         0,
                         ted.first_displayed_line,
                         ted.last_displayed_line,
-                        0);
+                        0, 0);
     raster_resize_viewport(&ted.raster, width, height);
 
 #ifdef __MSDOS__

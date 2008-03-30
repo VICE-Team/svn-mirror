@@ -1,3 +1,29 @@
+2002-01-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.2.
+
+	* raster/raster.c, vicii/vicii-draw.c, vdc/vdc-draw.c,
+	crtc/crtc-draw.c, vic20/vic-draw.c, plus4/ted-draw.c,
+	arch/unix/x11/videoarch.h, arch/riscos/videoarch.h, video.h,
+	arch/unix/x11/video.c, arch/win32/video.c, arch/msdos/video.c,
+	arch/riscos/video.c, arch/os2/unused/video_gpi.h,
+	arch/os2/unused/video_gpi.c, arch/os2/video.c: Allocate draw
+	buffer in the raster layer instead of allocating it the
+	architecture dependent code.
+
+	arch/unix/x11/video.c (video_canvas_refresh, convert_8to8,
+	convert_8to16, convert_8to32, convert_8to1_dither,
+	convert_8toall): Changed to new API.
+
+	* screenshot.h: Added new members to `screenshot_t'.
+
+	* screenshot.c (screenshot_line_data): Use draw buffer.
+
+	* raster/raster.c, raster/raster.h, arch/win32/video.c,
+	vicii/vicii.c, vdc/vdc.c, crtc/crtc.c, vic20/vic.c,
+	plus4/ted.c: `raster_set_geometry()' takes separate extra
+	border offsets for the left and right side now.
+
 2002-01-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
         * Version 1.8.1.
