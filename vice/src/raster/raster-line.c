@@ -282,7 +282,7 @@ inline static int raster_fill_sprite_cache(raster_t *raster,
         }
     }
 
-    if (xe_return >= (int)raster->geometry->screen_size.width)
+    if ((int)xe_return >= (int)raster->geometry->screen_size.width)
         *xe = raster->geometry->screen_size.width - 1;
     else
         *xe = xe_return;

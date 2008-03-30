@@ -541,31 +541,31 @@
 /* The BRK opcode is also used to patch the ROM.  The function trap_handler()
    returns nonzero if this is not a patch, but a `real' BRK instruction. */
 
-#define BRK()                                             \
-  do {                                                    \
-      DWORD trap_result;                                  \
-      CLK += 7;                                           \
-      EXPORT_REGISTERS();                                 \
-      if (!ROM_TRAP_ALLOWED()                             \
-          || (trap_result = ROM_TRAP_HANDLER()) == -1) {  \
-          TRACE_BRK();                                    \
-          INC_PC(2);                                      \
-          LOCAL_SET_BREAK(1);                             \
-          PUSH(reg_pc >> 8);                              \
-          PUSH(reg_pc & 0xff);                            \
-          PUSH(LOCAL_STATUS());                           \
-          LOCAL_SET_INTERRUPT(1);                         \
-          JUMP(LOAD_ADDR(0xfffe));                        \
-      } else {                                            \
-          if (trap_result) {                              \
-             CLK -= 7;                                    \
-             SET_OPCODE(trap_result);                     \
-             IMPORT_REGISTERS();                          \
-             goto trap_skipped;                           \
-          } else {                                        \
-             IMPORT_REGISTERS();                          \
-          }                                               \
-      }                                                   \
+#define BRK()                                                    \
+  do {                                                           \
+      DWORD trap_result;                                         \
+      CLK += 7;                                                  \
+      EXPORT_REGISTERS();                                        \
+      if (!ROM_TRAP_ALLOWED()                                    \
+          || (trap_result = ROM_TRAP_HANDLER()) == (DWORD)-1) {  \
+          TRACE_BRK();                                           \
+          INC_PC(2);                                             \
+          LOCAL_SET_BREAK(1);                                    \
+          PUSH(reg_pc >> 8);                                     \
+          PUSH(reg_pc & 0xff);                                   \
+          PUSH(LOCAL_STATUS());                                  \
+          LOCAL_SET_INTERRUPT(1);                                \
+          JUMP(LOAD_ADDR(0xfffe));                               \
+      } else {                                                   \
+          if (trap_result) {                                     \
+             CLK -= 7;                                           \
+             SET_OPCODE(trap_result);                            \
+             IMPORT_REGISTERS();                                 \
+             goto trap_skipped;                                  \
+          } else {                                               \
+             IMPORT_REGISTERS();                                 \
+          }                                                      \
+      }                                                          \
   } while (0)
 
 #define CLC()              \

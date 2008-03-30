@@ -365,7 +365,7 @@ CLOCK drive_cpu_prevent_clk_overflow(drive_context_t *drv, CLOCK sub)
 }
 
 /* Handle a ROM trap. */
-inline static int drive_trap_handler(drive_context_t *drv)
+inline static DWORD drive_trap_handler(drive_context_t *drv)
 {
     if (MOS6510_REGS_GET_PC(&(drv->cpu.cpu_regs)) == 0xec9b) {
         /* Idle loop */
