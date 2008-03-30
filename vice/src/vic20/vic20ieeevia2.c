@@ -156,11 +156,6 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
     return 0xff;
 }
 
-static void clk_overflow_callback_ieeevia2(CLOCK sub, void *data)
-{
-    viacore_clk_overflow_callback(&(machine_context.ieeevia2), sub, data);
-}
-
 static void int_ieeevia2t1(CLOCK c)
 {
     viacore_intt1(&(machine_context.ieeevia2), c);
@@ -172,8 +167,7 @@ static void int_ieeevia2t2(CLOCK c)
 }
 
 static const via_initdesc_t via_initdesc[1] = {
-    { &(machine_context.ieeevia2), clk_overflow_callback_ieeevia2,
-      int_ieeevia2t1, int_ieeevia2t2 },
+    { &(machine_context.ieeevia2), int_ieeevia2t1, int_ieeevia2t2 },
 };
 
 void ieeevia2_init(via_context_t *via_context)

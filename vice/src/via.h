@@ -142,7 +142,6 @@ typedef struct via_context_s {
 
 typedef struct via_initdesc_s {
     struct via_context_s *via_ptr;
-    void (*clk)(CLOCK, void*);
     void (*int_t1)(CLOCK);
     void (*int_t2)(CLOCK);
 } via_initdesc_t;
@@ -156,8 +155,6 @@ extern void viacore_init(const via_initdesc_t *vd,
 extern void viacore_reset(struct via_context_s *via_context);
 extern void viacore_signal(struct via_context_s *via_context, int line,
                            int edge);
-extern void viacore_clk_overflow_callback(struct via_context_s *via_context,
-                                          CLOCK sub, void *data);
 
 extern void REGPARM2 viacore_store(struct via_context_s *via_context,
                                    WORD addr, BYTE data);

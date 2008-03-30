@@ -792,10 +792,12 @@ void viacore_intt2(via_context_t *via_context, CLOCK offset)
     update_myviairq(via_context);
 }
 
-void viacore_clk_overflow_callback(via_context_t *via_context, CLOCK sub,
-                                   void *data)
+static void viacore_clk_overflow_callback(CLOCK sub, void *data)
 {
     unsigned int t;
+    via_context_t *via_context;
+
+    via_context = (via_context_t *)data;
 
     t = (via_context->tau - (*(via_context->clk_ptr) + sub)) & 0xffff;
     via_context->tau = *(via_context->clk_ptr) + t;
@@ -834,7 +836,8 @@ void viacore_init(const via_initdesc_t *vd, alarm_context_t *alarm_context,
 
     vd->via_ptr->int_num = interrupt_cpu_status_int_new(int_status,
                                                         vd->via_ptr->myname);
-    clk_guard_add_callback(clk_guard, vd->clk, NULL);
+    clk_guard_add_callback(clk_guard, viacore_clk_overflow_callback,
+                           vd->via_ptr);
 }
 
 /*------------------------------------------------------------------------*/

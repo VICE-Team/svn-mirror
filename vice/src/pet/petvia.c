@@ -238,11 +238,6 @@ void printer_interface_userport_set_busy(int b)
                    VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
 
-static void clk_overflow_callback_via(CLOCK sub, void *data)
-{
-    viacore_clk_overflow_callback(&(machine_context.via), sub, data);
-}
-
 static void int_viat1(CLOCK c)
 {
     viacore_intt1(&(machine_context.via), c);
@@ -254,8 +249,7 @@ static void int_viat2(CLOCK c)
 }
 
 static const via_initdesc_t via_initdesc[1] = {
-    { &(machine_context.via), clk_overflow_callback_via,
-      int_viat1, int_viat2 },
+    { &(machine_context.via), int_viat1, int_viat2 },
 };
 
 void via_init(via_context_t *via_context)

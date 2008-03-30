@@ -251,16 +251,6 @@ inline static BYTE read_prb(via_context_t *via_context)
 }
 
 /* These callbacks and the data initializations have to be done here */
-static void clk0_overflow_callback(CLOCK sub, void *data)
-{
-    viacore_clk_overflow_callback(&(drive0_context.via2), sub, data);
-}
-
-static void clk1_overflow_callback(CLOCK sub, void *data)
-{
-    viacore_clk_overflow_callback(&(drive1_context.via2), sub, data);
-}
-
 static void int_via2d0t1(CLOCK c)
 {
     viacore_intt1(&(drive0_context.via2), c);
@@ -282,10 +272,8 @@ static void int_via2d1t2(CLOCK c)
 }
 
 static const via_initdesc_t via_desc[2] = {
-    { &drive0_context.via2, clk0_overflow_callback,
-      int_via2d0t1, int_via2d0t2 },
-    { &drive1_context.via2, clk1_overflow_callback,
-      int_via2d1t1, int_via2d1t2 }
+    { &drive0_context.via2, int_via2d0t1, int_via2d0t2 },
+    { &drive1_context.via2, int_via2d1t1, int_via2d1t2 }
 };
 
 void via2d_init(drive_context_t *ctxptr)

@@ -176,11 +176,6 @@ inline static BYTE read_prb(via_context_t *via_context)
     return byte;
 }
 
-static void clk_overflow_callback_via1(CLOCK sub, void *data)
-{
-    viacore_clk_overflow_callback(&(machine_context.via1), sub, data);
-}
-
 static void int_via1t1(CLOCK c)
 {
     viacore_intt1(&(machine_context.via1), c);
@@ -192,8 +187,7 @@ static void int_via1t2(CLOCK c)
 }
 
 static const via_initdesc_t via_initdesc[1] = {
-    { &(machine_context.via1), clk_overflow_callback_via1,
-      int_via1t1, int_via1t2 },
+    { &(machine_context.via1), int_via1t1, int_via1t2 },
 };
 
 void via1_init(via_context_t *via_context)
