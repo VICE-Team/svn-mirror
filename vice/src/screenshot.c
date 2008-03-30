@@ -37,7 +37,6 @@
 #include "screenshot.h"
 #include "utils.h"
 #include "video.h"
-#include "videoarch.h"
 
 static log_t screenshot_log = LOG_ERR;
 
