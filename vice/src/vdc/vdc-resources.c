@@ -94,22 +94,21 @@ static resource_t resources[] =
 
 
 
-#ifdef VDC_NEED_2X
-
 static int 
 set_double_size_enabled (resource_value_t v)
 {
-  vdc_resources.double_size_enabled = (int) v;
-/*
-  vdc_resize ();
-*/
+  vdc_resources.double_size_enabled = (int)v;
+
+  vdc.force_resize = 1;
+  vdc.force_repaint = 1;
+
   return 0;
 }
 
 static int 
 set_double_scan_enabled (resource_value_t v)
 {
-  vdc_resources.double_scan_enabled = (int) v;
+  vdc_resources.double_scan_enabled = (int)v;
 
   vdc.force_repaint = 1;
 
@@ -127,17 +126,14 @@ static resource_t resources_2x[] =
     { NULL }
   };
 
-#endif /* VDC_NEED_2X */
-
 
 
 int 
 vdc_resources_init (void)
 {
-#ifdef VDC_NEED_2X
   if (resources_register (resources_2x) < 0)
     return -1;
-#endif
 
   return resources_register (resources);
 }
+

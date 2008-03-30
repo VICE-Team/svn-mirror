@@ -33,7 +33,6 @@
 #include "vdc-draw.h"
 #include "vdc-resources.h"
 
-
 /* The following tables are used to speed up the drawing.  We do not use
    multi-dimensional arrays as we can optimize better this way...  */
 
@@ -210,7 +209,8 @@ get_std_text(raster_cache_t *cache,
                                     vdc.ram+vdc.chargen_adr,
                                     16,
                                     VDC_SCREEN_TEXTCOLS,
-                                    (vdc.raster.ycounter/2),
+                                    (vdc.raster.ycounter
+                                    / vdc.raster_ycounter_divide),
                                     xs, xe,
                                     rr);
 
@@ -225,8 +225,10 @@ get_std_text(raster_cache_t *cache,
         int crsrpos = vdc.crsrpos - vdc.mem_counter;
 
         if (crsrpos >= 0 && crsrpos < VDC_SCREEN_TEXTCOLS
-            && (vdc.raster.ycounter / 2) >= (vdc.regs[10] & 0x1f)
-            && (vdc.raster.ycounter / 2) < (vdc.regs[11] & 0x1f))
+            && (vdc.raster.ycounter / vdc.raster_ycounter_divide)
+            >= (vdc.regs[10] & 0x1f)
+            && (vdc.raster.ycounter / vdc.raster_ycounter_divide)
+            < (vdc.regs[11] & 0x1f))
             cache->foreground_data[crsrpos] ^= 0xff;
     }
     return r;
@@ -243,7 +245,8 @@ draw_std_text_cached(raster_cache_t *cache,
     unsigned int i;
 
     /* Only draw even rasterlines.  */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled
+        && vdc_resources.double_size_enabled)
         return;
 
     p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH + xs * 8;
@@ -269,7 +272,8 @@ draw_std_text(void)
     unsigned int i;
 
     /* Only draw even rasterlines.  */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled
+        && vdc_resources.double_size_enabled)
         return;
 
     p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH;
@@ -277,7 +281,8 @@ draw_std_text(void)
 
     attr_ptr = vdc.ram+vdc.attribute_adr+vdc.mem_counter;
     screen_ptr = vdc.ram+vdc.screen_adr+vdc.mem_counter;
-    char_ptr = vdc.ram+vdc.chargen_adr + (vdc.raster.ycounter / 2);
+    char_ptr = vdc.ram+vdc.chargen_adr 
+               + (vdc.raster.ycounter / vdc.raster_ycounter_divide);
 
     for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8)
     {
@@ -346,7 +351,8 @@ draw_std_bitmap_cached(raster_cache_t *cache,
     unsigned int i;
 
     /* only draw even rasterlines */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled
+        && vdc_resources.double_size_enabled)
         return;
 
     p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH + xs * 8;
@@ -372,7 +378,8 @@ draw_std_bitmap(void)
     unsigned int i;
 
     /* only draw even rasterlines */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled
+        && vdc_resources.double_size_enabled)
         return;
 
     p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH;

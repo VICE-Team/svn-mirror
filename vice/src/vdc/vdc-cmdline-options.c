@@ -5,6 +5,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Markus Brenner <markus@brenner.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,9 +29,7 @@
 #include "vice.h"
 
 #include "cmdline.h"
-
 #include "vdc.h"
-
 #include "vdc-cmdline-options.h"
 
 
@@ -61,7 +60,6 @@ static cmdline_option_t cmdline_options[] =
 
 /* VDC double-size-specific command-line options.  */
 
-#ifdef VDC_NEED_2X
 static cmdline_option_t cmdline_options_2x[] =
 {
   { "-VDC_dsize", SET_RESOURCE, 0, NULL, NULL,
@@ -78,17 +76,15 @@ static cmdline_option_t cmdline_options_2x[] =
     NULL, "Disable double scan"},
   { NULL }
 };
-#endif
 
 
 
 int 
 vdc_cmdline_options_init (void)
 {
-#ifdef VDC_NEED_2X
   if (cmdline_register_options (cmdline_options_2x) < 0)
       return -1;
-#endif
 
   return cmdline_register_options (cmdline_options);
 }
+

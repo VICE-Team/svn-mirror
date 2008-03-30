@@ -4,6 +4,7 @@
  * Written by
  *  Markus Brenner <markus@brenner.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -43,34 +44,39 @@
 
 /* Not exact, but for now allow 16 pixels of border each    */
 
-#define VDC_SCREEN_WIDTH		672
-#define VDC_SCREEN_HEIGHT	        432
+#define VDC_SCREEN_WIDTH              672
+#define VDC_SCREEN_HEIGHT_LARGE       432
+#define VDC_SCREEN_HEIGHT_SMALL       232
 
-#define VDC_SCREEN_XPIX			640
-#define VDC_SCREEN_YPIX			400
-#define VDC_SCREEN_TEXTCOLS		80
-#define VDC_SCREEN_TEXTLINES        	25
-#define VDC_SCREEN_BORDERWIDTH		16
-#define VDC_SCREEN_BORDERHEIGHT     	16
-#define VDC_SCREEN_CHARHEIGHT		8
+#define VDC_SCREEN_XPIX               640
+#define VDC_SCREEN_YPIX_LARGE         400
+#define VDC_SCREEN_YPIX_SMALL         200
+#define VDC_SCREEN_TEXTCOLS           80
+#define VDC_SCREEN_TEXTLINES          25
+#define VDC_SCREEN_BORDERWIDTH        16
+#define VDC_SCREEN_BORDERHEIGHT       16
+#define VDC_SCREEN_CHARHEIGHT_LARGE   16
+#define VDC_SCREEN_CHARHEIGHT_SMALL   8
 
-#define VDC_FIRST_DISPLAYED_LINE	16
-#define VDC_LAST_DISPLAYED_LINE		415
-#define VDC_25ROW_START_LINE		16
-#define VDC_25ROW_STOP_LINE		416
-#define VDC_80COL_START_PIXEL		16
-#define VDC_80COL_STOP_PIXEL		656
+#define VDC_FIRST_DISPLAYED_LINE      16
+#define VDC_LAST_DISPLAYED_LINE_LARGE 415
+#define VDC_LAST_DISPLAYED_LINE_SMALL 215
+#define VDC_25ROW_START_LINE          16
+#define VDC_25ROW_STOP_LINE_LARGE     416
+#define VDC_25ROW_STOP_LINE_SMALL     216
+#define VDC_80COL_START_PIXEL         16
+#define VDC_80COL_STOP_PIXEL          656
 
-#define VDC_NUM_SPRITES			0
-#define VDC_NUM_COLORS		        16
+#define VDC_NUM_SPRITES               0
+#define VDC_NUM_COLORS                16
 
 
 /* VDC Attribute masks */
 
-#define VDC_FLASH_ATTR			0x10
-#define VDC_UNDERLINE_ATTR		0x20
-#define VDC_REVERSE_ATTR		0x40
-#define VDC_ALTCHARSET_ATTR		0x80
+#define VDC_FLASH_ATTR              0x10
+#define VDC_UNDERLINE_ATTR          0x20
+#define VDC_REVERSE_ATTR            0x40
+#define VDC_ALTCHARSET_ATTR         0x80
 
 /* Available video modes. */
 enum _vdc_video_mode
@@ -85,14 +91,6 @@ typedef enum _vdc_video_mode vdc_video_mode_t;
 #define VDC_IS_ILLEGAL_MODE(x)	((x) >= VDC_ILLEGAL_TEXT_MODE \
 					 && (x) != VDC_IDLE_MODE)
 #define VDC_IS_BITMAP_MODE(x)	((x) & 0x02)
-
-
-
-/* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
-   memory and (little) speed.  */
-#if(!defined(__MSDOS__) && !defined(__riscos) && !defined(OS2))
-#define VDC_NEED_2X 1
-#endif
 
 
 
@@ -112,14 +110,20 @@ struct _vdc
     /* Flag: Are we initialized?  */
     int initialized;		/* = 0; */
 
-    /* VDC raster.  */
-    raster_t raster;
-
     /* VDC registers.  */
     int regs[38];
 
-    /* Internal VDC video memory */
-    BYTE ram[0x10000];
+    BYTE ram1[0x10000];
+
+    /* VDC geometry constants that differ in doulbe size mode.  */
+    unsigned int screen_height;
+    unsigned int screen_ypix;
+    unsigned int last_displayed_line;
+    unsigned int row25_stop_line;
+    unsigned int raster_ycounter_max;
+    unsigned int raster_ycounter_divide;
+
+    BYTE ram2[0x10000];
 
     /* Internal VDC register pointer */
     int update_reg;
@@ -165,8 +169,17 @@ struct _vdc
     /* Cursor frame counter.  */
     int cursor_counter;
 
-    /* Repaint the whole screen?  */
+    /* Repaint the whole screen next frame.  */
     int force_repaint;
+
+    /* Resize geometry next frame.  */
+    int force_resize;
+
+    /* VDC raster.  */
+    raster_t raster;
+
+    /* Internal VDC video memory */
+    BYTE ram[0x10000];
   };
 typedef struct _vdc vdc_t;
 
