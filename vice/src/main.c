@@ -253,11 +253,13 @@ int main(int argc, char **argv)
 
     /* VICE boot sequence. */
     printf ("\n*** VICE Version %s ***\n", VERSION);
-    printf ("Welcome to %s, the portable Commodore %s Emulator.\n\n",
+    printf ("Welcome to %s, the free portable Commodore %s Emulator.\n\n",
 	    progname, machdesc.machine_name);
     printf ("Written by\n"
 	    "E. Perazzoli, T. Rantanen, A. Fachat, D. Sladic,\n"
             "A. Boose, J. Valta and J. Sonninen.\n\n");
+    printf ("This is free software with ABSOLUTELY NO WARRANTY.\n");
+    printf ("See the \"About VICE\" box for more info.\n\n");
 
     /* Initialize the user interface.  UiInit() might need to handle the
        command line somehow, so we call it before parsing the options.
@@ -419,10 +421,8 @@ int main(int argc, char **argv)
 
         for (i = 0; i < 4; i++) {
             if (startup_disk_images[i] != NULL
-                && serial_select_file(DT_DISK | DT_1541, i + 8,
-                                      startup_disk_images[i]) < 0)
-                fprintf(stderr,
-                        "Cannot attach disk image `%s' to unit %d.\n",
+                && file_system_attach_disk(i + 8, startup_disk_images[i]) < 0)
+                fprintf(stderr, "Cannot attach disk image `%s' to unit %d.\n",
                         startup_disk_images[i], i + 8);
         }
     }
