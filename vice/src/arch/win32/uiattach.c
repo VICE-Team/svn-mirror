@@ -128,11 +128,6 @@ static void init_dialog(HWND hwnd, unsigned int num)
         CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTDIR, n);
         enable_controls_for_disk_device_type(hwnd, n);
     }
-    if (num == 4) {
-        resources_get_value("Printer4", (void *)&n);
-        CheckDlgButton(hwnd, IDC_TOGGLE_PRINTER,
-                       n ? BST_CHECKED : BST_UNCHECKED);
-    }
 }
 
 static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
@@ -273,10 +268,6 @@ static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
             resources_get_value(tmp, (void *)&n);
             resources_set_value(tmp, (resource_value_t)!n);
             break;
-          case IDC_TOGGLE_PRINTER:
-            resources_get_value("Printer4", (void *)&n);
-            resources_set_value("Printer4", (resource_value_t)!n);
-            break;
         }
         return TRUE;
     }
@@ -290,7 +281,6 @@ static BOOL CALLBACK callback_##num(HWND dialog, UINT msg,        \
     return dialog_proc(num, dialog, msg, wparam, lparam);         \
 }
 
-_CALLBACK(4)
 _CALLBACK(8)
 _CALLBACK(9)
 _CALLBACK(10)
@@ -298,7 +288,7 @@ _CALLBACK(11)
 
 void ui_attach_dialog(HWND hwnd)
 {
-    PROPSHEETPAGE psp[5];
+    PROPSHEETPAGE psp[4];
     PROPSHEETHEADER psh;
     int i;
 
@@ -307,23 +297,9 @@ void ui_attach_dialog(HWND hwnd)
 
     resources_get_value("DriveTrueEmulation", (void *)&drive_true_emulation);
 
-    no_of_drives = drive_true_emulation ? 3 : 5;
+    no_of_drives = drive_true_emulation ? 2 : 4;
 
-    psp[0].dwSize = sizeof(PROPSHEETPAGE);
-    psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
-    psp[0].hInstance = winmain_instance;
-#ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_PRINTDEVICE_DIALOG);
-    psp[0].pszIcon = NULL;
-#else
-    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_PRINTDEVICE_DIALOG);
-    psp[0].u2.pszIcon = NULL;
-#endif
-    psp[0].lParam = 0;
-    psp[0].pfnCallback = NULL;
-
-
-    for (i = 1; i < no_of_drives; i++) {
+    for (i = 0; i < no_of_drives; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
@@ -338,16 +314,14 @@ void ui_attach_dialog(HWND hwnd)
         psp[i].pfnCallback = NULL;
     }
 
-    psp[0].pfnDlgProc = callback_4;
-    psp[0].pszTitle = "Printer 4";
-    psp[1].pfnDlgProc = callback_8;
-    psp[1].pszTitle = "Drive 8";
-    psp[2].pfnDlgProc = callback_9;
-    psp[2].pszTitle = "Drive 9";
-    psp[3].pfnDlgProc = callback_10;
-    psp[3].pszTitle = "Drive 10";
-    psp[4].pfnDlgProc = callback_11;
-    psp[4].pszTitle = "Drive 11";
+    psp[0].pfnDlgProc = callback_8;
+    psp[0].pszTitle = "Drive 8";
+    psp[1].pfnDlgProc = callback_9;
+    psp[1].pszTitle = "Drive 9";
+    psp[2].pfnDlgProc = callback_10;
+    psp[2].pszTitle = "Drive 10";
+    psp[3].pfnDlgProc = callback_11;
+    psp[3].pszTitle = "Drive 11";
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;

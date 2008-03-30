@@ -5,6 +5,65 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.13
+======================
+
+** General
+----------
+
+- Added new Scale2x render.
+
+- Fixed NMI line emulation bug.
+
+- Event recording can start with reset.
+
+** C64 changes
+--------------
+
+- Better processor port initialization (some carts depend on this)
+
+- Fixed a bug reading old snapshot files.
+
+- Added SS5 CRT support and fixed the SS5 screen distortion bug.
+
+** C128 changes
+---------------
+
+- Fixed some fast IEC bus related drive bugs
+
+- Added some opcodes to the Z80 emulation.
+
+** PLUS4 changes
+----------------
+
+- Many TED fixes.
+
+** VIC-II
+---------
+
+- The character ROM is now displayed in bitmap mode.
+
+- Fixed some minor DMA timing, ECM mode and sprite bugs.
+
+** SID changes
+--------------
+
+- New HardSID support.
+
+- Catweasel support should work now.
+
+** Unix changes
+---------------
+
+- The ACIA emulation has been fixed.
+
+** MS-Windows changes
+---------------------
+
+- Fixed a keyboard driver bug that mainly affected the cursor keys on
+  some machines.
+
+
 * Changes in VICE 1.12
 ======================
 

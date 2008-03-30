@@ -1,3 +1,25 @@
+2003-08-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.26.
+
+	* aciacore.c, c64/c64acia1.c, pet/petacia1.c,
+	plus4/plus4acia.c, cbm2/cbm2acia1.c: Fixed interrupts.
+
+	* arch/win32/ui.c, arch/win32/resc64.rc, arch/win32/resvic.rc,
+	arch/win32/resc128.rc, arch/win32/respet.rc,
+	arch/win32/rescbm2.rc, arch/win32/resplus4.rc: Added detach
+	all shortcut and custom speed dialog.
+
+	* arch/win32/uiprinter.c, arch/win32/uiprinter.h,
+	arch/win32/uispeed.c, arch/win32/uispeed.h: New files.
+
+	* arch/win32/res.rc, arch/win32/res.h: Added new resources.
+
+	* arch/win32/Makefile.am, arch/win32/arch.dsp: Updated.
+
+	* arch/win32/uiattach.c, arch/win32/res.h, arch/win32/res.rc:
+	Removed old broken printer UI.
+
 2003-08-17  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.25.
@@ -565,7 +587,7 @@
 
 	* drive/iec/cia1571d.c, drive/iec/cia1581d.c, ciacore.c,
 	ciacore.h, drive/drivetypes.h, c64/c64cia1.c, c64/c64cia2.c,
-	c128/c128cia1.c, cbm2/cbm2cia1.c
+	c128/c128cia1.c, cbm2/cbm2cia1.c: More CIA context changes.
 
 	* c64/c64pla.c (c64pla_pport_reset): Processor data port seems
 	to be `1' on reset.
