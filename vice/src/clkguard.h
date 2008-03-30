@@ -32,7 +32,7 @@
 #define CLKGUARD_SUB_MIN 0xfffff
 
 /* A callback function to call to prevent the overflow.  */
-typedef void (*clk_guard_callback_t) (CLOCK amount, void *data);
+typedef void (*clk_guard_callback_t)(CLOCK amount, void *data);
 
 typedef struct clk_guard_callback_list_s {
     /* Callback function.  */
