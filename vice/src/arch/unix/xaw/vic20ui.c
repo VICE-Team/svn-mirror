@@ -193,29 +193,30 @@ static UI_CALLBACK(default_cartridge)
 
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { "Smart-attach cartridge image...",
-      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_VIC20_DETECT, NULL },
+      (ui_callback_t) attach_cartridge,
+      (ui_callback_data_t) CARTRIDGE_VIC20_DETECT, NULL,
+      XK_c, UI_HOTMOD_META },
     { "--" },
     { "Attach 4/8KB image at $2000...",
-      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_VIC20_8KB_2000, NULL },
+      (ui_callback_t) attach_cartridge,
+      (ui_callback_data_t) CARTRIDGE_VIC20_8KB_2000, NULL },
     { "Attach 4/8KB image at $6000...",
-      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_VIC20_8KB_6000, NULL },
+      (ui_callback_t) attach_cartridge,
+      (ui_callback_data_t) CARTRIDGE_VIC20_8KB_6000, NULL },
     { "Attach 4/8KB image at $A000...",
-      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_VIC20_8KB_A000, NULL },
+      (ui_callback_t) attach_cartridge,
+      (ui_callback_data_t) CARTRIDGE_VIC20_8KB_A000, NULL },
     { "Attach 4KB image at $B000...",
-      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_VIC20_4KB_B000, NULL },
+      (ui_callback_t) attach_cartridge,
+      (ui_callback_data_t) CARTRIDGE_VIC20_4KB_B000, NULL },
 /*
     { "Attach 16KB image...",
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_VIC20_16KB, NULL },
 */
     { "--" },
-    { "Set cartridge as default", (ui_callback_t)
-      default_cartridge, NULL, NULL },
+    { "Set cartridge as default",
+      (ui_callback_t) default_cartridge, NULL, NULL },
     { NULL }
 };
 
@@ -290,9 +291,11 @@ int vic20_ui_init(void)
                                     ui_menu_separator,
                                     ui_tape_commands_menu,
                                     ui_menu_separator,
-                                    ui_directory_commands_menu,
+                                    ui_smart_attach_commands_menu,
                                     ui_menu_separator,
 				    vic20_cartridge_commands_menu,
+                                    ui_menu_separator,
+                                    ui_directory_commands_menu,
                                     ui_menu_separator,
                                     ui_tool_commands_menu,
                                     ui_menu_separator,

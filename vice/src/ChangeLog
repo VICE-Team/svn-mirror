@@ -1,3 +1,52 @@
+Fri Aug 21 13:52:47 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/kbd.c (kbd_event_handler): Restore moded to
+ 	`XK_PageUp'.
+
+	* arch/unix/xaw/petui.c (pet_ui_init): Added
+ 	`ui_smart_attach_commands_menu' to the left menu.
+
+	* arch/unix/xaw/vic20ui.c (vic20_ui_init): Added
+	`ui_smart_attach_commands_menu' to the left menu.
+
+	* arch/unix/xaw/uihotkey.h: `UI_HOTMOD_CTRL' renamed to
+ 	`UI_HOTMOD_CONTROL'.
+
+	* arch/unix/xaw/uicommands.c: All hotkeys use Meta instead of
+ 	Control.
+	* arch/unix/xaw/uisettings.c: Likewise.
+	* arch/unix/xaw/c64ui.c: Likewise.
+
+	* arch/unix/kbd.c: #include "vice.h" before anything else.
+	(kbd_event_handler): Filter keys when Meta is pressed, instead of
+	when Control is pressed.
+
+	* arch/unix/xaw/ui.h: `ALT_AS_META' #define moved here.
+
+	* arch/unix/xaw/uihotkey.c: Removed `ALT_AS_META' #define.
+
+	* arch/unix/xaw/uihotkey.c (ui_hotkey_event_handler): Use only
+	Meta as a possible hotkey modifier.
+
+	* vic20/vic20mem.c (initialize_memory): Let enabled cartridge ROM
+ 	blocks override RAM (instead of the opposite).
+	(mem_attach_cartridge): Do not disable RAM where the cartridge is
+	attached; just set the corresponding bit in `mem_rom_block' and
+	call `initialize_memory()'.
+	(mem_detach_cartridge): Do not disable RAM where the cartridge is
+	detached; just unset the corresponding bit in `mem_rom_block' and
+	call `initialize_memory()'.
+
+Thu Aug 20 12:16:22 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c64/sid.c: Default is MOS6581 now.
+
+	* arch/msdos/c128ui.c [HAVE_RESID]: Added support for reSID in the
+ 	"SID Model" submenu.
+
+	* arch/msdos/c64ui.c [HAVE_RESID]: Added support for reSID in the
+ 	"SID Model" submenu.
+
 Wed Aug 19 12:03:19 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* arch/msdos/video.h (canvas_refresh): If we are busy doing a

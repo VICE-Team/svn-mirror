@@ -224,7 +224,7 @@ static UI_CALLBACK(browse_manual)
 	/* Argh.  Ugly!  */
 #define BROWSE_CMD_BUF_MAX 16384
 	char buf[BROWSE_CMD_BUF_MAX];
-	static const char manual_path[] = DOCDIR "/html/vice_toc.html";
+	static const char manual_path[] = DOCDIR "/vice_toc.html";
 	char *res_ptr;
 	int manual_path_len, cmd_len;
 
@@ -301,7 +301,7 @@ static UI_CALLBACK(toggle_pause)
 	}
     }
     ui_menu_set_tick(w, paused);
-    ui_display_speed(0.0, 0.0, 0);
+    /* ui_display_speed(0.0, 0.0, 0); */
 }
 
 static UI_CALLBACK(do_exit)
@@ -420,16 +420,16 @@ static UI_CALLBACK(about)
 static ui_menu_entry_t attach_disk_image_submenu[] = {
     { "Unit #8...",
       (ui_callback_t) attach_disk, (ui_callback_data_t) 8, NULL,
-      XK_8, UI_HOTMOD_CTRL },
+      XK_8, UI_HOTMOD_META },
     { "Unit #9...",
       (ui_callback_t) attach_disk, (ui_callback_data_t) 9, NULL,
-      XK_9, UI_HOTMOD_CTRL },
+      XK_9, UI_HOTMOD_META },
     { "Unit #10...",
       (ui_callback_t) attach_disk, (ui_callback_data_t) 10, NULL,
-      XK_0, UI_HOTMOD_CTRL },
+      XK_0, UI_HOTMOD_META },
     { "Unit #11...",
       (ui_callback_t) attach_disk, (ui_callback_data_t) 11, NULL,
-      XK_1, UI_HOTMOD_CTRL },
+      XK_1, UI_HOTMOD_META },
     { NULL }
 };
 
@@ -453,7 +453,7 @@ static ui_menu_entry_t reset_submenu[] = {
       (ui_callback_t) reset, NULL, NULL },
     { "Hard",
       (ui_callback_t) powerup_reset, NULL, NULL,
-      XK_F12, UI_HOTMOD_CTRL },
+      XK_F12, UI_HOTMOD_META },
     { NULL }
 };
 
@@ -468,16 +468,16 @@ ui_menu_entry_t ui_disk_commands_menu[] = {
 ui_menu_entry_t ui_tape_commands_menu[] = {
     { "Attach a tape image...",
       (ui_callback_t) attach_tape, NULL, NULL,
-      XK_t, UI_HOTMOD_CTRL},
+      XK_t, UI_HOTMOD_META},
     { "Detach tape image",
       (ui_callback_t) detach_tape, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_smart_attach_commands_menu[] = {
-    { "Smart-attach a file...",
+    { "Smart-attach tape/disk image...",
       (ui_callback_t) smart_attach, NULL, NULL,
-      XK_a, UI_HOTMOD_CTRL },
+      XK_a, UI_HOTMOD_META },
     { NULL }
 };
 

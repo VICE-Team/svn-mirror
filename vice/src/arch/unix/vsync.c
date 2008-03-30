@@ -272,6 +272,7 @@ static void display_speed(int num_frames)
 	ui_display_speed((float)speed_index, (float)frame_rate,
                          warp_mode_enabled);
     }
+
     prev_time = curr_time;
     speed_eval_prev_clk = clk;
     speed_eval_suspended = 0;
