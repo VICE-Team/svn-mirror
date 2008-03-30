@@ -64,6 +64,9 @@
 /* Do we want to use XFree86 VIDMODE ?  */
 #undef USE_XF86_VIDMODE_EXT
 
+/* Do we want to use XFree86 DGA1 extensions?  */
+#undef USE_XF86_DGA1_EXTENSIONS
+
 /* Do we want to use XFree86 DGA2 extensions?  */
 #undef USE_XF86_DGA2_EXTENSIONS
 

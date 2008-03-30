@@ -1,3 +1,9 @@
+2002-07-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.51.
+
+	* configure.in, acconfig.h: Check for DGA1.
+
 2002-06-30  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.50.
