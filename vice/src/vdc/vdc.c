@@ -50,9 +50,7 @@
 #include "vdc-snapshot.h"
 #include "vdc.h"
 #include "vdctypes.h"
-#ifdef __MSDOS__
 #include "videoarch.h"
-#endif
 #include "video.h"
 
 vdc_t vdc;
@@ -103,7 +101,13 @@ printf("SA: %03i SO: %03i\n", vdc_25row_start_line, vdc_25row_stop_line);
 printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
 */
 
+    raster->display_ystart = vdc_25row_start_line;
+    raster->display_ystop = vdc_25row_stop_line;
+    raster->display_xstart = vdc_80col_start_pixel;
+    raster->display_xstop = vdc_80col_stop_pixel;
+
     raster_set_geometry(raster,
+                        displayed_width, displayed_height,
                         screen_width, screen_height,
                         screen_xpix, screen_ypix,
                         VDC_SCREEN_MAX_TEXTCOLS, vdc.screen_textlines,
@@ -112,13 +116,6 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
                         first_displayed_line,
                         last_displayed_line,
                         0, 0);
-
-    raster->display_ystart = vdc_25row_start_line;
-    raster->display_ystop = vdc_25row_stop_line;
-    raster->display_xstart = vdc_80col_start_pixel;
-    raster->display_xstop = vdc_80col_stop_pixel;
-
-    raster_resize_viewport(raster, displayed_width, displayed_height);
 }
 
 static void vdc_invalidate_cache(raster_t *raster, unsigned int screen_height)
@@ -203,7 +200,7 @@ raster_t *vdc_init(void)
 
 struct video_canvas_s *vdc_get_canvas(void)
 {
-    return vdc.raster.viewport.canvas;
+    return vdc.raster.canvas;
 }
 
 
@@ -298,7 +295,9 @@ void vdc_powerup(void)
 /* Handle the exposure event. */
 static void vdc_exposure_handler(unsigned int width, unsigned int height)
 {
-    raster_resize_viewport(&vdc.raster, width, height);
+    vdc.raster.canvas->draw_buffer->canvas_width = width;
+    vdc.raster.canvas->draw_buffer->canvas_height = height;
+    raster_resize_viewport(&vdc.raster);
 }
 
 /* Set the memory pointers according to the values in the registers. */
@@ -397,8 +396,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset)
     raster_line_emulate(&vdc.raster);
 
 #ifdef __MSDOS__
-    if (vdc.raster.viewport.update_canvas)
-        canvas_set_border_color(vdc.raster.viewport.canvas,
+    if (vdc.raster.canvas->viewport->update_canvas)
+        canvas_set_border_color(vdc.raster.canvas,
                                 vdc.raster.border_color);
 #endif
 

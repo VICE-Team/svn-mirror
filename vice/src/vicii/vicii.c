@@ -79,9 +79,7 @@
 #include "vicii.h"
 #include "viciitypes.h"
 #include "vsync.h"
-#ifdef __MSDOS__
 #include "videoarch.h"
-#endif
 #include "video.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
@@ -137,7 +135,9 @@ vic_ii_t vic_ii;
 /* Handle the exposure event.  */
 static void vic_ii_exposure_handler(unsigned int width, unsigned int height)
 {
-    raster_resize_viewport(&vic_ii.raster, width, height);
+    vic_ii.raster.canvas->draw_buffer->canvas_width = width;
+    vic_ii.raster.canvas->draw_buffer->canvas_height = height;
+    raster_resize_viewport(&vic_ii.raster);
 }
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
@@ -321,6 +321,7 @@ static void vic_ii_set_geometry(void)
     height = vic_ii.last_displayed_line - vic_ii.first_displayed_line + 1;
 
     raster_set_geometry(&vic_ii.raster,
+                        width, height,
                         VIC_II_SCREEN_XPIX + vic_ii.screen_borderwidth * 2,
                         vic_ii.screen_height,
                         VIC_II_SCREEN_XPIX, VIC_II_SCREEN_YPIX,
@@ -333,12 +334,6 @@ static void vic_ii_set_geometry(void)
                         vic_ii.screen_borderwidth * 2,
                         vic_ii.sprite_wrap_x - VIC_II_SCREEN_XPIX -
                         vic_ii.screen_borderwidth * 2);
-
-#ifdef USE_XF86_EXTENSIONS
-    if (!fullscreen_is_enabled)
-#endif
-        raster_resize_viewport(&vic_ii.raster, width, height);
-
 #ifdef __MSDOS__
     video_ack_vga_mode();
 #endif
@@ -424,7 +419,7 @@ raster_t *vic_ii_init(void)
 
 struct video_canvas_s *vic_ii_get_canvas(void)
 {
-    return vic_ii.raster.viewport.canvas;
+    return vic_ii.raster.canvas;
 }
 
 /* Reset the VIC-II chip.  */
@@ -1003,7 +998,7 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
 
     if (vic_ii.raster.current_line == 0) {
         raster_skip_frame(&vic_ii.raster,
-                          vsync_do_vsync(vic_ii.raster.viewport.canvas,
+                          vsync_do_vsync(vic_ii.raster.canvas,
                           vic_ii.raster.skip_frame));
         vic_ii.memptr = 0;
         vic_ii.mem_counter = 0;
@@ -1011,10 +1006,12 @@ void vic_ii_raster_draw_alarm_handler(CLOCK offset)
         vic_ii.raster.blank_off = 0;
 
 #ifdef __MSDOS__
-        if (vic_ii.raster.viewport.width <= VIC_II_SCREEN_XPIX
-            && vic_ii.raster.viewport.height <= VIC_II_SCREEN_YPIX
-            && vic_ii.raster.viewport.update_canvas)
-            canvas_set_border_color(vic_ii.raster.viewport.canvas,
+        if (vic_ii.raster.canvas->draw_buffer->canvas_width
+            <= VIC_II_SCREEN_XPIX
+            && vic_ii.raster.canvas->draw_buffer->canvas_height
+            <= VIC_II_SCREEN_YPIX
+            && vic_ii.raster.canvas->viewport->update_canvas)
+            canvas_set_border_color(vic_ii.raster.canvas,
                                     vic_ii.raster.border_color);
 #endif
     }
