@@ -74,34 +74,45 @@ static void init_dialog(HWND hwnd, unsigned int num)
     int n;
     char tmp[256];
 
-    disk_image = file_system_get_disk_name(num);
-    SetDlgItemText(hwnd, IDC_DISKIMAGE, disk_image != NULL ? disk_image : "");
+    if (num >= 8 && num <= 11) {
+        disk_image = file_system_get_disk_name(num);
+        SetDlgItemText(hwnd, IDC_DISKIMAGE,
+                       disk_image != NULL ? disk_image : "");
 
-    sprintf(tmp, "FSDevice%dDir", num);
-    resources_get_value(tmp, (resource_value_t *) &dir);
-    SetDlgItemText(hwnd, IDC_DIR, dir != NULL ? dir : "");
+        sprintf(tmp, "FSDevice%dDir", num);
+        resources_get_value(tmp, (resource_value_t *) &dir);
+        SetDlgItemText(hwnd, IDC_DIR, dir != NULL ? dir : "");
 
-    sprintf(tmp, "FSDevice%dConvertP00", num);
-    resources_get_value(tmp, (resource_value_t *) &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_READP00, n ? BST_CHECKED : BST_UNCHECKED);
+        sprintf(tmp, "FSDevice%dConvertP00", num);
+        resources_get_value(tmp, (resource_value_t *) &n);
+        CheckDlgButton(hwnd, IDC_TOGGLE_READP00,
+                       n ? BST_CHECKED : BST_UNCHECKED);
 
-    sprintf(tmp, "FSDevice%dSaveP00", num);
-    resources_get_value(tmp, (resource_value_t *) &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_WRITEP00, n ? BST_CHECKED : BST_UNCHECKED);
+        sprintf(tmp, "FSDevice%dSaveP00", num);
+        resources_get_value(tmp, (resource_value_t *) &n);
+        CheckDlgButton(hwnd, IDC_TOGGLE_WRITEP00,
+                       n ? BST_CHECKED : BST_UNCHECKED);
 
-    sprintf(tmp, "FSDevice%dHideCBMFiles", num);
-    resources_get_value(tmp, (resource_value_t *) &n);
-    CheckDlgButton(hwnd, IDC_TOGGLE_HIDENONP00, n ? BST_CHECKED : BST_UNCHECKED);
+        sprintf(tmp, "FSDevice%dHideCBMFiles", num);
+        resources_get_value(tmp, (resource_value_t *) &n);
+        CheckDlgButton(hwnd, IDC_TOGGLE_HIDENONP00,
+                       n ? BST_CHECKED : BST_UNCHECKED);
 
-    if (disk_image != NULL) {
-        n = IDC_SELECTDISK;
-    } else if (dir != NULL) {
-        n = IDC_SELECTDIR;
-    } else {
-        n = IDC_SELECTNONE;
+        if (disk_image != NULL) {
+            n = IDC_SELECTDISK;
+        } else if (dir != NULL) {
+            n = IDC_SELECTDIR;
+        } else {
+            n = IDC_SELECTNONE;
+        }
+        CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTDIR, n);
+        enable_controls_for_disk_device_type(hwnd, n);
     }
-    CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTDIR, n);
-    enable_controls_for_disk_device_type(hwnd, n);
+    if (num == 4) {
+        resources_get_value("Printer4", (resource_value_t *) &n);
+        CheckDlgButton(hwnd, IDC_TOGGLE_PRINTER,
+                       n ? BST_CHECKED : BST_UNCHECKED);
+    }
 }
 
 static BOOL CALLBACK dialog_proc(unsigned int num, HWND hwnd, UINT msg,
