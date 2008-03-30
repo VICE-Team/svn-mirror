@@ -40,6 +40,7 @@
 #include "ui.h"
 
 int _mouse_enabled;
+int _mouse_port;
 int _mouse_x, _mouse_y;
 static int mouse_acquired=0;
 LPDIRECTINPUTDEVICE di_mouse = NULL;
@@ -88,9 +89,23 @@ static int set_mouse_enabled(resource_value_t v, void *param)
     return 0;
 }
 
+static int set_mouse_port(resource_value_t v, void *param)
+{
+    _mouse_port = (int) v;
+
+    if (_mouse_port < 1)
+        _mouse_port = 1;
+    if (_mouse_port > 2)
+        _mouse_port = 2;
+
+    return 0;
+}
+
 static const resource_t resources[] = {
     { "Mouse", RES_INTEGER, (resource_value_t)0,
       (void *)&_mouse_enabled, set_mouse_enabled, NULL },
+    { "Mouseport", RES_INTEGER, (resource_value_t)1,
+      (void *)&_mouse_port, set_mouse_port, NULL },
     { NULL }
 };
 
@@ -106,6 +121,8 @@ static const cmdline_option_t cmdline_options[] = {
       "Mouse", NULL, NULL, "Enable emulation of the 1351 proportional mouse" },
     { "+mouse", SET_RESOURCE, 0, NULL, NULL,
       "Mouse", NULL, NULL, "Disable emulation of the 1351 proportional mouse" },
+    { "-mouseport", SET_RESOURCE, 1, NULL, NULL,
+      "Mouseport", NULL, "<value>", "Select the port the mouse is attached to" },
     { NULL }
 };
 
@@ -151,14 +168,14 @@ void mouse_update_mouse(void)
     _mouse_x += state.X;
     _mouse_y += state.Y;
     if (state.LeftButton & 0x80) {
-        joystick_set_value_or(1, 16);
+        joystick_set_value_or(_mouse_port, 16);
     } else {
-        joystick_set_value_and(1, ~16);
+        joystick_set_value_and(_mouse_port, ~16);
     }
     if (state.RightButton & 0x80) {
-        joystick_set_value_or(1, 1);
+        joystick_set_value_or(_mouse_port, 1);
     } else {
-        joystick_set_value_and(1, ~1);
+        joystick_set_value_and(_mouse_port, ~1);
     }
 }
 
