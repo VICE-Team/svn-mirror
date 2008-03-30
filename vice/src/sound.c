@@ -858,7 +858,7 @@ static int sound_run_sound(void)
                                                  &delta_t);
             if (volume < 100) {
                 for (i = 0; i < nr; i ++)
-                    bufferptr[i] *= (volume / 100.0f);
+                    bufferptr[i] *= (SWORD)(volume / 100.0f);
             }
 
             if (delta_t) {
@@ -891,7 +891,7 @@ static int sound_run_sound(void)
                                             &delta_t);
             if (volume < 100) {
                 for (i = 0; i < nr; i ++)
-                    bufferptr[i] *= (volume / 100.0f);
+                    bufferptr[i] *= (SWORD)(volume / 100.0f);
             }
         }
         snddata.fclk += nr * snddata.clkstep;

@@ -33,8 +33,6 @@
 #include "vicii.h"
 #include "viciitypes.h"
 
-static int vicii_refresh_alarm_off=0;
-
 CLOCK vicii_clock_add(CLOCK clock, int amount)
 {
   CLOCK tmp_clock=clock;
@@ -121,9 +119,9 @@ void vicii_clock_write_stretch(void)
   {
     /* the 'read' will already have taken care of any previous memory
        refresh stretches */
+    current=c128cpu_memory_refresh_clk % vicii.cycles_per_line;
     if (maincpu_clk-1==c128cpu_memory_refresh_clk)
     {
-      current=c128cpu_memory_refresh_clk % vicii.cycles_per_line;
       if (current+2>15)
       {
         /* push alarm to the next line */

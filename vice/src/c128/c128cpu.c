@@ -92,7 +92,7 @@ inline static void c128cpu_clock_add(CLOCK *clock, int amount)
         *clock=vicii_clock_add(*clock, amount);
 }
 
-inline static void c128cpu_memory_refresh_alarm_handler()
+inline static void c128cpu_memory_refresh_alarm_handler(void)
 {
     if (maincpu_clk>=c128cpu_memory_refresh_clk)
         vicii_memory_refresh_alarm_handler();
