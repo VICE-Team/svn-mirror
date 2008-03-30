@@ -47,8 +47,8 @@ void video_resize(void);
 static  LPDIRECTDRAW            dd;
 
 static  LPDIRECTDRAWSURFACE     dd_primary_surface;
-static  LPDIRECTDRAWSURFACE     dd_back_surface;
-static  LPDIRECTDRAWSURFACE     dd_temporary_surface;
+/*static  LPDIRECTDRAWSURFACE     dd_back_surface;*/
+/*static  LPDIRECTDRAWSURFACE     dd_temporary_surface;*/
 static  LPDIRECTDRAWCLIPPER     dd_clipper;
 
 /* ------------------------------------------------------------------------ */
@@ -917,7 +917,8 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 {
     HRESULT result;
     DDSURFACEDESC desc;
-    int x, y;
+    /*int x;*/
+    int y;
     BYTE *dp;
     LPDIRECTDRAWSURFACE surface = NULL;
     RECT rect;
@@ -934,7 +935,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
 
     /*PAINTSTRUCT ps;*/
     int     px,py,ph,pw;
-    int     i;
+    /* int     i; */
 
     DEBUG(("Entering canvas_render : xs=%d ys=%d xi=%d yi=%d w=%d h=%d",xs,ys,xi,yi,w,h));
 

@@ -47,11 +47,11 @@
 #include "widgets/TextField.h"
 #endif
 
-#include "uiedisk.h"
-
 #include "machine.h"
 #include "ui.h"
+#include "uiedisk.h"
 #include "utils.h"
+#include "vdrive.h"
 
 static Widget emptydisk_dialog;
 static Widget emptydisk_dialog_pane;
@@ -99,8 +99,9 @@ static UI_CALLBACK(cancel_callback)
 
 static UI_CALLBACK(save_callback)
 {
-    char *dtypes[]={ "d64", "d71", "d81", "d80", "d82" };
-    char *cmdline;
+    int dtypes[] = { DISK_IMAGE_TYPE_D64, DISK_IMAGE_TYPE_D71,
+                     DISK_IMAGE_TYPE_D81, DISK_IMAGE_TYPE_D80,
+                     DISK_IMAGE_TYPE_D82 };
     String name;
     String iname;
     int type_cnt;
@@ -139,31 +140,11 @@ static UI_CALLBACK(save_callback)
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
     XtVaGetValues(image_name_field, XtNstring, &iname, NULL);
 
-    cmdline = xmalloc(1024 + strlen(name) + strlen(iname));
-
-    sprintf(cmdline, "c1541 -format '%s' %s %s",
-	"vice,01", dtypes[type_cnt], name); 
-/*
-    printf("doit: type=%d, filename='%s', iname='%s'\n",
-	type_cnt, name, iname);
-    printf("cmdline='%s'\n",cmdline);
-*/
-
-    switch (system(cmdline)) {
-      case 127:
-        ui_error("Couldn't run /bin/sh???");
-        break;
-      case -1:
-        ui_error("Couldn't run c1541");
-        break;
-      case 0:
-	strcpy(edisk_file_name, name);
-        break;
-      default:
-        ui_error("Unknown error while running c1541");
-    }
-
-    free(cmdline);
+    if (vdrive_internal_create_format_disk_image(name, "VICE,01",
+                                                 dtypes[type_cnt]) < 0)
+        ui_error("Couldn't create disk image");
+    else
+        strcpy(edisk_file_name, name);
 }
 
 static void build_emptydisk_dialog(void)
