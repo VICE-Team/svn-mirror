@@ -314,8 +314,8 @@ static void perform_mode_change(raster_t *raster)
     for (i=0; i<num_colours; i++) colour_map[old_colours[i]] = i;
     for (i=0; i<256; i++) colour_map[i] = (raster->pixel_table.sing)[colour_map[i]];
 
-    num_pixels = raster->frame_buffer.width * raster->frame_buffer.height;
-    fb = raster->frame_buffer.tmpframebuffer;
+    num_pixels = raster->frame_buffer->width * raster->frame_buffer->height;
+    fb = raster->frame_buffer->tmpframebuffer;
     for (i=0; i<num_pixels; i++) fb[i] = colour_map[fb[i]];
 #endif
   }
@@ -1304,7 +1304,7 @@ void raster_reset (raster_t *raster)
 
   raster->frame_buffer_ptr = (VIDEO_FRAME_BUFFER_START(raster->frame_buffer)
                               + 2 * raster->geometry.extra_offscreen_border);
- 
+
   raster->current_line = 0;
 
   raster->xsmooth = raster->ysmooth = 0;
@@ -1719,6 +1719,8 @@ void raster_set_canvas_refresh (raster_t *raster,
 int raster_screenshot(raster_t *raster, screenshot_t *screenshot)
 {
     screenshot->frame_buffer = raster->frame_buffer;
+    screenshot->palette = raster->palette;
+    screenshot->pixel_table_sing = raster->pixel_table.sing;
     screenshot->width = raster->viewport.width;
     screenshot->height = raster->viewport.height;
     return 0;
