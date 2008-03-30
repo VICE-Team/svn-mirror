@@ -44,6 +44,7 @@
 #include "log.h"
 #include "machine-drive.h"
 #include "machine-printer.h"
+#include "machine-video.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "monitor.h"
@@ -232,8 +233,7 @@ int machine_resources_init(void)
 {
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
-        || video_resources_pal_init() < 0
-        || video_resources_init() < 0
+        || machine_video_resources_init() < 0
         || plus4_resources_init() < 0
         || ted_resources_init() < 0
         || sound_resources_init() < 0
@@ -347,7 +347,7 @@ int machine_init(void)
     autostart_init((CLOCK)(2 * PLUS4_PAL_RFSH_PER_SEC
                    * PLUS4_PAL_CYCLES_PER_RFSH), 0, 0, 0xc8, 0xca, -40);
 
-    if (!ted_init())
+    if (ted_init() == NULL)
         return -1;
 
     acia_init();
@@ -515,14 +515,6 @@ int machine_read_snapshot(const char *name, int event_mode)
 int machine_autodetect_psid(const char *name)
 {
     return -1;
-}
-
-struct video_canvas_s *machine_canvas_get(unsigned int window)
-{
-    if (window == 0)
-        return ted_get_canvas();
-
-    return NULL;
 }
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)

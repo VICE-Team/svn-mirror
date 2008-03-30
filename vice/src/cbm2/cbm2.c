@@ -58,6 +58,7 @@
 #include "log.h"
 #include "machine-drive.h"
 #include "machine-printer.h"
+#include "machine-video.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -128,8 +129,7 @@ int machine_resources_init(void)
 {
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
-        || video_resources_pal_init() < 0
-        || video_resources_init() < 0
+        || machine_video_resources_init() < 0
         || cbm2_resources_init() < 0
         || crtc_resources_init() < 0
         || vicii_resources_init() < 0
@@ -273,17 +273,14 @@ int machine_init(void)
     printer_init();
 
     if (!cbm2_isC500) {
-        /* Initialize the CRTC emulation.  */
         if (crtc_init() == NULL)
             return -1;
         crtc_set_retrace_callback(cbm2_crtc_signal);
         crtc_set_retrace_type(0);
         crtc_set_hw_options(1, 0x7ff, 0x1000, 512, -0x2000);
     } else {
-        /* Initialize the VIC-II emulation.  */
         if (vicii_init(VICII_STANDARD) == NULL)
             return -1;
-
         /*
         c500_set_phi1_bank(15);
         c500_set_phi2_bank(15);
@@ -493,16 +490,6 @@ int machine_autodetect_psid(const char *name)
 
 void machine_play_psid(int tune)
 {
-}
-
-struct video_canvas_s *machine_canvas_get(unsigned int window)
-{
-    if (window == 0)
-        return crtc_get_canvas();
-    if (window == 1)
-        return vicii_get_canvas();
-
-    return NULL;
 }
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)

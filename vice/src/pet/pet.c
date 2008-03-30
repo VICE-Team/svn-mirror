@@ -52,6 +52,7 @@
 #include "log.h"
 #include "machine-drive.h"
 #include "machine-printer.h"
+#include "machine-video.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
@@ -161,10 +162,10 @@ int machine_resources_init(void)
 
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
-        || video_resources_init() < 0
+        || machine_video_resources_init() < 0
         || pet_resources_init() < 0
-        || crtc_resources_init() < 0
         || pia1_init_resources() < 0
+        || crtc_resources_init() < 0
         || sound_resources_init() < 0
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
@@ -289,6 +290,7 @@ int machine_init(void)
     /* Initialize the CRTC emulation.  */
     if (crtc_init() == NULL)
         return -1;
+
     crtc_set_retrace_type(petres.crtc);
     crtc_set_retrace_callback(pet_crtc_signal);
     pet_crtc_set_screen();
@@ -533,14 +535,6 @@ void pet_crtc_set_screen(void)
         crtc_store(0, 0);
         crtc_store(1, 63);
     }
-}
-
-struct video_canvas_s *machine_canvas_get(unsigned int window)
-{
-    if (window == 0)
-        return crtc_get_canvas();
-
-    return NULL;
 }
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
