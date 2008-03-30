@@ -968,6 +968,6 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
             }
         }
     }
-      difftime=timeGetTime()-starttime;
-      DEBUG(("screen update took %d msec, moved %d bytes\n",difftime,bytesmoved));
+     difftime=timeGetTime()-starttime;
+     DEBUG(("screen update took %d msec, moved %d bytes\n",difftime,bytesmoved));
 }

@@ -450,6 +450,6 @@ void suspend_speed_eval(void)
 
 void vsync_disable_timer(void)
 {
-     if (timer_id != 0) timeKillEvent(timer_id);
-     timer_speed=-1;
+    if (timer_id != 0) timeKillEvent(timer_id);
+    timer_speed=-1;
 }
