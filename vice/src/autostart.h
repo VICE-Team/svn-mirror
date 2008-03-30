@@ -31,7 +31,7 @@
 
 #include "types.h"
 
-extern int autostart_init(CLOCK _min_cycles, int _handle_true1541,
+extern int autostart_init(CLOCK _min_cycles, int _handle_drive_true_emulation,
                           int _blnsw, int _pnt, int _pntr, int _lnmx);
 extern void autostart_disable(void);
 extern void autostart_advance(void);
