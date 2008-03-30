@@ -696,8 +696,11 @@ static BYTE SZP[256] = {
 
 #define LDREG(reg_value, value, clk_inc1, clk_inc2, pc_inc)  \
   do {                                                       \
+      BYTE tmp;                                              \
+                                                             \
       CLK += (clk_inc1);                                     \
-      reg_value = (value);                                   \
+      tmp = (value);                                         \
+      reg_value = tmp;                                       \
       CLK += (clk_inc2);                                     \
       INC_PC(pc_inc);                                        \
   } while (0)
