@@ -1029,7 +1029,7 @@ static void RedrawItem(mlw,item_index)
 XfwfMultiListWidget mlw;
 int item_index;
 {
-	int row,column;
+	int row = 0,column = 0;
 
 	if (ItemToRowColumn(mlw,item_index,&row,&column))
 	{
@@ -1055,7 +1055,7 @@ int row,column;
 {
 	GC bg_gc, fg_gc = 0;
 	XfwfMultiListItem *item = NULL;
-	int ul_x,ul_y,str_x,str_y,w,h,item_index,has_item,text_h;
+	int ul_x,ul_y,str_x,str_y,w,h,item_index = 0,has_item,text_h;
 
 	if (!XtIsRealized((Widget)mlw)) return;
 	has_item = RowColumnToItem(mlw,row,column,&item_index);
@@ -1267,7 +1267,7 @@ String *params;
 Cardinal *num_params;
 {
 	int click_x,click_y;
-	int status,item_index,row,column;
+	int status,item_index = 0,row,column;
 
 	click_x = event->xbutton.x;
 	click_y = event->xbutton.y;
@@ -1310,7 +1310,7 @@ String *params;
 Cardinal *num_params;
 {
 	int click_x,click_y;
-	int status,item_index,row,column;
+	int status,item_index = 0,row,column;
 
 	click_x = event->xbutton.x;
 	click_y = event->xbutton.y;
@@ -1355,7 +1355,7 @@ String *params;
 Cardinal *num_params;
 {
 	int click_x,click_y;
-	int status,item_index,row,column;
+	int status,item_index = 0,row,column;
 
 	click_x = event->xbutton.x;
 	click_y = event->xbutton.y;
@@ -1397,7 +1397,7 @@ String *params;
 Cardinal *num_params;
 {
 	int click_x,click_y;
-	int status,item_index,row,column;
+	int status,item_index = 0,row,column;
 
 	click_x = ((XMotionEvent*)event)->x;
 	click_y = ((XMotionEvent*)event)->y;
