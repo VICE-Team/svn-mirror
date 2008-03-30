@@ -400,7 +400,8 @@ External contributors:
   us to debug the CPU emulation.
 
   Giuliano Procida (gpp10@cam.ac.uk) is the maintainer of the
-  VICE `deb' package for the Debian distribution.
+  VICE `deb' package for the Debian distribution, and also
+  helped proofreading the documentation.
 
   Marko M\"akel\"a (msmakela@nic.funet.fi) wrote lots of CPU
   documentation.

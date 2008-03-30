@@ -1,3 +1,166 @@
+1998-09-23  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.12.
+
+	* c128/c128mem.c (store_mmu): Fixed value of shared RAM size.
+
+	* c64/c64mem.c (peek_bank_io): Call `peek_vic()' for $D000..$D3FF.
+
+	* c64/vicii.c (peek_vic): New function.  Use a new
+	`vic_unused_bits[]' array to figure out which bits must be forced
+	to 1 in the return value.
+	(vic_ii_enable_extended_keyboard_rows): When enabling extended
+	keyboard rows, set the unused bit mask of $D02F to 0xf8;
+	otherwise, set it to 0xff.
+
+	* crtc-tmpl.c (crtc_read_snapshot_module): Set the `A_RASTERDRAW'
+	alarm.
+
+	* c64/c64mem.c (mem_write_snapshot_module): Dump IEEE 488 and ACIA
+	modules if enabled.
+	(mem_read_snapshot_module): Undump IEEE 488 and ACIA, setting the
+	corresponding resource values according to the presence of the
+	modules.
+
+	* c64/c64.c (machine_write_snapshot): Do not dump TPI and ACIA.
+	(machine_read_snapshot): Do not undump TPI and ACIA.
+
+	* c64/vicii.c (store_vbank): Store the new value before
+	dispatching the fetch event if necessary.
+
+1998-09-22  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* pet/crtc.def, pet/petmem.c: include petpia.h instead of pia.h
+
+	* Makefile.am (EXTRA_DIST): add pia-tmpl.c
+
+	* arch/unix/xaw/petui.c (pet_ui_init): add snapshot commands to
+	left mouse button menu.
+
+	* c610/c610.c (machine_read_snapshot): trigger reset if reading
+	of snapshot failed.
+
+	* c610/c610acia1.def (set_int_noclk): redefined to tpi1_restore_int
+
+	* c610/c610cia1.def (set_int_noclk): redefine to tpi_restore_int
+
+	* c610/c610tpi.h (tpi1_restore_int, tpi2_restore_int): new prototypes
+
+	* c610/tpi1.def (UNDUMP_PA, UNDUMP_PB, UNDUMP_PC): new defines
+
+	* c610/tpi2.def, c64/c64tpi.def (UNDUMP_PA, UNDUMP_PB, UNDUMP_PC):
+	new defines
+	(mycpu_set_int, mycpu_restore_int): redefine as empty while loop
+	instead of nothing.
+
+	* c64/c64.c (machine_read_snapshot): if acia or tpi are not read
+	reset the chips to remove pending interrupts
+
+	* cia-tmpl.c (mycia_read_snapshot_module): clear alarms only if
+	module is found, otherwise do not change state
+
+	* pet/Makefile.am (libpet_a_SOURCES): removed pia.c, pia.h and
+	added petpia.h, petpia1.def, petpia2.def, petpia1.c, petpia2.c
+	(petpia1.c, petpia2.c): added dependencies to build files
+	from template and .def files.
+
+	* pet/pet.c (machine_read_snapshot, machine_write_snapshot): new
+	functions.
+
+	* pet/petacia.h (acia1_read_snapshot_module,
+	acia1_write_snapshot_module): new prototypes
+
+	* pet/petvia.h (via_read_snapshot_module,
+	via_write_snapshot_module): new prototypes
+
+	* pia-tmpl.c, pet/petpia.h, pet/petpia1.def, pet/petpia2,def: new file
+
+	* pet/pia.c, pet/pia.h: removed files
+
+	* tpi-tmpl.c (mytpi_restore_int): new function to restore interrupt
+	when snapshot is read.
+	(mytpi_read_snapshot_module, mytpi_write_snapshot_module): remove
+	dump/restore of irq_previous
+
+1998-09-22  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* c64/c64mem.c (initialize_memory): At $D6xx, use `read_sid()' and
+	`store_sid()' instead of `read_d6()' and `store_d6()'.
+	(store_bank_io): Likewise.
+	(store_d6): Removed.
+	(read_d6): Removed.
+
+	* c64/c64.c (machine_write_snapshot): Call
+	`tpi_write_snapshot_module()' and `acia1_write_snapshot_module()'
+	inconditionally, without checking for the `IEEE488' and `AciaDE'
+	resources.
+	(machine_read_snapshot): Call `tpi_read_snapshot_module()' and
+	`acia1_read_snapshot_module()' inconditionally.
+
+1998-09-20  André Fachat  <fachat@physik.tu-chemnitz.de>
+
+	* acia-tmpl.c (myacia_read_snapshot_module): fix module name
+	handling for snapshot.
+
+	* arch/unix/xaw/c610ui.c (Ram08, RamC, model_settings_submenu):
+	Add menu entries to enable/disable RAM mapping in $f0800-
+	and $fc000-
+	(c610_ui_init): add snapshot commands
+
+	* arch/unix/xaw/uicommands.c (load_snapshot_trap): add
+	call to ui_update_menus() after loading snapshot, to update
+	current configuration.
+
+	* c610/c610.c (machine_write_snapshot, machine_read_snapshot):
+	make it work.
+
+	* c610/c610acia.h, c610/c610cia.h, c610/c610tpi.h, c610/crtc.h,
+	c64/c64acia.h, c64/c64tpi.h:
+	add prototypes for read/write snapshot functions
+
+	* c610/c610mem.c (set_ramsize): trigger hardware reset when
+	changing RAM size: this removes the magic number that the
+	kernal detects, loads the new kernal (different RAM size)
+	and thus initializes the machine correctly.
+	(cart08_ram, cartC_ram, set_cart08_ram, set_cartC_ram,
+	Ram08, RamC): new resources and appropriate functions
+	for enabling/disabling RAM at $f0800- and $fc000-
+	(store_io, read_io): removed $c*** checking, as this is now
+	handled outside I/O
+	(initialize_memory): use *_io only in $d***, and set $c*** in
+	bank 15 according to cartC_ram.
+	Set Bank 15 $0800-$0fff according to cart08_ram.
+	(mem_bank_read, mem_bank_store): call read/store_io in $c*** only.
+	(mem_read_snapshot_module, mem_write_snapshot_module):
+	add CPU bank registers, configuration for cart08_ram and
+	cartC_ram, and a hardware config byte (reserved)
+	Also add missing RAM areas in bank 15.
+
+	* c64/c64.c (machine_write_snapshot, machine_read_snapshot):
+	Add writing of acia1 and tpi states if enabled. When restoring,
+	enable/disable acia1/tpi features if the corresponding module
+	is found or not.
+
+	* c64/c64mem.c (acia_d6_enabled, set_acia_d6_enabled, AciaD6):
+	outcomment acia2 ($D6**) related stuff.
+
+	* cia-tmpl.c (mycia_read_snapshot_module, mycia_write_snapshot_module):
+	remove explicit saving of IRQ line state. Instead use ICR bit 7
+	when restoring.
+
+	* crtc-tmpl.c (crtc_write_snapshot_module): renamed from
+	vic_write_snapshot.
+
+	* pet/petmem.c (mem_write_snapshot_module): fix bug in memsize
+	computation.
+
+	* tpi-tmpl.c (mytpi_read_snapshot_module, mytpi_write_snapshot_module):
+	fix snapshot module name handling.
+
+1998-09-21  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* drive/ciad.h: #include "snapshot.h"
+
 1998-09-20  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.11.

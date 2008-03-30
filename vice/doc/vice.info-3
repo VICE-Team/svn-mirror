@@ -948,6 +948,26 @@ File: vice.info,  Node: x64 modules,  Next: x128 modules,  Prev: Emulator module
 x64 modules
 ...........
 
+   The modules in the x64 emulator are:
+
+Name    Type           Description                                        
+MAINCPU 6502           The Main CPU - although it is a 6510, only the     
+                       6502 core is saved here                            
+C64MEM  Memory         Holds the RAM contents of the C64. Also the CPU    
+                       I/O register contents are saved here.              
+VIC-II  656*           The VIC-II of the C64                              
+CIA1    6526           The CIA for the interrupts and the keyboard        
+CIA2    6526           The CIA for the useport, IEC-bus and RS232.        
+SID     6581           The SID sound chip of the C64                      
+REU*                   The RAM Extension Unit state (optional)            
+ACIA1   6551           An ACIA at $DE00 (optional)                        
+TPI     6525           A TPI at $DF00 for a parallel IEEE488 interface    
+                       (optional)                                         
+
+   Some of the modules are optional and are only saved if the specific
+feature is enabled at save-time. If the module is found when restoring
+the state the optional features are enabled, and disabled otherwise.
+
 
 File: vice.info,  Node: x128 modules,  Next: xvic modules,  Prev: x64 modules,  Up: Emulator modules
 
@@ -972,6 +992,27 @@ File: vice.info,  Node: x610 modules,  Prev: xpet modules,  Up: Emulator modules
 x610 modules
 ............
 
+   The modules in the x610 emulator are:
+
+Name    Type           Description                                        
+MAINCPU 6502           The Main CPU - although it is a 6509, only the     
+                       6502 core is saved here                            
+CBM2MEM Memory         Holds the RAM contents of the CBM-II models. Also  
+                       holds the exec-bank and indirection bank registers 
+CRTC    6545           The video chip for the C6*0 and C7*0 models (only  
+                       those models).                                     
+VIC-II  656?           The video chip for the C5*0 models (only the C5*0  
+                       models).                                           
+CIA1    6526           The CIA for IEEE 488 and userport.                 
+TPI1    6525           TPI 1 for IEEE488                                  
+TPI2    6525           TPI 2 for interrupts and keyboard.                 
+ACIA1   6551           The RS232 interface                                
+SID     6581           The CBM2s SID sound chip                           
+
+   The snapshot either contains CRTC or VIC-II snapshot modules, but
+not both. Depending on which module is found, a C5*0 or C6*0 is
+emulated.
+
 
 File: vice.info,  Node: Module formats,  Prev: Emulator modules,  Up: Snapshot format
 
@@ -991,12 +1032,16 @@ emulator, or even in other emulators.
 * Module Terminology::
 * Module framework::
 
-* CPU module::
-* CIA module::
-* VIA module::
-* TPI module::
-* SID module::
-* ACIA module::
+* CPU 6502 module::
+* CIA 6526 module::
+* VIA 6522 module::
+* PIA 6520 module::
+* TPI 6525 module::
+* SID 6581 module::
+* ACIA 6551 module::
+* VIC-I module::
+* VIC-II module::
+* CRTC module::
 
 * C64 memory module::
 * C128 memory module::
@@ -1031,19 +1076,19 @@ description of the data saved in the modules. The data is saved in the
 order it is in the tables, so no offset is given.
 
 
-File: vice.info,  Node: Module framework,  Next: CPU module,  Prev: Module Terminology,  Up: Module formats
+File: vice.info,  Node: Module framework,  Next: CPU 6502 module,  Prev: Module Terminology,  Up: Module formats
 
 Module framework
 ................
 
 
-File: vice.info,  Node: CPU module,  Next: CIA module,  Prev: Module framework,  Up: Module formats
+File: vice.info,  Node: CPU 6502 module,  Next: CIA 6526 module,  Prev: Module framework,  Up: Module formats
 
 CPU module
 ..........
 
 
-File: vice.info,  Node: CIA module,  Next: VIA module,  Prev: CPU module,  Up: Module formats
+File: vice.info,  Node: CIA 6526 module,  Next: VIA 6522 module,  Prev: CPU 6502 module,  Up: Module formats
 
 CIA module
 ..........
@@ -1089,7 +1134,7 @@ BYTE    TODL_HR        Time of Day - latched hours
 DWORD   TOD_TICKS      clk ticks till next tenth of second                
 
 
-File: vice.info,  Node: VIA module,  Next: TPI module,  Prev: CIA module,  Up: Module formats
+File: vice.info,  Node: VIA 6522 module,  Next: PIA 6520 module,  Prev: CIA 6526 module,  Up: Module formats
 
 VIA module
 ..........
@@ -1117,7 +1162,29 @@ BYTE    PB7            bit 7 = pb7 state
 BYTE    SRHBITS        number of half-bits to shift out on SR             
 
 
-File: vice.info,  Node: TPI module,  Next: SID module,  Prev: VIA module,  Up: Module formats
+File: vice.info,  Node: PIA 6520 module,  Next: TPI 6525 module,  Prev: VIA 6522 module,  Up: Module formats
+
+PIA module
+..........
+
+   The PIA 6520 is a chip with two I/O ports (Parallel Interface
+Adapter) and four additional handshake lines. The chip is pretty the
+same for Port A and B, only that Port A implements handshake on read
+operation and port B on write operation.
+
+   Version numbers: Major 1, Minor 0.
+
+Type    Name    Description                                                
+UBYTE   ORA     Output register A                                          
+UBYTE   DDRA    Data Direction Register A                                  
+UBYTE   CTRLA   Control Register A                                         
+UBYTE   ORB     Output register B                                          
+UBYTE   DDRB    Data Direction Register B                                  
+UBYTE   CTRLB   Control Register B                                         
+UBYTE   CABSTATEBit 7 = state of CA2, Bit 6 = state of CB2                 
+
+
+File: vice.info,  Node: TPI 6525 module,  Next: SID 6581 module,  Prev: PIA 6520 module,  Up: Module formats
 
 TPI module
 ..........
@@ -1142,18 +1209,15 @@ BYTE    STACK   Interrupt stack - the interrupt bits that are not (yet)
                 served.                                                    
 BYTE    CABSTATEState of CA/CB pins. Bit 7 = state of CA, Bit 6 = state    
                 of CB                                                      
-BYTE    IPREV   saved state of interrupt input pins - to detect            
-                transitions (FIXME: is this specific for emulator          
-                implementation?)                                           
 
 
-File: vice.info,  Node: SID module,  Next: ACIA module,  Prev: TPI module,  Up: Module formats
+File: vice.info,  Node: SID 6581 module,  Next: ACIA 6551 module,  Prev: TPI 6525 module,  Up: Module formats
 
 SID module
 ..........
 
 
-File: vice.info,  Node: ACIA module,  Next: C64 memory module,  Prev: SID module,  Up: Module formats
+File: vice.info,  Node: ACIA 6551 module,  Next: VIC-I module,  Prev: SID 6581 module,  Up: Module formats
 
 ACIA module
 ...........
@@ -1179,7 +1243,25 @@ BYTE    INTX    0 = no data to tx; 1 = Data is being transmitted; 2 =
 DWORD   TICKS   Clock ticks till the next TDR empty interrupt              
 
 
-File: vice.info,  Node: C64 memory module,  Next: C128 memory module,  Prev: ACIA module,  Up: Module formats
+File: vice.info,  Node: VIC-I module,  Next: VIC-II module,  Prev: ACIA 6551 module,  Up: Module formats
+
+VIC-I module
+............
+
+
+File: vice.info,  Node: VIC-II module,  Next: CRTC module,  Prev: VIC-I module,  Up: Module formats
+
+VIC-II module
+.............
+
+
+File: vice.info,  Node: CRTC module,  Next: C64 memory module,  Prev: VIC-II module,  Up: Module formats
+
+CRTC module
+...........
+
+
+File: vice.info,  Node: C64 memory module,  Next: C128 memory module,  Prev: CRTC module,  Up: Module formats
 
 C64 memory module
 .................
@@ -1224,6 +1306,35 @@ File: vice.info,  Node: C610 memory module,  Prev: PET memory module,  Up: Modul
 
 C610 memory module
 ..................
+
+   The size of the C610 memory module differs with each different memory
+configuration. The RAM configuration is saved in the snapshot, and
+restored when the snapshot is loaded.
+
+   Version numbers: Major 1, Minor 0
+
+Type    Name    Description                                                
+UBYTE   MEMSIZE Memory size in 128k blocks (1=128k, 2=256k, 4=512k,        
+                8=1024k)                                                   
+UBYTE   CONFIG  Bit 0 = $f0800-$f0fff RAM, Bit 1 = $f1000-$f1fff RAM, Bit  
+                2 = $f2000-$f3fff RAM, Bit 3 = $f4000-$f5fff RAM, Bit 4 =  
+                $f6000-$f7fff RAM, Bit 5 = $fc000-$fcfff RAM               
+UBYTE   HWCONFIGBit 0: 0 = CRTC, 1 = VIC-II video chip                     
+UBYTE   EXECBANKCPUs execution bank register                               
+UBYTE   INDBANK CPUs indirection bank register                             
+ARRAY   SYSRAM  2k system RAM $f0000-$f07ff                                
+ARRAY   VIDEO   2k video RAM $fd000-$fd7ff                                 
+ARRAY   RAM     RAM dump, size according to MEMSIZE                        
+ARRAY   RAM08   if memsize < 1M and CONFIG & 1 : 2k RAM $f0800-$f0fff      
+ARRAY   RAM1    if memsize < 1M and CONFIG & 2 : 4k RAM $f1000-$f1fff      
+ARRAY   RAM2    if memsize < 1M and CONFIG & 4 : 8k RAM $f2000-$f3fff      
+ARRAY   RAM4    if memsize < 1M and CONFIG & 8 : 8k RAM $f4000-$f5fff      
+ARRAY   RAM6    if memsize < 1M and CONFIG & 16 : 8k RAM $f6000-$f7fff     
+ARRAY   RAMC    if memsize < 1M and CONFIG & 32 : 4k RAM $fc000-$fcfff     
+
+   The RAM* arrays are only saved if the RAM itself is less than 1M.
+If the memory size is 1M then those areas are taken from the bank 15
+area of the normal RAM.
 
 
 File: vice.info,  Node: Monitor,  Next: c1541,  Prev: Snapshots,  Up: Top
@@ -1340,195 +1451,4 @@ Machine state commands
 `step [<count>]'
      Single step through instructions.  An optional count allows
      stepping more than a single instruction at a time.
-
-
-File: vice.info,  Node: Memory commands,  Next: Assembly commands,  Prev: Machine state commands,  Up: Monitor
-
-Memory commands
-===============
-
-`compare <address_range> <address>'
-     Compare memory from the source specified by the address range to
-     the destination specified by the address.  The regions may
-     overlap.  Any values that miscompare are displayed using the
-     default displaytype.
-
-`fill <address_range> <data_list>'
-     Fill memory in the specified address range with the data in
-     <data_list>.  If the size of the address range is greater than the
-     size of the data_list, the data_list is repeated.
-
-`hunt <address_range> <data_list>'
-     Hunt memory in the specified address range for the data in
-     <data_list>.  If the data is found, the starting address of the
-     match is displayed.  The entire range is searched for all possible
-     matches.
-
-`i <address_opt_range>'
-     Display memory contents as PETSCII text.
-
-`m [<data_type>] [<address_opt_range>]'
-     Display the contents of memory.  If no datatype is given, the
-     default is used.  If only one address is specified, the length of
-     data displayed is based on the datatype.  If no addresses are
-     given, the 'dot' address is used.
-
-`mc [<data_type>] [<address_opt_range>]'
-     Display the contents of memory as character data.  If only one
-     address is specified, only one character is displayed.  If no
-     addresses are given, the "dot" address is used.
-
-`ms [<data_type>] [<address_opt_range>]'
-     Display the contents of memory as sprite data.  If only one
-     address is specified, only one sprite is displayed.  If no
-     addresses are given, the "dot" address is used.
-
-`move <address_range> <address>'
-     Move memory from the source specified by the address range to the
-     destination specified by the address.  The regions may overlap.
-
-`> [<address>] <data_list>'
-     Write the specified data at `address'.
-
-
-File: vice.info,  Node: Assembly commands,  Next: Checkpoint commands,  Prev: Memory commands,  Up: Monitor
-
-Assembly commands
-=================
-
-`a <address> [ <instruction> [: <instruction>]* ]'
-     Assemble instructions to the specified address.  If only one
-     instruction is specified, enter assembly mode (enter an empty line
-     to exit assembly mode).
-
-`d [<address> [<address>]]'
-     Disassemble instructions.  If two addresses are specified, they
-     are used as a start and end address.  If only one is specified, it
-     is treated as the start address and a default number of
-     instructions are disassembled.  If no addresses are specified, a
-     default number of instructions are disassembled from the dot
-     address.
-
-
-File: vice.info,  Node: Checkpoint commands,  Next: General commands,  Prev: Assembly commands,  Up: Monitor
-
-Checkpoint commands
-===================
-
-`break [<address> [if <cond_expr>] ]'
-     This command allows setting a breakpoint or listing the current
-     breakpoints.  If no address is given, the currently valid
-     checkpoints are printed.  If an address is given, a breakpoint is
-     set for that address and the breakpoint number is printed.  A
-     conditional expression can also be specified for the breakpoint.
-     For more information on conditions, see the CONDITION command.
-
-`enable <checknum>'
-`disable <checknum>'
-     Each checkpoint can be enabled or disabled.  This command allows
-     changing between these states.
-
-`command <checknum> "<command>"'
-     When checkpoint `checknum' is hit, the specified command is
-     executed by the monitor.  Note that the `x' command is not yet
-     supported as a command argument.
-
-`condition <checknum> if <cond_expr>'
-     Each time the specified checkpoint is examined, the condition is
-     evaluated.  If it evalutes to true, the checkpoint is activated.
-     Otherwise, it is ignores.  If registers are specified in the
-     expression, the values used are those at the time the checkpoint
-     is examined, not when the condition is set.
-
-`delete <checknum>'
-     Delete the specified checkpoint.
-
-`ignore <checknum> [<count>]'
-     Ignore a checkpoint a given number of crossings.  If no count is
-     given, the default value is 1.
-
-`trace [address [address]]'
-     This command is similar to the `break' command except that it
-     operates on tracepoints.  A tracepoint differs from a breakpoint
-     by not stopping execution but simply printing the PC, giving the
-     user an execution trace.  The second optional address can be used
-     to specify the end of an range of addresses to be traced.
-
-`watch [address [address]]'
-     This command is similar to the previous two commands except that it
-     operates on watchpoints.  A watchpoint differs from the others by
-     stopping on a read and/or write to an address or range of
-     addresses.  If no addresses are given, a list of all the
-     watchpoints is printed.
-
-
-File: vice.info,  Node: General commands,  Next: Disk commands,  Prev: Checkpoint commands,  Up: Monitor
-
-General commands
-================
-
-`cd <directory>'
-     Change the working directory.
-
-`device [c:|d:]'
-     Set the default memory device to either the computer (`c:') or the
-     disk (`d:').
-
-`radix [H|D|O|B]'
-     Set the default radix to hex, decimal, octal, or binary.  With no
-     argument, the current radix is printed.
-
-`sidefx [on|off|toggle]'
-     Control how monitor generated reads affect memory locations that
-     have read side-effects.  If the argument is 'on' then reads may
-     cause side-effects.  If the argument is 'off' then reads don't
-     cause side-effects.  If the argument is 'toggle' then the current
-     mode is switched.  No argument displays the current state.
-
-`system <system command>'
-     Nothing yet.
-
-
-File: vice.info,  Node: Disk commands,  Next: Command file commands,  Prev: General commands,  Up: Monitor
-
-Disk commands
-=============
-
-`br <track> <sector> [<address>]'
-     Read the block at the specified track and sector.  If an address is
-     specified, the data is loaded into memory.  If no address is
-     given, the data is displayed using the default datatype.
-
-`bw <track> <sector> <address>'
-     Write a block of data at `address' to the specified track and
-     sector of disk in drive 8.
-
-`@<disk command>'
-     Perform a disk command on the currently attached disk image on
-     drive 8.  The specified disk command is sent to the drive's
-     channel #15.
-
-`load "<filename>" <address>'
-     Load the specified file into memory at the specified address.
-
-`save "<filename>" <address1> <address2>'
-     Save the memory from address1 to address2 to the specified file.
-
-
-File: vice.info,  Node: Command file commands,  Next: Label commands,  Prev: Disk commands,  Up: Monitor
-
-Command file commands
-=====================
-
-`playback "<filename>"'
-     Monitor commands from the specified file are read and executed.
-     This command stops at the end of file or when a STOP command is
-     read.
-
-`record "<filename>"'
-     After this command, all commands entered are written to the
-     specified file until the STOP command is entered.
-
-`stop'
-     Stop recording commands.  See `record'.
 

@@ -17,6 +17,197 @@ the entire resulting derived work is distributed under the terms of a
 permission notice identical to this one.
 
 
+File: vice.info,  Node: Memory commands,  Next: Assembly commands,  Prev: Machine state commands,  Up: Monitor
+
+Memory commands
+===============
+
+`compare <address_range> <address>'
+     Compare memory from the source specified by the address range to
+     the destination specified by the address.  The regions may
+     overlap.  Any values that miscompare are displayed using the
+     default displaytype.
+
+`fill <address_range> <data_list>'
+     Fill memory in the specified address range with the data in
+     <data_list>.  If the size of the address range is greater than the
+     size of the data_list, the data_list is repeated.
+
+`hunt <address_range> <data_list>'
+     Hunt memory in the specified address range for the data in
+     <data_list>.  If the data is found, the starting address of the
+     match is displayed.  The entire range is searched for all possible
+     matches.
+
+`i <address_opt_range>'
+     Display memory contents as PETSCII text.
+
+`m [<data_type>] [<address_opt_range>]'
+     Display the contents of memory.  If no datatype is given, the
+     default is used.  If only one address is specified, the length of
+     data displayed is based on the datatype.  If no addresses are
+     given, the 'dot' address is used.
+
+`mc [<data_type>] [<address_opt_range>]'
+     Display the contents of memory as character data.  If only one
+     address is specified, only one character is displayed.  If no
+     addresses are given, the "dot" address is used.
+
+`ms [<data_type>] [<address_opt_range>]'
+     Display the contents of memory as sprite data.  If only one
+     address is specified, only one sprite is displayed.  If no
+     addresses are given, the "dot" address is used.
+
+`move <address_range> <address>'
+     Move memory from the source specified by the address range to the
+     destination specified by the address.  The regions may overlap.
+
+`> [<address>] <data_list>'
+     Write the specified data at `address'.
+
+
+File: vice.info,  Node: Assembly commands,  Next: Checkpoint commands,  Prev: Memory commands,  Up: Monitor
+
+Assembly commands
+=================
+
+`a <address> [ <instruction> [: <instruction>]* ]'
+     Assemble instructions to the specified address.  If only one
+     instruction is specified, enter assembly mode (enter an empty line
+     to exit assembly mode).
+
+`d [<address> [<address>]]'
+     Disassemble instructions.  If two addresses are specified, they
+     are used as a start and end address.  If only one is specified, it
+     is treated as the start address and a default number of
+     instructions are disassembled.  If no addresses are specified, a
+     default number of instructions are disassembled from the dot
+     address.
+
+
+File: vice.info,  Node: Checkpoint commands,  Next: General commands,  Prev: Assembly commands,  Up: Monitor
+
+Checkpoint commands
+===================
+
+`break [<address> [if <cond_expr>] ]'
+     This command allows setting a breakpoint or listing the current
+     breakpoints.  If no address is given, the currently valid
+     checkpoints are printed.  If an address is given, a breakpoint is
+     set for that address and the breakpoint number is printed.  A
+     conditional expression can also be specified for the breakpoint.
+     For more information on conditions, see the CONDITION command.
+
+`enable <checknum>'
+`disable <checknum>'
+     Each checkpoint can be enabled or disabled.  This command allows
+     changing between these states.
+
+`command <checknum> "<command>"'
+     When checkpoint `checknum' is hit, the specified command is
+     executed by the monitor.  Note that the `x' command is not yet
+     supported as a command argument.
+
+`condition <checknum> if <cond_expr>'
+     Each time the specified checkpoint is examined, the condition is
+     evaluated.  If it evalutes to true, the checkpoint is activated.
+     Otherwise, it is ignores.  If registers are specified in the
+     expression, the values used are those at the time the checkpoint
+     is examined, not when the condition is set.
+
+`delete <checknum>'
+     Delete the specified checkpoint.
+
+`ignore <checknum> [<count>]'
+     Ignore a checkpoint a given number of crossings.  If no count is
+     given, the default value is 1.
+
+`trace [address [address]]'
+     This command is similar to the `break' command except that it
+     operates on tracepoints.  A tracepoint differs from a breakpoint
+     by not stopping execution but simply printing the PC, giving the
+     user an execution trace.  The second optional address can be used
+     to specify the end of an range of addresses to be traced.
+
+`watch [address [address]]'
+     This command is similar to the previous two commands except that it
+     operates on watchpoints.  A watchpoint differs from the others by
+     stopping on a read and/or write to an address or range of
+     addresses.  If no addresses are given, a list of all the
+     watchpoints is printed.
+
+
+File: vice.info,  Node: General commands,  Next: Disk commands,  Prev: Checkpoint commands,  Up: Monitor
+
+General commands
+================
+
+`cd <directory>'
+     Change the working directory.
+
+`device [c:|d:]'
+     Set the default memory device to either the computer (`c:') or the
+     disk (`d:').
+
+`radix [H|D|O|B]'
+     Set the default radix to hex, decimal, octal, or binary.  With no
+     argument, the current radix is printed.
+
+`sidefx [on|off|toggle]'
+     Control how monitor generated reads affect memory locations that
+     have read side-effects.  If the argument is 'on' then reads may
+     cause side-effects.  If the argument is 'off' then reads don't
+     cause side-effects.  If the argument is 'toggle' then the current
+     mode is switched.  No argument displays the current state.
+
+`system <system command>'
+     Nothing yet.
+
+
+File: vice.info,  Node: Disk commands,  Next: Command file commands,  Prev: General commands,  Up: Monitor
+
+Disk commands
+=============
+
+`br <track> <sector> [<address>]'
+     Read the block at the specified track and sector.  If an address is
+     specified, the data is loaded into memory.  If no address is
+     given, the data is displayed using the default datatype.
+
+`bw <track> <sector> <address>'
+     Write a block of data at `address' to the specified track and
+     sector of disk in drive 8.
+
+`@<disk command>'
+     Perform a disk command on the currently attached disk image on
+     drive 8.  The specified disk command is sent to the drive's
+     channel #15.
+
+`load "<filename>" <address>'
+     Load the specified file into memory at the specified address.
+
+`save "<filename>" <address1> <address2>'
+     Save the memory from address1 to address2 to the specified file.
+
+
+File: vice.info,  Node: Command file commands,  Next: Label commands,  Prev: Disk commands,  Up: Monitor
+
+Command file commands
+=====================
+
+`playback "<filename>"'
+     Monitor commands from the specified file are read and executed.
+     This command stops at the end of file or when a STOP command is
+     read.
+
+`record "<filename>"'
+     After this command, all commands entered are written to the
+     specified file until the STOP command is entered.
+
+`stop'
+     Stop recording commands.  See `record'.
+
+
 File: vice.info,  Node: Label commands,  Next: Miscellaneous commands,  Prev: Command file commands,  Up: Monitor
 
 Label commands
@@ -138,7 +329,7 @@ standard output, depending on the context.
 
 `-create  IMAGE DUMP ['DESCR']'
 `create  IMAGE DUMP ['DESCR']'
-     Build `IMAGE' from raw dump file `DUMP' (i.e. convert from `D64'
+     Build `IMAGE' from raw dump file `DUMP' (i.e., convert from `D64'
      to `X64' file).
 
 `-tape  IMAGE TAPEIMAGE [FILES...]'
@@ -246,7 +437,8 @@ involved in the development of X64 and VICE:
      to debug the CPU emulation.
 
    * Giuliano Procida (<gpp10@cam.ac.uk>) is the maintainer of the VICE
-     `deb' package for the Debian distribution.
+     `deb' package for the Debian distribution, and also helped
+     proofreading the documentation.
 
    * Marko M"akel"a (<msmakela@nic.funet.fi>) wrote lots of CPU
      documentation.
@@ -456,7 +648,7 @@ but please read these few notes before sending mail to anybody in the
 team.
 
    * Please put the word `VICE' *in all capitals* in your subject line
-     (e.g. `VICE fails to run game XXX').  This helps mail splitting
+     (e.g., `VICE fails to run game XXX').  This helps mail splitting
      and reduces chances that your message is unintentionally deleted,
      forgotten or lost.
 

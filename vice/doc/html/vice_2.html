@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 20 September 1998 -->
+     from ../vice.texi on 23 September 1998 -->
 
 <TITLE>VICE Manual - 2  About VICE</TITLE>
 </HEAD>
@@ -13,28 +13,28 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_1.html">previous</A>, <
 <H1><A NAME="SEC5" HREF="vice_toc.html#TOC5">2  About VICE</A></H1>
 
 <P>
-VICE is the one and only <EM>Versatile Commodore Emulator</EM>.  It allows
-you to emulate the Commodore 64, 128, VIC20 and PET 8-bit computers with
-one single package.  The emulators run as separate programs, but have
+VICE is the one and only <EM>Versatile Commodore Emulator</EM>.  It provides
+emulation of the Commodore 64, 128, VIC20 and PET 8-bit computers within
+a single package.  The emulators run as separate programs, but have
 the same user interface, share the same settings and support the same
 file formats.
 
 </P>
 <P>
-<STRONG>Important notice:</STRONG> If you have no idea about what a Commodore
+<STRONG>Important notice:</STRONG> If you have no idea what a Commodore
 8-bit computer is, or have questions about how these machines are used,
-how the file formats work or everything else that is not strictly
+how the file formats work or anything else that is not strictly
 related to VICE, you should read the appropriate FAQs <EM>first</EM>, as
-this kind of information is not available here.  See section <A HREF="vice_13.html#SEC138">13  Contact information</A> for
-information about how to retrieve the the FAQs.
+that kind of information is not available here.  See section <A HREF="vice_13.html#SEC142">13  Contact information</A> for
+information about how to retrieve the FAQs.
 
 </P>
 <P>
 All the emulators provide an accurate 6502/6510 emulator, with emulation
 of all the opcodes (both documented and undocumented ones) and accurate
-timing.  Unlike other emulators, the emulation of all the chips is cycle
-accurate, and tries to emulate timings as precisely as possible while
-trying to use as little processor power as possible.
+timing.  Unlike other emulators, VICE aims to be cycle
+accurate; it tries to emulate chip timings as precisely as possible and
+does so <EM>efficiently</EM>.
 
 </P>
 <P>
@@ -50,18 +50,19 @@ good as the C64 one, as they are still under construction.
 <P>
 The C64 emulator, called <SAMP>`x64'</SAMP>, features a fairly complete
 emulation of the VIC-II video chip: sprites, all registers and all video
-modes are fully emulated.  Since version 0.13.0, the emulation is fully
-cycle-accurate.
+modes are fully emulated. The emulation has been fully cycle-accurate
+since version 0.13.0.
 
 </P>
 <P>
-Moreover, a rather complete emulation of the SID sound chip is provided.
+A rather complete emulation of the SID sound chip is also provided.
 All the basic features are implemented as well as most of the complex
-ones including sync, ring modulation and filters.
+ones including synchronisation, ring modulation and filters.
 
 </P>
 <P>
-Of course, also both CIAs are cycle-accurate and fully emulated.
+Naturally, both CIAs (or VIAs, in some cases) are fully emulated and
+cycle accurate.
 
 </P>
 
@@ -94,14 +95,14 @@ C64 mode.
 
 <P>
 The VIC20 emulates all the internal hardware, including the VIA chips.
-Only part of the VIC-I video chip features are emulated, so some
+The VIC-I video chip is only partially emulated, so some
 graphical effects will not work correctly.
 
 </P>
 <P>
-Sound is implemented, but is still at the experimental stage.  If
-you think it does not sound right and know how to improve it, feel
-free to contact us (see section <A HREF="vice_13.html#SEC138">13  Contact information</A>).
+Sound support is implemented, but is still at an experimental stage.  If
+you think it could be improved and know how to do so, feel
+free to contact us (see section <A HREF="vice_13.html#SEC142">13  Contact information</A>).
 
 </P>
 
@@ -110,35 +111,34 @@ free to contact us (see section <A HREF="vice_13.html#SEC138">13  Contact inform
 <H2><A NAME="SEC9" HREF="vice_toc.html#TOC9">2.4  PET emulator features</A></H2>
 
 <P>
-The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and SuperPET
-(MicroMainFram 9000) models, which almost covers all models of this kind of
-machines.  The
-hardware is pretty much the same and that is why one single program is
-enough to emulate all of them.  For more detailed information about PET
-hardware please refer to the <TT>`PETdoc'</TT> file.
+The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and
+SuperPET (MicroMainFram 9000) models, covering almost the whole series.
+The hardware is pretty much the same in each and that is why one single
+program is enough to emulate all of them.  For more detailed information
+about PET hardware please refer to the <TT>`PETdoc'</TT> file.
 
 </P>
 <P>
 Both the 40 column and 80 column CRTC video chips are emulated (from the
 4032 onward), but a few of the features are not implemented yet (numbers
-of rasterlines per char and lines per screen).  Anyway, those missing
-features are not very important for average applications.
+of rasterlines per char and lines per screen).  Fortunately, they are
+not very important for average applications.
 
 </P>
 <P>
-Sound is available for the PET as well, but like the VIC20 it is still
+Sound is available for the PET as well, but like the VIC20's it is still
 under construction.
 
 </P>
 <P>
-The PET 8096 is basically a PET 8032 with a 64k extension board, that
+The PET 8096 is basically a PET 8032 with a 64k extension board which
 allows remapping the upper 32k with RAM.  You have to write to a special
 register at <CODE>$fff0</CODE> to remap the memory.  The PET 8296 is a
 8096 but with a completely redesigned motherboard with 128k RAM in
 total.  Of the additional 32k RAM you can use only some in blocks of 4k,
 but you have to set jumpers on the motherboard for it.  VICE uses the
-command line options <SAMP>`petram9'</SAMP> and <SAMP>`-petramA'</SAMP>
-instead.  Also the video controller can handle a larger address range.
+command line options <SAMP>`-petram9'</SAMP> and <SAMP>`-petramA'</SAMP>
+instead.  Also, the video controller can handle a larger address range.
 The PET 8x96 model emulations run the Commodore LOS-96 operating system
 - basically an improved BASIC 4 version with up to 32k for BASIC
 text and 32k for variables.  See <TT>`PETdoc'</TT> for more information.
@@ -154,29 +154,29 @@ ACIA 6551 for RS232 communication.
 The PET computers came with three major ROM revisions, so-called BASIC
 1, 2 and 4, all of which are provided.  The PET 2001 uses the version 1,
 the PET 3032 uses version 2, and the others use version 4.  The 2001 ROM
-is horribly broken in the IEEE488 part (they shipped it before they
+is horribly broken with respect to IEEE488 (they shipped it before they
 tested it with the floppy drive, so only tape worked - which is not
-supported in this emulator) so the ROM is patched to fix the IEEE488
-routines.
+supported in this emulator) so the emulator patches the ROM to fix the
+IEEE488 routines.
 
 </P>
 <P>
-What the 2001 patch basically does is (amongst more low level fixes)
-get the load address for a program file from the first two
-bytes of the file.  This allows loading of PET2001-saved files (that
-have $0400 as load address) and other PET files (that have $0401).
-The PET2001 still saves from $0400, not from $0401 as other PETs do.
+As well as other low-level fixes,  the 2001 patch obtains
+the load address for a program file from the first two
+bytes of the file.  This allows the loading of both PET2001-saved files (that
+have $0400 as their load address) and other PET files (that have $0401).
+The PET2001 saves from $0400 and not from $0401 as other PETs do.
 
 </P>
 
 <P>
-Moreover, the secondary addresses being used now are <CODE>0</CODE> and
-<CODE>1</CODE> for load and save, and not arbitrary unused secondary
+Moreover, the secondary addresses used are now <CODE>0</CODE> and <CODE>1</CODE> for
+load and save, respectively, and not arbitrary unused secondary
 addresses.
 
 </P>
 <P>
-To select which model to run, you specify the model on the
+To select which model to run, specify it on the
 command line with the <CODE>-model MODEL</CODE> option, where
 <CODE>MODEL</CODE> can be one of a list of PET model numbers, all
 described in see section <A HREF="vice_7.html#SEC94">7.3.1  Changing PET model settings</A>
@@ -247,10 +247,11 @@ keys should be typed to obtain all the symbols.
 
 </P>
 <P>
-There is one problem with symbolic mapping, though: some keys have to be
-mapped specially anyway.  The most important execption is that, in the
-VIC20, C64 and C128 emulators, <KBD>CTRL</KBD> is mapped to <KBD>Tab</KBD> and the
-<KBD>Commodore</KBD> key is mapped to the left <KBD>Control</KBD>).
+There is, however, one problem with symbolic mapping: some keys really
+need to be mapped specially regardless.  The most important examples
+being, in the VIC20, C64 and C128 emulators, that <KBD>CTRL</KBD> is mapped
+to <KBD>Tab</KBD> and that the <KBD>Commodore</KBD> key is mapped to the left
+<KBD>Control</KBD>).
 
 </P>
 
@@ -272,7 +273,7 @@ forced.  In most cases this should work fine, but some keyboard routines
 are quite picky and tend not to recognize the shift key because of this.
 For instance, <KBD>F6</KBD> (which on the real C64 is obtained with
 <KBD>Shift + F5</KBD>) could be recognized as <KBD>F5</KBD>.  In that case, use
-the shift key manually (i.e. type <KBD>Shift + F5</KBD> in the example).
+the shift key manually (i.e., type <KBD>Shift + F5</KBD> in the example).
 Yes, we know this is a bug.
 
 </P>
@@ -293,12 +294,12 @@ systems).
 
 </P>
 <P>
-There are two keyboard layouts, called <EM>numpad</EM> and <EM>custom</EM>
-layouts respectively.
+There are two keyboard layouts for joystick use, known as <EM>numpad</EM>
+and <EM>custom</EM>.
 
 </P>
 <P>
-The <EM>numpad</EM> layout uses the numeric keypad keys, i.e. the numbers
+The <EM>numpad</EM> layout uses the numeric keypad keys, i.e., the numbers
 <KBD>1</KBD>...<KBD>9</KBD> which emulate all the directions including the
 diagonal ones; <KBD>0</KBD> emulates the fire button.
 
@@ -315,30 +316,30 @@ and <KBD>space</KBD> for the fire button instead.
 <H2><A NAME="SEC13" HREF="vice_toc.html#TOC13">2.8  The disk drive emulation</A></H2>
 
 <P>
-All the emulators support emulation of up to 4 external disk drives as
+All the emulators support up to 4 external disk drives as
 devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
-Commodore 1541 drives in two ways:
+Commodore 1541 drives in one of two ways:
 
 </P>
 
 <P> <UL>
 <P> <LI>
 
-using disk images, i.e. files that contain a dump
+using disk images, i.e., files that contain a dump
 of all the blocks contained in a real floppy disk (if you want more
 information about what a disk image is, consult the
 <CODE>comp.emulators.cbm</CODE> FAQ);
 <P> <LI>
 
-accessing file system directories, thus allowing you to access files
+accessing file system directories, thus giving you the use of files
 without having to copy them to disk images; this also allows you to
 read and write files in the <CODE>P00</CODE> format (again, consult the
 <CODE>comp.emulators.cbm</CODE> FAQ for more info).
 </UL> </P>
 
 <P>
-Moreover, there are two available types of 1541 emulation for the first
-kind of emulation.  One of them the <EM>DOS level</EM> drive emulation.  It
+When using disk images there are two available types of 1541 emulation.
+One of them the <EM>DOS level</EM> drive emulation.  It
 does <EM>not</EM> really emulate the serial line, but patches the kernal
 ROM (with the so-called <EM>kernal traps</EM>) so that serial line
 operations can be emulated via C language routines.  This emulation is
@@ -353,7 +354,7 @@ VIC20 and the PETs) and its own RAM and ROM.  So, in order to more
 closely emulate its features, a complete emulation of this hardware must
 be provided and that is what the <EM>hardware level</EM> emulation does.
 When the <EM>hardware level</EM> emulation is used, the kernal routines are
-no longer patched and the serial line is fully emulated.  The problem
+remain unpatched and the serial line is fully emulated.  The problem
 with this emulation is that it needs a lot of processing power, mainly
 because the emulator has to emulate two CPUs instead of one.
 
@@ -366,15 +367,15 @@ other drives when activated.
 
 </P>
 <P>
-On the other hand, the PETs don't use a serial IEC bus to communicate
-with the floppy, instead they use the parallel IEEE488 bus.  This bus
-transfers <EM>byte by byte</EM>, as opposed to <EM>bit by bit</EM> as the
-C64 and VIC20 do, so in this case it is feasible to emulate the parallel
-line completely while emulating the drive at DOS level only.  The
-IEEE488 line interpreter maps the drives 8-11 (as described above) to
-the IEEE488 disk units, and no kernal traps are needed.  The same
-emulation is available in the C64, to emulate the Commodore IEEE488 bus
-interface.
+However, the PETs do not use a serial IEC bus to communicate with the
+floppy drive but instead use the parallel IEEE488 bus.  This does
+<EM>byte by byte</EM> transfers, as opposed to the <EM>bit by bit</EM>
+transfers of the C64 and VIC20, so making it feasible to emulate the
+parallel line completely while emulating the drive at DOS level only.
+The IEEE488 line interpreter maps the drives 8-11 (as described above)
+to the IEEE488 disk units, and no kernal traps are needed.  The same
+emulation of the Commodore IEEE488 bus interface is available for the
+C64.
 
 </P>
 
@@ -407,8 +408,8 @@ VICE supports the most popular Commodore file formats:
 </UL> </P>
 
 <P>
-An utility (<CODE>c1541</CODE>, see section <A HREF="vice_10.html#SEC134">10  c1541</A>) is provided to allow transfers
-between these formats.
+An utility (<CODE>c1541</CODE>, see section <A HREF="vice_10.html#SEC138">10  c1541</A>) is provided to allow transfers
+and conversions between these formats.
 
 </P>
 <P>
@@ -433,7 +434,7 @@ dd bs=64 skip=1 if=IMAGE.X64 of=IMAGE.D64
 <H2><A NAME="SEC15" HREF="vice_toc.html#TOC15">2.10  Common problems</A></H2>
 
 <P>
-This section tries to describe the most common known problem with VICE,
+This section tries to describe the most common known problems with VICE,
 and how to resolve them.
 
 </P>
@@ -445,13 +446,13 @@ and how to resolve them.
 <P>
 VICE should compile and run without major problems on many UNIX systems,
 but there are some known issues related to the sound driver.  In fact,
-sound is the least portable part of the emulator and has not been
-thoroughly tested on all the supported platforms yet.
+the sound code is the least portable part of the emulator and has not
+yet been thoroughly tested on all supported platforms.
 
 </P>
 <P>
 Linux, AIX and SGI systems should play sound without any problems; if
-you are running Linux please use the new 2.x kernels, as VICE needs some
+you are running Linux please use a 2.x kernel, as VICE needs some
 features that were not implemented in older versions of the Linux sound
 driver.
 
@@ -473,10 +474,9 @@ finding HP-UX and SUN consoles to work at...
 <A NAME="IDX3"></A>
 <A NAME="IDX4"></A>
 If you cannot start VICE, because you get errors about shared memory,
-try to run it with the <SAMP>`+mitshm'</SAMP> command-line option (see section <A HREF="vice_6.html#SEC44">6.4.2  Video command-line options</A>).  This will completely disable usage of the MITSHM
-extensions, that are normally used to speed up the process of updating
-the emulation window.  Of course, this will also result in a big loss in
-speed.
+try to run it with the <SAMP>`+mitshm'</SAMP> command-line option (see section <A HREF="vice_6.html#SEC44">6.4.2  Video command-line options</A>).  This will completely disable usage of the MITSHM extensions,
+that are normally used to speed up the emulation window updates.  Of
+course, this will also result in a big loss in speed.
 
 </P>
 <P>
@@ -487,16 +487,16 @@ Reasons for this failure could be:
 <P> <UL>
 <P> <LI>
 
-IPC support has been disabled from the system; some system
+IPC support has been disabled at the system level; some system
 administrators disable this for security reasons.  If <EM>you</EM> are the
 system administrator, use a kernel that has IPC support compiled in and
 enabled.
 <P> <LI>
 
-You are attempting to run the emulator across the network (ie. the
-emulator runs on a machine, and the output is displayed on another
-machine that works as an X terminal), and for some reason VICE does not
-recognize that.  In this case, you have found a bug, so please report it
+You are attempting to run the emulator across the network (i.e., the
+emulator runs on one machine, and the output is displayed on another
+machine that works as an X terminal) and for some reason VICE does not
+recognize this fact.  In this case, you have found a bug, so please report it
 to us.
 </UL> </P>
 

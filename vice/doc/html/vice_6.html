@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 20 September 1998 -->
+     from ../vice.texi on 23 September 1998 -->
 
 <TITLE>VICE Manual - 6  Settings and resources</TITLE>
 </HEAD>
@@ -13,11 +13,11 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_5.html">previous</A>, <
 <H1><A NAME="SEC36" HREF="vice_toc.html#TOC36">6  Settings and resources</A></H1>
 
 <P>
-In the VICE emulators, all the settings are stored in entities which are
-called <EM>resources</EM>.  Every resource has a name and its value can be
-either an integer or a string.  Often integer values are used as boolean
-values, with the usual convention of using zero for "false" and any
-other value for "true".
+In the VICE emulators, all the settings are stored in entities known as
+called <EM>resources</EM>.  Each resource has a name and a value which may
+be either an integer or a string.  Integer values are often used as
+boolean values with the usual convention of using zero for "false"
+and any other value for "true".
 
 </P>
 <P>
@@ -29,11 +29,11 @@ file</EM>.
 <P>
 The <EM>resource file</EM> is a human-readable file containing resource
 values: it is called <TT>`.vicerc'</TT> and is stored in the user's home
-directory.  At any time, it is possible to dump the current values of
-the resources into that file or load the values stored into that file as
-the current values.  This can be achieved with the "Save settings" and
+directory.  It is possible to dump the current values of the resources
+into that file or load the values stored into that file as the current
+values, at any time.  This is achieved with the "Save settings" and
 "Load settings" right menu items.  A third menu item, "Restore
-Default Settings", can be used to set all the values to the factory
+Default Settings", can be used to reset all the values to the factory
 defaults.
 
 </P>
@@ -58,9 +58,9 @@ using command-line options.
 <P>
 A resource file is made up of several sections; sections have the
 purpose of separating the resources of a certain emulator from the ones
-of the other emulators.  A section is started with the name of an
-emulator in brackets (eg. <SAMP>`[C64]'</SAMP>) and ends when another section
-starts, or the file ends.
+of the other emulators.  A section starts with the name of an
+emulator in brackets (e.g., <SAMP>`[C64]'</SAMP>) and ends when another section
+starts or when the file ends.
 
 </P>
 <P>
@@ -73,11 +73,11 @@ RESOURCE=VALUE
 </PRE>
 
 <P>
-where <CODE>RESOURCE</CODE> is the name of a resource, while <CODE>VALUE</CODE> is
-the value to assign.  Resource names are case-sensitive, and resource
-values can be either strings or integers.  Strings must start and end
-with a double quote (<CODE>"</CODE>), while integers do just have to be
-written in decimal notation.
+where <CODE>RESOURCE</CODE> is the name of a resource and <CODE>VALUE</CODE> is its
+assigned value.  Resource names are case-sensitive and resource values
+are either strings or integers.  Strings must start and end with a
+double quote character (<CODE>"</CODE>), while integers must be given in
+decimal notation.
 
 </P>
 <P>
@@ -106,8 +106,7 @@ FSDevice8HideCBMFiles=1
 
 <P>
 Notice that, when resource values are saved with "Save settings", the
-emulator only modifies its own section, keeping the other ones
-unchanged.
+emulator only modifies its own section, leaving the others unchanged.
 
 </P>
 
@@ -120,24 +119,24 @@ Resources can also be changed via command-line options.
 </P>
 <P>
 Command-line options always override the defaults from <CODE>.vicerc</CODE>,
-and their value lasts for the whole session.  So, if you specify a
+and their assignments last for the whole session.  So, if you specify a
 certain command-line option that changes a certain resource from its
 default value and then use "Save Settings", the value specified with
-the command-line option will be saved.
+the command-line option will be saved back to the resource file.
 
 </P>
 <P>
-Command-line options can begin with with the minus sign (<SAMP>`-'</SAMP>) or
-with the plus sign (<SAMP>`+'</SAMP>).  Options beginning with the minus sign
-can require an additional parameter, while the ones beginning with the
+Command-line options can begin with with a minus sign (<SAMP>`-'</SAMP>) or
+with a plus sign (<SAMP>`+'</SAMP>).  Options beginning with a minus sign
+may require an additional parameter, while the ones beginning with the
 plus sign never require one.
 
 </P>
 <P>
-Moreover, options beginning with the plus sign always have a counterpart
-with the same name, but with the minus sign; in that case, the option
-beginning with the minus sign is used to <EM>enable</EM> a certain
-feature, while the one beginning with the plus sign is used to
+Moreover, options beginning with a plus sign always have a counterpart
+with the same name, but with a minus sign; in that case, the option
+beginning with a minus sign is used to <EM>enable</EM> a certain
+feature, while the one beginning with a plus sign is used to
 <EM>disable</EM> the same feature (this is an X11 convention).  For
 example, <CODE>-mitshm</CODE> enables support of MITSHM, while <CODE>+mitshm</CODE>
 disables it.
@@ -153,27 +152,27 @@ disables it.
 It is possible to control the emulation speed by using the "Maximum
 speed" menu item in the right-button menu.  The default setting is
 <CODE>100</CODE>, which causes the emulation to never run faster than the real
-machine.  A higher value makes the emulator faster, a lower one makes it
-slower.  The setting "No limit" means to run as fast as possible,
-without limiting speed.
+machine.  A higher value allows the emulator to run faster, a lower one
+may force it to run slower.  The setting "No limit" means to run as
+fast as possible, without limiting speed.
 
 </P>
 <P>
 <A NAME="IDX16"></A>
-It is also possible to control the amount of screen frames the emulator
-calculates with the "Refresh rate" setting; the value ranges from
-"1/1" (update 1/1 of the frames of the real machine, that is 50 frames
-per second) to "1/10" (update 1 every 10 frames) and can be changed
-via the "Refresh Rate" submenu.  The "Auto" setting means to
-dynamically adapt the refresh rate to the current speed of the host
-machine, making sure the maximum speed specified by the via "Maxium
-speed" is always reached if possible.  In any case, the
-refresh rate will never be worse than 1/10 if this option is specified.
+It is also possible to control the emulator's rate of frame update using
+the "Refresh rate" setting; the value ranges from "1/1" (update 1/1
+of the frames of the real machine, that is 50 frames per second) to
+"1/10" (update 1 every 10 frames) and can be changed via the "Refresh
+Rate" submenu.  The "Auto" setting means to dynamically adapt the
+refresh rate to the current speed of the host machine, making sure the
+maximum speed specified by the via "Maxium speed" is always reached if
+possible.  In any case, the refresh rate will never be worse than 1/10
+if this option is specified.
 
 </P>
 <P>
-Notice that you cannot specify "Auto" as the refresh rate and "No
-limit" as the maximum speed at the same time.
+Note that you cannot simultaneously specify "Auto" as the refresh rate
+and "No limit" as the maximum speed..
 
 </P>
 <P>
@@ -196,7 +195,7 @@ possible speed.
 <DD>
 <A NAME="IDX18"></A>
  
-Integer specifying the maximum relative speed, in percent.  <CODE>0</CODE>
+Integer specifying the maximum relative speed, as a percentage.  <CODE>0</CODE>
 stands for "no limit".
 
 <A NAME="IDX19"></A>
@@ -223,7 +222,7 @@ Booolean specifying whether "warp mode" is turned on or not.
 <DD>
 <A NAME="IDX21"></A>
  
-Specifies the maximum speed in percent.  <CODE>0</CODE> stands for "no
+Specifies the maximum speed as a percentage.  <CODE>0</CODE> stands for "no
 limit".  (Same as setting the <CODE>Speed</CODE> resource.)
 
 <A NAME="IDX22"></A>
@@ -259,10 +258,10 @@ The following right-button menu items control the video output:
  
 "Video Cache" enables a video cache that can speed up the emulation
 when little graphics activity is going on; it is especially useful when
-you run the emulator on a networked X terminal, as it can reduce the
-amount of bandwidth required.  But this can actually make the emulator
-slower when there is little graphics activity and the amount of work
-needed to maintain the cache is bigger than the amount of work that
+you run the emulator on a networked X terminal as it can reduce the
+network bandwidth required.  However, this setting can actually make the
+emulator slower when there is little graphics activity and the amount of
+work needed to maintain the cache is greater than the amount of work that
 would be wasted by not using it (if any).
 
 <A NAME="IDX25"></A>
@@ -270,8 +269,8 @@ would be wasted by not using it (if any).
 
 "Double Size" toggles <EM>double-size mode</EM>, which makes the
 emulation window twice as big.  When emulating a 80-column PET, only the
-height is doubled, so that the aspect ratio is more similiar to the one
-of the real thing.
+height is doubled, so that the aspect ratio is closer to that of the
+real thing.
 
 <A NAME="IDX26"></A>
 <P> <LI>
@@ -287,9 +286,8 @@ an old monitor).
 
 `Use XSync()" causes the emulator to call the X11 function
 <CODE>XSync()</CODE> before updating the emulation window: this might be
-necessary on low-end systems to prevent it from stealing so many system
-resources that it would become impossible for the user to interact with
-it.
+necessary on low-end systems to prevent it from consuming so many system
+resources that it becomes impossible for the user to interact with it.
 
 </UL> </P>
 
@@ -329,10 +327,10 @@ emulation window.
 <P><DT><CODE>MITSHM</CODE>
 <DD>
 Boolean specyfying whether VICE should try to use the shared memory
-extensions (MITSHM) when starting up.  The shared memory extensions
-make things a lot faster, but might not be available on your system, or
-you might not be allowed to use them because you are running the
-emulator on an X terminal, across a network.
+extensions (MITSHM) when starting up.  The shared memory extensions make
+things a lot faster but might not be available on your system.  You will
+not be able to use these extensions if you are sitting at an X terminal
+while running the emulator on a remote machine across a network.
 
 <A NAME="IDX34"></A>
 <P><DT><CODE>PrivateColormap</CODE>
@@ -345,7 +343,7 @@ colors if other color-hungry applications are running at the same time.
 <P><DT><CODE>DisplayDepth</CODE>
 <DD>
 Integer specifying the depth of the host display.  The value <SAMP>`0'</SAMP>
-(the default) makes the emulator autodetect it.
+(the default) causes the emulator to autodetect it.
 
 </DL>
 
@@ -400,7 +398,7 @@ Enable/disable usage of the MITSHM extensions (<CODE>MITSHM=1</CODE>,
 <DD>
 <DT><CODE>+install</CODE>
 <DD>
-Enable-disable installation of a private colormap
+Enable/disable installation of a private colormap
 (<CODE>PrivateColormap=1</CODE>, <CODE>PrivateColormap=0</CODE>).
 
 <A NAME="IDX42"></A>
@@ -416,7 +414,7 @@ Specify the display depth (<CODE>DisplayDepth</CODE>).
 
 <P>
 It is possible to specify whether the "positional" or "symbolic"
-keyboard mapping is being used with the "Keyboard mapping type"
+keyboard mapping should be used with the "Keyboard mapping type"
 submenu (see section <A HREF="vice_2.html#SEC11">2.6  The keyboard emulation</A> for an explanation of positional
 and symbolic mappings).
 
@@ -447,7 +445,7 @@ file").
 <DD>
 <A NAME="IDX43"></A>
  
-Integer identifying which keymap is being used; <CODE>0</CODE> identifies
+Integer identifying which keymap is being used; <CODE>0</CODE> indicates
 symbolic mapping, <CODE>1</CODE> positional mapping.
 
 <A NAME="IDX44"></A>
@@ -474,8 +472,8 @@ String specifying the name of the keymap file for the positional mapping
 <DD>
 <A NAME="IDX46"></A>
  
-Specifies which keymap is being used; <CODE>0</CODE> identifies symbolic
-mapping, <CODE>1</CODE> positional mapping (same as the <CODE>KeymapIndex</CODE>
+Specifies which keymap is being used; <CODE>0</CODE> indicates symbolic
+mapping, <CODE>1</CODE> positional mapping (as for the <CODE>KeymapIndex</CODE>
 resource).
 
 <A NAME="IDX47"></A>
@@ -517,8 +515,8 @@ sound playback.  Possible settings are:
 <P> <UL>
 <P> <LI>
 
-"Flexible", i.e. the audio renderer flexibly adds/removes samples to
-the output to smoothly adapt the playback to little changes in the speed
+"Flexible", i.e., the audio renderer flexibly adds/removes samples to
+the output to smoothly adapt the playback to slight changes in the speed
 of the emulator.
 <P> <LI>
 
@@ -538,7 +536,7 @@ skipped or added.
 
 "Sample rate" specifies the sampling frequency, ranging from 8000 to
 48000 Hz (not all the sound cards and/or sound drivers can support all
-the frequencies, so actually the nearmost candidate will be picked up).
+the frequencies, so actually the nearest candidate will be chosen).
 
 <A NAME="IDX53"></A>
 <A NAME="IDX54"></A>
@@ -598,7 +596,7 @@ use.  Possible values are:
 <DD>
 Integer specifying the sampling frequency, ranging from 8000 to 48000 Hz
 (not all the sound cards and/or sound drivers can support all the
-frequencies, so actually the nearmost candidate will be picked up).
+frequencies, so actually the nearest candidate will be chosen).
 
 <A NAME="IDX60"></A>
 <P><DT><CODE>SoundBufferSize</CODE>
@@ -737,7 +735,7 @@ These settings are used to control the emulation of the 1541 drive.
 
 <P> <LI>
 
-"Enable true 1541 emulation" enables the slow hardware-level
+"Enable true 1541 emulation" enables the (slow) hardware-level
 emulation of the 1541 drive number 8 for maximum compatibility.
 
 <P> <LI>
@@ -774,7 +772,7 @@ should use to save CPU cycles.  There are three methods:
 <P> <LI>
 
 <EM>Skip cycles</EM>: Each time the serial line is accessed by the C64, the
-drive executes all the cycles since the last time it was running.  If
+drive executes all the cycles since the last time it ran.  If
 the number of elapsed cycles is larger than a certain value, the drive
 discards part of them.
 <P> <LI>
@@ -785,27 +783,27 @@ the end of each screen frame.  If the drive gets into the DOS idle loop,
 only pending interrupts are emulated to save time.
 <P> <LI>
 
-<EM>No traps</EM>: Like "Trap idle", but without traps at all.  So
+<EM>No traps</EM>: Like "Trap idle", but without any traps at all.  So
 basically the 1541 works exactly as with the real thing, and nothing is
 done to reduce the power needs of the 1541 emulation.
 </UL> </P>
 
-The first option ("Skip cycles") is usually better for performance, as
-the drive is emulated as little as possible; on the other hand, you can
+The first option ("Skip cycles") is usually best for performance, as
+the drive is emulated as little as possible; on the other hand, you may
 notice sudden slowdowns (when the drive executes several cycles at once)
 and the LED status is never updated (because it would not be possible to
 do correctly so).  Moreover, if the drive tries to get in sync with the
 computer in some weird way and the computer does not access the serial
 line for a long time, it is possible that some cycles are discarded and
-the sync is lost.  Notice that this hack can have no effect on
-performance if one program continuously reads from the IEC port, as the
-drive will have to be emulated in any case (some stupid programs do so,
-even when they don't actually need to use the drive).
+the sync is lost.  Notice that this hack will have no effect on
+performance if a program continuously reads from the IEC port, as the
+drive will have to be fully emulated in any case (some stupid programs
+do this, even when they don't actually need to use the drive).
 
 <P>
 
 The second option ("Trap idle") is usually a bit slower, as at least
-interrupts are always emulated, but allows the LED state to be always
+interrupts are always emulated, but ensures the LED state is always
 updated correctly and always keeps the 1541 and the computer in sync.
 On the other hand, if a program installs a non-standard idle loop in the
 drive, the 1541 CPU has to be emulated even when not necessary and the
@@ -976,12 +974,12 @@ accessible; each of them provides the following settings:
 <P> <LI>
 
 "File system access", if enabled, allows the device to emulate a drive
-accessing a file system directory; notice that if a disk is attached to
-the same drive, the directory is not visible anymore, and the attached
-disk is used instead.
+accessing a file system directory; note that when a disk image is
+attached to the same drive, the directory is no longer visible and the
+attached disk is used instead.
 <P> <LI>
 
-"File system directory" specifies what directory is accessed by the
+"File system directory" specifies the directory to be accessed by the
 drive.
 <P> <LI>
 
@@ -1057,8 +1055,8 @@ programs running in the emulator.
 <A NAME="IDX99"></A>
 <DT><CODE>FSDevice11Dir</CODE>
 <DD>
-Strings specifying the paths of the directories drives 8, 9, 10 and 11
-have access to.
+Strings specifying the directories to which drives 8, 9, 10 and 11
+have access.
 
 </DL>
 
@@ -1081,7 +1079,7 @@ have access to.
 <A NAME="IDX103"></A>
 <DT><CODE>-fs11 PATH</CODE>
 <DD>
-Specify the path for the file-system access on drives 8, 9, 10 and 11,
+Specify the paths for the file system access on drives 8, 9, 10 and 11,
 respectively (<CODE>FSDevice8Dir</CODE>, <CODE>FSDevice9Dir</CODE>,
 <CODE>FSDevice10Dir</CODE> and <CODE>FSDevice11Dir</CODE>).
 
@@ -1097,18 +1095,18 @@ buffer or the user port.  Emulation can be achieved by redirecting the
 printer output to a file or by piping it through an external process.
 This is defined by so-called <EM>printer device file names</EM>; a printer
 device file name can be either a simple path, or a command name
-prepended by the pipe symbol <SAMP>`|'</SAMP>.
+preceeded by a pipe symbol <SAMP>`|'</SAMP>.
 
 </P>
 <P>
 For example, printer device <SAMP>`filename'</SAMP> will cause the output to be
-appended to file <TT>`filename'</TT>, while printer device <SAMP>`|lpr'</SAMP> will
-cause the <CODE>lpr</CODE> command to be executed and fed with the printer
+appended to the file <TT>`filename'</TT>, while printer device <SAMP>`|lpr'</SAMP>
+will cause the <CODE>lpr</CODE> command to be executed and be fed the printer
 output.
 
 </P>
 <P>
-Up to three printer devices can be specified through the following
+Up to three printer devices may be specified through the following
 resources:
 
 </P>
@@ -1128,9 +1126,8 @@ device 3, whose default value is <CODE>|lpr</CODE>.
 <P>
 So, basically, by default printer device 1 will simply dump printer
 output to <TT>`print.dump'</TT>; printer device 2 will print it via
-<CODE>petlp</CODE> (a not-complete-yet utility that will produce Postscript
-output from it) and <CODE>lpr</CODE>; printer device 2 will print it through
-<CODE>lpr</CODE>.
+<CODE>petlp</CODE> (a not-yet-complete utility that will produce Postscript
+output) and <CODE>lpr</CODE>; printer device 2 will print it with <CODE>lpr</CODE>.
 
 </P>
 

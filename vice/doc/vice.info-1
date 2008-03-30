@@ -635,24 +635,24 @@ File: vice.info,  Node: Preface,  Next: Usage,  Prev: License,  Up: Top
 About VICE
 **********
 
-   VICE is the one and only "Versatile Commodore Emulator".  It allows
-you to emulate the Commodore 64, 128, VIC20 and PET 8-bit computers with
-one single package.  The emulators run as separate programs, but have
-the same user interface, share the same settings and support the same
-file formats.
+   VICE is the one and only "Versatile Commodore Emulator".  It provides
+emulation of the Commodore 64, 128, VIC20 and PET 8-bit computers within
+a single package.  The emulators run as separate programs, but have the
+same user interface, share the same settings and support the same file
+formats.
 
-   *Important notice:* If you have no idea about what a Commodore 8-bit
+   *Important notice:* If you have no idea what a Commodore 8-bit
 computer is, or have questions about how these machines are used, how
-the file formats work or everything else that is not strictly related
-to VICE, you should read the appropriate FAQs *first*, as this kind of
+the file formats work or anything else that is not strictly related to
+VICE, you should read the appropriate FAQs *first*, as that kind of
 information is not available here.  *Note Contacts:: for information
-about how to retrieve the the FAQs.
+about how to retrieve the FAQs.
 
    All the emulators provide an accurate 6502/6510 emulator, with
 emulation of all the opcodes (both documented and undocumented ones)
-and accurate timing.  Unlike other emulators, the emulation of all the
-chips is cycle accurate, and tries to emulate timings as precisely as
-possible while trying to use as little processor power as possible.
+and accurate timing.  Unlike other emulators, VICE aims to be cycle
+accurate; it tries to emulate chip timings as precisely as possible and
+does so *efficiently*.
 
    Please do *not* expect the VIC20, C128 and PET emulators to be as
 good as the C64 one, as they are still under construction.
@@ -678,14 +678,15 @@ C64 emulator features
 
    The C64 emulator, called `x64', features a fairly complete emulation
 of the VIC-II video chip: sprites, all registers and all video modes
-are fully emulated.  Since version 0.13.0, the emulation is fully
-cycle-accurate.
+are fully emulated. The emulation has been fully cycle-accurate since
+version 0.13.0.
 
-   Moreover, a rather complete emulation of the SID sound chip is
-provided.  All the basic features are implemented as well as most of
-the complex ones including sync, ring modulation and filters.
+   A rather complete emulation of the SID sound chip is also provided.
+All the basic features are implemented as well as most of the complex
+ones including synchronisation, ring modulation and filters.
 
-   Of course, also both CIAs are cycle-accurate and fully emulated.
+   Naturally, both CIAs (or VIAs, in some cases) are fully emulated and
+cycle accurate.
 
 
 File: vice.info,  Node: C128 emulator features,  Next: VIC20 emulator features,  Prev: C64 emulator features,  Up: Preface
@@ -710,12 +711,12 @@ VIC20 emulator features
 =======================
 
    The VIC20 emulates all the internal hardware, including the VIA
-chips.  Only part of the VIC-I video chip features are emulated, so some
+chips.  The VIC-I video chip is only partially emulated, so some
 graphical effects will not work correctly.
 
-   Sound is implemented, but is still at the experimental stage.  If
-you think it does not sound right and know how to improve it, feel free
-to contact us (*note Contacts::.).
+   Sound support is implemented, but is still at an experimental stage.
+If you think it could be improved and know how to do so, feel free to
+contact us (*note Contacts::.).
 
 
 File: vice.info,  Node: PET emulator features,  Next: CBM-II emulator features,  Prev: VIC20 emulator features,  Up: Preface
@@ -724,27 +725,26 @@ PET emulator features
 =====================
 
    The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and
-SuperPET (MicroMainFram 9000) models, which almost covers all models of
-this kind of machines.  The hardware is pretty much the same and that
-is why one single program is enough to emulate all of them.  For more
-detailed information about PET hardware please refer to the `PETdoc'
-file.
+SuperPET (MicroMainFram 9000) models, covering almost the whole series.
+The hardware is pretty much the same in each and that is why one single
+program is enough to emulate all of them.  For more detailed information
+about PET hardware please refer to the `PETdoc' file.
 
    Both the 40 column and 80 column CRTC video chips are emulated (from
 the 4032 onward), but a few of the features are not implemented yet
-(numbers of rasterlines per char and lines per screen).  Anyway, those
-missing features are not very important for average applications.
+(numbers of rasterlines per char and lines per screen).  Fortunately,
+they are not very important for average applications.
 
-   Sound is available for the PET as well, but like the VIC20 it is
+   Sound is available for the PET as well, but like the VIC20's it is
 still under construction.
 
-   The PET 8096 is basically a PET 8032 with a 64k extension board, that
+   The PET 8096 is basically a PET 8032 with a 64k extension board which
 allows remapping the upper 32k with RAM.  You have to write to a special
 register at `$fff0' to remap the memory.  The PET 8296 is a 8096 but
 with a completely redesigned motherboard with 128k RAM in total.  Of
 the additional 32k RAM you can use only some in blocks of 4k, but you
 have to set jumpers on the motherboard for it.  VICE uses the command
-line options `petram9' and `-petramA' instead.  Also the video
+line options `-petram9' and `-petramA' instead.  Also, the video
 controller can handle a larger address range.  The PET 8x96 model
 emulations run the Commodore LOS-96 operating system - basically an
 improved BASIC 4 version with up to 32k for BASIC text and 32k for
@@ -757,23 +757,23 @@ for RS232 communication.
    The PET computers came with three major ROM revisions, so-called
 BASIC 1, 2 and 4, all of which are provided.  The PET 2001 uses the
 version 1, the PET 3032 uses version 2, and the others use version 4.
-The 2001 ROM is horribly broken in the IEEE488 part (they shipped it
-before they tested it with the floppy drive, so only tape worked -
-which is not supported in this emulator) so the ROM is patched to fix
-the IEEE488 routines.
+The 2001 ROM is horribly broken with respect to IEEE488 (they shipped
+it before they tested it with the floppy drive, so only tape worked -
+which is not supported in this emulator) so the emulator patches the
+ROM to fix the IEEE488 routines.
 
-   What the 2001 patch basically does is (amongst more low level fixes)
-get the load address for a program file from the first two bytes of the
-file.  This allows loading of PET2001-saved files (that have $0400 as
-load address) and other PET files (that have $0401).  The PET2001 still
-saves from $0400, not from $0401 as other PETs do.
+   As well as other low-level fixes,  the 2001 patch obtains the load
+address for a program file from the first two bytes of the file.  This
+allows the loading of both PET2001-saved files (that have $0400 as
+their load address) and other PET files (that have $0401).  The PET2001
+saves from $0400 and not from $0401 as other PETs do.
 
-   Moreover, the secondary addresses being used now are `0' and `1' for
-load and save, and not arbitrary unused secondary addresses.
+   Moreover, the secondary addresses used are now `0' and `1' for load
+and save, respectively, and not arbitrary unused secondary addresses.
 
-   To select which model to run, you specify the model on the command
-line with the `-model MODEL' option, where `MODEL' can be one of a list
-of PET model numbers, all described in *note PET model::.
+   To select which model to run, specify it on the command line with
+the `-model MODEL' option, where `MODEL' can be one of a list of PET
+model numbers, all described in *note PET model::.
 
 
 File: vice.info,  Node: CBM-II emulator features,  Next: Keyboard emulation,  Prev: PET emulator features,  Up: Preface
@@ -828,10 +828,11 @@ will cause the combination `Shift-7' to be pressed in the emulated C64.
 This way, it becomes quite obvious what keys should be typed to obtain
 all the symbols.
 
-   There is one problem with symbolic mapping, though: some keys have
-to be mapped specially anyway.  The most important execption is that,
-in the VIC20, C64 and C128 emulators, <CTRL> is mapped to <Tab> and the
-<Commodore> key is mapped to the left <Control>).
+   There is, however, one problem with symbolic mapping: some keys
+really need to be mapped specially regardless.  The most important
+examples being, in the VIC20, C64 and C128 emulators, that <CTRL> is
+mapped to <Tab> and that the <Commodore> key is mapped to the left
+<Control>).
 
    The second way ("positional mapping") is to map every key on the
 "real" keyboard to the key which has the same position on the keyboard
@@ -847,7 +848,7 @@ most cases this should work fine, but some keyboard routines are quite
 picky and tend not to recognize the shift key because of this.  For
 instance, `F6' (which on the real C64 is obtained with `Shift + F5')
 could be recognized as `F5'.  In that case, use the shift key manually
-(i.e. type `Shift + F5' in the example).  Yes, we know this is a bug.
+(i.e., type `Shift + F5' in the example).  Yes, we know this is a bug.
 
    The `RESTORE' key is mapped to `Page Up' (or `Prev') by default.
 
@@ -861,10 +862,10 @@ The joystick emulation
 joystick connected to the host machine (the latter only works on
 GNU/Linux systems).
 
-   There are two keyboard layouts, called "numpad" and "custom" layouts
-respectively.
+   There are two keyboard layouts for joystick use, known as "numpad"
+and "custom".
 
-   The "numpad" layout uses the numeric keypad keys, i.e. the numbers
+   The "numpad" layout uses the numeric keypad keys, i.e., the numbers
 <1>...<9> which emulate all the directions including the diagonal ones;
 <0> emulates the fire button.
 
@@ -877,51 +878,50 @@ File: vice.info,  Node: Disk drive emulation,  Next: File formats,  Prev: Joysti
 The disk drive emulation
 ========================
 
-   All the emulators support emulation of up to 4 external disk drives
-as devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
-Commodore 1541 drives in two ways:
+   All the emulators support up to 4 external disk drives as devices 8,
+9, 10 and 11.  Each of these devices can emulate virtual Commodore 1541
+drives in one of two ways:
 
-   * using disk images, i.e. files that contain a dump of all the
+   * using disk images, i.e., files that contain a dump of all the
      blocks contained in a real floppy disk (if you want more
      information about what a disk image is, consult the
      `comp.emulators.cbm' FAQ);
 
-   * accessing file system directories, thus allowing you to access
-     files without having to copy them to disk images; this also allows
-     you to read and write files in the `P00' format (again, consult the
+   * accessing file system directories, thus giving you the use of files
+     without having to copy them to disk images; this also allows you to
+     read and write files in the `P00' format (again, consult the
      `comp.emulators.cbm' FAQ for more info).
 
-   Moreover, there are two available types of 1541 emulation for the
-first kind of emulation.  One of them the "DOS level" drive emulation.
-It does *not* really emulate the serial line, but patches the kernal
-ROM (with the so-called "kernal traps") so that serial line operations
-can be emulated via C language routines.  This emulation is very fast,
-but only allows use of standard DOS functions (and not even all of
-them).
+   When using disk images there are two available types of 1541
+emulation.  One of them the "DOS level" drive emulation.  It does *not*
+really emulate the serial line, but patches the kernal ROM (with the
+so-called "kernal traps") so that serial line operations can be
+emulated via C language routines.  This emulation is very fast, but
+only allows use of standard DOS functions (and not even all of them).
 
    The other alternative is a "hardware level" drive emulation.  The
 Commodore 1541 disk drive was provided with its own CPU (a 6502 as the
 VIC20 and the PETs) and its own RAM and ROM.  So, in order to more
 closely emulate its features, a complete emulation of this hardware must
 be provided and that is what the "hardware level" emulation does.  When
-the "hardware level" emulation is used, the kernal routines are no
-longer patched and the serial line is fully emulated.  The problem with
-this emulation is that it needs a lot of processing power, mainly
-because the emulator has to emulate two CPUs instead of one.
+the "hardware level" emulation is used, the kernal routines are remain
+unpatched and the serial line is fully emulated.  The problem with this
+emulation is that it needs a lot of processing power, mainly because
+the emulator has to emulate two CPUs instead of one.
 
    The "hardware level" emulation is only available on the VIC20 and
 C64 emulators, and can only be used to emulate one drive at a time.  As
 a consequence, it is only available for unit 8 and disables all the
 other drives when activated.
 
-   On the other hand, the PETs don't use a serial IEC bus to communicate
-with the floppy, instead they use the parallel IEEE488 bus.  This bus
-transfers *byte by byte*, as opposed to *bit by bit* as the C64 and
-VIC20 do, so in this case it is feasible to emulate the parallel line
+   However, the PETs do not use a serial IEC bus to communicate with the
+floppy drive but instead use the parallel IEEE488 bus.  This does *byte
+by byte* transfers, as opposed to the *bit by bit* transfers of the C64
+and VIC20, so making it feasible to emulate the parallel line
 completely while emulating the drive at DOS level only.  The IEEE488
 line interpreter maps the drives 8-11 (as described above) to the
 IEEE488 disk units, and no kernal traps are needed.  The same emulation
-is available in the C64, to emulate the Commodore IEEE488 bus interface.
+of the Commodore IEEE488 bus interface is available for the C64.
 
 
 File: vice.info,  Node: File formats,  Next: Common problems,  Prev: Disk drive emulation,  Up: Preface
@@ -940,7 +940,7 @@ Supported file formats
    * `P00' program files;
 
    An utility (`c1541', *note c1541::.) is provided to allow transfers
-between these formats.
+and conversions between these formats.
 
    Notice that the native format for disk images is `X64'; this means
 that, although the emulators and utilities can both read and write on
@@ -957,7 +957,7 @@ File: vice.info,  Node: Common problems,  Prev: File formats,  Up: Preface
 Common problems
 ===============
 
-   This section tries to describe the most common known problem with
+   This section tries to describe the most common known problems with
 VICE, and how to resolve them.
 
 * Menu:
@@ -973,11 +973,11 @@ Sound problems
 
    VICE should compile and run without major problems on many UNIX
 systems, but there are some known issues related to the sound driver.
-In fact, sound is the least portable part of the emulator and has not
-been thoroughly tested on all the supported platforms yet.
+In fact, the sound code is the least portable part of the emulator and
+has not yet been thoroughly tested on all supported platforms.
 
    Linux, AIX and SGI systems should play sound without any problems; if
-you are running Linux please use the new 2.x kernels, as VICE needs some
+you are running Linux please use a 2.x kernel, as VICE needs some
 features that were not implemented in older versions of the Linux sound
 driver.
 
@@ -995,22 +995,21 @@ Shared memory problems
    If you cannot start VICE, because you get errors about shared memory,
 try to run it with the `+mitshm' command-line option (*note Video
 options::.).  This will completely disable usage of the MITSHM
-extensions, that are normally used to speed up the process of updating
-the emulation window.  Of course, this will also result in a big loss in
-speed.
+extensions, that are normally used to speed up the emulation window
+updates.  Of course, this will also result in a big loss in speed.
 
    Reasons for this failure could be:
 
-   * IPC support has been disabled from the system; some system
+   * IPC support has been disabled at the system level; some system
      administrators disable this for security reasons.  If *you* are the
      system administrator, use a kernel that has IPC support compiled
      in and enabled.
 
-   * You are attempting to run the emulator across the network (ie. the
-     emulator runs on a machine, and the output is displayed on another
-     machine that works as an X terminal), and for some reason VICE
-     does not recognize that.  In this case, you have found a bug, so
-     please report it to us.
+   * You are attempting to run the emulator across the network (i.e.,
+     the emulator runs on one machine, and the output is displayed on
+     another machine that works as an X terminal) and for some reason
+     VICE does not recognize this fact.  In this case, you have found a
+     bug, so please report it to us.
 
    If you want to avoid running the emulator with `+mitshm' every time,
 run it once with `+mitshm' and then choose "Save settings" from the
@@ -1035,11 +1034,11 @@ Invoking the emulators
    * `x610', the CBM-II emulator
 
    You can run each of them by simply typing the name from a shell.  If
-you want to run them from another application (e.g. a window manager or
+you want to run them from another application (e.g., a window manager or
 some other sort of program launcher) you should always run them from a
-terminal window such as `xterm' or `rxvt', as a lot of debugging
-information is printed and the built-in monitor will be run in there.
-For example, you could do
+terminal window such as `xterm' or `rxvt' since VICE provides a lot of
+debugging information that is sent to the terminal and has built-in
+monitor that also appears there.  For example, you could do
 
      xterm -e x64
 
@@ -1055,9 +1054,10 @@ Command-line options used during initialization
 ===============================================
 
    There are several options you can specify on the command line.  Some
-of them are used to specify emulation settings; they will be described
-in detail later (*note Settings and resources::. for a complete list).
-The other ones, instead, are used only to initialize the emulator:
+of them are used to specify emulation settings and will be described in
+detail later (*note Settings and resources::. for a complete list).  The
+remaining options are used only to give usage information or to
+initialize the emulator in some way:
 
 `-help'
 `-?'
@@ -1088,7 +1088,7 @@ Autostarting programs from the command-line
 
    It is possible to let the emulator "autostart" a disk or tape image
 file, by simply specifying its name as the *last* argument on the
-command line; for example
+command line, for example
 
      x64 lovelygame.x64.gz
 
@@ -1128,7 +1128,7 @@ files:
      machine you are emulating.
 
    The place where they will be searched for depends on the value of the
-`Directory' resource, which is a colon (`;')-separated search path
+`Directory' resource, which is a colon (`:')-separated search path
 list, like the UNIX `PATH' environment variable.  The default value is
 
      PREFIX/lib/vice/EMU:BOOTPATH/EMU
@@ -1172,7 +1172,7 @@ ROM files
 =========
 
    Every emulator requires its own ROM set.  For the VIC20 and the C64,
-the ROM set consists in the following files:
+the ROM set consists of the following files:
 
    * `kernal',  the Kernal ROM (8 KBytes)
 
@@ -1180,11 +1180,11 @@ the ROM set consists in the following files:
 
    * `chargen', the character generator ROM (4 Kbytes)
 
-   The C128 needs the following files instead:
+   The C128 needs the following files:
 
    * `kernal', the Kernal ROM (8 Kbytes)
 
-   * `basic', the BASIC + Editor ROM (32 Kbytes)
+   * `basic', the Basic + Editor ROM (32 Kbytes)
 
    * `chargen', the character generator ROM (4 Kbytes)
 
@@ -1195,13 +1195,13 @@ for the hardware-level emulation of the 1541 and 1571 disk drives:
 
    * `dos15751', the 1541 drive ROM (32 Kbytes)
 
-   The PET emulator uses a quite different setup instead: the Basic and
-Kernal ROMS are packed into a single file and only three kernal files
-are provided; one for each basic revision.  To handle the different
-screen sizes and keyboards, different so-called "editor-ROMs" for the
-memory range $E000-$E800 are provided.  The kernal files contain an
-editor ROM for 40 columns and graphics keyboard already.  The PET ROMs
-have the following names:
+   The PET emulator uses a rather different setup: the Basic and Kernal
+ROMS are packed into a single file and only three kernal files are
+provided; one for each Basic revision.  To handle the different screen
+sizes and keyboards, different so-called "editor-ROMs" for the memory
+range $E000-$E800 are provided.  The kernal files already contain an
+editor ROM for use with 40 columns and the graphics keyboard.  The PET
+ROMs have the following names:
 
    * `pet2001', the PET2001 Basic 1 + Kernal ROM (16 KBytes)
 
@@ -1222,9 +1222,9 @@ PET3032 only).  You can specify ROM image files for those extensions
 command line options `-petrom9', `-petromA' and `-petromB' resp.
 
    An alternative would be to specify a long kernal ROM with the
-`-kernal' option that includes the extension ROM areas already.
+`-kernal' option that includes the extension ROM areas.
 
-   Also, you can specify a replacement for the basic ROM at $B000-$DFFF
-with the `-petromBasic' option and a replacement for the editor ROM at
-$E000-$E7FF with the `-petromEditor' option.
+   Also, you can specify replacements for the basic ROM at $B000-$DFFF
+with the `-petromBasic' option and for the editor ROM at $E000-$E7FF
+with the `-petromEditor' option.
 

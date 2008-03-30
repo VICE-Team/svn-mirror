@@ -298,31 +298,31 @@ distdir: $(DISTFILES)
 	done
 cia1571drive0.o: cia1571drive0.c ../../src/vice.h ../../src/config.h \
 	../../src/cia.h ../../src/types.h ../../src/resources.h \
-	../../src/snapshot.h drive.h ../../src/vdrive.h \
+	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h drive.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	drivecpu.h ../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
-	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
-	ciad.h ../../src/iecdrive.h
+	drivecpu.h ../../src/mos6510.h ../../src/mon.h ciad.h \
+	../../src/iecdrive.h
 cia1571drive1.o: cia1571drive1.c ../../src/vice.h ../../src/config.h \
 	../../src/cia.h ../../src/types.h ../../src/resources.h \
-	../../src/snapshot.h drive.h ../../src/vdrive.h \
+	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h drive.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	drivecpu.h ../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
-	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
-	ciad.h ../../src/iecdrive.h
+	drivecpu.h ../../src/mos6510.h ../../src/mon.h ciad.h \
+	../../src/iecdrive.h
 cia1581drive0.o: cia1581drive0.c ../../src/vice.h ../../src/config.h \
 	../../src/cia.h ../../src/types.h ../../src/resources.h \
-	../../src/snapshot.h drive.h ../../src/vdrive.h \
+	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h drive.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	drivecpu.h ../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
-	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	drivecpu.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/iecdrive.h ciad.h
 cia1581drive1.o: cia1581drive1.c ../../src/vice.h ../../src/config.h \
 	../../src/cia.h ../../src/types.h ../../src/resources.h \
-	../../src/snapshot.h drive.h ../../src/vdrive.h \
+	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h drive.h ../../src/vdrive.h \
 	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	drivecpu.h ../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
-	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
+	drivecpu.h ../../src/mos6510.h ../../src/mon.h \
 	../../src/iecdrive.h ciad.h
 drive.o: drive.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/types.h ../../src/vdrive.h ../../src/fs_cbm.h \
@@ -331,8 +331,8 @@ drive.o: drive.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \
 	../../src/6510core.h ../../src/iecdrive.h ../../src/gcr.h \
 	../../src/warn.h ../../src/resources.h ../../src/cmdline.h \
-	../../src/memutils.h viad.h ../../src/via.h ../../src/cia.h \
-	../../src/utils.h ../../src/arch/unix/ui.h \
+	../../src/memutils.h viad.h ../../src/via.h ciad.h \
+	../../src/cia.h ../../src/utils.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/xaw/ui.h ../../src/palette.h
 drivecpu0.o: drivecpu0.c ../../src/vice.h ../../src/config.h \
 	../../src/types.h drive.h ../../src/vdrive.h ../../src/fs_cbm.h \

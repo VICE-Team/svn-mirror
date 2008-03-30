@@ -301,9 +301,9 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h c128.h \
 	../../src/print.h ../../src/prdevice.h ../../src/pruser.h
 c128cia1.o: c128cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/cia.h ../../src/types.h ../../src/resources.h \
-	../../src/snapshot.h ../../src/vmachine.h ../../src/c64/vicii.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/mem.h \
-	../../src/mon.h ../../src/mos6510.h ../../src/interrupt.h \
+	../../src/snapshot.h ../../src/interrupt.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h ../../src/c64/vicii.h \
+	../../src/maincpu.h ../../src/mon.h ../../src/mos6510.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
 	../../src/arch/unix/kbd.h ../../src/c64/c64cia.h \
@@ -321,12 +321,12 @@ c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.c
 c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ../../src/drive/ciad.h ../../src/types.h \
-	../../src/cia.h ../../src/drive/viad.h ../../src/via.h \
-	../../src/iecdrive.h ../../src/drive/drive.h ../../src/vdrive.h \
-	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	../../src/drive/drivecpu.h ../../src/mos6510.h ../../src/mon.h \
-	../../src/mem.h ../../src/snapshot.h ../../src/interrupt.h \
-	../../src/vmachine.h ../../src/6510core.h \
+	../../src/cia.h ../../src/snapshot.h ../../src/drive/viad.h \
+	../../src/via.h ../../src/iecdrive.h ../../src/drive/drive.h \
+	../../src/vdrive.h ../../src/fs_cbm.h ../../src/serial.h \
+	../../src/traps.h ../../src/drive/drivecpu.h \
+	../../src/mos6510.h ../../src/mon.h ../../src/mem.h \
+	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
 	../../src/c64/c64cia.h
 c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/vmachine.h ../../src/drive/drive.h ../../src/types.h \

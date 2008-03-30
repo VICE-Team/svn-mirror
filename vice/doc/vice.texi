@@ -731,24 +731,24 @@ Public License instead of this License.
 @node Preface, Usage, License, Top
 @chapter About VICE
 
-VICE is the one and only @dfn{Versatile Commodore Emulator}.  It allows
-you to emulate the Commodore 64, 128, VIC20 and PET 8-bit computers with
-one single package.  The emulators run as separate programs, but have
+VICE is the one and only @dfn{Versatile Commodore Emulator}.  It provides
+emulation of the Commodore 64, 128, VIC20 and PET 8-bit computers within
+a single package.  The emulators run as separate programs, but have
 the same user interface, share the same settings and support the same
 file formats.
 
-@strong{Important notice:} If you have no idea about what a Commodore
+@strong{Important notice:} If you have no idea what a Commodore
 8-bit computer is, or have questions about how these machines are used,
-how the file formats work or everything else that is not strictly
+how the file formats work or anything else that is not strictly
 related to VICE, you should read the appropriate FAQs @emph{first}, as
-this kind of information is not available here.  @xref{Contacts} for
-information about how to retrieve the the FAQs.
+that kind of information is not available here.  @xref{Contacts} for
+information about how to retrieve the FAQs.
 
 All the emulators provide an accurate 6502/6510 emulator, with emulation
 of all the opcodes (both documented and undocumented ones) and accurate
-timing.  Unlike other emulators, the emulation of all the chips is cycle
-accurate, and tries to emulate timings as precisely as possible while
-trying to use as little processor power as possible.
+timing.  Unlike other emulators, VICE aims to be cycle
+accurate; it tries to emulate chip timings as precisely as possible and
+does so @emph{efficiently}.
 
 Please do @emph{not} expect the VIC20, C128 and PET emulators to be as
 good as the C64 one, as they are still under construction.
@@ -772,14 +772,15 @@ good as the C64 one, as they are still under construction.
 
 The C64 emulator, called @samp{x64}, features a fairly complete
 emulation of the VIC-II video chip: sprites, all registers and all video
-modes are fully emulated.  Since version 0.13.0, the emulation is fully
-cycle-accurate.
+modes are fully emulated. The emulation has been fully cycle-accurate
+since version 0.13.0.
 
-Moreover, a rather complete emulation of the SID sound chip is provided.
+A rather complete emulation of the SID sound chip is also provided.
 All the basic features are implemented as well as most of the complex
-ones including sync, ring modulation and filters.
+ones including synchronisation, ring modulation and filters.
 
-Of course, also both CIAs are cycle-accurate and fully emulated.
+Naturally, both CIAs (or VIAs, in some cases) are fully emulated and
+cycle accurate.
 
 
 @node C128 emulator features, VIC20 emulator features, C64 emulator features, Preface
@@ -803,41 +804,40 @@ C64 mode.
 @section VIC20 emulator features
 
 The VIC20 emulates all the internal hardware, including the VIA chips.
-Only part of the VIC-I video chip features are emulated, so some
+The VIC-I video chip is only partially emulated, so some
 graphical effects will not work correctly.
 
-Sound is implemented, but is still at the experimental stage.  If
-you think it does not sound right and know how to improve it, feel
+Sound support is implemented, but is still at an experimental stage.  If
+you think it could be improved and know how to do so, feel
 free to contact us (@pxref{Contacts}).
 
 
 @node PET emulator features, CBM-II emulator features, VIC20 emulator features, Preface
 @section PET emulator features
 
-The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and SuperPET
-(MicroMainFram 9000) models, which almost covers all models of this kind of
-machines.  The
-hardware is pretty much the same and that is why one single program is
-enough to emulate all of them.  For more detailed information about PET
-hardware please refer to the @file{PETdoc} file.
+The PET emulator emulates the 2001, 3032, 4032, 8032, 8096, 8296 and
+SuperPET (MicroMainFram 9000) models, covering almost the whole series.
+The hardware is pretty much the same in each and that is why one single
+program is enough to emulate all of them.  For more detailed information
+about PET hardware please refer to the @file{PETdoc} file.
 @c FIXME: link!
 
 Both the 40 column and 80 column CRTC video chips are emulated (from the
 4032 onward), but a few of the features are not implemented yet (numbers
-of rasterlines per char and lines per screen).  Anyway, those missing
-features are not very important for average applications.
+of rasterlines per char and lines per screen).  Fortunately, they are
+not very important for average applications.
 
-Sound is available for the PET as well, but like the VIC20 it is still
+Sound is available for the PET as well, but like the VIC20's it is still
 under construction.
 
-The PET 8096 is basically a PET 8032 with a 64k extension board, that
+The PET 8096 is basically a PET 8032 with a 64k extension board which
 allows remapping the upper 32k with RAM.  You have to write to a special
 register at @code{$fff0} to remap the memory.  The PET 8296 is a
 8096 but with a completely redesigned motherboard with 128k RAM in
 total.  Of the additional 32k RAM you can use only some in blocks of 4k,
 but you have to set jumpers on the motherboard for it.  VICE uses the
-command line options @samp{petram9} and @samp{-petramA}
-instead.  Also the video controller can handle a larger address range.
+command line options @samp{-petram9} and @samp{-petramA}
+instead.  Also, the video controller can handle a larger address range.
 The PET 8x96 model emulations run the Commodore LOS-96 operating system
 - basically an improved BASIC 4 version with up to 32k for BASIC
 text and 32k for variables.  See @file{PETdoc} for more information.
@@ -850,16 +850,16 @@ ACIA 6551 for RS232 communication.
 The PET computers came with three major ROM revisions, so-called BASIC
 1, 2 and 4, all of which are provided.  The PET 2001 uses the version 1,
 the PET 3032 uses version 2, and the others use version 4.  The 2001 ROM
-is horribly broken in the IEEE488 part (they shipped it before they
+is horribly broken with respect to IEEE488 (they shipped it before they
 tested it with the floppy drive, so only tape worked - which is not
-supported in this emulator) so the ROM is patched to fix the IEEE488
-routines.
+supported in this emulator) so the emulator patches the ROM to fix the
+IEEE488 routines.
 
-What the 2001 patch basically does is (amongst more low level fixes)
-get the load address for a program file from the first two
-bytes of the file.  This allows loading of PET2001-saved files (that
-have $0400 as load address) and other PET files (that have $0401).
-The PET2001 still saves from $0400, not from $0401 as other PETs do.
+As well as other low-level fixes,  the 2001 patch obtains
+the load address for a program file from the first two
+bytes of the file.  This allows the loading of both PET2001-saved files (that
+have $0400 as their load address) and other PET files (that have $0401).
+The PET2001 saves from $0400 and not from $0401 as other PETs do.
 
 @c @strong{Warning:} The (German) machine language lessons from
 @c @url{ftp://ftp.funet.fi/pub/cbm} are one byte too short (the files
@@ -883,11 +883,11 @@ The PET2001 still saves from $0400, not from $0401 as other PETs do.
 @c When saving, the PET2001 adds an additional byte to the file,
 @c so those files might grow!
 
-Moreover, the secondary addresses being used now are @code{0} and
-@code{1} for load and save, and not arbitrary unused secondary
+Moreover, the secondary addresses used are now @code{0} and @code{1} for
+load and save, respectively, and not arbitrary unused secondary
 addresses.
 
-To select which model to run, you specify the model on the
+To select which model to run, specify it on the
 command line with the @code{-model MODEL} option, where
 @code{MODEL} can be one of a list of PET model numbers, all
 described in @pxref{PET model}
@@ -941,10 +941,11 @@ without any shift key will cause the combination @kbd{Shift-7} to be
 pressed in the emulated C64.  This way, it becomes quite obvious what
 keys should be typed to obtain all the symbols.
 
-There is one problem with symbolic mapping, though: some keys have to be
-mapped specially anyway.  The most important execption is that, in the
-VIC20, C64 and C128 emulators, @key{CTRL} is mapped to @key{Tab} and the
-@key{Commodore} key is mapped to the left @key{Control}).
+There is, however, one problem with symbolic mapping: some keys really
+need to be mapped specially regardless.  The most important examples
+being, in the VIC20, C64 and C128 emulators, that @key{CTRL} is mapped
+to @key{Tab} and that the @key{Commodore} key is mapped to the left
+@key{Control}).
 
 @c (@dots{}) FIXME: we need the detailed list here.
 
@@ -963,7 +964,7 @@ forced.  In most cases this should work fine, but some keyboard routines
 are quite picky and tend not to recognize the shift key because of this.
 For instance, @kbd{F6} (which on the real C64 is obtained with
 @kbd{Shift + F5}) could be recognized as @kbd{F5}.  In that case, use
-the shift key manually (i.e. type @kbd{Shift + F5} in the example).
+the shift key manually (i.e., type @kbd{Shift + F5} in the example).
 Yes, we know this is a bug.
 
 The @kbd{RESTORE} key is mapped to @kbd{Page Up} (or @kbd{Prev}) by
@@ -977,10 +978,10 @@ Joysticks can be emulated both via the keyboard and via a real joystick
 connected to the host machine (the latter only works on GNU/Linux
 systems).
 
-There are two keyboard layouts, called @dfn{numpad} and @dfn{custom}
-layouts respectively.
+There are two keyboard layouts for joystick use, known as @dfn{numpad}
+and @dfn{custom}.
 
-The @dfn{numpad} layout uses the numeric keypad keys, i.e. the numbers
+The @dfn{numpad} layout uses the numeric keypad keys, i.e., the numbers
 @key{1}@dots{}@key{9} which emulate all the directions including the
 diagonal ones; @key{0} emulates the fire button.
 
@@ -992,25 +993,25 @@ and @key{space} for the fire button instead.
 @node Disk drive emulation, File formats, Joystick emulation, Preface
 @section The disk drive emulation
 
-All the emulators support emulation of up to 4 external disk drives as
+All the emulators support up to 4 external disk drives as
 devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
-Commodore 1541 drives in two ways:
+Commodore 1541 drives in one of two ways:
 
 @itemize @bullet
 @item
-using disk images, i.e. files that contain a dump
+using disk images, i.e., files that contain a dump
 of all the blocks contained in a real floppy disk (if you want more
 information about what a disk image is, consult the
 @code{comp.emulators.cbm} FAQ);
 @item
-accessing file system directories, thus allowing you to access files
+accessing file system directories, thus giving you the use of files
 without having to copy them to disk images; this also allows you to
 read and write files in the @code{P00} format (again, consult the
 @code{comp.emulators.cbm} FAQ for more info).
 @end itemize
 
-Moreover, there are two available types of 1541 emulation for the first
-kind of emulation.  One of them the @dfn{DOS level} drive emulation.  It
+When using disk images there are two available types of 1541 emulation.
+One of them the @dfn{DOS level} drive emulation.  It
 does @emph{not} really emulate the serial line, but patches the kernal
 ROM (with the so-called @dfn{kernal traps}) so that serial line
 operations can be emulated via C language routines.  This emulation is
@@ -1023,7 +1024,7 @@ VIC20 and the PETs) and its own RAM and ROM.  So, in order to more
 closely emulate its features, a complete emulation of this hardware must
 be provided and that is what the @dfn{hardware level} emulation does.
 When the @dfn{hardware level} emulation is used, the kernal routines are
-no longer patched and the serial line is fully emulated.  The problem
+remain unpatched and the serial line is fully emulated.  The problem
 with this emulation is that it needs a lot of processing power, mainly
 because the emulator has to emulate two CPUs instead of one.
 
@@ -1032,15 +1033,15 @@ C64 emulators, and can only be used to emulate one drive at a time.  As
 a consequence, it is only available for unit 8 and disables all the
 other drives when activated.
 
-On the other hand, the PETs don't use a serial IEC bus to communicate
-with the floppy, instead they use the parallel IEEE488 bus.  This bus
-transfers @emph{byte by byte}, as opposed to @emph{bit by bit} as the
-C64 and VIC20 do, so in this case it is feasible to emulate the parallel
-line completely while emulating the drive at DOS level only.  The
-IEEE488 line interpreter maps the drives 8-11 (as described above) to
-the IEEE488 disk units, and no kernal traps are needed.  The same
-emulation is available in the C64, to emulate the Commodore IEEE488 bus
-interface.
+However, the PETs do not use a serial IEC bus to communicate with the
+floppy drive but instead use the parallel IEEE488 bus.  This does
+@emph{byte by byte} transfers, as opposed to the @emph{bit by bit}
+transfers of the C64 and VIC20, so making it feasible to emulate the
+parallel line completely while emulating the drive at DOS level only.
+The IEEE488 line interpreter maps the drives 8-11 (as described above)
+to the IEEE488 disk units, and no kernal traps are needed.  The same
+emulation of the Commodore IEEE488 bus interface is available for the
+C64.
 
 @node File formats, Common problems, Disk drive emulation, Preface
 @section Supported file formats
@@ -1064,7 +1065,7 @@ VICE supports the most popular Commodore file formats:
 @end itemize
 
 An utility (@code{c1541}, @pxref{c1541}) is provided to allow transfers
-between these formats.
+and conversions between these formats.
 
 Notice that the native format for disk images is @code{X64}; this
 means that, although the emulators and utilities can both read and write
@@ -1082,7 +1083,7 @@ dd bs=64 skip=1 if=IMAGE.X64 of=IMAGE.D64
 @node Common problems,  , File formats, Preface
 @section Common problems
 
-This section tries to describe the most common known problem with VICE,
+This section tries to describe the most common known problems with VICE,
 and how to resolve them.
 
 @menu
@@ -1095,11 +1096,11 @@ and how to resolve them.
 
 VICE should compile and run without major problems on many UNIX systems,
 but there are some known issues related to the sound driver.  In fact,
-sound is the least portable part of the emulator and has not been
-thoroughly tested on all the supported platforms yet.
+the sound code is the least portable part of the emulator and has not
+yet been thoroughly tested on all supported platforms.
 
 Linux, AIX and SGI systems should play sound without any problems; if
-you are running Linux please use the new 2.x kernels, as VICE needs some
+you are running Linux please use a 2.x kernel, as VICE needs some
 features that were not implemented in older versions of the Linux sound
 driver.
 
@@ -1117,24 +1118,23 @@ finding HP-UX and SUN consoles to work at@dots{}
 @cindex -mitshm, +mitshm
 If you cannot start VICE, because you get errors about shared memory,
 try to run it with the @samp{+mitshm} command-line option (@pxref{Video
-options}).  This will completely disable usage of the MITSHM
-extensions, that are normally used to speed up the process of updating
-the emulation window.  Of course, this will also result in a big loss in
-speed.
+options}).  This will completely disable usage of the MITSHM extensions,
+that are normally used to speed up the emulation window updates.  Of
+course, this will also result in a big loss in speed.
 
 Reasons for this failure could be:
 
 @itemize @bullet
 @item
-IPC support has been disabled from the system; some system
+IPC support has been disabled at the system level; some system
 administrators disable this for security reasons.  If @emph{you} are the
 system administrator, use a kernel that has IPC support compiled in and
 enabled.
 @item
-You are attempting to run the emulator across the network (ie. the
-emulator runs on a machine, and the output is displayed on another
-machine that works as an X terminal), and for some reason VICE does not
-recognize that.  In this case, you have found a bug, so please report it
+You are attempting to run the emulator across the network (i.e., the
+emulator runs on one machine, and the output is displayed on another
+machine that works as an X terminal) and for some reason VICE does not
+recognize this fact.  In this case, you have found a bug, so please report it
 to us.
 @end itemize
 
@@ -1168,11 +1168,11 @@ The names of the available emulators are:
 @end itemize
 
 You can run each of them by simply typing the name from a shell.  If you
-want to run them from another application (e.g. a window manager or some
-other sort of program launcher) you should always run them from a
-terminal window such as @code{xterm} or @code{rxvt}, as a lot of
-debugging information is printed and the built-in monitor will be run in
-there.  For example, you could do
+want to run them from another application (e.g., a window manager or
+some other sort of program launcher) you should always run them from a
+terminal window such as @code{xterm} or @code{rxvt} since VICE provides
+a lot of debugging information that is sent to the terminal and has
+built-in monitor that also appears there.  For example, you could do
 
 @example
 xterm -e x64
@@ -1188,9 +1188,10 @@ xterm -e x64
 @section Command-line options used during initialization
 
 There are several options you can specify on the command line.  Some of
-them are used to specify emulation settings; they will be described in
+them are used to specify emulation settings and will be described in
 detail later (@pxref{Settings and resources} for a complete list).  The
-other ones, instead, are used only to initialize the emulator:
+remaining options are used only to give usage information or to
+initialize the emulator in some way:
 
 @table @code
 @cindex -help
@@ -1226,7 +1227,7 @@ Attach @file{NAME} as a disk image to device 8, 9, 10 or 11.
 
 It is possible to let the emulator @dfn{autostart} a disk or tape image
 file, by simply specifying its name as the @emph{last} argument on the
-command line; for example
+command line, for example
 
 @example
 x64 lovelygame.x64.gz
@@ -1278,7 +1279,7 @@ are emulating.
 @end itemize
 
 The place where they will be searched for depends on the value of the
-@code{Directory} resource, which is a colon (@code{;})-separated search
+@code{Directory} resource, which is a colon (@code{:})-separated search
 path list, like the @sc{unix} @code{PATH} environment variable.  The
 default value is
 
@@ -1330,7 +1331,7 @@ files}).
 @section ROM files
 
 Every emulator requires its own ROM set.  For the VIC20 and the C64, the
-ROM set consists in the following files:
+ROM set consists of the following files:
 
 @itemize @bullet
 
@@ -1345,7 +1346,7 @@ ROM set consists in the following files:
 
 @end itemize
 
-The C128 needs the following files instead:
+The C128 needs the following files:
 
 @itemize @bullet
 
@@ -1353,7 +1354,7 @@ The C128 needs the following files instead:
 @file{kernal}, the Kernal ROM (8 Kbytes)
 
 @item
-@file{basic}, the BASIC + Editor ROM (32 Kbytes)
+@file{basic}, the Basic + Editor ROM (32 Kbytes)
 
 @item
 @file{chargen}, the character generator ROM (4 Kbytes)
@@ -1373,13 +1374,13 @@ the hardware-level emulation of the 1541 and 1571 disk drives:
 
 @end itemize
 
-The PET emulator uses a quite different setup instead: the Basic and
-Kernal ROMS are packed into a single file and only three kernal files
-are provided; one for each basic revision.  To handle the different
-screen sizes and keyboards, different so-called ``editor-ROMs'' for the
-memory range $E000-$E800 are provided.  The kernal files contain an
-editor ROM for 40 columns and graphics keyboard already.  The PET ROMs
-have the following names:
+The PET emulator uses a rather different setup: the Basic and Kernal
+ROMS are packed into a single file and only three kernal files are
+provided; one for each Basic revision.  To handle the different screen
+sizes and keyboards, different so-called ``editor-ROMs'' for the memory
+range $E000-$E800 are provided.  The kernal files already contain an
+editor ROM for use with 40 columns and the graphics keyboard.  The PET
+ROMs have the following names:
 
 @itemize @bullet
 
@@ -1414,25 +1415,25 @@ command line options @code{-petrom9}, @code{-petromA} and
 @code{-petromB} resp.
 
 An alternative would be to specify a long kernal ROM with the
-@code{-kernal} option that includes the extension ROM areas already.
+@code{-kernal} option that includes the extension ROM areas.
 
-Also, you can specify a replacement for the basic ROM at $B000-$DFFF
-with the @code{-petromBasic} option and a replacement for the editor ROM
+Also, you can specify replacements for the basic ROM at $B000-$DFFF
+with the @code{-petromBasic} option and for the editor ROM
 at $E000-$E7FF with the @code{-petromEditor} option.
 
 
 @node Keymap files, Palette files, ROM files, System files
 @section Keymap files
 
-@dfn{Keymap files} are used to define the keyboard layout, defining what
-key (or combination of keys) must me mapped to ever keysym.
+@dfn{Keymap files} are used to define the keyboard layout, defining which
+key (or combination of keys) must be mapped to each keysym.
 
 In other words, the keyboard emulation works like this: whenever the
-user presses o releases a key while the input focus in the emulation
-window, the emulator receives an X-Window event with a value that
+user presses or releases a key while the emulation window has the input
+focus, the emulator receives an X-Window event with a value that
 identifies that key.  That value is called a @dfn{keysym} and is unique
-to that key.  Then the emulator looks for that keysym into an internal
-table which tells it what key(s) to press or release on the emulated
+to that key.  The emulator then looks up that keysym in an internal
+table that tells it which key(s) to press or release on the emulated
 keyboard.
 
 This table is described by the keymap file, which is made up of lines
@@ -1534,9 +1535,8 @@ RED GREEN BLUE DITHER
 
 where @code{RED}, @code{GREEN} and @code{BLUE} are hexadecimal values
 ranging from 0 to FF and specifying the amount of red, green and blue
-you want for each color and @code{DITHER} is an hexadecimal 4-bit
-number specifying the pattern you want to be used when rendering on a
-B/W display.
+you want for each color and @code{DITHER} is a 4-bit hexadecimal number
+specifying the pattern you want when rendering on a B/W display.
 
 You have to include as many lines as the number of colors the emulated
 machine has, and the order of the lines must respect the one used in the
@@ -1569,7 +1569,7 @@ background and 1 for foreground), looks like the following:
 @node Basics, Settings and resources, System files, Top
 @chapter Basic operation
 
-This section describes the basic things you can do after the emulator
+This section describes the basic things you can do once the emulator
 has been fired up.
 
 
@@ -1587,63 +1587,63 @@ has been fired up.
 
 When the emulator is run, the screen of the emulated machine is
 displayed in a standard X Window which we will call the @dfn{emulation
-window}.  This window will be updated in real-time, displaying the same
+window}.  This window will be updated in real time, displaying the same
 contents that a real monitor or TV set would.
 
-Under the emulation window there is an area which is used to display
+Below the emulation window there is an area which is used to display
 information about the state of the emulator; we will call this area the
 @dfn{status bar}.
 
 On the extreme left of the status bar, there is a @dfn{performance
-meter}.  The performance meter displays the current relative speed (in
-percent) of the emulator and the update frequency, in frames per second.
-All the machines emulated are PAL, so the update frequency will be of 50
-frames per second if your system is fast enough to allow the emulator to
-run at the speed of the real machine.
+meter}.  This displays the current relative speed of the emulator (as a
+percentage) and the update frequency (in frames per second).  All the
+machines emulated are PAL, so the update frequency will be 50 frames
+per second if your system is fast enough to allow emulation at
+the speed of the real machine.
 
 On the extreme right of the status bar, there is a @dfn{drive status
 indicator}.  This is only visible if the hardware-level (``True'') 1541
 emulation is turned on.  In that case, the drive status indicator will
-contain a rectangle which emulates the drive LED and will display the
-current track position of the read-write head of the drive.
+contain a rectangle emulating the drive LED and will display the current
+track position of the drive's read/write head.
 
 @node Menus, Help, Emulation window, Basics
 @section Using the menus
 
 It is possible to execute some commands and change emulation parameters
-while running the emulator: two menus are available by pressing the
-right or left mouse buttons while the pointer is in the emulation
-window.  The left mouse button will open the @dfn{command menu} from
-which several emulation-related commands can be executed; the right
-mouse button will open the @dfn{setting menu}, from which emulation
+while the emulator is running: when the pointer is over the emulation
+window, two menus are available by pressing either the left or right
+mouse buttons.  The left mouse button will open the @dfn{command menu}
+from which several emulation-related commands can be executed; the right
+mouse button will open the @dfn{settings menu} from which emulation
 parameters can be changed.  The basic difference between the command and
-the setting menu is that, while commands have only effect on the current
-session, settings can be saved for later use: this can be done with the
-``Save settings'' and ``Load settings'' right-button menu items.
+the settings menu is that, while commands have only effect on the
+current session, settings can be saved and later used with the ``Save
+settings'' and ``Load settings'' right-button menu items, respectively.
 ``Restore default settings'' restores the factory defaults.
 @xref{Settings and resources} for more information about how settings
 work in VICE.
 
 Sometimes commands can be reached via @dfn{shortcuts} or @dfn{hotkeys},
-i.e. it is possible to reach them by pressing a sequence of keys instead
-of going through the menu with the mouse; when this happens, the
-corresponding shortcut is displayed in parenthesis on the right of the
-menu item.  In VICE, all the shortcuts must begin with the @key{Meta} or
-@key{Alt} key.  So, for example, to attach a disk image to drive #8 (the
+i.e., it is possible to execute them by pressing a sequence of keys
+instead of going through the menu with the mouse. Where shortcuts exist,
+they are displayed in parentheses at the right edge of the menu item.
+In VICE, all shortcuts must begin with the @key{Meta} or @key{Alt}
+key.  So, for example, to attach a disk image to drive #8 (the
 corresponding menu item displays ``M-8''), you have to press the
 @key{Meta} (or @key{Alt}) and then @key{8}.
 
-Notice that, while @key{Meta} or @key{Alt} is pressed, pressing other
-keys has no effect at all on the emulated machine.
+Note that no other key presses are passed on to the emulated machine
+while either @key{Meta} or @key{Alt} are held down.
 
 
 @node Help, File Selector, Menus, Basics
 @section Getting help
 
-In case you suddenly get stuck or do not remember how to do a certain
-thing, you can in any moment use the ``Browse manuals'' command (left
-button menu).  This will popup a browser and open the HTML version of
-this documentation.  Notice that this requires VICE to be properly (and
+At any time, if you get stuck or do not remember how to perform a
+certain action, you can use the ``Browse manuals'' command (left button
+menu).  This will popup a browser and open the HTML version of this
+documentation.  Notice that this requires VICE to be properly (and
 fully) installed with a @samp{make install}.
 
 The browser can be specified via the @code{HTMLBrowserCommand} string
@@ -1656,26 +1656,26 @@ to the VICE HTML pages.
 @section Using the file selector
 
 In those situations where it is necessary to specify a file name, all
-of the VICE emulators will pop up a file selector window which allows
-you to select one file interactively.
+of the VICE emulators will pop up a file selector window allowing
+you to select or specify a file interactively.
 
-On the left of the file selector, there is a list of ancestor
-directories: by clicking on them, you can go up the directory tree.  On
+To the left of the file selector, there is a list of ancestor
+directories: by clicking on them, you can ascend the directory tree.  To
 the right, there is a list of the files in the current directory; files
 can be selected by clicking on them.  If you click on a directory, that
 directory becomes the current one; if you click on an ordinary file, it
-becomes active.
+becomes the active selection.
 
-On the top, there are a @dfn{directory box}, with the complete path of
+At the top, there is a @dfn{directory box}, with the complete path of
 the current directory, and a @dfn{file name box}, with the name of the
-file you are selecting.  On the bottom there are two buttons: ``OK''
+currently selected file.  At the bottom there are two buttons: ``OK''
 confirms the selected file and ``Cancel'' abandons the file selector
 without cancelling the operation.
 
 It is also possible to specify what files you want to show in the file
 selector by writing an appropriate shell-like pattern in the directory
-box; eg. @samp{~/*.[dx]64} will only show files in the home directory whose
-name ends with @file{.d64} or @file{*.x64}.
+box; e.g., @samp{~/*.[dx]64} will only show files in the home directory whose
+name ends with either @file{.d64} or with @file{.x64}.
 
 
 @node Disk and tape images, Reset, File Selector, Basics
@@ -1686,7 +1686,7 @@ recorders if provided with suitable @dfn{disk images} or @dfn{tape
 images}.  An @dfn{image} is a raw dump of the contents of the media, and
 must be @dfn{attached} before the emulator can use it.  ``Attaching'' a
 disk or tape image is like ``virtually'' inserting a diskette or a
-cassette into the disk drive or the tape recorder: after an image is
+cassette into the disk drive or the tape recorder: once an image is
 attached, the emulator is able to use it as a storage media.
 
 There are five commands (in the left button menu) that deal with disk
@@ -1708,14 +1708,14 @@ Smart-attach a file
 @end itemize
 
 The first four commands are used to insert and remove the virtual disks
-and cassette tapes from the respective units.  On the other hand, the
+and cassettes from the respective units.  On the other hand, the
 last commands tries to guess the type of the image you are attaching
 from its name and size, and attaches it to the most reasonable device.
 
 Supported formats are @code{D64} and @code{X64} for disk images (devices
 8, 9 and 10) and @code{T64} for tape images.  Notice that @code{T64}
 support is @emph{read-only}, and that the cassette is automatically
-rewound from the start when you reach the end.
+rewound when you reach its end.
 
 Another important feature is that raw Commodore BASIC binary files and
 .P00 files can be attached as tapes.  As you can autostart a
@@ -1724,9 +1724,9 @@ autostart these particular files as well.
 
 You can attach a disk for which you do have write permissions: when this
 happens, the 1541 emulator will emulate a write-protected disk.  This is
-also useful if you want to preserve certain disk image from being
+also useful if you want to prevent certain disk images from being
 written to; in the latter case, just remove the write permission for
-that file, eg. doing a @code{chmod a-w}.
+that file, e.g., by doing a @code{chmod a-w}.
 
 @menu
 * Previewing contents::         Looking into the image before attaching it.
@@ -1738,9 +1738,9 @@ that file, eg. doing a @code{chmod a-w}.
 @node Previewing contents, Autostart, Disk and tape images, Disk and tape images
 @subsection Previewing the image contents
 
-It is possible to look into the disk or tape image and see its directory
-before attaching it: to do so, just press the ``Contents'' button in the
-file selector window.  This way, a new window will be popped up with the
+It is possible to examine the directory of a disk or tape image
+before attaching it. Just press the ``Contents'' button in the
+file selector window and a new window will pop up with the
 contents of the selected image.
 
 Notice that this function automatically translates the directory from
@@ -1761,7 +1761,7 @@ a proper disk or tape image file.
 Notice that, if true 1541 emulation is turned on, it will be turned off
 before running the program and then turned on again after it has been
 loaded.  This way, you get the maximum possible speed while loading the
-file, but you don't loose compatibility when the actual program is
+file, but you do not lose compatibility once the program itself is
 running.
 
 This method is not completely safe, because some autostarting methods
@@ -1775,8 +1775,8 @@ the program with true 1541 emulation turned on.
 @subsection Using compressed files
 
 It is also possible to attach disk or tape images that have been
-compressed through various algorithms; the compression format is
-recognized from the file extension.  The following formats are supported
+compressed through various algorithms; compression formats are
+identified from the file extension.  The following formats are supported
 (the expected file name extension is in parenthesis):
 
 @itemize @bullet
@@ -1795,30 +1795,30 @@ Zoo (@code{.zoo}).
 PkZip, @code{tar.gz}, @code{lha} and @code{zoo} support is
 @emph{read-only} and always uses the @emph{first} @code{T64} or
 @code{D64} file in the archive.  So archives containing multiple files
-will always be handled as if they contained one single file.
+will always be handled as if they contain only a single file.
 
 
 @node Zipcode and Lynx,  , Compressed files, Disk and tape images
 @subsection Using Zipcode and Lynx images
 
-Since version 0.15, the VICE emulators are able to attach disks packed
-with Zipcoded or Lynx without the need of converting them into
-@code{D64} or @code{X64} files with @code{c1541}.  This is done by
-executing @code{c1541}, letting it decode the file into a temporary
-image, and then by attaching the temporary image read-only.  For this
-reason, the directory @code{c1541} is contained in must be in your
-@code{PATH}.
+Since version 0.15, the VICE emulators have been able to attach disks
+packed with Zipcode or Lynx directly, removing the need to manually
+convert them into @code{D64} or @code{X64} files with @code{c1541}.
+This is achieved by automatically invoking @code{c1541}, letting it
+decode the file into a temporary image and attaching the resulting
+temporary image read-only.  For this to work, the directory containing
+@code{c1541} must be in your @code{PATH}.
 
 This uses the @code{-unlynx} and @code{-zcreate} options of @code{c1541}
 (@pxref{c1541 commands and options}); these commands are not very
 reliable yet, and could fail with certain kinds of Lynx and Zipcode
 images (for example, they cannot deal with @code{DEL} files properly).
-So please use with care.
+So please use them with caution.
 
-Lynx files usually come as @file{.lnx} files and are depacked into a
-single disk.  On the other hand, Zipcode files do not have a particular
-extension (although @file{.z64} is sometimes used), and represent a disk
-by means of four sub-files, named as follows:
+Lynx files usually come as @file{.lnx} files which are unpacked into
+single disk images.  On the other hand, Zipcode files do not have a
+particular extension (although @file{.z64} is sometimes used), and
+represent a disk by means of component files, named as follows:
 
 @itemize @bullet
 @item
@@ -1831,9 +1831,9 @@ by means of four sub-files, named as follows:
 @file{4!NAME}
 @end itemize
 
-If you attach as a disk image (or smart-attach) any of these files, the
-emulator will simply pick up the other three parts (by looking at the
-name) and build one disk image out of them.
+If you attach as a disk image (or smart-attach) any one of these files,
+the emulator will simply pick up the other three (by examining
+the name) and then build a disk image using all four.
 
 
 @node Reset,  , Disk and tape images, Basics
@@ -1844,28 +1844,28 @@ command from the command menu.  There are two types of reset:
 
 @itemize @bullet
 @item
-@dfn{soft reset}, which simply resets the CPU and all the chips;
+@dfn{soft reset}, which simply resets the CPU and all the other chips;
 @item
 @dfn{hard reset}, which also clears up the contents of RAM.
 @end itemize
 
 A @dfn{soft reset} is the same as a hardware reset achieved by pulling
 the @sc{reset} line down; a @dfn{hard reset} is more like a power
-on/power off sequence, which makes sure the whole RAM is cleared.
+on/power off sequence in that it makes sure the whole RAM is cleared.
 
-It is possible that a soft reset is not enough to bring the machine back
-to the OS initialization sequence: in such cases, you have to do a hard
-reset instead.
+It is possible that a soft reset may not be enough to take the machine
+to the OS initialization sequence: in such cases, you will have to do a
+hard reset instead.
 
 
 @node Settings and resources, Machine-specific features, Basics, Top
 @chapter Settings and resources
 
-In the VICE emulators, all the settings are stored in entities which are
-called @dfn{resources}.  Every resource has a name and its value can be
-either an integer or a string.  Often integer values are used as boolean
-values, with the usual convention of using zero for ``false'' and any
-other value for ``true''.
+In the VICE emulators, all the settings are stored in entities known as
+called @dfn{resources}.  Each resource has a name and a value which may
+be either an integer or a string.  Integer values are often used as
+boolean values with the usual convention of using zero for ``false''
+and any other value for ``true''.
 
 Resource values can be changed via the right-button menu (the
 @dfn{settings} menu), via command-line options or via the @dfn{resource
@@ -1873,11 +1873,11 @@ file}.
 
 The @dfn{resource file} is a human-readable file containing resource
 values: it is called @file{.vicerc} and is stored in the user's home
-directory.  At any time, it is possible to dump the current values of
-the resources into that file or load the values stored into that file as
-the current values.  This can be achieved with the ``Save settings'' and
+directory.  It is possible to dump the current values of the resources
+into that file or load the values stored into that file as the current
+values, at any time.  This is achieved with the ``Save settings'' and
 ``Load settings'' right menu items.  A third menu item, ``Restore
-Default Settings'', can be used to set all the values to the factory
+Default Settings'', can be used to reset all the values to the factory
 defaults.
 
 A special resource, @code{SaveResourcesOnExit}, if set to a non zero
@@ -1908,9 +1908,9 @@ using command-line options.
 
 A resource file is made up of several sections; sections have the
 purpose of separating the resources of a certain emulator from the ones
-of the other emulators.  A section is started with the name of an
-emulator in brackets (eg. @samp{[C64]}) and ends when another section
-starts, or the file ends.
+of the other emulators.  A section starts with the name of an
+emulator in brackets (e.g., @samp{[C64]}) and ends when another section
+starts or when the file ends.
 
 Every line in a section has the following format:
 
@@ -1918,11 +1918,11 @@ Every line in a section has the following format:
 RESOURCE=VALUE
 @end example
 
-where @code{RESOURCE} is the name of a resource, while @code{VALUE} is
-the value to assign.  Resource names are case-sensitive, and resource
-values can be either strings or integers.  Strings must start and end
-with a double quote (@code{"}), while integers do just have to be
-written in decimal notation.
+where @code{RESOURCE} is the name of a resource and @code{VALUE} is its
+assigned value.  Resource names are case-sensitive and resource values
+are either strings or integers.  Strings must start and end with a
+double quote character (@code{"}), while integers must be given in
+decimal notation.
 
 Here is an example of a stripped-down @file{.vicerc} file:
 
@@ -1946,8 +1946,7 @@ FSDevice8HideCBMFiles=1
 @end example
 
 Notice that, when resource values are saved with ``Save settings'', the
-emulator only modifies its own section, keeping the other ones
-unchanged.
+emulator only modifies its own section, leaving the others unchanged.
 
 @node Resources and command-line, Performance settings, Resource files, Settings and resources
 @section Using command-line options to change resources
@@ -1955,20 +1954,20 @@ unchanged.
 Resources can also be changed via command-line options.
 
 Command-line options always override the defaults from @code{.vicerc},
-and their value lasts for the whole session.  So, if you specify a
+and their assignments last for the whole session.  So, if you specify a
 certain command-line option that changes a certain resource from its
 default value and then use ``Save Settings'', the value specified with
-the command-line option will be saved.
+the command-line option will be saved back to the resource file.
 
-Command-line options can begin with with the minus sign (@samp{-}) or
-with the plus sign (@samp{+}).  Options beginning with the minus sign
-can require an additional parameter, while the ones beginning with the
+Command-line options can begin with with a minus sign (@samp{-}) or
+with a plus sign (@samp{+}).  Options beginning with a minus sign
+may require an additional parameter, while the ones beginning with the
 plus sign never require one.
 
-Moreover, options beginning with the plus sign always have a counterpart
-with the same name, but with the minus sign; in that case, the option
-beginning with the minus sign is used to @emph{enable} a certain
-feature, while the one beginning with the plus sign is used to
+Moreover, options beginning with a plus sign always have a counterpart
+with the same name, but with a minus sign; in that case, the option
+beginning with a minus sign is used to @emph{enable} a certain
+feature, while the one beginning with a plus sign is used to
 @emph{disable} the same feature (this is an X11 convention).  For
 example, @code{-mitshm} enables support of MITSHM, while @code{+mitshm}
 disables it.
@@ -1981,23 +1980,23 @@ disables it.
 It is possible to control the emulation speed by using the ``Maximum
 speed'' menu item in the right-button menu.  The default setting is
 @code{100}, which causes the emulation to never run faster than the real
-machine.  A higher value makes the emulator faster, a lower one makes it
-slower.  The setting ``No limit'' means to run as fast as possible,
-without limiting speed.
+machine.  A higher value allows the emulator to run faster, a lower one
+may force it to run slower.  The setting ``No limit'' means to run as
+fast as possible, without limiting speed.
 
 @cindex Refresh rate
-It is also possible to control the amount of screen frames the emulator
-calculates with the ``Refresh rate'' setting; the value ranges from
-``1/1'' (update 1/1 of the frames of the real machine, that is 50 frames
-per second) to ``1/10'' (update 1 every 10 frames) and can be changed
-via the ``Refresh Rate'' submenu.  The ``Auto'' setting means to
-dynamically adapt the refresh rate to the current speed of the host
-machine, making sure the maximum speed specified by the via ``Maxium
-speed'' is always reached if possible.  In any case, the
-refresh rate will never be worse than 1/10 if this option is specified.
+It is also possible to control the emulator's rate of frame update using
+the ``Refresh rate'' setting; the value ranges from ``1/1'' (update 1/1
+of the frames of the real machine, that is 50 frames per second) to
+``1/10'' (update 1 every 10 frames) and can be changed via the ``Refresh
+Rate'' submenu.  The ``Auto'' setting means to dynamically adapt the
+refresh rate to the current speed of the host machine, making sure the
+maximum speed specified by the via ``Maxium speed'' is always reached if
+possible.  In any case, the refresh rate will never be worse than 1/10
+if this option is specified.
 
-Notice that you cannot specify ``Auto'' as the refresh rate and ``No
-limit'' as the maximum speed at the same time.
+Note that you cannot simultaneously specify ``Auto'' as the refresh rate
+and ``No limit'' as the maximum speed..
 
 @cindex Warp speed mode
 Moreover, a special @dfn{warp speed} mode is provided and can be toggled
@@ -2018,7 +2017,7 @@ possible speed.
 
 @vindex Speed
 @item Speed
-Integer specifying the maximum relative speed, in percent.  @code{0}
+Integer specifying the maximum relative speed, as a percentage.  @code{0}
 stands for ``no limit''.
 
 @vindex RefreshRate
@@ -2041,7 +2040,7 @@ Booolean specifying whether ``warp mode'' is turned on or not.
 
 @cindex -speed
 @item -speed VALUE
-Specifies the maximum speed in percent.  @code{0} stands for ``no
+Specifies the maximum speed as a percentage.  @code{0} stands for ``no
 limit''.  (Same as setting the @code{Speed} resource.)
 
 @cindex -refresh
@@ -2069,18 +2068,18 @@ The following right-button menu items control the video output:
 @item
 ``Video Cache'' enables a video cache that can speed up the emulation
 when little graphics activity is going on; it is especially useful when
-you run the emulator on a networked X terminal, as it can reduce the
-amount of bandwidth required.  But this can actually make the emulator
-slower when there is little graphics activity and the amount of work
-needed to maintain the cache is bigger than the amount of work that
+you run the emulator on a networked X terminal as it can reduce the
+network bandwidth required.  However, this setting can actually make the
+emulator slower when there is little graphics activity and the amount of
+work needed to maintain the cache is greater than the amount of work that
 would be wasted by not using it (if any).
 
 @cindex Double-size mode
 @item
 ``Double Size'' toggles @dfn{double-size mode}, which makes the
 emulation window twice as big.  When emulating a 80-column PET, only the
-height is doubled, so that the aspect ratio is more similiar to the one
-of the real thing.
+height is doubled, so that the aspect ratio is closer to that of the
+real thing.
 
 @cindex Double-scan mode.
 @item
@@ -2094,9 +2093,8 @@ an old monitor).
 @item
 `Use XSync()'' causes the emulator to call the X11 function
 @code{XSync()} before updating the emulation window: this might be
-necessary on low-end systems to prevent it from stealing so many system
-resources that it would become impossible for the user to interact with
-it.
+necessary on low-end systems to prevent it from consuming so many system
+resources that it becomes impossible for the user to interact with it.
 
 @end itemize
 
@@ -2133,10 +2131,10 @@ emulation window.
 @vindex MITSHM
 @item MITSHM
 Boolean specyfying whether VICE should try to use the shared memory
-extensions (MITSHM) when starting up.  The shared memory extensions
-make things a lot faster, but might not be available on your system, or
-you might not be allowed to use them because you are running the
-emulator on an X terminal, across a network.
+extensions (MITSHM) when starting up.  The shared memory extensions make
+things a lot faster but might not be available on your system.  You will
+not be able to use these extensions if you are sitting at an X terminal
+while running the emulator on a remote machine across a network.
 
 @vindex PrivateColormap
 @item PrivateColormap
@@ -2147,7 +2145,7 @@ colors if other color-hungry applications are running at the same time.
 @vindex DisplayDepth
 @item DisplayDepth
 Integer specifying the depth of the host display.  The value @samp{0}
-(the default) makes the emulator autodetect it.
+(the default) causes the emulator to autodetect it.
 
 @end table
 
@@ -2189,7 +2187,7 @@ Enable/disable usage of the MITSHM extensions (@code{MITSHM=1},
 @cindex -install, +install
 @item -install
 @itemx +install
-Enable-disable installation of a private colormap
+Enable/disable installation of a private colormap
 (@code{PrivateColormap=1}, @code{PrivateColormap=0}).
 
 @cindex -displaydepth
@@ -2203,7 +2201,7 @@ Specify the display depth (@code{DisplayDepth}).
 @section Keyboard settings
 
 It is possible to specify whether the ``positional'' or ``symbolic''
-keyboard mapping is being used with the ``Keyboard mapping type''
+keyboard mapping should be used with the ``Keyboard mapping type''
 submenu (@pxref{Keyboard emulation} for an explanation of positional
 and symbolic mappings).
 
@@ -2231,7 +2229,7 @@ file'').
 
 @vindex KeymapIndex
 @item KeymapIndex
-Integer identifying which keymap is being used; @code{0} identifies
+Integer identifying which keymap is being used; @code{0} indicates
 symbolic mapping, @code{1} positional mapping.
 
 @vindex KeymapSymFile
@@ -2254,8 +2252,8 @@ String specifying the name of the keymap file for the positional mapping
 
 @cindex -keymap
 @item -keymap N
-Specifies which keymap is being used; @code{0} identifies symbolic
-mapping, @code{1} positional mapping (same as the @code{KeymapIndex}
+Specifies which keymap is being used; @code{0} indicates symbolic
+mapping, @code{1} positional mapping (as for the @code{KeymapIndex}
 resource).
 
 @cindex -symkeymap
@@ -2287,8 +2285,8 @@ The following menu items control sound output:
 sound playback.  Possible settings are:
 @itemize @bullet
 @item
-``Flexible'', i.e. the audio renderer flexibly adds/removes samples to
-the output to smoothly adapt the playback to little changes in the speed
+``Flexible'', i.e., the audio renderer flexibly adds/removes samples to
+the output to smoothly adapt the playback to slight changes in the speed
 of the emulator.
 @item
 ``Adjusting'' works like ``flexible'', but supports bigger differences
@@ -2305,7 +2303,7 @@ skipped or added.
 @item
 ``Sample rate'' specifies the sampling frequency, ranging from 8000 to
 48000 Hz (not all the sound cards and/or sound drivers can support all
-the frequencies, so actually the nearmost candidate will be picked up).
+the frequencies, so actually the nearest candidate will be chosen).
 
 @cindex Audio buffer size
 @cindex Sound buffer size
@@ -2358,7 +2356,7 @@ use.  Possible values are:
 @item SoundSampleRate
 Integer specifying the sampling frequency, ranging from 8000 to 48000 Hz
 (not all the sound cards and/or sound drivers can support all the
-frequencies, so actually the nearmost candidate will be picked up).
+frequencies, so actually the nearest candidate will be chosen).
 
 @vindex SoundBufferSize
 @item SoundBufferSize
@@ -2468,7 +2466,7 @@ These settings are used to control the emulation of the 1541 drive.
 @itemize @bullet
 
 @item
-``Enable true 1541 emulation'' enables the slow hardware-level
+``Enable true 1541 emulation'' enables the (slow) hardware-level
 emulation of the 1541 drive number 8 for maximum compatibility.
 
 @item
@@ -2499,7 +2497,7 @@ should use to save CPU cycles.  There are three methods:
 @itemize @bullet
 @item
 @dfn{Skip cycles}: Each time the serial line is accessed by the C64, the
-drive executes all the cycles since the last time it was running.  If
+drive executes all the cycles since the last time it ran.  If
 the number of elapsed cycles is larger than a certain value, the drive
 discards part of them.
 @item
@@ -2508,22 +2506,22 @@ accesses as with the previous option, but it is also always emulated at
 the end of each screen frame.  If the drive gets into the DOS idle loop,
 only pending interrupts are emulated to save time.
 @item
-@dfn{No traps}: Like ``Trap idle'', but without traps at all.  So
+@dfn{No traps}: Like ``Trap idle'', but without any traps at all.  So
 basically the 1541 works exactly as with the real thing, and nothing is
 done to reduce the power needs of the 1541 emulation.
 @end itemize
 
-The first option (``Skip cycles'') is usually better for performance, as
-the drive is emulated as little as possible; on the other hand, you can
+The first option (``Skip cycles'') is usually best for performance, as
+the drive is emulated as little as possible; on the other hand, you may
 notice sudden slowdowns (when the drive executes several cycles at once)
 and the LED status is never updated (because it would not be possible to
 do correctly so).  Moreover, if the drive tries to get in sync with the
 computer in some weird way and the computer does not access the serial
 line for a long time, it is possible that some cycles are discarded and
-the sync is lost.  Notice that this hack can have no effect on
-performance if one program continuously reads from the IEC port, as the
-drive will have to be emulated in any case (some stupid programs do so,
-even when they don't actually need to use the drive).
+the sync is lost.  Notice that this hack will have no effect on
+performance if a program continuously reads from the IEC port, as the
+drive will have to be fully emulated in any case (some stupid programs
+do this, even when they don't actually need to use the drive).
 
 @c without this, texi2html strips our end-of-paragraph away.
 @c maybe we should patch it?
@@ -2532,7 +2530,7 @@ even when they don't actually need to use the drive).
 @end ifhtml
 
 The second option (``Trap idle'') is usually a bit slower, as at least
-interrupts are always emulated, but allows the LED state to be always
+interrupts are always emulated, but ensures the LED state is always
 updated correctly and always keeps the 1541 and the computer in sync.
 On the other hand, if a program installs a non-standard idle loop in the
 drive, the 1541 CPU has to be emulated even when not necessary and the
@@ -2680,11 +2678,11 @@ accessible; each of them provides the following settings:
 @itemize @bullet
 @item
 ``File system access'', if enabled, allows the device to emulate a drive
-accessing a file system directory; notice that if a disk is attached to
-the same drive, the directory is not visible anymore, and the attached
-disk is used instead.
+accessing a file system directory; note that when a disk image is
+attached to the same drive, the directory is no longer visible and the
+attached disk is used instead.
 @item
-``File system directory'' specifies what directory is accessed by the
+``File system directory'' specifies the directory to be accessed by the
 drive.
 @item
 ``Convert P00 file names'', if enabled, allows access to P00 files using
@@ -2746,8 +2744,8 @@ programs running in the emulator.
 @itemx FSDevice10Dir
 @vindex FSDevice11Dir
 @itemx FSDevice11Dir
-Strings specifying the paths of the directories drives 8, 9, 10 and 11
-have access to.
+Strings specifying the directories to which drives 8, 9, 10 and 11
+have access.
 
 @end table
 
@@ -2765,7 +2763,7 @@ have access to.
 @itemx -fs10 PATH
 @cindex -fs11
 @itemx -fs11 PATH
-Specify the path for the file-system access on drives 8, 9, 10 and 11,
+Specify the paths for the file system access on drives 8, 9, 10 and 11,
 respectively (@code{FSDevice8Dir}, @code{FSDevice9Dir},
 @code{FSDevice10Dir} and @code{FSDevice11Dir}).
 
@@ -2780,14 +2778,14 @@ buffer or the user port.  Emulation can be achieved by redirecting the
 printer output to a file or by piping it through an external process.
 This is defined by so-called @dfn{printer device file names}; a printer
 device file name can be either a simple path, or a command name
-prepended by the pipe symbol @samp{|}.
+preceeded by a pipe symbol @samp{|}.
 
 For example, printer device @samp{filename} will cause the output to be
-appended to file @file{filename}, while printer device @samp{|lpr} will
-cause the @code{lpr} command to be executed and fed with the printer
+appended to the file @file{filename}, while printer device @samp{|lpr}
+will cause the @code{lpr} command to be executed and be fed the printer
 output.
 
-Up to three printer devices can be specified through the following
+Up to three printer devices may be specified through the following
 resources:
 
 @itemize @bullet
@@ -2801,9 +2799,8 @@ device 3, whose default value is @code{|lpr}.
 
 So, basically, by default printer device 1 will simply dump printer
 output to @file{print.dump}; printer device 2 will print it via
-@code{petlp} (a not-complete-yet utility that will produce Postscript
-output from it) and @code{lpr}; printer device 2 will print it through
-@code{lpr}.
+@code{petlp} (a not-yet-complete utility that will produce Postscript
+output) and @code{lpr}; printer device 2 will print it with @code{lpr}.
 
 
 @menu
@@ -4044,6 +4041,45 @@ emulators snapshot files.
 @node x64 modules, x128 modules, Emulator modules, Emulator modules
 @subsubsection x64 modules
 
+The modules in the x64 emulator are:
+
+@multitable @columnfractions .1 .2 .7
+@item Name
+@tab Type
+@tab Description
+@item MAINCPU
+@tab 6502
+@tab The Main CPU - although it is a 6510, only the 6502 core is saved here
+@item C64MEM
+@tab Memory
+@tab Holds the RAM contents of the C64. Also the CPU I/O register contents are saved here.
+@item VIC-II
+@tab 656*
+@tab The VIC-II of the C64
+@item CIA1
+@tab 6526
+@tab The CIA for the interrupts and the keyboard
+@item CIA2
+@tab 6526
+@tab The CIA for the useport, IEC-bus and RS232.
+@item SID
+@tab 6581
+@tab The SID sound chip of the C64
+@item REU*
+@tab
+@tab The RAM Extension Unit state (optional)
+@item ACIA1
+@tab 6551
+@tab An ACIA at $DE00 (optional)
+@item TPI
+@tab 6525
+@tab A TPI at $DF00 for a parallel IEEE488 interface (optional)
+@end multitable
+
+Some of the modules are optional and are only saved if the specific
+feature is enabled at save-time. If the module is found when restoring
+the state the optional features are enabled, and disabled otherwise.
+
 @node x128 modules, xvic modules, x64 modules, Emulator modules
 @subsubsection x128 modules
 
@@ -4056,6 +4092,44 @@ emulators snapshot files.
 @node x610 modules, , xpet modules, Emulator modules
 @subsubsection x610 modules
 
+The modules in the x610 emulator are:
+
+@multitable @columnfractions .1 .2 .7
+@item Name
+@tab Type
+@tab Description
+@item MAINCPU
+@tab 6502
+@tab The Main CPU - although it is a 6509, only the 6502 core is saved here
+@item CBM2MEM
+@tab Memory
+@tab Holds the RAM contents of the CBM-II models. Also holds the exec-bank and indirection bank registers
+@item CRTC
+@tab 6545
+@tab The video chip for the C6*0 and C7*0 models (only those models).
+@item VIC-II
+@tab 656?
+@tab The video chip for the C5*0 models (only the C5*0 models).
+@item CIA1
+@tab 6526
+@tab The CIA for IEEE 488 and userport.
+@item TPI1
+@tab 6525
+@tab TPI 1 for IEEE488
+@item TPI2
+@tab 6525
+@tab TPI 2 for interrupts and keyboard.
+@item ACIA1
+@tab 6551
+@tab The RS232 interface
+@item SID
+@tab 6581
+@tab The CBM2s SID sound chip
+@end multitable
+
+The snapshot either contains CRTC or VIC-II snapshot modules, but
+not both. Depending on which module is found, a C5*0 or C6*0 is
+emulated.
 
 @node Module formats, , Emulator modules, Snapshot format
 @subsection Module formats
@@ -4072,12 +4146,16 @@ emulator, or even in other emulators.
 * Module Terminology::
 * Module framework::
 
-* CPU module::
-* CIA module::
-* VIA module::
-* TPI module::
-* SID module::
-* ACIA module::
+* CPU 6502 module::
+* CIA 6526 module::
+* VIA 6522 module::
+* PIA 6520 module::
+* TPI 6525 module::
+* SID 6581 module::
+* ACIA 6551 module::
+* VIC-I module::
+* VIC-II module::
+* CRTC module::
 
 * C64 memory module::
 * C128 memory module::
@@ -4108,13 +4186,13 @@ description of the data saved
 in the modules. The data is saved in the order it is in the
 tables, so no offset is given.
 
-@node Module framework, CPU module, Module Terminology, Module formats
+@node Module framework, CPU 6502 module, Module Terminology, Module formats
 @subsubsection Module framework
 
-@node CPU module, CIA module, Module framework, Module formats
+@node CPU 6502 module, CIA 6526 module, Module framework, Module formats
 @subsubsection CPU module
 
-@node CIA module, VIA module, CPU module, Module formats
+@node CIA 6526 module, VIA 6522 module, CPU 6502 module, Module formats
 @subsubsection CIA module
 
 The CIA 6526 is an I/O port chip with 2 8-bit I/O ports, a shift register,
@@ -4218,7 +4296,7 @@ Version numbers: Major 1, Minor 0.
 @tab clk ticks till next tenth of second
 @end multitable
 
-@node VIA module, TPI module, CIA module, Module formats
+@node VIA 6522 module, PIA 6520 module, CIA 6526 module, Module formats
 @subsubsection VIA module
 
 The VIA 6522 is the predecessor of the CIA and also an I/O port chip
@@ -4278,7 +4356,44 @@ Version numbers: Major 1, Minor 0.
 @tab number of half-bits to shift out on SR
 @end multitable
 
-@node TPI module, SID module, VIA module, Module formats
+@node PIA 6520 module, TPI 6525 module, VIA 6522 module, Module formats
+@subsubsection PIA module
+
+The PIA 6520 is a chip with two I/O ports (Parallel Interface Adapter)
+and four additional handshake lines. The chip is pretty the same for
+Port A and B, only that Port A implements handshake on read operation
+and port B on write operation.
+
+Version numbers: Major 1, Minor 0.
+
+@multitable @columnfractions .1 .1 .8
+@item Type
+@tab Name
+@tab Description
+@item UBYTE
+@tab ORA
+@tab Output register A
+@item UBYTE
+@tab DDRA
+@tab Data Direction Register A
+@item UBYTE
+@tab CTRLA
+@tab Control Register A
+@item UBYTE
+@tab ORB
+@tab Output register B
+@item UBYTE
+@tab DDRB
+@tab Data Direction Register B
+@item UBYTE
+@tab CTRLB
+@tab Control Register B
+@item UBYTE
+@tab CABSTATE
+@tab Bit 7 = state of CA2, Bit 6 = state of CB2
+@end multitable
+
+@node TPI 6525 module, SID 6581 module, PIA 6520 module, Module formats
 @subsubsection TPI module
 
 The TPI 6525 is a chip with three I/O ports (Tri-Port-Interface). One of
@@ -4321,15 +4436,12 @@ Version numbers: Major 1, Minor 0.
 @item BYTE
 @tab CABSTATE
 @tab State of CA/CB pins. Bit 7 = state of CA, Bit 6 = state of CB
-@item BYTE
-@tab IPREV
-@tab saved state of interrupt input pins - to detect transitions (FIXME: is this specific for emulator implementation?)
 @end multitable
 
-@node SID module, ACIA module, TPI module, Module formats
+@node SID 6581 module, ACIA 6551 module, TPI 6525 module, Module formats
 @subsubsection SID module
 
-@node ACIA module, C64 memory module, SID module, Module formats
+@node ACIA 6551 module, VIC-I module, SID 6581 module, Module formats
 @subsubsection ACIA module
 
 The ACIA 6551 is an RS232 interface chip. VICE emulates RS232 connections
@@ -4368,7 +4480,16 @@ Version numbers: Major 1, Minor 0.
 @tab Clock ticks till the next TDR empty interrupt
 @end multitable
 
-@node C64 memory module, C128 memory module, ACIA module, Module formats
+@node VIC-I module, VIC-II module, ACIA 6551 module, Module formats
+@subsubsection VIC-I module
+
+@node VIC-II module, CRTC module, VIC-I module, Module formats
+@subsubsection VIC-II module
+
+@node CRTC module, C64 memory module, VIC-II module, Module formats
+@subsubsection CRTC module
+
+@node C64 memory module, C128 memory module, CRTC module, Module formats
 @subsubsection C64 memory module
 
 @node C128 memory module, VIC20 memory module, C64 memory module, Module formats
@@ -4418,6 +4539,64 @@ Version numbers: Major 1, Minor 0
 
 @node C610 memory module, , PET memory module, Module formats
 @subsubsection C610 memory module
+
+The size of the C610 memory module differs with each different memory
+configuration. The RAM configuration is saved in the snapshot, and
+restored when the snapshot is loaded.
+
+Version numbers: Major 1, Minor 0
+
+@multitable @columnfractions .1 .1 .8
+@item Type
+@tab Name
+@tab Description
+@item UBYTE
+@tab MEMSIZE
+@tab Memory size in 128k blocks (1=128k, 2=256k, 4=512k, 8=1024k)
+@item UBYTE
+@tab CONFIG
+@tab Bit 0 = $f0800-$f0fff RAM, Bit 1 = $f1000-$f1fff RAM, Bit 2 = $f2000-$f3fff RAM, Bit 3 = $f4000-$f5fff RAM, Bit 4 = $f6000-$f7fff RAM, Bit 5 = $fc000-$fcfff RAM
+@item UBYTE
+@tab HWCONFIG
+@tab Bit 0: 0 = CRTC, 1 = VIC-II video chip
+@item UBYTE
+@tab EXECBANK
+@tab CPUs execution bank register
+@item UBYTE
+@tab INDBANK
+@tab CPUs indirection bank register
+@item ARRAY
+@tab SYSRAM
+@tab 2k system RAM $f0000-$f07ff
+@item ARRAY
+@tab VIDEO
+@tab 2k video RAM $fd000-$fd7ff
+@item ARRAY
+@tab RAM
+@tab RAM dump, size according to MEMSIZE
+@item ARRAY
+@tab RAM08
+@tab if memsize < 1M and CONFIG & 1 : 2k RAM $f0800-$f0fff
+@item ARRAY
+@tab RAM1
+@tab if memsize < 1M and CONFIG & 2 : 4k RAM $f1000-$f1fff
+@item ARRAY
+@tab RAM2
+@tab if memsize < 1M and CONFIG & 4 : 8k RAM $f2000-$f3fff
+@item ARRAY
+@tab RAM4
+@tab if memsize < 1M and CONFIG & 8 : 8k RAM $f4000-$f5fff
+@item ARRAY
+@tab RAM6
+@tab if memsize < 1M and CONFIG & 16 : 8k RAM $f6000-$f7fff
+@item ARRAY
+@tab RAMC
+@tab if memsize < 1M and CONFIG & 32 : 4k RAM $fc000-$fcfff
+@end multitable
+
+The RAM* arrays are only saved if the RAM itself is less than 1M.
+If the memory size is 1M then those areas are taken from the
+bank 15 area of the normal RAM.
 
 @c -----------------------------------------------------------------
 
@@ -4897,7 +5076,7 @@ Concatenate @code{OLDNAME1}, @code{OLDNAME2}.. into
 @item -create  IMAGE DUMP ['DESCR']
 @cindex create
 @item create  IMAGE DUMP ['DESCR']
-Build @code{IMAGE} from raw dump file @code{DUMP} (i.e. convert
+Build @code{IMAGE} from raw dump file @code{DUMP} (i.e., convert
 from @code{D64} to @code{X64} file).
 
 @cindex -tape
@@ -5048,8 +5227,9 @@ implementation would have not been possible.
 to debug the CPU emulation.
 
 @item
-@b{Giuliano Procida} (@email{gpp10@@cam.ac.uk}) is the maintainer of the VICE
-@code{deb} package for the Debian distribution.
+@b{Giuliano Procida} (@email{gpp10@@cam.ac.uk}) is the maintainer
+of the VICE @code{deb} package for the Debian distribution, and also
+helped proofreading the documentation.
 
 @item
 @b{Marko M@"akel@"a} (@email{msmakela@@nic.funet.fi}) wrote lots of CPU
@@ -5301,7 +5481,7 @@ team.
 
 @item
 Please put the word @samp{VICE} @emph{in all capitals} in your subject
-line (e.g. @samp{VICE fails to run game XXX}).  This helps mail
+line (e.g., @samp{VICE fails to run game XXX}).  This helps mail
 splitting and reduces chances that your message is unintentionally
 deleted, forgotten or lost.
 

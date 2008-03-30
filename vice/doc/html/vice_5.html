@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 20 September 1998 -->
+     from ../vice.texi on 23 September 1998 -->
 
 <TITLE>VICE Manual - 5  Basic operation</TITLE>
 </HEAD>
@@ -13,7 +13,7 @@ Go to the <A HREF="vice_1.html">first</A>, <A HREF="vice_4.html">previous</A>, <
 <H1><A NAME="SEC25" HREF="vice_toc.html#TOC25">5  Basic operation</A></H1>
 
 <P>
-This section describes the basic things you can do after the emulator
+This section describes the basic things you can do once the emulator
 has been fired up.
 
 </P>
@@ -25,31 +25,31 @@ has been fired up.
 <P>
 When the emulator is run, the screen of the emulated machine is
 displayed in a standard X Window which we will call the <EM>emulation
-window</EM>.  This window will be updated in real-time, displaying the same
+window</EM>.  This window will be updated in real time, displaying the same
 contents that a real monitor or TV set would.
 
 </P>
 <P>
-Under the emulation window there is an area which is used to display
+Below the emulation window there is an area which is used to display
 information about the state of the emulator; we will call this area the
 <EM>status bar</EM>.
 
 </P>
 <P>
 On the extreme left of the status bar, there is a <EM>performance
-meter</EM>.  The performance meter displays the current relative speed (in
-percent) of the emulator and the update frequency, in frames per second.
-All the machines emulated are PAL, so the update frequency will be of 50
-frames per second if your system is fast enough to allow the emulator to
-run at the speed of the real machine.
+meter</EM>.  This displays the current relative speed of the emulator (as a
+percentage) and the update frequency (in frames per second).  All the
+machines emulated are PAL, so the update frequency will be 50 frames
+per second if your system is fast enough to allow emulation at
+the speed of the real machine.
 
 </P>
 <P>
 On the extreme right of the status bar, there is a <EM>drive status
 indicator</EM>.  This is only visible if the hardware-level ("True") 1541
 emulation is turned on.  In that case, the drive status indicator will
-contain a rectangle which emulates the drive LED and will display the
-current track position of the read-write head of the drive.
+contain a rectangle emulating the drive LED and will display the current
+track position of the drive's read/write head.
 
 </P>
 
@@ -58,15 +58,15 @@ current track position of the read-write head of the drive.
 
 <P>
 It is possible to execute some commands and change emulation parameters
-while running the emulator: two menus are available by pressing the
-right or left mouse buttons while the pointer is in the emulation
-window.  The left mouse button will open the <EM>command menu</EM> from
-which several emulation-related commands can be executed; the right
-mouse button will open the <EM>setting menu</EM>, from which emulation
+while the emulator is running: when the pointer is over the emulation
+window, two menus are available by pressing either the left or right
+mouse buttons.  The left mouse button will open the <EM>command menu</EM>
+from which several emulation-related commands can be executed; the right
+mouse button will open the <EM>settings menu</EM> from which emulation
 parameters can be changed.  The basic difference between the command and
-the setting menu is that, while commands have only effect on the current
-session, settings can be saved for later use: this can be done with the
-"Save settings" and "Load settings" right-button menu items.
+the settings menu is that, while commands have only effect on the
+current session, settings can be saved and later used with the "Save
+settings" and "Load settings" right-button menu items, respectively.
 "Restore default settings" restores the factory defaults.
 See section <A HREF="vice_6.html#SEC36">6  Settings and resources</A> for more information about how settings
 work in VICE.
@@ -74,18 +74,18 @@ work in VICE.
 </P>
 <P>
 Sometimes commands can be reached via <EM>shortcuts</EM> or <EM>hotkeys</EM>,
-i.e. it is possible to reach them by pressing a sequence of keys instead
-of going through the menu with the mouse; when this happens, the
-corresponding shortcut is displayed in parenthesis on the right of the
-menu item.  In VICE, all the shortcuts must begin with the <KBD>Meta</KBD> or
-<KBD>Alt</KBD> key.  So, for example, to attach a disk image to drive #8 (the
+i.e., it is possible to execute them by pressing a sequence of keys
+instead of going through the menu with the mouse. Where shortcuts exist,
+they are displayed in parentheses at the right edge of the menu item.
+In VICE, all shortcuts must begin with the <KBD>Meta</KBD> or <KBD>Alt</KBD>
+key.  So, for example, to attach a disk image to drive #8 (the
 corresponding menu item displays "M-8"), you have to press the
 <KBD>Meta</KBD> (or <KBD>Alt</KBD>) and then <KBD>8</KBD>.
 
 </P>
 <P>
-Notice that, while <KBD>Meta</KBD> or <KBD>Alt</KBD> is pressed, pressing other
-keys has no effect at all on the emulated machine.
+Note that no other key presses are passed on to the emulated machine
+while either <KBD>Meta</KBD> or <KBD>Alt</KBD> are held down.
 
 </P>
 
@@ -94,10 +94,10 @@ keys has no effect at all on the emulated machine.
 <H2><A NAME="SEC28" HREF="vice_toc.html#TOC28">5.3  Getting help</A></H2>
 
 <P>
-In case you suddenly get stuck or do not remember how to do a certain
-thing, you can in any moment use the "Browse manuals" command (left
-button menu).  This will popup a browser and open the HTML version of
-this documentation.  Notice that this requires VICE to be properly (and
+At any time, if you get stuck or do not remember how to perform a
+certain action, you can use the "Browse manuals" command (left button
+menu).  This will popup a browser and open the HTML version of this
+documentation.  Notice that this requires VICE to be properly (and
 fully) installed with a <SAMP>`make install'</SAMP>.
 
 </P>
@@ -115,23 +115,23 @@ to the VICE HTML pages.
 
 <P>
 In those situations where it is necessary to specify a file name, all
-of the VICE emulators will pop up a file selector window which allows
-you to select one file interactively.
+of the VICE emulators will pop up a file selector window allowing
+you to select or specify a file interactively.
 
 </P>
 <P>
-On the left of the file selector, there is a list of ancestor
-directories: by clicking on them, you can go up the directory tree.  On
+To the left of the file selector, there is a list of ancestor
+directories: by clicking on them, you can ascend the directory tree.  To
 the right, there is a list of the files in the current directory; files
 can be selected by clicking on them.  If you click on a directory, that
 directory becomes the current one; if you click on an ordinary file, it
-becomes active.
+becomes the active selection.
 
 </P>
 <P>
-On the top, there are a <EM>directory box</EM>, with the complete path of
+At the top, there is a <EM>directory box</EM>, with the complete path of
 the current directory, and a <EM>file name box</EM>, with the name of the
-file you are selecting.  On the bottom there are two buttons: "OK"
+currently selected file.  At the bottom there are two buttons: "OK"
 confirms the selected file and "Cancel" abandons the file selector
 without cancelling the operation.
 
@@ -139,8 +139,8 @@ without cancelling the operation.
 <P>
 It is also possible to specify what files you want to show in the file
 selector by writing an appropriate shell-like pattern in the directory
-box; eg. <SAMP>`~/*.[dx]64'</SAMP> will only show files in the home directory whose
-name ends with <TT>`.d64'</TT> or <TT>`*.x64'</TT>.
+box; e.g., <SAMP>`~/*.[dx]64'</SAMP> will only show files in the home directory whose
+name ends with either <TT>`.d64'</TT> or with <TT>`.x64'</TT>.
 
 </P>
 
@@ -154,7 +154,7 @@ recorders if provided with suitable <EM>disk images</EM> or <EM>tape
 images</EM>.  An <EM>image</EM> is a raw dump of the contents of the media, and
 must be <EM>attached</EM> before the emulator can use it.  "Attaching" a
 disk or tape image is like "virtually" inserting a diskette or a
-cassette into the disk drive or the tape recorder: after an image is
+cassette into the disk drive or the tape recorder: once an image is
 attached, the emulator is able to use it as a storage media.
 
 </P>
@@ -186,7 +186,7 @@ Smart-attach a file
 
 <P>
 The first four commands are used to insert and remove the virtual disks
-and cassette tapes from the respective units.  On the other hand, the
+and cassettes from the respective units.  On the other hand, the
 last commands tries to guess the type of the image you are attaching
 from its name and size, and attaches it to the most reasonable device.
 
@@ -195,7 +195,7 @@ from its name and size, and attaches it to the most reasonable device.
 Supported formats are <CODE>D64</CODE> and <CODE>X64</CODE> for disk images (devices
 8, 9 and 10) and <CODE>T64</CODE> for tape images.  Notice that <CODE>T64</CODE>
 support is <EM>read-only</EM>, and that the cassette is automatically
-rewound from the start when you reach the end.
+rewound when you reach its end.
 
 </P>
 <P>
@@ -208,9 +208,9 @@ autostart these particular files as well.
 <P>
 You can attach a disk for which you do have write permissions: when this
 happens, the 1541 emulator will emulate a write-protected disk.  This is
-also useful if you want to preserve certain disk image from being
+also useful if you want to prevent certain disk images from being
 written to; in the latter case, just remove the write permission for
-that file, eg. doing a <CODE>chmod a-w</CODE>.
+that file, e.g., by doing a <CODE>chmod a-w</CODE>.
 
 </P>
 
@@ -219,9 +219,9 @@ that file, eg. doing a <CODE>chmod a-w</CODE>.
 <H3><A NAME="SEC31" HREF="vice_toc.html#TOC31">5.5.1  Previewing the image contents</A></H3>
 
 <P>
-It is possible to look into the disk or tape image and see its directory
-before attaching it: to do so, just press the "Contents" button in the
-file selector window.  This way, a new window will be popped up with the
+It is possible to examine the directory of a disk or tape image
+before attaching it. Just press the "Contents" button in the
+file selector window and a new window will pop up with the
 contents of the selected image.
 
 </P>
@@ -249,7 +249,7 @@ a proper disk or tape image file.
 Notice that, if true 1541 emulation is turned on, it will be turned off
 before running the program and then turned on again after it has been
 loaded.  This way, you get the maximum possible speed while loading the
-file, but you don't loose compatibility when the actual program is
+file, but you do not lose compatibility once the program itself is
 running.
 
 </P>
@@ -268,8 +268,8 @@ the program with true 1541 emulation turned on.
 
 <P>
 It is also possible to attach disk or tape images that have been
-compressed through various algorithms; the compression format is
-recognized from the file extension.  The following formats are supported
+compressed through various algorithms; compression formats are
+identified from the file extension.  The following formats are supported
 (the expected file name extension is in parenthesis):
 
 </P>
@@ -296,7 +296,7 @@ Zoo (<CODE>.zoo</CODE>).
 PkZip, <CODE>tar.gz</CODE>, <CODE>lha</CODE> and <CODE>zoo</CODE> support is
 <EM>read-only</EM> and always uses the <EM>first</EM> <CODE>T64</CODE> or
 <CODE>D64</CODE> file in the archive.  So archives containing multiple files
-will always be handled as if they contained one single file.
+will always be handled as if they contain only a single file.
 
 </P>
 
@@ -305,28 +305,28 @@ will always be handled as if they contained one single file.
 <H3><A NAME="SEC34" HREF="vice_toc.html#TOC34">5.5.4  Using Zipcode and Lynx images</A></H3>
 
 <P>
-Since version 0.15, the VICE emulators are able to attach disks packed
-with Zipcoded or Lynx without the need of converting them into
-<CODE>D64</CODE> or <CODE>X64</CODE> files with <CODE>c1541</CODE>.  This is done by
-executing <CODE>c1541</CODE>, letting it decode the file into a temporary
-image, and then by attaching the temporary image read-only.  For this
-reason, the directory <CODE>c1541</CODE> is contained in must be in your
-<CODE>PATH</CODE>.
+Since version 0.15, the VICE emulators have been able to attach disks
+packed with Zipcode or Lynx directly, removing the need to manually
+convert them into <CODE>D64</CODE> or <CODE>X64</CODE> files with <CODE>c1541</CODE>.
+This is achieved by automatically invoking <CODE>c1541</CODE>, letting it
+decode the file into a temporary image and attaching the resulting
+temporary image read-only.  For this to work, the directory containing
+<CODE>c1541</CODE> must be in your <CODE>PATH</CODE>.
 
 </P>
 <P>
 This uses the <CODE>-unlynx</CODE> and <CODE>-zcreate</CODE> options of <CODE>c1541</CODE>
-(see section <A HREF="vice_10.html#SEC135">10.1  c1541 commands and options</A>); these commands are not very
+(see section <A HREF="vice_10.html#SEC139">10.1  c1541 commands and options</A>); these commands are not very
 reliable yet, and could fail with certain kinds of Lynx and Zipcode
 images (for example, they cannot deal with <CODE>DEL</CODE> files properly).
-So please use with care.
+So please use them with caution.
 
 </P>
 <P>
-Lynx files usually come as <TT>`.lnx'</TT> files and are depacked into a
-single disk.  On the other hand, Zipcode files do not have a particular
-extension (although <TT>`.z64'</TT> is sometimes used), and represent a disk
-by means of four sub-files, named as follows:
+Lynx files usually come as <TT>`.lnx'</TT> files which are unpacked into
+single disk images.  On the other hand, Zipcode files do not have a
+particular extension (although <TT>`.z64'</TT> is sometimes used), and
+represent a disk by means of component files, named as follows:
 
 </P>
 
@@ -346,9 +346,9 @@ by means of four sub-files, named as follows:
 </UL> </P>
 
 <P>
-If you attach as a disk image (or smart-attach) any of these files, the
-emulator will simply pick up the other three parts (by looking at the
-name) and build one disk image out of them.
+If you attach as a disk image (or smart-attach) any one of these files,
+the emulator will simply pick up the other three (by examining
+the name) and then build a disk image using all four.
 
 </P>
 
@@ -365,7 +365,7 @@ command from the command menu.  There are two types of reset:
 <P> <UL>
 <P> <LI>
 
-<EM>soft reset</EM>, which simply resets the CPU and all the chips;
+<EM>soft reset</EM>, which simply resets the CPU and all the other chips;
 <P> <LI>
 
 <EM>hard reset</EM>, which also clears up the contents of RAM.
@@ -374,13 +374,13 @@ command from the command menu.  There are two types of reset:
 <P>
 A <EM>soft reset</EM> is the same as a hardware reset achieved by pulling
 the RESET line down; a <EM>hard reset</EM> is more like a power
-on/power off sequence, which makes sure the whole RAM is cleared.
+on/power off sequence in that it makes sure the whole RAM is cleared.
 
 </P>
 <P>
-It is possible that a soft reset is not enough to bring the machine back
-to the OS initialization sequence: in such cases, you have to do a hard
-reset instead.
+It is possible that a soft reset may not be enough to take the machine
+to the OS initialization sequence: in such cases, you will have to do a
+hard reset instead.
 
 </P>
 

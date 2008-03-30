@@ -22,16 +22,15 @@ File: vice.info,  Node: Keymap files,  Next: Palette files,  Prev: ROM files,  U
 Keymap files
 ============
 
-   "Keymap files" are used to define the keyboard layout, defining what
-key (or combination of keys) must me mapped to ever keysym.
+   "Keymap files" are used to define the keyboard layout, defining which
+key (or combination of keys) must be mapped to each keysym.
 
    In other words, the keyboard emulation works like this: whenever the
-user presses o releases a key while the input focus in the emulation
-window, the emulator receives an X-Window event with a value that
+user presses or releases a key while the emulation window has the input
+focus, the emulator receives an X-Window event with a value that
 identifies that key.  That value is called a "keysym" and is unique to
-that key.  Then the emulator looks for that keysym into an internal
-table which tells it what key(s) to press or release on the emulated
-keyboard.
+that key.  The emulator then looks up that keysym in an internal table
+that tells it which key(s) to press or release on the emulated keyboard.
 
    This table is described by the keymap file, which is made up of lines
 like the following:
@@ -104,8 +103,8 @@ emulators.  They are made up of lines like the following:
 
    where `RED', `GREEN' and `BLUE' are hexadecimal values ranging from
 0 to FF and specifying the amount of red, green and blue you want for
-each color and `DITHER' is an hexadecimal 4-bit number specifying the
-pattern you want to be used when rendering on a B/W display.
+each color and `DITHER' is a 4-bit hexadecimal number specifying the
+pattern you want when rendering on a B/W display.
 
    You have to include as many lines as the number of colors the
 emulated machine has, and the order of the lines must respect the one
@@ -139,7 +138,7 @@ File: vice.info,  Node: Basics,  Next: Settings and resources,  Prev: System fil
 Basic operation
 ***************
 
-   This section describes the basic things you can do after the emulator
+   This section describes the basic things you can do once the emulator
 has been fired up.
 
 * Menu:
@@ -159,25 +158,25 @@ The emulation window
 
    When the emulator is run, the screen of the emulated machine is
 displayed in a standard X Window which we will call the "emulation
-window".  This window will be updated in real-time, displaying the same
+window".  This window will be updated in real time, displaying the same
 contents that a real monitor or TV set would.
 
-   Under the emulation window there is an area which is used to display
+   Below the emulation window there is an area which is used to display
 information about the state of the emulator; we will call this area the
 "status bar".
 
    On the extreme left of the status bar, there is a "performance
-meter".  The performance meter displays the current relative speed (in
-percent) of the emulator and the update frequency, in frames per second.
-All the machines emulated are PAL, so the update frequency will be of 50
-frames per second if your system is fast enough to allow the emulator to
-run at the speed of the real machine.
+meter".  This displays the current relative speed of the emulator (as a
+percentage) and the update frequency (in frames per second).  All the
+machines emulated are PAL, so the update frequency will be 50 frames
+per second if your system is fast enough to allow emulation at the
+speed of the real machine.
 
    On the extreme right of the status bar, there is a "drive status
 indicator".  This is only visible if the hardware-level ("True") 1541
 emulation is turned on.  In that case, the drive status indicator will
-contain a rectangle which emulates the drive LED and will display the
-current track position of the read-write head of the drive.
+contain a rectangle emulating the drive LED and will display the current
+track position of the drive's read/write head.
 
 
 File: vice.info,  Node: Menus,  Next: Help,  Prev: Emulation window,  Up: Basics
@@ -186,29 +185,30 @@ Using the menus
 ===============
 
    It is possible to execute some commands and change emulation
-parameters while running the emulator: two menus are available by
-pressing the right or left mouse buttons while the pointer is in the
-emulation window.  The left mouse button will open the "command menu"
-from which several emulation-related commands can be executed; the right
-mouse button will open the "setting menu", from which emulation
-parameters can be changed.  The basic difference between the command and
-the setting menu is that, while commands have only effect on the current
-session, settings can be saved for later use: this can be done with the
-"Save settings" and "Load settings" right-button menu items.  "Restore
-default settings" restores the factory defaults.  *Note Settings and
-resources:: for more information about how settings work in VICE.
+parameters while the emulator is running: when the pointer is over the
+emulation window, two menus are available by pressing either the left
+or right mouse buttons.  The left mouse button will open the "command
+menu" from which several emulation-related commands can be executed;
+the right mouse button will open the "settings menu" from which
+emulation parameters can be changed.  The basic difference between the
+command and the settings menu is that, while commands have only effect
+on the current session, settings can be saved and later used with the
+"Save settings" and "Load settings" right-button menu items,
+respectively.  "Restore default settings" restores the factory defaults.
+*Note Settings and resources:: for more information about how settings
+work in VICE.
 
-   Sometimes commands can be reached via "shortcuts" or "hotkeys", i.e.
-it is possible to reach them by pressing a sequence of keys instead of
-going through the menu with the mouse; when this happens, the
-corresponding shortcut is displayed in parenthesis on the right of the
-menu item.  In VICE, all the shortcuts must begin with the <Meta> or
-<Alt> key.  So, for example, to attach a disk image to drive #8 (the
-corresponding menu item displays "M-8"), you have to press the <Meta>
-(or <Alt>) and then <8>.
+   Sometimes commands can be reached via "shortcuts" or "hotkeys",
+i.e., it is possible to execute them by pressing a sequence of keys
+instead of going through the menu with the mouse. Where shortcuts exist,
+they are displayed in parentheses at the right edge of the menu item.
+In VICE, all shortcuts must begin with the <Meta> or <Alt> key.  So,
+for example, to attach a disk image to drive #8 (the corresponding menu
+item displays "M-8"), you have to press the <Meta> (or <Alt>) and then
+<8>.
 
-   Notice that, while <Meta> or <Alt> is pressed, pressing other keys
-has no effect at all on the emulated machine.
+   Note that no other key presses are passed on to the emulated machine
+while either <Meta> or <Alt> are held down.
 
 
 File: vice.info,  Node: Help,  Next: File Selector,  Prev: Menus,  Up: Basics
@@ -216,10 +216,10 @@ File: vice.info,  Node: Help,  Next: File Selector,  Prev: Menus,  Up: Basics
 Getting help
 ============
 
-   In case you suddenly get stuck or do not remember how to do a certain
-thing, you can in any moment use the "Browse manuals" command (left
-button menu).  This will popup a browser and open the HTML version of
-this documentation.  Notice that this requires VICE to be properly (and
+   At any time, if you get stuck or do not remember how to perform a
+certain action, you can use the "Browse manuals" command (left button
+menu).  This will popup a browser and open the HTML version of this
+documentation.  Notice that this requires VICE to be properly (and
 fully) installed with a `make install'.
 
    The browser can be specified via the `HTMLBrowserCommand' string
@@ -234,26 +234,26 @@ Using the file selector
 =======================
 
    In those situations where it is necessary to specify a file name, all
-of the VICE emulators will pop up a file selector window which allows
-you to select one file interactively.
+of the VICE emulators will pop up a file selector window allowing you
+to select or specify a file interactively.
 
-   On the left of the file selector, there is a list of ancestor
-directories: by clicking on them, you can go up the directory tree.  On
+   To the left of the file selector, there is a list of ancestor
+directories: by clicking on them, you can ascend the directory tree.  To
 the right, there is a list of the files in the current directory; files
 can be selected by clicking on them.  If you click on a directory, that
 directory becomes the current one; if you click on an ordinary file, it
-becomes active.
+becomes the active selection.
 
-   On the top, there are a "directory box", with the complete path of
-the current directory, and a "file name box", with the name of the file
-you are selecting.  On the bottom there are two buttons: "OK" confirms
-the selected file and "Cancel" abandons the file selector without
-cancelling the operation.
+   At the top, there is a "directory box", with the complete path of
+the current directory, and a "file name box", with the name of the
+currently selected file.  At the bottom there are two buttons: "OK"
+confirms the selected file and "Cancel" abandons the file selector
+without cancelling the operation.
 
    It is also possible to specify what files you want to show in the
 file selector by writing an appropriate shell-like pattern in the
-directory box; eg. `~/*.[dx]64' will only show files in the home
-directory whose name ends with `.d64' or `*.x64'.
+directory box; e.g., `~/*.[dx]64' will only show files in the home
+directory whose name ends with either `.d64' or with `.x64'.
 
 
 File: vice.info,  Node: Disk and tape images,  Next: Reset,  Prev: File Selector,  Up: Basics
@@ -266,7 +266,7 @@ recorders if provided with suitable "disk images" or "tape images".  An
 "image" is a raw dump of the contents of the media, and must be
 "attached" before the emulator can use it.  "Attaching" a disk or tape
 image is like "virtually" inserting a diskette or a cassette into the
-disk drive or the tape recorder: after an image is attached, the
+disk drive or the tape recorder: once an image is attached, the
 emulator is able to use it as a storage media.
 
    There are five commands (in the left button menu) that deal with disk
@@ -283,14 +283,14 @@ and tape images:
    * Smart-attach a file
 
    The first four commands are used to insert and remove the virtual
-disks and cassette tapes from the respective units.  On the other hand,
-the last commands tries to guess the type of the image you are attaching
+disks and cassettes from the respective units.  On the other hand, the
+last commands tries to guess the type of the image you are attaching
 from its name and size, and attaches it to the most reasonable device.
 
    Supported formats are `D64' and `X64' for disk images (devices 8, 9
 and 10) and `T64' for tape images.  Notice that `T64' support is
-*read-only*, and that the cassette is automatically rewound from the
-start when you reach the end.
+*read-only*, and that the cassette is automatically rewound when you
+reach its end.
 
    Another important feature is that raw Commodore BASIC binary files
 and .P00 files can be attached as tapes.  As you can autostart a tape
@@ -299,9 +299,9 @@ autostart these particular files as well.
 
    You can attach a disk for which you do have write permissions: when
 this happens, the 1541 emulator will emulate a write-protected disk.
-This is also useful if you want to preserve certain disk image from
+This is also useful if you want to prevent certain disk images from
 being written to; in the latter case, just remove the write permission
-for that file, eg. doing a `chmod a-w'.
+for that file, e.g., by doing a `chmod a-w'.
 
 * Menu:
 
@@ -316,10 +316,10 @@ File: vice.info,  Node: Previewing contents,  Next: Autostart,  Prev: Disk and t
 Previewing the image contents
 -----------------------------
 
-   It is possible to look into the disk or tape image and see its
-directory before attaching it: to do so, just press the "Contents"
-button in the file selector window.  This way, a new window will be
-popped up with the contents of the selected image.
+   It is possible to examine the directory of a disk or tape image
+before attaching it. Just press the "Contents" button in the file
+selector window and a new window will pop up with the contents of the
+selected image.
 
    Notice that this function automatically translates the directory from
 PETSCII to ASCII; but, due to differences in the two encodings, it is
@@ -341,8 +341,8 @@ after selecting a proper disk or tape image file.
    Notice that, if true 1541 emulation is turned on, it will be turned
 off before running the program and then turned on again after it has
 been loaded.  This way, you get the maximum possible speed while
-loading the file, but you don't loose compatibility when the actual
-program is running.
+loading the file, but you do not lose compatibility once the program
+itself is running.
 
    This method is not completely safe, because some autostarting methods
 might cause the true 1541 emulation not to be turned on again.  In such
@@ -357,8 +357,8 @@ Using compressed files
 ----------------------
 
    It is also possible to attach disk or tape images that have been
-compressed through various algorithms; the compression format is
-recognized from the file extension.  The following formats are supported
+compressed through various algorithms; compression formats are
+identified from the file extension.  The following formats are supported
 (the expected file name extension is in parenthesis):
 
    * GNU Zip (`.gz' or `.z');
@@ -373,8 +373,8 @@ recognized from the file extension.  The following formats are supported
 
    PkZip, `tar.gz', `lha' and `zoo' support is *read-only* and always
 uses the *first* `T64' or `D64' file in the archive.  So archives
-containing multiple files will always be handled as if they contained
-one single file.
+containing multiple files will always be handled as if they contain
+only a single file.
 
 
 File: vice.info,  Node: Zipcode and Lynx,  Prev: Compressed files,  Up: Disk and tape images
@@ -382,23 +382,24 @@ File: vice.info,  Node: Zipcode and Lynx,  Prev: Compressed files,  Up: Disk and
 Using Zipcode and Lynx images
 -----------------------------
 
-   Since version 0.15, the VICE emulators are able to attach disks
-packed with Zipcoded or Lynx without the need of converting them into
-`D64' or `X64' files with `c1541'.  This is done by executing `c1541',
-letting it decode the file into a temporary image, and then by
-attaching the temporary image read-only.  For this reason, the
-directory `c1541' is contained in must be in your `PATH'.
+   Since version 0.15, the VICE emulators have been able to attach disks
+packed with Zipcode or Lynx directly, removing the need to manually
+convert them into `D64' or `X64' files with `c1541'.  This is achieved
+by automatically invoking `c1541', letting it decode the file into a
+temporary image and attaching the resulting temporary image read-only.
+For this to work, the directory containing `c1541' must be in your
+`PATH'.
 
    This uses the `-unlynx' and `-zcreate' options of `c1541' (*note
 c1541 commands and options::.); these commands are not very reliable
 yet, and could fail with certain kinds of Lynx and Zipcode images (for
 example, they cannot deal with `DEL' files properly).  So please use
-with care.
+them with caution.
 
-   Lynx files usually come as `.lnx' files and are depacked into a
-single disk.  On the other hand, Zipcode files do not have a particular
-extension (although `.z64' is sometimes used), and represent a disk by
-means of four sub-files, named as follows:
+   Lynx files usually come as `.lnx' files which are unpacked into
+single disk images.  On the other hand, Zipcode files do not have a
+particular extension (although `.z64' is sometimes used), and represent
+a disk by means of component files, named as follows:
 
    * `1!NAME'
 
@@ -408,9 +409,9 @@ means of four sub-files, named as follows:
 
    * `4!NAME'
 
-   If you attach as a disk image (or smart-attach) any of these files,
-the emulator will simply pick up the other three parts (by looking at
-the name) and build one disk image out of them.
+   If you attach as a disk image (or smart-attach) any one of these
+files, the emulator will simply pick up the other three (by examining
+the name) and then build a disk image using all four.
 
 
 File: vice.info,  Node: Reset,  Prev: Disk and tape images,  Up: Basics
@@ -421,17 +422,17 @@ Resetting the machine
    You can reset the emulated machine at any time by using the "Reset"
 command from the command menu.  There are two types of reset:
 
-   * "soft reset", which simply resets the CPU and all the chips;
+   * "soft reset", which simply resets the CPU and all the other chips;
 
    * "hard reset", which also clears up the contents of RAM.
 
    A "soft reset" is the same as a hardware reset achieved by pulling
 the RESET line down; a "hard reset" is more like a power on/power off
-sequence, which makes sure the whole RAM is cleared.
+sequence in that it makes sure the whole RAM is cleared.
 
-   It is possible that a soft reset is not enough to bring the machine
-back to the OS initialization sequence: in such cases, you have to do a
-hard reset instead.
+   It is possible that a soft reset may not be enough to take the
+machine to the OS initialization sequence: in such cases, you will have
+to do a hard reset instead.
 
 
 File: vice.info,  Node: Settings and resources,  Next: Machine-specific features,  Prev: Basics,  Up: Top
@@ -439,22 +440,22 @@ File: vice.info,  Node: Settings and resources,  Next: Machine-specific features
 Settings and resources
 **********************
 
-   In the VICE emulators, all the settings are stored in entities which
-are called "resources".  Every resource has a name and its value can be
-either an integer or a string.  Often integer values are used as boolean
-values, with the usual convention of using zero for "false" and any
-other value for "true".
+   In the VICE emulators, all the settings are stored in entities known
+as called "resources".  Each resource has a name and a value which may
+be either an integer or a string.  Integer values are often used as
+boolean values with the usual convention of using zero for "false" and
+any other value for "true".
 
    Resource values can be changed via the right-button menu (the
 "settings" menu), via command-line options or via the "resource file".
 
    The "resource file" is a human-readable file containing resource
 values: it is called `.vicerc' and is stored in the user's home
-directory.  At any time, it is possible to dump the current values of
-the resources into that file or load the values stored into that file as
-the current values.  This can be achieved with the "Save settings" and
+directory.  It is possible to dump the current values of the resources
+into that file or load the values stored into that file as the current
+values, at any time.  This is achieved with the "Save settings" and
 "Load settings" right menu items.  A third menu item, "Restore Default
-Settings", can be used to set all the values to the factory defaults.
+Settings", can be used to reset all the values to the factory defaults.
 
    A special resource, `SaveResourcesOnExit', if set to a non zero
 value, causes the emulator to ask you if you want to save the current
@@ -487,19 +488,19 @@ Format of resource files
 
    A resource file is made up of several sections; sections have the
 purpose of separating the resources of a certain emulator from the ones
-of the other emulators.  A section is started with the name of an
-emulator in brackets (eg. `[C64]') and ends when another section
-starts, or the file ends.
+of the other emulators.  A section starts with the name of an emulator
+in brackets (e.g., `[C64]') and ends when another section starts or
+when the file ends.
 
    Every line in a section has the following format:
 
      RESOURCE=VALUE
 
-   where `RESOURCE' is the name of a resource, while `VALUE' is the
-value to assign.  Resource names are case-sensitive, and resource
-values can be either strings or integers.  Strings must start and end
-with a double quote (`"'), while integers do just have to be written in
-decimal notation.
+   where `RESOURCE' is the name of a resource and `VALUE' is its
+assigned value.  Resource names are case-sensitive and resource values
+are either strings or integers.  Strings must start and end with a
+double quote character (`"'), while integers must be given in decimal
+notation.
 
    Here is an example of a stripped-down `.vicerc' file:
 
@@ -521,8 +522,7 @@ decimal notation.
      FSDevice8HideCBMFiles=1
 
    Notice that, when resource values are saved with "Save settings", the
-emulator only modifies its own section, keeping the other ones
-unchanged.
+emulator only modifies its own section, leaving the others unchanged.
 
 
 File: vice.info,  Node: Resources and command-line,  Next: Performance settings,  Prev: Resource files,  Up: Settings and resources
@@ -533,22 +533,22 @@ Using command-line options to change resources
    Resources can also be changed via command-line options.
 
    Command-line options always override the defaults from `.vicerc',
-and their value lasts for the whole session.  So, if you specify a
+and their assignments last for the whole session.  So, if you specify a
 certain command-line option that changes a certain resource from its
 default value and then use "Save Settings", the value specified with
-the command-line option will be saved.
+the command-line option will be saved back to the resource file.
 
-   Command-line options can begin with with the minus sign (`-') or
-with the plus sign (`+').  Options beginning with the minus sign can
-require an additional parameter, while the ones beginning with the plus
-sign never require one.
+   Command-line options can begin with with a minus sign (`-') or with
+a plus sign (`+').  Options beginning with a minus sign may require an
+additional parameter, while the ones beginning with the plus sign never
+require one.
 
-   Moreover, options beginning with the plus sign always have a
-counterpart with the same name, but with the minus sign; in that case,
-the option beginning with the minus sign is used to *enable* a certain
-feature, while the one beginning with the plus sign is used to
-*disable* the same feature (this is an X11 convention).  For example,
-`-mitshm' enables support of MITSHM, while `+mitshm' disables it.
+   Moreover, options beginning with a plus sign always have a
+counterpart with the same name, but with a minus sign; in that case,
+the option beginning with a minus sign is used to *enable* a certain
+feature, while the one beginning with a plus sign is used to *disable*
+the same feature (this is an X11 convention).  For example, `-mitshm'
+enables support of MITSHM, while `+mitshm' disables it.
 
 
 File: vice.info,  Node: Performance settings,  Next: Video settings,  Prev: Resources and command-line,  Up: Settings and resources
@@ -559,22 +559,22 @@ Performance settings
    It is possible to control the emulation speed by using the "Maximum
 speed" menu item in the right-button menu.  The default setting is
 `100', which causes the emulation to never run faster than the real
-machine.  A higher value makes the emulator faster, a lower one makes it
-slower.  The setting "No limit" means to run as fast as possible,
-without limiting speed.
+machine.  A higher value allows the emulator to run faster, a lower one
+may force it to run slower.  The setting "No limit" means to run as
+fast as possible, without limiting speed.
 
-   It is also possible to control the amount of screen frames the
-emulator calculates with the "Refresh rate" setting; the value ranges
-from "1/1" (update 1/1 of the frames of the real machine, that is 50
-frames per second) to "1/10" (update 1 every 10 frames) and can be
-changed via the "Refresh Rate" submenu.  The "Auto" setting means to
-dynamically adapt the refresh rate to the current speed of the host
-machine, making sure the maximum speed specified by the via "Maxium
-speed" is always reached if possible.  In any case, the refresh rate
-will never be worse than 1/10 if this option is specified.
+   It is also possible to control the emulator's rate of frame update
+using the "Refresh rate" setting; the value ranges from "1/1" (update
+1/1 of the frames of the real machine, that is 50 frames per second) to
+"1/10" (update 1 every 10 frames) and can be changed via the "Refresh
+Rate" submenu.  The "Auto" setting means to dynamically adapt the
+refresh rate to the current speed of the host machine, making sure the
+maximum speed specified by the via "Maxium speed" is always reached if
+possible.  In any case, the refresh rate will never be worse than 1/10
+if this option is specified.
 
-   Notice that you cannot specify "Auto" as the refresh rate and "No
-limit" as the maximum speed at the same time.
+   Note that you cannot simultaneously specify "Auto" as the refresh
+rate and "No limit" as the maximum speed..
 
    Moreover, a special "warp speed" mode is provided and can be toggled
 with the "Enable Warp Mode" menu item.  If this mode is enabled, it
@@ -594,8 +594,8 @@ Performance resources
 ---------------------
 
 `Speed'
-     Integer specifying the maximum relative speed, in percent.  `0'
-     stands for "no limit".
+     Integer specifying the maximum relative speed, as a percentage.
+     `0' stands for "no limit".
 
 `RefreshRate'
      Integer specifying the refresh rate; a value of `n' specifies a
@@ -612,7 +612,7 @@ Performance command-line options
 --------------------------------
 
 `-speed VALUE'
-     Specifies the maximum speed in percent.  `0' stands for "no
+     Specifies the maximum speed as a percentage.  `0' stands for "no
      limit".  (Same as setting the `Speed' resource.)
 
 `-refresh VALUE'
@@ -634,16 +634,17 @@ Video settings
 
    * "Video Cache" enables a video cache that can speed up the emulation
      when little graphics activity is going on; it is especially useful
-     when you run the emulator on a networked X terminal, as it can
-     reduce the amount of bandwidth required.  But this can actually
-     make the emulator slower when there is little graphics activity
-     and the amount of work needed to maintain the cache is bigger than
-     the amount of work that would be wasted by not using it (if any).
+     when you run the emulator on a networked X terminal as it can
+     reduce the network bandwidth required.  However, this setting can
+     actually make the emulator slower when there is little graphics
+     activity and the amount of work needed to maintain the cache is
+     greater than the amount of work that would be wasted by not using
+     it (if any).
 
    * "Double Size" toggles "double-size mode", which makes the
      emulation window twice as big.  When emulating a 80-column PET,
-     only the height is doubled, so that the aspect ratio is more
-     similiar to the one of the real thing.
+     only the height is doubled, so that the aspect ratio is closer to
+     that of the real thing.
 
    * "Double Scan" toggles "double-scan mode", which causes the
      emulator to draw only odd lines when running in double-size mode
@@ -652,8 +653,8 @@ Video settings
 
    * `Use XSync()" causes the emulator to call the X11 function
      `XSync()' before updating the emulation window: this might be
-     necessary on low-end systems to prevent it from stealing so many
-     system resources that it would become impossible for the user to
+     necessary on low-end systems to prevent it from consuming so many
+     system resources that it becomes impossible for the user to
      interact with it.
 
 * Menu:
@@ -684,10 +685,11 @@ Video resources
 
 `MITSHM'
      Boolean specyfying whether VICE should try to use the shared memory
-     extensions (MITSHM) when starting up.  The shared memory extensions
-     make things a lot faster, but might not be available on your
-     system, or you might not be allowed to use them because you are
-     running the emulator on an X terminal, across a network.
+     extensions (MITSHM) when starting up.  The shared memory
+     extensions make things a lot faster but might not be available on
+     your system.  You will not be able to use these extensions if you
+     are sitting at an X terminal while running the emulator on a
+     remote machine across a network.
 
 `PrivateColormap'
      Boolean specifying whether VICE should install a private colormap
@@ -697,7 +699,7 @@ Video resources
 
 `DisplayDepth'
      Integer specifying the depth of the host display.  The value `0'
-     (the default) makes the emulator autodetect it.
+     (the default) causes the emulator to autodetect it.
 
 
 File: vice.info,  Node: Video options,  Prev: Video resources,  Up: Video settings
@@ -731,7 +733,7 @@ Video command-line options
 
 `-install'
 `+install'
-     Enable-disable installation of a private colormap
+     Enable/disable installation of a private colormap
      (`PrivateColormap=1', `PrivateColormap=0').
 
 `-displaydepth DEPTH'
@@ -744,9 +746,9 @@ Keyboard settings
 =================
 
    It is possible to specify whether the "positional" or "symbolic"
-keyboard mapping is being used with the "Keyboard mapping type" submenu
-(*note Keyboard emulation::. for an explanation of positional and
-symbolic mappings).
+keyboard mapping should be used with the "Keyboard mapping type"
+submenu (*note Keyboard emulation::. for an explanation of positional
+and symbolic mappings).
 
    The keyboard settings submenu also allows you to:
 
@@ -768,7 +770,7 @@ Keyboard resources
 ------------------
 
 `KeymapIndex'
-     Integer identifying which keymap is being used; `0' identifies
+     Integer identifying which keymap is being used; `0' indicates
      symbolic mapping, `1' positional mapping.
 
 `KeymapSymFile'
@@ -786,8 +788,8 @@ Keyboard command-line options
 -----------------------------
 
 `-keymap N'
-     Specifies which keymap is being used; `0' identifies symbolic
-     mapping, `1' positional mapping (same as the `KeymapIndex'
+     Specifies which keymap is being used; `0' indicates symbolic
+     mapping, `1' positional mapping (as for the `KeymapIndex'
      resource).
 
 `-symkeymap NAME'
@@ -808,9 +810,9 @@ Sound settings
 
    * "Sound synchronization" specifies the method for syncronizing the
      sound playback.  Possible settings are:
-        * "Flexible", i.e. the audio renderer flexibly adds/removes
+        * "Flexible", i.e., the audio renderer flexibly adds/removes
           samples to the output to smoothly adapt the playback to
-          little changes in the speed of the emulator.
+          slight changes in the speed of the emulator.
 
         * "Adjusting" works like "flexible", but supports bigger
           differences in speed.  For example, if the emulation speed
@@ -824,8 +826,8 @@ Sound settings
 
    * "Sample rate" specifies the sampling frequency, ranging from 8000
      to 48000 Hz (not all the sound cards and/or sound drivers can
-     support all the frequencies, so actually the nearmost candidate
-     will be picked up).
+     support all the frequencies, so actually the nearest candidate
+     will be chosen).
 
    * "Buffer size" specifies the size of the audio buffer; the bigger
      the buffer, the longer the delay with which sounds are played.
@@ -865,8 +867,8 @@ Sound resources
 `SoundSampleRate'
      Integer specifying the sampling frequency, ranging from 8000 to
      48000 Hz (not all the sound cards and/or sound drivers can support
-     all the frequencies, so actually the nearmost candidate will be
-     picked up).
+     all the frequencies, so actually the nearest candidate will be
+     chosen).
 
 `SoundBufferSize'
      Integer specifying the size of the audio buffer, in milliseconds.
@@ -960,7 +962,7 @@ File: vice.info,  Node: 1541 settings,  Next: Peripheral settings,  Prev: Sound 
 
    These settings are used to control the emulation of the 1541 drive.
 
-   * "Enable true 1541 emulation" enables the slow hardware-level
+   * "Enable true 1541 emulation" enables the (slow) hardware-level
      emulation of the 1541 drive number 8 for maximum compatibility.
 
    * "Enable parallel cable" enables emulation of a SpeedDOS parallel
@@ -986,8 +988,8 @@ File: vice.info,  Node: 1541 settings,  Next: Peripheral settings,  Prev: Sound 
 
         * "Skip cycles": Each time the serial line is accessed by the
           C64, the drive executes all the cycles since the last time it
-          was running.  If the number of elapsed cycles is larger than
-          a certain value, the drive discards part of them.
+          ran.  If the number of elapsed cycles is larger than a
+          certain value, the drive discards part of them.
 
         * "Trap idle": The disk drive is still emulated upon serial line
           accesses as with the previous option, but it is also always
@@ -995,28 +997,27 @@ File: vice.info,  Node: 1541 settings,  Next: Peripheral settings,  Prev: Sound 
           into the DOS idle loop, only pending interrupts are emulated
           to save time.
 
-        * "No traps": Like "Trap idle", but without traps at all.  So
-          basically the 1541 works exactly as with the real thing, and
-          nothing is done to reduce the power needs of the 1541
+        * "No traps": Like "Trap idle", but without any traps at all.
+          So basically the 1541 works exactly as with the real thing,
+          and nothing is done to reduce the power needs of the 1541
           emulation.
 
-     The first option ("Skip cycles") is usually better for
-     performance, as the drive is emulated as little as possible; on
-     the other hand, you can notice sudden slowdowns (when the drive
-     executes several cycles at once) and the LED status is never
-     updated (because it would not be possible to do correctly so).
-     Moreover, if the drive tries to get in sync with the computer in
-     some weird way and the computer does not access the serial line
-     for a long time, it is possible that some cycles are discarded and
-     the sync is lost.  Notice that this hack can have no effect on
-     performance if one program continuously reads from the IEC port,
-     as the drive will have to be emulated in any case (some stupid
-     programs do so, even when they don't actually need to use the
-     drive).
+     The first option ("Skip cycles") is usually best for performance,
+     as the drive is emulated as little as possible; on the other hand,
+     you may notice sudden slowdowns (when the drive executes several
+     cycles at once) and the LED status is never updated (because it
+     would not be possible to do correctly so).  Moreover, if the drive
+     tries to get in sync with the computer in some weird way and the
+     computer does not access the serial line for a long time, it is
+     possible that some cycles are discarded and the sync is lost.
+     Notice that this hack will have no effect on performance if a
+     program continuously reads from the IEC port, as the drive will
+     have to be fully emulated in any case (some stupid programs do
+     this, even when they don't actually need to use the drive).
 
      The second option ("Trap idle") is usually a bit slower, as at
-     least interrupts are always emulated, but allows the LED state to
-     be always updated correctly and always keeps the 1541 and the
+     least interrupts are always emulated, but ensures the LED state is
+     always updated correctly and always keeps the 1541 and the
      computer in sync.  On the other hand, if a program installs a
      non-standard idle loop in the drive, the 1541 CPU has to be
      emulated even when not necessary and the global emulation speed is
@@ -1142,12 +1143,12 @@ bus of the emulated machine.  Four peripherals, numbered from 8 to 11,
 are accessible; each of them provides the following settings:
 
    * "File system access", if enabled, allows the device to emulate a
-     drive accessing a file system directory; notice that if a disk is
-     attached to the same drive, the directory is not visible anymore,
-     and the attached disk is used instead.
+     drive accessing a file system directory; note that when a disk
+     image is attached to the same drive, the directory is no longer
+     visible and the attached disk is used instead.
 
-   * "File system directory" specifies what directory is accessed by the
-     drive.
+   * "File system directory" specifies the directory to be accessed by
+     the drive.
 
    * "Convert P00 file names", if enabled, allows access to P00 files
      using their built-in name instead of the Unix one.
@@ -1191,8 +1192,8 @@ Resources for file system devices
 `FSDevice9Dir'
 `FSDevice10Dir'
 `FSDevice11Dir'
-     Strings specifying the paths of the directories drives 8, 9, 10
-     and 11 have access to.
+     Strings specifying the directories to which drives 8, 9, 10 and 11
+     have access.
 
 
 File: vice.info,  Node: File system device options,  Prev: File system device resources,  Up: File system device settings
@@ -1204,9 +1205,9 @@ Command-line options for file system devices
 `-fs9 PATH'
 `-fs10 PATH'
 `-fs11 PATH'
-     Specify the path for the file-system access on drives 8, 9, 10 and
-     11, respectively (`FSDevice8Dir', `FSDevice9Dir', `FSDevice10Dir'
-     and `FSDevice11Dir').
+     Specify the paths for the file system access on drives 8, 9, 10
+     and 11, respectively (`FSDevice8Dir', `FSDevice9Dir',
+     `FSDevice10Dir' and `FSDevice11Dir').
 
 
 File: vice.info,  Node: Printer settings,  Next: No kernal traps,  Prev: File system device settings,  Up: Peripheral settings
@@ -1219,13 +1220,13 @@ buffer or the user port.  Emulation can be achieved by redirecting the
 printer output to a file or by piping it through an external process.
 This is defined by so-called "printer device file names"; a printer
 device file name can be either a simple path, or a command name
-prepended by the pipe symbol `|'.
+preceeded by a pipe symbol `|'.
 
    For example, printer device `filename' will cause the output to be
-appended to file `filename', while printer device `|lpr' will cause the
-`lpr' command to be executed and fed with the printer output.
+appended to the file `filename', while printer device `|lpr' will cause
+the `lpr' command to be executed and be fed the printer output.
 
-   Up to three printer devices can be specified through the following
+   Up to three printer devices may be specified through the following
 resources:
 
    * device 1, whose default value is `print.dump';
@@ -1236,8 +1237,8 @@ resources:
 
    So, basically, by default printer device 1 will simply dump printer
 output to `print.dump'; printer device 2 will print it via `petlp' (a
-not-complete-yet utility that will produce Postscript output from it)
-and `lpr'; printer device 2 will print it through `lpr'.
+not-yet-complete utility that will produce Postscript output) and
+`lpr'; printer device 2 will print it with `lpr'.
 
 * Menu:
 

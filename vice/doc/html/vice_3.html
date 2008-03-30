@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 20 September 1998 -->
+     from ../vice.texi on 23 September 1998 -->
 
 <TITLE>VICE Manual - 3  Invoking the emulators</TITLE>
 </HEAD>
@@ -43,11 +43,11 @@ The names of the available emulators are:
 
 <P>
 You can run each of them by simply typing the name from a shell.  If you
-want to run them from another application (e.g. a window manager or some
-other sort of program launcher) you should always run them from a
-terminal window such as <CODE>xterm</CODE> or <CODE>rxvt</CODE>, as a lot of
-debugging information is printed and the built-in monitor will be run in
-there.  For example, you could do
+want to run them from another application (e.g., a window manager or
+some other sort of program launcher) you should always run them from a
+terminal window such as <CODE>xterm</CODE> or <CODE>rxvt</CODE> since VICE provides
+a lot of debugging information that is sent to the terminal and has
+built-in monitor that also appears there.  For example, you could do
 
 </P>
 
@@ -61,9 +61,10 @@ xterm -e x64
 
 <P>
 There are several options you can specify on the command line.  Some of
-them are used to specify emulation settings; they will be described in
+them are used to specify emulation settings and will be described in
 detail later (see section <A HREF="vice_6.html#SEC36">6  Settings and resources</A> for a complete list).  The
-other ones, instead, are used only to initialize the emulator:
+remaining options are used only to give usage information or to
+initialize the emulator in some way:
 
 </P>
 <DL COMPACT>
@@ -112,7 +113,7 @@ Attach <TT>`NAME'</TT> as a disk image to device 8, 9, 10 or 11.
 <P>
 It is possible to let the emulator <EM>autostart</EM> a disk or tape image
 file, by simply specifying its name as the <EM>last</EM> argument on the
-command line; for example
+command line, for example
 
 </P>
 
