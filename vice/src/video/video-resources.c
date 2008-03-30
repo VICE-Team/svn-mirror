@@ -224,7 +224,7 @@ struct video_resource_chip_mode_s {
 };
 typedef struct video_resource_chip_mode_s video_resource_chip_mode_t;
 
-int set_double_size_enabled(resource_value_t v, void *param)
+static int set_double_size_enabled(resource_value_t v, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_chip_cap_t *video_chip_cap;
@@ -272,7 +272,7 @@ static resource_t resources_chip_size[] =
     { NULL }
 };
 
-int set_double_scan_enabled(resource_value_t v, void *param)
+static int set_double_scan_enabled(resource_value_t v, void *param)
 {
     video_resource_chip_t *video_resource_chip;
 
@@ -296,7 +296,7 @@ static resource_t resources_chip_scan[] =
     { NULL }
 };
 
-int set_fullscreen_enabled(resource_value_t v, void *param)
+static int set_fullscreen_enabled(resource_value_t v, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_chip_cap_t *video_chip_cap;
@@ -310,7 +310,7 @@ int set_fullscreen_enabled(resource_value_t v, void *param)
         (video_resource_chip->raster->canvas, (int)v);
 }
 
-int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
+static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_chip_cap_t *video_chip_cap;
@@ -324,7 +324,7 @@ int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
         (video_resource_chip->raster->canvas, (int)v);
 }
 
-int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
+static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_chip_cap_t *video_chip_cap;
@@ -338,7 +338,7 @@ int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
         (video_resource_chip->raster->canvas, (int)v);
 }
 
-int set_fullscreen_device(resource_value_t v, void *param)
+static int set_fullscreen_device(resource_value_t v, void *param)
 {
     video_resource_chip_t *video_resource_chip;
     video_chip_cap_t *video_chip_cap;
@@ -372,7 +372,7 @@ static resource_t resources_chip_fullscreen[] =
     { NULL }
 };
 
-int set_fullscreen_mode(resource_value_t v, void *param)
+static int set_fullscreen_mode(resource_value_t v, void *param)
 {
     video_resource_chip_mode_t *video_resource_chip_mode;
     video_resource_chip_t *video_resource_chip;
