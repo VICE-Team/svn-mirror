@@ -8,9 +8,6 @@ c128_DATA = \
 	godot.vpl \
 	default.vkm \
 	default.vpl \
-	dos1541 \
-	dos1571 \
-	dos1581 \
 	kernal
 
 EXTRA_DIST = $(c128_DATA)

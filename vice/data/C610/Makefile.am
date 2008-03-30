@@ -4,12 +4,11 @@ c610_DATA = \
 	amber.vpl \
 	basic.128 \
 	basic.256 \
-	chargen \
-	chargen_hun \
+	chargen.600 \
+	chargen.700 \
 	busi_uk.vkm \
 	default.vpl \
 	kernal \
-	white.vpl \
-	dos2031
+	white.vpl
 
 EXTRA_DIST = $(c610_DATA)

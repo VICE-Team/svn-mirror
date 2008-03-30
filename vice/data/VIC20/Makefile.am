@@ -6,9 +6,6 @@ vic20_DATA = \
 	chargen \
 	default.vkm \
 	default.vpl \
-	dos1541 \
-	dos1571 \
-	dos1581 \
 	kernal \
 	position.vkm
 

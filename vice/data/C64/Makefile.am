@@ -9,9 +9,6 @@ c64_DATA = \
 	default.vkm \
 	position.vkm \
 	default.vpl \
-	dos1541 \
-	dos1571 \
-	dos1581 \
 	kernal
 
 EXTRA_DIST = $(c64_DATA)
