@@ -1,5 +1,5 @@
 /*
- * vdc.c - A first attemt at a MOS 8563 (VDC) emulation.
+ * vdc.c - MOS 8563 (VDC) emulation.
  *
  * Written by
  *  Markus Brenner <markus@brenner.de>
@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "alarm.h"
 #include "log.h"
@@ -66,6 +67,7 @@ static void vdc_set_geometry(void)
     unsigned int border_height, border_width;
     unsigned int vdc_25row_start_line, vdc_25row_stop_line;
     unsigned int displayed_width, displayed_height;
+    unsigned int vdc_80col_start_pixel, vdc_80col_stop_pixel;
 
     raster = &vdc.raster;
 
@@ -83,6 +85,9 @@ static void vdc_set_geometry(void)
 
     vdc_25row_start_line = border_height;
     vdc_25row_stop_line = vdc_25row_start_line + screen_ypix;
+
+    vdc_80col_start_pixel = border_width;
+    vdc_80col_stop_pixel = vdc_80col_start_pixel + 8 * vdc.screen_text_cols;
 
     if (vdc_resources.double_size_enabled) {
         screen_height *= 2;
@@ -119,8 +124,8 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
 
     raster->display_ystart = vdc_25row_start_line;
     raster->display_ystop = vdc_25row_stop_line;
-    raster->display_xstart = VDC_80COL_START_PIXEL;
-    raster->display_xstop = VDC_80COL_STOP_PIXEL;
+    raster->display_xstart = vdc_80col_start_pixel;
+    raster->display_xstop = vdc_80col_stop_pixel;
 }
 
 static void vdc_invalidate_cache(raster_t *raster, unsigned int screen_height)
@@ -229,11 +234,29 @@ static void vdc_update_geometry(void)
     vdc.screen_height = (vdc.regs[4] + 1) * ((vdc.regs[9] & 0x1f) + 1)
                         + (vdc.regs[5] & 0x1f);
 
+    vdc.border_height = VDC_SCREEN_BORDERHEIGHT + (vdc.regs[7] & 0x7f) / 2
+                        - (vdc.regs[24] & 0x1f);
+
     vdc.screen_textlines = vdc.regs[6];
 
     vdc.screen_ypix = vdc.regs[6] * ((vdc.regs[9] & 0x1f) + 1);
 
     vdc.raster_ycounter_max = vdc.regs[9] & 0x1f;
+
+    if (vdc.raster_ycounter_max < 16)
+        vdc.bytes_per_char = 16;
+    else
+        vdc.bytes_per_char = 32;
+
+    if (vdc.regs[1] >= 8 && vdc.regs[1] <= VDC_SCREEN_MAX_TEXTCOLS)
+        vdc.screen_text_cols = vdc.regs[1];
+
+    vdc.hsync_shift = 80 + (102 - vdc.regs[2]) * 8;
+
+    if ((VDC_SCREEN_MAX_TEXTCOLS - vdc.screen_text_cols) * 8 < vdc.hsync_shift)
+        vdc.hsync_shift = (VDC_SCREEN_MAX_TEXTCOLS - vdc.screen_text_cols) * 8;
+
+    vdc.border_width = VDC_SCREEN_BORDERWIDTH + vdc.hsync_shift;
 
     vdc.update_geometry = 0;
 }
@@ -251,9 +274,10 @@ void vdc_reset(void)
     vdc.text_blink_frequency = 32;
     vdc.text_blink_counter = 0;
     vdc.text_blink_visible = 0;
-    vdc.screen_text_cols = VDC_SCREEN_TEXTCOLS;
+    vdc.screen_text_cols = VDC_SCREEN_MAX_TEXTCOLS;
     vdc.xsmooth = 0;
     vdc.regs[0] = 126;
+    vdc.regs[1] = 102;
     vdc.xchars_total = vdc.regs[0] + 1;
     vdc_calculate_xsync();
     vdc.regs[4] = 39;
@@ -274,8 +298,6 @@ void vdc_powerup(void)
     vdc.screen_xpix = VDC_SCREEN_XPIX;
     vdc.first_displayed_line = VDC_FIRST_DISPLAYED_LINE;
     vdc.last_displayed_line = VDC_LAST_DISPLAYED_LINE;
-    vdc.border_width = VDC_SCREEN_BORDERWIDTH;
-    vdc.border_height = VDC_SCREEN_BORDERHEIGHT;
 
     vdc_reset();
 }
@@ -305,6 +327,16 @@ static void vdc_increment_memory_pointer(void)
 
     vdc.bitmap_counter += vdc.mem_counter_inc + vdc.regs[27];
 }
+
+static void vdc_set_video_mode(void)
+{
+    vdc.raster.video_mode = (vdc.regs[25] & 0x80)
+                            ? VDC_BITMAP_MODE : VDC_TEXT_MODE;
+
+    if (vdc.raster.ycounter > (vdc.regs[23] & 0x1f))
+        vdc.raster.video_mode = VDC_IDLE_MODE;
+}
+
 
 /* Redraw the current raster line. */
 static void vdc_raster_draw_alarm_handler(CLOCK offset)
@@ -386,8 +418,10 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset)
                                     vdc.raster.border_color);
 #endif
 
-        if (in_visible_area && !in_idle_state)
+        if (in_visible_area && !in_idle_state) {
             vdc_increment_memory_pointer();
+            vdc_set_video_mode();
+        }
 
         vdc_set_next_alarm(offset);
     } else {
