@@ -29,25 +29,15 @@ libpet_a_SOURCES = \
 	petsound.c \
 	petsound.h \
 	petvia.c \
-	petvia.def \
 	petvia.h
 
 BUILT_SOURCES = \
 	crtc.c \
 	petacia1.c \
 	petpia1.c \
-	petpia2.c \
-	petvia.c
+	petpia2.c
 
 petdir = $(top_srcdir)/src/pet
-
-petvia.c: petvia.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`petvia.c'..."; \
-	   if [ -s $(PERL) ] ; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/via-tmpl.c \
-	           $(petdir)/petvia.def $(petdir)/petvia.c; \
-	   fi )
 
 petpia1.c: petpia1.def $(top_srcdir)/src/pia-tmpl.c $(top_srcdir)/src/convio
 	@( echo "Rebuilding \`petpia1.c'..."; \
