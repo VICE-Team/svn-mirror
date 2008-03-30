@@ -1,3 +1,30 @@
+2002-07-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.56.
+
+	* vicii/viciitypes.h, vicii/vicii-resources.c, vdc/vdctypes.h,
+	vdc/vdc-resources.c, vic20/vic.h, vic20/vic-resources.c,
+	crtc/crtctypes.h, crtc/crtc-resources.c, plus4/tedtypes.h,
+	plus4/ted-resources.c: Save video capabilities.
+
+	* vicii/vicii-cmdline-options.c, vdc/vdc-cmdline-options.c,
+	vic20/vic-cmdline-options.c, crtc/crtc-cmdline-options.c,
+	plus4/ted-cmdline-options.c, raster/raster-cmdline-options.c,
+	raster/raster-cmdline-options.h, video.h,
+	video/video-cmdline-options.c: Moved video command line
+	options to common video code.
+
+	* arch/unix/x11/dga1.c (dga1_init_enable): New function.
+
+	* arch/unix/uicrtc.c, arch/unix/uivdc.c: Use META-F to invoke
+	CRTC or VDC fullscreen mode.
+
+	* arch/unix/uic64cart.c: Changed freeze to META-Z.
+
+	* arch/unix/x11/videoarch.h, arch/unix/x11/video.c
+	(video_set_refresh_func): Removed, as fullscreen video refresh
+	is handled on per canvas basis.
+
 2002-07-07  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.55.

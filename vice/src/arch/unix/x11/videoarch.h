@@ -57,6 +57,9 @@
 #include <gdk/gdk.h>
 #endif
 
+typedef void (*video_refresh_func_t)(struct video_canvas_s *,
+              int, int, int, int, unsigned int, unsigned int);
+
 struct video_draw_buffer_callback_s;
 struct palette_s;
 struct fullscreenconfig_s;
@@ -95,6 +98,7 @@ struct video_canvas_s {
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 #ifdef USE_XF86_EXTENSIONS
     struct fullscreenconfig_s *fullscreenconfig;
+    video_refresh_func_t video_fullscreen_refresh_func;
 #endif
 };
 typedef struct video_canvas_s video_canvas_t;
@@ -146,10 +150,5 @@ extern void video_convert_color_table(unsigned int i, BYTE *data,
 extern int video_arch_frame_buffer_alloc(video_canvas_t *canvas,
                                          unsigned int width,
                                          unsigned int height);
-
-typedef void (*video_refresh_func_t)(struct video_canvas_s *,
-              int, int, int, int, unsigned int, unsigned int);
-extern void video_set_refresh_func(video_refresh_func_t func);
-
 #endif
 

@@ -640,12 +640,10 @@ void video_canvas_refresh(video_canvas_t *canvas,
     }
 
 #ifdef USE_XF86_EXTENSIONS
-#if defined (USE_XF86_DGA1_EXTENSIONS) || defined(USE_XF86_DGA2_EXTENSIONS)
-    if (video_fullscreen_refresh_func) {
-        video_fullscreen_refresh_func(canvas, xs, ys, xi, yi, w, h);
+    if (canvas->video_fullscreen_refresh_func) {
+        canvas->video_fullscreen_refresh_func(canvas, xs, ys, xi, yi, w, h);
         return;
     }
-#endif
 #endif
 
     if (xi + w > canvas->width || yi + h > canvas->height) {
@@ -665,13 +663,4 @@ void video_canvas_refresh(video_canvas_t *canvas,
     if (_video_use_xsync)
         XSync(display, False);
 }
-
-#ifdef USE_XF86_EXTENSIONS
-#if defined (USE_XF86_DGA1_EXTENSIONS) || defined(USE_XF86_DGA2_EXTENSIONS)
-void video_set_refresh_func(video_refresh_func_t func)
-{
-    video_fullscreen_refresh_func = func;
-}
-#endif
-#endif
 
