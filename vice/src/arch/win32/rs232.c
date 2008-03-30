@@ -159,12 +159,17 @@ getaddr(char *dev, struct sockaddr_in *ad)
     memset(ad, 0, sizeof ad);
     ad->sin_family = AF_INET;
 
+    dev = strdup(dev);
     p = strchr(dev, ':');
-    if(!p)
+    if(!p) {
+        free(dev);
         return -1;
+    }
 
-    ad->sin_addr.s_addr = inet_addr(p);
+    *p = 0;
+    ad->sin_addr.s_addr = inet_addr(dev);
     ad->sin_port = htons(atoi(p+1));
+    free(dev);
     if(ad->sin_addr.s_addr == -1 || ad->sin_port == 0)
         return -1;
 
@@ -243,16 +248,22 @@ int rs232_putc(int fd, BYTE b)
         return -1;
     }
 
+    /* silently drop if socket is shut */
+    if (fds[fd].fd < 0)
+        return 0;
+
     /* for the beginning... */
 #ifdef DEBUG
     log_message(rs232_log, "Output `%c'.", b);
 #endif
 
-    do {
-        n = send(fds[fd].fd, &b, 1, 0);
-        if (n < 0)
-            log_error(rs232_log, _("Error writing: %s."), strerror(errno));
-    } while (n != 1);
+    n = send(fds[fd].fd, &b, 1, 0);
+    if (n != 1) {
+        log_error(rs232_log, _("Error writing: %s."), strerror(errno));
+        close(fds[fd].fd);
+        fds[fd].fd = -1;
+        return -1;
+    }
 
     return 0;
 }
@@ -274,15 +285,27 @@ int rs232_getc(int fd, BYTE * b)
         return -1;
     }
 
+    /* silently drop if socket is shut */
+    if (fds[fd].fd < 0)
+        return 0;
+
     FD_ZERO(&rdset);
     FD_SET(fds[fd].fd, &rdset);
     ti.tv_sec = ti.tv_usec = 0;
     ret = select(fds[fd].fd + 1, &rdset, NULL, NULL, &ti);
 
-    if (ret && (FD_ISSET(fds[fd].fd, &rdset))) {
+    if (ret > 0 && (FD_ISSET(fds[fd].fd, &rdset))) {
         n = recv(fds[fd].fd, b, 1, 0);
-        if (n)
-            return 1;
+        if (n != 1) {
+            if(n < 0)
+                log_error(rs232_log, _("Error reading: %s."), strerror(errno));
+            else
+                log_error(rs232_log, _("EOF"));
+            close(fds[fd].fd);
+            fds[fd].fd = -1;
+            return -1;
+        }
+        return 1;
     }
     return 0;
 }
