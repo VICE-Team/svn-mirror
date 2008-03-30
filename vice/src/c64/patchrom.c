@@ -36,10 +36,11 @@
 #include <string.h>
 
 #include "log.h"
-#include "mem.h"
+#include "c64memrom.h"
 #include "patchrom.h"
 #include "types.h"
 #include "utils.h"
+
 
 /*
  * By an option on the x64 command line you can patch between the
@@ -259,7 +260,7 @@ int patch_rom(const char *str)
         rev = atoi (str);
     }
 
-    curr = rom_read(0xff80);
+    curr = rom64_read(0xff80);
 
     if (rev == curr) {
         log_warning(LOG_DEFAULT, "ROM not patched: Already revision #%d.",
@@ -305,7 +306,7 @@ int patch_rom(const char *str)
 
         i += (bytes * rev);     /* select patch */
         for(n = bytes; n--;)
-            rom_store(a++, (BYTE)patch_bytes[i++]);
+            rom64_store(a++, (BYTE)patch_bytes[i++]);
 
         i += (bytes * (PATCH_VERSIONS - rev));  /* skip patch */
     }

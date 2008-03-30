@@ -27,9 +27,11 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "c64-resources.h"
 #include "c64mem.h"
+#include "c64memrom.h"
 #include "c64rom.h"
 #include "log.h"
 #include "mem.h"
@@ -55,7 +57,7 @@ int c64rom_get_kernal_checksum(void)
     for (i = 0, sum = 0; i < C64_KERNAL_ROM_SIZE; i++)
         sum += mem_kernal64_rom[i];
 
-    id = rom_read(0xff80);
+    id = rom64_read(0xff80);
 
     log_message(c64rom_log, "Kernal rev #%d.", id);
 
@@ -108,6 +110,7 @@ int c64rom_load_kernal(const char *rom_name)
         resources_set_value("VirtualDevices", (resource_value_t)trapfl);
         return -1;
     }
+    memcpy(mem_kernal64_trap_rom, mem_kernal64_rom, C64_KERNAL_ROM_SIZE);
     c64rom_get_kernal_checksum();
 
     resources_set_value("VirtualDevices", (resource_value_t)trapfl);
