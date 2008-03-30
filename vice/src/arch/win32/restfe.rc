@@ -1,4 +1,4 @@
-// REU specific resources.
+// TFE specific resources.
 //
 
 IDD_TFE_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 270, 100
