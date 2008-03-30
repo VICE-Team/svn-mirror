@@ -272,6 +272,51 @@ static int init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* This is a helper function for the `-autostart' command-line option.  It
+   replaces all the $[0-9][0-9] patterns in `string' and returns it.  */
+static char *replace_hexcodes(char *s)
+{
+    unsigned int len, dest_len;
+    const char *p;
+    char *new_s;
+
+    len = strlen(s);
+    new_s = xmalloc(len + 1);
+
+    p = s;
+    dest_len = 0;
+    while (1) {
+        char *p1;
+
+        p1 = strchr (p, '$');
+        if (p1 != NULL) {
+            unsigned int num;
+
+            if (p[1] == 0 || p[2] == 0)
+                break;
+
+            num = p1 - p;
+            memcpy(new_s + dest_len, p, num);
+
+            dest_len += num;
+
+            new_s[dest_len] = ((p1[1] - '0') & 0xf) << 4;
+            new_s[dest_len] += (p1[2] - '0') & 0xf;
+
+            dest_len++;
+            p = p1 + 3;
+        } else {
+            break;
+        }
+    }
+
+    memcpy(new_s + dest_len, p, len - (p - s) + 1);
+
+    return new_s;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* This is the main program entry point.  When not compiling for Windows,
    this is `main()'; on Windows we have to #define the name to something
    different because the standard entry point is `WinMain()' there.  */
@@ -420,9 +465,13 @@ int MAIN_PROGRAM(int argc, char **argv)
             autostart_fd = fopen(autostart_file, "r");
             /* Does the image exist?  */
             if (autostart_fd) {
+                char *name;
+
                 fclose(autostart_fd);
                 petconvstring(autostart_prg, 0);
+                name = replace_hexcodes(autostart_prg);
                 autostart_autodetect(autostart_file, autostart_prg);
+                free(name);
             } else
                 autostart_autodetect(autostart_string, NULL);
             free(autostart_file);
