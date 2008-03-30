@@ -434,7 +434,8 @@ void reu_dma(int immed)
                         "Transferring byte: %x from ext $%05X to main $%04X.",
                         reu_ram[reu_addr % reu_size], reu_addr, host_addr);
 #endif
-            mem_store((host_addr & 0xffff), reu_ram[reu_addr % reu_size]);
+            mem_store((ADDRESS)(host_addr & 0xffff),
+                      reu_ram[reu_addr % reu_size]);
         }
         len = 1;
         reu[0] |= 0x40;
@@ -449,8 +450,9 @@ void reu_dma(int immed)
 #endif
         for (; len--; host_addr += host_step, reu_addr += reu_step ) {
             c = reu_ram[reu_addr % reu_size];
-            reu_ram[reu_addr % reu_size] = mem_read(host_addr & 0xffff);
-            mem_store((host_addr & 0xffff), c);
+            reu_ram[reu_addr % reu_size]
+                = mem_read((ADDRESS)(host_addr & 0xffff));
+            mem_store((ADDRESS)(host_addr & 0xffff), c);
         }
         len = 1;
         reu[0] |= 0x40;
@@ -467,7 +469,8 @@ void reu_dma(int immed)
         reu[0] &= ~0x60;
 
         while (len--) {
-            if (reu_ram[reu_addr % reu_size] != mem_read(host_addr & 0xffff)) {
+            if (reu_ram[reu_addr % reu_size]
+                != mem_read((ADDRESS)(host_addr & 0xffff))) {
 
                 host_addr += host_step;
                 reu_addr += reu_step;

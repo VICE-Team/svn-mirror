@@ -1,4 +1,4 @@
-/* -*- C -*-
+/*
  * c64tpi.c - IEEE488 interface for the C64.
  *
  * Written by
@@ -46,16 +46,16 @@
 #define mytpi_write_snapshot_module tpi_write_snapshot_module
 #define mytpi_read_snapshot_module tpi_read_snapshot_module
 
-#define	MYTPI_NAME	"TPI"
+#define MYTPI_NAME      "TPI"
 
 /*----------------------------------------------------------------------*/
 /* CPU binding */
 
-#define	mycpu_set_int(a,b)		do {} while(0)
-#define	mycpu_restore_int(a,b)		do {} while(0)
+#define mycpu_set_int(a,b)              do {} while(0)
+#define mycpu_restore_int(a,b)          do {} while(0)
 
-#define	mycpu_rmw_flag	rmw_flag
-#define	myclk		clk
+#define mycpu_rmw_flag  rmw_flag
+#define myclk           clk
 
 /*----------------------------------------------------------------------*/
 /* I/O */
@@ -88,35 +88,35 @@ _TPI_FUNC void _tpi_reset(void)
 _TPI_FUNC void store_pa(BYTE byte)
 {
     if (byte != oldpa)
-    { 
-	BYTE tmp = ~byte;
+    {
+        BYTE tmp = ~byte;
         ieee_is_dev = byte & 0x01;
         ieee_is_out = byte & 0x02;
 
         parallel_cpu_set_bus((BYTE)(ieee_is_out ? oldpb : 0xff));
 
         if (ieee_is_out) {
-            parallel_cpu_set_ndac( 0 );
-            parallel_cpu_set_nrfd( 0 );
-            parallel_cpu_set_dav( tmp & 0x10 );
-            parallel_cpu_set_eoi( tmp & 0x20 );
+            parallel_cpu_set_ndac(0);
+            parallel_cpu_set_nrfd(0);
+            parallel_cpu_set_dav((BYTE)(tmp & 0x10));
+            parallel_cpu_set_eoi((BYTE)(tmp & 0x20));
         } else {
-            parallel_cpu_set_nrfd( tmp & 0x80 );
-            parallel_cpu_set_ndac( tmp & 0x40 );
-            parallel_cpu_set_dav( 0 );
-            parallel_cpu_set_eoi( 0 );
+            parallel_cpu_set_nrfd((BYTE)(tmp & 0x80));
+            parallel_cpu_set_ndac((BYTE)(tmp & 0x40));
+            parallel_cpu_set_dav(0);
+            parallel_cpu_set_eoi(0);
         }
         if (ieee_is_dev) {
-            parallel_cpu_set_atn( 0 );
+            parallel_cpu_set_atn(0);
         } else {
-            parallel_cpu_set_atn( tmp & 0x08 );
+            parallel_cpu_set_atn((BYTE)(tmp & 0x08));
         }
     }
 }
 
 _TPI_FUNC void store_pb(BYTE byte)
 {
-    parallel_cpu_set_bus( ieee_is_out ? byte : 0xff);
+    parallel_cpu_set_bus(ieee_is_out ? byte : 0xff);
 }
 
 _TPI_FUNC void undump_pa(BYTE byte)
@@ -128,26 +128,26 @@ _TPI_FUNC void undump_pa(BYTE byte)
     parallel_cpu_set_bus(ieee_is_out ? oldpb : 0xff);
 
     if (ieee_is_out) {
-        parallel_cpu_set_ndac( 0 );
-        parallel_cpu_set_nrfd( 0 );
-        parallel_cpu_set_dav( tmp & 0x10 );
-        parallel_cpu_set_eoi( tmp & 0x20 );
+        parallel_cpu_set_ndac(0);
+        parallel_cpu_set_nrfd(0);
+        parallel_cpu_set_dav((BYTE)(tmp & 0x10));
+        parallel_cpu_set_eoi((BYTE)(tmp & 0x20));
     } else {
-        parallel_cpu_set_nrfd( tmp & 0x80 );
-        parallel_cpu_set_ndac( tmp & 0x40 );
-        parallel_cpu_set_dav( 0 );
-        parallel_cpu_set_eoi( 0 );
+        parallel_cpu_set_nrfd((BYTE)(tmp & 0x80));
+        parallel_cpu_set_ndac((BYTE)(tmp & 0x40));
+        parallel_cpu_set_dav(0);
+        parallel_cpu_set_eoi(0);
     }
     if (ieee_is_dev) {
-        parallel_cpu_restore_atn( 0 );
+        parallel_cpu_restore_atn(0);
     } else {
-        parallel_cpu_restore_atn( tmp & 0x08 );
+        parallel_cpu_restore_atn((BYTE)(tmp & 0x08));
     }
 }
 
 _TPI_FUNC void undump_pb(BYTE byte)
 {
-    parallel_cpu_set_bus( ieee_is_out ? byte : 0xff);
+    parallel_cpu_set_bus(ieee_is_out ? byte : 0xff);
 }
 
 _TPI_FUNC void store_pc(BYTE byte)
@@ -171,14 +171,19 @@ _TPI_FUNC BYTE read_pa(void)
 
     byte = 0xff;
     if (ieee_is_out) {
-        if (parallel_nrfd) byte &= 0x7f;
-        if (parallel_ndac) byte &= 0xbf;
+        if (parallel_nrfd)
+            byte &= 0x7f;
+        if (parallel_ndac)
+            byte &= 0xbf;
     } else {
-        if (parallel_dav) byte &= 0xef;
-        if (parallel_eoi) byte &= 0xdf;
+        if (parallel_dav)
+            byte &= 0xef;
+        if (parallel_eoi)
+            byte &= 0xdf;
     }
     if (ieee_is_dev) {
-        if (parallel_atn) byte &= 0xf7;
+        if (parallel_atn)
+            byte &= 0xf7;
     }
 
     byte = (byte & ~tpi[TPI_DDPA]) | (tpi[TPI_PA] & tpi[TPI_DDPA]);
