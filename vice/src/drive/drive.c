@@ -332,7 +332,7 @@ int drive_enable(unsigned int dnr)
 
     /* Always disable kernal traps. */
     if (drive_true_emulation)
-        serial_remove_traps();
+        serial_set_truedrive(1);
     else
         return 0;
 
@@ -380,7 +380,7 @@ void drive_disable(unsigned int dnr)
                         (resource_value_t *)&drive_true_emulation);
 
     if (rom_loaded && !drive_true_emulation)
-        serial_install_traps();
+        serial_set_truedrive(0);
 
     if (rom_loaded) {
         if (dnr == 0)

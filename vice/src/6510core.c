@@ -544,10 +544,11 @@
 
 #define BRK()                                           \
   do {                                                  \
+      DWORD trap_result;                                \
       CLK += 7;                                         \
       EXPORT_REGISTERS();                               \
-      if (!ROM_TRAP_ALLOWED() || ROM_TRAP_HANDLER()) {  \
-	  TRACE_BRK();                                  \
+      if (!ROM_TRAP_ALLOWED() || (trap_result=ROM_TRAP_HANDLER()) == -1) {  \
+	      TRACE_BRK();                                  \
           INC_PC(2);                                    \
           LOCAL_SET_BREAK(1);                           \
           PUSH(reg_pc >> 8);                            \
@@ -556,7 +557,14 @@
           LOCAL_SET_INTERRUPT(1);                       \
           JUMP(LOAD_ADDR(0xfffe));                      \
       } else {                                          \
-          IMPORT_REGISTERS();                           \
+          if (trap_result) {                            \
+             CLK -= 7;                                  \
+             SET_OPCODE(trap_result);                   \
+             IMPORT_REGISTERS();                        \
+             goto trap_skipped;                         \
+          } else {                                      \
+             IMPORT_REGISTERS();                        \
+          }                                             \
       }                                                 \
   } while (0)
 
@@ -1554,6 +1562,28 @@ static BYTE fetch_tab[] = {
 
 #endif /* !WORDS_BIGENDIAN */
 
+/*  SET_OPCODE for traps */
+#if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
+#define SET_OPCODE(o) (opcode) = o;
+#else
+#if !defined WORDS_BIGENDIAN
+#define SET_OPCODE(o)                                       \
+    do {                                                    \
+        opcode.ins = (o)&0xff;                              \
+        opcode.op.op8[0] = ((o)>>8)&0xff;                   \ 
+        opcode.op.op8[1] = ((o)>>16)&0xff;                  \
+    } while (0)
+#else
+#define SET_OPCODE(o)                                       \
+    do {                                                    \
+        opcode.ins = (o)&0xff;                              \
+        opcode.op.op8[1] = ((o)>>8)&0xff;                   \ 
+        opcode.op.op8[0] = ((o)>>16)&0xff;                  \
+    } while (0)
+#endif
+
+#endif
+
 /* ------------------------------------------------------------------------ */
 
 /* Here, the CPU is emulated. */
@@ -1608,6 +1638,7 @@ static BYTE fetch_tab[] = {
 #endif
 #endif
 
+trap_skipped:
         SET_LAST_OPCODE(p0);
 
         switch (p0) {

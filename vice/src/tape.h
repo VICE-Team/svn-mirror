@@ -79,10 +79,10 @@ extern tape_image_t *tape_image_dev1;
 extern int tape_init(tape_init_t *init);
 extern int tape_deinstall(void);
 extern void tape_get_header(tape_image_t *tape_image, BYTE *name);
-extern void tape_find_header_trap(void);
-extern void tape_receive_trap(void);
-extern void tape_find_header_trap_plus4(void);
-extern void tape_receive_trap_plus4(void);
+extern int tape_find_header_trap(void);
+extern int tape_receive_trap(void);
+extern int tape_find_header_trap_plus4(void);
+extern int tape_receive_trap_plus4(void);
 extern const char *tape_get_file_name(void);
 extern int tape_tap_attched(void);
 

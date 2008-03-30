@@ -90,6 +90,7 @@ typedef struct serial_s
 extern int serial_init(const struct trap_s *trap_list, ADDRESS tmpin);
 extern int serial_install_traps(void);
 extern int serial_remove_traps(void);
+extern void serial_set_truedrive(int flag);
 extern int serial_attach_device(unsigned int unit, const char *name,
                                 int (*getf)(struct vdrive_s *,
                                 BYTE *, unsigned int),
@@ -113,10 +114,10 @@ extern int parallelattention(int b);
 extern int parallelsendbyte(BYTE data);
 extern int parallelreceivebyte(BYTE *data, int fake);
 
-extern void serial_trap_attention(void);
-extern void serial_trap_send(void);
-extern void serial_trap_receive(void);
-extern void serial_trap_ready(void);
+extern int serial_trap_attention(void);
+extern int serial_trap_send(void);
+extern int serial_trap_receive(void);
+extern int serial_trap_ready(void);
 
 extern void serial_set_eof_callback(void (*func)(void));
 extern void serial_set_attention_callback(void (*func)(void));

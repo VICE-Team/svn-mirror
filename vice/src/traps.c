@@ -203,17 +203,21 @@ int traps_remove(const trap_t *t)
     return 0;
 }
 
-int traps_handler(void)
+DWORD traps_handler(void)
 {
     traplist_t *p = traplist;
     unsigned int pc = MOS6510_REGS_GET_PC(&maincpu_regs);
+    int result;
 
     while (p) {
         if (p->trap->address == pc) {
             /* This allows the trap function to remove traps.  */
             ADDRESS resume_address = p->trap->resume_address;
 
-            (*p->trap->func)();
+            result=(*p->trap->func)();
+            if (!result) {
+                return (p->trap->check[0]|(p->trap->check[1]<<8)|(p->trap->check[2]<<16));
+            } 
             /* XXX ALERT!  `p' might not be valid anymore here, because
                `p->trap->func()' might have removed all the traps.  */
             MOS6510_REGS_SET_PC(&maincpu_regs, resume_address);

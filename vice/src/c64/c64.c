@@ -486,6 +486,9 @@ void machine_shutdown(void)
     /* and cartridge */
     cartridge_detach_image();
 
+    /* printer */
+    printer_shutdown();
+
     console_close_all();
 
     /* close the video chip(s) */

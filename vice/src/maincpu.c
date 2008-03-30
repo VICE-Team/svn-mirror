@@ -401,8 +401,8 @@ int maincpu_snapshot_write_module(snapshot_t *s)
         || SMW_B(m, MOS6510_REGS_GET_X(&maincpu_regs)) < 0
         || SMW_B(m, MOS6510_REGS_GET_Y(&maincpu_regs)) < 0
         || SMW_B(m, MOS6510_REGS_GET_SP(&maincpu_regs)) < 0
-        || SMW_W(m, MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
-        || SMW_B(m, MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
+        || SMW_W(m, (WORD)MOS6510_REGS_GET_PC(&maincpu_regs)) < 0
+        || SMW_B(m, (BYTE)MOS6510_REGS_GET_STATUS(&maincpu_regs)) < 0
         || SMW_DW(m, (DWORD)last_opcode_info) < 0)
         goto fail;
 

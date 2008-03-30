@@ -70,6 +70,7 @@
 
 extern BYTE SerialBuffer[SERIAL_NAMELENGTH + 1];
 extern int SerialPtr;
+extern int serial_truedrive;
 
 /* Flag: Have traps been installed?  */
 static int traps_installed = 0;
@@ -348,6 +349,7 @@ int serial_init(const trap_t *trap_list, ADDRESS tmpin)
     /* Install specified traps.  */
     serial_traps = trap_list;
     serial_install_traps();
+    serial_truedrive = 0;
 
     /*
      * Clear serial device functions
@@ -393,6 +395,11 @@ int serial_remove_traps(void)
         traps_installed = 0;
     }
     return 0;
+}
+
+void serial_set_truedrive(int flag)
+{
+    serial_truedrive = flag;
 }
 
 int serial_attach_device(unsigned int unit, const char *name,

@@ -327,3 +327,8 @@ void interface_serial_init(void)
     interface_serial_log = log_open("Serial Interface");
 }
 
+void interface_serial_shutdown(void)
+{
+    interface_serial_detach(0);
+    interface_serial_detach(1);
+}

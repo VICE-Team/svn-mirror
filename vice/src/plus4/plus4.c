@@ -390,6 +390,9 @@ void machine_shutdown(void)
 
     tape_image_detach(1);
 
+    /* printer */
+    printer_shutdown();
+
     console_close_all();
 
     ted_free();

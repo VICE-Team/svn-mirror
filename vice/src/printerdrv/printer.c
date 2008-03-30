@@ -79,3 +79,7 @@ void printer_reset(void)
     output_text_reset();
 }
 
+void printer_shutdown(void)
+{
+    interface_serial_shutdown();
+}

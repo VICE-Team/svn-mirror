@@ -39,9 +39,9 @@ typedef struct trap_s
     ADDRESS resume_address;
     BYTE check[3];
 #if defined(__STDC__) || defined(__IBMC__)
-    void (*func)(void);
+    int (*func)(void);
 #else
-    void (*func)();
+    int (*func)();
 #endif
     read_func_t *readfunc;
     store_func_t *storefunc;
@@ -52,7 +52,7 @@ extern int traps_resources_init(void);
 extern int traps_cmdline_options_init(void);
 extern int traps_add(const trap_t *t);
 extern int traps_remove(const trap_t *t);
-extern int traps_handler(void);
+extern DWORD traps_handler(void);
 
 #endif
 

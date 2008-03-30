@@ -177,7 +177,7 @@ int tape_deinstall(void)
    `tape_init()'.  */
 
 /* Find the next Tape Header and load it onto the Tape Buffer.  */
-void tape_find_header_trap(void)
+int tape_find_header_trap(void)
 {
     int err;
     BYTE *cassette_buffer;
@@ -241,9 +241,10 @@ void tape_find_header_trap(void)
     }
 
     MOS6510_REGS_SET_ZERO(&maincpu_regs, 1);
+    return 1;
 }
 
-void tape_find_header_trap_plus4(void)
+int tape_find_header_trap_plus4(void)
 {
     int err;
     BYTE *cassette_buffer;
@@ -304,6 +305,7 @@ void tape_find_header_trap_plus4(void)
     }
 
     MOS6510_REGS_SET_ZERO(&maincpu_regs, 1);
+    return 1;
 }
 
 /* Cassette Data transfer trap.
@@ -316,7 +318,7 @@ void tape_find_header_trap_plus4(void)
    0e   Read tape
 
    Luckily enough, these values are valid for all the machines.  */
-void tape_receive_trap(void)
+int tape_receive_trap(void)
 {
     int len;
     WORD start, end;
@@ -361,9 +363,10 @@ void tape_receive_trap(void)
 
     MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
+    return 1;
 }
 
-void tape_receive_trap_plus4(void)
+int tape_receive_trap_plus4(void)
 {
     WORD start, end, len;
     BYTE st;
@@ -388,6 +391,7 @@ void tape_receive_trap_plus4(void)
 
 
     set_st(st);                 /* EOF and possible errors */
+    return 1;
 }
 
 const char *tape_get_file_name(void)

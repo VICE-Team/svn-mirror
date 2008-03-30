@@ -49,10 +49,12 @@ static ADDRESS tmp_in;
 BYTE TrapDevice;
 BYTE TrapSecondary;
 
+int serial_truedrive;
+
 
 /* Command Serial Bus to TALK, LISTEN, UNTALK, or UNLISTEN, and send the
    Secondary Address to Serial Bus under Attention.  */
-void serial_trap_attention(void)
+int serial_trap_attention(void)
 {
     BYTE b;
     serial_t *p;
@@ -61,6 +63,16 @@ void serial_trap_attention(void)
      * Which Secondary Address ?
      */
     b = mem_read(((BYTE)(BSOUR))); /* BSOUR - character for serial bus */
+
+    if (((b & 0xf0) == 0x20) || ((b & 0xf0) == 0x40)) {
+        if (serial_truedrive && ((b & 0x0f) !=4 ) && ((b & 0x0f) != 5)) {
+            return 0;
+        }
+    } else {
+        if (serial_truedrive && ((TrapDevice & 0x0f) !=4 ) && ((TrapDevice & 0x0f) != 5)) {
+            return 0;
+        }
+    }
 
     /* do a flush if unlisten for close and command channel */
     if (b == 0x3f) {
@@ -97,12 +109,18 @@ void serial_trap_attention(void)
 
     if (attention_callback_func)
         attention_callback_func();
+
+    return 1;
 }
 
 /* Send one byte on the serial bus.  */
-void serial_trap_send(void)
+int serial_trap_send(void)
 {
     BYTE data;
+
+    if (serial_truedrive && ((TrapDevice & 0x0f) !=4 ) && ((TrapDevice & 0x0f) != 5)) {
+        return 0;
+    }
 
     data = mem_read(BSOUR); /* BSOUR - character for serial bus */
 
@@ -110,12 +128,18 @@ void serial_trap_send(void)
 
     MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
+
+    return 1;
 }
 
 /* Receive one byte from the serial bus.  */
-void serial_trap_receive(void)
+int serial_trap_receive(void)
 {
     BYTE data;
+
+    if (serial_truedrive && ((TrapDevice & 0x0f) !=4 ) && ((TrapDevice & 0x0f) != 5)) {
+        return 0;
+    }
 
     data = iecbus_read(TrapDevice, TrapSecondary, serial_set_st);
 
@@ -131,18 +155,26 @@ void serial_trap_receive(void)
     MOS6510_REGS_SET_ZERO(&maincpu_regs, data ? 0 : 1);
     MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
+
+    return 1;
 }
 
 
 /* Kernal loops serial-port (0xdd00) to see when serial is ready: fake it.
    EEA9 Get serial data and clk in (TKSA subroutine).  */
 
-void serial_trap_ready(void)
+int serial_trap_ready(void)
 {
+    if (serial_truedrive && ((TrapDevice & 0x0f) !=4 ) && ((TrapDevice & 0x0f) != 5)) {
+        return 0;
+    }
+
     MOS6510_REGS_SET_A(&maincpu_regs, 1);
     MOS6510_REGS_SET_SIGN(&maincpu_regs, 0);
     MOS6510_REGS_SET_ZERO(&maincpu_regs, 0);
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
+
+    return 1;
 }
 
 void serial_trap_init(ADDRESS tmpin)

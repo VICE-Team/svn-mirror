@@ -49,6 +49,7 @@ struct output_gfx_s
     screenshot_t screenshot;
     BYTE *line;
     unsigned int line_pos;
+    unsigned int line_no;
 };
 typedef struct output_gfx_s output_gfx_t;
 
@@ -144,6 +145,9 @@ static int output_graphics_open(unsigned int prnr,
     output_gfx[prnr].line = (BYTE *)xmalloc(output_parameter->maxcol);
     memset(output_gfx[prnr].line, OUTPUT_PIXEL_WHITE, output_parameter->maxcol);
 
+    output_gfx[prnr].line_pos = 0;
+    output_gfx[prnr].line_no = 0;
+
     output_gfx[prnr].screenshot.convert_line = output_graphics_line_data;
 
     output_gfx[prnr].gfxoutputdrv->open(&output_gfx[prnr].screenshot,
@@ -154,6 +158,19 @@ static int output_graphics_open(unsigned int prnr,
 
 static void output_graphics_close(unsigned int prnr)
 {
+unsigned int i;
+int cleared;
+
+    current_prnr = prnr;
+    cleared = 0;
+    for (i = output_gfx[prnr].line_no; i < output_gfx[prnr].screenshot.height; i++) {
+        (output_gfx[prnr].gfxoutputdrv->write)(&output_gfx[prnr].screenshot);
+        if (cleared) {
+            memset(output_gfx[prnr].line, OUTPUT_PIXEL_WHITE,
+                output_gfx[prnr].screenshot.width);
+            cleared = 1;
+        }
+    }
     output_gfx[prnr].gfxoutputdrv->close(&output_gfx[prnr].screenshot);
 }
 
@@ -165,6 +182,7 @@ static int output_graphics_putc(unsigned int prnr, BYTE b)
         memset(output_gfx[prnr].line, OUTPUT_PIXEL_WHITE,
                output_gfx[prnr].screenshot.width);
         output_gfx[prnr].line_pos = 0;
+        output_gfx[prnr].line_no++;
     } else {
         output_gfx[prnr].line[output_gfx[prnr].line_pos] = b;
         if (output_gfx[prnr].line_pos < output_gfx[prnr].screenshot.width - 1)

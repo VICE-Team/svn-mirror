@@ -532,6 +532,9 @@ void machine_shutdown(void)
     /* and the tape */
     tape_image_detach(1);
 
+    /* printer */
+    printer_shutdown();
+
     console_close_all();
 
     /* close the video chip(s) */
