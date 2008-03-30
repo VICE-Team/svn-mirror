@@ -37,6 +37,9 @@ void raster_cache_init (raster_cache_t * cache)
   for (i = 0; i < RASTER_CACHE_MAX_SPRITES; i++)
     raster_sprite_cache_init (&(cache->sprites[i]));
 
+  for (i = 0; i < RASTER_CACHE_MAX_TEXTCOLS; i++)
+    cache->background_data[i] = 0;
+
   cache->is_dirty = 1;
 }
 
