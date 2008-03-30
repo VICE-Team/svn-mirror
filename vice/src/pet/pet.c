@@ -75,10 +75,6 @@
 #include "pruser.h"
 #endif
 
-#if defined __MSDOS__ || defined WIN32
-#include "petkbd.h"
-#endif
-
 static void vsync_hook(void);
 
 static long 	pet_cycles_per_rfsh 	= PET_PAL_CYCLES_PER_RFSH;
@@ -251,13 +247,8 @@ int machine_init(void)
     acia1_init();
 
     /* Initialize the keyboard.  */
-#if defined __MSDOS__ || defined WIN32
     if (pet_kbd_init() < 0)
         return -1;
-#else
-    if (kbd_init() < 0)
-        return -1;
-#endif
 
     /* Fire up the hardware-level 1541 emulation.  */
     drive_init(PET_PAL_CYCLES_PER_SEC, PET_NTSC_CYCLES_PER_SEC);

@@ -66,10 +66,6 @@
 #include "vsync.h"
 #include "resources.h"
 
-#if defined __MSDOS__ || defined WIN32
-#include "c64kbd.h"
-#endif
-
 #ifdef HAVE_RS232
 #include "c64acia.h"
 #include "c64rsuser.h"
@@ -299,13 +295,8 @@ int machine_init(void)
     acia1_init();
 #endif
     /* Initialize the keyboard.  */
-#if !defined __MSDOS__ && !defined WIN32
-    if (kbd_init() < 0)
-        return -1;
-#else
     if (c64_kbd_init() < 0)
         return -1;
-#endif
 
     /* Initialize the monitor.  */
     monitor_init(&maincpu_monitor_interface, &drive0_monitor_interface, &drive1_monitor_interface);

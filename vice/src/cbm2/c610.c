@@ -69,10 +69,6 @@
 #include "rs232.h"
 #endif
 
-#if defined __MSDOS__ || defined WIN32
-#include "c610kbd.h"
-#endif
-
 static void vsync_hook(void);
 
 static double 	cbm2_rfsh_per_sec	= C610_PAL_RFSH_PER_SEC;
@@ -215,13 +211,8 @@ int machine_init(void)
     acia1_init();
 
     /* Initialize the keyboard.  */
-#if defined __MSDOS__ || defined WIN32
     if (c610_kbd_init() < 0)
         return -1;
-#else
-    if (kbd_init() < 0)
-        return -1;
-#endif
 
     /* Fire up the hardware-level 1541 emulation.  */
     drive_init(C610_PAL_CYCLES_PER_SEC, C610_NTSC_CYCLES_PER_SEC);

@@ -52,4 +52,10 @@ extern void kbd_poll(void);
 extern int pet_kbd_init_resources(void);
 extern int pet_kbd_init_cmdline_options(void);
 
+extern int c64_kbd_init(void);
+extern int c128_kbd_init(void);
+extern int vic20_kbd_init(void);
+extern int pet_kbd_init(void);
+extern int c610_kbd_init(void);
+
 #endif

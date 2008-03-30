@@ -441,6 +441,31 @@ int kbd_init(void)
     return 0;
 }
 
+int c64_kbd_init(void)
+{
+    return kbd_init();
+}
+
+int c128_kbd_init(void)
+{
+    return kbd_init();
+}
+
+int vic20_kbd_init(void)
+{
+    return kbd_init();
+}
+
+int pet_kbd_init(void)
+{
+    return kbd_init();
+}
+
+int c610_kbd_init(void)
+{
+    return kbd_init();
+}
+
 static int kbd_parse_keymap(const char *filename);
 
 static void kbd_parse_keyword(char *buffer)
