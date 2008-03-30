@@ -1,3 +1,53 @@
+2000-02-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.29.
+
+	* drive/drive.h: Fixed 1541 ROM checksum.
+
+	* monitor/mon_parse.y: Define `__yy_memcpy' from `__IBMC__'.
+
+	* arch/msdos/menudefs.c: Added missing drive types.
+
+	* arch/msdos/statusbar.c: #include "raster.h".
+
+	* arch/msdos/ui.c (ui_draw_drive_status): Added missing
+	parentheses.
+
+	* arch/msdos/petui.c, arch/msdos/c610ui.c: Added disk and
+	datasette submenu.
+
+	* arch/win32/res.rc: Updated contributors.
+
+	* arch/win32/resc64.rc, arch/win32/res.h, arch/win32/c64ui.c:
+	Added SS5 cart.
+
+2000-02-04  Andreas Matthies  <andreas.matthies@arcormail.de>
+
+	* arch/msdos/c128ui.c,arch/msdos/c64ui.c: new menu-items
+	and corresponding callback functions for VideoStandard,
+	includes drive.h for this
+
+	* arch/msdos/menudefs.c: removed sync factor from the drive
+	settings menu
+	new menuitem for Printer 4 in "Other settings"
+	changed Statusbar callback to support automatic mode
+
+	* arch/msdos/statusbar.c(statusbar_enabled): handles automode
+	(statusbar_to_screen): new parameters x_offset,x_width for 
+	variable use and corresponding changes in the calls
+	new functions (statusbar_set_height) and (statusbar_prepare)
+
+	* arch/msdos/statusbar.h: new prototypes, new definitions for
+	modes of statusbar
+
+	* arch/msdos/ui.c(set_statusbar_enabled): calls 
+	statusbar_enabled() so implement auto mode
+	new default for ShowStatusbar is STATUSBAR_MODE_AUTO
+
+	* arch/msdos/video.c(canvas_resize): sets the height of status
+	simply by checking the VGA mode for >200 lines; this may be
+	improved later
+
 2000-01-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.28.

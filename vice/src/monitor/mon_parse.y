@@ -48,7 +48,9 @@ static int yyerror(char *s);
 static int temp;
 static int resolve_datatype(unsigned guess_type, char *num);
 
+#ifdef __IBMC__
 static void __yy_memcpy (char *to, char *from, int count);
+#endif
 
 /* Defined in the lexer */
 extern int new_cmd, opt_asm;
