@@ -253,7 +253,10 @@ int fsdevice_init_cmdline_options(void)
 void fsdevice_set_directory(char *filename, unsigned int unit)
 {
     switch (unit) {
-      case 8 ... 11:
+      case 8:
+      case 9:
+      case 10:
+      case 11:
         set_fsdevice_dir((resource_value_t) filename, (void *)unit);
         break;
       default:
@@ -265,7 +268,10 @@ void fsdevice_set_directory(char *filename, unsigned int unit)
 static char *fsdevice_get_path(unsigned int unit)
 {
     switch (unit) {
-      case 8 ... 11:
+      case 8:
+      case 9:
+      case 10:
+      case 11:
         return fsdevice_dir[unit - 8];
       default:
         log_error(LOG_DEFAULT, "Boom! fsdevice_get_path called with "
@@ -444,9 +450,8 @@ static void flush_fs(vdrive_t *vdrive, unsigned int secondary)
                             fclose(fd);
                             continue;
                         }
-#ifdef WIN32
+
                         remove_file(name1p00);
-#endif
                         if (rename(name2p00, name1p00) == 0)
                             break;
                     }
@@ -464,9 +469,8 @@ static void flush_fs(vdrive_t *vdrive, unsigned int secondary)
                 strcpy(name2, fsdevice_get_path(vdrive->unit));
                 strcat(name2, FSDEV_DIR_SEP_STR);
                 strcat(name2, arg2);
-#ifdef WIN32
+
                 remove_file(name1);
-#endif
                 if (rename(name2, name1)) {
                     er = IPE_NOT_FOUND;
                     if (errno == EPERM)
