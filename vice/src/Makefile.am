@@ -56,6 +56,7 @@ noinst_HEADERS = \
 	cartridge.h \
 	catweaselmkiii.h \
 	cbm2ui.h \
+	cbmdos.h \
 	cbmimage.h \
 	charset.h \
 	cia.h \
@@ -154,6 +155,7 @@ base_sources = \
 	charset.c \
 	clkguard.c \
 	cmdline.c \
+	cbmdos.c \
 	cbmimage.c \
 	color.c \
 	datasette.c \
@@ -567,6 +569,7 @@ xcbm2-all: \
 # c1541
 c1541_SOURCES = \
 	c1541.c \
+	cbmdos.c \
 	charset.c \
 	cmdline.c \
 	findpath.c \
