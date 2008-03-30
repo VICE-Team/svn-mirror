@@ -51,6 +51,7 @@
 #include "ted-mem.h"
 #include "ted-resources.h"
 #include "ted-snapshot.h"
+#include "ted-sound.h"
 #include "ted-timer.h"
 #include "ted.h"
 #include "tedtypes.h"
@@ -101,8 +102,8 @@ static void ted_change_timing(void)
         ted.row_25_stop_line = TED_NTSC_25ROW_STOP_LINE;
         ted.row_24_start_line = TED_NTSC_24ROW_START_LINE;
         ted.row_24_stop_line = TED_NTSC_24ROW_STOP_LINE;
-        ted.screen_borderwidth = VIC_II_SCREEN_NTSC_BORDERWIDTH;
-        ted.screen_borderheight = VIC_II_SCREEN_NTSC_BORDERHEIGHT;
+        ted.screen_borderwidth = TED_SCREEN_NTSC_BORDERWIDTH;
+        ted.screen_borderheight = TED_SCREEN_NTSC_BORDERHEIGHT;
         ted.cycles_per_line = TED_NTSC_CYCLES_PER_LINE;
         ted.draw_cycle = TED_NTSC_DRAW_CYCLE;
         ted.first_dma_line = TED_NTSC_FIRST_DMA_LINE;
@@ -119,8 +120,8 @@ static void ted_change_timing(void)
         ted.row_25_stop_line = TED_PAL_25ROW_STOP_LINE;
         ted.row_24_start_line = TED_PAL_24ROW_START_LINE;
         ted.row_24_stop_line = TED_PAL_24ROW_STOP_LINE;
-        ted.screen_borderwidth = VIC_II_SCREEN_PAL_BORDERWIDTH;
-        ted.screen_borderheight = VIC_II_SCREEN_PAL_BORDERHEIGHT;
+        ted.screen_borderwidth = TED_SCREEN_PAL_BORDERWIDTH;
+        ted.screen_borderheight = TED_SCREEN_PAL_BORDERHEIGHT;
         ted.cycles_per_line = TED_PAL_CYCLES_PER_LINE;
         ted.draw_cycle = TED_PAL_DRAW_CYCLE;
         ted.first_dma_line = TED_PAL_FIRST_DMA_LINE;
@@ -148,8 +149,8 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
 
         do {
             f = 0;
-           if (clk > ted.fetch_clk) {
-               ted_raster_fetch_alarm_handler (0);
+            if (clk > ted.fetch_clk) {
+               ted_raster_fetch_alarm_handler(0);
                f = 1;
             }
             if (clk >= ted.draw_clk) {
@@ -172,11 +173,11 @@ inline void ted_handle_pending_alarms(int num_write_cycles)
         do {
             f = 0;
             if (clk >= ted.fetch_clk) {
-                ted_raster_fetch_alarm_handler (0);
+                ted_raster_fetch_alarm_handler(0);
                 f = 1;
             }
             if (clk >= ted.draw_clk) {
-                ted_raster_draw_alarm_handler (0);
+                ted_raster_draw_alarm_handler(0);
                 f = 1;
             }
         }
@@ -207,7 +208,7 @@ static void ted_set_geometry(void)
 #endif
 
     raster_set_geometry(&ted.raster,
-                        VIC_II_SCREEN_WIDTH, ted.screen_height,
+                        TED_SCREEN_WIDTH, ted.screen_height,
                         TED_SCREEN_XPIX, TED_SCREEN_YPIX,
                         TED_SCREEN_TEXTCOLS, TED_SCREEN_TEXTLINES,
                         ted.screen_borderwidth, ted.row_25_start_line,
@@ -276,7 +277,7 @@ inline void ted_fetch_matrix(int offs, int num)
 {
     BYTE *p;
     int start_char;
-    int c, i;
+    int c;
 
     /* Matrix fetches are done during Phi2, the fabulous "bad lines" */
     p = ted.screen_ptr;
@@ -286,11 +287,28 @@ inline void ted_fetch_matrix(int offs, int num)
 
     if (c >= num) {
         memcpy(ted.vbuf + offs, p + start_char, num);
-        for (i = 0; i < num; i++)
-            ted.cbuf[offs + i] = (ted.color_ptr)[start_char + i] & 0x7f;
     } else {
         memcpy(ted.vbuf + offs, p + start_char, c);
         memcpy(ted.vbuf + offs + c, p, num - c);
+    }
+}
+
+inline void ted_fetch_color(int offs, int num)
+{
+    BYTE *p;
+    int start_char;
+    int c, i;
+
+    /* Matrix fetches are done during Phi2, the fabulous "bad lines" */
+    p = ted.screen_ptr;
+
+    start_char = (ted.mem_counter + offs) & 0x3ff;
+    c = 0x3ff - start_char + 1;
+
+    if (c >= num) {
+        for (i = 0; i < num; i++)
+            ted.cbuf[offs + i] = (ted.color_ptr)[start_char + i] & 0x7f;
+    } else {
         for (i = 0; i < c; i++)
             ted.cbuf[offs + i] = (ted.color_ptr)[start_char + i] & 0x7f;
         for (i = 0; i < num - c; i++)
@@ -310,7 +328,7 @@ inline static int do_matrix_fetch(CLOCK sub)
         ted.memory_fetch_done = 1;
         ted.mem_counter = ted.memptr;
 
-        if ((raster->current_line & 7) == (unsigned int) raster->ysmooth
+        if ((raster->current_line & 7) == (unsigned int)raster->ysmooth
             && ted.allow_bad_lines
             && raster->current_line >= ted.first_dma_line
             && raster->current_line <= ted.last_dma_line) {
@@ -330,6 +348,28 @@ inline static int do_matrix_fetch(CLOCK sub)
             ted.bad_line = 1;
             return 1;
         }
+
+        if (((raster->current_line + 1) & 7) == (unsigned int)raster->ysmooth
+            && ted.allow_bad_lines
+            && raster->current_line >= ted.first_dma_line
+            && raster->current_line <= ted.last_dma_line) {
+            ted_fetch_color(0, TED_SCREEN_TEXTCOLS);
+/*
+            raster->draw_idle_state = 0;
+            raster->ycounter = 0;
+
+            ted.idle_state = 0;
+            ted.idle_data_location = IDLE_NONE;
+            ted.ycounter_reset_checked = 1;
+            ted.memory_fetch_done = 2;
+*/
+            maincpu_steal_cycles(ted.fetch_clk,
+                                 TED_SCREEN_TEXTCOLS + 3 - sub);
+
+            ted.bad_line = 1;
+            return 1;
+        }
+
     }
 
     return 0;
@@ -392,6 +432,7 @@ void ted_reset(void)
     ted_change_timing();
 
     ted_timer_reset();
+    ted_sound_reset();
 
     raster_reset(&ted.raster);
 
@@ -402,9 +443,8 @@ void ted_reset(void)
     ted.draw_clk = ted.draw_cycle;
     alarm_set(&ted.raster_draw_alarm, ted.draw_clk);
 
-    ted.fetch_clk = VIC_II_FETCH_CYCLE;
+    ted.fetch_clk = TED_FETCH_CYCLE;
     alarm_set(&ted.raster_fetch_alarm, ted.fetch_clk);
-    ted.fetch_idx = VIC_II_FETCH_MATRIX;
 
     /* FIXME: I am not sure this is exact emulation.  */
     ted.raster_irq_line = 0;
@@ -443,7 +483,6 @@ void ted_powerup(void)
     ted.raster_irq_clk = 1;
 
     ted.allow_bad_lines = 0;
-    ted.fetch_idx = VIC_II_FETCH_MATRIX;
     ted.idle_state = 0;
     ted.force_display_state = 0;
     ted.memory_fetch_done = 0;
@@ -531,12 +570,6 @@ void ted_set_raster_irq(unsigned int line)
                      ted.regs[0x0a] & 2));
 
     ted.raster_irq_line = line;
-}
-
-void vic_ii_update_memory_ptrs_external(void)
-{
-      if (ted.initialized > 0)
-          ted_update_memory_ptrs(TED_RASTER_CYCLE(clk));
 }
 
 /* Set the memory pointers according to the values in the registers.  */
@@ -821,8 +854,8 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
     alarm_set(&ted.raster_draw_alarm, ted.draw_clk);
 }
 
-inline static int handle_fetch_matrix(long offset, CLOCK sub,
-                                      CLOCK *write_offset)
+inline static void handle_fetch_matrix(long offset, CLOCK sub,
+                                       CLOCK *write_offset)
 {
     raster_t *raster;
 
@@ -830,33 +863,25 @@ inline static int handle_fetch_matrix(long offset, CLOCK sub,
 
     raster = &ted.raster;
 
-    {
-        do_matrix_fetch(sub);
+    do_matrix_fetch(sub);
 
-        /* As sprites are all turned off, there is no need for a sprite DMA
-           check; next time we will TED_FETCH_MATRIX again.  This works
-           because a TED_CHECK_SPRITE_DMA is forced in `ted_store()'
-           whenever the mask becomes nonzero.  */
-
-        /* This makes sure we only create TED_FETCH_MATRIX events in the bad
-           line range.  These checks are (a little) redundant for safety.  */
-        if (raster->current_line < ted.first_dma_line)
-            ted.fetch_clk += ((ted.first_dma_line
-                             - raster->current_line)
-                             * ted.cycles_per_line);
-        else if (raster->current_line >= ted.last_dma_line)
+    if (raster->current_line < ted.first_dma_line) {
+        ted.fetch_clk += ((ted.first_dma_line
+                         - raster->current_line)
+                         * ted.cycles_per_line);
+    } else {
+        if (raster->current_line >= ted.last_dma_line)
             ted.fetch_clk += ((ted.screen_height
                              - raster->current_line
                              + ted.first_dma_line)
                              * ted.cycles_per_line);
         else
             ted.fetch_clk += ted.cycles_per_line;
-
-        alarm_set(&ted.raster_fetch_alarm, ted.fetch_clk);
-        return 1;
     }
 
-    return 0;
+    alarm_set(&ted.raster_fetch_alarm, ted.fetch_clk);
+
+    return;
 }
 
 /* Handle matrix fetch events.  FIXME: could be made slightly faster.  */
@@ -887,9 +912,9 @@ void ted_raster_fetch_alarm_handler(CLOCK offset)
           default:
             /* In all the other opcodes, all the write accesses are the last
                ones.  */
-            if (maincpu_num_write_cycles () != 0) {
+            if (maincpu_num_write_cycles() != 0) {
                 last_opcode_last_write_clk = clk - 1;
-                last_opcode_first_write_clk = clk - maincpu_num_write_cycles ();
+                last_opcode_first_write_clk = clk - maincpu_num_write_cycles();
             } else {
                 last_opcode_first_write_clk = (CLOCK) 0;
                 last_opcode_last_write_clk = last_opcode_first_write_clk;
@@ -902,10 +927,9 @@ void ted_raster_fetch_alarm_handler(CLOCK offset)
         last_opcode_first_write_clk = last_opcode_last_write_clk = 0;
     }
 
-    while (1) {
+    {
         CLOCK sub;
         CLOCK write_offset;
-        int leave;
 
         if (ted.fetch_clk < last_opcode_first_write_clk
             || ted.fetch_clk > last_opcode_last_write_clk)
@@ -913,27 +937,9 @@ void ted_raster_fetch_alarm_handler(CLOCK offset)
         else
             sub = last_opcode_last_write_clk - ted.fetch_clk + 1;
 
-        switch (ted.fetch_idx) {
-          case VIC_II_FETCH_MATRIX:
-            leave = handle_fetch_matrix(offset, sub, &write_offset);
-            last_opcode_first_write_clk += write_offset;
-            last_opcode_last_write_clk += write_offset;
-            break;
-
-          case VIC_II_CHECK_SPRITE_DMA:
-            leave = 0;
-            break;
-
-          case VIC_II_FETCH_SPRITE:
-          default:                /* Make compiler happy.  */
-            leave = 0;
-            last_opcode_first_write_clk += write_offset;
-            last_opcode_last_write_clk += write_offset;
-            break;
-        }
-
-        if (leave)
-            break;
+        handle_fetch_matrix(offset, sub, &write_offset);
+        last_opcode_first_write_clk += write_offset;
+        last_opcode_last_write_clk += write_offset;
     }
 }
 

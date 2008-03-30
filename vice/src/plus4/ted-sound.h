@@ -27,5 +27,12 @@
 #ifndef _TEDSOUND_H
 #define _TEDSOUND_H
 
+#include "types.h"
+
+extern void REGPARM2 ted_sound_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 ted_sound_read(ADDRESS addr);
+
+extern void ted_sound_reset(void);
+
 #endif
 
