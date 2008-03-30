@@ -59,6 +59,7 @@ int iec_callback_index = 0;
 void iec_init(void)
 {
     memset(&iec_info, 0xff, sizeof(iec_info_t));
+    iec_info.drive_port = 0x85;
 }
 
 inline void iec_update_ports(void)
