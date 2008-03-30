@@ -1,5 +1,73 @@
 2003-01-20  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.11a.
+
+2003-01-20  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* drive/drive.c: Fixed an error in drive_rotation_reset(),
+	where .rotation_last_clk was initialized with a pointer to a
+	CLOCK.
+
+2003-01-20  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/uimon.c: Remove a warning in dis_window_proc(),
+	processing of WM_VSCROLL/SB_THUMBTRACK.
+
+2003-01-20  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/archdep.c:
+	- changed util_get_current_dir to code
+	- fixed a warning in mkdir
+
+	* arch/os2/blockdev.c:
+	- added
+
+	* arch/os2/config.h:
+	- added HAVE_OPENCBM, HAVE_DIRECT_H
+
+	* arch/os2/dialogs/dialogs.rc, arch/os2/os2main.c,
+	arch/os2/videoarch.h:
+	- small changes to the layout
+
+	* arch/os2/dialogs/dlg-fileio.c:
+	- removed access to image_contents_read_tape
+
+	* arch/os2/dialogs/menubar.c, arch/os2/dialogs/menubar.rc:
+	- mainly corrections to the PAL Gui
+
+	* arch/os2/vac++/incl/*/*.icc, raster/raster.c:
+	- make project compile again
+
+	* arch/os2/vac++/incl/ieee.icc,
+	arch/os2/vac++/incl/serial.icc,
+	arch/os2/vac++/incl/rs232drv.icc,
+	arch/os2/vac++/incl/tcbm.icc:
+	- added
+
+	* arch/os2/video.c:
+	- changed video_canvas_create to new interface
+
+	* drive/drive-snapshot.c, event.c, plus4/ted-mem.c,
+	vic20/vic-mem.c, vicii/vicii-mem.c:
+	- fixed some warnings
+
+	* fsdevice/fsdevice-open.c, fsdevice/fsdevice-read.c,
+	sid/resid.h
+	- removed unnecessary includes
+
+	* ioutil.c:
+	- added includes necessary for OS/2
+	- fixed some warnings
+
+	* video/renderyuv.c:
+	- removed 'inline' for OS/2 (to be fixed. I don't understand
+	why I need this)
+
+	* video/video-viewport.c:
+	- don't call video_canvas_resize in vsid_mode!
+
+2003-01-20  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.11.
 
 	* arch/unix/x11/video.c (video_canvas_refresh): Removed hack.
