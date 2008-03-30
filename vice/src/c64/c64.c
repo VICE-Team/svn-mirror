@@ -55,6 +55,7 @@
 #include "maincpu.h"
 #include "mon.h"
 #include "patchrom.h"
+#include "psid.h"
 #include "reu.h"
 #include "serial.h"
 #include "sid.h"
@@ -194,6 +195,7 @@ int machine_init_resources(void)
         || kbd_init_resources() < 0
         || drive_init_resources() < 0
         || cartridge_init_resources() < 0
+        || psid_init_resources() < 0
         )
         return -1;
 
@@ -225,7 +227,9 @@ int machine_init_cmdline_options(void)
 #endif
         || kbd_init_cmdline_options() < 0
         || drive_init_cmdline_options() < 0
-        || cartridge_init_cmdline_options() < 0)
+        || cartridge_init_cmdline_options() < 0
+        || psid_init_cmdline_options() < 0
+	)
         return -1;
 
     return 0;
@@ -238,6 +242,37 @@ int machine_init(void)
         c64_log = log_open("C64");
 
     maincpu_init();
+
+    if (psid_mode) {
+	mem_powerup();
+
+	psid_init_driver();
+
+	/* Initialize the VIC-II emulation.  */
+	if (vic_ii_init() == NULL)
+	    return -1;
+	vic_ii_enable_extended_keyboard_rows(0);
+	cia1_enable_extended_keyboard_rows(0);
+
+	ciat_init_table();
+	cia1_init();
+	cia2_init();
+
+	/* Initialize vsync and register our hook function.  */
+	vsync_init(C64_PAL_RFSH_PER_SEC, C64_PAL_CYCLES_PER_SEC, vsync_hook);
+
+	/* Initialize sound.  Notice that this does not really open the audio
+	   device yet.  */
+	sound_init(C64_PAL_CYCLES_PER_SEC, C64_PAL_CYCLES_PER_RFSH);
+
+	/* Initialize keyboard buffer.  */
+	kbd_buf_init(631, 198, 10, C64_PAL_CYCLES_PER_RFSH * C64_PAL_RFSH_PER_SEC);
+
+	/* Initialize the C64-specific part of the UI.  */
+	c64_ui_init();
+
+	return 0;
+    }
 
     if (mem_load() < 0)
         return -1;
@@ -314,6 +349,9 @@ int machine_init(void)
     /* Initialize the C64-specific part of the UI.  */
     c64_ui_init();
 
+    /* Initialize the REU.  */
+    reu_init();
+
 #ifdef HAVE_MOUSE
     /* Initialize mouse support (if present).  */
     mouse_init();
@@ -328,6 +366,15 @@ void machine_reset(void)
     cia1_reset();
     cia2_reset();
     sid_reset();
+
+    if (psid_mode) {
+        reset_vic_ii();
+
+        psid_init_driver();
+	psid_init_tune();
+	return;
+    }
+
     reset_tpi();
 
 #ifdef HAVE_RS232
@@ -375,6 +422,11 @@ static void vsync_hook(void)
 {
     CLOCK sub;
 
+    if (psid_mode) {
+        clk_guard_prevent_overflow(&maincpu_clk_guard);
+	return;
+    }
+      
     drive_vsync_hook();
 
     autostart_advance();
@@ -471,4 +523,15 @@ fail:
         snapshot_close(s);
     maincpu_trigger_reset();
     return -1;
+}
+
+
+/* ------------------------------------------------------------------------- */
+int machine_autodetect_psid(const char *name)
+{
+  if (name == NULL) {
+      return -1;
+  }
+
+  return psid_load_file(name);
 }

@@ -34,6 +34,7 @@
 #include "types.h"
 #include "snapshot.h"
 
+extern void reu_init(void);
 extern int reset_reu(int size);
 extern void activate_reu(void);
 extern void close_reu(void);

@@ -1,4 +1,104 @@
-1999-05-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+1999-05-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.12.
+
+	* c64/reu.c, c64/reu.h (reu_init): New function.
+
+	* main.c (machine_init): Initialize REU.
+
+1998-05-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* xaw/uisettings.c (radio_Drive8Type, radio_Drive9Type): add drive
+	parameter to drive_match_bus()
+
+	* drive/cia1581drive0.c (do_reset_cia, undump_ciapa, store_ciapa):
+	set led_status to 0 or 1, not anything else
+	* drive/cia1581drive1.c: likewise
+
+	* drive/drive.c (set_drive0_type, set_drive1_type): add drive
+	parameter to drive_match_bus()
+	(drive_match_bus): add drive parameter
+	(drive_num_leds): return the number of LEDs for the drive
+
+	* drive/drive.h (drive_match_bus): update prototype
+	(drive_num_leds): add prototype
+
+	* drive/fdc.c (fdc_do_job): update current_half_track for display
+
+	* drive/riot2drive0.c (void undump_prb, void store_prb): shift 
+	LED bits to bits 0 and 1.
+	(riot_reset): reset LED status
+	* drive/riot2drive1.c: likewise
+
+	* drive/via2drive0.c (store_prb, undump_prb, res_via): use bit 0
+	for LED status
+	* drive/via2drive1.c: likewise
+
+1998-05-15  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* drive/drive.c (set_drive_true_emulation): reread the BAM 
+	when we disable true drive emulation.
+
+	* drive/fdc.c: encapsulate debug output into #ifdef FDC_DEBUG
+	(fdc_do_job): get disk ID and check where appropriate.
+	Check write protection where applicable
+	Check for format code on $E0 job code and format disk.
+
+	* vdrive.c (vdrive_get_max_sectors): return the right value
+	for track 77.
+	(vdrive_bam_get_disk_id, vdrive_bam_set_disk_id): new functions
+
+	* vdrive.h (vdrive_bam_get_disk_id, vdrive_bam_set_disk_id): new 
+	prototypes
+
+1998-05-14  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* ciacore.c (mycia_init): give the TOD alarm a unique name.
+
+1999-05-14  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/res.h: Added IDM_CART_VIC20_16KB_4000 resource definition.
+
+	* arch/win32/resvic.rc: Updated cartridge attach menu entries.
+
+1998-05-13  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* drive/drivecpucore.c (mydrive_cpu_early_init): give ROM
+	address to fdc code (is later needed to check whether we
+	have to execute format or custom code on $E0 job code)
+
+	* drive/fdc.c (iprom): IP processor ROM pointer
+	(fdc_do_job): use header pointer as parameter, because 
+	header also contains ID, not only t/s
+	If no disk in drive, return no Sync instead of drive not ready
+	On sector seek update track/sector.
+	On code $F0 read block header only.
+	(fdc_int): call fdc_do_job with header pointer instead of 
+	track/sector
+	(fdc_init): save pointer to main processor ROM
+	
+1999-05-13  Dag Lem  <resid@nimrod.no>
+
+	* Makefile.am: Removed target vsid.
+
+	* c64/Makefile.am: Added PSID related files.
+	
+	* c64/c64.c: Check psid_mode flag for PSID handling.
+	* c64/psid.h: New file, PSID handling.
+	* c64/psid.c: Likewise.
+	* c64/psiddrv.a65: Likewise.
+	
+	* c128/c128.c (machine_autodetect_psid): Flag target as uncapable
+	of reading PSID files.
+	* c128/c610.c (machine_autodetect_psid): Likewise.
+	* c128/pet.c (machine_autodetect_psid): Likewise.
+	* c128/vic20.c (machine_autodetect_psid): Likewise.
+
+	* machine.h: External declaration of psid_mode flag.
+
+	* main.c: Autodetect PSID file and set psid_mode flag.
+	
+1999-05-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.11.
 
