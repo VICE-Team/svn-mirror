@@ -125,7 +125,7 @@ static int disk_image_check_for_d64(disk_image_t *image)
         return 0;
 
     while ((len = fread(block, 1, 256, image->fd)) == 256) {
-        if (++blk > 771) {
+        if (++blk > (EXT_BLOCKS_1541 + 3)) {
             log_error(disk_image_log, "Disk image too large");
             break;
         }
@@ -137,10 +137,10 @@ static int disk_image_check_for_d64(disk_image_t *image)
     }
 
     switch (blk) {
-      case 683:
+      case NUM_BLOCKS_1541:
         image->tracks = NUM_TRACKS_1541;
         break;
-      case 685:
+      case NUM_BLOCKS_1541 + 2:
         if (len != 171) {
             log_message(disk_image_log, "Cannot read block %d.", blk);
             return 0;
@@ -154,10 +154,18 @@ static int disk_image_check_for_d64(disk_image_t *image)
             return 0;
         image->tracks = NUM_TRACKS_1541;
         break;
-      case 768:
+      case EXT_BLOCKS_1541:
         image->tracks = EXT_TRACKS_1541;
         break;
-      case 771:
+      case EXT_BLOCKS_1541 + 3:
+        image->error_info = (BYTE *)xmalloc(MAX_BLOCKS_1541);
+        memset(image->error_info, 0, MAX_BLOCKS_1541);
+        if (fseek(image->fd, 256 * EXT_BLOCKS_1541, SEEK_SET) < 0)
+            return 0;
+        if (fread(image->error_info, 1, EXT_BLOCKS_1541, image->fd)
+            < EXT_BLOCKS_1541)
+            return 0;
+
         image->tracks = EXT_TRACKS_1541;
         break;
       default:
@@ -784,13 +792,25 @@ int disk_image_sector_per_track(unsigned int format, unsigned int track)
     switch (format) {
       case DISK_IMAGE_TYPE_D64:
       case DISK_IMAGE_TYPE_X64:
+        if (track >= sizeof(sector_map_d64)) {
+            log_message(disk_image_log, "Track %i exceeds sector map.", track);
+            return -1;
+        }        
         return sector_map_d64[track];
         break;
       case DISK_IMAGE_TYPE_D71:
+        if (track >= sizeof(sector_map_d71)) {
+            log_message(disk_image_log, "Track %i exceeds sector map.", track);
+            return -1;
+        }
         return sector_map_d71[track];
         break;
       case DISK_IMAGE_TYPE_D80:
       case DISK_IMAGE_TYPE_D82:
+        if (track >= sizeof(sector_map_d80)) {
+            log_message(disk_image_log, "Track %i exceeds sector map.", track);
+            return -1;
+        }
         return sector_map_d80[track];
         break;
       default:
