@@ -44,7 +44,6 @@
 #define myacia_init acia1_init
 #define myacia_init_cmdline_options acia1_init_cmdline_options
 #define myacia_init_resources acia1_init_resources
-#define myacia_prevent_clk_overflow acia1_prevent_clk_overflow
 #define myacia_read_snapshot_module acia1_read_snapshot_module
 #define myacia_write_snapshot_module acia1_write_snapshot_module
 #define peek_myacia peek_acia1
