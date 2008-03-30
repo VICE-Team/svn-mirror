@@ -201,6 +201,9 @@ bool playback;
 char *playback_name;
 static void playback_commands(char *filename);
 
+/* Disassemble the current opcode on entry.  Used for single step.  */
+static int disassemble_on_entry = 0;
+
 struct mon_cmds mon_cmd_array[] = {
    { "",		"",	BAD_CMD,		STATE_INITIAL },
 
@@ -2110,7 +2113,7 @@ void mon_instructions_step(int count)
    if (count >= 0)
        fprintf(mon_output, "Stepping through the next %d instruction(s).\n",
                count);
-   instruction_count = (count>=0)?count:1;
+   instruction_count = (count >= 0) ? count : 1;
    wait_for_return_level = 0;
    skip_jsrs = FALSE;
    exit_mon = 1;
@@ -2124,7 +2127,7 @@ void mon_instructions_next(int count)
    if (count >= 0)
        fprintf(mon_output, "Nexting through the next %d instruction(s).\n",
                count);
-   instruction_count = (count>=0)?count:1;
+   instruction_count = (count >= 0) ? count : 1;
    wait_for_return_level = (GET_OPCODE(caller_space) == OP_JSR) ? 1 : 0;
    skip_jsrs = TRUE;
    exit_mon = 1;
@@ -2836,7 +2839,7 @@ void mon_check_icount(ADDRESS a)
         if (!instruction_count) {
            if (mon_mask[caller_space] & MI_STEP) {
               mon_mask[caller_space] &= ~MI_STEP;
-              disassemble_instr(new_addr(caller_space, a));
+              disassemble_on_entry = 1;
            }
            if (!mon_mask[caller_space])
               interrupt_monitor_trap_off(mon_interfaces[caller_space]->int_status);
@@ -2913,6 +2916,12 @@ void mon(ADDRESS a)
     dot_addr[caller_space] = new_addr(caller_space, a);
 
     fprintf(mon_output, "\n** Monitor\n");
+
+    if (disassemble_on_entry) {
+        disassemble_instr(new_addr(caller_space, a));
+        disassemble_on_entry = 0;
+    }
+
     fflush(mon_output);
 
     while (!exit_mon) {
@@ -2949,7 +2958,8 @@ void mon(ADDRESS a)
                 if (recording) {
                     if (fprintf(recording_fp, "%s\n", myinput) != 1) {
                        fprintf(mon_output,
-                               "Error while recording commands. Output file closed.\n");
+                               "Error while recording commands. "
+                               "Output file closed.\n");
                        fclose(recording_fp);
                        recording_fp = NULL;
                        recording = FALSE;
@@ -2975,11 +2985,17 @@ void mon(ADDRESS a)
     if (exit_mon)
         exit(0);
 
+    fflush(mon_output);
+
 #ifdef __riscos
     Wimp_CommandWindow(-1);
 #endif
     signal(SIGINT, old_handler);
 
     archdep_close_monitor_console(mon_input, mon_output);
+
+    /* Make sure the monitor bombs if uninitialized pointers are used.  */
+    mon_input = NULL;
+    mon_output = NULL;
 }
 
