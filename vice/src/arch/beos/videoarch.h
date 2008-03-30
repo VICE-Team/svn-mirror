@@ -55,16 +55,17 @@ typedef struct _canvas *canvas_t;
 
 /* ------------------------------------------------------------------------- */
 
-typedef struct _frame_buffer {
+typedef struct frame_buffer_s {
     int     width;
     int     height;
     PIXEL   *buffer;
     
 } *frame_buffer_t;
 
-#define FRAME_BUFFER_LINE_SIZE(f)        (f)->width
-#define FRAME_BUFFER_LINE_START(f, n)    ((f)->buffer+(n)*(f)->width)
-#define FRAME_BUFFER_START(f)            (FRAME_BUFFER_LINE_START(f, 0))
+#define FRAME_BUFFER_POINTER_FIXUP(x)   (x)
+#define FRAME_BUFFER_LINE_SIZE(f)       (f)->width
+#define FRAME_BUFFER_LINE_START(f, n)   ((f)->buffer+(n)*(f)->width)
+#define FRAME_BUFFER_START(f)           (FRAME_BUFFER_LINE_START(f, 0))
 
 /* ------------------------------------------------------------------------- */
 

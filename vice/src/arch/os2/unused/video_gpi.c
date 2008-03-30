@@ -131,7 +131,7 @@ int video_init(void) /* Initialization. Don't need this with OS/2 */
 int frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
 {
     //    log("frame_buffer_alloc",1);
-    (*f) = (frame_buffer_t) malloc(sizeof(struct _frame_buffer));
+    (*f) = (frame_buffer_t) malloc(sizeof(struct frame_buffer_s));
     //    log("bitmap alloc",1);
     (*f)->bitmap = (char*)malloc(width*height*sizeof(BYTE));
     (*f)->width  = width;

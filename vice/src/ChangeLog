@@ -1,3 +1,42 @@
+2000-06-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.11.
+
+	* arch/unix/x11/xaw/ui.c, arch/unix/x11/gnome/ui.c: Moved
+	common resources and fullscreen code into a separate files.
+	Use resource code instead of using globals.
+
+	* arch/unix/x11/ui-resources.c, arch/unix/x11/fullscreen.c,
+	fullscreen.h: New files.
+
+	* main.c, arch/unix/uisettings.c, arch/unix/uicommands.c,
+	arch/unix/x11/xaw/uimenu.c: Use new fullscreen API.
+
+	* arch/unix/x11/xaw/uiarch.h: Removed fullscreen stuff.
+
+	* arch/unix/x11/videoarch.h, arch/riscos/videoarch.h,
+	arch/win32/videoarch.h, arch/msdos/videoarch.h,
+	arch/os2/videoarch.h, arch/beos/videoarch.h:
+	FRAME_BUFFER_POINTER_FIXUP: New macro.
+
+	* arch/win32/video.c, arch/os2/unused/video_gpi.h,
+	arch/os2/unused/video_gpi.c, arch/os2/video.c,
+	arch/beos/videoarch.h: Framebuffer struct is called
+	`frame_buffer_s'.
+
+2000-06-06  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* added files to MS VC project files
+
+	* fixed error in screendrv/bmp.c, so that it didn't compile
+	under win32. Anyway, this most probably breaks RISCOS and X11
+	ports.
+
+2000-06-06  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* src/arch/win32/console.c: Logging the output to a file is
+	toggled now by Alt+PrtScr
+
 2000-06-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.10.

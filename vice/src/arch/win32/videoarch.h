@@ -59,9 +59,10 @@ typedef struct frame_buffer_s {
     PIXEL   *buffer;
 } *frame_buffer_t;
 
-#define FRAME_BUFFER_LINE_SIZE(f)        (f)->width
-#define FRAME_BUFFER_LINE_START(f, n)    ((f)->buffer+(n)*(f)->width)
-#define FRAME_BUFFER_START(f)            (FRAME_BUFFER_LINE_START(f, 0))
+#define FRAME_BUFFER_POINTER_FIXUP(x)   (x)
+#define FRAME_BUFFER_LINE_SIZE(f)       (f)->width
+#define FRAME_BUFFER_LINE_START(f, n)   ((f)->buffer+(n)*(f)->width)
+#define FRAME_BUFFER_START(f)           (FRAME_BUFFER_LINE_START(f, 0))
 #endif
 
 typedef void (*canvas_redraw_t)(unsigned int width, unsigned int height);

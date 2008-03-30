@@ -365,7 +365,7 @@ int video_frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
         return -1;
     }
 
-    *i = (struct _frame_buffer *) xmalloc(sizeof(struct _frame_buffer));
+    *i = (struct _frame_buffer *) xmalloc(sizeof(struct frame_buffer_s));
     (*i)->dd_surface = surface;
 
     return frame_buffer_lock(*i);
@@ -380,7 +380,7 @@ int video_frame_buffer_alloc(frame_buffer_t *f,
                        unsigned int height)
 {
     DEBUG(("frame_buffer_alloc()"));
-    *f = (frame_buffer_t) xmalloc(sizeof(struct _frame_buffer));
+    *f = (frame_buffer_t) xmalloc(sizeof(struct frame_buffer_s));
     (*f)->width = width;
     (*f)->height = height;
     (*f)->buffer = xmalloc(width*height*sizeof(PIXEL));

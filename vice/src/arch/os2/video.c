@@ -223,7 +223,7 @@ int video_frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
         first=FALSE;
     }
 
-    (*f) = (frame_buffer_t) xmalloc(sizeof(struct _frame_buffer));
+    (*f) = (frame_buffer_t) xmalloc(sizeof(struct frame_buffer_s));
     (*f)->bitmap = (char*) xmalloc(width*height*sizeof(BYTE));
     (*f)->width  = width;
     (*f)->height = height;

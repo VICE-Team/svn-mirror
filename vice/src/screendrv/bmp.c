@@ -40,7 +40,7 @@ int bmp_save(screenshot_t *screenshot, const char *filename)
 
     for (y = 0; y < screenshot->height; y++) {
 
-        line_start = FRAME_BUFFER_LINE_START(*(screenshot->frame_buffer), y);
+        line_start = FRAME_BUFFER_LINE_START(FRAME_BUFFER_POINTER_FIXUP(screenshot->frame_buffer), y);
         
         printf("LINE %03i\n", y);
 

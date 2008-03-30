@@ -84,6 +84,7 @@ typedef ui_exposure_handler_t canvas_redraw_t;
 extern GC _video_gc;
 extern int _video_use_xsync;
 
+#define FRAME_BUFFER_POINTER_FIXUP(x)   ((*x))
 #if X_DISPLAY_DEPTH == 0
 #define FRAME_BUFFER_START(i)		((i).tmpframebuffer)
 #define FRAME_BUFFER_LINE_SIZE(i)	((i).tmpframebufferlinesize)

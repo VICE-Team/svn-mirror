@@ -26,9 +26,10 @@ typedef struct frame_buffer_s {
    it seems to be x*sizeof(ULONG), see DiveAllocImageBuffer */
 extern const int FBMULT;
 
-#define FRAME_BUFFER_LINE_START(f,n) ((f->bitmap)+((f->width)*sizeof(BYTE)+FBMULT)*n)
-#define FRAME_BUFFER_SIZE(f)         (f->width)
-#define FRAME_BUFFER_START(f)        (f->bitmap)
+#define FRAME_BUFFER_POINTER_FIXUP(x)   (x)
+#define FRAME_BUFFER_LINE_START(f,n)    ((f->bitmap)+((f->width)*sizeof(BYTE)+FBMULT)*n)
+#define FRAME_BUFFER_SIZE(f)            (f->width)
+#define FRAME_BUFFER_START(f)           (f->bitmap)
 
 typedef void (*canvas_redraw_t)(UINT width, UINT height);
 
