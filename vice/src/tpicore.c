@@ -106,161 +106,169 @@ static BYTE push_irq_state(void) {
 
 /*------------------------------------------------------------------------*/
 
-void mytpi_init (void) 
+void mytpi_init(void) 
 {
     if (mytpi_log == LOG_ERR)
         mytpi_log = log_open(MYTPI_NAME);
 }
 
-void mytpi_reset( void ) {
-	int i;
+void mytpi_reset(void)
+{
+    unsigned int i;
 
-	for(i=0;i<8;i++) {
-	  tpi[0] = 0;
-	}
+    for(i = 0; i < 8; i++) {
+        tpi[i] = 0;
+    }
 
-	irq_mask = 0;
-	irq_latches = 0;
-	irq_previous = 0xff;
-	irq_stack = 0;
-	irq_active = 0;
-        mycpu_set_int(I_MYTPI, 0);
+    irq_mask = 0;
+    irq_latches = 0;
+    irq_previous = 0xff;
+    irq_stack = 0;
+    irq_active = 0;
+    mycpu_set_int(I_MYTPI, 0);
 
-	oldpa = 0xff;
-	oldpb = 0xff;
-	oldpc = 0xff;
+    oldpa = 0xff;
+    oldpb = 0xff;
+    oldpc = 0xff;
 
-	tpi_set_ca(0);
-	tpi_set_cb(0);
-	ca_state = 0;
-	cb_state = 0;
+    tpi_set_ca(0);
+    tpi_set_cb(0);
+    ca_state = 0;
+    cb_state = 0;
 
-	_tpi_reset();
+    _tpi_reset();
 }
 
-void REGPARM2 mytpi_store( ADDRESS addr, BYTE byte ) {
+void REGPARM2 mytpi_store(ADDRESS addr, BYTE byte)
+{
 
-        if (mycpu_rmw_flag) {
-            myclk --;
-            mycpu_rmw_flag = 0;
-            mytpi_store(addr, tpi_last_read);
-            myclk ++;
+    if (mycpu_rmw_flag) {
+        myclk --;
+        mycpu_rmw_flag = 0;
+        mytpi_store(addr, tpi_last_read);
+        myclk ++;
+    }
+
+    addr &= 0x07;
+
+
+    switch (addr) {
+      case TPI_PA:
+      case TPI_DDPA:
+        tpi[addr] = byte;
+        byte = tpi[TPI_PA] | ~tpi[TPI_DDPA];
+        store_pa(byte);
+        oldpa = byte;
+        return;
+      case TPI_PB:
+      case TPI_DDPB:
+        tpi[addr] = byte;
+        byte = tpi[TPI_PB] | ~tpi[TPI_DDPB];
+        store_pb(byte);
+        oldpb = byte;
+        if (IS_CB_MODE()) {
+            cb_state = 0;
+            tpi_set_cb(0);
+            if(IS_CB_PULSE_MODE()) {
+                cb_state = 1;
+                tpi_set_cb(1);
+            }
         }
+        return;
+      case TPI_PC:
+      case TPI_DDPC:
+        tpi[addr] = byte;
+        if (irq_mode) {
+            if (addr == TPI_PC) {
+                irq_latches &= byte;
+            } else {
+                int i;
 
-	addr &= 0x07;
-
-
-	switch ( addr ) {
-	case TPI_PA:
-	case TPI_DDPA:
-	    tpi[addr] = byte;
-	    byte = tpi[TPI_PA] | ~tpi[TPI_DDPA];
-	    store_pa(byte);
-	    oldpa = byte;
-	    return;
-	case TPI_PB:
-	case TPI_DDPB:
-	    tpi[addr] = byte;
-	    byte = tpi[TPI_PB] | ~tpi[TPI_DDPB];
-	    store_pb(byte);
-	    oldpb = byte;
-	    if(IS_CB_MODE()) {
-		cb_state = 0;
-		tpi_set_cb(0);
-		if(IS_CB_PULSE_MODE()) {
-		    cb_state = 1;
-		    tpi_set_cb(1);
-		}
-	    }
-	    return;
-	case TPI_PC:
-	case TPI_DDPC:
-	    tpi[addr] = byte;
-	    if (irq_mode) {
-	        if(addr == TPI_PC) {
-	            irq_latches &= byte;
-		} else {
-		    int i;
-		    for(i=4;i>=0;i--) {
-                        if(irq_mask & irq_latches & pow2[i]) {
-                            set_latch_bit(pow2[i]);
-			}
-		    }
-	        }
-	    } else {
-	        byte = tpi[TPI_PC] | ~tpi[TPI_DDPC];
-	        store_pc(byte);
-		oldpc = byte;
-	    }
-	    return;
-	case TPI_CREG:
-	    tpi[addr] = byte;
-	    if(mytpi_debug) {
-		log_message(mytpi_log, "write %02x to CREG",byte);
-	    }
-	    if(tpi[TPI_CREG] & 0x20) {
-		ca_state = (tpi[TPI_CREG] & 0x10);
-		tpi_set_ca( ca_state );
-	    } else
-	    if(tpi[TPI_CREG] & 0x10) {
-		ca_state = 1;
-		tpi_set_ca( 1 );
-	    }
-	    if(tpi[TPI_CREG] & 0x80) {
-		cb_state = (tpi[TPI_CREG] & 0x40);
-		tpi_set_cb( cb_state );
-	    } else
-	    if(tpi[TPI_CREG] & 0x40) {
-		cb_state = 1;
-		tpi_set_cb( 1 );
-	    }
-	    return;
-	case TPI_AIR:
-	    pop_irq_state();
-	    return;
-	}
-	tpi[addr] = byte;
+                for(i = 4; i >= 0; i--) {
+                    if (irq_mask & irq_latches & pow2[i]) {
+                        set_latch_bit(pow2[i]);
+                    }
+                }
+            }
+        } else {
+            byte = tpi[TPI_PC] | ~tpi[TPI_DDPC];
+            store_pc(byte);
+            oldpc = byte;
+        }
+        return;
+      case TPI_CREG:
+        tpi[addr] = byte;
+        if (mytpi_debug) {
+            log_message(mytpi_log, "write %02x to CREG",byte);
+        }
+        if (tpi[TPI_CREG] & 0x20) {
+            ca_state = (tpi[TPI_CREG] & 0x10);
+            tpi_set_ca(ca_state);
+        } else {
+          if (tpi[TPI_CREG] & 0x10) {
+              ca_state = 1;
+              tpi_set_ca(1);
+          }
+        }
+        if (tpi[TPI_CREG] & 0x80) {
+            cb_state = (tpi[TPI_CREG] & 0x40);
+            tpi_set_cb(cb_state);
+        } else {
+            if (tpi[TPI_CREG] & 0x40) {
+                cb_state = 1;
+                tpi_set_cb(1);
+            }
+        }
+        return;
+      case TPI_AIR:
+        pop_irq_state();
+        return;
+    }
+    tpi[addr] = byte;
 }
 
-BYTE REGPARM1 mytpi_read( ADDRESS addr ) {
-	BYTE byte = 0xff;
-    	switch ( addr ) {
-	case TPI_PA:
-	    byte = read_pa();
-	    if(IS_CA_MODE()) {
-		ca_state = 0;
-		tpi_set_ca(0);
-		if(IS_CA_PULSE_MODE()) {
-		    ca_state = 1;
-		    tpi_set_ca(1);
-		}
-	    }
-	    tpi_last_read = byte;
-	    return byte;
-	case TPI_PB:
-	    byte = read_pb();
-	    tpi_last_read = byte;
-	    return byte;
-	case TPI_PC:
-	    if(irq_mode) {
-		byte = (irq_latches & 0x1f) | (irq_active ? 0x20 : 0) | 0xc0;
-	    } else {
-	        byte = read_pc();
-	    }
-	    tpi_last_read = byte;
-	    return byte;
-	case TPI_AIR:
-	    tpi_last_read = push_irq_state();
-	    return tpi_last_read;
-	default:
-	    tpi_last_read = tpi[addr];
-	    return tpi_last_read;
-	}
+BYTE REGPARM1 mytpi_read(ADDRESS addr)
+{
+    BYTE byte = 0xff;
+
+    switch (addr) {
+      case TPI_PA:
+        byte = read_pa();
+        if (IS_CA_MODE()) {
+            ca_state = 0;
+            tpi_set_ca(0);
+            if (IS_CA_PULSE_MODE()) {
+                ca_state = 1;
+                tpi_set_ca(1);
+            }
+        }
+        tpi_last_read = byte;
+        return byte;
+      case TPI_PB:
+        byte = read_pb();
+        tpi_last_read = byte;
+        return byte;
+      case TPI_PC:
+        if (irq_mode) {
+            byte = (irq_latches & 0x1f) | (irq_active ? 0x20 : 0) | 0xc0;
+        } else {
+            byte = read_pc();
+        }
+        tpi_last_read = byte;
+        return byte;
+      case TPI_AIR:
+        tpi_last_read = push_irq_state();
+        return tpi_last_read;
+      default:
+        tpi_last_read = tpi[addr];
+        return tpi_last_read;
+    }
 }
 
-BYTE mytpi_peek(ADDRESS addr) {
-	BYTE b = mytpi_read(addr);
-	return b;
+BYTE mytpi_peek(ADDRESS addr)
+{
+    BYTE b = mytpi_read(addr);
+    return b;
 }
 
 
@@ -444,5 +452,4 @@ int mytpi_read_snapshot_module(snapshot_t *p)
 
     return 0;
 }
-
 

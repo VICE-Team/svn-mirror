@@ -1,3 +1,83 @@
+2001-04-13  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.17.
+
+	* tpicore.c (mytpi_reset): Clear TPI register (fixed typo).
+
+	* sound.c (initsid): Converted C++ style comment.
+
+	* vdrive/vdrive-iec.c (vdrive_iec_attach): Use name passed by
+	caller.
+
+	* vdrive/vdrive-bam.c (vdrive_bam_set, vdrive_bam_clr,
+	vdrive_bam_isset): Removed `type'.
+
+	* utils.c, utils.h, arch/unix/x11/gnome/ui.c, diskimage.c,
+	arch/msdos/tuiview.c, arch/win32/uilib.c, screendrv/bmp.c,
+	arch/msdos/uisnapshot.c, arch/os2/dialogs/dlg-fileio.c,
+	palette.c, c1541.c, fsdevice.c, log.c, print.c, sound.c,
+	sysfile.c, drive/drive-resources.c, vicii/vicii-resources.c,
+	vdc/vdc-resources.c, crtc/crtc-resources.c, c64/c64mem.c,
+	c64/c64cartridge.c, c128/c128mem.c, c128/z80mem.c,
+	vic20/vic-resources.c, vic20/vic20cartridge.c,
+	vic20/vic20mem.c, pet/pet.c, pet/petmem.c, cbm2/c610mem.c,
+	arch/unix/kmap.c, arch/unix/petkmap.c, arch/unix/rs232.c,
+	arch/win32/ui.c, arch/riscos/kbd.c, arch/riscos/rs232.c,
+	arch/riscos/ui.c, arch/riscos/video.c, arch/os2/kbd.c,
+	arch/os2/rs232.c, arch/os2/kbd/kmap-pet.c, resources.c,
+	arch/os2/kbd/kmap.c, arch/os2/kbd/parse.c (string_to_long,
+        string_set, dword_to_le_buf, file_exists_p, find_prev_line,
+        find_next_line, get_line): Renamed to util_*().
+
+2001-04-13  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/msods/sidui.c: new function
+	toggle_ResidSampling_callback to change resid sampling
+	method; new menuitem in sound menu
+
+	* arch/win32/c128ui.c,c64ui.c: handle users choice of
+	resid sampling method
+
+	* arch/win32/res.h: new IDM's for different resid samplings
+
+	* arch/win32/resc128.rc,resc64.rc: new popup menu for the
+	resid sampling method
+
+2001-04-12  Dag Lem  <resid@nimrod.no>
+
+	* sound.c (initsid): Call suspend_speed_eval to handle delay.
+
+2001-04-11  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c: removed references to UI_JAM_DEBUG.
+
+2001-04-08  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/dialogs.rc: updated About window
+  
+	* arch/os2/dialogs/dlg-monitor.c,
+	arch/os2/dialogs/dlg-monitor.h,
+	arch/os2/dialogs/dlg-monitor.rc: added memory window
+   
+	* arch/os2/dialogs/menubar.c, arch/os2/dialogs/menubar.h,
+	arch/os2/dialogs/menubar.rc:
+	added some sound options (sync, device)
+   
+	* arch/os2/snippets/pmwin2.c, arch/os2/snippets/pmwin2.h:
+	small changes
+   
+	* arch/os2/uimon.c: renamed console_log (global variable) to
+	console (local)
+   
+	* arch/os2/vsidui.c: Set sound device to "dart2" disabled
+   
+	* sound.c: changed some sound_close() to sound_state_changed,
+	removed a small bug with setting warp mode while switching
+	devices 'online'
+   
+	* sounddrv/sounddart.c: removed dart2, worked a bit on
+	bufferspace to do the right thing
+
 2001-04-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.16.
