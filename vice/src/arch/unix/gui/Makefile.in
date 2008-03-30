@@ -57,19 +57,19 @@ am_libarchgui_a_OBJECTS = c128ui.$(OBJEXT) c64ui.$(OBJEXT) \
 	ui.$(OBJEXT) uiacia1.$(OBJEXT) uiattach.$(OBJEXT) \
 	uic64_256k.$(OBJEXT) uic64cart.$(OBJEXT) uicmdline.$(OBJEXT) \
 	uicommands.$(OBJEXT) uicrtc.$(OBJEXT) uidatasette.$(OBJEXT) \
-	uidrive.$(OBJEXT) uidrivec128.$(OBJEXT) \
+	uidrive.$(OBJEXT) uidrivec128.$(OBJEXT) uidrivec64.$(OBJEXT) \
 	uidrivec64vic20.$(OBJEXT) uidriveiec.$(OBJEXT) \
 	uidrivepetcbm2.$(OBJEXT) uidriveplus4.$(OBJEXT) \
-	uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) uiide64.$(OBJEXT) \
-	uijoystick2.$(OBJEXT) uikeyboard.$(OBJEXT) uilib.$(OBJEXT) \
-	uimon.$(OBJEXT) uimouse.$(OBJEXT) uinetplay.$(OBJEXT) \
-	uipalemu.$(OBJEXT) uipalette.$(OBJEXT) uiperipheral.$(OBJEXT) \
-	uiperipheraliec.$(OBJEXT) uiperipheralieee.$(OBJEXT) \
-	uipetreu.$(OBJEXT) uiplus256k.$(OBJEXT) uiplus60k.$(OBJEXT) \
-	uiprinter.$(OBJEXT) uiprinteriec.$(OBJEXT) \
-	uiprinteriecplus4.$(OBJEXT) uiprinterieee.$(OBJEXT) \
-	uiramcart.$(OBJEXT) uireu.$(OBJEXT) uiromset.$(OBJEXT) \
-	uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
+	uidrivevic20.$(OBJEXT) uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) \
+	uiide64.$(OBJEXT) uijoystick2.$(OBJEXT) uikeyboard.$(OBJEXT) \
+	uilib.$(OBJEXT) uimon.$(OBJEXT) uimouse.$(OBJEXT) \
+	uinetplay.$(OBJEXT) uipalemu.$(OBJEXT) uipalette.$(OBJEXT) \
+	uiperipheral.$(OBJEXT) uiperipheraliec.$(OBJEXT) \
+	uiperipheralieee.$(OBJEXT) uipetreu.$(OBJEXT) \
+	uiplus256k.$(OBJEXT) uiplus60k.$(OBJEXT) uiprinter.$(OBJEXT) \
+	uiprinteriec.$(OBJEXT) uiprinteriecplus4.$(OBJEXT) \
+	uiprinterieee.$(OBJEXT) uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
+	uiromset.$(OBJEXT) uirs232.$(OBJEXT) uirs232c64c128.$(OBJEXT) \
 	uirs232petplus4cbm2.$(OBJEXT) uirs232user.$(OBJEXT) \
 	uisettings.$(OBJEXT) uisid.$(OBJEXT) uisound.$(OBJEXT) \
 	uited.$(OBJEXT) uitfe.$(OBJEXT) uivdc.$(OBJEXT) \
@@ -342,6 +342,8 @@ libarchgui_a_SOURCES = \
 	uidrive.h \
 	uidrivec128.c \
 	uidrivec128.h \
+	uidrivec64.c \
+	uidrivec64.h \
 	uidrivec64vic20.c \
 	uidrivec64vic20.h \
 	uidriveiec.c \
@@ -350,6 +352,8 @@ libarchgui_a_SOURCES = \
 	uidrivepetcbm2.h \
 	uidriveplus4.c \
 	uidriveplus4.h \
+	uidrivevic20.c \
+	uidrivevic20.h \
 	uiedisk.h \
 	uifliplist.c \
 	uifliplist.h \
@@ -491,10 +495,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidatasette.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec128.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivec64vic20.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveiec.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivepetcbm2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidriveplus4.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrivevic20.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uifliplist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uigeoram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiide64.Po@am__quote@
