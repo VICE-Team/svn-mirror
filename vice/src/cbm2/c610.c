@@ -315,7 +315,7 @@ int machine_init(void)
 }
 
 /* CBM-II-specific initialization.  */
-void machine_reset(void)
+void machine_specific_reset(void)
 {
     serial_reset();
 
@@ -331,7 +331,6 @@ void machine_reset(void)
     } else {
         c500_powerline_clk = clk + C500_POWERLINE_CYCLES_PER_IRQ;
 	alarm_set (&c500_powerline_clk_alarm, c500_powerline_clk);
-
         vic_ii_reset();
     }
     print_reset();
@@ -587,7 +586,8 @@ static int c500_read_snapshot_module(snapshot_t *p)
     return 0;
 }
 
-void video_refresh(void) {
+void machine_video_refresh(void)
+{
     if (isC500) {
         vic_ii_video_refresh();
     } else {

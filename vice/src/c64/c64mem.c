@@ -622,7 +622,7 @@ static void set_write_hook(int config, int page, store_func_t * f)
     }
 }
 
-void initialize_memory(void)
+void mem_initialize_memory(void)
 {
     int i, j, k;
     /* IO is enabled at memory configs 5, 6, 7 and Ultimax.  */

@@ -60,6 +60,7 @@ extern int machine_init(void);
 
 /* Reset the machine.  */
 extern void machine_reset(void);
+extern void machine_specific_reset(void);
 
 /* Power-up the machine.  */
 extern void machine_powerup(void);
@@ -105,6 +106,8 @@ extern int machine_canvas_screenshot(struct screenshot_s *screenshot, struct can
 #define JAM_HARD_RESET 2
 #define JAM_MONITOR    3
 unsigned int machine_jam(const char *format, ...);
+
+extern void machine_video_refresh(void);
 
 #endif /* _MACHINE_H */
 

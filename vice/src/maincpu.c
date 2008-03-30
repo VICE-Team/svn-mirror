@@ -41,7 +41,6 @@
 #include "snapshot.h"
 #include "traps.h"
 #include "types.h"
-#include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -398,10 +397,6 @@ static void cpu_reset(void)
 
     /* Do machine-specific initialization.  */
     machine_reset();
-
-    initialize_memory();
-
-    suspend_speed_eval();
 }
 
 void maincpu_reset(void)

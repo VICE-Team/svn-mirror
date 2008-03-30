@@ -51,7 +51,7 @@ extern unsigned int old_reg_pc;
 
 extern const char *mem_romset_resources_list[];
 
-extern void initialize_memory(void);
+extern void mem_initialize_memory(void);
 extern void mem_powerup(void);
 extern int mem_load(void);
 extern void mem_get_basic_text(ADDRESS * start, ADDRESS * end);

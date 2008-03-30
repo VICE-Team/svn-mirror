@@ -313,7 +313,7 @@ int machine_init(void)
 }
 
 /* VIC20-specific reset sequence.  */
-void machine_reset(void)
+void machine_specific_reset(void)
 {
     serial_reset();
 
@@ -512,7 +512,7 @@ int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
   return -1;
 }
 
-void video_refresh(void) {
+void machine_video_refresh(void) {
      vic_video_refresh();
 }
 

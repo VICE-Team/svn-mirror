@@ -28,8 +28,10 @@
 #include <stdlib.h>
 
 #include "machine.h"
+#include "mem.h"
 #include "ui.h"
 #include "utils.h"
+#include "vsync.h"
 
 unsigned int machine_jam(const char *format, ...)
 {
@@ -53,5 +55,15 @@ unsigned int machine_jam(const char *format, ...)
     }
 
     return JAM_NONE;
+}
+
+void machine_reset(void)
+{
+    /* Do machine-specific initialization.  */
+    machine_specific_reset();
+
+    mem_initialize_memory();
+
+    vsync_suspend_speed_eval();
 }
 

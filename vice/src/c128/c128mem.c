@@ -804,7 +804,7 @@ BYTE REGPARM1 io2_read(ADDRESS addr)
 #pragma optimize("",off)
 #endif
 
-void initialize_memory(void)
+void mem_initialize_memory(void)
 {
     int i, j, k;
 
@@ -1424,7 +1424,7 @@ int mem_load(void)
     page_zero = ram;
     page_one = ram + 0x100;
 
-    initialize_memory();
+    mem_initialize_memory();
 
     rom_loaded = 1;
 

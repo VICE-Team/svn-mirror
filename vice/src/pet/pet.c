@@ -308,7 +308,7 @@ int machine_init(void)
 }
 
 /* PET-specific initialization.  */
-void machine_reset(void)
+void machine_specific_reset(void)
 {
     serial_reset();
 
@@ -507,7 +507,7 @@ void pet_crtc_set_screen(void)
     cols = petres.video;
     vmask = petres.vmask;
 
-    /* initialize_memory(); */
+    /* mem_initialize_memory(); */
 
     if (!cols) {
         cols = petres.rom_video;
@@ -563,7 +563,8 @@ int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
   return -1;
 }
 
-void video_refresh(void) {
+void machine_video_refresh(void)
+{
      crtc_video_refresh();
 }
 

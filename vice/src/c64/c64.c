@@ -399,7 +399,7 @@ int machine_init(void)
 }
 
 /* C64-specific reset sequence.  */
-void machine_reset(void)
+void machine_specific_reset(void)
 {
     serial_reset();
 
@@ -647,7 +647,8 @@ int machine_canvas_screenshot(screenshot_t *screenshot, canvas_t *canvas)
   return -1;
 }
 
-void video_refresh(void) {
+void machine_video_refresh(void)
+{
      vic_ii_video_refresh();
 }
 

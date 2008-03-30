@@ -710,10 +710,9 @@ int vic20_mem_disable_ram_block(int num)
 	return -1;
 }
 
-void initialize_memory(void)
+void mem_initialize_memory(void)
 {
     int i;
-
 
     /* Setup low standard RAM at $0000-$0300. */
     set_mem(0x00, 0x03,
@@ -1068,7 +1067,7 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         return;
     }
 
-    initialize_memory();
+    mem_initialize_memory();
     return;
 }
 
@@ -1102,7 +1101,7 @@ void mem_detach_cartridge(int type)
         return;
     }
 
-    initialize_memory();
+    mem_initialize_memory();
     return;
 }
 
@@ -1322,7 +1321,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 
     snapshot_module_close(m);
 
-    initialize_memory();
+    mem_initialize_memory();
 
     return 0;
 }
@@ -1496,7 +1495,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
 
     snapshot_module_close(m);
 
-    initialize_memory();
+    mem_initialize_memory();
 
     return 0;
 }

@@ -233,7 +233,7 @@ static int set_iosize(resource_value_t v, void *param)
 {
     petres.IOSize = (int) v;
 
-    initialize_memory();
+    mem_initialize_memory();
     return 0;
 }
 
@@ -247,7 +247,7 @@ static int set_superpet_enabled(resource_value_t v, void *param)
 {
     if ((unsigned int) v < 2)
         petres.superpet = (unsigned int) v;
-    initialize_memory();
+    mem_initialize_memory();
     return 0;
 }
 
@@ -255,7 +255,7 @@ static int set_ram_9_enabled(resource_value_t v, void *param)
 {
     if ((unsigned int) v < 2)
         petres.mem9 = (unsigned int) v;
-    initialize_memory();
+    mem_initialize_memory();
     return 0;
 }
 
@@ -263,7 +263,7 @@ static int set_ram_a_enabled(resource_value_t v, void *param)
 {
     if ((unsigned int) v < 2)
         petres.memA = (unsigned int) v;
-    initialize_memory();
+    mem_initialize_memory();
     return 0;
 }
 
@@ -288,7 +288,7 @@ static int set_ramsize(resource_value_t v, void *param)
         petres.map = 2;         /* 8296 mapping */
     }
     pet_check_info(&petres);
-    initialize_memory();
+    mem_initialize_memory();
 
     return 0;
 }
@@ -405,14 +405,14 @@ static int set_pet2k_enabled(resource_value_t v, void *param)
 {
     int i = (((int)v) ? 1 : 0);
 
-    if(i!=petres.pet2k) {
-	if(petres.pet2k) 
-	    petmem_unpatch_2001();
+    if (i != petres.pet2k) {
+        if (petres.pet2k) 
+            petmem_unpatch_2001();
 
         petres.pet2k = i;
 
-	if(petres.pet2k) 
-	    petmem_patch_2001();
+        if (petres.pet2k) 
+            petmem_patch_2001();
     }
     return 0;
 }
@@ -421,11 +421,11 @@ static int set_pet2kchar_enabled(resource_value_t v, void *param)
 {
     int i = (((int)v) ? 1 : 0);
 
-    if(i!=petres.pet2kchar) {
+    if (i != petres.pet2kchar) {
         petres.pet2kchar = i;
 
-	/* function reverses itself -> no reload necessary */
-	petmem_convert_chargen_2k();
+        /* function reverses itself -> no reload necessary */
+        petmem_convert_chargen_2k();
     }
     return 0;
 }
@@ -701,47 +701,48 @@ int superpet_diag(void)
 
 BYTE REGPARM1 read_super_io(ADDRESS addr)
 {
-    if(addr >= 0xeff4) {	/* unused / readonly */
+    if (addr >= 0xeff4) {	/* unused / readonly */
         return read_unused(addr);
     } else
-    if(addr >= 0xeff0) {	/* ACIA */
+    if (addr >= 0xeff0) {	/* ACIA */
 	return acia1_read(addr & 0x03);
     } else
-    if(addr >= 0xefe4) {	/* unused */
+    if (addr >= 0xefe4) {	/* unused */
         return read_unused(addr);
     } else
-    if(addr >= 0xefe0) {	/* dongle */
+    if (addr >= 0xefe0) {	/* dongle */
     }
     return read_unused(addr);	/* fallback */
 }
 
 void REGPARM2 store_super_io(ADDRESS addr, BYTE value)
 {
-    if(addr >= 0xeffe) {	/* RAM/ROM switch */
-	spet_ramen = !(value & 1);
+    if (addr >= 0xeffe) {	/* RAM/ROM switch */
+        spet_ramen = !(value & 1);
     } else
-    if(addr >= 0xeffc) {	/* Bank select */
-	spet_bank = value & 0x0f;
-	spet_ctrlwp = !(value & 0x80);
-    } else
-    if(addr >= 0xeff8) {
-	if(!spet_ctrlwp) {
-	    if(!(value & 1)) {
-		log_error(pet_mem_log, "SuperPET: 6809 not emulated!");
-		maincpu_trigger_reset();
-	    }
-	    spet_ramwp = !(value & 0x2);
-	    spet_diag = (value & 0x8);
-	}
-    } else
-    if(addr >= 0xeff4) {	/* unused */
-    } else
-    if(addr >= 0xeff0) {	/* ACIA */
-	acia1_store(addr & 0x03, value);
-    } else
-    if(addr >= 0xefe4) {	/* unused */
-    } else
-    if(addr >= 0xefe0) {	/* dongle? */
+    if (addr >= 0xeffc) {	/* Bank select */
+        spet_bank = value & 0x0f;
+        spet_ctrlwp = !(value & 0x80);
+    } else {
+        if (addr >= 0xeff8) {
+            if (!spet_ctrlwp) {
+                if (!(value & 1)) {
+                    log_error(pet_mem_log, "SuperPET: 6809 not emulated!");
+                    maincpu_trigger_reset();
+                }
+                spet_ramwp = !(value & 0x2);
+                spet_diag = (value & 0x8);
+            }
+        } else
+        if (addr >= 0xeff4) {	/* unused */
+        } else
+        if (addr >= 0xeff0) {	/* ACIA */
+            acia1_store(addr & 0x03, value);
+        } else
+        if (addr >= 0xefe4) {	/* unused */
+        } else
+        if (addr >= 0xefe0) {	/* dongle? */
+        }
     }
 }
 
@@ -859,7 +860,7 @@ static void REGPARM2 store_dummy(ADDRESS addr, BYTE value)
 
 /*
  * This sets the standard PET memory configuration from $9000-$10000.
- * It is used in store_8x96() and initialize_memory().
+ * It is used in store_8x96() and mem_initialize_memory().
  */
 static void set_std_9tof(void)
 {
@@ -872,7 +873,7 @@ static void set_std_9tof(void)
     rama = (petres.map == 2 && petres.memA) ? 1 : 0;
 
     /* Setup RAM/ROM at $9000 - $9FFF. */
-    if(petres.superpet) {
+    if (petres.superpet) {
         for (i = 0x90; i < 0xa0; i++) {
             _mem_read_tab[i] = read_super_9;
             _mem_write_tab[i] = store_super_9;
@@ -921,13 +922,13 @@ static void set_std_9tof(void)
         mem_read_limit_tab[i] = -1;
     }
 
-    if(petres.superpet) {
+    if (petres.superpet) {
         _mem_read_tab[0xef] = read_super_io;
         _mem_write_tab[0xef] = store_super_io;
         _mem_read_base_tab[0xef] = NULL;
         mem_read_limit_tab[0xef] = -1;
     } else 
-    if(petres.rompatch) {
+    if (petres.rompatch) {
         _mem_read_tab[0xef] = mem_read_patchbuf;
         _mem_write_tab[0xef] = store_dummy;
         _mem_read_base_tab[0xef] = petmem_2001_buf_ef;
@@ -1055,7 +1056,7 @@ static void REGPARM2 store_8x96(ADDRESS addr, BYTE value)
                         else
                             _mem_write_tab[l] = store_extC;
                         _mem_read_base_tab[l] = ram + bankCoffset + (l << 8);
-			if(l < 0xe8) {
+			if (l < 0xe8) {
                             mem_read_limit_tab[l] = 0xe7fd;
 			} else {
                             mem_read_limit_tab[l] = 0xfffd;
@@ -1122,7 +1123,7 @@ static void set_vidmem(void) {
 
 /* This does the plain 8032 configuration, as 8096 stuff only comes up when
    writing to $fff0.  */
-void initialize_memory(void)
+void mem_initialize_memory(void)
 {
     int i, l;
 
@@ -1168,7 +1169,7 @@ void initialize_memory(void)
         _mem_write_tab_watch[i] = store_watch;
     }
 
-    if(petres.map && map_reg) {
+    if (petres.map && map_reg) {
 	BYTE old_map_reg;
 
 	old_map_reg = map_reg;
@@ -1221,7 +1222,7 @@ static void petmem_unpatch_2001(void)
 
     petres.rompatch = 0;
 
-    initialize_memory();
+    mem_initialize_memory();
 }
 
 static void petmem_patch_2001(void)
@@ -1304,7 +1305,7 @@ static void petmem_patch_2001(void)
 
     petres.rompatch = 1;
 
-    initialize_memory();
+    mem_initialize_memory();
 }
 
 static void petmem_get_kernal_checksum(void) 
@@ -1319,7 +1320,7 @@ static void petmem_get_kernal_checksum(void)
 
 static void petmem_get_editor_checksum(void) 
 {
-   int i;
+    int i;
 
     /* 4032 and 8032 have the same kernals, so we have to test more, here
        $E000 - $E800.  */
@@ -1334,7 +1335,8 @@ static void petmem_checksum(void)
     static WORD last_editor = 0;
  
     /* log_message(pet_mem_log, "editor checksum=%d, kernal checksum=%d",
-		(int) petres.editor_checksum, (int) petres.kernal_checksum); */
+                   (int) petres.editor_checksum,
+                   (int) petres.kernal_checksum); */
 
     /* ignore the same message popping up more than once - but only
        check when printing, because we need the tape traps etc */
@@ -1346,31 +1348,31 @@ static void petmem_checksum(void)
        memory locations (0xe3 and 0x3eb) but by default (power-up) it's 10
        anyway.  AF 30jun1998 */
     if (petres.kernal_checksum == PET_KERNAL4_CHECKSUM) {
-	if(petres.kernal_checksum!=last_kernal)
+        if (petres.kernal_checksum != last_kernal)
             log_message(pet_mem_log, "Identified Kernal 4 ROM by checksum.");
         kbd_buf_init(0x26f, 0x9e, 10,
                      PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
         tape_init(214, 150, 157, 144, 0xe455, 251, 201, 0x26f, 0x9e,
                   pet4_tape_traps);
-	if(petres.editor_checksum == PET_EDIT4B80_CHECKSUM) {
-	    if(petres.editor_checksum!=last_editor)
+        if (petres.editor_checksum == PET_EDIT4B80_CHECKSUM) {
+            if (petres.editor_checksum != last_editor)
                 log_message(pet_mem_log, 
-				"Identified 80 columns editor by checksum.");
+                            "Identified 80 columns editor by checksum.");
             petres.rom_video = 80;
             autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 
-				0, 0xa7, 0xc4, 0xc6, -80);
-	} else 
-	if(petres.editor_checksum == PET_EDIT4B40_CHECKSUM
-		||petres.editor_checksum == PET_EDIT4G40_CHECKSUM) {
-	    if(petres.editor_checksum!=last_editor)
+                           0, 0xa7, 0xc4, 0xc6, -80);
+        } else 
+        if (petres.editor_checksum == PET_EDIT4B40_CHECKSUM
+            || petres.editor_checksum == PET_EDIT4G40_CHECKSUM) {
+            if (petres.editor_checksum != last_editor)
                 log_message(pet_mem_log, 
-				"Identified 80 columns editor by checksum.");
+                            "Identified 80 columns editor by checksum.");
             petres.rom_video = 40;
             autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 
 				0, 0xa7, 0xc4, 0xc6, -40);
-	}
+        }
     } else if (petres.kernal_checksum == PET_KERNAL2_CHECKSUM) {
-	if(petres.kernal_checksum!=last_kernal)
+        if (petres.kernal_checksum != last_kernal)
             log_message(pet_mem_log, "Identified Kernal 2 ROM by checksum.");
         petres.rom_video = 40;
         kbd_buf_init(0x26f, 0x9e, 10,
@@ -1380,7 +1382,7 @@ static void petmem_checksum(void)
         tape_init(214, 150, 157, 144, 0xe62e, 251, 201, 0x26f, 0x9e,
                   pet3_tape_traps);
     } else if (petres.kernal_checksum == PET_KERNAL1_CHECKSUM) {
-	if(petres.kernal_checksum!=last_kernal)
+        if (petres.kernal_checksum != last_kernal)
             log_message(pet_mem_log, "Identified Kernal 1 ROM by checksum.");
         petres.rom_video = 40;
         kbd_buf_init(0x20f, 0x20d, 10,
@@ -1451,9 +1453,11 @@ static void petmem_convert_chargen_2k(void)
   
 static int mem_load_chargen(void) 
 {
-    if(!rom_loaded) return 0;
+    if (!rom_loaded)
+        return 0;
 
-    if(IS_NULL(petres.chargenName)) return 0;
+    if (IS_NULL(petres.chargenName))
+        return 0;
 
     /* Load chargen ROM - we load 2k with 8 bytes/char, and generate
        the inverted 2k. Then we expand the chars to 16 bytes/char
@@ -1480,11 +1484,11 @@ static int mem_load_basic(void)
     int krsize;
     ADDRESS old_start, new_start;
 
-    if(!rom_loaded) return 0;
+    if (!rom_loaded)
+        return 0;
 
     /* Load Kernal ROM.  */
-    if(!IS_NULL(petres.basicName))
-    {
+    if (!IS_NULL(petres.basicName)) {
         const char *name = petres.basicName;
 
         if ((krsize = sysfile_load(name, rom + 0x3000, 0x2000, 0x3000)) < 0) {
@@ -1492,25 +1496,25 @@ static int mem_load_basic(void)
             return -1;
         }
 
-	old_start = petres.basic_start;
-	new_start = 0xe000 - krsize;
+        old_start = petres.basic_start;
+        new_start = 0xe000 - krsize;
 
-	petres.basic_start = new_start;
+        petres.basic_start = new_start;
 
-	if (old_start && (new_start > old_start)) {
-	    if (old_start <= 0xB000 && new_start >= 0xC000) {
-	        resources_set_value("RomModuleBName", (resource_value_t) NULL);
-	    }
-	}
+        if (old_start && (new_start > old_start)) {
+            if (old_start <= 0xB000 && new_start >= 0xC000) {
+                resources_set_value("RomModuleBName", (resource_value_t) NULL);
+            }
+        }
 
-	/* setting the _loaded flag to 0 before setting the resource 
-	   does not overwrite ROM! */
-	/* if kernal long enough, "unload" expansion ROMs */
+        /* setting the _loaded flag to 0 before setting the resource 
+           does not overwrite ROM! */
+        /* if kernal long enough, "unload" expansion ROMs */
         if (petres.basic_start <= 0xb000) {
-	    rom_B_loaded = 0;
-	    resources_set_value("RomModuleBName", (resource_value_t) NULL);
-	    rom_B_loaded = 1;
-	}
+            rom_B_loaded = 0;
+            resources_set_value("RomModuleBName", (resource_value_t) NULL);
+            rom_B_loaded = 1;
+        }
     }
     return 0;
 }
@@ -1519,7 +1523,8 @@ static int mem_load_kernal(void)
 {
     int krsize;
 
-    if(!rom_loaded) return 0;
+    if (!rom_loaded)
+        return 0;
 
     /* De-initialize kbd-buf, autostart and tape stuff here before
        reloading the ROM the traps are installed in.  */
@@ -1529,17 +1534,16 @@ static int mem_load_kernal(void)
     tape_deinstall();
 
     /* Load Kernal ROM.  */
-    if(!IS_NULL(petres.kernalName))
-    {
+    if (!IS_NULL(petres.kernalName)) {
         const char *name = petres.kernalName;
 
         if ((krsize = sysfile_load(name, rom + 0x7000, 0x1000, 0x1000)) < 0) {
             log_error(pet_mem_log, "Couldn't load ROM `%s'.", name);
             return -1;
         }
-	petmem_get_kernal_checksum();
+        petmem_get_kernal_checksum();
         petres.rompatch = 0;
-	petmem_patch_2001();
+        petmem_patch_2001();
     }
 
     petmem_checksum();
@@ -1551,7 +1555,8 @@ static int mem_load_editor(void)
 {
     int rsize, i;
 
-    if(!rom_loaded) return 0;
+    if (!rom_loaded)
+        return 0;
 
     /* De-initialize kbd-buf, autostart and tape stuff here before
        reloading the ROM the traps are installed in.  */
@@ -1560,19 +1565,19 @@ static int mem_load_editor(void)
     autostart_init(0, 0, 0, 0, 0, 0);
     tape_deinstall();
 
-    if(!IS_NULL(petres.editorName))
-    {
+    if (!IS_NULL(petres.editorName)) {
         const char *name = petres.editorName;
 
         if ((rsize = sysfile_load(name, rom + 0x6000, 0x0800, 0x1000)) < 0) {
             log_error(pet_mem_log, "Couldn't load ROM `%s'.", name);
             return -1;
         }
-	if (rsize == 0x800) {
-	    memcpy(rom+0x6000, rom+0x6800, 0x800);
-	    for (i=0x800;i<0x1000;i++) *(rom + 0x6000 + i) = 0xe0 | (i>>8);
-	}
-	petmem_get_editor_checksum();
+        if (rsize == 0x800) {
+            memcpy(rom+0x6000, rom+0x6800, 0x800);
+            for (i = 0x800; i < 0x1000; i++)
+                *(rom + 0x6000 + i) = 0xe0 | (i>>8);
+        }
+        petmem_get_editor_checksum();
     }
 
     petmem_checksum();
@@ -1584,27 +1589,26 @@ static int mem_load_rom9(void)
 {
     int rsize, i;
 
-    if(!rom_loaded) return 0;
+    if (!rom_loaded)
+        return 0;
 
     if (!IS_NULL(petres.mem9name)) {
         if ((rsize = sysfile_load(petres.mem9name, 
             rom + 0x1000, 0x0800, 0x1000)) < 0) {
             log_error(pet_mem_log, "Couldn't load ROM `%s'.", petres.mem9name);
             return -1;
-	}
-	if (rsize == 0x800) {
-	    memcpy(rom+0x1000, rom+0x1800, 0x800);
-	    for (i=0x800;i<0x1000;i++) *(rom + 0x1000 + i) = 0x90 | (i>>8);
-	}
-
+        }
+        if (rsize == 0x800) {
+            memcpy(rom+0x1000, rom+0x1800, 0x800);
+            for (i = 0x800; i < 0x1000; i++)
+                *(rom + 0x1000 + i) = 0x90 | (i>>8);
+        }
         rom_9_loaded = 1;
-
     } else {
-	if(petres.basic_start >= 0xA000) {
-	    for(i=0; i<16; i++) {
-	        memset(rom + 0x1000 + (i<<8), 0x90 + i, 256);
-	    }
-	}
+        if (petres.basic_start >= 0xA000) {
+            for (i = 0; i < 16; i++)
+                memset(rom + 0x1000 + (i<<8), 0x90 + i, 256);
+        }
         rom_9_loaded = 0;
     }
     return 0;
@@ -1614,7 +1618,8 @@ static int mem_load_romA(void)
 {
     int rsize, i;
 
-    if(!rom_loaded) return 0;
+    if (!rom_loaded)
+        return 0;
 
     if (!IS_NULL(petres.memAname)) {
         if ((rsize = sysfile_load(petres.memAname,
@@ -1622,20 +1627,18 @@ static int mem_load_romA(void)
             log_error(pet_mem_log, "Couldn't load ROM `%s'.", petres.memAname);
             return -1;
 	}
-	if (rsize == 0x800) {
-	    memcpy(rom+0x2000, rom+0x2800, 0x800);
-	    for (i=0x800;i<0x1000;i++) *(rom + 0x2000 + i) = 0xA0 | (i>>8);
-	}
-
+        if (rsize == 0x800) {
+            memcpy(rom + 0x2000, rom + 0x2800, 0x800);
+            for (i = 0x800; i < 0x1000; i++)
+                *(rom + 0x2000 + i) = 0xA0 | (i>>8);
+        }
         rom_A_loaded = 1;
-
     } else {
-	if(petres.basic_start >= 0xB000) {
-	    for(i=0; i<16; i++) {
-	        memset(rom + 0x2000 + (i<<8), 0xA0 + i, 256);
-	    }
-	}
-        rom_A_loaded = 0;
+        if (petres.basic_start >= 0xB000) {
+            for (i = 0; i < 16; i++)
+            memset(rom + 0x2000 + (i<<8), 0xA0 + i, 256);
+       }
+       rom_A_loaded = 0;
     }
     return 0;
 }
@@ -1644,7 +1647,8 @@ static int mem_load_romB(void)
 {
     int rsize, i;
 
-    if(!rom_loaded) return 0;
+    if (!rom_loaded)
+        return 0;
 
     if (!IS_NULL(petres.memBname)) {
         if ((rsize = sysfile_load(petres.memBname, rom + 0x3000,
@@ -1653,20 +1657,18 @@ static int mem_load_romB(void)
                       petres.memBname);
             return -1;
         }
-  	if (rsize == 0x800) {
-	    memcpy(rom+0x3000, rom+0x3800, 0x800);
-	    for (i=0x800;i<0x1000;i++) *(rom + 0x3000 + i) = 0xB0 | (i>>8);
-    	}
-
+        if (rsize == 0x800) {
+            memcpy(rom + 0x3000, rom + 0x3800, 0x800);
+            for (i = 0x800; i < 0x1000; i++)
+                *(rom + 0x3000 + i) = 0xB0 | (i>>8);
+        }
         rom_B_loaded = 1;
-
     } else {
-	if(petres.basic_start >= 0xC000) {
-	    for(i=0; i<16; i++) {
-	        memset(rom + 0x3000 + (i<<8), 0xB0 + i, 256);
-	    }
+        if (petres.basic_start >= 0xC000) {
+            for (i = 0; i < 16; i++)
+                memset(rom + 0x3000 + (i<<8), 0xB0 + i, 256);
             rom_B_loaded = 0;
-	} 
+        } 
     }
     return 0;
 }
@@ -1688,35 +1690,35 @@ int mem_load(void)
         rom[i] = 0x80 + ((i >> 8) & 0xff);
     }
 
-    if( mem_load_chargen() < 0)
+    if (mem_load_chargen() < 0)
 	return -1;
 
-    if( mem_load_basic() < 0)
+    if (mem_load_basic() < 0)
 	return -1;
 
-    if( mem_load_kernal() < 0)
+    if (mem_load_kernal() < 0)
 	return -1;
 
-    if( mem_load_editor() < 0)
+    if (mem_load_editor() < 0)
 	return -1;
 
-    if( mem_load_rom9() < 0)
+    if (mem_load_rom9() < 0)
 	return -1;
 
-    if( mem_load_romA() < 0)
+    if (mem_load_romA() < 0)
 	return -1;
 
-    if( mem_load_romB() < 0)
+    if (mem_load_romB() < 0)
 	return -1;
 
-    if(petres.rom_video) {
+    if (petres.rom_video) {
         log_message(pet_mem_log, "ROM screen width is %d.",
                 petres.rom_video);
     } else {
         log_message(pet_mem_log, "ROM screen width is unknown.");
     }
 
-    initialize_memory();
+    mem_initialize_memory();
 
     return 0;
 }
@@ -1954,21 +1956,21 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     int kbdindex;
 
     memsize = petres.ramSize;
-    if(memsize > 32) {
-	memsize = 32;
+    if (memsize > 32) {
+        memsize = 32;
     }
 
     if (!petres.crtc) {
-	config = 0;
+        config = 0;
     } else {
         config = petres.videoSize == 0x400 ? 1 : 2;
     }
 
-    if(petres.map) {
-	config = petres.map + 3;
-    } else
-    if(petres.superpet) {
-	config = 3;
+    if (petres.map) {
+        config = petres.map + 3;
+    } else {
+    if (petres.superpet)
+        config = 3;
     }
 
     rconf = (petres.mem9 ? 0x40 : 0)
@@ -1995,15 +1997,15 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte(m, conf8x96);
     snapshot_module_write_byte(m, superpet);
 
-    if(config != 5) {
+    if (config != 5) {
         snapshot_module_write_byte_array(m, ram, memsize << 10);
 
-	snapshot_module_write_byte_array(m, ram + 0x8000,
-					(config < 2) ? 0x400 : 0x800);
+        snapshot_module_write_byte_array(m, ram + 0x8000,
+                                         (config < 2) ? 0x400 : 0x800);
 
-        if(config == 3 || config == 4) {
+        if (config == 3 || config == 4) {
             snapshot_module_write_byte_array(m, ram + 0x10000, 0x10000);
-	}
+        }
     } else {	/* 8296 */
         snapshot_module_write_byte_array(m, ram, 0x20000);
     }
@@ -2022,18 +2024,18 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     snapshot_module_t *m;
     BYTE config, rconf, byte, memsize, conf8x96, superpet;
     PetInfo peti = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
-        		NULL, NULL, NULL, NULL, NULL, NULL };
+                     NULL, NULL, NULL, NULL, NULL, NULL };
 
     m = snapshot_module_open(p, module_ram_name, &vmajor, &vminor);
     if (m == NULL)
         return -1;
 
     if (vmajor != PETMEM_DUMP_VER_MAJOR) {
-	log_error(pet_mem_log, 
-		"Cannot load PET RAM module with major version %d",
-		vmajor);
+        log_error(pet_mem_log, 
+                  "Cannot load PET RAM module with major version %d",
+                  vmajor);
         snapshot_module_close(m);
-	return -1;
+        return -1;
     }
 
     snapshot_module_read_byte(m, &config);
@@ -2055,29 +2057,29 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     peti.superpet = 0;
 
     switch (config) {
-    case 0:		/* 40 cols w/o CRTC */
-	peti.crtc = 0;
-	peti.video = 40;
-	break;
-    case 1:		/* 40 cols w/ CRTC */
-	peti.video = 40;
-	break;
-    case 2:		/* 80 cols (w/ CRTC) */
-	break;
-    case 3:		/* SuperPET */
-	spet_ramen = superpet & 1;
-	spet_ramwp = superpet & 2;
-	spet_ctrlwp= superpet & 4;
-	spet_diag  = superpet & 8;
-	spet_bank  = (superpet >> 4) & 0x0f;
-	peti.superpet = 1;
-	break;
-    case 4:		/* 8096 */
-	peti.ramSize = 96;
-	break;
-    case 5:		/* 8296 */
-	peti.ramSize = 128;
-	break;
+      case 0:		/* 40 cols w/o CRTC */
+        peti.crtc = 0;
+        peti.video = 40;
+        break;
+      case 1:		/* 40 cols w/ CRTC */
+        peti.video = 40;
+        break;
+      case 2:		/* 80 cols (w/ CRTC) */
+        break;
+      case 3:		/* SuperPET */
+        spet_ramen = superpet & 1;
+        spet_ramwp = superpet & 2;
+        spet_ctrlwp= superpet & 4;
+        spet_diag  = superpet & 8;
+        spet_bank  = (superpet >> 4) & 0x0f;
+        peti.superpet = 1;
+        break;
+      case 4:		/* 8096 */
+        peti.ramSize = 96;
+        break;
+      case 5:		/* 8296 */
+        peti.ramSize = 128;
+        break;
     };
 
     peti.mem9 = (rconf & 0x40) ? 1 : 0;
@@ -2086,36 +2088,35 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     pet_set_conf_info(&peti);  /* set resources and config accordingly */
     map_reg = conf8x96;
 
-    initialize_memory();
+    mem_initialize_memory();
 
     pet_crtc_set_screen();
 
-    if(config != 5) {
+    if (config != 5) {
         snapshot_module_read_byte_array(m, ram, memsize << 10);
 
-	snapshot_module_read_byte_array(m, ram + 0x8000,
-					(config < 2) ? 0x400 : 0x800);
+        snapshot_module_read_byte_array(m, ram + 0x8000,
+                                        (config < 2) ? 0x400 : 0x800);
 
-        if(config == 3 || config == 4) {
+        if (config == 3 || config == 4) {
             snapshot_module_read_byte_array(m, ram + 0x10000, 0x10000);
-	}
+        }
     } else {	/* 8296 */
         snapshot_module_read_byte_array(m, ram, 0x20000);
     }
 
-    if(vminor > 0) {
+    if (vminor > 0) {
         int kindex;
         snapshot_module_read_byte(m, &byte);
         resources_get_value("KeymapIndex",
-                       (resource_value_t *) &kindex);
+                            (resource_value_t *)&kindex);
         resources_set_value("KeymapIndex",
-                       (resource_value_t) ((kindex & ~1) | (byte & 1)));
-
+                            (resource_value_t)((kindex & ~1) | (byte & 1)));
     }
-    if(vminor > 1) {
+    if (vminor > 1) {
         snapshot_module_read_byte(m, &byte);
         resources_set_value("EoiBlank",
-                       (resource_value_t) (byte & 1));
+                            (resource_value_t)(byte & 1));
     }
 
     snapshot_module_close(m);
@@ -2151,7 +2152,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     BYTE config;
     int i, trapfl;
 
-    if (!save_roms) return 0;
+    if (!save_roms)
+        return 0;
 
     m = snapshot_module_create(p, module_rom_name,
                                PETROM_DUMP_VER_MAJOR, PETROM_DUMP_VER_MINOR);
@@ -2164,9 +2166,9 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     petmem_unpatch_2001();
 
     config = (rom_9_loaded ? 1 : 0)
-		| (rom_A_loaded ? 2 : 0)
-		| (rom_B_loaded ? 4 : 0)
-		| ((petres.ramSize == 128) ? 8 : 0);
+             | (rom_A_loaded ? 2 : 0)
+             | (rom_B_loaded ? 4 : 0)
+             | ((petres.ramSize == 128) ? 8 : 0);
 
     snapshot_module_write_byte(m, config);
 
@@ -2174,29 +2176,30 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         snapshot_module_write_byte_array(m, rom + 0x7000, 0x1000);
         snapshot_module_write_byte_array(m, rom + 0x6000, 0x0800);
 
-	/* pick relevant data from chargen ROM */
-	for (i=0; i<128; i++) {
-	    snapshot_module_write_byte_array(m, chargen_rom + i * 16, 8);
-	}
-	for (i=0; i<128; i++) {
-	    snapshot_module_write_byte_array(m, chargen_rom + 0x1000 + i * 16, 8);
+        /* pick relevant data from chargen ROM */
+        for (i = 0; i < 128; i++) {
+            snapshot_module_write_byte_array(m, chargen_rom + i * 16, 8);
+        }
+        for (i = 0; i < 128; i++) {
+            snapshot_module_write_byte_array(m, chargen_rom + 0x1000 + i * 16,
+                                             8);
 	}
 
-	if (config & 1) {
+        if (config & 1) {
             snapshot_module_write_byte_array(m, rom + 0x1000, 0x1000);
-	}
-	if (config & 2) {
+        }
+        if (config & 2) {
             snapshot_module_write_byte_array(m, rom + 0x2000, 0x1000);
-	}
-	if (config & 4) {
+        }
+        if (config & 4) {
             snapshot_module_write_byte_array(m, rom + 0x3000, 0x1000);
-	}
+        }
 
         snapshot_module_write_byte_array(m, rom + 0x4000, 0x2000);
 
-	if (config & 8) {
-            snapshot_module_write_byte_array(m, rom + 0x6900, 0x0700);
-	}
+        if (config & 8) {
+           snapshot_module_write_byte_array(m, rom + 0x6900, 0x0700);
+        }
     }
 
     /* enable traps again when necessary */
@@ -2228,14 +2231,14 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     }
 
     /* disable traps before loading the ROM */
-    resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
-    resources_set_value("VirtualDevices", (resource_value_t) 1);
+    resources_get_value("VirtualDevices", (resource_value_t*)&trapfl);
+    resources_set_value("VirtualDevices", (resource_value_t)1);
     petmem_unpatch_2001();
 
     config = (rom_9_loaded ? 1 : 0)
-		| (rom_A_loaded ? 2 : 0)
-		| (rom_B_loaded ? 4 : 0)
-		| ((petres.pet2k || petres.ramSize == 128) ? 8 : 0);
+             | (rom_A_loaded ? 2 : 0)
+             | (rom_B_loaded ? 4 : 0)
+             | ((petres.pet2k || petres.ramSize == 128) ? 8 : 0);
 
     snapshot_module_read_byte(m, &config);
 
@@ -2251,50 +2254,50 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     rom_B_loaded = config & 4;
 
     if (config & 8) {
-	new_iosize = 0x100;
+        new_iosize = 0x100;
     } else {
-	new_iosize = 0x800;
+        new_iosize = 0x800;
     }
-    if(new_iosize != petres.IOSize) {
-	petres.IOSize = new_iosize;
-	initialize_memory();
+    if (new_iosize != petres.IOSize) {
+        petres.IOSize = new_iosize;
+        mem_initialize_memory();
     }
 
     {
-	/* kernal $f000-$ffff */
+        /* kernal $f000-$ffff */
         snapshot_module_read_byte_array(m, rom + 0x7000, 0x1000);
-	/* editor $e000-$e7ff */
+        /* editor $e000-$e7ff */
         snapshot_module_read_byte_array(m, rom + 0x6000, 0x0800);
 
-	/* chargen ROM */
+        /* chargen ROM */
         resources_set_value("Basic1Chars", (resource_value_t) 0);
         snapshot_module_read_byte_array(m, chargen_rom, 0x0800);
-	petmem_convert_chargen(chargen_rom);
+        petmem_convert_chargen(chargen_rom);
 
-	/* $9000-$9fff */
-	if (config & 1) {
+        /* $9000-$9fff */
+        if (config & 1) {
             snapshot_module_read_byte_array(m, rom + 0x1000, 0x1000);
-	}
-	/* $a000-$afff */
-	if (config & 2) {
+        }
+        /* $a000-$afff */
+        if (config & 2) {
             snapshot_module_read_byte_array(m, rom + 0x2000, 0x1000);
-	}
-	/* $b000-$bfff */
-	if (config & 4) {
+        }
+        /* $b000-$bfff */
+        if (config & 4) {
             snapshot_module_read_byte_array(m, rom + 0x3000, 0x1000);
-	}
+        }
 
-	/* $c000-$dfff */
+        /* $c000-$dfff */
         snapshot_module_read_byte_array(m, rom + 0x4000, 0x2000);
 
-	/* $e900-$efff editor extension */
-	if (config & 8) {
+        /* $e900-$efff editor extension */
+        if (config & 8) {
             snapshot_module_read_byte_array(m, rom + 0x6900, 0x0700);
-	}
+        }
     }
 
     log_warning(pet_mem_log,"Dumped Romset files and saved settings will "
-		"represent\nthe state before loading the snapshot!");
+                "represent\nthe state before loading the snapshot!");
 
     petres.rompatch = 0;
 
@@ -2396,26 +2399,26 @@ int pet_set_conf_info(PetInfo *pi)
     int kindex;
 
     resources_set_value("RamSize",
-                       (resource_value_t) pi->ramSize);
+                        (resource_value_t) pi->ramSize);
     resources_set_value("IOSize",
-                       (resource_value_t) pi->IOSize);
+                        (resource_value_t) pi->IOSize);
     resources_set_value("Crtc",
-                       (resource_value_t) pi->crtc);
+                        (resource_value_t) pi->crtc);
     resources_set_value("VideoSize",
-                       (resource_value_t) pi->video);
+                        (resource_value_t) pi->video);
     resources_set_value("Ram9",
-                       (resource_value_t) pi->mem9);
+                        (resource_value_t) pi->mem9);
     resources_set_value("RamA",
-                       (resource_value_t) pi->memA);
+                        (resource_value_t) pi->memA);
     resources_set_value("EoiBlank",
-                       (resource_value_t) pi->eoiblank);
+                        (resource_value_t) pi->eoiblank);
     resources_set_value("SuperPET",
-                       (resource_value_t) pi->superpet);
+                        (resource_value_t) pi->superpet);
 
     resources_get_value("KeymapIndex",
-                       (resource_value_t *) &kindex);
+                        (resource_value_t *) &kindex);
     resources_set_value("KeymapIndex",
-                       (resource_value_t) ((kindex & 1) + 2 * pi->kbd_type));
+                        (resource_value_t) ((kindex & 1) + 2 * pi->kbd_type));
     return 0;
 }
 
@@ -2424,32 +2427,32 @@ int pet_set_model_info(PetInfo *pi)
     /* set hardware config */
     pet_set_conf_info(pi);
 
-    if(pi->pet2k) {	/* set resource only when necessary */
+    if (pi->pet2k) {	/* set resource only when necessary */
         resources_set_value("Basic1",
-                       (resource_value_t) pi->pet2k);
+                            (resource_value_t) pi->pet2k);
     }
     resources_set_value("Basic1Chars",
-                       (resource_value_t) pi->pet2kchar);
+                        (resource_value_t) pi->pet2kchar);
  
     resources_set_value("ChargenName",
-                       (resource_value_t) pi->chargenName);
+                        (resource_value_t) pi->chargenName);
     resources_set_value("KernalName",
-                       (resource_value_t) pi->kernalName);
+                        (resource_value_t) pi->kernalName);
     resources_set_value("BasicName",
-                       (resource_value_t) pi->basicName);
+                        (resource_value_t) pi->basicName);
     resources_set_value("EditorName",
-                       (resource_value_t) pi->editorName);
+                        (resource_value_t) pi->editorName);
 
     /* allow additional ROMs to survive a model switch. */
-    if(pi->mem9name)
+    if (pi->mem9name)
         resources_set_value("RomModule9Name",
-                       (resource_value_t) pi->mem9name);
-    if(pi->memAname)
+                            (resource_value_t) pi->mem9name);
+    if (pi->memAname)
         resources_set_value("RomModuleAName",
-                       (resource_value_t) pi->memAname);
-    if(pi->memBname)
+                            (resource_value_t) pi->memAname);
+    if (pi->memBname)
         resources_set_value("RomModuleBName",
-                       (resource_value_t) pi->memBname);
+                            (resource_value_t) pi->memBname);
     return 0;
 }
 
@@ -2463,18 +2466,18 @@ int pet_set_model(const char *model_name, void *extra)
     while (pet_table[i].model) {
 	if (!strcmp(pet_table[i].model, model_name)) {
 
-	    pet_set_model_info(&pet_table[i].info);
+            pet_set_model_info(&pet_table[i].info);
 
-	    /* we have to wait until we have done enough initialization */
-	    if(pet_init_ok) {
-	        /* mem_load(); - not needed as resources now load */
-	        suspend_speed_eval();
-	        maincpu_trigger_reset();
+            /* we have to wait until we have done enough initialization */
+            if (pet_init_ok) {
+                /* mem_load(); - not needed as resources now load */
+                vsync_suspend_speed_eval();
+                maincpu_trigger_reset();
                 pet_model = i;
             }
-	    return 0;
-	}
-	i++;
+            return 0;
+        }
+        i++;
     }
 
     return -1;
@@ -2492,21 +2495,21 @@ const char *get_pet_model()
 static void pet_check_info(PetRes * pi)
 {
     if (pi->superpet) {
-	pi->ramSize = 32;	/* 128 */
-	pi->map = 0;
+        pi->ramSize = 32;	/* 128 */
+        pi->map = 0;
     }
 
     if (pi->video == 40 || (pi->video == 0 && pi->rom_video == 40)) {
-	pi->vmask = 0x3ff;
-	pi->videoSize = 0x400;
+        pi->vmask = 0x3ff;
+        pi->videoSize = 0x400;
     } else {
-	pi->vmask = 0x7ff;
-	pi->videoSize = 0x800;
+        pi->vmask = 0x7ff;
+        pi->videoSize = 0x800;
     }
 
     if (pi->ramSize == 128) {
-	pi->vmask = 0x1fff;
-	pi->videoSize = 0x1000;
+        pi->vmask = 0x1fff;
+        pi->videoSize = 0x1000;
     }
 }
 
