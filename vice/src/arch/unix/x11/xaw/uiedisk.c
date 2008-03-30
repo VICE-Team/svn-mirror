@@ -4,6 +4,9 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *
+ * focus fix by
+ *  Ingo D. Rullhusen <d01c@uni-bremen.de>
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -83,7 +86,7 @@ static Widget cancel_button;
 static char *edisk_file_name;
 
 #define FILL_BOX_WIDTH          10
-#define OPTION_LABELS_WIDTH     50
+#define OPTION_LABELS_WIDTH     100
 #define OPTION_LABELS_JUSTIFY   XtJustifyLeft
 
 static UI_CALLBACK(browse_callback)
@@ -169,13 +172,19 @@ static UI_CALLBACK(save_callback)
     filename = lib_stralloc(name);
     util_add_extension(&filename, extensions[type_cnt]);
 
-    if (vdrive_internal_create_format_disk_image(filename, "VICE,01",
+    if (vdrive_internal_create_format_disk_image(filename, iname,
                                                  dtypes[type_cnt]) < 0)
         ui_error(_("Couldn't create disk image"));
     else
         strcpy(edisk_file_name, filename);
 
     lib_free(filename);
+}
+
+
+static void ui_focus_to( XtPointer XtP )
+{
+   XtSetKeyboardFocus(emptydisk_dialog_pane, *(Widget*)XtP);
 }
 
 static void build_emptydisk_dialog(void)
@@ -265,7 +274,7 @@ static void build_emptydisk_dialog(void)
 /*
          XtNfromVert, file_name_form,
 */
-         XtNwidth, 100,
+         XtNwidth, 240,
          XtNtype, XawAsciiString,
          XtNeditType, XawtextEdit,
          NULL);
@@ -277,7 +286,7 @@ static void build_emptydisk_dialog(void)
 /*
          XtNfromVert, file_name_form,
 */
-         XtNwidth, 100,
+         XtNwidth, 240,
          XtNstring, "",         /* Otherwise, it does not work correctly.  */
          NULL);
 #endif
@@ -416,7 +425,20 @@ static void build_emptydisk_dialog(void)
 /*
     XtVaSetValues(save_disk_off_button, XtNstate, True, NULL);
 */
-    XtSetKeyboardFocus(emptydisk_dialog_pane, file_name_field);
+
+    XtVaSetValues(image_name_field, XtNstring, "VICE,01", NULL);
+
+    XtAddEventHandler(file_name_field,
+                      ButtonPressMask, False,
+                      (XtEventHandler)ui_focus_to,
+                      (XtPointer)&file_name_field );
+    XtAddEventHandler(image_name_field,
+                      ButtonPressMask, False,
+                      (XtEventHandler)ui_focus_to,
+                      (XtPointer)&image_name_field );
+
+    ui_focus_to( (XtPointer)&file_name_field );
+
 }
 
 int ui_empty_disk_dialog(char *name)
