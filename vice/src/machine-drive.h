@@ -28,11 +28,18 @@
 #define _MACHINE_DRIVE_H
 
 struct drive_context_s;
+struct snapshot_s;
 
 extern void machine_drive_init(struct drive_context_s *drv);
 extern void machine_drive_reset(struct drive_context_s *drv);
+extern void machine_drive_mem_init(struct drive_context_s *drv,
+                                   unsigned int type);
+extern void machine_drive_setup_context(struct drive_context_s *drv);
 
-extern void machine_drive_mem_init(struct drive_context_s *drv);
+extern int machine_drive_snapshot_read(struct drive_context_s *ctxptr,
+                                       struct snapshot_s *s);
+extern int machine_drive_snapshot_write(struct drive_context_s *ctxptr,
+                                        struct snapshot_s *s);
 
 extern void machine_drive_stub(void);
 

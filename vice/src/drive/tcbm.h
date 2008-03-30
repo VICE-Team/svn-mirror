@@ -30,11 +30,17 @@
 #include "types.h"
 
 struct drive_context_s;
+struct snapshot_s;
 
 extern void tcbm_drive_init(struct drive_context_s *drv);
 extern void tcbm_drive_reset(struct drive_context_s *drv);
+extern void tcbm_drive_mem_init(struct drive_context_s *drv, unsigned int type);
+extern void tcbm_drive_setup_context(struct drive_context_s *drv);
 
-extern void tcbm_drive_mem_init(struct drive_context_s *drv);
+extern int tcbm_drive_snapshot_read(struct drive_context_s *ctxptr,
+                                    struct snapshot_s *s);
+extern int tcbm_drive_snapshot_write(struct drive_context_s *ctxptr,
+                                     struct snapshot_s *s);
 
 extern BYTE tia1551_outputa[2], tia1551_outputb[2], tia1551_outputc[2];
 
