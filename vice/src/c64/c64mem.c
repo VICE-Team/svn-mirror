@@ -49,6 +49,7 @@
 #include "resources.h"
 #include "reu.h"
 #include "sid.h"
+#include "snapshot.h"
 #include "tapeunit.h"
 #include "utils.h"
 #include "vicii.h"
@@ -267,12 +268,6 @@ static cmdline_option_t cmdline_options[] =
       NULL, "Enable the $DE** ACIA RS232 interface emulation" },
     { "+acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 0,
       NULL, "Disable the $DE** ACIA RS232 interface emulation" },
-#if 0
-    { "-acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD6", (resource_value_t) 1,
-      NULL, "Enable the $D6** ACIA RS232 interface emulation" },
-    { "+acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD6", (resource_value_t) 0,
-      NULL, "Disable the $D6** ACIA RS232 interface emulation" },
-#endif
 #endif
     { NULL }
 };
@@ -321,8 +316,8 @@ static struct {
 
 /* Expansion port signals.  */
 static struct {
-    int exrom;
-    int game;
+    BYTE exrom;
+    BYTE game;
 } export;
 
 /* Current video bank (0, 1, 2 or 3).  */
@@ -342,6 +337,9 @@ BYTE export_ram0[0x2000];
 
 /* Expansion port ROML/ROMH/RAM banking.  */
 static int roml_bank, romh_bank, export_ram;
+
+/* Super Snapshot configuration flags.  */
+static BYTE ramconfig = 0xff, romconfig = 9;
 
 /* ------------------------------------------------------------------------- */
 
@@ -457,15 +455,41 @@ void REGPARM2 store_ram_hi(ADDRESS addr, BYTE value)
 void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 {
     if ((addr & 0xff00) == 0xdf00) {
-        if (reu_enabled)
-            store_reu(addr & 0x0f, value);
-        if (ieee488_enabled)
-            store_tpi(addr & 0x07, value);
+	if (reu_enabled)
+	    store_reu(addr & 0x0f, value);
+	if (ieee488_enabled)
+	    store_tpi(addr & 0x07, value);
     }
     if ((mem_cartridge_type == CARTRIDGE_ACTION_REPLAY) && export_ram)
-        export_ram0[0x1f00 + (addr & 0xff)] = value;
+	export_ram0[0x1f00 + (addr & 0xff)] = value;
     if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
-        export_ram0[0x1f00 + (addr & 0xff)] = value;
+	export_ram0[0x1f00 + (addr & 0xff)] = value;
+    if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT && (addr & 0xff) == 0) {
+	romconfig = (value == 2) ? 1 : 9;
+	romconfig = (romconfig & 0xdf) | ((ramconfig == 0) ? 0x20 : 0);
+	if ((value & 0x7f) == 0)
+	    romconfig = 35;
+	if ((value & 0x7f) == 1 || (value & 0x7f) == 3)
+	    romconfig = 0;
+	if ((value & 0x7f) == 6) {
+	    romconfig = 9;
+	    cartridge_release_freeze();
+	}
+	if ((value & 0x7f) == 9)
+	    romconfig = 6;
+	cartridge_config_changed(romconfig);
+    }
+    if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT && (addr & 0xff) == 1) {
+	if(((ramconfig - 1) & 0xff) == value) {
+	    ramconfig = value;
+	    romconfig |= 35;
+	}
+	if(((ramconfig + 1) & 0xff) == value) {
+	    ramconfig = value;
+	    romconfig &= 0xdd;
+	}
+	cartridge_config_changed(romconfig);
+    }
     return;
 }
 
@@ -483,8 +507,12 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
         if (ieee488_enabled)
             return read_tpi(addr & 0x07);
 
-        if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY) {
-            if (export_ram)
+	if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY
+	                       || CARTRIDGE_SUPER_SNAPSHOT) {
+	    if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT
+	                           && (addr & 0xff) == 1)
+		return ramconfig;
+            if (export_ram && mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
                 return export_ram0[0x1f00 + (addr & 0xff)];
             switch (roml_bank) {
               case 0:
@@ -512,6 +540,8 @@ void REGPARM2 store_io1(ADDRESS addr, BYTE value)
 	    cartridge_config_changed(1);
 	if (mem_cartridge_type == CARTRIDGE_SIMONS_BASIC)
 	    cartridge_config_changed(1);
+	if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT)
+	    export_ram0[0x1e00 + (addr & 0xff)] = value;
     }
 #ifdef HAVE_RS232
     if (acia_de_enabled)
@@ -531,6 +561,8 @@ BYTE REGPARM1 read_io1(ADDRESS addr)
 	}
 	if (mem_cartridge_type == CARTRIDGE_SIMONS_BASIC)
 	    cartridge_config_changed(0);
+	if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT)
+	    return export_ram0[0x1e00 + (addr & 0xff)];
     }
 #ifdef HAVE_RS232
     if (acia_de_enabled)
@@ -867,6 +899,8 @@ void initialize_memory(void)
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GENERIC_16KB:
 	cartridge_config_changed(1);
+      case CARTRIDGE_SUPER_SNAPSHOT:
+	cartridge_config_changed(9);
 	break;
     }
 }
@@ -986,6 +1020,13 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
 	memcpy(romh_banks, &rawcart[0x2000], 0x2000);
 	cartridge_config_changed(0);
 	break;
+      case CARTRIDGE_SUPER_SNAPSHOT:
+	memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
+	memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
+	memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
+	memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
+	cartridge_config_changed(9);
+	break;
       default:
 	mem_cartridge_type = CARTRIDGE_NONE;
     }
@@ -1001,7 +1042,8 @@ void mem_detach_cartridge(int type)
 
 void mem_freeze_cartridge(int type)
 {
-    if (type == CARTRIDGE_ACTION_REPLAY)
+    if (type == CARTRIDGE_ACTION_REPLAY
+             || CARTRIDGE_SUPER_SNAPSHOT)
 	cartridge_config_changed(35);
     if (type == CARTRIDGE_KCS_POWER)
 	cartridge_config_changed(3);
@@ -1048,7 +1090,7 @@ static void cartridge_config_changed(BYTE mode)
 {
     export.game = mode & 1;
     export.exrom = ((mode >> 1) & 1) ^ 1;
-    roml_bank = (mode >> 3) & 3;
+    romh_bank = roml_bank = (mode >> 3) & 3;
     export_ram = (mode >> 5) & 1;
     pla_config_changed();
     if (mode & 0x40)
@@ -1090,7 +1132,7 @@ int mem_rom_trap_allowed(ADDRESS addr)
 
 static void store_bank_io(ADDRESS addr, BYTE byte)
 {
-    switch (addr &= 0xff00) {
+    switch (addr & 0xff00) {
       case 0xd000:
       case 0xd100:
       case 0xd200:
@@ -1129,7 +1171,7 @@ static void store_bank_io(ADDRESS addr, BYTE byte)
 
 static BYTE read_bank_io(ADDRESS addr)
 {
-    switch (addr &= 0xff00) {
+    switch (addr & 0xff00) {
       case 0xd000:
       case 0xd100:
       case 0xd200:
@@ -1160,7 +1202,7 @@ static BYTE read_bank_io(ADDRESS addr)
 
 static BYTE peek_bank_io(ADDRESS addr)
 {
-    switch (addr &= 0xff00) {
+    switch (addr & 0xff00) {
       case 0xd000:
       case 0xd100:
       case 0xd200:
@@ -1228,24 +1270,24 @@ BYTE mem_bank_read(int bank, ADDRESS addr)
         return mem_read(addr);
         break;
       case 3:                   /* io */
-        if (addr >= 0xd000 && addr < 0xe000) {
+        if ((addr >= 0xd000) && (addr < 0xe000)) {
             return read_bank_io(addr);
         }
       case 4:                   /* cart */
-        if (addr >= 0x8000 && addr <= 0x9FFF) {
+        if ((addr >= 0x8000) && (addr <= 0x9FFF)) {
             return roml_banks[addr & 0x1fff];
         }
-        if (addr >= 0xA000 && addr <= 0xBFFF) {
+        if ((addr >= 0xA000) && (addr <= 0xBFFF)) {
             return romh_banks[addr & 0x1fff];
         }
       case 2:                   /* rom */
-        if (addr >= 0xA000 && addr <= 0xBFFF) {
+        if ((addr >= 0xA000) && (addr <= 0xBFFF)) {
             return basic_rom[addr & 0x1fff];
         }
-        if (addr >= 0xD000 && addr <= 0xDfff) {
-            return chargen_rom[addr & 0x1fff];
+        if ((addr >= 0xD000) && (addr <= 0xDfff)) {
+            return chargen_rom[addr & 0x0fff];
         }
-        if (addr >= 0xE000 && addr <= 0xffff) {
+        if ((addr >= 0xE000) && (addr <= 0xffff)) {
             return kernal_rom[addr & 0x1fff];
         }
       case 1:                   /* ram */
@@ -1291,4 +1333,64 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
       case 1:                   /* ram */
     }
     ram[addr] = byte;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* Snapshot.  */
+/* FIXME: Do we want to make a snapshot of all the ROMs too?  */
+
+static char snap_module_name[] = "VIC-II";
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int mem_write_snapshot_module(FILE *f)
+{
+    if (snapshot_write_module_header(f, snap_module_name,
+                                     SNAP_MAJOR, SNAP_MINOR) < 0)
+        return -1;
+
+    if (snapshot_write_byte(f, pport.data) < 0
+        || snapshot_write_byte(f, pport.dir) < 0
+        || snapshot_write_byte(f, export.exrom) < 0
+        || snapshot_write_byte(f, export.game) < 0
+        || snapshot_write_byte_array(f, ram, C64_RAM_SIZE) < 0)
+        return -1;
+
+    return 0;
+}
+
+int mem_read_snapshot_module(FILE *f)
+{
+    BYTE major_version, minor_version;
+    char module_name[SNAPSHOT_MODULE_NAME_LEN];
+
+    if (snapshot_read_module_header(f, module_name,
+                                    &major_version, &minor_version) < 0)
+        return -1;
+
+    if (strcmp(module_name, snap_module_name) != 0) {
+        fprintf(stderr,
+                "MEM: Snapshot module name (`%s') incorrect; should be `%s'.\n",
+                module_name, snap_module_name);
+        return -1;
+    }
+
+    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+        fprintf(stderr,
+                "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                major_version, minor_version,
+                SNAP_MAJOR, SNAP_MINOR);
+    }
+
+    if (snapshot_read_byte(f, &pport.data) < 0
+        || snapshot_read_byte(f, &pport.dir) < 0
+        || snapshot_read_byte(f, &export.exrom) < 0
+        || snapshot_read_byte(f, &export.game) < 0
+        || snapshot_read_byte_array(f, ram, C64_RAM_SIZE) < 0)
+        return -1;
+
+    pla_config_changed();
+
+    return 0;
 }

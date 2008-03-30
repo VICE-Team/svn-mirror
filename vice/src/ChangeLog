@@ -1,3 +1,176 @@
+1998-09-03  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.2.
+
+	* c64/c64mem.c: `exrom' and `game' in `export' changed from `int'
+	to `BYTE'.
+	(mem_write_snapshot_module): New function.
+	(mem_read_snapshot_module): New function.
+
+	* maincpu.c (maincpu_write_snapshot_module): New function.
+	(maincpu_read_snapshot_module): New function.
+
+	* interrupt.c: New file.
+	(prevent_clk_overflow): Moved here from `interrupt.h'.
+	(cpu_int_status_init): Likewise.
+	(cpu_int_status_write_snapshot_module): New function.
+	(cpu_int_status_read_snapshot_module): New function.
+
+	* interrupt.h: If functions must not be inlined, compile them into
+	`interrupt.o' instead of `maincpu.o'; so check for `_INTERRUPT_C'
+	instead of `_MAINCPU_C'.
+
+	* c64/c64.c (machine_write_snapshot): New function.
+	(machine_read_snapshot): New function.
+
+	* c64/vicii.c: Type of `vic' changed to BYTE.
+	(vic_ii_read_snapshot_module): New function.
+	(vic_ii_write_snapshot_module): New function.
+
+	* snapshot.c: New file.
+	(snapshot_write_byte): New function.
+	(snapshot_write_word): New function.
+	(snapshot_write_dword): New function.
+	(snapshot_write_padded_string): New function.
+	(snapshot_write_byte_array): New function.
+	(snapshot_read_byte): New function.
+	(snapshot_read_word): New function.
+	(snapshot_read_dword): New function.
+	(snapshot_read_byte_array): New function.
+	(snapshot_create): New function.
+	(snapshot_open): New function.
+	(snapshot_write_module_header): New function.
+	(snapshot_read_module_header): New function.
+	(snapshot_close): New function.
+
+	* drive/drivecpu-tmpl.c (mydrive_store_ram): Handle all addresses
+	up to $1FFF.
+
+	* c64/c64cia1.def: #define `myclk' to `clk', not `maincpu_clk'.
+	* c64/c64cia2.def: Likewise.
+
+	* cia-tmpl.c (store_mycia, read_mycia, peek_mycia): Use `myclk'
+	instead of `clk'.
+	(int_myciata, int_myciata, int_myciatb, int_myciatod): Likewise.
+	(mycia_set_flag, mycia_set_sdr): Likewise.
+	(mycia_prevent_clk_overflow): Likewise.
+	(mycia_dump): Likewise.
+
+	* drive/Makefile.am (drivecpu0.c, drivecpu1.c): Take the template
+	file from `$(drivedir)'.
+
+1998-09-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* arch/unix/xaw/c64ui.c (attach_cartridge_image_submenu): Added
+	new menu entry for Super Snapshot 4 cartridge.
+
+	* c64/c64mem.c: New variables `ramconfig' and `romconfig'.
+	(store_io2, read_io2, store_io1, read_io1): Added banking for SS4
+	cartridge.  (initialize_memory): Initialize SS4 cart.
+	(mem_attach_cartridge): Added support for SS4 cart.
+	(cartridge_config_changed): Set `romh_bank' too.
+
+	* c64/cartridge.c (cartridge_attach_image): Added SS4 cart
+	support.  (cartridge_trigger_freeze): Likewise.
+
+	* cartridge.h: New define `CARTRIDGE_SUPER_SNAPSHOT'.
+
+1998-09-03  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* c128/c128mem.c (store_bank_io, read_bank_io, peek_bank_io): remove
+	bogus "=" in switch.
+
+	* c64/c64mem.c (store_bank_io, read_bank_io, peek_bank_io): remove
+	bogus "=" in switch.
+	(mem_bank_read): use only the right address bits for chargen_rom
+	access.
+
+	* maincpu.c (maincpu_monitor_interface): replace mem_read/mem_store
+	with banked mem functions.
+
+	* mon.c (mon_cmd_array): fix entry for "bank"
+	(mon_bank): new function to be called when "bank" command is used
+	(get_mem_val, set_mem_val): use current_bank from mon_interfaces[]
+	for banked memory functions.
+
+	* mon.h (monitor_interface): change read_func and store_func to
+	the banked memory functions.
+	[STATE_BNAME]: new state for the parser.
+	(mon_bank): new prototype
+
+	* mon_lex.l: new state BNAME, to be entered after "bank" command.
+	In BNAME state parse an ASCII string and return BANKNAME.
+
+	* mon_parse_y (machine_state_rules): fix CMD_BANK entry.
+	(opt_bankname): add new parse rule
+
+	* true1541/1541cpu.c (tru1541_monitor_interface): replace
+	true1541_read/store with banked memory functions.
+	(true1541_bank_read, true1541_bank_peek, true1541_bank_store):
+	new functions. They ignore the bank parameter as here is no banking.
+
+	* true1541/1541cpu.h (true1541_bank_read, true1541_bank_peek,
+	true1541_bank_store): new prototypes.
+
+	* acia-tmpl.c (rs232_open, rs232_close, rs232_putc, rs232_getc):
+ 	New dummy functions if `HAVE_RS232' is not #defined.
+
+	* arch/msdos/petui.c (pet_model_items): Added entry for SuperPET
+	(special_menu_items): Added SuperPET toggle.
+
+	* arch/unix/xaw/petui.c (model_defaults_submenu): Added entry for
+ 	SuperPET
+	(model_settings_submenu): New SuperPET I/O toggle.  Also calling
+ 	pet_rs232_submenu for ACIA settings.
+
+	* arch/unix/xaw/uisettings.c (pet_rs232_submenu): New menu for
+ 	single-ACIA RS232 handling (PET, and later CBM610?)
+
+	* pet/Makefile.am (libpet_a_SOURCES): Added petacia.h, petacia1.c
+	and petacia1.def.
+	(BUILT_SOURCES): Added petacia1.c.
+	(petacia1.c): Added rule to build it from acia-tmpl.c.
+
+	* pet/pet.c: #Include "petacia.h"
+	(machine_init_resources): Call acia1_init_resources and
+	rs232_init_resources.
+	(machine_init_cmdline_options): Call acia1_init_cmdline_resources
+	and rs232_init_cmdline_resources.
+	(machine_reset): Call superpet_reset to reset SuperPET I/O latches.
+
+	* pet/petacia.h: New file.  Prototypes for SuperPET acia.
+
+	* pet/petacia1.def: New file.  Definitions for SuperPET ACIA.
+
+	* pet/petmem.c: #Include petacia.h
+	(spet_ramen, spet_bank, spet_ctrlwp, spet_diag, spet_ramwp) new
+	flags to save the state of the SuperPET latches.
+	(superpet_reset): reset latches
+	(superpet_powerup): reset latches that are reset only after powerup
+	(superper_diag): return state of the diag latch, that is connected
+	to the userport DIAG pin
+	(read_super_io, store_super_io): new functions to handle the latches
+	(read_super_9, store_super_9): new functions to access 64k
+	expansion RAM.
+	(set_std_9tof): in $9*** set *_super_9() if it is superpet.
+	Also in $EF** set *_super_io() if it is superpet
+	(mem_powerup): call superpet_powerup
+
+	* pet/petmem.h (superpet_reset, superpet_diag): new prototypes
+
+	* pet/pets.c (pet_table): add field for machine being a SuperPET
+	Add SuperPET entry.
+	(pet_set_model): set SuperPET resource from model info.
+	(check_info): if SuperPET, disable 8x96 memory expansion
+	(set_superport_enables): new function to set resource
+	(resources): add "SuperPET" resource
+	(cmdline_options): add "-superpet" and "+superpet" options
+
+	* pet/pets.h (PetInfo): add field for Superpet in struct definition.
+
+	* pet/pia.c: include petmem.h
+	(read_pia1): check superpet_diag for diagnostic pin
+
 1998-09-02  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0.1.

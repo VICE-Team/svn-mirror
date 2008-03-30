@@ -148,6 +148,7 @@ noinst_HEADERS = \
 	resources.h \
 	rs232.h \
 	serial.h \
+	snapshot.h \
 	sound.h \
 	sysfile.h \
 	tape.h \
@@ -175,6 +176,7 @@ base_sources = \
 	fsdevice.c \
 	gcr.c \
 	info.c \
+	interrupt.c \
 	kbdbuf.c \
 	main.c \
 	memutils.c \
@@ -187,6 +189,7 @@ base_sources = \
 	parallel.c \
 	resources.c \
 	serial.c \
+	snapshot.c \
 	sound.c \
 	sysfile.c \
 	tape.c \
@@ -298,28 +301,28 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 x64_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o memutils.o misc.o \
-mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o resources.o \
-serial.o sound.o sysfile.o tape.o tapeunit.o traps.o utils.o vdrive.o \
-warn.o zfile.o zipcode.o maincpu.o
+findpath.o fsdevice.o gcr.o info.o interrupt.o kbdbuf.o main.o \
+memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
+tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o maincpu.o
 x64_LDFLAGS = 
 x128_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o memutils.o misc.o \
-mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o resources.o \
-serial.o sound.o sysfile.o tape.o tapeunit.o traps.o utils.o vdrive.o \
-warn.o zfile.o zipcode.o
+findpath.o fsdevice.o gcr.o info.o interrupt.o kbdbuf.o main.o \
+memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
+tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o
 x128_LDFLAGS = 
 xvic_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o memutils.o misc.o \
-mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o resources.o \
-serial.o sound.o sysfile.o tape.o tapeunit.o traps.o utils.o vdrive.o \
-warn.o zfile.o zipcode.o maincpu.o
+findpath.o fsdevice.o gcr.o info.o interrupt.o kbdbuf.o main.o \
+memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
+tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o maincpu.o
 xvic_LDFLAGS = 
 xpet_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o emuid.o \
-findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o memutils.o misc.o \
-mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o resources.o \
-serial.o sound.o sysfile.o tape.o tapeunit.o traps.o utils.o vdrive.o \
-warn.o zfile.o zipcode.o maincpu.o
+findpath.o fsdevice.o gcr.o info.o interrupt.o kbdbuf.o main.o \
+memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
+parallel.o resources.o serial.o snapshot.o sound.o sysfile.o tape.o \
+tapeunit.o traps.o utils.o vdrive.o warn.o zfile.o zipcode.o maincpu.o
 xpet_LDFLAGS = 
 c1541_OBJECTS =  c1541.o charsets.o vdrive.o gcr.o mshell.o tape.o \
 utils.o zfile.o zipcode.o
@@ -554,20 +557,28 @@ fsdevice.o: fsdevice.c vice.h config.h resources.h vdrive.h types.h \
 	fs_cbm.h serial.h traps.h file.h charsets.h tape.h utils.h \
 	cmdline.h fsdevice.h
 info.o: info.c
+interrupt.o: interrupt.c vice.h config.h interrupt.h types.h vmachine.h \
+	6510core.h mem.h
 maincpu.o: maincpu.c vice.h config.h maincpu.h types.h mem.h mos6510.h \
-	6510core.h mon.h interrupt.h vmachine.h machine.h \
-	arch/unix/ui.h arch/unix/xaw/ui.h palette.h resources.h traps.h \
-	misc.h vdrive.h fs_cbm.h serial.h 6510core.c
+	6510core.h mon.h interrupt.h vmachine.h machine.h misc.h \
+	resources.h snapshot.h traps.h arch/unix/ui.h \
+	arch/unix/xaw/ui.h palette.h vdrive.h fs_cbm.h serial.h \
+	6510core.c
 mon.o: mon.c vice.h config.h asm.h types.h mon.h mos6510.h mem.h \
 	interrupt.h vmachine.h 6510core.h charsets.h file.h misc.h \
 	mshell.h resources.h arch/unix/vsync.h vdrive.h fs_cbm.h \
 	serial.h traps.h mon_parse.h utils.h
+mon_lex.o: mon_lex.c vice.h config.h types.h mon.h mos6510.h mem.h \
+	interrupt.h vmachine.h 6510core.h mon_parse.h utils.h
+mon_parse.o: mon_parse.c vice.h config.h types.h asm.h utils.h mon.h \
+	mos6510.h mem.h interrupt.h vmachine.h 6510core.h
 prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h vdrive.h \
 	types.h fs_cbm.h serial.h traps.h file.h charsets.h utils.h \
 	prdevice.h print.h
 serial.o: serial.c vice.h config.h maincpu.h types.h mem.h mos6510.h \
 	6510core.h mon.h interrupt.h vmachine.h serial.h traps.h \
 	parallel.h utils.h vdrive.h fs_cbm.h tape.h tapeunit.h
+snapshot.o: snapshot.c vice.h config.h snapshot.h types.h
 tape.o: tape.c vice.h config.h vdrive.h types.h fs_cbm.h serial.h \
 	traps.h tape.h zfile.h utils.h charsets.h
 tapeunit.o: tapeunit.c vice.h config.h tapeunit.h tape.h types.h traps.h \

@@ -50,6 +50,7 @@
 #include "reu.h"
 #include "serial.h"
 #include "sid.h"
+#include "snapshot.h"
 #include "tapeunit.h"
 #include "traps.h"
 #include "utils.h"
@@ -394,4 +395,67 @@ int machine_set_restore_key(int v)
 {
     maincpu_set_nmi(I_RESTORE, v ? 1 : 0);
     return 1;
+}
+
+/* ------------------------------------------------------------------------- */
+
+#define SNAP_MACHINE_NAME   "C64"
+#define SNAP_MAJOR          0
+#define SNAP_MINOR          0
+
+int machine_write_snapshot(const char *name)
+{
+    FILE *f;
+
+    f = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, SNAP_MACHINE_NAME);
+    if (f == NULL) {
+        perror(name);
+        return -1;
+    }
+
+    if (maincpu_write_snapshot_module(f) < 0
+        || mem_write_snapshot_module(f) < 0
+        || vic_ii_write_snapshot_module(f) < 0)
+        goto fail;
+
+    fclose(f);
+
+    return 0;
+
+fail:
+    if (f != NULL)
+        fclose(f);
+    unlink(name);
+    return -1;
+}
+
+int machine_read_snapshot(const char *name)
+{
+    FILE *f;
+    BYTE minor, major;
+    char machine_name[SNAPSHOT_MACHINE_NAME_LEN];
+
+    f = snapshot_open(name, &major, &minor, machine_name);
+    if (f == NULL) {
+        perror(name);
+        return -1;
+    }
+
+    if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
+        printf("Snapshot version (%d.%d) not valid: expecting %d.%d.\n",
+               major, minor, SNAP_MAJOR, SNAP_MINOR);
+        goto fail;
+    }
+
+    if (maincpu_read_snapshot_module(f) < 0
+        || mem_read_snapshot_module(f) < 0
+        || vic_ii_read_snapshot_module(f) < 0)
+        goto fail;
+
+    return 0;
+
+fail:
+    if (f != NULL)
+        fclose(f);
+    return -1;
 }

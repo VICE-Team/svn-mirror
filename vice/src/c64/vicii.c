@@ -75,6 +75,7 @@
 #include "mem.h"
 #include "palette.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "utils.h"
 #include "vmachine.h"
 
@@ -3703,4 +3704,292 @@ void vic_ii_prevent_clk_overflow(CLOCK sub)
     oldclk -= sub;
     vic_ii_fetch_clk -= sub;
     vic_ii_draw_clk -= sub;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/*
+
+This is the format of the VIC-II snapshot module.
+
+Name               Type   Size   Description
+
+AllowBadLines      BYTE   1      flag: if true, bad lines can happen
+BadLine            BYTE   1      flag: this is a bad line
+Blank              BYTE   1      flag: draw lines in border color
+ColorBuf           BYTE   40     character memory buffer (loaded at bad line)
+ColorRam           BYTE   1024   contents of color RAM
+IdleState          BYTE   1      flag: idle state enabled
+LPTrigger          BYTE   1      flag: light pen has been triggered
+LPX                BYTE   1      light pen X
+LPY                BYTE   1      light pen Y
+MatrixBuf          BYTE   40     video matrix buffer (loaded at bad line)
+NewSpriteDmaMask   BYTE   1      value for SpriteDmaMask after drawing sprites
+RamBase            DWORD  1      pointer to the start of RAM seen by the VIC
+RasterCycle        BYTE   1      current raster cycle
+RasterLine         WORD   1      current raster line
+Registers          BYTE   64     VIC-II registers
+SbCollMask         BYTE   1      sprite-background collisions so far
+SpriteDmaMask      BYTE   1      sprites having DMA turned on
+SsCollMask         BYTE   1      sprite-sprite collisions so far
+VBank              BYTE   1      location of memory bank
+Vc                 WORD   1      internal VIC-II counter
+VcAdd              BYTE   1      value to add to Vc at the end of this line (mem_counter_inc)
+VcBase             WORD   1      internal VIC-II memory pointer
+VideoInt           BYTE   1      status of VIC-II IRQ (videoint)
+
+*Sprite section: (repeat 8 times)
+
+SpriteXMemPtr      BYTE   1      sprite memory pointer
+SpriteXMemPtrInc   BYTE   1      value to add to the MemPtr after fetch
+SpriteXExpFlipFlop BYTE   1      sprite expansion flip-flop
+
+*/
+
+static char snap_module_name[] = "VIC-II";
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int vic_ii_write_snapshot_module(FILE *f)
+{
+    int i;
+
+    /* FIXME: Dispatch all events?  */
+
+    if (snapshot_write_module_header(f, snap_module_name,
+                                     SNAP_MAJOR, SNAP_MINOR) < 0)
+        return -1;
+
+    if (0
+        || snapshot_write_byte(f, (BYTE) allow_bad_lines) < 0 /* AllowBadLines */
+        || snapshot_write_byte(f, (BYTE) bad_line) < 0 /* BadLine */
+        || snapshot_write_byte(f, (BYTE) blank_enabled) < 0 /* Blank */
+        || snapshot_write_byte_array(f, cbuf, 40) < 0 /* ColorBuf */
+        || snapshot_write_byte_array(f, color_ram, 1024) < 0 /* ColorRam */
+        || snapshot_write_byte(f, idle_state) < 0 /* IdleState */
+        || snapshot_write_byte(f, (BYTE) light_pen.triggered) < 0 /* LPTrigger */
+        || snapshot_write_byte(f, (BYTE) light_pen.x) < 0 /* LPX */
+        || snapshot_write_byte(f, (BYTE) light_pen.y) < 0 /* LPY */
+        || snapshot_write_byte_array(f, vbuf, 40) < 0 /* MatrixBuf */
+        || snapshot_write_byte(f, new_dma_msk) < 0 /* NewSpriteDmaMask */
+        || snapshot_write_dword(f, (DWORD) (ram_base - ram)) < 0 /* RamBase */
+        || snapshot_write_byte(f, (BYTE) RASTER_CYCLE) < 0 /* RasterCycle */
+        || snapshot_write_word(f, (WORD) RASTER_Y) < 0 /* RasterLine */
+        )
+        return -1;
+
+    for (i = 0; i < 0x40; i++)
+        if (snapshot_write_byte(f, (BYTE) vic[i]) < 0 /* Registers */)
+            return -1;
+
+    if (0
+        || snapshot_write_byte(f, (BYTE) sb_collmask) < 0 /* SbCollMask */
+        || snapshot_write_byte(f, (BYTE) dma_msk) < 0 /* SpriteDmaMask */
+        || snapshot_write_byte(f, (BYTE) ss_collmask) < 0 /* SsCollMask */
+        || snapshot_write_word(f, (WORD) vbank) < 0 /* VBank */
+        || snapshot_write_word(f, (WORD) mem_counter) < 0 /* Vc */
+        || snapshot_write_byte(f, (BYTE) mem_counter_inc) < 0 /* VcInc */
+        || snapshot_write_word(f, (WORD) memptr) < 0 /* VcBase */
+        || snapshot_write_byte(f, (BYTE) videoint) < 0 /* VideoInt */
+        )
+        return -1;
+
+    for (i = 0; i < 8; i++) {
+        if (0
+            || snapshot_write_byte(f, (BYTE) sprites[i].memptr) < 0 /* SpriteXMemPtr */
+            || snapshot_write_byte(f, (BYTE) sprites[i].memptr_inc) < 0 /* SpriteXMemPtrInc */
+            || snapshot_write_byte(f, (BYTE) sprites[i].exp_flag) < 0 /* SpriteXExpFlipFlop */
+            )
+            return -1;
+    }
+
+    return 0;
+}
+
+/* Helper functions.  */
+
+static int read_byte_into_int(FILE *f, int *value_return)
+{
+    BYTE b;
+
+    if (snapshot_read_byte(f, &b) < 0)
+        return -1;
+    *value_return = (int) b;
+    return 0;
+}
+
+static int read_word_into_int(FILE *f, int *value_return)
+{
+    WORD b;
+
+    if (snapshot_read_word(f, &b) < 0)
+        return -1;
+    *value_return = (int) b;
+    return 0;
+}
+
+int vic_ii_read_snapshot_module(FILE *f)
+{
+    BYTE major_version, minor_version;
+    char module_name[SNAPSHOT_MODULE_NAME_LEN];
+    int i;
+    BYTE tmp;
+
+    if (snapshot_read_module_header(f, module_name,
+                                    &major_version, &minor_version) < 0)
+        return -1;
+
+    if (strcmp(module_name, snap_module_name) != 0) {
+        fprintf(stderr,
+                "VIC-II: Snapshot module name (`%s') incorrect; should be `%s'.\n",
+                module_name, snap_module_name);
+        return -1;
+    }
+
+    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+        fprintf(stderr,
+                "VIC-II: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                major_version, minor_version,
+                SNAP_MAJOR, SNAP_MINOR);
+    }
+
+    /* FIXME: initialize changes.  */
+
+    if (0
+        || read_byte_into_int(f, &allow_bad_lines) < 0 /* AllowBadLines */
+        || read_byte_into_int(f, &bad_line) < 0 /* BadLine */
+        || read_byte_into_int(f, &blank_enabled) < 0 /* Blank */
+        || snapshot_read_byte_array(f, cbuf, 40) < 0 /* ColorBuf */
+        || snapshot_read_byte_array(f, color_ram, 1024) < 0 /* ColorRam */
+        || read_byte_into_int(f, &idle_state) < 0 /* IdleState */
+        || read_byte_into_int(f, &light_pen.triggered) < 0 /* LPTrigger */
+        || read_byte_into_int(f, &light_pen.x) < 0 /* LPX */
+        || read_byte_into_int(f, &light_pen.y) < 0 /* LPY */
+        || snapshot_read_byte_array(f, vbuf, 40) < 0 /* MatrixBuf */
+        || snapshot_read_byte(f, &new_dma_msk) < 0 /* NewSpriteDmaMask */
+        )
+        return -1;
+
+    {
+        DWORD RamBase;
+
+        if (snapshot_read_dword(f, &RamBase) < 0)
+            return -1;
+        ram_base = ram + RamBase;
+    }
+
+    /* Read the current raster line and the current raster cycle.  As they
+       are a function of `clk', this is just a sanity check.  */
+    {
+        WORD RasterLine;
+        BYTE RasterCycle;
+
+        if (snapshot_read_byte(f, &RasterCycle) < 0
+            || snapshot_read_word(f, &RasterLine) < 0)
+            return -1;
+
+        if (RasterCycle != (BYTE) RASTER_CYCLE) {
+            fprintf(stderr, "VIC-II: Not matching raster cycle (%d) in snapshot; should be %d.\n",
+                    RasterCycle, RASTER_CYCLE);
+            return -1;
+        }
+
+        if (RasterLine != (WORD) RASTER_Y) {
+            fprintf(stderr, "VIC-II: Not matching raster line (%d) in snapshot; should be %d.\n",
+                    RasterLine, RASTER_Y);
+            return -1;
+        }
+    }
+
+    for (i = 0; i < 0x40; i++)
+        if (read_byte_into_int(f, &vic[i]) < 0 /* Registers */)
+            return -1;
+
+    if (0
+        || snapshot_read_byte(f, &sb_collmask) < 0 /* SbCollMask */
+        || snapshot_read_byte(f, &dma_msk) < 0 /* SpriteDmaMask */
+        || snapshot_read_byte(f, &ss_collmask) < 0 /* SsCollMask */
+        || read_word_into_int(f, &vbank) < 0 /* VBank */
+        || read_word_into_int(f, &mem_counter) < 0 /* Vc */
+        || read_byte_into_int(f, &mem_counter_inc) < 0 /* VcInc */
+        || read_word_into_int(f, &memptr) < 0 /* VcBase */
+        || read_byte_into_int(f, &videoint) < 0 /* VideoInt */
+        )
+        return -1;
+
+    for (i = 0; i < 8; i++) {
+        if (0
+            || read_byte_into_int(f, &sprites[i].memptr) < 0 /* SpriteXMemPtr */
+            || read_byte_into_int(f, &sprites[i].memptr_inc) < 0 /* SpriteXMemPtrInc */
+            || read_byte_into_int(f, &sprites[i].exp_flag) < 0 /* SpriteXExpFlipFlop */
+            )
+            return -1;
+    }
+
+    /* FIXME: Recalculate alarms and derived values.  */
+
+    int_raster_line = vic[0x12] | ((vic[0x11] & 0x80) << 1);
+    update_int_raster();
+
+    set_memory_ptrs(RASTER_CYCLE);
+
+    /* Update sprite parameters.  We had better do this manually, or the
+       VIC-II emulation could be quite upset. */
+    {
+        BYTE msk;
+
+        for (i = 0, msk = 0x1; i < 8; i++, msk <<= 1) {
+            int tmp;
+
+            /* X/Y coordinates.  */
+            tmp = vic[i * 2] + ((vic[0x10] & msk) ? 0x100 : 0);
+
+            /* (-0xffff makes sure it's updated NOW.) */
+            set_sprite_x(i, tmp, -0xffff);
+
+            sprites[i].y = (int) vic[i * 2 + 1];
+            sprites[i].x_expanded = (int) (vic[0x1d] & msk);
+            sprites[i].y_expanded = (int) (vic[0x17] & msk);
+            sprites[i].multicolor = (int) (vic[0x1c] & msk);
+            sprites[i].in_background = (int) (vic[0x1b] & msk);
+            sprites[i].color = (int) vic[0x27 + i];
+            sprites[i].dma_flag = (int) (new_dma_msk & msk);
+        }
+    }
+
+    xsmooth = vic[0x16] & 0x7;
+    ysmooth = vic[0x11] & 0x7;
+    rasterline = RASTER_Y;      /* FIXME? */
+    border_color = vic[0x20];
+    background_color = vic[0x21];
+    /* FIXME: overscan_background_color */
+
+    if (vic[0x11] & 0x8) {
+        display_ystart = VIC_II_25ROW_START_LINE;
+        display_ystop = VIC_II_25ROW_STOP_LINE;
+    } else {
+        display_ystart = VIC_II_24ROW_START_LINE;
+        display_ystop = VIC_II_24ROW_STOP_LINE;
+    }
+
+    if (vic[0x16] & 0x8) {
+        display_xstart = VIC_II_40COL_START_PIXEL;
+        display_xstop = VIC_II_40COL_STOP_PIXEL;
+    } else {
+        display_xstart = VIC_II_38COL_START_PIXEL;
+        display_xstop = VIC_II_38COL_STOP_PIXEL;
+    }
+
+    /* `draw_idle_state', `open_right_border' and `open_left_border' should
+       be needed, but they would only affect the current raster line, and
+       would not cause any difference in timing.  So who cares.  */
+
+    /* FIXME: `ycounter_reset_checked'?  */
+    /* FIXME: `force_display_state'?  */
+
+    memory_fetch_done = 0;      /* FIXME? */
+
+    set_video_mode(RASTER_CYCLE);
+
+    return 0;
 }

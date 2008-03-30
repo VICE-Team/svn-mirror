@@ -1,4 +1,3 @@
-
 /*
  * mem.h - Memory interface.
  *
@@ -28,6 +27,8 @@
 
 #ifndef _MEM_H_
 #define _MEM_H_
+
+#include <stdio.h>
 
 #include "types.h"
 
@@ -65,13 +66,16 @@ extern store_func_t mem_store;
 
 /* ------------------------------------------------------------------------- */
 
-/* Banked memory access functions for the monitor */
+/* Banked memory access functions for the monitor.  */
 
 extern const char **mem_bank_list(void);
 extern int mem_bank_from_name(const char *name);
 extern BYTE mem_bank_read(int bank, ADDRESS addr);
 extern BYTE mem_bank_peek(int bank, ADDRESS addr);
 extern void mem_bank_write(int bank, ADDRESS addr, BYTE byte);
+
+extern int mem_write_snapshot_module(FILE *f);
+extern int mem_read_snapshot_module(FILE *f);
 
 /* ------------------------------------------------------------------------- */
 
