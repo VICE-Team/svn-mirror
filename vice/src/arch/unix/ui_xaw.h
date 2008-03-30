@@ -44,6 +44,7 @@ typedef struct { unsigned short red, green, blue; BYTE dither; } UiColorDef;
 typedef XtPointer UiCallbackDataPtr;
 
 extern int ui_init_resources(void);
+extern int ui_init_cmdline_options(void);
 
 extern int UiInit(int *argc, char **argv);
 extern int UiInitFinish(void);
