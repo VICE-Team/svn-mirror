@@ -43,7 +43,7 @@ struct gfxoutputdrv_list_s {
 };
 typedef struct gfxoutputdrv_list_s gfxoutputdrv_list_t;
 
-static gfxoutputdrv_list_t *gfxoutputdrv_list;
+static gfxoutputdrv_list_t *gfxoutputdrv_list = NULL;
 static int gfxoutputdrv_list_count = 0;
 static log_t gfxoutput_log = LOG_ERR;
 static gfxoutputdrv_list_t *gfxoutputdrv_list_iter = NULL;
@@ -88,6 +88,19 @@ int gfxoutput_init(void)
     gfxoutput_init_png();
 #endif
     return 0;
+}
+
+void gfxoutput_shutdown(void)
+{
+    gfxoutputdrv_list_t *list, *next;
+
+    list = gfxoutputdrv_list;
+
+    while (list != NULL) {
+        next = list->next;
+        lib_free(list);
+        list = next;
+    }
 }
 
 /*-----------------------------------------------------------------------*/
