@@ -43,6 +43,9 @@
 
 #include <gnome.h>
 #include <gdk/gdkx.h>
+#ifdef ENABLE_NLS
+#include <locale.h>
+#endif
 
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
@@ -194,7 +197,7 @@ int vidmode_available(void)
     bestmode_counter = 0;
 
     if (! XF86VidModeQueryVersion (display, &MajorVersion, &MinorVersion)) {
-        log_error(ui_log, "Unable to query video extension version");
+        log_error(ui_log, _("Unable to query video extension version"));
         return 0;
     }
     if (! XF86VidModeQueryExtension (display, &EventBase, &ErrorBase)) {
@@ -868,15 +871,23 @@ void archdep_ui_init(int argc, char *argv[])
     fake_argv[1] = NULL;
     gnome_init(PACKAGE, VERSION, 1, fake_argv);
 
+#ifdef ENABLE_NLS
+    /* gettext stuff, not needed in Gnome, but here I can
+       overrule the default locale path */
+    setlocale (LC_ALL, "");
+    bindtextdomain (PACKAGE, LOCALEDIR);
+    textdomain (PACKAGE);
+#endif
+
     /* set X11 fontpath */
     if (access(PREFIX "/lib/vice/fonts/fonts.dir", R_OK) == 0)
     {
 	const char *cmd = "xset fp+ " PREFIX "/lib/vice/fonts";
 	
 	if (system(cmd) != 0)
-	    fprintf(stderr, "Can't add fontpath `%s'.\n", cmd);
+	    fprintf(stderr, _("Can't add fontpath `%s'.\n"), cmd);
 	else
-	    fprintf(stdout, "Set fontpath: `%s'.\n", cmd);
+	    fprintf(stdout, _("Set fontpath: `%s'.\n"), cmd);
     }
 }
 
@@ -1109,18 +1120,18 @@ int ui_init_finish(void)
 	}
 	if (!classes[i].name) {
 	    log_error(ui_log,
-                      "This display does not support suitable %dbit visuals.",
+                      _("This display does not support suitable %dbit visuals."),
                       depth);
 #if X_DISPLAY_DEPTH == 0
             log_error(ui_log,
-                      "Please select a bit depth supported by your display.");
+                      _("Please select a bit depth supported by your display."));
 #else
             log_error(ui_log,
-                      "Please recompile the program for a supported bit depth.");
+                      _("Please recompile the program for a supported bit depth."));
 #endif
 	    return -1;
 	} else {
-	    log_message(ui_log, "Found %dbit/%s visual.",
+	    log_message(ui_log, _("Found %dbit/%s visual."),
                         depth, classes[i].name);
             have_truecolor = (classes[i].class == GDK_VISUAL_TRUE_COLOR);
         }
@@ -1138,7 +1149,7 @@ int ui_init_finish(void)
 	       (visual = gdk_visual_get_best_with_type(classes[j].class)) )
 	    {
 	        depth = visual->depth;
-		log_message(ui_log, "Found %dbit/%s visual.",
+		log_message(ui_log, _("Found %dbit/%s visual."),
 			    depth, classes[j].name);
 		have_truecolor = (classes[j].class == GDK_VISUAL_TRUE_COLOR);
 		done = 1;
@@ -1146,21 +1157,21 @@ int ui_init_finish(void)
 	    }
 	}
 	if (!done) {
-	    log_error(ui_log, "Cannot autodetect a proper visual.");
+	    log_error(ui_log, _("Cannot autodetect a proper visual."));
 	    return -1;
 	}
     }
 
     textfont = gdk_font_load(textfontname);
     if (!textfont)
-	log_error(ui_log, "Cannot load text font %s.", fixedfontname);
+	log_error(ui_log, _("Cannot load text font %s."), fixedfontname);
 
     fixedfont = gdk_font_load(fixedfontname);
     if (fixedfont)
 	have_cbm_font = TRUE;
     else
     {
-	log_warning(ui_log, "Cannot load CBM font %s.", fixedfontname);
+	log_warning(ui_log, _("Cannot load CBM font %s."), fixedfontname);
 	fixedfont = textfont;
 	have_cbm_font = FALSE;
     }
@@ -1201,14 +1212,14 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
     /* drive stuff */
     drive_box = gtk_hbox_new(FALSE, 0);
     for (i = 0; i < NUM_DRIVES; i++) {
-	char label[10];
+	char label[256];
 	
 	as->drive_status[i].event_box = gtk_event_box_new();
 
 	frame = gtk_frame_new(NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME(frame), GTK_SHADOW_IN);
 	
-	sprintf(label, "Drive %d: ", i + 8);
+	sprintf(label, _("Drive %d: "), i + 8);
 	as->drive_status[i].box = gtk_hbox_new(FALSE, 0);
 
 	gtk_container_add(GTK_CONTAINER(frame),
@@ -1222,7 +1233,7 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 	drive_tooltips[i] = gtk_tooltips_new();
 	gtk_tooltips_set_tip(GTK_TOOLTIPS(drive_tooltips[i]),
 			     as->drive_status[i].box->parent->parent,
-			     "<empty>", NULL);
+			     _("<empty>"), NULL);
 
 	/* Label */
 	as->drive_status[i].label = (void *)gtk_label_new(g_strdup(label));
@@ -1232,7 +1243,7 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 	gtk_widget_show((GtkWidget *)as->drive_status[i].label);
 
 #if 0
-	as->drive_status[i].image = (void *)gtk_label_new("<empty>");
+	as->drive_status[i].image = (void *)gtk_label_new(_("<empty>"));
 	gtk_container_add(GTK_CONTAINER(event_box),
 			  as->drive_status[i].image);
 	gtk_widget_show(as->drive_status[i].image);
@@ -1318,7 +1329,7 @@ void ui_create_status_bar(GtkWidget *pane, int width, int height)
 			 as->tape_status.box->parent->parent, 
 			 "", NULL);
     /* Tape Label */
-    as->tape_status.label = gtk_label_new("Tape 000");
+    as->tape_status.label = gtk_label_new(_("Tape 000"));
     gtk_container_add(GTK_CONTAINER(as->tape_status.box),
 		      as->tape_status.label);
     gtk_misc_set_alignment (GTK_MISC (as->tape_status.label), 0, -1);
@@ -1390,7 +1401,7 @@ ui_window_t ui_open_canvas_window(const char *title, int width, int height,
     int i;
     
     if (++num_app_shells > MAX_APP_SHELLS) {
-	log_error(ui_log, "Maximum number of toplevel windows reached.");
+	log_error(ui_log, _("Maximum number of toplevel windows reached."));
 	return NULL;
     }
 
@@ -1549,13 +1560,13 @@ void ui_set_topmenu(void)
     
     for (i = 0; i < num_app_shells; i++)
     {
-	commands = gtk_menu_item_new_with_label("Commands");
+	commands = gtk_menu_item_new_with_label(_("Commands"));
 	gtk_widget_show(commands);
-	settings = gtk_menu_item_new_with_label("Settings");
+	settings = gtk_menu_item_new_with_label(_("Settings"));
 	gtk_widget_show(settings);
     
 	help_menu = ui_menu_create("Help", ui_help_commands_menu, NULL);
-	help = gtk_menu_item_new_with_label("Help");
+	help = gtk_menu_item_new_with_label(_("Help"));
 	gtk_widget_show(help);
 
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(commands), left_menu);
@@ -1584,7 +1595,7 @@ void ui_set_left_menu(GnomeUIInfo *w)
 {
     left_menu = gtk_menu_new();
     main_menu[0].type = GNOME_APP_UI_SUBTREE;
-    main_menu[0].label = "Commands";
+    main_menu[0].label = _("Commands");
     main_menu[0].moreinfo = w;
     
     gnome_app_fill_menu(GTK_MENU_SHELL(left_menu), w, NULL, FALSE, 0);
@@ -1595,7 +1606,7 @@ void ui_set_right_menu(GnomeUIInfo *w)
 {
     right_menu = gtk_menu_new();
     main_menu[1].type = GNOME_APP_UI_SUBTREE;
-    main_menu[1].label = "Settings";
+    main_menu[1].label = _("Settings");
     main_menu[1].moreinfo = w;
     
     gnome_app_fill_menu(GTK_MENU_SHELL(right_menu), w, NULL, FALSE, 0);
@@ -1626,19 +1637,19 @@ void ui_set_application_icon(const char *icon_data[])
 void ui_exit(void)
 {
     ui_button_t b;
-    char *s = concat ("Exit ", machine_name, " emulator", NULL);
+    char *s = concat ("Exit ", machine_name, _(" emulator"), NULL);
 
-    b = ui_ask_confirmation(s, "Do you really want to exit?");
+    b = ui_ask_confirmation(s, _("Do you really want to exit?"));
 
     if (b == UI_BUTTON_YES) 
     {
 	if (_ui_resources.save_resources_on_exit) 
 	{
-	    b = ui_ask_confirmation(s, "Save the current settings?");
+	    b = ui_ask_confirmation(s, _("Save the current settings?"));
 	    if (b == UI_BUTTON_YES) 
 	    {
 		if (resources_save(NULL) < 0)
-		    ui_error("Cannot save settings.");
+		    ui_error(_("Cannot save settings."));
 	    } 
 	    else if (b == UI_BUTTON_CANCEL) 
 	    {
@@ -1678,7 +1689,7 @@ static int alloc_colormap(void)
         && !have_truecolor) {
         colormap = gdk_colormap_get_system();
     } else {
-        log_message(ui_log, "Using private colormap.");
+        log_message(ui_log, _("Using private colormap."));
 	colormap = gdk_colormap_new(visual, AllocNone);
     }
 
@@ -1713,7 +1724,7 @@ static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
         color.blue = palette->entries[i].blue << 8;
         if (!gdk_color_alloc(colormap, &color)) {
             failed = 1;
-            log_warning(ui_log, "Cannot allocate color \"#%04X%04X%04X\".",
+            log_warning(ui_log, _("Cannot allocate color \"#%04X%04X%04X\"."),
                         color.red, color.green, color.blue);
         } else {
             allocated_pixels[n_allocated_pixels++] = color.pixel;
@@ -1829,7 +1840,7 @@ static int alloc_colors(const palette_t *palette, PIXEL pixel_return[])
     failed = do_alloc_colors(palette, pixel_return, 1);
     if (failed) {
 	if (colormap == gdk_colormap_get_system()) {
-            log_warning(ui_log, "Automagically using a private colormap.");
+            log_warning(ui_log, _("Automagically using a private colormap."));
 	    colormap = gdk_colormap_new(visual, AllocNone);
 	    gdk_window_set_colormap(_ui_top_level->window,colormap);
 	    failed = do_alloc_colors(palette, pixel_return, 0);
@@ -1888,7 +1899,7 @@ int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
 	    memcpy(real_pixel4, my_real_pixel4, sizeof(my_real_pixel4));
 	    memcpy(shade_table, my_shade_table, sizeof(my_shade_table));
 #endif
-	    log_error(ui_log, "Cannot allocate enough colors.");
+	    log_error(ui_log, _("Cannot allocate enough colors."));
 	} else {					/* successful */
 	    /* copy the new return values to the real return values */
 	    memcpy(pixel_return, xpixel, sizeof(PIXEL) * palette->num_entries);
@@ -2056,7 +2067,7 @@ void ui_display_drive_current_image(unsigned int drive_number,
     if (strcmp(name, "") == 0)
     {
 	free(name);
-	name = stralloc("<empty>");
+	name = stralloc(_("<empty>"));
     }
 
     for (i = 0; i < num_app_shells; i++) {
@@ -2206,7 +2217,7 @@ void ui_display_tape_counter(int counter)
     static char label[10];
     int i;
     
-    sprintf(label, "Tape %03d", counter % 1000);
+    sprintf(label, _("Tape %03d"), counter % 1000);
     for (i = 0; i < num_app_shells; i++)
 	gtk_label_set_text(GTK_LABEL(app_shells[i].tape_status.label), label);
     
@@ -2243,7 +2254,7 @@ void ui_display_paused(int flag)
 
     for (i = 0; i < num_app_shells; i++) {
 	if (flag) {
-	    sprintf(str, "%s (paused)", app_shells[i].title);
+	    sprintf(str, _("%s (paused)"), app_shells[i].title);
 	    gtk_window_set_title(GTK_WINDOW(app_shells[i].shell),str);
 	} else {
 	    gtk_window_set_title(GTK_WINDOW(app_shells[i].shell),app_shells[i].title);
@@ -2373,7 +2384,7 @@ void ui_message(const char *format, ...)
 
     va_start(ap, format);
     vsprintf(str, format, ap);
-    ui_message2(GNOME_MESSAGE_BOX_INFO, str, "VICE Message");
+    ui_message2(GNOME_MESSAGE_BOX_INFO, str, _("VICE Message"));
 }
 
 /* Report an error to the user.  */
@@ -2384,7 +2395,7 @@ void ui_error(const char *format, ...)
 
     va_start(ap, format);
     vsprintf(str, format, ap);
-    ui_message2(GNOME_MESSAGE_BOX_ERROR, str, "VICE Error");
+    ui_message2(GNOME_MESSAGE_BOX_ERROR, str, _("VICE Error"));
 }
 
 void ui_make_window_transient(GtkWidget *parent,GtkWidget *window)
@@ -2417,7 +2428,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 	return UI_JAM_HARD_RESET;
     }
 
-    jam_dialog = gnome_dialog_new("", "Reset", "Hard Reset", "Monitor", NULL);
+    jam_dialog = gnome_dialog_new("", "Reset", _("Hard Reset"), "Monitor", NULL);
     gtk_signal_connect(GTK_OBJECT(jam_dialog),
 		       "destroy",
 		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
@@ -2461,9 +2472,9 @@ int ui_extend_image_dialog(void)
     ui_button_t b;
 
     suspend_speed_eval();
-    b = ui_ask_confirmation("Extend disk image",
-                            ("Do you want to extend the disk image"
-                             " to 40 tracks?"));
+    b = ui_ask_confirmation(_("Extend disk image"),
+                            (_("Do you want to extend the disk image"
+                             " to 40 tracks?")));
     return (b == UI_BUTTON_YES) ? 1 : 0;
 }
 
@@ -2475,14 +2486,14 @@ UI_CALLBACK(ui_popup_selected_file)
     
     if (unit == 9)
     {
-	ui_message("Autostart not possible for unit 9");
+	ui_message(_("Autostart not possible for unit 9"));
 	return;
     }
     else if (unit == 8)
     {
 	tmp = stralloc(last_attached_images[0]);
 	if (autostart_disk(last_attached_images[0], NULL, selected) < 0)
-	    ui_error("Can't autostart selection %d in image %s", selected,
+	    ui_error(_("Can't autostart selection %d in image %s"), selected,
 		     tmp);
 	free(tmp);
     }
@@ -2490,7 +2501,7 @@ UI_CALLBACK(ui_popup_selected_file)
     {
 	tmp = stralloc(last_attached_tape);
 	if (autostart_tape(last_attached_tape, NULL, selected) < 0)
-	    ui_error("Can't autostart selection %d in image %s", selected,
+	    ui_error(_("Can't autostart selection %d in image %s"), selected,
 		     tmp);
 	free(tmp);
     }
@@ -2618,12 +2629,12 @@ static void ui_fill_preview(GtkWidget *w, int row, int col,
     fname = gtk_file_selection_get_filename(GTK_FILE_SELECTION(data));
 
     if (!fname || !current_image_contents_func)
-	contents = stralloc("NO IMAGE CONTENTS AVAILABLE");
+	contents = stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
     else
 	contents = current_image_contents_func(fname);
 
     if (!contents)
-	contents = stralloc("NO IMAGE CONTENTS AVAILABLE");
+	contents = stralloc(_("NO IMAGE CONTENTS AVAILABLE"));
 
     if (fixedfont)
     {
@@ -3071,7 +3082,7 @@ static GtkWidget *build_file_selector(ui_button_t *button_return,
 	    hbox = tmp->data;
     }
     
-    contents_title[0] = "Contents";
+    contents_title[0] = _("Contents");
     contents_title[1] = NULL;
     image_preview_list = 
 	gtk_clist_new_with_titles(1, (gchar **) contents_title);

@@ -165,6 +165,29 @@ static int set_emu_id_enabled(resource_value_t v)
     }
 }
 
+/*
+ * Some cartridges can coexist with the REU.
+ * This list might not be complete, but atleast these are known (to me -> nathan)
+ * to work. Feel free to add more coexisting cartridges to this list.
+ */
+static int reu_coexist_cartridge(void)
+{
+	int result;
+
+	switch (mem_cartridge_type)
+		{
+		case (CARTRIDGE_NONE):
+		case (CARTRIDGE_SUPER_SNAPSHOT_V5):
+		case (CARTRIDGE_EXPERT):
+			result = TRUE;
+			break;
+		default:
+			result = FALSE;
+		}
+
+	return result;
+}
+
 /* FIXME: Should initialize the REU when turned on.  */
 static int set_reu_enabled(resource_value_t v)
 {
@@ -172,7 +195,7 @@ static int set_reu_enabled(resource_value_t v)
         reu_enabled = 0;
         reu_deactivate();
         return 0;
-    } else if (mem_cartridge_type == CARTRIDGE_NONE) {
+    } else if (reu_coexist_cartridge() == TRUE) {
         reu_enabled = 1;
         reu_activate();
         return 0;

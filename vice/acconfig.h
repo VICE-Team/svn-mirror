@@ -73,3 +73,10 @@
 
 /* Is DWORD defined as long or int in the Windows header files? */
 #undef DWORD_IS_LONG
+
+/* gettext stuff */
+#undef ENABLE_NLS
+#undef HAVE_CATGETS
+#undef HAVE_GETTEXT
+#undef HAVE_LC_MESSAGES
+#undef HAVE_STPCPY
