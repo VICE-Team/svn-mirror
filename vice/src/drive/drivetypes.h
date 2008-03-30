@@ -32,7 +32,7 @@
 #include "drive.h"
 #include "mos6510.h"
 #include "types.h"
-
+#include "via.h"
 
 /*
  *  The philosophy behind this approach is that only the drive module knows
@@ -44,6 +44,7 @@
 
 struct drive_context_s;         /* forward declaration */
 struct monitor_interface_s;
+struct via_context_s;
 
 /* This defines the memory access for the drive CPU.  */
 typedef BYTE REGPARM2 drive_read_func_t(struct drive_context_s *, WORD);
@@ -129,52 +130,6 @@ typedef struct drivecpud_context_s {
 } drivecpud_context_t;
 
 
-
-/*
- *  Private VIA data shared between VIA1 and VIA2.
- */
-
-typedef struct drivevia_context_s {
-
-    BYTE via[16];
-    int ifr;
-    int ier;
-    unsigned int tal;
-    unsigned int tbl;
-    CLOCK tau;
-    CLOCK tbu;
-    CLOCK tai;
-    CLOCK tbi;
-    int pb7;
-    int pb7x;
-    int pb7o;
-    int pb7xx;
-    int pb7sx;
-    BYTE oldpa;
-    BYTE oldpb;
-    BYTE ila;
-    BYTE ilb;
-    int ca2_state;
-    int cb2_state;
-    struct alarm_s *t1_alarm;
-    struct alarm_s *t2_alarm;
-    signed int log;               /* init to LOG_ERR */
-
-    CLOCK read_clk;               /* init to 0 */
-    int read_offset;              /* init to 0 */
-    BYTE last_read;               /* init to 0 */
-
-    int irq_line;                 /* IK_... */
-    unsigned int int_num;
-
-    char myname[12];              /* init to "DriveXViaY" */
-    char my_module_name[8];       /* init to "VIAXDY" */
-
-    void *prv;
-
-} drivevia_context_t;
-
-
 /*
  *  Some function pointers shared by several components (VIA1, CIA1581, RIOT2)
  */
@@ -193,21 +148,20 @@ typedef struct drivefunc_context_s {
 } drivefunc_context_t;
 
 
-/*
- *  Additional data required for VIA1.
- */
-
+/*  Additional data required for VIA1.  */
 typedef struct drivevia1_context_s {
-
+    unsigned int number;
     struct drive_s *drive_ptr;
-
     int parallel_id;
-
     int v_parieee_is_out;         /* init to 1 */
     struct iec_info_s *v_iec_info;
-
 } drivevia1_context_t;
 
+/*  Additional data required for VIA2.  */
+typedef struct drivevia2_context_s {
+    unsigned int number;
+    struct drive_s *drive_ptr;
+} drivevia2_context_t;
 
 /*
  *  Private drive CIA data, shared between CIA1571 and CIA1581.
@@ -341,8 +295,8 @@ typedef struct drive_context_s {
 
     drivecpu_context_t cpu;
     drivefunc_context_t func;
-    drivevia_context_t via1;
-    drivevia_context_t via2;
+    via_context_t via1;
+    via_context_t via2;
     drivecia_context_t cia1571;
     drivecia_context_t cia1581;
     struct iec_info_s *c_iec_info;        /* for CIA1581 */
