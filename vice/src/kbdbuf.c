@@ -34,11 +34,41 @@
 #include "vmachine.h"
 #include "charsets.h"
 
-#define QUEUE_SIZE	1024
+/* Maximum number of characters we can queue.  */
+#define QUEUE_SIZE	16384
 
+/* First location of the buffer.  */
+static int buffer_location;
+
+/* Location that stores the number of characters pending in the
+   buffer.  */
+static int num_pending_location;
+
+/* Maximum number of characters that fit in the buffer.  */
+static int buffer_size;
+
+/* Characters in the queue.  */
 static char queue[QUEUE_SIZE];
-static int head_idx, num_pending;
 
+/* Next element in `queue' we must push into the kernal's queue.  */
+static int head_idx;
+
+/* Number of pending characters.  */
+static int num_pending;
+
+/* ------------------------------------------------------------------------- */
+
+/* Initialization.  */
+int kbd_buf_init(int location, int plocation, int size)
+{
+    buffer_location = location;
+    num_pending_location = plocation;
+    buffer_size = size;
+
+    return 0;
+}
+
+/* Feed `s' into the queue.  `s' is in ASCII code.  */
 int kbd_buf_feed(const char *s)
 {
     int num = strlen(s);
@@ -54,20 +84,29 @@ int kbd_buf_feed(const char *s)
     return 0;
 }
 
+/* Return nonzero if the keyboard buffer is empty.  */
+int kbd_buf_is_empty(void)
+{
+    return mem_read(num_pending_location) == 0;
+}
+
+/* Flush pending characters into the kernal's queue if possible.  Characters
+   are automatically converted into PETSCII.  */
 void kbd_buf_flush(void)
 {
     BYTE *p;
     int i, n;
 
-    if (num_pending == 0 || clk < CYCLES_PER_RFSH * RFSH_PER_SEC
-	|| ram[kernal_kbd_buf.num_pending_location] != 0)
+    if (num_pending == 0
+        || clk < CYCLES_PER_RFSH * RFSH_PER_SEC
+	|| !kbd_buf_is_empty())
 	return;
 
-    n = num_pending > kernal_kbd_buf.size ? kernal_kbd_buf.size : num_pending;
-    p = ram + kernal_kbd_buf.location;
+    n = num_pending > buffer_size ? buffer_size : num_pending;
     for (i = 0; i < n; head_idx = (head_idx + 1) % QUEUE_SIZE, i++)
-	p[i] = p_topetcii(queue[head_idx]);
+	mem_store(buffer_location + i, p_topetcii(queue[head_idx]));
 
-    ram[kernal_kbd_buf.num_pending_location] = n;
+    mem_store(num_pending_location, n);
     num_pending -= n;
 }
+

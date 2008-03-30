@@ -27,23 +27,8 @@
 #ifndef _KBDBUF_H
 #define _KBDBUF_H
 
-/* Struct to access the kernal buffer.  */
-typedef struct {
-    
-    /* First location of the buffer.  */
-    int location;
-
-    /* Location that stores the number of characters pending in the
-       buffer.  */
-    int num_pending_location;
-
-    /* Maximum number of characters that fit in the buffer.  */
-    int size;
-    
-} kernal_kbd_buf_t;
-
-extern kernal_kbd_buf_t kernal_kbd_buf;
-
+int kbd_buf_is_empty(void);
+int kbd_buf_init(int location, int plocation, int buffer_size);
 int kbd_buf_feed(const char *s);
 void kbd_buf_flush(void);
 
