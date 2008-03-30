@@ -170,7 +170,7 @@ void drive_cpu_setup_context(drive_context_t *drv)
 	} else if (reg_pc < 0x2000) {                   \
             drv->cpu.d_bank_base = drv->cpud.drive_ram; \
             drv->cpu.d_bank_limit = 0x07fd;             \
-        } else if (reg_pc >= 0x8000 /*drv->drive_ptr->rom_start*/) {        \
+        } else if (reg_pc >= drv->drive_ptr->rom_start) {        \
             drv->cpu.d_bank_base = drv->drive_ptr->rom - 0x8000; \
             drv->cpu.d_bank_limit = 0xfffd;             \
         } else {                                        \
@@ -243,8 +243,8 @@ static void cpu_reset(drive_context_t *drv)
     preserve_monitor = drv->cpu.int_status.global_pending_int & IK_MONITOR;
 
     log_message(drv->drive_ptr->log, "RESET.");
-    cpu_int_status_init(&(drv->cpu.int_status), DRIVE_NUMOFINT,
-                        &(drv->cpu.last_opcode_info));
+    interrupt_cpu_status_init(&(drv->cpu.int_status), DRIVE_NUMOFINT,
+                              &(drv->cpu.last_opcode_info));
 
     *(drv->clk_ptr) = 6;
     via1d_reset(drv);
@@ -257,7 +257,7 @@ static void cpu_reset(drive_context_t *drv)
     fdc_reset(drv->mynumber, drv->drive_ptr->type);
 
     if (preserve_monitor)
-	monitor_trap_on(&(drv->cpu.int_status));
+	interrupt_monitor_trap_on(&(drv->cpu.int_status));
 }
 
 void drive_toggle_watchpoints(drive_context_t *drv, int flag)
@@ -290,15 +290,15 @@ void drive_cpu_reset(drive_context_t *drv)
 
     preserve_monitor = drv->cpu.int_status.global_pending_int & IK_MONITOR;
 
-    cpu_int_status_init(&(drv->cpu.int_status),
+    interrupt_cpu_status_init(&(drv->cpu.int_status),
 			DRIVE_NUMOFINT,
 			&(drv->cpu.last_opcode_info));
 
     if (preserve_monitor)
-	monitor_trap_on(&(drv->cpu.int_status));
+	interrupt_monitor_trap_on(&(drv->cpu.int_status));
 
     /* FIXME -- ugly, should be changed in interrupt.h */
-    trigger_reset(&(drv->cpu.int_status), *(drv->clk_ptr));
+    interrupt_trigger_reset(&(drv->cpu.int_status), *(drv->clk_ptr));
 }
 
 void drive_cpu_early_init(drive_context_t *drv)
@@ -657,8 +657,8 @@ int drive_cpu_read_snapshot_module(drive_context_t *drv, snapshot_t *s)
 
     log_message(drv->drive_ptr->log, "RESET (For undump).");
 
-    cpu_int_status_init(&(drv->cpu.int_status), DRIVE_NUMOFINT,
-                        &(drv->cpu.last_opcode_info));
+    interrupt_cpu_status_init(&(drv->cpu.int_status), DRIVE_NUMOFINT,
+                              &(drv->cpu.last_opcode_info));
 
     via1d_reset(drv);
     via2d_reset(drv);
