@@ -77,10 +77,15 @@ static int mem_read_limit_tab[NUM_CONFIGS][0x101];
 store_func_ptr_t io_write_tab[0x101];
 read_func_ptr_t io_read_tab[0x101];
 
+static int z80_rom_loaded = 0;
+
 #define IS_NULL(s)  (s == NULL || *s == '\0')
 
 static int z80mem_load_bios(void)
 {
+    if (!z80_rom_loaded)
+        return 0;
+
     if (!IS_NULL(z80bios_rom_name)) {
         if (sysfile_load(z80bios_rom_name,
             z80bios_rom, 4096, 4096) < 0) {
@@ -400,9 +405,7 @@ int z80mem_load(void)
 
     z80mem_initialize();
 
-/*
-    rom_loaded = 1;
-*/
+    z80_rom_loaded = 1;
 
     if (z80mem_load_bios() < 0)
         return -1;

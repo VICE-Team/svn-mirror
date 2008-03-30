@@ -1217,7 +1217,8 @@ static int mem_load_kernal(void)
 {
     int trapfl;
 
-    if(!rom_loaded) return 0;
+    if (!rom_loaded)
+        return 0;
 
     /* disable traps before loading the ROM */
     resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
@@ -1276,7 +1277,8 @@ static int mem_basic_checksum(void)
 
 static int mem_load_basic(void)
 {
-    if(!rom_loaded) return 0;
+    if (!rom_loaded)
+        return 0;
 
     if(!IS_NULL(basic_rom_name)) {
         /* Load Basic ROM.  */
@@ -1293,9 +1295,10 @@ static int mem_load_basic(void)
 
 static int mem_load_chargen(void)
 {
-    if(!rom_loaded) return 0;
+    if (!rom_loaded)
+        return 0;
 
-    if(!IS_NULL(chargen_rom_name)) {
+    if (!IS_NULL(chargen_rom_name)) {
         /* Load chargen ROM.  */
         if (sysfile_load(chargen_rom_name,
             chargen_rom, C128_CHARGEN_ROM_SIZE,
@@ -1324,13 +1327,13 @@ int mem_load(void)
 
     rom_loaded = 1;
 
-    if( mem_load_kernal() < 0)
+    if(mem_load_kernal() < 0)
 	return -1;
 
-    if( mem_load_basic() < 0)
+    if(mem_load_basic() < 0)
 	return -1;
 
-    if( mem_load_chargen() < 0)
+    if(mem_load_chargen() < 0)
 	return -1;
 
     return 0;
