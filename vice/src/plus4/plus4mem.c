@@ -31,8 +31,6 @@
 #include <string.h>
 
 #include "datasette.h"
-#include "drive.h"
-#include "drivecpu.h"
 #include "iecbus.h"
 #include "maincpu.h"
 #include "mem.h"

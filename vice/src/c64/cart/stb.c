@@ -29,13 +29,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <util.h>
 
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64export.h"
 #include "stb.h"
 #include "types.h"
+#include "util.h"
 
 
 /* Stb cartridge uses io1 and roml */

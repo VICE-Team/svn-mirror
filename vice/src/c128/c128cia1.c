@@ -34,7 +34,6 @@
 #include "c64cia.h"
 #include "cia.h"
 #include "clkguard.h"
-#include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
 #include "interrupt.h"

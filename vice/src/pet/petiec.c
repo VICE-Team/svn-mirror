@@ -29,7 +29,6 @@
 
 #include <stdio.h>
 
-#include "drive.h"
 #include "iecbus.h"
 #include "iecdrive.h"
 #include "petiec.h"

@@ -36,7 +36,6 @@
 #include "cia.h"
 #include "crtc.h"
 #include "datasette.h"
-#include "drive.h"
 #include "drivecpu.h"
 #include "interrupt.h"
 #include "lib.h"

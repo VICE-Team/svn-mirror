@@ -33,7 +33,6 @@
 #include "c64cart.h"
 #include "c64rom.h"
 #include "cartridge.h"
-#include "drive.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"

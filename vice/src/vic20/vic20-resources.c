@@ -30,7 +30,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "drive.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"

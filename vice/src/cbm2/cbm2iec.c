@@ -30,7 +30,6 @@
 #include <stdio.h>
 
 #include "cbm2iec.h"
-#include "drive.h"
 #include "iecbus.h"
 #include "iecdrive.h"
 #include "types.h"

@@ -31,7 +31,6 @@
 #include <string.h>
 
 #include "crtc.h"
-#include "drive.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"

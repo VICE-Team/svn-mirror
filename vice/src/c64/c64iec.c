@@ -35,8 +35,6 @@
 #include "c64iec.h"
 #include "cartridge.h"
 #include "drive.h"
-#include "drivecpu.h"
-#include "drivetypes.h"
 #include "iecbus.h"
 #include "iecdrive.h"
 #include "maincpu.h"
@@ -55,7 +53,7 @@ void iec_update_ports(void)
     unsigned int unit;
 
     iecbus.cpu_port = iecbus.cpu_bus;
-    for (unit = 4; unit < 8+DRIVE_NUM; unit++)
+    for (unit = 4; unit < 8 + DRIVE_NUM; unit++)
         iecbus.cpu_port &= iecbus.drv_bus[unit];
 
     iecbus.drv_port = (((iecbus.cpu_port >> 4) & 0x4)

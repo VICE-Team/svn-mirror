@@ -37,7 +37,6 @@
 #include "uilib.h"
 #include "uimenu.h"
 #include "uinetplay.h"
-#include "util.h"
 #include "vsync.h"
 
 #ifdef HAVE_IPV6

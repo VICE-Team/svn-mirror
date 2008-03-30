@@ -31,7 +31,6 @@
 #include <stdio.h>
 
 #include "datasette.h"
-#include "drive.h"
 #include "interrupt.h"
 #include "keyboard.h"
 #include "lib.h"

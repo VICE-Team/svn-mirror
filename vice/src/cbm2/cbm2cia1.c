@@ -30,7 +30,6 @@
 #include "cbm2.h"
 #include "cbm2cia.h"
 #include "cia.h"
-#include "drive.h"
 #include "drivecpu.h"
 #include "interrupt.h"
 #include "keyboard.h"

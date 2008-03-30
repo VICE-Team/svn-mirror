@@ -29,7 +29,6 @@
 
 #include <stdio.h>
 
-#include "drive.h"
 #include "drivecpu.h"
 #include "interrupt.h"
 #include "lib.h"

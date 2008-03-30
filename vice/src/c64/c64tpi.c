@@ -33,7 +33,6 @@
 #include "c64io.h"
 #include "c64mem.h"
 #include "c64tpi.h"
-#include "drive.h"
 #include "drivecpu.h"
 #include "lib.h"
 #include "log.h"

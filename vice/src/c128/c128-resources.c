@@ -33,7 +33,6 @@
 #include "c128.h"
 #include "c128mem.h"
 #include "c128rom.h"
-#include "drive.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"

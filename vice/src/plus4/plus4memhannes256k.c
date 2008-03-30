@@ -47,7 +47,6 @@
 #endif
 #include "types.h"
 #include "uiapi.h"
-#include "util.h"
 
 /* HANNES 256K registers */
 static BYTE h256k_reg=0;

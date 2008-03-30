@@ -47,7 +47,6 @@
 #endif
 #include "types.h"
 #include "uiapi.h"
-#include "util.h"
 
 static log_t cs256k_log = LOG_ERR;
 
