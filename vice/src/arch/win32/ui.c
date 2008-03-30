@@ -56,7 +56,6 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
-#include "mos6510.h"
 #include "mouse.h"
 #include "res.h"
 #include "resources.h"
@@ -1026,11 +1025,6 @@ ui_button_t ui_ask_confirmation(const char *title, const char *text)
     return UI_BUTTON_NONE;
 }
 
-static void mon_trap(WORD addr, void *unused_data)
-{
-    monitor_startup();
-}
-
 static void save_snapshot_trap(WORD unused_addr, void *hwnd)
 {
     SuspendFullscreenModeKeep(hwnd);
@@ -1471,7 +1465,11 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_MONITOR | 0x00010000:
       case IDM_MONITOR:
         if (!ui_emulation_is_paused())
-            interrupt_maincpu_trigger_trap(mon_trap, (void *)0);
+            monitor_startup_trap();
+/*
+        else
+            monitor_startup();
+*/
         break;
       case IDM_HARD_RESET + 0x00010000:
       case IDM_SOFT_RESET + 0x00010000:

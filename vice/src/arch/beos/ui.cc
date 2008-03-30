@@ -246,11 +246,6 @@ static void ui_exit_early(void)
 }
 
 
-static void mon_trap(WORD addr, void *unused_data)
-{
-    monitor_startup();
-}
-
 static void save_snapshot_trap(WORD unused_addr, void *unused_data)
 {
 	ui_select_file(windowlist[0]->savepanel,SNAPSHOTSAVE_FILE,(void*)0);
@@ -557,7 +552,7 @@ void ui_dispatch_events(void)
 					save_quicksnapshot_trap, (void *) 0);
 				break;
 			case MENU_MONITOR:
-				interrupt_maincpu_trigger_trap(mon_trap, (void *) 0);
+				monitor_startup_trap();
 				break;
 			case MENU_PAUSE:
         		ui_pause_emulation();

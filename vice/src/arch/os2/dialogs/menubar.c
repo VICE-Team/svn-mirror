@@ -56,7 +56,7 @@
 #include "fliplist.h"        // flip_attach_head
 #include "cartridge.h"       // CARTRIDGE_*
 #include "resources.h"       // resource_value_t
-#include "interrupt.h"       // interrupt_interrupt_maincpu_trigger_trap
+#include "interrupt.h"       // interrupt_maincpu_trigger_trap
 #include "screenshot.h"      // screenshot_save
 #include "dlg-fileio.h"      // ViceFileDialog
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
@@ -118,11 +118,6 @@ extern void set_volume(int vol);
 extern int  get_volume(void);
 
 // --------------------------------------------------------------------------
-
-static void mon_trap(WORD addr, void *unused_data)
-{
-    monitor_startup();
-}
 
 static void toggle_async(WORD addr, void *name)
 {
@@ -661,7 +656,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             //
             // trigger invokation of the build in monitor
             //
-            interrupt_maincpu_trigger_trap(mon_trap, NULL);
+            monitor_startup_trap();
         }
         return;
 
