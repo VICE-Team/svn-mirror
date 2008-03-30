@@ -347,15 +347,15 @@
 
 #define STORE_ABS_SH_X(addr, value, inc)                    \
   do {                                                      \
-      unsigned int tmp;                                     \
+      unsigned int tmp2;                                    \
                                                             \
       CLK += (inc) - 2;                                     \
       LOAD((((addr) + reg_x) & 0xff) | ((addr) & 0xff00));  \
       CLK += 2;                                             \
-      tmp = (addr) + reg_x;                                 \
+      tmp2 = (addr) + reg_x;                                \
       if (((addr) & 0xff) + reg_x > 0xff)                   \
-          tmp = (tmp & 0xff) | ((value) << 8);              \
-      STORE(tmp, (value));                                  \
+          tmp2 = (tmp & 0xff) | ((value) << 8);             \
+      STORE(tmp2, (value));                                 \
   } while (0)
 
 #define STORE_ABS_Y(addr, value, inc)                       \
@@ -374,15 +374,15 @@
 
 #define STORE_ABS_SH_Y(addr, value, inc)                    \
   do {                                                      \
-      unsigned int tmp;                                     \
+      unsigned int tmp2;                                    \
                                                             \
       CLK += (inc) - 2;                                     \
       LOAD((((addr) + reg_y) & 0xff) | ((addr) & 0xff00));  \
       CLK += 2;                                             \
-      tmp = (addr) + reg_y;                                 \
+      tmp2 = (addr) + reg_y;                                \
       if (((addr) & 0xff) + reg_y > 0xff)                   \
-          tmp = (tmp & 0xff) | ((value) << 8);              \
-      STORE(tmp, (value));                                  \
+          tmp2 = (tmp & 0xff) | ((value) << 8);             \
+      STORE(tmp2, (value));                                 \
   } while (0)
 
 #define INC_PC(value)   (reg_pc += (value))
