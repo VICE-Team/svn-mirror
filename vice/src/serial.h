@@ -28,6 +28,7 @@
 #ifndef _SERIAL_H
 #define _SERIAL_H
 
+#include "diskimage.h"
 #include "types.h"
 #include "traps.h"
 
@@ -95,16 +96,17 @@
 typedef struct serial_s
 {
     int inuse;
-    int isopen[16];				/* isopen flag for each secondary address */
-    char *info;					/* pointer to run-time data */
-    char *name;					/* name of the device */
-    int (*getf)(void *, BYTE *, int);		/* serial read function */
-    int (*putf)(void *, BYTE, int);		/* serial write function */
+    int isopen[16];                 /* isopen flag for each secondary address */
+    char *info;                     /* pointer to run-time data */
+    disk_image_t *image;            /* pointer to the disk image data  */ 
+    char *name;                     /* name of the device */
+    int (*getf)(void *, BYTE *, int); /* serial read function */
+    int (*putf)(void *, BYTE, int); /* serial write function */
     int (*openf)(void *, const char *, int, int); /* serial open function */
-    int (*closef)(void *, int);			/* serial close function */
-    void (*flushf)(void *, int);		/* tell device that write completed */
-    BYTE nextbyte[16];				/* next byte to send to emulator, per sec. addr. */
-    char nextok[16];				/* flag if nextbyte is valid */
+    int (*closef)(void *, int);	    /* serial close function */
+    void (*flushf)(void *, int);    /* tell device that write completed */
+    BYTE nextbyte[16];              /* next byte to send, per sec. addr. */
+    char nextok[16];                /* flag if nextbyte is valid */
 
     int nextst[16];
 
