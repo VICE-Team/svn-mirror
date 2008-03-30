@@ -1,3 +1,11 @@
+2001-02-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.5.
+
+2001-01-29  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* configure.in: includes new sounddriver soundwmm for Windows
+
 2001-01-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.4.

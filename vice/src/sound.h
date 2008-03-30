@@ -121,6 +121,7 @@ extern int sound_init_dart2_device(void);
 extern int sound_init_beos_device(void);
 extern int sound_init_arts_device(void);
 extern int sound_init_esd_device(void);
+extern int sound_init_wmm_device(void);
 
 /* internal function for sound device registration */
 extern int sound_register_device(sound_device_t *pdevice);
