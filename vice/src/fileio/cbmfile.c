@@ -75,3 +75,38 @@ void cbmfile_close(fileio_info_t *info)
     rawfile_destroy(info->rawfile);
 }
 
+unsigned int cbmfile_rename(const char *src_name, const char *dst_name,
+                            const char *path)
+{
+    char *src_cbm, *dst_cbm;
+    unsigned int rc;
+     
+    src_cbm = lib_stralloc(src_name);
+    dst_cbm = lib_stralloc(dst_name);
+
+    charset_petconvstring(src_cbm, 1);
+    charset_petconvstring(dst_cbm, 1);
+
+    rc = rawfile_rename(src_cbm, dst_cbm, path);
+
+    lib_free(src_cbm);
+    lib_free(dst_cbm);
+
+    return rc;
+}
+
+unsigned int cbmfile_scratch(const char *file_name, const char *path)
+{
+    char *src_cbm;
+    unsigned int rc;
+
+    src_cbm = lib_stralloc(file_name);
+    charset_petconvstring(src_cbm, 1);
+
+    rc = rawfile_remove(src_cbm, path);
+
+    lib_free(src_cbm);
+
+    return rc;
+}
+
