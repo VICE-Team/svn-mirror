@@ -38,8 +38,7 @@
 #define NMI_CYCLES      7
 #define RESET_CYCLES    6
 
- /* ------------------------------------------------------------------------- */
-
+/* ------------------------------------------------------------------------- */
 /* Backup for non-6509 CPUs.  */
 
 #ifndef LOAD_IND
@@ -47,6 +46,13 @@
 #endif
 #ifndef STORE_IND
 #define STORE_IND(a,b)  STORE(a,b)
+#endif
+
+/* ------------------------------------------------------------------------- */
+/* Hook for additional delay.  */
+
+#ifndef CPU_DELAY_CLK
+#define CPU_DELAY_CLK
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -1591,8 +1597,12 @@ static BYTE fetch_tab[] = {
 /* Here, the CPU is emulated. */
 
 {
-    while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT))
+    CPU_DELAY_CLK
+
+    while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
         alarm_context_dispatch(ALARM_CONTEXT, CLK);
+        CPU_DELAY_CLK
+    }
 
     {
         enum cpu_int pending_interrupt;
@@ -1600,8 +1610,11 @@ static BYTE fetch_tab[] = {
         pending_interrupt = interrupt_check_pending_interrupt(CPU_INT_STATUS);
         if (pending_interrupt != IK_NONE) {
             DO_INTERRUPT(pending_interrupt);
-            while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT))
+            CPU_DELAY_CLK
+            while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
                 alarm_context_dispatch(ALARM_CONTEXT, CLK);
+                CPU_DELAY_CLK
+            }
         }
     }
 
@@ -1624,13 +1637,15 @@ static BYTE fetch_tab[] = {
 		      reg_a);
         }
 #else
+#define TED_RASTER_Y(clk)           ((unsigned int)((clk) / 114 % 312))
+#define TED_RASTER_CYCLE(clk)       ((unsigned int)((clk) % 114))
         if (TRACEFLG) {
             BYTE op = p0;
             BYTE lo = p1;
             BYTE hi = p2 >> 8;
 
-            log_debug(".%04X %02x %02x %02x  %10ld  %-22s A=$%02X X=$%02X Y=$%02X SP=$%02X",
-                      reg_pc, op, lo, hi,
+            log_debug(".%04X %03i %03i %10ld  %-20s A=$%02X X=$%02X Y=$%02X SP=$%02X",
+                      reg_pc, TED_RASTER_Y(maincpu_clk), TED_RASTER_CYCLE(maincpu_clk),
                       (long)maincpu_clk,
                       mon_disassemble_to_string(e_comp_space, reg_pc, op, lo,
                                                 hi, 0, 1),

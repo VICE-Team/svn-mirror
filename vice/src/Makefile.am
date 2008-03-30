@@ -425,7 +425,7 @@ xplus4_libs =  \
 	$(imagecontents_lib) \
 	$(common_libs)
 
-xplus4_SOURCES = $(base_sources) $(maincpu_sources)
+xplus4_SOURCES = $(base_sources)
 xplus4_LDADD = $(xplus4_libs) @X_LIBS@
 xplus4_DEPENDENCIES = $(xplus4_libs)
 xplus4_LDFLAGS = @xplus4_LDFLAGS@

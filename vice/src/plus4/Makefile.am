@@ -23,6 +23,7 @@ libplus4_a_SOURCES = \
 	plus4-snapshot.h \
 	plus4.c \
 	plus4.h \
+	plus4cpu.c \
 	plus4datasette.c \
 	plus4iec.c \
 	plus4iec.h \
