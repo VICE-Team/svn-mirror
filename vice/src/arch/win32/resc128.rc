@@ -78,6 +78,7 @@ BEGIN
             MENUITEM "IDE&64 interface image...",   IDM_CART_ATTACH_IDE64
             MENUITEM "Super Snapshot &4 image...",  IDM_CART_ATTACH_SS4
             MENUITEM "Super Snapshot &5 image...",  IDM_CART_ATTACH_SS5
+            MENUITEM "Structured &Basic image...",  IDM_CART_ATTACH_STB
             POPUP "Expert Cartridge"
             BEGIN
                 MENUITEM "Enable", IDM_CART_ENABLE_EXPERT
@@ -93,8 +94,7 @@ BEGIN
         MENUITEM "Detach cartridge &image",  IDM_CART_DETACH
         MENUITEM "Cartridge free&ze\tAlt+Z", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pause\tAlt+Pause", IDM_PAUSE
-        , CHECKED
+        MENUITEM "&Pause\tAlt+Pause", IDM_PAUSE, CHECKED
         MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
         POPUP "&Reset"
         BEGIN
@@ -150,17 +150,17 @@ BEGIN
     BEGIN
         POPUP "&Refresh rate"
         BEGIN
-            MENUITEM "&Auto",   IDM_REFRESH_RATE_AUTO
-            MENUITEM "1/&1",    IDM_REFRESH_RATE_1
-            MENUITEM "1/&2",    IDM_REFRESH_RATE_2
-            MENUITEM "1/&3",    IDM_REFRESH_RATE_3
-            MENUITEM "1/&4",    IDM_REFRESH_RATE_4
-            MENUITEM "1/&5",    IDM_REFRESH_RATE_5
-            MENUITEM "1/&6",    IDM_REFRESH_RATE_6
-            MENUITEM "1/&7",    IDM_REFRESH_RATE_7
-            MENUITEM "1/&8",    IDM_REFRESH_RATE_8
-            MENUITEM "1/&9",    IDM_REFRESH_RATE_9
-            MENUITEM "1/1&0",   IDM_REFRESH_RATE_10
+            MENUITEM "&Auto", IDM_REFRESH_RATE_AUTO
+            MENUITEM "1/&1",  IDM_REFRESH_RATE_1
+            MENUITEM "1/&2",  IDM_REFRESH_RATE_2
+            MENUITEM "1/&3",  IDM_REFRESH_RATE_3
+            MENUITEM "1/&4",  IDM_REFRESH_RATE_4
+            MENUITEM "1/&5",  IDM_REFRESH_RATE_5
+            MENUITEM "1/&6",  IDM_REFRESH_RATE_6
+            MENUITEM "1/&7",  IDM_REFRESH_RATE_7
+            MENUITEM "1/&8",  IDM_REFRESH_RATE_8
+            MENUITEM "1/&9",  IDM_REFRESH_RATE_9
+            MENUITEM "1/1&0", IDM_REFRESH_RATE_10
 #if 0
             MENUITEM SEPARATOR
             MENUITEM "&Custom", IDM_REFRESH_RATE_CUSTOM
@@ -177,21 +177,15 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "&Custom",   IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warp mode\tAlt+W", IDM_TOGGLE_WARP_MODE
-            , CHECKED
+        MENUITEM "&Warp mode\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
 //        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
-        MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE
-            , CHECKED
-        MENUITEM "&Double size", IDM_TOGGLE_DOUBLESIZE
-            , CHECKED
-        MENUITEM "Dou&ble scan", IDM_TOGGLE_DOUBLESCAN
-            , CHECKED
-        MENUITEM "PAL Emulation", IDM_TOGGLE_FASTPAL
-            , CHECKED
-        MENUITEM "Scale2x",       IDM_TOGGLE_SCALE2X
-            , CHECKED
+        MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
+        MENUITEM "&Double size", IDM_TOGGLE_DOUBLESIZE, CHECKED
+        MENUITEM "Dou&ble scan", IDM_TOGGLE_DOUBLESCAN, CHECKED
+        MENUITEM "PAL Emulation", IDM_TOGGLE_FASTPAL, CHECKED
+        MENUITEM "Scale2x",       IDM_TOGGLE_SCALE2X, CHECKED
         POPUP "VDC settin&gs"
         BEGIN
             MENUITEM "&Double size", IDM_TOGGLE_VDC_DOUBLESIZE
@@ -215,7 +209,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulator &Identification", IDM_TOGGLE_EMUID
         MENUITEM "IEEE&488 Interface emulation",    IDM_IEEE488
-    MENUITEM "&1351 mouse emulation\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&1351 mouse emulation\tAlt+Q",    IDM_MOUSE
     END
     POPUP "S&ettings"
     BEGIN
@@ -249,8 +243,8 @@ BEGIN
         MENUITEM "&Load saved settings",   IDM_SETTINGS_LOAD
         MENUITEM "Set de&fault settings",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-    MENUITEM "Save settings on e&xit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
-    MENUITEM "&Confirm on exit",       IDM_TOGGLE_CONFIRM_ON_EXIT
+        MENUITEM "Save settings on e&xit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+        MENUITEM "&Confirm on exit",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
 #if 0
     POPUP "&Language"
@@ -341,6 +335,7 @@ BEGIN
             MENUITEM "IDE&64 Schnittstellenmodul...",             IDM_CART_ATTACH_IDE64
             MENUITEM "Super Snapshot &4 Image...",  IDM_CART_ATTACH_SS4
             MENUITEM "Super Snapshot &5 Image...",  IDM_CART_ATTACH_SS5
+            MENUITEM "Structured &Basic Image...",  IDM_CART_ATTACH_STB
             POPUP "Expert Cartridge"
             BEGIN
                 MENUITEM "Aktivieren", IDM_CART_ENABLE_EXPERT
@@ -388,8 +383,8 @@ BEGIN
     END
     POPUP "Sna&pshot"
     BEGIN
-        MENUITEM "Snapshot &Image Laden...",          IDM_SNAPSHOT_LOAD
-        MENUITEM "Sna&pshot Image Speichern...",          IDM_SNAPSHOT_SAVE
+        MENUITEM "Snapshot &Image Laden...", IDM_SNAPSHOT_LOAD
+        MENUITEM "Sna&pshot Image Speichern...", IDM_SNAPSHOT_SAVE
         MENUITEM "Schnell&laden von Snapshot Image\tAlt+L", IDM_LOADQUICK
         MENUITEM "&Schnellspeichern von Snapshot\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
@@ -412,17 +407,17 @@ BEGIN
     BEGIN
         POPUP "Wiederhol&rate"
         BEGIN
-            MENUITEM "&Automatisch",   IDM_REFRESH_RATE_AUTO
-            MENUITEM "1/&1",    IDM_REFRESH_RATE_1
-            MENUITEM "1/&2",    IDM_REFRESH_RATE_2
-            MENUITEM "1/&3",    IDM_REFRESH_RATE_3
-            MENUITEM "1/&4",    IDM_REFRESH_RATE_4
-            MENUITEM "1/&5",    IDM_REFRESH_RATE_5
-            MENUITEM "1/&6",    IDM_REFRESH_RATE_6
-            MENUITEM "1/&7",    IDM_REFRESH_RATE_7
-            MENUITEM "1/&8",    IDM_REFRESH_RATE_8
-            MENUITEM "1/&9",    IDM_REFRESH_RATE_9
-            MENUITEM "1/1&0",   IDM_REFRESH_RATE_10
+            MENUITEM "&Automatisch", IDM_REFRESH_RATE_AUTO
+            MENUITEM "1/&1",  IDM_REFRESH_RATE_1
+            MENUITEM "1/&2",  IDM_REFRESH_RATE_2
+            MENUITEM "1/&3",  IDM_REFRESH_RATE_3
+            MENUITEM "1/&4",  IDM_REFRESH_RATE_4
+            MENUITEM "1/&5",  IDM_REFRESH_RATE_5
+            MENUITEM "1/&6",  IDM_REFRESH_RATE_6
+            MENUITEM "1/&7",  IDM_REFRESH_RATE_7
+            MENUITEM "1/&8",  IDM_REFRESH_RATE_8
+            MENUITEM "1/&9",  IDM_REFRESH_RATE_9
+            MENUITEM "1/1&0", IDM_REFRESH_RATE_10
 #if 0
             MENUITEM SEPARATOR
             MENUITEM "&Custom", IDM_REFRESH_RATE_CUSTOM
@@ -437,23 +432,17 @@ BEGIN
             MENUITEM "1&0%",      IDM_MAXIMUM_SPEED_10
             MENUITEM "Kein &Limit", IDM_MAXIMUM_SPEED_NO_LIMIT
             MENUITEM SEPARATOR
-            MENUITEM "&Benutzerdefiniert",   IDM_MAXIMUM_SPEED_CUSTOM
+            MENUITEM "&Benutzerdefiniert", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warp modus\tAlt+W", IDM_TOGGLE_WARP_MODE
-            , CHECKED
+        MENUITEM "&Warp modus\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
 //        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
-        MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE
-            , CHECKED
-        MENUITEM "&Doppelte Größe", IDM_TOGGLE_DOUBLESIZE
-            , CHECKED
-        MENUITEM "Do&ppelt Scan", IDM_TOGGLE_DOUBLESCAN
-            , CHECKED
-        MENUITEM "PAL Emulation", IDM_TOGGLE_FASTPAL
-            , CHECKED
-        MENUITEM "Scale2x",       IDM_TOGGLE_SCALE2X
-            , CHECKED
+        MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
+        MENUITEM "&Doppelte Größe", IDM_TOGGLE_DOUBLESIZE, CHECKED
+        MENUITEM "Do&ppelt Scan", IDM_TOGGLE_DOUBLESCAN, CHECKED
+        MENUITEM "PAL Emulation", IDM_TOGGLE_FASTPAL, CHECKED
+        MENUITEM "Scale2x", IDM_TOGGLE_SCALE2X, CHECKED
         POPUP "VDC Einstellun&gen"
         BEGIN
             MENUITEM "&Doppelte Größe", IDM_TOGGLE_VDC_DOUBLESIZE
@@ -477,7 +466,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "Emulator &Identifikation", IDM_TOGGLE_EMUID
         MENUITEM "IEEE&488 Schnittstellen-Emulation",    IDM_IEEE488
-    MENUITEM "&1351 Mausemulation\tAlt+Q",    IDM_MOUSE
+        MENUITEM "&1351 Mausemulation\tAlt+Q",    IDM_MOUSE
     END
     POPUP "&Einstellungen"
     BEGIN
@@ -511,8 +500,8 @@ BEGIN
         MENUITEM "Einstellungen &Laden",   IDM_SETTINGS_LOAD
         MENUITEM "&Wiederherstellen Standard Einstellungen",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-    MENUITEM "Einstellungen beim Beenden speichern", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
-    MENUITEM "&Bestätigung beim Beenden",       IDM_TOGGLE_CONFIRM_ON_EXIT
+        MENUITEM "Einstellungen beim Beenden speichern", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+        MENUITEM "&Bestätigung beim Beenden",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
     POPUP "Sprache"
     BEGIN
@@ -589,10 +578,10 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Insérer une &cartouche..."
         BEGIN
-            MENUITEM "Nom du fichier image CRT...",               IDM_CART_ATTACH_CRT
+            MENUITEM "Nom du fichier image CRT...",                IDM_CART_ATTACH_CRT
             MENUITEM SEPARATOR
-            MENUITEM "Insérer une image générique de 8Ko...",       IDM_CART_ATTACH_8KB
-            MENUITEM "Insérer une image générique de 16Ko...",      IDM_CART_ATTACH_16KB
+            MENUITEM "Insérer une image générique de 8Ko...",      IDM_CART_ATTACH_8KB
+            MENUITEM "Insérer une image générique de 16Ko...",     IDM_CART_ATTACH_16KB
             MENUITEM "Insérer une cartouche Action Replay...",     IDM_CART_ATTACH_AR
             MENUITEM "Insérer une cartouche Atomic Power...",      IDM_CART_ATTACH_AT
             MENUITEM "Insérer une cartouche Epyx FastLoad...",     IDM_CART_ATTACH_EPYX
@@ -601,6 +590,7 @@ BEGIN
             MENUITEM "Insérer une cartouche interface IDE64...",   IDM_CART_ATTACH_IDE64
             MENUITEM "Insérer une cartouche Super Snapshot 4...",  IDM_CART_ATTACH_SS4
             MENUITEM "Insérer une cartouche Super Snapshot 5...",  IDM_CART_ATTACH_SS5
+            MENUITEM "Insérer une cartouche Structured &Basic...", IDM_CART_ATTACH_STB
             POPUP "Activer les paramètres des cartouches experts"
             BEGIN
                 MENUITEM "Activer", IDM_CART_ENABLE_EXPERT
@@ -616,8 +606,7 @@ BEGIN
         MENUITEM "Retirer une cart&ouche",  IDM_CART_DETACH
         MENUITEM "Geler la cartouche\tAlt+Z", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pause\tAlt+Pause", IDM_PAUSE
-        , CHECKED
+        MENUITEM "&Pause\tAlt+Pause", IDM_PAUSE, CHECKED
         MENUITEM "&Tracer\tAlt+M", IDM_MONITOR
         POPUP "&Réinitialiser"
         BEGIN
@@ -649,8 +638,8 @@ BEGIN
     END
     POPUP "&Sauvegarde"
     BEGIN
-        MENUITEM "C&harger une sauvegarde....",          IDM_SNAPSHOT_LOAD
-        MENUITEM "E&nregistrer une sauvegarde...",          IDM_SNAPSHOT_SAVE
+        MENUITEM "C&harger une sauvegarde....", IDM_SNAPSHOT_LOAD
+        MENUITEM "E&nregistrer une sauvegarde...", IDM_SNAPSHOT_SAVE
         MENUITEM "&Charger la sauvegarde rapide\tAlt+L", IDM_LOADQUICK
         MENUITEM "&Enregistrer la sauvegarde rapide\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
@@ -673,17 +662,17 @@ BEGIN
     BEGIN
         POPUP "Taux de &rafraîchissement"
         BEGIN
-            MENUITEM "&Automatique",   IDM_REFRESH_RATE_AUTO
-            MENUITEM "1/&1",    IDM_REFRESH_RATE_1
-            MENUITEM "1/&2",    IDM_REFRESH_RATE_2
-            MENUITEM "1/&3",    IDM_REFRESH_RATE_3
-            MENUITEM "1/&4",    IDM_REFRESH_RATE_4
-            MENUITEM "1/&5",    IDM_REFRESH_RATE_5
-            MENUITEM "1/&6",    IDM_REFRESH_RATE_6
-            MENUITEM "1/&7",    IDM_REFRESH_RATE_7
-            MENUITEM "1/&8",    IDM_REFRESH_RATE_8
-            MENUITEM "1/&9",    IDM_REFRESH_RATE_9
-            MENUITEM "1/1&0",   IDM_REFRESH_RATE_10
+            MENUITEM "&Automatique", IDM_REFRESH_RATE_AUTO
+            MENUITEM "1/&1",  IDM_REFRESH_RATE_1
+            MENUITEM "1/&2",  IDM_REFRESH_RATE_2
+            MENUITEM "1/&3",  IDM_REFRESH_RATE_3
+            MENUITEM "1/&4",  IDM_REFRESH_RATE_4
+            MENUITEM "1/&5",  IDM_REFRESH_RATE_5
+            MENUITEM "1/&6",  IDM_REFRESH_RATE_6
+            MENUITEM "1/&7",  IDM_REFRESH_RATE_7
+            MENUITEM "1/&8",  IDM_REFRESH_RATE_8
+            MENUITEM "1/&9",  IDM_REFRESH_RATE_9
+            MENUITEM "1/1&0", IDM_REFRESH_RATE_10
 #if 0
             MENUITEM SEPARATOR
             MENUITEM "&Custom", IDM_REFRESH_RATE_CUSTOM
@@ -698,23 +687,17 @@ BEGIN
             MENUITEM "1&0%",      IDM_MAXIMUM_SPEED_10
             MENUITEM "Aucune &limite", IDM_MAXIMUM_SPEED_NO_LIMIT
             MENUITEM SEPARATOR
-            MENUITEM "&Personnalisé",   IDM_MAXIMUM_SPEED_CUSTOM
+            MENUITEM "&Personnalisé", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Mode turbo\tAlt+W", IDM_TOGGLE_WARP_MODE
-            , CHECKED
+        MENUITEM "&Mode turbo\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
 //        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
-        MENUITEM "&Cache vidéo", IDM_TOGGLE_VIDEOCACHE
-            , CHECKED
-        MENUITEM "&Taille double", IDM_TOGGLE_DOUBLESIZE
-            , CHECKED
-        MENUITEM "Dou&ble scan", IDM_TOGGLE_DOUBLESCAN
-            , CHECKED
-        MENUITEM "PAL Emulation", IDM_TOGGLE_FASTPAL
-            , CHECKED
-        MENUITEM "Scale2x",       IDM_TOGGLE_SCALE2X
-            , CHECKED
+        MENUITEM "&Cache vidéo", IDM_TOGGLE_VIDEOCACHE, CHECKED
+        MENUITEM "&Taille double", IDM_TOGGLE_DOUBLESIZE, CHECKED
+        MENUITEM "Dou&ble scan", IDM_TOGGLE_DOUBLESCAN, CHECKED
+        MENUITEM "PAL Emulation", IDM_TOGGLE_FASTPAL, CHECKED
+        MENUITEM "Scale2x", IDM_TOGGLE_SCALE2X, CHECKED
         POPUP "Para&mètres VDC"
         BEGIN
             MENUITEM "&Taille double", IDM_TOGGLE_VDC_DOUBLESIZE
@@ -772,8 +755,8 @@ BEGIN
         MENUITEM "&Charger les paramètres",   IDM_SETTINGS_LOAD
         MENUITEM "Rétablir les paramètres par dé&faut",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-    MENUITEM "Enregistrer les pa&ramètres à la sortie", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
-    MENUITEM "&Confirmation à la sortie",       IDM_TOGGLE_CONFIRM_ON_EXIT
+        MENUITEM "Enregistrer les pa&ramètres à la sortie", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+        MENUITEM "&Confirmation à la sortie",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
     POPUP "&Langage"
     BEGIN
@@ -806,7 +789,7 @@ IDR_MENUC128_IT MENU DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "&Autostart disk/tape image...", IDM_AUTOSTART
+        MENUITEM "&Avvia automaticamente l'immagine di un disco/cassetta...", IDM_AUTOSTART
         MENUITEM SEPARATOR
         POPUP "Seleziona l'immagine di un &disco"
         BEGIN
@@ -815,42 +798,42 @@ BEGIN
             MENUITEM "Drive 1&0\tAlt+0", IDM_ATTACH_10
             MENUITEM "Drive &11\tAlt+1", IDM_ATTACH_11
         END
-        POPUP "Rimuovi l'immagin&e di un disco"
+        POPUP "&Rimuovi l'immagine di un disco"
         BEGIN
             MENUITEM "Drive &8",  IDM_DETACH_8
             MENUITEM "Drive &9",  IDM_DETACH_9
             MENUITEM "Drive 1&0", IDM_DETACH_10
             MENUITEM "Drive &11", IDM_DETACH_11
             MENUITEM SEPARATOR
-            MENUITEM "T&utti\tAlt+A", IDM_DETACH_ALL
+            MENUITEM "&Tutti\tAlt+A", IDM_DETACH_ALL
         END
         POPUP "&Flip list"
         BEGIN
             MENUITEM "&Aggiungi l'immagine attuale\tAlt+I",     IDM_FLIP_ADD
             MENUITEM "&Rimuovi l'immagine attuale\tAlt+K",  IDM_FLIP_REMOVE
-            MENUITEM "Selezio&na la prossima immagine\tAlt+N",     IDM_FLIP_NEXT
+            MENUITEM "Seleziona la &prossima immagine\tAlt+N",     IDM_FLIP_NEXT
             MENUITEM "Seleziona l'immagine &precedente\tAlt+B", IDM_FLIP_PREVIOUS
             MENUITEM SEPARATOR
-            MENUITEM "Carica i&l file della fliplist", IDM_FLIP_LOAD
-            MENUITEM "&Salva il file della fliplist", IDM_FLIP_SAVE
+            MENUITEM "&Carica fliplist", IDM_FLIP_LOAD
+            MENUITEM "&Salva fliplist", IDM_FLIP_SAVE
         END
         MENUITEM SEPARATOR
-        MENUITEM "Seleziona l'immagine di una casse&tta...\tAlt+T", IDM_ATTACH_TAPE
+        MENUITEM "Seleziona l'immagine di una &cassetta...\tAlt+T", IDM_ATTACH_TAPE
         MENUITEM "Rimuo&vi l'immagine della cassetta",           IDM_DETACH_TAPE
         POPUP "Contro&llo del registratore"
         BEGIN
             MENUITEM "S&top",          IDM_DATASETTE_CONTROL_STOP
-            MENUITEM "&Start",         IDM_DATASETTE_CONTROL_START
-            MENUITEM "A&vanti",       IDM_DATASETTE_CONTROL_FORWARD
-            MENUITEM "Indiet&ro",        IDM_DATASETTE_CONTROL_REWIND
+            MENUITEM "&Inizia",         IDM_DATASETTE_CONTROL_START
+            MENUITEM "&Avanti",       IDM_DATASETTE_CONTROL_FORWARD
+            MENUITEM "&Indietro",        IDM_DATASETTE_CONTROL_REWIND
             MENUITEM "Re&cord",        IDM_DATASETTE_CONTROL_RECORD
             MENUITEM "R&eset",         IDM_DATASETTE_CONTROL_RESET
-            MENUITEM "Reset C&ounter", IDM_DATASETTE_RESET_COUNTER
+            MENUITEM "Reset c&ontantore", IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
         POPUP "Seleziona l'immagine di una &cartuccia..."
         BEGIN
-            MENUITEM "immagine &CRT...",               IDM_CART_ATTACH_CRT
+            MENUITEM "Immagine &CRT...",               IDM_CART_ATTACH_CRT
             MENUITEM SEPARATOR
             MENUITEM "Immagine generica di &8KB...",       IDM_CART_ATTACH_8KB
             MENUITEM "Immagine generica di &16KB...",      IDM_CART_ATTACH_16KB
@@ -862,23 +845,23 @@ BEGIN
             MENUITEM "Immagine dell'interfaccia IDE&64...",   IDM_CART_ATTACH_IDE64
             MENUITEM "Immagine Super Snapshot &4...",  IDM_CART_ATTACH_SS4
             MENUITEM "Immagine Super Snapshot &5...",  IDM_CART_ATTACH_SS5
+            MENUITEM "Immagine Structured &Basic...", IDM_CART_ATTACH_STB
             POPUP "Expert Cartridge"
             BEGIN
-                MENUITEM "Attiva", IDM_CART_ENABLE_EXPERT
+                MENUITEM "Attivo", IDM_CART_ENABLE_EXPERT
                 MENUITEM SEPARATOR
                 MENUITEM "No",    IDM_CART_MODE_OFF
                 MENUITEM "Prg",    IDM_CART_MODE_PRG
-                MENUITEM "Sì",     IDM_CART_MODE_ON
+                MENUITEM "SÃ¬",     IDM_CART_MODE_ON
             END
             MENUITEM SEPARATOR
-            MENUITEM "Imposta la cartuccia come pre&definita", IDM_CART_SET_DEFAULT
-            MENUITEM "Reset &on cart change", IDM_TOGGLE_CART_RESET
+            MENUITEM "Imposta la cartuccia come &predefinita", IDM_CART_SET_DEFAULT
+            MENUITEM "Reset &al cambio di cartuccia", IDM_TOGGLE_CART_RESET
         END
-        MENUITEM "R&imuovi l'immagine della cartuccia",  IDM_CART_DETACH
+        MENUITEM "Rimuovi l'&immagine della cartuccia",  IDM_CART_DETACH
         MENUITEM "Free&ze della cartuccia\tAlt+Z", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pausa\tAlt+Pause", IDM_PAUSE
-        , CHECKED
+        MENUITEM "&Pausa\tAlt+Pause", IDM_PAUSE, CHECKED
         MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
         POPUP "&Reset"
         BEGIN
@@ -893,64 +876,64 @@ BEGIN
 #ifdef DEBUG
         POPUP "&Debug"
         BEGIN
-            POPUP "M&ode"
+            POPUP "M&odalitÃ "
             BEGIN
-                MENUITEM "&Normal", IDM_DEBUG_MODE_NORMAL
-                MENUITEM "&Small", IDM_DEBUG_MODE_SMALL
+                MENUITEM "&Normale", IDM_DEBUG_MODE_NORMAL
+                MENUITEM "&Piccolo", IDM_DEBUG_MODE_SMALL
                 MENUITEM "&History", IDM_DEBUG_MODE_HISTORY
                 MENUITEM "&History Autoplay", IDM_DEBUG_MODE_AUTOPLAY
             END
-            MENUITEM "&Main CPU Trace\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
-            MENUITEM "Drive&0 CPU Trace\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
-            MENUITEM "Drive&1 CPU Trace\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
+            MENUITEM "Traccia della CPU &principale\tAlt+F10", IDM_TOGGLE_MAINCPU_TRACE, CHECKED
+            MENUITEM "Traccia della CPU del drive&0\tAlt+F11", IDM_TOGGLE_DRIVE0CPU_TRACE, CHECKED
+            MENUITEM "Traccia della CPU del drive&1\tAlt+F12", IDM_TOGGLE_DRIVE1CPU_TRACE, CHECKED
         END
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "Es&ci\tAlt+X", IDM_EXIT
+        MENUITEM "E&sci\tAlt+X", IDM_EXIT
     END
     POPUP "Sna&pshot"
     BEGIN
-        MENUITEM "Car&ica snapshot...",          IDM_SNAPSHOT_LOAD
-        MENUITEM "Salva sna&pshot...",          IDM_SNAPSHOT_SAVE
-        MENUITEM "Caricamento ve&loce di uno snapshot\tAlt+L", IDM_LOADQUICK
-        MENUITEM "&alvataggio veloce di uno snapshot\tAlt+S", IDM_SAVEQUICK
+        MENUITEM "Carica &immagine dello snapshot...", IDM_SNAPSHOT_LOAD
+        MENUITEM "Salva immagine dello sna&pshot...", IDM_SNAPSHOT_SAVE
+        MENUITEM "&Carica immagine quicksnapshot\tAlt+L", IDM_LOADQUICK
+        MENUITEM "Salva immagine quicksnapshot\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
-        MENUITEM "Inizia/Termina la &registrazione degli eventi",       IDM_EVENT_TOGGLE_RECORD
-        MENUITEM "Inizia/Termina l&a riproduzione degli eventi",        IDM_EVENT_TOGGLE_PLAYBACK
-        MENUITEM "Imposta pietra miliare\tAlt+G",  IDM_EVENT_SETMILESTONE
-        MENUITEM "Vai alla pietra miliare\tAlt+H",      IDM_EVENT_RESETMILESTONE
-        POPUP "Modalità di inizio registrazione"
+        MENUITEM "Start/Stop &Recording History",       IDM_EVENT_TOGGLE_RECORD
+        MENUITEM "Start/Stop Pl&ayback History",        IDM_EVENT_TOGGLE_PLAYBACK
+        MENUITEM "Imposta segnalibro\tAlt+G",  IDM_EVENT_SETMILESTONE
+        MENUITEM "Vai al segnalibro\tAlt+H",      IDM_EVENT_RESETMILESTONE
+        POPUP "ModalitÃ  di inizio registrazione"
         BEGIN
             MENUITEM "&Salva nuovo snapshot",      IDM_EVENT_START_MODE_SAVE
             MENUITEM "&Carica snapshot esistente", IDM_EVENT_START_MODE_LOAD
             MENUITEM "Inizia con &reset",       IDM_EVENT_START_MODE_RESET
-            MENUITEM "Sovrascrivi la ri&produzione",     IDM_EVENT_START_MODE_PLAYBACK
+            MENUITEM "Sovrascrivi la &riproduzione",     IDM_EVENT_START_MODE_PLAYBACK
         END
-        MENUITEM "Seleziona la directory della cronologia",    IDM_EVENT_DIRECTORY
+        MENUITEM "Select History files/directory",    IDM_EVENT_DIRECTORY
         MENUITEM SEPARATOR
-        MENUITEM "Save/stop media file...\tAlt+C", IDM_MEDIAFILE
+        MENUITEM "Salva/arresta file multimediale...\tAlt+C", IDM_MEDIAFILE
     END
     POPUP "&Opzioni"
     BEGIN
-        POPUP "Velocità di aggio&rnamento"
+        POPUP "&VelocitÃ  di aggiornamento"
         BEGIN
-            MENUITEM "&Auto",   IDM_REFRESH_RATE_AUTO
-            MENUITEM "1/&1",    IDM_REFRESH_RATE_1
-            MENUITEM "1/&2",    IDM_REFRESH_RATE_2
-            MENUITEM "1/&3",    IDM_REFRESH_RATE_3
-            MENUITEM "1/&4",    IDM_REFRESH_RATE_4
-            MENUITEM "1/&5",    IDM_REFRESH_RATE_5
-            MENUITEM "1/&6",    IDM_REFRESH_RATE_6
-            MENUITEM "1/&7",    IDM_REFRESH_RATE_7
-            MENUITEM "1/&8",    IDM_REFRESH_RATE_8
-            MENUITEM "1/&9",    IDM_REFRESH_RATE_9
-            MENUITEM "1/1&0",   IDM_REFRESH_RATE_10
+            MENUITEM "&Auto", IDM_REFRESH_RATE_AUTO
+            MENUITEM "1/&1",  IDM_REFRESH_RATE_1
+            MENUITEM "1/&2",  IDM_REFRESH_RATE_2
+            MENUITEM "1/&3",  IDM_REFRESH_RATE_3
+            MENUITEM "1/&4",  IDM_REFRESH_RATE_4
+            MENUITEM "1/&5",  IDM_REFRESH_RATE_5
+            MENUITEM "1/&6",  IDM_REFRESH_RATE_6
+            MENUITEM "1/&7",  IDM_REFRESH_RATE_7
+            MENUITEM "1/&8",  IDM_REFRESH_RATE_8
+            MENUITEM "1/&9",  IDM_REFRESH_RATE_9
+            MENUITEM "1/1&0", IDM_REFRESH_RATE_10
 #if 0
             MENUITEM SEPARATOR
-            MENUITEM "&Personalizzata", IDM_REFRESH_RATE_CUSTOM
+            MENUITEM "&Custom", IDM_REFRESH_RATE_CUSTOM
 #endif
         END
-        POPUP "Velocità &massima"
+        POPUP "VelocitÃ  &massima"
         BEGIN
             MENUITEM "&200%",     IDM_MAXIMUM_SPEED_200
             MENUITEM "&100%",     IDM_MAXIMUM_SPEED_100
@@ -959,36 +942,30 @@ BEGIN
             MENUITEM "1&0%",      IDM_MAXIMUM_SPEED_10
             MENUITEM "Nessun &limite", IDM_MAXIMUM_SPEED_NO_LIMIT
             MENUITEM SEPARATOR
-            MENUITEM "&Personalizzata",   IDM_MAXIMUM_SPEED_CUSTOM
+            MENUITEM "&Personalizzata", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Modalità turbo\tAlt+W", IDM_TOGGLE_WARP_MODE
-            , CHECKED
+        MENUITEM "ModalitÃ  &turbo\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
 //        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
-        MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE
-            , CHECKED
-        MENUITEM "&Dimensione doppia", IDM_TOGGLE_DOUBLESIZE
-            , CHECKED
-        MENUITEM "Scan&sione doppia", IDM_TOGGLE_DOUBLESCAN
-            , CHECKED
-        MENUITEM "Emulazione PAL", IDM_TOGGLE_FASTPAL
-            , CHECKED
-        MENUITEM "Scale2x",       IDM_TOGGLE_SCALE2X
-            , CHECKED
-        POPUP "Imposta&zioni del VDC"
+        MENUITEM "&Cache video", IDM_TOGGLE_VIDEOCACHE, CHECKED
+        MENUITEM "&Dimensione doppia", IDM_TOGGLE_DOUBLESIZE, CHECKED
+        MENUITEM "Scansione do&ppia", IDM_TOGGLE_DOUBLESCAN, CHECKED
+        MENUITEM "Emulazione PAL", IDM_TOGGLE_FASTPAL, CHECKED
+        MENUITEM "Scale2x",       IDM_TOGGLE_SCALE2X, CHECKED
+        POPUP "Impostazio&ni del VDC"
         BEGIN
             MENUITEM "&Dimensione doppia", IDM_TOGGLE_VDC_DOUBLESIZE
-            MENUITEM "Scan&sione doppia", IDM_TOGGLE_VDC_DOUBLESCAN
+            MENUITEM "Scansione do&ppia", IDM_TOGGLE_VDC_DOUBLESCAN
             MENUITEM SEPARATOR
             MENUITEM "64KB di &memoria video", IDM_TOGGLE_VDC64KB
         END
         MENUITEM SEPARATOR
-        MENUITEM "Scambia le porte dei &joystick\tAlt+J", IDM_SWAP_JOYSTICK
+        MENUITEM "Scambia &joystick\tAlt+J", IDM_SWAP_JOYSTICK
         MENUITEM SEPARATOR
-        MENUITEM "Riproduzione del Suono", IDM_TOGGLE_SOUND, CHECKED
+        MENUITEM "Riproduzione del &suono", IDM_TOGGLE_SOUND, CHECKED
         MENUITEM SEPARATOR
-        MENUITEM "Emulazione hard&ware dei drive", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+        MENUITEM "Attiva l'emulazione &hardware dei drive", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
         MENUITEM "&Virtual device traps", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
         POPUP "Standard vide&o"
@@ -1001,60 +978,60 @@ BEGIN
         MENUITEM "Emulazione dell'interfaccia IEEE&488",    IDM_IEEE488
     MENUITEM "Emulazione del mouse &1351\tAlt+Q",    IDM_MOUSE
     END
-    POPUP "Imposta&zioni"
+    POPUP "I&mpostazioni"
     BEGIN
         MENUITEM "Impostazioni &video...",     IDM_VIDEO_SETTINGS
         MENUITEM "Impostazioni delle &periferiche...",IDM_DEVICEMANAGER
         MENUITEM "Impostazioni dei &drive...",     IDM_DRIVE_SETTINGS
-        MENUITEM "Impostazioni dei d&atasette...", IDM_DATASETTE_SETTINGS
+        MENUITEM "Impostazioni del r&egistratore...", IDM_DATASETTE_SETTINGS
         MENUITEM "Impostazioni del VIC-II...",     IDM_VICII_SETTINGS
         MENUITEM "Impostazioni dei &joystick...",  IDM_JOY_SETTINGS
-        MENUITEM "Impostazioni della tastie&ra...",  IDM_KEYBOARD_SETTINGS
-        MENUITEM "Impostazioni del su&ono...",     IDM_SOUND_SETTINGS
+        MENUITEM "Impostazioni della &tastiera...",  IDM_KEYBOARD_SETTINGS
+        MENUITEM "Impostazioni del s&uono...",     IDM_SOUND_SETTINGS
         MENUITEM "Impostazioni del S&ID...",       IDM_SID_SETTINGS
         MENUITEM "Impostazioni delle &ROM...",       IDM_ROM_SETTINGS
         MENUITEM "Impostazioni delle RA&M...",       IDM_RAM_SETTINGS
         MENUITEM "Impostazioni del C&128...",      IDM_C128_SETTINGS
         MENUITEM "Impostazioni della RS&232...",     IDM_RS232_SETTINGS
-        POPUP "Impostazioni del &Cartuccia"
+        POPUP "Impostazioni della &cartuccia/IO"
         BEGIN
             MENUITEM "Impostazioni del &REU...",      IDM_REU_SETTINGS
-            MENUITEM "Impostazioni del &GEORAM...",      IDM_GEORAM_SETTINGS
+            MENUITEM "Impostazioni della &GEORAM...",      IDM_GEORAM_SETTINGS
             MENUITEM "Impostazioni del &RAMCART...",      IDM_RAMCART_SETTINGS
-            MENUITEM "Impostazioni del &IDE64...",    IDM_IDE64_SETTINGS
+            MENUITEM "Impostazioni dell'&IDE64...",    IDM_IDE64_SETTINGS
 #ifdef HAVE_TFE
-            MENUITEM "Impostazioni del &Ethernet...", IDM_TFE_SETTINGS
+            MENUITEM "Impostazioni dell'&Ethernet...", IDM_TFE_SETTINGS
 #endif
-            MENUITEM "Impostazioni del &ACIA...",     IDM_ACIA_SETTINGS
-            MENUITEM "Impostazioni del RS&232 userport...", IDM_RS232USER_SETTINGS
+            MENUITEM "Impostazioni dell'&ACIA...",     IDM_ACIA_SETTINGS
+            MENUITEM "Impostazioni della RS&232 su userport...", IDM_RS232USER_SETTINGS
         END
         MENUITEM SEPARATOR
-        MENUITEM "&Salva le impostazioni", IDM_SETTINGS_SAVE
-        MENUITEM "Carica &le impostazioni",   IDM_SETTINGS_LOAD
-        MENUITEM "&Ripristina le impostazioni originarie",  IDM_SETTINGS_DEFAULT
+        MENUITEM "&Salva le impostazioni attuali", IDM_SETTINGS_SAVE
+        MENUITEM "&Carica le impostazioni salvate",   IDM_SETTINGS_LOAD
+        MENUITEM "Ripristina le impostazioni originarie",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-    MENUITEM "Salva le impostazioni in usc&ita", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
-    MENUITEM "&Conferma all'uscita",       IDM_TOGGLE_CONFIRM_ON_EXIT
+        MENUITEM "Salva le impostazioni in u&scita", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+        MENUITEM "&Conferma all'uscita",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "&Lingua"
     BEGIN
-        MENUITEM "&English", IDM_LANG_EN
-        MENUITEM "&German", IDM_LANG_DE
-        MENUITEM "&French", IDM_LANG_FR
-        MENUITEM "&Italian", IDM_LANG_IT
-        MENUITEM "&Dutch", IDM_LANG_NL
-        MENUITEM "&Polish", IDM_LANG_PL
-        MENUITEM "&Swedish", IDM_LANG_SV
+        MENUITEM "&Inglese", IDM_LANG_EN
+        MENUITEM "&Tedesco", IDM_LANG_DE
+        MENUITEM "&Francese", IDM_LANG_FR
+        MENUITEM "&Italiano", IDM_LANG_IT
+        MENUITEM "&Olandese", IDM_LANG_NL
+        MENUITEM "&Polacco", IDM_LANG_PL
+        MENUITEM "&Svedese", IDM_LANG_SV
     END
-    POPUP "Ai&uto"
+    POPUP "&Aiuto"
     BEGIN
 //        MENUITEM "H&elp",               IDM_HELP
 //        MENUITEM SEPARATOR
-        MENUITEM "Inform&azioni su VICE...",             IDM_ABOUT
+        MENUITEM "&Informazioni su VICE...",             IDM_ABOUT
         MENUITEM SEPARATOR
-        MENUITEM "Command line &options", IDM_CMDLINE
+        MENUITEM "&Opzioni della riga di comando", IDM_CMDLINE
         MENUITEM SEPARATOR
-        MENUITEM "&Collaboratori del progetto VICE",         IDM_CONTRIBUTORS
+        MENUITEM "&Collaboratori",         IDM_CONTRIBUTORS
         MENUITEM "&Licenza",              IDM_LICENSE
         MENUITEM "Nessuna &garanzia",          IDM_WARRANTY
     END
@@ -1113,8 +1090,8 @@ BEGIN
         BEGIN
             MENUITEM "&CRT bestand...",               IDM_CART_ATTACH_CRT
             MENUITEM SEPARATOR
-            MENUITEM "Algemeen &8KB bestand...",       IDM_CART_ATTACH_8KB
-            MENUITEM "Algemeen &16KB bestand...",      IDM_CART_ATTACH_16KB
+            MENUITEM "Algemeen &8KB bestand...",      IDM_CART_ATTACH_8KB
+            MENUITEM "Algemeen &16KB bestand...",     IDM_CART_ATTACH_16KB
             MENUITEM "&Action Replay bestand...",     IDM_CART_ATTACH_AR
             MENUITEM "Atomic &Power bestand...",      IDM_CART_ATTACH_AT
             MENUITEM "&Epyx fastload bestand...",     IDM_CART_ATTACH_EPYX
@@ -1123,6 +1100,7 @@ BEGIN
             MENUITEM "IDE&64 interface bestand...",   IDM_CART_ATTACH_IDE64
             MENUITEM "Super Snapshot &4 bestand...",  IDM_CART_ATTACH_SS4
             MENUITEM "Super Snapshot &5 bestand...",  IDM_CART_ATTACH_SS5
+            MENUITEM "Structured &Basic bestand...",  IDM_CART_ATTACH_STB
             POPUP "Expert Cartridge"
             BEGIN
                 MENUITEM "Aktiveer", IDM_CART_ENABLE_EXPERT
@@ -1138,8 +1116,7 @@ BEGIN
         MENUITEM "Ontkoppel cartr&idge bestand",  IDM_CART_DETACH
         MENUITEM "Cartridge free&ze\tAlt+Z", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pauze\tAlt+Pause", IDM_PAUSE
-        , CHECKED
+        MENUITEM "&Pauze\tAlt+Pause", IDM_PAUSE, CHECKED
         MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
         POPUP "&Reset"
         BEGIN
@@ -1195,17 +1172,17 @@ BEGIN
     BEGIN
         POPUP "Ve&rnieuwing snelheid"
         BEGIN
-            MENUITEM "&Auto",   IDM_REFRESH_RATE_AUTO
-            MENUITEM "1/&1",    IDM_REFRESH_RATE_1
-            MENUITEM "1/&2",    IDM_REFRESH_RATE_2
-            MENUITEM "1/&3",    IDM_REFRESH_RATE_3
-            MENUITEM "1/&4",    IDM_REFRESH_RATE_4
-            MENUITEM "1/&5",    IDM_REFRESH_RATE_5
-            MENUITEM "1/&6",    IDM_REFRESH_RATE_6
-            MENUITEM "1/&7",    IDM_REFRESH_RATE_7
-            MENUITEM "1/&8",    IDM_REFRESH_RATE_8
-            MENUITEM "1/&9",    IDM_REFRESH_RATE_9
-            MENUITEM "1/1&0",   IDM_REFRESH_RATE_10
+            MENUITEM "&Auto", IDM_REFRESH_RATE_AUTO
+            MENUITEM "1/&1",  IDM_REFRESH_RATE_1
+            MENUITEM "1/&2",  IDM_REFRESH_RATE_2
+            MENUITEM "1/&3",  IDM_REFRESH_RATE_3
+            MENUITEM "1/&4",  IDM_REFRESH_RATE_4
+            MENUITEM "1/&5",  IDM_REFRESH_RATE_5
+            MENUITEM "1/&6",  IDM_REFRESH_RATE_6
+            MENUITEM "1/&7",  IDM_REFRESH_RATE_7
+            MENUITEM "1/&8",  IDM_REFRESH_RATE_8
+            MENUITEM "1/&9",  IDM_REFRESH_RATE_9
+            MENUITEM "1/1&0", IDM_REFRESH_RATE_10
 #if 0
             MENUITEM SEPARATOR
             MENUITEM "&Eigen", IDM_REFRESH_RATE_CUSTOM
@@ -1220,23 +1197,17 @@ BEGIN
             MENUITEM "1&0%",      IDM_MAXIMUM_SPEED_10
             MENUITEM "Geen &limiet", IDM_MAXIMUM_SPEED_NO_LIMIT
             MENUITEM SEPARATOR
-            MENUITEM "&Eigen",   IDM_MAXIMUM_SPEED_CUSTOM
+            MENUITEM "&Eigen", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warp modus\tAlt+W", IDM_TOGGLE_WARP_MODE
-            , CHECKED
+        MENUITEM "&Warp modus\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
 //        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
-        MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE
-            , CHECKED
-        MENUITEM "&Dubbele grootte", IDM_TOGGLE_DOUBLESIZE
-            , CHECKED
-        MENUITEM "Du&bbele scan", IDM_TOGGLE_DOUBLESCAN
-            , CHECKED
-        MENUITEM "PAL Emulatie", IDM_TOGGLE_FASTPAL
-            , CHECKED
-        MENUITEM "Schaal2x",       IDM_TOGGLE_SCALE2X
-            , CHECKED
+        MENUITEM "Video &cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
+        MENUITEM "&Dubbele grootte", IDM_TOGGLE_DOUBLESIZE, CHECKED
+        MENUITEM "Du&bbele scan", IDM_TOGGLE_DOUBLESCAN, CHECKED
+        MENUITEM "PAL Emulatie", IDM_TOGGLE_FASTPAL, CHECKED
+        MENUITEM "Schaal2x",       IDM_TOGGLE_SCALE2X, CHECKED
         POPUP "VDC instellin&gen"
         BEGIN
             MENUITEM "&Dubbele grootte", IDM_TOGGLE_VDC_DOUBLESIZE
@@ -1294,8 +1265,8 @@ BEGIN
         MENUITEM "&Laad opgeslagen instellingen",   IDM_SETTINGS_LOAD
         MENUITEM "Herstel standaard &instellingen",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-    MENUITEM "Sla instellingen op bij afslui&ten", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
-    MENUITEM "&Bevestigen bij afsluiten",       IDM_TOGGLE_CONFIRM_ON_EXIT
+        MENUITEM "Sla instellingen op bij afslui&ten", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+        MENUITEM "&Bevestigen bij afsluiten",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
     POPUP "&Taal"
     BEGIN
@@ -1373,18 +1344,19 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "W³ó¿ obraz &kartrid¿a..."
         BEGIN
-            MENUITEM "Obrazu &kartrid¿a...",               IDM_CART_ATTACH_CRT
+            MENUITEM "Obrazu &kartrid¿a...",         IDM_CART_ATTACH_CRT
             MENUITEM SEPARATOR
-            MENUITEM "Standardowy obraz &8KB...",       IDM_CART_ATTACH_8KB
-            MENUITEM "Standardowy obraz &16KB...",      IDM_CART_ATTACH_16KB
-            MENUITEM "Obraz &Action Replay...",     IDM_CART_ATTACH_AR
-            MENUITEM "Obraz Atomic &Power...",      IDM_CART_ATTACH_AT
-            MENUITEM "Obraz &Epyx fastload...",     IDM_CART_ATTACH_EPYX
+            MENUITEM "Standardowy obraz &8KB...",    IDM_CART_ATTACH_8KB
+            MENUITEM "Standardowy obraz &16KB...",   IDM_CART_ATTACH_16KB
+            MENUITEM "Obraz &Action Replay...",      IDM_CART_ATTACH_AR
+            MENUITEM "Obraz Atomic &Power...",       IDM_CART_ATTACH_AT
+            MENUITEM "Obraz &Epyx fastload...",      IDM_CART_ATTACH_EPYX
             MENUITEM "Obraz interfejsu &IEEE488...", IDM_CART_ATTACH_IEEE488
-            MENUITEM "Obraz &Retro Replay...",      IDM_CART_ATTACH_RR
+            MENUITEM "Obraz &Retro Replay...",       IDM_CART_ATTACH_RR
             MENUITEM "Obraz interfejsu IDE&64...",   IDM_CART_ATTACH_IDE64
-            MENUITEM "Obraz Super Snapshot &4...",  IDM_CART_ATTACH_SS4
-            MENUITEM "Obraz Super Snapshot &5...",  IDM_CART_ATTACH_SS5
+            MENUITEM "Obraz Super Snapshot &4...",   IDM_CART_ATTACH_SS4
+            MENUITEM "Obraz Super Snapshot &5...",   IDM_CART_ATTACH_SS5
+            MENUITEM "Obraz Structured &Basic...",   IDM_CART_ATTACH_STB
             POPUP "Expert Cartridge"
             BEGIN
                 MENUITEM "W³±cz", IDM_CART_ENABLE_EXPERT
@@ -1400,8 +1372,7 @@ BEGIN
         MENUITEM "Wjm&ij obraz kartrid¿a",  IDM_CART_DETACH
         MENUITEM "Cartridge free&ze\tAlt+Z", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Pauza\tAlt+Pause", IDM_PAUSE
-        , CHECKED
+        MENUITEM "&Pauza\tAlt+Pause", IDM_PAUSE, CHECKED
         MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
         POPUP "&Reset"
         BEGIN
@@ -1433,8 +1404,8 @@ BEGIN
     END
     POPUP "z&rzutu"
     BEGIN
-        MENUITEM "Za³adu&j zrzut...",          IDM_SNAPSHOT_LOAD
-        MENUITEM "Zapisz z&rzut...",          IDM_SNAPSHOT_SAVE
+        MENUITEM "Za³adu&j zrzut...", IDM_SNAPSHOT_LOAD
+        MENUITEM "Zapisz z&rzut...", IDM_SNAPSHOT_SAVE
         MENUITEM "Szybkie &za³adowanie zrzutu\tAlt+L", IDM_LOADQUICK
         MENUITEM "&Szybki zapis zrzutu\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
@@ -1457,17 +1428,17 @@ BEGIN
     BEGIN
         POPUP "Czêstot&liwo¶æ od¶wie¿ania"
         BEGIN
-            MENUITEM "&Auto",   IDM_REFRESH_RATE_AUTO
-            MENUITEM "1/&1",    IDM_REFRESH_RATE_1
-            MENUITEM "1/&2",    IDM_REFRESH_RATE_2
-            MENUITEM "1/&3",    IDM_REFRESH_RATE_3
-            MENUITEM "1/&4",    IDM_REFRESH_RATE_4
-            MENUITEM "1/&5",    IDM_REFRESH_RATE_5
-            MENUITEM "1/&6",    IDM_REFRESH_RATE_6
-            MENUITEM "1/&7",    IDM_REFRESH_RATE_7
-            MENUITEM "1/&8",    IDM_REFRESH_RATE_8
-            MENUITEM "1/&9",    IDM_REFRESH_RATE_9
-            MENUITEM "1/1&0",   IDM_REFRESH_RATE_10
+            MENUITEM "&Auto", IDM_REFRESH_RATE_AUTO
+            MENUITEM "1/&1",  IDM_REFRESH_RATE_1
+            MENUITEM "1/&2",  IDM_REFRESH_RATE_2
+            MENUITEM "1/&3",  IDM_REFRESH_RATE_3
+            MENUITEM "1/&4",  IDM_REFRESH_RATE_4
+            MENUITEM "1/&5",  IDM_REFRESH_RATE_5
+            MENUITEM "1/&6",  IDM_REFRESH_RATE_6
+            MENUITEM "1/&7",  IDM_REFRESH_RATE_7
+            MENUITEM "1/&8",  IDM_REFRESH_RATE_8
+            MENUITEM "1/&9",  IDM_REFRESH_RATE_9
+            MENUITEM "1/1&0", IDM_REFRESH_RATE_10
 #if 0
             MENUITEM SEPARATOR
             MENUITEM "&W³asne", IDM_REFRESH_RATE_CUSTOM
@@ -1482,23 +1453,17 @@ BEGIN
             MENUITEM "1&0%",      IDM_MAXIMUM_SPEED_10
             MENUITEM "Bez &limitu", IDM_MAXIMUM_SPEED_NO_LIMIT
             MENUITEM SEPARATOR
-            MENUITEM "&W³asne",   IDM_MAXIMUM_SPEED_CUSTOM
+            MENUITEM "&W³asne", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "tr&yb przy¶pieszony (Turbo)\tAlt+W", IDM_TOGGLE_WARP_MODE
-            , CHECKED
+        MENUITEM "tr&yb przy¶pieszony (Turbo)\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
 //        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
-        MENUITEM "&Cache video", IDM_TOGGLE_VIDEOCACHE
-            , CHECKED
-        MENUITEM "Po&dwójny rozmiar", IDM_TOGGLE_DOUBLESIZE
-            , CHECKED
-        MENUITEM "Podwój&ne scanlines", IDM_TOGGLE_DOUBLESCAN
-            , CHECKED
-        MENUITEM "Emulacjê PAL", IDM_TOGGLE_FASTPAL
-            , CHECKED
-        MENUITEM "Skala:x2",       IDM_TOGGLE_SCALE2X
-            , CHECKED
+        MENUITEM "&Cache video", IDM_TOGGLE_VIDEOCACHE, CHECKED
+        MENUITEM "Po&dwójny rozmiar", IDM_TOGGLE_DOUBLESIZE, CHECKED
+        MENUITEM "Podwój&ne scanlines", IDM_TOGGLE_DOUBLESCAN, CHECKED
+        MENUITEM "Emulacjê PAL", IDM_TOGGLE_FASTPAL, CHECKED
+        MENUITEM "Skala:x2",       IDM_TOGGLE_SCALE2X, CHECKED
         POPUP "Us&tawienia VDC"
         BEGIN
             MENUITEM "Po&dwójny rozmiar", IDM_TOGGLE_VDC_DOUBLESIZE
@@ -1635,18 +1600,19 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Anslut &insticksmodulfil..."
         BEGIN
-            MENUITEM "&CRT-fil...",               IDM_CART_ATTACH_CRT
+            MENUITEM "&CRT-fil...",                IDM_CART_ATTACH_CRT
             MENUITEM SEPARATOR
-            MENUITEM "Vanlig &8KB-fil...",       IDM_CART_ATTACH_8KB
-            MENUITEM "Vanlig &16KB-fil...",      IDM_CART_ATTACH_16KB
-            MENUITEM "&Action Replay-fil...",     IDM_CART_ATTACH_AR
-            MENUITEM "Atomic &Power-fil...",      IDM_CART_ATTACH_AT
-            MENUITEM "&Epyx fastload-fil...",     IDM_CART_ATTACH_EPYX
+            MENUITEM "Vanlig &8KB-fil...",         IDM_CART_ATTACH_8KB
+            MENUITEM "Vanlig &16KB-fil...",        IDM_CART_ATTACH_16KB
+            MENUITEM "&Action Replay-fil...",      IDM_CART_ATTACH_AR
+            MENUITEM "Atomic &Power-fil...",       IDM_CART_ATTACH_AT
+            MENUITEM "&Epyx fastload-fil...",      IDM_CART_ATTACH_EPYX
             MENUITEM "&IEEE488-gränssnittsfil...", IDM_CART_ATTACH_IEEE488
-            MENUITEM "&Retro Replay-fil...",      IDM_CART_ATTACH_RR
+            MENUITEM "&Retro Replay-fil...",       IDM_CART_ATTACH_RR
             MENUITEM "IDE&64-gränssnittsfil...",   IDM_CART_ATTACH_IDE64
-            MENUITEM "Super Snapshot &4-fil...",  IDM_CART_ATTACH_SS4
-            MENUITEM "Super Snapshot &5-fil...",  IDM_CART_ATTACH_SS5
+            MENUITEM "Super Snapshot &4-fil...",   IDM_CART_ATTACH_SS4
+            MENUITEM "Super Snapshot &5-fil...",   IDM_CART_ATTACH_SS5
+            MENUITEM "Structured &Basic-fil...",   IDM_CART_ATTACH_STB
             POPUP "Expert Cartridge"
             BEGIN
                 MENUITEM "Aktivera", IDM_CART_ENABLE_EXPERT
@@ -1662,8 +1628,7 @@ BEGIN
         MENUITEM "Koppla &från insticksmodulfil",  IDM_CART_DETACH
         MENUITEM "Frys\tAlt+Z", IDM_CART_FREEZE
         MENUITEM SEPARATOR
-        MENUITEM "&Paus\tAlt+Pause", IDM_PAUSE
-        , CHECKED
+        MENUITEM "&Paus\tAlt+Pause", IDM_PAUSE, CHECKED
         MENUITEM "&Monitor\tAlt+M", IDM_MONITOR
         POPUP "&Nollställ"
         BEGIN
@@ -1695,8 +1660,8 @@ BEGIN
     END
     POPUP "&Ögonblicksbild"
     BEGIN
-        MENUITEM "&Läs in ögonblicksbild...",          IDM_SNAPSHOT_LOAD
-        MENUITEM "Spara &ögonblicksbild...",          IDM_SNAPSHOT_SAVE
+        MENUITEM "&Läs in ögonblicksbild...", IDM_SNAPSHOT_LOAD
+        MENUITEM "Spara &ögonblicksbild...", IDM_SNAPSHOT_SAVE
         MENUITEM "Läs in &snabbögonblicksbild\tAlt+L", IDM_LOADQUICK
         MENUITEM "Spara sna&bbögonblicksbildfil\tAlt+S", IDM_SAVEQUICK
         MENUITEM SEPARATOR
@@ -1719,17 +1684,17 @@ BEGIN
     BEGIN
         POPUP "&Uppdateringshastighet"
         BEGIN
-            MENUITEM "&Auto",   IDM_REFRESH_RATE_AUTO
-            MENUITEM "1/&1",    IDM_REFRESH_RATE_1
-            MENUITEM "1/&2",    IDM_REFRESH_RATE_2
-            MENUITEM "1/&3",    IDM_REFRESH_RATE_3
-            MENUITEM "1/&4",    IDM_REFRESH_RATE_4
-            MENUITEM "1/&5",    IDM_REFRESH_RATE_5
-            MENUITEM "1/&6",    IDM_REFRESH_RATE_6
-            MENUITEM "1/&7",    IDM_REFRESH_RATE_7
-            MENUITEM "1/&8",    IDM_REFRESH_RATE_8
-            MENUITEM "1/&9",    IDM_REFRESH_RATE_9
-            MENUITEM "1/1&0",   IDM_REFRESH_RATE_10
+            MENUITEM "&Auto", IDM_REFRESH_RATE_AUTO
+            MENUITEM "1/&1",  IDM_REFRESH_RATE_1
+            MENUITEM "1/&2",  IDM_REFRESH_RATE_2
+            MENUITEM "1/&3",  IDM_REFRESH_RATE_3
+            MENUITEM "1/&4",  IDM_REFRESH_RATE_4
+            MENUITEM "1/&5",  IDM_REFRESH_RATE_5
+            MENUITEM "1/&6",  IDM_REFRESH_RATE_6
+            MENUITEM "1/&7",  IDM_REFRESH_RATE_7
+            MENUITEM "1/&8",  IDM_REFRESH_RATE_8
+            MENUITEM "1/&9",  IDM_REFRESH_RATE_9
+            MENUITEM "1/1&0", IDM_REFRESH_RATE_10
 #if 0
             MENUITEM SEPARATOR
             MENUITEM "&Custom", IDM_REFRESH_RATE_CUSTOM
@@ -1744,23 +1709,17 @@ BEGIN
             MENUITEM "1&0%",      IDM_MAXIMUM_SPEED_10
             MENUITEM "Ingen &gräns", IDM_MAXIMUM_SPEED_NO_LIMIT
             MENUITEM SEPARATOR
-            MENUITEM "&Egen",   IDM_MAXIMUM_SPEED_CUSTOM
+            MENUITEM "&Egen", IDM_MAXIMUM_SPEED_CUSTOM
         END
-        MENUITEM "&Warpläge\tAlt+W", IDM_TOGGLE_WARP_MODE
-            , CHECKED
+        MENUITEM "&Warpläge\tAlt+W", IDM_TOGGLE_WARP_MODE, CHECKED
 //        MENUITEM SEPARATOR
 //        MENUITEM "Fullscreen\tAlt+D", IDM_TOGGLE_FULLSCREEN
         MENUITEM SEPARATOR
-        MENUITEM "Grafik&cache", IDM_TOGGLE_VIDEOCACHE
-            , CHECKED
-        MENUITEM "&Dubbel storlek", IDM_TOGGLE_DOUBLESIZE
-            , CHECKED
-        MENUITEM "Du&bbelskanning", IDM_TOGGLE_DOUBLESCAN
-            , CHECKED
-        MENUITEM "PAL-emulering", IDM_TOGGLE_FASTPAL
-            , CHECKED
-        MENUITEM "Scale2x",       IDM_TOGGLE_SCALE2X
-            , CHECKED
+        MENUITEM "Grafik&cache", IDM_TOGGLE_VIDEOCACHE, CHECKED
+        MENUITEM "&Dubbel storlek", IDM_TOGGLE_DOUBLESIZE, CHECKED
+        MENUITEM "Du&bbelskanning", IDM_TOGGLE_DOUBLESCAN, CHECKED
+        MENUITEM "PAL-emulering", IDM_TOGGLE_FASTPAL, CHECKED
+        MENUITEM "Scale2x",       IDM_TOGGLE_SCALE2X, CHECKED
         POPUP "&VDC-inställningar"
         BEGIN
             MENUITEM "&Dubbel storlek", IDM_TOGGLE_VDC_DOUBLESIZE
@@ -1818,8 +1777,8 @@ BEGIN
         MENUITEM "&Läs sparade inställningar",   IDM_SETTINGS_LOAD
         MENUITEM "&Återställ förvalda inställningar",  IDM_SETTINGS_DEFAULT
         MENUITEM SEPARATOR
-    MENUITEM "Spara inställningar vid &avslut", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
-    MENUITEM "&Bekräfta avslutning",       IDM_TOGGLE_CONFIRM_ON_EXIT
+        MENUITEM "Spara inställningar vid &avslut", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+        MENUITEM "&Bekräfta avslutning",       IDM_TOGGLE_CONFIRM_ON_EXIT
     END
     POPUP "&Språk"
     BEGIN
@@ -2058,7 +2017,7 @@ END
 
 IDD_C128ROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 310
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni del ROM"
+CAPTION "Impostazioni delle ROM"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "Kernal Int.",IDC_STATIC, 9,8,40,8
@@ -2496,7 +2455,7 @@ END
 
 IDD_C128DRIVEROM_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 240, 230
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Impostazioni del ROM"
+CAPTION "Impostazioni delle ROM"
 FONT 8, "MS Sans Serif"
 BEGIN
     LTEXT       "1541",IDC_STATIC,9,8,40,8
@@ -2801,40 +2760,40 @@ END
 
 IDD_C128ROM_RESOURCE_DIALOG_FR DIALOG DISCARDABLE  0, 0, 160, 265
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "les paramètres Computer"
+CAPTION "Ressources de l'ordinateur"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "les paramètres Computer effectuée au romset",
+    GROUPBOX        "Ressources de l'ordinateur enregistrées au Romset",
                     IDC_STATIC,4,3,151,235
-    AUTOCHECKBOX    "International Kernal",IDC_C128ROM_KERNALINT_RESOURCE,
+    AUTOCHECKBOX    "Kernal international",IDC_C128ROM_KERNALINT_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Kernal en allemand",IDC_C128ROM_KERNALDE_RESOURCE,
+    AUTOCHECKBOX    "Kernal allemand",IDC_C128ROM_KERNALDE_RESOURCE,
                     11,28,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Finnish Kernal",IDC_C128ROM_KERNALFI_RESOURCE,
+    AUTOCHECKBOX    "Kernal finlandais",IDC_C128ROM_KERNALFI_RESOURCE,
                     11,43,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "French Kernal",IDC_C128ROM_KERNALFR_RESOURCE,
+    AUTOCHECKBOX    "Kernal français",IDC_C128ROM_KERNALFR_RESOURCE,
                     11,58,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Italian Kernal",IDC_C128ROM_KERNALIT_RESOURCE,
+    AUTOCHECKBOX    "Kernal italien",IDC_C128ROM_KERNALIT_RESOURCE,
                     11,73,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Norwegain Kernal",IDC_C128ROM_KERNALNO_RESOURCE,
+    AUTOCHECKBOX    "Kernal norvégien",IDC_C128ROM_KERNALNO_RESOURCE,
                     11,88,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Swedish Kernal",IDC_C128ROM_KERNALSE_RESOURCE,
+    AUTOCHECKBOX    "Kernal suédois",IDC_C128ROM_KERNALSE_RESOURCE,
                     11,103,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Basic LO",IDC_C128ROM_BASICLO_RESOURCE,
                     11,118,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Basic HI",IDC_C128ROM_BASICHI_RESOURCE,
                     11,133,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "International de caractères",IDC_C128ROM_CHARGENINT_RESOURCE,
+    AUTOCHECKBOX    "Jeu de caractères international",IDC_C128ROM_CHARGENINT_RESOURCE,
                     11,148,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "de caractères en allemand",IDC_C128ROM_CHARGENDE_RESOURCE,
+    AUTOCHECKBOX    "Jeu de caractères allemand",IDC_C128ROM_CHARGENDE_RESOURCE,
                     11,163,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "French de caractères",IDC_C128ROM_CHARGENFR_RESOURCE,
+    AUTOCHECKBOX    "Jeu de caractères français",IDC_C128ROM_CHARGENFR_RESOURCE,
                     11,178,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Swedish de caractères",IDC_C128ROM_CHARGENSE_RESOURCE,
+    AUTOCHECKBOX    "Jeu de caractères suédois",IDC_C128ROM_CHARGENSE_RESOURCE,
                     11,193,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "C64 mode Kernal",IDC_C128ROM_KERNAL64_RESOURCE,
+    AUTOCHECKBOX    "Kernel mode C64",IDC_C128ROM_KERNAL64_RESOURCE,
                     11,208,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "C64 mode Basic",IDC_C128ROM_BASIC64_RESOURCE,
+    AUTOCHECKBOX    "Basic mode C64",IDC_C128ROM_BASIC64_RESOURCE,
                     11,223,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 20,245,50,14, WS_TABSTOP
@@ -2846,40 +2805,40 @@ END
 
 IDD_C128ROM_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 265
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Computer resources"
+CAPTION "Risorse del computer"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Computer resources salvate del romset",
+    GROUPBOX        "Risorse del computer salvate nel ROM set",
                     IDC_STATIC,4,3,151,235
-    AUTOCHECKBOX    "International Kernal",IDC_C128ROM_KERNALINT_RESOURCE,
+    AUTOCHECKBOX    "Kernal internazionale",IDC_C128ROM_KERNALINT_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "German Kernal",IDC_C128ROM_KERNALDE_RESOURCE,
+    AUTOCHECKBOX    "Kernal tedesco",IDC_C128ROM_KERNALDE_RESOURCE,
                     11,28,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Finnish Kernal",IDC_C128ROM_KERNALFI_RESOURCE,
+    AUTOCHECKBOX    "Kernal finlandese",IDC_C128ROM_KERNALFI_RESOURCE,
                     11,43,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "French Kernal",IDC_C128ROM_KERNALFR_RESOURCE,
+    AUTOCHECKBOX    "Kernal francese",IDC_C128ROM_KERNALFR_RESOURCE,
                     11,58,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Italian Kernal",IDC_C128ROM_KERNALIT_RESOURCE,
+    AUTOCHECKBOX    "Kernal italiano",IDC_C128ROM_KERNALIT_RESOURCE,
                     11,73,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Norwegain Kernal",IDC_C128ROM_KERNALNO_RESOURCE,
+    AUTOCHECKBOX    "Kernal norvegese",IDC_C128ROM_KERNALNO_RESOURCE,
                     11,88,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Swedish Kernal",IDC_C128ROM_KERNALSE_RESOURCE,
+    AUTOCHECKBOX    "Kernal Svedese",IDC_C128ROM_KERNALSE_RESOURCE,
                     11,103,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Basic LO",IDC_C128ROM_BASICLO_RESOURCE,
                     11,118,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Basic HI",IDC_C128ROM_BASICHI_RESOURCE,
                     11,133,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "International dei caratteri",IDC_C128ROM_CHARGENINT_RESOURCE,
+    AUTOCHECKBOX    "Caratteri internazionali",IDC_C128ROM_CHARGENINT_RESOURCE,
                     11,148,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "German dei caratteri",IDC_C128ROM_CHARGENDE_RESOURCE,
+    AUTOCHECKBOX    "Caratteri tedeschi",IDC_C128ROM_CHARGENDE_RESOURCE,
                     11,163,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "French dei caratteri",IDC_C128ROM_CHARGENFR_RESOURCE,
+    AUTOCHECKBOX    "Caratteri francesi",IDC_C128ROM_CHARGENFR_RESOURCE,
                     11,178,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "Swedish dei caratteri",IDC_C128ROM_CHARGENSE_RESOURCE,
+    AUTOCHECKBOX    "Caratteri svedesi",IDC_C128ROM_CHARGENSE_RESOURCE,
                     11,193,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "C64 modalità Kernal",IDC_C128ROM_KERNAL64_RESOURCE,
+    AUTOCHECKBOX    "Kernal in modalitÃ  C64",IDC_C128ROM_KERNAL64_RESOURCE,
                     11,208,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "C64 modalità Basic",IDC_C128ROM_BASIC64_RESOURCE,
+    AUTOCHECKBOX    "Basic in modalitÃ  C64",IDC_C128ROM_BASIC64_RESOURCE,
                     11,223,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
     DEFPUSHBUTTON   "OK", IDOK, 20,245,50,14, WS_TABSTOP
@@ -3103,10 +3062,10 @@ END
 
 IDD_C128ROMDRIVE_RESOURCE_DIALOG_FR DIALOG DISCARDABLE  0, 0, 160, 205
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Les paramètres de lecteur"
+CAPTION "Ressources des lecteurs"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "les paramètres de lecteur effectuée au romset",
+    GROUPBOX        "Ressources du lecteur sauvegardés dans le Romset",
                     IDC_STATIC,4,3,151,175
     AUTOCHECKBOX    "1541",IDC_DRIVEROM_1541_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
@@ -3140,10 +3099,10 @@ END
 
 IDD_C128ROMDRIVE_RESOURCE_DIALOG_IT DIALOG DISCARDABLE  0, 0, 160, 205
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Resources del drive"
+CAPTION "Risorse dei drive"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "Resources del drive salvate del romset",
+    GROUPBOX        "Risorse del drive salvate nel ROM set",
                     IDC_STATIC,4,3,151,175
     AUTOCHECKBOX    "1541",IDC_DRIVEROM_1541_RESOURCE,
                     11,13,95,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
@@ -3439,19 +3398,19 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "ROM Fonction"
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "ROM Fonction interne", IDC_STATIC, 5,5,225,45
+    GROUPBOX        "Image ROM Fonction interne", IDC_STATIC, 5,5,225,45
     AUTOCHECKBOX    "Activer l'image ROM Fonction interne",
                     IDC_C128_FUNCTIONROM_INTERNAL, 15,15,120,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Nom de l'image", IDC_STATIC,11,33,50,8
+    LTEXT           "Nom de fichier", IDC_STATIC,11,33,50,8
     EDITTEXT        IDC_C128_FUNCTIONROM_INTERNAL_NAME, 50,30,115,12,WS_TABSTOP
     PUSHBUTTON      "Parcourir...", IDC_C128_FUNCTIONROM_INTERNAL_BROWSE,
                     175,30,50,14, 0
-    GROUPBOX        "ROM Fonction externe", IDC_STATIC, 5,55,225,45
+    GROUPBOX        "Image ROM Fonction externe", IDC_STATIC, 5,55,225,45
     AUTOCHECKBOX    "Activer l'image ROM Fonction externe",
                     IDC_C128_FUNCTIONROM_EXTERNAL, 15,65,120,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Nom de l'image", IDC_STATIC,11,83,50,8
+    LTEXT           "Nom de fichier", IDC_STATIC,11,83,50,8
     EDITTEXT        IDC_C128_FUNCTIONROM_EXTERNAL_NAME, 50,80,115,12,WS_TABSTOP
     PUSHBUTTON      "Parcourir...", IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE,
                     175,80,50,14, 0
@@ -3469,7 +3428,7 @@ BEGIN
     AUTOCHECKBOX    "Attiva la Function ROM interna",
                     IDC_C128_FUNCTIONROM_INTERNAL, 15,15,120,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Immagine", IDC_STATIC,11,33,50,8
+    LTEXT           "Nome del file", IDC_STATIC,11,33,50,8
     EDITTEXT        IDC_C128_FUNCTIONROM_INTERNAL_NAME, 50,30,115,12,WS_TABSTOP
     PUSHBUTTON      "Sfoglia...", IDC_C128_FUNCTIONROM_INTERNAL_BROWSE,
                     175,30,50,14, 0
@@ -3477,7 +3436,7 @@ BEGIN
     AUTOCHECKBOX    "Attiva la Function ROM esterna",
                     IDC_C128_FUNCTIONROM_EXTERNAL, 15,65,120,10,
                     BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "Immagine", IDC_STATIC,11,83,50,8
+    LTEXT           "Nome del file", IDC_STATIC,11,83,50,8
     EDITTEXT        IDC_C128_FUNCTIONROM_EXTERNAL_NAME, 50,80,115,12,WS_TABSTOP
     PUSHBUTTON      "Sfoglia...", IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE,
                     175,80,50,14, 0
@@ -3701,7 +3660,7 @@ IDD_DRIVE_SETTINGS_DIALOG_C128_FR DIALOG DISCARDABLE  0, 0, 250, 250
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "&Type du lecteur",IDC_STATIC,5,15,60,225
+    GROUPBOX        "Type de &lecteur",IDC_STATIC,5,15,60,225
     AUTORADIOBUTTON "1&541",IDC_SELECT_DRIVE_TYPE_1541,15,30,35,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "1541-&II",IDC_SELECT_DRIVE_TYPE_1541II,15,45,35,10,
@@ -3730,23 +3689,23 @@ BEGIN
                             BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "&Aucun",IDC_SELECT_DRIVE_TYPE_NONE,15,225,35,10,
                             BS_AUTORADIOBUTTON
-    GROUPBOX        "Support d'images de 40 &pistes",IDC_STATIC,75,15,90,60
-    AUTORADIOBUTTON "Ne jamais étendre",IDC_SELECT_DRIVE_EXTEND_NEVER,85,30,65,10,
+    GROUPBOX        "Prise en charge du 40 pistes",IDC_STATIC,75,15,90,60
+    AUTORADIOBUTTON "Ne jamais é&tendre",IDC_SELECT_DRIVE_EXTEND_NEVER,85,30,65,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "Demander",IDC_SELECT_DRIVE_EXTEND_ASK,85,45,65,10,
+    AUTORADIOBUTTON "Demander avant d'étendre",IDC_SELECT_DRIVE_EXTEND_ASK,85,45,65,10,
                             BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "Étendre à l'accès",IDC_SELECT_DRIVE_EXTEND_ACCESS,
                             85,60,65,10, BS_AUTORADIOBUTTON
-    GROUPBOX        "Méthode d'id&le",IDC_STATIC,175,15,70,60
+    GROUPBOX        "Méthode d'idle",IDC_STATIC,175,15,70,60
     AUTORADIOBUTTON "Aucun",IDC_SELECT_DRIVE_IDLE_NO_IDLE,185,30,51,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
-    AUTORADIOBUTTON "Attente des trappes",IDC_SELECT_DRIVE_IDLE_TRAP_IDLE,185,45,51,10,
+    AUTORADIOBUTTON "Trap idle",IDC_SELECT_DRIVE_IDLE_TRAP_IDLE,185,45,51,10,
                             BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "Sauter les cycles",IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES,
+    AUTORADIOBUTTON "Sauter des cycles",IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES,
                             185,60,51,10,BS_AUTORADIOBUTTON
-    AUTOCHECKBOX    "Câble &parralèle",IDC_TOGGLE_DRIVE_PARALLEL_CABLE,
+    AUTOCHECKBOX    "Câble &parallèle",IDC_TOGGLE_DRIVE_PARALLEL_CABLE,
                     185,90,80,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    GROUPBOX        "&Expansion du lecteur",IDC_STATIC,75,75,90,90
+    GROUPBOX        "&Expansion de lecteur",IDC_STATIC,75,75,90,90
     AUTOCHECKBOX    "$2000-$3FFF &RAM",IDC_TOGGLE_DRIVE_EXPANSION_2000,
                     85,90,73,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "$&4000-$5FFF RAM",IDC_TOGGLE_DRIVE_EXPANSION_4000,
@@ -3766,7 +3725,7 @@ IDD_DRIVE_SETTINGS_DIALOG_C128_IT DIALOG DISCARDABLE  0, 0, 250, 250
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    GROUPBOX        "&Tipo di drive",IDC_STATIC,5,15,60,225
+    GROUPBOX        "Tipo di &drive",IDC_STATIC,5,15,60,225
     AUTORADIOBUTTON "1&541",IDC_SELECT_DRIVE_TYPE_1541,15,30,35,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "1541-&II",IDC_SELECT_DRIVE_TYPE_1541II,15,45,35,10,
@@ -3795,23 +3754,23 @@ BEGIN
                             BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "&Nessuno",IDC_SELECT_DRIVE_TYPE_NONE,15,225,35,10,
                             BS_AUTORADIOBUTTON
-    GROUPBOX        "40 &tracce handling",IDC_STATIC,75,15,90,60
+    GROUPBOX        "Gestisci 40 &tracce",IDC_STATIC,75,15,90,60
     AUTORADIOBUTTON "Mai",IDC_SELECT_DRIVE_EXTEND_NEVER,85,30,65,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "Chiedi all'accesso",IDC_SELECT_DRIVE_EXTEND_ASK,85,45,65,10,
                             BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "Attiva al 1° accesso",IDC_SELECT_DRIVE_EXTEND_ACCESS,
+    AUTORADIOBUTTON "Attiva al 1Â° accesso",IDC_SELECT_DRIVE_EXTEND_ACCESS,
                             85,60,65,10, BS_AUTORADIOBUTTON
-    GROUPBOX        "Ri&leva inattività",IDC_STATIC,175,15,70,60
+    GROUPBOX        "Id&le method",IDC_STATIC,175,15,70,60
     AUTORADIOBUTTON "Nessuno",IDC_SELECT_DRIVE_IDLE_NO_IDLE,185,30,51,10,
                             BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "Trap idle",IDC_SELECT_DRIVE_IDLE_TRAP_IDLE,185,45,51,10,
                             BS_AUTORADIOBUTTON
     AUTORADIOBUTTON "Skip cycles",IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES,
                             185,60,51,10,BS_AUTORADIOBUTTON
-    AUTOCHECKBOX    "cavo &parallelo",IDC_TOGGLE_DRIVE_PARALLEL_CABLE,
+    AUTOCHECKBOX    "Cavo &parallelo",IDC_TOGGLE_DRIVE_PARALLEL_CABLE,
                     185,90,80,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    GROUPBOX        "Drive &Espasione",IDC_STATIC,75,75,90,90
+    GROUPBOX        "&Espasione del drive",IDC_STATIC,75,75,90,90
     AUTOCHECKBOX    "$2000-$3FFF &RAM",IDC_TOGGLE_DRIVE_EXPANSION_2000,
                     85,90,73,10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "$&4000-$5FFF RAM",IDC_TOGGLE_DRIVE_EXPANSION_4000,
@@ -4079,7 +4038,7 @@ BEGIN
     EDITTEXT    IDC_C128KBD_MAPPING_POS, 65,29,110,12,WS_TABSTOP
     PUSHBUTTON  "Parcourir...", IDC_C128KBD_MAPPING_POS_BROWSE, 185,29,50,14, 0
 
-    PUSHBUTTON  "Exporter le mappage clavier", IDC_C128KBD_MAPPING_DUMP, 10,54,50,14, 0
+    PUSHBUTTON  "Exporter le mappage clavier dans un fichier", IDC_C128KBD_MAPPING_DUMP, 10,54,50,14, 0
 END
 
 
@@ -4099,7 +4058,7 @@ BEGIN
     EDITTEXT    IDC_C128KBD_MAPPING_POS, 65,29,110,12,WS_TABSTOP
     PUSHBUTTON  "Sfoglia...", IDC_C128KBD_MAPPING_POS_BROWSE, 185,29,50,14, 0
 
-    PUSHBUTTON  "Scrivi la mappa della tastiera", IDC_C128KBD_MAPPING_DUMP, 10,54,50,14, 0
+    PUSHBUTTON  "Scrivi keyset", IDC_C128KBD_MAPPING_DUMP, 10,54,50,14, 0
 END
 
 
@@ -4194,11 +4153,11 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM_FR   "Select internal function ROM image"
-  IDS_SELECT_EXT_FUNCTION_ROM_FR   "Select external function ROM image"
-  IDS_MACHINE_TYPE_FR              "Machine type"
-  IDS_FUNCTION_ROM_FR              "Function ROM"
-  IDS_C128_SETTINGS_FR             "C128 settings"
+  IDS_SELECT_INT_FUNCTION_ROM_FR   "Sélectionner l'image ROM Fonction interne"
+  IDS_SELECT_EXT_FUNCTION_ROM_FR   "Sélectionner l'image ROM Fonction externe"
+  IDS_MACHINE_TYPE_FR              "Type de machine"
+  IDS_FUNCTION_ROM_FR              "ROM Fonction"
+  IDS_C128_SETTINGS_FR             "Paramètres C128"
 END
 
 
@@ -4206,11 +4165,11 @@ END
 
 STRINGTABLE
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM_IT   "Select internal function ROM image"
-  IDS_SELECT_EXT_FUNCTION_ROM_IT   "Select external function ROM image"
-  IDS_MACHINE_TYPE_IT              "Machine type"
+  IDS_SELECT_INT_FUNCTION_ROM_IT   "Seleziona l'immagine della Function ROM interna"
+  IDS_SELECT_EXT_FUNCTION_ROM_IT   "Seleziona l'immagine della Function ROM esterna"
+  IDS_MACHINE_TYPE_IT              "Tipo di macchina"
   IDS_FUNCTION_ROM_IT              "Function ROM"
-  IDS_C128_SETTINGS_IT             "C128 settings"
+  IDS_C128_SETTINGS_IT             "Impostazioni del C128"
 END
 
 
