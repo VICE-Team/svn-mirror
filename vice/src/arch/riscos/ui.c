@@ -952,13 +952,13 @@ int ui_init_named_app(const char *appname, const char *iconname)
 }
 
 
-int ui_init_resources(void)
+int ui_resources_init(void)
 {
   return resources_register(resources);
 }
 
 
-int ui_init_cmdline_options(void)
+int ui_cmdline_options_init(void)
 {
   return 0;
 }

@@ -1,3 +1,13 @@
+2002-05-31  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.24.
+
+	* configure.in: Added `fsdevice' library.
+
+2002-05-31  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* data/<machine>/*: Added windows vkm files.
+
 2002-05-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.23.

@@ -1,3 +1,60 @@
+2002-05-31  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.24.
+
+	* fsdevice/fsdevice-cmdline-options.c,
+	fsdevice/fsdevice-cmdline-options.c,
+	fsdevice/fsdevice-resources.c, fsdevice/fsdevice-resources.h,
+	fsdevice/fsdevice.c, fsdevice/Makefile.am: New files.
+
+	* fsdevice.c: Moved code to fsdevice/*.
+
+	* Makefile.am: Updated.
+
+	* fsdevice.h, init.c, log.c, log.h, sysfile.c, sysfile.h,
+	machine.h, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/c610.c, attach.c, attach.h, uiapi.h,
+	arch/win32/ui.c, arch/unix/x11/ui-resources.c,
+	arch/unix/x11/ui-cmdline-options.c, arch/msdos/ui.c,
+	arch/riscos/ui.c, arch/os2/ui.c, debug.c, debug.h, kbdbuf.c,
+	kbdbuf.h: Renamed init functions.
+
+2002-05-31  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/c64cart.dsp: Added ide64.
+
+	* arch/win32/joy.c: Added joystick_port_map.
+
+	* arch/win32/kbd.c (kbd_handle_keydown, kbd_handle_keyup):
+	Use common keyboard code.
+
+	* vic20/vic-mem.c, vic.h: Removed VIC_SCREEN_MAX_TEXT_LINES
+	stuff.
+
+	* vice.h: Win32 defines COMMON_KBD.
+
+2002-05-30  Kajtar Zsolt  <soci@c64.rulez.org>
+
+	* fsdevice.c: Added "0 BLOCKS FREE." and correct linking address.
+
+	* c64/cart/ide64.c, c64/cart/ide64.h,
+	arch/unix/uic64cart.c, c64/c64cart.h, c64/c64mem.c,
+	c64/cart/Makefile.am, c64/cart/c64cart.c,
+	c64/cart/c64cartmem.c, c64/reu.c, cartridge.h, cbm2/c610mem.c,
+	vicii/vicii.c, doc/vice.texi: IDE64 interface support, Unix
+	IDE64 interface.
+
+	* arch/beos/c64ui.cc, arch/beos/constants.h,
+	arch/beos/vicemenu.cc, arch/msdos/c64ui.c,
+	arch/os2/dialogs/dlg-fileio.c, arch/os2/dialogs/menubar.c,
+	arch/os2/dialogs/menubar.h, arch/os2/dialogs/menubar.rc,
+	arch/os2/vac++/incl/c64cart.icc, arch/riscos/uiconfig.c,
+	arch/win32/c128ui.c, arch/win32/c64cart.dsp,
+	arch/win32/c64ui.c, arch/win32/res.h, arch/win32/resc128.rc,
+	arch/win32/resc64.rc: BeOS, OS/2, RiscOS, win32 support.
+
+	* info.c: credits.
+
 2002-05-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.23.

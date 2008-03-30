@@ -32,7 +32,9 @@
 #include "debug.h"
 #include "resources.h"
 
+
 debug_t debug;
+
 
 static int set_do_core_dumps(resource_value_t v, void *param)
 {
@@ -102,7 +104,7 @@ static cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int debug_init_cmdline_options(void)
+int debug_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

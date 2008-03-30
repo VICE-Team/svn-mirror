@@ -42,8 +42,8 @@ typedef enum {
 } ui_drive_enable_t;
 
 /* Initialization  */
-extern int ui_init_resources(void);
-extern int ui_init_cmdline_options(void);
+extern int ui_resources_init(void);
+extern int ui_cmdline_options_init(void);
 extern int ui_init(int *argc, char **argv);
 extern int ui_init_finish(void);
 extern int ui_init_finalize(void);

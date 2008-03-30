@@ -29,8 +29,8 @@
 #define _ATTACH_H
 
 extern void file_system_init(void);
-extern int file_system_init_resources(void);
-extern int file_system_init_cmdline_options(void);
+extern int file_system_resources_init(void);
+extern int file_system_cmdline_options_init(void);
 
 extern const char *file_system_get_disk_name(unsigned int unit);
 extern int file_system_attach_disk(unsigned int unit, const char *filename);

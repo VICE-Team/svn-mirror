@@ -116,7 +116,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int ui_init_resources(void)
+int ui_resources_init(void)
 {
     return resources_register(resources);
 }
