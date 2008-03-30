@@ -1,3 +1,78 @@
+2000-08-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* arch/win32/res.h: Fixed drive type defines.
+
+	* arch/win32/uidrive.c (init_dialog): Fixed drive number.
+
+	* arch/win32/uisnapshot.c (hook_save_snapshot): Fixed warning.
+
+	* resources.c, resources.h (resources_set_sprintf,
+	resources_get_sprintf): New functions.
+
+	* arch/unix/uisettings.c, arch/win32/uidrive.c: Use new
+	resource functions.
+
+	* fsdevice.c: Unified function for all drives.
+
+	* arch/unix/x11/xaw/ui.c (ui_open_canvas_window): Fixed typos.
+
+2000-07-31  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/archdep.c: fixed an allocation problem in
+	archdep_create_mutex_sem, added trigger_shutdown to brek64,
+	archdep_startup_log_error uses xmvsprint now
+   
+	* arch/os2/console.c: console_out uses xmvsprintf now.
+ 
+	* arch/os2/dialogs/dialogs.rc: small layout changes
+ 
+	* arch/os2/dialogs/dlg-contents.c: uses xmsprintf now.
+ 
+	* arch/os2/dialogs/dlg-drive.c: uses xmsprintf now.
+ 
+	* arch/os2/doc/Vice_for_OS2.txt: added new cmdline parameters,
+	and ToDo
+ 
+	* arch/os2/icons/xvic.ICO: added
+ 
+	* arch/os2/install.cmd: added the remark
+ 
+	* arch/os2/joystick.c: can dtermin number of joysticks now
+ 
+	* arch/os2/joystick.h: added new joystick definitions
+ 
+	* arch/os2/kbd/kbd-c610.c, kbd-pet.c, kbd-vic20.c: deleted old
+	kbd mapping
+ 
+	* arch/os2/kbd/proc.c: deleted an output statement
+ 
+	* arch/os2/makedist.cmd: some amall changes, os2*.vkm added,
+	default.vkm deleted
+ 
+	* arch/os2/ui.c: uses xmvsprintf now.
+ 
+	* arch/os2/vac++/incl/c128.icc: daa.c added
+ 
+	* arch/os2/vac++/incl/kbd.icc: removed kbd-c64.c
+
+	* arch/os2/vac++/lpng.icc: added 
+
+	* arch/os2/vac++/lzlib.icc: added 
+ 
+	* arch/os2/vac++/RESID.ICC: changed version number
+ 
+	* arch/os2/vac++/*.ICC: changed searchpath for zlib and
+	lnpng106
+ 
+	* arch/os2/vac++/X64.ICC: added kbd-c64.c
+ 
+	* arch/os2/Vice2/VIC20/os2.vkm: added 
+ 
+	* arch/os2/vsyncarch.c: uses xmsprintf now
+ 
+	* utils.c: removed this strange construct for
+	xmvsprintf_do_div. VAC++ cannot compile it
+
 2000-07-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.3.
@@ -89,7 +164,7 @@
 	* arch/os2/vac++/lzlib.icc: added
 
 	* arch/os2/video.c: added video/vdc_free, higher priority for
-	canvas mainloop,
+	canvas mainloop
 
 	* arch/os2/vsyncarch.c: removed video_free
 

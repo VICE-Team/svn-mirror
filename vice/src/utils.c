@@ -763,11 +763,13 @@ static int xmvsprintf_skip_atoi(const char **s)
 #define SPECIAL	32		/* 0x */
 #define LARGE	64		/* use 'ABCDEF' instead of 'abcdef' */
 
-#define xmvsprintf_do_div(n,base) ({                \
-    int __res;                                      \
-    __res = ((unsigned long) n) % (unsigned) base;  \
-    n = ((unsigned long) n) / (unsigned) base;      \
-    __res; })
+inline int xmvsprintf_do_div(long *n, unsigned int base)
+{
+    int __res;
+    __res = ((unsigned long) *n) % (unsigned) base;
+    *n = ((unsigned long) *n) / (unsigned) base;
+    return __res;
+}
 
 static size_t xmvsprintf_strnlen(const char * s, size_t count)
 {
@@ -828,7 +830,7 @@ static void xmvsprintf_number(char **buf, unsigned int *bufsize,
     if (num == 0)
         tmp[i++]='0';
     else while (num != 0)
-        tmp[i++] = digits[xmvsprintf_do_div(num, base)];
+        tmp[i++] = digits[xmvsprintf_do_div(&num, base)];
     if (i > precision)
         precision = i;
         size -= precision;

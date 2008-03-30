@@ -36,6 +36,7 @@
 #include <stdlib.h>    // exit
 
 #include "log.h"
+#include "utils.h"     // xmsprintf
 #include "vsync.h"     // suspend_speed_eval
 #include "sound.h"     // sound_close
 #include "kbdbuf.h"    // kbd_buf_flush
@@ -66,14 +67,16 @@ static HEV hevTimer = 0; // Event semaphore handle
 
 void vsyncarch_init()
 {
-    char szSemName[80];
     APIRET rc;
+    char *szSemName;
 
-    sprintf(szSemName, "%s%i", "\\SEM32\\VICE2\\Vsync", vsyncarch_gettime());
+    szSemName = xmsprintf("%s%x", "\\SEM32\\VICE2\\Vsync", vsyncarch_gettime());
     rc = DosCreateEventSem(szSemName,      // Name of semaphore to create
-                           &hevTimer,     // Handle of semaphore returned
+                           &hevTimer,      // Handle of semaphore returned
                            DC_SEM_SHARED,  // Shared semaphore
                            FALSE);         // Semaphore is in RESET state
+    free(szSemName);
+
     if (rc)
         log_debug("vsync.c: DosCreateEventSem (rc=%u) - cannot synchronize properly", rc);
 }

@@ -70,8 +70,8 @@ int console_close(console_t *log)
 
 int console_out(console_t *log, const char *format, ...)
 {
-    static char out[1024];
-    char in[1024];  // FIXME: what happens if strlen>1024?
+    static char out[1024]; // FIXME
+    char *in;
     char *txt, *mid;
     va_list ap;
 
@@ -79,7 +79,7 @@ int console_out(console_t *log, const char *format, ...)
         return 0;
 
     va_start(ap, format);
-    vsprintf(in, format, ap);
+    in=xmvsprintf(format, ap);
 
     /*
      if (strlen(in)+strlen(out)>1023)
@@ -106,6 +106,8 @@ int console_out(console_t *log, const char *format, ...)
 
     if (mid != txt)
         strcat(out, txt);
+
+    free(in);
 
     return 0;
 }

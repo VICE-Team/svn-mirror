@@ -67,13 +67,13 @@ inline void kbd_set_key(CHAR usScancode, USHORT release, USHORT fsFlags)
         keyboard_set_keyarr(keyconvmap.map[shift][usScancode].row,
                             keyconvmap.map[shift][usScancode].column,
                             release);
-
-        log_debug("key  %3i  -->  %3i %3i %i  %s",usScancode,
-                  keyconvmap.map[shift][usScancode].row,
-                  keyconvmap.map[shift][usScancode].column,
-                  keyconvmap.map[shift][usScancode].vshift,
-                  release?"press":"release");
-
+        /*
+         log_debug("key  %3i  -->  %3i %3i %i  %s",usScancode,
+         keyconvmap.map[shift][usScancode].row,
+         keyconvmap.map[shift][usScancode].column,
+         keyconvmap.map[shift][usScancode].vshift,
+         release?"press":"release");
+         */
         // process virtual shift key
         switch (keyconvmap.map[shift][usScancode].vshift)
         {

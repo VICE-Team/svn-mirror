@@ -1,4 +1,3 @@
 source type(c)
     "proc.c",
-    "parse.c",
-    "kbd-c64.c"
+    "parse.c"

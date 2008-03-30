@@ -113,9 +113,9 @@ void archdep_create_mutex_sem(HMTX *hmtx, const char *pszName, int fState)
 {
     APIRET rc;
 
-    char *sem = xmalloc(strlen(pszName)+15);
+    char *sem = xmalloc(13+strlen(pszName)+5+1);
 
-    sprintf(sem, "\\SEM32\\VICE2\\%s%i", pszName, vsyncarch_gettime());
+    sprintf(sem, "\\SEM32\\VICE2\\%s_%04x", pszName, vsyncarch_gettime()&0xffff);
 
     if (rc=DosCreateMutexSem(sem, hmtx, 0, fState))
         log_message(LOG_DEFAULT, "archdep.c: DosCreateMutexSem '%s' (rc=%i)", pszName, rc);
@@ -146,7 +146,9 @@ int archdep_startup(int *argc, char **argv)
 const char *archdep_program_name(void)
 {
     static char *name=NULL;
-    if (!name) {
+
+    if (!name)
+    {
         char drive[_MAX_DRIVE];
         char dir  [_MAX_DIR];
         char fname[_MAX_FNAME+_MAX_EXT];
@@ -160,15 +162,18 @@ const char *archdep_program_name(void)
 const char *archdep_boot_path(void)
 {
     static char *boot_path=NULL;
-    if (!boot_path) {
+
+    if (!boot_path)
+    {
         char drive[_MAX_DRIVE+_MAX_DIR];
         char dir  [_MAX_DIR];
         char fname[_MAX_FNAME+_MAX_EXT];
         char ext  [_MAX_EXT];
         _splitpath(argv0, drive, dir, fname, ext);
-        if (strlen(dir)) *(dir+strlen(dir)-1) = '\0'; // cut last backslash
+        if (strlen(dir))
+            *(dir+strlen(dir)-1) = '\0'; // cut last backslash
         boot_path = concat(drive, dir, NULL);
-     }
+    }
     return boot_path;
 }
 
@@ -235,17 +240,23 @@ int archdep_num_text_columns(void)
 #endif
 }
 
+#if !defined __C1541__ && !defined __PETCAT__
+extern int trigger_shutdown;
+#endif
+
 static RETSIGTYPE break64(int sig)
 {
-    char sigtxt[255];
-    sprintf(sigtxt,
-            "Received signal %d (%s). Vice will be closed.",
-            sig, sys_siglist[sig]);
+    char *sigtxt;
+    sigtxt = xmsprintf("Received signal %d (%s). Vice will be closed.",
+                       sig, sys_siglist[sig]);
     log_message(LOG_DEFAULT, sigtxt);
 #if !defined __C1541__ && !defined __PETCAT__
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
                   sigtxt, "VICE/2 Exception", 0, MB_OK);
+    trigger_shutdown = TRUE;
+
 #endif
+    free(sigtxt);
     exit (-1);
 }
 
@@ -261,13 +272,13 @@ void archdep_setup_signals(int do_core_dumps)
         signal(SIGILL,   break64);
         signal(SIGFPE,   break64);
         signal(SIGABRT,  break64);
-        //        signal(SIGINT,   break64);
+        // signal(SIGINT,   break64);
         signal(SIGTERM,  break64);
-        signal(SIGUSR1,  break64);
-        signal(SIGUSR2,  break64);
+        // signal(SIGUSR1,  break64);
+        // signal(SIGUSR2,  break64);
         signal(SIGBREAK, break64);
 #ifdef __IBMC__
-        signal(SIGUSR3,  break64);
+        // signal(SIGUSR3,  break64);
 #else
         signal(SIGPIPE,  break64);
         signal(SIGHUP,   break64);
@@ -424,16 +435,17 @@ int archdep_spawn(const char *name, char **argv,
 
 void archdep_startup_log_error(const char *format, ...)
 {
-    char txt[1024];
+    char *txt;
     va_list ap;
     va_start(ap, format);
-    vsprintf(txt, format, ap);
+    txt = xmvsprintf(format, ap);
 #if !defined __C1541__ && !defined __PETCAT__
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
                   txt, "VICE/2 Startup Error", 0, MB_OK);
 #else
     printf(txt);
 #endif
+    free(txt);
 }
 
 

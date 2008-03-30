@@ -167,6 +167,10 @@ rc=SysSetObjectData("<VICE2>","OPEN=DEFAULT")
 say ''
 say 'Installation succesful.'
 say ''
+say 'Remark: It is not necessary to reboot. The installation script'
+say 'does nothing else than creating desctop object. Uninstallation'
+say 'can be done by removing the Vice2-Folder easily.'
+say ''
 
 exit
 

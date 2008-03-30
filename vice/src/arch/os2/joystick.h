@@ -69,20 +69,23 @@ int set_joyB_autoCal(const char *value, void *extra_param);
 int get_joyA_autoCal();
 int get_joyB_autoCal();
 
+/****************************************************************************/
+#define GAMEPDDNAME	"GAME$   "
+/****************************************************************************/
 
-#define IOCTL_CAT_USER           0x80
-
-#define GAME_GET_VERSION         0x01
-#define GAME_GET_PARMS           0x02
-#define GAME_SET_PARMS           0x03
-#define GAME_GET_CALIB           0x04
-#define GAME_SET_CALIB           0x05
-#define GAME_GET_DIGSET          0x06
-#define GAME_SET_DIGSET          0x07
-
-#define GAME_GET_STATUS          0x10
-#define GAME_GET_STATUS_BUTWAIT  0x11
-#define GAME_GET_STATUS_SAMPWAIT 0x12
+/****************************************************************************/
+#define IOCTL_CAT_USER			0x80
+#define	GAME_GET_VERSION		0x01
+#define	GAME_GET_PARMS			0x02
+#define	GAME_SET_PARMS			0x03
+#define	GAME_GET_CALIB			0x04
+#define	GAME_SET_CALIB			0x05
+#define	GAME_GET_DIGSET			0x06
+#define	GAME_SET_DIGSET			0x07
+#define	GAME_GET_STATUS			0x10
+#define	GAME_GET_STATUS_BUTWAIT		0x11
+#define	GAME_GET_STATUS_SAMPWAIT	0x12
+/****************************************************************************/
 
 /* in use bitmasks originating in 1.0 */
 #define GAME_USE_BOTH_OLDMASK    0x01 /* for backward compat with bool */
@@ -92,15 +95,14 @@ int get_joyB_autoCal();
 #define GAME_USE_Y_EITHERMASK (GAME_USE_Y_NEWMASK|GAME_USE_BOTH_OLDMASK)
 #define GAME_USE_BOTH_NEWMASK (GAME_USE_X_NEWMASK|GAME_USE_Y_NEWMASK)
 
-/* only timed sampling implemented in version 1.0 */
-#define GAME_MODE_TIMED   1 /* timed sampling */
-#define GAME_MODE_REQUEST 2 /* request driven sampling */
-
-/* only raw implemented in version 1.0 */
-#define GAME_DATA_FORMAT_RAW    1 /* [l,c,r]   */
-#define GAME_DATA_FORMAT_SIGNED 2 /* [-l,0,+r] */
-#define GAME_DATA_FORMAT_BINARY 3 /* {-1,0,+1} */
-#define GAME_DATA_FORMAT_SCALED 4 /* [-10,+10] */
+/****************************************************************************/
+#define JOY_AX_BIT	0x01
+#define JOY_AY_BIT	0x02
+#define JOY_A_BITS	(JOY_AX_BIT|JOY_AY_BIT)
+#define JOY_BX_BIT	0x04
+#define JOY_BY_BIT	0x08
+#define JOY_B_BITS	(JOY_BX_BIT|JOY_BY_BIT)
+#define JOY_ALLPOS_BITS	(JOY_A_BITS|JOY_B_BITS)
 
 #define JOYA_BUT1     0x10
 #define JOYA_BUT2     0x20
@@ -108,33 +110,85 @@ int get_joyB_autoCal();
 #define JOYB_BUT1     0x40
 #define JOYB_BUT2     0x80
 #define JOYB_BUTTONS  (JOYB_BUT1 | JOYB_BUT2)
+#define JOY_BUTTONS   (JOYA_BUTTONS|JOYB_BUTTONS)
+
+/****************************************************************************/
+
+/****************************************************************************/
+typedef	signed short GAME_POS;	/* some data formats require signed values */
 
 // simple 2-D position for each joystick
 typedef struct
 {
-    signed short x;
-    signed short y;
+    GAME_POS x;
+    GAME_POS y;
 } GAME_2DPOS_STRUCT;
 
 // struct defining the instantaneous state of both sticks and all buttons
 typedef struct
 {
-  GAME_2DPOS_STRUCT A;       // Joystick A
-  GAME_2DPOS_STRUCT B;       // Joystick B
-  unsigned short    butMask; // Buttons
+    GAME_2DPOS_STRUCT A;
+    GAME_2DPOS_STRUCT B;
+    unsigned short butMask;
 } GAME_DATA_STRUCT;
+
+typedef struct
+{
+    GAME_POS  lower;
+    GAME_POS  centre;
+    GAME_POS  upper;
+} GAME_3POS_STRUCT;
 
 // status struct returned to OS/2 applications:
 // current data for all sticks as well as button counts since last read
 typedef struct
 {
-  GAME_DATA_STRUCT curdata;
-  unsigned short b1cnt;
-  unsigned short b2cnt;
-  unsigned short b3cnt;
-  unsigned short b4cnt;
-} GAME_STATUS_STRUCT;
-// ---------- OS/2 specific stuff ---------
+    GAME_3POS_STRUCT Ax;
+    GAME_3POS_STRUCT Ay;
+    GAME_3POS_STRUCT Bx;
+    GAME_3POS_STRUCT By;
+} GAME_DIGSET_STRUCT;
+/****************************************************************************/
 
+/****************************************************************************/
+typedef struct
+{
+    GAME_DATA_STRUCT curdata;
+    unsigned short   b1cnt;
+    unsigned short   b2cnt;
+    unsigned short   b3cnt;
+    unsigned short   b4cnt;
+} GAME_STATUS_STRUCT;
+
+/* only timed sampling implemented in version 1.0 */
+#define GAME_MODE_TIMED		1	/* timed sampling */
+#define GAME_MODE_REQUEST	2	/* request driven sampling */
+
+/* only raw implemented in version 1.0 */
+#define GAME_DATA_FORMAT_RAW    1 /* [l,c,r]   */
+#define GAME_DATA_FORMAT_SIGNED 2 /* [-l,0,+r] */
+#define GAME_DATA_FORMAT_BINARY 3 /* {-1,0,+1} */
+#define GAME_DATA_FORMAT_SCALED 4 /* [-10,+10] */
+
+typedef struct
+{
+    unsigned short useA;     /* bool, !0 = in use */
+    unsigned short useB;
+    unsigned short mode;     /* see consts above */
+    unsigned short format;   /* see consts above */
+    unsigned short sampDiv;  /* samp freq = 32 / n */
+    unsigned short scale;    /* scaling factor */
+    unsigned short res1;
+    unsigned short res2;
+} GAME_PARM_STRUCT;
+
+typedef struct
+{
+    GAME_3POS_STRUCT Ax;
+    GAME_3POS_STRUCT Ay;
+    GAME_3POS_STRUCT Bx;
+    GAME_3POS_STRUCT By;
+} GAME_CALIB_STRUCT;
+/****************************************************************************/
 
 #endif

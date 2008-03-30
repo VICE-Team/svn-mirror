@@ -211,22 +211,24 @@ void ui_display_drive_current_image(unsigned int drive_number,
 
 void ui_error(const char *format,...)
 {
-    char txt[1024];
+    char *txt;
     va_list ap;
     va_start(ap, format);
-    vsprintf(txt, format, ap);
+    txt = xmvsprintf(format, ap);
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
                   txt, "VICE/2 Error", 0, MB_OK);
+    free(txt);
 }
 
 ui_jam_action_t ui_jam_dialog(const char *format,...)
 {
-    char txt[1024];
+    char *txt;
     va_list ap;
     va_start(ap, format);
-    vsprintf(txt, format, ap);
+    txt = xmvsprintf(format, ap);
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
                   txt, "VICE/2 CPU JAM happend", 0, MB_OK);
+    free(txt);
     return UI_JAM_HARD_RESET;  // Always hard reset.
 }
 

@@ -63,6 +63,7 @@ EXTRA_DIST = \
 	icons/folder2.ico \
 	icons/x64.ico \
 	icons/xpet.ico \
+        icons/xvic.ico \
 	icons/x128.ico \
 	icons/xcbm2.ico \
 	icons/c1541.ico \

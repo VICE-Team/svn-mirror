@@ -6,6 +6,7 @@ c64_DATA = \
 	ccs64.vpl \
 	chargen \
         os2.vkm \
+        os2_sym.vkm \
 	default.vkm \
 	default.vpl \
 	default.vrs \

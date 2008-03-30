@@ -5,5 +5,6 @@ source type(c)
     "c128iec.c",
     "c128mem.c",
     "c128mmu.c",
+    "daa.c",
     "z80.c",
     "z80mem.c"

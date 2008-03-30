@@ -21,6 +21,8 @@ roms = \
 	chargen.de
 
 keymaps = \
+        os2.vkm \
+        os2_40.vkm \
 	busi_uk.vkm \
 	graphics.vkm \
 	posg_de.vkm \

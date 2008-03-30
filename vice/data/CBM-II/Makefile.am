@@ -6,6 +6,7 @@ cbm2_DATA = \
 	basic.256 \
 	chargen.600 \
 	chargen.700 \
+        os2.vkm \
 	busi_uk.vkm \
 	default.vpl \
 	kernal \

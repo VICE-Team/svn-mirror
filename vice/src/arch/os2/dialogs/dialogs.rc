@@ -320,7 +320,7 @@ BEGIN
         CONTROL "Hide Mouse Ptr in Window",    CB_HIDEMOUSE, 14,125,125,  9, STY_AUTOCHECKBOX
 #endif        
         CONTROL "Emulator Identification",     CB_EMUID,  14, 115, 105,  9, STY_AUTOCHECKBOX
-        CONTROL "Video Cache",                 CB_VCACHE, 14, 105,  60,  9, STY_AUTOCHECKBOX
+        CONTROL "Video Cache",                 CB_VCACHE, 14, 105,  70,  9, STY_AUTOCHECKBOX
 #if defined __X64__ || defined __X128__
         CONTROL "Sprite-Background Collision", CB_SBCOLL, 14, 95, 125,  9, STY_AUTOCHECKBOX
         CONTROL "Sprite-Sprite Collision",     CB_SSCOLL, 14, 85, 105,  9, STY_AUTOCHECKBOX

@@ -36,8 +36,10 @@
 #include "dialogs.h"
 
 #include <string.h>
+#include <stdlib.h>
 
 #include "log.h"
+#include "utils.h"
 #include "drive.h"
 #include "attach.h"
 #include "fliplist.h"
@@ -48,25 +50,30 @@
 
 static int toggle_drive_res(char *format, int drive)
 {
-    char tmp[80];
-    sprintf(tmp, format, drive+8);
-    return toggle(tmp);
+    int res;
+    char *tmp;
+    tmp=xmsprintf(format, drive+8);
+    res = toggle(tmp);
+    free(tmp);
+    return res;
 }
 
 static int get_drive_res(char *format, int drive)
 {
-    char tmp[80];
+    char *tmp;
     int val;
-    sprintf(tmp, format, drive+8);
+    tmp=xmsprintf(format, drive+8);
     resources_get_value(tmp, (resource_value_t*) &val);
+    free(tmp);
     return val;
 }
 
 static void set_drive_res(char *format, int drive, int val)
 {
-    char tmp[80];
-    sprintf(tmp, format, drive+8);
+    char *tmp;
+    tmp=xmsprintf(format, drive+8);
     resources_set_value(tmp, (resource_value_t) val);
+    free(tmp);
 }
 
 #define nDRIVES 12

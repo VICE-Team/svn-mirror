@@ -282,15 +282,29 @@ void joystick_init(void)
 
     archdep_create_mutex_sem(&hmtxJoystick, "Joystick", TRUE);
 
+    number_joysticks = 0x0;
     if (rc=DosOpen("GAME$", &SWhGame, &action, 0,
                    FILE_READONLY, OPEN_ACTION_OPEN_IF_EXISTS/*FILE_OPEN*/,
                    OPEN_ACCESS_READONLY | OPEN_SHARE_DENYNONE, NULL))
-    {
-        number_joysticks = 0;
         log_message(LOG_DEFAULT, "joystick.c: DosOpen (rc=%i)", rc);
-    }
     else
-        number_joysticks = 1;  // how to get number of joysticks?
+    {
+    	GAME_PARM_STRUCT parms;
+        ULONG dataLen = sizeof(parms); // length of gameStatus
+	if (rc=DosDevIOCtl(SWhGame, IOCTL_CAT_USER, GAME_GET_PARMS, NULL, 0, NULL,
+                           &parms, dataLen, &dataLen))
+        {
+            number_joysticks = 0x1 & 0x2;
+            log_message(LOG_DEFAULT, "joystick.c: DosDevIOCtl (rc=%i)", rc);
+        }
+        else
+        {
+            if (parms.useA)
+                number_joysticks |= 0x1;
+            if (parms.useB)
+                number_joysticks |= 0x2;
+        }
+    }
     DosReleaseMutexSem(hmtxJoystick);
 }
 
@@ -305,7 +319,8 @@ void joystick_update(void)
     static GAME_STATUS_STRUCT gameStatus;      // joystick readings
     static ULONG dataLen = sizeof(gameStatus); // length of gameStatus
 
-    if (!number_joysticks) return;
+    if (!number_joysticks)
+        return;
     // if (SWhGame == 0) return FALSE; // exit if game port is not opened
 
     DosRequestMutexSem(hmtxJoystick, SEM_INDEFINITE_WAIT);
@@ -313,7 +328,8 @@ void joystick_update(void)
                    &gameStatus, dataLen, &dataLen);
     DosReleaseMutexSem(hmtxJoystick);
 
-    if (rc) return;
+    if (rc)
+        return;
 
     if (joystick_device_1&JOYDEV_HW1 || joystick_device_2&JOYDEV_HW1)
     {
@@ -377,7 +393,7 @@ void joystick_update(void)
         if (joystick_device_2 & JOYDEV_HW1) joystick_value[2] = value;
     }
 
-    if (number_joysticks >= 2 &&
+    if (number_joysticks&0x2 &&
         (joystick_device_1&JOYDEV_HW2 || joystick_device_2&JOYDEV_HW2))
     {
         int value = 0;
@@ -410,48 +426,49 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
 
     /* The numpad case is handled specially because it allows users to use
        both `5' and `2' for "down".  */
-    if (joystick_device_1 & JOYDEV_NUMPAD
-        || joystick_device_2 & JOYDEV_NUMPAD) {
-
-        switch (kcode) {
-          case K_KP7:               /* North-West */
+    if (joystick_device_1 & JOYDEV_NUMPAD ||
+        joystick_device_2 & JOYDEV_NUMPAD)
+    {
+        switch (kcode)
+        {
+        case K_KP7:               /* North-West */
             value = 5;
             break;
-          case K_KP8:               /* North */
+        case K_KP8:               /* North */
             value = 1;
             break;
-          case K_KP9:               /* North-East */
+        case K_KP9:               /* North-East */
             value = 9;
             break;
-          case K_KP6:               /* East */
+        case K_KP6:               /* East */
             value = 8;
             break;
-          case K_KP3:               /* South-East */
+        case K_KP3:               /* South-East */
             value = 10;
             break;
-          case K_KP2:               /* South */
-          case K_KP5:
+        case K_KP2:               /* South */
+        case K_KP5:
             value = 2;
             break;
-          case K_KP1:               /* South-West */
+        case K_KP1:               /* South-West */
             value = 6;
             break;
-          case K_KP4:               /* West */
+        case K_KP4:               /* West */
             value = 4;
             break;
-          case K_KP0:
-          case K_RIGHTCTRL:
+        case K_KP0:
+        case K_RIGHTCTRL:
             value = 16;
-            break;
-          default:
-            /* (make compiler happy) */
             break;
         }
 
-        if (pressed) {
+        if (pressed)
+        {
             if (joystick_device_1 & JOYDEV_NUMPAD) joystick_value[1] |= value;
             if (joystick_device_2 & JOYDEV_NUMPAD) joystick_value[2] |= value;
-        } else {
+        }
+        else
+        {
             if (joystick_device_1 & JOYDEV_NUMPAD) joystick_value[1] &= ~value;
             if (joystick_device_2 & JOYDEV_NUMPAD) joystick_value[2] &= ~value;
         }
@@ -460,9 +477,9 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
     /* (Notice we have to handle all the keysets even when one key is used
        more than once (the most intuitive behavior), so we use `|' instead of
        `||'.)  */
-    return (value
-            | handle_keyset_mapping(JOYDEV_KEYSET1, keyset1, kcode, pressed)
-            | handle_keyset_mapping(JOYDEV_KEYSET2, keyset2, kcode, pressed));
+    return (value |
+            handle_keyset_mapping(JOYDEV_KEYSET1, keyset1, kcode, pressed) |
+            handle_keyset_mapping(JOYDEV_KEYSET2, keyset2, kcode, pressed));
 }
 
 /* ------------------------------------------------------------------------- */

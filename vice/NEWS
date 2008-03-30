@@ -20,6 +20,23 @@ list of all the changes in the code.
 
 - The Z80 emulation has been improved.  CP/M will boot now.
 
+** OS/2 changes
+-----------------
+
+- fixed the bug in the joystick support of 1.4
+
+- fixed a bug in the monitor 
+
+- Vice (not x128) should now work on older DIVE DLLs, too
+
+- added support for keyboard files (eg os2.vkm)
+
+- added screenshot support (see emulator dialog), invoke screenshot with Alt-PrtScr
+
+- fixed the awful synchronazation (x64 runs now with 50fps and 100% as it should)
+
+- the shutdown should be faster now
+
 ** Unix changes
 ---------------
 
@@ -90,6 +107,21 @@ list of all the changes in the code.
 ----------------
 
 - Fixed VIC crash.
+
+** OS/2 changes
+-----------------
+
+- C128, CBM/2, VIC20 and PET keyboard layout fixed
+
+- some smaller bugfixes
+
+- mouse support added
+
+- window position is now written to the cfg-file
+
+- now one than more emulation can run at the same time
+
+- the commandline, contents and monitor window is resizable now
 
 ** MS-DOS changes
 -----------------

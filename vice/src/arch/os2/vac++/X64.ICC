@@ -22,8 +22,8 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\sounddrv"),
     incl(searchpath, "..\\..\\..\\screendrv"),
     incl(searchpath, "..\\..\\..\\vicii"),
-    incl(searchpath, "..\\..\\..\\..\\..\\..\\zlib"),
-    incl(searchpath, "..\\..\\..\\..\\..\\..\\lpng106"),
+    incl(searchpath, "..\\..\\..\\..\\..\\zlib"),
+    incl(searchpath, "..\\..\\..\\..\\..\\lpng106"),
     incl(searchpathfirst, "yes"),
     define("__X64__", ),
     res_rc_options("-i ..\\dialogs -d __X64__ -x1")
@@ -38,6 +38,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         source type(c)
             "maincpu.c"
         source type(c)
+            "kbd-c64.c",
             "c64ui.c"
         include "incl/archdep.icc"
         include "incl/mainsrc.icc"

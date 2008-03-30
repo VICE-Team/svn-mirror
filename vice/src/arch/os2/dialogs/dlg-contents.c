@@ -37,6 +37,7 @@
 #include "dialogs.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "utils.h"           // xmalloc
@@ -130,11 +131,11 @@ static void LoadFont(HWND hwnd)
         fat.lAveCharWidth = 8L;    /* requested font width is 8 pels     */
         fat.fsType = 0;            /* uses default type                  */
         fat.fsFontUse = FATTR_FONTUSE_NOMIX;/* doesn't mix with graphics */
- 
+
         /* Copy Courier to szFacename field */
- 
+
         strcpy(fat.szFacename ,"CBM Vice");
- 
+
         rc=GpiCreateLogFont(hps,   /* presentation space             */
                             NULL,  /* does not use logical font name */
                             2L,    /* local identifier               */
@@ -196,7 +197,7 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         {
             if (first)
             {
-                char text[1024];
+                char *text;
                 image_contents_file_list_t *entry=image->file_list;
 
                 if (!WinSetDlgFont(hwnd, LB_CONTENTS, achFont))
@@ -205,17 +206,20 @@ static MRESULT EXPENTRY pm_contents(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
 
                 // LoadFont(hwnd);
 
-                sprintf(text, " 0 \"%s\" %s", p2a(image->name), p2a(image->id));
+                text=xmsprintf(" 0 \"%s\" %s", p2a(image->name), p2a(image->id));
                 WinLboxInsertItem(hwnd, LB_CONTENTS, text);
                 while (entry)
                 {
-                    sprintf(text, " %-5i\"%s\"%6s",
-                            entry->size, p2a(entry->name), p2a(entry->type));
+                    free(text);
+                    text=xmsprintf(" %-5i\"%s\"%6s", entry->size,
+                                   p2a(entry->name), p2a(entry->type));
                     WinLboxInsertItem(hwnd, LB_CONTENTS, text);
                     entry = entry->next;
                 }
-                sprintf(text, " %i blocks free.", image->blocks_free);
+                free(text);
+                text=xmsprintf(" %i blocks free.", image->blocks_free);
                 WinLboxInsertItem(hwnd, LB_CONTENTS, text);
+                free(text);
                 first=FALSE;
             }
         }
