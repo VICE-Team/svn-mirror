@@ -50,18 +50,17 @@
 #define myvia_write_snapshot_module via_write_snapshot_module
 
 #include "vice.h"
-#include "viacore.h"
-
-#include "maincpu.h"
-
-#include "petvia.h"
 
 #include "crtc.h"
 #include "datasette.h"
 #include "drive.h"
 #include "kbd.h"
+#include "maincpu.h"
 #include "parallel.h"
 #include "petsound.h"
+#include "petvia.h"
+#include "types.h"
+#include "viacore.h"
 
 #ifdef HAVE_PRINTER
 #include "pruser.h"

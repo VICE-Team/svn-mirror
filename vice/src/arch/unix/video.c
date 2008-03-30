@@ -67,6 +67,7 @@
 #include "log.h"
 #include "cmdline.h"
 #include "resources.h"
+#include "types.h"
 #include "utils.h"
 #include "video.h"
 

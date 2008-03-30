@@ -37,6 +37,7 @@
 #include "resources.h"
 #include "sid.h"
 #include "sysfile.h"
+#include "types.h"
 #include "utils.h"
 #include "vdc.h"
 #include "vicii.h"

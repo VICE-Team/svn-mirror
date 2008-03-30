@@ -36,6 +36,7 @@
 #include "iecdrive.h"
 #include "maincpu.h"
 #include "resources.h"
+#include "types.h"
 #include "viad.h"
 #include "via.h"
 

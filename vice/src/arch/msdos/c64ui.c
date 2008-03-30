@@ -39,6 +39,7 @@
 #include "tui.h"
 #include "tuifs.h"
 #include "tuimenu.h"
+#include "types.h"
 #include "ui.h"
 #include "utils.h"
 

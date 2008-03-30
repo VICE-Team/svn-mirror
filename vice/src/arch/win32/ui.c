@@ -47,10 +47,12 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mon.h"
 #include "mouse.h"
 #include "res.h"
 #include "resources.h"
 #include "tape.h"
+#include "types.h"
 #include "ui.h"
 #include "uiattach.h"
 #include "uidrive.h"
@@ -218,7 +220,9 @@ int ui_init(int *argc, char **argv)
 {
 WNDCLASS    window_class;
 WORD        menu;
+#if 0
 RECT        rect;
+#endif
 
     switch (machine_class) {
         case VICE_MACHINE_C64:
@@ -1009,31 +1013,32 @@ char *dname;
       case IDM_SNAPSHOT_SAVE:
         maincpu_trigger_trap(save_snapshot_trap, (void *) 0);
         break;
-        case IDM_SAVEQUICK|0x00010000:
-        case IDM_SAVEQUICK:
-            scan_files();
-            maincpu_trigger_trap(save_quicksnapshot_trap, (void*) 0);
-            break;
-        case IDM_LOADQUICK|0x00010000:
-        case IDM_LOADQUICK:
-            scan_files();
-            if (snapcounter>0) {
-                maincpu_trigger_trap(load_quicksnapshot_trap, (void *) 0);
-            }
-            break;
+      case IDM_SAVEQUICK|0x00010000:
+      case IDM_SAVEQUICK:
+        scan_files();
+        maincpu_trigger_trap(save_quicksnapshot_trap, (void*) 0);
+        break;
+      case IDM_LOADQUICK|0x00010000:
+      case IDM_LOADQUICK:
+        scan_files();
+        if (snapcounter>0) {
+            maincpu_trigger_trap(load_quicksnapshot_trap, (void *) 0);
+        }
+        break;
       case IDM_MONITOR|0x00010000:
       case IDM_MONITOR:
-          if (1 /* !ui_emulation_is_paused()*/ )
-              maincpu_trigger_trap(mon_trap, (void *) 0);
-          else
-              mon_trap(MOS6510_REGS_GET_PC(&maincpu_regs), 0);
-              break;
-        case IDM_HARD_RESET+0x00010000:
-        case IDM_SOFT_RESET+0x00010000:
+        if (1 /* !ui_emulation_is_paused()*/ )
+            maincpu_trigger_trap(mon_trap, (void *) 0);
+        else
+            mon_trap(MOS6510_REGS_GET_PC(&maincpu_regs), 0);
+        break;
+      case IDM_HARD_RESET+0x00010000:
+      case IDM_SOFT_RESET+0x00010000:
       case IDM_HARD_RESET:
       case IDM_SOFT_RESET:
         keyboard_clear_keymatrix();
-        if (MessageBox(hwnd, "Do you really want to reset the emulated machine?",
+        if (MessageBox(hwnd,
+                       "Do you really want to reset the emulated machine?",
                        ((wparam&0xffff) == IDM_HARD_RESET ? "Hard reset"
                         : "Soft reset"),
                        MB_YESNO | MB_ICONQUESTION) == IDYES) {
@@ -1285,7 +1290,7 @@ int     window_index;
                     led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+18;
                     led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+75;
                     led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+110;
-                    sprintf(text,"%03d",tape_counter);
+                    sprintf(text,"%03i",tape_counter);
                     DrawText(((DRAWITEMSTRUCT*)lparam)->hDC,text,-1,&led,0);
 
                 }

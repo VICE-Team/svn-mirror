@@ -53,9 +53,11 @@
 #define myvia_write_snapshot_module via2d0_write_snapshot_module
 
 #include "vice.h"
+
 #include "viacore.h"
 
 #include "drive.h"
+#include "types.h"
 #include "viad.h"
 
 #define VIA_SET_CA2(a)

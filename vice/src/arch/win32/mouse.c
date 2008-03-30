@@ -27,18 +27,15 @@
 #include "vice.h"
 
 #include <windows.h>
-
 #include <dinput.h>
-
 #include <stdio.h>
 
-#include "mouse.h"
-
-#include "kbd.h"  /* for joystick_value[]...
-                     (this is ugly and should be fixed) */
-#include "log.h"
-#include "resources.h"
 #include "cmdline.h"
+#include "kbd.h"  /* for joystick_value[]... */
+#include "log.h"
+#include "mouse.h"
+#include "resources.h"
+#include "types.h"
 #include "ui.h"
 
 int                 _mouse_enabled;

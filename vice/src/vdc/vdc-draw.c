@@ -27,8 +27,8 @@
 
 #include "vice.h"
 
+#include "types.h"
 #include "vdc.h"
-
 #include "vdc-draw.h"
 
 

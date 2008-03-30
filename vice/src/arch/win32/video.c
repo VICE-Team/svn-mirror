@@ -32,14 +32,14 @@
 #include <ddraw.h>
 #include <mmsystem.h>
 
-#include "video.h"
-#include "raster.h"
-
-#include "ui.h"
-#include "utils.h"
-#include "resources.h"
 #include "cmdline.h"
 #include "log.h"
+#include "raster.h"
+#include "resources.h"
+#include "types.h"
+#include "ui.h"
+#include "utils.h"
+#include "video.h"
 
 void video_resize(void);
 
@@ -378,8 +378,6 @@ int frame_buffer_alloc(frame_buffer_t *f,
                        unsigned int width,
                        unsigned int height)
 {
-    unsigned int i;
-
     DEBUG(("frame_buffer_alloc()"));
     *f = (frame_buffer_t) xmalloc(sizeof(struct _frame_buffer));
     (*f)->width = width;
@@ -395,10 +393,10 @@ int frame_buffer_alloc(frame_buffer_t *f,
 
 void frame_buffer_free(frame_buffer_t *f)
 {
-int             i;
-frame_buffer_t  tempf;
+    frame_buffer_t  tempf;
 
-    if (!f || !*f) return;
+    if (!f || !*f)
+        return;
     tempf=*f;
     *f=NULL;
     free(tempf->buffer);
@@ -408,8 +406,6 @@ frame_buffer_t  tempf;
 
 void frame_buffer_clear(frame_buffer_t *f, BYTE value)
 {
-    int i;
-
     memset((*f)->buffer,value,(*f)->height*(*f)->width);
 }
 
@@ -920,7 +916,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
     LPDIRECTDRAWSURFACE surface = NULL;
     RECT rect;
     RECT    trect;
-    RECT targetrect;
+    /*RECT targetrect;*/
     int depth, pitch;
 
     DWORD   starttime;
@@ -930,7 +926,7 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
     DWORD   clipsize;
     int     regioncount,j;
 
-    PAINTSTRUCT ps;
+    /*PAINTSTRUCT ps;*/
     int     px,py,ph,pw;
     int     i;
 

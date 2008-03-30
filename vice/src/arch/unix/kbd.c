@@ -51,6 +51,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "sysfile.h"
+#include "types.h"
 #include "ui.h"
 #include "utils.h"
 #include "video.h"

@@ -37,6 +37,7 @@
 #include "log.h"
 #include "raster.h"
 #include "snapshot.h"
+#include "types.h"
 #include "vic-mem.h"
 #include "vic20.h"
 #include "video.h"

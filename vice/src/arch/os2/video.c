@@ -2,7 +2,7 @@
  * video.c - Video implementation for Vice/2, using DIVE.
  *
  * Written by
- *  Thomas Bretz (tbretz@gsi.de)
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -38,13 +38,14 @@
 
 #include "video.h"
 
-#include "ui.h"
-#include "ui_status.h"
-#include "utils.h"
-#include "resources.h"
 #include "cmdline.h"
 #include "log.h"
 #include "kbd.h"
+#include "resources.h"
+#include "types.h"
+#include "ui.h"
+#include "ui_status.h"
+#include "utils.h"
 #include "vicii.h"  // video_free()
 
 #include <dive.h>

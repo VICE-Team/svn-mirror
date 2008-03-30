@@ -2,7 +2,7 @@
  * raster.c - Raster-based video chip emulation helper.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,10 +29,10 @@
 #include <stdlib.h>
 
 #include "machine.h"
+#include "raster.h"
+#include "types.h"
 #include "utils.h"
 #include "video.h"
-
-#include "raster.h"
 
 static void update_pixel_tables (raster_t *raster);
 static int realize_canvas (raster_t *raster);

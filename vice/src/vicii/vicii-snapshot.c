@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include "mem.h"
+#include "types.h"
 #include "vicii.h"
 #include "vicii-snapshot.h"
 #include "vicii-sprites.h"

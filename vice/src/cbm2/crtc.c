@@ -32,7 +32,6 @@
 #include "vice.h"
 
 #include "c610tpi.h"
-#include "snapshot.h"
 #include "types.h"
 
 /* #include "crtc.h" */

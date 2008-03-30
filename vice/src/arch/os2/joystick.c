@@ -2,7 +2,7 @@
  * joystick.c - Joystick support for Vice/2.
  *
  * Written by
- *  Thomas Bretz     (tbretz@gsi.de)
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,9 +31,10 @@
 
 #include "cmdline.h"
 #include "joystick.h"
-
 #include "log.h"
 #include "resources.h"
+#include "types.h"
+
 //#include "kbd.h"              /* FIXME: Maybe we should move `joystick_value[]'
 //                                 here...  */
 

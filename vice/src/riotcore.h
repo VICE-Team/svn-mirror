@@ -32,6 +32,7 @@
 #include "log.h"
 #include "riot.h"
 #include "snapshot.h"
+#include "types.h"
 
 #if defined(NO_INLINE)
 #define _RIOT_FUNC       static

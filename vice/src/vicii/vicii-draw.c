@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "types.h"
 #include "vicii.h"
 #include "vicii-draw.h"
 

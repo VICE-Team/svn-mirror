@@ -38,6 +38,7 @@
 #include "ui.h"
 #include "interrupt.h"
 #include "resources.h"
+#include "types.h"
 #include "video.h"
 #include "vice.h"
 #include "utils.h"

@@ -37,6 +37,7 @@
 #include "tui.h"
 #include "tuimenu.h"
 #include "tuifs.h"
+#include "types.h"
 #include "ui.h"
 #include "utils.h"
 #include "vic20ui.h"

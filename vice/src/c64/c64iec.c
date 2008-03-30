@@ -42,6 +42,7 @@
 #include "maincpu.h"
 #include "iecdrive.h"
 #include "resources.h"
+#include "types.h"
 #include "via.h"
 #include "viad.h"
 

@@ -36,16 +36,17 @@
 #include <direct.h>
 
 
-#include "ui.h"
-#include "kbd.h"
-#include "sound.h"
-#include "vsync.h"
 #include "attach.h"        // file_system_attach_disk
-#include "machine.h"       // machine_powerup
 #include "cmdline.h"
-#include "resources.h"
 #include "interrupt.h"     // maincpu_trigger_reset
+#include "kbd.h"
 #include "joystick.h"
+#include "machine.h"       // machine_powerup
+#include "resources.h"
+#include "sound.h"
+#include "types.h"
+#include "ui.h"
+#include "vsync.h"
 
 int  keyarr        [KBD_ROWS];
 int  rev_keyarr    [KBD_COLS];

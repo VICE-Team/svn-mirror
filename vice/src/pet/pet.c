@@ -58,6 +58,7 @@
 #include "snapshot.h"
 #include "sound.h"
 #include "traps.h"
+#include "types.h"
 #include "utils.h"
 #include "via.h"
 #include "vsync.h"

@@ -56,12 +56,13 @@
 #define int_myviat2 int_via2t2
 
 #include "vice.h"
-#include "viacore.h"
 
 #include "datasette.h"
 #include "drive.h"
 #include "kbd.h"
 #include "maincpu.h"
+#include "types.h"
+#include "viacore.h"
 #include "vic20iec.h"
 #include "vic20via.h"
 

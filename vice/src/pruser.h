@@ -30,6 +30,8 @@
 #ifndef _PRUSER_H_
 #define _PRUSER_H_
 
+#include "types.h"
+
 extern int pruser_init_resources(void);
 extern int pruser_init_cmdline_options(void);
 

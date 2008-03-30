@@ -53,6 +53,7 @@
 #include "sound.h"
 #include "sysfile.h"
 #include "tape.h"
+#include "types.h"
 #include "ui.h"
 #include "uiimage.h"
 #include "uimsgwin.h"

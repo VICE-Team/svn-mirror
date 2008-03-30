@@ -33,6 +33,7 @@
 
 #include "crtc.h"
 #include "crtc-draw.h"
+#include "types.h"
 
 
 

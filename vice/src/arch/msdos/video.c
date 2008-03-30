@@ -37,6 +37,7 @@
 #include "resources.h"
 #include "tui.h"
 #include "tui_backend.h"
+#include "types.h"
 #include "utils.h"
 #include "video.h"
 

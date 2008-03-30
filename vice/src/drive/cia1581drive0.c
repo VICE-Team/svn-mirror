@@ -51,12 +51,12 @@
  * CPU binding
  */
 
+#include "ciad.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "ciad.h"
 #include "iecdrive.h"
-
 #include "interrupt.h"
+#include "types.h"
 
 #define MYCIA_INT       IK_IRQ
 

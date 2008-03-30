@@ -37,6 +37,7 @@
 #include "resources.h"
 #include "joystick.h"
 #include "machine.h"
+#include "types.h"
 #include "utils.h"
 
 /* ------------------------------------------------------------------------ */

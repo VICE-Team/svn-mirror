@@ -47,14 +47,13 @@
 #include <sys/stat.h>
 #endif
 
-#include "findpath.h"
 #include "archdep.h"
-#include "utils.h"
-
+#include "findpath.h"
 #include "log.h"
-
-#include "ui.h"
 #include "signals.h"
+#include "types.h"
+#include "ui.h"
+#include "utils.h"
 
 static char *orig_workdir;
 static char *argv0;

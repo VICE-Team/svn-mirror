@@ -2,7 +2,7 @@
  * wave8580.h - MOS8580 samples.
  *
  * Written by
- *  Michael Schwendt (sidplay@geocities.com)
+ *  Michael Schwendt <sidplay@geocities.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,6 +30,8 @@
 /* MOS-8580 R5 waveforms $30,$50,$60,$70
  * Created with Deadman's Raw Data to C Header converter
  */
+
+#include "types.h"
 
 static BYTE waveform30_8580[4096] =
 {

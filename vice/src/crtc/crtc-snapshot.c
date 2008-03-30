@@ -33,6 +33,7 @@
 
 #include "crtc.h"
 #include "maincpu.h"
+#include "snapshot.h"
 #include "types.h"
 
 

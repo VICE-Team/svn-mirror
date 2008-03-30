@@ -38,6 +38,7 @@
 #include "log.h"
 #include "mem.h"
 #include "patchrom.h"
+#include "types.h"
 #include "utils.h"
 
 /*

@@ -35,6 +35,7 @@
 #include "log.h"
 #include "mem.h"
 #include "resources.h"
+#include "types.h"
 #include "vdc.h"
 #include "vicii.h"
 #include "z80.h"

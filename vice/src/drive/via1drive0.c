@@ -53,12 +53,14 @@
 #define myvia_write_snapshot_module via1d0_write_snapshot_module
 
 #include "vice.h"
+
 #include "viacore.h"
 
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
 #include "parallel.h"
+#include "types.h"
 #include "viad.h"
 
 #define VIA_SET_CA2(a)

@@ -36,8 +36,9 @@
 #include <mmsystem.h>
 
 #include "joystick.h"
-#include "winmain.h"
+#include "types.h"
 #include "ui.h"
+#include "winmain.h"
 
 int joystick_inited;
 

@@ -31,6 +31,7 @@
 #include <stdlib.h>
 
 #include "charsets.h"
+#include "types.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -201,3 +202,4 @@ const char *cbm_to_str(BYTE c)
 
     return (buf);
 }
+

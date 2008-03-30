@@ -74,12 +74,13 @@
 
 #define	cycles_per_sec		     machine_get_cycles_per_second()
 
-#include "pruser.h"
-#include "kbd.h"
-#include "parallel.h"
-#include "drive.h"
 #include "c610cia.h"
 #include "c610tpi.h"
+#include "drive.h"
+#include "kbd.h"
+#include "parallel.h"
+#include "pruser.h"
+#include "types.h"
 
 #define	PRE_STORE_CIA
 #define	PRE_READ_CIA

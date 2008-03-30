@@ -32,6 +32,7 @@
 #include "archdep.h"
 #include "datasette.h"
 #include "tap.h"
+#include "types.h"
 #include "utils.h"
 #include "zfile.h"
 

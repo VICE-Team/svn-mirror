@@ -76,14 +76,17 @@
  * I/O 
  */
 
+#include "vice.h"
+
 #include "c64cia.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "types.h"
+#include "vicii.h"
+
 #ifdef HAVE_RS232
 #include "rsuser.h"
 #endif
-#include "vicii.h"
-
 
 /* Flag: Are the 3 C128 extended rows enabled?  */
 static int extended_keyboard_rows_enabled;

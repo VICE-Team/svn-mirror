@@ -48,6 +48,7 @@
 #include "machine.h"
 #include "mem.h"
 #include "resources.h"
+#include "types.h"
 #include "ui.h"
 #include "vsync.h"
 

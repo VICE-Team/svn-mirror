@@ -72,8 +72,6 @@
 #include "widgets/FileSel.h"
 #include "widgets/TextField.h"
 
-#include "ui.h"
-
 #include "cmdline.h"
 #include "drive.h"
 #include "log.h"
@@ -82,6 +80,8 @@
 #include "mouse.h"
 #include "psid.h"
 #include "resources.h"
+#include "types.h"
+#include "ui.h"
 #include "uihotkey.h"
 #include "uimenu.h"
 #include "uisettings.h"

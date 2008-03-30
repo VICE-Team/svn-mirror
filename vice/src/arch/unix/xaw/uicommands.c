@@ -40,11 +40,10 @@
 #include <X11/Xaw/Label.h>
 #include <X11/Xaw/Command.h>
 
-#include "uicommands.h"
-
 #include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
+#include "fliplist.h"
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h"
@@ -55,11 +54,12 @@
 #include "resources.h"
 #include "sound.h"
 #include "tape.h"
+#include "types.h"
+#include "uicommands.h"
 #include "uiedisk.h"
 #include "uisnapshot.h"
 #include "utils.h"
 #include "vsync.h"
-#include "fliplist.h"
 
 /* ------------------------------------------------------------------------- */
 

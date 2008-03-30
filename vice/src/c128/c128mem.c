@@ -48,6 +48,7 @@
 #include "sid.h"
 #include "snapshot.h"
 #include "sysfile.h"
+#include "types.h"
 #include "ui.h"
 #include "utils.h"
 #include "vdc.h"

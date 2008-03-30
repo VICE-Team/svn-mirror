@@ -28,10 +28,10 @@
 
 #include <string.h>
 
-#include "ui.h"
 #include "c64ui.h"
 #include "kbd.h"
-
+#include "types.h"
+#include "ui.h"
 
 
 

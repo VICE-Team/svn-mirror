@@ -52,11 +52,12 @@
 #define myvia_write_snapshot_module ieeevia1_write_snapshot_module
 
 #include "vice.h"
-#include "viacore.h"
 
+#include "drive.h"
 #include "maincpu.h"
 #include "parallel.h"
-#include "drive.h"
+#include "types.h"
+#include "viacore.h"
 
 #define VIA_SET_CA2(a)
 #define VIA_SET_CB2(a)

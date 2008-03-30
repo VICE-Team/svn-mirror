@@ -24,12 +24,11 @@
  *
  */
 
-
-#include "tpicore.h"
-
 #include "kbd.h"
 #include "keyboard.h"
 #include "maincpu.h"
+#include "tpicore.h"
+#include "types.h"
 
 /*----------------------------------------------------------------------*/
 /* renaming of exported functions */

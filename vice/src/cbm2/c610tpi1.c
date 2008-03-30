@@ -24,8 +24,6 @@
  *
  */
 
-#include "tpicore.h"
-
 #include "c610cia.h"
 #include "crtc.h"
 #include "datasette.h"
@@ -33,6 +31,8 @@
 #include "drivecpu.h"
 #include "maincpu.h"
 #include "parallel.h"
+#include "tpicore.h"
+#include "types.h"
 
 /*----------------------------------------------------------------------*/
 /* renaming of exported functions */

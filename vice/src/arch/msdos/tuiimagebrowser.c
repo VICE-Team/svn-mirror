@@ -34,6 +34,7 @@
 #include "imagecontents.h"
 #include "tui.h"
 #include "tui_backend.h"
+#include "types.h"
 #include "utils.h"
 
 #include "tuiimagebrowser.h"
