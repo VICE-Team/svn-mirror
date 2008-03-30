@@ -62,6 +62,7 @@
 #include "file.h"
 #include "charsets.h"
 #include "tape.h"
+#include "utils.h"
 
 #define MAXARG		16
 #define MAXVAL		0xffff
@@ -1536,7 +1537,8 @@ static int disk_unlynx(void)
 {
     DRIVE *floppy;
     FILE *f, *f2;
-    int err, dev, dirsize, dentries, bsize, lbsize, cnt=0;
+    int err, dev, cnt=0;
+    long dentries, lbsize, bsize, dirsize;
     BYTE val;
     char buff[256] = { 0 }, cname[20] = { 0 }, ftype;
 
@@ -1569,8 +1571,8 @@ static int disk_unlynx(void)
 	    break;
     }
     buff[cnt] = 0;
-    dirsize = strtol(buff, NULL, 10);
-    if (dirsize == 0) {
+    if (string_to_long(buff, NULL, 10, &dirsize) < 0
+	|| dirsize <= 0) {
 	printf("invalid LyNX file.\n");
 	return (FD_RDERR);
     }
@@ -1585,8 +1587,8 @@ static int disk_unlynx(void)
 	    break;
     }
     buff[cnt] = 0;
-    dentries = strtol(buff, NULL, 10);
-    if (dentries == 0) {
+    if (string_to_long(buff, NULL, 10, &dentries) < 0
+	|| dentries <= 0) {
 	printf("invalid LyNX file.\n");
 	return (FD_RDERR);
     }
@@ -1612,7 +1614,11 @@ static int disk_unlynx(void)
 	    if (val != 13) buff[cnt++] = val; else break;
 	}
 	buff[cnt] = 0;
-	bsize = strtol(buff, NULL, 10);
+
+	if (string_to_long(buff, NULL, 10, &bsize) < 0) {
+	    printf("invalid LyNX file.\n");
+	    return (FD_RDERR);
+	}
 
 	/* Get the file type (P[RG], S[EQ], R[EL], U[SR]) */
 	ftype = fgetc(f);
@@ -1623,6 +1629,12 @@ static int disk_unlynx(void)
 	    printf("REL not supported.\n");
 	    return (FD_RDERR);
 	}
+
+	/* FIXME: This is a temporary hack!  How can we persuade `open_1541()'
+	   to write `DEL' files without breaking compatibility with CBM
+	   DOS?  -- [EP] 98.04.17  */
+	if (ftype == 'D')
+	    ftype = 'P';
 
 	/* Add the file type to the name */
 	cnt = strlen(cname);
@@ -1640,9 +1652,8 @@ static int disk_unlynx(void)
 		break;
 	}
 	buff[cnt] = 0;
-	lbsize = strtol(buff, NULL, 10);
 
-	if (lbsize == 0) {
+	if (string_to_long(buff, NULL, 10, &lbsize) < 0) {
 	    printf("invalid LyNX file.\n");
 	    return (FD_RDERR);
 	}
