@@ -32,46 +32,11 @@
 #include "types.h"
 
 /* Screen constants.  */
-#define VICII_PAL_SCREEN_HEIGHT     312
-#define VICII_NTSC_SCREEN_HEIGHT    263
-#define VICII_NTSCOLD_SCREEN_HEIGHT 262
-
-#define VICII_PAL_OFFSET                   0
-#define VICII_NTSC_OFFSET                  0
-#define VICII_NTSCOLD_OFFSET               0
-
 #define VICII_SCREEN_XPIX                  320
 #define VICII_SCREEN_YPIX                  200
 #define VICII_SCREEN_TEXTCOLS              40
 #define VICII_SCREEN_TEXTLINES             25
-#define VICII_SCREEN_PAL_BORDERWIDTH       32
-#define VICII_SCREEN_PAL_BORDERHEIGHT      51
-#define VICII_SCREEN_NTSC_BORDERWIDTH      32
-#define VICII_SCREEN_NTSC_BORDERHEIGHT     27
-#define VICII_SCREEN_NTSCOLD_BORDERWIDTH   32
-#define VICII_SCREEN_NTSCOLD_BORDERHEIGHT  27
 #define VICII_SCREEN_CHARHEIGHT            8
-
-#define VICII_PAL_FIRST_DISPLAYED_LINE     0x10
-#define VICII_PAL_LAST_DISPLAYED_LINE      0x11f
-#define VICII_PAL_25ROW_START_LINE         0x33
-#define VICII_PAL_25ROW_STOP_LINE          0xfb
-#define VICII_PAL_24ROW_START_LINE         0x37
-#define VICII_PAL_24ROW_STOP_LINE          0xf7
-
-#define VICII_NTSC_FIRST_DISPLAYED_LINE    (0x20 - VICII_NTSC_OFFSET)
-#define VICII_NTSC_LAST_DISPLAYED_LINE     0x102
-#define VICII_NTSC_25ROW_START_LINE        (0x33 - VICII_NTSC_OFFSET)
-#define VICII_NTSC_25ROW_STOP_LINE         (0xfb - VICII_NTSC_OFFSET)
-#define VICII_NTSC_24ROW_START_LINE        (0x37 - VICII_NTSC_OFFSET)
-#define VICII_NTSC_24ROW_STOP_LINE         (0xf7 - VICII_NTSC_OFFSET)
-
-#define VICII_NTSCOLD_FIRST_DISPLAYED_LINE (0x20 - VICII_NTSCOLD_OFFSET)
-#define VICII_NTSCOLD_LAST_DISPLAYED_LINE  0x102
-#define VICII_NTSCOLD_25ROW_START_LINE     (0x33 - VICII_NTSCOLD_OFFSET)
-#define VICII_NTSCOLD_25ROW_STOP_LINE      (0xfb - VICII_NTSCOLD_OFFSET)
-#define VICII_NTSCOLD_24ROW_START_LINE     (0x37 - VICII_NTSCOLD_OFFSET)
-#define VICII_NTSCOLD_24ROW_STOP_LINE      (0xf7 - VICII_NTSCOLD_OFFSET)
 
 #define VICII_40COL_START_PIXEL 0x20
 #define VICII_40COL_STOP_PIXEL  0x160
@@ -81,10 +46,6 @@
 #define VICII_NUM_SPRITES      8
 #define VICII_MAX_SPRITE_WIDTH 56  /* expanded sprite in bug area */
 #define VICII_NUM_COLORS       16
-
-#define VICII_PAL_SPRITE_WRAP_X     504
-#define VICII_NTSC_SPRITE_WRAP_X    520
-#define VICII_NTSCOLD_SPRITE_WRAP_X 512
 
 
 /* Available video modes.  The number is given by
@@ -150,14 +111,6 @@ typedef enum vicii_video_mode_s vicii_video_mode_t;
 #define VICII_PREVIOUS_LINE(line)  (((line) > 0) \
                                    ? (line) - 1 : vicii.screen_height - 1)
 #define VICII_NEXT_LINE(line)      (((line) + 1) % vicii.screen_height)
-
-/* Bad line range.  */
-#define VICII_PAL_FIRST_DMA_LINE      0x30
-#define VICII_PAL_LAST_DMA_LINE       0xf7
-#define VICII_NTSC_FIRST_DMA_LINE     (0x30 - VICII_NTSC_OFFSET)
-#define VICII_NTSC_LAST_DMA_LINE      0xf7
-#define VICII_NTSCOLD_FIRST_DMA_LINE  (0x30 - VICII_NTSCOLD_OFFSET)
-#define VICII_NTSCOLD_LAST_DMA_LINE   0xf7
 
 /* VIC-II structures.  This is meant to be used by VIC-II modules
    *exclusively*!  */
@@ -238,7 +191,8 @@ struct vicii_s {
     BYTE *bitmap_high_ptr;
 
     /* Video memory pointers.  Changed immediately.  */
-    BYTE *screen_base;
+    BYTE *screen_base_phi1;
+    BYTE *screen_base_phi2;
 
     /* Offset to the vbuf/cbuf buffer */
     int buf_offset;
