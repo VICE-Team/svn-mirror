@@ -329,21 +329,22 @@ c64cartridge.o: c64cartridge.c ../../src/vice.h ../../src/config.h \
 	../../src/cartridge.h ../../src/cmdline.h ../../src/resources.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
 	../../src/mem.h ../../src/utils.h
-c64cia1.o: c64cia1.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/alarm.h \
+c64cia1.o: c64cia1.c ../../src/vice.h ../../src/config.h \
+	../../src/ciacore.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/cia.h ../../src/log.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/interrupt.h \
 	c64cia.h ../../src/arch/unix/kbd.h ../../src/keyboard.h \
-	../../src/vicii/vicii.h ../../src/rsuser.h ../../src/ciacore.c \
-	../../src/clkguard.h ../../src/ciatimer.h ../../src/snapshot.h
-c64cia2.o: c64cia2.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/alarm.h \
+	../../src/vicii/vicii.h ../../src/rsuser.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/maincpu.h \
+	../../src/ciacore.c ../../src/clkguard.h ../../src/ciatimer.h \
+	../../src/snapshot.h
+c64cia2.o: c64cia2.c ../../src/vice.h ../../src/config.h \
+	../../src/ciacore.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/cia.h ../../src/log.h \
-	../../src/maincpu.h ../../src/6510core.h ../../src/interrupt.h \
 	c64mem.h ../../src/mem.h c64iec.h c64cia.h \
 	../../src/drive/drive.h ../../src/drive/drivecpu.h \
 	../../src/iecdrive.h ../../src/pruser.h ../../src/vicii/vicii.h \
-	../../src/rsuser.h ../../src/ciacore.c ../../src/clkguard.h \
+	../../src/rsuser.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/maincpu.h ../../src/ciacore.c ../../src/clkguard.h \
 	../../src/ciatimer.h ../../src/snapshot.h
 c64datasette.o: c64datasette.c ../../src/vice.h ../../src/config.h \
 	c64cia.h ../../src/arch/unix/types.h c64mem.h ../../src/mem.h

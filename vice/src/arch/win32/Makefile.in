@@ -379,10 +379,11 @@ uilib.o: uilib.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/vsync.h winmain.h
 uimon.o: uimon.c ../../../src/vice.h ../../../src/config.h lose32.h \
 	../../../src/console.h fullscreen.h ../../../src/monitor/mon.h \
-	types.h res.h ../../../src/resources.h ui.h \
-	../../../src/uiapi.h ../../../src/video.h videoarch.h \
-	../../../src/uimon.h ../../../src/utils.h winmain.h \
-	../../../src/mos6510.h ../../../src/log.h
+	types.h ../../../src/monitor/mon_util.h res.h \
+	../../../src/resources.h ui.h ../../../src/uiapi.h \
+	../../../src/video.h videoarch.h ../../../src/uimon.h \
+	../../../src/utils.h winmain.h ../../../src/mos6510.h \
+	../../../src/log.h
 uipetset.o: uipetset.c ../../../src/vice.h ../../../src/config.h \
 	lose32.h ../../../src/pet/pets.h types.h res.h \
 	../../../src/resources.h ui.h ../../../src/uiapi.h \

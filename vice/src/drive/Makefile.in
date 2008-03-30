@@ -253,15 +253,15 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-cia1571d.o: cia1571d.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/alarm.h \
+cia1571d.o: cia1571d.c ../../src/vice.h ../../src/config.h \
+	../../src/ciacore.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/cia.h ../../src/log.h \
 	ciad.h drive.h drivecpu.h drivetypes.h ../../src/ciatimer.h \
 	../../src/snapshot.h ../../src/clkguard.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/monitor/mon.h \
 	../../src/mos6510.h ../../src/iecdrive.h ../../src/ciacore.c
-cia1581d.o: cia1581d.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/alarm.h \
+cia1581d.o: cia1581d.c ../../src/vice.h ../../src/config.h \
+	../../src/ciacore.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/cia.h ../../src/log.h \
 	ciad.h drive.h drivecpu.h drivetypes.h ../../src/ciatimer.h \
 	../../src/snapshot.h ../../src/clkguard.h ../../src/interrupt.h \

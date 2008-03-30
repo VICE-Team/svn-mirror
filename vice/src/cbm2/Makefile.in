@@ -282,15 +282,15 @@ c610acia1.o: c610acia1.c ../../src/maincpu.h ../../src/6510core.h \
 	../../src/alarm.h ../../src/clkguard.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/interrupt.h ../../src/log.h \
 	../../src/machine.h ../../src/rs232.h ../../src/snapshot.h
-c610cia1.o: c610cia1.c ../../src/ciacore.h ../../src/vice.h \
-	../../src/config.h ../../src/alarm.h \
+c610cia1.o: c610cia1.c ../../src/vice.h ../../src/config.h \
+	../../src/ciacore.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/cia.h ../../src/log.h \
+	c610cia.h c610tpi.h ../../src/drive/drive.h \
+	../../src/arch/unix/kbd.h ../../src/keyboard.h \
+	../../src/parallel.h ../../src/pruser.h \
 	../../src/drive/drivecpu.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/maincpu.h c610cia.h c610tpi.h \
-	../../src/drive/drive.h ../../src/arch/unix/kbd.h \
-	../../src/keyboard.h ../../src/parallel.h ../../src/pruser.h \
-	../../src/ciacore.c ../../src/clkguard.h ../../src/ciatimer.h \
-	../../src/snapshot.h
+	../../src/6510core.h ../../src/maincpu.h ../../src/ciacore.c \
+	../../src/clkguard.h ../../src/ciatimer.h ../../src/snapshot.h
 c610cpu.o: c610cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../../src/arch/unix/types.h ../maincpu.c ../vice.h \
 	../6510core.h ../alarm.h ../clkguard.h ../interrupt.h ../log.h \
