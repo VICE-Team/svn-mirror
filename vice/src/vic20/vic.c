@@ -337,7 +337,7 @@ void video_setfullscreen (int v, int width, int height)
 /* Free the allocated frame buffer.  FIXME: Not incapsulated.  */
 void video_free (void)
 {
-  video_frame_buffer_free (&vic.raster.frame_buffer);
+  video_frame_buffer_free (vic.raster.frame_buffer);
 }
 
 int vic_screenshot(screenshot_t *screenshot)
