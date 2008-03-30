@@ -575,9 +575,8 @@ static void datasette_internal_reset(void)
             datasette_alarm_pending = 0;
         }
         datasette_control(DATASETTE_CONTROL_STOP);
-        current_image->current_file_seek_position = 0;
-                current_image->cycle_counter = 0;
-        fseek(current_image->fd, current_image->offset, SEEK_SET);
+        tap_seek_start(current_image);
+        current_image->cycle_counter = 0;
         datasette_counter_offset = 0;
         datasette_long_gap_pending = 0;
         datasette_long_gap_elapsed = 0;

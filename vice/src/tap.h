@@ -37,6 +37,8 @@
 #define TAP_HDR_SYSTEM       13
 #define TAP_HDR_LEN          16
 
+struct tape_file_record_s;
+
 typedef struct tap_s {
     /* File name.  */
     char *file_name;
@@ -53,11 +55,20 @@ typedef struct tap_s {
     /* System the image is made for.  */
     BYTE system;
 
+    /* Tape name.  */
+    BYTE name[12];
+
+    /* Current file number.  */
+    int current_file_number;
+
     /* Position in the current file.  */
     int current_file_seek_position;
 
     /* Header offset.  */
     int offset;
+
+    /* Pointer to the current file record.  */
+    struct tape_file_record_s *tap_file_record;
 
     /* Tape counter in machine-cycles/8 for even looong tapes */
     long cycle_counter;
@@ -79,8 +90,13 @@ typedef struct tap_s {
 
 } tap_t;
 
-extern tap_t *tap_open(const char *name);
+extern tap_t *tap_open(const char *name, unsigned int *read_only);
 extern int tap_close(tap_t *tap);
+
+extern void tap_seek_start(tap_t *tap);
+extern int tap_seek_to_next_file(tap_t *tap, unsigned int allow_rewind);
+extern void tap_get_header(tap_t *tap, BYTE *name);
+extern struct tape_file_record_s *tap_get_current_file_record(tap_t *tap);
 
 #endif
 
