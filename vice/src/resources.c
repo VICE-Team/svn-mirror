@@ -603,9 +603,12 @@ int resources_load(const char *fname)
     int retval;
     int line_num;
     int err = 0;
+    char *default_name = NULL;
 
-    if (fname == NULL)
-        fname = archdep_default_resource_file_name();
+    if (fname == NULL) {
+        default_name = archdep_default_resource_file_name();
+        fname = default_name;
+    }
 
     f = fopen(fname, MODE_READ_TEXT);
 
@@ -646,6 +649,7 @@ int resources_load(const char *fname)
     } while (retval != 0);
 
     fclose(f);
+    lib_free(default_name);
 
     if (resource_modified_callback != NULL)
         resources_exec_callback_chain(resource_modified_callback, NULL);
@@ -687,9 +691,12 @@ int resources_save(const char *fname)
     FILE *in_file, *out_file;
     int have_old;
     int i;
+    char *default_name = NULL;
 
-    if (fname == NULL)
-        fname = archdep_default_save_resource_file_name();
+    if (fname == NULL) {
+        default_name = archdep_default_save_resource_file_name();
+        fname = default_name;
+    }
 
     /* Make a backup copy of the existing configuration file.  */
     backup_name = archdep_make_backup_filename(fname);
@@ -705,6 +712,7 @@ int resources_save(const char *fname)
 
     if (!out_file) {
         lib_free(backup_name);
+        lib_free(default_name);
         return RESERR_CANNOT_CREATE_FILE;
     }
 
@@ -731,8 +739,9 @@ int resources_save(const char *fname)
 
                 fprintf(out_file, "%s\n", buf);
         }
-    } else
+    } else {
         in_file = NULL;
+    }
 
     /* Write our current configuration.  */
     fprintf(out_file,"[%s]\n", machine_id);
@@ -770,6 +779,7 @@ int resources_save(const char *fname)
     remove(backup_name);
 #endif
     lib_free(backup_name);
+    lib_free(default_name);
     return 0;
 }
 
