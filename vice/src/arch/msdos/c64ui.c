@@ -55,7 +55,7 @@ static tui_menu_item_def_t vic_ii_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static char *toggle_REU_callback(int been_activated, void *param_unused)
+TUI_MENU_CALLBACK(toggle_REU_callback)
 {
     int value;
 
@@ -75,7 +75,7 @@ static char *toggle_REU_callback(int been_activated, void *param_unused)
 
 TUI_MENU_DEFINE_TOGGLE(EmuID)
 
-static char *toggle_IEEE488_callback(int been_activated, void *param_unused)
+TUI_MENU_CALLBACK(toggle_IEEE488_callback)
 {
     int value;
 
@@ -118,7 +118,7 @@ static tui_menu_item_def_t special_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static char *toggle_SidModel_callback(int been_activated, void *param_unused)
+TUI_MENU_CALLBACK(toggle_SidModel_callback)
 {
     int value;
 
@@ -149,17 +149,18 @@ static tui_menu_item_def_t sid_menu_items[] = {
 /* ------------------------------------------------------------------------- */
 
 static struct {
-    char *name;
-    char *brief_description;
-    char *long_description;
+    const char *name;
+    const char *brief_description;
+    const char *menu_item;
+    const char *long_description;
 } palette_items[] = {
-    { "default", "_Default",
+    { "default", "Default", "_Default",
       "Default VICE C64 palette" },
-    { "ccs64", "_CCS64",
+    { "ccs64", "CCS64", "_CCS64",
       "Palette from the CCS64 emulator by Per Hakan Sundell" },
-    { "frodo", "_Frodo",
+    { "frodo", "Frodo", "_Frodo",
       "Palette from the Frodo emulator by Christian Bauer" },
-    { "godot", "_GoDot",
+    { "godot", "GoDot", "_GoDot",
       "Palette as suggested by the authors of the GoDot C64 graphics package" },
     { NULL }
 };
@@ -196,7 +197,7 @@ static void add_palette_submenu(tui_menu_t parent)
 
     for (i = 0; palette_items[i].name != NULL; i++)
 	tui_menu_add_item(palette_menu,
-			  palette_items[i].brief_description,
+			  palette_items[i].menu_item,
 			  palette_items[i].long_description,
 			  palette_callback,
 			  (void *) palette_items[i].name, 0,
