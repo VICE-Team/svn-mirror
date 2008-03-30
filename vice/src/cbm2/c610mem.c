@@ -1052,7 +1052,7 @@ void mem_reset(void) {
 
 void initialize_memory(void)
 {
-    int i, j;
+    int i;
 
     /* first the tables that hold the predefined bank mappings */
     for (i=0;i<16;i++) {		/* 16 banks possible */

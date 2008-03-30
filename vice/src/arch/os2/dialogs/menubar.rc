@@ -115,6 +115,8 @@ BEGIN
       MENUITEM "~Drive Setup\tAlt-D",       IDM_DRIVE,     MIS_TEXT
       MENUITEM "~Joystick Setup\tAlt-J",    IDM_JOYSTICK,  MIS_TEXT
       MENUITEM "Datasette ~Control\tAlt-C", IDM_DATASETTE, MIS_TEXT
+      MENUITEM "~Logging Window\tAlt-L",    IDM_LOGWIN,    MIS_TEXT
+      MENUITEM "Buildin ~Monitor\tAlt-M",   IDM_MONITOR,   MIS_TEXT
    END
    SUBMENU "Set~up",                   IDM_SETUP,        MIS_TEXT
    BEGIN
@@ -161,6 +163,15 @@ BEGIN
         MENUITEM "Sprite-~Sprite",                 IDM_SSCOLL,    MIS_TEXT
         MENUITEM "Sprite-~Background",             IDM_SBCOLL,    MIS_TEXT
       END
+      /*
+      SUBMENU "Kernal Revision",  IDM_KERNALREV, MIS_TEXT
+      BEGIN
+        MENUITEM "Kernal ROM Rev.~0",          IDM_KERNALREV0,    MIS_TEXT
+        MENUITEM "Kernal ROM Rev.~3",          IDM_KERNALREV3,    MIS_TEXT
+        MENUITEM "S~X-64, DX-64",              IDM_KERNALREVSX,   MIS_TEXT
+        MENUITEM "PET 64, ~4064, Educator 64", IDM_KERNALREV4064, MIS_TEXT
+      END
+      */
 #endif // __X64__ || __X128__
       MENUITEM SEPARATOR
 #ifdef HAVE_MOUSE
@@ -197,6 +208,7 @@ BEGIN
       END
       SUBMENU "RAM Si~ze",       IDM_RAMSIZE,    MIS_TEXT
       BEGIN
+        MENUITEM "~64kB",        IDM_RAM64,      MIS_TEXT
         MENUITEM "~128kB",       IDM_RAM128,     MIS_TEXT
         MENUITEM "~256kB",       IDM_RAM256,     MIS_TEXT
         MENUITEM "~512kB",       IDM_RAM512,     MIS_TEXT
@@ -270,63 +282,82 @@ BEGIN
 //      MENUITEM "Show Status ~Line\tAlt-L", IDM_STATUSBAR, MIS_TEXT
       MENUITEM "~Pause Emulation\tAlt-P", IDM_PAUSE,   MIS_TEXT
    END
-   SUBMENU "~Sound",                IDM_SOUND,        MIS_TEXT
+   SUBMENU "~Sound",                    IDM_SOUND,        MIS_TEXT
    BEGIN
-   	MENUITEM "~Enabled",           IDM_SOUNDON,      MIS_TEXT
-     SUBMENU "~Volume",             IDM_VOLUME,       MIS_TEXT
+   	MENUITEM "~Enabled",            IDM_SOUNDON,      MIS_TEXT
+     SUBMENU "~Volume",                 IDM_VOLUME,       MIS_TEXT
      BEGIN
-       MENUITEM "10~0%",            IDM_VOL100,       MIS_TEXT
-       MENUITEM "~90%",             IDM_VOL90,        MIS_TEXT
-       MENUITEM "~80%",             IDM_VOL80,        MIS_TEXT
-       MENUITEM "~70%",             IDM_VOL70,        MIS_TEXT
-       MENUITEM "~60%",             IDM_VOL60,        MIS_TEXT
-       MENUITEM "~50%",             IDM_VOL50,        MIS_TEXT
-       MENUITEM "~40%",             IDM_VOL40,        MIS_TEXT
-       MENUITEM "~30%",             IDM_VOL30,        MIS_TEXT
-       MENUITEM "~20%",             IDM_VOL20,        MIS_TEXT
-       MENUITEM "~10%",             IDM_VOL10,        MIS_TEXT
+       MENUITEM "10~0%",                IDM_VOL100,       MIS_TEXT
+       MENUITEM "~90%",                 IDM_VOL90,        MIS_TEXT
+       MENUITEM "~80%",                 IDM_VOL80,        MIS_TEXT
+       MENUITEM "~70%",                 IDM_VOL70,        MIS_TEXT
+       MENUITEM "~60%",                 IDM_VOL60,        MIS_TEXT
+       MENUITEM "~50%",                 IDM_VOL50,        MIS_TEXT
+       MENUITEM "~40%",                 IDM_VOL40,        MIS_TEXT
+       MENUITEM "~30%",                 IDM_VOL30,        MIS_TEXT
+       MENUITEM "~20%",                 IDM_VOL20,        MIS_TEXT
+       MENUITEM "~10%",                 IDM_VOL10,        MIS_TEXT
      END
      MENUITEM SEPARATOR
 #if defined __X64__ || defined __X128__ || defined __XCBM__
-     SUBMENU "SID ~Chip",           IDM_SIDCHIP,      MIS_TEXT
+     SUBMENU "SID ~Chip",               IDM_SIDCHIP,      MIS_TEXT
      BEGIN
-       MENUITEM "~6581",            IDM_SC6581,       MIS_TEXT
-       MENUITEM "~8680",            IDM_SC8580,       MIS_TEXT
+       MENUITEM "~6581",                IDM_SC6581,       MIS_TEXT
+       MENUITEM "~8680",                IDM_SC8580,       MIS_TEXT
      END
-     MENUITEM "SID ~Filter",        IDM_SIDFILTER,    MIS_TEXT
+     MENUITEM "SID ~Filter",            IDM_SIDFILTER,    MIS_TEXT
      MENUITEM SEPARATOR
 #endif // __X64__ || __X128__ || __XCBM__
-     SUBMENU "~Oversampling",       IDM_OVERSAMPLING, MIS_TEXT
+     SUBMENU "~Oversampling",           IDM_OVERSAMPLING, MIS_TEXT
      BEGIN
-       MENUITEM "~2x",              IDM_OS2X,         MIS_TEXT
-       MENUITEM "~4x",              IDM_OS4X,         MIS_TEXT
-       MENUITEM "~8x",              IDM_OS8X,         MIS_TEXT
+       MENUITEM "~2x",                  IDM_OS2X,         MIS_TEXT
+       MENUITEM "~4x",                  IDM_OS4X,         MIS_TEXT
+       MENUITEM "~8x",                  IDM_OS8X,         MIS_TEXT
        MENUITEM SEPARATOR
-       MENUITEM "~Off",              IDM_OSOFF,        MIS_TEXT
+       MENUITEM "~Off",                 IDM_OSOFF,        MIS_TEXT
      END
-     SUBMENU "~Sampling Rate",       IDM_SAMPLINGRATE, MIS_TEXT
+     SUBMENU "~Sampling Rate",          IDM_SAMPLINGRATE, MIS_TEXT
      BEGIN
-       MENUITEM "~8000 Hz",         IDM_SR8000,       MIS_TEXT
-       MENUITEM "~11025 Hz",        IDM_SR11025,      MIS_TEXT
-       MENUITEM "~22050 Hz",        IDM_SR22050,      MIS_TEXT
-       MENUITEM "~44100 Hz",        IDM_SR44100,      MIS_TEXT
+       MENUITEM "~8000 Hz",             IDM_SR8000,       MIS_TEXT
+       MENUITEM "~11025 Hz",            IDM_SR11025,      MIS_TEXT
+       MENUITEM "~22050 Hz",            IDM_SR22050,      MIS_TEXT
+       MENUITEM "~44100 Hz",            IDM_SR44100,      MIS_TEXT
      END
-     SUBMENU "~Buffer Length",      IDM_BUFFER,       MIS_TEXT
+     SUBMENU "~Buffer Length",          IDM_BUFFER,       MIS_TEXT
      BEGIN
-       MENUITEM "0.~10s",           IDM_BUF010,       MIS_TEXT
-       MENUITEM "0.~25s",           IDM_BUF025,       MIS_TEXT
-       MENUITEM "0.~40s",           IDM_BUF040,       MIS_TEXT
-       MENUITEM "0.~55s",           IDM_BUF055,       MIS_TEXT
-       MENUITEM "0.~70s",           IDM_BUF070,       MIS_TEXT
-       MENUITEM "0.~85s",           IDM_BUF085,       MIS_TEXT
-       MENUITEM "1.~00s",           IDM_BUF100,       MIS_TEXT
+       MENUITEM "0.~10s",               IDM_BUF010,       MIS_TEXT
+       MENUITEM "0.~25s",               IDM_BUF025,       MIS_TEXT
+       MENUITEM "0.~40s",               IDM_BUF040,       MIS_TEXT
+       MENUITEM "0.~55s",               IDM_BUF055,       MIS_TEXT
+       MENUITEM "0.~70s",               IDM_BUF070,       MIS_TEXT
+       MENUITEM "0.~85s",               IDM_BUF085,       MIS_TEXT
+       MENUITEM "1.~00s",               IDM_BUF100,       MIS_TEXT
      END
 #ifdef HAVE_RESID
      MENUITEM SEPARATOR
-     MENUITEM "~reSID (HiFi)",      IDM_RESID,        MIS_TEXT
+     MENUITEM "~reSID (HiFi)",          IDM_RESID,         MIS_TEXT
+     SUBMENU "Sampling ~Method",        IDM_RESIDMETHOD,   MIS_TEXT
+     BEGIN
+       SUBMENU "Resampling ~Bandwidth", IDM_RESIDBAND,     MIS_TEXT
+       BEGIN
+         MENUITEM "~0%",                IDM_RESIDPASS0,    MIS_TEXT
+         MENUITEM "~10%",               IDM_RESIDPASS10,   MIS_TEXT
+         MENUITEM "~20%",               IDM_RESIDPASS20,   MIS_TEXT
+         MENUITEM "~30%",               IDM_RESIDPASS30,   MIS_TEXT
+         MENUITEM "~40%",               IDM_RESIDPASS40,   MIS_TEXT
+         MENUITEM "~50%",               IDM_RESIDPASS50,   MIS_TEXT
+         MENUITEM "~60%",               IDM_RESIDPASS60,   MIS_TEXT
+         MENUITEM "~70%",               IDM_RESIDPASS70,   MIS_TEXT
+         MENUITEM "~80%",               IDM_RESIDPASS80,   MIS_TEXT
+         MENUITEM "~90%",               IDM_RESIDPASS90,   MIS_TEXT
+       END
+       MENUITEM SEPARATOR
+       MENUITEM "~Fast",                IDM_RESIDFAST,     MIS_TEXT
+       MENUITEM "~Interpolation",       IDM_RESIDINTERPOL, MIS_TEXT
+       MENUITEM "~Resampling",          IDM_RESIDRESAMPLE, MIS_TEXT
+     END
 #endif
    END
-   MENUITEM "~Monitor",                IDM_MONITOR,    MIS_TEXT
    SUBMENU "~Help",                    IDM_HELP,       MIS_TEXT|MIS_BUTTONSEPARATOR
    BEGIN
       MENUITEM "Help ~index",          IDM_HLPINDEX,   MIS_TEXT
@@ -358,7 +389,8 @@ BEGIN
 #ifdef HAS_JOYSTICK
    "j",          IDM_JOYSTICK,    ALT
 #endif
-   "l",          IDM_STATUSBAR,   ALT
+   "l",          IDM_LOGWIN,      ALT
+   "m",          IDM_MONITOR,     ALT
    "p",          IDM_PAUSE,       ALT
    "q",          IDM_HARDRESET,   ALT
    "r",          IDM_SOFTRESET,   ALT

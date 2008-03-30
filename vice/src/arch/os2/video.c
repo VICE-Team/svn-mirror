@@ -35,6 +35,7 @@
 #define INCL_WINSTATICS      // SS_TEXT
 #define INCL_WINFRAMEMGR     // WM_TRANSLATEACCEL
 #define INCL_WINWINDOWMGR    // QWL_USER
+#define INCL_WINSWITCHLIST
 #define INCL_DOSSEMAPHORES   // HMTX
 #include <os2.h>
 #define INCL_MMIO
@@ -395,13 +396,22 @@ static int set_border_type(resource_value_t v, void *param)
     return 0;
 }
 
+static int logwin;
+static int set_logging(resource_value_t v, void *param)
+{
+    logwin = (int)v;
+    return 0;
+}
+
 static resource_t resources[] = {
     { "WindowStretchFactor", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &stretch, set_stretch_factor, NULL },
     { "PMBorderType", RES_INTEGER, (resource_value_t) 2,
       (resource_value_t *) &border, set_border_type, NULL },
     { "Menubar", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &menu, set_menu, NULL },
+      (resource_value_t *) &logwin, set_menu, NULL },
+    { "Logwin", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &logwin, set_logging, NULL },
 /*
     { "Statusbar", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &status, set_status, NULL },
@@ -423,6 +433,10 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Enable Main Menu Bar" },
     { "+menu", SET_RESOURCE, 0, NULL, NULL, "Menubar", (resource_value_t) 0,
       NULL, "Disable Main Menu Bar" },
+    { "-logwin", SET_RESOURCE, 0, NULL, NULL, "Logwin", (resource_value_t) 1,
+      NULL, "Enable Logging Window" },
+    { "+logwin", SET_RESOURCE, 0, NULL, NULL, "Logwin", (resource_value_t) 0,
+      NULL, "Disable Logging Window" },
 /*
     { "-status", SET_RESOURCE, 0, NULL, NULL, "Statusbar", (resource_value_t) 1,
       NULL, "Enable Status Bar" },
@@ -872,7 +886,7 @@ MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         return FALSE;
 
     case WM_COMMAND:
-        menu_action(hwnd, SHORT1FROMMP(mp1), mp2);
+        menu_action(hwnd, SHORT1FROMMP(mp1)); //, mp2);
         break;
 
     case WM_MENUSELECT:
@@ -1022,7 +1036,8 @@ void PM_mainloop(VOID *arg)
     //
     // 16 Byte Memory (Used eg for the Anchor Blocks)
     //  CS_MOVENOTIFY, CS_SIZEREDRAW skipped
-    //  CS_SYNCPAINT: send WM_PAINT messages
+    //  CS_SYNCPAINT:       send WM_PAINT messages immediately
+    //  CS_BYTEALIGNWINDOW: 0x2000
     //
     WinRegisterClass(hab, szClientClass, PM_winProc, CS_SYNCPAINT, 0x10);
 
@@ -1033,7 +1048,10 @@ void PM_mainloop(VOID *arg)
                                       &flFrameFlags, szClientClass,
                                       c->title, 0L, 0, IDM_VICE2,
                                       &(c->hwndClient));
-
+    //
+    // Add to vice internal window list
+    // (needed to handle the two windows of x128
+    //
     AddToWindowList(c->hwndClient);
 
     //
@@ -1085,9 +1103,10 @@ void PM_mainloop(VOID *arg)
 
     //
     // MAINLOOP
+    // returns when a WM_QUIT Msg goes through the queue
     //
-    while (WinGetMsg (hab, &qmsg, NULLHANDLE, 0, 0))
-        WinDispatchMsg (hab, &qmsg);
+    while (WinGetMsg(hab, &qmsg, NULLHANDLE, 0, 0))
+        WinDispatchMsg(hab, &qmsg);
 
     //
     // make sure, that the state of the VRN doesn't change anymore, don't blit anymore

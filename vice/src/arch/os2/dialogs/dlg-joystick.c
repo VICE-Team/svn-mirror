@@ -56,6 +56,9 @@
 
 extern int number_joysticks;
 
+static HWND hwndCalibrate=NULLHANDLE;
+static HWND hwndKeyset   =NULLHANDLE;
+
 static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     const int ID_ON  = 1;
@@ -92,15 +95,11 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
     case WM_DESTROY:
     case WM_CLOSE:
         {
-            HWND hwnd2;
+            if (WinIsWindowVisible(hwndCalibrate))
+                WinSendMsg(hwndCalibrate, WM_CLOSE, 0, 0);
 
-            hwnd2 = WinWindowFromID(HWND_DESKTOP, DLG_CALIBRATE);
-            if (WinIsWindowVisible(hwnd2))
-                WinSendMsg(hwnd2, WM_CLOSE, 0, 0);
-
-            hwnd2 = WinWindowFromID(HWND_DESKTOP, DLG_KEYSET);
-            if (WinIsWindowVisible(hwnd2))
-                WinSendMsg(hwnd2, WM_CLOSE, 0, 0);
+            if (WinIsWindowVisible(hwndKeyset))
+                WinSendMsg(hwndKeyset, WM_CLOSE, 0, 0);
         }
         break;
 
@@ -109,15 +108,11 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
         {
         case DID_CLOSE:
         {
-            HWND hwnd2;
+            if (WinIsWindowVisible(hwndCalibrate))
+                WinSendMsg(hwndCalibrate, WM_CLOSE, 0, 0);
 
-            hwnd2 = WinWindowFromID(HWND_DESKTOP, DLG_CALIBRATE);
-            if (WinIsWindowVisible(hwnd2))
-                WinSendMsg(hwnd2, WM_CLOSE, 0, 0);
-
-            hwnd2 = WinWindowFromID(HWND_DESKTOP, DLG_KEYSET);
-            if (WinIsWindowVisible(hwnd2))
-                WinSendMsg(hwnd2, WM_CLOSE, 0, 0);
+            if (WinIsWindowVisible(hwndKeyset))
+                WinSendMsg(hwndKeyset, WM_CLOSE, 0, 0);
         }
             break;
 
@@ -172,19 +167,15 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             int joy2 = (int)mp2;
             int joys = joy1 | joy2;
 
-            hwnd2 = WinWindowFromID(HWND_DESKTOP, DLG_CALIBRATE);
-            if (WinIsWindowVisible(hwnd2))
-                WinSendMsg(hwnd2, WM_SETJOY,
+            if (WinIsWindowVisible(hwndCalibrate))
+                WinSendMsg(hwndCalibrate, WM_SETJOY,
                            (MPARAM)(joys&JOYDEV_HW1),
                            (MPARAM)(joys&JOYDEV_HW2));
 
-            hwnd2 = WinWindowFromID(HWND_DESKTOP, DLG_KEYSET);
-            if (WinIsWindowVisible(hwnd2))
-            {
-                WinSendMsg(hwnd2, WM_SETKEY,
+            if (WinIsWindowVisible(hwndKeyset))
+                WinSendMsg(hwndKeyset, WM_SETKEY,
                            (MPARAM)(joys&JOYDEV_KEYSET1),
                            (MPARAM)(joys&JOYDEV_KEYSET2));
-            }
         }
         break;
     case WM_SETCBS:
@@ -538,30 +529,23 @@ void joystick_dialog(HWND hwnd)
     if (WinIsWindowVisible(hwnd2))
         return;
 
-    hwnd2 = WinLoadDlg(HWND_DESKTOP, hwnd, pm_joystick, NULLHANDLE,
-                       DLG_JOYSTICK, NULL);
+    hwnd2 = WinLoadStdDlg(hwnd, pm_joystick, DLG_JOYSTICK, NULL);
 }
 
 void calibrate_dialog(HWND hwnd)
 {
-    static HWND hwnd2 = NULLHANDLE;
-
-    if (WinIsWindowVisible(hwnd2))
+    if (WinIsWindowVisible(hwndCalibrate))
         return;
 
-    hwnd2 = WinLoadDlg(HWND_DESKTOP, hwnd, pm_calibrate, NULLHANDLE,
-                       DLG_CALIBRATE, NULL);
+    hwndCalibrate = WinLoadStdDlg(hwnd, pm_calibrate, DLG_CALIBRATE, NULL);
 }
 
 void keyset_dialog(HWND hwnd)
 {
-    static HWND hwnd2 = NULLHANDLE;
-
-    if (WinIsWindowVisible(hwnd2))
+    if (WinIsWindowVisible(hwndKeyset))
         return;
 
-    hwnd2 = WinLoadDlg(HWND_DESKTOP, hwnd, pm_keyset, NULLHANDLE,
-                       DLG_KEYSET, NULL);
+    hwndKeyset = WinLoadStdDlg(hwnd, pm_keyset, DLG_KEYSET, NULL);
 }
 #endif
 

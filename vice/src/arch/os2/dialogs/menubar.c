@@ -32,9 +32,12 @@
 #include "dialogs.h"
 #include "menubar.h"
 #include "dlg-drive.h"
+#include "dlg-monitor.h"
 #include "dlg-emulator.h"
 #include "dlg-joystick.h"
 #include "dlg-datasette.h"
+
+#include "snippets\\pmwin2.h"
 
 #include <string.h>      // strcmp
 
@@ -56,20 +59,18 @@
 
 #ifdef __XCBM__
 #include "c610mem.h"     // cbm2_set_model
-
 const char cbm_models[][5] = { "510", "610", "620", "620+", "710", "720", "720+" };
-
 static void set_cbm_model(ADDRESS addr, void *model)
 {
     cbm2_set_model((char*)model, NULL);
 }
 #endif
+
+
 #ifdef __XPET__
 #include "pets.h"
-
 const char pet_models[][10] = { "2001", "3008", "3016", "3032", "3032B", "4016",
                                 "4032", "4032B", "8032", "8096", "8296", "SuperPET" };
-
 static void set_pet_model(ADDRESS addr, void *model)
 {
     pet_set_model((char*)model, NULL);
@@ -78,8 +79,7 @@ static void set_pet_model(ADDRESS addr, void *model)
 
 #if defined __X64__ || defined __X128__ || defined __XVIC__
 static const char *VIDEO_CACHE="VideoCache";
-#else
-//#if defined __XPET__ || defined __XCBM__
+#else // __XPET__ || __XCBM__
 static const char *VIDEO_CACHE="CrtcVideoCache";
 #endif
 
@@ -130,7 +130,7 @@ void save_screenshot(HWND hwnd)
 
 // --------------------------------------------------------------------------
 
-void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
+void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 {
     switch (idm)
     {
@@ -169,6 +169,10 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         file_system_detach_disk(9);
         file_system_detach_disk(10);
         file_system_detach_disk(11);
+        return;
+
+    case IDM_LOGWIN:
+        WinActivateWindow(hwndLog, 1);
         return;
 
 #ifdef __X64__
@@ -261,10 +265,23 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
 #endif
 
 #if defined __X64__ || defined __X128__
+        /*
+    case IDM_KERNALREV0:
+        resources_set_value("KernalRev", "0");
+        return;
+    case IDM_KERNALREV3:
+        resources_set_value("KernalRev", "3");
+        return;
+    case IDM_KERNALREVSX:
+        resources_set_value("KernalRev", "SX");   // "67"
+        return;
+    case IDM_KERNALREV4064:
+        resources_set_value("KernalRev", "4064"); // "100"
+        return;
+          */
     case IDM_SBCOLL:
         toggle("CheckSbColl");
         return;
-
     case IDM_SSCOLL:
         toggle("CheckSsColl");
         return;
@@ -284,6 +301,7 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         return;
 #endif // __X64__
 #endif // __X64__ || __X128__
+
     case IDM_REU:
         toggle("REU");
         return;
@@ -309,7 +327,15 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         return;
 #endif // __X128__ || __XVIC__
     case IDM_VCACHE:
+#ifdef __XCBM__
+        {
+            int val;
+            resources_get_value("UseVicII", (resource_value_t*) &val);
+            toggle(val?"VideoCache":"CrtcVideoCache");
+        }
+#else
         toggle(VIDEO_CACHE);
+#endif
         return;
 
     case IDM_EMUID:
@@ -331,20 +357,31 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         return;
 
     case IDM_MONITOR:
-        //
-        // open monitor dialog
-        //
-        monitor_dialog(hwnd);
+        {
+            //
+            // open monitor dialog
+            //
+            //int state = !WinIsWindowVisible(hwndMonitor);
 
-        //
-        // make sure that the build in monitor can be invoked
-        //
-        emulator_resume();
+            WinActivateWindow(hwndMonitor, 1);//
+             /*
+            if (!state)
+            {
+                extern int trigger_console_exit;
+                trigger_console_exit = TRUE;
+                return;
+            }
+            */
+            //
+            // make sure that the build in monitor can be invoked
+            //
+            emulator_resume();
 
-        //
-        // trigger invokation of the build in monitor
-        //
-        maincpu_trigger_trap(mon_trap, NULL);
+            //
+            // trigger invokation of the build in monitor
+            //
+            maincpu_trigger_trap(mon_trap, NULL);
+        }
         return;
 
         /*
@@ -370,6 +407,24 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
 #ifdef HAVE_RESID
     case IDM_RESID:
         toggle("SidUseResid");
+        return;
+    case IDM_RESIDFAST:
+    case IDM_RESIDINTERPOL:
+    case IDM_RESIDRESAMPLE:
+        resources_set_value("SidResidSampling", (resource_value_t)(idm-IDM_RESIDFAST));
+        return;
+
+    case IDM_RESIDPASS0:
+    case IDM_RESIDPASS10:
+    case IDM_RESIDPASS20:
+    case IDM_RESIDPASS30:
+    case IDM_RESIDPASS40:
+    case IDM_RESIDPASS50:
+    case IDM_RESIDPASS60:
+    case IDM_RESIDPASS70:
+    case IDM_RESIDPASS80:
+    case IDM_RESIDPASS90:
+        resources_set_value("SidResidPassband", (resource_value_t)((idm&0xf) * 10));
         return;
 #endif // HAVE_RESID
 #if defined __X64__ || defined __X128__ || defined __XCBM__
@@ -463,11 +518,12 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         resources_set_value("ModelLine", (resource_value_t)(idm&0xf));
         return;
 
+    case IDM_RAM64:
     case IDM_RAM128:
     case IDM_RAM256:
     case IDM_RAM512:
     case IDM_RAM1024:
-        resources_set_value("RamSize", (resource_value_t)((idm&0xf)<<7));
+        resources_set_value("RamSize", (resource_value_t)((idm&0xf)<<6));
         return;
 
     case IDM_RAM08:
@@ -494,6 +550,7 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         toggle("RamC");
         return;
 #endif // __XCBM__
+
 #ifdef __XPET__
     case IDM_PET2001:
     case IDM_PET3008:
@@ -571,6 +628,7 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         resources_set_value("VideoSize", (resource_value_t)80);
         return;
 #endif // __XPET__
+
     case IDM_PAUSE:
         if (isEmulatorPaused())
             emulator_resume();
@@ -593,6 +651,7 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         joystick_dialog(hwnd);
         return;
 #endif
+
     case IDM_HLPINDEX:
         WinSendMsg(WinQueryHelpInstance(hwnd), HM_HELP_INDEX, 0, 0);
         return;
@@ -611,7 +670,7 @@ void menu_action(HWND hwnd, SHORT idm, MPARAM mp2)
         // return;
 
     case IDM_CMDLINE:
-        cmdline_show_help();
+        cmdline_show_help((void*)hwnd);
         return;
 
     case IDM_ABOUT:
@@ -672,7 +731,24 @@ void menu_select(HWND hwnd, USHORT item)
         return;
 #endif
 
+    case IDM_VIEW:
+        WinEnableMenuItem(hwnd, IDM_LOGWIN,  hwndLog    !=NULLHANDLE);
+        WinEnableMenuItem(hwnd, IDM_MONITOR, hwndMonitor!=NULLHANDLE);
+        return;
+
 #if defined __X64__ || defined __X128__
+        /*
+         //
+         // A change online is not possible yet.
+         //
+         case IDM_KERNALREV:
+         resources_get_value("KernalRev", (resource_value_t*) &val);
+         WinCheckMenuItem(hwnd, IDM_KERNALREV0,    strcmp(val, "0"));
+         WinCheckMenuItem(hwnd, IDM_KERNALREV3,    strcmp(val, "3"));
+         WinCheckMenuItem(hwnd, IDM_KERNALREVSX,   strcmp(val, "sx");
+         WinCheckMenuItem(hwnd, IDM_KERNALREV4064, strcmp(val, "4064"));
+         return;
+         */
     case IDM_VIDEOSTD:
         resources_get_value("VideoStandard", (resource_value_t*) &val);
         WinCheckMenuItem(hwnd, IDM_PAL,     val==DRIVE_SYNC_PAL);
@@ -689,12 +765,14 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_PRTIEC,    "Printer4");
         WinCheckRes(hwnd, IDM_PRTUPORT,  "PrUser");
         WinCheckRes(hwnd, IDM_EMUID,     "EmuID");
+#ifdef __XCBM__
+        WinCheckRes(hwnd, IDM_VCACHE,    val?"VideoCache":"CrtcVideoCache");
+#else
         WinCheckRes(hwnd, IDM_VCACHE,    VIDEO_CACHE);
+#endif
         WinCheckMenuItem(hwnd, IDM_PAUSE, isEmulatorPaused());
         WinCheckRes(hwnd, IDM_MENUBAR,   "Menubar");
-#ifndef __X128__
-        WinCheckRes(hwnd, IDM_MENUBAR,   "Statusbar");
-#endif
+        // WinCheckRes(hwnd, IDM_MENUBAR,   "Statusbar");
 #if defined __X128__ || defined __XVIC__
         WinCheckRes(hwnd, IDM_IEEE,      "IEEE488");
 #endif // __X128__ || __XVIC__
@@ -728,32 +806,52 @@ void menu_select(HWND hwnd, USHORT item)
     case IDM_SOUND:
         WinCheckRes(hwnd, IDM_SOUNDON,   "Sound");
 #ifdef HAVE_RESID
-        WinCheckRes(hwnd, IDM_RESID,     "SidUseResid");
+        resources_get_value("SidUseResid", (resource_value_t*)&val);
+        WinCheckMenuItem (hwnd, IDM_RESID,         val);
+        WinEnableMenuItem(hwnd, IDM_RESIDMETHOD,   val);
+        WinEnableMenuItem(hwnd, IDM_OVERSAMPLING, !val);
 #endif // HAVE_RESID
 #if defined __X64__ || defined __X128__ || defined __XCBM__
         WinCheckRes(hwnd, IDM_SIDFILTER, "SidFilters");
 #endif // __X64__ || __X128__ || __XCBM__
         return;
+#ifdef HAVE_RESID
+    case IDM_RESIDMETHOD:
+        resources_get_value("SidResidSampling", (resource_value_t*)&val);
+        WinCheckMenuItem (hwnd, IDM_RESIDFAST,     val==0);
+        WinCheckMenuItem (hwnd, IDM_RESIDINTERPOL, val==1);
+        WinCheckMenuItem (hwnd, IDM_RESIDRESAMPLE, val==2);
+        WinEnableMenuItem(hwnd, IDM_RESIDBAND,     val==2);
+        return;
 
+    case IDM_RESIDBAND:
+        resources_get_value("SidResidPassband", (resource_value_t*)&val);
+        {
+            int i;
+            for (i=0; i<10; i++)
+                WinCheckMenuItem(hwnd, IDM_RESIDPASS0|i, i*10==val);
+        }
+        return;
+#endif // HAVE_RESID
 #if defined __X64__ || defined __X128__ || defined __XCBM__
     case IDM_SIDCHIP:
         resources_get_value("SidModel", (resource_value_t*)&val);
         WinCheckMenuItem(hwnd, IDM_SC6581, !val);
-        WinCheckMenuItem(hwnd, IDM_SC8580, val);
+        WinCheckMenuItem(hwnd, IDM_SC8580,  val);
         return;
 #endif // __X64__ || __X128__ || __XCBM__
 
     case IDM_OVERSAMPLING:
         resources_get_value("SoundOversample", (resource_value_t*)&val);
-        WinCheckMenuItem(hwnd, IDM_OSOFF,   val==0);
-        WinCheckMenuItem(hwnd, IDM_OS2X,    val==1);
-        WinCheckMenuItem(hwnd, IDM_OS4X,    val==2);
-        WinCheckMenuItem(hwnd, IDM_OS8X,    val==3);
+        WinCheckMenuItem(hwnd, IDM_OSOFF, val==0);
+        WinCheckMenuItem(hwnd, IDM_OS2X,  val==1);
+        WinCheckMenuItem(hwnd, IDM_OS4X,  val==2);
+        WinCheckMenuItem(hwnd, IDM_OS8X,  val==3);
         return;
 
     case IDM_SAMPLINGRATE:
         resources_get_value("SoundSampleRate", (resource_value_t*)&val);
-        WinCheckMenuItem(hwnd, IDM_SR8000,  val==8000);
+        WinCheckMenuItem(hwnd, IDM_SR8000,  val== 8000);
         WinCheckMenuItem(hwnd, IDM_SR11025, val==11025);
         WinCheckMenuItem(hwnd, IDM_SR22050, val==22050);
         WinCheckMenuItem(hwnd, IDM_SR44100, val==44100);
@@ -761,28 +859,27 @@ void menu_select(HWND hwnd, USHORT item)
 
     case IDM_BUFFER:
         resources_get_value("SoundBufferSize", (resource_value_t*)&val);
-        WinCheckMenuItem(hwnd, IDM_BUF010, val==100);
-        WinCheckMenuItem(hwnd, IDM_BUF025, val==250);
-        WinCheckMenuItem(hwnd, IDM_BUF040, val==400);
-        WinCheckMenuItem(hwnd, IDM_BUF055, val==550);
-        WinCheckMenuItem(hwnd, IDM_BUF070, val==700);
-        WinCheckMenuItem(hwnd, IDM_BUF085, val==850);
+        WinCheckMenuItem(hwnd, IDM_BUF010, val== 100);
+        WinCheckMenuItem(hwnd, IDM_BUF025, val== 250);
+        WinCheckMenuItem(hwnd, IDM_BUF040, val== 400);
+        WinCheckMenuItem(hwnd, IDM_BUF055, val== 550);
+        WinCheckMenuItem(hwnd, IDM_BUF070, val== 700);
+        WinCheckMenuItem(hwnd, IDM_BUF085, val== 850);
         WinCheckMenuItem(hwnd, IDM_BUF100, val==1000);
         return;
 
     case IDM_VOLUME:
         val = get_volume();
         WinCheckMenuItem(hwnd, IDM_VOL100, val==100);
-        WinCheckMenuItem(hwnd, IDM_VOL90,  val==90);
-        WinCheckMenuItem(hwnd, IDM_VOL80,  val==80);
-        WinCheckMenuItem(hwnd, IDM_VOL70,  val==70);
-        WinCheckMenuItem(hwnd, IDM_VOL60,  val==60);
-        WinCheckMenuItem(hwnd, IDM_VOL50,  val==50);
-        WinCheckMenuItem(hwnd, IDM_VOL40,  val==40);
-        WinCheckMenuItem(hwnd, IDM_VOL30,  val==30);
-        WinCheckMenuItem(hwnd, IDM_VOL20,  val==20);
-        WinCheckMenuItem(hwnd, IDM_VOL10,  val==10);
-
+        WinCheckMenuItem(hwnd, IDM_VOL90,  val== 90);
+        WinCheckMenuItem(hwnd, IDM_VOL80,  val== 80);
+        WinCheckMenuItem(hwnd, IDM_VOL70,  val== 70);
+        WinCheckMenuItem(hwnd, IDM_VOL60,  val== 60);
+        WinCheckMenuItem(hwnd, IDM_VOL50,  val== 50);
+        WinCheckMenuItem(hwnd, IDM_VOL40,  val== 40);
+        WinCheckMenuItem(hwnd, IDM_VOL30,  val== 30);
+        WinCheckMenuItem(hwnd, IDM_VOL20,  val== 20);
+        WinCheckMenuItem(hwnd, IDM_VOL10,  val== 10);
 
 #ifdef __X128__
     case IDM_VDCMEMORY:
@@ -791,6 +888,7 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckMenuItem(hwnd, IDM_VDC64K, val==1);
         return;
 #endif // __X128__
+
     case IDM_STRETCH:
         resources_get_value("WindowStretchFactor", (resource_value_t*)&val);
         WinCheckMenuItem(hwnd, IDM_STRETCH1, val==1);
@@ -817,10 +915,11 @@ void menu_select(HWND hwnd, USHORT item)
 
     case IDM_RAMSIZE:
         resources_get_value("RamSize", (resource_value_t*)&val);
-        WinCheckMenuItem(hwnd, IDM_RAM128,  val==128);
-        WinCheckMenuItem(hwnd, IDM_RAM256,  val==256);
-        WinCheckMenuItem(hwnd, IDM_RAM512,  val==512);
-        WinCheckMenuItem(hwnd, IDM_RAM1024, val==1024);
+        WinCheckMenuItem(hwnd, IDM_RAM64,   val==0x040); /*   64 */
+        WinCheckMenuItem(hwnd, IDM_RAM128,  val==0x080); /*  128 */
+        WinCheckMenuItem(hwnd, IDM_RAM256,  val==0x100); /*  256 */
+        WinCheckMenuItem(hwnd, IDM_RAM512,  val==0x200); /*  512 */
+        WinCheckMenuItem(hwnd, IDM_RAM1024, val==0x400); /* 1024 */
         return;
 
     case IDM_RAMMAPPING:
@@ -832,6 +931,7 @@ void menu_select(HWND hwnd, USHORT item)
         WinCheckRes(hwnd, IDM_RAMC0, "RamC");
         return;
 #endif // __XCBM__
+
 #ifdef __XPET__
     case IDM_PETMODEL:
         {
@@ -855,17 +955,17 @@ void menu_select(HWND hwnd, USHORT item)
 
     case IDM_RAMSIZE:
         resources_get_value("RamSize", (resource_value_t*)&val);
-        WinCheckMenuItem(hwnd, IDM_PETRAM4,   val==4);
-        WinCheckMenuItem(hwnd, IDM_PETRAM8,   val==8);
-        WinCheckMenuItem(hwnd, IDM_PETRAM16,  val==16);
-        WinCheckMenuItem(hwnd, IDM_PETRAM32,  val==32);
-        WinCheckMenuItem(hwnd, IDM_PETRAM96,  val==96);
-        WinCheckMenuItem(hwnd, IDM_PETRAM128, val==128);
+        WinCheckMenuItem(hwnd, IDM_PETRAM4,   val==0x04); /*   4 */
+        WinCheckMenuItem(hwnd, IDM_PETRAM8,   val==0x08); /*   8 */
+        WinCheckMenuItem(hwnd, IDM_PETRAM16,  val==0x10); /*  16 */
+        WinCheckMenuItem(hwnd, IDM_PETRAM32,  val==0x20); /*  32 */
+        WinCheckMenuItem(hwnd, IDM_PETRAM96,  val==0x60); /*  96 */
+        WinCheckMenuItem(hwnd, IDM_PETRAM128, val==0x80); /* 128 */
         return;
 
     case IDM_VIDEOSIZE:
         resources_get_value("VideoSize", (resource_value_t*)&val);
-        WinCheckMenuItem(hwnd, IDM_VSDETECT, val==0);
+        WinCheckMenuItem(hwnd, IDM_VSDETECT, val== 0);
         WinCheckMenuItem(hwnd, IDM_VS40,     val==40);
         WinCheckMenuItem(hwnd, IDM_VS80,     val==80);
         return;

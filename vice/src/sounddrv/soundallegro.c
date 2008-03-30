@@ -207,13 +207,11 @@ static int allegro_write(SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int allegro_bufferstatus(int first)
+static int allegro_bufferspace(void)
 {
     int pos, ret;
 
-    if (first)
-        return 0;
-
+    /* voice_get_position returns current position in samples. */
     pos = voice_get_position(voice) * sizeof(SWORD);
     ret = buffer_offset - pos;
     if (ret < 0)
@@ -224,7 +222,7 @@ static int allegro_bufferstatus(int first)
     if (ret > written_samples)
         ret = written_samples;
 
-    return ret;
+    return buffer_len/sizeof(SWORD) - ret;
 }
 
 static void allegro_close(void)
@@ -255,7 +253,7 @@ static sound_device_t allegro_device =
     allegro_write,
     NULL,
     NULL,
-    allegro_bufferstatus,
+    allegro_bufferspace,
     allegro_close,
     allegro_suspend,
     allegro_resume

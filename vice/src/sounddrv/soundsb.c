@@ -249,14 +249,11 @@ static int sb_write(SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int sb_bufferstatus(int first)
+static int sb_bufferspace(void)
 {
     int ret;
 
-    if (first)
-        return 0;
-
-    ret = num_bytes_in_buffer;
+    ret = audio_buffer_size - num_bytes_in_buffer;
 
     if (is_16bit)
         ret /= 2;
@@ -296,7 +293,7 @@ static sound_device_t sb_device =
     sb_write,
     NULL,
     NULL,
-    sb_bufferstatus,
+    sb_bufferspace,
     sb_close,
     NULL,
     NULL

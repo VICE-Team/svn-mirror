@@ -72,10 +72,11 @@
 #define CB_MEMA000     0x104c
 
 #define WM_SWITCH      WM_USER+0x1
-#define WM_DRIVEIMAGE  WM_USER+0x2
-#define WM_TRACK       WM_USER+0x3
-#define WM_DRIVELEDS   WM_USER+0x4
-#define WM_DRIVESTATE  WM_USER+0x5
+#define WM_SWITCHTT    WM_USER+0x2
+#define WM_DRIVEIMAGE  WM_USER+0x3
+#define WM_TRACK       WM_USER+0x4
+#define WM_DRIVELEDS   WM_USER+0x5
+#define WM_DRIVESTATE  WM_USER+0x6
 
 extern HWND hwndDrive;
 

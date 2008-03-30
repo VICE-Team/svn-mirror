@@ -125,13 +125,13 @@ static int sdl_write(SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int sdl_bufferstatus(int first)
+static int sdl_bufferspace(void)
 {
     int		amount;
     amount = sdl_inptr - sdl_outptr;
     if (amount < 0)
 	amount += sdl_len;
-    return amount;
+    return sdl_len - amount;
 }
 
 static void sdl_close(void)
@@ -150,7 +150,7 @@ static sound_device_t sdl_device =
     sdl_write,
     NULL,
     NULL,
-    sdl_bufferstatus,
+    sdl_bufferspace,
     sdl_close,
     NULL,
     NULL

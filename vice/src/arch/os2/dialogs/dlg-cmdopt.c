@@ -24,19 +24,27 @@
  *
  */
 
-#define INCL_WINSYS        // font
-#define INCL_WINPOINTERS   // WinLoadPointer
-#define INCL_WINFRAMEMGR   // WM_SETICON
-#define INCL_WINLISTBOXES  // WinLbox*
+#define INCL_WINSYS         // font
+#define INCL_DOSPROCESS     // DosSleep
+#define INCL_WINDIALOGS     // WinProcessDlg
+#define INCL_WINPOINTERS    // WinLoadPointer
+#define INCL_WINFRAMEMGR    // WM_SETICON
+#define INCL_WINLISTBOXES   // WinLbox*
+#define INCL_WINSWITCHLIST  // HSWITCH
 #include "vice.h"
 
 #include <os2.h>
 
+#include <stdlib.h>        // _beginthread
 #include <stdio.h>
 #include <string.h>
 
 #include "dialogs.h"
 #include "menubar.h"
+
+#include "snippets/pmwin2.h"
+
+#include "log.h"
 
 static MRESULT EXPENTRY pm_cmdopt(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
@@ -54,27 +62,28 @@ static MRESULT EXPENTRY pm_cmdopt(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         //
         // insert a new line to the text
         //
-        WinLboxInsertItem(hwnd, LB_CMDOPT, (char*)mp1);
-        WinSendDlgMsg(hwnd, LB_CMDOPT, LM_SETTOPINDEX,
-                      WinLboxQueryCount(hwnd, LB_CMDOPT),0);
+        WinDlgLboxInsertItem(hwnd, LB_CMDOPT, (char*)mp1);
+        WinDlgLboxSettop(hwnd, LB_CMDOPT);
         return FALSE;
 
+    case WM_MINMAXFRAME:
     case WM_ADJUSTWINDOWPOS:
-        //
-        // resize dialog
-        //
         {
+            //
+            // resize dialog
+            //
             SWP *swp=(SWP*)mp1;
-            if (swp->fl&SWP_SIZE)
-            {
-                if (swp->cx<320) swp->cx=320;
-                if (swp->cy<200) swp->cy=200;
-                WinSetWindowPos(WinWindowFromID(hwnd, LB_CMDOPT), 0, 0, 0,
-                                swp->cx-2*WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME),
-                                swp->cy-2*WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME)
-                                -WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR)-2,
-                                SWP_SIZE);
-            }
+
+            if (!(swp->fl&SWP_SIZE))
+                break;
+
+            if (swp->cx<320) swp->cx=320;
+            if (swp->cy<100) swp->cy=100;
+            WinSetWindowPos(WinWindowFromID(hwnd, LB_CMDOPT), 0, 0, 0,
+                            swp->cx-2*WinQuerySysValue(HWND_DESKTOP, SV_CXDLGFRAME),
+                            swp->cy-2*WinQuerySysValue(HWND_DESKTOP, SV_CYDLGFRAME)
+                            -WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR)-2,
+                            SWP_SIZE);
         }
         break;
     }
@@ -90,8 +99,55 @@ HWND cmdopt_dialog(HWND hwnd)
     if (WinIsWindowVisible(hwnd2))
         return NULLHANDLE;
 
-    hwnd2 = WinLoadDlg(HWND_DESKTOP, hwnd, pm_cmdopt, NULLHANDLE,
-                       DLG_CMDOPT, NULL);
+    hwnd2 = WinLoadStdDlg(hwnd?hwnd:HWND_DESKTOP,
+                          pm_cmdopt, DLG_CMDOPT, NULL);
+
+    if (hwnd)
+    {
+        //
+        // if the dialog is opened from the menubar while the
+        // emulator is still running, remove the entry for
+        // the dialog from the switch list
+        //
+        HSWITCH hswitch = WinQuerySwitchHandle(hwnd2, 0);
+        WinRemoveSwitchEntry(hswitch);
+    }
+
     return hwnd2;
+}
+
+// -----------------------------------------------------------------
+HWND hwndLog=NULLHANDLE;
+
+void LogThread(void *state)
+{
+    QMSG qmsg;
+
+    HAB hab = WinInitialize(0);            // Initialize PM
+    HMQ hmq = WinCreateMsgQueue(hab, 0);   // Create Msg Queue
+
+    hwndLog = WinLoadStdDlg(HWND_DESKTOP, pm_cmdopt, DLG_LOGGING, NULL);
+
+    if (state)
+        WinActivateWindow(hwndLog, 1);
+
+    //
+    // MAINLOOP
+    // (don't use WinProcessDlg it ignores the missing WM_VISIBLE flag)
+    // returns when a WM_QUIT Msg goes through the queue
+    //
+    while (WinGetMsg(hab, &qmsg, NULLHANDLE, 0, 0))
+        WinDispatchMsg(hab, &qmsg);
+
+    WinDestroyMsgQueue(hmq);
+    WinTerminate(hab);
+}
+
+void log_dialog(int state)
+{
+    _beginthread(LogThread, NULL, 0x4000, (void*)state);
+
+    while (!hwndLog)
+        DosSleep(1);
 }
 

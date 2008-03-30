@@ -161,7 +161,7 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Use fast SID emulation" },
     { "-residsamp <method>", SET_RESOURCE, 1, NULL, NULL, "SidResidSampling", (resource_value_t) 0,
       NULL, "reSID sampling method (0: fast, 1: interpolating, 2: resampling)" },
-    { "-residpass <bandwidth percentage>", SET_RESOURCE, 1, NULL, NULL, "SidResidPassband", (resource_value_t) 90,
+    { "-residpass <percent>", SET_RESOURCE, 1, NULL, NULL, "SidResidPassband", (resource_value_t) 90,
       NULL, "reSID resampling passband in percentage of total bandwidth (0 - 90)" },
 #endif
     { NULL }

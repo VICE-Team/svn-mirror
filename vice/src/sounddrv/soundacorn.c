@@ -176,13 +176,13 @@ static int init_vidc_device(const char *device, int *speed, int *fragsize, int *
 }
 
 
-static int vidc_bufferstatus(int first)
+static int vidc_bufferspace(void)
 {
   /* if DR needs new samples, we have buffersize stored, otherwise 2*buffersize */
   if ((DigitalRenderer_ReadState() & DRState_NeedData) == 0)
-    return buffersize;
+    return (numbuffers - 1)*buffersize;
   else
-    return 2*buffersize;
+    return (numbuffers - 2)*buffersize;
 }
 
 
@@ -255,7 +255,7 @@ static sound_device_t vidc_device =
   vidc_write,
   NULL,
   NULL,
-  vidc_bufferstatus,
+  vidc_bufferspace,
   vidc_close,
   vidc_suspend,
   vidc_resume
@@ -315,10 +315,6 @@ void sound_wimp_safe_exit(void)
 /*
  *  Synchronous sound device interface
  */
-
-static int JustInitialized;
-static int FragCorrection;
-
 static int init_vidc_sync_device(const char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
 {
   if ((DigitalRenderer_ReadState() &DRState_Active) != 0)
@@ -329,11 +325,8 @@ static int init_vidc_sync_device(const char *device, int *speed, int *fragsize, 
 
   /* unthreaded sound */
   SoundThreadActive = 0;
-  JustInitialized = 1;
-  /* leave some frags at the end free to take reSID peaks */
-  FragCorrection = (numbuffers + 23) / 24;
 
-  log_message(LOG_DEFAULT, "fragsize %d, frags %d, correction %d", *fragsize, *fragnr, FragCorrection);
+  log_message(LOG_DEFAULT, "fragsize %d, frags %d", *fragsize, *fragnr);
 
   ui_set_sound_volume();
 
@@ -341,22 +334,12 @@ static int init_vidc_sync_device(const char *device, int *speed, int *fragsize, 
 }
 
 
-static int vidc_sync_bufferstatus(int flag)
+static int vidc_sync_bufferspace(void)
 {
-  if (JustInitialized != 0)
-  {
-    JustInitialized = 0;
-    return 0;
-  }
-  else
-  {
-    int numbuf = DigitalRenderer_StreamStatistics() + FragCorrection;
+  /* DigitalRenderer_StreamStatistics returns the number of filled buffers. */
+  int numbuf = DigitalRenderer_StreamStatistics();
 
-    if (numbuf > numbuffers)
-      numbuf = numbuffers;
-
-    return numbuf * buffersize;
-  }
+  return (numbuffers - numbuf) * buffersize;
 }
 
 
@@ -401,7 +384,7 @@ static sound_device_t vidc_sync_device =
   vidc_sync_write,
   NULL,
   NULL,
-  vidc_sync_bufferstatus,
+  vidc_sync_bufferspace,
   vidc_sync_close,
   vidc_sync_suspend,
   vidc_sync_resume

@@ -95,7 +95,7 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             break;
 
         default:
-            menu_action(hwnd, SHORT1FROMMP(mp1), mp2);
+            menu_action(hwnd, SHORT1FROMMP(mp1)); //, mp2);
             return FALSE;
         }
         break;
@@ -114,6 +114,5 @@ static MRESULT EXPENTRY pm_vsid(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
 HWND vsid_dialog()
 {
-    return WinLoadDlg(HWND_DESKTOP, HWND_DESKTOP, pm_vsid, NULLHANDLE,
-                      DLG_VSID, NULL);
+    return WinLoadStdDlg(HWND_DESKTOP, pm_vsid, DLG_VSID, NULL);
 }

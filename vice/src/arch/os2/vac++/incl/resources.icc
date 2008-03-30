@@ -5,4 +5,5 @@ source type (rc)
     "dlg-drive.rc",
     "dlg-emulator.rc",
     "dlg-fileio.rc",
-    "dlg-joystick.rc"
+    "dlg-joystick.rc",
+    "dlg-monitor.rc"

@@ -31,33 +31,34 @@
 #define FID_STATUS       0x002
 
 #define IDM_FILEOPEN     0x101
-#define IDM_FILESAVE     0x11b
-#define IDM_FILE         0x102
-#define IDM_ATTACH       0x103
-#define IDM_DETACH       0x104
-#define IDM_SNAPSHOT     0x105
-#define IDM_RESET        0x106
-#define IDM_VIEW         0x107
-#define IDM_EMULATOR     0x108
-#define IDM_DRIVE        0x109
-#define IDM_JOYSTICK     0x10a
-#define IDM_DATASETTE    0x10b
+#define IDM_FILESAVE     0x102
+#define IDM_FILE         0x103
+#define IDM_ATTACH       0x104
+#define IDM_DETACH       0x105
+#define IDM_SNAPSHOT     0x106
+#define IDM_RESET        0x107
+#define IDM_VIEW         0x108
+#define IDM_EMULATOR     0x109
+#define IDM_DRIVE        0x10a
+#define IDM_JOYSTICK     0x10b
+#define IDM_DATASETTE    0x10c
+#define IDM_LOGWIN       0x10d
 
-#define IDM_SETUP        0x10c
-#define IDM_SOUND        0x10d
-#define IDM_SIDCHIP      0x10e
-#define IDM_OVERSAMPLING 0x10f
-#define IDM_SAMPLINGRATE 0x110
-#define IDM_VDCMEMORY    0x111
-#define IDM_VIDEOSTD     0x112
-#define IDM_COLLISION    0x113
-#define IDM_REFRATE      0x114
-#define IDM_BUFFER       0x115
-#define IDM_STRETCH      0x116
-#define IDM_MONITOR      0x117
-#define IDM_HELP         0x118
-#define IDM_CMDLINE      0x119
-#define IDM_ABOUT        0x11a
+#define IDM_SETUP        0x10e
+#define IDM_SOUND        0x10f
+#define IDM_SIDCHIP      0x110
+#define IDM_OVERSAMPLING 0x111
+#define IDM_SAMPLINGRATE 0x112
+#define IDM_VDCMEMORY    0x113
+#define IDM_VIDEOSTD     0x114
+#define IDM_COLLISION    0x115
+#define IDM_REFRATE      0x116
+#define IDM_BUFFER       0x117
+#define IDM_STRETCH      0x118
+#define IDM_MONITOR      0x119
+#define IDM_HELP         0x11a
+#define IDM_CMDLINE      0x11b
+#define IDM_ABOUT        0x11c
 
 #define IDM_ATTACHTAPE   0x120
 #define IDM_ATTACH8      0x121
@@ -109,21 +110,37 @@
 #define IDM_REFRATE9     0x169
 #define IDM_REFRATE10    0x16a
 
-#define IDM_SC6581       0x170
-#define IDM_SC8580       0x171
-#define IDM_SOUNDON      0x172
-#define IDM_SIDFILTER    0x173
-#define IDM_RESID        0x174
+#define IDM_SC6581        0x170
+#define IDM_SC8580        0x171
+#define IDM_SOUNDON       0x172
+#define IDM_SIDFILTER     0x173
+#define IDM_RESID         0x174
+#define IDM_RESIDMETHOD   0x175
+#define IDM_RESIDFAST     0x176
+#define IDM_RESIDINTERPOL 0x177
+#define IDM_RESIDRESAMPLE 0x178
 
-#define IDM_OSOFF        0x180
-#define IDM_OS2X         0x181
-#define IDM_OS4X         0x182
-#define IDM_OS8X         0x183
+#define IDM_RESIDBAND     0x17f
+#define IDM_RESIDPASS0    0x180
+#define IDM_RESIDPASS10   0x181
+#define IDM_RESIDPASS20   0x182
+#define IDM_RESIDPASS30   0x183
+#define IDM_RESIDPASS40   0x184
+#define IDM_RESIDPASS50   0x185
+#define IDM_RESIDPASS60   0x186
+#define IDM_RESIDPASS70   0x187
+#define IDM_RESIDPASS80   0x188
+#define IDM_RESIDPASS90   0x189
 
-#define IDM_SR8000       0x190
-#define IDM_SR11025      0x191
-#define IDM_SR22050      0x192
-#define IDM_SR44100      0x193
+#define IDM_OSOFF        0x190
+#define IDM_OS2X         0x191
+#define IDM_OS4X         0x192
+#define IDM_OS8X         0x193
+
+#define IDM_SR8000       0x194
+#define IDM_SR11025      0x195
+#define IDM_SR22050      0x196
+#define IDM_SR44100      0x197
 
 #define IDM_BUF010       0x202
 #define IDM_BUF025       0x205
@@ -181,11 +198,12 @@
 #define IDM_MODEL650     0x242
       
 #define IDM_RAMSIZE      0x250
-      
-#define IDM_RAM128       0x251
-#define IDM_RAM256       0x252
-#define IDM_RAM512       0x254
-#define IDM_RAM1024      0x258
+
+#define IDM_RAM64        0x251
+#define IDM_RAM128       0x252
+#define IDM_RAM256       0x254
+#define IDM_RAM512       0x258
+#define IDM_RAM1024      0x260
       
 #define IDM_RAMMAPPING   0x237
       
@@ -196,7 +214,7 @@
 #define IDM_RAM60        0x23c
 #define IDM_RAMC0        0x23d
 
-#define IDM_CHARSET      0x260
+#define IDM_CHARSET      0x25f
 #define IDM_EOI          0x261
 #define IDM_ROMPATCH     0x262
 #define IDM_DIAGPIN      0x263
@@ -248,6 +266,12 @@
 #define IDM_FLIPPREV9    0x490
 #define IDM_FLIPNEXT9    0x491
 
+#define IDM_KERNALREV     0x290
+#define IDM_KERNALREV0    0x291
+#define IDM_KERNALREV3    0x292
+#define IDM_KERNALREVSX   0x293
+#define IDM_KERNALREV4064 0x294
+
 #define IDM_CARTRIDGE    0x500
 #define IDM_CARTRIDGEDET 0x501
 #define IDM_CRTGEN       0x502
@@ -264,6 +288,6 @@
 #define IDM_CRTFREEZE    0x50d
 #define IDM_CRTSAVEIMG   0x50e
 
-void menu_action(HWND hwnd, SHORT idm, MPARAM mp2);
+void menu_action(HWND hwnd, USHORT item); //, MPARAM mp2);
 void menu_select(HWND hwnd, USHORT item);
 

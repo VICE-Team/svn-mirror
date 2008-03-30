@@ -422,8 +422,8 @@ static int dart_write2(SWORD *pbuf, size_t nr)
     return 0;
 }
 
-/* return number of samples unplayed in the kernel buffer at the moment */
-static int dart_bufferstatus(int first)
+/* return number of free samples in the kernel buffer at the moment */
+static int dart_bufferspace(void)
 {
 
     MCI_STATUS_PARMS mciStatus;
@@ -433,15 +433,17 @@ static int dart_bufferstatus(int first)
 
     mciStatus.ulItem = MCI_STATUS_POSITION;
 
+    /* mciSendCommand() query for MCI_STATUS_POSITION returns position
+       in MMTIME units (currently set to milliseconds). */
     rc = mciSendCommand(usDeviceID, MCI_STATUS,
                               MCI_WAIT|MCI_STATUS_ITEM,
                               (PVOID) &mciStatus, 0);
 
-    rc = written - (int)(mmtime*mciStatus.ulReturn);
+    rc = rest + (int)(mmtime*mciStatus.ulReturn);
 //    log_debug("w: %i  p: %i  r: %i", written, (int)(mmtime*mciStatus.ulReturn), rc<0?0:rc);
 
 //    return BufferParms.ulBufferSize/sizeof(SWORD);
-    return rc<0?0:rc;
+    return rc;
 }
 
 static int dart_suspend()
@@ -465,7 +467,7 @@ static sound_device_t dart_device =
     dart_write,        // dart_write
     NULL,              // dart_dump
     NULL,              // dart_flush
-    NULL,              // dart_bufferstatus
+    NULL,              // dart_bufferspace
     dart_close,        // dart_close
     dart_suspend,      // dart_suspend
     dart_resume        // dart_resume
@@ -478,7 +480,7 @@ static sound_device_t dart2_device =
     dart_write2,       // dart_write
     NULL,              // dart_dump
     NULL,              // dart_flush
-    dart_bufferstatus, // dart_bufferstatus
+    dart_bufferspace,  // dart_bufferspace
     dart_close,        // dart_close
     dart_suspend,      // dart_suspend
     dart_resume        // dart_resume

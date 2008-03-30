@@ -34,6 +34,8 @@
 #include "dialogs.h"
 #include "resources.h"
 
+#include "snippets\\pmwin2.h"
+
 int toggle(const char *resource_name)
 {
     int val;
@@ -44,10 +46,11 @@ int toggle(const char *resource_name)
 
 void ViceErrorDlg(HWND hwnd, int id, char *text)
 {
-    HPOINTER hpt = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, id);
     MB2INFO mb =
     {
-        sizeof(MB2INFO), hpt, 1, MB_CUSTOMICON|WS_VISIBLE, NULLHANDLE,
+        sizeof(MB2INFO),
+        WinLoadPointer(HWND_DESKTOP, NULLHANDLE, id),
+        1, MB_CUSTOMICON|WS_VISIBLE, NULLHANDLE,
         "      OK      ", 0, BS_DEFAULT
     };
 
@@ -63,7 +66,6 @@ void about_dialog(HWND hwnd)
     if (WinIsWindowVisible(hwnd2))
         return;
 
-    hwnd2 = WinLoadDlg(HWND_DESKTOP, hwnd, WinDefDlgProc, NULLHANDLE,
-                       DLG_ABOUT, NULL);
+    hwnd2 = WinLoadStdDlg(hwnd, WinDefDlgProc, DLG_ABOUT, NULL);
 }
 

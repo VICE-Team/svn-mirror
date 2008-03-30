@@ -72,7 +72,7 @@ typedef struct cmdline_option_s {
 extern int cmdline_init(void);
 extern int cmdline_register_options(const cmdline_option_t *c);
 extern int cmdline_parse(int *argc, char **argv);
-extern void cmdline_show_help(void);
+extern void cmdline_show_help(void *userparam);
 extern char *cmdline_options_string(void);
 
 #endif

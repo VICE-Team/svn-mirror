@@ -30,7 +30,10 @@
 
 typedef void (*void_hook_t)(void);
 
-/* provide the actual time in microseconds */
+/* number of timer units per second - used to calc speed and fps */
+signed long vsyncarch_frequency(void);
+
+/* provide the actual time in timer units */
 unsigned long vsyncarch_gettime(void);
 
 /* call when vsync_init is called */
@@ -39,8 +42,8 @@ void vsyncarch_init(void);
 /* display speed(%) and framerate(fps) */
 void vsyncarch_display_speed(double speed, double fps, int warp_enabled);
 
-/* sleep the given amount of microseconds */
-void vsyncarch_sleep(long delay);
+/* sleep the given amount of timer units */
+void vsyncarch_sleep(signed long delay);
 
 /* this is called before do_vsync does the synchroniation */
 void vsyncarch_presync(void);

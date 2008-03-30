@@ -84,7 +84,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
         ps = cmd;
         pd = buf + l; /* buf + 1 + l - 1 */
 
-#if !defined (__MSDOS__) && !defined (WIN32) && !defined (OS2)
+#if !defined (__MSDOS__) && !defined (WIN32) && !defined (__OS2__)
         if (*pd++ != '/')
             *pd++ = '/';
 #else
@@ -149,7 +149,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
 	    memcpy(p, cmd, cl);
 
 	    for(c= buf + 1; *c !='\0'; c++)
-#if defined (__MSDOS__) || defined (WIN32) || defined (OS2)
+#if defined (__MSDOS__) || defined (WIN32) || defined (__OS2__)
 	        if(*c=='/') *c='\\';
 #else
 	        if(*c=='\\') *c='/';

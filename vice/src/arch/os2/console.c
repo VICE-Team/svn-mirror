@@ -2,7 +2,7 @@
  * console.c - Console access interface.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
+ *  Thomas Bretz <tbretz@gsi.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -23,119 +23,15 @@
  *  02111-1307  USA.
  *
  */
-
-#include "vice.h"
-
-#define INCL_DOSPROCESS // DosSleep
-#include <os2.h>
-
-#include <stdarg.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "log.h"
-
-#include "utils.h"
-#include "dialogs.h"
 #include "console.h"
-#include "snippets\pmwin2.h"   // WinShowDlg
-
-extern HWND hwndMonitor;
-
-int console_init(void)
-{
-    return 0;
-}
 
 console_t *console_open(const char *id)
 {
-    console_t *console = xmalloc(sizeof(console_t));
-    console->console_xres = 80;
-    console->console_yres = 25;
-    console->console_can_stay_open = 0;
-    WinShowDlg(HWND_DESKTOP, DLG_MONITOR, 1);
-    // WinEnableControl(hwndMonitor, EF_MONIN, 1);
-    // WinShowDlg(hwndMonitor, EF_MONIN, 1);
-    return console;
-}
-
-int console_close(console_t *log)
-{
-    WinShowDlg(HWND_DESKTOP, DLG_MONITOR, 0);
-    // WinEnableControl(hwndMonitor, EF_MONIN, 0);
-    // WinShowDlg(hwndMonitor, EF_MONIN, 0);
-    free(log);
     return 0;
-}
-
-int console_out(console_t *log, const char *format, ...)
-{
-    static char *out = NULL;
-    char *in;
-    char *txt, *mid;
-    va_list ap;
-
-    if (!hwndMonitor)
-        return 0;
-
-    if (!out)
-       out=xcalloc(1, 1);
-
-    va_start(ap, format);
-    in=xmvsprintf(format, ap);
-
-    txt=in;
-    while (strrchr(txt,'\n') && strchr(txt,'\n') != txt+strlen(txt))
-    {
-        mid=strchr(txt,'\n')+1;
-        *strchr(txt,'\n')='\0';
-
-        WinSendMsg(hwndMonitor, WM_INSERT, concat(out, txt, NULL), NULL);
-        out[0]='\0';
-
-        while (*mid=='\n') mid++;
-        txt = mid;
-    }
-
-    if (mid != txt)
-    {
-        char *line = concat(out, txt, NULL);
-        free(out);
-        out = line;
-    }
-
-    free(in);
-
-    return 0;
-}
-
-extern int trigger_shutdown;
-extern int trigger_console_exit;
-
-char *console_in(console_t *log)
-{
-    char *c=NULL;
-    int wait_for_input = TRUE;
-
-    console_out(log, "\n");
-    WinSendMsg(hwndMonitor, WM_INPUT, &c, &wait_for_input);
-
-    while (wait_for_input && !trigger_shutdown && !trigger_console_exit)
-        DosSleep(1);
-
-    if (trigger_shutdown || trigger_console_exit)
-        c=stralloc("exit");
-
-    WinSendMsg(hwndMonitor, WM_PROMPT, c, NULL);
-
-    return c;
 }
 
 int console_close_all(void)
 {
-    WinSendMsg(hwndMonitor, WM_CLOSE, NULL, NULL);
-    hwndMonitor=NULLHANDLE;
     return 0;
 }
 

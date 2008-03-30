@@ -64,7 +64,7 @@ static ULONG ulTmrFreq = 0;  // Hertz (almost 1.2MHz at my PC) FIXME!!!
 
 PULONG pms = 0;
 
-unsigned long vsyncarch_timescale()
+signed long vsyncarch_frequency()
 {
     static ULONG ulTmrFreq=0;
 
@@ -78,7 +78,7 @@ unsigned long vsyncarch_gettime()
 {
     QWORD qwTmrTime;
     DosTmrQueryTime(&qwTmrTime);
-    return (unsigned long)(1000000.0/vsyncarch_timescale()*qwTmrTime.ulLo); // pms?*pms:0;
+    return qwTmrTime.ulLo; // pms?*pms:0;
 }
 
 static HEV hevTimer = 0; // Event semaphore handle
@@ -163,7 +163,7 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
     DosSleep(1);
 }
 
-void vsyncarch_sleep(long delay)
+void vsyncarch_sleep(signed long delay)
 {
     // There are two ways to sleep for specific amount of milliseconds:
     // 1) like here
@@ -176,7 +176,7 @@ void vsyncarch_sleep(long delay)
     ULONG  ret;
     HTIMER htimer = 0; // Timer handle
 
-    delay /= 1000;
+    delay *= 1000.0/vsyncarch_frequency();
 
     if (delay<1)
         return;

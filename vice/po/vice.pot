@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-03-29 15:20+0200\n"
+"POT-Creation-Date: 2001-04-02 23:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,7 +34,7 @@ msgstr ""
 msgid "Disable warp mode"
 msgstr ""
 
-#: src/vsync.c:344
+#: src/vsync.c:342
 msgid "Your machine is too slow for current settings!"
 msgstr ""
 
@@ -1544,7 +1544,7 @@ msgstr ""
 msgid "*Save settings on exit"
 msgstr ""
 
-#: src/arch/unix/uicmdline.c:36
+#: src/arch/unix/uicmdline.c:37
 msgid ""
 "\n"
 "Available command-line options:\n"
@@ -1742,11 +1742,11 @@ msgstr ""
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr ""
 
-#: src/arch/unix/kmap.c:118
+#: src/arch/unix/kmap.c:119
 msgid "Specify name of symbolic keymap file"
 msgstr ""
 
-#: src/arch/unix/kmap.c:120
+#: src/arch/unix/kmap.c:121
 msgid "Specify name of positional keymap file"
 msgstr ""
 
@@ -1982,12 +1982,12 @@ msgstr ""
 msgid "Detach cartridge image(s)"
 msgstr ""
 
-#: src/arch/unix/archdep.c:227
+#: src/arch/unix/archdep.c:226
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr ""
 
-#: src/arch/unix/archdep.c:230
+#: src/arch/unix/archdep.c:229
 #, c-format
 msgid "Received signal %d."
 msgstr ""

@@ -478,7 +478,7 @@ void fname_split(const char *path, char **directory_return, char **name_return)
 
     p = strrchr(path, '/');
 
-#if defined __MSDOS__ || defined WIN32 || defined OS2
+#if defined __MSDOS__ || defined WIN32 || defined __OS2__
     /* Both `/' and `\' are valid.  */
     {
         const char *p1;

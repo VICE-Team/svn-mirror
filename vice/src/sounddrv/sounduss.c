@@ -56,7 +56,7 @@ static int uss_8bit = 0;
 static int uss_bufsize = 0;
 static int uss_fragsize = 0;
 
-static int uss_bufferstatus(int first);
+static int uss_bufferspace(void);
 
 static int uss_init(const char *param, int *speed,
 		    int *fragsize, int *fragnr, double bufsize)
@@ -170,30 +170,20 @@ static int uss_write(SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int uss_bufferstatus(int first)
+static int uss_bufferspace(void)
 {
     audio_buf_info		info;
     int				st, ret;
 
+    /* ioctl(uss_fd, SNDCTL_DSP_GETOSPACE, &info) yields space in bytes
+       in info.bytes. */
     st = ioctl(uss_fd, SNDCTL_DSP_GETOSPACE, &info);
     if (st < 0)
     {
 	log_message(LOG_DEFAULT, "SNDCTL_DSP_GETOSPACE failed");
 	return -1;
     }
-    ret = info.fragments*info.fragsize;
-    if (ret != info.bytes)
-    {
-/*
-  FIXME: The following GETOSPACE warning should only be displayed once
-  since some sound drivers always return a multiple of a fixed block
-  size instead of the exact requested size, causing the console to be
-  flooded with messages. For now the warning is simply disabled.
-	log_message(LOG_DEFAULT,
-                    "GETOSPACE: ret(%d)!=bytes(%d)", ret, info.bytes);
-*/
-	ret = info.bytes;
-    }
+    ret = info.bytes;
     if (ret < 0)
     {
         log_message(LOG_DEFAULT, "GETOSPACE: bytes < 0");
@@ -206,19 +196,6 @@ static int uss_bufferstatus(int first)
 	log_message(LOG_DEFAULT, "GETOSPACE: bytes > bufsize");
 	ret = uss_bufsize;
     }
-#if defined(linux)
-    /*
-     * GETOSPACE before first write returns random value (or actually the
-     * value on which the device was when it was closed last time). I hope
-     * this has been fixed after 'Sound Driver:3.5-beta2-960210'
-     */
-    if (first && !ret)
-    {
-	ret = 1;
-	log_message(LOG_DEFAULT,
-                    "SNDCTL_DSP_GETOSPACE not reliable after open()");
-    }
-#endif
     return ret;
 }
 
@@ -250,7 +227,7 @@ static sound_device_t uss_device =
     uss_write,
     NULL,
     NULL,
-    uss_bufferstatus,
+    uss_bufferspace,
     uss_close,
     uss_suspend,
     NULL

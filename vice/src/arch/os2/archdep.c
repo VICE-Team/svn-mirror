@@ -62,7 +62,12 @@
 
 #include "ui.h"
 #include "signals.h"
-#include "vsyncarch.h"
+#include "vsyncapi.h"
+
+#ifndef __C1541__
+#include "dialogs.h"    // WM_INSERT
+#include "resources.h"  // Logwin
+#endif
 
 /* ---------------------- OS/2 specific ------------------ */
 
@@ -202,23 +207,37 @@ const char *archdep_default_resource_file_name(void)
     return filename;
 }
 
-int archdep_default_logger(const char *level_string,
-                           const char *format, va_list ap)
+FILE *fLog=NULL;
+
+int archdep_default_logger(const char *lvl, const char *txt)
 {
     //
     // This is used if archdep_open_default_log_file returns NULL
     //
+#ifndef __C1541__
+    char *text = concat(lvl, txt, NULL);
+    WinSendMsg(hwndLog, WM_INSERT, text, 0);
+    free(text);
+#endif
+    if (fLog)
+        fprintf(fLog, "%s\n", txt);
     return 0;
 }
 
-FILE *archdep_open_default_log_file(void)
+FILE *archdep_open_default_log_file()
 {
+    int val;
+
     char *fname = concat (archdep_boot_path(), "\\vice2.log", NULL);
-
-    FILE *f = fopen(fname, "w");
+    fLog = fopen(fname, "w");
     free(fname);
-
-    return f;
+    if (fLog)
+        setbuf(fLog, NULL);
+#ifndef __C1541__
+    resources_get_value("Logwin", (resource_value_t*)&val);
+    log_dialog(val);
+#endif
+    return NULL;
 }
 
 int archdep_num_text_lines(void)
@@ -499,3 +518,29 @@ int archdep_file_set_gzip(const char *name)
 {
   return 0;
 }
+
+// --------------------------------------------------------------------
+/*
+static int    argc;
+static char **argv;
+
+void ViceMain(void *arg)
+{
+    extern int Main(int ac, char **av);
+    Main(ac, av);
+}
+
+int main(int ac, char **av)
+{
+    TID tid;
+
+    argc = ac;
+    argv = av;
+
+    tid = _beginthread(ViceMain, NULL, 0x100000, NULL);
+
+    DosWaitThread(&tid, 0);  // * DCWW_WAIT *
+
+    return 0;
+}
+*/

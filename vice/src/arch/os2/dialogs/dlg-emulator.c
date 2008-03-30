@@ -151,14 +151,14 @@ static MRESULT EXPENTRY pm_emulator(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
             val=0;
             while (val<10 && snapshotHist[val][0])
                 WinLboxInsertItem(hwnd, CBS_SSNAME, snapshotHist[val++]);
-            for (val=0; val<11; val++)
-                WinLboxInsertItem(hwnd, CBS_REFRATE, psz[val]);
 */
+            for (val=0; val<11; val++)
+                WinDlgLboxInsertItem(hwnd, CBS_REFRATE, psz[val]);
             resources_get_value("Speed", (resource_value_t *) &val);
             WinSetDlgSpinVal(hwnd, SPB_SPEED, val);
             WinEnableControl(hwnd, PB_SPEED100, (val!=100));
             resources_get_value("RefreshRate", (resource_value_t *) &val);
-            WinLboxSelectItem(hwnd, CBS_REFRATE, val);
+            WinDlgLboxSelectItem(hwnd, CBS_REFRATE, val);
         }
         break;
 
@@ -286,7 +286,6 @@ void emulator_dialog(HWND hwnd)
     if (WinIsWindowVisible(hwndEmulator))
         return;
 
-    hwndEmulator=WinLoadDlg(HWND_DESKTOP, hwnd, pm_emulator, NULLHANDLE,
-                            DLG_EMULATOR, NULL);
+    hwndEmulator = WinLoadStdDlg(hwnd, pm_emulator, DLG_EMULATOR, NULL);
 }
 

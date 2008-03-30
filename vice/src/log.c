@@ -97,16 +97,20 @@ int log_init(void)
     if (log_file_name == NULL || *log_file_name == 0)
     {
         log_file = archdep_open_default_log_file();
+        return log_file<0 ? -1 : 0;
     }
     else
     {
+#ifndef __OS2__
         if (strcmp(log_file_name, "-") == 0)
             log_file = stdout;
         else
+#endif
             log_file = fopen(log_file_name, MODE_WRITE_TEXT);
     }
     /* flush all data direct to the output stream. */
-    if (log_file) setbuf(log_file, NULL);
+    if (log_file)
+        setbuf(log_file, NULL);
 
     return log_file == NULL ? -1 : 0;
 }
@@ -148,6 +152,41 @@ int log_close(log_t log)
     return 0;
 }
 
+static int log_archdep(const char *level, const char *fmt, va_list ap)
+{
+    /*
+     * ------ Split into single lines ------
+     */
+
+    char *txt = xmvsprintf(fmt, ap);
+
+    char *beg = txt;
+    char *end = txt + strlen(txt)+1;
+
+    while (beg < end)
+    {
+        char *eol = strchr(beg, '\n');
+
+        if (eol)
+            *eol='\0';
+
+        if (archdep_default_logger(level, beg)<0)
+        {
+            free(txt);
+            return -1;
+        }
+
+        if (!eol)
+            break;
+
+        beg = eol+1;
+    }
+
+    free(txt);
+
+    return 0;
+}
+
 static int log_helper(log_t log, unsigned int level,
                       const char *format, va_list ap)
 {
@@ -157,12 +196,12 @@ static int log_helper(log_t log, unsigned int level,
         "Error: "
     };
 
-    if (log_file == NULL) 
-	return archdep_default_logger(level_strings[level], format, ap);
+    if (log_file == NULL)
+	return log_archdep(level_strings[level], format, ap);
 
     if (log == LOG_ERR
         || (log != LOG_DEFAULT && logs[(unsigned int) log] == NULL)
-        || log_file == NULL) 
+        || log_file == NULL)
         return -1;
 
     if (log != LOG_DEFAULT && *logs[(unsigned int) log] != 0) {

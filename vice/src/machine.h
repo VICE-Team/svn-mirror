@@ -44,7 +44,7 @@ extern const char machine_name[];
 extern int machine_class;
 extern int vsid_mode;
 extern
-#ifdef OS2
+#ifdef __OS2__
     const
 #endif
 int console_mode;

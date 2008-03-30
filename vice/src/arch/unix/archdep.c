@@ -212,10 +212,9 @@ int archdep_num_text_columns(void)
     return atoi(s);
 }
 
-int archdep_default_logger(const char *level_string, const char *format,
-                                                                va_list ap) {
+int archdep_default_logger(const char *level_string, const char *txt) {
     if (fputs(level_string, stdout) == EOF
-        || vfprintf(stdout, format, ap) < 0
+        || fprintf(stdout, txt) < 0
         || fputc ('\n', stdout) == EOF)
     	return -1;
     return 0;

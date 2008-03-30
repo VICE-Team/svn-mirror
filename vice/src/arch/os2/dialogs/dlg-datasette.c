@@ -137,16 +137,17 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
     return WinDefDlgProc (hwnd, msg, mp1, mp2);
 }
 
+HWND hwndDatasette=NULLHANDLE;
+
 /* call to open dialog                                              */
 /*----------------------------------------------------------------- */
-HWND hwndDatasette=NULLHANDLE;
 
 void datasette_dialog(HWND hwnd)
 {
+
     if (WinIsWindowVisible(hwndDatasette))
         return;
 
-    hwndDatasette=WinLoadDlg(HWND_DESKTOP, hwnd, pm_datasette, NULLHANDLE,
-                             DLG_DATASETTE, NULL);
+    hwndDatasette = WinLoadStdDlg(hwnd, pm_datasette, DLG_DATASETTE, NULL);
 }
 

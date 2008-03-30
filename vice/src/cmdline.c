@@ -107,7 +107,7 @@ int cmdline_parse(int *argc, char **argv)
             cmdline_option_t *p;
 
             if (argv[i][1] == '\0') {
-                archdep_startup_log_error("Invalid option `%s'.\n", argv[i]);
+                archdep_startup_log_error("Invalid option '%s'.\n", argv[i]);
                 return -1;
             }
 
@@ -120,18 +120,18 @@ int cmdline_parse(int *argc, char **argv)
             p = lookup(argv[i], &is_ambiguous);
 
             if (p == NULL) {
-                archdep_startup_log_error("Unknown option `%s'.\n", argv[i]);
+                archdep_startup_log_error("Unknown option '%s'.\n", argv[i]);
                 return -1;
             }
 
             if (is_ambiguous) {
-                archdep_startup_log_error("Option `%s' is ambiguous.\n",
+                archdep_startup_log_error("Option '%s' is ambiguous.\n",
                                           argv[i]);
                 return -1;
             }
 
             if (p->need_arg && i >= *argc - 1) {
-                archdep_startup_log_error("Option `%s' requires a parameter.\n",
+                archdep_startup_log_error("Option '%s' requires a parameter.\n",
                                           p->name);
                 return -1;
             }
@@ -149,17 +149,17 @@ int cmdline_parse(int *argc, char **argv)
                 retval = p->set_func(p->need_arg?argv[i+1]:NULL, p->extra_param);
                 break;
               default:
-                archdep_startup_log_error("Invalid type for option `%s'.\n",
+                archdep_startup_log_error("Invalid type for option '%s'.\n",
                                           p->name);
                 return -1;
             }
 
             if (retval < 0) {
                 if (p->need_arg)
-                    archdep_startup_log_error("Argument `%s' not valid for option `%s'.\n",
+                    archdep_startup_log_error("Argument '%s' not valid for option `%s'.\n",
                                               argv[i + 1], p->name);
                 else
-                    archdep_startup_log_error("Option `%s' not valid.\n", p->name);
+                    archdep_startup_log_error("Option '%s' not valid.\n", p->name);
                 return -1;
             }
 
@@ -181,9 +181,9 @@ int cmdline_parse(int *argc, char **argv)
     return 0;
 }
 
-void cmdline_show_help(void)
+void cmdline_show_help(void *userparam)
 {
-    ui_cmdline_show_help(num_options, options);
+    ui_cmdline_show_help(num_options, options, userparam);
 }
 
 char *cmdline_options_string(void)

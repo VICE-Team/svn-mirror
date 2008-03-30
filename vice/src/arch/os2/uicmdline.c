@@ -38,7 +38,7 @@
 #include "dialogs.h"
 #include "utils.h"
 
-void ui_cmdline_show_help(int num_options, cmdline_option_t *opt)
+void ui_cmdline_show_help(int num_options, cmdline_option_t *opt, void *arg)
 {
     int   i, j, jmax;
     int   chars;   // maximum area could be shown
@@ -69,7 +69,7 @@ void ui_cmdline_show_help(int num_options, cmdline_option_t *opt)
     //
     // open dialog
     //
-    hwnd = cmdopt_dialog(HWND_DESKTOP);
+    hwnd = cmdopt_dialog((HWND)arg);
 
     if (!hwnd)
         return;

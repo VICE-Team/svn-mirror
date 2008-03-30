@@ -562,22 +562,14 @@ DWORD   result;
     ds = NULL;
 }
 
-static int dx_bufferstatus(int first)
+static int dx_bufferspace(void)
 {
     /* DWORD play_cursor, write_cursor; */
     int value;
 
-    if (first) {
-
-        /* No buffered bytes so far.  */
-
-        return 0;
-
-    }
-
-    value=stream_buffer_shadow_last-stream_buffer_shadow_first;
 //    DEBUG(("buffer status %d %d %d \n",play_cursor,buffer_offset,value));
-    return value;
+    return
+        stream_buffer_size-(stream_buffer_shadow_last-stream_buffer_shadow_first);
 }
 
 static int dx_write(SWORD *pbuf, size_t nr)
@@ -615,7 +607,7 @@ static sound_device_t dx_device =
     dx_write,
     NULL,
     NULL,
-    dx_bufferstatus,
+    dx_bufferspace,
     dx_close,
     NULL,
     NULL

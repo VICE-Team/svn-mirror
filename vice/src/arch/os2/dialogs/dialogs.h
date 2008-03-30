@@ -46,13 +46,7 @@
 #define DLG_ABOUT      0x1050
 
 // Monitor Dialog
-#define DLG_MONITOR    0x10b0
-#define LB_MONOUT      0x10b1
-#define EF_MONIN       0x10b2
 #define WM_INSERT      WM_USER+0x1
-#define WM_INPUT       WM_USER+0x2
-#define WM_PROMPT      WM_USER+0x3
-//#define WM_DELETE      WM_USER+0x4
 
 // Contents Dialog
 #define DLG_CONTENTS   0x10c0
@@ -61,6 +55,10 @@
 // Commandline option Dialog
 #define DLG_CMDOPT     0x10d0
 #define LB_CMDOPT      0x10d1
+
+// Logging Dialog
+#define DLG_LOGGING    0x10e0
+#define LB_LOG         LB_CMDOPT
 
 //
 //  ------------- My Styles -------------
@@ -76,7 +74,7 @@
                               SPBS_NUMERICONLY | SPBS_FASTSPIN | \
                               SPBS_PADWITHZEROS | STY_STD
 #define STY_DIALOG            FS_NOBYTEALIGN | FS_SCREENALIGN | FS_DLGBORDER | \
-                              WS_CLIPSIBLINGS | WS_SAVEBITS | WS_VISIBLE, \
+                              WS_CLIPSIBLINGS | WS_SAVEBITS | WS_ANIMATE | WS_VISIBLE, \
                               FCF_TITLEBAR | FCF_SYSMENU
 #define STY_STATUSDLG         WC_SPINBUTTON, SPBS_JUSTCENTER  | SPBS_NOBORDER | \
                               SPBS_NUMERICONLY | SPBS_READONLY | \
@@ -106,20 +104,12 @@
 //
 #define WinSetDlgLboxItemText(hwnd, id, index, psz) \
     WinSendDlgMsg(hwnd, id, LM_SETITEMTEXT, MPFROMLONG(index), MPFROMP(psz))
-#define WinLboxSelectItem(hwnd, id, index) \
-    WinSendDlgMsg(hwnd, id, LM_SELECTITEM, (void*)(index), TRUE);
 #define WinLboxDeselectItem(hwnd, id, index) \
     WinSendDlgMsg(hwnd, id, LM_SELECTITEM, index, FALSE);
-#define WinLboxInsertItem(hwnd, id, psz) \
-    WinInsertLboxItem(WinWindowFromID(hwnd, id), LIT_END, psz)
 #define WinLboxInsertItemAt(hwnd, id, psz, pos) \
     WinInsertLboxItem(WinWindowFromID(hwnd, id), pos, psz)
-#define WinLboxQueryCount(hwnd, id) \
-    WinQueryLboxCount(WinWindowFromID(hwnd, id))
 #define WinLboxQueryItem(hwnd, id, pos, psz, max) \
     WinQueryLboxItemText(WinWindowFromID(hwnd, id), pos, psz, max)
-#define WinLboxDeleteItem(hwnd, id, pos) \
-    WinDeleteLboxItem(WinWindowFromID(hwnd, id), pos)
 #define WinLboxQuerySelectedItemText(hwnd, id, psz, max) \
     WinLboxQueryItem(hwnd, id, WinQueryLboxSelectedItem(WinWindowFromID(hwnd, id)), psz, max)
 #define WinQueryDlgText(hwnd, id, psz, max) \
@@ -129,24 +119,24 @@
 // ---------------- Resource funtions ------------------
 //
 
+extern HWND hwndLog;
+
 extern int toggle(const char *resource_name);
 extern void ViceErrorDlg(HWND hwnd, int id, char *text);
 
 //
 // ---------------- dialog definitions ------------------
 //
-extern HWND hwndMonitor;
-
-extern void  about_dialog     (HWND hwnd);
-extern void  monitor_dialog   (HWND hwnd);
-extern void  contents_dialog  (HWND hwnd, char *szFullFile);
-extern void  create_dialog    (HWND hwnd);
-extern HWND  cmdopt_dialog    (HWND hwnd);
+extern void about_dialog    (HWND hwnd);
+extern void contents_dialog (HWND hwnd, char *szFullFile);
+extern void create_dialog   (HWND hwnd);
+extern HWND cmdopt_dialog   (HWND hwnd);
+extern void log_dialog      (int state);
 
 extern void hardreset_dialog (HWND hwnd);
 extern void softreset_dialog (HWND hwnd);
 
-extern int isEmulatorPaused(void);
+extern int  isEmulatorPaused(void);
 extern void emulator_pause(void);
 extern void emulator_resume(void);
 

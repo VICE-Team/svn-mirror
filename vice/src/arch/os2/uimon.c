@@ -26,66 +26,153 @@
 
 #include "vice.h"
 
+#define INCL_DOSPROCESS     // DosSleep
+#include <os2.h>
+
+#include <stdarg.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 
-#include "utils.h"
-#include "console.h"
+#include "dialogs.h"
+#include "dlg-monitor.h"
 
 #include "uimon.h"
+#include "utils.h"
+//#include "snippets\\pmwin2.h"   // WinShowDlg
 
-static console_t *console_log = NULL;
+#include "log.h"
+
+extern int trigger_shutdown;
+extern int trigger_console_exit;
+
+//
+// int console_init() --> dlg-monitor.c
+//
 
 void uimon_window_close()
 {
-    console_close(console_log);
+    WinSendMsg(hwndMonitor, WM_CONSOLE, kCLOSE, 0);
+
+    //
+    // Here the FTE Problem comes from!
+    // WinSetDlgFocus(HWND_DESKTOP, IDM_VICE2);
+    //
+
+    free(console_log);
     console_log = NULL;
 }
 
+void uimon_notify_change()
+{
+    WinSendMsg(hwndMonitor, WM_CONSOLE, kOPEN, 0);
+    WinSendMsg(hwndMonitor, WM_UPDATE, 0, 0);
+}
 
 console_t *uimon_window_open()
 {
-    console_log = console_open("Monitor");
+    console_t *console_log = xmalloc(sizeof(console_t));
+
+    //
+    // FIXME: THIS VALUE ISN'T UPDATED YET
+    //
+    console_log->console_xres = 60;
+    console_log->console_yres = 20;
+    console_log->console_can_stay_open = 1;
+
     return console_log;
 }
 
 void uimon_window_suspend()
 {
-    uimon_window_close();
+    WinEnableControl(hwndMonitor, EF_MONIN, 0);
 }
 
 console_t *uimon_window_resume()
 {
-    return uimon_window_open();
+    WinEnableControl(hwndMonitor, EF_MONIN, 1);
+    return console_log;
 }
 
 int uimon_out(const char *format, ...)
 {
-    va_list ap;
-    char *buffer;
-    int   rc;
+    //
+    // Split output into single lines. If a line doesn't end with
+    // a EOL we have to store it until it is flushed (endl, flush)
+    //
+    static char *out = NULL;
 
-    if (!console_log)
+    int flag = FALSE;
+
+    char *in;
+    char *txt, *tmp, *eol;
+
+    va_list ap;
+
+    if (!hwndMonitor || !console_log)
         return 0;
 
+    if (!out) out = xcalloc(1,1);
+
     va_start(ap, format);
+    in=xmvsprintf(format, ap);
 
-    buffer = xmvsprintf(format, ap);
-    rc = console_out(console_log, buffer);
-    free(buffer);
-    return rc;
+    txt=in;
+
+    eol = strchr(txt, '\n');
+    while (strrchr(txt,'\n') && eol!= txt+strlen(txt))
+    {
+        *eol='\0';
+
+        tmp = concat(out, txt, NULL);
+        WinSendMsg(hwndMonitor, WM_INSERT, tmp, NULL);
+        free(tmp);
+
+        out[0]='\0';
+
+        eol++;
+        while (*eol=='\n') eol++;
+        txt = eol;
+
+        eol = strchr(txt, '\n');
+
+        flag = TRUE;
+    }
+
+    if (!flag)
+    {
+        char *line = concat(out, txt, NULL);
+        free(out);
+        out = line;
+    }
+
+    free(in);
+
+    return 0;
 }
 
-char *uimon_get_in( char **ppchCommandLine )
+char *uimon_in()
 {
-    return console_in(console_log);
-}
+    char *c=NULL;
+    int wait_for_input = TRUE;
 
-void uimon_notify_change()
-{
+    uimon_out("\n");
+    WinSendMsg(hwndMonitor, WM_INPUT, &c, &wait_for_input);
+
+    while (wait_for_input && !trigger_shutdown && !trigger_console_exit)
+        DosSleep(1);
+
+    if (trigger_shutdown || trigger_console_exit)
+        c=stralloc("exit");
+
+    trigger_console_exit = FALSE;
+
+    WinSendMsg(hwndMonitor, WM_PROMPT, c, NULL);
+
+    return c;
 }
 
 void uimon_set_interface( monitor_interface_t *monitor_interface_init[], int count )
 {
+    log_debug("Interfaces: %d", count);
 }

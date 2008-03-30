@@ -125,7 +125,7 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 
 /* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
    memory and (little) speed.  */
-#if(!defined(__MSDOS__) && !defined(__riscos) && !defined(OS2))
+#if !defined(__MSDOS__) && !defined(__riscos) && !defined(__OS2__)
 #define VIC_II_NEED_2X 1
 #endif
 

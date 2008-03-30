@@ -50,8 +50,6 @@ EXTRA_DIST = \
 	unused/pm/winaddon.h \
 	unused/pm/scrollbars.c \
 	unused/pm/scrollbars.h \
-	unused/contentsdlg.c \
-	unused/contentsdlg.h \
 	unused/video_gpi.h \
 	unused/video_gpi.c \
 	unused/pm_cmdline.c \
@@ -59,7 +57,6 @@ EXTRA_DIST = \
 	unused/vsync.c \
 	unused/vsync.h \
 	unused/ui_status.c \
-        unused/dlg-contents.c \
 	icons/folder.pal \
 	icons/folder1.ico \
 	icons/folder2.ico \

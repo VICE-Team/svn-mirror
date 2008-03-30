@@ -98,10 +98,12 @@ static int hpux_write(SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int hpux_bufferstatus(int first)
+static int hpux_bufferspace(void)
 {
     int				st;
     struct audio_status		ast;
+    /* ioctl(fd, AUDIO_GET_STATUS, &ast) yields space in bytes
+       in ast.transmit_buffer_count. */
     st = ioctl(hpux_fd, AUDIO_GET_STATUS, &ast);
     if (st < 0)
 	return -1;
@@ -122,7 +124,7 @@ static sound_device_t hpux_device =
     hpux_write,
     NULL,
     NULL,
-    hpux_bufferstatus,
+    hpux_bufferspace,
     hpux_close,
     NULL,
     NULL

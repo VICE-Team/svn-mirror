@@ -43,7 +43,14 @@ static void_hook_t ui_dispatch_hook;
 
 /* ------------------------------------------------------------------------- */
 
-/* Get time in microseconds. */
+/* Number of timer units per second. */
+signed long vsyncarch_frequency(void)
+{
+    /* Microseconds resolution. */
+    return 1000000;
+}
+
+/* Get time in timer units. */
 unsigned long vsyncarch_gettime(void)
 {
     struct timeval now;
@@ -64,8 +71,8 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
     ui_display_speed((float)speed, (float)frame_rate, warp_enabled);
 }
 
-/* Sleep a number of microseconds. */
-void vsyncarch_sleep(long delay)
+/* Sleep a number of timer units. */
+void vsyncarch_sleep(signed long delay)
 {
     usleep(delay);
 }

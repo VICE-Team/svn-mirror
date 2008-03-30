@@ -93,7 +93,7 @@
 
 /* For some reason, our DJGPP setup does not like to have both `limits.h' and
    `sys/param.h' #included.  */
-#if !defined(OS2) && !defined(DJGPP) && defined(HAVE_SYS_PARAM_H)
+#if !defined(__OS2__) && !defined(DJGPP) && defined(HAVE_SYS_PARAM_H)
 #include <sys/param.h>
 #endif
 

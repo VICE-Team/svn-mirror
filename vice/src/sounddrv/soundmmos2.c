@@ -157,8 +157,8 @@ static int mmos2_write(SWORD *pbuf, size_t nr)
                       mciStat.ulReturn = (double)mciStat.ulReturn*(44100/3000);     // milliseconds
                       */
 
-/* return number of samples unplayed in the kernel buffer at the moment */
-static int mmos2_bufferstatus(int first) // nr of bytes in buffer
+/* return number of samples free in the kernel buffer at the moment */
+static int mmos2_bufferspace(void) // nr of samples in buffer
 {
     return 0;
 }
@@ -190,7 +190,7 @@ static sound_device_t mmos2_device =
     mmos2_write,        // write
     NULL,               // dump
     NULL,               // flush
-    NULL,//mmos2_bufferstatus, // bufferstatus
+    NULL,//mmos2_bufferspace, // bufferspace
     mmos2_close,        // close
     NULL,//mmos2_suspend,      // suspend
     NULL//mmos2_resume        // resume

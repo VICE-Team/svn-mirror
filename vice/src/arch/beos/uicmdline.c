@@ -30,7 +30,8 @@
 #include "cmdline.h"
 
 /* This does not work as stdout is directed to null.  */
-void ui_cmdline_show_help(int num_options, cmdline_option_t *options)
+void ui_cmdline_show_help(int num_options, cmdline_option_t *options,
+                          void *userparam)
 {
     int i;
 

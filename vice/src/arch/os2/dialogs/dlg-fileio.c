@@ -497,7 +497,7 @@ static void ShowContents(HWND hwnd, char *image_name)
     // delete listbox contents
     //
     const HWND hwnd2 = WinWindowFromID(hwnd, DID_CONTENTS_LB);
-    WinEmptyLbox(hwnd2);
+    WinLboxEmpty(hwnd2);
 
     //
     // don't call the all the vice stuff if file doesn't exist
@@ -589,8 +589,8 @@ static BOOL GetFullFile(HWND hwnd, char szpath[CCHMAXPATH])
 static void FillFBox(HWND hwnd)
 {
     const HWND fbox  = WinWindowFromID(hwnd, DID_FFILTER_CB);
-    const int nentry = WinQueryDlgLboxSelectedItem(hwnd, DID_ACTION_CB);
-    const int nsact  = WinQueryDlgLboxSelectedItem(hwnd, DID_SUBACTION_CB);
+    const int nentry = WinDlgLboxSelectedItem(hwnd, DID_ACTION_CB);
+    const int nsact  = WinDlgLboxSelectedItem(hwnd, DID_SUBACTION_CB);
 
     const FILEDLG     *fdlg   = (FILEDLG*)WinQueryWindowPtr(hwnd, QWL_USER);
     const action_t    *action = fdlg->fl & FDS_OPEN_DIALOG ? LoadAction : SaveAction;
@@ -602,7 +602,7 @@ static void FillFBox(HWND hwnd)
     //
     // fill entries in comboboxes and select starting point
     //
-    WinEmptyLbox(fbox);
+    WinLboxEmpty(fbox);
 
     i=0;
     while (filter[i].ext)
@@ -622,7 +622,7 @@ static void FillFBox(HWND hwnd)
 static void FillSBox(HWND hwnd, int item)
 {
     const HWND sbox  = WinWindowFromID(hwnd, DID_SUBACTION_CB);
-    const int nentry = WinQueryDlgLboxSelectedItem(hwnd, DID_ACTION_CB);
+    const int nentry = WinDlgLboxSelectedItem(hwnd, DID_ACTION_CB);
 
     const FILEDLG     *fdlg   = (FILEDLG*)WinQueryWindowPtr(hwnd, QWL_USER);
     const action_t    *action = fdlg->fl & FDS_OPEN_DIALOG ? LoadAction : SaveAction;
@@ -633,7 +633,7 @@ static void FillSBox(HWND hwnd, int item)
     //
     // fill entries in comboboxes and select starting point
     //
-    WinEmptyLbox(sbox);
+    WinLboxEmpty(sbox);
 
     while (subact[i].action)
         WinInsertLboxItem(sbox, LIT_END, subact[i++].action);
@@ -726,8 +726,8 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             NewFilter(hwnd);
 
             for (i=0; i<4; i++)
-                WinLboxInsertItem(hwnd, DID_FONTNAME_CB, fnames[i]);
-            WinLboxSelectItem(hwnd, DID_FONTNAME_CB, 0);
+                WinDlgLboxInsertItem(hwnd, DID_FONTNAME_CB, fnames[i]);
+            WinDlgLboxSelectItem(hwnd, DID_FONTNAME_CB, 0);
 
             if (action)
             {
@@ -817,7 +817,7 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 if (state)
                     ContentsUpdate(hwnd);
                 else
-                    WinEmptyDlgLbox(hwnd, DID_CONTENTS_LB);
+                    WinDlgLboxEmpty(hwnd, DID_CONTENTS_LB);
             }
             return FALSE;
 
@@ -837,7 +837,7 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         case DID_DIRUP:
             {
                 const HWND name = WinWindowFromID(hwnd, DID_FILENAME_ED);
-                const int  pos  = WinQueryDlgLboxSelectedItem(hwnd, DID_DIRECTORY_LB);
+                const int  pos  = WinDlgLboxSelectedItem(hwnd, DID_DIRECTORY_LB);
 
                 char szpath[CCHMAXPATH];
                 char *cpos;
@@ -881,7 +881,7 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
         case DID_AUTOSTART_PB:
             {
-                const int pos = WinQueryDlgLboxSelectedItem(hwnd, DID_CONTENTS_LB);
+                const int pos = WinDlgLboxSelectedItem(hwnd, DID_CONTENTS_LB);
 
                 char szpath[CCHMAXPATH];
 
@@ -909,7 +909,7 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
             if (rcl->yTop-rcl->yBottom == 9)
             {
-                const int name=WinQueryDlgLboxSelectedItem(hwnd, DID_FONTNAME_CB);
+                const int name=WinDlgLboxSelectedItem(hwnd, DID_FONTNAME_CB);
                 const int len =WinQueryLboxItemTextLength(item->hwnd, item->idItem);
                 const HAB hab =WinQueryAnchorBlock(item->hwnd);
                 const HPS hps =item->hps;
@@ -942,8 +942,8 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         // mp2 = USHORT Field name id
         // mr  = TRUE -> Valid name
         {
-            const int sact = WinQueryDlgLboxSelectedItem(hwnd, DID_SUBACTION_CB);
-            const int act  = WinQueryDlgLboxSelectedItem(hwnd, DID_ACTION_CB);
+            const int sact = WinDlgLboxSelectedItem(hwnd, DID_SUBACTION_CB);
+            const int act  = WinDlgLboxSelectedItem(hwnd, DID_ACTION_CB);
 
             const FILEDLG *fdlg = (FILEDLG*)WinQueryWindowPtr(hwnd, QWL_USER);
 

@@ -38,14 +38,14 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
-#ifdef OS2
+#ifdef __OS2__
 #include <sys/select.h>
 #endif
 
 int usleep(unsigned long int microSeconds)
 {
         unsigned int            Seconds, uSec;
-#ifdef OS2
+#ifdef __OS2__
         int nfds;
         fd_set readfds, writefds, exceptfds;
 #else
@@ -54,7 +54,7 @@ int usleep(unsigned long int microSeconds)
 
         struct  timeval         Timer;
 
-#ifdef OS2
+#ifdef __OS2__
         nfds = 0;
 #else
         nfds = readfds = writefds = exceptfds = 0;

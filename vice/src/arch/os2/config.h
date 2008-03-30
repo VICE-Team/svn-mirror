@@ -4,7 +4,11 @@
 /* src/config.h.  Generated automatically by configure.  */
 /* src/config.h.in.  Generated automatically from configure.in by autoheader.  */
 
-#define OS2 /* Operating System is OS/2 */
+#ifndef __OS2__
+#define __OS2__ /* Operating System is OS/2 */
+#endif
+
+//#define MAIN_PROGRAM Main
 
 /* Define if using alloca.c.  */
 /* #undef C_ALLOCA */
@@ -86,7 +90,7 @@
 #define NAME_NEED_QM          1
 
 /* This seems to be needed to prevent the emulator from FPEs */
-#define FIXPOINT_ARITHMETIC   1  
+#define FIXPOINT_ARITHMETIC   1
 
 #define SIZEOF_UNSIGNED_INT   4   /* The number of bytes in a unsigned int.           */
 #define SIZEOF_UNSIGNED_LONG  4   /* The number of bytes in a unsigned long.          */

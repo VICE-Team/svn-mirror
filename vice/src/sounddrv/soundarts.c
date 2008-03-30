@@ -63,7 +63,7 @@ static int artsdrv_suspended=0;
  * static int artsdrv_bs=0;
 */
 
-static int artsdrv_bufferstatus(int first);
+static int artsdrv_bufferspace(void);
 
 static int artsdrv_init(const char *param, int *speed,
 		    int *fragsize, int *fragnr, double bufsize)
@@ -111,8 +111,9 @@ static int artsdrv_write(SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int artsdrv_bufferstatus(int first)
+static int artsdrv_bufferspace(void)
 {
+    /* arts_stream_get(arts_st,ARTS_P_BUFFER_SPACE) returns space in bytes. */
     return arts_stream_get(arts_st,ARTS_P_BUFFER_SPACE)/sizeof(SWORD);
 }
 
@@ -159,7 +160,7 @@ static sound_device_t artsdrv_device =
     artsdrv_write,
     NULL,
     NULL,
-    artsdrv_bufferstatus,
+    artsdrv_bufferspace,
     artsdrv_close,
     NULL,//artsdrv_suspend,
     NULL //artsdrv_resume

@@ -29,7 +29,7 @@
 
 DLGTEMPLATE DLG_DRIVE 850 MOVEABLE DISCARDABLE
 BEGIN
-  DIALOG "Drive Setup", DLG_DRIVE, 106, 46, 263, 188+16, STY_DIALOG
+  DIALOG "Drive Setup", DLG_DRIVE, 106, 46, 263, 188+16, STY_DIALOG|FCF_CLOSEBUTTON
   PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
   BEGIN
     CONTROL "Close",       DID_CLOSE,    5,   4,  40, 12, STY_CLOSEBUTTON |
@@ -85,13 +85,13 @@ BEGIN
                                                         WS_GROUP
     CONTROL "Always",      RB_ALWAYS,  196, 79+16, 45, 10, STY_AUTORADIOBUTTON
     CONTROL "Ask",         RB_ASK,     146, 79+16, 30, 10, STY_AUTORADIOBUTTON 
-    CONTROL "Allow FS-Directory Access",
+    CONTROL "Allow filesystem access",
                            CB_ALLOWACCESS, 13, 64+16, 119, 10, STY_AUTOCHECKBOX
-    CONTROL "Convert p00-Filenames",
+    CONTROL "Allow use of p00-files",
                            CB_CONVERTP00, 140, 64+16, 114, 10, STY_AUTOCHECKBOX
-    CONTROL "Save p00-Files to FS",
+    CONTROL "Save p00-type-files",
                            CB_SAVEP00,    140, 54+16,  98, 10, STY_AUTOCHECKBOX
-    CONTROL "Hide non-p00-Files",
+    CONTROL "Hide non-p00-files",
     		       CB_HIDENONP00,  13, 54+16,  95, 10, STY_AUTOCHECKBOX
     TEXT("Enable 8kB Memory Extension:",  13, 42+16,135, 8)
     CONTROL "$2000-$3FFF", CB_MEM2000,  13, 32+16,  75, 10, STY_AUTOCHECKBOX

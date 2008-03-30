@@ -44,7 +44,7 @@
 
 static unsigned long frequency = 0;
 
-unsigned long vsyncarch_timescale()
+signed long vsyncarch_frequency()
 {
 	LARGE_INTEGER li;
 	if (!frequency) {
@@ -53,9 +53,9 @@ unsigned long vsyncarch_timescale()
 			return -1;
 		}
 #ifdef HAS_LONGLONG_INTEGER
-		frequency = (unsigned long) li.QuadPart;
+		frequency = (signed long)li.QuadPart;
 #else
-		frequency = (unsigned long) li.LowPart;
+		frequency = (signed long)li.LowPart;
 #endif
 	}
 	return frequency;
@@ -70,9 +70,9 @@ unsigned long vsyncarch_gettime()
 	}
 	
 #ifdef HAS_LONGLONG_INTEGER
-	return (unsigned long)(1000000.0/vsyncarch_timescale()*li.QuadPart);
+	return (unsigned long)li.QuadPart;
 #else
-	return (unsigned long)(1000000.0/vsyncarch_timescale()*li.LowPart);
+	return (unsigned long)li.LowPart;
 #endif
 		
 }
@@ -90,15 +90,12 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 
 }
 
-void vsyncarch_sleep(long delay)
+void vsyncarch_sleep(signed long delay)
 {
 	LARGE_INTEGER start, now;
 	
 	if (delay <= 0)
 		return;
-
-	delay *= vsyncarch_timescale()/1000000.0;
-
 	QueryPerformanceCounter(&start);
 	do {
 		Sleep(10);

@@ -46,6 +46,9 @@ static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
 inline void kbd_set_key(const CHAR code1, const CHAR code2,
                         const USHORT release, const USHORT shift)
 {
+    //
+    // Serach for the key in the list
+    //
     int nr;
     for (nr=0; nr<keyconvmap.entries; nr++)
     {
@@ -53,6 +56,9 @@ inline void kbd_set_key(const CHAR code1, const CHAR code2,
             break;
     }
 
+    //
+    // if the key wasn't found in the list don't do any action
+    //
     if (nr==keyconvmap.entries)
     {
         if (!release)
@@ -60,7 +66,9 @@ inline void kbd_set_key(const CHAR code1, const CHAR code2,
         return;
     }
 
-    // send pressed key to CBM
+    //
+    // Pass pressed and mapped key to Vice
+    //
     keyboard_set_keyarr(keyconvmap.map[shift][nr].row,
                         keyconvmap.map[shift][nr].column,
                         release);
@@ -73,7 +81,9 @@ inline void kbd_set_key(const CHAR code1, const CHAR code2,
      keyconvmap.map[shift][nr].vshift);
      */
 
+    //
     // process virtual shift key
+    //
     switch (keyconvmap.map[shift][nr].vshift)
     {
     case 0x1: // left shifted, press/release left shift
@@ -97,10 +107,6 @@ inline void kbd_set_key(const CHAR code1, const CHAR code2,
     }
 }
 
-
-/* Needed prototype funtions                                        */
-/*----------------------------------------------------------------- */
-
 void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
 {
     USHORT fsFlags    = SHORT1FROMMP(mp1);
@@ -109,11 +115,26 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
     CHAR   usVK       = SHORT2FROMMP(mp2);  //fsFlags&KC_VIRTUALKEY VK_TAB/LEFT/RIGHT/UP/DOWN
     USHORT release    = !(fsFlags&KC_KEYUP);
 
+    //
     // ----- Process virtual keys -----
+    //
     if (fsFlags&KC_VIRTUALKEY)
     {
         switch (usVK)
         {
+#ifdef __X128__
+        case VK_F11: // press/release 40/80-key
+            if (key_ctrl_column4080_func)
+                key_ctrl_column4080_func();
+            return;
+#endif
+        case VK_F12:      // restore key pressed
+            machine_set_restore_key(release);
+            return;
+        case VK_SCRLLOCK: // toggle warp mode if ScrlLock is pressed
+            resources_set_value("WarpMode",
+                                (resource_value_t)(fsFlags&KC_TOGGLE));
+            return;
         case VK_CAPSLOCK:  // turn capslock led off if capslock is pressed
             {
                 /* This is not a beautiful way, but the one I know :-) */
@@ -123,51 +144,46 @@ void kbd_proc(HWND hwnd, MPARAM mp1, MPARAM mp2)
                 WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
             }
             break;
-        case VK_SCRLLOCK: // toggle warp mode if ScrlLock is pressed
-            resources_set_value("WarpMode",
-                                (resource_value_t)(fsFlags&KC_TOGGLE));
-            return;
-        case VK_F12:      // restore key pressed
-            machine_set_restore_key(release);
-            return;
-#ifdef __X128__
-        case VK_F11: // press/release 40/80-key
-            if (key_ctrl_column4080_func)
-                key_ctrl_column4080_func();
-            return;
-#endif
         }
     }
 
+    //
     // ----- give all keypresses without Alt to Vice -----
+    //
     if (!(fsFlags&KC_ALT))
     {
+        //
+        // repeats are handled by vice itself
+        //
         if (fsFlags&KC_PREVDOWN)
             return;
 
+        //
+        // check if the key is defined as joystick action
+        //
         if (joystick_handle_key((kbd_code_t)usScancode, release))
             return;
 
+        //
+        // this is a good canidate to be passed to vice
+        //
         kbd_set_key(keyconvmap.symbolic?usKeycode:usScancode,
                     keyconvmap.symbolic?usVK:0,
                     release, fsFlags&KC_SHIFT?1:0);
         return;
     }
 
+    //
     // if key is released: return
+    //
     if (release)
         return;
 
     // Process all keys whichs are pressed together with Alt.
-    switch (usScancode)
-    {
 #ifdef __X128__
-    case K_V: // press/release 40/80-key
-        if (key_ctrl_column4080_func)
-            key_ctrl_column4080_func();
-        return;
+    if (usScancode==K_V && key_ctrl_column4080_func)
+        key_ctrl_column4080_func(); // press/release 40/80-key
 #endif
-    }
 }
 
 // ------------------------------------------------------------------

@@ -30,8 +30,8 @@
 DLGTEMPLATE DLG_VSID 850 MOVEABLE DISCARDABLE
 BEGIN
     DIALOG "Vice/2 SID Player", DLG_VSID, 162, 122, 170, 88, STY_DIALOG | 
-    					       FCF_SYSMENU | FCF_TASKLIST | FCF_MENU |
-                                               FCF_AUTOICON | FCF_MINBUTTON | FCF_CLOSEBUTTON
+                                FCF_SYSMENU | FCF_TASKLIST | FCF_MENU |
+                                FCF_AUTOICON | FCF_MINBUTTON | FCF_CLOSEBUTTON
     PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
     BEGIN
 	CONTROL "Tune:",     ID_NONE,        10, 75,  25,  9, STY_TEXT

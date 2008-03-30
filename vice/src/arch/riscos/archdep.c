@@ -190,7 +190,7 @@ FILE *open_logfile(const char *basename)
   return NULL;
 }
 
-int archdep_default_logger(const char *level_string, const char *format, va_list ap)
+int archdep_default_logger(const char *level_string, const char *txt)
 {
     return 0;
 }

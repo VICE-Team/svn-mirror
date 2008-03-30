@@ -236,7 +236,7 @@ void joystick_init(void)
         log_message(LOG_DEFAULT, "joystick.c: DosOpen (rc=%i)", rc);
         if (rc==ERROR_OPEN_FAILED)
             log_message(LOG_DEFAULT, "joystick.c: Cannot open device 'GAME$'.\n"
-                        "joystick.c: Have you installed a MPPM/2 joystick device driver?");
+                        "joystick.c: Have you installed a MPPM/2 joystick device driver?\n");
     }
     else
     {

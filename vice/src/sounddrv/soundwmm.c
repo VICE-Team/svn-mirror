@@ -125,7 +125,7 @@ static int inactivity_timer;
 static int wmm_init(const char *param, int *speed,
                    int *fragsize, int *fragnr, double bufsize);
 static void wmm_close(void);
-static int wmm_bufferstatus(int first);
+static int wmm_bufferspace(void);
 static int wmm_write(SWORD *pbuf, size_t nr);
 int sound_init_wmm_device(void);
 
@@ -308,7 +308,7 @@ static void wmm_close(void)
     }
 }
 
-static int wmm_bufferstatus(int first)
+static int wmm_bufferspace(void)
 {
     DWORD play_cursor;
     int value;
@@ -340,6 +340,8 @@ static int wmm_bufferstatus(int first)
     value = write_cursor - play_cursor;
 
     if (value < 0) value += buffer_size;
+
+    value = buffer_size - value;
 
     if (is16bit) value >>= 1;
     return value;
@@ -466,7 +468,7 @@ static sound_device_t wmm_device =
     wmm_write,
     NULL,
     NULL,
-    wmm_bufferstatus,
+    wmm_bufferspace,
     wmm_close,
     NULL,
     NULL

@@ -59,7 +59,7 @@
 /* On MS-DOS, do not duplicate pixels.  Otherwise, we would always need at
    least 466 horizontal pixels to contain the whole screen.  */
 /* But this is no problem as 320*200 does not fit anyhow.  */
-#ifndef OS2
+#ifndef __OS2__
 #define VIC_DUPLICATES_PIXELS
 #endif
 
@@ -106,7 +106,7 @@ typedef enum _vic_video_mode vic_video_mode_t;
 
 /* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
    memory and (little) speed.  */
-#if !defined(__MSDOS__) && !defined(__riscos) && !defined(OS2)
+#if !defined(__MSDOS__) && !defined(__riscos) && !defined(__OS2__)
 #define VIC_NEED_2X 1
 #endif
 

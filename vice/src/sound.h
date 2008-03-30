@@ -27,6 +27,8 @@
 #ifndef _SOUND_H
 #define _SOUND_H
 
+#include "vice.h"
+
 #include <stdlib.h>
 #include "types.h"
 
@@ -67,8 +69,8 @@ typedef struct sound_device_s
 					CLOCK clks);
     /* flush-routine to be called every frame */
     int (*flush)(char *state);
-    /* return number of samples unplayed in the kernel buffer at the moment */
-    int (*bufferstatus)(int first);
+    /* return number of free samples in the kernel buffer at the moment */
+    int (*bufferspace)(void);
     /* close and cleanup device */
     void (*close)(void);
     /* suspend device */

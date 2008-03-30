@@ -28,7 +28,10 @@
 
 #define INCL_WINSYS        // SYSCLR_*
 #define INCL_WININPUT      // VK_*
+#define INCL_WINDIALOGS    // WinSendDlgItemMsg
+#define INCL_WINBUTTONS    // BS_DEFAULT
 #define INCL_WINFRAMEMGR
+#define INCL_WINPOINTERS   // WinLoadPointer
 #define INCL_DOSDATETIME   // Date and time values
 #define INCL_DOSSEMAPHORES
 #include <os2.h>
@@ -46,8 +49,9 @@
 
 #include "dialogs.h"
 #include "dlg-drive.h"
+#include "dlg-monitor.h"
 #include "dlg-datasette.h"
-
+#include "snippets\\pmwin2.h"
 //#ifdef __EMX__
 //#include "dos.h"
 //#endif
@@ -173,7 +177,8 @@ void ui_display_drive_led(int drive_number, int status)
     }
     DosReleaseMutexSem(hmtxKey);
 
-    WinSendMsg(hwndDrive, WM_DRIVELEDS, (void*)drive_number, (void*)status);
+    WinSendMsg(hwndDrive, WM_DRIVELEDS,
+               (void*)drive_number, (void*)status);
 }
 
 void ui_display_drive_track(int drive_number, int drive_base,
@@ -181,13 +186,13 @@ void ui_display_drive_track(int drive_number, int drive_base,
 {
     ui_status.lastTrack[drive_number]=track_number;
     WinSendMsg(hwndDrive, WM_TRACK,
-               (void*)drive_number, (void*)(int)(track_number*2));
+                      (void*)drive_number, (void*)(int)(track_number*2));
 }
 
 void ui_enable_drive_status(ui_drive_enable_t state, int *drive_led_color)
 {
     ui_status.lastDriveState=state;
-    WinSendMsg(hwndDrive, WM_DRIVESTATE, (void*)state, NULL);
+    WinSendMsg(hwndDrive, WM_DRIVESTATE,(void*)state, NULL);
     if (state&1) ui_display_drive_led(0, 0);
     if (state&2) ui_display_drive_led(1, 0);
 }
@@ -208,7 +213,8 @@ void ui_display_drive_current_image(unsigned int drive_number,
         strcpy(ui_status.imageHist[0], image);
     }
 
-    WinSendMsg(hwndDrive, WM_DRIVEIMAGE, (void*)image, (void*)drive_number);
+    WinSendMsg(hwndDrive, WM_DRIVEIMAGE,
+               (void*)image, (void*)drive_number);
 
     if (image)
         strcpy(ui_status.lastImage[drive_number], image);
@@ -218,34 +224,68 @@ void ui_display_drive_current_image(unsigned int drive_number,
 
 void ui_error(const char *format,...)
 {
-    char *txt, *txt2;
+    char *txt, *tmp;
+
     va_list ap;
     va_start(ap, format);
-    txt  = xmvsprintf(format, ap);
-    txt2 = concat(" Emulation thread error:\n ", txt);
-    ViceErrorDlg(HWND_DESKTOP, PTR_SKULL, txt2);
-    free(txt2);
+    tmp = xmvsprintf(format, ap);
+    txt = concat(" Emulation thread error:\n ", tmp);
+    free(tmp);
+
+    ViceErrorDlg(HWND_DESKTOP, PTR_SKULL, txt);
+
     free(txt);
 }
 
 ui_jam_action_t ui_jam_dialog(const char *format,...)
 {
-    char *txt, *txt2;
-    va_list ap;
-    va_start(ap, format);
-    txt  = xmvsprintf(format, ap);
-    txt2 = concat("    Chipset:\n ", txt, NULL);
-    ViceErrorDlg(HWND_DESKTOP, PTR_SKULL, txt2);
-    free(txt2);
-    free(txt);
+    ULONG rc;
 
-    return UI_JAM_HARD_RESET;  // Always hard reset.
+    char *txt, *tmp;
+
+    va_list ap;
+
+    const int sz   = sizeof(MB2INFO)+2*sizeof(MB2D);
+
+    MB2INFO *mb    = malloc(sz);
+    mb->cb         = sz;
+    mb->hIcon      = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, PTR_SKULL);
+    mb->cButtons   = 3;
+    mb->flStyle    = MB_CUSTOMICON|WS_VISIBLE;
+    mb->hwndNotify = NULLHANDLE;
+    strcpy(mb->mb2d[0].achText, "  ~Hard Reset  ");
+    strcpy(mb->mb2d[1].achText, "  ~Soft Reset  ");
+    strcpy(mb->mb2d[2].achText, "   ~Monitor   ");
+    mb->mb2d[0].idButton = UI_JAM_HARD_RESET;
+    mb->mb2d[1].idButton = UI_JAM_RESET;
+    mb->mb2d[2].idButton = UI_JAM_MONITOR;
+    mb->mb2d[0].flStyle  = BS_DEFAULT;
+    mb->mb2d[1].flStyle  = 0;
+    mb->mb2d[2].flStyle  = 0;
+
+    va_start(ap, format);
+    tmp = xmvsprintf(format, ap);
+    txt = concat("    Chipset:\n ", tmp, NULL);
+    free(tmp);
+
+    rc = WinMessageBox2(HWND_DESKTOP, HWND_DESKTOP,
+                        txt, "VICE/2 Error", 0, mb);
+    free(txt);
+    free(mb);
+
+    //
+    // open monitor dialog
+    //
+    if (rc==UI_JAM_MONITOR)
+        WinShowWindow(hwndMonitor, 1);
+
+    return rc;
 }
 
 int ui_extend_image_dialog(void)
 {
     return WinMessageBox(HWND_DESKTOP, HWND_DESKTOP,
-                         "Extend disk image in drive 8 to 40 tracks?",
+                         "Extend disk image in drive to 40 tracks?",
                          "VICE/2 Extend Disk Image",
                          0, MB_YESNO)==MBID_YES;
 }

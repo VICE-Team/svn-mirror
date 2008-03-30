@@ -33,9 +33,9 @@
 
 /* NB! The timing code depends on two's complement arithmetic.
    unsigned long is used for the timer variables, and the difference
-   between two time points a and b is calculated with (long)(b - a)
+   between two time points a and b is calculated with (signed long)(b - a)
    This allows timer variables to overflow without any explicit
-   overflow handling. Time is measured in microseconds.
+   overflow handling.
 */
 
 /* Port me... */
@@ -144,7 +144,7 @@ static void (*vsync_hook)(void);
 /* static guarantees zero values. */
 static unsigned long now;
 static unsigned long display_start;
-static long frame_usec;
+static long frame_ticks;
 
 static int timer_speed = 0;
 static int speed_eval_suspended = 1;
@@ -157,11 +157,11 @@ static int set_timer_speed(int speed)
 
     if (speed > 0 && refresh_frequency > 0) {
         timer_speed = speed;
-        frame_usec = 1000000/refresh_frequency*100/speed;
+        frame_ticks = vsyncarch_frequency()/refresh_frequency*100/speed;
     }
     else {
         timer_speed = 0;
-        frame_usec = 0;
+        frame_ticks = 0;
     }
 
     return 0;
@@ -176,7 +176,7 @@ static void display_speed(int num_frames)
     double frame_rate;
 
     diff_clk = clk - speed_eval_prev_clk;
-    diff_sec = (now - display_start)/1000000.0;
+    diff_sec = (double)(signed long)(now - display_start)/vsyncarch_frequency();
 
     frame_rate = num_frames/diff_sec;
     speed_index = 100.0*diff_clk/(cycles_per_sec*diff_sec);
@@ -258,7 +258,7 @@ int do_vsync(int been_skipped)
     }
 
     /*
-     * Get current time in units of microseconds [1e-6 s]
+     * Get current time.
      */
     now = vsyncarch_gettime();
 
@@ -273,14 +273,12 @@ int do_vsync(int been_skipped)
         speed_eval_suspended = 0;
     }
 
-    /* This is the start time between the start of the next frame
-     * and now.
-     */
-    delay = (long)(now - next_frame_start);
+    /* This is the time between the start of the next frame and now. */
+    delay = (signed long)(now - next_frame_start);
 
     /*
      * We sleep until the start of the next frame, if:
-     *  - warp_mode is enabled
+     *  - warp_mode is disabled
      *  - a limiting speed is given
      *  - we have not reached next_frame_start yet
      *
@@ -312,7 +310,7 @@ int do_vsync(int been_skipped)
     if (skipped_redraw < MAX_SKIPPED_FRAMES
         && (warp_mode_enabled
             || (skipped_redraw < refresh_rate - 1)
-            || ((!timer_speed || delay > 2*frame_usec*timer_speed/100)
+            || ((!timer_speed || delay > 2*frame_ticks*timer_speed/100)
                 && !refresh_rate
                )
            )
@@ -338,7 +336,7 @@ int do_vsync(int been_skipped)
      * This should (in both cases) set next_frame_start to
      * a value which represents the start the next frame
      */
-    if ((signed long)(now - next_frame_start) > 3000000) {
+    if ((signed long)(now - next_frame_start) > 3*vsyncarch_frequency()) {
 #ifndef __OS2__
         if (!warp_mode_enabled) {
             log_warning(LOG_DEFAULT, _("Your machine is too slow for current settings!"));
@@ -347,9 +345,9 @@ int do_vsync(int been_skipped)
         next_frame_start = now;
     }
     else {
-        next_frame_start += frame_usec*frame_delay;
+        next_frame_start += frame_ticks*frame_delay;
     }
-    next_frame_start += frame_usec;
+    next_frame_start += frame_ticks;
 
     /*
      * Update display every two second (pc system time)
@@ -362,7 +360,7 @@ int do_vsync(int been_skipped)
      *  - We need some statistict to get an avarage number for the
      *    frame-rate without staticstics it would also jump around
      */
-    if ((signed long)(now-display_start) > 2000000) {
+    if ((signed long)(now - display_start) > 2*vsyncarch_frequency()) {
         display_speed(frame_counter - skipped_frames);
         display_start  = now;
         frame_counter  = 0;

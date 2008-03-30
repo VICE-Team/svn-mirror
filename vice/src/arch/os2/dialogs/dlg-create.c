@@ -126,12 +126,12 @@ MRESULT EXPENTRY fnwpCreate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             // fill entries in combobox
             //
             for (i=0; i<nTYPES; i++)
-                WinLboxInsertItem(hwnd, CBS_IMGTYPE, imgType[i]);
+                WinDlgLboxInsertItem(hwnd, CBS_IMGTYPE, imgType[i]);
 
             //
             // select first entry
             //
-            WinLboxSelectItem(hwnd, CBS_IMGTYPE, 0);
+            WinDlgLboxSelectItem(hwnd, CBS_IMGTYPE, 0);
         }
         break;
 
@@ -140,7 +140,7 @@ MRESULT EXPENTRY fnwpCreate(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             int  *type = (int*)((FILEDLG*)WinQueryWindowPtr(hwnd,QWL_USER))->ulUser;
             char *name = (char*)type+sizeof(int);
 
-            *type = WinQueryDlgLboxSelectedItem(hwnd, CBS_IMGTYPE);
+            *type = WinDlgLboxSelectedItem(hwnd, CBS_IMGTYPE);
 
             WinQueryDlgText(hwnd, EF_NAME, name, 20);
         }

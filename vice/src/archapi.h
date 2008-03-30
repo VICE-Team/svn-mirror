@@ -51,8 +51,7 @@ extern const char *archdep_default_save_resource_file_name(void);
 
 /* Logfile stuff.  */
 extern FILE *archdep_open_default_log_file(void);
-extern int archdep_default_logger(const char *level_string, const char *format,
-                                  va_list ap);
+extern int archdep_default_logger(const char *level_string, const char *txt);
 
 /* Launch program `name' (searched via the PATH environment variable)
    passing `argv' as the parameters, wait for it to exit and return its

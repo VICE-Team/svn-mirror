@@ -80,7 +80,7 @@
 /* ------------------------------------------------------------------------- */
 
 int vsid_mode = 0;
-#ifdef OS2
+#ifdef __OS2__
 const
 #endif
 int console_mode = 0;
@@ -96,7 +96,7 @@ static char *startup_tape_image;
 
 static int cmdline_help(const char *param, void *extra_param)
 {
-    cmdline_show_help();
+    cmdline_show_help(NULL);
     exit(0);
 
     return 0;	/* OSF1 cc complains */
@@ -116,7 +116,7 @@ static int cmdline_autostart(const char *param, void *extra_param)
     return 0;
 }
 
-#ifndef OS2
+#ifndef __OS2__
 static int cmdline_console(const char *param, void *extra_param)
 {
     console_mode = 1;
@@ -155,7 +155,7 @@ static cmdline_option_t vsid_cmdline_options[] = {
       NULL, "Show a list of the available options and exit normally" },
     { "-?", CALL_FUNCTION, 0, cmdline_help, NULL, NULL, NULL,
       NULL, "Show a list of the available options and exit normally" },
-#ifndef OS2
+#ifndef __OS2__
     { "-console", CALL_FUNCTION, 0, cmdline_console, NULL, NULL, NULL,
       NULL, "Console mode (for playing music)" },
     { "-core", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
@@ -190,7 +190,7 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Attach <name> as a disk image in drive #10" },
     { "-11", CALL_FUNCTION, 1, cmdline_attach, (void *) 11, NULL, NULL,
       "<name>", "Attach <name> as a disk image in drive #11" },
-#ifdef OS2
+#ifdef __OS2__
     { "-debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 1,
       NULL, "Don't call exception handler" },
     { "+debug", SET_RESOURCE, 0, NULL, NULL, "DoCoreDump", (resource_value_t) 0,
@@ -399,6 +399,7 @@ static char *replace_hexcodes(char *s)
 /* This is the main program entry point.  When not compiling for Windows,
    this is `main()'; on Windows we have to #define the name to something
    different because the standard entry point is `WinMain()' there.  */
+
 int MAIN_PROGRAM(int argc, char **argv)
 {
     int i;
@@ -407,7 +408,7 @@ int MAIN_PROGRAM(int argc, char **argv)
        -console => no user interface
        -vsid    => user interface in separate process */
     for (i = 0; i < argc; i++) {
-#ifndef OS2
+#ifndef __OS2__
         if (strcmp(argv[i], "-console") == 0) {
 	    console_mode = 1;
 	} else
@@ -566,6 +567,7 @@ int MAIN_PROGRAM(int argc, char **argv)
         return -1;
     }
 
+    // FIXME: what's about uimon_init???
     if (!vsid_mode && console_init() < 0) {
         log_error(LOG_DEFAULT, "Console initialization failed.");
         return -1;

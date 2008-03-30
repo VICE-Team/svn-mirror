@@ -33,8 +33,10 @@ libdialogs_a_SOURCES = \
 	dlg-joystick.h \
 	dlg-joystick.c \
 	dlg-joystick.rc \
+	dlg-monitor.c \
+	dlg-monitor.h \
+	dlg-monitor.rc \
         dlg-cmdopt.c \
         dlg-create.c \
-	dlg-monitor.c \
         dlg-reset.c 
 

@@ -156,9 +156,12 @@ static int set_fsdevice_save_p00(resource_value_t v, void *param)
 
 static int set_fsdevice_hide_cbm_files(resource_value_t v, void *param) 
 {
-    if (!fsdevice_convert_p00_enabled[(int)param - 8])
+    int val = (int)v;
+
+    if (val && !fsdevice_convert_p00_enabled[(int)param - 8])
         return -1;
-    fsdevice_hide_cbm_files_enabled[(int)param - 8] = (int)v;
+
+    fsdevice_hide_cbm_files_enabled[(int)param - 8] = val;
     return 0;
 }
 

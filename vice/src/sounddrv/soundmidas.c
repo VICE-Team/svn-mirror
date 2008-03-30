@@ -33,7 +33,7 @@
 #include "sound.h"
 #include "vmidas.h"
 
-static int midas_bufferstatus(int first);
+static int midas_bufferspace(void);
 
 static MIDASstreamHandle midas_stream = NULL;
 static int midas_bufsize = -1;
@@ -107,12 +107,11 @@ static int midas_write(SWORD *pbuf, size_t nr)
     return !st;
 }
 
-static int midas_bufferstatus(int first)
+static int midas_bufferspace(void)
 {
     int			nr;
-    if (first)
-	return 0;
-    nr = MIDASgetStreamBytesBuffered(midas_stream);
+    /* MIDASgetStreamBytesBuffered returns the number of buffered bytes. */
+    nr = midas_bufsize - MIDASgetStreamBytesBuffered(midas_stream);
     if (nr < 0)
 	nr = 0;
     nr /= sizeof(SWORD);
@@ -146,7 +145,7 @@ static sound_device_t midas_device =
     midas_write,
     NULL,
     NULL,
-    midas_bufferstatus,
+    midas_bufferspace,
     midas_close,
     NULL,
     NULL

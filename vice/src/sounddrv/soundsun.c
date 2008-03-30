@@ -53,7 +53,7 @@
 #include "log.h"
 #include "sound.h"
 
-static int sun_bufferstatus(int first);
+static int sun_bufferspace(void);
 
 static int sun_fd = -1;
 static int sun_8bit = 0;
@@ -154,23 +154,23 @@ static int sun_write(SWORD *pbuf, size_t nr)
     }
     sun_written += nr;
 
-    while (sun_bufferstatus(0) > sun_bufsize)
-	usleep(5000);
     return 0;
 }
 
-static int sun_bufferstatus(int first)
+static int sun_bufferspace(void)
 {
     int			st;
     struct audio_info	info;
+    /* ioctl(fd, AUDIO_GET_STATUS, &info) yields number of played samples
+       in info.play.samples. */
     st = ioctl(sun_fd, AUDIO_GETINFO, &info);
     if (st < 0)
 	return -1;
 #if defined(__NetBSD__) || defined(__OpenBSD__)
     if (!sun_8bit)
-	return sun_written - info.play.samples / sizeof(SWORD);
+	return sun_bufsize - (sun_written - info.play.samples / sizeof(SWORD));
 #endif
-    return sun_written - info.play.samples;
+    return sun_bufsize - (sun_written - info.play.samples);
 }
 
 static void sun_close(void)
@@ -194,7 +194,7 @@ static sound_device_t sun_device =
     sun_write,
     NULL,
     NULL,
-    sun_bufferstatus,
+    sun_bufferspace,
     sun_close,
     NULL,
     NULL

@@ -297,6 +297,8 @@ extern void mon_cpu_type(char *cpu_type);
 extern void mon_bank(MEMSPACE mem, char *bank);
 extern void mon_display_io_regs(void);
 
+extern bool check_drive_emu_level_ok(int drive_num);
+
 extern unsigned int mon_get_reg_val(MEMSPACE mem, REG_ID reg_id);
 extern void mon_set_reg_val(MEMSPACE mem, REG_ID reg_id, WORD val);
 unsigned char mon_get_mem_val(MEMSPACE mem, unsigned mem_addr);

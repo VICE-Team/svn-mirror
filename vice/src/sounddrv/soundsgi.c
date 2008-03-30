@@ -93,10 +93,11 @@ static int sgi_write(SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int sgi_bufferstatus(int first)
+static int sgi_bufferspace(void)
 {
     int				i;
-    i = ALgetfilled(sgi_audioport);
+    /* ALgetfillable returns space in samples. */
+    i = ALgetfillable(sgi_audioport);
     return i;
 }
 
@@ -114,7 +115,7 @@ static sound_device_t sgi_device =
     sgi_write,
     NULL,
     NULL,
-    sgi_bufferstatus,
+    sgi_bufferspace,
     sgi_close,
     NULL,
     NULL

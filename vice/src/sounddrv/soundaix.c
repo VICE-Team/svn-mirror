@@ -130,9 +130,10 @@ static int aix_write(SWORD *pbuf, size_t nr)
     return 0;
 }
 
-static int aix_bufferstatus(int first)
+static int aix_bufferspace(void)
 {
     int i = -1;
+    /* UMSAudioDevice_write_buff_remain returns space in bytes. */
     rc = UMSAudioDevice_write_buff_remain(audio_device, ev, &i);
     if (i < 0)
       return -1;
@@ -158,7 +159,7 @@ static sound_device_t aix_device =
     aix_write,
     NULL,
     NULL,
-    aix_bufferstatus,
+    aix_bufferspace,
     aix_close,
     NULL,
     NULL

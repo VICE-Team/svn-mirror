@@ -252,8 +252,6 @@ typedef struct
     int			 fragnr;
     /* number of samples in kernel buffer */
     int			 bufsize;
-    /* return value of first pdev->bufferstatus() call to device */
-    int			 firststatus;
     /* constants related to adjusting sound */
     int			 prevused;
     int			 prevfill;
@@ -431,8 +429,6 @@ static int initsid(void)
             {
                 return closesound("Audio: Cannot initialize sound module");
             }
-	    if (pdev->bufferstatus)
-		snddata.firststatus = pdev->bufferstatus(1);
 	    snddata.clkstep = SOUNDCLK_CONSTANT(cycles_per_sec) / speed;
 	    if (snddata.oversamplenr > 1)
 	    {
@@ -447,7 +443,7 @@ static int initsid(void)
             snddata.lastclk = clk;
 
 	    /* Set warp mode for non-realtime sound devices in vsid mode. */
-	    if (vsid_mode && !pdev->bufferstatus)
+	    if (vsid_mode && !pdev->bufferspace)
 	        resources_set_value("WarpMode", (resource_value_t)1);
 
 	    return 0;
@@ -571,7 +567,7 @@ int sound_flush(int relative_speed)
         return 0;
     sound_resume();
 
-    if (warp_mode_enabled && snddata.pdev->bufferstatus != NULL) {
+    if (warp_mode_enabled && snddata.pdev->bufferspace != NULL) {
       snddata.bufptr = 0;
       return 0;
     }
@@ -620,16 +616,13 @@ int sound_flush(int relative_speed)
 	nr = newnr;
     }
     /* adjust speed */
-    if (snddata.pdev->bufferstatus)
+    if (snddata.pdev->bufferspace)
     {
-	space = snddata.pdev->bufferstatus(0);
-	/* Calculate space if bufferstatus returns used. */
-	if (!snddata.firststatus)
-	    space = snddata.bufsize - space;
+	space = snddata.pdev->bufferspace();
 	if (space < 0 || space > snddata.bufsize)
 	{
-	    log_warning(LOG_DEFAULT, "fragment problems %d %d %d",
-		 space, snddata.bufsize - space, snddata.firststatus);
+	    log_warning(LOG_DEFAULT, "fragment problems %d %d",
+		 space, snddata.bufsize);
 
             closesound("Audio: fragment problems.");
 	    return 0;
@@ -856,7 +849,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     sound_init_ce_device();
 #endif
 
-#ifdef OS2
+#ifdef __OS2__
     //    sound_init_mmos2_device();
     sound_init_dart_device();
     sound_init_dart2_device();
