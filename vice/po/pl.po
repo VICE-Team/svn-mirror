@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-16 19:07+0200\n"
+"POT-Creation-Date: 2007-10-21 18:09+0200\n"
 "PO-Revision-Date: 2007-07-26 11:55+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -2658,7 +2658,7 @@ msgstr "Opcje"
 #: src/arch/unix/gui/cbm2ui.c:511 src/arch/unix/gui/petui.c:493
 #: src/arch/unix/gui/plus4ui.c:319 src/arch/unix/gui/vic20ui.c:609
 #: src/arch/unix/gui/vsidui.c:233 src/arch/unix/x11/gnome/uinetplay.c:65
-#: src/arch/unix/x11/gnome/x11ui.c:1278 src/arch/unix/x11/gnome/x11ui.c:1343
+#: src/arch/unix/x11/gnome/x11ui.c:1279 src/arch/unix/x11/gnome/x11ui.c:1344
 #: src/arch/win32/res.rc.po.c:4418 src/arch/amigaos/intl.c.po.c:1230
 msgid "Settings"
 msgstr "Ustawienia"
@@ -3146,7 +3146,7 @@ msgid "Smart-attach a file"
 msgstr "Inteligentne wsadzanie pliku"
 
 #: src/arch/unix/gui/uiattach.c:301 src/arch/unix/gui/uiattach.c:310
-#: src/arch/unix/x11/xaw/x11ui.c:1791
+#: src/arch/unix/x11/xaw/x11ui.c:1797
 msgid "Unknown image type"
 msgstr "Nieznany typ obrazu"
 
@@ -3505,7 +3505,7 @@ msgstr "O VICE..."
 
 #: src/arch/unix/gui/uicommands.c:569 src/arch/unix/gui/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:153
-#: src/arch/unix/x11/gnome/x11ui.c:2021 src/arch/amigaos/intl.c.po.c:312
+#: src/arch/unix/x11/gnome/x11ui.c:2022 src/arch/amigaos/intl.c.po.c:312
 msgid "Reset"
 msgstr "Reset"
 
@@ -4039,7 +4039,7 @@ msgstr "Nastêpny: "
 
 #: src/arch/unix/gui/uifliplist.c:245 src/arch/unix/gui/uifliplist.c:260
 #: src/arch/unix/x11/gnome/x11ui.c:894 src/arch/unix/x11/gnome/x11ui.c:904
-#: src/arch/unix/x11/gnome/x11ui.c:1610
+#: src/arch/unix/x11/gnome/x11ui.c:1611
 msgid "<empty>"
 msgstr "<pusty>"
 
@@ -5076,8 +5076,8 @@ msgstr "Maksymalna prêdko¶æ dzia³ania"
 msgid "Invalid speed value"
 msgstr "Nieprawid³owa warto¶æ prêdko¶ci"
 
-#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1392
-#: src/arch/unix/x11/xaw/x11ui.c:1100 src/arch/win32/res.rc.po.c:4900
+#: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1393
+#: src/arch/unix/x11/xaw/x11ui.c:1106 src/arch/win32/res.rc.po.c:4900
 #: src/arch/amigaos/intl.c.po.c:1908
 msgid "Cannot save settings."
 msgstr "Nie mo¿na zapisaæ ustawieñ."
@@ -5981,7 +5981,7 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/uifileentry.c:52
-#: src/arch/unix/x11/gnome/x11ui.c:2666
+#: src/arch/unix/x11/gnome/x11ui.c:2667
 #, fuzzy
 msgid "all files"
 msgstr "Za³aduj plik listy"
@@ -6067,107 +6067,107 @@ msgstr "Napêd %d: "
 msgid "Tape 000"
 msgstr "Kaseta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1076 src/arch/unix/x11/xaw/x11ui.c:629
+#: src/arch/unix/x11/gnome/x11ui.c:1077 src/arch/unix/x11/xaw/x11ui.c:629
 msgid "Maximum number of toplevel windows reached."
 msgstr "Osi±gniêto maksymalny limit okien najwy¿szego stopnia."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1276 src/arch/unix/x11/gnome/x11ui.c:1332
+#: src/arch/unix/x11/gnome/x11ui.c:1277 src/arch/unix/x11/gnome/x11ui.c:1333
 msgid "Commands"
 msgstr "Komendy"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1282 src/arch/amigaos/intl.c.po.c:1626
+#: src/arch/unix/x11/gnome/x11ui.c:1283 src/arch/amigaos/intl.c.po.c:1626
 msgid "Help"
 msgstr "Pomoc"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1375 src/arch/unix/x11/xaw/x11ui.c:1086
+#: src/arch/unix/x11/gnome/x11ui.c:1376 src/arch/unix/x11/xaw/x11ui.c:1092
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1382 src/arch/unix/x11/xaw/x11ui.c:1090
+#: src/arch/unix/x11/gnome/x11ui.c:1383 src/arch/unix/x11/xaw/x11ui.c:1096
 msgid "Do you really want to exit?"
 msgstr "Czy naprawdê chcesz wyj¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1389 src/arch/unix/x11/xaw/x11ui.c:1097
+#: src/arch/unix/x11/gnome/x11ui.c:1390 src/arch/unix/x11/xaw/x11ui.c:1103
 msgid "Save the current settings?"
 msgstr "Czy zapisaæ obecne ustawienia?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1434 src/arch/unix/x11/xaw/x11ui.c:1138
+#: src/arch/unix/x11/gnome/x11ui.c:1435 src/arch/unix/x11/xaw/x11ui.c:1144
 msgid "Using private colormap."
 msgstr "U¿yj prywatnej mapy kolorów."
 
-#: src/arch/unix/x11/gnome/x11ui.c:1454 src/arch/unix/x11/gnome/x11ui.c:1457
-#: src/arch/unix/x11/xaw/x11ui.c:1166 src/arch/unix/x11/xaw/x11ui.c:1171
+#: src/arch/unix/x11/gnome/x11ui.c:1455 src/arch/unix/x11/gnome/x11ui.c:1458
+#: src/arch/unix/x11/xaw/x11ui.c:1172 src/arch/unix/x11/xaw/x11ui.c:1177
 msgid "(warp)"
 msgstr "(przyspieszony)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1759
+#: src/arch/unix/x11/gnome/x11ui.c:1760
 #, c-format
 msgid "Tape %03d"
 msgstr "Ta¶ma %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1811 src/arch/unix/x11/xaw/x11ui.c:1413
+#: src/arch/unix/x11/gnome/x11ui.c:1812 src/arch/unix/x11/xaw/x11ui.c:1419
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pauza)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1980 src/arch/amigaos/intl.c.po.c:1854
+#: src/arch/unix/x11/gnome/x11ui.c:1981 src/arch/amigaos/intl.c.po.c:1854
 msgid "VICE Message"
 msgstr "Wiadomo¶æ VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1991 src/arch/amigaos/intl.c.po.c:1926
+#: src/arch/unix/x11/gnome/x11ui.c:1992 src/arch/amigaos/intl.c.po.c:1926
 msgid "VICE Error"
 msgstr "B³±d VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2022
+#: src/arch/unix/x11/gnome/x11ui.c:2023
 msgid "Hard Reset"
 msgstr "Zimny reset"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2023 src/arch/amigaos/intl.c.po.c:636
+#: src/arch/unix/x11/gnome/x11ui.c:2024 src/arch/amigaos/intl.c.po.c:636
 msgid "Monitor"
 msgstr "Monitor"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2067 src/arch/unix/x11/xaw/x11ui.c:1723
+#: src/arch/unix/x11/gnome/x11ui.c:2068 src/arch/unix/x11/xaw/x11ui.c:1729
 msgid "Extend disk image"
 msgstr "Rozszerzenie obrazu dyskietki"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2068
+#: src/arch/unix/x11/gnome/x11ui.c:2069
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Czy chcesz rozszerzyæ obraz dysku do 40 ¶cie¿ek?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2081
+#: src/arch/unix/x11/gnome/x11ui.c:2082
 #, fuzzy, c-format
 msgid "Autostart not possible for unit %d"
 msgstr "Autostart nie mo¿liwy w jednostce 9"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2089 src/arch/unix/x11/gnome/x11ui.c:2098
+#: src/arch/unix/x11/gnome/x11ui.c:2090 src/arch/unix/x11/gnome/x11ui.c:2099
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr "Nie mo¿na automatycznie wystartowaæ zaznaczonego %d w obrazie %s"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2225 src/arch/unix/x11/gnome/x11ui.c:2235
+#: src/arch/unix/x11/gnome/x11ui.c:2226 src/arch/unix/x11/gnome/x11ui.c:2236
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr "Nie ma dostêpnej zawarto¶ci obrazu"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2689
+#: src/arch/unix/x11/gnome/x11ui.c:2690
 msgid "Contents"
 msgstr "Zawarto¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2737
+#: src/arch/unix/x11/gnome/x11ui.c:2738
 msgid "Attach write protected"
 msgstr "W³ó¿ zabezpieczone przed zapisem"
 
 #. show hidden files
-#: src/arch/unix/x11/gnome/x11ui.c:2743
+#: src/arch/unix/x11/gnome/x11ui.c:2744
 msgid "Show hidden files"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2755
+#: src/arch/unix/x11/gnome/x11ui.c:2756
 msgid "Autostart"
 msgstr "Autostart"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2772
+#: src/arch/unix/x11/gnome/x11ui.c:2773
 msgid "Text cannot be displayed.\n"
 msgstr ""
 
@@ -6548,12 +6548,12 @@ msgstr "Rejestruj"
 msgid "event recording..."
 msgstr "Rejestruj"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1265
+#: src/arch/unix/x11/xaw/x11ui.c:1271
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: ¦cie¿ka %.1f "
 
-#: src/arch/unix/x11/xaw/x11ui.c:1608 src/arch/win32/res.rc.po.c:4895
+#: src/arch/unix/x11/xaw/x11ui.c:1614 src/arch/win32/res.rc.po.c:4895
 msgid "VICE Error!"
 msgstr "B³±d VICE"
 
