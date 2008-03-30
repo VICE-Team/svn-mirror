@@ -89,7 +89,7 @@ static int set_pr4_enabled(resource_value_t v)
 static resource_t resources[] = {
     { "Printer4", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &pr4_enabled, set_pr4_enabled },
-    { "Printer4Dev", RES_INTEGER, (resource_value_t) 0,
+    { "Printer4Device", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &pr4_device, set_pr4_device },
     { NULL }
 };

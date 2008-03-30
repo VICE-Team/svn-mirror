@@ -1029,15 +1029,15 @@ static ui_menu_entry_t pruser_device_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_RADIO(Printer4Dev)
+UI_MENU_DEFINE_RADIO(Printer4Device)
 
 static ui_menu_entry_t pr4_device_submenu[] = {
     { "*Printer 1 (file dump)",
-      (ui_callback_t) radio_Printer4Dev, (ui_callback_data_t) 0, NULL },
+      (ui_callback_t) radio_Printer4Device, (ui_callback_data_t) 0, NULL },
     { "*Printer 2 (exec)",
-      (ui_callback_t) radio_Printer4Dev, (ui_callback_data_t) 1, NULL },
+      (ui_callback_t) radio_Printer4Device, (ui_callback_data_t) 1, NULL },
     { "*Printer 3 (exec)",
-      (ui_callback_t) radio_Printer4Dev, (ui_callback_data_t) 2, NULL },
+      (ui_callback_t) radio_Printer4Device, (ui_callback_data_t) 2, NULL },
     { NULL }
 };
 

@@ -1,3 +1,51 @@
+2000-01-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.19.
+
+	* prdevice.c, arch/unix/uisettings.c, arch/riscos/ui.c: The
+	printer device is called "Printer4Device".
+
+2000-01-08  Tibor Biczo  <crown@matavnet.hu>
+
+	* arch/win32/res.h: Removed IDC_CANCEL.
+
+	* arch/win32/res.rc: Added IDCANCEL.
+	Added IDC_ABOUT_VERSION to about dialog box, changed
+	layout of copyright lines, and added 2000 to copyright.
+	Changed Cancel buttons to use IDCANCEL instead of IDC_CANCEL.
+
+	* arch/win32/resvic.rc: Use IDCANCEL instead of IDC_CANCEL.
+
+	* arch/win32/ui.c (about_dialog_proc): Close dialog on
+	IDCANCEL.
+
+	* arch/win32/uidatasette.c (dialog_proc): Removed IDC_CANCEL.
+	Handle only IDCANCEL.
+
+	* arch/win32/uijoystick.c (keyset_dialog) (dialog_proc):
+	Removed IDC_CANCEL, handle only IDCANCEL.
+
+	* arch/win32/uilib.c (tape_hook_proc) (hook_proc): Replaced
+	'MS Sans Serif' with NULL, when creating fonts, now the font
+	is ok on Win95/98/2000.
+	(TextDlgProc): Close Window on IDCANCEL (ESC key).
+
+	* arch/win32/uisnapshot.c: Define OFN_ENABLESIZING if not yet
+	defined.
+	(ui_save_snapshot): Use OFN_ENABLESIZING when creating the
+	save dialog box, so it will be resizable under Win98/2000.
+
+	* arch/win32/uisound.c (dialog_proc): Handle IDCANCEL.
+
+	* arch/win32/uivicset.c (dialog_proc): Handle IDCANCEL.
+
+	* sounddrv/sounddx.c: Define DIRECTSOUND_VERSION as 0x0500.
+	This is needed when compiling with DX7 SDK, but using
+	the resulting binary on a system which has pre DX7 installed,
+	otherwise sound will not work.
+	(dx_init): Added some debug logging. Added error message for
+	the case when the primary buffer can't be created.
+
 2000-01-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.18.
