@@ -1119,15 +1119,12 @@ static int drive_load_rom_images(void)
 
     drive_load_1001();
 
-    /* FIXME: Drive type radio button should be made insensitive here
-       if a ROM image is not loaded. */
-
     if (!rom1541_loaded
         && !rom1541ii_loaded
         && !rom1571_loaded
         && !rom1581_loaded
         && !rom2031_loaded
-	&& !rom1001_loaded) {
+        && !rom1001_loaded) {
         log_error(drive_log,
                   "No ROM image found at all!  "
                   "Hardware-level emulation is not available.");
@@ -1896,20 +1893,48 @@ void drive_cpu_execute(CLOCK clk_value)
 int drive_match_bus(int drive_type, int unit, int bus_map)
 {
     if ( (drive_type == DRIVE_TYPE_NONE)
-      || (((drive_type == DRIVE_TYPE_2031) 
-	|| (drive_type == DRIVE_TYPE_1001)
-	|| (drive_type == DRIVE_TYPE_8050)
-	|| (drive_type == DRIVE_TYPE_8250)
-	)	
-	&& (bus_map & IEC_BUS_IEEE))
-      || (((drive_type != DRIVE_TYPE_2031) 
-	&& (drive_type != DRIVE_TYPE_1001)
-	&& (drive_type != DRIVE_TYPE_8050)
-	&& (drive_type != DRIVE_TYPE_8250)
-	)
-	&& (bus_map & IEC_BUS_IEC))
+      || (((drive_type == DRIVE_TYPE_2031)
+        || (drive_type == DRIVE_TYPE_1001)
+        || (drive_type == DRIVE_TYPE_8050)
+        || (drive_type == DRIVE_TYPE_8250)
+        )
+        && (bus_map & IEC_BUS_IEEE))
+      || (((drive_type != DRIVE_TYPE_2031)
+        && (drive_type != DRIVE_TYPE_1001)
+        && (drive_type != DRIVE_TYPE_8050)
+        && (drive_type != DRIVE_TYPE_8250)
+        )
+        && (bus_map & IEC_BUS_IEC))
     ) {
         return 1;
+    }
+    return 0;
+}
+
+int drive_check_type(int drive_type, int dnr)
+{
+    if (!drive_match_bus(drive_type, dnr, iec_available_busses()))
+        return 0;
+
+    switch (drive_type) {
+      case DRIVE_TYPE_NONE:
+        return 1;
+      case DRIVE_TYPE_1541:
+        return rom1541_loaded;
+      case DRIVE_TYPE_1541II:
+        return rom1541ii_loaded;
+      case DRIVE_TYPE_1571:
+        return rom1571_loaded;
+      case DRIVE_TYPE_1581:
+        return rom1581_loaded;
+      case DRIVE_TYPE_2031:
+        return rom2031_loaded;
+      case DRIVE_TYPE_1001:
+      case DRIVE_TYPE_8050:
+      case DRIVE_TYPE_8250:
+        return rom1001_loaded;
+      default:
+        log_error(drive[dnr].log, "Unknown drive type %i.", drive_type);
     }
     return 0;
 }

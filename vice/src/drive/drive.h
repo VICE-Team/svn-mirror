@@ -314,7 +314,9 @@ extern void drive0_riot_set_atn(int);
 extern void drive1_riot_set_atn(int);
 
 extern int drive_match_bus(int drive_type, int drv, int bus_map);
+extern int drive_check_type(int drive_type, int dnr);
 
 extern int drive_num_leds(int drv);
 
 #endif /* !_DRIVE_H */
+
