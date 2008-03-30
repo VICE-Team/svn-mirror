@@ -38,6 +38,7 @@
 #include "mem.h"
 #include "plus4mem.h"
 #include "plus4pio2.h"
+#include "ted-fetch.h"
 #include "ted-resources.h"
 #include "ted-mem.h"
 #include "ted-sound.h"

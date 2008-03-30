@@ -305,13 +305,10 @@ typedef struct ted_s ted_t;
 extern ted_t ted;
 
 /* Private function calls, used by the other TED modules.  */
-extern void ted_fetch_matrix(int offs, int num);
-extern void ted_fetch_color(int offs, int num);
 extern void ted_set_raster_irq(unsigned int line);
 extern void ted_update_memory_ptrs(unsigned int cycle);
 extern void ted_update_video_mode(unsigned int cycle);
 extern void ted_raster_draw_alarm_handler(CLOCK offset);
-extern void ted_raster_fetch_alarm_handler(CLOCK offset);
 extern void ted_resize(void);
 
 /* Debugging options.  */
