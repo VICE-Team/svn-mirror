@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-04-02 23:56+0200\n"
+"POT-Creation-Date: 2006-04-23 21:58+0200\n"
 "PO-Revision-Date: 2006-01-02 16:58+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@despammed.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -320,6 +320,22 @@ msgstr "Riproduzione degli eventi registrati"
 msgid "Resource %s blocked by %s."
 msgstr "Risorsa %s bloccata da %s."
 
+#: src/c64/c64io.c:178
+#, c-format
+msgid "I/O read collision at %X from "
+msgstr ""
+
+#: src/c64/c64io.c:196
+#, fuzzy
+msgid " and "
+msgstr "Carica "
+
+#: src/c64/c64io.c:197
+msgid ""
+".\n"
+"All the named devices will be detached."
+msgstr ""
+
 #: src/debug.c:179
 msgid "Trace the main CPU"
 msgstr "Traccia la CPU principale"
@@ -370,76 +386,76 @@ msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Errore di riproduzione: %s è differente dalla linea %d del file di debug %06d"
 
-#: src/network.c:168
+#: src/network.c:173
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Non è possibile commutare tra IPV4 e IPV6 mentre netplay è attivo."
 
-#: src/network.c:393
+#: src/network.c:398
 msgid "Testing best frame delay..."
 msgstr "Rileva il miglior ritardo tra frame..."
 
-#: src/network.c:441
+#: src/network.c:446
 #, c-format
 msgid "Using %d frames delay."
 msgstr "Utilizzo %d frame di ritardo."
 
-#: src/network.c:465
+#: src/network.c:470
 msgid "Cannot load snapshot file for transfer"
 msgstr "Non è possibile caricare il file di snapshot per il trasferimento"
 
-#: src/network.c:478
+#: src/network.c:483
 msgid "Sending snapshot to client..."
 msgstr "Invio dell'immagine dello snapshot al client in corso..."
 
-#: src/network.c:487
+#: src/network.c:492
 msgid "Cannot send snapshot to client"
 msgstr "Non è possibile inviare lo snapshot al client"
 
-#: src/network.c:513
+#: src/network.c:518
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Non è possibile creare il file di snapshot %s"
 
-#: src/network.c:551
+#: src/network.c:556
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Non è possibile aprire il file di snapshot %s"
 
-#: src/network.c:708
+#: src/network.c:715
 msgid "Server is waiting for a client..."
 msgstr "Il server è in attesa di un client..."
 
-#: src/network.c:745
+#: src/network.c:752
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Non è possibile creare il file di snapshot %s. Seleziona una directory "
 "diversa per la cronologia."
 
-#: src/network.c:765
+#: src/network.c:772
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Non è possibile risolvere %s"
 
-#: src/network.c:810
+#: src/network.c:817
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 "Non è possibile connettersi a %s (nessun server è attivo sulla porta %d)."
 
-#: src/network.c:824
+#: src/network.c:831
 msgid "Receiving snapshot from server..."
 msgstr "Ricezione dello snapshot dal server in corso..."
 
-#: src/network.c:955
+#: src/network.c:962
 msgid "Remote host disconnected."
 msgstr "Disconnesso dall'host remoto."
 
-#: src/network.c:966
+#: src/network.c:973
 msgid "Remote host suspending..."
 msgstr "Sospesione dell'host remoto in corso..."
 
-#: src/network.c:1008
+#: src/network.c:1015
 msgid "Network out of sync - disconnecting."
 msgstr "Rete non sincronizzata - disconnesione in corso."
 
@@ -2614,67 +2630,67 @@ msgstr "Impostazioni delle RAM"
 msgid "TED settings"
 msgstr "Impostazioni del TED"
 
-#: src/arch/unix/rs232.c:105
+#: src/arch/unix/rs232.c:109
 msgid "Specify baudrate of first RS232 device"
 msgstr "Specifica la velocità della prima RS232 (in baud)"
 
-#: src/arch/unix/rs232.c:107
+#: src/arch/unix/rs232.c:111
 msgid "Specify baudrate of second RS232 device"
 msgstr "Specifica la velocità della seconda RS232 (in baud)"
 
-#: src/arch/unix/rs232.c:109
+#: src/arch/unix/rs232.c:113
 msgid "Specify baudrate of third RS232 device"
 msgstr "Specifica la velocità della terza RS232 (in baud)"
 
-#: src/arch/unix/rs232.c:111
+#: src/arch/unix/rs232.c:115
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Specifica la velocità della quarta RS232 (in baud)"
 
-#: src/arch/unix/rs232.c:242
+#: src/arch/unix/rs232.c:246
 msgid "No more devices available."
 msgstr "Non ci sono più device disponibili."
 
-#: src/arch/unix/rs232.c:247
+#: src/arch/unix/rs232.c:251
 #, c-format
 msgid "rs232_open(device=%d)."
 msgstr "rs232_open(device=%d)."
 
-#: src/arch/unix/rs232.c:262
+#: src/arch/unix/rs232.c:271
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr "Non è possibile aprire il file \"%s\": %s"
 
-#: src/arch/unix/rs232.c:289
+#: src/arch/unix/rs232.c:298
 #, c-format
 msgid "Attempt to close invalid fd %d."
 msgstr "Tentativo di chiusura di fd %d non valido."
 
-#: src/arch/unix/rs232.c:293
+#: src/arch/unix/rs232.c:302
 #, c-format
 msgid "Attempt to close non-open fd %d."
 msgstr "Tentativo di chiusura di fd %d non aperto."
 
-#: src/arch/unix/rs232.c:313
+#: src/arch/unix/rs232.c:322
 #, c-format
 msgid "Attempt to write to invalid fd %d."
 msgstr "Tentativo di scrittura su fd %d non valido."
 
-#: src/arch/unix/rs232.c:317
+#: src/arch/unix/rs232.c:326
 #, c-format
 msgid "Attempt to write to non-open fd %d."
 msgstr "Tentativo di scrittura su fd %d non aperto."
 
-#: src/arch/unix/rs232.c:329
+#: src/arch/unix/rs232.c:338
 #, c-format
 msgid "Error writing: %s."
 msgstr "Errore durante la scrittura: %s."
 
-#: src/arch/unix/rs232.c:344
+#: src/arch/unix/rs232.c:353
 #, c-format
 msgid "Attempt to read from invalid fd %d."
 msgstr "Tentativo di lettura da fd %d non valido."
 
-#: src/arch/unix/rs232.c:348
+#: src/arch/unix/rs232.c:357
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr "Tentativo di lettura da fd %d non aperto."

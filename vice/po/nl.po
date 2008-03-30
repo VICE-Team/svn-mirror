@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-04-02 23:56+0200\n"
+"POT-Creation-Date: 2006-04-23 21:58+0200\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -315,6 +315,22 @@ msgstr "Afspelen opgenomen gebeurtenissen"
 msgid "Resource %s blocked by %s."
 msgstr "Bron %s geblokeerd door %s."
 
+#: src/c64/c64io.c:178
+#, c-format
+msgid "I/O read collision at %X from "
+msgstr ""
+
+#: src/c64/c64io.c:196
+#, fuzzy
+msgid " and "
+msgstr "Laad "
+
+#: src/c64/c64io.c:197
+msgid ""
+".\n"
+"All the named devices will be detached."
+msgstr ""
+
 #: src/debug.c:179
 msgid "Trace the main CPU"
 msgstr "Traceer de hoofd CPU"
@@ -364,76 +380,76 @@ msgstr "Traceer modus (0=normaal 1=klein 2=geschiedenis"
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr "Afspeel fout: %s is anders dan lijn %d van bestand debug%06d"
 
-#: src/network.c:168
+#: src/network.c:173
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Kan niet schakelen tussen IPV4/IPV6 omdate netplay actief is."
 
-#: src/network.c:393
+#: src/network.c:398
 msgid "Testing best frame delay..."
 msgstr "Beste frame vertraging aan het testen..."
 
-#: src/network.c:441
+#: src/network.c:446
 #, c-format
 msgid "Using %d frames delay."
 msgstr "%d frames vertraging in gebruik."
 
-#: src/network.c:465
+#: src/network.c:470
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kan het momentopname bestand voor versturen niet laden"
 
-#: src/network.c:478
+#: src/network.c:483
 msgid "Sending snapshot to client..."
 msgstr "Momentopname wordt naar de andere computer verstuurd..."
 
-#: src/network.c:487
+#: src/network.c:492
 msgid "Cannot send snapshot to client"
 msgstr "Kan de momentopname niet naar de andere computer versturen"
 
-#: src/network.c:513
+#: src/network.c:518
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet maken"
 
-#: src/network.c:551
+#: src/network.c:556
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet openen"
 
-#: src/network.c:708
+#: src/network.c:715
 msgid "Server is waiting for a client..."
 msgstr "De server wacht op de andere computer..."
 
-#: src/network.c:745
+#: src/network.c:752
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Kan het momentopname bestand %s niet maken. Selecteer een andere "
 "geschiedenis folder!"
 
-#: src/network.c:765
+#: src/network.c:772
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Onbekende host %s"
 
-#: src/network.c:810
+#: src/network.c:817
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 "Kan geen connectie maken met %s (er is geen server aanwezig op poort %d)."
 
-#: src/network.c:824
+#: src/network.c:831
 msgid "Receiving snapshot from server..."
 msgstr "Momentopname van de server wordt ontvangen..."
 
-#: src/network.c:955
+#: src/network.c:962
 msgid "Remote host disconnected."
 msgstr "Andere computer heeft de verbinding verbroken."
 
-#: src/network.c:966
+#: src/network.c:973
 msgid "Remote host suspending..."
 msgstr "Andere computer halt de netplay..."
 
-#: src/network.c:1008
+#: src/network.c:1015
 msgid "Network out of sync - disconnecting."
 msgstr "Netwerk niet synchroon - connectie wordt verbroken."
 
@@ -2571,67 +2587,67 @@ msgstr "RAM instellingen"
 msgid "TED settings"
 msgstr "TED instellingen"
 
-#: src/arch/unix/rs232.c:105
+#: src/arch/unix/rs232.c:109
 msgid "Specify baudrate of first RS232 device"
 msgstr "Geef de baudrate van het eerste RS232 apparaat"
 
-#: src/arch/unix/rs232.c:107
+#: src/arch/unix/rs232.c:111
 msgid "Specify baudrate of second RS232 device"
 msgstr "Geef de baudrate van het tweede RS232 apparaat"
 
-#: src/arch/unix/rs232.c:109
+#: src/arch/unix/rs232.c:113
 msgid "Specify baudrate of third RS232 device"
 msgstr "Geef de baudrate van het derde RS232 apparaat"
 
-#: src/arch/unix/rs232.c:111
+#: src/arch/unix/rs232.c:115
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "Geef de baudrate van het vierde RS232 apparaat"
 
-#: src/arch/unix/rs232.c:242
+#: src/arch/unix/rs232.c:246
 msgid "No more devices available."
 msgstr "Geen apparaten meer beschikbaar."
 
-#: src/arch/unix/rs232.c:247
+#: src/arch/unix/rs232.c:251
 #, c-format
 msgid "rs232_open(device=%d)."
 msgstr "rs232_open(apparaat=%d)."
 
-#: src/arch/unix/rs232.c:262
+#: src/arch/unix/rs232.c:271
 #, c-format
 msgid "Cannot open file \"%s\": %s"
 msgstr "Kan bestand \"%s\" niet openen: %s"
 
-#: src/arch/unix/rs232.c:289
+#: src/arch/unix/rs232.c:298
 #, c-format
 msgid "Attempt to close invalid fd %d."
 msgstr "Poging om ongeldig fd %d te sluiten."
 
-#: src/arch/unix/rs232.c:293
+#: src/arch/unix/rs232.c:302
 #, c-format
 msgid "Attempt to close non-open fd %d."
 msgstr "Poging om niet-open fd %d te sluiten."
 
-#: src/arch/unix/rs232.c:313
+#: src/arch/unix/rs232.c:322
 #, c-format
 msgid "Attempt to write to invalid fd %d."
 msgstr "Poging om te schrijven naar ongeldig fd %d."
 
-#: src/arch/unix/rs232.c:317
+#: src/arch/unix/rs232.c:326
 #, c-format
 msgid "Attempt to write to non-open fd %d."
 msgstr "Poging om te schrijven naar niet-open fs %d."
 
-#: src/arch/unix/rs232.c:329
+#: src/arch/unix/rs232.c:338
 #, c-format
 msgid "Error writing: %s."
 msgstr "Fout bij schrijven: %s."
 
-#: src/arch/unix/rs232.c:344
+#: src/arch/unix/rs232.c:353
 #, c-format
 msgid "Attempt to read from invalid fd %d."
 msgstr "Poging om te lezen van ongeldig fd %d."
 
-#: src/arch/unix/rs232.c:348
+#: src/arch/unix/rs232.c:357
 #, c-format
 msgid "Attempt to read from non-open fd %d."
 msgstr "Poging om te lezen van niet-open fd %d."

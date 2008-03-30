@@ -1315,7 +1315,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=8
+VICE_VERSION_BUILD=9
 
 
 
@@ -2982,6 +2982,14 @@ cat >>confdefs.h <<\_ACEOF
 _ACEOF
 
   CFLAGS="$CFLAGS -I/usr/include/bsdcompat"
+fi
+
+if test x"$host_os" = "xminix"; then
+
+cat >>confdefs.h <<\_ACEOF
+#define MINIX_SUPPORT
+_ACEOF
+
 fi
 
 
@@ -9096,7 +9104,8 @@ fi
 
 
 
-for ac_header in direct.h errno.h fcntl.h limits.h regex.h unistd.h \
+
+for ac_header in direct.h errno.h fcntl.h limits.h regex.h unistd.h strings.h \
 sys/dirent.h sys/ioctl.h sys/stat.h sys/types.h \
 dir.h io.h process.h signal.h ffmpeg/avformat.h commctrl.h shlobj.h winioctl.h
 do
@@ -12833,7 +12842,12 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_asound_snd_pcm_open" >&5
 echo "${ECHO_T}$ac_cv_lib_asound_snd_pcm_open" >&6
 if test $ac_cv_lib_asound_snd_pcm_open = yes; then
   SOUND_DRIVERS="$SOUND_DRIVERS soundalsa.o";
-                      SOUND_LIBS="$SOUND_LIBS -lasound"; break
+                      SOUND_LIBS="$SOUND_LIBS -lasound";
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_ALSA
+_ACEOF
+
 fi
 
 fi
@@ -12983,7 +12997,12 @@ if test `eval echo '${'$as_ac_Header'}'` = yes; then
   cat >>confdefs.h <<_ACEOF
 #define `echo "HAVE_$ac_header" | $as_tr_cpp` 1
 _ACEOF
- SOUND_DRIVERS="$SOUND_DRIVERS sounduss.o"; break
+ SOUND_DRIVERS="$SOUND_DRIVERS sounduss.o";
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_OSS
+_ACEOF
+
 fi
 
 done
@@ -13247,7 +13266,12 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_audio_ALseterrorhandler" >&5
 echo "${ECHO_T}$ac_cv_lib_audio_ALseterrorhandler" >&6
 if test $ac_cv_lib_audio_ALseterrorhandler = yes; then
   SOUND_DRIVERS="$SOUND_DRIVERS soundsgi.o";
-                    SOUND_LIBS="$SOUND_LIBS -laudio"; break;
+                    SOUND_LIBS="$SOUND_LIBS -laudio";
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_DMEDIA
+_ACEOF
+
 fi
 
 fi
@@ -13592,7 +13616,12 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_esd_esd_open_sound" >&5
 echo "${ECHO_T}$ac_cv_lib_esd_esd_open_sound" >&6
 if test $ac_cv_lib_esd_esd_open_sound = yes; then
   SOUND_DRIVERS="$SOUND_DRIVERS soundesd.o";
-                      SOUND_LIBS="$SOUND_LIBS -lesd"; break
+                      SOUND_LIBS="$SOUND_LIBS -lesd";
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_ESD
+_ACEOF
+
 fi
 
 fi
@@ -13798,7 +13827,12 @@ fi
 echo "$as_me:$LINENO: result: $ac_cv_lib_SDL_SDL_OpenAudio" >&5
 echo "${ECHO_T}$ac_cv_lib_SDL_SDL_OpenAudio" >&6
 if test $ac_cv_lib_SDL_SDL_OpenAudio = yes; then
-  SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"; break
+  SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_SDL_AUDIO
+_ACEOF
+
 else
   CFLAGS=$old_cflags; LIBS=$old_libs; break
 fi
@@ -14286,7 +14320,12 @@ echo "$as_me:$LINENO: result: $ac_cv_lib_UMSobj_UMSAudioDevice_initialize" >&5
 echo "${ECHO_T}$ac_cv_lib_UMSobj_UMSAudioDevice_initialize" >&6
 if test $ac_cv_lib_UMSobj_UMSAudioDevice_initialize = yes; then
   SOUND_DRIVERS="$SOUND_DRIVERS soundaix.o";
-                     SOUND_LIBS="$SOUND_LIBS -lUMSobj"; break
+                     SOUND_LIBS="$SOUND_LIBS -lUMSobj";
+
+cat >>confdefs.h <<\_ACEOF
+#define USE_AIX_AUDIO
+_ACEOF
+
 fi
 
 fi
