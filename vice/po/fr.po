@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.14\n"
-"POT-Creation-Date: 2004-02-04 00:22+0100\n"
+"POT-Creation-Date: 2004-02-07 14:59+0100\n"
 "PO-Revision-Date: 2003-11-02 16:44+0100\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -126,37 +126,37 @@ msgstr ""
 msgid "store to sounddevice failed."
 msgstr ""
 
-#: src/event.c:265
+#: src/event.c:266
 #, fuzzy
 msgid "Could not create start snapshot file."
 msgstr ""
 "Impossible de charger le fichier de capture\n"
 "`%s'"
 
-#: src/event.c:276 src/event.c:386 src/event.c:403
+#: src/event.c:277 src/event.c:395 src/event.c:412
 #, fuzzy
 msgid "Error reading start snapshot file."
 msgstr "Erreur de lecture sur le périphérique joystick digital."
 
-#: src/event.c:314 src/event.c:446
+#: src/event.c:319 src/event.c:463
 #, fuzzy
 msgid "Could not create end snapshot file."
 msgstr ""
 "Impossible de charger le fichier de capture\n"
 "`%s'"
 
-#: src/event.c:362
+#: src/event.c:371
 #, fuzzy
 msgid "Could not open end snapshot file."
 msgstr ""
 "Impossible de charger le fichier de capture\n"
 "`%s'"
 
-#: src/event.c:371
+#: src/event.c:380
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:467
+#: src/event.c:484
 #, fuzzy
 msgid "Error reading end snapshot file."
 msgstr ""

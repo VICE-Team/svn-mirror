@@ -248,6 +248,8 @@ libc64cart_a_SOURCES = \
 	ide64.h \
 	kcs.c \
 	kcs.h \
+	magicformel.c \
+	magicformel.h \
 	retroreplay.c \
 	retroreplay.h \
 	supergames.c \
@@ -269,8 +271,8 @@ am_libc64cart_a_OBJECTS = actionreplay.$(OBJEXT) atomicpower.$(OBJEXT) \
 	c64cart.$(OBJEXT) c64cartmem.$(OBJEXT) crt.$(OBJEXT) \
 	epyxfastload.$(OBJEXT) expert.$(OBJEXT) final.$(OBJEXT) \
 	generic.$(OBJEXT) ide64.$(OBJEXT) kcs.$(OBJEXT) \
-	retroreplay.$(OBJEXT) supergames.$(OBJEXT) \
-	supersnapshot.$(OBJEXT) zaxxon.$(OBJEXT)
+	magicformel.$(OBJEXT) retroreplay.$(OBJEXT) \
+	supergames.$(OBJEXT) supersnapshot.$(OBJEXT) zaxxon.$(OBJEXT)
 libc64cart_a_OBJECTS = $(am_libc64cart_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -282,6 +284,7 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/epyxfastload.Po ./$(DEPDIR)/expert.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/final.Po ./$(DEPDIR)/generic.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ide64.Po ./$(DEPDIR)/kcs.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/magicformel.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/retroreplay.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/supergames.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/supersnapshot.Po ./$(DEPDIR)/zaxxon.Po
@@ -327,6 +330,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/generic.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ide64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kcs.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/magicformel.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/retroreplay.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/supergames.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/supersnapshot.Po@am__quote@

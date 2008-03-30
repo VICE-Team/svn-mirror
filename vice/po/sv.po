@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-02-04 00:22+0100\n"
+"POT-Creation-Date: 2004-02-07 14:59+0100\n"
 "PO-Revision-Date: 2004-01-21 23:05+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -122,27 +122,27 @@ msgstr "misslyckades skriva till ljudenheten."
 msgid "store to sounddevice failed."
 msgstr "misslyckades spara i ljudenheten."
 
-#: src/event.c:265
+#: src/event.c:266
 msgid "Could not create start snapshot file."
 msgstr "Kunde inte skapa startögonblicksbildfil."
 
-#: src/event.c:276 src/event.c:386 src/event.c:403
+#: src/event.c:277 src/event.c:395 src/event.c:412
 msgid "Error reading start snapshot file."
 msgstr "Fel vid läsning av startögonblicksbildfil."
 
-#: src/event.c:314 src/event.c:446
+#: src/event.c:319 src/event.c:463
 msgid "Could not create end snapshot file."
 msgstr "Kunde inte skapa slutögonblicksbildfil."
 
-#: src/event.c:362
+#: src/event.c:371
 msgid "Could not open end snapshot file."
 msgstr "Kunde inte öppna slutögonblicksbildfil."
 
-#: src/event.c:371
+#: src/event.c:380
 msgid "Could not find event section in end snapshot file."
 msgstr "Kunde inte hinna händelsedelen i slutögonblicksbilden."
 
-#: src/event.c:467
+#: src/event.c:484
 msgid "Error reading end snapshot file."
 msgstr "Fel vid läsning av slutögonblicksbildfil."
 
