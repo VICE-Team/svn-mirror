@@ -82,7 +82,7 @@ static int datasette_read_bit(long offset)
                 }
                 gap = long_gap[0] + (long_gap[1] << 8) + (long_gap[2] << 16);
             } else {
-                gap = (comp_gap ? (CLOCK)comp_gap : (CLOCK)2463) * 8 - offset;
+                gap = (comp_gap ? (CLOCK)comp_gap : (CLOCK)2500) * 8 - offset;
             }
 
             if (gap > 0) {
@@ -228,7 +228,7 @@ void datasette_set_motor(int flag)
             fseek(current_image->fd, current_image->current_file_seek_position
                   + current_image->offset, SEEK_SET);
             if (!datasette_alarm_pending) {
-                alarm_set(&datasette_alarm, clk + 1000);
+                alarm_set(&datasette_alarm, clk + 10000);
                 datasette_alarm_pending = 1;
             }
         }
