@@ -40,6 +40,71 @@
 static GtkWidget *netplay_dialog, *current_mode, *dcb, *ctrls, *np_server, *np_port;
 static log_t np_log = LOG_ERR;
 
+typedef struct np_control_s 
+{
+    char *name;
+    GtkWidget *s_cb;
+    GtkWidget *c_cb;
+    unsigned int s_mask;
+    unsigned int c_mask;
+} np_control_t;
+
+#define NR_NPCONROLS 5
+static np_control_t np_controls[] = 
+{ { N_("Keyboard"), NULL, NULL, 
+    NETWORK_CONTROL_KEYB, 
+    NETWORK_CONTROL_KEYB << NETWORK_CONTROL_CLIENTOFFSET },
+  { N_("Joystick 1"), NULL, NULL, 
+    NETWORK_CONTROL_JOY1, 
+    NETWORK_CONTROL_JOY1 << NETWORK_CONTROL_CLIENTOFFSET },
+  { N_("Joystick 2"), NULL, NULL, 
+    NETWORK_CONTROL_JOY2, 
+    NETWORK_CONTROL_JOY2 << NETWORK_CONTROL_CLIENTOFFSET },
+  { N_("Devices"), NULL, NULL, 
+    NETWORK_CONTROL_DEVC, 
+    NETWORK_CONTROL_DEVC << NETWORK_CONTROL_CLIENTOFFSET },
+  { N_("Settings"), NULL, NULL, 
+    NETWORK_CONTROL_RSRC, 
+    NETWORK_CONTROL_RSRC << NETWORK_CONTROL_CLIENTOFFSET },
+  { NULL, NULL, 0, 0 }};
+
+static void
+netplay_update_control_res (GtkWidget *w, gpointer data)
+{
+    unsigned int control, mask;
+
+    g_return_if_fail(GTK_IS_CHECK_BUTTON(w));
+    g_return_if_fail(data != 0);
+    
+    mask = *((unsigned int *) data);
+    resources_get_value("NetworkControl", (void *)&control);
+    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(w)))
+	control |= mask;
+    else
+	control &= ~mask;
+    
+    resources_set_value("NetworkControl", (resource_value_t) control);
+    /* log_message(np_log, _("Updated control: 0x%04x"), control); */
+}
+
+static void
+netplay_update_control_gui (void)
+{
+    int i;
+    unsigned int control;
+
+    resources_get_value("NetworkControl", (void *) &control);
+    for (i = 0; i < NR_NPCONROLS; i++)
+    {
+	if (control & np_controls[i].s_mask)
+	    gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON(np_controls[i].s_cb), TRUE);
+	if (control & np_controls[i].c_mask)
+	    gtk_toggle_button_set_active (
+		GTK_TOGGLE_BUTTON(np_controls[i].c_cb), TRUE);
+    }
+}
+
 static void
 netplay_update_resources (void)
 {
@@ -100,6 +165,7 @@ netplay_update_status(void)
     gtk_entry_set_text(GTK_ENTRY(np_server), server_name);
     log_message(np_log, _("Status: %s, Server: %s, Port: %d"),
 		text, server_name, port);
+    netplay_update_control_gui();
 }
 
 static void 
@@ -134,7 +200,7 @@ netplay_disconnect (GtkWidget *w, gpointer data)
 static GtkWidget *
 build_netplay_dialog(void)
 {
-    GtkWidget *d, *f, *b, *hb, *rb, *l, *entry;
+    GtkWidget *d, *f, *b, *hb, *rb, *l, *entry, *h;
 
     d = gtk_dialog_new_with_buttons(_("Netplay Settings"),
 				    NULL,
@@ -142,9 +208,10 @@ build_netplay_dialog(void)
 				    GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				    NULL);
     
-    ctrls = f = gtk_frame_new(_("Netplay Settings"));
+    f = gtk_frame_new(_("Netplay Settings"));
 
-    b = gtk_vbox_new(FALSE, 5);
+    h = gtk_hbox_new(FALSE, 5);
+    ctrls = b = gtk_vbox_new(FALSE, 5);
 
     hb = gtk_hbox_new(FALSE, 0);
     l = gtk_label_new(_("Current mode: "));
@@ -172,6 +239,7 @@ build_netplay_dialog(void)
     /* entry port */
     np_port = entry = gtk_entry_new();
     gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, GNOME_PAD);
+    gtk_widget_set_size_request(entry, 50, -1);
     gtk_widget_show(entry);
     
     gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
@@ -189,13 +257,63 @@ build_netplay_dialog(void)
     /* entry IP */
     np_server = entry = gtk_entry_new();
     gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, GNOME_PAD);
+    gtk_widget_set_size_request(entry, 100, -1);
     gtk_widget_show(entry);
     
     gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
     gtk_widget_show(hb);
 
-    gtk_container_add(GTK_CONTAINER(f), b);
+    gtk_box_pack_start(GTK_BOX(h), b, FALSE, FALSE, 5);
     gtk_widget_show(b);
+    
+    /* Control widgets */
+    {
+	GtkWidget *cf, *tmp, *table;
+	int i;
+	
+	cf = gtk_frame_new(_("Control"));
+	gtk_box_pack_start(GTK_BOX(h), cf, FALSE, FALSE, 5);
+	gtk_widget_show(cf);
+
+	table = gtk_table_new(NR_NPCONROLS + 1, 3, FALSE);
+	tmp = gtk_label_new(_("Server"));
+	gtk_table_attach(GTK_TABLE(table), tmp, 
+			 1, 2, 0, 1,
+			 0, 0, 5, 0);
+	gtk_widget_show(tmp);
+	tmp = gtk_label_new(_("Client"));
+	gtk_table_attach(GTK_TABLE(table), tmp, 
+			 2, 3, 0, 1,
+			 0, 0, 5, 0);
+	gtk_widget_show(tmp);
+	
+	for (i = 0; i < NR_NPCONROLS; i++)
+	{
+	    tmp = gtk_label_new(_(np_controls[i].name));
+	    gtk_table_attach_defaults(GTK_TABLE(table), tmp, 
+				      0, 1, i+1, i+2);
+	    gtk_widget_show(tmp);
+	    np_controls[i].s_cb = gtk_check_button_new();
+	    gtk_table_attach_defaults(GTK_TABLE(table), np_controls[i].s_cb,
+				      1, 2, i+1, i+2);
+	    g_signal_connect(G_OBJECT(np_controls[i].s_cb), "toggled",
+			     G_CALLBACK(netplay_update_control_res), 
+			     (gpointer) &np_controls[i].s_mask);
+	    gtk_widget_show(np_controls[i].s_cb);
+	    np_controls[i].c_cb = gtk_check_button_new();
+	    gtk_table_attach_defaults(GTK_TABLE(table), np_controls[i].c_cb,
+				      2, 3, i+1, i+2);
+	    g_signal_connect(G_OBJECT(np_controls[i].c_cb), "toggled",
+			     G_CALLBACK(netplay_update_control_res), 
+			     (gpointer) &np_controls[i].c_mask);
+	    gtk_widget_show(np_controls[i].c_cb);
+	}
+	gtk_container_add(GTK_CONTAINER(cf), table);
+	gtk_widget_show(table);
+    }
+    
+    gtk_container_add(GTK_CONTAINER(f), h);
+    gtk_widget_show(h);
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), f, TRUE, TRUE,
 		       GNOME_PAD);
     gtk_widget_show(f);

@@ -2,7 +2,7 @@
 # make-bindist.sh for Mac OSX
 # written by Christian Vogelgsang <chris@vogelgsang.org>
 #
-# make-bindist.sh <top_srcdir> <strip> <vice-version <zip|nozip>
+# make-bindist.sh <top_srcdir> <strip> <vice-version> <zip|nozip>
 
 RUN_PATH=`dirname $0`
 
@@ -13,8 +13,27 @@ STRIP=$2
 VICE_VERSION=$3
 ZIP=$4
 
+# check binary type
+TEST_BIN=src/x64
+if [ ! -x $TEST_BIN ]; then
+	echo "error missing binary $TEST_BIN"
+	exit 1
+fi
+BIN_TYPE=`file $TEST_BIN | grep "$TEST_BIN:" | cut -f3,4 -d" "`
+if [ x"$BIN_TYPE" = "xuniversal binary" ]; then
+	BIN_FORMAT=ub
+elif [ x"$BIN_TYPE" = "xexecutable i386" ]; then
+	BIN_FORMAT=i386
+elif [ x"$BIN_TYPE" = "xexecutable ppc" ]; then
+	BIN_FORMAT=ppc
+else
+	echo "fatal: unknown bin type '$BIN_TYPE'"
+	exit 1
+fi
+echo "  binary format: $BIN_FORMAT"
+
 # setup BUILD dir
-BUILD_DIR=vice-macosx-x11-ub-$VICE_VERSION
+BUILD_DIR=vice-macosx-x11-$BIN_FORMAT-$VICE_VERSION
 if [ -d $BUILD_DIR ]; then
 	rm -rf $BUILD_DIR
 fi
@@ -83,7 +102,7 @@ for bundle in $BUNDLES ; do
 	TERMINAL=$APP_MACOS/$bundle.xterm
 	echo '#!/bin/bash' > $TERMINAL
 	echo 'RUNPATH=`dirname $0`' >> $TERMINAL
-	echo "exec /usr/X11R6/bin/xterm -e \$RUNPATH/${bundle}.bin" >> $TERMINAL
+	echo "exec /usr/X11R6/bin/xterm -title \"VICE ${bundle} Console\" -e \$RUNPATH/${bundle}.bin" >> $TERMINAL
 	chmod 755 $TERMINAL
 
 	# copy binary
@@ -155,15 +174,8 @@ find $BUILD_DIR/doc -name "Makefile*" -exec rm {} \;
 # --- make dmg? ---
 if [ x"$ZIP" = "xnozip" ]; then
 	echo "ready. created dist directory: $BUILD_DIR"
+	du -sh $BUILD_DIR
 else
-
-	# calculate size of image
-	imgSize=`du -sk ${dirName} | cut -f1`
-	imgSize=$((${imgSize} / 1024 + 10))
-	if [ $((${imgSize} < 5)) != 0 ] ; then
-    imgSize=5;
-	fi
-	
 	# image name
 	BUILD_IMG=$BUILD_DIR.dmg
 	BUILD_TMP_IMG=$BUILD_DIR.tmp.dmg
@@ -178,4 +190,6 @@ else
 	rm -f $BUILD_TMP_IMG
 
 	echo "ready. created dist file: $BUILD_IMG"
+	du -sh $BUILD_IMG
+	md5 -q $BUILD_IMG
 fi

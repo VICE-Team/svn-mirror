@@ -1,3 +1,39 @@
+2006-07-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.25.
+
+2006-07-22  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/x11ui.c (ui_display_drive_led): use colors
+	for drive leds from color array respecting the pwm value.
+	(drive_led_on_green_pixels[], drive_led_on_red_pixels[]): new
+	global vars to hold color shadings.
+	(build_file_selector): Added `show hidden files' checkbox.
+
+	* arch/unix/x11/gnome/uicolor.c (uicolor_alloc_system_colors):
+	allocate 16 shadings of red and green drive led colors.
+
+	* arch/unix/x11/gnome/uinetplay.c: Added GUI Elements for netplay
+	controls. 
+
+	* arch/unix/x11/gnome/uiscreenshot.c (build_screenshot_dialog):
+	Changed Y-size of spin button widgets.
+
+2006-07-14  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/macosx/make-bindist.sh: added binary format check.
+	name extension in distribution archive is now "ub", "i386" or
+	"ppc" depending on binary type.
+
+2006-07-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/make-bindist.sh,
+	arch/unix/gp2x/make-bindist.sh,
+	arch/unix/qnx/make-bindist.sh,
+	arch/unix/solaris/make-bindist.sh: Updated to not make the
+	binary distribution directory/archive outside the VICE
+	directory.
+
 2006-07-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.24.

@@ -53,13 +53,16 @@ extern int screen;
 extern GdkColormap *colormap;
 extern GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel,
     *drive_led_off_pixel, *motor_running_pixel, *tape_control_pixel;
+extern GdkColor *drive_led_on_red_pixels[16];
+extern GdkColor *drive_led_on_green_pixels[16];
 
-#define NUM_ENTRIES 5
+#define NUM_ENTRIES (5 + 32)
 
 static int uicolor_alloc_system_colors(void)
 {
     palette_t *p = (palette_t *)lib_malloc(sizeof(palette_t));
     unsigned long color_return[NUM_ENTRIES];
+    int i;
 
     p->num_entries = NUM_ENTRIES;
     p->entries = lib_malloc(sizeof(palette_entry_t) * NUM_ENTRIES);
@@ -85,6 +88,20 @@ static int uicolor_alloc_system_colors(void)
     p->entries[4].green = 0xaf;
     p->entries[4].blue = 0xaf;
 
+    /* different colors intensities for drive leds */
+    for (i = 0; i < 16; i++)
+    {
+	p->entries[5+i].red = 16*i + 15;
+	p->entries[5+i].green = 0;
+	p->entries[5+i].blue = 0;
+    }
+    for (i = 0; i < 16; i++)
+    {
+	p->entries[5+16+i].red = 0;
+	p->entries[5+16+i].green =  16*i + 15;
+	p->entries[5+16+i].blue = 0;
+    }
+    
     color_alloc_colors(NULL, p, color_return);
 
     drive_led_off_pixel = (GdkColor *)color_return[0];
@@ -92,6 +109,11 @@ static int uicolor_alloc_system_colors(void)
     drive_led_on_green_pixel = (GdkColor *)color_return[2];
     motor_running_pixel = (GdkColor *)color_return[3];
     tape_control_pixel = (GdkColor *)color_return[4];
+    for (i = 0; i < 16; i++)
+    {
+	drive_led_on_red_pixels[i] = (GdkColor *)color_return[5+i];
+	drive_led_on_green_pixels[i] = (GdkColor *)color_return[5+16+i];
+    }
 
     lib_free(p->entries);
     lib_free(p);

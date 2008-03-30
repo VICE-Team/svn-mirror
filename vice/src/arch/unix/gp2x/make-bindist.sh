@@ -17,8 +17,9 @@ cp src/arch/unix/gp2x/gpe-files/xpet.gpe vice-gp2x-$2
 cp src/arch/unix/gp2x/gpe-files/xplus4.gpe vice-gp2x-$2
 cp src/arch/unix/gp2x/gpe-files/xcbm2.gpe vice-gp2x-$2
 cp src/arch/unix/gp2x/gpe-files/vsid.gpe vice-gp2x-$2
-cp -a data/C128 data/C64 data/CBM-II data/DRIVES vice-gp2x-$2
-cp -a data/PET data/PLUS4 data/VIC20 vice-gp2x-$2
+mkdir vice-gp2x-$2/data
+cp -a data/C128 data/C64 data/CBM-II data/DRIVES vice-gp2x-$2/data
+cp -a data/PET data/PLUS4 data/VIC20 vice-gp2x-$2/data
 mkdir vice-gp2x-$2/snapshots
 mkdir vice-gp2x-$2/tmp
 rm `find vice-gp2x-$2 -name "Makefile*"`

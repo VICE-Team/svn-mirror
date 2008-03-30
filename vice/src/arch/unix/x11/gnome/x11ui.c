@@ -232,6 +232,9 @@ static int num_app_shells = 0;
 /* Pixels for updating the drive LED's state.  */
 GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel, 
 *drive_led_off_pixel, *motor_running_pixel, *tape_control_pixel;
+GdkColor *drive_led_on_red_pixels[16];
+GdkColor *drive_led_on_green_pixels[16];
+
 
 /* If != 0, we should save the settings. */
 /* static int resources_have_changed = 0; */
@@ -1538,7 +1541,7 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
                           unsigned int led_pwm2)
 {
     int status = 0;
-    int i;
+    int i, ci1, ci2;
     
     GdkColor *color;
 
@@ -1547,13 +1550,20 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
     if (led_pwm2 > 100)
         status |= 2;
 
+    ci1 = (int) (((float)led_pwm1 / 1000) * 16) - 1;
+    ci2 = (int) (((float)led_pwm2 / 1000) * 16) - 1;
+    if (ci1 < 0)
+	ci1 = 0;
+    if (ci2 < 0)
+	ci2 = 0;
+    
     for (i = 0; i < num_app_shells; i++)
     {
 	drive_status_widget *ds = &app_shells[i].drive_status[drive_number];
 
 	color = status ? (drive_active_led[drive_number] 
-			  ? drive_led_on_green_pixel 
-			  : drive_led_on_red_pixel) 
+			  ? drive_led_on_green_pixels[ci1] 
+			  : drive_led_on_red_pixels[ci1]) 
 	    : drive_led_off_pixel;
 	gdk_gc_set_foreground(app_gc, color);
 	gdk_draw_rectangle(ds->led_pixmap, app_gc, TRUE, 0, 
@@ -1561,8 +1571,8 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
 	gtk_widget_queue_draw(ds->led);
 
 	color = (status & 1) ? (drive_active_led[drive_number] 
-				? drive_led_on_green_pixel 
-				: drive_led_on_red_pixel) 
+				? drive_led_on_green_pixels[ci1] 
+				: drive_led_on_red_pixels[ci1]) 
 	    : drive_led_off_pixel;
 	gdk_gc_set_foreground(app_gc, color);
 	gdk_draw_rectangle(ds->led1_pixmap, app_gc, TRUE, 0, 
@@ -1570,8 +1580,8 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1,
 	gtk_widget_queue_draw(ds->led1);
 
 	color = (status & 2) ? (drive_active_led[drive_number] 
-				? drive_led_on_green_pixel 
-				: drive_led_on_red_pixel) 
+				? drive_led_on_green_pixels[ci2] 
+				: drive_led_on_red_pixels[ci2]) 
 	    : drive_led_off_pixel;
 	gdk_gc_set_foreground(app_gc, color);
 	gdk_draw_rectangle(ds->led2_pixmap, app_gc, TRUE, 0, 
@@ -2630,9 +2640,18 @@ void ui_popdown(GtkWidget *w)
 }
 
 /* ------------------------------------------------------------------------- */
+static void
+sh_checkbox_cb(GtkWidget *w, gpointer data)
+{
+    g_return_if_fail(GTK_IS_CHECK_BUTTON(w));
+    g_return_if_fail(GTK_IS_FILE_CHOOSER(data));
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w)))
+	gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(data), TRUE);
+    else
+	gtk_file_chooser_set_show_hidden(GTK_FILE_CHOOSER(data), FALSE);
+}
 
 /* These functions build all the widgets. */
-
 static GtkWidget *build_file_selector(const char *title,
 				      GtkWidget **attach_write_protect,
 				      int allow_autostart,
@@ -2640,7 +2659,7 @@ static GtkWidget *build_file_selector(const char *title,
 				      const char *pat,
 				      const char *default_dir)
 {  
-    GtkWidget *fileselect, *scrollw, *wp_checkbox;
+    GtkWidget *fileselect, *scrollw, *wp_checkbox, *sh_checkbox, *extra;
     GtkFileFilter *ff = NULL, *allf;
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *column;
@@ -2718,17 +2737,29 @@ static GtkWidget *build_file_selector(const char *title,
 		ui_select_contents_cb, NULL, NULL);
     }
     
+    extra = gtk_hbox_new(FALSE, 5);
+    
     /* Write protect checkbox */
     if (attach_write_protect)
     {
 	/* write-protect checkbox */
 	wp_checkbox = gtk_check_button_new_with_label(
 	    _("Attach write protected"));
-	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER(fileselect), 
-					   wp_checkbox);
+	gtk_box_pack_start(GTK_BOX(extra), wp_checkbox, FALSE, FALSE, 5);
 	gtk_widget_show(wp_checkbox);
 	*attach_write_protect = wp_checkbox;
     }
+    /* show hidden files */
+    sh_checkbox = gtk_check_button_new_with_label(_("Show hidden files"));
+    g_signal_connect(G_OBJECT(sh_checkbox), "toggled",
+		     G_CALLBACK(sh_checkbox_cb), (gpointer) fileselect);
+    gtk_box_pack_start(GTK_BOX(extra), sh_checkbox, FALSE, FALSE, 5);
+    gtk_widget_show(sh_checkbox);
+
+    gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER(fileselect), 
+				       extra);
+    gtk_widget_show(extra);
+    
     if (allow_autostart)
 	auto_start_button = gtk_dialog_add_button(
 	    GTK_DIALOG(fileselect), _("Autostart"), GTK_RESPONSE_APPLY);

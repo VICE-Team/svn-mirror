@@ -26,59 +26,59 @@ xcbm2:
 
 if AMIGA_COMPILE
 bindist:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(EXEEXT)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(EXEEXT)
 
 bindistzip:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) zip $(EXEEXT)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) zip $(EXEEXT)
 endif
 
 if BEOS_COMPILE
 bindist:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
 
 bindistzip:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
 endif
 
 if MSDOS_COMPILE
 bindist:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip
 
 bindistzip:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip
 endif
 
 if UNIX_GP2X_COMPILE
 bindist:
-	$(SHELL) @ARCH_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
+	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
 
 bindistzip:
-	$(SHELL) @ARCH_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
+	$(SHELL) @ARCH_SRC_DIR@/gp2x/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
 endif
 
 if UNIX_MACOSX_COMPILE
 bindist:
-	$(SHELL) @ARCH_DIR@/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) nozip
+	$(SHELL) @ARCH_SRC_DIR@/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) nozip
 
 bindistzip:
-	$(SHELL) @ARCH_DIR@/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) zip
+	$(SHELL) @ARCH_SRC_DIR@/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) zip
 endif
 
 if UNIX_QNX_COMPILE
 bindist:
-	$(SHELL) @ARCH_DIR@/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
+	$(SHELL) @ARCH_SRC_DIR@/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
 endif
 
 if UNIX_SOLARIS_COMPILE
 bindist:
-	$(SHELL) @ARCH_DIR@/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
+	$(SHELL) @ARCH_SRC_DIR@/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
 endif
 
 if WIN32_COMPILE
 bindist:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
 
 bindistzip:
-	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
 endif
 

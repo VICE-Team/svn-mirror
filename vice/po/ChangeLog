@@ -1,3 +1,15 @@
+2006-07-21  pottendo  <pottendo@utanet.at>
+
+	* de.po: Updated.
+	* Changed `charset=...' back to ISO-8859-1 for de,it,fr,sv and
+	ISO-8859-2 for pl. This makes the special characters of the
+	respective translations work again (except sv - still trying to
+	fix this).
+
+2006-07-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* nl.po: Updated.
+
 2006-07-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
 
 	* nl.po: Updated.

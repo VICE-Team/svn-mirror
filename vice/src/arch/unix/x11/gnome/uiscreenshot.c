@@ -393,7 +393,7 @@ static GtkWidget *build_screenshot_dialog(void)
 			      (gfloat) 10000,
 			      (gfloat) 10000);
     ffmpg_audio = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat) 1000, 0);
-    gtk_widget_set_size_request(ffmpg_audio, 100, 16);
+    gtk_widget_set_size_request(ffmpg_audio, 100, -1);
     l = gtk_label_new(_("Audio Bitrate"));
     tmp = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(tmp), l, FALSE, FALSE, 0);
@@ -408,7 +408,7 @@ static GtkWidget *build_screenshot_dialog(void)
 			      (gfloat) 100000,
 			      (gfloat) 100000);
     ffmpg_video = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat) 10000, 0);
-    gtk_widget_set_size_request(ffmpg_video, 100, 16);
+    gtk_widget_set_size_request(ffmpg_video, 100, -1);
     l = gtk_label_new(_("Video Bitrate"));
     tmp = gtk_hbox_new(FALSE, 5);
     gtk_box_pack_start(GTK_BOX(tmp), l, FALSE, FALSE, 0);
@@ -436,7 +436,14 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
     int res, i;
     char *fn, *tmp;
     const char *driver, *ext;
+    int current_ac_id, current_vc_id;
 
+    resources_get_value("FFMPEGAudioCodec", 
+			(void *)&current_ac_id);
+    resources_get_value("FFMPEGVideoCodec", 
+			(void *)&current_vc_id);
+    printf("ac_id: %d, vc_id: %d\n", current_ac_id, current_vc_id);
+    
     if (screenshot_dialog) {
     	gdk_window_show(screenshot_dialog->window);
 	gdk_window_raise(screenshot_dialog->window);

@@ -5,6 +5,16 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Changes in VICE 1.20
+======================
+
+** Unix changes
+---------------
+- Gnome1 is no longer supported.
+
+- Gnome2 is now supported - everthing except the Image preview with
+  CBM font should work.
+
 * Changes in VICE 1.19
 ======================
 

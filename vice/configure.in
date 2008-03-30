@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=24
+VICE_VERSION_BUILD=25
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -1577,6 +1577,7 @@ AC_SUBST(XCBM2_WINRES)
 dnl Setup the system-specific object files.
 if test x"$is_unix" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/unix"
+  ARCH_SRC_DIR="\$(top_srcdir)/src/arch/unix"
 
   if test x"$is_unix_x11" = "xyes" ; then
     if test x"$enable_gnomeui" != "xyes" ; then
@@ -1638,6 +1639,7 @@ if test x"$is_unix" = "xyes"; then
 
 elif test x"$is_win32" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/win32"
+  ARCH_SRC_DIR="\$(top_srcdir)/src/arch/win32"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32"
   AM_CONDITIONAL(UNIX_COMPILE, false)
@@ -1653,6 +1655,7 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
 elif test x"$is_amiga" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/amigaos"
+  ARCH_SRC_DIR="\$(top_srcdir)/src/arch/amigaos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/amigaos"
   AM_CONDITIONAL(UNIX_COMPILE, false)
@@ -1669,6 +1672,7 @@ elif test x"$is_amiga" = "xyes"; then
 elif test x"$is_dos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos"
   ARCH_DIR="\$(top_builddir)/src/arch/msdos"
+  ARCH_SRC_DIR="\$(top_srcdir)/src/arch/msdos"
   if test $ac_cv_lib_pcap_pcap_open_live = yes; then
   ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/libpcap_nodma.a"
   else
@@ -1688,6 +1692,7 @@ elif test x"$is_dos" = "xyes"; then
 elif test x"$is_os2" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2"
   ARCH_DIR="\$(top_builddir)/src/arch/os2"
+  ARCH_SRC_DIR="\$(top_srcdir)/src/arch/os2"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
@@ -1703,6 +1708,7 @@ elif test x"$is_os2" = "xyes"; then
 elif test x"$is_beos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/beos"
   ARCH_DIR="\$(top_builddir)/src/arch/beos"
+  ARCH_SRC_DIR="\$(top_srcdir)/src/arch/beos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
@@ -1718,6 +1724,7 @@ elif test x"$is_beos" = "xyes"; then
 elif test x"$is_riscos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/riscos"
   ARCH_DIR="\$(top_builddir)/src/arch/riscos"
+  ARCH_SRC_DIR="\$(top_srcdir)/src/arch/riscos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
@@ -1755,6 +1762,7 @@ AC_SUBST(HAVE_READLINE)
 AC_SUBST(ARCH_INCLUDES)
 AC_SUBST(ARCH_LIBS)
 AC_SUBST(ARCH_DIR)
+AC_SUBST(ARCH_SRC_DIR)
 AC_SUBST(SOUND_USS_OBJ)
 AC_SUBST(SOUND_SGI_OBJ)
 AC_SUBST(SOUND_HPUX_OBJ)

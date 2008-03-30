@@ -1,3 +1,29 @@
+2006-07-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.25.
+
+2006-07-14  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* build/macosx/make-ub.sh, build/Makefile.am: added script to
+	automatically compile and bundle a universal binary
+	distribution for Macs.
+
+	* doc/ReadmeMacOSX.txt: added section on Universal Binaries
+	and description on make-ub.sh usage
+
+2006-07-12  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* configure.in, Makefile.am: Introduced ARCH_SRC_DIR to locate
+	make-bindist.sh in out-of-source-compiles.
+
+2006-07-12  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* doc/html/index.html: Changed links to VICE KB.
+
+2006-07-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/html/amigaos.html: Updated.
+
 2006-07-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.24.

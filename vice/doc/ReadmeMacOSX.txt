@@ -1,7 +1,7 @@
 MacOS X Port of VICE
 ====================
 
-Official Port maintained by 
+Official MacOS X Port maintained by 
   Christian Vogelgsang <chris@vogelgsang.org>
 
 Readme based on initial info provided by
@@ -73,6 +73,34 @@ A *.dmg is created with:
 
  > make bindistzip
  
+UNIVERSAL BINARIES
+------------------
+
+On default the emulator will always build in the binary format of your machine, 
+i.e. on a PowerPC Mac you will get a ppc binary and on an Intel Mac you get a
+i386 binary. If you want to create a universal binary then use the
+make-ub.sh script available in the build/macosx directory. It will perform
+all necessary steps to compile for both architectures and finally creates
+a universal binary distribution bundle.
+
+First make sure to have a current XCode version with the universal (Mac OS X
+10.4u) and the old (Mac OS X 10.3) SDKs installed (look at /Developer/SDKs).
+
+Provide the source archives of readline and HIDUtilities (see above) in the
+directory where the vice-x.xx source directory lies. The directory structure
+looks like:
+
+  +-- vice-x.xx
+  +-- readline-5.1
+  +-- HIDUtilitiesSource
+
+Now chdir into the vice-x.xx source directory and call:
+
+ > build/macosx/make-ub.sh
+ 
+If everything went well then the newly created directory UB contains the
+distribution DMG.
+
 FEEDBACK
 --------
 
