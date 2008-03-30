@@ -50,9 +50,9 @@ void raster_sprite_status_init(raster_sprite_status_t *s,
     s->mc_sprite_color_2 = 0;
 
     if (num_sprites > 0) {
-        s->sprites = xmalloc (sizeof (*s->sprites) * num_sprites);
-        s->sprite_data_1 = xmalloc (sizeof (DWORD) * num_sprites);
-        s->sprite_data_2 = xmalloc (sizeof (DWORD) * num_sprites);
+        s->sprites = xmalloc(sizeof(*s->sprites) * num_sprites);
+        s->sprite_data_1 = xmalloc(sizeof(DWORD) * num_sprites);
+        s->sprite_data_2 = xmalloc(sizeof(DWORD) * num_sprites);
     } else {
         s->sprites = NULL;
         s->sprite_data_1 = NULL;
