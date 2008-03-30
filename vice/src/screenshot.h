@@ -36,6 +36,8 @@ struct video_canvas_s;
 struct gfxoutputdrv_data_s;
 
 typedef struct screenshot_s {
+    struct video_canvas_s *canvas;
+
     struct palette_s *palette;
     BYTE *color_map;
     BYTE *draw_buffer;
