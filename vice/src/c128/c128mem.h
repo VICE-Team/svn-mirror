@@ -31,6 +31,7 @@
 #ifndef _C128MEM_H
 #define _C128MEM_H
 
+#include "mem.h"
 #include "types.h"
 
 #define C128_RAM_SIZE                   0x20000
@@ -65,14 +66,35 @@ extern void mem_set_machine_type(unsigned type);
 extern void mem_set_ram_config(BYTE value);
 extern void mem_set_ram_bank(BYTE value);
 
-extern BYTE REGPARM1 top_shared_read(WORD addr);
-extern void REGPARM2 top_shared_store(WORD addr, BYTE value);
+extern void mem_set_write_hook(int config, int page, store_func_t *f);
+extern void mem_read_tab_set(unsigned int base, unsigned int index,
+                             read_func_ptr_t read_func);
+extern void mem_read_base_set(unsigned int base, unsigned int index,
+                              BYTE *mem_ptr);
+
+extern BYTE REGPARM1 ram_read(WORD addr);
+extern void REGPARM2 ram_store(WORD addr, BYTE value);
+
+extern BYTE REGPARM1 one_read(WORD addr);
+extern void REGPARM2 one_store(WORD addr, BYTE value);
+
+extern void REGPARM2 colorram_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 colorram_read(WORD addr);
 
 extern BYTE REGPARM1 d7xx_read(WORD addr);
 extern void REGPARM2 d7xx_store(WORD addr, BYTE value);
 
 extern BYTE REGPARM1 lo_read(WORD addr);
 extern void REGPARM2 lo_store(WORD addr, BYTE value);
+
+extern BYTE REGPARM1 hi_read(WORD addr);
+extern void REGPARM2 hi_store(WORD addr, BYTE value);
+
+extern BYTE REGPARM1 top_shared_read(WORD addr);
+extern void REGPARM2 top_shared_store(WORD addr, BYTE value);
+
+extern BYTE REGPARM1 editor_read(WORD addr);
+extern void REGPARM2 editor_store(WORD addr, BYTE value);
 
 extern BYTE REGPARM1 basic_read(WORD addr);
 extern void REGPARM2 basic_store(WORD addr, BYTE value);
@@ -81,8 +103,10 @@ extern void REGPARM2 kernal_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 chargen_read(WORD addr);
 extern void REGPARM2 chargen_store(WORD addr, BYTE value);
 
-extern void REGPARM2 colorram_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 colorram_read(WORD addr);
+extern BYTE REGPARM1 basic_lo_read(WORD addr);
+extern void REGPARM2 basic_lo_store(WORD addr, BYTE value);
+extern BYTE REGPARM1 basic_hi_read(WORD addr);
+extern void REGPARM2 basic_hi_store(WORD addr, BYTE value);
 
 extern BYTE *ram_bank;
 
