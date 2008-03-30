@@ -40,7 +40,7 @@
 #include "uicommands.h"
 #include "uidatasette.h"
 #include "uidrive.h"
-#include "uidrivec64c128vic20.h"
+#include "uidrivec64vic20.h"
 #include "uiperipheral.h"
 #include "uimenu.h"
 #include "uirs232.h"
@@ -126,7 +126,7 @@ static ui_menu_entry_t vic20_romset_submenu[] = {
       (ui_callback_data_t)"ChargenName", NULL },
     { "--" },
     { N_("Load new drive ROM"),
-      NULL, NULL, ui_drivec64c128vic20_romset_submenu },
+      NULL, NULL, ui_drivec64vic20_romset_submenu },
     { "--" },
     { N_("Load custom ROM set from file"),
       (ui_callback_t)ui_load_romset, NULL, NULL },
@@ -444,7 +444,7 @@ int vic20_ui_init(void)
                                      ui_menu_separator,
                                      ui_keyboard_settings_menu,
                                      ui_sound_settings_menu,
-                                     ui_drivec64c128vic20_settings_menu,
+                                     ui_drivec64vic20_settings_menu,
                                      ui_peripheral_settings_menu,
 /*
                                      vic20_io_settings_menu,
@@ -502,7 +502,7 @@ int vic20_ui_init(void)
                    ui_menu_create("Settings",
                                   ui_keyboard_settings_menu,
                                   ui_sound_settings_menu,
-                                  ui_drivec64c128vic20_settings_menu,
+                                  ui_drivec64vic20_settings_menu,
                                   ui_peripheral_settings_menu,
                                   joystick_settings_menu,
                                   rs232_settings_menu,

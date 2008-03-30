@@ -62,8 +62,10 @@ libarch_a_SOURCES = \
 	uidatasette.h \
 	uidrive.c \
 	uidrive.h \
-	uidrivec64c128vic20.h \
-	uidrivec64c128vic20.c \
+	uidrivec128.c \
+	uidrivec128.h \
+	uidrivec64vic20.h \
+	uidrivec64vic20.c \
 	uidriveiec.c \
 	uidriveiec.h \
 	uidrivepetcbm2.c \
