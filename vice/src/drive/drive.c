@@ -218,10 +218,6 @@ int drive_init(void)
         drive[i].attach_clk = (CLOCK)0;
         drive[i].detach_clk = (CLOCK)0;
         drive[i].attach_detach_clk = (CLOCK)0;
-        drive[i].bits_moved = drive[i].accum = 0;
-        drive[i].finish_byte = 0;
-        drive[i].last_mode = 1;
-        drive[i].rotation_last_clk = 0L;
         drive[i].have_new_disk = 0;
         drive[i].rotation_table_ptr = drive[i].rotation_table[0];
         drive[i].old_led_status = 0;
@@ -231,6 +227,7 @@ int drive_init(void)
         drive[i].read_only = 0;
         drive[i].clock_frequency = 1;
 
+        drive_rotation_reset(i);
         drive_image_init_track_size_d64(i);
 
         /* Position the R/W head on the directory track.  */
@@ -438,6 +435,15 @@ void drive_initialize_rotation(int freq, unsigned int dnr)
 {
     drive_initialize_rotation_table(freq, dnr);
     drive[dnr].bits_moved = drive[dnr].accum = 0;
+}
+
+void drive_rotation_reset(unsigned int dnr)
+{
+    drive[dnr].accum = 0;
+    drive[dnr].bits_moved = 0;
+    drive[dnr].finish_byte = 0;
+    drive[dnr].last_mode = 1;
+    drive[dnr].rotation_last_clk = drive[dnr].clk;
 }
 
 void drive_initialize_rotation_table(int freq, unsigned int dnr)

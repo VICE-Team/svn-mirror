@@ -326,6 +326,7 @@ extern void drive0_mem_init(int type);
 extern void drive1_mem_init(int type);
 */
 extern void drive_move_head(int step, unsigned int dnr);
+extern void drive_rotation_reset(unsigned int dnr);
 extern void drive_rotate_disk(drive_t *dptr);
 extern void drive_reset(void);
 extern void drive_update_viad2_pcr(int pcrval, drive_t *dptr);

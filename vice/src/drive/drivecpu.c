@@ -254,6 +254,7 @@ static void cpu_reset(drive_context_t *drv)
                               &(drv->cpu.last_opcode_info));
 
     *(drv->clk_ptr) = 6;
+    drive_rotation_reset(drv->mynumber);
     via1d_reset(drv);
     via2d_reset(drv);
     machine_drive_reset(drv);
