@@ -49,12 +49,16 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data)
 
     rotation_overflow_callback(sub, dnr);
 
-    if (drive->attach_clk > (CLOCK) 0)
+    if (drive->attach_clk > (CLOCK)0)
         drive->attach_clk -= sub;
-    if (drive->detach_clk > (CLOCK) 0)
+    if (drive->detach_clk > (CLOCK)0)
         drive->detach_clk -= sub;
-    if (drive->attach_detach_clk > (CLOCK) 0)
+    if (drive->attach_detach_clk > (CLOCK)0)
         drive->attach_detach_clk -= sub;
+    if (drive->led_last_change_clk > (CLOCK)0)
+        drive->led_last_change_clk -= sub;
+    if (drive->led_last_uiupdate_clk > (CLOCK)0)
+        drive->led_last_uiupdate_clk -= sub;
 
     alarm_context_time_warp(drive_context[dnr]->cpu->alarm_context, sub, -1);
     interrupt_cpu_status_time_warp(drive_context[dnr]->cpu->int_status, sub,
