@@ -34,6 +34,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"
+#include "iecbus.h"
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "lib.h"
@@ -45,7 +46,7 @@
 typedef struct drivecia1581_context_s {
     unsigned int number;
     struct drive_s *drive;
-    struct iec_info_s *iec_info;
+    struct iecbus_s *iecbus;
 } drivecia1581_context_t;
 
 
@@ -94,8 +95,6 @@ static void do_reset_cia(cia_context_t *cia_context)
 
     cia1581p = (drivecia1581_context_t *)(cia_context->prv);
 
-    /*cia1581p->iec_info = iec_get_drive_port();*/
-
     cia1581p->drive->led_status = 1;
 }
 
@@ -139,26 +138,27 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     drive_context = (drive_context_t *)(cia_context->context);
 
     if (byte != cia_context->old_pb) {
-        if (cia1581p->iec_info != NULL) {
+        if (cia1581p->iecbus != NULL) {
             BYTE *drive_bus, *drive_data;
-            if (cia1581p->number == 0) {
-                drive_bus = &(cia1581p->iec_info->drive_bus);
-                drive_data = &(cia1581p->iec_info->drive_data);
-            } else {
-                drive_bus = &(cia1581p->iec_info->drive2_bus);
-                drive_data = &(cia1581p->iec_info->drive2_data);
-            }
+            unsigned int dnr;
+
+            drive_bus = &(cia1581p->iecbus->drv_bus[cia1581p->number + 8]);
+            drive_data = &(cia1581p->iecbus->drv_data[cia1581p->number + 8]);
+
             *drive_data = ~byte;
             *drive_bus = ((((*drive_data) << 3) & 0x40)
                 | (((*drive_data) << 6)
-                & (((*drive_data) | cia1581p->iec_info->cpu_bus) << 3) & 0x80));
-            cia1581p->iec_info->cpu_port
-                = cia1581p->iec_info->cpu_bus & cia1581p->iec_info->drive_bus
-                & cia1581p->iec_info->drive2_bus;
-            cia1581p->iec_info->drive_port = cia1581p->iec_info->drive2_port
-                = (((cia1581p->iec_info->cpu_port >> 4) & 0x4)
-                | (cia1581p->iec_info->cpu_port >> 7)
-                | ((cia1581p->iec_info->cpu_bus << 3) & 0x80));
+                & (((*drive_data) | cia1581p->iecbus->cpu_bus) << 3) & 0x80));
+
+            cia1581p->iecbus->cpu_port = cia1581p->iecbus->cpu_bus;
+            for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+                cia1581p->iecbus->cpu_port
+                    &= cia1581p->iecbus->drv_bus[dnr + 8];
+
+            cia1581p->iecbus->drv_port
+                = (((cia1581p->iecbus->cpu_port >> 4) & 0x4)
+                | (cia1581p->iecbus->cpu_port >> 7)
+                | ((cia1581p->iecbus->cpu_bus << 3) & 0x80));
         } else {
             drive_context->func->iec_write((BYTE)(~byte));
         }
@@ -191,12 +191,11 @@ static BYTE read_ciapb(cia_context_t *cia_context)
     cia1581p = (drivecia1581_context_t *)(cia_context->prv);
     drive_context = (drive_context_t *)(cia_context->context);
 
-    if (cia1581p->iec_info != NULL) {
+    if (cia1581p->iecbus != NULL) {
         BYTE *drive_port;
 
-        drive_port = (cia1581p->number == 0)
-                     ? &(cia1581p->iec_info->drive_port)
-                     : &(cia1581p->iec_info->drive2_port);
+        drive_port = &(cia1581p->iecbus->drv_port);
+
         return (((cia_context->c_cia[CIA_PRB] & 0x1a) | (*drive_port)) ^ 0x85)
             | (cia1581p->drive->read_only ? 0 : 0x40);
     } else {
@@ -255,8 +254,7 @@ void cia1581_setup_context(drive_context_t *ctxptr)
     cia->myname = lib_msprintf("CIA1581D%d", ctxptr->mynumber);
 
     cia1581p->drive = ctxptr->drive;
-    cia1581p->iec_info = iec_get_drive_port();
-    /*cia1581p->iec_info = ctxptr->c_iec_info;*/
+    cia1581p->iecbus = iecbus_drive_port();
 
     cia->undump_ciapa = undump_ciapa;
     cia->undump_ciapb = undump_ciapb;

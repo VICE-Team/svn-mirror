@@ -36,6 +36,7 @@
 #include "drivesync.h"
 #include "drivetypes.h"
 #include "glue1571.h"
+#include "iecbus.h"
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "lib.h"
@@ -46,14 +47,14 @@
 #include "viad.h"
 
 
-#define iec_info (via1p->v_iec_info)
+#define iecbus (via1p->v_iecbus)
 
 typedef struct drivevia1_context_s {
     unsigned int number;
     struct drive_s *drive;
     int parallel_id;
     int v_parieee_is_out;         /* init to 1 */
-    struct iec_info_s *v_iec_info;
+    struct iecbus_s *v_iecbus;
 } drivevia1_context_t;
 
 
@@ -114,7 +115,6 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
     via1p = (drivevia1_context_t *)(via_context->prv);
     drive_context = (drive_context_t *)(via_context->context);
 
-    iec_info = iec_get_drive_port();
     if (via1p->drive->type == DRIVE_TYPE_1570
         || via1p->drive->type == DRIVE_TYPE_1571
         || via1p->drive->type == DRIVE_TYPE_1571CR) {
@@ -163,25 +163,25 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
 
     via1p = (drivevia1_context_t *)(via_context->prv);
 
-    if (iec_info != NULL) {
+    if (iecbus != NULL) {
         BYTE *drive_bus, *drive_data;
-        if (via1p->number == 0) {
-            drive_bus = &(iec_info->drive_bus);
-            drive_data = &(iec_info->drive_data);
-        } else {
-            drive_bus = &(iec_info->drive2_bus);
-            drive_data = &(iec_info->drive2_data);
-        }
+        unsigned int dnr;
+
+        drive_bus = &(iecbus->drv_bus[via1p->number + 8]);
+        drive_data = &(iecbus->drv_data[via1p->number + 8]);
+
         *drive_data = ~byte;
         *drive_bus = ((((*drive_data) << 3) & 0x40)
             | (((*drive_data) << 6)
-            & ((~(*drive_data) ^ iec_info->cpu_bus) << 3) & 0x80));
-        iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive_bus
-            & iec_info->drive2_bus; /* two &s, don't need to differentiate */
-        iec_info->drive_port
-            = iec_info->drive2_port = (((iec_info->cpu_port >> 4) & 0x4)
-            | (iec_info->cpu_port >> 7)
-            | ((iec_info->cpu_bus << 3) & 0x80));
+            & ((~(*drive_data) ^ iecbus->cpu_bus) << 3) & 0x80));
+
+        iecbus->cpu_port = iecbus->cpu_bus;
+        for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+            iecbus->cpu_port &= iecbus->drv_bus[dnr + 8];
+
+        iecbus->drv_port = (((iecbus->cpu_port >> 4) & 0x4)
+                           | (iecbus->cpu_port >> 7)
+                           | ((iecbus->cpu_bus << 3) & 0x80));
     } else {
         iec_drivex_write((BYTE)(~byte));
     }
@@ -195,25 +195,25 @@ inline static void store_prb(via_context_t *via_context, BYTE byte,
     via1p = (drivevia1_context_t *)(via_context->prv);
 
     if (byte != p_oldpb) {
-        if (iec_info != NULL) {
+        if (iecbus != NULL) {
             BYTE *drive_data, *drive_bus;
-            if (via1p->number == 0) {
-                drive_data = &(iec_info->drive_data);
-                drive_bus = &(iec_info->drive_bus);
-            } else {
-                drive_data = &(iec_info->drive2_data);
-                drive_bus = &(iec_info->drive2_bus);
-            }
+            unsigned int dnr;
+
+            drive_bus = &(iecbus->drv_bus[via1p->number + 8]);
+            drive_data = &(iecbus->drv_data[via1p->number + 8]);
+
             *drive_data = ~byte;
             *drive_bus = ((((*drive_data) << 3) & 0x40)
                 | (((*drive_data) << 6)
-                & ((~(*drive_data) ^ iec_info->cpu_bus) << 3) & 0x80));
-            iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive_bus
-                & iec_info->drive2_bus;
-            iec_info->drive_port
-                = iec_info->drive2_port = (((iec_info->cpu_port >> 4) & 0x4)
-                | (iec_info->cpu_port >> 7)
-                | ((iec_info->cpu_bus << 3) & 0x80));
+                & ((~(*drive_data) ^ iecbus->cpu_bus) << 3) & 0x80));
+
+            iecbus->cpu_port = iecbus->cpu_bus;
+            for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+                iecbus->cpu_port &= iecbus->drv_bus[dnr + 8];
+
+            iecbus->drv_port = (((iecbus->cpu_port >> 4) & 0x4)
+                               | (iecbus->cpu_port >> 7)
+                               | ((iecbus->cpu_bus << 3) & 0x80));
         } else {
             iec_drivex_write((BYTE)(~byte));
         }
@@ -255,11 +255,6 @@ inline static void store_t2l(via_context_t *via_context, BYTE byte)
 
 static void reset(via_context_t *via_context)
 {
-    drivevia1_context_t *via1p;
-
-    via1p = (drivevia1_context_t *)(via_context->prv);
-
-    iec_info = iec_get_drive_port();
 }
 
 inline static BYTE read_pra(via_context_t *via_context, WORD addr)
@@ -305,9 +300,9 @@ inline static BYTE read_prb(via_context_t *via_context)
     /* 0xfe for drive0, 0xff for drive 1 */
     andval = (0xfe | via1p->number);
 
-    if (iec_info != NULL) {
+    if (iecbus != NULL) {
         byte = (((via_context->via[VIA_PRB] & 0x1a)
-               | iec_info->drive_port) ^ 0x85) | orval;
+               | iecbus->drv_port) ^ 0x85) | orval;
     } else {
         byte = (((via_context->via[VIA_PRB] & 0x1a)
                | iec_drivex_read()) ^ 0x85) | orval;
@@ -350,6 +345,7 @@ void via1d1541_setup_context(drive_context_t *ctxptr)
     via->irq_line = IK_IRQ;
 
     via1p->drive = ctxptr->drive;
+    iecbus = iecbus_drive_port();
 
     via->undump_pra = undump_pra;
     via->undump_prb = undump_prb;

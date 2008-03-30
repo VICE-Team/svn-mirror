@@ -33,36 +33,30 @@
 #include "drivecpu.h"
 #include "drivetypes.h"
 #include "maincpu.h"
+#include "iecbus.h"
 #include "iecdrive.h"
 #include "plus4iec.h"
 #include "types.h"
 
 
-/* Status of the IEC bus signals.  */
-extern iec_info_t iec_info;
-
-
-void plus4iec_init(void)
-{
-    memset(&iec_info, 0xff, sizeof(iec_info_t));
-    iec_info.drive_port = 0x85;
-}
-
 void iec_update_cpu_bus(BYTE data)
 {
-    iec_info.cpu_bus = (((data << 7) & 0x80)
-                       | ((data << 5) & 0x40)
-                       | ((data << 2) & 0x10));
+    iecbus.cpu_bus = (((data << 7) & 0x80)
+                     | ((data << 5) & 0x40)
+                     | ((data << 2) & 0x10));
 }
 
 void iec_update_ports(void)
 {
-    iec_info.cpu_port = iec_info.cpu_bus & iec_info.drive_bus
-                        & iec_info.drive2_bus;
-    iec_info.drive_port = iec_info.drive2_port = (((iec_info.cpu_port >> 4)
-                          & 0x4)
-                          | (iec_info.cpu_port >> 7)
-                          | ((iec_info.cpu_bus << 3) & 0x80));
+    unsigned int dnr;
+
+    iecbus.cpu_port = iecbus.cpu_bus;
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+        iecbus.cpu_port &= iecbus.drv_bus[dnr + 8];
+
+    iecbus.drv_port = (((iecbus.cpu_port >> 4) & 0x4)
+                      | (iecbus.cpu_port >> 7)
+                      | ((iecbus.cpu_bus << 3) & 0x80));
 }
 
 void iec_update_ports_embedded(void)
@@ -72,46 +66,46 @@ void iec_update_ports_embedded(void)
 
 void iec_drive0_write(BYTE data)
 {
-    iec_info.drive_bus = (((data << 3) & 0x40)
-                         | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3)
-                         & 0x80));
-    iec_info.drive_data = data;
+    iecbus.drv_bus[8] = (((data << 3) & 0x40)
+                        | ((data << 6) & ((~data ^ iecbus.cpu_bus) << 3)
+                        & 0x80));
+    iecbus.drv_data[8] = data;
     iec_update_ports();
 }
 
 void iec_drive1_write(BYTE data)
 {
-    iec_info.drive2_bus = (((data << 3) & 0x40)
-                          | ((data << 6) & ((~data ^ iec_info.cpu_bus) << 3)
-                          & 0x80));
-    iec_info.drive2_data = data;
+    iecbus.drv_bus[9] = (((data << 3) & 0x40)
+                        | ((data << 6) & ((~data ^ iecbus.cpu_bus) << 3)
+                        & 0x80));
+    iecbus.drv_data[9] = data;
     iec_update_ports();
 }
 
 BYTE iec_drive0_read(void)
 {
-    return iec_info.drive_port;
+    return iecbus.drv_port;
 }
 
 BYTE iec_drive1_read(void)
 {
-    return iec_info.drive2_port;
+    return iecbus.drv_port;
 }
 
 BYTE iec_cpu_read(void)
 {
     if (!(drive_context[0]->drive->enable)
         && !(drive_context[1]->drive->enable))
-	return (iec_info.iec_fast_1541 & 0x30) << 2;
+	return (iecbus.iec_fast_1541 & 0x30) << 2;
 
     drivecpu_execute_all(maincpu_clk);
 
-    return iec_info.cpu_port;
+    return iecbus.cpu_port;
 }
 
-iec_info_t *iec_get_drive_port(void)
+iecbus_t *iecbus_drive_port(void)
 {
-    return &iec_info;
+    return &iecbus;
 }
 
 /* This function is called from ui_update_menus() */
