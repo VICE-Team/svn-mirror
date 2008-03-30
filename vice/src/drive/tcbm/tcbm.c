@@ -88,7 +88,7 @@ void tcbm_drive_rom_load(void)
 
 void tcbm_drive_rom_setup_image(unsigned int dnr)
 {
-    tcbmrom_setup_image(dnr);
+    tcbmrom_setup_image(drive_context[dnr]->drive);
 }
 
 int tcbm_drive_rom_read(unsigned int type, WORD addr, BYTE *data)

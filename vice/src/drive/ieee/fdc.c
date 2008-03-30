@@ -176,7 +176,7 @@ static BYTE fdc_do_format_D20(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
                 rc = disk_image_write_sector(fdc[dnr].image,
                                              sector_data, track, sector);
                 if (rc < 0) {
-                    log_error(drive[dnr].log,
+                    log_error(LOG_DEFAULT,
                               "Could not update T:%d S:%d on disk image.",
                               track, sector);
                     rc = FDC_ERR_DCHECK;
@@ -242,7 +242,7 @@ static BYTE fdc_do_format_D40(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
                 rc = disk_image_write_sector(fdc[dnr].image,
                                              sector_data, track, sector);
                 if (rc < 0) {
-                    log_error(drive[dnr].log,
+                    log_error(LOG_DEFAULT,
                               "Could not update T:%d S:%d on disk image.",
                               track, sector);
                     rc = FDC_ERR_DCHECK;
@@ -322,7 +322,7 @@ static BYTE fdc_do_format_D80(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
                 rc = disk_image_write_sector(fdc[dnr].image, sector_data,
                                              track, sector);
                 if (rc < 0) {
-                    log_error(drive[dnr].log,
+                    log_error(LOG_DEFAULT,
                               "Could not update T:%d S:%d on disk image.",
                               track, sector);
                     rc = FDC_ERR_DCHECK;
@@ -376,6 +376,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
     BYTE *base;
     BYTE sector_data[256];
     BYTE disk_id[2];
+    drive_t *drive;
 
     track = header[2];
     sector = header[3];
@@ -419,7 +420,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
             break;
         }
         rc = disk_image_read_sector(fdc[dnr].image, sector_data, track, sector);        if (rc < 0) {
-            log_error(drive[dnr].log,
+            log_error(LOG_DEFAULT,
                       "Cannot read T:%d S:%d from disk image.",
                       track, sector);
             rc = FDC_ERR_DRIVE;
@@ -441,7 +442,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
         rc = disk_image_write_sector(fdc[dnr].image, sector_data, track,
                                      sector);
         if (rc < 0) {
-            log_error(drive[dnr].log,
+            log_error(LOG_DEFAULT,
                       "Could not update T:%d S:%d on disk image.",
                       track, sector);
             rc = FDC_ERR_DRIVE;
@@ -457,7 +458,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
         rc = disk_image_read_sector(fdc[dnr].image, sector_data, track,
                                     sector);
         if (rc < 0) {
-            log_error(drive[dnr].log,
+            log_error(LOG_DEFAULT,
                       "Cannot read T:%d S:%d from disk image.",
                       track, sector);
             rc = FDC_ERR_DRIVE;
@@ -543,7 +544,8 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
         break;
     }
 
-    drive[dnr].current_half_track = 2 * track;
+    drive = drive_context[dnr]->drive;
+    drive->current_half_track = 2 * track;
     fdc[dnr].last_track = track;
     fdc[dnr].last_sector = sector;
 
@@ -555,6 +557,7 @@ static void int_fdc(unsigned int fnum, CLOCK offset)
 {
     CLOCK rclk = drive_clk[fnum] - offset;
     int i, j;
+    drive_t *drive;
 
 #ifdef FDC_DEBUG
     if (fdc[fnum].fdc_state < FDC_RUN) {
@@ -568,11 +571,12 @@ static void int_fdc(unsigned int fnum, CLOCK offset)
 
     switch(fdc[fnum].fdc_state) {
       case FDC_RESET0:
+        drive = drive_context[fnum]->drive;
         if (DOS_IS_80(fdc[fnum].drive_type)) {
-            drive[fnum].current_half_track = 2 * 38;
+            drive->current_half_track = 2 * 38;
             fdc[fnum].buffer[0] = 2;
         } else {
-            drive[fnum].current_half_track = 2 * 18;
+            drive->current_half_track = 2 * 18;
             fdc[fnum].buffer[0] = 0x3f;
         }
 
@@ -718,7 +722,7 @@ void fdc_init(drive_context_t *drv)
 {
     unsigned int fnum = drv->mynumber;
     BYTE *buffermem = drv->cpud->drive_ram + 0x100;
-    BYTE *ipromp = &(drv->drive_ptr->rom[0x4000]);
+    BYTE *ipromp = &(drv->drive->rom[0x4000]);
 
     fdc[fnum].buffer = buffermem;
     fdc[fnum].iprom = ipromp;

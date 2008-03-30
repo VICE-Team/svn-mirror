@@ -29,8 +29,10 @@
 
 #include "types.h"
 
+struct drive_s;
+
 extern void tcbmrom_init(void);
-extern void tcbmrom_setup_image(unsigned int dnr);
+extern void tcbmrom_setup_image(struct drive_s *drive);
 extern int tcbmrom_read(unsigned int type, WORD addr, BYTE *data);
 extern int tcbmrom_check_loaded(unsigned int type);
 

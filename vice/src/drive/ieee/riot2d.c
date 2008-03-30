@@ -42,7 +42,7 @@
 
 typedef struct driveriot2_context_s {
     unsigned int number;
-    struct drive_s *drive_ptr;
+    struct drive_s *drive;
     int r_atn_active;     /* init to 0 */
     unsigned int int_num;
 } driveriot2_context_t;
@@ -116,7 +116,7 @@ void drive_riot_set_atn(riot_context_t *riot_context, int state)
     drive_context = (drive_context_t *)(riot_context->context);
     riot2p = (driveriot2_context_t *)(riot_context->prv);
 
-    if (DRIVE_IS_OLDTYPE(riot2p->drive_ptr->type)) {
+    if (DRIVE_IS_OLDTYPE(riot2p->drive->type)) {
         if (riot2p->r_atn_active && !state) {
             riotcore_signal(riot_context, RIOT_SIG_PA7, RIOT_SIG_FALL);
         } else
@@ -168,10 +168,11 @@ static void undump_prb(riot_context_t *riot_context, BYTE byte)
     /* bit 5 Error LED */
 
     /* 1001 only needs LED 0 and Error LED */
-    riot2p->drive_ptr->led_status = (byte >> 4) & 0x03;
+    riot2p->drive->led_status = (byte >> 4) & 0x03;
 
-    if ((riot2p->number == 0) && (DRIVE_IS_DUAL(riot2p->drive_ptr->type))) {
-        drive[1].led_status = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
+    if ((riot2p->number == 0) && (DRIVE_IS_DUAL(riot2p->drive->type))) {
+        drive_context[1]->drive->led_status
+            = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }
 }
 
@@ -186,10 +187,11 @@ static void store_prb(riot_context_t *riot_context, BYTE byte)
     /* bit 5 Error LED */
 
     /* 1001 only needs LED 0 and Error LED */
-    riot2p->drive_ptr->led_status = (byte >> 4) & 0x03;
+    riot2p->drive->led_status = (byte >> 4) & 0x03;
 
-    if ((riot2p->number == 0) && (DRIVE_IS_DUAL(riot2p->drive_ptr->type))) {
-        drive[1].led_status = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
+    if ((riot2p->number == 0) && (DRIVE_IS_DUAL(riot2p->drive->type))) {
+        drive_context[1]->drive->led_status
+            = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }
 }
 
@@ -209,7 +211,7 @@ static void reset(riot_context_t *riot_context)
     set_handshake(riot_context, riot_context->old_pa);
 
     /* 1001 only needs LED 0 and Error LED */
-    riot2p->drive_ptr->led_status = 3;
+    riot2p->drive->led_status = 3;
 }
 
 static BYTE read_pra(riot_context_t *riot_context)
@@ -292,7 +294,7 @@ void riot2_setup_context(drive_context_t *ctxptr)
 
     riot->myname = lib_msprintf("RIOT2D%d", ctxptr->mynumber);
 
-    riot2p->drive_ptr = ctxptr->drive_ptr;
+    riot2p->drive = ctxptr->drive;
     riot2p->r_atn_active = 0;
     riot2p->int_num = interrupt_cpu_status_int_new(ctxptr->cpu->int_status,
                                                    ctxptr->riot2->myname);

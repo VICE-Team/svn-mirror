@@ -31,6 +31,7 @@
 
 #include "drive.h"
 #include "driverom.h"
+#include "drivetypes.h"
 #include "log.h"
 #include "resources.h"
 #include "sysfile.h"
@@ -48,10 +49,15 @@ static unsigned int rom1551_loaded = 0;
 
 static void tcbmrom_new_image_loaded(unsigned int dtype)
 {
-    if (drive[0].type == dtype)
-        tcbmrom_setup_image(0);
-    if (drive[1].type == dtype)
-        tcbmrom_setup_image(1);
+    unsigned int dnr;
+    drive_t *drive;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        drive = drive_context[dnr]->drive;
+
+        if (drive->type == dtype)
+            tcbmrom_setup_image(drive);
+    }
 }
 
 int tcbmrom_load_1551(void)
@@ -76,12 +82,12 @@ int tcbmrom_load_1551(void)
     return -1;
 }
 
-void tcbmrom_setup_image(unsigned int dnr)
+void tcbmrom_setup_image(drive_t *drive)
 {
     if (rom_loaded) {
-        switch (drive[dnr].type) {
+        switch (drive->type) {
           case DRIVE_TYPE_1551:
-            memcpy(&(drive[dnr].rom[0x4000]), drive_rom1551,
+            memcpy(&(drive->rom[0x4000]), drive_rom1551,
                    DRIVE_ROM1551_SIZE);
             break;
         }

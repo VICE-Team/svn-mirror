@@ -31,6 +31,7 @@
 
 #include "drive.h"
 #include "driverom.h"
+#include "drivetypes.h"
 #include "ieeerom.h"
 #include "log.h"
 #include "resources.h"
@@ -56,10 +57,15 @@ static unsigned int rom1001_loaded = 0;
 
 static void ieeerom_new_image_loaded(unsigned int dtype)
 {
-    if (drive[0].type == dtype)
-        ieeerom_setup_image(0);
-    if (drive[1].type == dtype)
-        ieeerom_setup_image(1);
+    unsigned int dnr;
+    drive_t *drive;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        drive = drive_context[dnr]->drive;
+
+        if (drive->type == dtype)
+            ieeerom_setup_image(drive);
+    }
 }
 
 int ieeerom_load_2031(void)
@@ -172,30 +178,30 @@ int ieeerom_load_1001(void)
     return -1;
 }
 
-void ieeerom_setup_image(unsigned int dnr)
+void ieeerom_setup_image(drive_t *drive)
 {
     if (rom_loaded) {
-        switch (drive[dnr].type) {
+        switch (drive->type) {
           case DRIVE_TYPE_2031:
-            memcpy(&(drive[dnr].rom[0x4000]), drive_rom2031,
+            memcpy(&(drive->rom[0x4000]), drive_rom2031,
                    DRIVE_ROM2031_SIZE);
             break;
           case DRIVE_TYPE_2040:
-            memcpy(&(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM2040_SIZE]),
+            memcpy(&(drive->rom[DRIVE_ROM_SIZE - DRIVE_ROM2040_SIZE]),
                    drive_rom2040, DRIVE_ROM2040_SIZE);
             break;
           case DRIVE_TYPE_3040:
-            memcpy(&(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM3040_SIZE]),
+            memcpy(&(drive->rom[DRIVE_ROM_SIZE - DRIVE_ROM3040_SIZE]),
                    drive_rom3040, DRIVE_ROM3040_SIZE);
             break;
           case DRIVE_TYPE_4040:
-            memcpy(&(drive[dnr].rom[DRIVE_ROM_SIZE - DRIVE_ROM4040_SIZE]),
+            memcpy(&(drive->rom[DRIVE_ROM_SIZE - DRIVE_ROM4040_SIZE]),
                    drive_rom4040, DRIVE_ROM4040_SIZE);
             break;
           case DRIVE_TYPE_1001:
           case DRIVE_TYPE_8050:
           case DRIVE_TYPE_8250:
-            memcpy(&(drive[dnr].rom[0x4000]), drive_rom1001,
+            memcpy(&(drive->rom[0x4000]), drive_rom1001,
                    DRIVE_ROM1001_SIZE);
             break;
         }
