@@ -1,3 +1,21 @@
+2003-01-26  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.3.
+
+	* drive/rotation.c, drive/rotation.h: New files.
+
+	* drive/Makefile.am: Added new files.
+
+	* drive/drive.c, drive/drivesync.c, drive/drive-snapshot.c,
+	drive/drivecpu.c, drive/via1d.c, drive/via2d.c, drive/drive.h,
+	drive/tcbm/glue1551.c, drive/tcbm/tia1551.c: Change to new
+	rotation API.
+
+	* sid/sid.c (sid_read_chip): Fixed as suggested by AndreasM.
+
+	* arch/unix/x11/gnome/uimenu.c, arch/unix/x11/gnome/about.c:
+	Added patch from Michael Klein.
+
 2003-01-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.2.
@@ -13,7 +31,8 @@
 	arch/unix/uisid.c, arch/unix/uisid.h, arch/unix/Makefile.am:
 	Added SID engine UI.
 
-	* sid/sid.c, sid/sid.h: Added support for Catweasel MKIII.
+	* sid/sid.c, sid/sid.h: Added high-level support for Catweasel
+	MKIII.
 
 	* arch/unix/catweaselmkiii.c, arch/unix/catweaselmkiii.h: New
 	files.

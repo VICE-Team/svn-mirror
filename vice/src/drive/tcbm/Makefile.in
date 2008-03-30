@@ -258,7 +258,7 @@ glue1551.o: glue1551.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/alarm.h ../../../src/arch/unix/types.h \
 	../../../src/drive/drive.h ../../../src/drive/drivetypes.h \
 	../../../src/ciatimer.h ../../../src/mos6510.h glue1551.h \
-	../../../src/interrupt.h
+	../../../src/interrupt.h ../../../src/drive/rotation.h
 mem1551.o: mem1551.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drivemem.h ../../../src/arch/unix/types.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
@@ -283,7 +283,8 @@ tia1551.o: tia1551.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drive.h ../../../src/arch/unix/types.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
 	../../../src/alarm.h ../../../src/mos6510.h \
-	../../../src/iecdrive.h ../../../src/log.h
+	../../../src/iecdrive.h ../../../src/log.h \
+	../../../src/drive/rotation.h
 
 info-am:
 info: info-am

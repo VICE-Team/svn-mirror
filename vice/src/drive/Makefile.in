@@ -138,7 +138,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libdrive.a
 
-libdrive_a_SOURCES =  	ciad.h 	drive-cmdline-options.c 	drive-cmdline-options.h 	drive-resources.c 	drive-resources.h 	drive-snapshot.c 	drive-snapshot.h 	drive.c 	drive.h 	drivecpu.c 	drivecpu.h 	drivemem.c 	driveimage.c 	driveimage.h 	drivemem.h 	driverom.c 	driverom.h 	drivesync.c 	drivesync.h 	drivetypes.h 	iec.h 	ieee.h 	tcbm.h 	via1d.c 	via2d.c 	viad.h
+libdrive_a_SOURCES =  	ciad.h 	drive-cmdline-options.c 	drive-cmdline-options.h 	drive-resources.c 	drive-resources.h 	drive-snapshot.c 	drive-snapshot.h 	drive.c 	drive.h 	drivecpu.c 	drivecpu.h 	drivemem.c 	driveimage.c 	driveimage.h 	drivemem.h 	driverom.c 	driverom.h 	drivesync.c 	drivesync.h 	drivetypes.h 	iec.h 	ieee.h 	rotation.c 	rotation.h 	tcbm.h 	via1d.c 	via2d.c 	viad.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -155,7 +155,7 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libdrive_a_LIBADD = 
 libdrive_a_OBJECTS =  drive-cmdline-options.o drive-resources.o \
 drive-snapshot.o drive.o drivecpu.o drivemem.o driveimage.o driverom.o \
-drivesync.o via1d.o via2d.o
+drivesync.o rotation.o via1d.o via2d.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -342,8 +342,8 @@ drive-snapshot.o: drive-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h drive.h \
 	drivecpu.h drivemem.h driverom.h ../../src/gcr.h \
 	../../src/iecdrive.h ../../src/log.h ../../src/machine-drive.h \
-	../../src/resources.h ../../src/snapshot.h ../../src/utils.h \
-	../../src/vdrive/vdrive-bam.h \
+	../../src/resources.h rotation.h ../../src/snapshot.h \
+	../../src/utils.h ../../src/vdrive/vdrive-bam.h \
 	../../src/vdrive/vdrive-snapshot.h viad.h ../../src/zfile.h
 drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/arch/unix/types.h ../../src/clkguard.h \
@@ -352,17 +352,18 @@ drive.o: drive.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
 	../../src/gcr.h ../../src/iecdrive.h ../../src/interrupt.h \
 	../../src/log.h ../../src/machine-drive.h ../../src/machine.h \
-	../../src/parallel.h ../../src/resources.h ../../src/serial.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h ../../src/utils.h \
-	viad.h
+	../../src/parallel.h ../../src/resources.h rotation.h \
+	../../src/serial.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/utils.h viad.h
 drivecpu.o: drivecpu.c ../../src/vice.h ../../src/config.h \
 	../../src/6510core.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/clkguard.h \
 	../../src/debug.h drive.h drivecpu.h drivemem.h drivetypes.h \
 	../../src/ciatimer.h ../../src/mos6510.h ../../src/interrupt.h \
 	../../src/log.h ../../src/machine-drive.h ../../src/machine.h \
-	../../src/mem.h ../../src/monitor/mon.h ../../src/snapshot.h \
-	../../src/utils.h viad.h ../../src/6510core.c
+	../../src/mem.h ../../src/monitor/mon.h rotation.h \
+	../../src/snapshot.h ../../src/utils.h viad.h \
+	../../src/6510core.c
 driveimage.o: driveimage.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h drive.h driveimage.h \
@@ -378,19 +379,23 @@ driverom.o: driverom.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/sysfile.h
 drivesync.o: drivesync.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/arch/unix/types.h drivesync.h drivetypes.h \
-	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h
+	../../src/ciatimer.h ../../src/alarm.h ../../src/mos6510.h \
+	rotation.h
+rotation.o: rotation.c ../../src/vice.h ../../src/config.h drive.h \
+	../../src/arch/unix/types.h rotation.h
 via1d.o: via1d.c ../../src/vice.h ../../src/config.h \
 	../../src/clkguard.h ../../src/arch/unix/types.h drive.h \
 	drivecpu.h drivesync.h drivetypes.h ../../src/ciatimer.h \
 	../../src/alarm.h ../../src/mos6510.h ../../src/iecdrive.h \
 	../../src/interrupt.h ../../src/log.h ../../src/parallel.h \
-	../../src/utils.h ../../src/via.h viad.h ../../src/viacore.c \
-	../../src/snapshot.h
+	rotation.h ../../src/utils.h ../../src/via.h viad.h \
+	../../src/viacore.c ../../src/snapshot.h
 via2d.o: via2d.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/arch/unix/types.h drivetypes.h ../../src/ciatimer.h \
 	../../src/alarm.h ../../src/mos6510.h ../../src/interrupt.h \
-	../../src/log.h ../../src/via.h viad.h ../../src/viacore.c \
-	../../src/clkguard.h ../../src/snapshot.h ../../src/utils.h
+	../../src/log.h rotation.h ../../src/via.h viad.h \
+	../../src/viacore.c ../../src/clkguard.h ../../src/snapshot.h \
+	../../src/utils.h
 
 info-am:
 info: info-recursive
