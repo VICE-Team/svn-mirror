@@ -174,6 +174,9 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { N_("Attach Super Snapshot 5 image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_SUPER_SNAPSHOT_V5, NULL },
+    { N_("Attach Structured Basic image..."),
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_STRUCTURED_BASIC, NULL },
     { "--" },
     { N_("Enable Expert Cartridge..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
