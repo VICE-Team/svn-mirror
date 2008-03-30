@@ -38,6 +38,7 @@ struct snapshot_s;
 
 extern void reu_init(void);
 extern int reu_resources_init(void);
+extern void reu_resources_shutdown(void);
 extern int reu_cmdline_options_init(void);
 
 extern void reu_reset(void);

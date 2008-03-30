@@ -32,6 +32,7 @@
 
 #include "archdep.h"
 #include "cmdline.h"
+#include "lib.h"
 #include "output-select.h"
 #include "output-text.h"
 #include "output.h"
@@ -187,5 +188,12 @@ int output_text_init_resources(void)
     output_select_register(&output_select);
 
     return resources_register(resources);
+}
+
+void output_text_shutdown_resources(void)
+{
+    lib_free(PrinterDev[0]);
+    lib_free(PrinterDev[1]);
+    lib_free(PrinterDev[2]);
 }
 

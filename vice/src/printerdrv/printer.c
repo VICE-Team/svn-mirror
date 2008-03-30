@@ -50,6 +50,12 @@ int printer_resources_init(void)
     return 0;
 }
 
+void printer_resources_shutdown(void)
+{
+    output_text_shutdown_resources();
+    output_select_init_resources();
+}
+
 int printer_cmdline_options_init(void)
 {
     if (output_graphics_init_cmdline_options() < 0

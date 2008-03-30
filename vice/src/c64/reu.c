@@ -225,6 +225,11 @@ int reu_resources_init(void)
     return resources_register(resources);
 }
 
+void reu_resources_shutdown(void)
+{
+    lib_free(reu_filename);
+}
+
 /* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] =

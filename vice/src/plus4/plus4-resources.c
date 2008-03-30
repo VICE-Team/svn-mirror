@@ -31,6 +31,7 @@
 #include "drive.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "machine.h"
 #include "mem.h"
 #include "plus4mem.h"
@@ -175,5 +176,15 @@ static const resource_t resources[] = {
 int plus4_resources_init(void)
 {
     return resources_register(resources);
+}
+
+void plus4_resources_shutdown(void)
+{
+    lib_free(basic_rom_name);
+    lib_free(kernal_rom_name);
+    lib_free(tplus1lo_rom_name);
+    lib_free(tplus1hi_rom_name);
+    lib_free(machine_keymap_file_list[0]);
+    lib_free(machine_keymap_file_list[1]);
 }
 

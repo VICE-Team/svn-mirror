@@ -44,6 +44,7 @@ typedef struct output_select_s output_select_t;
 
 extern void output_select_init(void);
 extern int output_select_init_resources(void);
+extern void output_select_shutdown_resources(void);
 extern int output_select_init_cmdline_options(void);
 
 extern void output_select_register(output_select_t *output_select);

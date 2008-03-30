@@ -39,7 +39,7 @@
 #include "palette.h"
 #include "sysfile.h"
 #include "types.h"
-#include "utils.h"
+
 
 #define MAX_COL 480
 #define MAX_ROW 66 * 9

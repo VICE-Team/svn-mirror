@@ -41,6 +41,7 @@
 #include "interrupt.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "machine.h"
 #include "resources.h"
 #include "sid-resources.h"
@@ -364,5 +365,22 @@ static const resource_t resources[] = {
 int cbm2_resources_init(void)
 {
     return resources_register(resources);
+}
+
+void cbm2_resources_shutdown(void)
+{
+    lib_free(kernal_rom_name);
+    lib_free(chargen_name);
+    lib_free(basic_rom_name);
+    lib_free(cart_1_name);
+    lib_free(cart_2_name);
+    lib_free(cart_4_name);
+    lib_free(cart_6_name);
+    lib_free(machine_keymap_file_list[0]);
+    lib_free(machine_keymap_file_list[1]);
+    lib_free(machine_keymap_file_list[2]);
+    lib_free(machine_keymap_file_list[3]);
+    lib_free(machine_keymap_file_list[4]);
+    lib_free(machine_keymap_file_list[5]);
 }
 

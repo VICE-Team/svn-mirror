@@ -34,6 +34,7 @@
 #include "drive.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "machine.h"
 #include "pet.h"
 #include "petmem.h"
@@ -375,5 +376,15 @@ int pet_resources_init(void)
     petres.mem9name = NULL;
 
     return resources_register(resources);
+}
+
+void pet_resources_shutdown(void)
+{
+    lib_free(machine_keymap_file_list[0]);
+    lib_free(machine_keymap_file_list[1]);
+    lib_free(machine_keymap_file_list[2]);
+    lib_free(machine_keymap_file_list[3]);
+    lib_free(machine_keymap_file_list[4]);
+    lib_free(machine_keymap_file_list[5]);
 }
 

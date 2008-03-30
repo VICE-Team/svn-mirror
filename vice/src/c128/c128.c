@@ -335,6 +335,14 @@ int machine_resources_init(void)
     return 0;
 }
 
+void machine_resources_shutdown(void)
+{
+    c128_resources_shutdown();
+    reu_resources_shutdown();
+    printer_resources_shutdown();
+    drive_resources_shutdown();
+}
+
 /* C128-specific command-line option initialization.  */
 int machine_cmdline_options_init(void)
 {

@@ -35,6 +35,7 @@
 #include "drive.h"
 #include "kbd.h"
 #include "keyboard.h"
+#include "lib.h"
 #include "machine.h"
 #include "resources.h"
 #include "reu.h"
@@ -204,5 +205,15 @@ static const resource_t resources[] = {
 int c64_resources_init(void)
 {
     return resources_register(resources);
+}
+
+void c64_resources_shutdown(void)
+{
+    lib_free(chargen_rom_name);
+    lib_free(basic_rom_name);
+    lib_free(kernal_rom_name);
+    lib_free(kernal_revision);
+    lib_free(machine_keymap_file_list[0]);
+    lib_free(machine_keymap_file_list[1]);
 }
 

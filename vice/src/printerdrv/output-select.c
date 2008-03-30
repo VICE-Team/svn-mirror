@@ -92,6 +92,13 @@ int output_select_init_resources(void)
     return resources_register(resources);
 }
 
+void output_select_shutdown_resources(void)
+{
+    lib_free(output_device[0]);
+    lib_free(output_device[1]);
+    lib_free(output_device[2]);
+}
+
 static const cmdline_option_t cmdline_options[] =
 {
     { "-pr4output", SET_RESOURCE, 1, NULL, NULL, "Printer4Output", NULL,
