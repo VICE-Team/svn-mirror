@@ -75,6 +75,10 @@ static void draw_reverse_line_cached(struct line_cache *l, int xs, int xe);
 static void draw_standard_line_cached_2x(struct line_cache *l, int xs, int xe);
 static void draw_reverse_line_cached_2x(struct line_cache *l, int xs, int xe);
 
+/* Define the position of the raster beam precisely. */
+#define RASTER_Y    	((int)(clk / CYCLES_PER_LINE) % SCREEN_HEIGHT)
+#define RASTER_CYCLE	((int)(clk % CYCLES_PER_LINE))
+
 static palette_t *palette;
 static BYTE crtc[19];
 static BYTE *chargen_ptr = NULL;
@@ -561,7 +565,6 @@ void crtc_set_char(int crom)
 {
     chargen_rel = (chargen_rel & ~0x800) | (crom ? 0x800 : 0);
     chargen_ptr = chargen_rom + chargen_rel;
-/*printf("crtc_set_char(%d) -> chargen_rel = %04x\n",crom, chargen_rel);*/
 }
 
 void reset_crtc(void)
@@ -648,15 +651,11 @@ static void crtc_update_memory_ptrs(void)
 {
     scraddr = crtc[13] + ((crtc[12] & 0x3f) << 8);
 
-MEMORY_PTRS
+    MEMORY_PTRS
 
     chargen_ptr = chargen_rom + chargen_rel;
 
     scraddr &= addr_mask;
-/*
-  printf("scraddr = %04x, addr_mask=%04x, chargen_rel=%04x\n",
-			scraddr, addr_mask, chargen_rel);
-*/
 }
 
 /* -------------------------------------------------------------------------- */
@@ -887,3 +886,111 @@ void crtc_prevent_clk_overflow(CLOCK sub)
     oldclk -= sub;
 }
 
+/* ------------------------------------------------------------------------- */
+
+/* Snapshot.  */
+
+/* FIXME: This does not fully save/restore the chip state; e.g. the current
+   character line and the current value of the memory pointer are not taken
+   into account.  This means that the first frame after the restore will be
+   wrong, but things will be fine in the next frame.  This is not a real
+   problem for the CRTC, as these data are not timing-sensitive as on the
+   VIC-II, but some day we will have to fix it.  For now, it is even better
+   to leave as it is because we are not accurately modeling the CRTC chip and
+   the behavior of the raster, so the data we would write would only be
+   bogus.  */
+
+static char snap_module_name[] = "CRTC";
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int vic_write_snapshot_module(snapshot_t *s)
+{
+    int i;
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL)
+        return -1;
+
+    if (snapshot_module_write_byte(m, (BYTE) RASTER_CYCLE) < 0
+        || snapshot_module_write_word(m, (WORD) RASTER_Y) < 0)
+        goto fail;
+
+    if (snapshot_module_write_word(m, (WORD) (screenmem - ram)) < 0
+        || snapshot_module_write_word(m, (WORD) addr_mask) < 0
+        || snapshot_module_write_byte(m, (BYTE) crtc_cols) < 0
+        || snapshot_module_write_byte(m, (BYTE) crsr_enable) < 0)
+        goto fail;
+
+    for (i = 0; i < 20; i++)
+        if (snapshot_module_write_byte(m, crtc[i]) < 0)
+            goto fail;
+
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
+}
+
+int crtc_read_snapshot_module(snapshot_t *s)
+{
+    int i;
+    snapshot_module_t *m;
+    WORD w;
+    BYTE b;
+    WORD vmask, screen;
+    BYTE num_cols, hwcursor;
+    BYTE major, minor;
+
+    m = snapshot_module_open(s, snap_module_name, &major, &minor);
+    if (m == NULL)
+        return -1;
+
+    if (major != SNAP_MAJOR) {
+        fprintf(stderr, "CRTC: Major snapshot number (%d) invalid; %d expected.\n",
+                major, SNAP_MAJOR);
+        goto fail;
+    }
+
+    if (snapshot_module_read_byte(m, &b) < 0)
+        goto fail;
+    if (b != RASTER_CYCLE) {
+        fprintf(stderr, "CRTC: Cycle value (%d) incorrect; should be %d.\n",
+                (int) b, RASTER_CYCLE);
+        goto fail;
+    }
+
+    if (snapshot_module_read_word(m, &w) < 0)
+        goto fail;
+    if (w != RASTER_Y) {
+        fprintf(stderr, "CRTC: Raster line value (%d) incorrect; should be %d.\n",
+                (int) b, RASTER_Y);
+        goto fail;
+    }
+
+    if (snapshot_module_read_word(m, &screen) < 0
+        || snapshot_module_read_word(m, &vmask) < 0
+        || snapshot_module_read_byte(m, &num_cols) < 0
+        || snapshot_module_read_byte(m, &hwcursor))
+        goto fail;
+    crtc_set_screen_mode(ram + (int) screen, vmask, num_cols, hwcursor);
+
+    for (i = 0; i < 20; i++) {
+        if (snapshot_module_read_byte(m, &b) < 0)
+            goto fail;
+
+        /* XXX: This assumes that there are no side effects.  */
+        store_crtc(i, b);
+    }
+
+    force_repaint();
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
+}
