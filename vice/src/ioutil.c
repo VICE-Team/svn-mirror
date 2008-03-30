@@ -82,6 +82,36 @@ int ioutil_chdir(const char *path)
     return chdir((char*)path);
 }
 
+int ioutil_errno(unsigned int check)
+{
+    switch (check) {
+      case IOUTIL_ERRNO_EPERM:
+        if (errno == EPERM)
+            return 1;
+        break;
+      case IOUTIL_ERRNO_EEXIST:
+        if (errno == EEXIST)
+            return 1;
+        break;
+      case IOUTIL_ERRNO_EACCES:
+        if (errno == EACCES)
+            return 1;
+        break;
+      case IOUTIL_ERRNO_ENOENT:
+        if (errno == ENOENT)
+            return 1;
+        break;
+      case IOUTIL_ERRNO_ERANGE:
+        if (errno == ERANGE)
+            return 1;
+        break;
+      default:
+        return 0;
+    }
+
+    return 0;
+}
+
 char *ioutil_getcwd(char *buf, int size)
 {
     return getcwd(buf, (size_t)size);
@@ -107,15 +137,9 @@ int ioutil_rename(const char *oldpath, const char *newpath)
     return rename(oldpath, newpath);
 }
 
-int ioutil_errno(unsigned int check)
+int ioutil_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
-    switch (check) {
-      case IOUTIL_ERRNO_EPERM:
-        if (errno != EPERM)
-            return -1;
-    }
-
-    return 0;
+    return archdep_stat(file_name, len, isdir);
 }
 
 /* ------------------------------------------------------------------------- */
