@@ -51,68 +51,68 @@
  * 01	Exec	0	Load	Delayed	0	0	   Mode
  */
 
-
 /* global */
+static int ReuSize = REUSIZE << 10;
+static BYTE reu[16];        /* REC registers */
+static BYTE *reuram = NULL;
+static char *reu_file_name;
 
-static int     ReuSize = REUSIZE << 10;
-static BYTE    reu[16];        /* REC registers */
-static BYTE   *reuram = 0;
-static char   *reu_file_name;
-
-static log_t   reu_log = LOG_ERR;
+static log_t reu_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
+void reu_init(void)
+{
+    if (reu_log == LOG_ERR)
+        reu_log = log_open("REU");
+}
+
 /* FIXME: This does not really handle different sizes.  */
-int    reset_reu(int size)
+int reset_reu(int size)
 {
     int i;
 
-    if (reu_log == LOG_ERR)
-        reu_log = log_open("REU");
-
     if (size > 0)
-	ReuSize = size;
+        ReuSize = size;
 
     for (i=0; i < 16; i++)
 	reu[i] = 0;
 
     if (ReuSize >= 256)
-	reu[0] = 0x50;
+        reu[0] = 0x50;
     else
-	reu[0] = 0x40;
+        reu[0] = 0x40;
 
     reu[1] = 0x4A;
 
     if (reuram == NULL) {
-	reuram = xmalloc(ReuSize);
-	log_message(reu_log, "%dKB unit installed.", REUSIZE);
-	if (load_file(reu_file_name, reuram, ReuSize) == 0) {
-	    log_message(reu_log, "Image `%s' loaded successfully.",
+        reuram = xmalloc(ReuSize);
+        log_message(reu_log, "%dKB unit installed.", REUSIZE);
+        if (load_file(reu_file_name, reuram, ReuSize) == 0) {
+            log_message(reu_log, "Image `%s' loaded successfully.",
                         reu_file_name);
-	} else {
-	    log_message(reu_log, "(No image loaded).");
-	}
+        } else {
+            log_message(reu_log, "(No image loaded).");
+        }
     }
-
     return 0;
 }
 
 void activate_reu(void)
 {
     if (reuram == NULL)
-	reset_reu(0);
+        reset_reu(0);
 }
 
 void close_reu(void)
 {
     if (reuram == NULL || reu_file_name == NULL)
-	return;
+        return;
 
     if (save_file(reu_file_name, reuram, ReuSize) == 0)
-	log_message(reu_log, "image `%s' saved successfully.", reu_file_name);
+        log_message(reu_log, "image `%s' saved successfully.", reu_file_name);
     else
-	log_error(reu_log, "cannot save image `%s'.", reu_file_name);
+        log_error(reu_log, "cannot save image `%s'.", reu_file_name);
 }
 
 
@@ -121,27 +121,27 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
     BYTE retval;
 
     if (reuram == NULL)
-	reset_reu(0);
+        reset_reu(0);
 
     switch (addr) {
       case 0x0:
-	/* fixed by [EP], 04-16-97. */
-	retval = (reu[0] & 0x60) | (((ReuSize >> 10) >= 256) ? 0x10 : 0x00);
+        /* fixed by [EP], 04-16-97. */
+        retval = (reu[0] & 0x60) | (((ReuSize >> 10) >= 256) ? 0x10 : 0x00);
 
         /* Bits 7-5 are cleared when register is read, and pending IRQs are
            removed. */
-	reu[0] &= ~0xe0;
+        reu[0] &= ~0xe0;
         maincpu_set_irq(I_REU, 0);
-	break;
+        break;
 
       case 0x6:
 	/* wrong address of bank register corrected - RH */
-	retval = reu[6] | 0xf8;
-	break;
+        retval = reu[6] | 0xf8;
+        break;
 
       case 0x9:
-	retval = reu[9] | 0x1f;
-	break;
+        retval = reu[9] | 0x1f;
+        break;
 
       case 0xa:
         retval = reu[0xa] | 0x3f;
@@ -151,11 +151,11 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
       case 0xd:
       case 0xe:
       case 0xf:
-	retval = 0xff;
-	break;
+        retval = 0xff;
+        break;
 
       default:
-	retval = reu[addr];
+        retval = reu[addr];
     }
 
 #ifdef REU_DEBUG
@@ -168,7 +168,7 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
 void REGPARM2 store_reu(ADDRESS addr, BYTE byte)
 {
     if (reuram == NULL)
-	reset_reu(0);
+        reset_reu(0);
 
     reu[addr] = byte;
 
@@ -179,7 +179,7 @@ void REGPARM2 store_reu(ADDRESS addr, BYTE byte)
     /* write REC command register
      * DMA only if execution bit (7) set  - RH */
     if ((addr == 0x1) && (byte & 0x80))
-	reu_dma(byte & 0x10);
+        reu_dma(byte & 0x10);
 }
 
 /* This function is called when write to REC command register or memory
@@ -192,7 +192,7 @@ void REGPARM2 store_reu(ADDRESS addr, BYTE byte)
 /* Added correct handling of fixed addresses with transfer length 1  - RH */
 /* Added fixed address support - [EP] */
 
-void    reu_dma(int immed)
+void reu_dma(int immed)
 {
     static int delay = 0;
     unsigned int len;
@@ -202,13 +202,12 @@ void    reu_dma(int immed)
     BYTE c;
 
     if (!immed) {
-	delay++;
-	return;
-    }
-    else {
-	if (!delay && (immed < 0))
-	    return;
-	delay = 0;
+        delay++;
+        return;
+    } else {
+        if (!delay && (immed < 0))
+            return;
+        delay = 0;
     }
 
     /* wrong address of bank register & calculations corrected  - RH */
@@ -216,7 +215,7 @@ void    reu_dma(int immed)
     reu_addr  = ((int)reu[4] | ((int)reu[5] << 8)
                  | (((int)reu[6] & 7) << 16));
     if (( len = (int)(reu[7]) | ( (int)(reu[8]) << 8)) == 0)
-	len = 0x10000;
+        len = 0x10000;
 
     /* Fixed addresses implemented -- [EP] 04-16-97. */
     host_step = reu[0xA] & 0x80 ? 0 : 1;
@@ -227,52 +226,53 @@ void    reu_dma(int immed)
     switch (reu[1] & 0x03) {
       case 0: /* C64 -> REU */
 #ifdef REU_DEBUG
-	log_message(reu_log,
+        log_message(reu_log,
                     "copy ext $%05X %s<= main $%04X%s, $%04X (%d) bytes.",
                     reu_addr, reu_step ? "" : "(fixed) ", host_addr,
                     host_step ? "" : " (fixed)", len, len);
 #endif
-	for (; len--; host_addr = (host_addr + host_step) & 0xffff, reu_addr += reu_step) {
-	    BYTE value = mem_read(host_addr);
-	    reuram[reu_addr % ReuSize] = value;
-	}
-	break;
+        for (; len--; host_addr = (host_addr + host_step) & 0xffff,
+            reu_addr += reu_step) {
+            BYTE value = mem_read(host_addr);
+            reuram[reu_addr % ReuSize] = value;
+        }
+        break;
 
       case 1: /* REU -> C64 */
 #ifdef REU_DEBUG
-	log_message(reu_log,
+        log_message(reu_log,
                     "copy ext $%05X %s=> main $%04X%s, $%04X (%d) bytes.",
                     reu_addr, reu_step ? "" : "(fixed) ", host_addr,
                     host_step ? "" : " (fixed)", len, len);
 #endif
-	for (; len--; host_addr += host_step, reu_addr += reu_step )
-	    mem_store((host_addr & 0xffff), reuram[reu_addr % ReuSize]);
-	break;
+        for (; len--; host_addr += host_step, reu_addr += reu_step )
+        mem_store((host_addr & 0xffff), reuram[reu_addr % ReuSize]);
+        break;
 
       case 2: /* swap */
 #ifdef REU_DEBUG
-	log_message(reu_log,
+        log_message(reu_log,
                     "swap ext $%05X %s<=> main $%04X%s, $%04X (%d) bytes.",
                     reu_addr, reu_step ? "" : "(fixed) ", host_addr,
                     host_step ? "" : " (fixed)", len, len);
 #endif
-	for (; len--; host_addr += host_step, reu_addr += reu_step ) {
-	    c = reuram[reu_addr % ReuSize];
-	    reuram[reu_addr % ReuSize] = mem_read(host_addr & 0xffff);
-	    mem_store((host_addr & 0xffff), c);
-	}
-	break;
+        for (; len--; host_addr += host_step, reu_addr += reu_step ) {
+            c = reuram[reu_addr % ReuSize];
+            reuram[reu_addr % ReuSize] = mem_read(host_addr & 0xffff);
+            mem_store((host_addr & 0xffff), c);
+        }
+        break;
 
       case 3: /* compare */
 #ifdef REU_DEBUG
-	log_message(reu_log,
+        log_message(reu_log,
                     "compare ext $%05X %s<=> main $%04X%s, $%04X (%d) bytes.",
                     reu_addr, reu_step ? "" : "(fixed) ", host_addr,
                     host_step ? "" : " (fixed)", len, len);
 #endif
-	while (len--) {
-	    if (reuram[reu_addr % ReuSize] != mem_read(host_addr & 0xffff)) {
-		reu[0] |= 0x20; /* FAULT */
+        while (len--) {
+            if (reuram[reu_addr % ReuSize] != mem_read(host_addr & 0xffff)) {
+                reu[0] |= 0x20; /* FAULT */
 
                 /* Bit 7: interrupt enable
                    Bit 5: interrupt on verify error */
@@ -280,36 +280,36 @@ void    reu_dma(int immed)
                     reu[0] |= 0x80;
                     maincpu_set_irq(I_REU, 1);
                 }
-		break;
-	    }
-	    host_addr += host_step; reu_addr += reu_step;
-	}
+                break;
+            }
+            host_addr += host_step; reu_addr += reu_step;
+        }
 
         if ((reu[9] & 0xa0) == 0xa0)
             reu[0] |= 0x80;
-	break;
+        break;
     }
 
     if (!(reu[1] & 0x20)) {
-	/* not autoload
+        /* not autoload
          * incr. of addr. disabled, as already pointing to correct addr.
-	 * address changes only if not fixed, correct reu base registers  -RH
-	 */
+         * address changes only if not fixed, correct reu base registers  -RH
+         */
 #ifdef REU_DEBUG
-	log_message(reu_log, "No autoload.");
+        log_message(reu_log, "No autoload.");
 #endif
         if ( !(reu[0xA] & 0x80)) {
-	    reu[2] = host_addr & 0xff;
-	    reu[3] = (host_addr >> 8) & 0xff;
-	}
+            reu[2] = host_addr & 0xff;
+            reu[3] = (host_addr >> 8) & 0xff;
+        }
         if ( !(reu[0xA] & 0x40)) {
-	    reu[4] = reu_addr & 0xff;
-	    reu[5] = (reu_addr >> 8) & 0xff;
-	    reu[6] = (reu_addr >> 16);
-	}
+            reu[4] = reu_addr & 0xff;
+            reu[5] = (reu_addr >> 8) & 0xff;
+            reu[6] = (reu_addr >> 16);
+        }
 
-	reu[7] = 1;
-	reu[8] = 0;
+        reu[7] = 1;
+        reu[8] = 0;
     }
 
     /* [EP] 04-16-97. */
@@ -395,3 +395,4 @@ fail:
     snapshot_module_close(m);
     return -1;
 }
+
