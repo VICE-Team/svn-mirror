@@ -1,8 +1,8 @@
 /*
- * c64ui.c - Definition of the C64-specific part of the UI.
+ * c128ui.h - Implementation of the C128-specific part of the UI.
  *
  * Written by
- *  Ettore Perazzoli (ettore@comm2000.it)
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,11 +24,10 @@
  *
  */
 
-#include "c64ui.h"
+#ifndef _C128UI_H
+#define _C128UI_H
 
-/* ------------------------------------------------------------------------- */
+extern int c128_ui_init(void);
 
-int c64_ui_init(void)
-{
-    return 0;
-}
+#endif
+

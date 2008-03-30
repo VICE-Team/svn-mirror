@@ -47,7 +47,27 @@
 #undef VERSION
 #define VERSION VICE2VERSION
 
-//#include <h/types.h>
+#ifdef __IBMC__
+ #define inline _Inline  // This means only a possible inline. See doku.
+ #define getcwd _getcwd
+ #define R_OK   4
+ #define W_OK   2
+ typedef int pid_t;
+ #ifndef __EXTENDED__
+ typedef long off_t;
+ #endif
+ #define STDOUT_FILENO (0xFFFF & fileno(stdout))
+ #define STDERR_FILENO (0xFFFF & fileno(stderr))
+ #define _O_BINARY O_BINARY
+ #define _O_TRUNC  O_TRUNC
+ #define _O_WRONLY O_WRONLY
+ #define _O_CREAT  O_CREAT
+ #define _P_WAIT   P_WAIT
+#endif
+
+#ifdef __EMX__
+  #define vfork fork
+#endif
 
 typedef signed char SIGNED_CHAR;
 

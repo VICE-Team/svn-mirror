@@ -825,8 +825,8 @@ parallel line completely while emulating the drive at DOS level only.
 The IEEE488 line interpreter maps the drives 8-11 (as described above)
 to the IEEE488 disk units, and no kernal traps are needed.  The same
 emulation of the Commodore IEEE488 bus interface is available for the
-C64. With IEEE488 drives you can have true 2031 emulation at unit
-#8, and still have filesystem access at units #10 or #11, because
+C64 and the VIC20. With IEEE488 drives you can have true 2031 emulation 
+at unit #8, and still have filesystem access at units #10 or #11, because
 monitoring the IEEE488 lines does not interfere with the true drive
 emulation.
 
@@ -868,6 +868,18 @@ VICE supports the most popular Commodore file formats:
 
 @item
 @code{G64} GCR-encoded 1541 disk image files;
+
+@item
+@code{D71} VC1571 disk image format
+
+@item
+@code{D81} VC1581 disk image format
+
+@item
+@code{D80} CBM8050 disk image format
+
+@item
+@code{D82} CBM8250/1001 disk image format
 
 @item
 @code{T64} tape image files (read-only);
@@ -2779,8 +2791,9 @@ together with true disk drive emulation.
 
 @itemize @bullet
 @item
-``Enable FS access via IEEE488'', enables the peripheral access via
-the IEEE488 interface. Both, filesystem and disk image access via fast
+``Enable virtual devices'', enables the peripheral access via
+the fast disk emulation (either kernal traps or IEEE488 interface). 
+Both, filesystem and disk image access via fast
 drive emulation, are affected.
 @end itemize
 
@@ -3419,6 +3432,9 @@ X64 allows you to attach the following kinds of cartridges:
 generic raw dumps of 8K and 16K images;
 @item
 Action Replay images.
+@item
+The Commodore IEEE488 interface cartridge
+(@code{http://www.funet.fi/pub/cbm/schematics/cartridges/c64/ieee-488/eprom.bin})
 @end itemize
 
 Each of these kinds has a specific command in the ``Attach a cartridge
@@ -3430,6 +3446,8 @@ cartridge image (``Detach cartridge image'').
 If you are using an Action Replay cartridge, you can emulate the
 cartridge's freeze button with the ``Cartridge freeze'' command.
 
+Attaching the IEEE488 cartridge automatically enables the IEEE488
+interface emulation on the @code{$DF**} I/O ports.
 
 @node VIC-II settings, SID settings, C64 cartridges, C64/128-specific
 @subsection VIC-II settings
@@ -3620,18 +3638,15 @@ returns some values which identify the emulator itself, its version and
 a copyright message.  If this extension is disabled, programs will have
 virtually no way to realize they are running on an emulator.
 
-@cindex IEEE488 interface emulation
-@item
-The ``IEEE488 interface emulation'' extension emulates a standard
-Commodore IEEE488 interface connected to the IEC bus; one possible use
-for this is Andr@'e Fachat's OS/A65 multitasking operating system.
-
 @cindex REU
 @item
 The ``512K RAM Expansion Unit'' extension emulates a standard 512K
 Commodore RAM Expansion Unit; this can be used with GEOS and other
 programs that are designed to take advantage of it.  This currently
 works only in the C64 emulator.
+
+@cindex 1351 Mouse emulation
+@item FIXME
 
 @end itemize
 
@@ -5989,6 +6004,13 @@ This can be the addresses available to the computer's processor, the
 disk drive's processor or a specific memory configuration of one of the
 mentioned processors.
 
+@item bankname
+The CPU can only see 64k of memory at any one time, due to its 16 bit
+address bus. The C64 and other computers have more than this amount,
+and this is handled by banking: a memory address can have different
+contents, depending on the active memory bank. 
+A bankname names a specific bank in the current address_space.
+
 @item register
 One of the following: program counter (PC), stack pointer (SP),
 accumulator (A), X register (X), or Y register (Y).
@@ -6079,11 +6101,21 @@ than a single instruction at a time.
 
 @table @code
 
+@item bank [<bankname>]
+Without a bankname, display all available banks for the current
+address_space. With a bankname given, switch to the specified
+bank. If a bank is not completely filled (ROM banks for example)
+normally the @code{ram} bank is used where the bank has holes.
+The @code{cpu} bank uses the bank currently used by the CPU.
+
 @item compare <address_range> <address>
 Compare memory from the source specified by the address range to the
 destination specified by the address.  The regions may overlap.  Any
 values that miscompare are displayed using the default displaytype.
 
+@item device [c:|8:|9:]
+Set the default address space to either the computer `c:' or the
+specified drive `8:' or `9:'
 @item fill <address_range> <data_list>
 Fill memory in the specified address range with the data in
 <data_list>.  If the size of the address range is greater than the size
@@ -6117,11 +6149,18 @@ specified, only one sprite is displayed.  If no addresses are given, the
 Move memory from the source specified by the address range to
 the destination specified by the address.  The regions may overlap.
 
+@item sidefx [on|off|toggle]
+Control how monitor generated reads affect memory locations that have
+read side-effects, like CIA interrupt registers for example.  
+If the argument is 'on' then reads may cause
+side-effects.  If the argument is 'off' then reads don't cause
+side-effects.  If the argument is 'toggle' then the current mode is
+switched.  No argument displays the current state.
+
 @item > [<address>] <data_list>
 Write the specified data at @code{address}.
 
 @end table
-
 
 @node Assembly commands, Checkpoint commands, Memory commands, Monitor
 @section Assembly commands
@@ -6464,9 +6503,6 @@ Attach @code{diskimage} to @code{unit} (default unit is 8).
 @item block <track> <sector> <disp> [<drive>]
 Show specified disk block in hex form.
 
-@item create <x64name> <d64name>
-Create an X64 disk image out of a D64 disk image.
-
 @item copy <source1> [<source2> ... <sourceN>] <destination>
 Copy @code{source1} ... @code{sourceN} into destination.  If N > 1,
 @code{destination} must be a simple drive specifier (@code{@@n:}).
@@ -6484,8 +6520,10 @@ Extract all the files to the file system.
 If @code{unit} is specified, format the disk in unit @code{unit}.  If
 @code{type} and @code{imagename} are specified, create a new image named
 @code{imagename}, attach it to unit 8 and format it.  @code{type} is a
-disk image type, and must be either @code{x64}, @code{d64}, @code{d71}
-or @code{d81}.  Otherwise, format the disk in the current unit, if any.
+disk image type, and must be either @code{x64}, @code{d64} (both VC1541/2031), 
+@code{g64} (VC1541/2031 but in GCR coding), @code{d71} (VC1571), @code{d81}
+(VC1581), @code{d80} (CBM8050) or @code{d82} (CBM8250/1001). 
+Otherwise, format the disk in the current unit, if any.
 
 @item gcrformat <diskname,id> <imagename>
 Create and format a G64 disk image named @code{imagename}.

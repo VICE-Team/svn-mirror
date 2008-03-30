@@ -69,6 +69,7 @@
 void drive_dialog   (HWND hwnd);
 void sound_dialog   (HWND hwnd);
 void joystick_dialog(HWND hwnd);
+void about_dialog   (HWND hwnd);
 
 #endif
 

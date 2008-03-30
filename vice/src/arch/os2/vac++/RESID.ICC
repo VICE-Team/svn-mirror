@@ -1,0 +1,33 @@
+option ProjectOptions = gen(arch, "pentium"),
+    link(linkwithmultithreadlib, "yes"), link(pmtype, "pm"), opt(autoinline, "yes"),
+    opt(inline, "yes"), opt(level, "2"), opt(tune, "pentium"),
+    define("HAVE_CONFIG_H", ), define("HAS_JOYSTICK", ),
+    define("HAVE_RESID", ), incl(searchpath, "..\\..\\.."),
+    incl(searchpath, "..\\..\\..\\resid"),
+    incl(searchpath, ".."), incl(searchpathfirst, "yes")
+{
+    target type(lib) "resid"
+    {
+        option reSid = define("PACKAGE","\"resid\""), define("VERSION","\"0.7\""), define("SIZEOF_INT", "\"4\"")
+        {
+            source type(cpp) "envelope.cc"
+            source type(cpp) "extfilt.cc"
+            source type(cpp) "filter.cc"
+            source type(cpp) "pot.cc"
+            source type(cpp) "sid.cc"
+            source type(cpp) "version.cc"
+            source type(cpp) "voice.cc"
+            source type(cpp) "wave.cc"
+            source type(cpp) "wave6581_PST.cc"
+            source type(cpp) "wave6581_PS_.cc"
+            source type(cpp) "wave6581_P_T.cc"
+            source type(cpp) "wave6581__ST.cc"
+            source type(cpp) "wave8580_PST.cc"
+            source type(cpp) "wave8580_PS_.cc"
+            source type(cpp) "wave8580_P_T.cc"
+            source type(cpp) "wave8580__ST.cc"
+        }
+    }
+}
+
+

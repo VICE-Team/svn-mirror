@@ -304,9 +304,9 @@ struct mon_cmds mon_cmd_array[] = {
    { "delete_label", 	"dl", 	CMD_DEL_LABEL, 		STATE_INITIAL },
 
    { "device", 		"dev", 	CMD_DEVICE, 		STATE_INITIAL,
-     "[c:|d:]",
+     "[c:|8:|9:]",
      "Set the default memory device to either the computer `c:' or the\n"
-     "disk (`d:')." },
+     "specified disk drive (`8:', `9:')." },
 
    { "disable", 	"", 	CMD_CHECKPT_OFF, 	STATE_INITIAL,
      "<checknum>",

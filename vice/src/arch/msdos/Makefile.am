@@ -47,6 +47,7 @@ libarch_a_SOURCES = \
 	petkbd.c \
 	petui.c \
 	petui.h \
+	print.c \
 	sidui.c \
 	sidui.h \
 	tui.c \

@@ -68,6 +68,9 @@ static convmap *keyconv_base;
 static int num_keyconvmaps;
 static int keymap_index;
 
+/* 40/80 column key.  */
+static key_ctrl_column4080_func_t key_ctrl_column4080_func = NULL;
+
 /* ------------------------------------------------------------------------ */
 
 int kbd_init(int num, ...)
@@ -222,16 +225,21 @@ void wmChar(HWND hwnd, MPARAM mp1)
     USHORT release    = !(fsFlags&KC_KEYUP);
 
     // turn capslock led off if capslock is pressed
-    if (usScancode==58)
+    if (usScancode==K_CAPSLOCK)
         switch_capslock_led_off();
     // toggle warp mode if ScrlLock is pressed
-    if (usScancode==70)
+    if (usScancode==K_SCROLLOCK)
         resources_set_value("WarpMode",
                             (resource_value_t)(SHORT1FROMMP(mp1)&0x1000));
-
+    if (usScancode==K_PGUP)
+        machine_set_restore_key(release);
+    
     if (fsFlags&KC_ALT && release) {
         switch (usScancode)
         {
+        case K_F7:
+            if (key_ctrl_column4080_func != NULL) key_ctrl_column4080_func();
+            break;
         case K_8: ui_attach      (hwnd, 8); break;
         case K_9: ui_attach      (hwnd, 9); break;
         case K_0: ui_attach      (hwnd, 0); break;
@@ -267,5 +275,12 @@ void wmChar(HWND hwnd, MPARAM mp1)
             kbd_buf_flush();
         }
     }
+}
+
+/* ------------------------------------------------------------------------ */
+
+void kbd_register_column4080_key(key_ctrl_column4080_func_t func)
+{
+    key_ctrl_column4080_func = func;
 }
 

@@ -907,7 +907,7 @@ char *dname;
                 break;
             }
             if ((s = ui_select_file("Attach disk image",
-                "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64\0"
+                "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82\0"
                 "All files (*.*)\0*.*\0", read_disk_image_contents, hwnd)) != NULL) {
                 if (file_system_attach_disk(unit, s) < 0)
                     ui_error("Cannot attach specified file");
@@ -992,7 +992,7 @@ char *dname;
             char *s;
 
             if ((s = ui_select_file("Autostart disk/tape image",
-                "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64\0"
+                "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82\0"
                 "Tape image files (*.t64;*.p00;*.tap)\0*.t64;*.p00;*.tap\0"
                 "All files (*.*)\0*.*\0", read_disk_or_tape_image_contents, hwnd)) != NULL) {
                 if (autostart_autodetect(s, NULL) < 0)

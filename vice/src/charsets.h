@@ -27,6 +27,9 @@
 #ifndef _CHARSETS_H
 #define _CHARSETS_H
 
+#define a2p(c) petconvstring(c,0)
+#define p2a(c) petconvstring(c,1)
+
 extern char *petconvstring(char *c, int dir);
 extern int p_toascii(int c, int cs);
 extern int p_topetcii(int c);

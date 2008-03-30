@@ -1,0 +1,49 @@
+option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
+    link(linkwithmultithreadlib, "yes"), link(pmtype, "pm"), opt(autoinline, "yes"),
+    opt(inline, "yes"), opt(level, "2"), opt(tune, "pentium"),
+    define("HAVE_CONFIG_H", ), define("HAS_JOYSTICK", ),
+    define("HAVE_RESID", ), incl(searchpath, "..\\..\\.."),
+    incl(searchpath, "..\\..\\..\\c64"),
+    incl(searchpath, "..\\..\\..\\sid"),
+    incl(searchpath, "..\\..\\..\\resid"),
+    incl(searchpath, "..\\..\\..\\drive"),
+    incl(searchpath, "..\\..\\..\\vdrive"),
+    incl(searchpath, "..\\..\\..\\raster"),
+    incl(searchpath, "..\\..\\..\\sounddrv"),
+    incl(searchpath, "..\\..\\..\\vicii"),
+    incl(searchpath, ".."), incl(searchpathfirst, "yes"),
+    gen(debug, "no"), file(genobject, "Yes"),
+    file(genpch, "Yes"), file(usepch, "Yes"), info(cnd, "no"),
+    info(ppc, "no"), info(ppt, "no"), res_rc_options("-i ..")
+{
+target type(exe) "..\\..\\..\\..\\data\\c1541.exe"
+{
+      source type(c) "c1541.c",
+                     "archdep.c",
+                     "ui.c",
+                     "uicmdline.c",
+                     "ui_status.c",
+                     "pm_cmdline.c",
+                     "pm/pbar.c",
+                     "pm/scrollbars.c",
+                     "charsets.c",
+                     "cmdline.c",
+                     "diskimage.c",
+                     "findpath.c",
+                     "gcr.c",
+                     "info.c",
+                     "log.c",
+                     "p00.c",
+                     "resources.c",
+                     "t64.c",
+                     "utils.c",
+                     "zfile.c",
+                     "zipcode.c"
+      source type(c) "vdrive.c",
+                     "vdrive-iec.c",
+                     "vdrive-bam.c",
+                     "vdrive-dir.c"
+}
+}
+
+

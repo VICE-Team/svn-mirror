@@ -1,0 +1,4 @@
+option ProjectOptions = ipf_preopt("/i")
+{
+   source type(ipf) "vice2.ipf"
+}
