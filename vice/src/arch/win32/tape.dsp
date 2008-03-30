@@ -7,19 +7,19 @@
 CFG=tape - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "tape.mak".
-!MESSAGE
+!MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
-!MESSAGE
+!MESSAGE 
 !MESSAGE NMAKE /f "tape.mak" CFG="tape - Win32 Debug"
-!MESSAGE
+!MESSAGE 
 !MESSAGE Possible choices for configuration are:
-!MESSAGE
-!MESSAGE "tape - Win32 Release" (basierend auf  "Win32 (x86) Static Library")
-!MESSAGE "tape - Win32 Debug" (basierend auf  "Win32 (x86) Static Library")
-!MESSAGE
+!MESSAGE 
+!MESSAGE "tape - Win32 Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "tape - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE 
 
 # Begin Project
 # PROP AllowPerConfigDependencies 0
@@ -74,7 +74,7 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ENDIF
+!ENDIF 
 
 # Begin Target
 
@@ -91,6 +91,10 @@ SOURCE="..\..\tape\tap.c"
 # Begin Source File
 
 SOURCE="..\..\tape\tape.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\tape\tapeimage.c
 # End Source File
 # End Target
 # End Project

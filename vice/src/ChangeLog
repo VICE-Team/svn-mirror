@@ -1,3 +1,34 @@
+2002-05-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.14.
+
+	* tape/tape.c, tape.h, c64/c64.c, c128/c128.c, vic20/vic20.c,
+	pet/petmem.c, plus4/plus4.c, cbm2/c610mem.c (tape_init): Pass
+	pointer to struct instead if lots of variables.  Added tape
+	pulse lengths.
+
+	* init.c, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/c610.c: Init main CPU by `init.c'.
+
+	* tape/tapeimage.c (tape_image_detach): Skip if pointer to
+	`struct tape_image_s' is `NULL'.
+
+	* tape/tap.c (tap_search_header_pilot): Optimized for speed.
+	(tap_init): New function.
+
+2002-05-10  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/base.dsp: Removed imagecontents.c.
+
+	* arch/win32/imagecontents.dsp: New MSVC project file.
+
+	* arch/win32/resid.dsp, arch/win32/sid.dsp: Updated project
+	files for Visual Studio .NET compatibility.
+
+	* arch/win32/tape.dsp: Added tapeimage.c.
+
+	* arch/win32/vice.dsw: Added imagecontents.dsp project.
+
 2002-05-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.13.

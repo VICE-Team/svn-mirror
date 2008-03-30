@@ -92,7 +92,7 @@ InputPath=..\..\sid\resid.cc
 InputName=resid
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /I ".\msvc" /I ".\\"  /I "..\..\\" /D   "NDEBUG" /D "WIN32" /D "_WINDOWS" /Fp"$(INTDIR)\resid.pch"   /YX    /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP $(InputPath)
+        cl.exe /nologo /ML /W3 /GX /Z7 /O2 /I ".\msvc" /I ".\\"  /I "..\..\\" /D   "NDEBUG" /D "WIN32" /D "_WINDOWS" /Fp"$(INTDIR)\resid.pch"   /YX    /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP "$(InputPath)"
 
 # End Custom Build
 
@@ -104,7 +104,7 @@ InputPath=..\..\sid\resid.cc
 InputName=resid
 
 "$(IntDir)\\$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\"  /I "..\..\\" /D   "_DEBUG" /D "WIN32" /D "_WINDOWS" /Fp"$(INTDIR)\resid.pch"   /YX    /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP  $(InputPath)
+        cl.exe /nologo /MLd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\"  /I "..\..\\" /D   "_DEBUG" /D "WIN32" /D "_WINDOWS" /Fp"$(INTDIR)\resid.pch"   /YX    /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\" /FD /c /TP  "$(InputPath)"
 
 # End Custom Build
 

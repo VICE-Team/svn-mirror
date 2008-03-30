@@ -1,5 +1,5 @@
 Microsoft Developer Studio Workspace File, Format Version 6.00
-# WARNUNG: DIESE ARBEITSBEREICHSDATEI DARF NICHT BEARBEITET ODER GELÖSCHT WERDEN!
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
 
 ###############################################################################
 
@@ -148,6 +148,18 @@ Package=<4>
 ###############################################################################
 
 Project: "gfxoutputdrv"=".\gfxoutputdrv.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "imagecontents"=".\imagecontents.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -443,6 +455,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name tape
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name imagecontents
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -505,6 +520,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name tape
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name imagecontents
     End Project Dependency
 }}}
 
@@ -569,6 +587,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name tape
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name imagecontents
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -623,6 +644,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name tape
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name imagecontents
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -669,13 +693,13 @@ Package=<4>
     Project_Dep_Name monitor
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name video
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name diskimage
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name tape
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name imagecontents
     End Project Dependency
 }}}
 
@@ -727,6 +751,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name tape
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name imagecontents
     End Project Dependency
 }}}
 

@@ -611,9 +611,9 @@ init.o: init.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	cmdline.h resources.h console.h debug.h diskimage.h \
 	arch/unix/types.h drive/drive.h log.h drive/drivecpu.h \
 	fsdevice.h gfxoutput.h initcmdline.h arch/unix/joystick.h \
-	kbdbuf.h keyboard.h machine.h palette.h screenshot.h sysfile.h \
-	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h \
-	vdrive/vdrive.h
+	kbdbuf.h keyboard.h machine.h maincpu.h 6510core.h palette.h \
+	screenshot.h sysfile.h arch/unix/ui.h uiapi.h \
+	arch/unix/x11/xaw/uiarch.h vdrive/vdrive.h
 initcmdline.o: initcmdline.c vice.h config.h arch/unix/archdep.h \
 	archapi.h attach.h autostart.h arch/unix/types.h charset.h \
 	cmdline.h resources.h initcmdline.h log.h machine.h tape.h \
