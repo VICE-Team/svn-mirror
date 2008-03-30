@@ -284,6 +284,7 @@ extern void raster_set_exposure_handler(raster_t *raster,
                                         void *exposure_handler);
 extern void raster_set_table_refresh_handler(raster_t *raster,
                                              void (*handler)(void));
+extern void raster_canvas_init(raster_t *raster);
 extern void raster_set_geometry(raster_t *raster,
                                 unsigned int screen_width,
                                 unsigned int screen_height,
