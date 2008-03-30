@@ -53,6 +53,7 @@
 #include "screenshot.h"
 #include "uimenu.h"
 #include "uiscreenshot.h"
+#include "util.h"
 
 
 static Widget screenshot_dialog;

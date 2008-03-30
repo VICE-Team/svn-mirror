@@ -80,12 +80,12 @@ static int alsa_init(const char *param, int *speed,
         goto fail;
     }
 
-    rate = *speed;
+    rate = (unsigned int)*speed;
     if ((err = snd_pcm_hw_params_set_rate_near(handle, hwparams, &rate, 0)) < 0) {
         log_message(LOG_DEFAULT, "Rate %iHz not available for playback: %s", *speed, snd_strerror(err));
         goto fail;
     }
-    if (rate != *speed) {
+    if (rate != (unsigned int)*speed) {
         printf("Rate doesn't match (requested %iHz, got %iHz)", *speed, rate);
 	*speed = rate;
     }
