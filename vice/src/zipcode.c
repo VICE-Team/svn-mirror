@@ -39,13 +39,13 @@
 
 #include "zipcode.h"
 
-int zipcode_read_sector(file_desc_t zip_fd, int track, int *sector, char *buf)
+int zipcode_read_sector(FILE *zip_fd, int track, int *sector, char *buf)
 {
   unsigned char trk, sec, len, rep, repnum, chra;
   int i, j, count, t1, t2;
 
-  t1 = read(zip_fd, &trk, 1);
-  t2 = read(zip_fd, &sec, 1);
+  t1 = fread(&trk, 1, 1, zip_fd);
+  t2 = fread(&sec, 1, 1, zip_fd);
 
   *sector = sec;
 
@@ -54,8 +54,8 @@ int zipcode_read_sector(file_desc_t zip_fd, int track, int *sector, char *buf)
   }
 
   if (trk & 0x80) {
-    t1 = read(zip_fd, &len, 1);
-    t2 = read(zip_fd, &rep, 1);
+    t1 = fread(&len, 1, 1, zip_fd);
+    t2 = fread(&rep, 1, 1, zip_fd);
     if (!t1 || !t2) {
        return 1;
     }
@@ -63,15 +63,15 @@ int zipcode_read_sector(file_desc_t zip_fd, int track, int *sector, char *buf)
     count = 0;
 
     for (i = 0; i < len; i++) {
-      if ( (t1 = read(zip_fd, &chra, 1)) == 0) {
+      if ( (t1 = fread(&chra, 1, 1, zip_fd)) == 0) {
          return 1;
       }
 
       if (chra != rep)
 	buf[count++] = chra;
       else {
-        t1 = read(zip_fd, &repnum, 1);
-        t2 = read(zip_fd, &chra, 1);
+        t1 = fread(&repnum, 1, 1, zip_fd);
+        t2 = fread(&chra, 1, 1, zip_fd);
         if (!t1 || !t2) {
            return 1;
         }
@@ -83,7 +83,7 @@ int zipcode_read_sector(file_desc_t zip_fd, int track, int *sector, char *buf)
   }
 
   else if (trk & 0x40) {
-    if ( (t1 = read(zip_fd, &chra, 1)) == 0) {
+    if ( (t1 = fread(&chra, 1, 1, zip_fd)) == 0) {
        return 1;
     }
 
@@ -91,9 +91,10 @@ int zipcode_read_sector(file_desc_t zip_fd, int track, int *sector, char *buf)
       buf[i] = chra;
   }
 
-  else if (256 != read (zip_fd, buf, 256)) {
+  else if (fread(buf, 256, 1, zip_fd) < 1) {
     return 1;
   }
 
   return 0;
 }
+
