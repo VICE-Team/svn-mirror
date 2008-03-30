@@ -57,9 +57,7 @@
 #define TEST(x) ((x)!=0)
 #define ADDR_LIMIT(x) (LO16(x))
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
-#define make_prompt(str) { sprintf(str, "[%c,M:%s] (%s:$%04x) ",(sidefx==e_ON)?'S':'-',            \
-                              memspace_string[default_memspace],  \
-                              memspace_string[caller_space], addr_location(dot_addr[caller_space])); }
+
 #define GET_OPCODE(mem) (get_mem_val(mem, mon_get_reg_val(mem, e_PC)))
 
 FILE *mon_output, *mon_input;
@@ -140,6 +138,10 @@ BREAK_LIST *watchpoints_load[NUM_MEMSPACES];
 BREAK_LIST *watchpoints_store[NUM_MEMSPACES];
 static monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 MEMSPACE caller_space;
+
+const char *_mon_space_strings[] = {
+    "Default", "Computer", "Disk", "<<Invalid>>"
+};
 
 static ADDRESS watch_load_array[10][NUM_MEMSPACES];
 static ADDRESS watch_store_array[10][NUM_MEMSPACES];
@@ -444,15 +446,15 @@ unsigned int mon_get_reg_val(MEMSPACE mem, REG_ID reg_id)
 
     switch(reg_id) {
       case e_A:
-        return reg_ptr->a;
+        return MOS6510_REGS_GET_A(reg_ptr);
       case e_X:
-        return reg_ptr->x;
+        return MOS6510_REGS_GET_X(reg_ptr);
       case e_Y:
-        return reg_ptr->y;
+        return MOS6510_REGS_GET_Y(reg_ptr);
       case e_PC:
-        return reg_ptr->pc;
+        return MOS6510_REGS_GET_PC(reg_ptr);
       case e_SP:
-        return reg_ptr->sp;
+        return MOS6510_REGS_GET_SP(reg_ptr);
       default:
         assert(FALSE);
     }
@@ -472,19 +474,19 @@ void mon_set_reg_val(MEMSPACE mem, REG_ID reg_id, WORD val)
 
     switch(reg_id) {
       case e_A:
-        reg_ptr->a = val;
+        MOS6510_REGS_SET_A(reg_ptr, val);
         break;
       case e_X:
-        reg_ptr->x = val;
+        MOS6510_REGS_SET_X(reg_ptr, val);
         break;
       case e_Y:
-        reg_ptr->y = val;
+        MOS6510_REGS_SET_Y(reg_ptr, val);
         break;
       case e_PC:
-        reg_ptr->pc = val;
+        MOS6510_REGS_SET_PC(reg_ptr, val);
         break;
       case e_SP:
-        reg_ptr->sp = val;
+        MOS6510_REGS_SET_SP(reg_ptr, val);
         break;
       default:
         assert(FALSE);
@@ -505,11 +507,20 @@ void mon_print_registers(MEMSPACE mem)
     regs = mon_interfaces[mem]->cpu_regs;
     fprintf(mon_output, "  ADDR AR XR YP SP 01 NV-BDIZC\n");
     fprintf(mon_output, ".;%04x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d\n",
-            mon_get_reg_val(mem,e_PC), mon_get_reg_val(mem,e_A), mon_get_reg_val(mem,e_X),
-            mon_get_reg_val(mem,e_Y), mon_get_reg_val(mem,e_SP), get_mem_val(mem,1),
-            TEST(regs->p.n), TEST(regs->p.v), '1', TEST(regs->p.b),
-            TEST(regs->p.d), TEST(regs->p.i), TEST(regs->p.z),
-            TEST(regs->p.c));
+            mon_get_reg_val(mem, e_PC),
+            mon_get_reg_val(mem, e_A),
+            mon_get_reg_val(mem, e_X),
+            mon_get_reg_val(mem, e_Y),
+            mon_get_reg_val(mem, e_SP),
+            get_mem_val(mem, 1),
+            TEST(MOS6510_REGS_GET_SIGN(regs)),
+            TEST(MOS6510_REGS_GET_OVERFLOW(regs)),
+            '1',
+            TEST(MOS6510_REGS_GET_BREAK(regs)),
+            TEST(MOS6510_REGS_GET_DECIMAL(regs)),
+            TEST(MOS6510_REGS_GET_INTERRUPT(regs)),
+            TEST(MOS6510_REGS_GET_ZERO(regs)),
+            TEST(MOS6510_REGS_GET_CARRY(regs)));
 }
 
 void mon_jump(MON_ADDR addr)
@@ -777,11 +788,20 @@ int mon_assemble_instr(char *opcode_name, unsigned operand)
 
    len = clength[operand_mode];
 
+#if 0
    ram[loc] = opcode;
    if (len >= 2)
       ram[loc+1] = operand_value & 0xff;
    if (len >= 3)
       ram[loc+2] = (operand_value >> 8) & 0xff;
+#else
+   /* EP 98.08.23 use correct memspace for assembling.  */
+   set_mem_val(mem, loc, opcode);
+   if (len >= 2)
+      set_mem_val(mem, loc + 1, operand_value & 0xff);
+   if (len >= 3)
+      set_mem_val(mem, loc + 2, (operand_value >> 8) & 0xff);
+#endif
 
    if (len >= 0) {
       inc_addr_location(&asm_mode_addr, len);
@@ -1051,7 +1071,8 @@ void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr, unsigned char *data
   index = 0;
   while (i < len) {
      set_mem_val(dest_mem, ADDR_LIMIT(start+i), data_buf[index++]);
-     if (index >= data_buf_len) index = 0;
+     if (index >= data_buf_len)
+         index = 0;
      i++;
   }
 
@@ -1142,7 +1163,7 @@ void mon_load_file(char *filename, MON_ADDR start_addr)
     ch = fread (ram + adr, 1, ram_size - adr, fp);
     fprintf(mon_output, "%x bytes\n", ch);
 
-    /* set end of load addresses like kernal load */ /*FCP*/
+    /* set end of load addresses like kernal load */
     mem_set_basic_text(adr, adr + ch);
 
     fclose(fp);
@@ -2192,6 +2213,15 @@ void mon_check_watchpoints(ADDRESS a)
         }
         watch_store_occurred = FALSE;
     }
+}
+
+static void make_prompt(char *str)
+{
+    sprintf(str, "[%c,M:%s] (%s:$%04x) ",
+            (sidefx == e_ON) ? 'S' : '-',
+            memspace_string[default_memspace],
+            memspace_string[caller_space],
+            addr_location(dot_addr[caller_space]));
 }
 
 void mon(ADDRESS a)
