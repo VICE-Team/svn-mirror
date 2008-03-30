@@ -95,14 +95,14 @@ static trap_t c128_serial_traps[] = {
     {
 	"Serial ready",
 	0xE569,
-	0xE5BA,
+	0xE572,
 	{0xAD, 0x00, 0xDD},
 	trap_serial_ready
     },
     {
-	"serial ready",
+	"Serial ready",
 	0xE4F5,
-	0xE5BA,
+	0xE572,
 	{0xAD, 0x00, 0xDD},
 	trap_serial_ready
     },
