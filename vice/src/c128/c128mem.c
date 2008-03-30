@@ -49,6 +49,7 @@
 #include "mon.h"
 #include "parallel.h"
 #include "resources.h"
+#include "reu.h"
 #include "rs232.h"
 #include "sid.h"
 #include "snapshot.h"
@@ -192,6 +193,7 @@ static int set_reu_enabled(resource_value_t v)
         return 0;
     } else if (!ieee488_enabled) {
         reu_enabled = 1;
+        activate_reu();
         return 0;
     } else {
         /* The REU and the IEEE488 interface share the same address space, so
@@ -697,6 +699,8 @@ BYTE REGPARM1 read_io1(ADDRESS addr)
 
 void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 {
+    if (reu_enabled)
+        store_reu(addr & 0x0f, value);
     if (ieee488_enabled) {
         store_tpi(addr & 0x07, value);
     }
@@ -711,6 +715,8 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
             emulator_id[addr - 0xa0] ^= 0xff;
         return emulator_id[addr - 0xa0];
     }
+    if (reu_enabled)
+        return read_reu(addr & 0x0f);
     if (ieee488_enabled) {
         return read_tpi(addr & 0x07);
     }
