@@ -253,10 +253,6 @@ SOURCE=..\..\utils.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\warn.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\zfile.c
 # End Source File
 # Begin Source File

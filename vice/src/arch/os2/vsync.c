@@ -74,7 +74,7 @@ static int relative_speed;
 static int refresh_rate;
 
 /* "Warp mode".  If nonzero, attempt to run as fast as possible.  */
-int warp_mode_enabled;
+static int warp_mode_enabled;
 
 /* FIXME: This should call `set_timers'.  */
 static int set_relative_speed(resource_value_t v)

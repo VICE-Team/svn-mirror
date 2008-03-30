@@ -48,23 +48,20 @@
 FUNC_INLINE_STATEMENT vreal_t fixpoint_mult(vreal_t x, vreal_t y)
 {
     unsigned int a, b, c, d;
-    int sign;
 
-    sign = ((x ^ y) < 0) ? 1 : 0;
-    if (x < 0)
-	x = -x;
-    if (y < 0)
-	y = -y;
+    int sign = ((x ^ y) < 0) ? 1 : 0;
+
+    if (x < 0) x *= -1;
+    if (y < 0) y *= -1;
+    
     a = (((unsigned int) x) >> FIXPOINT_PREC);
-    b = ((unsigned int) x) & ~(a << FIXPOINT_PREC);
+    b = ( (unsigned int) x) &  ~(a << FIXPOINT_PREC);
     c = (((unsigned int) y) >> FIXPOINT_PREC);
-    d = ((unsigned int) y) & ~(c << FIXPOINT_PREC);
+    d = ( (unsigned int) y) &  ~(c << FIXPOINT_PREC);
     a = (((a * c) << FIXPOINT_PREC)
          + (a * d + b * c)
          + (((b * d) + (1 << (FIXPOINT_PREC - 1))) >> FIXPOINT_PREC));
-    if (sign != 0)
-	a = -a;
-    return a;
+    return sign ? -a : a;
 }
 
 #endif

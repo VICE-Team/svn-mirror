@@ -29,6 +29,7 @@ libarch_a_SOURCES = \
 	kbd.h \
         main_exit.c \
         main_exit.h \
+        rs232.c \
         types.h \
 	ui.c \
 	ui.h \

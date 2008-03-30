@@ -166,11 +166,8 @@ void ui_snapshot_save_dialog(HWND hwnd)
             ui_error("Cannot write snapshot file.");
         free(s);
     }
-#if 0
-        DialogBox(winmain_instance, (LPCTSTR)IDD_SNAPSHOT_SAVE_DIALOG, hwnd,
-              ui_snapshot_save_dialog_proc);
-#endif
 }
+
 
 void ui_snapshot_load_dialog(HWND hwnd)
 {

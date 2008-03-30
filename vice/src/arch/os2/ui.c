@@ -402,3 +402,9 @@ int ui_file_dialog(HWND hwnd, char *title, char *drive, char *path,
     return NULL;
 }
 
+//-------------------------------------------------------------------
+void ui_proc_write_msg(char* msg)
+{
+ // write(ui_pipefd[1], msg, strlen(msg));
+}
+

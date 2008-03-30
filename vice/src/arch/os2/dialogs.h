@@ -28,17 +28,10 @@
 #define _DIALOGS_H
 
 #include <os2.h>
+#include "config.h"
 
 #define ID_NONE      -1
 #define DID_CLOSE    DID_OK
-
-// Joystick Dialog
-#define DLG_JOYSTICK  0x1000
-#define CB_JOY11      0x111
-#define CB_JOY12      0x211
-#define CB_JOY21      0x112
-#define CB_JOY22      0x212
-#define ID_SWAP       0x110
 
 // Sound Dialog
 #define DLG_SOUND     0x1010
@@ -66,10 +59,54 @@
 
 #define DLG_ABOUT     0x1050
 
-void drive_dialog   (HWND hwnd);
-void sound_dialog   (HWND hwnd);
-void joystick_dialog(HWND hwnd);
-void about_dialog   (HWND hwnd);
+#define DLG_DATASETTE 0x1060
+#define PB_STOP       0x1070
+#define PB_START      0x1071
+#define PB_FORWARD    0x1072
+#define PB_REWIND     0x1073
+#define PB_RECORD     0x1074
+#define PB_RESET      0x1075
+
+#ifdef HAS_JOYSTICK
+// Joystick Dialog
+#define DLG_JOYSTICK  0x1000
+#define CB_JOY11      0x111
+#define CB_JOY12      0x211
+#define CB_JOY21      0x112
+#define CB_JOY22      0x212
+#define ID_SWAP       0x110
+#define ID_CALIBRATE  0x113
+// Calibrate Dialog
+#define DLG_CALIBRATE 0x1080
+#define RB_JOY1       0x1081
+#define RB_JOY2       0x1082
+#define SPB_UP        0x1083
+#define SPB_DOWN      0x1084
+#define SPB_LEFT      0x1085
+#define SPB_RIGHT     0x1086
+#define ID_START      0x1087
+#define ID_STOP       0x1088
+#define ID_RESET      0x1089
+#define WM_SETJOY     WM_USER+0x1
+#define WM_PROCESS    WM_USER+0x2
+#define WM_FILLSPB    WM_USER+0x3
+#define WM_ENABLECTRL WM_USER+0x4
+#endif
+
+#define DLG_EMULATOR  0x1090
+#define SPB_SPEED     0x1091
+#define CBS_REFRATE   0x1092
+
+void drive_dialog     (HWND hwnd);
+void sound_dialog     (HWND hwnd);
+void about_dialog     (HWND hwnd);
+void datasette_dialog (HWND hwnd);
+void emulator_dialog  (HWND hwnd);
+
+#ifdef HAS_JOYSTICK
+void joystick_dialog  (HWND hwnd);
+void calibrate_dialog (HWND hwnd);
+#endif
 
 #endif
 

@@ -1,8 +1,8 @@
 option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
     link(linkwithmultithreadlib, "yes"), link(pmtype, "pm"), opt(autoinline, "yes"),
     opt(inline, "yes"), opt(level, "2"), opt(tune, "pentium"),
-    define("HAVE_CONFIG_H", ), define("HAS_JOYSTICK", ),
-    define("HAVE_RESID", ), incl(searchpath, "..\\..\\.."),
+    define("HAVE_CONFIG_H", ),
+    incl(searchpath, "..\\..\\.."),
     incl(searchpath, "..\\..\\..\\c64"),
     incl(searchpath, "..\\..\\..\\sid"),
     incl(searchpath, "..\\..\\..\\resid"),
@@ -14,7 +14,7 @@ option ProjectOptions = gen(arch, "pentium"), link(debug, "no"),
     incl(searchpath, ".."), incl(searchpathfirst, "yes"),
     gen(debug, "no"), file(genobject, "Yes"),
     file(genpch, "no"), file(usepch, "no"), info(cnd, "no"),
-    info(ppc, "no"), info(ppt, "no"), res_rc_options("-i ..")
+    info(ppc, "no"), info(ppt, "no"), res_rc_options("-i .. -x1")
 {
     target type(exe) "..\\..\\..\\..\\data\\x64.exe"
     {

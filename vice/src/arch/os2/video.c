@@ -148,7 +148,7 @@ int video_frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
     (*f)->height = height;
     log_message(LOG_DEFAULT,"video.c: Frame buffer allocated (%lix%li)",width,height);
     if (rc=DiveAllocImageBuffer(hDiveInst, &((*f)->ulBuffer), FOURCC_LUT8,
-                             width, height, 0, (*f)->bitmap))
+                                width, height, 0, (*f)->bitmap))
         log_message(LOG_DEFAULT,"video.c: Could not allocate Dive image buffer (rc=%li).",rc);
     //    log_message(LOG_DEFAULT,"video.c: Dive image buffer allocated.");
 
@@ -164,19 +164,20 @@ void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
 void video_frame_buffer_free(frame_buffer_t *f)
 {
     //    if (ulBuffer) {  // share this with video_close
-    DiveFreeImageBuffer (hDiveInst, (*f)->ulBuffer);
+    ULONG rc=DiveFreeImageBuffer (hDiveInst, (*f)->ulBuffer);
     (*f)->ulBuffer = 0;
-    log_message(LOG_DEFAULT,"video.c: Dive image buffer freed (frame_buffer_free).");
+    if (!rc) log_message(LOG_DEFAULT,"video.c: Dive image buffer freed (frame_buffer_free).");
     //    }
     if ((*f)->bitmap) free((*f)->bitmap);
     if (*f)           free(*f);
-    log_message(LOG_DEFAULT,"video.c: Frame buffer freed.");
+    //log_message(LOG_DEFAULT,"video.c: Frame buffer freed.");
 }
 
 /* ------------------------------------------------------------------------ */
 /* PM Window mainloop */
 
-typedef struct _kstate {
+typedef struct _kstate
+{
     BYTE numlock;
     BYTE scrllock;
     BYTE capslock;
@@ -273,8 +274,8 @@ void wmVrn(HWND hwnd)
             WinQueryWindowPos(hwnd, &swp);
             pointl.x = swp.x;
             pointl.y = swp.y;
-            WinMapWindowPoints(WinQueryWindow(hwnd, QW_PARENT), HWND_DESKTOP,
-                               (POINTL*)&pointl, 1);
+            WinMapWindowPoints(WinQueryWindow(hwnd, QW_PARENT),
+                               HWND_DESKTOP, (POINTL*)&pointl, 1);
             divesetup.lScreenPosX   = pointl.x;
             divesetup.lScreenPosY   = pointl.y;
             divesetup.ulNumDstRects = rgnCtl.crcReturned;
@@ -368,10 +369,8 @@ void PM_mainloop(VOID *arg)
 
     rc=WinDestroyWindow ((*ptr)->hwndFrame);
     if (rc) log_message(LOG_DEFAULT,"video.c: Graphic window destroyed (rc=%li)",rc);
-    rc=WinDestroyMsgQueue(hmq);  // Destroy Msg Queue
-    if (rc) log_message(LOG_DEFAULT,"video.c: Msg Queue destroyed (rc=%li)",rc);
-    rc=WinTerminate (hab);       // Release Anchor to PM
-    if (rc) log_message(LOG_DEFAULT,"video.c: PM anchor released (rc=%li)",rc);
+    if (!WinDestroyMsgQueue(hmq)) log_message(LOG_DEFAULT,"video.c: Error! Msg Queue destroy.");
+    if (!WinTerminate (hab)) log_message(LOG_DEFAULT,"video.c: Error! PM anchor release.");
     //    machine_shutdown();  // detach all disks
     //    sound_close();
     //      free((*ptr)->palette);       // cannot be destroyed because main thread is already working!!
@@ -434,6 +433,7 @@ void canvas_resize(canvas_t c, UINT width, UINT height)
 int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
 {
     int i;
+    ULONG rc;
     //    if (!(c->pbmi_initialized)) return;
     for (i=0; i<p->num_entries; i++) {
         c->palette[i].bRed  =p->entries[i].red;
@@ -441,16 +441,16 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
         c->palette[i].bBlue =p->entries[i].blue;
         pixel_return[i]=i;
     }
-    DiveSetSourcePalette(hDiveInst, 0, 256, (BYTE*)c->palette);
-    log_message(LOG_DEFAULT,"video.c: Palette set.");
+    rc=DiveSetSourcePalette(hDiveInst, 0, 256, (BYTE*)c->palette);
+    if (rc) log_message(LOG_DEFAULT,"video.c: Palette set (rc=%i).",rc);
     return 0;
 }
 
 /* ------------------------------------------------------------------------ */
 void canvas_refresh(canvas_t c, frame_buffer_t f,
-                           unsigned int xs, unsigned int ys,
-                           unsigned int xi, unsigned int yi,
-                           unsigned int w, unsigned int h)
+                    unsigned int xs, unsigned int ys,
+                    unsigned int xi, unsigned int yi,
+                    unsigned int w,  unsigned int h)
 {
     if (DosRequestMutexSem(hmtx, SEM_IMMEDIATE_RETURN)) return;
     if (c->vrenabled)

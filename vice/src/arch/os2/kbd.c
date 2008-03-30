@@ -167,7 +167,7 @@ static void ui_attach(HWND hwnd, int number)
     chdir(dirname);                      // change back to working dir
 
     if (!ui_file_dialog(hwnd,        number?"Attach disk image":"Attach tape image",
-                        drive, path, number?"*.d??;*.d??.gz":"*.t64;*.t64.gz",
+                        drive, path, number?"*.d64*; *.d71*; *.d81*; *.g64*; *.x64*":"*.t64*; *.tap*",
                         "Attach", result))
         return;
     if ((number?file_system_attach_disk(number, result):tape_attach_image(result)) < 0)
@@ -233,22 +233,26 @@ void wmChar(HWND hwnd, MPARAM mp1)
                             (resource_value_t)(SHORT1FROMMP(mp1)&0x1000));
     if (usScancode==K_PGUP)
         machine_set_restore_key(release);
-    
+
     if (fsFlags&KC_ALT && release) {
         switch (usScancode)
         {
         case K_F7:
             if (key_ctrl_column4080_func != NULL) key_ctrl_column4080_func();
             break;
-        case K_8: ui_attach      (hwnd, 8); break;
-        case K_9: ui_attach      (hwnd, 9); break;
-        case K_0: ui_attach      (hwnd, 0); break;
-        case K_A: about_dialog   (hwnd);    break;
-        case K_D: drive_dialog   (hwnd);    break;
-        case K_Q: ui_hard_reset  (hwnd);    break;
-        case K_R: ui_soft_reset  (hwnd);    break;
-        case K_J: joystick_dialog(hwnd);    break;
-        case K_S: sound_dialog   (hwnd);    break;
+        case K_8: ui_attach       (hwnd, 8); break;
+        case K_9: ui_attach       (hwnd, 9); break;
+        case K_0: ui_attach       (hwnd, 0); break;
+        case K_A: about_dialog    (hwnd);    break;
+        case K_C: datasette_dialog(hwnd);    break;
+        case K_D: drive_dialog    (hwnd);    break;
+        case K_E: emulator_dialog (hwnd);    break;
+        case K_Q: ui_hard_reset   (hwnd);    break;
+        case K_R: ui_soft_reset   (hwnd);    break;
+#ifdef HAS_JOYSTICK
+        case K_J: joystick_dialog (hwnd);    break;
+#endif
+        case K_S: sound_dialog    (hwnd);    break;
             // toggle_dialog("Sound", "Sound playback");
             break;
         case K_T:

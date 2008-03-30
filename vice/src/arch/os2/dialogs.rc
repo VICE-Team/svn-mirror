@@ -9,60 +9,75 @@
 #define INCL_SW
 
 #include "dialogs.h"
-#include "config.h"
-#include "version.h"
+#include "../../version.h"
 
-#define TEXT(txt,x,y,w,h) CONTROL txt, ID_NONE, x, y, w, h, WC_STATIC, SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
+// My Styles
+#define STY_STD               WS_TABSTOP | WS_VISIBLE
 
+#define STY_CLOSEBUTTON       WC_BUTTON, BS_PUSHBUTTON      | STY_STD | BS_DEFAULT
+#define STY_GROUPBOX          WC_STATIC, SS_GROUPBOX        | WS_GROUP | WS_VISIBLE
+#define STY_PUSHBUTTON        WC_BUTTON, BS_PUSHBUTTON      | STY_STD
+#define STY_AUTORADIOBUTTON   WC_BUTTON, BS_AUTORADIOBUTTON | STY_STD
+#define STY_AUTOCHECKBOX      WC_BUTTON, BS_AUTOCHECKBOX    | STY_STD
+#define STY_SPINBUTTON        WC_SPINBUTTON, SPBS_MASTER | SPBS_JUSTRIGHT | \
+                              SPBS_NUMERICONLY | SPBS_FASTSPIN | \
+                              SPBS_PADWITHZEROS | STY_STD
+#define STY_DIALOG            FS_NOBYTEALIGN | FS_SCREENALIGN | FS_DLGBORDER | \
+                              WS_CLIPSIBLINGS | WS_SAVEBITS | WS_VISIBLE, \
+                              FCF_TITLEBAR | FCF_SYSMENU
+
+#define TEXT(txt,x,y,w,h) CONTROL txt, ID_NONE, x, y, w, h, WC_STATIC, \
+                                       SS_TEXT | DT_LEFT | DT_TOP | WS_VISIBLE
+
+#ifdef HAS_JOYSTICK
 DLGTEMPLATE DLG_JOYSTICK 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "Joystick Setup", DLG_JOYSTICK, 162, 122, 135, 88, FS_NOBYTEALIGN |
-                FS_SCREENALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS |
-                WS_VISIBLE, FCF_TITLEBAR | FCF_SYSMENU
+    DIALOG "Joystick Setup", DLG_JOYSTICK, 162, 122, 135, 88, STY_DIALOG
     BEGIN
-        CONTROL "Close",                    DID_CLOSE, 5, 5, 38, 12, WC_BUTTON,
-                                            BS_PUSHBUTTON | BS_DEFAULT |
-                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
-        CONTROL "Swap",                     ID_SWAP, 48, 5, 38, 12, WC_BUTTON,
-                                            BS_PUSHBUTTON | WS_TABSTOP |
-                                            WS_VISIBLE
-//        CONTROL "Swap",                ID_SWAP, 91, 5, 38, 12, WC_BUTTON,
-//                                            BS_PUSHBUTTON |/* BS_HELP |*/
-//                                            /*BS_NOPOINTERFOCUS |*/ WS_TABSTOP |
-//                                            WS_VISIBLE
-        CONTROL "Joystick",                 ID_NONE, 7, 22, 118, 62, WC_STATIC,
-                                            SS_GROUPBOX | WS_GROUP | WS_VISIBLE
-        CONTROL "",                         CB_JOY11, 77, 53, 9, 9, WC_BUTTON,
-                                            BS_AUTOCHECKBOX | WS_TABSTOP |
-                                            WS_VISIBLE
-        CONTROL "",                         CB_JOY21, 77, 38, 9, 9, WC_BUTTON,
-                                            BS_AUTOCHECKBOX | WS_TABSTOP |
-                                            WS_VISIBLE
-        CONTROL "",                         CB_JOY12, 105, 53, 9, 9, WC_BUTTON,
-                                            BS_AUTOCHECKBOX | WS_TABSTOP |
-                                            WS_VISIBLE
-        CONTROL "",                         CB_JOY22, 105, 38, 9, 9, WC_BUTTON,
-                                            BS_AUTOCHECKBOX | WS_TABSTOP |
-                                            WS_VISIBLE
-        CONTROL "PC",                       ID_NONE, 17, 46, 11, 8, WC_STATIC, SS_TEXT |
-                                            DT_LEFT | DT_TOP | WS_VISIBLE
-        CONTROL "Commodore",                ID_NONE, 69, 26, 45, 8, WC_STATIC,
-                                            SS_TEXT | DT_LEFT | DT_TOP |
-                                            WS_VISIBLE
-        CONTROL "Port#1",                   ID_NONE, 67, 66, 26, 8, WC_STATIC,
-                                            SS_TEXT | DT_LEFT | DT_TOP |
-                                            WS_VISIBLE
-        CONTROL "Port#2",                   ID_NONE, 94, 66, 26, 8, WC_STATIC,
-                                            SS_TEXT | DT_LEFT | DT_TOP |
-                                            WS_VISIBLE
-        CONTROL "Joy#1",                    ID_NONE, 38, 54, 24, 8, WC_STATIC,
-                                            SS_TEXT | DT_LEFT | DT_TOP |
-                                            WS_VISIBLE
-        CONTROL "Joy#2",                    ID_NONE, 38, 39, 24, 8, WC_STATIC,
-                                            SS_TEXT | DT_LEFT | DT_TOP |
-                                            WS_VISIBLE
+        CONTROL "Close",        DID_CLOSE,     5,  5,  38, 12, STY_CLOSEBUTTON |
+                                WS_GROUP 
+        CONTROL "Calib",        ID_CALIBRATE, 48,  5,  38, 12, STY_PUSHBUTTON
+        CONTROL "Swap",         ID_SWAP,      91,  5,  38, 12, STY_PUSHBUTTON
+        CONTROL "Joystick",     ID_NONE,       7, 22, 118, 62, STY_GROUPBOX
+        CONTROL "",             CB_JOY11,     77, 53,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_JOY21,     77, 38,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_JOY12,    105, 53,   9,  9, STY_AUTOCHECKBOX
+        CONTROL "",             CB_JOY22,    105, 38,   9,  9, STY_AUTOCHECKBOX
+        TEXT("PC",        17, 46, 11, 8)
+        TEXT("Commodore", 69, 26, 45, 8)
+        TEXT("Port#1",    67, 66, 26, 8)
+        TEXT("Port#2",    94, 66, 26, 8)
+        TEXT("Joy#1",     38, 54, 24, 8)
+        TEXT("Joy#2",     38, 39, 24, 8)
     END
 END
+
+DLGTEMPLATE DLG_CALIBRATE 850 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Joystick Calibration", DLG_CALIBRATE, 162, 122, 155, 103, STY_DIALOG
+    BEGIN
+        CONTROL "Close",        DID_CLOSE, 5,  5,  38, 12, STY_CLOSEBUTTON |
+                                WS_GROUP 
+        CONTROL "Calibration",  ID_NONE,   7, 22, 138, 77, STY_GROUPBOX
+        CONTROL "Joy#1",        RB_JOY1,  15, 80,  35,  8, STY_AUTORADIOBUTTON |
+                                WS_GROUP
+        CONTROL "Joy#2",        RB_JOY2,  15, 70,  35,  8, STY_AUTORADIOBUTTON
+        CONTROL "",             SPB_UP,   82, 79,  35, 12, STY_SPINBUTTON
+                CTLDATA 24, 0, 4, 0, 0, 0, 1024, 0, 0, 0, 0, 0
+        CONTROL "",             SPB_DOWN, 82, 53, 35, 12, STY_SPINBUTTON
+                CTLDATA 24, 0, 4, 0, 0, 0, 1024, 0, 0, 0, 0, 0
+        CONTROL "",             SPB_LEFT, 62, 66, 35, 12, STY_SPINBUTTON
+                CTLDATA 24, 0, 4, 0, 0, 0, 1024, 0, 0, 0, 0, 0
+        CONTROL "",             SPB_RIGHT, 102, 66, 35, 12, STY_SPINBUTTON
+                CTLDATA 24, 0, 4, 0, 0, 0, 1024, 0, 0, 0, 0, 0
+        TEXT("Autocalibration", 15, 41, 60, 8)         
+        CONTROL "Start",        ID_START, 13, 27, 38, 12, STY_PUSHBUTTON |
+                                WS_GROUP
+        CONTROL "Stop",         ID_STOP,  56, 27, 38, 12, STY_PUSHBUTTON
+        CONTROL "Reset",        ID_RESET, 99, 27, 38, 12, STY_PUSHBUTTON
+    END
+END
+#endif
 
 DLGTEMPLATE DLG_SOUND 850 MOVEABLE DISCARDABLE
 BEGIN
@@ -70,70 +85,41 @@ BEGIN
                 FS_SCREENALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS |
                 WS_VISIBLE, FCF_TITLEBAR | FCF_SYSMENU
     BEGIN
-        CONTROL "Close",                    DID_CLOSE, 5, 5, 38, 12, WC_BUTTON,
-                                            BS_PUSHBUTTON | BS_DEFAULT |
-                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
-        CONTROL "Sound",                    ID_NONE, 7, 22, 148,137, WC_STATIC,
-                                            SS_GROUPBOX | WS_GROUP | WS_VISIBLE
-        CONTROL "Sound",                    CB_SOUND, 17, 141, 40, 9, WC_BUTTON,
-                                            BS_AUTOCHECKBOX | WS_TABSTOP |
-                                            WS_VISIBLE
+        CONTROL "Close",        DID_CLOSE,  5,   5,  38,  12, STY_CLOSEBUTTON |
+        			WS_GROUP
+        CONTROL "Sound",        ID_NONE,    7,  22, 148, 137, STY_GROUPBOX
+        CONTROL "Sound",        CB_SOUND,  17, 141,  40,   9, STY_AUTOCHECKBOX
         TEXT("Vol", 129, 125, 20, 8)
-        CONTROL "",                         CS_VOLUME, 127, 46, 16, 80, WC_SLIDER,
-                                            SLS_VERTICAL | SLS_CENTER |
-                                            SLS_BUTTONSTOP | SLS_HOMELEFT |
-                                            SLS_RIBBONSTRIP | SLS_PRIMARYSCALE1 |
-                                            WS_TABSTOP | WS_VISIBLE
+        CONTROL "",             CS_VOLUME, 127, 46,  16,  80, WC_SLIDER,
+                                SLS_VERTICAL | SLS_CENTER |
+                                SLS_BUTTONSTOP | SLS_HOMELEFT |
+                                SLS_RIBBONSTRIP | SLS_PRIMARYSCALE1 |
+                                STY_STD
                 // cbSize-lo, cbSizeHi, Increment1, Space1, Increment2, Space2
                 CTLDATA 12, 0, 21, 0, 5, 5
         TEXT("Frequency", 17, 125, 55, 8)
-        CONTROL "8000Hz",              RB_8000HZ,  17, 115, 45, 10, WC_BUTTON,
-                                            BS_AUTORADIOBUTTON | WS_TABSTOP |
-                                            WS_VISIBLE | WS_GROUP
-        CONTROL "11025Hz",             RB_11025HZ, 17, 105, 45, 10, WC_BUTTON,
-                                            BS_AUTORADIOBUTTON | WS_TABSTOP |
-                                            WS_VISIBLE
-        CONTROL "22050Hz",             RB_22050HZ, 17, 95, 45, 10, WC_BUTTON,
-                                            BS_AUTORADIOBUTTON | WS_TABSTOP |
-                                            WS_VISIBLE
-        CONTROL "44100Hz",             RB_44100HZ, 17, 85, 45, 10, WC_BUTTON,
-                                            BS_AUTORADIOBUTTON | WS_TABSTOP |
-                                            WS_VISIBLE
+        CONTROL "8000Hz",       RB_8000HZ,  17, 115, 45, 10, STY_AUTORADIOBUTTON |
+                                WS_GROUP
+        CONTROL "11025Hz",      RB_11025HZ, 17, 105, 45, 10, STY_AUTORADIOBUTTON
+        CONTROL "22050Hz",      RB_22050HZ, 17, 95, 45, 10,  STY_AUTORADIOBUTTON
+        CONTROL "44100Hz",      RB_44100HZ, 17, 85, 45, 10,  STY_AUTORADIOBUTTON
         TEXT("Oversampling", 62, 125, 55, 8)
-        CONTROL "Off",                 RB_OFF, 77, 115, 25, 10, WC_BUTTON,
-                                            BS_AUTORADIOBUTTON | WS_TABSTOP |
-                                            WS_VISIBLE | WS_GROUP
-        CONTROL "2x",                  RB_2X, 77, 105, 25, 10, WC_BUTTON,
-                                            BS_AUTORADIOBUTTON | WS_TABSTOP |
-                                            WS_VISIBLE
-        CONTROL "4x",                  RB_4X, 77, 95, 25, 10, WC_BUTTON,
-                                            BS_AUTORADIOBUTTON | WS_TABSTOP |
-                                            WS_VISIBLE
-        CONTROL "8x",                  RB_8X, 77, 85, 25, 10, WC_BUTTON,
-                                            BS_AUTORADIOBUTTON | WS_TABSTOP |
-                                            WS_VISIBLE
+        CONTROL "Off",          RB_OFF,     77, 115, 25, 10, STY_AUTORADIOBUTTON |
+                                WS_GROUP
+        CONTROL "2x",           RB_2X,      77, 105, 25, 10, STY_AUTORADIOBUTTON
+        CONTROL "4x",           RB_4X,      77,  95, 25, 10, STY_AUTORADIOBUTTON
+        CONTROL "8x",           RB_8X,      77,  85, 25, 10, STY_AUTORADIOBUTTON
         TEXT("SID:", 17, 70, 20, 8)
-        CONTROL "6581",                RB_6581, 37, 69, 30, 10, WC_BUTTON,
-                                            BS_AUTORADIOBUTTON | WS_TABSTOP |
-                                            WS_VISIBLE | WS_GROUP
-        CONTROL "8580",                RB_8580, 77, 69, 30, 10, WC_BUTTON,
-                                            BS_AUTORADIOBUTTON | WS_TABSTOP |
-                                            WS_VISIBLE
-        CONTROL "Sid Filters",         CB_SIDFILTER, 17, 55, 50, 9, WC_BUTTON,
-                                            BS_AUTOCHECKBOX | WS_TABSTOP |
-                                            WS_VISIBLE
+        CONTROL "6581",         RB_6581,    37,  69, 30, 10, STY_AUTORADIOBUTTON |
+                                WS_GROUP
+        CONTROL "8580",         RB_8580,    77,  69, 30, 10, STY_AUTORADIOBUTTON
+        CONTROL "Sid Filters",  CB_SIDFILTER, 17, 55, 50, 9, STY_AUTOCHECKBOX
 #ifdef HAVE_RESID
-        CONTROL "HiFi (reSID)",        CB_RESID, 70, 55, 65, 9, WC_BUTTON,
-                                            BS_AUTOCHECKBOX | WS_TABSTOP |
-                                            WS_VISIBLE
+        CONTROL "HiFi (reSID)", CB_RESID,   70,  55, 65,  9, STY_AUTOCHECKBOX
 #endif
         TEXT("Buffer Size <msec>", 17, 40, 75, 8)
         TEXT("[100-1000]",         17, 30, 55, 8)
-        CONTROL "",                    SPB_BUFFER, 70, 29, 35, 12, WC_SPINBUTTON,
-                                            SPBS_MASTER | SPBS_JUSTRIGHT |
-                                            SPBS_NUMERICONLY | SPBS_FASTSPIN |
-                                            SPBS_PADWITHZEROS | WS_TABSTOP |
-                                            WS_VISIBLE
+        CONTROL "",             SPB_BUFFER, 70, 29, 35, 12, STY_SPINBUTTON
                 CTLDATA 24, 0, 4, 0, 100, 0, 1000, 0, 0, 0, 0, 0
     END
 END
@@ -144,27 +130,38 @@ BEGIN
                 FS_SCREENALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS |
                 WS_VISIBLE, FCF_TITLEBAR | FCF_SYSMENU
     BEGIN
-        CONTROL "Close",                    DID_CLOSE, 5, 5, 38, 12, WC_BUTTON,
-                                            BS_PUSHBUTTON | BS_DEFAULT |
-                                            WS_GROUP | WS_TABSTOP | WS_VISIBLE
-        CONTROL "Drive",                    ID_NONE, 7, 22, 118, 62, WC_STATIC,
-                                            SS_GROUPBOX | WS_GROUP | WS_VISIBLE
-        CONTROL "True Drive Emulation",     CB_TRUEDRIVE, 17, 66, 90, 9, WC_BUTTON,
-                                            BS_AUTOCHECKBOX | WS_TABSTOP |
-                                            WS_VISIBLE
+        CONTROL "Close",                 DID_CLOSE,     5,  5,  38, 12, STY_CLOSEBUTTON |
+                                         WS_GROUP 
+        CONTROL "Drive",                 ID_NONE,       7, 22, 118, 62, STY_GROUPBOX
+        CONTROL "True Drive Emulation",  CB_TRUEDRIVE, 17, 66,  90,  9, STY_AUTOCHECKBOX
+    END
+END
+
+DLGTEMPLATE DLG_DATASETTE 850 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Datasette Control", DLG_DATASETTE, 162, 122, 135, 88, STY_DIALOG
+    BEGIN
+        CONTROL "Close",        DID_CLOSE, 5, 5, 38, 12, WC_BUTTON,
+                                BS_PUSHBUTTON | BS_DEFAULT |
+                                WS_GROUP | WS_TABSTOP | WS_VISIBLE
+        CONTROL "Datasette",    ID_NONE, 7, 22, 118, 62, WC_STATIC,
+                                SS_GROUPBOX | WS_GROUP | WS_VISIBLE
+        CONTROL "Rec",          PB_RECORD,  15, 45, 18, 12,  STY_PUSHBUTTON |
+                                WS_GROUP
+        CONTROL "<<",           PB_REWIND,  35,  45, 18, 12, STY_PUSHBUTTON
+        CONTROL "Stop",         PB_START,   55, 45, 18, 12,  STY_PUSHBUTTON
+        CONTROL ">",            PB_START,   75, 45, 18, 12,  STY_PUSHBUTTON
+        CONTROL ">>",           PB_FORWARD, 95, 45, 18, 12,  STY_PUSHBUTTON
+        CONTROL "Reset",        PB_RESET,   15,  30, 38, 12, STY_PUSHBUTTON
     END
 END
 
 DLGTEMPLATE DLG_ABOUT 850 MOVEABLE DISCARDABLE
 BEGIN
-    DIALOG "About Vice...", DLG_ABOUT, 162, 122, 240, 265, FS_NOBYTEALIGN |
-                FS_SCREENALIGN | FS_DLGBORDER | WS_CLIPSIBLINGS | WS_SAVEBITS |
-                WS_VISIBLE, FCF_TITLEBAR | FCF_SYSMENU
+    DIALOG "About Vice...", DLG_ABOUT, 162, 122, 240, 265, STY_DIALOG
     BEGIN
-        CONTROL "OK",  DID_CLOSE, 101, 5, 38, 12, WC_BUTTON,
-                       BS_PUSHBUTTON | BS_DEFAULT | WS_GROUP | WS_TABSTOP | WS_VISIBLE
-        CONTROL "",    ID_NONE, 7, 22, 226, 236, WC_STATIC,
-                       SS_GROUPBOX | WS_GROUP | WS_VISIBLE
+        CONTROL "OK",  DID_CLOSE, 101,  5,  38,  12, STY_CLOSEBUTTON
+        CONTROL "",    ID_NONE,     7, 22, 226, 236, STY_GROUPBOX
             TEXT("V I C E",                                         17, 240, 210, 8)
             TEXT("the Versatile Commodore Emulator",                17, 230, 210, 8)
             TEXT("Version " VERSION,                                17, 210, 210, 8)
@@ -180,9 +177,27 @@ BEGIN
             TEXT("Copyright © 1999-1999 Thomas Bretz",              17,  90, 210, 8)
             TEXT("reSID engine",                                    17,  70, 210, 8)
             TEXT("Copyright © 1999 Dag Lem",                        17,  60, 210, 8)
-	         TEXT("Official VICE homepage:",                         17,  40, 210, 8)
-	         TEXT("http://www.cs.cmu.edu/~dsladic/vice/vice.html",   17,  30, 210, 8)
+            TEXT("Official VICE homepage:",                         17,  40, 210, 8)
+            TEXT("http://www.cs.cmu.edu/~dsladic/vice/vice.html",   17,  30, 210, 8)
     END
 END
 
+DLGTEMPLATE DLG_EMULATOR 850 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 135, 88, STY_DIALOG
+    BEGIN
+        CONTROL "Close",     DID_CLOSE,   5,  5,  38, 12, STY_CLOSEBUTTON |
+                             WS_GROUP 
+        CONTROL "Emulator",  ID_NONE,      7, 22, 118, 62, STY_GROUPBOX
+
+	TEXT("Refrash Rate", 17, 43, 50, 8)
+        CONTROL "",          CBS_REFRATE, 70, 5, 33, 48, WC_COMBOBOX,
+         		     CBS_DROPDOWNLIST | STY_STD
+
+	TEXT("Max.Speed", 17, 30, 50, 8)
+
+        CONTROL "",          SPB_SPEED, 70, 29, 33, 12, STY_SPINBUTTON
+                CTLDATA 24, 0, 4, 0, 1, 0, 9999, 0, 0, 0, 0, 0
+    END
+END
 

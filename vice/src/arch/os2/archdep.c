@@ -72,9 +72,9 @@ void PM_close(void)
     APIRET rc;
     log_message(LOG_DEFAULT, "archdep.c: PM_close");
     rc=WinDestroyMsgQueue(hmqMain);  // Destroy Msg Queue
-    if (rc) log_message(LOG_DEFAULT, "archdep.c: Msg Queue destroyed (rc=%li)",rc);
+    if (!rc) log_message(LOG_DEFAULT, "archdep.c: Error! Msg Queue not destroyed (rc=%li)",rc);
     rc=WinTerminate      (habMain);  // Release Anchor to PM
-    if (rc) log_message(LOG_DEFAULT, "archdep.c: PM anchor released (rc=%li)",rc);
+    if (!rc) log_message(LOG_DEFAULT, "archdep.c: Error! PM anchor release.");
 }
 
 void PM_open(void)

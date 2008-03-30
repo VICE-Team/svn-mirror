@@ -33,10 +33,6 @@
 #include <string.h>
 #include <math.h>
 
-/*#ifdef OS2
-#define FIXPOINT_ARITHMETIC
-#endif*/
-
 #include "cmdline.h"
 #include "log.h"
 #include "machine.h"
@@ -324,64 +320,56 @@ static signed char ampMod1x8[256];
 
 inline static void dofilter(voice_t *pVoice)
 {
-    vreal_t sample, sample2;
-    int tmp;
-
-    if ( pVoice->filter )
+    if (!pVoice->filter) return;
+    if (filterType)
     {
-	if ( filterType != 0 )
-	{
-	    if ( filterType == 0x20 )
-	    {
+        if ( filterType == 0x20 )
+        {
+            pVoice->filtLow += REAL_MULT( pVoice->filtRef, filterDy );
+            pVoice->filtRef +=
+                REAL_MULT(REAL_VALUE(pVoice->filtIO) - pVoice->filtLow -
+                          REAL_MULT(pVoice->filtRef, filterResDy),
+                          filterDy );
+            pVoice->filtIO = (signed char)(REAL_TO_INT(pVoice->filtRef-pVoice->filtLow/4));
+        }
+        else
+            if ( filterType == 0x40 )
+            {
+                vreal_t sample;
+                pVoice->filtLow +=
+                    REAL_MULT(REAL_MULT(pVoice->filtRef, filterDy),
+                              REAL_VALUE(0.1));
+                pVoice->filtRef +=
+                    REAL_MULT(REAL_VALUE(pVoice->filtIO) - pVoice->filtLow -
+                              REAL_MULT(pVoice->filtRef, filterResDy),
+                              filterDy );
+                sample = pVoice->filtRef - REAL_VALUE(pVoice->filtIO/8);
+                if (sample < REAL_VALUE(-128))
+                    sample = REAL_VALUE(-128);
+                if (sample > REAL_VALUE(127))
+                    sample = REAL_VALUE(127);
+                pVoice->filtIO = (signed char)(REAL_TO_INT(sample));
+            }
+            else
+            {
+                int tmp;
+                vreal_t sample, sample2;
                 pVoice->filtLow += REAL_MULT( pVoice->filtRef, filterDy );
                 sample = REAL_VALUE(pVoice->filtIO);
                 sample2 = sample - pVoice->filtLow;
-                sample2 -= REAL_MULT(pVoice->filtRef, filterResDy);
-                pVoice->filtRef += REAL_MULT(sample2, filterDy );
-                pVoice->filtIO = (signed char)(REAL_TO_INT(pVoice->filtRef-pVoice->filtLow/4));
-	    }
-	    else if ( filterType == 0x40 )
-	    {
-                pVoice->filtLow += REAL_MULT(REAL_MULT(pVoice->filtRef,
-                                                       filterDy),
-                                             REAL_VALUE(0.1) );
-                sample = REAL_VALUE(pVoice->filtIO);
-                sample2 = sample - pVoice->filtLow;
-                sample2 -= REAL_MULT(pVoice->filtRef, filterResDy);
-                pVoice->filtRef += REAL_MULT( sample2, filterDy );
-                sample2 = pVoice->filtRef - REAL_VALUE(pVoice->filtIO/8);
-                if (sample2 < REAL_VALUE(-128))
-                    sample2 = REAL_VALUE(-128);
-                if (sample2 > REAL_VALUE(127))
-                    sample2 = REAL_VALUE(127);
-                pVoice->filtIO = (signed char)(REAL_TO_INT(sample2));
-	    }
-	    else
-	    {
-                pVoice->filtLow += REAL_MULT( pVoice->filtRef, filterDy );
-                sample = REAL_VALUE(pVoice->filtIO);
-		sample2 = sample - pVoice->filtLow;
                 tmp = (int)(REAL_TO_INT(sample2));
                 sample2 -= REAL_MULT(pVoice->filtRef, filterResDy);
                 pVoice->filtRef += REAL_MULT( sample2, filterDy );
 
-                if ( filterType == 0x10 )
-                    pVoice->filtIO = (signed char)(REAL_TO_INT(pVoice->filtLow));
-                else if ( filterType == 0x30 )
-                    pVoice->filtIO = (signed char)(REAL_TO_INT(pVoice->filtLow));
-                else if ( filterType == 0x50 )
-                    pVoice->filtIO = (signed char)(REAL_TO_INT(sample) - (tmp >> 1));
-                else if ( filterType == 0x60 )
-                    pVoice->filtIO = (signed char)tmp;
-                else if ( filterType == 0x70 )
-                    pVoice->filtIO = (signed char)(REAL_TO_INT(sample) - (tmp >> 1));
-	    }
-	}
-	else /* filterType == 0x00 */
-	{
-	    pVoice->filtIO = 0;
-	}
+                pVoice->filtIO = filterType==0x10 ? (signed char)(REAL_TO_INT(pVoice->filtLow)) :
+                    (filterType==0x30  ? (signed char)(REAL_TO_INT(pVoice->filtLow)) :
+                     (filterType==0x50 ? (signed char)(REAL_TO_INT(sample) - (tmp >> 1)):
+                      (filterType==0x60 ? (signed char)tmp:
+                       (filterType==0x70 ? (signed char)(REAL_TO_INT(sample) - (tmp >> 1)):0))));
+            }
     }
+    else /* filterType == 0x00 */
+        pVoice->filtIO = 0;
 }
 
 /* 15-bit oscillator value */
@@ -720,6 +708,7 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 {
     register DWORD		o0, o1, o2;
     register int		dosync1, dosync2, i;
+    voice_t                     *v0, *v1, *v2;
 
 #ifdef HAVE_RESID
     if (useresid)
@@ -727,82 +716,85 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 #endif
 
     setup_sid(psid);
-    setup_voice(&psid->v[0]);
-    setup_voice(&psid->v[1]);
-    setup_voice(&psid->v[2]);
+    v0 = &psid->v[0];
+    setup_voice(v0);
+    v1 = &psid->v[1];
+    setup_voice(v1);
+    v2 = &psid->v[2];
+    setup_voice(v2);
 
     for (i = 0; i < nr; i++)
     {
 	/* addfptrs, noise & hard sync test */
 	dosync1 = 0;
-	if ((psid->v[0].f += psid->v[0].fs) < psid->v[0].fs)
+	if ((v0->f += v0->fs) < v0->fs)
 	{
-	    psid->v[0].rv = NSHIFT(psid->v[0].rv, 16);
-	    if (psid->v[1].sync)
+	    v0->rv = NSHIFT(v0->rv, 16);
+	    if (v1->sync)
 		dosync1 = 1;
 	}
 	dosync2 = 0;
-	if ((psid->v[1].f += psid->v[1].fs) < psid->v[1].fs)
+	if ((v1->f += v1->fs) < v1->fs)
 	{
-	    psid->v[1].rv = NSHIFT(psid->v[1].rv, 16);
-	    if (psid->v[2].sync)
+	    v1->rv = NSHIFT(v1->rv, 16);
+	    if (v2->sync)
 		dosync2 = 1;
 	}
-	if ((psid->v[2].f += psid->v[2].fs) < psid->v[2].fs)
+	if ((v2->f += v2->fs) < v2->fs)
 	{
-	    psid->v[2].rv = NSHIFT(psid->v[2].rv, 16);
-	    if (psid->v[0].sync)
+	    v2->rv = NSHIFT(v2->rv, 16);
+	    if (v0->sync)
 	    {
 		/* hard sync */
-		psid->v[0].rv = NSHIFT(psid->v[0].rv, psid->v[0].f >> 28);
-		psid->v[0].f = 0;
+		v0->rv = NSHIFT(v0->rv, v0->f >> 28);
+		v0->f = 0;
 	    }
 	}
 	/* hard sync */
 	if (dosync2)
 	{
-	    psid->v[2].rv = NSHIFT(psid->v[2].rv, psid->v[2].f >> 28);
-	    psid->v[2].f = 0;
+	    v2->rv = NSHIFT(v2->rv, v2->f >> 28);
+	    v2->f = 0;
 	}
 	if (dosync1)
 	{
-	    psid->v[1].rv = NSHIFT(psid->v[1].rv, psid->v[1].f >> 28);
-	    psid->v[1].f = 0;
+	    v1->rv = NSHIFT(v1->rv, v1->f >> 28);
+	    v1->f = 0;
 	}
 	/* do adsr */
-	if ((psid->v[0].adsr += psid->v[0].adsrs) + 0x80000000 <
-	    psid->v[0].adsrz + 0x80000000)
-	    trigger_adsr(&psid->v[0]);
-	if ((psid->v[1].adsr += psid->v[1].adsrs) + 0x80000000 <
-	    psid->v[1].adsrz + 0x80000000)
-	    trigger_adsr(&psid->v[1]);
-	if ((psid->v[2].adsr += psid->v[2].adsrs) + 0x80000000 <
-	    psid->v[2].adsrz + 0x80000000)
-	    trigger_adsr(&psid->v[2]);
+	if ((v0->adsr += v0->adsrs) + 0x80000000 <
+	    v0->adsrz + 0x80000000)
+	    trigger_adsr(v0);
+	if ((v1->adsr += v1->adsrs) + 0x80000000 <
+	    v1->adsrz + 0x80000000)
+	    trigger_adsr(v1);
+	if ((v2->adsr += v2->adsrs) + 0x80000000 <
+	    v2->adsrz + 0x80000000)
+	    trigger_adsr(v2);
 	/* oscillators */
-	o0 = psid->v[0].adsr >> 16;
-	o1 = psid->v[1].adsr >> 16;
-	o2 = psid->v[2].adsr >> 16;
+	o0 = v0->adsr >> 16;
+	o1 = v1->adsr >> 16;
+	o2 = v2->adsr >> 16;
 	if (o0)
-	    o0 *= doosc(&psid->v[0]);
+	    o0 *= doosc(v0);
 	if (o1)
-	    o1 *= doosc(&psid->v[1]);
+	    o1 *= doosc(v1);
 	if (psid->has3 && o2)
-	    o2 *= doosc(&psid->v[2]);
+	    o2 *= doosc(v2);
 	else
 	    o2 = 0;
 	/* sample */
 	if (psid->emulatefilter)
 	{
-	    psid->v[0].filtIO = ampMod1x8[(o0>>22)];
-	    dofilter(&psid->v[0]);
-	    o0 = ((DWORD)(psid->v[0].filtIO)+0x80)<<(7+15);
-	    psid->v[1].filtIO = ampMod1x8[(o1>>22)];
-	    dofilter(&psid->v[1]);
-	    o1 = ((DWORD)(psid->v[1].filtIO)+0x80)<<(7+15);
-	    psid->v[2].filtIO = ampMod1x8[(o2>>22)];
-	    dofilter(&psid->v[2]);
-	    o2 = ((DWORD)(psid->v[2].filtIO)+0x80)<<(7+15);
+	    v0->filtIO = ampMod1x8[(o0>>22)];
+	    dofilter(v0);
+	    o0 = ((DWORD)(v0->filtIO)+0x80)<<(7+15);
+	    v1->filtIO = ampMod1x8[(o1>>22)];
+	    dofilter(v1);
+	    o1 = ((DWORD)(v1->filtIO)+0x80)<<(7+15);
+	    v2->filtIO = ampMod1x8[(o2>>22)];
+	    dofilter(v2);
+	    o2 = ((DWORD)(v2->filtIO)+0x80)<<(7+15);
 	}
 
         pbuf[i] = ((SDWORD)((o0+o1+o2)>>20)-0x600)*psid->vol;

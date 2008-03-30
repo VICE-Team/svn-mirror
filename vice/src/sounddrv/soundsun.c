@@ -154,7 +154,7 @@ static int sun_write(SWORD *pbuf, size_t nr)
     }
     sun_written += nr;
 
-    while (sun_bufferstatus(w, 0) > sun_bufsize)
+    while (sun_bufferstatus(0) > sun_bufsize)
 	usleep(5000);
     return 0;
 }

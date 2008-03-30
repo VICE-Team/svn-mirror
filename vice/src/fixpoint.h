@@ -39,23 +39,29 @@ typedef int vreal_t;
 /* inline these functions or not? */
 #ifdef INLINE_FIXPOINT_FUNCTIONS
 #include "fixpoint.c"
-#else
+#else  /* INLINE_FIXPOINT_FUNCTIONS */
 extern vreal_t fixpoint_mult(vreal_t x, vreal_t y);
-#endif
+#endif /* INLINE_FIXPOINT_FUNCTIONS */
 
-#else
+#else  /* FIXPOINT_ARITHMETIC */
 
+#ifdef OS2
+typedef double vreal_t;
+#else  /* OS2 */
 typedef float vreal_t;
+#endif /* OS2 */
+
 #define REAL_VALUE(x)   (x)
 #define REAL_MULT(x,y)  (x*y)
 #define REAL_TO_INT(x)  ((int)(x))
-#endif
+
+#endif /* FIXPOINT_ARITHMETIC */
 
 /* Some platforms (e.g. RISC OS) throw floating exceptions when attempting
    a float-to-int cast where the floating point value is outside the range of
    an int. Use these macros when casting potentially large FP-values. */
 
-#ifdef __riscos
+#if defined(__riscos) 
 #define BIG_FLOAT_TO_INT(f)     fmod(f, 2147483648.0)
 #define BIG_FLOAT_TO_UINT(f)    fmod(f, 4294967296.0)
 #else

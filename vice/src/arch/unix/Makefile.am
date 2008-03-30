@@ -59,6 +59,8 @@ libarch_a_SOURCES = \
 	videoarch.h \
 	vsync.c
 
+bin_SCRIPTS = vsid
+
 .PHONY: x11
 x11:
 	(cd x11; $(MAKE))

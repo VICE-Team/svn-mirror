@@ -94,6 +94,10 @@ SOURCE=..\..\drive\drive.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\drive\drivemem.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\fdc.c
 # End Source File
 # Begin Source File

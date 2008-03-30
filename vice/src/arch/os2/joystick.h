@@ -64,6 +64,12 @@ extern const char *joystick_direction_to_string(joystick_direction_t
 
 // ---------- OS/2 specific stuff ---------
 
+int set_joyA_autoCal(const char *value, void *extra_param);
+int set_joyB_autoCal(const char *value, void *extra_param);
+int get_joyA_autoCal();
+int get_joyB_autoCal();
+
+
 #define IOCTL_CAT_USER           0x80
 
 #define GAME_GET_VERSION         0x01

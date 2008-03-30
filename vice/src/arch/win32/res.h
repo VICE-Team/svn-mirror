@@ -158,8 +158,10 @@
 #define IDC_SOUND_OVERSAMPLE            1243
 #define IDC_SOUND_SYNCH                 1244
 
-#define IDD_OPEN_TEMPLATE		1250
+#define IDD_OPEN_TEMPLATE               1250
 #define IDC_PREVIEW                     1251
+#define IDC_BLANK_IMAGE                 1252
+#define IDC_BLANK_IMAGE_TYPE            1253
 
 #define IDD_DATASETTE_SETTINGS_DIALOG   1260
 #define IDC_DATASETTE_RESET_WITH_CPU    1261

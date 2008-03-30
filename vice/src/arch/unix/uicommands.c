@@ -532,7 +532,7 @@ void ui_update_flip_menus(int from_unit, int to_unit)
 	sprintf(t0, "Unit #%d", drive + 8);
 	flipmenu[drive][i].string = t0;
 	flipmenu[drive][i].callback = (ui_callback_t) attach_disk;
-	flipmenu[drive][i].callback_data = (ui_callback_data_t) drive + 8;
+	flipmenu[drive][i].callback_data = (ui_callback_data_t)(drive + 8);
 	i++;
 
 	/* don't update menu deeply when drive has not been enabled 

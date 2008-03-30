@@ -37,6 +37,7 @@
 #include "utils.h"
 #include "winmain.h"
 #include "res.h"
+#include "diskimage.h"
 
 static char *(*read_content_func)(const char *);
 
@@ -105,16 +106,39 @@ int     index;
 
 }
 
+
 static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lparam)
 {
-HWND    preview;
-char    *contents;
-char    filename[256];
+    
+    HWND    preview;
+    HWND    image_type_list;
+    char    *contents;
+    char    filename[256];
+    char    *image_type_name[] = 
+        { "D64","D71","D80","D81","D82","G64","X64",NULL };
+    int     image_type[] = {
+        DISK_IMAGE_TYPE_D64,
+        DISK_IMAGE_TYPE_D71,
+        DISK_IMAGE_TYPE_D80,
+        DISK_IMAGE_TYPE_D81,
+        DISK_IMAGE_TYPE_D82,
+        DISK_IMAGE_TYPE_GCR,
+        DISK_IMAGE_TYPE_X64
+    };
+    int counter;
+    int msg_type;
+    int append_extension = 0;
 
     preview=GetDlgItem(hwnd,IDC_PREVIEW);
     switch (uimsg) {
         case WM_INITDIALOG:
             SetWindowText(GetDlgItem(GetParent(hwnd),IDOK),"&Attach");
+            image_type_list=GetDlgItem(hwnd,IDC_BLANK_IMAGE_TYPE);
+            for (counter = 0; image_type_name[counter]; counter++) {
+                SendMessage(image_type_list,CB_ADDSTRING,0,
+                    (LPARAM)image_type_name[counter]);
+            }
+            SendMessage(image_type_list,CB_SETCURSEL,(WPARAM)0,0);
             break;
         case WM_NOTIFY:
             if (((OFNOTIFY*)lparam)->hdr.code==CDN_SELCHANGE) {
@@ -127,9 +151,48 @@ char    filename[256];
                 }
             }
             break;
+        case WM_COMMAND:
+            msg_type = LOWORD(wparam);
+            switch (msg_type) {
+                case IDC_BLANK_IMAGE:
+                    if (SendMessage(GetParent(hwnd),
+                        CDM_GETSPEC,256,(LPARAM)filename)<=1) {
+                        ui_error("Please enter a filename.");
+                        return -1;
+                    }
+                    if (strchr(filename,'.') == NULL)
+                        append_extension = 1;
+                    if (SendMessage(GetParent(hwnd),
+                        CDM_GETFILEPATH,256,(LPARAM)filename)>=0)
+                    {
+                        counter = 
+                            SendMessage(GetDlgItem(hwnd,IDC_BLANK_IMAGE_TYPE),
+                                CB_GETCURSEL,0,0);
+                        if (append_extension) {
+                            strcat(filename,".");
+                            strcat(filename,image_type_name[counter]);
+                        }
+                        if (fopen(filename,"r")) {
+                            int ret;
+                            ret = MessageBox(hwnd, "Overwrite existing image?",
+                                "VICE question", MB_YESNO | MB_ICONQUESTION);
+                            if (ret != IDYES)
+                                return -1;
+                        }
+                        if (disk_image_create(filename,image_type[counter])<0)
+                        {
+                            ui_error("Cannot create image");
+                            return -1;
+                        }
+                        /* FIXME: Try to redraw Filelist and Filename */
+                    }
+                    break;
+            }
+            break;
     }
     return 0;
 }
+
 
 char *ui_select_file(const char *title, const char *filter, char*(*content_read_function)(const char *), HWND hwnd)
 {
@@ -155,7 +218,6 @@ char *ui_select_file(const char *title, const char *filter, char*(*content_read_
                      | OFN_HIDEREADONLY
                      | OFN_NOTESTFILECREATE
                      | OFN_FILEMUSTEXIST
-                     /* | OFN_NOCHANGEDIR */
                      | OFN_ENABLEHOOK
                      | OFN_ENABLETEMPLATE
                      | OFN_SHAREAWARE);
@@ -166,7 +228,6 @@ char *ui_select_file(const char *title, const char *filter, char*(*content_read_
                      | OFN_HIDEREADONLY
                      | OFN_NOTESTFILECREATE
                      | OFN_FILEMUSTEXIST
-                     /* | OFN_NOCHANGEDIR */
                      | OFN_SHAREAWARE);
         ofn.lpfnHook = NULL;
         ofn.lpTemplateName = NULL;
