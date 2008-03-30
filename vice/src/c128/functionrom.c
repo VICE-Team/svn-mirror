@@ -32,6 +32,7 @@
 #include "archdep.h"
 #include "cmdline.h"
 #include "functionrom.h"
+#include "lib.h"
 #include "resources.h"
 #include "utils.h"
 #include "types.h"
@@ -109,6 +110,12 @@ static const resource_t resources[] =
 int functionrom_resources_init(void)
 {
     return resources_register(resources);
+}
+
+void functionrom_resources_shutdown(void)
+{
+    lib_free(internal_function_rom_name);
+    lib_free(external_function_rom_name);
 }
 
 static const cmdline_option_t cmdline_options[] = {

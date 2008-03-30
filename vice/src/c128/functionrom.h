@@ -38,6 +38,7 @@ extern BYTE REGPARM1 external_function_rom_read(WORD addr);
 extern void REGPARM2 external_function_rom_store(WORD addr, BYTE value);
 
 extern int functionrom_resources_init(void);
+extern void functionrom_resources_shutdown(void);
 extern int functionrom_cmdline_options_init(void);
 
 #endif
