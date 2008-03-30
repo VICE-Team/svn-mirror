@@ -379,7 +379,8 @@ ted.o: ted.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
 	../../src/palette.h plus4.h plus4mem.h \
-	../../src/raster/raster-modes.h ../../src/raster/raster-cache.h \
+	../../src/raster/raster-line.h ../../src/raster/raster-modes.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h ../../src/resources.h \
 	../../src/screenshot.h ../../src/snapshot.h \
 	ted-cmdline-options.h ted-color.h ted-draw.h ted-mem.h \

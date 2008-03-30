@@ -301,8 +301,8 @@ vic-snapshot.o: vic-snapshot.c ../../src/vice.h ../../src/config.h \
 vic.o: vic.c ../../src/vice.h ../../src/config.h ../../src/clkguard.h \
 	../../src/arch/unix/types.h ../../src/log.h ../../src/mem.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/palette.h ../../src/raster/raster-modes.h \
-	../../src/raster/raster-cache.h \
+	../../src/palette.h ../../src/raster/raster-line.h \
+	../../src/raster/raster-modes.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h ../../src/resources.h \
 	../../src/screenshot.h ../../src/snapshot.h ../../src/utils.h \
 	vic-cmdline-options.h vic-draw.h vic-mem.h vic-resources.h \
