@@ -1047,7 +1047,7 @@ void REGPARM2 vic_store(ADDRESS addr, BYTE value)
     case 0xb:                   /* $D00B: Sprite #5 Y position */
     case 0xd:                   /* $D00D: Sprite #6 Y position */
     case 0xf:                   /* $D00F: Sprite #7 Y position */
-      store_sprite_y_position(addr, (value + vic_ii.offset) & 255);
+      store_sprite_y_position(addr, (BYTE)((value + vic_ii.offset) & 255));
       break;
 
     case 0x10:                  /* $D010: Sprite X position MSB */

@@ -43,8 +43,10 @@
 #include "utils.h"
 
 #ifndef HAVE_GUIDLIB
-/*  FIXME: It would be better to convert the dxguid.lib from DX5 into the Mingw32 port of DX5 */
-const GUID IID_IDirectSoundNotify={0xb0210783,0x89cd,0x11d0,{0xaf,0x08,0x00,0xa0,0xc9,0x25,0xcd,0x16}};
+/* FIXME: It would be better to convert the dxguid.lib from DX5 into the
+   Mingw32 port of DX5 */
+const GUID IID_IDirectSoundNotify = {0xb0210783, 0x89cd, 0x11d0,
+                                    {0xaf,0x08,0x00,0xa0,0xc9,0x25,0xcd,0x16}};
 #endif
 
 /* ------------------------------------------------------------------------ */
@@ -201,7 +203,7 @@ HRESULT     result;
 DWORD       buffer_lock_size;
 LPVOID      lpvPtr1,lpvPtr2;
 DWORD       dwBytes1,dwBytes2;
-int         i;
+DWORD       i;
 SWORD       *copyptr;
 DWORD       eventresult;
 int         t;
@@ -211,33 +213,42 @@ int         t;
     while (1) {
         eventresult=WaitForMultipleObjects(2,events,FALSE,INFINITE);
         if (eventresult==WAIT_OBJECT_0) {
-            result=IDirectSoundBuffer_GetCurrentPosition(buffer,&play_cursor,&write_cursor);
-            DEBUG(("Notify play %d write %d % buffer %d\n",play_cursor,write_cursor,buffer_offset));
-            result=IDirectSoundBuffer_Lock(buffer,buffer_offset,buffer_lock_size,&lpvPtr1, &dwBytes1,&lpvPtr2, &dwBytes2,0);
+            result = IDirectSoundBuffer_GetCurrentPosition(buffer,
+                                                           &play_cursor,
+                                                           &write_cursor);
+            DEBUG(("Notify play %d write %d % buffer %d\n", play_cursor,
+                  write_cursor, buffer_offset));
+            result = IDirectSoundBuffer_Lock(buffer, buffer_offset,
+                                             buffer_lock_size, &lpvPtr1,
+                                             &dwBytes1, &lpvPtr2,
+                                             &dwBytes2, 0);
 
             if (result==DSERR_BUFFERLOST) {
                 IDirectSoundBuffer_Restore(buffer);
-                result=IDirectSoundBuffer_Lock(buffer,buffer_offset,buffer_lock_size,&lpvPtr1,&dwBytes1,&lpvPtr2,&dwBytes2,0);
+                result = IDirectSoundBuffer_Lock(buffer, buffer_offset,
+                                                 buffer_lock_size, &lpvPtr1,
+                                                 &dwBytes1, &lpvPtr2,
+                                                 &dwBytes2, 0);
             }
 
             if (result==DS_OK) {
                 /*  Now lets check underflow condition */
                 if (stream_buffer_shadow_first==stream_buffer_shadow_last) {
                     if (is16bit) {
-                        for (i=0; i<dwBytes1/2; i++) {
+                        for (i = 0; i < dwBytes1 / 2; i++) {
                             ((WORD*)lpvPtr1)[i]=last_played_sample;
                         }
                         if (lpvPtr2!=NULL) {
-                            for (i=0; i<dwBytes2/2; i++) {
+                            for (i = 0; i < dwBytes2 / 2; i++) {
                                 ((WORD*)lpvPtr2)[i]=last_played_sample;
                             }
                         }
                     } else {
-                        for (i=0; i<dwBytes1; i++) {
+                        for (i = 0; i < dwBytes1; i++) {
                             ((BYTE*)lpvPtr1)[i]=last_played_sample;
                         }
                         if (lpvPtr2!=NULL) {
-                            for (i=0; i<dwBytes2; i++) {
+                            for (i = 0; i < dwBytes2; i++) {
                                 ((BYTE*)lpvPtr2)[i]=last_played_sample;
                             }
                         }
@@ -247,27 +258,31 @@ int         t;
                     if (is16bit) {
                         memcpy(lpvPtr1,fragment_pointer,dwBytes1);
                         if (lpvPtr2!=NULL) {
-                            memcpy(lpvPtr2,(BYTE *)fragment_pointer+dwBytes1,dwBytes2);
+                            memcpy(lpvPtr2, (BYTE *)fragment_pointer + dwBytes1,
+                                   dwBytes2);
                         }
-                        last_played_sample=*((WORD*)(((BYTE*)fragment_pointer)+buffer_lock_size)-1);
+                        last_played_sample = *((WORD*)(((BYTE*)fragment_pointer)
+                                             +buffer_lock_size) - 1);
                     } else {
                         copyptr=fragment_pointer;
-                        for (i=0; i<dwBytes1; i++) {
+                        for (i = 0; i < dwBytes1; i++) {
                             ((BYTE*)lpvPtr1)[i]=(*(copyptr++)>>8)+0x80;
                         }
                         if (lpvPtr2!=NULL) {
-                            for (i=0; i<dwBytes2; i++) {
+                            for (i = 0; i < dwBytes2; i++) {
                                 ((BYTE*)lpvPtr2)[i]=(*(copyptr++)>>8)+0x80;
                             }
                         }
                         last_played_sample=(*(--copyptr)>>8)+0x80;
                     }
-                    stream_buffer_shadow_first=stream_buffer_shadow_first+fragment_size;
+                    stream_buffer_shadow_first = stream_buffer_shadow_first
+                                                 + fragment_size;
                     t=stream_buffer_first+fragment_size;
                     if (t==stream_buffer_size) t=0;
                     stream_buffer_first=t;
                 }
-                result=IDirectSoundBuffer_Unlock(buffer,lpvPtr1,dwBytes1,lpvPtr2,dwBytes2);
+                result = IDirectSoundBuffer_Unlock(buffer, lpvPtr1, dwBytes1,
+                                                   lpvPtr2, dwBytes2);
                 /*  Set up write pointer for next fragment */
                 buffer_offset+=buffer_lock_size;
                 if (buffer_offset==buffer_size) buffer_offset=0;
@@ -286,43 +301,52 @@ HRESULT     result;
 DWORD       buffer_lock_size;
 LPVOID      lpvPtr1,lpvPtr2;
 DWORD       dwBytes1,dwBytes2;
-int         i;
+DWORD       i;
 SWORD       *copyptr;
 int         t;
 
     buffer_lock_size=fragment_size*(is16bit ? sizeof(SWORD) : 1);
-    result=IDirectSoundBuffer_GetCurrentPosition(buffer,&play_cursor,&write_cursor);
-    DEBUG(("Timer play %d write %d % buffer %d\n",play_cursor,write_cursor,buffer_offset));
+    result = IDirectSoundBuffer_GetCurrentPosition(buffer, &play_cursor,
+                                                   &write_cursor);
+    DEBUG(("Timer play %d write %d % buffer %d\n", play_cursor, write_cursor,
+          buffer_offset));
 
-    /*  Check if we are too early or not... The timer is either exact, or goes faster, than
-        it should, that's why we need this check, to synchronize with the buffer. */
-    if ((play_cursor>=buffer_offset) && (play_cursor<buffer_offset+buffer_lock_size)) return;
+    /*  Check if we are too early or not... The timer is either exact,
+        or goes faster, than it should, that's why we need this check,
+        to synchronize with the buffer. */
+    if ((play_cursor >= buffer_offset)
+        && (play_cursor < buffer_offset + buffer_lock_size))
+        return;
 
-    result=IDirectSoundBuffer_Lock(buffer,buffer_offset,buffer_lock_size,&lpvPtr1, &dwBytes1,&lpvPtr2, &dwBytes2,0);
+    result = IDirectSoundBuffer_Lock(buffer, buffer_offset, buffer_lock_size,
+                                     &lpvPtr1, &dwBytes1, &lpvPtr2,
+                                     &dwBytes2, 0);
 
     if (result==DSERR_BUFFERLOST) {
         IDirectSoundBuffer_Restore(buffer);
-        result=IDirectSoundBuffer_Lock(buffer,buffer_offset,buffer_lock_size,&lpvPtr1,&dwBytes1,&lpvPtr2,&dwBytes2,0);
+        result = IDirectSoundBuffer_Lock(buffer, buffer_offset,
+                                         buffer_lock_size, &lpvPtr1, &dwBytes1,
+                                         &lpvPtr2, &dwBytes2, 0);
     }
 
     if (result==DS_OK) {
         /*  Now lets check underflow condition */
         if (stream_buffer_shadow_first==stream_buffer_shadow_last) {
             if (is16bit) {
-                for (i=0; i<dwBytes1/2; i++) {
+                for (i = 0; i < dwBytes1 / 2; i++) {
                     ((WORD*)lpvPtr1)[i]=last_played_sample;
                 }
                 if (lpvPtr2!=NULL) {
-                    for (i=0; i<dwBytes2/2; i++) {
+                    for (i = 0; i < dwBytes2 / 2; i++) {
                         ((WORD*)lpvPtr2)[i]=last_played_sample;
                     }
                 }
             } else {
-                for (i=0; i<dwBytes1; i++) {
+                for (i = 0; i < dwBytes1; i++) {
                     ((BYTE*)lpvPtr1)[i]=last_played_sample;
                 }
                 if (lpvPtr2!=NULL) {
-                    for (i=0; i<dwBytes2; i++) {
+                    for (i = 0; i < dwBytes2; i++) {
                         ((BYTE*)lpvPtr2)[i]=last_played_sample;
                     }
                 }
@@ -334,28 +358,33 @@ int         t;
                 if (lpvPtr2!=NULL) {
                     memcpy(lpvPtr2,(BYTE *)fragment_pointer+dwBytes1,dwBytes2);
                 }
-                last_played_sample=*((WORD*)(((BYTE*)fragment_pointer)+buffer_lock_size)-1);
+                last_played_sample = *((WORD*)(((BYTE*)fragment_pointer)
+                                     + buffer_lock_size) - 1);
             } else {
                 copyptr=fragment_pointer;
-                for (i=0; i<dwBytes1; i++) {
+                for (i = 0; i < dwBytes1; i++) {
                     ((BYTE*)lpvPtr1)[i]=(*(copyptr++)>>8)+0x80;
                 }
                 if (lpvPtr2!=NULL) {
-                    for (i=0; i<dwBytes2; i++) {
+                    for (i = 0; i < dwBytes2; i++) {
                         ((BYTE*)lpvPtr2)[i]=(*(copyptr++)>>8)+0x80;
                     }
                 }
                 last_played_sample=(*(--copyptr)>>8)+0x80;
             }
-            stream_buffer_shadow_first=stream_buffer_shadow_first+fragment_size;
+            stream_buffer_shadow_first = stream_buffer_shadow_first
+                                         + fragment_size;
             t=stream_buffer_first+fragment_size;
-            if (t==stream_buffer_size) t=0;
+            if (t == stream_buffer_size)
+                t = 0;
             stream_buffer_first=t;
         }
-        result=IDirectSoundBuffer_Unlock(buffer,lpvPtr1,dwBytes1,lpvPtr2,dwBytes2);
+        result = IDirectSoundBuffer_Unlock(buffer, lpvPtr1, dwBytes1, lpvPtr2,
+                                           dwBytes2);
         /*  Set up write pointer for next fragment */
         buffer_offset+=buffer_lock_size;
-        if (buffer_offset==buffer_size) buffer_offset=0;
+        if (buffer_offset == buffer_size)
+            buffer_offset = 0;
     }
 }
 
@@ -394,7 +423,8 @@ int     i;
     capabilities.dwSize = sizeof(DSCAPS);
 
     IDirectSound_GetCaps(ds,&capabilities);
-    if ((capabilities.dwFlags&DSCAPS_PRIMARY16BIT) || (capabilities.dwFlags&DSCAPS_SECONDARY16BIT)) {
+    if ((capabilities.dwFlags & DSCAPS_PRIMARY16BIT)
+        || (capabilities.dwFlags & DSCAPS_SECONDARY16BIT)) {
         is16bit=1;
     } else {
         is16bit=0;
@@ -425,14 +455,17 @@ int     i;
 
     result = IDirectSound_CreateSoundBuffer(ds, &desc, &pbuffer, NULL);
 
-    if (result!=DS_OK) {
-        ui_error("Cannot create Primary DirectSound bufer: %s",ds_error(result));
+    if (result != DS_OK) {
+        ui_error("Cannot create Primary DirectSound bufer: %s",
+                 ds_error(result));
         return -1;
     }
 
     memset(&desc, 0, sizeof(DSBUFFERDESC));
     desc.dwSize = sizeof(DSBUFFERDESC);
-    desc.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_GETCURRENTPOSITION2  | DSBCAPS_CTRLFREQUENCY | DSBCAPS_CTRLPAN | DSBCAPS_CTRLVOLUME ;
+    desc.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_GETCURRENTPOSITION2
+                   | DSBCAPS_CTRLFREQUENCY | DSBCAPS_CTRLPAN
+                   | DSBCAPS_CTRLVOLUME ;
 
     desc.dwBufferBytes = buffer_size;
     desc.lpwfxFormat = (LPWAVEFORMATEX)&pcmwf;
@@ -459,8 +492,9 @@ int     i;
     wfex.nAvgBytesPerSec = wfex.nSamplesPerSec * wfex.nBlockAlign;
     
     result=IDirectSoundBuffer_SetFormat(pbuffer,&wfex);
-    if (result!=DS_OK) {
-        ui_error("Cannot set Output format for primary sound buffer:\n%s",ds_error(result));
+    if (result != DS_OK) {
+        ui_error("Cannot set Output format for primary sound buffer:\n%s",
+                 ds_error(result));
         return -1;
     }
 
@@ -468,7 +502,9 @@ int     i;
     /*  It should be there if the user has DX5 or higher...*/
     /*  On NT with DX3, we are using a periodic timer event callback */
 
-    result=IDirectSoundNotify_QueryInterface(buffer,(GUID *)&IID_IDirectSoundNotify,(LPVOID FAR *)&notify);
+    result = IDirectSoundNotify_QueryInterface(buffer,
+                                               (GUID *)&IID_IDirectSoundNotify,
+                                               (LPVOID FAR *)&notify);
 
     if (SUCCEEDED(result)) {
         streammode=STREAM_NOTIFY;
@@ -481,10 +517,13 @@ int     i;
             notifypositions[i].dwOffset=*fragsize*i*(is16bit ? sizeof(SWORD) : 1);
             notifypositions[i].hEventNotify=notifyevent;
         }
-        /*  Set write pointer for last fragment in buffer, to guarantee maximum safe area */
+        /*  Set write pointer for last fragment in buffer, to guarantee
+            maximum safe area */
         buffer_offset=*fragsize*(is16bit ? sizeof(SWORD) : 1)*(*fragnr-1);
-        notifyThreadHandle=CreateThread(NULL,0,HandleNotifications,NULL,0,&notifyThreadID);
-        notify->lpVtbl->SetNotificationPositions(notify,*fragnr,notifypositions);
+        notifyThreadHandle = CreateThread(NULL, 0, HandleNotifications, NULL,
+                                          0, &notifyThreadID);
+        notify->lpVtbl->SetNotificationPositions(notify, *fragnr,
+                                                 notifypositions);
     } else {
         TIMECAPS tc;
         streammode=STREAM_TIMER;
@@ -493,10 +532,12 @@ int     i;
         }
         timeBeginPeriod(tc.wPeriodMin);
         timer_interval=(*fragsize*1000)/(*speed);
-        /*  Set write pointer for last fragment in buffer, to guarantee maximum safe area */
+        /*  Set write pointer for last fragment in buffer, to guarantee
+            maximum safe area */
         buffer_offset=*fragsize*(is16bit ? sizeof(SWORD) : 1)*(*fragnr-1);
 
-        timer_id=timeSetEvent(timer_interval,0,TimerCallbackFunction,0,TIME_PERIODIC);
+        timer_id = timeSetEvent(timer_interval, 0, TimerCallbackFunction, 0,
+                                TIME_PERIODIC);
     }
 
     /* Let's go...  */
@@ -568,7 +609,8 @@ static int dx_bufferspace(void)
 
 //    DEBUG(("buffer status %d %d %d \n",play_cursor,buffer_offset,value));
     return
-        stream_buffer_size-(stream_buffer_shadow_last-stream_buffer_shadow_first);
+        stream_buffer_size - (stream_buffer_shadow_last
+        - stream_buffer_shadow_first);
 }
 
 static int dx_write(SWORD *pbuf, size_t nr)
@@ -588,9 +630,11 @@ static int dx_write(SWORD *pbuf, size_t nr)
 
     /* Write one fragment at a time.  FIXME: This could be faster.  */
     for (i = 0; i < count; i++) {
-        while (stream_buffer_shadow_last-stream_buffer_shadow_first==stream_buffer_size) ;
-        t=stream_buffer_last+fragment_size;
-        if (t==stream_buffer_size) t=0;
+        while (stream_buffer_shadow_last - stream_buffer_shadow_first
+              == stream_buffer_size) ;
+        t = stream_buffer_last+fragment_size;
+        if (t == stream_buffer_size)
+            t = 0;
         memcpy(stream_buffer+stream_buffer_last,pbuf,fragment_size*2);
         stream_buffer_last=t;
         stream_buffer_shadow_last+=fragment_size;
@@ -616,3 +660,4 @@ int sound_init_dx_device(void)
 {
     return sound_register_device(&dx_device);
 }
+

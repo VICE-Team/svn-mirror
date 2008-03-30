@@ -141,7 +141,8 @@ static void vdrive_dir_free_chain(vdrive_t *vdrive, int t, int s)
     }
 }
 
-static BYTE *find_next_directory_sector(vdrive_t *vdrive, int track, int sector)
+static BYTE *find_next_directory_sector(vdrive_t *vdrive, unsigned int track,
+                                        unsigned int sector)
 {
     if (vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam, track,
         sector)) {
@@ -293,7 +294,7 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
      */
 
     if (vdrive->find_length < 0) {
-        int sector;
+        unsigned int sector;
         switch (vdrive->image_format) {
           case VDRIVE_IMAGE_FORMAT_2040:
           case VDRIVE_IMAGE_FORMAT_1541:
