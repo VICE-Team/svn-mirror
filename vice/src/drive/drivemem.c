@@ -36,9 +36,8 @@
 #include "log.h"
 #include "machine-drive.h"
 #include "mem.h"
-#include "mon.h"
+#include "monitor.h"
 #include "types.h"
-#include "utils.h"
 #include "viad.h"
 
 
@@ -207,61 +206,21 @@ static mem_ioreg_list_t *drive_ioreg_list_get(unsigned int type)
     switch (type) {
       case DRIVE_TYPE_1541:
       case DRIVE_TYPE_1541II:
-        drive_ioreg_list 
-            = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 2);
-        drive_ioreg_list[0].name = "VIA1";
-        drive_ioreg_list[0].start = 0x1800;
-        drive_ioreg_list[0].end = 0x180f;
-        drive_ioreg_list[0].next = &drive_ioreg_list[1];
-
-        drive_ioreg_list[1].name = "VIA2";
-        drive_ioreg_list[1].start = 0x1c00;
-        drive_ioreg_list[1].end = 0x1c0f;
-        drive_ioreg_list[1].next = NULL;
+        mon_ioreg_add_list(&drive_ioreg_list, "VIA1", 0x1800, 0x180f);
+        mon_ioreg_add_list(&drive_ioreg_list, "VIA2", 0x1c00, 0x1c0f);
         break;
       case DRIVE_TYPE_1551:
-        drive_ioreg_list
-            = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 1);
-        drive_ioreg_list[0].name = "TIA";
-        drive_ioreg_list[0].start = 0x4000;
-        drive_ioreg_list[0].end = 0x4007;
-        drive_ioreg_list[0].next = NULL;
+        mon_ioreg_add_list(&drive_ioreg_list, "TIA", 0x4000, 0x4007);
         break;
       case DRIVE_TYPE_1571:
-        drive_ioreg_list
-            = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 4);
-        drive_ioreg_list[0].name = "VIA1";
-        drive_ioreg_list[0].start = 0x1800;
-        drive_ioreg_list[0].end = 0x180f;
-        drive_ioreg_list[0].next = &drive_ioreg_list[1];
-
-        drive_ioreg_list[1].name = "VIA2";
-        drive_ioreg_list[1].start = 0x1c00;
-        drive_ioreg_list[1].end = 0x1c0f;
-        drive_ioreg_list[1].next = &drive_ioreg_list[2];
-
-        drive_ioreg_list[2].name = "WD1770";
-        drive_ioreg_list[2].start = 0x2000;
-        drive_ioreg_list[2].end = 0x2003;
-        drive_ioreg_list[2].next = &drive_ioreg_list[3];
-
-        drive_ioreg_list[3].name = "CIA";
-        drive_ioreg_list[3].start = 0x4000;
-        drive_ioreg_list[3].end = 0x400f;
-        drive_ioreg_list[3].next = NULL;
+        mon_ioreg_add_list(&drive_ioreg_list, "VIA1", 0x1800, 0x180f);
+        mon_ioreg_add_list(&drive_ioreg_list, "VIA2", 0x1c00, 0x1c0f);
+        mon_ioreg_add_list(&drive_ioreg_list, "WD1770", 0x2000, 0x2003);
+        mon_ioreg_add_list(&drive_ioreg_list, "CIA", 0x4000, 0x400f);
         break;
       case DRIVE_TYPE_1581:
-        drive_ioreg_list
-            = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 2);
-        drive_ioreg_list[0].name = "CIA";
-        drive_ioreg_list[0].start = 0x4000;
-        drive_ioreg_list[0].end = 0x400f;
-        drive_ioreg_list[0].next = &drive_ioreg_list[1];
-
-        drive_ioreg_list[1].name = "WD1770";
-        drive_ioreg_list[1].start = 0x6000;
-        drive_ioreg_list[1].end = 0x6003;
-        drive_ioreg_list[1].next = NULL;
+        mon_ioreg_add_list(&drive_ioreg_list, "CIA", 0x4000, 0x400f);
+        mon_ioreg_add_list(&drive_ioreg_list, "WD1770", 0x6000, 0x6003);
         break;
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_2040:
@@ -270,21 +229,13 @@ static mem_ioreg_list_t *drive_ioreg_list_get(unsigned int type)
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_8050:
       case DRIVE_TYPE_8250:
-        drive_ioreg_list
-            = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 2);
-        drive_ioreg_list[0].name = "RIOT1";
-        drive_ioreg_list[0].start = 0x0200;
-        drive_ioreg_list[0].end = 0x021f;
-        drive_ioreg_list[0].next = &drive_ioreg_list[1];
-
-        drive_ioreg_list[1].name = "RIOT2";
-        drive_ioreg_list[1].start = 0x0280;
-        drive_ioreg_list[1].end = 0x029f;
-        drive_ioreg_list[1].next = NULL;
+        mon_ioreg_add_list(&drive_ioreg_list, "RIOT1", 0x0200, 0x021f);
+        mon_ioreg_add_list(&drive_ioreg_list, "RIOT2", 0x0280, 0x029f);
         break;
       default:
         log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%i'.", type);
     }
+
     return drive_ioreg_list;
 }
 
