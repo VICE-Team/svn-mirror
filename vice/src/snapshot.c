@@ -57,6 +57,17 @@ struct snapshot_module {
     long size_offset;
 };
 
+struct snapshot {
+    /* File descriptor.  */
+    FILE *file;
+
+    /* Offset of the first module.  */
+    long first_module_offset;
+
+    /* Flag: are we writing it?  */
+    int write_mode;
+};
+
 /* ------------------------------------------------------------------------- */
 
 int snapshot_write_byte(FILE *f, BYTE b)
@@ -238,7 +249,7 @@ int snapshot_module_read_byte_array(snapshot_module_t *m, BYTE *b_return,
     return snapshot_read_byte_array(m->file, b_return, size);
 }
 
-snapshot_module_t *snapshot_module_create(FILE *f,
+snapshot_module_t *snapshot_module_create(snapshot_t *s,
                                           const char *name,
                                           BYTE major_version,
                                           BYTE minor_version)
@@ -246,51 +257,73 @@ snapshot_module_t *snapshot_module_create(FILE *f,
     snapshot_module_t *m;
 
     m = xmalloc(sizeof(snapshot_module_t));
-    m->file = f;
-    m->offset = ftell(f);
+    m->file = s->file;
+    m->offset = ftell(s->file);
     if (m->offset == -1) {
         free(m);
         return NULL;
     }
     m->write_mode = 1;
 
-    if (snapshot_write_padded_string(f, name, 0, SNAPSHOT_MODULE_NAME_LEN) < 0
-        || snapshot_write_byte(f, major_version) < 0
-        || snapshot_write_byte(f, minor_version) < 0
-        || snapshot_write_dword(f, 0) < 0)
+    if (snapshot_write_padded_string(s->file, name, 0,
+                                     SNAPSHOT_MODULE_NAME_LEN) < 0
+        || snapshot_write_byte(s->file, major_version) < 0
+        || snapshot_write_byte(s->file, minor_version) < 0
+        || snapshot_write_dword(s->file, 0) < 0)
         return NULL;
 
-    m->size = ftell(f) - m->offset;
-    m->size_offset = ftell(f) - sizeof(DWORD);
+    m->size = ftell(s->file) - m->offset;
+    m->size_offset = ftell(s->file) - sizeof(DWORD);
 
     return m;
 }
 
-snapshot_module_t *snapshot_module_open(FILE *f,
-                                        char *name_return,
+snapshot_module_t *snapshot_module_open(snapshot_t *s,
+                                        const char *name,
                                         BYTE *major_version_return,
                                         BYTE *minor_version_return)
 {
     snapshot_module_t *m;
+    char n[SNAPSHOT_MODULE_NAME_LEN];
+    unsigned int name_len = strlen(name);
+    off_t start_pos;
+
+    if (fseek(s->file, s->first_module_offset, SEEK_SET) < 0)
+        return NULL;
 
     m = xmalloc(sizeof(snapshot_module_t));
-    m->file = f;
-    m->offset = ftell(f);
-    if (m->offset == -1) {
-        free(m);
-        return NULL;
-    }
+    m->file = s->file;
     m->write_mode = 0;
 
-    if (snapshot_read_byte_array(f, name_return, SNAPSHOT_MODULE_NAME_LEN) < 0
-        || snapshot_read_byte(f, major_version_return) < 0
-        || snapshot_read_byte(f, minor_version_return) < 0
-        || snapshot_read_dword(f, &m->size))
-        return NULL;
+    m->offset = s->first_module_offset;
 
-    m->size_offset = ftell(f) - sizeof(DWORD);
+    /* Search for the module name.  This is quite inefficient, but I don't
+       think we care.  */
+    while (1) {
+        if (snapshot_read_byte_array(s->file, n, SNAPSHOT_MODULE_NAME_LEN) < 0
+            || snapshot_read_byte(s->file, major_version_return) < 0
+            || snapshot_read_byte(s->file, minor_version_return) < 0
+            || snapshot_read_dword(s->file, &m->size))
+            goto fail;
+
+        /* Found?  */
+        if (memcmp(n, name, name_len) == 0
+            && (name_len == SNAPSHOT_MODULE_NAME_LEN || n[name_len] == 0))
+            break;
+
+        m->offset += m->size;
+        if (fseek(s->file, m->offset, SEEK_SET) < 0)
+            goto fail;
+    }
+
+    m->size_offset = ftell(s->file) - sizeof(DWORD);
 
     return m;
+
+fail:
+    fseek(s->file, s->first_module_offset, SEEK_SET);
+    free(m);
+    return NULL;
 }
 
 int snapshot_module_close(snapshot_module_t *m)
@@ -311,11 +344,12 @@ int snapshot_module_close(snapshot_module_t *m)
 
 /* ------------------------------------------------------------------------- */
 
-FILE *snapshot_create(const char *filename,
-                      BYTE major_version, BYTE minor_version,
-                      const char *machine_name)
+snapshot_t *snapshot_create(const char *filename,
+                            BYTE major_version, BYTE minor_version,
+                            const char *machine_name)
 {
     FILE *f;
+    snapshot_t *s;
 
     f = fopen(filename, "wb");
     if (f == NULL)
@@ -323,7 +357,7 @@ FILE *snapshot_create(const char *filename,
 
     /* Magic string.  */
     if (snapshot_write_padded_string(f, snapshot_magic_string,
-                                     0, SNAPSHOT_MAGIC_LEN) == EOF)
+                                     0, SNAPSHOT_MAGIC_LEN) < 0)
         goto fail;
 
     /* Version number.  */
@@ -336,7 +370,12 @@ FILE *snapshot_create(const char *filename,
                                      SNAPSHOT_MACHINE_NAME_LEN) < 0)
         goto fail;
 
-    return f;
+    s = xmalloc(sizeof(snapshot_t));
+    s->file = f;
+    s->first_module_offset = ftell(f);
+    s->write_mode = 1;
+
+    return s;
 
 fail:
     fclose(f);
@@ -344,12 +383,14 @@ fail:
     return NULL;
 }
 
-FILE *snapshot_open(const char *filename,
-                    BYTE *major_version_return, BYTE *minor_version_return,
-                    char *machine_name_return)
+snapshot_t *snapshot_open(const char *filename,
+                          BYTE *major_version_return,
+                          BYTE *minor_version_return,
+                          char *machine_name_return)
 {
     FILE *f;
     char magic[SNAPSHOT_MAGIC_LEN];
+    snapshot_t *s = NULL;
 
     f = fopen(filename, "rb");
     if (f == NULL)
@@ -370,17 +411,27 @@ FILE *snapshot_open(const char *filename,
                                  SNAPSHOT_MACHINE_NAME_LEN) < 0)
         goto fail;
 
-    return f;
+    s = xmalloc(sizeof(snapshot_t));
+    s->file = f;
+    s->first_module_offset = ftell(f);
+    s->write_mode = 0;
+
+    return s;
 
 fail:
     fclose(f);
     return NULL;
 }
 
-int snapshot_close(FILE *f)
+int snapshot_close(snapshot_t *s)
 {
-    if (fclose(f) == EOF)
-        return -1;
+    int retval;
+
+    if (fclose(s->file) == EOF)
+        retval = -1;
     else
-        return 0;
+        retval = 0;
+
+    free(s);
+    return retval;
 }
