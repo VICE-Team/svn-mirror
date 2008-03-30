@@ -162,7 +162,7 @@ x128_DEPENDENCIES = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) \
 	$(printer_ldadd) $(true1541_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ \
 	@ARCH_LIBS@
 .PHONY: x128-all
-x128-all: libc64c128 libsounddrv libtrue1541 libarch x128
+x128-all: libc128 libc64c128 libsounddrv libtrue1541 libarch x128
 
 # xvic
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
