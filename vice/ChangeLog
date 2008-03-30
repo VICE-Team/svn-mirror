@@ -1,3 +1,11 @@
+2006-06-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.15.
+
+2006-06-17  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed a small issue for $have_ss_family.
+
 2006-06-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.14.
