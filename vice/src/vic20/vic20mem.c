@@ -37,6 +37,7 @@
 #include "vmachine.h"
 #include "interrupt.h"
 #include "resources.h"
+#include "cmdline.h"
 #include "stdlib.h"
 #include "memutils.h"
 #include "maincpu.h"
@@ -146,6 +147,145 @@ static resource_t resources[] = {
 int vic20_mem_init_resources(void)
 {
     return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* This function parses the mem config string given as `-memory' and returns
+ * the appropriate values or'ed together.
+ *
+ * basically we accept a comma separated list of options like the following:
+ * ""   - no extension
+ * none - same
+ * all  - all blocks
+ * 3k   - 3k space in block 0 (=3k extension cartridge)
+ * 8k   - 1st 8k extension block
+ * 16k  - 1st and 2nd 8 extension (= 16k extension cartridge)
+ * 24k  - 1-3rd extension block (=8k and 16k extension cartridges)
+ *
+ * 0,1,2,3,5      - memory in respective block
+ * 04,20,40,60,a0 - memory at respective address (same as block #s)
+ *
+ * example: xvic -memory ""
+ *
+ *            enables unexpanded computer
+ *
+ *          xvic -memory 60,a0
+ *
+ *            enables memory in blocks 3 and 5, which is the usual
+ *            configuration for 16k rom modules
+ *
+ * 12/27/96 Alexander Lehmann (alex@mathematik.th-darmstadt.de)
+ * Edited by Ettore to fit in the new command-line parsing.
+ */
+
+static int cmdline_memory(const char *param, void *extra_param)
+{
+#define VIC_BLK0 1
+#define VIC_BLK1 2
+#define VIC_BLK2 4
+#define VIC_BLK3 8
+#define VIC_BLK5 16
+#define VIC_BLK_ALL (VIC_BLK0 | VIC_BLK1 | VIC_BLK3 | VIC_BLK5)
+    int memconf;
+    const char *memstring = param, *optend;
+    char *opt = alloca(strlen(param) + 1);
+
+    /* Default is all banks. */
+    if (!memstring)
+        memconf = VIC_BLK_ALL;
+    else {
+        /* Maybe we should use strtok for this? */
+        while (*memstring) {
+            for (optend = memstring;*optend && *optend!=','; optend++)
+                ;
+
+            strncpy(opt, memstring, optend - memstring);
+            opt[optend-memstring] = '\0';
+
+            if (strcmp(opt, "") == 0 || strcmp(opt, "none") == 0) {
+                /* no extension */
+            } else if (strcmp(opt, "all") == 0) {
+                memconf = VIC_BLK_ALL;
+            } else if (strcmp(opt, "3k") == 0) {
+                memconf |= VIC_BLK0;
+            } else if (strcmp(opt, "8k") == 0) {
+                memconf |= VIC_BLK1;
+            } else if (strcmp(opt, "16k") == 0) {
+                memconf |= VIC_BLK1|VIC_BLK2;
+            } else if (strcmp(opt, "24k") == 0) {
+                memconf |= VIC_BLK1|VIC_BLK2|VIC_BLK3;;
+            } else if (strcmp(opt, "0") == 0 || strcmp(opt, "04") == 0) {
+                memconf |= VIC_BLK0;
+            } else if (strcmp(opt, "1") == 0 || strcmp(opt, "20") == 0) {
+                memconf |= VIC_BLK1;
+            } else if (strcmp(opt, "2") == 0 || strcmp(opt, "40") == 0) {
+                memconf |= VIC_BLK2;
+            } else if (strcmp(opt, "3") == 0 || strcmp(opt, "60") == 0) {
+                memconf |= VIC_BLK3;
+            } else if (strcmp(opt, "5") == 0 || strcmp(opt, "a0") == 0
+                       || strcmp(opt, "A0") == 0) {
+                memconf |= VIC_BLK5;
+            } else {
+                fprintf(stderr,
+                        "Unsupported memory extension option: \"%s\"\n",
+                        opt);
+                return -1;
+            }
+            memstring = optend;
+            if (*memstring)
+                memstring++; /* skip ',' */
+        }
+    }
+
+    printf("Extension memory enabled: ");
+    if (memconf & VIC_BLK0) {
+        set_ram_block_0_enabled((resource_value_t) 1);
+        printf("blk0 ");
+    } else {
+        set_ram_block_0_enabled((resource_value_t) 0);
+    }
+    if (memconf & VIC_BLK1) {
+        set_ram_block_1_enabled((resource_value_t) 1);
+        printf("blk1 ");
+    } else {
+        set_ram_block_1_enabled((resource_value_t) 0);
+    }
+    if (memconf & VIC_BLK2) {
+        set_ram_block_2_enabled((resource_value_t) 1);
+        printf("blk2 ");
+    } else {
+        set_ram_block_2_enabled((resource_value_t) 0);
+    }
+    if (memconf & VIC_BLK3) {
+        set_ram_block_3_enabled((resource_value_t) 1);
+        printf("blk3 ");
+    } else {
+        set_ram_block_3_enabled((resource_value_t) 0);
+    }
+    if (memconf & VIC_BLK5) {
+        set_ram_block_5_enabled((resource_value_t) 1);
+        printf("blk5");
+    } else {
+        set_ram_block_5_enabled((resource_value_t) 0);
+    }
+    if (memconf == 0)
+        printf("none");
+    printf("\n");
+
+    return 0;
+}
+
+/* VIC20 memory-related command-line options.  */
+static cmdline_option_t cmdline_options[] = {
+    { "-memory", CALL_FUNCTION, 1, cmdline_memory, NULL, NULL, NULL,
+      "<spec>", "Specify memory configuration" },
+    { NULL }
+};
+
+int vic20_mem_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -362,115 +502,6 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
-#if 0
-
-/* This function parses the mem config string given as -memory and
- * returns the appropriate values or'ed together.
- *
- * basically we accept a comma separated list of options like the following:
- * ""   - no extension
- * none - same
- * all  - all blocks
- * 3k   - 3k space in block 0 (=3k extension cartridge)
- * 8k   - 1st 8k extension block
- * 16k  - 1st and 2nd 8 extension (= 16k extension cartridge)
- * 24k  - 1-3rd extension block (=8k and 16k extension cartridges)
- *
- * 0,1,2,3,5      - memory in respective block
- * 04,20,40,60,a0 - memory at respective address (same as block #s)
- *
- * example: xvic -memory ""
- *
- *            enables unexpanded computer
- *
- *          xvic -memory 60,a0
- *
- *            enables memory in blocks 3 and 5, which is the usual
- *            configuration for 16k rom modules
- *
- * 12/27/96 Alexander Lehmann (alex@mathematik.th-darmstadt.de)
- */
-
-#define VIC_BLK0 1
-#define VIC_BLK1 2
-#define VIC_BLK2 4
-#define VIC_BLK3 8
-#define VIC_BLK5 16
-#define VIC_BLK_ALL (VIC_BLK0|VIC_BLK1|VIC_BLK2|VIC_BLK3|VIC_BLK5)
-
-static int get_memconf(void)
-{
-    int memconf;
-    char *memstring = app_resources.memoryExp;
-    char *optend;
-    char opt[100];
-
-    /* Default is all banks. */
-    if (!memstring)
-	return VIC_BLK_ALL;
-
-    memconf = 0;
-
-    /* Maybe we should use strtok for this? */
-
-    while (*memstring) {
-	for (optend = memstring;*optend && *optend!=','; optend++)
-	    ;
-
-	strncpy(opt, memstring, optend-memstring);
-	opt[optend-memstring]='\0';
-
-	if (strcmp(opt, "") == 0 || strcmp(opt, "none") == 0) {
-	    /* no extension */
-	} else if (strcmp(opt, "all") == 0) {
-	    memconf = VIC_BLK_ALL;
-	} else if (strcmp(opt, "3k") == 0) {
-	    memconf |= VIC_BLK0;
-	} else if (strcmp(opt, "8k") == 0) {
-	    memconf |= VIC_BLK1;
-	} else if (strcmp(opt, "16k") == 0) {
-	    memconf |= VIC_BLK1|VIC_BLK2;
-	} else if (strcmp(opt, "24k") == 0) {
-	    memconf |= VIC_BLK1|VIC_BLK2|VIC_BLK3;;
-	} else if (strcmp(opt, "0") == 0 || strcmp(opt, "04") == 0) {
-	    memconf |= VIC_BLK0;
-	} else if (strcmp(opt, "1") == 0 || strcmp(opt, "20") == 0) {
-	    memconf |= VIC_BLK1;
-	} else if (strcmp(opt, "2") == 0 || strcmp(opt, "40") == 0) {
-	    memconf |= VIC_BLK2;
-	} else if (strcmp(opt, "3") == 0 || strcmp(opt, "60") == 0) {
-	    memconf |= VIC_BLK3;
-	} else if (strcmp(opt, "5") == 0 || strcmp(opt, "a0") == 0
-		   || strcmp(opt, "A0") == 0) {
-	    memconf |= VIC_BLK5;
-	} else {
-	    fprintf(stderr, "Unsupported memory extension option: \"%s\"\n",
-		    opt);
-	    exit(1);
-	}
-	memstring = optend;
-	if (*memstring) memstring++; /* skip , */
-    }
-
-    if (app_resources.debugFlag) {
-	printf("Extension memory enabled: ");
-	if (memconf == 0) {
-	    printf("none");
-	} else {
-	    if (memconf & VIC_BLK0) printf("blk0 ");
-	    if (memconf & VIC_BLK1) printf("blk1 ");
-	    if (memconf & VIC_BLK2) printf("blk2 ");
-	    if (memconf & VIC_BLK3) printf("blk3 ");
-	    if (memconf & VIC_BLK5) printf("blk5");
-	}
-	printf("\n");
-    }
-
-    return memconf;
-}
-
-#endif
-
 static void set_mem(int start_page, int end_page,
 		    read_func_ptr_t read_func,
 		    store_func_ptr_t store_func,
@@ -551,13 +582,35 @@ void initialize_memory(void)
 	    read_ram_watch, store_ram_watch,
 	    ram, 0xffff);
 
-    /* Enable all the other possible RAM blocks, just to make sure we have
-       some working setup.  */
-    vic20_mem_enable_ram_block(0); /* $0400-$0F00 */
-    vic20_mem_enable_ram_block(1); /* $2000-$3F00 */
-    vic20_mem_enable_ram_block(2); /* $4000-$5FFF */
-    vic20_mem_enable_ram_block(3); /* $6000-$7FFF */
-    vic20_mem_enable_ram_block(5); /* $A000-$BFFF */
+    /* Setup RAM at $0400-$0F00.  */
+    if (ram_block_0_enabled)
+        vic20_mem_enable_ram_block(0);
+    else
+        vic20_mem_disable_ram_block(0);
+
+    /* Setup RAM at $2000-$3F00.  */
+    if (ram_block_1_enabled)
+        vic20_mem_enable_ram_block(1);
+    else
+        vic20_mem_disable_ram_block(1);
+
+    /* Setup RAM at $4000-$5FFF.  */
+    if (ram_block_2_enabled)
+        vic20_mem_enable_ram_block(2);
+    else
+        vic20_mem_disable_ram_block(2);
+
+    /* Setup RAM at $6000-$7FFF.  */
+    if (ram_block_3_enabled)
+        vic20_mem_enable_ram_block(3);
+    else
+        vic20_mem_disable_ram_block(3);
+
+    /* Setup RAM at $A000-$BFFF.  */
+    if (ram_block_5_enabled)
+        vic20_mem_enable_ram_block(5);
+    else
+        vic20_mem_disable_ram_block(5);
 
     /* Setup character generator ROM at $8000-$8FFF. */
     set_mem(0x80, 0x8f,
