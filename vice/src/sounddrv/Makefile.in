@@ -235,6 +235,7 @@ noinst_LIBRARIES = libsounddrv.a
 # These sources are linked only under certain circumstances.
 EXTRA_libsounddrv_a_SOURCES = \
 	soundaix.c \
+	soundalsa.c \
 	soundarts.c \
 	soundacorn.c \
 	soundallegro.c \
@@ -292,10 +293,10 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/soundacorn.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/soundaix.Po ./$(DEPDIR)/soundallegro.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/soundarts.Po ./$(DEPDIR)/soundbeos.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sounddart.Po ./$(DEPDIR)/sounddummy.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sounddump.Po ./$(DEPDIR)/sounddx.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/soundesd.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/soundalsa.Po ./$(DEPDIR)/soundarts.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/soundbeos.Po ./$(DEPDIR)/sounddart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sounddummy.Po ./$(DEPDIR)/sounddump.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/sounddx.Po ./$(DEPDIR)/soundesd.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/soundffmpegaudio.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/soundfs.Po ./$(DEPDIR)/soundhpux.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/soundmidas.Po ./$(DEPDIR)/soundmmos2.Po \
@@ -342,6 +343,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundacorn.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundaix.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundallegro.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundalsa.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundarts.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundbeos.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sounddart.Po@am__quote@

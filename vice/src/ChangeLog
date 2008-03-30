@@ -1,3 +1,97 @@
+2005-03-12  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.2
+
+	* arch/unix/x11/videoarch.h: Added patch suggested by Andreas
+	Jochens
+
+2005-03-12  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/xaw/uiscreenshot.c (save_screenshot): Add
+	filename extension via util_add_extension().
+	(build_screenshot_dialog): Show driver->displayname, fit
+	button width.
+
+	* gfxoutputdrv/ffmpegdrv.c (ffmpegdrv_alloc_picture): Set
+	picture->pts = AV_NOPTS_VALUE to fix frame errors and eventual
+	crash.
+	(ffmpegdrv_save): Changed non-standard _snprintf to snprintf.
+
+2005-03-09  Dag Lem  <resid@nimrod.no>
+
+	* sound.c (sound_init): Initialize ALSA sound device.
+
+	* sounddrv/Makefile.am: Added soundalsa.c
+
+	* sounddrv/soundalsa.c: New file - ALSA sound device.
+
+2005-03-06  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* gfxoutputdrv/ffmpeglib.h, arch/unix/ffmpeglib.c,
+	arch/win32/ffmpeglib.c: Replaced __av_freep with av_free.
+
+	* arch/win32/ffmpeglib.c (ffmpeglib_load_library): Checks for
+	correct version of the dll.
+
+	* gfxoutputdrv/ffmpeg/*.h: Replaced with headerfiles of
+	ffmpeg-0.49pre1.
+
+	* gfxoutputdrv/ffmpegdrv.c: Added support for the latest
+	ffmpeg library. Code is based on the corresponding
+	output_example.c.
+
+2005-03-06  Tibor Biczo  <crown@axelero.hu>
+
+	* tape/tap.c (tap_get_pulse): Report number of bytes read from
+	file.
+	(tap_cbm_skip_pilot): Keep track of file position by updating
+	private counter, instead of using ftell().
+
+2005-02-16  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c64/reu.c: Correct REU values after reset.
+
+2005-02-13  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/msdos/c128ui.c, arch/msdos/c64ui.c:
+	it says I/O extensions at dfxx, but the mouse is in there and
+	now my georam extension is in there (which uses $de00-dffff),
+	in my opinion this should just be changed to just I/O
+	extensions, without any naming of an address.
+
+	* arch/unix/uigeoram.h:
+	small typo, it said  '* uireu.h'  changed to  '* uigeoram.h'.
+
+	* arch/win32/resgeoram.rc:
+	changed some of the sizes of the elements of the dialog to
+	make things fit better.
+
+	* c64/c64io.c:
+	georam only reacts in the range of $df80-$dfff with it's 2
+	registers being mirrored, fixes made.
+
+	* c64/georam.c:
+	fixed the adresses the georam registers react to.
+
+	* arch/msdos/ui.c:
+	halftracks were not divided by 2, therefor the track display
+	for the drive was wrong, fix made.
+
+	* c128/c128-resources.c, c64/c64-resources.c:
+	the ACIA is mapped into I/O-1 space when active, therefore it
+	should be handled by c64export to avoid I/O-conflicts, fixes
+	made.
+
+	* c64/c64export.c, sid/sid-resources.c, sid/sid-resources.h:
+	since the entire I/O-1 or I/O-2 is blocked when something is
+	using that line the stereo-sid should not be excluded by the
+	checking in c64export, if the stereo-sid is mapped into I/O-1
+	then I/O-1 should be blocked for other hardware that wants to
+	use this region, to avoid I/O conflicts, fixes made.
+
+	* cbm2/cbm2.c:
+	dummy c64export needed for the above fix.
+
 2005-02-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.1.

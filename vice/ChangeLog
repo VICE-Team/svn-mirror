@@ -1,3 +1,11 @@
+2005-03-12  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.16.2
+
+2005-03-09  Dag Lem  <resid@nimrod.no>
+
+	* configure.in: Check for ALSA sound library.
+
 2005-02-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.16.1.
