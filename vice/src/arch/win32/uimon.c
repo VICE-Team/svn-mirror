@@ -37,6 +37,7 @@
 
 #include "fullscreen.h"
 #include "mon.h"
+#include "mon_util.h"
 #include "res.h"
 #include "resources.h"
 #include "ui.h"
@@ -459,7 +460,7 @@ BYTE *decode( char *content, size_t* plen )
 {
 BOOLEAN ok = FALSE;
 size_t size;
-BYTE *buffer;
+BYTE *buffer = NULL;
 
 if (content)
    {
@@ -620,7 +621,7 @@ static
 void OpenFromWindowDimensions(HWND hwnd,PWindowDimensions wd)
 {
     WindowType wt;
-    HWND       hwndOpened;
+    HWND hwndOpened = NULL;
 
     while ((wt = GetNextMonitorDimensions(wd)) != WT_END)
     {
@@ -637,6 +638,9 @@ void OpenFromWindowDimensions(HWND hwnd,PWindowDimensions wd)
         case WT_REGISTER:
             hwndOpened = OpenRegistry(hwnd);
             break;
+        case WT_END:
+            /* this cannot occur, but since gcc complains if not specified... */
+            hwndOpened = NULL;
         };
 
 		SetWindowPlacement( hwndOpened, &(wd->wpPlacement) );
@@ -668,7 +672,7 @@ PWindowDimensions LoadMonitorDimensions(HWND hwnd)
         else
         {
             ret    = xmalloc( sizeof(*ret) );
-			bError = GetPlacement( &p, &len, &(ret->wpPlacement) );
+			bError = GetPlacement((BYTE **)(&p), &len, &(ret->wpPlacement));
 			SetWindowPlacement( hwnd, &(ret->wpPlacement) );
 
             ret->pMonitorDimensionsBuffer = buffer;
@@ -1585,57 +1589,6 @@ int uimon_out(const char *format, ...)
     return rc;
 }
 
-/*
-char *uimon_in()
-{
-#ifdef UIMON_EXPERIMENTAL
-
-    char *p = NULL;
-
-	while (!p && !pchCommandLine)
-	{
-        /* as long as we don't have any return value... *
-
-		if (console_log)
-		{
-            /* we have a console, so try to input data from there... *
-	        p = console_in(console_log);
-		}
-		else
-		{
-            /* we don't have a console, make sure we can do something useful
-               by dispatching the events
-            *
-	        while (!pchCommandLine && !console_log)
-		    {
-			    ui_dispatch_next_event();
-			}
-		}
-    }
-
-    if (pchCommandLine)
-    {
-        /* we have an "artificially" generated command line *
-
-        if (p)
-		{
-            free(p);
-		}
-
-        p = stralloc(pchCommandLine);
-        pchCommandLine = NULL;
-    }
-
-    /* return the command (the one or other way...) *
-    return p;
-
-#else // #ifdef UIMON_EXPERIMENTAL
-
-    return console_in(console_log);
-
-#endif // #ifdef UIMON_EXPERIMENTAL
-}
-/**/
 char *uimon_get_in(char **ppchCommandLine)
 {
 #ifdef UIMON_EXPERIMENTAL

@@ -1,3 +1,65 @@
+2001-04-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.16.
+
+	* vicii/vicii-snapshot.c (vic_ii_snapshot_read_module): Call
+	`interrupt_set_irq_noclk' instead of
+	`interrupt_set_int_noclk'.
+
+	* c64/c64mem.c (initialize_memory): Fixed typo.
+
+	* vicii/viciitypes.h, vicii/vicii.c: Made some functions
+	static.
+
+	* c64/c64cia1.c, c64/c64cia2.c, c128/c128cia1.c,
+	cbm2/c610cia1.c, drive/cia1571d.c, drive/cia1581d.c: Fixed
+	includes.
+
+	* autostart.c (autostart_disk_cook_name): New function.
+
+	* monitor/mon.c, monitor/mon.h, monitor/asm.h,
+	monitor/asmz80.c, monitor/mon_parse.y, monitor/mon_lex.l:
+	Added some Z80 specific opcodes.
+
+	* monitor/mon_util.c, 6510core.c: Adapted call to
+	`mon_disassemble_to_string_ex'.
+
+	* monitor/mon_assemble.c, monitor/mon_assemble.h,
+	monitor/mon_disassemble.c, monitor/mon_disassemble.h: New
+	files.
+
+	* monitor/Makefile.am: Added new files.
+
+	* monitor/mon.c, monitor/mon.h: Moved assemble and disassemble
+	functions into separate files.
+
+	* monitor/mon_parse.y, arch/os2/dialogs/dlg-monitor.c,
+        monitor/mon_util.c: Added new monitor includes.
+
+	* arch/win32/uimon.c (LoadMonitorDimensions): Fixed cast.
+	(OpenFromWindowDimensions): Initialize `hwndOpened'.
+
+2001-04-08  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/uimon.c: removed some warnings.
+
+	* arch/win32/{xpet,xvic,x64,x128,cbm2}.dsp: added
+	machine.c to files to compile.
+
+2001-04-07  Dag Lem  <resid@nimrod.no>
+
+	* sound.c (initsid): Initial filling of sound buffer.
+	(sound_flush): Empty buffer is defined as 'used <=
+	snddata.fragsize'.
+	Always fill buffer entirely on underflow, not half full.
+
+2001-04-07  Dag Lem  <resid@nimrod.no>
+
+	* sound.c (sound_flush): Leave one fragment free at initial
+	filling of sound buffer.
+
+	* vsync.c (do_vsync): Added missing code from earlier merge.
+
 2001-04-06  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.15.
