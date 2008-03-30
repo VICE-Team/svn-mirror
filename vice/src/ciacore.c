@@ -78,7 +78,7 @@ int mycia_debugFlag = 0;
 static inline void my_set_int(CIA_CONTEXT_PARAM int value, CLOCK rclk)
 {
 #ifdef CIA_TIMER_DEBUG
-    if(mycia_debugFlag) {
+    if (mycia_debugFlag) {
         log_message(cia_log, "set_int(rclk=%d, d=%d pc=).",
            rclk,(value));
     }
@@ -124,7 +124,7 @@ _CIA_FUNC void cia_do_update_ta(CIA_CONTEXT_PARAM CLOCK rclk)
 {
     int n;
 
-    if((n=ciat_update(&ciata, rclk))) {
+    if ((n = ciat_update(&ciata, rclk))) {
         ciaint |= CIA_IM_TA;
         cia_tat = (cia_tat + n) & 1;
     }
@@ -134,7 +134,7 @@ _CIA_FUNC void cia_do_update_tb(CIA_CONTEXT_PARAM CLOCK rclk)
 {
     int n;
 
-    if((n=ciat_update(&ciatb, rclk))) {
+    if ((n = ciat_update(&ciatb, rclk))) {
         ciaint |= CIA_IM_TB;
         cia_tbt = (cia_tbt + n) & 1;
     }
@@ -144,7 +144,7 @@ _CIA_FUNC void cia_do_step_tb(CIA_CONTEXT_PARAM CLOCK rclk)
 {
     int n;
 
-    if((n=ciat_single_step(&ciatb, rclk))) {
+    if ((n = ciat_single_step(&ciatb, rclk))) {
         ciaint |= CIA_IM_TB;
         cia_tbt = (cia_tbt + n) & 1;
     }
@@ -176,7 +176,7 @@ _CIA_FUNC void cia_update_tb(CIA_CONTEXT_PARAM CLOCK rclk)
 {
     CLOCK tmp, last_tmp;
 
-    if( (cia[CIA_CRB] & 0x41) == 0x41 ) {
+    if ((cia[CIA_CRB] & 0x41) == 0x41) {
         cia_update_ta(CIA_CONTEXT_CALL rclk);
     }
 
@@ -328,7 +328,7 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
       case CIA_DDRA:
         cia[addr] = byte;
         byte = cia[CIA_PRA] | ~cia[CIA_DDRA];
-        if(byte != oldpa) {
+        if (byte != oldpa) {
             store_ciapa(CIA_CONTEXT_CALL myclk, byte);
             oldpa = byte;
         }
@@ -342,23 +342,23 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
             if (cia[CIA_CRA] & 0x02) {
                 cia_update_ta(CIA_CONTEXT_CALL rclk);
                 byte &= 0xbf;
-                if ( ((cia[CIA_CRA] & 0x04) ? cia_tat
-                                : ciat_is_underflow_clk(&ciata, rclk)) )
+                if (((cia[CIA_CRA] & 0x04) ? cia_tat
+                    : ciat_is_underflow_clk(&ciata, rclk)))
                     byte |= 0x40;
             }
             if (cia[CIA_CRB] & 0x02) {
                 cia_update_tb(CIA_CONTEXT_CALL rclk);
                 byte &= 0x7f;
-                if ( ((cia[CIA_CRB] & 0x04) ? cia_tbt
-                        : ciat_is_underflow_clk(&ciatb, rclk) ) )
+                if (((cia[CIA_CRB] & 0x04) ? cia_tbt
+                    : ciat_is_underflow_clk(&ciatb, rclk)))
                     byte |= 0x80;
             }
         }
-        if(byte != oldpb) {
+        if (byte != oldpb) {
             store_ciapb(CIA_CONTEXT_CALL myclk, byte);
             oldpb = byte;
         }
-        if(addr == CIA_PRB) {
+        if (addr == CIA_PRB) {
             pulse_ciapc(CIA_CONTEXT_CALL rclk);
         }
         break;
@@ -423,11 +423,11 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
 #if 0
             if (ciasr_bits <= 8) {
 /*
-                if(!ciasr_bits) {
+                if (!ciasr_bits) {
                     store_sdr(cia[CIA_SDR]);
                 }
 */
-                if(ciasr_bits < 8) {
+                if (ciasr_bits < 8) {
                     /* switch timer A alarm on again, if necessary */
 /* FIXME
                     update_cia(rclk);
@@ -488,7 +488,7 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
         break;
 
       case CIA_CRA:             /* control register A */
-        if( (byte & 1) && !(cia[CIA_CRA] & 1)) cia_tat = 1;
+        if ((byte & 1) && !(cia[CIA_CRA] & 1)) cia_tat = 1;
 
         cia_update_ta(CIA_CONTEXT_CALL rclk);
 
@@ -519,7 +519,8 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
         break;
 
       case CIA_CRB:             /* control register B */
-        if( (byte & 1) && !(cia[CIA_CRB] & 1)) cia_tbt = 1;
+        if ((byte & 1) && !(cia[CIA_CRB] & 1))
+            cia_tbt = 1;
 
         cia_update_ta(CIA_CONTEXT_CALL rclk);
         cia_update_tb(CIA_CONTEXT_CALL rclk);
@@ -563,7 +564,7 @@ void CIARPARM2 mycia_store(CIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
 
 BYTE CIARPARM1 mycia_read(CIA_CONTEXT_PARAM ADDRESS addr)
 {
-#if defined( CIA_TIMER_DEBUG )
+#if defined(CIA_TIMER_DEBUG)
 
     BYTE cia_read_(CIA_CONTEXT_CALL ADDRESS addr);
     BYTE tmp = cia_read_(addr);
@@ -617,15 +618,15 @@ BYTE cia_read_(CIA_CONTEXT_PARAM ADDRESS addr)
             if (cia[CIA_CRA] & 0x02) {
                 cia_update_ta(CIA_CONTEXT_CALL rclk);
                 byte &= 0xbf;
-                if ( ((cia[CIA_CRA] & 0x04) ? cia_tat
-                        : ciat_is_underflow_clk(&ciata, rclk) ) )
+                if (((cia[CIA_CRA] & 0x04) ? cia_tat
+                    : ciat_is_underflow_clk(&ciata, rclk)))
                     byte |= 0x40;
             }
             if (cia[CIA_CRB] & 0x02) {
                 cia_update_tb(CIA_CONTEXT_CALL rclk);
                 byte &= 0x7f;
-                if ( ((cia[CIA_CRB] & 0x04) ? cia_tbt
-                        : ciat_is_underflow_clk(&ciatb, rclk) ) )
+                if (((cia[CIA_CRB] & 0x04) ? cia_tbt
+                    : ciat_is_underflow_clk(&ciatb, rclk)))
                     byte |= 0x80;
             }
         }
@@ -772,15 +773,15 @@ BYTE CIARPARM1 mycia_peek(CIA_CONTEXT_PARAM ADDRESS addr)
             if (cia[CIA_CRA] & 0x02) {
                 cia_update_ta(CIA_CONTEXT_CALL rclk);
                 byte &= 0xbf;
-                if ( ((cia[CIA_CRA] & 0x04) ? cia_tat
-                        : ciat_is_underflow_clk(&ciata, rclk) ) )
+                if (((cia[CIA_CRA] & 0x04) ? cia_tat
+                    : ciat_is_underflow_clk(&ciata, rclk)))
                     byte |= 0x40;
             }
             if (cia[CIA_CRB] & 0x02) {
                 cia_update_tb(CIA_CONTEXT_CALL rclk);
                 byte &= 0x7f;
-                if ( ((cia[CIA_CRB] & 0x04) ? cia_tbt
-                        : ciat_is_underflow_clk(&ciatb, rclk) ) )
+                if (((cia[CIA_CRB] & 0x04) ? cia_tbt
+                    : ciat_is_underflow_clk(&ciatb, rclk)))
                     byte |= 0x80;
             }
         }
@@ -830,7 +831,7 @@ BYTE CIARPARM1 mycia_peek(CIA_CONTEXT_PARAM ADDRESS addr)
 
             t = ciaint;
 
-            CIAT_LOG(( "peek intfl gives ciaint=%02x -> %02x "
+            CIAT_LOG(("peek intfl gives ciaint=%02x -> %02x "
                             "sr_bits=%d, clk=%d",
                             ciaint, t, ciasr_bits, clk));
 /*
@@ -875,13 +876,13 @@ static void int_ciata(CIA_CONTEXT_PARAM CLOCK offset)
 
     /* cia_tat = (cia_tat + 1) & 1; */
 
-    if ( (cia[CIA_CRA] & 0x29) == 0x01 ) {
+    if ((cia[CIA_CRA] & 0x29) == 0x01) {
         /* if we do not need alarm, no PB6, no shift register, and not timer B
            counting timer A, then we can savely skip alarms... */
-        if ( ( (ciaier & CIA_IM_TA) &&
-                (!(ciaint & 0x80)) )
+        if (((ciaier & CIA_IM_TA) &&
+            (!(ciaint & 0x80)))
             || (cia[CIA_CRA] & 0x42)
-            || (cia[CIA_CRB] & 0x40) ) {
+            || (cia[CIA_CRB] & 0x40)) {
             ciat_set_alarm(&ciata, rclk);
         }
     }
@@ -932,7 +933,7 @@ static void int_ciatb(CIA_CONTEXT_PARAM CLOCK offset)
     CIAT_LOGIN(("ciaTimerB int_myciatb: myclk=%d, rclk=%d", myclk,rclk));
 
 #if 1
-    if( (n=ciat_update(&ciatb, rclk)) && (ciardi != rclk-1)) {
+    if((n = ciat_update(&ciatb, rclk)) && (ciardi != rclk - 1)) {
         ciaint |= CIA_IM_TB;
         cia_tbt = (cia_tbt + n) & 1;
     }
@@ -949,7 +950,7 @@ static void int_ciatb(CIA_CONTEXT_PARAM CLOCK offset)
     /* cia_tbt = (cia_tbt + 1) & 1; */
 
     /* running and continous, then next alarm */
-    if ( (cia[CIA_CRB] & 0x69) == 0x01 ) {
+    if ((cia[CIA_CRB] & 0x69) == 0x01) {
         /* if no interrupt flag we can safely skip alarms */
         if (ciaier & CIA_IM_TB) {
             ciat_set_alarm(&ciatb, rclk);
@@ -1144,7 +1145,7 @@ int mycia_snapshot_write_module(CIA_CONTEXT_PARAM snapshot_t *p)
     snapshot_module_write_byte(m, ciatodalarm[3]);
 
     if(ciardi) {
-        if((myclk - ciardi) > 120) {
+        if ((myclk - ciardi) > 120) {
             byte = 0;
         } else {
             byte = myclk + 128 - ciardi;
@@ -1259,7 +1260,7 @@ log_message(cia_log, "read ciaint=%02x, ciaier=%02x.", ciaint, ciaier);
     snapshot_module_read_byte(m, &ciatodalarm[3]);
 
     snapshot_module_read_byte(m, &byte);
-    if(byte) {
+    if (byte) {
         ciardi = myclk + 128 - byte;
     } else {
         ciardi = 0;
