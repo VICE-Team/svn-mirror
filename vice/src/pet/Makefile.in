@@ -307,7 +307,9 @@ petmem.o: petmem.c ../../src/vice.h ../../src/config.h ../../src/types.h \
 	../../src/maincpu.h ../../src/mos6510.h ../../src/mon.h \
 	petmem.h ../../src/utils.h
 pets.o: pets.c ../../src/vice.h ../../src/config.h ../../src/resources.h \
-	pets.h
+	../../src/interrupt.h ../../src/types.h ../../src/vmachine.h \
+	../../src/6510core.h ../../src/mem.h ../../src/cmdline.h \
+	../../src/utils.h pets.h
 petsound.o: petsound.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/types.h ../../src/warn.h \
 	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \
