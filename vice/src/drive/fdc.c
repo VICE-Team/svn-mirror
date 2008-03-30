@@ -51,7 +51,7 @@
 
 
 static void clk_overflow_callback(int fnum, CLOCK sub, void *data);
-static int int_fdc(int fnum, long offset);
+static int int_fdc(unsigned int fnum, CLOCK offset);
 
 static void clk_overflow_callback0(CLOCK sub, void *data)
 {
@@ -85,9 +85,9 @@ typedef struct fdc_t {
     CLOCK	alarm_clk;
     BYTE 	*buffer;
     BYTE 	*iprom;
-    int		drive_type;
-    int		last_track;
-    int		last_sector;
+    unsigned int drive_type;
+    unsigned int last_track;
+    unsigned int last_sector;
     int         wps_change;	/* if not zero, toggle wps and decrement */
     disk_image_t *image;
     disk_image_t *realimage;
@@ -95,7 +95,7 @@ typedef struct fdc_t {
 
 static fdc_t fdc[NUM_FDC];
 
-void fdc_reset(int fnum, int drive_type)
+void fdc_reset(unsigned int fnum, unsigned int drive_type)
 {
 #ifdef FDC_DEBUG
     log_message(fdc_log, "fdc_reset: drive %d type=%d\n",fnum, drive_type);
@@ -135,22 +135,23 @@ void fdc_reset(int fnum, int drive_type)
     }
 }
 
-static BYTE fdc_do_job(int fnum, int buf,
-				int drv, BYTE job, BYTE *header)
+static BYTE fdc_do_job(unsigned int fnum, int buf,
+                       unsigned int drv, BYTE job, BYTE *header)
 {
 #ifdef FDC_DEBUG
-static BYTE fdc_do_job_(int fnum, int buf,
-				int drv, BYTE job, BYTE *header);
+static BYTE fdc_do_job_(unsigned int fnum, int buf,
+                        unsigned int drv, BYTE job, BYTE *header);
     BYTE retval = fdc_do_job_(fnum, buf, drv, job, header);
     log_message(fdc_log, "  fdc_do_job (%02x) -> %02x\n",
 	job, retval);
     return retval;
 }
-static BYTE fdc_do_job_(int fnum, int buf,
-				int drv, BYTE job, BYTE *header)
+static BYTE fdc_do_job_(unsigned int fnum, int buf,
+                        unsigned int drv, BYTE job, BYTE *header)
 {
 #endif
-    int rc, dnr;
+    unsigned int dnr;
+    int rc;
     int i;
     unsigned int track, sector;
     BYTE *base;
@@ -493,7 +494,7 @@ static BYTE fdc_do_job_(int fnum, int buf,
 }
 
 
-static int int_fdc(int fnum, long offset)
+static int int_fdc(unsigned int fnum, CLOCK offset)
 {
     CLOCK rclk = drive_clk[fnum] - offset;
     int i, j;
@@ -612,8 +613,8 @@ static int int_fdc(int fnum, long offset)
 		fdc[fnum].buffer[i + 3] =
 			fdc_do_job(fnum, 			/* FDC# */
 				i,				/* buffer# */
-				fdc[fnum].buffer[i+3] & 1,	/* drive */
-				(int)(fdc[fnum].buffer[i+3] & 0xfe),
+				(unsigned int)fdc[fnum].buffer[i+3] & 1,	/* drive */
+				(BYTE)(fdc[fnum].buffer[i+3] & 0xfe),
                                                                 /* job code */
 				&(fdc[fnum].buffer[j]) 		/* header */
 			);
@@ -649,7 +650,7 @@ static void clk_overflow_callback(int fnum, CLOCK sub, void *data)
     }
 }
 
-void fdc_init(int fnum, BYTE *buffermem, BYTE *ipromp)
+void fdc_init(unsigned int fnum, BYTE *buffermem, BYTE *ipromp)
 {
     fdc[fnum].buffer = buffermem;
     fdc[fnum].iprom = ipromp;
@@ -665,12 +666,14 @@ void fdc_init(int fnum, BYTE *buffermem, BYTE *ipromp)
     if (fnum == 0) {
         alarm_init(&fdc[fnum].fdc_alarm, &drive0_context.cpu.alarm_context,
                "fdc0", int_fdc0);
-        clk_guard_add_callback(&drive0_context.cpu.clk_guard, clk_overflow_callback0, NULL);
+        clk_guard_add_callback(&drive0_context.cpu.clk_guard,
+                               clk_overflow_callback0, NULL);
     } else
     if (fnum == 1) {
         alarm_init(&fdc[fnum].fdc_alarm, &drive1_context.cpu.alarm_context,
-               "fdc1", int_fdc1);
-        clk_guard_add_callback(&drive1_context.cpu.clk_guard, clk_overflow_callback1, NULL);
+                   "fdc1", int_fdc1);
+        clk_guard_add_callback(&drive1_context.cpu.clk_guard,
+                               clk_overflow_callback1, NULL);
     }
 }
 
