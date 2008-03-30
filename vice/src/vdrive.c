@@ -1938,7 +1938,7 @@ static void vdrive_bam_clear_all(int type, BYTE *bam)
 int vdrive_bam_read_bam(DRIVE *floppy)
 {
     int err = 0;
-
+printf("Unit: %x\n",floppy->unit);
     switch(floppy->ImageFormat) {
       case 1541:
         err = floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
