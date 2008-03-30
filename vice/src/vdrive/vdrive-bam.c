@@ -39,6 +39,7 @@
 #include <string.h>
 
 #include "attach.h"
+#include "diskconstants.h"
 #include "diskimage.h"
 #include "log.h"
 #include "types.h"
