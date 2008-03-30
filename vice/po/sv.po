@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.12\n"
-"POT-Creation-Date: 2003-06-29 19:25+0200\n"
+"POT-Creation-Date: 2003-06-30 18:12+0200\n"
 "PO-Revision-Date: 2003-05-26 21:52+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -1124,68 +1124,86 @@ msgstr "Smartanslut diskett/band..."
 msgid "Change working directory..."
 msgstr "Byt arbetskatalog..."
 
-#: src/arch/unix/uicommands.c:961
+#: src/arch/unix/uicommands.c:963
+#, fuzzy
+msgid "*Save new snapshot"
+msgstr "Spara ögonblicksbild"
+
+#: src/arch/unix/uicommands.c:965
+#, fuzzy
+msgid "*Load existing snapsot"
+msgstr "Laddar ögonblicksbild"
+
+#: src/arch/unix/uicommands.c:967
+msgid "*Start with reset"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:973
 msgid "Load snapshot..."
 msgstr "Ladda ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:964
+#: src/arch/unix/uicommands.c:976
 msgid "Save snapshot..."
 msgstr "Spara ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:968
+#: src/arch/unix/uicommands.c:980
 msgid "Quickload snapshot"
 msgstr "Snabbladda ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:971
+#: src/arch/unix/uicommands.c:983
 msgid "Quicksave snapshot"
 msgstr "Snabbspara ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:975
+#: src/arch/unix/uicommands.c:987
 msgid "Start recording events"
 msgstr "Börja spela in händelser"
 
-#: src/arch/unix/uicommands.c:977
+#: src/arch/unix/uicommands.c:989
 msgid "Stop recording events"
 msgstr "Sluta spela in händelser"
 
-#: src/arch/unix/uicommands.c:979
+#: src/arch/unix/uicommands.c:991
 msgid "Start playing back events"
 msgstr "Börja spela upp händelser"
 
-#: src/arch/unix/uicommands.c:981
+#: src/arch/unix/uicommands.c:993
 msgid "Stop playing back events"
 msgstr "Sluta spela upp händelser"
 
-#: src/arch/unix/uicommands.c:987
+#: src/arch/unix/uicommands.c:996
+msgid "Recording start mode"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:1002
 msgid "Snapshot commands"
 msgstr "Kommandon för ögonblicksbilder"
 
-#: src/arch/unix/uicommands.c:993
+#: src/arch/unix/uicommands.c:1008
 msgid "Activate monitor"
 msgstr "Aktivera monitor"
 
-#: src/arch/unix/uicommands.c:996
+#: src/arch/unix/uicommands.c:1011
 msgid "Run C1541"
 msgstr "Kör C1541"
 
-#: src/arch/unix/uicommands.c:1004
+#: src/arch/unix/uicommands.c:1019
 msgid "Browse manuals"
 msgstr "Läs manualer"
 
-#: src/arch/unix/uicommands.c:1006
+#: src/arch/unix/uicommands.c:1021
 msgid "About VICE..."
 msgstr "Om VICE..."
 
-#: src/arch/unix/uicommands.c:1012 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:1027 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/x11ui.c:1843
 msgid "Reset"
 msgstr "Återställ"
 
-#: src/arch/unix/uicommands.c:1014
+#: src/arch/unix/uicommands.c:1029
 msgid "*Pause"
 msgstr "*Paus"
 
-#: src/arch/unix/uicommands.c:1021
+#: src/arch/unix/uicommands.c:1036
 msgid "Exit emulator"
 msgstr "Avsluta emulator"
 

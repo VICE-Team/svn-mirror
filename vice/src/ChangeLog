@@ -1,3 +1,25 @@
+2003-06-30  Andreas Boose  <viceteam@t-online.de>
+
+        * Version 1.12.10.
+
+	* event.c (event_record_start_trap): Implemented load file
+	mode.  (warp_end_list): New function.
+
+	* event.h: Moved start mode defines here.
+
+	* arch/unix/uicommands.c: New resource `EventStartMode'.
+
+	* drive/drivetypes.h, cia.h: Moved cia context.
+
+	* drive/ciad.h: Changed cia context type.
+
+	* drive/iec/cia1571d.c, drive/iec/cia1581d.c, ciacore.c,
+	ciacore.h, drive/drivetypes.h, c64/c64cia1.c, c64/c64cia2.c,
+	c128/c128cia1.c, cbm2/cbm2cia1.c
+
+	* c64/c64pla.c (c64pla_pport_reset): Processor data port seems
+	to be `1' on reset.
+
 2003-06-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.9.
