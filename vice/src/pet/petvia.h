@@ -32,9 +32,9 @@
 
 extern void via_reset(void);
 extern void via_init(void);
-extern BYTE REGPARM1 read_via(ADDRESS addr);
-extern BYTE REGPARM1 peek_via(ADDRESS addr);
-extern void REGPARM2 store_via(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 via_read(ADDRESS addr);
+extern BYTE REGPARM1 via_peek(ADDRESS addr);
+extern void REGPARM2 via_store(ADDRESS addr, BYTE value);
 
 extern int via_read_snapshot_module(snapshot_t *);
 extern int via_write_snapshot_module(snapshot_t *);

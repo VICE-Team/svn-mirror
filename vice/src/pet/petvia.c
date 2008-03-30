@@ -1,8 +1,8 @@
 /*
- * viap.def - VIA emulation in the PET.
+ * petvia.c - VIA emulation in the PET.
  *
  * Written by
- *  Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -39,9 +39,9 @@
 #define mycpu_clk_guard maincpu_clk_guard
 
 #define myvia_reset via_reset
-#define store_myvia store_via
-#define read_myvia read_via
-#define peek_myvia peek_via
+#define myvia_store via_store
+#define myvia_read via_read
+#define myvia_peek via_peek
 
 #define myvia_log via_log
 #define myvia_signal via_signal
