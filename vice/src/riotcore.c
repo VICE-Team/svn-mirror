@@ -195,15 +195,15 @@ void RIOTRPARM2 myriot_store(RIOT_CONTEXT_PARAM ADDRESS addr, BYTE byte)
     if ((addr & 0x04) == 0) {           /* I/O */
         addr &= 3;
         switch (addr) {
-        case 0:         /* ORA */
-        case 1:         /* DDRA */
+          case 0:         /* ORA */
+          case 1:         /* DDRA */
             riotio[addr] = byte;
             byte = riotio[0] | ~riotio[1];
             store_pra(RIOT_CONTEXT_CALL byte);
             oldpa = byte;
             break;
-        case 2:         /* ORB */
-        case 3:         /* DDRB */
+          case 2:         /* ORB */
+          case 3:         /* DDRB */
             riotio[addr] = byte;
             byte = riotio[2] | ~riotio[3];
             store_prb(RIOT_CONTEXT_CALL byte);
@@ -283,19 +283,19 @@ BYTE RIOTRPARM1 myriot_read_(RIOT_CONTEXT_PARAM ADDRESS addr)
 
     if ((addr & 0x04) == 0) {           /* I/O */
         switch (addr & 3) {
-        case 0:         /* ORA */
+          case 0:         /* ORA */
             riot_last_read = read_pra(RIOT_CONTEXT_CALLVOID);
             return riot_last_read;
             break;
-        case 1:         /* DDRA */
+          case 1:         /* DDRA */
             riot_last_read = riotio[1];
             return riot_last_read;
             break;
-        case 2:         /* ORB */
+          case 2:         /* ORB */
             riot_last_read = read_prb(RIOT_CONTEXT_CALLVOID);
             return riot_last_read;
             break;
-        case 3:         /* DDRB */
+          case 3:         /* DDRB */
             riot_last_read = riotio[3];
             return riot_last_read;
             break;
@@ -388,19 +388,19 @@ int myriot_snapshot_write_module(RIOT_CONTEXT_PARAM snapshot_t * p)
 
     update_timer(RIOT_CONTEXT_CALLVOID);
 
-    snapshot_module_write_byte(m, riotio[0]);
-    snapshot_module_write_byte(m, riotio[1]);
-    snapshot_module_write_byte(m, riotio[2]);
-    snapshot_module_write_byte(m, riotio[3]);
+    SMW_B(m, riotio[0]);
+    SMW_B(m, riotio[1]);
+    SMW_B(m, riotio[2]);
+    SMW_B(m, riotio[3]);
 
-    snapshot_module_write_byte(m, edgectrl);
-    snapshot_module_write_byte(m, (BYTE)(irqfl | (irqline ? 1 : 0)));
+    SMW_B(m, edgectrl);
+    SMW_B(m, (BYTE)(irqfl | (irqline ? 1 : 0)));
 
-    snapshot_module_write_byte(m, (BYTE)(ti_N - (myclk - ti_write_clk)
+    SMW_B(m, (BYTE)(ti_N - (myclk - ti_write_clk)
                                / ti_divider));
-    snapshot_module_write_word(m, (WORD)ti_divider);
-    snapshot_module_write_word(m, (BYTE)((myclk - ti_write_clk) % ti_divider));
-    snapshot_module_write_byte(m, (BYTE)(ti_irqen ? 1 : 0));
+    SMW_W(m, (WORD)ti_divider);
+    SMW_W(m, (BYTE)((myclk - ti_write_clk) % ti_divider));
+    SMW_B(m, (BYTE)(ti_irqen ? 1 : 0));
 
     snapshot_module_close(m);
 
@@ -432,31 +432,31 @@ int myriot_snapshot_read_module(RIOT_CONTEXT_PARAM snapshot_t * p)
     /* just to be safe */
     alarm_unset(riot_alarm);
 
-    snapshot_module_read_byte(m, &riotio[0]);
-    snapshot_module_read_byte(m, &riotio[1]);
+    SMR_B(m, &riotio[0]);
+    SMR_B(m, &riotio[1]);
     oldpa = riotio[0] | ~riotio[1];
     undump_pra(RIOT_CONTEXT_CALL oldpa);
 
-    snapshot_module_read_byte(m, &riotio[2]);
-    snapshot_module_read_byte(m, &riotio[3]);
+    SMR_B(m, &riotio[2]);
+    SMR_B(m, &riotio[3]);
     oldpb = riotio[2] | ~riotio[3];
     undump_prb(RIOT_CONTEXT_CALL oldpb);
 
-    snapshot_module_read_byte(m, &edgectrl);
-    snapshot_module_read_byte(m, &irqfl);
+    SMR_B(m, &edgectrl);
+    SMR_B(m, &irqfl);
     if (irqfl & 1) {
         irqline = 1;
         my_restore_irq(1);
     }
     irqfl &= 0xc0;
 
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     ti_N = byte;
-    snapshot_module_read_word(m, &word);
+    SMR_W(m, &word);
     ti_divider = word;
-    snapshot_module_read_word(m, &word);
+    SMR_W(m, &word);
     ti_write_clk = myclk - word;
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     ti_irqen = byte;
     if (ti_irqen) {
         alarm_set(riot_alarm, ti_write_clk + ti_N * ti_divider);

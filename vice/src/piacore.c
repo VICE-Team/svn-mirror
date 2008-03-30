@@ -163,7 +163,7 @@ void REGPARM2 mypia_store(ADDRESS addr, BYTE byte)
 
         mypia.ctrl_a = (mypia.ctrl_a & 0xc0) | (byte & 0x3f);
 
-        if(mypia.ctrl_a & 0x20) mypia.ctrl_a &= 0xbf;
+        if (mypia.ctrl_a & 0x20) mypia.ctrl_a &= 0xbf;
 
         mypia_update_irq();
 
@@ -225,7 +225,7 @@ BYTE REGPARM1 mypia_read(ADDRESS addr)
       case P_PORT_B: /* port B */
         if (mypia.ctrl_b & 4) {
 
-            if(!is_peek_access) {
+            if (!is_peek_access) {
                 mypia.ctrl_b &= 0x3f;           /* Clear CB1,CB2 IRQ */
                 mypia_update_irq();
             }
@@ -263,9 +263,11 @@ BYTE REGPARM1 mypia_read(ADDRESS addr)
 BYTE REGPARM1 mypia_peek(ADDRESS addr)
 {
     BYTE t;
+
     is_peek_access = 1;
     t = mypia_read(addr);
     is_peek_access = 0;
+
     return t;
 }
 
@@ -307,16 +309,16 @@ int mypia_snapshot_write_module(snapshot_t * p)
     if (m == NULL)
         return -1;
 
-    snapshot_module_write_byte(m, mypia.port_a);
-    snapshot_module_write_byte(m, mypia.ddr_a);
-    snapshot_module_write_byte(m, mypia.ctrl_a);
+    SMW_B(m, mypia.port_a);
+    SMW_B(m, mypia.ddr_a);
+    SMW_B(m, mypia.ctrl_a);
 
-    snapshot_module_write_byte(m, mypia.port_b);
-    snapshot_module_write_byte(m, mypia.ddr_b);
-    snapshot_module_write_byte(m, mypia.ctrl_b);
+    SMW_B(m, mypia.port_b);
+    SMW_B(m, mypia.ddr_b);
+    SMW_B(m, mypia.ctrl_b);
 
-    snapshot_module_write_byte(m, (BYTE)((mypia.ca_state ? 0x80 : 0)
-                                        | (mypia.cb_state ? 0x40 : 0)));
+    SMW_B(m, (BYTE)((mypia.ca_state ? 0x80 : 0)
+          | (mypia.cb_state ? 0x40 : 0)));
 
     snapshot_module_close(m);
 
@@ -340,15 +342,15 @@ int mypia_snapshot_read_module(snapshot_t * p)
         return -1;
     }
 
-    snapshot_module_read_byte(m, &mypia.port_a);
-    snapshot_module_read_byte(m, &mypia.ddr_a);
-    snapshot_module_read_byte(m, &mypia.ctrl_a);
+    SMR_B(m, &mypia.port_a);
+    SMR_B(m, &mypia.ddr_a);
+    SMR_B(m, &mypia.ctrl_a);
 
-    snapshot_module_read_byte(m, &mypia.port_b);
-    snapshot_module_read_byte(m, &mypia.ddr_b);
-    snapshot_module_read_byte(m, &mypia.ctrl_b);
+    SMR_B(m, &mypia.port_b);
+    SMR_B(m, &mypia.ddr_b);
+    SMR_B(m, &mypia.ctrl_b);
 
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     mypia.ca_state = (byte & 0x80) ? 1 : 0;
     mypia.cb_state = (byte & 0x80) ? 1 : 0;
 

@@ -891,36 +891,31 @@ int myvia_snapshot_write_module(VIA_CONTEXT_PARAM snapshot_t * p)
     if (m == NULL)
         return -1;
 
-    snapshot_module_write_byte(m, myvia[VIA_PRA]);
-    snapshot_module_write_byte(m, myvia[VIA_DDRA]);
-    snapshot_module_write_byte(m, myvia[VIA_PRB]);
-    snapshot_module_write_byte(m, myvia[VIA_DDRB]);
+    SMW_B(m, myvia[VIA_PRA]);
+    SMW_B(m, myvia[VIA_DDRA]);
+    SMW_B(m, myvia[VIA_PRB]);
+    SMW_B(m, myvia[VIA_DDRB]);
 
-    snapshot_module_write_word(m, (WORD)myviatal);
-    snapshot_module_write_word(m, (WORD)myviata(VIA_CONTEXT_CALLVOID));
-    snapshot_module_write_byte(m, myvia[VIA_T2LL]);
-    snapshot_module_write_word(m, (WORD)myviatb(VIA_CONTEXT_CALLVOID));
+    SMW_W(m, (WORD)myviatal);
+    SMW_W(m, (WORD)myviata(VIA_CONTEXT_CALLVOID));
+    SMW_B(m, myvia[VIA_T2LL]);
+    SMW_W(m, (WORD)myviatb(VIA_CONTEXT_CALLVOID));
 
-    snapshot_module_write_byte(m, (BYTE)((myviatai ? 0x80 : 0)
-                                        | (myviatbi ? 0x40 : 0)));
+    SMW_B(m, (BYTE)((myviatai ? 0x80 : 0) | (myviatbi ? 0x40 : 0)));
 
-    snapshot_module_write_byte(m, myvia[VIA_SR]);
-    snapshot_module_write_byte(m, myvia[VIA_ACR]);
-    snapshot_module_write_byte(m, myvia[VIA_PCR]);
+    SMW_B(m, myvia[VIA_SR]);
+    SMW_B(m, myvia[VIA_ACR]);
+    SMW_B(m, myvia[VIA_PCR]);
 
-    snapshot_module_write_byte(m, (BYTE)myviaifr);
-    snapshot_module_write_byte(m, (BYTE)myviaier);
-
+    SMW_B(m, (BYTE)myviaifr);
+    SMW_B(m, (BYTE)myviaier);
                                                 /* FIXME! */
-    snapshot_module_write_byte(m, (BYTE)((((myviapb7 ^ myviapb7x)
-                               | myviapb7o) ? 0x80 : 0)));
-    snapshot_module_write_byte(m, 0);           /* SRHBITS */
+    SMW_B(m, (BYTE)((((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0)));
+    SMW_B(m, 0);           /* SRHBITS */
+    SMW_B(m, (BYTE)((ca2_state ? 0x80 : 0) | (cb2_state ? 0x40 : 0)));
 
-    snapshot_module_write_byte(m, (BYTE)((ca2_state ? 0x80 : 0)
-                               | (cb2_state ? 0x40 : 0)));
-
-    snapshot_module_write_byte(m, myvia_ila);
-    snapshot_module_write_byte(m, myvia_ilb);
+    SMW_B(m, myvia_ila);
+    SMW_B(m, myvia_ilb);
 
     snapshot_module_close(m);
 
@@ -937,6 +932,7 @@ int myvia_snapshot_read_module(VIA_CONTEXT_PARAM snapshot_t * p)
     snapshot_module_t *m;
 
     m = snapshot_module_open(p, snap_module_name, &vmajor, &vminor);
+
     if (m == NULL)
         return -1;
 
@@ -954,10 +950,10 @@ int myvia_snapshot_read_module(VIA_CONTEXT_PARAM snapshot_t * p)
     myviatai = 0;
     myviatbi = 0;
 
-    snapshot_module_read_byte(m, &myvia[VIA_PRA]);
-    snapshot_module_read_byte(m, &myvia[VIA_DDRA]);
-    snapshot_module_read_byte(m, &myvia[VIA_PRB]);
-    snapshot_module_read_byte(m, &myvia[VIA_DDRB]);
+    SMR_B(m, &myvia[VIA_PRA]);
+    SMR_B(m, &myvia[VIA_DDRA]);
+    SMR_B(m, &myvia[VIA_PRB]);
+    SMR_B(m, &myvia[VIA_DDRB]);
     {
         addr = VIA_DDRA;
         byte = myvia[VIA_PRA] | ~myvia[VIA_DDRA];
@@ -970,20 +966,20 @@ int myvia_snapshot_read_module(VIA_CONTEXT_PARAM snapshot_t * p)
         oldpb = byte;
     }
 
-    snapshot_module_read_word(m, &word);
+    SMR_W(m, &word);
     myviatal = word;
     myvia[VIA_T1LL] = myviatal & 0xff;
     myvia[VIA_T1LH] = (myviatal >> 8) & 0xff;
-    snapshot_module_read_word(m, &word);
+    SMR_W(m, &word);
     myviatau = rclk + word + 2 /* 3 */ + TAUOFFSET;
     myviatai = rclk + word + 1;
 
-    snapshot_module_read_byte(m, &myvia[VIA_T2LL]);
-    snapshot_module_read_word(m, &word);
+    SMR_B(m, &myvia[VIA_T2LL]);
+    SMR_W(m, &word);
     myviatbu = rclk + word + 2 /* 3 */;
     myviatbi = rclk + word + 1;
 
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     if (byte & 0x80) {
         alarm_set(myvia_t1_alarm, myviatai);
     } else {
@@ -995,25 +991,25 @@ int myvia_snapshot_read_module(VIA_CONTEXT_PARAM snapshot_t * p)
         myviatbi = 0;
     }
 
-    snapshot_module_read_byte(m, &myvia[VIA_SR]);
-    snapshot_module_read_byte(m, &myvia[VIA_ACR]);
-    snapshot_module_read_byte(m, &myvia[VIA_PCR]);
+    SMR_B(m, &myvia[VIA_SR]);
+    SMR_B(m, &myvia[VIA_ACR]);
+    SMR_B(m, &myvia[VIA_PCR]);
 
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     myviaifr = byte;
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     myviaier = byte;
 
     via_restore_int(myviaifr & myviaier & 0x7f);
 
     /* FIXME! */
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     myviapb7 = byte ? 1 : 0;
     myviapb7x = 0;
     myviapb7o = 0;
-    snapshot_module_read_byte(m, &byte);        /* SRHBITS */
+    SMR_B(m, &byte);        /* SRHBITS */
 
-    snapshot_module_read_byte(m, &byte);        /* CABSTATE */
+    SMR_B(m, &byte);        /* CABSTATE */
     ca2_state = byte & 0x80;
     cb2_state = byte & 0x40;
 
@@ -1035,8 +1031,8 @@ int myvia_snapshot_read_module(VIA_CONTEXT_PARAM snapshot_t * p)
         undump_acr(VIA_CONTEXT_CALL byte);
     }
 
-    snapshot_module_read_byte(m, &myvia_ila);
-    snapshot_module_read_byte(m, &myvia_ilb);
+    SMR_B(m, &myvia_ila);
+    SMR_B(m, &myvia_ilb);
 
     return snapshot_module_close(m);
 }

@@ -378,19 +378,18 @@ int mytpi_snapshot_write_module(snapshot_t *p)
     if (m == NULL)
         return -1;
 
-    snapshot_module_write_byte(m, tpi[TPI_PA]);
-    snapshot_module_write_byte(m, tpi[TPI_PB]);
-    snapshot_module_write_byte(m, tpi[TPI_PC]);
-    snapshot_module_write_byte(m, tpi[TPI_DDPA]);
-    snapshot_module_write_byte(m, tpi[TPI_DDPB]);
-    snapshot_module_write_byte(m, tpi[TPI_DDPC]);
-    snapshot_module_write_byte(m, tpi[TPI_CREG]);
-    snapshot_module_write_byte(m, tpi[TPI_AIR]);
+    SMW_B(m, tpi[TPI_PA]);
+    SMW_B(m, tpi[TPI_PB]);
+    SMW_B(m, tpi[TPI_PC]);
+    SMW_B(m, tpi[TPI_DDPA]);
+    SMW_B(m, tpi[TPI_DDPB]);
+    SMW_B(m, tpi[TPI_DDPC]);
+    SMW_B(m, tpi[TPI_CREG]);
+    SMW_B(m, tpi[TPI_AIR]);
 
-    snapshot_module_write_byte(m, irq_stack);
+    SMW_B(m, irq_stack);
 
-    snapshot_module_write_byte(m, (BYTE)((ca_state ? 0x80 : 0)
-                               | (cb_state ? 0x40 : 0)));
+    SMW_B(m, (BYTE)((ca_state ? 0x80 : 0) | (cb_state ? 0x40 : 0)));
 
     snapshot_module_close(m);
 
@@ -414,18 +413,18 @@ int mytpi_snapshot_read_module(snapshot_t *p)
         return -1;
     }
 
-    snapshot_module_read_byte(m, &tpi[TPI_PA]);
-    snapshot_module_read_byte(m, &tpi[TPI_PB]);
-    snapshot_module_read_byte(m, &tpi[TPI_PC]);
-    snapshot_module_read_byte(m, &tpi[TPI_DDPA]);
-    snapshot_module_read_byte(m, &tpi[TPI_DDPB]);
-    snapshot_module_read_byte(m, &tpi[TPI_DDPC]);
-    snapshot_module_read_byte(m, &tpi[TPI_CREG]);
-    snapshot_module_read_byte(m, &tpi[TPI_AIR]);
+    SMR_B(m, &tpi[TPI_PA]);
+    SMR_B(m, &tpi[TPI_PB]);
+    SMR_B(m, &tpi[TPI_PC]);
+    SMR_B(m, &tpi[TPI_DDPA]);
+    SMR_B(m, &tpi[TPI_DDPB]);
+    SMR_B(m, &tpi[TPI_DDPC]);
+    SMR_B(m, &tpi[TPI_CREG]);
+    SMR_B(m, &tpi[TPI_AIR]);
 
-    snapshot_module_read_byte(m, &irq_stack);
+    SMR_B(m, &irq_stack);
 
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     ca_state = byte & 0x80;
     cb_state = byte & 0x40;
 
