@@ -287,6 +287,8 @@ video_canvas_t *video_canvas_init(void)
 
     canvas->video_draw_buffer_callback = NULL;
 
+    video_render_initconfig(&canvas->videoconfig);
+
     return canvas;
 }
 
@@ -307,8 +309,6 @@ int video_canvas_create(video_canvas_t *canvas, const char *win_name,
 
     canvas->pages[0] = canvas->pages[1] = NULL;
     canvas->render_bitmap = NULL;
-
-    video_render_initconfig(&canvas->videoconfig);
 
     DEBUG(("Setting VGA mode"));
     do {
@@ -427,6 +427,12 @@ void video_canvas_unmap(video_canvas_t *c)
 void video_canvas_resize(video_canvas_t *c, unsigned int width,
                          unsigned int height)
 {
+    if (canvas->videoconfig.doublesizex)
+        width *= 2;
+
+    if (canvas->videoconfig.doublesizey)
+        height *= 2;
+
     /*
     FIXME: the possible height for the statusbar isn't calculated,
     it's only checked whether VGA-mode has >200 lines
@@ -511,6 +517,18 @@ inline void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
     /* Just to be sure...  */
     if (screen == NULL)
         return;
+
+    if (c->videoconfig.doublesizex) {
+        xs *= 2;
+        xi *= 2;
+        w *= 2;
+    }
+
+    if (c->videoconfig.doublesizey) {
+        ys *= 2;
+        yi *= 2;
+        h *= 2;
+    }
 
     /* this is a hack for F7 change between VICII and VDC */
     if (last_canvas != c) {
