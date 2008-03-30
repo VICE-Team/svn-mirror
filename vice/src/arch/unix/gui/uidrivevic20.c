@@ -39,15 +39,39 @@
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 
 
+static ui_menu_entry_t uidrivevic20_drive0_expansion_submenu[] = {
+    { "",
+      NULL, NULL, uidriveiec_drive0_ram_expansion_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t uidrivevic20_drive1_expansion_submenu[] = {
+    { "",
+      NULL, NULL, uidriveiec_drive1_ram_expansion_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t uidrivevic20_drive2_expansion_submenu[] = {
+    { "",
+      NULL, NULL, uidriveiec_drive2_ram_expansion_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t uidrivevic20_drive3_expansion_submenu[] = {
+    { "",
+      NULL, NULL, uidriveiec_drive3_ram_expansion_submenu },
+    { NULL }
+};
+
 static ui_menu_entry_t drivevic20_settings_submenu[] = {
     { N_("*Enable true drive emulation"),
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
     { "--" },
     { N_("Drive #8 model"),
       NULL, NULL, uidrivec64vic20_set_drive0_type_submenu },
-    { N_("*Drive #8 RAM expansion"),
+    { N_("*Drive #8 expansion"),
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)0,
-      set_drive0_expansion_submenu },
+      uidrivevic20_drive0_expansion_submenu },
     { N_("*Drive #8 40-track image support"),
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)0,
       set_drive0_extend_image_policy_submenu },
@@ -57,9 +81,9 @@ static ui_menu_entry_t drivevic20_settings_submenu[] = {
     { "--" },
     { N_("Drive #9 model"),
       NULL, NULL, uidrivec64vic20_set_drive1_type_submenu },
-    { N_("*Drive #9 RAM expansion"),
+    { N_("*Drive #9 expansion"),
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)1,
-      set_drive1_expansion_submenu },
+      uidrivevic20_drive1_expansion_submenu },
     { N_("*Drive #9 40-track image support"),
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)1,
       set_drive1_extend_image_policy_submenu },
@@ -69,9 +93,9 @@ static ui_menu_entry_t drivevic20_settings_submenu[] = {
     { "--" },
     { N_("Drive #10 model"),
       NULL, NULL, uidrivec64vic20_set_drive2_type_submenu },
-    { N_("*Drive #10 RAM expansion"),
+    { N_("*Drive #10 expansion"),
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)2,
-      set_drive2_expansion_submenu },
+      uidrivevic20_drive2_expansion_submenu },
     { N_("*Drive #10 40-track image support"),
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)2,
       set_drive2_extend_image_policy_submenu },
@@ -81,9 +105,9 @@ static ui_menu_entry_t drivevic20_settings_submenu[] = {
     { "--" },
     { N_("Drive #11 model"),
       NULL, NULL, uidrivec64vic20_set_drive3_type_submenu },
-    { N_("*Drive #11 RAM expansion"),
+    { N_("*Drive #11 expansion"),
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)3,
-      set_drive3_expansion_submenu },
+      uidrivevic20_drive3_expansion_submenu },
     { N_("*Drive #11 40-track image support"),
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)3,
       set_drive3_extend_image_policy_submenu },

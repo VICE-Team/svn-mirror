@@ -32,10 +32,11 @@
 extern UI_CALLBACK(uidriveiec_expansion_control);
 extern UI_CALLBACK(uidriveiec_idle_method_control);
 
-extern struct ui_menu_entry_s set_drive0_expansion_submenu[];
-extern struct ui_menu_entry_s set_drive1_expansion_submenu[];
-extern struct ui_menu_entry_s set_drive2_expansion_submenu[];
-extern struct ui_menu_entry_s set_drive3_expansion_submenu[];
+extern struct ui_menu_entry_s uidriveiec_drive0_ram_expansion_submenu[];
+extern struct ui_menu_entry_s uidriveiec_drive1_ram_expansion_submenu[];
+extern struct ui_menu_entry_s uidriveiec_drive2_ram_expansion_submenu[];
+extern struct ui_menu_entry_s uidriveiec_drive3_ram_expansion_submenu[];
+
 extern struct ui_menu_entry_s set_drive0_idle_method_submenu[];
 extern struct ui_menu_entry_s set_drive1_idle_method_submenu[];
 extern struct ui_menu_entry_s set_drive2_idle_method_submenu[];
