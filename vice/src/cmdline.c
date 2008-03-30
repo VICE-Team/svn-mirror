@@ -183,12 +183,12 @@ void cmdline_show_help(void)
 {
     int i;
 
-    fprintf(stderr, "\nAvailable command-line options:\n\n");
+    printf("\nAvailable command-line options:\n\n");
     for (i = 0; i < num_options; i++) {
-        fputs(options[i].name, stderr);
+        fputs(options[i].name, stdout);
         if (options[i].need_arg && options[i].param_name != NULL)
-            fprintf(stderr, " %s", options[i].param_name);
-        fprintf(stderr, "\n\t%s\n", options[i].description);
+            printf(" %s", options[i].param_name);
+        printf("\n\t%s\n", options[i].description);
     }
     putchar('\n');
 }
