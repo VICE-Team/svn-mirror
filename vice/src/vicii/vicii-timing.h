@@ -29,7 +29,7 @@
 
 struct machine_timing_s;
 
-void vicii_timing_set(struct machine_timing_s *machine_timing);
+extern void vicii_timing_set(struct machine_timing_s *machine_timing,
+                             int border_mode);
 
 #endif
-

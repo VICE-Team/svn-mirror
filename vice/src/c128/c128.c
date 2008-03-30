@@ -727,6 +727,27 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle)
 
 void machine_change_timing(int timeval)
 {
+   int border_mode;
+
+    switch (timeval) {
+      default:
+      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
+      case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
+        timeval ^= VICII_BORDER_MODE(VICII_NORMAL_BORDERS);
+        border_mode = VICII_NORMAL_BORDERS;
+        break;
+      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
+      case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
+        timeval ^= VICII_BORDER_MODE(VICII_FULL_BORDERS);
+        border_mode = VICII_FULL_BORDERS;
+        break;
+      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
+      case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
+        timeval ^= VICII_BORDER_MODE(VICII_DEBUG_BORDERS);
+        border_mode = VICII_DEBUG_BORDERS;
+        break;
+   }
+
     switch (timeval) {
       case MACHINE_SYNC_PAL:
         machine_timing.cycles_per_sec = C128_PAL_CYCLES_PER_SEC;
@@ -757,7 +778,7 @@ void machine_change_timing(int timeval)
     sid_set_machine_parameter(machine_timing.cycles_per_sec);
     clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
-    vicii_change_timing(&machine_timing);
+    vicii_change_timing(&machine_timing, border_mode);
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }

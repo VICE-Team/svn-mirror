@@ -31,10 +31,13 @@
 
 #include "archdep.h"
 #include "fullscreen.h"
+#include "machine.h"
 #include "raster-resources.h"
 #include "resources.h"
 #include "vicii-color.h"
 #include "vicii-resources.h"
+#include "vicii-timing.h"
+#include "vicii.h"
 #include "viciitypes.h"
 #include "video.h"
 
@@ -43,10 +46,14 @@ vicii_resources_t vicii_resources;
 static video_chip_cap_t video_chip_cap;
 
 
-static int set_new_luminances(int val, void *param)
+static int set_border_mode(int val, void *param)
 {
-    vicii_resources.new_luminances = val;
-    return vicii_color_update_palette(vicii.raster.canvas);
+    if (vicii_resources.border_mode != val) {
+        vicii_resources.border_mode = val;
+        machine_change_timing(MACHINE_SYNC_PAL
+                              ^ VICII_BORDER_MODE(vicii_resources.border_mode));
+    }
+   return 0;
 }
 
 static int set_sprite_sprite_collisions_enabled(int val, void *param)
@@ -61,8 +68,17 @@ static int set_sprite_background_collisions_enabled(int val, void *param)
     return 0;
 }
 
+static int set_new_luminances(int val, void *param)
+{
+    vicii_resources.new_luminances = val;
+    return vicii_color_update_palette(vicii.raster.canvas);
+}
+
 static const resource_int_t resources_int[] =
 {
+    { "VICIIBorderMode", VICII_NORMAL_BORDERS, RES_EVENT_SAME, NULL,
+      &vicii_resources.border_mode,
+      set_border_mode, NULL },
     { "VICIICheckSsColl", 1, RES_EVENT_SAME, NULL,
       &vicii_resources.sprite_sprite_collisions_enabled,
       set_sprite_sprite_collisions_enabled, NULL },

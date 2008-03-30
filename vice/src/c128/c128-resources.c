@@ -40,6 +40,8 @@
 #include "reu.h"
 #include "resources.h"
 #include "sid-resources.h"
+#include "vicii-resources.h"
+#include "vicii.h"
 #include "util.h"
 
 
@@ -380,6 +382,7 @@ static int set_acia_de_enabled(int val, void *param)
 static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
+    int border_mode = VICII_BORDER_MODE(vicii_resources.border_mode);
 
     if (sync_factor != val)
         change_timing = 1;
@@ -388,12 +391,12 @@ static int set_sync_factor(int val, void *param)
       case MACHINE_SYNC_PAL:
         sync_factor = val;
         if (change_timing)
-            machine_change_timing(MACHINE_SYNC_PAL);
+            machine_change_timing(MACHINE_SYNC_PAL ^ border_mode);
         break;
       case MACHINE_SYNC_NTSC:
         sync_factor = val;
         if (change_timing)
-            machine_change_timing(MACHINE_SYNC_NTSC);
+            machine_change_timing(MACHINE_SYNC_NTSC ^ border_mode);
         break;
       default:
         return -1;

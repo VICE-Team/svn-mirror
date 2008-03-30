@@ -5,6 +5,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Gunnar Ruthenberg <Krill.Plush@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,20 +29,46 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "cmdline.h"
+#include "machine.h"
 #include "raster-cmdline-options.h"
+#include "resources.h"
 #ifdef HAS_TRANSLATION
 #include "translate.h"
 #endif
 #include "vicii-cmdline-options.h"
+#include "vicii-resources.h"
+#include "vicii-timing.h"
+#include "vicii.h"
 #include "viciitypes.h"
 
+
+int border_set_func(const char *value, void *extra_param)
+{
+   int video;
+    resources_get_int("MachineVideoStandard", &video);
+   
+   if (strcmp(value, "1") == 0 || strcmp(value, "full") == 0) {
+       vicii_resources.border_mode = VICII_FULL_BORDERS;
+   } else if (strcmp(value, "2") == 0 || strcmp(value, "debug") == 0) {
+       vicii_resources.border_mode = VICII_DEBUG_BORDERS;
+   } else {
+       vicii_resources.border_mode = VICII_NORMAL_BORDERS;
+   }
+
+   machine_change_timing(video ^ VICII_BORDER_MODE(vicii_resources.border_mode));
+
+   return 0;
+}
 
 /* VIC-II command-line options.  */
 #ifdef HAS_TRANSLATION
 static const cmdline_option_t cmdline_options[] =
 {
+    { "-VICIIborders", CALL_FUNCTION, 1, border_set_func, NULL, "VICIIBorderMode",
+      (void *)0, IDCLS_P_MODE, IDCLS_SET_BORDER_MODE },
     { "-VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
       (void *)1, 0, IDCLS_ENABLE_SPRITE_BACKGROUND },
     { "+VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
@@ -67,6 +94,8 @@ static const cmdline_option_t cmdline_options[] =
 #else
 static const cmdline_option_t cmdline_options[] =
 {
+    { "-VICIIborders", CALL_FUNCTION, 1, border_set_func, NULL, "VICIIBorderMode",
+      (void *)0, N_("<mode>"), N_("Set VIC-II border display mode (0: normal, 1: full, 2: debug)") },
     { "-VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
       (void *)1, NULL, N_("Enable sprite-background collision registers") },
     { "+VICIIchecksb", SET_RESOURCE, 0, NULL, NULL, "VICIICheckSbColl",
