@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-12-18 12:41+0100\n"
+"POT-Creation-Date: 2005-12-19 17:51+0100\n"
 "PO-Revision-Date: 2005-10-12 22:03+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -90,15 +90,16 @@ msgstr "Setze Source Buffer Größe zu <Wert> msek"
 #: src/c64/cart/c64cart.c:240 src/c64/cart/c64cart.c:243
 #: src/c64/cart/c64cart.c:246 src/c64/cart/c64cart.c:249
 #: src/c64/cart/c64cart.c:252 src/c64/cart/c64cart.c:255
-#: src/c64/cart/c64cart.c:258 src/c64/cart/ide64.c:268 src/c64/georam.c:215
-#: src/c64/plus60k.c:253 src/c64/ramcart.c:228 src/c64/reu.c:250
-#: src/cbm2/cbm2-cmdline-options.c:132 src/cbm2/cbm2-cmdline-options.c:134
-#: src/cbm2/cbm2-cmdline-options.c:136 src/cbm2/cbm2-cmdline-options.c:139
-#: src/cbm2/cbm2-cmdline-options.c:141 src/cbm2/cbm2-cmdline-options.c:143
-#: src/cbm2/cbm2-cmdline-options.c:145 src/cbm2/cbm2-cmdline-options.c:178
-#: src/cbm2/cbm2-cmdline-options.c:181 src/cbm2/cbm2-cmdline-options.c:184
-#: src/cbm2/cbm2-cmdline-options.c:187 src/cbm2/cbm2-cmdline-options.c:190
-#: src/cbm2/cbm2-cmdline-options.c:193 src/drive/iec/iec-cmdline-options.c:86
+#: src/c64/cart/c64cart.c:258 src/c64/cart/ide64.c:268 src/c64/c64_256k.c:251
+#: src/c64/georam.c:215 src/c64/plus60k.c:253 src/c64/ramcart.c:228
+#: src/c64/reu.c:250 src/cbm2/cbm2-cmdline-options.c:132
+#: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
+#: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
+#: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
+#: src/cbm2/cbm2-cmdline-options.c:178 src/cbm2/cbm2-cmdline-options.c:181
+#: src/cbm2/cbm2-cmdline-options.c:184 src/cbm2/cbm2-cmdline-options.c:187
+#: src/cbm2/cbm2-cmdline-options.c:190 src/cbm2/cbm2-cmdline-options.c:193
+#: src/drive/iec/iec-cmdline-options.c:86
 #: src/drive/iec/iec-cmdline-options.c:88
 #: src/drive/iec/iec-cmdline-options.c:90
 #: src/drive/iec/iec-cmdline-options.c:92
@@ -309,7 +310,7 @@ msgstr "Wiedergabe von aufgenommener Ereignisse"
 
 #: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
 #: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
-#: src/c64/plus60k.c:147
+#: src/c64/c64_256k.c:126 src/c64/plus60k.c:147
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr "Resource %s wird von %s blockiert."
@@ -802,6 +803,31 @@ msgstr "IDE64: Benutze %i/%i/%i CHS Geometire, %lu Sektoren insgesamt."
 msgid "IDE64: LBA geometry, %lu sectors total."
 msgstr "IDE64: LBA Geometrie, %lu Sektoren insgesamt."
 
+#: src/c64/c64_256k.c:247
+#, fuzzy
+msgid "Enable the 256K RAM expansion"
+msgstr "+60K RAM Erweiterung aktivieren"
+
+#: src/c64/c64_256k.c:249
+#, fuzzy
+msgid "Disable the 256K RAM expansion"
+msgstr "+60K RAM Erweiterung deaktivieren"
+
+#: src/c64/c64_256k.c:251
+#, fuzzy
+msgid "Specify name of 256K image"
+msgstr "Name der +60K Image Datei definieren"
+
+#: src/c64/c64_256k.c:253 src/c64/plus60k.c:255
+#: src/sid/sid-cmdline-options.c:109
+msgid "<base address>"
+msgstr "<Basis Adresse>"
+
+#: src/c64/c64_256k.c:253
+#, fuzzy
+msgid "Base address of the 256K expansion"
+msgstr "+60K RAM Erweiterung deaktivieren"
+
 #: src/c64/georam.c:211
 msgid "Enable the GEORAM expansion unit"
 msgstr "GEORAM Erweiterung aktivieren"
@@ -833,10 +859,6 @@ msgstr "+60K RAM Erweiterung deaktivieren"
 #: src/c64/plus60k.c:253
 msgid "Specify name of +60K image"
 msgstr "Name der +60K Image Datei definieren"
-
-#: src/c64/plus60k.c:255 src/sid/sid-cmdline-options.c:109
-msgid "<base address>"
-msgstr "<Basis Adresse>"
 
 #: src/c64/plus60k.c:255
 #, fuzzy

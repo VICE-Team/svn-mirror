@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.17\n"
-"POT-Creation-Date: 2005-12-18 12:41+0100\n"
+"POT-Creation-Date: 2005-12-19 17:51+0100\n"
 "PO-Revision-Date: 2005-09-18 11:20+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -90,15 +90,16 @@ msgstr "Zet de geluid buffer grootte naar <waarde> msec"
 #: src/c64/cart/c64cart.c:240 src/c64/cart/c64cart.c:243
 #: src/c64/cart/c64cart.c:246 src/c64/cart/c64cart.c:249
 #: src/c64/cart/c64cart.c:252 src/c64/cart/c64cart.c:255
-#: src/c64/cart/c64cart.c:258 src/c64/cart/ide64.c:268 src/c64/georam.c:215
-#: src/c64/plus60k.c:253 src/c64/ramcart.c:228 src/c64/reu.c:250
-#: src/cbm2/cbm2-cmdline-options.c:132 src/cbm2/cbm2-cmdline-options.c:134
-#: src/cbm2/cbm2-cmdline-options.c:136 src/cbm2/cbm2-cmdline-options.c:139
-#: src/cbm2/cbm2-cmdline-options.c:141 src/cbm2/cbm2-cmdline-options.c:143
-#: src/cbm2/cbm2-cmdline-options.c:145 src/cbm2/cbm2-cmdline-options.c:178
-#: src/cbm2/cbm2-cmdline-options.c:181 src/cbm2/cbm2-cmdline-options.c:184
-#: src/cbm2/cbm2-cmdline-options.c:187 src/cbm2/cbm2-cmdline-options.c:190
-#: src/cbm2/cbm2-cmdline-options.c:193 src/drive/iec/iec-cmdline-options.c:86
+#: src/c64/cart/c64cart.c:258 src/c64/cart/ide64.c:268 src/c64/c64_256k.c:251
+#: src/c64/georam.c:215 src/c64/plus60k.c:253 src/c64/ramcart.c:228
+#: src/c64/reu.c:250 src/cbm2/cbm2-cmdline-options.c:132
+#: src/cbm2/cbm2-cmdline-options.c:134 src/cbm2/cbm2-cmdline-options.c:136
+#: src/cbm2/cbm2-cmdline-options.c:139 src/cbm2/cbm2-cmdline-options.c:141
+#: src/cbm2/cbm2-cmdline-options.c:143 src/cbm2/cbm2-cmdline-options.c:145
+#: src/cbm2/cbm2-cmdline-options.c:178 src/cbm2/cbm2-cmdline-options.c:181
+#: src/cbm2/cbm2-cmdline-options.c:184 src/cbm2/cbm2-cmdline-options.c:187
+#: src/cbm2/cbm2-cmdline-options.c:190 src/cbm2/cbm2-cmdline-options.c:193
+#: src/drive/iec/iec-cmdline-options.c:86
 #: src/drive/iec/iec-cmdline-options.c:88
 #: src/drive/iec/iec-cmdline-options.c:90
 #: src/drive/iec/iec-cmdline-options.c:92
@@ -309,7 +310,7 @@ msgstr "Afspelen opgenomen gebeurtenissen"
 
 #: src/c64/c64export.c:50 src/c64/c64export.c:58 src/c64/c64export.c:68
 #: src/c64/c64export.c:76 src/c64/c64export.c:86 src/c64/c64export.c:96
-#: src/c64/plus60k.c:147
+#: src/c64/c64_256k.c:126 src/c64/plus60k.c:147
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr "Bron %s geblokeerd door %s."
@@ -365,73 +366,65 @@ msgstr "Afspeel fout: %s is anders dan lijn %d van bestand debug%06d"
 
 #: src/network.c:280
 msgid "Testing best frame delay..."
-msgstr ""
+msgstr "Beste frame vertraging aan het testen..."
 
 #: src/network.c:332
 #, c-format
 msgid "Using %d frames delay."
-msgstr ""
+msgstr "%d frames vertraging in gebruik."
 
 #: src/network.c:355
-#, fuzzy
 msgid "Cannot load snapshot file for transfer"
-msgstr "Kan momentopname bestand niet laden."
+msgstr "Kan het momentopname bestand voor versturen niet laden"
 
 #: src/network.c:368
-#, fuzzy
 msgid "Sending snapshot to client..."
-msgstr "Opslaan momentopname..."
+msgstr "Momentopname wordt naar de andere computer verstuurd..."
 
 #: src/network.c:377
-#, fuzzy
 msgid "Cannot send snapshot to client"
-msgstr "Kan momentopname bestand niet laden."
+msgstr "Kan de momentopname niet naar de andere computer versturen"
 
 #: src/network.c:393
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create snapshot file %s"
-msgstr ""
-"Kan momentopname bestand niet schrijven\n"
-"`%s'\n"
+msgstr "Kan het momentopname bestand %s niet maken"
 
 #: src/network.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open snapshot file %s"
-msgstr ""
-"Kan momentopname bestand niet schrijven\n"
-"`%s'\n"
+msgstr "Kan het momentopname bestand %s niet openen"
 
 #: src/network.c:494
 msgid "Server is waiting for a client..."
-msgstr ""
+msgstr "De server wacht op de andere computer..."
 
 #: src/network.c:525
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot resolve %s"
-msgstr "Kan niet schrijven naar bestand %s"
+msgstr "Onbekende host %s"
 
 #: src/network.c:546
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
+"Kan geen connectie maken met %s (er is geen server aanwezig op poort %d)."
 
 #: src/network.c:556
 msgid "Receiving snapshot from server..."
-msgstr ""
+msgstr "Momentopname van de server wordt ontvangen..."
 
 #: src/network.c:574
-#, fuzzy
 msgid "Cannot read received snapshot file"
-msgstr "Kan momentopname bestand niet laden."
+msgstr "Kan het ontvangen momentopname bestand niet lezen"
 
 #: src/network.c:704
-#, fuzzy
 msgid "fragmented"
-msgstr "fragment problemen."
+msgstr "gefragmenteerd"
 
 #: src/network.c:734
 msgid "Network out of sync - disconnecting."
-msgstr ""
+msgstr "Netwerk niet synchroon - connectie wordt verbroken."
 
 #: src/aciacore.c:142
 msgid "Specify RS232 device this ACIA should work on"
@@ -743,9 +736,8 @@ msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "Koppel binair 16KB Westermann learning cartridge bestand"
 
 #: src/c64/cart/c64cart.c:258
-#, fuzzy
 msgid "Attach Structured Basic cartridge image"
-msgstr "Koppel Structured Basic bestand..."
+msgstr "Koppel Structured Basic bestand"
 
 #: src/c64/cart/c64cart.c:261
 msgid "Enable expert cartridge"
@@ -803,6 +795,31 @@ msgstr ""
 msgid "IDE64: LBA geometry, %lu sectors total."
 msgstr ""
 
+#: src/c64/c64_256k.c:247
+#, fuzzy
+msgid "Enable the 256K RAM expansion"
+msgstr "Aktiveer de +60K geheugen uitbreiding"
+
+#: src/c64/c64_256k.c:249
+#, fuzzy
+msgid "Disable the 256K RAM expansion"
+msgstr "De +60K geheugen uitbreiding afsluiten"
+
+#: src/c64/c64_256k.c:251
+#, fuzzy
+msgid "Specify name of 256K image"
+msgstr "Geef de naam van het +60K bestand"
+
+#: src/c64/c64_256k.c:253 src/c64/plus60k.c:255
+#: src/sid/sid-cmdline-options.c:109
+msgid "<base address>"
+msgstr "<basis adres>"
+
+#: src/c64/c64_256k.c:253
+#, fuzzy
+msgid "Base address of the 256K expansion"
+msgstr "Basis adres van de +60K geheugen uitbreiding"
+
 #: src/c64/georam.c:211
 msgid "Enable the GEORAM expansion unit"
 msgstr "Aktiveer de GEORAM Uitbreidings Eenheid"
@@ -835,14 +852,9 @@ msgstr "De +60K geheugen uitbreiding afsluiten"
 msgid "Specify name of +60K image"
 msgstr "Geef de naam van het +60K bestand"
 
-#: src/c64/plus60k.c:255 src/sid/sid-cmdline-options.c:109
-msgid "<base address>"
-msgstr "<basis adres>"
-
 #: src/c64/plus60k.c:255
-#, fuzzy
 msgid "Base address of the +60K expansion"
-msgstr "De +60K geheugen uitbreiding afsluiten"
+msgstr "Basis adres van de +60K geheugen uitbreiding"
 
 #: src/c64/psid.c:160
 msgid "SID player mode"
@@ -2103,9 +2115,8 @@ msgid "+60K RAM Expansion Hack"
 msgstr "+60K geheugen uitbreiding"
 
 #: src/arch/unix/c64ui.c:276
-#, fuzzy
 msgid "256K RAM Expansion Hack"
-msgstr "+60K geheugen uitbreiding"
+msgstr "256K geheugen uitbreiding"
 
 #: src/arch/unix/c64ui.c:296 src/arch/unix/petui.c:169
 #: src/arch/unix/plus4ui.c:79
@@ -2651,9 +2662,8 @@ msgid "Smart-attach disk/tape..."
 msgstr "Slim-koppel disk/tape..."
 
 #: src/arch/unix/uic64_256k.c:40
-#, fuzzy
 msgid "256K image name"
-msgstr "IDE64 bestand naam"
+msgstr "256K bestand naam"
 
 #: src/arch/unix/uic64_256k.c:41 src/arch/unix/uigeoram.c:42
 #: src/arch/unix/uiide64.c:43 src/arch/unix/uiplus60k.c:42
@@ -2663,18 +2673,16 @@ msgid "Name:"
 msgstr "Naam:"
 
 #: src/arch/unix/uic64_256k.c:57
-#, fuzzy
 msgid "*Enable 256K"
-msgstr "*Aktiveer REU"
+msgstr "*Aktiveer 256K"
 
 #: src/arch/unix/uic64_256k.c:59
 msgid "256K base"
-msgstr ""
+msgstr "256K basis adres"
 
 #: src/arch/unix/uic64_256k.c:61
-#, fuzzy
 msgid "256K image name..."
-msgstr "IDE64 bestand naam..."
+msgstr "256K bestand naam..."
 
 #: src/arch/unix/uic64cart.c:57 src/arch/unix/uic64cart.c:74
 msgid "Cannot attach cartridge"
@@ -3751,24 +3759,20 @@ msgid "Peripheral settings"
 msgstr "Rand apparaten instellingen"
 
 #: src/arch/unix/uiplus60k.c:41
-#, fuzzy
 msgid "+60K image name"
-msgstr "IDE64 bestand naam"
+msgstr "+60K bestand naam"
 
 #: src/arch/unix/uiplus60k.c:54
-#, fuzzy
 msgid "*Enable +60K"
-msgstr "*Aktiveer REU"
+msgstr "*Aktiveer +60K"
 
 #: src/arch/unix/uiplus60k.c:56
-#, fuzzy
 msgid "+60K base address"
-msgstr "<basis adres>"
+msgstr "+60K basis adres"
 
 #: src/arch/unix/uiplus60k.c:58
-#, fuzzy
 msgid "+60K image name..."
-msgstr "IDE64 bestand naam..."
+msgstr "+60K bestand naam..."
 
 #: src/arch/unix/uiprinter.c:80 src/arch/unix/uiprinter.c:95
 #: src/arch/unix/uiprinter.c:107
