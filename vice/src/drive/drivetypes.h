@@ -86,6 +86,8 @@ typedef struct drivecpu_context_s {
        was called.  */
     CLOCK last_exc_cycles;
 
+    CLOCK stop_clk;
+
     CLOCK cycle_accum;
     BYTE *d_bank_base;
     int d_bank_limit;     /* init to -1 */
