@@ -1,10 +1,11 @@
 /*
- * kbd.h - X11 keyboard driver.
+ * kbd.h - Keyboard driver.
  *
  * Written by
  *  Jouko Valta <jopi@stekt.oulu.fi>
  *  Andre Fachat <fachat@physik.tu-chemnitz.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README file for copyright notice.
@@ -26,18 +27,13 @@
  *
  */
 
-/* X11 keyboard driver. */
+#ifndef _KBD_H
+#define _KBD_H
 
-#ifndef _KBD_X_H
-#define _KBD_X_H
-
-#include <X11/Intrinsic.h>
 #include "types.h"
 
 extern BYTE joystick_value[3];
 
-extern void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
-			      Boolean *ctd);
 extern int kbd_load_keymap(const char *filename);
 extern int kbd_dump_keymap(const char *filename);
 
