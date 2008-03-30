@@ -384,13 +384,6 @@ raster_t *crtc_init(void)
     raster_modes_set_idle_mode(raster->modes, CRTC_IDLE_MODE);
     raster_set_exposure_handler(raster, (void *)crtc_exposure_handler);
     resources_touch("CrtcVideoCache");
-#ifdef USE_XF86_EXTENSIONS
-    raster_enable_double_scan(raster, fullscreen_is_enabled
-                              ? crtc_resources.fullscreen_double_scan_enabled
-                              : crtc_resources.double_scan_enabled);
-#else
-    raster_enable_double_scan(raster, crtc_resources.double_scan_enabled);
-#endif
     raster_set_canvas_refresh(raster, 1);
 
     if (!crtc.regs[0])
@@ -435,6 +428,10 @@ raster_t *crtc_init(void)
     if (raster_realize(raster) < 0)
         return NULL;
 
+#if ARCHDEP_VICII_DSCAN == 1
+    resources_touch("CrtcDoubleScan");
+#endif
+
     crtc_update_chargen_rel();
     crtc_update_disp_char();
     crtc_reset_screen_ptr();
@@ -448,7 +445,7 @@ raster_t *crtc_init(void)
     raster->display_xstart = CRTC_SCREEN_BORDERWIDTH;
     raster->display_xstop = crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH;
 */
-	crtc_resize();
+    crtc_resize();
 
     return &crtc.raster;
 }
@@ -597,15 +594,6 @@ void crtc_resize(void)
                                   1, crtc.raster.viewport.pixel_size.height, mode);
         }
     }
-
-#ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled)
-        raster_enable_double_scan(&crtc.raster,
-                                  crtc_resources.fullscreen_double_scan_enabled);
-        else
-#endif
-        raster_enable_double_scan(&crtc.raster,
-                                  crtc_resources.double_scan_enabled);
 }
 
 
@@ -913,10 +901,7 @@ void crtc_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
     crtc_resize();
-    raster_enable_double_scan(&crtc.raster,
-                              fullscreen_is_enabled ?
-                              crtc_resources.fullscreen_double_scan_enabled :
-                              crtc_resources.double_scan_enabled);
+    raster_force_repaint(&crtc.raster);
 #endif
 }
 

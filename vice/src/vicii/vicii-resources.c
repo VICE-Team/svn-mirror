@@ -105,28 +105,12 @@ static int set_fullscreen_double_size_enabled(resource_value_t v, void *param)
 #endif
 
 #if ARCHDEP_VICII_DSCAN == 1
-static int set_double_scan_enabled(resource_value_t v, void *param)
-{
-    vic_ii_resources.double_scan_enabled = (int)v;
-
-#ifdef USE_XF86_EXTENSIONS
-    if (vic_ii.initialized && !fullscreen_is_enabled)
-#else
-    if (vic_ii.initialized)
-#endif
-        raster_enable_double_scan(&vic_ii.raster,
-                                  vic_ii_resources.double_scan_enabled);
-
-    return 0;
-}
-
 #ifdef USE_XF86_EXTENSIONS
 static int set_fullscreen_double_scan_enabled(resource_value_t v, void *param)
 {
     vic_ii_resources.fullscreen_double_scan_enabled = (int)v;
-    if (fullscreen_is_enabled && vic_ii.initialized)
-        raster_enable_double_scan(&vic_ii.raster,
-                                  vic_ii_resources.fullscreen_double_scan_enabled);
+    if (fullscreen_is_enabled)
+        raster_force_repaint(&vic_ii.raster);
     return 0;
 }
 #endif
@@ -145,9 +129,6 @@ static resource_t resources_2x[] =
 #endif
 #endif
 #if ARCHDEP_VICII_DSCAN == 1
-    { "DoubleScan", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&vic_ii_resources.double_scan_enabled,
-      set_double_scan_enabled, NULL },
 #ifdef USE_XF86_EXTENSIONS
     { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t)0,
       (resource_value_t *)&vic_ii_resources.fullscreen_double_scan_enabled,
@@ -164,7 +145,8 @@ int vic_ii_resources_init(void)
     if (resources_register(resources_2x) < 0)
         return -1;
 #endif
-    if (raster_resources_chip_init("VICII", &vic_ii.raster) < 0)
+    if (raster_resources_chip_init("VICII", &vic_ii.raster,
+        ARCHDEP_VICII_DSIZE, ARCHDEP_VICII_DSCAN) < 0)
         return -1;
 
     return resources_register(resources);

@@ -236,17 +236,6 @@ static int init_raster(void)
     raster_modes_set_idle_mode(raster->modes, TED_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)ted_exposure_handler);
     resources_touch("TEDVideoCache");
-#if ARCHDEP_TED_DSCAN == 1
-#ifdef USE_XF86_EXTENSIONS
-    raster_enable_double_scan(raster, fullscreen_is_enabled
-                              ? ted_resources.fullscreen_double_scan_enabled
-                              : ted_resources.double_scan_enabled);
-#else
-    raster_enable_double_scan(raster, ted_resources.double_scan_enabled);
-#endif
-#else
-    raster_enable_double_scan(raster, 0);
-#endif
     raster_set_canvas_refresh(raster, 1);
 
     ted_set_geometry();
@@ -261,6 +250,10 @@ static int init_raster(void)
 
     if (raster_realize(raster) < 0)
         return -1;
+
+#if ARCHDEP_TED_DSCAN == 1
+    resources_touch("TEDDoubleScan");
+#endif
 
     raster->display_ystart = ted.row_25_start_line;
     raster->display_ystop = ted.row_25_stop_line;
@@ -812,17 +805,6 @@ void ted_resize(void)
             raster_set_pixel_size(&ted.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
         }
     }
-
-#if ARCHDEP_TED_DSCAN == 1
-#ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled)
-        raster_enable_double_scan(&ted.raster,
-                                  ted_resources.fullscreen_double_scan_enabled);
-    else
-#endif
-        raster_enable_double_scan(&ted.raster,
-                                  ted_resources.double_scan_enabled);
-#endif
 }
 
 void ted_free(void)
@@ -845,10 +827,7 @@ void ted_video_refresh(void)
 #ifdef USE_XF86_EXTENSIONS
 
   ted_resize();
-  raster_enable_double_scan(&ted.raster,
-                            fullscreen_is_enabled ?
-                            ted_resources.fullscreen_double_scan_enabled :
-                            ted_resources.double_scan_enabled);
+  raster_force_repaint(&ted.raster);
 #endif
 }
 

@@ -36,6 +36,7 @@
 #include <stdlib.h>
 
 #include "alarm.h"
+#include "archdep.h"
 #include "clkguard.h"
 #include "log.h"
 #include "mem.h"
@@ -280,13 +281,6 @@ static int init_raster(void)
     raster_modes_set_idle_mode(raster->modes, VIC_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)vic_exposure_handler);
     resources_touch("VICVideoCache");
-#ifdef USE_XF86_EXTENSIONS
-    raster_enable_double_scan(raster, fullscreen_is_enabled
-                              ? vic_resources.fullscreen_double_scan_enabled
-                              : vic_resources.double_scan_enabled);
-#else
-    raster_enable_double_scan(raster, vic_resources.double_scan_enabled);
-#endif
     raster_set_canvas_refresh(raster, 1);
 
     vic_set_geometry();
@@ -299,6 +293,10 @@ static int init_raster(void)
 
     if (raster_realize(raster) < 0)
         return -1;
+
+#if ARCHDEP_VIC_DSCAN == 1
+    resources_touch("VICDoubleScan");
+#endif
 
     raster->display_ystart = vic.first_displayed_line;
     raster->display_ystop = vic.first_displayed_line + 1;
@@ -426,15 +424,6 @@ void vic_resize(void)
             raster_set_pixel_size(&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
         }
     }
-
-#ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled)
-        raster_enable_double_scan(&vic.raster,
-                                  vic_resources.fullscreen_double_scan_enabled);
-    else
-#endif
-    raster_enable_double_scan(&vic.raster,
-	                      vic_resources.double_scan_enabled);
 }
 
 /* Set the memory pointers according to the values stored in the VIC
@@ -524,10 +513,7 @@ void vic_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
     vic_resize();
-    raster_enable_double_scan(&vic.raster,
-                              fullscreen_is_enabled ?
-                              vic_resources.fullscreen_double_scan_enabled :
-                              vic_resources.double_scan_enabled);
+    raster_force_repaint(&vic.raster);
 #endif
 }
 

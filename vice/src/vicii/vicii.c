@@ -336,17 +336,6 @@ static int init_raster(void)
     raster_modes_set_idle_mode(raster->modes, VIC_II_IDLE_MODE);
     raster_set_exposure_handler(raster, (void*)vic_ii_exposure_handler);
     resources_touch("VICIIVideoCache");
-#if ARCHDEP_VICII_DSCAN == 1
-#ifdef USE_XF86_EXTENSIONS
-    raster_enable_double_scan(raster, fullscreen_is_enabled
-                              ? vic_ii_resources.fullscreen_double_scan_enabled
-                              : vic_ii_resources.double_scan_enabled);
-#else
-    raster_enable_double_scan(raster, vic_ii_resources.double_scan_enabled);
-#endif
-#else
-    raster_enable_double_scan(raster, 0);
-#endif
     raster_set_canvas_refresh(raster, 1);
 
     vic_ii_set_geometry();
@@ -357,10 +346,14 @@ static int init_raster(void)
     }
     title = concat("VICE: ", machine_name, " emulator", NULL);
     raster_set_title(raster, title);
-    free (title);
+    free(title);
 
     if (raster_realize(raster) < 0)
         return -1;
+
+#if ARCHDEP_VICII_DSCAN == 1
+    resources_touch("VICIIDoubleScan");
+#endif
 
     raster->display_ystart = vic_ii.row_25_start_line;
     raster->display_ystop = vic_ii.row_25_stop_line;
@@ -1136,17 +1129,6 @@ void vic_ii_resize(void)
             raster_set_pixel_size(&vic_ii.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
         }
     }
-
-#if ARCHDEP_VICII_DSCAN == 1
-#ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled)
-        raster_enable_double_scan(&vic_ii.raster,
-                                  vic_ii_resources.fullscreen_double_scan_enabled);
-    else
-#endif
-        raster_enable_double_scan(&vic_ii.raster,
-                                  vic_ii_resources.double_scan_enabled);
-#endif
 }
 
 void vic_ii_set_canvas_refresh(int enable)
@@ -1172,12 +1154,8 @@ void vic_ii_async_refresh(struct canvas_refresh_s *refresh)
 void vic_ii_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
-
-  vic_ii_resize();
-  raster_enable_double_scan(&vic_ii.raster,
-                            fullscreen_is_enabled ?
-                            vic_ii_resources.fullscreen_double_scan_enabled :
-                            vic_ii_resources.double_scan_enabled);
+    vic_ii_resize();
+    raster_force_repaint(&vic_ii.raster);
 #endif
 }
 
