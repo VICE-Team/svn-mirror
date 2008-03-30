@@ -42,6 +42,7 @@
 #include "ui.h"
 
 #include "autostart.h"
+#include "utils.h"
 
 /* Current state of the routine autostart.  */
 static int autostartmode = AUTOSTART_NONE;
@@ -53,7 +54,20 @@ static warn_t *pwarn = NULL;
    image?  */
 static int orig_true1541_state = 0;
 
+/* Program name to load. NULL if default */
+static char *autostart_program_name = NULL;
+
 /* ------------------------------------------------------------------------- */
+
+/* Deallocate program name if we have one */
+static void deallocate_program_name(void)
+{
+    if (autostart_program_name) {
+	free(autostart_program_name);
+	autostart_program_name = NULL;
+    }
+}
+
 
 /* Big kludge: check whether the string `str' is in RAM at the address
    `addr'.  */
@@ -69,6 +83,7 @@ static int check(const char *str, int addr)
 		&& ram[addr + i] != 255)
 	    {
 		autostartmode = AUTOSTART_ERROR;
+		deallocate_program_name();
 		warn(pwarn, -1, "disabling autostart");
 		return 0;
 	    }
@@ -76,19 +91,6 @@ static int check(const char *str, int addr)
 	}
     }
     return 1;
-}
-
-/* Bigger kludge: write `str' on the screen at the current cursor position
-   and force a `RETURN' into the keyboard buffer.  */
-static void feed(const char *str)
-{
-    int i, addr;
-
-    addr = ram[0xd1] + ram[0xd2]*256;
-    for (i = 0; str[i]; i++)
-	ram[addr + i] = str[i] % 64;
-    ram[631] = 0x0d;
-    ram[198] = 1;
 }
 
 static void settrue1541mode(int on)
@@ -110,21 +112,31 @@ void autostart_init(void)
    mode if necessary.  */
 void autostart_advance(void)
 {
+    char		*tmp;
+
     switch (autostartmode)
     {
     case AUTOSTART_HASTAPE:
 	if (check("READY.", 1024+5*40))
 	{
 	    warn(pwarn, -1, "loading tape");
-	    feed("LOAD");
+	    if (autostart_program_name) {
+		tmp = xmalloc(strlen(autostart_program_name) + 10);
+		sprintf(tmp, "load\"%s\"\r", autostart_program_name);
+		kbd_buf_feed(tmp);
+		free(tmp);
+	    }
+	    else
+		kbd_buf_feed("load\r");
 	    autostartmode = AUTOSTART_LOADINGTAPE;
+	    deallocate_program_name();
 	}
 	break;
     case AUTOSTART_LOADINGTAPE:
 	if (check("READY.", 1024+11*40))
 	{
 	    warn(pwarn, -1, "starting program");
-	    feed("RUN");
+	    kbd_buf_feed("run\r");
 	    autostartmode = AUTOSTART_DONE;
 	}
 	break;
@@ -139,19 +151,27 @@ void autostart_advance(void)
 		    warn(pwarn, -1, "switching true 1541 emulation off");
 		settrue1541mode(0);
 	    }
-	    feed("LOAD\"*\",8,1");
+	    if (autostart_program_name) {
+		tmp = xmalloc(strlen(autostart_program_name) + 20);
+		sprintf(tmp, "load\"%s\",8,1\r", autostart_program_name);
+		kbd_buf_feed(tmp);
+		free(tmp);
+	    }
+	    else
+		kbd_buf_feed("load\"*\",8,1\r");
 	    autostartmode = AUTOSTART_LOADINGDISK;
+	    deallocate_program_name();
 	}
 	break;
     case AUTOSTART_LOADINGDISK:
-	if (check("READY.", 1024+10*40))
+	if (check("LOADING", 1024+9*40) && check("READY.", 1024+10*40))
 	{
 	    if (!app_resources.noTraps && orig_true1541_state)
 		warn(pwarn, -1, "switching true 1541 on and starting program");
 	    else
 		warn(pwarn, -1, "starting program");
 	    settrue1541mode(orig_true1541_state);
-	    feed("RUN");
+	    kbd_buf_feed("run\r");
 	    autostartmode = AUTOSTART_DONE;
 	}
 	break;
@@ -170,18 +190,21 @@ void autostart_advance(void)
 static int autostart_ignore_reset = 0;
 
 /* Clean memory and reboot for autostart.  */
-static void reboot_for_autostart(void)
+static void reboot_for_autostart(const char *program_name)
 {
     warn(pwarn, -1, "rebooting...");
     mem_powerup();
     autostart_ignore_reset = 1;
     maincpu_trigger_reset();
+    deallocate_program_name();
+    if (program_name)
+	autostart_program_name = stralloc(program_name);
 }
 
 /* ------------------------------------------------------------------------- */
 
 /* Autostart tape image `file_name'.  */
-int autostart_tape(const char *file_name)
+int autostart_tape(const char *file_name, const char *program_name)
 {
     if (file_name == NULL)
 	return -1;
@@ -190,18 +213,19 @@ int autostart_tape(const char *file_name)
     {
 	warn(pwarn, -1, "cannot attach file '%s'", file_name);
 	autostartmode = AUTOSTART_ERROR;
+	deallocate_program_name();
 	return -1;
     }
 
     warn(pwarn, -1, "attached file `%s' as a tape image", file_name);
     autostartmode = AUTOSTART_HASTAPE;
-    reboot_for_autostart();
+    reboot_for_autostart(program_name);
 
     return 0;
 }
 
 /* Autostart disk image `file_name'.  */
-int autostart_disk(const char *file_name)
+int autostart_disk(const char *file_name, const char *program_name)
 {
     if (file_name == NULL)
 	return -1;
@@ -210,26 +234,27 @@ int autostart_disk(const char *file_name)
     {
 	warn(pwarn, -1, "cannot attach file `%s' as a disk image", file_name);
 	autostartmode = AUTOSTART_ERROR;
+	deallocate_program_name();
 	return -1;
     }
 
     warn(pwarn, -1, "attached file `%s' as a disk image to device #8",
 	 file_name);
     autostartmode = AUTOSTART_HASDISK;
-    reboot_for_autostart();
+    reboot_for_autostart(program_name);
 
     return 0;
 }
 
 /* Autostart `file_name', trying to auto-detect its type.  */
-int autostart_autodetect(const char *file_name)
+int autostart_autodetect(const char *file_name, const char *program_name)
 {
     if (file_name == NULL)
 	return -1;
 
-    if (autostart_disk(file_name) == 0)
+    if (autostart_disk(file_name, program_name) == 0)
 	warn(pwarn, -1, "`%s' detected as a disk image", file_name);
-    else if (autostart_tape(file_name) == 0)
+    else if (autostart_tape(file_name, program_name) == 0)
 	warn(pwarn, -1, "`%s' detected as a tape image", file_name);
     else
     {
@@ -254,7 +279,7 @@ int autostart_device(int num)
 	return -1;
     }
 
-    reboot_for_autostart();
+    reboot_for_autostart(NULL);
     return 0;
 }
 
@@ -266,6 +291,7 @@ void autostart_reset(void)
     {
 	warn(pwarn, -1, "disabling autostart");
 	autostartmode = AUTOSTART_NONE;
+	deallocate_program_name();
     }
     autostart_ignore_reset = 0;
 }
