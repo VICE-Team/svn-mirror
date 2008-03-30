@@ -493,8 +493,9 @@ inline void mydrive_cpu_wake_up(void)
     /* FIXME: this value could break some programs, or be way too high for
        others.  Maybe we should put it into a user-definable resource.  */
     if (clk - last_clk > 0xffffff && drive_clk[mynumber] > 934639) {
-	log_message(drive[mynumber].log, "Skipping cycles.");
-	last_clk = clk;
+printf("CLK: %i LAST: %i\n",clk,last_clk);
+        log_message(drive[mynumber].log, "Skipping cycles.");
+        last_clk = clk;
     }
 }
 
