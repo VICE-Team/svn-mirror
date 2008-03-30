@@ -209,9 +209,7 @@ extern void vic_trigger_light_pen(CLOCK mclk);
 extern void vic_update_memory_ptrs(void);
 extern void vic_resize(void);
 
-extern void vic_video_refresh(void);
 /* Debugging options.  */
-
 /* #define VIC_RASTER_DEBUG */
 /* #define VIC_REGISTERS_DEBUG */
 

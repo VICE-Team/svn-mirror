@@ -84,7 +84,7 @@ static ui_menu_entry_t set_fullscreen_device_submenu[] = {
       (ui_callback_data_t)"Vidmode", NULL },
 #endif
 #ifdef USE_XF86_DGA1_EXTENSIONS
-    { "*DGA2", (ui_callback_t)radio_VDCFullscreenDevice,
+    { "*DGA1", (ui_callback_t)radio_VDCFullscreenDevice,
       (ui_callback_data_t)"DGA1", NULL },
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS

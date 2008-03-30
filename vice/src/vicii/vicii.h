@@ -56,7 +56,6 @@ extern void vic_ii_free(void);
 extern int vic_ii_snapshot_write_module(struct snapshot_s *s);
 extern int vic_ii_snapshot_read_module(struct snapshot_s *s);
 
-extern void vic_ii_video_refresh(void);
 extern void vic_ii_async_refresh(struct canvas_refresh_s *r);
 
 void vic_ii_set_phi1_vbank(int num_vbank);

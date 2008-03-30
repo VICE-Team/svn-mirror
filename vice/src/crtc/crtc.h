@@ -71,6 +71,5 @@ extern int crtc_offscreen(void);
 
 extern void crtc_update_window(void);
 
-extern void crtc_video_refresh(void);
 #endif
 
