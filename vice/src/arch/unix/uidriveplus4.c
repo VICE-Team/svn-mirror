@@ -38,6 +38,8 @@
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 UI_MENU_DEFINE_TOGGLE(Drive8ParallelCable)
 UI_MENU_DEFINE_TOGGLE(Drive9ParallelCable)
+UI_MENU_DEFINE_TOGGLE(Drive10ParallelCable)
+UI_MENU_DEFINE_TOGGLE(Drive11ParallelCable)
 
 
 static ui_menu_entry_t set_drive0_type_submenu[] = {
@@ -49,6 +51,8 @@ static ui_menu_entry_t set_drive0_type_submenu[] = {
       (ui_callback_data_t)DRIVE_TYPE_1541II, NULL },
     { "*1551", (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_1551, NULL },
+    { "*1570", (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_1570, NULL },
     { "*1571", (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_1571, NULL },
     { "*1581", (ui_callback_t)radio_Drive8Type,
@@ -63,11 +67,49 @@ static ui_menu_entry_t set_drive1_type_submenu[] = {
       (ui_callback_data_t)DRIVE_TYPE_1541, NULL },
     { "*1541-II", (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_1541II, NULL },
+    { "*1570", (ui_callback_t)radio_Drive9Type,
+      (ui_callback_data_t)DRIVE_TYPE_1570, NULL },
     { "*1571", (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_1571, NULL },
     { "*1551", (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_1551, NULL },
     { "*1581", (ui_callback_t)radio_Drive9Type,
+      (ui_callback_data_t)DRIVE_TYPE_1581, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_drive2_type_submenu[] = {
+    { N_("*None"), (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
+    { "*1541", (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_1541, NULL },
+    { "*1541-II", (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_1541II, NULL },
+    { "*1570", (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_1570, NULL },
+    { "*1571", (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_1571, NULL },
+    { "*1551", (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_1551, NULL },
+    { "*1581", (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_1581, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_drive3_type_submenu[] = {
+    { N_("*None"), (ui_callback_t)radio_Drive11Type,
+      (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
+    { "*1541", (ui_callback_t)radio_Drive11Type,
+      (ui_callback_data_t)DRIVE_TYPE_1541, NULL },
+    { "*1541-II", (ui_callback_t)radio_Drive11Type,
+      (ui_callback_data_t)DRIVE_TYPE_1541II, NULL },
+    { "*1570", (ui_callback_t)radio_Drive11Type,
+      (ui_callback_data_t)DRIVE_TYPE_1570, NULL },
+    { "*1571", (ui_callback_t)radio_Drive11Type,
+      (ui_callback_data_t)DRIVE_TYPE_1571, NULL },
+    { "*1551", (ui_callback_t)radio_Drive11Type,
+      (ui_callback_data_t)DRIVE_TYPE_1551, NULL },
+    { "*1581", (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_1581, NULL },
     { NULL }
 };
@@ -99,6 +141,28 @@ static ui_menu_entry_t driveplus4_settings_submenu[] = {
       NULL, NULL, set_drive1_extend_image_policy_submenu },
     { N_("Drive #9 idle method"),
       NULL, NULL, set_drive1_idle_method_submenu },
+    { "--" },
+    { N_("Drive #10 model"),
+      NULL, NULL, set_drive2_type_submenu },
+    { N_("Drive #10 RAM expansion"),
+      NULL, NULL, set_drive2_expansion_submenu },
+    { N_("*Drive #10 enable parallel cable"),
+      (ui_callback_t)toggle_Drive10ParallelCable, NULL, NULL },
+    { N_("Drive #10 40-track image support"),
+      NULL, NULL, set_drive2_extend_image_policy_submenu },
+    { N_("Drive #10 idle method"),
+      NULL, NULL, set_drive2_idle_method_submenu },
+    { "--" },
+    { N_("Drive #11 model"),
+      NULL, NULL, set_drive3_type_submenu },
+    { N_("Drive #11 RAM expansion"),
+      NULL, NULL, set_drive3_expansion_submenu },
+    { N_("*Drive #11 enable parallel cable"),
+      (ui_callback_t)toggle_Drive11ParallelCable, NULL, NULL },
+    { N_("Drive #11 40-track image support"),
+      NULL, NULL, set_drive3_extend_image_policy_submenu },
+    { N_("Drive #11 idle method"),
+      NULL, NULL, set_drive3_idle_method_submenu },
     { NULL }
 };
 

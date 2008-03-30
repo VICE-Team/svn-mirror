@@ -68,6 +68,26 @@ static ui_menu_entry_t set_drive1_type_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t set_drive2_type_submenu[] = {
+    { N_("*None"), (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
+    { "*2031", (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_2031, NULL },
+    { "*1001", (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_1001, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_drive3_type_submenu[] = {
+    { N_("*None"), (ui_callback_t)radio_Drive11Type,
+      (ui_callback_data_t)DRIVE_TYPE_NONE, NULL },
+    { "*2031", (ui_callback_t)radio_Drive11Type,
+      (ui_callback_data_t)DRIVE_TYPE_2031, NULL },
+    { "*1001", (ui_callback_t)radio_Drive11Type,
+      (ui_callback_data_t)DRIVE_TYPE_1001, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t drivepetcbm2_settings_submenu[] = {
     { N_("*Enable true drive emulation"),
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
@@ -88,6 +108,24 @@ static ui_menu_entry_t drivepetcbm2_settings_submenu[] = {
       NULL, NULL, set_drive1_extend_image_policy_submenu },
     { N_("Drive #9 idle method"),
       NULL, NULL, set_drive1_idle_method_submenu },
+#endif
+    { "--" },
+    { N_("Drive #10 floppy disk type"),
+      NULL, NULL, set_drive2_type_submenu },
+#if 0
+    { N_("Drive #10 40-track image support"),
+      NULL, NULL, set_drive2_extend_image_policy_submenu },
+    { N_("Drive #10 idle method"),
+      NULL, NULL, set_drive2_idle_method_submenu },
+#endif
+    { "--" },
+    { N_("Drive #11 floppy disk type"),
+      NULL, NULL, set_drive3_type_submenu },
+#if 0
+    { N_("Drive #11 40-track image support"),
+      NULL, NULL, set_drive3_extend_image_policy_submenu },
+    { N_("Drive #11 idle method"),
+      NULL, NULL, set_drive3_idle_method_submenu },
 #endif
     { NULL }
 };
