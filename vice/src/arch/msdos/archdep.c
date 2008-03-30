@@ -323,12 +323,12 @@ char *archdep_quote_parameter(const char *name)
 
 char *archdep_tmpnam(void)
 {
-	if (getenv("temp"))
-		return concat(getenv("temp"),tmpnam(NULL),NULL);
-	else if (getenv("tmp"))
-		return concat(getenv("tmp"),tmpnam(NULL),NULL);
-	else
- 		return stralloc(tmpnam(NULL));
+    if (getenv("temp"))
+        return concat(getenv("temp"), tmpnam(NULL), NULL);
+    else if (getenv("tmp"))
+        return concat(getenv("tmp"), tmpnam(NULL), NULL);
+    else
+        return stralloc(tmpnam(NULL));
 }
 
 int archdep_file_is_gzip(const char *name)
@@ -346,3 +346,4 @@ int archdep_file_set_gzip(const char *name)
 {
   return 0;
 }
+
