@@ -184,7 +184,6 @@ extern void mon_stack_up(int count);
 extern void mon_stack_down(int count);
 extern void mon_print_convert(int val);
 extern void mon_change_dir(const char *path);
-extern void mon_cpu_type(const char *cpu_type);
 extern void mon_bank(MEMSPACE mem, const char *bank);
 extern void mon_display_io_regs(void);
 extern void mon_evaluate_default_addr(MON_ADDR *a);
