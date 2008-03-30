@@ -31,10 +31,20 @@
 struct video_canvas_s;
 struct ui_menu_entry_s;
 
+struct vm_bestvideomode_s {
+    int modeindex;
+    char *name;
+};
+typedef struct vm_bestvideomode_s vm_bestvideomode_t;
+
+extern vm_bestvideomode_t *vm_bestmodes;
+
 extern int vm_is_enabled;
+extern int vm_mode_count;
 
 extern int vidmode_init(void);
 extern int vidmode_available(void);
+extern unsigned int vidmode_available_modes(void);
 extern int vidmode_enable(struct video_canvas_s *canvas, int enable);
 extern int vidmode_mode(struct video_canvas_s *canvas, int mode);
 extern void vidmode_shutdown(void);

@@ -35,6 +35,7 @@
 #include <X11/Xlib.h>
 #include <X11/extensions/xf86vmode.h>
 
+#include "dga1.h"
 #include "log.h"
 #include "fullscreenarch.h"
 #include "resources.h"
@@ -50,20 +51,14 @@
 int vm_is_enabled = 0;
 int vm_is_suspended = 0;
 
-/* ---------------------------------------------------------------*/
 static log_t vidmode_log = LOG_ERR;
-static int vm_mode_count;
+int vm_mode_count;
 static unsigned int vm_index;
-static XF86VidModeModeInfo **vm_modes;
 static int vm_available = 0;
 static int saved_h, saved_w;
 
-typedef struct {
-    int modeindex;
-    char *name;
-} vm_bestvideomode_t;
-
-static vm_bestvideomode_t *vm_bestmodes = NULL;
+XF86VidModeModeInfo **vm_modes;
+vm_bestvideomode_t *vm_bestmodes = NULL;
 
 
 extern int screen;
@@ -109,7 +104,7 @@ int vidmode_init(void)
     return 0;
 }
 
-static unsigned int vidmode_available_modes(void)
+unsigned int vidmode_available_modes(void)
 {
 #ifdef FS_VIDMODE_DEBUG
     unsigned int i;
@@ -146,7 +141,7 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
         log_message(vidmode_log, "Status bar: %dx%d", status_w, status_h);
 
         canvas->draw_buffer->canvas_width = vm->hdisplay + 10;
-        canvas->draw_buffer->canvas_height = vm->vdisplay-status_h + 10;
+        canvas->draw_buffer->canvas_height = vm->vdisplay - status_h + 10;
 
         video_viewport_resize(canvas);
 
