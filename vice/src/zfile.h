@@ -40,6 +40,8 @@ typedef enum {
 extern FILE *zfopen(const char *name, const char *mode);
 extern int zfclose(FILE *stream);
 
+extern void zfile_shutdown(void);
+
 extern int zfile_close_action(const char *filename, zfile_action_t action,
                               const char *request_string);
 
@@ -75,5 +77,5 @@ extern int gerror(FILE *f);
 #endif
 
 
-#endif /* _ZFILE_H */
+#endif
 

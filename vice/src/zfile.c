@@ -98,13 +98,10 @@ static log_t zlog = LOG_ERR;
 
 static int zinit_done = 0;
 
-static int zinit(void)
+static void zfile_list_destroy(void)
 {
     zfile_t *p;
 
-    zlog = log_open("ZFile");
-
-    /* Free the `zfile_list' if not empty.  */
     for (p = zfile_list; p != NULL; ) {
         zfile_t *next;
 
@@ -116,6 +113,15 @@ static int zinit(void)
     }
 
     zfile_list = NULL;
+}
+
+static int zinit(void)
+{
+    zlog = log_open("ZFile");
+
+    /* Free the `zfile_list' if not empty.  */
+    zfile_list_destroy();
+
     zinit_done = 1;
 
     return 0;
@@ -147,6 +153,11 @@ static void zfile_list_add(const char *tmp_name,
     if (zfile_list != NULL)
         zfile_list->prev = new_zfile;
     zfile_list = new_zfile;
+}
+
+void zfile_shutdown(void)
+{
+    zfile_list_destroy();
 }
 
 /* ------------------------------------------------------------------------ */

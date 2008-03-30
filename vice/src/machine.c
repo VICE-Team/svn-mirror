@@ -62,6 +62,7 @@
 #include "ui.h"
 #include "video.h"
 #include "vsync.h"
+#include "zfile.h"
 
 #ifdef HAS_JOYSTICK
 #include "joy.h"
@@ -178,6 +179,8 @@ void machine_shutdown(void)
 {
     machine_specific_shutdown();
 
+    autostart_shutdown();
+
 #ifdef HAS_JOYSTICK
     joystick_close();
 #endif
@@ -223,6 +226,7 @@ void machine_shutdown(void)
     disk_image_resources_shutdown();
     machine_resources_shutdown();
     sysfile_resources_shutdown();
+    zfile_shutdown();
     ui_resources_shutdown();
     log_resources_shutdown();
 
