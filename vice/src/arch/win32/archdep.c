@@ -92,7 +92,7 @@ int archdep_init(int *argc, char **argv)
 
     argv0 = lib_stralloc(argv[0]);
 
-    orig_workdir = getcwd(NULL, GET_PATH_MAX);
+    orig_workdir = getcwd(NULL, MAX_PATH);
 
     return 0;
 }
@@ -211,7 +211,7 @@ _GetModuleFileNameEx        func_GetModuleFileNameEx = NULL;
                 }
             }
             CloseHandle(hproc);
-        } else {
+        } else if (func_CreateToolhelp32Snapshot) {
             OutputDebugString(TEXT("BOOT path Win9x method"));
             snap = func_CreateToolhelp32Snapshot(TH32CS_SNAPMODULE,
                                                  GetCurrentProcessId());
@@ -220,6 +220,16 @@ _GetModuleFileNameEx        func_GetModuleFileNameEx = NULL;
             func_Module32First(snap,&ment);
             util_fname_split(ment.szExePath, &boot_path, NULL);
             CloseHandle(snap);
+        } else {
+            TCHAR st_temp[MAX_PATH];
+            char temp[MAX_PATH];
+            OutputDebugString(TEXT("BOOT path NT4 without PSAPI"));
+            if (GetModuleFileName(NULL, st_temp, MAX_PATH)) {
+                system_wcstombs(temp, st_temp, MAX_PATH);
+                util_fname_split(temp, &boot_path, NULL);
+            } else {
+                OutputDebugString(TEXT("Module file name could not be obtained"));
+            }
         }
         OutputDebugString(TEXT("boot path:"));
         OutputDebugString(boot_path);

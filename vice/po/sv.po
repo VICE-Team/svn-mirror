@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-02-29 20:53+0100\n"
+"POT-Creation-Date: 2004-03-06 17:05+0100\n"
 "PO-Revision-Date: 2004-01-21 23:05+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -848,12 +848,12 @@ msgstr "Försökte läsa från ogiltigt filhandtag %d."
 msgid "Attempt to read from non-open fd %d."
 msgstr "Försökte läsa från ej öppet filhandtag %d."
 
-#: src/arch/unix/signals.c:40
+#: src/arch/unix/signals.c:41
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr "Tog emot signal %d (%s)."
 
-#: src/arch/unix/signals.c:43
+#: src/arch/unix/signals.c:44
 #, c-format
 msgid "Received signal %d."
 msgstr "Tog emot signal %d."

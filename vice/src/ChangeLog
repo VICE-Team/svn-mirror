@@ -1,3 +1,40 @@
+2004-03-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.9.
+
+	* arch/win32/ui.c, arch/win32/uiconsole.c,
+	arch/win32/uimediafile.c, arch/win32/uiperipheral.c,
+	arch/win32/winmain.c, arch/win32/winmain.h
+
+	* monitor/monitor.c, monitor.h, monitor/mon_util.c, signals.h,
+	arch/unix/signals.c, arch/win32/signals.c,
+	arch/msdos/signals.c, arch/riscos/signals.c,
+	arch/os2/signals.c, arch/beos/signals.c: Moved signal specific
+	code from monitor to separate files.
+
+	* vicii/vicii-badline.c (switch_to_display_state): Fixed typo
+	as spotted by AndreasM.
+
+	* vice.h, arch/os2/archdep.c, arch/beos/archdep.c,
+	arch/msdos/menudefs.c, arch/msdos/archdep.c,
+	arch/msdos/uisnapshot.c, arch/msdos/uiattach.c,
+	arch/win32/archdep.c, util.c: Removed `GET_PATH_MAX' define.
+
+	* arch/msdos/joy.c: Fixed some warning.
+
+	* cbmdos.c (cbmdos_command_parse): Fixed hack.
+
+	* monitor.h, monitor/monitor.c, c128/z80.c, 6510core.c,
+	monitor/mon_breakpoint.c, c64/c64mem.c, c128/c128mem.c,
+	vic20/vic20mem.c, pet/petmem.c, plus4/plus4mem.c,
+	cbm2/cbm2mem.c, drive/drivemem.c, monitor/montypes.h: Fixed
+	some function names.
+
+2004-03-03  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/archdep.c (archdep_boot_path): Added alternative
+	method for NT4 systems without psapi.dll.
+
 2004-02-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.8.

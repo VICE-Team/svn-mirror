@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-02-29 20:53+0100\n"
+"POT-Creation-Date: 2004-03-06 17:05+0100\n"
 "PO-Revision-Date: 2003-11-02 16:44+0100\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -868,12 +868,12 @@ msgstr "Próbuj odczytaæ z uszkodzonego fd %d."
 msgid "Attempt to read from non-open fd %d."
 msgstr "Próbuj odczytaæ z nie otwartego fd %d."
 
-#: src/arch/unix/signals.c:40
+#: src/arch/unix/signals.c:41
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr "Odebrano sygna³ %d (%s)."
 
-#: src/arch/unix/signals.c:43
+#: src/arch/unix/signals.c:44
 #, c-format
 msgid "Received signal %d."
 msgstr "Odebrano sygna³ %d."
