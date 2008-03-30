@@ -35,6 +35,7 @@
 #include "video-canvas.h"
 #include "video-color.h"
 #include "video-resources.h"
+#include "videoarch.h"
 #include "video.h"
 
 
@@ -100,13 +101,7 @@ typedef struct video_ycbcr_color_s {
 
 /* variables needed for generating and activating a palette */
 
-static video_cbm_palette_t *video_current_palette = NULL;
-static struct video_canvas_s *video_current_canvas = NULL;
-
-void video_color_set_palette(video_cbm_palette_t *palette)
-{
-    video_current_palette = palette;
-}
+struct video_canvas_s *video_current_canvas = NULL;
 
 void video_color_set_canvas(struct video_canvas_s *canvas)
 {
@@ -329,6 +324,7 @@ static palette_t *video_load_palette(const video_cbm_palette_t *p,
     palette_t *palette;
 
     palette = palette_create(p->num_entries, NULL);
+
     if (palette == NULL)
         return NULL;
 
@@ -341,28 +337,34 @@ static palette_t *video_load_palette(const video_cbm_palette_t *p,
 }
 
 /* Calculate or load a palette, depending on configuration.  */
-int video_color_update_palette(void)
+int video_color_update_palette(struct video_canvas_s *canvas)
 {
     palette_t *palette;
 
-    if (video_current_palette == NULL)
+    if (canvas == NULL)
         return 0;
-    if (video_current_canvas == NULL)
+    if (canvas->videoconfig->cbm_palette == NULL)
         return 0;
 
-    video_calc_gammatable();
-    video_calc_ycbcrtable(video_current_palette);
-
-    if (video_resources.ext_palette)
-        palette = video_load_palette(video_current_palette,
-                                     video_resources.palette_file_name);
-    else
-        palette = video_calc_palette(video_current_palette);
+    if (canvas->videoconfig->external_palette) {
+        palette = video_load_palette(canvas->videoconfig->cbm_palette,
+                                     canvas->videoconfig->external_palette_name);
+    } else {
+        video_calc_gammatable();
+        video_calc_ycbcrtable(canvas->videoconfig->cbm_palette);
+        palette = video_calc_palette(canvas->videoconfig->cbm_palette);
+    }
 
     if (palette != NULL)
-        return video_canvas_palette_set(video_current_canvas, palette);
+        return video_canvas_palette_set(canvas, palette);
 
     return -1;
+}
+
+void video_color_palette_internal(struct video_canvas_s *canvas,
+                                  struct video_cbm_palette_s *cbm_palette)
+{
+    canvas->videoconfig->cbm_palette = cbm_palette;
 }
 
 void video_color_palette_free(struct palette_s *palette)
@@ -370,7 +372,7 @@ void video_color_palette_free(struct palette_s *palette)
     palette_free(palette);
 }
 
-void video_render_initraw()
+void video_render_initraw(void)
 {
     video_calc_gammatable();
 }
