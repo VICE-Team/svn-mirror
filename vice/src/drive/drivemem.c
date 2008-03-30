@@ -65,14 +65,14 @@ static void REGPARM3 drive_store_free(drive_context_t *drv, WORD address,
 
 static BYTE REGPARM2 drive_read_watch(drive_context_t *drv, WORD address)
 {
-    mon_watch_push_load_addr(address, drv->cpu.monspace);
+    mon_watch_push_load_addr(address, drv->cpu->monspace);
     return drv->cpud.read_func_nowatch[address >> 8](drv, address);
 }
 
 static void REGPARM3 drive_store_watch(drive_context_t *drv, WORD address,
                                        BYTE value)
 {
-    mon_watch_push_store_addr(address, drv->cpu.monspace);
+    mon_watch_push_store_addr(address, drv->cpu->monspace);
     drv->cpud.store_func_nowatch[address >> 8](drv, address, value);
 }
 
