@@ -61,8 +61,14 @@ static int timerPeriod = 0;
 
 
 
+/*
+ *  Asynchronous sound device code
+ */
 static int init_vidc_device(const char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
 {
+  _kernel_oserror *err;
+  int period;
+
   if ((DigitalRenderer_ReadState() & DRState_Active) != 0)
     return 1;
 
@@ -78,9 +84,13 @@ static int init_vidc_device(const char *device, int *speed, int *fragsize, int *
 
   *fragsize = (*fragsize + 15) & ~15;
   buffersize = *fragsize;
-
-  if (DigitalRenderer_Activate(1, buffersize, 1000000/(*speed)) != NULL)
+  /* adapt sample speed */
+  period = (1000000 + (*speed/2))/(*speed);
+  *speed = (1000000 + (period/2))/period;
+  DigitalRenderer_NumBuffers(0);
+  if ((err = DigitalRenderer_Activate(1, buffersize, period)) != NULL)
   {
+    log_error(vidc_log, err->errmess);
     return 1;
   }
 
@@ -117,10 +127,11 @@ static int init_vidc_device(const char *device, int *speed, int *fragsize, int *
 
 static int vidc_bufferstatus(int first)
 {
+  /* if DR needs new samples, we have buffersize stored, otherwise 2*buffersize */
   if ((DigitalRenderer_ReadState() & DRState_NeedData) == 0)
     return buffersize;
   else
-    return 0;
+    return 2*buffersize;
 }
 
 
@@ -136,7 +147,7 @@ static void vidc_close(void)
 
   if ((err = DigitalRenderer_Deactivate()) != NULL)
   {
-    log_error(vidc_log, "%s", err->errmess);
+    log_error(vidc_log, err->errmess);
   }
   if (VIDCSampleBuffer != NULL)
   {
@@ -250,7 +261,102 @@ void sound_wimp_safe_exit(void)
 
 
 
+/*
+ *  Synchronous sound device interface
+ */
+
+static int init_vidc_sync_device(const char *device, int *speed, int *fragsize, int *fragnr, double bufsize)
+{
+  _kernel_oserror *err;
+  int period;
+
+  if ((DigitalRenderer_ReadState() &DRState_Active) != 0)
+    return 1;
+
+  *fragsize = (*fragsize + 15) &~ 15;
+  buffersize = *fragsize;
+  /* adapt sample speed */
+  period = (1000000 + (*speed/2))/(*speed);
+  *speed = (1000000 + (period/2))/period;
+
+  DigitalRenderer_NumBuffers(*fragnr);
+  if ((err = DigitalRenderer_Activate(1, buffersize, period)) != NULL)
+  {
+    log_error(vidc_log, err->errmess);
+    return 1;
+  }
+
+  /* unthreaded sound */
+  SoundThreadActive = 0;
+
+  ui_set_sound_volume();
+
+  return 0;
+}
+
+
+static int vidc_sync_bufferstatus(int flag)
+{
+  return DigitalRenderer_StreamStatistics() * buffersize;
+}
+
+
+static void vidc_sync_close(void)
+{
+  _kernel_oserror *err;
+
+  if ((err = DigitalRenderer_Deactivate()) != NULL)
+     log_error(vidc_log, err->errmess);
+}
+
+
+static int vidc_sync_suspend(void)
+{
+  if (DigitalRenderer_Pause() != NULL)
+    return 1;
+
+  return 0;
+}
+
+
+static int vidc_sync_resume(void)
+{
+  if (DigitalRenderer_Resume() != NULL)
+    return 1;
+
+  return 0;
+}
+
+
+static int vidc_sync_write(SWORD *pbuf, size_t nr)
+{
+  DigitalRenderer_Stream16BitSamples(pbuf, nr);
+  return 0;
+}
+
+
+static sound_device_t vidc_sync_device =
+{
+  "vidcs",
+  init_vidc_sync_device,
+  vidc_sync_write,
+  NULL,
+  NULL,
+  vidc_sync_bufferstatus,
+  vidc_sync_close,
+  vidc_sync_suspend,
+  vidc_sync_resume
+};
+
+
+
+
+
+/* Init all RISC OS sound devices */
 int sound_init_vidc_device(void)
 {
-  return sound_register_device(&vidc_device);
+  if (sound_register_device(&vidc_device) != 0)
+    return 1;
+
+  return sound_register_device(&vidc_sync_device);
 }

@@ -190,7 +190,7 @@ int video_init(void)
 }*/
 
 
-int video_frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
+int video_frame_buffer_alloc(video_frame_buffer_t *i, unsigned int width,
                              unsigned int height)
 {
   PIXEL *data;
@@ -208,7 +208,7 @@ int video_frame_buffer_alloc(frame_buffer_t *i, unsigned int width,
 }
 
 
-void video_frame_buffer_free(frame_buffer_t *i)
+void video_frame_buffer_free(video_frame_buffer_t *i)
 {
   canvas_list_t *clist = CanvasList;
 
@@ -222,7 +222,7 @@ void video_frame_buffer_free(frame_buffer_t *i)
 }
 
 
-void video_frame_buffer_clear(frame_buffer_t *i, PIXEL value)
+void video_frame_buffer_clear(video_frame_buffer_t *i, PIXEL value)
 {
   if (ModeChanging == 0)
     memset(i->tmpframebuffer, value, i->width * i->height);
@@ -402,7 +402,7 @@ void canvas_resize(canvas_t s, unsigned int width, unsigned int height)
 }
 
 
-void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
+void canvas_refresh(canvas_t canvas, video_frame_buffer_t frame_buffer,
 			unsigned int xs, unsigned int ys,
 			unsigned int xi, unsigned int yi,
 			unsigned int w, unsigned int h)
@@ -418,7 +418,7 @@ void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
 
   if ((canvas->fb.tmpframebuffer == NULL) || (canvas->fb.tmpframebuffer != frame_buffer.tmpframebuffer))
   {
-    memcpy(&(canvas->fb), &frame_buffer, sizeof(frame_buffer_t));
+    memcpy(&(canvas->fb), &frame_buffer, sizeof(video_frame_buffer_t));
   }
 
   if (FullScreenMode == 0)

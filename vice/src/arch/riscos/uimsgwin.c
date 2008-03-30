@@ -43,6 +43,7 @@
 
 #define MSGWIN_FLAG_OPEN        1
 #define MSGWIN_FLAG_BUSY        2
+#define MSGWIN_FLAG_PENDCLOSE   4
 
 
 typedef struct message_window_s {
@@ -56,6 +57,8 @@ typedef struct message_window_s {
 static void ui_monitor_enter(void *context, int line, const char *str);
 
 static message_window_t MsgWindows[msg_win_number];
+
+static const char *LastMonitorCommand = NULL;
 
 
 static text_window_t MsgWinDescs[msg_win_number] = {
@@ -96,8 +99,12 @@ void msgwin_monitor_close(void)
     Wimp_SetCaretPosition(LastCaret.WHandle, LastCaret.IHandle, LastCaret.offx, LastCaret.offy, LastCaret.height, LastCaret.index);
     LastCaret.WHandle = -1;
   }
-  EmuPaused = 0;
-  ui_display_paused(EmuPaused);
+}
+
+
+static void mon_close_request(void)
+{
+  MsgWindows[msg_win_monitor].Flags |= MSGWIN_FLAG_PENDCLOSE;
 }
 
 
@@ -107,8 +114,7 @@ static int mon_close_event(text_window_t *tw, int *block)
   /* closing the monitor window also destroys it, but only if the monitor isn't busy */
   if (block[WindowB_Handle] == MsgWindows[msg_win_monitor].win->Handle)
   {
-    if (!ui_message_window_is_busy(msg_win_monitor))
-      mon_close(0);
+    mon_close_request();
 
     return 1;
   }
@@ -145,25 +151,8 @@ static int msgwin_close_contrib(text_window_t *tw, int *block)
 
 static void ui_monitor_enter(void *context, int line, const char *str)
 {
-  char *s;
-  int status;
-  text_window_t *tw = (text_window_t*)context;
-
-  s = (char*)xmalloc(wimp_strlen(str) + 1);
-  wimp_strcpy(s, str);
-
-  ui_message_window_busy(msg_win_monitor, 1);
-  textwin_buffer_input(tw);
-  status = mon_process(s);
-  textwin_add_flush(tw);
-  ui_message_window_busy(msg_win_monitor, 0);
-  textwin_mark_prompt(tw);
-  textwin_flush_input(tw);
-
-  if (status)
-  {
-    mon_close(1);
-  }
+  /* just make a note of the command, this will be read by the console later */
+  LastMonitorCommand = str;
 }
 
 
@@ -316,9 +305,8 @@ int ui_message_window_close(message_window_e mwin)
   {
     case msg_win_monitor:
       /* This function should only be called from the console (i.e. monitor-internal).
-         To close the monitor regularily, just call mon_close() */
-      if (!ui_message_window_is_busy(msg_win_monitor))
-        msgwin_monitor_close();
+         External functions should close by calling ui_message_window_close_request(). */
+      msgwin_monitor_close();
       break;
     case msg_win_license:
     case msg_win_warranty:
@@ -333,6 +321,17 @@ int ui_message_window_close(message_window_e mwin)
       return -1;
   }
   return 0;
+}
+
+
+int ui_message_window_close_request(message_window_e mwin)
+{
+  if (mwin == msg_win_monitor)
+  {
+    mon_close_request();
+    return 0;
+  }
+  return ui_message_window_close(mwin);
 }
 
 
@@ -364,12 +363,48 @@ int ui_message_window_is_open(message_window_e mwin)
 
 int ui_message_window_busy(message_window_e mwin, int busy)
 {
-  return ui_message_window_change_flag(mwin, MSGWIN_FLAG_BUSY, busy);
+  if (ui_message_window_change_flag(mwin, MSGWIN_FLAG_BUSY, busy) == 0)
+  {
+    if (mwin == msg_win_monitor)
+    {
+      text_window_t *tw = MsgWinDescs + msg_win_monitor;
+      if (busy == 0)
+      {
+        textwin_add_flush(tw);
+        textwin_mark_prompt(tw);
+        textwin_flush_input(tw);
+      }
+      else
+      {
+        textwin_buffer_input(tw);
+      }
+    }
+  }
+  return -1;
 }
 
 int ui_message_window_is_busy(message_window_e mwin)
 {
   return ui_message_window_is_flag(mwin, MSGWIN_FLAG_BUSY);
+}
+
+
+const char *ui_message_window_get_last_command(message_window_e mwin)
+{
+  const char *cmd;
+
+  if (mwin != msg_win_monitor)
+    return NULL;
+
+  /* if there's a pending close flag, return "x" */
+  if ((MsgWindows[msg_win_monitor].Flags & MSGWIN_FLAG_PENDCLOSE) != 0)
+    cmd = "x";
+  else
+    cmd = LastMonitorCommand;
+
+  LastMonitorCommand = NULL;
+
+  return cmd;
 }
 
 

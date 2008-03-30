@@ -110,6 +110,7 @@ EXTRA_DIST = \
 	petcat.dsp \
 	raster.dsp \
 	resid.dsp \
+	screendrv.dsp \
 	sid.dsp \
 	sounddrv.dsp \
 	vdc.dsp \

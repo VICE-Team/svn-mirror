@@ -48,7 +48,9 @@ int  ui_message_window_is_open(message_window_e mwin);
 int  ui_message_window_busy(message_window_e mwin, int busy);
 int  ui_message_window_is_busy(message_window_e mwin);
 int  ui_message_window_close(message_window_e mwin);
+int  ui_message_window_close_request(message_window_e mwin);
 int  ui_message_window_destroy(message_window_e mwin);
+const char *ui_message_window_get_last_command(message_window_e mwin);
 
 /* All windows */
 void ui_message_init(void);

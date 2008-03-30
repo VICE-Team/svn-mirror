@@ -512,6 +512,7 @@ static const conf_icon_id TapeFileDependentIcons[] = {
   {CONF_WIN_TAPE, Icon_Conf_DataPlay},
   {CONF_WIN_TAPE, Icon_Conf_DataForward},
   {CONF_WIN_TAPE, Icon_Conf_DataRecord},
+  {CONF_WIN_TAPE, Icon_Conf_DataDoReset},
   {0xff, 0xff}
 };
 
@@ -523,6 +524,10 @@ static const conf_icon_id SoundDependentIcons[] = {
   {CONF_WIN_SOUND, Icon_Conf_SoundDevT},
   {CONF_WIN_SOUND, Icon_Conf_Oversample},
   {CONF_WIN_SOUND, Icon_Conf_OversampleT},
+  {CONF_WIN_SOUND, Icon_Conf_SoundBuff},
+  {CONF_WIN_SOUND, Icon_Conf_SoundBuffT},
+  {CONF_WIN_SOUND, Icon_Conf_SpeedAdjust},
+  {CONF_WIN_SOUND, Icon_Conf_SpeedAdjustT},
   {CONF_WIN_SOUND, Icon_Conf_Volume},
   {0xff, 0xff}
 };
@@ -1015,6 +1020,7 @@ static const char Rsrc_SndRate[] = "SoundSampleRate";
 static const char Rsrc_SndDev[] = "SoundDeviceName";
 static const char Rsrc_SndOver[] = "SoundOversample";
 static const char Rsrc_SndBuff[] = "SoundBufferSize";
+static const char Rsrc_SpdAdjust[] = "SoundSpeedAdjustment";
 static const char Rsrc_JoyDev1[] = "JoyDevice1";
 static const char Rsrc_JoyDev2[] = "JoyDevice2";
 static const char Rsrc_True[] = "DriveTrueEmulation";
@@ -1232,6 +1238,7 @@ static struct MenuSoundDevice {
   MENU_HEADER("\\MenSndTit", Menu_SoundDev_Width),
   {
     MENU_ITEM("\\MenSndVidc"),
+    MENU_ITEM("\\MenSndVidcS"),
     MENU_ITEM("\\MenSndDmy"),
     MENU_ITEM("\\MenSndFS"),
     MENU_ITEM("\\MenSndWav"),
@@ -1546,14 +1553,20 @@ static struct MenuCartridgeType {
     MENU_ITEM("\\MenCrtSim"),
     MENU_ITEM("\\MenCrtUlt"),
     MENU_ITEM("\\MenCrtSSn"),
-    MENU_ITEM("\\MenCrtFin"),
+    MENU_ITEM("\\MenCrtSS5"),
+    MENU_ITEM("\\MenCrtFin1"),
+    MENU_ITEM("\\MenCrtFin3"),
     MENU_ITEM("\\MenCrtOcn"),
+    MENU_ITEM("\\MenCrtOcHg"),
     MENU_ITEM("\\MenCrtFun"),
     MENU_ITEM("\\MenCrtSGm"),
     MENU_ITEM("\\MenCrtIEEE"),
     MENU_ITEM("\\MenCrtAtom"),
     MENU_ITEM("\\MenCrtEpyx"),
-    MENU_ITEM_LAST("\\MenCrtWest")
+    MENU_ITEM("\\MenCrtWest"),
+    MENU_ITEM("\\MenCrtExpt"),
+    MENU_ITEM("\\MenCrtRex"),
+    MENU_ITEM_LAST("\\MenCrtGS")
   }
 };
 
@@ -2103,11 +2116,12 @@ static struct MenuDisplaySampleRate {
 };
 
 static const char SoundDevice0[] = "vidc";
-static const char SoundDevice1[] = "dummy";
-static const char SoundDevice2[] = "fs";
-static const char SoundDevice3[] = "wav";
-static const char SoundDevice4[] = "speed";
-static const char SoundDevice5[] = "dump";
+static const char SoundDevice1[] = "vidcs";
+static const char SoundDevice2[] = "dummy";
+static const char SoundDevice3[] = "fs";
+static const char SoundDevice4[] = "wav";
+static const char SoundDevice5[] = "speed";
+static const char SoundDevice6[] = "dump";
 
 static struct MenuDisplaySoundDevice {
   disp_desc_t dd;
@@ -2115,7 +2129,7 @@ static struct MenuDisplaySoundDevice {
 } MenuDisplaySoundDevice = {
   {Rsrc_SndDev, {CONF_WIN_SOUND, Icon_Conf_SoundDevT},
     (RO_MenuHead*)&MenuSoundDevice, Menu_SoundDev_Items, DISP_DESC_STRING, 0},
-  {(int)SoundDevice0, (int)SoundDevice1, (int)SoundDevice2, (int)SoundDevice3, (int)SoundDevice4,(int)SoundDevice5}
+  {(int)SoundDevice0, (int)SoundDevice1, (int)SoundDevice2, (int)SoundDevice3, (int)SoundDevice4,(int)SoundDevice5, (int)SoundDevice6}
 };
 
 static struct MenuDisplaySoundOver {
@@ -2134,6 +2148,15 @@ static struct MenuDisplaySidModel {
   {Rsrc_SidMod, {CONF_WIN_SOUND, Icon_Conf_SidModelT},
     (RO_MenuHead*)&MenuSidModel, Menu_SidModel_Items, 0, 0},
   {0, 1}
+};
+
+static struct MenuDisplaySpeedAdjust {
+  disp_desc_t dd;
+  int values[Menu_SpeedAdjust_Items];
+} MenuDisplaySpeedAdjust = {
+  {Rsrc_SpdAdjust, {CONF_WIN_SOUND, Icon_Conf_SpeedAdjustT},
+    (RO_MenuHead*)&MenuSpeedAdjust, Menu_SpeedAdjust_Items, 0, 0},
+  {SOUND_ADJUST_FLEXIBLE, SOUND_ADJUST_ADJUSTING, SOUND_ADJUST_EXACT}
 };
 
 static struct MenuDisplaySpeedLimit {
@@ -2208,9 +2231,11 @@ static struct MenuDisplayCartridgeType {
     (RO_MenuHead*)&MenuCartridgeType, Menu_Cartridge_Items, 0, 0},
   {CARTRIDGE_NONE, CARTRIDGE_GENERIC_8KB, CARTRIDGE_GENERIC_16KB, CARTRIDGE_CRT,
    CARTRIDGE_ACTION_REPLAY, CARTRIDGE_KCS_POWER, CARTRIDGE_SIMONS_BASIC,
-   CARTRIDGE_ULTIMAX, CARTRIDGE_SUPER_SNAPSHOT, CARTRIDGE_FINAL_III, CARTRIDGE_OCEAN,
+   CARTRIDGE_ULTIMAX, CARTRIDGE_SUPER_SNAPSHOT, CARTRIDGE_SUPER_SNAPSHOT_V5,
+   CARTRIDGE_FINAL_I, CARTRIDGE_FINAL_III, CARTRIDGE_OCEAN, CARTRIDGE_OCEAN_HUGE,
    CARTRIDGE_FUNPLAY, CARTRIDGE_SUPER_GAMES, CARTRIDGE_IEEE488, CARTRIDGE_ATOMIC_POWER,
-   CARTRIDGE_EPYX_FASTLOAD, CARTRIDGE_WESTERMANN}
+   CARTRIDGE_EPYX_FASTLOAD, CARTRIDGE_WESTERMANN, CARTRIDGE_WESTERMANN, CARTRIDGE_REX,
+   CARTRIDGE_GS}
 };
 
 static struct MenuDisplayPetMemory {
@@ -3885,6 +3910,7 @@ static void ui_setup_config_window(int wnum)
       ui_setup_menu_display((disp_desc_t*)&MenuDisplaySoundDevice);
       ui_setup_menu_display((disp_desc_t*)&MenuDisplaySoundOver);
       ui_setup_menu_display((disp_desc_t*)&MenuDisplaySoundBuffer);
+      ui_setup_menu_display((disp_desc_t*)&MenuDisplaySpeedAdjust);
       if ((machine_class == VICE_MACHINE_C64) || (machine_class == VICE_MACHINE_C128))
       {
         ui_setup_menu_display((disp_desc_t*)&MenuDisplaySidModel);
@@ -4107,7 +4133,7 @@ static void ui_redraw_window(int *b)
   {
     graph_env ge;
     unsigned int *ct = canvas->colour_table;
-    frame_buffer_t *fb = &(canvas->fb);
+    video_frame_buffer_t *fb = &(canvas->fb);
 
     more = Wimp_RedrawWindow(b);
     while (more != 0)
@@ -4588,6 +4614,8 @@ static void ui_mouse_click(int *b)
                   break;
                 case CONF_MENU_SOUNDOVER:
                   break;
+                case CONF_MENU_SPDADJUST:
+                  break;
                 case CONF_MENU_TRUESYNC:
                   break;
                 case CONF_MENU_TRUEIDLE8:
@@ -4781,6 +4809,8 @@ static void ui_mouse_click(int *b)
                     datasette_control(DATASETTE_CONTROL_FORWARD); break;
                   case Icon_Conf_DataRecord:
                     datasette_control(DATASETTE_CONTROL_RECORD); break;
+                  case Icon_Conf_DataDoReset:
+                    datasette_control(DATASETTE_CONTROL_RESET); break;
                   default:
                     break;
                 }
@@ -5568,6 +5598,9 @@ static void ui_menu_selection(int *b)
         break;
       case CONF_MENU_SIDMODEL:
         ui_set_menu_display_value((disp_desc_t*)&MenuDisplaySidModel, b[0]);
+        break;
+      case CONF_MENU_SPDADJUST:
+        ui_set_menu_display_value((disp_desc_t*)&MenuDisplaySpeedAdjust, b[0]);
         break;
       case CONF_MENU_SPEED:
         ui_set_menu_display_value((disp_desc_t*)&MenuDisplaySpeedLimit, b[0]);
@@ -6604,16 +6637,11 @@ static void mon_trap_wimp(ADDRESS addr, void *unused_data)
   /* no reentrancy! */
   if (!ui_message_window_is_open(msg_win_monitor))
   {
-    text_window_t *tw;
-
     EmuPaused = 1;
     ui_display_paused(EmuPaused);
-    mon_open(addr);
-    if ((tw = ui_message_get_text_window(msg_win_monitor)) != NULL)
-    {
-      textwin_add_flush(tw);
-      textwin_mark_prompt(tw);
-    }
+    mon(addr);
+    EmuPaused = 0;
+    ui_display_paused(EmuPaused);
   }
 }
 

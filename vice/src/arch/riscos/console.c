@@ -70,6 +70,7 @@ console_t *console_open(const char *id)
     else
     {
       ui_message_window_open(msg_win_monitor, "Vice Monitor", "WIMPLIB LINE EDITOR", console->console_xres, console->console_yres);
+      ui_message_window_busy(msg_win_monitor, 1);
     }
 
     return console;
@@ -83,6 +84,7 @@ int console_close(console_t *log)
     }
     else
     {
+      ui_message_window_busy(msg_win_monitor, 0);
       ui_message_window_close(msg_win_monitor);
     }
 
@@ -121,20 +123,37 @@ int console_out(console_t *log, const char *format, ...)
 
 char *console_in(console_t *log)
 {
-    char *p = (char*)xmalloc(1024);
+    char *p;
 
-    fflush(mon_output);
-    fgets(p, 1024, mon_input);
-
-    /* Remove trailing newlines.  */
+    if (!ui_message_window_is_open(msg_win_monitor))
     {
-        int len;
+      int len;
 
-        for (len = strlen(p);
-             len > 0 && (p[len - 1] == '\r'
-                         || p[len - 1] == '\n');
-             len--)
-            p[len - 1] = '\0';
+      p = (char*)xmalloc(1024);
+
+      fflush(mon_output);
+      fgets(p, 1024, mon_input);
+
+      /* Remove trailing newlines.  */
+      for (len = strlen(p);
+           len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n');
+           len--)
+          p[len - 1] = '\0';
+    }
+    else
+    {
+      const char *cmd;
+
+      ui_message_window_busy(msg_win_monitor, 0);
+      do
+      {
+        ui_poll_core(WimpCmdBlock);
+        cmd = ui_message_window_get_last_command(msg_win_monitor);
+      }
+      while (cmd == NULL);
+      p = (char*)xmalloc(wimp_strlen(cmd) + 1);
+      wimp_strcpy(p, cmd);
+      ui_message_window_busy(msg_win_monitor, 1);
     }
 
     return p;
