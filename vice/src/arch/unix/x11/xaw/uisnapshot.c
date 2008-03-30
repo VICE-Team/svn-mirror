@@ -51,7 +51,7 @@
 #include "ui.h"
 #include "uiarch.h"
 #include "uisnapshot.h"
-#include "utils.h"
+#include "util.h"
 
 
 static Widget snapshot_dialog;

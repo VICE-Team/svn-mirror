@@ -62,7 +62,7 @@
 #include "resources.h"
 #include "screenshot.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "vicii-cmdline-options.h"
 #include "vicii-color.h"
 #include "vicii-draw.h"

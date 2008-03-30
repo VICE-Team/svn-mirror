@@ -49,7 +49,7 @@
 #include "resources.h"
 #include "sysfile.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 
 
 #define KEYBOARD_RAND() (rand() & 0x3fff)

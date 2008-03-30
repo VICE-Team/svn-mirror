@@ -37,7 +37,7 @@
 #include "plus4mem.h"
 #include "plus4rom.h"
 #include "resources.h"
-#include "utils.h"
+#include "util.h"
 #include "vsync.h"
 
 

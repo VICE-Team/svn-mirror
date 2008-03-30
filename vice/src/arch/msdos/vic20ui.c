@@ -42,7 +42,7 @@
 #include "tuifs.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
+#include "util.h"
 #include "vic20ui.h"
 
 

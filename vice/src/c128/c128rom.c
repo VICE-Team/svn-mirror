@@ -37,7 +37,7 @@
 #include "resources.h"
 #include "sysfile.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "z80mem.h"
 
 

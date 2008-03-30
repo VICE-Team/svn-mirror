@@ -52,7 +52,7 @@
 #include "log.h"
 #include "machine.h"
 #include "ui.h"
-#include "utils.h"
+#include "util.h"
 
 
 static char *argv0 = NULL;

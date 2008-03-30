@@ -52,9 +52,10 @@
 #include "c64cartmem.h"
 #include "ide64.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "vicii-phi1.h"
 #include "log.h"
+
 
 /* Current IDE64 bank */
 static unsigned int current_bank;

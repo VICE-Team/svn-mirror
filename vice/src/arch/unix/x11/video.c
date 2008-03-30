@@ -72,7 +72,7 @@
 #include "types.h"
 #include "ui.h"
 #include "uicolor.h"
-#include "utils.h"
+#include "util.h"
 #include "video.h"
 #include "videoarch.h"
 #include "x11ui.h"

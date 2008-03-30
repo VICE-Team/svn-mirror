@@ -30,7 +30,7 @@
 
 #include "types.h"
 #include "resources.h"
-#include "utils.h"
+#include "util.h"
 
 
 static char *SerialFile=NULL;

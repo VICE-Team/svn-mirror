@@ -37,7 +37,7 @@
 #include "output-text.h"
 #include "output.h"
 #include "resources.h"
-#include "utils.h"
+#include "util.h"
 #include "types.h"
 
 

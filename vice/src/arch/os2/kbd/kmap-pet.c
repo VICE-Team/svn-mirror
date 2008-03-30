@@ -30,7 +30,7 @@
 
 //#include "vice.h"
 //#include "types.h"
-//#include "utils.h"
+//#include "util.h"
 #include "resources.h"
 #include "cmdline.h"
 #include "kbd.h"

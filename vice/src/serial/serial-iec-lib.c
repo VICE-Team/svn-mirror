@@ -34,7 +34,7 @@
 #include "serial-iec.h"
 #include "serial.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 
 
 int serial_iec_lib_directory(unsigned int unit, const char *pattern,

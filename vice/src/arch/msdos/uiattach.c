@@ -41,7 +41,7 @@
 #include "tuimenu.h"
 #include "ui.h"
 #include "uiattach.h"
-#include "utils.h"
+#include "util.h"
 #include "vdrive-internal.h"
 
 

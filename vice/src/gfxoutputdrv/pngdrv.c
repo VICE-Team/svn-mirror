@@ -37,7 +37,7 @@
 #include "pngdrv.h"
 #include "screenshot.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 
 
 typedef struct gfxoutputdrv_data_s {

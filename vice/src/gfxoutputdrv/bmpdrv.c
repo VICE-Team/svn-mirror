@@ -38,7 +38,7 @@
 #include "palette.h"
 #include "screenshot.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 
 
 #define BMP_HDR_OFFSET (14 + 40 + 4 * screenshot->palette->num_entries)

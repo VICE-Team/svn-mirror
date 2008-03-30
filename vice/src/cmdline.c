@@ -37,7 +37,7 @@
 #include "resources.h"
 #include "types.h"
 #include "uicmdline.h"
-#include "utils.h"
+#include "util.h"
 
 
 static unsigned int num_options, num_allocated_options;

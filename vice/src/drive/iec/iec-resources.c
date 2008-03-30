@@ -36,7 +36,7 @@
 #include "iecrom.h"
 #include "lib.h"
 #include "resources.h"
-#include "utils.h"
+#include "util.h"
 
 
 static char *dos_rom_name_1541 = NULL;

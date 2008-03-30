@@ -30,7 +30,7 @@
 
 #include "cmdline.h"
 #include "lib.h"
-#include "utils.h"
+#include "util.h"
 #include "video.h"
 
 

@@ -48,7 +48,8 @@
 #include "reu.h"
 #include "snapshot.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
+
 
 /**
 #define REU_DEBUG

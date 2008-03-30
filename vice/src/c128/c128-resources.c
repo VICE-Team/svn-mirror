@@ -41,7 +41,7 @@
 #include "resources.h"
 #include "reu.h"
 #include "sid-resources.h"
-#include "utils.h"
+#include "util.h"
 
 
 #define KBD_INDEX_C128_SYM  0

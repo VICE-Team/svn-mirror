@@ -33,7 +33,7 @@
 #include "resources.h"
 #include "ui.h"
 #include "uimenu.h"
-#include "utils.h"
+#include "util.h"
 #include "vsync.h"
 
 

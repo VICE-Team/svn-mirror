@@ -33,7 +33,7 @@
 #include "printer.h"
 #include "resources.h"
 #include "uimenu.h"
-#include "utils.h"
+#include "util.h"
 #include "vsync.h"
 
 

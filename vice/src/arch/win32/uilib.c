@@ -45,7 +45,7 @@
 #include "resources.h"
 #include "ui.h"
 #include "uilib.h"
-#include "utils.h"
+#include "util.h"
 #include "vdrive-internal.h"
 #include "vsync.h"
 #include "winmain.h"

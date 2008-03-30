@@ -65,7 +65,7 @@
 #include "uiimage.h"
 #include "uimsgwin.h"
 #include "uisharedef.h"
-#include "utils.h"
+#include "util.h"
 #include "version.h"
 #include "videoarch.h"
 #include "vsidarch.h"

@@ -79,7 +79,7 @@
 #include "uihotkey.h"
 #include "uimenu.h"
 #include "uisettings.h"
-#include "utils.h"
+#include "util.h"
 #include "vsync.h"
 #include "widgets/Canvas.h"
 #include "widgets/FileSel.h"

@@ -36,7 +36,7 @@
 #include "tap.h"
 #include "tape.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "zfile.h"
 
 

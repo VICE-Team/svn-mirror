@@ -34,7 +34,8 @@
 #include "crt.h"
 #include "generic.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
+
 
 void generic_8kb_config_init(void)
 {

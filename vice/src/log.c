@@ -36,7 +36,7 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
-#include "utils.h"
+#include "util.h"
 
 
 static FILE *log_file = NULL;

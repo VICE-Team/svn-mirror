@@ -38,7 +38,7 @@
 
 #include "dirent.h"
 #include "lib.h"
-#include "utils.h"
+#include "util.h"
 
 
 struct _vice_dir {

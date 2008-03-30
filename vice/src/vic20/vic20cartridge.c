@@ -49,7 +49,7 @@
 #include "log.h"
 #include "mem.h"
 #include "resources.h"
-#include "utils.h"
+#include "util.h"
 #include "vic20mem.h"
 #include "zfile.h"
 

@@ -34,7 +34,7 @@
 #include "resources.h"
 #include "kbd.h"
 #include "uisharedef.h"
-#include "utils.h"
+#include "util.h"
 
 #include "pet/pets.h"
 

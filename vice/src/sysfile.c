@@ -38,7 +38,7 @@
 #include "log.h"
 #include "resources.h"
 #include "sysfile.h"
-#include "utils.h"
+#include "util.h"
 
 
 /* Resources.  */

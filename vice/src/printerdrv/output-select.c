@@ -34,7 +34,7 @@
 #include "output-select.h"
 #include "resources.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 
 
 struct output_select_list_s {

@@ -35,7 +35,7 @@
 #include "resources.h"
 #include "sysfile.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "vic20mem.h"
 #include "vic20rom.h"
 

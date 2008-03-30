@@ -78,7 +78,7 @@
 #include "uimenu.h"
 #include "uisettings.h"
 #include "uicommands.h"
-#include "utils.h"
+#include "util.h"
 #include "version.h"
 #include "vsync.h"
 #include "video.h"

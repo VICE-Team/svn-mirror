@@ -32,7 +32,7 @@
 
 #include "lib.h"
 #include "log.h"
-#include "utils.h"   // util_get_line
+#include "util.h"    // util_get_line
 #include "sysfile.h" // sysfile_open
 
 #include "parse.h"

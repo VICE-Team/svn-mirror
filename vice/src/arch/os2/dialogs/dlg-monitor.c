@@ -49,7 +49,7 @@
 #include "mon_disassemble.h" // mon_disassemble_to_string_ex
 
 #include "lib.h"
-#include "utils.h"
+#include "util.h"
 #include "mos6510.h"         // P_*
 #include "archdep.h"         // archdep_boot_path
 #include "snippets\pmwin2.h" // WinSetDlgFont

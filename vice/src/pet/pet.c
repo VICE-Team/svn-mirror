@@ -77,7 +77,7 @@
 #include "tape.h"
 #include "traps.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "via.h"
 #include "video.h"
 #include "vsync.h"

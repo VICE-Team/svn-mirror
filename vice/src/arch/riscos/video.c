@@ -35,7 +35,7 @@
 #include "palette.h"
 #include "resources.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "video.h"
 #include "videoarch.h"
 #include "vsync.h"

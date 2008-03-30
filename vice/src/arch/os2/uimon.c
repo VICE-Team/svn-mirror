@@ -38,7 +38,7 @@
 #include "dlg-monitor.h"
 #include "lib.h"
 #include "uimon.h"
-#include "utils.h"
+#include "util.h"
 #include "console.h"
 
 #include "log.h"

@@ -35,7 +35,7 @@
 #include "video-color.h"
 #include "video.h"
 #include "videoarch.h"
-#include "utils.h"
+#include "util.h"
 
 
 video_resources_t video_resources =

@@ -36,7 +36,7 @@
 #include "gcr.h"
 #include "log.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 
 
 static log_t fsimage_gcr_log = LOG_ERR;

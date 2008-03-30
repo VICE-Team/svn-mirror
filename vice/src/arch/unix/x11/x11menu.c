@@ -32,7 +32,7 @@
 
 #include "lib.h"
 #include "ui.h"
-#include "utils.h"
+#include "util.h"
 #include "x11menu.h"
 
 

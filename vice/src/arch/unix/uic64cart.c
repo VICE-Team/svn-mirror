@@ -36,7 +36,7 @@
 #include "ui.h"
 #include "uicartridge.h"
 #include "uimenu.h"
-#include "utils.h"
+#include "util.h"
 #include "vsync.h"
 
 

@@ -56,7 +56,7 @@
 #include "uimenu.h"
 #include "uisnapshot.h"
 #include "uidrive.h"
-#include "utils.h"
+#include "util.h"
 #include "vsync.h"
 
 

@@ -43,7 +43,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "tape.h"
-#include "utils.h"
+#include "util.h"
 
 
 static char *autostart_string;

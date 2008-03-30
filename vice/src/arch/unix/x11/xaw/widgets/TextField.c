@@ -34,7 +34,7 @@
 
 #include <stdio.h>
 
-#include "utils.h"
+#include "util.h"
 
 #include "TextFieldP.h"
 

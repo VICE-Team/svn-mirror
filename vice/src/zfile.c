@@ -49,7 +49,7 @@
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
-#include "utils.h"
+#include "util.h"
 #include "zfile.h"
 #include "zipcode.h"
 

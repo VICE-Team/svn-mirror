@@ -42,7 +42,7 @@
 #include "petrom.h"
 #include "pets.h"
 #include "resources.h"
-#include "utils.h"
+#include "util.h"
 
 
 #define KBD_INDEX_PET_BUKS  0

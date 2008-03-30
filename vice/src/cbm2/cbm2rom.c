@@ -41,7 +41,7 @@
 #include "sysfile.h"
 #include "tape.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 
 
 static log_t cbm2rom_log = LOG_ERR;

@@ -34,7 +34,7 @@
 #include "functionrom.h"
 #include "lib.h"
 #include "resources.h"
-#include "utils.h"
+#include "util.h"
 #include "types.h"
 
 

@@ -46,7 +46,7 @@
 #include "fcntl.h"
 #include "lib.h"
 #include "log.h"
-#include "utils.h"
+#include "util.h"
 #include "video.h"
 
 static char *orig_workdir;

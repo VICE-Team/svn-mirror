@@ -36,7 +36,7 @@
 #include "fliplist.h"
 #include "lib.h"
 #include "log.h"
-#include "utils.h"
+#include "util.h"
 
 #define NUM_DRIVES 2
 

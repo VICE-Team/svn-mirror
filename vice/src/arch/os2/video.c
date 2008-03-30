@@ -62,7 +62,7 @@
 #include "lib.h"
 #include "log.h"
 #include "proc.h"
-#include "utils.h"
+#include "util.h"
 #include "vsync.h"
 #include "dialogs.h"         // IDM_VICE2
 #include "menubar.h"

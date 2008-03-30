@@ -34,7 +34,7 @@
 
 #include "log.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 
 #define MIDAS_ERRMSG()	MIDASgetErrorMessage(MIDASgetLastError())
 

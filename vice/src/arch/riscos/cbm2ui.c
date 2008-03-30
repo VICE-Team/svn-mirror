@@ -33,7 +33,7 @@
 #include "kbd.h"
 #include "resources.h"
 #include "uisharedef.h"
-#include "utils.h"
+#include "util.h"
 
 #include "cbm2/cbm2mem.h"
 

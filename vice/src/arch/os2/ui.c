@@ -57,7 +57,7 @@
 //#endif
 #include "lib.h"
 #include "log.h"
-#include "utils.h"
+#include "util.h"
 #include "archdep.h"
 #include "cmdline.h"
 #include "machine.h"   // vsid_mode

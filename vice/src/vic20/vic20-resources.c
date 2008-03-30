@@ -37,7 +37,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "ui.h"
-#include "utils.h"
+#include "util.h"
 #include "vic20-resources.h"
 #include "vic20mem.h"
 #include "vic20rom.h"

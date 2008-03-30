@@ -44,7 +44,7 @@
 #include "types.h"
 #include "videoarch.h"
 #include "vice.h"
-#include "utils.h"
+#include "util.h"
 
 
 

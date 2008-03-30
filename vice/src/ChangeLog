@@ -1,5 +1,30 @@
 2003-11-11  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.13.21.
+
+	* drive/tcbm/glue1551.c, drive/ieee/fdc.c, drive/iec/wd1770.c,
+	parallel/parallel-trap.c, drive/drive.c, drive/drive.h,
+	drive/iec/jobcode1581.c, drive/rotation.c, drive/tcbm.h: Use
+	`DRIVE_NUM'.
+
+	* c64/c64cia2.c, c64/c64iec.c, c64/c64iec.h, c128/c128iec.c
+	(parallel_cable_cpu_execute): New function.
+
+	* arch/unix/uidrivec64vic20.c, arch/unix/uidrive.h,
+	arch/unix/uidriveiec.c, arch/unix/uidriveiec.h,
+	arch/unix/uidrive.c, arch/unix/uidrivec128.c,
+	arch/unix/uidrivepetcbm2.c, arch/unix/uidriveplus4.c: Added
+	menu entries.
+
+	* utils.c, utils.h: Renamed.
+
+	* *.c: Renamed util include.
+
+	* Makefile.am, arch/win32/base.dsp, arch/win32/c1541.dsp,
+	arch/win32/petcat.dsp: Updated.
+
+2003-11-11  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.13.20.
 
 	* monitor.h, monitor/monitor.c, monitor/mon_register6502.c,

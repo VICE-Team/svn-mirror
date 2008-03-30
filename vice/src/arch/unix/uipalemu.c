@@ -33,7 +33,7 @@
 #include "resources.h"
 #include "uimenu.h"
 #include "uipalemu.h"
-#include "utils.h"
+#include "util.h"
 
 
 static UI_CALLBACK(toggle_DelayLoopEmulation)

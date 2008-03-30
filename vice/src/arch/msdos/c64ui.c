@@ -44,7 +44,7 @@
 #include "types.h"
 #include "ui.h"
 #include "uisid.h"
-#include "utils.h"
+#include "util.h"
 
 
 static TUI_MENU_CALLBACK(attach_cartridge_callback)

@@ -28,7 +28,7 @@
 
 #include "log.h"
 #include "parse.h"      // load_keymap_file
-#include "utils.h"      // util_string_set
+#include "util.h"       // util_string_set
 #include "cmdline.h"    // cmdline_register_options
 #include "resources.h"  // resources_register
 

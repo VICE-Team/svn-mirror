@@ -47,7 +47,7 @@
 #include "sound.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
+#include "util.h"
 #include "vsync.h"
 
 

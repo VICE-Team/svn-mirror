@@ -42,7 +42,7 @@
 #include "ui.h"
 #include "uilib.h"
 #include "winmain.h"
-#include "utils.h"
+#include "util.h"
 
 
 /* Mingw & pre VC 6 headers doesn't have this definition */

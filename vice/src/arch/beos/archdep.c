@@ -57,7 +57,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
-#include "utils.h"
+#include "util.h"
 
 
 static char *orig_workdir;

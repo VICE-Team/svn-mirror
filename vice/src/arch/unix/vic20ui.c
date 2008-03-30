@@ -48,7 +48,7 @@
 #include "uisettings.h"
 #include "uisound.h"
 #include "uivic.h"
-#include "utils.h"
+#include "util.h"
 #include "vsync.h"
 
 

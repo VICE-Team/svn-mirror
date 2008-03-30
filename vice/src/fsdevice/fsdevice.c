@@ -80,7 +80,7 @@
 #include "p00.h"
 #include "resources.h"
 #include "serial.h"
-#include "utils.h"
+#include "util.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
 

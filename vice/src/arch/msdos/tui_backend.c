@@ -43,7 +43,7 @@
 #include "tui.h"
 #include "tui_backend.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "version.h"
 
 typedef BYTE attr_t;

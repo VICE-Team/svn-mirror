@@ -33,7 +33,7 @@
 #include "fsdevice.h"
 #include "lib.h"
 #include "resources.h"
-#include "utils.h"
+#include "util.h"
 
 
 int fsdevice_convert_p00_enabled[4];

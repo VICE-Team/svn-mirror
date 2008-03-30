@@ -48,7 +48,7 @@
 #include "log.h"
 #include "mem.h"               // mem_romset_resource_list
 #include "tape.h"              // tape_image_attach
-#include "utils.h"             // xmsprintf
+#include "util.h"              // xmsprintf
 #include "attach.h"            // file_system_attach_disk
 #include "romset.h"            // romset_*
 #include "machine.h"           // machine_read/write_snapshot

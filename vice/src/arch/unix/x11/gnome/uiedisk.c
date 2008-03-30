@@ -34,7 +34,7 @@
 #include "uiarch.h"
 #include "diskimage.h"
 #include "vdrive/vdrive-internal.h"
-#include "utils.h"
+#include "util.h"
 
 static struct {
     char *label;

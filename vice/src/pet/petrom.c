@@ -44,7 +44,7 @@
 #include "tape.h"
 #include "traps.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 
 
 static log_t petrom_log = LOG_ERR;

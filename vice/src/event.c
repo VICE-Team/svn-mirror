@@ -47,7 +47,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
+#include "util.h"
 
 
 #define EVENT_START_SNAPSHOT "start" FSDEV_EXT_SEP_STR "vsf"

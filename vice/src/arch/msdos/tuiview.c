@@ -34,7 +34,7 @@
 
 #include "tui.h"
 #include "tui_backend.h"
-#include "utils.h"
+#include "util.h"
 
 void tui_view_text(int width, int height, const char *title, const char *text)
 {

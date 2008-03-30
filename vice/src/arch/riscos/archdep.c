@@ -36,7 +36,7 @@
 #include "archdep.h"
 #include "lib.h"
 #include "machine.h"
-#include "utils.h"
+#include "util.h"
 
 
 

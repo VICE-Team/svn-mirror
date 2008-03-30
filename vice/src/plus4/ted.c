@@ -62,7 +62,7 @@
 #include "ted.h"
 #include "tedtypes.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "vsync.h"
 #include "videoarch.h"
 #include "video.h"

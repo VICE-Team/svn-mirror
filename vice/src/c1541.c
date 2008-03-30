@@ -67,7 +67,7 @@
 #include "snapshot.h"
 #include "tape.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "vdrive-bam.h"
 #include "vdrive-command.h"
 #include "vdrive-dir.h"

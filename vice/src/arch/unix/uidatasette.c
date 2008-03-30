@@ -31,7 +31,7 @@
 #include "datasette.h"
 #include "resources.h"
 #include "uimenu.h"
-#include "utils.h"
+#include "util.h"
 
 
 static UI_CALLBACK(ui_datasette_control)

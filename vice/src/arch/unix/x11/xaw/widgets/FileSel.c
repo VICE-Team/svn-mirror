@@ -34,7 +34,7 @@
 
 #include "archdep.h"            /* [AF] 19may99 */
 #include "lib.h"
-#include "utils.h"		/* [AF] 26jun98 */
+#include "util.h"		/* [AF] 26jun98 */
 
 #include <X11/Xos.h>
 #include <X11/Xlib.h>

@@ -44,7 +44,7 @@
 #include "machine.h"
 #include "resources.h"
 #include "sid-resources.h"
-#include "utils.h"
+#include "util.h"
 #include "vsync.h"
 
 

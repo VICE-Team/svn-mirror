@@ -73,7 +73,7 @@
 #include "uisnapshot.h"
 #include "uisound.h"
 #include "uispeed.h"
-#include "utils.h"
+#include "util.h"
 #include "version.h"
 #include "videoarch.h"
 #include "vsync.h"

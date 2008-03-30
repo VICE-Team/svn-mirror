@@ -37,7 +37,7 @@
 #include "log.h"
 #include "resources.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 
 
 debug_t debug;

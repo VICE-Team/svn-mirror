@@ -49,7 +49,7 @@
 #include "screenshot.h"
 #include "snapshot.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "vic-cmdline-options.h"
 #include "vic-draw.h"
 #include "vic-mem.h"

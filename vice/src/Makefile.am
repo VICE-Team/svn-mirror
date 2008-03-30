@@ -124,7 +124,7 @@ noinst_HEADERS = \
 	uicolor.h \
 	uimon.h \
 	usleep.h \
-	utils.h \
+	util.h \
 	version.h.in \
 	version.h \
 	via.h \
@@ -179,7 +179,7 @@ base_sources = \
 	sound.c \
 	sysfile.c \
 	traps.c \
-	utils.c \
+	util.c \
 	vsync.c \
 	zfile.c \
 	zipcode.c
@@ -553,7 +553,7 @@ c1541_SOURCES = \
 	log.c \
 	p00.c \
 	resources.c \
-	utils.c \
+	util.c \
 	zfile.c \
 	zipcode.c
 
@@ -582,7 +582,7 @@ petcat_SOURCES = \
 	p00.c \
 	petcat.c \
 	resources.c \
-	utils.c \
+	util.c \
 	zfile.c \
 	zipcode.c
 

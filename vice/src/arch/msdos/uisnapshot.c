@@ -37,7 +37,7 @@
 #include "tuifs.h"
 #include "ui.h"
 #include "uisnapshot.h"
-#include "utils.h"
+#include "util.h"
 
 
 #define SNAPSHOT_EXTENSION      "vsf"

@@ -38,7 +38,7 @@
 #include "palette.h"
 #include "sysfile.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 
 
 static log_t palette_log = LOG_ERR;

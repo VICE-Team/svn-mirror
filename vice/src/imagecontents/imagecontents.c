@@ -38,7 +38,7 @@
 #include "lib.h"
 #include "tapecontents.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 
 
 /* ------------------------------------------------------------------------- */

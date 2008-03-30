@@ -50,7 +50,7 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
-#include "utils.h"
+#include "util.h"
 
 #ifdef __riscos
 #include "machine.h"

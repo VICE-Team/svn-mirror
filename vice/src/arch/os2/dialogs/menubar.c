@@ -46,7 +46,7 @@
 
 #include "monitor.h"         // mon
 #include "tape.h"            // tape_image_detach
-#include "utils.h"           //
+#include "util.h"           //
 #include "sound.h"           // SOUND_ADJUST_*
 #include "attach.h"          // file_system_detach_disk
 #include "archdep.h"         // archdep_boot_path

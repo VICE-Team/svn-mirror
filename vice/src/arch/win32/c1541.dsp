@@ -132,7 +132,7 @@ SOURCE=..\..\resources.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\utils.c
+SOURCE=..\..\util.c
 # End Source File
 # Begin Source File
 

@@ -53,7 +53,7 @@
 #include "ui.h"
 #include "uiarch.h"
 #include "uiedisk.h"
-#include "utils.h"
+#include "util.h"
 #include "vdrive-internal.h"
 
 

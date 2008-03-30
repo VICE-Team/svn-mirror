@@ -48,7 +48,7 @@
 #include "retroreplay.h"
 #include "ide64.h"
 #include "supersnapshot.h"
-#include "utils.h"
+#include "util.h"
 
 
 static int cartridge_type;

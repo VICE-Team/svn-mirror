@@ -66,7 +66,7 @@
 #include "ui.h"
 #include "uiattach.h"
 #include "uisnapshot.h"
-#include "utils.h"
+#include "util.h"
 #include "version.h"
 #include "video.h"
 #include "videoarch.h"

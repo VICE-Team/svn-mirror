@@ -36,7 +36,7 @@
 #include "mon_parse.h" /* FIXME ! */
 #include "mon_util.h"
 #include "uimon.h"
-#include "utils.h"
+#include "util.h"
 
 
 typedef struct mon_cmds_s {

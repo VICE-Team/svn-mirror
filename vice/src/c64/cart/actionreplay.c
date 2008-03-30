@@ -33,7 +33,7 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 #include "vicii-phi1.h"
 
 

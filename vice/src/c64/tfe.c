@@ -40,7 +40,8 @@
 #include "tfe.h"
 #include "tfearch.h"
 #include "snapshot.h"
-#include "utils.h"
+#include "util.h"
+
 
 /**/
 /** #define TFE_DEBUG_DUMP 1 **/

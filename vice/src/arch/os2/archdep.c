@@ -55,7 +55,7 @@
 #endif
 
 #include "archdep.h"
-#include "utils.h"
+#include "util.h"
 
 #include "lib.h"
 #include "log.h"

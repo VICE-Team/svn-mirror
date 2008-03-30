@@ -55,7 +55,7 @@
 #include "tape.h"
 #include "types.h"
 #include "ui.h"
-#include "utils.h"
+#include "util.h"
 #include "vdrive.h"
 #include "vdrive-bam.h"
 #include "zfile.h"

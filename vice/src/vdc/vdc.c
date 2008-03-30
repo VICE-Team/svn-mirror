@@ -43,7 +43,7 @@
 #include "resources.h"
 #include "screenshot.h"
 #include "snapshot.h"
-#include "utils.h"
+#include "util.h"
 #include "vdc-cmdline-options.h"
 #include "vdc-draw.h"
 #include "vdc-resources.h"

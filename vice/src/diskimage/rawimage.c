@@ -37,7 +37,7 @@
 #include "rawimage.h"
 #include "resources.h"
 #include "types.h"
-#include "utils.h"
+#include "util.h"
 
 
 static log_t rawimage_log = LOG_DEFAULT;

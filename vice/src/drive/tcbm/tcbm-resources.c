@@ -33,7 +33,7 @@
 #include "resources.h"
 #include "tcbm-resources.h"
 #include "tcbmrom.h"
-#include "utils.h"
+#include "util.h"
 
 
 static char *dos_rom_name_1551 = NULL;
