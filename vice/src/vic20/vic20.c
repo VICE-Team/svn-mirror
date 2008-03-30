@@ -298,7 +298,7 @@ void machine_setup_context(void)
 }
 
 /* VIC20-specific initialization.  */
-int machine_init(void)
+int machine_specific_init(void)
 {
     vic20_log = log_open("VIC20");
 

@@ -420,7 +420,7 @@ void machine_setup_context(void)
 }
 
 /* C128-specific initialization.  */
-int machine_init(void)
+int machine_specific_init(void)
 {
     c128_log = log_open("C128");
 

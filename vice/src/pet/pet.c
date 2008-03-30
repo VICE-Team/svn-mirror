@@ -260,7 +260,7 @@ void machine_setup_context(void)
 }
 
 /* PET-specific initialization.  */
-int machine_init(void)
+int machine_specific_init(void)
 {
     pet_log = log_open("PET");
 
@@ -346,7 +346,7 @@ void machine_specific_reset(void)
     viacore_reset(machine_context.via);
     acia1_reset();
     crtc_reset();
-    petsnd_reset();
+    petsound_reset();
     petmem_reset();
     rs232drv_reset();
     printer_reset();

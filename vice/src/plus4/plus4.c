@@ -310,7 +310,7 @@ void machine_setup_context(void)
 }
 
 /* Plus4-specific initialization.  */
-int machine_init(void)
+int machine_specific_init(void)
 {
     plus4_log = log_open("Plus4");
 

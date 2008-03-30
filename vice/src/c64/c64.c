@@ -351,7 +351,7 @@ void machine_setup_context(void)
 }
 
 /* C64-specific initialization.  */
-int machine_init(void)
+int machine_specific_init(void)
 {
     c64_log = log_open("C64");
 

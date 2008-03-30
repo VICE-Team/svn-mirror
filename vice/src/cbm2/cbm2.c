@@ -252,7 +252,7 @@ void machine_setup_context(void)
 }
 
 /* CBM-II-specific initialization.  */
-int machine_init(void)
+int machine_specific_init(void)
 {
     cbm2_log = log_open("CBM2");
 
