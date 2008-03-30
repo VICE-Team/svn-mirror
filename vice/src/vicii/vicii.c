@@ -144,6 +144,8 @@ extern BYTE roml_banks[], romh_banks[];
 /* Expansion port ROML/ROMH/RAM banking.  */
 extern int roml_bank, romh_bank, export_ram;
 
+static void vic_ii_raster_irq_alarm_handler (CLOCK offset);
+
 static void clk_overflow_callback (CLOCK sub, void *unused_data)
 {
   vic_ii.raster_irq_clk -= sub;
@@ -1456,7 +1458,7 @@ void vic_ii_raster_fetch_alarm_handler (CLOCK offset)
 
 /* If necessary, emulate a raster compare IRQ. This is called when the raster
    line counter matches the value stored in the raster line register.  */
-void vic_ii_raster_irq_alarm_handler (CLOCK offset)
+static void vic_ii_raster_irq_alarm_handler (CLOCK offset)
 {
   vic_ii.irq_status |= 0x1;
   if (vic_ii.regs[0x1a] & 0x1)

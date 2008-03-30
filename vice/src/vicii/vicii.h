@@ -62,14 +62,14 @@ extern void vic_ii_handle_pending_alarms_external(int num_write_cycles);
 extern void vic_ii_video_refresh(void);
 extern void video_free(void);
 
-void vic_ii_set_phi1_vbank (int num_vbank);
-void vic_ii_set_phi2_vbank (int num_vbank);
-void vic_ii_set_phi1_ram_base (BYTE * base);
-void vic_ii_set_phi2_ram_base (BYTE * base);
-void vic_ii_set_phi1_addr_options (ADDRESS mask, ADDRESS offset);
-void vic_ii_set_phi2_addr_options (ADDRESS mask, ADDRESS offset);
-void vic_ii_set_phi1_chargen_addr_options (ADDRESS mask, ADDRESS value);
-void vic_ii_set_phi2_chargen_addr_options (ADDRESS mask, ADDRESS value);
+void vic_ii_set_phi1_vbank(int num_vbank);
+void vic_ii_set_phi2_vbank(int num_vbank);
+void vic_ii_set_phi1_ram_base(BYTE *base);
+void vic_ii_set_phi2_ram_base(BYTE *base);
+void vic_ii_set_phi1_addr_options(ADDRESS mask, ADDRESS offset);
+void vic_ii_set_phi2_addr_options(ADDRESS mask, ADDRESS offset);
+void vic_ii_set_phi1_chargen_addr_options(ADDRESS mask, ADDRESS value);
+void vic_ii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value);
 
 #endif
 

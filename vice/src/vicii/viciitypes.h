@@ -396,7 +396,6 @@ extern void vic_ii_update_memory_ptrs (unsigned int cycle);
 extern void vic_ii_update_video_mode (unsigned int cycle);
 extern void vic_ii_raster_draw_alarm_handler (CLOCK offset);
 extern void vic_ii_raster_fetch_alarm_handler (CLOCK offset);
-extern void vic_ii_raster_irq_alarm_handler (CLOCK offset);
 
 /* Debugging options.  */
 
