@@ -1,3 +1,30 @@
+1999-12-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.11.
+
+	* arch/win32/ui.c, arch/win32/res.h, arch/win32/resc64.rc,
+	arch/win32/resc128.rc, arch/win32/resvic.rc,
+	arch/win32/respet.rc, arch/win32/rescbm2.rc: List
+	contributors, license, no warranty and command line options.
+
+	* cmdline.c, cmdline.h (cmdline_options_string): New function.
+	Use startup logging to report errors.
+
+	* arch/win32/uicmdline.c, arch/win32/uicmdline.h
+	(ui_cmdline_show_options): New function.
+
+	* drive/drive-cmdline-options.c: Fixed typo.
+
+	* drive/drive-resources.c: Do not initialize drive memory if
+	drive is disabled.
+
+1999-12-25  Manfred Spraul  <manfreds@colorfullife.com>
+
+	* arch/win32/uilib.c, arch/win32/uilib.h (ui_show_text): New
+	function.
+
+	* arch/win32/res.rc, arch/win32/res.h : Text lister resources.
+
 1999-12-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.10.
