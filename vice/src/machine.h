@@ -85,6 +85,7 @@ extern void machine_powerup(void);
 
 /* Shutdown the emachine.  */
 extern void machine_shutdown(void);
+extern void machine_specific_shutdown(void);
 
 /* Set the state of the RESTORE key (!=0 means pressed); returns 1 if key had
    been used.  */
