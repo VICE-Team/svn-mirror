@@ -124,7 +124,6 @@
     } while (0)
 
 #define DRIVE_RAMSIZE		0x400
-#define IP_MAX_COMMAND_LEN	128	/* real 58 */
 
 #define DIR_MAXBUF  (40 * 256)
 
@@ -183,15 +182,24 @@ typedef struct {
     bufferinfo_t buffers[16];
 
     /* File information */
-    BYTE Dir_buffer[256];  /* Current DIR sector */
+    BYTE Dir_buffer[256];  /* Current directory sector. */
     unsigned int SlotNumber;
 
-    const char *find_name; /* Search pattern */
+    const char *find_name; /* Current search pattern. */
     unsigned int find_length;
     unsigned int find_type;
 
     unsigned int Curr_track;
     unsigned int Curr_sector;
+
+    /* Files deleted with the `S' command.  */
+    int deleted_files;
+
+    /* Memory read command buffer.  */
+    BYTE mem_buf[256];
+    unsigned int mem_length;
+
+    BYTE ram[0x800];
 } vdrive_t;
 
 /* Actually, serial-code errors ... */
@@ -223,40 +231,6 @@ typedef struct {
 #define CHK_RDY		1
 
 /*
- * Input Processor Error Codes
- */
-
-#define IPE_OK                          0
-#define IPE_DELETED                     1
-#define IPE_SEL_PARTN                   2       /* 1581 */
-#define IPE_UNIMPL                      3
-
-#define IPE_WRITE_PROTECT_ON            26
-#define IPE_SYNTAX                      30
-#define IPE_INVAL                       31
-#define IPE_LONG_LINE                   32
-#define IPE_BAD_NAME                    33
-#define IPE_NO_NAME                     34
-
-#define IPE_NOT_WRITE                   60
-#define IPE_NOT_OPEN                    61
-#define IPE_NOT_FOUND                   62
-#define IPE_FILE_EXISTS                 63
-#define IPE_BAD_TYPE                    64
-#define IPE_NO_BLOCK                    65
-#define IPE_ILLEGAL_TRACK_OR_SECTOR     66
-
-#define IPE_NO_CHANNEL                  70
-#define IPE_DISK_FULL                   72
-#define IPE_DOS_VERSION                 73
-#define IPE_NOT_READY                   74
-#define IPE_BAD_PARTN                   77      /* 1581 */
-
-#define IPE_NOT_EMPTY                   80      /* dir to remove not empty */
-#define IPE_PERMISSION                  81      /* permission denied */
-
-
-/*
  * Error messages
  */
 
@@ -280,13 +254,5 @@ extern int vdrive_parse_name(const char *name, int length, char *realname,
 extern void vdrive_close_all_channels(vdrive_t *vdrive);
 extern int vdrive_calculate_disk_half(unsigned int type);
 extern int vdrive_get_max_sectors(unsigned int type, unsigned int track);
-
-/* Drive command related functions.  */
-extern int  vdrive_command_execute(vdrive_t *vdrive, BYTE *buf,
-                                   unsigned int length);
-extern void vdrive_command_set_error(bufferinfo_t *p, int code,
-                                     unsigned int track, unsigned int sector);
-extern int  vdrive_command_validate(vdrive_t *vdrive);
-
-#endif /* _VDRIVE_H */
+#endif
 

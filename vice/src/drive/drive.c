@@ -161,20 +161,20 @@ int drive_init_cmdline_options(void)
 /* ------------------------------------------------------------------------- */
 
 /* RAM/ROM.  */
-static BYTE drive_rom1541[DRIVE_ROM1541_SIZE];
-static BYTE drive_rom1541ii[DRIVE_ROM1541II_SIZE];
-static BYTE drive_rom1571[DRIVE_ROM1571_SIZE];
-static BYTE drive_rom1581[DRIVE_ROM1581_SIZE];
-static BYTE drive_rom2031[DRIVE_ROM2031_SIZE];
-static BYTE drive_rom1001[DRIVE_ROM1001_SIZE];
+BYTE drive_rom1541[DRIVE_ROM1541_SIZE];
+BYTE drive_rom1541ii[DRIVE_ROM1541II_SIZE];
+BYTE drive_rom1571[DRIVE_ROM1571_SIZE];
+BYTE drive_rom1581[DRIVE_ROM1581_SIZE];
+BYTE drive_rom2031[DRIVE_ROM2031_SIZE];
+BYTE drive_rom1001[DRIVE_ROM1001_SIZE];
 
 /* If nonzero, the ROM image has been loaded.  */
-static int rom1541_loaded = 0;
-static int rom1541ii_loaded = 0;
-static int rom1571_loaded = 0;
-static int rom1581_loaded = 0;
-static int rom2031_loaded = 0;
-static int rom1001_loaded = 0;
+int rom1541_loaded = 0;
+int rom1541ii_loaded = 0;
+int rom1571_loaded = 0;
+int rom1581_loaded = 0;
+int rom2031_loaded = 0;
+int rom1001_loaded = 0;
 
 /* Speed zone of each track of the 1541 disk drive.  */
 extern int speed_map_1541[42];

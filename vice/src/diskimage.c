@@ -879,7 +879,7 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 
     if (image->fd == NULL) {
         log_error(disk_image_log, "Attempt to read without disk image.");
-        return IPE_NOT_READY;
+        return 74;
     }
 
     switch (image->type) {
@@ -894,7 +894,7 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
         if (sectors < 0) {
             log_error(disk_image_log, "Track %i, Sector %i out of bounds.",
                       track, sector);
-            return IPE_ILLEGAL_TRACK_OR_SECTOR;
+            return 66;
         }
 
         offset = sectors << 8;

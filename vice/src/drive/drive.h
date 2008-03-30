@@ -263,6 +263,22 @@ extern drive_t drive[2];
 
 extern int rom_loaded;
 
+/* RAM/ROM.  */
+extern BYTE drive_rom1541[];
+extern BYTE drive_rom1541ii[];
+extern BYTE drive_rom1571[];
+extern BYTE drive_rom1581[];
+extern BYTE drive_rom2031[];
+extern BYTE drive_rom1001[];
+
+/* If nonzero, the ROM image has been loaded.  */
+extern int rom1541_loaded;
+extern int rom1541ii_loaded;
+extern int rom1571_loaded;
+extern int rom1581_loaded;
+extern int rom2031_loaded;
+extern int rom1001_loaded;
+
 extern int drive_init_cmdline_options(void);
 extern int drive_init(CLOCK pal_hz, CLOCK ntsc_hz);
 extern int drive_enable(int dnr);
