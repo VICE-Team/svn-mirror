@@ -31,24 +31,26 @@
 #include <dir.h>
 
 #include "menudefs.h"
+
+#include "tui.h"
 #include "tuiview.h"
 #include "ui.h"
-#include "tui.h"
 
 /* FIXME: Argh!!  Megahack!  <dir.h> #defines `DRIVE', which we need in
    "drive.h".  */
 #undef DRIVE
 
-#include "drive.h"
-#include "tapeunit.h"
-#include "serial.h"
+#include "attach.h"
 #include "autostart.h"
-#include "utils.h"
-#include "true1541.h"
-#include "video.h"
+#include "drive.h"
+#include "fsdevice.h"
 #include "info.h"
 #include "machine.h"
-#include "fsdevice.h"
+#include "serial.h"
+#include "tapeunit.h"
+#include "true1541.h"
+#include "utils.h"
+#include "video.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -139,7 +141,7 @@ static TUI_MENU_CALLBACK(autostart_callback)
     return NULL;
 }
 
-TUI_MENU_CALLBACK(detach_disk_callback)
+static TUI_MENU_CALLBACK(detach_disk_callback)
 {
     char *s;
 
@@ -173,7 +175,7 @@ static TUI_MENU_CALLBACK(detach_tape_callback)
 
 /* ------------------------------------------------------------------------ */
 
-static char *change_workdir_callback(int been_activated, void *param_unused)
+static TUI_MENU_CALLBACK(change_workdir_callback)
 {
     char s[256];
 
@@ -270,8 +272,7 @@ static tui_menu_item_def_t true1541_extend_image_policy_submenu[] = {
 
 TUI_MENU_DEFINE_TOGGLE(True1541)
 
-static char *toggle_True1541SyncFactor_callback(int been_activated,
-                                                void *param_unused)
+static TUI_MENU_CALLBACK(toggle_True1541SyncFactor_callback)
 {
     int value;
 
@@ -295,8 +296,7 @@ static char *toggle_True1541SyncFactor_callback(int been_activated,
     }
 }
 
-static char *toggle_True1541IdleMethod_callback(int been_activated,
-                                                void *param_unused)
+static TUI_MENU_CALLBACK(toggle_True1541IdleMethod_callback)
 {
     int value;
 
@@ -351,7 +351,7 @@ static tui_menu_item_def_t true1541_settings_submenu[] = {
 
 TUI_MENU_DEFINE_TOGGLE(Sound)
 
-static char *sound_sample_rate_submenu_callback(int been_activated, void *param)
+static TUI_MENU_CALLBACK(sound_sample_rate_submenu_callback)
 {
     static char s[256];
     int value;
@@ -365,7 +365,7 @@ TUI_MENU_DEFINE_RADIO(SoundSampleRate)
 
 TUI_MENU_DEFINE_RADIO(SoundBufferSize)
 
-static char *sound_buffer_size_submenu_callback(int been_activated, void *param)
+static TUI_MENU_CALLBACK(sound_buffer_size_submenu_callback)
 {
     static char s[256];
     int value;
@@ -445,7 +445,7 @@ static tui_menu_item_def_t sound_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static char *toggle_joystick_callback(int been_activated, void *param)
+static TUI_MENU_CALLBACK(toggle_joystick_callback)
 {
 #if 0
     if (been_activated) {
@@ -465,7 +465,7 @@ static char *toggle_joystick_callback(int been_activated, void *param)
     return NULL;
 }
 
-static char *save_settings_callback(int been_activated, void *param_unused)
+static TUI_MENU_CALLBACK(save_settings_callback)
 {
     if (been_activated) {
 	if (resources_save(NULL) < 0)
@@ -477,7 +477,7 @@ static char *save_settings_callback(int been_activated, void *param_unused)
     return NULL;
 }
 
-static char *load_settings_callback(int been_activated, void *param_unused)
+static TUI_MENU_CALLBACK(load_settings_callback)
 {
     if (been_activated) {
 	if (resources_load(NULL) < 0)
@@ -489,8 +489,7 @@ static char *load_settings_callback(int been_activated, void *param_unused)
     return NULL;
 }
 
-static char *restore_default_settings_callback(int been_activated,
-					       void *param_unused)
+static TUI_MENU_CALLBACK(restore_default_settings_callback)
 {
     if (been_activated) {
 	resources_set_defaults();
@@ -500,7 +499,7 @@ static char *restore_default_settings_callback(int been_activated,
     return NULL;
 }
 
-static char *quit_callback(int been_activated, void *param_unused)
+static TUI_MENU_CALLBACK(quit_callback)
 {
     if (been_activated) {
 	_setcursortype(_NORMALCURSOR);
@@ -560,7 +559,7 @@ static void mon_trap(ADDRESS addr)
 #endif
 }
 
-static char *monitor_callback(int been_activated, void *param_unused)
+static TUI_MENU_CALLBACK(monitor_callback)
 {
     if (been_activated)
 	maincpu_trigger_trap(mon_trap);
@@ -570,7 +569,7 @@ static char *monitor_callback(int been_activated, void *param_unused)
 
 /* ------------------------------------------------------------------------- */
 
-static char *soft_reset_callback(int been_activated, void *param_unused)
+static TUI_MENU_CALLBACK(soft_reset_callback)
 {
     if (been_activated) {
 	maincpu_trigger_reset();
@@ -579,7 +578,7 @@ static char *soft_reset_callback(int been_activated, void *param_unused)
     return NULL;
 }
 
-static char *hard_reset_callback(int been_activated, void *param_unused)
+static TUI_MENU_CALLBACK(hard_reset_callback)
 {
     if (been_activated) {
 	mem_powerup();
@@ -607,7 +606,7 @@ static tui_menu_item_def_t reset_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static char *show_copyright_callback(int been_activated, void *param_unused)
+static TUI_MENU_CALLBACK(show_copyright_callback)
 {
     if (been_activated) {
 	static char *str_list[] = {
@@ -666,7 +665,7 @@ static char *show_copyright_callback(int been_activated, void *param_unused)
     return NULL;
 }
 
-static char *show_info_callback(int been_activated, void *param)
+static TUI_MENU_CALLBACK(show_info_callback)
 {
     if (been_activated)
 	tui_view_text(70, 20, NULL, (const char *)param);
@@ -779,8 +778,12 @@ TUI_MENU_DEFINE_TOGGLE(FSDevice9SaveP00)
 TUI_MENU_DEFINE_TOGGLE(FSDevice10SaveP00)
 TUI_MENU_DEFINE_TOGGLE(FSDevice11SaveP00)
 
-static char *set_fsdevice_directory_callback(int been_activated,
-					     void *param)
+TUI_MENU_DEFINE_TOGGLE(FSDevice8HideCBMFiles)
+TUI_MENU_DEFINE_TOGGLE(FSDevice9HideCBMFiles)
+TUI_MENU_DEFINE_TOGGLE(FSDevice10HideCBMFiles)
+TUI_MENU_DEFINE_TOGGLE(FSDevice11HideCBMFiles)
+
+static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
 {
     int unit = (int) param;
     char *v;
@@ -808,74 +811,54 @@ static char *set_fsdevice_directory_callback(int been_activated,
     return v;
 }
 
+#define DEFINE_FSDEVICE_SUBMENU(num)                                    \
+    tui_menu_item_def_t fsdevice##num##_submenu[] = {                   \
+        { "_Directory:",                                                \
+          "Specify access directory for device" #num,                   \
+          set_fsdevice_directory_callback, (void *) (num), 40,          \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { "--" },                                                       \
+        { "_Allow access:",                                             \
+          "Allow device" #num " to access the MS-DOS file system",      \
+          toggle_FileSystemDevice##num##_callback, NULL, 3,             \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { "_Convert P00 names:",                                        \
+          "Handle P00 names on device " #num,                           \
+          toggle_FSDevice##num##ConvertP00_callback, NULL, 3,           \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { "_Save P00 files:",                                           \
+          "Create P00 files on device " #num,                           \
+          toggle_FSDevice##num##SaveP00_callback, NULL, 3,              \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { "_Hide non-P00 files: ",                                      \
+          "Display only P00 files on device " #num,                     \
+          toggle_FSDevice##num##HideCBMFiles_callback, NULL, 3,         \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
+        { NULL }                                                        \
+    };
+
+DEFINE_FSDEVICE_SUBMENU(8)
+DEFINE_FSDEVICE_SUBMENU(9)
+DEFINE_FSDEVICE_SUBMENU(10)
+DEFINE_FSDEVICE_SUBMENU(11)
+
 tui_menu_item_def_t fsdevice_submenu[] = {
-    { "Device _8:  Allow access:",
-      "Allow device 8 to access the MS-DOS file system",
-      toggle_FileSystemDevice8_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "           Directory:",
-      "Specify access directory for device 8",
-      set_fsdevice_directory_callback, (void *) 8, 40,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "           Convert P00 names:",
-      "Handle P00 names on device 8",
-      toggle_FSDevice8ConvertP00_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "           Save P00 files:",
-      "Create P00 files on device 8",
-      toggle_FSDevice8SaveP00_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "--" },
-    { "Device _9:  Allow access:",
-      "Allow device 9 to access the MS-DOS file system",
-      toggle_FileSystemDevice9_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "           Directory:",
-      "Specify access directory for device 9",
-      set_fsdevice_directory_callback, (void *) 9, 40,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "           Convert P00 names:",
-      "Handle P00 names on device 9",
-      toggle_FSDevice9ConvertP00_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "           Save P00 files:",
-      "Create P00 files on device 9",
-      toggle_FSDevice9SaveP00_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "--" },
-    { "Device 1_0: Allow access:",
-      "Allow device 10 to access the MS-DOS file system",
-      toggle_FileSystemDevice10_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "           Directory:",
-      "Specify access directory for device 10",
-      set_fsdevice_directory_callback, (void *) 10, 40,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "           Convert P00 names:",
-      "Handle P00 names on device 10",
-      toggle_FSDevice10ConvertP00_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "           Save P00 files:",
-      "Create P00 files on device 10",
-      toggle_FSDevice10SaveP00_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "--" },
-    { "Device 1_1: Allow access:",
-      "Allow device 11 to access the MS-DOS file system",
-      toggle_FileSystemDevice11_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "           Directory:",
-      "Specify access directory for device 11",
-      set_fsdevice_directory_callback, (void *) 11, 40,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "           Convert P00 names:",
-      "Handle P00 names on device 11",
-      toggle_FSDevice11ConvertP00_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "           Save P00 files:",
-      "Create P00 files on device 11",
-      toggle_FSDevice11SaveP00_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Drive _8...",
+      "Settings for drive #8",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, fsdevice8_submenu, "" },
+    { "Drive _9...",
+      "Settings for drive #9",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, fsdevice9_submenu, "" },
+    { "Drive 1_0...",
+      "Settings for drive #10",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, fsdevice10_submenu, "" },
+    { "Drive 1_1...",
+      "Settings for drive #11",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, fsdevice11_submenu, "" },
     { NULL }
 };
 
@@ -883,8 +866,7 @@ TUI_MENU_DEFINE_TOGGLE(NoTraps);
 
 /* ------------------------------------------------------------------------- */
 
-static char *speed_submenu_callback(int been_activated,
-				    void *param_unused)
+static TUI_MENU_CALLBACK(speed_submenu_callback)
 {
     static char s[1024];
     int value;
@@ -897,7 +879,7 @@ static char *speed_submenu_callback(int been_activated,
 	return "None";
 }
 
-static char *speed_callback(int been_activated, void *param)
+static TUI_MENU_CALLBACK(speed_callback)
 {
     if (been_activated) {
         int value;
@@ -1004,6 +986,10 @@ void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps)
 		      "Attach disk image for disk drive #10",
 		      attach_disk_callback, (void *)10, 30,
 		      TUI_MENU_BEH_CONTINUE);
+    tui_menu_add_item(ui_attach_submenu, "Drive #1_1:",
+		      "Attach disk image for disk drive #11",
+		      attach_disk_callback, (void *)11, 30,
+		      TUI_MENU_BEH_CONTINUE);
 
     if (has_tape) {
 	tui_menu_add_separator(ui_attach_submenu);
@@ -1039,6 +1025,10 @@ void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps)
     tui_menu_add_item(ui_detach_submenu, "Drive #1_0:",
 		      "Remove disk from disk drive #10",
 		      detach_disk_callback, (void *)10, 30,
+		      TUI_MENU_BEH_CONTINUE);
+    tui_menu_add_item(ui_detach_submenu, "Drive #1_1:",
+		      "Remove disk from disk drive #11",
+		      detach_disk_callback, (void *)11, 30,
 		      TUI_MENU_BEH_CONTINUE);
 
     if (has_tape) {
@@ -1129,10 +1119,10 @@ void ui_create_main_menu(int has_tape, int has_true1541, int has_serial_traps)
 
     ui_reset_submenu = tui_menu_create("Reset?", 1);
     tui_menu_add(ui_reset_submenu, reset_submenu);
-    tui_menu_add_submenu(ui_main_menu, "_Reset "
+    tui_menu_add_submenu(ui_main_menu, "_Reset ",
 			 "Reset the machine",
-			 ui_reset_submenu, NULL, 0,
-			 TUI_MENU_BEH_CONTINUE);
+			 ui_reset_submenu,
+                         NULL, NULL, 0);
 
     ui_quit_submenu = tui_menu_create("Quit", 1);
     tui_menu_add(ui_quit_submenu, quit_submenu);
