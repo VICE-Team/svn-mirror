@@ -85,13 +85,13 @@
 #include <time.h>
 #include <string.h>
 
-#include "vmachine.h"
 #include "cia.h"
-#include "vicii.h"
-#include "maincpu.h"
 #include "resources.h"
 
 
+#include "vmachine.h"
+#include "vicii.h"
+#include "maincpu.h"
 #include "kbd.h"
 #include "c64cia.h"
 #ifdef HAVE_RS232
@@ -458,6 +458,7 @@ void REGPARM2 store_cia1(ADDRESS addr, BYTE byte)
 
     addr &= 0xf;
 
+
     vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
 
     rclk = clk - STORE_OFFSET;
@@ -808,6 +809,7 @@ BYTE read_cia1_(ADDRESS addr)
 
     addr &= 0xf;
 
+
     vic_ii_handle_pending_alarms(0);
 
     rclk = clk - READ_OFFSET;
@@ -975,6 +977,7 @@ BYTE REGPARM1 peek_cia1(ADDRESS addr)
     CLOCK rclk;
 
     addr &= 0xf;
+
 
     vic_ii_handle_pending_alarms(0);
 

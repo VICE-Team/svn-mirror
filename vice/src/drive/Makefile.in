@@ -101,28 +101,34 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src
 
-noinst_LIBRARIES = libpet.a
+noinst_LIBRARIES = libdrive.a
 
-libpet_a_SOURCES = \
-	crtc.c \
-	crtc.h \
-	pet.c \
-	pet.h \
-	petmem.c \
-	petmem.h \
-	pets.c \
-	pets.h \
-	petsound.c \
-	petsound.h \
-	petvia.c \
-	petvia.def \
-	petvia.h \
-	pia.c \
-	pia.h
+libdrive_a_SOURCES = \
+ciad.h \
+cia1571drive0.c \
+cia1571drive0.def \
+cia1571drive1.c \
+cia1571drive1.def \
+cia1581drive0.c \
+cia1581drive0.def \
+cia1581drive1.c \
+cia1581drive1.def \
+drive.c \
+drive.h \
+drivecpu0.c \
+drivecpu1.c \
+drivecpu.h \
+viad.h \
+via1drive0.c \
+via1drive0.def \
+via2drive0.c \
+via2drive0.def \
+via1drive1.c \
+via1drive1.def \
+via2drive1.c \
+via2drive1.def
 
-BUILT_SOURCES = petvia.c
-
-petdir = $(top_srcdir)/src/pet
+drivedir = $(top_srcdir)/src/drive
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -135,9 +141,10 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libpet_a_LIBADD = 
-libpet_a_OBJECTS =  crtc.o pet.o petmem.o pets.o petsound.o petvia.o \
-pia.o
+libdrive_a_LIBADD = 
+libdrive_a_OBJECTS =  cia1571drive0.o cia1571drive1.o cia1581drive0.o \
+cia1581drive1.o drive.o drivecpu0.o drivecpu1.o via1drive0.o \
+via2drive0.o via1drive1.o via2drive1.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -148,15 +155,15 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-SOURCES = $(libpet_a_SOURCES)
-OBJECTS = $(libpet_a_OBJECTS)
+SOURCES = $(libdrive_a_SOURCES)
+OBJECTS = $(libdrive_a_OBJECTS)
 
 all: all-recursive all-am
 
 .SUFFIXES:
 .SUFFIXES: .S .c .def .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4)
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/pet/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/drive/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -191,10 +198,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libpet.a: $(libpet_a_OBJECTS) $(libpet_a_DEPENDENCIES)
-	-rm -f libpet.a
-	$(AR) cru libpet.a $(libpet_a_OBJECTS) $(libpet_a_LIBADD)
-	$(RANLIB) libpet.a
+libdrive.a: $(libdrive_a_OBJECTS) $(libdrive_a_DEPENDENCIES)
+	-rm -f libdrive.a
+	$(AR) cru libdrive.a $(libdrive_a_OBJECTS) $(libdrive_a_LIBADD)
+	$(RANLIB) libdrive.a
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run `make' without going through this Makefile.
@@ -263,7 +270,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/pet
+subdir = src/drive
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -280,20 +287,6 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
-pet.o: pet.c ../../src/vice.h ../../src/config.h pet.h \
-	../../src/attach.h ../../src/types.h ../../src/vdrive.h \
-	../../src/fs_cbm.h ../../src/serial.h ../../src/traps.h \
-	../../src/autostart.h ../../src/cmdline.h ../../src/resources.h \
-	crtc.h ../../src/arch/unix/video.h ../../src/palette.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	../../src/interrupt.h ../../src/vmachine.h ../../src/6510core.h \
-	../../src/mem.h ../../src/arch/unix/kbd.h ../../src/kbdbuf.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/mos6510.h \
-	../../src/mon.h petmem.h pets.h petsound.h \
-	../../src/arch/unix/xaw/petui.h petvia.h pia.h \
-	../../src/sound.h ../../src/warn.h ../../src/utils.h \
-	../../src/via.h ../../src/arch/unix/vsync.h ../../src/print.h \
-	../../src/prdevice.h ../../src/pruser.h
 
 info: info-recursive
 dvi: dvi-recursive
@@ -371,13 +364,85 @@ installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
-petvia.c: petvia.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`petvia.c'..."; \
-	   if [ -s $(PERL) ] ; then \
+via1drive0.c: via1drive0.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`via1drive0.c'..."; \
+	   if [ -s $(PERL) ]; then \
 	       $(PERL) $(top_srcdir)/src/convio \
 	           $(top_srcdir)/src/via-tmpl.c \
-	           $(petdir)/petvia.def $(petdir)/petvia.c; \
-	   fi )
+		   $(drivedir)/via1drive0.def $(drivedir)/via1drive0.c; \
+           fi )
+
+via2drive0.c: via2drive0.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`via2drive0.c'..."; \
+	   if [ -s $(PERL) ]; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/via-tmpl.c \
+		   $(drivedir)/via2drive0.def $(drivedir)/via2drive0.c; \
+           fi )
+
+via1drive1.c: via1drive1.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`via1drive1.c'..."; \
+	   if [ -s $(PERL) ]; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/via-tmpl.c \
+		   $(drivedir)/via1drive1.def $(drivedir)/via1drive1.c; \
+           fi )
+
+via2drive1.c: via2drive1.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`via2drive1.c'..."; \
+	   if [ -s $(PERL) ]; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/via-tmpl.c \
+		   $(drivedir)/via2drive1.def $(drivedir)/via2drive1.c; \
+           fi )
+
+drivecpu0.c: drivecpu0.def drivecpu-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`drivecpu0.c'..."; \
+	   if [ -s $(PERL) ]; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           drivecpu-tmpl.c \
+	       $(drivedir)/drivecpu0.def $(drivedir)/drivecpu0.c; \
+           fi )
+
+drivecpu1.c: drivecpu1.def drivecpu-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`drivecpu1.c'..."; \
+	   if [ -s $(PERL) ]; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           drivecpu-tmpl.c \
+	       $(drivedir)/drivecpu1.def $(drivedir)/drivecpu1.c; \
+           fi )
+
+cia1571drive0.c: cia1571drive0.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`cia1571drive0.c'..."; \
+	   if [ -s $(PERL) ]; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/cia-tmpl.c \
+		   $(drivedir)/cia1571drive0.def $(drivedir)/cia1571drive0.c; \
+           fi )
+
+cia1571drive1.c: cia1571drive1.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`cia1571drive1.c'..."; \
+	   if [ -s $(PERL) ]; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/cia-tmpl.c \
+		   $(drivedir)/cia1571drive1.def $(drivedir)/cia1571drive1.c; \
+           fi )
+
+cia1581drive0.c: cia1581drive0.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`cia1581drive0.c'..."; \
+	   if [ -s $(PERL) ]; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/cia-tmpl.c \
+		   $(drivedir)/cia1581drive0.def $(drivedir)/cia1581drive0.c; \
+           fi )
+
+cia1581drive1.c: cia1581drive1.def $(top_srcdir)/src/cia-tmpl.c $(top_srcdir)/src/convio
+	@( echo "Rebuilding \`cia1581drive1.c'..."; \
+	   if [ -s $(PERL) ]; then \
+	       $(PERL) $(top_srcdir)/src/convio \
+	           $(top_srcdir)/src/cia-tmpl.c \
+		   $(drivedir)/cia1581drive1.def $(drivedir)/cia1581drive1.c; \
+           fi )
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

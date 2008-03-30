@@ -1,3 +1,15 @@
+1998-09-02  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.1.
+
+	* configure.in: AC_DEFINE `UNSTABLE'.
+
+	* data/C64/dos1571, data/C64/dos1581: New files.
+
+	* data/C128/dos1571, data/C128/dos1581: New files.
+
+	* data/C128/dos1571, data/C128/dos1581: New files.
+
 Mon Aug 31 17:31:17 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.15.0 released.

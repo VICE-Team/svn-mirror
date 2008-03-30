@@ -85,14 +85,14 @@
 #include <time.h>
 #include <string.h>
 
-#include "vmachine.h"
 #include "cia.h"
-#include "vicii.h"
-#include "maincpu.h"
 #include "resources.h"
 
 
-    #include "true1541.h"
+    #include "vmachine.h"
+    #include "vicii.h"
+    #include "maincpu.h"
+    #include "drive.h"
     #include "c64mem.h"
     #include "c64iec.h"
     #include "c64cia.h"
@@ -452,6 +452,7 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 
     addr &= 0xf;
 
+
     vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
 
     rclk = clk - STORE_OFFSET;
@@ -498,7 +499,7 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 
     cia2[addr] = byte;
     byte = cia2[CIA_PRB] | ~cia2[CIA_DDRB];
-    if (true1541_parallel_cable_enabled)
+    if (drive_parallel_cable_enabled)
 	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
 #ifdef HAVE_PRINTER
     userport_printer_write_data(byte);
@@ -805,6 +806,7 @@ BYTE read_cia2_(ADDRESS addr)
 
     addr &= 0xf;
 
+
     vic_ii_handle_pending_alarms(0);
 
     rclk = clk - READ_OFFSET;
@@ -814,10 +816,13 @@ BYTE read_cia2_(ADDRESS addr)
 
       case CIA_PRA:		/* port A */
 
-    if (!true1541_enabled)
+    if (!drive_enabled[0] && !drive_enabled[1])
 	return ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) |
 	    (iec_info->iec_fast_1541 & 0x30) << 2;
-    true1541_cpu_execute();
+    if (drive_enabled[0])
+	drive0_cpu_execute();
+    if (drive_enabled[1])
+	drive1_cpu_execute();
     byte = ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) | iec_info->cpu_port;
 	return byte;
 	break;
@@ -825,13 +830,13 @@ BYTE read_cia2_(ADDRESS addr)
       case CIA_PRB:		/* port B */
 
 #ifdef HAVE_RS232
-    byte = (true1541_parallel_cable_enabled
+    byte = (drive_parallel_cable_enabled
             ? parallel_cable_cpu_read()
             : (rsuser_enabled
 		? userport_serial_read_ctrl()
 		: cia2[CIA_PRB] | ~cia2[CIA_DDRB]));
 #else
-    byte = (true1541_parallel_cable_enabled
+    byte = (drive_parallel_cable_enabled
             ? parallel_cable_cpu_read()
             : cia2[CIA_PRB] | ~cia2[CIA_DDRB]);
 #endif
@@ -909,8 +914,10 @@ BYTE read_cia2_(ADDRESS addr)
 	    BYTE t = 0;
 
 
-    if (true1541_parallel_cable_enabled)
-	true1541_cpu_execute();
+    if (drive_parallel_cable_enabled) {
+	drive0_cpu_execute();
+	drive1_cpu_execute();
+    }
 #ifdef CIA2_TIMER_DEBUG
 	    if (cia2_debugFlag)
 		printf("CIA2 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
@@ -963,6 +970,7 @@ BYTE REGPARM1 peek_cia2(ADDRESS addr)
 
     addr &= 0xf;
 
+
     vic_ii_handle_pending_alarms(0);
 
     rclk = clk - READ_OFFSET;
@@ -990,8 +998,10 @@ BYTE REGPARM1 peek_cia2(ADDRESS addr)
 	    BYTE t = 0;
 
 
-    if (true1541_parallel_cable_enabled)
-	true1541_cpu_execute();
+    if (drive_parallel_cable_enabled) {
+	drive0_cpu_execute();
+	drive1_cpu_execute();
+    }
 #ifdef CIA2_TIMER_DEBUG
 	    if (cia2_debugFlag)
 		printf("CIA2 read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d\n",
