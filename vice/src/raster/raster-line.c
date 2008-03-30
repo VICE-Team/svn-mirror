@@ -872,16 +872,15 @@ void raster_line_emulate(raster_t *raster)
             raster->dont_cache = 0;
             raster->num_cached_lines = 0;
         }
+    } else {
+        update_sprite_collisions(raster);
 
-    }
-
-    update_sprite_collisions(raster);
-
-    if (raster->changes.have_on_this_line) {
-        raster_changes_apply_all(&raster->changes.background);
-        raster_changes_apply_all(&raster->changes.foreground);
-        raster_changes_apply_all(&raster->changes.border);
-        raster->changes.have_on_this_line = 0;
+        if (raster->changes.have_on_this_line) {
+            raster_changes_apply_all(&raster->changes.background);
+            raster_changes_apply_all(&raster->changes.foreground);
+            raster_changes_apply_all(&raster->changes.border);
+            raster->changes.have_on_this_line = 0;
+        }
     }
 
     raster->current_line++;

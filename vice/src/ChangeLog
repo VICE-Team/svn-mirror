@@ -1,3 +1,34 @@
+2002-05-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.17.
+
+	* raster/raster-line.c (raster_line_emulate): Do not calculate
+	sprite collisions twice.
+
+2002-05-17  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* Makefile.am: Added rule for libimagecontents.
+
+	* arch/beos/ui.cc, ui_file.cc: Renamed calls to tape_image_*.
+
+2002-05-13  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/joystick.c: Renamed clk.
+
+	* vicii/vicii-mem.c (store_d016): Don't set xsmooth_shift_left
+	in the last column.
+
+2002-05-12  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/ui.c: Use autostart_index instead of
+	autostart_filename to feed ui_select_file with.
+
+	* arch/win32/uilib.c: Removed obsolete get_filename_from_*
+	stuff. autostart_result is an integer now, determined
+	by the index of the content list selection.
+
+	* arch/win32/uilib.h: Changed prototype of ui_select_file.
+
 2002-05-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.16.
