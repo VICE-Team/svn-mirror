@@ -2,9 +2,10 @@
  * reu.c - REU 1750 emulation.
  *
  * Written by
- *  Jouko Valta (jopi@stekt.oulu.fi)
- *  Richard Hable (K3027E7@edvz.uni-linz.ac.at)
- *  Ettore Perazzoli (ettore@comm2000.it) [EP]
+ *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Richard Hable <K3027E7@edvz.uni-linz.ac.at>
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -75,8 +76,8 @@ int reset_reu(int size)
     if (size > 0)
         ReuSize = size;
 
-    for (i=0; i < 16; i++)
-	reu[i] = 0;
+    for (i = 0; i < 16; i++)
+        reu[i] = 0;
 
     if (ReuSize >= 256)
         reu[0] = 0x50;
@@ -145,6 +146,7 @@ BYTE REGPARM1 read_reu(ADDRESS addr)
 
       case 0xa:
         retval = reu[0xa] | 0x3f;
+        break;
 
       case 0xb:
       case 0xc:
