@@ -93,7 +93,7 @@ BYTE iec_drive_read(void)
 BYTE iec_pa_read(void)
 
 {
-    if (!drive_enabled[0])
+    if (!drive[0].enable)
 	return 0;
 
     drive0_cpu_execute();
@@ -108,7 +108,7 @@ void iec_pa_write(BYTE data)
 {
     static int last_write = 0;
 
-    if (!drive_enabled[0])
+    if (!drive[0].enable)
 	return;
 
     drive0_cpu_execute();
@@ -139,7 +139,7 @@ void iec_pcr_write(BYTE data)
 {
     static int last_write = 0;
 
-    if (!drive_enabled[0])
+    if (!drive[0].enable)
 	return;
 
     drive0_cpu_execute();
@@ -153,6 +153,11 @@ void iec_pcr_write(BYTE data)
 	resolve_bus_signals();
 
     last_write = data & 34;
+}
+
+void iec_fast_drive_write(BYTE data)
+{
+/* The VIC20 does not use fast IEC.  */
 }
 
 iec_info_t *iec_get_drive_port(void)

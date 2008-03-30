@@ -531,8 +531,9 @@ ui_menu_entry_t pet_rs232_submenu[] = {
 
 /* Drive emulation support items.  */
 
-UI_MENU_DEFINE_TOGGLE(Drive8)
-UI_MENU_DEFINE_TOGGLE(Drive9)
+UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
+UI_MENU_DEFINE_TOGGLE(Drive8Enable)
+UI_MENU_DEFINE_TOGGLE(Drive9Enable)
 
 UI_MENU_DEFINE_TOGGLE(DriveParallelCable)
 
@@ -1021,10 +1022,15 @@ static ui_menu_entry_t peripheral_settings_submenu[] = {
 };
 
 static ui_menu_entry_t drive_settings_submenu[] = {
-    { "*Enable true emulation of drive #8",
-      (ui_callback_t) toggle_Drive8, NULL, NULL },
-    { "*Enable true emulation of drive #9",
-      (ui_callback_t) toggle_Drive9, NULL, NULL },
+    { "*Enable true drive emulation",
+    /* FIXME: We do nothing with this as long "Enable emulation of drive #8"
+       and "Enable emulation of drive #9" widgets are not grayed out when
+       this switch is zero.  */
+      (ui_callback_t) toggle_DriveTrueEmulation, NULL, NULL },
+    { "*Enable emulation of drive #8",
+      (ui_callback_t) toggle_Drive8Enable, NULL, NULL },
+    { "*Enable emulation of drive #9",
+      (ui_callback_t) toggle_Drive9Enable, NULL, NULL },
     { "--" },
     { "Drive #8 floppy disk type",
       NULL, NULL, set_drive8_type_submenu },

@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/drive/via2drive1.c
- * This file is generated from ../../../src/via-tmpl.c and ../../../src/drive/via2drive1.def,
+ * ../../src/drive/via2drive1.c
+ * This file is generated from ../../src/via-tmpl.c and ../../src/drive/via2drive1.def,
  * Do not edit!
  */
 /*
@@ -101,6 +101,9 @@ static int via2d1pb7x;		/* to be xored herewith  */
 static int via2d1pb7o;		/* to be ored herewith  */
 static int via2d1pb7xx;
 static int via2d1pb7sx;
+
+static BYTE oldpa;		/* the actual output on PA (input = high) */
+static BYTE oldpb;		/* the actual output on PB (input = high) */
 
 /*
  * local functions
@@ -240,6 +243,9 @@ void reset_via2d1(void)
     drive1_unset_alarm(A_VIA2D1T2);
     update_via2d1irq();
 
+    oldpa = 0xff;
+    oldpb = 0xff;
+
     
 
 }
@@ -299,10 +305,12 @@ void REGPARM2 store_via2d1(ADDRESS addr, BYTE byte)
         via2d1[VIA_PRA_NHS] = byte;
         addr = VIA_PRA;
       case VIA_DDRA:
-
 	via2d1[addr] = byte;
-	drive_write_gcr(via2d1[VIA_PRA] | ~via2d1[VIA_DDRA], 1);
-            break;
+	byte = via2d1[VIA_PRA] | ~via2d1[VIA_DDRA];
+
+	drive_write_gcr(byte, 1);
+	oldpa = byte;
+        break;
 
       case VIA_PRB:		/* port B */
         via2d1ifr &= ~VIA_IM_CB1;
@@ -312,29 +320,27 @@ void REGPARM2 store_via2d1(ADDRESS addr, BYTE byte)
         update_via2d1irq();
 
       case VIA_DDRB:
+	via2d1[addr] = byte;
+	byte = via2d1[VIA_PRB] | ~via2d1[VIA_DDRB];
 
 	{
-	  BYTE oldval = via2d1[VIA_PRB] | ~via2d1[VIA_DDRB];
-
-	  via2d1[addr] = byte;
-	  byte = via2d1[VIA_PRB] | ~via2d1[VIA_DDRB];	/* newval */
-
 	  drive[1].led_status = byte & 8;
 
-	  if (((oldval ^ byte) & 0x3) && (byte & 0x4))  /* Stepper motor */
+	  if (((oldpb ^ byte) & 0x3) && (byte & 0x4))  /* Stepper motor */
 	  {
-	    if ((oldval & 0x3) == ((byte + 1) & 0x3))
+	    if ((oldpb & 0x3) == ((byte + 1) & 0x3))
               drive_move_head(-1, 1);
-            else if ((oldval & 0x3) == ((byte - 1) & 0x3))
+            else if ((oldpb & 0x3) == ((byte - 1) & 0x3))
               drive_move_head(+1, 1);
 	  }
-	  if ((oldval ^ byte) & 0x60)     /* Zone bits */
+	  if ((oldpb ^ byte) & 0x60)     /* Zone bits */
 	      drive_update_zone_bits((byte >> 5) & 0x3, 1);
 
-	  if ((oldval ^ byte) & 0x04)     /* Motor on/off */
+	  if ((oldpb ^ byte) & 0x04)     /* Motor on/off */
 	      drive_motor_control(byte & 0x04, 1);
 	}
-            break;
+	oldpb = byte;
+        break;
 
       case VIA_SR:		/* Serial Port output buffer */
         via2d1[addr] = byte;
@@ -508,6 +514,7 @@ BYTE REGPARM1 read_via2d1(ADDRESS addr)
 BYTE REGPARM1 read_via2d1_(ADDRESS addr)
 {
 #endif
+    BYTE byte;
     CLOCK rclk = drive_clk[1];
 
     addr &= 0xf;
@@ -529,36 +536,31 @@ BYTE REGPARM1 read_via2d1_(ADDRESS addr)
       case VIA_PRA_NHS:	/* port A, no handshake */
 
     {
-        BYTE tmp;
-
-        tmp = ((drive_read_disk_byte(1) & ~via2d1[VIA_DDRA])
-            | (via2d1[VIA_PRA] & via2d1[VIA_DDRA]));
+        byte = ((drive_read_disk_byte(1) /* & ~via2d1[VIA_DDRA])
+            | (via2d1[VIA_PRA] & via2d1[VIA_DDRA] */ ));
         if (drive[1].type == DRIVE_TYPE_1571)
             if (drive_byte_ready(1))
                 drive_set_byte_ready(0, 1);
-        return tmp;
     }
+        byte = (byte & ~via2d1[VIA_DDRA]) | (via2d1[VIA_PRA] & via2d1[VIA_DDRA]);
+	return byte;
 
       case VIA_PRB:		/* port B */
         via2d1ifr &= ~VIA_IM_CB1;
-
         if ((via2d1[VIA_PCR] & 0xa0) != 0x20)
             via2d1ifr &= ~VIA_IM_CB2;
-
         update_via2d1irq();
-        {
-            BYTE byte;
 
 
-	byte = (drive_read_viad2_prb(1) & ~via2d1[VIA_DDRB])
-			| (via2d1[VIA_PRB] & via2d1[VIA_DDRB]);
+	byte = (drive_read_viad2_prb(1) /* & ~via2d1[VIA_DDRB])
+			| (via2d1[VIA_PRB] & via2d1[VIA_DDRB] */ );
+        byte = (byte & ~via2d1[VIA_DDRB]) | (via2d1[VIA_PRB] & via2d1[VIA_DDRB]);
 
-            if (via2d1[VIA_ACR] & 0x80) {
-                update_via2d1tal(rclk);
-                byte = (byte & 0x7f) | (((via2d1pb7 ^ via2d1pb7x) | via2d1pb7o) ? 0x80 : 0);
-            }
-            return byte;
+        if (via2d1[VIA_ACR] & 0x80) {
+            update_via2d1tal(rclk);
+            byte = (byte & 0x7f) | (((via2d1pb7 ^ via2d1pb7x) | via2d1pb7o) ? 0x80 : 0);
         }
+        return byte;
 
         /* Timers */
 
@@ -619,8 +621,8 @@ BYTE REGPARM1 peek_via2d1(ADDRESS addr)
             BYTE byte;
 
 
-	byte = (drive_read_viad2_prb(1) & ~via2d1[VIA_DDRB])
-			| (via2d1[VIA_PRB] & via2d1[VIA_DDRB]);
+	byte = (drive_read_viad2_prb(1) /* & ~via2d1[VIA_DDRB])
+			| (via2d1[VIA_PRB] & via2d1[VIA_DDRB] */ );
             if (via2d1[VIA_ACR] & 0x80) {
                 update_via2d1tal(rclk);
                 byte = (byte & 0x7f) | (((via2d1pb7 ^ via2d1pb7x) | via2d1pb7o) ? 0x80 : 0);
@@ -726,15 +728,15 @@ void via2d1_prevent_clk_overflow(CLOCK sub)
  * UBYTE	SR
  * UBYTE	ACR
  * UBYTE	PCR
- * UBYTE	IFR		 active interrupts 
- * UBYTE	IER		 interrupt masks 
- * UBYTE	PB7		 bit 7 = pb7 state 
- * UBYTE	SRHBITS		 number of half bits to shift out on SR 
+ * UBYTE	IFR		 active interrupts
+ * UBYTE	IER		 interrupt masks
+ * UBYTE	PB7		 bit 7 = pb7 state
+ * UBYTE	SRHBITS		 number of half bits to shift out on SR
  *
  */
 
 
-int via2d1_dump(FILE * p)
+int via2d1_write_snapshot_module(FILE * p)
 {
 
     if (via2d1tai && (via2d1tai <= drive_clk[1]))
@@ -763,13 +765,13 @@ int via2d1_dump(FILE * p)
     snapshot_write_byte(p, via2d1ier);
 
 						/* FIXME! */
-    snapshot_write_byte(p, (((via2d1pb7 ^ via2d1pb7x) | via2d1pb7o) ? 0x80 : 0));	
+    snapshot_write_byte(p, (((via2d1pb7 ^ via2d1pb7x) | via2d1pb7o) ? 0x80 : 0));
     snapshot_write_byte(p, 0);			/* SRHBITS */
 
     return 0;
 }
 
-int via2d1_undump(FILE * p)
+int via2d1_read_snapshot_module(FILE * p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
@@ -789,37 +791,19 @@ int via2d1_undump(FILE * p)
     snapshot_read_byte(p, &via2d1[VIA_DDRB]);
     {
         addr = VIA_DDRA;
-	byte = via2d1[addr];
+	byte = via2d1[VIA_PRA] | ~via2d1[VIA_DDRA];
+	oldpa = byte ^ 0xff;
 
-	via2d1[addr] = byte;
-	drive_write_gcr(via2d1[VIA_PRA] | ~via2d1[VIA_DDRA], 1);
+	drive_write_gcr(byte, 1);
+	oldpa = byte;
 
 	addr = VIA_DDRB;
-	byte = via2d1[addr];
-
-	{
-	  BYTE oldval = via2d1[VIA_PRB] | ~via2d1[VIA_DDRB];
-
-	  via2d1[addr] = byte;
-	  byte = via2d1[VIA_PRB] | ~via2d1[VIA_DDRB];	/* newval */
-
-	  drive[1].led_status = byte & 8;
-
-	  if (((oldval ^ byte) & 0x3) && (byte & 0x4))  /* Stepper motor */
-	  {
-	    if ((oldval & 0x3) == ((byte + 1) & 0x3))
-              drive_move_head(-1, 1);
-            else if ((oldval & 0x3) == ((byte - 1) & 0x3))
-              drive_move_head(+1, 1);
-	  }
-	  if ((oldval ^ byte) & 0x60)     /* Zone bits */
-	      drive_update_zone_bits((byte >> 5) & 0x3, 1);
-
-	  if ((oldval ^ byte) & 0x04)     /* Motor on/off */
-	      drive_motor_control(byte & 0x04, 1);
-	}
+	byte = via2d1[VIA_PRB] | ~via2d1[VIA_DDRB];
+	oldpb = byte ^ 0xff;
+	/* FIXME!!!! */
+	oldpb = byte;
     }
-    
+
     snapshot_read_word(p, &word);
     via2d1tal = word;
     snapshot_read_word(p, &word);
@@ -835,7 +819,7 @@ int via2d1_undump(FILE * p)
     drive1_set_alarm(A_VIA2D1T2, via2d1tbi);
 
     snapshot_read_byte(p, &via2d1[VIA_SR]);
-    { 
+    {
 	addr = via2d1[VIA_SR];
 	byte = via2d1[addr];
 	
@@ -869,12 +853,12 @@ int via2d1_undump(FILE * p)
     via2d1ier = byte;
     update_via2d1irq();
 						/* FIXME! */
-    snapshot_read_byte(p, &byte);	
+    snapshot_read_byte(p, &byte);
     via2d1pb7 = byte ? 1 : 0;
     via2d1pb7x = 0;
     via2d1pb7o = 0;
     snapshot_read_byte(p, &byte);		/* SRHBITS */
- 
+
     return 0;
 }
 

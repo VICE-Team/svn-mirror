@@ -110,6 +110,9 @@ static int via2pb7o;		/* to be ored herewith  */
 static int via2pb7xx;
 static int via2pb7sx;
 
+static BYTE oldpa;		/* the actual output on PA (input = high) */
+static BYTE oldpb;		/* the actual output on PB (input = high) */
+
 /*
  * local functions
  */
@@ -252,6 +255,9 @@ void reset_via2(void)
     maincpu_unset_alarm(A_VIA2T2);
     update_via2irq();
 
+    oldpa = 0xff;
+    oldpb = 0xff;
+
 
     iec_pa_write(0xff);
 
@@ -317,10 +323,12 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
         via2[VIA_PRA_NHS] = byte;
         addr = VIA_PRA;
       case VIA_DDRA:
+	via2[addr] = byte;
+	byte = via2[VIA_PRA] | ~via2[VIA_DDRA];
 
-    via2[addr] = byte;
-    iec_pa_write(via2[VIA_PRA] | (~via2[VIA_DDRA]));
-            break;
+    iec_pa_write(byte);
+	oldpa = byte;
+        break;
 
       case VIA_PRB:		/* port B */
         via2ifr &= ~VIA_IM_CB1;
@@ -330,12 +338,14 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
         update_via2irq();
 
       case VIA_DDRB:
+	via2[addr] = byte;
+	byte = via2[VIA_PRB] | ~via2[VIA_DDRB];
 
-    via2[addr] = byte;
 #ifdef HAVE_PRINTER
-    userport_printer_write_data(via2[VIA_PRB] | (~via2[VIA_DDRB]));
+    userport_printer_write_data(byte);
 #endif
-            break;
+	oldpb = byte;
+        break;
 
       case VIA_SR:		/* Serial Port output buffer */
         via2[addr] = byte;
@@ -506,6 +516,7 @@ BYTE REGPARM1 read_via2(ADDRESS addr)
 BYTE REGPARM1 read_via2_(ADDRESS addr)
 {
 #endif
+    BYTE byte;
     CLOCK rclk = clk;
 
     addr &= 0xf;
@@ -554,29 +565,28 @@ BYTE REGPARM1 read_via2_(ADDRESS addr)
 
 	/* We assume `iec_pa_read()' returns the non-IEC bits
 	   as zeroes. */
-	return ((via2[VIA_PRA] & via2[VIA_DDRA])
-		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA]));
+	/* return ((via2[VIA_PRA] & via2[VIA_DDRA])
+		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA])); */
+	byte = iec_pa_read() | joy_bits;
     }
+        byte = (byte & ~via2[VIA_DDRA]) | (via2[VIA_PRA] & via2[VIA_DDRA]);
+	return byte;
 
       case VIA_PRB:		/* port B */
         via2ifr &= ~VIA_IM_CB1;
-
         if ((via2[VIA_PCR] & 0xa0) != 0x20)
             via2ifr &= ~VIA_IM_CB2;
-
         update_via2irq();
-        {
-            BYTE byte;
 
 
-    byte = (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
+    byte = 0xff;
+        byte = (byte & ~via2[VIA_DDRB]) | (via2[VIA_PRB] & via2[VIA_DDRB]);
 
-            if (via2[VIA_ACR] & 0x80) {
-                update_via2tal(rclk);
-                byte = (byte & 0x7f) | (((via2pb7 ^ via2pb7x) | via2pb7o) ? 0x80 : 0);
-            }
-            return byte;
+        if (via2[VIA_ACR] & 0x80) {
+            update_via2tal(rclk);
+            byte = (byte & 0x7f) | (((via2pb7 ^ via2pb7x) | via2pb7o) ? 0x80 : 0);
         }
+        return byte;
 
         /* Timers */
 
@@ -637,7 +647,7 @@ BYTE REGPARM1 peek_via2(ADDRESS addr)
             BYTE byte;
 
 
-    byte = (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
+    byte = 0xff;
             if (via2[VIA_ACR] & 0x80) {
                 update_via2tal(rclk);
                 byte = (byte & 0x7f) | (((via2pb7 ^ via2pb7x) | via2pb7o) ? 0x80 : 0);
@@ -743,15 +753,15 @@ void via2_prevent_clk_overflow(CLOCK sub)
  * UBYTE	SR
  * UBYTE	ACR
  * UBYTE	PCR
- * UBYTE	IFR		 active interrupts 
- * UBYTE	IER		 interrupt masks 
- * UBYTE	PB7		 bit 7 = pb7 state 
- * UBYTE	SRHBITS		 number of half bits to shift out on SR 
+ * UBYTE	IFR		 active interrupts
+ * UBYTE	IER		 interrupt masks
+ * UBYTE	PB7		 bit 7 = pb7 state
+ * UBYTE	SRHBITS		 number of half bits to shift out on SR
  *
  */
 
 
-int via2_dump(FILE * p)
+int via2_write_snapshot_module(FILE * p)
 {
 
     if (via2tai && (via2tai <= clk))
@@ -780,13 +790,13 @@ int via2_dump(FILE * p)
     snapshot_write_byte(p, via2ier);
 
 						/* FIXME! */
-    snapshot_write_byte(p, (((via2pb7 ^ via2pb7x) | via2pb7o) ? 0x80 : 0));	
+    snapshot_write_byte(p, (((via2pb7 ^ via2pb7x) | via2pb7o) ? 0x80 : 0));
     snapshot_write_byte(p, 0);			/* SRHBITS */
 
     return 0;
 }
 
-int via2_undump(FILE * p)
+int via2_read_snapshot_module(FILE * p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
@@ -806,20 +816,22 @@ int via2_undump(FILE * p)
     snapshot_read_byte(p, &via2[VIA_DDRB]);
     {
         addr = VIA_DDRA;
-	byte = via2[addr];
+	byte = via2[VIA_PRA] | ~via2[VIA_DDRA];
+	oldpa = byte ^ 0xff;
 
-    via2[addr] = byte;
-    iec_pa_write(via2[VIA_PRA] | (~via2[VIA_DDRA]));
+    iec_pa_write(byte);
+	oldpa = byte;
 
 	addr = VIA_DDRB;
-	byte = via2[addr];
+	byte = via2[VIA_PRB] | ~via2[VIA_DDRB];
+	oldpb = byte ^ 0xff;
 
-    via2[addr] = byte;
 #ifdef HAVE_PRINTER
-    userport_printer_write_data(via2[VIA_PRB] | (~via2[VIA_DDRB]));
+    userport_printer_write_data(byte);
 #endif
+	oldpb = byte;
     }
-    
+
     snapshot_read_word(p, &word);
     via2tal = word;
     snapshot_read_word(p, &word);
@@ -835,7 +847,7 @@ int via2_undump(FILE * p)
     maincpu_set_alarm(A_VIA2T2, via2tbi);
 
     snapshot_read_byte(p, &via2[VIA_SR]);
-    { 
+    {
 	addr = via2[VIA_SR];
 	byte = via2[addr];
 	
@@ -866,12 +878,12 @@ int via2_undump(FILE * p)
     via2ier = byte;
     update_via2irq();
 						/* FIXME! */
-    snapshot_read_byte(p, &byte);	
+    snapshot_read_byte(p, &byte);
     via2pb7 = byte ? 1 : 0;
     via2pb7x = 0;
     via2pb7o = 0;
     snapshot_read_byte(p, &byte);		/* SRHBITS */
- 
+
     return 0;
 }
 

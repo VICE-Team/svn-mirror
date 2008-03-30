@@ -330,3 +330,14 @@ int machine_set_restore_key(int v)
     return 1;
 }
 
+/* ------------------------------------------------------------------------- */
+
+int machine_write_snapshot(const char *name)
+{
+    return 0;
+}
+
+int machine_read_snapshot(const char *name)
+{
+    return 0;
+}

@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/drive/cia1581drive1.c
- * This file is generated from ../../../src/cia-tmpl.c and ../../../src/drive/cia1581drive1.def,
+ * ../../src/drive/cia1581drive1.c
+ * This file is generated from ../../src/cia-tmpl.c and ../../src/drive/cia1581drive1.def,
  * Do not edit!
  */
 /*
@@ -219,6 +219,9 @@ static int cia1581d1_tbs;		/* timer state (CIAT_*) */
 
 static int cia1581d1sr_bits;	/* number of bits still to send * 2 */
 
+static BYTE oldpa;              /* the actual output on PA (input = high) */
+static BYTE oldpb;              /* the actual output on PB (input = high) */
+
 static BYTE cia1581d1todalarm[4];
 static BYTE cia1581d1todlatch[4];
 static char cia1581d1todstopped;
@@ -278,7 +281,8 @@ static int update_cia1581d1(CLOCK rclk)
 		if (cia1581d1sr_bits) {
 		    cia1581d1sr_bits--;
 		    if(cia1581d1sr_bits==16) {
-			
+
+    iec_fast_drive_write(cia1581d1[CIA_SDR]);
 		    }
 		    if (!cia1581d1sr_bits) {
 			cia1581d1int |= CIA_IM_SDR;
@@ -423,6 +427,9 @@ void reset_cia1581d1(void)
 
     cia1581d1int = 0;
 
+    oldpa = 0xff;
+    oldpb = 0xff;
+
 
     iec_info = iec_get_drive_port();
 }
@@ -448,19 +455,17 @@ void REGPARM2 store_cia1581d1(ADDRESS addr, BYTE byte)
 
       case CIA_PRA:		/* port A */
       case CIA_DDRA:
+	cia1581d1[addr] = byte;
+	byte = cia1581d1[CIA_PRA] | ~cia1581d1[CIA_DDRA];
 
-    {
-        BYTE oldval = cia1581d1[CIA_PRA] | ~cia1581d1[CIA_DDRA];
-
-        cia1581d1[addr] = byte;
-        byte = cia1581d1[CIA_PRA] | ~cia1581d1[CIA_DDRA];   /* newval */
-
-        drive[1].led_status = byte & 0x40;
-    }
+    drive[1].led_status = byte & 0x40;
+	oldpa = byte;
 	break;
 
       case CIA_PRB:		/* port B */
       case CIA_DDRB:
+	cia1581d1[addr] = byte;
+	byte = cia1581d1[CIA_PRB] | ~cia1581d1[CIA_DDRB];
 	if ((cia1581d1[CIA_CRA] | cia1581d1[CIA_CRB]) & 0x02) {
 	    update_cia1581d1(rclk);
 	    if (cia1581d1[CIA_CRA] & 0x02) {
@@ -475,10 +480,9 @@ void REGPARM2 store_cia1581d1(ADDRESS addr, BYTE byte)
 	    }
 	}
 
-    if (byte != cia1581d1[addr]) {
-        cia1581d1[addr] = byte;
+    if (byte != oldpb) {
         if (iec_info != NULL) {
-            iec_info->drive2_data = cia1581d1[CIA_DDRB] & ~cia1581d1[CIA_PRB];
+            iec_info->drive2_data = ~byte;
             iec_info->drive2_bus = (((iec_info->drive2_data << 3) & 0x40)
                 | ((iec_info->drive2_data << 6)
                 & ((iec_info->drive2_data | iec_info->cpu_bus) << 3) & 0x80));
@@ -488,9 +492,10 @@ void REGPARM2 store_cia1581d1(ADDRESS addr, BYTE byte)
                 | (iec_info->cpu_port >> 7)
                 | ((iec_info->cpu_bus << 3) & 0x80));
         } else {
-            iec_drive_write(cia1581d1[CIA_DDRB] & ~cia1581d1[CIA_PRB]);
+            iec_drive_write(~byte);
         }
     }
+	oldpb = byte;
 	break;
 
 	/* This handles the timer latches.  The kludgy stuff is an attempt
@@ -577,7 +582,8 @@ void REGPARM2 store_cia1581d1(ADDRESS addr, BYTE byte)
 	if ((cia1581d1[CIA_CRA] & 0x40) == 0x40) {
 	    if (cia1581d1sr_bits <= 16) {
 		if(!cia1581d1sr_bits) {
-    	            
+
+    iec_fast_drive_write(cia1581d1[CIA_SDR]);
 		}
 		if(cia1581d1sr_bits < 16) {
 	            /* switch timer A alarm on again, if necessary */
@@ -785,7 +791,7 @@ BYTE read_cia1581d1_(ADDRESS addr)
 
 #endif
 
-    static BYTE byte;
+    BYTE byte;
     CLOCK rclk;
 
     addr &= 0xf;
@@ -800,15 +806,17 @@ BYTE read_cia1581d1_(ADDRESS addr)
       case CIA_PRA:		/* port A */
 
     byte = 8;
+	byte = (byte & ~cia1581d1[CIA_DDRA]) | (cia1581d1[CIA_PRA] & cia1581d1[CIA_DDRA]);
 	return byte;
 	break;
 
       case CIA_PRB:		/* port B */
 
     if (iec_info != NULL)
-        byte = ((cia1581d1[CIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
+        byte = (/*(cia1581d1[CIA_PRB] & 0x1a) |*/ iec_info->drive_port) ^ 0x85;
     else
-        byte = ((cia1581d1[CIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+        byte = (/*(cia1581d1[CIA_PRB] & 0x1a) |*/ iec_drive_read()) ^ 0x85;
+	byte = (byte & ~cia1581d1[CIA_DDRB]) | (cia1581d1[CIA_PRB] & cia1581d1[CIA_DDRB]);
         if ((cia1581d1[CIA_CRA] | cia1581d1[CIA_CRB]) & 0x02) {
 	    update_cia1581d1(rclk);
 	    if (cia1581d1[CIA_CRA] & 0x02) {
@@ -822,7 +830,6 @@ BYTE read_cia1581d1_(ADDRESS addr)
 		    byte |= 0x80;
 	    }
 	}
-
 	return byte;
 	break;
 
@@ -971,7 +978,7 @@ BYTE REGPARM1 peek_cia1581d1(ADDRESS addr)
 			drive1_int_status.alarm_clk[A_CIA1581D1TB]);
 #endif
 
-	    /* cia1581d1rdi = rclk; makes int_* and update_cia1581d1 fiddle with IRQ */ 
+	    /* cia1581d1rdi = rclk; makes int_* and update_cia1581d1 fiddle with IRQ */
             t = cia1581d1int;	/* we clean cia1581d1int anyway, so make int_* */
 	    cia1581d1int = 0;	/* believe it is already */
 
@@ -1061,7 +1068,8 @@ int int_cia1581d1ta(long offset)
 		cia1581d1int |= CIA_IM_SDR;
 	    }
 	    if(cia1581d1sr_bits == 16) {
-		
+
+    iec_fast_drive_write(cia1581d1[CIA_SDR]);
 	    }
 	}
     }
@@ -1274,7 +1282,7 @@ void cia1581d1_prevent_clk_overflow(CLOCK sub)
 
 /* The dump format has a module header and the data generated by the
  * chip...
- * 
+ *
  * The version of this dump description is 0/0
  */
 
@@ -1303,30 +1311,30 @@ void cia1581d1_prevent_clk_overflow(CLOCK sub)
  * UWORD	TBL		latch value
  * UBYTE	IFR		interrupts currently active
  * UBYTE	PBSTATE		bit6/7 reflect PB6/7 toggle state
- *				bit 2/3 reflect port bit state 
+ *				bit 2/3 reflect port bit state
  * UBYTE	SRHBITS		number of half-bits to still shift in/out SDR
  * UBYTE	ALARM_TEN
  * UBYTE	ALARM_SEC
  * UBYTE	ALARM_MIN
  * UBYTE	ALARM_HR
- * 
+ *
  * UBYTE	READICR		offset when ICR was read last
  * UBYTE	TODLATCHED	0=running, 1=latched, 2=stopped (writing)
  * UBYTE	TODL_TEN		latch value
  * UBYTE	TODL_SEC
  * UBYTE	TODL_MIN
- * UBYTE	TODL_HR 
+ * UBYTE	TODL_HR
  * DWORD	TOD_TICKS	clk ticks till next tenth of second
- * 
- */ 
+ *
+ */
 
-int cia1581d1_dump(FILE * p)
+int cia1581d1_write_snapshot_module(FILE * p)
 {
     int byte;
 
-    snapshot_write_module_header(p, "CIA1581D1", 
+    snapshot_write_module_header(p, "CIA1581D1",
 			CIA_DUMP_VER_MAJOR, CIA_DUMP_VER_MINOR);
-	
+
     update_cia1581d1(drive_clk[1]);
 
     snapshot_write_byte(p, cia1581d1[CIA_PRA]);
@@ -1355,10 +1363,10 @@ int cia1581d1_dump(FILE * p)
     snapshot_write_byte(p, cia1581d1todalarm[3]);
 
     byte = cia1581d1rdi ? drive_clk[1] - cia1581d1rdi : 0;
-    if(byte > 128 || byte < -16) byte = 0; 
+    if(byte > 128 || byte < -16) byte = 0;
     snapshot_write_byte(p, byte);
 
-    snapshot_write_byte(p, 
+    snapshot_write_byte(p,
 		(cia1581d1todlatched ? 1 : 0) | (cia1581d1todstopped ? 2 : 0));
     snapshot_write_byte(p, cia1581d1todlatch[0]);
     snapshot_write_byte(p, cia1581d1todlatch[1]);
@@ -1370,7 +1378,7 @@ int cia1581d1_dump(FILE * p)
     return 0;
 }
 
-int cia1581d1_undump(FILE * p)
+int cia1581d1_read_snapshot_module(FILE * p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
@@ -1383,32 +1391,30 @@ int cia1581d1_undump(FILE * p)
     snapshot_read_module_header(p, name, &vmajor, &vminor);
 
     if(strcmp(name, "CIA1581D1") || vmajor != CIA_DUMP_VER_MAJOR) return -1;
-	
-    snapshot_read_byte(p, &cia1581d1[CIA_PRA]);
-    snapshot_read_byte(p, &cia1581d1[CIA_PRB]);
-    snapshot_read_byte(p, &cia1581d1[CIA_DDRA]);
-    snapshot_read_byte(p, &cia1581d1[CIA_DDRB]);
 
+    /* Argh.  This is ugly.  */
     {
-        addr = CIA_DDRA;
-        byte = cia1581d1[addr];
+#if 0
+        /* Aaargh!  This is a big kludge.  It makes sure the VIC-II does not
+           think the CPU is actually writing anything, and thus does not
+           remove any cycles.  */
+        rmw_flag = -1;
+#endif
 
-    {
-        BYTE oldval = cia1581d1[CIA_PRA] | ~cia1581d1[CIA_DDRA];
+        snapshot_read_byte(p, &byte);
+        addr = CIA_PRA;
+        oldpa = byte ^ 0xff;
 
-        cia1581d1[addr] = byte;
-        byte = cia1581d1[CIA_PRA] | ~cia1581d1[CIA_DDRA];   /* newval */
+    drive[1].led_status = byte & 0x40;
+        oldpa = byte;
 
-        drive[1].led_status = byte & 0x40;
-    }
+        snapshot_read_byte(p, &byte);
+        addr = CIA_PRB;
+        oldpa = byte ^ 0xff;
 
-        addr = CIA_DDRB;
-        byte = cia1581d1[addr];
-
-    if (byte != cia1581d1[addr]) {
-        cia1581d1[addr] = byte;
+    if (byte != oldpb) {
         if (iec_info != NULL) {
-            iec_info->drive2_data = cia1581d1[CIA_DDRB] & ~cia1581d1[CIA_PRB];
+            iec_info->drive2_data = ~byte;
             iec_info->drive2_bus = (((iec_info->drive2_data << 3) & 0x40)
                 | ((iec_info->drive2_data << 6)
                 & ((iec_info->drive2_data | iec_info->cpu_bus) << 3) & 0x80));
@@ -1418,10 +1424,44 @@ int cia1581d1_undump(FILE * p)
                 | (iec_info->cpu_port >> 7)
                 | ((iec_info->cpu_bus << 3) & 0x80));
         } else {
-            iec_drive_write(cia1581d1[CIA_DDRB] & ~cia1581d1[CIA_PRB]);
+            iec_drive_write(~byte);
         }
     }
+        oldpa = byte;
+
+        snapshot_read_byte(p, &byte);
+        addr = CIA_DDRA;
+        oldpa = byte ^ 0xff;
+
+    drive[1].led_status = byte & 0x40;
+        oldpa = byte;
+
+        snapshot_read_byte(p, &byte);
+        addr = CIA_DDRB;
+        oldpa = byte ^ 0xff;
+
+    if (byte != oldpb) {
+        if (iec_info != NULL) {
+            iec_info->drive2_data = ~byte;
+            iec_info->drive2_bus = (((iec_info->drive2_data << 3) & 0x40)
+                | ((iec_info->drive2_data << 6)
+                & ((iec_info->drive2_data | iec_info->cpu_bus) << 3) & 0x80));
+            iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive2_bus
+                & iec_info->drive_bus;
+            iec_info->drive2_port = iec_info->drive_port = (((iec_info->cpu_port >> 4) & 0x4)
+                | (iec_info->cpu_port >> 7)
+                | ((iec_info->cpu_bus << 3) & 0x80));
+        } else {
+            iec_drive_write(~byte);
+        }
     }
+        oldpa = byte;
+
+#if 0
+        rmw_flag = 0;
+#endif
+    }
+
     snapshot_read_word(p, &word);
     cia1581d1_tac = word;
     snapshot_read_word(p, &word);
@@ -1432,7 +1472,8 @@ int cia1581d1_undump(FILE * p)
     snapshot_read_byte(p, &cia1581d1[CIA_TOD_HR]);
     snapshot_read_byte(p, &cia1581d1[CIA_SDR]);
     {
-	
+
+    iec_fast_drive_write(cia1581d1[CIA_SDR]);
     }
     snapshot_read_byte(p, &cia1581d1[CIA_ICR]);
     snapshot_read_byte(p, &cia1581d1[CIA_CRA]);
@@ -1445,7 +1486,8 @@ int cia1581d1_undump(FILE * p)
 
     snapshot_read_byte(p, &byte);
     cia1581d1int = byte;
-    my_set_int(I_CIA1581D1FL, IK_IRQ, drive_clk[1]);
+
+    /* my_set_int(I_CIA1581D1FL, IK_IRQ, drive_clk[1]); */
 
     snapshot_read_byte(p, &byte);
     cia1581d1_tat = (byte & 0x40) ? 1 : 0;

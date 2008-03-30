@@ -77,28 +77,21 @@ static void drive_set_sync_factor(unsigned int factor);
 static void drive_set_ntsc_sync_factor(void);
 static void drive_set_pal_sync_factor(void);
 
-/* Flag: Is the true 1541 emulation turned on?  */
-int drive_enabled[2];
-
-/* What drive type we have to emulate?  */
-/*static int drive_type[2];*/
+/* Is true drive emulation switched on?  */
+static int drive_true_emulation;
 
 /* Pointer to the IEC bus structure.  */
 static iec_info_t *iec_info;
 
 /* Flag: Do we emulate a SpeedDOS-compatible parallel cable?  */
+/* FIXME: This will be moved to struct drive_t soon.  */
 int drive_parallel_cable_enabled;
 
 /* What extension policy?  (See `DRIVE_EXTEND_*' in `drive.h'.)  */
+/* FIXME: This will be moved to struct drive_t soon.  */
 static int extend_image_policy;
 
-/* What idling method?  (See `DRIVE_IDLE_*' in `drive.h'.)  */
-static int idling_method[2];
-
-/* Original ROM code is saved here.  */
-static BYTE drive_rom_idle_trap[2];
-
-/* What sync factor between the CPU and the 1541?  If equal to
+/* What sync factor between the CPU and the drive?  If equal to
    `DRIVE_SYNC_PAL', the same as PAL machines.  If equal to
    `DRIVE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
    calculated as
@@ -114,6 +107,15 @@ static int sync_factor;
 static char *dos_rom_name_1541;
 static char *dos_rom_name_1571;
 static char *dos_rom_name_1581;
+
+static int set_drive_true_emulation(resource_value_t v)
+{
+    /* FIXME: We do nothing with this as long "Enable emulation of drive #8"
+       and "Enable emulation of drive #9" widgets are not grayed out when
+       this switch is zero.  */
+    drive_true_emulation = (int) v;
+    return 0;
+}
 
 static int set_drive0_enabled(resource_value_t v)
 {
@@ -186,9 +188,9 @@ static int set_drive0_idling_method(resource_value_t v)
 
     if (rom_loaded && drive[0].type == DRIVE_TYPE_1541)
         drive[0].rom[0xec9b - 0x8000] = 
-            (idling_method[0] != DRIVE_IDLE_TRAP_IDLE)
-            ? 0x00 : drive_rom_idle_trap[0];
-    idling_method[0] = (int) v;
+            (drive[0].idling_method != DRIVE_IDLE_TRAP_IDLE)
+            ? 0x00 : drive[0].rom_idle_trap;
+    drive[0].idling_method = (int) v;
     return 0;
 }
 static int set_drive1_idling_method(resource_value_t v)
@@ -201,9 +203,9 @@ static int set_drive1_idling_method(resource_value_t v)
 
     if (rom_loaded && drive[1].type == DRIVE_TYPE_1541)
         drive[1].rom[0xec9b - 0x8000] =
-            (idling_method[1] != DRIVE_IDLE_TRAP_IDLE)
-            ? 0x00 : drive_rom_idle_trap[1];
-    idling_method[1] = (int) v;
+            (drive[1].idling_method != DRIVE_IDLE_TRAP_IDLE)
+            ? 0x00 : drive[1].rom_idle_trap;
+    drive[1].idling_method = (int) v;
     return 0;
 }
 
@@ -270,10 +272,12 @@ static int set_dos_rom_name_1581(resource_value_t v)
 }
 
 static resource_t resources[] = {
-    { "Drive8", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &drive_enabled[0], set_drive0_enabled },
-    { "Drive9", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &drive_enabled[1], set_drive1_enabled },
+    { "DriveTrueEmulation", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &drive_true_emulation, set_drive_true_emulation },
+    { "Drive8Enable", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &(drive[0].enable), set_drive0_enabled },
+    { "Drive9Enable", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &(drive[1].enable), set_drive1_enabled },
     { "Drive8Type", RES_INTEGER, (resource_value_t) DRIVE_TYPE_1541,
       (resource_value_t *) &(drive[0].type), set_drive0_type },
     { "Drive9Type", RES_INTEGER, (resource_value_t) DRIVE_TYPE_1541,
@@ -283,9 +287,9 @@ static resource_t resources[] = {
     { "DriveExtendImagePolicy", RES_INTEGER, (resource_value_t) DRIVE_EXTEND_NEVER,
       (resource_value_t *) &extend_image_policy, set_extend_image_policy },
     { "Drive8IdleMethod", RES_INTEGER, (resource_value_t) DRIVE_IDLE_TRAP_IDLE,
-      (resource_value_t *) &idling_method[0], set_drive0_idling_method },
+      (resource_value_t *) &(drive[0].idling_method), set_drive0_idling_method },
     { "Drive9IdleMethod", RES_INTEGER, (resource_value_t) DRIVE_IDLE_TRAP_IDLE,
-      (resource_value_t *) &idling_method[1], set_drive1_idling_method },
+      (resource_value_t *) &(drive[1].idling_method), set_drive1_idling_method },
     { "DriveSyncFactor", RES_INTEGER, (resource_value_t) DRIVE_SYNC_PAL,
       (resource_value_t *) &sync_factor, set_sync_factor },
     { "DosName1541", RES_STRING, (resource_value_t) "dos1541",
@@ -322,13 +326,13 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "<method>",
       "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)" },
     { "-drivesync", SET_RESOURCE, 1, NULL, NULL, "DriveSyncFactor",
-      NULL, "<value>", "Set 1541 sync factor to <value>" },
+      NULL, "<value>", "Set drive sync factor to <value>" },
     { "-paldrive", SET_RESOURCE, 0, NULL, NULL, "DriveSyncFactor",
       (resource_value_t) DRIVE_SYNC_PAL,
-      NULL, "Use PAL 1541 sync factor" },
+      NULL, "Use PAL drive sync factor" },
     { "-ntscdrive", SET_RESOURCE, 0, NULL, NULL, "DriveSyncFactor",
       (resource_value_t) DRIVE_SYNC_NTSC,
-      NULL, "Use NTSC 1541 sync factor" },
+      NULL, "Use NTSC drive sync factor" },
     { "-dos1541", SET_RESOURCE, 1, NULL, NULL, "DosName1541", NULL,
       "<name>", "Specify name of 1541 DOS ROM image name" },
     { "-dos1571", SET_RESOURCE, 1, NULL, NULL, "DosName1571", NULL,
@@ -443,7 +447,7 @@ static void drive_read_image_d64_d71(int dnr)
     drive_set_half_track(drive[dnr].current_half_track, dnr);
 
     for (track = 1; track <= drive[dnr].drive_floppy->NumTracks; track++) {
-    int max_sector;
+	int max_sector = 0;
 
 	ptr = drive[dnr].GCR_data + GCR_OFFSET(track, 0);
     if (drive[dnr].drive_floppy->ImageFormat == 1541)
@@ -491,14 +495,14 @@ static int drive_read_image_gcr(int dnr)
     lseek(drive[dnr].drive_floppy->ActiveFd, 12, SEEK_SET);
     if (read_dword(drive[dnr].drive_floppy->ActiveFd, gcr_track_p,
         NumTracks * 8) < 0) {
-	fprintf(stderr, "1541: Could not read GCR disk image.\n");
+	fprintf(stderr, "DRIVE#%i: Could not read GCR disk image.\n", dnr + 8);
 	return 0;
     }
 
     lseek(drive[dnr].drive_floppy->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
     if (read_dword(drive[dnr].drive_floppy->ActiveFd, gcr_speed_p,
         NumTracks * 8) < 0) {
-	fprintf(stderr, "1541: Could not read GCR disk image.\n");
+	fprintf(stderr, "DRIVE#%i: Could not read GCR disk image.\n", dnr + 8);
 	return 0;
     }
 
@@ -516,15 +520,15 @@ static int drive_read_image_gcr(int dnr)
 
 	    lseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET);
 	    if (read(drive[dnr].drive_floppy->ActiveFd, (char *)len, 2) < 2) {
-		fprintf(stderr, "1541: Could not read GCR disk image.\n");
+		fprintf(stderr, "DRIVE#%i: Could not read GCR disk image.\n", dnr + 8);
 		return 0;
 	    }
 
 	    track_len = len[0] + len[1] * 256;
 
 	    if (track_len < 5000 || track_len > 7928) {
-		fprintf(stderr, "1541: Track field length %i is not supported.\n",
-            track_len);
+		fprintf(stderr, "DRIVE#%i: Track field length %i is not supported.\n",
+            dnr + 8, track_len);
 		return 0;
 	    }
 
@@ -534,7 +538,7 @@ static int drive_read_image_gcr(int dnr)
 	    if (read(drive[dnr].drive_floppy->ActiveFd, (char *)track_data,
             track_len)
 			< track_len) {
-		fprintf(stderr, "1541: Could not read GCR disk image.\n");
+		fprintf(stderr, "DRIVE#%i: Could not read GCR disk image.\n", dnr + 8);
 		return 0;
 	    }
 
@@ -547,7 +551,8 @@ static int drive_read_image_gcr(int dnr)
 		lseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET);
 		if (read(drive[dnr].drive_floppy->ActiveFd, (char *)comp_speed,
 			zone_len) < zone_len) {
-		    fprintf(stderr, "1541: Could not read GCR disk image.\n");
+		    fprintf(stderr, "DRIVE#%i: Could not read GCR disk image.\n",
+		        dnr + 8);
 		    return 0;
 		}
 
@@ -578,21 +583,24 @@ static void write_track_gcr(int track, int dnr)
     lseek(drive[dnr].drive_floppy->ActiveFd, 12, SEEK_SET);
     if (read_dword(drive[dnr].drive_floppy->ActiveFd, gcr_track_p,
         NumTracks * 8) < 0) {
-	fprintf(stderr, "1541: Could not read GCR disk image header.\n");
+	fprintf(stderr, "DRIVE#%i: Could not read GCR disk image header.\n",
+	    dnr + 8);
 	return;
     }
 
     lseek(drive[dnr].drive_floppy->ActiveFd, 12 + NumTracks * 8, SEEK_SET);
     if (read_dword(drive[dnr].drive_floppy->ActiveFd, gcr_speed_p,
         NumTracks * 8) < 0) {
-	fprintf(stderr, "1541: Could not read GCR disk image header.\n");
+	fprintf(stderr, "DRIVE#%i: Could not read GCR disk image header.\n",
+	    dnr + 8);
 	return;
     }
 
     if (gcr_track_p[(track - 1) * 2] == 0) {
 	offset = lseek(drive[dnr].drive_floppy->ActiveFd, 0, SEEK_END);
 	if (offset < 0) {
-	    fprintf(stderr, "1541: Could not extend GCR disk image.\n");
+	    fprintf(stderr, "DRIVE#8%i: Could not extend GCR disk image.\n",
+	        dnr + 8);
 	    return;
 	}
 	gcr_track_p[(track - 1) * 2] = offset;
@@ -605,7 +613,8 @@ static void write_track_gcr(int track, int dnr)
 
     if (lseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET) < 0
         || write(drive[dnr].drive_floppy->ActiveFd, (char *)len, 2) < 0) {
-	fprintf(stderr, "1541: Could not write GCR disk image.\n");
+	fprintf(stderr, "DRIVE%i: Could not write GCR disk image.\n",
+	    dnr + 8);
 	return;
     }
 
@@ -618,7 +627,8 @@ static void write_track_gcr(int track, int dnr)
     if (lseek(drive[dnr].drive_floppy->ActiveFd, offset + 2, SEEK_SET) < 0
         || write(drive[dnr].drive_floppy->ActiveFd,
         (char *)drive[dnr].GCR_track_start_ptr, NUM_MAX_BYTES_TRACK) < 0) {
-	fprintf(stderr, "1541: Could not write GCR disk image.\n");
+	fprintf(stderr, "DRIVE#%i: Could not write GCR disk image.\n",
+	    dnr + 8);
 	return;
     }
 
@@ -628,15 +638,15 @@ static void write_track_gcr(int track, int dnr)
 
     if (i < drive[dnr].GCR_track_size[track - 1]) {
 	/* This will change soon.  */
-	fprintf(stderr,
-                "1541: Saving different speed zones is not supported yet.\n");
+	fprintf(stderr, "DRIVE#%i: Saving different speed zones is not "
+                "supported yet.\n", dnr + 8);
 	return;
     }
 
     if (gcr_speed_p[(track - 1) * 2] >= 4) {
 	/* This will change soon.  */
-	fprintf(stderr,
-                "1541: Adding new speed zones is not supported yet.\n");
+	fprintf(stderr, "DRIVE#%i: Adding new speed zones is not "
+                "supported yet.\n", dnr + 8);
 	return;
     }
 
@@ -644,7 +654,7 @@ static void write_track_gcr(int track, int dnr)
     if (lseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET) < 0
         || write_dword(drive[dnr].drive_floppy->ActiveFd,
            &gcr_speed_p[(track - 1) * 2], 4) < 0) {
-    fprintf(stderr, "1541: Could not write GCR disk image.\n");
+    fprintf(stderr, "DRIVE#%i: Could not write GCR disk image.\n", dnr + 8);
     return;
     }
 
@@ -665,7 +675,7 @@ static void write_track_gcr(int track, int dnr)
     if (lseek(drive[dnr].drive_floppy->ActiveFd, offset, SEEK_SET) < 0
         || write(drive[dnr].drive_floppy->ActiveFd, (char *)comp_speed,
                  NUM_MAX_BYTES_TRACK / 4) < 0) {
-        fprintf(stderr, "1541: Could not write GCR disk image");
+        fprintf(stderr, "DRIVE#%i: Could not write GCR disk image", dnr + 8);
         return;
     }
 #endif
@@ -761,8 +771,8 @@ static BYTE *GCR_find_sector_data(BYTE *offset, int dnr)
 /* Global clock counters.  */
 CLOCK drive_clk[2];
 
-/* Initialize the hardware-level 1541 emulation (should be called at least once
-   before anything else).  Return 0 on success, -1 on error.  */
+/* Initialize the hardware-level drive emulation (should be called at least
+   once before anything else).  Return 0 on success, -1 on error.  */
 int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 {
     int track, i;
@@ -831,9 +841,9 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     set_sync_factor((resource_value_t) sync_factor);
 
     /* Make sure the traps are moved as needed.  */
-    if (drive_enabled[0])
+    if (drive[0].enable)
 	drive_enable(0);
-    if (drive_enabled[1])
+    if (drive[1].enable)
 	drive_enable(1);
 
     return 0;
@@ -955,18 +965,18 @@ static void drive_initialize_rom_traps(int dnr)
         drive[dnr].rom[0xeae9 - 0x8000] = 0xea;
 
         /* Trap the idle loop.  */
-        drive_rom_idle_trap[dnr] = drive[dnr].rom[0xec9b - 0x8000];
-        if (idling_method[dnr] == DRIVE_IDLE_TRAP_IDLE)
+        drive[dnr].rom_idle_trap = drive[dnr].rom[0xec9b - 0x8000];
+        if (drive[dnr].idling_method == DRIVE_IDLE_TRAP_IDLE)
         drive[dnr].rom[0xec9b - 0x8000] = 0x00;
    }
 }
 
-/* Activate full 1541 emulation. */
+/* Activate full drive emulation. */
 static int drive_enable(int dnr)
 {
     /* This must come first, because this might be called before the drive
        initialization.  */
-    drive_enabled[dnr] = 1;
+    drive[dnr].enable = 1;
 
     if (!rom_loaded)
         return -1;
@@ -987,14 +997,14 @@ static int drive_enable(int dnr)
     return 0;
 }
 
-/* Disable full 1541 emulation.  */
+/* Disable full drive emulation.  */
 static void drive_disable(int dnr)
 {
     /* This must come first, because this might be called before the true
-       1541 initialization.  */
-    drive_enabled[dnr] = 0;
+       drive initialization.  */
+    drive[dnr].enable = 0;
 
-    if (rom_loaded && drive_enabled[0] == 0 && drive_enabled[1] == 0) 
+    if (rom_loaded && drive[0].enable == 0 && drive[1].enable == 0) 
 	serial_install_traps();
 
     if (rom_loaded){
@@ -1028,7 +1038,7 @@ void drive_reset(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Attach a disk image to the true 1541 emulation. */
+/* Attach a disk image to the true drive emulation. */
 int drive_attach_floppy(DRIVE *floppy)
 {
     int dnr;
@@ -1060,7 +1070,7 @@ int drive_attach_floppy(DRIVE *floppy)
     return 0;
 }
 
-/* Detach a disk image from the true 1541 emulation. */
+/* Detach a disk image from the true drive emulation. */
 int drive_detach_floppy(DRIVE *floppy)
 {
     int dnr;
@@ -1347,7 +1357,7 @@ static int drive_write_protect_sense(int dnr)
 
 static void GCR_data_writeback(int dnr)
 {
-    int rc, extend, track, sector, max_sector;
+    int rc, extend, track, sector, max_sector = 0;
     BYTE buffer[260], *offset;
 
     track = drive[dnr].current_half_track / 2;
@@ -1453,7 +1463,7 @@ static void drive_extend_disk_image(int dnr)
                             drive[dnr].drive_floppy->D64_Header);
 	if (rc < 0)
 	    fprintf(stderr,
-	    "1541: Could not update T:%d S:%d.\n", track, sector);
+	    "DRIVE#%i: Could not update T:%d S:%d.\n", dnr + 8, track, sector);
 	}
     }
 }
@@ -1487,11 +1497,11 @@ void drive_set_1571_side(int side, int dnr)
 {
     int num = drive[dnr].current_half_track;
     drive_rotate_disk(0, dnr);
+    GCR_data_writeback(dnr);
     drive[dnr].side = side;
     if (num > 70)
         num -= 70;
     num += side * 70;
-printf("NUM: %i SIDE: %i\n",num,side);
     drive_set_half_track(num, dnr);
 }
 
@@ -1503,7 +1513,7 @@ int drive0_trap_handler(void)
     if (MOS6510_REGS_GET_PC(&drive0_cpu_regs) == 0xec9b) {
 	/* Idle loop */
 	MOS6510_REGS_SET_PC(&drive0_cpu_regs, 0xebff);
-	if (idling_method[0] == DRIVE_IDLE_TRAP_IDLE)
+	if (drive[0].idling_method == DRIVE_IDLE_TRAP_IDLE)
 	    drive_clk[0] = next_alarm_clk(&drive0_int_status);
 	} else
 	    return 1;
@@ -1516,7 +1526,7 @@ int drive1_trap_handler(void)
     if (MOS6510_REGS_GET_PC(&drive1_cpu_regs) == 0xec9b) {
 	/* Idle loop */
 	MOS6510_REGS_SET_PC(&drive1_cpu_regs, 0xebff);
-	if (idling_method[1] == DRIVE_IDLE_TRAP_IDLE)
+	if (drive[1].idling_method == DRIVE_IDLE_TRAP_IDLE)
 	    drive_clk[1] = next_alarm_clk(&drive1_int_status);
 	} else
 	    return 1;
@@ -1526,13 +1536,12 @@ int drive1_trap_handler(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Set the sync factor between the computer and the 1541.  */
+/* Set the sync factor between the computer and the drive.  */
 
 static void drive_set_sync_factor(unsigned int factor)
 {
     drive0_cpu_set_sync_factor(drive[0].clock_frequency * factor);
     drive1_cpu_set_sync_factor(drive[1].clock_frequency * factor);
-printf("Factor: %i\n",drive[0].clock_frequency);
 }
 
 static void drive_set_pal_sync_factor(void)
@@ -1571,7 +1580,7 @@ void drive_set_1571_sync_factor(int sync, int dnr)
 static void drive_update_ui_status(void)
 {
     int my_led_status;
-    if (!drive_enabled[0]) {
+    if (!drive[0].enable) {
         if (drive[0].old_led_status >= 0) {
             drive[0].old_led_status = drive[0].old_half_track = -1;
             ui_toggle_drive_status(0);
@@ -1581,7 +1590,7 @@ static void drive_update_ui_status(void)
 
     /* Actually update the LED status only if the `trap idle' idling method
        is being used, as the LED status could be incorrect otherwise.  */
-    if (idling_method[0] != DRIVE_IDLE_SKIP_CYCLES)
+    if (drive[0].idling_method != DRIVE_IDLE_SKIP_CYCLES)
 	/* FIXME: Hack to use one LED for both drives.  */
 	my_led_status = (drive[0].led_status | drive[1].led_status) ? 1 : 0;
     else
@@ -1604,8 +1613,8 @@ void drive_vsync_hook(void)
 {
     drive_update_ui_status();
 
-    if (idling_method[0] != DRIVE_IDLE_SKIP_CYCLES && drive_enabled[0])
+    if (drive[0].idling_method != DRIVE_IDLE_SKIP_CYCLES && drive[0].enable)
 	drive0_cpu_execute();
-    if (idling_method[1] != DRIVE_IDLE_SKIP_CYCLES && drive_enabled[1])
+    if (drive[1].idling_method != DRIVE_IDLE_SKIP_CYCLES && drive[1].enable)
 	drive1_cpu_execute();
 }

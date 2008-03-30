@@ -298,17 +298,17 @@ int machine_set_restore_key(int v)
 
 /* ------------------------------------------------------------------------- */
 
-/* PET machine config dump 
+/* PET machine config dump
  *
- * 
- * 
+ *
+ *
  */
 #define	PET_DUMP_VER_MAJOR	0
 #define	PET_DUMP_VER_MINOR	0
 
-int pet_dump(FILE *p) 
+int pet_dump(FILE *p)
 {
-    snapshot_write_module_header(p, "PET", 
+    snapshot_write_module_header(p, "PET",
 		PET_DUMP_VER_MAJOR, PET_DUMP_VER_MINOR);
 
     snapshot_write_word(p, pet.ramSize);	/* in k */
@@ -322,7 +322,7 @@ int pet_dump(FILE *p)
     return 0;
 }
 
-int pet_undump(FILE *p) 
+int pet_undump(FILE *p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
@@ -364,3 +364,14 @@ int pet_undump(FILE *p)
     return 0;
 }
 
+/* ------------------------------------------------------------------------- */
+
+int machine_write_snapshot(const char *name)
+{
+    return 0;
+}
+
+int machine_read_snapshot(const char *name)
+{
+    return 0;
+}

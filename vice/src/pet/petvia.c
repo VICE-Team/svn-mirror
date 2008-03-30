@@ -111,6 +111,9 @@ static int viapb7o;		/* to be ored herewith  */
 static int viapb7xx;
 static int viapb7sx;
 
+static BYTE oldpa;		/* the actual output on PA (input = high) */
+static BYTE oldpb;		/* the actual output on PB (input = high) */
+
 /*
  * local functions
  */
@@ -249,6 +252,9 @@ void reset_via(void)
     maincpu_unset_alarm(A_VIAT2);
     update_viairq();
 
+    oldpa = 0xff;
+    oldpb = 0xff;
+
 
     /* set IEC output lines */
     par_set_atn(0);
@@ -316,13 +322,14 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
         via[VIA_PRA_NHS] = byte;
         addr = VIA_PRA;
       case VIA_DDRA:
-
- 	via[addr] = byte;
+	via[addr] = byte;
 	byte = via[VIA_PRA] | ~via[VIA_DDRA];
+
 #ifdef HAVE_PRINTER
 	userport_printer_write_data(byte);
 #endif
-            break;
+	oldpa = byte;
+        break;
 
       case VIA_PRB:		/* port B */
         viaifr &= ~VIA_IM_CB1;
@@ -332,15 +339,16 @@ void REGPARM2 store_via(ADDRESS addr, BYTE byte)
         update_viairq();
 
       case VIA_DDRB:
-
 	via[addr] = byte;
+	byte = via[VIA_PRB] | ~via[VIA_DDRB];
+
 	if((addr==VIA_DDRB) && (byte & 0x20)) {
 	    fprintf(stderr,"PET: Killer POKE! might kill a real PET!\n");
 	}
-	byte = via[VIA_PRB] | ~via[VIA_DDRB];
         par_set_nrfd(!(byte & 0x02));
         par_set_atn(!(byte & 0x04));
-            break;
+	oldpb = byte;
+        break;
 
       case VIA_SR:		/* Serial Port output buffer */
         via[addr] = byte;
@@ -518,6 +526,7 @@ BYTE REGPARM1 read_via(ADDRESS addr)
 BYTE REGPARM1 read_via_(ADDRESS addr)
 {
 #endif
+    BYTE byte;
     CLOCK rclk = clk;
 
     addr &= 0xf;
@@ -539,60 +548,57 @@ BYTE REGPARM1 read_via_(ADDRESS addr)
       case VIA_PRA_NHS:	/* port A, no handshake */
 
         {
-            BYTE    j = 255;
+            byte = 255;
             /* VIA PA is connected to the userport pins C-L */
-	    j &= (joy[1] & 1) ? ~0x80 : 0xff;
-	    j &= (joy[1] & 2) ? ~0x40 : 0xff;
-	    j &= (joy[1] & 4) ? ~0x20 : 0xff;
-	    j &= (joy[1] & 8) ? ~0x10 : 0xff;
-	    j &= (joy[1] & 16)? ~0xc0 : 0xff;
-	    j &= (joy[2] & 1) ? ~0x08 : 0xff;
-	    j &= (joy[2] & 2) ? ~0x04 : 0xff;
-	    j &= (joy[2] & 4) ? ~0x02 : 0xff;
-	    j &= (joy[2] & 8) ? ~0x01 : 0xff;
-	    j &= (joy[2] & 16)? ~0x0c : 0xff;
+	    byte &= (joy[1] & 1) ? ~0x80 : 0xff;
+	    byte &= (joy[1] & 2) ? ~0x40 : 0xff;
+	    byte &= (joy[1] & 4) ? ~0x20 : 0xff;
+	    byte &= (joy[1] & 8) ? ~0x10 : 0xff;
+	    byte &= (joy[1] & 16)? ~0xc0 : 0xff;
+	    byte &= (joy[2] & 1) ? ~0x08 : 0xff;
+	    byte &= (joy[2] & 2) ? ~0x04 : 0xff;
+	    byte &= (joy[2] & 4) ? ~0x02 : 0xff;
+	    byte &= (joy[2] & 8) ? ~0x01 : 0xff;
+	    byte &= (joy[2] & 16)? ~0x0c : 0xff;
 
 #if 0
-            printf("read port A %d\n", j);
+            printf("read port A %d\n", byte);
             printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
-                   (int) j, (int) via[VIA_PRB],
+                   (int) byte, (int) via[VIA_PRB],
                    (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[2]);
 #endif
-            return ((j & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]));
+            /*return ((j & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]));*/
         }
+        byte = (byte & ~via[VIA_DDRA]) | (via[VIA_PRA] & via[VIA_DDRA]);
+	return byte;
 
       case VIA_PRB:		/* port B */
         viaifr &= ~VIA_IM_CB1;
-
         if ((via[VIA_PCR] & 0xa0) != 0x20)
             viaifr &= ~VIA_IM_CB2;
-
         update_viairq();
-        {
-            BYTE byte;
 
 
         {
-            BYTE    j;
             /* read parallel IEC interface line states */
-            j = 255 - (par_nrfd ? 64:0) - (par_ndac ? 1:0) - (par_dav ? 128:0);
+            byte = 255 - (par_nrfd ? 64:0) - (par_ndac ? 1:0) - (par_dav ? 128:0);
             /* vertical retrace */
-            j -= crtc_offscreen() ? 32:0;
+            byte -= crtc_offscreen() ? 32:0;
 #if 0
-                printf("read port B %d\n", j);
+                printf("read port B %d\n", byte);
                 printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
-                       (int) via[VIA_PRA], (int) j,
+                       (int) via[VIA_PRA], (int) byte,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
 #endif
-            byte = ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
+            /* byte = ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));*/
         }
+        byte = (byte & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]);
 
-            if (via[VIA_ACR] & 0x80) {
-                update_viatal(rclk);
-                byte = (byte & 0x7f) | (((viapb7 ^ viapb7x) | viapb7o) ? 0x80 : 0);
-            }
-            return byte;
+        if (via[VIA_ACR] & 0x80) {
+            update_viatal(rclk);
+            byte = (byte & 0x7f) | (((viapb7 ^ viapb7x) | viapb7o) ? 0x80 : 0);
         }
+        return byte;
 
         /* Timers */
 
@@ -654,18 +660,17 @@ BYTE REGPARM1 peek_via(ADDRESS addr)
 
 
         {
-            BYTE    j;
             /* read parallel IEC interface line states */
-            j = 255 - (par_nrfd ? 64:0) - (par_ndac ? 1:0) - (par_dav ? 128:0);
+            byte = 255 - (par_nrfd ? 64:0) - (par_ndac ? 1:0) - (par_dav ? 128:0);
             /* vertical retrace */
-            j -= crtc_offscreen() ? 32:0;
+            byte -= crtc_offscreen() ? 32:0;
 #if 0
-                printf("read port B %d\n", j);
+                printf("read port B %d\n", byte);
                 printf("a: %x b:%x  ca: %x cb: %x joy: %x\n",
-                       (int) via[VIA_PRA], (int) j,
+                       (int) via[VIA_PRA], (int) byte,
                        (int) via[VIA_DDRA], (int) via[VIA_DDRB], joy[1]);
 #endif
-            byte = ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));
+            /* byte = ((j & ~via[VIA_DDRB]) | (via[VIA_PRB] & via[VIA_DDRB]));*/
         }
             if (via[VIA_ACR] & 0x80) {
                 update_viatal(rclk);
@@ -772,15 +777,15 @@ void via_prevent_clk_overflow(CLOCK sub)
  * UBYTE	SR
  * UBYTE	ACR
  * UBYTE	PCR
- * UBYTE	IFR		 active interrupts 
- * UBYTE	IER		 interrupt masks 
- * UBYTE	PB7		 bit 7 = pb7 state 
- * UBYTE	SRHBITS		 number of half bits to shift out on SR 
+ * UBYTE	IFR		 active interrupts
+ * UBYTE	IER		 interrupt masks
+ * UBYTE	PB7		 bit 7 = pb7 state
+ * UBYTE	SRHBITS		 number of half bits to shift out on SR
  *
  */
 
 
-int via_dump(FILE * p)
+int via_write_snapshot_module(FILE * p)
 {
 
     if (viatai && (viatai <= clk))
@@ -809,13 +814,13 @@ int via_dump(FILE * p)
     snapshot_write_byte(p, viaier);
 
 						/* FIXME! */
-    snapshot_write_byte(p, (((viapb7 ^ viapb7x) | viapb7o) ? 0x80 : 0));	
+    snapshot_write_byte(p, (((viapb7 ^ viapb7x) | viapb7o) ? 0x80 : 0));
     snapshot_write_byte(p, 0);			/* SRHBITS */
 
     return 0;
 }
 
-int via_undump(FILE * p)
+int via_read_snapshot_module(FILE * p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
@@ -835,26 +840,23 @@ int via_undump(FILE * p)
     snapshot_read_byte(p, &via[VIA_DDRB]);
     {
         addr = VIA_DDRA;
-	byte = via[addr];
-
- 	via[addr] = byte;
 	byte = via[VIA_PRA] | ~via[VIA_DDRA];
+	oldpa = byte ^ 0xff;
+
 #ifdef HAVE_PRINTER
 	userport_printer_write_data(byte);
 #endif
+	oldpa = byte;
 
 	addr = VIA_DDRB;
-	byte = via[addr];
-
-	via[addr] = byte;
-	if((addr==VIA_DDRB) && (byte & 0x20)) {
-	    fprintf(stderr,"PET: Killer POKE! might kill a real PET!\n");
-	}
 	byte = via[VIA_PRB] | ~via[VIA_DDRB];
+	oldpb = byte ^ 0xff;
+
         par_set_nrfd(!(byte & 0x02));
         par_set_atn(!(byte & 0x04));
+	oldpb = byte;
     }
-    
+
     snapshot_read_word(p, &word);
     viatal = word;
     snapshot_read_word(p, &word);
@@ -870,7 +872,7 @@ int via_undump(FILE * p)
     maincpu_set_alarm(A_VIAT2, viatbi);
 
     snapshot_read_byte(p, &via[VIA_SR]);
-    { 
+    {
 	addr = via[VIA_SR];
 	byte = via[addr];
 
@@ -901,12 +903,12 @@ int via_undump(FILE * p)
     viaier = byte;
     update_viairq();
 						/* FIXME! */
-    snapshot_read_byte(p, &byte);	
+    snapshot_read_byte(p, &byte);
     viapb7 = byte ? 1 : 0;
     viapb7x = 0;
     viapb7o = 0;
     snapshot_read_byte(p, &byte);		/* SRHBITS */
- 
+
     return 0;
 }
 

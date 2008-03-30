@@ -104,6 +104,9 @@ static int via1pb7o;		/* to be ored herewith  */
 static int via1pb7xx;
 static int via1pb7sx;
 
+static BYTE oldpa;		/* the actual output on PA (input = high) */
+static BYTE oldpb;		/* the actual output on PB (input = high) */
+
 /*
  * local functions
  */
@@ -242,6 +245,9 @@ void reset_via1(void)
     maincpu_unset_alarm(A_VIA1T2);
     update_via1irq();
 
+    oldpa = 0xff;
+    oldpb = 0xff;
+
 
 	iec_pcr_write(0x22);
 
@@ -302,8 +308,11 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
         via1[VIA_PRA_NHS] = byte;
         addr = VIA_PRA;
       case VIA_DDRA:
-        via1[addr] = byte;
-            break;
+	via1[addr] = byte;
+	byte = via1[VIA_PRA] | ~via1[VIA_DDRA];
+        
+	oldpa = byte;
+        break;
 
       case VIA_PRB:		/* port B */
         via1ifr &= ~VIA_IM_CB1;
@@ -313,8 +322,11 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
         update_via1irq();
 
       case VIA_DDRB:
-        via1[addr] = byte;
-            break;
+	via1[addr] = byte;
+	byte = via1[VIA_PRB] | ~via1[VIA_DDRB];
+        
+	oldpb = byte;
+        break;
 
       case VIA_SR:		/* Serial Port output buffer */
         via1[addr] = byte;
@@ -480,6 +492,7 @@ BYTE REGPARM1 read_via1(ADDRESS addr)
 BYTE REGPARM1 read_via1_(ADDRESS addr)
 {
 #endif
+    BYTE byte;
     CLOCK rclk = clk;
 
     addr &= 0xf;
@@ -503,7 +516,7 @@ BYTE REGPARM1 read_via1_(ADDRESS addr)
     {
 	/* FIXME: not 100% sure about this... */
 	BYTE val = ~via1[VIA_DDRA];
-	BYTE msk = via1[VIA_PRB] | ~via1[VIA_DDRB];
+	BYTE msk = oldpb;
 	BYTE m;
 	int i;
 
@@ -511,24 +524,23 @@ BYTE REGPARM1 read_via1_(ADDRESS addr)
 	    if (!(msk & m))
 		val &= ~rev_keyarr[i];
 
-	return val | (via1[VIA_PRA] & via1[VIA_DDRA]);
+	/* return val | (via1[VIA_PRA] & via1[VIA_DDRA]); */
+	byte = val;
     }
+        byte = (byte & ~via1[VIA_DDRA]) | (via1[VIA_PRA] & via1[VIA_DDRA]);
+	return byte;
 
       case VIA_PRB:		/* port B */
         via1ifr &= ~VIA_IM_CB1;
-
         if ((via1[VIA_PCR] & 0xa0) != 0x20)
             via1ifr &= ~VIA_IM_CB2;
-
         update_via1irq();
-        {
-            BYTE byte;
 
 
     {
 	/* FIXME: not 100% sure about this... */
         BYTE val = ~via1[VIA_DDRB];
-	BYTE msk = via1[VIA_PRA] | ~via1[VIA_DDRA];
+	BYTE msk = oldpa;
 	int m, i;
 
 	for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
@@ -540,15 +552,15 @@ BYTE REGPARM1 read_via1_(ADDRESS addr)
 	if ((joy[1] | joy[2]) & 0x8)
 	    val &= 0x7f;
 
-	byte = val | (via1[VIA_PRB] & via1[VIA_DDRB]);
+	byte = val /*| (via1[VIA_PRB] & via1[VIA_DDRB])*/ ;
     }
+        byte = (byte & ~via1[VIA_DDRB]) | (via1[VIA_PRB] & via1[VIA_DDRB]);
 
-            if (via1[VIA_ACR] & 0x80) {
-                update_via1tal(rclk);
-                byte = (byte & 0x7f) | (((via1pb7 ^ via1pb7x) | via1pb7o) ? 0x80 : 0);
-            }
-            return byte;
+        if (via1[VIA_ACR] & 0x80) {
+            update_via1tal(rclk);
+            byte = (byte & 0x7f) | (((via1pb7 ^ via1pb7x) | via1pb7o) ? 0x80 : 0);
         }
+        return byte;
 
         /* Timers */
 
@@ -612,7 +624,7 @@ BYTE REGPARM1 peek_via1(ADDRESS addr)
     {
 	/* FIXME: not 100% sure about this... */
         BYTE val = ~via1[VIA_DDRB];
-	BYTE msk = via1[VIA_PRA] | ~via1[VIA_DDRA];
+	BYTE msk = oldpa;
 	int m, i;
 
 	for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
@@ -624,7 +636,7 @@ BYTE REGPARM1 peek_via1(ADDRESS addr)
 	if ((joy[1] | joy[2]) & 0x8)
 	    val &= 0x7f;
 
-	byte = val | (via1[VIA_PRB] & via1[VIA_DDRB]);
+	byte = val /*| (via1[VIA_PRB] & via1[VIA_DDRB])*/ ;
     }
             if (via1[VIA_ACR] & 0x80) {
                 update_via1tal(rclk);
@@ -731,15 +743,15 @@ void via1_prevent_clk_overflow(CLOCK sub)
  * UBYTE	SR
  * UBYTE	ACR
  * UBYTE	PCR
- * UBYTE	IFR		 active interrupts 
- * UBYTE	IER		 interrupt masks 
- * UBYTE	PB7		 bit 7 = pb7 state 
- * UBYTE	SRHBITS		 number of half bits to shift out on SR 
+ * UBYTE	IFR		 active interrupts
+ * UBYTE	IER		 interrupt masks
+ * UBYTE	PB7		 bit 7 = pb7 state
+ * UBYTE	SRHBITS		 number of half bits to shift out on SR
  *
  */
 
 
-int via1_dump(FILE * p)
+int via1_write_snapshot_module(FILE * p)
 {
 
     if (via1tai && (via1tai <= clk))
@@ -768,13 +780,13 @@ int via1_dump(FILE * p)
     snapshot_write_byte(p, via1ier);
 
 						/* FIXME! */
-    snapshot_write_byte(p, (((via1pb7 ^ via1pb7x) | via1pb7o) ? 0x80 : 0));	
+    snapshot_write_byte(p, (((via1pb7 ^ via1pb7x) | via1pb7o) ? 0x80 : 0));
     snapshot_write_byte(p, 0);			/* SRHBITS */
 
     return 0;
 }
 
-int via1_undump(FILE * p)
+int via1_read_snapshot_module(FILE * p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
@@ -794,14 +806,18 @@ int via1_undump(FILE * p)
     snapshot_read_byte(p, &via1[VIA_DDRB]);
     {
         addr = VIA_DDRA;
-	byte = via1[addr];
-	via1[addr] = byte;
+	byte = via1[VIA_PRA] | ~via1[VIA_DDRA];
+	oldpa = byte ^ 0xff;
+	
+	oldpa = byte;
 
 	addr = VIA_DDRB;
-	byte = via1[addr];
-	via1[addr] = byte;
+	byte = via1[VIA_PRB] | ~via1[VIA_DDRB];
+	oldpb = byte ^ 0xff;
+	
+	oldpb = byte;
     }
-    
+
     snapshot_read_word(p, &word);
     via1tal = word;
     snapshot_read_word(p, &word);
@@ -817,7 +833,7 @@ int via1_undump(FILE * p)
     maincpu_set_alarm(A_VIA1T2, via1tbi);
 
     snapshot_read_byte(p, &via1[VIA_SR]);
-    { 
+    {
 	addr = via1[VIA_SR];
 	byte = via1[addr];
 	
@@ -843,12 +859,12 @@ int via1_undump(FILE * p)
     via1ier = byte;
     update_via1irq();
 						/* FIXME! */
-    snapshot_read_byte(p, &byte);	
+    snapshot_read_byte(p, &byte);
     via1pb7 = byte ? 1 : 0;
     via1pb7x = 0;
     via1pb7o = 0;
     snapshot_read_byte(p, &byte);		/* SRHBITS */
- 
+
     return 0;
 }
 

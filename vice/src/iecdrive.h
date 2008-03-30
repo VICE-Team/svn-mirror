@@ -36,6 +36,8 @@
 
 void iec_drive_write(BYTE data);
 BYTE iec_drive_read(void);
+void iec_fast_drive_write(BYTE data);
+void iec_fast_cpu_write(BYTE data);
 void parallel_cable_drive_write(BYTE data, int handshake);
 BYTE parallel_cable_drive_read(int handshake);
 

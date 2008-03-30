@@ -170,8 +170,6 @@
 
 /* ------------------------------------------------------------------------- */
 
-extern drive_enabled[2];
-
 #define ROTATION_TABLE_SIZE      0x1000
 #define ACCUM_MAX                0x10000
 
@@ -193,12 +191,21 @@ typedef struct drive_s {
     /* Current ROM image.  */
     BYTE rom[DRIVE_ROM_SIZE];
 
+    /* Is this drive enabled?  */
+    int enable;
+
     /* What drive type we have to emulate?  */
     int type;
 
     /* Disk side.  */
     int side;
  
+    /* What idling method?  (See `DRIVE_IDLE_*')  */
+    int idling_method;
+
+    /* Original ROM code is saved here.  */
+    BYTE rom_idle_trap;
+
     /* Byte ready line.  */
     int byte_ready;
 

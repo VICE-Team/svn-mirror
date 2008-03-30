@@ -36,8 +36,6 @@
 
 #define READ_SDR
 
-#define STORE_SDR
-
 /* #define CIA1581D0_TIMER_DEBUG */
 
 #define	cia1581d0_set_int_clk		drive0_set_irq_clk
@@ -66,22 +64,21 @@ RESET_CIA()
 
 STORE_CIAPA()
 {
-    {
-        BYTE oldval = cia1581d0[CIA_PRA] | ~cia1581d0[CIA_DDRA];
-
-        cia1581d0[addr] = byte;
-        byte = cia1581d0[CIA_PRA] | ~cia1581d0[CIA_DDRA];   /* newval */
-
-        drive[0].led_status = byte & 0x40;
-    }
+    drive[0].led_status = byte & 0x40;
 }
+
+UNDUMP_CIAPA()
+{
+    drive[0].led_status = byte & 0x40;
+}
+
+#define	UNDUMP_CIAPB		/* FIXME!!!! */
 
 STORE_CIAPB()
 {
-    if (byte != cia1581d0[addr]) {
-        cia1581d0[addr] = byte;
+    if (byte != oldpb) {
         if (iec_info != NULL) {
-            iec_info->drive_data = cia1581d0[CIA_DDRB] & ~cia1581d0[CIA_PRB];
+            iec_info->drive_data = ~byte;
             iec_info->drive_bus = (((iec_info->drive_data << 3) & 0x40)
                 | ((iec_info->drive_data << 6)
                 & ((iec_info->drive_data | iec_info->cpu_bus) << 3) & 0x80));
@@ -91,9 +88,14 @@ STORE_CIAPB()
                 | (iec_info->cpu_port >> 7)
                 | ((iec_info->cpu_bus << 3) & 0x80));
         } else {
-            iec_drive_write(cia1581d0[CIA_DDRB] & ~cia1581d0[CIA_PRB]);
+            iec_drive_write(~byte);
         }
     }
+}
+
+STORE_SDR()
+{
+    iec_fast_drive_write(cia1581d0[CIA_SDR]);
 }
 
 READ_CIAPA()
@@ -104,9 +106,9 @@ READ_CIAPA()
 READ_CIAPB()
 {
     if (iec_info != NULL)
-        byte = ((cia1581d0[CIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
+        byte = (/*(cia1581d0[CIA_PRB] & 0x1a) |*/ iec_info->drive_port) ^ 0x85;
     else
-        byte = ((cia1581d0[CIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+        byte = (/*(cia1581d0[CIA_PRB] & 0x1a) |*/ iec_drive_read()) ^ 0x85;
 }
 
 READ_CIAICR()

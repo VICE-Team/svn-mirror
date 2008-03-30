@@ -1,12 +1,8 @@
 /*
- * c64iec.c - IEC bus handling for the C64.
+ * c128iec.c - IEC bus handling for the C128.
  *
  * Written by
- *  Daniel Sladic (sladic@eecg.toronto.edu)
- *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
- *  Ettore Perazzoli (ettore@comm2000.it)
- *  André Fachat (fachat@physik.tu-chemnitz.de)
- *  Teemu Rantanen (tvr@cs.hut.fi)
+ *  Andreas Boose (boose@linux.rz.fh-hannover.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -145,9 +141,27 @@ BYTE iec_cpu_read(void)
     return iec_info.cpu_port;
 }
 
+void iec_fast_cpu_write(BYTE data)
+{
+    if (drive[0].enable) {
+           drive0_cpu_execute();
+       if (drive[0].type == 1571)
+           cia1571d0_set_sdr(data);
+       if (drive[0].type == 1581)
+           cia1581d0_set_sdr(data);
+    }
+    if (drive[1].enable) {
+           drive1_cpu_execute();
+       if (drive[1].type == 1571)
+           cia1571d1_set_sdr(data);
+       if (drive[1].type == 1581)
+           cia1581d1_set_sdr(data);
+    }
+}
+
 void iec_fast_drive_write(BYTE data)
 {
-/* The C64 does not use fast IEC.  */
+    cia1_set_sdr(data);
 }
 
 iec_info_t *iec_get_drive_port(void)

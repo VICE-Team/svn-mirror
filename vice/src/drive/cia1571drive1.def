@@ -36,9 +36,6 @@
 
 #define READ_SDR
 
-#define STORE_SDR
-
-
 /* #define CIA1571D1_TIMER_DEBUG */
 
 #define	cia1571d1_set_int_clk		drive1_set_irq_clk
@@ -48,6 +45,7 @@ INCLUDES()
 {
 #include "drive.h"
 #include "ciad.h"
+#include "iecdrive.h"
 }
 
 PRE_CIA_FUNCS()
@@ -69,6 +67,14 @@ STORE_CIAPA()
 
 }
 
+STORE_SDR()
+{
+    iec_fast_drive_write(cia1571d1[CIA_SDR]);
+}
+
+#define	UNDUMP_CIAPA
+#define	UNDUMP_CIAPB
+
 STORE_CIAPB()
 {
 
@@ -76,12 +82,12 @@ STORE_CIAPB()
 
 READ_CIAPA()
 {
-
+    byte = 0xff;
 }
 
 READ_CIAPB()
 {
-
+    byte = 0xff;
 }
 
 READ_CIAICR()

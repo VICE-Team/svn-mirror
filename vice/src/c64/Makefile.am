@@ -56,12 +56,8 @@ libc64_a_SOURCES = \
 
 libc64c128_a_SOURCES = \
 	c64cia.h \
-	c64cia1.c \
-	c64cia1.def \
 	c64cia2.c \
 	c64cia2.def \
-	c64iec.c \
-	c64iec.h \
 	patchrom.c \
 	patchrom.h \
 	sid.c \

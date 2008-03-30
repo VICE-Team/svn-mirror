@@ -1,7 +1,7 @@
 
 /*
- * ../../../src/drive/via1drive0.c
- * This file is generated from ../../../src/via-tmpl.c and ../../../src/drive/via1drive0.def,
+ * ../../src/drive/via1drive0.c
+ * This file is generated from ../../src/via-tmpl.c and ../../src/drive/via1drive0.def,
  * Do not edit!
  */
 /*
@@ -103,6 +103,9 @@ static int via1d0pb7x;		/* to be xored herewith  */
 static int via1d0pb7o;		/* to be ored herewith  */
 static int via1d0pb7xx;
 static int via1d0pb7sx;
+
+static BYTE oldpa;		/* the actual output on PA (input = high) */
+static BYTE oldpb;		/* the actual output on PB (input = high) */
 
 /*
  * local functions
@@ -258,6 +261,9 @@ void reset_via1d0(void)
     drive0_unset_alarm(A_VIA1D0T2);
     update_via1d0irq();
 
+    oldpa = 0xff;
+    oldpb = 0xff;
+
 
     iec_info = iec_get_drive_port();
 
@@ -318,26 +324,24 @@ void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte)
         via1d0[VIA_PRA_NHS] = byte;
         addr = VIA_PRA;
       case VIA_DDRA:
+	via1d0[addr] = byte;
+	byte = via1d0[VIA_PRA] | ~via1d0[VIA_DDRA];
 
     {
-        BYTE oldval = via1d0[VIA_PRA] | ~via1d0[VIA_DDRA];
-
-        via1d0[addr] = byte;
-        byte = via1d0[VIA_PRA] | ~via1d0[VIA_DDRA];
-
         if (drive[0].type == DRIVE_TYPE_1571) {
-            if ((oldval ^ byte) & 0x20)
+            if ((oldpa ^ byte) & 0x20)
                 drive_set_1571_sync_factor(byte & 0x20, 0);
-            if ((oldval ^ byte) & 0x04)
+            if ((oldpa ^ byte) & 0x04)
                 drive_set_1571_side((byte >> 2) & 1, 0);
         }
         if (drive_parallel_cable_enabled && drive[0].type == DRIVE_TYPE_1541)
-            parallel_cable_drive_write(via1d0[VIA_PRA] | ~via1d0[VIA_DDRA],
+            parallel_cable_drive_write(byte,
                                         (((addr == VIA_PRA)
                                         && ((via1d0[VIA_PCR] & 0xe) == 0xa))
                                         ? 1 : 0));
     }
-            break;
+	oldpa = byte;
+        break;
 
       case VIA_PRB:		/* port B */
         via1d0ifr &= ~VIA_IM_CB1;
@@ -347,11 +351,12 @@ void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte)
         update_via1d0irq();
 
       case VIA_DDRB:
-
-    if (byte != via1d0[addr]) {
 	via1d0[addr] = byte;
+	byte = via1d0[VIA_PRB] | ~via1d0[VIA_DDRB];
+
+    if (byte != oldpb) {
 	if (iec_info != NULL) {
-	    iec_info->drive_data = via1d0[VIA_DDRB] & ~via1d0[VIA_PRB];
+	    iec_info->drive_data = ~byte;
 	    iec_info->drive_bus = (((iec_info->drive_data << 3) & 0x40)
 	        | ((iec_info->drive_data << 6)
 	        & ((~iec_info->drive_data ^ iec_info->cpu_bus) << 3) & 0x80));
@@ -361,10 +366,11 @@ void REGPARM2 store_via1d0(ADDRESS addr, BYTE byte)
 	        | (iec_info->cpu_port >> 7)
 	        | ((iec_info->cpu_bus << 3) & 0x80));
 	} else {
-	    iec_drive_write(via1d0[VIA_DDRB] & ~via1d0[VIA_PRB]);
+	    iec_drive_write(~byte);
 	}
     }
-            break;
+	oldpb = byte;
+        break;
 
       case VIA_SR:		/* Serial Port output buffer */
         via1d0[addr] = byte;
@@ -523,6 +529,7 @@ BYTE REGPARM1 read_via1d0(ADDRESS addr)
 BYTE REGPARM1 read_via1d0_(ADDRESS addr)
 {
 #endif
+    BYTE byte;
     CLOCK rclk = drive_clk[0];
 
     addr &= 0xf;
@@ -550,35 +557,37 @@ BYTE REGPARM1 read_via1d0_(ADDRESS addr)
         return (tmp & ~via1d0[VIA_DDRA])
             | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
     }
-    return (drive_parallel_cable_enabled
+    /*return*/
+    byte = (drive_parallel_cable_enabled
             ? parallel_cable_drive_read((((addr == VIA_PRA) &&
                                           (via1d0[VIA_PCR] & 0xe) == 0xa))
                                         ? 1 : 0)
+	    : 0xff );
+/*
             : ((via1d0[VIA_PRA] & via1d0[VIA_DDRA])
-               | (0xff & ~via1d0[VIA_DDRA])));
+               | (0xff & ~via1d0[VIA_DDRA])) );
+*/
+        byte = (byte & ~via1d0[VIA_DDRA]) | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
+	return byte;
 
       case VIA_PRB:		/* port B */
         via1d0ifr &= ~VIA_IM_CB1;
-
         if ((via1d0[VIA_PCR] & 0xa0) != 0x20)
             via1d0ifr &= ~VIA_IM_CB2;
-
         update_via1d0irq();
-        {
-            BYTE byte;
 
 
     if (iec_info != NULL)
-	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
+	byte = (/*(via1d0[VIA_PRB] & 0x1a) |*/ iec_info->drive_port) ^ 0x85;
     else
-	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+	byte = (/*(via1d0[VIA_PRB] & 0x1a) |*/ iec_drive_read()) ^ 0x85;
+        byte = (byte & ~via1d0[VIA_DDRB]) | (via1d0[VIA_PRB] & via1d0[VIA_DDRB]);
 
-            if (via1d0[VIA_ACR] & 0x80) {
-                update_via1d0tal(rclk);
-                byte = (byte & 0x7f) | (((via1d0pb7 ^ via1d0pb7x) | via1d0pb7o) ? 0x80 : 0);
-            }
-            return byte;
+        if (via1d0[VIA_ACR] & 0x80) {
+            update_via1d0tal(rclk);
+            byte = (byte & 0x7f) | (((via1d0pb7 ^ via1d0pb7x) | via1d0pb7o) ? 0x80 : 0);
         }
+        return byte;
 
         /* Timers */
 
@@ -640,9 +649,9 @@ BYTE REGPARM1 peek_via1d0(ADDRESS addr)
 
 
     if (iec_info != NULL)
-	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
+	byte = (/*(via1d0[VIA_PRB] & 0x1a) |*/ iec_info->drive_port) ^ 0x85;
     else
-	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85;
+	byte = (/*(via1d0[VIA_PRB] & 0x1a) |*/ iec_drive_read()) ^ 0x85;
             if (via1d0[VIA_ACR] & 0x80) {
                 update_via1d0tal(rclk);
                 byte = (byte & 0x7f) | (((via1d0pb7 ^ via1d0pb7x) | via1d0pb7o) ? 0x80 : 0);
@@ -748,15 +757,15 @@ void via1d0_prevent_clk_overflow(CLOCK sub)
  * UBYTE	SR
  * UBYTE	ACR
  * UBYTE	PCR
- * UBYTE	IFR		 active interrupts 
- * UBYTE	IER		 interrupt masks 
- * UBYTE	PB7		 bit 7 = pb7 state 
- * UBYTE	SRHBITS		 number of half bits to shift out on SR 
+ * UBYTE	IFR		 active interrupts
+ * UBYTE	IER		 interrupt masks
+ * UBYTE	PB7		 bit 7 = pb7 state
+ * UBYTE	SRHBITS		 number of half bits to shift out on SR
  *
  */
 
 
-int via1d0_dump(FILE * p)
+int via1d0_write_snapshot_module(FILE * p)
 {
 
     if (via1d0tai && (via1d0tai <= drive_clk[0]))
@@ -785,13 +794,13 @@ int via1d0_dump(FILE * p)
     snapshot_write_byte(p, via1d0ier);
 
 						/* FIXME! */
-    snapshot_write_byte(p, (((via1d0pb7 ^ via1d0pb7x) | via1d0pb7o) ? 0x80 : 0));	
+    snapshot_write_byte(p, (((via1d0pb7 ^ via1d0pb7x) | via1d0pb7o) ? 0x80 : 0));
     snapshot_write_byte(p, 0);			/* SRHBITS */
 
     return 0;
 }
 
-int via1d0_undump(FILE * p)
+int via1d0_read_snapshot_module(FILE * p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
@@ -811,48 +820,18 @@ int via1d0_undump(FILE * p)
     snapshot_read_byte(p, &via1d0[VIA_DDRB]);
     {
         addr = VIA_DDRA;
-	byte = via1d0[addr];
-
-    {
-        BYTE oldval = via1d0[VIA_PRA] | ~via1d0[VIA_DDRA];
-
-        via1d0[addr] = byte;
-        byte = via1d0[VIA_PRA] | ~via1d0[VIA_DDRA];
-
-        if (drive[0].type == DRIVE_TYPE_1571) {
-            if ((oldval ^ byte) & 0x20)
-                drive_set_1571_sync_factor(byte & 0x20, 0);
-            if ((oldval ^ byte) & 0x04)
-                drive_set_1571_side((byte >> 2) & 1, 0);
-        }
-        if (drive_parallel_cable_enabled && drive[0].type == DRIVE_TYPE_1541)
-            parallel_cable_drive_write(via1d0[VIA_PRA] | ~via1d0[VIA_DDRA],
-                                        (((addr == VIA_PRA)
-                                        && ((via1d0[VIA_PCR] & 0xe) == 0xa))
-                                        ? 1 : 0));
-    }
+	byte = via1d0[VIA_PRA] | ~via1d0[VIA_DDRA];
+	oldpa = byte ^ 0xff;
+	/* FIXME!!!! */
+	oldpa = byte;
 
 	addr = VIA_DDRB;
-	byte = via1d0[addr];
+	byte = via1d0[VIA_PRB] | ~via1d0[VIA_DDRB];
+	oldpb = byte ^ 0xff;
+	/* FIXME!!!! */
+	oldpb = byte;
+    }
 
-    if (byte != via1d0[addr]) {
-	via1d0[addr] = byte;
-	if (iec_info != NULL) {
-	    iec_info->drive_data = via1d0[VIA_DDRB] & ~via1d0[VIA_PRB];
-	    iec_info->drive_bus = (((iec_info->drive_data << 3) & 0x40)
-	        | ((iec_info->drive_data << 6)
-	        & ((~iec_info->drive_data ^ iec_info->cpu_bus) << 3) & 0x80));
-	    iec_info->cpu_port = iec_info->cpu_bus & iec_info->drive_bus
-	        & iec_info->drive2_bus;
-	    iec_info->drive_port = iec_info->drive2_port = (((iec_info->cpu_port >> 4) & 0x4)
-	        | (iec_info->cpu_port >> 7)
-	        | ((iec_info->cpu_bus << 3) & 0x80));
-	} else {
-	    iec_drive_write(via1d0[VIA_DDRB] & ~via1d0[VIA_PRB]);
-	}
-    }
-    }
-    
     snapshot_read_word(p, &word);
     via1d0tal = word;
     snapshot_read_word(p, &word);
@@ -868,7 +847,7 @@ int via1d0_undump(FILE * p)
     drive0_set_alarm(A_VIA1D0T2, via1d0tbi);
 
     snapshot_read_byte(p, &via1d0[VIA_SR]);
-    { 
+    {
 	addr = via1d0[VIA_SR];
 	byte = via1d0[addr];
 	
@@ -887,12 +866,12 @@ int via1d0_undump(FILE * p)
     via1d0ier = byte;
     update_via1d0irq();
 						/* FIXME! */
-    snapshot_read_byte(p, &byte);	
+    snapshot_read_byte(p, &byte);
     via1d0pb7 = byte ? 1 : 0;
     via1d0pb7x = 0;
     via1d0pb7o = 0;
     snapshot_read_byte(p, &byte);		/* SRHBITS */
- 
+
     return 0;
 }
 

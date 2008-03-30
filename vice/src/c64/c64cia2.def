@@ -98,16 +98,15 @@ PRE_PEEK_CIA()
 
 STORE_CIAPA()
 {
-    if (cia2[addr] != byte) {
+    if (oldpa != byte) {
 	 BYTE tmp;
 
 #ifdef HAVE_RS232
-	 if(rsuser_enabled) {
+	 if(rsuser_enabled && ((oldpa^byte)&0x04)) {
              rsuser_set_tx_bit(byte & 4);
 	 }
 #endif
-	 cia2[addr] = byte;
-	 tmp = ~cia2[CIA_PRA] & cia2[CIA_DDRA];
+	 tmp = ~byte;
 	 mem_set_vbank(tmp & 3);
 	 iec_cpu_write(tmp);
 #ifdef HAVE_PRINTER
@@ -116,10 +115,20 @@ STORE_CIAPA()
     }
 }
 
+UNDUMP_CIAPA()
+{
+#ifdef HAVE_RS232
+    if(rsuser_enabled) {
+	rsuser_set_tx_bit(byte & 4);
+    }
+#endif
+    mem_set_vbank((byte ^ 3) & 3);
+    iec_cpu_write(byte ^ 0xff);
+}
+
+
 STORE_CIAPB()
 {
-    cia2[addr] = byte;
-    byte = cia2[CIA_PRB] | ~cia2[CIA_DDRB];
     if (drive_parallel_cable_enabled) {
 	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
     }
@@ -133,14 +142,14 @@ STORE_CIAPB()
 
 READ_CIAPA()
 {
-    if (!drive_enabled[0] && !drive_enabled[1])
+    if (!drive[0].enable && !drive[1].enable)
 	return ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) |
 	    (iec_info->iec_fast_1541 & 0x30) << 2;
-    if (drive_enabled[0])
+    if (drive[0].enable)
 	drive0_cpu_execute();
-    if (drive_enabled[1])
+    if (drive[1].enable)
 	drive1_cpu_execute();
-    byte = ((cia2[CIA_PRA] | ~cia2[CIA_DDRA]) & 0x3f) | iec_info->cpu_port;
+    byte = ( /*(cia2[CIA_PRA] | ~cia2[CIA_DDRA]) &*/ 0x3f) | iec_info->cpu_port;
 }
 
 READ_CIAPB()
@@ -150,11 +159,11 @@ READ_CIAPB()
             ? parallel_cable_cpu_read()
             : (rsuser_enabled
 		? userport_serial_read_ctrl()
-		: cia2[CIA_PRB] | ~cia2[CIA_DDRB]));
+		: 0xff ));
 #else
     byte = (drive_parallel_cable_enabled
             ? parallel_cable_cpu_read()
-            : cia2[CIA_PRB] | ~cia2[CIA_DDRB]);
+            : 0xff );
 #endif
 }
 
