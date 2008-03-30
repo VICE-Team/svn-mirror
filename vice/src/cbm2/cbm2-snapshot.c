@@ -74,8 +74,8 @@ int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
         || cbm2_snapshot_write_module(s, save_roms) < 0
         || ((!cbm2_isC500) && crtc_snapshot_write_module(s) < 0)
         || ciacore_snapshot_write_module(&(machine_context.cia1), s) < 0
-        || tpi1_snapshot_write_module(s) < 0
-        || tpi2_snapshot_write_module(s) < 0
+        || tpi1_snapshot_write_module(&(machine_context.tpi1), s) < 0
+        || tpi2_snapshot_write_module(&(machine_context.tpi2), s) < 0
         || acia1_snapshot_write_module(s) < 0
         || sid_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
@@ -118,8 +118,8 @@ int cbm2_snapshot_read(const char *name, int event_mode)
         || (cbm2_isC500 && cbm2_c500_snapshot_read_module(s) < 0)
         || cbm2_snapshot_read_module(s) < 0
         || ciacore_snapshot_read_module(&(machine_context.cia1), s) < 0
-        || tpi1_snapshot_read_module(s) < 0
-        || tpi2_snapshot_read_module(s) < 0
+        || tpi1_snapshot_read_module(&(machine_context.tpi1), s) < 0
+        || tpi2_snapshot_read_module(&(machine_context.tpi2), s) < 0
         || acia1_snapshot_read_module(s) < 0
         || sid_snapshot_read_module(s) < 0
         || drive_snapshot_read_module(s) < 0

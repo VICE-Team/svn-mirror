@@ -28,6 +28,7 @@
 #define _CBM2_H
 
 #include "cia.h"
+#include "tpi.h"
 
 /* except for the exact CYCLES_PER_SEC those values are reasonable default
    values. they get overwritten when writing to the CRTC */
@@ -72,6 +73,8 @@ extern int cbm2_c500_snapshot_read_module(struct snapshot_s *p);
 
 typedef struct machine_context_s {
     cia_context_t cia1;
+    tpi_context_t tpi1;
+    tpi_context_t tpi2;
 } machine_context_t;
 
 extern machine_context_t machine_context;
