@@ -59,6 +59,8 @@ enum CPU_TYPE_s {
 };
 typedef enum CPU_TYPE_s CPU_TYPE_t;
 
+struct interrupt_cpu_status_s;
+
 struct monitor_cpu_type_s {
     CPU_TYPE_t cpu_type;
     unsigned int (*asm_addr_mode_get_size)(unsigned int mode, BYTE p0, BYTE p1);
@@ -82,7 +84,7 @@ struct monitor_interface_s {
     struct z80_regs_s *z80_cpu_regs;
 
     /* Pointer to the alarm/interrupt status.  */
-    struct cpu_int_status_s *int_status;
+    struct interrupt_cpu_status_s *int_status;
 
     /* Pointer to the machine's clock counter.  */
     CLOCK *clk;
@@ -120,7 +122,8 @@ extern void monitor_init(monitor_interface_t *maincpu_interface,
                          monitor_interface_t *drive8_interface_init,
                          monitor_interface_t *drive9_interface_init,
                          struct monitor_cpu_type_s **asmarray);
-extern void mon(WORD a);
+extern void monitor_shutdown(void);
+extern void mon(WORD address);
 
 extern void mon_abort(void);
 
@@ -132,6 +135,8 @@ extern void mon_check_watchpoints(WORD a);
 extern void mon_watch_push_load_addr(WORD addr, MEMSPACE mem);
 extern void mon_watch_push_store_addr(WORD addr, MEMSPACE mem);
 
+extern monitor_interface_t *monitor_interface_new(void);
+extern void monitor_interface_destroy(monitor_interface_t *monitor_interface);
 
 /** Breakpoint interface.  */
 /* Defines */
