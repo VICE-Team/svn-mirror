@@ -78,6 +78,7 @@
 #define BAM_DISK_NAME			144
 #define BAM_DISK_ID			162
 #define BAM_VERSION			165
+#define BAM_EXT_BIT_MAP			192
 
 #define BAM_SET(n)    (bamp[1+(n)/8] |= (1 << ((n) % 8)))
 #define BAM_CLR(n)    (bamp[1+(n)/8] &= ~(1 << ((n) % 8)))
@@ -145,8 +146,8 @@ struct FormatData {
 
 #define NUM_TRACKS_1541		35
 #define NUM_BLOCKS_1541		683	/* 664 free */
-#define MAX_TRACKS_1541		40
-#define MAX_BLOCKS_1541		768
+#define MAX_TRACKS_1541		42
+#define MAX_BLOCKS_1541		802
 
 #define NUM_TRACKS_1571		70
 #define NUM_BLOCKS_1571		1366	/* 1328 free */

@@ -353,7 +353,7 @@ static int is_valid_prgfile(FILE *fd)
 int   attach_tape_image (TAPE *tape, const char *name, int mode)
 {
     char   realname[24];
-    int    realtype = FT_PRG, reclen = 0;
+    int    reclen = 0;
     int    format = -1, entries = 0;
     long   flen;
 
@@ -550,7 +550,7 @@ static int  fn()
 
 static void findheader (void)
 {
-    BYTE  *s, buf[2];
+    BYTE  *s;
     int    start, end;
     int    sense = 0;
     int    err = 0;

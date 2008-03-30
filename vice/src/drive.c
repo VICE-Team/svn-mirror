@@ -1514,9 +1514,11 @@ static int  floppy_free_block_count (DRIVE *floppy)
 {
     int blocks, i;
 
-    for (blocks = 0, i = 1; i <= NUM_TRACKS_1541; i++) {
+    for (blocks = 0, i = 1; i <= floppy->NumTracks; i++) {
 	if (i != floppy->Dir_Track)
-	    blocks += floppy->bam[BAM_BIT_MAP + 4 * (i - 1)];
+	    blocks += (i <= NUM_TRACKS_1541) ?
+		floppy->bam[BAM_BIT_MAP + 4 * (i - 1)] :
+		floppy->bam[BAM_EXT_BIT_MAP + 4 * (i - NUM_TRACKS_1541 - 1)];
     }
 
     return blocks;
@@ -1896,9 +1898,13 @@ int  do_validate(DRIVE *floppy)
     if (floppy->ReadOnly)
 	return IPE_WRITE_PROTECT_ON;
 
-    b = (BYTE *) floppy->bam + BAM_BIT_MAP;
+    for (t = 1; t <= floppy->NumTracks; t++) {
 
-    for (t = 1; t <= NUM_TRACKS_1541; t++) {
+	b = (t <= NUM_TRACKS_1541) ?
+	(BYTE *) floppy->bam + BAM_BIT_MAP + 4 * (t - 1) :
+	(BYTE *) floppy->bam + BAM_EXT_BIT_MAP +
+	    4 * (t - NUM_TRACKS_1541 - 1);
+
 	*b++ = 0;
 	*b++ = 0;
 	*b++ = 0;
@@ -2652,7 +2658,9 @@ static int  allocate_sector(BYTE *bam, int track, int sector)
 {
     BYTE   *bamp;	/* Macros use this */
 
-    bamp = &bam[BAM_BIT_MAP + 4 * (track - 1)];
+    bamp = (track <= NUM_TRACKS_1541) ?
+	&bam[BAM_BIT_MAP + 4 * (track - 1)] :
+	&bam[BAM_EXT_BIT_MAP + 4 * (track - NUM_TRACKS_1541 - 1)];
 
     if (BAM_ISSET(sector)) {
 	(*bamp)--;
@@ -2668,7 +2676,9 @@ static int  free_sector(BYTE *bam, int track, int sector)
 {
     BYTE   *bamp;
 
-    bamp = &bam[BAM_BIT_MAP + 4 * (track - 1)];
+    bamp = (track <= NUM_TRACKS_1541) ?
+	&bam[BAM_BIT_MAP + 4 * (track - 1)] :
+	&bam[BAM_EXT_BIT_MAP + 4 * (track - NUM_TRACKS_1541 - 1)];
 
     if (!(BAM_ISSET(sector))) {
 	BAM_SET(sector);

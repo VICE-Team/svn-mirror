@@ -35,7 +35,7 @@
 	- support for .d64 images with attached error code.
 	- support for GCR encoded image files.
 	- check for byte ready *within* `BVC', `BVS' and `PHP'.
-	- serial bus handling might be faster. */
+	- serial bus handling might be faster.  */
 
 #define __1541__
 
@@ -151,9 +151,10 @@ static int GCR_head_offset;
 static int rot_speed_bps[4] = { 250000, 266667, 285714, 307692 };
 
 /* Speed zone of each track.  This should be removed in the future.  */
-static int speed_map[35] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-                             3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1,
-                             1, 1, 0, 0, 0, 0, 0 };
+static int speed_map[42] = { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+                             3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
+                             1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                             0, 0, 0 };
 
 /* Number of bytes per track size.  */
 static int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
@@ -313,7 +314,7 @@ static void read_image_GCR(void)
     buffer[0] = 0x07;
     buffer[258] = buffer[259] = 0;
 
-    for (track = 1; track <= 35; track++) {
+    for (track = 1; track <= true1541_floppy->NumTracks; track++) {
 	ptr = GCR_data + GCR_OFFSET(track, 0);
 	memset(ptr, 0xff, NUM_MAX_BYTES_TRACK);
 	for (sector = 0; sector < sector_map[track]; sector++) {
@@ -352,8 +353,9 @@ static int setID(void)
     if (rc >= 0) {
 	diskID1 = buffer[0xa2];
 	diskID2 = buffer[0xa3];
-	true1541_ram[0x12] = diskID1;
-	true1541_ram[0x13] = diskID2;
+	/* This hack is not required anymore.  */
+	/* true1541_ram[0x12] = diskID1;
+	   true1541_ram[0x13] = diskID2; */
     }
 
     return rc;
@@ -800,8 +802,8 @@ int true1541_sync_found(void)
 /* Move the head to half track `num'.  */
 void true1541_set_half_track(int num)
 {
-    if (num > 70)
-	num = 70;
+    if (num > 84)
+	num = 84;
     else if (num < 2)
 	num = 2;
 
@@ -874,10 +876,13 @@ static void GCR_data_writeback(void)
     BYTE buffer[260], *offset;
 
     if (!GCR_dirty_track)
-        return;
+
+    track = true1541_current_half_track / 2;
+
+    if (!GCR_dirty_track || (track > true1541_floppy->NumTracks))
+	return;
 
     GCR_dirty_track = 0;
-    track = true1541_current_half_track / 2;
 
     for (sector = 0; sector < sector_map[track]; sector++) {
 
