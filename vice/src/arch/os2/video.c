@@ -213,7 +213,7 @@ int video_init(void) // initialize Dive
 
 /* ------------------------------------------------------------------------ */
 /* Frame buffer functions.  */
-int video_frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
+int video_frame_buffer_alloc(video_frame_buffer_t *f, UINT width, UINT height)
 {
     static int first=TRUE;
     APIRET rc;
@@ -223,7 +223,7 @@ int video_frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
         first=FALSE;
     }
 
-    (*f) = (frame_buffer_t) xmalloc(sizeof(struct frame_buffer_s));
+    (*f) = (video_frame_buffer_t) xmalloc(sizeof(struct video_frame_buffer_s));
     (*f)->bitmap = (char*) xmalloc(width*height*sizeof(BYTE));
     (*f)->width  = width;
     (*f)->height = height;
@@ -235,12 +235,12 @@ int video_frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
     return 0;
 }
 
-void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
+void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 {   // raster_force_repaint, we needn't this
     //    memset((*f)->bitmap, value, ((*f)->width)*((*f)->height)*sizeof(BYTE));
 }
 
-void video_frame_buffer_free(frame_buffer_t *f)
+void video_frame_buffer_free(video_frame_buffer_t *f)
 {
     //    if (ulBuffer) {  // share this with video_close
     ULONG rc=DiveFreeImageBuffer (hDiveInst, (*f)->ulBuffer);
@@ -608,7 +608,7 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
 }
 
 /* ------------------------------------------------------------------------ */
-void canvas_refresh(canvas_t c, frame_buffer_t f,
+void canvas_refresh(canvas_t c, video_frame_buffer_t f,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w,  unsigned int h)

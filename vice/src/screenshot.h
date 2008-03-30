@@ -27,10 +27,10 @@
 #ifndef _SCREENSHOT_H
 #define _SCREENSHOT_H
 
-struct frame_buffer_s;
+struct video_frame_buffer_s;
 
 typedef struct screenshot_s {
-    struct frame_buffer_s *frame_buffer;
+    struct video_frame_buffer_s *frame_buffer;
     unsigned int width;
     unsigned int height;
 } screenshot_t;

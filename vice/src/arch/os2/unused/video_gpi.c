@@ -128,10 +128,10 @@ int video_init(void) /* Initialization. Don't need this with OS/2 */
 
 /* ------------------------------------------------------------------------ */
 /* Frame buffer functions.  */
-int frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
+int frame_buffer_alloc(video_frame_buffer_t *f, UINT width, UINT height)
 {
     //    log("frame_buffer_alloc",1);
-    (*f) = (frame_buffer_t) malloc(sizeof(struct frame_buffer_s));
+    (*f) = (video_frame_buffer_t) malloc(sizeof(struct video_frame_buffer_s));
     //    log("bitmap alloc",1);
     (*f)->bitmap = (char*)malloc(width*height*sizeof(BYTE));
     (*f)->width  = width;
@@ -141,12 +141,12 @@ int frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
     return 0;
 }
 
-void frame_buffer_clear(frame_buffer_t *f, BYTE value)
+void frame_buffer_clear(video_frame_buffer_t *f, BYTE value)
 {
     memset((*f)->bitmap, value, ((*f)->width)*((*f)->height)*sizeof(BYTE));
 }
 
-void frame_buffer_free(frame_buffer_t *f)
+void frame_buffer_free(video_frame_buffer_t *f)
 {
     if (!f || !*f)       return;  // frame buffer not allocated
     //    log("bitmap free",1);
@@ -394,7 +394,7 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
 }
 
 /* ------------------------------------------------------------------------ */
-void canvas_refresh(canvas_t c, frame_buffer_t f,
+void canvas_refresh(canvas_t c, video_frame_buffer_t f,
                     int xs, int ys, int xi, int yi, int w, int h)
 {
     int H=c->height-yi; // Change coordinate system (up<->down)
