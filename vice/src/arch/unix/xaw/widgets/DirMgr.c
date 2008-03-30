@@ -36,16 +36,7 @@
 
 #include "DirMgr.h"
 
-/* [EP] 03/19/98 */
-#if defined __FreeBSD__ || defined __NetBSD__
-#undef HAVE_REGEXP_H
-#endif
-
-#ifdef HAVE_REGEXP_H
 #include "RegExp.h"
-#endif
-
-#define	DIR_MGR_FSM_SIZE 1024
 
 /*---------------------------------------------------------------------------*
 
@@ -60,19 +51,19 @@ char *pattern;
 {
 	DirectoryMgr *dm;
 	PFI f_func,s_func;
-	char *f_data;
+	fwf_regex_t f_data;
 
 	if (pattern == NULL) pattern = "*";
-	if (!DirectoryMgrSimpleFilterFunc(pattern,&f_func,&f_data))
+	if (!DirectoryMgrSimpleFilterFunc(pattern,&f_func, &f_data))
 	{
 		return(NULL);
 	}
 	if (!DirectoryMgrSimpleSortingFunc(sort_type,&s_func))
 	{
-		free(f_data);
+                RegExpFree(&f_data);
 		return(NULL);
 	}
-	dm = DirectoryMgrOpen(path,s_func,f_func,f_data,TRUE);
+	dm = DirectoryMgrOpen(path,s_func,f_func,&f_data,TRUE);
 	return(dm);
 } /* End DirectoryMgrSimpleOpen */
 
@@ -82,13 +73,13 @@ DirectoryMgr *dm;
 char *pattern;
 {
 	PFI f_func;
-	char *f_data;
+	fwf_regex_t f_data;
 
 	if (!DirectoryMgrSimpleFilterFunc(pattern,&f_func,&f_data))
 	{
 		return(FALSE);
 	}
-	DirectoryMgrRefilter(dm,f_func,f_data,TRUE);
+	DirectoryMgrRefilter(dm,f_func, &f_data,TRUE);
 	return(TRUE);
 } /* End DirectoryMgrSimpleRefilter */
 
@@ -129,7 +120,7 @@ char *path;
 DirectoryMgr *DirectoryMgrOpen(path,c_func,f_func,f_data,free_data)
 char *path;
 PFI c_func,f_func;
-char *f_data;
+fwf_regex_t *f_data;
 int free_data;
 {
 	DirectoryMgr *dm;
@@ -138,7 +129,8 @@ int free_data;
 	if (dm == NULL)
 	{
 		fprintf(stderr,"DirectoryMgrOpen: out of memory\n");
-		if (free_data && f_data) free(f_data);
+		if (free_data)
+                    RegExpFree(f_data);
 		return(NULL);
 	}
 	if (DirectoryOpen(path,DirectoryMgrDir(dm)) == FALSE)
@@ -146,7 +138,7 @@ int free_data;
 		fprintf(stderr,"DirectoryMgrOpen: can't open dir '%s'\n",
 			DirectoryMgrDir(dm)->path); /* [EP] 05/04/97 */
 		free(dm);
-		if (free_data && f_data) free(f_data);
+                RegExpFree(f_data);
 		return(NULL);
 	}
 	DirectoryMgrCompFunc(dm) = c_func;
@@ -160,9 +152,9 @@ DirectoryMgr *dm;
 {
 	free(DirectoryMgrData(dm));
 	free(DirectoryMgrSortedPtrs(dm));
-	if (DirectoryMgrFilterData(dm) && DirectoryMgrFreeFilterData(dm))
+	if (DirectoryMgrFreeFilterData(dm))
 	{
-		free(DirectoryMgrFilterData(dm));
+                RegExpFree(&DirectoryMgrFilterData(dm));
 	}
 	DirectoryClose(DirectoryMgrDir(dm));
 	free(dm);
@@ -172,15 +164,15 @@ DirectoryMgr *dm;
 int DirectoryMgrRefilter(dm,f_func,f_data,f_free)
 DirectoryMgr *dm;
 PFI f_func;
-char *f_data;
+fwf_regex_t *f_data;
 int f_free;
 {
-	if (DirectoryMgrFilterData(dm) && DirectoryMgrFreeFilterData(dm))
+	if (DirectoryMgrFreeFilterData(dm))
 	{
-		free(DirectoryMgrFilterData(dm));
+		RegExpFree(&DirectoryMgrFilterData(dm));
 	}
 	DirectoryMgrFilterFunc(dm) = f_func;
-	DirectoryMgrFilterData(dm) = f_data;
+	DirectoryMgrFilterData(dm) = *f_data;
 	DirectoryMgrFreeFilterData(dm) = f_free;
 	DirectoryMgrRefresh(dm);
 	return 0;		/* [EP] 05/04/97 */
@@ -194,7 +186,7 @@ DirectoryMgr *dm;
 	DirEntryCons *head,*tail,*cons;
 	DirEntry *dm_data,**dm_ptrs;
 	PFI f_func;
-	char *f_data;
+	fwf_regex_t *f_data;
 
 	tail = NULL;		/* make compiler happy [EP] 05/04/97 */
 	DirectoryMgrTotalCount(dm) = 0;
@@ -204,7 +196,7 @@ DirectoryMgr *dm;
 	if (DirectoryMgrSortedPtrs(dm)) free(DirectoryMgrSortedPtrs(dm));
 	head = NULL;
 	f_func = DirectoryMgrFilterFunc(dm);
-	f_data = DirectoryMgrFilterData(dm);
+	f_data = &DirectoryMgrFilterData(dm);
 	while (1)
 	{
 		cons = (DirEntryCons *)malloc(sizeof(DirEntryCons));
@@ -374,20 +366,14 @@ DirectoryMgr *dm;
 int DirectoryMgrSimpleFilterFunc(pattern,ff_ptr,fd_ptr)
 char *pattern;
 PFI *ff_ptr;
-char **fd_ptr;
+fwf_regex_t *fd_ptr;
 {
-#ifdef HAVE_REGEXP_H
         char regexp[2048];
 
 	*ff_ptr = DirectoryMgrFilterName;
-	*fd_ptr = (char *)malloc(sizeof(char) * DIR_MGR_FSM_SIZE);
-	if (*fd_ptr == NULL) return(FALSE);
-	RegExpPatternToRegExp(pattern,regexp);
-	RegExpCompile(regexp,*fd_ptr,DIR_MGR_FSM_SIZE);
-#else
-	/* [EP] 04/07/97 */
-	*ff_ptr = *fd_ptr = NULL;
-#endif
+        RegExpInit(fd_ptr);
+	RegExpPatternToRegExp(pattern, regexp);
+	RegExpCompile(regexp, fd_ptr);
 	return(TRUE);
 } /* End DirectoryMgrSimpleFilterFunc */
 
@@ -501,13 +487,9 @@ DirEntry **e1p,**e2p;
 
 int DirectoryMgrFilterName(de,fsm)
 DirEntry *de;
-char *fsm;
+fwf_regex_t *fsm;
 {
-#ifdef HAVE_REGEXP_H
-	return(RegExpMatch(DirEntryFileName(de),fsm));
-#else
-	return(TRUE);
-#endif
+	return(RegExpMatch(DirEntryFileName(de), fsm));
 } /* End DirectoryMgrFilterName */
 
 
