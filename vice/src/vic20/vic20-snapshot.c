@@ -87,30 +87,31 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
                 | (ram_block_5_enabled ? 32 : 0) ;
 
     m = snapshot_module_create(p, SNAP_MEM_MODULE_NAME,
-                               VIC20MEM_DUMP_VER_MAJOR, VIC20MEM_DUMP_VER_MINOR);
+                               VIC20MEM_DUMP_VER_MAJOR,
+                               VIC20MEM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
 
-    snapshot_module_write_byte(m, config);
+    SMW_B(m, config);
 
-    snapshot_module_write_byte_array(m, mem_ram, 0x0400);
-    snapshot_module_write_byte_array(m, mem_ram + 0x1000, 0x1000);
-    snapshot_module_write_byte_array(m, mem_ram + 0x9400, 0x0800);
+    SMW_BA(m, mem_ram, 0x0400);
+    SMW_BA(m, mem_ram + 0x1000, 0x1000);
+    SMW_BA(m, mem_ram + 0x9400, 0x0800);
 
     if (config & 1) {
-        snapshot_module_write_byte_array(m, mem_ram + 0x0400, 0x0c00);
+        SMW_BA(m, mem_ram + 0x0400, 0x0c00);
     }
     if (config & 2) {
-        snapshot_module_write_byte_array(m, mem_ram + 0x2000, 0x2000);
+        SMW_BA(m, mem_ram + 0x2000, 0x2000);
     }
     if (config & 4) {
-        snapshot_module_write_byte_array(m, mem_ram + 0x4000, 0x2000);
+        SMW_BA(m, mem_ram + 0x4000, 0x2000);
     }
     if (config & 8) {
-        snapshot_module_write_byte_array(m, mem_ram + 0x6000, 0x2000);
+        SMW_BA(m, mem_ram + 0x6000, 0x2000);
     }
     if (config & 32) {
-        snapshot_module_write_byte_array(m, mem_ram + 0xA000, 0x2000);
+        SMW_BA(m, mem_ram + 0xA000, 0x2000);
     }
 
     snapshot_module_close(m);
@@ -133,34 +134,34 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
         return -1;
     }
 
-    snapshot_module_read_byte(m, &config);
+    SMR_B(m, &config);
 
-    snapshot_module_read_byte_array(m, mem_ram, 0x0400);
-    snapshot_module_read_byte_array(m, mem_ram + 0x1000, 0x1000);
+    SMR_BA(m, mem_ram, 0x0400);
+    SMR_BA(m, mem_ram + 0x1000, 0x1000);
     /* setup wraparound copy of chargen */
     memcpy(mem_chargen_rom, mem_ram + 0x1c00, 0x400);
 
-    snapshot_module_read_byte_array(m, mem_ram + 0x9400, 0x0800);
+    SMR_BA(m, mem_ram + 0x9400, 0x0800);
 
     resources_set_value("RAMBlock0", (resource_value_t)(config & 1));
     if (config & 1) {
-        snapshot_module_read_byte_array(m, mem_ram + 0x0400, 0x0c00);
+        SMR_BA(m, mem_ram + 0x0400, 0x0c00);
     }
     resources_set_value("RAMBlock1", (resource_value_t)(config & 2));
     if (config & 2) {
-        snapshot_module_read_byte_array(m, mem_ram + 0x2000, 0x2000);
+        SMR_BA(m, mem_ram + 0x2000, 0x2000);
     }
     resources_set_value("RAMBlock2", (resource_value_t)(config & 4));
     if (config & 4) {
-        snapshot_module_read_byte_array(m, mem_ram + 0x4000, 0x2000);
+        SMR_BA(m, mem_ram + 0x4000, 0x2000);
     }
     resources_set_value("RAMBlock3", (resource_value_t)(config & 8));
     if (config & 8) {
-        snapshot_module_read_byte_array(m, mem_ram + 0x6000, 0x2000);
+        SMR_BA(m, mem_ram + 0x6000, 0x2000);
     }
     resources_set_value("RAMBlock5", (resource_value_t)(config & 32));
     if (config & 32) {
-        snapshot_module_read_byte_array(m, mem_ram + 0xA000, 0x2000);
+        SMR_BA(m, mem_ram + 0xA000, 0x2000);
     }
 
     snapshot_module_close(m);
@@ -222,38 +223,38 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
 
     config = mem_rom_blocks;
 
-    snapshot_module_write_byte(m, config);
+    SMW_B(m, config);
 
     /* save kernal */
-    snapshot_module_write_byte_array(m, mem_rom + 0x2000, 0x2000);
+    SMW_BA(m, mem_rom + 0x2000, 0x2000);
     /* save basic */
-    snapshot_module_write_byte_array(m, mem_rom + 0x0000, 0x2000);
+    SMW_BA(m, mem_rom + 0x0000, 0x2000);
 
-    snapshot_module_write_byte_array(m, mem_chargen_rom + 0x400, 0x1000);
+    SMW_BA(m, mem_chargen_rom + 0x400, 0x1000);
 
     if (config & 1) {
-        snapshot_module_write_byte_array(m, mem_cartrom + 0x2000, 0x1000);
+        SMW_BA(m, mem_cartrom + 0x2000, 0x1000);
     }
     if (config & 2) {
-        snapshot_module_write_byte_array(m, mem_cartrom + 0x3000, 0x1000);
+        SMW_BA(m, mem_cartrom + 0x3000, 0x1000);
     }
     if (config & 16) {
-        snapshot_module_write_byte_array(m, mem_cartrom + 0x6000, 0x1000);
+        SMW_BA(m, mem_cartrom + 0x6000, 0x1000);
     }
     if (config & 32) {
-        snapshot_module_write_byte_array(m, mem_cartrom + 0x7000, 0x1000);
+        SMW_BA(m, mem_cartrom + 0x7000, 0x1000);
     }
     if (config & 64) {
-        snapshot_module_write_byte_array(m, mem_cartrom + 0xA000, 0x1000);
+        SMW_BA(m, mem_cartrom + 0xA000, 0x1000);
     }
     if (config & 128) {
-        snapshot_module_write_byte_array(m, mem_cartrom + 0xB000, 0x1000);
+        SMW_BA(m, mem_cartrom + 0xB000, 0x1000);
     }
     if (config & 4) {
-        snapshot_module_write_byte_array(m, mem_cartrom + 0x4000, 0x1000);
+        SMW_BA(m, mem_cartrom + 0x4000, 0x1000);
     }
     if (config & 8) {
-        snapshot_module_write_byte_array(m, mem_cartrom + 0x5000, 0x1000);
+        SMW_BA(m, mem_cartrom + 0x5000, 0x1000);
     }
 
     /* enable traps again when necessary */
@@ -284,47 +285,47 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
     resources_set_value("VirtualDevices", (resource_value_t) 1);
 
-    snapshot_module_read_byte(m, &config);
+    SMR_B(m, &config);
 
     /* read kernal */
-    snapshot_module_read_byte_array(m, mem_rom + 0x2000, 0x2000);
+    SMR_BA(m, mem_rom + 0x2000, 0x2000);
     /* read basic */
-    snapshot_module_read_byte_array(m, mem_rom + 0x0000, 0x2000);
+    SMR_BA(m, mem_rom + 0x0000, 0x2000);
 
-    snapshot_module_read_byte_array(m, mem_chargen_rom + 0x400, 0x1000);
+    SMR_BA(m, mem_chargen_rom + 0x400, 0x1000);
 
     mem_rom_blocks = 0;
 
     if (config & 1) {
-        snapshot_module_read_byte_array(m, mem_cartrom + 0x2000, 0x1000);
+        SMR_BA(m, mem_cartrom + 0x2000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK1A;
     }
     if (config & 2) {
-        snapshot_module_read_byte_array(m, mem_cartrom + 0x3000, 0x1000);
+        SMR_BA(m, mem_cartrom + 0x3000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK1B;
     }
     if (config & 16) {
-        snapshot_module_read_byte_array(m, mem_cartrom + 0x6000, 0x1000);
+        SMR_BA(m, mem_cartrom + 0x6000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK3A;
     }
     if (config & 32) {
-        snapshot_module_read_byte_array(m, mem_cartrom + 0x7000, 0x1000);
+        SMR_BA(m, mem_cartrom + 0x7000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK3B;
     }
     if (config & 64) {
-        snapshot_module_read_byte_array(m, mem_cartrom + 0xA000, 0x1000);
+        SMR_BA(m, mem_cartrom + 0xA000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5A;
     }
     if (config & 128) {
-        snapshot_module_read_byte_array(m, mem_cartrom + 0xB000, 0x1000);
+        SMR_BA(m, mem_cartrom + 0xB000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK5B;
     }
     if (config & 4) {
-        snapshot_module_read_byte_array(m, mem_cartrom + 0x4000, 0x1000);
+        SMR_BA(m, mem_cartrom + 0x4000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK2A;
     }
     if (config & 8) {
-        snapshot_module_read_byte_array(m, mem_cartrom + 0x5000, 0x1000);
+        SMR_BA(m, mem_cartrom + 0x5000, 0x1000);
         mem_rom_blocks |= VIC_ROM_BLK2B;
     }
 
