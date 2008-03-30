@@ -1,7 +1,7 @@
 
 /*
- * ../../../vice-0.15.0.14+/src/pet/petpia2.c
- * This file is generated from ../../../vice-0.15.0.14+/src/pia-tmpl.c and ../../../vice-0.15.0.14+/src/pet/petpia2.def,
+ * ../../../src/pet/petpia2.c
+ * This file is generated from ../../../src/pia-tmpl.c and ../../../src/pet/petpia2.def,
  * Do not edit!
  */
 /*
@@ -47,6 +47,7 @@
 
 
 #include "parallel.h"
+#include "drive.h"
 #include "petpia.h"
 
 #define my_set_int(a)                                                   \
@@ -61,11 +62,11 @@
 
 
 #define PIA_SET_CA2(a)  do {                                            \
-                            parallel_cpu_set_ndac((a)?0:1);                      \
+                            parallel_cpu_set_ndac((a)?0:1);             \
                         } while(0)
 
 #define PIA_SET_CB2(a)  do {						\
-			    parallel_cpu_set_dav((a)?0:1);			\
+			    parallel_cpu_set_dav((a)?0:1);		\
 			} while(0)
 
 
@@ -293,8 +294,14 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
 	        pia2.ctrl_a &= 0x3f;		/* Clear CA1,CA2 IRQ */
 	        pia2_update_irq();
 	    }
+	    /* WARNING: this pin reads the voltage of the output pins, not 
+	       the ORA value as the other port. Value read might be different
+	       from what is expected due to excessive load. */
 
-
+	    if (drive[0].enable)
+	        drive0_cpu_execute();
+	    if (drive[1].enable)
+	        drive1_cpu_execute();
 
 	    if (parallel_debug)
 		printf("read pia2 port A %x, parallel_bus=%x, gives %x\n",
@@ -314,15 +321,11 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
 	        pia2_update_irq();
 	    }
 
+	    /* WARNING: this pin reads the ORA for output pins, not 
+	       the voltage on the pins as the other port. */
 
-
-	    if (parallel_debug)
-		printf("read pia2 port B %x, parallel_bus=%x, gives %x\n",
-		    pia2.port_b, parallel_bus,
-		    (~(parallel_bus|pia2.ddr_b)) | (pia2.port_b & pia2.ddr_b));
-
-	    byte = (~pia2.ddr_b) |(pia2.port_b & pia2.ddr_b);
-	    return (byte);
+	    byte = 0xff;
+	    return (byte & ~pia2.ddr_b) | (pia2.port_b & pia2.ddr_b);
 	}
 	return (pia2.ddr_a);
 

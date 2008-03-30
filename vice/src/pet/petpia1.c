@@ -1,7 +1,7 @@
 
 /*
- * ../../../vice-0.15.0.14+/src/pet/petpia1.c
- * This file is generated from ../../../vice-0.15.0.14+/src/pia-tmpl.c and ../../../vice-0.15.0.14+/src/pet/petpia1.def,
+ * ../../../src/pet/petpia1.c
+ * This file is generated from ../../../src/pia-tmpl.c and ../../../src/pet/petpia1.def,
  * Do not edit!
  */
 /*
@@ -49,6 +49,7 @@
 #include "crtc.h"
 #include "kbd.h"
 #include "parallel.h"
+#include "drive.h"
 #include "pets.h"
 #include "petmem.h"
 #include "petpia.h"
@@ -109,7 +110,7 @@ void mem_set_tape_sense(int v)
 }
 
 #define	PIA_SET_CA2(a)	do { 						\
-			    parallel_cpu_set_eoi((a)?0:1); 			\
+			    parallel_cpu_set_eoi((a)?0:1); 		\
 			    if(pet.pet2k) 				\
 				crtc_screen_enable((a)?1:0);		\
 			} while(0)
@@ -339,7 +340,14 @@ BYTE REGPARM1 read_pia1(ADDRESS addr)
 	        pia1.ctrl_a &= 0x3f;		/* Clear CA1,CA2 IRQ */
 	        pia1_update_irq();
 	    }
+	    /* WARNING: this pin reads the voltage of the output pins, not 
+	       the ORA value as the other port. Value read might be different
+	       from what is expected due to excessive load. */
 
+    if (drive[0].enable)
+        drive0_cpu_execute();
+    if (drive[1].enable)
+        drive1_cpu_execute();
 
     byte = 0xff
 	- (tape1_sense ? 16 : 0)
@@ -358,6 +366,8 @@ BYTE REGPARM1 read_pia1(ADDRESS addr)
 	        pia1_update_irq();
 	    }
 
+	    /* WARNING: this pin reads the ORA for output pins, not 
+	       the voltage on the pins as the other port. */
 
 	{
 	    int     row;
@@ -382,9 +392,10 @@ BYTE REGPARM1 read_pia1(ADDRESS addr)
                        row, j);
 #endif
 
-	    byte = j;
+            byte = j;
+
 	}
-	    return (byte);
+	    return (byte & ~pia1.ddr_b) | (pia1.port_b & pia1.ddr_b);
 	}
 	return (pia1.ddr_a);
 
