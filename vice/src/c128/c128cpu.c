@@ -69,7 +69,7 @@ extern store_func_ptr_t _mem_write_tab[];
     page_zero[(addr) & 0xff]
 
 #define DMA_FUNC \
-    z80_mainloop(&CPU_INT_STATUS, &ALARM_CONTEXT)
+    z80_mainloop(&CPU_INT_STATUS, ALARM_CONTEXT)
 
 #define DMA_ON_RESET \
                 EXPORT_REGISTERS();                  \
