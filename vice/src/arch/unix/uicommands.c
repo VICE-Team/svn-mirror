@@ -501,7 +501,22 @@ static UI_CALLBACK(save_quicksnap)
 
 static UI_CALLBACK(save_screenshot)
 {
-    screenshot_save("BMP", "otto.bmp", 0);
+    /* FIXME: A nice dialog is needed.  */
+    int retval = 0;
+
+    switch ((int)UI_MENU_CB_PARAM) {
+      case 0:
+        retval = screenshot_save("BMP", "otto.bmp", 0);
+        break;
+#if HAVE_PNG
+      case 1:
+        retval = screenshot_save("PNG", "otto.png", 0);
+        break;
+#endif
+    }
+
+    if (retval < 0)
+        ui_error("Failed saving screenshot.");
 }
 
 /*  fliplist commands */
@@ -837,9 +852,19 @@ ui_menu_entry_t ui_snapshot_commands_menu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t ui_screenshot_commands_submenu[] = {
+    { "Save to BMP...",
+      (ui_callback_t)save_screenshot, (ui_callback_data_t) 0, NULL },
+#ifdef HAVE_PNG
+    { "Save to PNG...",
+      (ui_callback_t)save_screenshot, (ui_callback_data_t) 1, NULL },
+#endif
+    { NULL }
+};
+
 ui_menu_entry_t ui_screenshot_commands_menu[] = {
     { "Screenshot",
-      (ui_callback_t) save_screenshot, NULL, NULL },
+      NULL,  NULL, ui_screenshot_commands_submenu },
     { NULL }
 };
 

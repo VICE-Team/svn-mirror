@@ -1,3 +1,23 @@
+2000-06-10  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.14.
+
+	* raster/raster.c (raster_screenshot): Save some more screen
+	constants.
+
+	* screenshot.c (screenshot_line_data): Add `x_offset'.
+	(screenshot_save): Calculate screen constants.
+
+	* screenshot.h: Added screen constants to `screenshot_t'.
+
+	* screendrv/bmp.c: Implemented BMP save functions.
+
+	* utils.c, utils.h (dword_to_le_buf): New function.
+
+	* arch/unix/uicommands.c, arch/unix/c128ui.c,
+	arch/unix/vic20ui.c, arch/unix/petui.c, arch/unix/c610ui.c:
+	More screenshot UI stuff.
+
 2000-06-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.13.

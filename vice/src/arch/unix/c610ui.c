@@ -421,6 +421,7 @@ int c610_ui_init(void)
                                     ui_directory_commands_menu,
                                     ui_menu_separator,
                                     ui_snapshot_commands_menu,
+                                    ui_screenshot_commands_menu,
                                     ui_menu_separator,
                                     ui_tool_commands_menu,
                                     ui_menu_separator,
