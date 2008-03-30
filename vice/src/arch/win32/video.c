@@ -1168,7 +1168,6 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 
         if (r->frame_buffer) {
 
-#ifndef VIDEO_REMOVE_2X
             cut_rightline=safex+r->viewport.width;
             cut_bottomline=safey+r->viewport.height;
             if (cut_rightline>r->frame_buffer->width) {
@@ -1177,16 +1176,6 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
             if (cut_bottomline>r->frame_buffer->height) {
                 cut_bottomline=r->frame_buffer->height;
             }
-#else /* VIDEO_REMOVE_2X */
-            cut_rightline=safex+r->viewport.width * r->viewport.pixel_size.width;
-            cut_bottomline=safey+r->viewport.height * r->viewport.pixel_size.height;
-            if (cut_rightline>r->frame_buffer->width * r->viewport.pixel_size.width) {
-                cut_rightline=r->frame_buffer->width * r->viewport.pixel_size.width;
-            }
-            if (cut_bottomline>r->frame_buffer->height * r->viewport.pixel_size.height) {
-                cut_bottomline=r->frame_buffer->height * r->viewport.pixel_size.height;
-            }
-#endif /* VIDEO_REMOVE_2X */
 
             //  Check if it's out
             if ((xs + w <= safex) || (xs >= cut_rightline) ||

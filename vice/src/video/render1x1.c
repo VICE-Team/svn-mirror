@@ -32,11 +32,15 @@
 
 /* 16 color 1x1 renderers */
 
-void render_08_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,int xs,int ys,int xt,int yt,int pitchs,int pitcht)
+void render_08_1x1_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
+					  unsigned int width,        const unsigned int height,
+					  const unsigned int xs,     const unsigned int ys,
+					  const unsigned int xt,     const unsigned int yt,
+					  const unsigned int pitchs, const unsigned int pitcht)
 {
-	BYTE *tmpsrc;
+	const BYTE *tmpsrc;
 	BYTE *tmptrg;
-	int x,y,wstart,wfast,wend;
+	unsigned int x,y,wstart,wfast,wend;
 
 	src += pitchs*ys + xs;
 	trg += pitcht*yt + xt;
@@ -48,7 +52,7 @@ void render_08_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 	else
 	{
-		wstart=8-((int)trg & 7);			/* alignment: 8 pixels*/
+		wstart=8-((unsigned int)trg & 7);	/* alignment: 8 pixels*/
 		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}
@@ -82,11 +86,15 @@ void render_08_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 }
 
-void render_16_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,int xs,int ys,int xt,int yt,int pitchs,int pitcht)
+void render_16_1x1_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
+					  unsigned int width,        const unsigned int height,
+					  const unsigned int xs,     const unsigned int ys,
+					  const unsigned int xt,     const unsigned int yt,
+					  const unsigned int pitchs, const unsigned int pitcht)
 {
-	BYTE *tmpsrc;
+	const BYTE *tmpsrc;
 	WORD *tmptrg;
-	int x,y,wstart,wfast,wend;
+	unsigned int x,y,wstart,wfast,wend;
 
 	src=src + pitchs*ys + xs;
 	trg=trg + pitcht*yt + (xt << 1);
@@ -98,7 +106,7 @@ void render_16_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 	else
 	{
-		wstart=8-((int)trg & 7);			/* alignment: 8 pixels*/
+		wstart=8-((unsigned int)trg & 7);	/* alignment: 8 pixels*/
 		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}
@@ -132,11 +140,15 @@ void render_16_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 }
 
-void render_24_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,int xs,int ys,int xt,int yt,int pitchs,int pitcht)
+void render_24_1x1_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
+					  unsigned int width,        const unsigned int height,
+					  const unsigned int xs,     const unsigned int ys,
+					  const unsigned int xt,     const unsigned int yt,
+					  const unsigned int pitchs, const unsigned int pitcht)
 {
-	BYTE *tmpsrc;
+	const BYTE *tmpsrc;
 	BYTE *tmptrg;
-	int x,y,wstart,wfast,wend;
+	unsigned int x,y,wstart,wfast,wend;
 	register DWORD color;
 
 	src=src + pitchs*ys + xs;
@@ -149,7 +161,7 @@ void render_24_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wstart=4-((unsigned int)trg & 3);	/* alignment: 4 pixels*/
 		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
 		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
@@ -211,11 +223,15 @@ void render_24_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 }
 
-void render_32_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,int xs,int ys,int xt,int yt,int pitchs,int pitcht)
+void render_32_1x1_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
+					  unsigned int width,        const unsigned int height,
+					  const unsigned int xs,     const unsigned int ys,
+					  const unsigned int xt,     const unsigned int yt,
+					  const unsigned int pitchs, const unsigned int pitcht)
 {
-	BYTE *tmpsrc;
+	const BYTE *tmpsrc;
 	DWORD *tmptrg;
-	int x,y,wstart,wfast,wend;
+	unsigned int x,y,wstart,wfast,wend;
 
 	src=src + pitchs*ys + xs;
 	trg=trg + pitcht*yt + (xt << 2);
@@ -227,7 +243,7 @@ void render_32_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 	else
 	{
-		wstart=8-((int)trg & 7);			/* alignment: 8 pixels*/
+		wstart=8-((unsigned int)trg & 7);	/* alignment: 8 pixels*/
 		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}
@@ -266,12 +282,16 @@ void render_32_1x1_04(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 
 /* 256 color 1x1 renderers */
 
-void render_08_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,int xs,int ys,int xt,int yt,int pitchs,int pitcht)
+void render_08_1x1_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
+					  unsigned int width,        const unsigned int height,
+					  const unsigned int xs,     const unsigned int ys,
+					  const unsigned int xt,     const unsigned int yt,
+					  const unsigned int pitchs, const unsigned int pitcht)
 {
-	BYTE *tmppre;
-	BYTE *tmpsrc;
+	const BYTE *tmppre;
+	const BYTE *tmpsrc;
 	BYTE *tmptrg;
-	int x,y,wstart,wfast,wend;
+	unsigned int x,y,wstart,wfast,wend;
 
 	src=src + pitchs*ys + xs;
 	trg=trg + pitcht*yt + xt;
@@ -283,7 +303,7 @@ void render_08_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 	else
 	{
-		wstart=8-((int)trg & 7);			/* alignment: 8 pixels*/
+		wstart=8-((unsigned int)trg & 7);	/* alignment: 8 pixels*/
 		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}
@@ -320,12 +340,16 @@ void render_08_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 }
 
-void render_16_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,int xs,int ys,int xt,int yt,int pitchs,int pitcht)
+void render_16_1x1_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
+					  unsigned int width,        const unsigned int height,
+					  const unsigned int xs,     const unsigned int ys,
+					  const unsigned int xt,     const unsigned int yt,
+					  const unsigned int pitchs, const unsigned int pitcht)
 {
-	BYTE *tmppre;
-	BYTE *tmpsrc;
+	const BYTE *tmppre;
+	const BYTE *tmpsrc;
 	WORD *tmptrg;
-	int x,y,wstart,wfast,wend;
+	unsigned int x,y,wstart,wfast,wend;
 
 	src=src + pitchs*ys + xs;
 	trg=trg + pitcht*yt + (xt << 1);
@@ -337,7 +361,7 @@ void render_16_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 	else
 	{
-		wstart=8-((int)trg & 7);			/* alignment: 8 pixels*/
+		wstart=8-((unsigned int)trg & 7);	/* alignment: 8 pixels*/
 		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}
@@ -374,12 +398,16 @@ void render_16_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 }
 
-void render_24_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,int xs,int ys,int xt,int yt,int pitchs,int pitcht)
+void render_24_1x1_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
+					  unsigned int width,        const unsigned int height,
+					  const unsigned int xs,     const unsigned int ys,
+					  const unsigned int xt,     const unsigned int yt,
+					  const unsigned int pitchs, const unsigned int pitcht)
 {
-	BYTE *tmppre;
-	BYTE *tmpsrc;
+	const BYTE *tmppre;
+	const BYTE *tmpsrc;
 	BYTE *tmptrg;
-	int x,y,wstart,wfast,wend;
+	unsigned int x,y,wstart,wfast,wend;
 	register DWORD color;
 
 	src=src + pitchs*ys + xs;
@@ -392,7 +420,7 @@ void render_24_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 	else
 	{
-		wstart=4-((int)trg & 3);			/* alignment: 4 pixels*/
+		wstart=4-((unsigned int)trg & 3);	/* alignment: 4 pixels*/
 		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
 		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
 	}
@@ -455,12 +483,16 @@ void render_24_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 }
 
-void render_32_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,int xs,int ys,int xt,int yt,int pitchs,int pitcht)
+void render_32_1x1_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
+					  unsigned int width,        const unsigned int height,
+					  const unsigned int xs,     const unsigned int ys,
+					  const unsigned int xt,     const unsigned int yt,
+					  const unsigned int pitchs, const unsigned int pitcht)
 {
-	BYTE *tmppre;
-	BYTE *tmpsrc;
+	const BYTE *tmppre;
+	const BYTE *tmpsrc;
 	DWORD *tmptrg;
-	int x,y,wstart,wfast,wend;
+	unsigned int x,y,wstart,wfast,wend;
 
 	src=src + pitchs*ys + xs;
 	trg=trg + pitcht*yt + (xt << 2);
@@ -472,7 +504,7 @@ void render_32_1x1_08(DWORD *colortab,BYTE *src,BYTE *trg,int width,int height,i
 	}
 	else
 	{
-		wstart=8-((int)trg & 7);			/* alignment: 8 pixels*/
+		wstart=8-((unsigned int)trg & 7);	/* alignment: 8 pixels*/
 		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
 		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
 	}

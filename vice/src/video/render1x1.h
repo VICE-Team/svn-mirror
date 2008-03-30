@@ -30,29 +30,46 @@
 
 #include "types.h"
 
-extern void render_08_1x1_04(DWORD *colortab, BYTE *src, BYTE *trg, int width,
-                             int height, int xs, int ys, int xt, int yt,
-                             int pitchs, int pitcht);
-extern void render_16_1x1_04(DWORD *colortab, BYTE *src, BYTE *trg, int width,
-                             int height, int xs, int ys, int xt, int yt,
-                             int pitchs, int pitcht);
-extern void render_24_1x1_04(DWORD *colortab, BYTE *src, BYTE *trg, int width,
-                             int height, int xs, int ys, int xt, int yt,
-                             int pitchs, int pitcht);
-extern void render_32_1x1_04(DWORD *colortab, BYTE *src, BYTE *trg, int width,
-                             int height, int xs, int ys, int xt, int yt,
-                             int pitchs, int pitcht);
-extern void render_08_1x1_08(DWORD *colortab, BYTE *src, BYTE *trg, int width,
-                             int height, int xs, int ys, int xt, int yt,
-                             int pitchs, int pitcht);
-extern void render_16_1x1_08(DWORD *colortab, BYTE *src, BYTE *trg, int width,
-                             int height, int xs, int ys, int xt, int yt,
-                             int pitchs, int pitcht);
-extern void render_24_1x1_08(DWORD *colortab, BYTE *src, BYTE *trg, int width,
-                             int height, int xs, int ys, int xt, int yt,
-                             int pitchs, int pitcht);
-extern void render_32_1x1_08(DWORD *colortab, BYTE *src, BYTE *trg, int width,
-                             int height, int xs, int ys, int xt, int yt,
-                             int pitchs, int pitcht);
+extern void render_08_1x1_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
+							 unsigned int width,        const unsigned int height,
+							 const unsigned int xs,     const unsigned int ys,
+							 const unsigned int xt,     const unsigned int yt,
+							 const unsigned int pitchs, const unsigned int pitcht);
+extern void render_16_1x1_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
+							 unsigned int width,        const unsigned int height,
+							 const unsigned int xs,     const unsigned int ys,
+							 const unsigned int xt,     const unsigned int yt,
+							 const unsigned int pitchs, const unsigned int pitcht);
+extern void render_24_1x1_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
+							 unsigned int width,        const unsigned int height,
+							 const unsigned int xs,     const unsigned int ys,
+							 const unsigned int xt,     const unsigned int yt,
+							 const unsigned int pitchs, const unsigned int pitcht);
+extern void render_32_1x1_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
+							 unsigned int width,        const unsigned int height,
+							 const unsigned int xs,     const unsigned int ys,
+							 const unsigned int xt,     const unsigned int yt,
+							 const unsigned int pitchs, const unsigned int pitcht);
+
+extern void render_08_1x1_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
+							 unsigned int width,        const unsigned int height,
+							 const unsigned int xs,     const unsigned int ys,
+							 const unsigned int xt,     const unsigned int yt,
+							 const unsigned int pitchs, const unsigned int pitcht);
+extern void render_16_1x1_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
+							 unsigned int width,        const unsigned int height,
+							 const unsigned int xs,     const unsigned int ys,
+							 const unsigned int xt,     const unsigned int yt,
+							 const unsigned int pitchs, const unsigned int pitcht);
+extern void render_24_1x1_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
+							 unsigned int width,        const unsigned int height,
+							 const unsigned int xs,     const unsigned int ys,
+							 const unsigned int xt,     const unsigned int yt,
+							 const unsigned int pitchs, const unsigned int pitcht);
+extern void render_32_1x1_08(const DWORD *colortab, const BYTE *src, BYTE *trg,
+							 unsigned int width,        const unsigned int height,
+							 const unsigned int xs,     const unsigned int ys,
+							 const unsigned int xt,     const unsigned int yt,
+							 const unsigned int pitchs, const unsigned int pitcht);
 #endif
 
