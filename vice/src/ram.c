@@ -42,9 +42,9 @@ static int start_value;
 static int value_invert;
 static int pattern_invert;
 
-static int set_start_value(resource_value_t v, void *param)
+static int set_start_value(int val, void *param)
 {
-    start_value = (int)v;
+    start_value = val;
     if (start_value < 0)
         start_value = 0;
     if (start_value > 0xff)
@@ -52,15 +52,15 @@ static int set_start_value(resource_value_t v, void *param)
     return 0;
 }
 
-static int set_value_invert(resource_value_t v, void *param)
+static int set_value_invert(int val, void *param)
 {
-    value_invert = (int)v;
+    value_invert = val;
     return 0;
 }
 
-static int set_pattern_invert(resource_value_t v, void *param)
+static int set_pattern_invert(int val, void *param)
 {
-    pattern_invert = (int)v;
+    pattern_invert = val;
     return 0;
 }
 

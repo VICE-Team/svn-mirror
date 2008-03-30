@@ -79,8 +79,11 @@ typedef struct resource_ram_s {
        it, use `set_func'.  */
     resource_value_t *value_ptr;
 
-    /* Function to call to set the value.  */
-    resource_set_func_t *set_func;
+    /* Function to call to set the integer value.  */
+    resource_set_func_int_t *set_func_int;
+
+    /* Function to call to set the string value.  */
+    resource_set_func_string_t *set_func_string;
 
     /* Extra parameter to pass to `set_func'.  */
     void *param;
@@ -206,52 +209,6 @@ static void resources_check_hash_table(FILE *f)
 
 
 /* ------------------------------------------------------------------------- */
-
-int resources_register(const resource_t *r)
-{
-    const resource_t *sp;
-    resource_ram_t *dp;
-
-    sp = r;
-    dp = resources + num_resources;
-    while (sp->name != NULL) {
-
-        unsigned int hashkey;
-
-        if ((sp->type == RES_STRING && sp->factory_value == NULL)
-            || sp->value_ptr == NULL || sp->set_func == NULL) {
-            archdep_startup_log_error(
-                "Inconsistent resource declaration '%s'.\n", sp->name);
-            return -1;
-        }
-
-        if (num_allocated_resources <= num_resources) {
-            num_allocated_resources *= 2;
-            resources = lib_realloc(resources, num_allocated_resources
-                                    * sizeof(resource_ram_t));
-            dp = resources + num_resources;
-        }
-
-        dp->name = lib_stralloc(sp->name);
-        dp->type = sp->type;
-        dp->factory_value = sp->factory_value;
-        dp->value_ptr = sp->value_ptr;
-        dp->event_relevant = sp->event_relevant;
-        dp->event_strict_value = sp->event_strict_value;
-        dp->set_func = sp->set_func;
-        dp->param = sp->param;
-        dp->callback = NULL;
-
-        hashkey = resources_calc_hash_key(sp->name);
-        dp->hash_next = hashTable[hashkey];
-        hashTable[hashkey] = (dp - resources);
-
-        num_resources++, sp++, dp++;
-    }
-
-    return 0;
-}
-
 int resources_register_int(const resource_int_t *r)
 {
     const resource_int_t *sp;
@@ -282,7 +239,7 @@ int resources_register_int(const resource_int_t *r)
         dp->value_ptr = (void *)(sp->value_ptr);
         dp->event_relevant = sp->event_relevant;
         dp->event_strict_value = sp->event_strict_value;
-        dp->set_func = sp->set_func;
+        dp->set_func_int = sp->set_func;
         dp->param = sp->param;
         dp->callback = NULL;
 
@@ -327,7 +284,7 @@ int resources_register_string(const resource_string_t *r)
         dp->value_ptr = (void *)(sp->value_ptr);
         dp->event_relevant = sp->event_relevant;
         dp->event_strict_value = sp->event_strict_value;
-        dp->set_func = sp->set_func;
+        dp->set_func_string = sp->set_func;
         dp->param = sp->param;
         dp->callback = NULL;
 
@@ -470,10 +427,18 @@ int resources_init(const char *machine)
 static int resources_set_value_internal(resource_ram_t *r, 
                                         resource_value_t value)
 {
-    int status;
+    int status = 0;
 
-    if ((status = (*r->set_func)(value, r->param)) == 0)
-        resources_issue_callback(r, 1);
+    switch (r->type) {
+      case RES_INTEGER:
+        if ((status = (*r->set_func_int)((int)value, r->param)) == 0)
+            resources_issue_callback(r, 1);
+        break;
+      case RES_STRING:
+        if ((status = (*r->set_func_string)((const char *)value, r->param)) == 0)
+            resources_issue_callback(r, 1);
+        break;
+    }
 
     return status;
 }
@@ -546,10 +511,10 @@ int resources_set_value_string(const char *name, const char *value)
 
     switch (r->type) {
       case RES_INTEGER:
-        status = (*r->set_func)((resource_value_t)atoi(value), r->param);
+        status = (*r->set_func_int)(atoi(value), r->param);
 	break;
       case RES_STRING:
-        status = (*r->set_func)((resource_value_t)value, r->param);
+        status = (*r->set_func_string)(value, r->param);
 	break;
       default:
         log_warning(LOG_DEFAULT, "Unknown resource type for `%s'", name);
@@ -636,10 +601,21 @@ int resources_set_defaults(void)
     unsigned int i;
 
     for (i = 0; i < num_resources; i++) {
-        if ((*resources[i].set_func)(resources[i].factory_value,
-            resources[i].param) < 0) {
-            /*printf("Cannot set resource %s", resources[i].name);*/
-            return -1;
+        switch (resources[i].type) {
+          case RES_INTEGER:
+            if ((*resources[i].set_func_int)((int)(resources[i].factory_value),
+                resources[i].param) < 0) {
+                /*printf("Cannot set resource %s", resources[i].name);*/
+                return -1;
+            }
+            break;
+          case RES_STRING:
+            if ((*resources[i].set_func_string)((const char *)(resources[i].factory_value),
+                resources[i].param) < 0) {
+                /*printf("Cannot set resource %s", resources[i].name);*/
+                return -1;
+            }
+            break;
         }
 
         resources_issue_callback(resources + i, 0);
@@ -656,12 +632,22 @@ int resources_set_event_safe(void)
     unsigned int i;
 
     for (i = 0; i < num_resources; i++) {
-        if (resources[i].event_relevant == RES_EVENT_STRICT)
-            if ((*resources[i].set_func)(resources[i].event_strict_value,
-                resources[i].param) < 0) {
-                return -1;
+        switch (resources[i].type) {
+          case RES_INTEGER:
+            if (resources[i].event_relevant == RES_EVENT_STRICT) {
+                if ((*resources[i].set_func_int)((int)(resources[i].event_strict_value),
+                    resources[i].param) < 0)
+                    return -1;
             }
-
+            break;
+          case RES_STRING:
+            if (resources[i].event_relevant == RES_EVENT_STRICT) {
+                if ((*resources[i].set_func_string)((const char *)(resources[i].event_strict_value),
+                    resources[i].param) < 0)
+                    return -1;
+            }
+            break;
+        }
         resources_issue_callback(resources + i, 0);
     }
 
@@ -809,10 +795,10 @@ int resources_read_item_from_file(FILE *f)
 
         switch (r->type) {
           case RES_INTEGER:
-            result = (*r->set_func)((resource_value_t)atoi(arg_ptr), r->param);
+            result = (*r->set_func_int)(atoi(arg_ptr), r->param);
             break;
           case RES_STRING:
-            result = (*r->set_func)((resource_value_t)arg_ptr, r->param);
+            result = (*r->set_func_string)(arg_ptr, r->param);
             break;
           default:
             log_error(LOG_DEFAULT, "Unknown resource type for `%s'.",
