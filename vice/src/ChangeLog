@@ -1,3 +1,28 @@
+2003-02-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.10.
+
+	* arch/unix/catweaselmkiii.c, arch/unix/uisid.c: Only compile
+	CW specific code if Catweasel support is present.
+
+	* sid/sid.c, sid/sid.h, sid/sid-resources.c,
+	arch/unix/c128ui.c, arch/unix/c64ui.c, arch/unix/cbm2ui.c,
+	sid/sid-cmdline-options.c: Added ReSID as a SID engine and
+	removed separate resource.
+
+	* fsdevice/fsdevice-write.c, fsdevice/fsdevice-read.c,
+	fsdevice/fsdevicetypes.h, fsdevice/fsdevice.c,
+	fsdevice/fsdevice-flush.c, fsdevice/fsdevice-flush.h: Each
+	drive has a separate error channel now.
+
+2003-02-16  Dirk Jagdmann  <doj@cubic.org>
+
+	* arch/win32/catweaselmkiii.c (catweaselmkiii_available):
+	coded this function
+
+	* arch/unix/catweaselmkiii.c catweaselmkiii_available(): coded
+	this function
+
 2003-02-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.9.

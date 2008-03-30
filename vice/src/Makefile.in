@@ -681,7 +681,7 @@ snapshot.o: snapshot.c vice.h config.h arch/unix/archdep.h archapi.h \
 	zfile.h
 sound.o: sound.c vice.h config.h clkguard.h arch/unix/types.h cmdline.h \
 	fixpoint.h log.h machine.h maincpu.h resources.h sound.h \
-	arch/unix/ui.h uiapi.h utils.h vsync.h catweaselmkiii.h
+	arch/unix/ui.h uiapi.h utils.h vsync.h
 sysfile.o: sysfile.c vice.h config.h arch/unix/archdep.h archapi.h \
 	cmdline.h findpath.h ioutil.h log.h resources.h sysfile.h \
 	arch/unix/types.h utils.h
