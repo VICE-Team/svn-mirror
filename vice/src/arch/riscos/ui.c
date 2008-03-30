@@ -3547,8 +3547,6 @@ static void ui_key_press_config(int *b)
             resources_set_value(Rsrc_Brightness, (resource_value_t)atoi(data)); break;
           case Icon_ConfVid_Gamma:
             resources_set_value(Rsrc_Gamma, (resource_value_t)atoi(data)); break;
-          case Icon_ConfVid_DelayLoop:
-            resources_set_value(Rsrc_DelLoop, (resource_value_t)atoi(data)); break;
           case Icon_ConfVid_LineShade:
             resources_set_value(Rsrc_LineShade, (resource_value_t)atoi(data)); break;
           case Icon_ConfVid_Palette:

@@ -28,9 +28,15 @@
 
 #include "driver-select.h"
 #include "drv-ascii.h"
+#include "log.h"
 #include "output-select.h"
 #include "output.h"
 #include "types.h"
+
+
+/* #define DEBUG_PRINTER */
+
+static log_t drv_ascii_log = LOG_ERR;
 
 static int drv_ascii_open(unsigned int prnr, unsigned int secondary)
 {
@@ -49,6 +55,11 @@ static void drv_ascii_close(unsigned int prnr, unsigned int secondary)
 
 static int drv_ascii_putc(unsigned int prnr, unsigned int secondary, BYTE b)
 {
+#ifdef DEBUG_PRINTER
+    log_message(drv_ascii_log, "Print device #%i secondary %i data %02x.",
+                prnr + 4, secondary, b);
+#endif
+
     if (output_select_putc(prnr, b) < 0)
         return -1;
 
@@ -87,6 +98,6 @@ int drv_ascii_init_resources(void)
 
 void drv_ascii_init(void)
 {
-
+    drv_ascii_log = log_open("Drv-Ascii");
 }
 

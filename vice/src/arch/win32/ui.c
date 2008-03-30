@@ -1320,6 +1320,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
       case IDM_SOFT_RESET + 0x00010000:
       case IDM_HARD_RESET:
       case IDM_SOFT_RESET:
+        vsync_suspend_speed_eval();
         if (ui_messagebox("Do you really want to reset the emulated machine?",
                           ((wparam & 0xffff) == IDM_HARD_RESET ? "Hard reset"
                           : "Soft reset"),
@@ -1340,7 +1341,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
                 maincpu_trigger_reset();
             }
         }
-        vsync_suspend_speed_eval();
         break;
       case IDM_REFRESH_RATE_AUTO:
         resources_set_value("RefreshRate", (resource_value_t)0);

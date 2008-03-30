@@ -70,6 +70,7 @@ static int set_drive1_type(resource_value_t v, void *param);
 static int set_drive_true_emulation(resource_value_t v, void *param)
 {
     drive_true_emulation = (int)v;
+
     if ((int) v) {
         if (drive[0].type != DRIVE_TYPE_NONE) {
             drive[0].enable = 1;
@@ -449,7 +450,7 @@ static int set_drive_rama(resource_value_t v, void *param)
 }
 
 static resource_t resources[] = {
-    { "DriveTrueEmulation", RES_INTEGER, (resource_value_t)0,
+    { "DriveTrueEmulation", RES_INTEGER, (resource_value_t)1,
       (resource_value_t *)&drive_true_emulation,
       set_drive_true_emulation, NULL },
     { "Drive8Type", RES_INTEGER, (resource_value_t)DRIVE_TYPE_1541,

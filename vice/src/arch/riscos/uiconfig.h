@@ -311,7 +311,6 @@ typedef struct disp_desc_s {
 #define Icon_ConfVid_Brightness		22
 #define Icon_ConfVid_Gamma		24
 #define Icon_ConfVid_LineShade		26
-#define Icon_ConfVid_DelayLoop		28
 #define Icon_ConfVid_PalMode		30
 #define Icon_ConfVid_PalModeT		31
 

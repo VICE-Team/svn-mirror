@@ -1,3 +1,42 @@
+2002-03-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.29.
+
+	* drive/drive-resources.c: True drive emulation is default.
+
+	* autostart.c (autostart_reset): Call `disk_eof_callback'.
+
+	* printerdrv/driver-select.c, printerdrv/drv-ascii.c: Added
+	some debugging outout.
+
+2002-03-28  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* fliplist.c (flip_load_list): Don't call fopen if filename
+	is NULL.
+
+	* arch/win32/ui.c: Call suspend_speed_eval _before_ displaying
+	the "Do you want to reset?" box.
+
+2002-03-25  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c, arch/riscos/uiconfig.{c,h},
+	arch/riscos/uihelp.c: removed icon for DelayLoopEmulation,
+	resource modified implicitly now
+
+	* arch/riscos/uidummy.c: removed machine_name stubs (now in
+	c1541.c and petcat.c)
+
+	* arch/riscos/video.c: handle raw RGB colours, automatically
+	enable DelayLoopEmulation when PAL emulation is activated.
+	Fixed canvas_force_redraw()
+
+2002-03-24  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/xaw/uicolor.c (uicolor_alloc_system_colors):
+	Pass NULL canvas to color_alloc_colors.
+	(uicolor_convert_color_table): Don't call
+	video_convert_color_table if canvas == NULL.
+
 2002-03-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.28.

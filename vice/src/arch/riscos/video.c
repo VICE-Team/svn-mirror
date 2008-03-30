@@ -155,6 +155,36 @@ static void video_canvas_get_scale(const video_canvas_t *canvas, int *sx, int *s
 
 
 /*
+ *  Init raw RGB colours
+ */
+
+static void video_init_raw_rgb(void)
+{
+  if (ActualPALDepth > 8)
+  {
+    unsigned int i;
+    /* only does something for true colour modes */
+    if (ActualPALDepth == 16)
+    {
+      for (i=0; i<256; i++)
+      {
+        DWORD c = i & 0xf8;
+        video_render_setrawrgb(i, (DWORD)(c>>3), (DWORD)(c<<2), (DWORD)(c<<7));
+      }
+    }
+    else if (ActualPALDepth == 32)
+    {
+      for (i=0; i<256; i++)
+      {
+        video_render_setrawrgb(i, (DWORD)i, (DWORD)(i<<8), (DWORD)(i<<16));
+      }
+    }
+    video_render_initraw();
+  }
+}
+
+
+/*
  *  Convert a PAL depth handle to an actual depth
  */
 
@@ -183,6 +213,9 @@ static void video_init_pal_depth(void)
     default:
       ActualPALDepth = 0; break;
   }
+  video_init_raw_rgb();
+
+  resources_set_value("DelayLoopEmulation", (resource_value_t)(ActualPALDepth != 0));
 }
 
 
@@ -587,7 +620,7 @@ static void video_ensure_pal_colours(video_canvas_t *canvas)
     unsigned int *ct;
     unsigned int i;
 
-    log_message(LOG_DEFAULT, "Rebinding PAL colours for %s (%d)", canvas->name, canvas->num_colours);
+    log_message(LOG_DEFAULT, "Rebinding PAL colours for %s (%d colours)", canvas->name, canvas->num_colours);
 
     ct = canvas->current_palette;
 
@@ -850,10 +883,27 @@ static void video_redraw_full_palemu(video_canvas_t *canvas, video_redraw_desc_t
  * Init redraw core functions
  */
 
-static const char *redraw_core_name_pal = "PAL emulation";
+static const char *redraw_core_name_pal8 = "PAL Emu 8";
+static const char *redraw_core_name_pal16 = "PAL Emu 16";
+static const char *redraw_core_name_pal32 = "PAL Emu 32";
 static const char *redraw_core_name_bplot = "BPlot";
 static const char *redraw_core_name_sprite = "SpriteOp";
 static const char *redraw_core_name_sprite2 = "SpriteOp (1x2)";
+
+
+static const char *video_get_palemu_name(int depth)
+{
+  switch (depth)
+  {
+    case 16:
+      return redraw_core_name_pal16;
+    case 32:
+      return redraw_core_name_pal32;
+    default:
+      return redraw_core_name_pal8;
+  }
+}
+
 
 static void video_get_redraw_wimp(video_canvas_t *canvas)
 {
@@ -866,7 +916,7 @@ static void video_get_redraw_wimp(video_canvas_t *canvas)
   if ((ActualPALDepth != 0)
    && ((rendermode == VIDEO_RENDER_PAL_1X1) || (rendermode == VIDEO_RENDER_PAL_2X2)))
   {
-    corename = redraw_core_name_pal;
+    corename = video_get_palemu_name(ActualPALDepth);
     canvas->redraw_wimp = video_redraw_wimp_palemu;
   }
   else
@@ -906,7 +956,7 @@ static void video_get_redraw_full(video_canvas_t *canvas)
   if ((ActualPALDepth != 0)
    && ((rendermode == VIDEO_RENDER_PAL_1X1) || (rendermode == VIDEO_RENDER_PAL_2X2)))
   {
-    corename = redraw_core_name_pal;
+    corename = video_get_palemu_name(ActualPALDepth);
     canvas->redraw_full = video_redraw_full_palemu;
   }
   else
@@ -1311,6 +1361,7 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
 static void canvas_force_redraw(video_canvas_t *canvas)
 {
   int eigx, eigy;
+  int scalex, scaley;
 
   if (FullScreenMode == 0)
   {
@@ -1320,7 +1371,9 @@ static void canvas_force_redraw(video_canvas_t *canvas)
   {
     eigx = FullScrDesc.eigx; eigy = FullScrDesc.eigy;
   }
-  Wimp_ForceRedraw(canvas->window->Handle, 0, -(canvas->height << eigy), canvas->width << eigx, 0);
+  video_canvas_get_scale(canvas, &scalex, &scaley);
+  scalex <<= eigx; scaley <<= eigy;
+  Wimp_ForceRedraw(canvas->window->Handle, 0, -canvas->height*scaley, canvas->width*scalex, 0);
 }
 
 
@@ -1741,8 +1794,8 @@ static void callback_canvas_modified(const char *name, void *callback_param)
     }
     clist = clist->next;
   }
+  canvas_redraw_all();
 }
-
 
 
 void video_register_callbacks(void)

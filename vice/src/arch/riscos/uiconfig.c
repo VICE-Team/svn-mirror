@@ -174,7 +174,6 @@ static const char Rsrc_ColourSat[] = "ColorSaturation";
 static const char Rsrc_Contrast[] = "ColorContrast";
 static const char Rsrc_Brightness[] = "ColorBrightness";
 static const char Rsrc_Gamma[] = "ColorGamma";
-static const char Rsrc_DelLoop[] = "DelayLoopEmulation";
 static const char Rsrc_LineShade[] = "PALScanLineShade";
 static const char Rsrc_PALMode[] = "PALMode";
 
@@ -1585,7 +1584,6 @@ config_item_t Configurations[] = {
   {Rsrc_Contrast, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_Contrast}},
   {Rsrc_Brightness, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_Brightness}},
   {Rsrc_Gamma, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_Gamma}},
-  {Rsrc_DelLoop, CONFIG_SELECT, {CONF_WIN_VIDEO, Icon_ConfVid_DelayLoop}},
   {Rsrc_LineShade, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_LineShade}},
   {NULL, 0, {0, 0}}
 };

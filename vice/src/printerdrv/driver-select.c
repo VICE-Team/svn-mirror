@@ -32,10 +32,15 @@
 #include "cmdline.h"
 #include "driver-select.h"
 #include "drv-ascii.h"
+#include "log.h"
 #include "resources.h"
 #include "types.h"
 #include "utils.h"
 
+
+/* #define DEBUG_PRINTER */
+
+static log_t driver_select_log = LOG_ERR;
 
 struct driver_select_list_s {
     driver_select_t driver_select;
@@ -111,7 +116,7 @@ int driver_select_init_cmdline_options(void)
 
 void driver_select_init(void)
 {
-
+    driver_select_log = log_open("Driver Select");
 }
 
 /* ------------------------------------------------------------------------- */
@@ -138,11 +143,20 @@ void driver_select_register(driver_select_t *driver_select)
 
 int driver_select_open(unsigned int prnr, unsigned int secondary)
 {
+#ifdef DEBUG_PRINTER
+    log_message(driver_select_log, "Open device #%i secondary %i.",
+                prnr + 4, secondary);
+#endif
+
     return driver_select[prnr].drv_open(prnr, secondary);
 }
 
 void driver_select_close(unsigned int prnr, unsigned int secondary)
 {
+#ifdef DEBUG_PRINTER
+    log_message(driver_select_log, "Close device #%i.", prnr + 4);
+#endif
+
     driver_select[prnr].drv_close(prnr, secondary);
 }
 

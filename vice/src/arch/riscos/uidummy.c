@@ -26,8 +26,6 @@
 
 #include <stdio.h>
 
-char *machine_name = NULL;
-
 int vsid_mode = 0;
 
 void ui_set_drive_leds(unsigned int led, int status)

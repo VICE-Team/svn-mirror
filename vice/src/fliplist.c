@@ -303,7 +303,7 @@ int flip_load_list(unsigned int unit, const char *filename, int autoattach)
     char buffer[buffer_size];
     int all_units = 0, i;
     
-    if ((fp = fopen(filename, MODE_READ)) == NULL)
+    if (filename == NULL || (fp = fopen(filename, MODE_READ)) == NULL)
         return -1;
 
     buffer[0] = '\0';

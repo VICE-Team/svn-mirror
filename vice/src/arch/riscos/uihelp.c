@@ -271,7 +271,6 @@ static help_icon_t Help_ConfigVideo[] = {
   {Icon_ConfVid_Contrast, "\\HelpConfVidContrast"},
   {Icon_ConfVid_Brightness, "\\HelpConfVidBrightness"},
   {Icon_ConfVid_Gamma, "\\HelpConfVidGamma"},
-  {Icon_ConfVid_DelayLoop, "\\HelpConfVidDelLoop"},
   {Icon_ConfVid_LineShade, "\\HelpConfVidLineShade"},
   {Icon_ConfVid_PalMode, "\\HelpConfVidPalMode"},
   {Icon_ConfVid_PalModeT, "\\HelpConfVidPalModeT"},
