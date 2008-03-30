@@ -1,3 +1,35 @@
+2002-12-08  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.32.
+
+	* drive/tcbm/*: Moved 1551 specific code here.
+
+	* machine-drive.h, c64/c64drive.c, vic20/vic20drive.c,
+	pet/petdrive.c, plus4/plus4drive.c, cbm2/cbm2drive.c,
+	drive/tcbm.h: New files.
+
+	* plus4/tcbm.c, plus4/tcbm.h: Renamed.
+
+	* Makefile.am, c64/Makefile.am, vic20/Makefile.am,
+	pet/Makefile.am, plus4/Makefile.am, cbm2/Makefile.am,
+	drive/Makefile.am: Updated.
+
+	* plus4/plus4.c (machine_change_timing): Reverted last change.
+
+	* serial/iec.c, serial/iec.h: Remamed.
+	
+	* serial/serial.c, serial/serial-iec.c, serial/serial-trap.c:
+	Changed to new IEC bus naming.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/cbm2.c (machine_init): Added machine drive
+	stub.
+
+2002-12-08  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/blockdev.c, arch/riscos/Makefile.am: added
+	blockdev driver for RISC OS
+
 2002-12-07  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.31.

@@ -38,7 +38,7 @@ pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 
-top_builddir = ../..
+top_builddir = ../../..
 
 ACLOCAL = @ACLOCAL@
 AUTOCONF = @AUTOCONF@
@@ -129,29 +129,27 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/crtc 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/monitor
+INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive
 
 
-noinst_LIBRARIES = libpet.a
+noinst_LIBRARIES = libdrivetcbm.a
 
-libpet_a_SOURCES =  	pet-cmdline-options.c 	pet-cmdline-options.h 	pet-resources.c 	pet-resources.h 	pet-snapshot.c 	pet-snapshot.h 	pet.c 	pet.h 	petacia.h 	petacia1.c 	petdatasette.c 	petdrive.c 	petiec.c 	petiec.h 	petmem.c 	petmem.h 	petpia.h 	petpia1.c 	petpia2.c 	petrom.c 	petrom.h 	pets.h 	petsound.c 	petsound.h 	petvia.c 	petvia.h
+libdrivetcbm_a_SOURCES =  	glue1551.c 	glue1551.h 	mem1551.c 	mem1551.h 	tcbm.c 	tia1551.c 	tia1551.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_HEADER = ../../src/config.h
+CONFIG_HEADER = ../../../src/config.h
 CONFIG_CLEAN_FILES = 
 LIBRARIES =  $(noinst_LIBRARIES)
 
 
-DEFS = @DEFS@ -I. -I$(srcdir) -I../../src
+DEFS = @DEFS@ -I. -I$(srcdir) -I../../../src
 CPPFLAGS = @CPPFLAGS@
 X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libpet_a_LIBADD = 
-libpet_a_OBJECTS =  pet-cmdline-options.o pet-resources.o pet-snapshot.o \
-pet.o petacia1.o petdatasette.o petdrive.o petiec.o petmem.o petpia1.o \
-petpia2.o petrom.o petsound.o petvia.o
+libdrivetcbm_a_LIBADD = 
+libdrivetcbm_a_OBJECTS =  glue1551.o mem1551.o tcbm.o tia1551.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -163,14 +161,14 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP_ENV = --best
-SOURCES = $(libpet_a_SOURCES)
-OBJECTS = $(libpet_a_OBJECTS)
+SOURCES = $(libdrivetcbm_a_SOURCES)
+OBJECTS = $(libdrivetcbm_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
 .SUFFIXES: .S .c .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
-	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/pet/Makefile
+	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/drive/tcbm/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) \
@@ -205,10 +203,10 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libpet.a: $(libpet_a_OBJECTS) $(libpet_a_DEPENDENCIES)
-	-rm -f libpet.a
-	$(AR) cru libpet.a $(libpet_a_OBJECTS) $(libpet_a_LIBADD)
-	$(RANLIB) libpet.a
+libdrivetcbm.a: $(libdrivetcbm_a_OBJECTS) $(libdrivetcbm_a_DEPENDENCIES)
+	-rm -f libdrivetcbm.a
+	$(AR) cru libdrivetcbm.a $(libdrivetcbm_a_OBJECTS) $(libdrivetcbm_a_LIBADD)
+	$(RANLIB) libdrivetcbm.a
 
 tags: TAGS
 
@@ -241,7 +239,7 @@ maintainer-clean-tags:
 
 distdir = $(top_builddir)/$(PACKAGE)-$(VERSION)/$(subdir)
 
-subdir = src/pet
+subdir = src/drive/tcbm
 
 distdir: $(DISTFILES)
 	@for file in $(DISTFILES); do \
@@ -254,89 +252,24 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-pet-cmdline-options.o: pet-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h pets.h \
-	../../src/arch/unix/types.h
-pet-resources.o: pet-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/crtc/crtc.h ../../src/arch/unix/types.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/kbd.h ../../src/keyboard.h \
-	../../src/machine.h pet.h petmem.h petrom.h pets.h \
-	../../src/resources.h ../../src/utils.h
-pet-snapshot.o: pet-snapshot.c ../../src/vice.h ../../src/config.h \
-	../../src/autostart.h ../../src/arch/unix/types.h \
-	../../src/kbdbuf.h ../../src/log.h ../../src/mem.h pet.h \
-	petmem.h petrom.h pets.h ../../src/resources.h \
-	../../src/snapshot.h ../../src/tape.h
-pet.o: pet.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
-	../../src/arch/unix/types.h ../../src/attach.h \
-	../../src/autostart.h ../../src/clkguard.h ../../src/cmdline.h \
-	../../src/console.h ../../src/crtc/crtc-mem.h \
-	../../src/crtc/crtc.h ../../src/datasette.h ../../src/debug.h \
-	../../src/drive/drive-cmdline-options.h \
-	../../src/drive/drive-resources.h \
-	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
-	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
-	../../src/interrupt.h ../../src/ioutil.h ../../src/kbdbuf.h \
-	../../src/keyboard.h ../../src/machine-drive.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
-	../../src/monitor/mon.h pet-cmdline-options.h pet-resources.h \
-	pet-snapshot.h pet.h petiec.h petmem.h pets.h petsound.h \
-	../../src/arch/unix/petui.h petvia.h petacia.h petpia.h \
-	../../src/printer.h ../../src/resources.h ../../src/rs232drv.h \
-	../../src/screenshot.h ../../src/serial.h ../../src/snapshot.h \
-	../../src/sound.h ../../src/tape.h ../../src/traps.h \
-	../../src/utils.h ../../src/via.h ../../src/video.h \
-	../../src/viewport.h ../../src/vsync.h
-petacia1.o: petacia1.c ../../src/maincpu.h ../../src/arch/unix/types.h \
-	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
-	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \
-	../../src/cmdline.h ../../src/interrupt.h ../../src/log.h \
-	../../src/machine.h ../../src/resources.h ../../src/rs232drv.h \
-	../../src/snapshot.h
-petdatasette.o: petdatasette.c ../../src/vice.h ../../src/config.h \
-	petpia.h ../../src/arch/unix/types.h
-petdrive.o: petdrive.c ../../src/vice.h ../../src/config.h \
-	../../src/machine-drive.h
-petiec.o: petiec.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/iecdrive.h petiec.h
-petmem.o: petmem.c ../../src/vice.h ../../src/config.h \
-	../../src/crtc/crtc-mem.h ../../src/arch/unix/types.h \
-	../../src/emuid.h ../../src/interrupt.h ../../src/log.h \
-	../../src/maincpu.h ../../src/mem.h ../../src/monitor/mon.h \
-	pet.h petacia.h petmem.h petpia.h pets.h petvia.h \
-	../../src/ram.h ../../src/resources.h ../../src/utils.h \
-	../../src/vsync.h
-petpia1.o: petpia1.c ../../src/vice.h ../../src/config.h \
-	../../src/cmdline.h ../../src/crtc/crtc.h \
-	../../src/arch/unix/types.h ../../src/datasette.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/interrupt.h \
-	../../src/keyboard.h ../../src/maincpu.h ../../src/parallel.h \
-	pets.h petmem.h petpia.h ../../src/piacore.h \
-	../../src/resources.h ../../src/piacore.c ../../src/snapshot.h
-petpia2.o: petpia2.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
-	../../src/interrupt.h ../../src/maincpu.h ../../src/parallel.h \
-	petpia.h ../../src/piacore.h ../../src/piacore.c \
-	../../src/snapshot.h
-petrom.o: petrom.c ../../src/vice.h ../../src/config.h \
-	../../src/autostart.h ../../src/arch/unix/types.h \
-	../../src/kbdbuf.h ../../src/crtc/crtc.h ../../src/log.h \
-	../../src/mem.h pet.h petmem.h pets.h ../../src/resources.h \
-	../../src/sysfile.h ../../src/tape.h ../../src/traps.h
-petsound.o: petsound.c ../../src/vice.h ../../src/config.h petsound.h \
-	../../src/arch/unix/types.h ../../src/sound.h ../../src/utils.h
-petvia.o: petvia.c ../../src/vice.h ../../src/config.h \
-	../../src/crtc/crtc.h ../../src/arch/unix/types.h \
-	../../src/datasette.h ../../src/drive/drive.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/keyboard.h \
-	../../src/maincpu.h ../../src/parallel.h petsound.h petvia.h \
-	../../src/printer.h ../../src/viacore.h ../../src/via.h \
-	../../src/viacore.c ../../src/alarm.h ../../src/clkguard.h \
-	../../src/interrupt.h ../../src/snapshot.h ../../src/utils.h
+glue1551.o: glue1551.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/alarm.h ../../../src/arch/unix/types.h \
+	../../../src/drive/drive.h ../../../src/log.h \
+	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
+	../../../src/mos6510.h glue1551.h ../../../src/interrupt.h
+mem1551.o: mem1551.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
+	../../../src/alarm.h ../../../src/arch/unix/types.h \
+	../../../src/drive/drive.h ../../../src/log.h \
+	../../../src/mos6510.h glue1551.h mem1551.h tia1551.h
+tcbm.o: tcbm.c ../../../src/vice.h ../../../src/config.h mem1551.h \
+	glue1551.h ../../../src/arch/unix/types.h \
+	../../../src/drive/tcbm.h tia1551.h
+tia1551.o: tia1551.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/drive/drive.h ../../../src/log.h \
+	../../../src/arch/unix/types.h ../../../src/drive/drivetypes.h \
+	../../../src/ciatimer.h ../../../src/alarm.h \
+	../../../src/mos6510.h ../../../src/iecdrive.h
 
 info-am:
 info: info-am

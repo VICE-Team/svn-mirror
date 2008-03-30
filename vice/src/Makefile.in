@@ -135,7 +135,7 @@ SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	fsdevice 	diskimage 	serial 	t
 INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive 	-I$(top_srcdir)/src/monitor 
 
 
-noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	attach.h 	autostart.h 	blockdev.h 	cartridge.h 	charset.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	color.h 	config.h.in 	console.h 	datasette.h 	debug.h 	diskconstants.h 	diskimage.h 	dma.h 	emuid.h 	findpath.h 	fixpoint.h 	fsdevice.h 	fliplist.h 	fullscreen.h 	gcr.h 	gfxoutput.h 	iecdrive.h 	imagecontents.h 	info.h 	init.h 	initcmdline.h 	interrupt.h 	ioutil.h 	joystick.h 	kbdbuf.h 	keyboard.h 	log.h 	machine.h 	main.h 	maincpu.h 	mem.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	printer.h 	ram.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232drv.h 	rsuser.h 	screenshot.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	uicolor.h 	uimon.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	viewport.h 	vsidui.h 	vsync.h 	vsyncapi.h 	z80regs.h 	zfile.h 	zipcode.h
+noinst_HEADERS =  	6510core.h 	acia.h 	alarm.h 	archapi.h 	attach.h 	autostart.h 	blockdev.h 	cartridge.h 	charset.h 	cia.h 	ciacore.h 	clkguard.h 	ciatimer.h 	cmdline.h 	color.h 	config.h.in 	console.h 	datasette.h 	debug.h 	diskconstants.h 	diskimage.h 	dma.h 	emuid.h 	findpath.h 	fixpoint.h 	fsdevice.h 	fliplist.h 	fullscreen.h 	gcr.h 	gfxoutput.h 	iecdrive.h 	imagecontents.h 	info.h 	init.h 	initcmdline.h 	interrupt.h 	ioutil.h 	joystick.h 	kbdbuf.h 	keyboard.h 	log.h 	machine-drive.h 	machine.h 	main.h 	maincpu.h 	mem.h 	mos6510.h 	p00.h 	palette.h 	parallel.h 	piacore.h 	printer.h 	ram.h 	resources.h 	riot.h 	riotcore.h 	romset.h 	rs232drv.h 	rsuser.h 	screenshot.h 	serial.h 	snapshot.h 	sound.h 	sysfile.h 	tap.h 	tape.h 	tpi.h 	tpicore.h 	traps.h 	uiapi.h 	uicolor.h 	uimon.h 	usleep.h 	utils.h 	version.h.in 	version.h 	via.h 	viacore.h 	vice.h 	video.h 	viewport.h 	vsidui.h 	vsync.h 	vsyncapi.h 	z80regs.h 	zfile.h 	zipcode.h
 
 
 base_sources =  	alarm.c 	attach.c 	autostart.c 	charset.c 	ciatimer.c 	clkguard.c 	cmdline.c 	color.c 	datasette.c 	debug.c 	dma.c 	emuid.c 	findpath.c 	fliplist.c 	gcr.c 	info.c 	init.c 	initcmdline.c 	interrupt.c 	ioutil.c 	joystick.c 	kbdbuf.c 	keyboard.c 	log.c 	machine.c 	main.c 	p00.c 	palette.c 	parallel.c 	ram.c 	resources.c 	romset.c 	screenshot.c 	snapshot.c 	sound.c 	sysfile.c 	traps.c 	utils.c 	vsync.c 	zfile.c 	zipcode.c
@@ -157,6 +157,7 @@ c64cart_lib = $(top_builddir)/src/c64/cart/libc64cart.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 diskimage_lib = $(top_builddir)/src/diskimage/libdiskimage.a
 drive_lib = $(top_builddir)/src/drive/libdrive.a
+drivetcbm_lib = $(top_builddir)/src/drive/tcbm/libdrivetcbm.a
 fsdevice_lib = $(top_builddir)/src/fsdevice/libfsdevice.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
@@ -224,7 +225,7 @@ xpet_DEPENDENCIES = $(xpet_libs)
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
 # xplus4
-xplus4_libs =  	@XPLUS4_WINRES@ 	$(plus4_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
+xplus4_libs =  	@XPLUS4_WINRES@ 	$(plus4_lib) 	$(drive_lib) 	$(drivetcbm_lib) 	$(vdrive_lib) 	$(driver_libs) 	$(raster_lib) 	$(video_lib) 	$(common_libs)
 
 
 xplus4_SOURCES = $(base_sources)
@@ -865,23 +866,24 @@ xpet-all: \
 
 .PHONY: xplus4-all
 xplus4-all: \
-        libdrive \
-        libvdrive \
-        libraster \
-        libsounddrv \
-        libgfxoutputdrv \
-        libprinterdrv \
+	libdrive \
+	libdrivetcbm \
+	libvdrive \
+	libraster \
+	libsounddrv \
+	libgfxoutputdrv \
+	libprinterdrv \
 	librs232drv \
-        libplus4 \
+	libplus4 \
 	libvideo \
-        libarch \
-        libmonitor \
+	libarch \
+	libmonitor \
 	libdiskimage \
 	libserial \
 	libfsdevice \
 	libtape \
 	libimagecontents \
-        xplus4
+	xplus4
 
 .PHONY: xcbm2-all
 xcbm2-all: \
@@ -932,6 +934,8 @@ libdiskimage:
 	(cd diskimage && $(MAKE))
 libdrive:
 	(cd drive && $(MAKE))
+libdrivetcbm:
+	(cd drive && $(MAKE) libdrivetcbm)
 libgfxoutputdrv:
 	(cd gfxoutputdrv && $(MAKE))
 libfsdevice:

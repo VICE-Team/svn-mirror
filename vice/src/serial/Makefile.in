@@ -137,7 +137,7 @@ noinst_LIBRARIES = libserial.a
 EXTRA_libserial_a_SOURCES =          realdevice.c         realdevice.h
 
 
-libserial_a_SOURCES =  	fsdrive.c 	fsdrive.h 	iec.c 	iec.h 	serial-device.c 	serial-device.h 	serial-iec-lib.c 	serial-iec-lib.h 	serial-iec.c 	serial-iec.h 	serial-realdevice.c 	serial-realdevice.h 	serial-trap.c 	serial-trap.h 	serial.c
+libserial_a_SOURCES =  	fsdrive.c 	fsdrive.h 	iecbus.c 	iecbus.h 	serial-device.c 	serial-device.h 	serial-iec-lib.c 	serial-iec-lib.h 	serial-iec.c 	serial-iec.h 	serial-realdevice.c 	serial-realdevice.h 	serial-trap.c 	serial-trap.h 	serial.c
 
 @HAVE_REALDEVICE_TRUE@libserial_a_DEPENDENCIES = realdevice.o
 @HAVE_REALDEVICE_FALSE@libserial_a_DEPENDENCIES = 
@@ -155,8 +155,9 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libserial_a_OBJECTS =  fsdrive.o iec.o serial-device.o serial-iec-lib.o \
-serial-iec.o serial-realdevice.o serial-trap.o serial.o
+libserial_a_OBJECTS =  fsdrive.o iecbus.o serial-device.o \
+serial-iec-lib.o serial-iec.o serial-realdevice.o serial-trap.o \
+serial.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -265,6 +266,9 @@ fsdrive.o: fsdrive.c ../../src/vice.h ../../src/config.h \
 iec.o: iec.c ../../src/vice.h ../../src/config.h fsdrive.h \
 	../../src/arch/unix/types.h iec.h realdevice.h \
 	../../src/serial.h
+iecbus.o: iecbus.c ../../src/vice.h ../../src/config.h fsdrive.h \
+	../../src/arch/unix/types.h iecbus.h realdevice.h \
+	../../src/serial.h
 realdevice.o: realdevice.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h realdevice.h ../../src/arch/unix/types.h \
 	../../src/serial.h ../../src/vsync.h
@@ -272,16 +276,17 @@ serial-device.o: serial-device.c ../../src/vice.h ../../src/config.h \
 	serial-device.h ../../src/serial.h ../../src/arch/unix/types.h
 serial-iec-lib.o: serial-iec-lib.c ../../src/vice.h ../../src/config.h \
 	serial-iec.h ../../src/arch/unix/types.h ../../src/utils.h
-serial-iec.o: serial-iec.c ../../src/vice.h ../../src/config.h iec.h \
+serial-iec.o: serial-iec.c ../../src/vice.h ../../src/config.h iecbus.h \
 	../../src/arch/unix/types.h serial-iec.h ../../src/utils.h
 serial-realdevice.o: serial-realdevice.c ../../src/vice.h \
 	../../src/config.h realdevice.h ../../src/arch/unix/types.h
-serial-trap.o: serial-trap.c ../../src/vice.h ../../src/config.h iec.h \
-	../../src/arch/unix/types.h ../../src/maincpu.h ../../src/mem.h \
-	../../src/mos6510.h serial-trap.h ../../src/serial.h
+serial-trap.o: serial-trap.c ../../src/vice.h ../../src/config.h \
+	iecbus.h ../../src/arch/unix/types.h ../../src/maincpu.h \
+	../../src/mem.h ../../src/mos6510.h serial-trap.h \
+	../../src/serial.h
 serial.o: serial.c ../../src/vice.h ../../src/config.h \
 	../../src/attach.h ../../src/drive/drive.h ../../src/log.h \
-	../../src/arch/unix/types.h iec.h ../../src/maincpu.h \
+	../../src/arch/unix/types.h iecbus.h ../../src/maincpu.h \
 	../../src/mem.h ../../src/mos6510.h ../../src/parallel.h \
 	../../src/printer.h realdevice.h serial-trap.h \
 	../../src/serial.h ../../src/traps.h ../../src/utils.h \

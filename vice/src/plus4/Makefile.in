@@ -134,7 +134,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libplus4.a
 
-libplus4_a_SOURCES =  	plus4-cmdline-options.c 	plus4-cmdline-options.h 	plus4-resources.c 	plus4-resources.h 	plus4-snapshot.c 	plus4-snapshot.h 	plus4.c 	plus4.h         plus4acia.c         plus4acia.h 	plus4cpu.c 	plus4datasette.c 	plus4iec.c 	plus4iec.h 	plus4mem.c 	plus4mem.h 	plus4memlimit.c 	plus4memlimit.h 	plus4pio1.c 	plus4pio1.h 	plus4pio2.c 	plus4pio2.h 	plus4rom.c 	plus4rom.h 	tcbm.c 	tcbm.h 	ted-badline.c 	ted-badline.h 	ted-cmdline-options.c 	ted-cmdline-options.h 	ted-color.c 	ted-color.h 	ted-draw.c 	ted-draw.h 	ted-fetch.c 	ted-fetch.h 	ted-mem.c 	ted-mem.h 	ted-resources.c 	ted-resources.h 	ted-snapshot.c 	ted-snapshot.h 	ted-sound.c 	ted-sound.h 	ted-timer.c 	ted-timer.h 	ted.c 	ted.h 	tedtypes.h
+libplus4_a_SOURCES =  	plus4-cmdline-options.c 	plus4-cmdline-options.h 	plus4-resources.c 	plus4-resources.h 	plus4-snapshot.c 	plus4-snapshot.h 	plus4.c 	plus4.h         plus4acia.c         plus4acia.h 	plus4cpu.c 	plus4datasette.c 	plus4drive.c 	plus4iec.c 	plus4iec.h 	plus4mem.c 	plus4mem.h 	plus4memlimit.c 	plus4memlimit.h 	plus4pio1.c 	plus4pio1.h 	plus4pio2.c 	plus4pio2.h 	plus4rom.c 	plus4rom.h 	plus4tcbm.c 	plus4tcbm.h 	ted-badline.c 	ted-badline.h 	ted-cmdline-options.c 	ted-cmdline-options.h 	ted-color.c 	ted-color.h 	ted-draw.c 	ted-draw.h 	ted-fetch.c 	ted-fetch.h 	ted-mem.c 	ted-mem.h 	ted-resources.c 	ted-resources.h 	ted-snapshot.c 	ted-snapshot.h 	ted-sound.c 	ted-sound.h 	ted-timer.c 	ted-timer.h 	ted.c 	ted.h 	tedtypes.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
@@ -151,10 +151,10 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libplus4_a_LIBADD = 
 libplus4_a_OBJECTS =  plus4-cmdline-options.o plus4-resources.o \
 plus4-snapshot.o plus4.o plus4acia.o plus4cpu.o plus4datasette.o \
-plus4iec.o plus4mem.o plus4memlimit.o plus4pio1.o plus4pio2.o \
-plus4rom.o tcbm.o ted-badline.o ted-cmdline-options.o ted-color.o \
-ted-draw.o ted-fetch.o ted-mem.o ted-resources.o ted-snapshot.o \
-ted-sound.o ted-timer.o ted.o
+plus4drive.o plus4iec.o plus4mem.o plus4memlimit.o plus4pio1.o \
+plus4pio2.o plus4rom.o plus4tcbm.o ted-badline.o ted-cmdline-options.o \
+ted-color.o ted-draw.o ted-fetch.o ted-mem.o ted-resources.o \
+ted-snapshot.o ted-sound.o ted-timer.o ted.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -276,15 +276,16 @@ plus4.o: plus4.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/iecdrive.h \
 	../../src/interrupt.h ../../src/ioutil.h ../../src/kbdbuf.h \
-	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/monitor/mon.h plus4-cmdline-options.h \
-	plus4-resources.h plus4-snapshot.h plus4.h plus4acia.h \
-	plus4iec.h plus4mem.h ../../src/arch/unix/plus4ui.h \
-	../../src/printer.h ../../src/rs232drv.h ../../src/screenshot.h \
-	../../src/serial.h ../../src/snapshot.h ../../src/sound.h \
-	../../src/tape.h ted-cmdline-options.h ted-resources.h ted.h \
-	../../src/traps.h ../../src/mem.h ../../src/video.h \
-	../../src/viewport.h ../../src/vsync.h
+	../../src/keyboard.h ../../src/machine-drive.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/monitor/mon.h \
+	plus4-cmdline-options.h plus4-resources.h plus4-snapshot.h \
+	plus4.h plus4acia.h plus4iec.h plus4mem.h \
+	../../src/arch/unix/plus4ui.h ../../src/printer.h \
+	../../src/rs232drv.h ../../src/screenshot.h ../../src/serial.h \
+	../../src/snapshot.h ../../src/sound.h ../../src/tape.h \
+	ted-cmdline-options.h ted-resources.h ted.h ../../src/traps.h \
+	../../src/mem.h ../../src/video.h ../../src/viewport.h \
+	../../src/vsync.h
 plus4acia.o: plus4acia.c ../../src/maincpu.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/aciacore.c \
 	../../src/acia.h ../../src/alarm.h ../../src/clkguard.h \
@@ -299,6 +300,9 @@ plus4cpu.o: plus4cpu.c ../../src/vice.h ../../src/config.h \
 	../6510core.c
 plus4datasette.o: plus4datasette.c ../../src/vice.h ../../src/config.h \
 	plus4mem.h ../../src/arch/unix/types.h
+plus4drive.o: plus4drive.c ../../src/vice.h ../../src/config.h \
+	../../src/machine-drive.h ../../src/drive/tcbm.h \
+	../../src/arch/unix/types.h
 plus4iec.o: plus4iec.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/ciad.h ../../src/arch/unix/types.h \
 	../../src/drive/drive.h ../../src/log.h \
@@ -310,8 +314,9 @@ plus4mem.o: plus4mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
 	../../src/iecdrive.h ../../src/maincpu.h ../../src/mem.h \
 	../../src/monitor/mon.h plus4acia.h plus4iec.h plus4mem.h \
-	plus4memlimit.h plus4pio1.h plus4pio2.h ../../src/ram.h \
-	../../src/resources.h tcbm.h ted-mem.h ../../src/utils.h
+	plus4memlimit.h plus4pio1.h plus4pio2.h plus4tcbm.h \
+	../../src/ram.h ../../src/resources.h ted-mem.h \
+	../../src/utils.h
 plus4memlimit.o: plus4memlimit.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/arch/unix/types.h
 plus4pio1.o: plus4pio1.c ../../src/vice.h ../../src/config.h plus4pio1.h \
@@ -321,6 +326,10 @@ plus4pio2.o: plus4pio2.c ../../src/vice.h ../../src/config.h plus4pio2.h \
 plus4rom.o: plus4rom.c ../../src/vice.h ../../src/config.h \
 	../../src/log.h ../../src/mem.h ../../src/arch/unix/types.h \
 	plus4mem.h plus4rom.h ../../src/resources.h ../../src/sysfile.h
+plus4tcbm.o: plus4tcbm.c ../../src/vice.h ../../src/config.h \
+	../../src/drive/drive.h ../../src/log.h \
+	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
+	../../src/maincpu.h plus4tcbm.h ../../src/drive/tcbm.h
 tcbm.o: tcbm.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h ../../src/drive/drivecpu.h \
