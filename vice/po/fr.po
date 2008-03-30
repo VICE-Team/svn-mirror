@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.15\n"
-"POT-Creation-Date: 2004-09-12 22:43+0200\n"
+"POT-Creation-Date: 2004-11-06 15:36+0100\n"
 "PO-Revision-Date: 2004-08-22 11:01+0200\n"
 "Last-Translator: Paul Dubé (alias Kaddict) <dube.paul@sympatico.ca>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -130,37 +130,37 @@ msgstr "erreur d'écriture sur périphérique de son."
 msgid "store to sounddevice failed."
 msgstr "erreur d'enregistrement sur périphérique de son."
 
-#: src/event.c:520
+#: src/event.c:522
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Erreur de création de la sauvegarde de départ %s."
 
-#: src/event.c:535 src/event.c:798
+#: src/event.c:537 src/event.c:800
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Erreur de lecture de la sauvegarde de fin %s."
 
-#: src/event.c:598 src/event.c:769
+#: src/event.c:600 src/event.c:771
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Erreur de création de la sauvegarde de fin %s."
 
-#: src/event.c:659
+#: src/event.c:661
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Erreur d'ouverture de la sauvegarde de fin %s."
 
-#: src/event.c:670
+#: src/event.c:672
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 "Impossible de trouver la section des événements dans la sauvegarde de fin."
 
-#: src/event.c:690
+#: src/event.c:692
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "Erreur de lecture de la sauvegarde de départ. %s et %s ont été testés"
 
-#: src/event.c:716
+#: src/event.c:718
 msgid "Error reading start snapshot file."
 msgstr "Erreur de lecture de la sauvegarde de départ."
 
