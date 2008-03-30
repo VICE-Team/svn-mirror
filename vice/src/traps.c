@@ -85,7 +85,7 @@ static int set_traps_enabled(resource_value_t v, void *param)
 
     traps_enabled = new_value;
 
-    machine_traps_enable(new_value);
+    machine_bus_status_virtualdevices_set((unsigned int)new_value);
 
     return 0;
 }

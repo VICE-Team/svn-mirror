@@ -148,9 +148,6 @@ unsigned int machine_jam(const char *format, ...);
 /* Update memory pointers if memory mapping has changed. */
 extern void machine_update_memory_ptrs(void);
 
-/* Machine specific trap enable code.  */
-extern void machine_traps_enable(int enable);
-
 extern unsigned int machine_keymap_index;
 extern const char *machine_keymap_res_name_list[];
 extern char *machine_keymap_file_list[];
@@ -165,6 +162,11 @@ extern int machine_bus_lib_read_sector(unsigned int unit, unsigned int track,
                                        unsigned int sector, BYTE *buf);
 extern int machine_bus_lib_write_sector(unsigned int unit, unsigned int track,
                                         unsigned int sector, BYTE *buf);
+
+extern void machine_bus_status_truedrive_set(unsigned int enable);
+extern void machine_bus_status_drivetype_set(unsigned int unit,
+                                             unsigned int enable);
+extern void machine_bus_status_virtualdevices_set(unsigned int enable);
 
 #endif
 
