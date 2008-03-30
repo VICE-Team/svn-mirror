@@ -134,6 +134,9 @@
 /* Define to 1 if you have the `avformat' library (-lavformat). */
 #undef HAVE_LIBAVFORMAT
 
+/* Define to 1 if you have the `bsd' library (-lbsd). */
+#undef HAVE_LIBBSD
+
 /* Define to 1 if you have the `esd' library (-lesd). */
 #undef HAVE_LIBESD
 
@@ -218,6 +221,9 @@
 /* Define to 1 if you have the <SDL/SDL_audio.h> header file. */
 #undef HAVE_SDL_SDL_AUDIO_H
 
+/* Define to 1 if you have the `seekdir' function. */
+#undef HAVE_SEEKDIR
+
 /* Define to 1 if you have the <shlobj.h> header file. */
 #undef HAVE_SHLOBJ_H
 
@@ -274,6 +280,9 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
+/* Define to 1 if you have the `telldir' function. */
+#undef HAVE_TELLDIR
+
 /* Support for The Final Ethernet */
 #undef HAVE_TFE
 
@@ -288,6 +297,9 @@
 
 /* Define to 1 if you have the `usleep' function. */
 #undef HAVE_USLEEP
+
+/* Define to 1 if the system has the type `u_short'. */
+#undef HAVE_U_SHORT
 
 /* Define to 1 if you have the `vfork' function. */
 #undef HAVE_VFORK
