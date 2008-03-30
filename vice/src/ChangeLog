@@ -1,3 +1,23 @@
+2006-10-16  Andreas Boose  <viceteam@t-online.de>
+
+        * Version 1.20.12.
+
+        * drive/iec/mc6821.c (mc6821_write_ddra, mc6821_write_ddrb):
+        New functions, update parallel cable status on direction
+        change.
+
+        * drive/drive.h, drive/iec/iec-resources.c,
+        drive/iec/via1d1541.c, drive/iec/cia1571d.c,
+        drive/iec/mc6821.c, drive/drive-snapshot.c, c64/c64parallel.c,
+        plus4/plus4pio1.c, arch/unix/gui/uidrivec64.c,
+        arch/unix/gui/uidrivec128.c, arch/unix/gui/uidriveplus4.c,
+        drive/iec/memiec.c, drive/iec/iec-cmdline-options.c: Unified
+	parallel cable and mc6821 resource.
+
+	* c64/cart/c64cart.c: Fixed string define.
+
+	* translate.txt, translate.c: Updated.
+
 2006-10-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.11.
