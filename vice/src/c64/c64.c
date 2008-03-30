@@ -58,6 +58,7 @@
 #include "vicii.h"
 #include "vmachine.h"
 #include "vsync.h"
+#include "resources.h"
 
 #ifdef __MSDOS__
 #include "c64kbd.h"

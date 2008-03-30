@@ -1342,9 +1342,11 @@ int mem_write_snapshot_module(snapshot_t *s)
     if (ieee488_enabled && tpi_write_snapshot_module(s) < 0)
         goto fail;
 
+#ifdef HAVE_RS232
     /* ACIA module.  */
     if (acia_de_enabled && acia1_write_snapshot_module(s) < 0)
         goto fail;
+#endif
 
     return 0;
 
