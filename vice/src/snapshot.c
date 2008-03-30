@@ -117,7 +117,7 @@ int snapshot_write_padded_string(FILE *f, const char *s, BYTE pad_char,
     for (i = found_zero = 0; i < len; i++) {
         if (!found_zero && s[i] == 0)
             found_zero = 1;
-        c = found_zero ? (BYTE) pad_char : (BYTE) s[i];
+        c = found_zero ? (BYTE)pad_char : (BYTE) s[i];
         if (snapshot_write_byte(f, c) < 0)
             return -1;
     }
@@ -200,7 +200,7 @@ int snapshot_read_string(FILE *f, char **s)
 {
     int i, len;
     WORD w;
-    char *p=NULL;
+    char *p = NULL;
 
     /* first free the previous string */
     if (*s) {
@@ -211,19 +211,19 @@ int snapshot_read_string(FILE *f, char **s)
     if (snapshot_read_word(f, &w) < 0)
         return -1;
 
-    len = (int) w;
+    len = (int)w;
 
     if (len) {
         p = (char*)xmalloc(len);
         *s = p;
 
         for (i = 0; i < len; i++) {
-            if (snapshot_read_byte(f, (BYTE*)(p+i)) < 0) {
+            if (snapshot_read_byte(f, (BYTE *)(p+i)) < 0) {
                 p[0] = 0;
                 return -1;
             }
         }
-        p[len-1] = 0;   /* just to be save */
+        p[len - 1] = 0;   /* just to be save */
     }
     return 0;
 }

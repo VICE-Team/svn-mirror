@@ -474,8 +474,8 @@ Type    Name                          Description
                                       padded with 0 to 16 byte.            
 BYTE    VMAJOR                        major version number                 
 BYTE    VMINOR                        minor version number                 
-DWORD   SIZE                          size of the module, not including    
-                                      this header                          
+DWORD   SIZE                          size of the module, including this   
+                                      header                               
 
 
 File: vice.info,  Node: CPU 6502 module,  Next: CIA 6526 module,  Prev: Module framework,  Up: Module formats

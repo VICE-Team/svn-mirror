@@ -54,6 +54,7 @@
 #include "wd1770.h"
 #include "zfile.h"
 
+
 /* Logging.  */
 static log_t drive_snapshot_log = LOG_ERR;
 
@@ -124,10 +125,10 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     drive_gcr_data_writeback(1);
 
     for (i = 0; i < 2; i++) {
-        rotation_table_ptr[i] = (DWORD) (drive[i].rotation_table_ptr
-                                         - drive[i].rotation_table[0]);
+        rotation_table_ptr[i] = (DWORD)(drive[i].rotation_table_ptr
+                                        - drive[i].rotation_table[0]);
         GCR_image[i] = (drive[i].GCR_image_loaded == 0
-                         || !save_disks) ? 0 : 1;
+                       || !save_disks) ? 0 : 1;
     }
 
     m = snapshot_module_create(s, snap_module_name, DRIVE_SNAP_MAJOR,
@@ -138,7 +139,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     resources_get_value("MachineVideoStandard",
                         (resource_value_t *)&sync_factor);
 
-    if (snapshot_module_write_dword(m, (DWORD) sync_factor) < 0) {
+    if (snapshot_module_write_dword(m, (DWORD)sync_factor) < 0) {
         if (m != NULL)
             snapshot_module_close(m);
         return -1;

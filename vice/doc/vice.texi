@@ -5210,7 +5210,7 @@ that's what VMAJOR is for after all :-)
 @tab minor version number
 @item DWORD
 @tab SIZE
-@tab size of the module, not including this header
+@tab size of the module, including this header
 @end multitable
 
 @node CPU 6502 module, CIA 6526 module, Module framework, Module formats
