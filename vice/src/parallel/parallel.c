@@ -3,6 +3,7 @@
  *
  * Written by
  *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -450,6 +451,17 @@ void parallel_clr_eoi(BYTE mask)
     PARALLEL_LINE_DEBUG_CLR(eoi, EOI)
 }
 
+static void parallel_atn_signal(int state)
+{
+    unsigned int dnr;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        if (drive_context[dnr]->drive->enable) {
+            ieee_drive_parallel_set_atn(state, drive_context[dnr]);
+        }
+    }
+}
+
 void parallel_set_atn(BYTE mask)
 {
     BYTE old = parallel_atn;
@@ -462,12 +474,7 @@ void parallel_set_atn(BYTE mask)
         if (parallel_emu) {
             DoTrans(ATNlo);
         }
-        if (drive_context[0]->drive->enable) {
-            ieee_drive0_parallel_set_atn(1);
-        }
-        if (drive_context[1]->drive->enable) {
-            ieee_drive1_parallel_set_atn(1);
-        }
+        parallel_atn_signal(1);
     }
 }
 
@@ -483,12 +490,7 @@ void parallel_clr_atn(BYTE mask)
         if (parallel_emu) {
             DoTrans(ATNhi);
         }
-        if (drive_context[0]->drive->enable) {
-            ieee_drive0_parallel_set_atn(0);
-        }
-        if (drive_context[1]->drive->enable) {
-            ieee_drive1_parallel_set_atn(0);
-        }
+        parallel_atn_signal(0);
     }
 }
 

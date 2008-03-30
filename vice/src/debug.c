@@ -31,6 +31,7 @@
 
 #include "cmdline.h"
 #include "debug.h"
+#include "drive.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
@@ -80,6 +81,14 @@ static const resource_t resources[] = {
       (void *)&debug.drivecpu_traceflg[0], set_drive_traceflg, (void *)0 },
     { "Drive1CPU_TRACE", RES_INTEGER, (resource_value_t)0,
       (void *)&debug.drivecpu_traceflg[1], set_drive_traceflg, (void *)1 },
+#if DRIVE_NUM > 2
+    { "Drive2CPU_TRACE", RES_INTEGER, (resource_value_t)0,
+      (void *)&debug.drivecpu_traceflg[2], set_drive_traceflg, (void *)2 },
+#endif
+#if DRIVE_NUM > 3
+    { "Drive3CPU_TRACE", RES_INTEGER, (resource_value_t)0,
+      (void *)&debug.drivecpu_traceflg[3], set_drive_traceflg, (void *)3 },
+#endif
     { "TraceSmall", RES_INTEGER, (resource_value_t)0,
       (void *)&debug.trace_small, set_trace_small, NULL },
 #endif
@@ -111,6 +120,22 @@ static const cmdline_option_t cmdline_options[] = {
     { "+trace_drive1", SET_RESOURCE, 0, NULL, NULL,
       "Drive1CPU_TRACE", (resource_value_t)0,
       NULL, "Do not trace the drive1 CPU" },
+#if DRIVE_NUM > 2
+    { "-trace_drive2", SET_RESOURCE, 0, NULL, NULL,
+      "Drive2CPU_TRACE", (resource_value_t)1,
+      NULL, "Trace the drive2 CPU" },
+    { "+trace_drive2", SET_RESOURCE, 0, NULL, NULL,
+      "Drive2CPU_TRACE", (resource_value_t)0,
+      NULL, "Do not trace the drive2 CPU" },
+#endif
+#if DRIVE_NUM > 3
+    { "-trace_drive3", SET_RESOURCE, 0, NULL, NULL,
+      "Drive3CPU_TRACE", (resource_value_t)1,
+      NULL, "Trace the drive3 CPU" },
+    { "+trace_drive3", SET_RESOURCE, 0, NULL, NULL,
+      "Drive3CPU_TRACE", (resource_value_t)0,
+      NULL, "Do not trace the drive3 CPU" },
+#endif
     { "-trace_small", SET_RESOURCE, 0, NULL, NULL,
       "TraceSmall", (resource_value_t)1,
       NULL, "Make debug output small and compact" },

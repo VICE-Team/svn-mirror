@@ -181,15 +181,9 @@ int ieee_drive_image_detach(struct disk_image_s *image, unsigned int unit)
     return fdc_detach_image(image, unit);
 }
 
-void ieee_drive0_parallel_set_atn(int state)
+void ieee_drive_parallel_set_atn(int state, drive_context_t *drv)
 {
-    via1d2031_set_atn(drive0_context.via1d2031, state);
-    drive_riot_set_atn(drive0_context.riot2, state);
-}
-
-void ieee_drive1_parallel_set_atn(int state)
-{
-    via1d2031_set_atn(drive1_context.via1d2031, state);
-    drive_riot_set_atn(drive1_context.riot2, state);
+    via1d2031_set_atn(drv->via1d2031, state);
+    drive_riot_set_atn(drv->riot2, state);
 }
 
