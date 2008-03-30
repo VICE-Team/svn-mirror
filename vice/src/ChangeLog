@@ -1,3 +1,40 @@
+2003-06-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.2.
+
+	* drive/iecieee/via2d.c (read_prb, read_pra, store_prb,
+	store_pra): Clear byte ready level.
+
+2003-05-15  Tibor Biczo <crown@axelero.hu>
+
+	* arch/win32/joy.c: Added joystick_fire_button array for
+	joystick auto fire buttons.
+	(set_joystick_fire1_axis, set_joystick_fire2_axis): Only
+	invalidate negative resource values.
+	(set_joystick_fire1_button, set_joystick_fire2_button): New
+	functions.
+	(JoyAutoFire1Button, JoyAutoFire2Button): New resources.
+	(joystick_di5_update, joystick_update): Check resources for
+	autofire enabled joystick buttons, all other joystick button
+	behave as normal.
+	(joystick_ui_get_autofire_buttons): New function.
+
+	* arch/win32/res.h (IDC_JOY_FIRE1_BUTTON,
+	IDC_JOY_FIRE2_BUTTON): Added.
+
+	* arch/win32/res.rc (IDD_JOY_SETTINGS_DIALOG): Added dropdown
+	listbox for selecting autofire enabled joystick button.
+
+	* arch/win32/uijoystick.c (init_joystick_dialog): Obtain list
+	of available joystick buttons.
+	(rebuild_button_list_1, rebuild_button_list_2): New functions,
+	obtain list of available joystick buttons, when joystick
+	selection changes.
+	(dialog_proc): Rebuild button lists, enable/disable button
+	lists, update button resource on OK button.
+	(ui_joystick_swap_joystick): Swap autofire button resource as
+	well.
+
 2003-06-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.1.

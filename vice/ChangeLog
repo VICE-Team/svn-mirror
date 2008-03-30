@@ -1,3 +1,9 @@
+2003-06-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.2.
+
+	* configure.in: Define `HAVE_CATWEASELMKIII' for win32.
+
 2003-06-11  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.1.

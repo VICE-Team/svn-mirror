@@ -138,6 +138,8 @@ inline static void store_pra(drive_context_t *ctxptr, BYTE byte,
         rotation_rotate_disk(ctxptr->drive_ptr);
 
     ctxptr->drive_ptr->GCR_write_value = byte;
+
+    ctxptr->drive_ptr->byte_ready_level = 0;
 }
 
 static void undump_pra(drive_context_t *ctxptr, BYTE byte)
@@ -162,6 +164,8 @@ inline static void store_prb(drive_context_t *ctxptr, BYTE byte, BYTE poldpb,
         ctxptr->drive_ptr->byte_ready_active
             = (ctxptr->drive_ptr->byte_ready_active & ~0x04)
                                      | (byte & 0x04);
+
+    ctxptr->drive_ptr->byte_ready_level = 0;
 }
 
 static void undump_prb(drive_context_t *ctxptr, BYTE byte)
@@ -246,6 +250,9 @@ inline static BYTE read_prb(drive_context_t *ctxptr)
     byte = ((rotation_sync_found(ctxptr->drive_ptr)
            | drive_write_protect_sense(ctxptr->drive_ptr)) & ~myvia[VIA_DDRB])
            | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
+
+
+    ctxptr->drive_ptr->byte_ready_level = 0;
 
     return byte;
 }
