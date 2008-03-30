@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-05-28 00:29+0200\n"
+"POT-Creation-Date: 2001-05-31 21:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2009,12 +2009,12 @@ msgstr ""
 msgid "VIC settings"
 msgstr ""
 
-#: src/arch/unix/archdep.c:226
+#: src/arch/unix/archdep.c:233
 #, c-format
 msgid "Received signal %d (%s)."
 msgstr ""
 
-#: src/arch/unix/archdep.c:229
+#: src/arch/unix/archdep.c:236
 #, c-format
 msgid "Received signal %d."
 msgstr ""

@@ -134,7 +134,14 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
                               FINDPATH_SEPARATOR_STRING,
                               home_path, "/", VICEUSERDIR, "/DRIVES",
                               FINDPATH_SEPARATOR_STRING,
-                              boot_path, "/DRIVES", NULL);
+                              boot_path, "/DRIVES",
+                              FINDPATH_SEPARATOR_STRING,
+                              LIBDIR, "/PRINTER",
+                              FINDPATH_SEPARATOR_STRING,
+                              home_path, "/", VICEUSERDIR, "/PRINTER",
+                              FINDPATH_SEPARATOR_STRING,
+                              boot_path, "/PRINTER",
+                              NULL);
     }
 
     return default_path;

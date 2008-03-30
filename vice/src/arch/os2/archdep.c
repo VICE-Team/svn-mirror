@@ -187,7 +187,10 @@ const char *archdep_default_sysfile_pathlist(const char *emu_id)
     static char *pathlist=NULL;
 
     if (!pathlist)
-        pathlist=concat(emu_id, FINDPATH_SEPARATOR_STRING, "DRIVES", NULL);
+        pathlist = concat(emu_id,
+                          FINDPATH_SEPARATOR_STRING, "DRIVES",
+                          FINDPATH_SEPARATOR_STRING, "PRINTER",
+                          NULL);
 
     return pathlist;
 }
