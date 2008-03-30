@@ -1,3 +1,26 @@
+2002-02-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.21.
+
+	* drive/drive.h: Relaxed disk changing times.
+
+	* debug.c, debug.h, init.c, init.h, initcmdline.c,
+	initcmdline.h: New files.
+
+	* Makefile.am: Added new files.
+
+	* main.c: Moved machine and resource initialization and inital
+	command line parsing to other files.
+
+	* maincpu.c, maincpu.h, 6510core.c, drive/drivecpu.c, main.c,
+	arch/unix/uisettings.c, arch/unix/uisettings.h,
+	arch/unix/c64ui.c, arch/unix/c128ui.c, arch/unix/vic20ui.c,
+	arch/unix/petui.c, arch/unix/plus4ui.c, arch/unix/c610ui.c:
+	Added support for enabling CPU trace from within the GUI.
+
+	* vicii/vicii-mem.c (store_d01d): Added fix as suggested by
+	AndreasM.
+
 2002-02-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.20.

@@ -815,10 +815,12 @@ inline static void store_d01d(ADDRESS addr, BYTE value)
 
         sprite = vic_ii.raster.sprite_status->sprites + i;
 
-        if (1 || raster_x < sprite->x)
+        if (raster_x < sprite->x)
             sprite->x_expanded = value & b ? 1 : 0;
         else
-            ;       /* FIXME: We are in trouble! */
+            raster_add_int_change_next_line(&vic_ii.raster,
+                                            &sprite->x_expanded,
+                                            value & b ? 1 : 0);
     }
 
     vic_ii.regs[addr] = value;
