@@ -399,7 +399,7 @@ void mainloop(ADDRESS start_address)
 /* ------------------------------------------------------------------------- */
 
 static char snap_module_name[] = "MAINCPU";
-#define SNAP_MAJOR 0
+#define SNAP_MAJOR 1
 #define SNAP_MINOR 0
 
 int maincpu_write_snapshot_module(snapshot_t *s)

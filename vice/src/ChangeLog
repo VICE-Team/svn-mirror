@@ -1,3 +1,161 @@
+1998-11-17  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.28.
+
+	* c64/c64.c (SNAP_MAJOR): Set to 1.
+	* cpu-tmpl.c (SNAP_MAJOR): Likewise.
+	* sid/sid.c (SNAP_MAJOR): Likewise.
+	* c64/vicii.c (SNAP_MAJOR): Likewise.
+
+	* arch/msdos/uisnapshot.c (write_snapshot_callback): Check that a
+ 	file name has been specified before attempting to save the
+ 	snapshot.
+	(file_name_callback): Concat the `.vsf' extension to the file name
+ 	if the user does not specify one.
+	(snapshot_selector): Show `.vsf' files only.
+
+1998-11-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* configure.in: Determine the C compiler to use when compiling for
+ 	Windows.
+
+	* arch/win32/resc64.r: Moved autostart to the top of the `file'
+	drop down menu.  Added resid, refresh, speed and resources UI
+	control elements.  Updated `help' dialog.  Moved the device
+	manager and the drive settings menu entry to the `settings' pop
+	down menu.
+	* arch/win32/resc64.h: Likewise.
+
+	* arch/win32/ui.c: Added `SidUseResid' and `WarpMode' to the list
+	of resources which can be switched on/off from the menu.
+	(ui_message): New function (using a wrong symbol for the moment).
+	(handle_wm_command): Added support for resid, refresh, speed and
+	resources UI control elements.
+
+	* c1541.c: Added D64/D71/D81 format commands to `disk_cmds'.
+	(create_image): Do not write a header when the disk type is other
+	than X64.
+	(open_image): Set the correct disk drive type and track numbers
+	for any requested format.
+	(disk_format): Also allow the creation of D71/D81 disk images.
+	(disk_format_x64, disk_format_d64, disk_format_d71,
+	disk_format_d81): New functions.
+
+	* resources.c: Changed the resource file name of the Windows port
+	from the Unix to the MSDOS version.
+
+	* vdrive.h: Defined disk image types.
+
+	* vice.h: Removed mingw32 hack.
+
+1998-11-17  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/xaw/c128ui.c: Added separator for reSID item in the
+	"SID settings" submenu.
+	* arch/unix/xaw/c64ui.c: Likewise.
+
+	* arch/unix/xaw/uicommands.c: `M-s', `M-l' hotkeys for loading and
+ 	saving snapshots.
+
+	* c64/vicii.c (draw_std_background_2x): Use `PIXEL()', not
+ 	`PIXEL2()'.
+
+	* arch/unix/xaw/ui.c (ui_select_file): Removed Alpha hack
+ 	completely.  Removed useless allocation of directory string.
+
+	* arch/msdos/menudefs.c (attach_disk_callback): Let the user
+ 	autostart any file in the disk image.
+	(attach_tape_callback): Likewise for tape images.
+
+1998-11-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* arch/win32/Makefile.am: Added `uilib.c', `uilib.h',
+	`uisnapshot.h' and `uisnapshot.c' to `libarch_a_SOURCES'.
+
+	* arch/win32/c64ui.c (c64_ui_specific): New function.
+	(c64_ui_init): Register C64 UI specific functions.
+
+	* arch/win32/c64ui.h (c64_ui_init): Made extern.
+
+	* arch/win32/resc64.h: Added menu structures for other machines 
+	(should be moved out later) and for the snapshot UI dialog.
+	* arch/win32/resc64.r: Likewise.
+
+	* arch/win32/ui.c: #include "machine.h", #include "uilib.h" and
+	#include "uisnapshot.h".
+	(ui_init): Initialize different menus for any machine.
+	(ui_register_machine_specific): New function.
+	(select_file): Moved to `uilib.c'.
+	(handle_wm_command): Also handle machine specific UI entries.
+	Updated filter for any `ui_select_file' dialog.
+
+	* arch/win32/uiattach.c: #include "attach.h",
+	#include "autostart.h", #include "uilib.h".
+	(dialog_proc): Handle button press events.
+
+	* arch/win32/uidrive.c (enable_controls_for_drive_settings): New
+	function to grey out UI elements of this dialog.
+	(init_dialog): Allow to change extend policy and idle method.
+	(dialog_proc): Save changes to the resources.
+
+	* arch/win32/uilib.c: New file.
+	* arch/win32/uilib.h: New file.
+	* arch/win32/uisnapshot.c: New file.
+	* arch/win32/uisnapshot.h: New file.
+
+	* arch/win32/vic20ui.c (vic20_ui_specific): New function.
+	(vic20_ui_init): Register VIC20 UI specific functions.
+
+	* c1541.c: Do not include <sys/param.h> as this is already done
+	in `vice.h'.
+
+	* cbm2/c610.c: Specifiy `machine_class'.
+
+	* machine.h: Define `CBM2' machine class.
+
+	* vice.h: On WIN32 we do not have a readline library.
+
+1998-11-16  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/tuifs.c (tui_file_selector): Parameter
+ 	`read_image_contents_func()' replaced by parameter
+ 	`image_contents_func()'; new parameter `browse_file'.  If
+ 	`image_contents_func' and `browse_file' are not NULL, let the user
+ 	browse the image and select a file, which is returned in
+ 	`*browse_file'.
+
+	* sid/resid.cc (resid_sound_machine_calculate_samples): Return 0.
+
+	* arch/msdos/tuiimagebrowser.h: New file.
+
+	* arch/msdos/tuiimagebrowser.c: New file.
+
+	* imagecontents.c: New file.
+	(image_contents_read_disk): New function.
+	(image_contents_read_tape): New function.
+
+	* imagecontents.h: New file.
+
+	* vdrive.h: `floppy_free_block_count()' prototype.
+
+	* vdrive.c (floppy_free_block_count): Made non-static.
+
+	* arch/msdos/tuiview.c (update): Removed.
+	(tui_view_text): Use `tui_display_text()' instead of `update()'.
+
+	* arch/msdos/tui.c (tui_display_text): New function.
+
+	* arch/msdos/tuiview.c: #include "utils.h".
+ 	(find_prev_line, find_next_line): Removed.  Use the versions from
+ 	`utils.c' instead.
+
+	* utils.c (find_next_line): New function.
+	(find_prev_line): New function.
+
+1998-11-14  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.27.
+
 1998-11-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* arch/win32/Makefile.am: Added `uidrive.c' and `uidrive.h' to

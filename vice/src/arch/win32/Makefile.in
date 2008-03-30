@@ -146,6 +146,10 @@ libarch_a_SOURCES = \
 	uiattach.h \
 	uidrive.c \
 	uidrive.h \
+	uilib.c \
+	uilib.h \
+	uisnapshot.h \
+	uisnapshot.c \
 	vic20kbd.c \
 	vic20kbd.h \
 	vic20ui.c \
@@ -177,7 +181,8 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
 libarch_a_OBJECTS =  c128kbd.o c128ui.o c610kbd.o c610ui.o c64kbd.o \
 c64ui.o dirent.o joystick.o kbd.o petkbd.o petui.o print.o ui.o \
-uiattach.o uidrive.o vic20kbd.o vic20ui.o video.o vsync.o winmain.o
+uiattach.o uidrive.o uilib.o uisnapshot.o vic20kbd.o vic20ui.o video.o \
+vsync.o winmain.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@

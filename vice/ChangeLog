@@ -1,3 +1,15 @@
+1998-11-17  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.28.
+
+	* data/C64/default.vkm: Corrected shift flag for `Shift_R'.
+	* data/C128/default.vkm: Likewise.
+	* data/VIC20/default.vkm: Likewise.
+
+1998-11-14  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.27.
+
 1998-11-11  Dag Lem  <resid@nimrod.no>
 
 	* configure.in: Fix detection of `-fno-exceptions' in the C++
