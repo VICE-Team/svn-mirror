@@ -181,6 +181,13 @@ int kbd_handle_keydown(DWORD virtual_key, DWORD key_data)
         kcode=_kbd_extended_key_tab[kcode];
     }
 
+    /* FIXME: We should read F7 and PGUP from the the *.vkm.  */
+    if (kcode == K_F7) {
+        if (key_ctrl_column4080_func != NULL) {
+            key_ctrl_column4080_func();
+        }
+    }
+
     if (kcode==K_PGUP) {
         machine_set_restore_key(1);
     }
