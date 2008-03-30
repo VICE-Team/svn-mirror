@@ -54,7 +54,7 @@
 
 struct gcr_s;
 
-typedef struct disk_image_s {
+struct disk_image_s {
     void *media;
     unsigned int read_only;
     unsigned int device;
@@ -62,8 +62,8 @@ typedef struct disk_image_s {
     unsigned int tracks;
     struct gcr_s *gcr;
     BYTE *error_info;
-} disk_image_t;
-
+};
+typedef struct disk_image_s disk_image_t;
 
 extern void disk_image_init(void);
 extern int disk_image_resources_init(void);

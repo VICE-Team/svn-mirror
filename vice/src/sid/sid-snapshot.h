@@ -27,7 +27,22 @@
 #ifndef _SID_SNAPSHOT_H
 #define _SID_SNAPSHOT_H
 
+#include "types.h"
+
 struct snapshot_s;
+
+struct sid_snapshot_state_s {
+    BYTE sid_register[0x20];
+    BYTE bus_value;
+    DWORD bus_value_ttl;
+    DWORD accumulator[3];
+    DWORD shift_register[3];
+    WORD rate_counter[3];
+    WORD exponential_counter[3];
+    BYTE envelope_counter[3];
+    BYTE hold_zero[3];
+};
+typedef struct sid_snapshot_state_s sid_snapshot_state_t;
 
 extern int sid_snapshot_write_module(struct snapshot_s *s);
 extern int sid_snapshot_read_module(struct snapshot_s *s);
