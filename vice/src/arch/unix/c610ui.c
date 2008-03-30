@@ -29,11 +29,9 @@
 
 #include <stdio.h>
 
-#define C610UI 1
-#include "videoarch.h"
-
 #include "c610.h"
 #include "c610mem.h"
+#include "icon.h"
 #include "joystick.h"
 #include "drive.h"
 #include "petui.h"
@@ -454,7 +452,7 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 int c610_ui_init(void)
 {
-    ui_set_application_icon(icon_data);
+    ui_set_application_icon(c610_icon_data);
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,

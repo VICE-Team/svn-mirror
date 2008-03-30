@@ -30,11 +30,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define VIC20UI 1
-#include "videoarch.h"
-
 #include "cartridge.h"
 #include "drive.h"
+#include "icon.h"
 #include "joystick.h"
 #include "resources.h"
 #include "uicommands.h"
@@ -434,7 +432,7 @@ static ui_menu_entry_t vic20_menu[] = {
 
 int vic20_ui_init(void)
 {
-    ui_set_application_icon(icon_data);
+    ui_set_application_icon(vic20_icon_data);
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,

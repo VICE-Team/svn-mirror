@@ -30,9 +30,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define C128UI 1
-
 #include "drive.h"
+#include "icon.h"
 #include "joystick.h"
 #include "resources.h"
 #include "uicommands.h"
@@ -44,7 +43,6 @@
 #include "uisettings.h"
 #include "uivicii.h"
 #include "utils.h"
-#include "videoarch.h"
 #include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
@@ -425,7 +423,7 @@ static ui_menu_entry_t c128_settings_menu[] = {
 
 int c128_ui_init(void)
 {
-    ui_set_application_icon(icon_data);
+    ui_set_application_icon(c128_icon_data);
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,

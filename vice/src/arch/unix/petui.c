@@ -29,9 +29,7 @@
 
 #include <stdio.h>
 
-#define PETUI 1
-#include "videoarch.h"
-
+#include "icon.h"
 #include "joystick.h"
 #include "pets.h"
 #include "petui.h"
@@ -450,7 +448,7 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 int pet_ui_init(void)
 {
-    ui_set_application_icon(icon_data);
+    ui_set_application_icon(pet_icon_data);
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
