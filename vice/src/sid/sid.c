@@ -33,7 +33,6 @@
 #include <string.h>
 #include <math.h>
 
-#include "cmdline.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -63,125 +62,8 @@ static int useresid;
 #define FALSE 0
 #endif
 
-/* ------------------------------------------------------------------------- */
-
-/* Resource handling -- Added by Ettore 98-04-26.  */
-
-/* FIXME: We need sanity checks!  And do we really need all of these
-   `close_sound()' calls?  */
-
-static int sid_filters_enabled;       /* app_resources.sidFilters */
-static int sid_model;                 /* app_resources.sidModel */
-static int sid_useresid;
-static int sid_resid_sampling;
-static int sid_resid_passband;
-
-static int set_sid_filters_enabled(resource_value_t v, void *param)
-{
-    sid_filters_enabled = (int)v;
-    sound_state_changed = TRUE;
-    return 0;
-}
-
-static int set_sid_model(resource_value_t v, void *param)
-{
-    sid_model = (int)v;
-    sound_state_changed = TRUE;
-    return 0;
-}
-
-static int set_sid_useresid(resource_value_t v, void *param)
-{
-    sid_useresid = (int)v;
-    sound_state_changed = TRUE;
-    return 0;
-}
-
-static int set_sid_resid_sampling(resource_value_t v, void *param)
-{
-    sid_resid_sampling = (int)v;
-    sound_state_changed = TRUE;
-    return 0;
-}
-
-static int set_sid_resid_passband(resource_value_t v, void *param)
-{
-    int i = (int)v;
-
-    if (i < 0) {
-        i = 0;
-    }
-    else if (i > 90) {
-        i = 90;
-    }
-
-    sid_resid_passband = i;
-    sound_state_changed = TRUE;
-    return 0;
-}
-
-static resource_t resources[] = {
-    { "SidFilters", RES_INTEGER, (resource_value_t)1,
-      (resource_value_t *)&sid_filters_enabled,
-      set_sid_filters_enabled, NULL },
-    { "SidModel", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&sid_model,
-      set_sid_model, NULL },
-    { "SidUseResid", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&sid_useresid,
-      set_sid_useresid, NULL },
-    { "SidResidSampling", RES_INTEGER, (resource_value_t)0,
-      (resource_value_t *)&sid_resid_sampling,
-      set_sid_resid_sampling, NULL },
-    { "SidResidPassband", RES_INTEGER, (resource_value_t)90,
-      (resource_value_t *)&sid_resid_passband,
-      set_sid_resid_passband, NULL },
-    { NULL }
-};
-
-int sid_init_resources(void)
-{
-    return resources_register(resources);
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Command-line options -- Added by Ettore 98-05-09.  */
-static cmdline_option_t cmdline_options[] = {
-    { "-sidmodel", SET_RESOURCE, 1, NULL, NULL, "SidModel", NULL,
-      "<model>", "Specify SID model (1: 8580, 0: 6581)" },
-    { "-sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters",
-      (resource_value_t) 1,
-      NULL, "Emulate SID filters" },
-    { "+sidfilters", SET_RESOURCE, 0, NULL, NULL, "SidFilters",
-      (resource_value_t)0,
-      NULL, "Do not emulate SID filters" },
-#ifdef HAVE_RESID
-    { "-resid", SET_RESOURCE, 0, NULL, NULL, "SidUseResid",
-      (resource_value_t)1,
-      NULL, "Use reSID emulation" },
-    { "+resid", SET_RESOURCE, 0, NULL, NULL, "SidUseResid",
-      (resource_value_t)0,
-      NULL, "Use fast SID emulation" },
-    { "-residsamp <method>", SET_RESOURCE, 1, NULL, NULL, "SidResidSampling",
-      (resource_value_t)0,
-      NULL, "reSID sampling method (0: fast, 1: interpolating, 2: resampling)" },
-    { "-residpass <percent>", SET_RESOURCE, 1, NULL, NULL, "SidResidPassband",
-      (resource_value_t)90,
-      NULL, "reSID resampling passband in percentage of total bandwidth (0 - 90)" },
-#endif
-    { NULL }
-};
-
-int sid_init_cmdline_options(void)
-{
-    return cmdline_register_options(cmdline_options);
-}
-
-/* ------------------------------------------------------------------------- */
-
 /* argh */
-static BYTE siddata[32];
+BYTE siddata[32];
 
 /* use wavetables (sampled waveforms) */
 #define WAVETABLES
@@ -561,18 +443,18 @@ static void print_voice(char *buf, voice_t *pv)
     sprintf(buf,
 	    "#SID: V%d: e=%5.1f%%(%c) w=%6.1fHz(%c) f=%5.1f%% p=%5.1f%%\n",
 	    pv->nr,
-	    (double)pv->adsr*100.0 / (((DWORD)1 << 31) - 1), m[pv->adsrm],
-	    (double)pv->fs / (pv->s->speed1*16),
+	    (double)pv->adsr * 100.0 / (((DWORD)1 << 31) - 1), m[pv->adsrm],
+	    (double)pv->fs / (pv->s->speed1 * 16),
 #ifdef WAVETABLES
-	    w[pv->d[4]>>4],
+	    w[pv->d[4] >> 4],
 #else
 	    w[pv->fm],
 #endif
-	    (double)pv->f*100.0 / ((DWORD)-1),
+	    (double)pv->f * 100.0 / ((DWORD) - 1),
 #ifdef WAVETABLES
-	    (double)(pv->d[2] + (pv->d[3]&0x0f)*0x100)/40.95
+	    (double)(pv->d[2] + (pv->d[3] & 0x0f) * 0x100) / 40.95
 #else
-	    (double)pv->pw*100.0 / ((DWORD)-1)
+	    (double)pv->pw * 100.0 / ((DWORD) - 1)
 #endif
 	);
 }
@@ -597,6 +479,7 @@ inline static void setup_sid(sound_t *psid)
 {
     if (!psid->update)
 	return;
+
     psid->vol = psid->d[0x18] & 0x0f;
     psid->has3 = ((psid->d[0x18] & 0x80) && !(psid->d[0x17] & 0x04)) ? 0 : 1;
     if (psid->emulatefilter)
@@ -901,7 +784,7 @@ static void init_filter(sound_t *psid, int freq)
     filterDy = 0;
     filterResDy = 0;
 
-    for ( uk = 0, rk = 0; rk < 0x800; rk++, uk++ )
+    for (uk = 0, rk = 0; rk < 0x800; rk++, uk++)
     {
         float h;
 
@@ -944,16 +827,16 @@ static void init_filter(sound_t *psid, int freq)
 /* SID initialization routine */
 sound_t *sound_machine_open(int speed, int cycles_per_sec)
 {
-    DWORD		 i;
-    sound_t		*psid;
+    DWORD i;
+    sound_t *psid;
+    int sid_model;
 
 #ifdef HAVE_RESID
-    useresid = sid_useresid;
+    if (resources_get_value("SidUseResid", (resource_value_t *)&useresid) < 0)
+        return NULL;
+
     if (useresid)
-	return resid_sound_machine_open(speed, cycles_per_sec,
-					sid_filters_enabled, sid_model,
-					sid_resid_sampling, sid_resid_passband,
-					siddata);
+	return resid_sound_machine_open(speed, cycles_per_sec, siddata);
 #endif
     psid = xmalloc(sizeof(*psid));
     memset(psid, 0, sizeof(*psid));
@@ -961,19 +844,23 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     psid->speed1 = (cycles_per_sec << 8) / speed;
     for (i = 0; i < 16; i++)
     {
-	psid->adrs[i] = 500 * 8 * psid->speed1/adrtable[i];
+	psid->adrs[i] = 500 * 8 * psid->speed1 / adrtable[i];
 	psid->sz[i] = 0x8888888 * i;
     }
     psid->update = 1;
-    psid->emulatefilter = sid_filters_enabled;
+
+    if (resources_get_value("SidFilters",
+        (resource_value_t *)&(psid->emulatefilter)) < 0)
+        return NULL;
+
     init_filter(psid, speed);
     setup_sid(psid);
     for (i = 0; i < 3; i++)
     {
-	psid->v[i].vprev = &psid->v[(i + 2)%3];
-	psid->v[i].vnext = &psid->v[(i + 1)%3];
+	psid->v[i].vprev = &psid->v[(i + 2) % 3];
+	psid->v[i].vnext = &psid->v[(i + 1) % 3];
 	psid->v[i].nr = i;
-	psid->v[i].d = psid->d + i*7;
+	psid->v[i].d = psid->d + i * 7;
 	psid->v[i].s = psid;
 	psid->v[i].rv = NSEED;
 	psid->v[i].filtLow = 0;
@@ -983,29 +870,27 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
 	setup_voice(&psid->v[i]);
     }
 #ifdef WAVETABLES
+    if (resources_get_value("SidModel", (resource_value_t *)&sid_model) < 0)
+        return NULL;
+
     psid->newsid = sid_model == 1;
-    for (i = 0; i < 4096; i++)
-    {
+    for (i = 0; i < 4096; i++) {
 	wavetable10[i] = (WORD)(i < 2048 ? i << 4 : 0xffff - (i << 4));
 	wavetable20[i] = (WORD)(i << 3);
 	wavetable30[i] = waveform30_8580[i] << 7;
 	wavetable40[i + 4096] = 0x7fff;
-	if (psid->newsid)
-	{
+	if (psid->newsid) {
 	    wavetable50[i + 4096] = waveform50_8580[i] << 7;
 	    wavetable60[i + 4096] = waveform60_8580[i] << 7;
 	    wavetable70[i + 4096] = waveform70_8580[i] << 7;
-	}
-	else
-	{
+	} else {
 	    wavetable50[i + 4096] = waveform50_6581[i >> 3] << 7;
 	    wavetable60[i + 4096] = 0;
 	    wavetable70[i + 4096] = 0;
 	}
     }
 #endif
-    for (i = 0; i < NOISETABLESIZE; i++)
-    {
+    for (i = 0; i < NOISETABLESIZE; i++) {
         noiseLSB[i] = (BYTE)((((i >> (7 - 2)) & 0x04) | ((i >> (4 - 1)) & 0x02)
                       | ((i >> (2 - 0)) & 0x01)));
         noiseMID[i] = (BYTE)((((i >> (13 - 8 - 4)) & 0x10)
@@ -1035,7 +920,7 @@ static BYTE lastsidread;
 
 BYTE REGPARM1 sid_read(ADDRESS addr)
 {
-    int				val;
+    int	val;
     machine_handle_pending_alarms(0);
     addr = addr & 0x1f;
 #ifdef HAVE_MOUSE
@@ -1174,13 +1059,23 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE byte)
       case 11:
 	if ((psid->d[addr] ^ byte) & 1)
 	    psid->v[1].gateflip = 1;
-      case 7: case 8: case 9: case 10: case 12: case 13:
+      case 7:
+      case 8:
+      case 9:
+      case 10:
+      case 12:
+      case 13:
 	psid->v[1].update = 1;
 	break;
       case 18:
 	if ((psid->d[addr] ^ byte) & 1)
 	    psid->v[2].gateflip = 1;
-      case 14: case 15: case 16: case 17: case 19: case 20:
+      case 14:
+      case 15:
+      case 16:
+      case 17:
+      case 19:
+      case 20:
 	psid->v[2].update = 1;
 	break;
       default:
@@ -1228,54 +1123,5 @@ void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
     else
 #endif
     psid->laststoreclk -= sub;
-}
-
-/* ------------------------------------------------------------------------- */
-
-static char snap_module_name[] = "SID";
-#define SNAP_MAJOR 1
-#define SNAP_MINOR 0
-
-int sid_write_snapshot_module(snapshot_t *s)
-{
-    snapshot_module_t *m;
-
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
-    if (m == NULL)
-        return -1;
-
-    if (snapshot_module_write_byte_array(m, siddata, 32) < 0) {
-        snapshot_module_close(m);
-        return -1;
-    }
-
-    snapshot_module_close(m);
-    return 0;
-}
-
-int sid_read_snapshot_module(snapshot_t *s)
-{
-    BYTE major_version, minor_version;
-    snapshot_module_t *m;
-
-    sound_close();
-
-    m = snapshot_module_open(s, snap_module_name,
-                             &major_version, &minor_version);
-    if (m == NULL)
-        return -1;
-
-    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        log_error(LOG_DEFAULT,
-                  "SID: Snapshot module version (%d.%d) newer than %d.%d.\n",
-                  major_version, minor_version,
-                  SNAP_MAJOR, SNAP_MINOR);
-        return snapshot_module_close(m);
-    }
-
-    if (snapshot_module_read_byte_array(m, siddata, 32) < 0)
-	return -1;
-
-    return snapshot_module_close(m);
 }
 
