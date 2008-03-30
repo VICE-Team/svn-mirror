@@ -349,7 +349,7 @@ static int tape_sense = 0;
 #ifdef AVOID_STATIC_ARRAYS
 BYTE *roml_banks, *romh_banks;
 #else
-BYTE roml_banks[0x8000], romh_banks[0x8000];
+BYTE roml_banks[0x22000], romh_banks[0x22000];
 #endif
 
 /* Exansion port RAM images.  */
@@ -360,7 +360,7 @@ BYTE export_ram0[0x2000];
 #endif
 
 /* Expansion port ROML/ROMH/RAM banking.  */
-int roml_bank, romh_bank, export_ram;
+int roml_bank = 0, romh_bank = 0, export_ram = 0;
 
 /* Flag: Ultimax (VIC-10) memory configuration enabled.  */
 int ultimax = 0;
@@ -512,11 +512,10 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
     if (mem_cartridge_type == CARTRIDGE_FINAL_III) {
         if ((addr & 0xff) == 0xff)  {
             /* FIXME: Change this to call `cartridge_config_changed'.  */
-            romh_bank = roml_bank = (value) & 3;
+            romh_bank = roml_bank = value & 3;
             export.game = ((value >> 5) & 1) ^ 1;
             export.exrom = ((value >> 4) & 1) ^ 1;
             pla_config_changed();
-            /*printf("BANK: %x\n",value);*/
             ultimax = export.game & (export.exrom ^ 1);
             if ((value & 0x30) == 0x10)
                 maincpu_set_nmi(I_FREEZE, IK_NMI);
@@ -580,14 +579,26 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
 void REGPARM2 store_io1(ADDRESS addr, BYTE value)
 {
     if ((addr & 0xff00) == 0xde00) {
-	if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
-	    cartridge_config_changed(value);
-	if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
-	    cartridge_config_changed(1);
-	if (mem_cartridge_type == CARTRIDGE_SIMONS_BASIC)
-	    cartridge_config_changed(1);
-	if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT)
-	    export_ram0[0x1e00 + (addr & 0xff)] = value;
+        if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
+            cartridge_config_changed(value);
+        if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
+            cartridge_config_changed(1);
+        if (mem_cartridge_type == CARTRIDGE_SIMONS_BASIC)
+            cartridge_config_changed(1);
+        if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT)
+            export_ram0[0x1e00 + (addr & 0xff)] = value;
+        if (mem_cartridge_type == CARTRIDGE_OCEAN) {
+            if (value & 0x80) {
+                romh_bank = roml_bank = value & 15;
+                export.game = (value >> 4) & 1;
+                export.exrom = 1;
+            } else {
+                romh_bank = roml_bank = 16;
+                export.game = export.exrom = 1;
+            }
+            pla_config_changed();
+            ultimax = 0;
+        }            
     }
 #ifdef HAVE_RS232
     if (acia_de_enabled)
@@ -656,22 +667,21 @@ BYTE REGPARM1 read_roml(ADDRESS addr)
 {
     if (export_ram)
         return export_ram0[addr & 0x1fff];
-    switch (roml_bank) {
-      case 0:
-        return roml_banks[addr & 0x1fff];
-      case 1:
-        return roml_banks[(addr & 0x1fff) + 0x2000];
-      case 2:
-        return roml_banks[(addr & 0x1fff) + 0x4000];
-      case 3:
-        return roml_banks[(addr & 0x1fff) + 0x6000];
-    }
-    return 0;
+#ifdef DEBUG
+    printf("RL: ADDR: %i\tVAL: %i\n",(addr & 0x1fff) + (roml_bank << 13),
+           roml_banks[(addr & 0x1fff) + (roml_bank << 13)]);
+#endif
+    return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
 BYTE REGPARM1 read_romh(ADDRESS addr)
 {
-    switch (romh_bank) {
+#ifdef DEBUG
+    printf("RH: ADDR: %i\tVAL: %i\n",(addr & 0x1fff) + (romh_bank << 13),
+           romh_banks[(addr & 0x1fff) + (romh_bank << 13)]);
+#endif
+    return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+/*    switch (romh_bank) {
       case 0:
         return romh_banks[addr & 0x1fff];
       case 1:
@@ -681,7 +691,7 @@ BYTE REGPARM1 read_romh(ADDRESS addr)
       case 3:
         return romh_banks[(addr & 0x1fff) + 0x6000];
     }
-    return 0;
+    return 0;*/
 }
 
 void REGPARM2 store_roml(ADDRESS addr, BYTE value)
@@ -925,16 +935,20 @@ void initialize_memory(void)
       case CARTRIDGE_ACTION_REPLAY:
       case CARTRIDGE_KCS_POWER:
       case CARTRIDGE_GENERIC_8KB:
-	cartridge_config_changed(0);
-	break;
+        cartridge_config_changed(0);
+        break;
       case CARTRIDGE_FINAL_III:
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GENERIC_16KB:
-	cartridge_config_changed(1);
-	break;
+        cartridge_config_changed(1);
+        break;
       case CARTRIDGE_SUPER_SNAPSHOT:
-	cartridge_config_changed(9);
-	break;
+        cartridge_config_changed(9);
+        break;
+      case CARTRIDGE_OCEAN:
+        cartridge_config_changed(1);
+        store_io1((ADDRESS) 0xde00, 0);
+        break;
     }
 }
 
@@ -960,8 +974,8 @@ void mem_powerup(void)
 	mem_write_tab_watch = xmalloc(0x101*sizeof(*mem_write_tab_watch));
 	mem_read_tab_watch = xmalloc(0x101*sizeof(*mem_read_tab_watch));
 
-	roml_banks = xmalloc(0x8000);
-	romh_banks = xmalloc(0x8000);
+	roml_banks = xmalloc(0x22000);
+	romh_banks = xmalloc(0x22000);
 	export_ram0 = xmalloc(0x2000);
     }
 #endif
@@ -1052,25 +1066,25 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
     mem_cartridge_type = type;
     switch (type) {
       case CARTRIDGE_GENERIC_8KB:
-	memcpy(roml_banks, rawcart, 0x2000);
-	cartridge_config_changed(0);
-	break;
+        memcpy(roml_banks, rawcart, 0x2000);
+        cartridge_config_changed(0);
+        break;
       case CARTRIDGE_SIMONS_BASIC:
       case CARTRIDGE_GENERIC_16KB:
-	memcpy(roml_banks, rawcart, 0x2000);
-	memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-	cartridge_config_changed(1);
-	break;
+        memcpy(roml_banks, rawcart, 0x2000);
+        memcpy(romh_banks, &rawcart[0x2000], 0x2000);
+        cartridge_config_changed(1);
+        break;
       case CARTRIDGE_ACTION_REPLAY:
-	memcpy(roml_banks, rawcart, 0x8000);
-	memcpy(romh_banks, rawcart, 0x8000);
-	cartridge_config_changed(0);
-	break;
+        memcpy(roml_banks, rawcart, 0x8000);
+        memcpy(romh_banks, rawcart, 0x8000);
+        cartridge_config_changed(0);
+        break;
       case CARTRIDGE_KCS_POWER:
-	memcpy(roml_banks, rawcart, 0x2000);
-	memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-	cartridge_config_changed(0);
-	break;
+        memcpy(roml_banks, rawcart, 0x2000);
+        memcpy(romh_banks, &rawcart[0x2000], 0x2000);
+        cartridge_config_changed(0);
+        break;
       case CARTRIDGE_FINAL_III:
         memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
         memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
@@ -1083,14 +1097,27 @@ void mem_attach_cartridge(int type, BYTE * rawcart)
         cartridge_config_changed(1);
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:
-	memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
-	memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
-	memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
-	memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
-	cartridge_config_changed(9);
-	break;
+        memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
+        memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
+        memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
+        memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
+        cartridge_config_changed(9);
+        break;
+      case CARTRIDGE_OCEAN:
+        {
+            int i;
+            for (i = 0; i < 16; i++) {
+                memcpy(&roml_banks[i * 0x2000], &rawcart[i * 0x2000 + 0x4000],
+                       0x2000);
+                memcpy(&romh_banks[i * 0x2000], &rawcart[i * 0x2000 + 0x24000],
+                       0x2000);
+            }
+            memcpy(&roml_banks[0x20000], &rawcart[0x0000], 0x2000);
+            memcpy(&romh_banks[0x20000], &rawcart[0x2000], 0x2000);
+        }
+        break;
       default:
-	mem_cartridge_type = CARTRIDGE_NONE;
+        mem_cartridge_type = CARTRIDGE_NONE;
     }
     return;
 }

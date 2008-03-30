@@ -104,7 +104,7 @@ int cartridge_attach_image(int type, const char *filename)
 	return 0;
 
     /* allocate temporary array */
-    rawcart = xmalloc(0x10000);
+    rawcart = xmalloc(0x44000);
 
     /* Do not detach cartridge when attaching the same cart type again.  */
     if (type != carttype)
@@ -151,6 +151,21 @@ int cartridge_attach_image(int type, const char *filename)
 	}
 	fclose(fd);
 	break;
+      case CARTRIDGE_OCEAN:
+        fd = fopen(filename, READ);
+        if (!fd)
+            goto done;
+        /* Dummy read.  */
+        if (fread(rawcart, 0x2, 1, fd) < 1) {
+            fclose(fd);
+            goto done;
+        }
+        if (fread(rawcart, 0x44000, 1, fd) < 1) {
+            fclose(fd);
+            goto done;
+        }
+        fclose(fd);
+        break;
       case CARTRIDGE_CRT:
 	fd = fopen(filename, READ);
 	if (!fd)
