@@ -184,10 +184,12 @@ int check_set_joykeys(KeySym key, int joynum)
     for (column = 0; column < 10; column++) {
         if (key == joykeys[joynum][column].sym) {
             if (joypad_bits[column]) {
-                joystick_value[joyport] |= joypad_bits[column];
+                /*joystick_value[joyport] |= joypad_bits[column];*/
+                joystick_set_value_or(joyport, joypad_bits[column]);
                 joypad_status[joynum][column]=1;
             } else {
-                joystick_value[joyport] = 0;
+                /*joystick_value[joyport] = 0;*/
+                joystick_set_value_absolute(joyport, 0);
                 memset(joypad_status[joynum], 0, sizeof(joypad_status[joynum]));
             }
 #ifdef DEBUG_JOY
@@ -216,8 +218,10 @@ int check_clr_joykeys(KeySym key, int joynum)
 
     for (column = 0; column < 10; column++) {
         if (key == joykeys[joynum][column].sym) {
-            joystick_value[joyport] &= joyreleaseval(column,
-                                                     joypad_status[joynum]);
+            /*joystick_value[joyport] &= joyreleaseval(column,
+                                                     joypad_status[joynum]);*/
+            joystick_set_value_and(joyport, joyreleaseval(column,
+                                   joypad_status[joynum]));
             joypad_status[joynum][column] = 0;
             return 1;
         }
