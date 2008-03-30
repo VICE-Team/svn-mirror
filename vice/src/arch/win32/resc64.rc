@@ -142,6 +142,7 @@ BEGIN
         END
         MENUITEM SEPARATOR
         MENUITEM "&True drive emulation",       IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
+        MENUITEM "&Virtual device traps",           IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
         POPUP "Vide&o standard"
         BEGIN
