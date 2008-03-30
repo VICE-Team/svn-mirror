@@ -888,6 +888,30 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
     }
 }
 
+mem_ioreg_list_t *mem_ioreg_list_get(void)
+{
+    mem_ioreg_list_t *mem_ioreg_list;
+
+    mem_ioreg_list = (mem_ioreg_list_t *)xmalloc(sizeof(mem_ioreg_list_t) * 3);
+
+    mem_ioreg_list[0].name = "VIC";
+    mem_ioreg_list[0].start = 0x9000;
+    mem_ioreg_list[0].end = 0x900f;
+    mem_ioreg_list[0].next = &mem_ioreg_list[1];
+
+    mem_ioreg_list[1].name = "VIA1";
+    mem_ioreg_list[1].start = 0x9120;
+    mem_ioreg_list[1].end = 0x912f;
+    mem_ioreg_list[1].next = &mem_ioreg_list[2];
+
+    mem_ioreg_list[2].name = "VIA2";
+    mem_ioreg_list[2].start = 0x9110;
+    mem_ioreg_list[2].end = 0x911f;
+    mem_ioreg_list[2].next = NULL;
+
+    return mem_ioreg_list;
+}
+
 void mem_get_screen_parameter(ADDRESS *base, BYTE *rows, BYTE *columns)
 {
     /* FIXME */
