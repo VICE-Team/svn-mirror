@@ -37,21 +37,9 @@
 
 #include <stdio.h>
 
-#ifndef __riscos
-#ifdef __IBMC__
-#include <direct.h>
-#include "snippets/dirport.h"
-#else
-#include <dirent.h>
-#endif
-#endif
-
-#ifdef HAVE_SYS_STAT_H
-#include <sys/stat.h>
-#endif
-
 #include "fsdevice-close.h"
 #include "fsdevicetypes.h"
+#include "ioutil.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
 
@@ -66,28 +54,25 @@ int fsdevice_close(vdrive_t *vdrive, unsigned int secondary)
         fsdevice_error(vdrive, IPE_OK);
         return FLOPPY_COMMAND_OK;
     }
+
     switch (fs_info[secondary].mode) {
       case Write:
       case Read:
       case Append:
-        if( fs_info[secondary].tape.name )
-          {
+        if (fs_info[secondary].tape.name) {
             tape_image_close(&(fs_info[secondary].tape));
-          }
-        else if( fs_info[secondary].fd )
-          {
+        } else if (fs_info[secondary].fd) {
             fclose(fs_info[secondary].fd);
             fs_info[secondary].fd = NULL;
-          }
-        else
-          return FLOPPY_ERROR;
+        } else
+            return FLOPPY_ERROR;
         break;
       case Directory:
-        if (!fs_info[secondary].dp)
+        if (fs_info[secondary].ioutil_dir == NULL)
             return FLOPPY_ERROR;
 
-        closedir(fs_info[secondary].dp);
-        fs_info[secondary].dp = NULL;
+        ioutil_closedir(fs_info[secondary].ioutil_dir);
+        fs_info[secondary].ioutil_dir = NULL;
         break;
     }
 
