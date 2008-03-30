@@ -7371,6 +7371,7 @@ Added support code for internationalization based on gettext
 Translated the Unix Port to German
 Implemented the fliplists + ui (unix).
 
+@item
 @b{Spiro Trikaliotis} wrote the Win32
 console implementation for the built-in monitor, corrected some
 REU related bugs, added support for the TFE and RR-Net
@@ -7403,8 +7404,9 @@ Former team members:
 @itemize @bullet
 
 @item
+@b{Thomas Bretz}
 Copyright @copyright{} 1999-2004
-@b{Thomas Bretz} started the OS/2 port.
+Started the OS/2 port.
 
 @item
 @b{Daniel Sladic}

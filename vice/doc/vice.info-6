@@ -55,7 +55,7 @@ involved in the development of X64 and VICE:
      based on gettext Translated the Unix Port to German Implemented
      the fliplists + ui (unix).
 
-     Spiro Trikaliotis wrote the Win32 console implementation for the
+   * Spiro Trikaliotis wrote the Win32 console implementation for the
      built-in monitor, corrected some REU related bugs, added support
      for the TFE and RR-Net (cs8900a), and wrote some further patches.
 
@@ -78,7 +78,7 @@ involved in the development of X64 and VICE:
 
    Former team members:
 
-   * Copyright (C) 1999-2004 Thomas Bretz started the OS/2 port.
+   * Thomas Bretz Copyright (C) 1999-2004 Started the OS/2 port.
 
    * Daniel Sladic Copyright (C) 1997-2001 Started the work on
      hardware-level 1541 emulation and wrote the new monitor introduced

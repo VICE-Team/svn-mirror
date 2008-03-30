@@ -1,3 +1,12 @@
+2006-08-27  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.
+
+	* configure.in: Do not define `UNSTABLE'.
+
+	* doc/vice.texi, doc/html/index.html, doc/html/amigaos.html,
+	doc/html/solaris.html: Fixed some minor issues.
+
 2006-08-26  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.28.
