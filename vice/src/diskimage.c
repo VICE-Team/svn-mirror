@@ -130,50 +130,46 @@ static int disk_image_check_min_block(unsigned int blk, unsigned int length)
 
 static int disk_image_check_for_d64(disk_image_t *image)
 {
-    int countbytes;
-
     /*** detect 35..42 track d64 image, determine image parameters.
          Walk from 35 to 42, calculate expected image file size for each track,
-         and compare this with the size of the given image.
-         */
+         and compare this with the size of the given image. */
 
-    int checkimage_tracks,checkimage_blocks;
-    int checkimage_realsize,checkimage_errorinfo;
+    int checkimage_tracks, checkimage_errorinfo;
+    size_t countbytes, checkimage_blocks, checkimage_realsize;
 
-    checkimage_errorinfo=0;
-    checkimage_realsize=util_file_length(image->fd);
-    checkimage_tracks=NUM_TRACKS_1541; /* start at track 35 */
-    checkimage_blocks=D64_FILE_SIZE_35/256;
+    checkimage_errorinfo = 0;
+    checkimage_realsize = util_file_length(image->fd);
+    checkimage_tracks = NUM_TRACKS_1541; /* start at track 35 */
+    checkimage_blocks = D64_FILE_SIZE_35 / 256;
 
     while (1) {
-
         /* check if image matches "checkimage_tracks" */
-        if (checkimage_realsize==checkimage_blocks*256) {
+        if (checkimage_realsize == checkimage_blocks * 256) {
             /* image file matches size-with-no-error-info */
-            checkimage_errorinfo=0;
+            checkimage_errorinfo = 0;
             break;
 
-        } else if (checkimage_realsize==checkimage_blocks*256
+        } else if (checkimage_realsize == checkimage_blocks * 256
             + checkimage_blocks) {
             /* image file matches size-with-error-info */
-            checkimage_errorinfo=1;
+            checkimage_errorinfo = 1;
             break;
         }
 
         /* try next track (all tracks from 35 to 42 have 17 blocks) */
         checkimage_tracks++;
-        checkimage_blocks+=17;
+        checkimage_blocks += 17;
 
         /* we tried them all up to 42, none worked, image must be corrupt */
-        if (checkimage_tracks>MAX_TRACKS_1541)
+        if (checkimage_tracks > MAX_TRACKS_1541)
             return 0;
     }
 
     /*** test image file: read it (fgetc is pretty fast).
          further size checks are no longer necessary (done during detection) */
     rewind(image->fd);
-    for (countbytes=0; countbytes<checkimage_realsize; countbytes++) {
-        if (fgetc(image->fd)==EOF) {
+    for (countbytes = 0; countbytes < checkimage_realsize; countbytes++) {
+        if (fgetc(image->fd) == EOF) {
             log_error(disk_image_log, "Cannot read D64 image.");
             return 0;
         }
@@ -184,7 +180,7 @@ static int disk_image_check_for_d64(disk_image_t *image)
     image->tracks = checkimage_tracks;
     if (checkimage_errorinfo) {
         image->error_info = (BYTE *)xcalloc(1, MAX_BLOCKS_1541);
-        if (fseek(image->fd, 256 * checkimage_blocks, SEEK_SET) < 0)
+        if (fseek(image->fd, (long)(256 * checkimage_blocks), SEEK_SET) < 0)
             return 0;
         if (fread(image->error_info, 1, checkimage_blocks, image->fd)
             < checkimage_blocks)
@@ -192,7 +188,7 @@ static int disk_image_check_for_d64(disk_image_t *image)
     }
 
     /*** log and return successfully */
-    disk_image_check_log(image,"D64");
+    disk_image_check_log(image, "D64");
     return 1;
 }
 
