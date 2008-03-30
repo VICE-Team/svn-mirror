@@ -50,8 +50,8 @@ BYTE REGPARM1 pio1_read(WORD addr)
     /*  Correct clock */
     ted_handle_pending_alarms(0);
 
-    if (drive_context[0]->drive->parallel_cable_enabled
-        || drive_context[1]->drive->parallel_cable_enabled)
+    if (drive_context[0]->drive->parallel_cable
+        || drive_context[1]->drive->parallel_cable)
         pio1_value = parallel_cable_cpu_read();
     else 
         pio1_value = pio1_data;
@@ -76,8 +76,8 @@ void REGPARM2 pio1_store(WORD addr, BYTE value)
     if (tape_sense)
         pio1_outline &= ~4;
 
-    if (drive_context[0]->drive->parallel_cable_enabled
-        || drive_context[1]->drive->parallel_cable_enabled)
+    if (drive_context[0]->drive->parallel_cable
+        || drive_context[1]->drive->parallel_cable)
         parallel_cable_cpu_write(pio1_outline);
 }
 
@@ -92,8 +92,8 @@ void pio1_set_tape_sense(int sense)
     if (tape_sense)
         pio1_outline &= ~4;
 
-    if (drive_context[0]->drive->parallel_cable_enabled
-        || drive_context[1]->drive->parallel_cable_enabled)
+    if (drive_context[0]->drive->parallel_cable
+        || drive_context[1]->drive->parallel_cable)
         parallel_cable_cpu_write(pio1_outline);
 }
 

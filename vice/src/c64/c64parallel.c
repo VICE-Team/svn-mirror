@@ -52,7 +52,7 @@ static BYTE parallel_cable_value(void)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         if (drive_context[dnr]->drive->enable
-            && drive_context[dnr]->drive->parallel_cable_enabled)
+            && drive_context[dnr]->drive->parallel_cable)
             val &= parallel_cable_drive_value[dnr];
     }
 
@@ -61,6 +61,10 @@ static BYTE parallel_cable_value(void)
 
 void parallel_cable_drive_write(BYTE data, int handshake, unsigned int dnr)
 {
+#if 0
+    log_debug("DW DATA %02x HS %02x", data, handshake);
+#endif
+
     if (handshake == PARALLEL_WRITE_HS || handshake == PARALLEL_HS)
         ciacore_set_flag(machine_context.cia2);
 
@@ -70,10 +74,18 @@ void parallel_cable_drive_write(BYTE data, int handshake, unsigned int dnr)
 
 BYTE parallel_cable_drive_read(int handshake)
 {
+    BYTE rc;
+
     if (handshake)
         ciacore_set_flag(machine_context.cia2);
 
-    return parallel_cable_value();
+    rc = parallel_cable_value();
+
+#if 0
+    log_debug("DR DATA %02x HS %02x", rc, handshake);
+#endif
+
+    return rc;
 }
 
 void parallel_cable_cpu_execute(void)
@@ -82,7 +94,7 @@ void parallel_cable_cpu_execute(void)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         if (drive_context[dnr]->drive->enable
-            && drive_context[dnr]->drive->parallel_cable_enabled)
+            && drive_context[dnr]->drive->parallel_cable)
             drivecpu_execute(drive_context[dnr], maincpu_clk);
     }
 }
@@ -92,13 +104,25 @@ void parallel_cable_cpu_write(BYTE data)
     parallel_cable_cpu_execute();
 
     parallel_cable_cpu_value = data;
+
+#if 0
+    log_debug("CW DATA %02x", data);
+#endif
 }
 
 BYTE parallel_cable_cpu_read(void)
 {
+    BYTE rc;
+
     parallel_cable_cpu_execute();
 
-    return parallel_cable_value();
+    rc = parallel_cable_value();
+
+#if 0
+    log_debug("CR %02x", rc);
+#endif
+
+    return rc;
 }
 
 void parallel_cable_cpu_pulse(void)
@@ -107,13 +131,17 @@ void parallel_cable_cpu_pulse(void)
 
     parallel_cable_cpu_execute();
 
+#if 0
+    log_debug("CP");
+#endif
+
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive_t *drive;
 
         drive = drive_context[dnr]->drive;
 
-        if (drive->enable && drive->parallel_cable_enabled) {
-            if (drive->drive_mc6821_enabled)
+        if (drive->enable && drive->parallel_cable) {
+            if (drive->parallel_cable == DRIVE_PC_DD3)
                 mc6821_set_signal(drive_context[dnr], MC6821_SIG_CA1);
             else if (drive->type == DRIVE_TYPE_1570
                 || drive->type == DRIVE_TYPE_1571

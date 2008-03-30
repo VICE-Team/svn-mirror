@@ -164,7 +164,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
             || SMW_B(m, (BYTE)(drive->GCR_write_value)) < 0
             || SMW_B(m, (BYTE)(drive->idling_method)) < 0
             || SMW_B(m, (BYTE)(drive->snap_last_mode)) < 0
-            || SMW_B(m, (BYTE)(drive->parallel_cable_enabled)) < 0
+            || SMW_B(m, (BYTE)(drive->parallel_cable)) < 0
             || SMW_B(m, (BYTE)(drive->read_only)) < 0
             || SMW_DW(m, (DWORD)(drive->snap_rotation_last_clk)) < 0
             || SMW_DW(m, (DWORD)(rotation_table_ptr[i])) < 0
@@ -300,7 +300,7 @@ int drive_snapshot_read_module(snapshot_t *s)
             || SMR_B(m, &(drive->GCR_write_value)) < 0
             || SMR_B_INT(m, &(drive->idling_method)) < 0
             || SMR_B_INT(m, &(drive->snap_last_mode)) < 0
-            || SMR_B_INT(m, &(drive->parallel_cable_enabled)) < 0
+            || SMR_B_INT(m, &(drive->parallel_cable)) < 0
             || SMR_B_INT(m, &(drive->read_only)) < 0
             || SMR_DW(m, &(drive->snap_rotation_last_clk)) < 0
             || SMR_DW(m, &rotation_table_ptr[i]) < 0

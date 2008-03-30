@@ -117,7 +117,7 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
         glue1571_side_set((byte >> 2) & 1, via1p->drive);
     } else
 
-    if (via1p->drive->parallel_cable_enabled
+    if (via1p->drive->parallel_cable == DRIVE_PC_STANDARD
         && (via1p->drive->type == DRIVE_TYPE_1541
         || via1p->drive->type == DRIVE_TYPE_1541II))
         parallel_cable_drive_write(byte, PARALLEL_WRITE, via1p->number);
@@ -142,7 +142,7 @@ static void store_pra(via_context_t *via_context, BYTE byte, BYTE oldpa_value,
         if ((oldpa_value ^ byte) & 0x02)
             iec_fast_drive_direction(byte & 2, via1p->number);
     } else {
-        if (via1p->drive->parallel_cable_enabled
+        if (via1p->drive->parallel_cable == DRIVE_PC_STANDARD
             && (via1p->drive->type == DRIVE_TYPE_1541
             || via1p->drive->type == DRIVE_TYPE_1541II))
             parallel_cable_drive_write(byte,
@@ -271,7 +271,7 @@ static BYTE read_pra(via_context_t *via_context, WORD addr)
             | (via_context->via[VIA_PRA] & via_context->via[VIA_DDRA]);
     }
 
-    byte = (via1p->drive->parallel_cable_enabled
+    byte = (via1p->drive->parallel_cable == DRIVE_PC_STANDARD
             ? parallel_cable_drive_read((((addr == VIA_PRA) &&
                                         (via_context->via[VIA_PCR]
                                         & 0xe) == 0xa)) ? 1 : 0)

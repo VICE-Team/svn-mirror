@@ -103,7 +103,7 @@ static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
     ciap = (drivecia1571_context_t *)(cia_context->prv);
 
-    if (ciap->drive->parallel_cable_enabled)
+    if (ciap->drive->parallel_cable == DRIVE_PC_STANDARD)
         parallel_cable_drive_write(byte, PARALLEL_WRITE_HS, ciap->number);
 }
 
@@ -117,7 +117,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
     ciap = (drivecia1571_context_t *)(cia_context->prv);
 
-    if (ciap->drive->parallel_cable_enabled)
+    if (ciap->drive->parallel_cable == DRIVE_PC_STANDARD)
         parallel_cable_drive_write(byte, PARALLEL_WRITE_HS, ciap->number);
 }
 
@@ -134,7 +134,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
     ciap = (drivecia1571_context_t *)(cia_context->prv);
 
-    if (ciap->drive->parallel_cable_enabled)
+    if (ciap->drive->parallel_cable == DRIVE_PC_STANDARD)
         byte = parallel_cable_drive_read(1);
 
     return (byte & ~(cia_context->c_cia[CIA_DDRB]))

@@ -47,21 +47,29 @@ mc6821_t mc6821[DRIVE_NUM];
 
 static void mc6821_write_pra(BYTE byte, unsigned int dnr)
 {
-    if (mc6821[dnr].drive->parallel_cable_enabled)
+    if (mc6821[dnr].drive->parallel_cable == DRIVE_PC_DD3)
         parallel_cable_drive_write(byte, PARALLEL_WRITE, dnr);
 
     mc6821[dnr].pra = byte;
 }
 
+static void mc6821_write_ddra(BYTE byte, unsigned int dnr)
+{
+    parallel_cable_drive_write((~byte) | mc6821[dnr].pra, PARALLEL_WRITE, dnr);
+
+    mc6821[dnr].ddra = byte;
+}
+
 static BYTE mc6821_read_pra(unsigned int dnr)
 {
     BYTE byte = 0xff;
+    int hs = 0;
 
     if ((mc6821[dnr].cra & 0x28) == 0x28)
-        parallel_cable_drive_write(0, PARALLEL_HS, dnr);
+        hs = 1;
 
-    if (mc6821[dnr].drive->parallel_cable_enabled)
-        byte = parallel_cable_drive_read(dnr);
+    if (mc6821[dnr].drive->parallel_cable == DRIVE_PC_DD3)
+        byte = parallel_cable_drive_read(hs);
 
     mc6821[dnr].cra = (BYTE)(mc6821[dnr].cra & 0x7f);
 
@@ -72,6 +80,11 @@ static BYTE mc6821_read_pra(unsigned int dnr)
 static void mc6821_write_prb(BYTE byte, unsigned int dnr)
 {
     mc6821[dnr].prb = byte;
+}
+
+static void mc6821_write_ddrb(BYTE byte, unsigned int dnr)
+{
+    mc6821[dnr].ddrb = byte;
 }
 
 static BYTE mc6821_read_prb(unsigned int dnr)
@@ -132,7 +145,8 @@ void mc6821_set_signal(drive_context_t *drive_context, int line)
 static void mc6821_store_internal(WORD addr, BYTE byte, unsigned int dnr)
 {
 #ifdef MC_DEBUG
-    log_debug("MC WRITE ADDR: %i DATA:%02x CLK:%i", addr, byte, drive_clk[dnr]);
+    log_debug("MC WRITE ADDR: %i DATA:%02x CLK:%i",
+              addr, byte, drive_clk[dnr]);
 #endif
 
     switch (addr) {
@@ -140,7 +154,7 @@ static void mc6821_store_internal(WORD addr, BYTE byte, unsigned int dnr)
         if (mc6821[dnr].cra & 0x04)
             mc6821_write_pra(byte, dnr);
         else
-            mc6821[dnr].ddra = byte;
+            mc6821_write_ddra(byte, dnr);
         break;
       case 1:
         mc6821_write_cra(byte, dnr);
@@ -149,7 +163,7 @@ static void mc6821_store_internal(WORD addr, BYTE byte, unsigned int dnr)
         if (mc6821[dnr].crb & 0x04)
             mc6821_write_prb(byte, dnr);
         else
-            mc6821[dnr].ddrb = byte;
+            mc6821_write_ddrb(byte, dnr);
         break;
       case 3:
         mc6821_write_crb(byte, dnr);
@@ -183,7 +197,8 @@ static BYTE mc6821_read_internal(WORD addr, unsigned int dnr)
     }
 
 #ifdef MC_DEBUG
-    log_debug("MC READ ADDR: %i DATA:%02x CLK:%i", addr, tmp, drive_clk[dnr]);
+    log_debug("MC READ ADDR: %i DATA:%02x CLK:%i",
+              addr, tmp, drive_clk[dnr]);
 #endif
 
     return tmp;
