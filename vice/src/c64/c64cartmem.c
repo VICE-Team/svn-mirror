@@ -612,7 +612,7 @@ void cartridge_attach(int type, BYTE *rawcart)
         break;
       case CARTRIDGE_ULTIMAX:
         memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
-        memcpy(&romh_banks[0x0000], &rawcart[0x0000], 0x2000);
+        memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
         cartridge_config_changed(3);
         break;
       case CARTRIDGE_SUPER_GAMES:
