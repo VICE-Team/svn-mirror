@@ -331,7 +331,7 @@ checkpoint_control_rules: CMD_CHECKPT_ON breakpt_num end_cmd
                         ;
 
 monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd
-                     { sidefx = (($2==e_TOGGLE)?(sidefx^1):$2); }
+                     { sidefx = (($2 == e_TOGGLE) ? (sidefx ^ 1) : $2); }
                    | CMD_SIDEFX end_cmd
                      {
                          mon_out("I/O side effects are %s\n",
@@ -384,16 +384,16 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                     { mon_change_dir($2); }
                   ;
 
-disk_rules: CMD_LOAD filename opt_address end_cmd
-            { mon_file_load($2,$3,FALSE); }
-          | CMD_BLOAD filename opt_address end_cmd
-            { mon_file_load($2,$3,TRUE); }
-          | CMD_SAVE filename address address end_cmd
-            { mon_file_save($2,$3,$4,FALSE); }
-          | CMD_BSAVE filename address address end_cmd
-            { mon_file_save($2,$3,$4,TRUE); }
-          | CMD_VERIFY filename address end_cmd
-            { mon_file_verify($2,$3); }
+disk_rules: CMD_LOAD filename expression opt_address end_cmd
+            { mon_file_load($2,$3,$4,FALSE); }
+          | CMD_BLOAD filename expression opt_address end_cmd
+            { mon_file_load($2,$3,$4,TRUE); }
+          | CMD_SAVE filename expression address address end_cmd
+            { mon_file_save($2,$3,$4,$5,FALSE); }
+          | CMD_BSAVE filename expression address address end_cmd
+            { mon_file_save($2,$3,$4,$5,TRUE); }
+          | CMD_VERIFY filename expression address end_cmd
+            { mon_file_verify($2,$3,$4); }
           | CMD_BLOCK_READ expression expression opt_address end_cmd
             { mon_drive_block_cmd(0,$2,$3,$4); }
           | CMD_BLOCK_WRITE expression expression address end_cmd
