@@ -29,14 +29,14 @@
 
 #include "types.h"
 
-void REGPARM2 vic_store(ADDRESS addr, BYTE value);
-BYTE REGPARM1 vic_read(ADDRESS addr);
-BYTE REGPARM1 vic_peek(ADDRESS addr);
-BYTE REGPARM1 colorram_read(ADDRESS addr);
-void REGPARM2 colorram_store(ADDRESS addr, BYTE value);
-void REGPARM2 vicii_mem_vbank_store(ADDRESS addr, BYTE value);
-void REGPARM2 vicii_mem_vbank_39xx_store(ADDRESS addr, BYTE value);
-void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value);
+extern void REGPARM2 vic_store(ADDRESS addr, BYTE value);
+extern BYTE REGPARM1 vic_read(ADDRESS addr);
+extern BYTE REGPARM1 vic_peek(ADDRESS addr);
+extern BYTE REGPARM1 colorram_read(ADDRESS addr);
+extern void REGPARM2 colorram_store(ADDRESS addr, BYTE value);
+extern void REGPARM2 vicii_mem_vbank_store(ADDRESS addr, BYTE value);
+extern void REGPARM2 vicii_mem_vbank_39xx_store(ADDRESS addr, BYTE value);
+extern void REGPARM2 vicii_mem_vbank_3fxx_store(ADDRESS addr, BYTE value);
 
 #endif
 
