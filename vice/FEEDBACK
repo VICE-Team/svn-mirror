@@ -14,8 +14,7 @@ team.
    - the VICE documentation (you should have received it with the main
      distribution--if not, tell us);
 
-   - the VICE FAQ (available from the VICE homepage at
-     http://viceteam.bei.t-online.de/
+   - the VICE knowledge base at http://www.vicekb.de.vu/
 
    - the comp.emulators.cbm and comp.sys.cbm FAQs (available from many
      places; one famous repository is at ftp://rtfm.mit.edu/).
@@ -27,7 +26,7 @@ team.
 
 - Please don't ask us how to transfer original C64 disk or tapes to
   your PC.  To transfer disks, you can use the Star Commander
-  (http://ludens.elte.hu/~sta/sc.html).
+  (http://sta.c64.org/sc.html).
 
 - Please don't ask us where to find games for the emulator on the
   Internet.
