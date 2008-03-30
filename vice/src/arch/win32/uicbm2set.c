@@ -35,6 +35,7 @@
 #endif
 
 #include "cbm2mem.h"
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -229,11 +230,11 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     psp[1].pszTitle = TEXT("Memory");
 
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
-    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_IO_DIALOG);
+    psp[0].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_CBMII_SETTINGS_MODEL_DIALOG));
+    psp[1].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_CBMII_SETTINGS_IO_DIALOG));
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
-    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_IO_DIALOG);
+    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_CBMII_SETTINGS_MODEL_DIALOG));
+    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_CBMII_SETTINGS_IO_DIALOG));
 #endif
 
     psh.dwSize = sizeof(PROPSHEETHEADER);

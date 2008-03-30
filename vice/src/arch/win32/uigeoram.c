@@ -156,7 +156,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_georam_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_GEORAM_SETTINGS_DIALOG, hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)intl_translate_dialog(IDD_GEORAM_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
 

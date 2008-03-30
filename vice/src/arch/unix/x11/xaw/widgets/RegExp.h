@@ -35,6 +35,11 @@
 #undef HAVE_REGEXP_H
 #endif
 
+/* it seems that for FreeBSD that HAVE_REGEX_H also needs to be worked around */
+#if defined __FreeBSD__
+#undef HAVE_REGEX_H
+#endif
+
 #if defined HAVE_REGEX_H      /* POSIX */
 
 /* POSIX <regex.h> version.  */

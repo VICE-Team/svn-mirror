@@ -210,6 +210,11 @@ inline static void update_myviatbl(via_context_t *via_context)
 
 
 /* ------------------------------------------------------------------------- */
+void viacore_disable(via_context_t *via_context)
+{
+    alarm_unset(via_context->t1_alarm);
+    alarm_unset(via_context->t2_alarm);
+}
 
 /*
  * according to Rockwell, all internal registers are cleared, except

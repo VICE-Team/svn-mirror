@@ -89,6 +89,7 @@ extern void riotcore_init(riot_context_t *riot_context,
                           struct clk_guard_s *clk_guard, unsigned int number);
 extern void riotcore_shutdown(struct riot_context_s *riot_context);
 extern void riotcore_reset(riot_context_t *riot_context);
+extern void riotcore_disable(riot_context_t *riot_context);
 extern void riotcore_signal(riot_context_t *riot_context, int sig, int type);
 extern void REGPARM3 riotcore_store(riot_context_t *riot_context, WORD addr,
                                     BYTE data);

@@ -46,7 +46,17 @@ void iecieee_drive_shutdown(struct drive_context_s *drv)
 
 void iecieee_drive_reset(struct drive_context_s *drv)
 {
-    viacore_reset(drv->via2);
+    if (drv->drive->type == DRIVE_TYPE_1541
+        || drv->drive->type == DRIVE_TYPE_1541II
+        || drv->drive->type == DRIVE_TYPE_1570
+        || drv->drive->type == DRIVE_TYPE_1571
+        || drv->drive->type == DRIVE_TYPE_1571CR
+        || drv->drive->type == DRIVE_TYPE_2031)
+    {
+        viacore_reset(drv->via2);
+    } else {
+        viacore_disable(drv->via2);
+    }
 }
 
 void iecieee_drive_setup_context(struct drive_context_s *drv)

@@ -31,6 +31,7 @@
 #include <tchar.h>
 #include <windows.h>
 
+#include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "resources.h"
@@ -194,7 +195,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void uiide64_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_IDE64_SETTINGS_DIALOG, hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)intl_translate_dialog(IDD_IDE64_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
 

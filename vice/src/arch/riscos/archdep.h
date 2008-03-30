@@ -75,8 +75,14 @@
 #define ARCHDEP_TED_DSCAN     1
 #define ARCHDEP_TED_HWSCALE   0
 
+/* Default RS232 devices.  */
+#define ARCHDEP_RS232_DEV1 "serial:"
+#define ARCHDEP_RS232_DEV2 "serial:"
+#define ARCHDEP_RS232_DEV3 "serial:"
+#define ARCHDEP_RS232_DEV4 "serial:"
+
 /* Default location of raw disk images.  */
-#define ARCHDEP_RAWDRIVE_DEFAULT "A:FIXME!!!"
+#define ARCHDEP_RAWDRIVE_DEFAULT "null:"
 
 /* Access types */
 #define ARCHDEP_R_OK R_OK

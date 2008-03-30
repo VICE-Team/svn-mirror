@@ -35,6 +35,7 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
+#include "intl.h"
 #include "lib.h"
 #include "machine.h"
 #include "res.h"
@@ -241,11 +242,11 @@ void ui_c128_dialog(HWND hwnd)
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[0].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_C128_MACHINE_SETTINGS_DIALOG);
+    psp[0].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_C128_MACHINE_SETTINGS_DIALOG));
     psp[0].pszIcon = NULL;
 #else
     psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_C128_MACHINE_SETTINGS_DIALOG);
+        = MAKEINTRESOURCE(intl_translate_dialog(IDD_C128_MACHINE_SETTINGS_DIALOG));
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;
@@ -255,11 +256,11 @@ void ui_c128_dialog(HWND hwnd)
     psp[1].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[1].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG);
+    psp[1].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG));
     psp[1].pszIcon = NULL;
 #else
     psp[1].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG);
+        = MAKEINTRESOURCE(intl_translate_dialog(IDD_C128_FUNCTIONROM_SETTINGS_DIALOG));
     psp[1].u2.pszIcon = NULL;
 #endif
     psp[1].lParam = 0;

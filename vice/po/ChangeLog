@@ -1,3 +1,11 @@
+2005-05-12  pottendo  <pottendo@utanet.at>
+
+	* nl.po: Added `%s' C-format to
+	msgid "Error reading end snapshot file	%s." 
+	msgstr ...  eind van het momentopname bestand %s."
+
+	* de.po: Updated.
+
 2005-01-18  pottendo  <pottendo@utanet.at>
 
 	* de.po: Updated.

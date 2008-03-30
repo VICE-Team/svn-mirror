@@ -37,6 +37,7 @@
 #endif
 
 #include "hardsid.h"
+#include "intl.h"
 #include "machine.h"
 #include "res.h"
 #include "resources.h"
@@ -410,11 +411,11 @@ void ui_sid_settings_dialog(HWND hwnd)
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[0].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_SID_GENERAL_SETTINGS_DIALOG);
+    psp[0].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_SID_GENERAL_SETTINGS_DIALOG));
     psp[0].pszIcon = NULL;
 #else
     psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_SID_GENERAL_SETTINGS_DIALOG);
+        = MAKEINTRESOURCE(intl_translate_dialog(IDD_SID_GENERAL_SETTINGS_DIALOG));
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;
@@ -424,11 +425,11 @@ void ui_sid_settings_dialog(HWND hwnd)
     psp[1].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[1].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_SID_RESID_SETTINGS_DIALOG);
+    psp[1].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_SID_RESID_SETTINGS_DIALOG));
     psp[1].pszIcon = NULL;
 #else
     psp[1].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_SID_RESID_SETTINGS_DIALOG);
+        = MAKEINTRESOURCE(intl_translate_dialog(IDD_SID_RESID_SETTINGS_DIALOG));
     psp[1].u2.pszIcon = NULL;
 #endif
     psp[1].lParam = 0;
@@ -438,11 +439,11 @@ void ui_sid_settings_dialog(HWND hwnd)
     psp[2].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[2].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[2].pszTemplate = MAKEINTRESOURCE(IDD_SID_HARDSID_SETTINGS_DIALOG);
+    psp[2].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_SID_HARDSID_SETTINGS_DIALOG));
     psp[2].pszIcon = NULL;
 #else
     psp[2].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_SID_HARDSID_SETTINGS_DIALOG);
+        = MAKEINTRESOURCE(intl_translate_dialog(IDD_SID_HARDSID_SETTINGS_DIALOG));
     psp[2].u2.pszIcon = NULL;
 #endif
     psp[2].lParam = 0;

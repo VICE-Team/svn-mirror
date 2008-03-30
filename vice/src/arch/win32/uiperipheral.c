@@ -44,6 +44,7 @@
 #include "autostart.h"
 #include "iecdrive.h"
 #include "imagecontents.h"
+#include "intl.h"
 #include "lib.h"
 #include "opencbmlib.h"
 #include "printer.h"
@@ -709,11 +710,11 @@ static void uiperipheral_dialog(HWND hwnd)
         psp[no_of_printers + i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
         psp[no_of_printers + i].pszTemplate
-            = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
+            = MAKEINTRESOURCE(intl_translate_dialog(IDD_DISKDEVICE_DIALOG));
         psp[no_of_printers + i].pszIcon = NULL;
 #else
         psp[no_of_printers + i].DUMMYUNIONNAME.pszTemplate
-            = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
+            = MAKEINTRESOURCE(intl_translate_dialog(IDD_DISKDEVICE_DIALOG));
         psp[no_of_printers + i].u2.pszIcon = NULL;
 #endif
         psp[no_of_printers + i].lParam = 0;

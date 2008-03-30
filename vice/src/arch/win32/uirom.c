@@ -470,7 +470,7 @@ static BOOL CALLBACK resources_other_dialog_proc(HWND hwnd, UINT msg,
 static void uirom_resources_computer(HWND hwnd)
 {
     DialogBox(winmain_instance,
-              (LPCTSTR)romset_dialog_resources[UIROM_TYPE_MAIN], hwnd,
+              (LPCTSTR)intl_translate_dialog(romset_dialog_resources[UIROM_TYPE_MAIN]), hwnd,
               resources_computer_dialog_proc);
     update_romset_list(hwnd);
 }

@@ -126,6 +126,10 @@ SOURCE=.\hardsid.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\intl.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\joy.c
 # End Source File
 # Begin Source File

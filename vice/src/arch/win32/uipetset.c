@@ -33,6 +33,7 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
+#include "intl.h"
 #include "pets.h"
 #include "res.h"
 #include "resources.h"
@@ -275,19 +276,19 @@ void ui_pet_settings_dialog(HWND hwnd)
     psp[3].pszTitle = TEXT("8296 PET");
 
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_MODEL_DIALOG);
-    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_IO_DIALOG);
-    psp[2].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
-    psp[3].pszTemplate = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
+    psp[0].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_PET_SETTINGS_MODEL_DIALOG));
+    psp[1].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_PET_SETTINGS_IO_DIALOG));
+    psp[2].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_PET_SETTINGS_SUPER_DIALOG));
+    psp[3].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_PET_SETTINGS_8296_DIALOG));
 #else
     psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_PET_SETTINGS_MODEL_DIALOG);
+        = MAKEINTRESOURCE(intl_translate_dialog(IDD_PET_SETTINGS_MODEL_DIALOG));
     psp[1].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_PET_SETTINGS_IO_DIALOG);
+        = MAKEINTRESOURCE(intl_translate_dialog(IDD_PET_SETTINGS_IO_DIALOG));
     psp[2].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_PET_SETTINGS_SUPER_DIALOG);
+        = MAKEINTRESOURCE(intl_translate_dialog(IDD_PET_SETTINGS_SUPER_DIALOG));
     psp[3].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_PET_SETTINGS_8296_DIALOG);
+        = MAKEINTRESOURCE(intl_translate_dialog(IDD_PET_SETTINGS_8296_DIALOG));
 #endif
 
     psh.dwSize = sizeof(PROPSHEETHEADER);

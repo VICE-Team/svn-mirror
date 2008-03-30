@@ -30,6 +30,7 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "uiacia.h"
@@ -174,7 +175,7 @@ void ui_acia_settings_dialog(HWND hwnd, unsigned int enable, int *location,
     support_location = location;
     support_interrupt = interrupt;
 
-    DialogBox(winmain_instance, (LPCTSTR)IDD_ACIA_SETTINGS_DIALOG, hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)intl_translate_dialog(IDD_ACIA_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
 

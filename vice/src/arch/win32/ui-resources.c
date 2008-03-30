@@ -30,6 +30,7 @@
 #include <stdio.h>
 
 #include "cmdline.h"
+#include "intl.h"
 #include "lib.h"
 #include "resources.h"
 #include "types.h"
@@ -214,6 +215,7 @@ static const resource_t resources[] = {
 
 int ui_resources_init(void)
 {
+    intl_resources_init();
     return resources_register(resources);
 }
 
@@ -221,6 +223,7 @@ void ui_resources_shutdown(void)
 {
     int i;
 
+    intl_resources_shutdown();
     if (ui_resources.monitor_dimensions != NULL)
         lib_free(ui_resources.monitor_dimensions);
 
@@ -263,5 +266,6 @@ static const cmdline_option_t cmdline_options[] = {
 
 int ui_cmdline_options_init(void)
 {
+    intl_cmdline_options_init();
     return cmdline_register_options(cmdline_options);
 }

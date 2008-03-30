@@ -33,6 +33,7 @@
 #include <windows.h>
 
 #include "c64ui.h"
+#include "intl.h"
 #include "res.h"
 #include "ui.h"
 #include "uiacia.h"
@@ -152,8 +153,8 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
         uiide64_settings_dialog(hwnd);
         break;
       case IDM_ROM_SETTINGS:
-        uirom_settings_dialog(hwnd, IDD_C64ROM_SETTINGS_DIALOG,
-                              IDD_C64DRIVEROM_SETTINGS_DIALOG,
+        uirom_settings_dialog(hwnd, intl_translate_dialog(IDD_C64ROM_SETTINGS_DIALOG),
+                              intl_translate_dialog(IDD_C64DRIVEROM_SETTINGS_DIALOG),
                               romset_dialog_resources, uirom_settings);
         break;
 #ifdef HAVE_TFE

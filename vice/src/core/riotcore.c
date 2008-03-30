@@ -108,6 +108,11 @@ static void riotcore_clk_overflow_callback(CLOCK sub, void *data)
         riot_context->read_clk = 0;
 }
 
+void riotcore_disable(riot_context_t *riot_context)
+{
+    alarm_unset(riot_context->alarm);
+}
+
 void riotcore_reset(riot_context_t *riot_context)
 {
     riot_context->riot_io[0] = 0;

@@ -138,6 +138,7 @@ extern void ciacore_init(struct cia_context_s *cia_context,
                          struct clk_guard_s *clk_guard);
 extern void ciacore_shutdown(cia_context_t *cia_context);
 extern void ciacore_reset(struct cia_context_s *cia_context);
+extern void ciacore_disable(struct cia_context_s *cia_context);
 extern void REGPARM3 ciacore_store(struct cia_context_s *cia_context,
                                    WORD addr, BYTE data);
 extern BYTE REGPARM2 ciacore_read(struct cia_context_s *cia_context,

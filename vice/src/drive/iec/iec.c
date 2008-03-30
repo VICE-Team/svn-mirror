@@ -77,9 +77,33 @@ void iec_drive_init(struct drive_context_s *drv)
 
 void iec_drive_reset(struct drive_context_s *drv)
 {
-    viacore_reset(drv->via1d1541);
-    ciacore_reset(drv->cia1571);
-    ciacore_reset(drv->cia1581);
+    if (drv->drive->type == DRIVE_TYPE_1541
+        || drv->drive->type == DRIVE_TYPE_1541II
+        || drv->drive->type == DRIVE_TYPE_1570
+        || drv->drive->type == DRIVE_TYPE_1571
+        || drv->drive->type == DRIVE_TYPE_1571CR)
+    {
+        viacore_reset(drv->via1d1541);
+    } else {
+        viacore_disable(drv->via1d1541);
+    }
+
+    if (drv->drive->type == DRIVE_TYPE_1570
+        || drv->drive->type == DRIVE_TYPE_1571
+        || drv->drive->type == DRIVE_TYPE_1571CR)
+    {
+        ciacore_reset(drv->cia1571);
+    } else {
+        ciacore_disable(drv->cia1571);
+    }
+
+    if (drv->drive->type == DRIVE_TYPE_1581)
+    {
+        ciacore_reset(drv->cia1581);
+    } else {
+        ciacore_disable(drv->cia1581);
+    }
+    /* FIXME:  which drive type needs this chip?? */
     wd1770d_reset(drv);
 }
 

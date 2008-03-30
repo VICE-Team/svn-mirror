@@ -150,6 +150,7 @@ extern void viacore_init(struct via_context_s *via_context,
                          struct clk_guard_s *clk_guard);
 extern void viacore_shutdown(struct via_context_s *via_context);
 extern void viacore_reset(struct via_context_s *via_context);
+extern void viacore_disable(struct via_context_s *via_context);
 extern void viacore_signal(struct via_context_s *via_context, int line,
                            int edge);
 

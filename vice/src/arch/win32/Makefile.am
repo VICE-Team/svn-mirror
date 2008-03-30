@@ -38,6 +38,8 @@ libarch_a_SOURCES = \
 	fullscrn.c \
 	fullscrn.h \
 	hardsid.c \
+	intl.c \
+	intl.h \
 	joy.c \
 	joy.h \
 	kbd.c \

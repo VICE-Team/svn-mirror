@@ -30,6 +30,7 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "uirs232user.h"
@@ -150,7 +151,7 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
 void ui_rs232user_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_RS232USER_SETTINGS_DIALOG, hwnd,
+    DialogBox(winmain_instance, (LPCTSTR)intl_translate_dialog(IDD_RS232USER_SETTINGS_DIALOG), hwnd,
               dialog_proc);
 }
 

@@ -35,6 +35,7 @@
 #endif
 
 #include "drive.h"
+#include "intl.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -348,10 +349,10 @@ void uidriveplus4_settings_dialog(HWND hwnd)
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-        psp[i].pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG_PLUS4);
+        psp[i].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_DRIVE_SETTINGS_DIALOG_PLUS4));
         psp[i].pszIcon = NULL;
 #else
-        psp[i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DRIVE_SETTINGS_DIALOG_PLUS4);
+        psp[i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(IDD_DRIVE_SETTINGS_DIALOG_PLUS4));
         psp[i].u2.pszIcon = NULL;
 #endif
         psp[i].lParam = 0;

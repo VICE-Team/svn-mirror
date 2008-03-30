@@ -35,6 +35,7 @@
 #define DUMMYUNIONNAME  u1
 #endif
 
+#include "intl.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "res.h"
@@ -206,11 +207,11 @@ void uikeyboard_settings_dialog(HWND hwnd,
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
     psp[0].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(uikeyboard_config->idd_mapping);
+    psp[0].pszTemplate = MAKEINTRESOURCE(intl_translate_dialog(uikeyboard_config->idd_mapping));
     psp[0].pszIcon = NULL;
 #else
     psp[0].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(uikeyboard_config->idd_mapping);
+        = MAKEINTRESOURCE(intl_translate_dialog(uikeyboard_config->idd_mapping));
     psp[0].u2.pszIcon = NULL;
 #endif
     psp[0].lParam = 0;

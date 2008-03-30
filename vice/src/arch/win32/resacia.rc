@@ -1,6 +1,8 @@
 // ACIA specific resources.
 //
 
+// original and default ENGLISH version of dialog
+
 IDD_ACIA_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 170, 110
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "ACIA Settings"
@@ -24,3 +26,158 @@ BEGIN
     PUSHBUTTON      "Cancel", IDCANCEL, 85,90,50,14, WS_TABSTOP
 END
 
+
+// GERMAN version of dialog.
+
+IDD_ACIA_SETTINGS_DIALOG_DE DIALOG DISCARDABLE  0, 0, 170, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ACIA Einstellungen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&ACIA Aktivieren",IDC_ACIA_ENABLE,
+                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "ACIA gerät",
+                    IDC_STATIC,9,24,50,8
+    COMBOBOX        IDC_ACIA_DEVICE,65,22,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "ACIA adresse",
+                    IDC_STATIC,9,44,50,8
+    COMBOBOX        IDC_ACIA_LOCATION,65,42,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "ACIA interrupt",
+                    IDC_STATIC,9,64,50,8
+    COMBOBOX        IDC_ACIA_INTERRUPT,65,62,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 25,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Abbruch", IDCANCEL, 85,90,50,14, WS_TABSTOP
+END
+
+
+// FRENCH version of dialog.
+
+IDD_ACIA_SETTINGS_DIALOG_FR DIALOG DISCARDABLE  0, 0, 170, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Paramètres ACIA"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Activer ACIA",IDC_ACIA_ENABLE,
+                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "périphérique ACIA",
+                    IDC_STATIC,9,24,57,8
+    COMBOBOX        IDC_ACIA_DEVICE,72,22,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "ACIA adresse",
+                    IDC_STATIC,9,44,57,8
+    COMBOBOX        IDC_ACIA_LOCATION,72,42,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Interruption ACIA",
+                    IDC_STATIC,9,64,57,8
+    COMBOBOX        IDC_ACIA_INTERRUPT,72,62,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 25,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuler", IDCANCEL, 85,90,50,14, WS_TABSTOP
+END
+
+
+// ITALIAN version of dialog.
+
+IDD_ACIA_SETTINGS_DIALOG_IT DIALOG DISCARDABLE  0, 0, 170, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Impostazioni del ACIA"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Attiva la ACIA",IDC_ACIA_ENABLE,
+                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "il device ACIA",
+                    IDC_STATIC,9,24,57,8
+    COMBOBOX        IDC_ACIA_DEVICE,72,22,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Indirizzo ACIA",
+                    IDC_STATIC,9,44,57,8
+    COMBOBOX        IDC_ACIA_LOCATION,72,42,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Interrupt dell'ACIA",
+                    IDC_STATIC,9,64,57,8
+    COMBOBOX        IDC_ACIA_INTERRUPT,72,62,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 25,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annulla", IDCANCEL, 85,90,50,14, WS_TABSTOP
+END
+
+
+// DUTCH version of dialog.
+
+IDD_ACIA_SETTINGS_DIALOG_NL DIALOG DISCARDABLE  0, 0, 170, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ACIA Instellingen"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Activeer ACIA",IDC_ACIA_ENABLE,
+                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "ACIA apparaat",
+                    IDC_STATIC,9,24,50,8
+    COMBOBOX        IDC_ACIA_DEVICE,65,22,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "ACIA adres",
+                    IDC_STATIC,9,44,50,8
+    COMBOBOX        IDC_ACIA_LOCATION,65,42,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "ACIA interrupt",
+                    IDC_STATIC,9,64,50,8
+    COMBOBOX        IDC_ACIA_INTERRUPT,65,62,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 25,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Annuleren", IDCANCEL, 85,90,50,14, WS_TABSTOP
+END
+
+
+// POLISH version of dialog.
+
+IDD_ACIA_SETTINGS_DIALOG_PL DIALOG DISCARDABLE  0, 0, 170, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Ustawienia ACIA"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&W³±cz ACIA",IDC_ACIA_ENABLE,
+                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "ACIA urz±dzenia",
+                    IDC_STATIC,9,24,57,8
+    COMBOBOX        IDC_ACIA_DEVICE,72,22,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Adres ACIA",
+                    IDC_STATIC,9,44,57,8
+    COMBOBOX        IDC_ACIA_LOCATION,72,42,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Przerwanie ACIA",
+                    IDC_STATIC,9,64,57,8
+    COMBOBOX        IDC_ACIA_INTERRUPT,72,62,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 25,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Anuluj", IDCANCEL, 85,90,50,14, WS_TABSTOP
+END
+
+
+// SWEDISH version of dialog.
+
+IDD_ACIA_SETTINGS_DIALOG_SV DIALOG DISCARDABLE  0, 0, 170, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ACIA-inställningar"
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "&Aktivera ACIA",IDC_ACIA_ENABLE,
+                    7,7,99,10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "ACIA enhet",
+                    IDC_STATIC,9,24,50,8
+    COMBOBOX        IDC_ACIA_DEVICE,65,22,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "adress ACIA",
+                    IDC_STATIC,9,44,50,8
+    COMBOBOX        IDC_ACIA_LOCATION,65,42,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "ACIA-avbrott",
+                    IDC_STATIC,9,64,50,8
+    COMBOBOX        IDC_ACIA_INTERRUPT,65,62,80,80,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+    DEFPUSHBUTTON   "OK", IDOK, 25,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Avbryt", IDCANCEL, 85,90,50,14, WS_TABSTOP
+END

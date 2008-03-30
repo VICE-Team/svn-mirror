@@ -76,10 +76,21 @@ void ieee_drive_shutdown(struct drive_context_s *drv)
 
 void ieee_drive_reset(struct drive_context_s *drv)
 {
-    viacore_reset(drv->via1d2031);
-    fdc_reset(drv->mynumber, drv->drive->type);
-    riotcore_reset(drv->riot1);
-    riotcore_reset(drv->riot2);
+    if (drv->drive->type == DRIVE_TYPE_2031)
+        viacore_reset(drv->via1d2031);
+    else
+        viacore_disable(drv->via1d2031);
+
+    if (drive_check_old(drv->drive->type)) {
+        fdc_reset(drv->mynumber, drv->drive->type);
+        riotcore_reset(drv->riot1);
+        riotcore_reset(drv->riot2);
+    } else {
+        /* alarm is unset by fdc_reset */
+        fdc_reset(drv->mynumber, drv->drive->type);
+        riotcore_disable(drv->riot1);
+        riotcore_disable(drv->riot2);
+    }
 }
 
 void ieee_drive_mem_init(struct drive_context_s *drv, unsigned int type)
