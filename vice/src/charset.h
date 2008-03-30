@@ -37,6 +37,8 @@ extern BYTE *charset_petconvstring(BYTE *c, int dir);
 extern BYTE charset_p_toascii(BYTE c, int cs);
 extern BYTE charset_p_topetcii(BYTE c);
 
+extern BYTE charset_screencode_to_petcii(BYTE code);
+
 extern BYTE charset_petcii_to_screencode(BYTE code,
                                          unsigned int reverse_mode);
 extern void charset_petcii_to_screencode_line(const BYTE *line, BYTE **buf,

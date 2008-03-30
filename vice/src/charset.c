@@ -104,6 +104,15 @@ BYTE charset_p_topetcii(BYTE c)
     return c;
 }
 
+BYTE charset_screencode_to_petcii(BYTE code)
+{
+    if (code <= 0x1f)
+        return (BYTE)(code + 0x40);
+    if (code >= 0x40 && code <= 0x5f)
+        return (BYTE)(code + 0x20);
+    return code;
+}
+
 BYTE charset_petcii_to_screencode(BYTE code, unsigned int reverse_mode)
 {
     if (code >= 0x40 && code <= 0x5f)
