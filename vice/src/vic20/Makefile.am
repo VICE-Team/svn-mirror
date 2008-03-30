@@ -30,28 +30,7 @@ libvic20_a_SOURCES = \
 	vic20sound.h \
 	vic20via.h \
 	vic20via1.c \
-	vic20via1.def \
-	vic20via2.c \
-	vic20via2.def
-
-BUILT_SOURCES = vic20via1.c vic20via2.c
+	vic20via2.c
 
 libvic20_a_LIBADD = $(rs232_libadd)
 
-vic20dir = $(top_srcdir)/src/vic20
-
-vic20via1.c: vic20via1.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`vic20via1.c'..."; \
-	   if [ -s $(PERL) ]; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/via-tmpl.c \
-		   $(vic20dir)/vic20via1.def $(vic20dir)/vic20via1.c; \
-           fi )
-
-vic20via2.c: vic20via2.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio
-	@( echo "Rebuilding \`vic20via2.c'..."; \
-	   if [ -s $(PERL) ]; then \
-	       $(PERL) $(top_srcdir)/src/convio \
-	           $(top_srcdir)/src/via-tmpl.c \
-		   $(vic20dir)/vic20via2.def $(vic20dir)/vic20via2.c; \
-           fi )
