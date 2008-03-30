@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -132,17 +133,8 @@ int video_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* These are made public so that the other modules can use them via macros. */
-GC _video_gc;
-void (*_refresh_func) ();
-#if X_DISPLAY_DEPTH == 0
-void (*_convert_func) (frame_buffer_t * p, int x, int y, int w, int h);
-PIXEL real_pixel1[256];
-PIXEL2 real_pixel2[256];
-PIXEL4 real_pixel4[256];
-long real_pixel[256];
-BYTE shade_table[256];
-#endif
+static GC _video_gc;
+static void (*_refresh_func) ();
 
 /* This is set to 1 if the Shared Memory Extensions can actually be used. */
 int use_mitshm = 0;
@@ -151,11 +143,60 @@ int use_mitshm = 0;
 /* static Window root_window; */
 
 /* Logging goes here.  */
-log_t video_log = LOG_ERR;
+static log_t video_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
 #if X_DISPLAY_DEPTH == 0
+static void (*_convert_func) (frame_buffer_t * p, int x, int y, int w, int h);
+static PIXEL real_pixel1[256];
+static PIXEL2 real_pixel2[256];
+static PIXEL4 real_pixel4[256];
+static long real_pixel[256];
+static BYTE shade_table[256];
+
+static PIXEL my_real_pixel1[256];
+static PIXEL2 my_real_pixel2[256];
+static PIXEL4 my_real_pixel4[256];
+static long my_real_pixel[256];
+static BYTE my_shade_table[256];
+
+void video_convert_save_pixel(void)
+{
+    memcpy(my_real_pixel, real_pixel, sizeof(my_real_pixel));
+    memcpy(my_real_pixel1, real_pixel1, sizeof(my_real_pixel1));
+    memcpy(my_real_pixel2, real_pixel2, sizeof(my_real_pixel2));
+    memcpy(my_real_pixel4, real_pixel4, sizeof(my_real_pixel4));
+    memcpy(my_shade_table, shade_table, sizeof(my_shade_table));
+}
+
+void video_convert_restore_pixel(void)
+{
+    memcpy(real_pixel, my_real_pixel, sizeof(my_real_pixel));
+    memcpy(real_pixel1, my_real_pixel1, sizeof(my_real_pixel1));
+    memcpy(real_pixel2, my_real_pixel2, sizeof(my_real_pixel2));
+    memcpy(real_pixel4, my_real_pixel4, sizeof(my_real_pixel4));
+    memcpy(shade_table, my_shade_table, sizeof(my_shade_table));
+}
+
+void video_convert_color_table(int i, PIXEL *pixel_return, PIXEL *data,
+                               XImage *im, const palette_t *palette, long col,
+                               int depth)
+{
+    pixel_return[i] = i;
+    if (depth == 8)
+        pixel_return[i] = *data;
+    else if (im->bits_per_pixel == 8)
+        real_pixel1[i] = *(PIXEL *)data;
+    else if (im->bits_per_pixel == 16)
+        real_pixel2[i] = *(PIXEL2 *)data;
+    else if (im->bits_per_pixel == 32)
+        real_pixel4[i] = *(PIXEL4 *)data;
+    else
+        real_pixel[i] = col;
+    if (im->bits_per_pixel == 1)
+        shade_table[i] = palette->entries[i].dither;
+}
 
 /* Conversion routines between 8bit and other sizes. */
 
@@ -165,7 +206,7 @@ log_t video_log = LOG_ERR;
 	((t *)((PIXEL *)(i)->x_image->data + \
 	       (i)->x_image->bytes_per_line*(y)) + (x))
 
-void convert_8to16(frame_buffer_t * p, int sx, int sy, int w, int h)
+static void convert_8to16(frame_buffer_t * p, int sx, int sy, int w, int h)
 {
     PIXEL *src;
     PIXEL2 *dst;
@@ -179,7 +220,7 @@ void convert_8to16(frame_buffer_t * p, int sx, int sy, int w, int h)
     }
 }
 
-void convert_8to32(frame_buffer_t * p, int sx, int sy, int w, int h)
+static void convert_8to32(frame_buffer_t * p, int sx, int sy, int w, int h)
 {
     PIXEL *src;
     PIXEL4 *dst;
@@ -195,7 +236,7 @@ void convert_8to32(frame_buffer_t * p, int sx, int sy, int w, int h)
 
 /* This doesn't usually happen, but if it does, this is a great speedup
    comparing the general convert_8toall() -routine. */
-void convert_8to8(frame_buffer_t * p, int sx, int sy, int w, int h)
+static void convert_8to8(frame_buffer_t * p, int sx, int sy, int w, int h)
 {
     PIXEL *src;
     PIXEL *dst;
@@ -217,7 +258,7 @@ BYTE dither_table[4][4] = {
     { 15, 7, 13, 5 }
 };
 
-void convert_8to1_dither(frame_buffer_t * p, int sx, int sy, int w,
+static void convert_8to1_dither(frame_buffer_t * p, int sx, int sy, int w,
 			 int h)
 {
     PIXEL *src, *dither;
@@ -234,7 +275,7 @@ void convert_8to1_dither(frame_buffer_t * p, int sx, int sy, int w,
 }
 
 /* And this is inefficient... */
-void convert_8toall(frame_buffer_t * p, int sx, int sy, int w, int h)
+static void convert_8toall(frame_buffer_t * p, int sx, int sy, int w, int h)
 {
     PIXEL *src;
     int x, y;
@@ -246,6 +287,61 @@ void convert_8toall(frame_buffer_t * p, int sx, int sy, int w, int h)
 }
 
 #endif
+
+
+int video_convert_func(frame_buffer_t *i, int depth, unsigned int width,
+                       unsigned int height)
+{
+#if X_DISPLAY_DEPTH == 0
+    /* if display depth != 8 we need a temporary buffer */
+    if (depth == 8) {
+        i->tmpframebuffer = (PIXEL *) i->x_image->data;
+        i->tmpframebufferlinesize = i->x_image->bytes_per_line;
+        _convert_func = NULL;
+    } else {
+        i->tmpframebufferlinesize = width;
+        i->tmpframebuffer = (PIXEL *) xmalloc(width * height);
+        switch (i->x_image->bits_per_pixel) {
+          case 1:
+            _convert_func = convert_8to1_dither;
+            break;
+          case 8:
+            _convert_func = convert_8to8;
+            break;
+          case 16:
+            _convert_func = convert_8to16;
+            break;
+          case 32:
+            _convert_func = convert_8to32;
+            break;
+          default:
+            _convert_func = convert_8toall;
+        }
+    }
+#else
+/* X_DISPLAY_DEPTH == 24 should really be 32.  */
+#if X_DISPLAY_DEPTH == 24
+    unsigned int sup_depth = 32;
+#endif
+#if X_DISPLAY_DEPTH == 16
+    unsigned int sup_depth = 16;
+#endif
+#if X_DISPLAY_DEPTH == 8
+    unsigned int sup_depth = 8;
+#endif
+    if (sup_depth != i->x_image->bits_per_pixel) {
+        log_error(video_log,
+                  "Only %ibpp supported by this emulator.", sup_depth);
+        log_error(video_log,
+                  "Current X server depth is %ibpp.",
+                  i->x_image->bits_per_pixel);
+        log_error(video_log,
+                  "Switch X server depth or recompile with --enable-autobpp.");
+        return -1;
+    }
+#endif
+    return 0;
+}
 
 extern GC video_get_gc(void *not_used);
 
@@ -433,6 +529,13 @@ void enable_text(void)
 
 void disable_text(void)
 {
+}
+
+/* ------------------------------------------------------------------------- */
+
+void video_refresh_func(void (*rfunc)(void))
+{
+    _refresh_func = rfunc;
 }
 
 /* ------------------------------------------------------------------------- */
