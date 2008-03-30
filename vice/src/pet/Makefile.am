@@ -9,6 +9,8 @@ INCLUDES = \
 noinst_LIBRARIES = libpet.a
 
 libpet_a_SOURCES = \
+	pet-resources.c \
+	pet-resources.h \
 	pet.c \
 	pet.h \
 	petacia.h \

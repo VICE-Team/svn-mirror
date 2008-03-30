@@ -53,6 +53,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "mon.h"
+#include "pet-resources.h"
 #include "pet.h"
 #include "petmem.h"
 #include "pets.h"
@@ -144,7 +145,7 @@ int machine_init_resources(void)
     if (traps_init_resources() < 0
         || vsync_init_resources() < 0
         || video_init_resources() < 0
-        || pet_mem_init_resources() < 0
+        || pet_init_resources() < 0
         || crtc_init_resources() < 0
         || pia1_init_resources() < 0
         || sound_init_resources() < 0
