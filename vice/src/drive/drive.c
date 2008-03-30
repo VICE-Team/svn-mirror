@@ -575,7 +575,7 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Use NTSC drive sync factor" },
     { "-dos1541", SET_RESOURCE, 1, NULL, NULL, "DosName1541", "dos1541",
       "<name>", "Specify name of 1541 DOS ROM image name" },
-    { "-dos1541II", SET_RESOURCE, 1, NULL, NULL, "DosName1541II", "dos1541II",
+    { "-dos1541II", SET_RESOURCE, 1, NULL, NULL, "DosName1541II", "d1541II",
       "<name>", "Specify name of 1541-II DOS ROM image name" },
     { "-dos1571", SET_RESOURCE, 1, NULL, NULL, "DosName1571", "dos1571",
       "<name>", "Specify name of 1571 DOS ROM image name" },

@@ -78,6 +78,8 @@ list of all the changes in the code.
 ** MS-Windows changes
 ---------------------
 
+- There is a disk/tape image contents lister now.
+
 - The RESTORE key is present now (PAGE UP).
 
 ** Miscellaneous changes
