@@ -266,8 +266,8 @@ inline static void dofilter(voice_t *pVoice)
             if (pVoice->s->filterType == 0x40) {
                 vreal_t sample;
                 pVoice->filtLow +=
-                    REAL_MULT(REAL_MULT(pVoice->filtRef, pVoice->s->filterDy),
-                              REAL_VALUE(0.1));
+                              (vreal_t)(REAL_MULT(REAL_MULT(pVoice->filtRef,
+                              pVoice->s->filterDy), REAL_VALUE(0.1)));
                 pVoice->filtRef +=
                     REAL_MULT(REAL_VALUE(pVoice->filtIO) - pVoice->filtLow -
                               REAL_MULT(pVoice->filtRef,

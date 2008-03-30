@@ -103,9 +103,12 @@ static int get_charset_bit(mps_t *mps, int nr, unsigned int col,
     return result;
 }
 
-static void print_cbm_char(mps_t *mps, char c)
+static void print_cbm_char(mps_t *mps, const BYTE rawchar)
 {
     unsigned int y, x;
+    int c;
+
+    c = (int)rawchar;
 
     if (is_mode(mps, MPS_CRSRUP))
         c += 256;

@@ -97,6 +97,7 @@ int vicii_snapshot_write_module(snapshot_t *s)
     int i;
     snapshot_module_t *m;
     BYTE color_ram[0x400];
+    unsigned int current_line;
 
     /* FIXME: Dispatch all events?  */
 
@@ -105,6 +106,8 @@ int vicii_snapshot_write_module(snapshot_t *s)
         return -1;
 
     mem_color_ram_to_snapshot(color_ram);
+
+    current_line = VIC_II_RASTER_Y(maincpu_clk);
 
     if (0
         /* AllowBadLines */
@@ -134,7 +137,7 @@ int vicii_snapshot_write_module(snapshot_t *s)
         /* RasterCycle */
         || SMW_B(m, (BYTE)(VIC_II_RASTER_CYCLE(maincpu_clk))) < 0
         /* RasterLine */
-        || SMW_W(m, (WORD)(VIC_II_RASTER_Y(maincpu_clk))) < 0)
+        || SMW_W(m, (WORD)current_line) < 0)
         goto fail;
 
     for (i = 0; i < 0x40; i++)

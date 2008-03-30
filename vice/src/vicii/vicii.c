@@ -898,9 +898,9 @@ void vicii_raster_draw_alarm_handler(CLOCK offset)
     prev_sprite_background_collisions = vic_ii.sprite_background_collisions;
 
     in_visible_area = (vic_ii.raster.current_line
-                      >= (int)vic_ii.first_displayed_line
+                      >= (unsigned int)vic_ii.first_displayed_line
                       && vic_ii.raster.current_line
-                      <= (int)vic_ii.last_displayed_line);
+                      <= (unsigned int)vic_ii.last_displayed_line);
 
     vic_ii.raster.xsmooth_shift_left = 0;
 
