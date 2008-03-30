@@ -1765,7 +1765,7 @@ void ui_display_drive_led(int drive_number, int status)
     }
 }
 
-void ui_display_drive_current_image(int drive_number, char *image)
+void ui_display_drive_current_image(int drive_number, const char *image)
 {
     static char str[256];
     char *dir, *name;
