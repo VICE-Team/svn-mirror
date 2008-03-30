@@ -47,6 +47,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "raster-modes.h"
+#include "screenshot.h"
 #include "types.h"
 #include "utils.h"
 #include "vsync.h"
@@ -343,7 +344,7 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 
 /*--------------------------------------------------------------------*/
 
-void *crtc_init(void)
+raster_t *crtc_init(void)
 {
   raster_t *raster;
   char *title;
@@ -412,7 +413,7 @@ void *crtc_init(void)
   raster->display_xstart = CRTC_SCREEN_BORDERWIDTH;
   raster->display_xstop = crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH;
 */
-  return (void *)crtc.raster.viewport.canvas;
+  return &crtc.raster;
 }
 
 /* Reset the CRTC chip.  */
@@ -845,4 +846,8 @@ void crtc_enable_hw_screen_blank(int enable)
     crtc.hw_blank = enable;
 }
 
+int crtc_screenshot(screenshot_t *screenshot)
+{
+    return raster_screenshot(&crtc.raster, screenshot);
+}
 

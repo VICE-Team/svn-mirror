@@ -70,6 +70,7 @@
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "resources.h"
+#include "screenshot.h"
 #include "snapshot.h"
 #include "types.h"
 #include "utils.h"
@@ -371,7 +372,7 @@ int vic_ii_init_cmdline_options (void)
 }
 
 /* Initialize the VIC-II emulation.  */
-void *vic_ii_init (void)
+raster_t *vic_ii_init(void)
 {
   vic_ii.log = log_open ("VIC-II");
 
@@ -416,7 +417,7 @@ void *vic_ii_init (void)
     /* Safety measure.  */
     log_error (vic_ii.log, "Trying to override clk base!?  Code is broken.");
 
-  return (void *)vic_ii.raster.viewport.canvas;
+  return &vic_ii.raster;
 }
 
 /* Reset the VIC-II chip.  */
@@ -1349,7 +1350,7 @@ int vic_ii_load_palette (const char *name)
   if (palette == NULL)
     return -1;
 
-  if (!console_mode && !psid_mode && palette_load (name, palette) < 0)
+  if (!console_mode && !vsid_mode && palette_load (name, palette) < 0)
     {
       log_message (vic_ii.log, "Cannot load palette file `%s'.", name);
       return -1;
@@ -1412,12 +1413,12 @@ void vic_ii_set_set_canvas_refresh(int enable)
 
 int vic_ii_write_snapshot_module (snapshot_t *s)
 {
-  return vic_ii_snapshot_write_module (s);
+    return vic_ii_snapshot_write_module (s);
 }
 
 int vic_ii_read_snapshot_module (snapshot_t *s)
 {
-  return vic_ii_snapshot_read_module (s);
+    return vic_ii_snapshot_read_module (s);
 }
 
 void vic_ii_handle_pending_alarms_external(int num_write_cycles)
@@ -1433,5 +1434,11 @@ void video_setfullscreen (int v, int width, int height)
 /* Free the allocated frame buffer.  FIXME: Not incapsulated.  */
 void video_free (void)
 {
-  video_frame_buffer_free (&vic_ii.raster.frame_buffer);
+    video_frame_buffer_free (&vic_ii.raster.frame_buffer);
 }
+
+int vic_ii_screenshot(screenshot_t *screenshot)
+{
+    return raster_screenshot(&vic_ii.raster, screenshot);
+}
+

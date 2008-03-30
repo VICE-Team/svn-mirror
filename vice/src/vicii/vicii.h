@@ -31,33 +31,32 @@
 #include "types.h"
 
 struct snapshot_s;
+struct screenshot_s;
 
-extern int vic_ii_init_resources (void);
-extern int vic_ii_init_cmdline_options (void);
-extern void *vic_ii_init (void);
-extern void vic_ii_reset (void);
-extern void vic_ii_exposure_handler (unsigned int width, unsigned int height);
-extern void vic_ii_trigger_light_pen (CLOCK mclk);
-extern void vic_ii_set_vbank (int new_vbank);
-extern void vic_ii_set_ram_base (BYTE *base);
-extern void vic_ii_enable_extended_keyboard_rows (int flag);
-extern void vic_ii_prepare_for_snapshot (void);
-extern void vic_ii_powerup (void);
-extern void vic_ii_resize (void);
+extern int vic_ii_init_resources(void);
+extern int vic_ii_init_cmdline_options(void);
+extern struct raster_s *vic_ii_init(void);
+extern void vic_ii_reset(void);
+extern void vic_ii_exposure_handler(unsigned int width, unsigned int height);
+extern void vic_ii_trigger_light_pen(CLOCK mclk);
+extern void vic_ii_set_vbank(int new_vbank);
+extern void vic_ii_set_ram_base(BYTE *base);
+extern void vic_ii_enable_extended_keyboard_rows(int flag);
+extern void vic_ii_prepare_for_snapshot(void);
+extern void vic_ii_powerup(void);
+extern void vic_ii_resize(void);
 extern void vic_ii_set_set_canvas_refresh(int enable);
 extern void vic_ii_change_timing(void);
 extern void vic_ii_reset_registers(void);
 extern void vic_ii_update_memory_ptrs_external(void);
+extern int vic_ii_screenshot(struct screenshot_s *screenshot);
 
-extern int vic_ii_write_snapshot_module (struct snapshot_s *s);
-extern int vic_ii_read_snapshot_module (struct snapshot_s *s);
+extern int vic_ii_write_snapshot_module(struct snapshot_s *s);
+extern int vic_ii_read_snapshot_module(struct snapshot_s *s);
 
 extern void vic_ii_handle_pending_alarms_external(int num_write_cycles);
 
-extern void video_free (void);
-#if 0				/*  def USE_VIDMODE_EXTENSION */
-extern void video_setfullscreen (int v, int width, int height);
-#endif
+extern void video_free(void);
 
 #endif
 

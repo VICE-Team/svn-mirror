@@ -42,6 +42,7 @@
 #include "maincpu.h"
 #include "palette.h"
 #include "raster-modes.h"
+#include "screenshot.h"
 #include "snapshot.h"
 #include "types.h"
 #include "utils.h"
@@ -162,7 +163,7 @@ static int init_raster (void)
 }
 
 /* Initialization. */
-canvas_t vic_init (void)
+raster_t *vic_init(void)
 {
   vic.log = log_open ("VIC");
 
@@ -196,7 +197,7 @@ canvas_t vic_init (void)
     /* Safety measure.  */
     log_error (vic.log, "Trying to override clk base!?  Code is broken.");
 
-  return vic.raster.viewport.canvas;
+  return &vic.raster;
 }
 
 /* Reset the VIC-I chip. */
@@ -338,3 +339,9 @@ void video_free (void)
 {
   video_frame_buffer_free (&vic.raster.frame_buffer);
 }
+
+int vic_screenshot(screenshot_t *screenshot)
+{
+    return raster_screenshot(&vic.raster, screenshot);
+}
+

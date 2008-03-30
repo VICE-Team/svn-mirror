@@ -37,6 +37,7 @@
 #include "maincpu.h"
 #include "palette.h"
 #include "raster-modes.h"
+#include "screenshot.h"
 #include "snapshot.h"
 #include "utils.h"
 #include "vdc-cmdline-options.h"
@@ -131,7 +132,7 @@ int vdc_init_cmdline_options(void)
 
 
 /* Initialize the VDC emulation. */
-void *vdc_init(void)
+raster_t *vdc_init(void)
 {
     vdc.initialized = 0;
 
@@ -159,7 +160,7 @@ void *vdc_init(void)
 
     vdc.initialized = 1;
 
-    return (void *)vdc.raster.viewport.canvas;
+    return &vdc.raster;
 }
 
 /* Reset the VDC chip */
@@ -351,5 +352,8 @@ int vdc_read_snapshot_module(snapshot_t *s)
     return vdc_snapshot_read_module(s);
 }
 
-
+int vdc_screenshot(screenshot_t *screenshot)
+{
+    return raster_screenshot(&vdc.raster, screenshot);
+}
 

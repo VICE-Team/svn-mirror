@@ -260,6 +260,8 @@ struct raster_s
   };
 typedef struct raster_s raster_t;
 
+struct screenshot_s;
+
 #define RASTER_PIXEL(raster, c) (raster)->pixel_table.sing[(c)]
 
 /* FIXME: MSDOS does not need double or quad pixel.
@@ -304,6 +306,7 @@ extern void raster_enable_double_scan (raster_t *raster, int enable);
 extern void raster_mode_change(void);
 extern void raster_handle_end_of_frame(raster_t *raster);
 extern void raster_set_canvas_refresh(raster_t *raster, int enable);
+extern int raster_screenshot(raster_t *raster, struct screenshot_s *screenshot);
 
 
 /* Inlined functions.  These need to be *fast*.  */

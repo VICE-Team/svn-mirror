@@ -105,6 +105,7 @@ typedef enum _vic_video_mode vic_video_mode_t;
 #endif
 
 struct snapshot_s;
+struct screenshot_s;
 struct palette_s;
 
 struct vic_s
@@ -136,20 +137,22 @@ typedef struct vic_s vic_t;
 
 extern vic_t vic;
 
-extern canvas_t vic_init (void);
-extern void vic_reset (void);
+extern struct raster_s *vic_init(void);
+extern void vic_reset(void);
 
-extern int vic_init_resources (void);
-extern int vic_init_cmdline_options (void);
+extern int vic_init_resources(void);
+extern int vic_init_cmdline_options(void);
 
-extern int vic_write_snapshot_module (struct snapshot_s *s);
-extern int vic_read_snapshot_module (struct snapshot_s *s);
+extern int vic_write_snapshot_module(struct snapshot_s *s);
+extern int vic_read_snapshot_module(struct snapshot_s *s);
+
+extern int vic_screenshot(struct screenshot_s *screenshot);
 
 /* Private function calls, used by the other VIC modules.  FIXME:
    Prepend names with `_'?  */
-extern void vic_update_memory_ptrs (void);
-extern int vic_load_palette (const char *name);
-extern void vic_resize (void);
+extern void vic_update_memory_ptrs(void);
+extern int vic_load_palette(const char *name);
+extern void vic_resize(void);
 
 /* Debugging options.  */
 
