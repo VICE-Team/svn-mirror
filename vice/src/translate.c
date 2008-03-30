@@ -132,13 +132,13 @@ translate_t string_table[] = {
 /* sv */ {IDGS_PLAYBACK_ERROR_DIFFERENT_SV, "Återspelningsfel: %s inte lika som rad %d i filen debug%06d"},
 
 /* event.c */
-/* en */ {IDGS_CANNOT_CREATE_IMAGE_S,    "Cannot create image file %s"},
-/* de */ {IDGS_CANNOT_CREATE_IMAGE_S_DE, "Kann Datei `%s' nicht erzeugen"},
-/* fr */ {IDGS_CANNOT_CREATE_IMAGE_S_FR, "Impossible de créer le fichier image %s"},
-/* it */ {IDGS_CANNOT_CREATE_IMAGE_S_IT, "Non è possibile creare l'immagine %s"},
-/* nl */ {IDGS_CANNOT_CREATE_IMAGE_S_NL, "Kan bestand `%s' niet maken"},
+/* en */ {IDGS_CANNOT_CREATE_IMAGE_S,    "Cannot create image file"},
+/* de */ {IDGS_CANNOT_CREATE_IMAGE_S_DE, "Kann Datei nicht erzeugen"},
+/* fr */ {IDGS_CANNOT_CREATE_IMAGE_S_FR, "Impossible de créer le fichier image"},
+/* it */ {IDGS_CANNOT_CREATE_IMAGE_S_IT, "Non è possibile creare l'immagine"},
+/* nl */ {IDGS_CANNOT_CREATE_IMAGE_S_NL, "Kan bestand niet maken"},
 /* pl */ {IDGS_CANNOT_CREATE_IMAGE_S_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_CANNOT_CREATE_IMAGE_S_SV, "Kan inte skapa avbildningsfil %s"},
+/* sv */ {IDGS_CANNOT_CREATE_IMAGE_S_SV, "Kan inte skapa avbildningsfil"},
 
 /* event.c */
 /* en */ {IDGS_CANNOT_WRITE_IMAGE_FILE_S,    "Cannot write image file %s"},
@@ -458,11 +458,11 @@ translate_t string_table[] = {
 /* sv */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_SV, ""},  /* fuzzy */
 
 /* network.c */
-/* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT,    "Cannot create snapshot file %s. Select different history directory!"},
-/* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_DE, "Kann Snapshot Datei `%s' nicht erzeugen. Verwende ein anderes Verzeichnis!"},
+/* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT,    "Cannot create snapshot file. Select different history directory!"},
+/* de */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_DE, "Kann Snapshot Datei nicht erzeugen. Verwende ein anderes Verzeichnis!"},
 /* fr */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_FR, ""},  /* fuzzy */
-/* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_IT, "Non à possibile creare il file di snapshot %s. Seleziona una directory diversa per la cronologia."},
-/* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_NL, "Kan het momentopname bestand %s niet maken. Selecteer een andere geschiedenis folder!"},
+/* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_IT, "Non à possibile creare il file di snapshot. Seleziona una directory diversa per la cronologia."},
+/* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_NL, "Kan het momentopname bestand niet maken. Selecteer een andere geschiedenis folder!"},
 /* pl */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT_SV, ""},  /* fuzzy */
 
