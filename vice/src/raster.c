@@ -1067,7 +1067,7 @@ inline static void handle_visible_line_with_cache(void)
     l->is_dirty = 0;
 }
 
-inline static void handle_visible_line_without_cache()
+inline static void handle_visible_line_without_cache(void)
 {
     /* If screen is scrolled to the right, we need to fill with the background
        color the blank part on the left.  */
