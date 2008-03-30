@@ -43,6 +43,9 @@ struct _vdc_resources
     /* Flag: Do we copy lines in double size mode?  */
     int double_scan_enabled;
 
+    /* Flag: VDC memory size.  */
+    int vdc_64kb_expansion;
+
 #ifdef USE_VIDMODE_EXTENSION
     /* Flag: Fullscreenmode?  */
     int fullscreen;
