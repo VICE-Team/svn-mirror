@@ -49,6 +49,8 @@
 
 #ifdef PET
 #define NO_DRIVE
+void maincpu_turn_watchpoints_on() {}
+void maincpu_turn_watchpoints_off() {}
 #endif
 
 #ifndef NO_DRIVE
@@ -68,11 +70,16 @@ FILE *mon_output = stdout;
 
 extern void parse_and_execute_line(char *input);
 extern char *readline ( char *prompt );
+extern void add_history ( char *str );
+
+char *myinput = NULL, *last_cmd = NULL;
+int exit_mon = 0;
 
 int sidefx;
 int default_datatype;
 int default_readspace;
 int default_writespace;
+bool inside_monitor = FALSE;
 unsigned instruction_count;
 bool icount_is_next;
 BREAK_LIST *breakpoints[NUM_MEMSPACES];
@@ -85,6 +92,7 @@ ADDRESS watch_load_array[5][NUM_MEMSPACES];
 ADDRESS watch_store_array[5][NUM_MEMSPACES];
 unsigned watch_load_count[NUM_MEMSPACES];
 unsigned watch_store_count[NUM_MEMSPACES];
+bool force_array[NUM_MEMSPACES];
 
 M_ADDR dot_addr[NUM_MEMSPACES];
 int breakpoint_count;
@@ -257,7 +265,18 @@ unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr)
    }
    else
       assert(FALSE);
+
    return 0;
+}
+
+bool mon_force_import(MEMSPACE mem)
+{
+   bool result;
+
+   result = force_array[mem];
+   force_array[mem] = FALSE;
+
+   return result;
 }
 
 void set_reg_val(int reg_id, WORD val)
@@ -313,6 +332,7 @@ void set_reg_val(int reg_id, WORD val)
       puts("True1541 emulation no supported for this machine.");
 #endif
    }
+   force_array[mem] = TRUE;
 }
 
 void print_registers(MEMSPACE mem)
@@ -1011,7 +1031,7 @@ void mon_load_file(char *filename, M_ADDR start_addr)
     printf("Loading %s", filename);
     printf(" from %04X\n", adr);
 
-    ch = fread (ram + adr, 1, RAM_SIZE - adr, fp);
+    ch = fread (ram + adr, 1, ram_size - adr, fp);
     printf ("%x bytes\n", ch);
 
     /* set end of load addresses like kernal load */ /*FCP*/
@@ -1546,10 +1566,12 @@ void check_maincpu_breakpoints(ADDRESS addr)
 
 void check_true1541_breakpoints(ADDRESS addr)
 {
+#ifndef NO_DRIVE
    if (check_breakpoints(e_disk_space))
       mon(true1541_program_counter);
 
    true1541_trigger_trap(check_true1541_breakpoints);
+#endif
 }
 
 void add_to_breakpoint_list(BREAK_LIST **head, breakpoint *bp)
@@ -1640,8 +1662,6 @@ int add_breakpoint(M_ADDR_RANGE range, bool is_trace, bool is_load, bool is_stor
          add_to_breakpoint_list(&(watchpoints_load[mem]), new_bp);
       if (is_store)
          add_to_breakpoint_list(&(watchpoints_store[mem]), new_bp);
-      turn_watchpoints_on();
-      maincpu_trigger_trap(mon_helper);
    }
 
    print_breakpt_info(new_bp);
@@ -1650,6 +1670,9 @@ int add_breakpoint(M_ADDR_RANGE range, bool is_trace, bool is_load, bool is_stor
 
 void watch_push_load_addr(ADDRESS addr, MEMSPACE mem)
 {
+   if (inside_monitor)
+      return;
+
    watch_load_occurred = TRUE;
    watch_load_array[watch_load_count[mem]][mem] = addr;
    watch_load_count[mem]++;
@@ -1657,34 +1680,37 @@ void watch_push_load_addr(ADDRESS addr, MEMSPACE mem)
 
 void watch_push_store_addr(ADDRESS addr, MEMSPACE mem)
 {
+   if (inside_monitor)
+      return;
+
    watch_store_occurred = TRUE;
    watch_store_array[watch_load_count[mem]][mem] = addr;
    watch_store_count[mem]++;
 }
 
-bool check_maincpu_watchpoints_load()
+bool watchpoints_check_loads(MEMSPACE mem)
 {
    bool trap = FALSE;
    unsigned count;
 
-   while (watch_load_count[e_comp_space]) {
-      watch_load_count[e_comp_space]--;
-      count = watch_load_count[e_comp_space];
-      if (check_watchpoints_load(e_comp_space, watch_load_array[count][e_comp_space]))
+   while (watch_load_count[mem]) {
+      watch_load_count[mem]--;
+      count = watch_load_count[mem];
+      if (check_watchpoints_load(mem, watch_load_array[count][mem]))
          trap = TRUE;
    }
    return trap;
 }
 
-bool check_maincpu_watchpoints_store()
+bool watchpoints_check_stores(MEMSPACE mem)
 {
    bool trap = FALSE;
    unsigned count;
 
-   while (watch_store_count[e_comp_space]) {
-      watch_store_count[e_comp_space]--;
-      count = watch_store_count[e_comp_space];
-      if (check_watchpoints_store(e_comp_space, watch_store_array[count][e_comp_space]))
+   while (watch_store_count[mem]) {
+      watch_store_count[mem]--;
+      count = watch_store_count[mem];
+      if (check_watchpoints_store(mem, watch_store_array[count][mem]))
          trap = TRUE;
    }
    return trap;
@@ -1777,15 +1803,64 @@ int check_breakpt_in_range(breakpoint *bp_point, breakpoint *bp_range)
 }
 #endif
 
-char *myinput = NULL, *last_cmd = NULL;
-int exit_mon = 0;
+void mon_helper(ADDRESS a)
+{
+    if (watch_load_occurred) {
+       if (watchpoints_check_loads(e_comp_space)) {
+          caller_space = e_comp_space;
+          mon(a);
+       }
+#ifndef NO_DRIVE
+       if (watchpoints_check_loads(e_disk_space)) {
+          caller_space = e_disk_space;
+          mon(a);
+       }
+#endif
+       watch_load_occurred = FALSE;
+    }
 
-void debugger() {
+    if (watch_store_occurred) {
+       if (watchpoints_check_stores(e_comp_space)) {
+          caller_space = e_comp_space;
+          mon(a);
+       }
+#ifndef NO_DRIVE
+       if (watchpoints_check_stores(e_disk_space)) {
+          caller_space = e_disk_space;
+          mon(a);
+       }
+#endif
+       watch_store_occurred = FALSE;
+    }
+
+    if (instruction_count) {
+       instruction_count--;
+       if (!instruction_count) {
+          mon(a);
+       }
+    }
+
+    if (any_watchpoints(e_comp_space))
+       maincpu_trigger_trap(mon_helper);
+        
+#ifndef NO_DRIVE
+    if (any_watchpoints(e_disk_space))
+       true1541_trigger_trap(mon_helper);
+#endif
+        
+}
+
+void mon(ADDRESS a)
+{
    char prompt[40];
 
+   inside_monitor = TRUE;
+   dot_addr[caller_space] = new_addr(caller_space, a);
+
    do {
-      sprintf(prompt, "[%c,R:%s,W:%s] ($%x) ",(sidefx==e_ON)?'S':'-', memspace_string[default_readspace],
-              memspace_string[default_writespace], addr_location(dot_addr[default_readspace]));
+      sprintf(prompt, "[%c,R:%s,W:%s] (%s:$%x) ",(sidefx==e_ON)?'S':'-', memspace_string[default_readspace],
+              memspace_string[default_writespace], memspace_string[caller_space], 
+              addr_location(dot_addr[caller_space]));
 
       if (asm_mode) {
          sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
@@ -1816,52 +1891,38 @@ void debugger() {
              parse_and_execute_line(myinput);
          }
       }
-
       if (last_cmd)
           free(last_cmd);
 
       last_cmd = myinput;
    } while (!exit_mon);
+   inside_monitor = FALSE;
 
-#if 0
    if (any_breakpoints(e_comp_space))
-      maincpu_trigger_trap(check_maincpu_breakpoints);
-
+      maincpu_breakpoints_on();
+   else
+      maincpu_breakpoints_off();
+    
+   if (any_watchpoints(e_comp_space)) {
+      maincpu_turn_watchpoints_on();
+      maincpu_trigger_trap(mon_helper);
+   }
+   else
+      maincpu_turn_watchpoints_off();
+    
+#ifndef NO_DRIVE
    if (any_breakpoints(e_disk_space))
-      true1541_trigger_trap(check_true1541_breakpoints);
+      true1541_breakpoints_on();
+   else
+      true1541_breakpoints_off();
+
+   if (any_watchpoints(e_disk_space)) {
+      true1541_turn_watchpoints_on();
+      true1541_trigger_trap(mon_helper);
+   }
+   else
+      true1541_turn_watchpoints_off();
 #endif
-
+    
    exit_mon = 0;
-}
-
-void mon_helper(ADDRESS a)
-{
-    if (watch_load_occurred) {
-       if (check_maincpu_watchpoints_load())
-          mon(a);
-    }
-
-    if (watch_store_occurred) {
-       if (check_maincpu_watchpoints_store())
-          mon(a);
-    }
-
-    if (instruction_count) {
-       instruction_count--;
-       if (!instruction_count) {
-          mon(a);
-       }
-    }
-
-    if (any_watchpoints_load(e_comp_space) ||
-        any_watchpoints_store(e_comp_space) ||
-        instruction_count)
-       maincpu_trigger_trap(mon_helper);
-
-}
-
-void mon(ADDRESS a)
-{
-   dot_addr[e_comp_space] = new_addr(e_comp_space, a);
-   debugger();
 }

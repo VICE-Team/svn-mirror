@@ -57,10 +57,13 @@
 #define NUM_VBANKS	4
 
 /* The C64 memory. */
-BYTE ram[RAM_SIZE];
-BYTE basic_rom[BASIC_ROM_SIZE];
-BYTE kernal_rom[KERNAL_ROM_SIZE];
-BYTE chargen_rom[CHARGEN_ROM_SIZE];
+BYTE ram[C64_RAM_SIZE];
+BYTE basic_rom[C64_BASIC_ROM_SIZE];
+BYTE kernal_rom[C64_KERNAL_ROM_SIZE];
+BYTE chargen_rom[C64_CHARGEN_ROM_SIZE];
+
+/* Size of */
+int ram_size = C64_RAM_SIZE;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded. */
 int rom_loaded = 0;
@@ -264,7 +267,8 @@ static inline void pport_changed(void)
 
     ram[0] = pport.dir;
 
-    if (any_watchpoints_load(e_comp_space) || any_watchpoints_store(e_comp_space)) {
+    if (any_watchpoints_load(e_comp_space)
+	|| any_watchpoints_store(e_comp_space)) {
        _mem_read_tab_ptr = mem_read_tab_watch[mem_config];
        _mem_write_tab_ptr = mem_write_tab_watch[vbank][mem_config];
     } else {
@@ -275,13 +279,13 @@ static inline void pport_changed(void)
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
 }
 
-void turn_watchpoints_on(void) 
+void maincpu_turn_watchpoints_on(void) 
 {
     _mem_read_tab_ptr = mem_read_tab_watch[mem_config];
     _mem_write_tab_ptr = mem_write_tab_watch[vbank][mem_config];
 }
 
-void turn_watchpoints_off(void)
+void maincpu_turn_watchpoints_off(void)
 {
     _mem_read_tab_ptr = mem_read_tab[mem_config];
     _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
@@ -349,14 +353,10 @@ void REGPARM2 store_ram_hi(ADDRESS addr, BYTE value)
 void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 {
     if ((addr & 0xff00) == 0xdf00) {
-#ifdef REU
 	if (app_resources.reu)
 	    store_reu(addr & 0x0f, value);
-#endif
-#ifdef IEEE488
 	if(app_resources.ieee488)
 	    store_tpi(addr & 0x07, value);
-#endif
     }
 
     return;
@@ -364,23 +364,17 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 
 BYTE REGPARM1 read_io2(ADDRESS addr)
 {
-#ifdef EMULATOR_ID
     if (app_resources.emuID && addr >= 0xdfa0) {
 	addr &= 0xff;
 	if (addr == 0xff)
 	    emulator_id[addr - 0xa0] ^= 0xff;
 	return emulator_id[addr - 0xa0];
     }
-#endif
     if ((addr & 0xff00) == 0xdf00) {
-#ifdef REU
 	if (app_resources.reu)
 	    return read_reu(addr & 0x0f);
-#endif
-#ifdef IEEE488
 	if(app_resources.ieee488)
 	    return read_tpi(addr & 0x07);
-#endif
     }
 
     return rand();
@@ -602,21 +596,22 @@ int mem_load(void)
     /* try to load a RAM image if available. */
 
     if (mem_load_sys_file(app_resources.directory, app_resources.ramName,
-			  ram, RAM_SIZE, RAM_SIZE) < 0) {
+			  ram, C64_RAM_SIZE, C64_RAM_SIZE) < 0) {
 	mem_powerup();
     }
 
     /* Load Kernal ROM. */
 
     if (mem_load_sys_file(app_resources.directory, app_resources.kernalName,
-			  kernal_rom, KERNAL_ROM_SIZE, KERNAL_ROM_SIZE) < 0) {
+			  kernal_rom, C64_KERNAL_ROM_SIZE,
+			  C64_KERNAL_ROM_SIZE) < 0) {
 	fprintf(stderr,"Couldn't load kernal ROM.\n\n");
 	return -1;
     }
 
     /* Check Kernal ROM.  */
 
-    for (i = 0, sum = 0; i < KERNAL_ROM_SIZE; i++)
+    for (i = 0, sum = 0; i < C64_KERNAL_ROM_SIZE; i++)
 	sum += kernal_rom[i];
 
     id = read_rom(0xFF80);
@@ -624,14 +619,14 @@ int mem_load(void)
     printf("Kernal rev #%d.\n", id);
 
     if ((id == 0
-	 && sum != KERNAL_CHECKSUM_R00)
+	 && sum != C64_KERNAL_CHECKSUM_R00)
 	|| (id == 3
-	    && sum != KERNAL_CHECKSUM_R03
-	    && sum != KERNAL_CHECKSUM_R03swe)
+	    && sum != C64_KERNAL_CHECKSUM_R03
+	    && sum != C64_KERNAL_CHECKSUM_R03swe)
 	|| (id == 0x43
-	    && sum != KERNAL_CHECKSUM_R43)
+	    && sum != C64_KERNAL_CHECKSUM_R43)
 	|| (id == 0x64
-	    && sum != KERNAL_CHECKSUM_R64)) {
+	    && sum != C64_KERNAL_CHECKSUM_R64)) {
 	fprintf(stderr, "Warning: Unknown Kernal image.  Sum: %d ($%04X)\n",
 		sum, sum);
     }
@@ -639,24 +634,26 @@ int mem_load(void)
     /* Load Basic ROM. */
 
     if (mem_load_sys_file(app_resources.directory, app_resources.basicName,
-			  basic_rom, BASIC_ROM_SIZE, BASIC_ROM_SIZE) < 0) {
+			  basic_rom, C64_BASIC_ROM_SIZE,
+			  C64_BASIC_ROM_SIZE) < 0) {
 	fprintf(stderr, "Couldn't load basic ROM.\n\n");
 	return -1;
     }
 
     /* Check Basic ROM. */
 
-    for (i = 0, sum = 0; i < BASIC_ROM_SIZE; i++)
+    for (i = 0, sum = 0; i < C64_BASIC_ROM_SIZE; i++)
 	sum += basic_rom[i];
 
-    if (sum != BASIC_CHECKSUM)
+    if (sum != C64_BASIC_CHECKSUM)
 	fprintf(stderr, "Warning: Unknown Basic image.  Sum: %d ($%04X)\n",
 		sum, sum);
 
     /* Load chargen ROM. */
 
     if (mem_load_sys_file(app_resources.directory, app_resources.charName,
-		  chargen_rom, CHARGEN_ROM_SIZE, CHARGEN_ROM_SIZE) < 0) {
+			  chargen_rom, C64_CHARGEN_ROM_SIZE,
+			  C64_CHARGEN_ROM_SIZE) < 0) {
 	fprintf(stderr, "Couldn't load character ROM.\n");
 	return -1;
     }
