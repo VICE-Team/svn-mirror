@@ -154,8 +154,10 @@ static log_t video_log = LOG_ERR;
 /* ------------------------------------------------------------------------- */
 
 #if VIDEO_DISPLAY_DEPTH == 0
-static void (*_convert_func) (video_frame_buffer_t *p, int x, int y, int w,
-                              int h);
+static void (*_convert_func) (BYTE *draw_buffer,
+                              unsigned int draw_buffer_line_size,
+                              video_frame_buffer_t *p,
+                              int x, int y, int w, int h);
 static BYTE shade_table[256];
 
 void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,
@@ -187,38 +189,45 @@ void video_convert_color_table(unsigned int i, PIXEL *pixel_return, PIXEL *data,
 
 /* This doesn't usually happen, but if it does, this is a great speedup
    comparing the general convert_8toall() -routine. */
-static void convert_8to8(video_frame_buffer_t *p, int sx, int sy, int w, int h)
+static void convert_8to8(BYTE *draw_buffer,
+                         unsigned int draw_buffer_line_size,
+                         video_frame_buffer_t *p,
+                         int sx, int sy, int w, int h)
 {
-    video_render_main(&p->canvas->videoconfig, p->tmpframebuffer,
+    video_render_main(&p->canvas->videoconfig, draw_buffer,
                       p->x_image->data,
-                      w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
+                      w, h, sx, sy, sx, sy, draw_buffer_line_size,
                       p->x_image->bytes_per_line, 8);
 
 }
 
-static void convert_8to16(video_frame_buffer_t *p, int sx, int sy, int w,
-                          int h)
+static void convert_8to16(BYTE *draw_buffer,
+                          unsigned int draw_buffer_line_size,
+                          video_frame_buffer_t *p,
+                          int sx, int sy, int w, int h)
 {
-    video_render_main(&p->canvas->videoconfig, p->tmpframebuffer,
+    video_render_main(&p->canvas->videoconfig, draw_buffer,
                       p->x_image->data,
-                      w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
+                      w, h, sx, sy, sx, sy, draw_buffer_line_size,
                       p->x_image->bytes_per_line, 16);
 }
 
-static void convert_8to32(video_frame_buffer_t *p, int sx, int sy, int w,
-                          int h)
+static void convert_8to32(BYTE *draw_buffer,
+                          unsigned int draw_buffer_line_size,
+                          video_frame_buffer_t *p,
+                          int sx, int sy, int w, int h)
 {
-    video_render_main(&p->canvas->videoconfig, p->tmpframebuffer,
+    video_render_main(&p->canvas->videoconfig, draw_buffer,
                       p->x_image->data,
-                      w, h, sx, sy, sx, sy, p->tmpframebufferlinesize,
+                      w, h, sx, sy, sx, sy, draw_buffer_line_size,
                       p->x_image->bytes_per_line, 32);
 }
 
-#define SRCPTR(i, x, y) \
-        ((i)->tmpframebuffer + (y)*(i)->tmpframebufferlinesize + (x))
+#define SRCPTR(x, y) \
+        (draw_buffer + (y) * draw_buffer_line_size + (x))
 #define DESTPTR(i, x, y, t) \
         ((t *)((PIXEL *)(i)->x_image->data + \
-               (i)->x_image->bytes_per_line*(y)) + (x))
+               (i)->x_image->bytes_per_line * (y)) + (x))
 
 /* Use dither on 1bit display. This is slow but who cares... */
 BYTE dither_table[4][4] = {
@@ -228,13 +237,15 @@ BYTE dither_table[4][4] = {
     { 15, 7, 13, 5 }
 };
 
-static void convert_8to1_dither(video_frame_buffer_t *p, int sx, int sy, int w,
-                         int h)
+static void convert_8to1_dither(BYTE *draw_buffer,
+                                unsigned int draw_buffer_line_size,
+                                video_frame_buffer_t *p,
+                                int sx, int sy, int w, int h)
 {
     PIXEL *src, *dither;
     int x, y;
     for (y = 0; y < h; y++) {
-        src = SRCPTR(p, sx, sy + y);
+        src = SRCPTR(sx, sy + y);
         dither = dither_table[(sy + y) % 4];
         for (x = 0; x < w; x++) {
             /* XXX: trusts that real_pixel[0, 1] == black, white */
@@ -246,13 +257,15 @@ static void convert_8to1_dither(video_frame_buffer_t *p, int sx, int sy, int w,
 }
 
 /* And this is inefficient... */
-static void convert_8toall(video_frame_buffer_t * p, int sx, int sy, int w,
-                           int h)
+static void convert_8toall(BYTE *draw_buffer,
+                           unsigned int draw_buffer_line_size,
+                           video_frame_buffer_t * p,
+                           int sx, int sy, int w, int h)
 {
     PIXEL *src;
     int x, y;
     for (y = 0; y < h; y++) {
-        src = SRCPTR(p, sx, sy + y);
+        src = SRCPTR(sx, sy + y);
         for (x = 0; x < w; x++)
             XPutPixel(p->x_image, sx + x, sy + y,
                       p->canvas->videoconfig.physical_colors[src[x]]);
@@ -266,8 +279,6 @@ int video_convert_func(video_frame_buffer_t *i, int depth, unsigned int width,
                        unsigned int height)
 {
 #if VIDEO_DISPLAY_DEPTH == 0
-    i->tmpframebufferlinesize = width;
-    i->tmpframebuffer = (PIXEL *)xmalloc(width * height);
     switch (i->x_image->bits_per_pixel) {
       case 1:
         _convert_func = convert_8to1_dither;
@@ -401,18 +412,6 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
 #endif
 
 #endif
-
-#if VIDEO_DISPLAY_DEPTH == 0
-    {
-        int depth;
-
-        depth = ui_get_display_depth();
-
-        /* Free temporary 8bit frame buffer.  */
-        if (depth != 8 && i->tmpframebuffer)
-            free(i->tmpframebuffer);
-    }
-#endif
     {
         extern video_canvas_t *dangling_canvas;
         dangling_canvas = i->canvas;
@@ -423,8 +422,6 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
 void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 {
 #if VIDEO_DISPLAY_DEPTH == 0
-    memset(f->tmpframebuffer, value,
-           f->x_image->height * f->tmpframebufferlinesize);
 #else
     int i;
 
@@ -547,6 +544,8 @@ void video_refresh_func(void (*rfunc)(void))
 
 /* Refresh a canvas.  */
 void video_canvas_refresh(video_canvas_t *canvas,
+                          BYTE *draw_buffer,
+                          unsigned int draw_buffer_line_size,
                           video_frame_buffer_t *frame_buffer,
                           unsigned int xs, unsigned int ys,
                           unsigned int xi, unsigned int yi,
@@ -564,7 +563,8 @@ void video_canvas_refresh(video_canvas_t *canvas,
 #endif
 #if VIDEO_DISPLAY_DEPTH == 0
     if (_convert_func)
-        _convert_func(frame_buffer, xs, ys, w, h);
+        _convert_func(draw_buffer, draw_buffer_line_size, frame_buffer,
+                      xs, ys, w, h);
 #endif
 
     /* This could be optimized away.  */

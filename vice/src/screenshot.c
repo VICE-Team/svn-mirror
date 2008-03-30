@@ -63,9 +63,12 @@ static void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
         return;
     }
 
-    line_base = VIDEO_FRAME_BUFFER_LINE_START((screenshot->frame_buffer),
-                                              (line + screenshot->y_offset)
-                                              * screenshot->size_height);
+#define BUFFER_LINE_START(i, n) ((i)->draw_buffer \
+                                + (n) * (i)->draw_buffer_line_size)
+
+    line_base = BUFFER_LINE_START(screenshot,
+                                  (line + screenshot->y_offset)
+                                  * screenshot->size_height);
 
     switch (mode) {
       case SCREENSHOT_MODE_PALETTE:

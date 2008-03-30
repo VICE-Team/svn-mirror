@@ -82,25 +82,16 @@ struct video_frame_buffer_s {
     XShmSegmentInfo xshm_info;
     int using_mitshm;     /* True if MITSHM is used for this framebuffer. */
 #endif
-#if VIDEO_DISPLAY_DEPTH == 0
-    PIXEL *tmpframebuffer;
-    int   tmpframebufferlinesize;
-#endif
     GC gc;
 };
 typedef struct video_frame_buffer_s video_frame_buffer_t;
 
-typedef PIXEL *frame_buffer_ptr_t;
 typedef ui_exposure_handler_t canvas_redraw_t;
 
 extern GC _video_gc;
 extern int _video_use_xsync;
 
 #if VIDEO_DISPLAY_DEPTH == 0
-#define VIDEO_FRAME_BUFFER_START(i)         ((i)->tmpframebuffer)
-#define VIDEO_FRAME_BUFFER_LINE_SIZE(i)     ((i)->tmpframebufferlinesize)
-#define VIDEO_FRAME_BUFFER_LINE_START(i, n) ((i)->tmpframebuffer \
-                                            + (n) * (i)->tmpframebufferlinesize)
 #else
 #define VIDEO_FRAME_BUFFER_START(i)         ((PIXEL *)((i)->x_image->data))
 #define VIDEO_FRAME_BUFFER_LINE_SIZE(i)     ((i)->x_image->bytes_per_line \
