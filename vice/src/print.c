@@ -45,14 +45,7 @@ static FILE *fd[3] = { NULL, NULL, NULL };
 
 static int set_printer_device(resource_value_t v, void *param)
 {
-    const char *name = (const char*)v;
-    int devnr = (int)param;
-
-    if ((PrinterDev[devnr] != NULL) && (name != NULL)
-        && (strcmp(name, PrinterDev[devnr]) == 0))
-        return 0;
-
-    util_string_set(&PrinterDev[devnr], name);
+    util_string_set(&PrinterDev[(int)param], (const char*)v);
     return 0;
 }
 

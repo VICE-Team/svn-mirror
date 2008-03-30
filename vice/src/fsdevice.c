@@ -133,23 +133,21 @@ static char *fsdevice_dir[4];
 
 static int set_fsdevice_convert_p00(resource_value_t v, void *param)
 {
-    fsdevice_convert_p00_enabled[(int)param - 8] = (int) v;
+    fsdevice_convert_p00_enabled[(int)param - 8] = (int)v;
     return 0;
 }
 
 static int set_fsdevice_dir(resource_value_t v, void *param)
 {
-    const char *name = (const char *) v;
-    if (fsdevice_dir[(int)param - 8] != NULL && name != NULL
-        && strcmp(name, fsdevice_dir[(int)param - 8]) == 0)
-        return 0;
+    const char *name = (const char *)v;
+
     util_string_set(&fsdevice_dir[(int)param - 8], name ? name : "");
     return 0;
 }
 
 static int set_fsdevice_save_p00(resource_value_t v, void *param)
 {
-    fsdevice_save_p00_enabled[(int)param - 8] = (int) v;
+    fsdevice_save_p00_enabled[(int)param - 8] = (int)v;
     return 0;
 }
 
@@ -165,49 +163,49 @@ static int set_fsdevice_hide_cbm_files(resource_value_t v, void *param)
 }
 
 static resource_t resources[] = {
-    { "FSDevice8ConvertP00", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &fsdevice_convert_p00_enabled[0],
+    { "FSDevice8ConvertP00", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&fsdevice_convert_p00_enabled[0],
       set_fsdevice_convert_p00, (void *)8 },
-    { "FSDevice9ConvertP00", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &fsdevice_convert_p00_enabled[1],
+    { "FSDevice9ConvertP00", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&fsdevice_convert_p00_enabled[1],
       set_fsdevice_convert_p00, (void *)9 },
-    { "FSDevice10ConvertP00", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &fsdevice_convert_p00_enabled[2],
+    { "FSDevice10ConvertP00", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&fsdevice_convert_p00_enabled[2],
       set_fsdevice_convert_p00, (void *)10 },
-    { "FSDevice11ConvertP00", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &fsdevice_convert_p00_enabled[3],
+    { "FSDevice11ConvertP00", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&fsdevice_convert_p00_enabled[3],
       set_fsdevice_convert_p00, (void *)11 },
-    { "FSDevice8Dir", RES_STRING, (resource_value_t) FSDEVICE_DEFAULT_DIR,
-      (resource_value_t *) &fsdevice_dir[0], set_fsdevice_dir, (void *)8 },
-    { "FSDevice9Dir", RES_STRING, (resource_value_t) FSDEVICE_DEFAULT_DIR,
-      (resource_value_t *) &fsdevice_dir[1], set_fsdevice_dir, (void *)9 },
-    { "FSDevice10Dir", RES_STRING, (resource_value_t) FSDEVICE_DEFAULT_DIR,
-      (resource_value_t *) &fsdevice_dir[2], set_fsdevice_dir, (void *)10 },
-    { "FSDevice11Dir", RES_STRING, (resource_value_t) FSDEVICE_DEFAULT_DIR,
-      (resource_value_t *) &fsdevice_dir[3], set_fsdevice_dir, (void *)11 },
-    { "FSDevice8SaveP00", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &fsdevice_save_p00_enabled[0],
+    { "FSDevice8Dir", RES_STRING, (resource_value_t)FSDEVICE_DEFAULT_DIR,
+      (resource_value_t *)&fsdevice_dir[0], set_fsdevice_dir, (void *)8 },
+    { "FSDevice9Dir", RES_STRING, (resource_value_t)FSDEVICE_DEFAULT_DIR,
+      (resource_value_t *)&fsdevice_dir[1], set_fsdevice_dir, (void *)9 },
+    { "FSDevice10Dir", RES_STRING, (resource_value_t)FSDEVICE_DEFAULT_DIR,
+      (resource_value_t *)&fsdevice_dir[2], set_fsdevice_dir, (void *)10 },
+    { "FSDevice11Dir", RES_STRING, (resource_value_t)FSDEVICE_DEFAULT_DIR,
+      (resource_value_t *)&fsdevice_dir[3], set_fsdevice_dir, (void *)11 },
+    { "FSDevice8SaveP00", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&fsdevice_save_p00_enabled[0],
       set_fsdevice_save_p00, (void *)8 },
-    { "FSDevice9SaveP00", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &fsdevice_save_p00_enabled[1],
+    { "FSDevice9SaveP00", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&fsdevice_save_p00_enabled[1],
       set_fsdevice_save_p00, (void *)9 },
-    { "FSDevice10SaveP00", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &fsdevice_save_p00_enabled[2],
+    { "FSDevice10SaveP00", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&fsdevice_save_p00_enabled[2],
       set_fsdevice_save_p00, (void *)10 },
-    { "FSDevice11SaveP00", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &fsdevice_save_p00_enabled[3],
+    { "FSDevice11SaveP00", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&fsdevice_save_p00_enabled[3],
       set_fsdevice_save_p00, (void *)11 },
-    { "FSDevice8HideCBMFiles", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &fsdevice_hide_cbm_files_enabled[0],
+    { "FSDevice8HideCBMFiles", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&fsdevice_hide_cbm_files_enabled[0],
       set_fsdevice_hide_cbm_files, (void *)8 },
-    { "FSDevice9HideCBMFiles", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &fsdevice_hide_cbm_files_enabled[1],
+    { "FSDevice9HideCBMFiles", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&fsdevice_hide_cbm_files_enabled[1],
       set_fsdevice_hide_cbm_files, (void *)9 },
-    { "FSDevice10HideCBMFiles", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &fsdevice_hide_cbm_files_enabled[2],
+    { "FSDevice10HideCBMFiles", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&fsdevice_hide_cbm_files_enabled[2],
       set_fsdevice_hide_cbm_files, (void *)10 },
-    { "FSDevice11HideCBMFiles", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &fsdevice_hide_cbm_files_enabled[3],
+    { "FSDevice11HideCBMFiles", RES_INTEGER, (resource_value_t)0,
+      (resource_value_t *)&fsdevice_hide_cbm_files_enabled[3],
       set_fsdevice_hide_cbm_files, (void *)11 },
     { NULL }
 };
@@ -234,13 +232,13 @@ static int cmdline_fsdirectory(const char *param, void *extra_param)
 }
 
 static cmdline_option_t cmdline_options[] = {
-    { "-fs8", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *) 8, NULL, NULL,
+    { "-fs8", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)8, NULL, NULL,
       "<name>", "Use <name> as directory for file system device #8" },
-    { "-fs9", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *) 9, NULL, NULL,
+    { "-fs9", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)9, NULL, NULL,
       "<name>", "Use <name> as directory for file system device #9" },
-    { "-fs10", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *) 10, NULL, NULL,
+    { "-fs10", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)10, NULL, NULL,
       "<name>", "Use <name> as directory for file system device #10" },
-    { "-fs11", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *) 11, NULL, NULL,
+    { "-fs11", CALL_FUNCTION, 1, cmdline_fsdirectory, (void *)11, NULL, NULL,
       "<name>", "Use <name> as directory for file system device #11" },
     { NULL }
 };
