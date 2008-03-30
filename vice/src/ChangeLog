@@ -1,3 +1,27 @@
+2007-04-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.5.
+
+	* arch/unix/x11/xaw/uicolor.c, arch/unix/x11/gnome/uicolor.c:
+	Added patch from the Debian Bug tracking system posted by
+	Pier Luigi Pau.
+
+	* c128/c128cpu.c (c128cpu_clock_add): New function.
+
+2007-04-16  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c128/c128.c, c64/c64.c: Fixed MMC64 resource warnings for
+	x128.
+
+2007-04-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* 6510core.c, c128/c128.c, c128/c128cpu.c, c128/c128mem.c,
+	c128/c128mem.h, c128/c128meminit.c, c64/c64.c, cbm2/cbm2.c,
+	machine.h, maincpu.h, monitor/mon_register6502.c,
+	monitor/monitor.c, monitor.h, pet/pet.c, plus4/plus4.c,
+	vic20/vic20.c, vicii/vicii-clock-stretch.c, vicii.h: Added
+	8502 cycle stretch support.
+
 2007-04-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.4.

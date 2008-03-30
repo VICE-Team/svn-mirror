@@ -62,6 +62,10 @@
 extern read_func_ptr_t _mem_read_tab[];
 extern store_func_ptr_t _mem_write_tab[];
 
+static int opcode_cycle[2];
+
+/* 8502 cycle stretch indicator */
+int maincpu_stretch=0;
 
 #define PAGE_ZERO mem_page_zero
 
@@ -77,7 +81,15 @@ extern store_func_ptr_t _mem_write_tab[];
                 IMPORT_REGISTERS();                \
                 JUMP(LOAD_ADDR(0xfffc));
 
-#define CLK_ADD(clock, amount) clock=vicii_clock_add(clock, amount)
+inline static void c128cpu_clock_add(CLOCK *clock, int amount)
+{
+    if (amount)
+        *clock=vicii_clock_add(*clock, amount);
+}
+
+#define CLK_ADD(clock, amount) c128cpu_clock_add(&clock, amount)
+
+#define REWIND_FETCH_OPCODE(clock) vicii_clock_add(clock, -(2+opcode_cycle[0]+opcode_cycle[1]))
 
 extern void vicii_delay_clk(void);
 
