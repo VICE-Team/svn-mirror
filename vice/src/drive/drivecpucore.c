@@ -269,16 +269,17 @@ void mydrive_cpu_set_sync_factor(unsigned int sync_factor)
 #ifdef AVOID_STATIC_ARRAYS    
     if (!clk_conv_table)
     {
-	clk_conv_table = xmalloc(sizeof(*clk_conv_table)*(MAX_TICKS + 1));
-	clk_mod_table = xmalloc(sizeof(*clk_mod_table)*(MAX_TICKS + 1));
+        clk_conv_table = xmalloc(sizeof(*clk_conv_table)*(MAX_TICKS + 1));
+        clk_mod_table = xmalloc(sizeof(*clk_mod_table)*(MAX_TICKS + 1));
     }
 #endif
-
     for (i = 0; i <= MAX_TICKS; i++) {
-	unsigned long tmp = i * (unsigned long)sync_factor;
+        unsigned long tmp;
 
-	clk_conv_table[i] = tmp / 0x10000;
-	clk_mod_table[i] = tmp % 0x10000;
+        tmp = i * (unsigned long)sync_factor;
+
+        clk_conv_table[i] = tmp / 0x10000;
+        clk_mod_table[i] = tmp % 0x10000;
     }
 }
 
