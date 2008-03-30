@@ -36,6 +36,7 @@
 #include "uimenu.h"
 #include "uivicii.h"
 #include "uipalemu.h"
+#include "vicii.h"
 #include "openGL_sync.h"
 
 extern struct ui_menu_entry_s set_video_standard_submenu[];
@@ -61,6 +62,18 @@ static ui_menu_entry_t palette_submenu[] = {
     { "--" },
     { N_("Load custom"), (ui_callback_t)ui_load_palette,
       (ui_callback_data_t)"VICIIPaletteFile", NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(VICIIBorderMode)
+
+static ui_menu_entry_t bordermode_submenu[] = {
+    { N_("*Normal"), (ui_callback_t)radio_VICIIBorderMode,
+      (ui_callback_data_t)VICII_NORMAL_BORDERS, NULL },
+    { N_("*Full"), (ui_callback_t)radio_VICIIBorderMode,
+      (ui_callback_data_t)VICII_FULL_BORDERS, NULL },
+    { N_("*Debug"), (ui_callback_t)radio_VICIIBorderMode,
+      (ui_callback_data_t)VICII_DEBUG_BORDERS, NULL },
     { NULL }
 };
 
@@ -199,6 +212,9 @@ ui_menu_entry_t vicii_submenu[] = {
 #endif
     { N_("Video standard"),
       NULL, NULL, set_video_standard_submenu },
+    { "--" },
+    { N_("*Border mode"),
+      NULL, NULL, bordermode_submenu },
     { "--" },
     { N_("*Sprite-sprite collisions"),
       (ui_callback_t)toggle_VICIICheckSsColl, NULL, NULL },
