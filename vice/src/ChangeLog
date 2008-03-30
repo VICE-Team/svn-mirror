@@ -1,3 +1,18 @@
+2003-09-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.
+
+	* raster/raster-line.c (check_for_major_changes_and_update,
+	handle_visible_line_with_changes, handle_blank_line): Do not
+	inline.
+
+2003-09-22  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* raster/raster-line-changes-sprite.c:
+	- worked around a VAC compiler bug (seems to be a problem
+	of combining many levels of inline functions and
+	function pointers)
+
 2003-09-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.35.
