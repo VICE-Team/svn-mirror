@@ -314,8 +314,10 @@ mon_drive.o: mon_drive.c ../../src/vice.h ../../src/config.h \
 	../../src/vdrive/vdrive-command.h
 mon_file.o: mon_file.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/mem.h ../../src/arch/unix/types.h montypes.h mon.h \
-	mon_util.h ../../src/uimon.h
+	../../src/attach.h ../../src/mem.h ../../src/arch/unix/types.h \
+	montypes.h mon.h mon_util.h ../../src/serial.h \
+	../../src/uimon.h ../../src/vdrive/vdrive-iec.h \
+	../../src/vdrive/vdrive.h
 mon_lex.o: mon_lex.c ../../src/vice.h ../../src/config.h mon_command.h \
 	montypes.h mon.h ../../src/arch/unix/types.h mon_parse.h \
 	../../src/utils.h

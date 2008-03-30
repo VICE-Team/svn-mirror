@@ -393,10 +393,6 @@ coproc.o: coproc.c coproc.h ../../../src/log.h
 joy.o: joy.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h joy.h ../../../src/keyboard.h types.h \
 	../../../src/log.h ../../../src/resources.h
-main_exit.o: main_exit.c ../../../src/vice.h ../../../src/config.h \
-	fullscreenarch.h joy.h ../../../src/log.h \
-	../../../src/machine.h main_exit.h ../../../src/sound.h types.h \
-	../../../src/video.h ../../../src/viewport.h
 mouse.o: mouse.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/keyboard.h types.h mouse.h \
 	../../../src/log.h ../../../src/resources.h ui.h \

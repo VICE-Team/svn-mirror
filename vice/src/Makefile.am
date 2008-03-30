@@ -95,6 +95,7 @@ noinst_HEADERS = \
 	riot.h \
 	riotcore.h \
 	romset.h \
+	rs232drv.h \
 	rsuser.h \
 	screenshot.h \
 	serial.h \
