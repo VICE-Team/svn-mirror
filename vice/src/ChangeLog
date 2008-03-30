@@ -1,3 +1,32 @@
+2003-09-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.35.
+
+	* log.c (log_helper): Fixed once again.
+
+	* arch/msdos/menudefs.c, arch/msdos/plus4ui.c,
+	arch/msdos/c64ui.c, arch/msdos/cbm2ui.c, arch/msdos/uisid.c,
+	arch/msdos/c128ui.c: Added some UI items.
+
+	* arch/msdos/sidui.c, arch/msdos/sidui.h: Renamed.
+
+	* arch/msdos/Makefile.am: Updated.
+
+	* sid/sid.h: Added SID model defines.
+
+2003-09-20  Andreas Matthies  <andreas.matthies@gmx.net>
+
+        * arch/win32/ui.c: Fixed NUM_OF_COMMON_HOTKEYS.
+        Removed logging of pause key.
+
+2003-09-20  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/c128ui.cc, c64ui.cc, plus4ui.cc, vic20ui.cc,
+	constants.h, vicemenu.cc: Added stuff for new menu toggle for
+	Scale2x.
+
+	* arch/beos/types.h: Defines NO_REGPARM.
+
 2003-09-20  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.34.

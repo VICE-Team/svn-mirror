@@ -230,7 +230,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
-	-I$(top_srcdir)/src/pet
+	-I$(top_srcdir)/src/pet \
+	-I$(top_srcdir)/src/sid
 
 
 noinst_LIBRARIES = libarch.a
@@ -262,8 +263,6 @@ libarch_a_SOURCES = \
 	petui.h \
 	plus4ui.c \
 	plus4ui.h \
-	sidui.c \
-	sidui.h \
 	statusbar.c \
 	statusbar.h \
 	tui.c \
@@ -288,6 +287,8 @@ libarch_a_SOURCES = \
 	uicmdline.c \
 	uicmdline.h \
 	uimon.c \
+	uisid.c \
+	uisid.h \
 	uisnapshot.c \
 	uisnapshot.h \
 	vic20ui.c \
@@ -317,11 +318,11 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) c128ui.$(OBJEXT) \
 	c64ui.$(OBJEXT) cbm2ui.$(OBJEXT) cbmcharsets.$(OBJEXT) \
 	console.$(OBJEXT) grabkey.$(OBJEXT) joy.$(OBJEXT) kbd.$(OBJEXT) \
 	menudefs.$(OBJEXT) mouse.$(OBJEXT) msdosmain.$(OBJEXT) \
-	petui.$(OBJEXT) plus4ui.$(OBJEXT) sidui.$(OBJEXT) \
-	statusbar.$(OBJEXT) tui.$(OBJEXT) tui_backend.$(OBJEXT) \
-	tuicharset.$(OBJEXT) tuiimagebrowser.$(OBJEXT) tuifs.$(OBJEXT) \
-	tuimenu.$(OBJEXT) tuiview.$(OBJEXT) ui.$(OBJEXT) \
-	uiattach.$(OBJEXT) uicmdline.$(OBJEXT) uimon.$(OBJEXT) \
+	petui.$(OBJEXT) plus4ui.$(OBJEXT) statusbar.$(OBJEXT) \
+	tui.$(OBJEXT) tui_backend.$(OBJEXT) tuicharset.$(OBJEXT) \
+	tuiimagebrowser.$(OBJEXT) tuifs.$(OBJEXT) tuimenu.$(OBJEXT) \
+	tuiview.$(OBJEXT) ui.$(OBJEXT) uiattach.$(OBJEXT) \
+	uicmdline.$(OBJEXT) uimon.$(OBJEXT) uisid.$(OBJEXT) \
 	uisnapshot.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
 	vsidui.$(OBJEXT) vsync.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
@@ -336,16 +337,16 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/kbd.Po ./$(DEPDIR)/menudefs.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/mouse.Po ./$(DEPDIR)/msdosmain.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/petui.Po ./$(DEPDIR)/plus4ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/sidui.Po ./$(DEPDIR)/statusbar.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/tui.Po ./$(DEPDIR)/tui_backend.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/statusbar.Po ./$(DEPDIR)/tui.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/tui_backend.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tuicharset.Po ./$(DEPDIR)/tuifs.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tuiimagebrowser.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/tuimenu.Po ./$(DEPDIR)/tuiview.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/ui.Po ./$(DEPDIR)/uiattach.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uimon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uisnapshot.Po ./$(DEPDIR)/vic20ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/video.Po ./$(DEPDIR)/vsidui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsync.Po
+@AMDEP_TRUE@	./$(DEPDIR)/uisid.Po ./$(DEPDIR)/uisnapshot.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vic20ui.Po ./$(DEPDIR)/video.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsidui.Po ./$(DEPDIR)/vsync.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -391,7 +392,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/msdosmain.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/petui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4ui.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sidui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/statusbar.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tui_backend.Po@am__quote@
@@ -404,6 +404,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiattach.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicmdline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisid.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisnapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video.Po@am__quote@

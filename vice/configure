@@ -1566,7 +1566,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=vice
- VERSION=1.12.34
+ VERSION=1.12.35
 
 
 cat >>confdefs.h <<_ACEOF
@@ -1694,11 +1694,6 @@ INSTALL_STRIP_PROGRAM="\${SHELL} \$(install_sh) -c -s"
 
           ac_config_headers="$ac_config_headers src/config.h"
 
-
-
-cat >>confdefs.h <<\_ACEOF
-#define UNSTABLE
-_ACEOF
 
 
 is_dos=no

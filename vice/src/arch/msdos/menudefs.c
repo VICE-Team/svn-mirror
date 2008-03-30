@@ -44,6 +44,7 @@
 #include "fsdevice.h"
 #include "imagecontents.h"
 #include "info.h"
+#include "interrupt.h"
 #include "ioutil.h"
 #include "joy.h"
 #include "kbd.h"
@@ -311,6 +312,8 @@ static TUI_MENU_CALLBACK(drive_type_submenu_callback)
         return "1541, 5\"1/4 SS";
       case DRIVE_TYPE_1541II:
         return "1541-II, 5\"1/4 SS";
+      case DRIVE_TYPE_1551:
+        return "1551, 5\"1/4 SS";
       case DRIVE_TYPE_1571:
         return "1571, 5\"1/4 DS";
       case DRIVE_TYPE_1581:
@@ -346,6 +349,10 @@ static tui_menu_item_def_t drive##num##_type_submenu[] = {                \
       "Emulate a 1541-II 5\"1/4 single-sided disk drive as unit #" #num,  \
       radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1541II, 0,      \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
+    { "15_51, 5\"1/4 SS",                                                 \
+      "Emulate a 1551 5\"1/4 single-sided disk drive as unit #" #num,     \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1551, 0,        \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
     { "15_71, 5\"1/4 DS",                                                 \
       "Emulate a 1571 5\"1/4 double-sided disk drive as unit #" #num,     \
       radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1571, 0,        \
@@ -370,11 +377,11 @@ static tui_menu_item_def_t drive##num##_type_submenu[] = {                \
       "Emulate a 1001 5\"1/4 DS IEEE disk drive as unit #" #num,          \
       radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1001, 0,        \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "_8050, 5\"1/4 SD IEEE488",                                         \
+    { "8050, 5\"1/4 _SD IEEE488",                                         \
       "Emulate a 8050 5\"1/4 SD IEEE disk drive as unit #" #num,          \
       radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8050, 0,        \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "8_520, 5\"1/4 DD IEEE488",                                         \
+    { "8520, 5\"1/4 _DD IEEE488",                                         \
       "Emulate a 8250 5\"1/4 DD IEEE disk drive as unit #" #num,          \
       radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8250, 0,        \
       TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
@@ -493,7 +500,7 @@ static TUI_MENU_CALLBACK(datasette_speedtuning_submenu_callback)
     static char s[100];
 
     resources_get_value("DatasetteSpeedTuning", (void *)&value);
-    sprintf(s,"%d",value);
+    sprintf(s, "%d",value);
     return s;
 }
 
@@ -503,7 +510,7 @@ static TUI_MENU_CALLBACK(datasette_zerogapdelay_submenu_callback)
     static char s[100];
 
     resources_get_value("DatasetteZeroGapDelay", (void *)&value);
-    sprintf(s,"%8d",value);
+    sprintf(s, "%8d",value);
     return s;
 }
 
@@ -1186,7 +1193,26 @@ static TUI_MENU_CALLBACK(hard_reset_callback)
     if (been_activated)
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 
-    /* This way, the "Not Really!" item is always the default one.  */
+    *become_default = 0;
+
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(reset_drive0_callback)
+{
+    if (been_activated)
+        drive0_trigger_reset();
+
+    *become_default = 0;
+
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(reset_drive1_callback)
+{
+    if (been_activated)
+        drive1_trigger_reset();
+
     *become_default = 0;
 
     return NULL;
@@ -1204,6 +1230,14 @@ static tui_menu_item_def_t reset_submenu[] = {
     { "Do a _Hard Reset",
       "Clear memory and reset as after a power-up",
       hard_reset_callback, NULL, 0,
+      TUI_MENU_BEH_RESUME, NULL, NULL },
+    { "Reset drive #_8",
+      "Reset drive #8 separately",
+      reset_drive0_callback, NULL, 0,
+      TUI_MENU_BEH_RESUME, NULL, NULL },
+    { "Reset drive #_9",
+      "Reset drive #9 separately",
+      reset_drive1_callback, NULL, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
     { NULL }
 };
@@ -1223,6 +1257,7 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
             "",
             "Copyright (c) 1998-2003 Andreas Boose",
             "Copyright (c) 1998-2003 Tibor Biczo",
+            "Copyright (c) 1998-2003 Dag Lem",
             "Copyright (c) 1999-2003 Andreas Dehmel",
             "Copyright (c) 1999-2003 Thomas Bretz",
             "Copyright (c) 1999-2003 Andreas Matthies",
@@ -1230,11 +1265,6 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
             "Copyright (c) 2000-2003 Markus Brenner",
             "Copyright (c) 2000-2003 Spiro Trikaliotis",
             "Copyright (c) 1997-2001 Daniel Sladic",
-#ifdef HAVE_RESID
-            "",
-            "reSID engine:"
-            "Copyright (c) 1998-2003 Dag Lem",
-#endif
             "",
             "Official VICE homepage:",
             "http://viceteam.bei.t-online.de/",
