@@ -49,21 +49,21 @@ vdc_resources_t vdc_resources;
 
 static int set_video_cache_enabled (resource_value_t v, void *param)
 {
-  vdc_resources.video_cache_enabled = (int) v;
-  if (vdc.initialized)
-    raster_enable_cache (&vdc.raster,
-			 vdc_resources.video_cache_enabled);
+    vdc_resources.video_cache_enabled = (int) v;
+    if (vdc.initialized)
+        raster_enable_cache(&vdc.raster,
+            vdc_resources.video_cache_enabled);
 
-  return 0;
+    return 0;
 }
 
 static int set_palette_file_name (resource_value_t v, void *param)
 {
-  util_string_set (&vdc_resources.palette_file_name, (char *)v);
-  if (vdc.initialized)
-    return vdc_load_palette (vdc_resources.palette_file_name);
+    util_string_set (&vdc_resources.palette_file_name, (char *)v);
+    if (vdc.initialized)
+        return vdc_load_palette(vdc_resources.palette_file_name);
 
-  return 0;
+    return 0;
 }
 
 static int set_64kb_expansion(resource_value_t v, void *param)
@@ -75,57 +75,57 @@ static int set_64kb_expansion(resource_value_t v, void *param)
 }
 
 static resource_t resources[] =
-  {
-    { "VDC_PaletteFile", RES_STRING, (resource_value_t) "vdc_deft",
-      (resource_value_t *) &vdc_resources.palette_file_name,
+{
+    { "VDC_PaletteFile", RES_STRING, (resource_value_t)"vdc_deft",
+      (resource_value_t *)&vdc_resources.palette_file_name,
       set_palette_file_name, NULL },
     { "VDC_VideoCache", RES_INTEGER,
-      (resource_value_t) DEFAULT_VideoCache_VALUE,
-      (resource_value_t *) &vdc_resources.video_cache_enabled,
+      (resource_value_t)DEFAULT_VideoCache_VALUE,
+      (resource_value_t *)&vdc_resources.video_cache_enabled,
       set_video_cache_enabled, NULL },
-    { "VDC_64KB", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &vdc_resources.vdc_64kb_expansion,
+    { "VDC_64KB", RES_INTEGER, (resource_value_t)1,
+      (resource_value_t *)&vdc_resources.vdc_64kb_expansion,
       set_64kb_expansion, NULL },
     { NULL }
-  };
+};
 
 
 static int set_double_size_enabled (resource_value_t v, void *param)
 {
-  vdc_resources.double_size_enabled = (int)v;
+    vdc_resources.double_size_enabled = (int)v;
 
-  vdc.force_resize = 1;
-  vdc.force_repaint = 1;
+    vdc.force_resize = 1;
+    vdc.force_repaint = 1;
 
-  return 0;
+    return 0;
 }
 
 static int set_double_scan_enabled (resource_value_t v, void *param)
 {
-  vdc_resources.double_scan_enabled = (int)v;
+    vdc_resources.double_scan_enabled = (int)v;
 
-  vdc.force_repaint = 1;
+    vdc.force_repaint = 1;
 
-  return 0;
+    return 0;
 }
 
 static resource_t resources_2x[] =
-  {
+{
     { "VDC_DoubleSize", RES_INTEGER, (resource_value_t) 1,
-     (resource_value_t *) &vdc_resources.double_size_enabled,
-     set_double_size_enabled, NULL },
+      (resource_value_t *) &vdc_resources.double_size_enabled,
+      set_double_size_enabled, NULL },
     { "VDC_DoubleScan", RES_INTEGER, (resource_value_t) 1,
-     (resource_value_t *) &vdc_resources.double_scan_enabled,
-     set_double_scan_enabled, NULL },
+      (resource_value_t *) &vdc_resources.double_scan_enabled,
+      set_double_scan_enabled, NULL },
     { NULL }
-  };
+};
 
 
 int vdc_resources_init (void)
 {
-  if (resources_register (resources_2x) < 0)
-    return -1;
+    if (resources_register (resources_2x) < 0)
+        return -1;
 
-  return resources_register (resources);
+    return resources_register (resources);
 }
 
