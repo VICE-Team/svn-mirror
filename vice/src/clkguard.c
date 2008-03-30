@@ -32,7 +32,8 @@
 #include "utils.h"
 #include "types.h"
 
-clk_guard_t *clk_guard_new (CLOCK *_clk_ptr, CLOCK _clk_max_value)
+
+clk_guard_t *clk_guard_new(CLOCK *_clk_ptr, CLOCK _clk_max_value)
 {
     clk_guard_t *new;
 
@@ -45,7 +46,7 @@ clk_guard_t *clk_guard_new (CLOCK *_clk_ptr, CLOCK _clk_max_value)
 void clk_guard_init(clk_guard_t *guard, CLOCK *_clk_ptr, CLOCK _clk_max_value)
 {
     guard->clk_ptr = _clk_ptr;
-    guard->clk_base = (CLOCK) 0;
+    guard->clk_base = (CLOCK)0;
     guard->clk_max_value = _clk_max_value;
 
     guard->callback_list = NULL;
@@ -61,9 +62,9 @@ CLOCK clk_guard_get_clk_base(clk_guard_t *guard)
     return guard->clk_base;
 }
 
-void clk_guard_add_callback (clk_guard_t *guard,
-                             clk_guard_callback_t function,
-                             void *data)
+void clk_guard_add_callback(clk_guard_t *guard,
+                            clk_guard_callback_t function,
+                            void *data)
 {
     clk_guard_callback_list_t *new;
 
@@ -92,10 +93,10 @@ void clk_guard_destroy (clk_guard_t *guard)
     free(guard);
 }
 
-CLOCK clk_guard_prevent_overflow (clk_guard_t *guard)
+CLOCK clk_guard_prevent_overflow(clk_guard_t *guard)
 {
     if (*guard->clk_ptr < guard->clk_max_value) {
-        return (CLOCK) 0;
+        return (CLOCK)0;
     } else {
         clk_guard_callback_list_t *lp;
         CLOCK sub;
@@ -112,7 +113,7 @@ CLOCK clk_guard_prevent_overflow (clk_guard_t *guard)
 
         /* Execute the callbacks. */
         for (lp = guard->callback_list; lp != NULL; lp = lp->next)
-            lp->function (sub, lp->data);
+            lp->function(sub, lp->data);
 
         return sub;
     }
