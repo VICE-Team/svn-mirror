@@ -61,19 +61,17 @@ static int set_mouse_port(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "Mouse", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_SAME, NULL,
-      (void *)&_mouse_enabled, set_mouse_enabled, NULL },
-    { "Mouseport", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_SAME, NULL,
-      (void *)&mouse_port, set_mouse_port, NULL },
+static const resource_int_t resources_int[] = {
+    { "Mouse", 0, RES_EVENT_SAME, NULL,
+      &_mouse_enabled, set_mouse_enabled, NULL },
+    { "Mouseport", 1, RES_EVENT_SAME, NULL,
+      &mouse_port, set_mouse_port, NULL },
     { NULL }
 };
 
 int mouse_resources_init(void)
 {
-    if (resources_register(resources) < 0)
+    if (resources_register_int(resources_int) < 0)
         return -1;
 
     return mousedrv_resources_init();
