@@ -1,3 +1,77 @@
+Sun May 10 11:00:17 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.19.
+
+	* arch/unix/ui_xaw.c: Moved to `arch/unix/xaw/ui.c'.
+	* arch/unix/ui_xaw.h: Moved to `arch/unix/xaw/ui.h'.
+	* arch/unix/menu.h: Moved to `arch/unix/xaw/menu.h'.
+	* arch/unix/xdebug.c: Moved to `arch/unix/xaw/xdebug.c'.
+	* arch/unix/xdebug.h: Moved to `arch/unix/xaw/xdebug.h'.
+
+	* arch/unix/ui_xaw.c (UiToggleTurbo): Removed.
+	(UiToggleWarpMode): New function, toggles the "WarpMode" resource.
+	(UiDisplaySpeed): New parameter `warp_flag'.
+
+	* arch/unix/vsync.c: New resource "WarpMode"; new command-line
+	options "-warp" and "+warp".
+	(do_vsync): Handle warp mode.
+
+	* arch/unix/ui_xaw.c (UiJamDialog): Added "Hard Reset" button.
+
+	* sid.c (initialize_sound): Renamed to `sound_init'.
+
+	* tapeunit.c (initialize_tape): Renamed to `tape_init'.
+	(attach_tape_image): Renamed to `tape_attach_image'.
+	(detach_tape_image): Renamed to `tape_detach_image'.
+
+	* true1541.c (initialize_true1541): Renamed to `true1541_init'.
+
+	* vic20/vic20.c, c64/c64.c [HAS_JOYSTICK] (vsync_hook): Call
+ 	`joystick()'.
+
+	* arch/unix/vsync.c (do_vsync): Do not handle the joystick.
+
+	* pet/viap.def: Removed references to `app_resources.debugFlag'.
+
+	* serial.c (initialize_serial): Renamed to `serial_init'.
+	(install_serial_traps): Renamed to `serial_install_traps'.
+	(remove_serial_traps): Renamed to `serial_remove_traps'.
+	(attach_serial_device): Renamed to `serial_attach_device'.
+	(remove_serial): Renamed to `serial_remove'.
+	(image_file_name): Renamed to `serial_get_file_name'.
+	(get_serial_device): Renamed to `serial_get_device'.
+
+	* arch/unix/ui_xaw.c: Removed all the `#ifdef AUTOSTART's.
+
+	* autostart.c (autostart_advance): If `NoTraps' is set, autostart
+ 	with true 1541 emulation turned on.
+
+	* patchrom.c (patch_rom): Return immediately if the requested
+ 	revision is a NULL or empty string.
+
+	* resources.c (read_resource_item): Return the expected values.
+
+	* arch/unix/menu.h: Added submenu for serial settings, with
+ 	`NoTraps' toggling.  FS-device selection moved to this menu.
+
+	* traps.c: Added command-line options and resources.  When
+ 	`NoTraps' changes from zero to nonzero, the traps are removed from
+ 	the ROM; when it changes from nonzero to zero, the traps are
+ 	reinstalled.
+	(set_trap): Renamed to `traps_add'.  Put `BRK' in the ROM only if
+ 	`NoTraps' is zero; otherwise, only add the trap to the list.
+	(remove_trap): Renamed to `traps_remove'.  Physically remove the
+ 	trap from ROM only if `NoTraps' is zero; otherwise, just remove
+ 	the trap from the list.
+	(trap_handler): Renamed to `traps_handler'.
+	(initialize_traps): Renamed to `traps_init'.
+
+	* c64/c64mem.c: Added missing `-emuid' and `+emuid' command-line
+ 	options.
+
+	* arch/unix/ui_xaw.c: Added missing resource `DisplayDepth' and
+	command-line option `-displaydepth'.
+
 Sat May  9 11:18:36 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.18.
@@ -1021,7 +1095,7 @@ Sun Apr 19 15:22:55 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
 
 	* maincpu.c (JAM): Setting caller variable before mon() call.
 
-        * mon_cli.l: Changed some syntax for better usability.  Allow
+	* mon_cli.l: Changed some syntax for better usability.  Allow
  	assembly to start on same line as 'a' command.  Better guessing of
  	datatype based on default type.
 
