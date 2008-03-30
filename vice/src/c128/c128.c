@@ -440,7 +440,7 @@ int machine_init(void)
     /* Initialize the VIC-II emulation.  */
     if (vic_ii_init() == NULL)
         return -1;
-    vic_ii_enable_extended_keyboard_rows(1);
+    vic_ii_enable_extended_vicii(1);
 
     cia1_enable_extended_keyboard_rows(1);
 

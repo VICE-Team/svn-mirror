@@ -43,7 +43,7 @@ extern void vic_ii_reset(void);
 extern void vic_ii_trigger_light_pen(CLOCK mclk);
 extern void vic_ii_set_vbank(int new_vbank);
 extern void vic_ii_set_ram_base(BYTE *base);
-extern void vic_ii_enable_extended_keyboard_rows(int flag);
+extern void vic_ii_enable_extended_vicii(unsigned int flag);
 extern void vic_ii_prepare_for_snapshot(void);
 extern void vic_ii_powerup(void);
 extern void vic_ii_set_canvas_refresh(int enable);
@@ -58,7 +58,6 @@ extern int vic_ii_snapshot_read_module(struct snapshot_s *s);
 
 extern void vic_ii_video_refresh(void);
 extern void vic_ii_async_refresh(struct canvas_refresh_s *r);
-extern void video_free(void);
 
 void vic_ii_set_phi1_vbank(int num_vbank);
 void vic_ii_set_phi2_vbank(int num_vbank);
