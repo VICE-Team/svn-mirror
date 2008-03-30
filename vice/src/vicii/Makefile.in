@@ -255,11 +255,10 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 vicii-cmdline-options.o: vicii-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	vicii-cmdline-options.h vicii.h ../../src/arch/unix/types.h \
-	viciitypes.h ../../src/alarm.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	vicii-mem.h
+	../../src/config.h ../../src/cmdline.h vicii-cmdline-options.h \
+	vicii.h ../../src/arch/unix/types.h viciitypes.h \
+	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h vicii-mem.h
 vicii-color.o: vicii-color.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h viciitypes.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/log.h \

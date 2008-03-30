@@ -257,12 +257,14 @@ distdir: $(DISTFILES)
 	done
 c610-cmdline-options.o: c610-cmdline-options.c ../../src/vice.h \
 	../../src/config.h c610mem.h ../../src/arch/unix/types.h \
-	../../src/cmdline.h ../../src/resources.h
+	../../src/cmdline.h
 c610-resources.o: c610-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h c610mem.h \
 	../../src/arch/unix/types.h c610tpi.h ../../src/crtc/crtc.h \
-	../../src/interrupt.h ../../src/6510core.h \
-	../../src/resources.h ../../src/utils.h ../../src/vsync.h
+	../../src/drive/drive.h ../../src/log.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/keyboard.h ../../src/machine.h \
+	../../src/resources.h ../../src/sid/sid-resources.h \
+	../../src/utils.h ../../src/vsync.h
 c610-snapshot.o: c610-snapshot.c ../../src/vice.h ../../src/config.h \
 	c610-resources.h c610.h ../../src/arch/unix/types.h c610mem.h \
 	../../src/log.h ../../src/mem.h ../../src/resources.h \
@@ -273,8 +275,8 @@ c610.o: c610.c ../../src/vice.h ../../src/config.h \
 	c610-resources.h c610-snapshot.h c610.h c610acia.h c610cia.h \
 	c610mem.h c610tpi.h ../../src/arch/unix/c610ui.h \
 	../../src/ciatimer.h ../../src/alarm.h ../../src/snapshot.h \
-	../../src/clkguard.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/console.h ../../src/crtc/crtc.h ../../src/datasette.h \
+	../../src/clkguard.h ../../src/cmdline.h ../../src/console.h \
+	../../src/crtc/crtc.h ../../src/datasette.h \
 	../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
@@ -282,7 +284,7 @@ c610.o: c610.c ../../src/vice.h ../../src/config.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/kbdbuf.h \
 	../../src/keyboard.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/mem.h ../../src/monitor/mon.h ../../src/printer.h \
-	../../src/screenshot.h ../../src/serial.h \
+	../../src/resources.h ../../src/screenshot.h ../../src/serial.h \
 	../../src/sid/sid-cmdline-options.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid-snapshot.h \
 	../../src/sid/sid.h ../../src/sound.h ../../src/tape.h \
@@ -293,8 +295,8 @@ c610acia1.o: c610acia1.c ../../src/maincpu.h ../../src/6510core.h \
 	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h \
 	c610tpi.h ../../src/aciacore.c ../../src/acia.h \
 	../../src/alarm.h ../../src/clkguard.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/interrupt.h ../../src/log.h \
-	../../src/machine.h ../../src/rs232.h ../../src/snapshot.h
+	../../src/interrupt.h ../../src/log.h ../../src/machine.h \
+	../../src/resources.h ../../src/rs232.h ../../src/snapshot.h
 c610cia1.o: c610cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
 	../../src/arch/unix/types.h c610cia.h c610tpi.h \
@@ -319,11 +321,11 @@ c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
 	../../src/autostart.h ../../src/arch/unix/types.h \
 	c610-resources.h c610.h c610acia.h c610cia.h c610mem.h \
-	c610tpi.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/crtc/crtc-mem.h ../../src/crtc/crtc.h \
-	../../src/emuid.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/arch/unix/kbd.h ../../src/kbdbuf.h ../../src/log.h \
-	../../src/maincpu.h ../../src/mem.h ../../src/monitor/mon.h \
+	c610tpi.h ../../src/cmdline.h ../../src/crtc/crtc-mem.h \
+	../../src/crtc/crtc.h ../../src/emuid.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/arch/unix/kbd.h \
+	../../src/kbdbuf.h ../../src/log.h ../../src/maincpu.h \
+	../../src/mem.h ../../src/monitor/mon.h ../../src/resources.h \
 	../../src/sid/sid.h ../../src/sound.h ../../src/sysfile.h \
 	../../src/tape.h ../../src/utils.h ../../src/vsync.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h

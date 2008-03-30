@@ -358,13 +358,12 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 c64-cmdline-options.o: c64-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/machine.h
+	../../src/config.h ../../src/cmdline.h ../../src/machine.h
 c64-resources.o: c64-resources.c ../../src/vice.h ../../src/config.h \
 	c64cart.h ../../src/arch/unix/types.h c64mem.h \
 	../../src/cartridge.h ../../src/drive/drive.h ../../src/log.h \
-	../../src/machine.h ../../src/resources.h reu.h \
-	../../src/utils.h
+	../../src/keyboard.h ../../src/machine.h ../../src/resources.h \
+	reu.h ../../src/sid/sid-resources.h ../../src/utils.h
 c64-snapshot.o: c64-snapshot.c ../../src/vice.h ../../src/config.h \
 	c64-resources.h c64-snapshot.h c64cart.h \
 	../../src/arch/unix/types.h c64mem.h c64pla.h ../../src/log.h \
@@ -397,8 +396,8 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/monitor/asm.h \
 c64acia1.o: c64acia1.c ../../src/maincpu.h ../../src/6510core.h \
 	../../src/arch/unix/types.h ../../src/vice.h ../../src/config.h \
 	../../src/aciacore.c ../../src/acia.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/interrupt.h ../../src/log.h ../../src/machine.h \
+	../../src/clkguard.h ../../src/cmdline.h ../../src/interrupt.h \
+	../../src/log.h ../../src/machine.h ../../src/resources.h \
 	../../src/rs232.h ../../src/snapshot.h
 c64cia1.o: c64cia1.c ../../src/vice.h ../../src/config.h \
 	../../src/ciacore.h ../../src/cia.h ../../src/log.h \
@@ -457,8 +456,8 @@ patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
 psid.o: psid.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h c64mem.h \
 	../../src/arch/unix/types.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/log.h ../../src/machine.h psid.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
+	../../src/machine.h psid.h ../../src/resources.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
 	../../src/vsidui.h ../../src/vsync.h ../../src/zfile.h \
@@ -466,10 +465,10 @@ psid.o: psid.c ../../src/vice.h ../../src/config.h \
 reloc65.o: reloc65.c
 reu.o: reu.c ../../src/vice.h ../../src/config.h c64cart.h \
 	../../src/arch/unix/types.h ../../src/cartridge.h \
-	../../src/cmdline.h ../../src/resources.h ../../src/interrupt.h \
-	../../src/6510core.h ../../src/log.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/mem.h reu.h ../../src/snapshot.h \
-	../../src/utils.h
+	../../src/cmdline.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
+	../../src/mem.h ../../src/resources.h reu.h \
+	../../src/snapshot.h ../../src/utils.h
 
 info-am:
 info: info-recursive

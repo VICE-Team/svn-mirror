@@ -255,8 +255,7 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 crtc-cmdline-options.o: crtc-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	crtc-cmdline-options.h
+	../../src/config.h ../../src/cmdline.h crtc-cmdline-options.h
 crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h crtc-draw.h \
 	crtc.h ../../src/arch/unix/types.h crtctypes.h \
 	../../src/alarm.h crtc-mem.h ../../src/log.h \

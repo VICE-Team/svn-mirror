@@ -256,8 +256,8 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 driver-select.o: driver-select.c ../../src/vice.h ../../src/config.h \
-	../../src/cmdline.h ../../src/resources.h driver-select.h \
-	../../src/arch/unix/types.h drv-ascii.h ../../src/log.h \
+	../../src/cmdline.h driver-select.h ../../src/arch/unix/types.h \
+	drv-ascii.h ../../src/log.h ../../src/resources.h \
 	../../src/utils.h
 drv-ascii.o: drv-ascii.c ../../src/vice.h ../../src/config.h \
 	driver-select.h ../../src/arch/unix/types.h drv-ascii.h \
@@ -268,27 +268,26 @@ drv-mps803.o: drv-mps803.c ../../src/vice.h ../../src/config.h \
 	output-select.h output.h ../../src/palette.h \
 	../../src/sysfile.h ../../src/utils.h
 interface-serial.o: interface-serial.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	driver-select.h ../../src/arch/unix/types.h interface-serial.h \
-	../../src/log.h ../../src/printer.h ../../src/serial.h \
+	../../src/config.h ../../src/cmdline.h driver-select.h \
+	../../src/arch/unix/types.h interface-serial.h ../../src/log.h \
+	../../src/printer.h ../../src/resources.h ../../src/serial.h \
 	../../src/utils.h
 interface-userport.o: interface-userport.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	driver-select.h ../../src/arch/unix/types.h \
-	interface-userport.h ../../src/printer.h
+	../../src/config.h ../../src/cmdline.h driver-select.h \
+	../../src/arch/unix/types.h interface-userport.h \
+	../../src/printer.h ../../src/resources.h
 output-graphics.o: output-graphics.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/gfxoutput.h output-select.h \
-	../../src/arch/unix/types.h output-graphics.h output.h \
-	../../src/palette.h ../../src/screenshot.h ../../src/utils.h
+	../../src/log.h ../../src/cmdline.h ../../src/gfxoutput.h \
+	output-select.h ../../src/arch/unix/types.h output-graphics.h \
+	output.h ../../src/palette.h ../../src/resources.h \
+	../../src/screenshot.h ../../src/utils.h
 output-select.o: output-select.c ../../src/vice.h ../../src/config.h \
-	../../src/cmdline.h ../../src/resources.h output-select.h \
-	../../src/arch/unix/types.h ../../src/utils.h
+	../../src/cmdline.h output-select.h ../../src/arch/unix/types.h \
+	../../src/resources.h ../../src/utils.h
 output-text.o: output-text.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h \
-	../../src/cmdline.h ../../src/resources.h output-select.h \
-	../../src/arch/unix/types.h output-text.h output.h \
-	../../src/utils.h
+	../../src/cmdline.h output-select.h ../../src/arch/unix/types.h \
+	output-text.h output.h ../../src/resources.h ../../src/utils.h
 printer.o: printer.c ../../src/vice.h ../../src/config.h driver-select.h \
 	../../src/arch/unix/types.h drv-ascii.h drv-mps803.h \
 	interface-serial.h interface-userport.h output-graphics.h \

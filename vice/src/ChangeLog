@@ -1,3 +1,56 @@
+2002-05-19  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.9.18.
+
+	* vice.h: Define `COMMON_KBD' for Unix systems.
+
+	* keyboard.c, keyboard.h (keyboard_set_keyarr): Random
+	keypress delay.  (keyboard_set_keymap_file): New function.
+
+	* arch/msdos/kbd.c (kbd_install): Use
+	`keyboard_clear_keymatrix()'.
+
+	* c64/c64-resources.c, c128/c128-resources.c,
+	vic20/vic20-resources.c, pet/pet-resources.c,
+	plus4/plus4-resources.c, cbm2/c610-resources.c:
+
+	* c64/c64-cmdline-options.c, c128/c128-cmdline-options.c,
+	vic20/vic20-cmdline-options.c, pet/pet-cmdline-options.c,
+	plus4/plus4-cmdline-options.c, cbm2/c610-cmdline-options.c
+
+	* machine.h, c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	plus4/plus4.c, cbm2/c610.c (machine_num_keyboard_mappings):
+	New function.
+
+	* resources.c, resources.h (resources_set_defaults): Return
+	error value if resource could not be set.
+
+	* main.c (MAIN_PROGRAM): Abort if `resources_set_defaults()'
+	has failed.
+
+	* initcmdline.c (cmdline_default): Likewise.
+
+	* plus4/plus4-resources.c: Added `MachineVideoStandard'.
+
+	* arch/unix/Makefile.am: Removed `kmap.c' and `petkmap.c'.
+
+	* arch/unix/x11/kbd.c: Removed resource code.
+
+	* sid/sid-resources.c, sid/sid-resources.h,
+	c64/c64-resources.c, c128/c128-resources.c,
+	cbm2/c610-resources.c: Moved SID stereo address to machine
+	specific respources.
+
+	* sid/sid-resources.h, cmdline.h, cmdline.c, keyboard.h,
+	vicii/vicii-cmdline-options.c, vdc/vdc-cmdline-options.c,
+	crtc/crtc-cmdline-options.c, vic20/vic-cmdline-options.c,
+	drive/drive-cmdline-options.c, arch/unix/x11/vidmode.h,
+	c64/c64-cmdline-options.c, c128/c128-cmdline-options.c,
+	pet/pet-cmdline-options.c, cbm2/c610-cmdline-options.c,
+	plus4/plus4-cmdline-options.c, sid/sid-cmdline-options.c,
+	fullscreen.h, arch/unix/x11/ui-cmdline-options.c: Use
+	`void *' for resource value.
+
 2002-05-17  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.9.17.

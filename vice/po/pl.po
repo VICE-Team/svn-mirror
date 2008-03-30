@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-05-12 18:40+0200\n"
+"POT-Creation-Date: 2002-05-19 21:01+0200\n"
 "PO-Revision-Date: 2002-03-23 19:55+01:00\n"
 "Last-Translator: Mariusz M³ynek <flooder@poczta.onet.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -584,11 +584,11 @@ msgstr "Powrót do starej obs³ugi api"
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Wersja sterownika j±dra : %d.%d.%d"
 
-#: src/arch/unix/kmap.c:116
+#: src/arch/unix/kmap.c:73
 msgid "Specify name of symbolic keymap file"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/arch/unix/kmap.c:118
+#: src/arch/unix/kmap.c:75
 msgid "Specify name of positional keymap file"
 msgstr "Okre¶l nazwê pliku pozycyjnej mapy klawiatury"
 
@@ -608,30 +608,30 @@ msgstr "W³±cz emulacjê myszki 1351"
 msgid "Disable emulation of the 1351 proportional mouse"
 msgstr "Wy³±cz emulacjê myszki 1351"
 
-#: src/arch/unix/petkmap.c:145
+#: src/arch/unix/petkmap.c:117
 msgid "Specify name of graphics keyboard symbolic keymap file"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury graficznej"
 
-#: src/arch/unix/petkmap.c:148
+#: src/arch/unix/petkmap.c:120
 msgid "Specify name of graphics keyboard positional keymap file"
 msgstr "Okre¶l nazwê pozycyjnej mapy klawiatury graficznej"
 
-#: src/arch/unix/petkmap.c:151
+#: src/arch/unix/petkmap.c:123
 msgid "Specify name of UK business keyboard symbolic keymap file"
 msgstr ""
 "Okre¶l nazwê klawiatury pozycjonalnej UK pliku symbolicznej mapy klawiatury"
 
-#: src/arch/unix/petkmap.c:154
+#: src/arch/unix/petkmap.c:126
 msgid "Specify name of UK business keyboard positional keymap file"
 msgstr "Okre¶l nazwê UK klawiatury pozycjonalnej pliku mapy klawiatury"
 
-#: src/arch/unix/petkmap.c:157
+#: src/arch/unix/petkmap.c:129
 msgid "Specify name of German business keyboard symbolic keymap file"
 msgstr ""
 "Okre¶l nazwê niemieckiej klawiatury pozycjonalnej pliku symbolicznej mapy "
 "klawiatury"
 
-#: src/arch/unix/petkmap.c:160
+#: src/arch/unix/petkmap.c:132
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr ""
 "Okre¶l nazwê niemieckiej klawiatury pozycjonalnej pliku mapy klawiatury"
@@ -2755,30 +2755,17 @@ msgstr "B³±d prze³±czania do pe³nego ekranu (CreateGC) %ix%i"
 msgid "Couldn't allocate color cache"
 msgstr "Nie mo¿na alokowaæ cache'u koloru"
 
-#: src/arch/unix/x11/kbd.c:118
-#, c-format
-msgid "Cannot load keymap `%s'."
-msgstr "Nie mo¿na za³adowaæ mapy klawiszy `%s'."
-
-#: src/arch/unix/x11/kbd.c:119
-msgid "(null)"
-msgstr "(pusty)"
-
-#: src/arch/unix/x11/kbd.c:140
-msgid "Specify index of keymap file (0=symbol, 1=positional)"
-msgstr "Podaj indeks dla mapy klawiatury (0=symbol, 1=pozycja)"
-
-#: src/arch/unix/x11/kbd.c:365
+#: src/arch/unix/x11/kbd.c:319
 #, c-format
 msgid "Could not find KeySym `%s'!"
 msgstr "Nie mo¿na znale¼æ KeySym `%s'!"
 
-#: src/arch/unix/x11/kbd.c:422
+#: src/arch/unix/x11/kbd.c:376
 #, c-format
 msgid "Bad row/column value (%d/%d) for keysym `%s'."
 msgstr "B³êdna warto¶c rz±d/kolumn dla keysym (%d/%d)`%s'."
 
-#: src/arch/unix/x11/kbd.c:446
+#: src/arch/unix/x11/kbd.c:400
 #, c-format
 msgid "Loading keymap `%s'."
 msgstr "£adujê mapê klawiatury `%s'."
@@ -3012,6 +2999,15 @@ msgstr "Wydajno¶æ bêdzie niska"
 #: src/arch/unix/x11/xaw/x11video.c:202
 msgid "Successfully initialized without shared memory."
 msgstr "Zainicjowano pomy¶lnie, bez pamiêci dzielonej."
+
+#~ msgid "Cannot load keymap `%s'."
+#~ msgstr "Nie mo¿na za³adowaæ mapy klawiszy `%s'."
+
+#~ msgid "(null)"
+#~ msgstr "(pusty)"
+
+#~ msgid "Specify index of keymap file (0=symbol, 1=positional)"
+#~ msgstr "Podaj indeks dla mapy klawiatury (0=symbol, 1=pozycja)"
 
 #~ msgid "*Enable"
 #~ msgstr "*W³±cz"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.10\n"
-"POT-Creation-Date: 2002-05-12 18:40+0200\n"
+"POT-Creation-Date: 2002-05-19 21:01+0200\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -582,11 +582,11 @@ msgstr ""
 msgid "Kernel driver version  : %d.%d.%d"
 msgstr "Version du pilote Kernel : %d.%d.%d"
 
-#: src/arch/unix/kmap.c:116
+#: src/arch/unix/kmap.c:73
 msgid "Specify name of symbolic keymap file"
 msgstr "Spécifier le nom du fichier symbolic keymap"
 
-#: src/arch/unix/kmap.c:118
+#: src/arch/unix/kmap.c:75
 msgid "Specify name of positional keymap file"
 msgstr ""
 
@@ -606,27 +606,27 @@ msgstr ""
 msgid "Disable emulation of the 1351 proportional mouse"
 msgstr ""
 
-#: src/arch/unix/petkmap.c:145
+#: src/arch/unix/petkmap.c:117
 msgid "Specify name of graphics keyboard symbolic keymap file"
 msgstr ""
 
-#: src/arch/unix/petkmap.c:148
+#: src/arch/unix/petkmap.c:120
 msgid "Specify name of graphics keyboard positional keymap file"
 msgstr ""
 
-#: src/arch/unix/petkmap.c:151
+#: src/arch/unix/petkmap.c:123
 msgid "Specify name of UK business keyboard symbolic keymap file"
 msgstr ""
 
-#: src/arch/unix/petkmap.c:154
+#: src/arch/unix/petkmap.c:126
 msgid "Specify name of UK business keyboard positional keymap file"
 msgstr ""
 
-#: src/arch/unix/petkmap.c:157
+#: src/arch/unix/petkmap.c:129
 msgid "Specify name of German business keyboard symbolic keymap file"
 msgstr ""
 
-#: src/arch/unix/petkmap.c:160
+#: src/arch/unix/petkmap.c:132
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr ""
 
@@ -2731,30 +2731,17 @@ msgstr ""
 msgid "Couldn't allocate color cache"
 msgstr "Impossible de créer une image disque"
 
-#: src/arch/unix/x11/kbd.c:118
-#, c-format
-msgid "Cannot load keymap `%s'."
-msgstr ""
-
-#: src/arch/unix/x11/kbd.c:119
-msgid "(null)"
-msgstr ""
-
-#: src/arch/unix/x11/kbd.c:140
-msgid "Specify index of keymap file (0=symbol, 1=positional)"
-msgstr ""
-
-#: src/arch/unix/x11/kbd.c:365
+#: src/arch/unix/x11/kbd.c:319
 #, c-format
 msgid "Could not find KeySym `%s'!"
 msgstr ""
 
-#: src/arch/unix/x11/kbd.c:422
+#: src/arch/unix/x11/kbd.c:376
 #, c-format
 msgid "Bad row/column value (%d/%d) for keysym `%s'."
 msgstr ""
 
-#: src/arch/unix/x11/kbd.c:446
+#: src/arch/unix/x11/kbd.c:400
 #, c-format
 msgid "Loading keymap `%s'."
 msgstr ""

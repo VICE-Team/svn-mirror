@@ -287,8 +287,7 @@ resid.o: resid.cc ../../src/resid/sid.h ../../src/resid/siddefs.h \
 	../../src/vice.h ../../src/config.h ../../src/arch/unix/types.h \
 	resid.h sid.h ../../src/sound.h ../../src/resources.h
 sid-cmdline-options.o: sid-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	sid-cmdline-options.h
+	../../src/config.h ../../src/cmdline.h sid-cmdline-options.h
 sid-resources.o: sid-resources.c ../../src/vice.h ../../src/config.h \
 	../../src/machine.h ../../src/resources.h sid-resources.h \
 	../../src/sound.h ../../src/arch/unix/types.h

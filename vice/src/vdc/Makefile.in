@@ -255,8 +255,8 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 vdc-cmdline-options.o: vdc-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	vdc-cmdline-options.h vdc.h
+	../../src/config.h ../../src/cmdline.h vdc-cmdline-options.h \
+	vdc.h
 vdc-draw.o: vdc-draw.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \

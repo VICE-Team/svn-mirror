@@ -271,8 +271,8 @@ cia1581d.o: cia1581d.c ../../src/vice.h ../../src/config.h \
 	../../src/mos6510.h ../../src/iecdrive.h ../../src/ciacore.c \
 	../../src/clkguard.h ../../src/utils.h
 drive-cmdline-options.o: drive-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	drive.h ../../src/log.h ../../src/arch/unix/types.h
+	../../src/config.h ../../src/cmdline.h drive.h ../../src/log.h \
+	../../src/arch/unix/types.h
 drive-resources.o: drive-resources.c ../../src/vice.h ../../src/config.h \
 	drive-resources.h drive.h ../../src/log.h \
 	../../src/arch/unix/types.h drivecpu.h drivemem.h driverom.h \

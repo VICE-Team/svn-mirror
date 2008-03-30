@@ -265,10 +265,11 @@ c64cart.o: c64cart.c ../../../src/vice.h ../../../src/config.h \
 	actionreplay.h ../../../src/arch/unix/types.h atomicpower.h \
 	../../../src/alarm.h ../../../src/arch/unix/archdep.h \
 	../../../src/archapi.h ../../../src/cartridge.h \
-	../../../src/cmdline.h ../../../src/resources.h crt.h expert.h \
-	generic.h ../../../src/interrupt.h ../../../src/6510core.h \
-	../../../src/maincpu.h ../../../src/mem.h retroreplay.h \
-	supersnapshot.h ../../../src/utils.h
+	../../../src/cmdline.h crt.h expert.h generic.h \
+	../../../src/interrupt.h ../../../src/6510core.h \
+	../../../src/maincpu.h ../../../src/mem.h \
+	../../../src/resources.h retroreplay.h supersnapshot.h \
+	../../../src/utils.h
 c64cartmem.o: c64cartmem.c ../../../src/vice.h ../../../src/config.h \
 	actionreplay.h ../../../src/arch/unix/types.h atomicpower.h \
 	../../../src/c64/c64cart.h ../../../src/c64/c64mem.h \

@@ -256,12 +256,12 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 c128-cmdline-options.o: c128-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
-	../../src/machine.h
+	../../src/config.h ../../src/cmdline.h ../../src/machine.h
 c128-resources.o: c128-resources.c ../../src/vice.h ../../src/config.h \
 	c128mem.h ../../src/arch/unix/types.h ../../src/drive/drive.h \
-	../../src/log.h ../../src/machine.h ../../src/resources.h \
-	../../src/c64/reu.h ../../src/utils.h
+	../../src/log.h ../../src/keyboard.h ../../src/machine.h \
+	../../src/resources.h ../../src/c64/reu.h \
+	../../src/sid/sid-resources.h ../../src/utils.h
 c128-snapshot.o: c128-snapshot.c ../../src/vice.h ../../src/config.h \
 	c128-resources.h c128mem.h ../../src/arch/unix/types.h \
 	c128mmu.h ../../src/c64/c64tpi.h ../../src/log.h \
@@ -325,11 +325,11 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	c128-resources.h c128io.h ../../src/arch/unix/types.h c128mem.h \
 	c128memlimit.h c128mmu.h ../../src/c64/c64cart.h \
 	../../src/c64/c64cia.h ../../src/c64/c64pla.h \
-	../../src/c64/c64tpi.h ../../src/cmdline.h \
-	../../src/resources.h functionrom.h ../../src/keyboard.h \
-	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/6510core.h ../../src/monitor/mon.h \
-	../../src/parallel.h ../../src/c64/reu.h ../../src/rs232.h \
+	../../src/c64/c64tpi.h ../../src/cmdline.h functionrom.h \
+	../../src/keyboard.h ../../src/log.h ../../src/machine.h \
+	../../src/maincpu.h ../../src/6510core.h \
+	../../src/monitor/mon.h ../../src/parallel.h \
+	../../src/resources.h ../../src/c64/reu.h ../../src/rs232.h \
 	../../src/sid/sid.h ../../src/sound.h \
 	../../src/sid/sid-resources.h ../../src/snapshot.h \
 	../../src/sysfile.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
@@ -341,9 +341,9 @@ c128memlimit.o: c128memlimit.c ../../src/vice.h ../../src/config.h \
 	../../src/mem.h ../../src/arch/unix/types.h
 c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cart.h \
-	../../src/cmdline.h ../../src/resources.h functionrom.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/keyboard.h \
-	../../src/log.h ../../src/maincpu.h ../../src/mem.h \
+	../../src/cmdline.h functionrom.h ../../src/interrupt.h \
+	../../src/6510core.h ../../src/keyboard.h ../../src/log.h \
+	../../src/maincpu.h ../../src/mem.h ../../src/resources.h \
 	../../src/c64/reu.h ../../src/vdc/vdc.h ../../src/vicii/vicii.h \
 	z80.h z80mem.h
 daa.o: daa.c ../../src/arch/unix/types.h ../../src/vice.h \
@@ -359,10 +359,10 @@ z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/z80regs.h
 z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128io.h \
 	../../src/arch/unix/types.h c128mem.h c128mmu.h \
-	../../src/c64/c64cia.h ../../src/cmdline.h \
-	../../src/resources.h ../../src/log.h ../../src/mem.h \
-	../../src/sid/sid.h ../../src/sound.h ../../src/sysfile.h \
-	../../src/utils.h ../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
+	../../src/c64/c64cia.h ../../src/cmdline.h ../../src/log.h \
+	../../src/mem.h ../../src/resources.h ../../src/sid/sid.h \
+	../../src/sound.h ../../src/sysfile.h ../../src/utils.h \
+	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h z80mem.h
 
 info-am:
