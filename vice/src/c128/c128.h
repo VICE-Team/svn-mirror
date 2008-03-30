@@ -28,6 +28,8 @@
 #ifndef _C128_H
 #define _C128_H
 
+#include "cia.h"
+
 #define C128_PAL_CYCLES_PER_SEC  985248
 #define C128_PAL_CYCLES_PER_LINE 63
 #define C128_PAL_SCREEN_LINES    312
@@ -51,6 +53,13 @@
 #define C128_MACHINE_ITALIAN   4
 #define C128_MACHINE_NORWEGIAN 5
 #define C128_MACHINE_SWEDISH   6
+
+typedef struct machine_context_s {
+    cia_context_t cia1;
+    cia_context_t cia2;
+} machine_context_t;
+
+extern machine_context_t machine_context;
 
 #endif
 
