@@ -298,8 +298,9 @@ inline static void store_prb(drive_context_t *ctxptr, BYTE byte, BYTE p_oldpb,
 
 static void undump_pcr(drive_context_t *ctxptr, BYTE byte)
 {
+    /* FIXME: Is this correct? */
     if (ctxptr->mynumber != 0)
-        drive_update_viad2_pcr(byte, &drive[0]);
+        viad2_update_pcr(byte, &drive[0]);
 }
 
 inline static BYTE store_pcr(drive_context_t *ctxptr, BYTE byte, WORD addr)
