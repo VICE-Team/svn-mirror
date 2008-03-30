@@ -67,33 +67,7 @@ static int text_lines = 23;
 
 #define VIC_WINDOW_TITLE	 "VICE: VIC20 emulator"
 
-/* Color definitions. */
-
 #define VIC_NUM_COLORS 16
-
-/* FIXME: these could be improved. */
-#if defined (_VIC_C)
-static color_def_t color_defs[VIC_NUM_COLORS] =
-{
-    { 0x0000, 0x0000, 0x0000,  0 },	/* Black */
-    { 0xff00, 0xff00, 0xff00, 16 },	/* White */
-    { 0xf000, 0x0000, 0x0000,  4 },	/* Red */
-    { 0x0000, 0xf000, 0xf000, 10 },	/* Cyan */
-    { 0x6000, 0x0000, 0x6000,  4 },	/* Purple */
-    { 0x0000, 0xa000, 0x0000,  4 },	/* Green */
-    { 0x0000, 0x0000, 0xf000,  6 },	/* Blue */
-    { 0xd000, 0xd000, 0x0000, 10 },	/* Yellow */
-    { 0xc000, 0xa000, 0x0000,  8 },	/* Orange */
-    { 0xff00, 0xa000, 0x0000, 10 },	/* Light Orange */
-    { 0xf000, 0x8000, 0x8000, 12 },	/* Pink */
-    { 0x0000, 0xff00, 0xff00, 12 },	/* Light Cyan */
-    { 0xff00, 0x0000, 0xff00, 12 },	/* Light Purple */
-    { 0x0000, 0xff00, 0x0000,  6 },	/* Light Green */
-    { 0x0000, 0xa000, 0xff00, 10 },	/* Light Blue */
-    { 0xff00, 0xff00, 0x0000, 12 }	/* Light Yellow */
-};
-#endif				/* defined (_VIC_C) */
-
 
 /* Video mode definitions. */
 

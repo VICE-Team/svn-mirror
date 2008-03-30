@@ -58,6 +58,7 @@
 #include "mem.h"
 #include "resources.h"
 #include "cmdline.h"
+#include "utils.h"
 
 /* #define VIC_REGISTERS_DEBUG */
 
@@ -74,9 +75,21 @@ static int video_cache_enabled;
 /* Flag: Do we copy lines in double size mode?  */
 static int double_scan_enabled;
 
+/* Name of palette file.  */
+static char *palette_file;
+
 static int set_video_cache_enabled(resource_value_t v)
 {
     video_cache_enabled = (int) v;
+    return 0;
+}
+
+static int set_palette_file(resource_value_t v)
+{
+    if (palette_file != NULL)
+        free(palette_file);
+
+    palette_file = stralloc((char *)v);
     return 0;
 }
 
@@ -101,6 +114,8 @@ static resource_t resources[] = {
       (resource_value_t *) &double_size_enabled, set_double_size_enabled },
     { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_scan_enabled, set_double_scan_enabled },
+    { "PaletteFile", RES_STRING, (resource_value_t) "default",
+      (resource_value_t *) &palette_file, set_palette_file },
     { NULL }
 };
 
@@ -120,6 +135,9 @@ static cmdline_option_t cmdline_options[] = {
     { "+vcache", SET_RESOURCE, 0, NULL, NULL,
       "VideoCache", (resource_value_t) 0,
       NULL, "Disable the video cache" },
+    { "-palette", SET_RESOURCE, 1, NULL, NULL,
+      "PaletteFile", NULL,
+      "<name>", "Specify palette file name" },
 #ifdef NEED_2x
     { "-dsize", SET_RESOURCE, 0, NULL, NULL,
       "DoubleSize", (resource_value_t) 1,
@@ -160,6 +178,7 @@ static void draw_reverse_line_cached_2x(struct line_cache *l, int xs, int xe);
 #define RASTER_Y    	((int)(clk / CYCLES_PER_LINE) % SCREEN_HEIGHT)
 #define RASTER_CYCLE	((int)(clk % CYCLES_PER_LINE))
 
+static palette_t *palette;
 static BYTE vic[64];
 static BYTE auxiliary_color;
 static BYTE *colormem;
@@ -193,6 +212,11 @@ typedef PIXEL2 VIC_PIXEL2;
 /* Initialization. */
 canvas_t vic_init(void)
 {
+    static const char *color_names[] = {
+        "Black", "White", "Red", "Cyan", "Purple", "Green", "Blue",
+        "Yellow", "Orange", "Light Orange", "Pink", "Light Cyan",
+        "Light Purple", "Light Green", "Light Blue", "Light Yellow"
+    };
     int width, height;
 
     /* FIXME: the maximum pixel width should be 4 instead of 6, but we need
@@ -206,8 +230,17 @@ canvas_t vic_init(void)
 
     video_resize();
 
+    palette = palette_create(VIC_NUM_COLORS, color_names);
+    if (palette == NULL)
+        return NULL;
+
+    if (palette_load(palette_file, palette) < 0) {
+        printf("Cannot load default palette.\n");
+        return NULL;
+    }
+
     if (open_output_window(VIC_WINDOW_TITLE,
-			   width, height, color_defs,
+			   width, height, palette,
 			   (canvas_redraw_t)vic_exposure_handler)) {
 	fprintf(stderr,
 		"fatal error: cannot open window for the VIC emulation.\n");

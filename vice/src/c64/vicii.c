@@ -71,6 +71,7 @@
 #include "mem.h"
 #include "resources.h"
 #include "cmdline.h"
+#include "utils.h"
 
 /* FIXME: ugliest thing ever. */
 static void draw_sprites(void);
@@ -93,6 +94,9 @@ static int sprite_sprite_collisions_enabled;
 
 /* Flag: Do we emulate the sprite-background collision register and IRQ?  */
 static int sprite_background_collisions_enabled;
+
+/* Name of palette file.  */
+static char *palette_file;
 
 /* Flag: Do we use double size?  */
 static int double_size_enabled;
@@ -121,6 +125,15 @@ static int set_video_cache_enabled(resource_value_t v)
     return 0;
 }
 
+static int set_palette_file(resource_value_t v)
+{
+    if (palette_file != NULL)
+        free(palette_file);
+
+    palette_file = stralloc((char *)v);
+    return 0;
+}
+
 static int set_double_size_enabled(resource_value_t v)
 {
     double_size_enabled = (int) v;
@@ -142,6 +155,8 @@ static resource_t resources[] = {
       (resource_value_t *) &sprite_background_collisions_enabled, set_sprite_background_collisions_enabled },
     { "VideoCache", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
+    { "PaletteFile", RES_STRING, (resource_value_t) "default",
+      (resource_value_t *) &palette_file, set_palette_file },
 #ifdef NEED_2x
     { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_size_enabled, set_double_size_enabled },
@@ -179,6 +194,9 @@ static cmdline_option_t cmdline_options[] = {
     { "+checkss", SET_RESOURCE, 0, NULL, NULL,
       "CheckSsColl", (resource_value_t) 0,
       NULL, "Disable sprite-sprite collision registers" },
+    { "-palette", SET_RESOURCE, 1, NULL, NULL,
+      "PaletteFile", NULL,
+      "<name>", "Specify palette file name" },
 #ifdef NEED_2x
     { "-dsize", SET_RESOURCE, 0, NULL, NULL,
       "DoubleSize", (resource_value_t) 1,
@@ -280,6 +298,9 @@ int vic_ii_init_cmdline_options(void)
 #define LAST_DMA_LINE   0xf7
 
 /* ------------------------------------------------------------------------- */
+
+/* VIC-II palette.  */
+static palette_t *palette;
 
 /* VIC-II registers.  */
 static int vic[64];
@@ -580,17 +601,34 @@ inline static void update_int_raster(void)
 /* Initialize the VIC-II emulation. */
 canvas_t vic_ii_init(void)
 {
+    static const char *color_names[VIC_II_NUM_COLORS] = {
+        "Black", "White", "Red", "Cyan", "Purple", "Green", "Blue",
+        "Yellow", "Orange", "Brown", "Light Red", "Dark Gray", "Medium Gray",
+        "Light Green", "Light Blue", "Light Gray"
+    };
+
 #ifdef NEED_2x
     init_raster(1, 2, 2);
 #else
     init_raster(1, 1, 1);
 #endif
+
     video_resize();
+
+    palette = palette_create(VIC_II_NUM_COLORS, color_names);
+    if (palette == NULL)
+        return NULL;
+
+    if (palette_load(palette_file, palette) < 0) {
+        printf("Cannot load default palette.\n");
+        return NULL;
+    }
+
     if (open_output_window(VIC_II_WINDOW_TITLE,
 			   SCREEN_XPIX + SCREEN_BORDERWIDTH * 2,
 			   (VIC_II_LAST_DISPLAYED_LINE
 			    - VIC_II_FIRST_DISPLAYED_LINE),
-			   color_defs,
+			   palette,
 			   ((canvas_redraw_t)vic_ii_exposure_handler))) {
 	fprintf(stderr,
 		"fatal error: can't open window for the VIC-II emulation.\n");
@@ -3207,7 +3245,7 @@ static void draw_ext_text_2x(void)
 
 #endif /* NEED_2x */
 
-/* FIXME: This is *slow* and might not 100% correct.  */
+/* FIXME: This is *slow* and might not be 100% correct.  */
 static void draw_ext_text_foreground(int start_char, int end_char)
 {
     int i;

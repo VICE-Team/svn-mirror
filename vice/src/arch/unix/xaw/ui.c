@@ -252,8 +252,7 @@ static int resources_have_changed = 0;
 /* ------------------------------------------------------------------------- */
 
 static int UiAllocColormap(void);
-static int UiAllocColors(int num_colors, const UiColorDef colors[],
-			 PIXEL pixel_return[]);
+static int UiAllocColors(const palette_t *palette, PIXEL pixel_return[]);
 static void UiPopup(Widget w, const char *title, Boolean wait_popdown);
 static void UiPopdown(Widget w);
 static Widget UiBuildFileSelector(Widget parent, UiButton *button_return);
@@ -647,8 +646,7 @@ int UiInitFinish(void)
 /* Create a shell with a canvas widget in it. */
 UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
 			    int no_autorepeat, UiExposureHandler exposure_proc,
-			    int num_colors, const UiColorDef colors[],
-			    PIXEL pixel_return[])
+			    const palette_t *palette, PIXEL pixel_return[])
 {
     /* Note: this is correct because we never destroy CanvasWindows. */
     static int menus_created = 0;
@@ -657,7 +655,7 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
     Widget drive_track_label, drive_led;
     XSetWindowAttributes attr;
 
-    if (UiAllocColors(num_colors, colors, pixel_return) == -1)
+    if (UiAllocColors(palette, pixel_return) == -1)
 	return NULL;
 
     /* colormap might have changed after UiAllocColors, so we set it again */
@@ -826,15 +824,16 @@ static int UiAllocColormap(void)
 }
 
 /* Allocate colors in the colormap. */
-static int UiDoAllocColors(int num_colors, const UiColorDef color_defs[],
-			 PIXEL pixel_return[], int releasefl)
+static int UiDoAllocColors(const palette_t *palette, PIXEL pixel_return[],
+                           int releasefl)
 {
     static int allocated_colors;
     int i, failed;
     XColor color;
     XImage *im;
     PIXEL *data = (PIXEL *)xmalloc(4);
-    unsigned long *xpixels = xmalloc(sizeof(unsigned long)*num_colors);
+    unsigned long *xpixels = xmalloc(sizeof(unsigned long)
+                                     *palette->num_entries);
 
     /* This is a kludge to map pixels to zimage values. Is there a better
        way to do this? //tvr */
@@ -844,10 +843,12 @@ static int UiDoAllocColors(int num_colors, const UiColorDef color_defs[],
 	return -1;
 
     color.flags = DoRed | DoGreen | DoBlue;
-    for (i = 0, failed = 0; i < num_colors; allocated_colors++, i++) {
-	color.red = color_defs[i].red;
-	color.green = color_defs[i].green;
-	color.blue = color_defs[i].blue;
+    for (i = 0, failed = 0; i < palette->num_entries; allocated_colors++, i++)
+    {
+        printf("Allocating color `%s'...\n", palette->entries[i].name);
+	color.red = palette->entries[i].red << 8;
+	color.green = palette->entries[i].green << 8;
+	color.blue = palette->entries[i].blue << 8;
 	if (!XAllocColor(display, colormap, &color)) {
 	    failed = 1;
 	    fprintf(stderr,
@@ -876,7 +877,7 @@ static int UiDoAllocColors(int num_colors, const UiColorDef color_defs[],
 	    else
 		real_pixel[i] = color.pixel;
 	    if (im->bits_per_pixel == 1)
-		shade_table[i] = color_defs[i].dither;
+		shade_table[i] = palette->entries[i].dither;
 	}
 #else
 	pixel_return[i] = *data;
@@ -924,12 +925,11 @@ static int UiDoAllocColors(int num_colors, const UiColorDef color_defs[],
  *
  * 20jan1998 A.Fachat
  */
-static int UiAllocColors(int num_colors, const UiColorDef color_defs[],
-			 PIXEL pixel_return[])
+static int UiAllocColors(const palette_t *palette, PIXEL pixel_return[])
 {
     int failed;
 
-    failed = UiDoAllocColors(num_colors, color_defs, pixel_return, 1);
+    failed = UiDoAllocColors(palette, pixel_return, 1);
     if (failed) {
 	/* printf("\nHint: use the `-install' option to install a private colormap.\n"); */
 	/* also check if we are allowed to automagically alloc? */
@@ -939,7 +939,7 @@ static int UiAllocColors(int num_colors, const UiColorDef color_defs[],
 	    colormap = XCreateColormap(display, RootWindow(display, screen),
 				       visual, AllocNone);
 	    XtVaSetValues(TopLevel, XtNcolormap, colormap, NULL);
-	    failed = UiDoAllocColors(num_colors, color_defs, pixel_return, 0);
+	    failed = UiDoAllocColors(palette, pixel_return, 0);
 	}
     }
     return failed ? -1 : 0;
