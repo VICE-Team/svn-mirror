@@ -706,11 +706,6 @@ int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
     return 0;
 }
 
-void machine_video_refresh(void)
-{
-    vic_ii_video_refresh();
-}
-
 void machine_update_memory_ptrs(void)
 {
     vic_ii_update_memory_ptrs_external();

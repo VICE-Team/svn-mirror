@@ -25,8 +25,6 @@
  *
  */
 
-#define FS_VIDMODE_DEBUG
-
 #include "vice.h"
 
 #include <stdio.h>
@@ -106,11 +104,6 @@ int vidmode_init(void)
 
 unsigned int vidmode_available_modes(void)
 {
-#ifdef FS_VIDMODE_DEBUG
-    unsigned int i;
-    for (i = 0; i < vm_index; i++)
-        log_message(vidmode_log, "found mode: %s", vm_bestmodes[i].name);
-#endif
     return vm_index;
 }
 
@@ -142,6 +135,11 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
 
         canvas->draw_buffer->canvas_width = vm->hdisplay + 10;
         canvas->draw_buffer->canvas_height = vm->vdisplay - status_h + 10;
+
+        if (canvas->videoconfig->doublesizex)
+            canvas->draw_buffer->canvas_width /= 2;
+        if (canvas->videoconfig->doublesizey)
+            canvas->draw_buffer->canvas_height /= 2;
 
         video_viewport_resize(canvas);
 

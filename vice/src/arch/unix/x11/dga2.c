@@ -52,7 +52,6 @@ void dump_fb(char *wo);
 #define DGA_MINMINOR 0
 
 #include "kbd.h"
-#include "machine.h"
 #include "mouse.h"
 #include "resources.h"
 #include "raster/raster.h"

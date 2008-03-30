@@ -622,15 +622,6 @@ static int c500_snapshot_read_module(snapshot_t *p)
     return 0;
 }
 
-void machine_video_refresh(void)
-{
-    if (cbm2_isC500) {
-        vic_ii_video_refresh();
-    } else {
-        crtc_video_refresh();
-    }
-}
-
 int machine_sid2_check_range(unsigned int sid2_adr)
 {
     if (sid2_adr >= 0xda20 && sid2_adr <= 0xdae0)

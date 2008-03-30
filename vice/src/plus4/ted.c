@@ -787,13 +787,3 @@ void ted_async_refresh(struct canvas_refresh_s *refresh)
     raster_async_refresh(&ted.raster, refresh);
 }
 
-void ted_video_refresh(void)
-{
-#ifdef USE_XF86_EXTENSIONS
-
-  /* Does not exist anymore
-  ted_resize(); */
-  raster_force_repaint(&ted.raster);
-#endif
-}
-

@@ -1120,12 +1120,3 @@ void vic_ii_async_refresh(struct canvas_refresh_s *refresh)
     raster_async_refresh(&vic_ii.raster, refresh);
 }
 
-void vic_ii_video_refresh(void)
-{
-#ifdef USE_XF86_EXTENSIONS
-    /* Does not exist anymore
-    vic_ii_resize(); */
-    raster_force_repaint(&vic_ii.raster);
-#endif
-}
-

@@ -120,8 +120,6 @@ extern int machine_canvas_async_refresh(struct canvas_refresh_s *ref,
 #define JAM_MONITOR    3
 unsigned int machine_jam(const char *format, ...);
 
-extern void machine_video_refresh(void);
-
 /* Update memory pointers if memory mapping has changed. */
 extern void machine_update_memory_ptrs(void);
 
@@ -130,5 +128,5 @@ extern const char *machine_keymap_res_name_list[];
 extern char *machine_keymap_file_list[];
 extern unsigned int machine_num_keyboard_mappings(void);
 
-#endif /* _MACHINE_H */
+#endif
 

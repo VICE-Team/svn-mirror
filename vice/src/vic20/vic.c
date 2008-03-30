@@ -442,15 +442,6 @@ void vic_async_refresh(struct canvas_refresh_s *refresh)
     raster_async_refresh(&vic.raster, refresh);
 }
 
-void vic_video_refresh(void)
-{
-#ifdef USE_XF86_EXTENSIONS
-    /* Does not exist anymore
-    vic_resize(); */
-    raster_force_repaint(&vic.raster);
-#endif
-}
-
 /* Trigger the light pen.  */
 void vic_trigger_light_pen(CLOCK mclk)
 {

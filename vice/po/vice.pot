@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-07-06 20:09+0200\n"
+"POT-Creation-Date: 2002-07-06 23:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1006,7 +1006,7 @@ msgstr ""
 
 #: src/arch/unix/uicommands.c:715 src/arch/unix/uicommands.c:730
 #: src/arch/unix/x11/gnome/x11ui.c:765 src/arch/unix/x11/gnome/x11ui.c:775
-#: src/arch/unix/x11/gnome/x11ui.c:1430
+#: src/arch/unix/x11/gnome/x11ui.c:1422
 msgid "<empty>"
 msgstr ""
 
@@ -1159,7 +1159,7 @@ msgid "About VICE..."
 msgstr ""
 
 #: src/arch/unix/uicommands.c:1004 src/arch/unix/uidatasette.c:101
-#: src/arch/unix/x11/gnome/x11ui.c:1815
+#: src/arch/unix/x11/gnome/x11ui.c:1800
 msgid "Reset"
 msgstr ""
 
@@ -1692,8 +1692,8 @@ msgstr ""
 msgid "Invalid speed value"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1223
-#: src/arch/unix/x11/xaw/x11ui.c:1005
+#: src/arch/unix/uisettings.c:220 src/arch/unix/x11/gnome/x11ui.c:1226
+#: src/arch/unix/x11/xaw/x11ui.c:1002
 msgid "Cannot save settings."
 msgstr ""
 
@@ -2407,157 +2407,157 @@ msgstr ""
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1212 src/arch/unix/x11/xaw/x11ui.c:995
+#: src/arch/unix/x11/gnome/x11ui.c:1215 src/arch/unix/x11/xaw/x11ui.c:992
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1220 src/arch/unix/x11/xaw/x11ui.c:1002
+#: src/arch/unix/x11/gnome/x11ui.c:1223 src/arch/unix/x11/xaw/x11ui.c:999
 msgid "Save the current settings?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1268 src/arch/unix/x11/xaw/x11ui.c:1043
+#: src/arch/unix/x11/gnome/x11ui.c:1268 src/arch/unix/x11/xaw/x11ui.c:1040
 msgid "Using private colormap."
 msgstr ""
 
 #: src/arch/unix/x11/gnome/x11ui.c:1288 src/arch/unix/x11/gnome/x11ui.c:1291
-#: src/arch/unix/x11/xaw/x11ui.c:1064 src/arch/unix/x11/xaw/x11ui.c:1070
+#: src/arch/unix/x11/xaw/x11ui.c:1061 src/arch/unix/x11/xaw/x11ui.c:1067
 msgid "(warp)"
 msgstr ""
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1582
+#: src/arch/unix/x11/gnome/x11ui.c:1574
 #, c-format
 msgid "Tape %03d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1619 src/arch/unix/x11/xaw/x11ui.c:1280
+#: src/arch/unix/x11/gnome/x11ui.c:1611 src/arch/unix/x11/xaw/x11ui.c:1277
 #, c-format
 msgid "%s (paused)"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1774
+#: src/arch/unix/x11/gnome/x11ui.c:1763
 msgid "VICE Message"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1789
+#: src/arch/unix/x11/gnome/x11ui.c:1774
 msgid "VICE Error"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1815
+#: src/arch/unix/x11/gnome/x11ui.c:1800
 msgid "Hard Reset"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1815
+#: src/arch/unix/x11/gnome/x11ui.c:1801
 msgid "Monitor"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1859 src/arch/unix/x11/xaw/x11ui.c:1555
+#: src/arch/unix/x11/gnome/x11ui.c:1845 src/arch/unix/x11/xaw/x11ui.c:1552
 msgid "Extend disk image"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1860
+#: src/arch/unix/x11/gnome/x11ui.c:1846
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1873
+#: src/arch/unix/x11/gnome/x11ui.c:1859
 msgid "Autostart not possible for unit 9"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1881 src/arch/unix/x11/gnome/x11ui.c:1890
+#: src/arch/unix/x11/gnome/x11ui.c:1867 src/arch/unix/x11/gnome/x11ui.c:1876
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2018 src/arch/unix/x11/gnome/x11ui.c:2023
+#: src/arch/unix/x11/gnome/x11ui.c:2004 src/arch/unix/x11/gnome/x11ui.c:2009
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2481
+#: src/arch/unix/x11/gnome/x11ui.c:2471
 msgid "Contents"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2528
+#: src/arch/unix/x11/gnome/x11ui.c:2518
 msgid "Attach write protected"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2554
+#: src/arch/unix/x11/gnome/x11ui.c:2544
 msgid "Autostart"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:155
+#: src/arch/unix/x11/dga2.c:154
 #, c-format
 msgid "Attach debugger to pid %d..."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:190
+#: src/arch/unix/x11/dga2.c:189
 msgid "refresh, not ready, skipping frame"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:253
+#: src/arch/unix/x11/dga2.c:252
 msgid "Successfully forked DGA"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:258
+#: src/arch/unix/x11/dga2.c:257
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:263
+#: src/arch/unix/x11/dga2.c:262
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:272
+#: src/arch/unix/x11/dga2.c:271
 #, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:275
+#: src/arch/unix/x11/dga2.c:274
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:305
+#: src/arch/unix/x11/dga2.c:304
 msgid "Found suitable mode for fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:389
+#: src/arch/unix/x11/dga2.c:388
 msgid "Couldn't allocate pixel value cache."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:453
+#: src/arch/unix/x11/dga2.c:452
 #, c-format
 msgid "Switch to fullscreen %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:460
+#: src/arch/unix/x11/dga2.c:459
 msgid "Need root privileges for DGA2 fullscreen"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:470
+#: src/arch/unix/x11/dga2.c:469
 #, c-format
 msgid "Error switching to fullscreen (SetMode) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:480
+#: src/arch/unix/x11/dga2.c:479
 #, c-format
 msgid "Error switching to fullscreen (pixmap) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:514
+#: src/arch/unix/x11/dga2.c:513
 #, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:526
+#: src/arch/unix/x11/dga2.c:525
 #, c-format
 msgid "Error switching to fullscreen (CreateGC) %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:570
+#: src/arch/unix/x11/dga2.c:569
 msgid "Couldn't allocate color cache"
 msgstr ""
 
-#: src/arch/unix/x11/dga2.c:636
+#: src/arch/unix/x11/dga2.c:635
 msgid "Switch to windowmode"
 msgstr ""
 
@@ -2730,16 +2730,16 @@ msgstr ""
 msgid "Save snapshot"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1153
+#: src/arch/unix/x11/xaw/x11ui.c:1150
 #, c-format
 msgid "%d: Track %.1f"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1443
+#: src/arch/unix/x11/xaw/x11ui.c:1437
 msgid "VICE Error!"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1623
+#: src/arch/unix/x11/xaw/x11ui.c:1620
 msgid "Unknown image type."
 msgstr ""
 

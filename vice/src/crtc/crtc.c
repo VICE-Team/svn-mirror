@@ -767,12 +767,3 @@ void crtc_async_refresh(struct canvas_refresh_s *refresh)
     raster_async_refresh(&crtc.raster, refresh);
 }
 
-void crtc_video_refresh(void)
-{
-#ifdef USE_XF86_EXTENSIONS
-    /* Does not exist anymore
-    crtc_resize(); */
-    raster_force_repaint(&crtc.raster);
-#endif
-}
-
