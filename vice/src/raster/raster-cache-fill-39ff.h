@@ -34,8 +34,8 @@
 inline static int raster_cache_data_fill_39ff(BYTE *dest,
                                               const BYTE *src_base,
                                               int src_cnt,
-                                              unsigned int length,
-                                              int src_step,
+                                              const unsigned int length,
+                                              const int src_step,
                                               unsigned int *xs,
                                               unsigned int *xe,
                                               int no_check)

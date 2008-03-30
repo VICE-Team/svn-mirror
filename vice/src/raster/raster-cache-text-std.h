@@ -33,9 +33,9 @@
 inline static int raster_cache_data_fill_text(BYTE *dest,
                                               const BYTE *src,
                                               BYTE *char_mem,
-                                              int bytes_per_char,
-                                              unsigned int length,
-                                              int l,
+                                              const int bytes_per_char,
+                                              const unsigned int length,
+                                              const int l,
                                               unsigned int *xs,
                                               unsigned int *xe,
                                               int no_check)

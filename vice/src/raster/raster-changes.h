@@ -93,7 +93,7 @@ extern raster_changes_t *raster_changes_new(void);
 
 /* Apply change number `idx' in `changes'.  */
 inline static void raster_changes_apply(raster_changes_t *changes,
-                                        unsigned int idx)
+                                        const unsigned int idx)
 {
     raster_changes_action_t *action;
 
@@ -129,9 +129,9 @@ inline static void raster_changes_apply_all(raster_changes_t *changes)
 
 /* Add an int change.  */
 inline static void raster_changes_add_int(raster_changes_t *changes,
-                                          int where,
+                                          const int where,
                                           int *ptr,
-                                          int new_value)
+                                          const int new_value)
 {
     raster_changes_action_t *action;
 
@@ -145,7 +145,7 @@ inline static void raster_changes_add_int(raster_changes_t *changes,
 
 /* Add a pointer (`void *') change.  */
 inline static void raster_changes_add_ptr(raster_changes_t *changes,
-                                          int where,
+                                          const int where,
                                           void **ptr,
                                           void *new_value)
 {

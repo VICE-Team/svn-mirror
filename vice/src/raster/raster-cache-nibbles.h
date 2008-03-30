@@ -35,8 +35,8 @@
 inline static int raster_cache_data_fill_nibbles(BYTE *dest_hi,
                                                  BYTE *dest_lo,
                                                  const BYTE *src,
-                                                 unsigned int length,
-                                                 int src_step,
+                                                 const unsigned int length,
+                                                 const int src_step,
                                                  unsigned int *xs,
                                                  unsigned int *xe,
                                                  int no_check)
