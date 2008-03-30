@@ -505,7 +505,7 @@ uivicii.o: uivicii.c ../../../src/vice.h ../../../src/config.h c64ui.h \
 	../../../src/drive/drive.h ../../../src/log.h types.h \
 	../../../src/resources.h uipalette.h ui.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h uimenu.h x11/xaw/uimenu.h uihotkey.h \
-	x11/xaw/../x11menu.h uivicii.h
+	x11/xaw/../x11menu.h uivicii.h ../../../src/utils.h
 vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cartridge.h types.h ../../../src/drive/drive.h \
 	../../../src/log.h icon.h joystick.h ../../../src/resources.h \

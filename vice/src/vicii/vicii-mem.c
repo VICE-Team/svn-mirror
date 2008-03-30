@@ -1328,7 +1328,7 @@ BYTE REGPARM1 vic_read(ADDRESS addr)
             vic_ii.irq_status &= ~0x82;
             vic_ii_set_irq(I_RASTER, 0);
         } else {
-          vic_ii.irq_status &= ~0x2;
+            vic_ii.irq_status &= ~0x2;
         }
         if (vic_ii_resources.sprite_background_collisions_enabled) {
             vic_ii.regs[addr] = vic_ii.sprite_background_collisions;
