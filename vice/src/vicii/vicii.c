@@ -59,6 +59,7 @@
 
 #include "alarm.h"
 #include "c64.h"
+#include "cartridge.h"
 #include "c64cart.h"
 #include "c64mem.h"
 #include "clkguard.h"
@@ -887,6 +888,7 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
                                tmp & 0x800 ? "Lower Case" : "Upper Case"));
     }
 
+    if (mem_cartridge_type!=CARTRIDGE_IDE64) /* IDE64 Hack */
     if (ultimax != 0)
         char_base = ((tmp & 0x3fff) >= 0x3000
                     ? romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000
@@ -1396,7 +1398,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
         my_memptr = sprite_status->sprites[i].memptr;
         dest = (BYTE *)(sprite_status->new_sprite_data + i);
 
-        if (ultimax) {
+        if (ultimax && mem_cartridge_type!=CARTRIDGE_IDE64) { /* IDE64 Hack */
             if (*spr_base >= 0xc0)
                 src = (romh_banks + 0x1000 + (romh_bank << 13)
                       + ((*spr_base - 0xc0) << 6));

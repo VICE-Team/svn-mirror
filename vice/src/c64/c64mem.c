@@ -58,6 +58,7 @@
 #include "utils.h"
 #include "vicii-mem.h"
 #include "vicii.h"
+#include "cart/c64cartmem.h"
 
 
 /* ------------------------------------------------------------------------- */
@@ -507,6 +508,11 @@ void mem_initialize_memory(void)
         }
     }
     for (j = 16; j < 24; j++) {
+        for (i = 0x10; i <= 0x7f; i++) {
+            mem_read_tab[j][i] = ultimax_1000_7fff_read;
+            set_write_hook(j, i, ultimax_1000_7fff_store);
+            mem_read_base_tab[j][i] = NULL;
+        }
         for (i = 0x80; i <= 0x9f; i++)
             set_write_hook(j, i, roml_store);
         for (i = 0xa0; i <= 0xbf; i++) {
@@ -615,6 +621,7 @@ void mem_powerup(void)
         memset(ram + i, 0, 0x40);
         memset(ram + i + 0x40, 0xff, 0x40);
     }
+    memset(export_ram0,0xff,C64CART_RAM_LIMIT); /* Clean cartridge ram too */
 }
 
 int c64mem_get_kernal_checksum(void)

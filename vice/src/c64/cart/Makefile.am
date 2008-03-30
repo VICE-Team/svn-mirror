@@ -28,6 +28,8 @@ libc64cart_a_SOURCES = \
 	kcs.h \
 	retroreplay.c \
 	retroreplay.h \
+       ide64.c \
+       ide64.h \
 	supergames.c \
 	supergames.h \
 	supersnapshot.c \

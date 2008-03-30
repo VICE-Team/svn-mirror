@@ -93,7 +93,6 @@ struct fs_buffer_info {
     int buflen;
     BYTE *bufp;
     int eof;
-    int dirmpos;
     int reclen;
     int type;
 } fs_info[16];
@@ -617,7 +616,8 @@ static int read_fs(vdrive_t *vdrive, BYTE * data, unsigned int secondary)
 
                     /* Line link, Length and spaces */
 
-                    p += 2;   /* skip link addr, fill in later */
+                    *p++ = 1;
+                    *p++ = 1;
 #ifdef __riscos
                     if ((objType = ReadCatalogueInfo(buf, catInfo)) != 0)
                         blocks = (unsigned short) ((catInfo[2] + 253) / 254);
@@ -706,18 +706,24 @@ static int read_fs(vdrive_t *vdrive, BYTE * data, unsigned int secondary)
 
                     *p++ = '\0';
 
-                    info->dirmpos += p - info->name;
-                    *info->name = info->dirmpos & 0xff;
-                    *(info->name + 1) = (info->dirmpos >> 8) & 0xff;
-
                     info->buflen = (int) (p - info->name);
 
                 } else {
+                    BYTE *p = info->name;
 
                     /* EOF => End file */
 
-                    memset(info->name, 0, 2);
-                    info->buflen = 2;
+                    *p++ = 1;
+                    *p++ = 1;
+                    *p++ = 0;
+                    *p++ = 0;
+                    memcpy(p, "BLOCKS FREE.", 12);
+                    p += 12;
+                    memset(p, ' ', 13);
+                    p += 13;
+
+                    memset(p, 0, 3);
+                    info->buflen = 32;
                     info->eof++;
                 }
             }                 /* info->buflen */
@@ -735,7 +741,7 @@ static int open_fs(vdrive_t *vdrive, const char *name, int length,
 {
     FILE *fd;
     DIR *dp;
-    BYTE *p, *linkp;
+    BYTE *p;
     char fsname[MAXPATHLEN], fsname2[MAXPATHLEN], rname[MAXPATHLEN];
     char *mask, *comma;
     int status = 0, i;
@@ -830,8 +836,8 @@ static int open_fs(vdrive_t *vdrive, const char *name, int length,
         *p++ = 1;
         *p++ = 4;
 
-        linkp = p;
-        p += 2;
+        *p++ = 1;
+        *p++ = 1;
 
         *p++ = 0;
         *p++ = 0;
@@ -851,22 +857,19 @@ static int open_fs(vdrive_t *vdrive, const char *name, int length,
             i++;
         }
         *p++ = '"';
-        while (i < 22) {
-            *p++ = ' ';
-            i++;
-        }
+        *p++ = ' ';
+        *p++ = 'V';
+        *p++ = 'I';
+        *p++ = 'C';
+        *p++ = 'E';
+        *p++ = ' ';
         *p++ = 0;
-
-        i = 0x0401 + p - linkp;
-        *linkp = i & 0xff;
-        *(linkp + 1) = (i >> 8) & 0xff;
 
         fs_info[secondary].buflen = p - fs_info[secondary].name;
         fs_info[secondary].bufp = fs_info[secondary].name;
         fs_info[secondary].mode = Directory;
         fs_info[secondary].dp = dp;
         fs_info[secondary].eof = 0;
-        fs_info[secondary].dirmpos = i;         /* start address of next line */
     } else {                    /* Normal file, not directory ("$") */
 
         /* Override access mode if secondary address is 0 or 1.  */

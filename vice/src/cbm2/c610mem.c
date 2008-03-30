@@ -56,11 +56,13 @@
 #include "vsync.h"
 #include "vicii-mem.h"
 #include "vicii.h"
+#include "cartridge.h"
 
 /* ------------------------------------------------------------------------- */
 
 /* ultimax = 0 then the others are not needed */
 int ultimax = 0;
+int mem_cartridge_type = CARTRIDGE_NONE;
 int romh_bank;
 BYTE romh_banks[1];
 

@@ -162,6 +162,9 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { N_("Attach Retro Replay image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_RETRO_REPLAY, NULL },
+    { N_("Attach IDE64 interface image..."),
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_IDE64, NULL },
     { N_("Attach Super Snapshot 4 image..."),
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_SUPER_SNAPSHOT, NULL },

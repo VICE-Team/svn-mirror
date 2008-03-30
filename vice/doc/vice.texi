@@ -3547,6 +3547,9 @@ The Commodore IEEE488 interface cartridge
 @item
 Retro Replay images.
 @item
+IDE64 interface cartridge.
+(@code{http://www.volny.cz/dundera/})
+@item
 Super Snapshot 4 images.
 @item
 Super Snapshot 5 images.
@@ -3566,6 +3569,9 @@ command.
 
 Attaching the IEEE488 cartridge automatically enables the IEEE488
 interface emulation on the @code{$DF**} I/O ports.
+
+Attaching the IDE64 cartridge automatically enables the IDE64
+interface emulation on the @code{$DE**} I/O ports.
 
 @node VIC-II settings, SID settings, C64 cartridges, C64/128-specific
 @subsection VIC-II settings

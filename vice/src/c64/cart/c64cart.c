@@ -44,6 +44,7 @@
 #include "mem.h"
 #include "resources.h"
 #include "retroreplay.h"
+#include "ide64.h"
 #include "supersnapshot.h"
 #include "utils.h"
 
@@ -128,6 +129,9 @@ static cmdline_option_t cmdline_options[] =
     {"-cartrr", CALL_FUNCTION, 1, attach_cartridge_cmdline,
      (void *)CARTRIDGE_RETRO_REPLAY, NULL, NULL,
      "<name>", "Attach raw 64KB Retro Replay cartridge image"},
+    {"-cartide", CALL_FUNCTION, 1, attach_cartridge_cmdline,
+     (void *)CARTRIDGE_IDE64, NULL, NULL,
+     "<name>", "Attach raw 64KB IDE64 cartridge image"},
     {"-cartap", CALL_FUNCTION, 1, attach_cartridge_cmdline,
      (void *)CARTRIDGE_ATOMIC_POWER, NULL, NULL,
      "<name>", "Attach raw 32KB Atomic Power cartridge image"},
@@ -202,6 +206,10 @@ int cartridge_attach_image(int type, const char *filename)
         break;
       case CARTRIDGE_RETRO_REPLAY:
         if (retroreplay_bin_attach(filename, rawcart) < 0)
+            goto done;
+        break;
+      case CARTRIDGE_IDE64:
+        if (ide64_bin_attach(filename, rawcart) < 0)
             goto done;
         break;
       case CARTRIDGE_SUPER_SNAPSHOT:

@@ -48,6 +48,7 @@ extern void cartridge_freeze(int type);
 /* Known cartridge types.  */
 #define CARTRIDGE_SUPER_SNAPSHOT_V5 -12
 #define CARTRIDGE_IEEE488           -11
+#define CARTRIDGE_IDE64             -7
 #define CARTRIDGE_ULTIMAX           -6
 #define CARTRIDGE_RETRO_REPLAY      -5
 #define CARTRIDGE_SUPER_SNAPSHOT    -4

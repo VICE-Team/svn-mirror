@@ -48,6 +48,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "retroreplay.h"
+#include "ide64.h"
 #include "supergames.h"
 #include "supersnapshot.h"
 #include "types.h"
@@ -104,6 +105,8 @@ BYTE REGPARM1 cartridge_read_io1(ADDRESS addr)
         return actionreplay_io1_read(addr);
       case CARTRIDGE_RETRO_REPLAY:
         return retroreplay_io1_read(addr);
+      case CARTRIDGE_IDE64:
+        return ide64_io1_read(addr);
       case CARTRIDGE_KCS_POWER:
         return kcs_io1_read(addr);
       case CARTRIDGE_FINAL_III:
@@ -141,6 +144,9 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
         break;
       case CARTRIDGE_RETRO_REPLAY:
         retroreplay_io1_store(addr, value);
+        break;
+      case CARTRIDGE_IDE64:
+        ide64_io1_store(addr, value);
         break;
       case CARTRIDGE_ATOMIC_POWER:
         atomicpower_io1_store(addr, value);
@@ -294,6 +300,8 @@ BYTE REGPARM1 roml_read(ADDRESS addr)
         return actionreplay_roml_read(addr);
       case CARTRIDGE_RETRO_REPLAY:
         return retroreplay_roml_read(addr);
+      case CARTRIDGE_IDE64:
+        return roml_banks[(addr & 0x3fff) | (roml_bank << 14)];
       case CARTRIDGE_ATOMIC_POWER:
         return atomicpower_roml_read(addr);
       case CARTRIDGE_EXPERT:
@@ -320,6 +328,8 @@ BYTE REGPARM1 romh_read(ADDRESS addr)
       case CARTRIDGE_OCEAN:
         /* 256 kB OCEAN carts may access memory either at $8000 or $a000 */
         return roml_banks[(addr & 0x1fff) + (romh_bank << 13)];
+      case CARTRIDGE_IDE64:
+        return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
     }
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
@@ -364,8 +374,19 @@ BYTE REGPARM1 ultimax_a000_bfff_read(ADDRESS addr)
     switch (mem_cartridge_type) {
       case CARTRIDGE_ATOMIC_POWER:
         return atomicpower_a000_bfff_read(addr);
+      case CARTRIDGE_IDE64:
+        return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
     }
-    return 0x55;
+    return rand();
+}
+
+BYTE REGPARM1 ultimax_1000_7fff_read(ADDRESS addr)
+{
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_IDE64:
+        return export_ram0[addr & 0x7fff];
+    }
+    return rand();
 }
 
 void REGPARM2 ultimax_a000_bfff_store(ADDRESS addr, BYTE value)
@@ -373,6 +394,15 @@ void REGPARM2 ultimax_a000_bfff_store(ADDRESS addr, BYTE value)
     switch (mem_cartridge_type) {
       case CARTRIDGE_ATOMIC_POWER:
         atomicpower_a000_bfff_store(addr, value);
+    }
+    return;
+}
+
+void REGPARM2 ultimax_1000_7fff_store(ADDRESS addr, BYTE value)
+{
+    switch (mem_cartridge_type) {
+      case CARTRIDGE_IDE64:
+        export_ram0[addr & 0x7fff]=value;
     }
     return;
 }
@@ -396,6 +426,9 @@ void cartridge_init_config(void)
         break;
       case CARTRIDGE_RETRO_REPLAY:
         retroreplay_config_init();
+        break;
+      case CARTRIDGE_IDE64:
+        ide64_config_init();
         break;
       case CARTRIDGE_KCS_POWER:
         kcs_config_init();
@@ -490,6 +523,9 @@ void cartridge_attach(int type, BYTE *rawcart)
       case CARTRIDGE_RETRO_REPLAY:
         retroreplay_config_setup(rawcart);
         break;
+      case CARTRIDGE_IDE64:
+        ide64_config_setup(rawcart);
+        break;
       case CARTRIDGE_KCS_POWER:
         kcs_config_setup(rawcart);
         break;
@@ -534,6 +570,9 @@ void cartridge_detach(int type)
     switch (type) {
       case CARTRIDGE_IEEE488:
       /* FIXME: Insert interface removal here.  */
+      break;
+      case CARTRIDGE_IDE64:
+        ide64_detach();
       break;
     }
     cartridge_config_changed(6, CMODE_READ);

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-05-25 19:26+0200\n"
+"POT-Creation-Date: 2002-05-29 21:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -880,34 +880,38 @@ msgid "Attach Retro Replay image..."
 msgstr ""
 
 #: src/arch/unix/uic64cart.c:165
-msgid "Attach Super Snapshot 4 image..."
+msgid "Attach IDE64 interface image..."
 msgstr ""
 
 #: src/arch/unix/uic64cart.c:168
+msgid "Attach Super Snapshot 4 image..."
+msgstr ""
+
+#: src/arch/unix/uic64cart.c:171
 msgid "Attach Super Snapshot 5 image..."
 msgstr ""
 
-#: src/arch/unix/uic64cart.c:172
+#: src/arch/unix/uic64cart.c:175
 msgid "Enable Expert Cartridge..."
 msgstr ""
 
-#: src/arch/unix/uic64cart.c:176 src/arch/unix/vic20ui.c:252
+#: src/arch/unix/uic64cart.c:179 src/arch/unix/vic20ui.c:252
 msgid "Set cartridge as default"
 msgstr ""
 
-#: src/arch/unix/uic64cart.c:182 src/arch/unix/vic20ui.c:258
+#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:258
 msgid "Attach a cartridge image"
 msgstr ""
 
-#: src/arch/unix/uic64cart.c:184
+#: src/arch/unix/uic64cart.c:187
 msgid "Detach cartridge image"
 msgstr ""
 
-#: src/arch/unix/uic64cart.c:186
+#: src/arch/unix/uic64cart.c:189
 msgid "Cartridge freeze"
 msgstr ""
 
-#: src/arch/unix/uic64cart.c:188
+#: src/arch/unix/uic64cart.c:191
 msgid "*Cartridge control"
 msgstr ""
 

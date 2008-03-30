@@ -121,6 +121,7 @@ static int reu_coexist_cartridge(void)
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
       case CARTRIDGE_EXPERT:
       case CARTRIDGE_RETRO_REPLAY:
+      case CARTRIDGE_IDE64:
         result = 1;
         break;
       default:
