@@ -8,8 +8,6 @@
  *
  * Support for multiple visuals and depths by
  *  Teemu Rantanen (tvr@cs.hut.fi)
- * Joystick options by
- *  Bernhard Kuhn  (kuhn@eikon.e-technik.tu-muenchen.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -69,10 +67,8 @@
 #include "widgets/FileSel.h"
 #include "widgets/TextField.h"
 
-#include "checkmark.xbm"
-#include "right_arrow.xbm"
-
 #include "ui.h"
+#include "uimenu.h"
 #include "serial.h"
 #include "interrupt.h"
 #include "patchlevel.h"
@@ -107,9 +103,7 @@ int depth = X_DISPLAY_DEPTH;
 
 /* ------------------------------------------------------------------------- */
 
-static char *html_browser_command;
-static int use_private_colormap;
-static int save_resources_on_exit;
+_ui_resources_t _ui_resources;
 
 /* Warning: This cannot actually be changed at runtime.  */
 static int set_depth(resource_value_t v)
@@ -120,37 +114,41 @@ static int set_depth(resource_value_t v)
     if (d < 0 || d > 32)
         return -1;
 
-    depth = d;
+    _ui_resources.depth = d;
     return 0;
 }
 
 static int set_html_browser_command(resource_value_t v)
 {
-    string_set(&html_browser_command, (char *)v);
+    string_set(&_ui_resources.html_browser_command, (char *)v);
     return 0;
 }
 
 static int set_use_private_colormap(resource_value_t v)
 {
-    use_private_colormap = (int) v;
+    _ui_resources.use_private_colormap = (int) v;
     return 0;
 }
 
 static int set_save_resources_on_exit(resource_value_t v)
 {
-    save_resources_on_exit = (int) v;
+    _ui_resources.save_resources_on_exit = (int) v;
     return 0;
 }
 
 static resource_t resources[] = {
     { "HTMLBrowserCommand", RES_STRING, (resource_value_t) "netscape %s",
-      (resource_value_t *) &html_browser_command, set_html_browser_command },
+      (resource_value_t *) &_ui_resources.html_browser_command,
+      set_html_browser_command },
     { "PrivateColormap", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &use_private_colormap, set_use_private_colormap },
+      (resource_value_t *) &_ui_resources.use_private_colormap,
+      set_use_private_colormap },
     { "SaveResourcesOnExit", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &save_resources_on_exit, set_save_resources_on_exit },
+      (resource_value_t *) &_ui_resources.save_resources_on_exit,
+      set_save_resources_on_exit },
     { "DisplayDepth", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &depth, set_depth },
+      (resource_value_t *) &_ui_resources.depth,
+      set_depth },
     { NULL }
 };
 
@@ -189,36 +187,34 @@ int ui_init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
+static int popped_up_count = 0;
+
+/* Left-button and right-button menu.  */
+static Widget left_menu, right_menu;
+
 /* Application context. */
 static XtAppContext app_context;
 
 /* This is needed to catch the `Close' command from the Window Manager. */
-static Atom WM_delete_window;
+static Atom wm_delete_window;
 
-/* Useful images. */
-static Pixmap CheckmarkBitmap, RightArrowBitmap;
 #ifdef XPM
-static Pixmap IconPixmap;
+/* Icon.  */
+static Pixmap icon_pixmap;
 #endif
 
 /* Toplevel widget. */
-static Widget TopLevel = NULL;
+Widget _ui_top_level = NULL;
 
-/* XDebugger, Jarkko's X11-based 6502 debugger. */
-static Widget XDebugger;
+/* xdebugger, Jarkko's X11-based 6502 debugger. */
+static Widget xdebugger;
 
 /* Our colormap. */
 static Colormap colormap;
 
-/* This keeps a list of the menus with a checkmark on the left.  Each time
-   some setting is changed, we have to update them. */
-#define MAX_UPDATE_MENU_LIST_SIZE 1024
-static Widget CheckmarkMenuItems[MAX_UPDATE_MENU_LIST_SIZE];
-static int NumCheckmarkMenuItems = 0;
-
 /* This allows us to pop up the transient shells centered to the last visited
    shell. */
-static Widget LastVisitedAppShell = NULL;
+static Widget last_visited_app_shell = NULL;
 #define MAX_APP_SHELLS 10
 static struct {
     String title;
@@ -227,170 +223,41 @@ static struct {
     Widget speed_label;
     Widget drive_track_label;
     Widget drive_led;
-} AppShells[MAX_APP_SHELLS];
-static int NumAppShells = 0;
+} app_shells[MAX_APP_SHELLS];
+static int num_app_shells = 0;
 
 /* Pixels for updating the drive LED's state.  */
 Pixel drive_led_on_pixel, drive_led_off_pixel;
-
-/* This is for our home-made menu implementation.  Not very clever, but it
-   works. */
-static int PoppedUpCnt = 0;
-static int MenuPopup = 0;
-#define MAX_SUBMENUS 1024
-static struct Submenu {
-    Widget widget;
-    Widget parent;
-    int level;
-} Submenus[MAX_SUBMENUS];
-static int NumSubmenus = 0;
-static Widget LeftMenuWidget, RightMenuWidget;
 
 /* If != 0, we should save the settings. */
 static int resources_have_changed = 0;
 
 /* ------------------------------------------------------------------------- */
 
-static int UiAllocColormap(void);
-static int UiAllocColors(const palette_t *palette, PIXEL pixel_return[]);
-static void UiPopup(Widget w, const char *title, Boolean wait_popdown);
-static void UiPopdown(Widget w);
-static Widget UiBuildFileSelector(Widget parent, UiButton *button_return);
-static Widget UiBuildErrorDialog(Widget parent, UiButton *button_return,
-				 const String message);
-static Widget UiBuildInputDialog(Widget parent, UiButton *button_return,
-				 Widget *InputDialogLabel,
-				 Widget *InputDialogField);
-static Widget UiBuildShowText(Widget parent, UiButton *button_return,
-			      const String text, int width, int height);
-static Widget UiBuildConfirmDialog(Widget parent, UiButton *button_return,
-				   Widget *ConfirmDialogMessage);
-static Widget UiCreateTransientShell(Widget parent, const char *name);
-static Widget UiBuildInfoDialog(Widget parent, UiButton *button_return,...);
-static void UiPositionSubmenu(Widget w, Widget parent);
-static void UiCloseAction(Widget w, XEvent *event, String *params,
-			  Cardinal *num_params);
-static void UiPositionSubmenuAction(Widget w, XEvent *event, String *params,
-				    Cardinal *num_params);
-static void UiPopdownSubmenusAction(Widget w, XEvent *event, String *params,
-				   Cardinal *num_params);
-static void UiMenuUnhighlightAction(Widget w, XEvent *event, String *params,
-				    Cardinal *num_params);
-static void UiHandleSpecialKeys(Widget w, XtPointer closure, XEvent *x_event,
-				Boolean *continue_to_dispatch);
-#define CallbackFunc(name)  static void name(Widget w, XtPointer client_data, \
-					     XtPointer call_data)
+static int alloc_colormap(void);
+static int alloc_colors(const palette_t *palette, PIXEL pixel_return[]);
+static Widget build_file_selector(Widget parent, ui_button_t *button_return);
+static Widget build_error_dialog(Widget parent, ui_button_t *button_return,
+                                 const String message);
+static Widget build_input_dialog(Widget parent, ui_button_t *button_return,
+                                 Widget *InputDialogLabel,
+                                 Widget *InputDialogField);
+static Widget build_show_text(Widget parent, ui_button_t *button_return,
+                              const String text, int width, int height);
+static Widget build_confirm_dialog(Widget parent,
+                                   ui_button_t *button_return,
+                                   Widget *ConfirmDialogMessage);
+static Widget build_info_dialog(Widget parent,
+                                ui_button_t *button_return,...);
+static void position_submenu(Widget w, Widget parent);
+static void close_action(Widget w, XEvent *event, String *params,
+                         Cardinal *num_params);
+static void handle_special_keys(Widget w, XtPointer closure,
+                                XEvent *x_event,
+                                Boolean *continue_to_dispatch);
 
-CallbackFunc(UiEnterWindowCallback);
-CallbackFunc(UiExposureCallback);
-CallbackFunc(UiMenuPopupCallback);
-CallbackFunc(UiMenuPopdownCallback);
-CallbackFunc(UiSubmenuPopupCallback);
-CallbackFunc(UiSubmenuPopdownCallback);
-CallbackFunc(UiAttachDisk);
-CallbackFunc(UiDetachDisk);
-CallbackFunc(UiChangeWorkingDir);
-CallbackFunc(UiActivateXDebugger);
-CallbackFunc(UiActivateMonitor);
-CallbackFunc(UiRunC1541);
-CallbackFunc(UiReset);
-CallbackFunc(UiPowerUpReset);
-CallbackFunc(UiBrowseManual);
-CallbackFunc(UiExit);
-CallbackFunc(UiInfo);
-CallbackFunc(UiSetRefreshRate);
-CallbackFunc(UiSetCustomRefreshRate);
-CallbackFunc(UiSetMaximumSpeed);
-CallbackFunc(UiSetCustomMaximumSpeed);
-CallbackFunc(UiInfoDialogNoWarrantyCallback);
-CallbackFunc(UiInfoDialogContribCallback);
-CallbackFunc(UiInfoDialogLicenseCallback);
-CallbackFunc(UiCloseButtonCallback);
-CallbackFunc(UiOkButtonCallback);
-CallbackFunc(UiCancelButtonCallback);
-CallbackFunc(UiYesButtonCallback);
-CallbackFunc(UiNoButtonCallback);
-CallbackFunc(UiResetButtonCallback);
-CallbackFunc(UiHardResetButtonCallback);
-CallbackFunc(UiMonButtonCallback);
-CallbackFunc(UiDebugButtonCallback);
-CallbackFunc(UiContentsButtonCallback);
-CallbackFunc(UiAutostartButtonCallback);
-CallbackFunc(UiToggleVideoCache);
-CallbackFunc(UiToggleDoubleSize);
-CallbackFunc(UiToggleDoubleScan);
-CallbackFunc(UiToggleUseXSync);
-CallbackFunc(UiTogglePause);
-CallbackFunc(UiSaveResources);
-CallbackFunc(UiLoadResources);
-CallbackFunc(UiSetDefaultResources);
-CallbackFunc(UiToggleSaveResourcesOnExit);
-CallbackFunc(UiToggleWarpMode);
-CallbackFunc(UiSetKeymap);
-CallbackFunc(UiLoadKeymap);
-CallbackFunc(UiLoadUserKeymap);
-CallbackFunc(UiDumpKeymap);
-
-#if defined(CBM64) || defined(C128)
-CallbackFunc(UiAttachTape);
-CallbackFunc(UiDetachTape);
-CallbackFunc(UiSmartAttach);
-CallbackFunc(UiToggleSpriteToSpriteCollisions);
-CallbackFunc(UiToggleSpriteToBackgroundCollisions);
-CallbackFunc(UiToggleEmuID);
-CallbackFunc(UiToggleIEEE488);
-CallbackFunc(UiToggleREU);
-CallbackFunc(UiToggleActionReplay);
-#endif
-#if defined(CBM64) || defined(C128) || defined(PET)
-CallbackFunc(UiSwapJoystickPorts);
-#ifdef HAS_JOYSTICK
-CallbackFunc(UiSetJoystickDevice1);
-CallbackFunc(UiSetJoystickDevice2);
-#else
-CallbackFunc(UiSetNumpadJoystickPort);
-#endif
-#endif
-
-CallbackFunc(UiToggleTrue1541);
-CallbackFunc(UiToggleParallelCable);
-CallbackFunc(UiSet1541ExtendImage);
-CallbackFunc(UiSet1541SyncFactor);
-CallbackFunc(UiSet1541IdleMethod);
-CallbackFunc(UiSetCustom1541SyncFactor);
-
-CallbackFunc(UiToggleNoTraps);
-CallbackFunc(UiToggleFileSystemDevice8);
-CallbackFunc(UiToggleFileSystemDevice9);
-CallbackFunc(UiToggleFileSystemDevice10);
-CallbackFunc(UiToggleFileSystemDevice11);
-CallbackFunc(UiToggleFSDeviceConvertP00);
-
-#ifdef SOUND
-CallbackFunc(UiToggleSound);
-CallbackFunc(UiToggleSoundSpeedAdjustment);
-CallbackFunc(UiSetSoundSampleRate);
-CallbackFunc(UiSetSoundBufferSize);
-CallbackFunc(UiSetSoundSuspendTime);
-#if defined(CBM64) || defined(C128)
-CallbackFunc(UiToggleSidFilters);
-CallbackFunc(UiSetSidModel);
-CallbackFunc(UiSetSoundOversample);
-#endif
-#endif /* SOUND */
-
-#ifdef PET
-CallbackFunc(UiToggleNumpadJoystick);
-CallbackFunc(UiTogglePetDiag);
-#endif
-
-/* This one needs the menu functions to be prototyped first, and that's why we
-   include it now. */
-#include "menu.h"
-
-/* This one needs the MenuEntry typedef from menu.h */
-static Widget UiBuildPopupMenu(Widget parent, const char *name,
-			       MenuEntry list[]);
+UI_CALLBACK(enter_window_callback);
+UI_CALLBACK(exposure_callback);
 
 /* ------------------------------------------------------------------------- */
 
@@ -468,16 +335,16 @@ static String fallback_resources[] = {
 /* ------------------------------------------------------------------------- */
 
 /* Initialize the GUI and parse the command line. */
-int UiInit(int *argc, char **argv)
+int ui_init(int *argc, char **argv)
 {
     /* Create the toplevel. */
-    TopLevel = XtAppInitialize(&app_context, "VICE", NULL, 0, argc, argv,
-			       fallback_resources, NULL, 0);
-    if (!TopLevel)
+    _ui_top_level = XtAppInitialize(&app_context, "VICE", NULL, 0, argc, argv,
+				    fallback_resources, NULL, 0);
+    if (!_ui_top_level)
 	return -1;
-    display = XtDisplay(TopLevel);
+    display = XtDisplay(_ui_top_level);
     screen = XDefaultScreen(display);
-    atexit(UiAutoRepeatOn);
+    atexit(ui_autorepeat_on);
     return 0;
 }
 
@@ -487,13 +354,10 @@ typedef struct {
 } namedvisual_t;
 
 /* Continue GUI initialization after resources are set. */
-int UiInitFinish(void)
+int ui_init_finish(void)
 {
     static XtActionsRec actions[] = {
-	{ "Close", UiCloseAction },
-	{ "PositionSubmenu", UiPositionSubmenuAction },
-	{ "PopdownSubmenus", UiPopdownSubmenusAction },
-	{ "Unhighlight", UiMenuUnhighlightAction }
+	{ "Close", close_action },
     };
     static namedvisual_t classes[] = {
 	{ "PseudoColor", PseudoColor },
@@ -551,13 +415,13 @@ int UiInitFinish(void)
     visual = visualinfo.visual;
 
     /* Allocate the colormap. */
-    UiAllocColormap();
+    alloc_colormap();
 
-    /* Recreate TopLevel to support non-default display depths.  We also copy
-       the WM_COMMAND' property for a minimal session-management support
-       (WindowMaker loves that).
-       FIXME: correct way to do so?  This looks like a big dirty kludge... I
-       cannot believe there is not a cleaner method.  */
+    /* Recreate _ui_top_level to support non-default display depths.  We also
+       copy the WM_COMMAND' property for a minimal session-management support
+       (WindowMaker loves that).  FIXME: correct way to do so?  This looks like
+       a big dirty kludge... I cannot believe there is not a cleaner
+       method.  */
     {
 	Atom wm_command_atom = XInternAtom(display, "WM_COMMAND", False);
 	Atom wm_command_type;
@@ -568,19 +432,19 @@ int UiInitFinish(void)
 
 	/* Realize the old toplevel.  This ugliness is required to create the
            window we retrieve the `WM_COMMAND' property from. */
-	XtVaSetValues(TopLevel,
+	XtVaSetValues(_ui_top_level,
 		      XtNwidth, 1,
 		      XtNheight, 1,
 		      XtNmappedWhenManaged, False,
 		      NULL);
-	XtRealizeWidget(TopLevel);
+	XtRealizeWidget(_ui_top_level);
 
 	/* Retrieve the `WM_COMMAND' property. */
 	if (wm_command_atom != None) {
 	    unsigned long dummy;
 
 	    if (Success == XGetWindowProperty(display,
-					      XtWindow(TopLevel),
+					      XtWindow(_ui_top_level),
 					      wm_command_atom,
 					      0, (unsigned long)-1,
 					      False,
@@ -594,94 +458,75 @@ int UiInitFinish(void)
 	}
 
 	/* Goodbye... */
-	XtDestroyWidget(TopLevel);
+	XtDestroyWidget(_ui_top_level);
 
-	/* Create the new TopLevel. */
-	TopLevel = XtVaAppCreateShell(EMULATOR, "VICE",
-				      applicationShellWidgetClass, display,
-				      XtNvisual, visual,
-				      XtNdepth, depth,
-				      XtNcolormap, colormap,
-				      XtNmappedWhenManaged, False,
-				      XtNwidth, 1,
-				      XtNheight, 1,
-				      NULL);
-	XtRealizeWidget(TopLevel);
+	/* Create the new _ui_top_level. */
+	_ui_top_level = XtVaAppCreateShell(EMULATOR, "VICE",
+                                       applicationShellWidgetClass, display,
+                                       XtNvisual, visual,
+                                       XtNdepth, depth,
+                                       XtNcolormap, colormap,
+                                       XtNmappedWhenManaged, False,
+                                       XtNwidth, 1,
+                                       XtNheight, 1,
+                                       NULL);
+	XtRealizeWidget(_ui_top_level);
 
-	/* Set the `WM_COMMAND' property in the new TopLevel. */
+	/* Set the `WM_COMMAND' property in the new _ui_top_level. */
 	if (wm_command_present) {
-	    XChangeProperty(display, XtWindow(TopLevel), wm_command_atom,
-			    wm_command_type, wm_command_format, PropModeReplace,
+	    XChangeProperty(display, XtWindow(_ui_top_level), wm_command_atom,
+			    wm_command_type,
+			    wm_command_format, PropModeReplace,
 			    (char *)wm_command_data, wm_command_nitems);
 	    XtFree(wm_command_data);
 	}
     }
 
-    /* Create the `tick' bitmap. */
-    CheckmarkBitmap = XCreateBitmapFromData(display,
-					    DefaultRootWindow(display),
-					    checkmark_bits,
-					    checkmark_width,
-					    checkmark_height);
-    /* Create the right arrow bitmap. */
-    RightArrowBitmap = XCreateBitmapFromData(display,
-					     DefaultRootWindow(display),
-					     right_arrow_bits,
-					     right_arrow_width,
-					     right_arrow_height);
-
 #ifdef XPM
     /* Create the icon pixmap. */
     XpmCreatePixmapFromData(display, DefaultRootWindow(display), icon_data,
-			    &IconPixmap, NULL, NULL);
+			    &icon_pixmap, NULL, NULL);
 #endif
 
-    WM_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);
+    wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);
 
     XtAppAddActions(app_context, actions, XtNumber(actions));
 
-    return 0;
+    return ui_menu_init(app_context, display, screen);
 }
 
-/* Create a shell with a canvas widget in it. */
-UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
-			    int no_autorepeat, UiExposureHandler exposure_proc,
-			    const palette_t *palette, PIXEL pixel_return[])
+/* Create a shell with a canvas widget in it.  */
+ui_window_t ui_open_canvas_window(const char *title, int width, int height,
+                                  int no_autorepeat,
+                                  ui_exposure_handler_t exposure_proc,
+                                  const palette_t *palette,
+                                  PIXEL pixel_return[])
 {
-    /* Note: this is correct because we never destroy CanvasWindows. */
+    /* Note: this is correct because we never destroy CanvasWindows.  */
     static int menus_created = 0;
     XtTranslations translations;
     Widget shell, canvas, pane, speed_label;
     Widget drive_track_label, drive_led;
     XSetWindowAttributes attr;
 
-    if (UiAllocColors(palette, pixel_return) == -1)
+    if (alloc_colors(palette, pixel_return) == -1)
 	return NULL;
 
-    /* colormap might have changed after UiAllocColors, so we set it again */
-    XtVaSetValues(TopLevel, XtNcolormap, colormap, NULL);
+    /* colormap might have changed after ui_alloc_colors, so we set it again */
+    XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
 
-    /* Create the pop-up menus. */
-    if (!menus_created) {
-	LeftMenuWidget = UiBuildPopupMenu(TopLevel, "LeftMenu", LeftMenu);
-	RightMenuWidget = UiBuildPopupMenu(TopLevel, "RightMenu", RightMenu);
-	UiUpdateMenus();
-	menus_created = 1;
-    }
-
-    if (++NumAppShells > MAX_APP_SHELLS) {
+    if (++num_app_shells > MAX_APP_SHELLS) {
 	fprintf(stderr,
-	  	"UiOpenCanvasWindow(): maximum number of open windows reached."
-		"\n");
+	  	"ui_open_canvas_window(): maximum number of open windows reached.\n");
 	return NULL;
     }
 
     shell = XtVaCreatePopupShell(title, applicationShellWidgetClass,
-                                 TopLevel, XtNinput, True, XtNtitle, title,
+                                 _ui_top_level, XtNinput, True, XtNtitle, title,
                                  XtNiconName, title, NULL);
 
 #ifdef XPM
-    XtVaSetValues(shell, XtNiconPixmap, IconPixmap, NULL);
+    XtVaSetValues(shell, XtNiconPixmap, icon_pixmap, NULL);
 #endif
 
     pane = XtVaCreateManagedWidget("Form", formWidgetClass, shell,
@@ -700,9 +545,9 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
                                      NULL);
 
     XtAddEventHandler(shell, EnterWindowMask, False,
-		      (XtEventHandler) UiEnterWindowCallback, NULL);
+		      (XtEventHandler) enter_window_callback, NULL);
     XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False,
-		      (XtEventHandler) UiExposureCallback, exposure_proc);
+		      (XtEventHandler) exposure_callback, exposure_proc);
 
     /* Create the status bar on the bottom.  */
     {
@@ -722,7 +567,6 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
                                               XtNjustify, XtJustifyLeft,
                                               XtNborderWidth, 0,
                                               NULL);
-
 
         drive_track_label = XtVaCreateManagedWidget("driveTrack",
                                                     labelWidgetClass, pane,
@@ -774,13 +618,13 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
 
     if (no_autorepeat) {
 	XtAddEventHandler(canvas, EnterWindowMask, False,
-			  (XtEventHandler) UiAutoRepeatOff, NULL);
+			  (XtEventHandler) ui_autorepeat_off, NULL);
 	XtAddEventHandler(canvas, LeaveWindowMask, False,
-			  (XtEventHandler) UiAutoRepeatOn, NULL);
+			  (XtEventHandler) ui_autorepeat_on, NULL);
 	XtAddEventHandler(shell, KeyPressMask, False,
-			  (XtEventHandler) UiHandleSpecialKeys, NULL);
+			  (XtEventHandler) handle_special_keys, NULL);
 	XtAddEventHandler(canvas, KeyPressMask, False,
-			  (XtEventHandler) UiHandleSpecialKeys, NULL);
+			  (XtEventHandler) handle_special_keys, NULL);
     }
 
     XtRealizeWidget(shell);
@@ -790,41 +634,57 @@ UiWindow UiOpenCanvasWindow(const char *title, int width, int height,
     XChangeWindowAttributes(display, XtWindow(canvas),
     	 		    CWBackingStore, &attr);
 
-    XSetWMProtocols(display, XtWindow(shell), &WM_delete_window, 1);
+    XSetWMProtocols(display, XtWindow(shell), &wm_delete_window, 1);
     XtOverrideTranslations(shell, XtParseTranslationTable
-                                      ("<Message>WM_PROTOCOLS: Close()"));
+                           ("<Message>WM_PROTOCOLS: Close()"));
 
-    AppShells[NumAppShells - 1].shell = shell;
-    AppShells[NumAppShells - 1].canvas = canvas;
-    AppShells[NumAppShells - 1].title = stralloc(title);
-    AppShells[NumAppShells - 1].speed_label = speed_label;
-
-    AppShells[NumAppShells - 1].drive_track_label = drive_track_label;
-    AppShells[NumAppShells - 1].drive_led = drive_led;
+    app_shells[num_app_shells - 1].shell = shell;
+    app_shells[num_app_shells - 1].canvas = canvas;
+    app_shells[num_app_shells - 1].title = stralloc(title);
+    app_shells[num_app_shells - 1].speed_label = speed_label;
+    app_shells[num_app_shells - 1].drive_track_label = drive_track_label;
+    app_shells[num_app_shells - 1].drive_led = drive_led;
 
     return canvas;
 }
 
-/* Set the colormap variable. The user must tell us whether he wants the
-   default one or not using the `privateColormap' resource. */
-static int UiAllocColormap(void)
+void ui_set_left_menu(Widget w)
+{
+    if (left_menu != NULL)
+        XtDestroyWidget(w);
+    left_menu = w;
+}
+
+void ui_set_right_menu(Widget w)
+{
+    if (right_menu != NULL)
+        XtDestroyWidget(w);
+    right_menu = w;
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* Set the colormap variable.  The user must tell us whether he wants the
+   default one or not using the `privateColormap' resource.  */
+static int alloc_colormap(void)
 {
     if (colormap)
 	return 0;
 
-    if (!use_private_colormap && depth == DefaultDepth(display, screen)) {
+    if (!_ui_resources.use_private_colormap
+	&& depth == DefaultDepth(display, screen)) {
 	colormap = DefaultColormap(display, screen);
     } else {
 	colormap = XCreateColormap(display, RootWindow(display, screen),
 				   visual, AllocNone);
     }
 
-    XtVaSetValues(TopLevel, XtNcolormap, colormap, NULL);
+    XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
     return 0;
 }
 
 /* Allocate colors in the colormap. */
-static int UiDoAllocColors(const palette_t *palette, PIXEL pixel_return[],
+static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
                            int releasefl)
 {
     static int allocated_colors;
@@ -832,55 +692,55 @@ static int UiDoAllocColors(const palette_t *palette, PIXEL pixel_return[],
     XColor color;
     XImage *im;
     PIXEL *data = (PIXEL *)xmalloc(4);
-    unsigned long *xpixels = xmalloc(sizeof(unsigned long)
-                                     *palette->num_entries);
+    unsigned long *xpixels = (unsigned long *) xmalloc(sizeof(unsigned long)
+                                                       * palette->num_entries);
 
     /* This is a kludge to map pixels to zimage values. Is there a better
        way to do this? //tvr */
-    im = XCreateImage(display, visual, depth, ZPixmap, 0, (char *)data,
-		      1, 1, 8, 0);
+    im = XCreateImage(display, visual, depth,
+		      ZPixmap, 0, (char *)data, 1, 1, 8, 0);
     if (!im)
-	return -1;
+        return -1;
 
     color.flags = DoRed | DoGreen | DoBlue;
     for (i = 0, failed = 0; i < palette->num_entries; allocated_colors++, i++)
     {
         printf("Allocating color `%s'...\n", palette->entries[i].name);
-	color.red = palette->entries[i].red << 8;
-	color.green = palette->entries[i].green << 8;
-	color.blue = palette->entries[i].blue << 8;
-	if (!XAllocColor(display, colormap, &color)) {
-	    failed = 1;
-	    fprintf(stderr,
-		    "Warning: cannot allocate color \"#%04X%04X%04X\"\n",
-		    color.red, color.green, color.blue);
-	}
-	XPutPixel(im, 0, 0, color.pixel);
-	xpixels[i] = color.pixel;
+        color.red = palette->entries[i].red << 8;
+        color.green = palette->entries[i].green << 8;
+        color.blue = palette->entries[i].blue << 8;
+        if (!XAllocColor(display, colormap, &color)) {
+            failed = 1;
+            fprintf(stderr,
+                    "Warning: cannot allocate color \"#%04X%04X%04X\"\n",
+                    color.red, color.green, color.blue);
+        }
+        XPutPixel(im, 0, 0, color.pixel);
+        xpixels[i] = color.pixel;
 #if X_DISPLAY_DEPTH == 0
-	{
-	    /* XXX: prototypes where? */
-	    extern PIXEL  real_pixel1[];
-	    extern PIXEL2 real_pixel2[];
-	    extern PIXEL4 real_pixel4[];
-	    extern long   real_pixel[];
-	    extern BYTE   shade_table[];
-	    pixel_return[i] = i;
-	    if (depth == 8)
-		pixel_return[i] = *data;
-	    else if (im->bits_per_pixel == 8)
-		real_pixel1[i] = *(PIXEL *)data;
-	    else if (im->bits_per_pixel == 16)
-		real_pixel2[i] = *(PIXEL2 *)data;
-	    else if (im->bits_per_pixel == 32)
-		real_pixel4[i] = *(PIXEL4 *)data;
-	    else
-		real_pixel[i] = color.pixel;
-	    if (im->bits_per_pixel == 1)
-		shade_table[i] = palette->entries[i].dither;
-	}
+        {
+            /* XXX: prototypes where? */
+            extern PIXEL  real_pixel1[];
+            extern PIXEL2 real_pixel2[];
+            extern PIXEL4 real_pixel4[];
+            extern long   real_pixel[];
+            extern BYTE   shade_table[];
+            pixel_return[i] = i;
+            if (depth == 8)
+                pixel_return[i] = *data;
+            else if (im->bits_per_pixel == 8)
+                real_pixel1[i] = *(PIXEL *)data;
+            else if (im->bits_per_pixel == 16)
+                real_pixel2[i] = *(PIXEL2 *)data;
+            else if (im->bits_per_pixel == 32)
+                real_pixel4[i] = *(PIXEL4 *)data;
+            else
+                real_pixel[i] = color.pixel;
+            if (im->bits_per_pixel == 1)
+                shade_table[i] = palette->entries[i].dither;
+        }
 #else
-	pixel_return[i] = *data;
+        pixel_return[i] = *data;
 #endif
     }
 
@@ -912,92 +772,85 @@ static int UiDoAllocColors(const palette_t *palette, PIXEL pixel_return[],
     return failed;
 }
 
-/*
- * In here we try to allocate the given colors. This function is called from
- * UiOpenCanvasWindow. The calling function sets the colormap resource of
- * the toplevel window.
- * If there is not enough place in the colormap for all color entries,
- * we allocate a new one.
- * If we someday open two canvas windows, and the colormap fills up during
- * the second one, we might run into trouble, although I am not sure.
- * (setting the Toplevel colormap will not change the colormap of already
- * opened children)
+/* In here we try to allocate the given colors. This function is called from
+ * 1ui_open_canvas_window()'.  The calling function sets the colormap
+ * resource of the toplevel window.  If there is not enough place in the
+ * colormap for all color entries, we allocate a new one.  If we someday open
+ * two canvas windows, and the colormap fills up during the second one, we
+ * might run into trouble, although I am not sure.  (setting the Toplevel
+ * colormap will not change the colormap of already opened children)
  *
- * 20jan1998 A.Fachat
- */
-static int UiAllocColors(const palette_t *palette, PIXEL pixel_return[])
+ * 20jan1998 A.Fachat */
+static int alloc_colors(const palette_t *palette, PIXEL pixel_return[])
 {
     int failed;
 
-    failed = UiDoAllocColors(palette, pixel_return, 1);
+    failed = do_alloc_colors(palette, pixel_return, 1);
     if (failed) {
-	/* printf("\nHint: use the `-install' option to install a private colormap.\n"); */
-	/* also check if we are allowed to automagically alloc? */
 	if (colormap == DefaultColormap(display, screen)) {
             printf("Automagically using a private colormap.\n");
-	    /* printf("If you encounter problems, please use `-install'.\n"); */
 	    colormap = XCreateColormap(display, RootWindow(display, screen),
 				       visual, AllocNone);
-	    XtVaSetValues(TopLevel, XtNcolormap, colormap, NULL);
-	    failed = UiDoAllocColors(palette, pixel_return, 0);
+	    XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
+	    failed = do_alloc_colors(palette, pixel_return, 0);
 	}
     }
     return failed ? -1 : 0;
 }
 
-/* Return the drawable for the canvas in the specified UiWindow. */
-Window UiCanvasDrawable(UiWindow w)
+/* Return the drawable for the canvas in the specified ui_window_t. */
+Window ui_canvas_get_drawable(ui_window_t w)
 {
     return XtWindow(w);
 }
 
 /* Show the speed index to the user.  */
-void UiDisplaySpeed(float percent, float framerate, int warp_flag)
+void ui_display_speed(float percent, float framerate, int warp_flag)
 {
     int i;
     char str[256];
     int percent_int = (int)(percent + 0.5);
     int framerate_int = (int)(framerate + 0.5);
 
-    for (i = 0; i < NumAppShells; i++) {
+    for (i = 0; i < num_app_shells; i++) {
 	if (!percent) {
-	    XtVaSetValues(AppShells[i].speed_label, XtNlabel,
+	    XtVaSetValues(app_shells[i].speed_label, XtNlabel,
                           warp_flag ? "(warp)" : "",
 			  NULL);
 	} else {
 	    sprintf(str, "%d%%, %d fps %s",
                     percent_int, framerate_int, warp_flag ? "(warp)" : "");
-	    XtVaSetValues(AppShells[i].speed_label, XtNlabel, str, NULL);
+	    XtVaSetValues(app_shells[i].speed_label, XtNlabel, str, NULL);
 	}
     }
 }
 
-void UiToggleDriveStatus(int state)
+void ui_toggle_drive_status(int state)
 {
     int i;
 
     printf("%s(%d)\n", __FUNCTION__, state);
-    for (i = 0; i < NumAppShells; i++) {
+    for (i = 0; i < num_app_shells; i++) {
         if (state) {
-            XtRealizeWidget(AppShells[i].drive_track_label);
-            XtManageChild(AppShells[i].drive_track_label);
-            XtRealizeWidget(AppShells[i].drive_led);
-            XtManageChild(AppShells[i].drive_led);
+            XtRealizeWidget(app_shells[i].drive_track_label);
+            XtManageChild(app_shells[i].drive_track_label);
+            XtRealizeWidget(app_shells[i].drive_led);
+            XtManageChild(app_shells[i].drive_led);
         } else{
-            XtUnrealizeWidget(AppShells[i].drive_track_label);
-            XtUnrealizeWidget(AppShells[i].drive_led);
+            XtUnrealizeWidget(app_shells[i].drive_track_label);
+            XtUnrealizeWidget(app_shells[i].drive_led);
         }
     }
 }
 
-void UiDisplayDriveTrack(double track_number)
+void ui_display_drive_track(double track_number)
 {
     int i;
     char str[256];
 
     sprintf(str, "Track %.1f", (double)track_number);
-    for (i = 0; i < NumAppShells; i++) {
-	Widget w = AppShells[i].drive_track_label;
+    for (i = 0; i < num_app_shells; i++) {
+	Widget w = app_shells[i].drive_track_label;
 
 	if (!XtIsRealized(w)) {
 	    XtRealizeWidget(w);
@@ -1007,13 +860,13 @@ void UiDisplayDriveTrack(double track_number)
     }
 }
 
-void UiDisplayDriveLed(int status)
+void ui_display_drive_led(int status)
 {
     Pixel pixel = status ? drive_led_on_pixel : drive_led_off_pixel;
     int i;
 
-    for (i = 0; i < NumAppShells; i++) {
-	Widget w = AppShells[i].drive_led;
+    for (i = 0; i < num_app_shells; i++) {
+	Widget w = app_shells[i].drive_led;
 
 	if (!XtIsRealized(w)) {
 	    XtRealizeWidget(w);
@@ -1025,24 +878,24 @@ void UiDisplayDriveLed(int status)
 
 /* Display a message in the title bar indicating that the emulation is
    paused.  */
-void UiDisplayPaused(int flag)
+void ui_display_paused(int flag)
 {
     int i;
     char str[1024];
 
-    for (i = 0; i < NumAppShells; i++) {
+    for (i = 0; i < num_app_shells; i++) {
 	if (flag) {
-	    sprintf(str, "%s (paused)", AppShells[i].title);
-	    XtVaSetValues(AppShells[i].shell, XtNtitle, str, NULL);
+	    sprintf(str, "%s (paused)", app_shells[i].title);
+	    XtVaSetValues(app_shells[i].shell, XtNtitle, str, NULL);
 	} else {
-	    XtVaSetValues(AppShells[i].shell, XtNtitle,
-			  AppShells[i].title, NULL);
+	    XtVaSetValues(app_shells[i].shell, XtNtitle,
+			  app_shells[i].title, NULL);
 	}
     }
 }
 
 /* Dispatch the next Xt event.  If not pending, wait for it. */
-static void UiDispatchNextEvent(void)
+void ui_dispatch_next_event(void)
 {
     XEvent report;
 
@@ -1051,14 +904,14 @@ static void UiDispatchNextEvent(void)
 }
 
 /* Dispatch all the pending Xt events. */
-void UiDispatchEvents(void)
+void ui_dispatch_events(void)
 {
-    while (XtAppPending(app_context) || MenuPopup)
-	UiDispatchNextEvent();
+    while (XtAppPending(app_context) || ui_menu_any_open())
+	ui_dispatch_next_event();
 }
 
 /* Resize one window. */
-void UiResizeCanvasWindow(UiWindow w, int width, int height)
+void ui_resize_canvas_window(ui_window_t w, int width, int height)
 {
     Dimension canvas_width, canvas_height;
     Dimension form_width, form_height;
@@ -1082,26 +935,26 @@ void UiResizeCanvasWindow(UiWindow w, int width, int height)
 }
 
 /* Map one window. */
-void UiMapCanvasWindow(UiWindow w)
+void ui_map_canvas_window(ui_window_t w)
 {
     XtPopup(w, XtGrabNone);
 }
 
 /* Unmap one window. */
-void UiUnmapCanvasWindow(UiWindow w)
+void ui_unmap_canvas_window(ui_window_t w)
 {
     XtPopdown(w);
 }
 
 /* Enable autorepeat. */
-void UiAutoRepeatOn(void)
+void ui_autorepeat_on(void)
 {
     XAutoRepeatOn(display);
     XFlush(display);
 }
 
 /* Disable autorepeat. */
-void UiAutoRepeatOff(void)
+void ui_autorepeat_off(void)
 {
     XAutoRepeatOff(display);
     XFlush(display);
@@ -1109,9 +962,32 @@ void UiAutoRepeatOff(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* Button callbacks.  */
+
+#define DEFINE_BUTTON_CALLBACK(button)          \
+    UI_CALLBACK(##button##_callback)            \
+    {                                           \
+        *((ui_button_t *)client_data) = button; \
+    }
+
+DEFINE_BUTTON_CALLBACK(UI_BUTTON_OK)
+DEFINE_BUTTON_CALLBACK(UI_BUTTON_CANCEL)
+DEFINE_BUTTON_CALLBACK(UI_BUTTON_YES)
+DEFINE_BUTTON_CALLBACK(UI_BUTTON_NO)
+DEFINE_BUTTON_CALLBACK(UI_BUTTON_CLOSE)
+DEFINE_BUTTON_CALLBACK(UI_BUTTON_MON)
+DEFINE_BUTTON_CALLBACK(UI_BUTTON_DEBUG)
+DEFINE_BUTTON_CALLBACK(UI_BUTTON_RESET)
+DEFINE_BUTTON_CALLBACK(UI_BUTTON_HARDRESET)
+DEFINE_BUTTON_CALLBACK(UI_BUTTON_CONTENTS)
+DEFINE_BUTTON_CALLBACK(UI_BUTTON_AUTOSTART)
+
+/* ------------------------------------------------------------------------- */
+
 /* Handle all special keys. */
-static void UiHandleSpecialKeys(Widget w, XtPointer closure,
-				XEvent *x_event, Boolean *continue_to_dispatch)
+static void handle_special_keys(Widget w, XtPointer closure,
+                                XEvent *x_event,
+                                Boolean *continue_to_dispatch)
 {
     static char buffer[20];
     KeySym key;
@@ -1120,8 +996,10 @@ static void UiHandleSpecialKeys(Widget w, XtPointer closure,
     XLookupString(&x_event->xkey, buffer, 20, &key, &compose);
 
     switch (key) {
+        /* FIXME: THese should be defined in the menu definitions.  */
+#if 0
       case XK_F9:
-	UiToggleWarpMode(NULL, NULL, NULL);
+	ui_toggle_warp_mode(NULL, NULL, NULL);
 	break;
       case XK_F10:
 	UiAttachDisk(NULL, (XtPointer) 8, NULL);
@@ -1140,6 +1018,7 @@ static void UiHandleSpecialKeys(Widget w, XtPointer closure,
 #endif
 	UiPowerUpReset(NULL, NULL, NULL);
 	break;
+#endif
       default:
 	break;
     }
@@ -1148,80 +1027,81 @@ static void UiHandleSpecialKeys(Widget w, XtPointer closure,
 /* ------------------------------------------------------------------------- */
 
 /* Report an error to the user. */
-void UiError(const char *format,...)
+void ui_error(const char *format,...)
 {
     char str[1024];
     va_list ap;
-    static Widget ErrorDialog;
-    static UiButton button;
+    static Widget error_dialog;
+    static ui_button_t button;
 
     va_start(ap, format);
     vsprintf(str, format, ap);
-    ErrorDialog = UiBuildErrorDialog(TopLevel, &button, str);
-    UiPopup(XtParent(ErrorDialog), "VICE Error!", False);
-    button = Button_None;
+    error_dialog = build_error_dialog(_ui_top_level, &button, str);
+    ui_popup(XtParent(error_dialog), "VICE Error!", False);
+    button = UI_BUTTON_NONE;
     do
-	UiDispatchNextEvent();
-    while (button == Button_None);
-    UiPopdown(XtParent(ErrorDialog));
-    XtDestroyWidget(XtParent(ErrorDialog));
-    UiDispatchEvents();
+	ui_dispatch_next_event();
+    while (button == UI_BUTTON_NONE);
+    ui_popdown(XtParent(error_dialog));
+    XtDestroyWidget(XtParent(error_dialog));
+    ui_dispatch_events();
     suspend_speed_eval();
 }
 
 /* Report a message to the user. */
-void UiMessage(const char *format,...)
+void ui_message(const char *format,...)
 {
     char str[1024];
     va_list ap;
-    static Widget ErrorDialog;
-    static UiButton button;
+    static Widget error_dialog;
+    static ui_button_t button;
 
     va_start(ap, format);
     vsprintf(str, format, ap);
-    ErrorDialog = UiBuildErrorDialog(TopLevel, &button, str);
-    UiPopup(XtParent(ErrorDialog), "VICE", False);
-    button = Button_None;
+    error_dialog = build_error_dialog(_ui_top_level, &button, str);
+    ui_popup(XtParent(error_dialog), "VICE", False);
+    button = UI_BUTTON_NONE;
     do
-	UiDispatchNextEvent();
-    while (button == Button_None);
-    UiPopdown(XtParent(ErrorDialog));
-    XtDestroyWidget(XtParent(ErrorDialog));
-    UiDispatchEvents();
+	ui_dispatch_next_event();
+    while (button == UI_BUTTON_NONE);
+    ui_popdown(XtParent(error_dialog));
+    XtDestroyWidget(XtParent(error_dialog));
+    ui_dispatch_events();
     suspend_speed_eval();
 }
 
 void activate_xdebug_window(void)
 {
-    if (!XDebugger) {
-	XDebugger = XtVaCreatePopupShell("XDebugger",
-					 applicationShellWidgetClass, TopLevel,
+    if (!xdebugger) {
+	xdebugger = XtVaCreatePopupShell("XDebugger",
+					 applicationShellWidgetClass,
+					 _ui_top_level,
 					 NULL);
-	XtOverrideTranslations(XDebugger,
+	XtOverrideTranslations(xdebugger,
 			       (XtParseTranslationTable
 				("<Message>WM_PROTOCOLS: Close()")));
-	xdebug_create(XDebugger);
+	xdebug_create(xdebugger);
     }
-    XtPopup(XDebugger, XtGrabNone);
-    XSetWMProtocols(display, XtWindow(XDebugger), &WM_delete_window, 1);
+    XtPopup(xdebugger, XtGrabNone);
+    XSetWMProtocols(display, XtWindow(xdebugger), &wm_delete_window, 1);
     xdebug_enable();
 }
 
 /* Report a message to the user, allow different buttons. */
-UiJamAction UiJamDialog(const char *format, ...)
+ui_jam_action_t ui_jam_dialog(const char *format, ...)
 {
     char str[1024];
     va_list ap;
-    static Widget JamDialog, shell, tmp, mform, bbox;
-    static UiButton button;
+    static Widget jam_dialog, shell, tmp, mform, bbox;
+    static ui_button_t button;
 
     va_start(ap, format);
 
-    shell = UiCreateTransientShell(TopLevel, "jamDialogShell");
-    JamDialog = XtVaCreateManagedWidget
+    shell = ui_create_transient_shell(_ui_top_level, "jamDialogShell");
+    jam_dialog = XtVaCreateManagedWidget
 	("jamDialog", panedWidgetClass, shell, NULL);
     mform = XtVaCreateManagedWidget
-	("messageForm", formWidgetClass, JamDialog, NULL);
+	("messageForm", formWidgetClass, jam_dialog, NULL);
 
     vsprintf(str, format, ap);
     tmp = XtVaCreateManagedWidget
@@ -1230,79 +1110,79 @@ UiJamAction UiJamDialog(const char *format, ...)
 	 NULL);
 
     bbox = XtVaCreateManagedWidget
-	("buttonBox", boxWidgetClass, JamDialog,
+	("buttonBox", boxWidgetClass, jam_dialog,
 	 XtNshowGrip, False, XtNskipAdjust, XtNorientation,
 	 XtorientHorizontal, NULL);
 
     tmp = XtVaCreateManagedWidget
 	("resetButton", commandWidgetClass, bbox, NULL);
-    XtAddCallback(tmp, XtNcallback, UiResetButtonCallback,
+    XtAddCallback(tmp, XtNcallback, UI_BUTTON_RESET_callback,
 		  (XtPointer) &button);
 
     tmp = XtVaCreateManagedWidget
         ("hardResetButton", commandWidgetClass, bbox, NULL);
-    XtAddCallback(tmp, XtNcallback, UiHardResetButtonCallback,
+    XtAddCallback(tmp, XtNcallback, UI_BUTTON_HARDRESET_callback,
                   (XtPointer) &button);
 
     tmp = XtVaCreateManagedWidget
 	("monButton", commandWidgetClass, bbox, NULL);
-    XtAddCallback(tmp, XtNcallback, UiMonButtonCallback,
+    XtAddCallback(tmp, XtNcallback, UI_BUTTON_MON_callback,
 		  (XtPointer) &button);
 
     tmp = XtVaCreateManagedWidget
 	("debugButton", commandWidgetClass, bbox, NULL);
-    XtAddCallback(tmp, XtNcallback, UiDebugButtonCallback,
+    XtAddCallback(tmp, XtNcallback, UI_BUTTON_DEBUG_callback,
 		  (XtPointer) &button);
 
-    UiPopup(XtParent(JamDialog), "VICE", False);
-    button = Button_None;
+    ui_popup(XtParent(jam_dialog), "VICE", False);
+    button = UI_BUTTON_NONE;
     do
-	UiDispatchNextEvent();
-    while (button == Button_None);
-    UiPopdown(XtParent(JamDialog));
-    XtDestroyWidget(XtParent(JamDialog));
+	ui_dispatch_next_event();
+    while (button == UI_BUTTON_NONE);
+    ui_popdown(XtParent(jam_dialog));
+    XtDestroyWidget(XtParent(jam_dialog));
 
-    if (button == Button_Debug) {
+    if (button == UI_BUTTON_DEBUG) {
 	activate_xdebug_window();
 	XSync(display, False);
-	UiDispatchEvents();
     }
 
     suspend_speed_eval();
-    UiDispatchEvents();
+    ui_dispatch_events();
 
     switch (button) {
-      case Button_Mon:
+      case UI_BUTTON_MON:
 	return UI_JAM_MONITOR;
-      case Button_HardReset:
+      case UI_BUTTON_HARDRESET:
         return UI_JAM_HARD_RESET;
-      case Button_Debug:
+      case UI_BUTTON_DEBUG:
         return UI_JAM_DEBUG;
-      case Button_Reset:
+      case UI_BUTTON_RESET:
       default:
         return UI_JAM_RESET;
     }
 }
 
-int UiExtendImageDialog(void)
+int ui_extend_image_dialog(void)
 {
-    UiButton b;
+    ui_button_t b;
 
     suspend_speed_eval();
-    b = UiAskConfirmation("Extend disk image",
-                          "Do you want to extend the disk image to 40 tracks?");
-    return (b == Button_Yes) ? 1 : 0;
+    b = ui_ask_confirmation("Extend disk image",
+                            ("Do you want to extend the disk image"
+                             " to 40 tracks?"));
+    return (b == UI_BUTTON_YES) ? 1 : 0;
 }
 
 /* File browser. */
-char *UiFileSelect(const char *title,
-		   char *(*read_contents_func)(const char *),
-		   int allow_autostart,
-		   UiButton *button_return)
+char *ui_select_file(const char *title,
+                     char *(*read_contents_func)(const char *),
+                     int allow_autostart,
+                     ui_button_t *button_return)
 {
-    static UiButton button;
+    static ui_button_t button;
     static char *ret = NULL;
-    static Widget FileSelector = NULL;
+    static Widget file_selector = NULL;
     XfwfFileSelectorStatusStruct fs_status;
     char *curdir;
 
@@ -1311,32 +1191,32 @@ char *UiFileSelect(const char *title,
        because there seems to be a bug in the XfwfScrolledList that causes
        the file and directory listing to disappear randomly.  I hope this
        fixes the problem...  */
-    FileSelector = UiBuildFileSelector(TopLevel, &button);
+    file_selector = build_file_selector(_ui_top_level, &button);
 #else
     /* Unluckily, this does not work on Alpha (segfault when the widget is
        popped down).  There is probably something wrong in some widget, but
        we have no time to check this...  FIXME: Then Alpha users could get
        the "disappearing list" bug.  Grpmf.  */
-    if (FileSelector == NULL)
-	FileSelector = UiBuildFileSelector(TopLevel, &button);
+    if (file_selector == NULL)
+	file_selector = build_file_selector(_ui_top_level, &button);
 #endif
 
-    XtVaSetValues(FileSelector, XtNshowAutostartButton, allow_autostart, NULL);
+    XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart, NULL);
 
     curdir = get_current_dir();
-    XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget) FileSelector,
+    XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget) file_selector,
 				    curdir);
     free(curdir);
 
-    UiPopup(XtParent(FileSelector), title, False);
+    ui_popup(XtParent(file_selector), title, False);
     do {
-	button = Button_None;
-	while (button == Button_None)
-	    UiDispatchNextEvent();
-	XfwfFileSelectorGetStatus((XfwfFileSelectorWidget)FileSelector,
+	button = UI_BUTTON_NONE;
+	while (button == UI_BUTTON_NONE)
+	    ui_dispatch_next_event();
+	XfwfFileSelectorGetStatus((XfwfFileSelectorWidget)file_selector,
 				  &fs_status);
 	if (fs_status.file_selected
-	    && button == Button_Contents
+	    && button == UI_BUTTON_CONTENTS
 	    && read_contents_func != NULL) {
 	    char *contents;
 	    char *f = concat(fs_status.path, fs_status.file, NULL);
@@ -1344,14 +1224,14 @@ char *UiFileSelect(const char *title,
 	    contents = read_contents_func(f);
 	    free(f);
 	    if (contents != NULL) {
-		UiShowText(fs_status.file, contents, 250, 240);
+		ui_show_text(fs_status.file, contents, 250, 240);
 		free(contents);
 	    } else {
-		UiError("Unknown image type.");
+		ui_error("Unknown image type.");
 	    }
 	}
-    } while ((!fs_status.file_selected && button != Button_Cancel)
-	     || button == Button_Contents);
+    } while ((!fs_status.file_selected && button != UI_BUTTON_CANCEL)
+	     || button == UI_BUTTON_CONTENTS);
 
     if (ret != NULL)
 	free(ret);
@@ -1361,108 +1241,116 @@ char *UiFileSelect(const char *title,
     else
 	ret = stralloc("");
 
-    UiPopdown(XtParent(FileSelector));
+    ui_popdown(XtParent(file_selector));
 
 #ifndef __alpha
     /* On Alpha, XtDestroyWidget segfaults, don't know why...  */
-    XtDestroyWidget(XtParent(FileSelector));
+    XtDestroyWidget(XtParent(file_selector));
 #endif
 
     *button_return = button;
-    if (button == Button_Ok || button == Button_Autostart)
+    if (button == UI_BUTTON_OK || button == UI_BUTTON_AUTOSTART)
 	return ret;
     else
 	return NULL;
 }
 
 /* Ask for a string.  The user can confirm or cancel. */
-UiButton UiInputString(const char *title, const char *prompt, char *buf,
-		       unsigned int buflen)
+ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
+                            unsigned int buflen)
 {
     String str;
-    static Widget InputDialog, InputDialogLabel, InputDialogField;
-    static UiButton button;
+    static Widget input_dialog, input_dialog_label, input_dialog_field;
+    static ui_button_t button;
 
-    if (!InputDialog)
-	InputDialog = UiBuildInputDialog(TopLevel, &button, &InputDialogLabel,
-					 &InputDialogField);
-    XtVaSetValues(InputDialogLabel, XtNlabel, prompt, NULL);
-    XtVaSetValues(InputDialogField, XtNstring, buf, NULL);
-    XtSetKeyboardFocus(InputDialog, InputDialogField);
-    UiPopup(XtParent(InputDialog), title, False);
-    button = Button_None;
+    if (!input_dialog)
+	input_dialog = build_input_dialog(_ui_top_level, &button,
+                                          &input_dialog_label,
+                                          &input_dialog_field);
+    XtVaSetValues(input_dialog_label, XtNlabel, prompt, NULL);
+    XtVaSetValues(input_dialog_field, XtNstring, buf, NULL);
+    XtSetKeyboardFocus(input_dialog, input_dialog_field);
+    ui_popup(XtParent(input_dialog), title, False);
+    button = UI_BUTTON_NONE;
     do
-	UiDispatchNextEvent();
-    while (button == Button_None);
-    XtVaGetValues(InputDialogField, XtNstring, &str, NULL);
+	ui_dispatch_next_event();
+    while (button == UI_BUTTON_NONE);
+    XtVaGetValues(input_dialog_field, XtNstring, &str, NULL);
     strncpy(buf, str, buflen);
-    UiPopdown(XtParent(InputDialog));
+    ui_popdown(XtParent(input_dialog));
     return button;
 }
 
 /* Display a text to the user. */
-void UiShowText(const char *title, const char *text, int width, int height)
+void ui_show_text(const char *title, const char *text, int width, int height)
 {
-    static UiButton button;
-    Widget ShowText;
+    static ui_button_t button;
+    Widget show_text;
 
-    ShowText = UiBuildShowText(TopLevel, &button, (String)text, width, height);
-    UiPopup(XtParent(ShowText), title, False);
-    button = Button_None;
+    show_text = build_show_text(_ui_top_level, &button, (String)text,
+                                width, height);
+    ui_popup(XtParent(show_text), title, False);
+    button = UI_BUTTON_NONE;
     do
-	UiDispatchNextEvent();
-    while (button == Button_None);
-    UiPopdown(XtParent(ShowText));
-    XtDestroyWidget(XtParent(ShowText));
+	ui_dispatch_next_event();
+    while (button == UI_BUTTON_NONE);
+    ui_popdown(XtParent(show_text));
+    XtDestroyWidget(XtParent(show_text));
 }
 
 /* Ask for a confirmation. */
-UiButton UiAskConfirmation(const char *title, const char *text)
+ui_button_t ui_ask_confirmation(const char *title, const char *text)
 {
-    static Widget ConfirmDialog, ConfirmDialogMessage;
-    static UiButton button;
+    static Widget confirm_dialog, confirm_dialog_message;
+    static ui_button_t button;
 
-    if (!ConfirmDialog)
-	ConfirmDialog = UiBuildConfirmDialog(TopLevel, &button,
-					     &ConfirmDialogMessage);
-    XtVaSetValues(ConfirmDialogMessage, XtNlabel, text, NULL);
-    UiPopup(XtParent(ConfirmDialog), title, False);
-    button = Button_None;
+    if (!confirm_dialog)
+	confirm_dialog = build_confirm_dialog(_ui_top_level, &button,
+                                              &confirm_dialog_message);
+    XtVaSetValues(confirm_dialog_message, XtNlabel, text, NULL);
+    ui_popup(XtParent(confirm_dialog), title, False);
+    button = UI_BUTTON_NONE;
     do
-	UiDispatchNextEvent();
-    while (button == Button_None);
-    UiPopdown(XtParent(ConfirmDialog));
+	ui_dispatch_next_event();
+    while (button == UI_BUTTON_NONE);
+    ui_popdown(XtParent(confirm_dialog));
     return button;
 }
 
 /* Update the menu items with a checkmark according to the current resource
    values.  */
-void UiUpdateMenus(void)
+void ui_update_menus(void)
 {
-    int i;
-
-    for (i = 0; i < NumCheckmarkMenuItems; i++)
-	XtCallCallbacks(CheckmarkMenuItems[i], XtNcallback, (XtPointer) !NULL);
+    ui_menu_update_all();
 }
 
-/* ------------------------------------------------------------------------- */
+Widget ui_create_transient_shell(Widget parent, const char *name)
+{
+    Widget w;
+
+    w = XtVaCreatePopupShell
+	(name, transientShellWidgetClass, parent, XtNinput, True, NULL);
+    XtOverrideTranslations(w, XtParseTranslationTable
+			   ("<Message>WM_PROTOCOLS: Close()"));
+    return w;
+}
 
 /* Pop up a popup shell and center it to the last visited AppShell */
-static void UiPopup(Widget w, const char *title, Boolean wait_popdown)
+void ui_popup(Widget w, const char *title, Boolean wait_popdown)
 {
     Widget s = NULL;
 
     /* Keep sure that we really know which was the last visited shell. */
-    UiDispatchEvents();
+    ui_dispatch_events();
 
-    if (LastVisitedAppShell)
-	s = LastVisitedAppShell;
+    if (last_visited_app_shell)
+	s = last_visited_app_shell;
     else {
 	/* Choose one realized shell. */
 	int i;
-	for (i = 0; i < NumAppShells; i++)
-	    if (XtIsRealized(AppShells[i].shell)) {
-		s = AppShells[i].shell;
+	for (i = 0; i < num_app_shells; i++)
+	    if (XtIsRealized(app_shells[i].shell)) {
+		s = app_shells[i].shell;
 		break;
 	    }
     }
@@ -1484,58 +1372,60 @@ static void UiPopup(Widget w, const char *title, Boolean wait_popdown)
     }
     XtVaSetValues(w, XtNtitle, title, NULL);
     XtPopup(w, XtGrabExclusive);
-    XSetWMProtocols(display, XtWindow(w), &WM_delete_window, 1);
+    XSetWMProtocols(display, XtWindow(w), &wm_delete_window, 1);
 
     /* If requested, wait for this widget to be popped down before
        returning. */
     if (wait_popdown) {
-	int oldcnt = PoppedUpCnt++;
-	while (oldcnt != PoppedUpCnt)
-	    UiDispatchNextEvent();
+	int oldcnt = popped_up_count++;
+	while (oldcnt != popped_up_count)
+	    ui_dispatch_next_event();
     } else
-	PoppedUpCnt++;
+	popped_up_count++;
 }
 
 /* Pop down a popup shell. */
-static void UiPopdown(Widget w)
+void ui_popdown(Widget w)
 {
     XtPopdown(w);
-    if (--PoppedUpCnt < 0)
-	PoppedUpCnt = 0;
+    if (--popped_up_count < 0)
+	popped_up_count = 0;
 }
 
 /* ------------------------------------------------------------------------- */
 
 /* These functions build all the widgets. */
 
-static Widget UiBuildFileSelector(Widget parent, UiButton * button_return)
+static Widget build_file_selector(Widget parent,
+                                  ui_button_t * button_return)
 {
-    Widget shell = UiCreateTransientShell(parent, "fileSelectorShell");
-    Widget FileSelector = XtVaCreateManagedWidget("fileSelector",
-						  xfwfFileSelectorWidgetClass,
-						  shell,
-						  XtNflagLinks, True, NULL);
+    Widget shell = ui_create_transient_shell(parent, "fileSelectorShell");
+    Widget file_selector = XtVaCreateManagedWidget("fileSelector",
+                                                   xfwfFileSelectorWidgetClass,
+                                                   shell,
+                                                   XtNflagLinks, True, NULL);
 
-    XtAddCallback((Widget) FileSelector, XtNokButtonCallback,
-		  UiOkButtonCallback, (XtPointer) button_return);
-    XtAddCallback((Widget) FileSelector,
-		  XtNcancelButtonCallback, UiCancelButtonCallback,
+    XtAddCallback((Widget) file_selector,
+                  XtNokButtonCallback, UI_BUTTON_OK_callback,
+                  (XtPointer) button_return);
+    XtAddCallback((Widget) file_selector,
+		  XtNcancelButtonCallback, UI_BUTTON_CANCEL_callback,
 		  (XtPointer) button_return);
-    XtAddCallback((Widget) FileSelector,
-		  XtNcontentsButtonCallback, UiContentsButtonCallback,
+    XtAddCallback((Widget) file_selector,
+		  XtNcontentsButtonCallback, UI_BUTTON_CONTENTS_callback,
 		  (XtPointer) button_return);
-    XtAddCallback((Widget) FileSelector,
-		  XtNautostartButtonCallback, UiAutostartButtonCallback,
+    XtAddCallback((Widget) file_selector,
+		  XtNautostartButtonCallback, UI_BUTTON_AUTOSTART_callback,
 		  (XtPointer) button_return);
-    return FileSelector;
+    return file_selector;
 }
 
-static Widget UiBuildErrorDialog(Widget parent, UiButton * button_return,
-				 const String message)
+static Widget build_error_dialog(Widget parent, ui_button_t * button_return,
+                                 const String message)
 {
     Widget shell, ErrorDialog, tmp;
 
-    shell = UiCreateTransientShell(parent, "errorDialogShell");
+    shell = ui_create_transient_shell(parent, "errorDialogShell");
     ErrorDialog = XtVaCreateManagedWidget
 	("errorDialog", panedWidgetClass, shell, NULL);
     tmp = XtVaCreateManagedWidget
@@ -1550,56 +1440,56 @@ static Widget UiBuildErrorDialog(Widget parent, UiButton * button_return,
 	 XtorientHorizontal, NULL);
     tmp = XtVaCreateManagedWidget
 	("closeButton", commandWidgetClass, tmp, NULL);
-    XtAddCallback(tmp, XtNcallback, UiCloseButtonCallback,
+    XtAddCallback(tmp, XtNcallback, UI_BUTTON_CLOSE_callback,
 		  (XtPointer) button_return);
     return ErrorDialog;
 }
 
-static Widget UiBuildInputDialog(Widget parent, UiButton * button_return,
-				 Widget * InputDialogLabel,
-				 Widget * InputDialogField)
+static Widget build_input_dialog(Widget parent, ui_button_t * button_return,
+                                 Widget *input_dialog_label,
+                                 Widget *input_dialog_field)
 {
-    Widget shell, InputDialog, tmp1, tmp2;
+    Widget shell, input_dialog, tmp1, tmp2;
 
-    shell = UiCreateTransientShell(parent, "inputDialogShell");
-    InputDialog = XtVaCreateManagedWidget
+    shell = ui_create_transient_shell(parent, "inputDialogShell");
+    input_dialog = XtVaCreateManagedWidget
 	("inputDialog", panedWidgetClass, shell, NULL);
     tmp1 = XtVaCreateManagedWidget
-	("inputForm", formWidgetClass, InputDialog, NULL);
-    *InputDialogLabel = XtVaCreateManagedWidget
+	("inputForm", formWidgetClass, input_dialog, NULL);
+    *input_dialog_label = XtVaCreateManagedWidget
 	("label", labelWidgetClass, tmp1, XtNresize, False, XtNjustify,
 	 XtJustifyLeft, NULL);
-    *InputDialogField = XtVaCreateManagedWidget
-	("field", textfieldWidgetClass, tmp1, XtNfromVert, *InputDialogLabel,
+    *input_dialog_field = XtVaCreateManagedWidget
+	("field", textfieldWidgetClass, tmp1, XtNfromVert, *input_dialog_label,
 	 NULL);
-    XtAddCallback(*InputDialogField, XtNactivateCallback, UiOkButtonCallback,
-		  (XtPointer) button_return);
+    XtAddCallback(*input_dialog_field, XtNactivateCallback,
+                  UI_BUTTON_OK_callback, (XtPointer) button_return);
     tmp1 = XtVaCreateManagedWidget
-	("buttonBox", boxWidgetClass, InputDialog,
+	("buttonBox", boxWidgetClass, input_dialog,
 	 XtNshowGrip, False, XtNskipAdjust, True,
 	 XtNorientation, XtorientHorizontal, NULL);
     tmp2 = XtVaCreateManagedWidget
 	("okButton", commandWidgetClass, tmp1, NULL);
-    XtAddCallback(tmp2,
-		  XtNcallback, UiOkButtonCallback, (XtPointer) button_return);
+    XtAddCallback(tmp2, XtNcallback,
+                  UI_BUTTON_OK_callback, (XtPointer) button_return);
     tmp2 = XtVaCreateManagedWidget
 	("cancelButton", commandWidgetClass, tmp1, XtNfromHoriz, tmp2, NULL);
-    XtAddCallback(tmp2,
-		  XtNcallback, UiCancelButtonCallback, (XtPointer) button_return);
-    return InputDialog;
+    XtAddCallback(tmp2, XtNcallback,
+                  UI_BUTTON_CANCEL_callback, (XtPointer) button_return);
+    return input_dialog;
 }
 
-static Widget UiBuildShowText(Widget parent, UiButton * button_return,
-			      const String text, int width, int height)
+static Widget build_show_text(Widget parent, ui_button_t * button_return,
+                              const String text, int width, int height)
 {
     Widget shell, tmp;
-    Widget ShowText;
+    Widget show_text;
 
-    shell = UiCreateTransientShell(parent, "showTextShell");
-    ShowText = XtVaCreateManagedWidget
+    shell = ui_create_transient_shell(parent, "showTextShell");
+    show_text = XtVaCreateManagedWidget
 	("showText", panedWidgetClass, shell, NULL);
     tmp = XtVaCreateManagedWidget
-	("textBox", formWidgetClass, ShowText, NULL);
+	("textBox", formWidgetClass, show_text, NULL);
     tmp = XtVaCreateManagedWidget
 	("text", asciiTextWidgetClass, tmp,
 	 XtNtype, XawAsciiString, XtNeditType, XawtextRead,
@@ -1610,1207 +1500,190 @@ static Widget UiBuildShowText(Widget parent, UiButton * button_return,
     if (height > 0)
 	XtVaSetValues(tmp, XtNheight, (Dimension)height, NULL);
     tmp = XtVaCreateManagedWidget
-	("buttonBox", boxWidgetClass, ShowText,
+	("buttonBox", boxWidgetClass, show_text,
 	 XtNshowGrip, False, XtNskipAdjust, True,
 	 XtNorientation, XtorientHorizontal, NULL);
     tmp = XtVaCreateManagedWidget("closeButton", commandWidgetClass, tmp, NULL);
-    XtAddCallback(tmp,
-		  XtNcallback, UiCloseButtonCallback,
+    XtAddCallback(tmp, XtNcallback, UI_BUTTON_CLOSE_callback,
 		  (XtPointer) button_return);
-    return ShowText;
+    return show_text;
 }
 
-static Widget UiBuildConfirmDialog(Widget parent, UiButton *button_return,
-				   Widget *ConfirmDialogMessage)
+static Widget build_confirm_dialog(Widget parent,
+                                   ui_button_t *button_return,
+                                   Widget *confirm_dialog_message)
 {
-    Widget shell, ConfirmDialog, tmp1, tmp2;
+    Widget shell, confirm_dialog, tmp1, tmp2;
 
-    shell = UiCreateTransientShell(parent, "confirmDialogShell");
-    ConfirmDialog = XtVaCreateManagedWidget
+    shell = ui_create_transient_shell(parent, "confirmDialogShell");
+    confirm_dialog = XtVaCreateManagedWidget
 	("confirmDialog", panedWidgetClass, shell, NULL);
     tmp1 = XtVaCreateManagedWidget("messageForm", formWidgetClass,
-				   ConfirmDialog, NULL);
-    *ConfirmDialogMessage = XtVaCreateManagedWidget
+				   confirm_dialog, NULL);
+    *confirm_dialog_message = XtVaCreateManagedWidget
 	("message", labelWidgetClass, tmp1, XtNresize, False,
 	 XtNjustify, XtJustifyCenter, NULL);
     tmp1 = XtVaCreateManagedWidget
-	("buttonBox", boxWidgetClass, ConfirmDialog,
+	("buttonBox", boxWidgetClass, confirm_dialog,
 	 XtNshowGrip, False, XtNskipAdjust, True,
 	 XtNorientation, XtorientHorizontal, NULL);
     tmp2 = XtVaCreateManagedWidget
 	("yesButton", commandWidgetClass, tmp1, NULL);
-    XtAddCallback(tmp2,
-		  XtNcallback, UiYesButtonCallback, (XtPointer) button_return);
+    XtAddCallback(tmp2, XtNcallback, UI_BUTTON_YES_callback,
+                  (XtPointer) button_return);
     tmp2 = XtVaCreateManagedWidget
 	("noButton", commandWidgetClass, tmp1, NULL);
     XtAddCallback(tmp2,
-		  XtNcallback, UiNoButtonCallback, (XtPointer) button_return);
+		  XtNcallback, UI_BUTTON_NO_callback,
+                  (XtPointer) button_return);
     tmp2 = XtVaCreateManagedWidget
 	("cancelButton", commandWidgetClass, tmp1, NULL);
     XtAddCallback(tmp2,
-		  XtNcallback, UiCancelButtonCallback, (XtPointer) button_return);
-    return ConfirmDialog;
+		  XtNcallback, UI_BUTTON_CANCEL_callback,
+                  (XtPointer) button_return);
+    return confirm_dialog;
 }
 
-static Widget UiCreateTransientShell(Widget parent, const char *name)
-{
-    Widget w;
-
-    w = XtVaCreatePopupShell
-	(name, transientShellWidgetClass, parent, XtNinput, True, NULL);
-    XtOverrideTranslations(w, XtParseTranslationTable
-			   ("<Message>WM_PROTOCOLS: Close()"));
-    return w;
-}
-
-static Widget UiBuildPopupMenu(Widget parent, const char *name,
-			       MenuEntry list[])
+#if 0
+static Widget build_popup_menu(Widget parent, const char *name, ...)
 {
     Widget w;
     unsigned int i, j;
     static int level = 0;
+    ui_menu_entry_t *list;
+    va_list ap;
 
     level++;
     w = XtCreatePopupShell(name, simpleMenuWidgetClass, parent, NULL, 0);
     if (level == 1) {
-	XtAddCallback(w, XtNpopupCallback, UiMenuPopupCallback, NULL);
-	XtAddCallback(w, XtNpopdownCallback, UiMenuPopdownCallback, NULL);
+	XtAddCallback(w, XtNpopupCallback, menu_popup_callback, NULL);
+	XtAddCallback(w, XtNpopdownCallback, menu_popdown_callback, NULL);
     }
     XtOverrideTranslations
 	(w, XtParseTranslationTable
 	 ("<BtnMotion>: highlight() PositionSubmenu()\n"
 	  "@Num_Lock<BtnMotion>: highlight() PositionSubmenu()\n"
 	  "<LeaveWindow>: Unhighlight()\n"
-	  "<BtnUp>: PopdownSubmenus() MenuPopdown() notify() unhighlight()"));
+	  "<BtnUp>: Popdownsubmenus() MenuPopdown() notify() unhighlight()"));
 
-    for (i = j = 0; list[i].string; i++) {
-	Widget new_item;
-	char name[256];
+    va_start(ap, name);
+    while ((list = va_arg(ap, ui_menu_entry_t *)) != NULL) {
+        for (i = j = 0; list[i].string; i++) {
+            Widget new_item;
+            char name[256];
 
-	sprintf(name, "MenuItem%d", j);	/* ugly... */
-	switch (*list[i].string) {
-	  case '-':		/* line */
-	    new_item = XtCreateManagedWidget("separator", smeLineObjectClass,
-					     w, NULL, 0);
-	    break;
-	  case '*':		/* toggle */
-	    new_item = XtVaCreateManagedWidget(name, smeBSBObjectClass, w,
-					       XtNrightMargin, 20,
-					       XtNleftMargin, 20,
-					       XtNlabel, list[i].string + 1,
-					       NULL);
-	    /* Add this item to the list of calls to perform to update the
-	       menu status. */
-	    if (list[i].callback) {
-		if (NumCheckmarkMenuItems < MAX_UPDATE_MENU_LIST_SIZE)
-		    CheckmarkMenuItems[NumCheckmarkMenuItems++] = new_item;
-		else {
-		    fprintf(stderr,
-			    "Maximum number of menus reached!  "
-			    "Please fix the code.\n");
-		    exit(-1);
-		}
-	    }
-	    j++;
-	    break;
-	  default:
-	    new_item = XtVaCreateManagedWidget(name, smeBSBObjectClass, w,
-					       XtNleftMargin, 20,
-					       XtNrightMargin, 20,
-					       XtNlabel, list[i].string,
-					       NULL);
-	    j++;
-	}
-	if (list[i].callback)
-	    XtAddCallback(new_item, XtNcallback,
-			  (XtCallbackProc) list[i].callback,
-			  list[i].callback_data);
-	if (list[i].sub_menu) {
-	    Widget sub;
+            sprintf(name, "MenuItem%d", j);	/* ugly... */
+            switch (*list[i].string) {
+              case '-':		/* line */
+                new_item = XtCreateManagedWidget("separator",
+                                                 smeLineObjectClass, w,
+                                                 NULL, 0);
+                break;
+              case '*':		/* toggle */
+                new_item = XtVaCreateManagedWidget(name,
+                                                   smeBSBObjectClass, w,
+                                                   XtNrightMargin, 20,
+                                                   XtNleftMargin, 20,
+                                                   XtNlabel,
+                                                   list[i].string + 1,
+                                                   NULL);
+                /* Add this item to the list of calls to perform to update the
+                   menu status. */
+                if (list[i].callback) {
+                    if (num_checkmark_menu_items < MAX_UPDATE_MENU_LIST_SIZE)
+                        checkmark_menu_items[num_checkmark_menu_items++] = new_item;
+                    else {
+                        fprintf(stderr,
+                                "Maximum number of menus reached!  "
+                                "Please fix the code.\n");
+                        exit(-1);
+                    }
+                }
+                j++;
+                break;
+              default:
+                new_item = XtVaCreateManagedWidget(name, smeBSBObjectClass, w,
+                                                   XtNleftMargin, 20,
+                                                   XtNrightMargin, 20,
+                                                   XtNlabel, list[i].string,
+                                                   NULL);
+                j++;
+            }
+            if (list[i].callback)
+                XtAddCallback(new_item, XtNcallback,
+                              (XtCallbackProc) list[i].callback,
+                              list[i].callback_data);
+            if (list[i].sub_menu) {
+                Widget sub;
 
-	    if (NumSubmenus > MAX_SUBMENUS) {
-		fprintf(stderr,
-			"Maximum number of sub menus reached! "
-			"Please fix the code.\n");
-		exit(-1);
-	    }
-	    XtVaSetValues(new_item, XtNrightBitmap, RightArrowBitmap, NULL);
-	    sub = UiBuildPopupMenu(parent, "SUB", list[i].sub_menu);
-	    Submenus[NumSubmenus].widget = sub;
-	    Submenus[NumSubmenus].parent = new_item;
-	    Submenus[NumSubmenus].level = level;
-	    XtAddCallback(sub, XtNpopupCallback, UiSubmenuPopupCallback,
-			  Submenus + NumSubmenus);
-	    XtAddCallback(sub, XtNpopdownCallback, UiSubmenuPopdownCallback,
-			  (XtPointer) w);
-	    NumSubmenus++;
-	}
+                if (num_submenus > MAX_SUBMENUS) {
+                    fprintf(stderr,
+                            "Maximum number of sub menus reached! "
+                            "Please fix the code.\n");
+                    exit(-1);
+                }
+                XtVaSetValues(new_item, XtNrightBitmap, right_arrow_bitmap,
+                              NULL);
+                sub = build_popup_menu(parent,
+                                       "SUB", list[i].sub_menu, NULL);
+                submenus[num_submenus].widget = sub;
+                submenus[num_submenus].parent = new_item;
+                submenus[num_submenus].level = level;
+                XtAddCallback(sub,
+                              XtNpopupCallback, submenu_popup_callback,
+                              submenus + num_submenus);
+                XtAddCallback(sub,
+                              XtNpopdownCallback, submenu_popdown_callback,
+                              (XtPointer) w);
+                num_submenus++;
+            }
+        }
     }
 
     level--;
+
+    va_end(ap);
     return w;
 }
+#endif
 
-static Widget UiBuildInfoDialog(Widget parent, UiButton * button_return,...)
+/* ------------------------------------------------------------------------- */
+
+/* Miscellaneous callbacks.  */
+
+UI_CALLBACK(enter_window_callback)
 {
-    Widget shell, pane, info_form, button_form, tmp, prevlabel = NULL;
-    va_list arglist;
-    String str;
-
-    shell = UiCreateTransientShell(parent, "infoDialogShell");
-    pane = XtVaCreateManagedWidget
-	("infoDialog", panedWidgetClass, shell, NULL);
-    info_form = XtVaCreateManagedWidget
-	("textForm", formWidgetClass, pane, NULL);
-    button_form = XtVaCreateManagedWidget
-	("buttonBox", boxWidgetClass, pane, XtNshowGrip, False,
-	 XtNskipAdjust, True, XtNorientation, XtorientHorizontal, NULL);
-    va_start(arglist, button_return);
-    while ((str = va_arg(arglist, String))) {
-	tmp = XtVaCreateManagedWidget
-	    ("infoString", labelWidgetClass, info_form,
-	     XtNlabel, str, XtNjustify, XtJustifyCenter, XtNresize, False,
-	     XtNwidth, 220, NULL);
-	if (prevlabel)
-	    XtVaSetValues(tmp, XtNfromVert, prevlabel, NULL);
-	prevlabel = tmp;
-    }
-    tmp = XtVaCreateManagedWidget
-	("closeButton", commandWidgetClass, button_form, NULL);
-    XtAddCallback(tmp, XtNcallback,
-		  UiCloseButtonCallback, (XtPointer)button_return);
-    tmp = XtVaCreateManagedWidget
-	("licenseButton", commandWidgetClass, button_form,
-	 XtNfromHoriz, tmp, NULL);
-    XtAddCallback(tmp, XtNcallback, UiInfoDialogLicenseCallback, NULL);
-    tmp = XtVaCreateManagedWidget
-	("noWarrantyButton", commandWidgetClass, button_form,
-	 XtNfromHoriz, tmp, NULL);
-    XtAddCallback(tmp, XtNcallback, UiInfoDialogNoWarrantyCallback, NULL);
-    tmp = XtVaCreateManagedWidget
-	("contribButton", commandWidgetClass, button_form,
-	 XtNfromHoriz, tmp, NULL);
-    XtAddCallback(tmp, XtNcallback, UiInfoDialogContribCallback, NULL);
-    return pane;
+    last_visited_app_shell = w;
 }
 
-CallbackFunc(UiInfoDialogLicenseCallback)
-{
-    UiShowText("VICE is FREE software!", license_text, -1, -1);
-}
-
-CallbackFunc(UiInfoDialogNoWarrantyCallback)
-{
-    UiShowText("No warranty!", warranty_text, -1, -1);
-}
-
-CallbackFunc(UiInfoDialogContribCallback)
-{
-    UiShowText("Contributors to the VICE project", contrib_text, -1, -1);
-}
-
-CallbackFunc(UiOkButtonCallback)
-{
-    *((UiButton *)client_data) = Button_Ok;
-}
-
-CallbackFunc(UiCancelButtonCallback)
-{
-    *((UiButton *)client_data) = Button_Cancel;
-}
-
-CallbackFunc(UiYesButtonCallback)
-{
-    *((UiButton *)client_data) = Button_Yes;
-}
-
-CallbackFunc(UiNoButtonCallback)
-{
-    *((UiButton *)client_data) = Button_No;
-}
-
-CallbackFunc(UiCloseButtonCallback)
-{
-    *((UiButton *)client_data) = Button_Close;
-}
-
-CallbackFunc(UiMonButtonCallback)
-{
-    *((UiButton *)client_data) = Button_Mon;
-}
-
-CallbackFunc(UiDebugButtonCallback)
-{
-    *((UiButton *)client_data) = Button_Debug;
-}
-
-CallbackFunc(UiResetButtonCallback)
-{
-    *((UiButton *)client_data) = Button_Reset;
-}
-
-CallbackFunc(UiHardResetButtonCallback)
-{
-    *((UiButton *)client_data) = Button_HardReset;
-}
-
-CallbackFunc(UiContentsButtonCallback)
-{
-    *((UiButton *)client_data) = Button_Contents;
-}
-
-CallbackFunc(UiAutostartButtonCallback)
-{
-    *((UiButton *)client_data) = Button_Autostart;
-}
-
-CallbackFunc(UiEnterWindowCallback)
-{
-    LastVisitedAppShell = w;
-}
-
-CallbackFunc(UiExposureCallback)
+UI_CALLBACK(exposure_callback)
 {
     Dimension width, height;
 
     suspend_speed_eval();
     XtVaGetValues(w, XtNwidth, (XtPointer) & width,
 		  XtNheight, (XtPointer) & height, NULL);
-    ((UiExposureHandler) client_data)((unsigned int)width,
-				      (unsigned int)height);
-}
-
-CallbackFunc(UiMenuPopupCallback)
-{
-    MenuPopup++;
-    suspend_speed_eval();
-}
-
-CallbackFunc(UiMenuPopdownCallback)
-{
-    if (MenuPopup > 0)
-	MenuPopup--;
+    ((ui_exposure_handler_t) client_data)((unsigned int)width,
+                                          (unsigned int)height);
 }
 
 /* FIXME: this does not handle multiple application shells. */
-static void UiCloseAction(Widget w, XEvent * event, String * params,
-			  Cardinal * num_params)
+static void close_action(Widget w, XEvent * event, String * params,
+                         Cardinal * num_params)
 {
     suspend_speed_eval();
-    if (w == XDebugger) {
+    if (w == xdebugger) {
 	xdebug_disable();
-	XtPopdown(XDebugger);
+	XtPopdown(xdebugger);
     } else {
 	int i;
-	for (i = 0; i < NumAppShells; i++)
-	    if (AppShells[i].shell == w)
+
+#if 0
+	for (i = 0; i < num_app_shells; i++)
+	    if (app_shells[i].shell == w)
 		UiExit(w, NULL, NULL);
-	LastVisitedAppShell = NULL;
-    }
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Here is a quick & dirty implementation of cascade submenus.  This is
-   ugly, mean and smells badly.  It should be rewritten.  Replacements are
-   welcome.  */
-
-static Widget active_submenu, active_entry;
-static int SubmenuPoppedUp = 0;
-
-static void UiPositionSubmenuAction(Widget w, XEvent * event, String * params,
-				    Cardinal * num_params)
-{
-    Widget new_active_submenu, new_active_entry;
-
-    new_active_entry = XawSimpleMenuGetActiveEntry(w);
-
-    if (new_active_entry != active_entry) {
-	int i, level;
-
-	new_active_submenu = NULL;
-
-	/* Find the submenu for the current active menu item.  */
-	for (i = 0; i < NumSubmenus; i++) {
-	    if (Submenus[i].parent == new_active_entry) {
-		new_active_submenu = Submenus[i].widget;
-		break;
-	    }
-	}
-
-	/* Find the level of this submenu (0 = root menu).  */
-	for (level = i = 0; i < NumSubmenus ; i++) {
-	    if (Submenus[i].widget == w) {
-		level = Submenus[i].level;
-		break;
-	    }
-	}
-
-	/* Remove all the submenus whose level is higher than this submenu.  */
-	for (i = 0; i < NumSubmenus; i++) {
-	    if (Submenus[i].level > level)
-		XtPopdown(Submenus[i].widget);
-	}
-
-	/* Position the submenu for this menu item.  */
-	if (new_active_submenu != NULL && new_active_entry != NULL)
-	    UiPositionSubmenu(new_active_submenu, new_active_entry);
-
-	active_submenu = new_active_submenu;
-	active_entry = new_active_entry;
-    }
-}
-
-static void UiPopdownSubmenusAction(Widget w, XEvent * event, String * params,
-				    Cardinal * num_params)
-{
-    int i;
-
-    /* Pop down all the submenus.  */
-    for (i = 0; i < NumSubmenus; i++) {
-	XtPopdown(Submenus[i].widget);
-    }
-
-    MenuPopup = 0;
-
-    /* Pop down the two main menus too.  */
-    XtPopdown(LeftMenuWidget);
-    XtPopdown(RightMenuWidget);
-}
-
-static void UiMenuUnhighlightAction(Widget w, XEvent * event, String * params,
-				    Cardinal * num_params)
-{
-    XtCallActionProc(w, "unhighlight", event, params, *num_params);
-}
-
-static void UiPositionSubmenu(Widget w, Widget parent)
-{
-    Position parent_x, parent_y, my_x, my_y;
-    Dimension parent_width, my_width, my_height;
-    int root_width, root_height, foo;
-    Window foowin;
-
-    XtVaGetValues(parent, XtNx, &parent_x, XtNy, &parent_y,
-		  XtNwidth, &parent_width, NULL);
-    XtVaGetValues(w, XtNwidth, &my_width, XtNheight, &my_height, NULL);
-    XtTranslateCoords(XtParent(parent), parent_x, parent_y,
-		      &parent_x, &parent_y);
-    my_x = parent_x + parent_width - 2;
-    my_y = parent_y + 1;
-    XGetGeometry(display, RootWindow(display, screen), &foowin, &foo,
-		 &foo, &root_width, &root_height, &foo, &foo);
-    if ((my_x + my_width) > root_width)
-	my_x -= my_width + parent_width - 2;
-    if ((my_y + my_height) > root_height)
-	my_y = root_height - my_height;
-    XtVaSetValues(w, XtNx, my_x, XtNy, my_y, NULL);
-    XtPopup(w, XtGrabNonexclusive);
-}
-
-CallbackFunc(UiSubmenuPopupCallback)
-{
-    SubmenuPoppedUp++;
-}
-
-CallbackFunc(UiSubmenuPopdownCallback)
-{
-    SubmenuPoppedUp--;
-    if (XawSimpleMenuGetActiveEntry(w))
-	XtPopdown((Widget)client_data);
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* These functions simply perform the actions requested in the menus. */
-
-CallbackFunc(UiAttachDisk)
-{
-    int unit = (int)client_data;
-    char *filename;
-    char title[1024];
-    UiButton button;
-
-    suspend_speed_eval();
-    sprintf(title, "Attach Disk Image as unit #%d", unit);
-    filename = UiFileSelect(title, read_disk_image_contents,
-			    unit == 8 ? True : False, &button);
-
-    switch (button) {
-      case Button_Ok:
- 	if (file_system_attach_disk(unit, filename) < 0)
-	    UiError("Invalid Disk Image");
-	break;
-      case Button_Autostart:
-	if (autostart_disk(filename, NULL) < 0)
-	    UiError("Invalid Disk Image");
-	break;
-      default:
-	/* Do nothing special.  */
-        break;
-    }
-}
-
-CallbackFunc(UiDetachDisk)
-{
-    int unit = (int)client_data;
-
-    suspend_speed_eval();
-    file_system_detach_disk(unit);
-}
-
-CallbackFunc(UiAttachTape)
-{
-    char *filename;
-    UiButton button;
-
-    suspend_speed_eval();
-
-    filename = UiFileSelect("Attach a tape image", read_tape_image_contents,
-			    True, &button);
-
-    switch (button) {
-      case Button_Ok:
-	if (serial_select_file(DT_TAPE, 1, filename) < 0)
-	    UiError("Invalid Tape Image");
-	break;
-      case Button_Autostart:
-	if (autostart_tape(filename, NULL) < 0)
-	    UiError("Invalid Tape Image");
-	break;
-      default:
-	/* Do nothing special.  */
-        break;
-    }
-}
-
-CallbackFunc(UiDetachTape)
-{
-    serial_remove(1);
-}
-
-static char *read_disk_or_tape_image_contents(const char *fname)
-{
-    char *tmp;
-
-    tmp = read_disk_image_contents(fname);
-    if (tmp)
-	return tmp;
-    return read_tape_image_contents(fname);
-}
-
-CallbackFunc(UiSmartAttach)
-{
-    char *filename;
-    UiButton button;
-
-    suspend_speed_eval();
-
-    filename = UiFileSelect("Smart-attach a file",
-			    read_disk_or_tape_image_contents,
-			    True, &button);
-
-    switch (button) {
-      case Button_Ok:
- 	if (serial_select_file(DT_DISK | DT_1541, 8, filename) < 0
-	    && serial_select_file(DT_TAPE, 1, filename) < 0) {
-	    UiError("Unknown image type");
-	}
-	break;
-      case Button_Autostart:
-	if (autostart_autodetect(filename, NULL) < 0)
-	    UiError("Unknown image type");
-	break;
-      default:
-	/* Do nothing special.  */
-        break;
-    }
-}
-
-CallbackFunc(UiChangeWorkingDir)
-{
-    PATH_VAR(wd);
-    int path_max = GET_PATH_MAX;
-
-    getcwd(wd, path_max);
-    suspend_speed_eval();
-    if (UiInputString("VICE setting", "Change current working directory",
-		      wd, path_max) != Button_Ok)
-	return;
-    else if (chdir(wd) < 0)
-	UiError("Directory not found");
-}
-
-CallbackFunc(UiActivateXDebugger)
-{
-    suspend_speed_eval();
-    activate_xdebug_window();
-}
-
-CallbackFunc(UiActivateMonitor)
-{
-    suspend_speed_eval();
-    UiDispatchEvents();		/* popdown the menu */
-    UiAutoRepeatOn();
-    maincpu_trigger_trap(mon);
-}
-
-CallbackFunc(UiRunC1541)
-{
-    suspend_speed_eval();
-    switch (system("xterm -sb -e c1541 &")) {
-      case 127:
-	UiError("Couldn't run /bin/sh???");
-	break;
-      case -1:
-	UiError("Couldn't run xterm");
-	break;
-      case 0:
-	break;
-      default:
-	UiError("Unknown error while running c1541");
-    }
-}
-
-CallbackFunc(UiReset)
-{
-    suspend_speed_eval();
-    maincpu_trigger_reset();
-}
-
-CallbackFunc(UiPowerUpReset)
-{
-    suspend_speed_eval();
-    mem_powerup();
-    maincpu_trigger_reset();
-}
-
-CallbackFunc(UiBrowseManual)
-{
-    if (html_browser_command == NULL || *html_browser_command == '\0') {
-	UiError("No HTML browser is defined.");
-    } else {
-#define BROWSE_CMD_BUF_MAX 16384
-	char buf[BROWSE_CMD_BUF_MAX];
-	static const char manual_path[] = LIBDIR "/" DOCDIR "/MANUAL.html";
-	char *res_ptr;
-	int manual_path_len, cmd_len;
-
-	cmd_len = strlen(html_browser_command);
-	manual_path_len = strlen(manual_path);
-
-	res_ptr = strstr(html_browser_command, "%s");
-	if (res_ptr == NULL) {
-	    /* No substitution. */
-	    if (cmd_len + 2 > BROWSE_CMD_BUF_MAX - 1) {
-		UiError("Browser command too long.");
-		return;
-	    }
-	    sprintf(buf, "%s &", html_browser_command);
-	} else {
-	    char *tmp_ptr, *cmd_ptr;
-	    int offs;
-
-	    /* Replace each occurrence of "%s" with the path of the HTML
-               manual. */
-
-	    cmd_len += manual_path_len - 2;
-	    cmd_len += 2;	/* Trailing " &". */
-	    if (cmd_len > BROWSE_CMD_BUF_MAX - 1) {
-		UiError("Browser command too long.");
-		return;
-	    }
-
-	    offs = res_ptr - html_browser_command;
-	    memcpy(buf, html_browser_command, offs);
-	    strcpy(buf + offs, manual_path);
-	    cmd_ptr = buf + offs + manual_path_len;
-	    res_ptr += 2;
-
-	    while ((tmp_ptr = strstr(res_ptr, "%s")) != NULL) {
-		cmd_len += manual_path_len - 2;
-		if (cmd_len > BROWSE_CMD_BUF_MAX - 1) {
-		    UiError("Browser command too long.");
-		    return;
-		}
-		offs = tmp_ptr - res_ptr;
-		memcpy(cmd_ptr, res_ptr, offs);
-		strcpy(cmd_ptr + offs, manual_path);
-		cmd_ptr += manual_path_len + offs;
-		res_ptr = tmp_ptr + 2;
-	    }
-
-	    sprintf(cmd_ptr, "%s &", res_ptr);
-	}
-
-	printf("Executing `%s'...\n", buf);
-	if (system(buf) != 0)
-	    UiError("Cannot run HTML browser.");
-    }
-}
-
-CallbackFunc(UiExit)
-{
-    UiButton b;
-
-    b = UiAskConfirmation("Exit " EMULATOR " emulator",
-			  "Do you really want to exit?");
-
-    if (b == Button_Yes) {
-	if (save_resources_on_exit && resources_have_changed) {
-	    b = UiAskConfirmation("Exit " EMULATOR " emulator",
-				  "Save the current settings?");
-	    if (b == Button_Yes)
-		UiSaveResources(NULL, NULL, NULL);
-	    else if (b == Button_Cancel)
-		return;
-	}
-	UiAutoRepeatOn();
-	exit(-1);
-    }
-}
-
-CallbackFunc(UiInfo)
-{
-    static Widget InfoDialog;
-    static UiButton button;
-
-    if (!InfoDialog) {
-	InfoDialog = UiBuildInfoDialog
-	    (TopLevel, &button,
-	     "", "V I C E", "the Versatile Commodore Emulator", "",
-	     "Version " VERSION,
-#ifdef UNSTABLE
-	     "(unstable)",
 #endif
-             "",
-             "Copyright © 1996-1998 Ettore Perazzoli, André Fachat",
-             "Copyright © 1993-1994, 1997-1998 Teemu Rantanen",
-             "Copyright © 1997-1998 Daniel Sladic",
-             "Copyright © 1998 Andreas Boose",
-             "Copyright © 1993-1996 Jouko Valta",
-             "Copyright © 1993-1994 Jarkko Sonninen",
-#if 0
-	     "", "Copyright (c) 1993-1998",
-	     "E. Perazzoli, T. Rantanen, A. Fachat,",
-	     "D. Sladic, A. Boose, J. Valta and J. Sonninen",
-#endif
-             "",
-	     "Official VICE homepage:",
-	     "http://www.tu-chemnitz.de/~fachat/vice/vice.html", "", NULL);
-    }
-    suspend_speed_eval();
-    UiPopup(XtParent(InfoDialog), "VICE Information", False);
-    button = Button_None;
-    do
-	UiDispatchNextEvent();
-    while (button == Button_None);
-    UiPopdown(XtParent(InfoDialog));
-}
-
-CallbackFunc(UiSetRefreshRate)
-{
-    int current_refresh_rate;
-
-    resources_get_value("RefreshRate",
-                        (resource_value_t *) &current_refresh_rate);
-    if (!call_data) {
-	if (current_refresh_rate != (int) client_data) {
-	    resources_set_value("RefreshRate", (resource_value_t) client_data);
-	    resources_have_changed = 1;
-	    UiUpdateMenus();
-	}
-    } else {
-	XtVaSetValues(w, XtNleftBitmap,
-		      (current_refresh_rate == (int)client_data
-		       ? CheckmarkBitmap : 0), NULL);
-	if (client_data == 0) {
-            int speed;
-
-            resources_get_value("Speed", (resource_value_t *) &speed);
-            if (speed == 0) {
-                /* Cannot enable the `automatic' setting if a speed limit is
-                   not specified. */
-                XtVaSetValues(w, XtNsensitive, False, NULL);
-            } else {
-                XtVaSetValues(w, XtNsensitive, True, NULL);
-            }
-        }
+	last_visited_app_shell = NULL;
     }
 }
-
-CallbackFunc(UiSetCustomRefreshRate)
-{
-    static char input_string[32];
-    char msg_string[256];
-    UiButton button;
-    int i, found;
-    MenuEntry *m = &SetRefreshRateSubmenu[0];
-    int current_refresh_rate;
-
-    resources_get_value("RefreshRate",
-                        (resource_value_t *) &current_refresh_rate);
-
-    if (!*input_string)
-	sprintf(input_string, "%d", current_refresh_rate);
-
-    if (call_data) {
-	for (found = i = 0; m[i].callback == UiSetRefreshRate; i++) {
-	    if (current_refresh_rate == (int)m[i].callback_data)
-		found++;
-	}
-	XtVaSetValues(w, XtNleftBitmap, found ? 0 : CheckmarkBitmap, NULL);
-    } else {
-        int current_speed;
-
-	suspend_speed_eval();
-	sprintf(msg_string, "Enter refresh rate");
-	button = UiInputString("Refresh rate", msg_string,
-			       input_string, 32);
-	if (button == Button_Ok) {
-	    i = atoi(input_string);
-            resources_get_value("Speed", (resource_value_t *) &current_speed);
-	    if (!(current_speed <= 0 && i <= 0) && i >= 0
-		&& current_refresh_rate != i) {
-		resources_have_changed = 1;
-                resources_set_value("RefreshRate", (resource_value_t) i);
-		UiUpdateMenus();
-	    }
-	}
-    }
-}
-
-CallbackFunc(UiSetMaximumSpeed)
-{
-    int current_speed;
-
-    resources_get_value("Speed", (resource_value_t *) &current_speed);
-
-    if (!call_data) {
-	if (current_speed != (int)client_data) {
-	    current_speed = (int)client_data;
-	    resources_have_changed = 1;
-	    UiUpdateMenus();
-	}
-    } else {
-	XtVaSetValues(w, XtNleftBitmap,
-                      (current_speed == (int) client_data
-                       ? CheckmarkBitmap : 0),
-                      NULL);
-	if (client_data == 0) {
-            int current_refresh_rate;
-
-            resources_get_value("RefreshRate",
-                                (resource_value_t *) &current_refresh_rate);
-            if (current_refresh_rate == 0)
-                XtVaSetValues(w, XtNsensitive, False, NULL);
-            else
-                XtVaSetValues(w, XtNsensitive, True, NULL);
-	}
-    }
-}
-
-CallbackFunc(UiSetCustomMaximumSpeed)
-{
-    static char input_string[32];
-    char msg_string[256];
-    UiButton button;
-    int i, found;
-    MenuEntry *m = &SetMaximumSpeedSubmenu[0];
-    int current_speed;
-
-    resources_get_value("Speed", (resource_value_t *) &current_speed);
-    if (!*input_string)
-	sprintf(input_string, "%d", current_speed);
-
-    if (call_data) {
-	for (found = i = 0; m[i].callback == UiSetMaximumSpeed; i++) {
-	    if (current_speed == (int)m[i].callback_data)
-		found++;
-	}
-	XtVaSetValues(w, XtNleftBitmap, found ? 0 : CheckmarkBitmap, NULL);
-    } else {
-	suspend_speed_eval();
-	sprintf(msg_string, "Enter speed");
-	button = UiInputString("Maximum run speed", msg_string, input_string,
-			       32);
-	if (button == Button_Ok) {
-            int current_refresh_rate;
-
-            resources_get_value("RefreshRate",
-                                (resource_value_t *) &current_refresh_rate);
-	    i = atoi(input_string);
-	    if (!(current_refresh_rate <= 0 && i <= 0) && i >= 0
-		&& current_speed != i) {
-		resources_have_changed = 1;
-                resources_set_value("Speed", (resource_value_t) i);
-		UiUpdateMenus();
-	    } else
-		UiError("Invalid speed value");
-	}
-    }
-}
-
-CallbackFunc(UiSaveResources)
-{
-    suspend_speed_eval();
-    if (resources_save(NULL) < 0)
-	UiError("Cannot save settings.");
-    else {
-	if (w != NULL)
-	    UiMessage("Settings saved successfully.");
-	resources_have_changed = 0;
-    }
-    UiUpdateMenus();
-}
-
-CallbackFunc(UiLoadResources)
-{
-    suspend_speed_eval();
-    if (resources_load(NULL) < 0)
-	UiError("Cannot load settings.");
-#if 0
-    else if (w != NULL)
-            UiMessage("Settings loaded.");
-#endif
-    UiUpdateMenus();
-}
-
-CallbackFunc(UiSetDefaultResources)
-{
-    suspend_speed_eval();
-    resources_set_defaults();
-    resources_have_changed = 1;
-    UiUpdateMenus();
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* These are the callbacks for the toggle and radio menus (the ones with a
-   checkmark on the left).  If call_data is NULL, they simply set/unset the
-   checkmark according to the value of the corrisponding resource.  If not
-   NULL, they set the value of the corresponding resource before doing so.
-   For this reason, to update the checkmarks, we simply have to call all the
-   callbacks with a NULL `call_data' parameter.  */
-
-#define DEFINE_TOGGLE(f, resource)                                        \
-    CallbackFunc(f)                                                       \
-    {                                                                     \
-        int current_value;                                                \
-                                                                          \
-        if (resources_get_value(#resource,                                \
-                                (resource_value_t *) &current_value) < 0) \
-           return;                                                        \
-	if (!call_data) {                                                 \
-            printf("%s: Toggling resource `%s' %d -> %d\n",\
-                   __FUNCTION__, #resource, current_value, !current_value);\
-            resources_set_value(#resource,                                \
-                                (resource_value_t) !current_value);       \
-	    resources_have_changed = 1;                                   \
-	    UiUpdateMenus();                                              \
-	} else {                                                          \
-	    XtVaSetValues(w, XtNleftBitmap,                               \
-			  current_value ? CheckmarkBitmap : 0, NULL);     \
-	}                                                                 \
-    }
-
-#define DEFINE_RADIO(f, resource)                                            \
-    CallbackFunc(f)                                                          \
-    {                                                                        \
-        int current_value;                                                   \
-                                                                             \
-        resources_get_value(#resource, (resource_value_t *) &current_value); \
-        if (!call_data) {                                                    \
-            if (current_value != (int) client_data) {                        \
-                resources_set_value(#resource,                               \
-                                    (resource_value_t) client_data);         \
-                UiUpdateMenus();                                             \
-                resources_have_changed = 1;                                  \
-            }                                                                \
-        } else {                                                             \
-            XtVaSetValues(w, XtNleftBitmap,                                  \
-                          current_value == (int) client_data                 \
-                          ? CheckmarkBitmap : 0, NULL);                      \
-        }                                                                    \
-    }
-
-DEFINE_TOGGLE(UiToggleVideoCache, VideoCache)
-
-DEFINE_TOGGLE(UiToggleDoubleSize, DoubleSize)
-
-DEFINE_TOGGLE(UiToggleDoubleScan, DoubleScan)
-
-DEFINE_TOGGLE(UiToggleUseXSync, UseXSync)
-
-DEFINE_TOGGLE(UiToggleSaveResourcesOnExit, SaveResourcesOnExit)
-
-CallbackFunc(UiTogglePause)
-{
-    static int paused;
-
-    if (paused) {
-	if (call_data == NULL) {
-	    UiDisplayPaused(0);
-	    paused = 0;
-	}
-    } else {			/* !paused */
-	if (call_data == NULL) {
-	    paused = 1;
-	    XtVaSetValues(w, XtNleftBitmap, CheckmarkBitmap, NULL);
-	    UiDisplayPaused(1);
-	    suspend_speed_eval();
-	    while (paused)
-		UiDispatchNextEvent();
-	}
-    }
-    XtVaSetValues(w, XtNleftBitmap, paused ? CheckmarkBitmap : 0, NULL);
-    UiDisplaySpeed(0.0, 0.0, 0);
-}
-
-DEFINE_TOGGLE(UiToggleWarpMode, WarpMode)
-
-CallbackFunc(UiSetKeymap)
-{
-    kbd_load_keymap((char*)client_data);
-}
-
-CallbackFunc(UiLoadKeymap)
-{
-    kbd_load_keymap((char*)client_data);
-}
-
-CallbackFunc(UiLoadUserKeymap)
-{
-    char *filename;
-    UiButton button;
-    suspend_speed_eval();
-    filename = UiFileSelect("Read Keymap File", NULL, False, &button);
-
-    switch (button) {
-      case Button_Ok:
-	kbd_load_keymap(filename);
-        break;
-      default:
-        /* Do nothing special.  */
-        break;
-    }
-}
-
-CallbackFunc(UiDumpKeymap)
-{
-    PATH_VAR(wd);
-    int path_max = GET_PATH_MAX;
-
-    getcwd(wd, path_max);
-    suspend_speed_eval();
-    if (UiInputString("VICE setting", "Write to Keymap File:",
-		      wd, path_max) != Button_Ok)
-	return;
-    else if (kbd_dump_keymap(wd) < 0)
-	UiError(strerror(errno));
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* C64/128 specific menu items. */
-
-#if defined(CBM64) || defined(C128) || defined(PET)
-
-DEFINE_TOGGLE(UiToggleSpriteToSpriteCollisions, CheckSsColl)
-DEFINE_TOGGLE(UiToggleSpriteToBackgroundCollisions, CheckSbColl)
-
-#ifdef HAS_JOYSTICK
-
-CallbackFunc(UiSetJoystickDevice1)
-{
-    suspend_speed_eval();
-    if (!call_data) {
-	app_resources.joyDevice1 = (int) client_data;
-	UiUpdateMenus();
-    } else
-	XtVaSetValues(w, XtNleftBitmap,
-		      (app_resources.joyDevice1 == (int) client_data
-		       ? CheckmarkBitmap : 0), NULL);
-    joyport1select(app_resources.joyDevice1);
-}
-
-CallbackFunc(UiSetJoystickDevice2)
-{
-    suspend_speed_eval();
-    if (!call_data) {
-	app_resources.joyDevice2 = (int) client_data;
-	UiUpdateMenus();
-    } else
-	XtVaSetValues(w, XtNleftBitmap,
-		      (app_resources.joyDevice2 == (int) client_data
-		       ? CheckmarkBitmap : 0), NULL);
-    joyport2select(app_resources.joyDevice2);
-}
-
-CallbackFunc(UiSwapJoystickPorts)
-{
-    int tmp;
-
-    if (w != NULL)
-	suspend_speed_eval();
-    tmp = app_resources.joyDevice1;
-    app_resources.joyDevice1 = app_resources.joyDevice2;
-    app_resources.joyDevice2 = tmp;
-    resources_have_changed = 1;
-    UiUpdateMenus();
-}
-
-#else  /* !HAS_JOYSTICK */
-
-CallbackFunc(UiSetNumpadJoystickPort)
-{
-#if 0
-    suspend_speed_eval();
-    if (!call_data) {
-	if (app_resources.joyPort != (int)client_data) {
-	    app_resources.joyPort = (int)client_data;
-	    resources_have_changed = 1;
-	    UiUpdateMenus();
-	}
-    } else
-	XtVaSetValues(w, XtNleftBitmap,
-		      (app_resources.joyPort == (int) client_data
-		       ? CheckmarkBitmap : 0), NULL);
-#endif
-}
-
-CallbackFunc(UiSwapJoystickPorts)
-{
-#if 0
-    suspend_speed_eval();
-    app_resources.joyPort = 3 - app_resources.joyPort;
-    printf("Numpad joystick now in port #%d.\n", app_resources.joyPort);
-    UiUpdateMenus();
-#endif
-}
-
-#endif
-
-#endif /* HAS_JOYSTICK */
-
-DEFINE_TOGGLE(UiToggleEmuID, EmuID)
-DEFINE_TOGGLE(UiToggleIEEE488, IEEE488)
-DEFINE_TOGGLE(UiToggleREU, REU)
-DEFINE_TOGGLE(UiToggleActionReplay, ActionReplay)
-
-/* ------------------------------------------------------------------------- */
-
-/* True 1541 support items. */
-
-DEFINE_TOGGLE(UiToggleTrue1541, True1541)
-
-DEFINE_TOGGLE(UiToggleParallelCable, True1541ParallelCable)
-
-CallbackFunc(UiSetCustom1541SyncFactor)
-{
-    static char input_string[256];
-    char msg_string[256];
-    UiButton button;
-    int sync_factor;
-
-    resources_get_value("True1541SyncFactor",
-                        (resource_value_t *) &sync_factor);
-    if (!*input_string)
-	sprintf(input_string, "%d", sync_factor);
-
-    if (call_data) {
-	if (sync_factor != TRUE1541_SYNC_PAL
-            && sync_factor != TRUE1541_SYNC_NTSC)
-	    XtVaSetValues(w, XtNleftBitmap, CheckmarkBitmap, NULL);
-	else
-	    XtVaSetValues(w, XtNleftBitmap, 0, NULL);
-    } else {
-	suspend_speed_eval();
-	sprintf(msg_string, "Enter factor (PAL %d, NTSC %d)",
-		TRUE1541_SYNC_PAL, TRUE1541_SYNC_NTSC);
-	button = UiInputString("1541 Sync Factor", msg_string, input_string,
-			       256);
-	if (button == Button_Ok) {
-	    int v;
-
-	    v = atoi(input_string);
-	    if (v != sync_factor) {
-                resources_set_value("True1541SyncFactor",
-                                    (resource_value_t) v);
-		resources_have_changed = 1;
-		UiUpdateMenus();
-	    }
-	}
-    }
-}
-
-DEFINE_RADIO(UiSet1541ExtendImage, True1541ExtendImagePolicy)
-
-DEFINE_RADIO(UiSet1541SyncFactor, True1541SyncFactor)
-
-DEFINE_RADIO(UiSet1541IdleMethod, True1541IdleMethod)
-
-/* ------------------------------------------------------------------------- */
-
-/* Serial settings.  */
-
-DEFINE_TOGGLE(UiToggleNoTraps, NoTraps)
-
-DEFINE_TOGGLE(UiToggleFileSystemDevice8, FileSystemDevice8)
-DEFINE_TOGGLE(UiToggleFileSystemDevice9, FileSystemDevice9)
-DEFINE_TOGGLE(UiToggleFileSystemDevice10, FileSystemDevice10)
-DEFINE_TOGGLE(UiToggleFileSystemDevice11, FileSystemDevice11)
-DEFINE_TOGGLE(UiToggleFSDeviceConvertP00, FSDeviceConvertP00)
-
-/* ------------------------------------------------------------------------- */
-
-/* PET stuff */
-
-#if 0 /* def PET*/
-
-CallbackFunc(UiTogglePetDiag)
-{
-    if (!call_data) {
-        app_resources.petdiag = !app_resources.petdiag;
-	resources_have_changed = 1;
-	UiUpdateMenus();
-    } else {
-	XtVaSetValues(w, XtNleftBitmap,
-		      app_resources.petdiag ? CheckmarkBitmap : 0, NULL);
-    }
-}
-
-CallbackFunc(UiToggleNumpadJoystick)
-{
-    if (!call_data) {
-        app_resources.numpadJoystick = !app_resources.numpadJoystick;
-	resources_have_changed = 1;
-	UiUpdateMenus();
-    } else {
-	XtVaSetValues(w, XtNleftBitmap, app_resources.numpadJoystick
-		? CheckmarkBitmap : 0, NULL);
-    }
-}
-
-#endif /* PET */
-
-/* ------------------------------------------------------------------------- */
-
-/* Sound support. */
-
-DEFINE_TOGGLE(UiToggleSound, Sound)
-
-DEFINE_TOGGLE(UiToggleSoundSpeedAdjustment, SoundSpeedAdjustment)
-
-DEFINE_RADIO(UiSetSoundSampleRate, SoundSampleRate)
-
-DEFINE_RADIO(UiSetSoundBufferSize, SoundBufferSize)
-
-DEFINE_RADIO(UiSetSoundSuspendTime, SoundSuspendTime)
-
-DEFINE_TOGGLE(UiToggleSidFilters, SidFilters)
-
-DEFINE_RADIO(UiSetSidModel, SidModel)
-
-DEFINE_RADIO(UiSetSoundOversample, SoundOversample)
 

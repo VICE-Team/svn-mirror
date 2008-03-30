@@ -103,14 +103,14 @@ static int set_sample_rate(resource_value_t v)
 
 static int set_device_name(resource_value_t v)
 {
-    device_name = (char *)v;
+    string_set(&device_name, v);
     close_sound();
     return 0;
 }
 
 static int set_device_arg(resource_value_t v)
 {
-    device_arg = (char *)v;
+    string_set(&device_arg, v);
     close_sound();
     return 0;
 }
@@ -2536,9 +2536,9 @@ static int closesid(char *msg)
         suspend_speed_eval();
 	if (strcmp(msg, ""))
 	{
-	    UiError(msg);
+	    ui_error(msg);
 	    playback_enabled = 0;
-	    UiUpdateMenus();
+	    ui_update_menus();
 	}
     }
     siddata.prevused = siddata.prevfill = 0;
@@ -2586,8 +2586,9 @@ static int initsid(void)
     if (suspend_time > 0 && disabletime)
         return 1;
 
-    name = device_name;
-    param = device_arg;
+    name = (device_name && *device_name) ? device_name : NULL;
+    param = (device_arg && *device_arg) ? device_arg : NULL;
+
     tmp = buffer_size;
     if (tmp < 100 || tmp > 1000)
 	tmp = SOUND_SAMPLE_BUFFER_SIZE;
