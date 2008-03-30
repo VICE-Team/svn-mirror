@@ -1,10 +1,13 @@
 /*
- * asm.h - 6510 assembler-related functions.
+ * asm.c - Assembler-related utility functions.
  *
  * Written by
- *   Vesa-Matti Puro (vmp@lut.fi)
- *   Jarkko Sonninen (sonninen@lut.fi)
- *   Jouko Valta (jopi@stekt.oulu.fi)
+ *  Ettore Perazzoli (ettore@comm2000.it)
+ *
+ * Based on older code by
+ *  Vesa-Matti Puro (vmp@lut.fi)
+ *  Jarkko Sonninen (sonninen@lut.fi)
+ *  Jouko Valta (jopi@stekt.oulu.fi)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -26,351 +29,308 @@
  *
  */
 
-/* FIXME: This file should go away.  */
-
 #include "vice.h"
 
-#ifdef STDC_HEADERS
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#endif
-
 #include "asm.h"
-#include "misc.h"
 
-extern BYTE ram[];		/* FIXME: ugly! */
-
-/* ------------------------------------------------------------------------- */
-
-int clength[] = { 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 2, 2, 2, 0 };
-
-struct lookup_tag lookup[] = {
-
-    /****  Positive  ****/
-
-    /* 00 */ { "BRK",	IMPLIED, M_NONE, M_PC, 7, 0 },		/* Pseudo Absolute */
-    /* 01 */ { "ORA",	INDIRECT_X, M_INDX, M_AC, 6, 0 },	/* (Indirect,X) */
-    /* 02 */ { "JAM",	IMPLIED, M_NONE, M_NONE, 0, 0 },	/* TILT */
-    /* 03 */ { "SLO",	INDIRECT_X, M_INDX, M_INDX, 8, 0 },
-
-    /* 04 */ { "NOOP",	ZERO_PAGE, M_NONE, M_NONE, 3, 0 },
-    /* 05 */ { "ORA",	ZERO_PAGE, M_ZERO, M_AC, 3, 0 },	/* Zeropage */
-    /* 06 */ { "ASL",	ZERO_PAGE, M_ZERO, M_ZERO, 5, 0 },	/* Zeropage */
-    /* 07 */ { "SLO",	ZERO_PAGE, M_ZERO, M_ZERO, 5, 0 },
-
-    /* 08 */ { "PHP",	IMPLIED, M_SR, M_NONE, 3, 0 },
-    /* 09 */ { "ORA",	IMMEDIATE, M_IMM, M_AC, 2, 0 },		/* Immediate */
-    /* 0a */ { "ASL",	ACCUMULATOR, M_AC, M_AC, 2, 0 },	/* Accumulator */
-    /* 0b */ { "ANC",	IMMEDIATE, M_ACIM, M_ACNC, 2, 0 },
-
-    /* 0c */ { "NOOP",	ABSOLUTE, M_NONE, M_NONE, 4, 0 },
-    /* 0d */ { "ORA",	ABSOLUTE, M_ABS, M_AC, 4, 0 },		/* Absolute */
-    /* 0e */ { "ASL",	ABSOLUTE, M_ABS, M_ABS, 6, 0 },		/* Absolute */
-    /* 0f */ { "SLO",	ABSOLUTE, M_ABS, M_ABS, 6, 0 },
-
-    /* 10 */ { "BPL",	RELATIVE, M_REL, M_NONE, 2, 0 },
-    /* 11 */ { "ORA",	INDIRECT_Y, M_INDY, M_AC, 5, 1 },	/* (Indirect),Y */
-    /* 12 */ { "JAM",	IMPLIED, M_NONE, M_NONE, 0, 0 },	/* TILT */
-    /* 13 */ { "SLO",	INDIRECT_Y, M_INDY, M_INDY, 8, 0 },
-
-    /* 14 */ { "NOOP",	ZERO_PAGE_X, M_NONE, M_NONE, 4, 0 },
-    /* 15 */ { "ORA",	ZERO_PAGE_X, M_ZERX, M_AC, 4, 0 },	/* Zeropage,X */
-    /* 16 */ { "ASL",	ZERO_PAGE_X, M_ZERX, M_ZERX, 6, 0 },	/* Zeropage,X */
-    /* 17 */ { "SLO",	ZERO_PAGE_X, M_ZERX, M_ZERX, 6, 0 },
-
-    /* 18 */ { "CLC",	IMPLIED, M_NONE, M_FC, 2, 0 },
-    /* 19 */ { "ORA",	ABSOLUTE_Y, M_ABSY, M_AC, 4, 1 },	/* Absolute,Y */
-    /* 1a */ { "NOOP",	IMPLIED, M_NONE, M_NONE, 2, 0 },
-    /* 1b */ { "SLO",	ABSOLUTE_Y, M_ABSY, M_ABSY, 7, 0 },
-
-    /* 1c */ { "NOOP",	ABSOLUTE_X, M_NONE, M_NONE, 4, 1 },
-    /* 1d */ { "ORA",	ABSOLUTE_X, M_ABSX, M_AC,   4, 1 },	/* Absolute,X */
-    /* 1e */ { "ASL",	ABSOLUTE_X, M_ABSX, M_ABSX, 7, 0 },	/* Absolute,X */
-    /* 1f */ { "SLO",	ABSOLUTE_X, M_ABSX, M_ABSX, 7, 0 },
-
-    /* 20 */ { "JSR",	ABSOLUTE, M_ADDR, M_PC, 6, 0 },
-    /* 21 */ { "AND",	INDIRECT_X, M_INDX, M_AC, 6, 0 },	/* (Indirect,X)*/
-    /* 22 */ { "JAM",	IMPLIED, M_NONE, M_NONE,    0, 0 },	/* TILT */
-    /* 23 */ { "RLA",	INDIRECT_X, M_INDX, M_INDX, 8, 0 },
-
-    /* 24 */ { "BIT",	ZERO_PAGE, M_ZERO, M_NONE, 3, 0 },	/* Zeropage */
-    /* 25 */ { "AND",	ZERO_PAGE, M_ZERO, M_AC,   3, 0 },	/* Zeropage */
-    /* 26 */ { "ROL",	ZERO_PAGE, M_ZERO, M_ZERO, 5, 0 },	/* Zeropage */
-    /* 27 */ { "RLA",	ZERO_PAGE, M_ZERO, M_ZERO, 5, 0 },
-
-    /* 28 */ { "PLP",	IMPLIED, M_NONE, M_SR, 4, 0 },
-    /* 29 */ { "AND",	IMMEDIATE, M_IMM, M_AC, 2, 0 },		/* Immediate */
-    /* 2a */ { "ROL",	ACCUMULATOR, M_AC, M_AC, 2, 0 },	/* Accumulator */
-    /* 2b */ { "ANC",	IMMEDIATE, M_ACIM, M_ACNC, 2, 0 },
-
-    /* 2c */ { "BIT",	ABSOLUTE, M_ABS, M_NONE, 4, 0 },	/* Absolute */
-    /* 2d */ { "AND",	ABSOLUTE, M_ABS, M_AC,  4, 0 },		/* Absolute */
-    /* 2e */ { "ROL",	ABSOLUTE, M_ABS, M_ABS, 6, 0 },		/* Absolute */
-    /* 2f */ { "RLA",	ABSOLUTE, M_ABS, M_ABS, 6, 0 },
-
-    /* 30 */ { "BMI",	RELATIVE, M_REL, M_NONE, 2, 0 },
-    /* 31 */ { "AND",	INDIRECT_Y, M_INDY, M_AC, 5, 1 },	/* (Indirect),Y */
-    /* 32 */ { "JAM",	IMPLIED, M_NONE, M_NONE, 0, 0 },	/* TILT */
-    /* 33 */ { "RLA",	INDIRECT_Y, M_INDY, M_INDY, 8, 0 },
-
-    /* 34 */ { "NOOP",	ZERO_PAGE_X, M_NONE, M_NONE, 4, 0 },
-    /* 35 */ { "AND",	ZERO_PAGE_X, M_ZERX, M_AC,   4, 0 },	/* Zeropage,X */
-    /* 36 */ { "ROL",	ZERO_PAGE_X, M_ZERX, M_ZERX, 6, 0 },	/* Zeropage,X */
-    /* 37 */ { "RLA",	ZERO_PAGE_X, M_ZERX, M_ZERX, 6, 0 },
-
-    /* 38 */ { "SEC",	IMPLIED, M_NONE, M_FC, 2, 0 },
-    /* 39 */ { "AND",	ABSOLUTE_Y, M_ABSY, M_AC, 4, 1 },	/* Absolute,Y */
-    /* 3a */ { "NOOP",	IMPLIED, M_NONE, M_NONE,  2, 0 },
-    /* 3b */ { "RLA",	ABSOLUTE_Y, M_ABSY, M_ABSY, 7, 0 },
-
-    /* 3c */ { "NOOP",	ABSOLUTE_X, M_NONE, M_NONE, 4, 1 },
-    /* 3d */ { "AND",	ABSOLUTE_X, M_ABSX, M_AC,   4, 1 },	/* Absolute,X */
-    /* 3e */ { "ROL",	ABSOLUTE_X, M_ABSX, M_ABSX, 7, 0 },	/* Absolute,X */
-    /* 3f */ { "RLA",	ABSOLUTE_X, M_ABSX, M_ABSX, 7, 0 },
-
-    /* 40 */ { "RTI",	IMPLIED, M_NONE, M_PC, 6, 0 },
-    /* 41 */ { "EOR",	INDIRECT_X, M_INDX, M_AC, 6, 0 },	/* (Indirect,X) */
-    /* 42 */ { "JAM",	IMPLIED, M_NONE, M_NONE, 0, 0 },	/* TILT */
-    /* 43 */ { "SRE",	INDIRECT_X, M_INDX, M_INDX, 8, 0 },
-
-    /* 44 */ { "NOOP",	ZERO_PAGE, M_NONE, M_NONE, 3, 0 },
-    /* 45 */ { "EOR",	ZERO_PAGE, M_ZERO, M_AC,   3, 0 },	/* Zeropage */
-    /* 46 */ { "LSR",	ZERO_PAGE, M_ZERO, M_ZERO, 5, 0 },	/* Zeropage */
-    /* 47 */ { "SRE",	ZERO_PAGE, M_ZERO, M_ZERO, 5, 0 },
-
-    /* 48 */ { "PHA",	IMPLIED, M_AC, M_NONE,   3, 0 },
-    /* 49 */ { "EOR",	IMMEDIATE, M_IMM, M_AC,  2, 0 },	/* Immediate */
-    /* 4a */ { "LSR",	ACCUMULATOR, M_AC, M_AC, 2, 0 },	/* Accumulator */
-    /* 4b */ { "ASR",	IMMEDIATE, M_ACIM, M_AC, 2, 0 },	/* (AC & IMM) >>1 */
-
-    /* 4c */ { "JMP",	ABSOLUTE, M_ADDR, M_PC, 3, 0 },		/* Absolute */
-    /* 4d */ { "EOR",	ABSOLUTE, M_ABS, M_AC,  4, 0 },		/* Absolute */
-    /* 4e */ { "LSR",	ABSOLUTE, M_ABS, M_ABS, 6, 0 },		/* Absolute */
-    /* 4f */ { "SRE",	ABSOLUTE, M_ABS, M_ABS, 6, 0 },
-
-    /* 50 */ { "BVC",	RELATIVE, M_REL, M_NONE,  2, 0 },
-    /* 51 */ { "EOR",	INDIRECT_Y, M_INDY, M_AC, 5, 1 },	/* (Indirect),Y */
-    /* 52 */ { "JAM",	IMPLIED, M_NONE, M_NONE,  0, 0 },	/* TILT */
-    /* 53 */ { "SRE",	INDIRECT_Y, M_INDY, M_INDY, 8, 0 },
-
-    /* 54 */ { "NOOP",	ZERO_PAGE_X, M_NONE, M_NONE, 4, 0 },
-    /* 55 */ { "EOR",	ZERO_PAGE_X, M_ZERX, M_AC,   4, 0 },	/* Zeropage,X */
-    /* 56 */ { "LSR",	ZERO_PAGE_X, M_ZERX, M_ZERX, 6, 0 },	/* Zeropage,X */
-    /* 57 */ { "SRE",	ZERO_PAGE_X, M_ZERX, M_ZERX, 6, 0 },
-
-    /* 58 */ { "CLI",	IMPLIED, M_NONE, M_FI,     2, 0 },
-    /* 59 */ { "EOR",	ABSOLUTE_Y, M_ABSY, M_AC,  4, 1 },	/* Absolute,Y */
-    /* 5a */ { "NOOP",	IMPLIED, M_NONE, M_NONE,   2, 0 },
-    /* 5b */ { "SRE",	ABSOLUTE_Y, M_ABSY, M_ABSY, 7, 0 },
-
-    /* 5c */ { "NOOP",	ABSOLUTE_X, M_NONE, M_NONE, 4, 1 },
-    /* 5d */ { "EOR",	ABSOLUTE_X, M_ABSX, M_AC,   4, 1 },	/* Absolute,X */
-    /* 5e */ { "LSR",	ABSOLUTE_X, M_ABSX, M_ABSX, 7, 0 },	/* Absolute,X */
-    /* 5f */ { "SRE",	ABSOLUTE_X, M_ABSX, M_ABSX, 7, 0 },
-
-    /* 60 */ { "RTS",	IMPLIED, M_NONE, M_PC, 6, 0 },
-    /* 61 */ { "ADC",	INDIRECT_X, M_INDX, M_AC, 6, 0 },	/* (Indirect,X) */
-    /* 62 */ { "JAM",	IMPLIED, M_NONE, M_NONE, 0, 0 },	/* TILT */
-    /* 63 */ { "RRA",	INDIRECT_X, M_INDX, M_INDX, 8, 0 },
-
-    /* 64 */ { "NOOP",	ZERO_PAGE, M_NONE, M_NONE, 3, 0 },
-    /* 65 */ { "ADC",	ZERO_PAGE, M_ZERO, M_AC,   3, 0 },	/* Zeropage */
-    /* 66 */ { "ROR",	ZERO_PAGE, M_ZERO, M_ZERO, 5, 0 },	/* Zeropage */
-    /* 67 */ { "RRA",	ZERO_PAGE, M_ZERO, M_ZERO, 5, 0 },
-
-    /* 68 */ { "PLA",	IMPLIED, M_NONE, M_AC,   4, 0 },
-    /* 69 */ { "ADC",	IMMEDIATE, M_IMM, M_AC,  2, 0 },	/* Immediate */
-    /* 6a */ { "ROR",	ACCUMULATOR, M_AC, M_AC, 2, 0 },	/* Accumulator */
-    /* 6b */ { "ARR",	IMMEDIATE, M_ACIM, M_AC, 2, 0 },	/* ARR isn't typo */
-
-    /* 6c */ { "JMP",	ABS_INDIRECT, M_AIND, M_PC,  5, 0 },	/* Indirect */
-    /* 6d */ { "ADC",	ABSOLUTE, M_ABS, M_AC,  4, 0 },		/* Absolute */
-    /* 6e */ { "ROR",	ABSOLUTE, M_ABS, M_ABS, 6, 0 },		/* Absolute */
-    /* 6f */ { "RRA",	ABSOLUTE, M_ABS, M_ABS, 6, 0 },
-
-    /* 70 */ { "BVS",	RELATIVE, M_REL, M_NONE,  2, 0 },
-    /* 71 */ { "ADC",	INDIRECT_Y, M_INDY, M_AC, 5, 1 },	/* (Indirect),Y */
-    /* 72 */ { "JAM",	IMPLIED, M_NONE, M_NONE,  0, 0 },	/* TILT relative? */
-    /* 73 */ { "RRA",	INDIRECT_Y, M_INDY, M_INDY, 8, 0 },
-
-    /* 74 */ { "NOOP",	ZERO_PAGE_X, M_NONE, M_NONE, 4, 0 },
-    /* 75 */ { "ADC",	ZERO_PAGE_X, M_ZERX, M_AC,   4, 0 },	/* Zeropage,X */
-    /* 76 */ { "ROR",	ZERO_PAGE_X, M_ZERX, M_ZERX, 6, 0 },	/* Zeropage,X */
-    /* 77 */ { "RRA",	ZERO_PAGE_X, M_ZERX, M_ZERX, 6, 0 },
-
-    /* 78 */ { "SEI",	IMPLIED, M_NONE, M_FI, 2, 0 },
-    /* 79 */ { "ADC",	ABSOLUTE_Y, M_ABSY, M_AC, 4, 1 },	/* Absolute,Y */
-    /* 7a */ { "NOOP",	IMPLIED, M_NONE, M_NONE,  2, 0 },
-    /* 7b */ { "RRA",	ABSOLUTE_Y, M_ABSY, M_ABSY, 7, 0 },
-
-    /* 7c */ { "NOOP",	ABSOLUTE_X, M_NONE, M_NONE, 4, 1 },
-    /* 7d */ { "ADC",	ABSOLUTE_X, M_ABSX, M_AC,   4, 1 },	/* Absolute,X */
-    /* 7e */ { "ROR",	ABSOLUTE_X, M_ABSX, M_ABSX, 7, 0 },	/* Absolute,X */
-    /* 7f */ { "RRA",	ABSOLUTE_X, M_ABSX, M_ABSX, 7, 0 },
-
-    /****  Negative  ****/
-
-    /* 80 */ { "NOOP",	IMMEDIATE, M_NONE, M_NONE, 2, 0 },
-    /* 81 */ { "STA",	INDIRECT_X, M_AC, M_INDX,  6, 0 },	/* (Indirect,X) */
-    /* 82 */ { "NOOP",	IMMEDIATE, M_NONE, M_NONE,  2, 0 },
-    /* 83 */ { "SAX",	INDIRECT_X, M_ANXR, M_INDX, 6, 0 },
-
-    /* 84 */ { "STY",	ZERO_PAGE, M_YR, M_ZERO,  3, 0 },	/* Zeropage */
-    /* 85 */ { "STA",	ZERO_PAGE, M_AC, M_ZERO,  3, 0 },	/* Zeropage */
-    /* 86 */ { "STX",	ZERO_PAGE, M_XR, M_ZERO,  3, 0 },	/* Zeropage */
-    /* 87 */ { "SAX",	ZERO_PAGE, M_ANXR, M_ZERO, 3, 0 },
-
-    /* 88 */ { "DEY",	IMPLIED, M_YR, M_YR, 2, 0 },
-    /* 89 */ { "NOOP",	IMMEDIATE, M_NONE, M_NONE, 2, 0 },
-    /* 8a */ { "TXA",	IMPLIED, M_XR, M_AC, 2, 0 },
-    /****  very abnormal: usually AC = AC | #$EE & XR & #$oper  ****/
-    /* 8b */ { "ANE",	IMMEDIATE, M_AXIM, M_AC, 2, 0 },
-
-    /* 8c */ { "STY",	ABSOLUTE, M_YR, M_ABS, 4, 0 },		/* Absolute */
-    /* 8d */ { "STA",	ABSOLUTE, M_AC, M_ABS, 4, 0 },		/* Absolute */
-    /* 8e */ { "STX",	ABSOLUTE, M_XR, M_ABS, 4, 0 },		/* Absolute */
-    /* 8f */ { "SAX",	ABSOLUTE, M_ANXR, M_ABS, 4, 0 },
-
-    /* 90 */ { "BCC",	RELATIVE, M_REL, M_NONE, 2, 0 },
-    /* 91 */ { "STA",	INDIRECT_Y, M_AC, M_INDY, 6, 0 },	/* (Indirect),Y */
-    /* 92 */ { "JAM",	IMPLIED, M_NONE, M_NONE, 0, 0 },		/* TILT relative? */
-    /* 93 */ { "SHA",	INDIRECT_Y, M_ANXR, M_STH0, 6, 0 },
-
-    /* 94 */ { "STY",	ZERO_PAGE_X, M_YR, M_ZERX, 4, 0 },	/* Zeropage,X */
-    /* 95 */ { "STA",	ZERO_PAGE_X, M_AC, M_ZERX, 4, 0 },	/* Zeropage,X */
-    /* 96 */ { "STX",	ZERO_PAGE_Y, M_XR, M_ZERY, 4, 0 },	/* Zeropage,Y */
-    /* 97 */ { "SAX",	ZERO_PAGE_Y, M_ANXR, M_ZERY, 4, 0 },
-
-    /* 98 */ { "TYA",	IMPLIED, M_YR, M_AC, 2, 0 },
-    /* 99 */ { "STA",	ABSOLUTE_Y, M_AC, M_ABSY, 5, 0 },	/* Absolute,Y */
-    /* 9a */ { "TXS",	IMPLIED, M_XR, M_SP, 2, 0 },
-    /*** This is very mysterious command ... */
-    /* 9b */ { "SHS",	ABSOLUTE_Y, M_ANXR, M_STH3, 5, 0 },
-
-    /* 9c */ { "SHY",	ABSOLUTE_X, M_YR, M_STH2, 5, 0 },
-    /* 9d */ { "STA",	ABSOLUTE_X, M_AC, M_ABSX, 5, 0 },	/* Absolute,X */
-    /* 9e */ { "SHX",	ABSOLUTE_Y, M_XR, M_STH1, 5, 0 },
-    /* 9f */ { "SHA",	ABSOLUTE_Y, M_ANXR, M_STH1, 5, 0 },
-
-    /* a0 */ { "LDY",	IMMEDIATE, M_IMM, M_YR, 2, 0 },		/* Immediate */
-    /* a1 */ { "LDA",	INDIRECT_X, M_INDX, M_AC, 6, 0 },	/* (Indirect,X) */
-    /* a2 */ { "LDX",	IMMEDIATE, M_IMM, M_XR, 2, 0 },		/* Immediate */
-    /* a3 */ { "LAX",	INDIRECT_X, M_INDX, M_ACXR, 6, 0 },	/* (indirect,X) */
-
-    /* a4 */ { "LDY",	ZERO_PAGE, M_ZERO, M_YR, 3, 0 },		/* Zeropage */
-    /* a5 */ { "LDA",	ZERO_PAGE, M_ZERO, M_AC, 3, 0 },		/* Zeropage */
-    /* a6 */ { "LDX",	ZERO_PAGE, M_ZERO, M_XR, 3, 0 },		/* Zeropage */
-    /* a7 */ { "LAX",	ZERO_PAGE, M_ZERO, M_ACXR, 3, 0 },
-
-    /* a8 */ { "TAY",	IMPLIED, M_AC, M_YR,    2, 0 },
-    /* a9 */ { "LDA",	IMMEDIATE, M_IMM, M_AC, 2, 0 },		/* Immediate */
-    /* aa */ { "TAX",	IMPLIED, M_AC, M_XR,    2, 0 },
-    /* ab */ { "LXA",	IMMEDIATE, M_ACIM, M_ACXR, 2, 0 },	/* LXA isn't a typo */
-
-    /* ac */ { "LDY",	ABSOLUTE, M_ABS, M_YR, 4, 0 },		/* Absolute */
-    /* ad */ { "LDA",	ABSOLUTE, M_ABS, M_AC, 4, 0 },		/* Absolute */
-    /* ae */ { "LDX",	ABSOLUTE, M_ABS, M_XR, 4, 0 },		/* Absolute */
-    /* af */ { "LAX",	ABSOLUTE, M_ABS, M_ACXR, 4, 0 },
-
-    /* b0 */ { "BCS",	RELATIVE, M_REL, M_NONE,  2, 0 },
-    /* b1 */ { "LDA",	INDIRECT_Y, M_INDY, M_AC, 5, 1 },	/* (indirect),Y */
-    /* b2 */ { "JAM",	IMPLIED, M_NONE, M_NONE,  0, 0 },	/* TILT */
-    /* b3 */ { "LAX",	INDIRECT_Y, M_INDY, M_ACXR, 5, 1 },
-
-    /* b4 */ { "LDY",	ZERO_PAGE_X, M_ZERX, M_YR, 4, 0 },	/* Zeropage,X */
-    /* b5 */ { "LDA",	ZERO_PAGE_X, M_ZERX, M_AC, 4, 0 },	/* Zeropage,X */
-    /* b6 */ { "LDX",	ZERO_PAGE_Y, M_ZERY, M_XR, 4, 0 },	/* Zeropage,Y */
-    /* b7 */ { "LAX",	ZERO_PAGE_Y, M_ZERY, M_ACXR, 4, 0 },
-
-    /* b8 */ { "CLV",	IMPLIED, M_NONE, M_FV,    2, 0 },
-    /* b9 */ { "LDA",	ABSOLUTE_Y, M_ABSY, M_AC, 4, 1 },	/* Absolute,Y */
-    /* ba */ { "TSX",	IMPLIED, M_SP, M_XR,      2, 0 },
-    /* bb */ { "LAS",	ABSOLUTE_Y, M_SABY, M_ACXS, 4, 1 },
-
-    /* bc */ { "LDY",	ABSOLUTE_X, M_ABSX, M_YR, 4, 1 },	/* Absolute,X */
-    /* bd */ { "LDA",	ABSOLUTE_X, M_ABSX, M_AC, 4, 1 },	/* Absolute,X */
-    /* be */ { "LDX",	ABSOLUTE_Y, M_ABSY, M_XR, 4, 1 },	/* Absolute,Y */
-    /* bf */ { "LAX",	ABSOLUTE_Y, M_ABSY, M_ACXR, 4, 1 },
-
-    /* c0 */ { "CPY",	IMMEDIATE, M_IMM, M_NONE, 2, 0 },	/* Immediate */
-    /* c1 */ { "CMP",	INDIRECT_X, M_INDX, M_NONE, 6, 0 },	/* (Indirect,X) */
-    /* c2 */ { "NOOP",	IMMEDIATE, M_NONE, M_NONE, 2, 0 },	/* occasional TILT */
-    /* c3 */ { "DCP",	INDIRECT_X, M_INDX, M_INDX, 8, 0 },
-
-    /* c4 */ { "CPY",	ZERO_PAGE, M_ZERO, M_NONE, 3, 0 },	/* Zeropage */
-    /* c5 */ { "CMP",	ZERO_PAGE, M_ZERO, M_NONE, 3, 0 },	/* Zeropage */
-    /* c6 */ { "DEC",	ZERO_PAGE, M_ZERO, M_ZERO, 5, 0 },	/* Zeropage */
-    /* c7 */ { "DCP",	ZERO_PAGE, M_ZERO, M_ZERO, 5, 0 },
-
-    /* c8 */ { "INY",	IMPLIED, M_YR, M_YR, 2, 0 },
-    /* c9 */ { "CMP",	IMMEDIATE, M_IMM, M_NONE, 2, 0 },	/* Immediate */
-    /* ca */ { "DEX",	IMPLIED, M_XR, M_XR, 2, 0 },
-    /* cb */ { "SBX",	IMMEDIATE, M_IMM, M_XR, 2, 0 },
-
-    /* cc */ { "CPY",	ABSOLUTE, M_ABS, M_NONE, 4, 0 },		/* Absolute */
-    /* cd */ { "CMP",	ABSOLUTE, M_ABS, M_NONE, 4, 0 },		/* Absolute */
-    /* ce */ { "DEC",	ABSOLUTE, M_ABS, M_ABS,  6, 0 },		/* Absolute */
-    /* cf */ { "DCP",	ABSOLUTE, M_ABS, M_ABS,  6, 0 },
-
-    /* d0 */ { "BNE",	RELATIVE, M_REL, M_NONE, 2, 0 },
-    /* d1 */ { "CMP",	INDIRECT_Y, M_INDY, M_NONE, 5, 1 },	/* (Indirect),Y */
-    /* d2 */ { "JAM",	IMPLIED, M_NONE, M_NONE,    0, 0 },	/* TILT */
-    /* d3 */ { "DCP",	INDIRECT_Y, M_INDY, M_INDY, 8, 0 },
-
-    /* d4 */ { "NOOP",	ZERO_PAGE_X, M_NONE, M_NONE, 4, 0 },
-    /* d5 */ { "CMP",	ZERO_PAGE_X, M_ZERX, M_NONE, 4, 0 },	/* Zeropage,X */
-    /* d6 */ { "DEC",	ZERO_PAGE_X, M_ZERX, M_ZERX, 6, 0 },	/* Zeropage,X */
-    /* d7 */ { "DCP",	ZERO_PAGE_X, M_ZERX, M_ZERX, 6, 0 },
-
-    /* d8 */ { "CLD",	IMPLIED, M_NONE, M_FD, 2, 0 },
-    /* d9 */ { "CMP",	ABSOLUTE_Y, M_ABSY, M_NONE, 4, 1 },	/* Absolute,Y */
-    /* da */ { "NOOP",	IMPLIED, M_NONE, M_NONE,    2, 0 },
-    /* db */ { "DCP",	ABSOLUTE_Y, M_ABSY, M_ABSY, 7, 0 },
-
-    /* dc */ { "NOOP",	ABSOLUTE_X, M_NONE, M_NONE, 4, 1 },
-    /* dd */ { "CMP",	ABSOLUTE_X, M_ABSX, M_NONE, 4, 1 },	/* Absolute,X */
-    /* de */ { "DEC",	ABSOLUTE_X, M_ABSX, M_ABSX, 7, 0 },	/* Absolute,X */
-    /* df */ { "DCP",	ABSOLUTE_X, M_ABSX, M_ABSX, 7, 0 },
-
-    /* e0 */ { "CPX",	IMMEDIATE, M_IMM, M_NONE, 2, 0 },	/* Immediate */
-    /* e1 */ { "SBC",	INDIRECT_X, M_INDX, M_AC, 6, 0 },	/* (Indirect,X) */
-    /* e2 */ { "NOOP",	IMMEDIATE, M_NONE, M_NONE,  2, 0 },
-    /* e3 */ { "ISB",	INDIRECT_X, M_INDX, M_INDX, 8, 0 },
-
-    /* e4 */ { "CPX",	ZERO_PAGE, M_ZERO, M_NONE, 3, 0 },	/* Zeropage */
-    /* e5 */ { "SBC",	ZERO_PAGE, M_ZERO, M_AC,   3, 0 },	/* Zeropage */
-    /* e6 */ { "INC",	ZERO_PAGE, M_ZERO, M_ZERO, 5, 0 },	/* Zeropage */
-    /* e7 */ { "ISB",	ZERO_PAGE, M_ZERO, M_ZERO, 5, 0 },
-
-    /* e8 */ { "INX",	IMPLIED, M_XR, M_XR,     2, 0 },
-    /* e9 */ { "SBC",	IMMEDIATE, M_IMM, M_AC,  2, 0 },		/* Immediate */
-    /* ea */ { "NOP",	IMPLIED, M_NONE, M_NONE, 2, 0 },
-    /* eb */ { "USBC",	IMMEDIATE, M_IMM, M_AC,  2, 0 },		/* same as e9 */
-
-    /* ec */ { "CPX",	ABSOLUTE, M_ABS, M_NONE, 4, 0 },		/* Absolute */
-    /* ed */ { "SBC",	ABSOLUTE, M_ABS, M_AC,  4, 0 },		/* Absolute */
-    /* ee */ { "INC",	ABSOLUTE, M_ABS, M_ABS, 6, 0 },		/* Absolute */
-    /* ef */ { "ISB",	ABSOLUTE, M_ABS, M_ABS, 6, 0 },
-
-    /* f0 */ { "BEQ",	RELATIVE, M_REL, M_NONE,  2, 0 },
-    /* f1 */ { "SBC",	INDIRECT_Y, M_INDY, M_AC, 5, 1 },	/* (Indirect),Y */
-    /* f2 */ { "JAM",	IMPLIED, M_NONE, M_NONE,  0, 0 },	/* TILT */
-    /* f3 */ { "ISB",	INDIRECT_Y, M_INDY, M_INDY, 8, 0 },
-
-    /* f4 */ { "NOOP",	ZERO_PAGE_X, M_NONE, M_NONE, 4, 0 },
-    /* f5 */ { "SBC",	ZERO_PAGE_X, M_ZERX, M_AC,   4, 0 },	/* Zeropage,X */
-    /* f6 */ { "INC",	ZERO_PAGE_X, M_ZERX, M_ZERX, 6, 0 },	/* Zeropage,X */
-    /* f7 */ { "ISB",	ZERO_PAGE_X, M_ZERX, M_ZERX, 6, 0 },
-
-    /* f8 */ { "SED",	IMPLIED, M_NONE, M_FD,    2, 0 },
-    /* f9 */ { "SBC",	ABSOLUTE_Y, M_ABSY, M_AC, 4, 1 },	/* Absolute,Y */
-    /* fa */ { "NOOP",	IMPLIED, M_NONE, M_NONE,  2, 0 },
-    /* fb */ { "ISB",	ABSOLUTE_Y, M_ABSY, M_ABSY, 7, 0 },
-
-    /* fc */ { "NOOP",	ABSOLUTE_X, M_NONE, M_NONE, 4, 1 },
-    /* fd */ { "SBC",	ABSOLUTE_X, M_ABSX, M_AC,   4, 1 },	/* Absolute,X */
-    /* fe */ { "INC",	ABSOLUTE_X, M_ABSX, M_ABSX, 7, 0 },	/* Absolute,X */
-    /* ff */ { "ISB",	ABSOLUTE_X, M_ABSX, M_ABSX, 7, 0 }
+#include "types.h"
+
+static int addr_mode_size[] = {
+    1, /* ASM_ADDR_MODE_IMPLIED */
+    1, /* ASM_ADDR_MODE_ACCUMULATOR */
+    2, /* ASM_ADDR_MODE_IMMEDIATE */
+    2, /* ASM_ADDR_MODE_ZERO_PAGE */
+    2, /* ASM_ADDR_MODE_ZERO_PAGE_X */
+    2, /* ASM_ADDR_MODE_ZERO_PAGE_Y */
+    3, /* ASM_ADDR_MODE_ABSOLUTE */
+    3, /* ASM_ADDR_MODE_ABSOLUTE_X */
+    3, /* ASM_ADDR_MODE_ABSOLUTE_Y */
+    3, /* ASM_ADDR_MODE_ABS_INDIRECT */
+    2, /* ASM_ADDR_MODE_INDIRECT_X */
+    2, /* ASM_ADDR_MODE_INDIRECT_Y */
+    2  /* ASM_ADDR_MODE_RELATIVE */
 };
+
+static asm_opcode_info_t opcode_list[] = {
+    /* 00 */ { "BRK",	ASM_ADDR_MODE_IMPLIED },
+    /* 01 */ { "ORA",	ASM_ADDR_MODE_INDIRECT_X },
+    /* 02 */ { "JAM",	ASM_ADDR_MODE_IMPLIED },
+    /* 03 */ { "SLO",	ASM_ADDR_MODE_INDIRECT_X },
+    /* 04 */ { "NOOP",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 05 */ { "ORA",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 06 */ { "ASL",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 07 */ { "SLO",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 08 */ { "PHP",	ASM_ADDR_MODE_IMPLIED },
+    /* 09 */ { "ORA",	ASM_ADDR_MODE_IMMEDIATE },
+    /* 0a */ { "ASL",	ASM_ADDR_MODE_ACCUMULATOR },
+    /* 0b */ { "ANC",	ASM_ADDR_MODE_IMMEDIATE },
+    /* 0c */ { "NOOP",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 0d */ { "ORA",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 0e */ { "ASL",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 0f */ { "SLO",	ASM_ADDR_MODE_ABSOLUTE },
+
+    /* 10 */ { "BPL",	ASM_ADDR_MODE_RELATIVE },
+    /* 11 */ { "ORA",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* 12 */ { "JAM",	ASM_ADDR_MODE_IMPLIED },
+    /* 13 */ { "SLO",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* 14 */ { "NOOP",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 15 */ { "ORA",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 16 */ { "ASL",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 17 */ { "SLO",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 18 */ { "CLC",	ASM_ADDR_MODE_IMPLIED },
+    /* 19 */ { "ORA",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* 1a */ { "NOOP",	ASM_ADDR_MODE_IMPLIED },
+    /* 1b */ { "SLO",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* 1c */ { "NOOP",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 1d */ { "ORA",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 1e */ { "ASL",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 1f */ { "SLO",	ASM_ADDR_MODE_ABSOLUTE_X },
+
+    /* 20 */ { "JSR",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 21 */ { "AND",	ASM_ADDR_MODE_INDIRECT_X },
+    /* 22 */ { "JAM",	ASM_ADDR_MODE_IMPLIED },
+    /* 23 */ { "RLA",	ASM_ADDR_MODE_INDIRECT_X },
+    /* 24 */ { "BIT",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 25 */ { "AND",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 26 */ { "ROL",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 27 */ { "RLA",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 28 */ { "PLP",	ASM_ADDR_MODE_IMPLIED },
+    /* 29 */ { "AND",	ASM_ADDR_MODE_IMMEDIATE },
+    /* 2a */ { "ROL",	ASM_ADDR_MODE_ACCUMULATOR },
+    /* 2b */ { "ANC",	ASM_ADDR_MODE_IMMEDIATE },
+    /* 2c */ { "BIT",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 2d */ { "AND",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 2e */ { "ROL",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 2f */ { "RLA",	ASM_ADDR_MODE_ABSOLUTE },
+
+    /* 30 */ { "BMI",	ASM_ADDR_MODE_RELATIVE },
+    /* 31 */ { "AND",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* 32 */ { "JAM",	ASM_ADDR_MODE_IMPLIED },
+    /* 33 */ { "RLA",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* 34 */ { "NOOP",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 35 */ { "AND",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 36 */ { "ROL",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 37 */ { "RLA",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 38 */ { "SEC",	ASM_ADDR_MODE_IMPLIED },
+    /* 39 */ { "AND",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* 3a */ { "NOOP",	ASM_ADDR_MODE_IMPLIED },
+    /* 3b */ { "RLA",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* 3c */ { "NOOP",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 3d */ { "AND",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 3e */ { "ROL",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 3f */ { "RLA",	ASM_ADDR_MODE_ABSOLUTE_X },
+
+    /* 40 */ { "RTI",	ASM_ADDR_MODE_IMPLIED },
+    /* 41 */ { "EOR",	ASM_ADDR_MODE_INDIRECT_X },
+    /* 42 */ { "JAM",	ASM_ADDR_MODE_IMPLIED },
+    /* 43 */ { "SRE",	ASM_ADDR_MODE_INDIRECT_X },
+    /* 44 */ { "NOOP",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 45 */ { "EOR",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 46 */ { "LSR",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 47 */ { "SRE",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 48 */ { "PHA",	ASM_ADDR_MODE_IMPLIED },
+    /* 49 */ { "EOR",	ASM_ADDR_MODE_IMMEDIATE },
+    /* 4a */ { "LSR",	ASM_ADDR_MODE_ACCUMULATOR },
+    /* 4b */ { "ASR",	ASM_ADDR_MODE_IMMEDIATE },
+    /* 4c */ { "JMP",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 4d */ { "EOR",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 4e */ { "LSR",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 4f */ { "SRE",	ASM_ADDR_MODE_ABSOLUTE },
+
+    /* 50 */ { "BVC",	ASM_ADDR_MODE_RELATIVE },
+    /* 51 */ { "EOR",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* 52 */ { "JAM",	ASM_ADDR_MODE_IMPLIED },
+    /* 53 */ { "SRE",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* 54 */ { "NOOP",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 55 */ { "EOR",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 56 */ { "LSR",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 57 */ { "SRE",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 58 */ { "CLI",	ASM_ADDR_MODE_IMPLIED },
+    /* 59 */ { "EOR",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* 5a */ { "NOOP",	ASM_ADDR_MODE_IMPLIED },
+    /* 5b */ { "SRE",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* 5c */ { "NOOP",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 5d */ { "EOR",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 5e */ { "LSR",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 5f */ { "SRE",	ASM_ADDR_MODE_ABSOLUTE_X },
+
+    /* 60 */ { "RTS",	ASM_ADDR_MODE_IMPLIED },
+    /* 61 */ { "ADC",	ASM_ADDR_MODE_INDIRECT_X },
+    /* 62 */ { "JAM",	ASM_ADDR_MODE_IMPLIED },
+    /* 63 */ { "RRA",	ASM_ADDR_MODE_INDIRECT_X },
+    /* 64 */ { "NOOP",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 65 */ { "ADC",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 66 */ { "ROR",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 67 */ { "RRA",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 68 */ { "PLA",	ASM_ADDR_MODE_IMPLIED },
+    /* 69 */ { "ADC",	ASM_ADDR_MODE_IMMEDIATE },
+    /* 6a */ { "ROR",	ASM_ADDR_MODE_ACCUMULATOR },
+    /* 6b */ { "ARR",	ASM_ADDR_MODE_IMMEDIATE },
+    /* 6c */ { "JMP",	ASM_ADDR_MODE_ABS_INDIRECT },
+    /* 6d */ { "ADC",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 6e */ { "ROR",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 6f */ { "RRA",	ASM_ADDR_MODE_ABSOLUTE },
+
+    /* 70 */ { "BVS",	ASM_ADDR_MODE_RELATIVE },
+    /* 71 */ { "ADC",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* 72 */ { "JAM",	ASM_ADDR_MODE_IMPLIED },
+    /* 73 */ { "RRA",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* 74 */ { "NOOP",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 75 */ { "ADC",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 76 */ { "ROR",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 77 */ { "RRA",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 78 */ { "SEI",	ASM_ADDR_MODE_IMPLIED },
+    /* 79 */ { "ADC",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* 7a */ { "NOOP",	ASM_ADDR_MODE_IMPLIED },
+    /* 7b */ { "RRA",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* 7c */ { "NOOP",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 7d */ { "ADC",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 7e */ { "ROR",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 7f */ { "RRA",	ASM_ADDR_MODE_ABSOLUTE_X },
+
+    /* 80 */ { "NOOP",	ASM_ADDR_MODE_IMMEDIATE },
+    /* 81 */ { "STA",	ASM_ADDR_MODE_INDIRECT_X },
+    /* 82 */ { "NOOP",	ASM_ADDR_MODE_IMMEDIATE },
+    /* 83 */ { "SAX",	ASM_ADDR_MODE_INDIRECT_X },
+    /* 84 */ { "STY",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 85 */ { "STA",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 86 */ { "STX",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 87 */ { "SAX",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* 88 */ { "DEY",	ASM_ADDR_MODE_IMPLIED },
+    /* 89 */ { "NOOP",	ASM_ADDR_MODE_IMMEDIATE },
+    /* 8a */ { "TXA",	ASM_ADDR_MODE_IMPLIED },
+    /* 8b */ { "ANE",	ASM_ADDR_MODE_IMMEDIATE },
+    /* 8c */ { "STY",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 8d */ { "STA",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 8e */ { "STX",	ASM_ADDR_MODE_ABSOLUTE },
+    /* 8f */ { "SAX",	ASM_ADDR_MODE_ABSOLUTE },
+
+    /* 90 */ { "BCC",	ASM_ADDR_MODE_RELATIVE },
+    /* 91 */ { "STA",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* 92 */ { "JAM",	ASM_ADDR_MODE_IMPLIED },
+    /* 93 */ { "SHA",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* 94 */ { "STY",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 95 */ { "STA",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* 96 */ { "STX",	ASM_ADDR_MODE_ZERO_PAGE_Y },
+    /* 97 */ { "SAX",	ASM_ADDR_MODE_ZERO_PAGE_Y },
+    /* 98 */ { "TYA",	ASM_ADDR_MODE_IMPLIED },
+    /* 99 */ { "STA",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* 9a */ { "TXS",	ASM_ADDR_MODE_IMPLIED },
+    /* 9b */ { "SHS",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* 9c */ { "SHY",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 9d */ { "STA",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* 9e */ { "SHX",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* 9f */ { "SHA",	ASM_ADDR_MODE_ABSOLUTE_Y },
+
+    /* a0 */ { "LDY",	ASM_ADDR_MODE_IMMEDIATE },
+    /* a1 */ { "LDA",	ASM_ADDR_MODE_INDIRECT_X },
+    /* a2 */ { "LDX",	ASM_ADDR_MODE_IMMEDIATE },
+    /* a3 */ { "LAX",	ASM_ADDR_MODE_INDIRECT_X },
+    /* a4 */ { "LDY",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* a5 */ { "LDA",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* a6 */ { "LDX",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* a7 */ { "LAX",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* a8 */ { "TAY",	ASM_ADDR_MODE_IMPLIED },
+    /* a9 */ { "LDA",	ASM_ADDR_MODE_IMMEDIATE },
+    /* aa */ { "TAX",	ASM_ADDR_MODE_IMPLIED },
+    /* ab */ { "LXA",	ASM_ADDR_MODE_IMMEDIATE },
+    /* ac */ { "LDY",	ASM_ADDR_MODE_ABSOLUTE },
+    /* ad */ { "LDA",	ASM_ADDR_MODE_ABSOLUTE },
+    /* ae */ { "LDX",	ASM_ADDR_MODE_ABSOLUTE },
+    /* af */ { "LAX",	ASM_ADDR_MODE_ABSOLUTE },
+
+    /* b0 */ { "BCS",	ASM_ADDR_MODE_RELATIVE },
+    /* b1 */ { "LDA",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* b2 */ { "JAM",	ASM_ADDR_MODE_IMPLIED },
+    /* b3 */ { "LAX",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* b4 */ { "LDY",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* b5 */ { "LDA",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* b6 */ { "LDX",	ASM_ADDR_MODE_ZERO_PAGE_Y },
+    /* b7 */ { "LAX",	ASM_ADDR_MODE_ZERO_PAGE_Y },
+    /* b8 */ { "CLV",	ASM_ADDR_MODE_IMPLIED },
+    /* b9 */ { "LDA",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* ba */ { "TSX",	ASM_ADDR_MODE_IMPLIED },
+    /* bb */ { "LAS",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* bc */ { "LDY",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* bd */ { "LDA",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* be */ { "LDX",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* bf */ { "LAX",	ASM_ADDR_MODE_ABSOLUTE_Y },
+
+    /* c0 */ { "CPY",	ASM_ADDR_MODE_IMMEDIATE },
+    /* c1 */ { "CMP",	ASM_ADDR_MODE_INDIRECT_X },
+    /* c2 */ { "NOOP",	ASM_ADDR_MODE_IMMEDIATE },
+    /* c3 */ { "DCP",	ASM_ADDR_MODE_INDIRECT_X },
+    /* c4 */ { "CPY",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* c5 */ { "CMP",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* c6 */ { "DEC",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* c7 */ { "DCP",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* c8 */ { "INY",	ASM_ADDR_MODE_IMPLIED },
+    /* c9 */ { "CMP",	ASM_ADDR_MODE_IMMEDIATE },
+    /* ca */ { "DEX",	ASM_ADDR_MODE_IMPLIED },
+    /* cb */ { "SBX",	ASM_ADDR_MODE_IMMEDIATE },
+    /* cc */ { "CPY",	ASM_ADDR_MODE_ABSOLUTE },
+    /* cd */ { "CMP",	ASM_ADDR_MODE_ABSOLUTE },
+    /* ce */ { "DEC",	ASM_ADDR_MODE_ABSOLUTE },
+    /* cf */ { "DCP",	ASM_ADDR_MODE_ABSOLUTE },
+
+    /* d0 */ { "BNE",	ASM_ADDR_MODE_RELATIVE },
+    /* d1 */ { "CMP",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* d2 */ { "JAM",	ASM_ADDR_MODE_IMPLIED },
+    /* d3 */ { "DCP",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* d4 */ { "NOOP",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* d5 */ { "CMP",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* d6 */ { "DEC",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* d7 */ { "DCP",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* d8 */ { "CLD",	ASM_ADDR_MODE_IMPLIED },
+    /* d9 */ { "CMP",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* da */ { "NOOP",	ASM_ADDR_MODE_IMPLIED },
+    /* db */ { "DCP",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* dc */ { "NOOP",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* dd */ { "CMP",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* de */ { "DEC",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* df */ { "DCP",	ASM_ADDR_MODE_ABSOLUTE_X },
+
+    /* e0 */ { "CPX",	ASM_ADDR_MODE_IMMEDIATE },
+    /* e1 */ { "SBC",	ASM_ADDR_MODE_INDIRECT_X },
+    /* e2 */ { "NOOP",	ASM_ADDR_MODE_IMMEDIATE },
+    /* e3 */ { "ISB",	ASM_ADDR_MODE_INDIRECT_X },
+    /* e4 */ { "CPX",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* e5 */ { "SBC",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* e6 */ { "INC",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* e7 */ { "ISB",	ASM_ADDR_MODE_ZERO_PAGE },
+    /* e8 */ { "INX",	ASM_ADDR_MODE_IMPLIED },
+    /* e9 */ { "SBC",	ASM_ADDR_MODE_IMMEDIATE },
+    /* ea */ { "NOP",	ASM_ADDR_MODE_IMPLIED },
+    /* eb */ { "USBC",	ASM_ADDR_MODE_IMMEDIATE },
+    /* ec */ { "CPX",	ASM_ADDR_MODE_ABSOLUTE },
+    /* ed */ { "SBC",	ASM_ADDR_MODE_ABSOLUTE },
+    /* ee */ { "INC",	ASM_ADDR_MODE_ABSOLUTE },
+    /* ef */ { "ISB",	ASM_ADDR_MODE_ABSOLUTE },
+
+    /* f0 */ { "BEQ",	ASM_ADDR_MODE_RELATIVE },
+    /* f1 */ { "SBC",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* f2 */ { "JAM",	ASM_ADDR_MODE_IMPLIED },
+    /* f3 */ { "ISB",	ASM_ADDR_MODE_INDIRECT_Y },
+    /* f4 */ { "NOOP",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* f5 */ { "SBC",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* f6 */ { "INC",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* f7 */ { "ISB",	ASM_ADDR_MODE_ZERO_PAGE_X },
+    /* f8 */ { "SED",	ASM_ADDR_MODE_IMPLIED },
+    /* f9 */ { "SBC",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* fa */ { "NOOP",	ASM_ADDR_MODE_IMPLIED },
+    /* fb */ { "ISB",	ASM_ADDR_MODE_ABSOLUTE_Y },
+    /* fc */ { "NOOP",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* fd */ { "SBC",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* fe */ { "INC",	ASM_ADDR_MODE_ABSOLUTE_X },
+    /* ff */ { "ISB",	ASM_ADDR_MODE_ABSOLUTE_X }
+};
+
+asm_opcode_info_t *asm_opcode_info_get(BYTE number)
+{
+    return opcode_list + (unsigned int) number;
+}
+
+unsigned int asm_addr_mode_get_size(asm_addr_mode_t mode)
+{
+    return addr_mode_size[(unsigned int) mode];
+}
