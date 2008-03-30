@@ -465,13 +465,13 @@ void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
 	break;
 
       case 9:			/* R09  Rasters between two display lines */
-#if 0
+#if 1
 #ifndef __MSDOS__
 	screen_charheight = crtc[9]+1;
 #else
 	screen_charheight = 8;
 #endif
-printf("set screen_charheight to %d\n",screen_charheight);
+        printf("set screen_charheight to %d\n",screen_charheight);
 #endif
 	break;
 
