@@ -56,6 +56,17 @@ static void draw_std_background(int start_pixel, int end_pixel)
     vid_memset(vic_ii.raster.draw_buffer_ptr + start_pixel,
                vic_ii.raster.overscan_background_color,
                end_pixel - start_pixel + 1);
+
+    /* The background color in the xsmooth region is set by xsmooth color.  */
+    if (vic_ii.raster.xsmooth
+        && start_pixel
+        <= vic_ii.raster.geometry.gfx_position.x
+        && end_pixel
+        >= vic_ii.raster.geometry.gfx_position.x + vic_ii.raster.xsmooth)
+        vid_memset((vic_ii.raster.draw_buffer_ptr
+                   + vic_ii.raster.geometry.gfx_position.x),
+                   vic_ii.raster.xsmooth_color,
+                   vic_ii.raster.xsmooth);
 }
 
 static void draw_idle_std_background(int start_pixel, int end_pixel)
