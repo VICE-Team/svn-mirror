@@ -82,6 +82,8 @@ libarch_a_SOURCES = \
 	uimon.c \
 	uipetset.c \
 	uipetset.h \
+	uiplus4mem.c \
+	uiplus4mem.h \
 	uireu.c \
 	uireu.h \
 	uisid.c \

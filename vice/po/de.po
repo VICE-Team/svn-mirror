@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.9\n"
-"POT-Creation-Date: 2002-04-01 15:52+0200\n"
+"POT-Creation-Date: 2002-04-03 20:23+0200\n"
 "PO-Revision-Date: 2002-03-14 22:04+01:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -293,26 +293,26 @@ msgstr "Speicher Einstellungen"
 
 #: src/arch/unix/c128ui.c:452 src/arch/unix/c610ui.c:461
 #: src/arch/unix/c64ui.c:419 src/arch/unix/petui.c:386
-#: src/arch/unix/plus4ui.c:170 src/arch/unix/vic20ui.c:502
+#: src/arch/unix/plus4ui.c:186 src/arch/unix/vic20ui.c:502
 #: src/arch/unix/vsidui.c:254
 msgid "File"
 msgstr "Datei"
 
 #: src/arch/unix/c128ui.c:471 src/arch/unix/c610ui.c:478
 #: src/arch/unix/c64ui.c:438 src/arch/unix/petui.c:403
-#: src/arch/unix/plus4ui.c:187 src/arch/unix/vic20ui.c:521
+#: src/arch/unix/plus4ui.c:203 src/arch/unix/vic20ui.c:521
 msgid "Snapshot"
 msgstr "Snapshot"
 
 #: src/arch/unix/c128ui.c:477 src/arch/unix/c610ui.c:484
 #: src/arch/unix/c64ui.c:444 src/arch/unix/petui.c:409
-#: src/arch/unix/plus4ui.c:193 src/arch/unix/vic20ui.c:527
+#: src/arch/unix/plus4ui.c:209 src/arch/unix/vic20ui.c:527
 msgid "Options"
 msgstr "Optionen"
 
 #: src/arch/unix/c128ui.c:493 src/arch/unix/c610ui.c:498
 #: src/arch/unix/c64ui.c:460 src/arch/unix/petui.c:421
-#: src/arch/unix/plus4ui.c:205 src/arch/unix/vic20ui.c:537
+#: src/arch/unix/plus4ui.c:221 src/arch/unix/vic20ui.c:537
 #: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1147
 #: src/arch/unix/x11/gnome/ui.c:1239
 msgid "Settings"
@@ -322,7 +322,7 @@ msgstr "Einstellungen"
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:507 src/arch/unix/c610ui.c:515
 #: src/arch/unix/c64ui.c:474 src/arch/unix/petui.c:437
-#: src/arch/unix/plus4ui.c:218 src/arch/unix/vic20ui.c:554
+#: src/arch/unix/plus4ui.c:234 src/arch/unix/vic20ui.c:554
 msgid "RJHelp"
 msgstr "RJHilfe"
 
@@ -766,7 +766,24 @@ msgstr "*Schnelle PAL Emulation"
 msgid "*PAL emulation"
 msgstr "*PAL Emulation"
 
-#: src/arch/unix/plus4ui.c:113
+#: src/arch/unix/plus4ui.c:115
+msgid "*16KB"
+msgstr ""
+
+#: src/arch/unix/plus4ui.c:117
+msgid "*32KB"
+msgstr ""
+
+#: src/arch/unix/plus4ui.c:119
+msgid "*64KB"
+msgstr ""
+
+#: src/arch/unix/plus4ui.c:127
+#, fuzzy
+msgid "RAM settings"
+msgstr "ROM Einstellungen"
+
+#: src/arch/unix/plus4ui.c:129
 msgid "TED settings"
 msgstr "TED Einstellungen"
 

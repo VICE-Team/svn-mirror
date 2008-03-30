@@ -121,10 +121,96 @@ inline void REGPARM2 ted_local_store_vbank(ADDRESS addr, BYTE value)
     ram[addr] = value;
 }
 
+inline void REGPARM2 ted_local_store_vbank_32k(ADDRESS addr, BYTE value)
+{
+    /* This can only cause "aesthetical" errors, so let's save some time if
+       the current frame will not be visible.  */
+    if (!ted.raster.skip_frame) {
+        int f;
+
+        /* Argh... this is a dirty kludge!  We should probably find a cleaner
+           solution.  */
+        do {
+            CLOCK mclk;
+
+            /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
+            mclk = clk - rmw_flag - 1;
+            f = 0;
+
+            if (mclk >= ted.fetch_clk) {
+                /* If the fetch starts here, the sprite fetch routine should
+                   get the new value, not the old one.  */
+                if (mclk == ted.fetch_clk) {
+                    ram[addr&0x7fff] = value;
+                }
+                ted_raster_fetch_alarm_handler (clk - ted.fetch_clk);
+                f = 1;
+                /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
+                mclk = clk - rmw_flag - 1;
+            }
+
+            if (mclk >= ted.draw_clk) {
+                ted_raster_draw_alarm_handler(0);
+                f = 1;
+            }
+        } while (f);
+    }
+
+    ram[addr&0x7fff] = value;
+}
+
+inline void REGPARM2 ted_local_store_vbank_16k(ADDRESS addr, BYTE value)
+{
+    /* This can only cause "aesthetical" errors, so let's save some time if
+       the current frame will not be visible.  */
+    if (!ted.raster.skip_frame) {
+        int f;
+
+        /* Argh... this is a dirty kludge!  We should probably find a cleaner
+           solution.  */
+        do {
+            CLOCK mclk;
+
+            /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
+            mclk = clk - rmw_flag - 1;
+            f = 0;
+
+            if (mclk >= ted.fetch_clk) {
+                /* If the fetch starts here, the sprite fetch routine should
+                   get the new value, not the old one.  */
+                if (mclk == ted.fetch_clk) {
+                    ram[addr&0x3fff] = value;
+                }
+                ted_raster_fetch_alarm_handler (clk - ted.fetch_clk);
+                f = 1;
+                /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
+                mclk = clk - rmw_flag - 1;
+            }
+
+            if (mclk >= ted.draw_clk) {
+                ted_raster_draw_alarm_handler(0);
+                f = 1;
+            }
+        } while (f);
+    }
+
+    ram[addr&0x3fff] = value;
+}
+
 /* Encapsulate inlined function for other modules */
 void REGPARM2 ted_mem_vbank_store(ADDRESS addr, BYTE value)
 {
     ted_local_store_vbank(addr, value);
+}
+
+void REGPARM2 ted_mem_vbank_store_32k(ADDRESS addr, BYTE value)
+{
+    ted_local_store_vbank_32k(addr, value);
+}
+
+void REGPARM2 ted_mem_vbank_store_16k(ADDRESS addr, BYTE value)
+{
+    ted_local_store_vbank_16k(addr, value);
 }
 
 #if 0

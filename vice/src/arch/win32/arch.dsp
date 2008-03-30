@@ -202,6 +202,10 @@ SOURCE=.\uipetset.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiplus4mem.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uireu.c
 # End Source File
 # Begin Source File

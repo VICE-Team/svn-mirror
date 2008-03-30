@@ -1,9 +1,8 @@
 /*
- * ted-mem.h - Memory interface for the TED emulation.
+ * uiplus4mem.h - Implementation of PLUS4 memory settings dialog box.
  *
  * Written by
- *  Andreas Boose <boose@linux.rz.fh-hannover.de>
- *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Tibor Biczo <crown@axelero.hu>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,23 +24,11 @@
  *
  */
 
-#ifndef _TED_MEM_H
-#define _TED_MEM_H
+#ifndef _UIPLUS4MEM_H
+#define _UIPLUS4MEM_H
 
-#include "types.h"
+#include <windows.h>
 
-extern void REGPARM2 ted_store(ADDRESS addr, BYTE value);
-extern BYTE REGPARM1 ted_read(ADDRESS addr);
-extern BYTE REGPARM1 ted_peek(ADDRESS addr);
-extern BYTE REGPARM1 colorram_read(ADDRESS addr);
-extern void REGPARM2 colorram_store(ADDRESS addr, BYTE value);
-extern void REGPARM2 ted_mem_vbank_store(ADDRESS addr, BYTE value);
-extern void REGPARM2 ted_mem_vbank_store_32k(ADDRESS addr, BYTE value);
-extern void REGPARM2 ted_mem_vbank_store_16k(ADDRESS addr, BYTE value);
-#if 0
-extern void REGPARM2 ted_mem_vbank_39xx_store(ADDRESS addr, BYTE value);
-extern void REGPARM2 ted_mem_vbank_3fxx_store(ADDRESS addr, BYTE value);
-#endif
+void ui_plus4_memory_dialog(HWND hwnd);
 
 #endif
-

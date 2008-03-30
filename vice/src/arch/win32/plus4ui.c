@@ -40,6 +40,7 @@
 #include "resources.h"
 #include "uilib.h"
 #include "winmain.h"
+#include "uiplus4mem.h"
 
 ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -56,9 +57,12 @@ ui_res_value_list plus4_ui_res_values[] = {
 static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
-      case IDM_VIDEO_SETTINGS:
-        ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
-        break;
+        case IDM_PLUS4_SETTINGS:
+            ui_plus4_memory_dialog(hwnd);
+            break;
+        case IDM_VIDEO_SETTINGS:
+            ui_video_settings_dialog(hwnd, UI_VIDEO_PAL);
+            break;
     }
 }
 

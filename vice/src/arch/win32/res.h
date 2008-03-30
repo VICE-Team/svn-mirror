@@ -268,6 +268,11 @@
 #define IDC_VIDEO_CUSTOM_BROWSE         1414
 #define IDC_SELECT_VIDEO_CUSTOM         1415
 
+#define IDD_PLUS4_MEMORY_DIALOG		1420
+#define IDC_SELECT_PLUS4_MEM_16		1421
+#define IDC_SELECT_PLUS4_MEM_32		1422
+#define IDC_SELECT_PLUS4_MEM_64		1423
+
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
 #define IDM_ABOUT                       40002
@@ -393,6 +398,7 @@
 #define IDM_EFUNCTIONROM_NAME           40208
 #define IDM_TOGGLE_FASTPAL              40209
 #define IDM_VIDEO_SETTINGS              40210
+#define IDM_PLUS4_SETTINGS		40211
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001

@@ -42,6 +42,8 @@ static cmdline_option_t cmdline_options[] =
       "<name>", "Specify name of 3plus1 low ROM image" },
     { "-3plus1hi", SET_RESOURCE, 1, NULL, NULL, "3plus1hiName", NULL,
       "<name>", "Specify name of 3plus1 high ROM image" },
+    { "-ramsize", SET_RESOURCE, 1, NULL, NULL, "RamSize", NULL,
+      "<ramsize>", "Specify size of RAM installed in kb (16/32/64)" },
     { NULL }
 };
 

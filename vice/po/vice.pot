@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-04-01 15:52+0200\n"
+"POT-Creation-Date: 2002-04-03 20:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -292,26 +292,26 @@ msgstr ""
 
 #: src/arch/unix/c128ui.c:452 src/arch/unix/c610ui.c:461
 #: src/arch/unix/c64ui.c:419 src/arch/unix/petui.c:386
-#: src/arch/unix/plus4ui.c:170 src/arch/unix/vic20ui.c:502
+#: src/arch/unix/plus4ui.c:186 src/arch/unix/vic20ui.c:502
 #: src/arch/unix/vsidui.c:254
 msgid "File"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:471 src/arch/unix/c610ui.c:478
 #: src/arch/unix/c64ui.c:438 src/arch/unix/petui.c:403
-#: src/arch/unix/plus4ui.c:187 src/arch/unix/vic20ui.c:521
+#: src/arch/unix/plus4ui.c:203 src/arch/unix/vic20ui.c:521
 msgid "Snapshot"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:477 src/arch/unix/c610ui.c:484
 #: src/arch/unix/c64ui.c:444 src/arch/unix/petui.c:409
-#: src/arch/unix/plus4ui.c:193 src/arch/unix/vic20ui.c:527
+#: src/arch/unix/plus4ui.c:209 src/arch/unix/vic20ui.c:527
 msgid "Options"
 msgstr ""
 
 #: src/arch/unix/c128ui.c:493 src/arch/unix/c610ui.c:498
 #: src/arch/unix/c64ui.c:460 src/arch/unix/petui.c:421
-#: src/arch/unix/plus4ui.c:205 src/arch/unix/vic20ui.c:537
+#: src/arch/unix/plus4ui.c:221 src/arch/unix/vic20ui.c:537
 #: src/arch/unix/vsidui.c:267 src/arch/unix/x11/gnome/ui.c:1147
 #: src/arch/unix/x11/gnome/ui.c:1239
 msgid "Settings"
@@ -321,7 +321,7 @@ msgstr ""
 #. saved in your tranlation! e.g. german "RJHilfe"
 #: src/arch/unix/c128ui.c:507 src/arch/unix/c610ui.c:515
 #: src/arch/unix/c64ui.c:474 src/arch/unix/petui.c:437
-#: src/arch/unix/plus4ui.c:218 src/arch/unix/vic20ui.c:554
+#: src/arch/unix/plus4ui.c:234 src/arch/unix/vic20ui.c:554
 msgid "RJHelp"
 msgstr ""
 
@@ -763,7 +763,23 @@ msgstr ""
 msgid "*PAL emulation"
 msgstr ""
 
-#: src/arch/unix/plus4ui.c:113
+#: src/arch/unix/plus4ui.c:115
+msgid "*16KB"
+msgstr ""
+
+#: src/arch/unix/plus4ui.c:117
+msgid "*32KB"
+msgstr ""
+
+#: src/arch/unix/plus4ui.c:119
+msgid "*64KB"
+msgstr ""
+
+#: src/arch/unix/plus4ui.c:127
+msgid "RAM settings"
+msgstr ""
+
+#: src/arch/unix/plus4ui.c:129
 msgid "TED settings"
 msgstr ""
 

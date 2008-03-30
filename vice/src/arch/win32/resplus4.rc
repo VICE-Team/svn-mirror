@@ -138,7 +138,7 @@ BEGIN
         MENUITEM "&Device settings...",             IDM_DEVICEMANAGER
         MENUITEM "D&rive settings...",              IDM_DRIVE_SETTINGS
         MENUITEM "D&atasette settings...",          IDM_DATASETTE_SETTINGS
-        MENUITEM "&VIC-II settings...",             IDM_VICII_SETTINGS
+        MENUITEM "&Plus4 settings...",              IDM_PLUS4_SETTINGS
         MENUITEM "&Joystick settings...",           IDM_JOY_SETTINGS
         MENUITEM "S&ound settings...",              IDM_SOUND_SETTINGS
         MENUITEM SEPARATOR
@@ -168,6 +168,24 @@ END
 //
 // Dialog
 //
+
+IDD_PLUS4_MEMORY_DIALOG DIALOG DISCARDABLE  0, 0, 230, 145
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Plus4 settings"
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "&Memory",IDC_STATIC,5,15,70,75
+    AUTORADIOBUTTON "&16 kByte",IDC_SELECT_PLUS4_MEM_16,  15,30,55,10,
+                            BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "&32 kByte",IDC_SELECT_PLUS4_MEM_32,  15,45,55,10,
+                            BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "&64 kByte",IDC_SELECT_PLUS4_MEM_64,  15,60,55,10,
+                            BS_AUTORADIOBUTTON
+    DEFPUSHBUTTON   "OK", IDOK, 30,90,50,14, WS_TABSTOP
+    PUSHBUTTON      "Cancel", IDCANCEL, 90,90,50,14, WS_TABSTOP
+END
+
+
 
 IDD_VICII_DIALOG DIALOG DISCARDABLE 0, 0, 145, 90
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU

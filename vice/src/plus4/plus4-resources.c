@@ -31,6 +31,8 @@
 #include "plus4mem.h"
 #include "resources.h"
 #include "utils.h"
+#include "interrupt.h"
+#include "vsync.h"
 
 
 /* Name of the BASIC ROM.  */
@@ -42,6 +44,9 @@ static char *kernal_rom_name = NULL;
 /* Name of the 3plus1 ROMs.  */
 static char *tplus1lo_rom_name = NULL;
 static char *tplus1hi_rom_name = NULL;
+
+/* Size of RAM installed in kbytes */
+static int ram_size = 64;
 
 static int set_kernal_rom_name(resource_value_t v, void *param)
 {
@@ -75,6 +80,21 @@ static int set_3plus1hi_rom_name(resource_value_t v, void *param)
     return mem_load_3plus1hi(tplus1hi_rom_name);
 }
 
+static int set_ram_size(resource_value_t v, void *param)
+{
+    int rs = (int)v;
+
+    if ((rs != 64) && (rs != 32) && (rs !=16)) {
+        return -1;
+    }
+    ram_size = rs;
+    vsync_suspend_speed_eval();
+    mem_initialize_memory();
+    mem_powerup();
+    maincpu_trigger_reset();
+    return 0;
+}
+
 static resource_t resources[] = {
     { "KernalName", RES_STRING, (resource_value_t)"kernal",
       (resource_value_t *)&kernal_rom_name,
@@ -88,6 +108,9 @@ static resource_t resources[] = {
     { "3plus1hiName", RES_STRING, (resource_value_t)"3plus1hi",
       (resource_value_t *)&tplus1hi_rom_name,
       set_3plus1hi_rom_name, NULL },
+    { "RamSize", RES_INTEGER, (resource_value_t)64,
+      (resource_value_t *)&ram_size,
+      set_ram_size, NULL },
     { NULL }
 };
 

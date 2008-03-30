@@ -1,3 +1,87 @@
+2002-04-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.8.33.
+
+	* vicii/vicii-mem.c (check_bad_line_state_change_for_d011):
+	Steal cycles before `num_chars' is changed.
+
+	* arch/unix/plus4ui.c: Added RAM settings.
+
+	* vsync.h: Added deklaration of `video_canvas_s'.
+
+2002-04-03  John Selck  <graham@cruise.de>
+
+	* arch/win32/ui.c: Removed reset-requester from
+	handle_wm_message().
+
+	* arch/win32/vsyncarch.c: Added vsyncarch_verticalblank().
+
+	* vsyncapi.h: Added prototype of vsyncarch_verticalblank().
+
+	* vsync.c: Changed vsync_do_vsync() to accept a canvas.
+
+	* vsync.h: Changed vsync_do_vsync() prototype to
+	need a canvas now.
+
+	* vicii/vicii.c: vic_ii_raster_draw_alarm_handler() now hands
+	the current canvas to vsync_do_vsync().
+
+	* vic20/vic.c: vic_raster_draw_alarm_handler() now hands
+	the current canvas to vsync_do_vsync().
+
+	* crtc/crtc.c: crtc_raster_draw_alarm_handler() now hands
+	the current canvas to vsync_do_vsync().
+
+	* plus4/ted.c: ted_raster_draw_alarm_handler() now hands
+	the current canvas to vsync_do_vsync().
+
+2002-04-02  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c, arch/riscos/uiconfig.{c,h},
+	arch/riscos/uihelp.c, arch/riscos/video.c: added different
+	full screen mode descriptors for normal, PAL emu and double
+	size PAL emu modes.
+
+2002-04-02  Tibor Biczo  <crown@axelero.hu>
+
+	* arch/win32/Makefile.am : New files added (uiplus4mem.c,
+	uiplus4mem.h)
+
+	* arch/win32/arch.dsp: New file added to poject
+	(uiplus4mem.c).
+
+	* arch/win32/plus4ui.c: Handle Plus4 settings menu.
+
+	* arch/win32/res.h: Added menu and dialog entries for Plus4
+	memory size selection dialog.
+
+	* arch/win32/resplus4.rc: Added menu and dialog entries for
+	Plus4 memory selection dialog.
+
+	* arch/win32/uiplus4mem.c: New file, Plus4 memory size
+	selection dialog.
+
+	* arch/win32/uiplus4mem.h: New file.
+
+	* plus4/plus4-cmdline-options.c: Added -ramsize.
+
+	* plus4/plus4-resources.c: Added RamSize resource handling.
+
+	* plus4/plus4mem.c: Added support routines for handling
+	different memory sizes.
+	(mem_initialize_memory): Initializes tables based on RamSize
+	resource.
+
+	* plus4/plus4memlimit.c: Added bank for $0000-$4000 area, and
+	updated limit values.
+
+	* plus4/ted-mem.c (ted_local_store_vbank_32k,
+	ted_local_store_vbank_16k, ted_mem_vbank_store_32k,
+	ted_mem_vbank_store_16k): New functions.
+
+	* plus4/ted-mem.h (ted_mem_vbank_store_32k,
+	ted_mem_vbank_store_16k): New function prototypes.
+
 2002-04-02  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.8.32.

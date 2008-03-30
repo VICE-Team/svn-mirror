@@ -109,7 +109,23 @@ ui_menu_entry_t ted_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_RADIO(RamSize)
+
+ui_menu_entry_t set_ram_submenu[] = {
+    { N_("*16KB"), (ui_callback_t)radio_RamSize,
+      (ui_callback_data_t)16, NULL },
+    { N_("*32KB"), (ui_callback_t)radio_RamSize,
+      (ui_callback_data_t)32, NULL },
+    { N_("*64KB"), (ui_callback_t)radio_RamSize,
+      (ui_callback_data_t)64, NULL },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 static ui_menu_entry_t plus4_menu[] = {
+    { N_("RAM settings"),
+      NULL, NULL, set_ram_submenu },
     { N_("TED settings"),
       NULL, NULL, ted_submenu },
     { NULL }
