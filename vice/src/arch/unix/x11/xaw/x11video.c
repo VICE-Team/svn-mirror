@@ -39,6 +39,7 @@
 #include "utils.h"
 #include "videoarch.h"
 #include "video.h"
+#include "x11ui.h"
 #ifdef HAVE_XVIDEO
 #include "renderxv.h"
 #endif
@@ -65,7 +66,7 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
     canvas->using_mitshm = use_mitshm;
 #endif
 
-    display = ui_get_display_ptr();
+    display = x11ui_get_display_ptr();
 
     if (!use_xvideo) {
         /* Round up to 32-bit boundary (used in XCreateImage). */
@@ -83,19 +84,20 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
     if (use_xvideo) {
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
 
-	if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format)) {
-	  return -1;
-	}
+        if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format))
+            return -1;
 
-	if (!(canvas->xv_image = create_yuv_image(display, canvas->xv_port, canvas->xv_format, width, height, shminfo))) {
-	  return -1;
-	}
+        canvas->xv_image = create_yuv_image(display, canvas->xv_port,
+                                            canvas->xv_format, width, height,
+                                            shminfo);
+        if (!(canvas->xv_image))
+            return -1;
 
-	log_message(x11video_log,
-		    _("Successfully initialized using XVideo (%dx%d %.4s)."),
-		    width, height, canvas->xv_format.label);
+        log_message(x11video_log,
+                    _("Successfully initialized using XVideo (%dx%d %.4s)."),
+                    width, height, canvas->xv_format.label);
 
-	return 0;
+        return 0;
     }
 #endif
 #ifdef USE_MITSHM
@@ -117,8 +119,8 @@ tryagain:
                       (long)canvas->x_image->bytes_per_line
                       * canvas->x_image->height));
         canvas->xshm_info.shmid = shmget(IPC_PRIVATE,
-                                  canvas->x_image->bytes_per_line *
-                                  canvas->x_image->height, IPC_CREAT | 0604);
+                                  canvas->x_image->bytes_per_line
+                                  * canvas->x_image->height, IPC_CREAT | 0604);
         if (canvas->xshm_info.shmid == -1) {
             log_warning(x11video_log,
                         _("Cannot get shared memory; falling back to non MITSHM extension mode."));
@@ -132,7 +134,7 @@ tryagain:
         canvas->x_image->data = canvas->xshm_info.shmaddr;
         if (canvas->xshm_info.shmaddr == (char *)-1) {
             log_warning(x11video_log,
-                       _("Cannot get shared memory address; falling back to non MITSHM extension mode."));
+                        _("Cannot get shared memory address; falling back to non MITSHM extension mode."));
             shmctl(canvas->xshm_info.shmid,IPC_RMID,0);
             XDestroyImage(canvas->x_image);
             canvas->using_mitshm = 0;
@@ -176,15 +178,15 @@ tryagain:
     } else
 #endif
     {                           /* !i->using_mitshm */
-        BYTE *data;
+        char *data;
 
-        data = (BYTE *)xmalloc(width * height * sizeofpixel);
+        data = (char *)xmalloc(width * height * sizeofpixel);
 
         if (data == NULL)
             return -1;
 
         canvas->x_image = XCreateImage(display, visual, canvas->depth, ZPixmap,
-                                       0, (char *)data, width, height, 32, 0);
+                                       0, data, width, height, 32, 0);
         if (!canvas->x_image)
             return -1;
 
@@ -216,21 +218,23 @@ GC video_get_gc(XGCValues *gc_values)
 {
     Display *display;
 
-    display = ui_get_display_ptr();
+    display = x11ui_get_display_ptr();
 
     return XCreateGC(display, XtWindow(_ui_top_level), 0, gc_values);
 }
 
-void video_add_handlers(ui_window_t w)
+void video_add_handlers(video_canvas_t *canvas)
 {
-    XtAddEventHandler(w, (EnterWindowMask | LeaveWindowMask | KeyReleaseMask
-			  | KeyPressMask), True,
-		      (XtEventHandler) kbd_event_handler, NULL);
-    
+    XtAddEventHandler(canvas->emuwindow,
+                      (EnterWindowMask | LeaveWindowMask | KeyReleaseMask
+                      | KeyPressMask), True,
+                      (XtEventHandler)kbd_event_handler, NULL);
+
     /* FIXME: ...REALLY ugly... */
-    XtAddEventHandler(XtParent(w), (EnterWindowMask | LeaveWindowMask
-				  | KeyReleaseMask | KeyPressMask), True,
-		      (XtEventHandler) kbd_event_handler, NULL);
+    XtAddEventHandler(XtParent(canvas->emuwindow),
+                      (EnterWindowMask | LeaveWindowMask
+                      | KeyReleaseMask | KeyPressMask), True,
+                      (XtEventHandler)kbd_event_handler, NULL);
 }
 
 /* Make the canvas visible. */
@@ -238,7 +242,7 @@ void video_canvas_map(video_canvas_t *s)
 {
     Display *display;
 
-    display = ui_get_display_ptr();
+    display = x11ui_get_display_ptr();
 
     XMapWindow(display, s->drawable);
     XFlush(display);
@@ -249,7 +253,7 @@ void video_canvas_unmap(video_canvas_t *s)
 {
     Display *display;
 
-    display = ui_get_display_ptr();
+    display = x11ui_get_display_ptr();
 
     XUnmapWindow(display, s->drawable);
     XFlush(display);
@@ -259,5 +263,4 @@ void ui_finish_canvas(video_canvas_t *c)
 {
     c->drawable = XtWindow(c->emuwindow);
 }
-
 

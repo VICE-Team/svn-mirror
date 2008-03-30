@@ -73,6 +73,7 @@
 #include "utils.h"
 #include "video.h"
 #include "videoarch.h"
+#include "x11ui.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
@@ -334,7 +335,7 @@ int video_init(void)
     Display *display;
 
     _video_gc = video_get_gc(&gc_values);
-    display = ui_get_display_ptr();
+    display = x11ui_get_display_ptr();
 
     if (video_log == LOG_ERR)
         video_log = log_open("Video");
@@ -400,7 +401,7 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
     if (use_xvideo) {
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
 
-        display = ui_get_display_ptr();
+        display = x11ui_get_display_ptr();
 	destroy_yuv_image(display, canvas->xv_image, shminfo);
 	return;
     }
@@ -411,7 +412,7 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
         return;
 #endif
 
-    display = ui_get_display_ptr();
+    display = x11ui_get_display_ptr();
 
 #ifdef USE_MITSHM
     if (canvas->using_mitshm) {
@@ -449,14 +450,13 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
                                     const struct palette_s *palette,
                                     BYTE *pixel_return)
 {
+    int res;
     video_canvas_t *canvas;
-    ui_window_t w;
     XGCValues gc_values;
 
-    canvas = (video_canvas_t *)xmalloc(sizeof(video_canvas_t));
-    memset(canvas, 0, sizeof(video_canvas_t));
+    canvas = (video_canvas_t *)xcalloc(1, sizeof(video_canvas_t));
 
-    canvas->depth = ui_get_display_depth();
+    canvas->depth = x11ui_get_display_depth();
     canvas->video_draw_buffer_callback = NULL;
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
@@ -481,26 +481,27 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
 
     video_render_initconfig(&canvas->videoconfig);
 
-    w = ui_open_canvas_window(canvas, win_name, *width, *height, 1,
-                              (canvas_redraw_t)exposure_handler, palette,
-                              pixel_return);
+    res = x11ui_open_canvas_window(canvas, win_name, *width, *height, 1,
+                                   (canvas_redraw_t)exposure_handler, palette,
+                                   pixel_return);
 
     if (!_video_gc)
         _video_gc = video_get_gc(&gc_values);
 
-    if (!w) {
+    if (res < 0) {
         free(canvas);
         return (video_canvas_t *)NULL;
     }
 
-    canvas->emuwindow = w;
     canvas->width = *width;
     canvas->height = *height;
     ui_finish_canvas(canvas);
 
     if (canvas->depth > 8)
 	uicolor_init_video_colors();
-    video_add_handlers(w);
+
+    video_add_handlers(canvas);
+
     if (console_mode || vsid_mode)
         return canvas;
 
@@ -547,7 +548,7 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
     fullscreen_resize(width, height);
 #endif
 
-    ui_resize_canvas_window(canvas->emuwindow, width, height);
+    x11ui_resize_canvas_window(canvas->emuwindow, width, height);
     canvas->width = width;
     canvas->height = height;
     ui_finish_canvas(canvas);
@@ -594,22 +595,23 @@ void video_canvas_refresh(video_canvas_t *canvas,
 	unsigned int dest_w, dest_h, border_width, depth;
 
 	if (!raster) {
-	    log_error(video_log, "video_canvas_refresh called with raster == NULL");
+	    log_error(video_log,
+                      "video_canvas_refresh called with raster == NULL");
 	    return;
 	}
 
 	if (canvas->videoconfig.doublesizex) {
-	  xs /= 2;
-	  xi /= 2;
-	  w /= 2;
+            xs /= 2;
+            xi /= 2;
+            w /= 2;
 	}
 	if (canvas->videoconfig.doublesizey) {
-	  ys /= 2;
-	  yi /= 2;
-	  h /= 2;
+            ys /= 2;
+            yi /= 2;
+            h /= 2;
 	}
 
-	display = ui_get_display_ptr();
+	display = x11ui_get_display_ptr();
 
 	render_yuv_image(doublesize,
 			 canvas->videoconfig.doublescan,
@@ -662,7 +664,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
 		  xs, ys, xi, yi, w, h);
 
     /* This could be optimized away.  */
-    display = ui_get_display_ptr();
+    display = x11ui_get_display_ptr();
 
     _refresh_func(display, canvas->drawable, _video_gc,
                   canvas->x_image, xi, yi, xi, yi, w, h, False,

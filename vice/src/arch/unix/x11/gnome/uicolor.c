@@ -46,6 +46,8 @@
 #include "utils.h"
 #include "video.h"
 #include "videoarch.h"
+#include "x11ui.h"
+
 
 extern int screen;
 extern GdkColormap *colormap;
@@ -138,14 +140,14 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     GdkColor *color;
     XImage *im;
     BYTE *data = (BYTE *)xmalloc(4);
-    Display *display = ui_get_display_ptr();
+    Display *display = x11ui_get_display_ptr();
 
     color = (GdkColor *)xmalloc(sizeof(GdkColor));
 
     /* This is a kludge to map pixels to zimage values. Is there a better
        way to do this? //tvr */
     im = XCreateImage(display, GDK_VISUAL_XVISUAL(visual),
-                      ui_get_display_depth(),
+                      x11ui_get_display_depth(),
                       ZPixmap, 0, (char *)data, 1, 1, 8, 1);
     if (!im) {
         log_error(LOG_DEFAULT, _("XCreateImage failed."));

@@ -44,6 +44,7 @@
 #include "utils.h"
 #include "fullscreen-common.h"
 #include "videoarch.h"
+#include "x11ui.h"
 #include "raster/raster.h"
 
 
@@ -69,8 +70,7 @@ typedef struct {
 static vm_bestvideomode_t vm_bestmodes[10];
 
 
-static int 
-vidmode_available_modes()
+static int vidmode_available_modes(void)
 {
 #ifdef FS_VIDMODE_DEBUG
     int i;
@@ -169,14 +169,14 @@ vidmode_set_mode(resource_value_t v, void *param)
 	saved_w = fs_cached_raster->viewport.width;
 	saved_h = fs_cached_raster->viewport.height;
 
-	ui_get_widget_size(status_bar, &status_w, &status_h);
+	x11ui_get_widget_size(status_bar, &status_w, &status_h);
 	log_message(vm_log, "Status bar: %dx%d", status_w, status_h);
 	raster_resize_viewport(fs_cached_raster, 
 			       vm->hdisplay + 10, vm->vdisplay-status_h + 10);
-	ui_move_canvas_window(((video_canvas_t *)fs_cached_raster->viewport.canvas)->emuwindow,
+	x11ui_move_canvas_window(((video_canvas_t *)fs_cached_raster->viewport.canvas)->emuwindow,
 			      0, 0);
 	ui_dispatch_events();
-	ui_canvas_position(((video_canvas_t *)fs_cached_raster->viewport.canvas)->emuwindow,
+	x11ui_canvas_position(((video_canvas_t *)fs_cached_raster->viewport.canvas)->emuwindow,
 			   &x, &y);
 	
 	XF86VidModeSwitchToMode(vm_display, vm_screen, vm);

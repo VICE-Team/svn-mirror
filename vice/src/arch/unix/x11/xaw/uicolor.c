@@ -40,6 +40,8 @@
 #include "utils.h"
 #include "video.h"
 #include "videoarch.h"
+#include "x11ui.h"
+
 
 extern int screen;
 extern Colormap colormap;
@@ -89,7 +91,7 @@ int uicolor_alloc_colors(video_canvas_t *c, const palette_t *palette,
 {
     if (uicolor_alloc_system_colors() < 0
         || color_alloc_colors(c, palette, pixel_return, NULL) < 0) {
-        Display *display = ui_get_display_ptr();
+        Display *display = x11ui_get_display_ptr();
         if (colormap == DefaultColormap(display, screen)) {
             log_warning(LOG_DEFAULT,
                         _("Automatically using a private colormap."));
@@ -117,11 +119,11 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     XColor color;
     XImage *im;
     BYTE *data = (BYTE *)xmalloc(4);
-    Display *display = ui_get_display_ptr();
+    Display *display = x11ui_get_display_ptr();
 
     /* This is a kludge to map pixels to zimage values. Is there a better
        way to do this? //tvr */
-    im = XCreateImage(display, visual, ui_get_display_depth(),
+    im = XCreateImage(display, visual, x11ui_get_display_depth(),
                       ZPixmap, 0, (char *)data, 1, 1, 8, 1);
     if (!im) {
         log_error(LOG_DEFAULT, _("XCreateImage failed."));
@@ -152,7 +154,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
 void uicolor_free_color(unsigned int red, unsigned int green,
                         unsigned int blue, unsigned long color_pixel)
 {
-    if (!XFreeColors(ui_get_display_ptr(), colormap, &color_pixel, 1, 0))
+    if (!XFreeColors(x11ui_get_display_ptr(), colormap, &color_pixel, 1, 0))
         log_error(LOG_DEFAULT, _("XFreeColors failed."));
 }
 
@@ -160,9 +162,8 @@ void uicolor_convert_color_table(unsigned int colnr, BYTE *pixel_return,
                                  BYTE *data, unsigned int dither,
                                  long color_pixel, void *c)
 {
-    if (!c) {
+    if (c == NULL)
         return;
-    }
 
     video_convert_color_table(colnr, pixel_return, data, dither, color_pixel,
                               (video_canvas_t *)c);
@@ -174,44 +175,44 @@ void uicolor_init_video_colors()
     XColor colorr, colorg, colorb;
     Display *display;
     
-    display = ui_get_display_ptr();
-    for (i = 0; i < 256; i++)
-    {
-	colorr.flags = DoRed | DoGreen | DoBlue;
-	colorr.red =  i << 8;
-	colorr.green =  0;
-	colorr.blue = 0;
-	
-	colorg.flags = DoRed | DoGreen | DoBlue;
-	colorg.red =  0;
-	colorg.green =  i << 8;
-	colorg.blue = 0;
-	
-	colorb.flags = DoRed | DoGreen | DoBlue;
-	colorb.red =  0;
-	colorb.green =  0;
-	colorb.blue = i << 8;
-	
-	if (!XAllocColor(display, colormap, &colorr)) 
-	{
-	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
-		      colorr.red, colorr.green, colorr.blue);
-	}
-	if (!XAllocColor(display, colormap, &colorg)) 
-	{
-	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
-		      colorg.red, colorg.green, colorg.blue);
-	}
-	if (!XAllocColor(display, colormap, &colorb)) 
-	{
-	    log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
-		      colorb.red, colorb.green, colorb.blue);
-	}
-	video_render_setrawrgb(i, 
-			       (DWORD) colorr.pixel, 
-			       (DWORD) colorg.pixel, 
-			       (DWORD) colorb.pixel);
+    display = x11ui_get_display_ptr();
+    for (i = 0; i < 256; i++) {
+        colorr.flags = DoRed | DoGreen | DoBlue;
+        colorr.red =  i << 8;
+        colorr.green =  0;
+        colorr.blue = 0;
+
+        colorg.flags = DoRed | DoGreen | DoBlue;
+        colorg.red =  0;
+        colorg.green =  i << 8;
+        colorg.blue = 0;
+
+        colorb.flags = DoRed | DoGreen | DoBlue;
+        colorb.red =  0;
+        colorb.green =  0;
+        colorb.blue = i << 8;
+
+        if (!XAllocColor(display, colormap, &colorr)) {
+            log_error(LOG_DEFAULT,
+                      _("Cannot allocate color \"#%04X%04X%04X\"."),
+                      colorr.red, colorr.green, colorr.blue);
+        }
+        if (!XAllocColor(display, colormap, &colorg)) {
+            log_error(LOG_DEFAULT,
+                      _("Cannot allocate color \"#%04X%04X%04X\"."),
+                      colorg.red, colorg.green, colorg.blue);
+        }
+        if (!XAllocColor(display, colormap, &colorb)) {
+            log_error(LOG_DEFAULT,
+                      _("Cannot allocate color \"#%04X%04X%04X\"."),
+                      colorb.red, colorb.green, colorb.blue);
+        }
+        video_render_setrawrgb(i,
+                               (DWORD) colorr.pixel,
+                               (DWORD) colorg.pixel,
+                               (DWORD) colorb.pixel);
     }
     
     video_render_initraw();
 }
+
