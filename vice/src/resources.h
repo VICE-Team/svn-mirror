@@ -46,12 +46,11 @@ struct resource_callback_desc_s;
 /* Warning: all the pointers should point to areas that are valid throughout
    the execution.  No reallocation is performed.  */
 typedef struct resource_s {
-
     /* Resource name.  */
     const char *name;
 
     /* Type of resource.  */
-    resource_type_t type;
+    const resource_type_t type;
 
     /* Factory default value.  */
     resource_value_t factory_value;
@@ -71,7 +70,6 @@ typedef struct resource_s {
 
     /* number of next entry in hash collision list */
     int hash_next;
-
 } resource_t;
 
 #define RESERR_FILE_NOT_FOUND       -1
