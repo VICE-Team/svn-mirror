@@ -28,7 +28,7 @@
 #ifndef _DRIVE_RESOURCES_H
 #define _DRIVE_RESOURCES_H
 
-extern int drive_init_resources(void);
+extern int drive_resources_init(void);
 
 #endif
 

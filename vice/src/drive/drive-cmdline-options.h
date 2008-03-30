@@ -28,7 +28,7 @@
 #ifndef _DRIVE_CMDLINE_OPTIONS_H
 #define _DRIVE_CMDLINE_OPTIONS_H
 
-extern int drive_init_cmdline_options(void);
+extern int drive_cmdline_options_init(void);
 
 #endif
 

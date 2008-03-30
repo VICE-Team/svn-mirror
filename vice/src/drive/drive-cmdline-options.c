@@ -158,7 +158,7 @@ static cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int drive_init_cmdline_options(void)
+int drive_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

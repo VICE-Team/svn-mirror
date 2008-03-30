@@ -33,36 +33,25 @@
 struct snapshot_s;
 struct screenshot_s;
 
-extern int ted_init_resources(void);
-extern int ted_init_cmdline_options(void);
-extern struct raster_s *vic_ii_init(void);
-extern struct canvas_s *vic_ii_get_canvas(void);
+extern int ted_resources_init(void);
+extern int ted_cmdline_options_init(void);
+extern struct raster_s *ted_init(void);
+extern struct canvas_s *ted_get_canvas(void);
 
 extern void ted_reset(void);
-extern void vic_ii_exposure_handler(unsigned int width, unsigned int height);
-extern void vic_ii_set_vbank(int new_vbank);
-extern void vic_ii_set_ram_base(BYTE *base);
-extern void vic_ii_prepare_for_snapshot(void);
-extern void vic_ii_powerup(void);
-extern void vic_ii_resize(void);
-extern void vic_ii_set_set_canvas_refresh(int enable);
-extern void vic_ii_change_timing(void);
+extern void ted_prepare_for_snapshot(void);
+extern void ted_powerup(void);
 extern void ted_reset_registers(void);
 extern void vic_ii_update_memory_ptrs_external(void);
 extern void ted_handle_pending_alarms(int num_write_cycles);
-extern int vic_ii_screenshot(struct screenshot_s *screenshot);
+extern int ted_screenshot(struct screenshot_s *screenshot);
 extern void ted_free(void);
 
-extern int vic_ii_write_snapshot_module(struct snapshot_s *s);
-extern int vic_ii_read_snapshot_module(struct snapshot_s *s);
+extern int ted_snapshot_write_module(struct snapshot_s *s);
+extern int ted_snapshot_read_module(struct snapshot_s *s);
 
-extern void vic_ii_video_refresh(void);
+extern void ted_video_refresh(void);
 extern void video_free(void);
-
-void vic_ii_set_phi1_vbank(int num_vbank);
-void vic_ii_set_phi2_vbank(int num_vbank);
-void vic_ii_set_phi1_ram_base(BYTE *base);
-void vic_ii_set_phi2_ram_base(BYTE *base);
 
 #endif
 

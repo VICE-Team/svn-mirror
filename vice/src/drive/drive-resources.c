@@ -529,7 +529,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int drive_init_resources(void)
+int drive_resources_init(void)
 {
     return resources_register(resources);
 }

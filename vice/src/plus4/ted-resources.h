@@ -33,7 +33,7 @@
 #include "tedtypes.h"
 
 /* VIC-II resources.  */
-struct vic_ii_resources_s
+struct ted_resources_s
 {
     /* fixed point values */
     int color_saturation;
@@ -75,9 +75,9 @@ struct vic_ii_resources_s
     int fullscreen_double_scan_enabled;
 #endif
 };
-typedef struct vic_ii_resources_s vic_ii_resources_t;
+typedef struct ted_resources_s ted_resources_t;
 
-extern vic_ii_resources_t vic_ii_resources;
+extern ted_resources_t ted_resources;
 
 extern int ted_resources_init(void);
 extern int vic_ii_activate_palette(void);

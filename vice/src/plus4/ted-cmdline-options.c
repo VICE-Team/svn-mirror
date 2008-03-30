@@ -33,7 +33,7 @@
 #include "ted.h"
 #include "tedtypes.h"
 
-/* VIC-II command-line options.  */
+/* TED command-line options.  */
 
 static cmdline_option_t cmdline_options[] =
 {
