@@ -38,7 +38,7 @@ extern void REGPARM2 store_viaD1(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_viaD1(ADDRESS addr);
 extern int int_viaD1t1(long offset);
 extern int int_viaD1t2(long offset);
-extern void viaD1_prevent_clk_overflow(void);
+extern void viaD1_prevent_clk_overflow(CLOCK sub);
 
 extern void reset_viaD2(void);
 extern void viaD2_signal(int line, int edge);
@@ -46,6 +46,6 @@ extern void REGPARM2 store_viaD2(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_viaD2(ADDRESS addr);
 extern int int_viaD2t1(long offset);
 extern int int_viaD2t2(long offset);
-extern void viaD2_prevent_clk_overflow(void);
+extern void viaD2_prevent_clk_overflow(CLOCK sub);
 
 #endif

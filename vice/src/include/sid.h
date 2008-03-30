@@ -27,12 +27,15 @@
  *
  */
 
+/* FIXME: This header should be machine-independent, so no #ifdefs!  */
+
 #ifndef _SID_H
 #define _SID_H
 
 #include "types.h"
 
 extern int sid_init_resources(void);
+extern int sid_init_cmdline_options(void);
 
 #if defined(CBM64) || defined(C128) || defined(VIC20)
 #define SID
@@ -55,8 +58,8 @@ void store_petsnd_sample(BYTE value);
 #ifdef SOUND
 int flush_sound(int relative_speed);
 void close_sound(void);
-void initialize_sound(void);
-void sid_prevent_clk_overflow(void);
+void initialize_sound(unsigned int clock_rate, unsigned int ticks_per_frame);
+void sid_prevent_clk_overflow(CLOCK sub);
 void suspend_sound(void);
 void resume_sound(void);
 #endif

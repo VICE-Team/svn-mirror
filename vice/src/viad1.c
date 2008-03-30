@@ -48,7 +48,7 @@
  *
  * Except for shift register and input latching everything should be ok now.
  */
-/* 
+/*
  * 01apr98 a.fachat
  * New timer code. Should be cycle-exact.
  *
@@ -146,10 +146,10 @@
 #include "interrupt.h"
 
 /*#define VIAD1_TIMER_DEBUG */
-/*#define VIAD1_NEED_PB7 */	/* when PB7 is really used, set this 
+/*#define VIAD1_NEED_PB7 */	/* when PB7 is really used, set this
 				   to enable pulse output from the timer.
 				   Otherwise PB7 state is computed only
-				   when port B is read - 
+				   when port B is read -
 				not yet implemented */
 
 /* global */
@@ -158,8 +158,8 @@ BYTE    viaD1[16];
 
 
 
-/* 
- * local functions 
+/*
+ * local functions
  */
 
 /*
@@ -180,8 +180,8 @@ static CLOCK 		viaD1tbi;   /* time when next timer A alarm is */
 static int 		viaD1pb7;   /* state of PB7 for pulse output... */
 static int 		viaD1pb7x;  /* to be xored herewith  */
 static int 		viaD1pb7o;  /* to be ored herewith  */
-static int 		viaD1pb7xx; 
-static int 		viaD1pb7sx; 
+static int 		viaD1pb7xx;
+static int 		viaD1pb7sx;
 
 /* ------------------------------------------------------------------------- */
 /* VIAD1 */
@@ -271,7 +271,7 @@ void REGPARM2 store_viaD1(ADDRESS addr, BYTE byte)
     addr &= 0xf;
 #ifdef VIAD1_TIMER_DEBUG
     if ((addr<10 && addr>3) || (addr==VIA_ACR) || app_resources.debugFlag)
-	printf("store viaD1[%x] %x, rmwf=%d, clk=%d, rclk=%d\n", 
+	printf("store viaD1[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
 		(int) addr, (int) byte, true1541_rmw_flag, true1541_clk, rclk);
 #endif
 
@@ -605,14 +605,14 @@ int    int_viaD1t2(long offset)
     return 0;
 }
 
-void viaD1_prevent_clk_overflow(void)
+void viaD1_prevent_clk_overflow(CLOCK sub)
 {
      unsigned int t;
-     t = (viaD1tau - (true1541_clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     t = (viaD1tau - (true1541_clk + sub)) & 0xffff;
      viaD1tau = true1541_clk + t;
-     t = (viaD1tbu - (true1541_clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     t = (viaD1tbu - (true1541_clk + sub)) & 0xffff;
      viaD1tbu = true1541_clk + t;
-     if(viaD1tai) viaD1tai -= PREVENT_CLK_OVERFLOW_SUB;
+     if(viaD1tai) viaD1tai -= sub;
 }
 
 
