@@ -233,35 +233,34 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 vdrive-bam.o: vdrive-bam.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/attach.h \
-	../../src/diskimage.h ../../src/arch/win32/types.h \
-	../../src/log.h vdrive-bam.h vdrive-command.h vdrive.h
+	../../src/attach.h ../../src/diskimage.h \
+	../../src/arch/unix/types.h ../../src/log.h vdrive-bam.h \
+	vdrive-command.h vdrive.h
 vdrive-command.o: vdrive-command.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/diskimage.h \
-	../../src/arch/win32/types.h ../../src/log.h ../../src/serial.h \
-	../../src/utils.h vdrive-bam.h vdrive-command.h vdrive-dir.h \
-	vdrive-iec.h vdrive-rel.h vdrive.h
+	../../src/diskimage.h ../../src/arch/unix/types.h \
+	../../src/log.h ../../src/serial.h ../../src/utils.h \
+	vdrive-bam.h vdrive-command.h vdrive-dir.h vdrive-iec.h \
+	vdrive-rel.h vdrive.h
 vdrive-dir.o: vdrive-dir.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/diskimage.h \
-	../../src/arch/win32/types.h ../../src/log.h ../../src/utils.h \
-	vdrive-bam.h vdrive-dir.h vdrive.h
+	../../src/diskimage.h ../../src/arch/unix/types.h \
+	../../src/log.h ../../src/utils.h vdrive-bam.h vdrive-dir.h \
+	vdrive.h
 vdrive-iec.o: vdrive-iec.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/diskimage.h \
-	../../src/arch/win32/types.h ../../src/log.h ../../src/serial.h \
-	../../src/utils.h vdrive-bam.h vdrive-command.h vdrive-dir.h \
-	vdrive-iec.h vdrive-rel.h vdrive.h
+	../../src/diskimage.h ../../src/arch/unix/types.h \
+	../../src/log.h ../../src/serial.h ../../src/utils.h \
+	vdrive-bam.h vdrive-command.h vdrive-dir.h vdrive-iec.h \
+	vdrive-rel.h vdrive.h
 vdrive-rel.o: vdrive-rel.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/diskimage.h \
-	../../src/arch/win32/types.h ../../src/log.h ../../src/serial.h \
-	../../src/utils.h vdrive-dir.h vdrive.h
+	../../src/diskimage.h ../../src/arch/unix/types.h \
+	../../src/log.h ../../src/serial.h ../../src/utils.h \
+	vdrive-dir.h vdrive.h
 vdrive-snapshot.o: vdrive-snapshot.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/attach.h \
-	../../src/log.h ../../src/snapshot.h \
-	../../src/arch/win32/types.h vdrive-snapshot.h vdrive.h
+	../../src/attach.h ../../src/log.h ../../src/snapshot.h \
+	../../src/arch/unix/types.h vdrive-snapshot.h vdrive.h
 vdrive.o: vdrive.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/arch/win32/archdep.h \
-	../../src/archapi.h ../../src/charsets.h ../../src/diskimage.h \
-	../../src/arch/win32/types.h ../../src/fsdevice.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/charsets.h ../../src/diskimage.h \
+	../../src/arch/unix/types.h ../../src/fsdevice.h \
 	../../src/log.h ../../src/serial.h ../../src/utils.h \
 	vdrive-bam.h vdrive-command.h vdrive-dir.h vdrive-iec.h \
 	vdrive-rel.h vdrive-snapshot.h vdrive.h

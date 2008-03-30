@@ -233,44 +233,58 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 crtc-cmdline-options.o: crtc-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/arch/win32/lose32.h \
-	../../src/cmdline.h ../../src/resources.h \
+	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
 	crtc-cmdline-options.h
-crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h crtc-draw.h crtc.h \
-	../../src/arch/win32/types.h crtctypes.h ../../src/alarm.h \
-	crtc-mem.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/win32/videoarch.h \
+crtc-draw.o: crtc-draw.c ../../src/vice.h ../../src/config.h crtc-draw.h \
+	crtc.h ../../src/arch/unix/types.h crtctypes.h \
+	../../src/alarm.h crtc-mem.h ../../src/log.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/video.h ../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
 	../../src/raster/raster-modes.h
-crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h crtc-mem.h \
-	../../src/arch/win32/types.h crtc.h crtctypes.h \
+crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h crtc-mem.h \
+	../../src/arch/unix/types.h crtc.h crtctypes.h \
 	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/win32/videoarch.h ../../src/maincpu.h \
+	../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/maincpu.h \
 	../../src/6510core.h
 crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h crtc-resources.h crtc.h \
-	../../src/arch/win32/types.h crtctypes.h ../../src/alarm.h \
-	crtc-mem.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/win32/videoarch.h ../../src/resources.h \
-	../../src/utils.h
+	crtc-resources.h crtc.h ../../src/arch/unix/types.h crtctypes.h \
+	../../src/alarm.h crtc-mem.h ../../src/log.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/video.h ../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h \
+	../../src/resources.h ../../src/utils.h
 crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h crtc.h \
-	../../src/arch/win32/types.h crtctypes.h ../../src/alarm.h \
-	crtc-mem.h ../../src/log.h ../../src/raster/raster.h \
-	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/win32/videoarch.h ../../src/maincpu.h \
+	crtc.h ../../src/arch/unix/types.h crtctypes.h \
+	../../src/alarm.h crtc-mem.h ../../src/log.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/video.h ../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/maincpu.h \
 	../../src/6510core.h ../../src/snapshot.h
-crtc.o: crtc.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/clkguard.h \
-	../../src/arch/win32/types.h crtc-cmdline-options.h crtc-draw.h \
+crtc.o: crtc.c ../../src/vice.h ../../src/config.h ../../src/clkguard.h \
+	../../src/arch/unix/types.h crtc-cmdline-options.h crtc-draw.h \
 	crtc-resources.h crtc.h crtctypes.h ../../src/alarm.h \
 	crtc-mem.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/win32/videoarch.h ../../src/palette.h \
+	../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h ../../src/palette.h \
 	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
 	../../src/raster/raster-modes.h ../../src/utils.h \
 	../../src/vsync.h

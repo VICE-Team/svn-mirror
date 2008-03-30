@@ -233,43 +233,60 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 vdc-cmdline-options.o: vdc-cmdline-options.c ../../src/vice.h \
-	../../src/config.h ../../src/arch/win32/lose32.h \
-	../../src/cmdline.h ../../src/resources.h vdc-cmdline-options.h \
-	vdc.h
+	../../src/config.h ../../src/cmdline.h ../../src/resources.h \
+	vdc-cmdline-options.h vdc.h
 vdc-draw.o: vdc-draw.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/raster/raster-cache.h \
+	../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
-	../../src/arch/win32/types.h ../../src/raster/raster-modes.h \
+	../../src/arch/unix/types.h ../../src/raster/raster-modes.h \
 	vdc-draw.h vdc-resources.h vdc.h vdctypes.h ../../src/alarm.h \
 	../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/win32/videoarch.h
+	../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h
 vdc-mem.o: vdc-mem.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/arch/win32/types.h \
-	vdc-mem.h vdc.h vdctypes.h ../../src/alarm.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video.h ../../src/arch/win32/videoarch.h
-vdc-resources.o: vdc-resources.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/resources.h \
-	../../src/utils.h ../../src/arch/win32/types.h vdc-resources.h \
-	vdc.h vdctypes.h ../../src/alarm.h ../../src/log.h \
-	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video.h ../../src/arch/win32/videoarch.h
-vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/snapshot.h \
-	../../src/arch/win32/types.h vdc-snapshot.h vdc.h vdctypes.h \
+	../../src/arch/unix/types.h vdc-mem.h vdc.h vdctypes.h \
 	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
 	../../src/raster/raster-changes.h ../../src/video.h \
-	../../src/arch/win32/videoarch.h
-vdc.o: vdc.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/alarm.h \
-	../../src/arch/win32/types.h ../../src/log.h \
-	../../src/machine.h ../../src/maincpu.h ../../src/6510core.h \
-	../../src/palette.h ../../src/raster/raster-modes.h \
-	../../src/snapshot.h ../../src/utils.h vdc-cmdline-options.h \
-	vdc-draw.h vdc-resources.h vdc-snapshot.h vdc.h vdctypes.h \
+	../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h
+vdc-resources.o: vdc-resources.c ../../src/vice.h ../../src/config.h \
+	../../src/resources.h ../../src/utils.h \
+	../../src/arch/unix/types.h vdc-resources.h vdc.h vdctypes.h \
+	../../src/alarm.h ../../src/log.h ../../src/raster/raster.h \
+	../../src/raster/raster-changes.h ../../src/video.h \
+	../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h
+vdc-snapshot.o: vdc-snapshot.c ../../src/vice.h ../../src/config.h \
+	../../src/snapshot.h ../../src/arch/unix/types.h vdc-snapshot.h \
+	vdc.h vdctypes.h ../../src/alarm.h ../../src/log.h \
 	../../src/raster/raster.h ../../src/raster/raster-changes.h \
-	../../src/video.h ../../src/arch/win32/videoarch.h
+	../../src/video.h ../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h
+vdc.o: vdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
+	../../src/arch/unix/types.h ../../src/log.h ../../src/machine.h \
+	../../src/maincpu.h ../../src/6510core.h ../../src/palette.h \
+	../../src/raster/raster-modes.h ../../src/snapshot.h \
+	../../src/utils.h vdc-cmdline-options.h vdc-draw.h \
+	vdc-resources.h vdc-snapshot.h vdc.h vdctypes.h \
+	../../src/raster/raster.h ../../src/raster/raster-changes.h \
+	../../src/video.h ../../src/arch/unix/videoarch.h \
+	../../src/arch/unix/x11/xaw/videoarch.h \
+	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/arch/unix/x11/xaw/uiarch.h \
+	../../src/arch/unix/x11/xaw/../videoarch.h
 
 info-am:
 info: info-am

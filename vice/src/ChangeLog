@@ -1,6 +1,39 @@
 2000-04-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 1.4.2
+	* Version 1.4.3.
+
+	* Commented out `@INTLLIBS@'.
+
+	* arch/unix/uicommands.c: Fixed define.
+
+2000-04-28  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* arch/unix/x11/gnome/uimenu.c (make_menu_label): Explicitly call
+	translation on menu item strings. 
+
+	* arch/unix/x11/gnome/ui.c (archdep_ui_init): Added NLS
+	initializaition. Note about `LOCALEDIR'; This is currently not
+	defined, and has to be provided on the make commandline. This is
+	also a temporay hack.
+	Started instrumenting the textstrings for translation.
+
+	* arch/unix/uicommands.c:
+	Added local hack to check NLS. Started (not finished yet)
+	instrumenting the textstrings for translation.
+
+	* Makefile.am (INCLUDES): Added `-I$(top_srcdir)/intl' as proposed
+	in the gettext info page.
+	(common_libs): Added `@INTLLIBS@' 
+
+2000-04-26  Nathan Huizinga  <nathan.huizinga@chess.nl>
+
+	* c64/c64mem.c: Allow REU being enabled with atleast the Super
+	Snapshot V5 & Expert Cartridge. (These will coexist with the
+	REU, others I don't know...)
+
+2000-04-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.2.
 
 	* zfile.c, zfile.h (zclose_all): Removed.
 
@@ -41,7 +74,7 @@
 
 2000-04-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 1.4.1
+	* Version 1.4.1.
 
 	* drive/drive.c (drive_load_1541, drive_do_1541_checksum.
 	drive_setup_rom_image): Cope with expanded ROM images.

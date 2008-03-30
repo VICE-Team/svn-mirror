@@ -251,26 +251,22 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-asm.o: asm.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h asm.h \
-	../../src/arch/win32/types.h
+asm.o: asm.c ../../src/vice.h ../../src/config.h asm.h \
+	../../src/arch/unix/types.h
 mon.o: mon.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h ../../src/arch/win32/archdep.h \
-	../../src/archapi.h ../../src/attach.h asm.h \
-	../../src/arch/win32/types.h ../../src/charsets.h \
-	../../src/console.h ../../src/diskimage.h \
+	../../src/arch/unix/archdep.h ../../src/archapi.h \
+	../../src/attach.h asm.h ../../src/arch/unix/types.h \
+	../../src/charsets.h ../../src/console.h ../../src/diskimage.h \
 	../../src/drive/drive.h ../../src/log.h \
 	../../src/drive/drivecpu.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/mem.h mon.h mon_parse.h \
 	../../src/mos6510.h ../../src/resources.h ../../src/utils.h \
 	../../src/vdrive/vdrive-command.h ../../src/vdrive/vdrive.h \
 	../../src/vsync.h
-mon_lex.o: mon_lex.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h mon.h \
-	../../src/arch/win32/types.h mon_parse.h ../../src/utils.h
-mon_parse.o: mon_parse.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/win32/lose32.h asm.h \
-	../../src/arch/win32/types.h ../../src/console.h \
+mon_lex.o: mon_lex.c ../../src/vice.h ../../src/config.h mon.h \
+	../../src/arch/unix/types.h mon_parse.h ../../src/utils.h
+mon_parse.o: mon_parse.c ../../src/vice.h ../../src/config.h asm.h \
+	../../src/arch/unix/types.h ../../src/console.h \
 	../../src/machine.h mon.h ../../src/utils.h
 
 info-am:
