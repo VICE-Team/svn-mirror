@@ -1,3 +1,21 @@
+Wed Aug 19 16:39:24 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.60.
+
+	* configure.in: Add joystick `-D' #defines to `DEFS' instead of
+ 	`JOYSTICK'.
+
+Tue Aug 18 22:01:42 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* configure.in: New conditional `USE_MIDAS_SOUND', enabled when
+	MIDAS support is requested.
+	Add `soundmidas.o' to sound drivers if `--with-midas' has been
+	specified; `soundsb.o' otherwise.
+
+Tue Aug 18 21:52:29 1998  Martin Pottendorfer  <Martin.Pottendorfer@aut.alcatel.at>
+
+	* configure.in: Fixed readline/MIDAS support on MS-DOS.
+
 Mon Aug 17 18:19:49 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.59.
