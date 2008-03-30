@@ -336,6 +336,7 @@ ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/resources.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
 	uiarch.h ../../../../../src/uicolor.h uihotkey.h uimenu.h \
+	../x11menu.h ../xaw/uihotkey.h \
 	../../../../../src/arch/unix/uisettings.h \
 	../../../../../src/arch/unix/uimenu.h uimenu.h \
 	../../../../../src/utils.h ../../../../../src/vsync.h \
@@ -374,14 +375,16 @@ uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/machine.h ../../../../../src/resources.h \
 	uimenu.h ../../../../../src/arch/unix/ui.h \
 	../../../../../src/arch/unix/types.h ../../../../../src/uiapi.h \
-	uiarch.h uihotkey.h ../../../../../src/utils.h \
-	../../../../../src/vsync.h
+	uiarch.h uihotkey.h ../x11menu.h ../xaw/uihotkey.h \
+	../../../../../src/utils.h ../../../../../src/vsync.h \
+	../../../../../src/arch/unix/x11/x11menu.h
 uiscreenshot.o: uiscreenshot.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
 	../../../../../src/screenshot.h \
 	../../../../../src/arch/unix/types.h uimenu.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
-	uiarch.h uihotkey.h ../../../../../src/utils.h
+	uiarch.h uihotkey.h ../x11menu.h ../xaw/uihotkey.h \
+	../../../../../src/utils.h
 uisnapshot.o: uisnapshot.c ../../../../../src/vice.h \
 	../../../../../src/config.h widgets/TextField.h \
 	../../../../../src/arch/unix/uisnapshot.h \

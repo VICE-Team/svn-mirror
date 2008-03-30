@@ -278,7 +278,7 @@ ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/arch/unix/mouse.h \
 	../../../../../src/palette.h ../../../../../src/resources.h \
 	../../../../../src/uicolor.h \
-	../../../../../src/arch/unix/uihotkey.h uimenu.h \
+	../../../../../src/arch/unix/uihotkey.h uimenu.h ../x11menu.h \
 	../../../../../src/arch/unix/uisettings.h \
 	../../../../../src/arch/unix/uimenu.h uimenu.h \
 	../../../../../src/arch/unix/uicommands.h \
@@ -314,9 +314,11 @@ uihotkey.o: uihotkey.c ../../../../../src/vice.h \
 uimenu.o: uimenu.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/machine.h ../../../../../src/resources.h \
 	../../../../../src/utils.h ../../../../../src/arch/unix/types.h \
-	../../../../../src/vsync.h uimenu.h \
+	../../../../../src/vsync.h \
+	../../../../../src/arch/unix/x11/x11menu.h \
 	../../../../../src/arch/unix/ui.h ../../../../../src/uiapi.h \
-	uiarch.h ../../../../../src/arch/unix/uihotkey.h
+	uiarch.h ../../../../../src/arch/unix/uihotkey.h uimenu.h \
+	../x11menu.h
 uiscreenshot.o: uiscreenshot.c ../../../../../src/vice.h \
 	../../../../../src/config.h ../../../../../src/screenshot.h \
 	../../../../../src/arch/unix/types.h \

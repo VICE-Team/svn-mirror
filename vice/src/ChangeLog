@@ -1,3 +1,46 @@
+2000-07-30  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.3.
+
+	* c128/z80.c: Fixed opcodes and added some missing ones.
+
+	* arch/unix/x11/xaw/ui.c, arch/unix/x11/gnome/ui.c,
+	arch/unix/ui.h (ui_select_file): Changed API.
+
+	* arch/msdos/tuiimagebrowser.c (tui_image_browser): Also
+	return number of selected file.
+        * arch/msdos/tuifs.c (tui_file_selector): Changed likewise.
+
+	* arch/msdos/c128ui.c, arch/msdos/c610ui.c,
+	arch/msdos/c64ui.c, arch/msdos/menudefs.c, arch/msdos/petui.c,
+	arch/msdos/uiattach.c, arch/msdos/uisnapshot.c,
+	arch/msdos/vic20ui.c: Changed to new file selector API.
+
+	* arch/msdos/menudefs.c, arch/msdos/tui_backend.c,
+	arch/msdos/tui.c, arch/msdos/ui.c, c1541.c: Use `xmsprintf',
+	`xmvsprintf' or `stralloc' instead of using random length
+	arrays.
+
+	* vdrive/vdrive-command.c, vdrive/vdrive-command.h
+	(vdrive_command_execute): Command is `const'.
+
+	* arch/unix/uisettings.c, arch/unix/x11/xaw/uimenu.c,
+	vic20/vic20mem.c, sound.c, arch/unix/x11/gnome/uimenu.c:
+	Do not use `alloca()'.
+
+	* arch/unix/x11/x11menu.c, arch/unix/x11/x11menu.h: New files.
+
+	* arch/unix/x11/xaw/uimenu.c, arch/unix/x11/gnome/uimenu.c:
+	arch/unix/x11/xaw/uimenu.h, arch/unix/x11/gnome/uimenu.h:
+	Moved common stuff a level higher.
+
+	* Makefile.am: Removed `@ALLOCA@'.
+
+	* vice.h: Removed `alloca' compatibility cruft.
+
+	* arch/unix/uicommands.c, arch/unix/uisettings.c: Do not use
+	`PATH_VAR' and `GET_PATH_MAX'.
+
 2000-07-28  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.5.2.

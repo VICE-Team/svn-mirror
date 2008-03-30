@@ -360,14 +360,16 @@ c128ui.o: c128ui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 	x11/xaw/uiarch.h x11/xaw/../videoarch.h x11/xaw/../c128icon.xpm \
 	../../../src/drive/drive.h ../../../src/log.h joystick.h \
 	../../../src/resources.h uicommands.h uimenu.h x11/xaw/uimenu.h \
-	x11/xaw/uihotkey.h uiscreenshot.h uisettings.h \
+	x11/xaw/uihotkey.h x11/xaw/../x11menu.h \
+	x11/xaw/../xaw/uihotkey.h uiscreenshot.h uisettings.h \
 	../../../src/vsync.h
 c610ui.o: c610ui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 	x11/xaw/videoarch.h ui.h types.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h x11/xaw/../videoarch.h x11/xaw/../c610icon.xpm \
 	../../../src/cbm2/c610mem.h ../../../src/datasette.h joystick.h \
 	petui.h ../../../src/resources.h uicommands.h uimenu.h \
-	x11/xaw/uimenu.h x11/xaw/uihotkey.h uiscreenshot.h uisettings.h \
+	x11/xaw/uimenu.h x11/xaw/uihotkey.h x11/xaw/../x11menu.h \
+	x11/xaw/../xaw/uihotkey.h uiscreenshot.h uisettings.h \
 	../../../src/vsync.h
 c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 	x11/xaw/videoarch.h ui.h types.h ../../../src/uiapi.h \
@@ -377,7 +379,8 @@ c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 	../../../src/datasette.h ../../../src/drive/drive.h \
 	../../../src/log.h joystick.h ../../../src/resources.h \
 	uicartridge.h uicommands.h uimenu.h x11/xaw/uimenu.h \
-	x11/xaw/uihotkey.h uiscreenshot.h uisettings.h \
+	x11/xaw/uihotkey.h x11/xaw/../x11menu.h \
+	x11/xaw/../xaw/uihotkey.h uiscreenshot.h uisettings.h \
 	../../../src/utils.h ../../../src/vsync.h
 console.o: console.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/console.h ../../../src/utils.h types.h
@@ -405,7 +408,8 @@ petui.o: petui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 	x11/xaw/uiarch.h x11/xaw/../videoarch.h x11/xaw/../peticon.xpm \
 	../../../src/datasette.h joystick.h ../../../src/pet/pets.h \
 	petui.h ../../../src/resources.h uicommands.h uimenu.h \
-	x11/xaw/uimenu.h x11/xaw/uihotkey.h uiscreenshot.h uisettings.h \
+	x11/xaw/uimenu.h x11/xaw/uihotkey.h x11/xaw/../x11menu.h \
+	x11/xaw/../xaw/uihotkey.h uiscreenshot.h uisettings.h \
 	../../../src/vsync.h
 print.o: print.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h \
@@ -428,7 +432,8 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/mos6510.h ../../../src/resources.h \
 	../../../src/sound.h ../../../src/tape.h uicommands.h uimenu.h \
 	x11/xaw/uimenu.h ui.h ../../../src/uiapi.h x11/xaw/uiarch.h \
-	x11/xaw/uihotkey.h uisettings.h uiedisk.h uisnapshot.h \
+	x11/xaw/uihotkey.h x11/xaw/../x11menu.h \
+	x11/xaw/../xaw/uihotkey.h uisettings.h uiedisk.h uisnapshot.h \
 	../../../src/utils.h ../../../src/vsync.h
 uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drive.h ../../../src/log.h types.h \
@@ -437,6 +442,7 @@ uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/resources.h ../../../src/romset.h \
 	../../../src/sound.h uisettings.h ui.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h uimenu.h x11/xaw/uimenu.h x11/xaw/uihotkey.h \
+	x11/xaw/../x11menu.h x11/xaw/../xaw/uihotkey.h \
 	../../../src/utils.h ../../../src/vsync.h
 vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
 	videoarch.h x11/xaw/videoarch.h ui.h types.h \
@@ -444,14 +450,15 @@ vic20ui.o: vic20ui.c ../../../src/vice.h ../../../src/config.h \
 	x11/xaw/../vic20icon.xpm ../../../src/cartridge.h \
 	../../../src/datasette.h joystick.h ../../../src/resources.h \
 	uicommands.h uimenu.h x11/xaw/uimenu.h x11/xaw/uihotkey.h \
-	uiscreenshot.h uisettings.h ../../../src/vsync.h \
-	../../../src/utils.h
+	x11/xaw/../x11menu.h x11/xaw/../xaw/uihotkey.h uiscreenshot.h \
+	uisettings.h ../../../src/vsync.h ../../../src/utils.h
 vsidui.o: vsidui.c ../../../src/vice.h ../../../src/config.h videoarch.h \
 	x11/xaw/videoarch.h ui.h types.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h x11/xaw/../videoarch.h x11/xaw/../c64icon.xpm \
 	../../../src/attach.h ../../../src/c64/c64mem.h \
 	../../../src/mem.h c64ui.h uimenu.h x11/xaw/uimenu.h \
-	x11/xaw/uihotkey.h ../../../src/interrupt.h \
+	x11/xaw/uihotkey.h x11/xaw/../x11menu.h \
+	x11/xaw/../xaw/uihotkey.h ../../../src/interrupt.h \
 	../../../src/6510core.h ../../../src/log.h \
 	../../../src/machine.h ../../../src/c64/psid.h \
 	../../../src/resources.h uicommands.h uisettings.h \
