@@ -49,6 +49,8 @@ struct video_frame_buffer_s;
 
 struct video_render_config_s {
     int rendermode;             /* what renderers are allowed? */
+    int doublesizex;            /* doublesizex enabled?        */
+    int doublesizey;            /* doublesizey enabled?        */
     int doublescan;             /* doublescan enabled?         */
     DWORD physical_colors[256];
 };

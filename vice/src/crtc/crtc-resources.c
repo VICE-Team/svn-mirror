@@ -61,9 +61,15 @@ static int set_double_size_enabled (resource_value_t v, void *param)
 {
     crtc_resources.double_size_enabled = (int)v;
 #ifdef USE_XF86_EXTENSIONS
-    if (!fullscreen_is_enabled)
+    if (crtc.initialized && ! fullscreen_is_enabled)
+#else
+    if (crtc.initialized)
 #endif
-    crtc_resize();
+    {
+        raster_enable_double_size(&crtc.raster, 0,
+                                  crtc_resources.double_size_enabled);
+        crtc_resize();
+    }
     return 0;
 }
 #endif

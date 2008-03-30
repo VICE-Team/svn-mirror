@@ -148,7 +148,9 @@ BEGIN
       BEGIN
         MENUITEM "Fast PAL Emulation", IDM_FAKEPAL,      MIS_TEXT
         MENUITEM "Internal Palette",   IDM_INTERNALPAL,  MIS_TEXT
+#ifdef HAVE_VIC_II
         MENUITEM "New Luminacees",     IDM_LUMINANCES,   MIS_TEXT
+#endif
       END
 #endif
       SUBMENU "~Refresh Rate Ratio",   IDM_REFRATE,      MIS_TEXT

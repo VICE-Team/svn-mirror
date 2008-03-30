@@ -358,11 +358,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
     case IDM_INTERNALPAL:
         toggle("ExternalPalette");
         return;
-
+#ifdef HAVE_VIC_II
     case IDM_LUMINANCES:
         toggle("NewLuminances");
         return;
-
+#endif
     case IDM_FAKEPAL:
         toggle("DelayLoopEmulation");
         return;

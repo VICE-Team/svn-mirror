@@ -109,6 +109,10 @@ static int set_double_size_enabled(resource_value_t v, void *param)
 {
     vdc_resources.double_size_enabled = (int)v;
 
+    if (vdc.initialized)
+        raster_enable_double_size(&vdc.raster, 0,
+                                  vdc_resources.double_size_enabled);
+
     vdc.force_resize = 1;
     vdc.force_repaint = 1;
 
@@ -118,6 +122,10 @@ static int set_double_size_enabled(resource_value_t v, void *param)
 static int set_double_scan_enabled(resource_value_t v, void *param)
 {
     vdc_resources.double_scan_enabled = (int)v;
+
+    if (vdc.initialized)
+        raster_enable_double_scan(&vdc.raster,
+                                  vdc_resources.double_scan_enabled);
 
     vdc.force_repaint = 1;
 

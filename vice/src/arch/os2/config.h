@@ -79,7 +79,7 @@
 #endif
 
 /* Do we support a 1351 mouse?  */
-#if !defined __XPET__ && !defined __XVIC__ && !defined __XPLUS4__
+#if defined __X64__ && defined __X128__
 #define HAVE_MOUSE            1
 #endif
 
@@ -103,7 +103,7 @@
 #endif
 
 //y-direction
-#if defined __X128__
+#ifdef __X128__
 #define VDC_NEED_2X           1
 #define HAVE_VDC
 #endif

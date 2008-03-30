@@ -65,6 +65,14 @@ static int set_double_size_enabled(resource_value_t v, void *param)
 {
     vic_resources.double_size_enabled = (int)v;
 #ifdef USE_XF86_EXTENSIONS
+    if (vic.initialized && ! fullscreen_is_enabled)
+#else 
+    if (vic.initialized)
+#endif
+        raster_enable_double_size(&vic.raster,
+                                  vic_resources.double_size_enabled,
+                                  vic_resources.double_size_enabled);
+#ifdef USE_XF86_EXTENSIONS
     if (!fullscreen_is_enabled)
 #endif 
         vic_resize();

@@ -99,10 +99,20 @@ static resource_t resources[] =
 static int set_double_size_enabled(resource_value_t v, void *param)
 {
     vic_ii_resources.double_size_enabled = (int)v;
+
+#ifdef USE_XF86_EXTENSIONS
+    if (vic_ii.initialized && !fullscreen_is_enabled)
+#else
+    if (vic_ii.initialized)
+#endif
+        raster_enable_double_size(&vic_ii.raster,
+                                  vic_ii_resources.double_size_enabled,
+                                  vic_ii_resources.double_size_enabled);
+
 #ifdef USE_XF86_EXTENSIONS
     if (!fullscreen_is_enabled)
 #endif
-        vic_ii_resize();
+        vic_ii_resize ();
 
     return 0;
 }

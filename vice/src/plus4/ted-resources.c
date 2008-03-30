@@ -73,6 +73,14 @@ static int set_double_size_enabled(resource_value_t v, void *param)
 {
     ted_resources.double_size_enabled = (int)v;
 #ifdef USE_XF86_EXTENSIONS
+    if (ted.initialized && !fullscreen_is_enabled)
+#else
+    if (ted.initialized)
+#endif
+        raster_enable_double_size(&ted.raster,
+                                  ted_resources.double_size_enabled,
+                                  ted_resources.double_size_enabled);
+#ifdef USE_XF86_EXTENSIONS
     if (!fullscreen_is_enabled)
 #endif
         ted_resize();
