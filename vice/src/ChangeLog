@@ -1,3 +1,25 @@
+2003-01-22  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.2.
+
+	* raster/raster-line.c, maincpu.c, interrupt.c, interrupt.h,
+	drive/drivetypes.h, c128/z80.c, plus4/ted-draw.c,
+	vic20/vic-draw.c: Fixed warnings.
+
+	* sound.h, sid/sid.c, vic20/vic20sound.c, pet/petsound.c,
+	plus4/ted-sound.c (ound_machine_enable: New function.
+
+	arch/unix/c128ui.c, arch/unix/c64ui.c, arch/unix/cbm2ui.c,
+	arch/unix/uisid.c, arch/unix/uisid.h, arch/unix/Makefile.am:
+	Added SID engine UI.
+
+	* sid/sid.c, sid/sid.h: Added support for Catweasel MKIII.
+
+	* arch/unix/catweaselmkiii.c, arch/unix/catweaselmkiii.h: New
+	files.
+
+	* arch/unix/Makefile.am: Added new files.
+
 2003-01-21  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.1.
