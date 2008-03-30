@@ -1,3 +1,37 @@
+1999-08-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.58.
+
+	* arch/win32/ui.c (handle_wm_command) [IDM_AUTOSTART]: Do not use
+	"*" for program name as this does not work for tapes.
+
+	* arch/win32/res.rc: Fixed version string.
+
+	* arch/win32/kbd.c (kbd_handle_keydown): Added 40/80 column key
+	support.
+
+	* vic20/vic20.c, vic20/vic20mem.c: Added missing includes.
+
+	* vic20/vic20ieeevia1.c, vic20/vic20ieeevia2.c (store_pcr): Return
+	byte.
+
+	* crtc/crtc-draw.c (DRAW): Align offset as suggested by Dirk Farin.
+
+	* crtc/crtc-resources.c, crtc/crtc-resources.h: Fullscreen double
+	size resources.
+	* vic20/vic-resources.c, vic20/vic-resources.h: Likewise.
+
+1999-08-07  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/ui.c (ui_update_menus): Removed HWND parameter,
+	  function is empty now.
+	  (update_menus): New function. Updates menu entries.
+	  (handle_wm_command): Removed calls for ui_update_menus.
+	  (window_proc): Call update_menus instead of ui_update_menus, when
+	  user access the menu.
+
+	* arch/win32/uilib.c (hook_proc): Cast SendMessage paramater.
+
 1999-08-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.57.

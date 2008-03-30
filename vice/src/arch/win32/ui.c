@@ -406,7 +406,11 @@ void ui_resize_canvas_window(HWND w, unsigned int width, unsigned int height)
 }
 
 /* Update all the menus according to the current settings.  */
-void ui_update_menus(HWND hwnd)
+void ui_update_menus(void)
+{
+}
+
+static void update_menus(HWND hwnd)
 {
     HMENU menu = GetMenu(hwnd);
     int i,j;
@@ -914,7 +918,7 @@ char *dname;
                 "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64\0"
                 "Tape image files (*.t64;*.p00;*.tap)\0*.t64;*.p00;*.tap\0"
                 "All files (*.*)\0*.*\0", read_disk_or_tape_image_contents, hwnd)) != NULL) {
-                if (autostart_autodetect(s, "*") < 0)
+                if (autostart_autodetect(s, NULL) < 0)
                     ui_error("Cannot autostart specified file.");
                 free(s);
             }
@@ -1052,13 +1056,11 @@ char *dname;
             ui_error("Cannot load settings.");
         } else {
             ui_message("Settings loaded successfully.");
-            ui_update_menus(hwnd);
         }
         break;
       case IDM_SETTINGS_DEFAULT:
         resources_set_defaults();
         ui_message("Default settings restored.");
-        ui_update_menus(hwnd);
         break;
       default:
         {
@@ -1140,7 +1142,7 @@ int     window_index;
         break;
       case WM_ENTERMENULOOP:
         suspend_speed_eval();
-        ui_update_menus(window);
+        update_menus(window);
         break;
       case WM_KEYDOWN:
         kbd_handle_keydown(wparam, lparam);
