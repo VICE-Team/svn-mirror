@@ -65,6 +65,7 @@ ARCH_LIBS = @ARCH_LIBS@
 BINDIR = @BINDIR@
 CC = @CC@
 CPP = @CPP@
+HAVE_READLINE = @HAVE_READLINE@
 JOYSTICK = @JOYSTICK@
 JOY_OBJS = @JOY_OBJS@
 LDFLAGS = @LDFLAGS@
@@ -89,7 +90,7 @@ SUBDIRS = @SUBDIRS@
 VERSION = @VERSION@
 YACC = @YACC@
 
-c128dir = $(prefix)/lib/C128
+c128dir = $(prefix)/lib/vice/C128
 
 c128_DATA = \
 	basic \

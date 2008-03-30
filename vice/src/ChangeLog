@@ -1,3 +1,186 @@
+Thu May 28 19:25:28 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.31.
+
+	* arch/unix/xaw/vic20ui.c (UiSetJoystickDevice1): Renamed to
+ 	`set_joystick_device'.
+
+	* arch/unix/xaw/c64ui.c (UiSetJoystickDevice1): Renamed to
+ 	`set_joystick_device_1'.
+	(UiSetJoystickDevice2): Renamed to `set_joystick_device_2'.
+
+	* arch/unix/xaw/petui.c (UiSetJoystickDevice1): Renamed to
+ 	`set_joystick_device_1'.
+	(UiSetJoystickDevice2): Renamed to `set_joystick_device_2'.
+
+	* arch/msdos/tuifs.c (file_list_read): Set a few bits in
+ 	`_djstat_flags' to make `stat()' faster.
+	(file_list_add_item): Use `xmalloc()'/`xrealloc()' instead of
+ 	`malloc()'/`realloc()'.
+
+	* c64/vicii.c (set_palette_file_name) [__MSDOS__]: Load the new
+ 	palette if the value changes.
+
+	* arch/msdos/c64ui.c: Implemented submenu for palette selection.
+
+	* arch/msdos/video.c (canvas_set_palette): New function.
+	(disable_text): Re-initialize the VGA palette according to the
+	values in the `colors' member of `canvas_t'.
+
+	* arch/msdos/menudefs.c (attach_disk_callback): Start the file
+	selector with the name of the currently attached disk image as the
+	default.
+	(attach_tape_callback): Likewise.
+
+	* arch/msdos/tuifs.c (tui_file_selector): New parameters
+ 	`directory' and `default_item'.  Do not call `chdir()' anymore,
+ 	just move around using `return_path' as the currently selected
+ 	directory.  If `default' is non-NULL and it points to the name of
+ 	any of the files in the directory, position the cursor on that
+ 	file.
+
+	* arch/msdos/tuimenu.c (tui_menu_add): New function.
+
+	* arch/msdos/ui.c: Removed all the menu implementation (moved to
+ 	`arch/msdos/menudefs.c').
+	(ui_init_finish): Do not create the main menu anymore.
+
+	* c64/c64.c (machine_init) [__MSDOS__]: Call `c64_kbd_init()'
+	instead of `kbd_init()'.
+
+	* c128/c128.c (machine_init) [__MSDOS__]: Call `c128_kbd_init()'
+ 	instead of `kbd_init()'.
+
+	* vic20/vic20.c (machine_init) [__MSDOS__]: Call `vic20_kbd_init()'
+	instead of `kbd_init()'.
+
+	* pet/pet.c (machine_init) [__MSDOS__]: Call `pet_kbd_init()'
+ 	instead of `kbd_init()'.
+
+	* arch/msdos/menudefs.c, arch/msdos/menudefs.h: New files.
+
+	* arch/msdos/c64kbd.c, arch/msdos/c64kbd.h: New files.
+
+	* arch/msdos/vic20kbd.c, arch/msdos/vic20kbd.h: New files.
+
+	* arch/msdos/petkbd.c, arch/msdos/petkbd.h: New files.
+
+	* arch/msdos/c64ui.c, arch/msdos/c64ui.h: New files.
+
+	* arch/msdos/vic20ui.c, arch/msdos/vic20ui.h: New files.
+
+	* arch/msdos/petui.c, arch/msdos/petui.h: New files.
+
+	* true1541/true1541.c (true1541_set_ntsc_sync_factor): Do not do
+	anything if `ntsc_cycles_per_sec' is still zero.
+	(true1541_set_pal_sync_factor): Do not do anything if
+	`pal_cycles_per_sec' is still zero.
+
+	* main.c: `progname' and `boot_path' made non-const.
+	(set_boot_path): Use `fname_split()' instead of `fnsplit' and
+ 	`fnmerge'.
+
+	* utils.c (fname_split): New function.
+
+	* c64/c64mem.c: Size of `export_ram0' changed from 0x1fff to
+ 	0x2000 elements.
+
+	* sound.c (sound_init): #ifdef `HAVE_AUDIOIO_H' -> #ifdef
+ 	`HAVE_SYS_AUDIOIO_H'.
+
+Wed May 27 20:48:34 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Makefile.am: Added `mon_parse.h' and `mon_parse.c' to
+ 	`BUILT_SOURCES'.
+
+	* main.c [__MSDOS__] (set_boot_path): Fixed path composition.
+
+	* resources.c (default_resource_file) [__MSDOS__]: Added missing
+ 	`/' after `boot_path' when composing the file name.
+
+Tue May 26 20:56:23 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* Makefile.am: Added `-d' to `YFLAGS' to generate header file.
+
+	* c64/c64mem.c: Transformed all watchpoint functions into a
+	single function.
+
+	* misc.c: Renamed `symbol_table_lookup_name' to
+ 	`mon_symbol_table_lookup_name'.
+
+	* mon.c/mon.h: Lots.
+
+	* mon_lex.l: Made `yywrap' and `resolve_datatype' static.  Changed
+ 	datatype handling to radix handling.
+
+	* mon_parse.y: Removed address ranges.  Changed datatype handling
+ 	to radix handling.  Added `mon_' prefix to all monitor functions.
+  	Made local functions static.
+
+	* pet/petmem.c: Added watchpoint handling.
+
+	* vic20/vic20mem.c: Transformed all watchpoint functions into a
+	single function.
+
+	* true1541/1541cpu.c: Transformed all watchpoint functions into a
+	single function.
+
+Sat May 23 15:40:04 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* mon.c [!HAVE_READLINE] (readline, add_history): Simple
+ 	replacements for the readline functions.
+
+	* sounddrv/soundmidas.c: #include <stdio.h>.
+	(midas_close): Added parameter `w'.
+
+	* arch/msdos/vsync.c (vsync_disable_timer): New (dummy) function.
+
+	* arch/msdos/ui.c (ui_init_resources, ui_init_cmdline_options):
+	New (dummy) functions.
+
+	* arch/msdos/vsync.c: Implemented new-style resource handling.
+
+	* arch/msdos/vsync.c (vsync_prevent_clk_overflow): Made public;
+ 	new parameter `sub'.  Only subtracts `sub' from
+ 	`speed_eval_prev_clk' now.
+	(do_vsync): Do not call `flush_sound' anymore.
+	(do_drive): Removed.
+	(vsync_init): New parameters `hz', `cycles', `hook'.  Do not call
+	`joystick_init()' anymore.
+
+	* arch/msdos/menudefs.c, arch/msdos/menudefs.h: New files.
+
+	* resources.c (resources_toggle): New function.
+
+	* arch/msdos/tui.c, arch/msdos/tui_backend.c: Do not #include
+ 	"patchlevel.h".
+
+	* arch/msdos/kbd.c (kbd_init): Added (currently unused)
+	`keymap_name' parameter.
+
+	* arch/msdos/kbdef.h: Temporarily enable the C64 keyconvmap only;
+	disabled the PET ones.
+
+	* arch/msdos/kbd.c: #include "vice.h"; do not #include "macro.h".
+
+	* arch/msdos/joystick.c (joystick_init_resources): New dummy
+ 	function.
+	(joystick_init_cmdline_options): New dummy function.
+	(joystick_update): Temporarily removed assignment to `joy'
+	(waiting for a complete support for new-style resources and
+	command-line options).
+
+	* Reintroduced MS-DOS sources.
+
+	* mon.h: #undef `TRUE' and `FALSE' before redefining them.
+
+	* pet/crtc.c, vic20/vic.c: Do not #define `pixel_width' or
+ 	`pixel_height'.
+
+Fri May 22 18:00:00 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.30.
+
 Fri May 22 00:52:42 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
 
 	* data/C64/vice.vkm, data/C128/vice.vkm: Setup custom key joystick.

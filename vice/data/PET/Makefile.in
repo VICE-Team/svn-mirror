@@ -65,6 +65,7 @@ ARCH_LIBS = @ARCH_LIBS@
 BINDIR = @BINDIR@
 CC = @CC@
 CPP = @CPP@
+HAVE_READLINE = @HAVE_READLINE@
 JOYSTICK = @JOYSTICK@
 JOY_OBJS = @JOY_OBJS@
 LDFLAGS = @LDFLAGS@
@@ -108,7 +109,7 @@ keymaps = \
 	graphics.vkm \
 	posg_de.vkm
 
-petdir = $(prefix)/lib/PET
+petdir = $(prefix)/lib/vice/PET
 
 pet_DATA = $(keymaps) $(roms) $(palettes)
 

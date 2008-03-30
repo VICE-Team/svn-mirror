@@ -54,6 +54,7 @@
 /* ------------------------------------------------------------------------- */
 
 /* #define DEBUG_KBD */
+/* #define DEBUG_JOY */
 
 /* Keyboard array. */
 int keyarr[KBD_ROWS];
@@ -62,17 +63,17 @@ int rev_keyarr[KBD_COLS];
 /* Joystick status */
 
 BYTE joy[3] = { 0, 0, 0 };
-static int custom_joykeys[10];
-static keyconv custom_joykeys_backup[10];
+
+static int use_keypad   [2] = { 0, 0 };	   /* [0] = numpad, [1] = custom */
+static int joykey_devs  [2] = { JOYDEV_NUMPAD, JOYDEV_CUSTOM_KEYS };
+static keyconv joykeys  [2][10];
+static int joypad_status[2][10];
 
 /* Shift status */
 static short kbd_lshiftrow = 0;
 static short kbd_lshiftcol = 0;
 static short kbd_rshiftrow = 0;
 static short kbd_rshiftcol = 0;
-
-static int joy1pad_status[10];
-static int joy2pad_status[10];
 
 static int joypad_bits[10] = {
     0x10, 0x06, 0x02, 0x0a, 0x04, 0x00, 0x08, 0x05, 0x01, 0x09
@@ -125,8 +126,55 @@ int joyreleaseval(int column, int *status)
     return ~val;
 }
 
+static int check_set_joykeys(KeySym key, int joynum)
+{
+    int column, joyport = 1;
+
+    if (joystick_port_map[0] == joynum)
+        joyport = 1;
+    if (joystick_port_map[1] == joynum)
+        joyport = 2;
+
+    for (column=0;column<10;column++) {
+        if (key == joykeys[joynum][column].sym) {
+            if (joypad_bits[column]) {
+                joy[joyport] |= joypad_bits[column];
+                joypad_status[joynum][column]=1;
+            } else {
+                joy[joyport] = 0;
+                memset(joypad_status[joynum], 0, sizeof(joypad_status[joynum]));
+            }
+#ifdef DEBUG_JOY
+            printf("got joyport %d, joynum %d, keysym=%s\n", joyport, joynum,
+                   XKeysymToString(joykeys[joynum][column].sym));
+#endif
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static int check_clr_joykeys(KeySym key, int joynum)
+{
+    int column, joyport = 1;
+
+    if (joystick_port_map[0] == joynum)
+        joyport = 1;
+    if (joystick_port_map[1] == joynum)
+        joyport = 2;
+
+    for (column=0;column<10;column++) {
+        if (key == joykeys[joynum][column].sym) {
+            joy[joyport] &= joyreleaseval(column, joypad_status[joynum]);
+            joypad_status[joynum][column] = 0;
+            return 1;
+        }
+    }
+    return 0;
+}
+
 void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
-		       Boolean *ctd)
+                       Boolean *ctd)
 {
     static char buffer[20];
     KeySym key;
@@ -146,50 +194,16 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
     switch (report->type) {
 
       case KeyPress:
+	if (use_keypad[0] && check_set_joykeys(key, 0))
+            break;
+	if (use_keypad[1] && check_set_joykeys(key, 1))
+            break;
+
 	for (i = 0; keyconvmap[i].sym != 0; ++i) {
 	    if (key == keyconvmap[i].sym) {
 		int row = keyconvmap[i].row;
 		int column = keyconvmap[i].column;
 
-		if (row < 0) {
-                    if ((row == -1) && (joystick_port_map[0] == JOYDEV_NUMPAD)) {
-                        if (joypad_bits[column]) {
-                            joy[1] |= joypad_bits[column];
-                            joy1pad_status[column]=1;
-                        } else {
-                            joy[1] = 0;
-                            memset(joy1pad_status, 0, sizeof(joy1pad_status));
-                        }
-                    } else if ((row == -1) && (joystick_port_map[1] == JOYDEV_NUMPAD)) {
-                        if (joypad_bits[column]) {
-                            joy[2] |= joypad_bits[column];
-                            joy2pad_status[column]=1;
-                        } else {
-                            joy[2] = 0;
-                            memset(joy2pad_status, 0,
-                                   sizeof(joy2pad_status));
-                        }
-                    }
-                    if ((row == -2) && (joystick_port_map[0] == JOYDEV_CUSTOM_KEYS)) {
-                        if (joypad_bits[column]) {
-                            joy[1] |= joypad_bits[column];
-                            joy1pad_status[column]=1;
-                        } else {
-                            joy[1] = 0;
-                            memset(joy1pad_status, 0, sizeof(joy1pad_status));
-                        }
-                    } else if ((row == -2) && (joystick_port_map[1] == JOYDEV_CUSTOM_KEYS)) {
-                        if (joypad_bits[column]) {
-                            joy[2] |= joypad_bits[column];
-                            joy2pad_status[column]=1;
-                        } else {
-                            joy[2] = 0;
-                            memset(joy2pad_status, 0,
-                                   sizeof(joy2pad_status));
-                        }
-                    }
-                    break;
-		}
 		if (row >= 0) {
                     set_keyarr(row, column, 1);
 
@@ -233,27 +247,15 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	    /* TODO: do we have to cleanup joypads here too? */
 	}
 
+	if(use_keypad[0] && check_clr_joykeys(key, 0)) break;
+	if(use_keypad[1] && check_clr_joykeys(key, 1)) break;
+
 	for (i = 0; keyconvmap[i].sym != 0; i++) {
 	    if (key == keyconvmap[i].sym) {
 		int row = keyconvmap[i].row;
 		int column = keyconvmap[i].column;
 
-		if (row < 0) {
-                    if ((row == -1) && (joystick_port_map[0] == JOYDEV_NUMPAD)) {
-                        joy[1] &= joyreleaseval(column, joy1pad_status);
-                        joy1pad_status[column] = 0;
-                    } else if ((row == -1) && (joystick_port_map[1] == JOYDEV_NUMPAD)) {
-                        joy[2] &= joyreleaseval(column, joy2pad_status);
-                        joy2pad_status[column] = 0;
-                    }
-                    if ((row == -2) && (joystick_port_map[0] == JOYDEV_CUSTOM_KEYS)) {
-                        joy[1] &= joyreleaseval(column, joy1pad_status);
-                        joy1pad_status[column] = 0;
-                    } else if ((row == -2) && (joystick_port_map[1] == JOYDEV_CUSTOM_KEYS)) {
-                        joy[2] &= joyreleaseval(column, joy2pad_status);
-                        joy2pad_status[column] = 0;
-                    }
-		} else {
+		if(row >= 0) {
                     set_keyarr(row, column, 0);
                     if (keyconvmap[i].shift & VIRTUAL_SHIFT)
                         virtual_shift_down--;
@@ -282,8 +284,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 	memset(rev_keyarr, 0, sizeof(rev_keyarr));
 	memset(joy, 0, sizeof(joy));
 	virtual_shift_down = left_shift_down = right_shift_down = 0;
-	memset(joy1pad_status, 0, sizeof(joy1pad_status));
-	memset(joy2pad_status, 0, sizeof(joy2pad_status));
+	memset(joypad_status, 0, sizeof(joypad_status));
 	break;			/* LeaveNotify */
 
       default:
@@ -303,8 +304,15 @@ static int keyc_num = 0;
 
 int kbd_init(const char *keymap_name)
 {
+    int i,j;
+
     default_keymap_name = keymap_name;
 
+    for(i=0;i<2;i++) {
+        for(j=0;j<10;j++) {
+            joykeys[i][j].sym = NoSymbol;
+        }
+    }
     if (kbd_load_keymap(NULL) < 0) {
 	fprintf(stderr,"Couldn't load default keymap file `%s', aborting!\n",
                 keymap_name);
@@ -320,7 +328,7 @@ static void kbd_parse_keyword(char *buffer)
 {
     char *key, *p;
     KeySym sym;
-    int i;
+    int i, j;
 
     key = strtok(buffer+1, " \t:");
     if (!strcmp(key, "LSHIFT")) {
@@ -344,10 +352,16 @@ static void kbd_parse_keyword(char *buffer)
     } else if (!strcmp(key, "CLEAR")) {
         keyc_num = 0;
         keyconvmap[0].sym = 0;
+	for(i=0;i<2;i++) {
+            for(j=0;j<10;j++) {
+                joykeys[i][j].sym = NoSymbol;
+            }
+        }
     } else if (!strcmp(key, "INCLUDE")) {
         key = strtok(NULL, " \t");
         kbd_parse_keymap(key);
     } else if (!strcmp(key, "UNDEF")) {
+	/* TODO: this only unsets from the main table, not for joysticks */
         key = strtok(NULL, " \t");
         sym = XStringToKeysym(key);
         if (sym != NoSymbol) {
@@ -363,8 +377,7 @@ static void kbd_parse_keyword(char *buffer)
         }
     }
 
-    memset(joy1pad_status, 0, sizeof(joy1pad_status));
-    memset(joy1pad_status, 0, sizeof(joy2pad_status));
+    memset(joypad_status, 0, sizeof(joypad_status));
 }
 
 static void kbd_parse_entry(char *buffer)
@@ -390,25 +403,18 @@ static void kbd_parse_entry(char *buffer)
                 if (p || row < 0) {
                     if (p)
                         shift = atoi(p);
-                    if (row>=0 || (row>=-2 && col>=0 && col<10)) {
-                        for(i=0;keyconvmap[i].sym;i++) {
+                    if (row >= 0) {
+                        for(i = 0; keyconvmap[i].sym; i++) {
                             if (sym == keyconvmap[i].sym) {
-                                if (row >= -1) {
-                                    keyconvmap[i].row = row;
-                                    keyconvmap[i].column = col;
-                                    keyconvmap[i].shift = shift;
-                                    break;
-                                } else {
-                                    custom_joykeys[col] = i;
-                                    custom_joykeys_backup[col].row = keyconvmap[i].row;
-                                    custom_joykeys_backup[col].column = keyconvmap[i].column;
-                                    custom_joykeys_backup[col].shift = keyconvmap[i].shift;
-                                }
+                                keyconvmap[i].row = row;
+                                keyconvmap[i].column = col;
+                                keyconvmap[i].shift = shift;
+                                break;
                             }
                         }
 
                         /* not in table -> add */
-                        if (i>=keyc_num && row != -2) {
+                        if (i>=keyc_num) {
                             /* table too small -> realloc */
                             if (keyc_num>=keyc_mem) {
                                 i = keyc_mem * 1.5;
@@ -425,11 +431,14 @@ static void kbd_parse_entry(char *buffer)
                                 keyconvmap[++keyc_num].sym = 0;
                             }
                         }
-                    } else {
-                        fprintf(stderr,
-                                "Bad row/column value (%d/%d) for keysym %s\n",
-                                row, col, key);
-                    }
+                    } else  /* row >= 0 */
+                        if (row>=-2 && col>=0 && col<10) {
+                            joykeys[-row-1][col].sym = sym;
+                        } else {
+                            fprintf(stderr,
+                                    "Bad row/column value (%d/%d) for keysym %s\n",
+                                    row, col, key);
+                        }
                 }
             }
 	}
@@ -511,7 +520,7 @@ int kbd_load_keymap(const char *filename)
 int kbd_dump_keymap(const char *filename)
 {
     FILE *fp;
-    int i;
+    int i,j;
 
     if (!filename)
         return -1;
@@ -544,42 +553,48 @@ int kbd_dump_keymap(const char *filename)
                 "# 4      right shift\n"
                 "# 8      key can be shifted or not with this keysym\n"
                 "#\n"
+		"# if row is negative, column gives numpad-equivalent number\n"
+		"# for joystick emulation (e.g. col==8 -> up)\n"
+		"# row == -1 : 'numpad' joystick emulation\n"
+		"# row == -2 : 'custom' joystick emulation\n"
+                "#\n"
             );
         fprintf(fp, "!CLEAR\n");
         fprintf(fp, "!LSHIFT %d %d\n", kbd_lshiftrow, kbd_lshiftcol);
         fprintf(fp, "!RSHIFT %d %d\n", kbd_rshiftrow, kbd_rshiftcol);
-        for(i = 0; keyconvmap[i].sym; i++) {
+        for (i = 0; keyconvmap[i].sym; i++) {
             fprintf(fp, "%s %d %d %d\n",
                     XKeysymToString(keyconvmap[i].sym),
                     keyconvmap[i].row, keyconvmap[i].column,
                     keyconvmap[i].shift);
+        }
+        for (i = 0; i<2; i++) {
+	    for (j=0; j<10; j++) {
+                if (joykeys[i][j].sym != NoSymbol) {
+                    fprintf(fp, "%s %d %d\n",
+                            XKeysymToString(joykeys[i][j].sym),
+                            joykeys[i][j].row, joykeys[i][j].column);
+		}
+            }
         }
         fclose(fp);
     }
     return 0;
 }
 
-void kbd_add_custom_joykeys(void)
+void kbd_flag_joykeys(int joydev, int flag)
 {
-   int i,j;
+    int i;
 
-   for (i=0;i<10;i++) {
-       j = custom_joykeys[i];
-
-       keyconvmap[j].row = -2;
-       keyconvmap[j].column = i;
-   }
+    for(i=0;i<2;i++) {
+        if(joykey_devs[i] == joydev) {
+#ifdef DEBUG_JOY
+	    printf("flag joydev %d, flag=%d -> joynum = %d\n",
+			joydev, flag, i);
+#endif
+            use_keypad[i] = flag;
+            break;
+        }
+    }
 }
 
-void kbd_remove_custom_joykeys(void)
-{
-   int i,j;
-
-   for (i=0;i<10;i++) {
-       j = custom_joykeys[i];
-
-       keyconvmap[j].row = custom_joykeys_backup[i].row;
-       keyconvmap[j].column = custom_joykeys_backup[i].column;
-       keyconvmap[j].shift = custom_joykeys_backup[i].shift;
-   }
-}

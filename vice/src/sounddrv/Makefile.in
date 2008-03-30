@@ -67,6 +67,7 @@ ARCH_LIBS = @ARCH_LIBS@
 BINDIR = @BINDIR@
 CC = @CC@
 CPP = @CPP@
+HAVE_READLINE = @HAVE_READLINE@
 JOYSTICK = @JOYSTICK@
 JOY_OBJS = @JOY_OBJS@
 LDFLAGS = @LDFLAGS@
@@ -98,9 +99,6 @@ INCLUDES = \
 
 noinst_LIBRARIES = libsounddrv.a
 
-@SOUND_USS_TRUE@SOUNDUSS = sounduss.c
-@SOUND_USS_FALSE@SOUNDUSS =
-
 # These sources are linked only under certain circumstances.
 EXTRA_libsounddrv_a_SOURCES = \
 	soundaix.c \
@@ -110,13 +108,22 @@ EXTRA_libsounddrv_a_SOURCES = \
 	soundsun.c \
 	sounduss.c
 
-# These sources are always (inconditionally) built.
+# These sources are always built.
 libsounddrv_a_SOURCES = \
-	$(SOUNDUSS) \
 	sounddummy.c \
 	sounddump.c \
 	soundfs.c \
 	soundspeed.c
+
+libsounddrv_a_DEPENDENCIES = \
+	@SOUND_DRIVERS@ \
+	sounddummy.o \
+	sounddump.o \
+	soundfs.o \
+	soundspeed.o
+
+libsounddrv_a_LIBADD = \
+	@SOUND_DRIVERS@
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -129,13 +136,7 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-libsounddrv_a_LIBADD = 
-@SOUND_USS_TRUE@cond0libsounddrv_a_OBJECTS =  sounduss.o sounddummy.o \
-@SOUND_USS_TRUE@sounddump.o soundfs.o soundspeed.o
-@SOUND_USS_FALSE@cond1libsounddrv_a_OBJECTS =  sounddummy.o sounddump.o \
-@SOUND_USS_FALSE@soundfs.o soundspeed.o
-libsounddrv_a_OBJECTS =  $(cond0libsounddrv_a_OBJECTS) \
-$(cond1libsounddrv_a_OBJECTS)
+libsounddrv_a_OBJECTS =  sounddummy.o sounddump.o soundfs.o soundspeed.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@

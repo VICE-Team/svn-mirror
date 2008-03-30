@@ -49,27 +49,19 @@ int joystick_port_map[2];
 /* Resources */
 
 static int joyport1select(resource_value_t v) {
-  if ((joystick_port_map[0] == JOYDEV_CUSTOM_KEYS) &&
-      ((int) v != JOYDEV_CUSTOM_KEYS))
-     kbd_remove_custom_joykeys();
 
+  kbd_flag_joykeys(joystick_port_map[0], 0);	/* disable old mapping */
   joystick_port_map[0] = (int) v;
-
-  if ((int) v == JOYDEV_CUSTOM_KEYS)
-     kbd_add_custom_joykeys();
+  kbd_flag_joykeys(joystick_port_map[0], 1);	/* enable new mapping */
 
   return 0;
 };
 
 static int joyport2select(resource_value_t v) {
-  if ((joystick_port_map[1] == JOYDEV_CUSTOM_KEYS) &&
-      ((int) v != JOYDEV_CUSTOM_KEYS))
-     kbd_remove_custom_joykeys();
 
+  kbd_flag_joykeys(joystick_port_map[1], 0);	/* disable old mapping */
   joystick_port_map[1] = (int) v;
-
-  if ((int) v == JOYDEV_CUSTOM_KEYS)
-     kbd_add_custom_joykeys();
+  kbd_flag_joykeys(joystick_port_map[1], 1);	/* enable new mapping */
 
   return 0;
 };

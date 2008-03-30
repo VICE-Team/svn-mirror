@@ -33,6 +33,8 @@
 
 #include <X11/Intrinsic.h>
 
+#define	KBD_ROWS	11	/* maximum size of keyboard array */
+#if 0 
 #ifdef C128
 #define KBD_ROWS	11	/* C128 Keyboard size */
 #else
@@ -42,6 +44,7 @@
 #define KBD_ROWS	8	/* C64/VIC20/Plus4 Keyboard size */
 #endif
 #endif
+#endif /* 0 */
 
 #define KBD_COLS	8
 
@@ -54,6 +57,7 @@ extern void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 extern int kbd_load_keymap(const char *filename);
 extern int kbd_dump_keymap(const char *filename);
 
-extern void kbd_add_custom_joykeys(void);
-extern void kbd_remove_custom_joykeys(void);
+extern void kbd_flag_joykeys(int,int);
+
+
 #endif

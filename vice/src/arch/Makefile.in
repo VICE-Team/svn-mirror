@@ -65,6 +65,7 @@ ARCH_LIBS = @ARCH_LIBS@
 BINDIR = @BINDIR@
 CC = @CC@
 CPP = @CPP@
+HAVE_READLINE = @HAVE_READLINE@
 JOYSTICK = @JOYSTICK@
 JOY_OBJS = @JOY_OBJS@
 LDFLAGS = @LDFLAGS@
@@ -90,7 +91,7 @@ YACC = @YACC@
 
 @UNIX_COMPILE_TRUE@SUBDIRS = unix
 
-@UNIX_COMPILE_FALSE@SUBDIRS = # msdos
+@UNIX_COMPILE_FALSE@SUBDIRS = msdos
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../src/config.h
 CONFIG_CLEAN_FILES = 
@@ -101,7 +102,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
-DIST_SUBDIRS =  unix
+DIST_SUBDIRS =  unix msdos
 all: all-recursive all-am
 
 .SUFFIXES:
