@@ -482,9 +482,9 @@ int autostart_prg(const char *file_name)
 
     /* Setup FS-based drive emulation.  */
     fsdevice_set_directory(directory, 8);
-    set_true1541_mode(FALSE);
-    resources_set_value("NoTraps", (resource_value_t) FALSE);
-    resources_set_value("FSDevice8ConvertP00", (resource_value_t) TRUE);
+    set_true1541_mode(0);
+    resources_set_value("NoTraps", (resource_value_t) 0);
+    resources_set_value("FSDevice8ConvertP00", (resource_value_t) 1);
     ui_update_menus();
 
     /* Now it's the same as autostarting a disk image.  */
