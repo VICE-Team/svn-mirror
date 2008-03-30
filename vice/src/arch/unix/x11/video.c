@@ -64,6 +64,7 @@
 #include <stdlib.h>
 #include <sys/utsname.h>
 
+#include "color.h"
 #include "cmdline.h"
 #include "kbd.h"
 #include "log.h"
@@ -359,6 +360,8 @@ int video_init(void)
 
     if (video_log == LOG_ERR)
 	video_log = log_open("Video");
+
+    color_init();
 
 #ifdef USE_MITSHM
     if (!try_mitshm)
