@@ -169,14 +169,14 @@ UNIXDIST = $(UNIXSRC) $(UNIXHDR) $(UNIXMISC)
 # MS-DOS-specific sources.
 
 MSDOSSRC = $(MSDOSDIR)/joystick.c $(MSDOSDIR)/kbd.c $(MSDOSDIR)/vmidas.c \
-	$(MSDOSDIR)/tuimenu.c $(MSDOSDIR)/tui.c $(MSDOSDIR)/tuifs.c \
-	$(MSDOSDIR)/ui.c $(MSDOSDIR)/video.c $(MSDOSDIR)/vsync.c \
-	$(MSDOSDIR)/tuiview.c
+	$(MSDOSDIR)/tuimenu.c $(MSDOSDIR)/tui.c $(MSDOSDIR)/tui_backend.c \
+	$(MSDOSDIR)/tuifs.c $(MSDOSDIR)/ui.c $(MSDOSDIR)/video.c \
+	 $(MSDOSDIR)/vsync.c $(MSDOSDIR)/tuiview.c
 
 MSDOSHDR = $(MSDOSDIR)/joystick.h $(MSDOSDIR)/kbd.h $(MSDOSDIR)/vmidas.h \
 	$(MSDOSDIR)/kbdef.h $(MSDOSDIR)/tuimenu.h $(MSDOSDIR)/tui.h \
-	$(MSDOSDIR)/tuifs.h $(MSDOSDIR)/ui.h $(MSDOSDIR)/video.h \
-	$(MSDOSDIR)/vsync.h $(MSDOSDIR)/tuiview.h
+	$(MSDOSDIR)/tui_backend.h $(MSDOSDIR)/tuifs.h $(MSDOSDIR)/ui.h \
+	 $(MSDOSDIR)/video.h $(MSDOSDIR)/vsync.h $(MSDOSDIR)/tuiview.h
 
 MSDOSDIST = $(MSDOSSRC) $(MSDOSHDR)
 
