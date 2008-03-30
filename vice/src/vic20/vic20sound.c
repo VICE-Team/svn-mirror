@@ -40,8 +40,10 @@
 static BYTE siddata[16];
 
 /* noise magic */
-#define NSHIFT(v, n) (((v)<<(n))|((((v)>>(23-(n)))^(v>>(18-(n))))&((1<<(n))-1)))
-#define NVALUE(v) (noiseLSB[v&0xff]|noiseMID[(v>>8)&0xff]|noiseMSB[(v>>16)&0xff])
+#define NSHIFT(v, n) \
+        (((v)<<(n))|((((v)>>(23-(n)))^(v>>(18-(n))))&((1<<(n))-1)))
+#define NVALUE(v) \
+        (noiseLSB[v&0xff]|noiseMID[(v>>8)&0xff]|noiseMSB[(v>>16)&0xff])
 #define NSEED 0x7ffff8
 
 /* Noise tables */
@@ -54,51 +56,51 @@ static BYTE noiseLSB[NOISETABLESIZE];
 typedef struct voice_s
 {
     /* counter value */
-    DWORD		 f;
+    DWORD f;
     /* counter step / sample */
-    DWORD		 fs;
+    DWORD fs;
 
     /* noise shift register. Note! rv may be 0 to 15 shifts 'behind' the
        real noise shift register value. Remaining shifts are done when
        it is referenced */
-    DWORD		 rv;
+    DWORD rv;
 } voice_t;
 
 /* needed data for SID */
 struct sound_s
 {
     /* number of voices */
-    voice_t		 v[4];
+    voice_t v[4];
     /* 4-bit volume value */
-    BYTE		 vol;
+    BYTE vol;
 
     /* internal constant used for sample rate dependent calculations */
-    DWORD		 speed1;
+    DWORD speed1;
 };
 
 int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-				    int *delta_t)
+                                    int *delta_t)
 {
-    int			i;
-    DWORD		o0, o1, o2, o3;
+    int i;
+    DWORD o0, o1, o2, o3;
 
     for (i = 0; i < nr; i++)
     {
-	/* addfptrs */
-	psid->v[0].f += psid->v[0].fs;
-	psid->v[1].f += psid->v[1].fs;
-	psid->v[2].f += psid->v[2].fs;
-	psid->v[3].f += psid->v[3].fs;
-	/* noise */
-	if (psid->v[3].f < psid->v[3].fs)
-	    psid->v[3].rv = NSHIFT(psid->v[3].rv, 16);
-	/* voices */
-	o0 = (psid->v[0].f & 0x80000000) >> 2;
-	o1 = (psid->v[1].f & 0x80000000) >> 2;
-	o2 = (psid->v[2].f & 0x80000000) >> 2;
-	o3 = (DWORD)NVALUE(NSHIFT(psid->v[3].rv, psid->v[3].f >> 28)) << 22;
-	/* sample */
-	pbuf[i] = ((SDWORD)((o0+o1+o2+o3)>>20)-0x800)*psid->vol;
+        /* addfptrs */
+        psid->v[0].f += psid->v[0].fs;
+        psid->v[1].f += psid->v[1].fs;
+        psid->v[2].f += psid->v[2].fs;
+        psid->v[3].f += psid->v[3].fs;
+        /* noise */
+        if (psid->v[3].f < psid->v[3].fs)
+            psid->v[3].rv = NSHIFT(psid->v[3].rv, 16);
+        /* voices */
+        o0 = (psid->v[0].f & 0x80000000) >> 2;
+        o1 = (psid->v[1].f & 0x80000000) >> 2;
+        o2 = (psid->v[2].f & 0x80000000) >> 2;
+        o3 = (DWORD)NVALUE(NSHIFT(psid->v[3].rv, psid->v[3].f >> 28)) << 22;
+        /* sample */
+        pbuf[i] = ((SDWORD)((o0+o1+o2+o3)>>20)-0x800)*psid->vol;
     }
     return 0;
 }
@@ -107,8 +109,8 @@ int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 /* SID initialization routine */
 sound_t *sound_machine_open(int speed, int cycles_per_sec)
 {
-    DWORD		 i;
-    sound_t		*psid;
+    DWORD i;
+    sound_t *psid;
 
     psid = xmalloc(sizeof(*psid));
     memset(psid, 0, sizeof(psid));
@@ -116,14 +118,14 @@ sound_t *sound_machine_open(int speed, int cycles_per_sec)
     psid->v[3].rv = NSEED;
     for (i = 0; i < NOISETABLESIZE; i++)
     {
-	noiseLSB[i] = (BYTE)(((i>>(7-2))&0x04)|((i>>(4-1))&0x02)
+        noiseLSB[i] = (BYTE)(((i>>(7-2))&0x04)|((i>>(4-1))&0x02)
                       |((i>>(2-0))&0x01));
-	noiseMID[i] = (BYTE)(((i>>(13-8-4))&0x10)|((i<<(3-(11-8)))&0x08));
-	noiseMSB[i] = (BYTE)(((i<<(7-(22-16)))&0x80)|((i<<(6-(20-16)))&0x40)
- 		      |((i<<(5-(16-16)))&0x20));
+        noiseMID[i] = (BYTE)(((i>>(13-8-4))&0x10)|((i<<(3-(11-8)))&0x08));
+        noiseMSB[i] = (BYTE)(((i<<(7-(22-16)))&0x80)|((i<<(6-(20-16)))&0x40)
+                      |((i<<(5-(16-16)))&0x20));
     }
     for (i = 0; i < 16; i++)
-	sound_machine_store(psid, (ADDRESS)i, siddata[i]);
+        sound_machine_store(psid, (ADDRESS)i, siddata[i]);
     return psid;
 }
 
@@ -134,9 +136,9 @@ void sound_machine_close(sound_t *psid)
 
 void vic_sound_reset(void)
 {
-    int				i;
+    ADDRESS i;
     for (i = 10; i < 15; i++)
-	store_vic_sound(i, 0);
+        store_vic_sound(i, 0);
 
     sound_reset();
 }
@@ -160,33 +162,32 @@ void store_vic_sound(ADDRESS addr, BYTE value)
 
 void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE value)
 {
-    DWORD			freq;
-    int				sbase, shift, divide;
+    DWORD freq;
+    int sbase, shift, divide;
 
-    switch (addr)
-    {
-    case 10:
-    case 11:
-    case 12:
-    case 13:
-	sbase = (addr - 10)*4;
-	shift = addr - 10;
-	if (addr == 13)
-	    shift = 0;
-	divide = 255 - value;
-	/* XXX: ? */
-	if (!divide)
-	    divide = 127;
-	if (!(value & 0x80))
-	    freq = 0;
-	else
-	    freq = VIC20FREQBASE*(1 << shift) / divide;
-	psid->v[addr - 10].fs = psid->speed1 * freq;
-	break;
-    case 14:
-	/* volume */
-	psid->vol = value & 0x0f;
-	break;
+    switch (addr) {
+      case 10:
+      case 11:
+      case 12:
+      case 13:
+        sbase = (addr - 10)*4;
+        shift = addr - 10;
+        if (addr == 13)
+            shift = 0;
+        divide = 255 - value;
+        /* XXX: ? */
+        if (!divide)
+            divide = 127;
+        if (!(value & 0x80))
+            freq = 0;
+        else
+            freq = VIC20FREQBASE*(1 << shift) / divide;
+        psid->v[addr - 10].fs = psid->speed1 * freq;
+        break;
+      case 14:
+        /* volume */
+        psid->vol = value & 0x0f;
+        break;
     }
 }
 
@@ -206,8 +207,9 @@ BYTE sound_machine_read(sound_t *psid, ADDRESS addr)
 
 char *sound_machine_dump_state(sound_t *psid)
 {
-    char				buf[1024];
+    char buf[1024];
 
     sprintf(buf, "#SID: clk=%d v=%d\n", clk, psid->vol);
     return stralloc(buf);
 }
+
