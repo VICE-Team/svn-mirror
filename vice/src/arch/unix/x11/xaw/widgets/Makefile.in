@@ -264,7 +264,10 @@ FileSel.o: FileSel.c ../../../../../../src/vice.h \
 	../../../../../../src/arch/unix/archdep.h \
 	../../../../../../src/archapi.h ScrListP.h ScrList.h FileSelP.h \
 	DirMgr.h Directory.h RegExp.h FileSel.h TextField.h
-MultiList.o: MultiList.c MultiListP.h MultiList.h TabString.h
+MultiList.o: MultiList.c ../../../../../../src/utils.h \
+	../../../../../../src/vice.h ../../../../../../src/config.h \
+	../../../../../../src/arch/unix/types.h MultiListP.h \
+	MultiList.h TabString.h
 RegExp.o: RegExp.c ../../../../../../src/vice.h \
 	../../../../../../src/config.h RegExp.h
 ScrList.o: ScrList.c MultiListP.h MultiList.h ScrListP.h ScrList.h
