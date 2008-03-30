@@ -288,6 +288,8 @@ int snapshot_module_write_string(snapshot_module_t *m, const char *s)
     return 0;
 }
 
+/* ------------------------------------------------------------------------- */
+
 int snapshot_module_read_byte(snapshot_module_t *m, BYTE *b_return)
 {
     if (ftell(m->file) + sizeof(BYTE) > m->offset + m->size)
@@ -328,6 +330,49 @@ int snapshot_module_read_string(snapshot_module_t *m, char **charp_return)
 
     return snapshot_read_string(m->file, charp_return);
 }
+
+int snapshot_module_read_byte_into_int(snapshot_module_t *m, int *value_return)
+{
+    BYTE b;
+
+    if (snapshot_module_read_byte(m, &b) < 0)
+        return -1;
+    *value_return = (int)b;
+    return 0;
+}
+
+int snapshot_module_read_word_into_int(snapshot_module_t *m, int *value_return)
+{
+    WORD b;
+
+    if (snapshot_module_read_word(m, &b) < 0)
+        return -1;
+    *value_return = (int)b;
+    return 0;
+}
+
+int snapshot_module_read_dword_into_ulong(snapshot_module_t *m,
+                                          unsigned long *value_return)
+{
+    DWORD b;
+
+    if (snapshot_module_read_dword(m, &b) < 0)
+        return -1;
+    *value_return = (unsigned long)b;
+    return 0;
+}
+
+int snapshot_module_read_dword_into_int(snapshot_module_t *m, int *value_return)
+{
+    DWORD b;
+
+    if (snapshot_module_read_dword(m, &b) < 0)
+        return -1;
+    *value_return = (int)b;
+    return 0;
+}
+
+/* ------------------------------------------------------------------------- */
 
 snapshot_module_t *snapshot_module_create(snapshot_t *s,
                                           const char *name,
