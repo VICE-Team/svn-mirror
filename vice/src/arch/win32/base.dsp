@@ -186,6 +186,10 @@ SOURCE="..\..\log.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\machine-bus.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\machine.c"
 # End Source File
 # Begin Source File
