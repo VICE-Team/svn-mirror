@@ -2,6 +2,12 @@
 # $(CXX) instead of $(CC) when compiling with reSID.
 LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
 
+if HAVE_REALDRIVE
+cbm4linux_ldadd = realdrive.o
+else
+cbm4linux_ldadd =
+endif
+
 ARCH_LIBS = @ARCH_LIBS@
 
 SUBDIRS = \
@@ -177,6 +183,10 @@ cpucore_sources = \
 maincpu_sources = \
 	maincpu.c
 
+realdrive_sources = \
+	realdrive.c \
+	realdrive.h
+
 EXTRA_DIST = \
 	6510core.c \
 	ChangeLog \
@@ -217,7 +227,7 @@ vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
-common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
+common_libs = $(cbm4linux_ldadd) @ARCH_LIBS@ @LIBOBJS@ @READLINE@ @RESID_LIBS@ @SOUND_LIBS@
 
 driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib)
 

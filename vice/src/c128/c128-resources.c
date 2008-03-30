@@ -186,7 +186,7 @@ static int set_sync_factor(resource_value_t v, void *param)
 
     switch ((int)v) {
       case MACHINE_SYNC_PAL:
-        sync_factor = (int) v;
+        sync_factor = (int)v;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_PAL);
         break;
@@ -198,6 +198,7 @@ static int set_sync_factor(resource_value_t v, void *param)
       default:
         return -1;
     }
+
     return 0;
 }
 

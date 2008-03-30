@@ -133,22 +133,23 @@ static int set_sync_factor(resource_value_t v, void *param)
 
     switch ((int)v) {
       case MACHINE_SYNC_PAL:
+        sync_factor = (int)v;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_PAL);
         break;
       case MACHINE_SYNC_NTSC:
+        sync_factor = (int)v;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_NTSC);
         break;
       case MACHINE_SYNC_NTSCOLD:
+        sync_factor = (int)v;
         if (change_timing)
             machine_change_timing(MACHINE_SYNC_NTSCOLD);
         break;
       default:
         return -1;
     }
-
-    sync_factor = (int)v;
 
     return 0;
 }

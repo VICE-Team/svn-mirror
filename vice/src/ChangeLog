@@ -1,5 +1,20 @@
 2002-11-10  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.10.18.
+
+	* Makefile.am, arch/unix/uiperipheral.c, c64/c64.c,
+	drive/drive-resources.c, realdrive.c, realdrive.h: Added
+	Michael Klein's realdrive patch. Adopted to 1.10.
+
+	* c64/c64-resources.c (set_sync_factor): Fixed.
+
+2002-11-10  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/ui.c (window_proc): Call keyboard handlers in
+	every case, still avoid Windows standard handler for F10.
+
+2002-11-10  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.10.17.
 
 2002-11-09  Andreas Matthies  <andreas.matthies@gmx.net>
