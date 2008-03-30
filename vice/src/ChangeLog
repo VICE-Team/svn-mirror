@@ -1,3 +1,24 @@
+2002-08-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.68.
+
+	* drive/drive.c, drive/drive.h (drive_set_disk_id_memory):
+	Also set current track and sector.
+
+	* autostart.c (autostart_advance): Splitted.
+	(disk_eof_callback): Set current track and sector.
+
+2002-08-04  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/res.rc: Enlarged preview box again to display
+	25 rows now.
+
+	* vic20/vic20mem.c: New functions colorram_read and
+	colorram_store that implements random values for the high
+	nibbles in color ram. As long as the VIC memory fetch
+	emulation is line-based there's no better solution for read
+	access in color ram.
+
 2002-08-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.67.

@@ -151,6 +151,17 @@ static BYTE REGPARM1 read_cartrom(ADDRESS addr)
     return mem_cartrom[addr & 0xffff];
 }
 
+/* FIXME: Using random values for high nibble instead of VIC fetches */
+BYTE REGPARM1 colorram_read(ADDRESS addr)
+{
+    return mem_ram[addr] | (rand() & 0xf0);
+}
+
+void REGPARM2 colorram_store(ADDRESS addr, BYTE value)
+{
+    mem_ram[addr & (VIC20_RAM_SIZE - 1)] = value & 0xf;
+}
+
 BYTE REGPARM1 rom_read(ADDRESS addr)
 {
     switch (addr & 0xf000) {
@@ -461,7 +472,7 @@ void mem_initialize_memory(void)
        separately, we map it directly in the corresponding RAM address
        space. */
     set_mem(0x94, 0x97,
-            ram_read, ram_store,
+            colorram_read, colorram_store,
             mem_ram, 0xffff);
 
     /* Setup I/O2 at the expansion port */
