@@ -51,6 +51,7 @@
 #include "ui.h"
 #endif
 
+#include "diskimage.h"
 #include "log.h"
 #include "serial.h"
 #include "types.h"

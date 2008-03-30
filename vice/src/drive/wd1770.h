@@ -27,7 +27,6 @@
 #ifndef _WD1770_H
 #define _WD1770_H
 
-#include "diskimage.h"
 #include "types.h"
 
 /* WD1770 register.  */
@@ -36,6 +35,8 @@
 #define WD1770_TRACK   1
 #define WD1770_SECTOR  2
 #define WD1770_DATA    3
+
+struct disk_image_s;
 
 typedef struct wd1770_s {
     /* WD1770 register.  */
@@ -57,7 +58,7 @@ typedef struct wd1770_s {
     /* Interrupt line.  */
     CLOCK set_drq;
     /* Pointer to the disk image.  */
-    disk_image_t *image;
+    struct disk_image_s *image;
 } wd1770_t;
 
 extern void wd1770d0_init(void);
@@ -80,8 +81,8 @@ extern void wd1770d_reset(struct drive_context_s *drv);
 extern void wd1770_handle_job_code(int dnr);
 extern void wd1770_vsync_hook(void);
 
-extern int wd1770_attach_image(disk_image_t *image, int unit);
-extern int wd1770_detach_image(disk_image_t *image, int unit);
+extern int wd1770_attach_image(struct disk_image_s *image, unsigned int unit);
+extern int wd1770_detach_image(struct disk_image_s *image, unsigned int unit);
 
-#endif                          /* _WD1770_H */
+#endif 
 

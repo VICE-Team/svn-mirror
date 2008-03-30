@@ -47,6 +47,7 @@
 #include "widgets/TextField.h"
 #endif
 
+#include "diskimage.h"
 #include "machine.h"
 #include "ui.h"
 #include "uiedisk.h"

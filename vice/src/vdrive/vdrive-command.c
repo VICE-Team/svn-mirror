@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "diskimage.h"
 #include "log.h"
 #include "serial.h"
 #include "types.h"

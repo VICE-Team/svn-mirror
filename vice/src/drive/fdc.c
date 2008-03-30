@@ -475,7 +475,7 @@ void fdc_init(int fnum, BYTE *buffermem, BYTE *ipromp)
 
 /************************************************************************/
 
-int fdc_attach_image(disk_image_t *image, int unit)
+int fdc_attach_image(disk_image_t *image, unsigned int unit)
 {
     if (unit != 8 && unit != 9)
         return -1;
@@ -497,7 +497,7 @@ int fdc_attach_image(disk_image_t *image, int unit)
     return 0;
 }
 
-int fdc_detach_image(disk_image_t *image, int unit)
+int fdc_detach_image(disk_image_t *image, unsigned int unit)
 {
     if (unit != 8 && unit != 9)
         return -1;

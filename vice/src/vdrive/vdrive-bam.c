@@ -35,9 +35,11 @@
 
 #include "vice.h"
 
+#include <stdio.h>
 #include <string.h>
 
 #include "attach.h"
+#include "diskimage.h"
 #include "log.h"
 #include "types.h"
 #include "vdrive-bam.h"

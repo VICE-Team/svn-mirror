@@ -87,6 +87,7 @@
 #include "c64cia.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "iecdrive.h"
 #include "maincpu.h"
 #include "types.h"
 #include "vicii.h"

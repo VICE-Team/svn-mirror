@@ -31,7 +31,6 @@
 #ifndef _C64IEC_H
 #define _C64IEC_H
 
-#include "iecdrive.h"
 #include "types.h"
 
 extern void iec_cpu_write(BYTE data);
@@ -46,7 +45,9 @@ extern void parallel_cable_cpu_pulse(void);
 extern BYTE parallel_cable_cpu_read(void);
 extern void parallel_cable_cpu_undump(BYTE data);
 
-extern iec_info_t *iec_get_drive_port(void);
+struct iec_info_s;
+
+extern struct iec_info_s *iec_get_drive_port(void);
 extern int iec_callback_index;
 
 typedef void (*iec_cpu_write_callback_t) (BYTE);
