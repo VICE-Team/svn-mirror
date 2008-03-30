@@ -22,5 +22,6 @@ libprinterdrv_a_SOURCES = \
 	output-select.h \
 	output-text.c \
 	output-text.h \
+	output.h \
 	printer.c
 
