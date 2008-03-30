@@ -102,7 +102,8 @@ static int                   count_monitor_interface;
 #endif // #ifdef UIMON_EXPERIMENTAL
 
 
-void uimon_set_interface(monitor_interface_t *monitor_interface_init[], int count)
+void uimon_set_interface(monitor_interface_t **monitor_interface_init,
+                         int count)
 {
 #ifdef UIMON_EXPERIMENTAL
     monitor_interface = monitor_interface_init;

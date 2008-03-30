@@ -27,22 +27,20 @@
 #ifndef _UIMON_H
 #define _UIMON_H
 
-#include "mon.h"
-#include "mon_util.h"
-
 struct console_s;
+struct monitor_interface_s;
 
-extern struct console_s *uimon_window_open    (void);
-extern void              uimon_window_suspend (void);
-extern struct console_s *uimon_window_resume  (void);
-extern void              uimon_window_close   (void);
+extern struct console_s *uimon_window_open(void);
+extern void uimon_window_suspend(void);
+extern struct console_s *uimon_window_resume(void);
+extern void uimon_window_close(void);
 
-extern int               uimon_out            (const char *format, ...);
-extern char *            uimon_in             (void);
+extern int uimon_out(const char *format, ...);
+extern char *uimon_in(void);
 
-extern void              uimon_notify_change  (void);
-extern void              uimon_set_interface  (monitor_interface_t *[], int );
-extern char *            uimon_get_in         (char **);
+extern void uimon_notify_change(void);
+extern void uimon_set_interface(struct monitor_interface_s **, int);
+extern char *uimon_get_in(char **);
 
 #ifdef WIN32
 

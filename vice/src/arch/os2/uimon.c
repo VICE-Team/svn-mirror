@@ -36,7 +36,7 @@
 
 #include "dialogs.h"
 #include "dlg-monitor.h"
-
+#include "mon.h"
 #include "uimon.h"
 #include "utils.h"
 //#include "snippets\\pmwin2.h"   // WinShowDlg
@@ -172,7 +172,9 @@ char *uimon_in()
     return c;
 }
 
-void uimon_set_interface( monitor_interface_t *monitor_interface_init[], int count )
+void uimon_set_interface(monitor_interface_t **monitor_interface_init,
+                         int count)
 {
     log_debug("Interfaces: %d", count);
 }
+

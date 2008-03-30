@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "console.h"
+#include "mon.h"
 #include "uimon.h"
 
 #include <stdarg.h>
@@ -83,6 +84,8 @@ void uimon_notify_change( void )
 {
 }
 
-void uimon_set_interface( monitor_interface_t *monitor_interface_init[], int count )
+void uimon_set_interface(monitor_interface_t **monitor_interface_init,
+                         int count )
 {
 }
+
