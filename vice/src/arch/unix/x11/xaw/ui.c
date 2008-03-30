@@ -123,38 +123,36 @@ void ui_check_mouse_cursor()
     if (fullscreen_is_enabled)
         return;
 #endif
-    
+
     if (_mouse_enabled) {
 #ifdef USE_XF86_EXTENSIONS
-        if (fullscreen_is_enabled) { 
+        if (fullscreen_is_enabled) {
             if (resources_get_value("FullscreenDoubleSize",
-                                    (resource_value_t *) &window_doublesize) < 0)
-                return;
+                                    (resource_value_t *)&window_doublesize) < 0)                return;
         } else
 #endif
         {
             if (resources_get_value("DoubleSize",
-                                    (resource_value_t *) &window_doublesize) < 0)
-                return;
+                                    (resource_value_t *)&window_doublesize) < 0)                return;
         }
 
-        mouse_accel = 4 - 2 * window_doublesize;   
+        mouse_accel = 4 - 2 * window_doublesize;
         XDefineCursor(display,XtWindow(canvas), blankCursor);
         cursor_is_blank = 1;
 
-	XGrabKeyboard(display, XtWindow(canvas),
-		      1, GrabModeAsync,
-		      GrabModeAsync,  CurrentTime);
-	XGrabPointer(display, XtWindow(canvas), 1,
-		     PointerMotionMask | ButtonPressMask |
-		     ButtonReleaseMask,
-		     GrabModeAsync, GrabModeAsync,
-		     XtWindow(canvas),
-		     None, CurrentTime);
+        XGrabKeyboard(display, XtWindow(canvas),
+                      1, GrabModeAsync,
+                      GrabModeAsync,  CurrentTime);
+        XGrabPointer(display, XtWindow(canvas), 1,
+                     PointerMotionMask | ButtonPressMask |
+                     ButtonReleaseMask,
+                     GrabModeAsync, GrabModeAsync,
+                     XtWindow(canvas),
+                     None, CurrentTime);
     } else if (cursor_is_blank) {
         XUndefineCursor(display,XtWindow(canvas));
-	XUngrabPointer(display, CurrentTime);
-	XUngrabKeyboard(display, CurrentTime);
+        XUngrabPointer(display, CurrentTime);
+        XUngrabKeyboard(display, CurrentTime);
     }
 }
 
@@ -165,12 +163,12 @@ static void ui_restore_mouse(void)
         return;
 #endif
 
-  if ( _mouse_enabled && cursor_is_blank) {
-      XUndefineCursor(display,XtWindow(canvas));
-      XUngrabPointer(display, CurrentTime);
-      XUngrabKeyboard(display, CurrentTime);
-      cursor_is_blank = 0; 
-  }
+    if ( _mouse_enabled && cursor_is_blank) {
+        XUndefineCursor(display,XtWindow(canvas));
+        XUngrabPointer(display, CurrentTime);
+        XUngrabKeyboard(display, CurrentTime);
+        cursor_is_blank = 0; 
+    }
 }
 
 static void initBlankCursor(void)
@@ -180,16 +178,16 @@ static void initBlankCursor(void)
     XColor trash, dummy;
 
     XAllocNamedColor(display,
-		     DefaultColormapOfScreen(DefaultScreenOfDisplay(display)),
-		     "black",&trash,&dummy);
+                     DefaultColormapOfScreen(DefaultScreenOfDisplay(display)),
+                     "black",&trash,&dummy);
 
     blank = XCreateBitmapFromData(display, XtWindow(canvas),
                                   no_data, 8,8);
 
     blankCursor = XCreatePixmapCursor(display,
-				      blank,
-				      blank,
-				      &trash, &trash, 0, 0);
+                                      blank,
+                                      blank,
+                                      &trash, &trash, 0, 0);
 }
 
 static void mouse_handler1351(Widget w, XtPointer client_data, XEvent *report,
@@ -197,13 +195,13 @@ static void mouse_handler1351(Widget w, XtPointer client_data, XEvent *report,
 {
     switch(report->type) {
       case MotionNotify:
-	  mouse_move(report->xmotion.x,report->xmotion.y);
-	  break;
+        mouse_move(report->xmotion.x,report->xmotion.y);
+        break;
       case ButtonPress:
       case ButtonRelease:
-	  mouse_button(report->xbutton.button-1,(report->type==ButtonPress));
-	  break;
-    } 
+        mouse_button(report->xbutton.button - 1, (report->type == ButtonPress));
+        break;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -415,16 +413,16 @@ void archdep_ui_init(int argc, char *argv[])
 int ui_init(int *argc, char **argv)
 {
     static XtActionsRec actions[] = {
-	{ "Close", close_action },
+        { "Close", close_action },
     };
 
     prepare_wm_command_data(*argc, argv);
 
     /* Create the toplevel. */
     _ui_top_level = XtAppInitialize(&app_context, "VICE", NULL, 0, argc, argv,
-				    fallback_resources, NULL, 0);
+                                    fallback_resources, NULL, 0);
     if (!_ui_top_level)
-	return -1;
+        return -1;
 
     display = XtDisplay(_ui_top_level);
     screen = XDefaultScreen(display);
@@ -451,10 +449,10 @@ typedef struct {
 int ui_init_finish(void)
 {
     static namedvisual_t classes[] = {
-	{ "PseudoColor", PseudoColor },
-	{ "TrueColor", TrueColor },
-	{ "StaticGray", StaticGray },
-	{ NULL }
+        { "PseudoColor", PseudoColor },
+        { "TrueColor", TrueColor },
+        { "StaticGray", StaticGray },
+        { NULL }
     };
     XVisualInfo visualinfo;
 
@@ -462,15 +460,15 @@ int ui_init_finish(void)
         ui_log = log_open("X11");
 
     if (depth != 0) {
-	int i;
+        int i;
 
-	for (i = 0; classes[i].name != NULL; i++) {
-	    if (XMatchVisualInfo(display, screen, depth, classes[i].class,
-				 &visualinfo))
-		break;
-	}
-	if (!classes[i].name) {
-	    log_error(ui_log,
+        for (i = 0; classes[i].name != NULL; i++) {
+            if (XMatchVisualInfo(display, screen, depth, classes[i].class,
+                                 &visualinfo))
+                break;
+        }
+        if (!classes[i].name) {
+            log_error(ui_log,
                       _("This display does not support suitable %dbit visuals."),
                       depth);
 #if X_DISPLAY_DEPTH == 0
@@ -480,36 +478,36 @@ int ui_init_finish(void)
             log_error(ui_log,
                       _("Please recompile the program for a supported bit depth."));
 #endif
-	    return -1;
-	} else {
-	    log_message(ui_log, _("Found %dbit/%s visual."),
+            return -1;
+        } else {
+            log_message(ui_log, _("Found %dbit/%s visual."),
                         depth, classes[i].name);
             have_truecolor = (classes[i].class == TrueColor);
         }
     } else {
-	/* Autodetect. */
-	int i, j, done;
-	int depths[8];
+        /* Autodetect. */
+        int i, j, done;
+        int depths[8];
 
-	depths[0] = DefaultDepth(display, screen);
-	depths[1] = 0;
+        depths[0] = DefaultDepth(display, screen);
+        depths[1] = 0;
 
-	for (i = done = 0; depths[i] != 0 && !done; i++)
-	    for (j = 0; classes[j].name != NULL; j++) {
-		if (XMatchVisualInfo(display, screen, depths[i],
-				     classes[j].class, &visualinfo)) {
-		    depth = depths[i];
-		    log_message(ui_log, _("Found %dbit/%s visual."),
+        for (i = done = 0; depths[i] != 0 && !done; i++)
+            for (j = 0; classes[j].name != NULL; j++) {
+                if (XMatchVisualInfo(display, screen, depths[i],
+                                     classes[j].class, &visualinfo)) {
+                    depth = depths[i];
+                    log_message(ui_log, _("Found %dbit/%s visual."),
                                 depth, classes[j].name);
                     have_truecolor = (classes[j].class == TrueColor);
-		    done = 1;
-		    break;
-		}
-	    }
-	if (!done) {
-	    log_error(ui_log, _("Cannot autodetect a proper visual."));
-	    return -1;
-	}
+                    done = 1;
+                    break;
+                }
+            }
+        if (!done) {
+            log_error(ui_log, _("Cannot autodetect a proper visual."));
+            return -1;
+        }
     }
 
     visual = visualinfo.visual;
@@ -588,8 +586,8 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
     XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
 
     if (++num_app_shells > MAX_APP_SHELLS) {
-	log_error(ui_log, _("Maximum number of toplevel windows reached."));
-	return NULL;
+        log_error(ui_log, _("Maximum number of toplevel windows reached."));
+        return NULL;
     }
 
     shell = XtVaCreatePopupShell
@@ -605,10 +603,10 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
        you create you must specify visual, colormap, and depth. Note that
        popup dialogs and menus are also shells. */
     XtVaSetValues(shell,
-		  XtNvisual, visual,
-		  XtNdepth, depth,
-		  XtNcolormap, colormap,
-		  NULL);
+                  XtNvisual, visual,
+                  XtNdepth, depth,
+                  XtNcolormap, colormap,
+                  NULL);
 
     pane = XtVaCreateManagedWidget
         ("Form", formWidgetClass, shell,
@@ -617,28 +615,28 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
 
     canvas = XtVaCreateManagedWidget
         ("Canvas",
-	 xfwfcanvasWidgetClass, pane,
+         xfwfcanvasWidgetClass, pane,
          XtNwidth, width,
          XtNheight, height,
          XtNresizable, True,
-	 XtNbottom, XawChainBottom,
+         XtNbottom, XawChainBottom,
          XtNtop, XawChainTop,
          XtNleft, XawChainLeft,
          XtNright, XawChainRight,
          XtNborderWidth, 0,
-	 XtNbackground,BlackPixel(display,screen),
+         XtNbackground,BlackPixel(display,screen),
          NULL);
 
     XtAddEventHandler(shell, EnterWindowMask, False,
-		      (XtEventHandler) enter_window_callback,
+                      (XtEventHandler) enter_window_callback,
                       NULL);
     XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False,
-		      (XtEventHandler) exposure_callback,
+                      (XtEventHandler) exposure_callback,
                       (XtPointer) exposure_proc);
 
     XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask |
-		      ButtonReleaseMask, False,
-		      (XtEventHandler)mouse_handler1351, NULL);
+                      ButtonReleaseMask, False,
+                      (XtEventHandler)mouse_handler1351, NULL);
 
 
     /* Create the status bar on the bottom.  */
@@ -762,7 +760,6 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
                  NULL);
             free(name);
         }
-
     }
 
     /* Assign proper translations to open the menus, if already
@@ -777,22 +774,22 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
         XtVaSetValues(shell, XtNiconPixmap, icon_pixmap, NULL);
 
     if (no_autorepeat) {
-	XtAddEventHandler(canvas, EnterWindowMask, False,
-			  (XtEventHandler) ui_autorepeat_off, NULL);
-	XtAddEventHandler(canvas, LeaveWindowMask, False,
-			  (XtEventHandler) ui_autorepeat_on, NULL);
-	XtAddEventHandler(shell, KeyPressMask, False,
-			  (XtEventHandler) ui_hotkey_event_handler, NULL);
-	XtAddEventHandler(canvas, KeyPressMask, False,
-			  (XtEventHandler) ui_hotkey_event_handler, NULL);
-	XtAddEventHandler(shell, KeyReleaseMask, False,
-			  (XtEventHandler) ui_hotkey_event_handler, NULL);
-	XtAddEventHandler(canvas, KeyReleaseMask, False,
-			  (XtEventHandler) ui_hotkey_event_handler, NULL);
-	XtAddEventHandler(shell, FocusChangeMask, False,
-			  (XtEventHandler) ui_hotkey_event_handler, NULL);
-	XtAddEventHandler(canvas, FocusChangeMask, False,
-			  (XtEventHandler) ui_hotkey_event_handler, NULL);
+        XtAddEventHandler(canvas, EnterWindowMask, False,
+                          (XtEventHandler) ui_autorepeat_off, NULL);
+        XtAddEventHandler(canvas, LeaveWindowMask, False,
+                          (XtEventHandler) ui_autorepeat_on, NULL);
+        XtAddEventHandler(shell, KeyPressMask, False,
+                          (XtEventHandler) ui_hotkey_event_handler, NULL);
+        XtAddEventHandler(canvas, KeyPressMask, False,
+                          (XtEventHandler) ui_hotkey_event_handler, NULL);
+        XtAddEventHandler(shell, KeyReleaseMask, False,
+                          (XtEventHandler) ui_hotkey_event_handler, NULL);
+        XtAddEventHandler(canvas, KeyReleaseMask, False,
+                          (XtEventHandler) ui_hotkey_event_handler, NULL);
+        XtAddEventHandler(shell, FocusChangeMask, False,
+                          (XtEventHandler) ui_hotkey_event_handler, NULL);
+        XtAddEventHandler(canvas, FocusChangeMask, False,
+                          (XtEventHandler) ui_hotkey_event_handler, NULL);
     }
 
     XtRealizeWidget(shell);
@@ -800,7 +797,7 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
 
     attr.backing_store = Always;
     XChangeWindowAttributes(display, XtWindow(canvas),
-    	 		    CWBackingStore, &attr);
+                            CWBackingStore, &attr);
 
     app_shells[num_app_shells - 1].shell = shell;
     app_shells[num_app_shells - 1].canvas = canvas;
@@ -819,14 +816,14 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
             = drive_led2[i];
         XtUnrealizeWidget(drive_led1[i]);
         XtUnrealizeWidget(drive_led2[i]);
-	app_shells[num_app_shells - 1].drive_widgets[i].current_image
-	    = drive_current_image[i];
-	strcpy(&(last_attached_images[i][0]), "");
-	/* the `current_image' widgets are never `UnRealized'. */
-	XtRealizeWidget(app_shells[num_app_shells - 1].
-			drive_widgets[i].current_image);
-	XtManageChild(app_shells[num_app_shells - 1].
-		      drive_widgets[i].current_image);
+        app_shells[num_app_shells - 1].drive_widgets[i].current_image
+            = drive_current_image[i];
+        strcpy(&(last_attached_images[i][0]), "");
+        /* the `current_image' widgets are never `UnRealized'. */
+        XtRealizeWidget(app_shells[num_app_shells - 1].
+                        drive_widgets[i].current_image);
+        XtManageChild(app_shells[num_app_shells - 1].
+                      drive_widgets[i].current_image);
 
     }
 
@@ -908,7 +905,6 @@ void ui_set_left_menu(Widget w)
     if (left_menu != NULL)
         XtDestroyWidget(left_menu);
     left_menu = w;
-
 }
 
 /* Attach `w' as the right menu of all the current open windows.  */
@@ -937,19 +933,17 @@ void ui_set_right_menu(Widget w)
 
 void ui_destroy_drive8_menu(void)
 {
-    if (drive8_menu != NULL)
-    {
+    if (drive8_menu != NULL) {
         XtDestroyWidget(drive8_menu);
-	drive8_menu = NULL;
+        drive8_menu = NULL;
     }
 }
 
 void ui_destroy_drive9_menu(void)
 {
-    if (drive9_menu != NULL)
-    {
+    if (drive9_menu != NULL) {
         XtDestroyWidget(drive9_menu);
-	drive9_menu = NULL;
+        drive9_menu = NULL;
     }
 }
 
@@ -960,10 +954,9 @@ void ui_set_drive8_menu (Widget w)
     int i;
 
     for (i = 0; i < num_app_shells; i++)
-	if (app_shells[i].drive_mapping[0] < 0)
-	{
-	    XtDestroyWidget(w);
-	    return;
+        if (app_shells[i].drive_mapping[0] < 0) {
+            XtDestroyWidget(w);
+            return;
 	}
     
     translation_table =
@@ -977,7 +970,7 @@ void ui_set_drive8_menu (Widget w)
 
     for (i = 0; i < num_app_shells; i++)
         XtOverrideTranslations(app_shells[i].drive_widgets[app_shells[i].drive_mapping[0]].current_image, 
-			       drive8_menu_translations);
+            drive8_menu_translations);
 
     /*ui_destroy_drive8_menu();*/
 
@@ -991,10 +984,9 @@ void ui_set_drive9_menu (Widget w)
     int i;
 
     for (i = 0; i < num_app_shells; i++)
-	if (app_shells[i].drive_mapping[1] < 0)
-	{
-	    XtDestroyWidget(w);
-	    return;
+        if (app_shells[i].drive_mapping[1] < 0) {
+            XtDestroyWidget(w);
+            return;
 	}
 
     translation_table =
@@ -1008,7 +1000,7 @@ void ui_set_drive9_menu (Widget w)
 
     for (i = 0; i < num_app_shells; i++)
         XtOverrideTranslations(app_shells[i].drive_widgets[app_shells[i].drive_mapping[1]].current_image, 
-			       drive9_menu_translations);
+            drive9_menu_translations);
 
     /*ui_destroy_drive9_menu();*/
 
@@ -1032,10 +1024,10 @@ void ui_set_application_icon(const char *icon_data[])
 #ifdef HAVE_LIBXPM
     int i;
     Pixmap icon_pixmap;
-    
+
     /* Create the icon pixmap. */
     XpmCreatePixmapFromData(display, DefaultRootWindow(display),
-			    (char **) icon_data, &icon_pixmap, NULL, NULL);
+                            (char **) icon_data, &icon_pixmap, NULL, NULL);
 
     for (i = 0; i < num_app_shells; i++)
         XtVaSetValues(app_shells[i].shell, XtNiconPixmap, icon_pixmap, NULL);
@@ -1051,7 +1043,7 @@ void ui_exit(void)
 
 #ifdef USE_XF86_EXTENSIONS
     fullscreen_mode_off();
-#endif	
+#endif
 
     b = ui_ask_confirmation(s, _("Do you really want to exit?"));
 
@@ -1059,23 +1051,23 @@ void ui_exit(void)
         int save_resources_on_exit;
         resources_get_value("SaveResourcesOnExit",
                             (resource_value_t *)&save_resources_on_exit);
-	if (save_resources_on_exit) {
-	    b = ui_ask_confirmation(s, _("Save the current settings?"));
-	    if (b == UI_BUTTON_YES) {
-		if (resources_save(NULL) < 0)
-		    ui_error(_("Cannot save settings."));
-	    } else if (b == UI_BUTTON_CANCEL) {
+        if (save_resources_on_exit) {
+            b = ui_ask_confirmation(s, _("Save the current settings?"));
+            if (b == UI_BUTTON_YES) {
+                if (resources_save(NULL) < 0)
+                    ui_error(_("Cannot save settings."));
+            } else if (b == UI_BUTTON_CANCEL) {
                 free(s);
-		return;
+                return;
             }
-	}
-	ui_autorepeat_on();
-	ui_restore_mouse();
-	exit(0);
+        }
+        ui_autorepeat_on();
+        ui_restore_mouse();
+        exit(0);
     }
 
     free(s);
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1087,19 +1079,19 @@ static int alloc_colormap(void)
     int use_private_colormap;
 
     if (colormap)
-	return 0;
+        return 0;
 
     resources_get_value("PrivateColormap",
                         (resource_value_t *)&use_private_colormap);
 
     if (!use_private_colormap
-	&& depth == DefaultDepth(display, screen)
+        && depth == DefaultDepth(display, screen)
         && !have_truecolor) {
-	colormap = DefaultColormap(display, screen);
+        colormap = DefaultColormap(display, screen);
     } else {
         log_message(ui_log, _("Using private colormap."));
-	colormap = XCreateColormap(display, RootWindow(display, screen),
-				   visual, AllocNone);
+        colormap = XCreateColormap(display, RootWindow(display, screen),
+                                   visual, AllocNone);
     }
 
     XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
@@ -1116,21 +1108,20 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     int framerate_int = (int)(framerate + 0.5);
 
     for (i = 0; i < num_app_shells; i++) {
-	if (!percent) {
-	    XtVaSetValues(app_shells[i].speed_label, XtNlabel,
+        if (!percent) {
+            XtVaSetValues(app_shells[i].speed_label, XtNlabel,
                           warp_flag ? _("(warp)") : "",
-			  NULL);
-	} else {
+                          NULL);
+        } else {
             char *str;
 
-	    str = xmsprintf("%d%%, %d fps %s", percent_int, framerate_int,
+            str = xmsprintf("%d%%, %d fps %s", percent_int, framerate_int,
                             warp_flag ? _("(warp)") : "");
-	    XtVaSetValues(app_shells[i].speed_label, XtNlabel, str, NULL);
+            XtVaSetValues(app_shells[i].speed_label, XtNlabel, str, NULL);
             free(str);
-	}
+        }
     }
 }
-
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
     int i, j, num, k, true_emu;
@@ -1141,52 +1132,53 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
     enabled_drives = enable;
     drive_active_led = drive_led_color;
 
-    /* -1 should be safe, otherwise the display code in `ui_display_*'  
+    /* -1 should be safe, otherwise the display code in `ui_display_*'
        was wrong before. */
     memset(drive_mapping, -1, sizeof(drive_mapping));
     resources_get_value("DriveTrueEmulation", (resource_value_t *) &true_emu);
     if (true_emu) {
-	/* num == number of drives which are active; 
-	   drive_mapping[i] stores the widget number into which the i'th drive
-	   things should be displayed */
-	for (i = 0, j = 1; i < NUM_DRIVES; i++, j <<= 1) {
-	    if (enabled_drives & j) 
-		drive_mapping[i] = num++;
-	}
+        /* num == number of drives which are active;
+           drive_mapping[i] stores the widget number into which the i'th drive
+           things should be displayed */
+        for (i = 0, j = 1; i < NUM_DRIVES; i++, j <<= 1) {
+            if (enabled_drives & j)
+                drive_mapping[i] = num++;
+        }
     } else {
-	for (i = 0; i < NUM_DRIVES; i++) {
-	    if (strcmp(&(last_attached_images[i][0]), "") != 0) 
-		drive_mapping[i] = num++; 
-	}
+        for (i = 0; i < NUM_DRIVES; i++) {
+            if (strcmp(&(last_attached_images[i][0]), "") != 0)
+                drive_mapping[i] = num++;
+        }
     }
-    
+
+
     for (i = 0; i < num_app_shells; i++) {
-	/* now show `num' widgets ... */
+        /* now show `num' widgets ... */
         for (j = 0; j < NUM_DRIVES && num && true_emu > 0; j++, num--) {
             XtRealizeWidget(app_shells[i].drive_widgets[j].track_label);
             XtManageChild(app_shells[i].drive_widgets[j].track_label);
-	   
-	    for (k = 0; k < NUM_DRIVES; k++)
-		if (drive_mapping[k] == j) 
-		    break; 
-	    app_shells[i].drive_nleds[j] = drive_num_leds(k);
-	    if (app_shells[i].drive_nleds[j] == 1) {
+
+            for (k = 0; k < NUM_DRIVES; k++)
+                if (drive_mapping[k] == j)
+                    break;
+            app_shells[i].drive_nleds[j] = drive_num_leds(k);
+            if (app_shells[i].drive_nleds[j] == 1) {
                 XtRealizeWidget(app_shells[i].drive_widgets[j].driveled);
                 XtManageChild(app_shells[i].drive_widgets[j].driveled);
                 XtUnrealizeWidget(app_shells[i].drive_widgets[j].driveled1);
                 XtUnrealizeWidget(app_shells[i].drive_widgets[j].driveled2);
-	    } else {
+            } else {
                 XtUnrealizeWidget(app_shells[i].drive_widgets[j].driveled);
                 XtRealizeWidget(app_shells[i].drive_widgets[j].driveled1);
                 XtManageChild(app_shells[i].drive_widgets[j].driveled1);
                 XtRealizeWidget(app_shells[i].drive_widgets[j].driveled2);
                 XtManageChild(app_shells[i].drive_widgets[j].driveled2);
-	    }
+            }
         }
-	/* ...and hide the rest until `NUM_DRIVES' */
-	if (! true_emu)
-	    num = j = 0;	/* hide all label+led widgets in normal mode */
-	
+        /* ...and hide the rest until `NUM_DRIVES' */
+        if (! true_emu)
+            num = j = 0;        /* hide all label+led widgets in normal mode */
+
         for (; j < NUM_DRIVES; j++) {
             XtUnrealizeWidget(app_shells[i].drive_widgets[j].track_label);
             XtUnrealizeWidget(app_shells[i].drive_widgets[j].driveled);
@@ -1199,22 +1191,22 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
     /* now update all image names from the cached names */
     ui_display_drive_current_image2();
 }
-	
-void ui_display_drive_track(int drive_number, int drive_base, 
-							double track_number)
+
+void ui_display_drive_track(int drive_number, int drive_base,
+                                                        double track_number)
 {
     int i;
     /* FIXME: Fixed length.  */
     char str[256];
 
-    sprintf(str, _("%d: Track %.1f"), drive_number + drive_base, 
+    sprintf(str, _("%d: Track %.1f"), drive_number + drive_base,
             (double)track_number);
     for (i = 0; i < num_app_shells; i++) {
         int n = app_shells[i].drive_mapping[drive_number];
-	Widget w;
-	if (n < 0)
-	    return;		/* bad mapping */
-	w = app_shells[i].drive_widgets[n].track_label;
+        Widget w;
+        if (n < 0)
+            return;             /* bad mapping */
+        w = app_shells[i].drive_widgets[n].track_label;
 
         XtVaSetValues(w, XtNlabel, str, NULL);
     }
@@ -1228,21 +1220,27 @@ void ui_display_drive_led(int drive_number, int status)
 
     for (i = 0; i < num_app_shells; i++) {
         int n = app_shells[i].drive_mapping[drive_number];
-	Widget w;
+        Widget w;
 
-	if (n < 0)
-	    return;		/* bad mapping */
-	
-        pixel = status ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
-	w = app_shells[i].drive_widgets[n].driveled;
+        if (n < 0)
+            return;             /* bad mapping */
+
+        pixel = status ? (drive_active_led[drive_number]
+                  ? drive_led_on_green_pixel : drive_led_on_red_pixel)
+                  : drive_led_off_pixel;
+        w = app_shells[i].drive_widgets[n].driveled;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
 
-        pixel = (status & 1) ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
-	w = app_shells[i].drive_widgets[n].driveled1;
+        pixel = (status & 1) ? (drive_active_led[drive_number]
+                  ? drive_led_on_green_pixel : drive_led_on_red_pixel)
+                  : drive_led_off_pixel;
+        w = app_shells[i].drive_widgets[n].driveled1;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
 
-        pixel = (status & 2) ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
-	w = app_shells[i].drive_widgets[n].driveled2;
+        pixel = (status & 2) ? (drive_active_led[drive_number]
+                  ? drive_led_on_green_pixel : drive_led_on_red_pixel)
+                  : drive_led_off_pixel;
+        w = app_shells[i].drive_widgets[n].driveled2;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
     }
 }
@@ -1265,34 +1263,34 @@ void ui_display_drive_current_image(unsigned int drive_number,
     ui_update_flip_menus(drive_number + 8, drive_number + 8);
 }
 
-static void ui_display_drive_current_image2 (void) 
+static void ui_display_drive_current_image2 (void)
 {
     int i, j;
     char *name;
-    
+
     /* Now update all fields according to drive_mapping */
     for (i = 0; i < num_app_shells; i++) {
-	for (j = 0; j < NUM_DRIVES; j++) {
-	    int n = app_shells[i].drive_mapping[j]; 
-	    Widget w;
+        for (j = 0; j < NUM_DRIVES; j++) {
+            int n = app_shells[i].drive_mapping[j];
+            Widget w;
 
-	    /* It is assumed that the j-1'th widget is not touched anymore.
-	       -> the drive mapping code fills the widgets up from 0 */
+            /* It is assumed that the j-1'th widget is not touched anymore.
+               -> the drive mapping code fills the widgets up from 0 */
 
-	    /* first clear the j'th widget */
-	    w = app_shells[i].drive_widgets[j].current_image;
-	    XtVaSetValues(w, XtNlabel, "", NULL);
-	    
-	    if (n < 0) 
-		continue;	/* j'th is drive not mapped */
-	    
-	    /* now fill the j'th widget */
-	    w = app_shells[i].drive_widgets[n].current_image;
+            /* first clear the j'th widget */
+            w = app_shells[i].drive_widgets[j].current_image;
+            XtVaSetValues(w, XtNlabel, "", NULL);
 
-	    fname_split(&(last_attached_images[j][0]), NULL, &name);
-	    XtVaSetValues(w, XtNlabel, name, NULL);
-	    free(name);
-	}
+            if (n < 0)
+                continue;       /* j'th is drive not mapped */
+
+            /* now fill the j'th widget */
+            w = app_shells[i].drive_widgets[n].current_image;
+
+            fname_split(&(last_attached_images[j][0]), NULL, &name);
+            XtVaSetValues(w, XtNlabel, name, NULL);
+            free(name);
+        }
     }
 }
 
@@ -1370,18 +1368,18 @@ void ui_resize_canvas_window(ui_window_t w, int width, int height)
        sucks badly.  */
 
     XtVaGetValues((Widget)w,
-		  XtNwidth, &canvas_width,
-		  XtNheight, &canvas_height,
-		  NULL);
+                  XtNwidth, &canvas_width,
+                  XtNheight, &canvas_height,
+                  NULL);
     XtVaGetValues(XtParent(XtParent((Widget)w)),
-		  XtNwidth, &form_width,
-		  XtNheight, &form_height,
-		  NULL);
+                  XtNwidth, &form_width,
+                  XtNheight, &form_height,
+                  NULL);
 
     XtVaSetValues(XtParent(XtParent((Widget)w)),
-		  XtNwidth, form_width + width - canvas_width,
-		  XtNheight, form_height + height - canvas_height,
-		  NULL);
+                  XtNwidth, form_width + width - canvas_width,
+                  XtNheight, form_height + height - canvas_height,
+                  NULL);
 
     return;
 }
@@ -1459,12 +1457,12 @@ void ui_error(const char *format,...)
     ui_popup(XtParent(error_dialog), _("VICE Error!"), False);
     button = UI_BUTTON_NONE;
     do
-	ui_dispatch_next_event();
+        ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(error_dialog));
     XtDestroyWidget(XtParent(error_dialog));
     ui_dispatch_events();
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     free(str);
 }
 
@@ -1482,13 +1480,13 @@ void ui_message(const char *format,...)
     ui_popup(XtParent(error_dialog), "VICE", False);
     button = UI_BUTTON_NONE;
     do
-	ui_dispatch_next_event();
+        ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(error_dialog));
     ui_check_mouse_cursor();
     XtDestroyWidget(XtParent(error_dialog));
     ui_dispatch_events();
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     free(str);
 }
 
@@ -1504,30 +1502,30 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
     if (console_mode) {
         vfprintf(stderr, format, ap);
-	exit(0);
+        exit(0);
     }
 
     shell = ui_create_transient_shell(_ui_top_level, "jamDialogShell");
     jam_dialog = XtVaCreateManagedWidget
-	("jamDialog", panedWidgetClass, shell, NULL);
+        ("jamDialog", panedWidgetClass, shell, NULL);
     mform = XtVaCreateManagedWidget
-	("messageForm", formWidgetClass, jam_dialog, NULL);
+        ("messageForm", formWidgetClass, jam_dialog, NULL);
 
     str = xmvsprintf(format, ap);
     tmp = XtVaCreateManagedWidget
-	("label", labelWidgetClass, mform,
-	 XtNresize, False, XtNjustify, XtJustifyCenter, XtNlabel, str,
-	 NULL);
+        ("label", labelWidgetClass, mform,
+         XtNresize, False, XtNjustify, XtJustifyCenter, XtNlabel, str,
+         NULL);
 
     bbox = XtVaCreateManagedWidget
-	("buttonBox", boxWidgetClass, jam_dialog,
-	 XtNshowGrip, False, XtNskipAdjust, True,
+        ("buttonBox", boxWidgetClass, jam_dialog,
+         XtNshowGrip, False, XtNskipAdjust, True,
          XtNorientation, XtorientHorizontal, NULL);
 
     tmp = XtVaCreateManagedWidget
-	("resetButton", commandWidgetClass, bbox, NULL);
+        ("resetButton", commandWidgetClass, bbox, NULL);
     XtAddCallback(tmp, XtNcallback, UI_BUTTON_RESET_callback,
-		  (XtPointer) &button);
+                  (XtPointer) &button);
 
     tmp = XtVaCreateManagedWidget
         ("hardResetButton", commandWidgetClass, bbox, NULL);
@@ -1535,26 +1533,26 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
                   (XtPointer) &button);
 
     tmp = XtVaCreateManagedWidget
-	("monButton", commandWidgetClass, bbox, NULL);
+        ("monButton", commandWidgetClass, bbox, NULL);
     XtAddCallback(tmp, XtNcallback, UI_BUTTON_MON_callback,
-		  (XtPointer) &button);
+                  (XtPointer) &button);
 
     ui_popup(XtParent(jam_dialog), "VICE", False);
     button = UI_BUTTON_NONE;
     do
-	ui_dispatch_next_event();
+        ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(jam_dialog));
     XtDestroyWidget(XtParent(jam_dialog));
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     ui_dispatch_events();
     free(str);
 
     switch (button) {
       case UI_BUTTON_MON:
-	ui_restore_mouse();
-	return UI_JAM_MONITOR;
+        ui_restore_mouse();
+        return UI_JAM_MONITOR;
       case UI_BUTTON_HARDRESET:
         return UI_JAM_HARD_RESET;
       case UI_BUTTON_RESET:
@@ -1567,7 +1565,7 @@ int ui_extend_image_dialog(void)
 {
     ui_button_t b;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     b = ui_ask_confirmation(_("Extend disk image"),
                             ("Do you want to extend the disk image"
                              " to 40 tracks?"));
@@ -1589,9 +1587,9 @@ char *ui_select_file(const char *title,
     char *current_dir;
 
     /* we preserve the current directory over the invocations */
-    current_dir = get_current_dir();	/* might be changed elsewhere */
+    current_dir = get_current_dir();    /* might be changed elsewhere */
     if (filesel_dir != NULL) {
-	chdir(filesel_dir);
+        chdir(filesel_dir);
     }
 
     /* We always rebuild the file selector from scratch (which is slow),
@@ -1600,8 +1598,7 @@ char *ui_select_file(const char *title,
        fixes the problem...  */
     file_selector = build_file_selector(_ui_top_level, &button);
 
-    XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart, NULL);
-    XtVaSetValues(file_selector, XtNshowContentsButton,
+    XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart, NULL);    XtVaSetValues(file_selector, XtNshowContentsButton,
                   read_contents_func ? 1 : 0,  NULL);
 
     XtVaSetValues(file_selector, XtNpattern,
@@ -1620,34 +1617,34 @@ char *ui_select_file(const char *title,
 
     ui_popup(XtParent(file_selector), title, False);
     do {
-	button = UI_BUTTON_NONE;
-	while (button == UI_BUTTON_NONE)
-	    ui_dispatch_next_event();
-	XfwfFileSelectorGetStatus((XfwfFileSelectorWidget)file_selector,
-				  &fs_status);
-	if (fs_status.file_selected
-	    && button == UI_BUTTON_CONTENTS
-	    && read_contents_func != NULL) {
-	    char *contents;
-	    char *f = concat(fs_status.path, fs_status.file, NULL);
+        button = UI_BUTTON_NONE;
+        while (button == UI_BUTTON_NONE)
+            ui_dispatch_next_event();
+        XfwfFileSelectorGetStatus((XfwfFileSelectorWidget)file_selector,
+                                  &fs_status);
+        if (fs_status.file_selected
+            && button == UI_BUTTON_CONTENTS
+            && read_contents_func != NULL) {
+            char *contents;
+            char *f = concat(fs_status.path, fs_status.file, NULL);
 
-	    contents = read_contents_func(f);
-	    free(f);
-	    if (contents != NULL) {
-		ui_show_text(fs_status.file, contents, 250, 240);
-		free(contents);
-	    } else {
-		ui_error(_("Unknown image type."));
-	    }
-	}
+            contents = read_contents_func(f);
+            free(f);
+            if (contents != NULL) {
+                ui_show_text(fs_status.file, contents, 250, 240);
+                free(contents);
+            } else {
+                ui_error(_("Unknown image type."));
+            }
+        }
     } while ((!fs_status.file_selected && button != UI_BUTTON_CANCEL)
-	     || button == UI_BUTTON_CONTENTS);
+             || button == UI_BUTTON_CONTENTS);
 
     /* `ret' gets always malloc'ed.  */
     if (fs_status.file_selected)
-	ret = concat(fs_status.path, fs_status.file, NULL);
+        ret = concat(fs_status.path, fs_status.file, NULL);
     else
-	ret = stralloc("");
+        ret = stralloc("");
 
     ui_popdown(XtParent(file_selector));
 #ifndef __alpha
@@ -1655,21 +1652,21 @@ char *ui_select_file(const char *title,
     XtDestroyWidget(XtParent(file_selector));
 #endif
     if (filesel_dir != NULL) {
-	free(filesel_dir);
+        free(filesel_dir);
     }
     filesel_dir = get_current_dir();
     if (current_dir != NULL) {
-	chdir(current_dir);
-	free(current_dir);
+        chdir(current_dir);
+        free(current_dir);
     }
 
     *button_return = button;
     if (button == UI_BUTTON_OK || button == UI_BUTTON_AUTOSTART) {
         /* Caller has to free the filename.  */
-	return ret;
+        return ret;
     } else {
         free(ret);
-	return NULL;
+        return NULL;
     }
 }
 
@@ -1682,7 +1679,7 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
     static ui_button_t button;
 
     if (!input_dialog)
-	input_dialog = build_input_dialog(_ui_top_level, &button,
+        input_dialog = build_input_dialog(_ui_top_level, &button,
                                           &input_dialog_label,
                                           &input_dialog_field);
     XtVaSetValues(input_dialog_label, XtNlabel, prompt, NULL);
@@ -1691,7 +1688,7 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
     ui_popup(XtParent(input_dialog), title, False);
     button = UI_BUTTON_NONE;
     do
-	ui_dispatch_next_event();
+        ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     XtVaGetValues(input_dialog_field, XtNstring, &str, NULL);
     strncpy(buf, str, buflen);
@@ -1710,7 +1707,7 @@ void ui_show_text(const char *title, const char *text, int width, int height)
     ui_popup(XtParent(show_text), title, False);
     button = UI_BUTTON_NONE;
     do
-	ui_dispatch_next_event();
+        ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(show_text));
     XtDestroyWidget(XtParent(show_text));
@@ -1723,13 +1720,13 @@ ui_button_t ui_ask_confirmation(const char *title, const char *text)
     static ui_button_t button;
 
     if (!confirm_dialog)
-	confirm_dialog = build_confirm_dialog(_ui_top_level, &button,
+        confirm_dialog = build_confirm_dialog(_ui_top_level, &button,
                                               &confirm_dialog_message);
     XtVaSetValues(confirm_dialog_message, XtNlabel, text, NULL);
     ui_popup(XtParent(confirm_dialog), title, False);
     button = UI_BUTTON_NONE;
     do
-	ui_dispatch_next_event();
+        ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(confirm_dialog));
     return button;
@@ -1743,18 +1740,18 @@ void ui_update_menus(void)
 }
 
 Widget ui_create_shell(Widget parent, const char *name,
-			      WidgetClass class)
+                              WidgetClass class)
 {
     Widget w;
 
     w = XtVaCreatePopupShell
-	(name, class, parent, XtNinput, True, NULL);
+        (name, class, parent, XtNinput, True, NULL);
 
     XtVaSetValues(w,
-		  XtNvisual, visual,
-		  XtNdepth, depth,
-		  XtNcolormap, colormap,
-		  NULL);
+                  XtNvisual, visual,
+                  XtNdepth, depth,
+                  XtNcolormap, colormap,
+                  NULL);
 
     return w;
 }
@@ -1777,28 +1774,28 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
     ui_dispatch_events();
 
     if (last_visited_app_shell)
-	s = last_visited_app_shell;
+        s = last_visited_app_shell;
     else {
-	/* Choose one realized shell. */
-	int i;
-	for (i = 0; i < num_app_shells; i++)
-	    if (XtIsRealized(app_shells[i].shell)) {
-		s = app_shells[i].shell;
-		break;
-	    }
+        /* Choose one realized shell. */
+        int i;
+        for (i = 0; i < num_app_shells; i++)
+            if (XtIsRealized(app_shells[i].shell)) {
+                s = app_shells[i].shell;
+                break;
+            }
     }
 
     {
-	/* Center the popup. */
-	Dimension my_width, my_height, shell_width, shell_height;
-	Dimension my_x, my_y;
-	Position tlx, tly;
+        /* Center the popup. */
+        Dimension my_width, my_height, shell_width, shell_height;
+        Dimension my_x, my_y;
+        Position tlx, tly;
         int foo;
         unsigned int root_width, root_height, ufoo;
         Window foowin;
 
-	XtRealizeWidget(w);
-	XtVaGetValues(w, XtNwidth, &my_width, XtNheight, &my_height, NULL);
+        XtRealizeWidget(w);
+        XtVaGetValues(w, XtNwidth, &my_width, XtNheight, &my_height, NULL);
 
         /* Now make sure the whole widget is visible.  */
         XGetGeometry(display, RootWindow(display, screen), &foowin, &foo,
@@ -1828,7 +1825,7 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
             my_y = (root_height - my_height) / 2;
         }
 
-	XtVaSetValues(w, XtNx, my_x, XtNy, my_y, NULL);
+        XtVaSetValues(w, XtNx, my_x, XtNy, my_y, NULL);
     }
     XtVaSetValues(w, XtNtitle, title, NULL);
     XtPopup(w, XtGrabExclusive);
@@ -1837,11 +1834,11 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
     /* If requested, wait for this widget to be popped down before
        returning. */
     if (wait_popdown) {
-	int oldcnt = popped_up_count++;
-	while (oldcnt != popped_up_count)
-	    ui_dispatch_next_event();
+        int oldcnt = popped_up_count++;
+        while (oldcnt != popped_up_count)
+            ui_dispatch_next_event();
     } else
-	popped_up_count++;
+        popped_up_count++;
 }
 
 /* Pop down a popup shell. */
@@ -1850,7 +1847,7 @@ void ui_popdown(Widget w)
     XtPopdown(w);
     ui_check_mouse_cursor();
     if (--popped_up_count < 0)
-	popped_up_count = 0;
+        popped_up_count = 0;
 #ifdef USE_XF86_EXTENSIONS
       fullscreen_mode_on_restore();
 #endif
@@ -1874,14 +1871,14 @@ static Widget build_file_selector(Widget parent,
                   XtNokButtonCallback, UI_BUTTON_OK_callback,
                   (XtPointer) button_return);
     XtAddCallback((Widget) file_selector,
-		  XtNcancelButtonCallback, UI_BUTTON_CANCEL_callback,
-		  (XtPointer) button_return);
+                  XtNcancelButtonCallback, UI_BUTTON_CANCEL_callback,
+                  (XtPointer) button_return);
     XtAddCallback((Widget) file_selector,
-		  XtNcontentsButtonCallback, UI_BUTTON_CONTENTS_callback,
-		  (XtPointer) button_return);
+                  XtNcontentsButtonCallback, UI_BUTTON_CONTENTS_callback,
+                  (XtPointer) button_return);
     XtAddCallback((Widget) file_selector,
-		  XtNautostartButtonCallback, UI_BUTTON_AUTOSTART_callback,
-		  (XtPointer) button_return);
+                  XtNautostartButtonCallback, UI_BUTTON_AUTOSTART_callback,
+                  (XtPointer) button_return);
     return file_selector;
 }
 
@@ -1892,21 +1889,21 @@ static Widget build_error_dialog(Widget parent, ui_button_t * button_return,
 
     shell = ui_create_transient_shell(parent, "errorDialogShell");
     ErrorDialog = XtVaCreateManagedWidget
-	("errorDialog", panedWidgetClass, shell, NULL);
+        ("errorDialog", panedWidgetClass, shell, NULL);
     tmp = XtVaCreateManagedWidget
-	("messageForm", formWidgetClass, ErrorDialog, NULL);
+        ("messageForm", formWidgetClass, ErrorDialog, NULL);
     tmp = XtVaCreateManagedWidget
-	("label", labelWidgetClass, tmp,
-	 XtNresize, False, XtNjustify, XtJustifyCenter, XtNlabel, message,
-	 NULL);
+        ("label", labelWidgetClass, tmp,
+         XtNresize, False, XtNjustify, XtJustifyCenter, XtNlabel, message,
+         NULL);
     tmp = XtVaCreateManagedWidget
-	("buttonBox", boxWidgetClass, ErrorDialog,
-	 XtNshowGrip, False, XtNskipAdjust, True,
+        ("buttonBox", boxWidgetClass, ErrorDialog,
+         XtNshowGrip, False, XtNskipAdjust, True,
          XtNorientation, XtorientHorizontal, NULL);
     tmp = XtVaCreateManagedWidget
-	("closeButton", commandWidgetClass, tmp, NULL);
+        ("closeButton", commandWidgetClass, tmp, NULL);
     XtAddCallback(tmp, XtNcallback, UI_BUTTON_CLOSE_callback,
-		  (XtPointer) button_return);
+                  (XtPointer) button_return);
     return ErrorDialog;
 }
 
@@ -1918,27 +1915,27 @@ static Widget build_input_dialog(Widget parent, ui_button_t * button_return,
 
     shell = ui_create_transient_shell(parent, "inputDialogShell");
     input_dialog = XtVaCreateManagedWidget
-	("inputDialog", panedWidgetClass, shell, NULL);
+        ("inputDialog", panedWidgetClass, shell, NULL);
     tmp1 = XtVaCreateManagedWidget
-	("inputForm", formWidgetClass, input_dialog, NULL);
+        ("inputForm", formWidgetClass, input_dialog, NULL);
     *input_dialog_label = XtVaCreateManagedWidget
-	("label", labelWidgetClass, tmp1, XtNresize, False, XtNjustify,
-	 XtJustifyLeft, NULL);
+        ("label", labelWidgetClass, tmp1, XtNresize, False, XtNjustify,
+         XtJustifyLeft, NULL);
     *input_dialog_field = XtVaCreateManagedWidget
-	("field", textfieldWidgetClass, tmp1, XtNfromVert, *input_dialog_label,
-	 NULL);
+        ("field", textfieldWidgetClass, tmp1, XtNfromVert, *input_dialog_label,
+         NULL);
     XtAddCallback(*input_dialog_field, XtNactivateCallback,
                   UI_BUTTON_OK_callback, (XtPointer) button_return);
     tmp1 = XtVaCreateManagedWidget
-	("buttonBox", boxWidgetClass, input_dialog,
-	 XtNshowGrip, False, XtNskipAdjust, True,
-	 XtNorientation, XtorientHorizontal, NULL);
+        ("buttonBox", boxWidgetClass, input_dialog,
+         XtNshowGrip, False, XtNskipAdjust, True,
+         XtNorientation, XtorientHorizontal, NULL);
     tmp2 = XtVaCreateManagedWidget
-	("okButton", commandWidgetClass, tmp1, NULL);
+        ("okButton", commandWidgetClass, tmp1, NULL);
     XtAddCallback(tmp2, XtNcallback,
                   UI_BUTTON_OK_callback, (XtPointer) button_return);
     tmp2 = XtVaCreateManagedWidget
-	("cancelButton", commandWidgetClass, tmp1, XtNfromHoriz, tmp2, NULL);
+        ("cancelButton", commandWidgetClass, tmp1, XtNfromHoriz, tmp2, NULL);
     XtAddCallback(tmp2, XtNcallback,
                   UI_BUTTON_CANCEL_callback, (XtPointer) button_return);
     return input_dialog;
@@ -1952,25 +1949,24 @@ static Widget build_show_text(Widget parent, ui_button_t * button_return,
 
     shell = ui_create_transient_shell(parent, "showTextShell");
     show_text = XtVaCreateManagedWidget
-	("showText", panedWidgetClass, shell, NULL);
+        ("showText", panedWidgetClass, shell, NULL);
     tmp = XtVaCreateManagedWidget
-	("textBox", formWidgetClass, show_text, NULL);
+        ("textBox", formWidgetClass, show_text, NULL);
     tmp = XtVaCreateManagedWidget
-	("text", asciiTextWidgetClass, tmp,
-	 XtNtype, XawAsciiString, XtNeditType, XawtextRead,
-	 XtNscrollVertical, XawtextScrollWhenNeeded, XtNdisplayCaret, False,
-	 XtNstring, text, NULL);
+        ("text", asciiTextWidgetClass, tmp,
+         XtNtype, XawAsciiString, XtNeditType, XawtextRead,
+         XtNscrollVertical, XawtextScrollWhenNeeded, XtNdisplayCaret, False,
+         XtNstring, text, NULL);
     if (width > 0)
-	XtVaSetValues(tmp, XtNwidth, (Dimension)width, NULL);
+        XtVaSetValues(tmp, XtNwidth, (Dimension)width, NULL);
     if (height > 0)
-	XtVaSetValues(tmp, XtNheight, (Dimension)height, NULL);
+        XtVaSetValues(tmp, XtNheight, (Dimension)height, NULL);
     tmp = XtVaCreateManagedWidget
-	("buttonBox", boxWidgetClass, show_text,
-	 XtNshowGrip, False, XtNskipAdjust, True,
-	 XtNorientation, XtorientHorizontal, NULL);
-    tmp = XtVaCreateManagedWidget("closeButton", commandWidgetClass, tmp, NULL);
-    XtAddCallback(tmp, XtNcallback, UI_BUTTON_CLOSE_callback,
-		  (XtPointer) button_return);
+        ("buttonBox", boxWidgetClass, show_text,
+         XtNshowGrip, False, XtNskipAdjust, True,
+         XtNorientation, XtorientHorizontal, NULL);
+    tmp = XtVaCreateManagedWidget("closeButton", commandWidgetClass, tmp, NULL);    XtAddCallback(tmp, XtNcallback, UI_BUTTON_CLOSE_callback,
+                  (XtPointer) button_return);
     return show_text;
 }
 
@@ -1982,30 +1978,30 @@ static Widget build_confirm_dialog(Widget parent,
 
     shell = ui_create_transient_shell(parent, "confirmDialogShell");
     confirm_dialog = XtVaCreateManagedWidget
-	("confirmDialog", panedWidgetClass, shell, NULL);
+        ("confirmDialog", panedWidgetClass, shell, NULL);
     tmp1 = XtVaCreateManagedWidget("messageForm", formWidgetClass,
-				   confirm_dialog, NULL);
+                                   confirm_dialog, NULL);
     *confirm_dialog_message = XtVaCreateManagedWidget
-	("message", labelWidgetClass, tmp1,
+        ("message", labelWidgetClass, tmp1,
          /* XtNresize, False, */
-	 XtNjustify, XtJustifyCenter, NULL);
+         XtNjustify, XtJustifyCenter, NULL);
     tmp1 = XtVaCreateManagedWidget
-	("buttonBox", boxWidgetClass, confirm_dialog,
-	 XtNshowGrip, False, XtNskipAdjust, True,
-	 XtNorientation, XtorientHorizontal, NULL);
+        ("buttonBox", boxWidgetClass, confirm_dialog,
+         XtNshowGrip, False, XtNskipAdjust, True,
+         XtNorientation, XtorientHorizontal, NULL);
     tmp2 = XtVaCreateManagedWidget
-	("yesButton", commandWidgetClass, tmp1, NULL);
+        ("yesButton", commandWidgetClass, tmp1, NULL);
     XtAddCallback(tmp2, XtNcallback, UI_BUTTON_YES_callback,
                   (XtPointer) button_return);
     tmp2 = XtVaCreateManagedWidget
-	("noButton", commandWidgetClass, tmp1, NULL);
+        ("noButton", commandWidgetClass, tmp1, NULL);
     XtAddCallback(tmp2,
-		  XtNcallback, UI_BUTTON_NO_callback,
+                  XtNcallback, UI_BUTTON_NO_callback,
                   (XtPointer) button_return);
     tmp2 = XtVaCreateManagedWidget
-	("cancelButton", commandWidgetClass, tmp1, NULL);
+        ("cancelButton", commandWidgetClass, tmp1, NULL);
     XtAddCallback(tmp2,
-		  XtNcallback, UI_BUTTON_CANCEL_callback,
+                  XtNcallback, UI_BUTTON_CANCEL_callback,
                   (XtPointer) button_return);
     return confirm_dialog;
 }
@@ -2023,9 +2019,9 @@ UI_CALLBACK(exposure_callback)
 {
     Dimension width, height;
 
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     XtVaGetValues(w, XtNwidth, (XtPointer) & width,
-		  XtNheight, (XtPointer) & height, NULL);
+                  XtNheight, (XtPointer) & height, NULL);
 
     if (client_data != NULL)
         ((ui_exposure_handler_t) client_data)((unsigned int)width,
@@ -2036,7 +2032,7 @@ UI_CALLBACK(exposure_callback)
 static void close_action(Widget w, XEvent * event, String * params,
                          Cardinal * num_params)
 {
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
 
     ui_exit();
 }
@@ -2049,7 +2045,7 @@ static void pause_trap(ADDRESS addr, void *data)
 {
     ui_display_paused(1);
     is_paused = 1;
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     while (is_paused)
         ui_dispatch_next_event();
 }

@@ -79,38 +79,38 @@ static Widget build_info_dialog(Widget parent,
 
     shell = ui_create_transient_shell(parent, "infoDialogShell");
     pane = XtVaCreateManagedWidget
-	("infoDialog", panedWidgetClass, shell, NULL);
+        ("infoDialog", panedWidgetClass, shell, NULL);
     info_form = XtVaCreateManagedWidget
-	("textForm", formWidgetClass, pane, NULL);
+        ("textForm", formWidgetClass, pane, NULL);
     button_form = XtVaCreateManagedWidget
-	("buttonBox", boxWidgetClass, pane, XtNshowGrip, False,
-	 XtNskipAdjust, True, XtNorientation, XtorientHorizontal, NULL);
+        ("buttonBox", boxWidgetClass, pane, XtNshowGrip, False,
+         XtNskipAdjust, True, XtNorientation, XtorientHorizontal, NULL);
     va_start(arglist, return_flag);
     while ((str = va_arg(arglist, String))) {
-	tmp = XtVaCreateManagedWidget
-	    ("infoString", labelWidgetClass, info_form,
-	     XtNlabel, str, XtNjustify, XtJustifyCenter, XtNresize, False,
-	     XtNwidth, 220, NULL);
-	if (prevlabel)
-	    XtVaSetValues(tmp, XtNfromVert, prevlabel, NULL);
-	prevlabel = tmp;
+        tmp = XtVaCreateManagedWidget
+            ("infoString", labelWidgetClass, info_form,
+             XtNlabel, str, XtNjustify, XtJustifyCenter, XtNresize, False,
+             XtNwidth, 220, NULL);
+        if (prevlabel)
+            XtVaSetValues(tmp, XtNfromVert, prevlabel, NULL);
+        prevlabel = tmp;
     }
     va_end(arglist);
     tmp = XtVaCreateManagedWidget
-	("closeButton", commandWidgetClass, button_form, NULL);
+        ("closeButton", commandWidgetClass, button_form, NULL);
     XtAddCallback(tmp, XtNcallback,
-		  info_dialog_close_callback, (XtPointer)return_flag);
+                  info_dialog_close_callback, (XtPointer)return_flag);
     tmp = XtVaCreateManagedWidget
-	("licenseButton", commandWidgetClass, button_form,
-	 XtNfromHoriz, tmp, NULL);
+        ("licenseButton", commandWidgetClass, button_form,
+         XtNfromHoriz, tmp, NULL);
     XtAddCallback(tmp, XtNcallback, info_dialog_license_callback, NULL);
     tmp = XtVaCreateManagedWidget
-	("noWarrantyButton", commandWidgetClass, button_form,
-	 XtNfromHoriz, tmp, NULL);
+        ("noWarrantyButton", commandWidgetClass, button_form,
+         XtNfromHoriz, tmp, NULL);
     XtAddCallback(tmp, XtNcallback, info_dialog_no_warranty_callback, NULL);
     tmp = XtVaCreateManagedWidget
-	("contribButton", commandWidgetClass, button_form,
-	 XtNfromHoriz, tmp, NULL);
+        ("contribButton", commandWidgetClass, button_form,
+         XtNfromHoriz, tmp, NULL);
     XtAddCallback(tmp, XtNcallback, info_dialog_contrib_callback, NULL);
     return pane;
 }
@@ -121,20 +121,20 @@ UI_CALLBACK(ui_about)
     static int is_closed;
 
     if (!info_dialog) {
-	info_dialog = build_info_dialog
-	    (_ui_top_level, &is_closed,
-	     "",
+        info_dialog = build_info_dialog
+            (_ui_top_level, &is_closed,
+             "",
              "V I C E",
              "the Versatile Commodore Emulator",
              "",
-	     "Version " VERSION,
+             "Version " VERSION,
 #ifdef UNSTABLE
-	     "(unstable)",
+             "(unstable)",
 #endif
              "",
-             "Copyright © 1997-2001 Daniel Sladic",
-             "Copyright © 1998-2001 Andreas Boose",
-             "Copyright © 1998-2001 Tibor Biczo",
+             "Copyright C 1997-2001 Daniel Sladic",
+             "Copyright C 1998-2001 Andreas Boose",
+             "Copyright C 1998-2001 Tibor Biczo",
              "Copyright C 1999-2001 Andreas Dehmel",
              "Copyright C 1999-2001 Thomas Bretz",
              "Copyright C 1999-2001 Andreas Matthies",
@@ -143,20 +143,20 @@ UI_CALLBACK(ui_about)
              "Copyright C 2000-2001 Spiro Trikaliotis",
 #ifdef HAVE_RESID
              "reSID engine",
-             "Copyright © 1999-2001 Dag Lem",
+             "Copyright C 1999-2001 Dag Lem",
 #endif
              "",
-	     _("Official VICE homepage:"),
-	     "http://www.cs.cmu.edu/~dsladic/vice/vice.html",
+             _("Official VICE homepage:"),
+             "http://www.cs.cmu.edu/~dsladic/vice/vice.html",
              "",
              NULL);
     }
-    suspend_speed_eval();
+    vsync_suspend_speed_eval();
     ui_popup(XtParent(info_dialog), _("VICE Information"), False);
 
     is_closed = 0;
     while (!is_closed)
-	ui_dispatch_next_event();
+        ui_dispatch_next_event();
     ui_popdown(XtParent(info_dialog));
 }
 

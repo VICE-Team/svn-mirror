@@ -100,18 +100,18 @@ static void position_submenu(Widget w, Widget parent)
     XtRealizeWidget(w);
 
     XtVaGetValues(parent, XtNx, &parent_x, XtNy, &parent_y,
-		  XtNwidth, &parent_width, NULL);
+                  XtNwidth, &parent_width, NULL);
     XtVaGetValues(w, XtNwidth, &my_width, XtNheight, &my_height, NULL);
     XtTranslateCoords(XtParent(parent), parent_x, parent_y,
-		      &parent_x, &parent_y);
+                      &parent_x, &parent_y);
     my_x = parent_x + parent_width - 2;
     my_y = parent_y + 1;
     XGetGeometry(my_display, RootWindow(my_display, my_screen), &foowin, &foo,
-		 &foo, &root_width, &root_height, &ufoo, &ufoo);
+                 &foo, &root_width, &root_height, &ufoo, &ufoo);
     if (my_x + my_width > (int) root_width)
-	my_x -= my_width + parent_width - 2;
+        my_x -= my_width + parent_width - 2;
     if (my_y + my_height > (int) root_height)
-	my_y = root_height - my_height;
+        my_y = root_height - my_height;
     XtVaSetValues(w, XtNx, my_x, XtNy, my_y, NULL);
     XtPopup(w, XtGrabNonexclusive);
 }
@@ -122,13 +122,13 @@ static UI_CALLBACK(menu_popup_callback)
         top_menu = w;
     menu_popup++;
     if (!vsid_mode)
-        suspend_speed_eval();
+        vsync_suspend_speed_eval();
 }
 
 static UI_CALLBACK(menu_popdown_callback)
 {
     if (menu_popup > 0)
-	menu_popup--;
+        menu_popup--;
     else
         top_menu = NULL;
 }
@@ -142,7 +142,7 @@ static UI_CALLBACK(submenu_popdown_callback)
 {
     submenu_popped_up--;
     if (XawSimpleMenuGetActiveEntry(w))
-	XtPopdown((Widget)client_data);
+        XtPopdown((Widget)client_data);
 }
 
 /* Yes, this sucks.  Sorry.  */
@@ -153,38 +153,38 @@ static void position_submenu_action(Widget w, XEvent * event,
 
     new_active_entry = XawSimpleMenuGetActiveEntry(w);
     if (new_active_entry != active_entry) {
-	int i, level;
+        int i, level;
         int level_found, active_found;
 
-	new_active_submenu = NULL;
+        new_active_submenu = NULL;
 
-	/* Find the submenu for the current active menu item and the level of
+        /* Find the submenu for the current active menu item and the level of
            this submenu.  */
-	for (level_found = active_found = 0, level = 0, i = 0;
+        for (level_found = active_found = 0, level = 0, i = 0;
              i < num_submenus && !(level_found && active_found);
              i++) {
-	    if (!active_found && submenus[i].parent == new_active_entry) {
-		new_active_submenu = submenus[i].widget;
+            if (!active_found && submenus[i].parent == new_active_entry) {
+                new_active_submenu = submenus[i].widget;
                 active_found = 1;
-	    }
+            }
             if (!level_found && submenus[i].widget == w) {
                 level = submenus[i].level;
                 level_found = 1;
             }
-	}
+        }
 
-	/* Remove all the submenus whose level is higher than this submenu.  */
-	for (i = 0; i < num_submenus; i++) {
-	    if (submenus[i].level > level)
-		XtPopdown(submenus[i].widget);
-	}
+        /* Remove all the submenus whose level is higher than this submenu.  */
+        for (i = 0; i < num_submenus; i++) {
+            if (submenus[i].level > level)
+                XtPopdown(submenus[i].widget);
+        }
 
-	/* Position the submenu for this menu item.  */
-	if (new_active_submenu != NULL && new_active_entry != NULL)
-	    position_submenu(new_active_submenu, new_active_entry);
+        /* Position the submenu for this menu item.  */
+        if (new_active_submenu != NULL && new_active_entry != NULL)
+            position_submenu(new_active_submenu, new_active_entry);
 
-	active_submenu = new_active_submenu;
-	active_entry = new_active_entry;
+        active_submenu = new_active_submenu;
+        active_entry = new_active_entry;
     }
 }
 
@@ -199,7 +199,7 @@ static void popdown_submenus_action(Widget w, XEvent * event,
     /* Pop down all the submenus and the top ones.  */
 
     for (i = 0; i < num_submenus; i++)
-	XtPopdown(submenus[i].widget);
+        XtPopdown(submenus[i].widget);
 
     XtPopdown(top_menu);
     top_menu = NULL;
@@ -261,15 +261,15 @@ Widget ui_menu_create(const char *menu_name, ...)
     level++;
     w = ui_create_shell(_ui_top_level, menu_name, simpleMenuWidgetClass);
     if (level == 1) {
-	XtAddCallback(w, XtNpopupCallback, menu_popup_callback, NULL);
-	XtAddCallback(w, XtNpopdownCallback, menu_popdown_callback, NULL);
+        XtAddCallback(w, XtNpopupCallback, menu_popup_callback, NULL);
+        XtAddCallback(w, XtNpopdownCallback, menu_popdown_callback, NULL);
     }
     XtOverrideTranslations
-	(w, XtParseTranslationTable
-	 ("<BtnMotion>: highlight() PositionSubmenu()\n"
-	  "@Num_Lock<BtnMotion>: highlight() PositionSubmenu()\n"
-	  "<LeaveWindow>: Unhighlight()\n"
-	  "<BtnUp>: Popdownsubmenus() MenuPopdown() notify() unhighlight()"));
+        (w, XtParseTranslationTable
+         ("<BtnMotion>: highlight() PositionSubmenu()\n"
+          "@Num_Lock<BtnMotion>: highlight() PositionSubmenu()\n"
+          "<LeaveWindow>: Unhighlight()\n"
+          "<BtnUp>: Popdownsubmenus() MenuPopdown() notify() unhighlight()"));
 
     va_start(ap, menu_name);
     while ((list = va_arg(ap, ui_menu_entry_t *)) != NULL) {
@@ -279,15 +279,15 @@ Widget ui_menu_create(const char *menu_name, ...)
 
             name = xmsprintf("MenuItem%d", j);
             switch (*list[i].string) {
-              case '-':		/* line */
+              case '-':         /* line */
                 new_item = XtCreateManagedWidget("separator",
                                                  smeLineObjectClass, w,
                                                  NULL, 0);
                 break;
-              case '*':		/* toggle */
+              case '*':         /* toggle */
                 {
                     char *label = make_menu_label(&list[i]);
-                    
+
                     new_item = XtVaCreateManagedWidget(name,
                                                        smeBSBObjectClass, w,
                                                        XtNrightMargin, 20,
@@ -295,11 +295,13 @@ Widget ui_menu_create(const char *menu_name, ...)
                                                        XtNlabel,
                                                        label + 1,
                                                        NULL);
-                    /* Add this item to the list of calls to perform to update the
-                       menu status. */
+                    /* Add this item to the list of calls to perform to update
+                       the menu status. */
                     if (list[i].callback) {
-                        if (num_checkmark_menu_items < MAX_UPDATE_MENU_LIST_SIZE)
-                            checkmark_menu_items[num_checkmark_menu_items++] = new_item;
+                        if (num_checkmark_menu_items
+                            < MAX_UPDATE_MENU_LIST_SIZE)
+                            checkmark_menu_items[num_checkmark_menu_items++]
+                                = new_item;
                         else {
                             fprintf(stderr,
                                     "Maximum number of menus reached!  "
@@ -315,7 +317,7 @@ Widget ui_menu_create(const char *menu_name, ...)
               default:
                 {
                     char *label = make_menu_label(&list[i]);
-                    
+
                     new_item = XtVaCreateManagedWidget(name,
                                                        smeBSBObjectClass, w,
                                                        XtNleftMargin, 20,
@@ -370,7 +372,7 @@ Widget ui_menu_create(const char *menu_name, ...)
 
 #ifdef UI_MENU_DEBUG
     fprintf(stderr, "num_checkmark_menu_items: %d\tnum_submenus = %d.\n",
-	    num_checkmark_menu_items, num_submenus);
+            num_checkmark_menu_items, num_submenus);
 #endif
     va_end(ap);
     return w;
@@ -386,8 +388,8 @@ void ui_menu_update_all(void)
     int i;
 
     for (i = 0; i < num_checkmark_menu_items; i++)
-	XtCallCallbacks(checkmark_menu_items[i],
-			XtNcallback, (XtPointer) !NULL);
+        XtCallCallbacks(checkmark_menu_items[i],
+                        XtNcallback, (XtPointer) !NULL);
 }
 
 void ui_menu_set_tick(Widget w, int flag)
@@ -445,7 +447,7 @@ void _ui_menu_radio_helper(Widget w,
     }
 }
 
-void _ui_menu_string_radio_helper(Widget w, 
+void _ui_menu_string_radio_helper(Widget w,
                                   ui_callback_data_t client_data,
                                   ui_callback_data_t call_data,
                                   const char *resource_name)
@@ -467,3 +469,4 @@ void _ui_menu_string_radio_helper(Widget w,
                                    (const char *) client_data) == 0);
     }
 }
+
