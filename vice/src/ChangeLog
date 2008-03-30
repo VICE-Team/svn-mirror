@@ -1,3 +1,25 @@
+2007-04-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.21.6.
+
+2007-04-25  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* arch/unix/Makefile.am: only include macosx dir in native Mac
+	port
+
+	* arch/unix/archdep.c: added global for default log handle
+
+	* arch/unix/macosx/make-bindist.sh,
+	arch/unix/macosx/vice-launcher.sh,
+	build/macosx/build-vice-dist.sh:
+	added support for native Cocoa port
+
+2007-04-25  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* 6510core.c: Removed the opcode duplicates.
+
+	* sounddrv/soundsun.c: Fixed a typo.
+
 2007-04-22  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.21.5.
