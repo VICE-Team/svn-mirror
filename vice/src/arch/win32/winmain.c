@@ -33,16 +33,16 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-#include "console.h"
+#ifdef _MSC_VER
+#include <crtdbg.h>
+#endif
+
 #include "joy.h"
 #include "log.h"
 #include "machine.h"
 #include "main.h"
-#include "mon.h"
 #include "sound.h"
-#include "utils.h"
 #include "winmain.h"
 #include "video.h"
 
@@ -51,107 +51,6 @@ HINSTANCE winmain_instance;
 HINSTANCE winmain_prev_instance;
 LPSTR winmain_cmd_line;
 int winmain_cmd_show;
-
-#ifdef _MSC_VER
-char **ParseCommandLine(int *argc)
-{
-    char *cmd_line;
-    int _argc;
-    unsigned int i;
-    int scanmode;
-    char **_argv;
-    int startpos;
-
-    cmd_line = GetCommandLine();
-    _argc = 0;
-    scanmode = 2;
-    for (i = 0; i <= strlen(cmd_line); i++) {
-        switch(scanmode) {
-          case 0:
-            /*  Search for end of argument */
-            if (cmd_line[i] == ' ') {
-                scanmode = 2;
-            } else if (cmd_line[i] == 0) {
-            }
-            break;
-          case 1:
-            /*  Search end of '"' */
-            if (cmd_line[i] == '"') {
-                scanmode = 2;
-            } else if (cmd_line[i] == 0) {
-            } else {
-            }
-            break;
-          case 2:
-            /*  Skip leading spaces and search for start of argument */
-            if (cmd_line[i] == ' ') {
-            } else if (cmd_line[i] == 0) {
-            } else if (cmd_line[i] == '"') {
-                scanmode = 1;
-                _argc++;
-            } else {
-                scanmode = 0;
-                _argc++;
-            }
-            break;
-        }
-    }
-
-    _argc = 0;
-    _argv = xmalloc(_argc*sizeof(char*));
-    scanmode = 2;
-    for (i = 0; i <= strlen(cmd_line); i++) {
-        switch(scanmode) {
-          case 0:
-            /*  Search for end of argument */
-            if (cmd_line[i] == ' ') {
-                _argv[_argc] = xmalloc(i-startpos+1);
-                memcpy(_argv[_argc], &cmd_line[startpos], i - startpos);
-                _argv[_argc][i-startpos] = 0;
-                _argc++;
-                scanmode = 2;
-            } else if (cmd_line[i] == 0) {
-                _argv[_argc] = xmalloc(i - startpos+1);
-                memcpy(_argv[_argc], &cmd_line[startpos], i - startpos);
-                _argv[_argc][i - startpos] = 0;
-                _argc++;
-            }
-            break;
-          case 1:
-            /*  Search end of '"' */
-            if (cmd_line[i] == '"') {
-                _argv[_argc] = xmalloc(i - startpos+1);
-                memcpy(_argv[_argc], &cmd_line[startpos], i - startpos);
-                _argv[_argc][i - startpos] = 0;
-                _argc++;
-                scanmode = 2;
-            } else if (cmd_line[i] == 0) {
-                _argv[_argc] = xmalloc(i - startpos+1);
-                memcpy(_argv[_argc], &cmd_line[startpos], i - startpos);
-                _argv[_argc][i - startpos] = 0;
-                _argc++;
-            } else {
-            }
-            break;
-          case 2:
-            /*  Skip leading spaces and search for start of argument */
-            if (cmd_line[i] == ' ') {
-            } else if (cmd_line[i] == 0) {
-            } else if (cmd_line[i] == '"') {
-                scanmode = 1;
-                startpos = i + 1;
-            } else {
-                scanmode = 0;
-                startpos = i;
-            }
-            break;
-        }
-    }
-
-    *argc = _argc;
-    return _argv;
-}
-#endif
 
 
 int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
@@ -163,14 +62,22 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
     winmain_cmd_show = cmd_show;
 
 #ifdef _MSC_VER
+#ifdef _DEBUG
     {
-        int argc;
-        char **argv;
+        int tmpFlag;
 
-        argv = ParseCommandLine(&argc);
-        main_program(argc, argv);
+        // Get current flag
+        tmpFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
 
+        // Turn on leak-checking bit
+        tmpFlag |= _CRTDBG_LEAK_CHECK_DF;
+        tmpFlag |= _CRTDBG_CHECK_ALWAYS_DF;
+
+        // Set flag to the new value
+        _CrtSetDbgFlag(tmpFlag);
     }
+#endif
+    main_program(__argc, __argv);
 #else
     main_program(_argc, _argv);
 #endif
