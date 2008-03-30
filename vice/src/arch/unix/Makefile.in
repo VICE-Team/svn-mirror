@@ -117,7 +117,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src/drive 	
 
 noinst_LIBRARIES = libarch.a
 
-libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.h 	c128ui.c 	c610ui.h 	c610ui.c 	c64ui.h 	c64ui.c 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.h 	petui.c 	print.c 	rs232.c 	types.h 	ui.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c         uiedisk.h 	uimenu.h 	uisettings.h 	uisettings.c 	uisnapshot.h 	vic20ui.h 	vic20ui.c 	videoarch.h 	vsync.c
+libarch_a_SOURCES =  	archdep.c 	archdep.h 	c128ui.h 	c128ui.c 	c610ui.h 	c610ui.c 	c64ui.h 	c64ui.c 	console.c 	coproc.h 	coproc.c 	joystick.c 	joystick.h 	kbd.h 	kmap.c 	main_exit.c 	main_exit.h 	mouse.c 	mouse.h 	petkmap.c 	petui.h 	petui.c 	print.c 	rs232.c 	types.h 	ui.h 	uicmdline.c 	uicmdline.h 	uicommands.h 	uicommands.c         uiedisk.h 	uimenu.h 	uisettings.h 	uisettings.c 	uisnapshot.h 	vic20ui.h 	vic20ui.c 	videoarch.h 	vsync.c
 
 
 bin_SCRIPTS = vsid
@@ -136,9 +136,9 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
-libarch_a_OBJECTS =  archdep.o c128ui.o c610ui.o c64ui.o coproc.o \
-joystick.o kmap.o main_exit.o mouse.o petkmap.o petui.o print.o rs232.o \
-uicmdline.o uicommands.o uisettings.o vic20ui.o vsync.o
+libarch_a_OBJECTS =  archdep.o c128ui.o c610ui.o c64ui.o console.o \
+coproc.o joystick.o kmap.o main_exit.o mouse.o petkmap.o petui.o \
+print.o rs232.o uicmdline.o uicommands.o uisettings.o vic20ui.o vsync.o
 SCRIPTS =  $(bin_SCRIPTS)
 
 CFLAGS = @CFLAGS@
@@ -360,6 +360,8 @@ c64ui.o: c64ui.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/palette.h ../../../src/uiapi.h uimenu.h \
 	x11/xaw/uimenu.h x11/xaw/uihotkey.h uisettings.h \
 	../../../src/utils.h ../../../src/vsync.h x11/xaw/c64icon.xpm
+console.o: console.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/console.h
 coproc.o: coproc.c coproc.h ../../../src/log.h
 joystick.o: joystick.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h ../../../src/resources.h joystick.h \
@@ -404,12 +406,13 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/snapshot.h ../../../src/log.h \
 	../../../src/machine.h ../../../src/maincpu.h \
 	../../../src/alarm.h ../../../src/clkguard.h ../../../src/mon.h \
-	../../../src/mos6510.h ../../../src/mem.h \
-	../../../src/resources.h ../../../src/sound.h \
-	../../../src/tape.h ../../../src/traps.h uicommands.h ui.h \
-	x11/xaw/ui.h ../../../src/palette.h ../../../src/uiapi.h \
-	uimenu.h x11/xaw/uimenu.h x11/xaw/uihotkey.h uiedisk.h \
-	uisnapshot.h ../../../src/utils.h ../../../src/vsync.h
+	../../../src/console.h ../../../src/mos6510.h \
+	../../../src/mem.h ../../../src/resources.h \
+	../../../src/sound.h ../../../src/tape.h ../../../src/traps.h \
+	uicommands.h ui.h x11/xaw/ui.h ../../../src/palette.h \
+	../../../src/uiapi.h uimenu.h x11/xaw/uimenu.h \
+	x11/xaw/uihotkey.h uiedisk.h uisnapshot.h ../../../src/utils.h \
+	../../../src/vsync.h
 uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
 	uisettings.h ui.h x11/xaw/ui.h types.h ../../../src/palette.h \
 	../../../src/uiapi.h uimenu.h x11/xaw/uimenu.h \
@@ -431,11 +434,11 @@ vsync.o: vsync.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/resources.h ../../../src/interrupt.h \
 	../../../src/6510core.h ../../../src/snapshot.h \
 	../../../src/kbdbuf.h ../../../src/log.h ../../../src/maincpu.h \
-	../../../src/alarm.h ../../../src/mon.h ../../../src/mos6510.h \
-	../../../src/sound.h ui.h x11/xaw/ui.h ../../../src/palette.h \
-	../../../src/uiapi.h ../../../src/video.h videoarch.h \
-	x11/xaw/videoarch.h x11/xaw/../videoarch.h ../../../src/vsync.h \
-	joystick.h
+	../../../src/alarm.h ../../../src/mon.h ../../../src/console.h \
+	../../../src/mos6510.h ../../../src/sound.h ui.h x11/xaw/ui.h \
+	../../../src/palette.h ../../../src/uiapi.h \
+	../../../src/video.h videoarch.h x11/xaw/videoarch.h \
+	x11/xaw/../videoarch.h ../../../src/vsync.h joystick.h
 
 info-am:
 info: info-recursive

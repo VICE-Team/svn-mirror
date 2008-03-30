@@ -28,6 +28,7 @@ libarch_a_SOURCES = \
 	c64kbd.c \
 	c64ui.c \
 	c64ui.h \
+	console.c \
 	dirent.c \
 	dirent.h \
 	joystick.c \

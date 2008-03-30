@@ -243,7 +243,7 @@ c128.o: c128.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
 	../../src/diskimage.h ../../src/gcr.h ../../src/log.h \
-	../../src/drive/drivecpu.h ../../src/mon.h \
+	../../src/drive/drivecpu.h ../../src/mon.h ../../src/console.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
 	../../src/iecdrive.h ../../src/arch/unix/kbd.h \
 	../../src/kbdbuf.h ../../src/machine.h ../../src/maincpu.h \
@@ -266,9 +266,9 @@ c128cia1.o: c128cia1.c ../../src/ciacore.h ../../src/vice.h \
 	../../src/arch/unix/types.h ../../src/cia.h \
 	../../src/interrupt.h ../../src/6510core.h ../../src/snapshot.h \
 	../../src/log.h ../../src/resources.h ../../src/maincpu.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/mos6510.h \
-	../../src/c64/c64cia.h ../../src/drive/drive.h \
-	../../src/diskimage.h ../../src/gcr.h \
+	../../src/clkguard.h ../../src/mon.h ../../src/console.h \
+	../../src/mos6510.h ../../src/c64/c64cia.h \
+	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/drive/drivecpu.h ../../src/iecdrive.h \
 	../../src/arch/unix/kbd.h ../../src/keyboard.h \
 	../../src/vicii/vicii.h ../../src/vicii/vicii-mem.h \
@@ -278,8 +278,8 @@ c128cpu.o: c128cpu.c ../../src/vice.h ../../src/config.h ../../src/mem.h \
 	../../src/alarm.h ../../src/interrupt.h ../../src/6510core.h \
 	../maincpu.c ../vice.h ../6510core.h ../alarm.h ../clkguard.h \
 	../datasette.h ../tap.h ../interrupt.h ../log.h ../machine.h \
-	../maincpu.h ../mon.h ../mos6510.h ../snapshot.h ../mem.h \
-	../traps.h ../../src/arch/unix/ui.h \
+	../maincpu.h ../mon.h ../console.h ../mos6510.h ../snapshot.h \
+	../mem.h ../traps.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/x11/xaw/ui.h ../../src/palette.h \
 	../../src/uiapi.h ../resources.h ../6510core.c
 c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
@@ -288,23 +288,25 @@ c128iec.o: c128iec.c ../../src/vice.h ../../src/config.h \
 	../../src/iecdrive.h ../../src/drive/ciad.h \
 	../../src/drive/drive.h ../../src/diskimage.h ../../src/gcr.h \
 	../../src/log.h ../../src/drive/drivecpu.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/6510core.h ../../src/mos6510.h \
-	../../src/maincpu.h ../../src/alarm.h ../../src/clkguard.h \
-	../../src/resources.h ../../src/drive/viad.h ../../src/via.h
+	../../src/console.h ../../src/interrupt.h ../../src/6510core.h \
+	../../src/mos6510.h ../../src/maincpu.h ../../src/alarm.h \
+	../../src/clkguard.h ../../src/resources.h \
+	../../src/drive/viad.h ../../src/via.h
 c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cart.h \
 	../../src/c64/c64cia.h ../../src/snapshot.h \
 	../../src/c64/c64tpi.h ../../src/cmdline.h \
 	../../src/resources.h ../../src/emuid.h ../../src/log.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/alarm.h \
-	../../src/clkguard.h ../../src/mon.h ../../src/interrupt.h \
-	../../src/mos6510.h ../../src/parallel.h ../../src/c64/reu.h \
-	../../src/rs232.h ../../src/sid/sid.h ../../src/sysfile.h \
-	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
-	../../src/palette.h ../../src/uiapi.h ../../src/utils.h \
-	../../src/vdc/vdc.h ../../src/vdc/vdc-mem.h \
-	../../src/vicii/vicii.h ../../src/vicii/vicii-mem.h z80mem.h \
-	../../src/mem.h ../../src/c64/c64acia.h
+	../../src/clkguard.h ../../src/mon.h ../../src/console.h \
+	../../src/interrupt.h ../../src/mos6510.h ../../src/parallel.h \
+	../../src/c64/reu.h ../../src/rs232.h ../../src/sid/sid.h \
+	../../src/sysfile.h ../../src/arch/unix/ui.h \
+	../../src/arch/unix/x11/xaw/ui.h ../../src/palette.h \
+	../../src/uiapi.h ../../src/utils.h ../../src/vdc/vdc.h \
+	../../src/vdc/vdc-mem.h ../../src/vicii/vicii.h \
+	../../src/vicii/vicii-mem.h z80mem.h ../../src/mem.h \
+	../../src/c64/c64acia.h
 c128mmu.o: c128mmu.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64mem.h \
 	../../src/mem.h ../../src/snapshot.h ../../src/cmdline.h \
@@ -317,7 +319,8 @@ z80.o: z80.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/interrupt.h \
 	../../src/6510core.h ../../src/snapshot.h ../../src/log.h \
 	../../src/maincpu.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/mos6510.h z80.h z80mem.h ../../src/mem.h
+	../../src/console.h ../../src/mos6510.h z80.h z80mem.h \
+	../../src/mem.h
 z80mem.o: z80mem.c ../../src/vice.h ../../src/config.h c128mem.h \
 	../../src/arch/unix/types.h c128mmu.h ../../src/c64/c64cia.h \
 	../../src/snapshot.h ../../src/cmdline.h ../../src/resources.h \

@@ -266,7 +266,8 @@ crtc-mem.o: crtc-mem.c ../../src/vice.h ../../src/config.h crtc-mem.h \
 	../../src/resources.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/interrupt.h ../../src/mos6510.h
+	../../src/mon.h ../../src/console.h ../../src/interrupt.h \
+	../../src/mos6510.h
 crtc-resources.o: crtc-resources.c ../../src/vice.h ../../src/config.h \
 	crtc-resources.h ../../src/resources.h crtc.h crtc-mem.h \
 	../../src/arch/unix/types.h ../../src/snapshot.h crtctypes.h \
@@ -298,7 +299,8 @@ crtc-snapshot.o: crtc-snapshot.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ../../src/arch/unix/ui.h \
 	../../src/arch/unix/x11/xaw/ui.h ../../src/uiapi.h \
 	../../src/maincpu.h ../../src/6510core.h ../../src/clkguard.h \
-	../../src/mon.h ../../src/interrupt.h ../../src/mos6510.h
+	../../src/mon.h ../../src/console.h ../../src/interrupt.h \
+	../../src/mos6510.h
 crtc.o: crtc.c ../../src/vice.h ../../src/config.h \
 	crtc-cmdline-options.h crtc-draw.h crtc-resources.h \
 	../../src/resources.h crtc.h crtc-mem.h \
@@ -316,8 +318,8 @@ crtc.o: crtc.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/x11/xaw/ui.h \
 	../../src/uiapi.h ../../src/machine.h ../../src/maincpu.h \
 	../../src/6510core.h ../../src/clkguard.h ../../src/mon.h \
-	../../src/interrupt.h ../../src/mos6510.h ../../src/utils.h \
-	../../src/vsync.h
+	../../src/console.h ../../src/interrupt.h ../../src/mos6510.h \
+	../../src/utils.h ../../src/vsync.h
 
 info-am:
 info: info-am

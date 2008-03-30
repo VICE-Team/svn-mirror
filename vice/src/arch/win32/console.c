@@ -1,5 +1,5 @@
 /*
- * version.h
+ * console.c - Console access interface.
  *
  * Written by
  *  Andreas Boose <boose@linux.rz.fh-hannover.de>
@@ -24,15 +24,45 @@
  *
  */
 
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#include "vice.h"
 
-#ifndef VERSION
-#define VERSION "1.2.7"
-#endif
+#include <stdarg.h>
+#include <stdio.h>
+#include <windows.h>
 
-#ifndef PACKAGE
-#define PACKAGE "vice"
-#endif
+#include "console.h"
 
-#endif
+static FILE *mon_output, *mon_input;
+
+console_t console_open(const char *id)
+{
+    AllocConsole();
+
+    mon_output = fopen("CON", "wt");
+    mon_input = fopen("CON", "rt");
+
+    return 0;
+}
+
+int console_close(console_t log)
+{
+    FreeConsole();
+
+    return 0;
+}
+
+int console_out(console_t log, const char *format, ...)
+{
+    va_list ap;
+
+    va_start(ap, format);
+    vfprintf(mon_output, format, ap);
+
+    return 0;
+}
+
+char *console_in(console_t log)
+{
+    return NULL;
+}
+

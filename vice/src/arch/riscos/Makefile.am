@@ -24,6 +24,7 @@ libarch_a_SOURCES = \
 	c64ui.c \
 	c64ui.h \
 	config.h \
+	console.c \
 	joystick.c \
 	joystick.h \
 	kbd.c \

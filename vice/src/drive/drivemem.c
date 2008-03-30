@@ -380,7 +380,7 @@ void drive_mem_init(drive_context_t *drv, int type)
         drv->drive_ptr->rom_start = 0x8000;
         break;
       default:
-        log_error(LOG_ERR, "DRIVEMEM: Unknow drive type.");
+        log_error(LOG_ERR, "DRIVEMEM: Unknown drive type.");
     }
 }
 

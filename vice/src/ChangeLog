@@ -1,3 +1,49 @@
+1999-12-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.7.
+
+	* vdc/vdc-mem.c (vdc_store): Clear copy flag whenever the
+	cursor is set.  The text blink frequency is adjustable now.
+
+	* mon.c, mon.h, mon_parse.y: Use new console code.
+
+	* arch/unix/archdep.c, arch/msdos/archdep.c,
+	arch/win32/archdep.c, arch/riscos/archdep.c, archapi.h,
+	arch/os2/archdep.c: Moved console code to `console.c'.
+
+	* arch/unix/console.c, arch/msdos/console.c,
+	arch/win32/console.c, arch/riscos/console.c,
+	arch/os2/console.c, console.h: New files.
+
+	* log.c (log_helper): Use default log if no logfile available.
+
+	* main.c (MAIN_PROGRAM): Continue even if there is no logging
+	system.
+
+	* attach.c, arch/win32/uiattach.c, arch/msdos/menudefs.c,
+	attach.h, vdrive/vdrive-iec.c, vdrive/vdrive-iec.h, serial.c,
+	serial.h, fsdevice.c, fsdevice.h, fliplist.c, fliplist.h,
+	c1541.c, uiapi.h, arch/unix/x11/xaw/ui.c, arch/msdos/ui.c,
+	arch/win32/ui.c, arch/riscos/ui.c, arch/os2/ui.c,
+	vdrive/vdrive-dir.h, vdrive/vdrive-dir.c,
+	drive/vdrive-command.c: Use unsigned track and drive numbers.
+
+1999-12-14  Daniel Sladic  <dsladic@cs.cmu.edu>
+
+	* mon_parse.y: Added "until" command and added parameter to
+	mon_add_checkpoint() calls.
+
+	* mon.h: Changed mon_add_checkpoint prototype. Added a flag
+	to the checkpoint structure to mark temporary ones.
+
+	* mon.c (mon_cmd_array, print_checkpoint_info,
+	mon_check_checkpoint, mon_add_checkpoint):
+	Added "until" command support.
+	(mon_symbol_table_lookup_addr, mon_add_name_to_symbol_table):
+	Added support for using .PC as an address value.
+	(mon_check_checkpoint): Open console to be able to perform
+	output when a checkpoint is hit.
+
 1999-12-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.6.

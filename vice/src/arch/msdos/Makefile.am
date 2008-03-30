@@ -32,6 +32,7 @@ libarch_a_SOURCES = \
 	c64ui.h \
 	cbmcharsets.c \
 	cbmcharsets.h \
+	console.c \
 	grabkey.c \
 	grabkey.h \
 	joystick.c \

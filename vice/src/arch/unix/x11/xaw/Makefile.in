@@ -316,8 +316,9 @@ ui.o: ui.c ../../../../../src/vice.h ../../../../../src/config.h \
 	../../../../../src/log.h ../../../../../src/machine.h \
 	../../../../../src/maincpu.h ../../../../../src/6510core.h \
 	../../../../../src/alarm.h ../../../../../src/clkguard.h \
-	../../../../../src/mon.h ../../../../../src/interrupt.h \
-	../../../../../src/snapshot.h ../../../../../src/mos6510.h \
+	../../../../../src/mon.h ../../../../../src/console.h \
+	../../../../../src/interrupt.h ../../../../../src/snapshot.h \
+	../../../../../src/mos6510.h \
 	../../../../../src/arch/unix/mouse.h \
 	../../../../../src/c64/psid.h ui.h ../../../../../src/palette.h \
 	../../../../../src/uiapi.h uihotkey.h uimenu.h \
