@@ -68,9 +68,9 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uievent.$(OBJEXT) uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) \
 	uihelp.$(OBJEXT) uiide64.$(OBJEXT) uijoystick.$(OBJEXT) \
 	uikeyboard.$(OBJEXT) uilib.$(OBJEXT) uimediafile.$(OBJEXT) \
-	uimmc64.$(OBJEXT) uimon.$(OBJEXT) uinetwork.$(OBJEXT) \
-	uiperipheral.$(OBJEXT) uipetreu.$(OBJEXT) uipetset.$(OBJEXT) \
-	uiplus256k.$(OBJEXT) uiplus4cart.$(OBJEXT) \
+	uimmc64.$(OBJEXT) uimon.$(OBJEXT) uimouse.$(OBJEXT) \
+	uinetwork.$(OBJEXT) uiperipheral.$(OBJEXT) uipetreu.$(OBJEXT) \
+	uipetset.$(OBJEXT) uiplus256k.$(OBJEXT) uiplus4cart.$(OBJEXT) \
 	uiplus4mem.$(OBJEXT) uiplus60k.$(OBJEXT) \
 	uiquicksnapshot.$(OBJEXT) uiram.$(OBJEXT) uiramcart.$(OBJEXT) \
 	uireu.$(OBJEXT) uirom.$(OBJEXT) uirs232.$(OBJEXT) \
@@ -154,6 +154,10 @@ GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNOMEUI_FALSE = @GNOMEUI_FALSE@
 GNOMEUI_TRUE = @GNOMEUI_TRUE@
+GTKGL_CFLAGS = @GTKGL_CFLAGS@
+GTKGL_LIBS = @GTKGL_LIBS@
+GTK_CFLAGS = @GTK_CFLAGS@
+GTK_LIBS = @GTK_LIBS@
 HAVE_RAWDRIVE_FALSE = @HAVE_RAWDRIVE_FALSE@
 HAVE_RAWDRIVE_TRUE = @HAVE_RAWDRIVE_TRUE@
 HAVE_READLINE = @HAVE_READLINE@
@@ -210,6 +214,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PERL = @PERL@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -292,6 +297,7 @@ ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_RANLIB = @ac_ct_RANLIB@
 ac_ct_STRIP = @ac_ct_STRIP@
+ac_pt_PKG_CONFIG = @ac_pt_PKG_CONFIG@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
 am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
 am__fastdepCXX_FALSE = @am__fastdepCXX_FALSE@
@@ -409,6 +415,7 @@ libarch_a_SOURCES = \
 	resgeoram.rc \
 	reside64.rc \
 	resmmc64.rc \
+	resmouse.rc \
 	respet.rc \
 	respetreu.rc \
  	resplus256k.rc \
@@ -484,6 +491,8 @@ libarch_a_SOURCES = \
 	uimmc64.h \
 	uimon.c \
 	uimonmsg.h \
+	uimouse.c \
+	uimouse.h \
 	uinetwork.c \
 	uinetwork.h \
 	uiperipheral.c \
@@ -808,6 +817,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimediafile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimmc64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimouse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uinetwork.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipheral.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipetreu.Po@am__quote@
@@ -1137,12 +1147,13 @@ resc128.o : $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/reside64.rc $(srcdir)/resdrivec128.rc \
-	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc
+	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc
 	cat >resc128cat.rc $(srcdir)/resc128.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc \
 	$(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resmmc64.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
-	$(srcdir)/resdrivec128.rc $(srcdir)/resdigimax.rc $(srcdir)/restfe.rc
+	$(srcdir)/resdrivec128.rc $(srcdir)/resdigimax.rc \
+	$(srcdir)/resmouse.rc $(srcdir)/restfe.rc
 	$(WRC) -i resc128cat.rc -o resc128.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32 \
@@ -1155,14 +1166,15 @@ resc64.o : $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/resplus256k.rc $(srcdir)/resplus60k.rc \
 	$(srcdir)/resc64_256k.rc $(srcdir)/reside64.rc \
-	$(srcdir)/resdrivec64.rc $(srcdir)/resdigimax.rc $(srcdir)/restfe.rc
+	$(srcdir)/resdrivec64.rc $(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc \
+	$(srcdir)/restfe.rc
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/resramcart.rc $(srcdir)/resplus256k.rc \
 	$(srcdir)/resplus60k.rc $(srcdir)/resc64_256k.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
-	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc
+	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc
 	$(WRC) -i resc64cat.rc -o resc64.res \
 	--include-dir $(top_builddir)/src \
 	--include-dir $(top_srcdir)/src/arch/win32  \

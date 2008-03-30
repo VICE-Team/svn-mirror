@@ -1,3 +1,158 @@
+2007-12-30  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.7.
+
+2007-12-28  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/x11ui.h: Added X11 specific prototypes conditional
+	to USE_XF86_EXTENSIONS.
+
+	* arch/unix/x11/Makefile.am (EXTRA_libx11ui_a_SOURCES): Removed
+	dga1.[ch], dga2.[ch].
+
+	* arch/unix/x11/gnome/gnomevideo.c (video_canvas_resize): use
+	rename `ui_resize_canvas_window()' instead of
+	`x11ui_open_canvas_window()' - for consistency.
+
+	* arch/unix/x11/dga1.[ch]: removed.
+	* arch/unix/x11/dga2.[ch]: removed.
+	
+	* arch/unix/gui/uicrtc.c (all): removed dga1, dga2 code.
+	* arch/unix/gui/uited.c: Likewise.
+	* arch/unix/gui/uivdc.c: Likewise.
+	* arch/unix/gui/uivic.c: Likewise.
+	* arch/unix/gui/uivicii.c: Likewise.
+	* arch/unix/x11/fullscreen.c: Likewise.
+	* arch/unix/x11/vidmode.c: Likewise.
+
+	* arch/unix/x11/gnome/x11ui.c (exposure_callback_canvas):
+	replaced C++ comments
+	(ui_create_status_bar): (all) fixed derecated`gtk_tooltips...()'
+	to new GTK API.
+	#include `x11ui.h' dependent on USE_XF86_EXTENSIONS.
+
+	* arch/unix/gui/vsidui.c: use `vsidui_top_menu' only if
+	USE_GNOMEUI is set.
+	removed inclusion of `x11ui.h'.
+
+	* arch/unix/x11/xaw/x11ui.c renamed `x11ui_open_canvas_window()'
+	to `ui_open_canvas_window()' to be consistent with `ui_...()' 
+	functions. 
+ 	* arch/unix/x11/gnome/x11ui.c: changed to fit to changed name.
+	* arch/unix/x11/xaw/x11video.c: Likewise.
+	* arch/unix/x11/xaw/uiarch.h: Likewise.
+	* arch/unix/x11/gnome/gnomevideo.c: Likewise.
+	* arch/unix/x11/gnome/uiarch.h: Likewise.
+	* arch/unix/gui/vsidui.c: Likewise.
+	
+	* arch/unix/x11/gnome/uicolor.c (uicolor_set_palette): return 0 to
+	fit prototype.
+
+	* arch/unix/x11/gnome/uimenu.c: include <string.h>
+	* arch/unix/x11/gnome/uinetplay.c: Likewise.
+	* arch/unix/x11/gnome/uiscreenshot.c: Likewise.
+ 	* arch/unix/x11/xrandr.c: Likewise.
+ 	* arch/unix/x11/openGL_sync.c: Likewise.
+ 	* arch/unix/gui/plus4ui.c: Likewise.
+	* arch/unix/x11/gnome/uiedisk.c: Likewise.
+
+2007-12-26  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* Makefile.am, libm_math.c, libm_math.h: Added needed math
+	functions in case there is no libm present on a platform.
+
+2007-11-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/os2/dialogs/dialogs.rc: Fixed some os/2 openwatcom
+	related issues.
+
+2007-12-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am, arch/amigaos/c128ui.c,
+	arch/amigaos/c128uires.h, arch/amigaos/c64ui.c,
+	arch/amigaos/c64uires.h, arch/amigaos/intl.c,
+	arch/amigaos/intl.txt, arch/amigaos/mui/uimouse.c,
+	arch/amigaos/mui/uimouse.h, arch/amigaos/uires.h,
+	arch/beos/c128ui.cc, arch/beos/c64ui.cc,
+	arch/beos/constants.h, arch/beos/vicemenu.cc,
+	arch/msdos/c128ui.c, arch/msdos/c64ui.c,
+	arch/unix/gui/c128ui.c, arch/unix/gui/c64ui.c,
+	arch/unix/gui/uimouse.c, arch/win32/Makefile.am,
+	arch/win32/arch.dsp, arch/win32/c128ui.c, arch/win32/c64ui.c,
+	arch/win32/intl.c, arch/win32/resc128.rc,
+	arch/win32/resc64.rc,
+	arch/win32/resdialogs.txt, arch/win32/resmenu.txt,
+	arch/win32/resmouse.rc, arch/win32/uimouse.c,
+	arch/win32/uimouse.h, arch/win32/watcom/arch.tgt,
+	arch/win32/watcom/vice.wpj, arch/win32/x128.dsp,
+	arch/win32/x64.dsp, c128/c128cia1.c, c64/c64cia1.c, mouse.c,
+	mouse.h, translate.c, translate.txt: Added experimental NEOS
+	and Amiga mouse support provided by Hannu Nuotio
+	<hannu.nuotio@pp.inet.fi>.
+
+	* arch/beos/joy.cc, arch/beos/ui_cbm2.cc,
+	arch/beos/ui_datasette.cc, arch/beos/ui_device.cc,
+	arch/beos/ui_drive.cc, arch/beos/ui_joystick.cc,
+	arch/beos/ui_netplay.cc, arch/beos/ui_pet.cc,
+	arch/beos/ui_ram.cc, arch/beos/ui_sid.cc,
+	arch/beos/ui_sound.cc, arch/beos/ui_vic20.cc,
+	arch/beos/ui_vicii.cc: Added fixes
+	provided by Marcus Sutton <loggedoubt@gmail.com>.
+
+	* c128/c128cpu.c, c128/c128mem.h, c128/z80mem.h, c64/c64mem.h,
+	cbm2/cbm2cpu.c, cbm2/cbm2mem.c, cbm2/cbm2memsnapshot.c,
+	drive/drivemem.c, monitor/monitor.c, pet/petmem.c,
+	pet/petmemsnapshot.c, plus4/plus4mem.c,
+	plus4/plus4memcsory256k.c, plus4/plus4memhannes256k.c,
+	plus4/ted-badline.c, plus4/ted-mem.c, plus4/ted.c,
+	vic20/vic-snapshot.c, vic20/vic.c, vic20/vic20mem.c,
+	vic20/vic20memsnapshot.c, vicii/vicii-fetch.c,
+	vicii/vicii-snapshot.c, vicii/vicii.c: Added some openwatcom
+	related fixes.
+
+2007-12-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* mouse.c: Fixed a command line options issue.
+
+	* network.c: Added a dummy network_get_mode() function for
+	when HAVE_NETWORK is not defined.
+
+2007-12-09  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* arch/unix/gui/c128ui.c, arch/unix/gui/uiattach.c,
+	arch/unix/gui/uic64cart.c, arch/unix/gui/uicommands.c,
+	arch/unix/gui/uicrtc.c, arch/unix/gui/uidrive.c,
+	arch/unix/gui/uidrivec64c128.c, arch/unix/gui/uidriveiec.c,
+	arch/unix/gui/uidriveplus4.c, arch/unix/gui/uifliplist.c,
+	arch/unix/gui/uiide64.c, arch/unix/gui/uijoystick2.c,
+	arch/unix/gui/uikeyboard.c, arch/unix/gui/uimouse.c,
+	arch/unix/gui/uipalemu.c, arch/unix/gui/uipalette.c,
+	arch/unix/gui/uiprinteriec.c,
+	arch/unix/gui/uiprinteriecplus4.c,
+	arch/unix/gui/uiprinterieee.c, arch/unix/gui/uiromset.c,
+	arch/unix/gui/uirs232.c, arch/unix/gui/uisettings.c,
+	arch/unix/gui/uited.c, arch/unix/gui/uivdc.c,
+	arch/unix/gui/uivic.c, arch/unix/gui/uivicii.c,
+	arch/unix/gui/vic20ui.c, arch/unix/gui/vsidui.c: remove True
+	and False, they are X-specific
+
+	* arch/unix/x11/gnome/uiarch.h, arch/unix/x11/gnome/uicolor.c,
+	arch/unix/x11/gnome/uimenu.c, arch/unix/x11/gnome/uimenu.h,
+	arch/unix/x11/gnome/x11ui.c: remove X-specific definitions,
+	replacing them with GTK-specific ones
+
+	* arch/unix/x11/gnome/x11ui.c: use gdk_gc_set_rgb_fg_color
+	instead of gdk_gc_set_foreground, the former does not require
+	the color to be allocated in advance
+
+	* arch/unix/x11/gnome/x11ui.c: use gtkglext (GTK extensions to
+	support OpenGL) to rescale and display the image
+
+	* arch/unix/x11/kbd.c, arch/unix/x11/uihotkey.c,
+	arch/unix/x11/videoarch.h, arch/unix/x11/video.c,
+	arch/unix/x11/x11menu.c: removed, code moved to the relevant
+	xaw and gnome folders
+
 2007-12-09  Andreas Boose  <viceteam@t-online.de>
 
         * Version 1.22.6.

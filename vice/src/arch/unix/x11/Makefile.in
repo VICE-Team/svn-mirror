@@ -52,11 +52,10 @@ LIBRARIES = $(noinst_LIBRARIES)
 ARFLAGS = cru
 libx11ui_a_AR = $(AR) $(ARFLAGS)
 am_libx11ui_a_OBJECTS = c128icon.$(OBJEXT) c64icon.$(OBJEXT) \
-	cbm2icon.$(OBJEXT) fullscreen.$(OBJEXT) kbd.$(OBJEXT) \
-	peticon.$(OBJEXT) plus4icon.$(OBJEXT) qnxshm.$(OBJEXT) \
-	renderxv.$(OBJEXT) ui-cmdline-options.$(OBJEXT) \
-	ui-resources.$(OBJEXT) uihotkey.$(OBJEXT) vic20icon.$(OBJEXT) \
-	video.$(OBJEXT) x11menu.$(OBJEXT)
+	cbm2icon.$(OBJEXT) fullscreen.$(OBJEXT) peticon.$(OBJEXT) \
+	plus4icon.$(OBJEXT) qnxshm.$(OBJEXT) renderxv.$(OBJEXT) \
+	ui-cmdline-options.$(OBJEXT) ui-resources.$(OBJEXT) \
+	vic20icon.$(OBJEXT)
 libx11ui_a_OBJECTS = $(am_libx11ui_a_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -132,6 +131,10 @@ GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNOMEUI_FALSE = @GNOMEUI_FALSE@
 GNOMEUI_TRUE = @GNOMEUI_TRUE@
+GTKGL_CFLAGS = @GTKGL_CFLAGS@
+GTKGL_LIBS = @GTKGL_LIBS@
+GTK_CFLAGS = @GTK_CFLAGS@
+GTK_LIBS = @GTK_LIBS@
 HAVE_RAWDRIVE_FALSE = @HAVE_RAWDRIVE_FALSE@
 HAVE_RAWDRIVE_TRUE = @HAVE_RAWDRIVE_TRUE@
 HAVE_READLINE = @HAVE_READLINE@
@@ -188,6 +191,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PERL = @PERL@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -270,6 +274,7 @@ ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_RANLIB = @ac_ct_RANLIB@
 ac_ct_STRIP = @ac_ct_STRIP@
+ac_pt_PKG_CONFIG = @ac_pt_PKG_CONFIG@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
 am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
 am__fastdepCXX_FALSE = @am__fastdepCXX_FALSE@
@@ -329,10 +334,6 @@ INCLUDES = \
 
 noinst_LIBRARIES = libx11ui.a
 EXTRA_libx11ui_a_SOURCES = \
-	dga1.c \
-	dga1.h \
-	dga2.c \
-	dga2.h \
 	openGL_sync.c \
 	xrandr.c \
 	xrandr.h \
@@ -344,7 +345,6 @@ libx11ui_a_SOURCES = \
 	c64icon.c \
 	cbm2icon.c \
 	fullscreen.c \
-	kbd.c \
 	peticon.c \
 	plus4icon.c \
 	qnxipc.h \
@@ -354,11 +354,7 @@ libx11ui_a_SOURCES = \
 	renderxv.h \
 	ui-cmdline-options.c \
 	ui-resources.c \
-	uihotkey.c \
 	vic20icon.c \
-	video.c \
-	videoarch.h \
-	x11menu.c \
 	x11menu.h \
 	x11ui.h
 
@@ -414,10 +410,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c128icon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/c64icon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cbm2icon.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dga1.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dga2.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fullscreen.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbd.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/openGL_sync.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/peticon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/plus4icon.Po@am__quote@
@@ -425,11 +418,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/renderxv.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui-cmdline-options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui-resources.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uihotkey.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vic20icon.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/video.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/vidmode.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/x11menu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/xrandr.Po@am__quote@
 
 .c.o:

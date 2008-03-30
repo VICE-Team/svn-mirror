@@ -94,13 +94,14 @@ am__objects_1 = alarm.$(OBJEXT) attach.$(OBJEXT) autostart.$(OBJEXT) \
 	info.$(OBJEXT) init.$(OBJEXT) initcmdline.$(OBJEXT) \
 	interrupt.$(OBJEXT) ioutil.$(OBJEXT) joystick.$(OBJEXT) \
 	kbdbuf.$(OBJEXT) keyboard.$(OBJEXT) lib.$(OBJEXT) \
-	log.$(OBJEXT) machine-bus.$(OBJEXT) machine.$(OBJEXT) \
-	main.$(OBJEXT) mouse.$(OBJEXT) network.$(OBJEXT) \
-	palette.$(OBJEXT) ram.$(OBJEXT) rawfile.$(OBJEXT) \
-	resources.$(OBJEXT) romset.$(OBJEXT) screenshot.$(OBJEXT) \
-	snapshot.$(OBJEXT) sound.$(OBJEXT) sysfile.$(OBJEXT) \
-	translate.$(OBJEXT) traps.$(OBJEXT) util.$(OBJEXT) \
-	vsync.$(OBJEXT) zfile.$(OBJEXT) zipcode.$(OBJEXT)
+	libm_math.$(OBJEXT) log.$(OBJEXT) machine-bus.$(OBJEXT) \
+	machine.$(OBJEXT) main.$(OBJEXT) mouse.$(OBJEXT) \
+	network.$(OBJEXT) palette.$(OBJEXT) ram.$(OBJEXT) \
+	rawfile.$(OBJEXT) resources.$(OBJEXT) romset.$(OBJEXT) \
+	screenshot.$(OBJEXT) snapshot.$(OBJEXT) sound.$(OBJEXT) \
+	sysfile.$(OBJEXT) translate.$(OBJEXT) traps.$(OBJEXT) \
+	util.$(OBJEXT) vsync.$(OBJEXT) zfile.$(OBJEXT) \
+	zipcode.$(OBJEXT)
 am_x128_OBJECTS = $(am__objects_1)
 x128_OBJECTS = $(am_x128_OBJECTS)
 am__DEPENDENCIES_9 = $(top_builddir)/src/c128/libc128.a
@@ -279,6 +280,10 @@ GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNOMEUI_FALSE = @GNOMEUI_FALSE@
 GNOMEUI_TRUE = @GNOMEUI_TRUE@
+GTKGL_CFLAGS = @GTKGL_CFLAGS@
+GTKGL_LIBS = @GTKGL_LIBS@
+GTK_CFLAGS = @GTK_CFLAGS@
+GTK_LIBS = @GTK_LIBS@
 HAVE_RAWDRIVE_FALSE = @HAVE_RAWDRIVE_FALSE@
 HAVE_RAWDRIVE_TRUE = @HAVE_RAWDRIVE_TRUE@
 HAVE_READLINE = @HAVE_READLINE@
@@ -335,6 +340,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PERL = @PERL@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -417,6 +423,7 @@ ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_RANLIB = @ac_ct_RANLIB@
 ac_ct_STRIP = @ac_ct_STRIP@
+ac_pt_PKG_CONFIG = @ac_pt_PKG_CONFIG@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
 am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
 am__fastdepCXX_FALSE = @am__fastdepCXX_FALSE@
@@ -597,6 +604,7 @@ noinst_HEADERS = \
 	kbdbuf.h \
 	keyboard.h \
 	lib.h \
+	libm_math.h \
 	log.h \
 	machine-bus.h \
 	machine-drive.h \
@@ -686,6 +694,7 @@ base_sources = \
 	kbdbuf.c \
 	keyboard.c \
 	lib.c \
+	libm_math.c \
 	log.c \
 	machine-bus.c \
 	machine.c \
@@ -1113,6 +1122,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kbdbuf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/keyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lib.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libm_math.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/log.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/machine-bus.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/machine.Po@am__quote@

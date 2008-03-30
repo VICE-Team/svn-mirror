@@ -1,3 +1,23 @@
+2007-12-30  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.7.
+
+2007-12-28  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* petcat.c: Added support for WS basic final.
+
+2007-12-28  pottendo  <pottendo@utanet.at>
+
+	* configure.in: If openGL_sync is found also set
+	`USE_XF86_EXTENSIONS' as some X11 specifics are needed for
+	openGL. 
+	(USE_XF86_EXTENSIONS): Removed DGA1, DGA2 checks.
+
+2007-12-18  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added aros64 support and disabled netplay for
+	ppc-aros.
+
 2007-12-09  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.6.

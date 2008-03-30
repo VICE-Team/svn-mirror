@@ -75,17 +75,17 @@ am_libarch_a_OBJECTS = ahi.$(OBJEXT) amigamain.$(OBJEXT) \
 	uidrivec64vic20.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
 	uidriveplus4.$(OBJEXT) uifliplist.$(OBJEXT) uigeoram.$(OBJEXT) \
 	uiide64.$(OBJEXT) uijoystick.$(OBJEXT) uijoystickll.$(OBJEXT) \
-	uimmc64.$(OBJEXT) uinetwork.$(OBJEXT) uipetreu.$(OBJEXT) \
-	uipetsettings.$(OBJEXT) uiplus256k.$(OBJEXT) \
-	uiplus4settings.$(OBJEXT) uiplus60k.$(OBJEXT) uiram.$(OBJEXT) \
-	uiramcart.$(OBJEXT) uireu.$(OBJEXT) \
-	uiromc128settings.$(OBJEXT) uiromc64vic20settings.$(OBJEXT) \
-	uiromcbm2settings.$(OBJEXT) uirompetsettings.$(OBJEXT) \
-	uiromplus4settings.$(OBJEXT) uirs232user.$(OBJEXT) \
-	uisid.$(OBJEXT) uisidcart.$(OBJEXT) uisnapshot.$(OBJEXT) \
-	uisound.$(OBJEXT) uivic20mem.$(OBJEXT) uivicii.$(OBJEXT) \
-	uivideoc128.$(OBJEXT) uivideoc64plus4vic20.$(OBJEXT) \
-	uivideocbm2pet.$(OBJEXT)
+	uimmc64.$(OBJEXT) uimouse.$(OBJEXT) uinetwork.$(OBJEXT) \
+	uipetreu.$(OBJEXT) uipetsettings.$(OBJEXT) \
+	uiplus256k.$(OBJEXT) uiplus4settings.$(OBJEXT) \
+	uiplus60k.$(OBJEXT) uiram.$(OBJEXT) uiramcart.$(OBJEXT) \
+	uireu.$(OBJEXT) uiromc128settings.$(OBJEXT) \
+	uiromc64vic20settings.$(OBJEXT) uiromcbm2settings.$(OBJEXT) \
+	uirompetsettings.$(OBJEXT) uiromplus4settings.$(OBJEXT) \
+	uirs232user.$(OBJEXT) uisid.$(OBJEXT) uisidcart.$(OBJEXT) \
+	uisnapshot.$(OBJEXT) uisound.$(OBJEXT) uivic20mem.$(OBJEXT) \
+	uivicii.$(OBJEXT) uivideoc128.$(OBJEXT) \
+	uivideoc64plus4vic20.$(OBJEXT) uivideocbm2pet.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
@@ -179,6 +179,10 @@ GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
 GNOMEUI_FALSE = @GNOMEUI_FALSE@
 GNOMEUI_TRUE = @GNOMEUI_TRUE@
+GTKGL_CFLAGS = @GTKGL_CFLAGS@
+GTKGL_LIBS = @GTKGL_LIBS@
+GTK_CFLAGS = @GTK_CFLAGS@
+GTK_LIBS = @GTK_LIBS@
 HAVE_RAWDRIVE_FALSE = @HAVE_RAWDRIVE_FALSE@
 HAVE_RAWDRIVE_TRUE = @HAVE_RAWDRIVE_TRUE@
 HAVE_READLINE = @HAVE_READLINE@
@@ -235,6 +239,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PERL = @PERL@
+PKG_CONFIG = @PKG_CONFIG@
 POFILES = @POFILES@
 POSUB = @POSUB@
 RANLIB = @RANLIB@
@@ -317,6 +322,7 @@ ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
 ac_ct_RANLIB = @ac_ct_RANLIB@
 ac_ct_STRIP = @ac_ct_STRIP@
+ac_pt_PKG_CONFIG = @ac_pt_PKG_CONFIG@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
 am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
 am__fastdepCXX_FALSE = @am__fastdepCXX_FALSE@
@@ -493,6 +499,8 @@ libarch_a_SOURCES = \
 	mui/uijoystickll.h \
 	mui/uimmc64.c \
 	mui/uimmc64.h \
+	mui/uimouse.c \
+	mui/uimouse.h \
 	mui/uinetwork.c \
 	mui/uinetwork.h \
 	mui/uipetreu.c \
@@ -709,6 +717,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uilib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimmc64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimouse.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uinetwork.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipetreu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uipetsettings.Po@am__quote@
@@ -1009,6 +1018,20 @@ uimmc64.obj: mui/uimmc64.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uimmc64.c' object='uimmc64.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uimmc64.obj `if test -f 'mui/uimmc64.c'; then $(CYGPATH_W) 'mui/uimmc64.c'; else $(CYGPATH_W) '$(srcdir)/mui/uimmc64.c'; fi`
+
+uimouse.o: mui/uimouse.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uimouse.o -MD -MP -MF "$(DEPDIR)/uimouse.Tpo" -c -o uimouse.o `test -f 'mui/uimouse.c' || echo '$(srcdir)/'`mui/uimouse.c; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uimouse.Tpo" "$(DEPDIR)/uimouse.Po"; else rm -f "$(DEPDIR)/uimouse.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uimouse.c' object='uimouse.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uimouse.o `test -f 'mui/uimouse.c' || echo '$(srcdir)/'`mui/uimouse.c
+
+uimouse.obj: mui/uimouse.c
+@am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uimouse.obj -MD -MP -MF "$(DEPDIR)/uimouse.Tpo" -c -o uimouse.obj `if test -f 'mui/uimouse.c'; then $(CYGPATH_W) 'mui/uimouse.c'; else $(CYGPATH_W) '$(srcdir)/mui/uimouse.c'; fi`; \
+@am__fastdepCC_TRUE@	then mv -f "$(DEPDIR)/uimouse.Tpo" "$(DEPDIR)/uimouse.Po"; else rm -f "$(DEPDIR)/uimouse.Tpo"; exit 1; fi
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='mui/uimouse.c' object='uimouse.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o uimouse.obj `if test -f 'mui/uimouse.c'; then $(CYGPATH_W) 'mui/uimouse.c'; else $(CYGPATH_W) '$(srcdir)/mui/uimouse.c'; fi`
 
 uinetwork.o: mui/uinetwork.c
 @am__fastdepCC_TRUE@	if $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT uinetwork.o -MD -MP -MF "$(DEPDIR)/uinetwork.Tpo" -c -o uinetwork.o `test -f 'mui/uinetwork.c' || echo '$(srcdir)/'`mui/uinetwork.c; \
