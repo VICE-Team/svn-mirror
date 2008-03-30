@@ -44,5 +44,13 @@
 #define C128_NTSC_RFSH_PER_SEC    (1.0 / ((double)C128_NTSC_CYCLES_PER_RFSH   \
                                   / (double)C128_NTSC_CYCLES_PER_SEC))
 
+#define C128_MACHINE_INT       0
+#define C128_MACHINE_FINNISH   1
+#define C128_MACHINE_FRENCH    2
+#define C128_MACHINE_GERMAN    3
+#define C128_MACHINE_ITALIAN   4
+#define C128_MACHINE_NORWEGIAN 5
+#define C128_MACHINE_SWEDISH   6
+
 #endif
 
