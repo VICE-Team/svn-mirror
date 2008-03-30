@@ -325,6 +325,7 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
         drive[i].GCR_dirty_track = 0;
         drive[i].GCR_write_value = 0x55;
         drive[i].GCR_track_start_ptr = drive[i].gcr->data;
+        drive[i].GCR_current_track_size = 0;
         drive[i].attach_clk = (CLOCK)0;
         drive[i].detach_clk = (CLOCK)0;
         drive[i].attach_detach_clk = (CLOCK)0;
@@ -1323,11 +1324,17 @@ static void drive_set_half_track(int num, drive_t *dptr)
 
     dptr->current_half_track = num;
     dptr->GCR_track_start_ptr = (dptr->gcr->data
-			   + ((dptr->current_half_track / 2 - 1) * NUM_MAX_BYTES_TRACK));
+                                + ((dptr->current_half_track / 2 - 1)
+                                * NUM_MAX_BYTES_TRACK));
+
+    if (dptr->GCR_current_track_size != 0)
+        dptr->GCR_head_offset *= (dptr->gcr->track_size[dptr->current_half_track
+                                 / 2 - 1]) / dptr->GCR_current_track_size;
+    else
+        dptr->GCR_head_offset = 0;
 
     dptr->GCR_current_track_size =
         dptr->gcr->track_size[dptr->current_half_track / 2 - 1];
-    dptr->GCR_head_offset = 0;
 }
 
 /* Return the write protect sense status. */
