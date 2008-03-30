@@ -335,8 +335,8 @@ raster_t *vic_init(void)
     vic.auxiliary_color = 0;
     vic.mc_border_color = 0;
 
-    vic.color_ptr = ram;
-    vic.screen_ptr = ram;
+    vic.color_ptr = mem_ram;
+    vic.screen_ptr = mem_ram;
     vic.chargen_ptr = chargen_rom + 0x400;
 
     /* FIXME: Where do these values come from? */
@@ -485,12 +485,12 @@ void vic_update_memory_ptrs(void)
         if (char_addr == 0x1c00)
             new_chargen_ptr = chargen_rom;    /* handle wraparound */
         else
-            new_chargen_ptr = ram + char_addr;
+            new_chargen_ptr = mem_ram + char_addr;
         VIC_DEBUG_REGISTER (("Character memory at $%04X.", char_addr));
     }
 
-    new_color_ptr = ram + 0x9400 + (vic.regs[0x2] & 0x80 ? 0x200 : 0x0);
-    new_screen_ptr = ram + (((vic.regs[0x2] & 0x80) << 2)
+    new_color_ptr = mem_ram + 0x9400 + (vic.regs[0x2] & 0x80 ? 0x200 : 0x0);
+    new_screen_ptr = mem_ram + (((vic.regs[0x2] & 0x80) << 2)
                      | ((vic.regs[0x5] & 0x70) << 6));
 
     VIC_DEBUG_REGISTER(("Color memory at $%04X.", vic.color_ptr - ram));

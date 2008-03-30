@@ -61,7 +61,7 @@ int vic_snapshot_write_module(snapshot_t *s)
         goto fail;
 
     /* Color RAM.  */
-    if (snapshot_module_write_byte_array(m, ram + 0x9400, 0x800) < 0)
+    if (snapshot_module_write_byte_array(m, mem_ram + 0x9400, 0x800) < 0)
         goto fail;
 
     for (i = 0; i < 0x10; i++)
@@ -122,7 +122,7 @@ int vic_snapshot_read_module(snapshot_t *s)
     vic.memptr = w;
 
     /* Color RAM.  */
-    if (snapshot_module_read_byte_array(m, ram + 0x9400, 0x800) < 0)
+    if (snapshot_module_read_byte_array(m, mem_ram + 0x9400, 0x800) < 0)
         goto fail;
 
     vic.last_emulate_line_clk = maincpu_clk - VIC_RASTER_CYCLE(maincpu_clk);

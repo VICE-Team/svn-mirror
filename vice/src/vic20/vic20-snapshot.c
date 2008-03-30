@@ -91,24 +91,24 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
 
     snapshot_module_write_byte(m, config);
 
-    snapshot_module_write_byte_array(m, ram, 0x0400);
-    snapshot_module_write_byte_array(m, ram + 0x1000, 0x1000);
-    snapshot_module_write_byte_array(m, ram + 0x9400, 0x0800);
+    snapshot_module_write_byte_array(m, mem_ram, 0x0400);
+    snapshot_module_write_byte_array(m, mem_ram + 0x1000, 0x1000);
+    snapshot_module_write_byte_array(m, mem_ram + 0x9400, 0x0800);
 
     if (config & 1) {
-        snapshot_module_write_byte_array(m, ram + 0x0400, 0x0c00);
+        snapshot_module_write_byte_array(m, mem_ram + 0x0400, 0x0c00);
     }
     if (config & 2) {
-        snapshot_module_write_byte_array(m, ram + 0x2000, 0x2000);
+        snapshot_module_write_byte_array(m, mem_ram + 0x2000, 0x2000);
     }
     if (config & 4) {
-        snapshot_module_write_byte_array(m, ram + 0x4000, 0x2000);
+        snapshot_module_write_byte_array(m, mem_ram + 0x4000, 0x2000);
     }
     if (config & 8) {
-        snapshot_module_write_byte_array(m, ram + 0x6000, 0x2000);
+        snapshot_module_write_byte_array(m, mem_ram + 0x6000, 0x2000);
     }
     if (config & 32) {
-        snapshot_module_write_byte_array(m, ram + 0xA000, 0x2000);
+        snapshot_module_write_byte_array(m, mem_ram + 0xA000, 0x2000);
     }
 
     snapshot_module_close(m);
@@ -133,32 +133,32 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 
     snapshot_module_read_byte(m, &config);
 
-    snapshot_module_read_byte_array(m, ram, 0x0400);
-    snapshot_module_read_byte_array(m, ram + 0x1000, 0x1000);
+    snapshot_module_read_byte_array(m, mem_ram, 0x0400);
+    snapshot_module_read_byte_array(m, mem_ram + 0x1000, 0x1000);
     /* setup wraparound copy of chargen */
-    memcpy(chargen_rom, ram + 0x1c00, 0x400);
+    memcpy(chargen_rom, mem_ram + 0x1c00, 0x400);
 
-    snapshot_module_read_byte_array(m, ram + 0x9400, 0x0800);
+    snapshot_module_read_byte_array(m, mem_ram + 0x9400, 0x0800);
 
     resources_set_value("RAMBlock0", (resource_value_t)(config & 1));
     if (config & 1) {
-        snapshot_module_read_byte_array(m, ram + 0x0400, 0x0c00);
+        snapshot_module_read_byte_array(m, mem_ram + 0x0400, 0x0c00);
     }
     resources_set_value("RAMBlock1", (resource_value_t)(config & 2));
     if (config & 2) {
-        snapshot_module_read_byte_array(m, ram + 0x2000, 0x2000);
+        snapshot_module_read_byte_array(m, mem_ram + 0x2000, 0x2000);
     }
     resources_set_value("RAMBlock2", (resource_value_t)(config & 4));
     if (config & 4) {
-        snapshot_module_read_byte_array(m, ram + 0x4000, 0x2000);
+        snapshot_module_read_byte_array(m, mem_ram + 0x4000, 0x2000);
     }
     resources_set_value("RAMBlock3", (resource_value_t)(config & 8));
     if (config & 8) {
-        snapshot_module_read_byte_array(m, ram + 0x6000, 0x2000);
+        snapshot_module_read_byte_array(m, mem_ram + 0x6000, 0x2000);
     }
     resources_set_value("RAMBlock5", (resource_value_t)(config & 32));
     if (config & 32) {
-        snapshot_module_read_byte_array(m, ram + 0xA000, 0x2000);
+        snapshot_module_read_byte_array(m, mem_ram + 0xA000, 0x2000);
     }
 
     snapshot_module_close(m);

@@ -61,7 +61,6 @@
 #define VIC_BLK5 16
 #define VIC_BLK_ALL (VIC_BLK0 | VIC_BLK1 | VIC_BLK2 | VIC_BLK3 | VIC_BLK5)
 
-extern BYTE ram[VIC20_RAM_SIZE];
 extern BYTE rom[VIC20_BASIC_ROM_SIZE + VIC20_KERNAL_ROM_SIZE];
 extern BYTE chargen_rom[0x400 + VIC20_CHARGEN_ROM_SIZE + 0x400];
 extern BYTE cartrom[0x10000];

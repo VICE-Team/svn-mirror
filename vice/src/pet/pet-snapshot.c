@@ -149,16 +149,16 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte(m, superpet);
 
     if (config != 5) {
-        snapshot_module_write_byte_array(m, ram, memsize << 10);
+        snapshot_module_write_byte_array(m, mem_ram, memsize << 10);
 
-        snapshot_module_write_byte_array(m, ram + 0x8000,
+        snapshot_module_write_byte_array(m, mem_ram + 0x8000,
                                          (config < 2) ? 0x400 : 0x800);
 
         if (config == 3 || config == 4) {
-            snapshot_module_write_byte_array(m, ram + 0x10000, 0x10000);
+            snapshot_module_write_byte_array(m, mem_ram + 0x10000, 0x10000);
         }
     } else {    /* 8296 */
-        snapshot_module_write_byte_array(m, ram, 0x20000);
+        snapshot_module_write_byte_array(m, mem_ram, 0x20000);
     }
 
     snapshot_module_write_byte(m, (BYTE)(kbdindex & 1));
@@ -244,16 +244,16 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     pet_crtc_set_screen();
 
     if (config != 5) {
-        snapshot_module_read_byte_array(m, ram, memsize << 10);
+        snapshot_module_read_byte_array(m, mem_ram, memsize << 10);
 
-        snapshot_module_read_byte_array(m, ram + 0x8000,
+        snapshot_module_read_byte_array(m, mem_ram + 0x8000,
                                         (config < 2) ? 0x400 : 0x800);
 
         if (config == 3 || config == 4) {
-            snapshot_module_read_byte_array(m, ram + 0x10000, 0x10000);
+            snapshot_module_read_byte_array(m, mem_ram + 0x10000, 0x10000);
         }
     } else {    /* 8296 */
-        snapshot_module_read_byte_array(m, ram, 0x20000);
+        snapshot_module_read_byte_array(m, mem_ram, 0x20000);
     }
 
     if (vminor > 0) {

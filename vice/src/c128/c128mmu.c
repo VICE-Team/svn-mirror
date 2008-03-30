@@ -136,7 +136,7 @@ static void mmu_switch_cpu(int value)
 static void mmu_set_ram_bank(BYTE value)
 {
     /* (We handle only 128K here.)  */
-    ram_bank = ram + (((long) value & 0x40) << 10);
+    ram_bank = mem_ram + (((long) value & 0x40) << 10);
 #ifdef MMU_DEBUG
     log_message(mmu_log, "Set RAM bank %i.", (value & 0x40) ? 1 : 0);
 #endif
@@ -240,10 +240,10 @@ void REGPARM2 mmu_store(ADDRESS address, BYTE value)
           case 8:
           case 9:
           case 10:
-            page_zero = (ram + (mmu[0x8] & 0x1 ? 0x10000 : 0x00000)
-                         + (mmu[0x7] << 8));
-            page_one = (ram + (mmu[0xa] & 0x1 ? 0x10000 : 0x00000)
-                        + (mmu[0x9] << 8));
+            mem_page_zero = (mem_ram + (mmu[0x8] & 0x1 ? 0x10000 : 0x00000)
+                            + (mmu[0x7] << 8));
+            mem_page_one = (mem_ram + (mmu[0xa] & 0x1 ? 0x10000 : 0x00000)
+                           + (mmu[0x9] << 8));
 #ifdef MMU_DEBUG
             log_message(mmu_log, "PAGE ZERO %05x PAGE ONE %05x",
                 (mmu[0x8] & 0x1 ? 0x10000 : 0x00000) + (mmu[0x7] << 8),

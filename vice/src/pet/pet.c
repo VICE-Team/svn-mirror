@@ -535,33 +535,46 @@ void pet_crtc_set_screen(void)
     }
 
     /* when switching 8296 to 40 columns, CRTC ends up at $9000 otherwise...*/
-    if(cols == 40) vmask = 0x3ff;
+    if (cols == 40)
+        vmask = 0x3ff;
 /*
     log_message(pet_mem_log, "set_screen(vmask=%04x, cols=%d, crtc=%d)",
                 vmask, cols, petres.crtc);
 */
 /*
-    crtc_set_screen_mode(ram + 0x8000, vmask, cols, (cols==80) ? 2 : 0);
+    crtc_set_screen_mode(mem_ram + 0x8000, vmask, cols, (cols==80) ? 2 : 0);
 */
     crtc_set_screen_options(cols, 25 * 10);
-    crtc_set_screen_addr(ram + 0x8000);
-    crtc_set_hw_options( (cols==80) ? 2 : 0, vmask, 0x800, 512, 0x1000);
+    crtc_set_screen_addr(mem_ram + 0x8000);
+    crtc_set_hw_options((cols == 80) ? 2 : 0, vmask, 0x800, 512, 0x1000);
     crtc_set_retrace_type(petres.crtc ? 1 : 0);
 
     /* No CRTC -> assume 40 columns */
-    if(!petres.crtc) {
-        crtc_store(0,13); crtc_store(1,0);
-        crtc_store(0,12); crtc_store(1,0x10);
-        crtc_store(0,9); crtc_store(1,7);
-        crtc_store(0,8); crtc_store(1,0);
-        crtc_store(0,7); crtc_store(1,29);
-        crtc_store(0,6); crtc_store(1,25);
-        crtc_store(0,5); crtc_store(1,16);
-        crtc_store(0,4); crtc_store(1,32);
-        crtc_store(0,3); crtc_store(1,8);
-        crtc_store(0,2); crtc_store(1,50);
-        crtc_store(0,1); crtc_store(1,40);
-        crtc_store(0,0); crtc_store(1,63);
+    if (!petres.crtc) {
+        crtc_store(0, 13);
+        crtc_store(1, 0);
+        crtc_store(0, 12);
+        crtc_store(1, 0x10);
+        crtc_store(0, 9);
+        crtc_store(1, 7);
+        crtc_store(0, 8);
+        crtc_store(1, 0);
+        crtc_store(0, 7);
+        crtc_store(1, 29);
+        crtc_store(0, 6);
+        crtc_store(1, 25);
+        crtc_store(0, 5);
+        crtc_store(1, 16);
+        crtc_store(0, 4);
+        crtc_store(1, 32);
+        crtc_store(0, 3);
+        crtc_store(1, 8);
+        crtc_store(0, 2);
+        crtc_store(1, 50);
+        crtc_store(0, 1);
+        crtc_store(1, 40);
+        crtc_store(0, 0);
+        crtc_store(1, 63);
     }
 }
 
