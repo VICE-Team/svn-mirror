@@ -47,6 +47,16 @@
 #define DT_MPS803               1
 #define DT_STAR10CCL            2
 
+/* Store name here for serial-open.  */
+#define SERIAL_NAMELENGTH 255
+
+#define SERIAL_MAXDEVICES 16
+
+#define SERIAL_SET_ST(b) \
+            mem_store((ADDRESS)0x90, (BYTE)(mem_read((ADDRESS)0x90) | b))
+#define SERIAL_GET_ST() \
+            mem_read((ADDRESS)0x90)
+
 struct disk_image_s;
 struct trap_s;
 struct vdrive_s;
@@ -104,6 +114,9 @@ extern void trap_serial_ready(void);
 
 extern void serial_set_eof_callback(void (*func)(void));
 extern void serial_set_attention_callback(void (*func)(void));
+
+extern int serial_realdevice_enable(void);
+extern void serial_realdevice_disable(void);
 
 #endif
 
