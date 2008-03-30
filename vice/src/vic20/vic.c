@@ -266,7 +266,6 @@ static int init_raster(void)
     resources_touch("VICVideoCache");
     raster_set_canvas_refresh(raster, 1);
 
-    resources_touch("VICDoubleSize");
     vic_set_geometry();
 
     vic_update_palette();
@@ -277,10 +276,6 @@ static int init_raster(void)
 
     if (raster_realize(raster) < 0)
         return -1;
-
-#if ARCHDEP_VIC_DSCAN == 1
-    resources_touch("VICDoubleScan");
-#endif
 
     raster->display_ystart = vic.first_displayed_line;
     raster->display_ystop = vic.first_displayed_line + 1;

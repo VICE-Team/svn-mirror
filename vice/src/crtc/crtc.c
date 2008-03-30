@@ -384,7 +384,6 @@ raster_t *crtc_init(void)
 
     crtc.initialized = 1;
 
-    resources_touch("CrtcDoubleSize");
     crtc_update_window();
 
     if (crtc_load_palette (crtc_resources.palette_file_name) < 0) {
@@ -398,10 +397,6 @@ raster_t *crtc_init(void)
 
     if (raster_realize(raster) < 0)
         return NULL;
-
-#if ARCHDEP_VICII_DSCAN == 1
-    resources_touch("CrtcDoubleScan");
-#endif
 
     crtc_update_chargen_rel();
     crtc_update_disp_char();

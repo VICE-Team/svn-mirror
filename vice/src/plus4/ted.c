@@ -252,7 +252,6 @@ static int init_raster(void)
     resources_touch("TEDVideoCache");
     raster_set_canvas_refresh(raster, 1);
 
-    resources_touch("TEDDoubleSize");
     ted_set_geometry();
 
     if (ted_update_palette() < 0) {
@@ -265,10 +264,6 @@ static int init_raster(void)
 
     if (raster_realize(raster) < 0)
         return -1;
-
-#if ARCHDEP_TED_DSCAN == 1
-    resources_touch("TEDDoubleScan");
-#endif
 
     raster->display_ystart = ted.row_25_start_line;
     raster->display_ystop = ted.row_25_stop_line;
@@ -311,9 +306,6 @@ raster_t *ted_init(void)
     ted.initialized = 1;
 
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
-
-    /*ted_resize();*/
-    resources_touch("TEDDoubleSize");
 
     return &ted.raster;
 }

@@ -360,7 +360,6 @@ static int init_raster(void)
     resources_touch("VICIIVideoCache");
     raster_set_canvas_refresh(raster, 1);
 
-    resources_touch("VICIIDoubleSize");
     vic_ii_set_geometry();
 
     if (vic_ii_update_palette() < 0) {
@@ -373,10 +372,6 @@ static int init_raster(void)
 
     if (raster_realize(raster) < 0)
         return -1;
-
-#if ARCHDEP_VICII_DSCAN == 1
-    resources_touch("VICIIDoubleScan");
-#endif
 
     raster->display_ystart = vic_ii.row_25_start_line;
     raster->display_ystop = vic_ii.row_25_stop_line;
@@ -424,9 +419,6 @@ raster_t *vic_ii_init(void)
     vic_ii.initialized = 1;
 
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
-
-    /*vic_ii_resize();*/
-    resources_touch("VICIIDoubleSize");
 
     return &vic_ii.raster;
 }

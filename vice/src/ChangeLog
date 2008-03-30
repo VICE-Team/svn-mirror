@@ -1,3 +1,23 @@
+2002-06-26  Andreas Boose  <viceteam@t-online.de>
+
+        * Version 1.9.44.
+
+	* arch/win32/video.c (canvas_update): Use video config pixel
+	size instead of raster pixel size.
+
+	* raster/raster.h, raster/raster.c (raster_set_pixel_size):
+	Removed.
+
+	* vicii/vicii.c, vdc/vdc.c, vic20/vic.c, crtc/crtc.c,
+	plus4/ted.c (init_raster): It is not needed to touch the
+	double size and scan resources anymore.
+
+	* video/video-resources.c (video_resources_chip_init):
+	Allocate anything dynamically.
+
+	* raster/raster-resources.c (raster_resources_chip_init):
+	Changed likewise.
+
 2002-06-25  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.43.

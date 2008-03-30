@@ -141,7 +141,6 @@ static int init_raster(void)
     resources_touch("VDCVideoCache");
     raster_set_canvas_refresh(raster, 1);
 
-    resources_touch("VDCDoubleSize");
     vdc_set_geometry();
 
     if (vdc_load_palette(vdc_resources.palette_file_name) < 0) {
@@ -155,10 +154,6 @@ static int init_raster(void)
 
     if (raster_realize(raster) < 0)
         return -1;
-
-#if ARCHDEP_VICII_DSCAN == 1
-    resources_touch("VDCDoubleScan");
-#endif
 
     raster->border_color = 0;
 
