@@ -30,8 +30,6 @@
 
 #include "vice.h"
 
-#include "types.h"
-
 #ifdef USE_GNOMEUI
 #include "x11/gnome/uiarch.h"
 #else
@@ -44,8 +42,7 @@ extern int x11ui_open_canvas_window(struct video_canvas_s *c,
                                     const char *title, int width,
                                     int height, int no_autorepeat,
                                     ui_exposure_handler_t exposure_proc,
-                                    const struct palette_s *p,
-                                    BYTE pixel_return[]);
+                                    const struct palette_s *p);
 
 extern void x11ui_resize_canvas_window(ui_window_t w, int height, int width);
 extern void x11ui_move_canvas_window(ui_window_t w, int x, int y);

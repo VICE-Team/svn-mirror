@@ -930,8 +930,7 @@ void kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                              int width, int height, int no_autorepeat,
                              ui_exposure_handler_t exposure_proc,
-                             const struct palette_s *palette,
-                             BYTE pixel_return[])
+                             const struct palette_s *palette)
 {
     GtkWidget *new_window, *new_pane, *new_canvas, *topmenu;
     int i;
@@ -1054,7 +1053,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     if (!app_gc)
 	app_gc = gdk_gc_new(new_window->window);
 
-    if (uicolor_alloc_colors(c, palette, pixel_return) == -1)
+    if (uicolor_alloc_colors(c, palette) == -1)
         return -1;
 
     /* This is necessary because the status might have been set before we

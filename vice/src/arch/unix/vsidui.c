@@ -283,7 +283,7 @@ int vsid_ui_init(void)
     video_canvas_t canvas;
 
     res = x11ui_open_canvas_window(&canvas, _("VSID: The SID Emulator"), 300, 
-                                   100, 0, NULL, NULL, 0);
+                                   100, 0, NULL, NULL);
     if (res < 0)
         return -1;
     
