@@ -37,17 +37,17 @@
 
 struct warn_s
 {
-    char		*name;
-    struct warn_s	*pnext;
-    int			 nrwarn;
-    char		*pwarn;
+    char *name;
+    struct warn_s *pnext;
+    int nrwarn;
+    char *pwarn;
 };
 
 static warn_t *warnlist = NULL;
 
 warn_t *warn_init(const char *name, int nrwarnings)
 {
-    warn_t		*p;
+    warn_t *p;
 
     p = xmalloc(sizeof(*p));
     p->name = stralloc(name);
@@ -56,8 +56,8 @@ warn_t *warn_init(const char *name, int nrwarnings)
     p->nrwarn = nrwarnings;
     if (nrwarnings)
     {
-	p->pwarn = xmalloc((p->nrwarn+7)/8);
-	memset(p->pwarn, 0, (p->nrwarn+7)/8);
+	p->pwarn = (char *)xmalloc((p->nrwarn + 7) / 8);
+	memset(p->pwarn, 0, (size_t)((p->nrwarn + 7) / 8));
     }
     else
 	p->pwarn = NULL;
@@ -66,10 +66,10 @@ warn_t *warn_init(const char *name, int nrwarnings)
 
 void warn(warn_t *pwarn, int warnid, const char *msg, ...)
 {
-    char                        tmp[1024];
-    char			*p;
-    int				 m;
-    va_list			 ap;
+    char tmp[1024];
+    char *p;
+    int	m;
+    va_list ap;
 
     if (warnid >= 0 && warnid < pwarn->nrwarn)
     {
@@ -93,7 +93,7 @@ void warn_reset(warn_t *pwarn)
     if (pwarn)
     {
 	if (pwarn->nrwarn)
-	    memset(pwarn->pwarn, 0, (pwarn->nrwarn+7)/8);
+	    memset(pwarn->pwarn, 0, (size_t)((pwarn->nrwarn + 7) / 8));
 	return;
     }
     for (p = warnlist; p; p = p->pnext)

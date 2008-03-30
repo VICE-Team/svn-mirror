@@ -241,8 +241,8 @@ _INT_FUNC void ack_dma(cpu_int_status_t *cs)
 _INT_FUNC void set_int(cpu_int_status_t *cs, int int_num,
 		       enum cpu_int value, CLOCK clk)
 {
-    set_nmi(cs, int_num, value & IK_NMI, clk);
-    set_irq(cs, int_num, value & IK_IRQ, clk);
+    set_nmi(cs, int_num, (int)(value & IK_NMI), clk);
+    set_irq(cs, int_num, (int)(value & IK_IRQ), clk);
 }
 
 /* ------------------------------------------------------------------------- */

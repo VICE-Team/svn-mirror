@@ -161,7 +161,7 @@ int palette_load(const char *file_name, palette_t *palette_return)
                     fclose(f);
                     return -1;
                 }
-                values[i] = result;
+                values[i] = (BYTE)result;
                 p1 = p2;
             }
             if (i > 0) {

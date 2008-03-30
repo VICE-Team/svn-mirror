@@ -303,7 +303,6 @@ static void Out1_nrfdhi(int tr) {
 	  parallel_emu_set_eoi(0);
 	}
 
-	parallel_emu_set_bus(b ^ 0xff);
 
 	parallel_emu_set_dav(1);
 

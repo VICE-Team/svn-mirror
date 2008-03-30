@@ -116,7 +116,7 @@ PARALLEL_SET_LINE(dav,emu,EMU)
 PARALLEL_SET_LINE(nrfd,emu,EMU)
 PARALLEL_SET_LINE(ndac,emu,EMU)
 
-extern void parallel_emu_set_bus(BYTE);
+extern void parallel_emu_set_bus(BYTE b);
 
 /* CPU functions */
 /* The *CPU* macros advance the drive CPU to the current clock. This 
@@ -130,7 +130,7 @@ PARALLEL_SET_LINE(ndac,cpu,CPU)
 PARALLEL_CPU_SET_LINE(atn,cpu,CPU)
 PARALLEL_RESTORE_LINE(atn,cpu,CPU)
 
-extern void parallel_cpu_set_bus(BYTE);
+extern void parallel_cpu_set_bus(BYTE b);
 
 /* Drive 0 functions */
 PARALLEL_SET_LINE(eoi,drv0,DRV0)
@@ -138,7 +138,7 @@ PARALLEL_SET_LINE(dav,drv0,DRV0)
 PARALLEL_SET_LINE(nrfd,drv0,DRV0)
 PARALLEL_SET_LINE(ndac,drv0,DRV0)
 
-extern void parallel_drv0_set_bus(BYTE);
+extern void parallel_drv0_set_bus(BYTE b);
 
 /* Drive 1 functions */
 PARALLEL_SET_LINE(eoi,drv1,DRV1)
@@ -146,7 +146,7 @@ PARALLEL_SET_LINE(dav,drv1,DRV1)
 PARALLEL_SET_LINE(nrfd,drv1,DRV1)
 PARALLEL_SET_LINE(ndac,drv1,DRV1)
 
-extern void parallel_drv1_set_bus(BYTE);
+extern void parallel_drv1_set_bus(BYTE b);
 
 #endif
 
