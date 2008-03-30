@@ -39,7 +39,7 @@ extern void tpid_init(struct drive_context_s *ctxptr);
 extern void tpid_reset(struct drive_context_s *ctxptr);
 extern void REGPARM3 tpid_store(struct drive_context_s *ctxptr,
                                 WORD addr, BYTE byte);
-extern BYTE REGPARM2 tpi_read(struct drive_context_s *ctxptr, WORD addr);
+extern BYTE REGPARM2 tpid_read(struct drive_context_s *ctxptr, WORD addr);
 extern int tpid_snapshot_write_module(struct drive_context_s *ctxptr,
                                       struct snapshot_s *p);
 extern int tpid_snapshot_read_module(struct drive_context_s *ctxptr,

@@ -18,7 +18,5 @@ libdrivetcbm_a_SOURCES = \
 	tcbm.c \
 	tcbmrom.c \
 	tcbmrom.h \
-	tia1551.c \
-	tia1551.h \
 	tpid.c \
 	tpid.h

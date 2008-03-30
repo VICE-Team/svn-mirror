@@ -32,7 +32,7 @@
 #include "tcbm-resources.h"
 #include "tcbm.h"
 #include "tcbmrom.h"
-#include "tia1551.h"
+#include "tpid.h"
 #include "types.h"
 
 
@@ -54,13 +54,13 @@ int tcbm_drive_cmdline_options_init(void)
 void tcbm_drive_init(struct drive_context_s *drv)
 {
     tcbmrom_init();
-    tia1551_init(drv);
+    tpid_init(drv);
     glue1551_init(drv);
 }
 
 void tcbm_drive_reset(struct drive_context_s *drv)
 {
-    tia1551_reset(drv);
+    tpid_reset(drv);
     glue1551_reset(drv);
 }
 
@@ -71,6 +71,7 @@ void tcbm_drive_mem_init(struct drive_context_s *drv, unsigned int type)
 
 void tcbm_drive_setup_context(struct drive_context_s *drv)
 {
+    tpid_setup_context(drv);
 }
 
 void tcbm_drive_rom_load(void)
