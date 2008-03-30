@@ -72,7 +72,7 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive, BYTE *bam, int *track,
 #ifdef DEBUG_DRIVE
         fprintf(logfile, "Allocate first free sector on track %d?.\n", t);
 #endif
-        if (t > vdrive->NumTracks)
+        if (t > vdrive->num_tracks)
             continue;
         max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
         for (s = 0; s < max_sector; s++) {
@@ -117,7 +117,7 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive, BYTE *bam, int *track,
 #ifdef DEBUG_DRIVE
             fprintf(logfile, "Allocate next free sector on track %d?.\n", t);
 #endif
-            if (t < 1 || t > vdrive->NumTracks) {
+            if (t < 1 || t > vdrive->num_tracks) {
                 dir = -dir;
                 d = 1;
                 break;
@@ -595,7 +595,7 @@ int vdrive_bam_free_block_count(vdrive_t *vdrive)
 {
     int blocks, i;
 
-    for (blocks = 0, i = 1; i <= vdrive->NumTracks; i++) {
+    for (blocks = 0, i = 1; i <= vdrive->num_tracks; i++) {
         switch(vdrive->image_format) {
           case VDRIVE_IMAGE_FORMAT_1541:
             if (i != vdrive->Dir_Track)
