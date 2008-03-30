@@ -82,8 +82,7 @@ int serial_iec_read(unsigned int unit, unsigned int secondary, BYTE *data)
     }
 
     if (!talk) {
-        serial_iec_bus_listentalk(unit | 0x40, (BYTE)secondary,
-                                  serial_iec_set_st);
+        serial_iec_bus_talk(unit | 0x40, (BYTE)secondary, serial_iec_set_st);
         talk = 1;
     }
 
@@ -100,8 +99,7 @@ int serial_iec_write(unsigned int unit, unsigned int secondary, BYTE data)
     }
 
     if (!listen) {
-        serial_iec_bus_listentalk(unit | 0x20, (BYTE)secondary,
-                                  serial_iec_set_st);
+        serial_iec_bus_listen(unit | 0x20, (BYTE)secondary, serial_iec_set_st);
         listen = 1;
     }
 
