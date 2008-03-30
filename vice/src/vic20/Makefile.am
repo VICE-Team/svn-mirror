@@ -9,6 +9,7 @@ INCLUDES = \
 noinst_LIBRARIES = libvic20.a
 
 libvic20_a_SOURCES = \
+	cartridge.c \
 	vic.c \
 	vic.h \
 	vic20.c \

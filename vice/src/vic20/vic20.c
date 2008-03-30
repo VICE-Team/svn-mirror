@@ -157,7 +157,8 @@ int machine_init_resources(void)
         || pruser_init_resources() < 0
 #endif
         || kbd_init_resources() < 0
-        || true1541_init_resources() < 0)
+        || true1541_init_resources() < 0
+	|| cartridge_init_resources() <0)
         return -1;
 
     return 0;
@@ -178,7 +179,8 @@ int machine_init_cmdline_options(void)
         || pruser_init_cmdline_options() < 0
 #endif
         || kbd_init_cmdline_options() < 0
-        || true1541_init_cmdline_options() < 0)
+        || true1541_init_cmdline_options() < 0
+	|| cartridge_init_cmdline_options() < 0)
         return -1;
 
     return 0;

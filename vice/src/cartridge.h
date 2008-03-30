@@ -24,9 +24,10 @@
  *
  */
 
-int cartridge_init_resources(void);
+extern int cartridge_init_resources(void);
+extern int cartridge_init_cmdline_options(void);
 
-extern int cartridge_attach_image(int type, char *filename);
+extern int cartridge_attach_image(int type, const char *filename);
 extern void cartridge_detach_image(void);
 extern void cartridge_set_default(void);
 extern void cartridge_trigger_freeze(void);
@@ -40,4 +41,14 @@ extern void cartridge_release_freeze(void);
 #define CARTRIDGE_CRT		0
 #define CARTRIDGE_ACTION_REPLAY	1
 #define CARTRIDGE_KCS_POWER	2
+
+/* VIC20: &1 -> 0=4k, 1=8k */
+#define	CARTRIDGE_VIC20_DETECT		0
+#define	CARTRIDGE_VIC20_4KB_2000	2
+#define	CARTRIDGE_VIC20_8KB_2000	3
+#define	CARTRIDGE_VIC20_4KB_6000	4
+#define	CARTRIDGE_VIC20_8KB_6000	5
+#define	CARTRIDGE_VIC20_4KB_A000	6
+#define	CARTRIDGE_VIC20_8KB_A000	7
+#define	CARTRIDGE_VIC20_4KB_B000	8
 

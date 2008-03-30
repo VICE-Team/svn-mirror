@@ -33,6 +33,7 @@
 #include "uicommands.h"
 #include "uisettings.h"
 #include "joystick.h"
+#include "cartridge.h"
 
 #ifdef XPM
 #include <X11/xpm.h>
@@ -157,6 +158,77 @@ static ui_menu_entry_t memory_settings_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static UI_CALLBACK(attach_cartridge)
+{
+    int type = (int)client_data;
+    char *filename;
+    ui_button_t button;
+
+    suspend_speed_eval();
+    filename = ui_select_file("Attach cartridge image",
+                              NULL, False, NULL, NULL, &button);
+
+    switch (button) {
+      case UI_BUTTON_OK:
+        if (cartridge_attach_image(type, filename) < 0)
+            ui_error("Invalid cartridge image");
+	ui_update_menus();
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
+    }
+}
+
+static UI_CALLBACK(detach_cartridge)
+{
+    cartridge_detach_image();
+}
+
+static UI_CALLBACK(default_cartridge)
+{
+    cartridge_set_default();
+}
+
+static ui_menu_entry_t attach_cartridge_image_submenu[] = {
+    { "Smart attach CRT image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_VIC20_DETECT, NULL },
+    { "--" },
+    { "Attach 4/8KB image at $2000...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_VIC20_8KB_2000, NULL },
+    { "Attach 4/8KB image at $6000...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_VIC20_8KB_6000, NULL },
+    { "Attach 4/8KB image at $A000...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_VIC20_8KB_A000, NULL },
+    { "Attach 4KB image at $B000...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_VIC20_4KB_B000, NULL },
+/*
+    { "Attach 16KB image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_VIC20_16KB, NULL },
+*/
+    { "--" },
+    { "Set cartridge as default", (ui_callback_t)
+      default_cartridge, NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t vic20_cartridge_commands_menu[] = {
+    { "Attach a cartridge image",
+      NULL, NULL, attach_cartridge_image_submenu },
+    { "Detach cartridge image(s)",
+      (ui_callback_t) detach_cartridge, NULL, NULL },
+    { NULL }
+};
+
+
+/* ------------------------------------------------------------------------- */
+
 static UI_CALLBACK(set_joystick_device)
 {
     int tmp;
@@ -224,6 +296,8 @@ int vic20_ui_init(void)
                                     ui_tape_commands_menu,
                                     ui_menu_separator,
                                     ui_directory_commands_menu,
+                                    ui_menu_separator,
+				    vic20_cartridge_commands_menu,
                                     ui_menu_separator,
                                     ui_tool_commands_menu,
                                     ui_menu_separator,

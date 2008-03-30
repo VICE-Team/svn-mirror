@@ -276,3 +276,4 @@ int machine_set_restore_key(int v)
     return 0;	/* key not used -> lookup in keymap */
 }
 
+

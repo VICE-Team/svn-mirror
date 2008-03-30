@@ -33,6 +33,7 @@ libc64_a_SOURCES = \
 	c64iec.h \
 	c64mem.c \
 	c64mem.h \
+	cartridge.c \
 	patchrom.c \
 	patchrom.h \
 	reu.c \

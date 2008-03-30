@@ -1,8 +1,5 @@
-if NEED_READLINE
+
 READLINE = @READLINE@
-else
-READLINE =
-endif
 
 if HAVE_PRINTER
 printer_ldadd = pruser.o prdevice.o
@@ -82,7 +79,6 @@ base_sources = \
 	asm.c \
 	attach.c \
 	autostart.c \
-	cartridge.c \
 	charsets.c \
 	cmdline.c \
 	drive.c \

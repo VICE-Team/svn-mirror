@@ -1091,25 +1091,6 @@ int mem_load(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* FIXME: Add C128 specific cartridge support here.  */
-
-void mem_attach_cartridge(int type, BYTE * rawcart)
-{
-    return;
-}
-
-void mem_detach_cartridge(int type)
-{
-    return;
-}
-
-void mem_freeze_cartridge(int type)
-{
-    return;
-}
-
-/* ------------------------------------------------------------------------- */
-
 /* Change the current video bank.  */
 void mem_set_vbank(int new_vbank)
 {

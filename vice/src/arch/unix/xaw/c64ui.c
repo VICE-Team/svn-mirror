@@ -34,11 +34,81 @@
 #include "uicommands.h"
 #include "uisettings.h"
 #include "joystick.h"
+#include "cartridge.h"
 
 #ifdef XPM
 #include <X11/xpm.h>
 #include "c64icon.xpm"
 #endif
+
+/* ------------------------------------------------------------------------- */
+
+static UI_CALLBACK(attach_cartridge)
+{
+    int type = (int)client_data;
+    char *filename;
+    ui_button_t button;
+
+    suspend_speed_eval();
+    filename = ui_select_file("Attach cartridge image",
+                              NULL, False, NULL, NULL, &button);
+
+    switch (button) {
+      case UI_BUTTON_OK:
+        if (cartridge_attach_image(type, filename) < 0)
+            ui_error("Invalid cartridge image");
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
+    }
+}
+
+static UI_CALLBACK(detach_cartridge)
+{
+    cartridge_detach_image();
+}
+
+static UI_CALLBACK(default_cartridge)
+{
+    cartridge_set_default();
+}
+
+static UI_CALLBACK(freeze_cartridge)
+{
+    cartridge_trigger_freeze();
+}
+
+static ui_menu_entry_t attach_cartridge_image_submenu[] = {
+    { "Smart attach CRT image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_CRT, NULL },
+    { "--" },
+    { "Attach generic 8KB image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_GENERIC_8KB, NULL },
+    { "Attach generic 16KB image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_GENERIC_16KB, NULL },
+    { "Attach Action Replay image...",
+      (ui_callback_t) attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_ACTION_REPLAY, NULL },
+    { "--" },
+    { "Set cartridge as default", (ui_callback_t)
+      default_cartridge, NULL, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t ui_cartridge_commands_menu[] = {
+    { "Attach a cartridge image",
+      NULL, NULL, attach_cartridge_image_submenu },
+    { "Detach cartridge image",
+      (ui_callback_t) detach_cartridge, NULL, NULL },
+    { "Freeze",
+      (ui_callback_t) freeze_cartridge, NULL, NULL, XK_F11, UI_HOTMOD_CTRL },
+    { NULL }
+};
+
 
 /* ------------------------------------------------------------------------- */
 

@@ -48,10 +48,18 @@
 #include "vic.h"
 #include "vic20via.h"
 #include "vmachine.h"
+#include "cartridge.h"
 
 /* ------------------------------------------------------------------------- */
 
 /* VIC20 memory-related resources.  */
+
+#define VIC_BLK0 1
+#define VIC_BLK1 2
+#define VIC_BLK2 4
+#define VIC_BLK3 8
+#define VIC_BLK5 16
+#define VIC_BLK_ALL (VIC_BLK0 | VIC_BLK1 | VIC_BLK2 | VIC_BLK3 | VIC_BLK5)
 
 /* Name of the character ROM.  */
 static char *chargen_rom_name;
@@ -64,6 +72,9 @@ static char *kernal_rom_name;
 
 /* Flag: Do we enable the Emulator ID?  */
 static int emu_id_enabled;
+
+/* which ROMs are loaded - bits are VIC_BLK* */
+static int mem_rom_blocks;
 
 /* Flag: Do we have RAM block `n'?  */
 static int ram_block_0_enabled;
@@ -201,12 +212,6 @@ int vic20_mem_init_resources(void)
 
 static int cmdline_memory(const char *param, void *extra_param)
 {
-#define VIC_BLK0 1
-#define VIC_BLK1 2
-#define VIC_BLK2 4
-#define VIC_BLK3 8
-#define VIC_BLK5 16
-#define VIC_BLK_ALL (VIC_BLK0 | VIC_BLK1 | VIC_BLK2 | VIC_BLK3 | VIC_BLK5)
     int memconf = 0;
     const char *memstring = param, *optend;
     char *opt = alloca(strlen(param) + 1);
@@ -321,6 +326,8 @@ BYTE rom[VIC20_BASIC_ROM_SIZE + VIC20_KERNAL_ROM_SIZE];
 #define kernal_rom (rom + VIC20_BASIC_ROM_SIZE)
 #define basic_rom (rom)
 
+BYTE cartrom[0x10000];
+
 /* The second 0x400 handles a possible segfault by a wraparound of the
    chargen by setting it to $8c00.  FIXME: This does not cause the exact
    behavior to be emulated though!  */
@@ -387,6 +394,11 @@ BYTE REGPARM1 read_ram(ADDRESS addr)
 void REGPARM2 store_ram(ADDRESS addr, BYTE value)
 {
     ram[addr & (VIC20_RAM_SIZE - 1)] = value;
+}
+
+BYTE REGPARM1 read_cartrom(ADDRESS addr)
+{
+    return cartrom[addr & 0xffff];
 }
 
 BYTE REGPARM1 read_rom(ADDRESS addr)
@@ -517,6 +529,17 @@ static void set_mem(int start_page, int end_page,
     }
 }
 
+int vic20_mem_enable_rom_block(int num)
+{
+    if (num == 1 || num == 3 || num == 5) {
+	set_mem(num * 0x20, num * 0x20 + 0x1f,
+		read_cartrom, store_dummy,
+		cartrom, 0xffff);
+	return 0;
+    } else
+	return -1;
+}
+
 int vic20_mem_enable_ram_block(int num)
 {
     if (num == 0) {
@@ -578,8 +601,12 @@ void initialize_memory(void)
     /* Setup RAM at $2000-$3F00.  */
     if (ram_block_1_enabled)
 	vic20_mem_enable_ram_block(1);
-    else
+    else {
 	vic20_mem_disable_ram_block(1);
+	if (mem_rom_blocks & VIC_BLK1) {
+	    vic20_mem_enable_rom_block(1);
+	}
+    }
 
     /* Setup RAM at $4000-$5FFF.  */
     if (ram_block_2_enabled)
@@ -588,16 +615,24 @@ void initialize_memory(void)
 	vic20_mem_disable_ram_block(2);
 
     /* Setup RAM at $6000-$7FFF.  */
-    if (ram_block_3_enabled)
+    if (ram_block_3_enabled) {
 	vic20_mem_enable_ram_block(3);
-    else
+    } else {
 	vic20_mem_disable_ram_block(3);
+	if (mem_rom_blocks & VIC_BLK3) {
+	    vic20_mem_enable_rom_block(3);
+	}
+    }
 
     /* Setup RAM at $A000-$BFFF.  */
-    if (ram_block_5_enabled)
+    if (ram_block_5_enabled) {
 	vic20_mem_enable_ram_block(5);
-    else
+    } else {
 	vic20_mem_disable_ram_block(5);
+	if (mem_rom_blocks & VIC_BLK5) {
+	    vic20_mem_enable_rom_block(5);
+	}
+    }
 
     /* Setup character generator ROM at $8000-$8FFF. */
     set_mem(0x80, 0x8f,
@@ -735,20 +770,73 @@ int mem_load(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* FIXME: Add VIC20 specific cartridge support here.  */
-
 void mem_attach_cartridge(int type, BYTE * rawcart)
 {
+    switch(type) {
+        case CARTRIDGE_VIC20_4KB_2000:
+        case CARTRIDGE_VIC20_8KB_2000:
+	    printf("CART: attaching %dKB cartridge at $2000\n",
+		   (type==CARTRIDGE_VIC20_4KB_2000) ? 4 : 8);
+            set_ram_block_1_enabled(0);
+	    vic20_mem_enable_rom_block(1);
+	    memcpy(cartrom + 0x2000, rawcart, 0x2000);
+	    mem_rom_blocks |= VIC_BLK1;
+	    break;
+        case CARTRIDGE_VIC20_4KB_6000:
+        case CARTRIDGE_VIC20_8KB_6000:
+	    printf("CART: attaching %dKB cartridge at $6000\n",
+		   (type==CARTRIDGE_VIC20_4KB_6000) ? 4 : 8);
+            set_ram_block_3_enabled(0);
+	    vic20_mem_enable_rom_block(3);
+	    memcpy(cartrom + 0x6000, rawcart, 0x2000);
+	    mem_rom_blocks |= VIC_BLK3;
+	    break;
+        case CARTRIDGE_VIC20_8KB_A000:
+        case CARTRIDGE_VIC20_4KB_A000:
+	    printf("CART: attaching %dKB cartridge at $A000\n",
+		   (type==CARTRIDGE_VIC20_4KB_A000) ? 4 : 8);
+            set_ram_block_5_enabled(0);
+	    vic20_mem_enable_rom_block(5);
+	    memcpy(cartrom + 0xA000, rawcart, 
+		   (type==CARTRIDGE_VIC20_4KB_A000) ? 0x1000 : 0x2000);
+	    mem_rom_blocks |= VIC_BLK5;
+	    break;
+	case CARTRIDGE_VIC20_4KB_B000:
+	    printf("CART: attaching 4KB cartridge at $B000\n");
+	    set_ram_block_5_enabled(0);
+	    vic20_mem_enable_rom_block(5);
+	    memcpy(cartrom + 0xB000, rawcart, 0x1000);
+	    mem_rom_blocks |= VIC_BLK5;
+	    break;
+	default:
+            fprintf(stderr, "Unknown Cartridge Type!\n");
+	    break;
+    }
     return;
 }
 
 void mem_detach_cartridge(int type)
 {
-    return;
-}
-
-void mem_freeze_cartridge(int type)
-{
+    switch(type) {
+        case CARTRIDGE_VIC20_8KB_2000:
+        case CARTRIDGE_VIC20_4KB_2000:
+            set_ram_block_1_enabled(0);
+	    mem_rom_blocks &= ~VIC_BLK1;
+	    break;
+        case CARTRIDGE_VIC20_8KB_6000:
+        case CARTRIDGE_VIC20_4KB_6000:
+            set_ram_block_3_enabled(0);
+	    mem_rom_blocks &= ~VIC_BLK3;
+	    break;
+        case CARTRIDGE_VIC20_8KB_A000:
+        case CARTRIDGE_VIC20_4KB_A000:
+        case CARTRIDGE_VIC20_4KB_B000:
+            set_ram_block_5_enabled(0);
+	    mem_rom_blocks &= ~VIC_BLK5;
+	    break;
+	default:
+	    break;
+    }
     return;
 }
 
