@@ -1,3 +1,51 @@
+2005-12-31  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.18.9.
+
+2005-12-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/res.rc, arch/win32/resc128.rc,
+	arch/win32/resc64.rc, arch/win32/rescbm2.rc,
+	arch/win32/respet.rc, arch/win32/resplus4.rc,
+	arch/win32/resvic20.rc, translate.c: Updated the dutch
+	translations.
+
+2005-12-30  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/xaw/x11ui.c (ui_display_statustext): Implemented
+	statustext widget.
+	(x11ui_open_canvas_window): Added media and event record button.
+
+	* arch/unix/x11/gnome/x11ui.c (ui_display_speed): Hide recording
+	widget (moved from mainloop).
+
+	* arch/unix/x11/xaw/x11ui.c (ui_enable_drive_status): Hide record
+	button if recording isn't active anymore.
+
+	* arch/unix/x11/xaw/uiscreenshot.c (UI_CALLBACK_save_callback): 
+	Show `recording' button.
+
+	* arch/unix/x11/xaw/x11ui.c (x11ui_open_canvas_window): Fixed
+	size of drive related widgets. This makes the speed label
+	visible again.
+
+	* arch/unix/x11/gnome/uiscreenshot.c (ui_screenshot_dialog): Use
+	extension provided by driver.
+
+2005-12-29  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* event.c, event.h: New event EVENT_KEYBOARD_CLEAR.
+	(event_record_in_list): Record EVENT_KEYBOARD_CLEAR event.
+	(event_playback_event_list): Handles EVENT_KEYBOARD_CLEAR
+	event.
+
+	* keyboard.c, keyboard.h: New function
+	keyboard_register_clear to set the keyboard_clear flag.
+	(keyboard_key_clear): Splitted into *_internal and
+	records event in netplay mode.
+	(keyboard_event_delayed_playback): Clears keyboard if
+	the keyboard_clear flag is set.
+
 2005-12-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.18.8.

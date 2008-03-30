@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2005-12-29 16:13+0100\n"
+"POT-Creation-Date: 2005-12-31 15:41+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -268,40 +268,40 @@ msgstr ""
 msgid "Cannot find mapped name for %s"
 msgstr ""
 
-#: src/event.c:620
+#: src/event.c:624
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr ""
 
-#: src/event.c:639 src/event.c:933
+#: src/event.c:643 src/event.c:937
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
 
-#: src/event.c:706 src/event.c:900
+#: src/event.c:710 src/event.c:904
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr ""
 
-#: src/event.c:774
+#: src/event.c:778
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr ""
 
-#: src/event.c:789
+#: src/event.c:793
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:813
+#: src/event.c:817
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 
-#: src/event.c:843
+#: src/event.c:847
 msgid "Error reading start snapshot file."
 msgstr ""
 
-#: src/event.c:1224
+#: src/event.c:1228
 msgid "Playback recorded events"
 msgstr ""
 
@@ -2596,7 +2596,7 @@ msgid "Smart-attach a file"
 msgstr ""
 
 #: src/arch/unix/uiattach.c:302 src/arch/unix/uiattach.c:311
-#: src/arch/unix/x11/xaw/x11ui.c:1673
+#: src/arch/unix/x11/xaw/x11ui.c:1741
 msgid "Unknown image type"
 msgstr ""
 
@@ -3296,7 +3296,7 @@ msgstr ""
 
 #: src/arch/unix/uifliplist.c:87 src/arch/unix/x11/xaw/uicartridge.c:167
 #: src/arch/unix/x11/xaw/uiedisk.c:404
-#: src/arch/unix/x11/xaw/uiscreenshot.c:255
+#: src/arch/unix/x11/xaw/uiscreenshot.c:262
 #: src/arch/unix/x11/xaw/uisnapshot.c:285
 msgid "Save"
 msgstr ""
@@ -3369,7 +3369,7 @@ msgstr ""
 
 #: src/arch/unix/uifliplist.c:243 src/arch/unix/uifliplist.c:258
 #: src/arch/unix/x11/gnome/x11ui.c:882 src/arch/unix/x11/gnome/x11ui.c:892
-#: src/arch/unix/x11/gnome/x11ui.c:1573
+#: src/arch/unix/x11/gnome/x11ui.c:1575
 msgid "<empty>"
 msgstr ""
 
@@ -4138,7 +4138,7 @@ msgid "Invalid speed value"
 msgstr ""
 
 #: src/arch/unix/uisettings.c:214 src/arch/unix/x11/gnome/x11ui.c:1371
-#: src/arch/unix/x11/xaw/x11ui.c:1041
+#: src/arch/unix/x11/xaw/x11ui.c:1088
 msgid "Cannot save settings."
 msgstr ""
 
@@ -4644,13 +4644,13 @@ msgstr ""
 
 #: src/arch/unix/x11/gnome/uicartridge.c:48
 #: src/arch/unix/x11/gnome/uiedisk.c:65
-#: src/arch/unix/x11/gnome/uiscreenshot.c:210
+#: src/arch/unix/x11/gnome/uiscreenshot.c:212
 #: src/arch/unix/x11/gnome/uisnapshot.c:49
 msgid "Filename: "
 msgstr ""
 
 #: src/arch/unix/x11/gnome/uicartridge.c:98
-#: src/arch/unix/x11/gnome/uiscreenshot.c:458
+#: src/arch/unix/x11/gnome/uiscreenshot.c:461
 #: src/arch/unix/x11/gnome/uisnapshot.c:119
 msgid "Invalid filename"
 msgstr ""
@@ -4794,61 +4794,61 @@ msgstr ""
 msgid "Connect to "
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:200
+#: src/arch/unix/x11/gnome/uiscreenshot.c:202
 msgid "No gfxoutputdrivers available"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:204
-#: src/arch/unix/x11/gnome/uiscreenshot.c:215
-#: src/arch/unix/x11/gnome/uiscreenshot.c:449
+#: src/arch/unix/x11/gnome/uiscreenshot.c:206
+#: src/arch/unix/x11/gnome/uiscreenshot.c:217
+#: src/arch/unix/x11/gnome/uiscreenshot.c:452
 msgid "Save Screenshot"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:228
+#: src/arch/unix/x11/gnome/uiscreenshot.c:230
 msgid "Image Format"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:298
+#: src/arch/unix/x11/gnome/uiscreenshot.c:301
 #, c-format
 msgid "FFMPEG Driver: %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:320
+#: src/arch/unix/x11/gnome/uiscreenshot.c:323
 #, c-format
 msgid "\tAC: %s(%d)"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:345
+#: src/arch/unix/x11/gnome/uiscreenshot.c:348
 #, c-format
 msgid "\tVC: %s(%d)"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:356
+#: src/arch/unix/x11/gnome/uiscreenshot.c:359
 msgid "Format"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:365
+#: src/arch/unix/x11/gnome/uiscreenshot.c:368
 msgid "Audio Codec"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:374
+#: src/arch/unix/x11/gnome/uiscreenshot.c:377
 msgid "Video Codec"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:391
+#: src/arch/unix/x11/gnome/uiscreenshot.c:394
 msgid "Audio Bitrate"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:406
+#: src/arch/unix/x11/gnome/uiscreenshot.c:409
 msgid "Video Bitrate"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:494
+#: src/arch/unix/x11/gnome/uiscreenshot.c:501
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:500
+#: src/arch/unix/x11/gnome/uiscreenshot.c:508
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr ""
@@ -4888,17 +4888,17 @@ msgstr ""
 msgid "Set fontpath: `%s'.\n"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:626 src/arch/unix/x11/xaw/x11ui.c:489
+#: src/arch/unix/x11/gnome/x11ui.c:626 src/arch/unix/x11/xaw/x11ui.c:506
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:629 src/arch/unix/x11/xaw/x11ui.c:492
+#: src/arch/unix/x11/gnome/x11ui.c:629 src/arch/unix/x11/xaw/x11ui.c:509
 msgid "Please select a bit depth supported by your display."
 msgstr ""
 
 #: src/arch/unix/x11/gnome/x11ui.c:632 src/arch/unix/x11/gnome/x11ui.c:656
-#: src/arch/unix/x11/xaw/x11ui.c:495 src/arch/unix/x11/xaw/x11ui.c:512
+#: src/arch/unix/x11/xaw/x11ui.c:512 src/arch/unix/x11/xaw/x11ui.c:529
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr ""
@@ -4908,7 +4908,7 @@ msgstr ""
 msgid "Found %dbit visual."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:664 src/arch/unix/x11/xaw/x11ui.c:520
+#: src/arch/unix/x11/gnome/x11ui.c:664 src/arch/unix/x11/xaw/x11ui.c:537
 msgid "Cannot autodetect a proper visual."
 msgstr ""
 
@@ -4956,7 +4956,7 @@ msgstr ""
 msgid "Tape 000"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1047 src/arch/unix/x11/xaw/x11ui.c:601
+#: src/arch/unix/x11/gnome/x11ui.c:1047 src/arch/unix/x11/xaw/x11ui.c:618
 msgid "Maximum number of toplevel windows reached."
 msgstr ""
 
@@ -4968,35 +4968,35 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1354 src/arch/unix/x11/xaw/x11ui.c:1026
+#: src/arch/unix/x11/gnome/x11ui.c:1354 src/arch/unix/x11/xaw/x11ui.c:1073
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1361 src/arch/unix/x11/xaw/x11ui.c:1030
+#: src/arch/unix/x11/gnome/x11ui.c:1361 src/arch/unix/x11/xaw/x11ui.c:1077
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1368 src/arch/unix/x11/xaw/x11ui.c:1038
+#: src/arch/unix/x11/gnome/x11ui.c:1368 src/arch/unix/x11/xaw/x11ui.c:1085
 msgid "Save the current settings?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1413 src/arch/unix/x11/xaw/x11ui.c:1079
+#: src/arch/unix/x11/gnome/x11ui.c:1413 src/arch/unix/x11/xaw/x11ui.c:1126
 msgid "Using private colormap."
 msgstr ""
 
 #: src/arch/unix/x11/gnome/x11ui.c:1433 src/arch/unix/x11/gnome/x11ui.c:1436
-#: src/arch/unix/x11/xaw/x11ui.c:1100 src/arch/unix/x11/xaw/x11ui.c:1106
+#: src/arch/unix/x11/xaw/x11ui.c:1154 src/arch/unix/x11/xaw/x11ui.c:1159
 msgid "(warp)"
 msgstr ""
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1725
+#: src/arch/unix/x11/gnome/x11ui.c:1727
 #, c-format
 msgid "Tape %03d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1777 src/arch/unix/x11/xaw/x11ui.c:1327
+#: src/arch/unix/x11/gnome/x11ui.c:1779 src/arch/unix/x11/xaw/x11ui.c:1395
 #, c-format
 msgid "%s (paused)"
 msgstr ""
@@ -5017,7 +5017,7 @@ msgstr ""
 msgid "Monitor"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2018 src/arch/unix/x11/xaw/x11ui.c:1605
+#: src/arch/unix/x11/gnome/x11ui.c:2018 src/arch/unix/x11/xaw/x11ui.c:1673
 msgid "Extend disk image"
 msgstr ""
 
@@ -5249,19 +5249,19 @@ msgid "Save cartridge image file"
 msgstr ""
 
 #: src/arch/unix/x11/xaw/uicartridge.c:128 src/arch/unix/x11/xaw/uiedisk.c:209
-#: src/arch/unix/x11/xaw/uiscreenshot.c:163
+#: src/arch/unix/x11/xaw/uiscreenshot.c:170
 #: src/arch/unix/x11/xaw/uisnapshot.c:143
 msgid "File name:"
 msgstr ""
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:238
-#: src/arch/unix/x11/xaw/uiscreenshot.c:192
+#: src/arch/unix/x11/xaw/uiscreenshot.c:199
 #: src/arch/unix/x11/xaw/uisnapshot.c:170
 msgid "Browse..."
 msgstr ""
 
 #: src/arch/unix/x11/xaw/uicartridge.c:174 src/arch/unix/x11/xaw/uiedisk.c:411
-#: src/arch/unix/x11/xaw/uiscreenshot.c:262
+#: src/arch/unix/x11/xaw/uiscreenshot.c:269
 #: src/arch/unix/x11/xaw/uisnapshot.c:292
 msgid "Cancel"
 msgstr ""
@@ -5294,15 +5294,15 @@ msgstr ""
 msgid "Disk format:"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:88
+#: src/arch/unix/x11/xaw/uiscreenshot.c:90
 msgid "Save screenshot file"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:212
+#: src/arch/unix/x11/xaw/uiscreenshot.c:219
 msgid "Image format:"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:279
+#: src/arch/unix/x11/xaw/uiscreenshot.c:286
 msgid "Screen Snapshot"
 msgstr ""
 
@@ -5336,12 +5336,20 @@ msgstr ""
 msgid "Save snapshot"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1192
+#: src/arch/unix/x11/xaw/x11ui.c:811
+msgid "recording..."
+msgstr ""
+
+#: src/arch/unix/x11/xaw/x11ui.c:820
+msgid "event recording..."
+msgstr ""
+
+#: src/arch/unix/x11/xaw/x11ui.c:1253
 #, c-format
 msgid "%d: Track %.1f"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1490
+#: src/arch/unix/x11/xaw/x11ui.c:1558
 msgid "VICE Error!"
 msgstr ""
 
