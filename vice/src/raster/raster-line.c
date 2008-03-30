@@ -566,9 +566,10 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
 
         fill_background(raster);
 
-        raster_fill_sprite_cache(raster, cache,
-                                 &changed_start_char,
-                                 &changed_end_char);
+        if (raster->sprite_status->num_sprites > 0)
+            raster_fill_sprite_cache(raster, cache,
+                                     &changed_start_char,
+                                     &changed_end_char);
 
         r = raster_modes_fill_cache(raster->modes,
                                     video_mode,
@@ -583,7 +584,9 @@ inline static int check_for_major_changes_and_update(raster_t *raster,
                                       cache,
                                       changed_start_char,
                                       changed_end_char);
-        draw_sprites_when_cache_enabled(raster, cache);
+
+        if (raster->sprite_status->num_sprites > 0)
+            draw_sprites_when_cache_enabled(raster, cache);
 
         *changed_start = 0;
         *changed_end = raster->geometry->screen_size.width - 1;
