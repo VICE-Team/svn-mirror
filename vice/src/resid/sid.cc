@@ -894,8 +894,9 @@ int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
     short* sample_start = sample + sample_index - fir_N + RINGSIZE;
 
     // Convolution with filter impulse response.
+    int j;
     int v1 = 0;
-    for (int j = 0; j < fir_N; j++) {
+    for (j = 0; j < fir_N; j++) {
       v1 += sample_start[j]*fir_start[j];
     }
 
@@ -909,7 +910,7 @@ int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
 
     // Convolution with filter impulse response.
     int v2 = 0;
-    for (int j = 0; j < fir_N; j++) {
+    for (j = 0; j < fir_N; j++) {
       v2 += sample_start[j]*fir_start[j];
     }
 

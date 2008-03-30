@@ -199,6 +199,8 @@ static int sid_snapshot_read_module_extended(snapshot_t *s)
     sid_snapshot_state_t sid_state;
     int sound, sid_engine;
 
+    memset(&sid_state, 0, sizeof(sid_state));
+
     resources_get_value("Sound", (void *)&sound);
 
     if (sound == 0)
