@@ -151,6 +151,13 @@ be removed: e.g.
   #: src/event.c:466
   #, c-format
   msgid "Could not create start snapshot file %s."
+  [...]
+
+If `,fuzzy' was the only mark, the whole line (including `#') can be
+removed:
+  #: src/event.c:486
+  msgid "Could not create start snapshot."
+  [...]
 
 -- 
 Andrea Musuruane, 

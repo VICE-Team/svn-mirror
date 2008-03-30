@@ -860,12 +860,12 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
     curr = event_list_base;
     num_of_timestamps = 0;
     playback_time = 0;
-    next_timestamp_clk = -1;
+    next_timestamp_clk = CLOCK_MAX;
 
     while (1) {
         unsigned int type, size;
         CLOCK clk;
-        BYTE *data;
+        BYTE *data = NULL;
 
         /* 
             throw away recorded timestamp (recording them  was introduced in
@@ -897,7 +897,7 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
             }
         }
 
-        if (next_timestamp_clk == -1) /* if EVENT_INITIAL is missing */
+        if (next_timestamp_clk == CLOCK_MAX) /* if EVENT_INITIAL is missing */
             next_timestamp_clk = clk;
 
         if (type == EVENT_INITIAL) {
