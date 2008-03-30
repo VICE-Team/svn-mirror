@@ -25,6 +25,8 @@
  */
 
 #include <windows.h>
+#include <tchar.h>
+
 #include "res.h"
 #include "resources.h"
 #include "joy.h"
@@ -36,6 +38,8 @@ extern void joystick_ui_get_device_list(HWND joy_hwnd);
 extern void joystick_ui_get_autofire_axes(HWND joy_hwnd, int device);
 extern void joystick_ui_get_autofire_buttons(HWND joy_hwnd, int device);
 
+extern const TCHAR *kbd_code_to_string(kbd_code_t kcode);
+
 static int joy1;
 static int joy2;
 static int current_keyset_index;
@@ -43,16 +47,16 @@ static int current_key_index;
 
 static int keyset[9];
 
-static char *keydefine_texts[]={
-    "Press key for NorthWest",
-    "Press key for North",
-    "Press key for NorthEast",
-    "Press key for East",
-    "Press key for SouthEast",
-    "Press key for South",
-    "Press key for SouthWest",
-    "Press key for West",
-    "Press key for Fire"
+static TCHAR *keydefine_texts[] = {
+    TEXT("Press key for NorthWest"),
+    TEXT("Press key for North"),
+    TEXT("Press key for NorthEast"),
+    TEXT("Press key for East"),
+    TEXT("Press key for SouthEast"),
+    TEXT("Press key for South"),
+    TEXT("Press key for SouthWest"),
+    TEXT("Press key for West"),
+    TEXT("Press key for Fire")
 };
 
 static long CALLBACK real_callback(HWND hwnd, UINT msg, WPARAM wparam,
@@ -99,7 +103,7 @@ static BOOL CALLBACK key_dialog(HWND hwnd, UINT msg, WPARAM wparam,
 
 static void init_keyset_dialog(HWND hwnd)
 {
-    if (current_keyset_index==0) {
+    if (current_keyset_index == 0) {
         resources_get_value("KeySet1NorthWest", (void *)&keyset[KEYSET_NW]);
         resources_get_value("KeySet1North", (void *)&keyset[KEYSET_N]);
         resources_get_value("KeySet1NorthEast", (void *)&keyset[KEYSET_NE]);
@@ -109,7 +113,7 @@ static void init_keyset_dialog(HWND hwnd)
         resources_get_value("KeySet1SouthWest", (void *)&keyset[KEYSET_SW]);
         resources_get_value("KeySet1West", (void *)&keyset[KEYSET_W]);
         resources_get_value("KeySet1Fire", (void *)&keyset[KEYSET_FIRE]);
-        SetWindowText(hwnd,"Configure Keyset A");
+        SetWindowText(hwnd, TEXT("Configure Keyset A"));
     } else {
         resources_get_value("KeySet2NorthWest", (void *)&keyset[KEYSET_NW]);
         resources_get_value("KeySet2North", (void *)&keyset[KEYSET_N]);
@@ -120,7 +124,7 @@ static void init_keyset_dialog(HWND hwnd)
         resources_get_value("KeySet2SouthWest", (void *)&keyset[KEYSET_SW]);
         resources_get_value("KeySet2West", (void *)&keyset[KEYSET_W]);
         resources_get_value("KeySet2Fire", (void *)&keyset[KEYSET_FIRE]);
-        SetWindowText(hwnd,"Configure Keyset B");
+        SetWindowText(hwnd, TEXT("Configure Keyset B"));
     }
     SetDlgItemText(hwnd, IDC_KEY_NW,
                    kbd_code_to_string((kbd_code_t)keyset[KEYSET_NW]));

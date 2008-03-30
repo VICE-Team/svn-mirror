@@ -89,7 +89,6 @@ extern BYTE _kbd_extended_key_tab[];
 extern int kbd_init(int num, ...);
 extern int kbd_handle_keydown(DWORD virtual_key, DWORD key_data);
 extern int kbd_handle_keyup(DWORD virtual_key, DWORD key_data);
-extern const char *kbd_code_to_string(kbd_code_t kcode);
 
 #endif
 
