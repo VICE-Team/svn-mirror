@@ -33,12 +33,13 @@
 
 #include "cbmcharsets.h"
 #include "imagecontents.h"
+#include "lib.h"
 #include "tui.h"
 #include "tui_backend.h"
 #include "types.h"
-#include "utils.h"
 
 #include "tuiimagebrowser.h"
+
 
 #define WIDTH  35
 #define HEIGHT 17
@@ -222,7 +223,7 @@ char *tui_image_browser(unsigned int type, const char *filename,
 
                     tui_area_put(backing_store, x, y);
                     tui_area_free(backing_store);
-                    retval = stralloc(current->name);
+                    retval = lib_stralloc(current->name);
                     image_contents_destroy(contents);
                     if (file_number != NULL)
                         *file_number = current_number + 1;
