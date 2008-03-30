@@ -1,3 +1,22 @@
+Fri Apr 17 14:22:08 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.6.
+
+	* c1541.c (disk_unlynx): Replaced `strtol()' calls with calls to
+	`string_to_int()'.  Do not complain if `lbsize' is zero.
+
+	* utils.c (string_to_int): New function.
+
+	* arch/unix/ui_xaw.c (UiTogglePause): Call `UiDisplayPaused()'
+ 	correctly.
+	* arch/unix/xdebug.c (StopTrap): Likewise.
+	(xdebug_disable): Call `UiDisplayPaused(0)'.
+	(RunCb): Likewise.
+
+	* arch/unix/ui_xaw.c (UiDisplayPaused): New parameter `flag'.  If
+ 	nonzero, display the "(paused)" string.  Otherwise, remove it.
+	* arch/unix/ui_xaw.h (UiDisplayPaused): Updated prototype.
+
 Fri Apr 17 00:14:29 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.5.
