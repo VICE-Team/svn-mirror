@@ -36,52 +36,63 @@ int tpidebug = 0;
 
 static BYTE tpi[8];
 
+static BYTE oldpa;	/* current PA output `as measured' */
+static BYTE oldpb;	/* current PB output `as measured' */
+static BYTE oldpc;	/* current PC output `as measured' */
+
 void reset_tpi ( void ) {
 	int i;
 	for(i=0;i<8;i++) {
 	  tpi[0] = 0;
 	}
 
+	oldpa = 0xff;
+	oldpb = 0xff;
+	oldpc = 0xff;
+
 	RESET
 
 }
 
 void store_tpi ( ADDRESS addr, BYTE byte ) {
-	BYTE b;
 
 	tpi[addr & 0x07] = byte;
+
 	switch ( addr ) {
 	case TPI_PA:
 	case TPI_DDPA:
-		b = (tpi[TPI_PA]^255) & tpi[TPI_DDPA];
+		byte = (tpi[TPI_PA]^255) & tpi[TPI_DDPA];
 		STORE_PA
+		oldpa = byte;
 		return;
 	case TPI_PB:
 	case TPI_DDPB:
-		b = (tpi[TPI_PB]^255) & tpi[TPI_DDPB];
+		byte = (tpi[TPI_PB]^255) & tpi[TPI_DDPB];
 		STORE_PB
+		oldpb = byte;
 		return;
 	case TPI_PC:
 	case TPI_DDPC:
-		b = (tpi[TPI_PC]^255) & tpi[TPI_DDPC];
+		byte = (tpi[TPI_PC]^255) & tpi[TPI_DDPC];
 		STORE_PC
+		oldpc = byte;
 	}
 }
 
 BYTE read_tpi ( ADDRESS addr ) {
-	BYTE b = 0xff;
+	BYTE byte = 0xff;
     	switch ( addr ) {
 	case TPI_PA:
 		READ_PA
-		return ((b & (tpi[TPI_DDPA]^255))
+		return ((byte & ~tpi[TPI_DDPA])
 					     | (tpi[TPI_PA] & tpi[TPI_DDPA]));
 	case TPI_PB:
 		READ_PB
-		return ((b & (tpi[TPI_DDPB]^255))
+		return ((byte & ~tpi[TPI_DDPB])
 					     | (tpi[TPI_PB] & tpi[TPI_DDPB]));
 	case TPI_PC:
 		READ_PC
-		return  ((b & (tpi[TPI_DDPC]^255))
+		return  ((byte & ~tpi[TPI_DDPC])
 					     | (tpi[TPI_PB] & tpi[TPI_DDPC]));
 	default:
 		return tpi[addr];

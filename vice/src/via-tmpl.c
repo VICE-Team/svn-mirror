@@ -94,6 +94,9 @@ static int myviapb7o;		/* to be ored herewith  */
 static int myviapb7xx;
 static int myviapb7sx;
 
+static BYTE oldpa;		/* the actual output on PA (input = high) */
+static BYTE oldpb;		/* the actual output on PB (input = high) */
+
 /*
  * local functions
  */
@@ -232,6 +235,9 @@ void reset_myvia(void)
     mycpu_unset_alarm(A_MYVIAT2);
     update_myviairq();
 
+    oldpa = 0xff;
+    oldpb = 0xff;
+
     RESET_VIA
 
 }
@@ -291,8 +297,11 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
         myvia[VIA_PRA_NHS] = byte;
         addr = VIA_PRA;
       case VIA_DDRA:
+	myvia[addr] = byte;
+	byte = myvia[VIA_PRA] | ~myvia[VIA_DDRA];
         STORE_PRA
-            break;
+	oldpa = byte;
+        break;
 
       case VIA_PRB:		/* port B */
         myviaifr &= ~VIA_IM_CB1;
@@ -302,8 +311,11 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
         update_myviairq();
 
       case VIA_DDRB:
+	myvia[addr] = byte;
+	byte = myvia[VIA_PRB] | ~myvia[VIA_DDRB];
         STORE_PRB
-            break;
+	oldpb = byte;
+        break;
 
       case VIA_SR:		/* Serial Port output buffer */
         myvia[addr] = byte;
@@ -462,6 +474,7 @@ BYTE REGPARM1 read_myvia(ADDRESS addr)
 BYTE REGPARM1 read_myvia_(ADDRESS addr)
 {
 #endif
+    BYTE byte;
     CLOCK rclk = myclk;
 
     addr &= 0xf;
@@ -482,25 +495,23 @@ BYTE REGPARM1 read_myvia_(ADDRESS addr)
 
       case VIA_PRA_NHS:	/* port A, no handshake */
         READ_PRA
+        byte = (byte & ~myvia[VIA_DDRA]) | (myvia[VIA_PRA] & myvia[VIA_DDRA]);
+	return byte;
 
       case VIA_PRB:		/* port B */
         myviaifr &= ~VIA_IM_CB1;
-
         if ((myvia[VIA_PCR] & 0xa0) != 0x20)
             myviaifr &= ~VIA_IM_CB2;
-
         update_myviairq();
-        {
-            BYTE byte;
 
-            READ_PRB
+        READ_PRB
+        byte = (byte & ~myvia[VIA_DDRB]) | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
 
-            if (myvia[VIA_ACR] & 0x80) {
-                update_myviatal(rclk);
-                byte = (byte & 0x7f) | (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0);
-            }
-            return byte;
+        if (myvia[VIA_ACR] & 0x80) {
+            update_myviatal(rclk);
+            byte = (byte & 0x7f) | (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0);
         }
+        return byte;
 
         /* Timers */
 
@@ -666,15 +677,15 @@ void myvia_prevent_clk_overflow(CLOCK sub)
  * UBYTE	SR
  * UBYTE	ACR
  * UBYTE	PCR
- * UBYTE	IFR		 active interrupts 
- * UBYTE	IER		 interrupt masks 
- * UBYTE	PB7		 bit 7 = pb7 state 
- * UBYTE	SRHBITS		 number of half bits to shift out on SR 
+ * UBYTE	IFR		 active interrupts
+ * UBYTE	IER		 interrupt masks
+ * UBYTE	PB7		 bit 7 = pb7 state
+ * UBYTE	SRHBITS		 number of half bits to shift out on SR
  *
  */
 
 
-int myvia_dump(FILE * p)
+int myvia_write_snapshot_module(FILE * p)
 {
 
     if (myviatai && (myviatai <= myclk))
@@ -703,13 +714,13 @@ int myvia_dump(FILE * p)
     snapshot_write_byte(p, myviaier);
 
 						/* FIXME! */
-    snapshot_write_byte(p, (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0));	
+    snapshot_write_byte(p, (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0));
     snapshot_write_byte(p, 0);			/* SRHBITS */
 
     return 0;
 }
 
-int myvia_undump(FILE * p)
+int myvia_read_snapshot_module(FILE * p)
 {
     char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
@@ -729,14 +740,18 @@ int myvia_undump(FILE * p)
     snapshot_read_byte(p, &myvia[VIA_DDRB]);
     {
         addr = VIA_DDRA;
-	byte = myvia[addr];
-	STORE_PRA
+	byte = myvia[VIA_PRA] | ~myvia[VIA_DDRA];
+	oldpa = byte ^ 0xff;
+	UNDUMP_PRA
+	oldpa = byte;
 
 	addr = VIA_DDRB;
-	byte = myvia[addr];
-	STORE_PRB
+	byte = myvia[VIA_PRB] | ~myvia[VIA_DDRB];
+	oldpb = byte ^ 0xff;
+	UNDUMP_PRB
+	oldpb = byte;
     }
-    
+
     snapshot_read_word(p, &word);
     myviatal = word;
     snapshot_read_word(p, &word);
@@ -752,7 +767,7 @@ int myvia_undump(FILE * p)
     mycpu_set_alarm(A_MYVIAT2, myviatbi);
 
     snapshot_read_byte(p, &myvia[VIA_SR]);
-    { 
+    {
 	addr = myvia[VIA_SR];
 	byte = myvia[addr];
 	STORE_SR
@@ -771,12 +786,12 @@ int myvia_undump(FILE * p)
     myviaier = byte;
     update_myviairq();
 						/* FIXME! */
-    snapshot_read_byte(p, &byte);	
+    snapshot_read_byte(p, &byte);
     myviapb7 = byte ? 1 : 0;
     myviapb7x = 0;
     myviapb7o = 0;
     snapshot_read_byte(p, &byte);		/* SRHBITS */
- 
+
     return 0;
 }
 

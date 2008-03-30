@@ -44,11 +44,19 @@ int tpidebug = 0;
 
 static BYTE tpi[8];
 
+static BYTE oldpa;	/* current PA output `as measured' */
+static BYTE oldpb;	/* current PB output `as measured' */
+static BYTE oldpc;	/* current PC output `as measured' */
+
 void reset_tpi ( void ) {
 	int i;
 	for(i=0;i<8;i++) {
 	  tpi[0] = 0;
 	}
+
+	oldpa = 0xff;
+	oldpb = 0xff;
+	oldpc = 0xff;
 
 
 	/* assuming input after reset */
@@ -62,53 +70,56 @@ void reset_tpi ( void ) {
 }
 
 void store_tpi ( ADDRESS addr, BYTE byte ) {
-	BYTE b;
 
 	tpi[addr & 0x07] = byte;
+
 	switch ( addr ) {
 	case TPI_PA:
 	case TPI_DDPA:
-		b = (tpi[TPI_PA]^255) & tpi[TPI_DDPA];
+		byte = (tpi[TPI_PA]^255) & tpi[TPI_DDPA];
 
-		par_set_atn( b & 0x08 );
-		par_set_dav( b & 0x10 );
-		par_set_eoi( b & 0x20 );
-		par_set_ndac( b & 0x40 );
-		par_set_nrfd( b & 0x80 );
+	par_set_atn( byte & 0x08 );
+	par_set_dav( byte & 0x10 );
+	par_set_eoi( byte & 0x20 );
+	par_set_ndac( byte & 0x40 );
+	par_set_nrfd( byte & 0x80 );
+		oldpa = byte;
 		return;
 	case TPI_PB:
 	case TPI_DDPB:
-		b = (tpi[TPI_PB]^255) & tpi[TPI_DDPB];
+		byte = (tpi[TPI_PB]^255) & tpi[TPI_DDPB];
 
-		par_set_bus( b );
+	par_set_bus( byte );
+		oldpb = byte;
 		return;
 	case TPI_PC:
 	case TPI_DDPC:
-		b = (tpi[TPI_PC]^255) & tpi[TPI_DDPC];
+		byte = (tpi[TPI_PC]^255) & tpi[TPI_DDPC];
 		
+		oldpc = byte;
 	}
 }
 
 BYTE read_tpi ( ADDRESS addr ) {
-	BYTE b = 0xff;
+	BYTE byte = 0xff;
     	switch ( addr ) {
 	case TPI_PA:
 
-		b = par_atn ? 0 : 8;
-		b += par_dav ? 0 : 16;
-		b += par_eoi ? 0 : 32;
-		b += par_ndac ? 0 : 64;
-		b += par_nrfd ? 0 : 128;
-		return ((b & (tpi[TPI_DDPA]^255))
+	byte = par_atn ? 0 : 8;
+	byte += par_dav ? 0 : 16;
+	byte += par_eoi ? 0 : 32;
+	byte += par_ndac ? 0 : 64;
+	byte += par_nrfd ? 0 : 128;
+		return ((byte & ~tpi[TPI_DDPA])
 					     | (tpi[TPI_PA] & tpi[TPI_DDPA]));
 	case TPI_PB:
 
-		b = par_bus;
-		return ((b & (tpi[TPI_DDPB]^255))
+		byte = par_bus;
+		return ((byte & ~tpi[TPI_DDPB])
 					     | (tpi[TPI_PB] & tpi[TPI_DDPB]));
 	case TPI_PC:
 		
-		return  ((b & (tpi[TPI_DDPC]^255))
+		return  ((byte & ~tpi[TPI_DDPC])
 					     | (tpi[TPI_PB] & tpi[TPI_DDPC]));
 	default:
 		return tpi[addr];

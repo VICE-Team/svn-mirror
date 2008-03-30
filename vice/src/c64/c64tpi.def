@@ -43,32 +43,46 @@ RESET()
 
 STORE_PA()
 {
-		par_set_atn( b & 0x08 );
-		par_set_dav( b & 0x10 );
-		par_set_eoi( b & 0x20 );
-		par_set_ndac( b & 0x40 );
-		par_set_nrfd( b & 0x80 );
+	par_set_atn( byte & 0x08 );
+	par_set_dav( byte & 0x10 );
+	par_set_eoi( byte & 0x20 );
+	par_set_ndac( byte & 0x40 );
+	par_set_nrfd( byte & 0x80 );
 }
 
 STORE_PB()
 {
-		par_set_bus( b );
+	par_set_bus( byte );
+}
+
+UNDUMP_PA()
+{
+	par_set_atn( byte & 0x08 );
+	par_set_dav( byte & 0x10 );
+	par_set_eoi( byte & 0x20 );
+	par_set_ndac( byte & 0x40 );
+	par_set_nrfd( byte & 0x80 );
+}
+
+UNDUMP_PB()
+{
+	par_set_bus( byte );
 }
 
 #define	STORE_PC
 
 READ_PA()
 {
-		b = par_atn ? 0 : 8;
-		b += par_dav ? 0 : 16;
-		b += par_eoi ? 0 : 32;
-		b += par_ndac ? 0 : 64;
-		b += par_nrfd ? 0 : 128;
+	byte = par_atn ? 0 : 8;
+	byte += par_dav ? 0 : 16;
+	byte += par_eoi ? 0 : 32;
+	byte += par_ndac ? 0 : 64;
+	byte += par_nrfd ? 0 : 128;
 }
 
 READ_PB()
 {
-		b = par_bus;
+		byte = par_bus;
 }
 
 #define	READ_PC

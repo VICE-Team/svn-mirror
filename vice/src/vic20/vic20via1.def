@@ -56,8 +56,10 @@ INCLUDES()
 
 #define	PRE_VIA_FUNCS
 
-#define STORE_PRA 	via1[addr] = byte;
-#define STORE_PRB 	via1[addr] = byte;
+#define STORE_PRA
+#define UNDUMP_PRA
+#define STORE_PRB
+#define UNDUMP_PRB
 
 #define STORE_ACR
 #define STORE_SR
@@ -85,7 +87,7 @@ READ_PRA()
     {
 	/* FIXME: not 100% sure about this... */
 	BYTE val = ~via1[VIA_DDRA];
-	BYTE msk = via1[VIA_PRB] | ~via1[VIA_DDRB];
+	BYTE msk = oldpb;
 	BYTE m;
 	int i;
 
@@ -93,7 +95,8 @@ READ_PRA()
 	    if (!(msk & m))
 		val &= ~rev_keyarr[i];
 
-	return val | (via1[VIA_PRA] & via1[VIA_DDRA]);
+	/* return val | (via1[VIA_PRA] & via1[VIA_DDRA]); */
+	byte = val;
     }
 }
 
@@ -102,7 +105,7 @@ READ_PRB()
     {
 	/* FIXME: not 100% sure about this... */
         BYTE val = ~via1[VIA_DDRB];
-	BYTE msk = via1[VIA_PRA] | ~via1[VIA_DDRA];
+	BYTE msk = oldpa;
 	int m, i;
 
 	for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
@@ -114,7 +117,7 @@ READ_PRB()
 	if ((joy[1] | joy[2]) & 0x8)
 	    val &= 0x7f;
 
-	byte = val | (via1[VIA_PRB] & via1[VIA_DDRB]);
+	byte = val /*| (via1[VIA_PRB] & via1[VIA_DDRB])*/ ;
     }
 }
 

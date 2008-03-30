@@ -72,9 +72,15 @@ PRE_VIA_FUNCS()
 
 STORE_PRB()
 {
-    via2[addr] = byte;
 #ifdef HAVE_PRINTER
-    userport_printer_write_data(via2[VIA_PRB] | (~via2[VIA_DDRB]));
+    userport_printer_write_data(byte);
+#endif
+}
+
+UNDUMP_PRB()
+{
+#ifdef HAVE_PRINTER
+    userport_printer_write_data(byte);
 #endif
 }
 
@@ -111,8 +117,12 @@ RESET_VIA()
 
 STORE_PRA()
 {
-    via2[addr] = byte;
-    iec_pa_write(via2[VIA_PRA] | (~via2[VIA_DDRA]));
+    iec_pa_write(byte);
+}
+
+UNDUMP_PRA()
+{
+    iec_pa_write(byte);
 }
 
 READ_PRA()
@@ -145,14 +155,15 @@ READ_PRA()
 
 	/* We assume `iec_pa_read()' returns the non-IEC bits
 	   as zeroes. */
-	return ((via2[VIA_PRA] & via2[VIA_DDRA])
-		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA]));
+	/* return ((via2[VIA_PRA] & via2[VIA_DDRA])
+		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA])); */
+	byte = iec_pa_read() | joy_bits;
     }
 }
 
 READ_PRB()
 {
-    byte = (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
+    byte = 0xff;
 }
 
 POST_VIA_FUNCS()

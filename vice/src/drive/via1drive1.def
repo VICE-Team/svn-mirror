@@ -76,34 +76,32 @@ static iec_info_t *iec_info;
 
 }
 
+#define	UNDUMP_PRA	/* FIXME!!! */
+
 STORE_PRA()
 {
     {
-        BYTE oldval = via1d1[VIA_PRA] | ~via1d1[VIA_DDRA];
-
-        via1d1[addr] = byte;
-        byte = via1d1[VIA_PRA] | ~via1d1[VIA_DDRA];
-
         if (drive[1].type == DRIVE_TYPE_1571) {
-            if ((oldval ^ byte) & 0x20)
+            if ((oldpa ^ byte) & 0x20)
                 drive_set_1571_sync_factor(byte & 0x20, 1);
-            if ((oldval ^ byte) & 0x04)
+            if ((oldpa ^ byte) & 0x04)
                 drive_set_1571_side((byte >> 2) & 1, 1);
         }
         if (drive_parallel_cable_enabled && drive[1].type == DRIVE_TYPE_1541)
-            parallel_cable_drive_write(via1d1[VIA_PRA] | ~via1d1[VIA_DDRA],
+            parallel_cable_drive_write(byte,
                                         (((addr == VIA_PRA)
                                         && ((via1d1[VIA_PCR] & 0xe) == 0xa))
                                         ? 1 : 0));
     }
 }
 
+#define	UNDUMP_PRB	/* FIXME!!! */
+
 STORE_PRB()
 {
-    if (byte != via1d1[addr]) {
-	via1d1[addr] = byte;
+    if (byte != oldpb) {
 	if (iec_info != NULL) {
-	    iec_info->drive2_data = via1d1[VIA_DDRB] & ~via1d1[VIA_PRB];
+	    iec_info->drive2_data = ~byte;
 	    iec_info->drive2_bus = (((iec_info->drive2_data << 3) & 0x40)
 	        | ((iec_info->drive2_data << 6)
 	        & ((~iec_info->drive2_data ^ iec_info->cpu_bus) << 3) & 0x80));
@@ -113,7 +111,7 @@ STORE_PRB()
 	        | (iec_info->cpu_port >> 7)
 	        | ((iec_info->cpu_bus << 3) & 0x80));
 	} else {
-	    iec_drive_write(via1d1[VIA_DDRB] & ~via1d1[VIA_PRB]);
+	    iec_drive_write(~byte);
 	}
     }
 }
@@ -137,20 +135,24 @@ READ_PRA()
         return (tmp & ~via1d1[VIA_DDRA])
             | (via1d1[VIA_PRA] & via1d1[VIA_DDRA]);
     }
-    return (drive_parallel_cable_enabled
+    /*return*/
+    byte = (drive_parallel_cable_enabled
             ? parallel_cable_drive_read((((addr == VIA_PRA) &&
                                           (via1d1[VIA_PCR] & 0xe) == 0xa))
                                         ? 1 : 0)
+	    : 0xff );
+/*
             : ((via1d1[VIA_PRA] & via1d1[VIA_DDRA])
                | (0xff & ~via1d1[VIA_DDRA])));
+*/
 }
 
 READ_PRB()
 {
     if (iec_info != NULL)
-	byte = (((via1d1[VIA_PRB] & 0x1a) | iec_info->drive2_port) ^ 0x85) | 0x20;
+	byte = ((/*(via1d1[VIA_PRB] & 0x1a) |*/ iec_info->drive2_port) ^ 0x85) | 0x20;
     else
-	byte = (((via1d1[VIA_PRB] & 0x1a) | iec_drive_read()) ^ 0x85) | 0x20;
+	byte = ((/*(via1d1[VIA_PRB] & 0x1a) |*/ iec_drive_read()) ^ 0x85) | 0x20;
 }
 
 #define POST_VIA_FUNCS
