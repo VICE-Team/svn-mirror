@@ -41,6 +41,7 @@
 #include "final.h"
 #include "generic.h"
 #include "kcs.h"
+#include "magicformel.h"
 #include "resources.h"
 #include "supergames.h"
 #include "supersnapshot.h"
@@ -185,6 +186,12 @@ int crt_attach(const char *filename, BYTE *rawcart)
         break;
       case CARTRIDGE_SUPER_SNAPSHOT_V5:
         rc = supersnapshot_v5_crt_attach(fd, rawcart);
+        fclose(fd);
+        if (rc < 0)
+            return -1;
+        break;
+      case CARTRIDGE_MAGIC_FORMEL:
+        rc = magicformel_crt_attach(fd, rawcart);
         fclose(fd);
         if (rc < 0)
             return -1;
