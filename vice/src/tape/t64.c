@@ -310,6 +310,7 @@ int t64_read(t64_t *t64, BYTE *buf, size_t size)
         return -1;
 
     offset = rec->contents + t64->current_file_seek_position;
+
     if (fseek(t64->fd, offset, SEEK_SET) != 0)
         return -1;
 
@@ -317,6 +318,7 @@ int t64_read(t64_t *t64, BYTE *buf, size_t size)
         size = recsize - t64->current_file_seek_position;
 
     amount = fread(buf, 1, size, t64->fd);
+
     t64->current_file_seek_position += amount;
 
     return amount;

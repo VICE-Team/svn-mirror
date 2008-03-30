@@ -279,8 +279,8 @@ void tape_find_header_trap_plus4(void)
     if (err)
         mem_store(0xF8, CAS_TYPE_EOF);
 
-    mem_store(0xb6,0x33);
-    mem_store(0xb7,0x03);
+    mem_store(0xb6, 0x33);
+    mem_store(0xb7, 0x03);
 
     mem_store(st_addr, 0);      /* Clear the STATUS word.  */
     mem_store(verify_flag_addr, 0);
@@ -313,7 +313,8 @@ void tape_find_header_trap_plus4(void)
    Luckily enough, these values are valid for all the machines.  */
 void tape_receive_trap(void)
 {
-    WORD start, end, len;
+    int len;
+    WORD start, end;
     BYTE st;
 
     start = (mem_read(stal_addr) | (mem_read((ADDRESS)(stal_addr + 1)) << 8));
@@ -322,11 +323,12 @@ void tape_receive_trap(void)
     switch (MOS6510_REGS_GET_X(&maincpu_regs)) {
       case 0x0e:
         {
-            /* Read block.  */
-            len = end - start;
+            int amount;
 
-            if (t64_read((t64_t *)tape_image_dev1->data,
-                         mem_ram + (int)start, (int)len) == (int)len) {
+            len = (int)(end - start);
+            amount = t64_read((t64_t *)tape_image_dev1->data,mem_ram
+                              + (int)start, len);
+            if (amount == len) {
                 st = 0x40;      /* EOF */
             } else {
                 st = 0x10;
