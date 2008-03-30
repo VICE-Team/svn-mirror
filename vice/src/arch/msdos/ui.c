@@ -221,8 +221,8 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
 
     disable_text();
 
-    /* Always reset.  */
-    return 0;
+    /* Always hard reset.  */
+    return UI_JAM_HARD_RESET;
 }
 
 void ui_show_text(const char *title, const char *text)

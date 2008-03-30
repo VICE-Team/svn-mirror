@@ -34,8 +34,6 @@ typedef enum {
     UI_JAM_RESET, UI_JAM_HARD_RESET, UI_JAM_MONITOR, UI_JAM_DEBUG
 } ui_jam_action_t;
 
-/* ------------------------------------------------------------------------- */
-
 extern int ui_init_resources(void);
 extern int ui_init_cmdline_options(void);
 
