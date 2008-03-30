@@ -34,6 +34,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "c128-resources.h"
 #include "c128mem.h"
 #include "c128mmu.h"
 #include "c64cart.h"
@@ -48,7 +49,6 @@
 #include "maincpu.h"
 #include "mon.h"
 #include "parallel.h"
-#include "resources.h"
 #include "reu.h"
 #include "rs232.h"
 #include "sid.h"
@@ -79,187 +79,12 @@
 
 /* ------------------------------------------------------------------------- */
 
-static int mem_load_kernal(void);
-static int mem_load_basic(void);
-static int mem_load_chargen(void);
-
-/* ------------------------------------------------------------------------- */
-
 const char *mem_romset_resources_list[] = {
     "KernalName", "ChargenName", "BasicName",
     "DosName2031", "DosName1001",
     "DosName1541", "DosName1571", "DosName1581", "DosName1541ii",
     NULL
 };
-
-/* ------------------------------------------------------------------------- */
-
-/* C128 memory-related resources.  */
-
-/* Name of the character ROM.  */
-static char *chargen_rom_name;
-
-/* Name of the BASIC ROM.  */
-static char *basic_rom_name;
-
-/* Name of the Kernal ROM.  */
-static char *kernal_rom_name;
-
-/* Flag: Do we enable the Emulator ID?  */
-static int emu_id_enabled;
-
-/* Flag: Do we enable the IEEE488 interface emulation?  */
-static int ieee488_enabled;
-
-/* Flag: Do we enable the external REU?  */
-static int reu_enabled;
-
-#ifdef HAVE_RS232
-/* Flag: Do we enable the $DE** ACIA RS232 interface emulation?  */
-static int acia_de_enabled;
-
-#if 0
-/* Flag: Do we enable the $D7** ACIA RS232 interface emulation?  */
-static int acia_d7_enabled;
-#endif
-#endif
-
-static int set_chargen_rom_name(resource_value_t v, void *param)
-{
-    const char *name = (const char *)v;
-
-    if (chargen_rom_name != NULL && name != NULL
-        && strcmp(name, chargen_rom_name) == 0)
-        return 0;
-
-    util_string_set(&chargen_rom_name, name);
-
-    return mem_load_chargen();
-}
-
-static int set_kernal_rom_name(resource_value_t v, void *param)
-{
-    const char *name = (const char *)v;
-
-    if (kernal_rom_name != NULL && name != NULL
-        && strcmp(name, kernal_rom_name) == 0)
-        return 0;
-
-    util_string_set(&kernal_rom_name, name);
-
-    return mem_load_kernal();
-}
-
-static int set_basic_rom_name(resource_value_t v, void *param)
-{
-    const char *name = (const char *)v;
-
-    if (basic_rom_name != NULL && name != NULL
-        && strcmp(name, basic_rom_name) == 0)
-        return 0;
-
-    util_string_set(&basic_rom_name, name);
-
-    return mem_load_basic();
-}
-
-static int set_emu_id_enabled(resource_value_t v, void *param)
-{
-    if (!(int)v) {
-        emu_id_enabled = 0;
-        return 0;
-    } else {
-        emu_id_enabled = 1;
-        return 0;
-    }
-}
-
-static int set_ieee488_enabled(resource_value_t v, void *param)
-{
-    if (!(int)v) {
-        ieee488_enabled = 0;
-        return 0;
-    } else if (!reu_enabled) {
-        ieee488_enabled = 1;
-        return 0;
-    } else {
-        /* The REU and the IEEE488 interface share the same address space, so
-           they cannot be enabled at the same time.  */
-        return -1;
-    }
-}
-
-/* FIXME: Should initialize the REU when turned on.  */
-static int set_reu_enabled(resource_value_t v, void *param)
-{
-    if (!(int)v) {
-        reu_enabled = 0;
-        reu_deactivate();
-        return 0;
-    } else if (!ieee488_enabled) {
-        reu_enabled = 1;
-        reu_activate();
-        return 0;
-    } else {
-        /* The REU and the IEEE488 interface share the same address space, so
-           they cannot be enabled at the same time.  */
-        return -1;
-    }
-}
-
-#ifdef HAVE_RS232
-#if 0
-static int set_acia_d7_enabled(resource_value_t v, void *param)
-{
-    acia_d7_enabled = (int)v;
-    return 0;
-}
-#endif
-
-static int set_acia_de_enabled(resource_value_t v, void *param)
-{
-    acia_de_enabled = (int)v;
-    return 0;
-}
-#endif
-
-static resource_t resources[] =
-{
-    { "ChargenName", RES_STRING, (resource_value_t) "chargen",
-      (resource_value_t *)&chargen_rom_name,
-      set_chargen_rom_name, NULL },
-    { "KernalName", RES_STRING, (resource_value_t) "kernal",
-      (resource_value_t *)&kernal_rom_name,
-      set_kernal_rom_name, NULL },
-    { "BasicName", RES_STRING, (resource_value_t) "basic",
-      (resource_value_t *)&basic_rom_name,
-      set_basic_rom_name, NULL },
-    { "REU", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *)&reu_enabled,
-      set_reu_enabled, NULL },
-    { "IEEE488", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *)&ieee488_enabled,
-      set_ieee488_enabled, NULL },
-    { "EmuID", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *)&emu_id_enabled,
-      set_emu_id_enabled, NULL },
-#ifdef HAVE_RS232
-    { "AciaDE", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *)&acia_de_enabled,
-      set_acia_de_enabled, NULL },
-#if 0
-    { "AciaD7", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *)&acia_d7_enabled,
-      set_acia_d7_enabled, NULL },
-#endif
-#endif
-    { NULL }
-};
-
-int c128_mem_init_resources(void)
-{
-    return resources_register(resources);
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -272,29 +97,35 @@ static cmdline_option_t cmdline_options[] = {
       "<name>", "Specify name of BASIC ROM image" },
     { "-chargen", SET_RESOURCE, 1, NULL, NULL, "ChargenName", NULL,
       "<name>", "Specify name of character generator ROM image" },
-    { "-reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t) 1,
+    { "-kernal64", SET_RESOURCE, 1, NULL, NULL, "Kernal64Name", NULL,
+      "<name>", "Specify name of C64 mode Kernal ROM image" },
+    { "-basic64", SET_RESOURCE, 1, NULL, NULL, "Basic64Name", NULL,
+      "<name>", "Specify name of C64 mode BASIC ROM image" },
+    { "-chargen64", SET_RESOURCE, 1, NULL, NULL, "Chargen64Name", NULL,
+      "<name>", "Specify name of C64 mode character generator ROM image" },
+    { "-reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)1,
       NULL, "Enable the 512K RAM expansion unit" },
-    { "+reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t) 0,
+    { "+reu", SET_RESOURCE, 0, NULL, NULL, "REU", (resource_value_t)0,
       NULL, "Disable the 512K RAM expansion unit" },
-    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 1,
+    { "-emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t)1,
       NULL, "Enable emulator identification" },
-    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t) 0,
+    { "+emuid", SET_RESOURCE, 0, NULL, NULL, "EmuID", (resource_value_t)0,
       NULL, "Disable emulator identification" },
-    { "-ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t) 1,
+    { "-ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t)1,
       NULL, "Enable the IEEE488 interface emulation" },
-    { "+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t) 0,
+    { "+ieee488", SET_RESOURCE, 0, NULL, NULL, "IEEE488", (resource_value_t)0,
       NULL, "Disable the IEEE488 interface emulation" },
     { "-kernalrev", SET_RESOURCE, 1, NULL, NULL, "KernalRev", NULL,
       "<revision>", "Patch the Kernal ROM to the specified <revision>" },
 #ifdef HAVE_RS232
-    { "-acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 1,
+    { "-acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t)1,
       NULL, "Enable the $DE** ACIA RS232 interface emulation" },
-    { "+acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 0,
+    { "+acia1", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t)0,
       NULL, "Disable the $DE** ACIA RS232 interface emulation" },
 #if 0
-    { "-acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (resource_value_t) 1,
+    { "-acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (resource_value_t)1,
       NULL, "Enable the $D7** ACIA RS232 interface emulation" },
-    { "+acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (resource_value_t) 0,
+    { "+acia2", SET_RESOURCE, 0, NULL, NULL, "AciaD7", (resource_value_t)0,
       NULL, "Disable the $D7** ACIA RS232 interface emulation" },
 #endif
 #endif
@@ -316,6 +147,10 @@ BYTE ram[C128_RAM_SIZE];
 BYTE basic_rom[C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE];
 BYTE kernal_rom[C128_KERNAL_ROM_SIZE];
 BYTE chargen_rom[C128_CHARGEN_ROM_SIZE];
+
+BYTE basic64_rom[C128_BASIC64_ROM_SIZE];
+BYTE kernal64_rom[C128_KERNAL64_ROM_SIZE];
+BYTE chargen64_rom[C128_CHARGEN64_ROM_SIZE];
 
 /* Size of RAM...  */
 int ram_size = C128_RAM_SIZE;
@@ -2329,7 +2164,7 @@ void mem_powerup(void)
 
 static int mem_kernal_checksum(void) 
 {
-    int i,id;
+    int i, id;
     WORD sum;
 
     /* Check Kernal ROM.  */
@@ -2348,7 +2183,7 @@ static int mem_kernal_checksum(void)
     return 0;
 }
 
-static int mem_load_kernal(void) 
+int mem_load_kernal(const char *rom_name) 
 {
     int trapfl;
 
@@ -2359,13 +2194,13 @@ static int mem_load_kernal(void)
     resources_get_value("VirtualDevices", (resource_value_t*) &trapfl);
     resources_set_value("VirtualDevices", (resource_value_t) 1);
 
-    if(!IS_NULL(kernal_rom_name)) {
+    if (!IS_NULL(rom_name)) {
         /* Load Kernal ROM.  */
-        if (sysfile_load(kernal_rom_name,
+        if (sysfile_load(rom_name,
             kernal_rom, C128_KERNAL_ROM_SIZE,
             C128_KERNAL_ROM_SIZE) < 0) {
             log_error(c128_mem_log, "Couldn't load kernal ROM `%s'.", 
-                      kernal_rom_name);
+                      rom_name);
             resources_set_value("VirtualDevices", (resource_value_t) trapfl);
             return -1;
         }
@@ -2378,9 +2213,9 @@ static int mem_load_kernal(void)
     return 0;
 }
 
-static int mem_basic_checksum(void) 
+static int mem_basic_checksum(void)
 {
-    int i,id;
+    int i, id;
     WORD sum;
 
     /* Check Basic ROM.  */
@@ -2389,8 +2224,8 @@ static int mem_basic_checksum(void)
 
     if (sum != C128_BASIC_CHECKSUM_85 && sum != C128_BASIC_CHECKSUM_86)
         log_error(c128_mem_log,
-                  "Warning: Unknown Basic image `%s'.  Sum: %d ($%04X).",
-                  basic_rom_name, sum, sum);
+                  "Warning: Unknown Basic image.  Sum: %d ($%04X).",
+                  sum, sum);
 
     /* Check Editor ROM.  */
     for (i = C128_BASIC_ROM_SIZE, sum = 0;
@@ -2410,36 +2245,90 @@ static int mem_basic_checksum(void)
     return 0;
 }
 
-static int mem_load_basic(void)
+int mem_load_basic(const char *rom_name)
 {
     if (!rom_loaded)
         return 0;
 
-    if(!IS_NULL(basic_rom_name)) {
+    if (!IS_NULL(rom_name)) {
         /* Load Basic ROM.  */
-        if (sysfile_load(basic_rom_name,
+        if (sysfile_load(rom_name,
             basic_rom, C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE,
             C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE) < 0) {
             log_error(c128_mem_log, "Couldn't load basic ROM `%s'.",
-                      basic_rom_name);
+                      rom_name);
             return -1;
         }
     }
     return mem_basic_checksum();
 }
 
-static int mem_load_chargen(void)
+int mem_load_chargen(const char *rom_name)
 {
     if (!rom_loaded)
         return 0;
 
-    if (!IS_NULL(chargen_rom_name)) {
+    if (!IS_NULL(rom_name)) {
         /* Load chargen ROM.  */
-        if (sysfile_load(chargen_rom_name,
+        if (sysfile_load(rom_name,
             chargen_rom, C128_CHARGEN_ROM_SIZE,
             C128_CHARGEN_ROM_SIZE) < 0) {
             log_error(c128_mem_log, "Couldn't load character ROM `%s'.",
-                      chargen_rom_name);
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int mem_load_kernal64(const char *rom_name)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load C64 kernal ROM.  */
+        if (sysfile_load(rom_name,
+            kernal64_rom, C128_KERNAL64_ROM_SIZE,
+            C128_KERNAL64_ROM_SIZE) < 0) {
+            log_error(c128_mem_log, "Couldn't load C64 kernal ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int mem_load_basic64(const char *rom_name)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load basic ROM.  */
+        if (sysfile_load(rom_name,
+            basic64_rom, C128_BASIC64_ROM_SIZE,
+            C128_BASIC64_ROM_SIZE) < 0) {
+            log_error(c128_mem_log, "Couldn't load C64 basic ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    }
+    return 0;
+}
+
+int mem_load_chargen64(const char *rom_name)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (!IS_NULL(rom_name)) {
+        /* Load C64 Chargen ROM.  */
+        if (sysfile_load(rom_name,
+            chargen64_rom, C128_CHARGEN64_ROM_SIZE,
+            C128_CHARGEN64_ROM_SIZE) < 0) {
+            log_error(c128_mem_log, "Couldn't load C64 character ROM `%s'.",
+                      rom_name);
             return -1;
         }
     }
@@ -2450,6 +2339,8 @@ static int mem_load_chargen(void)
    `memory.c'.  */
 int mem_load(void)
 {
+    char *rom_name = NULL;
+
     if (c128_mem_log == LOG_ERR)
         c128_mem_log = log_open("C128MEM");
 
@@ -2462,14 +2353,35 @@ int mem_load(void)
 
     rom_loaded = 1;
 
-    if(mem_load_kernal() < 0)
-	return -1;
+    if (resources_get_value("KernalName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_kernal(rom_name) < 0)
+        return -1;
 
-    if(mem_load_basic() < 0)
-	return -1;
+    if (resources_get_value("BasicName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_basic(rom_name) < 0)
+        return -1;
 
-    if(mem_load_chargen() < 0)
-	return -1;
+    if (resources_get_value("ChargenName", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_chargen(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("Kernal64Name", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_kernal64(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("Basic64Name", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_basic64(rom_name) < 0)
+        return -1;
+
+    if (resources_get_value("Chargen64Name", (resource_value_t)&rom_name) < 0)
+        return -1;
+    if (mem_load_chargen64(rom_name) < 0)
+        return -1;
 
     return 0;
 }
