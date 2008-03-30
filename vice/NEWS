@@ -52,6 +52,12 @@ list of all the changes in the code.
 
 - A file descriptor leak has been fixed.
 
+** C1541 changes
+----------------
+
+- C1541 has been restructured; the batch mode syntax has changed, and
+  some commands take different parameters.
+
 * Changes in VICE 0.15.0
 ========================
 
