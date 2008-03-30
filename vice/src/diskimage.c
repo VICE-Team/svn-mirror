@@ -270,7 +270,7 @@ int disk_image_read_gcr_image(disk_image_t *image)
     BYTE *track_data, *zone_data;
     DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
-    off_t offset;
+    long offset;
 
     NumTracks = image->tracks;
 
