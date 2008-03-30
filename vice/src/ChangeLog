@@ -1,4 +1,35 @@
+1998-12-15  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.15.0.38.
+
+1998-12-14  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* zfile.c (try_uncompress_lynx): Adapted to the new c1541 syntax.
+
+	* vice.h: Removed unused `SYSINFO' and `JOYSTICK' defines.
+
+	* c1541.c: Swapped `arg[1]' and `arg[2]'.
+
+	* sid/sid.c (sound_machine_read): Type of `rvstore' changed from
+	`DWORD' to `WORD'.
+
+1998-12-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* c1541.c (unlynx_cmd): Also consider the size of the last block
+ 	when calculating length of file.  Changed to set the correct file
+ 	type.  Removed unused variable `err'.
+
+	* drive/drive.c (set_drive0_type, set_drive1_type): Do not detach
+	disk if it does not match drive type.
+	(drive_attach_floppy): Do not return an error if disk format does
+	not match drive type.
+	(GCR_data_writeback): Removed unused variable `rc'.
+
 1998-12-08  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Makefile.in (INCLUDES): Put `@JOYSTICK@' on the same line as the
+ 	previous one to avoid problems when it's substituted to an empty
+ 	string.
 
 	* Version 0.15.0.37.
 
@@ -56,25 +87,25 @@
 1998-12-06  Tibor Biczo  <crown@mail.matav.hu>
 
 	* arch/win32/ui.c: Removed inclusion of tapeunit.h.
-	  (handle_wm_command): Updated tape attach ui to new API.
+	(handle_wm_command): Updated tape attach ui to new API.
 
 	* arch/win32/video.c: Include log.h.
-	  (video_debug): Changed fprintf to log_debug.
-          Removed newline character from end of debug messages.
-	  (set_physical_colors): Force unused bits of color
-	  lookuptable to be zero.
-	  (canvas_refresh): Speeded up 24 bit case.
+	(video_debug): Changed fprintf to log_debug.
+        Removed newline character from end of debug messages.
+	(set_physical_colors): Force unused bits of color
+	lookuptable to be zero.
+	(canvas_refresh): Speeded up 24 bit case.
 
 	* arch/win32/vsync.c (vsync_debug): Changed fprintf to log_debug.
-	  Removed newline character from end of debug messages.
+	Removed newline character from end of debug messages.
 
 	* c1541.c (split_args): Added \t and \n as separator chars.
 
 	* cbm2/c610mem.c (initialize_memory): Removed logfile opening.
-          (mem_load): Added logfile opening.
+        (mem_load): Added logfile opening.
 
 	* pet/petmem.c (initialize_memory): Removed logfile opening.
-	  (mem_load): Added logfile opening.
+	(mem_load): Added logfile opening.
 
 1998-12-06  Ettore Perazzoli  <ettore@comm2000.it>
 
