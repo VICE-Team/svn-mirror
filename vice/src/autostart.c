@@ -258,7 +258,7 @@ static void disk_eof_callback(void)
 static void disk_attention_callback(void)
 {
     if (autostart_run_mode == AUTOSTART_MODE_RUN)
-        kbd_buf_feed("RUN\r");
+        kbd_buf_feed("RUN:\r");
 
     machine_bus_attention_callback_set(NULL);
 
