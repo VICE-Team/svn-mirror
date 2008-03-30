@@ -227,7 +227,8 @@ canvas_t vic_init(void)
     /* FIXME: the maximum pixel width should be 4 instead of 6, but we need
        some extra space for clipping long lines...  This should be done in a
        cleaner way.  */
-    init_raster(1, 6, 2);
+    if (init_raster(1, 6, 2) < 0)
+        return NULL;
 
     width = VIC_SCREEN_WIDTH;
     height = (VIC_SCREEN_LAST_DISPLAYED_LINE
