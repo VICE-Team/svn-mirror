@@ -29,6 +29,8 @@
 
 #include "vice.h"
 
+#include "vicii.h"
+
 /* VIC-II resources.  */
 struct _vic_ii_resources
   {
@@ -43,14 +45,16 @@ struct _vic_ii_resources
     /* Name of palette file.  */
     char *palette_file_name;
 
+#ifdef VIC_II_NEED_2X
     /* Flag: Do we use double size?  */
     int double_size_enabled;
 
-    /* Flag: Do we enable the video cache?  */
-    int video_cache_enabled;
-
     /* Flag: Do we copy lines in double size mode?  */
     int double_scan_enabled;
+#endif
+
+    /* Flag: Do we enable the video cache?  */
+    int video_cache_enabled;
 
 #ifdef USE_VIDMODE_EXTENSION
     /* Flag: Fullscreenmode?  */
