@@ -619,6 +619,111 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+asm.o: asm.c vice.h config.h asm.h types.h misc.h
+attach.o: attach.c vice.h config.h resources.h vdrive.h types.h fs_cbm.h \
+	serial.h traps.h log.h attach.h snapshot.h
+autostart.o: autostart.c vice.h config.h autostart.h types.h attach.h \
+	vdrive.h fs_cbm.h serial.h traps.h log.h snapshot.h interrupt.h \
+	vmachine.h 6510core.h mem.h kbdbuf.h resources.h tape.h \
+	arch/unix/ui.h arch/unix/xaw/ui.h palette.h utils.h machine.h \
+	warn.h
+c1541.o: c1541.c vice.h config.h c1541.h vdrive.h types.h fs_cbm.h \
+	serial.h traps.h log.h gcr.h file.h charsets.h tape.h utils.h \
+	vdrive-iec.h zipcode.h
+charsets.o: charsets.c vice.h config.h charsets.h types.h
+cmdline.o: cmdline.c vice.h config.h types.h utils.h cmdline.h \
+	resources.h
+emuid.o: emuid.c vice.h config.h types.h
+findpath.o: findpath.c vice.h config.h findpath.h utils.h types.h
+fsdevice.o: fsdevice.c vice.h config.h fsdevice.h types.h charsets.h \
+	cmdline.h resources.h file.h log.h arch/unix/archdep.h tape.h \
+	utils.h vdrive.h fs_cbm.h serial.h traps.h
+gcr.o: gcr.c vice.h config.h gcr.h types.h
+imagecontents.o: imagecontents.c vice.h config.h imagecontents.h types.h \
+	log.h tape.h utils.h vdrive.h fs_cbm.h serial.h traps.h zfile.h
+info.o: info.c
+interrupt.o: interrupt.c vice.h config.h interrupt.h types.h vmachine.h \
+	6510core.h mem.h snapshot.h
+kbdbuf.o: kbdbuf.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
+	snapshot.h mon.h mos6510.h interrupt.h vmachine.h kbdbuf.h \
+	charsets.h
+log.o: log.c vice.h config.h log.h cmdline.h resources.h \
+	arch/unix/archdep.h utils.h types.h
+main.o: main.c vice.h config.h machine.h types.h attach.h vdrive.h \
+	fs_cbm.h serial.h traps.h log.h snapshot.h autostart.h \
+	cartridge.h charsets.h cmdline.h resources.h findpath.h \
+	fsdevice.h interrupt.h vmachine.h 6510core.h mem.h \
+	arch/unix/joystick.h arch/unix/kbd.h maincpu.h mon.h mos6510.h \
+	sound.h warn.h sysfile.h arch/unix/archdep.h arch/unix/ui.h \
+	arch/unix/xaw/ui.h palette.h utils.h arch/unix/video.h \
+	arch/unix/vsync.h
+maincpu.o: maincpu.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
+	snapshot.h mon.h mos6510.h interrupt.h vmachine.h log.h \
+	machine.h misc.h resources.h traps.h arch/unix/ui.h \
+	arch/unix/xaw/ui.h palette.h vdrive.h fs_cbm.h serial.h \
+	6510core.c
+memutils.o: memutils.c vice.h config.h memutils.h types.h file.h log.h \
+	resources.h sysfile.h utils.h
+misc.o: misc.c vice.h config.h maincpu.h 6510core.h mem.h types.h \
+	snapshot.h mon.h mos6510.h interrupt.h vmachine.h misc.h asm.h \
+	resources.h
+mon.o: mon.c vice.h config.h asm.h types.h mon.h mos6510.h mem.h \
+	snapshot.h interrupt.h vmachine.h 6510core.h charsets.h \
+	drive/drivecpu.h file.h misc.h resources.h arch/unix/vsync.h \
+	vdrive.h fs_cbm.h serial.h traps.h log.h mon_parse.h utils.h
+mon_lex.o: mon_lex.c vice.h config.h types.h mon.h mos6510.h mem.h \
+	snapshot.h interrupt.h vmachine.h 6510core.h mon_parse.h \
+	utils.h
+mon_parse.o: mon_parse.c vice.h config.h types.h asm.h utils.h mon.h \
+	mos6510.h mem.h snapshot.h interrupt.h vmachine.h 6510core.h
+palette.o: palette.c vice.h config.h log.h utils.h types.h palette.h \
+	sysfile.h
+parallel.o: parallel.c vice.h config.h types.h parallel.h serial.h \
+	traps.h drive/drive.h vdrive.h fs_cbm.h log.h drive/drivecpu.h \
+	mos6510.h mon.h mem.h snapshot.h interrupt.h vmachine.h \
+	6510core.h
+petcat.o: petcat.c vice.h config.h charsets.h types.h
+prdevice.o: prdevice.c vice.h config.h resources.h cmdline.h vdrive.h \
+	types.h fs_cbm.h serial.h traps.h log.h file.h charsets.h \
+	utils.h prdevice.h print.h
+pruser.o: pruser.c vice.h config.h types.h print.h pruser.h resources.h \
+	cmdline.h
+resources.o: resources.c vice.h config.h log.h resources.h \
+	arch/unix/archdep.h utils.h types.h
+rsuser.o: rsuser.c vice.h config.h types.h cmdline.h resources.h \
+	interrupt.h vmachine.h 6510core.h mem.h snapshot.h log.h \
+	rs232.h rsuser.h
+serial.o: serial.c vice.h config.h drive/drive.h types.h vdrive.h \
+	fs_cbm.h serial.h traps.h log.h drive/drivecpu.h mos6510.h \
+	mon.h mem.h snapshot.h interrupt.h vmachine.h 6510core.h \
+	maincpu.h parallel.h tape.h tapeunit.h utils.h
+snapshot.o: snapshot.c vice.h config.h snapshot.h types.h log.h utils.h \
+	zfile.h
+sound.o: sound.c vice.h config.h sound.h types.h warn.h cmdline.h \
+	resources.h log.h maincpu.h 6510core.h mem.h snapshot.h mon.h \
+	mos6510.h interrupt.h vmachine.h arch/unix/ui.h \
+	arch/unix/xaw/ui.h palette.h utils.h arch/unix/vsync.h
+sysfile.o: sysfile.c vice.h config.h sysfile.h cmdline.h resources.h \
+	findpath.h arch/unix/archdep.h utils.h types.h
+tape.o: tape.c vice.h config.h vdrive.h types.h fs_cbm.h serial.h \
+	traps.h log.h tape.h zfile.h utils.h charsets.h
+tapeunit.o: tapeunit.c vice.h config.h c1541.h vdrive.h types.h fs_cbm.h \
+	serial.h traps.h log.h charsets.h file.h maincpu.h 6510core.h \
+	mem.h snapshot.h mon.h mos6510.h interrupt.h vmachine.h \
+	resources.h tape.h tapeunit.h utils.h zfile.h
+traps.o: traps.c vice.h config.h traps.h types.h log.h maincpu.h \
+	6510core.h mem.h snapshot.h mon.h mos6510.h interrupt.h \
+	vmachine.h resources.h cmdline.h utils.h
+utils.o: utils.c vice.h config.h utils.h types.h log.h
+vdrive-iec.o: vdrive-iec.c vice.h config.h vdrive.h types.h fs_cbm.h \
+	serial.h traps.h log.h vdrive-iec.h utils.h
+vdrive.o: vdrive.c vice.h config.h charsets.h types.h file.h fsdevice.h \
+	log.h serial.h traps.h utils.h vdrive.h fs_cbm.h vdrive-iec.h \
+	zfile.h
+warn.o: warn.c vice.h config.h warn.h log.h utils.h types.h
+zfile.o: zfile.c vice.h config.h log.h utils.h types.h zfile.h zipcode.h
+zipcode.o: zipcode.c vice.h config.h zipcode.h types.h
+
 info: info-recursive
 dvi: dvi-recursive
 check: all-am
