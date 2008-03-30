@@ -1,4 +1,6 @@
 source type (c)
+    "pet-cmdline-options.c",
+    "pet-resources.c",
     "pet.c",
     "petmem.c",
     "petacia1.c",

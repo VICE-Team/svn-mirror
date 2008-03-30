@@ -22,7 +22,7 @@ target type(exe) "..\\..\\..\\..\\data\\c1541.exe"
       source type (rc)  "dialogs/c1541.rc"
       source type (lib) "..\\..\\..\\..\\data\\vice2.lib"
       source type(c)    "c1541.c",
-                        "charsets.c",
+                        "charset.c",
                         "diskimage.c",
                         "gcr.c",
                         "info.c",

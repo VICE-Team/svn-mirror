@@ -44,7 +44,7 @@
 
 extern int trigger_shutdown;
 
-HWND hwndVsid;
+HWND hwndVsid=NULLHANDLE;
 
 void vsid_mainloop(VOID *arg)
 {
@@ -100,6 +100,9 @@ int vsid_ui_init(void)
 
     _beginthread(vsid_mainloop, NULL, 0x4000, NULL);
 
+    while (!hwndVsid)
+        DosSleep(1);
+
     log_message(LOG_DEFAULT, "--> SID Player mode <--\n");
 
     return 0;
@@ -107,7 +110,7 @@ int vsid_ui_init(void)
 
 void vsid_ui_display_irqtype(const char *irq)
 {
-    char *txt = xmsprintf("using %s interrupt", irq);
+    char *txt = xmsprintf("Interrupt: %s", irq);
     WinSetDlgItemText(hwndVsid, ID_TIRQ, txt);
     free(txt);
 }
@@ -129,29 +132,32 @@ void vsid_ui_display_copyright(const char *copyright)
 
 void vsid_ui_display_sync(int sync)
 {
+    char *txt;
     switch (sync)
     {
     case DRIVE_SYNC_PAL:
-        WinSetDlgItemText(hwndVsid, ID_TSYNC, "using PAL synchronization");
-        return;
+        txt = "Synchronization: PAL";
+        break;
     case DRIVE_SYNC_NTSC:
-        WinSetDlgItemText(hwndVsid, ID_TSYNC, "using NTSC synchronization");
-        return;
+        txt =  "Synchronization: NTSC";
+        break;
     case DRIVE_SYNC_NTSCOLD:
-        WinSetDlgItemText(hwndVsid, ID_TSYNC, "using old NTSC synchronization");
-        return;
+        txt =  "Synchronization: NTSC (old)";
+        break;
     }
+    WinSetDlgItemText(hwndVsid, ID_TSYNC, txt);
+    //log_debug(txt);
 }
 
 void vsid_ui_display_sid_model(int model)
 {
-    /* FIXME */
-    log_message(LOG_DEFAULT, "Using %s emulation",
-		model == 0 ? "MOS6581" : "MOS8580");
+    WinSetDlgItemText(hwndVsid, ID_TSID,
+                      model ? "SID-Chip: MOS8580" : "SID-Chip: MOS6581");
 }
 
 void vsid_ui_set_default_tune(int nr)
 {
+    //log_debug("Default tune is #%d", nr);
 }
 
 void vsid_ui_display_tune_nr(int nr)
@@ -161,6 +167,8 @@ void vsid_ui_display_tune_nr(int nr)
         sprintf(txt, "%d", nr);
     WinSetDlgItemText(hwndVsid, ID_TUNENO, txt);
     WinSetDlgSpinVal(hwndVsid, SPB_SETTUNE, nr);
+
+    //log_debug("Playing tune no.%d", nr);
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
@@ -169,6 +177,8 @@ void vsid_ui_display_nr_of_tunes(int count)
     if (count<100)
         sprintf(txt, "%d", count);
     WinSetDlgItemText(hwndVsid, ID_TUNES, txt);
+
+    //log_debug("File contains %d tunes.", count);
 }
 
 void vsid_ui_display_time(unsigned int sec)

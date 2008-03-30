@@ -296,12 +296,12 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
     print_cbm_char(mps, c);
 }
 
-static int init_charset(BYTE *charset, const char *name)
+static int init_charset(BYTE charset[256][7], const char *name)
 {
     BYTE romimage[MPS803_ROM_SIZE];
 
     if (sysfile_load(name, romimage, MPS803_ROM_SIZE, MPS803_ROM_SIZE) < 0) {
-        log_error(drv803_log, "Could not load %s.", name);
+        log_error(drv803_log, "Could not load MPS-803 charset '%s'.", name);
         return -1;
     }
 
@@ -359,6 +359,6 @@ void drv_mps803_init(void)
 {
     drv803_log = log_open("MPS803");
 
-    init_charset((BYTE *)charset, "mps803");
+    init_charset(charset, "mps803");
 }
 

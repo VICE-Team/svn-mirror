@@ -110,7 +110,7 @@ BYTE **_mem_read_base_tab_ptr;
 int *mem_read_limit_tab_ptr;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
-static int rom_loaded = 0;
+static int vicrom_loaded = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -556,7 +556,7 @@ int mem_load_kernal(const char *rom_name)
 {
     int trapfl;
 
-    if (!rom_loaded)
+    if (!vicrom_loaded)
         return 0;
 
     /* disable traps before saving the ROM */
@@ -599,7 +599,7 @@ static int mem_basic_checksum(void)
 
 int mem_load_basic(const char *rom_name)
 {
-    if (!rom_loaded)
+    if (!vicrom_loaded)
         return 0;
 
     if (!IS_NULL(rom_name)) {
@@ -616,7 +616,7 @@ int mem_load_basic(const char *rom_name)
 
 int mem_load_chargen(const char *rom_name)
 {
-    if (!rom_loaded)
+    if (!vicrom_loaded)
         return 0;
 
     if (!IS_NULL(rom_name)) {
@@ -642,7 +642,7 @@ int mem_load(void)
 
     mem_powerup();
 
-    rom_loaded = 1;
+    vicrom_loaded = 1;
 
     if (resources_get_value("KernalName", (resource_value_t)&rom_name) < 0)
         return -1;

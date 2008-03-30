@@ -34,6 +34,8 @@ libmonitor_a_SOURCES = \
 	mon_register6502.c \
 	mon_registerz80.c \
 	mon_register.h \
+	mon_ui.c \
+	mon_ui.h \
 	mon_util.c \
 	mon_util.h \
 	mon_lex.l \

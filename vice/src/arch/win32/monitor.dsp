@@ -140,5 +140,9 @@ SOURCE=..\..\monitor\mon_registerz80.c
 
 SOURCE=..\..\monitor\mon_util.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_ui.c
+# End Source File
 # End Target
 # End Project

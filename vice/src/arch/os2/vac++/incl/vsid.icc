@@ -3,5 +3,6 @@ source type (rc)
     
 source type(c)
     "psid.c",
+    "reloc65.c",
     "vsidui.c",
     "dlg-vsid.c"

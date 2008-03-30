@@ -1,3 +1,21 @@
+2001-08-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.1.
+
+2001-08-02  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* monitor/mon_ui.h, monitor/mon_ui.c: added as layer for
+	arch-independant monitor UI
+
+	* arch/win32/uimon.c: added possibility to scroll the 
+	disassembly window up and down via the scroll bar;
+	moved some functionality to mon_ui.{h,c}
+
+2001-07-23  Errol Smith  <errol@ros.com.au>
+
+	* vdc/vdc.c - implement register 27 (address increment per
+	row)
+
 2001-07-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.

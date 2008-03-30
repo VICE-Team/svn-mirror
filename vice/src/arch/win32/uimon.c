@@ -36,8 +36,8 @@
 #include "console.h"
 
 #include "fullscreen.h"
-#include "mon.h"
 #include "mon_register.h"
+#include "mon_ui.h"
 #include "mon_util.h"
 #include "res.h"
 #include "resources.h"
@@ -46,18 +46,7 @@
 
 #include "utils.h"
 #include "winmain.h"
-#include "mos6510.h"
 
-
-/**/
-// @@@SRT: TODO: This is just a quick hack!
-
-#include "asm.h"
-extern monitor_cpu_type_t monitor_cpu_type;
-
-#define mon_get_reg_val(_a_,_b_) \
-   ((monitor_cpu_type.mon_register_get_val)(_a_, _b_))
-/**/
 
 // #define DEBUG_UIMON
 
@@ -173,6 +162,7 @@ void uimon_set_interface(monitor_interface_t **monitor_interface_init,
 #define WM_CHANGECOMPUTERDRIVE (WM_OWNCOMMAND+1)
 #define WM_GETWINDOWTYPE       (WM_OWNCOMMAND+2)
 #define WM_UPDATEVAL           (WM_OWNCOMMAND+3)
+#define WM_UPDATE              (WM_OWNCOMMAND+4)
 
 /*
  The following definitions (RT_TOOLBAR, CToolBarData) are from the MFC sources
@@ -552,10 +542,10 @@ if (content)
       {
       BYTE *p;
       p = buffer = xmalloc((strlen(content)*3)/4); // @SRT
-      xor = (BYTE) (prefix >> 16); // Prfsumme aus Prefix extrahieren
-      *plen = size = (size_t)(prefix & 0xFFFF);  // Gr”áe aus Prefix extrahieren
+      xor = (BYTE) (prefix >> 16); // extract checksum from prefix
+      *plen = size = (size_t)(prefix & 0xFFFF);  // extract size from prefix
 
-      xor ^= (size & 0xFF) ^ (size>>8); // Gr”áe in Prfsumme einbeziehen
+      xor ^= (size & 0xFF) ^ (size>>8); // include size in checksum
 
       while (size && ok)
          {
@@ -860,7 +850,7 @@ void SetMemspace( HWND hwnd, MEMSPACE memspace )
 	BOOL bComputer = FALSE;
 	BOOL bDrive8   = FALSE;
 	BOOL bDrive9   = FALSE;
-	HMENU hmnu = GetMenu(hwnd);
+	HMENU hmnu     = GetMenu(hwnd);
     int drive_true_emulation;
 
 	char *pText = "";
@@ -1451,11 +1441,10 @@ long CALLBACK reg_window_proc(HWND hwnd,
 typedef
 struct dis_private
 {
-    int charwidth;
-    int charheight;
-	MEMSPACE memspace;
-    UINT StartAddress;
-    UINT EndAddress;
+    int      charwidth;
+    int      charheight;
+
+    struct mon_disassembly_private *pmdp;
 
 } dis_private_t;
 
@@ -1480,7 +1469,7 @@ long CALLBACK dis_window_proc(HWND hwnd,
 #ifdef OPEN_DISASSEMBLY_AS_POPUP
 
     case WM_ACTIVATE:
-        ActivateChild( (LOWORD(wParam)!=WA_INACTIVE) ? TRUE:FALSE, hwnd, pdp->memspace );
+        ActivateChild( (LOWORD(wParam)!=WA_INACTIVE) ? TRUE:FALSE, hwnd, mon_disassembly_get_memspace(pdp->pmdp) );
         break;
 
 #else  // #ifdef OPEN_DISASSEMBLY_AS_POPUP
@@ -1502,18 +1491,18 @@ long CALLBACK dis_window_proc(HWND hwnd,
 		switch (wParam)
 		{
 		case IDM_MON_COMPUTER:
-			pdp->memspace = e_comp_space;
+            mon_disassembly_set_memspace(pdp->pmdp, e_comp_space);
 			break;
 
 		case IDM_MON_DRIVE8:
-			pdp->memspace = e_disk8_space;
+            mon_disassembly_set_memspace(pdp->pmdp, e_disk8_space);
 			break;
 
 		case IDM_MON_DRIVE9:
-			pdp->memspace = e_disk9_space;
+            mon_disassembly_set_memspace(pdp->pmdp, e_disk9_space);
 			break;
 		}
-        SetMemspace( hwnd, pdp->memspace );
+        SetMemspace( hwnd, mon_disassembly_get_memspace(pdp->pmdp) );
 		InvalidateRect(hwnd,NULL,FALSE);
 		break;
 
@@ -1547,69 +1536,107 @@ long CALLBACK dis_window_proc(HWND hwnd,
             }
 
 			// initialize some window parameter
-			pdp->memspace     = e_comp_space;
-			pdp->StartAddress = -1;
-			pdp->EndAddress   = 0;
+            pdp->pmdp = mon_disassembly_init();
+
+            {
+                SCROLLINFO ScrollInfo;
+
+                ScrollInfo.cbSize = sizeof(ScrollInfo);
+                ScrollInfo.fMask  = SIF_POS;
+                GetScrollInfo( hwnd, SB_VERT, &ScrollInfo );
+
+                ScrollInfo.nPos   = mon_scroll( pdp->pmdp, MON_SCROLL_NOTHING );
+
+                SetScrollInfo( hwnd, SB_VERT, &ScrollInfo, TRUE );
+                InvalidateRect( hwnd, NULL, FALSE );
+                UpdateWindow( hwnd );
+            }
             break;
         }
 
-	case WM_PAINT:
-		{
-			PAINTSTRUCT ps;
-			HDC hdc;
-            RECT rect;
-            unsigned int uAddress = mon_get_reg_val(pdp->memspace,3);
-            ADDRESS loc;
-            unsigned int size;
-            char *buffer;
-            int  i;
-            int  have_label = 0; /* this *must* be initialized with zero! */
+    case WM_UPDATE:
+        mon_disassembly_update(pdp->pmdp);
+        return 0;
 
-            int  nHeightToPrint, nHeightToNextPage;
-
-            if ((uAddress < pdp->StartAddress) || (uAddress > pdp->EndAddress))
-            {
-                pdp->StartAddress = uAddress;
-                pdp->EndAddress = 0;
-            }
-
-            {
+    case WM_VSCROLL:
+        {
             SCROLLINFO ScrollInfo;
+            BOOLEAN    changed;
+
             ScrollInfo.cbSize = sizeof(ScrollInfo);
+            ScrollInfo.fMask  = SIF_POS|SIF_TRACKPOS;
+            GetScrollInfo( hwnd, SB_VERT, &ScrollInfo );
+
             ScrollInfo.fMask  = SIF_POS;
 
-            ScrollInfo.nPos = pdp->StartAddress;          
+            switch ( LOWORD(wParam) )
+            {
+            case SB_THUMBPOSITION:
+        	    return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
 
-            SetScrollInfo( hwnd, SB_VERT, &ScrollInfo, TRUE );
+            case SB_THUMBTRACK:
+                ScrollInfo.nPos  = mon_scroll_to( pdp->pmdp, ScrollInfo.nTrackPos );
+        	    break;
+
+            case SB_LINEUP:
+                ScrollInfo.nPos = mon_scroll( pdp->pmdp, MON_SCROLL_UP );
+                changed         = TRUE;
+                break;
+
+            case SB_PAGEUP:
+                ScrollInfo.nPos = mon_scroll( pdp->pmdp, MON_SCROLL_PAGE_UP );
+                changed         = TRUE;
+                break;
+
+            case SB_LINEDOWN:
+                ScrollInfo.nPos = mon_scroll( pdp->pmdp, MON_SCROLL_DOWN );
+                changed         = TRUE;
+                break;
+
+            case SB_PAGEDOWN:
+                ScrollInfo.nPos = mon_scroll( pdp->pmdp, MON_SCROLL_PAGE_DOWN );
+                changed         = TRUE;
+                break;
+            };
+
+            if (changed)
+            {
+                SetScrollInfo( hwnd, SB_VERT, &ScrollInfo, TRUE );
+                InvalidateRect( hwnd, NULL, FALSE );
+                UpdateWindow( hwnd );
             }
+        }
+        break;
 
-            loc = pdp->StartAddress;
+    case WM_PAINT:
+        {
+            struct mon_disassembly *md_contents = NULL;
+            PAINTSTRUCT ps;
+			HDC         hdc;
+            RECT        rect;
+            int         nHeightToPrint;
 
-            // get the height to paint
+            int         i;
+
             GetClientRect(hwnd,&rect);
-            nHeightToPrint    = rect.bottom - rect.top;
-            nHeightToNextPage = nHeightToPrint * 2 / 3;
+            nHeightToPrint = (rect.bottom - rect.top) / pdp->charheight + 1;
 
 			hdc = BeginPaint(hwnd,&ps);
 
-            for (i=0; i<nHeightToPrint; i += pdp->charheight)
+            md_contents = mon_disassembly_get_lines( pdp->pmdp, nHeightToPrint );
+
+            for (i=0; i<nHeightToPrint; i++)
             {
-               if (i < nHeightToNextPage)
-                   pdp->EndAddress = loc;
+                struct mon_disassembly *next = md_contents->next;
 
-			   buffer = mon_disassemble_with_label(pdp->memspace, loc, 1, &size, &have_label );
-
-               SetTextColor(hdc,RGB(loc==uAddress?0xFF:0,0,0));
-               TextOut( hdc, 0, i, buffer, strlen(buffer) );
-               free(buffer);
-
-               loc += size;
+                SetTextColor(hdc,RGB(md_contents->flags.active_line ? 0xFF:0,0,0));
+                TextOut( hdc, 0, i*pdp->charheight, md_contents->content, md_contents->length );
+                free(md_contents->content);
+                free(md_contents);
+                md_contents = next;
             }
-
 			EndPaint(hwnd,&ps);
-
-			return 0;
-		}
+        }
 	}
 
 	return DEF_DIS_PROG(hwnd, msg, wParam, lParam);
@@ -1674,6 +1701,7 @@ void uimon_init( void )
 static
 BOOL CALLBACK WindowUpdateProc( HWND hwnd, LPARAM lParam )
 {
+    SendMessage( hwnd, WM_UPDATE, 0, 0 );
 	InvalidateRect(hwnd,NULL,FALSE);
 	UpdateWindow(hwnd);
 	return TRUE;
@@ -1708,8 +1736,7 @@ void update_shown(void)
 	EnumChildWindows(hwndMdiClient,(WNDENUMPROC)WindowUpdateShown,(LPARAM)NULL);
 
     for (p = first_client_window; p; p=p->next )
-        WindowUpdateProc( p->hwnd, 0 );
-
+        WindowUpdateShown( p->hwnd, 0 );
 }
 
 #endif // #ifdef UIMON_EXPERIMENTAL

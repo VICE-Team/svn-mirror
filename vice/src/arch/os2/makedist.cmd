@@ -40,14 +40,17 @@ copy ..\..\..\data\C64\c64mem.sym   Vice2\C64
 
 md Vice2\C128
 copy ..\..\..\data\C128\basic        Vice2\C128
+copy ..\..\..\data\C128\basic64      Vice2\C128
 copy ..\..\..\data\C128\c64s.vpl     Vice2\C128
-copy ..\..\..\data\C128\ccs64s.vpl   Vice2\C128
+copy ..\..\..\data\C128\ccs64.vpl    Vice2\C128
 copy ..\..\..\data\C128\chargen      Vice2\C128
+copy ..\..\..\data\C128\charg64      Vice2\C128
 copy ..\..\..\data\C128\default.vpl  Vice2\C128
 copy ..\..\..\data\C128\default.vrs  Vice2\C128
 copy ..\..\..\data\C128\frodo.vpl    Vice2\C128
 copy ..\..\..\data\C128\godot.vpl    Vice2\C128
 copy ..\..\..\data\C128\kernal       Vice2\C128
+copy ..\..\..\data\C128\kernal64     Vice2\C128
 copy ..\..\..\data\C128\os2.vkm      Vice2\C128
 copy ..\..\..\data\C128\pc64.vpl     Vice2\C128
 copy ..\..\..\data\C128\vice.vpl     Vice2\C128
@@ -96,7 +99,7 @@ copy ..\..\..\data\CBM-II\basic.128     Vice2\CBM-II
 copy ..\..\..\data\CBM-II\basic.256     Vice2\CBM-II
 copy ..\..\..\data\CBM-II\basic.500     Vice2\CBM-II
 copy ..\..\..\data\CBM-II\c64s.vpl      Vice2\CBM-II
-copy ..\..\..\data\CBM-II\ccs64s.vpl    Vice2\CBM-II
+copy ..\..\..\data\CBM-II\ccs64.vpl     Vice2\CBM-II
 copy ..\..\..\data\CBM-II\chargen.500   Vice2\CBM-II
 copy ..\..\..\data\CBM-II\chargen.600   Vice2\CBM-II
 copy ..\..\..\data\CBM-II\chargen.700   Vice2\CBM-II
@@ -130,6 +133,7 @@ copy ..\..\..\data\PRINTER\mps803       Vice2\PRINTER
 
 md Vice2\doc
 copy "vac++\vice2.inf"         Vice2\doc
+copy "doc\vice2.hlp"           Vice2
 
 copy doc\Vice_for_OS2.txt      Vice2\doc
 

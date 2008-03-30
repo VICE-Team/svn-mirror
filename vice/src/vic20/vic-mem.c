@@ -38,7 +38,7 @@
 
 /* VIC access functions. */
 
-void REGPARM2 
+void REGPARM2
 vic_store(ADDRESS addr, BYTE value)
 {
     addr &= 0xf;
@@ -52,17 +52,17 @@ vic_store(ADDRESS addr, BYTE value)
     switch (addr)
     {
     case 0:                     /* $9000  Screen X Location. */
-        /* 
-            VIC checks in cycle n for peek($9000)=n 
+        /*
+            VIC checks in cycle n for peek($9000)=n
             and in this case opens the horizontal flipflop
         */
         {
             int xstart, xstop;
-            
+
             value &= 0x7f;
 
             xstart = MIN(value * 4, vic.screen_width);
-            
+
             xstop = xstart + vic.text_cols * 8;
             if (xstop >= vic.screen_width)
                 xstop = vic.screen_width - 1; /* FIXME: SCREEN-MIXUP not handled */
@@ -73,16 +73,16 @@ vic_store(ADDRESS addr, BYTE value)
                 /* the line has already started */
                 raster_add_int_change_next_line (&vic.raster,
                     &vic.raster.display_xstart, xstart);
-            
+
                 raster_add_int_change_next_line (&vic.raster,
                     (int *)(&vic.raster.geometry.gfx_position.x), xstart);
             } else {
                 vic.raster.display_xstart = xstart;
-                
+
                 vic.raster.display_xstop = xstop;
-                
+
                 vic.raster.geometry.gfx_position.x = xstart;
-                
+
                 /* the line may not start, if new xstart is already passed */
                 vic.raster.blank_this_line = (value < VIC_RASTER_CYCLE(clk));
             }
@@ -109,7 +109,7 @@ vic_store(ADDRESS addr, BYTE value)
                 {
                     /* new ystart is already passed, vertical flipflop may not open this frame */
                     vic.raster.display_ystart = vic.raster.display_ystop = -1;
-                } 
+                }
                 else if (ystart / 2 > VIC_RASTER_Y(clk - 1) / 2)
                 {
                     /* the frame starts later */
@@ -117,17 +117,17 @@ vic_store(ADDRESS addr, BYTE value)
 
                     vic.raster.display_ystop = ystart
                         + vic.text_lines * vic.char_height;
-                    
+
                     vic.raster.geometry.gfx_position.y = ystart - vic.first_displayed_line;
                 }
                 else
                 {
                     /* the frame starts somewhere here */
                     vic.raster.display_ystart = VIC_RASTER_Y(clk);
-                    
+
                     vic.raster.display_ystop = vic.raster.display_ystart
                         + vic.text_lines * vic.char_height;
-                    
+
                     vic.raster.geometry.gfx_position.y = VIC_RASTER_Y(clk)
                         - vic.first_displayed_line;
 
@@ -144,32 +144,32 @@ vic_store(ADDRESS addr, BYTE value)
     case 2:                     /* $9002  Columns Displayed. */
         {
             int new_text_cols = MIN(value & 0x7f, VIC_SCREEN_MAX_TEXT_COLS);
-            
-            int new_xstop = MIN(vic.raster.display_xstart + new_text_cols * 8, 
+
+            int new_xstop = MIN(vic.raster.display_xstart + new_text_cols * 8,
                 vic.screen_width - 1);
-            
+
             if (VIC_RASTER_CYCLE(clk) <= 1)
             {
                 /* changes up to cycle 1 are visible in the current line */
                 vic.text_cols = new_text_cols;
-                
+
                 vic.raster.display_xstop = new_xstop;
-                
+
                 vic.raster.geometry.gfx_size.width = new_text_cols * 8;
-                
+
                 vic.raster.geometry.text_size.width = new_text_cols;
             } else {
                 /* later changes are visible in the next line */
                 raster_add_int_change_next_line (&vic.raster,
                     (int *)(&vic.text_cols), new_text_cols);
-                
+
                 raster_add_int_change_next_line (&vic.raster,
                     &vic.raster.display_xstop, new_xstop);
-                
+
                 raster_add_int_change_next_line (&vic.raster,
                     (int *)(&vic.raster.geometry.gfx_size.width),
                     new_text_cols * 8);
-                
+
                 raster_add_int_change_next_line (&vic.raster,
                     (int *)(&vic.raster.geometry.text_size.width),
                     new_text_cols);
@@ -185,16 +185,16 @@ vic_store(ADDRESS addr, BYTE value)
             static int old_char_height = -1;
 
             int new_text_lines = MIN((value & 0x7e) >> 1, VIC_SCREEN_MAX_TEXT_LINES);
-            
+
             int new_char_height = (value & 0x1) ? 16 : 8;
 
             if (VIC_RASTER_Y(clk) == 0 && VIC_RASTER_CYCLE(clk) <= 2)
             {
                 /* changes up to cycle 2 of rasterline 0 are visible in current frame */
                 vic.text_lines = new_text_lines;
-            
+
                 vic.raster.geometry.gfx_size.height = new_text_lines * 8;
-                
+
                 vic.raster.geometry.text_size.height = new_text_lines;
 
             } else {
@@ -226,7 +226,7 @@ vic_store(ADDRESS addr, BYTE value)
                 }
                 raster_add_int_change_foreground (&vic.raster,
                     VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk) + 2),
-                    &vic.char_height,
+                    (int*)&vic.char_height,
                     new_char_height);
 
                 old_char_height = new_char_height;
@@ -294,7 +294,7 @@ vic_store(ADDRESS addr, BYTE value)
             static int old_background_color = -1;
             static int old_border_color = -1;
             int new_video_mode, new_background_color, new_border_color;
-        
+
             new_background_color = value>>4;
             new_border_color = value & 0x7;
             new_video_mode = ((value & 0x8) ? VIC_STANDARD_MODE : VIC_REVERSE_MODE);
@@ -335,7 +335,7 @@ vic_store(ADDRESS addr, BYTE value)
 
                 old_video_mode = new_video_mode;
             }
-            
+
             return;
         }
     }
@@ -343,7 +343,7 @@ vic_store(ADDRESS addr, BYTE value)
 
 
 
-BYTE REGPARM1 
+BYTE REGPARM1
 vic_read(ADDRESS addr)
 {
   addr &= 0xf;

@@ -264,7 +264,7 @@ void vdc_raster_draw_alarm_handler(CLOCK offset)
     {
         vdc.mem_counter_inc = VDC_SCREEN_TEXTCOLS;
         if (vdc.raster.ycounter >= vdc.raster_ycounter_max)
-            vdc.mem_counter += vdc.mem_counter_inc;
+            vdc.mem_counter += vdc.mem_counter_inc + vdc.regs[27];
 
         vdc.raster.ycounter = (vdc.raster.ycounter + 1)
                               & vdc.raster_ycounter_max;
@@ -272,7 +272,7 @@ void vdc_raster_draw_alarm_handler(CLOCK offset)
         if (!(vdc.raster.ycounter & 1))
         {
             /* Don't increment on odd raster scanlines.  */
-            vdc.bitmap_counter += vdc.mem_counter_inc;
+            vdc.bitmap_counter += vdc.mem_counter_inc + vdc.regs[27];
         }
     }
 

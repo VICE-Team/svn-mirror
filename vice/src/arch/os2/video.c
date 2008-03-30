@@ -1107,8 +1107,7 @@ void PM_mainloop(VOID *arg)
     //
     // initialize help system
     //
-    InitHelp(c->hwndFrame, IDM_VICE2, "Vice/2 Help",
-             "f:\\c64\\src\\vice\\src\\arch\\os2\\doc\\vice2.hlp");
+    InitHelp(c->hwndFrame, IDM_VICE2, "Vice/2 Help", "vice2.hlp");
 
     //
     // bring window to top, set size and position, set focus

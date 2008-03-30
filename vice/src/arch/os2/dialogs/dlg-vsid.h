@@ -35,6 +35,7 @@
 #define ID_TCOPYRIGHT  0x17
 #define ID_TSYNC       0x18
 #define ID_TIRQ        0x19
+#define ID_TSID        0x20
 
 #define WM_DISPLAY     WM_USER+1
 
