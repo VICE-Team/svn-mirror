@@ -154,12 +154,13 @@ void tui_display(int x, int y, int len, const char *format, ...)
 {
     BYTE attr_byte = (BYTE)current_attr;
     unsigned long addr = screen_addr(x, y);
-    static char buf[4096];
+    char *buf;
     int i, buf_len;
     va_list vl;
 
     va_start(vl, format);
-    buf_len = vsprintf(buf, format, vl);
+    buf = xmvsprintf(format, vl);
+    buf_len = strlen(buf);
     if (len == 0)
 	len = buf_len;
     else if (buf_len > len)
@@ -176,6 +177,7 @@ void tui_display(int x, int y, int len, const char *format, ...)
         _farnspokeb(addr + 1, attr_byte);
         addr += 2;
     }
+    free(buf);
 }
 
 void tui_beep(void)
