@@ -314,8 +314,8 @@ c128mem.o: c128mem.c ../../src/vice.h ../../src/config.h \
 	../../src/monitor/mon.h ../../src/parallel.h \
 	../../src/c64/reu.h ../../src/rs232.h ../../src/sid/sid.h \
 	../../src/sid/sid-engine.h ../../src/sound.h \
-	../../src/snapshot.h ../../src/sysfile.h \
-	../../src/arch/unix/ui.h ../../src/uiapi.h \
+	../../src/sid/sid-resources.h ../../src/snapshot.h \
+	../../src/sysfile.h ../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h ../../src/utils.h \
 	../../src/vdc/vdc-mem.h ../../src/vdc/vdc.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii.h z80mem.h \
