@@ -32,8 +32,8 @@
 #include "types.h"
 
 extern int sysfile_init(const char *emu_id);
-extern int sysfile_init_resources(void);
-extern int sysfile_init_cmdline_options(void);
+extern int sysfile_resources_init(void);
+extern int sysfile_cmdline_options_init(void);
 extern FILE *sysfile_open(const char *name, char **complete_path_return,
                           const char *open_mode);
 extern int sysfile_locate(const char *name, char **complete_path_return);

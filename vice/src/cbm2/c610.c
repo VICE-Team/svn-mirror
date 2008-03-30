@@ -128,7 +128,7 @@ int cbm2_is_c500 (void)
 
 /* CBM-II-specific resource initialization.  This is called before initializing
    the machine itself with `machine_init()'.  */
-int machine_init_resources(void)
+int machine_resources_init(void)
 {
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
@@ -154,7 +154,7 @@ int machine_init_resources(void)
 }
 
 /* CBM-II-specific command-line option initialization.  */
-int machine_init_cmdline_options(void)
+int machine_cmdline_options_init(void)
 {
     if (traps_cmdline_options_init() < 0
         || vsync_cmdline_options_init() < 0

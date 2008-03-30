@@ -148,7 +148,7 @@ static cmdline_option_t cmdline_options[] = {
 
 /* PET-specific resource initialization.  This is called before initializing
    the machine itself with `machine_init()'.  */
-int machine_init_resources(void)
+int machine_resources_init(void)
 {
 #if 0
     if (resources_register(resources) < 0)
@@ -179,7 +179,7 @@ int machine_init_resources(void)
 }
 
 /* PET-specific command-line option initialization.  */
-int machine_init_cmdline_options(void)
+int machine_cmdline_options_init(void)
 {
 #if 0
     if (cmdline_register_options(cmdline_options) < 0)

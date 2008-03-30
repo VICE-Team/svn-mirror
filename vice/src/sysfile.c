@@ -137,12 +137,12 @@ int sysfile_init(const char *emu_id)
     return 0;
 }
 
-int sysfile_init_resources(void)
+int sysfile_resources_init(void)
 {
     return resources_register(resources);
 }
 
-int sysfile_init_cmdline_options(void)
+int sysfile_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

@@ -303,7 +303,7 @@ static double rfsh_per_sec = C128_PAL_RFSH_PER_SEC;
 
 /* C128-specific resource initialization.  This is called before initializing
    the machine itself with `machine_init()'.  */
-int machine_init_resources(void)
+int machine_resources_init(void)
 {
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
@@ -338,7 +338,7 @@ int machine_init_resources(void)
 }
 
 /* C128-specific command-line option initialization.  */
-int machine_init_cmdline_options(void)
+int machine_cmdline_options_init(void)
 {
     if (traps_cmdline_options_init() < 0
         || vsync_cmdline_options_init() < 0

@@ -230,7 +230,7 @@ static double rfsh_per_sec = C64_PAL_RFSH_PER_SEC;
 
 /* C64-specific resource initialization.  This is called before initializing
    the machine itself with `machine_init()'.  */
-int machine_init_resources(void)
+int machine_resources_init(void)
 {
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
@@ -265,7 +265,7 @@ int machine_init_resources(void)
 }
 
 /* C64-specific command-line option initialization.  */
-int machine_init_cmdline_options(void)
+int machine_cmdline_options_init(void)
 {
     if (vsid_mode) {
         if (sound_cmdline_options_init() < 0

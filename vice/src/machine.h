@@ -56,10 +56,10 @@ extern
 int console_mode;
 
 /* Initialize the machine's resources.  */
-extern int machine_init_resources(void);
+extern int machine_resources_init(void);
 
 /* Initialize the machine's command-line options.  */
-extern int machine_init_cmdline_options(void);
+extern int machine_cmdline_options_init(void);
 
 /* Initialize the machine.  */
 extern int machine_init(void);
