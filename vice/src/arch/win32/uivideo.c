@@ -55,7 +55,7 @@ static char *palette_file = NULL;
 static char *palette_file2 = NULL;
 static int  res_extpalette;
 
-static char *vicii_palettes[]=
+static const char *vicii_palettes[]=
 {
     "default",
     "c64hq",
@@ -68,13 +68,13 @@ static char *vicii_palettes[]=
     NULL
 };
 
-static char *vic_palettes[]=
+static const char *vic_palettes[] =
 {
     "default",
     NULL
 };
 
-static char *crtc_palettes[]=
+static const char *crtc_palettes[] =
 {
     "amber",
     "green",
@@ -82,13 +82,13 @@ static char *crtc_palettes[]=
     NULL
 };
 
-static char *vdc_palettes[]=
+static const char *vdc_palettes[] =
 {
     "vdc_deft",
     NULL
 };
 
-static char *ted_palettes[]=
+static const char *ted_palettes[] =
 {
     "default",
     "vice",
@@ -96,7 +96,7 @@ static char *ted_palettes[]=
 };
 
 typedef struct {
-    char **palette_names;
+    const char **palette_names;
     char *res_PaletteFile_name;
     char *res_ExternalPalette_name;
     int  palette_mode;
@@ -139,18 +139,18 @@ static void init_color_dialog(HWND hwnd)
     TCHAR newval[64];
 
     resources_get_value("ColorSaturation", (void *)&val);
-        fval = ((double)val) / 1000.0;
-        _stprintf(newval, TEXT("%.3f"), (float)fval);
+                        fval = ((double)val) / 1000.0;
+                        _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_SAT, newval);
 
     resources_get_value("ColorContrast", (void *)&val);
-        fval = ((double)val) / 1000.0;
-        _stprintf(newval, TEXT("%.3f"), (float)fval);
+                        fval = ((double)val) / 1000.0;
+                        _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_CON, newval);
 
     resources_get_value("ColorBrightness", (void *)&val);
-        fval = ((double)val) / 1000.0;
-        _stprintf(newval, TEXT("%.3f"), (float)fval);
+                        fval = ((double)val) / 1000.0;
+                       _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRI, newval);
 
 }
@@ -160,7 +160,7 @@ static Chip_Parameters *current_chip2;
 
 static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
 {
-    int n,val;
+    int n, val;
     double fval;
     TCHAR newval[64];
     char *path;
@@ -170,21 +170,21 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
     current_chip = chip_type;
 
     resources_get_value("ColorGamma", (void *)&val);
-        fval = ((double)val) / 1000.0;
-        _stprintf(newval, TEXT("%.3f"), (float)fval);
+                        fval = ((double)val) / 1000.0;
+                        _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAM, newval);
 
     /* As long as 'phase' isn't implemented, set a constant entry  */
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_PHA, TEXT("N/A"));
 
     resources_get_value("PALScanLineShade", (void *)&val);
-        fval = ((double)val) / 1000.0;
-        _stprintf(newval, TEXT("%.3f"), (float)fval);
+                        fval = ((double)val) / 1000.0;
+                        _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, newval);
 
     resources_get_value("PALBlur", (void *)&val);
-        fval = ((double)val) / 1000.0;
-        _stprintf(newval, TEXT("%.3f"), (float)fval);
+                        fval = ((double)val) / 1000.0;
+                        _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_BLUR, newval);
 
     filename_hwnd = GetDlgItem(hwnd, IDC_VIDEO_ADVANCED_MODE);
@@ -285,7 +285,7 @@ static BOOL CALLBACK dialog_color_proc(HWND hwnd, UINT msg,
             ival = (int)(tf * 1000.0 + 0.5);
             resources_set_value("ColorBrightness", (resource_value_t)ival);
             querynewpalette = 1;
-            SetWindowLong (hwnd, DWL_MSGRESULT, FALSE);
+            SetWindowLong(hwnd, DWL_MSGRESULT, FALSE);
             return TRUE;
         }
         return FALSE;
@@ -436,7 +436,7 @@ static BOOL CALLBACK dialog_palette_proc(HWND hwnd, UINT msg,
         return FALSE;
       case WM_INITDIALOG:
         init_palette_dialog(hwnd,
-            (Chip_Parameters*)((PROPSHEETPAGE*)lparam)->lParam);
+                            (Chip_Parameters*)((PROPSHEETPAGE*)lparam)->lParam);
         return TRUE;
       case WM_COMMAND:
         type = LOWORD(wparam);

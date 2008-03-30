@@ -35,7 +35,6 @@
 #include "res.h"
 #include "resources.h"
 #include "system.h"
-#include "ui.h"
 #include "uiide64.h"
 #include "uilib.h"
 #include "winmain.h"
