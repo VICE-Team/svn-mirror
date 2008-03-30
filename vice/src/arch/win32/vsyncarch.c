@@ -44,19 +44,30 @@
 #include "vsyncapi.h"
 // -------------------------------------------------------------------------
 
-static unsigned long frequency = 0;
+static unsigned long    frequency = 0;
+static int              perf_rotate = 0;
+static int              perf_inited = 0;
 
 signed long vsyncarch_frequency()
 {
-	LARGE_INTEGER li;
+LARGE_INTEGER   li;
+int i;
 	if (!frequency) {
 		if (!QueryPerformanceFrequency(&li)) {
 			ui_error("Can't get frequency of performance counter");
 			return -1;
 		}
 #ifdef HAS_LONGLONG_INTEGER
+        li.QuadPart >>= perf_rotate;
 		frequency = (signed long)li.QuadPart;
 #else
+        for (i=0; i<perf_rotate; i++) {
+            li.LowPart >>= 1;
+            if (li.HighPart&1) {
+                li.LowPart = li.LowPart || 0x80000000;
+            }
+            li.HighPart >>= 1;
+        }
 		frequency = (signed long)li.LowPart;
 #endif
 	}
@@ -65,15 +76,24 @@ signed long vsyncarch_frequency()
 
 unsigned long vsyncarch_gettime()
 {
-	LARGE_INTEGER li;
+LARGE_INTEGER   li;
+int i;
 	if (!QueryPerformanceCounter(&li)) {
 		ui_error("Can't get performance counter");
 		return 0;
 	}
 	
 #ifdef HAS_LONGLONG_INTEGER
+    li.QuadPart >>= perf_rotate;
 	return (unsigned long)li.QuadPart;
 #else
+    for (i=0; i<perf_rotate; i++) {
+        li.LowPart >>= 1;
+        if (li.HighPart&1) {
+            li.LowPart = li.LowPart || 0x80000000;
+        }
+        li.HighPart >>= 1;
+    }
 	return (unsigned long)li.LowPart;
 #endif
 		
@@ -81,6 +101,30 @@ unsigned long vsyncarch_gettime()
 
 void vsyncarch_init()
 {
+LARGE_INTEGER   li;
+
+    if (perf_inited == 0) {
+		if (!QueryPerformanceFrequency(&li)) {
+			ui_error("Can't get frequency of performance counter");
+			return;
+		}
+#ifdef HAS_LONGLONG_INTEGER
+        while (li.QuadPart&0xffffffffe0000000) {
+            li.QuadPart >>= 1;
+            perf_rotate++;
+        }
+#else
+        while ((li.HighPart&0xffffffff) && (li.LowPart&0xe0000000)) {
+            li.LowPart >>= 1;
+            if (li.HighPart&1) {
+                li.LowPart = li.LowPart || 0x80000000;
+            }
+            li.HighPart >>= 1;
+            perf_rotate++;
+        }
+#endif
+        perf_inited = 1;
+    }
 }
 
 // -------------------------------------------------------------------------
@@ -97,26 +141,15 @@ static unsigned long nosynccount = 0;
 
 void vsyncarch_verticalblank(video_canvas_t *c, float rate, int frames)
 {
-	LARGE_INTEGER now;
 	unsigned long nowi, lastx, max, frm, vbl;
 
 	if (c->refreshrate <= 0.0f) return;
-	if (!QueryPerformanceFrequency(&now)) return;
-#ifdef HAS_LONGLONG_INTEGER
-	nowi = (unsigned long)now.QuadPart;
-#else
-	nowi = (unsigned long)now.LowPart;
-#endif
+    nowi = vsyncarch_frequency();
 
 	/* calculate counter cycles per frame */
 	frm = (unsigned long)((float)(nowi*frames)/rate);
 
-	QueryPerformanceCounter(&now);
-#ifdef HAS_LONGLONG_INTEGER
-	nowi = (unsigned long)now.QuadPart;
-#else
-	nowi = (unsigned long)now.LowPart;
-#endif
+    nowi = vsyncarch_gettime();
 
 	lastx = last - (frm * nosynccount);
 	max = (frm * 7) >> 3;
@@ -124,12 +157,7 @@ void vsyncarch_verticalblank(video_canvas_t *c, float rate, int frames)
 	while (max >= (nowi-lastx))
 	{
 		IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN, 0);
-		QueryPerformanceCounter(&now);
-#ifdef HAS_LONGLONG_INTEGER
-		nowi = (unsigned long)now.QuadPart;
-#else
-		nowi = (unsigned long)now.LowPart;
-#endif
+        nowi = vsyncarch_gettime();
 		vbl = 1;
 	}
 	if ((!vbl) && (nosynccount < 16))
@@ -145,33 +173,23 @@ void vsyncarch_verticalblank(video_canvas_t *c, float rate, int frames)
 
 void vsyncarch_prepare_vbl(void)
 {
-	LARGE_INTEGER now;
-
-	QueryPerformanceCounter(&now);
 	/* keep vertical blank data prepared */
-#ifdef HAS_LONGLONG_INTEGER
-	last = (unsigned long)now.QuadPart;
-#else
-	last = (unsigned long)now.LowPart;
-#endif
-	nosynccount = 0;
+    last = vsyncarch_gettime();
+    nosynccount = 0;
 }
 
 void vsyncarch_sleep(signed long delay)
 {
-	LARGE_INTEGER start, now;
+	unsigned long start, now;
 	
 	if (delay <= vsyncarch_frequency()/1000)
 		return;
-	QueryPerformanceCounter(&start);
+
+    start=vsyncarch_gettime();
 	do {
 		Sleep(1);
-		QueryPerformanceCounter(&now);
-#ifdef HAS_LONGLONG_INTEGER
-	} while ((now.QuadPart - start.QuadPart) < delay);
-#else
-	} while ((now.LowPart - start.LowPart) < delay);
-#endif
+		now=vsyncarch_gettime();
+	} while ((now - start) < delay);
 }
 
 void vsyncarch_presync()

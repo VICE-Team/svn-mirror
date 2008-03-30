@@ -28,10 +28,11 @@
 /* The PAL Y/C and PAL Composite emulation is based on work by John
    Selck <graham@cruise.de>. */
 
+#include "vice.h"
+
 #include <stdlib.h>
 
 #include "renderyuv.h"
-
 #include "video-resources.h"
 
 
