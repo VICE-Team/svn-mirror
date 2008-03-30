@@ -53,6 +53,9 @@ extern store_func_ptr_t *_mem_write_ind_tab_ptr;
 #define PAGE_ZERO mem_page_zero
 #define PAGE_ONE  mem_page_one
 
+#define LOAD_ZERO(addr) \
+    PAGE_ZERO[(addr) & 0xff]
+
 #define STORE_IND(addr, value) \
     (*_mem_write_ind_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
 

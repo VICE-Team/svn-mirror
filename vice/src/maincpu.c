@@ -62,22 +62,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* The following #defines are useful for debugging and speed tuning.  */
-
-/* Use a global variable for Program Counter.  This makes it slower, but also
-   makes debugging easier.  This is needed by the VIC-II emulation, so avoid
-   #undefining or #defining it in case it is already #defined.  */
-#if !defined EXTERN_PC
-#  undef EXTERN_PC
-#endif
-
-/* ------------------------------------------------------------------------- */
-
-/* Now, if EXTERN_PC is set, set NEED_REG_PC, because it's this one
-   that's being used.  Do not change this one.  */
-#ifdef EXTERN_PC
-#  define NEED_REG_PC
-#endif
+#define NEED_REG_PC
 
 /* ------------------------------------------------------------------------- */
 
@@ -109,7 +94,7 @@
 
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
-    PAGE_ZERO[(addr) & 0xff]
+    read_zero(addr)
 #endif
 
 #define LOAD_ADDR(addr) \
