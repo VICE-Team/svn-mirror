@@ -65,10 +65,13 @@ typedef struct {
 machdesc_t machdesc;
 
 /* Initialize the machine.  */
-void machine_init(void);
+int machine_init(void);
 
 /* Reset the machine.  */
 void machine_reset(void);
+
+/* Shutdown th emachine.  */
+void machine_shutdown(void);
 
 /* Return nonzero if `addr' is in a trappable address space (i.e. BRK could
    trigger a trap).  */
