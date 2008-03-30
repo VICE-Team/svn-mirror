@@ -94,10 +94,10 @@ int video_init_resources(void)
 /* Video-related command-line options.  */
 static cmdline_option_t cmdline_options[] = {
     { "-xsync", SET_RESOURCE, 0, NULL, NULL,
-      "XSync", (resource_value_t) 1,
+      "UseXSync", (resource_value_t) 1,
       NULL, "Call `XSync()' after updating the emulation window" },
     { "+xsync", SET_RESOURCE, 0, NULL, NULL,
-      "XSync", (resource_value_t) 0,
+      "UseXSync", (resource_value_t) 0,
       NULL, "Do not call `XSync()' after updating the emulation window" },
     { "-mitshm", SET_RESOURCE, 0, NULL, NULL,
       "MITSHM", (resource_value_t) 1,
@@ -254,6 +254,7 @@ int video_init(void)
 
     /* if < 0 then no initialization, neither 0 (don't use) or 1 (use) */
     if (try_mitshm < 0) {
+	int displayno = -1;
 	/* Check wether we are on the same machine or not.  If we are not, we
 	   do not even try to use MITSHM. */
 	char *p, *dname = stralloc(XDisplayName(NULL));
@@ -261,12 +262,26 @@ int video_init(void)
 
 	do_try_mitshm = 0;	/* no MIT shm */
 	uname(&uts);
-	if ((p = strchr(dname, ':')))
+	if ((p = strchr(dname, ':'))) {
+	    if (p[1] && sscanf(p+1, "%d.", &displayno)!=1) {	
+		displayno = -1;
+	    }
 	    p[0] = 0;
-	if (!strlen(dname)
-	    || !strcmp(dname, "localhost")
-	    || !strcmp(dname, uts.nodename))
+	}
+
+	log_message(video_log, "Display number is %d.",displayno);
+
+	/* 10 displays is a bit many for one machine, right? 
+	   "ssh" uses display numbers > 9 to establish encrypted, tunneling
+	   X connections - thus MITSHM does not work */
+	if ( (displayno < 10) && (
+	        !strlen(dname)
+	        || !strcmp(dname, "localhost")
+	        || !strcmp(dname, uts.nodename)
+		)
+	    ) {
 	    do_try_mitshm = 1;	/* use MIT shm */
+	}
 	free(dname);
     } else {
 	do_try_mitshm = try_mitshm;

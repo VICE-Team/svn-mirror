@@ -19,7 +19,6 @@ keymaps = \
 	posg_de.vkm
 
 romsets = \
-	default.vrs \
 	rom1.vrs \
 	rom2b.vrs \
 	rom2g.vrs \

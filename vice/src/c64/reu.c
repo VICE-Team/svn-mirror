@@ -31,9 +31,6 @@
 #ifdef STDC_HEADERS
 #include <stdio.h>
 #include <string.h>
-#ifndef __riscos
-#include <malloc.h>
-#endif
 #endif
 
 #include "reu.h"

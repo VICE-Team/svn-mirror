@@ -28,6 +28,8 @@
  *
  */
 
+#include <stdio.h>
+
 #include "vice.h"
 #include "resources.h"
 #include "ciad.h"

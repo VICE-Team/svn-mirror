@@ -60,6 +60,8 @@ extern BYTE chargen_rom[];
 extern BYTE *page_zero;
 extern BYTE *page_one;
 
+extern const char *mem_romset_resources_list[];
+
 extern void initialize_memory(void);
 extern void mem_powerup(void);
 extern int mem_load(void);

@@ -28,7 +28,7 @@
 #define _ROMSET_H
 
 extern int romset_load(const char *filename);
-extern int romset_dump(const char *filename, const char *resource1, ...);
+extern int romset_dump(const char *filename, const char **resource_list);
 
 #endif				/* _ROMSET_H */
 

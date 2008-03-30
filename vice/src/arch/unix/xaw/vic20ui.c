@@ -104,6 +104,17 @@ static UI_CALLBACK(set_common_memory_configuration)
     }
 }
 
+static ui_menu_entry_t vic20_romset_submenu[] = {
+    { "Default",
+      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"default.vrs", NULL },
+    { "--" },
+    { "Load custom ROM set from file",
+      (ui_callback_t) ui_load_romset, NULL, NULL },
+    { "Dump ROM set definition to file",
+      (ui_callback_t) ui_dump_romset, NULL, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t common_memory_configurations_submenu[] = {
     { "No expansion memory",
       set_common_memory_configuration, (ui_callback_data_t) MEM_NONE, NULL },
@@ -135,6 +146,9 @@ static ui_menu_entry_t memory_settings_submenu[] = {
     { "Common configurations",
       NULL, NULL, common_memory_configurations_submenu },
     { "--" },
+    { "ROM sets",
+      NULL, NULL, vic20_romset_submenu },
+    { "--" },
     { "*Block 0 (3K at $0400-$0FFF)",
       (ui_callback_t) toggle_RAMBlock0, NULL, NULL },
     { "*Block 1 (8K at $2000-$3FFF)",
@@ -156,6 +170,7 @@ static ui_menu_entry_t memory_settings_menu[] = {
       NULL, NULL, memory_settings_submenu },
     { NULL }
 };
+
 
 /* ------------------------------------------------------------------------- */
 

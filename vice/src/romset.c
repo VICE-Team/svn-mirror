@@ -49,6 +49,8 @@ extern int romset_load(const char *filename) {
 	return -1;
     }
 
+    log_message(LOG_DEFAULT, "Loading ROM set from file '%s'",filename);
+
     line_num = 0;
     do {
         retval = resources_read_item_from_file(fp);
@@ -67,19 +69,18 @@ extern int romset_load(const char *filename) {
     return err;
 }
 
-extern int romset_dump(const char *filename, ...) {
+extern int romset_dump(const char *filename, const char **resource_list) {
     va_list args;
     FILE *fp;
     char *s;
 
-    va_start(args, filename);
-
     fp = fopen(filename, "w");
     if (fp) {
-	s = va_arg(args, char *);
+        log_message(LOG_DEFAULT, "Dumping ROM set to file '%s'",filename);
+	s = *resource_list++;
 	while(s) {
 	    resources_write_item_to_file(fp, s);
-	    s = va_arg(args, char *);
+	    s = *resource_list++;
 	} 
 	fclose(fp);
 	return 0;

@@ -134,6 +134,14 @@ static int number_romsets;
 
 static char *romset_name = 0;
 
+const char *mem_romset_resources_list[] = {
+    "KernalName", "ChargenName", "BasicName",
+    "CartridgeType", "CartridgeFile",
+    "DosName2031", "DosName1541", "DosName1571", "DosName1581",
+    NULL
+};
+
+
 /* FIXME: Should load the new character ROM.  */
 static int set_chargen_rom_name(resource_value_t v)
 {
@@ -212,6 +220,7 @@ static int set_reu_enabled(resource_value_t v)
         return 0;
     } else if (!ieee488_enabled && (mem_cartridge_type == CARTRIDGE_NONE)) {
         reu_enabled = 1;
+        activate_reu();
         return 0;
     } else {
         /* The REU and the IEEE488 interface share the same address space, so

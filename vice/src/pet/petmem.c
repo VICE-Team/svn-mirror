@@ -63,6 +63,14 @@ static const int rawaddrs[] = { 0x400, 0x401, -1 };
 
 /* ------------------------------------------------------------------------- */
 
+const char *mem_romset_resources_list[] = { 
+    "KernalName", "EditorName", "ChargenName", 
+    "RomModule9Name", "RomModuleAName",
+    "DosName2031",	/* cannot use 15*1 disk drives */
+    NULL
+};
+
+
 /* ------------------------------------------------------------------------- */
 
 /* The PET memory. */

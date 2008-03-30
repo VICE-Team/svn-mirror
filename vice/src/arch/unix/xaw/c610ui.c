@@ -54,6 +54,28 @@ static ui_menu_entry_t palette_submenu[] = {
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "amber", NULL },
     { "*White",
       (ui_callback_t) radio_PaletteFile, (ui_callback_data_t) "white", NULL },
+    { "--" },
+    { "Load custom",
+      (ui_callback_t) ui_load_palette, NULL, NULL },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
+static ui_menu_entry_t cbm2_romset_submenu[] = {
+    { "Basic 128k, low chars",
+      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom128l.vrs", NULL },
+    { "Basic 256k, low chars",
+      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom256l.vrs", NULL },
+    { "Basic 128k, high chars",
+      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom128h.vrs", NULL },
+    { "Basic 256k, high chars",
+      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom256h.vrs", NULL },
+    { "--" },
+    { "Load custom ROM set from file",
+      (ui_callback_t) ui_load_romset, NULL, NULL },
+    { "Dump ROM set definition to file",
+      (ui_callback_t) ui_dump_romset, NULL, NULL },
     { NULL }
 };
 
@@ -147,6 +169,9 @@ UI_MENU_DEFINE_TOGGLE(RamC)
 static ui_menu_entry_t model_settings_submenu[] = {
     { "Model defaults",
       NULL, NULL, model_defaults_submenu },
+    { "--" },
+    { "ROM sets",
+      NULL, NULL, cbm2_romset_submenu },
     { "--" },
     { "Memory size",
       NULL, NULL, c610_memsize_submenu },

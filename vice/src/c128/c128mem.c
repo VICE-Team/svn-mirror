@@ -74,6 +74,14 @@
 
 /* ------------------------------------------------------------------------- */
 
+const char *mem_romset_resources_list[] = {
+    "KernalName", "ChargenName", "BasicName", "EditorName",
+    "DosName2031", "DosName1541", "DosName1571", "DosName1581",
+    NULL
+};
+
+/* ------------------------------------------------------------------------- */
+
 /* C128 memory-related resources.  */
 
 /* Name of the character ROM.  */

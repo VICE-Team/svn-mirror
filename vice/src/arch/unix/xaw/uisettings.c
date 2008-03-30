@@ -47,6 +47,7 @@
 #include "utils.h"
 #include "iecdrive.h"
 #include "romset.h"
+#include "mem.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -344,6 +345,30 @@ static ui_menu_entry_t keyboard_settings_submenu[] = {
     { NULL }
 };
 
+/* ------------------------------------------------------------------------- */
+
+UI_CALLBACK(ui_load_palette)
+{
+    char *filename;
+    char title[1024];
+    ui_button_t button;
+
+    suspend_speed_eval();
+    sprintf(title, "Load custom palette");
+    filename = ui_select_file(title, NULL, False, NULL, "*.vpl", &button);
+
+    switch (button) {
+      case UI_BUTTON_OK:
+        if (resources_set_value("PaletteFile", 
+		(resource_value_t) filename) < 0)
+            ui_error("Could not load palette file\n'%s'",filename);
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
+    }
+    ui_update_menus();
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -375,6 +400,27 @@ UI_CALLBACK(ui_load_romset)
         break;
     }
     ui_update_menus();
+}
+
+UI_CALLBACK(ui_dump_romset)
+{
+    char title[1024];
+
+    suspend_speed_eval();
+    sprintf(title, "File to dump ROM set definition to");
+    {
+        char *new_value;
+        int len = 512;
+
+        new_value = alloca(len + 1);
+        strcpy(new_value, "");
+
+        if (ui_input_string(title, "ROM set file:", new_value, len)
+                != UI_BUTTON_OK)
+            return;
+
+        romset_dump(new_value, mem_romset_resources_list);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -973,6 +1019,8 @@ static ui_menu_entry_t pr4_device_submenu[] = {
     { NULL }
 };
 
+#if 0
+/* The file selector cannot select a non-existing file -> does not work */
 static UI_CALLBACK(set_printer_dump_file)
 {
     char *resource = (char*) client_data;
@@ -992,6 +1040,7 @@ static UI_CALLBACK(set_printer_dump_file)
         break;
     }
 }
+#endif
 
 static UI_CALLBACK(set_printer_exec_file)
 {
@@ -1035,7 +1084,8 @@ static ui_menu_entry_t printer_settings_menu[] = {
     { "Userport printer device",
       NULL, NULL, pruser_device_submenu  },
     { "--" },
-    { "Printer device 1...", (ui_callback_t) set_printer_dump_file,
+    { "Printer device 1...", (ui_callback_t) /* set_printer_dump_file */
+					     set_printer_exec_file,
       (ui_callback_data_t) "PrDevice1", NULL },
     { "Printer device 2...", (ui_callback_t) set_printer_exec_file,
       (ui_callback_data_t) "PrDevice2", NULL },

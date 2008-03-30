@@ -56,6 +56,15 @@
 
 /* ------------------------------------------------------------------------- */
 
+const char *mem_romset_resources_list[] = {
+    "KernalName", "ChargenName", "BasicName", 
+    /* FIXME: cartridges */
+    "DosName1541", "DosName1571", "DosName1581",
+    NULL
+};
+
+/* ------------------------------------------------------------------------- */
+
 /* VIC20 memory-related resources.  */
 
 #define VIC_BLK0 1

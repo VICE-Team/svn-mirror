@@ -9,6 +9,10 @@ cbm2_DATA = \
 	busi_uk.vkm \
 	default.vpl \
 	kernal \
-	white.vpl
+	white.vpl \
+	rom128l.vrs \
+	rom128h.vrs \
+	rom256l.vrs \
+	rom256h.vrs
 
 EXTRA_DIST = $(cbm2_DATA)

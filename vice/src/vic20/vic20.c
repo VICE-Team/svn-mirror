@@ -78,8 +78,8 @@ int machine_class = VICE_MACHINE_VIC20;
 
 /* ------------------------------------------------------------------------- */
 
-/* FIXME: valid start addresses for the VIC20 */
-static const int rawaddrs[] = { -1 };
+/* FIXME: Can we make the start address determine the config on autoload? */
+static const int rawaddrs[] = { 0x1001, 0x1201, 0x0401, -1 };
 
 /* ------------------------------------------------------------------------- */
 
