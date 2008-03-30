@@ -32,30 +32,23 @@
 #include "raster-cache.h"
 #include "utils.h"
 
-void raster_cache_init(raster_cache_t *cache)
+void raster_cache_init(raster_cache_t *cache, unsigned int num_sprites)
 {
     unsigned int i;
 
-    for (i = 0; i < RASTER_CACHE_MAX_SPRITES; i++)
-        raster_sprite_cache_init(&(cache->sprites[i]));
+    if (num_sprites > 0) {
+        for (i = 0; i < RASTER_CACHE_MAX_SPRITES; i++)
+            raster_sprite_cache_init(&(cache->sprites[i]));
+
+        cache->gfx_msk = xcalloc(1, RASTER_CACHE_GFX_MSK_SIZE);
+    }
 
     memset(cache->background_data, 0, RASTER_CACHE_MAX_TEXTCOLS);
     memset(cache->foreground_data, 0, RASTER_CACHE_MAX_TEXTCOLS);
     memset(cache->color_data_1, 0, RASTER_CACHE_MAX_TEXTCOLS);
     memset(cache->color_data_2, 0, RASTER_CACHE_MAX_TEXTCOLS);
     memset(cache->color_data_3, 0, RASTER_CACHE_MAX_TEXTCOLS);
-    memset(cache->gfx_msk, 0, RASTER_CACHE_GFX_MSK_SIZE);
 
     cache->is_dirty = 1;
-}
-
-raster_cache_t *raster_cache_new(void) 
-{
-    raster_cache_t *new_cache;
-
-    new_cache = (raster_cache_t *)xmalloc(sizeof(raster_cache_t));
-    raster_cache_init(new_cache);
-
-    return new_cache;
 }
 

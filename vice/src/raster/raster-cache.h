@@ -47,24 +47,11 @@ struct raster_cache_s {
     /* If nonzero, it means that the cache entry is invalid.  */
     int is_dirty;
 
-    /* Bitmap representation of the graphics in foreground.  */
-    BYTE foreground_data[RASTER_CACHE_MAX_TEXTCOLS];
-
-    /* Color information.  */
-    BYTE border_color;
-    BYTE background_data[RASTER_CACHE_MAX_TEXTCOLS];
-
     /* This is needed in the VIC-II for the area between the end of the left
        border and the start of the graphics, when the X smooth scroll
        register is > 0.  */
     BYTE xsmooth_color;
     BYTE overscan_background_color;
-
-    /* The following are generic and are used differently by the video
-       emulators.  */
-    BYTE color_data_1[RASTER_CACHE_MAX_TEXTCOLS];
-    BYTE color_data_2[RASTER_CACHE_MAX_TEXTCOLS];
-    BYTE color_data_3[RASTER_CACHE_MAX_TEXTCOLS];
 
     /* X smooth scroll offset.  */
     int xsmooth;
@@ -89,7 +76,7 @@ struct raster_cache_s {
 
     /* Sprite cache.  */
     raster_sprite_cache_t sprites[RASTER_CACHE_MAX_SPRITES];
-    BYTE gfx_msk[RASTER_CACHE_GFX_MSK_SIZE];
+    BYTE *gfx_msk;
 
     /* Sprite-sprite and sprite-background collisions that were detected on
        this line.  */
@@ -104,265 +91,23 @@ struct raster_cache_s {
 
     /* Flags for open left/right borders.  */
     int open_right_border, open_left_border;
+
+    /* Color information.  */
+    BYTE border_color;
+    BYTE background_data[RASTER_CACHE_MAX_TEXTCOLS];
+
+    /* Bitmap representation of the graphics in foreground.  */
+    BYTE foreground_data[RASTER_CACHE_MAX_TEXTCOLS];
+
+    /* The following are generic and are used differently by the video
+       emulators.  */
+    BYTE color_data_1[RASTER_CACHE_MAX_TEXTCOLS];
+    BYTE color_data_2[RASTER_CACHE_MAX_TEXTCOLS];
+    BYTE color_data_3[RASTER_CACHE_MAX_TEXTCOLS];
 };
 typedef struct raster_cache_s raster_cache_t;
 
-extern void raster_cache_init(raster_cache_t *cache);
-extern raster_cache_t *raster_cache_new(void);
-extern void raster_cache_free(raster_cache_t *cache);
-
-
-/* Inlined functions.  These need to be *fast*.  */
-
-/* Read length bytes from src and store them in dest, checking for
-   differences between the two arrays.  The smallest interval that contains
-   different bytes is returned as [*xs; *xe].  */
-/* _fill_cache() */
-inline static int raster_cache_data_fill(BYTE *dest,
-                                         const BYTE *src,
-                                         int length,
-                                         int src_step,
-                                         int *xs,
-                                         int *xe,
-                                         int no_check)
-{
-    if (no_check) {
-        int i;
-
-        *xs = 0;
-        *xe = length - 1;
-        if (src_step == 1)
-            memcpy(dest, src, (size_t)length);
-        else
-            for (i = 0; i < length; i++, src += src_step)
-                dest[i] = src[0];
-        return 1;
-    } else {
-        int x = 0, i;
-
-        for (i = 0; i < length && dest[i] == src[0]; i++, src += src_step)
-            /* do nothing */ ;
-
-        if (i < length) {
-            if (*xs > i)
-                *xs = i;
-
-            for (; i < length; i++, src += src_step) {
-                if (dest[i] != src[0]) {
-                    dest[i] = src[0];
-                    x = i;
-                }
-            }
-
-            if (*xe < x)
-                *xe = x;
-
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-}
-
-inline static int raster_cache_data_fill_1fff(BYTE *dest,
-                                              const BYTE *src_base,
-                                              int src_cnt,
-                                              int length,
-                                              int src_step,
-                                              int *xs,
-                                              int *xe,
-                                              int no_check)
-{
-    if (no_check) {
-        int i;
-
-        *xs = 0;
-        *xe = length - 1;
-
-        for (i = 0; i < length; i++, src_cnt += src_step)
-            dest[i] = src_base[src_cnt & 0x1fff];
-
-        return 1;
-    } else {
-        int x = 0, i;
-
-        for (i = 0; i < length && dest[i] == src_base[src_cnt & 0x1fff];
-            i++, src_cnt += src_step)
-            /* do nothing */ ;
-
-        if (i < length) {
-            if (*xs > i)
-                *xs = i;
-
-            for (; i < length; i++, src_cnt += src_step) {
-                if (dest[i] != src_base[src_cnt & 0x1fff]) {
-                    dest[i] = src_base[src_cnt & 0x1fff];
-                    x = i;
-                }
-            }
-
-            if (*xe < x)
-                *xe = x;
-
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-}
-
-/* Do as _fill_cache(), but split each byte into low and high nibble.  These
-   are stored into different destinations.  */
-/* _fill_cache_nibbles */
-inline static int raster_cache_data_fill_nibbles(BYTE *dest_hi,
-                                                 BYTE *dest_lo,
-                                                 const BYTE *src,
-                                                 int length,
-                                                 int src_step,
-                                                 int *xs, int *xe,
-                                                 int no_check)
-{
-    if (no_check) {
-        int i;
-
-        *xs = 0;
-        *xe = length - 1;
-
-        for (i = 0; i < length; i++, src += src_step) {
-            dest_hi[i] = src[0] >> 4;
-            dest_lo[i] = src[0] & 0xf;
-        }
-
-        return 1;
-    } else {
-        int i, x = 0;
-        BYTE b;
-
-        for (i = 0;
-            dest_hi[i] == (src[0] >> 4)
-            && dest_lo[i] == (src[0] & 0xf) && i < length;
-            i++, src += src_step)
-            /* do nothing */ ;
-
-        if (i < length) {
-            if (*xs > i)
-                *xs = i;
-
-            for (; i < length; i++, src += src_step) {
-                if (dest_hi[i] != (b = (src[0] >> 4))) {
-                    dest_hi[i] = b;
-                    x = i;
-                }
-                if (dest_lo[i] != (b = (src[0] & 0xf))) {
-                    dest_lo[i] = b;
-                    x = i;
-                }
-            }
-
-            if (*xe < x)
-                *xe = x;
-
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-}
-
-/* This function is used for text modes.  It checks for differences in the
-   character memory too.  */
-/* _fill_cache_text */
-inline static int raster_cache_data_fill_text(BYTE *dest,
-                                              const BYTE *src,
-                                              BYTE *char_mem,
-                                              int bytes_per_char,
-                                              int length,
-                                              int l,
-                                              int *xs, int *xe,
-                                              int no_check)
-{
-#define _GET_CHAR_DATA(c, l)  char_mem[((c) * bytes_per_char) + (l)]
-    if (no_check) {
-        int i;
-
-        *xs = 0;
-        *xe = length - 1;
-        for (i = 0; i < length; i++, src++)
-            dest[i] = _GET_CHAR_DATA(src[0], l);
-        return 1;
-    } else {
-        BYTE b;
-        int i;
-
-        for (i = 0;
-            i < length && dest[i] == _GET_CHAR_DATA(src[0], l);
-            i++, src++)
-            /* do nothing */ ;
-
-        if (i < length) {
-            *xs = *xe = i;
-
-            for (; i < length; i++, src++) {
-                if (dest[i] != (b = _GET_CHAR_DATA(src[0], l))) {
-                    dest[i] = b;
-                    *xe = i;
-                }
-            }
-
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-#undef _GET_CHAR_DATA
-}
-
-
-inline static int raster_cache_data_fill_const(BYTE *dest,
-                                               BYTE data,
-                                               int length,
-                                               int src_step,
-                                               int *xs,
-                                               int *xe,
-                                               int no_check)
-{
-    if (no_check) {
-        int i;
-
-        *xs = 0;
-        *xe = length - 1;
-        if (src_step == 1)
-            memset(dest, data, (size_t)length);
-        else
-            for (i = 0; i < length; i++)
-                dest[i] = data;
-        return 1;
-    } else {
-        int x = 0, i;
-
-        for (i = 0; i < length && dest[i] == data; i++)
-            /* do nothing */ ;
-
-        if (i < length) {
-            if (*xs > i)
-                *xs = i;
-
-            for (; i < length; i++) {
-                if (dest[i] != data) {
-                    dest[i] = data;
-                    x = i;
-                }
-            }
-
-            if (*xe < x)
-                *xe = x;
-
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-}
+extern void raster_cache_init(raster_cache_t *cache, unsigned int num_sprites);
 
 #endif
 

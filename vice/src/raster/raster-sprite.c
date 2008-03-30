@@ -27,7 +27,6 @@
 #include "vice.h"
 
 #include "raster-sprite.h"
-#include "utils.h"
 
 
 void raster_sprite_init(raster_sprite_t *s)
@@ -43,15 +42,5 @@ void raster_sprite_init(raster_sprite_t *s)
     s->memptr_inc = 0;
     s->exp_flag = 0;
     s->dma_flag = 0;
-}
-
-raster_sprite_t *raster_sprite_new(void)
-{
-    raster_sprite_t *new_sprite;
-
-    new_sprite = (raster_sprite_t *)xmalloc(sizeof(raster_sprite_t));
-    raster_sprite_init(new_sprite);
-
-    return new_sprite;
 }
 

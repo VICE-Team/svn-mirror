@@ -63,7 +63,6 @@ typedef struct raster_sprite_s raster_sprite_t;
 
 
 extern void raster_sprite_init(raster_sprite_t *s);
-extern raster_sprite_t *raster_sprite_new(void);
 
 #endif
 
