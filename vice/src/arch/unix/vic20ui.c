@@ -27,6 +27,11 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#define VIC20UI 1
+#include "videoarch.h"
 
 #include "cartridge.h"
 #include "datasette.h"
@@ -36,11 +41,7 @@
 #include "uimenu.h"
 #include "uisettings.h"
 #include "vsync.h"
-
-#ifdef XPM
-#include <X11/xpm.h>
-#include "x11/xaw/vic20icon.xpm"
-#endif
+#include "utils.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -63,46 +64,44 @@ enum {
 
 static UI_CALLBACK(set_common_memory_configuration)
 {
-    if (!CHECK_MENUS) {
-        int blocks;
+    int blocks;
 
-        switch ((int) UI_MENU_CB_PARAM) {
-          case MEM_NONE:
-            blocks = 0;
-            break;
-          case MEM_ALL:
-            blocks = BLOCK_0 | BLOCK_1 | BLOCK_2 | BLOCK_3 | BLOCK_5;
-            break;
-          case MEM_3K:
-            blocks = BLOCK_0;
-            break;
-          case MEM_8K:
-            blocks = BLOCK_1;
-            break;
-          case MEM_16K:
-            blocks = BLOCK_1 | BLOCK_2;
-            break;
-          case MEM_24K:
-            blocks = BLOCK_1 | BLOCK_2 | BLOCK_3;
-            break;
-          default:
-            /* Shouldn't happen.  */
-            fprintf(stderr, "What?!\n");
-            blocks = 0;         /* Make compiler happy.  */
-        }
-        resources_set_value("RamBlock0",
-                            (resource_value_t) (blocks & BLOCK_0 ? 1 : 0));
-        resources_set_value("RamBlock1",
-                            (resource_value_t) (blocks & BLOCK_1 ? 1 : 0));
-        resources_set_value("RamBlock2",
-                            (resource_value_t) (blocks & BLOCK_2 ? 1 : 0));
-        resources_set_value("RamBlock3",
-                            (resource_value_t) (blocks & BLOCK_3 ? 1 : 0));
-        resources_set_value("RamBlock5",
-                            (resource_value_t) (blocks & BLOCK_5 ? 1 : 0));
-        ui_menu_update_all();
-        suspend_speed_eval();
+    switch ((int) UI_MENU_CB_PARAM) {
+    case MEM_NONE:
+	blocks = 0;
+	break;
+    case MEM_ALL:
+	blocks = BLOCK_0 | BLOCK_1 | BLOCK_2 | BLOCK_3 | BLOCK_5;
+	break;
+    case MEM_3K:
+	blocks = BLOCK_0;
+	break;
+    case MEM_8K:
+	blocks = BLOCK_1;
+	break;
+    case MEM_16K:
+	blocks = BLOCK_1 | BLOCK_2;
+	break;
+    case MEM_24K:
+	blocks = BLOCK_1 | BLOCK_2 | BLOCK_3;
+	break;
+    default:
+	/* Shouldn't happen.  */
+	fprintf(stderr, "What?!\n");
+	blocks = 0;         /* Make compiler happy.  */
     }
+    resources_set_value("RamBlock0",
+			(resource_value_t) (blocks & BLOCK_0 ? 1 : 0));
+    resources_set_value("RamBlock1",
+			(resource_value_t) (blocks & BLOCK_1 ? 1 : 0));
+    resources_set_value("RamBlock2",
+			(resource_value_t) (blocks & BLOCK_2 ? 1 : 0));
+    resources_set_value("RamBlock3",
+			(resource_value_t) (blocks & BLOCK_3 ? 1 : 0));
+    resources_set_value("RamBlock5",
+			(resource_value_t) (blocks & BLOCK_5 ? 1 : 0));
+    ui_menu_update_all();
+    suspend_speed_eval();
 }
 
 static ui_menu_entry_t vic20_romset_submenu[] = {
@@ -186,15 +185,19 @@ static UI_CALLBACK(attach_cartridge)
     int type = (int)UI_MENU_CB_PARAM;
     char *filename;
     ui_button_t button;
+    static char *last_dir;
 
     suspend_speed_eval();
     filename = ui_select_file("Attach cartridge image",
-                              NULL, False, NULL, NULL, &button);
+                              NULL, False, last_dir, "*.prg", &button);
 
     switch (button) {
       case UI_BUTTON_OK:
         if (cartridge_attach_image(type, filename) < 0)
             ui_error("Invalid cartridge image");
+	if (last_dir)
+	    free(last_dir);
+	fname_split(filename, &last_dir, NULL);
 	ui_update_menus();
         break;
       default:
@@ -379,17 +382,7 @@ static ui_menu_entry_t vic20_io_settings_menu[] = {
 
 int vic20_ui_init(void)
 {
-#ifdef XPM
-    {
-        Pixmap icon_pixmap;
-
-        /* Create the icon pixmap. */
-        XpmCreatePixmapFromData(display, DefaultRootWindow(display),
-                                (char **) icon_data, &icon_pixmap, NULL, NULL);
-        ui_set_application_icon(icon_pixmap);
-    }
-#endif
-
+    ui_set_application_icon(icon_data);
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
@@ -435,6 +428,11 @@ int vic20_ui_init(void)
                                      ui_settings_settings_menu,
                                      NULL));
 
+    ui_set_tape_menu(ui_menu_create("TapeMenu",
+				    ui_tape_commands_menu,
+				    ui_menu_separator,
+                                    datasette_control_submenu, 
+				    NULL));
     ui_set_topmenu();
     ui_update_menus();
 

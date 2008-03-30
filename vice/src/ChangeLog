@@ -1,3 +1,196 @@
+2000-01-11  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.20.
+
+	* arch/unix/vic20ui.c, arch/unix/vsidproc.c: #include
+	<stdlib.h>.
+
+	* arch/unix/x11/xaw/uimenu.c: #include "vsidproc.h".
+
+2000-01-09  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* raster/raster.c (realize_canvas): Pass frame_buffer to canvas
+	create. Currently conditional to `USE_GNOMEUI'.
+
+	* petcat.c (archdep_ui_init): New dummy function.
+
+	* c1541.c (archdep_ui_init): New dummy function.
+
+	* arch/unix/x11/xaw/x11video.c (ui_finish_canvas): New Function.
+
+	* arch/unix/x11/xaw/uiarch.h: New File. Xaw specific declarations,
+	macros, prototypes.
+	
+	* arch/unix/x11/xaw/ui.c: 
+	Use XPM if detected.
+	(archdep_ui_init): New (dummy) function.
+	(ui_set_tape_menu): ditto.
+	(ui_display_tape_current_image): ditto.
+	(ui_set_application_icon): Attach xpm icon.
+	(ui_canvas_get_drawable): Removed.
+	Moved `ui_proc*' to `vsidproc' which is UI independent.
+	(ui_dispatch_events): Replaced `ui_proc' stuff with call to
+	`psid_dispatch_events()'.
+	(ui_dispatch_drive_current_image2): Fixed image basename name
+	memory leak.
+	
+	* arch/unix/x11/xaw/Makefile.am (libxawui_a_SOURCES): Removed
+	`*.xpm', `ui.h' added `uiarch.h'
+
+	* arch/unix/x11/videoarch.h: 
+	(canvas_t): Added ui specific drawable field.
+	Added inclusion of machine specific Xpm icon declaration.
+
+	* arch/unix/x11/video.c (video_frame_buffer_free): Do not destroy 
+	`x_image' when using Gnome/GTK+.
+	Save old canvas structure to be able to resize the containing
+	pixmap. 
+	(canvas_create): Fill up canvas_t structur according to used
+	ui. (Someday the #ifdefs might be removed...).
+	(canvas_refresh): Pass framebuffer and canvas to refresh
+	function. For Xaw those parameters aren't used, but won't hurt.
+
+	* arch/unix/x11/kbd.c: Added `#include <string.h>'
+
+	* arch/unix/x11/gnome/uimenu.h: Overall cleanup.
+	Moved `CHECK_MENU' and
+	`UI_MENU_CB_PARAM' to uiarch.h.
+
+	* arch/unix/x11/gnome/uimenu.c: 
+	(all): Added (but disabled) hashing of menus. This should be used
+	to reuse menus-by-name when the same submenu should occur on
+	different locations (e.g. toplevel menu, popup,
+	etc.). Unfortunately this won't work so far, because the checkmark
+	stuff is not adjusted yet.
+	(ui_menu_create): Pass `list[i].string' as submenu name.
+
+	* arch/unix/x11/gnome/uihotkey.c: Overall cleanup.
+
+	* arch/unix/x11/gnome/uiarch.h: New File. Contains Gnome/GTK+
+	specific declarations, macros, prototypes.
+
+	* arch/unix/x11/gnome/ui.c: 
+	(all):	Removed globals: canvas, pane.
+	_ui_top_level references the first opened window. This might
+	change in the future.
+	Implemented tape status widget.
+	Overall cleanup (Not finished yet).
+	(ui_check_mouse_cursor): Reference _ui_top_level instead to canvas.
+	(drive_status_widget): Reworked.
+	(tape_status_widget): New widget.
+	(app_shell_type): Added tape_status_widget.
+	New colors: motor_running_pixel, tape_control_pixel.
+	(archdep_ui_init): New function. Initialize Gnome here, to get
+	atexit handlers attached before vice's atexit stuff.
+	(ui_init): Moved gnome_init to `archdep_ui_init'.
+	(tape_popup_cb): New Function.
+	(ui_init_finish): Removed window creation stuff. This is
+	completely handlede by `ui_open_canvas_window'.
+	(ui_create_status_bar): Reworked completely.
+	(ui_open_canvas_window): Reworked completely. Now handles window
+	creation, locally. This fixes the x128 crash bug.
+	(ui_set_topmenu): Added "Help" menu.
+	(ui_set_application_icon): Implemented empty function to use xpm
+	bitmap as application icon.
+	(do_alloc_colors): Added allocation of 2 new colors for the tape
+	widget.
+	(ui_canvas_get_drawable): Removed. The canvas details are now
+	hidden in the canvas_t structure.
+	(ui_enable_drive_status): Adjusted to new drive_status_widget.
+	(ui_display_drive_track): Added proper GTK cast.
+	(ui_display_drive_led): Adjusted to draw into pixmap.
+	(ui_display_drive_current_image): Changed image display to tooltip
+	popup.
+	(ui_set_tape_status): 
+	(ui_display_tape_motor_status): 
+	(ui_display_tape_control_status): 
+	(ui_display_tape_counter): 
+	(ui_display_tape_current_image): 
+	New Functions. Implementation of the tape status widget.
+	(ui_resize_canvas_window): Reworked. 
+	(ui_set_drive9_menu): Fixed typo. Fixes a segfault.
+
+	* arch/unix/x11/gnome/gnomevideo.c:
+	(GDK_PUTIMAGE): Adjusted to use
+	the canvas datastructure, instead of the global _ui_top_level.
+	(video_frame_buffer_alloc): Removed MITSHM support; this is
+	handeled by GDK. 
+	Removed usage of toplevel window _ui_top_level.
+	(ui_finish_canvas): New function. Initializes remaining fields gof
+	the canvas_t structure. Needed to get rid of access to global
+	_ui_top_level.
+
+	* arch/unix/x11/gnome/Makefile.am (libgnomeui_a_SOURCES): Removed
+	"ui.h" and "uihotkey.h", added "uiarch.h".
+
+	* arch/unix/x11/*.xpm: Xpm pixmaps from xaw specific directory.
+
+	* arch/unix/x11/Makefile.am (libx11ui_a_SOURCES): Added *.xpm
+	icons.
+
+	* arch/unix/vsidproc.h: New File. Interface for vsid ui.
+
+	* arch/unix/vsidproc.c: New File. Code ripped out of xaw ui.
+
+	* arch/unix/vic20ui.c (VIC20UI): 
+	Replaced XPM specifics.
+	(vic20_ui_init): Added initialization of tape popupmenu.
+	(UI_CALLBACK set_common_memory_configuration):
+	Recalculate memory blocks in any case. This fixes the vic20 Gnome
+	UI bug.
+	(UI_CALLBACK attach_cartridge): 
+	Added support for remembering the last visited directory.
+	(vic20_ui_init): Added initialization of tape popupmenu.
+
+	* arch/unix/uisettings.c 
+	(UI_CALLBACK select_user_keymap): 
+	(UI_CALLBACK ui_load_palette): 
+	(UI_CALLBACK ui_load_romset): 
+	(UI_CALLBACK ui_load_rom_file): 
+	(UI_CALLBACK ui_set_printer_dump_file): 
+	Added support for remembering the last visited directory.
+
+	* arch/unix/uihotkey.h: New File. independent declarations, macros,
+	prototypes, etc. Neither Xaw nor Gnome/Gtk specifics should ever
+	be added here!
+
+	* arch/unix/uicommands.c 
+	(UI_CALLBACK attach_disk): 
+	(UI_CALLBACK attach_tape): 
+	(UI_CALLBACK smart_attach): 
+	(UI_CALLBACK load_snapshot_trap): 
+	Added support for remembering the last visited directory.
+
+	* arch/unix/ui.h: New File. UI independent declarations, macros,
+	prototypes, etc. Neither Xaw nor Gnome/Gtk specifics should ever
+	be added here!
+
+	* arch/unix/petui.c:
+	Replaced XPM specifics.
+	(pet_ui_init): Added initialization of tape popupmenu.
+
+	* arch/unix/c64ui.c 
+	Replaced XPM specifics.
+	(UI_CALLBACK attach_cartridge): 
+	Added support for remembering the last visited directory.
+	Added `#ifdef HAVE_MOUSE' around menu definition.
+	(c64_ui_init): Added initialization of tape popupmenu.
+
+	* arch/unix/c610ui.c:
+	Replaced XPM specifics.
+	(c610_ui_init): Added initialization of tape popupmenu.
+
+	* arch/unix/c128ui.c: 
+	Replaced XPM specifics.
+	Added `#ifdef HAVE_MOUSE' around menu definition.
+	(c128_ui_init): Removed tape_commands_menu.
+
+	* arch/unix/archdep.c (archdep_startup): Added call to new
+	function `archdep_ui_init()' to give gtk+ et al. a chance to
+	register atexit handlers first. This fixed the shutdown segfault.
+
+	* arch/unix/Makefile.am (libarch_a_SOURCES): Added `uihotkey.h'.
+
 2000-01-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.19.

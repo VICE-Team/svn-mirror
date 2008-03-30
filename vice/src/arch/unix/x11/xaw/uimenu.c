@@ -28,8 +28,8 @@
 
 #include "vice.h"
 
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include <X11/Xlib.h>
@@ -43,10 +43,10 @@
 
 #include "machine.h"
 #include "resources.h"
-#include "utils.h"
-#include "vsync.h"
-
 #include "uimenu.h"
+#include "utils.h"
+#include "vsidproc.h"
+#include "vsync.h"
 
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
