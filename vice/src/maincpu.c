@@ -84,7 +84,7 @@
 #endif
 
 /* Force `TRACE' in unstable versions.  */
-#if defined UNSTABLE && !defined TRACE
+#if 0 && defined UNSTABLE && !defined TRACE
 #define TRACE
 #endif
 
@@ -307,7 +307,7 @@ void mainloop(ADDRESS start_address)
         int tmp;                                                        \
                                                                         \
         EXPORT_REGISTERS();                                             \
-        tmp = UiJamDialog("   " CPU_STR ": JAM at $%04X   ", reg_pc);   \
+        tmp = ui_jam_dialog("   " CPU_STR ": JAM at $%04X   ", reg_pc); \
         switch (tmp) {                                                  \
           case UI_JAM_RESET:                                            \
             DO_INTERRUPT(IK_RESET);                                     \
