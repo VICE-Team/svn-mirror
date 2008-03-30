@@ -33,6 +33,7 @@ extern signed long kbd_arch_keyname_to_keynum(char *keyname);
 extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 
 #define KBD_C64_SYM   "x11_sym.vkm"
+#define KBD_C64_SYMDE "x11_sym.vkm"
 #define KBD_C64_POS   "x11_pos.vkm"
 #define KBD_C128_SYM  "x11_sym.vkm"
 #define KBD_C128_POS  "x11_pos.vkm"
