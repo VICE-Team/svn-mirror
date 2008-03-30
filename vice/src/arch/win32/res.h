@@ -26,10 +26,11 @@
 #define IDC_TOGGLE_HIDENONP00           1016
 #define IDD_DRIVE_SETTINGS_DIALOG       1020
 #define IDC_SELECT_DRIVE_TYPE_1541      1021
-#define IDC_SELECT_DRIVE_TYPE_1571      1022
-#define IDC_SELECT_DRIVE_TYPE_1581      1023
-#define IDC_SELECT_DRIVE_TYPE_2031      1024
-#define IDC_SELECT_DRIVE_TYPE_NONE      1025
+#define IDC_SELECT_DRIVE_TYPE_1541II    1022
+#define IDC_SELECT_DRIVE_TYPE_1571      1023
+#define IDC_SELECT_DRIVE_TYPE_1581      1024
+#define IDC_SELECT_DRIVE_TYPE_2031      1025
+#define IDC_SELECT_DRIVE_TYPE_NONE      1026
 #define IDD_DRIVE_EXTEND_DIALOG         1030
 #define IDC_SELECT_DRIVE_EXTEND_NEVER   1031
 #define IDC_SELECT_DRIVE_EXTEND_ASK     1032
@@ -227,6 +228,8 @@
 #define IDM_SIDTYPE_6581                40146
 #define IDM_SIDTYPE_8580                40147
 #define IDM_CART_FREEZE                 40148
+#define IDM_SAVEQUICK                   40149
+#define IDM_LOADQUICK                   40150
 
 // Next default values for new objects
 //
