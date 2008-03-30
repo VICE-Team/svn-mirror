@@ -396,6 +396,9 @@ static void scroll_up( console_private_t *pcp )
     redraw_window( pcp, NULL );
 #endif
 
+    /* Adjust the line where the input begins */
+    pcp->yPosInputLineStart--;
+
     cursor(pcp, CS_RESUME);
 }
 

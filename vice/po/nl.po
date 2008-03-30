@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-06-23 15:18+0200\n"
+"POT-Creation-Date: 2006-06-24 22:09+0200\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -315,16 +315,16 @@ msgstr "Afspelen opgenomen gebeurtenissen"
 msgid "Resource %s blocked by %s."
 msgstr "Bron %s geblokeerd door %s."
 
-#: src/c64/c64io.c:179
+#: src/c64/c64io.c:180
 #, c-format
 msgid "I/O read collision at %X from "
 msgstr "I/O lees botsing op %X van "
 
-#: src/c64/c64io.c:197
+#: src/c64/c64io.c:198
 msgid " and "
 msgstr " en "
 
-#: src/c64/c64io.c:198
+#: src/c64/c64io.c:199
 msgid ""
 ".\n"
 "All the named devices will be detached."

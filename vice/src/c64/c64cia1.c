@@ -87,7 +87,7 @@ static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 
 static void pre_store(void)
 {
-    vicii_handle_pending_alarms_external(maincpu_num_write_cycles());
+    vicii_handle_pending_alarms_external_write();
 }
 
 static void pre_read(void)

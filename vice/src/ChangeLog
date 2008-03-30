@@ -1,3 +1,39 @@
+2006-06-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.17.
+
+	* core/ciacore.c (ciacore_store, ciacore_store_internal):
+	Removed recursion on RMW access because changing `rmw_flag'
+	will break vicii alarm code.
+
+	* vicii/vicii.c, vicii/vicii.h
+	(vicii_handle_pending_alarms_external_write): New function.
+
+	* c64/c64cia1.c, c64/c64cia2.c (pre_store): Use
+	`vicii_handle_pending_alarms_external_write()'.
+
+	* vicii/vicii-mem.c (vicii_store): Use
+	`vicii_handle_pending_alarms_external_write()'.
+
+	* c64/c64io.c (c64io1_read, c64io1_store, c64io2_read,
+	c64io2_store): Update pending vicii alarms.
+
+	* sid/sid.c (sid_store_chip): Added comment.
+
+	* c128/c128mmu.c (mmu_store): Use
+	`vicii_handle_pending_alarms_external_write()'.
+
+	* vdc/vdc-mem.c (vdc_store): Use RMW flag to calculate write
+	cycles, added comment.
+
+2006-06-23  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/console.c: Make sure the position of the current
+	input line is adjusted whenever the screen is scrolled. This
+	fixes a bug when resizing the console windows from bigger to
+	smaller. Without this fix, the cursor remains outside of the
+	visible area.
+
 2006-06-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.16.

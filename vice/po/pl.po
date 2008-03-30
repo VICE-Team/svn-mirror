@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-06-23 15:18+0200\n"
+"POT-Creation-Date: 2006-06-24 22:09+0200\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Mariusz Młynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -331,17 +331,17 @@ msgstr "Rozpocznij zapisywanie wydarzen"
 msgid "Resource %s blocked by %s."
 msgstr ""
 
-#: src/c64/c64io.c:179
+#: src/c64/c64io.c:180
 #, c-format
 msgid "I/O read collision at %X from "
 msgstr ""
 
-#: src/c64/c64io.c:197
+#: src/c64/c64io.c:198
 #, fuzzy
 msgid " and "
 msgstr "Załaduj "
 
-#: src/c64/c64io.c:198
+#: src/c64/c64io.c:199
 msgid ""
 ".\n"
 "All the named devices will be detached."
