@@ -101,10 +101,9 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
     vic_ii_handle_pending_alarms(maincpu_num_write_cycles());
 
     /* $d600 sets the internal vdc address pointer */
-    if ((addr & 1) == 0)
-    {
+    if ((addr & 1) == 0) {
 #ifdef REG_DEBUG
-        /*log_message(vdc.log, "STORE $D600 %02x", value);*/
+        log_message(vdc.log, "STORE $D600 %02x", value);
 #endif
         vdc.update_reg = value & 0x3f;
         return;
@@ -256,6 +255,11 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
           vdc.text_blink_frequency = 32;
         else
           vdc.text_blink_frequency = 16;
+
+        if ((vdc.regs[24] & 7) != vdc.ysmooth) {
+            vdc.ysmooth = vdc.regs[24] & 7;
+            vdc.raster.ysmooth = vdc.ysmooth;
+        }
 #ifdef REG_DEBUG
         log_message(vdc.log, "Blink frequency: %s.",
                     (vdc.regs[24] & 0x20) ? "1/32" : "1/16");
@@ -267,6 +271,11 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
       case 25:
         vdc.raster.video_mode = (vdc.regs[25] & 0x80)
                                 ? VDC_BITMAP_MODE : VDC_TEXT_MODE;
+
+        if ((vdc.regs[25] & 7) != vdc.xsmooth) {
+            vdc.xsmooth = vdc.regs[25] & 7;
+            vdc.raster.xsmooth = vdc.xsmooth;
+        }
 #ifdef REG_DEBUG
         log_message(vdc.log, "Video mode: %s.",
                     (vdc.regs[25] & 0x80) ? "bitmap" : "text");
@@ -287,8 +296,9 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 
       case 27:                  /* R27  Row/Adrs. Increment */
 #ifdef REG_DEBUG
-        log_message(vdc.log, "REG 27 unsupported!");
+        log_message(vdc.log, "Row/Adrs. Increment %i.", vdc.regs[27]);
 #endif
+        break;
 
       case 28:
         vdc.chargen_adr = ((vdc.regs[28] << 8) & 0xe000)
@@ -349,6 +359,13 @@ BYTE REGPARM1 vdc_read(ADDRESS addr)
             vdc.regs[18] = (ptr >> 8) & 0xff;
             vdc.regs[19] = ptr & 0xff;
             return retval;
+        }
+
+        if (vdc.update_reg == 28) {
+            if (vdc.vdc_address_mask == 0xffff)
+                return vdc.regs[28] | 0x1f;
+            else
+                return vdc.regs[28] | 0x0f;
         }
 
         if (vdc.update_reg < 37)

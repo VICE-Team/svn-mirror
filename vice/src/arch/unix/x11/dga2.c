@@ -30,11 +30,12 @@
 #define FS_DEBUG
 */
 
-#ifdef USE_XF86_DGA2_EXTENSIONS
+#include "vice.h"
+
+#ifndef USE_XF86_DGA2_EXTENSIONS
 #error "DGA2 extension not available in config.h, check config.log"
 #endif
 
-#include "vice.h"
 
 #ifdef FS_DEBUG
 #include <signal.h>
@@ -79,6 +80,7 @@ static void_hook_t old_ui_hook;
 
 static int fs_vidmodecount;
 static video_frame_buffer_t *fs_cached_fb;
+static int fs_canvas_width, fs_canvas_height;
 static PIXEL *fs_fb_data;
 static int fs_fb_bpl;
 static int fs_bestmode_counter;
@@ -106,6 +108,7 @@ static unsigned char *fb_page[BB_DEPTH];
 static unsigned int fb_offs[BB_DEPTH];
 static unsigned int fb_ybegin[BB_DEPTH];
 static int fb_current_page = 0;
+static int fb_ybegin_static = 0;
 
 static Display *display;
 extern int screen;
@@ -167,12 +170,14 @@ void fullscreen_refresh_func(video_frame_buffer_t *f,
 			     unsigned int width, unsigned int height) 
 {
     int oldp;
-    
-#ifdef FS_TRACE_REFRESH
-    struct timespec ts1, ts2, d;
+
+#if 0
     printf("curr page = %d, src_x = %d, src_y = %d, dest_x = %d, dest_y = %d, w = %d, h = %d\n",
 	   fb_current_page, 
 	   src_x, src_y, dest_x, dest_y, width, height);
+#endif
+#ifdef FS_TRACE_REFRESH
+    struct timespec ts1, ts2, d;
     clock_gettime (CLOCK_REALTIME, &ts1);
 #endif
 
@@ -194,11 +199,13 @@ void fullscreen_refresh_func(video_frame_buffer_t *f,
     oldp = fb_current_page;
     fb_current_page = ((++fb_current_page) % BB_DEPTH);
     XDGACopyArea(display, screen,
-		 src_x, fb_ybegin[oldp] + src_y,
+		 src_x,  fb_ybegin_static + src_y,
 		 width, height, 
-		 src_x, fb_ybegin[fb_current_page] + src_y);
+		 dest_x, fb_ybegin[fb_current_page] + dest_y);
+/*
     XDGASync(display, screen);
-    f->tmpframebuffer = fb_page[fb_current_page];
+    f->tmpframebuffer = fb_page[fb_current_page]; 
+*/
 
   end:
 #ifdef FS_TRACE_REFRESH
@@ -339,6 +346,8 @@ void fullscreen_set_framebuffer(video_frame_buffer_t *fb)
     fs_cached_fb = fb;
     fs_fb_data = fb->tmpframebuffer;
     fs_fb_bpl = fb->tmpframebufferlinesize;
+    fs_canvas_width = fb->x_image->width;
+    fs_canvas_height = fb->x_image->height;
 }
 
 static PIXEL fs_cached_pixel_values[0x100]; /* from raster_s */
@@ -394,6 +403,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	{
 	    log_message(LOG_DEFAULT, 
 			_("DGA: Need root privileges for DGA2 fullscreen"));
+	    fullscreen_request_set_mode(0, NULL);
 	    return 0;
 	}
 
@@ -440,6 +450,17 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 			fb_page[i], fb_offs[i], fb_ybegin[i]);
 #endif	    
 	}
+	fb_ybegin_static = i*fs_height;	/* framebuffer is the fixed 
+					   last page */
+	if (fb_ybegin_static > dgadev->mode.maxViewportY)
+	{
+	    log_message(LOG_DEFAULT, 
+			_("DGA: Not enough video memeory pages in mode %s, disabling fullscreen."),
+			dgadev->mode.name);
+	    fullscreen_request_set_mode(0, NULL);
+	    goto nodga;
+	}
+	
 	fb_current_page = 0;
 
 #ifdef FS_PIXMAP_DGA
@@ -503,18 +524,19 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 #endif
 
 #ifdef FS_DEBUG_BUFFER
-	fb_addr = malloc(offs * BB_DEPTH * sizeof(char));
+	fb_addr = malloc(offs * (BB_DEPTH + 1) * sizeof(char));
 #endif
-	for (i = 0; i < BB_DEPTH; i++)
+	for (i = 0; i < (BB_DEPTH + 1); i++)
 	    memset (fb_addr + i * offs, 0, offs);
 
-	fs_cached_fb->tmpframebuffer = fb_addr;
+	fs_cached_fb->tmpframebuffer = fb_addr + ((i - 1)* offs);
 	fs_cached_fb->tmpframebufferlinesize = dgadev->mode.bytesPerScanline;
 #ifdef FS_DEBUG_BUFFER
 	fullscreen_set_mode(0, NULL);
 #endif
 	raster_force_repaint(fs_cached_raster);
 	raster_rebuild_tables(fs_cached_raster);
+	raster_resize_viewport(fs_cached_raster, fs_width, fs_height);
     }
     
     if (!v && fullscreen_is_enabled) 
@@ -530,9 +552,12 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	memcpy (fs_cached_pixels, fs_cached_pixel_values,
 		fs_cached_palette->num_entries * sizeof (PIXEL));
 #endif
-	raster_force_repaint(fs_cached_raster);
+	raster_resize_viewport(fs_cached_raster, fs_canvas_width, 
+			       fs_canvas_height);
 	raster_rebuild_tables(fs_cached_raster);
+	raster_force_repaint(fs_cached_raster);
 	
+      nodga:
 	XDGASetMode(display, screen, 0);
 	XDGACloseFramebuffer(display, screen);
 	XFree(dgadev); 

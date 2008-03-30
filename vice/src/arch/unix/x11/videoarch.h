@@ -62,9 +62,12 @@ struct canvas_s {
 };
 typedef struct canvas_s canvas_t;
 
-/* Double buffering might be available on X11, 
-   but no special care has to be taken for this*/
+/* Double buffering might be available with DGA */
+#ifdef USE_XF86_DGA2_EXTENSIONS
+#define CANVAS_USES_TRIPLE_BUFFERING(c) fullscreen_is_enabled
+#else
 #define CANVAS_USES_TRIPLE_BUFFERING(c) 0
+#endif
 
 struct video_frame_buffer_s {
     XImage *x_image;

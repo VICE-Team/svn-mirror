@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-09-01 22:34+0200\n"
+"POT-Creation-Date: 2001-10-03 23:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2363,69 +2363,69 @@ msgstr ""
 msgid "Save currently attached ROMs"
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:125
+#: src/arch/unix/x11/fullscreen.c:135
 #, c-format
 msgid "Attach debugger to pid %d...\n"
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:187
+#: src/arch/unix/x11/fullscreen.c:197
 msgid "Successfully forked DGA\n"
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:191 src/arch/unix/x11/fullscreen.c:218
+#: src/arch/unix/x11/fullscreen.c:201 src/arch/unix/x11/fullscreen.c:228
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:196 src/arch/unix/x11/fullscreen.c:223
+#: src/arch/unix/x11/fullscreen.c:206 src/arch/unix/x11/fullscreen.c:233
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:204
+#: src/arch/unix/x11/fullscreen.c:214
 #, c-format
 msgid "Xserver is running an old XFree86-DGA version (%d.%d) "
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:206 src/arch/unix/x11/fullscreen.c:234
+#: src/arch/unix/x11/fullscreen.c:216 src/arch/unix/x11/fullscreen.c:244
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:232
+#: src/arch/unix/x11/fullscreen.c:242
 #, c-format
 msgid "Xserver is running an old XFree86-VidMode version (%d.  %d)"
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:241
+#: src/arch/unix/x11/fullscreen.c:251
 msgid "Error getting video mode information - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:248
+#: src/arch/unix/x11/fullscreen.c:258
 msgid ""
 "Vice is not running as root, DGA extension not possible - disabling "
 "fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:255
+#: src/arch/unix/x11/fullscreen.c:265
 msgid "Problems with DGA - disabling fullscreen."
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:375 src/arch/unix/x11/fullscreen.c:404
+#: src/arch/unix/x11/fullscreen.c:385 src/arch/unix/x11/fullscreen.c:414
 #, c-format
 msgid "Switch to fullscreen %ix%i"
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:384 src/arch/unix/x11/fullscreen.c:410
-#: src/arch/unix/x11/fullscreen.c:415 src/arch/unix/x11/fullscreen.c:428
+#: src/arch/unix/x11/fullscreen.c:394 src/arch/unix/x11/fullscreen.c:420
+#: src/arch/unix/x11/fullscreen.c:425 src/arch/unix/x11/fullscreen.c:438
 #, c-format
 msgid "Error switching to fullscreen %ix%i\n"
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:395
+#: src/arch/unix/x11/fullscreen.c:405
 #, c-format
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr ""
 
-#: src/arch/unix/x11/fullscreen.c:472
+#: src/arch/unix/x11/fullscreen.c:482
 msgid "Switch to windowmode"
 msgstr ""
 

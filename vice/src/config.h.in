@@ -58,8 +58,11 @@
 /* Is libXpm available?  */
 #undef HAVE_LIBXPM
 
-/* Do we want to use XFree86 VIDMODE and DGA extensions?  */
+/* Do we want to use XFree86 fullscreen extensions?  */
 #undef USE_XF86_EXTENSIONS
+
+/* Do we want to use XFree86 VIDMODE ?  */
+#undef USE_XF86_VIDMODE_EXT
 
 /* Do we want to use XFree86 DGA2 extensions?  */
 #undef USE_XF86_DGA2_EXTENSIONS

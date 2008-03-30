@@ -130,7 +130,7 @@ static ui_menu_entry_t* resolutions_submenu;
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_VIDMODE_EXT
 UI_MENU_DEFINE_STRING_RADIO(SelectedFullscreenMode);
 #endif
 
@@ -1024,7 +1024,7 @@ ui_window_t ui_open_canvas_window(struct canvas_s *c, const char *title,
 
 void ui_create_dynamic_menues()
 {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_VIDMODE_EXT
     int i, amodes;
     char buf[50];
     char *modename;

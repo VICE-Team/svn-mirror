@@ -30,9 +30,19 @@
 #define FS_DEBUG
 */
 #include "vice.h"
+#include "log.h"
+#include "resources.h"
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
 #define CHECK_DGA_V2
+
+char *fullscreen_selected_videomode;
+int fullscreen_set_bestmode(resource_value_t v, void *param)
+{
+    log_message(LOG_DEFAULT, "DGA: Vidmode extension currently not supported");
+    return 0;
+}
+
 #else  /* DGA2 support is in dga2.c; FIXME */
 
 #ifdef FS_DEBUG
