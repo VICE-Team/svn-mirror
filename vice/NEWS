@@ -7,6 +7,17 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+
+* Changes in VICE 1.??
+======================
+
+** Miscellaneous changes
+------------------------
+
+- The `$xx' feature for specifying hexcodes on the command-line now
+  works correctly.
+
+
 * Changes in VICE 1.0a
 ======================
 

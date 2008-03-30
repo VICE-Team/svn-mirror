@@ -95,7 +95,7 @@ realize_frame_buffer (raster_t *raster)
   unsigned int fb_width, fb_height;
 
 #if 0
-  /* Woo...  Amazingly broken API.  FIXME.  */
+  /* Boooh...  Amazingly broken API.  FIXME.  */
   if (raster->frame_buffer != NULL)
     frame_buffer_free (&raster->frame_buffer);
 #else
@@ -689,7 +689,6 @@ update_for_minor_changes_with_sprites (raster_t *raster,
                                      cache,
                                      changed_start_char,
                                      changed_end_char);
-      draw_sprites_when_cache_enabled (raster, cache);
 
       /* Fill the space between the border and the graphics with the
          background color (necessary if xsmooth is > 0).  */
@@ -724,11 +723,9 @@ update_for_minor_changes_with_sprites (raster_t *raster,
             = raster->overscan_background_color;
         }
       else
-        {
-          *changed_start = (raster->geometry.gfx_position.x
-                            + raster->xsmooth
-                            + 8 * changed_start_char);
-        }
+        *changed_start = (raster->geometry.gfx_position.x
+                          + raster->xsmooth
+                          + 8 * changed_start_char);
 
       *changed_end = (raster->geometry.gfx_position.x
                       + raster->xsmooth
@@ -743,6 +740,10 @@ update_for_minor_changes_with_sprites (raster_t *raster,
           if (raster->open_right_border)
             *changed_end = raster->geometry.screen_size.width - 1;
 
+          /* FIXME: Could be optimized better.  */
+          draw_sprites_when_cache_enabled (raster, cache);
+          draw_borders (raster);
+
           /* Even if we have recalculated the whole line, we will
              refresh only the part that has actually changed when
              writing to the window.  */
@@ -755,8 +756,9 @@ update_for_minor_changes_with_sprites (raster_t *raster,
           *changed_end = MIN (*changed_end, raster->display_xstop);
         }
     }
-  else
-    {                           /* ! needs_update */
+
+  if (! sprites_need_update)
+    {
       raster->sprite_status.sprite_sprite_collisions
         = cache->sprite_sprite_collisions;
       raster->sprite_status.sprite_background_collisions
@@ -1050,15 +1052,6 @@ handle_end_of_frame (raster_t *raster)
 
   raster->current_line = 0;
 
-#if 0                           /* FIXME */
-#ifndef __VIC_II__
-  ycounter = 0;
-#endif
-#ifdef __CRTC__
-  memptr = scraddr & addr_mask;
-#endif
-#endif
-
   if (!raster->skip_frame)
     {
       if (raster->dont_cache)
@@ -1066,16 +1059,6 @@ handle_end_of_frame (raster_t *raster)
       else
         update_canvas (raster);
     }
-
-#if 0                           /* FIXME */
-  /* FIXME: When we have two video chips, vsync must be called only for one
-     of them.  */
-  raster->skip_frame = do_vsync (raster->skip_frame);
-#if defined(__MSDOS__) && !defined(VIC20)
-  if (window_width == SCREEN_XPIX && window_height == SCREEN_YPIX)
-    canvas_set_border_color (canvas, border_color);
-#endif
-#endif
 }
 
 
@@ -1220,9 +1203,14 @@ raster_set_geometry (raster_t *raster,
   raster_geometry_t *geometry;
 
   geometry = &raster->geometry;
-  if (screen_height != geometry->screen_size.height || raster->cache == NULL)
-    raster->cache = xrealloc (raster->cache,
-                              sizeof (*raster->cache) * screen_height);
+  if (screen_height != geometry->screen_size.height || raster->cache == NULL) {
+      unsigned int i;
+
+      raster->cache = xrealloc (raster->cache,
+                                sizeof (*raster->cache) * screen_height);
+      for (i = 0; i < screen_height; i++)
+           raster_cache_init (raster->cache + i);
+  }
 
   if (geometry->screen_size.width != screen_width
       || geometry->screen_size.height != screen_height
@@ -1453,10 +1441,6 @@ raster_emulate_line (raster_t *raster)
     {
       if (!raster->skip_frame)
         update_sprite_collisions (raster);
-
-#if 0                           /* def __CRTC__ FIXME */
-      /*  if (current_line < SCREEN_HEIGHT) */
-#endif
 
       if (raster->changes.have_on_this_line)
         {

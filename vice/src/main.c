@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <ctype.h>
 #endif
 
 #ifdef __hpux
@@ -312,8 +313,29 @@ static int init_cmdline_options(void)
 
 /* ------------------------------------------------------------------------- */
 
+static char *hexstring_to_byte(const char *s, BYTE *value_return)
+{
+    int count;
+    char c;
+
+    for (*value_return = 0, count = 0; count < 2 && *s != 0; s++) {
+        c = toupper(*s);
+        if (c >= 'A' && c <= 'F') {
+            *value_return <<= 4;
+            *value_return += c - 'A' + 10;
+        } else if (isdigit (c)) {
+            *value_return <<= 4;
+            *value_return += c - '0';
+        } else {
+            return (char *) s;
+        }
+    }
+
+    return (char *) s;
+}
+
 /* This is a helper function for the `-autostart' command-line option.  It
-   replaces all the $[0-9][0-9] patterns in `string' and returns it.  */
+   replaces all the $[0-9A-Z][0-9A-Z] patterns in `string' and returns it.  */
 static char *replace_hexcodes(char *s)
 {
     unsigned int len, dest_len;
@@ -330,28 +352,22 @@ static char *replace_hexcodes(char *s)
 
         p1 = strchr (p, '$');
         if (p1 != NULL) {
-            unsigned int num;
+            char *new_p;
 
-            if (p[1] == 0 || p[2] == 0)
-                break;
+            new_p = hexstring_to_byte(p1 + 1, new_s + dest_len + (p1 - p));
+            if (p1 != p) {
+                memcpy (new_s + dest_len, p, p1 - p);
+                dest_len += p1 - p;
+                dest_len++;
+            }
 
-            num = p1 - p;
-            memcpy(new_s + dest_len, p, num);
-
-            dest_len += num;
-
-            new_s[dest_len] = ((p1[1] - '0') & 0xf) << 4;
-            new_s[dest_len] += (p1[2] - '0') & 0xf;
-
-            dest_len++;
-            p = p1 + 3;
+            p = new_p;
         } else {
             break;
         }
     }
 
-    memcpy(new_s + dest_len, p, len - (p - s) + 1);
-
+    strcpy (new_s + dest_len, p);
     return new_s;
 }
 
@@ -524,7 +540,7 @@ int MAIN_PROGRAM(int argc, char **argv)
                 fclose(autostart_fd);
                 petconvstring(autostart_prg, 0);
                 name = replace_hexcodes(autostart_prg);
-                autostart_autodetect(autostart_file, autostart_prg);
+                autostart_autodetect(autostart_file, name);
                 free(name);
             } else
                 autostart_autodetect(autostart_string, NULL);
