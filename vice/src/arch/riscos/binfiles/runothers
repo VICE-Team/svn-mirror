@@ -1,0 +1,8 @@
+If "<Vice$Path>" = "" Then Error "Vice resources not found"
+IconSprites <Obey$Dir>.!Sprites
+RMensure BPlot 0.02 RMload Vice:BPlot
+RMensure BPlot 0.02 Error "Couldn't find BPlot module"
+RMensure DigitalRenderer 0.51 RMload System:Modules.DRenderer
+RMensure DigitalRenderer 0.51 Error "Couldn't find DigitalRenderer module"
+WimpSlot -min 8000k
+<Obey$Dir>.!RunImage

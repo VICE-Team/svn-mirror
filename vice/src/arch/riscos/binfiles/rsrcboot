@@ -1,0 +1,4 @@
+IconSprites <Obey$Dir>.!Sprites
+If "<Vice$Path>" = "" Then Set Vice$Path <Obey$Dir>.
+If "<Vice$Messages>" = "" Then Set Vice$Messages <Obey$Dir>.Messages
+If "<ViceROM$Dir>" = "" Then Set ViceROM$Dir <Obey$Dir>.ROMSETS

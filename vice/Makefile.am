@@ -88,5 +88,13 @@ bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
 endif
 
+if RISCOS_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip $(top_srcdir)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip $(top_srcdir)
+endif
+
 cleantrans:
 	rm `find $(top_srcdir) -name "*.po.c"`

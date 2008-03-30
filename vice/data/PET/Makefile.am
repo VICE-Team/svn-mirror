@@ -29,6 +29,8 @@ keymaps = \
 	dos_buks.vkm \
 	os2.vkm \
 	os2_40.vkm \
+	RObusi.vkm \
+	ROgrph.vkm \
 	win_sym_gr.vkm \
 	win_sym_uk.vkm \
 	x11_bdep.vkm \

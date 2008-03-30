@@ -14,10 +14,10 @@ vic20_DATA = \
 	dos_sym.vkm \
 	kernal \
 	os2.vkm \
+	ROdflt.vkm \
 	win_sym.vkm \
 	win_pos.vkm \
 	x11_pos.vkm \
 	x11_sym.vkm
 
 EXTRA_DIST = $(vic20_DATA)
-

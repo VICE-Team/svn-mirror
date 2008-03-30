@@ -1,0 +1,898 @@
+# Vice messages
+# (English)
+
+
+# Version info
+ViceDate:5 Mar 2007
+
+
+# Window titles
+TitSavebox:Save as
+TitInfobox:About VICE
+TitDrives:Disk drives
+TitTape:Tape
+TitDevices:Misc devices
+TitSound:Sound
+TitSystem:System
+TitVideo:Video
+TitPet:PET settings
+TitVic:VIC20 settings
+TitCBM2:CBM2 settings
+TitC128:C128 settings
+TitJoy:Joysticks
+TitSnap:Snapshot
+TitJam:CPU Jam Error
+TitCrtImg:Create Disc Image
+TitLicense:Vice License
+TitWarrant:Vice Warranty
+TitContrib:Vice Contributors
+TitVSid:VSid Player
+
+
+####################
+# Window labels
+####################
+
+SysSystem:System
+SysRsrc:Resources
+SysChargen:CharGen
+SysKernal:Kernal
+SysBasic:Basic
+SysREU:REU
+SysIEEE:IEEE488
+SysEmuID:EmuID
+SysTraps:No Traps
+SysAPause:Auto Pause
+SysTimings:Timings
+SysPollT:Poll cs
+SysSpeedT:Speed cs
+SysSoundT:Sound cs
+SysSpeed:Speed
+SysWarp:Warp Mode
+SysSprites:Sprites
+SysSprColl:Sprite collisions
+SysBckColl:Background collisions
+SysRomAct:ROM Set
+SysKbd:Kbd
+SysSpLmt:Speed Lmt
+SysMouse:Enable Mouse
+
+VidVideo:Video
+VidBPlot:Use BPlot
+VidSetPal:Set Palette
+VidFullScN:Screen norm
+VidFullScP:Screen PAL
+VidFullScD:Screen double
+VidMaxSkip:Max fskip
+VidRfrsh:Refresh
+VidPalette:Palette
+VidExtPal:External Pal
+VidPALEmu:PAL Emulation
+VidPALDep:Depth
+VidPALDbl:Double size
+VidColSat:Saturation
+VidContrst:Contrast
+VidBright:Brightness
+VidGamma:Gamma
+VidDelLoop:Delay Loop
+VidLineShd:Line Shade
+VidPMode:PAL Mode
+VidCache:Video cache
+
+PaneReset:Reset
+PaneZoom1:1 x
+PaneZoom2:2 x
+PanePause:Pause
+PaneResume:Resume
+
+InfoName:Name
+InfoPurp:Purpose
+InfoAuth:Authors
+InfoPort:RO Port
+InfoVers:Version
+
+DriveDrvs:Drives
+DriveTrue:True Drive Emulation
+DriveTrOn:Enable
+DriveTrP8:Parallel Cable 8
+DriveTrP9:Parallel Cable 9
+DriveTrP10:Parallel Cable 10
+DriveTrP11:Parallel Cable 11
+DriveDet:Detach
+
+TapeTape:Tape
+TapeDet:Detach
+TapeCPUReset:Reset Datasette with CPU
+TapeCtr:Counter
+TapeStop:Stop
+TapeRec:Rec
+TapeReset:Reset
+
+DevRS232:RS232
+DevPrint:Printer
+DevACIAIrq:ACIA Irq
+DevACIADE:ACIA DE
+DevACIAD6:ACIA D6
+DevACIAD7:ACIA D7
+DevUsrPrt:UsrPrt
+DevSerial:Serial
+DevIEC:IEC
+
+SndSound:Sound
+SndEnable:Enable
+SndFilt:SID Filt
+SndResPass:Pass
+SndVolume:Volume
+SndSID:SID
+Snd16Bit:16bit
+SndStereo:Stereo SID
+Snd2Addr:2nd SID Address
+
+PetPet:PET
+PetKbd:Kbd
+PetCRT:CRT
+PetRAM9:RAM $9000
+PetRAMA:RAM $A000
+PetPin:DiagPin
+PetSuper:SuperPET
+
+VicVic:VIC20
+VicMem:MemExp
+
+CBM2Cbm:CBM2
+CBM2Kbd:Kbd
+CBM2RAM:RAM
+
+C128vdc:VDC
+C128pal:Palette
+C128size:64kB
+C1288040:40/80 Key
+C128z80bios:Z80BiosName
+C128dblsze:VDC double size
+C128dblscn:VDC double scan
+
+JoyJoy:Joysticks
+JoyKey1:Keyset 1
+JoyKey2:Keyset 2
+JoyKeyU:Up
+JoyKeyD:Down
+JoyKeyL:Left
+JoyKeyR:Right
+JoyKeyF:Fire
+
+SnapROM:ROMs
+SnapDisk:Disks
+
+JamReset:Reset
+JamResetH:Hard Reset
+JamMon:Monitor
+JamDebug:Debug
+
+VSidName:Name
+VSidAuth:Author
+VSidCopy:Copyright
+VSidTotal:Number
+VSidSpeed:Speed
+VSidDflt:Default
+VSidTime:Time
+VSidStop:Stop
+VSidPlay:Play
+VSidPause:Pause
+VSidResume:Cont
+
+
+
+####################
+# Menus
+####################
+
+# Configure
+MenConfTit:Configure
+MenConfDrv:Drives...
+MenConfTap:Tape...
+MenConfDev:Devices...
+MenConfSnd:Sound...
+MenConfSys:System...
+MenConfVid:Video...
+MenConfJoy:Joysticks...
+MenConfMch:Machine...
+MenConfSav:Save
+MenConfRel:Reload
+
+# Datasette
+MenDStTit:Datasette
+MenDStStp:Stop
+MenDStStr:Start
+MenDStFwd:Forward
+MenDStRwd:Rewind
+MenDStRec:Record
+MenDStRst:Reset
+
+# Fliplist
+MenFlpTit:Fliplist
+MenFlpAtt:Add this
+MenFlpDet:Remove this
+MenFlpNxt:Next    PgUp
+MenFlpPrv:Prev  PgDown
+MenFlpClr:Clear
+MenFlpSav:Save
+MenFlpImg:Images
+
+# Icon Bar
+MenIBInfo:Info
+MenIBConf:Configure
+MenIBLicns:License...
+MenIBWrnty:Warranty...
+MenIBCntrb:Contrib...
+MenIBLog:Log window...
+MenIBCreat:Create Disc...
+MenIBFull:Fullscreen
+MenIBQuit:Quit
+
+# Emu window
+MenEmuConf:Configure
+MenEmuFlip:Fliplist
+MenEmuSnap:Snapshot    ^F9
+MenEmuScr:Screenshot  Prnt
+MenEmuFrz:Freeze
+MenEmuPane:Show Pane    F9
+MenEmuActv:MovePane    F10
+MenEmuTrue:True Drive num/
+MenEmuDSt:Datasette
+MenEmuSnd:Sound        F5
+MenEmuMon:Monitor      F6
+
+# Configure printer
+MenPrtTit:PrintDev
+MenPrtFile:File
+MenPrtPar:Parallel
+MenPrtSer:Serial
+
+# Configure UserDev
+MenUsrTit:UserDev
+MenUsrFile:File
+MenUsrPar:Parallel
+MenUsrSer:Serial
+
+# Configure sample rate
+MenSampTit:SampleRate
+MenSamp8:8000Hz
+MenSamp11:11025Hz
+MenSamp22:22050Hz
+MenSamp44:44100Hz
+MenSamp48:48000Hz
+
+# Sound Dev
+MenSndTit:SoundDev
+MenSndVidc:VIDC
+MenSndVidcS:VIDC Sync
+MenSndDmy:Dummy
+MenSndFS:FS
+MenSndWav:WAV
+MenSndSpd:Speed
+MenSndDmp:Dump
+
+# Sound oversample
+MenOverTit:Oversample
+MenOver1:1x
+MenOver2:2x
+MenOver4:4x
+MenOver8:8x
+
+# Sound buffer size
+MenSBfTit:BufferSize
+MenSBf2:2cs
+MenSBf4:4cs
+MenSBf6:6cs
+MenSBf8:8cs
+MenSBf10:10cs
+MenSBf20:20cs
+MenSBf35:35cs
+MenSBf50:50cs
+MenSBf100:100cs
+
+# Sound speed adjustment
+MenSAdjTit:Speed Adjustment
+MenSAdjFlx:Flexible
+MenSAdjAdj:Adjusting
+MenSAdjXct:Exact
+
+# SID engine
+MenSidEngT:SID Engine
+MenSidEngF:Fast
+MenSidEngR:reSID
+MenSidEngC:Catweasel
+
+# ReSID sampling method
+MenRSmpTit:reSID Sampling
+MenRSmpFst:Fast
+MenRSmpInt:Interpolate
+MenRSmpRes:Resample
+
+# True drive menus
+MenExt8Tit:Extend Image 8
+MenExt9Tit:Extend Image 9
+MenExt10Tit:Extend Image 10
+MenExt11Tit:Extend Image 11
+MenExtNvr:Never
+MenExtAsk:Ask
+MenExtXss:Access
+MenIdl8Tit:Idle Method 8
+MenIdl9Tit:Idle Method 9
+MenIdl10Tit:Idle Method 10
+MenIdl11Tit:Idle Method 11
+MenIdlNoT:No traps
+MenIdlSkp:Skip cycles
+MenIdlTrp:Trap idle
+MenDtp8Tit:Drive Type 8
+MenDtp9Tit:Drive Type 9
+MenDtp10Tit:Drive Type 10
+MenDtp11Tit:Drive Type 11
+MenDtpNone:None
+MenDtp1541:1541
+MenDtp15412:1541II
+MenDtp1551:1551
+MenDtp1570:1570
+MenDtp1571:1571
+MenDtp1571C:1571CR
+MenDtp1581:1581
+MenDtp2031:2031
+MenDtp2040:2040
+MenDtp3040:3040
+MenDtp4040:4040
+MenDtp1001:1001
+MenDtp8050:8050
+MenDtp8250:8250
+MenSncTit:SyncFactor
+MenSncPAL:PAL
+MenSncNTSC:NTSC
+
+# General drive menus
+MenDskTit:Disk Image
+MenDskDet:Detach
+MenFSTit:FS Options
+MenFSCP00:Convert P00
+MenFSSP00:Save as P00
+MenFSHide:Hide CBM
+MenTypTit:Drive Type
+MenTypDsk:Disk
+MenTypFS:FS
+
+# RsUsrDev
+MenRsUTit:RsUsrDev
+MenRsUFile:File
+MenRsUPar:Parallel
+MenRsUSer:Serial
+
+# AciaDev
+MenAciaTit:AciaDev
+MenAciaFile:File
+MenAciaPar:Parallel
+MenAciaSer:Serial
+
+# SID model
+MenSidTit:SidModel
+MenSid6581:6581
+MenSid8500:8580
+
+# Speed limit
+MenSLmTit:SpeedLimit
+MenSLm200:200%
+MenSLm100:100%
+MenSLm50:50%
+MenSLm20:20%
+MenSLm10:10%
+MenSLm0:None
+
+# Refresh rate
+MenRefTit:Refresh
+MenRefAuto:Auto
+MenRef1:1/1
+MenRef2:1/2
+MenRef3:1/3
+MenRef4:1/4
+MenRef5:1/5
+MenRef6:1/6
+MenRef7:1/7
+MenRef8:1/8
+MenRef9:1/9
+MenRef10:1/10
+
+# Serial rate
+MenSerTit:Serial
+
+# Cartridge
+MenCrtTit:Cartridge
+MenCrtNone:None
+MenCrtSS5:Super Snapshot 5
+MenCrtIEEE:IEEE488
+MenCrtIDE:IDE
+MenCrtUlt:Ultimax
+MenCrtRetr:Retro Replay
+MenCrtSSn:Super Snapshot
+MenCrtG8:Generic 8k
+MenCrtG16:Generic 16k
+MenCrtCRT:CRT
+MenCrtAct:Action Replay
+MenCrtKCS:KCS Power
+MenCrtFin3:Final III
+MenCrtSim:Simons Basic
+MenCrtOcn:Ocean
+MenCrtExpt:Expert
+MenCrtFun:Funplay
+MenCrtSGm:Super Games
+MenCrtAtom:Atomic Power
+MenCrtEpyx:Epyx Fastload
+MenCrtWest:Westermann
+MenCrtRex:Rex
+MenCrtFin1:Finale I
+MenCrtMagc:Magic Formel
+MenCrtGS:GS
+MenCrtWrp:Warpspeed
+MenCrtDin:Dinamic
+MenCrtZax:Zaxxon
+
+# PAL Emu depths
+MenPALDepT:PAL Emu Depth
+MenPALDOff:Off
+MenPALDAut:Auto
+MenPALD8:8bpp
+MenPALD16:16bpp
+MenPALD32:32bpp
+
+# PAL modes
+MenPModeT:PAL Mode
+MenPMFast:Fast
+MenPMTrue:True
+
+# 2nd SID Address
+MenSid2ATit:2nd SID Address
+
+# PET memory
+MenPMyTit:Memory
+MenPMy4:4kB
+MenPMy8:8kB
+MenPMy16:16kB
+MenPMy32:32kB
+MenPMy96:96kB
+MenPMy128:128kB
+
+# PET IO size
+MenPIOTit:IO Size
+MenPIO2:2kB
+MenPIO256:256kB
+
+# PET Video
+MenPVdTit:Video
+MenPVdAuto:Auto
+MenPVd40:40 Columns
+MenPVd80:80 Columns
+
+# PET Model
+MenPMdTit:Model
+MenPMd201:2001
+MenPMd308:3008
+MenPMd316:3016
+MenPMd332:3032
+MenPMd332B:3032B
+MenPMd416:4016
+MenPMd432:4032
+MenPMd432B:4032B
+MenPMd832:8032
+MenPMd896:8096
+MenPMd8296:8296
+MenPMdSup:SuperPET
+
+# VIC RAM expansion
+MenVRmTit:RamExp
+MenVRm04:$0400-$0FFF
+MenVRm20:$2000-$3FFF
+MenVRm40:$4000-$5FFF
+MenVRm60:$6000-$7FFF
+MenVRmA0:$A000-$BFFF
+
+# VIC ROM Cartridge
+MenVCtTit:RomCartridge
+MenVCt2:$2000
+MenVCt6:$6000
+MenVCtA:$A000
+MenVCtB:$B000
+
+# DOS name
+MenDOSTit:DOS Name
+MenDOS1541:1541
+MenDOS15412:1541-II
+MenDOS1551:1551
+MenDOS1570:1570
+MenDOS1571:1571
+MenDOS1571C:1571CR
+MenDOS1581:1581
+MenDOS2031:2031
+MenDOS2040:2040
+MenDOS3040:3040
+MenDOS4040:4040
+MenDOS1001:1001
+MenDOS8050:8050
+MenDOS8250:8250
+
+# CBM2 model line
+MenC2MlTit:Model Line
+MenC2Ml75:7x0 (50Hz)
+MenC2Ml66:6x0 (60Hz)
+MenC2Ml65:6x0 (50Hz)
+
+# CBM2 memory
+MenC2MyTit:Memory
+MenC2My128:128kB
+MenC2My256:256kB
+MenC2My512:512kB
+MenC2My1M:1024kB
+
+# CBM2 model
+MenC2MdTit:Model
+MenC2Md51:CBM 510
+MenC2Md61:CBM 610
+MenC2Md62:CBM 620
+MenC2Md62P:CBM 620+
+MenC2Md71:CBM 710
+MenC2Md72:CBM 720
+MenC2Md72P:CBM 720+
+
+# CBM2 RAM
+MenC2RTit:RAM
+MenC2R08:Ram08
+MenC2R1:Ram1
+MenC2R2:Ram2
+MenC2R4:Ram4
+MenC2R6:Ram6
+MenC2RC:RamC
+
+# CBM2 Cartridge
+MenC2CTit:Cartridge
+MenC2C1:$1000
+MenC2C2:$2000
+MenC2C4:$4000
+MenC2C6:$6000
+
+# Joysticks
+MenJoyTit1:JoyPort1
+MenJoyTit2:JoyPort2
+MenJoyNone:None
+MenJoyKey1:Keyset 1
+MenJoyKey2:Keyset 2
+MenJoyJoy1:Joystick 1
+MenJoyJoy2:Joystick 2
+
+# ROM sets
+MenRSTit:ROM sets
+MenRSDef:Default
+
+# Fliplist images
+MenFlImTit:Disk Images
+MenFlImDet:Detach
+
+MenRANT:New ROMSet
+MenRActT:ROMSet Cmd
+MenRActCrt:Create
+MenRActDel:Delete
+MenRActSav:Save
+MenRActDmp:Dump
+MenRActClr:Clear
+MenRActRst:Restore
+
+# Keyboard
+MenKbdT:Keyboard map
+MenKbdSav:Save
+MenKbdLd:Load default
+
+# Video cache
+MenVCaT:Video Cache
+MenVCaVIC2:VICII
+MenVCaVIC:VIC
+MenVCaVDC:VDC
+MenVCaCrt:Crtc
+MenVCaTED:TED
+
+# Mouse
+MenMPrtT:Mouse Port
+
+
+
+####################
+# Misc
+####################
+
+OK:OK
+Cancel:Cancel
+TextFile:File
+PaneFmtSpeed:%d%%
+PaneFmtFps:%d fps
+
+
+####################
+# Messages
+####################
+
+MsgPurpFmt:Emulate Commodore %s
+MsgMachDown:Machine down.
+
+####################
+# Dialogues
+####################
+
+DlgExtendImage:Do you want to extend the disk image to 40 tracks?
+
+####################
+# Error messages
+####################
+
+# Internal
+# Errors
+ErrScreenMode:Can't handle modes with eigen_x > eigen_y
+ErrCreateWin:Can't create window
+ErrFileNoPath:Filename is not a path
+ErrMemory:Not enough memory left for this operation
+ErrRAMTrans:RAM transfer failed
+ErrFileFmt:Error opening file <%s>
+# Symbols
+DefSBTitle:SaveBox
+DefSBButOK:OK
+DefTWMTit:Text Window
+DefTWMSav:Save
+DefTWMSlct:Selection
+DefTWMSall:Select all
+DefTWSTit:Selection
+DefTWSSav:Save
+DefTWSClr:Clear
+DefTWSDel:Delete
+DefTWSCpy:Copy
+DefTWSMov:Move
+
+# ui
+ErrTemplateFmt:Error loading template <%s>
+ErrSpriteFmt:Couldn't find custom sprites <%s>
+ErrIconFmt:Couldn't find icon sprite <%s>
+ErrTempFileFmt:Couldn't open templates file <%s>
+ErrSaveFmt:Couldn't save data to <%s>
+ErrLoadFmt:Other application couldn't load <%s>
+ErrSpriteMem:Unable to claim memory for sprite pool!
+ErrSnapRead:Error reading snapshot file.
+ErrSnapWrite:Error writing snapshot file.
+ErrFullScreen:Can't switch to fullscreen mode.
+
+
+
+####################
+# Help messages
+####################
+
+# Emulator pane
+HelpPaneWindow:Emulator pane for various tools.
+HelpPaneDrives:Drives. Drag a disk image or directory to this icon to attach it.|MHold down shift before releasing the drag to display its contents.|MDrag a fliplist file here to activate it.
+HelpPaneDrv0:Click MENU for fliplist.
+HelpPaneReset:Reset the emulated machine.|MSELECT for soft reset, ADJUST for hard reset.
+HelpPanePause:Pause or resume the emulation.
+HelpPaneSpeed:Emulation speed. Click to toggle between percent and FPS.
+HelpPaneToggle:Toggle emulator window size between 1x and 2x.
+HelpPaneTrkSec:In true drive mode, display current track.|MClick to toggle between drive 8 and 9.
+
+# Emulator window(s)
+HelpEmuWindow:Emulator window.|MDrag snapshots here to load them.|MDrag PRG files here to autostart them; in Vice64, hold down shift to only load them.
+
+# Info window
+HelpInfoWindow:VICE|MFor general documentation see the doc directory.|MFor RISC OS specific documentation read !ViceRsrc.!Help.
+
+# Image contents window
+HelpImageContents:Contents of the image file.|MDouble click on a file to load and autostart it (or on the title to autostart the first file).|MDrag an image file here to display its contents.
+
+# Create disk image window
+HelpCreateWindow:Create a disk image.
+HelpCreateType:Click to select the image type.
+HelpCreateTypeT:The image type to use.
+HelpCreateName:The name of the disk stored within the image in the format NAME,ID.
+HelpCreateSprite:Drag this sprite to where you want to save the disk image.
+HelpCreateOK:Click OK to save the new disk image with this file name.
+HelpCreateFile:The file name to store the disk image under.
+
+# VSID player window
+HelpVSidWindow:VSID Player.
+HelpVSidTotal:The total number of tunes in this PSID file.
+HelpVSidTune:The number of the current tune.
+HelpVSidNext:Click SELECT for the next tune, ADJUST for the previous one.
+HelpVSidPrev:Click SELECT for the previous tune, ADJUST for the next one.
+HelpVSidStop:Click to stop playback and set the player in idle mode.
+HelpVSidDefault:The default tune that's played first when the PSID file is loaded.
+HelpVSidTime:The total playing time of the current tune in seconds.
+HelpVSidPause:Click to pause playback and set the player in idle mode.
+
+# Monitor window
+HelpMonitorWindow:VICE Monitor|MEnter "help" for a command overview. To exit the monitor, enter "x" or close the window. See the general Vice documentation for details.
+
+# Drive configuration window
+HelpConfDrive:Disk drive configurations.
+HelpConfDrvType:Click to choose the disk type. DISK is for a disk image (D64 etc), FS is for the native file system.
+HelpConfDrvFile:The name of the disk image if the drive type is DISK, a directory for drive type FS. Drag either type to this icon to set it (and the drive type automatically).
+HelpConfDrvRO:Attach disk images read only if ticked.
+HelpConfDrvTrue:Enable true drive emulation. This is necessary for things like fastloaders. If a game doesn't work, try again with true drive emulation enabled.
+HelpConfDrvPar:Simulate parallel cable as used by e.g. SpeedDOS.
+HelpConfDrvExt:Click to choose a disk image extend method (in case of writing to disk images and running out of space).
+HelpConfDrvExtT:The current disk image extend method.
+HelpConfDrvIdle:Click to choose a drive idle method. NO TRAPS is the slowest but most accurate method.
+HelpConfDrvIdleT:The current idle method for this drive.
+HelpConfDrvTT:Click to choose the type of this drive. 1541 is the traditional drive for the C64, 1571 is the default for the C128.
+HelpConfDrvTTT:The current type of this drive.
+
+# Tape configuration window
+HelpConfTape:Tape configurations.|MT64 are simple tape image files, TAP are basically sampled original tapes.
+HelpConfTapeFile:File name of the tape image file (usually T64 or TAP).|MDrag a tape image file here to activate it.|MHold down shift while dragging a tape image file here to display its contents.
+HelpConfTapeDet:Detach the tape image.
+HelpConfTapeRst:Reset the datassette (TAP mode).
+HelpConfTapeCtr:The current tape counter (TAP mode).
+HelpConfTapeStop:Stop the tape (TAP mode).
+HelpConfTapeRwd:Rewind the tape (TAP mode).
+HelpConfTapePlay:Start playing the tape (TAP mode).
+HelpConfTapeFwd:Fast forward the tape (TAP mode).
+HelpConfTapeRec:Start recording on the tape (TAP mode).
+
+# Misc devices configuration window
+HelpConfDevice:Misc devices configurations.
+HelpConfDeviceDev:You can choose between parallel and serial port and files.
+HelpConfDevACIAIrq:Enable RS232 emulation.
+HelpConfDevACIADev:Click to select a destination for ACIA RS232 emulation.
+HelpConfDevACIADevT:The currently selected destinaton for ACIA RS232 emulation.
+HelpConfDevACIADE:Emulate ACIA6551 at $de**
+HelpConfDevACIA67:
+HelpConfDevRsUsr:Emulate user-port RS232 interface.
+HelpConfDevRsUsrDev:Click to select the destination for user port RS232 emulation.
+HelpConfDevRsUsrDevT:The currently selected destination for user port RS232 emulation.
+HelpConfDevSerial:Click to choose the baud rate of the serial device.
+HelpConfDevSerialT:The currently selected baud rate of the serial device.
+HelpConfDevOK:Click to use the filename to the right as destination file for the device.
+HelpConfDevPath:The destination file for the device.
+HelpConfDevIcon:Drag this icon to a directory to select the destination file for the device using the leaf name to the left.
+HelpConfDevPrntOn:Enable IEC (serial) printer emulation.
+HelpConfDevPrntDev:Click to select a destination for the serial printer emulation.
+HelpConfDevPrntDevT:The currently selected destination for serial printer emulation.
+HelpConfDevPrntUsrOn:Enable user port (parallel) printer emulation.
+HelpConfDevPrntUsrDev:Click to select the destination for the user port printer emulation.
+HelpConfDevPrntUsrDevT:The currently selected destination for the user port printer emulation.
+
+# Sound configuration window
+HelpConfSound:Sound configurations.
+HelpConfSndOn:Enable sound playback. You should have 100% emulation speed for this.
+HelpConfSndRate:Click to choose a sample rate. The higher the rate, the better the quality and the more CPU cost. Typical rates are 22050Hz or 44100Hz (CD quality).
+HelpConfSndRateT:The currently selected sound rate.
+HelpConfSndDev:Click to choose a sound device. VIDC is asynchronous sound on RISC OS (good for games, bad for music), VIDC Sync is synchronous sound on RISC OS (vice versa). The others write to a file.
+HelpConfSndDevT:The currently active sound device.
+HelpConfSndOver:Click to choose the oversampling rate. Oversampling operates on a higher sample rate internally and downsamples it to a lower rate for output. Oversampling is expensive and doesn't work with the VIDC device.
+HelpConfSndOverT:The currently selected oversampling rate.
+HelpConfSndMod:Click to choose the SID model. 6581 is the SID chip in the classic C64, 8580 is the one in the mark II models.
+HelpConfSndModT:The currently selected SID model.
+HelpConfSndFilter:Enable sound filters. This should always be enabled because most SID music relies (heavily) on filters.
+HelpConfSndOK:Click here to use the filename to the right as output for file-based sound devices.
+HelpConfSndFile:The filename to use as output for file-based sound devices.
+HelpConfSndIcon:Drag this icon to the directory where you want to save the output of file-based sound devices.
+HelpConfSndVol:The sound volume. Drag the bar to the left to decrease the volume, drag it to the right to increase it.
+HelpConfSndBuff:The sound buffer size. The larger the buffer, the less likely dropouts are, but the longer it takes before you can hear the sound (latency). When listening to music, use a large value, when playing a game use a small one.
+HelpConfSndBuffT:The currently selected sound buffer size.
+HelpConfSndReSID:Choose the SID engine. Use Dag Lem's ReSID engine for much improved (but somewhat slower) SID emulation. Warning, ReSID doesn't work with the VIDC device, use VIDC Sync instead!
+HelpConfSndAdj:Click to choose a speed adjustment method in case the emulation speed differs from 100%.
+HelpConfSndAdjT:The currently selected speed adjustment method.
+HelpConfSndReSamp:ReSID sampling method|MFast clocks at output sample speed, the other two at cycle frequency.|MInterpolate and Resample are too expensive for real time on current RISC OS hardware.
+HelpConfSndReSampT:The currently used ReSID sampling method.
+HelpConfSndRePass:The ReSID passband in percent for the resampling method.|MThe larger the value, the more expensive.
+HelpConfSnd16Bit:Use 16bit linear sound as available on newer RISC OS machines. If unavailable, 8bit logarithmic will be used automatically.
+HelpConfSndStereo:Emulate stereo SIDs.|MNote that you need actual stereo SID programs for this to take any effect.
+
+# System configuration window
+HelpConfSystem:System configurations.|MYou can drag keyboard mapping files or romset archives to this window to activate them.
+HelpConfSystemPath:If no pathname is given, the file is looked for in the machine's directory in !ViceRsrc.|MYou can drag a file here to activate it.
+HelpConfSystemCart:You usually have to reset the computer after changing cartridge settings.
+HelpConfSysCharGen:The ROM containing the character bitmaps.
+HelpConfSysKernal:The machine's kernal ROM; this contains the operating system core.
+HelpConfSysBasic:The machine's BASIC ROM; this contains the BASIC interpreter.
+HelpConfSysREU:Use a REU (RAM Expansion Unit).
+HelpConfSysIEEE:Use the IEEE488 bus for floppy drives (parallel) without having to use true drive emulation. See the general docs for a list of drives this works with.
+HelpConfSysID:Enable the emulation ID extension.
+HelpConfSysTraps:Disable kernal traps. Kernal traps are used for high-level emulation of some OS calls, e.g. file loading etc. Disabling kernal traps makes emulation more exact at the expense of speed.
+HelpConfSysPlEv:Poll every x centiseconds. This regulates how often Vice yields control to the other WIMP tasks. Small values make the desktop more responsive, but Vice slower.
+HelpConfSysSpEv:Update the speedometer every x centiseconds.
+HelpConfSysSndEv:Asynchronous sound only: poll sound every x centiseconds, or 0 for default.
+HelpConfSysSpdLmt:Click to select the speed limit. 100% means the original machine speed and is usually the right choice, especially when you have sound enabled.
+HelpConfSysSpdLmtT:The currently selected speed limit.
+HelpConfSysWarpMode:Enable warp mode (disable speed limit, turn off sound, use 1/10 refresh).
+HelpConfSysCrtType:Click to select the type of the cartridge (file to the right). Use NONE to detach.
+HelpConfSysCrtTypeT:The currently selected cartridge type.
+HelpConfSysCrtFile:The filename of the cartridge image. Drag a file here to attach it.
+HelpConfSysSScl:Enable sprite-sprite collision detection in hardware.
+HelpConfSysSBcl:Enable sprite-background collision detection in hardware.
+HelpConfSysDosName:Click and select a drive type to display or modify the name of its DOS ROM to the right.
+HelpConfSysDosNameT:The drive type whose ROM file is displayed to the right.
+HelpConfSysDosNameF:The filename of the DOS ROM for the drive type shown to the left.
+HelpConfSysAutoPs:Select to automatically pause emulation if the main window is closed. Otherwise emulation continues.
+HelpConfSysROMSet:Click to select a ROM set (sets of matching ROMs like kernal, basic, dos, ...). All ROM sets are stored in the file romset/vra in the machine's resource directory in !ViceRsrc.
+HelpConfSysROMSetT:The currently selected ROM set.
+HelpConfSysROMAct:Click to modify the ROM sets. You can CREATE a new one, DELETE or SAVE the current one, DUMP to update the ROM set resource, CLEAR all ROM sets or RESTORE the default ROM set.
+HelpConfSysKbd:Click to save the current keyboard mapping file or restore the default one.
+HelpConfSysKbdT:The currently selected keyboard mapping file.
+HelpConfSysVsync:Click to select the video sync mode; PAL is for emulating a european machine, NTSC for a US version.
+HelpConfSysVsyncT:The currently selected video sync mode.
+
+# Video configuration window
+HelpConfVideo:Video configurations.
+HelpConfVidVCache:Enable video cache. This means that only those parts of the screen are redrawn which actually changed. Depending on how much changed, the video cache can speed things up or slow them down.
+HelpConfVidRefresh:Click to select the refresh frequency. 1/x means that only every x-th emulated frame is actually displayed. High values of x make emulation faster but less smooth.
+HelpConfVidRefreshT:The currently selected refresh frequency.
+HelpConfVidMaxSkip:The maximum number of frames that may be skipped in auto refresh mode.|MThe higher the value, the faster the emulation runs and the jerkier the display gets.
+HelpConfVidFullScrFormat:Format num:resx,resy,ldbpp. num is the mode number (pre-RO3.5), the others are used on RO3.5 or newer.
+HelpConfVidFullScrNorm:String describing the screen mode for normal full screen mode.
+HelpConfVidFullScrPAL:String describing the screen mode for PAL emulation full screen mode.
+HelpConfVidFullScrDbl:String describing the screen mode for double size PAL full screen mode.
+HelpConfVidSetPal:When switching to full screen mode, also redefine the palette so there are exact matches for the emulated machine's colours.
+HelpConfVidUseBPlot:Use the BPlot module when possible.|MViewFinder users should always have this option OFF.
+HelpConfVidPal:The palette which maps machine colours to RGB colours. Ignored unless external palettes are activated.
+HelpConfVidExtPal:Enable the external palette, otherwise one will be calculated internally.
+HelpConfVidPALDepth:Click here to select the colour depth for PAL emulation. Auto selects the depth of the screen mode.
+HelpConfVidPALDepthT:The currently selected colour depth for PAL emulation.
+HelpConfVidPALDouble:Enable double size PAL emulation (necessary for real PAL emulation, but very expensive).
+HelpConfVidColourSat:PAL emulation: colour saturation.
+HelpConfVidContrast:PAL emulation: contrast.
+HelpConfVidBrightness:PAL emulation: brightness.
+HelpConfVidGamma:PAL emulation: gamma factor.
+HelpConfVidLineShade:PAL emulation: scal line shade.
+HelpConfVidPalMode:Click here to select the PAL emulation mode.
+HelpConfVidPalModeT:PAL emulation: currently selected mode.
+
+# Joystick configuration window
+HelpConfJoystick:Joystick configurations.|MYou should pause the emulation if you want to change the keys.
+HelpConfJoyPort:Click here to select a mapping for this joystick port of the emulated machine. You can map it to one of two joystick ports of your RISC OS machine or one of two different keyboard mappings.
+HelpConfJoyPortT:The currently selected mapping for this joystick port of the emulated machine.
+HelpConfJoyKeymap:Press the key you want to bind this joystick command to. Low-level keys like SHIFT and CTRL are allowed too.
+
+# PET configuration window
+HelpConfPET:PET specific configurations.
+HelpConfPETMem:Click to select how much main memory you want in your PET.
+HelpConfPETMemT:The amount of main memory currently active in your PET.
+HelpConfPETIO:Click to select the size of your PET's IO area.
+HelpConfPETIOT:The currently selected IO area size of your PET.
+HelpConfPETVideo:Click to select the width of your PET's video system.
+HelpConfPETVideoT:The currently selected width of your PET's video system.
+HelpConfPETModel:Click to select your PET's model; this will automatically set memory, IO size, video width etc.
+HelpConfPETModelT:The currently selected PET model.
+HelpConfPETKbd:The currently active keyboard mapping. You can change it in the system config window.
+HelpConfPETCrt:Enable CRTC 6545 emulation (available in models from 40xx and above).
+HelpConfPETRAM9:Enable the 8296 controller to map RAM into the address range $9000-$9fff.
+HelpConfPETRAMA:Enable the 8296 controller to map RAM into the address range $a000-$afff.
+HelpConfPETDiag:Set the diagnostic pin on the PET userport. When the diagnostic pin is enabled, the kernal jumps to the monitor rather than the BASIC prompt.
+HelpConfPETSuper:Enable SuperPET IO and disable 8x96 memory mappings.
+
+# VIC configuration window
+HelpConfVIC:VIC20 specific configurations.
+HelpConfVICCart:Click and select a cartridge type to display or modify the name of its ROM image to the right.
+HelpConfVICCartT:The cartridge type whose ROM filename is displayed to the right.
+HelpConfVICCartF:The cartridge ROM file for the cartridge type displayed to the left. Drag a ROM file here to activate it.
+HelpConfVICMem:Click and select the ROM blocks you want to activate. See the generic Vice docs for the mapping of ROM blocks to address ranges.
+
+# CBM2 configuration window
+HelpConfCBM2:CBM2 specific configurations.
+HelpConfCBMLine:Click to select the CBM-II model line. This also changes the settings for memory and model.
+HelpConfCBMLineT:The currently selected CBM-II model line.
+HelpConfCBMMem:Click to select how much main memory you want in your CBM-II.
+HelpConfCBMMemT:The currently available main memory in your CBM-II.
+HelpConfCBMModel:Click to select the CBM-II model.
+HelpConfCBMModelT:The currently selected CBM-II model.
+HelpConfCBMRAM:Click to select which expansion ROM areas RAM can be mapped to. See the generic Vice docs for a mapping of expansion ROM areas to address ranges.
+HelpConfCBMKbd:The currently selected keyboard mapping. You can change it in the system configuration window.
+HelpConfCBMCart:Click and select a cartridge type to display or modify the name of its ROM image to the right.
+HelpConfCBMCartT:The cartridge type whose ROM filename is displayed to the right.
+HelpConfCBMCartF:The cartridge ROM filename for the cartridge type displayed to the left. Drag a cartridge file here to activate it.
+
+# C128 configuration window
+HelpConfC128:C128 specific configurations.|MThe VDC is the C128's second video chip which offers 80 column display, the primary chip is the VIC-II, same as in the C64. The C128 also had a Z80 as second processor for CP/M mode.
+HelpConfC128Path:If no pathname is given, the file is looked for in the machine's directory in !ViceRsrc.|MYou can drag a file here to activate it.
+HelpConf128Pal:The currently active VDC palette.
+HelpConf128Size:Enable 64kB video RAM size of the VDC.
+HelpConf1284080:Emulates the 40/80 key of a real C128. If ticked, the machine will boot into 40 column display, otherwise 80 columns.
+HelpConf128z80bios:The currently active Z80 BIOS filename.
+HelpConf128dsize:Enable VDC double scan mode to double the vertical size and correct the aspect ratio (requires more memory); the number of vertical lines drawn remains unchanged.
+HelpConf128dscan:In addition to doubling the vertical size of the VDC display, also draw every visible vertical line to achieve a solid display without rasterization effects.

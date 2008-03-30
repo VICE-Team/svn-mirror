@@ -1,0 +1,2 @@
+If "<Vice64$Dir>" = "" Then Set Vice64$Dir <Obey$Dir>
+IconSprites <Obey$Dir>.!Sprites

@@ -50,13 +50,26 @@ int hat_or[] = {
 
 extern log_t joystick_log;
 
+#ifdef HAVE_USB_H
+#include <usb.h>
+#endif
+
+#ifdef __DragonFly__
+#include <bus/usb/usb.h>
+#include <bus/usb/usbhid.h>
+#else
 #include <dev/usb/usb.h>
 #include <dev/usb/usbhid.h>
+#endif
+
 #include <errno.h>
 #include <stdlib.h>
-#ifdef HAVE_USBHID_H
+
+#if defined(HAVE_USBHID_H)
 #include <usbhid.h>
-#else
+#elif defined(HAVE_LIBUSB_H)
+#include <libusb.h>
+#elif defined(HAVE_LIBUSBHID_H)
 #include <libusbhid.h>
 #endif
 

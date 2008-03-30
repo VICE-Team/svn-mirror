@@ -1,0 +1,12 @@
+| It is of utmost importance for all Vice machines that Vice$Path is set up
+| correctly or nothing will work. In case any of the emulators doesn't start
+| up try double-clicking on your !ViceRsrc folder.
+
+IconSprites <Obey$Dir>.!Sprites
+| Central resource path
+Set Vice$Path <Obey$Dir>.
+| Messages file, language dependent
+Set Vice$Messages <Obey$Dir>.Messages
+| Directory containing romset-directories
+Set ViceROM$Dir <Obey$Dir>.ROMSETS
+Filer_OpenDir <Obey$Dir>

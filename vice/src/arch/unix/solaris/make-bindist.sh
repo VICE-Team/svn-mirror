@@ -66,6 +66,7 @@ rm `find VICE-$2 -name "beos_*.vkm"`
 rm `find VICE-$2 -name "dos_*.vkm"`
 rm `find VICE-$2 -name "os2*.vkm"`
 rm `find VICE-$2 -name "win_*.vkm"`
+rm `find VICE-$2 -name "RO*.vkm"`
 mkdir -p VICE-$2/usr/local/man/man1
 mv /usr/local/man/man1/c1541.1 VICE-$2/usr/local/man/man1
 mv /usr/local/man/man1/petcat.1 VICE-$2/usr/local/man/man1

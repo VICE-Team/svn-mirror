@@ -1,0 +1,44 @@
+Default
+{
+	KernalName="kernal"
+	BasicName="basic"
+	ChargenName="chargen"
+	DosName1541="dos1541"
+}
+64er
+{
+	KernalName="ROMSETS.64er.kernal"
+	DosName1541="ROMSETS.64er.dos1541"
+}
+Dolphin
+{
+	KernalName="ROMSETS.Dolphin.kernal"
+	DosName1541="ROMSETS.Dolphin.dos1541"
+}
+Dolphin II
+{
+	KernalName="ROMSETS.Dolphin2.kernal"
+	DosName1541="ROMSETS.Dolphin2.dos1541"
+}
+Dolphin III
+{
+	BasicName="ROMSETS.Dolphin3.basic"
+	KernalName="ROMSETS.Dolphin3.kernal"
+	DosName1541="ROMSETS.Dolphin3.dos1541"
+}
+Exos
+{
+	KernalName="ROMSETS.Exos.kernal"
+}
+Jiffy
+{
+	KernalName="ROMSETS.Jiffy.kernal"
+	DosName1541="ROMSETS.Jiffy.dos1541"
+}
+SpeedDOS
+{
+	KernalName="ROMSETS.speeddos.kernal"
+	BasicName="ROMSETS.speeddos.basic"
+	ChargenName="ROMSETS.speeddos.chargen"
+	DosName1541="ROMSETS.speeddos.dos1541"
+}

@@ -6,6 +6,7 @@ doc_DATA = \
 	images/new.gif \
 	images/vice-logo.jpg \
 	index.html \
+	macosx.html \
 	plain/64doc.txt \
 	plain/BUGS \
 	plain/COPYING \

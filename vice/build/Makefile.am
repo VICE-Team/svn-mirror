@@ -11,4 +11,5 @@ EXTRA_DIST = \
 	macosx/build-readline.sh \
 	macosx/build-vice-dist.sh \
 	minix3/build.sh \
-	minix3/build-package.sh
+	minix3/build-package.sh \
+	riscos/build-cross.sh

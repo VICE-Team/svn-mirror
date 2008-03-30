@@ -39,6 +39,7 @@ rm `find WinVICE-$2 -name "dos_*.vkm"`
 rm `find WinVICE-$2 -name "os2*.vkm"`
 rm `find WinVICE-$2 -name "beos_*.vkm"`
 rm `find WinVICE-$2 -name "x11_*.vkm"`
+rm `find WinVICE-$2 -name "RO*.vkm"`
 rm WinVICE-$2/html/texi2html
 if test x"$3" = "xzip"; then
   if test x"$ZIP" = "x"; then

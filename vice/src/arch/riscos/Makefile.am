@@ -59,5 +59,42 @@ libarch_a_SOURCES = \
 	vsyncarch.h
 
 EXTRA_DIST = \
-	ReadMeRO
-
+	ReadMeRO \
+	make-bindist.sh \
+	binfiles/ReadMeRO \
+	binfiles/ReadMeSnd \
+	binfiles/runothers \
+	binfiles/x128sprites \
+	binfiles/c64boot \
+	binfiles/runc64 \
+	binfiles/x64sprites \
+	binfiles/xcbm2sprites \
+	binfiles/xpetsprites \
+	binfiles/xplus4sprites \
+	binfiles/xvicsprites \
+	binfiles/runvsid \
+	binfiles/vsidsprites \
+	binfiles/rsrcboot \
+	binfiles/help \
+	binfiles/rsrcrun \
+	binfiles/rsrcsprites \
+	binfiles/bplot \
+	binfiles/messages \
+	binfiles/vicesprites \
+	binfiles/templates \
+	binfiles/x128.vrs \
+	binfiles/x128.vra \
+	binfiles/x128basic \
+	binfiles/x128charg64 \
+	binfiles/z80bios \
+	binfiles/x128vicerc \
+	binfiles/x64.vra \
+	binfiles/x64vicerc \
+	binfiles/xcbm2.vra \
+	binfiles/xcbm2vicerc \
+	binfiles/xpet.vra \
+	binfiles/xpetvicerc \
+	binfiles/xplus4vicerc \
+	binfiles/xvic.vra \
+	binfiles/xvicvicerc \
+	binfiles/xvsidvicerc

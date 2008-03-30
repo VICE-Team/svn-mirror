@@ -1184,12 +1184,15 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     g_signal_connect(G_OBJECT(new_canvas),"enter-notify-event",
 		     G_CALLBACK(enter_window_callback),
 		     NULL);
-    g_signal_connect(G_OBJECT(new_canvas),"size-allocate",
-		     G_CALLBACK(size_allocate),
-		     (gpointer) c);
 
     if (!vsid_mode)
+    {
+	g_signal_connect(G_OBJECT(new_canvas),"size-allocate",
+		     G_CALLBACK(size_allocate),
+			 (gpointer) c);
 	x11ui_resize_canvas_window(new_canvas, width, height, c->videoconfig->hwscale);
+    }
+    
     if (c->videoconfig->hwscale) {
         gint window_width, window_height;
         resources_get_int("WindowWidth", &window_width);

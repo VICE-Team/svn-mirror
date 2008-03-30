@@ -1,0 +1,70 @@
+VICE SOUND on RISC OS
+=====================
+
+
+On RISC OS, Vice offers two sound devices, VIDC (asynchronous) and VIDC Sync
+(your guess), and two sound models, 8bit and 16bit. The asynchronous device
+allows reducing latency (-> buffer size) considerably without risking dropouts
+and is therefore ideal for playing games with SFX, that's why it's the default
+for the ``real'' emulators (not the VSID player). Unfortunately, Vice wasn't
+written with asynchronous sound in mind and therefore it's kind of a hack that
+doesn't work well with SID music (doesn't work at all with reSID!), i.e. you
+should select the synchronous sound device if you want music to sound good,
+that's why the synchronous device is the default device in VSID; in that case
+you need a rather large sound buffer size to minimize dropouts, though (say
+0.35 seconds minimum, with all the problems this causes like delayed sound etc;
+besides Vice doesn't react too well to sudden speed changes in synchronous
+mode).
+If we had really fast CPUs on RISC OS, I'd just advice using the synchronous
+device and a buffer size of 0.1 seconds, but that doesn't work well ATM. Choose
+whichever device best fits your needs, using the asynchronous one for playing
+games (do not use reSID in that case!) to get the sound when you press the button
+and the synchronous one if you want to listen to music.
+
+8bit sound was the old system using logarithmic samples, but it was superceded
+in RISC OS 3.5 (to be precise the hooks for 16bit sound were introduced in RO3.5,
+but not every machine had the necessary hardware too). 16bit sound is available
+on the newer machines (type ``*help SoundSystem'' at the CLI to find out whether
+your machine supports it). Since version 1.7 Vice (or rather the DigitalRenderer
+module included) has also been able to use 16bit mode and you're advised to use
+it if your machine has the necessary hardware. It's off by default, however,
+because it's not standard on all RISC OS machines and I want Vice to run out
+of the box on as many machines as possible. You can choose 8bit/16bit sound
+from the sound configuration window.
+
+
+
+Recommended SIDs:
+-----------------
+
+(in alphabetical order and with lots of omissions; I marked my personal
+favourites with an exclamation mark. Look for these SIDs in the High Voltage
+SID Collection (HVSC) and use them in VSID)
+
+Rob Hubbard:
+	Commando
+!	Delta	(tracks 1 & 12 -- 1 takes a while to take off, but then...)
+!	International Karate
+	Kentilla
+	Knucklebusters
+	Lightforce
+	Monty on the Run
+!	Zoids
+
+Martin Galway:
+	Green Beret
+!	Parallax
+	Rambo First Blood Part II
+!	Yie Ar Kung Fu
+
+Jeroen Tel / Maniacs of Noise:
+	Cybernoid
+	Cybernoid II
+!	Kinetix
+!	Robocop 3
+
+Ben Daglish & Anthony Lees:
+	Last Ninja I
+
+Matt Gray:
+	Last Ninja II

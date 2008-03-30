@@ -43,7 +43,7 @@ ar_file()
       echo "generation of lib$1.a failed"
       exit 1
     fi
-    if text x"$1" != "xbase"; then
+    if test x"$1" != "xbase"; then
       mv lib$1.a $srcdir
     fi
   else
@@ -92,7 +92,7 @@ if test x"$1" = "xpowerup"; then
   TARGET_DEF="-DPOWERUP_VBCC"
   TARGET_LIBM="-lm"
   TARGET_AR="ar"
-  AMIGAFLAVOR="PowerUP-1.21"
+  AMIGAFLAVOR="powerpc-PowerUP-1.21"
 fi
 
 if test x"$1" = "xwarpos"; then
@@ -100,7 +100,7 @@ if test x"$1" = "xwarpos"; then
   TARGET_DEF="-DWARPOS_VBCC"
   TARGET_LIBM="-lm"
   TARGET_AR="cat"
-  AMIGAFLAVOR="WarpOS-1.21"
+  AMIGAFLAVOR="powerpc-WarpOS-1.21"
 fi
 
 if test x"$1" = "xclean"; then

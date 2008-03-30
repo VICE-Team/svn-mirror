@@ -27,6 +27,10 @@
 #include "vice.h"
 #include "private.h"
 
+#ifdef AMIGA_M68K
+#define _INLINE_MUIMASTER_H
+#endif
+
 #include <stdio.h>
 
 #include "attach.h"

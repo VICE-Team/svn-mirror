@@ -1,0 +1,67 @@
+# PET romsets
+
+rom1g
+{
+	KernalName="kernal1"
+	EditorName="edit1g"
+	ChargenName="chargen"
+	BasicName="basic1"
+	RomModule9Name=""
+	RomModuleAName=""
+	DosName2031="dos2031"
+}
+
+rom2b
+{
+	KernalName="kernal2"
+	EditorName="edit2b"
+	ChargenName="chargen"
+	BasicName="basic2"
+	RomModule9Name=""
+	RomModuleAName=""
+	DosName2031="dos2031"
+}
+
+rom2g
+{
+	KernalName="kernal2"
+	EditorName="edit2g"
+	ChargenName="chargen"
+	BasicName="basic2"
+	RomModule9Name=""
+	RomModuleAName=""
+	DosName2031="dos2031"
+}
+
+rom4b40
+{
+	KernalName="kernal4"
+	EditorName="edit4b40"
+	ChargenName="chargen"
+	BasicName="basic4"
+	RomModule9Name=""
+	RomModuleAName=""
+	DosName2031="dos2031"
+}
+
+rom4b80
+{
+	KernalName="kernal4"
+	EditorName="edit4b80"
+	ChargenName="chargen"
+	BasicName="basic4"
+	RomModule9Name=""
+	RomModuleAName=""
+	DosName2031="dos2031"
+}
+
+rom4g80
+{
+	KernalName="kernal4"
+	EditorName="edit4g40"
+	ChargenName="chargen"
+	BasicName="basic4"
+	RomModule9Name=""
+	RomModuleAName=""
+	DosName2031="dos2031"
+}

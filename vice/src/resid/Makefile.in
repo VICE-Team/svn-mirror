@@ -198,7 +198,7 @@ $(ACLOCAL_M4):  configure.in
 siddefs.h: $(top_builddir)/config.status siddefs.h.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 
-AR = ar
+AR = @AR@
 
 clean-noinstLIBRARIES:
 	-test -z "$(noinst_LIBRARIES)" || rm -f $(noinst_LIBRARIES)

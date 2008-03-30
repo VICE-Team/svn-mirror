@@ -25,6 +25,7 @@ cbm2_DATA = \
 	kernal.500 \
 	os2.vkm \
 	pc64.vpl \
+	ROdflt.vkm \
 	rom500.vrs \
 	rom128l.vrs \
 	rom128h.vrs \

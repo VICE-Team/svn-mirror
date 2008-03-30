@@ -1,0 +1,808 @@
+Vice 1.21 for RISC OS
+=====================
+
+
+
+
+For general information see the Vice documentation. This file only deals with
+differences / specialities in the RISC OS version.
+
+
+
+RISC OS NEWS since 1.20
+=======================
+
+None, just made sure it still compiles and works. Looks like the 2x size
+option for PAL emulation isn't supported by the base engine any longer,
+but I don't think that'll be a real problem. Since I haven't used
+RISC OS much for years now and need space/keyboard/monitor for a new
+machine, this will be my last VICE-release for RISC OS. If you want to
+continue development, please drop an email to vice-devel@firenze.linux.it
+
+
+
+
+RISC OS NEWS since 1.19
+=======================
+
+None. Floppy drive apparently wasn't permanently dead, but experiencing
+occasional problems when patching the sources, maybe the IDE controller
+needs warming up now (no problems so far once the machine has been
+running for a while). Weird...
+
+
+
+RISC OS NEWS since 1.18
+=======================
+
+None. RiscPC's floppy-drive appears to have died, no idea how long the
+rest will last...
+
+
+
+RISC OS NEWS since 1.17
+=======================
+
+None, essentially a bugfix release.
+
+
+
+RISC OS NEWS since 1.16
+=======================
+
+- Built with the latest GCC-3.4.4 variant (Jul 2005)
+- Well, looks like I forgot to build VICE with fixpoint arithmetic enabled
+  ever since I started using the GCCSDK crosscompiler. The net effect is
+  that ``fast'' sound was considerably slower than reSID (at least with
+  filters enabled). Sorry about that, now fixed at last.
+- Ironed out a few potential remaining problems with filenames containing
+  characters with the top-bit set. Not sure whether it was really necessary
+  at this time, but it'll protect against compiler-defined issues (char vs.
+  signed char vs. unsigned char) in the future.
+
+
+
+RISC OS NEWS since 1.15
+=======================
+
+Only two things, really (apart from minor, strictly internal issues):
+1) Fixed savebox handling bug (return and click on OK button didn't work in
+   all cases the savebox was used)
+2) Built this release with GCC-3.4.4
+
+
+
+RISC OS NEWS since 1.14
+=======================
+
+Nothing. I was hoping to compile this version with the GCC-3.41 prerelease,
+but the resulting VICE binaries didn't work, so it's GCC-3.3 again.
+
+
+
+RISC OS NEWS since 1.13
+=======================
+
+This time there were lots of internal changes, one side-effect of which is
+that the VICE RISC OS binaries can now also be built with the GCCSDK
+crosscompiler on a Unix machine with the standard tools used for building
+VICE there (including the auto* stuff). A configure script to use for this
+will be in the ViceROKit.zip archive for this version (available from my
+homepage). This release was built with GCC 3.3 on a Linux machine, for
+instance, as my tests so far showed the code to be stable and a little
+faster than 2.95.4 builds. Should unforeseen problems arise after all,
+I'll make a 2nd release based on 2.95.4.
+Playing around with lots of different compiler versions lately also helped
+me find two ancient Wimplib bugs, so this release should have improved
+stability compared to older versions. Important news in this version:
+
+- Since VICE supports 4 true drive devices now, memory requirements
+  have gone up another notch, so the memory footprint is now between 9MB
+  and 13.5MB, depending on the emulator (except for VSID, which is still
+  around 6MB).
+
+- C64 and C128 support the 1351 mouse emulation now. Using the mouse in
+  WIMP mode is a bit tricky, since you'll end up with two pointers and
+  the emulated one will not move unless the real one is within the
+  emulator window, also it's hard to sync the speeds of the two. If you
+  want to use the mouse without hassles, go to fullscreen mode.
+
+
+
+RISC OS NEWS since 1.12
+=======================
+
+No new features this time either, just kept the RISC OS port in sync. There
+is one important change regarding the DigitalRenderer module, however.
+Formerly, this module was distributed along with Vice in !ViceRsrc. Since
+other projects started using it recently (e.g. various SDL game ports),
+this is no longer sensible, so now the emulators try to load the the
+module from System:Modules. For you as a user, this means you'll have
+to download the module (e.g. from my homepage at the bottom of the file)
+and copy the module from there to <System$Dir>.310.Modules.
+
+
+
+RISC OS NEWS since 1.11
+=======================
+
+I added no new features and just kept the RISC OS specific files in sync
+with the main distribution. However, there were many internal changes to
+my Wimplib and the support modules (DigitalRenderer and BPlot) that make
+this release of Vice 32bit compatible. From what I've heard, an Iyonix can
+sustain 100% emulation speed even under tricky conditions, which would be
+good news for a change. Note you'll need the 32bit SCL installed on your
+system to run this release.
+
+
+
+RISC OS NEWS since 1.9
+======================
+
+There have been mostly internal changes between those releases, as there
+haven't been any new features in the emulation core and I don't see the
+need to change the way the existing features are handled. Internal changes
+mostly deal with updates in my WimpLib (Small-footprint LGPL C/C++ library
+providing the interface to RISC OS, also available from my Software pages),
+e.g. better sprite handling, a standard menu for text windows (allowing you
+to e.g. save or edit text). Other changes include support for chip-specific
+video caches.
+Also note that my email address changed to zarquon@t-online.de since I
+successfully finished my PhD thesis and consequently quit FORWISS last may.
+
+
+
+RISC OS NEWS since 1.8
+======================
+
+- (Internal change: switched to GCC 2.95.4)
+
+- Stereo SID option. Basically the driver for this already worked in 1.8,
+  I just hadn't tested it before the release. Note that if you use the
+  StereoSID Player you have to run Vice in NTSC mode!
+
+- Due to the many new options introduced with PAL emulation, there is now
+  a separate video configuration window.
+
+- In order to support PAL emulation, the low-level interface in Vice has
+  changed. In the old versions, a bitmap with the correct colours for the
+  current mode was created, whereas in the new version, the bitmap always
+  has the C64 colours. That means I had to move to (slower) OS_SpriteOp plots
+  rather than my old BPlot module. There are some cases where the BPlot
+  module can still be used: for non-PAL emulation canvases, in case the screen
+  depth is more than 8bpp or in full screen mode if the screen palette is set
+  (see video config window "Set Palette"). If you select "Use BPlot" in the
+  video config window, you can still use the BPlot module in these cases,
+  otherwise Vice will always use OS_SpriteOp.
+  In case you own a ViewFinder graphics card, Vice will probably run much
+  better if you always switch OFF "Use BPlot".
+
+- PAL emulation: this probably requires some additional words, in particular
+  regarding scaling. PAL emulation really needs a 2x screen to be fully
+  operational; you can achieve this by ticking the PAL double box in the
+  video config window. Note that the resulting bitmap is NOT just the 1x
+  bitmap scaled up, which is also the reason why I handled scaling the way
+  I did: the toggle icon on the emu pane does the ``soft'' scaling, i.e.
+  it merely allows plotting the bitmap at twice its normal size. PAL double
+  allows calculating a bitmap at twice the size, and you can use the soft
+  scaling in addition, if you want to. That system may seem a bit confusing
+  at first (try juggling 3 scaling factors in your coordinate transformations
+  for confusing, buddy: eigen factors, soft scaling, PAL double), but if you
+  bear in mind that the toggle icon on the pane just displays the same thing
+  larger whereas PAL double does more, it is logical in a way.
+  Regarding the depth used for PAL emulation, you can select five options
+  here:
+  - off (disables it)
+  - auto (uses the depth of the current screen mode, but at least 8bpp)
+  - 8/16/32: use this depth regardless of the current screen mode
+  8bpp PAL emu has to compromise, so you should use either 16bpp or 32bpp
+  modes if you want the real thing -- and use a screen mode of the same depth
+  for display.
+  A word of warning on PAL emu, though: it's very expensive, especially in
+  double size mode, plus the high colour depth required and the additional
+  frame buffer really choke the life out of the pitifully little bandwidth
+  we have available on RISC OS. Unless a miracle happens and someone releases
+  new RISC OS hardware with a fast bus and about 1GHz of processing power,
+  PAL emulation is unusable for anything but making nice screenshots on
+  RISC OS, I'm afraid.
+
+- In order to save some trouble there are different screen modes possible
+  for full screen emulation in normal, PAL and double size PAL mode
+  possible (see video config window).
+  
+
+
+
+RISC OS NEWS since 1.7
+======================
+
+No visible ones, since I was very busy towards the end of last year and could
+just keep the port in sync. The new stuff like PAL emulation and GUI (plus
+testing) of stereo SIDs will follow in the next version.
+
+
+
+RISC OS NEWS since 1.6
+======================
+
+- (Internal change: switched from GCC 2.7.2 to GCC 2.95.2)
+- (Internal change: DigitalRenderer now voice generator based or 16bit enabled)
+- Added support for GZIP-compressed image files (file type &f89 or /gz extension)
+- Clear/Load/Save fliplist files. Clear and save is obvious, using the fliplist
+  menu (note that you can't save an _empty_ fliplist). You can load a fliplist
+  by dragging the fliplist file (must have filetype Text) to the emulation pane;
+  the first image in the fliplist will be attached to drive 8 automatically.
+- Provided interactive help because the emulators have become rather complex and
+  many people will probably not be aware of what the buttons can do.
+- Made drive types 2040, 3040 and 4040 available from the drive config window.
+- Fixed cartridge detaching by selecting type None (this works now).
+- Finally fixed Auto refresh speed and made it the default for all emulators.
+  That means that the number of frames are reduced automatically down to a
+  minimum number if the emulator can't run at 100% and redraw every frame.
+  That means that games like Delta and Armalyte are pretty playable (if a bit
+  jittery) now. You can configure the maximum number of skipped frames in the
+  system configuration window. The default is 5 and choosing larger values
+  doesn't improve emulation speed much more, but the display gets very jerky.
+  You should always use odd values for the maximum (some games and demos have
+  things flashing every other frame which you won't see otherwise).
+- Added a log window with the log messages. People who know Vice on Unix will
+  be familiar with the log messages, others may be somewhat surprised at all
+  the stuff that's logged. The log messages help diagnosing problems, also for
+  normal users; for instance if the log message is ``VDriveCommand: ERR = 30,
+  SYNTAX ERROR ...'' you tried to use high-level drive emulation on a program
+  that requires true drive emulation turned on. The maximum number of lines
+  kept in memory is limited to 1024, so you don't have to worry about memory
+  consumption exploding during long sessions with Vice. In the unlikely case of
+  the new log window causing problems or if you want to disable them for some
+  other reason, you just have to add ``-logfile null:'' to the last line of
+  the emulated machine's !Run file (without the `` / '', of course). I'm sorry,
+  but logging is determined too early in the program to allow for GUI widgets
+  to configure them.
+- Automatically suspend emulation in lots of places like attaching images etc.
+  to avoid these operations screwing up emulation (especially sound when the
+  image is on CDROM).
+- Extended the DigitalRenderer module to support 16bit sound as provided on
+  RO 3.5 and newer; as a matter of fact the DigitalRenderer module saw a major
+  overhaul in this release, see !ViceRsrc.DocDRender if you're interested in
+  more details and/or want to use sound in an application of your own. By default
+  16bit sound is _off_ in order to minimize compatibility issues, but if you have
+  16bit sound hardware I recommend that you enable it because it sounds much
+  better and causes less problems with the painfully exact sync reSID needs,
+  although both of these issues are probably just consequences of emulating the
+  old 8bit system on the new 16bit one. You can enable it from the sound config
+  window. In case you experience problems with 16bit sound, please let me know.
+- Image contents work with normal directories too. Since we already have the
+  filer you might ask: what for? And verily I tell you: because it allows you
+  to autostart PRG files without having to type LOAD statements by double-
+  clicking. You open an image contents viewer by holding down shift while
+  dragging the directory to one of the drive icons.
+- Double-clicking on the title in an image contents window does LOAD"*",8,1
+  (except for normal directories).
+- The semantics of dragging PRG-files to the emu window have changed. Now the
+  PRGs are autostarted on all emulators. If you hold down shift when releasing
+  the drag, on the C64 the file is only loaded (this is the old behaviour).
+- Added keyboard-shortcuts for snapshots and screenshots. Note that these can
+  only be used after a valid shot was made using the normal GUI elements, otherwise
+  you'll get an error. The main reason for these keyboard shortcuts was to be
+  able to handle snapshots and screenshots in full screen mode. The keys are:
+  Print (save screenshot), ^F9 (save snapshot), ^F10 (load snapshot).
+
+
+
+RISC OS NEWS since 1.5
+======================
+
+- Added read-only options for all drives (marked as RO in the drive configuration
+  window to keep space requirements low).
+- Dag Lem modified his reSID engine so the actual engine is run fewer times,
+  resulting in a substantial speedup. In addition I rewrote some remaining
+  sound-related FP code to fixpoint, resulting in another big speedup. reSID
+  is now usable under RISC OS :-)
+- Added VSID mode. The VSID player uses the C64-binary in a special mode and
+  allows playing SID files without burdening the emulation with video and
+  drive issues, therefore the !Vice64 binary must have been seen by the filer
+  for VSID to operate. If you have a SA RPC do use reSID since it sounds much
+  better.
+- Improved speed limit code: NTSC works now, plus disturbances have less effect.
+- Added some functionality to wimplib. Now the monitor window is limited to
+  around 4096 lines to save memory when you're doing long sessions (like an
+  xterm does).
+- Some minor changes to the DigitalRenderer module for improved stability.
+
+
+
+RISC OS NEWS since 1.4
+======================
+
+After a long time of just keeping the source in sync with the other ports I
+added some new stuff for 1.5 again. I've been working on WimpLib a lot lately
+and added a text window that can be used for both displaying text and as a
+command line widget so I could finally integrate the monitor better. In order
+to compile Vice you now need WimpLib 0.10 or newer.
+
+- Replaced the monitor with a (multitasking) text widget. That means opening
+  the monitor does no longer freeze the entire desktop, apart from that you
+  get scrollbars and all the other niceties of a real window. While the monitor
+  is open the emulator is paused and you can't unpause it except for closing
+  the monitor again. This makes sure that there can be no reentrancy into the
+  monitor and is in fact the only system which was totally compatible with
+  Vice's internal use of the monitor (e.g. opening the monitor after a JAM code).
+  But nothing is modal, and that's the main issue here.
+  I know, most people won't ever use the monitor, but this is something I've
+  wanted to add for ages. Note that the monitor window can't be closed while
+  the monitor is outputting stuff, but the close request will be recorded and
+  executed as soon as the output is finished.
+- The other text windows (license, warranty, contrib) are now displayed with
+  the new WimpLib class as well and can be open concurrently (also you can
+  now navigate through them using the keyboard, but they're read-only).
+- Split drive window into (disk) drives and tape.
+- Resetting the emulator with double sized window now works correctly.
+- Fixed auto-attach of images on startup (interface must have changed somewhere
+  on the line).
+- Added FlipList support. This allows you to keep certain disk images in a
+  sort of hotlist for quick access. The Fliplist menu is accessible from the
+  emulation window menu and allows you to add the current disk image to the
+  fliplist, remove the current disk image from the fliplist, attach the next
+  and previous image in the fliplist. There's also a submenu that allows
+  direct access to all images in the fliplist; since this menu is also mirrored
+  somewhere there's also a detach entry to detach the currently active image.
+  You can also use PageUp / PageDown to walk through the fliplist which is
+  very handy for full screen mode.
+  Note that the fliplist is only available for drive 8!
+- The menu containing all the fliplist images is now also available by clicking
+  menu over the drive 8 icons on the emu pane.
+- The currently selected drive image is now displayed in the emulation window
+  title.
+- Added a window to create a new, empty disc image. It's accessible from the
+  icon bar menu.
+- Thanks to a wimplib extension almost all menus are indirected now. That means
+  that the menu text can become considerably longer than the 12 characters
+  possible so far. ATM I set the limit to 32 which should be fine for now.
+- Added a new sound device ``VIDC Sync'' (for synchronous VIDC). The old code
+  was running the sound as an asynchronous thread which has the advantage of
+  having very good latency characteristics, but unfortunately doesn't integrate
+  well with the way Vice handles complex sounds (e.g. samples) and issues like
+  oversampling internally. The synchronous device can handle these; the only
+  problem is that emulating sound samples as exact as Vice does, the performance
+  usually drops to 50% on my StrongARM RiscPC, so we'll have to wait for much
+  faster machines until it becomes really worthwhile...
+  In the meantime: as long as you're using ``simple'' sound, stick with the old
+  asynchronous device, if you want to listen to samples or use oversampling, use
+  the new synchronous one.
+  Note this also required a big update of the DigitalRenderer module.
+- Added screenshot functionality for saving sprites. The Unix version also allows
+  BMP and PNG but I figured we don't want BMP on RISC OS and we don't want about
+  100kB of libpng and libz linked into each emulator, so it's sprites only for us.
+- C64: files named "*/PRG" are now treated like ones with file type &64, i.e.
+  you can drag them into the emu window to load native C64 files.
+
+
+
+RISC OS NEWS since 1.1
+======================
+
+Basically I kept the port in sync, i.e. added icons for new resources and so on.
+My main contribution to 1.2 was a restructuring of the drive emulation code which
+now uses shared code and private data sections for both drives. That cut about
+150kB off each executable and made the true drive emulation a little faster on
+RISC processors.
+
+
+
+RISC OS NEWS since 1.0.0.1
+==========================
+
+- Fixed bug concerning pause when the joystick window is open.
+- Optionally display status line in full screen mode (toggle with F9)
+- Support for multiple emulation windows; currently used by Vice128 (see below).
+- Support for keyboard configuration files (see below)
+- Message windows for License, Warranty and Contributors, available from icon
+  bar menu.
+
+
+
+
+
+RISC OS NEWS since 0.16.1.0
+===========================
+
+- Sound code more stable.
+- Added freeze menu entry for modules like Action Replay.
+- ROMSet support via ROMSet Archives (see System window).
+- Imagecontents added: drag an image file (D64, T64, ...) to one of the drive
+  icons or the drive paths while holding down shift and instead of attaching the
+  image file a directory viewer will appear -- unless an error occurred. Also
+  since RISC OS doesn't allow more than one open on a file that has been opened
+  with write access you can't use this mechanism on an image that has already
+  been attached. Double-click on an item to load it into the emulated machine.
+- Option full screen mode operation (see below).
+- Lots of small bugs and features.
+
+
+
+
+
+
+Overview:
+=========
+
+1) What is it?
+   Vice is a collection of emulators covering 5 CBM machines, the C64, the C128,
+   the VIC20, the PET series and the CBM2 series.
+
+2) Memory requirements: Huge.
+   It's not possible to run any of these emulators on a 4MB machine. It's an
+   extremely close shave on an 8MB machine if you can get around 5-6MB free,
+   depending on which emulator you want to run. You should have more.
+
+3) CPU requirements: Huge.
+   Vice is cycle-exact, so if you compare it to Frodo you have to compare it
+   to FrodoSC and relative to that Vice is very fast. That doesn't change the
+   fact that you won't have much fun running Vice if you don't have a StrongARM.
+
+4) Concluding:
+   Vice is only recommended on StrongARM RiscPCs with 16MB or more.
+
+
+
+
+Running Vice:
+=============
+
+Just double-click on the Vice-machine's filer-icon and it will install an icon
+on the icon bar and open the emulation window. Make sure !ViceRsrc can be
+written to if you want to save your Vice settings. The settings for each
+emulator will be stored in !ViceRsrc.<machine-name>.vicerc.
+
+IMPORTANT NOTE: Do not terminate any of the emulators by force using ALT BREAK
+or something similar while sound (meaning the VIDC sound device) is active.
+While this is no problem when (VIDC) sound emulation is off this will in all
+likelyhood kill another one of your applications if it's on.
+
+
+
+
+Troubleshooting:
+================
+
+If nothing happens after the double-click the reason is probably 1) not enough
+memory or 2) !ViceRsrc has been moved so Vice$Path, the central variable pointing
+to the shared resources for each emulator, is no longer valid. In that case just
+double-click on !ViceRsrc and all necessary information will be updated.
+
+If one of the emulators (not an emulated program!) should crash with sound
+emulation enabled you'll keep hearing the last sample buffer and no other
+program can use sound anymore. To remedy that you have to issue ``*DRenderOff''
+at the CLI.
+
+
+
+
+Vice configuration:
+===================
+
+There are a sh**load of configurations for each Vice. Check the general docs
+for a description of what everything does. You won't need many of those in
+everyday use.
+A lot of the configurations are in the form of menus. I didn't put descriptive
+labels next to those menus since that'd take up too much space. If you want
+to know what a menu group does just open the menu and check the title. The
+only menus that need a little extra explanation are probably the ones consisting
+of menu icon + descriptive icon + value icon (e.g. ``DOS Name'' and ``Cartridge''
+in the System configuration window). In the case of ``DOS Name'' the menu
+selects the drive type whose ROM name should be displayed (and made editable)
+in the writable icon, in the case of ``Cartridge'' the menu selects the type
+of the cartridge file in the value icon.
+Most configurations take immediate effect. Changes to writable icons only take
+effect after pressing <Return>. Some changes only take effect when Vice is
+restarted or the configurations are reloaded, however. Among those are the
+names for the various system resources like ROMs or palette files, all of which
+are found in the Configure->System window.
+
+
+
+RISC OS specifics:
+==================
+
+System and Video window:
+------------------------
+
+Auto Pause:	automatically pause the emulator when the emulator window is
+		closed.
+Poll cs:	Minimum number of centiseconds between polls. Increase the
+		value to make Vice faster but the desktop less responsive.
+Speed cs:	Evaluate the emulation speed with this frequency.
+Sound cs:	Poll the sound hardware with this frequency. This value should
+		always be smaller than the configured sound buffer size. Using
+		a value of 0 defaults to half the buffer size.
+
+ROMsets:	These are handled via ROMset archives (*/vra). The menu to the
+		left lets you choose one of the ROMsets currently available,
+		the one to the right lets you edit them. Create: add the current
+		ROM configuration to the ROMsets (give it a name first). Delete:
+		delete the currently selected ROMset. Save: save the currently
+		selected ROMset (not all of them). Dump: save entire ROMset
+		archive as ``romset/vra'' to the current machine's folder in
+		!ViceRsrc. Clear: remove all ROMsets, emptying the archive.
+		Restore: reload the ``romset/vra''-File mentioned above.
+		You can add a romset archive file to your current archive by
+		dragging this file (named */vra) to the System & Video window.
+
+
+
+Pane icons:
+-----------
+
+At the top are the 4 icons for each of the possible 4 disk drives. Immediately
+below that (initially blank) is an icon that'll display the current halftrack
+for drive 8 or 9 when in True Drive Emulation mode. You can toggle the drive
+whose halftrack you want to see by clicking on this icon. Below that icon is
+the Pause/Resume icon which should be self-explanatory. The Reset-icon will
+reset the emulated machine; click with select for a soft reset, adjust for a
+hard reset (which will also clear memory). The icon at the bottom can be used
+for toggling the size of the emulation window.
+In contrast to other platforms the drive LEDs also work when not in True Drive
+Emulation mode.
+
+
+
+Multiple emulator windows:
+--------------------------
+
+You can have multiple emulator windows for a machine (ATM C128 only). In this
+case only one of the windows will have a pane attached to it (this is the
+''active emulator window'') and you can use the pane to toggle its size. You
+can transfer the pane to another window by either pressing F10 or using the menu
+entry ``MovePane'' in the emulator menu. In full screen mode you can use F10 to
+select the emulation window you want to display.
+Opening & closing: clicking select on the icon bar icon will always affect
+the last active emulator window, i.e. the one with the pane will be either
+opened or raised. You can open the other emulator windows by moving the pane
+(i.e. F10 or menu).
+Note: the 40/80 key of a C128's keyboard is ``emulated'' in the C128 config
+window.
+
+
+
+
+
+Data IO:
+========
+
+On RISC OS we use drag and drop, so forget all references to file selection
+dialogue boxes and similar bullshit.
+
+Attaching disk images / directories to drives:
+Drag the directory or disk image icon to the drive's LED on the EmuWindow's
+pane or the corresponding writable path icon in the Configure->Drives window.
+Disk images should be typed &164 (D64Image). If everything went well the
+writable path icon will be updated to show the new path afterwards, otherwise
+it'll remain unchanged (for instance when trying to attach a disk image to a
+drive that has drive type ``none'').
+
+Selecting the files for RS232/Printer/Sound devices:
+The groups {OK-Button, writable path icon, draggable sprite} in the corresponding
+Configuration windows behave like in a Save As box.
+
+Saving snapshots:
+Open snapshot savebox via the emulator window's menu. From then on it's exactly
+like a standard savebox. Note that when making a snapshot the emulator will
+run for a little more until it's ready. So even though you've got the emulator
+paused it'll progress a little -- this can't be helped.
+
+Loading snapshots:
+Drag snapshot file icon to EmuWindow. The file must be typed ``Data'' (which
+it is by default) and of course be for the correct (virtual) machine.
+
+Loading files directly into Vice64:
+Files typed &64 are interpreted as raw C64 files with the load-address in the
+first two bytes. These files can be loaded into Vice64 (not the other Vices!)
+by dragging them to the emulation window. This has the same effect as if you
+had loaded the file using ``LOAD "file",8,1'' from the emulator, except it's
+a lot faster and you don't have to worry about overwriting the IO area at
+$D000 for long files.
+
+
+Joystick configurations:
+------------------------
+
+Each joystick port can be mapped to 5 ``devices'': None (inactive), two sets
+of keys for emulation or two real (Acorn-compatible) joysticks. You can edit
+the keys thus: 1) make sure the Joystick-configuration window has the input
+focus by clicking inside it. 2) place the mouse pointer over the icon for
+the direction you wish to change and press the key you want to map to this
+direction. You may have to hold the key depressed for a while before it's
+recognized. You can also use keys like shift/ctrl/alt here.
+
+
+Keyboard shortcuts:
+-------------------
+
+F5:   Toggle sound
+F6:   Activate monitor
+F7:   Restore-key (usually only has effect in combination with RUN/STOP=Escape)
+F8:   Reset emulator
+F9:   Toggle emu pane
+F10:  move pane to next emulation window (has effect on C128 only)
+F12:  (when in full screen mode) Return to desktop
+Print: Save screenshot to same path as last one (doesn't work for 1st save)
+^F9:   Save snapshot to same path as last one (ditto)
+^F10:  Load snapshot from last path (ditto)
+num/: Toggle True Drive Emulation. This will grey out drive icons 10 and 11.
+Copy: Toggle pause
+ScrollLock: When active, Vice goes into single tasking mode. This is 1) a
+      bit faster and 2) ensures continuous sound playback.
+
+
+Languages:
+----------
+
+The frontend is language-independent. All you have to do is provide a
+file containing the label --> text translations and set up the variable
+<Vice$Messages> to point to this file before startup. The english version
+can be found at Vice:Messages.
+This doesn't affect messages generated by the cross-platform Vice code itself,
+however, which will remain english. You'll have to complain to the Vice core
+team if you want that changed ;-).
+
+
+
+Full Screen Mode:
+-----------------
+
+You can now also run Vice in full screen mode, i.e. single tasking outside
+the WIMP environment. You can enter full screen mode using the icon bar
+menu and leave it again by pressing F12.
+The screen mode to use is very dependent on your computer and the machine
+emulated by Vice; therefore the mode is user-definable. The screen mode is
+described by a string of the form ``mode:resx,resy,lddepth'' (no spaces;
+lddepth is log2 of the depth, i.e. 2 for 4bpp, 3 for 8bpp, 4 for 16bpp, ...),
+to accomodate both new and old style mode selection. If you're running
+Vice on a RiscPC the second part of the mode descriptor string (resx,resy,lddepth)
+will be used, otherwise it's the mode number. By default ``28:640,480,3''
+is used because it's a standard mode and big enough to display all emulators;
+but it's certainly not ideal for all emulators, so have a play yourself.
+Also, if ``SetPalette'' is configured on, the screen mode has <= 8bpp and
+can display enough colours for the emulated machine, the palette will be
+reprogrammed, so when using a 4bpp mode with !Vice64 you'll get exact colours.
+Depth issues: internally Vice uses 8bpp for the display. On older machines
+it'll be more efficient to use an 8bpp mode because it minimizes computational
+overhead. On a StrongARM RiscPC, OTOH, you'll be better off using a mode with
+less colours (e.g. 4bpp for !Vice64) because that'll require less bandwidth.
+Since the palette can be reprogrammed there's no reason whatsoever to use
+a mode with more than 8bpp unless you think Vice is running too fast.
+You can edit the full screen mode string in the system configuration window.
+As far as configurations in full screen mode go: there are none. Neither can
+you attach any images and so on, only the keyboard-shortcuts still work. And
+I definitely won't re-program all the stuff that's available in the multi-
+tasking version for the fullscreen version.
+
+
+
+
+
+Keyboard configuration files:
+-----------------------------
+
+This is a new feature (wasn't available on RISC OS in Vice 1.0.0.1 yet). It
+allows you to change the keyboard mapping from your RISC OS computer to the
+keys of the emulated machine. The files used by the Unix-Version of Vice
+are unusable for this, therefore I made a new format. The RISC OS keyboard
+mapping files have the name RO*/vkm in the corresponding machine's sub-
+directory in !ViceRsrc (e.g. !ViceRsrc.C64.ROdflt/vkm). You have to edit
+these files (it says they're for RISC OS in the first line), not the ones
+for Unix.
+Hacking these files is quite low-level and thus not for the faint-hearted.
+On the RISC OS side you have to deal with _internal_ key-numbers which
+have nothing to do with ASCII. On the emulated machine's side these keys
+have to be mapped to row/column indices (see the Vice documentation for
+keyboard layouts).
+A line of this file has the format
+
+intkey row col [s [srow scol [s]]] ["keystr"]
+
+- intkey is the internal key number.
+- row, col are the row and column of the keyboard matrix of the emulated
+  machine. Use 15 for both to disable the key.
+- if row/col are followed by an 's' this means that a pressed shift-key
+  should also be emulated (e.g. for cursor left which is shift+cursor right
+  on a real C64).
+- if this is followed by another pair of numbers these are interpreted as
+  mappings for this key if the shift key is pressed.
+- at the end of each line is an optional string-representation of this key
+  in double quotes (valid for an english keyboard).
+
+The mapping for shifted keys will probably need additional explanation:
+you DON'T have to (and shouldn't) define anything here if it's a trivial
+shifting, e.g. a+shift --> a+shift (the default keyboard mappings don't
+have any shifted mappings defined!). It should be used if the shifted key
+doesn't obey the mapping <base key> + shift --> <base key> + shift, e.g.
+mapping the asterisk (shift + '8' on an english keyboard) to the asterisk
+on a C64 (an unshifted key which is located where the ']' is on an english
+keyboard). For this example the mapping of the key '8' (internal key number
+21) for a C64 would look like this:
+
+21 3 3 6 1
+
+As a general rule of thumb: don't screw around with this file and make a
+backup copy before you do. It should also be noted that the more entries
+you define in the shifted keymap and the more 's'-flags you use the more
+likely problems arise (especially for games where a faithful mapping might
+be required). Imagine for instance a program that uses shift and '*' for
+two operations and you mapped the RISC OS '*' ( = shift + '8') to the '*'.
+You could never use both operations at the same time which can be a real
+nuisance if e.g. one of those operations is ``run'' and the other is
+``fire''. You should therefore always strife to minimize both shifted
+keymaps and 's'-flags. The default mappings don't define any shifted keymaps
+and only 3 's'-flags, for instance. Also take care that you don't use keys
+that have a special meaning for Vice, e.g. F5-F10 etc.
+It's a dirty job but at some point I had to to it... ;-).
+
+I didn't bother to make the filenames configurable; they're ROdflt/vkm
+for all emulators except for PET where they're RObusi/vkm (for business
+layout) and ROgrph/vkm (for graphic layout). Deleting these files will
+run Vice with the default keymap. You can load a keymap at run-time by
+dragging the file to the Kbd-icons in the System configuration window.
+One of these icons also opens a menu from where you can save the currently
+active keyboard mappings to a file.
+
+
+
+
+
+
+
+Misc:
+-----
+
+- When turning on true drive emulation or dealing with snapshots, sound is
+  suspended for a short time. This is not a bug, it has to be done.
+- The default sound buffer size of 0.35s is only recommended when playing
+  music. If you're doing anything interactive you should use a lower value,
+  no higher than 0.1s.
+- Attaching compressed images (disk/ROM/...) is not supported on RISC OS.
+  Well, we have image filing systems for that.
+
+
+
+
+
+
+Support Programs:
+=================
+
+c1541 and petcat are inside the !ViceRsrc directory and can be run using
+vice:c1541 / vice:petcat. For a description of both check the general Vice
+documentation. I didn't provide hacks to run either from one of the emulators,
+though.
+
+
+
+
+
+
+
+Thanks:
+=======
+
+- Richard Atterer (atterer@informatik.tu-muenchen.de) for creating a set of
+  very nice looking icons.
+
+- Stefan Bellon (sbellon@sbellon.de) for repeatedly compiling the CPU-files
+  with optimization for me back when I only had an A5000 at my disposal
+  (some of those need over 40MB).
+
+- Richard Atterer, Stefan Bellon, Michael Kübel (Kuemmel@studbox.uni-stuttgart.de)
+  and Erhard Furtner (Erhard.Furtner@sbg.ac.at) for beta-testing.
+
+
+
+
+
+
+Ported by:
+==========
+
+Andreas Dehmel
+zarquon@t-online.de
+http://www.zarquon.homepage.t-online.de

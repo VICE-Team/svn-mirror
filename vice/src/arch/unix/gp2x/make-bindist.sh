@@ -35,6 +35,7 @@ rm `find vice-gp2x-$2 -name "beos_*.vkm"`
 rm `find vice-gp2x-$2 -name "dos_*.vkm"`
 rm `find vice-gp2x-$2 -name "os2*.vkm"`
 rm `find vice-gp2x-$2 -name "win_*.vkm"`
+rm `find vice-gp2x-$2 -name "RO*.vkm"`
 if test x"$3" = "xzip"; then
   if test x"$ZIP" = "x"; then
     zip -r -9 -q vice-gp2x-$2.zip vice-gp2x-$2

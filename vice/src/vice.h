@@ -100,8 +100,10 @@ int yyparse (void);
 #endif
 
 #if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+#ifndef __cplusplus
 #undef inline
 #define inline
+#endif
 #endif
 
 #endif

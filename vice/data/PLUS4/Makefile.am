@@ -14,6 +14,7 @@ plus4_DATA = \
 	dos_sym.vkm \
 	kernal \
 	os2.vkm \
+	ROdflt.vkm \
 	vice.vpl \
 	win_sym.vkm \
 	win_pos.vkm \

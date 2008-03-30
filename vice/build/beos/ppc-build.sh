@@ -12,6 +12,6 @@ fi
 
 curdir=`pwd`
 
-CC=mwccppc CXX=mwccppc RANLIB=true STRIP=true AR="/bin/sh $curdir/src/arch/beos/ppc-ar.sh" CFLAGS="-inclpaths nosys"LDFLAGS="-L/boot/develop/lib/ppc /boot/develop/lib/ppc/glue-noinit.a /boot/develop/lib/ppc/init_term_dyn.o /boot/develop/lib/ppc/start_dyn.o -lbe -lroot" ./configure --host=ppc-beos
+CC=mwccppc CXX=mwccppc RANLIB=true STRIP=true AR="/bin/sh $curdir/src/arch/beos/ppc-ar.sh" CFLAGS="-inclpaths nosys "LDFLAGS="-L/boot/develop/lib/ppc /boot/develop/lib/ppc/glue-noinit.a /boot/develop/lib/ppc/init_term_dyn.o /boot/develop/lib/ppc/start_dyn.o -lbe -lroot" ./configure --host=ppc-beos
 make
 make bindist
