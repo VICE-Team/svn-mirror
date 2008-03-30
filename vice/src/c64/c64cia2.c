@@ -205,9 +205,9 @@ static inline BYTE read_ciapa(void)
 	return ((cia[CIA_PRA] | ~cia[CIA_DDRA]) & 0x3f) |
 	    (iec_info->iec_fast_1541 & 0x30) << 2;
     if (drive[0].enable)
-	drive0_cpu_execute();
+	drive0_cpu_execute(clk);
     if (drive[1].enable)
-	drive1_cpu_execute();
+	drive1_cpu_execute(clk);
     byte = ( (cia[CIA_PRA] | ~cia[CIA_DDRA]) & 0x3f) | iec_info->cpu_port;
     return byte;
 }
@@ -234,9 +234,9 @@ static inline BYTE read_ciapb(void)
 static inline void read_ciaicr(void)
 {
     if (drive[0].parallel_cable_enabled)
-        drive0_cpu_execute();
+        drive0_cpu_execute(clk);
     if (drive[1].parallel_cable_enabled)
-        drive1_cpu_execute();
+        drive1_cpu_execute(clk);
 }
 
 static inline void store_sdr(BYTE byte) {}

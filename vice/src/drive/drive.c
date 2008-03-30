@@ -582,8 +582,7 @@ static int drive_write_image_snapshot_module(snapshot_t *s, int dnr);
 static int drive_read_image_snapshot_module(snapshot_t *s, int dnr);
 static int drive_write_rom_snapshot_module(snapshot_t *s, int dnr);
 static int drive_read_rom_snapshot_module(snapshot_t *s, int dnr);
-static void drive0_clk_overflow_callback(CLOCK sub, void *data);
-static void drive1_clk_overflow_callback(CLOCK sub, void *data);
+static void drive_clk_overflow_callback(CLOCK sub, void *data);
 
 /* ------------------------------------------------------------------------- */
 
@@ -1006,10 +1005,10 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
     drive_setup_rom_image(0);
     drive_setup_rom_image(1);
 
-    clk_guard_add_callback(&drive0_clk_guard, drive0_clk_overflow_callback,
-                           NULL);
-    clk_guard_add_callback(&drive1_clk_guard, drive1_clk_overflow_callback,
-                           NULL);
+    clk_guard_add_callback(&drive0_clk_guard, drive_clk_overflow_callback,
+                           (void *) 0);
+    clk_guard_add_callback(&drive1_clk_guard, drive_clk_overflow_callback,
+                           (void *) 1);
 
     for (i = 0; i < 2; i++) {
         drive[i].byte_ready = 1;
@@ -1543,45 +1542,65 @@ static void initialize_rotation_table(int freq, int dnr)
     }
 }
 /* ------------------------------------------------------------------------- */
+
 /* Clock overflow handing.  */
 
-/* This prevents the CLOCK counters `rotation_last_clk', `attach_clk'
-   and `detach_clk' from overflowing.  */
-void drive_prevent_clk_overflow(CLOCK sub, int dnr)
+static void drive_clk_overflow_callback(CLOCK sub, void *data)
 {
-    if (dnr == 0)
-        sub = drive0_cpu_prevent_clk_overflow(sub);
-    if (dnr == 1)
-        sub = drive1_cpu_prevent_clk_overflow(sub);
+    unsigned int drive_num;
+    drive_t *d;
+
+    puts("drive_clk_overflow_callback");
+
+    drive_num = (unsigned int) data;
+    d = &drive[drive_num];
+
+    if (d->byte_ready_active == 0x06)
+        drive_rotate_disk(&drive[drive_num]);
+    d->rotation_last_clk -= sub;
+    if (d->attach_clk > (CLOCK) 0)
+        d->attach_clk -= sub;
+    if (d->detach_clk > (CLOCK) 0)
+        d->detach_clk -= sub;
+    if (d->attach_detach_clk > (CLOCK) 0)
+        d->attach_detach_clk -= sub;
+
+    /* FIXME: Having to do this by hand sucks *big time*!  These should be in
+       `drive_t'.  */
+    switch (drive_num) {
+      case 0:
+        alarm_context_time_warp(&drive0_alarm_context, sub, -1);
+        cpu_int_status_time_warp(&drive0_int_status, sub, -1);
+        break;
+      case 1:
+        alarm_context_time_warp(&drive1_alarm_context, sub, -1);
+        cpu_int_status_time_warp(&drive1_int_status, sub, -1);
+        break;
+      default:
+        log_error(drive_log,
+                  "Unexpected drive number %d in drive_clk_overflow_callback",
+                  drive_num);
+    }
 }
 
-static void drive0_clk_overflow_callback(CLOCK sub, void *data)
+CLOCK drive_prevent_clk_overflow(CLOCK sub, int dnr)
 {
-    if (drive[0].byte_ready_active == 0x06)
-        drive_rotate_disk(&drive[0]);
-    drive[0].rotation_last_clk -= sub;
-    if (drive[0].attach_clk > (CLOCK) 0)
-        drive[0].attach_clk -= sub;
-    if (drive[0].detach_clk > (CLOCK) 0)
-        drive[0].detach_clk -= sub;
-    if (drive[0].attach_detach_clk > (CLOCK) 0)
-        drive[0].attach_detach_clk -= sub;
-}
-
-static void drive1_clk_overflow_callback(CLOCK sub, void *data)
-{
-    if (drive[1].byte_ready_active == 0x06)
-        drive_rotate_disk(&drive[1]);
-    drive[1].rotation_last_clk -= sub;
-    if (drive[1].attach_clk > (CLOCK) 0)
-        drive[1].attach_clk -= sub;
-    if (drive[1].detach_clk > (CLOCK) 0)
-        drive[1].detach_clk -= sub;
-    if (drive[1].attach_detach_clk > (CLOCK) 0)
-        drive[1].attach_detach_clk -= sub;
+    /* FIXME: Having to do this by hand sucks *big time*!  */
+    switch (dnr) {
+      case 0:
+        return drive0_cpu_prevent_clk_overflow(sub);
+      case 1:
+        return drive1_cpu_prevent_clk_overflow(sub);
+      default:
+        log_error(drive_log,
+                  "Unexpected drive number %d in `drive_prevent_clk_overflow()'\n",
+                  dnr);
+        return 0;
+    }
 }
 
 /*-------------------------------------------------------------------------- */
+
 /* The following functions are time critical.  */
 
 /* Rotate the disk according to the current value of `drive_clk[]'.  If
@@ -1599,7 +1618,7 @@ void drive_rotate_disk(drive_t *dptr)
     while (delta > 0) {
         if (delta >= ROTATION_TABLE_SIZE) {
             struct _rotation_table *p = (dptr->rotation_table_ptr
-                                             + ROTATION_TABLE_SIZE - 1);
+                                         + ROTATION_TABLE_SIZE - 1);
             new_bits += p->bits;
             dptr->accum += p->accum;
             delta -= ROTATION_TABLE_SIZE - 1;
@@ -1629,13 +1648,13 @@ void drive_rotate_disk(drive_t *dptr)
 		    dptr->GCR_track_start_ptr[dptr->GCR_head_offset]
 		        = dptr->GCR_write_value;
 		    dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1) %
-                                       dptr->GCR_current_track_size);
+                                             dptr->GCR_current_track_size);
 		    dptr->bits_moved -= 8;
 		}
 	    } else {		/* read */
 		if (dptr->bits_moved >= 8) {
 		    dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1) %
-                                       dptr->GCR_current_track_size);
+                                             dptr->GCR_current_track_size);
 		    dptr->bits_moved -= 8;
 		    dptr->GCR_read = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
 		}
@@ -1651,20 +1670,20 @@ void drive_rotate_disk(drive_t *dptr)
 		dptr->GCR_track_start_ptr[dptr->GCR_head_offset]
 		    = dptr->GCR_write_value;
 		dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1)
-                                   % dptr->GCR_current_track_size);
+                                         % dptr->GCR_current_track_size);
 		dptr->bits_moved -= 8;
 	    }
 	} else {		/* read */
 	    dptr->GCR_head_offset = ((dptr->GCR_head_offset
-	                                   + dptr->bits_moved / 8)
-			       % dptr->GCR_current_track_size);
+                                      + dptr->bits_moved / 8)
+                                     % dptr->GCR_current_track_size);
 	    dptr->bits_moved %= 8;
 	    dptr->GCR_read = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
 	}
 
-    dptr->shifter = dptr->bits_moved;
+        dptr->shifter = dptr->bits_moved;
 
-    /* The byte ready line is only set when no sync is found.  */
+        /* The byte ready line is only set when no sync is found.  */
 	if (drive_sync_found(dptr))
 	    dptr->byte_ready = 1;
     } /* if (dptr->shifter >= 8) */
@@ -2022,12 +2041,12 @@ static void drive_extend_disk_image(int dnr)
     }
 }
 
-void drive_cpu_execute(void)
+void drive_cpu_execute(CLOCK clk_value)
 {
     if (drive[0].enable)
-        drive0_cpu_execute();
+        drive0_cpu_execute(clk_value);
     if (drive[1].enable)
-        drive1_cpu_execute();
+        drive1_cpu_execute(clk_value);
 }
 
 int drive_match_bus(int drive_type, int bus_map)
@@ -2124,9 +2143,9 @@ void drive_vsync_hook(void)
 {
     drive_update_ui_status();
     if (drive[0].idling_method != DRIVE_IDLE_SKIP_CYCLES && drive[0].enable)
-        drive0_cpu_execute();
+        drive0_cpu_execute(clk);
     if (drive[1].idling_method != DRIVE_IDLE_SKIP_CYCLES && drive[1].enable)
-        drive1_cpu_execute();
+        drive1_cpu_execute(clk);
     wd1770_vsync_hook();
 }
 

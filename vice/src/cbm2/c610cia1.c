@@ -139,10 +139,11 @@ static inline void store_ciapb(CLOCK rclk, BYTE byte)
 static inline BYTE read_ciapa(void)
 {
     BYTE byte;
+
     if (drive[0].enable)
-        drive0_cpu_execute();
+        drive0_cpu_execute(clk);
     if (drive[1].enable)
-        drive1_cpu_execute();
+        drive1_cpu_execute(clk);
 
     /* this reads the 8 bit IEEE488 data bus, but joystick 1 and 2 buttons
        can pull down inputs pa6 and pa7 resp. */

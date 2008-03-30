@@ -379,24 +379,6 @@ static void vsync_hook(void)
 
     sub = clk_guard_prevent_overflow(&maincpu_clk_guard);
 
-#if 0
-    /* We have to make sure the number of cycles subtracted is multiple of
-       `C64_PAL_CYCLES_PER_RFSH' here, or the VIC-II emulation could go
-       nuts.  */
-    sub = maincpu_prevent_clk_overflow(C64_PAL_CYCLES_PER_RFSH);
-    if (sub > 0) {
-        vic_ii_prevent_clk_overflow(sub);
-#ifdef HAVE_RS232
-	acia1_prevent_clk_overflow(sub);
-        rsuser_prevent_clk_overflow(sub);
-#endif
-        cia1_prevent_clk_overflow(sub);
-        cia2_prevent_clk_overflow(sub);
-        sound_prevent_clk_overflow(sub);
-        vsync_prevent_clk_overflow(sub);
-    }
-#endif
-
     /* The 1541 has to deal both with our overflowing and its own one, so it
        is called even when there is no overflowing in the main CPU.  */
     /* FIXME: Do we have to check drive_enabled here?  */
@@ -433,7 +415,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         return -1;
 
     /* Execute drive CPUs to get in sync with the main CPU.  */
-    drive_cpu_execute();
+    drive_cpu_execute(clk);
 
     if (maincpu_write_snapshot_module(s) < 0
         || mem_write_snapshot_module(s, save_roms) < 0

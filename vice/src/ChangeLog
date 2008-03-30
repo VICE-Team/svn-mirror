@@ -1,3 +1,67 @@
+1999-04-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 0.16.1.54.
+
+	* drive/drivecpucore (mydrive_cpu_init): Removed alarm
+	initialization as this is already done in
+	`mydrive_cpu_early_init'.
+
+1998-04-05  André Fachat  <a.fachat@physik.tu-chemnitz.de>
+
+	* ciatimer.h (ciat_reset): remove timer alarm on reset.
+
+1999-04-05  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/unix/print.c (set_devbaud): `#if 0'ed out.
+
+1999-04-04  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* drive/drive.c (drive_vsync_hook): Pass `clk' as the parameter
+	for the `driveX_cpu_execute()' functions.
+	* c64/c64.c (machine_write_snapshot): Likewise.
+	* c64/c64cia2.c (read_ciapa): Likewise.
+	(read_ciaicr): Likewise.
+	* c64/c64iec.c (iec_cpu_write_conf1): Likewise.
+	(iec_cpu_write_conf2): Likewise.
+	(iec_cpu_write_conf3): Likewise.
+	(iec_cpu_read): Likewise.
+	(parallel_cable_cpu_write): Likewise.
+	(parallel_cable_cpu_read): Likewise.
+	(parallel_cable_cpu_pulse): Likewise.
+	* c64/c64tpi.c (read_tpi): Likewise.
+	* cbm2/c610tpi1.def (READ_PA): Likewise.
+	* cbm2/c610cia1.c (read_ciapa): Likewise.
+	* pet/petvia.c (read_prb): Likewise.
+	* pet/petpia2.c (read_pia2): Likewise.
+	* pet/petpia1.c (read_pia1): Likewise.
+	* vic20/vic20iec.c (iec_pa_read): Likewise.
+	(iec_pa_write): Likewise.
+	(iec_pcr_write): Likewise.
+	* c128/c128iec.c (iec_cpu_write_conf1): Likewise.
+	(iec_cpu_write_conf2): Likewise.
+	(iec_cpu_write_conf3): Likewise.
+	(iec_cpu_read): Likewise.
+	(iec_fast_cpu_write): Likewise.
+	(parallel_cable_cpu_write): Likewise.
+	(parallel_cable_cpu_pulse): Likewise.
+	(parallel_cable_cpu_read): Likewise.
+	* c128/c128cia1.c (read_ciaicr): Likewise.
+
+	* drive/drivecpucore.c (mydrive_cpu_execute): New parameter
+	`clk_value'.  Use it instead of `clk'.
+	* drive/drive.c (drive_cpu_execute): Likewise.
+
+	* drive/drive.c (drive0_clk_overflow_callback): Removed.
+	(drive1_clk_overflow_callback): Removed.
+	(drive_clk_overflow_callback): New function.  Operates on drive 1
+	or on drive 0 according to the passed `data' parameter.  Moreover,
+	it properly warps time in the alarm context and CPU int status.
+	(drive_init): Updated to use `drive_clk_overflow_callback()' with
+	different callback data instead of `drive0_clk_overflow_callback()'
+	and `drive1_clk_overflow_callback()'.
+	(drive_prevent_clk_overflow): Return the number of cycles
+	subtracted.
+
 1999-04-04  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 0.16.1.53.

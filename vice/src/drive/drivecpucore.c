@@ -367,8 +367,6 @@ void mydrive_cpu_early_init(void)
 
 void mydrive_cpu_init(int type)
 {
-    alarm_context_init(&mydrive_alarm_context, IDENTIFICATION_STRING);
-
     myvia1_init();
     myvia2_init();
     mycia1571_init();
@@ -399,29 +397,25 @@ inline void mydrive_cpu_sleep(void)
    have been decremented to prevent overflow.  */
 CLOCK mydrive_cpu_prevent_clk_overflow(CLOCK sub)
 {
-    /* First, get in sync with what the main CPU has done.  */
-    last_clk -= sub;
+    if (sub != 0) {
+        printf("drive%d_cpu_prevent_clk_overflow last_clk %u\n",
+               mynumber, last_clk);
+
+        /* First, get in sync with what the main CPU has done.  Notice that
+           `clk' has already been decremented at this point.  */
+        if (drive[mynumber].enable) {
+            if (last_clk < sub) {
+                /* Hm, this is kludgy.  :-(  */
+                mydrive_cpu_execute(clk + sub);
+            }
+            last_clk -= sub;
+        } else {
+            last_clk = clk;
+        }
+    }
 
     /* Then, check our own clock counters.  */
     return clk_guard_prevent_overflow(&mydrive_clk_guard);
-
-#if 0
-    /* Then, check our own clock counters, and subtract from them if they are
-       going to overflow.  The `baseval' is 1 because we don't need the
-       number of cycles subtracted to be multiple of a particular value
-       (unlike the main CPU).  */
-    our_sub = prevent_clk_overflow(&mydrive_int_status, &drive_clk[mynumber], 1);
-    if (our_sub > 0) {
-	myvia1_prevent_clk_overflow(sub);
-	myvia2_prevent_clk_overflow(sub);
-	mycia1571_prevent_clk_overflow(sub);
-	mycia1581_prevent_clk_overflow(sub);
-	mywd1770_prevent_clk_overflow(sub);
-    }
-
-    /* Let the caller know what we have done.  */
-    return our_sub;
-#endif
 }
 
 /* Handle a ROM trap. */
@@ -432,6 +426,7 @@ inline static int drive_trap_handler(void)
         MOS6510_REGS_SET_PC(&drive_cpu_regs, 0xebff);
         if (drive[mynumber].idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
+
             next_clk = alarm_context_next_pending_clk(&mydrive_alarm_context);
             drive_clk[mynumber] = next_clk;
         }
@@ -450,7 +445,7 @@ inline static int drive_trap_handler(void)
 
 /* Execute up to the current main CPU clock value.  This automatically
    calculates the corresponding number of clock ticks in the drive.  */
-void mydrive_cpu_execute(void)
+void mydrive_cpu_execute(CLOCK clk_value)
 {
     CLOCK cycles;
 
@@ -469,13 +464,14 @@ void mydrive_cpu_execute(void)
 
     mydrive_cpu_wake_up();
 
-    if (clk > last_clk)
-        cycles = clk - last_clk;
+    if (clk_value > last_clk)
+        cycles = clk_value - last_clk;
     else
         cycles = 0;
 
     while (cycles > 0) {
         CLOCK stop_clk;
+
 	if (cycles > MAX_TICKS) {
 	    stop_clk = (drive_clk[mynumber] + clk_conv_table[MAX_TICKS]
 			- last_exc_cycles);
@@ -501,7 +497,7 @@ void mydrive_cpu_execute(void)
 		fprintf(drive[mynumber].log,
                         "Executing from I/O area at $%04X: "
                         "$%02X $%02X $%04X at clk %ld\n",
-                        reg_pc, p0, p1, p2, clk);
+                        reg_pc, p0, p1, p2, clk_value);
 #endif
 
 /* Include the 6502/6510 CPU emulation core.  */
@@ -533,10 +529,11 @@ void mydrive_cpu_execute(void)
 #include "6510core.c"
 
         }
-    last_exc_cycles = drive_clk[mynumber] - stop_clk;
+
+        last_exc_cycles = drive_clk[mynumber] - stop_clk;
     }
 
-    last_clk = clk;
+    last_clk = clk_value;
     mydrive_cpu_sleep();
 }
 

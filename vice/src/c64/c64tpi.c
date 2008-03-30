@@ -303,15 +303,16 @@ void store_tpi ( ADDRESS addr, BYTE byte ) {
 	tpi[addr] = byte;
 }
 
-BYTE read_tpi ( ADDRESS addr ) {
+BYTE read_tpi(ADDRESS addr)
+{
 	BYTE byte = 0xff;
     	switch ( addr ) {
 	case TPI_PA:
 
         if (drive[0].enable)
-            drive0_cpu_execute();
+            drive0_cpu_execute(clk);
         if (drive[1].enable)
-            drive1_cpu_execute();
+            drive1_cpu_execute(clk);
 
 	byte = 0xff;
 	if (ieee_is_out) {
@@ -338,9 +339,9 @@ BYTE read_tpi ( ADDRESS addr ) {
 	case TPI_PB:
 
         if (drive[0].enable)
-            drive0_cpu_execute();
+            drive0_cpu_execute(clk);
         if (drive[1].enable)
-            drive1_cpu_execute();
+            drive1_cpu_execute(clk);
 
 	byte = ieee_is_out ? 0xff : parallel_bus;
 	byte = (byte & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);

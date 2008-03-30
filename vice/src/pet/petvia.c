@@ -204,10 +204,11 @@ inline static BYTE read_pra(ADDRESS addr)
 inline static BYTE read_prb(void)
 {
     BYTE byte;
+
     if (drive[0].enable)
-        drive0_cpu_execute();
+        drive0_cpu_execute(clk);
     if (drive[1].enable)
-        drive1_cpu_execute();
+        drive1_cpu_execute(clk);
 
     /* read parallel IEC interface line states */
     byte = 255 

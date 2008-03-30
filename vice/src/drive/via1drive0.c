@@ -262,10 +262,6 @@ inline static BYTE read_pra(ADDRESS addr)
             | (via1d0[VIA_PRA] & via1d0[VIA_DDRA]);
     }
     if (drive[0].type == DRIVE_TYPE_2031) {
-/*
-        if (drive[1].enable)
-            drive1_cpu_execute();
-*/
         if (parallel_debug) {
             printf("read_pra(is_out=%d, parallel_bus=%02x, ddra=%02x\n",
                    parieee_is_out, parallel_bus, via1d0[VIA_DDRA]);
@@ -289,10 +285,6 @@ inline static BYTE read_prb(void)
 	byte = ((via1d0[VIA_PRB] & 0x1a) | iec_info->drive_port) ^ 0x85;
     } else {
         if (drive[0].type == DRIVE_TYPE_2031) {
-/*
-           if (drive[1].enable)
-               drive1_cpu_execute();
-*/
            byte = 0xff;
            if (parieee_is_out) {
                /* talk enable */

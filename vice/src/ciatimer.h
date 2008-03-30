@@ -369,6 +369,8 @@ _CIAT_FUNC void ciat_reset(ciat_t *state, CLOCK cclk)
     state->latch = 0xffff;
     state->state = 0;
 
+    alarm_unset(state->alarm);
+
     CIAT_LOGOUT((""));
 }
 

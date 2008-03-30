@@ -184,9 +184,9 @@ static inline BYTE read_ciapb(void)
 static inline void read_ciaicr(void)
 {
     if (drive[0].enable)
-        drive0_cpu_execute();
+        drive0_cpu_execute(clk);
     if (drive[1].enable)
-        drive1_cpu_execute();
+        drive1_cpu_execute(clk);
 }
 
 #include "ciacore.c"

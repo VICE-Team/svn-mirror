@@ -100,7 +100,7 @@ void iec_cpu_write_conf0(BYTE data)
 /* Only the first drive is enabled.  */
 void iec_cpu_write_conf1(BYTE data)
 {
-    drive0_cpu_execute();
+    drive0_cpu_execute(clk);
 
     iec_info.cpu_bus = (((data << 2) & 0x80)
                         | ((data << 2) & 0x40)
@@ -135,7 +135,7 @@ void iec_cpu_write_conf1(BYTE data)
 /* Only the second drive is enabled.  */
 void iec_cpu_write_conf2(BYTE data)
 {
-    drive1_cpu_execute();
+    drive1_cpu_execute(clk);
 
     iec_info.cpu_bus = (((data << 2) & 0x80)
                         | ((data << 2) & 0x40)
@@ -169,8 +169,8 @@ void iec_cpu_write_conf2(BYTE data)
 /* Both drive are enabled.  */
 void iec_cpu_write_conf3(BYTE data)
 {
-    drive0_cpu_execute();
-    drive1_cpu_execute();
+    drive0_cpu_execute(clk);
+    drive1_cpu_execute(clk);
 
     iec_info.cpu_bus = (((data << 2) & 0x80)
                         | ((data << 2) & 0x40)
@@ -234,9 +234,9 @@ BYTE iec_cpu_read(void)
 	return (iec_info.iec_fast_1541 & 0x30) << 2;
 
     if (drive[0].enable)
-	drive0_cpu_execute();
+	drive0_cpu_execute(clk);
     if (drive[1].enable)
-	drive1_cpu_execute();
+	drive1_cpu_execute(clk);
     return iec_info.cpu_port;
 }
 
@@ -278,9 +278,9 @@ void parallel_cable_cpu_write(BYTE data)
         return;
 
     if (drive[0].enable)
-	drive0_cpu_execute();
+	drive0_cpu_execute(clk);
     if (drive[1].enable)
-	drive1_cpu_execute();
+	drive1_cpu_execute(clk);
 
     parallel_cable_cpu_value = data;
 }
@@ -291,9 +291,9 @@ BYTE parallel_cable_cpu_read(void)
         return 0;
 
     if (drive[0].enable)
-    drive0_cpu_execute();
+    drive0_cpu_execute(clk);
     if (drive[1].enable)
-    drive1_cpu_execute();
+    drive1_cpu_execute(clk);
     return parallel_cable_cpu_value & parallel_cable_drive0_value
         & parallel_cable_drive1_value;
 }
@@ -304,9 +304,9 @@ void parallel_cable_cpu_pulse(void)
         return;
 
     if (drive[0].enable)
-	drive0_cpu_execute();
+	drive0_cpu_execute(clk);
     if (drive[1].enable)
-	drive1_cpu_execute();
+	drive1_cpu_execute(clk);
 
     via1d0_signal(VIA_SIG_CB1, VIA_SIG_FALL);
     via1d1_signal(VIA_SIG_CB1, VIA_SIG_FALL);

@@ -292,9 +292,9 @@ BYTE REGPARM1 read_pia2(ADDRESS addr)
 	       from what is expected due to excessive load. */
 
 	    if (drive[0].enable)
-	        drive0_cpu_execute();
+	        drive0_cpu_execute(clk);
 	    if (drive[1].enable)
-	        drive1_cpu_execute();
+	        drive1_cpu_execute(clk);
 
 	    if (parallel_debug)
 		log_message(pia2_log,

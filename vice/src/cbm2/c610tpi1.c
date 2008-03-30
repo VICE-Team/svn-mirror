@@ -299,9 +299,9 @@ BYTE read_tpi1 ( ADDRESS addr ) {
 	case TPI_PA:
 
 	        if (drive[0].enable)
-	            drive0_cpu_execute();
+	            drive0_cpu_execute(clk);
 	        if (drive[1].enable)
-	            drive1_cpu_execute();
+	            drive1_cpu_execute(clk);
 
 		byte = 0x07;
                 byte += parallel_atn ? 0 : 8;

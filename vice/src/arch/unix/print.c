@@ -53,7 +53,7 @@
 #define	NUM_DEVICES	3
 
 static char *devfile[NUM_DEVICES];
-static int devbaud[NUM_DEVICES];
+/*  static int devbaud[NUM_DEVICES]; */
 
 static int set_devfile(char *v, int dev)
 {
@@ -67,11 +67,13 @@ static int set_devfile(char *v, int dev)
     return 0;
 }
 
+#if 0
 static int set_devbaud(int v, int dev)
 {
     devbaud[dev] = v;
     return 0;
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 
