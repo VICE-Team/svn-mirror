@@ -394,16 +394,23 @@ static inline void pla_config_changed(void)
                   | (export.game << 4));
 
     /* Bit 4: tape sense.  0 = some button pressed, 1 = no buttons pressed.  */
-    if (tape_sense)
-        /* FIXME: When some button is pressed and bit #4 is output and `1'
-           is written to this bit, what do we read?  The `1' from the output
-           or the `0' from the cassette logic.  This is no CIA, so the
-           external `0' may not win!  Only a test with a real C64 can tell.  */
-        ram[1] = ((pport.data | ~pport.dir) & 0x2f) 
-                 | (pport.data & pport.dir & 0xc0);
-    else
-        ram[1] = ((pport.data | ~pport.dir) & 0x3f)
-                 | (pport.data & pport.dir & 0xc0);
+    {
+        BYTE byte, pull, push;
+
+        /* FIXME: does tape_sense belong to push or to pull or to byte...? */
+
+        /* lines as read if input */
+        byte = pport.data & 0x3f;
+
+        /* lines read as 0 even if set to output a "1" */
+        pull = 0x08;
+
+        /* lines read as 1 even if set to output a "0" */
+        push = tape_sense ? 0 : 0x10;
+
+        ram[1] = (((pport.dir & pport.data) | ((~pport.dir) & byte) | push)
+                  & ~pull);
+    }
 
     ram[0] = pport.dir;
 

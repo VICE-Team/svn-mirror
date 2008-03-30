@@ -117,9 +117,9 @@
  * the inline functions 
  */
 
-static void my_set_tbi_clk(CLOCK clk);
+static void my_set_tbi_clk(CLOCK tbi_clk);
 static void my_unset_tbi(void);
-static void my_set_tai_clk(CLOCK clk);
+static void my_set_tai_clk(CLOCK tai_clk);
 static void my_unset_tai(void);
 
 #define	cia1581d1ier	cia1581d1[CIA_ICR]
@@ -242,10 +242,10 @@ static inline void my_set_int(int value, CLOCK rclk)
 
 #if CIA1581D1_USE_INLINE
 
-static inline void my_set_tai_clk(CLOCK clk) 
+static inline void my_set_tai_clk(CLOCK tai_clk) 
 {
-    cia1581d1_tai = clk;
-    drive1_set_alarm_clk(A_CIA1581D1TA, clk);
+    cia1581d1_tai = tai_clk;
+    drive1_set_alarm_clk(A_CIA1581D1TA, tai_clk);
 }
 
 static inline void my_unset_tai(void) 
@@ -254,10 +254,10 @@ static inline void my_unset_tai(void)
     drive1_unset_alarm(A_CIA1581D1TA);					\
 }
 
-static inline void my_set_tbi_clk(CLOCK clk) 
+static inline void my_set_tbi_clk(CLOCK tbi_clk) 
 {
-    cia1581d1_tbi = clk;
-    drive1_set_alarm_clk(A_CIA1581D1TB, clk);
+    cia1581d1_tbi = tbi_clk;
+    drive1_set_alarm_clk(A_CIA1581D1TB, tbi_clk);
 }
 
 static inline void my_unset_tbi(void)
@@ -292,10 +292,10 @@ static inline void update_tbi(CLOCK rclk)
 
 #else /* CIA1581D1_USE_INLINE */
 
-#define	my_set_tai_clk(clk) 						\
+#define	my_set_tai_clk(tai_clk) 					\
     do {								\
-	cia1581d1_tai = clk;						\
-	drive1_set_alarm_clk(A_CIA1581D1TA, clk);				\
+	cia1581d1_tai = tai_clk;						\
+	drive1_set_alarm_clk(A_CIA1581D1TA, tai_clk);			\
     } while(0)
 
 #define	my_unset_tai() 							\
@@ -304,10 +304,10 @@ static inline void update_tbi(CLOCK rclk)
 	drive1_unset_alarm(A_CIA1581D1TA);					\
     } while(0)
 
-#define	my_set_tbi_clk(clk) 						\
+#define	my_set_tbi_clk(tbi_clk) 					\
     do {								\
-	cia1581d1_tbi = clk;						\
-	drive1_set_alarm_clk(A_CIA1581D1TB, clk);				\
+	cia1581d1_tbi = tbi_clk;						\
+	drive1_set_alarm_clk(A_CIA1581D1TB, tbi_clk);			\
     } while(0)
 
 #define	my_unset_tbi() 							\

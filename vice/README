@@ -1,5 +1,5 @@
 
-  VICE  1.0     						December 1998
+  VICE  0.16    						December 1998
 
 
 		 _______________
@@ -19,7 +19,7 @@
  ----------------------------------------------------------------------------
 
 
- This is version 1.0 of VICE, the multi-platform PET/VIC20/C64/C128
+ This is version 0.16 of VICE, the multi-platform PET/VIC20/C64/C128
  emulator.  This version can be compiled both for MS-DOS and for most
  Unix system provided with the X Window System version 11, R5 or
  later.
@@ -28,7 +28,7 @@
 
    - x64, a C64 emulator;
 
-   - x128, a C128 emulator;  (NEW!)
+   - x128, a C128 emulator;
 
    - xvic, a VIC20 emulator;
 

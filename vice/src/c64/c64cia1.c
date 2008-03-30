@@ -122,9 +122,9 @@
  * the inline functions 
  */
 
-static void my_set_tbi_clk(CLOCK clk);
+static void my_set_tbi_clk(CLOCK tbi_clk);
 static void my_unset_tbi(void);
-static void my_set_tai_clk(CLOCK clk);
+static void my_set_tai_clk(CLOCK tai_clk);
 static void my_unset_tai(void);
 
 #define	cia1ier	cia1[CIA_ICR]
@@ -247,10 +247,10 @@ static inline void my_set_int(int value, CLOCK rclk)
 
 #if CIA1_USE_INLINE
 
-static inline void my_set_tai_clk(CLOCK clk) 
+static inline void my_set_tai_clk(CLOCK tai_clk) 
 {
-    cia1_tai = clk;
-    maincpu_set_alarm_clk(A_CIA1TA, clk);
+    cia1_tai = tai_clk;
+    maincpu_set_alarm_clk(A_CIA1TA, tai_clk);
 }
 
 static inline void my_unset_tai(void) 
@@ -259,10 +259,10 @@ static inline void my_unset_tai(void)
     maincpu_unset_alarm(A_CIA1TA);					\
 }
 
-static inline void my_set_tbi_clk(CLOCK clk) 
+static inline void my_set_tbi_clk(CLOCK tbi_clk) 
 {
-    cia1_tbi = clk;
-    maincpu_set_alarm_clk(A_CIA1TB, clk);
+    cia1_tbi = tbi_clk;
+    maincpu_set_alarm_clk(A_CIA1TB, tbi_clk);
 }
 
 static inline void my_unset_tbi(void)
@@ -297,10 +297,10 @@ static inline void update_tbi(CLOCK rclk)
 
 #else /* CIA1_USE_INLINE */
 
-#define	my_set_tai_clk(clk) 						\
+#define	my_set_tai_clk(tai_clk) 					\
     do {								\
-	cia1_tai = clk;						\
-	maincpu_set_alarm_clk(A_CIA1TA, clk);				\
+	cia1_tai = tai_clk;						\
+	maincpu_set_alarm_clk(A_CIA1TA, tai_clk);			\
     } while(0)
 
 #define	my_unset_tai() 							\
@@ -309,10 +309,10 @@ static inline void update_tbi(CLOCK rclk)
 	maincpu_unset_alarm(A_CIA1TA);					\
     } while(0)
 
-#define	my_set_tbi_clk(clk) 						\
+#define	my_set_tbi_clk(tbi_clk) 					\
     do {								\
-	cia1_tbi = clk;						\
-	maincpu_set_alarm_clk(A_CIA1TB, clk);				\
+	cia1_tbi = tbi_clk;						\
+	maincpu_set_alarm_clk(A_CIA1TB, tbi_clk);			\
     } while(0)
 
 #define	my_unset_tbi() 							\

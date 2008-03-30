@@ -10,25 +10,26 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
 1. What you will need
 =====================
 
-
   1.1. Unix
   ---------
 
     To compile VICE under Unix, you basically need a Unix machine
     running the X-Window system version 11 R5 or better, with the
-    standard Xt and Xaw libraries.  If you want to use joysticks under
-    Linux, you must install the proper joystick module
-    (`joystick-0.8.0.tar.gz' or more recent), which is available from
-    `sunsite.unc.edu'.  You can also use a customized
-    `joystick-0.8.0.1.tar.gz' that has support for digital joysticks
-    connected to the parallel port.  This is available from the VICE
-    home page (see the `README' file).
+    standard Xt and Xaw libraries.  R4 should work too, but hasn't
+    been tested lately.
+
+    If you want to use joysticks under Linux, you must install the
+    proper joystick module (`joystick-0.8.0.tar.gz' or more recent),
+    which is available from `sunsite.unc.edu'.  You can also use a
+    customized `joystick-0.8.0.2.tar.gz' that has support for digital
+    joysticks connected to the parallel port.  This is available from
+    the VICE home page (see the `README' file).
 
     Unlike previous (pre-0.12) versions that only worked with 8-bit
     displays, this release will work with all depths, though 8-bit is
     still highly recommended for best performance.
 
-    With version 0.15.1, VICE includes Dag Lem's reSID engine; to
+    With version 0.16.0, VICE includes Dag Lem's reSID engine; to
     compile it, you will need a C++ compiler.
 
     VICE has been compiled successfully on the following Unix systems
@@ -56,7 +57,7 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
 
       - MkLinux on Apple Macintosh, Kernel 2.0.33, X11R6.3 (no sound).
 
-    Unluckily, not all of these systems have been tested with 0.15.
+    Unluckily, not all of these systems have been tested with 0.16.
     Success/failure reports are welcome at any time.
 
     If you are compiling on a Pentium machine under Linux or FreeBSD,
@@ -71,7 +72,6 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
     (e.g. 2.5.x and older) are known to cause trouble.  In that case,
     it is a good idea to upgrade the compiler to a more recent
     version.
-
 
   1.2. MS-DOS
   -----------
@@ -88,7 +88,6 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
 
 2. Configuring and compiling
 ============================
-
 
   2.1. Compiling under Unix, for Unix or MS-DOS
   ---------------------------------------------
@@ -255,14 +254,12 @@ Unix/X-Window and MS-DOS, and this file explains how this can be done.
     This will also remove the cache of the `configure' script,
     assuring that all the tests are performed from scratch.
 
-
   2.2. Compiling under MS-DOS, for MS-DOS
   ---------------------------------------
 
     Sorry, no Makefile is currently provided for native MS-DOS
     compilation, mostly because none of us really uses MS-DOS for
     developing.  Volunteers, anyone?  :-)
-
 
   2.3. Configuring for multiple architectures
   -------------------------------------------

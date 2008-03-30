@@ -73,8 +73,8 @@
 
 #include "petpia.h"
 
-#define	max(a,b)	(((a)>(b))?(a):(b))
-#define	min(a,b)	(((a)<(b))?(a):(b))
+#define	crtc_max(a,b)	(((a)>(b))?(a):(b))
+#define	crtc_min(a,b)	(((a)<(b))?(a):(b))
 
 #define	MAX_PIXEL_WIDTH		2
 #define	MAX_PIXEL_HEIGHT	2
@@ -595,7 +595,7 @@ void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
             new_memptr_inc *= 2;
         }
 	/* catch screens to large for our text cache */
-	new_memptr_inc = min( SCREEN_MAX_TEXTCOLS, new_memptr_inc );
+	new_memptr_inc = crtc_min( SCREEN_MAX_TEXTCOLS, new_memptr_inc );
         break;
 
       case 2:			/* R02  Horizontal Sync Position */
@@ -615,7 +615,7 @@ void REGPARM2 store_crtc(ADDRESS addr, BYTE value)
         break;
 
       case 9:			/* R09  Rasters between two display lines */
-	new_screen_charheight = min(16, crtc[9] + 1);
+	new_screen_charheight = crtc_min(16, crtc[9] + 1);
 	break;
 
       case 4:			/* R04  Vertical total (character) rows */
@@ -791,7 +791,7 @@ void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols, int hwflags)
     }
     /* no *2 for hw_double_cols, as the caller should have done it.
        This num_cols flag should be gone sometime.... */
-    new_memptr_inc = min( SCREEN_MAX_TEXTCOLS, new_memptr_inc );
+    new_memptr_inc = crtc_min( SCREEN_MAX_TEXTCOLS, new_memptr_inc );
 
 #ifdef __MSDOS__
     /* FIXME: This does not have any effect until there is a gfx -> text ->
@@ -892,8 +892,8 @@ static int fill_cache(struct line_cache *l, int *xs, int *xe, int r)
 
         if (_fill_cache(l->fgdata + memptr_inc, &fake_char_data, n, 0,
                         &xs1, &xe1, r)) {
-            xs1 += memptr_inc, *xs = MIN(xs1, *xs);
-            xe1 += memptr_inc, *xe = MAX(xe1, *xe);
+            xs1 += memptr_inc, *xs = crtc_min(xs1, *xs);
+            xe1 += memptr_inc, *xe = crtc_max(xe1, *xe);
             retval = 1;
         }
     }
