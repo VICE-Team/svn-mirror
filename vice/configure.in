@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.8.34)
+AM_INIT_AUTOMAKE(vice, 1.8.35)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE)
@@ -29,7 +29,7 @@ AC_ARG_WITH(midas, [  --with-midas            use MIDAS sound system instead of 
 AC_ARG_WITH(arts, [  --with-arts             use aRts sound system])
 AC_ARG_ENABLE(sdl, [  --with-sdl              use sdl sound system])
 AC_ARG_WITH(resid, [  --without-resid         do not use the reSID engine])
-AC_ARG_ENABLE(fullscreen, [  --disable-fullscreen    disable XFree86 fullscreen detection])
+AC_ARG_ENABLE(fullscreen, [  --enable-fullscreen     enable XFree86 fullscreen detection], [ echo checking for XFree86 fullscreen requested...], [enable_fullscreen="no"; echo no explicit checking for XFree86 fullscreen requested, disabling fullscreen...])
 AC_ARG_ENABLE(gnomeui,[  --enable-gnomeui        enables gnome ui support])
 AC_ARG_ENABLE(nls,[  --disable-nls        disables national language support])
 

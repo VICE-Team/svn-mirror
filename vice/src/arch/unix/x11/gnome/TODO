@@ -18,11 +18,6 @@ Known Bugs (help is appreciated !):
   to be a problem.
 - Gnome commandline is ignored.
 - Get font from X Resource database for textwindows/CBM font preview windows.
-- Memory corruption has been observed in late 1.2.xx snapshots (never
-  released to the public). Unfortunately those problems aren't
-  reproducable now (vice-1.3.3), so if you have access to a memcheck
-  tool (purify, etc.), have time and nothing else to do, you could
-  give it a try! Feedback here is welcome!
 
 Things, which will change (don't ask when!):
 - Tape status widget (.TAP vs .t64) handling is lousy.
