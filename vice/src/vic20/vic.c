@@ -67,15 +67,15 @@
 
 vic_t vic;
 
-static void vic_exposure_handler (unsigned int width, unsigned int height);
+static void vic_exposure_handler(unsigned int width, unsigned int height);
 
-static void vic_exposure_handler (unsigned int width, unsigned int height)
+static void vic_exposure_handler(unsigned int width, unsigned int height)
 {
-  raster_resize_viewport (&vic.raster, width, height);
+  raster_resize_viewport(&vic.raster, width, height);
 
   /* FIXME: Needed?  Maybe this should be triggered by
      `raster_resize_viewport()' automatically.  */
-  raster_force_repaint (&vic.raster);
+  raster_force_repaint(&vic.raster);
 }
 
 
@@ -115,41 +115,50 @@ static void vic_set_geometry(void)
     unsigned int width, height;
 
 #ifndef VIDEO_REMOVE_2X
-    raster_set_geometry (&vic.raster,
-                         vic.screen_width, vic.screen_height,
-                         22*8, 23*8,    /* handled dynamically  */
-                         22, 23,        /* handled dynamically  */
-                         12*4, 38*2 - vic.first_displayed_line, /* handled dynamically  */
-                         1,
-                         vic.first_displayed_line,
-                         vic.last_displayed_line,
-                         vic.screen_width + VIC_SCREEN_MAX_TEXT_COLS * 8);
+    raster_set_geometry(&vic.raster,
+                        vic.screen_width, vic.screen_height,
+                        22 * 8,
+                        23 * 8,          /* handled dynamically  */
+                        22, 23,          /* handled dynamically  */
+                        /* handled dynamically  */
+                        12 * 4,
+                        38 * 2 - vic.first_displayed_line,
+                        1,
+                        vic.first_displayed_line,
+                        vic.last_displayed_line,
+                        vic.screen_width + VIC_SCREEN_MAX_TEXT_COLS * 8);
 #else /* VIDEO_REMOVE_2X */
-    raster_set_geometry (&vic.raster,
-                         vic.screen_width * VIC_PIXEL_WIDTH, vic.screen_height,
-                         22*8 * VIC_PIXEL_WIDTH, 23*8,    /* handled dynamically  */
-                         22, 23,        /* handled dynamically  */
-                         12*4 * VIC_PIXEL_WIDTH, 38*2 - vic.first_displayed_line, /* handled dynamically  */
-                         1,
-                         vic.first_displayed_line,
-                         vic.last_displayed_line,
-                         vic.screen_width + VIC_SCREEN_MAX_TEXT_COLS * 8);
+    raster_set_geometry(&vic.raster,
+                        vic.screen_width * VIC_PIXEL_WIDTH,
+                        vic.screen_height,
+                        22 * 8 * VIC_PIXEL_WIDTH,
+                        23 * 8,          /* handled dynamically  */
+                        22, 23,          /* handled dynamically  */
+                        /* handled dynamically  */
+                        12 * 4 * VIC_PIXEL_WIDTH,
+                        38 * 2 - vic.first_displayed_line,
+                        1,
+                        vic.first_displayed_line,
+                        vic.last_displayed_line,
+                        vic.screen_width + VIC_SCREEN_MAX_TEXT_COLS * 8);
 #endif /* VIDEO_REMOVE_2X */
 
     width = vic.display_width * VIC_PIXEL_WIDTH;
     height = vic.last_displayed_line - vic.first_displayed_line + 1;
 
 #ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled : vic_resources.double_size_enabled) {
+    if (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled
+        : vic_resources.double_size_enabled) {
 #else
     if (vic_resources.double_size_enabled) {
 #endif
         width *= 2;
         height *= 2;
 #ifndef VIDEO_REMOVE_2X
-        raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2, VIDEO_RENDER_PAL_1X1);
+        raster_set_pixel_size(&vic.raster, VIC_PIXEL_WIDTH * 2, 2,
+                              VIDEO_RENDER_PAL_1X1);
 #else /* VIDEO_REMOVE_2X */
-        raster_set_pixel_size (&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
+        raster_set_pixel_size(&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
 #endif /* VIDEO_REMOVE_2X */
     } else 
     {
@@ -157,9 +166,10 @@ static void vic_set_geometry(void)
 	if (!fullscreen_is_enabled)
 #endif
 #ifndef VIDEO_REMOVE_2X
-	    raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1, VIDEO_RENDER_PAL_1X1);
+	    raster_set_pixel_size(&vic.raster, VIC_PIXEL_WIDTH, 1,
+                                  VIDEO_RENDER_PAL_1X1);
 #else /* VIDEO_REMOVE_2X */
-	    raster_set_pixel_size (&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
+	    raster_set_pixel_size(&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
 #endif /* VIDEO_REMOVE_2X */
     }
     
@@ -167,7 +177,7 @@ static void vic_set_geometry(void)
 #ifdef USE_XF86_EXTENSIONS
   if (!fullscreen_is_enabled)
 #endif
-    raster_resize_viewport (&vic.raster, width, height);
+    raster_resize_viewport(&vic.raster, width, height);
 
 #ifdef __MSDOS__
   video_ack_vga_mode();
@@ -180,7 +190,7 @@ static void vic_set_geometry(void)
 /* Notice: The screen origin X register has a 4-pixel granularity, so our
    write accesses are always aligned. */
 
-void vic_raster_draw_alarm_handler (CLOCK offset)
+void vic_raster_draw_alarm_handler(CLOCK offset)
 {
     static int pending_mem_offset;
     static int possible_mem_offset;
@@ -231,19 +241,20 @@ void vic_raster_draw_alarm_handler (CLOCK offset)
 	if (vic.raster.display_xstop >= vic.screen_width)
 		vic.raster.display_xstop = vic.screen_width - 1;
 #else /* VIDEO_REMOVE_2X */
-    vic.raster.display_xstop = vic.raster.display_xstart + vic.text_cols * 8 * VIC_PIXEL_WIDTH;
+    vic.raster.display_xstop = vic.raster.display_xstart + vic.text_cols * 8
+                               * VIC_PIXEL_WIDTH;
 	if (vic.raster.display_xstop >= vic.screen_width * VIC_PIXEL_WIDTH)
 		vic.raster.display_xstop = (vic.screen_width - 1) * VIC_PIXEL_WIDTH;
 #endif /* VIDEO_REMOVE_2X */
 
     /* increment ycounter and set offset for memptr */
-    if (vic.area == 1 && !blank_this_line)
-    {
+    if (vic.area == 1 && !blank_this_line) {
         vic.raster.ycounter++;
 
         if (vic.row_offset != 0 || vic.raster.ycounter == vic.row_increase_line)
         {
-            /* this only happens if char_height changes between 8 and 16 within line 7 */
+            /* this only happens if char_height changes between 8 and 16
+               within line 7 */
             pending_mem_offset = 
                 (vic.row_offset > 0 ? vic.row_offset : possible_mem_offset);
             vic.row_offset = 0;
@@ -254,17 +265,15 @@ void vic_raster_draw_alarm_handler (CLOCK offset)
     }
 
     /* handle start of frame */
-    if (vic.raster.current_line == 0)
-    {
-        raster_skip_frame (&vic.raster, vsync_do_vsync(vic.raster.skip_frame));
+    if (vic.raster.current_line == 0) {
+        raster_skip_frame(&vic.raster, vsync_do_vsync(vic.raster.skip_frame));
         vic.raster.blank_enabled = 1;
         vic.row_counter = 0;
         vic.raster.ycounter = 0;
         vic.memptr = 0;
         vic.area = 0;
 
-        if (vic.pending_ystart >= 0)
-        {
+        if (vic.pending_ystart >= 0) {
             vic.raster.display_ystart = vic.pending_ystart;
             vic.raster.geometry.gfx_position.y = 
                 vic.pending_ystart - vic.first_displayed_line;
@@ -274,8 +283,7 @@ void vic_raster_draw_alarm_handler (CLOCK offset)
             vic.pending_ystart = -1;
         }
 
-        if (vic.pending_text_lines >= 0)
-        {
+        if (vic.pending_text_lines >= 0) {
             vic.text_lines = vic.pending_text_lines;
             vic.raster.display_ystop = 
                 (vic.raster.display_ystart + vic.text_lines * vic.char_height);
@@ -291,7 +299,7 @@ void vic_raster_draw_alarm_handler (CLOCK offset)
     /* Set the next draw event.  */
     vic.last_emulate_line_clk += vic.cycles_per_line;
     vic.draw_clk = vic.last_emulate_line_clk + vic.cycles_per_line;
-    alarm_set (&vic.raster_draw_alarm, vic.draw_clk);
+    alarm_set(&vic.raster_draw_alarm, vic.draw_clk);
 }
 
 static int init_raster(void)
@@ -305,13 +313,13 @@ static int init_raster(void)
     if (raster_init(raster, VIC_NUM_VMODES, VIC_NUM_SPRITES) < 0)
         return -1;
 
-    raster_modes_set_idle_mode (raster->modes, VIC_IDLE_MODE);
-    raster_set_exposure_handler (raster, (void*)vic_exposure_handler);
-    raster_enable_cache (raster, vic_resources.video_cache_enabled);
+    raster_modes_set_idle_mode(raster->modes, VIC_IDLE_MODE);
+    raster_set_exposure_handler(raster, (void*)vic_exposure_handler);
+    raster_enable_cache(raster, vic_resources.video_cache_enabled);
 #ifdef USE_XF86_EXTENSIONS
     raster_enable_double_scan (raster, fullscreen_is_enabled ? vic_resources.fullscreen_double_scan_enabled : vic_resources.double_scan_enabled);
 #else
-    raster_enable_double_scan (raster, vic_resources.double_scan_enabled);
+    raster_enable_double_scan(raster, vic_resources.double_scan_enabled);
 #endif
     raster_set_canvas_refresh(raster, 1);
 
@@ -319,8 +327,8 @@ static int init_raster(void)
 
     vic_update_palette();
 
-    title = concat ("VICE: ", machine_name, " emulator", NULL);
-    raster_set_title (raster, title);
+    title = concat("VICE: ", machine_name, " emulator", NULL);
+    raster_set_title(raster, title);
     free(title);
 
     if (raster_realize(raster) < 0)
@@ -345,85 +353,88 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 /* Initialization. */
 raster_t *vic_init(void)
 {
-  vic.log = log_open("VIC");
+    vic.log = log_open("VIC");
 
-  alarm_init(&vic.raster_draw_alarm, maincpu_alarm_context,
-             "VicIRasterDraw", vic_raster_draw_alarm_handler);
+    alarm_init(&vic.raster_draw_alarm, maincpu_alarm_context,
+               "VicIRasterDraw", vic_raster_draw_alarm_handler);
 
-  clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 
-  vic_change_timing();
+    vic_change_timing();
 
-  if (init_raster() < 0)
-    return NULL;
+    if (init_raster() < 0)
+        return NULL;
 
-  vic.auxiliary_color = 0;
-  vic.mc_border_color = 0;
+    vic.auxiliary_color = 0;
+    vic.mc_border_color = 0;
 
-  vic.color_ptr = ram;
-  vic.screen_ptr = ram;
-  vic.chargen_ptr = chargen_rom + 0x400;
+    vic.color_ptr = ram;
+    vic.screen_ptr = ram;
+    vic.chargen_ptr = chargen_rom + 0x400;
 
-  /* FIXME */
-  vic.char_height = 8;
-  vic.row_increase_line = 8;
-  vic.text_cols = 22;
-  vic.text_lines = 23;
+    /* FIXME */
+    vic.char_height = 8;
+    vic.row_increase_line = 8;
+    vic.text_cols = 22;
+    vic.text_lines = 23;
 
-  vic_reset ();
+    vic_reset ();
 
-  vic_draw_init ();
+    vic_draw_init ();
 #ifdef USE_XF86_EXTENSIONS
-  vic_draw_set_double_size (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled : vic_resources.double_size_enabled);
+    vic_draw_set_double_size(fullscreen_is_enabled
+                             ? vic_resources.fullscreen_double_size_enabled
+                             : vic_resources.double_size_enabled);
 #else
-  vic_draw_set_double_size (vic_resources.double_size_enabled);
+    vic_draw_set_double_size(vic_resources.double_size_enabled);
 #endif
 
-  vic_update_memory_ptrs ();
+    vic_update_memory_ptrs();
 
-  vic.initialized = 1;
+    vic.initialized = 1;
 
-  vic_resize();
+    vic_resize();
 
-  return &vic.raster;
+    return &vic.raster;
 }
 
 struct video_canvas_s *vic_get_canvas(void)
 {
-  return vic.raster.viewport.canvas;
+    return vic.raster.viewport.canvas;
 }
 
 /* Reset the VIC-I chip. */
-void vic_reset (void)
+void vic_reset(void)
 {
-  vic_change_timing();
+    vic_change_timing();
 
-  raster_reset (&vic.raster);
+    raster_reset (&vic.raster);
 
-  vic_set_geometry();
+    vic_set_geometry();
 
-  vic.last_emulate_line_clk = 0;
-  vic.draw_clk = vic.cycles_per_line;
-  alarm_set (&vic.raster_draw_alarm, vic.draw_clk);
+    vic.last_emulate_line_clk = 0;
+    vic.draw_clk = vic.cycles_per_line;
+    alarm_set(&vic.raster_draw_alarm, vic.draw_clk);
 
-  vic.row_counter = 0;
-  vic.memptr = 0;
-  vic.pending_ystart = -1;
-  vic.pending_text_lines = -1;
-  vic.row_offset = -1;
-  vic.area = 0;
+    vic.row_counter = 0;
+    vic.memptr = 0;
+    vic.pending_ystart = -1;
+    vic.pending_text_lines = -1;
+    vic.row_offset = -1;
+    vic.area = 0;
 
 }
 
 /* This hook is called whenever the screen parameters (eg. window size) are
    changed.  */
-void vic_resize (void)
+void vic_resize(void)
 {
-  if (!vic.initialized)
-    return;
+    if (!vic.initialized)
+        return;
 
 #ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled : vic_resources.double_size_enabled)
+    if (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled
+        : vic_resources.double_size_enabled)
 #else
     if (vic_resources.double_size_enabled)
 #endif
@@ -432,136 +443,135 @@ void vic_resize (void)
 #ifndef VIDEO_REMOVE_2X
       if (vic.raster.viewport.pixel_size.width == VIC_PIXEL_WIDTH
           && vic.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2, VIDEO_RENDER_PAL_1X1);
+          raster_set_pixel_size(&vic.raster, VIC_PIXEL_WIDTH * 2, 2,
+                                VIDEO_RENDER_PAL_1X1);
 #else /* VIDEO_REMOVE_2X */
       if (vic.raster.viewport.pixel_size.width == 1
           && vic.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size (&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
+          raster_set_pixel_size(&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
 #endif /* VIDEO_REMOVE_2X */
-        raster_resize_viewport (&vic.raster,
-                                vic.raster.viewport.width * 2,
-                                vic.raster.viewport.height * 2);
+        raster_resize_viewport(&vic.raster,
+                               vic.raster.viewport.width * 2,
+                               vic.raster.viewport.height * 2);
       } else {
 #ifndef VIDEO_REMOVE_2X
-          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2, VIDEO_RENDER_PAL_1X1);
+          raster_set_pixel_size(&vic.raster, VIC_PIXEL_WIDTH * 2, 2,
+                                VIDEO_RENDER_PAL_1X1);
 #else /* VIDEO_REMOVE_2X */
-          raster_set_pixel_size (&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
+          raster_set_pixel_size(&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
 #endif /* VIDEO_REMOVE_2X */
       }
 
-      vic_draw_set_double_size (1);
+      vic_draw_set_double_size(1);
     }
   else
     {
 #ifndef VIDEO_REMOVE_2X
       if (vic.raster.viewport.pixel_size.width == VIC_PIXEL_WIDTH * 2
           && vic.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1, VIDEO_RENDER_PAL_1X1);
+          raster_set_pixel_size(&vic.raster, VIC_PIXEL_WIDTH, 1,
+                                VIDEO_RENDER_PAL_1X1);
 #else /* VIDEO_REMOVE_2X */
       if (vic.raster.viewport.pixel_size.width == 2
           && vic.raster.viewport.canvas != NULL) {
-          raster_set_pixel_size (&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
+          raster_set_pixel_size(&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
 #endif /* VIDEO_REMOVE_2X */
-        raster_resize_viewport (&vic.raster,
-                                vic.raster.viewport.width / 2,
-                                vic.raster.viewport.height / 2);
+        raster_resize_viewport(&vic.raster,
+                               vic.raster.viewport.width / 2,
+                               vic.raster.viewport.height / 2);
       } else {
 #ifndef VIDEO_REMOVE_2X
-          raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1, VIDEO_RENDER_PAL_1X1);
+          raster_set_pixel_size(&vic.raster, VIC_PIXEL_WIDTH, 1,
+                                VIDEO_RENDER_PAL_1X1);
 #else /* VIDEO_REMOVE_2X */
-          raster_set_pixel_size (&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
+          raster_set_pixel_size(&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
 #endif /* VIDEO_REMOVE_2X */
       }
 
-      vic_draw_set_double_size (0);
+      vic_draw_set_double_size(0);
     }
 
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled)
-		raster_enable_double_scan(&vic.raster,
-	                              vic_resources.fullscreen_double_scan_enabled);
-	else
+        raster_enable_double_scan(&vic.raster,
+                                  vic_resources.fullscreen_double_scan_enabled);
+    else
 #endif
-		raster_enable_double_scan(&vic.raster,
-	                              vic_resources.double_scan_enabled);
+    raster_enable_double_scan(&vic.raster,
+	                      vic_resources.double_scan_enabled);
 }
 
 /* Set the memory pointers according to the values stored in the VIC
    registers. */
-void vic_update_memory_ptrs (void)
+void vic_update_memory_ptrs(void)
 {
-  static BYTE *old_chargen_ptr = NULL;
-  static BYTE *old_color_ptr = NULL;
-  static BYTE *old_screen_ptr = NULL;
+    static BYTE *old_chargen_ptr = NULL;
+    static BYTE *old_color_ptr = NULL;
+    static BYTE *old_screen_ptr = NULL;
 
-  ADDRESS char_addr;
-  int tmp;
+    ADDRESS char_addr;
+    int tmp;
   
-  BYTE *new_chargen_ptr;
-  BYTE *new_color_ptr;
-  BYTE *new_screen_ptr;
+    BYTE *new_chargen_ptr;
+    BYTE *new_color_ptr;
+    BYTE *new_screen_ptr;
 
-  tmp = vic.regs[0x5] & 0xf;
-  char_addr = (tmp & 0x8) ? 0x0000 : 0x8000;
-  char_addr += (tmp & 0x7) * 0x400;
+    tmp = vic.regs[0x5] & 0xf;
+    char_addr = (tmp & 0x8) ? 0x0000 : 0x8000;
+    char_addr += (tmp & 0x7) * 0x400;
 
-  if (char_addr >= 0x8000 && char_addr < 0x9000)
-    {
-      new_chargen_ptr = chargen_rom + 0x400 + (char_addr & 0xfff);
-      VIC_DEBUG_REGISTER (("Character memory at $%04X "
+    if (char_addr >= 0x8000 && char_addr < 0x9000) {
+        new_chargen_ptr = chargen_rom + 0x400 + (char_addr & 0xfff);
+        VIC_DEBUG_REGISTER(("Character memory at $%04X "
                            "(character ROM + $%04X).",
                            char_addr,
                            char_addr & 0xfff));
-    }
-  else
-    {
-      if (char_addr == 0x1c00)
-        new_chargen_ptr = chargen_rom;    /* handle wraparound */
-      else
-        new_chargen_ptr = ram + char_addr;
-      VIC_DEBUG_REGISTER (("Character memory at $%04X.", char_addr));
+    } else {
+        if (char_addr == 0x1c00)
+            new_chargen_ptr = chargen_rom;    /* handle wraparound */
+        else
+            new_chargen_ptr = ram + char_addr;
+        VIC_DEBUG_REGISTER (("Character memory at $%04X.", char_addr));
     }
 
-  new_color_ptr = ram + 0x9400 + (vic.regs[0x2] & 0x80 ? 0x200 : 0x0);
-  new_screen_ptr = ram + (((vic.regs[0x2] & 0x80) << 2)
-                          | ((vic.regs[0x5] & 0x70) << 6));
+    new_color_ptr = ram + 0x9400 + (vic.regs[0x2] & 0x80 ? 0x200 : 0x0);
+    new_screen_ptr = ram + (((vic.regs[0x2] & 0x80) << 2)
+                     | ((vic.regs[0x5] & 0x70) << 6));
 
-  VIC_DEBUG_REGISTER (("Color memory at $%04X.", vic.color_ptr - ram));
-  VIC_DEBUG_REGISTER (("Screen memory at $%04X.", vic.screen_ptr - ram));
+    VIC_DEBUG_REGISTER(("Color memory at $%04X.", vic.color_ptr - ram));
+    VIC_DEBUG_REGISTER(("Screen memory at $%04X.", vic.screen_ptr - ram));
 
-  if (new_chargen_ptr != old_chargen_ptr)
-  {
-    raster_add_ptr_change_foreground (&vic.raster,
-          VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk) + 2),
-          (void*)&vic.chargen_ptr,
-          new_chargen_ptr);
+    if (new_chargen_ptr != old_chargen_ptr) {
+        raster_add_ptr_change_foreground(&vic.raster,
+                                         VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk)
+                                         + 2),
+                                         (void*)&vic.chargen_ptr,
+                                         new_chargen_ptr);
+        old_chargen_ptr = new_chargen_ptr;
+    }
 
-    old_chargen_ptr = new_chargen_ptr;
-  }
+    if (new_color_ptr != old_color_ptr) {
+        raster_add_ptr_change_foreground(&vic.raster,
+                                         VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk)
+                                         + 3),
+                                         (void*)&vic.color_ptr,
+                                         new_color_ptr);
+        old_color_ptr = new_color_ptr;
+    }
 
-  if (new_color_ptr != old_color_ptr)
-  {
-    raster_add_ptr_change_foreground (&vic.raster,
-          VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk) + 3),
-          (void*)&vic.color_ptr,
-          new_color_ptr);
-
-    old_color_ptr = new_color_ptr;
-  }
-  if (new_screen_ptr != old_screen_ptr)
-  {
-    raster_add_ptr_change_foreground (&vic.raster,
-          VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk) + 3),
-          (void*)&vic.screen_ptr,
-          new_screen_ptr);
-
-    old_screen_ptr = new_screen_ptr;
-  }
+    if (new_screen_ptr != old_screen_ptr) {
+        raster_add_ptr_change_foreground(&vic.raster,
+                                         VIC_RASTER_CHAR(VIC_RASTER_CYCLE(clk)
+                                         + 3),
+                                         (void*)&vic.screen_ptr,
+                                         new_screen_ptr);
+        old_screen_ptr = new_screen_ptr;
+    }
 }
 
-void vic_free (void)
+void vic_free(void)
 {
-  raster_free(&vic.raster);
+    raster_free(&vic.raster);
 }
 
 int vic_screenshot(screenshot_t *screenshot)
@@ -572,10 +582,10 @@ int vic_screenshot(screenshot_t *screenshot)
 void vic_video_refresh(void)
 {
 #ifdef USE_XF86_EXTENSIONS
-  vic_resize ();
-  raster_enable_double_scan (&vic.raster,
-			     fullscreen_is_enabled ?
-			     vic_resources.fullscreen_double_scan_enabled :
-			     vic_resources.double_scan_enabled);
+    vic_resize ();
+    raster_enable_double_scan(&vic.raster,
+                              fullscreen_is_enabled ?
+                              vic_resources.fullscreen_double_scan_enabled :
+                              vic_resources.double_scan_enabled);
 #endif
 }
