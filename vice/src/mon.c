@@ -91,7 +91,7 @@ static int stop_output;
 
 #define GET_OPCODE(mem) (get_mem_val(mem, mon_get_reg_val(mem, e_PC)))
 
-console_t *console_log;
+console_t *console_log = NULL;
 
 /* External functions */
 #ifdef HAVE_READLINE
@@ -1748,7 +1748,6 @@ void mon_save_file(char *filename, MON_ADDR start_addr, MON_ADDR end_addr, bool 
     if (end < adr) {
         console_out(console_log,
                     "Start address must be below end address.\n");
-        fclose(fp);
         return;
     }
 
@@ -2135,6 +2134,9 @@ void mon_instructions_step(int count)
    skip_jsrs = FALSE;
    exit_mon = 1;
 
+   if (instruction_count==1)
+	   mon_console_close_on_leaving = 0;
+
    mon_mask[caller_space] |= MI_STEP;
    interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
 }
@@ -2149,6 +2151,9 @@ void mon_instructions_next(int count)
    wait_for_return_level = (GET_OPCODE(caller_space) == OP_JSR) ? 1 : 0;
    skip_jsrs = TRUE;
    exit_mon = 1;
+
+   if (instruction_count==1)
+	   mon_console_close_on_leaving = 0;
 
    mon_mask[caller_space] |= MI_STEP;
    interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
@@ -2946,7 +2951,10 @@ void mon(ADDRESS a)
 	if (mon_console_close_on_leaving)
 	{
 	    console_log = console_open("Monitor");
-		mon_console_close_on_leaving = 0;
+	}
+	else
+	{
+		mon_console_close_on_leaving = 1;
 	}
 
     old_handler = signal(SIGINT, handle_abort);
@@ -3034,6 +3042,9 @@ void mon(ADDRESS a)
     Wimp_CommandWindow(-1);
 #endif
     signal(SIGINT, old_handler);
+
+    if (console_log->console_can_stay_open == 0)
+		mon_console_close_on_leaving = 1;
 
 	if (mon_console_close_on_leaving)
 		console_close(console_log);
