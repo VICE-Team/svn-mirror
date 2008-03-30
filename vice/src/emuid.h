@@ -30,7 +30,7 @@
 
 #include "types.h"
 
-extern BYTE emulator_id[];
+extern BYTE REGPARM1 emuid_read(WORD addr);
 
 #endif
 

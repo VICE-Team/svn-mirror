@@ -93,12 +93,8 @@ BYTE REGPARM1 io2_read(WORD addr)
         return sid2_read(addr);
     if (mem_cartridge_type != CARTRIDGE_NONE)
         return cartridge_read_io2(addr);
-    if (emu_id_enabled && addr >= 0xdfa0) {
-        addr &= 0xff;
-        if (addr == 0xff)
-            emulator_id[addr - 0xa0] ^= 0xff;
-        return emulator_id[addr - 0xa0];
-    }
+    if (emu_id_enabled && addr >= 0xdfa0)
+        return emuid_read(addr - 0xdfa0);
     if (reu_enabled)
         return reu_read((WORD)(addr & 0x0f));
 
