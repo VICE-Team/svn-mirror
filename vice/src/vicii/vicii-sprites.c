@@ -801,6 +801,40 @@ inline static void draw_mc_sprite(BYTE *gfx_msk_ptr, BYTE *data_ptr, int n,
                               sprite_status);
 }
 
+static inline void calculate_idle_sprite_data(BYTE *data, unsigned int n)
+{
+    unsigned int i, line, cycle, idle_cycle;
+
+    data[0] = 0xff;
+    data[2] = 0xff;
+
+    if (vic_ii.num_idle_3fff > 0) {
+        idle_cycle = (57 + n * 2) % vic_ii.cycles_per_line;
+        for (i = vic_ii.num_idle_3fff; i != 0; i--) {
+            line = VIC_II_RASTER_Y(vic_ii.idle_3fff[i - 1].cycle);
+            cycle = VIC_II_RASTER_CYCLE(vic_ii.idle_3fff[i - 1].cycle);
+            if (line <= vic_ii.raster.current_line && cycle <= idle_cycle) {
+                data[1] = vic_ii.idle_3fff[i - 1].value;
+                return;
+            }                
+        }
+    }
+
+    if (vic_ii.num_idle_3fff_old > 0) {
+        idle_cycle = (57 + n * 2) % vic_ii.cycles_per_line;
+        for (i = vic_ii.num_idle_3fff_old; i != 0; i--) {
+            line = VIC_II_RASTER_Y(vic_ii.idle_3fff_old[i - 1].cycle);
+            cycle = VIC_II_RASTER_CYCLE(vic_ii.idle_3fff_old[i - 1].cycle);
+            if (line <= vic_ii.raster.current_line && cycle <= idle_cycle) {
+                data[1] = vic_ii.idle_3fff_old[i - 1].value;
+                return;
+            }
+        }
+    }
+
+    data[1] = vic_ii.ram_base_phi2[vic_ii.vbank_phi2 + 0x3fff];
+}
+
 static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
 {
     raster_sprite_status_t *sprite_status;
@@ -811,7 +845,7 @@ static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
     sprite_status->sprite_background_collisions = 0;
 
     if (sprite_status->dma_msk || sprite_status->new_dma_msk) {
-        int n;
+        unsigned int n;
 
         memset(sprline, 0, sizeof(sprline));
 
@@ -830,6 +864,8 @@ static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
                         /* FIXME: first sprite line should show some random
                            data */
                         data_ptr = (BYTE *)(sprite_status->sprite_data + n);
+                        if ((sprite_status->dma_msk & (1 << n)) == 0)
+                            calculate_idle_sprite_data(data_ptr, n);
                     }
                 
                     if (sprite_status->sprites[n].x > (0x176 + 16 * n)) {
