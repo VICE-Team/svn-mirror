@@ -113,16 +113,15 @@ int real_index;
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "KeymapIndex", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,
-      (void *)&keymap_index, set_keymap_index, NULL },
+static const resource_int_t resources_int[] = {
+    { "KeymapIndex", 0, RES_EVENT_NO, NULL,
+      &keymap_index, set_keymap_index, NULL },
     { NULL }
 };
 
 int kbd_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 static const cmdline_option_t cmdline_options[] = {

@@ -79,20 +79,21 @@ static int set_keymap_pos_file(resource_value_t v, void *param)
     return set_keymap_file(1, (const char *) v);
 }
 
-static const resource_t resources[] = {
-    { "KeymapSymFile", RES_STRING, (resource_value_t) "default.vkm",
-      RES_EVENT_NO, NULL,                                   \
-      (void *) &keymap_file_list[0], set_keymap_sym_file, NULL },
-    { "KeymapPosFile", RES_STRING, (resource_value_t) "position.vkm",
-      RES_EVENT_NO, NULL,                                   \
-      (void *) &keymap_file_list[1], set_keymap_pos_file, NULL },
+static const resource_string_t resources_string[] = {
+    { "KeymapSymFile", "default.vkm", RES_EVENT_NO, NULL,
+      &keymap_file_list[0], set_keymap_sym_file, NULL },
+    { "KeymapPosFile", "position.vkm", RES_EVENT_NO, NULL,
+      &keymap_file_list[1], set_keymap_pos_file, NULL },
     NULL
 };
 
 int kbd_resources_init(void)
 {
     keymap_res_name_list = my_keymap_res_name_list;
-    resources_register(resources);
+
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
     return do_kbd_init_resources();
 }
 

@@ -78,16 +78,15 @@ static int set_use_leds(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "UseLeds", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&use_leds, set_use_leds, NULL },
+static const resource_int_t resources_int[] = {
+    { "UseLeds", 1, RES_EVENT_NO, NULL,
+      &use_leds, set_use_leds, NULL },
     NULL
 };
 
 int ui_resources_init(void)
 {
-    return vsid_mode?0:resources_register(resources);
+    return vsid_mode ? 0 : resources_register_int(resources_int);
 }
 
 void ui_resources_shutdown(void)

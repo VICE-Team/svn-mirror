@@ -97,16 +97,15 @@ static int set_stretch_factor(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "WindowStretchFactor", RES_INTEGER, (resource_value_t)1,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&stretch, set_stretch_factor, NULL },
+static const resource_int_t resources_int[] = {
+    { "WindowStretchFactor", 1, RES_EVENT_NO, NULL,
+      &stretch, set_stretch_factor, NULL },
     { NULL }
 };
 
 int video_init_resources(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 static const cmdline_option_t cmdline_options[] = {

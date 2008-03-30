@@ -59,16 +59,15 @@ static int set_hide_mouseptr(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "HideMousePtr", RES_INTEGER, (resource_value_t)0,
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&hide_mouseptr, set_hide_mouseptr, NULL },
+static const resource_int_t resources_int[] = {
+    { "HideMousePtr", 0, RES_EVENT_NO, NULL,
+      &hide_mouseptr, set_hide_mouseptr, NULL },
     { NULL }
 };
 
 int mousedrv_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 /* ----------------------------------------------------------- */

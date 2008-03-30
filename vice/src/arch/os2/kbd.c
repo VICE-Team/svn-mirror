@@ -64,16 +64,15 @@ static int set_keymap_file(resource_value_t v, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
-    { "KeymapFile", RES_STRING, (resource_value_t)"os2.vkm",
-      RES_EVENT_NO, NULL,                                   \
-      (void *)&keymapfile, set_keymap_file, NULL },
+static const resource_string_t resources_string[] = {
+    { "KeymapFile", "os2.vkm", RES_EVENT_NO, NULL,
+      &keymapfile, set_keymap_file, NULL },
     NULL
 };
 
 int kbd_resources_init(void)
 {
-    return resources_register(resources);
+    return resources_register_string(resources_string);
 }
 
 static const cmdline_option_t cmdline_options[] = {

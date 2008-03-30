@@ -142,19 +142,16 @@ static int set_keyset(resource_value_t v, void *param)
     return 0;
 }
 
-#define DEFINE_RES_SET_KEYDATA(txt, num, dir)               \
-    { txt, RES_INTEGER, (resource_value_t) K_NONE,          \
-      RES_EVENT_NO, NULL,                                   \
-      (resource_value_t *) &(keyset[num][dir]), set_keyset, \
+#define DEFINE_RES_SET_KEYDATA(txt, num, dir)  \
+    { txt, K_NONE, RES_EVENT_NO, NULL,         \
+      &(keyset[num][dir]), set_keyset,         \
       (void*)((num<<5)|dir) }
 
-static const resource_t resources[] = {
-    { "JoyDevice1", RES_INTEGER, (resource_value_t)JOYDEV_NONE,
-      RES_EVENT_NO, NULL,
-      (void *)&cbm_joystick[0], set_cbm_joystick, (void *)0},
-    { "JoyDevice2", RES_INTEGER, (resource_value_t)JOYDEV_NONE,
-      RES_EVENT_NO, NULL,
-      (void *)&cbm_joystick[1], set_cbm_joystick, (void *)1},
+static const resource_int_t resources_int[] = {
+    { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &cbm_joystick[0], set_cbm_joystick, (void *)0},
+    { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
+      &cbm_joystick[1], set_cbm_joystick, (void *)1},
 
     DEFINE_RES_SET_CALDATA("JoyAup",    0, KEYSET_N, 200),
     DEFINE_RES_SET_CALDATA("JoyAdown",  0, KEYSET_S, 600),
@@ -190,7 +187,7 @@ static const resource_t resources[] = {
 
 int joystick_init_resources(void)
 {
-    return resources_register(resources);
+    return resources_register_int(resources_int);
 }
 
 /* ------------------------------------------------------------------------- */

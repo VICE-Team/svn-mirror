@@ -107,32 +107,29 @@ static int set_keymap_bde_pos_file(resource_value_t v, void *param)
     return set_keymap_file(5, (const char *) v);
 }
 
-static const resource_t resources[] = {
-    { "KeymapBusinessUKSymFile", RES_STRING, (resource_value_t) "busi_uk.vkm",
-      RES_EVENT_NO, NULL,                                   \
-      (void *) &keymap_file_list[0], set_keymap_buk_sym_file, NULL },
-    { "KeymapBusinessUKPosFile", RES_STRING, (resource_value_t) "buk_pos.vkm",
-      RES_EVENT_NO, NULL,                                   \
-      (void *) &keymap_file_list[1], set_keymap_buk_pos_file, NULL },
-    { "KeymapGraphicsSymFile", RES_STRING, (resource_value_t) "graphics.vkm",
-      RES_EVENT_NO, NULL,                                   \
-      (void *) &keymap_file_list[2], set_keymap_gr_sym_file, NULL },
-    { "KeymapGraphicsPosFile", RES_STRING, (resource_value_t) "posg_de.vkm",
-      RES_EVENT_NO, NULL,                                   \
-      (void *) &keymap_file_list[3], set_keymap_gr_pos_file, NULL },
-    { "KeymapBusinessDESymFile", RES_STRING, (resource_value_t) "busi_de.vkm",
-      RES_EVENT_NO, NULL,                                   \
-      (void *) &keymap_file_list[4], set_keymap_bde_sym_file, NULL },
-    { "KeymapBusinessDEPosFile", RES_STRING, (resource_value_t) "bde_pos.vkm",
-      RES_EVENT_NO, NULL,                                   \
-      (void *) &keymap_file_list[5], set_keymap_bde_pos_file, NULL },
+static const resource_string_t resources_string[] = {
+    { "KeymapBusinessUKSymFile", "busi_uk.vkm", RES_EVENT_NO, NULL,
+      &keymap_file_list[0], set_keymap_buk_sym_file, NULL },
+    { "KeymapBusinessUKPosFile", "buk_pos.vkm", RES_EVENT_NO, NULL,
+      &keymap_file_list[1], set_keymap_buk_pos_file, NULL },
+    { "KeymapGraphicsSymFile", "graphics.vkm", RES_EVENT_NO, NULL,
+      &keymap_file_list[2], set_keymap_gr_sym_file, NULL },
+    { "KeymapGraphicsPosFile", "posg_de.vkm", RES_EVENT_NO, NULL,
+      &keymap_file_list[3], set_keymap_gr_pos_file, NULL },
+    { "KeymapBusinessDESymFile", "busi_de.vkm", RES_EVENT_NO, NULL,
+      &keymap_file_list[4], set_keymap_bde_sym_file, NULL },
+    { "KeymapBusinessDEPosFile", "bde_pos.vkm", RES_EVENT_NO, NULL,
+      &keymap_file_list[5], set_keymap_bde_pos_file, NULL },
     NULL
 };
 
 int pet_kbd_resources_init(void)
 {
     keymap_res_name_list = my_keymap_res_name_list;
-    resources_register(resources);
+
+    if (resources_register_string(resources_string) < 0)
+        return -1;
+
     return do_kbd_init_resources();
 }
 
