@@ -52,16 +52,6 @@
 
 
 /* ---------------------------------------------------------------------*/
-/*
-extern void (*ted_irq_handler)(int irq, int state, CLOCK clk);
-
-#define ted_set_irq(irq, state)         \
-    if (ted_irq_handler != NULL) {      \
-        ted_irq_handler(irq, state, 0); \
-    } else {                            \
-        maincpu_set_irq(irq, state);    \
-    }
-*/
 
 #define ted_set_irq(irq, state) maincpu_set_irq(irq, state)
 
@@ -272,12 +262,13 @@ inline static void check_lower_upper_border(BYTE value, unsigned int line,
             /* If on the last line of the 25-line border, we still see the
                24-line (upmost) border because the border flip flop has
                already been turned off.  */
-            if (!ted.raster.blank
-                && line == ted.row_25_start_line
-                && cycle > 0)
+            if (!ted.raster.blank && line == ted.row_25_start_line
+                && cycle > 0) {
                 ted.raster.blank_enabled = 0;
-            else if (line == ted.row_25_stop_line && cycle > 0)
-                ted.raster.blank_enabled = 1;
+            } else {
+                if (line == ted.row_25_stop_line && cycle > 0)
+                    ted.raster.blank_enabled = 1;
+            }
 
             TED_DEBUG_REGISTER(("\t24 line mode enabled\n"));
         }
@@ -482,55 +473,20 @@ inline static void ted0a_store(BYTE value)
 
 inline static void ted0b_store(BYTE value)
 {
-    unsigned int line;
-    unsigned int old_raster_irq_line;
-
     /* FIXME: Not accurate as bit #8 is missing.  */
     value = (value - ted.offset) & 255;
 
-    TED_DEBUG_REGISTER (("\tRaster compare register: $%02X\n", value));
+    TED_DEBUG_REGISTER (("Raster compare register: $%02X", value));
 
     if (value == ted.regs[0x0b])
         return;
 
-    line = TED_RASTER_Y(maincpu_clk);
     ted.regs[0x0b] = value;
 
-    TED_DEBUG_REGISTER(("\tRaster interrupt line set to $%04X\n",
-                          ted.raster_irq_line));
+    TED_DEBUG_REGISTER(("Raster interrupt line set to $%04X",
+                       ted.raster_irq_line));
 
-    old_raster_irq_line = ted.raster_irq_line;
-    ted_irq_set_raster_line((ted.raster_irq_line & 0x100) | value);
-
-    /* Check whether we should activate the IRQ line now.  */
-    if (ted.regs[0x0a] & 0x2) {
-        int trigger_irq;
-
-        trigger_irq = 0;
-
-        if (maincpu_rmw_flag) {
-            if (TED_RASTER_CYCLE(maincpu_clk) == 0) {
-                unsigned int previous_line = TED_PREVIOUS_LINE(line);
-
-                if (previous_line != old_raster_irq_line
-                    && ((old_raster_irq_line & 0x100)
-                    == (previous_line & 0x100)))
-                    trigger_irq = 1;
-            } else {
-                if (line != old_raster_irq_line
-                    && (old_raster_irq_line & 0x100) == (line & 0x100))
-                    trigger_irq = 1;
-            }
-        }
-
-        if (ted.raster_irq_line == line && line != old_raster_irq_line)
-            trigger_irq = 1;
-
-        if (trigger_irq) {
-            ted.irq_status |= 0x82;
-            ted_set_irq(ted.int_num, 1);
-        }
-    }
+    ted_irq_check_state(value, 0);
 }
 
 inline static void ted0c0d_store(WORD addr, BYTE value)

@@ -118,6 +118,10 @@ SOURCE=..\..\c128\c128mem.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c128\c128meminit.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c128\c128memlimit.c
 # End Source File
 # Begin Source File

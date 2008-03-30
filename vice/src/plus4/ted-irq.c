@@ -28,6 +28,7 @@
 
 #include "alarm.h"
 #include "interrupt.h"
+#include "maincpu.h"
 #include "ted-irq.h"
 #include "tedtypes.h"
 
@@ -90,6 +91,47 @@ void ted_irq_set_raster_line(unsigned int line)
                      ted.raster_irq_clk, line, ted.regs[0x0a] & 2));
 
     ted.raster_irq_line = line;
+}
+
+void ted_irq_check_state(BYTE value, unsigned int high)
+{
+    unsigned int line;
+    unsigned int old_raster_irq_line;
+
+    old_raster_irq_line = ted.raster_irq_line;
+    ted_irq_set_raster_line((ted.raster_irq_line & 0x100) | value);
+
+    line = TED_RASTER_Y(maincpu_clk);
+
+    /* Check whether we should activate the IRQ line now.  */
+    if (ted.regs[0x0a] & 0x2) {
+        int trigger_irq;
+
+        trigger_irq = 0;
+
+        if (maincpu_rmw_flag) {
+            if (TED_RASTER_CYCLE(maincpu_clk) == 0) {
+                unsigned int previous_line = TED_PREVIOUS_LINE(line);
+
+                if (previous_line != old_raster_irq_line
+                    && ((old_raster_irq_line & 0x100)
+                    == (previous_line & 0x100)))
+                    trigger_irq = 1;
+            } else {
+                if (line != old_raster_irq_line
+                    && (old_raster_irq_line & 0x100) == (line & 0x100))
+                    trigger_irq = 1;
+            }
+        }
+
+        if (ted.raster_irq_line == line && line != old_raster_irq_line)
+            trigger_irq = 1;
+
+        if (trigger_irq) {
+            ted.irq_status |= 0x82;
+            maincpu_set_irq(ted.int_num, 1);
+        }
+    }
 }
 
 void ted_irq_next_frame(void)
