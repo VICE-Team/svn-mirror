@@ -29,6 +29,7 @@
 #include <conio.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "console.h"
 #include "utils.h"
@@ -37,8 +38,10 @@
 static int old_input_mode, old_output_mode;
 static FILE *mon_output, *mon_input;
 
-console_t console_open(const char *id)
+console_t *console_open(const char *id)
 {
+    console_t *console;
+
     enable_text();
     clrscr();
     _set_screen_lines(43);
@@ -51,10 +54,16 @@ console_t console_open(const char *id)
     mon_input = fopen("CON", "rt");
     setbuf(mon_output, NULL); /* No buffering.  */
 
-    return 0;
+    console = xmalloc(sizeof(console_t));
+
+    console->console_xres = 80;
+    console->console_yres = 25;
+    console->console_can_stay_open = 0;
+
+    return console;
 }
 
-int console_close(console_t log)
+int console_close(console_t *log)
 {
     setmode(STDIN_FILENO, old_input_mode);
     setmode(STDIN_FILENO, old_output_mode);
@@ -64,10 +73,12 @@ int console_close(console_t log)
     fclose(mon_input);
     fclose(mon_output);
 
+    free(log);
+
     return 0;
 }
 
-int console_out(console_t log, const char *format, ...)
+int console_out(console_t *log, const char *format, ...)
 {
     va_list ap;
 
@@ -77,7 +88,7 @@ int console_out(console_t log, const char *format, ...)
     return 0;
 }
 
-char *console_in(console_t log)
+char *console_in(console_t *log)
 {
     char *p = (char*)xmalloc(1024);
 

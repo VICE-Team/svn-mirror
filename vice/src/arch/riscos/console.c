@@ -28,21 +28,32 @@
 
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "console.h"
 #include "utils.h"
 
-console_t console_open(const char *id)
+console_t *console_open(const char *id)
 {
+    console_t *console;
+
+    console = xmalloc(sizeof(console_t));
+
+    console->console_xres = 80;
+    console->console_yres = 25;
+    console->console_can_stay_open = 0;
+
+    return console;
+}
+
+int console_close(console_t *log)
+{
+    free(log);
+
     return 0;
 }
 
-int console_close(console_t log)
-{
-    return 0;
-}
-
-int console_out(console_t log, const char *format, ...)
+int console_out(console_t *log, const char *format, ...)
 {
     va_list ap;
 
@@ -52,7 +63,7 @@ int console_out(console_t log, const char *format, ...)
     return 0;
 }
 
-char *console_in(console_t log)
+char *console_in(console_t *log)
 {
     char *p = (char*)xmalloc(1024);
 

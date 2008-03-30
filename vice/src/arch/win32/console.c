@@ -28,6 +28,7 @@
 
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <windows.h>
 
 #include "console.h"
@@ -35,28 +36,38 @@
 
 static FILE *mon_output, *mon_input;
 
-console_t console_open(const char *id)
+console_t *console_open(const char *id)
 {
+    console_t *console;
+
     AllocConsole();
     SetConsoleTitle(id);
 
     mon_output = fopen("CON", "wt");
     mon_input = fopen("CON", "rt");
 
-    return 0;
+    console = xmalloc(sizeof(console_t));
+
+    console->console_xres = 80;
+    console->console_yres = 25;
+    console->console_can_stay_open = 1;
+
+    return console;
 }
 
-int console_close(console_t log)
+int console_close(console_t *log)
 {
     fclose(mon_output);
     fclose(mon_input);
 
     FreeConsole();
 
+    free(log);
+
     return 0;
 }
 
-int console_out(console_t log, const char *format, ...)
+int console_out(console_t *log, const char *format, ...)
 {
     va_list ap;
 
@@ -66,7 +77,7 @@ int console_out(console_t log, const char *format, ...)
     return 0;
 }
 
-char *console_in(console_t log)
+char *console_in(console_t *log)
 {
     char *p = (char*)xmalloc(1024);
 
