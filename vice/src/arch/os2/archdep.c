@@ -357,7 +357,7 @@ char *archdep_cmdline(const char *name, char **argv, const char *sout, const cha
    exit status. If `stdout_redir' or `stderr_redir' are != NULL,
    redirect stdout or stderr to the corresponding file.  */
 int archdep_spawn(const char *name, char **argv,
-                  const char *stdout_redir, const char *stderr_redir)
+                  char **pstdout_redir, const char *stderr_redir)
 {  // how to redirect stdout & stderr??
     typedef struct _CHILDINFO {  /* Define a structure for the queue data */
         USHORT usSessionID;
@@ -375,6 +375,10 @@ int archdep_spawn(const char *name, char **argv,
     ULONG       ulSession;        /* Session ID for the child session  */
     APIRET      rc;               /* Return code from API's            */
     char       *cmdline;
+    char *stdout_redir = NULL;
+
+    if (pstdout_redir != NULL)
+       stdout_redir = *pstdout_redir;
 
     if (archdep_search_path(name, fqName, sizeof(fqName)))
         return -1;

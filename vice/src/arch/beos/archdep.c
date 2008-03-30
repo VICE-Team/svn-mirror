@@ -204,10 +204,14 @@ int archdep_path_is_relative(const char *path)
 }
 
 int archdep_spawn(const char *name, char **argv,
-                  const char *stdout_redir, const char *stderr_redir)
+                  char **pstdout_redir, const char *stderr_redir)
 {
     pid_t child_pid;
     int child_status;
+    char *stdout_redir = NULL;
+
+    if (pstdout_redir != NULL)
+       stdout_redir = *pstdout_redir;
 
     child_pid = vfork();
     if (child_pid < 0) {

@@ -431,7 +431,7 @@ int archdep_path_is_relative(const char *path)
 }
 
 int archdep_spawn(const char *name, char **argv,
-                  const char *stdout_redir, const char *stderr_redir)
+                  char **pstdout_redir, const char *stderr_redir)
 {
 #ifndef _S_IREAD
 #define _S_IREAD S_IREAD
@@ -444,6 +444,10 @@ int archdep_spawn(const char *name, char **argv,
     int old_stdout_mode, old_stderr_mode;
     int old_stdout, old_stderr;
     int retval;
+    char *stdout_redir = NULL;
+
+    if (pstdout_redir != NULL)
+       stdout_redir = *pstdout_redir;
 
     new_stdout = new_stderr = old_stdout = old_stderr = -1;
 

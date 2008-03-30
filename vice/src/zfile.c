@@ -177,8 +177,6 @@ static char *try_uncompress_with_gzip(const char *name)
     if (!archdep_file_is_gzip(name))
         return NULL;
 
-    tmp_name = archdep_tmpnam();
-
     fddest = archdep_mkstemp_fd(&tmp_name, MODE_WRITE);
 
     if (fddest == NULL)
@@ -221,7 +219,7 @@ static char *try_uncompress_with_gzip(const char *name)
     tmp_name = archdep_tmpnam();
 
     ZDEBUG(("try_uncompress_with_gzip: spawning gzip -cd %s", name));
-    exit_status = archdep_spawn("gzip", argv, tmp_name, NULL);
+    exit_status = archdep_spawn("gzip", argv, &tmp_name, NULL);
 
     lib_free(argv[0]);
     lib_free(argv[1]);
@@ -263,7 +261,7 @@ static char *try_uncompress_with_bzip(const char *name)
     tmp_name = archdep_tmpnam();
 
     ZDEBUG(("try_uncompress_with_bzip: spawning bzip -cd %s", name));
-    exit_status = archdep_spawn("bzip2", argv, tmp_name, NULL);
+    exit_status = archdep_spawn("bzip2", argv, &tmp_name, NULL);
 
     lib_free(argv[0]);
     lib_free(argv[1]);
@@ -301,7 +299,7 @@ static char *try_uncompress_with_tzx(const char *name)
     tmp_name = archdep_tmpnam();
 
     ZDEBUG(("try_uncompress_with_tzx: spawning 64tzxtap %s", name));
-    exit_status = archdep_spawn("64tzxtap", argv, tmp_name, NULL);
+    exit_status = archdep_spawn("64tzxtap", argv, &tmp_name, NULL);
 
     lib_free(argv[0]);
     lib_free(argv[1]);
@@ -399,7 +397,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 
     ZDEBUG(("try_uncompress_archive: spawning `%s %s %s'",
         program, listopts, name));
-    exit_status = archdep_spawn(program, argv, tmp_name, NULL);
+    exit_status = archdep_spawn(program, argv, &tmp_name, NULL);
 
     lib_free(argv[0]);
     lib_free(argv[1]);
@@ -488,7 +486,7 @@ static char *try_uncompress_archive(const char *name, int write_mode,
 
     ZDEBUG(("try_uncompress_archive: spawning `%s %s %s %s'.",
         program, extractopts, name, tmp + nameoffset));
-    exit_status = archdep_spawn(program, argv, tmp_name, NULL);
+    exit_status = archdep_spawn(program, argv, &tmp_name, NULL);
 
     lib_free(argv[0]);
     lib_free(argv[1]);
@@ -795,6 +793,7 @@ static int compress_with_gzip(const char *src, const char *dest)
 #else
     static char *argv[4];
     int exit_status;
+    char *mdest;
 
     /* `exec*()' does not want these to be constant...  */
     argv[0] = lib_stralloc("gzip");
@@ -802,8 +801,12 @@ static int compress_with_gzip(const char *src, const char *dest)
     argv[2] = lib_stralloc(src);
     argv[3] = NULL;
 
+    mdest = lib_stralloc(dest);
+
     ZDEBUG(("compress_with_gzip: spawning gzip -c %s", src));
-    exit_status = archdep_spawn("gzip", argv, dest, NULL);
+    exit_status = archdep_spawn("gzip", argv, &mdest, NULL);
+
+    lib_free(mdest);
 
     lib_free(argv[0]);
     lib_free(argv[1]);
@@ -824,6 +827,7 @@ static int compress_with_bzip(const char *src, const char *dest)
 {
     static char *argv[4];
     int exit_status;
+    char *mdest;
 
     /* `exec*()' does not want these to be constant...  */
     argv[0] = lib_stralloc("bzip2");
@@ -831,8 +835,12 @@ static int compress_with_bzip(const char *src, const char *dest)
     argv[2] = lib_stralloc(src);
     argv[3] = NULL;
 
+    mdest = lib_stralloc(dest);
+
     ZDEBUG(("compress_with_bzip: spawning bzip -c %s", src));
-    exit_status = archdep_spawn("bzip2", argv, dest, NULL);
+    exit_status = archdep_spawn("bzip2", argv, &mdest, NULL);
+
+    lib_free(mdest);
 
     lib_free(argv[0]);
     lib_free(argv[1]);

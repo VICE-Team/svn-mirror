@@ -224,7 +224,7 @@ int archdep_default_logger(const char *level_string, const char *txt)
 }
 
 int archdep_spawn(const char *name, char **argv,
-                  const char *stdout_redir, const char *stderr_redir)
+                  char **pstdout_redir, const char *stderr_redir)
 {
     return 0;
 }
