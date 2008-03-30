@@ -3,7 +3,7 @@
  * via2.def - Definitions for the VIA2 emulation in the VIC20.
  *
  * Written by
- *   Andre' Fachat (fachat@physik.tu-chemnitz.de)
+ *   André Fachat (fachat@physik.tu-chemnitz.de)
  * Patches by
  *   Ettore Perazzoli (ettore@comm2000.it)
  *
@@ -41,40 +41,51 @@
 
 INCLUDES()
 {
-    #include "true1541.h"
-    #include "kbd.h"
-    #include "vic20iec.h"
-    #include "vic20via.h"
-    #include "pruser.h"
+#include "true1541.h"
+#include "kbd.h"
+#include "vic20iec.h"
+#include "vic20via.h"
+#include "pruser.h"
+#include "mem.h"
 }
 
 
-#define	GLOBALS
+GLOBALS()
+{
+    static int tape_sense = 0;
+}
 
 #define	via_set_int		maincpu_set_nmi
 #define	VIA2_INT		IK_NMI
 
 /* #define VIA2_TIMER_DEBUG */
 
-#define	PRE_VIA_FUNCS
+PRE_VIA_FUNCS()
+{
 
+    void mem_set_tape_sense(int v) {
+	tape_sense = v;
+    }
+}
 
 STORE_PRB()
 {
-     via2[addr] = byte;
-     userport_printer_write_data(via2[VIA_PRB] | (~via2[VIA_DDRB]));
+    via2[addr] = byte;
+    userport_printer_write_data(via2[VIA_PRB] | (~via2[VIA_DDRB]));
 }
 
 STORE_PCR()
 {
-        if(byte != via2[VIA_PCR]) {
-          register BYTE tmp = byte;
-          /* first set bit 1 and 5 to the real output values */
-          if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
-          if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
-                                     /* switching userport strobe with CB2 */
-          userport_printer_write_strobe( byte & 0x20 );
-        }
+    if (byte != via2[VIA_PCR]) {
+	register BYTE tmp = byte;
+	/* first set bit 1 and 5 to the real output values */
+	if ((tmp & 0x0c) != 0x0c)
+	    tmp |= 0x02;
+	if ((tmp & 0xc0) != 0xc0)
+	    tmp |= 0x20;
+	/* switching userport strobe with CB2 */
+	userport_printer_write_strobe(byte & 0x20);
+    }
 }
 
 #define	STORE_ACR
@@ -83,65 +94,62 @@ STORE_PCR()
 
 RESET_VIA()
 {
-     iec_pa_write(0xff);
+    iec_pa_write(0xff);
 
-     userport_printer_write_data(0xff);
-     userport_printer_write_strobe(1);
+    userport_printer_write_data(0xff);
+    userport_printer_write_strobe(1);
 }
 
 
 STORE_PRA()
 {
-     via2[addr] = byte;
-     iec_pa_write(via2[VIA_PRA] | (~via2[VIA_DDRA]));
+    via2[addr] = byte;
+    iec_pa_write(via2[VIA_PRA] | (~via2[VIA_DDRA]));
 }
 
 READ_PRA()
 {
-     {
-	  BYTE joy_bits;
+    {
+	BYTE joy_bits;
 
-	  /*
-	     Port A is connected this way:
+	/*
+	   Port A is connected this way:
 
-	     bit 0  IEC clock
-	     bit 1  IEC data
-	     bit 2  joystick switch 0 (up)
-	     bit 3  joystick switch 1 (down)
-	     bit 4  joystick switch 2 (left)
-	     bit 5  joystick switch 4 (fire)
-	     bit 6  IEC ATN
+	   bit 0  IEC clock
+	   bit 1  IEC data
+	   bit 2  joystick switch 0 (up)
+	   bit 3  joystick switch 1 (down)
+	   bit 4  joystick switch 2 (left)
+	   bit 5  joystick switch 4 (fire)
+	   bit 6  tape sense
+	   bit 7  IEC ATN
 
-	  */
+	 */
 
-	  /* Setup joy bits (2 through 5).  Use the `or' of the values
-             of both joysticks so that it works with every joystick
-             setting.  This is a bit slow... we might think of a
-             faster method.  */
-	  joy_bits = ~(joy[1] | joy[2]);
-	  joy_bits = ((joy_bits & 0x7) << 2) | ((joy_bits & 0x10) << 1);
+	/* Setup joy bits (2 through 5).  Use the `or' of the values
+	   of both joysticks so that it works with every joystick
+	   setting.  This is a bit slow... we might think of a
+	   faster method.  */
+	joy_bits = ~(joy[1] | joy[2]);
+	joy_bits = ((joy_bits & 0x7) << 2) | ((joy_bits & 0x10) << 1);
 
-	  /* We assume `iec_pa_read()' returns the non-IEC bits
-             as zeroes. */
-	  return ((via2[VIA_PRA] & via2[VIA_DDRA])
-		  | ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA]));
-     }
+	joy_bits |= tape_sense ? 0 : 0x40;
+
+	/* We assume `iec_pa_read()' returns the non-IEC bits
+	   as zeroes. */
+	return ((via2[VIA_PRA] & via2[VIA_DDRA])
+		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA]));
+    }
 }
 
 READ_PRB()
 {
-     byte = (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
+    byte = (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
 }
 
 POST_VIA_FUNCS()
 {
-
-void userport_printer_set_busy(int b) {
-    via2_signal(VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
+    void userport_printer_set_busy(int b) {
+	via2_signal(VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
+    }
 }
-
-}
-
-
-
-

@@ -139,11 +139,12 @@
 #include "resources.h"
 
 
-    #include "true1541.h"
-    #include "kbd.h"
-    #include "vic20iec.h"
-    #include "vic20via.h"
-    #include "pruser.h"
+#include "true1541.h"
+#include "kbd.h"
+#include "vic20iec.h"
+#include "vic20via.h"
+#include "pruser.h"
+#include "mem.h"
 
 #include "interrupt.h"
 
@@ -159,6 +160,7 @@
 BYTE    via2[16];
 
 
+    static int tape_sense = 0;
 
 /*
  * local functions
@@ -190,6 +192,10 @@ static int 		via2pb7sx;
 
 
 
+    void mem_set_tape_sense(int v) {
+	tape_sense = v;
+    }
+
 /*
  * according to Rockwell, all internal registers are cleared, except
  * for the Timer (1 and 2, counter and latches) and the shift register.
@@ -220,10 +226,10 @@ void    reset_via2(void)
     update_via2irq();
 
 
-     iec_pa_write(0xff);
+    iec_pa_write(0xff);
 
-     userport_printer_write_data(0xff);
-     userport_printer_write_strobe(1);
+    userport_printer_write_data(0xff);
+    userport_printer_write_strobe(1);
 
 }
 
@@ -282,8 +288,8 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
 	addr = VIA_PRA;
       case VIA_DDRA:
 
-     via2[addr] = byte;
-     iec_pa_write(via2[VIA_PRA] | (~via2[VIA_DDRA]));
+    via2[addr] = byte;
+    iec_pa_write(via2[VIA_PRA] | (~via2[VIA_DDRA]));
 	break;
 
       case VIA_PRB: /* port B */
@@ -295,8 +301,8 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
 
       case VIA_DDRB:
 
-     via2[addr] = byte;
-     userport_printer_write_data(via2[VIA_PRB] | (~via2[VIA_DDRB]));
+    via2[addr] = byte;
+    userport_printer_write_data(via2[VIA_PRB] | (~via2[VIA_DDRB]));
 	break;
 
       case VIA_SR: /* Serial Port output buffer */
@@ -434,14 +440,16 @@ byte, via2pb7, via2pb7x, via2pb7o, via2pb7xx, via2pb7sx);*/
 	/* bit 0  CA1 interrupt control */
 
 
-        if(byte != via2[VIA_PCR]) {
-          register BYTE tmp = byte;
-          /* first set bit 1 and 5 to the real output values */
-          if((tmp & 0x0c) != 0x0c) tmp |= 0x02;
-          if((tmp & 0xc0) != 0xc0) tmp |= 0x20;
-                                     /* switching userport strobe with CB2 */
-          userport_printer_write_strobe( byte & 0x20 );
-        }
+    if (byte != via2[VIA_PCR]) {
+	register BYTE tmp = byte;
+	/* first set bit 1 and 5 to the real output values */
+	if ((tmp & 0x0c) != 0x0c)
+	    tmp |= 0x02;
+	if ((tmp & 0xc0) != 0xc0)
+	    tmp |= 0x20;
+	/* switching userport strobe with CB2 */
+	userport_printer_write_strobe(byte & 0x20);
+    }
 	via2[addr] = byte;
 	break;
 
@@ -485,34 +493,37 @@ BYTE REGPARM1 read_via2_(ADDRESS addr)
 
       case VIA_PRA_NHS: /* port A, no handshake */
 
-     {
-	  BYTE joy_bits;
+    {
+	BYTE joy_bits;
 
-	  /*
-	     Port A is connected this way:
+	/*
+	   Port A is connected this way:
 
-	     bit 0  IEC clock
-	     bit 1  IEC data
-	     bit 2  joystick switch 0 (up)
-	     bit 3  joystick switch 1 (down)
-	     bit 4  joystick switch 2 (left)
-	     bit 5  joystick switch 4 (fire)
-	     bit 6  IEC ATN
+	   bit 0  IEC clock
+	   bit 1  IEC data
+	   bit 2  joystick switch 0 (up)
+	   bit 3  joystick switch 1 (down)
+	   bit 4  joystick switch 2 (left)
+	   bit 5  joystick switch 4 (fire)
+	   bit 6  tape sense
+	   bit 7  IEC ATN
 
-	  */
+	 */
 
-	  /* Setup joy bits (2 through 5).  Use the `or' of the values
-             of both joysticks so that it works with every joystick
-             setting.  This is a bit slow... we might think of a
-             faster method.  */
-	  joy_bits = ~(joy[1] | joy[2]);
-	  joy_bits = ((joy_bits & 0x7) << 2) | ((joy_bits & 0x10) << 1);
+	/* Setup joy bits (2 through 5).  Use the `or' of the values
+	   of both joysticks so that it works with every joystick
+	   setting.  This is a bit slow... we might think of a
+	   faster method.  */
+	joy_bits = ~(joy[1] | joy[2]);
+	joy_bits = ((joy_bits & 0x7) << 2) | ((joy_bits & 0x10) << 1);
 
-	  /* We assume `iec_pa_read()' returns the non-IEC bits
-             as zeroes. */
-	  return ((via2[VIA_PRA] & via2[VIA_DDRA])
-		  | ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA]));
-     }
+	joy_bits |= tape_sense ? 0 : 0x40;
+
+	/* We assume `iec_pa_read()' returns the non-IEC bits
+	   as zeroes. */
+	return ((via2[VIA_PRA] & via2[VIA_DDRA])
+		| ((iec_pa_read() | joy_bits) & ~via2[VIA_DDRA]));
+    }
 
       case VIA_PRB: /* port B */
         via2ifr &= ~VIA_IM_CB1;
@@ -523,7 +534,7 @@ BYTE REGPARM1 read_via2_(ADDRESS addr)
 	{
 	  BYTE byte;
 
-     byte = (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
+    byte = (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
 	  if(via2[VIA_ACR] & 0x80) {
 	    update_via2tal();
 /*printf("read: rclk=%d, pb7=%d, pb7o=%d, pb7ox=%d, pb7x=%d, pb7xx=%d\n",
@@ -589,7 +600,7 @@ BYTE REGPARM1 peek_via2(ADDRESS addr)
 	{
 	  BYTE byte;
 
-     byte = (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
+    byte = (via2[VIA_PRB] & via2[VIA_DDRB]) | (0xff & ~via2[VIA_DDRB]);
 	  if(via2[VIA_ACR] & 0x80) {
 	    update_via2tal();
 /*printf("read: rclk=%d, pb7=%d, pb7o=%d, pb7ox=%d, pb7x=%d, pb7xx=%d\n",
@@ -673,9 +684,7 @@ void via2_prevent_clk_overflow(CLOCK sub)
 }
 
 
-
-void userport_printer_set_busy(int b) {
-    via2_signal(VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
-}
-
+    void userport_printer_set_busy(int b) {
+	via2_signal(VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
+    }
 

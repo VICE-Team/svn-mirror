@@ -501,7 +501,7 @@ BYTE REGPARM1 read_via1_(ADDRESS addr)
 
     {
 	/* FIXME: not 100% sure about this... */
-        BYTE val = via1[VIA_PRB] | ~via1[VIA_DDRB];
+        BYTE val = ~via1[VIA_DDRB];
 	BYTE msk = via1[VIA_PRA] | ~via1[VIA_DDRA];
 	int m, i;
 
@@ -514,7 +514,7 @@ BYTE REGPARM1 read_via1_(ADDRESS addr)
 	if ((joy[1] | joy[2]) & 0x8)
 	    val &= 0x7f;
 
-	byte = val;
+	byte = val | (via1[VIA_PRB] & via1[VIA_DDRB]);
     }
 	  if(via1[VIA_ACR] & 0x80) {
 	    update_via1tal();
@@ -583,7 +583,7 @@ BYTE REGPARM1 peek_via1(ADDRESS addr)
 
     {
 	/* FIXME: not 100% sure about this... */
-        BYTE val = via1[VIA_PRB] | ~via1[VIA_DDRB];
+        BYTE val = ~via1[VIA_DDRB];
 	BYTE msk = via1[VIA_PRA] | ~via1[VIA_DDRA];
 	int m, i;
 
@@ -596,7 +596,7 @@ BYTE REGPARM1 peek_via1(ADDRESS addr)
 	if ((joy[1] | joy[2]) & 0x8)
 	    val &= 0x7f;
 
-	byte = val;
+	byte = val | (via1[VIA_PRB] & via1[VIA_DDRB]);
     }
 	  if(via1[VIA_ACR] & 0x80) {
 	    update_via1tal();
