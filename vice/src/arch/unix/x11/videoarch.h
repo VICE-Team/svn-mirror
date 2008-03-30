@@ -69,9 +69,8 @@ struct video_canvas_s {
     unsigned int depth;
 #ifdef HAVE_XVIDEO
     XvImage *xv_image;
-    int xv_format;
     XvPortID xv_port;
-    xv_render_t xv_render;
+    fourcc_t xv_format;
 #endif
 #ifdef USE_GNOMEUI
     GdkImage *gdk_image;

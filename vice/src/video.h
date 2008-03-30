@@ -153,6 +153,7 @@ extern void video_render_main(video_render_config_t *config, BYTE *src, BYTE *tr
                               int height, int xs, int ys, int xt, int yt,
                               int pitchs, int pitcht, int depth);
 extern int video_render_get_fake_pal_state(void);
+extern void video_refresh_all(struct video_canvas_s *c);
 
 #endif
 

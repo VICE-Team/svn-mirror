@@ -322,6 +322,8 @@ extern void raster_set_canvas_refresh(raster_t *raster, int enable);
 extern void raster_screenshot(raster_t *raster, struct screenshot_s *screenshot);
 extern void raster_async_refresh(raster_t *raster, struct canvas_refresh_s *ref);
 extern void raster_free(raster_t *raster);
+extern void raster_update_canvas_all(raster_t *raster);
+extern raster_t *raster_get_raster_from_canvas(struct video_canvas_s *canvas);
 
 
 /* Inlined functions.  These need to be *fast*.  */

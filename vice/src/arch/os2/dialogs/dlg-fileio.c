@@ -825,8 +825,10 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             {
                 WinEnableControl(hwnd, DID_ACTION_CB,    FALSE);
                 WinEnableControl(hwnd, DID_SUBACTION_CB, FALSE);
-                WinEnableControl(hwnd, DID_AUTOSTART_PB, FALSE);
             }
+
+            if (action || fdlg->fl&FDS_SAVEAS_DIALOG)
+                WinEnableControl(hwnd, DID_AUTOSTART_PB, FALSE);
 
             szpath = concat(fdlg->pszIDrive, fdlg->szFullFile, NULL);
             *(strrchr(szpath, '\\')+1)='\0';
@@ -976,14 +978,24 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             {
                 const int pos = WinDlgLboxSelectedItem(hwnd, DID_CONTENTS_LB);
 
+                FILEDLG *fdlg = (FILEDLG*)WinQueryWindowPtr(hwnd, QWL_USER);
+
+                size_t length;
                 char szpath[CCHMAXPATH];
 
                 if (!GetFullFile(hwnd, szpath))
                     return FALSE;
 
                 if (autostart_autodetect(szpath, NULL, pos < 0 ? 0 : pos,
-                    AUTOSTART_MODE_RUN))
+                                         AUTOSTART_MODE_RUN))
                     return FALSE;
+
+                length = strrchr(szpath, '\\') - szpath;
+
+                fdlg->lReturn = DID_OK;
+
+                if (length>0)
+                    fdlg->szFullFile[length] = 0;
             }
             break;
         }
@@ -1129,6 +1141,6 @@ void ViceFileDialog(HWND hwnd, ULONG action, ULONG fl)
     // if the result was ok store the path
     //
     drive[0]=filedlg.szFullFile[0];
-    strncpy(path, dat, strrchr(filedlg.szFullFile,'\\')-dat);
+    strcpy(path, dat);
 }
 

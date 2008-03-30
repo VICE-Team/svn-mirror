@@ -27,7 +27,9 @@
 
 #include <Alert.h>
 #include <Application.h>
+#include <DirectWindow.h>
 #include <FilePanel.h>
+#include <Locker.h>
 #include <MenuItem.h>
 
 #include "vicemenu.h"
@@ -54,6 +56,7 @@ extern "C" {
 #include "ui.h"
 #include "ui_file.h"
 #include "utils.h"
+#include "video.h"
 #include "vicewindow.h"
 #include "vsync.h"
 }
@@ -125,7 +128,7 @@ void ViceWindow::Update_Menus(
 class ViceView : public BView {
 	public:
 		ViceView(BRect rect);
-		virtual void Draw(BRect rect);
+//		virtual void Draw(BRect rect);
 		virtual void MouseDown(BPoint point);
 		virtual void MouseUp(BPoint point);
 };
@@ -135,6 +138,7 @@ ViceView::ViceView(BRect rect)
 {
 }
 
+#if 0
 void ViceView::Draw(BRect rect) {
 	ViceWindow *wnd = (ViceWindow *)Window();
 
@@ -142,6 +146,7 @@ void ViceView::Draw(BRect rect) {
 		DrawBitmap(wnd->bitmap, rect, rect);
 	}
 }
+#endif
 
 /* some hooks for the 1351 mouse emulation */
 void ViceView::MouseDown(BPoint point) {
@@ -166,7 +171,7 @@ void ViceView::MouseUp(BPoint point) {
 }
 
 ViceWindow::ViceWindow(BRect frame, char const *title) 
-		: BWindow(frame, title,
+		: BDirectWindow(frame, title,
 		B_TITLED_WINDOW,
 		B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS) {
 
@@ -177,6 +182,7 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 	/* create the menubar; key events reserved for the emu */
 	menubar = menu_create(machine_class);
 	AddChild(menubar);
+	menubar_offset = (int)menubar->Frame().Height();
 	SetKeyMenuBar(NULL);
 
 	/* create the File Panel */
@@ -188,19 +194,29 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 				B_FILE_NODE, false);
 		
 	/* the view for the canvas */
-	r = menubar->Frame();
-	view = new ViceView(BRect(frame.left,frame.top+r.Height()+1,
-						frame.right,frame.bottom+r.Height()+2));
+	view = new ViceView(BRect(frame.left,frame.top+menubar_offset+2,
+						frame.right,frame.bottom+menubar_offset+2));
+						
+	/* Set it transparent since we're using DirectWindow API */
+	view->SetViewColor(B_TRANSPARENT_32_BIT);
 	AddChild(view);
 
 	/* bitmap is NULL; will be registered by canvas_refresh */
-	bitmap = NULL;
+//	bitmap = NULL;
 	
 	/* the statusbar is created in Resize() */
 	statusbar = NULL;
 
 	/* register the window */
 	windowlist[window_count++] = this;
+
+	fconnected = false;
+	fconnectiondisabled = false;
+	locker = new BLocker();
+	fclip_list = NULL;
+	fcliplist_count = 0;
+	if (!SupportsWindowMode())
+		SetFullScreen(true);
 
 	/* finally display the window */
 	Resize(frame.Width(), frame.Height());
@@ -210,6 +226,9 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 ViceWindow::~ViceWindow() {
 	BView *vsid = FindView("vsid");
 	
+	fconnectiondisabled = true;
+	Hide();
+	Sync();
 	if (vsid) {
 		RemoveChild(vsid);
 		delete vsid;
@@ -222,6 +241,9 @@ ViceWindow::~ViceWindow() {
 	delete statusbar;
 	delete filepanel;
 	delete savepanel;
+	delete locker;
+	if (fclip_list != NULL)
+		free(fclip_list);
 }
 
 
@@ -261,14 +283,14 @@ void ViceWindow::Resize(unsigned int width, unsigned int height) {
 			delete statusbar;
 			statusbar = NULL;
 		}
-		statusbar_frame.top = view->Frame().bottom;
+		statusbar_frame.top = view->Frame().bottom-1;
 		statusbar_frame.bottom = view->Frame().bottom+41;
 		statusbar_frame.left = 0;
 		statusbar_frame.right = view->Frame().right;
 		statusbar = new ViceStatusbar(statusbar_frame);
 		AddChild(statusbar);
 		ui_statusbar_update();
-		new_windowheight = 	menubar->Frame().Height()+
+		new_windowheight = 	menubar_offset +
 			view->Frame().Height()+
 			statusbar->Frame().Height();
 		BWindow::ResizeTo(width-1, new_windowheight);
@@ -277,6 +299,7 @@ void ViceWindow::Resize(unsigned int width, unsigned int height) {
 	}
 }
 
+#if 0
 void ViceWindow::DrawBitmap(BBitmap *bitmap, 
 	int xs, int ys, int xi, int yi, int w, int h) {
 	if	(BWindow::Lock()) {
@@ -286,4 +309,43 @@ void ViceWindow::DrawBitmap(BBitmap *bitmap,
 		BWindow::Unlock();
 	} 
 }
+#endif
 	
+void ViceWindow::DirectConnected(direct_buffer_info *info)
+{
+	bool isdirty = false;
+	
+	if (!fconnected && fconnectiondisabled)
+		return;
+	
+	locker->Lock();
+	
+	switch(info->buffer_state & B_DIRECT_MODE_MASK) {
+		case B_DIRECT_START:
+			fconnected = true;
+		case B_DIRECT_MODIFY:
+			if (fclip_list) {
+				free(fclip_list);
+				fclip_list = NULL;
+			}
+			fcliplist_count = info->clip_list_count;
+			fclip_list = (clipping_rect *)
+				malloc(fcliplist_count * sizeof(clipping_rect));
+			if (fclip_list)
+				memcpy(fclip_list, info->clip_list,
+					fcliplist_count * sizeof(clipping_rect));
+			fbits = (BYTE *)info->bits;
+			fbytes_per_row = info->bytes_per_row;
+			fbits_per_pixel = info->bits_per_pixel;
+			fbounds = info->window_bounds;
+			isdirty = true;
+			break;
+		case B_DIRECT_STOP:
+			fconnected = false;
+			break;
+	}
+
+	locker->Unlock();
+	if (isdirty)
+		video_refresh_all((struct video_canvas_s *)canvas);
+}

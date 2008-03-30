@@ -89,6 +89,7 @@ int video_init(void)
 /* ------------------------------------------------------------------------ */
 /* Canvas functions.  */
 
+#if 0
 static void canvas_create_bitmap(video_canvas_t *c,
 							     unsigned int width,
 							     unsigned int height)
@@ -110,7 +111,7 @@ static void canvas_create_bitmap(video_canvas_t *c,
 	c->vicewindow->bitmap = new BBitmap(BRect(0,0,width-1,height-1),
 			use_colorspace,false,true);
 }    
-
+#endif
 
 video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
                               unsigned int *height, int mapped,
@@ -151,7 +152,9 @@ video_canvas_t *video_canvas_create(const char *title, unsigned int *width,
 	new_canvas->vicewindow = 
 		new ViceWindow(BRect(0,0,*width-1,*height-1),title);
 		
-	canvas_create_bitmap(new_canvas, *width, *height);
+	new_canvas->vicewindow->canvas = new_canvas;
+		
+//	canvas_create_bitmap(new_canvas, *width, *height);
 
 	number_of_canvas++;
 	new_canvas->vicewindow->MoveTo(number_of_canvas*30,number_of_canvas*30);
@@ -166,7 +169,7 @@ void video_canvas_destroy(video_canvas_t *c)
 	if (c == NULL)
 		return;
 
-	delete c->vicewindow->bitmap;
+//	delete c->vicewindow->bitmap;
 	delete c->vicewindow;
 	free(c->title);
 	free(c);
@@ -180,8 +183,8 @@ void video_canvas_resize(video_canvas_t *c, unsigned int width,
 	if (c->width == width && c->height == height)
 		return;
 
-	delete c->vicewindow->bitmap;
-	canvas_create_bitmap(c, width, height);
+//	delete c->vicewindow->bitmap;
+//	canvas_create_bitmap(c, width, height);
     
 	c->vicewindow->Resize(width,height);
 	c->width = width;
@@ -259,6 +262,12 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
                           	unsigned int xi, unsigned int yi,
                           	unsigned int w, unsigned int h)
 {
+	int i, x_offset, y_offset, hh, ww, xxi, xxs, yyi, yys;
+	BYTE *p;
+	clipping_rect *clip;
+	ViceWindow *vw = c->vicewindow;
+
+#if 0
 	w = MIN(w, c->width - xi);
 	h = MIN(h, c->height - yi);
 
@@ -273,4 +282,66 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
                           c->depth);
 
 	c->vicewindow->DrawBitmap(c->vicewindow->bitmap,xi,yi,xi,yi,w,h);
+#endif
+	
+	vw->locker->Lock();
+	if (vw->fconnected)
+	{
+		x_offset = vw->fbounds.left;
+		y_offset = vw->fbounds.top + vw->menubar_offset;
+
+		p = vw->fbits 
+				+ y_offset * vw->fbytes_per_row 
+				+ x_offset * (vw->fbits_per_pixel >> 3);
+
+		for (i = 0; i < vw->fcliplist_count; i++)
+		{
+			clip = &(vw->fclip_list[i]);
+
+			hh = h;	ww = w;
+			xxi = xi; yyi = yi;	xxs = xs; yys = ys;
+
+			/* cut left */
+			if (clip->left > xxi + x_offset)
+			{
+				xxs = xxs + clip->left - xxi - x_offset;
+				ww = ww - clip->left + xxi + x_offset;
+				xxi = clip->left - x_offset;
+			}
+
+			/* cut right */
+			if (clip->right + 1 < xxi + x_offset + ww)
+			{
+				ww = clip->right + 1 - xxi - x_offset;
+			}
+			
+			/* cut top */
+			if (clip->top > yyi + y_offset)
+			{
+				yys = yys + clip->top - yyi - y_offset;
+				hh = hh - clip->top + yyi + y_offset;
+				yyi = clip->top - y_offset;
+			}
+
+			/* cut bottom */
+			if (clip->bottom + 1 < yyi + y_offset + hh)
+			{
+				hh = clip->bottom + 1 - yyi - y_offset;
+			}
+			
+			if (ww > 0 && hh > 0)
+				video_render_main(&c->videoconfig,
+                          draw_buffer,
+                          p,
+                          ww, hh,
+                          xxs, yys,
+                          xxi, yyi,
+                          draw_buffer_line_size,
+                          vw->fbytes_per_row,
+                          c->depth);
+		}
+	}
+	
+	vw->locker->Unlock();			
+	
 }

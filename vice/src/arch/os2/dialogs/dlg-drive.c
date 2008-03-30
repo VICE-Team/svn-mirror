@@ -67,12 +67,13 @@ static int get_drive_res(char *format, int drive)
     return val;
 }
 
-#define nDRIVES 12
+#define nDRIVES 13
 
 const char driveName[nDRIVES][28] = {
     "None",
     "1541, 5\"1/4, SS",
     "1541-II, 5\"1/4 SS",
+    "1551",
     "1571, 5\"1/4, DS",
     "1581, 3\"1/2, DS",
     "2031, 5\"1/4, SS, IEEE488",
@@ -88,6 +89,7 @@ const int driveRes[nDRIVES] = {
     DRIVE_TYPE_NONE,
     DRIVE_TYPE_1541,
     DRIVE_TYPE_1541II,
+    DRIVE_TYPE_1551,
     DRIVE_TYPE_1571,
     DRIVE_TYPE_1581,
     DRIVE_TYPE_2031,

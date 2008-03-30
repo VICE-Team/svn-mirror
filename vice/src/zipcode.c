@@ -60,32 +60,36 @@ int zipcode_read_sector(FILE *zip_fd, int track, int *sector, char *buf)
                 return -3;
             }
 
-            if (chra != rep)
+            if (chra != rep) {
                 buf[count++] = chra;
-            else {
-                t1 = fread((char *)&repnum, 1, 1, zip_fd);
-                t2 = fread((char *)&chra, 1, 1, zip_fd);
-                if (!t1 || !t2) {
-                    return 1;
-                }
-                i += 2;
-                for (j = 0; j < repnum; j++)
-                    buf[count++] = chra;
-            }
-        }
-    } else {
-        if (trk & 0x40) {
-            if ((t1 = fread((char *)&chra, 1, 1, zip_fd)) == 0) {
-                return -4;
+                continue;
             }
 
-            for (i = 0; i < 256; i++)
-                buf[i] = chra;
-        } else {
-            if (fread(buf, 256, 1, zip_fd) < 1) {
-                return -5;
+            t1 = fread((char *)&repnum, 1, 1, zip_fd);
+            t2 = fread((char *)&chra, 1, 1, zip_fd);
+            if (!t1 || !t2) {
+                return 1;
             }
+            i += 2;
+            for (j = 0; j < repnum; j++)
+                buf[count++] = chra;
         }
+        return 0;
+    }
+
+    if (trk & 0x40) {
+        if ((t1 = fread((char *)&chra, 1, 1, zip_fd)) == 0) {
+            return -4;
+        }
+
+        for (i = 0; i < 256; i++)
+            buf[i] = chra;
+
+        return 0;
+    }
+
+    if (fread(buf, 256, 1, zip_fd) < 1) {
+        return -5;
     }
 
     return 0;

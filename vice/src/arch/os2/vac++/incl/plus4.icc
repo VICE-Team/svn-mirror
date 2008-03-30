@@ -9,6 +9,7 @@ source type(c)
     "plus4memlimit.c",
     "plus4pio1.c",
     "plus4pio2.c",
+    "tcbm.c",
     "ted-cmdline-options.c",
     "ted-color.c",
     "ted-draw.c",

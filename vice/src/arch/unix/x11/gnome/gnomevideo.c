@@ -53,7 +53,7 @@ void video_init_arch(void)
 extern GtkWidget *canvas;
 extern GdkGC *app_gc;
 
-inline void GDK_PUTIMAGE(Display *d, GdkPixmap *drawable, GdkGC *gc,
+inline void GDK_PUTIMAGE(Display *d, GdkWindow *drawable, GdkGC *gc,
 			 GdkImage *image, int src_x, int src_y,
 			 int dest_x, int dest_y,
 			 unsigned int width, unsigned int height, int b,
@@ -61,7 +61,6 @@ inline void GDK_PUTIMAGE(Display *d, GdkPixmap *drawable, GdkGC *gc,
 {
   gdk_draw_image(drawable, gc, c->gdk_image, src_x, src_y,
 		 dest_x, dest_y, width, height);
-  gdk_window_clear_area(c->emuwindow->window, dest_x, dest_y, width, height);
 
   gdk_flush();
 }
@@ -93,8 +92,7 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
         Display *display = ui_get_display_ptr();
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
 
-	if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format,
-			   &canvas->xv_render)) {
+	if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format)) {
 	  return -1;
 	}
 
@@ -103,8 +101,8 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
 	}
 
 	log_message(gnomevideo_log,
-		    _("Successfully initialized using XVideo (%s)."),
-		    canvas->xv_render.format);
+		    _("Successfully initialized using XVideo (%dx%d %4s)."),
+		    width, height, canvas->xv_format.label);
 
 	return 0;
     }
@@ -155,20 +153,6 @@ void video_canvas_unmap(video_canvas_t *s)
 
 void ui_finish_canvas(video_canvas_t *c)
 {
-    int depth;
-
-    if (use_xvideo) {
-        return;
-    }
-
-    depth = ui_get_display_depth();
-
-    if (c->drawable)
-	gdk_pixmap_unref(c->drawable);    
-    
-    c->drawable = gdk_pixmap_new(c->emuwindow->window, 
-				 c->width, c->height, depth);
-    gdk_window_set_back_pixmap(c->emuwindow->window, 
-			       c->drawable, 0);
+    c->drawable = c->emuwindow->window;
 }
 

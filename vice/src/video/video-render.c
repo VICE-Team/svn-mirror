@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "raster.h"
 #include "render1x1.h"
 #include "render1x1pal.h"
 #include "render1x2.h"
@@ -286,3 +287,12 @@ printf("w:%i h:%i xs:%i ys:%i xt:%i yt:%i ps:%i pt:%i d%i\n",
 	}
 }
 
+void video_refresh_all(struct video_canvas_s *c)
+{
+	raster_t *raster;
+	
+	raster = raster_get_raster_from_canvas(c);
+	
+	if (raster != NULL)
+		raster_update_canvas_all(raster);
+}

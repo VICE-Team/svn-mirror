@@ -87,8 +87,7 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
     if (use_xvideo) {
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
 
-	if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format,
-			   &canvas->xv_render)) {
+	if (!find_yuv_port(display, &canvas->xv_port, &canvas->xv_format)) {
 	  return -1;
 	}
 
@@ -97,8 +96,8 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
 	}
 
 	log_message(x11video_log,
-		    _("Successfully initialized using XVideo (%s)."),
-		    canvas->xv_render.format);
+		    _("Successfully initialized using XVideo (%dx%d %4s)."),
+		    width, height, canvas->xv_format.label);
 
 	return 0;
     }

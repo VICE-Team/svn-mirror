@@ -33,65 +33,25 @@
 
 #include "renderxv.h"
 
+#include "video.h"
+#include "video/video-resources.h"
+
 #include <stdio.h>
 #include <string.h>
 
-void render_UYVY(int pal_mode,
-		 XvImage* image,
-		 unsigned char* src,
-		 int src_pitch,
-		 unsigned int* src_color,
-		 int src_x, int src_y,
-		 unsigned int src_w, unsigned int src_h,
-		 int dest_x, int dest_y);
-
-void render_YUY2(int pal_mode,
-		 XvImage* image,
-		 unsigned char* src,
-		 int src_pitch,
-		 unsigned int* src_color,
-		 int src_x, int src_y,
-		 unsigned int src_w, unsigned int src_h,
-		 int dest_x, int dest_y);
-
-void render_YVYU(int pal_mode,
-		 XvImage* image,
-		 unsigned char* src,
-		 int src_pitch,
-		 unsigned int* src_color,
-		 int src_x, int src_y,
-		 unsigned int src_w, unsigned int src_h,
-		 int dest_x, int dest_y);
-
-void render_YV12(int pal_mode,
-		 XvImage* image,
-		 unsigned char* src,
-		 int src_pitch,
-		 unsigned int* src_color,
-		 int src_x, int src_y,
-		 unsigned int src_w, unsigned int src_h,
-		 int dest_x, int dest_y);
-
-void render_I420(int pal_mode,
-		 XvImage* image,
-		 unsigned char* src,
-		 int src_pitch,
-		 unsigned int* src_color,
-		 int src_x, int src_y,
-		 unsigned int src_w, unsigned int src_h,
-		 int dest_x, int dest_y);
-
-xv_render_t render_list[] = {
-  { "UYVY", render_UYVY },
-  { "YUY2", render_YUY2 },
-  { "YVYU", render_YVYU },
-  { "YV12", render_YV12 },
-  { "I420", render_I420 },
-  { "IYUV", render_I420 }, /* IYUV is a duplicate of I420. */
+/* YUV formats in preferred order. */
+fourcc_t fourcc_list[] = {
+  /* YUV 4:2:2 formats: */
+  { FOURCC_UYVY },
+  { FOURCC_YUY2 },
+  { FOURCC_YVYU },
+  /* YUV 4:1:1 formats: */
+  { FOURCC_YV12 },
+  { FOURCC_I420 },
+  { FOURCC_IYUV }, /* IYUV is a duplicate of I420. */
 };
 
-int find_yuv_port(Display* display, XvPortID* port, int* format,
-		  xv_render_t* render)
+int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format)
 {
   int i, j, k;
 
@@ -150,9 +110,9 @@ int find_yuv_port(Display* display, XvPortID* port, int* format,
     format_list = XvListImageFormats(display, adaptor_info[i].base_id,
 				     &num_formats);
 
-    for (j = 0; j < sizeof(render_list)/sizeof(*render_list); j++) {
+    for (j = 0; j < sizeof(fourcc_list)/sizeof(*fourcc_list); j++) {
       for (k = 0; k < num_formats; k++) {
-	if (strcmp(format_list[k].guid, render_list[j].format) != 0) {
+	if (format_list[k].id != fourcc_list[j].id) {
 	  continue;
 	}
 
@@ -164,8 +124,7 @@ int find_yuv_port(Display* display, XvPortID* port, int* format,
 	      continue;
 	    }
 	    *port = port_id;
-	    *format = format_list[k].id;
-	    *render = render_list[j];
+	    *format = fourcc_list[j];
 	    XFree(format_list);
 	    XvFreeAdaptorInfo(adaptor_info);
 	    return 1;
@@ -182,14 +141,14 @@ int find_yuv_port(Display* display, XvPortID* port, int* format,
 }
 
 
-XvImage* create_yuv_image(Display* display, XvPortID port, int format,
+XvImage* create_yuv_image(Display* display, XvPortID port, fourcc_t format,
 			  int width, int height, XShmSegmentInfo* shminfo)
 {
   XvImage* image;
 
   if (shminfo) {
-    if (!(image = XvShmCreateImage(display, port, format, NULL, width, height,
-				   shminfo)))
+    if (!(image = XvShmCreateImage(display, port, format.id, NULL,
+				   width, height, shminfo)))
     {
       printf("Unable to create shm XvImage\n");
       return NULL;
@@ -228,7 +187,9 @@ XvImage* create_yuv_image(Display* display, XvPortID port, int format,
     shmctl(shminfo->shmid, IPC_RMID, 0);
   }
   else {
-    if (!(image = XvCreateImage(display, port, format, NULL, width, height))) {
+    if (!(image = XvCreateImage(display, port, format.id, NULL,
+				width, height)))
+    {
       printf("Unable to create XvImage\n");
       return NULL;
     }
@@ -346,6 +307,54 @@ void render_4_2_2(XvImage* image,
     }
     src += src_pitch - src_w;
     dest += dest_pitch - (src_w >> 1);
+  }
+}
+
+
+/* Render double size packed YUV 4:2:2 formats. */
+void render2x_4_2_2(XvImage* image,
+		    int shift_y0, int shift_u, int shift_v, int shift_y1,
+		    unsigned char* src,
+		    int src_pitch,
+		    unsigned int* src_color,
+		    int src_x, int src_y,
+		    unsigned int src_w, unsigned int src_h,
+		    int dest_x, int dest_y,
+		    int doublescan)
+{
+  int x, y;
+  unsigned int YUV;
+  unsigned int pixel2;
+  unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
+  int dest_pitch = image->pitches[0]/4;
+
+  /* No need to normalize to 2x1 blocks because of size doubling. */
+
+  /* Add start offsets. */
+  dest += (dest_pitch << 1)*dest_y + dest_x;
+  src += src_pitch*src_y + src_x;
+
+  /* Render 2x1 blocks, YUV 4:2:2 */
+  for (y = 0; y < src_h; y++) {
+    for (x = 0; x < src_w; x++) {
+      YUV = src_color[*src++];
+      pixel2 =
+	(Y(YUV) << shift_y0)
+	| (U(YUV) << shift_u)
+	| (V(YUV) << shift_v)
+	| (Y(YUV) << shift_y1);
+      *dest = pixel2;
+      if (!doublescan) {
+	/* Zero intensity. */
+	pixel2 =
+	  (U(YUV) << shift_u)
+	  | (V(YUV) << shift_v);
+      }
+      *(dest + dest_pitch) = pixel2;
+      dest++;
+    }
+    src += src_pitch - src_w;
+    dest += (dest_pitch << 1) - src_w;
   }
 }
 
@@ -981,174 +990,141 @@ void render_4_1_1_composite(XvImage* image,
 }
 
 
-void render_UYVY(int pal_mode,
-		 XvImage* image,
-		 unsigned char* src,
-		 int src_pitch,
-		 unsigned int* src_color,
-		 int src_x, int src_y,
-		 unsigned int src_w, unsigned int src_h,
-		 int dest_x, int dest_y)
+/* Render YUV 4:2:2 and 4:1:1 formats. */
+void render_yuv_image(int double_size,
+		      int double_scan,
+		      int pal_mode,
+		      fourcc_t format,
+		      XvImage* image,
+		      unsigned char* src,
+		      int src_pitch,
+		      unsigned int* src_color,
+		      int src_x, int src_y,
+		      unsigned int src_w, unsigned int src_h,
+		      int dest_x, int dest_y)
 {
+  int planar;
   int shift_y0, shift_u, shift_v, shift_y1;
+  int plane_y, plane_u, plane_v;
 
+  switch (format.id) {
+  case FOURCC_UYVY:
+    planar = 0;
 #ifdef WORDS_BIGENDIAN
-  shift_y0 = 16; shift_u = 24; shift_v = 8; shift_y1 = 0;
+    shift_y0 = 16; shift_u = 24; shift_v = 8; shift_y1 = 0;
 #else
-  shift_y0 = 8; shift_u = 0; shift_v = 16; shift_y1 = 24;
+    shift_y0 = 8; shift_u = 0; shift_v = 16; shift_y1 = 24;
 #endif
-
-  switch(pal_mode) {
-  default:
-  case VIDEO_RESOURCE_PAL_MODE_FAST:
-    render_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
-		 src, src_pitch, src_color,
-		 src_x, src_y, src_w, src_h, dest_x, dest_y);
     break;
-  case VIDEO_RESOURCE_PAL_MODE_SHARP:
-    render_4_2_2_yc(image, shift_y0, shift_u, shift_v, shift_y1,
-		    src, src_pitch, src_color,
-		    src_x, src_y, src_w, src_h, dest_x, dest_y);
-    break;
-  case VIDEO_RESOURCE_PAL_MODE_BLUR:
-    render_4_2_2_composite(image, shift_y0, shift_u, shift_v, shift_y1,
-			   src, src_pitch, src_color,
-			   src_x, src_y, src_w, src_h, dest_x, dest_y);
-    break;
-  }
-}
-
-
-void render_YUY2(int pal_mode,
-		 XvImage* image,
-		 unsigned char* src,
-		 int src_pitch,
-		 unsigned int* src_color,
-		 int src_x, int src_y,
-		 unsigned int src_w, unsigned int src_h,
-		 int dest_x, int dest_y)
-{
-  int shift_y0, shift_u, shift_v, shift_y1;
-
+  case FOURCC_YUY2:
+    planar = 0;
 #ifdef WORDS_BIGENDIAN
-  shift_y0 = 24; shift_u = 16; shift_v = 0; shift_y1 = 8;
+    shift_y0 = 24; shift_u = 16; shift_v = 0; shift_y1 = 8;
 #else
-  shift_y0 = 0; shift_u = 8; shift_v = 24; shift_y1 = 16;
+    shift_y0 = 0; shift_u = 8; shift_v = 24; shift_y1 = 16;
 #endif
-
-  switch(pal_mode) {
-  default:
-  case VIDEO_RESOURCE_PAL_MODE_FAST:
-    render_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
-		 src, src_pitch, src_color,
-		 src_x, src_y, src_w, src_h, dest_x, dest_y);
     break;
-  case VIDEO_RESOURCE_PAL_MODE_SHARP:
-    render_4_2_2_yc(image, shift_y0, shift_u, shift_v, shift_y1,
-		    src, src_pitch, src_color,
-		    src_x, src_y, src_w, src_h, dest_x, dest_y);
-    break;
-  case VIDEO_RESOURCE_PAL_MODE_BLUR:
-    render_4_2_2_composite(image, shift_y0, shift_u, shift_v, shift_y1,
-			   src, src_pitch, src_color,
-			   src_x, src_y, src_w, src_h, dest_x, dest_y);
-    break;
-  }
-}
-
-
-void render_YVYU(int pal_mode,
-		 XvImage* image,
-		 unsigned char* src,
-		 int src_pitch,
-		 unsigned int* src_color,
-		 int src_x, int src_y,
-		 unsigned int src_w, unsigned int src_h,
-		 int dest_x, int dest_y)
-{
-  int shift_y0, shift_u, shift_v, shift_y1;
-
+  case FOURCC_YVYU:
+    planar = 0;
 #ifdef WORDS_BIGENDIAN
-  shift_y0 = 24; shift_u = 0; shift_v = 16; shift_y1 = 8;
+    shift_y0 = 24; shift_u = 0; shift_v = 16; shift_y1 = 8;
 #else
-  shift_y0 = 0; shift_u = 24; shift_v = 8; shift_y1 = 16;
+    shift_y0 = 0; shift_u = 24; shift_v = 8; shift_y1 = 16;
 #endif
-
-  switch(pal_mode) {
+    break;
+  case FOURCC_YV12:
+    planar = 1;
+    plane_y = 0; plane_u = 2; plane_v = 1;
+    break;
+  case FOURCC_I420:
+  case FOURCC_IYUV:
+    planar = 1;
+    plane_y = 0; plane_u = 1; plane_v = 2;
+    break;
   default:
-  case VIDEO_RESOURCE_PAL_MODE_FAST:
-    render_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
-		 src, src_pitch, src_color,
-		 src_x, src_y, src_w, src_h, dest_x, dest_y);
-    break;
-  case VIDEO_RESOURCE_PAL_MODE_SHARP:
-    render_4_2_2_yc(image, shift_y0, shift_u, shift_v, shift_y1,
-		    src, src_pitch, src_color,
-		    src_x, src_y, src_w, src_h, dest_x, dest_y);
-    break;
-  case VIDEO_RESOURCE_PAL_MODE_BLUR:
-    render_4_2_2_composite(image, shift_y0, shift_u, shift_v, shift_y1,
-			   src, src_pitch, src_color,
-			   src_x, src_y, src_w, src_h, dest_x, dest_y);
-    break;
+    return;
   }
-}
 
-
-void render_YV12(int pal_mode,
-		 XvImage* image,
-		 unsigned char* src,
-		 int src_pitch,
-		 unsigned int* src_color,
-		 int src_x, int src_y,
-		 unsigned int src_w, unsigned int src_h,
-		 int dest_x, int dest_y)
-{
-  int plane_y = 0, plane_u = 2, plane_v = 1;
-
-  switch(pal_mode) {
-  default:
-  case VIDEO_RESOURCE_PAL_MODE_FAST:
-    render_4_1_1(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
-		 src_x, src_y, src_w, src_h, dest_x, dest_y);
-    break;
-  case VIDEO_RESOURCE_PAL_MODE_SHARP:
-    render_4_1_1_yc(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
-		    src_x, src_y, src_w, src_h, dest_x, dest_y);
-    break;
-  case VIDEO_RESOURCE_PAL_MODE_BLUR:
-    render_4_1_1_composite(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
-			   src_x, src_y, src_w, src_h, dest_x, dest_y);
-    break;
+  if (double_size) {
+    /* 1x1 */
+    if (planar) {
+      switch(pal_mode) {
+      default:
+      case VIDEO_RESOURCE_PAL_MODE_FAST:
+	render_4_1_1(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
+		     src_x, src_y, src_w, src_h, dest_x, dest_y);
+	break;
+      case VIDEO_RESOURCE_PAL_MODE_SHARP:
+	render_4_1_1_yc(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
+			src_x, src_y, src_w, src_h, dest_x, dest_y);
+	break;
+      case VIDEO_RESOURCE_PAL_MODE_BLUR:
+	render_4_1_1_composite(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
+			       src_x, src_y, src_w, src_h, dest_x, dest_y);
+	break;
+      }
+    }
+    else {
+      switch(pal_mode) {
+      default:
+      case VIDEO_RESOURCE_PAL_MODE_FAST:
+	render2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+		       src, src_pitch, src_color,
+		       src_x, src_y, src_w, src_h, dest_x, dest_y,
+		       double_scan);
+	break;
+      case VIDEO_RESOURCE_PAL_MODE_SHARP:
+	render_4_2_2_yc(image, shift_y0, shift_u, shift_v, shift_y1,
+			src, src_pitch, src_color,
+			src_x, src_y, src_w, src_h, dest_x, dest_y);
+	break;
+      case VIDEO_RESOURCE_PAL_MODE_BLUR:
+	render_4_2_2_composite(image, shift_y0, shift_u, shift_v, shift_y1,
+			       src, src_pitch, src_color,
+			       src_x, src_y, src_w, src_h, dest_x, dest_y);
+	break;
+      }
+    }
   }
-}
-
-
-void render_I420(int pal_mode,
-		 XvImage* image,
-		 unsigned char* src,
-		 int src_pitch,
-		 unsigned int* src_color,
-		 int src_x, int src_y,
-		 unsigned int src_w, unsigned int src_h,
-		 int dest_x, int dest_y)
-{
-  int plane_y = 0, plane_u = 1, plane_v = 2;
-
-  switch(pal_mode) {
-  default:
-  case VIDEO_RESOURCE_PAL_MODE_FAST:
-    render_4_1_1(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
-		 src_x, src_y, src_w, src_h, dest_x, dest_y);
-    break;
-  case VIDEO_RESOURCE_PAL_MODE_SHARP:
-    render_4_1_1_yc(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
-		    src_x, src_y, src_w, src_h, dest_x, dest_y);
-    break;
-  case VIDEO_RESOURCE_PAL_MODE_BLUR:
-    render_4_1_1_composite(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
-			   src_x, src_y, src_w, src_h, dest_x, dest_y);
-    break;
+  else {
+    /* 2x2 */
+    if (planar) {
+      switch(pal_mode) {
+      default:
+      case VIDEO_RESOURCE_PAL_MODE_FAST:
+	render_4_1_1(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
+		     src_x, src_y, src_w, src_h, dest_x, dest_y);
+	break;
+      case VIDEO_RESOURCE_PAL_MODE_SHARP:
+	render_4_1_1_yc(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
+			src_x, src_y, src_w, src_h, dest_x, dest_y);
+	break;
+      case VIDEO_RESOURCE_PAL_MODE_BLUR:
+	render_4_1_1_composite(image, plane_y, plane_u, plane_v, src, src_pitch, src_color,
+			       src_x, src_y, src_w, src_h, dest_x, dest_y);
+	break;
+      }
+    }
+    else {
+      switch(pal_mode) {
+      default:
+      case VIDEO_RESOURCE_PAL_MODE_FAST:
+	render_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+		     src, src_pitch, src_color,
+		     src_x, src_y, src_w, src_h, dest_x, dest_y);
+	break;
+      case VIDEO_RESOURCE_PAL_MODE_SHARP:
+	render_4_2_2_yc(image, shift_y0, shift_u, shift_v, shift_y1,
+			src, src_pitch, src_color,
+			src_x, src_y, src_w, src_h, dest_x, dest_y);
+	break;
+      case VIDEO_RESOURCE_PAL_MODE_BLUR:
+	render_4_2_2_composite(image, shift_y0, shift_u, shift_v, shift_y1,
+			       src, src_pitch, src_color,
+			       src_x, src_y, src_w, src_h, dest_x, dest_y);
+	break;
+      }
+    }
   }
 }
 

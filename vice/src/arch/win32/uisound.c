@@ -151,12 +151,6 @@ static void init_sound_dialog(HWND hwnd)
         
     CheckRadioButton(hwnd, IDC_SOUND_DIRECTX, IDC_SOUND_WMM, res_value);
 
-    resources_get_value("SidStereo",
-            (resource_value_t *)&res_value);
-    CheckDlgButton(hwnd, IDC_SOUND_SIDSTEREO, res_value
-                   ? BST_CHECKED : BST_UNCHECKED);
-
-
 }
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
@@ -196,10 +190,6 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
                                 (resource_value_t)ui_sound_adjusting[SendMessage(
                                 GetDlgItem(hwnd, IDC_SOUND_SYNCH),
                                 CB_GETCURSEL, 0, 0)]);
-            resources_set_value("SidStereo", (resource_value_t)
-                        (IsDlgButtonChecked
-                            (hwnd,IDC_SOUND_SIDSTEREO)==BST_CHECKED ?
-                            1 : 0 ));
 
           case IDCANCEL:
             EndDialog(hwnd,0);

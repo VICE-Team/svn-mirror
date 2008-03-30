@@ -80,8 +80,9 @@
 #include <gdk/gdkx.h>
 #endif
 #ifdef HAVE_XVIDEO
-#include "raster/raster.h"
 #include "renderxv.h"
+#include "raster/raster.h"
+#include "video/video-resources.h"
 extern DWORD yuv_table[128];
 #endif
 
@@ -453,12 +454,14 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     ui_window_t w;
     XGCValues gc_values;
 
+#if 0
 #ifdef HAVE_XVIDEO
     if (use_xvideo) {
         *width = xv_raster->geometry.screen_size.width;
 	*height = xv_raster->geometry.last_displayed_line
 	  - xv_raster->geometry.first_displayed_line + 1;
     }
+#endif
 #endif
 
     canvas = (video_canvas_t *)xmalloc(sizeof(video_canvas_t));
@@ -535,7 +538,7 @@ int video_canvas_set_palette(video_canvas_t *c, const struct palette_s *palette,
 void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
                          unsigned int height)
 {
-    if (console_mode || vsid_mode || use_xvideo) {
+    if (console_mode || vsid_mode) {
         return;
     }
 
@@ -585,41 +588,57 @@ void video_canvas_refresh(video_canvas_t *canvas,
 
 #ifdef HAVE_XVIDEO
     if (use_xvideo) {
+        int xmin = xv_raster->geometry.extra_offscreen_border_left;
+	int wmax = xv_raster->geometry.screen_size.width;
+	int ymin = xv_raster->geometry.first_displayed_line;
+	int hmax = xv_raster->geometry.last_displayed_line
+	  - xv_raster->geometry.first_displayed_line + 1;
+
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
         Window root;
 	int x, y;
 	unsigned int dest_w, dest_h, border_width, depth;
 
+	if (canvas->videoconfig.doublesizex) {
+	  xs /= 2;
+	  ys /= 2;
+	  w /= 2;
+	  h /= 2;
+	}
+
 	display = ui_get_display_ptr();
 
 	/* FIXME: raster.c passes off-screen areas! */
-	if (ys < xv_raster->geometry.first_displayed_line
-	    || ys + h > xv_raster->geometry.last_displayed_line
-	    || xs < xv_raster->geometry.extra_offscreen_border_left
-	    || xs - xv_raster->geometry.extra_offscreen_border_left + w > xv_raster->geometry.screen_size.width - 1)
+	if (xs < xmin
+	    || xs + w >= xmin + wmax
+	    || ys < ymin
+	    || ys + h >= ymin + hmax
+	    )
 	{
             log_error(video_log, "Off-screen area passed to video_canvas_refresh: x=%i, y=%i, w=%i, h=%i",
-		      xs - xv_raster->geometry.extra_offscreen_border_left,
-		      ys - xv_raster->geometry.first_displayed_line,
+		      xs - xmin,
+		      ys - ymin,
 		      w, h);
-	    ys = xv_raster->geometry.first_displayed_line;
-	    h = xv_raster->geometry.last_displayed_line
-	      - xv_raster->geometry.first_displayed_line + 1;
-	    xs = xv_raster->geometry.extra_offscreen_border_left;
-	    w = xv_raster->geometry.screen_size.width;
+	    xs = xmin;
+	    w = wmax;
+	    ys = ymin;
+	    h = hmax;
 	}
 
-	canvas->xv_render.render_function(video_resources.pal_mode,
-					  canvas->xv_image,
-					  draw_buffer, draw_buffer_line_size,
-					  yuv_table,
-					  xs, ys, w, h,
-					  xs - xv_raster->geometry.extra_offscreen_border_left,
-					  ys - xv_raster->geometry.first_displayed_line);
+	render_yuv_image(canvas->videoconfig.doublesizex,
+			 canvas->videoconfig.doublescan,
+			 video_resources.pal_mode,
+			 canvas->xv_format,
+			 canvas->xv_image,
+			 draw_buffer, draw_buffer_line_size,
+			 yuv_table,
+			 xs, ys, w, h,
+			 xs - xmin,
+			 ys - ymin);
 
 	XGetGeometry(display,
 #ifdef USE_GNOMEUI
-		     GDK_WINDOW_XWINDOW(canvas->emuwindow->window),
+		     GDK_WINDOW_XWINDOW(canvas->drawable),
 #else
 		     canvas->drawable,
 #endif
@@ -630,16 +649,18 @@ void video_canvas_refresh(video_canvas_t *canvas,
 	   refresh the entire image to get it right. */
 	display_yuv_image(display, canvas->xv_port,
 #ifdef USE_GNOMEUI
-			  GDK_WINDOW_XWINDOW(canvas->emuwindow->window), GDK_GC_XGC(_video_gc),
+			  GDK_WINDOW_XWINDOW(canvas->drawable), GDK_GC_XGC(_video_gc),
 #else
 			  canvas->drawable, _video_gc,
 #endif
 			  canvas->xv_image, shminfo,
 			  0, 0,
-			  xv_raster->geometry.screen_size.width,
-			  xv_raster->geometry.last_displayed_line
-			  - xv_raster->geometry.first_displayed_line + 1,
+			  canvas->videoconfig.doublesizex ? wmax*2 : wmax,
+			  canvas->videoconfig.doublesizex ? hmax*2 : hmax,
 			  dest_w, dest_h);
+
+	if (_video_use_xsync)
+	    XSync(display, False);
 
 	return;
     }
@@ -665,4 +686,3 @@ void video_canvas_refresh(video_canvas_t *canvas,
     if (_video_use_xsync)
         XSync(display, False);
 }
-
