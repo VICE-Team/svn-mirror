@@ -1233,7 +1233,7 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
 #ifdef HAVE_RESID
             "",
             "reSID engine:"
-            "Copyright (c) 1999-2001 Dag Lem",
+            "Copyright (c) 1998-2001 Dag Lem",
 #endif
             "",
             "Official VICE homepage:",

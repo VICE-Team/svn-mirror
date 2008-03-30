@@ -248,6 +248,7 @@
 #define IDC_SID_RESID                   1345
 #define IDC_SID_RESID_SAMPLING          1346
 #define IDC_SID_RESID_PASSBAND          1347
+#define IDC_SID_STEREOADDRESS           1348
 
 #define IDD_VIDEO_COLORS_DIALOG         1400
 #define IDC_VIDEO_COLORS_SAT            1401
@@ -261,6 +262,7 @@
 #define IDD_VIDEO_ADVANCED_DIALOG       1409
 #define IDC_VIDEO_COLORS_GAM            1410
 #define IDC_VIDEO_COLORS_PHA            1411
+
 #define IDC_TOGGLE_VIDEO_EXTPALETTE     1412
 #define IDC_VIDEO_CUSTOM_NAME           1413
 #define IDC_VIDEO_CUSTOM_BROWSE         1414

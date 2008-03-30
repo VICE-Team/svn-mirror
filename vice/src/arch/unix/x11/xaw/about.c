@@ -139,7 +139,7 @@ UI_CALLBACK(ui_about)
              "Copyright C 1999-2001 Thomas Bretz",
              "Copyright C 1999-2001 Andreas Matthies",
              "Copyright C 1999-2001 Martin Pottendorfer",
-             "Copyright C 1999-2001 Dag Lem",
+             "Copyright C 1998-2001 Dag Lem",
              "Copyright C 2000-2001 Markus Brenner",
              "Copyright C 2000-2001 Spiro Trikaliotis",
              "",

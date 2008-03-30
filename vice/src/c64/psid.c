@@ -393,7 +393,7 @@ void psid_init_tune(void)
       log_message(vlog, "Using %s emulation",
                   sid_model ? "MOS8580" : "MOS6581");
       log_message(vlog, "Using %s interrupt", irq_str);
-      log_message(vlog, "Playing tune %d out of %d (defualt=%d)",
+      log_message(vlog, "Playing tune %d out of %d (default=%d)",
                   start_song, psid->songs, psid->start_song);
   }
   else {
