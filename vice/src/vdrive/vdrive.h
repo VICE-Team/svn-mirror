@@ -226,12 +226,6 @@ struct _DRIVE {
     char ReadOnly;
     int unit;
 
-    /* Function to call after the image is attached.  */
-    drive_attach_func_t attach_func;
-
-    /* Function to call before the image is detached.  */
-    drive_detach_func_t detach_func;
-
     /* Disk Format Constants */
 
     int D64_Header;		/* flag if file has header! */
@@ -303,22 +297,6 @@ struct _DRIVE {
 #define CHK_RDY		1
 #define CHK_EMU		2	/* Is image block based */
 
-#define D64_FILE_SIZE_35  174848        /* D64 image, 35 tracks */
-#define D64_FILE_SIZE_35E 175531        /* D64 image, 35 tracks with errors */
-#define D64_FILE_SIZE_40  196608        /* D64 image, 40 tracks */
-#define D64_FILE_SIZE_40E 197376        /* D64 image, 40 tracks with errors */
-#define D71_FILE_SIZE     349696        /* D71 image, 70 tracks */
-#define D81_FILE_SIZE     819200        /* D81 image, 80 tracks */
-#define	D80_FILE_SIZE     533248	/* D80 image, 77 tracks */
-#define	D82_FILE_SIZE    1066496	/* D82 image, 77 tracks */
-
-#define IS_D64_LEN(x) ((x) == D64_FILE_SIZE_35 || (x) == D64_FILE_SIZE_35E || \
-		       (x) == D64_FILE_SIZE_40 || (x) == D64_FILE_SIZE_40E)
-#define IS_D71_LEN(x) ((x) == D71_FILE_SIZE)
-#define IS_D81_LEN(x) ((x) == D81_FILE_SIZE)
-#define IS_D80_LEN(x) ((x) == D80_FILE_SIZE)
-#define IS_D82_LEN(x) ((x) == D82_FILE_SIZE)
-
 /*
  * Input Processor Error Codes
  */
@@ -367,23 +345,16 @@ typedef struct errortext_s {
 extern log_t vdrive_log;
 
 /* This mess will be cleaned up.  */
-extern int initialize_1541(int dev, int type,
-                           drive_attach_func_t attach_func,
-                           drive_detach_func_t detach_func,
-                           DRIVE *oldinfo);
+extern int initialize_1541(int dev, int type, DRIVE *oldinfo);
 
-extern int attach_floppy_image(DRIVE *floppy, const char *name, int mode);
-extern void detach_floppy_image(DRIVE *floppy);
-
-extern int vdrive_attach_image(disk_image_t *image, DRIVE *floppy,
-                               const char *filename);
+extern int vdrive_attach_image(disk_image_t *image, int unit, DRIVE *floppy);
+extern void vdrive_detach_image(disk_image_t *image, int unit, DRIVE *floppy);
 
 extern int vdrive_check_track_sector(int format, int track, int sector);
 extern int floppy_read_block(FILE *fd, int format, BYTE *buf, int track,
 			                 int sector, int d64, int g64, int unit);
 extern int floppy_write_block(FILE *fd, int format, BYTE *buf, int track,
 			                  int sector, int d64, int g64, int unit);
-extern int check_header(FILE *fd, hdrinfo *hdr);
 extern int get_diskformat(int devtype);
 extern int num_blocks(int format, int tracks);
 extern char *floppy_read_directory(DRIVE *floppy, const char *pattern);
