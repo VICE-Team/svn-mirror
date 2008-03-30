@@ -100,5 +100,9 @@ SOURCE=..\..\monitor\mon_lex.c
 
 SOURCE=..\..\monitor\mon_parse.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_util.c
+# End Source File
 # End Target
 # End Project

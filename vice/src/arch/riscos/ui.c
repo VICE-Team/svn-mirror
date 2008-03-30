@@ -488,8 +488,8 @@ static char **DriveFiles[] = {
 /* Logging */
 static log_t roui_log = LOG_ERR;
 
-static int NumberOfFrames = 0;
 static int LastFrame;
+static int NumberOfFrames = 0;
 static int ShowEmuPane = 1;
 static char *ROMSetName = NULL;
 static char *ROMSetArchiveFile = NULL;
@@ -500,6 +500,7 @@ int LastSpeed;
 int RelativeSpeed = 100;
 int EmuPaused;
 int SingleTasking = 0;
+int CycleBasedSound;
 char *PetModelName = NULL;
 char *CBM2ModelName = NULL;
 
@@ -838,6 +839,7 @@ static RO_IconDesc IBarIcon = {
 static const char Rsrc_Sound[] = "Sound";
 static const char Rsrc_SndRate[] = "SoundSampleRate";
 static const char Rsrc_SndBuff[] = "SoundBufferSize";
+static const char Rsrc_ReSid[] = "SidUseResid";
 static const char Rsrc_ReSidPass[] = "SidResidPassband";
 static const char Rsrc_True[] = "DriveTrueEmulation";
 static const char Rsrc_Poll[] = "PollEvery";
@@ -2426,6 +2428,14 @@ static void ui_safe_exit(void)
 }
 
 
+static int ui_resync_speed(void)
+{
+  LastSpeed = OS_ReadMonotonicTime();
+  NumberOfFrames = 0; NumberOfRefreshes = 0;
+  return LastSpeed;
+}
+
+
 /* Shared by all uis for installing the icon bar icon */
 int ui_init(int *argc, char *argv[])
 {
@@ -2486,8 +2496,6 @@ int ui_init(int *argc, char *argv[])
 
   if (vsid_mode)
     WimpTaskName = "Vice VSID";
-
-  LastPoll = OS_ReadMonotonicTime(); LastSpeed = LastPoll; LastFrame = LastPoll;
 
   TaskHandle = Wimp_Initialise(310, TASK_WORD, WimpTaskName, (int*)WimpMessages);
   strncpy(MenuIconBar.head.title, WimpTaskName, 12);
@@ -2756,6 +2764,8 @@ int ui_init_finish(void)
       resources_set_value(Rsrc_SndBuff, (resource_value_t)Maximum_Latency);
     }
   }
+  /* resid active? */
+  resources_get_value(Rsrc_ReSid, (resource_value_t*)&CycleBasedSound);
 
   ROMSetName = stralloc("Default");
 
@@ -2773,6 +2783,9 @@ int ui_init_finish(void)
   }
 
   atexit(ui_safe_exit);
+
+  LastPoll = ui_resync_speed();
+  LastFrame = LastPoll;
 
   return 0;
 }
@@ -3494,6 +3507,7 @@ static int ui_mouse_click_config(int *b, int wnum)
               wimp_menu_tick_slct(submenu, flags);
             }
           }
+          break;
         default:
           break;
       }
@@ -3539,6 +3553,10 @@ static int ui_mouse_click_conf_misc(int *b, int wnum)
     {
       ui_drag_sound_volume(b);
       Sound_Volume(SoundVolume);
+    }
+    else if (b[MouseB_Icon] == Icon_Conf_UseResid)
+    {
+      resources_get_value(Rsrc_ReSid, (resource_value_t*)&CycleBasedSound);
     }
   }
   else if (b[MouseB_Window] == ConfWindows[CONF_WIN_JOY]->Handle)
@@ -4540,6 +4558,10 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
         default:
           break;
       }
+      break;
+    case CONF_MENU_SPEED:
+      ui_resync_speed();
+      break;
     default:
       return 0;
   }
@@ -5318,7 +5340,7 @@ int ui_poll_core(int *block)
   return event;
 }
 
-void ui_poll(void)
+void ui_poll(int frame_delay)
 {
   int now;
 
@@ -5332,7 +5354,7 @@ void ui_poll(void)
 
   now = OS_ReadMonotonicTime();
 
-  NumberOfFrames++;
+  NumberOfFrames += 1 - frame_delay;
 
   /* Speed limiter? Busy wait */
   if (CurrentSpeedLimit != 0)
@@ -5682,8 +5704,7 @@ void ui_display_paused(int flag)
   {
     ui_temp_resume_sound(); t = SymbolStrings[Symbol_Pause];
     /* resync to avoid including the pause in the speed calculation */
-    LastSpeed = OS_ReadMonotonicTime();
-    NumberOfFrames = 0; NumberOfRefreshes = 0;
+    ui_resync_speed();
   }
   else
   {

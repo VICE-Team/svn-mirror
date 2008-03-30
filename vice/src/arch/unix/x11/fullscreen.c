@@ -55,7 +55,7 @@
 #include "resources.h"
 #include "log.h"
 #include "ui.h"
-#include "vsync.h"
+#include "vsyncarch.h"
 #include "utils.h"
 #include "videoarch.h"
 

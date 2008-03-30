@@ -38,7 +38,7 @@ typedef void (*ui_exposure_handler_t) (unsigned int width, unsigned int height);
 
 extern int ui_init_named_app(const char *appname, const char *iconname);
 
-extern void ui_poll(void);
+extern void ui_poll(int frame_delay);
 extern int  ui_poll_core(int *block);
 
 extern void ui_message(const char *format,...);
@@ -88,6 +88,7 @@ extern int EmuPaused;
 extern int SingleTasking;
 extern int RelativeSpeed;
 extern int CurrentSpeedLimit;
+extern int CycleBasedSound;
 
 extern char *PetModelName;
 extern char *CBM2ModelName;

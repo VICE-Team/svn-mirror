@@ -772,6 +772,8 @@ static int compress_with_gzip(const char *src, const char *dest)
     gzclose(fddest);
     fclose(fdsrc);
 
+    archdep_file_set_gzip(dest);
+
     ZDEBUG(("compress with zlib: OK."));
 
     return 0;
@@ -830,6 +832,8 @@ static int compress_with_bzip(const char *src, const char *dest)
 
     gzclose(fddest);
     fclose(fdsrc);
+
+    archdep_file_set_gzip(dest);
 
     return 0;
 #else

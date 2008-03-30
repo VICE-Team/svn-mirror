@@ -38,6 +38,9 @@
 #include <sys/time.h>
 #include <unistd.h>
 
+/* hook to ui event dispatcher */
+static void_hook_t ui_dispatch_hook;
+
 /* ------------------------------------------------------------------------- */
 
 /* Get time in microseconds. */
@@ -52,6 +55,7 @@ unsigned long vsyncarch_gettime(void)
 
 void vsyncarch_init(void)
 {
+    (void) vsync_set_event_dispatcher(ui_dispatch_events);
 }
 
 /* Display speed (percentage) and frame rate (frames per second). */
@@ -70,9 +74,16 @@ void vsyncarch_presync(void)
 {
 }
 
+void_hook_t vsync_set_event_dispatcher (void_hook_t hook)
+{
+    void_hook_t t = ui_dispatch_hook;
+    ui_dispatch_hook = hook;
+    return t;
+}
+
 void vsyncarch_postsync(void)
 {
-    ui_dispatch_events();
+    (*ui_dispatch_hook)();
     kbd_buf_flush();
 #ifdef HAS_JOYSTICK
     joystick();

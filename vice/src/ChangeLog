@@ -1,3 +1,28 @@
+2001-03-18  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.10.
+
+2001-03-14  pottendo  <pottendo@utanet.at>
+
+	* vsync.h,vsyncarc.h: Moved prototype to vsyncarch.h.
+
+	* arch/unix/vsyncarch.c (all): Reintroduced hook patch for
+	vsync.
+
+	* arch/unix/x11/fullscreen.c: Include `vsyncarch.h'.
+
+2001-03-14  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.{c,h}: keep track of reSID choice, resync
+	speed when changing speed settings, take care of
+	sound_flush()'s frame delay.
+
+	* arch/riscos/vsync.c: propagate frame delay to ui_poll,
+	reordered calls, use different sound_flush() speed parameters
+	for SID and reSID.
+
+	* zfile.c: added archdep_file_set_gzip() to compression code.
+
 2001-03-14  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.9.

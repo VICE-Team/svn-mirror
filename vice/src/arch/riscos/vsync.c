@@ -127,6 +127,7 @@ static int skip_counter=0;
 int do_vsync(int been_skipped)
 {
   int skip_next_frame = 0;
+  int frame_delay;
 
   if (FullScreenMode != 0)
   {
@@ -141,14 +142,6 @@ int do_vsync(int been_skipped)
     EmuWindowHasInputFocus = (canvas_for_handle(caret.WHandle) == NULL) ? 0 : 1;
   }
 
-  vsync_hook();
-
-  joystick();
-
-  ui_poll();
-
-  video_full_screen_plot_status();
-
   if (warp_mode_enabled) {
     if (skip_counter < MAX_SKIPPED_FRAMES) {
       skip_next_frame = 1;
@@ -156,7 +149,6 @@ int do_vsync(int been_skipped)
     } else {
       skip_counter = 0;
     }
-    sound_flush(0);
   } else if (refresh_rate != 0) {
     if (skip_counter < refresh_rate - 1) {
       skip_next_frame = 1;
@@ -164,7 +156,6 @@ int do_vsync(int been_skipped)
     } else {
       skip_counter = 0;
     }
-    sound_flush(CurrentSpeedLimit);
   } else {
     if (skip_counter >= NumberOfRefreshes) {
       NumberOfRefreshes = -1;
@@ -177,8 +168,10 @@ int do_vsync(int been_skipped)
         skip_counter = 0;
       }
     }
-    sound_flush(CurrentSpeedLimit);
   }
+
+  /* always pass the actual speed unless in reSID mode */
+  frame_delay = sound_flush((CycleBasedSound == 0) ? RelativeSpeed : CurrentSpeedLimit);
 
   if (frame_counter >= refresh_frequency * 2) {
     num_skipped_frames = 0;
@@ -188,6 +181,14 @@ int do_vsync(int been_skipped)
   }
 
   if (skip_next_frame == 0) NumberOfRefreshes++;
+
+  vsync_hook();
+
+  joystick();
+
+  ui_poll(frame_delay);
+
+  video_full_screen_plot_status();
 
   kbd_buf_flush();
 

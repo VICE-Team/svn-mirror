@@ -28,6 +28,8 @@
 
 #include "vice.h"
 
+typedef void (*void_hook_t)(void);
+
 /* provide the actual time in microseconds */
 unsigned long vsyncarch_gettime(void);
 
@@ -46,4 +48,6 @@ void vsyncarch_presync(void);
 /* this is called after do_vsync did the synchroniation */
 void vsyncarch_postsync(void);
 
+/* set ui dispatcher function */
+void_hook_t vsync_set_event_dispatcher(void_hook_t hook);
 #endif
