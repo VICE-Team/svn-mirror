@@ -122,8 +122,12 @@ inline static void line_becomes_bad(const int cycle)
         if (vicii.idle_state && xpos > 0)
             vicii.buf_offset = xpos;
 
-        /* As we are on a bad line, switch to display state.  */
-        switch_to_display_state(cycle);
+        /* As we are on a bad line, switch to display state.
+           Display state becomes visible after one cycle delay.
+           The following equation must be true:
+           cycle + 1 - 15 = cycle - (11 + 3)
+           15: first display cycle, 11: first fetch cycle */
+        switch_to_display_state(cycle + 1);
 
         /* Force the DMA.  */
         if (num_chars > 0)
