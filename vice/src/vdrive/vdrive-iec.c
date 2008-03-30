@@ -142,10 +142,10 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
                     unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
-    char realname[256];
-    unsigned int reallength, readmode, filetype, record_length;
     int track, sector;
     BYTE *slot; /* Current directory entry */
+    int rc, status = SERIAL_OK;
+    cmd_parse_t cmd_parse;
 
     if ((!name || !*name) && p->mode != BUFFER_COMMAND_CHANNEL)  /* EP */
         return SERIAL_NO_DEVICE;        /* Routine was called incorrectly. */
@@ -201,28 +201,32 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
         return SERIAL_ERROR;
     }
 
-    /* Default filemodes.  */
-    readmode = (secondary == 1) ? FAM_WRITE : FAM_READ;
+    cmd_parse.cmd = name;
+    cmd_parse.cmdlength = length;
+    cmd_parse.readmode = (secondary == 1) ? FAM_WRITE : FAM_READ;;
 
-    filetype = 0;
-    record_length = 0;
+    rc = vdrive_command_parse(&cmd_parse);
 
-    if (vdrive_parse_name(name, length, realname, &reallength,
-        &readmode, &filetype, &record_length) != SERIAL_OK)
-        return SERIAL_ERROR;
+    if (rc != SERIAL_OK) {
+        status = SERIAL_ERROR;
+        goto out;
+    }
+
 #ifdef DEBUG_DRIVE
         log_debug("Raw file name: `%s', length: %i.", name, length);
-        log_debug("Parsed file name: `%s', reallength: %i.", name, reallength);
+        log_debug("Parsed file name: `%s', reallength: %i.",
+                  cmd_parse.parsecmd, cmd_parse.parselength);
 #endif
 
     /* Override read mode if secondary is 0 or 1.  */
     if (secondary == 0)
-        readmode = FAM_READ;
+        cmd_parse.readmode = FAM_READ;
     if (secondary == 1)
-        readmode = FAM_WRITE;
+        cmd_parse.readmode = FAM_WRITE;
 
     /* Limit file name to 16 chars.  */
-    reallength = (reallength > 16) ? 16 : reallength;
+    if (cmd_parse.parselength > 16)
+        cmd_parse.parselength = 16;
 
     /*
      * Internal buffer ?
@@ -231,7 +235,8 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
         p->mode = BUFFER_MEMORY_BUFFER;
         p->buffer = (BYTE *)xmalloc(256);
         p->bufptr = 0;
-        return SERIAL_OK;
+        status = SERIAL_OK;
+        goto out;
     }
 
     /*
@@ -252,8 +257,9 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
 
         p->mode = BUFFER_DIRECTORY_READ;
         p->buffer = (BYTE *)xmalloc(DIR_MAXBUF);
-        retlen = vdrive_dir_create_directory(vdrive, realname, reallength,
-                                             filetype, p->buffer);
+        retlen = vdrive_dir_create_directory(vdrive, cmd_parse.parsecmd,
+                                             cmd_parse.parselength,
+                                             cmd_parse.filetype, p->buffer);
 
         if (retlen < 0) {
             /* Directory not valid.  */
@@ -261,11 +267,13 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
             free(p->buffer);
             p->length = 0;
             vdrive_command_set_error(vdrive, IPE_NOT_FOUND, 0, 0);
-            return SERIAL_ERROR;
+            status = SERIAL_ERROR;
+            goto out;
         }
         p->length = (unsigned int)retlen;
         p->bufptr = 0;
-        return SERIAL_OK;
+        status = SERIAL_OK;
+        goto out;
     }
 
     /*
@@ -273,13 +281,14 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
      * on filename
      */
 
-    if (!filetype)
-        filetype = (secondary < 2) ? FT_PRG : FT_SEQ;
+    if (cmd_parse.filetype != 0)
+        cmd_parse.filetype = (secondary < 2) ? FT_PRG : FT_SEQ;
 
     /*
      * Check that there is room on directory.
      */
-    vdrive_dir_find_first_slot(vdrive, realname, reallength, 0);
+    vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
+                               cmd_parse.parselength, 0);
 
     /*
      * Find the first non-DEL entry in the directory (if it exists).
@@ -288,28 +297,31 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
         slot = vdrive_dir_find_next_slot(vdrive);
     while (slot && ((slot[SLOT_TYPE_OFFSET] & 0x07) == FT_DEL));
 
-    p->readmode = readmode;
+    p->readmode = cmd_parse.readmode;
     p->slot = slot;
 
-    if (filetype == FT_REL)
-        return vdrive_rel_open(vdrive, secondary, record_length);
+    if (cmd_parse.filetype == FT_REL) {
+        status = vdrive_rel_open(vdrive, secondary, cmd_parse.recordlength);
+        goto out;
+    }
 
     /*
      * Open file for reading
      */
 
-    if (readmode == FAM_READ) {
+    if (cmd_parse.readmode == FAM_READ) {
         int status, type;
 
         if (!slot) {
             vdrive_iec_close(vdrive, secondary);
             vdrive_command_set_error(vdrive, IPE_NOT_FOUND, 0, 0);
-            return SERIAL_ERROR;
+            status = SERIAL_ERROR;
+            goto out;
         }
 
         type = slot[SLOT_TYPE_OFFSET] & 0x07;
 
-        filetype = type;
+        cmd_parse.filetype = type;
 
         track = (int)slot[SLOT_FIRST_TRACK];
         sector = (int)slot[SLOT_FIRST_SECTOR];
@@ -330,14 +342,17 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
                                  p->buffer);
             if (status != 0) {
                 vdrive_iec_close(vdrive, secondary);
-                return SERIAL_ERROR;
+                status = SERIAL_ERROR;
+                goto out;
             }
-            return SERIAL_OK;
+            status = SERIAL_OK;
+            goto out;
         }
     /*
      * Unsupported filetype
      */
-        return SERIAL_ERROR;
+        status = SERIAL_ERROR;
+        goto out;
     }
 
     /*
@@ -346,7 +361,8 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
 
     if (vdrive->image->read_only) {
         vdrive_command_set_error(vdrive, IPE_WRITE_PROTECT_ON, 0, 0);
-        return SERIAL_ERROR;
+        status = SERIAL_ERROR;
+        goto out;
     }
 
     if (slot) {
@@ -355,11 +371,13 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
         else {
             vdrive_iec_close(vdrive, secondary);
             vdrive_command_set_error(vdrive, IPE_FILE_EXISTS, 0, 0);
-            return SERIAL_ERROR;
+            status = SERIAL_ERROR;
+            goto out;
         }
     }
 
-    vdrive_dir_create_slot(p, realname, reallength, filetype);
+    vdrive_dir_create_slot(p, cmd_parse.parsecmd, cmd_parse.parselength,
+                           cmd_parse.filetype);
 
 #if 0
     /* XXX keeping entry until close not implemented */
@@ -373,7 +391,8 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
         free((char *)p->buffer);
         p->buffer = NULL;
         vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
-        return SERIAL_ERROR;
+        status = SERIAL_ERROR;
+        goto out;
     }
 
     memcpy(&vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2],
@@ -383,7 +402,10 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
                             vdrive->Curr_track, vdrive->Curr_sector);
     /*vdrive_bam_write_bam(vdrive);*/
 #endif  /* BAM write */
-    return SERIAL_OK;
+
+out:
+    free(cmd_parse.parsecmd);
+    return status;
 }
 
 

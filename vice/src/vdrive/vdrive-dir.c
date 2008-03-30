@@ -67,6 +67,7 @@ static int vdrive_dir_name_match(BYTE *slot, const char *name, int length,
         else
             return 1;
     }
+
     if (!slot[SLOT_TYPE_OFFSET])
         return 0;
 

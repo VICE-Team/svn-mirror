@@ -37,6 +37,7 @@
 
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #ifdef __riscos
@@ -72,10 +73,10 @@ int fsdevice_open(vdrive_t *vdrive, const char *name, int length,
     FILE *fd;
     DIR *dp;
     BYTE *p;
-    char fsname[MAXPATHLEN], fsname2[MAXPATHLEN], rname[MAXPATHLEN];
+    char fsname2[MAXPATHLEN], rname[MAXPATHLEN];
     char *mask, *comma;
-    int status = 0, i;
-    unsigned int reallength, readmode, rl;
+    int status = 0, rc, i;
+    cmd_parse_t cmd_parse;
 
     if (fs_info[secondary].fd)
         return FLOPPY_ERROR;
@@ -89,30 +90,34 @@ int fsdevice_open(vdrive_t *vdrive, const char *name, int length,
         return status;
     }
 
-    /* Default filemodes.  */
-    readmode = (secondary == 1) ? FAM_WRITE : FAM_READ;
+    cmd_parse.cmd = name;
+    cmd_parse.cmdlength = length;
+    cmd_parse.readmode = (secondary == 1) ? FAM_WRITE : FAM_READ;
 
-    rl = 0;
+    rc = vdrive_command_parse(&cmd_parse);
 
-    if (vdrive_parse_name(fsname2, length, fsname, &reallength, &readmode,
-       (unsigned int*)&fs_info[secondary].type, &rl) != SERIAL_OK)
-        return SERIAL_ERROR;
+    if (rc != SERIAL_OK) {
+        status = SERIAL_ERROR;
+        goto out;
+    }
+
+    fs_info[secondary].type = cmd_parse.filetype;
 
     if (fs_info[secondary].type == FT_DEL)
         fs_info[secondary].type = (secondary < 2) ? FT_PRG : FT_SEQ;
 
     /* Override read mode if secondary is 0 or 1.  */
     if (secondary == 0)
-        readmode = FAM_READ;
+        cmd_parse.readmode = FAM_READ;
     if (secondary == 1)
-        readmode = FAM_WRITE;
+        cmd_parse.readmode = FAM_WRITE;
 
-    fsname[reallength] = 0;
-    strncpy(rname, fsname, reallength);
+    cmd_parse.parsecmd[cmd_parse.parselength] = 0;
+    strncpy(rname, cmd_parse.parsecmd, cmd_parse.parselength);
 
-    charset_petconvstring(fsname, 1);   /* CBM name to FSname */
+    charset_petconvstring(cmd_parse.parsecmd, 1); /* CBM name to FSname */
 
-    switch (readmode) {
+    switch (cmd_parse.readmode) {
       case FAM_WRITE:
         fs_info[secondary].mode = Write;
         break;
@@ -127,35 +132,37 @@ int fsdevice_open(vdrive_t *vdrive, const char *name, int length,
     if (*name == '$') { /* Directory read */
         if ((secondary != 0) || (fs_info[secondary].mode != Read)) {
             fsdevice_error(vdrive, IPE_NOT_WRITE);
-            return FLOPPY_ERROR;
+            status = FLOPPY_ERROR;
+            goto out;
         }
         /* Test on wildcards.  */
-        if (!(mask = strrchr(fsname, '/')))
-            mask = fsname;
+        if (!(mask = strrchr(cmd_parse.parsecmd, '/')))
+            mask = cmd_parse.parsecmd;
         if (strchr(mask, '*') || strchr(mask, '?')) {
             if (*mask == '/') {
                 strcpy(fs_dirmask, mask + 1);
                 *mask++ = 0;
             } else {
                 strcpy(fs_dirmask, mask);
-                strcpy(fsname, fsdevice_get_path(vdrive->unit));
+                strcpy(cmd_parse.parsecmd, fsdevice_get_path(vdrive->unit));
             }
         } else {
             *fs_dirmask = 0;
-            if (!*fsname)
-                strcpy(fsname, fsdevice_get_path(vdrive->unit));
+            if (!*(cmd_parse.parsecmd))
+                strcpy(cmd_parse.parsecmd, fsdevice_get_path(vdrive->unit));
         }
         /* trying to open */
-        if (!(dp = opendir((char *) fsname))) {
-            for (p = (BYTE *) fsname; *p; p++)
+        if (!(dp = opendir((char *)(cmd_parse.parsecmd)))) {
+            for (p = (BYTE *)(cmd_parse.parsecmd); *p; p++)
                 if (isupper((int) *p))
-                    *p = tolower((int) *p);
-            if (!(dp = opendir((char *) fsname))) {
+                    *p = tolower((int)*p);
+            if (!(dp = opendir((char *)(cmd_parse.parsecmd)))) {
                 fsdevice_error(vdrive, IPE_NOT_FOUND);
-                return FLOPPY_ERROR;
+                status = FLOPPY_ERROR;
+                goto out;
             }
         }
-        strcpy(fs_info[secondary].dir, fsname);
+        strcpy(fs_info[secondary].dir, cmd_parse.parsecmd);
         /*
          * Start Address, Line Link and Line number 0
          */
@@ -207,132 +214,156 @@ int fsdevice_open(vdrive_t *vdrive, const char *name, int length,
             fs_info[secondary].mode = Write;
 
         /* Remove comma.  */
-        if (fsname[0] == ',') {
-            fsname[1] = '\0';
+        if ((cmd_parse.parsecmd)[0] == ',') {
+            (cmd_parse.parsecmd)[1] = '\0';
         } else {
-            comma = strchr(fsname, ',');
+            comma = strchr(cmd_parse.parsecmd, ',');
             if (comma != NULL)
                 *comma = '\0';
         }
-        strcpy(fsname2, fsname);
-        strcpy(fsname, fsdevice_get_path(vdrive->unit));
-        strcat(fsname, FSDEV_DIR_SEP_STR);
-        strcat(fsname, fsname2);
+        strcpy(fsname2, cmd_parse.parsecmd);
+        strcpy(cmd_parse.parsecmd, fsdevice_get_path(vdrive->unit));
+        strcat(cmd_parse.parsecmd, FSDEV_DIR_SEP_STR);
+        strcat(cmd_parse.parsecmd, fsname2);
 
         /* Test on wildcards.  */
         if (strchr(fsname2, '*') || strchr(fsname2, '?')) {
             if (fs_info[secondary].mode == Write
                                 || fs_info[secondary].mode == Append) {
                 fsdevice_error(vdrive, IPE_BAD_NAME);
-                return FLOPPY_ERROR;
+                status = FLOPPY_ERROR;
+                goto out;
             } else {
-                fsdevice_compare_file_name(vdrive, fsname2, fsname, secondary);
+                fsdevice_compare_file_name(vdrive, fsname2, cmd_parse.parsecmd,
+                                           secondary);
             }
         }
 
         /* Open file for write mode access.  */
         if (fs_info[secondary].mode == Write) {
-            fd = fopen(fsname, MODE_READ);
+            fd = fopen(cmd_parse.parsecmd, MODE_READ);
             if (fd != NULL) {
                 fclose(fd);
                 fsdevice_error(vdrive, IPE_FILE_EXISTS);
-                return FLOPPY_ERROR;
+                status = FLOPPY_ERROR;
+                goto out;
             }
             if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
-                fd = fsdevice_find_pc64_name(vdrive, rname, reallength,
-                                             fsname2);
+                fd = fsdevice_find_pc64_name(vdrive, rname,
+                                             cmd_parse.parselength, fsname2);
                 if (fd != NULL) {
                     fclose(fd);
                     fsdevice_error(vdrive, IPE_FILE_EXISTS);
-                    return FLOPPY_ERROR;
+                    status = FLOPPY_ERROR;
+                    goto out;
                 }
             }
             if (fsdevice_save_p00_enabled[(vdrive->unit) - 8]) {
-                if (fsdevice_create_file_p00(vdrive, rname, reallength, fsname,
+                if (fsdevice_create_file_p00(vdrive, rname,
+                                             cmd_parse.parselength,
+                                             cmd_parse.parsecmd,
                                              secondary) > 0) {
                     fsdevice_error(vdrive, IPE_FILE_EXISTS);
-                    return FLOPPY_ERROR;
+                    status = FLOPPY_ERROR;
+                    goto out;
                 } else {
-                    fd = fopen(fsname, MODE_APPEND_READ_WRITE);
+                    fd = fopen(cmd_parse.parsecmd, MODE_APPEND_READ_WRITE);
                     fs_info[secondary].fd = fd;
                     fsdevice_error(vdrive, IPE_OK);
-                    return FLOPPY_COMMAND_OK;
+                    status = FLOPPY_COMMAND_OK;
+                    goto out;
                 }
             } else {
-                fd = fopen(fsname, MODE_WRITE);
+                fd = fopen(cmd_parse.parsecmd, MODE_WRITE);
                 fs_info[secondary].fd = fd;
                 fsdevice_error(vdrive, IPE_OK);
-                return FLOPPY_COMMAND_OK;
+                status = FLOPPY_COMMAND_OK;
+                goto out;
             }
         }
 
         /* Open file for append mode access.  */
         if (fs_info[secondary].mode == Append) {
-            fd = fopen(fsname, MODE_READ);
+            fd = fopen(cmd_parse.parsecmd, MODE_READ);
             if (!fd) {
                 if (!fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
                     fsdevice_error(vdrive, IPE_NOT_FOUND);
-                    return FLOPPY_ERROR;
+                    status = FLOPPY_ERROR;
+                    goto out;
                 }
-                fd = fsdevice_find_pc64_name(vdrive, rname, reallength,
-                                             fsname2);
+                fd = fsdevice_find_pc64_name(vdrive, rname,
+                                             cmd_parse.parselength, fsname2);
                 if (!fd) {
                     fsdevice_error(vdrive, IPE_NOT_FOUND);
-                    return FLOPPY_ERROR;
+                    status = FLOPPY_ERROR;
+                    goto out;
                 }
                 fclose(fd);
                 fd = fopen(fsname2, MODE_APPEND_READ_WRITE);
                 if (!fd) {
                     fsdevice_error(vdrive, IPE_NOT_FOUND);
-                    return FLOPPY_ERROR;
+                    status = FLOPPY_ERROR;
+                    goto out;
                 }
                 fs_info[secondary].fd = fd;
                 fsdevice_error(vdrive, IPE_OK);
-                return FLOPPY_COMMAND_OK;
+                status = FLOPPY_COMMAND_OK;
+                goto out;
             } else {
                 fclose(fd);
-                fd = fopen(fsname, MODE_APPEND_READ_WRITE);
+                fd = fopen(cmd_parse.parsecmd, MODE_APPEND_READ_WRITE);
                 if (!fd) {
                     fsdevice_error(vdrive, IPE_NOT_FOUND);
                     return FLOPPY_ERROR;
                 }
                 fs_info[secondary].fd = fd;
                 fsdevice_error(vdrive, IPE_OK);
-                return FLOPPY_COMMAND_OK;
+                status = FLOPPY_COMMAND_OK;
+                goto out;
             }
         }
 
         /* Open file for read mode access.  */
-        fd = fopen(fsname, MODE_READ);
+        fd = fopen(cmd_parse.parsecmd, MODE_READ);
         if (!fd) {
             if (!fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
                 fsdevice_error(vdrive, IPE_NOT_FOUND);
-                return FLOPPY_ERROR;
+                status = FLOPPY_ERROR;
+                goto out;
             }
-            fd = fsdevice_find_pc64_name(vdrive, rname, reallength, fsname2);
+            fd = fsdevice_find_pc64_name(vdrive, rname, cmd_parse.parselength,
+                                         fsname2);
             if (!fd) {
                 fsdevice_error(vdrive, IPE_NOT_FOUND);
-                return FLOPPY_ERROR;
+                status = FLOPPY_ERROR;
+                goto out;
             }
             fs_info[secondary].fd = fd;
             fsdevice_error(vdrive, IPE_OK);
-            return FLOPPY_COMMAND_OK;
+            status = FLOPPY_COMMAND_OK;
+            goto out;
         } else {
             if (fsdevice_hide_cbm_files_enabled[vdrive->unit - 8]) {
                 fclose(fd);
                 fsdevice_error(vdrive, IPE_NOT_FOUND);
-                return FLOPPY_ERROR;
+                status = FLOPPY_ERROR;
+                goto out;
             }
             fs_info[secondary].fd = fd;
             fsdevice_error(vdrive, IPE_OK);
-            return FLOPPY_COMMAND_OK;
+            status = FLOPPY_COMMAND_OK;
+            goto out;
         }
     }
 #ifdef __riscos
     ui_set_drive_leds(vdrive->unit - 8, 1);
 #endif
     fsdevice_error(vdrive, IPE_OK);
-    return FLOPPY_COMMAND_OK;
+
+out:
+    free(cmd_parse.parsecmd);
+
+    return status;
 }
 
 

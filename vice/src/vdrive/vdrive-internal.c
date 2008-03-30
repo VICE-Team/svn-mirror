@@ -78,8 +78,6 @@ static vdrive_t *open_rawimage(unsigned int unit, unsigned int read_only)
 
     vdrive = (vdrive_t *)file_system_get_vdrive(unit);
 
-    vdrive->image->read_only = read_only;
-
     return vdrive;
 }
 
