@@ -39,6 +39,7 @@
 #define LIB_DEBUG_SIZE 0x10000
 
 static void *lib_debug_address[LIB_DEBUG_SIZE];
+static unsigned int lib_debug_size[LIB_DEBUG_SIZE];
 static void *lib_debug_caller[LIB_DEBUG_SIZE];
 static unsigned int lib_debug_initialized = 0;
 
@@ -99,6 +100,7 @@ void lib_debug_alloc(void *ptr, size_t size, int level)
            ptr, size, index, func);
 #endif
     lib_debug_address[index] = ptr;
+    lib_debug_size[index] = (unsigned int)size;
 }
 
 void lib_debug_free(void *ptr)
@@ -132,8 +134,9 @@ void lib_debug_check(void)
 
     for (index = 0; index < LIB_DEBUG_SIZE; index++) {
         if (lib_debug_address[index] != NULL)
-            printf("Memory leak %i at %p from %p.\n", ++count,
-                   lib_debug_address[index], lib_debug_caller[index]);
+            printf("Memory leak %i at %p with size %i from %p.\n", ++count,
+                   lib_debug_address[index], lib_debug_size[index],
+                   lib_debug_caller[index]);
     }
 #endif
 }

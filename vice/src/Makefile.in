@@ -655,8 +655,9 @@ log.o: log.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 machine.o: machine.c vice.h config.h alarm.h arch/unix/types.h attach.h \
 	autostart.h clkguard.h cmdline.h console.h drive/drive.h \
 	interrupt.h kbdbuf.h keyboard.h lib.h log.h machine.h maincpu.h \
-	mem.h monitor.h printer.h resources.h sound.h traps.h \
-	arch/unix/ui.h uiapi.h utils.h vsync.h arch/unix/joy.h
+	mem.h monitor.h printer.h resources.h serial.h sound.h \
+	sysfile.h traps.h arch/unix/ui.h uiapi.h utils.h video.h \
+	viewport.h vsync.h arch/unix/joy.h
 main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h cmdline.h \
 	console.h debug.h arch/unix/types.h drive/drive.h fullscreen.h \
 	init.h initcmdline.h interrupt.h log.h machine.h maincpu.h \
