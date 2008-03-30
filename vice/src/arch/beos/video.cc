@@ -139,6 +139,8 @@ video_canvas_t *video_canvas_init(void)
 
     canvas->video_draw_buffer_callback = NULL;
 
+    video_render_initconfig(&canvas->videoconfig);
+
     return canvas;
 }
 
@@ -149,7 +151,6 @@ int video_canvas_create(struct video_canvas_s *canvas, const char *title,
 {
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
 
-    video_render_initconfig(&canvas->videoconfig);
 	canvas->title = stralloc(title);
     switch (BScreen().ColorSpace()) {
     	case B_CMAP8:
@@ -169,14 +170,21 @@ int video_canvas_create(struct video_canvas_s *canvas, const char *title,
     canvas->height = *height;
     canvas->palette = palette;
 
+    if (canvas->videoconfig.doublesizex)
+        canvas->width *= 2;
+
+    if (canvas->videoconfig.doublesizey)
+        canvas->height *= 2;
+
     canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
 	
 	canvas->vicewindow = 
-		new ViceWindow(BRect(0,0,*width-1,*height-1),title);
+		new ViceWindow(BRect(0, 0, canvas->width - 1,
+                               canvas->height - 1), title);
 		
 	canvas->vicewindow->canvas = canvas;
 		
-	canvas_create_bitmap(canvas, *width, *height);
+	canvas_create_bitmap(canvas, canvas->width, canvas->height);
 
 	number_of_canvas++;
 	canvas->vicewindow->MoveTo(number_of_canvas*30,number_of_canvas*30);
@@ -202,6 +210,12 @@ void video_canvas_destroy(video_canvas_t *c)
 void video_canvas_resize(video_canvas_t *c, unsigned int width,
                          unsigned int height)
 {
+    if (canvas->videoconfig.doublesizex)
+        width *= 2;
+
+    if (canvas->videoconfig.doublesizey)
+        height *= 2;
+
 	if (c->width == width && c->height == height)
 		return;
 
@@ -287,6 +301,18 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
 	BYTE *p;
 	clipping_rect *clip;
 	ViceWindow *vw = c->vicewindow;
+
+    if (c->videoconfig.doublesizex) {
+        xs *= 2;
+        xi *= 2;
+        w *= 2;
+    }
+
+    if (c->videoconfig.doublesizey) {
+        ys *= 2;
+        yi *= 2;
+        h *= 2;
+    }
 
 	if (!use_direct_window)
 	{

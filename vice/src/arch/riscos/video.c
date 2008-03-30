@@ -1095,6 +1095,10 @@ video_canvas_t *video_canvas_init(void)
     canvas->video_draw_buffer_callback->draw_buffer_clear
         = video_frame_buffer_clear;
 
+    canvas->videoconfig.doublesizex = 0;
+    canvas->videoconfig.doublesizey = 0;
+    video_render_initconfig(&(canvas->videoconfig));
+
     return canvas;
 }
 
@@ -1105,6 +1109,12 @@ int video_canvas_create(video_canvas_t *canvas, const char *win_name, unsigned i
   canvas->name = stralloc(win_name);
 
   canvas->width = *width; canvas->height = *height;
+
+    if (canvas->videoconfig.doublesizex)
+        canvas->width *= 2;
+
+    if (canvas->videoconfig.doublesizey)
+        canvas->height *= 2;
 
   canvas->num_colours = (palette == NULL) ? 16 : palette->num_entries;
   canvas->current_palette = NULL;
@@ -1118,9 +1128,6 @@ int video_canvas_create(video_canvas_t *canvas, const char *win_name, unsigned i
   wlsprite_plot_init(&(canvas->fb.normplot));
   wlsprite_plot_init(&(canvas->fb.palplot));
 
-  canvas->videoconfig.doublesizex = 0;
-  canvas->videoconfig.doublesizey = 0;
-  video_render_initconfig(&(canvas->videoconfig));
   video_init_pal_videoconfig(&(canvas->videoconfig));
 
   video_canvas_set_palette(canvas, palette);
@@ -1218,6 +1225,12 @@ void video_canvas_unmap(video_canvas_t *s)
 
 void video_canvas_resize(video_canvas_t *s, unsigned int width, unsigned int height)
 {
+    if (canvas->videoconfig.doublesizex)
+        width *= 2;
+
+    if (canvas->videoconfig.doublesizey)
+        height *= 2;
+
   /* Make a note of the resize, too */
   s->width = width; s->height = height;
   if (FullScreenMode == 0)
@@ -1250,6 +1263,18 @@ void video_canvas_refresh(video_canvas_t *canvas, BYTE *draw_buffer,
   if (ModeChanging != 0) return;
 
   if (canvas->fb.framedata == NULL) return;
+
+    if (canvas->videoconfig.doublesizex) {
+        xs *= 2;
+        xi *= 2;
+        w *= 2;
+    }
+
+    if (canvas->videoconfig.doublesizey) {
+        ys *= 2;
+        yi *= 2;
+        h *= 2;
+    }
 
   FrameBufferUpdate = 0;
   vrd.ge.dimx = canvas->fb.pitch; vrd.ge.dimy = canvas->fb.height;

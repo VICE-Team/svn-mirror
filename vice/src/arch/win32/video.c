@@ -480,6 +480,8 @@ video_canvas_t *video_canvas_init(void)
 
     canvas->video_draw_buffer_callback = NULL;
 
+    video_render_initconfig(&canvas->videoconfig);
+
     return canvas;
 }
 
@@ -502,12 +504,17 @@ int video_canvas_create(video_canvas_t *canvas, const char *title,
 
     fullscreen_transition = 1;
 
-    video_render_initconfig(&canvas->videoconfig);
-
     /* "Normal" window stuff.  */
     canvas->title = stralloc(title);
     canvas->width = *width;
     canvas->height = *height;
+
+    if (canvas->videoconfig.doublesizex)
+        canvas->width *= 2;
+
+    if (canvas->videoconfig.doublesizey)
+        canvas->height *= 2;
+
     canvas->exposure_handler = (canvas_redraw_t)exposure_handler;
     canvas->palette = palette;
     canvas->hwnd = ui_open_canvas_window(title, canvas->width, canvas->height,
@@ -540,8 +547,8 @@ int video_canvas_create(video_canvas_t *canvas, const char *title,
     }
 
     {
-        canvas->client_width =* width;
-        canvas->client_height =* height;
+        canvas->client_width = canvas->width;
+        canvas->client_height = canvas->height;
         fullscreen_active = 0;
     }
 
@@ -903,6 +910,12 @@ void video_canvas_resize(video_canvas_t *c, unsigned int width,
     int bitdepth;
     int refreshrate;
 
+    if (canvas->videoconfig.doublesizex)
+        width *= 2;
+
+    if (canvas->videoconfig.doublesizey)
+        height *= 2;
+
     c->width = width;
     c->height = height;
     if (IsFullscreenEnabled()) {
@@ -1104,25 +1117,26 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 
             //  Calculate upperleft point's framebuffer coords
             xs = xclient - ((rect.right - window_canvas_xsize[window_index])
-                 / 2) - r->viewport.x_offset
+                 / 2) - r->viewport.x_offset * r->viewport.pixel_size.width
                  + (r->viewport.first_x
                  + r->geometry.extra_offscreen_border_left)
                  * r->viewport.pixel_size.width;
             ys = yclient - ((rect.bottom - statusbar_get_status_height()
                  - window_canvas_ysize[window_index]) / 2)
-                 - r->viewport.y_offset+r->viewport.first_line *
-                 r->viewport.pixel_size.height;
+                 - r->viewport.y_offset * r->viewport.pixel_size.height
+                 + r->viewport.first_line * r->viewport.pixel_size.height;
             //  Cut off areas outside of framebuffer and clear them
             xi = xclient;
             yi = yclient;
 
             safex = (r->viewport.first_x
                     + r->geometry.extra_offscreen_border_left)
-                    * r->viewport.pixel_size.width - r->viewport.x_offset;
-            safey = r->viewport.first_line
-                    * r->viewport.pixel_size.height-r->viewport.y_offset;
-            safey2 = r->viewport.last_line
-                     * r->viewport.pixel_size.height-r->viewport.y_offset;
+                    * r->viewport.pixel_size.width
+                    - r->viewport.x_offset * r->viewport.pixel_size.width;
+            safey = r->viewport.first_line * r->viewport.pixel_size.height
+                    - r->viewport.y_offset * r->viewport.pixel_size.height;
+            safey2 = r->viewport.last_line * r->viewport.pixel_size.height
+                     - r->viewport.y_offset * r->viewport.pixel_size.height;
 
             if (r->draw_buffer) {
                 cut_rightline=safex + r->viewport.width;
@@ -1194,6 +1208,18 @@ void video_canvas_refresh(video_canvas_t *c, BYTE *draw_buffer,
     unsigned int client_x;
     unsigned int client_y;
     RECT rect;
+
+    if (c->videoconfig.doublesizex) {
+        xs *= 2;
+        xi *= 2;
+        w *= 2;
+    }
+
+    if (c->videoconfig.doublesizey) {
+        ys *= 2;
+        yi *= 2;
+        h *= 2;
+    }
 
     for (window_index = 0; window_index < number_of_windows; window_index++) {
         if (window_handles[window_index] == c->hwnd)

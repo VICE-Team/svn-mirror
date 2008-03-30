@@ -1316,7 +1316,7 @@ static void ui_set_menu_display_value(const disp_desc_t *dd, int number)
 
     values = (char**)(dd + 1);
     resources_get_value(values[number], &val);
-    state = (int)val; state = !state;
+    state = ((int)val == 0) ? 1 : 0;
     if (resources_set_value(values[number], (resource_value_t)state) == 0)
     {
       wimp_menu_tick_item(dd->menu, number, -1);
@@ -1820,7 +1820,7 @@ static int ui_build_romset_menu(void)
       item[0].mflags |= MFlg_FirstInd;
     item[0].mflags |= MFlg_Tick;
     ConfigMenus[CONF_MENU_ROMSET].menu = MenuROMSet;
-    ConfigDispDescs[CONF_MENU_ROMSET] = MenuDisplayROMSet;
+    ConfigMenus[CONF_MENU_ROMSET].desc = MenuDisplayROMSet;
     MenuDisplayROMSet->menu = MenuROMSet;
     MenuDisplayROMSet->items = number;
     ui_set_menu_display_text(MenuDisplayROMSet, 0, MenuROMSet);
@@ -2268,7 +2268,7 @@ int ui_init_finish(void)
   memset(SnapshotMessage, 0, 256);
 
   /* adjust sample frequency approximations to actual VIDC frequencies */
-  dd = ConfigDispDescs[CONF_MENU_SAMPRATE];
+  dd = ConfigMenus[CONF_MENU_SAMPRATE].desc;
   for (i=0; i<dd->items; i++)
   {
     int *values = (int*)(dd + 1);
@@ -2369,8 +2369,8 @@ static void ui_setup_config_window(int wnum)
   {
     if (ConfigMenus[i].id.win == wnum)
     {
-      if (ConfigDispDescs[i] != NULL)
-        ui_setup_menu_display(ConfigDispDescs[i]);
+      if (ConfigMenus[i].desc != NULL)
+        ui_setup_menu_display(ConfigMenus[i].desc);
     }
   }
 
@@ -3531,7 +3531,7 @@ static void ui_key_press_config(int *b)
           case Icon_ConfSys_CartFile:
             ui_set_cartridge_file(data); break;
           case Icon_ConfSys_DosName:
-            ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_DOSNAME], (resource_value_t)data);
+            ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_DOSNAME].desc, (resource_value_t)data);
             break;
           default: Wimp_ProcessKey(key); return;
         }
@@ -3587,7 +3587,7 @@ static void ui_key_press_config(int *b)
         break;
       case CONF_WIN_VIC:
         if (b[KeyPB_Icon] == Icon_ConfVIC_VICCartF)
-          ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_VICCART], (resource_value_t)data);
+          ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_VICCART].desc, (resource_value_t)data);
         else
         {
           Wimp_ProcessKey(key); return;
@@ -3596,7 +3596,7 @@ static void ui_key_press_config(int *b)
       case CONF_WIN_CBM2:
         if (b[KeyPB_Icon] == Icon_ConfCBM_CBM2CartF)
         {
-          ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_C2CART], (resource_value_t)data);
+          ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_C2CART].desc, (resource_value_t)data);
         }
         else
         {
@@ -3932,8 +3932,8 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
   if ((mnum == CONF_MENU_CARTTYPE) && (b[0] == 0) && !vsid_mode)
     cartridge_detach_image();
 
-  if (ConfigDispDescs[mnum] != NULL)
-    ui_set_menu_display_value(ConfigDispDescs[mnum], b[0]);
+  if (ConfigMenus[mnum].desc != NULL)
+    ui_set_menu_display_value(ConfigMenus[mnum].desc, b[0]);
 
   switch (mnum)
   {
@@ -4021,10 +4021,10 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
       {
         int i;
 
-        ui_set_menu_display_core(ConfigDispDescs[CONF_MENU_PETMODEL], set_pet_model_by_name, b[0]);
-        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_PETMEM]);
-        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_PETIO]);
-        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_PETVIDEO]);
+        ui_set_menu_display_core(ConfigMenus[CONF_MENU_PETMODEL].desc, set_pet_model_by_name, b[0]);
+        ui_setup_menu_display(ConfigMenus[CONF_MENU_PETMEM].desc);
+        ui_setup_menu_display(ConfigMenus[CONF_MENU_PETIO].desc);
+        ui_setup_menu_display(ConfigMenus[CONF_MENU_PETVIDEO].desc);
         wimp_window_write_icon_text(ConfWindows[CONF_WIN_PET], Icon_ConfPET_PetKbd, pet_get_keyboard_name());
         ui_update_rom_names();
         for (i=0; PETdependconf[i].resource != NULL; i++)
@@ -4035,10 +4035,10 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
       break;
     case CONF_MENU_C2MODEL:
       {
-        ui_set_menu_display_core(ConfigDispDescs[CONF_MENU_C2MODEL], set_cbm2_model_by_name, b[0]);
-        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_C2MEM]);
-        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_C2RAM]);
-        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_C2LINE]);
+        ui_set_menu_display_core(ConfigMenus[CONF_MENU_C2MODEL].desc, set_cbm2_model_by_name, b[0]);
+        ui_setup_menu_display(ConfigMenus[CONF_MENU_C2MEM].desc);
+        ui_setup_menu_display(ConfigMenus[CONF_MENU_C2RAM].desc);
+        ui_setup_menu_display(ConfigMenus[CONF_MENU_C2LINE].desc);
         wimp_window_write_icon_text(ConfWindows[CONF_WIN_CBM2], Icon_ConfCBM_CBM2Kbd, cbm2_get_keyboard_name());
         ui_update_rom_names();
       }
@@ -4046,8 +4046,8 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
     case CONF_MENU_ROMSET:
       if (MenuDisplayROMSet != NULL)
       {
-        ui_set_menu_display_core(ConfigDispDescs[CONF_MENU_ROMSET], set_romset_by_name, b[0]);
-        ui_setup_menu_display(ConfigDispDescs[CONF_MENU_DOSNAME]);
+        ui_set_menu_display_core(ConfigMenus[CONF_MENU_ROMSET].desc, set_romset_by_name, b[0]);
+        ui_setup_menu_display(ConfigMenus[CONF_MENU_DOSNAME].desc);
         ui_update_rom_names();
         /*ui_issue_reset(1);*/
       }
@@ -4062,14 +4062,14 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
             {
               romset_create_item(NewRomSetName, mem_romset_resources_list);
               ui_build_romset_menu();
-              ui_setup_menu_display(ConfigDispDescs[CONF_MENU_ROMSET]);
+              ui_setup_menu_display(ConfigMenus[CONF_MENU_ROMSET].desc);
             }
           }
           break;
         case Menu_RomAct_Delete:
           romset_delete_item(ROMSetName);
           ui_build_romset_menu();
-          ui_setup_menu_display(ConfigDispDescs[CONF_MENU_ROMSET]);
+          ui_setup_menu_display(ConfigMenus[CONF_MENU_ROMSET].desc);
           break;
         case Menu_RomAct_Dump:
           if (ROMSetArchiveFile != NULL)
@@ -4080,7 +4080,7 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
         case Menu_RomAct_Clear:
           romset_clear_archive();
           ui_build_romset_menu();
-          ui_setup_menu_display(ConfigDispDescs[CONF_MENU_ROMSET]);
+          ui_setup_menu_display(ConfigMenus[CONF_MENU_ROMSET].desc);
           break;
         case Menu_RomAct_Restore:
           romset_clear_archive();
@@ -4089,7 +4089,7 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
             romset_load_archive(ROMSetArchiveFile, 0);
           }
           ui_build_romset_menu();
-          ui_setup_menu_display(ConfigDispDescs[CONF_MENU_ROMSET]);
+          ui_setup_menu_display(ConfigMenus[CONF_MENU_ROMSET].desc);
           break;
         default: break;
       }
@@ -4483,7 +4483,7 @@ static void ui_user_msg_data_load(int *b)
     }
     else if (b[6] == Icon_ConfSys_DosNameF)
     {
-      ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_DOSNAME], (resource_value_t)ui_check_for_syspath(name));
+      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_DOSNAME].desc, (resource_value_t)ui_check_for_syspath(name));
       action = 1;
     }
     if ((b[10] == FileType_Data) || (b[10] == FileType_Text))
@@ -4564,7 +4564,7 @@ static void ui_user_msg_data_load(int *b)
   {
     if (b[6] == Icon_ConfVIC_VICCartF)
     {
-      ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_VICCART], (resource_value_t)name);
+      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_VICCART].desc, (resource_value_t)name);
       action = 1;
     }
   }
@@ -4572,7 +4572,7 @@ static void ui_user_msg_data_load(int *b)
   {
     if (b[6] == Icon_ConfCBM_CBM2CartF)
     {
-      ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_C2CART], (resource_value_t)name);
+      ui_update_menu_disp_strshow(ConfigMenus[CONF_MENU_C2CART].desc, (resource_value_t)name);
       action = 1;
     }
   }

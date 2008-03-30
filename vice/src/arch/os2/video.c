@@ -207,6 +207,8 @@ static int set_stretch_factor(resource_value_t v, void *param)
             //
             // resize canvas
             //
+            /* FIXME: The width and height parameters are not scaled anymore
+                      by the pixel size. This call may needs to be adjusted. */
             video_canvas_resize(c, c->width, c->height);
 
             DosReleaseMutexSem(c->hmtx);
@@ -730,6 +732,7 @@ static void VideoInitRenderer(video_canvas_t *c)
 
     int i;
 
+    /* FIXME: Move this to video_canvas_init()!  */
     video_render_initconfig(&c->videoconfig);
 
     // video_render_setrawrgb: index, r, g, b
@@ -1737,6 +1740,12 @@ int video_canvas_create(video_canvas_t *canvas, const char *title,
     canvini.expose  = (canvas_redraw_t)exposure_handler;
     canvini.canvas  =  NULL;
 
+    if (canvas->videoconfig.doublesizex)
+        canvini.width *= 2;
+
+    if (canvas->videoconfig.doublesizey)
+        canvini.height *= 2;
+
     _beginthread(CanvasMainLoop, NULL, 0x4000, &canvini);
 
     //
@@ -1837,6 +1846,12 @@ void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
     //
     SWP swp;
     ULONG rc;
+
+    if (canvas->videoconfig.doublesizex)
+        wnew *= 2;
+
+    if (canvas->videoconfig.doublesizey)
+        hnew *= 2;
 
     UINT wold = c->width;
     UINT hold = c->height;
@@ -2092,6 +2107,18 @@ void video_canvas_refresh(video_canvas_t *c,
 
     if (DosRequestMutexSem(c->hmtx, SEM_INDEFINITE_WAIT))
         return;
+
+    if (c->videoconfig.doublesizex) {
+        xs *= 2;
+        xi *= 2;
+        w *= 2;
+    }
+
+    if (c->videoconfig.doublesizey) {
+        ys *= 2;
+        yi *= 2;
+        h *= 2;
+    }
 
     DEBUG("CANVAS REFRESH 0");
 

@@ -125,12 +125,6 @@ typedef struct conf_item_s {
   conf_iconid_t id;
 } config_item_t;
 
-typedef struct menu_icon_s {
-  RO_MenuHead *menu;
-  const char *resource;
-  conf_iconid_t id;
-} menu_icon_t;
-
 typedef struct disp_strshow_s {
   int icon;
   int item;
@@ -144,6 +138,14 @@ typedef struct disp_desc_s {
   unsigned int flags;
   unsigned int writable;
 } disp_desc_t;
+
+typedef struct menu_icon_s {
+  RO_MenuHead *menu;
+  const char *resource;
+  disp_desc_t *desc;
+  conf_iconid_t id;
+} menu_icon_t;
+
 
 
 
@@ -408,7 +410,6 @@ typedef struct disp_desc_s {
  */
 
 extern menu_icon_t ConfigMenus[];
-extern disp_desc_t *ConfigDispDescs[];
 extern config_item_t Configurations[];
 
 extern RO_Window *ConfWindows[CONF_WIN_NUMBER];

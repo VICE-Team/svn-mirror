@@ -65,11 +65,11 @@ static struct MenuVideoCache {
 
 static struct MenuDisplayVideoCache {
   disp_desc_t dd;
-  int values[1];
+  const char *values[1];
 } MenuDisplayVideoCache = {
   {NULL, {CONF_WIN_VIDEO, 0},
     (RO_MenuHead*)&MenuVideoCache, 1, DISP_DESC_BITFIELD, 0},
-  {(int)Rsrc_VICIICache}
+  {Rsrc_VICIICache}
 };
 
 
@@ -93,7 +93,7 @@ void ui_grey_out_machine_icons(void)
 void ui_bind_video_cache_menu(void)
 {
   ConfigMenus[CONF_MENU_VIDCACHE].menu = (RO_MenuHead*)&MenuVideoCache;
-  ConfigDispDescs[CONF_MENU_VIDCACHE] = (disp_desc_t*)&MenuDisplayVideoCache;
+  ConfigMenus[CONF_MENU_VIDCACHE].desc = (disp_desc_t*)&MenuDisplayVideoCache;
 }
 
 const char *ui_get_machine_ibar_icon(void)
