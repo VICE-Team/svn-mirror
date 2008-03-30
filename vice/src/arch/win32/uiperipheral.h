@@ -28,9 +28,7 @@
 #ifndef _UIPERIPHERAL_H
 #define _UIPERIPHERAL_H
 
-#include <windows.h>
-
-void ui_peripheral_dialog(HWND hwnd);
+extern void uiperipheral_command(HWND hwnd, WPARAM wparam);
 
 #endif
 
