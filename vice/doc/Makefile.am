@@ -1,6 +1,7 @@
 docdir = $(prefix)/lib/vice/doc
 
 doc_DATA = \
+	MSDOS-Ethernet-Howto.txt \
 	MSDOS-Howto.txt \
 	NLS-Howto.txt \
 	Readme.beos \

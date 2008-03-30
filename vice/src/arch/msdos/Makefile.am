@@ -17,7 +17,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/pet \
 	-I$(top_srcdir)/src/sid
 
-noinst_LIBRARIES = libarch.a
+noinst_LIBRARIES = libarch.a @DOS_TFE_PCAP_LIB@
 
 libarch_a_SOURCES = \
 	archdep.c \
@@ -44,6 +44,7 @@ libarch_a_SOURCES = \
 	signals.c \
 	statusbar.c \
 	statusbar.h \
+	tfearch.c \
 	tui.c \
 	tui.h \
 	tui_backend.c \
@@ -87,6 +88,8 @@ libarch_a_SOURCES = \
 	uisnapshot.h \
 	uisound.c \
 	uisound.h \
+	uitfe.c \
+	uitfe.h \
 	vic20ui.c \
 	video.c \
 	videoarch.h \
