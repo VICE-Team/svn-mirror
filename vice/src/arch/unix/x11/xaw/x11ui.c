@@ -74,7 +74,6 @@
 #include "machine.h"
 #include "mouse.h"
 #include "psid.h"
-#include "raster/raster.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
@@ -280,7 +279,8 @@ static void close_action(Widget w, XEvent *event, String *params,
                          Cardinal *num_params);
 
 UI_CALLBACK(enter_window_callback);
-UI_CALLBACK(exposure_callback);
+UI_CALLBACK(exposure_callback_shell);
+UI_CALLBACK(exposure_callback_canvas);
 
 /* ------------------------------------------------------------------------- */
 
@@ -555,7 +555,6 @@ Display *x11ui_get_display_ptr(void)
 /* Create a shell with a canvas widget in it.  */
 int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                              int width, int height, int no_autorepeat,
-                             ui_exposure_handler_t exposure_proc,
                              const struct palette_s *palette)
 {
     /* Note: this is correct because we never destroy CanvasWindows.  */
@@ -621,10 +620,11 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     /* XVideo must be refreshed when the shell window is moved. */
     if (!vsid_mode) {
         XtAddEventHandler(shell, StructureNotifyMask, False,
-                          (XtEventHandler)exposure_callback,
+                          (XtEventHandler)exposure_callback_shell,
                           (XtPointer)c);
+
         XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False,
-                          (XtEventHandler)exposure_callback,
+                          (XtEventHandler)exposure_callback_canvas,
                           (XtPointer)c);
     }
     XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask |
@@ -2020,12 +2020,24 @@ UI_CALLBACK(enter_window_callback)
     last_visited_app_shell = w;
 }
 
-UI_CALLBACK(exposure_callback)
+UI_CALLBACK(exposure_callback_shell)
 {
+    /*log_debug("Shell");*/
+}
+
+UI_CALLBACK(exposure_callback_canvas)
+{
+    Dimension width, height;
+
+    XtVaGetValues(w, XtNwidth, (XtPointer)&width,
+                  XtNheight, (XtPointer)&height, NULL);
+
     if (client_data) {
-	raster_force_repaint(raster_get_raster_from_canvas(client_data));
+        video_canvas_redraw_size((struct video_canvas_s *)client_data,
+                                 (unsigned int)width, (unsigned int)height);
     }
 }
+
 
 /* FIXME: this does not handle multiple application shells. */
 static void close_action(Widget w, XEvent * event, String * params,

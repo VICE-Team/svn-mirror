@@ -28,6 +28,7 @@
 #include "vice.h"
 
 #include "maincpu.h"
+#include "raster.h"
 #include "types.h"
 #include "vic.h"
 #include "vic-mem.h"
@@ -78,13 +79,13 @@ vic_store(ADDRESS addr, BYTE value)
                     &vic.raster.display_xstart, xstart);
 
                 raster_add_int_change_next_line(&vic.raster,
-                    (int *)(&vic.raster.geometry.gfx_position.x), xstart);
+                    (int *)(&vic.raster.geometry->gfx_position.x), xstart);
             } else {
                 vic.raster.display_xstart = xstart;
 
                 vic.raster.display_xstop = xstop;
 
-                vic.raster.geometry.gfx_position.x = xstart;
+                vic.raster.geometry->gfx_position.x = xstart;
 
                 /* the line may not start, if new xstart is already passed */
                 vic.raster.blank_this_line = 
@@ -121,7 +122,7 @@ vic_store(ADDRESS addr, BYTE value)
                     vic.raster.display_ystop = ystart
                         + vic.text_lines * vic.char_height;
 
-                    vic.raster.geometry.gfx_position.y
+                    vic.raster.geometry->gfx_position.y
                         = ystart - vic.first_displayed_line;
                 } else {
                     /* the frame starts somewhere here */
@@ -130,7 +131,7 @@ vic_store(ADDRESS addr, BYTE value)
                     vic.raster.display_ystop = vic.raster.display_ystart
                         + vic.text_lines * vic.char_height;
 
-                    vic.raster.geometry.gfx_position.y
+                    vic.raster.geometry->gfx_position.y
                         = VIC_RASTER_Y(maincpu_clk) - vic.first_displayed_line;
 
                     if (vic.raster.display_xstart
@@ -148,7 +149,8 @@ vic_store(ADDRESS addr, BYTE value)
         {
             int new_text_cols = MIN(value & 0x7f, VIC_SCREEN_MAX_TEXT_COLS);
 
-            int new_xstop = MIN(vic.raster.display_xstart + new_text_cols * 8 * VIC_PIXEL_WIDTH,
+            int new_xstop = MIN(vic.raster.display_xstart
+                                + new_text_cols * 8 * VIC_PIXEL_WIDTH,
                 (vic.screen_width - 1) * VIC_PIXEL_WIDTH);
 
             if (VIC_RASTER_CYCLE(maincpu_clk) <= 1) {
@@ -157,8 +159,9 @@ vic_store(ADDRESS addr, BYTE value)
 
                 vic.raster.display_xstop = new_xstop;
 
-                vic.raster.geometry.gfx_size.width = new_text_cols * 8 * VIC_PIXEL_WIDTH;
-                vic.raster.geometry.text_size.width = new_text_cols;
+                vic.raster.geometry->gfx_size.width
+                    = new_text_cols * 8 * VIC_PIXEL_WIDTH;
+                vic.raster.geometry->text_size.width = new_text_cols;
             } else {
                 /* later changes are visible in the next line */
                 raster_add_int_change_next_line(&vic.raster,
@@ -168,11 +171,11 @@ vic_store(ADDRESS addr, BYTE value)
                     &vic.raster.display_xstop, new_xstop);
 
                 raster_add_int_change_next_line(&vic.raster,
-                    (int *)(&vic.raster.geometry.gfx_size.width),
+                    (int *)(&vic.raster.geometry->gfx_size.width),
                     new_text_cols * 8 * VIC_PIXEL_WIDTH);
 
                 raster_add_int_change_next_line(&vic.raster,
-                    (int *)(&vic.raster.geometry.text_size.width),
+                    (int *)(&vic.raster.geometry->text_size.width),
                     new_text_cols);
             }
         }
@@ -195,9 +198,9 @@ vic_store(ADDRESS addr, BYTE value)
                    current frame */
                 vic.text_lines = new_text_lines;
 
-                vic.raster.geometry.gfx_size.height = new_text_lines * 8;
+                vic.raster.geometry->gfx_size.height = new_text_lines * 8;
 
-                vic.raster.geometry.text_size.height = new_text_lines;
+                vic.raster.geometry->text_size.height = new_text_lines;
 
             } else {
                 /* later changes are visible in the next frame */

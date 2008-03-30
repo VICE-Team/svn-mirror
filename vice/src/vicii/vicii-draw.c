@@ -31,6 +31,7 @@
 
 #include "raster-cache.h"
 #include "raster-modes.h"
+#include "raster.h"
 #include "types.h"
 #include "vicii-draw.h"
 #include "vicii.h"
@@ -62,8 +63,8 @@ static void draw_std_background(int start_pixel, int end_pixel)
 
     background_color = (BYTE)vic_ii.raster.background_color;
 
-    gfxstart = vic_ii.raster.geometry.gfx_position.x + vic_ii.raster.xsmooth;
-    gfxend = gfxstart + vic_ii.raster.geometry.gfx_size.width;
+    gfxstart = vic_ii.raster.geometry->gfx_position.x + vic_ii.raster.xsmooth;
+    gfxend = gfxstart + vic_ii.raster.geometry->gfx_size.width;
 
     if (start_pixel < gfxstart) {
         if (end_pixel < gfxstart) {
@@ -114,7 +115,7 @@ static void draw_std_background(int start_pixel, int end_pixel)
     if (vic_ii.raster.xsmooth_shift_right) {
         int pos;
 
-        pos = (start_pixel - vic_ii.raster.geometry.gfx_position.x) / 8;
+        pos = (start_pixel - vic_ii.raster.geometry->gfx_position.x) / 8;
 
         if (pos >= 0 && pos < VIC_II_SCREEN_TEXTCOLS) {
             if (vic_ii.raster.video_mode == VIC_II_HIRES_BITMAP_MODE)
