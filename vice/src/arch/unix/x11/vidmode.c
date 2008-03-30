@@ -36,7 +36,7 @@
 #include <X11/extensions/xf86vmode.h>
 
 #include "log.h"
-#include "fullscreen.h"
+#include "fullscreenarch.h"
 #include "resources.h"
 #include "types.h"
 #include "uimenu.h"
@@ -47,7 +47,6 @@
 #include "x11ui.h"
 
 
-static int vm_selected_videomode = -1;
 int vm_is_enabled = 0;
 int vm_is_suspended = 0;
 
@@ -106,7 +105,6 @@ int vidmode_init(void)
     if (vm_mode_count == 0)
         return 0;
 
-    vm_selected_videomode = 0;
     vm_available = 1;
     return 0;
 }
@@ -138,8 +136,8 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
         XF86VidModeModeInfo *vm;
 
         log_message(vidmode_log, "Enabling Vidmode with%s",
-                    vm_bestmodes[vm_selected_videomode].name);
-        vm = vm_modes[vm_bestmodes[vm_selected_videomode].modeindex];
+                    vm_bestmodes[canvas->fullscreenconfig->mode].name);
+        vm = vm_modes[vm_bestmodes[canvas->fullscreenconfig->mode].modeindex];
 
         saved_w = canvas->draw_buffer->canvas_width;
         saved_h = canvas->draw_buffer->canvas_height;
@@ -187,7 +185,7 @@ int vidmode_mode(struct video_canvas_s *canvas, int mode)
         return 0;
 
     log_message(vidmode_log, "Selected mode: %s", vm_bestmodes[mode].name);
-    vm_selected_videomode = mode;
+    canvas->fullscreenconfig->mode = mode;
 
     return 0;
 }

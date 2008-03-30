@@ -146,9 +146,6 @@ int raster_realize_frame_buffer(raster_t *raster)
 {
     unsigned int fb_width, fb_height, fb_pitch;
 
-    if (raster->canvas == NULL)
-        return 0;
-
     if (!console_mode && !vsid_mode)
         raster_draw_buffer_free(raster->canvas);
 
@@ -176,9 +173,6 @@ int raster_realize_frame_buffer(raster_t *raster)
 
 static int perform_mode_change(raster_t *raster)
 {
-    if (raster->canvas == NULL)
-        return 0;
-
     if (raster->palette != NULL) {
         if (video_canvas_set_palette(raster->canvas, raster->palette) < 0)
             return -1;
@@ -251,9 +245,9 @@ int raster_init(raster_t *raster,
     memset(raster->gfx_msk, 0, RASTER_GFX_MSK_SIZE);
     memset(raster->zero_gfx_msk, 0, RASTER_GFX_MSK_SIZE);
 
-    raster->canvas = video_canvas_init(raster->videoconfig);
     video_viewport_get(raster->canvas, &raster->viewport, &raster->geometry);
 
+    raster->canvas->initialized = 1;
     raster_set_canvas_refresh(raster, 1);
 
     update_pixel_tables(raster);
@@ -413,9 +407,9 @@ void raster_force_repaint(raster_t *raster)
     raster->num_cached_lines = 0;
 }
 
-int raster_set_palette(raster_t *raster, palette_t *palette)
+int raster_set_palette(raster_t *raster, struct palette_s *palette)
 {
-    if (raster->canvas != NULL && raster->intialized > 0) {
+    if (raster->intialized) {
         if (video_canvas_set_palette(raster->canvas, palette) < 0)
             return -1;
     }
