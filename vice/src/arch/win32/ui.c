@@ -67,14 +67,14 @@
 #include "winmain.h"
 
 /* Main window.  */
-static HWND main_hwnd;
+/* static HWND main_hwnd; */
 
 static HWND status_hwnd;
 
 static int status_height;
 
 /* Main canvas.  */
-static char *main_hwnd_title;
+/* static char *main_hwnd_title; */
 static char *hwnd_titles[2];
 
 /* Exposure handler.  */
@@ -95,6 +95,7 @@ ui_menu_toggle  toggle_list[] = {
     { "EmuID", IDM_TOGGLE_EMUID },
     { "WarpMode", IDM_TOGGLE_WARP_MODE },
     { "WarpMode", IDM_TOGGLE_WARP_MODE|0x00010000 },
+    { "VirtualDevices", IDM_TOGGLE_VIRTUAL_DEVICES },
     { NULL, 0 }
 };
 
