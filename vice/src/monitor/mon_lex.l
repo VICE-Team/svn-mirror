@@ -33,8 +33,9 @@
 #include "vice.h"
 
 #include <assert.h>
-#include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "mon.h"
 #include "mon_command.h"
@@ -205,13 +206,22 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
         \)		{ return R_PAREN; }
 }
 
-<ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z]\,[a-zA-Z]    { yylval.str = stralloc(yytext); return OPCODE; }
-<ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z]\,\([a-zA-Z][a-zA-Z]\) { yylval.str = stralloc(yytext); return OPCODE; }
-<ASM_MODE>[a-zA-Z][a-zA-Z]\ \([a-zA-Z][a-zA-Z]\)\,[a-zA-Z] { yylval.str = stralloc(yytext); return OPCODE; }
-<ASM_MODE>[a-zA-Z][a-zA-Z]\ \([a-zA-Z][a-zA-Z]\)\, { yylval.str = stralloc(yytext); return OPCODE; }
-<ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z]\,            { yylval.str = stralloc(yytext); return OPCODE; }
-<ASM_MODE>[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]\ [a-zA-Z]\, { yylval.str = stralloc(yytext); return OPCODE; }
-<ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z][a-zA-Z]\,    { yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z]\,[a-zA-Z] {
+    yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z]\,\([a-zA-Z][a-zA-Z]\) {
+    yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z]\ \([a-zA-Z][a-zA-Z]\)\,[a-zA-Z] {
+    yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z]\ \([a-zA-Z][a-zA-Z]\)\, {
+    yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z]\, {
+    yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z][a-zA-Z]\ [0-7]\, {
+    yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z][a-zA-Z][a-zA-Z]\ [a-zA-Z]\, {
+    yylval.str = stralloc(yytext); return OPCODE; }
+<ASM_MODE>[a-zA-Z][a-zA-Z]\ [a-zA-Z][a-zA-Z]\, {
+    yylval.str = stralloc(yytext); return OPCODE; }
 <ASM_MODE>af|AF         { return REG_AF; }
 <ASM_MODE>bc|BC         { return REG_BC; }
 <ASM_MODE>de|DE         { return REG_DE; }
