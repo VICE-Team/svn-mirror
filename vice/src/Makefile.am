@@ -12,6 +12,7 @@ YFLAGS = -dt
 
 noinst_HEADERS = \
 	6510core.h \
+	acia.h \
 	asm.h \
 	attach.h \
 	autostart.h \
@@ -27,7 +28,6 @@ noinst_HEADERS = \
 	fs_cbm.h \
 	fsdevice.h \
 	gcr.h \
-	icon.h \
 	iecdrive.h \
 	info.h \
 	interrupt.h \
@@ -47,6 +47,7 @@ noinst_HEADERS = \
 	printer.h \
 	raster.h \
 	resources.h \
+	rs232.h \
 	serial.h \
 	sound.h \
 	sysfile.h \
@@ -103,6 +104,7 @@ EXTRA_DIST = \
 	6510core.c \
 	ChangeLog \
 	ChangeLog.1 \
+	acia-tmpl.c \
 	cia-tmpl.c \
 	convio \
 	raster.c \
@@ -128,7 +130,6 @@ x64_DEPENDENCIES = $(c64_lib) $(sounddrv_lib) $(true1541_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 
 # x128
-# Notice that this works by overriding some symbols from the C64 library.
 x128_SOURCES = $(base_sources)
 x128_LDADD = $(c128_lib) $(c64c128_lib) $(sounddrv_lib) $(true1541_lib) \
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ -lm

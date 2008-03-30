@@ -94,6 +94,129 @@ static ui_menu_entry_t sid_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_RADIO(Acia1)
+
+static ui_menu_entry_t acia1_device_submenu[] = {
+    { "*Serial 1",
+      (ui_callback_t) radio_Acia1, (ui_callback_data_t) 0, NULL },
+    { "*Serial 2",
+      (ui_callback_t) radio_Acia1, (ui_callback_data_t) 1, NULL },
+    { "*Dump to file",
+      (ui_callback_t) radio_Acia1, (ui_callback_data_t) 2, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(Acia2)
+
+static ui_menu_entry_t acia2_device_submenu[] = {
+    { "*Serial 1",
+      (ui_callback_t) radio_Acia2, (ui_callback_data_t) 0, NULL },
+    { "*Serial 2",
+      (ui_callback_t) radio_Acia2, (ui_callback_data_t) 1, NULL },
+    { "*Dump to file",
+      (ui_callback_t) radio_Acia2, (ui_callback_data_t) 2, NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(RsDevice1Baud)
+
+static ui_menu_entry_t ser1_baud_submenu[] = {
+  { "*300",
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)   300, NULL },
+  { "*1200",
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)  1200, NULL },
+  { "*2400",
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)  2400, NULL },
+  { "*9600",
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t)  9600, NULL },
+  { "*19200",
+      (ui_callback_t) radio_RsDevice1Baud, (ui_callback_data_t) 19200, NULL },
+  { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(RsDevice2Baud)
+
+static ui_menu_entry_t ser2_baud_submenu[] = {
+  { "*300",
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)   300, NULL },
+  { "*1200",
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)  1200, NULL },
+  { "*2400",
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)  2400, NULL },
+  { "*9600",
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t)  9600, NULL },
+  { "*19200",
+      (ui_callback_t) radio_RsDevice2Baud, (ui_callback_data_t) 19200, NULL },
+  { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(RsDevice3Baud)
+
+static ui_menu_entry_t ser3_baud_submenu[] = {
+  { "*300",
+      (ui_callback_t) radio_RsDevice3Baud, (ui_callback_data_t)   300, NULL },
+  { "*1200",
+      (ui_callback_t) radio_RsDevice3Baud, (ui_callback_data_t)  1200, NULL },
+  { "*2400",
+      (ui_callback_t) radio_RsDevice3Baud, (ui_callback_data_t)  2400, NULL },
+  { "*9600",
+      (ui_callback_t) radio_RsDevice3Baud, (ui_callback_data_t)  9600, NULL },
+  { "*19200",
+      (ui_callback_t) radio_RsDevice3Baud, (ui_callback_data_t) 19200, NULL },
+  { NULL }
+};
+
+static UI_CALLBACK(set_rs232_device_file)
+{
+    char *resource = (char*) client_data;
+    char *filename;
+    ui_button_t button;
+
+    suspend_speed_eval();
+
+    filename = ui_select_file("Select RS232 device or dump file",
+                              NULL, False, &button);
+    switch (button) {
+      case UI_BUTTON_OK:
+        resources_set_value(resource, (resource_value_t) filename);
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
+    }
+}
+
+UI_MENU_DEFINE_TOGGLE(AciaDE)
+UI_MENU_DEFINE_TOGGLE(AciaD6)
+
+static ui_menu_entry_t rs232_submenu[] = {
+    { "*ACIA $D6xx RS232 interface emulation",
+      (ui_callback_t) toggle_AciaD6, NULL, NULL },
+    { "ACIA $D6** device",
+      NULL, NULL, acia2_device_submenu },
+    { "--" },
+    { "*ACIA $DExx RS232 interface emulation",
+      (ui_callback_t) toggle_AciaDE, NULL, NULL },
+    { "ACIA $DExx device",
+      NULL, NULL, acia1_device_submenu },
+    { "--" },
+    { "Serial 1 device...", (ui_callback_t) set_rs232_device_file,
+      (ui_callback_data_t) "RsDevice1", NULL },
+    { "Serial 1 baudrate",
+      NULL, NULL, ser1_baud_submenu },
+    { "--" },
+    { "Serial 2 device...", (ui_callback_t) set_rs232_device_file,
+      (ui_callback_data_t) "RsDevice2", NULL },
+    { "Serial 2 baudrate",
+      NULL, NULL, ser2_baud_submenu },
+    { "--" },
+    { "Dump filename...", (ui_callback_t) set_rs232_device_file,
+      (ui_callback_data_t) "RsDevice3", NULL },
+    { NULL }
+};
+
+/* ------------------------------------------------------------------------- */
+
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(REU)
@@ -215,6 +338,8 @@ static ui_menu_entry_t c64_menu[] = {
       NULL, NULL, sid_submenu },
     { "I/O extensions at $DFxx",
       NULL, NULL, io_extensions_submenu },
+    { "RS232 settings",
+      NULL, NULL, rs232_submenu },
     { "Joystick settings",
       NULL, NULL, joystick_settings_submenu },
     { NULL }
