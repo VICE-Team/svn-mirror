@@ -507,7 +507,7 @@ void ted_update_memory_ptrs(unsigned int cycle)
     } else if (tmp < TED_SCREEN_TEXTCOLS) {
         if (screen_base != old_screen_ptr) {
             raster_changes_foreground_add_ptr(&ted.raster, tmp,
-                                              (void **)&ted.screen_ptr,
+                                              (void *)&ted.screen_ptr,
                                               (void *)screen_base);
             old_screen_ptr = screen_base;
         }
@@ -515,7 +515,7 @@ void ted_update_memory_ptrs(unsigned int cycle)
         if (bitmap_base != old_bitmap_ptr) {
             raster_changes_foreground_add_ptr(&ted.raster,
                                               tmp,
-                                              (void **)&ted.bitmap_ptr,
+                                              (void *)&ted.bitmap_ptr,
                                               (void *)(bitmap_base));
             old_bitmap_ptr = bitmap_base;
         }
@@ -523,39 +523,39 @@ void ted_update_memory_ptrs(unsigned int cycle)
         if (char_base != old_chargen_ptr) {
             raster_changes_foreground_add_ptr(&ted.raster,
                                               tmp,
-                                              (void **)&ted.chargen_ptr,
+                                              (void *)&ted.chargen_ptr,
                                               (void *)char_base);
             old_chargen_ptr = char_base;
         }
         if (color_base != old_color_ptr) {
             raster_changes_foreground_add_ptr(&ted.raster, tmp,
-                                              (void **)&ted.color_ptr,
+                                              (void *)&ted.color_ptr,
                                               (void *)color_base);
             old_color_ptr = color_base;
         }
     } else {
         if (screen_base != old_screen_ptr) {
             raster_changes_next_line_add_ptr(&ted.raster,
-                                             (void **)&ted.screen_ptr,
+                                             (void *)&ted.screen_ptr,
                                              (void *)screen_base);
             old_screen_ptr = screen_base;
         }
         if (bitmap_base != old_bitmap_ptr) {
             raster_changes_next_line_add_ptr(&ted.raster,
-                                             (void **)&ted.bitmap_ptr,
+                                             (void *)&ted.bitmap_ptr,
                                              (void *)(bitmap_base));
             old_bitmap_ptr = bitmap_base;
         }
 
         if (char_base != old_chargen_ptr) {
             raster_changes_next_line_add_ptr(&ted.raster,
-                                             (void **)&ted.chargen_ptr,
+                                             (void *)&ted.chargen_ptr,
                                              (void *)char_base);
             old_chargen_ptr = char_base;
         }
         if (color_base != old_color_ptr) {
             raster_changes_next_line_add_ptr(&ted.raster,
-                                             (void **)&ted.color_ptr,
+                                             (void *)&ted.color_ptr,
                                              (void *)color_base);
             old_color_ptr = color_base;
         }

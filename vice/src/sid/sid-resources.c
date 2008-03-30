@@ -46,9 +46,11 @@
 
 static int sid_filters_enabled;       /* app_resources.sidFilters */
 static int sid_model;                 /* app_resources.sidModel */
+#ifdef HAVE_RESID
 static int sid_resid_sampling;
 static int sid_resid_passband;
 static int sid_resid_gain;
+#endif
 int sid_stereo;
 int checking_sid_stereo;
 unsigned int sid_stereo_address_start;

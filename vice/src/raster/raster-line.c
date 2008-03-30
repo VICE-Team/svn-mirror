@@ -345,7 +345,7 @@ static void handle_visible_line_with_cache(raster_t *raster)
     cache->is_dirty = 0;
 }
 
-inline static void handle_visible_line_without_cache(raster_t *raster)
+static void handle_visible_line_without_cache(raster_t *raster)
 {
     geometry_t *geometry;
     raster_cache_t *cache;

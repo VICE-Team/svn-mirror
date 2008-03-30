@@ -666,7 +666,7 @@ void vicii_update_memory_ptrs(unsigned int cycle)
     } else if (tmp < VICII_SCREEN_TEXTCOLS) {
         if (vicii.screen_base_phi2 != old_screen_ptr) {
             raster_changes_foreground_add_ptr(&vicii.raster, tmp,
-                                              (void **)&vicii.screen_ptr,
+                                              (void *)&vicii.screen_ptr,
                                               (void *)vicii.screen_base_phi2);
             old_screen_ptr = vicii.screen_base_phi2;
         }
@@ -674,7 +674,7 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         if (bitmap_low_base != old_bitmap_low_ptr) {
             raster_changes_foreground_add_ptr(&vicii.raster,
                                               tmp,
-                                              (void **)&vicii.bitmap_low_ptr,
+                                              (void *)&vicii.bitmap_low_ptr,
                                               (void *)(bitmap_low_base));
             old_bitmap_low_ptr = bitmap_low_base;
         }
@@ -682,7 +682,7 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         if (bitmap_high_base != old_bitmap_high_ptr) {
             raster_changes_foreground_add_ptr(&vicii.raster,
                                               tmp,
-                                              (void **)&vicii.bitmap_high_ptr,
+                                              (void *)&vicii.bitmap_high_ptr,
                                               (void *)(bitmap_high_base));
             old_bitmap_high_ptr = bitmap_high_base;
         }
@@ -690,7 +690,7 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         if (char_base != old_chargen_ptr) {
             raster_changes_foreground_add_ptr(&vicii.raster,
                                               tmp,
-                                              (void **)&vicii.chargen_ptr,
+                                              (void *)&vicii.chargen_ptr,
                                               (void *)char_base);
             old_chargen_ptr = char_base;
         }
@@ -705,28 +705,28 @@ void vicii_update_memory_ptrs(unsigned int cycle)
     } else {
         if (vicii.screen_base_phi2 != old_screen_ptr) {
             raster_changes_next_line_add_ptr(&vicii.raster,
-                                             (void **)&vicii.screen_ptr,
+                                             (void *)&vicii.screen_ptr,
                                              (void *)vicii.screen_base_phi2);
             old_screen_ptr = vicii.screen_base_phi2;
         }
 
         if (bitmap_low_base != old_bitmap_low_ptr) {
             raster_changes_next_line_add_ptr(&vicii.raster,
-                                             (void **)&vicii.bitmap_low_ptr,
+                                             (void *)&vicii.bitmap_low_ptr,
                                              (void *)(bitmap_low_base));
             old_bitmap_low_ptr = bitmap_low_base;
         }
 
         if (bitmap_high_base != old_bitmap_high_ptr) {
             raster_changes_next_line_add_ptr(&vicii.raster,
-                                             (void **)&vicii.bitmap_high_ptr,
+                                             (void *)&vicii.bitmap_high_ptr,
                                              (void *)(bitmap_high_base));
             old_bitmap_high_ptr = bitmap_high_base;
         }
 
         if (char_base != old_chargen_ptr) {
             raster_changes_next_line_add_ptr(&vicii.raster,
-                                             (void **)&vicii.chargen_ptr,
+                                             (void *)&vicii.chargen_ptr,
                                              (void *)char_base);
             old_chargen_ptr = char_base;
         }

@@ -52,8 +52,8 @@ extern void vidmode_suspend(int level);
 extern void vidmode_resume(void);
 extern void vidmode_set_mouse_timeout(void);
 extern void vidmode_mode_callback(void *callback);
-extern void vidmode_menu_create(struct ui_menu_entry_s menu[]);
-extern void vidmode_menu_shutdown(struct ui_menu_entry_s menu[]);
+extern void vidmode_menu_create(struct ui_menu_entry_s *menu);
+extern void vidmode_menu_shutdown(struct ui_menu_entry_s *menu);
 
 #endif
 

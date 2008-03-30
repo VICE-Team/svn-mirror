@@ -38,8 +38,8 @@ extern void dga1_shutdown(void);
 extern void dga1_suspend(int level);
 extern void dga1_resume(void);
 extern void dga1_mode_callback(void *callback);
-extern void dga1_menu_create(struct ui_menu_entry_s menu[]);
-extern void dga1_menu_shutdown(struct ui_menu_entry_s menu[]);
+extern void dga1_menu_create(struct ui_menu_entry_s *menu);
+extern void dga1_menu_shutdown(struct ui_menu_entry_s *menu);
 
 #endif
 

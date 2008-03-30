@@ -43,8 +43,8 @@ extern void dga2_shutdown(void);
 extern void dga2_suspend(int level);
 extern void dga2_resume(void);
 extern void dga2_mode_callback(void *callback);
-extern void dga2_menu_create(struct ui_menu_entry_s menu[]);
-extern void dga2_menu_shutdown(struct ui_menu_entry_s menu[]);
+extern void dga2_menu_create(struct ui_menu_entry_s *menu);
+extern void dga2_menu_shutdown(struct ui_menu_entry_s *menu);
 
 extern void dga2_set_mouse_timeout(void);
 extern int dga2_init_alloc_hooks(struct video_canvas_s *canvas);

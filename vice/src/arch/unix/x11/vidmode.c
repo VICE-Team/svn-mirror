@@ -255,7 +255,7 @@ void vidmode_mode_callback(void *callback)
     mode_callback = callback;
 }
 
-void vidmode_menu_create(struct ui_menu_entry_s menu[])
+void vidmode_menu_create(struct ui_menu_entry_s *menu)
 {
     unsigned int i, amodes;
     ui_menu_entry_t *resolutions_submenu;
@@ -281,7 +281,7 @@ void vidmode_menu_create(struct ui_menu_entry_s menu[])
     }
 }
 
-void vidmode_menu_shutdown(struct ui_menu_entry_s menu[])
+void vidmode_menu_shutdown(struct ui_menu_entry_s *menu)
 {
     unsigned int i, amodes;
     ui_menu_entry_t *resolutions_submenu = NULL;

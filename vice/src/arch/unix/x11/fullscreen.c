@@ -134,7 +134,7 @@ void fullscreen_mode_callback(const char *device, void *callback)
 #endif
 }
 
-void fullscreen_menu_create(struct ui_menu_entry_s menu[])
+void fullscreen_menu_create(struct ui_menu_entry_s *menu)
 {
 #ifdef USE_XF86_VIDMODE_EXT
     vidmode_menu_create(menu);
@@ -147,7 +147,7 @@ void fullscreen_menu_create(struct ui_menu_entry_s menu[])
 #endif
 }
 
-void fullscreen_menu_shutdown(struct ui_menu_entry_s menu[])
+void fullscreen_menu_shutdown(struct ui_menu_entry_s *menu)
 {
 #ifdef USE_XF86_VIDMODE_EXT
     vidmode_menu_shutdown(menu);
