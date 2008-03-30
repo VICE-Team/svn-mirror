@@ -35,6 +35,7 @@
 #include "uicommands.h"
 #include "uidatasette.h"
 #include "uidrive.h"
+#include "uijoystick2.h"
 #include "uimenu.h"
 #include "uiperipheral.h"
 #include "uirs232.h"
@@ -151,6 +152,7 @@ int plus4_ui_init(void)
                                      ui_sound_settings_menu,
                                      ui_drive_settings_menu,
                                      ui_peripheral_settings_menu,
+                                     joystick_settings_menu,
                                      ui_menu_separator,
                                      plus4_menu,
                                      ui_menu_separator,
@@ -189,6 +191,8 @@ int plus4_ui_init(void)
                                   ui_fullscreen_settings_menu,
                                   ui_menu_separator,
 #endif
+                                  joystick_options_submenu,
+                                  ui_menu_separator,
                                   ui_drive_options_submenu,
                                   NULL),
                    _("Settings"),
