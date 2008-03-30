@@ -27,11 +27,17 @@
 #ifndef _FFMPEGLIB_H
 #define _FFMPEGLIB_H
 
+#include "vice.h"
+
 #if defined (WIN32) && !defined(__GNUC__)
 #undef inline
 #endif
 
+#ifdef HAVE_FFMPEG_AVFORMAT_H
+#include <ffmpeg/avformat.h>
+#else
 #include "ffmpeg/avformat.h"
+#endif
 
 /* avcodec fucntions */
 typedef int (*avcodec_open_t) (AVCodecContext*, AVCodec*);

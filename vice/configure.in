@@ -6,7 +6,7 @@ dnl Process this file with GNU autoconf to produce a configure script.
 dnl
 
 AC_INIT(src/maincpu.c)
-AM_INIT_AUTOMAKE(vice, 1.13.34)
+AM_INIT_AUTOMAKE(vice, 1.13.35)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_DEFINE(UNSTABLE,,[Define if this version is unstable.])
@@ -95,6 +95,8 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   GCC=yes
 
   is_win32=yes
+
+  AC_CHECK_HEADERS(commctrl.h shlobj.h winioctl.h)
 
   AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
@@ -497,7 +499,7 @@ dnl Check for header files.
 AC_HEADER_DIRENT
 AC_CHECK_HEADERS(direct.h errno.h fcntl.h limits.h regex.h unistd.h \
 sys/dirent.h sys/ioctl.h sys/param.h sys/stat.h sys/time.h sys/types.h \
-dir.h commctrl.h shlobj.h io.h signal.h winioctl.h)
+dir.h io.h signal.h ffmpeg/avformat.h)
 
 AC_CHECK_HEADER(regexp.h,,,[#define	INIT		register char *sp = instring;
 #define	GETC()		(*sp++)
@@ -564,7 +566,6 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes";
     AC_CHECK_LIB(avcodec, avcodec_init,,,$LIBS)
     AC_CHECK_LIB(mp3lame, MP3lame_encode_frame,,,$LIBS)
     AC_CHECK_LIB(avformat, av_register_all,,,$LIBS)
-    dnl LIBS="-lavformat -lavcodec $LIBS"
   fi
 
   AC_CHECK_HEADERS(cwsid.h, AC_DEFINE(HAVE_CATWEASELMKIII,,

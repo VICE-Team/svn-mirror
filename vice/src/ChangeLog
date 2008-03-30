@@ -1,3 +1,69 @@
+2003-11-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.35.
+
+	* gfxoutputdrv/ffmpeglib.h: Use external avformat header file
+	if available.
+
+	* gfxoutputdrv/ffmpegdrv.h: Fixed prototypes.
+
+2003-11-29  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* c128/c128memsnapshot.c, c64/c64memsnapshot.c,
+	cbm2/cbm2memsnapshot.c, pet/petmemsnapshot.c,
+	vic20/vic20memsnapshot.c: Really disable traps before reading
+	or writing rom from/to snapshot.
+
+	* attach.c, tape/tape.c, machine.c, datasette.c: Don't
+	execute recordable user events when we're in playback mode.
+
+2003-11-29  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/arch.dsp: Added/removed files.
+
+	* arch/win32/statusbar.c: Fixed to handle more drives.
+
+	* arch/win32/uiperipheral.c: Fixed warnings.
+
+	* drive/drive.c (drive_disable): Fixed update of drive UI as
+	Thomas did in drive_enable. FIXME: Still no DOUBLE_DRIVE (is
+	this needed?)
+
+	* drive/drivecpu.c, drive/ieee/memieee.c: Include
+	drive-check.h.
+
+2003-11-27  David Hansel  <hansel@reactive-systems.com>
+
+	* printer.h, printerdrv/printer.c:
+	Added new function "printer_formfeed"
+
+	* printerdrv/driver-select.h, printerdrv/driver-select.c:
+	Added new function "driver_select_formfeed"
+
+	* printerdrv/drv-ascii.c, printerdrv/drv-mps803.c,
+	Added new function "drv_*_formfeed"
+
+	* printerdrv/output-graphics.c:  Delay opening the output
+	file until something is about to be written.  This avoids 
+	creating empty output files.
+
+	* printerdrv/drv-nl10.c:  Implemented some new control
+	sequences.  Don't do anything in "close" function.
+	Added new function "drv_nl10_formfeed".
+
+	* arch/unix/uiprinter.c, arch/unix/uiprinter.h:
+	Renamed function uiprinter_flush to uiprinter_formfeed
+
+	* arch/unix/uiprinteriec.c, arch/unix/uiprinterieee.c:
+	Renamed "Flush printer..." menu items to "Formfeed".
+	Added keyboard shortcuts Alt-4, Alt-5 for formfeed.
+	Call "printer_formfeed" when selected.
+
+	* arch/win32/res.h, arch/win32/res.rc, arch/win32/ui.c, 
+	arch/win32/uiperipheral.c:  Added "Send Formfeed" buttons.
+	Added keyboard shortcuts Alt-4, Alt-5 for formfeed.
+	Call "printer_formfeed" when selected.
+
 2003-11-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.34.

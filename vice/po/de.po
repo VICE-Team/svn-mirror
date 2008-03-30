@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2003-11-28 00:33+0100\n"
+"POT-Creation-Date: 2003-11-29 17:06+0100\n"
 "PO-Revision-Date: 2003-11-27 22:16+0100\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -1782,50 +1782,57 @@ msgid "IEC printer #4 text output device"
 msgstr "IEC Drucker #4 Text Ausgabegerät"
 
 #: src/arch/unix/uiprinteriec.c:55 src/arch/unix/uiprinterieee.c:50
-msgid "Flush IEC printer #4 device"
-msgstr "Leeren vom IEC Drucker #4 Gerät"
+#, fuzzy
+msgid "IEC printer #4 formfeed"
+msgstr "IEC Drucker #4 Treiber"
 
-#: src/arch/unix/uiprinteriec.c:58 src/arch/unix/uiprinterieee.c:53
+#: src/arch/unix/uiprinteriec.c:59 src/arch/unix/uiprinterieee.c:54
 msgid "*IEC printer #5 emulation"
 msgstr "*IEC Drucker #5 Emulation"
 
-#: src/arch/unix/uiprinteriec.c:60
+#: src/arch/unix/uiprinteriec.c:61
 msgid "*IEC printer #5 enable IEC device"
 msgstr "*IEC Drucker #5 aktivieren"
 
-#: src/arch/unix/uiprinteriec.c:62 src/arch/unix/uiprinterieee.c:55
+#: src/arch/unix/uiprinteriec.c:63 src/arch/unix/uiprinterieee.c:56
 msgid "IEC printer #5 driver"
 msgstr "IEC Drucker #5 Treiber"
 
-#: src/arch/unix/uiprinteriec.c:64 src/arch/unix/uiprinterieee.c:57
+#: src/arch/unix/uiprinteriec.c:65 src/arch/unix/uiprinterieee.c:58
 msgid "IEC printer #5 text output device"
 msgstr "IEC Drucker #5 Ausgabe Text Ausgabegerät"
 
-#: src/arch/unix/uiprinteriec.c:66 src/arch/unix/uiprinterieee.c:59
-msgid "Flush IEC printer #5 device"
-msgstr "Leeren vom IEC Drucker #5 Gerät"
+#: src/arch/unix/uiprinteriec.c:67 src/arch/unix/uiprinterieee.c:60
+#, fuzzy
+msgid "IEC printer #5 formfeed"
+msgstr "IEC Drucker #5 Treiber"
 
-#: src/arch/unix/uiprinteriec.c:69 src/arch/unix/uiprinterieee.c:62
+#: src/arch/unix/uiprinteriec.c:71 src/arch/unix/uiprinterieee.c:64
 msgid "*Userport printer emulation"
 msgstr "*Userport Drucker Emulation"
 
-#: src/arch/unix/uiprinteriec.c:71 src/arch/unix/uiprinterieee.c:64
+#: src/arch/unix/uiprinteriec.c:73 src/arch/unix/uiprinterieee.c:66
 msgid "Userport printer driver"
 msgstr "Userport Drucker Driver"
 
-#: src/arch/unix/uiprinteriec.c:73 src/arch/unix/uiprinterieee.c:66
+#: src/arch/unix/uiprinteriec.c:75 src/arch/unix/uiprinterieee.c:68
 msgid "Userport printer text output device"
 msgstr "Userport Drucker Text Ausgabegerät"
 
-#: src/arch/unix/uiprinteriec.c:76 src/arch/unix/uiprinterieee.c:69
+#: src/arch/unix/uiprinteriec.c:77 src/arch/unix/uiprinterieee.c:70
+#, fuzzy
+msgid "Userport printer formfeed"
+msgstr "Userport Drucker Driver"
+
+#: src/arch/unix/uiprinteriec.c:80 src/arch/unix/uiprinterieee.c:73
 msgid "Printer text device 1..."
 msgstr "Drucker Text Gerät 1..."
 
-#: src/arch/unix/uiprinteriec.c:78 src/arch/unix/uiprinterieee.c:71
+#: src/arch/unix/uiprinteriec.c:82 src/arch/unix/uiprinterieee.c:75
 msgid "Printer text device 2..."
 msgstr "Drucker Text Gerät 2..."
 
-#: src/arch/unix/uiprinteriec.c:80 src/arch/unix/uiprinterieee.c:73
+#: src/arch/unix/uiprinteriec.c:84 src/arch/unix/uiprinterieee.c:77
 msgid "Printer text device 3..."
 msgstr "Drucker Text Gerät 3..."
 
@@ -3152,6 +3159,12 @@ msgstr "Performance wird nicht optimal sein."
 #: src/arch/unix/x11/xaw/x11video.c:218
 msgid "Successfully initialized without shared memory."
 msgstr "Video erfolgreich ohne Shared Memroy initialisiert."
+
+#~ msgid "Flush IEC printer #4 device"
+#~ msgstr "Leeren vom IEC Drucker #4 Gerät"
+
+#~ msgid "Flush IEC printer #5 device"
+#~ msgstr "Leeren vom IEC Drucker #5 Gerät"
 
 #, fuzzy
 #~ msgid "*Drive #10 enable IEC device"

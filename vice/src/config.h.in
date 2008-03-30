@@ -77,6 +77,9 @@
 /* Enable FFMPEG library support */
 #undef HAVE_FFMPEG
 
+/* Define to 1 if you have the <ffmpeg/avformat.h> header file. */
+#undef HAVE_FFMPEG_AVFORMAT_H
+
 /* Define to 1 if you have the `fork' function. */
 #undef HAVE_FORK
 
