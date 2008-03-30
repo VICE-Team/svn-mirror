@@ -91,12 +91,6 @@ typedef enum ted_video_mode_s ted_video_mode_t;
                                          && (x) != TED_IDLE_MODE)
 #define TED_IS_BITMAP_MODE(x)        ((x) & 0x02)
 
-/* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
-   memory and (little) speed.  */
-#if !defined(__MSDOS__) && !defined(__riscos) && !defined(__OS2__)
-#define VIC_II_NEED_2X 1
-#endif
-
 /* Note: we measure cycles from 0 to 62, not from 1 to 63.  */
 
 /* Number of cycles per line.  */
