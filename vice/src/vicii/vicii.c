@@ -116,6 +116,7 @@ void vic_ii_change_timing(void)
 
     switch ((int)mode) {
       case DRIVE_SYNC_NTSC:
+        clk_guard_set_clk_base (&maincpu_clk_guard, C64_NTSC_CYCLES_PER_RFSH);
         vic_ii.screen_height = VIC_II_NTSC_SCREEN_HEIGHT;
         vic_ii.first_displayed_line = VIC_II_NTSC_FIRST_DISPLAYED_LINE;
         vic_ii.last_displayed_line = VIC_II_NTSC_LAST_DISPLAYED_LINE;
@@ -134,6 +135,7 @@ void vic_ii_change_timing(void)
         vic_ii.offset = VIC_II_NTSC_OFFSET;
         break;
       case DRIVE_SYNC_NTSCOLD:
+        clk_guard_set_clk_base (&maincpu_clk_guard, C64_NTSCOLD_CYCLES_PER_RFSH);
         vic_ii.screen_height = VIC_II_NTSCOLD_SCREEN_HEIGHT;
         vic_ii.first_displayed_line = VIC_II_NTSCOLD_FIRST_DISPLAYED_LINE;
         vic_ii.last_displayed_line = VIC_II_NTSCOLD_LAST_DISPLAYED_LINE;
@@ -153,6 +155,7 @@ void vic_ii_change_timing(void)
         break;
       case DRIVE_SYNC_PAL:
       default:
+        clk_guard_set_clk_base (&maincpu_clk_guard, C64_PAL_CYCLES_PER_RFSH);
         vic_ii.screen_height = VIC_II_PAL_SCREEN_HEIGHT;
         vic_ii.first_displayed_line = VIC_II_PAL_FIRST_DISPLAYED_LINE;
         vic_ii.last_displayed_line = VIC_II_PAL_LAST_DISPLAYED_LINE;
@@ -420,27 +423,6 @@ raster_t *vic_ii_init(void)
   vic_ii.initialized = 1;
 
   clk_guard_add_callback (&maincpu_clk_guard, clk_overflow_callback, NULL);
-
-  if (clk_guard_get_clk_base (&maincpu_clk_guard) == 0) {
-    double cycles_per_rfsh = C64_PAL_CYCLES_PER_RFSH;
-    resource_value_t mode;
-
-    resources_get_value("VideoStandard", &mode);
-
-    switch ((int)mode) {
-      case DRIVE_SYNC_NTSC:
-	cycles_per_rfsh = C64_NTSC_CYCLES_PER_RFSH;
-        break;
-      case DRIVE_SYNC_NTSCOLD:
-	cycles_per_rfsh = C64_NTSCOLD_CYCLES_PER_RFSH;
-        break;
-    }
-
-    clk_guard_set_clk_base (&maincpu_clk_guard, cycles_per_rfsh);
-  }
-  else
-    /* Safety measure.  */
-    log_error (vic_ii.log, "Trying to override clk base!?  Code is broken.");
 
   return &vic_ii.raster;
 }
