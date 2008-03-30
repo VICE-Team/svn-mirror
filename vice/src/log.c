@@ -95,7 +95,7 @@ int log_init(void)
 
     if (log_file_name == NULL || *log_file_name == 0) {
         log_file = archdep_open_default_log_file();
-        return log_file < 0 ? -1 : 0;
+        return 0;
     } else {
 #ifndef __OS2__
         if (strcmp(log_file_name, "-") == 0)
