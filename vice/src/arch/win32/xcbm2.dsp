@@ -172,10 +172,6 @@ SOURCE=..\..\main.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\memutils.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\mon.c
 # End Source File
 # Begin Source File
@@ -201,13 +197,6 @@ SOURCE=..\..\parallel.c
 # Begin Source File
 
 SOURCE=.\rescbm2.rc
-
-!IF  "$(CFG)" == "xcbm2 - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "xcbm2 - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 

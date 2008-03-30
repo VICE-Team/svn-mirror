@@ -20,6 +20,8 @@
 #define HAVE_FCNTL_H            1
 #define HAVE_LIMITS_H           1
 
+#define __i386__                1
+
 #define inline                  _inline
 
 #define HAVE_UNNAMED_UNIONS     1

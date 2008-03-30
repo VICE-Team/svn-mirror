@@ -78,6 +78,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "crtc"=".\crtc.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "drive"=".\drive.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -113,6 +125,18 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name arch
     End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "raster"=".\raster.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
 }}}
 
 ###############################################################################
@@ -242,6 +266,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name c64c128
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name raster
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -275,6 +302,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name vicii
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name raster
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -305,6 +335,12 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name sounddrv
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name raster
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name crtc
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -329,6 +365,12 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name sounddrv
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name raster
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name crtc
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -352,6 +394,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name vic20
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name raster
     End Project Dependency
 }}}
 

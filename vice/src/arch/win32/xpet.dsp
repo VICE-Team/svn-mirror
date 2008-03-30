@@ -176,10 +176,6 @@ SOURCE=..\..\maincpu.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\memutils.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\mon.c
 # End Source File
 # Begin Source File
@@ -209,13 +205,6 @@ SOURCE=..\..\resources.c
 # Begin Source File
 
 SOURCE=.\respet.rc
-
-!IF  "$(CFG)" == "xpet - Win32 Release"
-
-!ELSEIF  "$(CFG)" == "xpet - Win32 Debug"
-
-!ENDIF 
-
 # End Source File
 # Begin Source File
 

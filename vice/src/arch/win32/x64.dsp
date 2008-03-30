@@ -176,10 +176,6 @@ SOURCE=..\..\maincpu.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\memutils.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\mon.c
 # End Source File
 # Begin Source File

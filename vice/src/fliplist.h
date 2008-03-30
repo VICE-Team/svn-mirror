@@ -28,8 +28,15 @@
 #define _FLIPLIST_H
 
 void flip_set_current(int unit, const char *image);
-void flip_add_image(void);
+void flip_add_image(int unit);
 void flip_remove(int unit, char *image);
-void flip_attach_head(int direction);
+void flip_attach_head(int unit, int direction);
+void *flip_init_iterate(int unit);
+void *flip_next_iterate(int unit);
+char *flip_get_head(int unit);
+char *flip_get_next(int unit);
+char *flip_get_prev(int unit);
+char *flip_get_image(void *fl);
+int flip_get_unit(void *fl);
 
 #endif /* _FLIPLIST_H */

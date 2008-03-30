@@ -47,7 +47,7 @@ LPDIRECTDRAW dd;
 
 /* ------------------------------------------------------------------------ */
 
-/*#define DEBUG_VIDEO*/
+#define DEBUG_VIDEO
 
 /* Debugging stuff.  */
 #ifdef DEBUG_VIDEO
@@ -718,7 +718,9 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
 
 */
 
-#if 1
+char    Region[2048];
+
+#if 0
 void canvas_refresh(canvas_t c, frame_buffer_t f,
                     int xs, int ys, int xi, int yi, int w, int h)
 {
@@ -736,16 +738,11 @@ void canvas_refresh(canvas_t c, frame_buffer_t f,
     rect.bottom=yi+h;
     InvalidateRect(c->hwnd,&rect,FALSE);
 }
-#endif
-
-char    Region[2048];
 
 void canvas_render(canvas_t c, frame_buffer_t f, int xs, int ys, int xi, int yi, int w, int h)
-
-
-//void canvas_refresh(canvas_t c, frame_buffer_t f,
-//                    int xs, int ys, int xi, int yi, int w, int h)
-#if 1
+#else
+void canvas_refresh(canvas_t c, frame_buffer_t f,
+                    int xs, int ys, int xi, int yi, int w, int h)
 {
     HRESULT result;
     DDSURFACEDESC desc;
@@ -799,7 +796,7 @@ void canvas_render(canvas_t c, frame_buffer_t f, int xs, int ys, int xi, int yi,
             ui_error("Palette changed!\n(not implemented yet)");
             palettechanged = 0;
             set_physical_colors(c);
-            video_resize();
+//            video_resize();
         }
     }
 

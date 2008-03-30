@@ -39,7 +39,7 @@ CPP=cl.exe
 # PROP Intermediate_Dir "libs\vic20\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\raster" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -60,7 +60,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "libs\vic20\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\raster" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -77,6 +77,26 @@ LIB32=link.exe -lib
 # Begin Source File
 
 SOURCE=..\..\vic20\cartridge.c
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\vic20\vic-cmdline-options.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\vic20\vic-draw.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\vic20\vic-mem.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\vic20\vic-resources.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\vic20\vic-snapshot.c"
 # End Source File
 # Begin Source File
 

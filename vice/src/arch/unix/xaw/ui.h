@@ -44,6 +44,9 @@
    such cases.  */
 #define ALT_AS_META
 
+/* Number of drives we support in the UI.  */
+#define NUM_DRIVES      2
+
 /* If this is #defined, `Mode_switch' is handled the same as `Meta'.  */
 /* #define MODE_SWITCH_AS_META */
 
@@ -92,6 +95,8 @@ typedef struct {
 
 void ui_set_left_menu(Widget w);
 void ui_set_right_menu(Widget w);
+void ui_set_drive8_menu(Widget w);
+void ui_set_drive9_menu(Widget w);
 void ui_set_application_icon(Pixmap icon_pixmap);
 ui_window_t ui_open_canvas_window(const char *title, int width, int height, int no_autorepeat, ui_exposure_handler_t exposure_proc, const palette_t *p, PIXEL pixel_return[]);
 void ui_resize_canvas_window(ui_window_t w, int height, int width);
@@ -101,6 +106,7 @@ Window ui_canvas_get_drawable(ui_window_t w);
 int ui_canvas_set_palette(ui_window_t w, const palette_t *palette,
                           PIXEL *pixel_return);
 void ui_display_speed(float percent, float framerate, int warp_flag);
+void ui_display_drive_current_image(int drive_number, const char *image);
 void ui_display_paused(int flag);
 void ui_dispatch_next_event(void);
 void ui_dispatch_events(void);
@@ -119,6 +125,7 @@ void ui_pause_emulation(int flag);
 int ui_emulation_is_paused(void);
 void ui_create_dynamic_menues(void);
 void ui_check_mouse_cursor(void);
+void ui_update_flip_menus(int from_unit, int to_unit);
 
 #ifdef USE_VIDMODE_EXTENSION
 int ui_set_windowmode(void);

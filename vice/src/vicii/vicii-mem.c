@@ -63,7 +63,7 @@ static int unused_bits_in_registers[64] =
 
 /* Store a value in the video bank (it is assumed to be in RAM).  */
 inline void REGPARM2 
-store_vbank (ADDRESS addr, BYTE value)
+vic_ii_local_store_vbank (ADDRESS addr, BYTE value)
 {
   /* This can only cause "aesthetical" errors, so let's save some time if
      the current frame will not be visible.  */
@@ -105,11 +105,18 @@ store_vbank (ADDRESS addr, BYTE value)
   vic_ii.ram_base[addr] = value;
 }
 
+/* Encapsulate inlined function for other modules */
+void REGPARM2 
+store_vbank (ADDRESS addr, BYTE value)
+{
+  vic_ii_local_store_vbank(addr, value);
+}
+
 /* As `store_vbank()', but for the $3900...$39FF address range.  */
 void REGPARM2 
 store_vbank_39xx (ADDRESS addr, BYTE value)
 {
-  store_vbank (addr, value);
+  vic_ii_local_store_vbank (addr, value);
 
   if (vic_ii.idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff)
     raster_add_int_change_foreground
@@ -123,7 +130,7 @@ store_vbank_39xx (ADDRESS addr, BYTE value)
 void REGPARM2 
 store_vbank_3fxx (ADDRESS addr, BYTE value)
 {
-  store_vbank (addr, value);
+  vic_ii_local_store_vbank (addr, value);
   if (vic_ii.idle_data_location == IDLE_3FFF && (addr & 0x3fff) == 0x3fff)
     raster_add_int_change_foreground
       (&vic_ii.raster,

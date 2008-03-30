@@ -111,7 +111,7 @@ static UI_CALLBACK(attach_empty_disk)
 {
     int unit = (int)client_data;
     char filename[1024];
-    ui_button_t button;
+    /* ui_button_t button; */
 
     suspend_speed_eval();
 
@@ -532,21 +532,189 @@ static UI_CALLBACK(save_snapshot)
     maincpu_trigger_trap(save_snapshot_trap, (void *) 0);
 }
 
+/*  fliplist commands */
+extern char last_attached_images[NUM_DRIVES][256];
+extern ui_drive_enable_t enabled_drives;
+struct cb_data_t {
+    int unit;
+    long data;			/* should be enough for a pointer */
+};
+
+typedef enum { 
+    CBD_NEXT, CBD_PREV, CBD_ADD, CBD_REMOVE 
+} cbd_enum_t;
+
+static UI_CALLBACK(attach_from_fliplist)
+{
+    flip_attach_head(((struct cb_data_t *) client_data)->unit, 
+		     (int) ((struct cb_data_t *) client_data)->data);
+}
+
+static UI_CALLBACK(attach_from_fliplist2)
+{
+    file_system_attach_disk(flip_get_unit((void *) client_data), 
+			    flip_get_image((void *) client_data));
+}
+
+static UI_CALLBACK(attach_from_fliplist3)
+{
+    flip_attach_head(8, (int) client_data);
+}
+
 static UI_CALLBACK(add2fliplist)
 {
-    flip_add_image();
+    flip_add_image(8);
+    ui_update_flip_menus(8, 8);
+}
+
+static UI_CALLBACK(add2fliplist2)
+{
+    flip_set_current(((struct cb_data_t *) client_data)->unit, 
+		     (char *) ((struct cb_data_t *) client_data)->data);
+    flip_add_image(((struct cb_data_t *) client_data)->unit);
+    ui_update_flip_menus(((struct cb_data_t *) client_data)->unit,
+			 ((struct cb_data_t *) client_data)->unit);
 }
 
 static UI_CALLBACK(remove_from_fliplist)
 {
-    flip_remove(-1, NULL);
+    flip_remove(8, NULL);
+    ui_update_flip_menus(8, 8);
 }
 
-static UI_CALLBACK(attach_from_fliplist)
+static UI_CALLBACK(remove_from_fliplist2)
 {
-    flip_attach_head((int) client_data);
+    flip_remove(((struct cb_data_t *) client_data)->unit, 
+		(char *) ((struct cb_data_t *) client_data)->data);
+    ui_update_flip_menus(((struct cb_data_t *) client_data)->unit,
+			 ((struct cb_data_t *) client_data)->unit);
 }
 
+void ui_update_flip_menus(int from_unit, int to_unit)
+{
+    /* Yick, allocate dynamically */
+    static ui_menu_entry_t flipmenu[NUM_DRIVES][256]; 
+    static struct cb_data_t cb_data[NUM_DRIVES][sizeof(cbd_enum_t)];
+    
+    char *image = NULL, *t0, *t1, *t2, *t3, *t4, *dir;
+    void *fl_iterator;
+    int i, drive, true_emu;
+
+    resources_get_value("DriveTrueEmulation", 
+			(resource_value_t *) &true_emu);
+
+    for (drive = from_unit - 8 ; 
+	 (drive <= to_unit - 8) && (drive < NUM_DRIVES); 
+	 drive++) {
+
+	printf ("updating flip menu for drive %d\n", drive);
+
+	i = 0;
+	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
+	t0 = xmalloc(16);
+	sprintf(t0, "Unit #%d", drive + 8);
+	flipmenu[drive][i].string = t0;
+	flipmenu[drive][i].callback = (ui_callback_t) attach_disk;
+	flipmenu[drive][i].callback_data = (ui_callback_data_t) drive + 8;
+	i++;
+
+	/* don't update menu deeply when drive has not been enabled 
+	   or nothing has been attached */
+	if (true_emu) {
+	    if (! (1 << drive) & enabled_drives)
+		goto update_menu;
+	} else {
+	    if (strcmp(last_attached_images[drive], "") == 0)
+		goto update_menu;
+	}
+
+	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
+	flipmenu[drive][i].string = "--";
+	i++;
+    
+	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
+	fname_split(flip_get_next(drive + 8), &dir, &image);
+	t1 = concat("Next: ", image ? image : "<empty>", NULL);
+	flipmenu[drive][i].string = t1;
+	flipmenu[drive][i].callback = (ui_callback_t) attach_from_fliplist;
+	cb_data[drive][CBD_NEXT].unit = drive + 8;
+	cb_data[drive][CBD_NEXT].data = 1;
+	flipmenu[drive][i].callback_data = 
+	    (ui_callback_data_t) &(cb_data[drive][CBD_NEXT]);
+	i++;
+    
+	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
+	fname_split(flip_get_prev(drive + 8), &dir, &image);
+	t2 = concat("Previous: ", image ? image : "<empty>", NULL);
+	flipmenu[drive][i].string = t2;
+	flipmenu[drive][i].callback = (ui_callback_t) attach_from_fliplist;
+	cb_data[drive][CBD_PREV].unit = drive + 8;
+	cb_data[drive][CBD_PREV].data = 0;
+	flipmenu[drive][i].callback_data = 
+	    (ui_callback_data_t) &(cb_data[drive][CBD_PREV]);
+	i++;
+    
+	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
+	fname_split(last_attached_images[drive], &dir, &image);
+	t3 = concat("Add: ", image, NULL);
+	flipmenu[drive][i].string = t3;
+	flipmenu[drive][i].callback = (ui_callback_t) add2fliplist2;
+	cb_data[drive][CBD_ADD].unit = drive + 8;
+	cb_data[drive][CBD_ADD].data = (long) last_attached_images[drive];
+	flipmenu[drive][i].callback_data = 
+	    (ui_callback_data_t) &(cb_data[drive][CBD_ADD]);
+	i++;
+
+	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
+	fname_split(last_attached_images[drive], &dir, &image);
+	t4 = concat("Remove: ", image, NULL);
+	flipmenu[drive][i].string = t4;
+	flipmenu[drive][i].callback = (ui_callback_t) remove_from_fliplist2;
+	cb_data[drive][CBD_REMOVE].unit = drive + 8;
+	cb_data[drive][CBD_REMOVE].data = (long) last_attached_images[drive];
+	flipmenu[drive][i].callback_data = 
+	    (ui_callback_data_t) &(cb_data[drive][CBD_REMOVE]);
+	i++;
+
+	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
+	flipmenu[drive][i].string = "--";
+	i++;
+    
+	/* Now collect current fliplist */
+	fl_iterator=flip_init_iterate(drive + 8);
+	while (fl_iterator) {
+	    memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
+	    fname_split(flip_get_image(fl_iterator), &dir, &image);
+	    flipmenu[drive][i].string = image;
+	    flipmenu[drive][i].callback = 
+		(ui_callback_t) attach_from_fliplist2;
+	    flipmenu[drive][i].callback_data = 
+		(ui_callback_data_t) fl_iterator;
+
+	    fl_iterator = flip_next_iterate(drive + 8);
+	    i++;
+	}
+
+    update_menu:
+	/* make sure the menu is well terminated */
+	memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
+
+	/* ugly ... */
+	if (drive == 0)
+	    ui_set_drive8_menu(ui_menu_create("LeftDrive8Menu", 
+					      flipmenu[drive], NULL));
+	else
+	    ui_set_drive9_menu(ui_menu_create("LeftDrive9Menu", 
+					      flipmenu[drive], NULL));
+	free(t0);
+	if (i > 1) {
+	    free(t1);
+	    free(t2);
+	    free(t3);
+	    free(t4);
+	}
+    }
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -610,10 +778,10 @@ static ui_menu_entry_t flip_submenu[] = {
       (ui_callback_t) remove_from_fliplist, (ui_callback_data_t) 0, NULL,
       XK_k, UI_HOTMOD_META },
     { "Attach next image",
-      (ui_callback_t) attach_from_fliplist, (ui_callback_data_t) 1, NULL,
+      (ui_callback_t) attach_from_fliplist3, (ui_callback_data_t) 1, NULL,
       XK_n, UI_HOTMOD_META },
     { "Attach previous image",
-      (ui_callback_t) attach_from_fliplist, (ui_callback_data_t) 0, NULL,
+      (ui_callback_t) attach_from_fliplist3, (ui_callback_data_t) 0, NULL,
       XK_N, UI_HOTMOD_META },
     { NULL }
 };

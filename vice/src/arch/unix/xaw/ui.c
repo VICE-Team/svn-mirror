@@ -119,11 +119,10 @@ static char *selected_videomode_at_start;
 static int selected_videomode_index;
 
 static ui_menu_entry_t* resolutions_submenu;
+extern void video_setfullscreen(int v,int width, int height);
+#endif
 
 static void ui_display_drive_current_image2(void);
-extern void video_setfullscreen(int v,int width, int height);
-
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -682,10 +681,11 @@ int ui_init_cmdline_options(void)
 static int popped_up_count = 0;
 
 /* Left-button and right-button menu.  */
-static Widget left_menu, right_menu;
+static Widget left_menu, right_menu, drive8_menu, drive9_menu;
 
 /* Translations for the left and right menus.  */
 static XtTranslations left_menu_translations, right_menu_translations;
+static XtTranslations drive8_menu_translations, drive9_menu_translations;
 
 /* Application context. */
 static XtAppContext app_context;
@@ -701,9 +701,6 @@ static Colormap colormap;
 
 /* Application icon.  */
 static Pixmap icon_pixmap;
-
-/* Number of drives we support in the UI.  */
-#define NUM_DRIVES      2
 
 /* Enabled drives.  */
 ui_drive_enable_t enabled_drives;
@@ -732,7 +729,7 @@ static struct {
     int drive_nleds[NUM_DRIVES];
 } app_shells[MAX_APP_SHELLS];
 static int num_app_shells = 0;
-static char last_attached_images[NUM_DRIVES][256];
+char last_attached_images[NUM_DRIVES][256];
 
 /* Pixels for updating the drive LED's state.  */
 Pixel drive_led_on_red_pixel, drive_led_on_green_pixel, drive_led_off_pixel;
@@ -1375,6 +1372,68 @@ void ui_set_right_menu(Widget w)
     right_menu = w;
 }
 
+void ui_set_drive8_menu (Widget w)
+{
+    char *translation_table;
+    char *name = XtName(w);
+    int i;
+
+    for (i = 0; i < num_app_shells; i++)
+	if (app_shells[i].drive_mapping[0] < 0)
+	{
+	    XtDestroyWidget(w);
+	    return;
+	}
+    
+    translation_table =
+        concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+               "@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+               "Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n"
+               "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+               NULL);
+    drive8_menu_translations = XtParseTranslationTable(translation_table);
+    free(translation_table);
+
+    for (i = 0; i < num_app_shells; i++)
+        XtOverrideTranslations(app_shells[i].drive_widgets[app_shells[i].drive_mapping[0]].current_image, 
+			       drive8_menu_translations);
+
+    if (drive8_menu != NULL)
+        XtDestroyWidget(drive8_menu);
+    drive8_menu = w;
+}
+
+void ui_set_drive9_menu (Widget w)
+{
+    char *translation_table;
+    char *name = XtName(w);
+    int i;
+
+    for (i = 0; i < num_app_shells; i++)
+	if (app_shells[i].drive_mapping[1] < 0)
+	{
+	    XtDestroyWidget(w);
+	    return;
+	}
+
+    translation_table =
+        concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+               "@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+               "Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n"
+               "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+               NULL);
+    drive9_menu_translations = XtParseTranslationTable(translation_table);
+    free(translation_table);
+
+    for (i = 0; i < num_app_shells; i++)
+        XtOverrideTranslations(app_shells[i].drive_widgets[app_shells[i].drive_mapping[1]].current_image, 
+			       drive9_menu_translations);
+
+    if (drive9_menu != NULL)
+        XtDestroyWidget(drive9_menu);
+    drive9_menu = w;
+}
+
 void ui_set_application_icon(Pixmap icon_pixmap)
 {
     int i;
@@ -1767,21 +1826,17 @@ void ui_display_drive_led(int drive_number, int status)
 
 void ui_display_drive_current_image(int drive_number, const char *image)
 {
-    static char str[256];
-    char *dir, *name;
-
-    fname_split(image, &dir, &name);
-    
-    sprintf(str, "%s", name);
-    strcpy(&(last_attached_images[drive_number][0]), str);
+    strcpy(&(last_attached_images[drive_number][0]), image);
 
     /* update drive mapping */
     ui_enable_drive_status(enabled_drives, drive_active_led);
+    ui_update_flip_menus(drive_number + 8, drive_number + 8);
 }
 
 static void ui_display_drive_current_image2 (void) 
 {
     int i, j;
+    char *name;
     
     /* Now update all fields according to drive_mapping */
     for (i = 0; i < num_app_shells; i++) {
@@ -1801,8 +1856,9 @@ static void ui_display_drive_current_image2 (void)
 	    
 	    /* now fill the j'th widget */
 	    w = app_shells[i].drive_widgets[n].current_image;
-	    XtVaSetValues(w, XtNlabel, 
-			  &(last_attached_images[j][0]), NULL);
+
+	    fname_split(&(last_attached_images[j][0]), NULL, &name);
+	    XtVaSetValues(w, XtNlabel, name, NULL);
 	}
     }
 }
