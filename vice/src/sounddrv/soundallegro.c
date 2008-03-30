@@ -35,12 +35,13 @@
 #include <dpmi.h>
 
 #include "lib.h"
+#include "log.h"
 #include "sound.h"
 
 /* ------------------------------------------------------------------------- */
 
 /* Flag: have we already initialized Allegro?  */
-static int allegro_startup_done;
+/*static int allegro_startup_done;*/
 
 /* Audio buffer.  */
 static SAMPLE *buffer;
@@ -69,7 +70,7 @@ static int written_samples;
 
 static int allegro_startup(unsigned int freq)
 {
-    fprintf(logfile, "Starting up Allegro sound...  ");
+    log_debug("Starting up Allegro sound...  ");
 
     remove_sound();
 
@@ -79,7 +80,7 @@ static int allegro_startup(unsigned int freq)
     reserve_voices(1, 0);
 
     if (install_sound(DIGI_AUTODETECT, MIDI_NONE, NULL) != 0) {
-        fprintf(logfile, "Failed: %s\n", allegro_error);
+        log_debug("Failed: %s\n", allegro_error);
         return -1;
     }
 
@@ -87,7 +88,7 @@ static int allegro_startup(unsigned int freq)
        setup program.  */
     /* set_volume(255, 0); */
 
-    fprintf(logfile, "OK: %s, %s\n", digi_driver->name, digi_driver->desc);
+    log_debug("OK: %s, %s\n", digi_driver->name, digi_driver->desc);
     return 0;
 }
 
@@ -106,28 +107,15 @@ static int allegro_init_sound(const char *param, int *speed,
     fragment_size = *fragsize * sizeof(SWORD);
 
     buffer_len = fragment_size * *fragnr;
-    buffer = (SAMPLE *)lib_malloc(sizeof(SAMPLE));
-    _go32_dpmi_lock_data(buffer, sizeof(SAMPLE));
-
-    buffer->bits = 16;
-    buffer->freq = *speed;
-    buffer->priority = 255;
-    buffer->len = buffer_len / sizeof(SWORD);
-    buffer->loop_start = 0;
-    buffer->loop_end = buffer->len;
-    buffer->param = -1;
-
-    buffer->data = lib_malloc(buffer_len);
-    _go32_dpmi_lock_data(buffer->data, buffer_len);
+    buffer = create_sample(16, 0, *speed, buffer_len / sizeof(SWORD));
 
     for (i = 0; i < buffer_len / 2; i++)
         *((WORD *)buffer->data + i) = 0x8000;
 
     voice = allocate_voice(buffer);
     if (voice < 0) {
-        fprintf(errfile, "Cannot allocate Allegro voice!\n");
-        _unlock_dpmi_data(buffer->data, buffer_len * 2);
-        _unlock_dpmi_data(buffer, sizeof(SAMPLE));
+        log_debug("Cannot allocate Allegro voice!\n");
+        destroy_sample(buffer);
         return 1;
     }
 
@@ -146,7 +134,7 @@ static int allegro_write(SWORD *pbuf, size_t nr)
 {
     static int counter;
     unsigned int i, count;
-    unsigned int write_size;
+    /*unsigned int write_size;*/
 
     counter++;
 
@@ -265,6 +253,6 @@ static sound_device_t allegro_device =
 
 int sound_init_allegro_device(void)
 {
-    fprintf(logfile, "Initializing Allegro sound device.\n");
+    log_debug("Initializing Allegro sound device.\n");
     return sound_register_device(&allegro_device);
 }
