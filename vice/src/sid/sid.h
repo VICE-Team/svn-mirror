@@ -37,6 +37,10 @@ struct sid_snapshot_state_s;
 #define SID_ENGINE_CATWEASELMKIII 2
 #define SID_ENGINE_HARDSID        3
 
+#define SID_MODEL_6581  0
+#define SID_MODEL_8580  1
+#define SID_MODEL_8580D 2
+
 extern BYTE REGPARM1 sid_read(WORD address);
 extern BYTE REGPARM1 sid2_read(WORD address);
 extern void REGPARM2 sid_store(WORD address, BYTE byte);
