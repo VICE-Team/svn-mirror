@@ -54,7 +54,7 @@ int romset_load(const char *filename) {
         return -1;
     }
 
-    fp = sysfile_open(filename, NULL);
+    fp = sysfile_open(filename, NULL, MODE_READ);
 
     if(!fp) {
         log_warning(LOG_DEFAULT, "Could not open file '%s' for reading (%s)!",

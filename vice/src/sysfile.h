@@ -34,10 +34,11 @@
 extern int sysfile_init(const char *emu_id);
 extern int sysfile_init_resources(void);
 extern int sysfile_init_cmdline_options(void);
-extern FILE *sysfile_open(const char *name, char **complete_path_return);
+extern FILE *sysfile_open(const char *name, char **complete_path_return,
+                          const char *open_mode);
 extern int sysfile_locate(const char *name, char **complete_path_return);
 extern int sysfile_load(const char *name, BYTE *dest,
                         int minsize, int maxsize);
 
-#endif /* _SYSFILE_H */
+#endif
 

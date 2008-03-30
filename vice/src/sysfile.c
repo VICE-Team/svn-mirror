@@ -153,7 +153,8 @@ int sysfile_init_cmdline_options(void)
    return an open stdio stream for that file.  If `complete_path_return' is
    not NULL, `*complete_path_return' points to a malloced string with the
    complete path if the file was found or is NULL if not.  */
-FILE *sysfile_open(const char *name, char **complete_path_return)
+FILE *sysfile_open(const char *name, char **complete_path_return,
+                   const char *open_mode)
 {
     char *p = NULL;
     FILE *f;
@@ -171,7 +172,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
     {
         if (complete_path_return != NULL)
             *complete_path_return = stralloc(name);
-        return fopen(name, MODE_READ);
+        return fopen(name, open_mode);
     }
 
     f = NULL;
@@ -184,7 +185,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
             buffer[0] = '\0';
         }
     }
-    if (buffer[0] != '\0') f = fopen(buffer, MODE_READ);
+    if (buffer[0] != '\0') f = fopen(buffer, open_mode);
     if (f == NULL)
     {
         if (complete_path_return != NULL)
@@ -205,7 +206,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
             *complete_path_return = NULL;
         return NULL;
     } else {
-        f = fopen(p, MODE_READ);
+        f = fopen(p, open_mode);
 
         if (f == NULL || complete_path_return == NULL) {
             free(p);
@@ -222,7 +223,7 @@ FILE *sysfile_open(const char *name, char **complete_path_return)
    found and is readable, or -1 if an error occurs.  */
 int sysfile_locate(const char *name, char **complete_path_return)
 {
-    FILE *f = sysfile_open(name, complete_path_return);
+    FILE *f = sysfile_open(name, complete_path_return, MODE_READ);
 
     if (f != NULL) {
         fclose(f);
@@ -239,7 +240,7 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
     size_t rsize = 0;
     char *complete_path;
 
-    fp = sysfile_open(name, &complete_path);
+    fp = sysfile_open(name, &complete_path, MODE_READ);
     if (fp == NULL)
         goto fail;
 

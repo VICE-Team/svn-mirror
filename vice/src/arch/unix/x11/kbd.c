@@ -35,13 +35,14 @@
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
 
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <string.h>
 #include <sys/time.h>
 #include <unistd.h>
 
+#include "archdep.h"
 #include "cmdline.h"
 #include "interrupt.h"
 #include "joystick.h"
@@ -420,7 +421,7 @@ static int kbd_parse_keymap(const char *filename)
     if (!filename)
         return -1;
 
-    fp = sysfile_open(filename, &complete_path);
+    fp = sysfile_open(filename, &complete_path, MODE_READ_TEXT);
     if (!fp) {
         free(complete_path);
         return -1;

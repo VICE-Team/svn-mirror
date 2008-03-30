@@ -3,10 +3,10 @@
  *
  * Written by
  *  Peter Weighill <stuce@csv.warwick.ac.uk>
- *  Jouko Valta    <jopi@stekt.oulu.fi>
+ *  Jouko Valta <jopi@stekt.oulu.fi>
  *
  * Patches by
- *  Marko Makela   <msmakela@nic.funet.fi>
+ *  Marko Makela <msmakela@nic.funet.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
