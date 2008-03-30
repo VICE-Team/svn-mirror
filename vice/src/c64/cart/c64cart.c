@@ -40,20 +40,19 @@
 #include "crt.h"
 #include "expert.h"
 #include "generic.h"
+#include "ide64.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "resources.h"
 #include "retroreplay.h"
-#include "ide64.h"
 #include "supersnapshot.h"
 #include "util.h"
 
 
 static int cartridge_type;
 static char *cartridge_file = NULL;
-static char *ide64_configuration_string = NULL;
 static int cartridge_mode;
 static int c64cartridge_reset;
 
@@ -68,7 +67,8 @@ static alarm_t *cartridge_alarm = NULL;
 
 static unsigned int cartridge_int_num;
 
-static int try_cartridge_init(int c)
+
+int try_cartridge_init(int c)
 {
     cartres^=c;
     if (cartres) return 0;
@@ -119,31 +119,6 @@ static int set_cartridge_reset(resource_value_t v, void *param)
     return try_cartridge_init(8);
 }
 
-static int set_ide64_config(resource_value_t v, void *param)
-{
-    const char *cfg = (const char *)v;
-    int i;
-
-    ide64_DS1302[64] = 0;
-    memset(ide64_DS1302, 0x40, 64);
-    ide64_configuration_string = ide64_DS1302;
-
-    if (cfg)
-        for (i = 0; cfg[i] && i < 64; i++)
-            ide64_DS1302[i] = cfg[i];
-
-    return try_cartridge_init(16);
-}
-
-static int set_ide64_image_file(resource_value_t v, void *param)
-{
-    const char *name = (const char *)v;
-
-    util_string_set(&ide64_image_file, name);
-
-    return try_cartridge_init(32);
-}
-
 static const resource_t resources[] = {
     { "CartridgeType", RES_INTEGER, (resource_value_t)CARTRIDGE_NONE,
       (void *)&cartridge_type, set_cartridge_type, NULL },
@@ -153,15 +128,14 @@ static const resource_t resources[] = {
       (void *)&cartridge_mode, set_cartridge_mode, NULL },
     { "CartridgeReset", RES_INTEGER, (resource_value_t)1,
       (void *)&c64cartridge_reset, set_cartridge_reset, NULL },
-    { "IDE64Image", RES_STRING, (resource_value_t)"ide.hdd",
-      (void *)&ide64_image_file, set_ide64_image_file, NULL },
-    { "IDE64Config", RES_STRING, (resource_value_t)"",
-      (void *)&ide64_configuration_string, set_ide64_config, NULL },
     { NULL }
 };
 
 int cartridge_resources_init(void)
 {
+    if (ide64_resources_init() < 0)
+        return -1;
+
     return resources_register(resources);
 }
 
@@ -229,6 +203,9 @@ static const cmdline_option_t cmdline_options[] =
 
 int cartridge_cmdline_options_init(void)
 {
+    if (ide64_cmdline_options_init() < 0)
+        return -1;
+
     return cmdline_register_options(cmdline_options);
 }
 

@@ -27,19 +27,19 @@
 #ifndef _IDE64_H
 #define _IDE64_H
 
-#include <stdio.h>
-
 #include "types.h"
 
 extern BYTE REGPARM1 ide64_io1_read(WORD addr);
 extern void REGPARM2 ide64_io1_store(WORD addr, BYTE value);
 
+extern int ide64_resources_init(void);
+extern int ide64_cmdline_options_init(void);
+
 extern void ide64_config_init(void);
 extern void ide64_config_setup(BYTE *rawcart);
 extern int ide64_bin_attach(const char *filename, BYTE *rawcart);
-extern char ide64_DS1302[65];
 extern char *ide64_image_file;
-void ide64_detach(void);
+extern void ide64_detach(void);
 
 #endif
 
