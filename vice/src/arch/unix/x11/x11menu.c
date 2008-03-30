@@ -67,6 +67,8 @@ char *make_menu_label(ui_menu_entry_t *e)
 
     retstr = util_concat(trans, "    (", tmp, key_string, ")", NULL);
 
+    lib_free(trans);
+
     return retstr;
 }
 
