@@ -1,3 +1,67 @@
+Tue Apr 14 19:40:29 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.4.
+
+Tue Apr 14 19:00:10 1998  Teemu Rantanen  <tvr@cs.hut.fi>
+
+	* sid.c (sun_bufferstatus) [NetBSD]: Fixed return value.
+
+Tue Apr 14 12:53:04 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* drive.c (read_fs): When returning `SERIAL_EOF', put a 0xc7 into
+	the buffer.
+
+Tue Apr 14 12:49:27 1998  Petschy  <petschy@derceto.sch.bme.hu>
+
+	* drive.c (read_1541): When returning `SERIAL_EOF', put a 0xc7
+	into the buffer.
+
+	* serial.c (serialreceivebyte): Set the N and Z flags according to
+	the value of `data'.
+
+Tue Apr 14 12:29:48 1998  Krister Walfridsson  <cato@df.lth.se>
+
+	* Makefile.in: Replaced `@LINUXJOYSTICK@' with `@JOYSTICK@' in
+	`DEFS'.  Use `$(RM)' instead of `rm' consistently.
+
+	* configure.in: Replaced `@LINUXJOYSTICK@' with `@JOYSTICK@'. If
+ 	the `linux/joystick.h' include exists, add both `-DHAS_JOYSTICK
+ 	-DLINUX_JOYSTICK' to it.  If the `machine/joystick.h' include
+ 	exists, add `-DHAS_JOYSTICK -DBSD_JOYSTICK'.
+
+	* arch/unix/joystick.c: Added support for NetBSD.
+	[BSD_JOYSTICK] #include <machine/joystick.h>
+	(joyini) [BSD_JOYSTICK]: Open `/dev/joy0' instead of `/dev/js0'.
+	[!HAS_DIGITAL_JOYSTICK]: Do not open the `/dev/djs[01]' devices.
+	(joystick): Handle Linux and BSD buttons differently.
+
+	* sid.c: Added support for NetBSD (derived from the code for
+ 	Solaris).
+
+Fri Apr 10 19:12:55 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* arch/unix/menu.h (Change1541ExtendImageSubmenu): New menu for
+ 	extended disk handling.
+
+	* arch/unix/ui_xaw.c, arch/unix/ui_xaw.h (UiExtendImageDialog):
+ 	New dialog to confirm disk image extension.
+	(UiSet1541ExtendImage): New function.
+
+	* drive.c (get_std64_header): Do not hardcode track constants.
+
+	* include/fs_cbm.h: Define `EXT_TRACKS_1541' and
+ 	`EXT_BLOCKS_1541'.
+
+	* resources.c, resources.h: New resource `true1541ExtendImage'.
+
+	* true1541.c (GCR_data_writeback): If data is written to track
+ 	36..40 extend disk if it complies with the user settings.
+	(true1541_extend_disk_image): Clear tracks 36..40 and promote the
+ 	drive constants to 40 tracks.  New flag `ask_extend_disk_image'
+ 	that is cleared once the user disallowed extension of the disk
+ 	image.
+	(true1541_attach_floppy): Set `ask_extend_disk_image' on attach.
+
 Fri Apr 10 00:16:11 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.3.
