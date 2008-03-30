@@ -113,10 +113,9 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
                         last_displayed_line,
                         0, 0);
 
-    if (vdc_resources.double_size_enabled) {
-        displayed_height *= 2;
+    if (vdc_resources.double_size_enabled)
         raster_set_pixel_size(raster, 1, 2, VIDEO_RENDER_RGB_1X2);
-    } else
+    else
         raster_set_pixel_size(raster, 1, 1, VIDEO_RENDER_RGB_1X1);
 
     raster->display_ystart = vdc_25row_start_line;
@@ -147,6 +146,7 @@ static int init_raster(void)
     resources_touch("VDCVideoCache");
     raster_set_canvas_refresh(raster, 1);
 
+    /*resources_touch("VDC_DoubleSize");*/
     vdc_set_geometry();
 
     if (vdc_load_palette(vdc_resources.palette_file_name) < 0) {
@@ -304,7 +304,9 @@ void vdc_powerup(void)
 /* Handle the exposure event. */
 static void vdc_exposure_handler(unsigned int width, unsigned int height)
 {
-    raster_resize_viewport(&vdc.raster, width, height);
+    raster_resize_viewport(&vdc.raster,
+                           width / vdc.raster.viewport.pixel_size.width,
+                           height / vdc.raster.viewport.pixel_size.height);
 }
 
 /* Set the memory pointers according to the values in the registers. */
@@ -389,7 +391,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset)
         }
 
         if (vdc.force_resize) {
-            vdc_resize();
+            if (vdc.initialized)
+                vdc_set_geometry();
             vdc.force_resize = 0;
         }
 
@@ -461,10 +464,27 @@ int vdc_load_palette(const char *name)
 /* Set proper functions and constants for the current video settings. */
 void vdc_resize(void)
 {
-    if (!vdc.initialized)
-        return;
-
-    vdc_set_geometry();
+    if (vdc_resources.double_size_enabled) {
+        if (vdc.raster.viewport.pixel_size.height == 1
+            && vdc.raster.viewport.canvas != NULL) {
+            raster_set_pixel_size(&vdc.raster, 1, 2, VIDEO_RENDER_RGB_1X2);
+            raster_resize_viewport(&vdc.raster,
+                                   vdc.raster.viewport.width,
+                                   vdc.raster.viewport.height);
+        } else {
+            raster_set_pixel_size(&vdc.raster, 1, 2, VIDEO_RENDER_RGB_1X2);
+        }
+    } else {
+        if (vdc.raster.viewport.pixel_size.height == 2
+            && vdc.raster.viewport.canvas != NULL) {
+            raster_set_pixel_size(&vdc.raster, 1, 1, VIDEO_RENDER_RGB_1X1);
+            raster_resize_viewport(&vdc.raster,
+                                   vdc.raster.viewport.width,
+                                   vdc.raster.viewport.height / 2);
+        } else {
+            raster_set_pixel_size(&vdc.raster, 1, 1, VIDEO_RENDER_RGB_1X1);
+        }
+    }
 }
 
 void vdc_set_canvas_refresh(int enable)

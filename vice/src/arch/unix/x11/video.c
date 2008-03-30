@@ -462,6 +462,8 @@ video_canvas_t *video_canvas_init(void)
     /* Request specified video format. */
     canvas->xv_format.id = fourcc;
 #endif
+    video_render_initconfig(&canvas->videoconfig);
+
     return canvas;
 }
 
@@ -471,16 +473,24 @@ int video_canvas_create(video_canvas_t *canvas, const char *win_name,
                         const struct palette_s *palette)
 {
     int res;
+    unsigned int new_width, new_height;
     XGCValues gc_values;
 
-    if (video_arch_frame_buffer_alloc(canvas, *width, *height) < 0) {
+    new_width = *width;
+    new_height = *height;
+
+    if (canvas->videoconfig.doublesizex)
+        new_width *= 2;
+
+    if (canvas->videoconfig.doublesizey)
+        new_height *= 2;
+
+    if (video_arch_frame_buffer_alloc(canvas, new_width, new_height) < 0) {
         free(canvas);
         return -1;
     }
 
-    video_render_initconfig(&canvas->videoconfig);
-
-    res = x11ui_open_canvas_window(canvas, win_name, *width, *height, 1,
+    res = x11ui_open_canvas_window(canvas, win_name, new_width, new_height, 1,
                                    (canvas_redraw_t)exposure_handler, palette);
 
     if (!_video_gc)
@@ -491,8 +501,8 @@ int video_canvas_create(video_canvas_t *canvas, const char *win_name,
         return -1;
     }
 
-    canvas->width = *width;
-    canvas->height = *height;
+    canvas->width = new_width;
+    canvas->height = new_height;
     ui_finish_canvas(canvas);
 
     if (canvas->depth > 8)
@@ -532,9 +542,14 @@ int video_canvas_set_palette(video_canvas_t *c,
 void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
                          unsigned int height)
 {
-    if (console_mode || vsid_mode) {
+    if (console_mode || vsid_mode)
         return;
-    }
+
+    if (canvas->videoconfig.doublesizex)
+        width *= 2;
+
+    if (canvas->videoconfig.doublesizey)
+        height *= 2;
 
     video_arch_frame_buffer_free(canvas);
     video_arch_frame_buffer_alloc(canvas, width, height);
@@ -578,7 +593,19 @@ void video_canvas_refresh(video_canvas_t *canvas,
                           unsigned int w, unsigned int h)
 {
     Display *display;
-    /*printf("XS%i YS%i XI%i YI%i W%i H%i\n",xs, ys, xi, yi, w, h);*/
+    /*log_debug("XS%i YS%i XI%i YI%i W%i H%i",xs, ys, xi, yi, w, h);*/
+
+    if (canvas->videoconfig.doublesizex) {
+        xs *= 2;
+        xi *= 2;
+        w *= 2;
+    }
+
+    if (canvas->videoconfig.doublesizey) {
+        ys *= 2;
+        yi *= 2;
+        h *= 2;
+    }
 
 #ifdef HAVE_XVIDEO
     if (use_xvideo) {

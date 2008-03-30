@@ -59,7 +59,8 @@ int raster_calc_frame_buffer_width(raster_t *raster)
 }
 
 static int raster_draw_buffer_alloc(video_canvas_t *canvas, BYTE **draw_buffer,
-                                    unsigned int fb_width, unsigned int fb_height,
+                                    unsigned int fb_width,
+                                    unsigned int fb_height,
                                     unsigned int *fb_pitch)
 {
     if (canvas->video_draw_buffer_callback)
@@ -113,50 +114,69 @@ static void update_pixel_tables(raster_t *raster)
         = raster->pixel_table.doub[i];
 }
 
+void raster_canvas_init(raster_t *raster)
+{
+    raster_viewport_t *viewport;
+
+    viewport = &raster->viewport;
+}
+
 static int realize_canvas(raster_t *raster)
 {
     raster_viewport_t *viewport;
 
     viewport = &raster->viewport;
 
-    if (viewport->canvas == NULL) {
-        viewport->canvas = video_canvas_init();
-        video_canvas_create(viewport->canvas, viewport->title,
-                            &viewport->width, &viewport->height, 1,
-                            (void_t)(raster->viewport.exposure_handler),
-                            raster->palette);
+    viewport->canvas = video_canvas_init();
+
+    /* FIXME: This can be removed soon. */
+    if (viewport->pixel_size.width > 1)
+        viewport->canvas->videoconfig.doublesizex = 1;
+    else
+        viewport->canvas->videoconfig.doublesizex = 0;
+    if (viewport->pixel_size.height > 1)
+        viewport->canvas->videoconfig.doublesizey = 1;
+    else
+        viewport->canvas->videoconfig.doublesizey = 0;
+
+    viewport->width /= viewport->pixel_size.width;
+    viewport->height /= viewport->pixel_size.height;
+
+    video_canvas_create(viewport->canvas, viewport->title,
+                        &viewport->width, &viewport->height, 1,
+                        (void_t)(raster->viewport.exposure_handler),
+                        raster->palette);
+
+    viewport->width *= viewport->pixel_size.width;
+    viewport->height *= viewport->pixel_size.height;
 
 /* FIXME: This has to be removed.  */
-        {
-            int i;
-            for (i = 0; i < 256; i++)
-                raster->pixel_table.sing[i] = i;
-        }
-
-        if (viewport->canvas == NULL)
-            return -1;
-#ifndef __OS2__
-        if (!console_mode && !vsid_mode) {
-            if (raster_draw_buffer_alloc(
-                viewport->canvas,
-                &raster->draw_buffer, 1, 1, &raster->draw_buffer_pitch) < 0)
-                return -1;
-        }
-#endif
-        update_pixel_tables(raster);
-
-        if (raster->pixel_table.sing[0] != 0)
-            raster_force_repaint(raster);
-    } else {
-        video_canvas_resize(viewport->canvas, viewport->width,
-                            viewport->height);
+    {
+        int i;
+        for (i = 0; i < 256; i++)
+            raster->pixel_table.sing[i] = i;
     }
+
+    if (viewport->canvas == NULL)
+        return -1;
+
+#ifndef __OS2__
+    if (!console_mode && !vsid_mode) {
+        if (raster_draw_buffer_alloc(viewport->canvas,
+            &raster->draw_buffer, 1, 1, &raster->draw_buffer_pitch) < 0)
+            return -1;
+    }
+#endif
+
+    update_pixel_tables(raster);
 
     /* The canvas might give us something different from what we
        requested.  */
-    raster_resize_viewport(raster, viewport->width, viewport->height);
+    raster_resize_viewport(raster,
+                           viewport->width / viewport->pixel_size.width,
+                           viewport->height / viewport->pixel_size.height);
 
-  return 0;
+    return 0;
 }
 
 static int realize_frame_buffer(raster_t *raster)
@@ -172,7 +192,7 @@ static int realize_frame_buffer(raster_t *raster)
     if (!console_mode && !vsid_mode)
         raster_draw_buffer_free(canvas, raster->draw_buffer);
 
-    fb_width = raster_calc_frame_buffer_width(raster);;
+    fb_width = raster_calc_frame_buffer_width(raster);
     fb_height = raster->geometry.screen_size.height;
 
     if (!console_mode && !vsid_mode && fb_width > 0 && fb_height > 0) {
@@ -220,8 +240,12 @@ static int perform_mode_change(raster_t *raster)
 
     raster_force_repaint(raster);
 
-    video_canvas_resize(canvas, viewport->width, viewport->height);
-    raster_resize_viewport(raster, viewport->width, viewport->height);
+    video_canvas_resize(canvas,
+                        viewport->width / viewport->pixel_size.width,
+                        viewport->height / viewport->pixel_size.height);
+    raster_resize_viewport(raster,
+                           viewport->width / viewport->pixel_size.width,
+                           viewport->height / viewport->pixel_size.height);
 
     return 0;
 }
@@ -522,12 +546,15 @@ void raster_resize_viewport(raster_t *raster,
 
     pixel_size = &viewport->pixel_size;
 
+    width *= pixel_size->width;
+    height *= pixel_size->height;
+
     {
         unsigned int screen_width = screen_size->width * pixel_size->width;
         unsigned int width_pix = width / pixel_size->width;
 
         if (width >= screen_width) {
-            viewport->x_offset = (width - screen_width) / 2;
+            viewport->x_offset = (width_pix - screen_size->width) / 2;
             viewport->first_x = 0;
         } else {
             viewport->x_offset = 0;
@@ -548,7 +575,7 @@ void raster_resize_viewport(raster_t *raster,
         unsigned int gfx_height = height_pix - gfx_size->height;
 
         if (height >= screen_height) {
-            viewport->y_offset = (height - screen_height) / 2;
+            viewport->y_offset = (height_pix - screen_size->height) / 2;
             viewport->first_line = 0;
             viewport->last_line = screen_size->height - 1;
         } else {
@@ -563,7 +590,7 @@ void raster_resize_viewport(raster_t *raster,
                 if (height_pix > gfx_size->height)
                 {
                     if (gfx_height <= gfx_position->y)
-                        viewport->first_line -= gfx_height/2;
+                        viewport->first_line -= gfx_height / 2;
                     else
                         viewport->first_line = 0;
                 }
@@ -575,7 +602,8 @@ void raster_resize_viewport(raster_t *raster,
 
     /* Hmmm....  FIXME?  */
     if (viewport->canvas != NULL)
-        video_canvas_resize(viewport->canvas, width, height);
+        video_canvas_resize(viewport->canvas, width / pixel_size->width,
+                            height / pixel_size->height);
 
     viewport->width = width;
     viewport->height = height;

@@ -1,3 +1,46 @@
+2002-06-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.41.
+
+	* vicii/vicii-resources.c, vdc/vdc-resources.c,
+	vic20/vic-resources.c, crtc/crtc-resources.c,
+	plus4/ted-resources.c, video.h, video/video-resources.c: Added
+	video chip capabilities.
+
+	* raster/raster-resources.c, raster/raster-resources.h: Pass
+	video chip capabilities struct.
+
+	* arch/unix/x11/video.c, arch/win32/video.c,
+	arch/msdos/video.c, arch/riscos/video.c, arch/os2/video.c,
+	arch/beos/video.cc (video_canvas_init): Moved call to
+	`video_render_initconfig()' here.
+	(video_canvas_refresh, video_canvas_resize,
+	video_canvas_create): Scale window coordinates as the
+	parameters are not scaled anymore.
+
+	* raster/raster.c (raster_resize_viewport): Changed
+	calculation of `x_offset' and `y_offset'.
+	* arch/win32/video.c (canvas_update): Likewise.
+
+	* raster/raster-canvas.c (raster_canvas_update_all,
+	update_canvas): Removed scaling from parameters to
+	`video_canvas_refresh()'.
+
+	* raster/raster.c (realize_canvas): Simplified.
+	(raster_resize_viewport): Take unscaled coordinates.
+	(raster_canvas_init): New function.
+
+	* vicii/vicii.c, vdc/vdc.c, crtc/crtc.c, vic20/vic.c,
+	plus4/ted.c: Removed some scaling code.
+
+2002-06-23  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/c128ui.c, arch/riscos/c64ui.c,
+	arch/riscos/cbm2ui.c, arch/riscos/petui.c,
+	arch/riscos/plus4ui.c, arch/riscos/vic20ui.c,
+	arch/riscos/ui.c, arch/riscos/uiconfig.{c,h}: configuration
+	item cleanup.
+
 2002-06-23  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.40.
