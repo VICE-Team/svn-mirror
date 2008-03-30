@@ -193,9 +193,9 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
     switch ((BYTE)addr) {
       case 0:
         if (vbank == 0) {
-            vicii_mem_vbank_store((WORD)0, vicii_read_phi1());
+            vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
         } else {
-            mem_ram[0] = vicii_read_phi1();
+            mem_ram[0] = vicii_read_phi1_lowlevel();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
         }
         if (pport.dir != value) {
@@ -205,9 +205,9 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
         break;
       case 1:
         if (vbank == 0) {
-            vicii_mem_vbank_store((WORD)1, vicii_read_phi1());
+            vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
         } else {
-            mem_ram[1] = vicii_read_phi1();
+            mem_ram[1] = vicii_read_phi1_lowlevel();
             machine_handle_pending_alarms(maincpu_rmw_flag + 1);
         }
         if (pport.data != value) {

@@ -125,12 +125,10 @@ static BYTE refresh_counter(unsigned int num)
     return vicii.ram_base_phi1[vicii.vbank_phi1 + 0x3f00 + offset];
 }
 
-BYTE vicii_read_phi1(void)
+BYTE vicii_read_phi1_lowlevel(void)
 {
     BYTE value = 0x40;
     unsigned int cycle;
-
-    vicii_handle_pending_alarms(0);
 
     cycle = VICII_RASTER_CYCLE(maincpu_clk);
 
@@ -249,5 +247,12 @@ BYTE vicii_read_phi1(void)
     }
 
     return value;
+}
+
+BYTE vicii_read_phi1(void)
+{
+    vicii_handle_pending_alarms(0);
+
+    return vicii_read_phi1_lowlevel();
 }
 
