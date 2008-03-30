@@ -450,7 +450,7 @@ int machine_write_snapshot(const char *name, int save_roms, int save_disks)
         || (isC500 && c500_write_snapshot_module(s) < 0)
 	) {
         snapshot_close(s);
-        remove_file(name);
+        util_remove_file(name);
         return -1;
     }
 

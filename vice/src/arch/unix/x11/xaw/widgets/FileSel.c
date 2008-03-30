@@ -1185,7 +1185,7 @@ XtPointer call_data;
 #if defined VICE && (defined HAVE_REGEXP_H || defined HAVE_REGEX_H)
 	/* added separation of path and pattern */
 	/* path is allocated once, while FSPattern is handled dynamically...*/
-	fname_split(path, &fpath, &fpattern);
+	util_fname_split(path, &fpath, &fpattern);
 	if(fpath) {
 	  if(strlen(fpath)) {
 	    strcpy(FSCurrentDirectory(fsw), fpath);

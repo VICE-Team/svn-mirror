@@ -458,7 +458,7 @@ snapshot_t *snapshot_create(const char *filename,
 
 fail:
     fclose(f);
-    remove_file(filename);
+    util_remove_file(filename);
     return NULL;
 }
 

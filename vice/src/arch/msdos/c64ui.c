@@ -57,7 +57,7 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
         int type = (int)param;
 
         s = cartridge_get_file_name((ADDRESS) 0);
-        fname_split(s, &directory, &default_item);
+        util_fname_split(s, &directory, &default_item);
 
         filter = (type == CARTRIDGE_CRT) ? "*.crt" : "*";
 

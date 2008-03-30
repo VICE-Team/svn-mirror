@@ -94,12 +94,12 @@ const char *archdep_program_name(void)
     return program_name;
 }
 
-static char *boot_path=NULL;
+static char *boot_path = NULL;
 
 const char *archdep_boot_path(void)
 {
     if (boot_path == NULL) {
-        fname_split(argv0, &boot_path, NULL);
+        util_fname_split(argv0, &boot_path, NULL);
 
         /* This should not happen, but you never know...  */
         if (boot_path == NULL)

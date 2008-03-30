@@ -145,13 +145,13 @@ static UI_CALLBACK(set_maximum_speed)
 
     if (!CHECK_MENUS) {
         if (current_speed != (int)UI_MENU_CB_PARAM) {
-            resources_set_value("Speed", (resource_value_t) UI_MENU_CB_PARAM);
+            resources_set_value("Speed", (resource_value_t)UI_MENU_CB_PARAM);
             ui_update_menus();
         }
     } else {
-        if ((int) UI_MENU_CB_PARAM == 100)
+        if ((int)UI_MENU_CB_PARAM == 100)
             have_custom_maximum_speed = 1;
-        if (current_speed == (int) UI_MENU_CB_PARAM) {
+        if (current_speed == (int)UI_MENU_CB_PARAM) {
             ui_menu_set_tick(w, 1);
             have_custom_maximum_speed = 0;
         } else {
@@ -161,7 +161,7 @@ static UI_CALLBACK(set_maximum_speed)
             int current_refresh_rate;
 
             resources_get_value("RefreshRate",
-                                (resource_value_t *) &current_refresh_rate);
+                                (resource_value_t *)&current_refresh_rate);
             ui_menu_set_sensitive(w, current_refresh_rate != 0);
         }
     }
@@ -175,7 +175,7 @@ static UI_CALLBACK(set_custom_maximum_speed)
     int i;
     int current_speed;
 
-    resources_get_value("Speed", (resource_value_t *) &current_speed);
+    resources_get_value("Speed", (resource_value_t *)&current_speed);
     if (!*input_string)
         sprintf(input_string, "%d", current_speed);
 
@@ -195,14 +195,15 @@ static UI_CALLBACK(set_custom_maximum_speed)
             int current_refresh_rate;
 
             resources_get_value("RefreshRate",
-                                (resource_value_t *) &current_refresh_rate);
+                                (resource_value_t *)&current_refresh_rate);
             i = atoi(input_string);
             if (!(current_refresh_rate <= 0 && i <= 0) && i >= 0
                 && current_speed != i) {
                 resources_set_value("Speed", (resource_value_t) i);
                 ui_update_menus();
-            } else
+            } else {
                 ui_error(_("Invalid speed value"));
+            }
         }
     }
 }
@@ -268,7 +269,7 @@ static UI_CALLBACK(set_keymap_type)
 {
      int kindex, newindex = (int) UI_MENU_CB_PARAM;
 
-     if (resources_get_value("KeymapIndex", (resource_value_t*) &kindex) < 0)
+     if (resources_get_value("KeymapIndex", (resource_value_t*)&kindex) < 0)
          return;
 
      if (!CHECK_MENUS) {
@@ -311,7 +312,7 @@ static UI_CALLBACK(select_user_keymap)
         resources_set_value(resname, (resource_value_t)filename);
         if (last_dir)
             free(last_dir);
-        fname_split(filename, &last_dir, NULL);
+        util_fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -368,10 +369,10 @@ UI_CALLBACK(ui_load_palette)
       case UI_BUTTON_OK:
         if (resources_set_value(UI_MENU_CB_PARAM,
                 (resource_value_t) filename) < 0)
-            ui_error(_("Could not load palette file\n'%s'"),filename);
+            ui_error(_("Could not load palette file\n'%s'"), filename);
         if (last_dir)
             free(last_dir);
-        fname_split(filename, &last_dir, NULL);
+        util_fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -407,10 +408,10 @@ UI_CALLBACK(ui_load_romset)
     switch (button) {
       case UI_BUTTON_OK:
         if (romset_load(filename) < 0)
-            ui_error(_("Could not load ROM set file\n'%s'"),filename);
+            ui_error(_("Could not load ROM set file\n'%s'"), filename);
         if (last_dir)
             free(last_dir);
-        fname_split(filename, &last_dir, NULL);
+        util_fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -458,10 +459,10 @@ UI_CALLBACK(ui_load_rom_file)
       case UI_BUTTON_OK:
         if (resources_set_value(UI_MENU_CB_PARAM,
             (resource_value_t)filename) < 0)
-            ui_error(_("Could not load ROM file\n'%s'"),filename);
+            ui_error(_("Could not load ROM file\n'%s'"), filename);
         if (last_dir)
             free(last_dir);
-        fname_split(filename, &last_dir, NULL);
+        util_fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -474,7 +475,7 @@ UI_CALLBACK(ui_load_rom_file)
 
 UI_CALLBACK(ui_unload_rom_file)
 {
-    resources_set_value((char*)UI_MENU_CB_PARAM, (resource_value_t) NULL);
+    resources_set_value((char*)UI_MENU_CB_PARAM, (resource_value_t)NULL);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -556,7 +557,7 @@ ui_menu_entry_t ser2_baud_submenu[] = {
 
 UI_CALLBACK(set_rs232_device_file)
 {
-    char *resource = (char*) UI_MENU_CB_PARAM;
+    char *resource = (char *)UI_MENU_CB_PARAM;
     char *filename;
     ui_button_t button;
 
@@ -567,7 +568,7 @@ UI_CALLBACK(set_rs232_device_file)
 			      NULL);
     switch (button) {
       case UI_BUTTON_OK:
-        resources_set_value(resource, (resource_value_t) filename);
+        resources_set_value(resource, (resource_value_t)filename);
         break;
       default:
         /* Do nothing special.  */
@@ -579,7 +580,7 @@ UI_CALLBACK(set_rs232_device_file)
 
 UI_CALLBACK(set_rs232_exec_file)
 {
-    char *resname = (char*) UI_MENU_CB_PARAM;
+    char *resname = (char *)UI_MENU_CB_PARAM;
     char *title;
     ui_button_t button;
     char *value;
@@ -819,15 +820,15 @@ static UI_CALLBACK(radio_Drive8Type)
 {
     int current_value;
 
-    resources_get_value("Drive8Type", (resource_value_t *) &current_value);
+    resources_get_value("Drive8Type", (resource_value_t *)&current_value);
     if (!CHECK_MENUS) {
-        if (current_value != (int) UI_MENU_CB_PARAM) {
+        if (current_value != (int)UI_MENU_CB_PARAM) {
             resources_set_value("Drive8Type",
-                                (resource_value_t) UI_MENU_CB_PARAM);
+                                (resource_value_t)UI_MENU_CB_PARAM);
             ui_update_menus();
         }
     } else {
-        ui_menu_set_tick(w, current_value == (int) UI_MENU_CB_PARAM);
+        ui_menu_set_tick(w, current_value == (int)UI_MENU_CB_PARAM);
         if (drive_check_type((int) UI_MENU_CB_PARAM, 0)) {
             ui_menu_set_sensitive(w, True);
         } else {
@@ -840,15 +841,15 @@ static UI_CALLBACK(radio_Drive9Type)
 {
     int current_value;
 
-    resources_get_value("Drive9Type", (resource_value_t *) &current_value);
+    resources_get_value("Drive9Type", (resource_value_t *)&current_value);
     if (!CHECK_MENUS) {
-        if (current_value != (int) UI_MENU_CB_PARAM) {
+        if (current_value != (int)UI_MENU_CB_PARAM) {
             resources_set_value("Drive9Type",
-                                (resource_value_t) UI_MENU_CB_PARAM);
+                                (resource_value_t)UI_MENU_CB_PARAM);
             ui_update_menus();
         }
     } else {
-        ui_menu_set_tick(w, current_value == (int) UI_MENU_CB_PARAM);
+        ui_menu_set_tick(w, current_value == (int)UI_MENU_CB_PARAM);
         if (drive_check_type((int) UI_MENU_CB_PARAM, 1)) {
             ui_menu_set_sensitive(w, True);
         } else {
@@ -1094,7 +1095,7 @@ static ui_menu_entry_t pr4_device_submenu[] = {
 /* The file selector cannot select a non-existing file -> does not work */
 static UI_CALLBACK(set_printer_dump_file)
 {
-    char *resource = (char*) UI_MENU_CB_PARAM;
+    char *resource = (char *)UI_MENU_CB_PARAM;
     char *filename;
     ui_button_t button;
     static char *last_dir;
@@ -1105,10 +1106,10 @@ static UI_CALLBACK(set_printer_dump_file)
                               NULL, False, last_dir, NULL, &button, False);
     switch (button) {
       case UI_BUTTON_OK:
-        resources_set_value(resource, (resource_value_t) filename);
+        resources_set_value(resource, (resource_value_t)filename);
         if (last_dir)
             free(last_dir);
-        fname_split(filename, &last_dir, NULL);
+        util_fname_split(filename, &last_dir, NULL);
         break;
       default:
         /* Do nothing special.  */
@@ -1121,7 +1122,7 @@ static UI_CALLBACK(set_printer_dump_file)
 
 static UI_CALLBACK(set_printer_exec_file)
 {
-    char *resname = (char*) UI_MENU_CB_PARAM;
+    char *resname = (char *)UI_MENU_CB_PARAM;
     char *title;
     char *value;
     char *new_value;
@@ -1131,7 +1132,7 @@ static UI_CALLBACK(set_printer_exec_file)
     vsync_suspend_speed_eval();
     title = stralloc(_("Command to execute for printing (preceed with '|')"));
 
-    resources_get_value(resname, (resource_value_t *) &value);
+    resources_get_value(resname, (resource_value_t *)&value);
     len = strlen(value) * 2;
     if (len < 255)
         len = 255;
@@ -1143,7 +1144,7 @@ static UI_CALLBACK(set_printer_exec_file)
     free(title);
 
     if (button == UI_BUTTON_OK)
-        resources_set_value(resname, (resource_value_t) new_value);
+        resources_set_value(resname, (resource_value_t)new_value);
 
     free(new_value);
 }
@@ -1213,32 +1214,32 @@ static ui_menu_entry_t fsdevice_drive9_submenu[] = {
 };
 
 static ui_menu_entry_t fsdevice_drive10_submenu[] = {
-    { N_("*File system access"), (ui_callback_t) toggle_FileSystemDevice10,
-      NULL, NULL },
+    { N_("*File system access"),
+      (ui_callback_t) toggle_FileSystemDevice10, NULL, NULL },
     { "--" },
-    { N_("File system directory..."), (ui_callback_t) set_fsdevice_directory,
-      (ui_callback_data_t) 10, NULL },
-    { N_("*Convert P00 file names"), (ui_callback_t) toggle_FSDevice10ConvertP00,
-      NULL, NULL },
-    { N_("*Create P00 files on save"), (ui_callback_t) toggle_FSDevice10SaveP00,
-      NULL, NULL },
-    { N_("*Hide raw CBM files"), (ui_callback_t) toggle_FSDevice10HideCBMFiles,
-      NULL, NULL },
+    { N_("File system directory..."),
+      (ui_callback_t) set_fsdevice_directory, (ui_callback_data_t) 10, NULL },
+    { N_("*Convert P00 file names"),
+      (ui_callback_t) toggle_FSDevice10ConvertP00, NULL, NULL },
+    { N_("*Create P00 files on save"),
+      (ui_callback_t) toggle_FSDevice10SaveP00, NULL, NULL },
+    { N_("*Hide raw CBM files"),
+      (ui_callback_t) toggle_FSDevice10HideCBMFiles, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t fsdevice_drive11_submenu[] = {
-    { N_("*File system access"), (ui_callback_t) toggle_FileSystemDevice11,
-      NULL, NULL },
+    { N_("*File system access"),
+      (ui_callback_t) toggle_FileSystemDevice11, NULL, NULL },
     { "--" },
-    { N_("File system directory..."), (ui_callback_t) set_fsdevice_directory,
-      (ui_callback_data_t) 11, NULL },
-    { N_("*Convert P00 file names"), (ui_callback_t) toggle_FSDevice11ConvertP00,
-      NULL, NULL },
-    { N_("*Create P00 files on save"), (ui_callback_t) toggle_FSDevice11SaveP00,
-      NULL, NULL },
-    { N_("*Hide raw CBM files"), (ui_callback_t) toggle_FSDevice11HideCBMFiles,
-      NULL, NULL },
+    { N_("File system directory..."),
+      (ui_callback_t) set_fsdevice_directory, (ui_callback_data_t) 11, NULL },
+    { N_("*Convert P00 file names"),
+      (ui_callback_t) toggle_FSDevice11ConvertP00, NULL, NULL },
+    { N_("*Create P00 files on save"),
+      (ui_callback_t) toggle_FSDevice11SaveP00, NULL, NULL },
+    { N_("*Hide raw CBM files"),
+      (ui_callback_t) toggle_FSDevice11HideCBMFiles, NULL, NULL },
     { NULL }
 };
 

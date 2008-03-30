@@ -101,7 +101,7 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
 	char *name, *file;
 
 	s = tape_get_file_name();
-	fname_split(s, &directory, &default_item);
+	util_fname_split(s, &directory, &default_item);
 
 	name = tui_file_selector("Attach a tape image", directory,
 				 "*.t64;*.tap;*.t6z;*.taz;*.zip;*.gz;*.lzh", default_item,
@@ -195,7 +195,7 @@ static TUI_MENU_CALLBACK(change_workdir_callback)
     			 "New directory:", s, 255) == -1)
         return NULL;
 
-    remove_spaces(s);
+    util_remove_spaces(s);
     if (*s == '\0')
         return NULL;
 
@@ -1069,7 +1069,7 @@ static TUI_MENU_CALLBACK(dump_romset_callback)
 
         tui_input_string("Dump ROM set definition", "Enter file name:",
                          name, GET_PATH_MAX);
-        remove_spaces(name);
+        util_remove_spaces(name);
 
         romset_dump(name, mem_romset_resources_list);
     }
@@ -1414,7 +1414,7 @@ static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
         strcpy(path, v);
         if (tui_input_string("Insert path",
                              "Path:", path, len) != -1) {
-            remove_spaces(path);
+            util_remove_spaces(path);
             fsdevice_set_directory(path, unit);
         }
     }

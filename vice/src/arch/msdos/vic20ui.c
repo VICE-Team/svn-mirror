@@ -98,7 +98,7 @@ static TUI_MENU_CALLBACK(attach_cartridge_callback)
         if (s == NULL)
             directory = default_item = NULL;
         else
-            fname_split(s, &directory, &default_item);
+            util_fname_split(s, &directory, &default_item);
 
         name = tui_file_selector("Attach cartridge image",
                                  directory, "*", default_item, NULL, NULL,
@@ -186,7 +186,7 @@ static TUI_MENU_CALLBACK(set_common_memory_configuration_callback)
     if (been_activated) {
         int blocks;
 
-        switch ((int) param) {
+        switch ((int)param) {
           case MEM_NONE:
             blocks = 0;
             break;

@@ -201,7 +201,7 @@ static UI_CALLBACK(attach_cartridge)
             ui_error(_("Invalid cartridge image"));
         if (last_dir)
             free(last_dir);
-        fname_split(filename, &last_dir, NULL);
+        util_fname_split(filename, &last_dir, NULL);
         ui_update_menus();
         break;
       default:
@@ -290,15 +290,15 @@ ui_menu_entry_t ui_datasette_commands_menu[] = {
 
 static UI_CALLBACK(set_joystick_device)
 {
-    int tmp;
-
     vsync_suspend_speed_eval();
     if (!CHECK_MENUS) {
-        resources_set_value("JoyDevice1", (resource_value_t) UI_MENU_CB_PARAM);
+        resources_set_value("JoyDevice1", (resource_value_t)UI_MENU_CB_PARAM);
         ui_update_menus();
     } else {
-        resources_get_value("JoyDevice1", (resource_value_t *) &tmp);
-        ui_menu_set_tick(w, tmp == (int) UI_MENU_CB_PARAM);
+        int tmp;
+
+        resources_get_value("JoyDevice1", (resource_value_t *)&tmp);
+        ui_menu_set_tick(w, tmp == (int)UI_MENU_CB_PARAM);
     }
 }
 
@@ -399,7 +399,7 @@ static UI_CALLBACK(save_screenshot)
 {
     /* Where does the 1024 come from?  */
     char filename[1024];
-    int wid = (int) UI_MENU_CB_PARAM;
+    int wid = (int)UI_MENU_CB_PARAM;
 
     vsync_suspend_speed_eval();
 

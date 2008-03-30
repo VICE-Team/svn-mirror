@@ -38,7 +38,7 @@
 #include "uisnapshot.h"
 #include "utils.h"
 
-#define SNAPSHOT_EXTENSION      ".vsf"
+#define SNAPSHOT_EXTENSION      "vsf"
 
 static char *snapshot_selector(const char *title);
 static TUI_MENU_CALLBACK(file_name_callback);
@@ -101,7 +101,7 @@ static TUI_MENU_CALLBACK(file_name_callback)
 
         while (tui_input_string("Save snapshot", "Enter file name:",
                                 new_file_name, GET_PATH_MAX) != -1) {
-            remove_spaces(new_file_name);
+            util_remove_spaces(new_file_name);
             if (*new_file_name == 0) {
                 char *tmp;
 
@@ -141,14 +141,11 @@ static TUI_MENU_CALLBACK(file_name_callback)
                 }
                 
                 if (file_name == NULL) {
-                    file_name = concat(new_file_name, extension, NULL);
+                    file_name = concat(new_file_name, ".", extension, NULL);
                 } else {
-                    int len = strlen(new_file_name);
-
-                    file_name = xrealloc(file_name,
-                                         len + strlen(extension) + 1);
-                    memcpy(file_name, new_file_name, len);
-                    strcpy(file_name + len, extension);
+                    free(file_name);
+                    file_name = stralloc(new_file_name);
+                    util_add_extension(&file_name, extension);
                 }
                 break;
             }

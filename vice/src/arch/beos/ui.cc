@@ -374,7 +374,7 @@ void ui_dispatch_events(void)
 					alert = new BAlert("Quit BeVICE", 
 					"Do you really want to exit BeVICE??",
 					"Yes","No", NULL, B_WIDTH_AS_USUAL, B_INFO_ALERT);
-					suspend_speed_eval();
+					vsync_suspend_speed_eval();
 					button = alert->Go();
 				}
 				if (button == 0) {
@@ -771,7 +771,7 @@ void ui_error(const char *format, ...)
     va_end(args);
     messagebox = new BAlert("error", tmp, "OK", NULL, NULL, 
     	B_WIDTH_AS_USUAL, B_STOP_ALERT);
-	suspend_speed_eval();
+	vsync_suspend_speed_eval();
 	messagebox->Go();
 }
 
@@ -793,7 +793,7 @@ void ui_message(const char *format,...)
     va_end(args);
     messagebox = new BAlert("info", tmp, "OK", NULL, NULL, 
     	B_WIDTH_AS_USUAL, B_INFO_ALERT);
-	suspend_speed_eval();
+	vsync_suspend_speed_eval();
     messagebox->Go();
 }
 
@@ -931,7 +931,7 @@ void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 		
 	if (ui_drive_image_name[drivenum]) free(ui_drive_image_name[drivenum]);
 				
-	fname_split(image, &directory_name, &ui_drive_image_name[drivenum]);
+	util_fname_split(image, &directory_name, &ui_drive_image_name[drivenum]);
     free(directory_name);
     ui_display_image(drivenum);
 }
@@ -942,7 +942,7 @@ void ui_display_tape_current_image(const char *image)
 	
 	if (ui_tape_image_name) free(ui_tape_image_name);
 				
-	fname_split(image, &directory_name, &ui_tape_image_name);
+	util_fname_split(image, &directory_name, &ui_tape_image_name);
     free(directory_name);
     ui_display_image(-1);
 }

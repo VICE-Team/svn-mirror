@@ -191,7 +191,7 @@ static TUI_MENU_CALLBACK(attach_disk_callback)
         unsigned int file_number = 0;
 
         s = (char *)file_system_get_disk_name((unsigned int)param);
-        fname_split(s, &directory, &default_item);
+        util_fname_split(s, &directory, &default_item);
 
         name = tui_file_selector("Attach a disk image", directory,
                                  "*.d64;*.d71;*.d81;*.g64;*.g41;*.x64;*.d80;*.d82;"
@@ -267,7 +267,7 @@ static TUI_MENU_CALLBACK(create_disk_image_name_callback)
 
         while (tui_input_string("Create disk image", "Enter file name:",
                                 new_file_name, GET_PATH_MAX) != -1) {
-            remove_spaces(new_file_name);
+            util_remove_spaces(new_file_name);
             if (*new_file_name == 0) {
                 char *tmp;
 
