@@ -117,11 +117,12 @@ static int event_image_append(const char *filename,
 
     while (event_image_list_ptr->next != NULL) {
         if (strcmp(filename, event_image_list_ptr->next->orig_filename) == 0) {
-            if (mapped_name != NULL)
+            if (mapped_name != NULL) {
                 if (append == 0)
                     *mapped_name = lib_stralloc(event_image_list_ptr->next->mapped_filename);
                 else
                     event_image_list_ptr->next->mapped_filename = lib_stralloc(*mapped_name);
+            }
             return 0;
         }
 
