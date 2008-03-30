@@ -153,59 +153,6 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive, BYTE *bam, int *track,
     return -1;
 }
 
-/*
- * This algorithm is used to select a continuation sector.
- * track and sector must be given.
- * XXX the interleave is not taken into account yet.
- * FIXME: does this handle double-sided formats?
- */
-/*
-int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive, BYTE *bam, int *track,
-                                      int *sector)
-{
-    int t, s, d;
-    int dir, diskhalf;
-
-    if (*track < vdrive->Dir_Track) {
-        dir = -1;
-        d = vdrive->Bam_Track - *track;
-    } else {
-        dir = 1;
-        d = *track - vdrive->Bam_Track;
-    }
-
-    for (diskhalf = 0; diskhalf < 2; diskhalf++) {
-        int max_track = vdrive_calculate_disk_half(vdrive->image_format);
-        for (; d <= max_track; d++) {
-            int max_sector;
-            t = vdrive->Bam_Track + dir * d;
-#ifdef DEBUG_DRIVE
-            log_error(LOG_ERR, "Allocate next free sector on track %d.", t);
-#endif
-            if (t < 1 || t > vdrive->num_tracks) {
-                dir = -dir;
-                d = 1;
-                break;
-            }
-            max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
-            for (s = 0; s < max_sector; s++) {
-                if (vdrive_bam_allocate_sector(vdrive->image_format, bam,
-                    t, s)) {
-                    *track = t;
-                    *sector = s;
-#ifdef DEBUG_DRIVE
-                    log_error(LOG_ERR,
-                              "Allocate next free sector: %d,%d.", t, s);
-#endif
-                    return 0;
-                }
-            }
-        }
-    }
-    return -1;
-}
-*/
-
 void vdrive_bam_set(int type, BYTE *bamp, int sector)
 {
     bamp[1 + sector / 8] |= (1 << (sector % 8));
