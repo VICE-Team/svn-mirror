@@ -312,7 +312,7 @@ static UI_CALLBACK(save_quicksnap)
 static UI_CALLBACK(events_select_dir)
 {
     char *wd;
-    int i, is_dir;
+    unsigned int i, is_dir;
     int len;
 
     len = ioutil_maxpathlen();
@@ -327,7 +327,7 @@ static UI_CALLBACK(events_select_dir)
 	if (!is_dir)
             ui_error(_("Directory not found"));
 	else
-	    resources_set_value("EventSnapshotDir", (resource_value_t) wd);
+	    resources_set_value("EventSnapshotDir", (resource_value_t)wd);
     }
     lib_free(wd);
     

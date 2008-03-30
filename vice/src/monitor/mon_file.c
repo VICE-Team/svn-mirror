@@ -69,8 +69,8 @@ static int mon_file_open(const char *filename, unsigned int secondary,
         if (vdrive == NULL)
             return -1;
 
-        if (vdrive_iec_open(vdrive, filename, (int)strlen(filename),
-            secondary) != SERIAL_OK)
+        if (vdrive_iec_open(vdrive, (const BYTE *)filename,
+            (int)strlen(filename), secondary) != SERIAL_OK)
             return -1;
         break;
     }

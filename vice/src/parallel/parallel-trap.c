@@ -116,8 +116,7 @@ static int parallelcommand(void)
             }
             p->isopen[channel] = 2;
             SerialBuffer[SerialPtr] = 0;
-            st = (*(p->openf))(vdrive, (char *) SerialBuffer, SerialPtr,
-                               channel);
+            st = (*(p->openf))(vdrive, SerialBuffer, SerialPtr, channel);
             SerialPtr = 0;
 
             if (st) {

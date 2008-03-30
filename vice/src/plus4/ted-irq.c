@@ -35,7 +35,7 @@
 #include "types.h"
 
 
-inline void ted_irq_set_line(void)
+void ted_irq_set_line(void)
 {
     if (ted.irq_status & ted.regs[0x0a] & 0xfe) {
         ted.irq_status |= 0x80;

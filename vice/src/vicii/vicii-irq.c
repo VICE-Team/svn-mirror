@@ -35,7 +35,7 @@
 #include "viciitypes.h"
 
 
-inline void vicii_irq_set_line(void)
+void vicii_irq_set_line(void)
 {
     if (vicii.irq_status & vicii.regs[0x1a]) {
         vicii.irq_status |= 0x80;

@@ -103,8 +103,8 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
             }
             p->isopen[channel] = 2;
             SerialBuffer[SerialPtr] = 0;
-            st = (BYTE)((*(p->openf))(vdrive, (char *)SerialBuffer,
-                 SerialPtr, channel));
+            st = (BYTE)((*(p->openf))(vdrive, SerialBuffer, SerialPtr,
+                 channel));
             SerialPtr = 0;
 
             if (st) {

@@ -111,7 +111,7 @@ void REGPARM2 vic_store(WORD addr, BYTE value)
             vic.pending_ystart = ystart;
 
             if ((vic.raster.display_ystart > VIC_RASTER_Y(maincpu_clk - 2))
-                || vic.raster.display_ystart < 0) {
+                /* || vic.raster.display_ystart < 0*/) {
                 /* the vertical flipflop isn't open yet */
                 if (ystart / 2 < VIC_RASTER_Y(maincpu_clk - 1) / 2) {
                     /* new ystart is already passed, vertical flipflop may
