@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
-"POT-Creation-Date: 2002-01-25 23:32+0100\n"
+"POT-Creation-Date: 2002-01-26 19:50+0100\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -2195,7 +2195,7 @@ msgstr "Garanti"
 msgid "Contributors"
 msgstr "Bidragslämnare"
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:130
+#: src/arch/unix/x11/gnome/gnomevideo.c:105
 msgid "Successfully initialized video."
 msgstr "Grafiken har initierats."
 
@@ -2691,42 +2691,42 @@ msgstr "Deaktivera fullskärm"
 msgid "Specify X display depth (1..32)"
 msgstr "Ange färgdjup för X-display (1..32)"
 
-#: src/arch/unix/x11/video.c:125
+#: src/arch/unix/x11/video.c:126
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Anropa \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/video.c:128
+#: src/arch/unix/x11/video.c:129
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Anropa ej \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/video.c:131
+#: src/arch/unix/x11/video.c:132
 msgid "Never use shared memory (slower)"
 msgstr "Använd aldrig delat minne (långsammare)"
 
-#: src/arch/unix/x11/video.c:282
+#: src/arch/unix/x11/video.c:283
 #, c-format
 msgid "Only %ibpp supported by this emulator."
 msgstr "Enbart %ibitar/pixel stöds av denna emulator."
 
-#: src/arch/unix/x11/video.c:284
+#: src/arch/unix/x11/video.c:285
 #, c-format
 msgid "Current X server depth is %ibpp."
 msgstr "Nuvarande färgdjup i X är %ibitar/pixel."
 
-#: src/arch/unix/x11/video.c:287
+#: src/arch/unix/x11/video.c:288
 msgid "Switch X server depth or recompile with --enable-autobpp."
 msgstr "Byt färgdjup i X eller kompilera med --enable-autobpp."
 
-#: src/arch/unix/x11/video.c:339
+#: src/arch/unix/x11/video.c:340
 msgid "The MITSHM extension is not supported on this display."
 msgstr "MTSHM-utökningarna stöds inte för denna display."
 
-#: src/arch/unix/x11/video.c:343
+#: src/arch/unix/x11/video.c:344
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-utökningar version %d.%d hittades."
 
-#: src/arch/unix/x11/video.c:393
+#: src/arch/unix/x11/video.c:395
 msgid "Cannot release shared memory!"
 msgstr "Kan inte släppa delat minne!"
 
@@ -2845,46 +2845,46 @@ msgstr "Spara laddade ROMar:"
 msgid "Save snapshot"
 msgstr "Spara ögonblicksbild"
 
-#: src/arch/unix/x11/xaw/x11video.c:106
+#: src/arch/unix/x11/xaw/x11video.c:95
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr "Kunde inte allokera XImage med XShm; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:117
+#: src/arch/unix/x11/xaw/x11video.c:108
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr "Fick inte tillgång till delat minne; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:128
+#: src/arch/unix/x11/xaw/x11video.c:119
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr "Fick inte adress till delat minne; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:143 src/arch/unix/x11/xaw/x11video.c:160
+#: src/arch/unix/x11/xaw/x11video.c:134 src/arch/unix/x11/xaw/x11video.c:151
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr "Kunde inte ansluta delat minne; återgår till icke-MITSHM-läge."
 
-#: src/arch/unix/x11/xaw/x11video.c:167
+#: src/arch/unix/x11/xaw/x11video.c:158
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM-initiering färdig.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:185
+#: src/arch/unix/x11/xaw/x11video.c:179
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Initierade%s delat minne."
 
-#: src/arch/unix/x11/xaw/x11video.c:186
+#: src/arch/unix/x11/xaw/x11video.c:180
 msgid ", using"
 msgstr " med"
 
-#: src/arch/unix/x11/xaw/x11video.c:186
+#: src/arch/unix/x11/xaw/x11video.c:180
 msgid " without"
 msgstr " utan"
 
-#: src/arch/unix/x11/xaw/x11video.c:189
+#: src/arch/unix/x11/xaw/x11video.c:183
 msgid "Performance will be poor."
 msgstr "Prestanda kommer att bli dålig."
 
-#: src/arch/unix/x11/xaw/x11video.c:192
+#: src/arch/unix/x11/xaw/x11video.c:186
 msgid "Successfully initialized without shared memory."
 msgstr "Initierade utan delat minne."
 

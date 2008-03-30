@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.7\n"
-"POT-Creation-Date: 2002-01-25 23:32+0100\n"
+"POT-Creation-Date: 2002-01-26 19:50+0100\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -2192,7 +2192,7 @@ msgstr "Garantie"
 msgid "Contributors"
 msgstr "Participants"
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:130
+#: src/arch/unix/x11/gnome/gnomevideo.c:105
 msgid "Successfully initialized video."
 msgstr ""
 
@@ -2674,42 +2674,42 @@ msgstr ""
 msgid "Specify X display depth (1..32)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:125
+#: src/arch/unix/x11/video.c:126
 msgid "Call `XSync()' after updating the emulation window"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:128
+#: src/arch/unix/x11/video.c:129
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:131
+#: src/arch/unix/x11/video.c:132
 msgid "Never use shared memory (slower)"
 msgstr ""
 
-#: src/arch/unix/x11/video.c:282
+#: src/arch/unix/x11/video.c:283
 #, c-format
 msgid "Only %ibpp supported by this emulator."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:284
+#: src/arch/unix/x11/video.c:285
 #, c-format
 msgid "Current X server depth is %ibpp."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:287
+#: src/arch/unix/x11/video.c:288
 msgid "Switch X server depth or recompile with --enable-autobpp."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:339
+#: src/arch/unix/x11/video.c:340
 msgid "The MITSHM extension is not supported on this display."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:343
+#: src/arch/unix/x11/video.c:344
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr ""
 
-#: src/arch/unix/x11/video.c:393
+#: src/arch/unix/x11/video.c:395
 msgid "Cannot release shared memory!"
 msgstr ""
 
@@ -2828,54 +2828,54 @@ msgstr "Sauvegarder les ROMs actuellement chargées:"
 msgid "Save snapshot"
 msgstr "Sauvegarder capture"
 
-#: src/arch/unix/x11/xaw/x11video.c:106
+#: src/arch/unix/x11/xaw/x11video.c:95
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible d'allouer XImage avec XShm; Retour au mode d'extention sans "
 "MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:117
+#: src/arch/unix/x11/xaw/x11video.c:108
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible de récupérer la mémoire partagée; Retour au mode d'extention sans "
 "MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:128
+#: src/arch/unix/x11/xaw/x11video.c:119
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible de récupérer adresse mémoire partagée; Retour au mode d'extention "
 "sans MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:143 src/arch/unix/x11/xaw/x11video.c:160
+#: src/arch/unix/x11/xaw/x11video.c:134 src/arch/unix/x11/xaw/x11video.c:151
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
 "Impossible d'attacher la mémoire partagée; Retour au mode d'extention sans "
 "MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:167
+#: src/arch/unix/x11/xaw/x11video.c:158
 msgid "MITSHM initialization succeed.\n"
 msgstr "Initialisation MITSHM réussie.\n"
 
-#: src/arch/unix/x11/xaw/x11video.c:185
+#: src/arch/unix/x11/xaw/x11video.c:179
 #, c-format
 msgid "Successfully initialized%s shared memory."
 msgstr "Mémoire partagée %s correctement initialisée"
 
-#: src/arch/unix/x11/xaw/x11video.c:186
+#: src/arch/unix/x11/xaw/x11video.c:180
 msgid ", using"
 msgstr ", utilisant"
 
-#: src/arch/unix/x11/xaw/x11video.c:186
+#: src/arch/unix/x11/xaw/x11video.c:180
 msgid " without"
 msgstr " sans"
 
-#: src/arch/unix/x11/xaw/x11video.c:189
+#: src/arch/unix/x11/xaw/x11video.c:183
 msgid "Performance will be poor."
 msgstr "Les performances vont être faibles."
 
-#: src/arch/unix/x11/xaw/x11video.c:192
+#: src/arch/unix/x11/xaw/x11video.c:186
 msgid "Successfully initialized without shared memory."
 msgstr "Correctement initialisée sans mémoire partagée"
 
