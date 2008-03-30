@@ -29,11 +29,12 @@
 #include "datasette.h"
 #include "via.h"
 #include "vic20via.h"
+#include "vic20.h"
 
 
 void datasette_trigger_flux_change(unsigned int on)
 {
-    via1_signal(VIA_SIG_CA1, VIA_SIG_FALL);
+    via1_signal(&(machine_context.via1), VIA_SIG_CA1, VIA_SIG_FALL);
 }
 
 void datasette_set_tape_sense(int sense)
