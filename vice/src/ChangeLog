@@ -1,3 +1,19 @@
+2002-05-29  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.23.
+
+	* drive/drivecpu.c (drive_cpu_snapshot_write_module,
+	drive_cpu_snapshot_read_module): Use mos6510 macros.
+
+	* keyboard.c (keyboard_key_pressed, keyboard_key_released):
+	Simplified shift key handling.
+
+2002-05-28  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* raster/raster.c (realize_frame_buffer): call
+	`video_register_raster()' for both vidmode and dga2.
+	(raster_init): Likewise.
+
 2002-05-27  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.22.

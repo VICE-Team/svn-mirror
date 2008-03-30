@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-05-25 19:26+0200\n"
+"POT-Creation-Date: 2002-05-29 21:04+0200\n"
 "PO-Revision-Date: 2001-12-02 12:37+01:00\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -884,34 +884,39 @@ msgid "Attach Retro Replay image..."
 msgstr "Seleziona una immagine Retro Replay..."
 
 #: src/arch/unix/uic64cart.c:165
+#, fuzzy
+msgid "Attach IDE64 interface image..."
+msgstr "Seleziona una immagine dell'interfaccia IEEE488..."
+
+#: src/arch/unix/uic64cart.c:168
 msgid "Attach Super Snapshot 4 image..."
 msgstr "Seleziona una immagine Super Snapshot 4..."
 
-#: src/arch/unix/uic64cart.c:168
+#: src/arch/unix/uic64cart.c:171
 msgid "Attach Super Snapshot 5 image..."
 msgstr "Seleziona una immagine Super Snapshot 5..."
 
-#: src/arch/unix/uic64cart.c:172
+#: src/arch/unix/uic64cart.c:175
 msgid "Enable Expert Cartridge..."
 msgstr "Attiva l'Expert Cartridge..."
 
-#: src/arch/unix/uic64cart.c:176 src/arch/unix/vic20ui.c:252
+#: src/arch/unix/uic64cart.c:179 src/arch/unix/vic20ui.c:252
 msgid "Set cartridge as default"
 msgstr "Imposta la cartuccia come predefinita"
 
-#: src/arch/unix/uic64cart.c:182 src/arch/unix/vic20ui.c:258
+#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:258
 msgid "Attach a cartridge image"
 msgstr "Seleziona l'immagine di una cartuccia"
 
-#: src/arch/unix/uic64cart.c:184
+#: src/arch/unix/uic64cart.c:187
 msgid "Detach cartridge image"
 msgstr "Rimuovi l'immagine della cartuccia"
 
-#: src/arch/unix/uic64cart.c:186
+#: src/arch/unix/uic64cart.c:189
 msgid "Cartridge freeze"
 msgstr "Freeze della cartuccia"
 
-#: src/arch/unix/uic64cart.c:188
+#: src/arch/unix/uic64cart.c:191
 msgid "*Cartridge control"
 msgstr "*Controllo della cartuccia"
 

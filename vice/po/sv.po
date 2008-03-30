@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-05-25 19:26+0200\n"
+"POT-Creation-Date: 2002-05-29 21:04+0200\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -890,34 +890,39 @@ msgid "Attach Retro Replay image..."
 msgstr "Anslut Action Replay-avbildningsfil..."
 
 #: src/arch/unix/uic64cart.c:165
+#, fuzzy
+msgid "Attach IDE64 interface image..."
+msgstr "Anslut IEEE488-gränssnittsavbildningsfil..."
+
+#: src/arch/unix/uic64cart.c:168
 msgid "Attach Super Snapshot 4 image..."
 msgstr "Anslut Super Snapshot 4-avbildningsfil..."
 
-#: src/arch/unix/uic64cart.c:168
+#: src/arch/unix/uic64cart.c:171
 msgid "Attach Super Snapshot 5 image..."
 msgstr "Anslut Super Snapshot 5-avbildningsfil..."
 
-#: src/arch/unix/uic64cart.c:172
+#: src/arch/unix/uic64cart.c:175
 msgid "Enable Expert Cartridge..."
 msgstr "Aktivera Expert Cartridge..."
 
-#: src/arch/unix/uic64cart.c:176 src/arch/unix/vic20ui.c:252
+#: src/arch/unix/uic64cart.c:179 src/arch/unix/vic20ui.c:252
 msgid "Set cartridge as default"
 msgstr "Välj insticksmodul som förval"
 
-#: src/arch/unix/uic64cart.c:182 src/arch/unix/vic20ui.c:258
+#: src/arch/unix/uic64cart.c:185 src/arch/unix/vic20ui.c:258
 msgid "Attach a cartridge image"
 msgstr "Anslut insticksmodulfil"
 
-#: src/arch/unix/uic64cart.c:184
+#: src/arch/unix/uic64cart.c:187
 msgid "Detach cartridge image"
 msgstr "Koppla från insticksmodulfil"
 
-#: src/arch/unix/uic64cart.c:186
+#: src/arch/unix/uic64cart.c:189
 msgid "Cartridge freeze"
 msgstr "Insticksmodulens frysfunktion"
 
-#: src/arch/unix/uic64cart.c:188
+#: src/arch/unix/uic64cart.c:191
 msgid "*Cartridge control"
 msgstr "*Kontroll av insticksmodul"
 

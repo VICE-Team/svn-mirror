@@ -331,7 +331,7 @@ c610mem.o: c610mem.c ../../src/vice.h ../../src/config.h \
 	../../src/resources.h ../../src/sid/sid.h ../../src/sound.h \
 	../../src/sysfile.h ../../src/tape.h ../../src/utils.h \
 	../../src/vsync.h ../../src/vicii/vicii-mem.h \
-	../../src/vicii/vicii.h
+	../../src/vicii/vicii.h ../../src/cartridge.h
 c610tpi1.o: c610tpi1.c c610cia.h ../../src/arch/unix/types.h \
 	../../src/vice.h ../../src/config.h ../../src/crtc/crtc.h \
 	c610mem.h ../../src/datasette.h ../../src/drive/drive.h \

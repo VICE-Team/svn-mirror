@@ -135,7 +135,7 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libc64cart.a
 
-libc64cart_a_SOURCES =  	actionreplay.c 	actionreplay.h 	atomicpower.c 	atomicpower.h 	c64cart.c 	c64cartmem.c 	c64cartmem.h 	crt.c 	crt.h 	epyxfastload.c 	epyxfastload.h 	expert.c 	expert.h 	final.c 	final.h 	generic.c 	generic.h 	kcs.c 	kcs.h 	retroreplay.c 	retroreplay.h 	supergames.c 	supergames.h 	supersnapshot.c 	supersnapshot.h 	zaxxon.c 	zaxxon.h
+libc64cart_a_SOURCES =  	actionreplay.c 	actionreplay.h 	atomicpower.c 	atomicpower.h 	c64cart.c 	c64cartmem.c 	c64cartmem.h 	crt.c 	crt.h 	epyxfastload.c 	epyxfastload.h 	expert.c 	expert.h 	final.c 	final.h 	generic.c 	generic.h 	kcs.c 	kcs.h 	retroreplay.c 	retroreplay.h        ide64.c        ide64.h 	supergames.c 	supergames.h 	supersnapshot.c 	supersnapshot.h 	zaxxon.c 	zaxxon.h
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../src/config.h
@@ -152,7 +152,7 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libc64cart_a_LIBADD = 
 libc64cart_a_OBJECTS =  actionreplay.o atomicpower.o c64cart.o \
 c64cartmem.o crt.o epyxfastload.o expert.o final.o generic.o kcs.o \
-retroreplay.o supergames.o supersnapshot.o zaxxon.o
+retroreplay.o ide64.o supergames.o supersnapshot.o zaxxon.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -268,7 +268,7 @@ c64cart.o: c64cart.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/cmdline.h crt.h expert.h generic.h \
 	../../../src/interrupt.h ../../../src/6510core.h \
 	../../../src/maincpu.h ../../../src/mem.h \
-	../../../src/resources.h retroreplay.h supersnapshot.h \
+	../../../src/resources.h retroreplay.h ide64.h supersnapshot.h \
 	../../../src/utils.h
 c64cartmem.o: c64cartmem.c ../../../src/vice.h ../../../src/config.h \
 	actionreplay.h ../../../src/arch/unix/types.h atomicpower.h \
@@ -277,7 +277,7 @@ c64cartmem.o: c64cartmem.c ../../../src/vice.h ../../../src/config.h \
 	crt.h epyxfastload.h expert.h final.h generic.h \
 	../../../src/interrupt.h ../../../src/6510core.h kcs.h \
 	../../../src/log.h ../../../src/machine.h \
-	../../../src/maincpu.h retroreplay.h supergames.h \
+	../../../src/maincpu.h retroreplay.h ide64.h supergames.h \
 	supersnapshot.h zaxxon.h
 crt.o: crt.c ../../../src/vice.h ../../../src/config.h actionreplay.h \
 	../../../src/arch/unix/types.h atomicpower.h \
@@ -303,6 +303,10 @@ generic.o: generic.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h ../../../src/cartridge.h crt.h generic.h \
 	../../../src/utils.h
+ide64.o: ide64.c ../../../src/vice.h ../../../src/config.h \
+	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
+	c64cartmem.h ide64.h ../../../src/utils.h \
+	../../../src/arch/unix/archdep.h ../../../src/archapi.h
 kcs.o: kcs.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/c64/c64cart.h ../../../src/arch/unix/types.h \
 	c64cartmem.h kcs.h ../../../src/utils.h

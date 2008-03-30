@@ -301,12 +301,12 @@ vicii-sprites.o: vicii-sprites.c ../../src/vice.h ../../src/config.h \
 	../../src/raster/raster-changes.h vicii-mem.h
 vicii.o: vicii.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
 	../../src/arch/unix/types.h ../../src/c64/c64.h \
-	../../src/c64/c64cart.h ../../src/c64/c64mem.h \
-	../../src/clkguard.h ../../src/interrupt.h ../../src/6510core.h \
-	../../src/log.h ../../src/machine.h ../../src/maincpu.h \
-	../../src/mem.h ../../src/palette.h \
-	../../src/raster/raster-line.h ../../src/raster/raster-modes.h \
-	../../src/raster/raster-cache.h \
+	../../src/cartridge.h ../../src/c64/c64cart.h \
+	../../src/c64/c64mem.h ../../src/clkguard.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/log.h \
+	../../src/machine.h ../../src/maincpu.h ../../src/mem.h \
+	../../src/palette.h ../../src/raster/raster-line.h \
+	../../src/raster/raster-modes.h ../../src/raster/raster-cache.h \
 	../../src/raster/raster-sprite-cache.h \
 	../../src/raster/raster-sprite-status.h \
 	../../src/raster/raster-sprite.h ../../src/resources.h \

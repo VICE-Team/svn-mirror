@@ -170,7 +170,7 @@ static int realize_frame_buffer(raster_t *raster)
     fb_width = raster_calc_frame_buffer_width(raster);;
     fb_height = raster->geometry.screen_size.height;
 
-    if (!console_mode && !vsid_mode && fb_width>0 && fb_height>0) {
+    if (!console_mode && !vsid_mode && fb_width > 0 && fb_height > 0) {
         if (raster_draw_buffer_alloc(canvas, &raster->draw_buffer,
                                      fb_width, fb_height, &fb_pitch))
         return -1;
@@ -179,7 +179,7 @@ static int realize_frame_buffer(raster_t *raster)
         raster->draw_buffer_height = fb_height;
         raster->draw_buffer_pitch = fb_pitch;
 
-#if defined (USE_XF86_DGA2_EXTENSIONS)
+#if defined (USE_XF86_EXTENSIONS)
         video_register_raster(raster);
 #endif
 
@@ -286,7 +286,7 @@ int raster_init(raster_t *raster,
     raster struct when window has to be updated in certain cases...
     So I have to register it in the video module and do a lookup.
     */
-#if defined(WIN32) || defined(USE_XF86_DGA2_EXTENSIONS)
+#if defined(WIN32) || defined(USE_XF86_EXTENSIONS)
     video_register_raster(raster);
 #endif
 
