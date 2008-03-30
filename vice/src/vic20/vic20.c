@@ -365,7 +365,7 @@ void machine_shutdown(void)
     file_system_detach_disk_shutdown();
 
     /* and the tape */
-    tape_detach_image();
+    tape_image_detach(1);
 
     console_close_all();
 

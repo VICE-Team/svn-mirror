@@ -46,7 +46,7 @@
 
 #include "log.h"
 #include "mem.h"               // mem_romset_resource_list
-#include "tape.h"              // tape_attach_image
+#include "tape.h"              // tape_image_attach
 #include "utils.h"             // xmsprintf
 #include "attach.h"            // file_system_attach_disk
 #include "romset.h"            // romset_*
@@ -359,7 +359,7 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
     case 0:
         return file_system_attach_disk(sact+8, szpath);
     case 1:
-        return tape_attach_image(szpath);
+        return tape_image_attach(1, szpath);
     case 2:
         return flip_load_list(sact+8, szpath, FALSE);
     case 3:

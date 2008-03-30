@@ -480,7 +480,7 @@ int autostart_tape(const char *file_name, const char *program_name,
     else
         name = stralloc(program_name ? program_name : "");
 
-    if (!(tape_attach_image(file_name) < 0)) {
+    if (!(tape_image_attach(1, file_name) < 0)) {
         log_message(autostart_log,
                     "Attached file `%s' as a tape image.", file_name);
         reboot_for_autostart(name, AUTOSTART_HASTAPE, runmode);

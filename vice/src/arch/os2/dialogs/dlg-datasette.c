@@ -106,7 +106,7 @@ static MRESULT EXPENTRY pm_datasette(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp
             return FALSE;
 
         case PB_TDETACH:
-            tape_detach_image();
+            tape_image_detach(1);
             return FALSE;
         }
         break;

@@ -3,6 +3,7 @@
  *
  * Written by
  *  Jouko Valta <jopi@stekt.oulu.fi>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,10 +28,18 @@
 #ifndef _TAPE_H
 #define _TAPE_H
 
+#define TAPE_TYPE_T64 0
+#define TAPE_TYPE_TAP 1
+
+typedef struct tape_image_s {
+    char *name;
+    unsigned int read_only;
+    unsigned int type;
+    void *data;
+} tape_image_t;
+
 struct trap_s;
 
-extern int tape_detach_image(void);
-extern int tape_attach_image(const char *name);
 extern int tape_init(int buffer_pointer_addr, int st_addr,
                      int verify_flag_addr, int irqtmp, int irqval,
                      int stal_addr, int eal_addr, int kbd_buf_addr,
@@ -42,6 +51,12 @@ extern void tape_find_header_trap_plus4(void);
 extern void tape_receive_trap_plus4(void);
 extern const char *tape_get_file_name(void);
 extern int tape_tap_attched(void);
+
+extern void tape_traps_install(void);
+extern void tape_traps_deinstall(void);
+
+extern int tape_image_detach(unsigned int unit);
+extern int tape_image_attach(unsigned int unit, const char *name);
 
 #endif
 

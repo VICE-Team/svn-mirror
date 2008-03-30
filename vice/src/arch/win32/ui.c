@@ -1213,7 +1213,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
                         ui_error("Cannot autostart specified file.");
                         free(autostart_filename);
                 } else {
-                    if (tape_attach_image(s) < 0)
+                    if (tape_image_attach(1, s) < 0)
                         ui_error("Cannot attach specified file");
                 }
                 free(s);
@@ -1222,7 +1222,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         }
         break;
       case IDM_DETACH_TAPE:
-        tape_detach_image();
+        tape_image_detach(1);
         break;
       case IDM_DATASETTE_CONTROL_STOP:
         datasette_control(DATASETTE_CONTROL_STOP);

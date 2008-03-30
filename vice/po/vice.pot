@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-05-05 18:49+0200\n"
+"POT-Creation-Date: 2002-05-08 23:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1752,7 +1752,7 @@ msgid "Invalid speed value"
 msgstr ""
 
 #: src/arch/unix/uisettings.c:227 src/arch/unix/x11/gnome/ui.c:1256
-#: src/arch/unix/x11/xaw/ui.c:1036
+#: src/arch/unix/x11/xaw/ui.c:1032
 msgid "Cannot save settings."
 msgstr ""
 
@@ -2275,22 +2275,22 @@ msgstr ""
 msgid "Set fontpath: `%s'.\n"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:634 src/arch/unix/x11/xaw/ui.c:473
+#: src/arch/unix/x11/gnome/ui.c:634 src/arch/unix/x11/xaw/ui.c:469
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:637 src/arch/unix/x11/xaw/ui.c:476
+#: src/arch/unix/x11/gnome/ui.c:637 src/arch/unix/x11/xaw/ui.c:472
 msgid "Please select a bit depth supported by your display."
 msgstr ""
 
 #: src/arch/unix/x11/gnome/ui.c:640 src/arch/unix/x11/gnome/ui.c:658
-#: src/arch/unix/x11/xaw/ui.c:479 src/arch/unix/x11/xaw/ui.c:496
+#: src/arch/unix/x11/xaw/ui.c:475 src/arch/unix/x11/xaw/ui.c:492
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:666 src/arch/unix/x11/xaw/ui.c:504
+#: src/arch/unix/x11/gnome/ui.c:666 src/arch/unix/x11/xaw/ui.c:500
 msgid "Cannot autodetect a proper visual."
 msgstr ""
 
@@ -2318,7 +2318,7 @@ msgstr ""
 msgid "Tape 000"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:951 src/arch/unix/x11/xaw/ui.c:591
+#: src/arch/unix/x11/gnome/ui.c:951 src/arch/unix/x11/xaw/ui.c:587
 msgid "Maximum number of toplevel windows reached."
 msgstr ""
 
@@ -2330,24 +2330,24 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1240 src/arch/unix/x11/xaw/ui.c:1020
+#: src/arch/unix/x11/gnome/ui.c:1240 src/arch/unix/x11/xaw/ui.c:1016
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1242 src/arch/unix/x11/xaw/ui.c:1026
+#: src/arch/unix/x11/gnome/ui.c:1242 src/arch/unix/x11/xaw/ui.c:1022
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1252 src/arch/unix/x11/xaw/ui.c:1033
+#: src/arch/unix/x11/gnome/ui.c:1252 src/arch/unix/x11/xaw/ui.c:1029
 msgid "Save the current settings?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1299 src/arch/unix/x11/xaw/ui.c:1070
+#: src/arch/unix/x11/gnome/ui.c:1299 src/arch/unix/x11/xaw/ui.c:1066
 msgid "Using private colormap."
 msgstr ""
 
 #: src/arch/unix/x11/gnome/ui.c:1319 src/arch/unix/x11/gnome/ui.c:1322
-#: src/arch/unix/x11/xaw/ui.c:1091 src/arch/unix/x11/xaw/ui.c:1097
+#: src/arch/unix/x11/xaw/ui.c:1087 src/arch/unix/x11/xaw/ui.c:1093
 msgid "(warp)"
 msgstr ""
 
@@ -2358,7 +2358,7 @@ msgstr ""
 msgid "Tape %03d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1650 src/arch/unix/x11/xaw/ui.c:1307
+#: src/arch/unix/x11/gnome/ui.c:1650 src/arch/unix/x11/xaw/ui.c:1303
 #, c-format
 msgid "%s (paused)"
 msgstr ""
@@ -2379,7 +2379,7 @@ msgstr ""
 msgid "Monitor"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/ui.c:1873 src/arch/unix/x11/xaw/ui.c:1547
+#: src/arch/unix/x11/gnome/ui.c:1873 src/arch/unix/x11/xaw/ui.c:1543
 msgid "Extend disk image"
 msgstr ""
 
@@ -2777,16 +2777,16 @@ msgstr ""
 msgid "VICE Information"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/ui.c:1180
+#: src/arch/unix/x11/xaw/ui.c:1176
 #, c-format
 msgid "%d: Track %.1f"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/ui.c:1435
+#: src/arch/unix/x11/xaw/ui.c:1431
 msgid "VICE Error!"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/ui.c:1615
+#: src/arch/unix/x11/xaw/ui.c:1611
 msgid "Unknown image type."
 msgstr ""
 

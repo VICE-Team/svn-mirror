@@ -338,7 +338,7 @@ void initcmdline_check_attach(void)
         }
 
         /* `-1': Attach specified tape image.  */
-        if (startup_tape_image && tape_attach_image(startup_tape_image) < 0)
+        if (startup_tape_image && tape_image_attach(1, startup_tape_image) < 0)
             log_error(LOG_DEFAULT, "Cannot attach tape image `%s'.",
                       startup_tape_image);
 

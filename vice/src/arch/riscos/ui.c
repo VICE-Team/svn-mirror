@@ -1416,7 +1416,7 @@ static int ui_set_tape_image(const char *name)
 
     if ((name == NULL) || (wimp_strlen(name) == 0))
     {
-      if (tape_detach_image() != 0)
+      if (tape_image_detach(1) != 0)
         return -1;
 
       util_string_set(&TapeFile, "");
@@ -1425,7 +1425,7 @@ static int ui_set_tape_image(const char *name)
     }
     else
     {
-      if (tape_attach_image(name) != 0)
+      if (tape_image_attach(1, name) != 0)
         return -1;
 
       util_string_set(&TapeFile, name);

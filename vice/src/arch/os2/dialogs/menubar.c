@@ -44,7 +44,7 @@
 #include "log.h"
 
 #include "mon.h"             // mon
-#include "tape.h"            // tape_detach_image
+#include "tape.h"            // tape_image_detach
 #include "drive.h"           // DRIVE_SYNC_*
 #include "utils.h"           // xmsprintf
 #include "sound.h"           // SOUND_ADJUST_*
@@ -250,7 +250,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         return;
 
     case IDM_DETACHTAPE:
-        tape_detach_image();
+        tape_image_detach(1);
         return;
 
     case IDM_DETACH8:

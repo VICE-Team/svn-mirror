@@ -200,7 +200,7 @@ static UI_CALLBACK(attach_tape)
 
     switch (button) {
       case UI_BUTTON_OK:
-        if (tape_attach_image(filename) < 0)
+        if (tape_image_attach(1, filename) < 0)
             ui_error(_("Invalid Tape Image"));
         if (last_dir)
             free(last_dir);
@@ -224,7 +224,7 @@ static UI_CALLBACK(attach_tape)
 
 static UI_CALLBACK(detach_tape)
 {
-    tape_detach_image();
+    tape_image_detach(1);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -254,7 +254,7 @@ static UI_CALLBACK(smart_attach)
     switch (button) {
       case UI_BUTTON_OK:
         if (file_system_attach_disk(8, filename) < 0
-            && tape_attach_image(filename) < 0) {
+            && tape_image_attach(1, filename) < 0) {
             ui_error(_("Unknown image type"));
         }
         if (last_dir)
@@ -302,7 +302,7 @@ static void mon_trap(ADDRESS addr, void *unused_data)
 
 static UI_CALLBACK(activate_monitor)
 {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_off();
 #endif
     vsync_suspend_speed_eval();
@@ -317,7 +317,7 @@ static UI_CALLBACK(activate_monitor)
 
 static UI_CALLBACK(run_c1541)
 {
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_off();
 #endif
     vsync_suspend_speed_eval();
@@ -377,7 +377,7 @@ static UI_CALLBACK(browse_manual)
         char *res_ptr;
         int manual_path_len, cmd_len;
 
-#ifdef USE_XF86_EXTENSIONS
+#ifdef USE_XF86_DGA2_EXTENSIONS
         fullscreen_mode_off();
 #endif
         cmd_len = strlen(bcommand);

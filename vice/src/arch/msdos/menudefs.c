@@ -117,7 +117,7 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
             free(file);
         } else if (name != NULL
                    && (s == NULL || strcasecmp(s, name) != 0)
-                   && tape_attach_image(name) < 0) {
+                   && tape_image_attach(1, name) < 0) {
             tui_error("Invalid tape image.");
         }
         ui_update_menus();
@@ -171,7 +171,7 @@ static TUI_MENU_CALLBACK(detach_tape_callback)
     const char *s;
 
     if (been_activated) {
-        tape_detach_image();
+        tape_image_detach(1);
         ui_update_menus();
     }
 

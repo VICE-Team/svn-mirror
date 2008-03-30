@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * Based on older code by
  *  Jouko Valta <jopi@stekt.oulu.fi>
@@ -42,6 +43,7 @@
 #include "t64.h"
 #include "tap.h"
 #include "tape.h"
+#include "tapeimage.h"
 #include "traps.h"
 #include "types.h"
 #include "uiapi.h"
@@ -78,12 +80,6 @@ static int tape_is_initialized = 0;
 /* Tape traps to be installed.  */
 static const trap_t *tape_traps;
 
-/* T64 tape currently attached.  */
-static t64_t *attached_t64_tape = NULL;
-
-/* TAP tape currently attached.  */
-static tap_t *attached_tap_tape = NULL;
-
 /* Logging goes here.  */
 static log_t tape_log = LOG_ERR;
 
@@ -96,7 +92,7 @@ static inline void set_st(BYTE b)
 
 /* ------------------------------------------------------------------------- */
 
-static void tape_traps_install(void)
+void tape_traps_install(void)
 {
     const trap_t *p;
 
@@ -106,7 +102,7 @@ static void tape_traps_install(void)
     }
 }
 
-static void tape_traps_deinstall(void)
+void tape_traps_deinstall(void)
 {
     const trap_t *p;
 
@@ -129,8 +125,9 @@ int tape_init(int _buffer_pointer_addr,
               int _kbd_buf_pending_addr,
               const trap_t *trap_list)
 {
-    if (tape_log == LOG_ERR)
-        tape_log = log_open("Tape");
+    tape_log = log_open("Tape");
+
+    tape_image_init();
 
     /* Set addresses of tape routine variables.  */
     st_addr = (ADDRESS)_st_addr;
@@ -159,108 +156,14 @@ int tape_deinstall(void)
     if (!tape_is_initialized)
         return -1;
 
-    if (attached_t64_tape != NULL) {
-        tape_detach_image();
-    }
+    if (attached_t64_tape != NULL)
+        tape_image_detach(1);
 
     tape_traps_deinstall();
 
     tape_traps = NULL;
 
     tape_is_initialized = 0;
-
-    return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Functions to attach and detach tape image files.  */
-
-/* Detach.  */
-int tape_detach_image(void)
-{
-    int retval;
-
-    if (attached_t64_tape != NULL) {
-        log_message(tape_log,
-                    "Detaching T64 image `%s'.", attached_t64_tape->file_name);
-
-        /* Gone.  */
-        retval = t64_close(attached_t64_tape);
-        attached_t64_tape = NULL;
-        ui_display_tape_current_image("");
-
-        /* Tape detached: release play button.  */
-        datasette_set_tape_sense(0);
-
-        return retval;
-    }
-
-    if (attached_tap_tape != NULL) {
-        log_message(tape_log,
-                    "Detaching TAP image `%s'.", attached_tap_tape->file_name);
-
-        /* Gone.  */
-        retval = tap_close(attached_tap_tape);
-        attached_tap_tape = NULL;
-        ui_display_tape_current_image("");
-        datasette_set_tape_image(NULL);
-
-        tape_traps_install();
-
-        return retval;
-    }
-
-    return 0;
-}
-
-/* Attach.  */
-int tape_attach_image(const char *name)
-{
-    t64_t *new_t64_tape;
-    tap_t *new_tap_tape;
-
-    if (!name || !*name)
-        return -1;
-
-    new_t64_tape = t64_open(name);
-    if (new_t64_tape != NULL) {
-        tape_detach_image();
-        attached_t64_tape = new_t64_tape;
-        ui_display_tape_current_image(name);
-
-        log_message(tape_log, "T64 image '%s' attached.", name);
-
-        /* Tape attached: press play button.  */
-        datasette_set_tape_sense(1);
-
-        return 0;
-    }
-
-    new_tap_tape = tap_open(name);
-    if (new_tap_tape != NULL) {
-        tape_detach_image();
-        attached_tap_tape = new_tap_tape;
-        ui_display_tape_current_image(name);
-
-        datasette_set_tape_image(new_tap_tape);
-
-        log_message(tape_log, "TAP image '%s' attached.", name);
-        log_message(tape_log, "TAP image version: %i, system: %i.",
-                    new_tap_tape->version, new_tap_tape->system);
-
-        tape_traps_deinstall();
-
-        return 0;
-    }
-
-    return -1;
-}
-
-int tape_tap_attched(void)
-{
-    if (attached_tap_tape != NULL)
-        return 1;
 
     return 0;
 }
@@ -480,6 +383,31 @@ const char *tape_get_file_name(void)
         return attached_t64_tape->file_name;
     if (attached_tap_tape)
         return attached_tap_tape->file_name;
+    return NULL;
+}
+
+tape_image_t *tape_internal_open_tape_image(const char *name,
+                                            unsigned int read_only)
+{
+    tape_image_t *image;
+
+    image = (tape_image_t *)xmalloc(sizeof(tape_image_t));
+    image->name = stralloc(name);
+    image->read_only = read_only;
+#if 0
+    if (disk_image_open(image) < 0) {
+        free(image->name);
+        log_error(LOG_ERR, "Cannot open file `%s'", name);
+        return NULL;
+    }
+
+    vdrive = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
+
+    vdrive_setup_device(vdrive, 100);
+    vdrive->image = image;
+    vdrive_attach_image(image, 100, vdrive);
+    return vdrive;
+#endif
     return NULL;
 }
 
