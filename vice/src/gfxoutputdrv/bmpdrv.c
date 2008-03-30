@@ -38,9 +38,8 @@
 #include "types.h"
 #include "utils.h"
 
+
 #define BMP_HDR_OFFSET (14 + 40 + 4 * screenshot->palette->num_entries)
-#define BMP_SIZE       (BMP_HDR_OFFSET + \
-                       (screenshot->width / 2 * screenshot->height))
 
 typedef struct gfxoutputdrv_data_s {
     FILE *fd;
@@ -48,9 +47,28 @@ typedef struct gfxoutputdrv_data_s {
     BYTE *data;
     BYTE *bmp_data;
     int line;
+    unsigned int bpp;
 } gfxoutputdrv_data_t;
 
 static gfxoutputdrv_t bmp_drv;
+
+static DWORD bmpdrv_bmp_size(screenshot_t *screenshot)
+{
+    DWORD size = 0;
+
+    switch (screenshot->gfxoutputdrv_data->bpp) {
+      case 4:
+        size = (DWORD)(BMP_HDR_OFFSET
+               + (screenshot->width / 2 * screenshot->height));
+        break;
+      case 8:
+        size = (DWORD)(BMP_HDR_OFFSET
+               + (screenshot->width * screenshot->height));
+        break;
+    }
+
+    return size;
+}
 
 static int bmpdrv_write_file_header(screenshot_t *screenshot)
 {
@@ -61,7 +79,7 @@ static int bmpdrv_write_file_header(screenshot_t *screenshot)
     header[0] = 'B';
     header[1] = 'M';
 
-    util_dword_to_le_buf(&header[2], BMP_SIZE);
+    util_dword_to_le_buf(&header[2], bmpdrv_bmp_size(screenshot));
 
     util_dword_to_le_buf(&header[10], BMP_HDR_OFFSET);
 
@@ -87,7 +105,7 @@ static int bmpdrv_write_bitmap_info(screenshot_t *screenshot)
     binfo[12] = 1;
     binfo[13] = 0;
 
-    binfo[14] = 4;
+    binfo[14] = screenshot->gfxoutputdrv_data->bpp;
     binfo[15] = 0;
 
     util_dword_to_le_buf(&binfo[16], 0); /* BI_RGB */
@@ -96,8 +114,8 @@ static int bmpdrv_write_bitmap_info(screenshot_t *screenshot)
     util_dword_to_le_buf(&binfo[24], 4000);
     util_dword_to_le_buf(&binfo[28], 4000);
 
-    util_dword_to_le_buf(&binfo[32], 0);
-    util_dword_to_le_buf(&binfo[36], 0);
+    util_dword_to_le_buf(&binfo[32], screenshot->palette->num_entries);
+    util_dword_to_le_buf(&binfo[36], screenshot->palette->num_entries);
 
     if (fwrite(binfo, sizeof(binfo), 1, screenshot->gfxoutputdrv_data->fd) < 1)
         return -1;
@@ -123,23 +141,30 @@ static int bmpdrv_write_bitmap_info(screenshot_t *screenshot)
 
 int bmpdrv_open(screenshot_t *screenshot, const char *filename)
 {
-    if (screenshot->palette->num_entries > 16) {
-        log_error(LOG_DEFAULT, "Max 16 colors supported.");
+    gfxoutputdrv_data_t *sdata;
+
+    if (screenshot->palette->num_entries > 256) {
+        log_error(LOG_DEFAULT, "Max 256 colors supported.");
         return -1;
     }
 
-    screenshot->gfxoutputdrv_data
-        = (gfxoutputdrv_data_t *)xmalloc(sizeof(gfxoutputdrv_data_t));
+    sdata = (gfxoutputdrv_data_t *)xmalloc(sizeof(gfxoutputdrv_data_t));
 
-    screenshot->gfxoutputdrv_data->ext_filename
+    screenshot->gfxoutputdrv_data = sdata;
+
+    if (screenshot->palette->num_entries <= 16)
+        sdata->bpp = 4;
+    else
+        sdata->bpp = 8;
+
+    sdata->ext_filename
         = util_add_extension_const(filename, bmp_drv.default_extension);
 
-    screenshot->gfxoutputdrv_data->fd
-        = fopen(screenshot->gfxoutputdrv_data->ext_filename, MODE_WRITE);
+    sdata->fd = fopen(sdata->ext_filename, MODE_WRITE);
 
-    if (screenshot->gfxoutputdrv_data->fd == NULL) {
-        free(screenshot->gfxoutputdrv_data->ext_filename);
-        free(screenshot->gfxoutputdrv_data);
+    if (sdata->fd == NULL) {
+        free(sdata->ext_filename);
+        free(sdata);
         return -1;
     }
 
@@ -151,15 +176,14 @@ int bmpdrv_open(screenshot_t *screenshot, const char *filename)
     }
 
     if (bmpdrv_write_bitmap_info(screenshot) < 0) {
-        fclose(screenshot->gfxoutputdrv_data->fd);
-        free(screenshot->gfxoutputdrv_data->ext_filename);
-        free(screenshot->gfxoutputdrv_data);
+        fclose(sdata->fd);
+        free(sdata->ext_filename);
+        free(sdata);
         return -1;
     }
 
-    screenshot->gfxoutputdrv_data->data = (BYTE *)xmalloc(screenshot->width);
-    screenshot->gfxoutputdrv_data->bmp_data
-        = (BYTE *)xmalloc(screenshot->width / 2);
+    sdata->data = (BYTE *)xmalloc(screenshot->width);
+    sdata->bmp_data = (BYTE *)xmalloc(screenshot->width / 2);
 
     return 0;
 }
@@ -167,22 +191,32 @@ int bmpdrv_open(screenshot_t *screenshot, const char *filename)
 int bmpdrv_write(screenshot_t *screenshot)
 {
     int row;
+    gfxoutputdrv_data_t *sdata;
 
-    (screenshot->convert_line)(screenshot, screenshot->gfxoutputdrv_data->data,
-                               screenshot->gfxoutputdrv_data->line,
+    sdata = screenshot->gfxoutputdrv_data;
+
+    (screenshot->convert_line)(screenshot, sdata->data, sdata->line,
                                SCREENSHOT_MODE_PALETTE);
-    for (row = 0; row < screenshot->width / 2; row++) {
-        screenshot->gfxoutputdrv_data->bmp_data[row]
-            = ((screenshot->gfxoutputdrv_data->data[row * 2] & 0xf) << 4)
-            | (screenshot->gfxoutputdrv_data->data[row * 2 + 1] & 0xf);
-    }
 
-    if (fwrite(screenshot->gfxoutputdrv_data->bmp_data,
-        screenshot->width / 2, 1,
-        screenshot->gfxoutputdrv_data->fd) < 1) {
-        free(screenshot->gfxoutputdrv_data->data);
-        free(screenshot->gfxoutputdrv_data->bmp_data);
-        return -1;
+    switch (sdata->bpp) {
+      case 4:
+        for (row = 0; row < screenshot->width / 2; row++) {
+            sdata->bmp_data[row] = ((sdata->data[row * 2] & 0xf) << 4)
+                                   | (sdata->data[row * 2 + 1] & 0xf);
+        }
+        if (fwrite(sdata->bmp_data, screenshot->width / 2, 1, sdata->fd) < 1) {
+            free(sdata->data);
+            free(sdata->bmp_data);
+            return -1;
+        }
+        break;
+      case 8:
+        if (fwrite(sdata->data, screenshot->width, 1, sdata->fd) < 1) {
+            free(sdata->data);
+            free(sdata->bmp_data);
+            return -1;
+        }
+        break;
     }
 
     return 0;
