@@ -42,11 +42,11 @@
    multi-dimensional arrays as we can optimize better this way...  */
 
 /* foreground(4) | background(4) | nibble(4) -> 4 pixels.  */
-static PIXEL4 hr_table[16 * 16 * 16];
+static DWORD hr_table[16 * 16 * 16];
 
 #ifdef VDC_NEED_2X
 /* foreground(4) | background(4) | idx(2) | nibble(4) -> 4 pixels.  */
-static PIXEL4 hr_table_2x[16 * 16 * 2 * 16];
+static DWORD hr_table_2x[16 * 16 * 2 * 16];
 #endif
 
 
@@ -82,14 +82,14 @@ static void init_drawing_tables(void)
     for (i = 0; i <= 0xf; i++) {
         for (f = 0; f <= 0xf; f++) {
             for (b = 0; b <= 0xf; b++) {
-                PIXEL fp, bp;
-                PIXEL *p;
+                BYTE fp, bp;
+                BYTE *p;
                 int offset;
 
                 fp = RASTER_PIXEL(&vdc.raster, f);
                 bp = RASTER_PIXEL(&vdc.raster, b);
                 offset = (f << 8) | (b << 4);
-                p = (PIXEL *)(hr_table + offset + i);
+                p = (BYTE *)(hr_table + offset + i);
 
                 *p = i & 0x8 ? fp : bp;
                 *(p + 1) = i & 0x4 ? fp : bp;
@@ -97,7 +97,7 @@ static void init_drawing_tables(void)
                 *(p + 3) = i & 0x1 ? fp : bp;
 
 #ifdef VDC_NEED_2X
-                p = (PIXEL *)(hr_table_2x + (offset << 1) + i);
+                p = (BYTE *)(hr_table_2x + (offset << 1) + i);
                 *p = *(p + 1) = i & 0x8 ? fp : bp;
                 *(p + 2) = *(p + 3) = i & 0x4 ? fp : bp;
                 *(p + 0x40) = *(p + 0x41) = i & 0x2 ? fp : bp;
@@ -346,8 +346,8 @@ static int drawline_is_even(void)
 
 static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
 {
-    PIXEL *p;
-    PIXEL4 *table_ptr;
+    BYTE *p;
+    DWORD *table_ptr;
 
     unsigned int i;
 
@@ -360,18 +360,18 @@ static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
     table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
     for (i = xs; i <= xe; i++, p += 8) {
-        PIXEL4 *ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
+        DWORD *ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
         int d = cache->foreground_data[i];
 
-        *((PIXEL4 *)p) = *(ptr + (d >> 4));
-        *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));
+        *((DWORD *)p) = *(ptr + (d >> 4));
+        *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
     }
 }
 
 static void draw_std_text(void)
 {
-    PIXEL *p;
-    PIXEL4 *table_ptr;
+    BYTE *p;
+    DWORD *table_ptr;
     BYTE *attr_ptr, *screen_ptr, *char_ptr;
 
     unsigned int i;
@@ -399,7 +399,7 @@ static void draw_std_text(void)
     char_ptr = vdc.ram + vdc.chargen_adr + vdc.raster.ycounter;
 
     for (i = 0; i < vdc.screen_text_cols; i++, p += 8) {
-        PIXEL4 *ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
+        DWORD *ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
 
         int d = *(char_ptr
             + ((*(attr_ptr + i) & VDC_ALTCHARSET_ATTR) ? 0x1000 : 0)
@@ -415,8 +415,8 @@ static void draw_std_text(void)
         if (vdc.regs[24] & VDC_REVERSE_ATTR)
             d ^= 0xff;
 
-        *((PIXEL4 *)p) = *(ptr + (d >> 4));
-        *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));
+        *((DWORD *)p) = *(ptr + (d >> 4));
+        *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
     }
 
 }
@@ -462,8 +462,8 @@ static int get_std_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
 
 static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
 {
-    PIXEL *p;
-    PIXEL4 *table_ptr, *ptr;
+    BYTE *p;
+    DWORD *table_ptr, *ptr;
 
     unsigned int i;
 
@@ -481,8 +481,8 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
             table_ptr = hr_table + (cache->color_data_1[i] & 0xf0);
             ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
 
-            *((PIXEL4 *)p) = *(ptr + (d >> 4));
-            *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));
+            *((DWORD *)p) = *(ptr + (d >> 4));
+            *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
         }
     } else {
         table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
@@ -492,16 +492,16 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
 
             ptr = table_ptr + ((cache->color_data_1[i] & 0x0f) << 8);
 
-            *((PIXEL4 *)p) = *(ptr + (d >> 4));
-            *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));
+            *((DWORD *)p) = *(ptr + (d >> 4));
+            *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
         }
     }
 }
 
 static void draw_std_bitmap(void)
 {
-    PIXEL *p;
-    PIXEL4 *table_ptr;
+    BYTE *p;
+    DWORD *table_ptr;
     BYTE *attr_ptr, *bitmap_ptr;
 
     unsigned int i;
@@ -517,7 +517,7 @@ static void draw_std_bitmap(void)
     bitmap_ptr = vdc.ram + vdc.screen_adr + vdc.bitmap_counter;
 
     for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8) {
-        PIXEL4 *ptr;
+        DWORD *ptr;
         int d;
 
         if (vdc.regs[25] & 0x40) {
@@ -533,8 +533,8 @@ static void draw_std_bitmap(void)
         if (vdc.regs[24] & VDC_REVERSE_ATTR)
             d ^= 0xff;
 
-        *((PIXEL4 *)p) = *(ptr + (d >> 4));
-        *((PIXEL4 *)p + 1) = *(ptr + (d & 0x0f));
+        *((DWORD *)p) = *(ptr + (d >> 4));
+        *((DWORD *)p + 1) = *(ptr + (d & 0x0f));
     }
 }
 
@@ -553,8 +553,8 @@ static int get_idle(raster_cache_t *cache, int *xs, int *xe, int rr)
 
 static void draw_idle_cached(raster_cache_t *cache, int xs, int xe)
 {
-    PIXEL *p;
-    PIXEL4 idleval;
+    BYTE *p;
+    DWORD idleval;
 
     unsigned int i;
 
@@ -568,15 +568,15 @@ static void draw_idle_cached(raster_cache_t *cache, int xs, int xe)
     idleval = *(hr_table + ((cache->color_data_1[0] & 0x0f) << 8));
 
     for (i = xs; i <= xe; i++, p += 8) {
-        *((PIXEL4 *)p) = idleval;
-        *((PIXEL4 *)p + 1) = idleval;
+        *((DWORD *)p) = idleval;
+        *((DWORD *)p + 1) = idleval;
     }
 }
 
 static void draw_idle(void)
 {
-    PIXEL *p;
-    PIXEL4 idleval;
+    BYTE *p;
+    DWORD idleval;
 
     unsigned int i;
 
@@ -590,8 +590,8 @@ static void draw_idle(void)
     idleval = *(hr_table + ((vdc.regs[26] & 0xf0) << 4));
 
     for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8) {
-        *((PIXEL4 *)p) = idleval;
-        *((PIXEL4 *)p + 1) = idleval;
+        *((DWORD *)p) = idleval;
+        *((DWORD *)p + 1) = idleval;
     }
 }
 

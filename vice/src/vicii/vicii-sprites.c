@@ -376,14 +376,14 @@ printf("%p\n",xxx); \
                         collmskptr, pos, color, collmsk_return)               \
     do {                                                                      \
 { \
-BYTE *xxx = ((PIXEL2 *)(imgptr) + (pos)); \
+BYTE *xxx = ((WORD *)(imgptr) + (pos)); \
 if (xxx < (BYTE *)0x40000000 && (xxx < fbstart || xxx >= fbend)) \
 printf("%p\n",xxx); \
 } \
-        if ((do_draw) && (collmskptr)[(pos)] == 0)                            \
-            *((PIXEL2 *)(imgptr) + (pos)) = RASTER_PIXEL2((raster), (color)); \
-        (collmsk_return) |= (collmskptr)[(pos)];                              \
-        (collmskptr)[(pos)] |= (sprite_bit);                                  \
+        if ((do_draw) && (collmskptr)[(pos)] == 0)                          \
+            *((WORD *)(imgptr) + (pos)) = RASTER_PIXEL2((raster), (color)); \
+        (collmsk_return) |= (collmskptr)[(pos)];                            \
+        (collmskptr)[(pos)] |= (sprite_bit);                                \
     } while (0)
 
 #else
@@ -414,13 +414,13 @@ printf("%p\n",xxx); \
 
 #ifdef ALLOW_UNALIGNED_ACCESS
 
-#define SPRITE_PIXEL_2x(raster, do_draw, sprite_bit, imgptr,                  \
-                        collmskptr, pos, color, collmsk_return)               \
-    do {                                                                      \
-        if ((do_draw) && (collmskptr)[(pos)] == 0)                            \
-            *((PIXEL2 *)(imgptr) + (pos)) = RASTER_PIXEL2((raster), (color)); \
-        (collmsk_return) |= (collmskptr)[(pos)];                              \
-        (collmskptr)[(pos)] |= (sprite_bit);                                  \
+#define SPRITE_PIXEL_2x(raster, do_draw, sprite_bit, imgptr,                \
+                        collmskptr, pos, color, collmsk_return)             \
+    do {                                                                    \
+        if ((do_draw) && (collmskptr)[(pos)] == 0)                          \
+            *((WORD *)(imgptr) + (pos)) = RASTER_PIXEL2((raster), (color)); \
+        (collmsk_return) |= (collmskptr)[(pos)];                            \
+        (collmskptr)[(pos)] |= (sprite_bit);                                \
     } while (0)
 
 #else
@@ -559,7 +559,7 @@ printf("%p\n",xxx); \
 
 
 /* Draw one hires sprite.  */
-inline static void draw_hires_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
+inline static void draw_hires_sprite(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                                      BYTE *data_ptr, int n, int double_size)
 {
     if (vic_ii.raster.sprite_status->sprites[n].x < VIC_II_SCREEN_WIDTH) {
@@ -570,8 +570,8 @@ inline static void draw_hires_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
                         - vic_ii.raster.xsmooth) / 8);
         BYTE *sptr = sprline + VIC_II_MAX_SPRITE_WIDTH
                      + vic_ii.raster.sprite_status->sprites[n].x;
-        PIXEL *ptr = line_ptr + vic_ii.raster.sprite_status->sprites[n].x
-                     * ((double_size) ? 2 : 1);
+        BYTE *ptr = line_ptr + vic_ii.raster.sprite_status->sprites[n].x
+                    * ((double_size) ? 2 : 1);
         int lshift = (vic_ii.raster.sprite_status->sprites[n].x
                      - vic_ii.raster.xsmooth) & 0x7;
         int in_background
@@ -755,14 +755,14 @@ inline static void draw_hires_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
 }
 
 /* Draw one multicolor sprite.  */
-inline static void draw_mc_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
+inline static void draw_mc_sprite(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                                   BYTE *data_ptr, int n, int double_size)
 {
     if (vic_ii.raster.sprite_status->sprites[n].x < VIC_II_SCREEN_WIDTH) {
         DWORD sprmsk, mcsprmsk;
         BYTE *msk_ptr;
-        PIXEL *ptr = line_ptr + vic_ii.raster.sprite_status->sprites[n].x *
-        ((double_size) ? 2 : 1);
+        BYTE *ptr = line_ptr + vic_ii.raster.sprite_status->sprites[n].x
+                    * ((double_size) ? 2 : 1);
         BYTE *sptr = sprline + VIC_II_MAX_SPRITE_WIDTH
                      + vic_ii.raster.sprite_status->sprites[n].x;
         int in_background = vic_ii.raster.sprite_status->sprites[n].in_background;
@@ -971,7 +971,7 @@ inline static void draw_mc_sprite(PIXEL *line_ptr, BYTE *gfx_msk_ptr,
     }
 }
 
-inline static void draw_all_sprites(PIXEL *line_ptr, BYTE *gfx_msk_ptr)
+inline static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
 {
     vic_ii.raster.sprite_status->sprite_sprite_collisions = 0;
     vic_ii.raster.sprite_status->sprite_background_collisions = 0;

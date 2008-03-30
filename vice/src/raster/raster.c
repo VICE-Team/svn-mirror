@@ -196,12 +196,12 @@ static void update_pixel_tables(raster_t *raster)
     /* Prepare the double and quad pixel tables according to the colormap
        of the canvas.  */
     for (i = 0; i < 0x100; i++)
-        *((PIXEL *)(raster->pixel_table.doub + i))
-        = *((PIXEL *)(raster->pixel_table.doub + i) + 1)
+        *((BYTE *)(raster->pixel_table.doub + i))
+        = *((BYTE *)(raster->pixel_table.doub + i) + 1)
         = raster->pixel_table.sing[i];
     for (i = 0; i < 0x100; i++)
-        *((PIXEL2 *)(raster->pixel_table.quad + i))
-        = *((PIXEL2 *)(raster->pixel_table.quad + i) + 1)
+        *((WORD *)(raster->pixel_table.quad + i))
+        = *((WORD *)(raster->pixel_table.quad + i) + 1)
         = raster->pixel_table.doub[i];
 }
 
@@ -502,7 +502,7 @@ inline static void draw_sprites_when_cache_enabled(raster_t *raster,
    collisions only, but we are lazy.  */
 inline static void update_sprite_collisions(raster_t *raster)
 {
-    PIXEL *fake_draw_buffer_ptr;
+    BYTE *fake_draw_buffer_ptr;
 
     if (console_mode || vsid_mode)
         return;
@@ -510,11 +510,11 @@ inline static void update_sprite_collisions(raster_t *raster)
     if (raster->sprite_status->draw_function == NULL)
         return;
 
-  fake_draw_buffer_ptr = (raster->fake_draw_buffer_line
-                          + raster->geometry.extra_offscreen_border_left);
+    fake_draw_buffer_ptr = (raster->fake_draw_buffer_line
+                           + raster->geometry.extra_offscreen_border_left);
 
-  raster->sprite_status->draw_function(fake_draw_buffer_ptr,
-                                       raster->zero_gfx_msk);
+    raster->sprite_status->draw_function(fake_draw_buffer_ptr,
+                                         raster->zero_gfx_msk);
 }
 
 
@@ -522,7 +522,7 @@ inline static void draw_blank(raster_t *raster,
                               unsigned int start,
                               unsigned int end)
 {
-    vid_memset((PIXEL *)(raster->draw_buffer_ptr + start),
+    vid_memset(raster->draw_buffer_ptr + start,
                RASTER_PIXEL(raster, raster->border_color),
                end - start + 1);
 }

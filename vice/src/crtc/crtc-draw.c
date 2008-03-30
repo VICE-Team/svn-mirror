@@ -40,9 +40,9 @@
 #include "types.h"
 
 
-static PIXEL4 dwg_table_0[256], dwg_table_1[256];
-static PIXEL4 dwg_table2x_0[256], dwg_table2x_1[256];
-static PIXEL4 dwg_table2x_2[256], dwg_table2x_3[256];
+static DWORD dwg_table_0[256], dwg_table_1[256];
+static DWORD dwg_table2x_0[256], dwg_table2x_1[256];
+static DWORD dwg_table2x_2[256], dwg_table2x_3[256];
 
 static void init_drawing_tables(void)
 {
@@ -50,38 +50,38 @@ static void init_drawing_tables(void)
     BYTE msk;
 
     for (byte = 0; byte < 0x0100; byte++) {
-        *((PIXEL *)(dwg_table2x_0 + byte))
-            = *((PIXEL *)(dwg_table2x_0 + byte) + 1)
+        *((BYTE *)(dwg_table2x_0 + byte))
+            = *((BYTE *)(dwg_table2x_0 + byte) + 1)
             = RASTER_PIXEL(&crtc.raster, byte & 0x80 ? 1 : 0);
-        *((PIXEL *)(dwg_table2x_0 + byte) + 2)
-            = *((PIXEL *)(dwg_table2x_0 + byte) + 3)
+        *((BYTE *)(dwg_table2x_0 + byte) + 2)
+            = *((BYTE *)(dwg_table2x_0 + byte) + 3)
             = RASTER_PIXEL(&crtc.raster, byte & 0x40 ? 1 : 0);
-        *((PIXEL *)(dwg_table2x_1 + byte))
-            = *((PIXEL *)(dwg_table2x_1 + byte) + 1)
+        *((BYTE *)(dwg_table2x_1 + byte))
+            = *((BYTE *)(dwg_table2x_1 + byte) + 1)
             = RASTER_PIXEL(&crtc.raster, byte & 0x20 ? 1 : 0);
-        *((PIXEL *)(dwg_table2x_1 + byte) + 2)
-            = *((PIXEL *)(dwg_table2x_1 + byte) + 3)
+        *((BYTE *)(dwg_table2x_1 + byte) + 2)
+            = *((BYTE *)(dwg_table2x_1 + byte) + 3)
             = RASTER_PIXEL(&crtc.raster, byte & 0x10 ? 1 : 0);
-        *((PIXEL *)(dwg_table2x_2 + byte))
-            = *((PIXEL *)(dwg_table2x_2 + byte) + 1)
+        *((BYTE *)(dwg_table2x_2 + byte))
+            = *((BYTE *)(dwg_table2x_2 + byte) + 1)
             = RASTER_PIXEL(&crtc.raster, byte & 0x08 ? 1 : 0);
-        *((PIXEL *)(dwg_table2x_2 + byte) + 2)
-            = *((PIXEL *)(dwg_table2x_2 + byte) + 3)
+        *((BYTE *)(dwg_table2x_2 + byte) + 2)
+            = *((BYTE *)(dwg_table2x_2 + byte) + 3)
             = RASTER_PIXEL(&crtc.raster, byte & 0x04 ? 1 : 0);
-        *((PIXEL *)(dwg_table2x_3 + byte))
-            = *((PIXEL *)(dwg_table2x_3 + byte) + 1)
+        *((BYTE *)(dwg_table2x_3 + byte))
+            = *((BYTE *)(dwg_table2x_3 + byte) + 1)
             = RASTER_PIXEL(&crtc.raster, byte & 0x02 ? 1 : 0);
-        *((PIXEL *)(dwg_table2x_3 + byte) + 2)
-            = *((PIXEL *)(dwg_table2x_3 + byte) + 3)
+        *((BYTE *)(dwg_table2x_3 + byte) + 2)
+            = *((BYTE *)(dwg_table2x_3 + byte) + 3)
             = RASTER_PIXEL(&crtc.raster, byte & 0x01 ? 1 : 0);
     }
 
     for (byte = 0; byte < 0x0100; byte++) {
         for (msk = 0x80, p = 0; p < 4; msk >>= 1, p++)
-            *((PIXEL *)(dwg_table_0 + byte) + p)
+            *((BYTE *)(dwg_table_0 + byte) + p)
                 = RASTER_PIXEL(&crtc.raster, byte & msk ? 1 : 0);
         for (p = 0; p < 4; msk >>= 1, p++)
-            *((PIXEL *)(dwg_table_1 + byte) + p)
+            *((BYTE *)(dwg_table_1 + byte) + p)
                 = RASTER_PIXEL(&crtc.raster, byte & msk ? 1 : 0);
     }
 }
@@ -104,7 +104,7 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
 {
     /* FIXME: `p' has to be aligned on a 4 byte boundary!
               Is there a better way than masking `offset'?  */
-    PIXEL *p = crtc.raster.draw_buffer_ptr + (offset & ~3);
+    BYTE *p = crtc.raster.draw_buffer_ptr + (offset & ~3);
     BYTE *chargen_ptr, *screen_ptr;
     int screen_rel;
     int i, d;
@@ -132,8 +132,8 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
             if ((reverse_flag))
                 d ^= 0xff;
 
-            *(((PIXEL4 *)p) + i * 2) = dwg_table_0[d];
-            *(((PIXEL4 *)p) + i * 2 + 1) = dwg_table_1[d];
+            *(((DWORD *)p) + i * 2) = dwg_table_0[d];
+            *(((DWORD *)p) + i * 2 + 1) = dwg_table_1[d];
         }
     } else {
         for (i = (xs); i < (xc); i++) {
@@ -145,16 +145,16 @@ static inline void DRAW(int reverse_flag, int offset, int scr_rel,
             if ((reverse_flag))
                 d ^= 0xff;
 
-            *(((PIXEL4 *)p) + i * 2) = dwg_table_0[d];
-            *(((PIXEL4 *)p) + i * 2 + 1) = dwg_table_1[d];
+            *(((DWORD *)p) + i * 2) = dwg_table_0[d];
+            *(((DWORD *)p) + i * 2 + 1) = dwg_table_1[d];
         }
     }
 
     for (; i < (xe); i++) {
         d = 0;      /* blank */
 
-        *(((PIXEL4 *)p) + i * 2) = dwg_table_0[d];
-        *(((PIXEL4 *)p) + i * 2 + 1) = dwg_table_1[d];
+        *(((DWORD *)p) + i * 2) = dwg_table_0[d];
+        *(((DWORD *)p) + i * 2 + 1) = dwg_table_1[d];
     }
 }
 
@@ -217,7 +217,7 @@ static void draw_reverse_line(void)
 
 #define DRAW_CACHED(l, xs, xe, reverse_flag)                               \
     do {                                                                   \
-        PIXEL *p = draw_buffer_ptr + SCREEN_BORDERWIDTH + (xs) * 8;        \
+        BYTE *p = draw_buffer_ptr + SCREEN_BORDERWIDTH + (xs) * 8;         \
         register int i;                                                    \
         register int mempos = ((l->n+1) / screen_charheight) * memptr_inc; \
         register int ypos = (l->n+1) % screen_charheight;                  \
@@ -235,8 +235,8 @@ static void draw_reverse_line(void)
                 ) {                                                        \
                 d = ~d;                                                    \
             }                                                              \
-            *((PIXEL4 *)p) = dwg_table_0[d];                               \
-            *((PIXEL4 *)p + 1) = dwg_table_1[d];                           \
+            *((DWORD *)p) = dwg_table_0[d];                                \
+            *((DWORD *)p + 1) = dwg_table_1[d];                            \
         }                                                                  \
     } while (0)
 
@@ -254,8 +254,8 @@ static void draw_reverse_line_cached(raster_cache_t *l, int xs, int xe)
 
 #define DRAW_CACHED_2x(l, xs, xe, reverse_flag)                \
     do {                                                       \
-        PIXEL *p = (draw_buffer_ptr                            \
-                    + 2 * (SCREEN_BORDERWIDTH + (xs) * 8));    \
+        BYTE *p = (draw_buffer_ptr                             \
+                  + 2 * (SCREEN_BORDERWIDTH + (xs) * 8));      \
         register int i;                                        \
         register int mempos = ((l->n + 1) / screen_charheight) \
                               * memptr_inc;                    \
@@ -274,10 +274,10 @@ static void draw_reverse_line_cached(raster_cache_t *l, int xs, int xe)
                 ) {                                            \
                 d = ~d;                                        \
             }                                                  \
-            *((PIXEL4 *)p) = dwg_table2x_0[d];                 \
-            *((PIXEL4 *)p + 1) = dwg_table2x_1[d];             \
-            *((PIXEL4 *)p + 2) = dwg_table2x_2[d];             \
-            *((PIXEL4 *)p + 3) = dwg_table2x_3[d];             \
+            *((DWORD *)p) = dwg_table2x_0[d];                  \
+            *((DWORD *)p + 1) = dwg_table2x_1[d];              \
+            *((DWORD *)p + 2) = dwg_table2x_2[d];              \
+            *((DWORD *)p + 3) = dwg_table2x_3[d];              \
         }                                                      \
     } while (0)
 

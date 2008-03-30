@@ -113,7 +113,7 @@ static int fill_cache(raster_cache_t *cache, int *xs, int *xe, int rr)
     *(vic.chargen_ptr + ((code) * vic.char_height) \
     + (row & ((vic.char_height >> 1) | 7)))
 
-inline static void draw(PIXEL *p, int xs, int xe, int reverse,
+inline static void draw(BYTE *p, int xs, int xe, int reverse,
                         int transparent)
 /* transparent>0: don't overwrite background */
 {
@@ -145,7 +145,7 @@ inline static void draw(PIXEL *p, int xs, int xe, int reverse,
 
 static void draw_line(void)
 {
-    PIXEL *p;
+    BYTE *p;
 
     p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
@@ -155,7 +155,7 @@ static void draw_line(void)
 
 static void draw_reverse_line(void)
 {
-    PIXEL *p;
+    BYTE *p;
 
     p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
@@ -165,7 +165,7 @@ static void draw_reverse_line(void)
 
 static void draw_line_cached(raster_cache_t *cache, int xs, int xe)
 {
-    PIXEL *p;
+    BYTE *p;
 
     p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
@@ -177,7 +177,7 @@ static void draw_line_cached(raster_cache_t *cache, int xs, int xe)
 
 static void draw_reverse_line_cached(raster_cache_t *cache, int xs, int xe)
 {
-    PIXEL *p;
+    BYTE *p;
 
     p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
@@ -196,7 +196,7 @@ static void draw_std_background(int start_pixel, int end_pixel)
 
 static void draw_std_foreground(int start_char, int end_char)
 {
-    PIXEL *p;
+    BYTE *p;
 
     p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
@@ -206,7 +206,7 @@ static void draw_std_foreground(int start_char, int end_char)
 
 static void draw_rev_foreground(int start_char, int end_char)
 {
-    PIXEL *p;
+    BYTE *p;
 
     p = (vic.raster.draw_buffer_ptr
         + vic.raster.display_xstart);
@@ -220,8 +220,7 @@ void vic_draw_init(void)
     raster_set_table_refresh_handler(&vic.raster, init_drawing_tables);
 }
 
-void
-vic_draw_set_double_size(int enabled)
+void vic_draw_set_double_size(int enabled)
 {
         raster_modes_set(vic.raster.modes, VIC_STANDARD_MODE,
                          fill_cache,

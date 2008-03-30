@@ -159,9 +159,9 @@ struct raster_s {
     } changes;
 
     struct {
-        PIXEL sing[0x100];
-        PIXEL2 doub[0x100];
-        PIXEL4 quad[0x100];
+        BYTE sing[0x100];
+        WORD doub[0x100];
+        DWORD quad[0x100];
     } pixel_table;
 
     struct video_frame_buffer_s *frame_buffer;
@@ -420,29 +420,15 @@ inline static void raster_add_int_change_border(raster_t *raster,
     }
 }
 
-inline static void vid_memcpy(PIXEL *dst, PIXEL *src, unsigned int count)
+inline static void vid_memcpy(BYTE *dst, BYTE *src, unsigned int count)
 {
-    memcpy(dst, src, count * sizeof(PIXEL));
+    memcpy(dst, src, count);
 }
 
-#if VIDEO_DISPLAY_DEPTH > 8
-
-inline static void vid_memset(PIXEL *dst, PIXEL value, unsigned int count)
-{
-    int i;
-
-    for (i = 0; i < count; i++)
-        dst[i] = value;
-}
-
-#else
-
-inline static void vid_memset(PIXEL *dst, PIXEL value, unsigned int count)
+inline static void vid_memset(BYTE *dst, BYTE value, unsigned int count)
 {
     memset(dst, value, count);
 }
-
-#endif
 
 #endif /* _RASTER_H */
 
