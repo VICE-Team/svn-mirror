@@ -62,6 +62,7 @@
 #include "vicii.h"
 #include "vmachine.h"
 #include "vsync.h"
+#include "ciatimer.h"
 
 #ifdef HAVE_RS232
 #include "rs232.h"
@@ -276,6 +277,7 @@ int machine_init(void)
     vic_ii_enable_extended_keyboard_rows(1);
     cia1_enable_extended_keyboard_rows(1);
 
+    ciat_init_table();
     cia1_init();
     cia2_init();
 #ifdef HAVE_RS232

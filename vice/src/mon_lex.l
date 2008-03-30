@@ -194,6 +194,7 @@ O		{ yylval.i = e_octal; return RADIX_TYPE; }
 
 <ASM_MODE>[a-zA-Z]{3,4}                           { yylval.str = stralloc(yytext); return OPCODE; }
 <ASM_MODE,INITIAL>\.[_a-zA-Z][_a-zA-Z0-9]*        { yylval.str = stralloc(yytext); return LABEL; }
+<ASM_MODE,INITIAL>\.[_@\?:a-zA-Z][_@\?:a-zA-Z0-9]*        { yylval.str = stralloc(yytext); return LABEL; }
 
 <ASM_MODE>(a|A)/[ \t]*[:\n]           { if (!dont_match_reg_a) return REG_A;
                                         yylval.i = 0x0a; return H_NUMBER; }

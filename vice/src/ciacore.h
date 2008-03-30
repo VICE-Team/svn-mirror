@@ -86,10 +86,7 @@ static int ciaint;		/* Interrupt Flag register for cia 1 */
 static CLOCK ciardi;		/* real clock = clk-offset */
 
 static unsigned int cia_tat;	/* timer A toggle bit */
-static unsigned int cia_tap;	/* timer A port bit */
-
 static unsigned int cia_tbt;	/* timer B toggle bit */
-static unsigned int cia_tbp;	/* timer B port bit */
 
 static CLOCK cia_todclk;	/* when is the next TOD alarm scheduled? */
 

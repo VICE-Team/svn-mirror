@@ -1187,6 +1187,7 @@ const char *mon_disassemble_to_string(ADDRESS addr,
     const char *string;
     char *buffp, *addr_name;
     int addr_mode;
+    unsigned opc_size;
     int ival;
     asm_opcode_info_t *opinfo;
 
@@ -1197,8 +1198,23 @@ const char *mon_disassemble_to_string(ADDRESS addr,
     opinfo = asm_opcode_info_get(x);
     string = opinfo->mnemonic;
     addr_mode = opinfo->addr_mode;
+    opc_size = asm_addr_mode_get_size(addr_mode);
 
-    sprintf(buff, "$%02X %s", x, string); /* Print opcode and mnemonic. */
+    switch (opc_size) {
+      case 1:
+	sprintf(buff, "%02X         %s", x, string);
+	break;
+      case 2:
+	sprintf(buff, "%02X %02X      %s", x, p1 & 0xFF, string);
+	break;
+      case 3:
+	sprintf(buff, "%02X %02X %02X   %s", x, p1 & 0xFF, p2 & 0xFF, string);
+	break;
+      default:
+	fprintf (mon_output, "Invalid opcode length: %d\n", opc_size);
+	sprintf (buff, "            %s", string);
+    }
+
     while (*++buffp)
         ;
 
@@ -1237,10 +1253,12 @@ const char *mon_disassemble_to_string(ADDRESS addr,
 
       case ASM_ADDR_MODE_ABSOLUTE:
 	ival |= ((p2 & 0xFF) << 8);
-        if ( !(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
+        if ( (addr_name = mon_symbol_table_lookup_name(e_comp_space, ival)) )
+ 	   sprintf(buffp, " %s", addr_name);
+        else if ( (addr_name = mon_symbol_table_lookup_name(e_comp_space, ival-1)) )
+ 	   sprintf(buffp, " %s+1", addr_name);
+ 	else
 	   sprintf(buffp, (hex_mode ? " $%04X" : " %5d"), ival);
-        else
-	   sprintf(buffp, " %s", addr_name);
 	break;
 
       case ASM_ADDR_MODE_ABSOLUTE_X:
@@ -1311,13 +1329,14 @@ static unsigned disassemble_instr(MON_ADDR addr)
    p1 = get_mem_val(mem, loc+1);
    p2 = get_mem_val(mem, loc+2);
 
-   fprintf(mon_output, ".%s:%04x   %s",memspace_string[mem],loc,
-           mon_disassemble_to_string(loc, op, p1, p2, hex_mode));
-
+   /* Print the label for this location - if we have one */
    label = mon_symbol_table_lookup_name(mem, loc);
    if (label)
-      fprintf(mon_output, "\t\t%s",label);
-   fprintf(mon_output,"\n");
+      fprintf(mon_output, ".%s:%04x   %s:\n",memspace_string[mem],loc,label);
+
+   /* Print the disassembled instruction */
+   fprintf(mon_output, ".%s:%04x   %s\n",memspace_string[mem],loc,
+           mon_disassemble_to_string(loc, op, p1, p2, hex_mode));
 
    return asm_addr_mode_get_size(asm_opcode_info_get(op)->addr_mode);
 }
@@ -1972,7 +1991,7 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
       fprintf(mon_output, "Warning: label(s) for address $%04x already exist.\n",
               loc);
    }
-   if (old_addr >= 0) {
+   if (old_addr >= 0 && old_addr != loc) {
       fprintf(mon_output, "Changing address of label %s from $%04x to $%04x\n",
               name, old_addr, loc);
    }

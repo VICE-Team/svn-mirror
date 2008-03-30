@@ -54,6 +54,7 @@
 #include "vic20via.h"
 #include "vmachine.h"
 #include "vsync.h"
+#include "ciatimer.h"
 
 #ifdef HAVE_PRINTER
 #include "print.h"
@@ -251,6 +252,9 @@ int machine_init(void)
 
     /* Initialize the VIC-I emulation.  */
     vic_init();
+ 
+    /* needed for VC1571/1581 emulation */
+    ciat_init_table();
 
     via1_init();
     via2_init();

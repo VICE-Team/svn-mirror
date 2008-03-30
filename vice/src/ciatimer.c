@@ -43,10 +43,12 @@ static int ciat_logfl = 0;
 static int logtab=0;
 static const char spaces[]="                                                  ";
 
+/* extern int traceflg; */
+
 void ciat_login(const char *format,...) {
     va_list ap;
     va_start(ap,format);
-    if(ciat_logfl) {
+    if(/* traceflg ||*/ ciat_logfl) {
         printf("%s",spaces+strlen(spaces)-logtab);
         vprintf(format, ap);
         printf(" {\n");
@@ -57,7 +59,7 @@ void ciat_login(const char *format,...) {
 void ciat_logout(const char *format,...) {
     va_list ap;
     va_start(ap,format);
-    if(ciat_logfl && strlen(format)) {
+    if((/* traceflg ||*/ ciat_logfl) && strlen(format)) {
         printf("%s",spaces+strlen(spaces)-logtab);
         vprintf(format, ap);
         printf("\n");
@@ -71,7 +73,7 @@ void ciat_logout(const char *format,...) {
 void ciat_log(const char *format,...) {
     va_list ap;
     va_start(ap,format);
-    if(ciat_logfl) {
+    if(/* traceflg ||*/ ciat_logfl) {
         printf("%s",spaces+strlen(spaces)-logtab);
         vprintf(format, ap);
         printf("\n");
@@ -80,5 +82,38 @@ void ciat_log(const char *format,...) {
 
 #endif
 
+
 #include "ciatimer.h"
+
+void ciat_init_table(void) 
+{
+    int i;
+    ciat_tstate_t tmp;
+
+    for (i = 0; i < CIAT_TABLEN; i ++) {
+
+	tmp = i & (CIAT_CR_START 
+		| CIAT_CR_ONESHOT 
+		| CIAT_PHI2IN);
+
+	if ((i & CIAT_CR_START) && (i & CIAT_PHI2IN)) 
+	    tmp |= CIAT_COUNT2;
+	if ((i & CIAT_COUNT2) || ((i & CIAT_STEP) && (i & CIAT_CR_START)))
+	    tmp |= CIAT_COUNT3;
+	if (i & CIAT_COUNT3) 
+	    tmp |= CIAT_COUNT;
+
+	if (i & CIAT_CR_FLOAD) 
+	    tmp |= CIAT_LOAD1;
+	if (i & CIAT_LOAD1) 
+	    tmp |= CIAT_LOAD;
+
+   	if (i & CIAT_CR_ONESHOT)
+	    tmp |= CIAT_ONESHOT0;
+   	if (i & CIAT_ONESHOT0)
+	    tmp |= CIAT_ONESHOT;
+
+        ciat_table[i] = tmp;
+    }
+}
 

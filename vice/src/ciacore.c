@@ -28,8 +28,6 @@
  *
  */
 
-#include "clkguard.h"
-
 /*
  * 29jun1998 a.fachat
  *
@@ -42,10 +40,14 @@
 /*
  * new, generalized timer code
  */
+#include "clkguard.h"
 #include "ciatimer.h"
 
 static ciat_t ciata;
 static ciat_t ciatb;
+
+static CLOCK cia_read_clk = 0;
+static int cia_read_offset = 0;
 
 /* Make the TOD count 50/60Hz even if we do not run at 1MHz ... */
 #ifndef CYCLES_PER_SEC
@@ -74,7 +76,7 @@ static inline void my_set_int(int value, CLOCK rclk)
     }
 #endif
     if ((value)) {
-        /*  ciaint |= 0x80; */
+        /* ciaint |= 0x80; */
         cia_set_int_clk((MYCIA_INT), (rclk));
     } else {
         cia_set_int_clk(0, (rclk));
@@ -133,22 +135,12 @@ _CIA_FUNC void cia_do_step_tb(CLOCK rclk) {
 	cia_tbt = (cia_tbt + n) & 1;
     }
 }
- 
-#if 0
-_CIA_FUNC void cia_do_step_ta(CLOCK rclk) {
-    int n;
-/*printf("do_step_tb\n");*/
-    if((n=ciat_single_step(&ciata, rclk))) {
-        ciaint |= CIA_IM_TA;
-	cia_tat = (cia_tat + n) & 1;
-    }
-}
-#endif
 
 /*
  * Those functions are called everywhere but in the alarm functions.
  */
- 
+
+
 _CIA_FUNC void cia_update_ta(CLOCK rclk) {
     CLOCK tmp, last_tmp;
 
@@ -199,26 +191,15 @@ _CIA_FUNC void cia_do_set_int(CLOCK rclk)
         }
     }
 }
- 
-static void cia_strobe_ta(CLOCK rclk) 
-{
-    cia_do_step_tb(rclk);
-    cia_tat = (cia_tat + 1) & 1;
-}
 
-static void cia_strobe_tb(CLOCK rclk) 
-{
-/*    cia_do_step_ta(rclk); */
-    cia_tbt = (cia_tbt + 1) & 1; 
-}
-
-/* -------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 static void clk_overflow_callback(CLOCK sub, void *data)
 {
-    /* FIXME: cia_update_t* */
-    ciat_update(&ciata, myclk);
-    ciat_update(&ciatb, myclk);
+printf("mycia_prevent_clk_overflow()\n");
+
+    cia_update_ta(myclk);
+    cia_update_tb(myclk);
 
     ciat_prevent_clock_overflow(&ciata, sub);
     ciat_prevent_clock_overflow(&ciatb, sub);
@@ -228,11 +209,16 @@ static void clk_overflow_callback(CLOCK sub, void *data)
     else
 	ciardi = 0;
 
-    if(cia_todclk)
+    if (cia_read_clk > sub)
+	cia_read_clk -= sub;
+    else
+	cia_read_clk = 0;
+
+    if (cia_todclk)
 	cia_todclk -= sub;
 }
 
-/* ------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
 void mycia_init(void)
 {
@@ -245,8 +231,8 @@ void mycia_init(void)
 
     clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);
 
-    ciat_init(&ciata, "ciaTimerA", myclk, &cia_ta_alarm, cia_strobe_ta);
-    ciat_init(&ciatb, "ciaTimerB", myclk, &cia_tb_alarm, cia_strobe_tb);
+    ciat_init(&ciata, "ciaTimerA", myclk, &cia_ta_alarm);
+    ciat_init(&ciatb, "ciaTimerB", myclk, &cia_tb_alarm);
 }
 
 void reset_mycia(void)
@@ -455,7 +441,6 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
 	cia_update_ta(rclk);
 
-
 	ciat_set_ctrl(&ciata, rclk, byte);
 
 #if defined (CIA_TIMER_DEBUG)
@@ -484,12 +469,12 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
       case CIA_CRB:		/* control register B */
 	if( (byte & 1) && !(cia[CIA_CRB] & 1)) cia_tbt = 1;
 
+	cia_update_ta(rclk);
 	cia_update_tb(rclk);
 
 	/* bit 5 is set when single-stepping is set */
 	if (byte & 0x40) {
 	    /* we count ta - so we enable that */
-	    cia_update_ta(rclk);
 	    ciat_set_alarm(&ciata, rclk);
 	    ciat_set_ctrl(&ciatb, rclk, byte | 0x20);
 	} else {
@@ -523,12 +508,9 @@ void REGPARM2 store_mycia(ADDRESS addr, BYTE byte)
 
 /* ------------------------------------------------------------------------- */
 
-static CLOCK cia_read_clk = 0;
-static int cia_read_offset = 0;
 
 BYTE REGPARM1 read_mycia(ADDRESS addr)
 {
-
 #if defined( CIA_TIMER_DEBUG )
 
     BYTE read_cia_(ADDRESS addr);
@@ -804,9 +786,11 @@ BYTE REGPARM1 peek_mycia(ADDRESS addr)
 
 /* ------------------------------------------------------------------------- */
 
+
 static int int_ciata(long offset)
 {
     CLOCK rclk = myclk - offset;
+/*    int n; */
 
     CIAT_LOGIN(("ciaTimerA int_ciata: myclk=%d rclk=%d", myclk, rclk));
 
@@ -851,7 +835,7 @@ static int int_ciata(long offset)
 	    }
 	}
     }
-    if (cia[CIA_CRB] & 0x40) {
+    if ((cia[CIA_CRB] & 0x41) == 0x41) {
         cia_update_tb(rclk);
 	cia_do_step_tb(rclk);
     }
@@ -904,19 +888,6 @@ static int int_ciatb(long offset)
 	if (ciaier & CIA_IM_TB) {
 	    ciat_set_alarm(&ciatb, rclk);
 	}
-#if 0
-    } else {
-	if ( (cia[CIA_CRB] & 0x41) == 0x41) {
-	    if ((cia[CIA_CRB] & 8)) {
-		cia[CIA_CRB] &= 0xfe;		/* clear start bit */
-	    }
-	}
-#if defined(CIA_TIMER_DEBUG)
-	if (mycia_debugFlag)
-	    log_message(cia_log,
-                        "rclk=%d ciatb: unset tbu alarm.", rclk);
-#endif
-#endif
     }
 
     cia_do_set_int(rclk);
@@ -1001,6 +972,7 @@ static int int_ciatod(long offset)
     return 0;
 }
 
+
 /* -------------------------------------------------------------------------- */
 
 /* The dump format has a module header and the data generated by the
@@ -1010,7 +982,7 @@ static int int_ciatod(long offset)
  */
 
 #define	CIA_DUMP_VER_MAJOR	1
-#define	CIA_DUMP_VER_MINOR	0
+#define	CIA_DUMP_VER_MINOR	1
 
 /*
  * The dump data:
@@ -1058,14 +1030,14 @@ int mycia_write_snapshot_module(snapshot_t *p)
     snapshot_module_t *m;
     int byte;
 
+    cia_update_ta(myclk);
+    cia_update_tb(myclk);
+
     m = snapshot_module_create(p, "cia",
                                CIA_DUMP_VER_MAJOR, CIA_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
 
-    /* FIXME: cia_update_t* */
-    if(ciat_update(&ciata, myclk)) ciaint |= CIA_IM_TA;
-    if(ciat_update(&ciatb, myclk)) ciaint |= CIA_IM_TB;
 
 #ifdef cia_DUMP_DEBUG
     log_message(cia_log, "clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d",myclk, cia[CIA_CRA], cia[CIA_CRB],cia_tas, cia_tbs);
@@ -1092,8 +1064,13 @@ int mycia_write_snapshot_module(snapshot_t *p)
     snapshot_module_write_word(m, ciat_read_latch(&ciata, myclk));
     snapshot_module_write_word(m, ciat_read_latch(&ciatb, myclk));
     snapshot_module_write_byte(m, peek_mycia(CIA_ICR));
+
+    /* Bits 2 & 3 are compatibility to snapshot format v1.0 */
     snapshot_module_write_byte(m, ((cia_tat ? 0x40 : 0)
-                                   | (cia_tbt ? 0x80 : 0)));
+                           | (cia_tbt ? 0x80 : 0)
+			   | (ciat_is_underflow_clk(&ciata, myclk) ? 0x04 : 0)
+			   | (ciat_is_underflow_clk(&ciatb, myclk) ? 0x08 : 0)
+			));
     snapshot_module_write_byte(m, ciasr_bits);
     snapshot_module_write_byte(m, ciatodalarm[0]);
     snapshot_module_write_byte(m, ciatodalarm[1]);
@@ -1120,6 +1097,11 @@ int mycia_write_snapshot_module(snapshot_t *p)
 
     snapshot_module_write_dword(m, (cia_todclk - myclk));
 
+    ciat_save_snapshot(&ciata, myclk, m, 
+			(CIA_DUMP_VER_MAJOR << 8) | CIA_DUMP_VER_MINOR);
+    ciat_save_snapshot(&ciatb, myclk, m, 
+			(CIA_DUMP_VER_MAJOR << 8) | CIA_DUMP_VER_MINOR);
+
     snapshot_module_close(m);
 
     return 0;
@@ -1129,21 +1111,21 @@ int mycia_read_snapshot_module(snapshot_t *p)
 {
     BYTE vmajor, vminor;
     BYTE byte;
-    WORD word;
     DWORD dword;
     ADDRESS addr;
     CLOCK rclk = myclk;
     snapshot_module_t *m;
-    ciat_state_t timera, timerb;
-
-    timera.clk = myclk;
-    timerb.clk = myclk;
+    WORD cia_tal, cia_tbl, cia_tac, cia_tbc;
 
     m = snapshot_module_open(p, "cia", &vmajor, &vminor);
     if (m == NULL)
         return -1;
 
     if (vmajor != CIA_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    if (vminor > CIA_DUMP_VER_MINOR) {
         snapshot_module_close(m);
         return -1;
     }
@@ -1172,10 +1154,8 @@ int mycia_read_snapshot_module(snapshot_t *p)
         oldpb = byte;
     }
 
-    snapshot_module_read_word(m, &word);
-    timera.cnt = word;
-    snapshot_module_read_word(m, &word);
-    timerb.cnt = word;
+    snapshot_module_read_word(m, &cia_tac);
+    snapshot_module_read_word(m, &cia_tbc);
     snapshot_module_read_byte(m, &cia[CIA_TOD_TEN]);
     snapshot_module_read_byte(m, &cia[CIA_TOD_SEC]);
     snapshot_module_read_byte(m, &cia[CIA_TOD_MIN]);
@@ -1185,28 +1165,11 @@ int mycia_read_snapshot_module(snapshot_t *p)
 	store_sdr(cia[CIA_SDR]);
     }
     snapshot_module_read_byte(m, &ciaier);
-    snapshot_module_read_byte(m, &byte);
-/*
-    timera.running = byte & 1;
-    timera.oneshot = byte & 8;
-*/
-    timera.single = 0; /* FIXME */
-    snapshot_module_read_byte(m, &byte);
-/*
-    timerb.running = byte & 1;
-    timerb.oneshot = byte & 8;
-*/
-    timerb.single = 0; /* FIXME */
+    snapshot_module_read_byte(m, &cia[CIA_CRA]);
+    snapshot_module_read_byte(m, &cia[CIA_CRB]);
 
-    snapshot_module_read_word(m, &word);
-
-/*
-    timera.latch = word;
-*/
-    snapshot_module_read_word(m, &word);
-/*
-    timerb.latch = word;
-*/
+    snapshot_module_read_word(m, &cia_tal);
+    snapshot_module_read_word(m, &cia_tbl);
 
     snapshot_module_read_byte(m, &byte);
     ciaint = byte;
@@ -1218,8 +1181,6 @@ log_message(cia_log, "read ciaint=%02x, ciaier=%02x.", ciaint, ciaier);
     snapshot_module_read_byte(m, &byte);
     cia_tat = (byte & 0x40) ? 1 : 0;
     cia_tbt = (byte & 0x80) ? 1 : 0;
-    cia_tap = (byte & 0x04) ? 1 : 0;
-    cia_tbp = (byte & 0x08) ? 1 : 0;
 
     snapshot_module_read_byte(m, &byte);
     ciasr_bits = byte;
@@ -1260,10 +1221,10 @@ log_message(cia_log, "tai=%d, tau=%d, tac=%04x, tal=%04x",cia_tai, cia_tau, cia_
 log_message(cia_log, "tbi=%d, tbu=%d, tbc=%04x, tbl=%04x",cia_tbi, cia_tbu, cia_tbc, cia_tbl);
 #endif
 
-    ciat_tostack(&ciata, &timera);
-    ciat_set_alarm(&ciata, rclk);
-    ciat_tostack(&ciatb, &timerb);
-    ciat_set_alarm(&ciatb, rclk);
+    ciat_load_snapshot(&ciata, rclk, cia_tac, cia_tal, cia[CIA_CRA], m,
+						(vmajor << 8) | vminor);
+    ciat_load_snapshot(&ciatb, rclk, cia_tbc, cia_tbl, cia[CIA_CRB], m,
+						(vmajor << 8) | vminor);
 
 #ifdef cia_DUMP_DEBUG
 log_message(cia_log, "clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d",myclk, cia[CIA_CRA], cia[CIA_CRB],cia_tas, cia_tbs);

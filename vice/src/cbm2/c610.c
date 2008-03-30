@@ -59,6 +59,7 @@
 #include "vmachine.h"
 #include "vsync.h"
 #include "drive.h"
+#include "ciatimer.h"
 
 #ifdef HAVE_PRINTER
 #include "print.h"
@@ -200,6 +201,7 @@ int machine_init(void)
     /* Initialize the CRTC emulation.  */
     crtc_init();
 
+    ciat_init_table();
     cia1_init();
     acia1_init();
 

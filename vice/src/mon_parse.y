@@ -65,6 +65,7 @@ extern int cur_len, last_len;
 #define ERR_ADDR_TOO_BIG 10
 #define ERR_IMM_TOO_BIG 11
 #define ERR_EXPECT_STRING 12
+#define ERR_UNDEFINED_LABEL 13
 
 #define BAD_ADDR (new_addr(e_invalid_space, 0))
 #define CHECK_ADDR(x) ((x) == LO16(x))
@@ -168,7 +169,7 @@ register_mod: CMD_REGISTERS end_cmd		{ mon_print_registers(default_memspace); }
             | CMD_REGISTERS reg_list end_cmd
             ;
 
-symbol_table_rules: CMD_LOAD_LABELS opt_memspace filename end_cmd 	{ mon_load_symbols($2, $3); }
+symbol_table_rules: CMD_LOAD_LABELS opt_memspace filename end_cmd 	{ playback = TRUE; playback_name = $3; /*mon_load_symbols($2, $3);*/ }
                   | CMD_SAVE_LABELS opt_memspace filename end_cmd 	{ mon_save_symbols($2, $3); }
                   | CMD_ADD_LABEL address LABEL end_cmd 		{ mon_add_name_to_symbol_table($2, $3); }
                   | CMD_DEL_LABEL opt_memspace LABEL end_cmd 		{ mon_remove_name_from_symbol_table($2, $3); }
@@ -316,7 +317,8 @@ address: memloc { $$ = new_addr(e_default_space,$1); if (opt_asm) new_cmd = asm_
                  if (temp >= 0)
                     $$ = new_addr(e_default_space, temp);
                  else
-                    printf("ERRR\n"); }
+                    return ERR_UNDEFINED_LABEL;
+               }
        ;
 
 opt_memspace: memspace { $$ = $1; }
@@ -480,6 +482,9 @@ void parse_and_execute_line(char *input)
                break;
            case ERR_EXPECT_STRING:
                fprintf(mon_output, "Expecting a string.\n");
+               break;
+           case ERR_UNDEFINED_LABEL:
+               fprintf(mon_output, "Found an undefined label.\n");
                break;
            case ERR_ILLEGAL_INPUT:
            default:
