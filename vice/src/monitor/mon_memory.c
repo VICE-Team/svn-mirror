@@ -338,10 +338,10 @@ void mon_memory_display_data(MON_ADDR start_addr, MON_ADDR end_addr,
                               (WORD)(ADDR_LIMIT(addr + j))), '.', '*');
                 cnt++;
             }
-           mon_out("\n");
-           addr = ADDR_LIMIT(addr + (x / 8));
-           if (mon_stop_output != 0)
-               break;
+            mon_out("\n");
+            addr = ADDR_LIMIT(addr + (x / 8));
+            if (mon_stop_output != 0)
+                break;
         }
 
         mon_out("\n");
