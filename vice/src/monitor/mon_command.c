@@ -53,14 +53,14 @@ static const mon_cmds_t mon_cmd_array[] = {
 
    { "~",               "~",    CONVERT_OP,             STATE_INITIAL,
      "<number>",
-     "Display the specified number in decimal, hex, octal and binary."},
+     "Display the specified number in decimal, hex, octal and binary." },
 
    { ">",               ">",    CMD_ENTER_DATA,         STATE_INITIAL,
      "[<address>] <data_list>",
-     "Write the specified data at `address'."},
+     "Write the specified data at `address'." },
 
    { "@",               "@",    CMD_DISK,               STATE_ROL,
-   "<disk command>",
+     "<disk command>",
      "Perform a disk command on the currently attached disk image on drive 8.\n"
      "The specified disk command is sent to the drive's channel #15." },
 
@@ -73,7 +73,7 @@ static const mon_cmds_t mon_cmd_array[] = {
      "exit assembly mode)." },
 
    { "add_label",       "al",   CMD_ADD_LABEL,          STATE_INITIAL,
-    "<address> <label>",
+     "<address> <label>",
      "Map a given address to a label.  This label can be used when entering\n"
      "assembly code and is shown during disassembly." },
 
@@ -85,7 +85,8 @@ static const mon_cmds_t mon_cmd_array[] = {
 
    { "bload",           "bl",   CMD_BLOAD,              STATE_FNAME,
      "\"<filename>\" <device> <address>",
-     "Load the specified file into memory at the specified address."},
+     "Load the specified file into memory at the specified address.\n"
+     "If device is 0, the file is read from the file system." },
 
    { "br",              "",     CMD_BLOCK_READ,         STATE_INITIAL,
      "<track> <sector> [<address>]",
@@ -99,13 +100,14 @@ static const mon_cmds_t mon_cmd_array[] = {
      "If an address is given, a breakpoint is set for that address and the\n"
      "breakpoint number is printed.  A conditional expression can also be\n"
      "specified for the breakpoint.  For more information on conditions, see\n"
-     "the CONDITION command."   },
+     "the CONDITION command." },
 
    { "brmon",           "",     CMD_BRMON,              STATE_INITIAL },
 
    { "bsave",           "bs",   CMD_BSAVE,              STATE_FNAME,
      "\"<filename>\" <device> <address1> <address2>",
-     "Save the memory from address1 to address2 to the specified file." },
+     "Save the memory from address1 to address2 to the specified file.\n"
+     "If device is 0, the file is written to the file system." },
 
    { "bw",              "",     CMD_BLOCK_WRITE,        STATE_INITIAL,
      "<track> <sector> <address>",
@@ -114,7 +116,7 @@ static const mon_cmds_t mon_cmd_array[] = {
 
    { "cd",              "",     CMD_CHDIR,              STATE_ROL,
      "<directory>",
-     "Change the working directory."},
+     "Change the working directory." },
 
    { "command",         "",     CMD_COMMAND,            STATE_INITIAL,
      "<checknum> \"<command>\"",
@@ -206,14 +208,14 @@ static const mon_cmds_t mon_cmd_array[] = {
 
    { "keybuf",          "",     CMD_KEYBUF,             STATE_ROL,
      "\"<string>\"",
-     "Put the specified string into the keyboard buffer.\n"},
+     "Put the specified string into the keyboard buffer.\n" },
 
    { "load",            "l",    CMD_LOAD,               STATE_FNAME,
      "\"<filename>\" <device> <address>",
      "Load the specified file into memory at the specified address. Set BASIC\n"
      "pointers appropriately (not all emulators). Use (otherwise ignored)\n"
      "two-byte load address from file if no address specified.\n"
-     "If device is 0, the file is read from the file system."},
+     "If device is 0, the file is read from the file system." },
 
    { "load_labels",     "ll",   CMD_LOAD_LABELS,        STATE_FNAME,
      "[<memspace>] \"<filename>\"",
@@ -291,10 +293,10 @@ static const mon_cmds_t mon_cmd_array[] = {
      "RTS or RTI is executed." },
 
    { "save",            "s",    CMD_SAVE,               STATE_FNAME,
-     "\"<filename>\" <address1> <address2>",
+     "\"<filename>\" <device> <address1> <address2>",
      "Save the memory from address1 to address2 to the specified file.\n"
      "Write two-byte load address.\n"
-     "If device is 0, the file is written to the file system."},
+     "If device is 0, the file is written to the file system." },
 
    { "save_labels",     "sl",   CMD_SAVE_LABELS,        STATE_FNAME,
      "[<memspace>] \"<filename>\"",
