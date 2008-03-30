@@ -141,16 +141,64 @@ inline static int raster_cache_data_fill(BYTE *dest,
         int x = 0, i;
 
         for (i = 0; i < length && dest[i] == src[0]; i++, src += src_step)
-          /* do nothing */ ;
+            /* do nothing */ ;
 
         if (i < length) {
             if (*xs > i)
                 *xs = i;
 
-            for (; i < length; i++, src += src_step)
+            for (; i < length; i++, src += src_step) {
                 if (dest[i] != src[0]) {
-                dest[i] = src[0];
-                x = i;
+                    dest[i] = src[0];
+                    x = i;
+                }
+            }
+
+            if (*xe < x)
+                *xe = x;
+
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+}
+
+inline static int raster_cache_data_fill_1fff(BYTE *dest,
+                                              const BYTE *src_base,
+                                              int src_cnt,
+                                              int length,
+                                              int src_step,
+                                              int *xs,
+                                              int *xe,
+                                              int no_check)
+{
+    if (no_check) {
+        int i;
+
+        *xs = 0;
+        *xe = length - 1;
+
+        for (i = 0; i < length; i++, src_cnt += src_step)
+            dest[i] = src_base[src_cnt & 0x1fff];
+
+        return 1;
+    } else {
+        int x = 0, i;
+
+        for (i = 0; i < length && dest[i] == src_base[src_cnt & 0x1fff];
+            i++, src_cnt += src_step)
+            /* do nothing */ ;
+
+        if (i < length) {
+            if (*xs > i)
+                *xs = i;
+
+            for (; i < length; i++, src_cnt += src_step) {
+                if (dest[i] != src_base[src_cnt & 0x1fff]) {
+                    dest[i] = src_base[src_cnt & 0x1fff];
+                    x = i;
+                }
             }
 
             if (*xe < x)
@@ -200,14 +248,16 @@ inline static int raster_cache_data_fill_nibbles(BYTE *dest_hi,
             if (*xs > i)
                 *xs = i;
 
-            for (; i < length; i++, src += src_step)
+            for (; i < length; i++, src += src_step) {
                 if (dest_hi[i] != (b = (src[0] >> 4))) {
                     dest_hi[i] = b;
                     x = i;
-                } else if (dest_lo[i] != (b = (src[0] & 0xf))) {
-                  dest_lo[i] = b;
-                  x = i;
                 }
+                if (dest_lo[i] != (b = (src[0] & 0xf))) {
+                    dest_lo[i] = b;
+                    x = i;
+                }
+            }
 
             if (*xe < x)
                 *xe = x;
@@ -252,10 +302,11 @@ inline static int raster_cache_data_fill_text(BYTE *dest,
         if (i < length) {
             *xs = *xe = i;
 
-            for (; i < length; i++, src++)
+            for (; i < length; i++, src++) {
                 if (dest[i] != (b = _GET_CHAR_DATA(src[0], l))) {
                     dest[i] = b;
                     *xe = i;
+                }
             }
 
             return 1;
@@ -296,11 +347,12 @@ inline static int raster_cache_data_fill_const(BYTE *dest,
             if (*xs > i)
                 *xs = i;
 
-            for (; i < length; i++)
+            for (; i < length; i++) {
                 if (dest[i] != data) {
                     dest[i] = data;
                     x = i;
                 }
+            }
 
             if (*xe < x)
                 *xe = x;
