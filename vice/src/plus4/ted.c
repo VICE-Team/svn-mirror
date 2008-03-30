@@ -371,11 +371,15 @@ raster_t *ted_init(void)
 {
     ted.log = log_open("TED");
 
-    alarm_init(&ted.raster_fetch_alarm, maincpu_alarm_context,
+    ted.raster_fetch_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+    ted.raster_draw_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+    ted.raster_irq_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+
+    alarm_init(ted.raster_fetch_alarm, maincpu_alarm_context,
                "TEDRasterFetch", ted_raster_fetch_alarm_handler);
-    alarm_init(&ted.raster_draw_alarm, maincpu_alarm_context,
+    alarm_init(ted.raster_draw_alarm, maincpu_alarm_context,
                "TEDRasterDraw", ted_raster_draw_alarm_handler);
-    alarm_init(&ted.raster_irq_alarm, maincpu_alarm_context,
+    alarm_init(ted.raster_irq_alarm, maincpu_alarm_context,
                "TEDRasterIrq", ted_raster_irq_alarm_handler);
 
     ted_change_timing();
@@ -432,10 +436,10 @@ void ted_reset(void)
     ted.last_emulate_line_clk = 0;
 
     ted.draw_clk = ted.draw_cycle;
-    alarm_set(&ted.raster_draw_alarm, ted.draw_clk);
+    alarm_set(ted.raster_draw_alarm, ted.draw_clk);
 
     ted.fetch_clk = TED_FETCH_CYCLE;
-    alarm_set(&ted.raster_fetch_alarm, ted.fetch_clk);
+    alarm_set(ted.raster_fetch_alarm, ted.fetch_clk);
 
     /* FIXME: I am not sure this is exact emulation.  */
     ted.raster_irq_line = 0;
@@ -443,7 +447,7 @@ void ted_reset(void)
 
     /* Setup the raster IRQ alarm.  The value is `1' instead of `0' because we
        are at the first line, which has a +1 clock cycle delay in IRQs.  */
-    alarm_set(&ted.raster_irq_alarm, 1);
+    alarm_set(ted.raster_irq_alarm, 1);
 
     ted.force_display_state = 0;
 
@@ -516,11 +520,11 @@ static void ted_exposure_handler(unsigned int width, unsigned int height)
 void ted_prepare_for_snapshot(void)
 {
     ted.fetch_clk = CLOCK_MAX;
-    alarm_unset(&ted.raster_fetch_alarm);
+    alarm_unset(ted.raster_fetch_alarm);
     ted.draw_clk = CLOCK_MAX;
-    alarm_unset(&ted.raster_draw_alarm);
+    alarm_unset(ted.raster_draw_alarm);
     ted.raster_irq_clk = CLOCK_MAX;
-    alarm_unset(&ted.raster_irq_alarm);
+    alarm_unset(ted.raster_irq_alarm);
 }
 
 void ted_set_raster_irq(unsigned int line)
@@ -543,12 +547,12 @@ void ted_set_raster_irq(unsigned int line)
         if (line <= current_line)
             ted.raster_irq_clk += (ted.screen_height
                                   * ted.cycles_per_line);
-        alarm_set(&ted.raster_irq_alarm, ted.raster_irq_clk);
+        alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
     } else {
         TED_DEBUG_RASTER(("TED: update_raster_irq(): "
                          "raster compare out of range ($%04X)!",
                          line));
-        alarm_unset(&ted.raster_irq_alarm);
+        alarm_unset(ted.raster_irq_alarm);
     }
 
     TED_DEBUG_RASTER(("TED: update_raster_irq(): "
@@ -855,7 +859,7 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
     /* Set the next draw event.  */
     ted.last_emulate_line_clk += ted.cycles_per_line;
     ted.draw_clk = ted.last_emulate_line_clk + ted.draw_cycle;
-    alarm_set(&ted.raster_draw_alarm, ted.draw_clk);
+    alarm_set(ted.raster_draw_alarm, ted.draw_clk);
 }
 
 inline static void handle_fetch_matrix(long offset, CLOCK sub,
@@ -883,7 +887,7 @@ inline static void handle_fetch_matrix(long offset, CLOCK sub,
             ted.fetch_clk += ted.cycles_per_line;
     }
 
-    alarm_set(&ted.raster_fetch_alarm, ted.fetch_clk);
+    alarm_set(ted.raster_fetch_alarm, ted.fetch_clk);
 
     return;
 }
@@ -963,7 +967,7 @@ static void ted_raster_irq_alarm_handler(CLOCK offset)
     }
 
     ted.raster_irq_clk += ted.screen_height * ted.cycles_per_line;
-    alarm_set(&ted.raster_irq_alarm, ted.raster_irq_clk);
+    alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
 }
 
 

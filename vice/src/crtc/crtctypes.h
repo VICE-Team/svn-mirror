@@ -34,7 +34,6 @@
 
 #include "vice.h"
 
-#include "alarm.h"
 #include "crtc-mem.h"
 #include "crtc.h"
 #include "log.h"
@@ -58,6 +57,8 @@ typedef enum crtc_video_mode_s crtc_video_mode_t;
 #define CRTC_IDLE_MODE CRTC_STANDARD_MODE
 
 #define CRTC_NUM_COLORS 2
+
+struct alarm_s;
 
 struct crtc_s
   {
@@ -165,7 +166,7 @@ struct crtc_s
     BYTE regs[64];
 
     /* Alarm to update a raster line.  */
-    alarm_t raster_draw_alarm;
+    struct alarm_s *raster_draw_alarm;
 };
 
 typedef struct crtc_s crtc_t;

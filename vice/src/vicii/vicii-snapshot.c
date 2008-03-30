@@ -28,6 +28,7 @@
 
 #include "vice.h"
 
+#include "alarm.h"
 #include "interrupt.h"
 #include "mem.h"
 #include "raster-sprite-status.h"
@@ -454,7 +455,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
     vic_ii.draw_clk = maincpu_clk + (vic_ii.draw_cycle
                       - VIC_II_RASTER_CYCLE(maincpu_clk));
     vic_ii.last_emulate_line_clk = vic_ii.draw_clk - vic_ii.cycles_per_line;
-    alarm_set(&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
+    alarm_set(vic_ii.raster_draw_alarm, vic_ii.draw_clk);
 
     {
         DWORD dw;
@@ -469,7 +470,7 @@ int vic_ii_snapshot_read_module(snapshot_t *s)
         vic_ii.fetch_clk = maincpu_clk + dw;
         vic_ii.fetch_idx = b;
 
-        alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+        alarm_set(vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
     }
 
     if (vic_ii.irq_status & 0x80)

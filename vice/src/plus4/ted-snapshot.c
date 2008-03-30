@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 
+#include "alarm.h"
 #include "interrupt.h"
 #include "mem.h"
 #include "raster-sprite-status.h"
@@ -356,7 +357,7 @@ int ted_snapshot_read_module(snapshot_t *s)
     ted.draw_clk = maincpu_clk + (ted.draw_cycle
                    - TED_RASTER_CYCLE(maincpu_clk));
     ted.last_emulate_line_clk = ted.draw_clk - ted.cycles_per_line;
-    alarm_set(&ted.raster_draw_alarm, ted.draw_clk);
+    alarm_set(ted.raster_draw_alarm, ted.draw_clk);
 
     {
         DWORD dw;
@@ -368,7 +369,7 @@ int ted_snapshot_read_module(snapshot_t *s)
 
         ted.fetch_clk = maincpu_clk + dw;
 
-        alarm_set(&ted.raster_fetch_alarm, ted.fetch_clk);
+        alarm_set(ted.raster_fetch_alarm, ted.fetch_clk);
     }
 
     if (ted.irq_status & 0x80)

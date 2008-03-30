@@ -35,6 +35,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "alarm.h"
 #include "clkguard.h"
 #include "log.h"
 #include "mem.h"
@@ -264,7 +265,7 @@ void vic_raster_draw_alarm_handler(CLOCK offset)
     /* Set the next draw event.  */
     vic.last_emulate_line_clk += vic.cycles_per_line;
     vic.draw_clk = vic.last_emulate_line_clk + vic.cycles_per_line;
-    alarm_set(&vic.raster_draw_alarm, vic.draw_clk);
+    alarm_set(vic.raster_draw_alarm, vic.draw_clk);
 }
 
 static int init_raster(void)
@@ -322,7 +323,9 @@ raster_t *vic_init(void)
 {
     vic.log = log_open("VIC");
 
-    alarm_init(&vic.raster_draw_alarm, maincpu_alarm_context,
+    vic.raster_draw_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+
+    alarm_init(vic.raster_draw_alarm, maincpu_alarm_context,
                "VicIRasterDraw", vic_raster_draw_alarm_handler);
 
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
@@ -386,7 +389,7 @@ void vic_reset(void)
 
     vic.last_emulate_line_clk = 0;
     vic.draw_clk = vic.cycles_per_line;
-    alarm_set(&vic.raster_draw_alarm, vic.draw_clk);
+    alarm_set(vic.raster_draw_alarm, vic.draw_clk);
 
     vic.row_counter = 0;
     vic.memptr = 0;

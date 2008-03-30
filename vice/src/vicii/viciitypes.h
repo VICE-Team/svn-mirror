@@ -30,11 +30,9 @@
 
 #include "vice.h"
 
-#include "alarm.h"
 #include "log.h"
 #include "raster.h"
 #include "types.h"
-#include "vicii-mem.h"
 
 /* Screen constants.  */
 #define VIC_II_PAL_SCREEN_HEIGHT        312
@@ -214,6 +212,8 @@ enum vic_ii_idle_data_location_s {
 };
 typedef enum vic_ii_idle_data_location_s vic_ii_idle_data_location_t;
 
+struct alarm_s;
+
 struct vic_ii_s {
     /* Flag: Are we initialized?  */
     int initialized;            /* = 0; */
@@ -331,9 +331,9 @@ struct vic_ii_s {
     log_t log;                  /* = LOG_ERR; */
 
     /* VIC-II alarms.  */
-    alarm_t raster_fetch_alarm;
-    alarm_t raster_draw_alarm;
-    alarm_t raster_irq_alarm;
+    struct alarm_s *raster_fetch_alarm;
+    struct alarm_s *raster_draw_alarm;
+    struct alarm_s *raster_irq_alarm;
 
     /* What do we do when the `A_RASTERFETCH' event happens?  */
     vic_ii_fetch_idx_t fetch_idx;

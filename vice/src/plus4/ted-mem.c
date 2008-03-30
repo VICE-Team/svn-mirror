@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "alarm.h"
 #include "interrupt.h"
 #include "keyboard.h"
 #include "maincpu.h"
@@ -566,7 +567,7 @@ inline static void ted09_store(BYTE value)
         ted.irq_status = 0;
         if (maincpu_clk >= ted.raster_irq_clk) {
             ted.raster_irq_clk += ted.screen_height * ted.cycles_per_line;
-            alarm_set(&ted.raster_irq_alarm, ted.raster_irq_clk);
+            alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
         }
     } else {
         ted.irq_status &= ~((value & 0x5e) | 0x80);
@@ -574,7 +575,7 @@ inline static void ted09_store(BYTE value)
             ted.irq_status |= 0x80;
         if ((value & 1) && maincpu_clk >= ted.raster_irq_clk) {
             ted.raster_irq_clk += ted.screen_height * ted.cycles_per_line;
-            alarm_set(&ted.raster_irq_alarm, ted.raster_irq_clk);
+            alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
         }
     }
 

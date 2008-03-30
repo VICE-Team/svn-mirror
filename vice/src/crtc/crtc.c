@@ -36,6 +36,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "alarm.h"
 #include "clkguard.h"
 #include "crtc-cmdline-options.h"
 #include "crtc-draw.h"
@@ -365,9 +366,11 @@ raster_t *crtc_init(void)
     raster_t *raster;
     char *title;
 
-    crtc.log = log_open ("CRTC");
+    crtc.log = log_open("CRTC");
 
-    alarm_init(&crtc.raster_draw_alarm, maincpu_alarm_context,
+    crtc.raster_draw_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+
+    alarm_init(crtc.raster_draw_alarm, maincpu_alarm_context,
                "CrtcRasterDraw", crtc_raster_draw_alarm_handler);
 
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
@@ -465,7 +468,7 @@ void crtc_reset(void)
 {
     raster_reset(&crtc.raster);
 
-    alarm_set(&crtc.raster_draw_alarm, CRTC_CYCLES_PER_LINE());
+    alarm_set(crtc.raster_draw_alarm, CRTC_CYCLES_PER_LINE());
 
     crtc.rl_visible = crtc.regs[1];
     crtc.rl_sync = crtc.regs[2];
@@ -870,7 +873,7 @@ void crtc_raster_draw_alarm_handler(CLOCK offset)
      * set up new alarm
      */
 
-    alarm_set(&crtc.raster_draw_alarm, crtc.rl_start + crtc.rl_len + 1);
+    alarm_set(crtc.raster_draw_alarm, crtc.rl_start + crtc.rl_len + 1);
 }
 
 static void crtc_exposure_handler(unsigned int width, unsigned int height)

@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "alarm.h"
 #include "c64cia.h"
 #include "interrupt.h"
 #include "maincpu.h"
@@ -198,7 +199,7 @@ inline static void store_sprite_y_position(ADDRESS addr, BYTE value)
         vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
         vic_ii.fetch_clk = (VIC_II_LINE_START_CLK(maincpu_clk)
                             + vic_ii.sprite_fetch_cycle + 1);
-        alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+        alarm_set(vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
     }
 
     vic_ii.raster.sprite_status->sprites[addr >> 1].y = value;
@@ -556,7 +557,7 @@ inline static void store_d015(ADDRESS addr, BYTE value)
         vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
         vic_ii.fetch_clk = (VIC_II_LINE_START_CLK(maincpu_clk)
                             + vic_ii.sprite_fetch_cycle + 1);
-        alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+        alarm_set(vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
     }
 
     /* Sprites are turned on: force a DMA check.  */
@@ -578,7 +579,7 @@ inline static void store_d015(ADDRESS addr, BYTE value)
             if (new_fetch_clk < vic_ii.fetch_clk) {
                 vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
                 vic_ii.fetch_clk = new_fetch_clk;
-                alarm_set(&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+                alarm_set(vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
             }
         }
     }
@@ -726,7 +727,7 @@ inline static void store_d019(ADDRESS addr, BYTE value)
         if (maincpu_clk - 1 > vic_ii.raster_irq_clk) {
             vic_ii.raster_irq_clk += vic_ii.screen_height
                                      * vic_ii.cycles_per_line;
-            alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
+            alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
         }
     }
 
@@ -736,7 +737,7 @@ inline static void store_d019(ADDRESS addr, BYTE value)
     if ((value & 1) && maincpu_clk > vic_ii.raster_irq_clk) {
         vic_ii.raster_irq_clk += vic_ii.screen_height
                                  * vic_ii.cycles_per_line;
-        alarm_set(&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
+        alarm_set(vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
     }
 
     /* Update the IRQ line accordingly...

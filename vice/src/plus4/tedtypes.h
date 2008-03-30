@@ -28,7 +28,6 @@
 #ifndef _TEDTYPES_H
 #define _TEDTYPES_H
 
-#include "alarm.h"
 #include "log.h"
 #include "raster.h"
 #include "types.h"
@@ -170,6 +169,8 @@ enum ted_idle_data_location_s {
 };
 typedef enum ted_idle_data_location_s ted_idle_data_location_t;
 
+struct alarm_s;
+
 struct ted_s {
     /* Flag: Are we initialized?  */
     int initialized;            /* = 0; */
@@ -262,9 +263,9 @@ struct ted_s {
     log_t log;                  /* = LOG_ERR; */
 
     /* TED alarms.  */
-    alarm_t raster_fetch_alarm;
-    alarm_t raster_draw_alarm;
-    alarm_t raster_irq_alarm;
+    struct alarm_s *raster_fetch_alarm;
+    struct alarm_s *raster_draw_alarm;
+    struct alarm_s *raster_irq_alarm;
 #if 0
     /* What do we do when the `A_RASTERFETCH' event happens?  */
     ted_fetch_idx_t fetch_idx;

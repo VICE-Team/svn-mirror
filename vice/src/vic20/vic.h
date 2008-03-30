@@ -33,7 +33,6 @@
 
 #include "vice.h"
 
-#include "alarm.h"
 #include "log.h"
 #include "raster/raster.h"
 #include "types.h"
@@ -131,6 +130,8 @@ struct vic_light_pen_s {
 };
 typedef struct vic_light_pen_s vic_light_pen_t;
 
+struct alarm_s;
+
 struct vic_s
 {
     int initialized;
@@ -143,7 +144,7 @@ struct vic_s
 
     BYTE regs[64];
 
-    alarm_t raster_draw_alarm;
+    struct alarm_s *raster_draw_alarm;
 
     int auxiliary_color;
     int mc_border_color;

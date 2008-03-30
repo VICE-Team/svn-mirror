@@ -193,7 +193,9 @@ raster_t *vdc_init(void)
 
     vdc.log = log_open("VDC");
 
-    alarm_init(&vdc.raster_draw_alarm, maincpu_alarm_context,
+    vdc.raster_draw_alarm = (alarm_t *)xmalloc(sizeof(alarm_t));
+
+    alarm_init(vdc.raster_draw_alarm, maincpu_alarm_context,
                "VdcRasterDraw", vdc_raster_draw_alarm_handler);
 
     vdc_powerup();
@@ -230,7 +232,7 @@ static void vdc_set_next_alarm(CLOCK offset)
     next_line_accu -= (next_alarm << 16);
 
     /* Set the next draw event. */
-    alarm_set(&vdc.raster_draw_alarm, maincpu_clk + (CLOCK)next_alarm - offset);
+    alarm_set(vdc.raster_draw_alarm, maincpu_clk + (CLOCK)next_alarm - offset);
 }
 
 static void vdc_update_geometry(void)

@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "alarm.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "snapshot.h"
@@ -136,7 +137,7 @@ int vic_snapshot_read_module(snapshot_t *s)
         vic_store(i, b);
     }
 
-    alarm_set(&vic.raster_draw_alarm, vic.draw_clk);
+    alarm_set(vic.raster_draw_alarm, vic.draw_clk);
 
     raster_force_repaint(&vic.raster);
     return snapshot_module_close(m);

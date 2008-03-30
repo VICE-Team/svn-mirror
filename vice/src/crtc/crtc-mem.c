@@ -31,11 +31,13 @@
 
 #include "vice.h"
 
+#include "alarm.h"
 #include "crtc-mem.h"
 #include "crtc.h"
 #include "crtctypes.h"
 #include "maincpu.h"
 #include "types.h"
+
 
 /* CRTC interface functions.
    FIXME: Several registers are not implemented.  */
@@ -70,27 +72,27 @@ void REGPARM2 crtc_store(ADDRESS addr, BYTE value)
         }
         crtc.rl_len = value;
         if (crtc.initialized) {
-            alarm_set(&crtc.raster_draw_alarm, crtc.rl_start + value);
+            alarm_set(crtc.raster_draw_alarm, crtc.rl_start + value);
         }
         break;
 
       case 1:                   /* R01  Horizontal characters displayed */
-          if (!(current_cycle < crtc.rl_visible))
-              break;
+        if (!(current_cycle < crtc.rl_visible))
+            break;
 
-          /* the compare is not yet done */
-          if ((crtc.regs[1]) > current_cycle) {
-              /* only if we write a higher value than the counter,
-               we can update disp_cycles here */
-              crtc.rl_visible = crtc.regs[1];
-              crtc.henable = 1;
-          } else {
-              /* we write a value lower than the counter -> never reached,
-               open border */
-              crtc.rl_visible = crtc.rl_len + 1;
-              crtc.henable = 0;
-          }
-          break;
+        /* the compare is not yet done */
+        if ((crtc.regs[1]) > current_cycle) {
+            /* only if we write a higher value than the counter,
+             we can update disp_cycles here */
+            crtc.rl_visible = crtc.regs[1];
+            crtc.henable = 1;
+        } else {
+            /* we write a value lower than the counter -> never reached,
+             open border */
+            crtc.rl_visible = crtc.rl_len + 1;
+            crtc.henable = 0;
+        }
+        break;
 
       case 2:                   /* R02  Horizontal Sync Position */
         if (current_cycle < crtc.rl_sync) {

@@ -31,7 +31,6 @@
 
 #include "vice.h"
 
-#include "alarm.h"
 #include "log.h"
 #include "raster.h"
 #include "types.h"
@@ -88,6 +87,7 @@ struct vdc_light_pen_s {
 };
 typedef struct vdc_light_pen_s vdc_light_pen_t;
 
+struct alarm_s;
 
 struct vdc_s {
     /* Flag: Are we initialized?  */
@@ -149,7 +149,7 @@ struct vdc_s {
 
     /* VDC alarms.  */
     /* Alarm to update a raster line. */
-    alarm_t raster_draw_alarm;
+    struct alarm_s *raster_draw_alarm;
 
     /* Memory address mask.  */
     int vdc_address_mask;
