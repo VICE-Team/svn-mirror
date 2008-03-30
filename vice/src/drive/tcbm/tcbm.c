@@ -33,6 +33,7 @@
 #include "tcbm.h"
 #include "tcbmrom.h"
 #include "tia1551.h"
+#include "types.h"
 
 
 int tcbm_drive_resources_init(void)

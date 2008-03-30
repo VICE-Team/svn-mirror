@@ -49,7 +49,6 @@
 #include "types.h"
 #include "vdrive-bam.h"
 #include "vdrive-snapshot.h"
-#include "viad.h"
 #include "zfile.h"
 
 
@@ -180,16 +179,9 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
         if (drive[i].enable) {
             struct drive_context_s *ctxptr =
                 (i == 0) ? &drive0_context : &drive1_context;
+
             if (drive_cpu_snapshot_write_module(ctxptr, s) < 0)
                 return -1;
-            if (drive[i].type == DRIVE_TYPE_1541
-                || drive[i].type == DRIVE_TYPE_1541II
-                || drive[i].type == DRIVE_TYPE_2031) {
-                if (via1d_snapshot_write_module(ctxptr, s) < 0
-                    || via2d_snapshot_write_module(ctxptr, s) < 0)
-                    return -1;
-            }
-
             if (machine_drive_snapshot_write(ctxptr, s) < 0)
                 return -1;
         }
@@ -367,16 +359,9 @@ int drive_snapshot_read_module(snapshot_t *s)
         if (drive[i].enable) {
             struct drive_context_s *ctxptr =
                 (i == 0) ? &drive0_context : &drive1_context;
+
             if (drive_cpu_snapshot_read_module(ctxptr, s) < 0)
                 return -1;
-            if (drive[i].type == DRIVE_TYPE_1541
-                || drive[i].type == DRIVE_TYPE_1541II
-                || drive[i].type == DRIVE_TYPE_2031) {
-                if (via1d_snapshot_read_module(ctxptr, s) < 0
-                    || via2d_snapshot_read_module(ctxptr, s) < 0)
-                    return -1;
-            }
-
             if (machine_drive_snapshot_read(ctxptr, s) < 0)
                 return 1;
         }

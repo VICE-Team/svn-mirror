@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "drive.h"
 #include "drivetypes.h"
 #include "fdc.h"
 #include "ieee-cmdline-options.h"
@@ -34,6 +35,7 @@
 #include "ieeerom.h"
 #include "memieee.h"
 #include "riotd.h"
+#include "types.h"
 #include "viad.h"
 
 
