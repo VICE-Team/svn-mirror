@@ -2,7 +2,8 @@
  * tpi.h - IEEE488 interface for the C64.
  *
  * Written by 
- *   Andre' Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andre' Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,16 +30,22 @@
 
 #include "types.h"
 
+struct machine_context_s;
 struct snapshot_s;
+struct tpi_context_s;
 
-extern void tpi_init(void);
-extern void tpi_reset(void);
+extern void tpi_setup_context(struct machine_context_s *machine_context);
+
+extern void tpi_init(struct tpi_context_s *tpi_context);
+extern void tpi_reset(struct tpi_context_s *tpi_context);
 extern void REGPARM2 tpi_store(WORD addr, BYTE byte);
 extern BYTE REGPARM1 tpi_read(WORD addr);
 extern BYTE tpi_peek(WORD addr);
 
-extern int tpi_snapshot_write_module(struct snapshot_s *p);
-extern int tpi_snapshot_read_module(struct snapshot_s *p);
+extern int tpi_snapshot_write_module(struct tpi_context_s *tpi_context,
+                                     struct snapshot_s *p);
+extern int tpi_snapshot_read_module(struct tpi_context_s *tpi_context,
+                                    struct snapshot_s *p);
 
 #endif
 
