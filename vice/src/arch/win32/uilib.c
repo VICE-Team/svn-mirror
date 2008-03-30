@@ -224,6 +224,8 @@ HWND    preview;
 char    *contents;
 char    filename[256];
 int     index;
+int     append_extension = 0;
+char    *extension;
 
     preview=GetDlgItem(hwnd,IDC_PREVIEW);
     switch (uimsg) {
@@ -250,6 +252,47 @@ int     index;
             }
             break;
         case WM_COMMAND:
+            switch (LOWORD(wparam)) {
+                case IDC_BLANK_IMAGE:
+                    if (SendMessage(GetParent(hwnd),
+                        CDM_GETSPEC,256,(LPARAM)filename)<=1) {
+                        ui_error("Please enter a filename.");
+                        return -1;
+                    }
+                    if (strchr(filename,'.') == NULL) {
+                        append_extension = 1;
+                    } else {
+                        /*  Find last dot in name */
+                        extension=strrchr(filename,'.');
+                        /*  Skip dot */
+                        extension++;
+                        /*  Figure out if it's a standard extension */
+                        if (strncasecmp(extension,"tap",3)==0) {
+                        }
+                    }
+                    if (SendMessage(GetParent(hwnd),
+                        CDM_GETFILEPATH,256,(LPARAM)filename)>=0)
+                    {
+                        if (append_extension) {
+                            strcat(filename,".");
+                            strcat(filename,"tap");
+                        }
+                        if (file_exists_p(filename)) {
+                            int ret;
+                            ret = MessageBox(hwnd, "Overwrite existing image?",
+                                "VICE question", MB_YESNO | MB_ICONQUESTION);
+                            if (ret != IDYES)
+                                return -1;
+                        }
+                        if (disk_image_create(filename, DISK_IMAGE_TYPE_TAP))
+                        {
+                            ui_error("Cannot create image");
+                            return -1;
+                        }
+                    }
+                    break;
+            }
+
             switch (HIWORD(wparam)) {
                 case LBN_DBLCLK:
                     if (autostart_result!=NULL) {
@@ -318,7 +361,7 @@ static UINT APIENTRY hook_proc(HWND hwnd, UINT uimsg, WPARAM wparam, LPARAM lpar
                 SendDlgItemMessage(hwnd,IDC_PREVIEW,WM_SETFONT,
                     (WPARAM)hfont,MAKELPARAM(TRUE,0));
             }
-            SetDlgItemText(hwnd,IDC_BLANK_IMAGE_NAME,"Vice");
+            SetDlgItemText(hwnd,IDC_BLANK_IMAGE_NAME,"vice");
             SetDlgItemText(hwnd,IDC_BLANK_IMAGE_ID,"1a");
             break;
         case WM_NOTIFY:

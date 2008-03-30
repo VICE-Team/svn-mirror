@@ -142,7 +142,7 @@ int ui_empty_disk_dialog(char *name)
 {
     gint res;
     char *fname, *id, *format_text;
-    int i, type, ret = 0;
+    int i, type = 0, ret = 0;
 
     if (edisk_dialog)
     {

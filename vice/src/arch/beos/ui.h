@@ -89,10 +89,11 @@ extern void ui_dispatch_events(void);
 extern void ui_add_event(void *msg);
 extern void ui_display_speed(float percent, float framerate, int warp_flag);
 extern void ui_message(const char *format,...);
+extern void ui_error(const char *format,...);
+extern void ui_error_string(const char *text);
 extern void ui_show_text(const char *caption, const char *header,const char *text);
 extern void ui_cmdline_show_options(void);
 extern void ui_update_menus(void);
 extern void mon(ADDRESS a);
 
 #endif
-

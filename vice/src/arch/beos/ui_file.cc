@@ -33,63 +33,107 @@
 extern "C" {
 #include "attach.h"
 #include "autostart.h"
+#include "machine.h"
 #include "tape.h"
 #include "uiapi.h"
 #include "ui_file.h"
+#include "utils.h"
 }
 
-static int last_fileparam;
-static int last_filetype;
+static int last_fileparam[2]; /* 0=filepanel, 1=savepanel */
+static int last_filetype[2];
 
 void ui_select_file(BFilePanel *filepanel, 
 					filetype_t filetype, 
 					int fileparam) {
 
+	int panelnr;
 	char title[40];
+	sprintf(title,"VICE filepanel"); /* default */
 
-	/* Modify the file panel */
+	/* Modify the panel */
 	if (filetype == DISK_FILE)
 		sprintf(title,"Attach Disk %d",fileparam);
 	if (filetype == TAPE_FILE)
 		sprintf(title,"Attach Tape");
 	if (filetype == AUTOSTART_FILE)
 		sprintf(title,"Autostart");
+	if (filetype == SNAPSHOTSAVE_FILE)
+		sprintf(title,"Save snapshot");
+	if (filetype == SNAPSHOTLOAD_FILE)
+		sprintf(title,"Load snapshot");
 
 	filepanel->Window()->SetTitle(title);
 
 	filepanel->Show();
 
 	/* remember for later action */
-	last_fileparam = fileparam;
-	last_filetype = filetype;
+
+	panelnr = (filepanel->PanelMode() == B_OPEN_PANEL ? 0 : 1);
+		
+	last_fileparam[panelnr] = fileparam;
+	last_filetype[panelnr] = filetype;
 }
 	
 void ui_select_file_action(BMessage *msg) {
-	entry_ref 	ref;		// The entry_ref to open
-	status_t 	err;		// The error code
-	BPath		*path;		// The Path to the file
+		entry_ref 	ref;
+		status_t 	err;
+		BPath		*path;
+
+	if (msg->what == B_REFS_RECEIVED) {
+		/* an open action */		
+		/* extract the selected filename from the message */
+		if ((err = msg->FindRef("refs", 0, &ref)) != B_OK) {
+			ui_error("No File selected ?!");
+			return;
+		}
+		path = new BPath(&ref);
 	
-	/* extract the selected filename from the message */
-	if ((err = msg->FindRef("refs", 0, &ref)) != B_OK) {
-		ui_error("No File selected ?!");
-		return;
+		/* now the ACTION */
+    	if (last_fileparam[0] >= 8  && last_fileparam[0] <= 11) {
+    		/* it's a disk-attach */
+    		if (file_system_attach_disk(last_fileparam[0], path->Path()) < 0)
+        		ui_error("Cannot attach specified file");
+		} else if (last_fileparam[0] == 1) {
+			/* it's a tape-attach */
+    		if (tape_attach_image(path->Path()) < 0)
+        		ui_error("Cannot attach specified file");
+		} else if (last_filetype[0] == AUTOSTART_FILE) {
+			if (autostart_autodetect(path->Path(), NULL, 0) < 0)
+  				ui_error("Cannot autostart specified file.");
+		} else if (last_filetype[0] == SNAPSHOTLOAD_FILE) {
+	    	if (machine_read_snapshot(path->Path())<0) {
+        		ui_error("Cannot read snapshot image");
+        	}
+    	}
+    	
+		delete path;	
 	}
-	path = new BPath(&ref);
 	
-	/* now the ACTION */
-    if (last_fileparam >= 8  && last_fileparam <= 11) {
-    	/* it's a disk-attach */
-    	if (file_system_attach_disk(last_fileparam, path->Path()) < 0)
-        	ui_error("Cannot attach specified file");
-	} else if (last_fileparam == 1) {
-		/* it's a tape-attach */
-    	if (tape_attach_image(path->Path()) < 0)
-        	ui_error("Cannot attach specified file");
-	} else if (last_filetype == AUTOSTART_FILE) {
-		if (autostart_autodetect(path->Path(), NULL, 0) < 0)
-  			ui_error("Cannot autostart specified file.");
+	if (msg->what == B_SAVE_REQUESTED) {
+		char *fullpath;
+		const char *name;
+		/* a save action */
+		/* first create the full path */
+		if ((err = msg->FindRef("directory", &ref)) != B_OK) {
+			ui_error("Wrong directory");
+			return;
+		}
+		if ((err = msg->FindString("name", &name)) != B_OK) {
+			ui_error("Wrong name");
+			return;
+		}
+		path = new BPath(&ref);
+		fullpath = concat(path->Path(),"/",name,NULL);
+		
+		/* now the action */
+		if (last_filetype[1] == SNAPSHOTSAVE_FILE) {
+			if (machine_write_snapshot(fullpath, 1, 1) < 0)
+            	ui_error("Cannot write snapshot file.");
+		}
+		
+		delete path;
+		delete fullpath;
 	}
-	
-	delete path;	
 }
 

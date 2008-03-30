@@ -38,6 +38,7 @@
 #include "diskimage.h"
 #include "gcr.h"
 #include "log.h"
+#include "tap.h"
 #include "types.h"
 #include "utils.h"
 #include "vdrive.h"
@@ -615,6 +616,8 @@ int disk_image_create(const char *name, unsigned int type)
         break;
       case DISK_IMAGE_TYPE_G64:
         break;
+      case DISK_IMAGE_TYPE_TAP:
+        break;
       default:
         log_error(disk_image_log,
                   "Wrong image type.  Cannot create disk image.");
@@ -684,6 +687,18 @@ int disk_image_create(const char *name, unsigned int type)
             return -1;
         }
         break;
+      case DISK_IMAGE_TYPE_TAP:
+        /* create an empty tap */
+        strcpy(&block[TAP_HDR_MAGIC_OFFSET],"C64-TAPE-RAW");
+        block[TAP_HDR_VERSION] = 1;
+        dword_to_le_buf(&block[TAP_HDR_LEN], 4);
+        if (fwrite(block, 24, 1, image->fd) <1) {
+                fclose(image->fd);
+                free(image->name);
+                free(image);
+                return -1;
+        }
+
     }
 
     fclose(image->fd);

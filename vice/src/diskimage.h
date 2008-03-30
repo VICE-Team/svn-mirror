@@ -47,6 +47,7 @@
 #define DISK_IMAGE_TYPE_D81 1581
 #define DISK_IMAGE_TYPE_D80 8050
 #define DISK_IMAGE_TYPE_D82 8250
+#define DISK_IMAGE_TYPE_TAP 1531
 
 struct gcr_s;
 

@@ -40,6 +40,7 @@
 #include "utils.h"
 
 static log_t gnomevideo_log = LOG_ERR;
+canvas_t *dangling_canvas = NULL; /* remember canvas after freeing the FB */
 
 void video_init_arch(void)
 {
@@ -61,7 +62,6 @@ inline void GDK_PUTIMAGE(Display *d, GdkPixmap *drawable, GdkGC *gc,
 
   gdk_flush();
 }
-
 
 int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
 			     unsigned int height)
@@ -101,16 +101,17 @@ int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
     if (!i->x_image)
 	return -1;
 
-    if (i->canvas)
+    if (dangling_canvas)
     {
 	/* reusage of existing canvas, so reallocate drawable */
-	i->canvas->width = width;
-	i->canvas->height = height;
+	dangling_canvas->width = width;
+	dangling_canvas->height = height;
 	/* destroy the old pixmap here ?
 	  e.g. 	gdk_window_destroy(GDK_WINDOW(i->canvas->drawable));
 	  FIXME!
 	*/
-	ui_finish_canvas(i->canvas);
+	ui_finish_canvas(dangling_canvas);
+	dangling_canvas = NULL;
     }
  
     video_refresh_func((void (*)(void))GDK_PUTIMAGE);
@@ -151,6 +152,9 @@ void ui_finish_canvas(canvas_t *c)
 
     depth = ui_get_display_depth();
 
+    if (c->drawable)
+	gdk_pixmap_unref(c->drawable);    
+    
     c->drawable = gdk_pixmap_new(c->emuwindow->window, 
 				 c->width, c->height, depth);
     gdk_window_set_back_pixmap(c->emuwindow->window, 

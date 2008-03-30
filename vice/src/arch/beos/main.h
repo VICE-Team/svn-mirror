@@ -27,7 +27,7 @@
 #ifndef __MAIN_H__
 #define __MAIN_H__
 
-extern const char *APP_SIGNATURE;
+extern char APP_SIGNATURE[256];
 
 class ViceApp : public BApplication {
 	public:

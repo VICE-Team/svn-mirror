@@ -28,12 +28,11 @@
 
 #include "vicewindow.h"
 #include <Screen.h>
+#include <stdlib.h>
 
 extern "C" {
 
 #include "vice.h"
-
-#include <stdlib.h>
 
 #include "cmdline.h"
 #include "log.h"
@@ -42,8 +41,10 @@ extern "C" {
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "utils.h"
 #include "video.h"
+}
 
 /* #define DEBUG_VIDEO */
 
@@ -57,10 +58,6 @@ void video_resize(void);
 
 /* Main Objects */
 int number_of_canvas = 0;
-//BBitmap *mainbitmap;
-//extern BWindow *mainwindow;
-//extern BView *mainview; 
-
 
 /* ------------------------------------------------------------------------ */
 /* Video-related resources.  */
@@ -77,15 +74,6 @@ int video_init_resources(void)
     return resources_register(resources);
 }
 
-/* ------------------------------------------------------------------------ */
-
-/* Video-related command-line options.  */
-/*
-static cmdline_option_t cmdline_options[] = {
-    { NULL }
-};
-*/
-
 int video_init_cmdline_options(void)
 {
     return 0;
@@ -101,11 +89,11 @@ int video_init(void)
 
 /* ------------------------------------------------------------------------ */
 /* Frame buffer functions.  */
-int video_frame_buffer_alloc(frame_buffer_t *f,
+int video_frame_buffer_alloc(video_frame_buffer_t **f,
                        unsigned int width,
                        unsigned int height)
 {
-	*f = (frame_buffer_t) xmalloc(sizeof(struct _frame_buffer));
+	*f = (video_frame_buffer_t *) xmalloc(sizeof(video_frame_buffer_t *));
 	(*f)->width = width;
 	(*f)->height = height;
     (*f)->buffer = (PIXEL*)xmalloc(width*height*sizeof(PIXEL));
@@ -113,22 +101,18 @@ int video_frame_buffer_alloc(frame_buffer_t *f,
     return 0;
 }
 
-void video_frame_buffer_free(frame_buffer_t *f)
+void video_frame_buffer_free(video_frame_buffer_t *f)
 {
-    frame_buffer_t  tempf;
-
-	if (!f || !*f)
+	if (!f)
 		return;
-	tempf = *f;
-	DEBUG(("video_frame_buffer_free: %x",tempf->buffer));   	
-	*f = NULL;
-	free(tempf->buffer);
-	free(tempf);
+	DEBUG(("video_frame_buffer_free: %x",f->buffer));   	
+	free(f->buffer);
+	free(f);
 }
 
-void video_frame_buffer_clear(frame_buffer_t *f, PIXEL value)
+void video_frame_buffer_clear(video_frame_buffer_t *f, PIXEL value)
 {
-	memset((*f)->buffer,value,(*f)->height*(*f)->width);
+	memset(f->buffer, value, f->height * f->width);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -184,6 +168,8 @@ void canvas_unmap(canvas_t *c)
 void canvas_resize(canvas_t *c, unsigned int width, unsigned int height)
 {
 	c->vicewindow->Resize(width,height);
+	c->width = width;
+	c->height = height;
 	DEBUG(("canvas_resize to %d x %d",width,height));
 }
 
@@ -205,19 +191,19 @@ int canvas_set_palette(canvas_t *c, const palette_t *p, PIXEL *pixel_return)
 }
 
 /* ------------------------------------------------------------------------ */
-void canvas_refresh(canvas_t *c, frame_buffer_t f,
+void canvas_refresh(canvas_t *c, video_frame_buffer_t *f,
                     unsigned int xs, unsigned int ys,
                     unsigned int xi, unsigned int yi,
                     unsigned int w, unsigned int h)
 {
 	int y;
+
 	for (y=0; y<h; y++)
 	{
-		memcpy((PIXEL*)c->vicewindow->bitmap->Bits()
-			+ (yi+y) * c->vicewindow->bitmap->BytesPerRow() + xi,
-			(PIXEL*)f->buffer + (ys+y) * FRAME_BUFFER_LINE_SIZE(f) + xs,w);
+		if (yi+y >= 0 && yi+y < c->height)
+			memcpy((PIXEL*)c->vicewindow->bitmap->Bits()
+				+ (yi+y) * c->vicewindow->bitmap->BytesPerRow() + xi,
+				(PIXEL*)f->buffer + (ys+y) * VIDEO_FRAME_BUFFER_LINE_SIZE(f) + xs,w);
 	}
 	c->vicewindow->DrawBitmap();
-}
-
 }

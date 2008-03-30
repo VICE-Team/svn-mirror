@@ -2,7 +2,7 @@
  * vsync.c - Display synchronization for BeOS
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Dag Lem <resid@nimrod.no>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,6 +28,7 @@
 
 #include <OS.h>
 #include <stdio.h>
+#include <sys/time.h>
 
 #include "clkguard.h"
 #include "cmdline.h"
@@ -43,6 +44,9 @@
 #include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
+
+static int set_timer_speed(int speed);
+
 /* Relative speed of the emulation (%).  0 means "don't limit speed".  */
 static int relative_speed;
 
@@ -52,10 +56,10 @@ static int refresh_rate;
 /* "Warp mode".  If nonzero, attempt to run as fast as possible.  */
 static int warp_mode_enabled;
 
-/* FIXME: This should call `set_timers'.  */
 static int set_relative_speed(resource_value_t v)
 {
     relative_speed = (int) v;
+    set_timer_speed(relative_speed);
     return 0;
 }
 
@@ -71,6 +75,7 @@ static int set_warp_mode(resource_value_t v)
 {
     warp_mode_enabled = (int) v;
     sound_set_warp_mode(warp_mode_enabled);
+    set_timer_speed(relative_speed);
     return 0;
 }
 
@@ -125,186 +130,201 @@ static long cycles_per_sec;
 /* Function to call at the end of every screen frame.  */
 static void (*vsync_hook)(void);
 
-/* Flag: if nonzero, it means we have stopped evaluating the average speed.
-   Evaluation will start again at the next `do_vsync()' call.  */
-static int speed_eval_suspended = 1;
+/* ------------------------------------------------------------------------- */
 
-/* Count elapsed frames.  */
-static int frame_counter;
+/* static guarantees zero values. */
+static struct timeval now;
+static struct timeval frame_start;
+static struct timeval display_start;
+static long frame_usec;
 
-/* Count skipped frames.  */
-static int skip_counter = 0;
-
-/* Count skipped frames in an evaluation interval.  */
-static int drawn_frames;
-
-/* Start of speed evaluation period.  */
-static DWORD speed_eval_start;
-
-/* Clock value at start of speed evalutation period.  */
-static CLOCK speed_eval_clk_start;
-
-/* Speed of the timer callback; 0 = no callback.  */
 static int timer_speed = 0;
+static int speed_eval_suspended = 1;
+static CLOCK speed_eval_prev_clk;
 
-static DWORD timer_interval;
+/* Initialize vsync timers and set relative speed of emulation in percent. */
+static int set_timer_speed(int speed)
+{
+  speed_eval_suspended = 1;
 
-static DWORD last_time;
+  if (speed > 0) {
+    timer_speed = speed;
+    frame_usec = 1000000/refresh_frequency*100/speed;
+  }
+  else {
+    timer_speed = 0;
+    frame_usec = 0;
+  }
+
+  return 0;
+}
+
+/* Display speed (percentage) and frame rate (frames per second). */
+static void display_speed(int num_frames)
+{
+  CLOCK diff_clk;
+  double long diff_sec;
+  double speed_index;
+  double frame_rate;
+
+  gettimeofday(&now, NULL);
+
+  diff_clk = clk - speed_eval_prev_clk;
+  diff_sec = (now.tv_sec - display_start.tv_sec)
+    + (now.tv_usec - display_start.tv_usec)/1000000.0;
+
+  frame_rate = num_frames/diff_sec;
+  speed_index = 100.0*diff_clk/(cycles_per_sec*diff_sec);
+  ui_display_speed((float)speed_index, (float)frame_rate,
+		   warp_mode_enabled);
+
+  display_start = now;
+  speed_eval_prev_clk = clk;
+}
 
 static void clk_overflow_callback(CLOCK amount, void *data)
 {
-    speed_eval_clk_start -= amount;
+    speed_eval_prev_clk -= amount;
 }
+
+/* ------------------------------------------------------------------------- */
 
 void vsync_set_machine_parameter(double refresh_rate, long cycles)
 {
     refresh_frequency = refresh_rate;
     cycles_per_sec = cycles;
+    set_timer_speed(relative_speed);
 }
 
 void vsync_init(void (*hook)(void))
 {
     vsync_hook = hook;
-    suspend_speed_eval();
     vsync_disable_timer();
-
-    /* This makes sure we evaluate speed correctly the first time.  */
-    speed_eval_suspended = 1;
-
+    suspend_speed_eval();
     clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
-int do_vsync(int been_skipped)
+/* FIXME: This function is not needed here anymore, however it is
+   called from sound.c and can only be removed if all other ports are
+   changed to use similar vsync code. */
+int vsync_disable_timer(void)
 {
-    int skip_next_frame = 0;    /* 0 means "never skip".  */
-    DWORD now_time;
-    DWORD diff_time;
-
-    /* Call the hooks that need to be executed at every vertical retrace.  */
-    vsync_hook();
-
-    /* Dispatch all the pending UI events.  */
-    ui_dispatch_events();
-
-    /* Update mouse */
-    mouse_update_mouse();
-
-    now_time=real_time_clock_usecs();
-
-    if (warp_mode_enabled) {
-        /* "Warp" mode: run as fast as possible.  */
-        if (skip_counter >= MAX_SKIPPED_FRAMES) {
-            skip_counter = 0;
-            skip_next_frame = 0;
-        } else {
-            skip_counter++;
-            skip_next_frame = 1;
-        }
-    } else if (refresh_rate > 0) {
-        /* Fixed refresh rate.  */
-        if (timer_speed != 0) {
-            now_time=real_time_clock_usecs();
-            diff_time=now_time-last_time;
-            snooze(timer_interval * (skip_counter + 1) - diff_time);
-            now_time=real_time_clock_usecs();
-        }
-        if (skip_counter >= refresh_rate - 1) {
-            skip_counter = 0;
-            skip_next_frame = 0;
-            last_time=now_time;
-        } else {
-            skip_counter++;
-            skip_next_frame = 1;
-        }
-    } else {
-        /* Automatic adjustment.  */
-        if (timer_speed == 0) {
-            skip_next_frame = 0;
-            skip_counter = 0;
-        } else {
-            now_time=real_time_clock_usecs();
-            diff_time=now_time-last_time;
-            if (diff_time<timer_interval*(skip_counter+1)) {
-                /*  We are too fast: wait */
-                snooze(timer_interval*(skip_counter+1)-diff_time);
-                skip_counter=0;
-                last_time=real_time_clock_usecs();
-            } else {
-                /*  We are too slow: drop frames */
-                if (skip_counter < MAX_SKIPPED_FRAMES) {
-                    skip_counter++;
-                    skip_next_frame = 1;
-                } else {
-                    /*  Too many skipped frames: give up!  */
-                    skip_counter = 0;
-                    skip_next_frame = 0;
-                    last_time=now_time;
-                }
-            }
-        }
-    }
-
-    if (speed_eval_suspended || clk < speed_eval_clk_start) {
-        drawn_frames = 0;
-        frame_counter = 0;
-        speed_eval_start = real_time_clock_usecs();
-        speed_eval_clk_start = clk;
-    } else {
-        frame_counter++;
-
-        /* Evaluate speed every 2 emulated seconds.  */
-        if (frame_counter == 2 * (int)(refresh_frequency + .5)) {
-            DWORD speed_eval_end;
-            double elapsed_secs, speed_index;
-            double fps;
-
-            speed_eval_end = real_time_clock_usecs();
-            elapsed_secs = ((double) (speed_eval_end - speed_eval_start)
-                            / 1000000.0);
-            speed_index = 100.0 * ((double) (clk - speed_eval_clk_start)
-                                   / elapsed_secs / cycles_per_sec);
-            fps = (double) drawn_frames / elapsed_secs;
-            ui_display_speed((float) speed_index, (float) fps,
-                             warp_mode_enabled);
-            speed_eval_start = speed_eval_end;
-            speed_eval_clk_start = clk;
-            drawn_frames = frame_counter = 0;
-        }
-    }
-
-    if (!skip_next_frame)
-        drawn_frames++;
-
-    if (speed_eval_suspended)
-        speed_eval_suspended = 0;
-
-    sound_flush(warp_mode_enabled ? 0 : relative_speed);
-
-    /* Flush keypresses emulated through the keyboard buffer.  */
-    kbd_buf_flush();
-    joystick_update();
-
-    if (timer_speed!=relative_speed) {
-        if (relative_speed!=0) {
-            timer_interval = (DWORD)(((100.0/(double)relative_speed)
-                             / refresh_frequency)*1000000.0+.5);
-        }
-        timer_speed = relative_speed;
-        last_time=now_time;
-        skip_counter=0;
-    }
-
-    return skip_next_frame;
+	return 0;
 }
 
+/* This should be called whenever something that has nothing to do with the
+   emulation happens, so that we don't display bogus speed values. */
 void suspend_speed_eval(void)
 {
+    sound_suspend();
     speed_eval_suspended = 1;
 }
 
-int vsync_disable_timer(void)
+/* This is called at the end of each screen frame. It flushes the
+   audio buffer and keeps control of the emulation speed.  */
+int do_vsync(int been_skipped)
 {
-    timer_speed=0;
-    return 0;
+  static int frame_counter = 0;
+  static int skipped_frames = 0;
+  static int skipped_redraw = 0;
+  long usec;
+  int frame_delay;
+  int skip_next_frame;
+  struct timeval frame_start_cmp;
+
+  if (been_skipped) {
+    skipped_frames++;
+  }
+
+  /* Get current time. */
+  gettimeofday(&now, NULL);
+
+  /* Start afresh after pause in frame output. */
+  if (speed_eval_suspended) {
+    speed_eval_prev_clk = clk;
+    display_start = now;
+    frame_start = now;
+    skipped_redraw = 0;
+    skipped_frames = 0;
+    frame_counter = 0;
+    speed_eval_suspended = 0;
+  }
+
+  /* Allow delay of up to one frame before skipping frames. */
+  usec = frame_start.tv_usec + frame_usec;
+  frame_start_cmp.tv_sec = frame_start.tv_sec + usec/1000000;
+  frame_start_cmp.tv_usec = usec%1000000;
+  
+  /* Check whether we're on time. */
+  if (warp_mode_enabled || !timer_speed
+      || timercmp(&now, &frame_start_cmp, >))
+  {
+    /* Skip next frame if allowed.
+       If warp_mode_enabled is set, as many frames are skipped as allowed.
+       If refresh_rate is set, frames are only skipped to output frames
+       at the specified interval, not to keep up to speed.
+    */
+    if (skipped_redraw < MAX_SKIPPED_FRAMES
+	&& (warp_mode_enabled
+	    || !refresh_rate || skipped_redraw < refresh_rate - 1))
+    {
+      skip_next_frame = 1;
+      skipped_redraw++;
+    }
+    else {
+      skip_next_frame = 0;
+      skipped_redraw = 0;
+    }
+  }
+  else {
+    /* Sleep until start of frame. We have to sleep even if no frame
+       is output because of sound synchronization.
+       FIXME: Sound synchronization.
+    */
+    long delay = (frame_start.tv_sec - now.tv_sec)*1000000
+      + frame_start.tv_usec - now.tv_usec;
+    if (delay > 0) {
+      usleep(delay);
+    }
+
+    /* Output frames at specified interval. */
+    if (refresh_rate && skipped_redraw < refresh_rate - 1
+	&& skipped_redraw < MAX_SKIPPED_FRAMES)
+    {
+      skip_next_frame = 1;
+      skipped_redraw++;
+    }
+    else {
+      skip_next_frame = 0;
+      skipped_redraw = 0;
+    }
+  }
+
+  /* This point in the code is reached at a more or less constant time
+     frequency; this is necessary for the synchronization in sound_flush.
+  */
+  frame_delay = -sound_flush(warp_mode_enabled ? 0 : relative_speed);
+
+  /* Set time for next frame. */
+  usec = frame_start.tv_usec + frame_usec*(frame_delay + 1);
+  frame_start.tv_sec += usec/1000000;
+  frame_start.tv_usec = usec%1000000;
+
+  /* Update display every two seconds. */
+  if (++frame_counter > refresh_frequency*2) {
+    display_speed(frame_counter - skipped_frames);
+    frame_counter = 0;
+    skipped_frames = 0;
+  }
+
+  /* Run vsync jobs. */
+  vsync_hook();
+  ui_dispatch_events();
+  kbd_buf_flush();
+#ifdef HAS_JOYSTICK
+  joystick_update();
+#endif
+
+  return skip_next_frame;
 }
 

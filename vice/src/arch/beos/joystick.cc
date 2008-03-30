@@ -32,7 +32,6 @@ extern "C" {
 
 #include "cmdline.h"
 #include "resources.h"
-
 #include "joystick.h"
 #include "log.h"
 #include "keyboard.h"
@@ -228,7 +227,6 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
 {
     if (joystick_device_1 == device || joystick_device_2 == device) {
         BYTE value = 0;
-		ui_error("Its me");
         if (kcode == set[KEYSET_NW])    /* North-West */
             value = 5;
         else if (kcode == set[KEYSET_N]) /* North */

@@ -1028,7 +1028,7 @@ char *dname;
         break;
       case IDM_FLIP_REMOVE|0x00010000:
       case IDM_FLIP_REMOVE:
-        flip_remove(-1, NULL);
+        flip_remove(8, NULL);
         break;
       case IDM_FLIP_NEXT|0x00010000:
       case IDM_FLIP_NEXT:

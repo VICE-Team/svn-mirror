@@ -51,6 +51,7 @@ class ViceWindow : public BWindow {
 		BBitmap			*bitmap;
 		BView			*view;
 		BFilePanel		*filepanel;	
+		BFilePanel		*savepanel;	
 };
 
 extern void about_vice(void);

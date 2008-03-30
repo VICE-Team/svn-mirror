@@ -26,10 +26,12 @@
 
 #include <Application.h>
 #include <Message.h>
+#include <string.h>
 
 extern "C" {
 #include "beos.h"
 #include "constants.h"
+#include "machine.h"
 #include "main.h"
 #include "maincpu.h"
 #include "main_exit.h"
@@ -38,7 +40,7 @@ extern "C" {
 static int viceargc;
 static char** viceargv;
 
-const char *APP_SIGNATURE = "application/x-vnd.BeVICE";
+char APP_SIGNATURE[256];
 
 ViceApp::ViceApp()
 			: BApplication(APP_SIGNATURE) {
@@ -72,6 +74,8 @@ void ViceApp::MessageReceived(BMessage *message) {
 
 
 int main(int argc, char **argv) {
+ 	strcpy(APP_SIGNATURE,"application/x-vnd.Be");
+	strcat(APP_SIGNATURE,machine_name);
 	viceargc = argc;
 	viceargv = argv;
 	ViceApp theApp;		// The application object

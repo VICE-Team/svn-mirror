@@ -39,8 +39,8 @@ extern "C" {
 #include "drive.h"
 #include "info.h"
 #include "interrupt.h"
-#include "log.h"
 #include "kbd.h"
+#include "log.h"
 #include "main.h"
 #include "keyboard.h"
 #include "machine.h"
@@ -53,6 +53,7 @@ extern "C" {
 #include "ui_file.h"
 #include "utils.h"
 #include "vicewindow.h"
+#include "vsync.h"
 }
 
 /* FIXME: some stuff we need from the ui module */
@@ -60,8 +61,6 @@ extern ViceWindow 			*windowlist[];
 extern int 					window_count;
 extern ui_res_value_list   	*machine_specific_values;
 extern ui_menu_toggle      	*machine_specific_toggles;
-//extern ui_menu_toggle  		toggle_list[];
-//extern ui_res_value_list 	value_list[];
 
 
 void ViceWindow::Update_Menus(
@@ -158,7 +157,8 @@ Official VICE homepage:\n\
 http://www.cs.cmu.edu/~dsladic/vice/vice.html",
 		VERSION);
 	aboutalert = new BAlert("about",abouttext,"OK");
-	aboutalert->Go();	
+	aboutalert->Go();
+	suspend_speed_eval();
 }
 
 ViceWindow::ViceWindow(BRect frame, char const *title) 
@@ -175,6 +175,10 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
 
 	/* create the File Panel */
 	filepanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL,
+				B_FILE_NODE, false);
+
+	/* create the Save Panel */
+	savepanel = new BFilePanel(B_SAVE_PANEL, new BMessenger(this), NULL,
 				B_FILE_NODE, false);
 		
 	bitmap = new BBitmap(frame,B_CMAP8,false,true);
@@ -194,6 +198,7 @@ ViceWindow::~ViceWindow() {
 	RemoveChild(view);
 	delete view;
 	delete filepanel;
+	delete savepanel;
 }
 
 
@@ -218,11 +223,14 @@ bool ViceWindow::QuitRequested() {
 }
 
 void ViceWindow::MessageReceived(BMessage *message) {
-	
+	/* FIXME: sometimes the menubar holds the focus so we have to delete it */ 
+	if (CurrentFocus()) {
+		menubar->MakeFocus(false);
+	}
+		
 	ui_add_event(message);
 	switch(message->what) {
 		default:
-
 			BWindow::MessageReceived(message);
 			break;
 	}

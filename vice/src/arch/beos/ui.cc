@@ -53,11 +53,11 @@ extern "C" {
 #include "interrupt.h" 
 #include "kbd.h"
 #include "keyboard.h"
+#include "log.h"
 #include "machine.h"
 #include "main.h"
 #include "maincpu.h"
 #include "mem.h"
-//#include "mon.h"
 #include "mos6510.h"
 #include "mouse.h"
 #include "resources.h"
@@ -69,6 +69,7 @@ extern "C" {
 #include "version.h"
 #include "vsync.h"
 #include "vicewindow.h"
+}
 
 /* sometimes we may need pointers to the ViceWindows */
 #define MAX_WINDOWS 10
@@ -176,6 +177,126 @@ void ui_exit(void)
 {
 }
 
+static void mon_trap(ADDRESS addr, void *unused_data)
+{
+    mon(addr);
+}
+
+static void save_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+{
+	ui_select_file(windowlist[0]->savepanel,SNAPSHOTSAVE_FILE,0);
+}
+
+static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
+{
+	ui_select_file(windowlist[0]->filepanel,SNAPSHOTLOAD_FILE,0);
+}
+
+typedef struct {
+    char    name[256];
+    int     valid;
+} snapfiles;
+
+static snapfiles    files[10];
+static int          lastindex;
+static int          snapcounter;
+
+static void save_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
+{
+int     i,j;
+char    *fullname;
+char    *fullname2;
+
+    if (lastindex==-1) {
+        lastindex=0;
+        strcpy(files[lastindex].name,"quicksnap0.vsf");
+    } else {
+        if (lastindex==9) {
+            if (snapcounter==10) {
+                fullname=concat(archdep_boot_path(),"/",machine_name,"/",files[0].name,NULL);
+                remove(fullname);
+                free(fullname);
+                for (i=1; i<10; i++) {
+                    fullname=concat(archdep_boot_path(),"/",machine_name,"/",files[i].name,NULL);
+                    fullname2=concat(archdep_boot_path(),"/",machine_name,"/",files[i-1].name,NULL);
+                    rename(fullname,fullname2);
+                    free(fullname);
+                    free(fullname2);
+                }
+            } else {
+                for (i=0; i<10; i++) {
+                    if (files[i].valid==0) break;
+                }
+                for (j=i+1; j<10; j++) {
+                    if (files[j].valid) {
+                        strcpy(files[i].name,files[j].name);
+                        files[i].name[strlen(files[i].name)-5]='0'+i;
+                        fullname=concat(archdep_boot_path(),"/",machine_name,"/",files[j].name,NULL);
+                        fullname2=concat(archdep_boot_path(),"/",machine_name,"/",files[i].name,NULL);
+                        rename(fullname,fullname2);
+                        free(fullname);
+                        free(fullname2);
+                        i++;
+                    }
+                }
+                strcpy(files[i].name,files[0].name);
+                files[i].name[strlen(files[i].name)-5]='0'+i;
+                lastindex=i;
+            }
+        } else {
+            strcpy(files[lastindex+1].name,files[lastindex].name);
+            lastindex++;
+            files[lastindex].name[strlen(files[lastindex].name)-5]='0'+lastindex;
+        }
+    }
+
+    fullname=concat(archdep_boot_path(),"/",machine_name,"/",files[lastindex].name,NULL);
+    if (machine_write_snapshot(fullname,0,0)<0) {
+        ui_error("Can't write snapshot file %s.",fullname);
+    }
+    free(fullname);
+}
+
+static void load_quicksnapshot_trap(ADDRESS unused_addr, void *unused_data)
+{
+    char *fullname;
+
+    fullname=concat(archdep_boot_path(),"/",machine_name,"/",files[lastindex].name,NULL);
+    if (machine_read_snapshot(fullname)<0) {
+        ui_error("Cannot read snapshot image");
+    }
+    free(fullname);
+}
+
+static void scan_files(void)
+{
+	int                 i;
+	char				*filename;
+	char				*fullname;
+	BEntry				entry;
+	
+    snapcounter=0;
+    lastindex=-1;
+    for (i=0; i<10; i++) {
+        files[i].valid=0;
+    	filename = stralloc("quicksnap?.vsf");
+    	filename[strlen(filename)-5] = '0'+i;
+    	fullname = concat(archdep_boot_path(),"/",machine_name,"/",filename,NULL);
+    	entry.SetTo(fullname);
+    	if (entry.Exists()) {
+	        strcpy(files[i].name,filename);
+                files[i].valid=1;
+                if (i>lastindex) {
+                    lastindex=i;
+                }
+                snapcounter++;
+        }
+        free(filename);
+        free(fullname);
+    }
+}
+
+
 /* here the stuff for queueing and dispatching ui commands */
 /*---------------------------------------------------------*/
 #define MAX_MESSAGE_QUEUE_SIZE	256
@@ -254,6 +375,18 @@ void ui_dispatch_events(void)
 			case MENU_DETACH_TAPE:
 				tape_detach_image();
 				break;
+			case MENU_FLIP_ADD:
+				flip_add_image(8);
+				break;
+			case MENU_FLIP_REMOVE:
+				flip_remove(8, NULL);
+				break;
+			case MENU_FLIP_NEXT:
+				flip_attach_head(8, 1);
+				break;
+			case MENU_FLIP_PREVIOUS:
+				flip_attach_head(8, 0);
+				break;
 			case MENU_DATASETTE_START:
 		        datasette_control(DATASETTE_CONTROL_START);
 				break;
@@ -274,6 +407,24 @@ void ui_dispatch_events(void)
 				break;
 			case MENU_DATASETTE_COUNTER:
 		        datasette_control(DATASETTE_CONTROL_RESET_COUNTER);
+				break;
+			case MENU_SNAPSHOT_LOAD:
+				maincpu_trigger_trap(load_snapshot_trap, (void *) 0);
+				break;
+			case MENU_SNAPSHOT_SAVE:
+				maincpu_trigger_trap(save_snapshot_trap, (void *) 0);
+				break;
+			case MENU_LOADQUICK:
+				scan_files();
+				if (snapcounter>0)
+					maincpu_trigger_trap(load_quicksnapshot_trap, (void *) 0);
+				break;
+			case MENU_SAVEQUICK:
+				scan_files();
+				maincpu_trigger_trap(save_quicksnapshot_trap, (void *) 0);
+				break;
+			case MENU_MONITOR:
+				maincpu_trigger_trap(mon_trap, (void *) 0);
 				break;
 			case MENU_EXIT_REQUESTED:
 				windowlist[0]->QuitRequested();
@@ -335,6 +486,7 @@ void ui_dispatch_events(void)
     	    	} else {
         	    	ui_message("Settings loaded successfully.");
         		}
+        		ui_update_menus();
 				break;
 			case MENU_SETTINGS_SAVE:
 		        if (resources_save(NULL) < 0) {
@@ -346,6 +498,7 @@ void ui_dispatch_events(void)
 			case MENU_SETTINGS_DEFAULT:
 	        	resources_set_defaults();
 	        	ui_message("Default settings restored.");
+				ui_update_menus();
 				break;
 			case MENU_ABOUT:
 				about_vice();
@@ -375,31 +528,36 @@ void ui_dispatch_events(void)
 				message_queue[i].FindInt32("key",(int32*)&key);
 				kbd_handle_keyup(key);
 				break;
+			case B_SAVE_REQUESTED:
 			case B_REFS_RECEIVED:
-				/* the file panel was closed, now we can use the selected file */
+				/* the file- or save-panel was closed */
+				/* now we can use the selected file */
 				ui_select_file_action(&message_queue[i]);
 				break;
-			default: 
-				/* Handle the TOGGLE-Menuitems */
-	            for (m = 0; toggle_list[m].name != NULL; m++) {
-    	            if (toggle_list[m].item_id == message_queue[i].what) {
-    	            	resources_toggle(toggle_list[m].name, NULL);
-            	        break;
-                	}
-				}
-        	    if (machine_specific_toggles) {
-            	    for (m = 0; machine_specific_toggles[m].name != NULL; m++) {
-                	    if (machine_specific_toggles[m].item_id == message_queue[i].what) {
-    		            	resources_toggle(machine_specific_toggles[m].name,NULL);
-                        	break;
-	                    }
-    	            }
-        	    }
-            	ui_update_menus();
+			default:
+				if (message_queue[i].what >= 'M000' &&
+					message_queue[i].what <= 'M999') {
+					/* Handle the TOGGLE-Menuitems */
+	            	for (m = 0; toggle_list[m].name != NULL; m++) {
+    	            	if (toggle_list[m].item_id == message_queue[i].what) {
+    	            		resources_toggle(toggle_list[m].name, NULL);
+            	        	break;
+                		}
+					}
+        	    	if (machine_specific_toggles) {
+            	    	for (m = 0; machine_specific_toggles[m].name != NULL; m++) {
+                	    	if (machine_specific_toggles[m].item_id == message_queue[i].what) {
+    		            		resources_toggle(machine_specific_toggles[m].name,NULL);
+                        		break;
+	                    	}
+    	            	}
+        	    	}
+            		ui_update_menus();
+				}            		
             	break;
 		}
 	}
-	num_queued_messages = 0;	
+	num_queued_messages = 0;
 }	
 
 /* -----------------------------------------------------------*/
@@ -439,7 +597,7 @@ TextWindow::TextWindow(
 	const char *caption,
 	const char *header,
 	const char *text) : BWindow(BRect(0,0,400,300),
-		caption, B_TITLED_WINDOW, B_NOT_ZOOMABLE|B_NOT_RESIZABLE) {
+		caption, B_DOCUMENT_WINDOW, B_NOT_ZOOMABLE|B_NOT_RESIZABLE) {
 	
 	textview = new BTextView(	
 		BRect(0,0,400-B_V_SCROLL_BAR_WIDTH,300),
@@ -458,11 +616,13 @@ TextWindow::TextWindow(
 	Show();
 }
 
+
 TextWindow::~TextWindow() {
 	RemoveChild(scrollview);
 	delete textview;
 	delete scrollview;
-}	
+}
+
 	
 void ui_show_text(
 	const char *caption,
@@ -499,11 +659,13 @@ void ui_error(const char *format, ...)
     messagebox = new BAlert("error", tmp, "OK", NULL, NULL, 
     	B_WIDTH_AS_USUAL, B_STOP_ALERT);
 	messagebox->Go();
+	suspend_speed_eval();
 }
 
 /* Report an error to the user (one string).  */
 void ui_error_string(const char *text)
 {
+	ui_error(text);
 }
 
 /* Report a message to the user (`printf()' style).  */
@@ -519,13 +681,13 @@ void ui_message(const char *format,...)
     messagebox = new BAlert("info", tmp, "OK", NULL, NULL, 
     	B_WIDTH_AS_USUAL, B_INFO_ALERT);
     messagebox->Go();
-
+	suspend_speed_eval();
 }
 
 /* Handle the "CPU JAM" case.  */
 ui_jam_action_t ui_jam_dialog(const char *format,...)
 {
-	ui_error("CPU jam. Resetting the machine...");
+	ui_error("Jam %s - Resetting the machine...",format);
     return UI_JAM_HARD_RESET;
 }
 
@@ -592,20 +754,4 @@ void ui_display_tape_counter(int counter)
 void ui_display_paused(int flag)
 {
 }
-
-static void mon_trap(ADDRESS addr, void *unused_data)
-{
-    mon(addr);
-}
-
-static void save_snapshot_trap(ADDRESS unused_addr, void *unused_data)
-{
-}
-
-static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
-{
-}
-
-
-} /* extern "C" */
 

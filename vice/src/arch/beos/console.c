@@ -2,6 +2,7 @@
  * console.c - Console access interface.
  *
  * Written by
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *  Andreas Matthies <andreas.matthies@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -37,25 +38,67 @@
 
 int console_out(console_t *log, const char *format, ...)
 {
-	return 0;
+    va_list ap;
+
+    va_start(ap, format);
+    vfprintf(stdout, format, ap);
+
+    return 0;
 }
 
+#ifdef HAVE_READLINE
+extern char *readline ( const char *prompt );
+extern void add_history ( const char *str );
+#else
+char *readline(const char *prompt)
+{
+    char *p = (char*)xmalloc(1024);
 
+    fflush(stdout);
+    fgets(p, 1024, stdin);
 
+    /* Remove trailing newlines.  */
+    {
+        int len;
+
+        for (len = strlen(p);
+             len > 0 && (p[len - 1] == '\r'
+                         || p[len - 1] == '\n');
+             len--)
+            p[len - 1] = '\0';
+    }
+
+    return p;
+}
+#endif
 
 char *console_in(console_t *log)
 {
 	char *p;
+
+    p = readline("");
+
 	return p;
 }
 
 
 console_t *console_open(const char *id)
 {
+    console_t *console;
+
+    console = xmalloc(sizeof(console_t));
+
+    console->console_xres = 80;
+    console->console_yres = 25;
+    console->console_can_stay_open = 0;
+
+    return console;
 }
 
 int console_close(console_t *log)
 {
+    free(log);
+
     return 0;
 }
 

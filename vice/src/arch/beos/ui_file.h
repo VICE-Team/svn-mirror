@@ -32,7 +32,9 @@
 enum filetype_t {
 	AUTOSTART_FILE,
 	DISK_FILE,
-	TAPE_FILE
+	TAPE_FILE,
+	SNAPSHOTSAVE_FILE,
+	SNAPSHOTLOAD_FILE
 };
 
 extern void ui_select_file(BFilePanel *filepanel, 

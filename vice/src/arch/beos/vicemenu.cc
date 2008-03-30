@@ -70,6 +70,7 @@ BMenuBar *menu_create(int machine_class) {
 		new BMessage(MENU_ATTACH_TAPE), 'T'));
 	menu->AddItem(new BMenuItem("Detach Tape", 
 		new BMessage(MENU_DETACH_TAPE)));
+
 	menu->AddItem(submenu = new BMenu("Datasette Control"));
 	submenu->AddItem(new BMenuItem("Start", 
 		new BMessage(MENU_DATASETTE_START)));
@@ -86,6 +87,31 @@ BMenuBar *menu_create(int machine_class) {
 	submenu->AddItem(new BMenuItem("Reset Counter", 
 		new BMessage(MENU_DATASETTE_COUNTER)));
 	menu->AddSeparatorItem();
+
+	menu->AddItem(submenu = new BMenu("Flip List"));
+	submenu->AddItem(new BMenuItem("Add current image", 
+		new BMessage(MENU_FLIP_ADD), 'I'));
+	submenu->AddItem(new BMenuItem("Remove Current Image", 
+		new BMessage(MENU_FLIP_REMOVE), 'K'));
+	submenu->AddItem(new BMenuItem("Attach next image", 
+		new BMessage(MENU_FLIP_NEXT), 'N'));
+	submenu->AddItem(new BMenuItem("Attach previous image", 
+		new BMessage(MENU_FLIP_PREVIOUS), 'N', B_CONTROL_KEY));
+	menu->AddSeparatorItem();
+	
+	menu->AddItem(submenu = new BMenu("Snapshot"));
+	submenu->AddItem(new BMenuItem("Load snapshot", 
+		new BMessage(MENU_SNAPSHOT_LOAD)));
+	submenu->AddItem(new BMenuItem("Save snapshot", 
+		new BMessage(MENU_SNAPSHOT_SAVE)));
+	submenu->AddItem(new BMenuItem("Load quicksnapshot", 
+		new BMessage(MENU_LOADQUICK), 'L', B_CONTROL_KEY));
+	submenu->AddItem(new BMenuItem("Save quicksnapshot", 
+		new BMessage(MENU_SAVEQUICK), 'S', B_CONTROL_KEY));
+	menu->AddSeparatorItem();
+	
+	menu->AddItem(item = new BMenuItem("Monitor", 
+		new BMessage(MENU_MONITOR), 'M'));
 	menu->AddItem(item = new BMenuItem("Soft Reset", 
 		new BMessage(MENU_RESET_SOFT), 'R'));
 	menu->AddItem(new BMenuItem("Hard Reset", 
@@ -176,15 +202,15 @@ BMenuBar *menu_create(int machine_class) {
 	
 	/* create the SETTINGS menu */
 	menu = new BMenu("Settings");
-	menu->AddItem(new BMenuItem("Drive Settings", 
+	menu->AddItem(new BMenuItem("Drive Settings (not yet)", 
 		new BMessage(MENU_DRIVE_SETTINGS)));
-	menu->AddItem(new BMenuItem("Device Settings", 
+	menu->AddItem(new BMenuItem("Device Settings (not yet)", 
 		new BMessage(MENU_DEVICE_SETTINGS)));
-	menu->AddItem(new BMenuItem("Sound Settings", 
+	menu->AddItem(new BMenuItem("Sound Settings (not yet)", 
 		new BMessage(MENU_SOUND_SETTINGS)));
-	menu->AddItem(new BMenuItem("Joystick Settings", 
+	menu->AddItem(new BMenuItem("Joystick Settings (not yet)", 
 		new BMessage(MENU_JOYSTICK_SETTINGS)));
-	menu->AddItem(new BMenuItem("Datasette Settings", 
+	menu->AddItem(new BMenuItem("Datasette Settings (not yet)", 
 		new BMessage(MENU_DATASETTE_SETTINGS)));
 	menu->AddSeparatorItem();
 	menu->AddItem(new BMenuItem("Load Settings", 

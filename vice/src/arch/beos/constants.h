@@ -59,6 +59,17 @@ const uint32 MENU_RESET_SOFT					= 'M020';
 const uint32 MENU_RESET_HARD					= 'M021';
 const uint32 MENU_EXIT_REQUESTED				= 'M022';
 const uint32 MENU_EXIT							= 'M023';
+const uint32 MENU_FLIP_ADD						= 'M024';
+const uint32 MENU_FLIP_REMOVE					= 'M025';
+const uint32 MENU_FLIP_NEXT						= 'M026';
+const uint32 MENU_FLIP_PREVIOUS					= 'M027';
+const uint32 MENU_SNAPSHOT_LOAD					= 'M028';
+const uint32 MENU_SNAPSHOT_SAVE					= 'M029';
+const uint32 MENU_LOADQUICK						= 'M030';
+const uint32 MENU_SAVEQUICK						= 'M031';
+const uint32 MENU_MONITOR						= 'M032';
+
+
 
 const uint32 MENU_TOGGLE_SOUND					= 'M100';
 const uint32 MENU_TOGGLE_WARP_MODE				= 'M101';
