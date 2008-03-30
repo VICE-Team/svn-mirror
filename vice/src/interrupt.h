@@ -29,33 +29,10 @@
 #ifndef _INTERRUPT_H
 #define _INTERRUPT_H
 
+#include <stdio.h>
+
 #include "types.h"
 
-
-#if 0
-/* Interrupts.  This is a bit of a mess...  */
-enum {
-    I_ACIA1,                    /* ACIA 1 */
-    I_ACIA2,                    /* ACIA 2 (unused) */
-    I_CIA1FL,                   /* CIA 1 */
-    I_CIA2FL,                   /* CIA 2 */
-    I_FREEZE,                   /* Cartridge freeze */
-    I_PIA1,                     /* PIA1 */
-    I_PIA2,                     /* PIA2 */
-    I_RASTER,                   /* Raster compare */
-    I_RESTORE,                  /* RESTORE key */
-    I_REU,                      /* REU */
-    I_TPI1,                     /* TPI 1 (CBM-II) */
-    I_VIA1FL,                   /* VIA 1 */
-    I_VIA2FL,                   /* VIA 2 */
-    I_VIAFL,                    /* VIA (PET) */
-    I_IEEEVIA1FL,               /* IEEE488 VIC20 VIA1 */
-    I_IEEEVIA2FL,               /* IEEE488 VIC20 VIA2 */
-    NUMOFINT
-};
-#endif
-
-/* ------------------------------------------------------------------------- */
 
 /* Define the number of cycles needed by the CPU to detect the NMI or IRQ.  */
 #define INTERRUPT_DELAY 2
@@ -131,7 +108,8 @@ extern void interrupt_trigger_dma(interrupt_cpu_status_t *cs, CLOCK cpu_clk);
 extern void interrupt_ack_dma(interrupt_cpu_status_t *cs);
 
 /* Set the IRQ line state.  */
-inline static void interrupt_set_irq(interrupt_cpu_status_t *cs, int int_num,
+inline static void interrupt_set_irq(interrupt_cpu_status_t *cs,
+                                     unsigned int int_num,
                                      int value, CLOCK cpu_clk)
 {
     if (cs == NULL || int_num >= cs->num_ints)
@@ -145,7 +123,6 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs, int int_num,
             cs->pending_int[int_num] = (enum cpu_int)
                 (cs->pending_int[int_num] | IK_IRQ);
 
-#if 1
             /* This makes sure that IRQ delay is correctly emulated when
                cycles are stolen from the CPU.  */
             if (cs->last_stolen_cycles_clk <= cpu_clk) {
@@ -153,7 +130,6 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs, int int_num,
             } else {
                 cs->irq_clk = cs->last_stolen_cycles_clk - 1;
             }
-#endif
         }
     } else {                    /* Remove the IRQ condition.  */
         if (cs->pending_int[int_num] & IK_IRQ) {
@@ -164,7 +140,6 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs, int int_num,
                     cs->global_pending_int = (enum cpu_int)
                         (cs->global_pending_int & ~IK_IRQ);
             } else {
-                *(int *)0 = 0;
                 interrupt_log_wrong_nirq();
             }
         }
@@ -172,7 +147,8 @@ inline static void interrupt_set_irq(interrupt_cpu_status_t *cs, int int_num,
 }
 
 /* Set the NMI line state.  */
-inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs, int int_num,
+inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs,
+                                     unsigned int int_num,
                                      int value, CLOCK cpu_clk)
 {
     if (cs == NULL || int_num >= cs->num_ints)
@@ -183,7 +159,7 @@ inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs, int int_num,
             if (cs->nnmi == 0 && !(cs->global_pending_int & IK_NMI)) {
                 cs->global_pending_int = (enum cpu_int)
                         (cs->global_pending_int | IK_NMI);
-#if 1
+
                 /* This makes sure that NMI delay is correctly emulated when
                    cycles are stolen from the CPU.  */
                 if (cs->last_stolen_cycles_clk <= cpu_clk) {
@@ -191,7 +167,6 @@ inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs, int int_num,
                 } else {
                     cs->nmi_clk = cs->last_stolen_cycles_clk - 1;
                 }
-#endif
             }
             cs->nnmi++;
             cs->pending_int[int_num] = (enum cpu_int)
@@ -207,7 +182,6 @@ inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs, int int_num,
                     cs->global_pending_int = (enum cpu_int)
                         (cs->global_pending_int & ~IK_NMI);
             } else {
-                *(int *)0 = 0;
                 interrupt_log_wrong_nnmi();
             }
         }

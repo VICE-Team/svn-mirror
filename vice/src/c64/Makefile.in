@@ -137,10 +137,10 @@ INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(to
 
 noinst_LIBRARIES = libc64.a libc64c128.a
 
-libc64_a_SOURCES =  	c64-cmdline-options.c 	c64-cmdline-options.h 	c64-resources.c 	c64-resources.h 	c64-snapshot.c 	c64-snapshot.h 	c64.c 	c64.h 	c64acia.h 	c64acia1.c 	c64cart.h 	c64cia.h 	c64cia1.c 	c64cia2.c 	c64datasette.c 	c64drive.c 	c64iec.c 	c64iec.h 	c64io.c 	c64io.h 	c64keyboard.c 	c64keyboard.h 	c64mem.c 	c64mem.h 	c64meminit.c 	c64meminit.h 	c64memlimit.c 	c64memlimit.h 	c64pla.c 	c64pla.h 	c64rom.c 	c64rom.h 	c64rsuser.c 	c64rsuser.h 	c64tpi.c 	c64tpi.h 	patchrom.c 	patchrom.h 	psid.c 	psid.h 	psiddrv.a65 	psiddrv.h 	reloc65.c 	reu.c 	reu.h 	tfe.c 	tfe.h         tfearch.h
+libc64_a_SOURCES =  	c64-cmdline-options.c 	c64-cmdline-options.h 	c64-resources.c 	c64-resources.h 	c64-snapshot.c 	c64-snapshot.h 	c64.c 	c64.h 	c64acia.h 	c64acia1.c 	c64cart.h 	c64cia.h 	c64cia1.c 	c64cia2.c 	c64datasette.c 	c64drive.c 	c64iec.c 	c64iec.h 	c64io.c 	c64io.h 	c64keyboard.c 	c64keyboard.h 	c64mem.c 	c64mem.h 	c64meminit.c 	c64meminit.h 	c64memlimit.c 	c64memlimit.h 	c64memrom.c 	c64memrom.h 	c64pla.c 	c64pla.h 	c64rom.c 	c64rom.h 	c64rsuser.c 	c64rsuser.h 	c64tpi.c 	c64tpi.h 	patchrom.c 	patchrom.h 	psid.c 	psid.h 	psiddrv.a65 	psiddrv.h 	reloc65.c 	reu.c 	reu.h 	tfe.c 	tfe.h         tfearch.h
 
 
-libc64c128_a_SOURCES =  	c64acia.h 	c64acia1.c 	c64cart.h 	c64cia.h 	c64cia2.c 	c64datasette.c 	c64drive.c 	c64keyboard.c 	c64keyboard.h 	c64meminit.c 	c64meminit.h 	c64pla.c 	c64pla.h 	c64rsuser.c 	c64rsuser.h 	c64tpi.c 	c64tpi.h 	patchrom.c 	patchrom.h 	reu.c 	reu.h 	tfe.c 	tfe.h         tfearch.h
+libc64c128_a_SOURCES =  	c64acia.h 	c64acia1.c 	c64cart.h 	c64cia.h 	c64cia2.c 	c64datasette.c 	c64drive.c 	c64keyboard.c 	c64keyboard.h 	c64meminit.c 	c64meminit.h 	c64memrom.c 	c64memrom.h 	c64pla.c 	c64pla.h 	c64rsuser.c 	c64rsuser.h 	c64tpi.c 	c64tpi.h 	patchrom.c 	patchrom.h 	reu.c 	reu.h 	tfe.c 	tfe.h         tfearch.h
 
 
 BUILT_SOURCES = psiddrv.h
@@ -163,12 +163,13 @@ X_PRE_LIBS = @X_PRE_LIBS@
 libc64_a_LIBADD = 
 libc64_a_OBJECTS =  c64-cmdline-options.o c64-resources.o c64-snapshot.o \
 c64.o c64acia1.o c64cia1.o c64cia2.o c64datasette.o c64drive.o c64iec.o \
-c64io.o c64keyboard.o c64mem.o c64meminit.o c64memlimit.o c64pla.o \
-c64rom.o c64rsuser.o c64tpi.o patchrom.o psid.o reloc65.o reu.o tfe.o
+c64io.o c64keyboard.o c64mem.o c64meminit.o c64memlimit.o c64memrom.o \
+c64pla.o c64rom.o c64rsuser.o c64tpi.o patchrom.o psid.o reloc65.o \
+reu.o tfe.o
 libc64c128_a_LIBADD = 
 libc64c128_a_OBJECTS =  c64acia1.o c64cia2.o c64datasette.o c64drive.o \
-c64keyboard.o c64meminit.o c64pla.o c64rsuser.o c64tpi.o patchrom.o \
-reu.o tfe.o
+c64keyboard.o c64meminit.o c64memrom.o c64pla.o c64rsuser.o c64tpi.o \
+patchrom.o reu.o tfe.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -363,11 +364,10 @@ c64-snapshot.o: c64-snapshot.c ../../src/vice.h ../../src/config.h \
 c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/arch/unix/types.h ../../src/autostart.h \
 	c64-cmdline-options.h c64-resources.h c64-snapshot.h c64.h \
-	c64acia.h c64cart.h c64cia.h c64iec.h c64keyboard.h c64mem.h \
-	../../src/mem.h c64rsuser.h c64tpi.h \
-	../../src/arch/unix/c64ui.h ../../src/cartridge.h \
-	../../src/ciatimer.h ../../src/alarm.h ../../src/clkguard.h \
-	../../src/datasette.h ../../src/debug.h \
+	c64acia.h c64cart.h c64cia.h c64iec.h c64keyboard.h c64memrom.h \
+	c64rsuser.h c64tpi.h ../../src/arch/unix/c64ui.h \
+	../../src/cartridge.h ../../src/ciatimer.h ../../src/alarm.h \
+	../../src/clkguard.h ../../src/datasette.h ../../src/debug.h \
 	../../src/drive/drive-cmdline-options.h \
 	../../src/drive/drive-resources.h \
 	../../src/drive/drive-snapshot.h ../../src/drive/drive.h \
@@ -375,10 +375,11 @@ c64.o: c64.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
 	../../src/iecdrive.h ../../src/interrupt.h ../../src/ioutil.h \
 	../../src/kbdbuf.h ../../src/keyboard.h ../../src/log.h \
 	../../src/machine-drive.h ../../src/machine.h \
-	../../src/maincpu.h ../../src/monitor.h patchrom.h \
-	../../src/printer.h psid.h ../../src/resources.h reu.h \
-	../../src/rs232drv.h ../../src/rsuser.h ../../src/screenshot.h \
-	../../src/serial.h ../../src/sid/sid-cmdline-options.h \
+	../../src/maincpu.h ../../src/mem.h ../../src/monitor.h \
+	patchrom.h ../../src/printer.h psid.h ../../src/resources.h \
+	reu.h ../../src/rs232drv.h ../../src/rsuser.h \
+	../../src/screenshot.h ../../src/serial.h \
+	../../src/sid/sid-cmdline-options.h \
 	../../src/sid/sid-resources.h ../../src/sid/sid-snapshot.h \
 	../../src/sid/sid.h ../../src/snapshot.h ../../src/sound.h \
 	../../src/tape.h ../../src/traps.h ../../src/vicii/vicii.h \
@@ -434,16 +435,20 @@ c64mem.o: c64mem.c ../../src/vice.h ../../src/config.h c64-resources.h \
 	../../src/ram.h reu.h ../../src/sid/sid.h ../../src/utils.h \
 	../../src/vicii/vicii-mem.h ../../src/vicii/vicii-phi1.h \
 	../../src/vicii/vicii.h
-c64meminit.o: c64meminit.c ../../src/vice.h ../../src/config.h c64mem.h \
-	../../src/arch/unix/types.h ../../src/mem.h c64meminit.h
+c64meminit.o: c64meminit.c ../../src/vice.h ../../src/config.h c64cia.h \
+	../../src/arch/unix/types.h c64io.h c64mem.h ../../src/mem.h \
+	c64meminit.h c64memrom.h ../../src/sid/sid.h \
+	../../src/vicii/vicii-mem.h
 c64memlimit.o: c64memlimit.c ../../src/vice.h ../../src/config.h
+c64memrom.o: c64memrom.c ../../src/vice.h ../../src/config.h c64mem.h \
+	../../src/arch/unix/types.h ../../src/mem.h c64memrom.h
 c64pla.o: c64pla.c ../../src/vice.h ../../src/config.h c64pla.h \
 	../../src/arch/unix/types.h ../../src/datasette.h \
 	../../src/mem.h
 c64rom.o: c64rom.c ../../src/vice.h ../../src/config.h c64-resources.h \
-	c64mem.h ../../src/arch/unix/types.h ../../src/mem.h c64rom.h \
-	../../src/log.h patchrom.h ../../src/resources.h \
-	../../src/sysfile.h
+	c64mem.h ../../src/arch/unix/types.h ../../src/mem.h \
+	c64memrom.h c64rom.h ../../src/log.h patchrom.h \
+	../../src/resources.h ../../src/sysfile.h
 c64rsuser.o: c64rsuser.c ../../src/vice.h ../../src/config.h c64.h \
 	c64cia.h ../../src/arch/unix/types.h ../../src/machine.h \
 	../../src/rsuser.h
@@ -454,7 +459,7 @@ c64tpi.o: c64tpi.c c64mem.h ../../src/arch/unix/types.h ../../src/vice.h \
 	../../src/tpicore.h ../../src/log.h ../../src/tpicore.c \
 	../../src/snapshot.h
 patchrom.o: patchrom.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h ../../src/mem.h ../../src/arch/unix/types.h \
+	../../src/log.h c64memrom.h ../../src/arch/unix/types.h \
 	patchrom.h ../../src/utils.h
 psid.o: psid.c ../../src/vice.h ../../src/config.h \
 	../../src/arch/unix/archdep.h ../../src/archapi.h c64mem.h \

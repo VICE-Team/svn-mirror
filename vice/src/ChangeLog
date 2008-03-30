@@ -1,5 +1,54 @@
 2003-04-19  Andreas Boose  <viceteam@t-online.de>
 
+	* Version 1.11.34.
+
+	* mem.h, c64/c64mem.c, c64/c64mem.h, c64/c64-snapshot.c,
+	c64/c64meminit.c, c64/c64rom.c, c128/c128mem.c,
+	c128/c128mem.h, c128/c128rom.c, c64/c64.c, c128/c128.c: Added
+	separate kernal trap ROM.
+
+	* c64/c64memrom.c, c64/c64memrom.h, plus4/ted-irq.c,
+	plus4/ted-irq.h: New files.
+
+	* c64/Makefile.am, arch/win32/c64.dsp, arch/win32/c64c128.dsp,
+	plus4/Makefile.am, arch/win32/plus4.dsp: Updated.
+
+	* c64/c64mem.c, c128/c128mem.c, c64/c64meminit.c,
+	c64/c64meminit.h: Moved IO config to common file.
+
+	* cbm2/cbm2mem.h: Add prototype for color RAM.
+
+	* interrupt.h, drive/drive.h, drive/drivecpu.c,
+	vicii/vicii-mem.h: Removed cruft.
+
+	* plus4/ted.c, plus4/ted-mem.c, plus4/ted-snapshot.c,
+	plus4/tedtypes.h: Moved IRQ specific code to separate file.
+
+2003-04-19  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/kbd.c: adapted restore-key code to new IRQ
+	interface
+
+	* arch/riscos/rs232.c: added missing
+	rs232_resources_shutdown()
+
+2003-04-19  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* interrupt.c(interrupt_read_snapshot): Changed i to unsigned.
+
+	* interrupt.h: Include <stdlib.h> for NULL definition.
+	(interrupt_set_irq), (interrupt_set_nmi): Chaged parameter to
+	unsigned.
+
+	* raster/raster.c (raster_destroy_active): Renamed to
+	raster_destroy_raster, added paremeter for the list item to
+	be freed and removed from the raster list.
+	(raster_free) now uses this function.
+
+	* uiapi.h: Fixed type of ui_resources_shutdown.
+
+2003-04-19  Andreas Boose  <viceteam@t-online.de>
+
 	* Version 1.11.33.
 
 	* interrupt.c, interrupt.h, drive/drive.h, drive/drivetypes.h,
