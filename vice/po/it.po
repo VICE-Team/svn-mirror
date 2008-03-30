@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-10-29 20:33+0200\n"
+"POT-Creation-Date: 2005-11-06 21:13+0100\n"
 "PO-Revision-Date: 2005-10-02 12:18+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@despammed.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -26,7 +26,7 @@ msgstr "Limita la velocità di emulazione al valore specificato"
 
 #: src/vsync.c:141 src/sound.c:247 src/sound.c:249 src/debug.c:205
 #: src/c64/cart/ide64.c:270 src/c64/cart/ide64.c:272 src/c64/cart/ide64.c:274
-#: src/datasette.c:180 src/datasette.c:183 src/gfxoutputdrv/ffmpegdrv.c:133
+#: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:133
 #: src/gfxoutputdrv/ffmpegdrv.c:136 src/mouse.c:97 src/ram.c:101
 msgid "<value>"
 msgstr "<valore>"
@@ -274,41 +274,41 @@ msgstr "Non è possibile scrivere l'immagine %s"
 msgid "Cannot find mapped name for %s"
 msgstr ""
 
-#: src/event.c:586
+#: src/event.c:589
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Non è possibile creare il file di inizio snapshot %s."
 
-#: src/event.c:605 src/event.c:899
+#: src/event.c:608 src/event.c:902
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Errore durante la lettura del file di fine snapshot %s."
 
-#: src/event.c:672 src/event.c:866
+#: src/event.c:675 src/event.c:869
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Non è possibile creare il file di fine snapshot %s."
 
-#: src/event.c:740
+#: src/event.c:743
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Non è possibile aprire il file di fine snapshot %s."
 
-#: src/event.c:755
+#: src/event.c:758
 msgid "Could not find event section in end snapshot file."
 msgstr "Non è possibile trovare la sezione eventi nel file di fine snapshot."
 
-#: src/event.c:779
+#: src/event.c:782
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Errore durante la lettura del file di inizio snapshot. Ho provato %s e %s"
 
-#: src/event.c:809
+#: src/event.c:812
 msgid "Error reading start snapshot file."
 msgstr "Errore durante la lettura del file di inizio snapshot."
 
-#: src/event.c:1190
+#: src/event.c:1193
 msgid "Playback recorded events"
 msgstr "Riproduzione degli eventi registrati"
 
@@ -976,19 +976,19 @@ msgstr ""
 "Specifica il nome del file della mappa posizionale della tastiera business "
 "tedesca"
 
-#: src/datasette.c:174
+#: src/datasette.c:175
 msgid "Enable automatic Datasette-Reset"
 msgstr "Attiva il reset del registratore automatico"
 
-#: src/datasette.c:177
+#: src/datasette.c:178
 msgid "Disable automatic Datasette-Reset"
 msgstr "Disattiva il reset del registratore automatico"
 
-#: src/datasette.c:180
+#: src/datasette.c:181
 msgid "Set delay in cycles for a zero in the tap"
 msgstr "Imposta il ritardo in cicli per uno zero nel tap"
 
-#: src/datasette.c:183
+#: src/datasette.c:184
 msgid "Set number of cycles added to each gap in the tap"
 msgstr "Imposta il numero di cicli aggiunti ad ogni gap nel tap"
 

@@ -277,6 +277,40 @@ SUBDIRS = \
 	arch
 
 
+DIST_SUBDIRS = \
+	sounddrv \
+	drive \
+	vdrive \
+	fsdevice \
+	diskimage \
+	iecbus \
+	serial \
+	parallel \
+	tape \
+	imagecontents \
+	fileio \
+	video \
+	raster \
+	vicii \
+	vdc \
+	crtc \
+	gfxoutputdrv \
+	printerdrv \
+	rs232drv \
+	sid \
+	monitor \
+	core \
+	c64 \
+	c128 \
+	vic20 \
+	pet \
+	plus4 \
+	cbm2 \
+	arch \
+	resid \
+	lib
+
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	@VICE_ZLIB_INCLUDES@ \
@@ -843,7 +877,6 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 	check-recursive installcheck-recursive
 DIST_COMMON = $(noinst_HEADERS) ChangeLog Makefile.am Makefile.in \
 	config.h.in memcmp.c usleep.c version.h.in
-DIST_SUBDIRS = $(SUBDIRS)
 SOURCES = $(c1541_SOURCES) $(petcat_SOURCES) $(x128_SOURCES) $(x64_SOURCES) $(xcbm2_SOURCES) $(xpet_SOURCES) $(xplus4_SOURCES) $(xvic_SOURCES)
 
 all: config.h
@@ -1159,7 +1192,7 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
-	list='$(SUBDIRS)'; for subdir in $$list; do \
+	list='$(DIST_SUBDIRS)'; for subdir in $$list; do \
 	  if test "$$subdir" = .; then :; else \
 	    test -d $(distdir)/$$subdir \
 	    || mkdir $(distdir)/$$subdir \

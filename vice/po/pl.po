@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.17\n"
-"POT-Creation-Date: 2005-10-29 20:33+0200\n"
+"POT-Creation-Date: 2005-11-06 21:13+0100\n"
 "PO-Revision-Date: 2005-09-18 10:57+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -25,7 +25,7 @@ msgstr "Ograniczaj prêdko¶æ emulacji do podanej warto¶ci"
 
 #: src/vsync.c:141 src/sound.c:247 src/sound.c:249 src/debug.c:205
 #: src/c64/cart/ide64.c:270 src/c64/cart/ide64.c:272 src/c64/cart/ide64.c:274
-#: src/datasette.c:180 src/datasette.c:183 src/gfxoutputdrv/ffmpegdrv.c:133
+#: src/datasette.c:181 src/datasette.c:184 src/gfxoutputdrv/ffmpegdrv.c:133
 #: src/gfxoutputdrv/ffmpegdrv.c:136 src/mouse.c:97 src/ram.c:101
 msgid "<value>"
 msgstr ""
@@ -276,49 +276,49 @@ msgstr ""
 msgid "Cannot find mapped name for %s"
 msgstr "Nie mo¿na za³adowaæ tekstowej czcionki %s."
 
-#: src/event.c:586
+#: src/event.c:589
 #, fuzzy, c-format
 msgid "Could not create start snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:605 src/event.c:899
+#: src/event.c:608 src/event.c:902
 #, fuzzy, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:672 src/event.c:866
+#: src/event.c:675 src/event.c:869
 #, fuzzy, c-format
 msgid "Could not create end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:740
+#: src/event.c:743
 #, fuzzy, c-format
 msgid "Could not open end snapshot file %s."
 msgstr ""
 "Nie mo¿na za³adowaæ pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:755
+#: src/event.c:758
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:779
+#: src/event.c:782
 #, fuzzy, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
-#: src/event.c:809
+#: src/event.c:812
 #, fuzzy
 msgid "Error reading start snapshot file."
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
-#: src/event.c:1190
+#: src/event.c:1193
 #, fuzzy
 msgid "Playback recorded events"
 msgstr "Rozpocznij zapisywanie wydarzen"
@@ -1015,19 +1015,19 @@ msgid "Specify name of German business keyboard positional keymap file"
 msgstr ""
 "Okre¶l nazwê niemieckiej klawiatury pozycjonalnej pliku mapy klawiatury"
 
-#: src/datasette.c:174
+#: src/datasette.c:175
 msgid "Enable automatic Datasette-Reset"
 msgstr ""
 
-#: src/datasette.c:177
+#: src/datasette.c:178
 msgid "Disable automatic Datasette-Reset"
 msgstr ""
 
-#: src/datasette.c:180
+#: src/datasette.c:181
 msgid "Set delay in cycles for a zero in the tap"
 msgstr ""
 
-#: src/datasette.c:183
+#: src/datasette.c:184
 msgid "Set number of cycles added to each gap in the tap"
 msgstr ""
 
