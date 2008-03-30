@@ -1,10 +1,14 @@
+Fri Jul 24 21:14:46 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.52.
+
+	* acconfig.h: `#define UNSTABLE'.
+
+	* configure.in: `AC_DEFINE(UNSTABLE)'.
+
 Thu Jul 23 03:17:32 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.51.
-
-Fri Jul 17 20:51:04 1998  Ettore Perazzoli  <ettore@comm2000.it>
-
-	* New
 
 Tue Jul 14 15:39:22 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
