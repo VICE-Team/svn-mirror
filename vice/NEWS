@@ -41,6 +41,17 @@ list of all the changes in the code.
 
 - A new Commodore 610 (aka CBM-II) emulator has been added.
 
+** MS-DOS changes
+-----------------
+
+- The menu system now uses a CBM-lookalike character set borrowed from
+  Star Commander.
+
+- You can now browse disk images both with the graphics and business
+  CBM character sets, and you can autostart any file on a disk image.
+
+- A file descriptor leak has been fixed.
+
 * Changes in VICE 0.15.0
 ========================
 
