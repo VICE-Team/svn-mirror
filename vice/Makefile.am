@@ -1,8 +1,8 @@
 # Process this file with automake to produce Makefile.in
 
-SUBDIRS = src data man doc
+SUBDIRS = src data man doc # intl po
 
-EXTRA_DIST = FEEDBACK TODO BUGS acconfig.h vice.spec
+EXTRA_DIST = FEEDBACK TODO BUGS acconfig.h vice.spec ABOUT-NLS
 
 .PHONY: x64 x128 xvic xpet xcbm2
 x64:

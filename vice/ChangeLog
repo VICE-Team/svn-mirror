@@ -1,10 +1,37 @@
+2000-04-29  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.4.3.
+
+	* Commented out `AM_GNU_GETTEXT'.
+
+2000-04-28  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+
+	* po/*: New files. Language packages.
+
+	* intl/*: New files. Introduced with `gettextize'. Modified
+	`Makefile.in' to find `config.h'.
+
+	* configure.in:	Added (ALL_LINGUAS). Output `intl/Makefile', and
+	`po/Makefile.in'.
+
+	* aclocal.m4: Added a few gettext related AC_* macros. (As written
+	in the gettext info page).
+
+	* acconfig.h: Added gettext macros.
+
+	* Makefile.am:
+	(SUBDIRS): Added `intl po'.
+	(EXTRA_DIST): Added `ABOUT-NLS'.
+
+	* ABOUT-NLS: New File
+
 2000-04-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 1.4.2
+	* Version 1.4.2.
 
 2000-04-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
-	* Version 1.4.1
+	* Version 1.4.1.
 
 	* configure.in: Define `UNSTABLE'.
 
