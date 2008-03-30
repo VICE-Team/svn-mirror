@@ -33,10 +33,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef HAVE_ERRNO_H
-#include <errno.h>
-#endif
-
 #include "archdep.h"
 #include "lib.h"
 #include "log.h"
