@@ -470,7 +470,6 @@ int MAIN_PROGRAM(int argc, char **argv)
 
     if (log_init() < 0) {
         fprintf(stderr, "Cannot startup logging system.\n");
-        return -1;
     }
 
     /* VICE boot sequence.  */

@@ -152,7 +152,7 @@ static int log_helper(log_t log, unsigned int level,
         "Error: "
     };
 
-    if (log == LOG_DEFAULT && log_file == NULL) 
+    if (log_file == NULL) 
 	return archdep_default_logger(level_strings[level], format, ap);
 
     if (log == LOG_ERR
