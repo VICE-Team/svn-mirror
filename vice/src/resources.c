@@ -829,6 +829,7 @@ static int find_match(const char *opt)
 int parse_cmd_line(int *argc, char **argv)
 {
     int i, err;
+    int have_standalone = 0;
 
     for (i = 1, err = 0; i < *argc && !err; i++) {
 	if (strcmp(argv[i], "-help") == 0
@@ -836,40 +837,49 @@ int parse_cmd_line(int *argc, char **argv)
 	    describe_cmd_line_options();
 	    err = 1;
 	} else {
-	    int match = find_match(argv[i]);
+	    /* Check for a "standalone" argument (no leading `-').  If we have
+               it, it goes into `autostartName'.  We can have only one of them
+               on the command line.  */
+	    if (!have_standalone && *argv[i] != '-' && i < *argc) {
+		set_value(&app_resources.autostartName, RES_STRING, argv[1]);
+		have_standalone = 1;
+	    } else {
+		int match = find_match(argv[i]);
 
-	    switch (match) {
-	      case -1:
-		fprintf(stderr, "\nUnknown option: `%s'\n", argv[i]);
-		err = 1;
-		break;
-	      case -2:
-		fprintf(stderr, "\nAmbiguous option: `%s'\n", argv[i]);
-		err = 1;
-		break;
-	      default:
-		switch (options[match].arg_type) {
-		  case ARG_NONE:
-		    set_value(options[match].res_ptr,
-			      options[match].res_type,
-			      options[match].value);
-		    if(options[match].change_func)
-			options[match].change_func();
+		switch (match) {
+		  case -1:
+		    fprintf(stderr, "\nUnknown option: `%s'\n", argv[i]);
+		    err = 1;
 		    break;
-		  case ARG_REQUIRED:
-		    if (i > *argc - 2) {
-			fprintf(stderr, "\nOption `%s' needs a parameter\n",
-				argv[i]);
-			err = 1;
-		    } else {
+		  case -2:
+		    fprintf(stderr, "\nAmbiguous option: `%s'\n", argv[i]);
+		    err = 1;
+		    break;
+		  default:
+		    switch (options[match].arg_type) {
+		      case ARG_NONE:
 			set_value(options[match].res_ptr,
 				  options[match].res_type,
-				  argv[i + 1]);
-		        if(options[match].change_func)
+				  options[match].value);
+			if(options[match].change_func)
 			    options[match].change_func();
-			i++;
+			break;
+		      case ARG_REQUIRED:
+			if (i > *argc - 2) {
+			    fprintf(stderr,
+				    "\nOption `%s' needs a parameter\n",
+				    argv[i]);
+			    err = 1;
+			} else {
+			    set_value(options[match].res_ptr,
+				      options[match].res_type,
+				      argv[i + 1]);
+			    if(options[match].change_func)
+				options[match].change_func();
+			    i++;
+			}
+			break;
 		    }
-		    break;
 		}
 	    }
 	}

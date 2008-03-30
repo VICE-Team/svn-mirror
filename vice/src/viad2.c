@@ -1,7 +1,7 @@
 
 /*
- * ../viad2.c
- * This file is generated from ../via-tmpl.c and ../viad2.def,
+ * ./viad2.c
+ * This file is generated from ./via-tmpl.c and ./viad2.def,
  * Do not edit!
  */
 /*
@@ -48,6 +48,51 @@
  *
  * Except for shift register and input latching everything should be ok now.
  */
+/* 
+ * 01apr98 a.fachat
+ * New timer code. Should be cycle-exact.
+ *
+ * One-shot Timing (partly from 6522-VIA.txt):
+
+                     +-+ +-+ +-+ +-+ +-+ +-+   +-+ +-+ +-+ +-+ +-+ +-+
+                02 --+ +-+ +-+ +-+ +-+ +-+ +-#-+ +-+ +-+ +-+ +-+ +-+ +-
+                       |   |                           |
+                       +---+                           |
+       WRITE T1C-H ----+   +-----------------#-------------------------
+        ___                |                           |
+        IRQ OUTPUT --------------------------#---------+
+                           |                           +---------------
+                           |                           |
+        PB7 OUTPUT --------+                           +---------------
+                           +-----------------#---------+
+                           | N |N-1|N-2|N-3|     | 0 | N |N-1|N-2|N-3|
+                           |                           |
+                           |<---- N + 1.5 CYCLES ----->|<--- N + 1 cycles --->
+
+                            \ /                      |
+                             |                       |
+                         viaD2t*u                  call of
+			  cycle                   int_viaD2*
+                                                   here
+ *
+ * I _assume_ that there is a bug in the diagrams in the 6522-VIA.txt,
+ * as it assumes that in free running mode the further cycles (after the 
+ * first underflow) is N+2 cycles, although the one-shot diagram suggests
+ * N+1, as I have now emulated.
+ *
+ * Loading the counter from the latch during a timer underflow adds a 
+ * cycle. 
+ *
+ * It is not known which counter value then is during the load cycle
+ * (would be -1 above in the one-shot diagram). I assumed -1 as well,
+ * but could also be N. decrementing starts one cycle later
+ * (i.e. above -2 -> N, -3 -> N-1, ...)
+ *
+ * IRQ and PB7 are set/toggled at the low-high transition of Phi2,
+ * but int_* is called a half-cycle before that. Does that matter?
+ *
+ * PB7 output is still to be implemented
+ */
 
 #define update_viaD2irq() \
         true1541_set_irq(I_VIAD2FL, (viaD2ifr & viaD2ier & 0x7f) ? IK_IRQ : 0)
@@ -72,32 +117,26 @@
 /* global */
 
 BYTE    viaD2[16];
-#if 0
-int     viaD2ta_stop = 0; /* maybe 1? */
-int     viaD2tb_stop = 0; /* maybe 1? */
-int     viaD2ta_interrupt = 0;
-int     viaD2tb_interrupt = 0;
-#endif
 
 
 
-/* local functions */
-
-static void update_viaD2ta ( int );
-static void update_viaD2tb ( int );
+/* 
+ * local functions 
+ */
 
 /*
  * Local variables
  */
 
-static int   viaD2ifr;	/* Interrupt Flag register for viaD2 */
-static int   viaD2ier;	/* Interrupt Enable register for viaD2 */
+static int   		viaD2ifr;   /* Interrupt Flag register for viaD2 */
+static int   		viaD2ier;   /* Interrupt Enable register for viaD2 */
 
-static int   viaD2ta;	/* value of viaD2 timer A at last update */
-static int   viaD2tb;	/* value of viaD2 timer B at last update */
+static unsigned int   	viaD2ta;    /* value of viaD2 timer A at last update */
+static unsigned int   	viaD2tb;    /* value of viaD2 timer B at last update */
 
-static CLOCK viaD2tau;	/* time when viaD2 timer A is updated */
-static CLOCK viaD2tbu;	/* time when viaD2 timer B is updated */
+static CLOCK 		viaD2tau;   /* time when viaD2 timer A is updated */
+static CLOCK 		viaD2tbu;   /* time when viaD2 timer B is updated */
+static CLOCK 		viaD2tai;   /* time when next timer A alarm is */
 
 
 /* ------------------------------------------------------------------------- */
@@ -119,20 +158,21 @@ void    reset_viaD2(void)
     for(i=0;i<4;i++) viaD2[i]=0;
     for(i=11;i<16;i++) viaD2[i]=0;
 
+    /* This is probably against the specs, but without a reasonable 
+       value for viaD2t[ab]u as static initialization, we can do it here... */
+    viaD2ta = 0;
+    viaD2tb = 0;
+    viaD2tau = true1541_clk;
+    viaD2tbu = true1541_clk;
+
     viaD2ier = 0;
     viaD2ifr = 0;
 
     /* disable vice interrupts */
-#ifdef OLDIRQ
-    true1541_set_irq(I_VIAD2T1, 0); true1541_unset_alarm(A_VIAD2T1);
-    true1541_set_irq(I_VIAD2T2, 0); true1541_unset_alarm(A_VIAD2T2);
-    true1541_set_irq(I_VIAD2SR, 0);
-    true1541_set_irq(I_VIAD2FL, 0);
-#else
+    viaD2tai = 0;
     true1541_unset_alarm(A_VIAD2T1);
     true1541_unset_alarm(A_VIAD2T2);
     update_viaD2irq();
-#endif
 
     
 
@@ -183,9 +223,8 @@ void REGPARM2 store_viaD2(ADDRESS addr, BYTE byte)
         if( (viaD2[VIA_PCR] & 0x0a) != 0x2) {
           viaD2ifr &= ~VIA_IM_CA2;
         }
-#ifndef OLDIRQ
         update_viaD2irq();
-#endif
+
       case VIA_PRA_NHS: /* port A, no handshake */
 	viaD2[VIA_PRA_NHS] = byte;
 	addr = VIA_PRA;
@@ -203,9 +242,8 @@ void REGPARM2 store_viaD2(ADDRESS addr, BYTE byte)
         if( (viaD2[VIA_PCR] & 0xa0) != 0x20) {
           viaD2ifr &= ~VIA_IM_CB2;
         }
-#ifndef OLDIRQ
         update_viaD2irq();
-#endif
+
       case VIA_DDRB:
 
 	{
@@ -251,25 +289,21 @@ void REGPARM2 store_viaD2(ADDRESS addr, BYTE byte)
         /* load counter with latch value */
         viaD2[VIA_T1CL] = viaD2[VIA_T1LL];
         viaD2[VIA_T1CH] = viaD2[VIA_T1LH];
+	viaD2ta = viaD2[VIA_T1CL] + (viaD2[VIA_T1CH] << 8);
+	viaD2tau = true1541_clk+1;	/* from true1541_clk + 1 (next cylce) -> count */
+	viaD2tai = true1541_clk + viaD2ta + 2;
+        true1541_set_alarm_clk(A_VIAD2T1, viaD2tai);
+
         /* Clear T1 interrupt */
         viaD2ifr &= ~VIA_IM_T1;
-#ifdef OLDIRQ
-        true1541_set_irq(I_VIAD2T1, 0);
-#else
         update_viaD2irq();
-#endif
-        update_viaD2ta(1);
         break;
 
       case VIA_T1LH: /* Write timer A high order latch */
         viaD2[addr] = byte;
         /* Clear T1 interrupt */
         viaD2ifr &= ~VIA_IM_T1;
-#ifdef OLDIRQ
-        true1541_set_irq(I_VIAD2T1, 0);
-#else
 	update_viaD2irq();
-#endif
         break;
 
       case VIA_T2LL:	/* Write timer 2 low latch */
@@ -279,27 +313,21 @@ void REGPARM2 store_viaD2(ADDRESS addr, BYTE byte)
 
       case VIA_T2CH: /* Write timer 2 high */
         viaD2[VIA_T2CH] = byte;
-        viaD2[VIA_T2CL] = viaD2[VIA_T2LL]; /* bogus, both are identical */
-        update_viaD2tb(1);
+        viaD2[VIA_T2CL] = viaD2[VIA_T2LL];
+	viaD2tbu = true1541_clk+1;	/* from true1541_clk + 1 (next cylce) -> count */
+	viaD2tb = viaD2[VIA_T2CL] + (viaD2[VIA_T2CH] << 8);
+        true1541_set_alarm(A_VIAD2T2, viaD2tb + 2);
+
         /* Clear T2 interrupt */
         viaD2ifr &= ~VIA_IM_T2;
-#ifdef OLDIRQ
-        true1541_set_irq(I_VIAD2T2, 0);
-#else
 	update_viaD2irq();
-#endif
         break;
 
 	/* Interrupts */
 
       case VIA_IFR: /* 6522 Interrupt Flag Register */
         viaD2ifr &= ~byte;
-#ifdef OLDIRQ
-        if(!viaD2ifr & VIA_IM_T1) true1541_set_irq(I_VIAD2T1, 0);
-        if(!viaD2ifr & VIA_IM_T2) true1541_set_irq(I_VIAD2T2, 0);
-#else
 	update_viaD2irq();
-#endif
         break;
 
       case VIA_IER: /* Interrupt Enable Register */
@@ -308,27 +336,13 @@ void REGPARM2 store_viaD2(ADDRESS addr, BYTE byte)
 #endif
         if (byte & VIA_IM_IRQ) {
             /* set interrupts */
-#ifdef OLDIRQ
-            if ((byte & VIA_IM_T1) && (viaD2ifr & VIA_IM_T1)) {
-                true1541_set_irq(I_VIAD2T1, IK_IRQ);
-            }
-            if ((byte & VIA_IM_T2) && (viaD2ifr & VIA_IM_T2)) {
-                true1541_set_irq(I_VIAD2T2, IK_IRQ);
-            }
-#endif
             viaD2ier |= byte & 0x7f;
         }
         else {
             /* clear interrupts */
-#ifdef OLDIRQ
-            if( byte & VIA_IM_T1 ) true1541_set_irq(I_VIAD2T1, 0);
-            if( byte & VIA_IM_T2 ) true1541_set_irq(I_VIAD2T2, 0);
-#endif
             viaD2ier &= ~byte;
         }
-#ifndef OLDIRQ
 	update_viaD2irq();
-#endif
         break;
 
 	/* Control */
@@ -400,6 +414,9 @@ BYTE REGPARM1 read_viaD2(ADDRESS addr)
     if (app_resources.debugFlag)
 	printf("read viaD2[%d]\n", addr);
 #endif
+
+    if(viaD2tai && (viaD2tai <= true1541_clk)) int_viaD2t1(true1541_clk - viaD2tai);
+
     switch (addr) {
 
       case VIA_PRA: /* port A */
@@ -407,9 +424,8 @@ BYTE REGPARM1 read_viaD2(ADDRESS addr)
         if( (viaD2[VIA_PCR] & 0x0a) != 0x02) {
           viaD2ifr &= ~VIA_IM_CA2;
         }
-#ifndef OLDIRQ
         update_viaD2irq();
-#endif
+
       case VIA_PRA_NHS: /* port A, no handshake */
 
        return ((true1541_read_disk_byte() & ~viaD2[VIA_DDRA])
@@ -420,9 +436,7 @@ BYTE REGPARM1 read_viaD2(ADDRESS addr)
         if( (viaD2[VIA_PCR] & 0xa0) != 0x20) {
           viaD2ifr &= ~VIA_IM_CB2;
         }
-#ifndef OLDIRQ
         update_viaD2irq();
-#endif
 
 	{
 	  BYTE byte;
@@ -440,28 +454,19 @@ BYTE REGPARM1 read_viaD2(ADDRESS addr)
 
       case VIA_T1CL /*TIMER_AL*/: /* timer A low */
         viaD2ifr &= ~VIA_IM_T1;
-#ifdef OLDIRQ
-        true1541_set_irq(I_VIAD2T1, 0);
-#else
 	update_viaD2irq();
-#endif
-        return ((viaD2ta - true1541_clk + viaD2tau) & 0xff);
-
+	return (viaD2ta - ((true1541_clk - viaD2tau)%(viaD2ta + 1))) & 0xff;
 
       case VIA_T1CH /*TIMER_AH*/: /* timer A high */
-        return (((viaD2ta - true1541_clk + viaD2tau) >> 8) & 0xff);
+	return ((viaD2ta - ((true1541_clk - viaD2tau)%(viaD2ta + 1))) >> 8) & 0xff;
 
       case VIA_T2CL /*TIMER_BL*/: /* timer B low */
         viaD2ifr &= ~VIA_IM_T2;
-#ifdef OLDIRQ
-        true1541_set_irq(I_VIAD2T2, 0);
-#else
 	update_viaD2irq();
-#endif
-        return ((viaD2tb - true1541_clk + viaD2tbu) & 0xff);
+	return (viaD2tb - ((true1541_clk - viaD2tbu)%(viaD2tb + 1))) & 0xff;
 
       case VIA_T2CH /*TIMER_BH*/: /* timer B high */
-        return (((viaD2tb - true1541_clk + viaD2tbu) >> 8) & 0xff);
+	return ((viaD2tb - ((true1541_clk - viaD2tbu)%(viaD2tb + 1))) >> 8) & 0xff;
 
       case VIA_SR: /* Serial Port Shift Register */
 	return (viaD2[addr]);
@@ -489,6 +494,7 @@ BYTE REGPARM1 read_viaD2(ADDRESS addr)
 
 int    int_viaD2t1(long offset)
 {
+    CLOCK rclk = true1541_clk - offset;
 #ifdef VIAD2_TIMER_DEBUG
     if (app_resources.debugFlag)
 	printf("viaD2 timer A interrupt\n");
@@ -498,24 +504,20 @@ int    int_viaD2t1(long offset)
 #if defined (VIAD2_TIMER_DEBUG)
         printf ("VIAD2 Timer A interrupt -- one-shot mode: next int won't happen\n");
 #endif
-	viaD2ta = 0;
-	viaD2tau = true1541_clk;
 	true1541_unset_alarm(A_VIAD2T1);		/*int_clk[I_VIAD2T1] = 0;*/
+	viaD2tai = 0;
     }
     else {		/* continuous mode */
         /* load counter with latch value */
-        viaD2[VIA_T1CL] = viaD2[VIA_T1LL];
-        viaD2[VIA_T1CH] = viaD2[VIA_T1LH];
-	update_viaD2ta(1);
-/*	int_clk[I_VIAD2T1] = viaD2tau + viaD2ta;*/
+	viaD2ta = viaD2[VIA_T1LL] + (viaD2[VIA_T1LH] << 8); 
+	viaD2tau = rclk;
+	viaD2tai = rclk + viaD2ta + 1;
+        true1541_set_alarm_clk(A_VIAD2T1, viaD2tai);
     }
     viaD2ifr |= VIA_IM_T1;
-#ifdef OLDIRQ
-    if(viaD2ier /*[VIA_IER]*/ & VIA_IM_T1 )
-	true1541_set_irq(I_VIAD2T1, IK_IRQ);
-#else
     update_viaD2irq();
-#endif
+
+    /* TODO: toggle PB7? */
     return 0; /*(viaier & VIA_IM_T1) ? 1:0;*/
 }
 
@@ -529,52 +531,22 @@ int    int_viaD2t2(long offset)
     if (app_resources.debugFlag)
 	printf("VIAD2 timer B interrupt\n");
 #endif
-    viaD2tb = 0;
-    viaD2tbu = true1541_clk;
     true1541_unset_alarm(A_VIAD2T2);	/*int_clk[I_VIAD2T2] = 0;*/
 
     viaD2ifr |= VIA_IM_T2;
-#ifdef OLDIRQ
-    if( viaD2ier & VIA_IM_T2 ) true1541_set_irq(I_VIAD2T2, IK_IRQ);
-#else
     update_viaD2irq();
-#endif
 
     return 0;
 }
 
-
-/* ------------------------------------------------------------------------- */
-
-static void update_viaD2ta(int force)
-{
-    if(force) {
-#ifdef VIAD2_TIMER_DEBUG
-       if(app_resources.debugFlag)
-          printf("update via timer A : latch=%d, counter =%d, true1541_clk = %d\n",
-                viaD2[VIA_T1CL] + (viaD2[VIA_T1CH] << 8),
-                viaD2[VIA_T1LL] + (viaD2[VIA_T1LH] << 8),
-                true1541_clk);
-#endif
-      viaD2ta = viaD2[VIA_T1CL] + (viaD2[VIA_T1CH] << 8);
-      viaD2tau = true1541_clk;
-      true1541_set_alarm(A_VIAD2T1, viaD2ta + 1);
-    }
-}
-
-static void update_viaD2tb(int force)
-{
-    if(force) {
-      viaD2tb = viaD2[VIA_T2CL] + (viaD2[VIA_T2CH] << 8);
-      viaD2tbu = true1541_clk;
-      true1541_set_alarm(A_VIAD2T2, viaD2tb + 1);
-    }
-}
-
 void viaD2_prevent_clk_overflow(void)
 {
-    viaD2tau -= PREVENT_CLK_OVERFLOW_SUB;
-    viaD2tbu -= PREVENT_CLK_OVERFLOW_SUB;
+     unsigned int t;
+     t = (viaD2tau - (true1541_clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     viaD2tau = true1541_clk + t;
+     t = (viaD2tbu - (true1541_clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     viaD2tbu = true1541_clk + t;
+     if(viaD2tai) viaD2tai -= PREVENT_CLK_OVERFLOW_SUB;
 }
 
 

@@ -48,6 +48,51 @@
  *
  * Except for shift register and input latching everything should be ok now.
  */
+/* 
+ * 01apr98 a.fachat
+ * New timer code. Should be cycle-exact.
+ *
+ * One-shot Timing (partly from 6522-VIA.txt):
+
+                     +-+ +-+ +-+ +-+ +-+ +-+   +-+ +-+ +-+ +-+ +-+ +-+
+                02 --+ +-+ +-+ +-+ +-+ +-+ +-#-+ +-+ +-+ +-+ +-+ +-+ +-
+                       |   |                           |
+                       +---+                           |
+       WRITE T1C-H ----+   +-----------------#-------------------------
+        ___                |                           |
+        IRQ OUTPUT --------------------------#---------+
+                           |                           +---------------
+                           |                           |
+        PB7 OUTPUT --------+                           +---------------
+                           +-----------------#---------+
+                           | N |N-1|N-2|N-3|     | 0 | N |N-1|N-2|N-3|
+                           |                           |
+                           |<---- N + 1.5 CYCLES ----->|<--- N + 1 cycles --->
+
+                            \ /                      |
+                             |                       |
+                         via1t*u                  call of
+			  cycle                   int_via1*
+                                                   here
+ *
+ * I _assume_ that there is a bug in the diagrams in the 6522-VIA.txt,
+ * as it assumes that in free running mode the further cycles (after the 
+ * first underflow) is N+2 cycles, although the one-shot diagram suggests
+ * N+1, as I have now emulated.
+ *
+ * Loading the counter from the latch during a timer underflow adds a 
+ * cycle. 
+ *
+ * It is not known which counter value then is during the load cycle
+ * (would be -1 above in the one-shot diagram). I assumed -1 as well,
+ * but could also be N. decrementing starts one cycle later
+ * (i.e. above -2 -> N, -3 -> N-1, ...)
+ *
+ * IRQ and PB7 are set/toggled at the low-high transition of Phi2,
+ * but int_* is called a half-cycle before that. Does that matter?
+ *
+ * PB7 output is still to be implemented
+ */
 
 #define update_via1irq() \
         maincpu_set_irq(I_VIA1FL, (via1ifr & via1ier & 0x7f) ? IK_IRQ : 0)
@@ -72,32 +117,26 @@
 /* global */
 
 BYTE    via1[16];
-#if 0
-int     via1ta_stop = 0; /* maybe 1? */
-int     via1tb_stop = 0; /* maybe 1? */
-int     via1ta_interrupt = 0;
-int     via1tb_interrupt = 0;
-#endif
 
 extern int keyarr[KBD_ROWS];
 
-/* local functions */
-
-static void update_via1ta ( int );
-static void update_via1tb ( int );
+/* 
+ * local functions 
+ */
 
 /*
  * Local variables
  */
 
-static int   via1ifr;	/* Interrupt Flag register for via1 */
-static int   via1ier;	/* Interrupt Enable register for via1 */
+static int   		via1ifr;   /* Interrupt Flag register for via1 */
+static int   		via1ier;   /* Interrupt Enable register for via1 */
 
-static int   via1ta;	/* value of via1 timer A at last update */
-static int   via1tb;	/* value of via1 timer B at last update */
+static unsigned int   	via1ta;    /* value of via1 timer A at last update */
+static unsigned int   	via1tb;    /* value of via1 timer B at last update */
 
-static CLOCK via1tau;	/* time when via1 timer A is updated */
-static CLOCK via1tbu;	/* time when via1 timer B is updated */
+static CLOCK 		via1tau;   /* time when via1 timer A is updated */
+static CLOCK 		via1tbu;   /* time when via1 timer B is updated */
+static CLOCK 		via1tai;   /* time when next timer A alarm is */
 
 
 /* ------------------------------------------------------------------------- */
@@ -119,20 +158,21 @@ void    reset_via1(void)
     for(i=0;i<4;i++) via1[i]=0;
     for(i=11;i<16;i++) via1[i]=0;
 
+    /* This is probably against the specs, but without a reasonable 
+       value for via1t[ab]u as static initialization, we can do it here... */
+    via1ta = 0;
+    via1tb = 0;
+    via1tau = clk;
+    via1tbu = clk;
+
     via1ier = 0;
     via1ifr = 0;
 
     /* disable vice interrupts */
-#ifdef OLDIRQ
-    maincpu_set_irq(I_VIA1T1, 0); maincpu_unset_alarm(A_VIA1T1);
-    maincpu_set_irq(I_VIA1T2, 0); maincpu_unset_alarm(A_VIA1T2);
-    maincpu_set_irq(I_VIA1SR, 0);
-    maincpu_set_irq(I_VIA1FL, 0);
-#else
+    via1tai = 0;
     maincpu_unset_alarm(A_VIA1T1);
     maincpu_unset_alarm(A_VIA1T2);
     update_via1irq();
-#endif
 
 
 	serial_bus_pcr_write(0x22);
@@ -184,9 +224,8 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
         if( (via1[VIA_PCR] & 0x0a) != 0x2) {
           via1ifr &= ~VIA_IM_CA2;
         }
-#ifndef OLDIRQ
         update_via1irq();
-#endif
+
       case VIA_PRA_NHS: /* port A, no handshake */
 	via1[VIA_PRA_NHS] = byte;
 	addr = VIA_PRA;
@@ -199,9 +238,8 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
         if( (via1[VIA_PCR] & 0xa0) != 0x20) {
           via1ifr &= ~VIA_IM_CB2;
         }
-#ifndef OLDIRQ
         update_via1irq();
-#endif
+
       case VIA_DDRB:
 	via1[addr] = byte;
 	break;
@@ -226,25 +264,21 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
         /* load counter with latch value */
         via1[VIA_T1CL] = via1[VIA_T1LL];
         via1[VIA_T1CH] = via1[VIA_T1LH];
+	via1ta = via1[VIA_T1CL] + (via1[VIA_T1CH] << 8);
+	via1tau = clk+1;	/* from clk + 1 (next cylce) -> count */
+	via1tai = clk + via1ta + 2;
+        maincpu_set_alarm_clk(A_VIA1T1, via1tai);
+
         /* Clear T1 interrupt */
         via1ifr &= ~VIA_IM_T1;
-#ifdef OLDIRQ
-        maincpu_set_irq(I_VIA1T1, 0);
-#else
         update_via1irq();
-#endif
-        update_via1ta(1);
         break;
 
       case VIA_T1LH: /* Write timer A high order latch */
         via1[addr] = byte;
         /* Clear T1 interrupt */
         via1ifr &= ~VIA_IM_T1;
-#ifdef OLDIRQ
-        maincpu_set_irq(I_VIA1T1, 0);
-#else
 	update_via1irq();
-#endif
         break;
 
       case VIA_T2LL:	/* Write timer 2 low latch */
@@ -254,27 +288,21 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
 
       case VIA_T2CH: /* Write timer 2 high */
         via1[VIA_T2CH] = byte;
-        via1[VIA_T2CL] = via1[VIA_T2LL]; /* bogus, both are identical */
-        update_via1tb(1);
+        via1[VIA_T2CL] = via1[VIA_T2LL];
+	via1tbu = clk+1;	/* from clk + 1 (next cylce) -> count */
+	via1tb = via1[VIA_T2CL] + (via1[VIA_T2CH] << 8);
+        maincpu_set_alarm(A_VIA1T2, via1tb + 2);
+
         /* Clear T2 interrupt */
         via1ifr &= ~VIA_IM_T2;
-#ifdef OLDIRQ
-        maincpu_set_irq(I_VIA1T2, 0);
-#else
 	update_via1irq();
-#endif
         break;
 
 	/* Interrupts */
 
       case VIA_IFR: /* 6522 Interrupt Flag Register */
         via1ifr &= ~byte;
-#ifdef OLDIRQ
-        if(!via1ifr & VIA_IM_T1) maincpu_set_irq(I_VIA1T1, 0);
-        if(!via1ifr & VIA_IM_T2) maincpu_set_irq(I_VIA1T2, 0);
-#else
 	update_via1irq();
-#endif
         break;
 
       case VIA_IER: /* Interrupt Enable Register */
@@ -283,27 +311,13 @@ void REGPARM2 store_via1(ADDRESS addr, BYTE byte)
 #endif
         if (byte & VIA_IM_IRQ) {
             /* set interrupts */
-#ifdef OLDIRQ
-            if ((byte & VIA_IM_T1) && (via1ifr & VIA_IM_T1)) {
-                maincpu_set_irq(I_VIA1T1, IK_IRQ);
-            }
-            if ((byte & VIA_IM_T2) && (via1ifr & VIA_IM_T2)) {
-                maincpu_set_irq(I_VIA1T2, IK_IRQ);
-            }
-#endif
             via1ier |= byte & 0x7f;
         }
         else {
             /* clear interrupts */
-#ifdef OLDIRQ
-            if( byte & VIA_IM_T1 ) maincpu_set_irq(I_VIA1T1, 0);
-            if( byte & VIA_IM_T2 ) maincpu_set_irq(I_VIA1T2, 0);
-#endif
             via1ier &= ~byte;
         }
-#ifndef OLDIRQ
 	update_via1irq();
-#endif
         break;
 
 	/* Control */
@@ -364,6 +378,9 @@ BYTE REGPARM1 read_via1(ADDRESS addr)
     if (app_resources.debugFlag)
 	printf("read via1[%d]\n", addr);
 #endif
+
+    if(via1tai && (via1tai <= clk)) int_via1t1(clk - via1tai);
+
     switch (addr) {
 
       case VIA_PRA: /* port A */
@@ -371,9 +388,8 @@ BYTE REGPARM1 read_via1(ADDRESS addr)
         if( (via1[VIA_PCR] & 0x0a) != 0x02) {
           via1ifr &= ~VIA_IM_CA2;
         }
-#ifndef OLDIRQ
         update_via1irq();
-#endif
+
       case VIA_PRA_NHS: /* port A, no handshake */
 
     {
@@ -395,9 +411,7 @@ BYTE REGPARM1 read_via1(ADDRESS addr)
         if( (via1[VIA_PCR] & 0xa0) != 0x20) {
           via1ifr &= ~VIA_IM_CB2;
         }
-#ifndef OLDIRQ
         update_via1irq();
-#endif
 
     {
 	/* FIXME: not 100% sure about this... */
@@ -421,28 +435,19 @@ BYTE REGPARM1 read_via1(ADDRESS addr)
 
       case VIA_T1CL /*TIMER_AL*/: /* timer A low */
         via1ifr &= ~VIA_IM_T1;
-#ifdef OLDIRQ
-        maincpu_set_irq(I_VIA1T1, 0);
-#else
 	update_via1irq();
-#endif
-        return ((via1ta - clk + via1tau) & 0xff);
-
+	return (via1ta - ((clk - via1tau)%(via1ta + 1))) & 0xff;
 
       case VIA_T1CH /*TIMER_AH*/: /* timer A high */
-        return (((via1ta - clk + via1tau) >> 8) & 0xff);
+	return ((via1ta - ((clk - via1tau)%(via1ta + 1))) >> 8) & 0xff;
 
       case VIA_T2CL /*TIMER_BL*/: /* timer B low */
         via1ifr &= ~VIA_IM_T2;
-#ifdef OLDIRQ
-        maincpu_set_irq(I_VIA1T2, 0);
-#else
 	update_via1irq();
-#endif
-        return ((via1tb - clk + via1tbu) & 0xff);
+	return (via1tb - ((clk - via1tbu)%(via1tb + 1))) & 0xff;
 
       case VIA_T2CH /*TIMER_BH*/: /* timer B high */
-        return (((via1tb - clk + via1tbu) >> 8) & 0xff);
+	return ((via1tb - ((clk - via1tbu)%(via1tb + 1))) >> 8) & 0xff;
 
       case VIA_SR: /* Serial Port Shift Register */
 	return (via1[addr]);
@@ -470,6 +475,7 @@ BYTE REGPARM1 read_via1(ADDRESS addr)
 
 int    int_via1t1(long offset)
 {
+    CLOCK rclk = clk - offset;
 #ifdef VIA1_TIMER_DEBUG
     if (app_resources.debugFlag)
 	printf("via1 timer A interrupt\n");
@@ -479,24 +485,20 @@ int    int_via1t1(long offset)
 #if defined (VIA1_TIMER_DEBUG)
         printf ("VIA1 Timer A interrupt -- one-shot mode: next int won't happen\n");
 #endif
-	via1ta = 0;
-	via1tau = clk;
 	maincpu_unset_alarm(A_VIA1T1);		/*int_clk[I_VIA1T1] = 0;*/
+	via1tai = 0;
     }
     else {		/* continuous mode */
         /* load counter with latch value */
-        via1[VIA_T1CL] = via1[VIA_T1LL];
-        via1[VIA_T1CH] = via1[VIA_T1LH];
-	update_via1ta(1);
-/*	int_clk[I_VIA1T1] = via1tau + via1ta;*/
+	via1ta = via1[VIA_T1LL] + (via1[VIA_T1LH] << 8); 
+	via1tau = rclk;
+	via1tai = rclk + via1ta + 1;
+        maincpu_set_alarm_clk(A_VIA1T1, via1tai);
     }
     via1ifr |= VIA_IM_T1;
-#ifdef OLDIRQ
-    if(via1ier /*[VIA_IER]*/ & VIA_IM_T1 )
-	maincpu_set_irq(I_VIA1T1, IK_IRQ);
-#else
     update_via1irq();
-#endif
+
+    /* TODO: toggle PB7? */
     return 0; /*(viaier & VIA_IM_T1) ? 1:0;*/
 }
 
@@ -510,52 +512,22 @@ int    int_via1t2(long offset)
     if (app_resources.debugFlag)
 	printf("VIA1 timer B interrupt\n");
 #endif
-    via1tb = 0;
-    via1tbu = clk;
     maincpu_unset_alarm(A_VIA1T2);	/*int_clk[I_VIA1T2] = 0;*/
 
     via1ifr |= VIA_IM_T2;
-#ifdef OLDIRQ
-    if( via1ier & VIA_IM_T2 ) maincpu_set_irq(I_VIA1T2, IK_IRQ);
-#else
     update_via1irq();
-#endif
 
     return 0;
 }
 
-
-/* ------------------------------------------------------------------------- */
-
-static void update_via1ta(int force)
-{
-    if(force) {
-#ifdef VIA1_TIMER_DEBUG
-       if(app_resources.debugFlag)
-          printf("update via timer A : latch=%d, counter =%d, clk = %d\n",
-                via1[VIA_T1CL] + (via1[VIA_T1CH] << 8),
-                via1[VIA_T1LL] + (via1[VIA_T1LH] << 8),
-                clk);
-#endif
-      via1ta = via1[VIA_T1CL] + (via1[VIA_T1CH] << 8);
-      via1tau = clk;
-      maincpu_set_alarm(A_VIA1T1, via1ta + 1);
-    }
-}
-
-static void update_via1tb(int force)
-{
-    if(force) {
-      via1tb = via1[VIA_T2CL] + (via1[VIA_T2CH] << 8);
-      via1tbu = clk;
-      maincpu_set_alarm(A_VIA1T2, via1tb + 1);
-    }
-}
-
 void via1_prevent_clk_overflow(void)
 {
-    via1tau -= PREVENT_CLK_OVERFLOW_SUB;
-    via1tbu -= PREVENT_CLK_OVERFLOW_SUB;
+     unsigned int t;
+     t = (via1tau - (clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     via1tau = clk + t;
+     t = (via1tbu - (clk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     via1tbu = clk + t;
+     if(via1tai) via1tai -= PREVENT_CLK_OVERFLOW_SUB;
 }
 
 
