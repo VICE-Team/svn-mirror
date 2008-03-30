@@ -86,6 +86,7 @@ actually expects).
 
 * RS232 resources::
 * RS232 options::
+* RS232 usage::
 
 
 File: vice.info,  Node: RS232 resources,  Next: RS232 options,  Prev: RS232 settings,  Up: RS232 settings
@@ -130,7 +131,7 @@ RS232 resources
      RS232 device the user-port printer is using (C64, C128 and VIC20).
 
 
-File: vice.info,  Node: RS232 options,  Prev: RS232 resources,  Up: RS232 settings
+File: vice.info,  Node: RS232 options,  Next: RS232 usage,  Prev: RS232 resources,  Up: RS232 settings
 
 RS232 command-line options
 --------------------------
@@ -161,6 +162,46 @@ RS232 command-line options
 `-rsuserdev DEV'
      Specify device for the userport RS232 emulation (`RsUserDev'; C64,
      C128 and VIC20).
+
+
+File: vice.info,  Node: RS232 usage,  Prev: RS232 options,  Up: RS232 settings
+
+RS232 usage example
+-------------------
+
+   Here we give you a simple example how to set up an emulated C64 using
+the modem connected to your PC. The following list shows each step.
+
+`Attach your modem to your PC at a serial port.'
+     Normally you should set it up to use the modem as "/dev/modem".
+
+`start VICE'
+
+`Setup VICE to use your modem as "serial device 1"'
+     Go to the RS232 settings menu and change "Serial 1 device" to
+     "/dev/modem" (or the device where you attached your modem to) Then
+     go to the RS232 settings menu and change "Serial 1 baudrate" to
+     the baudrate your modem should run at.    Watch out, e.g. on Linux
+     there is an additional multiplier   to multiply with the baudrate
+     (so e.g. 19200 gives 115200 or so baud)   See the "setserial"
+     manpage on Linux for example.    However, most modems should be
+     able to autodetect the speed to   the computer as well.
+
+`Select the RS232 emulation your programs use'
+     If you want to use the Userport emulation, go to the RS232
+     settings and   change "Userport RS232 Device" to   "Serial 1". If
+     you want ACIA emulation (swiftlink or what's it called?)    then
+     change "ACIA $DE** device" to "Serial 1".
+
+`Enable the emulation'
+     Go to the RS232 settings and select either "ACIA $DE** emulation"
+     or Userport 300/1200 baud or CIA 9600 baud emulation.
+
+`Load your program and start it.'
+     If it is able to detect an   RS232 cartridge like swiftlink or so,
+     try to detect the ACIA emulation   if enabled.    Otherwise just
+     set the baudrate to either 300, 1200 or 9600 according   to what
+     you enabled in the VICE menu for the userport.
 
 
 File: vice.info,  Node: Misc settings,  Prev: RS232 settings,  Up: Settings and resources
@@ -1422,36 +1463,3 @@ BYTE    VMAJOR                        major version number
 BYTE    VMINOR                        minor version number                 
 DWORD   SIZE                          size of the module, not including    
                                       this header                          
-
-
-File: vice.info,  Node: CPU 6502 module,  Next: CIA 6526 module,  Prev: Module framework,  Up: Module formats
-
-CPU module
-..........
-
-   This module saves the core 6502 state.  You will find a clock value
-there.  All other modules save their own clock values relative to this
-value.  However, the drive modules save their clocks relative to their
-appropriate CPUs of course.
-
-   Warning: This module is still under construction and saves some
-information that is not sure to be VICE-independent.  If in doubt, read
-the source.
-
-Type    Name                          Description                          
-DWORD   CLK                           the current CPU clock value.  All    
-                                      other clock values are relative to   
-                                      this.                                
-BYTE    AC                            Accumulator                          
-BYTE    XR                            X index register                     
-BYTE    YR                            Y index register                     
-BYTE    SP                            Stack Pointer                        
-WORD    PC                            Programm Counter                     
-BYTE    ST                            Status Registers                     
-DWORD   LASTOPCODE                    ?                                    
-DWORD   IRQCLK                        absolute CLK when the IRQ line came  
-                                      active                               
-DOWRD   NMICLK                        absolute CLK when the NMI line came  
-                                      active                               
-DWORD   ?                             ?                                    
-DWORD   ?                             ?                                    

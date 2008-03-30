@@ -524,7 +524,7 @@ static void crtc_update_timing(int change)
 
     if (new_crtc_cycles_per_line != crtc_cycles_per_line) {
 	crtc_cycles_per_line = new_crtc_cycles_per_line;
-	log_message(crtc_log, "CRTC: set cycles per line to %d.",
+	log_message(crtc_log, "set cycles per line to %d.",
                     crtc_cycles_per_line);
 	change = 1;
     }
@@ -632,6 +632,13 @@ static void crtc_update_timing(int change)
 static void crsr_set_dirty(void)
 {
     int i, j;
+
+    /* cursor enabled */
+    if (!crsr_enable) return;
+
+    /* cursor out of screen */
+    if (crsrrel<0 || (crsrrel >= (memptr_inc * crtc_screen_textlines)) )
+        return;
 
     i = (crsrrel / memptr_inc) * screen_charheight + crsrstart;
     i += SCREEN_BORDERHEIGHT + ysmooth;

@@ -18,6 +18,39 @@ permission notice identical to this one.
 
 
 
+File: vice.info,  Node: CPU 6502 module,  Next: CIA 6526 module,  Prev: Module framework,  Up: Module formats
+
+CPU module
+..........
+
+   This module saves the core 6502 state.  You will find a clock value
+there.  All other modules save their own clock values relative to this
+value.  However, the drive modules save their clocks relative to their
+appropriate CPUs of course.
+
+   Warning: This module is still under construction and saves some
+information that is not sure to be VICE-independent.  If in doubt, read
+the source.
+
+Type    Name                          Description                          
+DWORD   CLK                           the current CPU clock value.  All    
+                                      other clock values are relative to   
+                                      this.                                
+BYTE    AC                            Accumulator                          
+BYTE    XR                            X index register                     
+BYTE    YR                            Y index register                     
+BYTE    SP                            Stack Pointer                        
+WORD    PC                            Programm Counter                     
+BYTE    ST                            Status Registers                     
+DWORD   LASTOPCODE                    ?                                    
+DWORD   IRQCLK                        absolute CLK when the IRQ line came  
+                                      active                               
+DOWRD   NMICLK                        absolute CLK when the NMI line came  
+                                      active                               
+DWORD   ?                             ?                                    
+DWORD   ?                             ?                                    
+
+
 File: vice.info,  Node: CIA 6526 module,  Next: VIA 6522 module,  Prev: CPU 6502 module,  Up: Module formats
 
 CIA module

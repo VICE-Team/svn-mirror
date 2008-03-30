@@ -1,7 +1,7 @@
 <HTML>
 <HEAD>
 <!-- This HTML file has been created by texi2html 1.52
-     from ../vice.texi on 11 January 1999 -->
+     from ../vice.texi on 18 January 1999 -->
 
 <TITLE>VICE Manual - 6  Settings and resources</TITLE>
 </HEAD>
@@ -1617,7 +1617,55 @@ C64, C128 and VIC20).
 
 
 
-<H2><A NAME="SEC67" HREF="vice_toc.html#TOC67">6.10  Miscellaneous settings</A></H2>
+<H3><A NAME="SEC67" HREF="vice_toc.html#TOC67">6.9.3  RS232 usage example</A></H3>
+
+<P>
+Here we give you a simple example how to set up an emulated C64 using
+the modem connected to your PC. The following list shows each step.
+
+</P>
+<DL COMPACT>
+
+<P><DT><CODE>Attach your modem to your PC at a serial port.</CODE>
+<DD>
+Normally you should set it up to use the modem as "/dev/modem".
+<P><DT><CODE>start VICE</CODE>
+<DD>
+<P><DT><CODE>Setup VICE to use your modem as "serial device 1"</CODE>
+<DD>
+Go to the RS232 settings menu and change "Serial 1 device" to "/dev/modem" (or the device where you attached your modem to)
+Then go to the RS232 settings menu and change "Serial 1 baudrate" to the baudrate your modem should run at.
+  Watch out, e.g. on Linux there is an additional multiplier
+  to multiply with the baudrate (so e.g. 19200 gives 115200 or so baud)
+  See the "setserial" manpage on Linux for example. 
+  However, most modems should be able to autodetect the speed to 
+  the computer as well.
+
+<P><DT><CODE>Select the RS232 emulation your programs use</CODE>
+<DD>
+If you want to use the Userport emulation, go to the RS232 settings and 
+  change "Userport RS232 Device" to 
+  "Serial 1". If you want ACIA emulation (swiftlink or what's it called?)
+  then change "ACIA $DE** device" to "Serial 1".
+
+<P><DT><CODE>Enable the emulation</CODE>
+<DD>
+  Go to the RS232 settings and select either "ACIA $DE** emulation"
+  or Userport 300/1200 baud or CIA 9600 baud emulation.
+
+<P><DT><CODE>Load your program and start it.</CODE>
+<DD>
+If it is able to detect an
+  RS232 cartridge like swiftlink or so, try to detect the ACIA emulation
+  if enabled. 
+  Otherwise just set the baudrate to either 300, 1200 or 9600 according
+  to what you enabled in the VICE menu for the userport.
+
+</DL>
+
+
+
+<H2><A NAME="SEC68" HREF="vice_toc.html#TOC68">6.10  Miscellaneous settings</A></H2>
 
 <P>
 This section lists generic resources that do not fit in the other
@@ -1627,7 +1675,7 @@ categories.
 
 
 
-<H3><A NAME="SEC68" HREF="vice_toc.html#TOC68">6.10.1  Miscellaneous resources</A></H3>
+<H3><A NAME="SEC69" HREF="vice_toc.html#TOC69">6.10.1  Miscellaneous resources</A></H3>
 
 <DL COMPACT>
 
@@ -1693,7 +1741,7 @@ signal.
 
 
 
-<H3><A NAME="SEC69" HREF="vice_toc.html#TOC69">6.10.2  Miscellaneous command-line options</A></H3>
+<H3><A NAME="SEC70" HREF="vice_toc.html#TOC70">6.10.2  Miscellaneous command-line options</A></H3>
 
 <DL COMPACT>
 

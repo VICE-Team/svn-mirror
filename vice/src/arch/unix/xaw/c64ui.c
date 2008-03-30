@@ -36,6 +36,7 @@
 #include "uicommands.h"
 #include "uimenu.h"
 #include "uisettings.h"
+#include "utils.h"
 #include "vsync.h"
 #include "c64mem.h"
 

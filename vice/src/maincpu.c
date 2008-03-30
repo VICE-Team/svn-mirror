@@ -1,7 +1,7 @@
 
 /*
- * ../../src/maincpu.c
- * This file is generated from ../../src/cpu-tmpl.c and ../../src/maincpu.def,
+ * ../src/maincpu.c
+ * This file is generated from ../src/cpu-tmpl.c and ../src/maincpu.def,
  * Do not edit!
  */
 /*
@@ -165,6 +165,7 @@
 #define LOAD_ZERO_ADDR(addr) \
     ((LOAD_ZERO((addr) + 1) << 8) | LOAD_ZERO(addr))
 
+#ifndef DO_NOT_INCLUDE_MEM_READ_BASE
 inline static BYTE *mem_read_base(int addr)
 {
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
@@ -174,6 +175,7 @@ inline static BYTE *mem_read_base(int addr)
 
     return p - (addr & 0xff00);
 }
+#endif
 
 /* Those may be overridden by the machine stuff.  Probably we want them in
    the .def files, but if most of the machines do not use, we might keep it
