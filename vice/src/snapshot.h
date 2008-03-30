@@ -42,23 +42,23 @@ extern int snapshot_module_write_padded_string(snapshot_module_t *m,
                                                const char *s, BYTE pad_char,
                                                int len);
 extern int snapshot_module_write_byte_array(snapshot_module_t *m, BYTE *data,
-                                            unsigned int len);
+                                            unsigned int num);
 extern int snapshot_module_write_word_array(snapshot_module_t *m, WORD *data,
-                                            unsigned int len);
+                                            unsigned int num);
 extern int snapshot_module_write_dword_array(snapshot_module_t *m, DWORD *data,
-                                             unsigned int len);
+                                             unsigned int num);
 extern int snapshot_module_write_string(snapshot_module_t *m, const char *s);
 
 extern int snapshot_module_read_byte(snapshot_module_t *m, BYTE *b_return);
 extern int snapshot_module_read_word(snapshot_module_t *m, WORD *w_return);
 extern int snapshot_module_read_dword(snapshot_module_t *m, DWORD *dw_return);
 extern int snapshot_module_read_byte_array(snapshot_module_t *m,
-                                           BYTE *b_return, unsigned int size);
+                                           BYTE *b_return, unsigned int num);
 extern int snapshot_module_read_word_array(snapshot_module_t *m,
-                                           WORD *w_return, unsigned int size);
+                                           WORD *w_return, unsigned int num);
 extern int snapshot_module_read_dword_array(snapshot_module_t *m,
                                             DWORD *dw_return,
-                                            unsigned int size);
+                                            unsigned int num);
 extern int snapshot_module_read_string(snapshot_module_t *m, char **s);
 extern int snapshot_module_read_byte_into_int(snapshot_module_t *m,
                                               int *value_return);
