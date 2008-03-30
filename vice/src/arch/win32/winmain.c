@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,13 +30,22 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <windowsx.h>
+#include <signal.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "console.h"
+#include "joy.h"
+#include "log.h"
+#include "machine.h"
+#include "main.h"
+#include "mon.h"
+#include "sound.h"
 #include "utils.h"
 #include "winmain.h"
-#include "console.h"
-#include "mon.h"
+#include "video.h"
+
 
 HINSTANCE winmain_instance;
 HINSTANCE winmain_prev_instance;
@@ -52,93 +62,93 @@ char **ParseCommandLine(int *argc)
     char **_argv;
     int startpos;
 
-    cmd_line=GetCommandLine();
-    _argc=0;
-    scanmode=2;
+    cmd_line = GetCommandLine();
+    _argc = 0;
+    scanmode = 2;
     for (i = 0; i <= strlen(cmd_line); i++) {
         switch(scanmode) {
-            case 0:
-                /*  Search for end of argument */
-                if (cmd_line[i]==' ') {
-                    scanmode=2;
-                } else if (cmd_line[i]==0) {
-                }
-                break;
-            case 1:
-                /*  Search end of '"' */
-                if (cmd_line[i]=='"') {
-                    scanmode=2;
-                } else if (cmd_line[i]==0) {
-                } else {
-                }
-                break;
-            case 2:
-                /*  Skip leading spaces and search for start of argument */
-                if (cmd_line[i]==' ') {
-                } else if (cmd_line[i]==0) {
-                } else if (cmd_line[i]=='"') {
-                    scanmode=1;
-                    _argc++;
-                } else {
-                    scanmode=0;
-                    _argc++;
-                }
-                break;
+          case 0:
+            /*  Search for end of argument */
+            if (cmd_line[i] == ' ') {
+                scanmode = 2;
+            } else if (cmd_line[i] == 0) {
+            }
+            break;
+          case 1:
+            /*  Search end of '"' */
+            if (cmd_line[i] == '"') {
+                scanmode = 2;
+            } else if (cmd_line[i] == 0) {
+            } else {
+            }
+            break;
+          case 2:
+            /*  Skip leading spaces and search for start of argument */
+            if (cmd_line[i] == ' ') {
+            } else if (cmd_line[i] == 0) {
+            } else if (cmd_line[i] == '"') {
+                scanmode = 1;
+                _argc++;
+            } else {
+                scanmode = 0;
+                _argc++;
+            }
+            break;
         }
     }
 
-    _argc=0;
-    _argv=xmalloc(_argc*sizeof(char*));
-    scanmode=2;
+    _argc = 0;
+    _argv = xmalloc(_argc*sizeof(char*));
+    scanmode = 2;
     for (i = 0; i <= strlen(cmd_line); i++) {
         switch(scanmode) {
-            case 0:
-                /*  Search for end of argument */
-                if (cmd_line[i]==' ') {
-                    _argv[_argc]=xmalloc(i-startpos+1);
-                    memcpy(_argv[_argc],&cmd_line[startpos],i-startpos);
-                    _argv[_argc][i-startpos]=0;
-                    _argc++;
-                    scanmode=2;
-                } else if (cmd_line[i]==0) {
-                    _argv[_argc]=xmalloc(i-startpos+1);
-                    memcpy(_argv[_argc],&cmd_line[startpos],i-startpos);
-                    _argv[_argc][i-startpos]=0;
-                    _argc++;
-                }
-                break;
-            case 1:
-                /*  Search end of '"' */
-                if (cmd_line[i]=='"') {
-                    _argv[_argc]=xmalloc(i-startpos+1);
-                    memcpy(_argv[_argc],&cmd_line[startpos],i-startpos);
-                    _argv[_argc][i-startpos]=0;
-                    _argc++;
-                    scanmode=2;
-                } else if (cmd_line[i]==0) {
-                    _argv[_argc]=xmalloc(i-startpos+1);
-                    memcpy(_argv[_argc],&cmd_line[startpos],i-startpos);
-                    _argv[_argc][i-startpos]=0;
-                    _argc++;
-                } else {
-                }
-                break;
-            case 2:
-                /*  Skip leading spaces and search for start of argument */
-                if (cmd_line[i]==' ') {
-                } else if (cmd_line[i]==0) {
-                } else if (cmd_line[i]=='"') {
-                    scanmode=1;
-                    startpos=i+1;
-                } else {
-                    scanmode=0;
-                    startpos=i;
-                }
-                break;
+          case 0:
+            /*  Search for end of argument */
+            if (cmd_line[i] == ' ') {
+                _argv[_argc] = xmalloc(i-startpos+1);
+                memcpy(_argv[_argc], &cmd_line[startpos], i - startpos);
+                _argv[_argc][i-startpos] = 0;
+                _argc++;
+                scanmode = 2;
+            } else if (cmd_line[i] == 0) {
+                _argv[_argc] = xmalloc(i - startpos+1);
+                memcpy(_argv[_argc], &cmd_line[startpos], i - startpos);
+                _argv[_argc][i - startpos] = 0;
+                _argc++;
+            }
+            break;
+          case 1:
+            /*  Search end of '"' */
+            if (cmd_line[i] == '"') {
+                _argv[_argc] = xmalloc(i - startpos+1);
+                memcpy(_argv[_argc], &cmd_line[startpos], i - startpos);
+                _argv[_argc][i - startpos] = 0;
+                _argc++;
+                scanmode = 2;
+            } else if (cmd_line[i] == 0) {
+                _argv[_argc] = xmalloc(i - startpos+1);
+                memcpy(_argv[_argc], &cmd_line[startpos], i - startpos);
+                _argv[_argc][i - startpos] = 0;
+                _argc++;
+            } else {
+            }
+            break;
+          case 2:
+            /*  Skip leading spaces and search for start of argument */
+            if (cmd_line[i] == ' ') {
+            } else if (cmd_line[i] == 0) {
+            } else if (cmd_line[i] == '"') {
+                scanmode = 1;
+                startpos = i + 1;
+            } else {
+                scanmode = 0;
+                startpos = i;
+            }
+            break;
         }
     }
 
-    *argc=_argc;
+    *argc = _argc;
     return _argv;
 }
 #endif
@@ -154,23 +164,35 @@ int PASCAL WinMain(HINSTANCE instance, HINSTANCE prev_instance,
 
 #ifdef _MSC_VER
     {
-    int     argc;
-    char    **argv;
-//    LPSTR   args[1];
+        int argc;
+        char **argv;
 
-//        args[0]=GetCommandLine();
-//        args[0][strlen(args[0])-1]=0;
-//        args[0]=args[0]+1;
-//        OutputDebugString(args[0]);
-        argv=ParseCommandLine(&argc);
-        MAIN_PROGRAM(argc,argv);
+        argv = ParseCommandLine(&argc);
+        main_program(argc, argv);
 
-//        MAIN_PROGRAM(1, args);
     }
 #else
-    MAIN_PROGRAM(_argc, _argv);
+    main_program(_argc, _argv);
 #endif
 
     return 0;
+}
+
+void main_exit(void)
+{
+    /* Disable SIGINT.  This is done to prevent the user from keeping C-c
+       pressed and thus breaking the cleanup process, which might be
+       dangerous.  */
+    signal(SIGINT, SIG_IGN);
+
+    log_message(LOG_DEFAULT, "\nExiting...");
+
+    machine_shutdown();
+
+    sound_close();
+
+#ifdef HAS_JOYSTICK
+    joystick_close();
+#endif
 }
 

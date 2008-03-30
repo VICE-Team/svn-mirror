@@ -1,5 +1,5 @@
 /*
- * main.c - VICE startup.
+ * main.c - VICE main startup entry.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
@@ -51,7 +51,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
-#include "main_exit.h"
+#include "main.h"
 #include "resources.h"
 #include "sysfile.h"
 #include "types.h"
@@ -75,7 +75,7 @@ static int init_done;
    this is `main()'; on Windows we have to #define the name to something
    different because the standard entry point is `WinMain()' there.  */
 
-int MAIN_PROGRAM(int argc, char **argv)
+int main_program(int argc, char **argv)
 {
     int i;
 

@@ -110,6 +110,13 @@ static int artsdrv_init(const char *param, int *speed,
 
 static int artsdrv_write(SWORD *pbuf, size_t nr)
 {
+#ifdef WORDS_BIGENDIAN
+    int i;
+
+    for (i = 0; i < nr; ++i)
+        pbuf[i] = (pbuf[i] >> 8 ) | ((pbuf[i] & 0x0f) << 8);
+#endif /* WORDS_BIGENDIAN */
+
     arts_write(arts_st,(void*)pbuf,nr*sizeof(SWORD));
     return 0;
 }
