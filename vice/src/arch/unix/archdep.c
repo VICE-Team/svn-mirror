@@ -33,9 +33,13 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <signal.h>
+#include <sys/wait.h>
+
+#ifdef HAVE_VFORK_H
+#include <vfork.h>
+#endif
 
 #include "archdep.h"
-
 #include "findpath.h"
 #include "log.h"
 #include "utils.h"
@@ -232,3 +236,40 @@ int archdep_path_is_relative(const char *path)
 
     return *path != '/';
 }
+
+int archdep_spawn(const char *name, char **argv,
+                  const char *stdout_redir, const char *stderr_redir)
+{
+    pid_t child_pid;
+    int child_status;
+
+    child_pid = vfork();
+    if (child_pid < 0) {
+    log_error(LOG_DEFAULT, "vfork() failed: %s.", strerror(errno));
+    return -1;
+    } else if (child_pid == 0) {
+    if (stdout_redir && freopen(stdout_redir, "w", stdout) == NULL) {
+        log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.",
+                      stdout_redir, strerror(errno));
+        _exit(-1);
+    }
+    if (stderr_redir && freopen(stderr_redir, "w", stderr) == NULL) {
+        log_error(LOG_DEFAULT, "freopen(\"%s\") failed: %s.",
+                      stderr_redir, strerror(errno));
+        _exit(-1);
+    }
+    execvp(name, argv);
+    _exit(-1);
+    }
+
+    if (waitpid(child_pid, &child_status, 0) != child_pid) {
+        log_error(LOG_DEFAULT, "waitpid() failed: %s", strerror(errno));
+    return -1;
+    }
+
+    if (WIFEXITED(child_status))
+    return WEXITSTATUS(child_status);
+    else
+    return -1;
+}
+
