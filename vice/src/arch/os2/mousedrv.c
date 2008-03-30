@@ -23,6 +23,8 @@
  *
  */
 
+#include "vice.h"
+
 #define INCL_WININPUT
 #define INCL_WINPOINTERS
 

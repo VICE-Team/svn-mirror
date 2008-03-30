@@ -1576,7 +1576,7 @@ static long CALLBACK window_proc(HWND window, UINT msg,
         vsync_suspend_speed_eval();
         break;
       case WM_NOTIFY:
-        statusbar_notify(window, wparam, lparam);
+        statusbar_notify(window, window_index, wparam, lparam);
         break;
     }
 

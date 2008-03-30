@@ -74,7 +74,8 @@ ROM_xvic=VIC20
 ROM_REMOVE="{beos,amiga,dos,os2,win,RO}*.vkm"
 DOC_REMOVE="texi2html *.tex *.texi MSDOS* Minix* *.beos *.dos Win32*"
 # define droppable file types
-DROP_TYPES="d64|d71|d81|tap|prg|p00"
+DROP_TYPES="x64|g64|d64|d71|d81|t64|tap|prg|p00"
+DROP_FORMATS="x64 g64 d64 d71 d81 t64 tap prg p00"
 
 # launcher script
 LAUNCHER=x11-launcher.sh
@@ -114,6 +115,31 @@ fi
 
 copy_tree () {
   (cd "$1" && tar --exclude 'Makefile*' --exclude .svn -c -f - .) | (cd "$2" && tar xf -)
+}
+
+create_info_plist () {
+  SRC="$1"
+  TGT="$2"
+
+  # add filetypes to Info.plist
+  if [ "$UI_TYPE" = "cocoa" ]; then
+    ADDON="  <key>CFBundleDocumentTypes</key><array>"
+    for type in $DROP_FORMATS ; do
+      ADDLINE="<dict><key>CFBundleTypeExtensions</key><array><string>$type</string></array>"
+      ADDLINE="$ADDLINE <key>CFBundleTypeIconFile</key><string>VICEFile</string>"
+      ADDLINE="$ADDLINE <key>CFBundleTypeName</key><string>$type VICE File</string></dict>"
+      ADDON="$ADDON $ADDLINE"
+    done
+    ADDON="$ADDON </array></dict>"
+    sed -e "s/XVERSIONX/$VICE_VERSION/g" \
+        -e "s/XNAMEX/$bundle/g" \
+        -e "s,</dict>,$ADDON," \
+        < "$SRC" > "$TGT"
+  else
+    sed -e "s/XVERSIONX/$VICE_VERSION/g" \
+        -e "s/XNAMEX/$bundle/g" \
+        < "$SRC" > "$TGT"
+  fi
 }
 
 for bundle in $BUNDLES ; do
@@ -167,9 +193,7 @@ for bundle in $BUNDLES ; do
 
     # setup Info.plist
     echo -n "[Info.plist] "
-    sed -e "s/XVERSIONX/$VICE_VERSION/g" \
-        -e "s/XNAMEX/$bundle/g" \
-      < $RUN_PATH/Info.plist > $APP_CONTENTS/Info.plist
+    create_info_plist "$RUN_PATH/Info.plist" "$APP_CONTENTS/Info.plist"
 
     # copy launcher for non-cocoa
     if [ "$UI_TYPE" != "cocoa" ]; then
@@ -187,7 +211,7 @@ for bundle in $BUNDLES ; do
     else
       # embed resources for cocoa
       echo -n "[resources] "
-      LOC_RESOURCES="$RUN_PATH/cocoa/Resources"
+      LOC_RESOURCES="$RUN_PATH/Resources"
       copy_tree "$LOC_RESOURCES" "$APP_RESOURCES"
       
       # rename emu nib

@@ -195,7 +195,7 @@ static int joypad_bits[9] = {
     0x10, 0x06, 0x02, 0x0a, 0x04, 0x08, 0x05, 0x01, 0x09
 };
 
-static int joypad_status[2][10];
+static int joypad_status[3][9];
 
 typedef enum {
     KEYSET_FIRE,
@@ -268,11 +268,11 @@ static const resource_int_t resources_int[] = {
     { "KeySet1Fire", 0, RES_EVENT_NO, NULL,
       &joykeys[1][KEYSET_FIRE], set_keyset1, (void *)KEYSET_FIRE },
     { "KeySet2NorthWest", 0, RES_EVENT_NO, NULL,
-      &joykeys[1][KEYSET_NW], set_keyset2, (void *)KEYSET_NW },
+      &joykeys[2][KEYSET_NW], set_keyset2, (void *)KEYSET_NW },
     { "KeySet2North", 0, RES_EVENT_NO, NULL,
-      &joykeys[1][KEYSET_N], set_keyset2, (void *)KEYSET_N },
+      &joykeys[2][KEYSET_N], set_keyset2, (void *)KEYSET_N },
     { "KeySet2NorthEast", 0, RES_EVENT_NO, NULL,
-      &joykeys[1][KEYSET_NE], set_keyset2, (void *)KEYSET_NE },
+      &joykeys[2][KEYSET_NE], set_keyset2, (void *)KEYSET_NE },
     { "KeySet2East", 0, RES_EVENT_NO, NULL,
       &joykeys[2][KEYSET_E], set_keyset2, (void *)KEYSET_E },
     { "KeySet2SouthEast", 0, RES_EVENT_NO, NULL,

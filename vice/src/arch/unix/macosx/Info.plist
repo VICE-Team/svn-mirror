@@ -13,27 +13,12 @@
   <key>CFBundleInfoDictionaryVersion</key>
      <string>6.0</string>
   <key>CFBundleName</key>
-     <string>VICE</string>
+     <string>XNAMEX</string>
   <key>CFBundlePackageType</key>
      <string>APPL</string>
-  <key>CFBundleShortVersionString</key>
-     <string>1.0</string>
   <key>CFBundleSignature</key>
      <string>VICE</string>
   <key>CFBundleVersion</key>
-     <string>1.0</string>
-  <key>CFBundleDocumentTypes</key>
-  <array>
-          <dict>
-                  <key>CFBundleTypeExtensions</key>
-                  <array>
-                          <string>d64</string>
-                  </array>
-                  <key>CFBundleTypeIconFile</key>
-                  <string>D64</string>
-                  <key>CFBundleTypeName</key>
-                  <string>D64 Disk Image</string>
-          </dict>
-  </array>
+     <string>XVERSIONX</string>
 </dict>
 </plist>

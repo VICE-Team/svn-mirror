@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=21
-VICE_VERSION_BUILD=10
+VICE_VERSION_BUILD=11
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -1213,13 +1213,21 @@ if test x"$is_win32" = "xyes"; then
     SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o soundwmm.o"
     AC_PATH_PROGS(WINDRES, windres, windres)
     AC_PATH_PROGS(WRC, wrc , windres)
-    if test x"$WRC" = "xwindres"; then
+    if test x"$WRC" != "xwindres"; then
+        WRC_VERSION=`($WRC --version) 2>/dev/null`
+        case "$WRC_VERSION" in
+            Wine*)
+                winerc=yes
+                ;;
+            *)
+                winerc=no
+                AC_MSG_WARN([WRC found, but is not the Wine Resource Compiler])
+                WRC="$WINDRES"
+                ;;
+        esac
+    else
         AC_MSG_WARN([WRC not found, WRC is required for propper internationalization support])
-        if test x"$WINDRES" = "xwindres"; then
-          WRC="windres"
-        else
-          WRC="$WINDRES"
-        fi
+        WRC="$WINDRES"
     fi
 fi
 
@@ -1796,9 +1804,9 @@ if test x"$is_unix" = "xyes"; then
 
   if test x"$is_unix_macosx" = "xyes" ; then
     if test x"$with_cocoa" = "xyes" ; then
-      ARCH_LIBS="$ARCH_DIR/macosx/cocoa/menu/libarchmacosxcocoamenu.a $ARCH_DIR/macosx/cocoa/libarchmacosxcocoa.a $ARCH_DIR/macosx/cocoa/view/libarchmacosxcocoaview.a $ARCH_DIR/macosx/libarchmacosx.a $ARCH_DIR/libarch.a $ARCH_LIBS"
-      ARCH_INCLUDES="-I$ARCH_SRC_DIR/macosx/cocoa/menu -I$ARCH_SRC_DIR/macosx/cocoa/view -I$ARCH_SRC_DIR/macosx/cocoa -I$ARCH_SRC_DIR $ARCH_INCLUDES"
-      ARCH_EXTRA_SUBDIR="macosx macosx/cocoa macosx/cocoa/view macosx/cocoa/menu"
+      ARCH_LIBS="$ARCH_DIR/macosx/cocoa/menu/libarchmacosxcocoamenu.a $ARCH_DIR/macosx/cocoa/dialog/libarchmacosxcocoadialog.a $ARCH_DIR/macosx/cocoa/libarchmacosxcocoa.a $ARCH_DIR/macosx/cocoa/view/libarchmacosxcocoaview.a $ARCH_DIR/macosx/libarchmacosx.a $ARCH_DIR/libarch.a $ARCH_LIBS"
+      ARCH_INCLUDES="-I$ARCH_SRC_DIR/macosx/cocoa/menu -I$ARCH_SRC_DIR/macosx/cocoa/dialog -I$ARCH_SRC_DIR/macosx/cocoa/view -I$ARCH_SRC_DIR/macosx/cocoa -I$ARCH_SRC_DIR $ARCH_INCLUDES"
+      ARCH_EXTRA_SUBDIR="macosx macosx/cocoa macosx/cocoa/view macosx/cocoa/menu macosx/cocoa/dialog"
       UI_LIBS="-framework Cocoa -framework OpenGL"
       UNIX_MACOSX_UITYPE=cocoa
     else
@@ -2064,6 +2072,10 @@ if false ; then
     mkdir -p arch/unix/x11/xaw
     mkdir -p arch/unix/x11/xaw/widgets
     mkdir -p arch/unix/macosx
+    mkdir -p arch/unix/macosx/cocoa
+    mkdir -p arch/unix/macosx/cocoa/view
+    mkdir -p arch/unix/macosx/cocoa/menu
+    mkdir -p arch/unix/macosx/cocoa/dialog
     mkdir -p arch/win32
     mkdir -p arch/win32/utils
     mkdir -p c128
@@ -2156,6 +2168,12 @@ AC_OUTPUT([Makefile
            src/arch/unix/x11/xaw/Makefile
            src/arch/unix/x11/xaw/widgets/Makefile
            src/arch/unix/macosx/Makefile
+           src/arch/unix/macosx/cocoa/Makefile
+           src/arch/unix/macosx/cocoa/view/Makefile
+           src/arch/unix/macosx/cocoa/menu/Makefile
+           src/arch/unix/macosx/cocoa/dialog/Makefile
+           src/arch/unix/macosx/Resources/Makefile
+           src/arch/unix/macosx/Resources/English.lproj/Makefile
            src/arch/win32/Makefile
            src/arch/win32/utils/Makefile
            src/c128/Makefile

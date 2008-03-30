@@ -27,6 +27,11 @@
 #include "dialogs.h"
 #include "dlg-emulator.h" 
 
+#ifdef WATCOM_COMPILE
+#include <pmwin.h>
+#include <pmstddlg.h>
+#endif
+
 DLGTEMPLATE DLG_EMULATOR 850 MOVEABLE DISCARDABLE
 BEGIN
     DIALOG "Emulator Setup", DLG_EMULATOR, 162, 122, 152+35, 123, STY_DIALOG|FCF_CLOSEBUTTON

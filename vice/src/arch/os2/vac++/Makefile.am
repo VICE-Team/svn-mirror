@@ -7,6 +7,7 @@ EXTRA_DIST = \
 	xpet/Xpet.ICC \
 	xplus4/Xplus4.ICC \
 	xvic/Xvic.ICC \
+	config.h \
 	fonts1.icc \
 	fonts2.icc \
 	PETcat.ICC \

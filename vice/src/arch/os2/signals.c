@@ -37,7 +37,7 @@
 #include "monitor.h"
 #include "signals.h"
 
-#ifdef __IBMC__
+#if defined(__IBMC__) || defined(WATCOM_COMPILE)
 //   #define SIGILL       1       /* illegal instruction - invalid function image    */
 //   #define SIGSEGV      2       /* invalid access to memory                        */
 //   #define SIGFPE       3       /* floating point exception                        */
@@ -146,7 +146,7 @@ void signals_init(int do_core_dumps)
         // signal(SIGUSR1,  break64);
         // signal(SIGUSR2,  break64);
         signal(SIGBREAK, break64);
-#ifdef __IBMC__
+#if defined(__IBMC__) || defined(WATCOM_COMPILE)
         // signal(SIGUSR3,  break64);
 #else
         signal(SIGPIPE,  break64);

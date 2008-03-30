@@ -27,7 +27,14 @@
 #include "dialogs.h"
 #include "dlg-fileio.h"  
 
+#ifdef WATCOM_COMPILE
+#include <pmwin.h>
+#include <pmstddlg.h>
+
+BITMAP DID_DIRUP "..\\icons\\dirup.bmp"
+#else
 BITMAP DID_DIRUP "..\\..\\icons\\dirup.bmp"
+#endif
 
 DLGTEMPLATE DLG_FILEIO 850 MOVEABLE DISCARDABLE
 BEGIN
@@ -58,8 +65,9 @@ BEGIN
         CONTROL "",           DID_FILENAME_ED,   55, 200, 217,   7, WC_ENTRYFIELD,  
                               ES_MARGIN | WS_TABSTOP | WS_GROUP | WS_VISIBLE
                 CTLDATA 8, 32, 0, 0
+#ifndef WATCOM_COMPILE
                 PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
-
+#endif
         CONTROL "Display:",   DID_FILTER_TXT,     5, 188,  NA,  NA, WC_STATIC, SS_TEXT |
                               SS_AUTOSIZE | DT_LEFT | DT_TOP | WS_VISIBLE
                 PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
@@ -118,7 +126,9 @@ BEGIN
         CONTROL "~Contents",   DID_CONTENTS_CB,   5,  93,  40,  10, WC_BUTTON,
                                BS_AUTOCHECKBOX | WS_VISIBLE
                 CTLDATA 6, 1, 0 // checked
+#ifndef WATCOM_COMPILE
                 PRESPARAMS PP_FONTNAMESIZE, "9.WarpSans Bold"
+#endif
 /*
         CONTROL "Ca~se",       DID_CBMFONT_CB,   49,  93,  25,  10, WC_BUTTON,
                                BS_AUTOCHECKBOX | WS_VISIBLE

@@ -24,10 +24,16 @@
  *
  */
 
+#include "vice.h"
+
 #include <os2.h>
 #include <os2me.h>
 
 #include <ctype.h>
+
+#ifdef WATCOM_COMPILE
+#include <mcios2.h>
+#endif
 
 #include "log.h"
 

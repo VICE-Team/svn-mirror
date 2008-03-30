@@ -274,7 +274,11 @@ struct _trapaction
     int pending;
     int rc;
     const char *path;
+#ifdef WATCOM_COMPILE
+    HWND hwnd;
+#else
     const HWND hwnd;
+#endif
     int (*execute)(struct _trapaction*);
 };
 
@@ -332,9 +336,19 @@ static void exec_func(WORD addr, void *ptr)
 
 static int trap(const HWND hwnd, int (*func)(trapaction_t*), const char *path)
 {
-    trapaction_t handle = { TRUE, 0, path, hwnd, func };
-
     const int paused = isEmulatorPaused();
+
+#ifdef WATCOM_COMPILE
+    trapaction_t handle;
+
+    handle.pending = TRUE;
+    handle.rc = 0;
+    handle.path = path;
+    handle.hwnd = hwnd;
+    handle.execute = func;
+#else
+    trapaction_t handle = { TRUE, 0, path, hwnd, func };
+#endif
 
     interrupt_maincpu_trigger_trap(exec_func, &handle);
 
@@ -1116,12 +1130,26 @@ MRESULT EXPENTRY ViceFileDlgProc(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 
                 char    *txt = util_concat("The following action couldn't be performed:\n", action[act].type, " ", action[act].subact[sact].action, NULL);
                 HPOINTER hpt = WinLoadPointer(HWND_DESKTOP, NULLHANDLE, 0x101/*PTR_INFO*/);
+#ifdef WATCOM_COMPILE
+                struct _MB2D mbtemp;
+                struct _MB2INFO mb;
+
+                mb.cb = sizeof(MB2INFO);
+                mb.hIcon = hpt;
+                mb.cButtons = 1;
+                mb.flStyle = MB_CUSTOMICON|WS_VISIBLE;
+                mb.hwndNotify = NULLHANDLE;
+                sprintf(mbtemp.achText,"      OK      ");
+                mbtemp.idButton = 0;
+                mbtemp.flStyle = BS_DEFAULT;
+                mb.mb2d[0] = mbtemp;
+#else
                 MB2INFO  mb  =
                 {
                     sizeof(MB2INFO), hpt, 1, MB_CUSTOMICON|WS_VISIBLE, NULLHANDLE,
                     "      OK      ", 0, BS_DEFAULT
                 };
-
+#endif
                 WinMessageBox2(HWND_DESKTOP, hwnd, txt, "VICE/2 Error", 0, &mb);
                 lib_free(txt);
                 return FALSE;

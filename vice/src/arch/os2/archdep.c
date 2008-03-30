@@ -46,7 +46,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <process.h>
-#ifdef __IBMC__
+#if defined(__IBMC__) || defined(WATCOM_COMPILE)
 #include <io.h>
 #include <fcntl.h>
 #include <direct.h>
@@ -252,7 +252,7 @@ FILE *archdep_open_default_log_file()
 
 int archdep_num_text_lines(void)
 {
-#ifdef __IBMC__
+#if defined(__IBMC__) || defined(WATCOM_COMPILE)
    return 25;
 #else
    int dst[2];
@@ -263,7 +263,7 @@ int archdep_num_text_lines(void)
 
 int archdep_num_text_columns(void)
 {
-#ifdef __IBMC__
+#if defined(__IBMC__) || defined(WATCOM_COMPILE)
    return 80;
 #else
    int dst[2];

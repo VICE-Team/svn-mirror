@@ -32,10 +32,14 @@
 #define INCL_DOSMODULEMGR    // DosLoadModule
 #include <os2.h>
 
+#ifdef WATCOM_COMPILE
+#define INCL_MMIOOS2
+#else
 #define INCL_MMIO
+#endif
 #include <os2me.h>
 
-#ifdef __IBMC__
+#if defined(__IBMC__) || defined(WATCOM_COMPILE)
 #include "fullscros2.h"
 #include <fourcc.h>
 #endif

@@ -51,6 +51,6 @@ void statusbar_event_status(int mode);
 void statusbar_event_time(unsigned int current, unsigned int total);
 void statusbar_handle_WMSIZE(UINT msg, WPARAM wparam, LPARAM lparam, int window_index);
 void statusbar_handle_WMDRAWITEM(WPARAM wparam, LPARAM lparam);
-void statusbar_notify(HWND window, WPARAM wparam, LPARAM lparam);
+void statusbar_notify(HWND window, int window_index, WPARAM wparam, LPARAM lparam);
 void statusbar_display_volume(int vol);
 #endif

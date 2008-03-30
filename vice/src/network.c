@@ -103,11 +103,14 @@ typedef struct timeval TIMEVAL;
 typedef unsigned int SOCKET;
 typedef struct timeval TIMEVAL;
 
-#ifndef AMIGA_MORPHOS
-/*#ifdef AMIGA_OS4*/
+#ifdef AMIGA_SUPPORT
+#ifdef AMIGA_OS4
 #define closesocket close
 #else
 #define closesocket CloseSocket
+#endif
+#else
+#define closesocket close
 #endif
 
 #ifndef INVALID_SOCKET

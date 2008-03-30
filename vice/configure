@@ -1351,7 +1351,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=21
-VICE_VERSION_BUILD=10
+VICE_VERSION_BUILD=11
 
 
 
@@ -18418,14 +18418,23 @@ fi
 done
 test -n "$WRC" || WRC="windres"
 
-    if test x"$WRC" = "xwindres"; then
+    if test x"$WRC" != "xwindres"; then
+        WRC_VERSION=`($WRC --version) 2>/dev/null`
+        case "$WRC_VERSION" in
+            Wine*)
+                winerc=yes
+                ;;
+            *)
+                winerc=no
+                { echo "$as_me:$LINENO: WARNING: WRC found, but is not the Wine Resource Compiler" >&5
+echo "$as_me: WARNING: WRC found, but is not the Wine Resource Compiler" >&2;}
+                WRC="$WINDRES"
+                ;;
+        esac
+    else
         { echo "$as_me:$LINENO: WARNING: WRC not found, WRC is required for propper internationalization support" >&5
 echo "$as_me: WARNING: WRC not found, WRC is required for propper internationalization support" >&2;}
-        if test x"$WINDRES" = "xwindres"; then
-          WRC="windres"
-        else
-          WRC="$WINDRES"
-        fi
+        WRC="$WINDRES"
     fi
 fi
 
@@ -26691,9 +26700,9 @@ _ACEOF
 
   if test x"$is_unix_macosx" = "xyes" ; then
     if test x"$with_cocoa" = "xyes" ; then
-      ARCH_LIBS="$ARCH_DIR/macosx/cocoa/menu/libarchmacosxcocoamenu.a $ARCH_DIR/macosx/cocoa/libarchmacosxcocoa.a $ARCH_DIR/macosx/cocoa/view/libarchmacosxcocoaview.a $ARCH_DIR/macosx/libarchmacosx.a $ARCH_DIR/libarch.a $ARCH_LIBS"
-      ARCH_INCLUDES="-I$ARCH_SRC_DIR/macosx/cocoa/menu -I$ARCH_SRC_DIR/macosx/cocoa/view -I$ARCH_SRC_DIR/macosx/cocoa -I$ARCH_SRC_DIR $ARCH_INCLUDES"
-      ARCH_EXTRA_SUBDIR="macosx macosx/cocoa macosx/cocoa/view macosx/cocoa/menu"
+      ARCH_LIBS="$ARCH_DIR/macosx/cocoa/menu/libarchmacosxcocoamenu.a $ARCH_DIR/macosx/cocoa/dialog/libarchmacosxcocoadialog.a $ARCH_DIR/macosx/cocoa/libarchmacosxcocoa.a $ARCH_DIR/macosx/cocoa/view/libarchmacosxcocoaview.a $ARCH_DIR/macosx/libarchmacosx.a $ARCH_DIR/libarch.a $ARCH_LIBS"
+      ARCH_INCLUDES="-I$ARCH_SRC_DIR/macosx/cocoa/menu -I$ARCH_SRC_DIR/macosx/cocoa/dialog -I$ARCH_SRC_DIR/macosx/cocoa/view -I$ARCH_SRC_DIR/macosx/cocoa -I$ARCH_SRC_DIR $ARCH_INCLUDES"
+      ARCH_EXTRA_SUBDIR="macosx macosx/cocoa macosx/cocoa/view macosx/cocoa/menu macosx/cocoa/dialog"
       UI_LIBS="-framework Cocoa -framework OpenGL"
       UNIX_MACOSX_UITYPE=cocoa
     else
@@ -27866,6 +27875,10 @@ if false ; then
     mkdir -p arch/unix/x11/xaw
     mkdir -p arch/unix/x11/xaw/widgets
     mkdir -p arch/unix/macosx
+    mkdir -p arch/unix/macosx/cocoa
+    mkdir -p arch/unix/macosx/cocoa/view
+    mkdir -p arch/unix/macosx/cocoa/menu
+    mkdir -p arch/unix/macosx/cocoa/dialog
     mkdir -p arch/win32
     mkdir -p arch/win32/utils
     mkdir -p c128
@@ -27923,7 +27936,7 @@ if false ; then
 
 fi
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ac_config_files="$ac_config_files Makefile build/Makefile data/Makefile data/C128/Makefile data/C64/Makefile data/CBM-II/Makefile data/DRIVES/Makefile data/PET/Makefile data/PLUS4/Makefile data/PRINTER/Makefile data/VIC20/Makefile data/fonts/Makefile doc/Makefile doc/html/Makefile man/Makefile src/Makefile src/arch/Makefile src/arch/amigaos/Makefile src/arch/beos/Makefile src/arch/msdos/Makefile src/arch/os2/Makefile src/arch/os2/dialogs/Makefile src/arch/os2/kbd/Makefile src/arch/os2/snippets/Makefile src/arch/os2/vac++/Makefile src/arch/riscos/Makefile src/arch/unix/Makefile src/arch/unix/gp2x/Makefile src/arch/unix/gui/Makefile src/arch/unix/readline/Makefile src/arch/unix/x11/Makefile src/arch/unix/x11/gnome/Makefile src/arch/unix/x11/xaw/Makefile src/arch/unix/x11/xaw/widgets/Makefile src/arch/unix/macosx/Makefile src/arch/win32/Makefile src/arch/win32/utils/Makefile src/c128/Makefile src/c64/Makefile src/c64/cart/Makefile src/cbm2/Makefile src/core/Makefile src/crtc/Makefile src/diskimage/Makefile src/drive/Makefile src/drive/iec/Makefile src/drive/iec/c64exp/Makefile src/drive/iec/plus4exp/Makefile src/drive/iec128dcr/Makefile src/drive/iecieee/Makefile src/drive/ieee/Makefile src/drive/tcbm/Makefile src/fileio/Makefile src/fsdevice/Makefile src/gfxoutputdrv/Makefile src/iecbus/Makefile src/imagecontents/Makefile src/lib/Makefile src/lib/lpng/Makefile src/lib/zlib/Makefile src/monitor/Makefile src/parallel/Makefile src/pet/Makefile src/plus4/Makefile src/printerdrv/Makefile src/raster/Makefile src/rs232drv/Makefile src/serial/Makefile src/sid/Makefile src/sounddrv/Makefile src/tape/Makefile src/vdc/Makefile src/vdrive/Makefile src/vic20/Makefile src/vicii/Makefile src/video/Makefile src/version.h po/Makefile.in"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ac_config_files="$ac_config_files Makefile build/Makefile data/Makefile data/C128/Makefile data/C64/Makefile data/CBM-II/Makefile data/DRIVES/Makefile data/PET/Makefile data/PLUS4/Makefile data/PRINTER/Makefile data/VIC20/Makefile data/fonts/Makefile doc/Makefile doc/html/Makefile man/Makefile src/Makefile src/arch/Makefile src/arch/amigaos/Makefile src/arch/beos/Makefile src/arch/msdos/Makefile src/arch/os2/Makefile src/arch/os2/dialogs/Makefile src/arch/os2/kbd/Makefile src/arch/os2/snippets/Makefile src/arch/os2/vac++/Makefile src/arch/riscos/Makefile src/arch/unix/Makefile src/arch/unix/gp2x/Makefile src/arch/unix/gui/Makefile src/arch/unix/readline/Makefile src/arch/unix/x11/Makefile src/arch/unix/x11/gnome/Makefile src/arch/unix/x11/xaw/Makefile src/arch/unix/x11/xaw/widgets/Makefile src/arch/unix/macosx/Makefile src/arch/unix/macosx/cocoa/Makefile src/arch/unix/macosx/cocoa/view/Makefile src/arch/unix/macosx/cocoa/menu/Makefile src/arch/unix/macosx/cocoa/dialog/Makefile src/arch/unix/macosx/Resources/Makefile src/arch/unix/macosx/Resources/English.lproj/Makefile src/arch/win32/Makefile src/arch/win32/utils/Makefile src/c128/Makefile src/c64/Makefile src/c64/cart/Makefile src/cbm2/Makefile src/core/Makefile src/crtc/Makefile src/diskimage/Makefile src/drive/Makefile src/drive/iec/Makefile src/drive/iec/c64exp/Makefile src/drive/iec/plus4exp/Makefile src/drive/iec128dcr/Makefile src/drive/iecieee/Makefile src/drive/ieee/Makefile src/drive/tcbm/Makefile src/fileio/Makefile src/fsdevice/Makefile src/gfxoutputdrv/Makefile src/iecbus/Makefile src/imagecontents/Makefile src/lib/Makefile src/lib/lpng/Makefile src/lib/zlib/Makefile src/monitor/Makefile src/parallel/Makefile src/pet/Makefile src/plus4/Makefile src/printerdrv/Makefile src/raster/Makefile src/rs232drv/Makefile src/serial/Makefile src/sid/Makefile src/sounddrv/Makefile src/tape/Makefile src/vdc/Makefile src/vdrive/Makefile src/vic20/Makefile src/vicii/Makefile src/video/Makefile src/version.h po/Makefile.in"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -29426,6 +29439,12 @@ do
   "src/arch/unix/x11/xaw/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/x11/xaw/Makefile" ;;
   "src/arch/unix/x11/xaw/widgets/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/x11/xaw/widgets/Makefile" ;;
   "src/arch/unix/macosx/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/macosx/Makefile" ;;
+  "src/arch/unix/macosx/cocoa/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/macosx/cocoa/Makefile" ;;
+  "src/arch/unix/macosx/cocoa/view/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/macosx/cocoa/view/Makefile" ;;
+  "src/arch/unix/macosx/cocoa/menu/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/macosx/cocoa/menu/Makefile" ;;
+  "src/arch/unix/macosx/cocoa/dialog/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/macosx/cocoa/dialog/Makefile" ;;
+  "src/arch/unix/macosx/Resources/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/macosx/Resources/Makefile" ;;
+  "src/arch/unix/macosx/Resources/English.lproj/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/unix/macosx/Resources/English.lproj/Makefile" ;;
   "src/arch/win32/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/win32/Makefile" ;;
   "src/arch/win32/utils/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/arch/win32/utils/Makefile" ;;
   "src/c128/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/c128/Makefile" ;;

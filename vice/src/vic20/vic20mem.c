@@ -783,11 +783,13 @@ int mem_patch_kernal(void)
     }
 
     while ((bytes = patch_bytes[i++]) > 0) {
-    	a = (WORD)patch_bytes[i++];
+        a = (WORD)patch_bytes[i++];
 
-	    i += (bytes * rev);	/* select patch */
-	    for(n = bytes; n--;)
+        i += (bytes * rev);	/* select patch */
+        for(n = bytes; n--;) {
+	        vic20memrom_trap_store(a, (BYTE)patch_bytes[i]);
 	        rom_store(a++, (BYTE)patch_bytes[i++]);
+        }
 
 	    i += (bytes * (PATCH_VERSIONS - rev));	/* skip patch */
     }

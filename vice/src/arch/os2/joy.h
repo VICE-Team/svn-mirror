@@ -48,15 +48,15 @@ extern void joystick_update(void);
 extern int  joystick_handle_key(kbd_code_t kcode, int pressed);
 
 // --------------------- OS/2 specific stuff -----------------------------
-typedef enum {
-    JOYDEV_NONE    = 0x00,
-    JOYDEV_HW1     = 0x01,
-    JOYDEV_HW2     = 0x02,
-    JOYDEV_NUMPAD  = 0x04,
-    JOYDEV_KEYSET1 = 0x08,
-    JOYDEV_KEYSET2 = 0x10
-} joystick_device_t;
 
+typedef int joystick_device_t;
+
+#define JOYDEV_NONE     0x00
+#define JOYDEV_HW1      0x01
+#define JOYDEV_HW2      0x02
+#define JOYDEV_NUMPAD   0x04
+#define JOYDEV_KEYSET1  0x08
+#define JOYDEV_KEYSET2  0x10
 
 int set_joyA_autoCal(const char *value, void *extra_param);
 int set_joyB_autoCal(const char *value, void *extra_param);

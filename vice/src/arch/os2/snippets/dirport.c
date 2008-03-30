@@ -1,3 +1,6 @@
+#include "vice.h"
+
+#ifndef WATCOM_COMPILE
 #include "dirport.h"
 
 #include <stdio.h>
@@ -40,4 +43,4 @@ int closedir (DIR *dir)
     lib_free(dir);
     return (int)ulrc;
 }
-
+#endif

@@ -27,6 +27,11 @@
 #include "dialogs.h"
 #include "dlg-datasette.h" 
 
+#ifdef WATCOM_COMPILE
+#include <pmwin.h>
+#include <pmstddlg.h>
+#endif
+
 DLGTEMPLATE DLG_DATASETTE 850 MOVEABLE DISCARDABLE
 BEGIN
   DIALOG "Datasette Control", DLG_DATASETTE, 162, 122, 147, 100, STY_DIALOG|FCF_CLOSEBUTTON

@@ -27,6 +27,11 @@
 #include "dialogs.h"
 #include "menubar.h" 
 
+#ifdef WATCOM_COMPILE
+#include <pmwin.h>
+#include <pmhelp.h>
+#endif
+
 MENU IDM_VICE2 MOVEABLE DISCARDABLE
 BEGIN
    SUBMENU "~File",                       IDM_FILE,        MIS_TEXT
@@ -535,7 +540,7 @@ BEGIN
      END
      SUBMENU "S~yncronization",         IDM_SOUNDSYNC,    MIS_TEXT
      BEGIN
-       MENUITEM "~Flexible",            IDM_SYNCFLEX      MIS_TEXT
+       MENUITEM "~Flexible",            IDM_SYNCFLEX,     MIS_TEXT
        MENUITEM "~Adjusting",           IDM_SYNCADJUST,   MIS_TEXT
        MENUITEM "~Exact",               IDM_SYNCEXACT,    MIS_TEXT
      END
@@ -641,6 +646,7 @@ BEGIN
    "-",          IDM_MINUS,       ALT
 END
 
+#ifndef WATCOM_COMPILE
 HELPTABLE IDM_VICE2 MOVEABLE DISCARDABLE
 BEGIN
     HELPITEM IDM_VICE2, IDM_FILE, IDM_FILE
@@ -664,6 +670,7 @@ BEGIN
     HELPSUBITEM IDM_HARDRESET,   IDM_HARDRESET,
     HELPSUBITEM IDM_EXIT,        IDM_EXIT
 END
+#endif
 
    /*** Virtual key values *************************************************
    #define VK_BUTTON1                 0x01

@@ -1,5 +1,9 @@
 # Makefile.am for the Mac OS X library `libarchmacosx.a'.
 
+if MACOSX_COCOA
+SUBDIRS = cocoa Resources
+endif
+
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	@FFMPEG_INCLUDES@ \

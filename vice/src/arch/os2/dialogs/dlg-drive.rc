@@ -27,6 +27,11 @@
 #include "dialogs.h"
 #include "dlg-drive.h" 
 
+#ifdef WATCOM_COMPILE
+#include <pmwin.h>
+#include <pmstddlg.h>
+#endif
+
 DLGTEMPLATE DLG_DRIVE 850 MOVEABLE DISCARDABLE
 BEGIN
   DIALOG "Drive Setup", DLG_DRIVE, 106, 46, 263, 188+16, STY_DIALOG|FCF_CLOSEBUTTON

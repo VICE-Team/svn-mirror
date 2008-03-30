@@ -27,12 +27,16 @@
 #ifndef DIALOGS_H
 #define DIALOGS_H
 
-#include "../config.h" // HAVE_*
+#include "config.h" // HAVE_*
 
 //
 //  --------------- Resource Definitions ----------------
 //
+#ifdef WATCOM_COMPILE
+#define IDM_VICE2      0x0fff
+#else
 #define IDM_VICE2      0x0001
+#endif
 //#define PTR_VICE2      0x0002
 #define DLG_DRIVE      0x1019
 #define DLG_ABOUT      0x1050

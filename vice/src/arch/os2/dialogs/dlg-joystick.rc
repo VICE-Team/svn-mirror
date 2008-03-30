@@ -27,6 +27,11 @@
 #include "dialogs.h"
 #include "dlg-joystick.h" 
 
+#ifdef WATCOM_COMPILE
+#include <pmwin.h>
+#include <pmstddlg.h>
+#endif
+
 DLGTEMPLATE DLG_JOYSTICK 850 MOVEABLE DISCARDABLE
 BEGIN
     DIALOG "Joystick Setup", DLG_JOYSTICK, 162, 122, 169, 98, STY_DIALOG|FCF_CLOSEBUTTON

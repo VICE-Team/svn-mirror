@@ -121,20 +121,20 @@ int get_joy_autoCal(const int nr)
     return joy[nr].autocal;
 }
 
-static int set_joy(resource_value_t v, void *param)
+static int set_joy(int v, void *param)
 {
     const int i = (int)param;
     joy[i>>5].direction[i&0xf] = (int) v;
     return 0;
 }
 
-#define DEFINE_RES_SET_CALDATA(txt, num, dir, def)              \
-    { txt, (resource_value_t) def,                 \
-      RES_EVENT_NO, NULL,                                       \
-      (resource_value_t *) &(joy[num].direction[dir]), set_joy, \
+#define DEFINE_RES_SET_CALDATA(txt, num, dir, def) \
+    { txt, (int) def,                              \
+      RES_EVENT_NO, NULL,                          \
+      &(joy[num].direction[dir]), set_joy,         \
       (void*)((num<<5)|dir) }
 
-static int set_keyset(resource_value_t v, void *param)
+static int set_keyset(int v, void *param)
 {
     const int i = (int)param;
     keyset[i>>5][i&0xf] = (int) v;

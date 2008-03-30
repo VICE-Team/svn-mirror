@@ -1235,7 +1235,7 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
           *(cia_context->clk_ptr)) ? 0x04 : 0)
           | (ciat_is_underflow_clk(cia_context->tb, *(cia_context->clk_ptr))
           ? 0x08 : 0)));
-    SMW_B(m, (BYTE)(cia_context->sr_bits * 2));
+    SMW_B(m, (BYTE)cia_context->sr_bits);
     SMW_B(m, cia_context->todalarm[0]);
     SMW_B(m, cia_context->todalarm[1]);
     SMW_B(m, cia_context->todalarm[2]);

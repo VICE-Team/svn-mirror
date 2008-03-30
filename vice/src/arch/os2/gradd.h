@@ -37,7 +37,9 @@
 #ifndef  GRADD_INCLUDED
   #define GRADD_INCLUDED
 
+#ifndef WATCOM_COMPILE
   #include <ddi.h>
+#endif
   /*
    **  Prototype declarations for low level driver function call table.
    */

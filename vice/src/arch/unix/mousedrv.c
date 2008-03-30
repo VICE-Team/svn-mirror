@@ -36,6 +36,7 @@
 #include "log.h"
 #include "ui.h"
 
+#ifndef MACOSX_COCOA
 
 int mouse_x, mouse_y;
 int mouse_accelx, mouse_accely;
@@ -118,3 +119,4 @@ void mouse_move(int x, int y)
     mouse_y = 256 - y;
 }
 
+#endif

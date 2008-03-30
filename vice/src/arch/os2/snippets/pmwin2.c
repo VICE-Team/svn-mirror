@@ -24,6 +24,8 @@
  *
  */
 
+#include "vice.h"
+
 #define INCL_WINSYS       // PP_*
 #define INCL_WINMENUS     // MM_*
 #define INCL_WINSTDSPIN   // SPBM_*
@@ -34,7 +36,17 @@
 
 void WinLboxInsertMultitems(HWND hwnd, PSZ *txt, ULONG cnt)
 {
+#ifdef WATCOM_COMPILE
+    struct _LBOXINFO info;
+
+    info.lItemIndex = LIT_END;
+    info.ulItemCount = cnt;
+    info.reserved = 0;
+    info.reserved2 = 0;
+#else
     LBOXINFO info = { LIT_END, cnt, 0, 0 };
+#endif
+
     WinSendMsg(hwnd, LM_INSERTMULTITEMS, &info, txt);
 }
 
