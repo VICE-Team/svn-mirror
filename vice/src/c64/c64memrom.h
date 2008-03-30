@@ -24,7 +24,7 @@
  *
  */
 
-#ifndef _C64MEMEOM_H
+#ifndef _C64MEMROM_H
 #define _C64MEMROM_H
 
 #include "types.h"

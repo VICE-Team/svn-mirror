@@ -24,7 +24,7 @@
  *
  */
 
-#ifndef _C128MEMEOM_H
+#ifndef _C128MEMROM_H
 #define _C128MEMROM_H
 
 #include "types.h"
