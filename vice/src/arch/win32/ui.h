@@ -36,6 +36,23 @@ typedef enum {
     UI_BUTTON_MON, UI_BUTTON_DEBUG, UI_BUTTON_CONTENTS, UI_BUTTON_AUTOSTART
 } ui_button_t;
 
+typedef struct {
+    /* Name of resource.  */
+    const char *name;
+    /* ID of the corresponding menu item.  */
+    UINT item_id;
+} ui_menu_toggle;
+
+typedef struct {
+    int value;
+    UINT item_id; /* The last item_id has to be zero.  */
+} ui_res_possible_values;
+
+typedef struct {
+    const char *name;
+    ui_res_possible_values *vals;
+} ui_res_value_list;
+
 /* ------------------------------------------------------------------------- */
 
 extern void ui_exit(void);
@@ -48,6 +65,8 @@ extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
 
 typedef void (*ui_machine_specific_t) (WPARAM wparam, HWND hwnd);
 extern void ui_register_machine_specific(ui_machine_specific_t func);
+void ui_register_menu_toggles(ui_menu_toggle *toggles);
+void ui_register_res_values(ui_res_value_list *valuelist);
 
 /* ------------------------------------------------------------------------ */
 

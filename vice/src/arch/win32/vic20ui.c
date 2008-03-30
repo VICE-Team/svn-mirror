@@ -39,6 +39,13 @@
 #include "vic20ui.h"
 #include "winmain.h"
 
+ui_menu_toggle  vic20_ui_menu_toggles[]={
+    { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
+    { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { NULL, 0 }
+};
+
 /* Probably one should simply remove the size numbers from the IDM_* stuff */
 void vic20_ui_specific(WPARAM wparam, HWND hwnd)
 {
@@ -118,6 +125,7 @@ void vic20_ui_specific(WPARAM wparam, HWND hwnd)
 int vic20_ui_init(void)
 {
     ui_register_machine_specific(vic20_ui_specific);
+    ui_register_menu_toggles(vic20_ui_menu_toggles);
     return 0;
 }
 

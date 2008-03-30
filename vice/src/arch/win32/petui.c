@@ -37,6 +37,13 @@
 #include "uipetset.h"
 #include "winmain.h"
 
+ui_menu_toggle  pet_ui_menu_toggles[]={
+    { "CrtcDoubleSize", IDM_TOGGLE_CRTCDOUBLESIZE },
+    { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
+    { "CrtcVideoCache", IDM_TOGGLE_CRTCVIDEOCACHE },
+    { NULL, 0 }
+};
+
 void pet_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
@@ -48,6 +55,7 @@ void pet_ui_specific(WPARAM wparam, HWND hwnd)
 int pet_ui_init(void)
 {
     ui_register_machine_specific(pet_ui_specific);
+    ui_register_menu_toggles(pet_ui_menu_toggles);
     return 0;
 }
 

@@ -32,6 +32,29 @@
 #include "ui.h"
 #include "uivicii.h"
 
+ui_menu_toggle  c128_ui_menu_toggles[]={
+    { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
+    { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "REU", IDM_TOGGLE_REU },
+    { "SidFilters", IDM_TOGGLE_SIDFILTERS },
+#ifdef HAVE_RESID
+    { "SidUseResid", IDM_TOGGLE_SOUND_RESID },
+#endif
+    { NULL, 0 }
+};
+
+static ui_res_possible_values SidType[] = {
+    {0, IDM_SIDTYPE_6581},
+    {1, IDM_SIDTYPE_8580},
+    {-1,0}
+};
+
+ui_res_value_list c128_ui_res_values[] = {
+    {"SidModel", SidType},
+    {NULL,NULL}
+};
+
 void c128_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
@@ -44,6 +67,8 @@ void c128_ui_specific(WPARAM wparam, HWND hwnd)
 int c128_ui_init(void)
 {
     ui_register_machine_specific(c128_ui_specific);
+    ui_register_menu_toggles(c128_ui_menu_toggles);
+    ui_register_res_values(c128_ui_res_values);
     return 0;
 }
 

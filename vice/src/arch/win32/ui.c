@@ -85,38 +85,18 @@ static long CALLBACK window_proc(HWND window, UINT msg,
                                  WPARAM wparam, LPARAM lparam);
 
 /* List of resources that can be switched on and off from the menus.  */
-struct {
-    /* Name of resource.  */
-    const char *name;
-    /* ID of the corresponding menu item.  */
-    UINT item_id;
-} toggle_list[] = {
+ui_menu_toggle  toggle_list[] = {
     { "Sound", IDM_TOGGLE_SOUND },
     { "DriveTrueEmulation", IDM_TOGGLE_DRIVE_TRUE_EMULATION },
-    { "DoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "DoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "VideoCache", IDM_TOGGLE_VIDEOCACHE },
-    { "CrtcDoubleSize", IDM_TOGGLE_CRTCDOUBLESIZE },
-    { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
-    { "CrtcVideoCache", IDM_TOGGLE_CRTCVIDEOCACHE },
-    { "REU", IDM_TOGGLE_REU },
     { "EmuID", IDM_TOGGLE_EMUID },
-    { "SidFilters", IDM_TOGGLE_SIDFILTERS },
-#ifdef HAVE_RESID
-    { "SidUseResid", IDM_TOGGLE_SOUND_RESID },
-#endif
     { "WarpMode", IDM_TOGGLE_WARP_MODE },
     { "WarpMode", IDM_TOGGLE_WARP_MODE|0x00010000 },
     { NULL, 0 }
 };
 
 /*  List of resources which can have multiple mutual exclusive menu entries. */
-typedef struct {
-    int value;
-    UINT item_id; /* The last item_id has to be zero.  */
-} res_possible_values;
 
-res_possible_values RefreshRateValues[] = {
+ui_res_possible_values RefreshRateValues[] = {
         {0, IDM_REFRESH_RATE_AUTO},
         {1, IDM_REFRESH_RATE_1},
         {2, IDM_REFRESH_RATE_2},
@@ -131,7 +111,7 @@ res_possible_values RefreshRateValues[] = {
         {-1, 0}
 };
 
-res_possible_values SpeedValues[] = {
+ui_res_possible_values SpeedValues[] = {
         {0, IDM_MAXIMUM_SPEED_NO_LIMIT},
         {10, IDM_MAXIMUM_SPEED_10},
         {20, IDM_MAXIMUM_SPEED_20},
@@ -141,26 +121,16 @@ res_possible_values SpeedValues[] = {
         {-1, 0}
 };
 
-res_possible_values SyncFactor[] = {
+ui_res_possible_values SyncFactor[] = {
         {DRIVE_SYNC_PAL, IDM_SYNC_FACTOR_PAL},
         {DRIVE_SYNC_NTSC, IDM_SYNC_FACTOR_NTSC},
         {-1, 0}
 };
 
-static res_possible_values SidType[] = {
-    {0, IDM_SIDTYPE_6581},
-    {1, IDM_SIDTYPE_8580},
-    {-1,0}
-};
-
-struct {
-    const char *name;
-    const res_possible_values *vals;
-} value_list[] = {
+ui_res_value_list value_list[] = {
     {"RefreshRate", RefreshRateValues},
     {"Speed", SpeedValues},
     {"DriveSyncFactor", SyncFactor},
-    {"SidModel", SidType},
     {NULL,NULL}
 };
 
@@ -235,12 +205,16 @@ static ACCEL pet_accel[] = {
     UI_COMMON_HOTKEYS
 };
 
+static HBRUSH   led_red;
+static HBRUSH   led_green;
+static HBRUSH   led_black;
+
 /* Initialize the UI before setting all the resource values.  */
 int ui_init(int *argc, char **argv)
 {
-    WNDCLASS window_class;
-    WORD menu;
-    RECT    rect;
+WNDCLASS    window_class;
+WORD        menu;
+RECT        rect;
 
     switch (machine_class) {
         case VICE_MACHINE_C64:
@@ -315,6 +289,9 @@ int ui_init(int *argc, char **argv)
 
     number_of_windows=0;
 
+    led_green=CreateSolidBrush(0xff00);
+    led_red=CreateSolidBrush(0xff);
+    led_black=CreateSolidBrush(0x00);
     return 0;
 }
 
@@ -415,6 +392,19 @@ void ui_update_menus(void)
 {
 }
 
+static  ui_menu_toggle      *machine_specific_toggles=NULL;
+static  ui_res_value_list   *machine_specific_values=NULL;
+
+void ui_register_menu_toggles(ui_menu_toggle *toggles)
+{
+    machine_specific_toggles=toggles;
+}
+
+void ui_register_res_values(ui_res_value_list *valuelist)
+{
+    machine_specific_values=valuelist;
+}
+
 static void update_menus(HWND hwnd)
 {
     HMENU menu = GetMenu(hwnd);
@@ -426,6 +416,14 @@ static void update_menus(HWND hwnd)
         resources_get_value(toggle_list[i].name, (resource_value_t *) &value);
         CheckMenuItem(menu, toggle_list[i].item_id,
                       value ? MF_CHECKED : MF_UNCHECKED);
+    }
+    
+    if (machine_specific_toggles) {
+        for (i = 0; machine_specific_toggles[i].name != NULL; i++) {
+            resources_get_value(machine_specific_toggles[i].name, (resource_value_t *) &value);
+            CheckMenuItem(menu, machine_specific_toggles[i].item_id,
+                          value ? MF_CHECKED : MF_UNCHECKED);
+        }
     }
 
     for (i = 0; value_list[i].name != NULL; i++) {
@@ -443,6 +441,25 @@ static void update_menus(HWND hwnd)
             }
         }
     }
+
+    if (machine_specific_values){
+        for (i = 0; machine_specific_values[i].name != NULL; i++) {
+            result=resources_get_value(machine_specific_values[i].name,
+                                       (resource_value_t *) &value);
+            if (result==0) {
+                for (j = 0; machine_specific_values[i].vals[j].item_id != 0; j++) {
+                    if (value == machine_specific_values[i].vals[j].value) {
+                        CheckMenuItem(menu,machine_specific_values[i].vals[j].item_id,
+                                      MF_CHECKED);
+                    } else {
+                        CheckMenuItem(menu,machine_specific_values[i].vals[j].item_id,
+                                      MF_UNCHECKED);
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1075,11 +1092,21 @@ char *dname;
         {
             int i;
 
-            for (i = 0; toggle_list[i].name != NULL; i++)
+            for (i = 0; toggle_list[i].name != NULL; i++) {
                 if (toggle_list[i].item_id == wparam) {
                     resources_toggle(toggle_list[i].name, NULL);
                     break;
                 }
+            }
+
+            if (machine_specific_toggles) {
+                for (i = 0; machine_specific_toggles[i].name != NULL; i++) {
+                    if (machine_specific_toggles[i].item_id == wparam) {
+                        resources_toggle(machine_specific_toggles[i].name, NULL);
+                        break;
+                    }
+                }
+            }
             break;
         }
     }
@@ -1139,7 +1166,7 @@ int     window_index;
                 led.bottom=((DRAWITEMSTRUCT*)lparam)->rcItem.top+2+12;
                 led.left=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86;
                 led.right=((DRAWITEMSTRUCT*)lparam)->rcItem.left+86+16;
-                FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,CreateSolidBrush(status_led[((DRAWITEMSTRUCT*)lparam)->itemID-1] ? (drive_active_led[status_unit[((DRAWITEMSTRUCT*)lparam)->itemID-1]-8] ? 0xff00 : 0xff ) : 0x00));
+                FillRect(((DRAWITEMSTRUCT*)lparam)->hDC,&led,status_led[((DRAWITEMSTRUCT*)lparam)->itemID-1] ? (drive_active_led[status_unit[((DRAWITEMSTRUCT*)lparam)->itemID-1]-8] ? led_green : led_red ) : led_black);
             }
             return 0;
         case WM_COMMAND:
