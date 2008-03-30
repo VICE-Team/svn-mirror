@@ -1563,41 +1563,43 @@ msgid ""
 "Could not load palette file\n"
 "'%s'"
 msgstr ""
+"Impossible de charger le fichier palette\n"
+"'%s'"
 
 #: src/arch/unix/uiprinter.c:72 src/arch/unix/uiprinter.c:84
 #: src/arch/unix/uiprinter.c:96
 msgid "*Printer 1 (file dump)"
-msgstr ""
+msgstr "*Imprimante 1 (fichier tampon)"
 
 #: src/arch/unix/uiprinter.c:74 src/arch/unix/uiprinter.c:86
 #: src/arch/unix/uiprinter.c:98
 msgid "*Printer 2 (exec)"
-msgstr ""
+msgstr "*Imprimante 2 (exec)"
 
 #: src/arch/unix/uiprinter.c:76 src/arch/unix/uiprinter.c:88
 #: src/arch/unix/uiprinter.c:100
 msgid "*Printer 3 (exec)"
-msgstr ""
+msgstr "*Imprimante (exec)"
 
 #: src/arch/unix/uiprinter.c:116
 msgid "Select printer dump file"
-msgstr ""
+msgstr "Choix du fichier tampon de l'imprimante"
 
 #: src/arch/unix/uiprinter.c:144
 msgid "Command to execute for printing (preceed with '|')"
-msgstr ""
+msgstr "Commande à executer pour imprimer (précédée de '|')"
 
 #: src/arch/unix/uiprinter.c:175
 msgid "*IEC printer #4 emulation"
-msgstr ""
+msgstr "*Emulateur IEC imprimante #4"
 
 #: src/arch/unix/uiprinter.c:177
 msgid "IEC printer #4 driver"
-msgstr ""
+msgstr "Pilote IEC imprimante #4"
 
 #: src/arch/unix/uiprinter.c:179
 msgid "IEC printer #4 output device"
-msgstr ""
+msgstr "Périphérique de sortie IEC imprimante #4"
 
 #: src/arch/unix/uiprinter.c:181
 msgid "Flush IEC printer #4 device"
@@ -1605,15 +1607,15 @@ msgstr ""
 
 #: src/arch/unix/uiprinter.c:184
 msgid "*IEC printer #5 emulation"
-msgstr ""
+msgstr "*Emulateur IEC imprimante #5"
 
 #: src/arch/unix/uiprinter.c:186
 msgid "IEC printer #5 driver"
-msgstr ""
+msgstr "Pilote IEC imprimante #5"
 
 #: src/arch/unix/uiprinter.c:188
 msgid "IEC printer #5 output device"
-msgstr ""
+msgstr "Périphérique de sortie IEC imprimante #5"
 
 #: src/arch/unix/uiprinter.c:190
 msgid "Flush IEC printer #5 device"
@@ -1621,123 +1623,123 @@ msgstr ""
 
 #: src/arch/unix/uiprinter.c:193
 msgid "*Userport printer emulation"
-msgstr ""
+msgstr "*Emulateur du port utilisateur imprimante"
 
 #: src/arch/unix/uiprinter.c:195
 msgid "Userport printer driver"
-msgstr ""
+msgstr "Pilote du port utilisateur imprimante"
 
 #: src/arch/unix/uiprinter.c:197
 msgid "Userport printer output device"
-msgstr ""
+msgstr "Périphérique de sortie du port utilisateur imprimante"
 
 #: src/arch/unix/uiprinter.c:200
 msgid "Printer device 1..."
-msgstr ""
+msgstr "Pilote d'imprimante 1..."
 
 #: src/arch/unix/uiprinter.c:202
 msgid "Printer device 2..."
-msgstr ""
+msgstr "Pilote d'imprimante 1..."
 
 #: src/arch/unix/uiprinter.c:204
 msgid "Printer device 3..."
-msgstr ""
+msgstr "Pilote d'imprimante 3..."
 
 #: src/arch/unix/petui.c:214
 msgid "*4 kByte"
-msgstr ""
+msgstr "*4 kByte"
 
 #: src/arch/unix/petui.c:216
 msgid "*8 kByte"
-msgstr ""
+msgstr "*8 kByte"
 
 #: src/arch/unix/petui.c:218
 msgid "*16 kByte"
-msgstr ""
+msgstr "*16 kByte"
 
 #: src/arch/unix/petui.c:220
 msgid "*32 kByte"
-msgstr ""
+msgstr "*32 kByte"
 
 #: src/arch/unix/petui.c:222
 msgid "*96 kByte"
-msgstr ""
+msgstr "*96 kByte"
 
 #: src/arch/unix/petui.c:224
 msgid "*128 kByte"
-msgstr ""
+msgstr "*128 kByte"
 
 #: src/arch/unix/petui.c:230
 msgid "*2 kByte"
-msgstr ""
+msgstr "*2 kByte"
 
 #: src/arch/unix/petui.c:232
 msgid "*256 Byte"
-msgstr ""
+msgstr "*256 Byte"
 
 #: src/arch/unix/petui.c:242
 msgid "*Business (DE)"
-msgstr ""
+msgstr "*Business (DE)"
 
 #: src/arch/unix/petui.c:248
 msgid "*Auto (from ROM)"
-msgstr ""
+msgstr "*Auto (de la ROM)"
 
 #: src/arch/unix/petui.c:250
 msgid "*40 Columns"
-msgstr ""
+msgstr "*40 Colonnes"
 
 #: src/arch/unix/petui.c:252
 msgid "*80 Columns"
-msgstr ""
+msgstr "*80 Colonnes"
 
 #: src/arch/unix/petui.c:309
 msgid "Load new editor ROM"
-msgstr ""
+msgstr "Charger le nouvel editeur ROM"
 
 #: src/arch/unix/petui.c:319
 msgid "*Original character set"
-msgstr ""
+msgstr "*Jeu de caractère d'origine"
 
 #: src/arch/unix/petui.c:322
 msgid "*German character set"
-msgstr ""
+msgstr "*Jeu de caractère Allemand"
 
 #: src/arch/unix/petui.c:326
 msgid "Load new $9*** ROM"
-msgstr ""
+msgstr "Charger la nouvelle$9*** ROM"
 
 #: src/arch/unix/petui.c:329
 msgid "Unload $9*** ROM"
-msgstr ""
+msgstr "Décharger $9*** ROM"
 
 #: src/arch/unix/petui.c:333
 msgid "Load new $A*** ROM"
-msgstr ""
+msgstr "Charger la nouvelle$A*** ROM"
 
 #: src/arch/unix/petui.c:336
 msgid "Unload $A*** ROM"
-msgstr ""
+msgstr "Décharger $A*** ROM"
 
 #: src/arch/unix/petui.c:340
 msgid "Load new $B*** ROM"
-msgstr ""
+msgstr "Charger la nouvelle$B*** ROM"
 
 #: src/arch/unix/petui.c:343
 msgid "Unload $B*** ROM"
-msgstr ""
+msgstr "Décharger $B*** ROM"
 
 #: src/arch/unix/petui.c:380
 msgid "Model defaults"
-msgstr ""
+msgstr "Modèle par défaut"
 
 #: src/arch/unix/petui.c:386
 msgid "Video size"
-msgstr ""
+msgstr "Taille de la video"
 
 #: src/arch/unix/petui.c:390
 msgid "I/O size"
-msgstr ""
+msgstr "Taille de l'I/O"
 
 #: src/arch/unix/petui.c:392
 msgid "*CRTC chip enable"
@@ -1753,15 +1755,15 @@ msgstr ""
 
 #: src/arch/unix/petui.c:400
 msgid "*$9*** as RAM (8296 only)"
-msgstr ""
+msgstr "*$9*** comme RAM (8296 seulement)"
 
 #: src/arch/unix/petui.c:402
 msgid "*$A*** as RAM (8296 only)"
-msgstr ""
+msgstr "*$A*** comme RAM (8296 seulement)"
 
 #: src/arch/unix/petui.c:414
 msgid "PET model settings"
-msgstr ""
+msgstr "Paramètres du modèle PET"
 
 #: src/arch/unix/petui.c:416
 msgid "*PET userport diagnostic pin"
@@ -1769,57 +1771,57 @@ msgstr ""
 
 #: src/arch/unix/joystick.c:81
 msgid "Set device for joystick port 1"
-msgstr ""
+msgstr "Définir le périphique pour le port joystick 1"
 
 #: src/arch/unix/joystick.c:83
 msgid "Set device for joystick port 2"
-msgstr ""
+msgstr "Définir le périphique pour le port joystick 2"
 
 #: src/arch/unix/joystick.c:197 src/arch/unix/joystick.c:246
 #: src/arch/unix/joystick.c:380
 #, c-format
 msgid "Cannot open joystick device `%s'."
-msgstr ""
+msgstr "Impossible d'ouvrir le périphérique joystick `%s'."
 
 #: src/arch/unix/joystick.c:208
 #, c-format
 msgid "Error reading joystick device `%s'."
-msgstr ""
+msgstr "Erreur de lecture sur le périphérique joystick `%s'."
 
 #: src/arch/unix/joystick.c:227
 #, c-format
 msgid "Hardware joystick calibration for device `%s':"
-msgstr ""
+msgstr "Calibrage Hardware du joystick pour le périphérique `%s':"
 
 #: src/arch/unix/joystick.c:280
 msgid "Error reading digital joystick device."
-msgstr ""
+msgstr "Erreur de lecture sur le périphérique joystick digital."
 
 #: src/arch/unix/joystick.c:296
 msgid "Error reading joystick device."
-msgstr ""
+msgstr "Erreur de lecture sur le périphérique joystick."
 
 #: src/arch/unix/joystick.c:337
 msgid "Linux joystick interface initialization..."
-msgstr ""
+msgstr "Initialisation de l'interface Linux du joystick..."
 
 #: src/arch/unix/joystick.c:356
 #, c-format
 msgid "%s unknown type"
-msgstr ""
+msgstr "%s type inconnu"
 
 #: src/arch/unix/joystick.c:357 src/arch/unix/joystick.c:372
 #, c-format
 msgid "Built in driver version: %d.%d.%d"
-msgstr ""
+msgstr "Construit en version pilote: %d.%d.%d"
 
 #: src/arch/unix/joystick.c:360
 msgid "Kernel driver version  : 0.8 ??"
-msgstr ""
+msgstr "Version du pilote Kernel : 0.8 ??"
 
 #: src/arch/unix/joystick.c:361
 msgid "Please update your Joystick driver !"
-msgstr ""
+msgstr "SVP mettre à jour le pilote joystick !"
 
 #: src/arch/unix/joystick.c:362
 msgid "Fall back to old api routine"
@@ -1828,11 +1830,11 @@ msgstr ""
 #: src/arch/unix/joystick.c:375
 #, c-format
 msgid "Kernel driver version  : %d.%d.%d"
-msgstr ""
+msgstr "Version du pilote Kernel : %d.%d.%d"
 
 #: src/arch/unix/kmap.c:116
 msgid "Specify name of symbolic keymap file"
-msgstr ""
+msgstr "Spécifier le nom du fichier symbolic keymap"
 
 #: src/arch/unix/kmap.c:118
 msgid "Specify name of positional keymap file"
@@ -2082,45 +2084,47 @@ msgstr ""
 #: src/arch/unix/archdep.c:236
 #, c-format
 msgid "Received signal %d."
-msgstr ""
+msgstr "Signal %d reçu"
 
 #: src/arch/unix/main_exit.c:45
 msgid ""
 "\n"
 "Exiting..."
 msgstr ""
+"\n"
+"Fermeture..."
 
 #: src/arch/unix/x11/gnome/about.c:38 src/arch/unix/x11/xaw/about.c:60
 msgid "VICE is FREE software!"
-msgstr ""
+msgstr "VICE est nu logiciel GRATUIT !"
 
 #: src/arch/unix/x11/gnome/about.c:43 src/arch/unix/x11/xaw/about.c:65
 msgid "No warranty!"
-msgstr ""
+msgstr "Pas de garantie"
 
 #: src/arch/unix/x11/gnome/about.c:48 src/arch/unix/x11/xaw/about.c:70
 msgid "Contributors to the VICE project"
-msgstr ""
+msgstr "Ont participé au projet VICE"
 
 #: src/arch/unix/x11/gnome/about.c:58
 msgid "The VICE Team"
-msgstr ""
+msgstr "L'équipe VICE"
 
 #: src/arch/unix/x11/gnome/about.c:76 src/arch/unix/x11/xaw/about.c:149
 msgid "Official VICE homepage:"
-msgstr ""
+msgstr "Page WEB officielle de VICE"
 
 #: src/arch/unix/x11/gnome/about.c:89
 msgid "License"
-msgstr ""
+msgstr "Licence"
 
 #: src/arch/unix/x11/gnome/about.c:95
 msgid "Warranty"
-msgstr ""
+msgstr "Garantie"
 
 #: src/arch/unix/x11/gnome/about.c:101
 msgid "Contributors"
-msgstr ""
+msgstr "Participants"
 
 #: src/arch/unix/x11/gnome/gnomevideo.c:123
 msgid "Successfully initialized video."
@@ -2590,109 +2594,117 @@ msgstr ""
 
 #: src/arch/unix/x11/xaw/uicolor.c:94
 msgid "Automatically using a private colormap."
-msgstr ""
+msgstr "Utiliser automatiquement un échantillon de couleurs privé"
 
 #: src/arch/unix/x11/xaw/uicolor.c:159
 msgid "XFreeColors failed."
-msgstr ""
+msgstr "Echec de XFreeColors."
 
 #: src/arch/unix/x11/xaw/uiedisk.c:91
 msgid "Save emptydisk file"
-msgstr ""
+msgstr "Savegarder le fichier de disque vide"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:167
 msgid "Couldn't create disk image"
-msgstr ""
+msgstr "Impossible de créer une image disque"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:249
 msgid "Disk name:"
-msgstr ""
+msgstr "Nom du disque:"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:296
 msgid "Disk format:"
-msgstr ""
+msgstr "Format du disque:"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:85
 msgid "Save screenshot file"
-msgstr ""
+msgstr "Sauvegarder le fichier de capture d'écran"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:207
 msgid "Image format:"
-msgstr ""
+msgstr "Format de l'image:"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:274
 msgid "Screen Snapshot"
-msgstr ""
+msgstr "Capture d'écran instantanée"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:81
 msgid "Save snapshot file"
-msgstr ""
+msgstr "Sauvegarder le fichier de capture"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:182
 msgid "Snapshot options:"
-msgstr ""
+msgstr "Options de capture:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:207
 msgid "Save currently attached disks:"
-msgstr ""
+msgstr "Sauvegarder les disques actuellement attachés:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:219
 #: src/arch/unix/x11/xaw/uisnapshot.c:258
 msgid "Off"
-msgstr ""
+msgstr "Off"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:231
 #: src/arch/unix/x11/xaw/uisnapshot.c:270
 msgid "On"
-msgstr ""
+msgstr "On"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:246
 msgid "Save currently loaded ROMs:"
-msgstr ""
+msgstr "Sauvegarder les ROMs actuellement chargées:"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:302
 msgid "Save snapshot"
-msgstr ""
+msgstr "Sauvegarder capture"
 
 #: src/arch/unix/x11/xaw/x11video.c:100
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr ""
+"Impossible d'allouer XImage avec XShm; Retour au mode d'extention sans "
+"MITSHM."
 
 #: src/arch/unix/x11/xaw/x11video.c:111
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr ""
+"Impossible de récupérer la mémoire partagée; Retour au mode d'extention sans "
+"MITSHM."
 
 #: src/arch/unix/x11/xaw/x11video.c:122
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
+"Impossible de récupérer adresse mémoire partagée; Retour au mode d'extention "
+"sans MITSHM."
 
 #: src/arch/unix/x11/xaw/x11video.c:137 src/arch/unix/x11/xaw/x11video.c:154
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
+"Impossible d'attacher la mémoire partagée; Retour au mode d'extention sans "
+"MITSHM."
 
 #: src/arch/unix/x11/xaw/x11video.c:161
 msgid "MITSHM initialization succeed.\n"
-msgstr ""
+msgstr "Initialisation MITSHM réussie.\n"
 
 #: src/arch/unix/x11/xaw/x11video.c:179
 #, c-format
 msgid "Successfully initialized%s shared memory."
-msgstr ""
+msgstr "Mémoire partagée %s correctement initialisée"
 
 #: src/arch/unix/x11/xaw/x11video.c:180
 msgid ", using"
-msgstr ""
+msgstr ", utilisant"
 
 #: src/arch/unix/x11/xaw/x11video.c:180
 msgid " without"
-msgstr ""
+msgstr " sans"
 
 #: src/arch/unix/x11/xaw/x11video.c:183
 msgid "Performance will be poor."
-msgstr ""
+msgstr "Les performances vont être faibles."
 
 #: src/arch/unix/x11/xaw/x11video.c:186
 msgid "Successfully initialized without shared memory."
-msgstr ""
+msgstr "Correctement initialisée sans mémoire partagée"

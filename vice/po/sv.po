@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.7\n"
 "POT-Creation-Date: 2001-07-18 22:41+0200\n"
-"PO-Revision-Date: 2001-06-24 03:54+0200\n"
+"PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
 "MIME-Version: 1.0\n"
@@ -1521,21 +1521,20 @@ msgstr "Filnamn för minnesexpansionsavbildning..."
 
 #: src/arch/unix/uidatasette.c:53 src/arch/unix/uidatasette.c:88
 msgid "Datasette speed tuning"
-msgstr ""
+msgstr "Finjustering av Datasettehastighet"
 
 #: src/arch/unix/uidatasette.c:58 src/arch/unix/uidatasette.c:86
-#, fuzzy
 msgid "Datasette zero gap delay"
-msgstr "Datasettestyrning"
+msgstr "Datasette nollgapsfördröjning"
 
 #: src/arch/unix/uidatasette.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid value: %s"
-msgstr "Ogiltigt hastighetsvärde"
+msgstr "Ogiltigt värde: %s"
 
 #: src/arch/unix/uidatasette.c:84
 msgid "*Reset Datasette on CPU Reset"
-msgstr ""
+msgstr "*Nollställ Datasette vid CPU-återställning"
 
 #: src/arch/unix/uidatasette.c:91
 msgid "Stop"
