@@ -34,6 +34,7 @@
 #include "asm.h"
 #include "attach.h"
 #include "autostart.h"
+#include "c64-resources.h"
 #include "c64.h"
 #include "c64cart.h"
 #include "c64cia.h"
@@ -185,7 +186,7 @@ int machine_init_resources(void)
     if (traps_init_resources() < 0
         || vsync_init_resources() < 0
         || video_init_resources() < 0
-        || c64_mem_init_resources() < 0
+        || c64_init_resources() < 0
         || vic_ii_init_resources() < 0
         || sound_init_resources() < 0
         || sid_init_resources() < 0

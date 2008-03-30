@@ -16,6 +16,8 @@ INCLUDES = \
 noinst_LIBRARIES = libc64.a libc64c128.a
 
 libc64_a_SOURCES = \
+	c64-resources.c \
+	c64-resources.h \
 	c64.c \
 	c64.h \
 	c64cart.h \
