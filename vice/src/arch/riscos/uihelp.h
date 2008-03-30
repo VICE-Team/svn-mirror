@@ -1,5 +1,5 @@
 /*
- * c128ui.c - Implementation of the C128-specific part of the UI.
+ * uihelp.h - RISC OS interactive help data structures.
  *
  * Written by
  *  Andreas Dehmel <dehmel@forwiss.tu-muenchen.de>
@@ -24,48 +24,26 @@
  *
  */
 
-#include "vice.h"
 
-#include "ui.h"
-#include "c128ui.h"
-#include "c64ui.h"
-#include "c64c128ui.h"
-#include "kbd.h"
+
+#ifndef _UIHELP_RO_H
+#define _UIHELP_RO_H
+
+#include "wimp.h"
+#include "uiconfig.h"
 #include "uisharedef.h"
 
+typedef struct help_icon_s {
+  int icon;
+  const char *sym;
+  char *msg;
+} help_icon_t;
 
 
+extern help_icon_t *Help_ConfigWindows[CONF_WIN_NUMBER];
 
-char *WimpTaskName = "Vice C128";
+extern void ui_translate_icon_help_msgs(const wimp_msg_desc *msg, help_icon_t *hi);
+extern void ui_translate_help_messages(const wimp_msg_desc *msg);
+extern const char *ui_get_help_for_window_icon(int handle, int icon);
 
-static const char IBarIconName[] = "!vice128";
-static const char C128keyfile[] = "Vice:C128.ROdflt/vkm";
-
-static const conf_iconid_t conf_grey_x128[] = {
-  ICON_LIST_PET
-  ICON_LIST_VIC
-  {0xff, 0xff}
-};
-
-
-int c128_ui_init(void)
-{
-  return ui_init_named_app("Vice128", IBarIconName);
-}
-
-int c128_kbd_init(void)
-{
-  c64c128_ui_init_keyboard(C128keyfile);
-  kbd_load_keymap(NULL, 0);
-  return kbd_init();
-}
-
-void ui_grey_out_machine_icons(void)
-{
-  ui_set_icons_grey(NULL, conf_grey_x128, 0);
-}
-
-const char *ui_get_machine_ibar_icon(void)
-{
-  return IBarIconName;
-}
+#endif

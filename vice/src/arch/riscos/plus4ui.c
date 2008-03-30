@@ -30,6 +30,7 @@
 #include "plus4ui.h"
 #include "kbd.h"
 #include "resources.h"
+#include "uisharedef.h"
 
 
 
@@ -75,6 +76,7 @@ static unsigned char Plus4shifted[KEYMAP_ENTRIES];
 static unsigned char Plus4norm_sflag[KEYMAP_ENTRIES/8];
 static unsigned char Plus4shift_sflag[KEYMAP_ENTRIES/8];
 
+static const char IBarIconName[] = "!viceplus4";
 static const char Plus4keyfile[] = "Vice:PLUS4.ROdflt/vkm";
 
 static keymap_t Plus4keys = {
@@ -85,11 +87,19 @@ static keymap_t Plus4keys = {
   Plus4shift_sflag
 };
 
+static const conf_iconid_t conf_grey_xplus4[] = {
+  ICON_LIST_CART64
+  ICON_LIST_VIC
+  ICON_LIST_SYSTEM
+  ICON_LIST_SID
+  ICON_LIST_PET
+  {0xff, 0xff}
+};
 
 
 int plus4_ui_init(void)
 {
-  return ui_init_named_app("VicePlus4", "!viceplus4");
+  return ui_init_named_app("VicePlus4", IBarIconName);
 }
 
 int plus4_kbd_init(void)
@@ -99,6 +109,16 @@ int plus4_kbd_init(void)
   kbd_add_keymap(&Plus4keys, 0); kbd_add_keymap(&Plus4keys, 1);
   kbd_load_keymap(NULL, 0);
   return kbd_init();
+}
+
+void ui_grey_out_machine_icons(void)
+{
+  ui_set_icons_grey(NULL, conf_grey_xplus4, 0);
+}
+
+const char *ui_get_machine_ibar_icon(void)
+{
+  return IBarIconName;
 }
 
 

@@ -34,6 +34,7 @@
 #include "uiconfig.h"
 #include "videoarch.h"
 #include "drive/drive.h"
+#include "video/video-resources.h"
 
 
 
@@ -168,6 +169,14 @@ static const char Rsrc_ReadOnly10[] = "AttachDevice10Readonly";
 static const char Rsrc_ReadOnly11[] = "AttachDevice11Readonly";
 static const char Rsrc_PALDepth[] = "PALEmuDepth";
 static const char Rsrc_PALDouble[] = "PALEmuDouble";
+static const char Rsrc_ColourSat[] = "ColorSaturation";
+static const char Rsrc_Contrast[] = "ColorContrast";
+static const char Rsrc_Brightness[] = "ColorBrightness";
+static const char Rsrc_Gamma[] = "ColorGamma";
+static const char Rsrc_DelLoop[] = "DelayLoopEmulation";
+static const char Rsrc_LineShade[] = "PALScanLineShade";
+static const char Rsrc_PALMode[] = "PALMode";
+
 
 
 
@@ -681,6 +690,20 @@ static struct MenuPALDepth {
   }
 };
 
+#define Menu_PALMode_Items	3
+#define Menu_PALMode_Width	200
+static struct MenuPALMode {
+  RO_MenuHead head;
+  RO_MenuItem item[Menu_PALMode_Items];
+} MenuPALMode = {
+  MENU_HEADER("\\MenPModeT", Menu_PALMode_Width),
+  {
+    MENU_ITEM("\\MenPMFast"),
+    MENU_ITEM("\\MenPMSharp"),
+    MENU_ITEM_LAST("\\MenPMBlur")
+  }
+};
+
 #define Menu_PetMemory_Items	6
 #define Menu_PetMemory_Width	200
 static struct MenuPetMemory {
@@ -952,7 +975,7 @@ static struct MenuDisplayVideoSync {
   disp_desc_t dd;
   int values[Menu_VideoSync_Items];
 } MenuDisplayVideoSync = {
-  {Rsrc_VideoSync, {CONF_WIN_SYSTEM, Icon_Conf_VideoSyncT},
+  {Rsrc_VideoSync, {CONF_WIN_SYSTEM, Icon_ConfSys_VideoSyncT},
     (RO_MenuHead*)&MenuVideoSync, Menu_VideoSync_Items, 0, 1<<Menu_VideoSync_Custom},
   {DRIVE_SYNC_PAL, DRIVE_SYNC_NTSC, 0}
 };
@@ -962,7 +985,7 @@ static struct MenuDisplayVideoSync {
     disp_desc_t dd; \
     int values[Menu_TrueExtend_Items]; \
   } MenuDisplayTrueExtend##n = { \
-    {Rsrc_TrueExImg##n, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt##n##T}, \
+    {Rsrc_TrueExImg##n, {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt##n##T}, \
       (RO_MenuHead*)&MenuTrueExtend##n, Menu_TrueExtend_Items, 0, 0}, \
     {DRIVE_EXTEND_NEVER, DRIVE_EXTEND_ASK, DRIVE_EXTEND_ACCESS} \
   };
@@ -972,7 +995,7 @@ static struct MenuDisplayVideoSync {
     disp_desc_t dd; \
     int values[Menu_TrueIdle_Items]; \
   } MenuDisplayTrueIdle##n = { \
-    {Rsrc_TrueIdle##n, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle##n##T}, \
+    {Rsrc_TrueIdle##n, {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle##n##T}, \
       (RO_MenuHead*)&MenuTrueIdle##n, Menu_TrueIdle_Items, 0, 0}, \
     {DRIVE_IDLE_NO_IDLE, DRIVE_IDLE_SKIP_CYCLES, DRIVE_IDLE_TRAP_IDLE} \
   };
@@ -982,7 +1005,7 @@ static struct MenuDisplayVideoSync {
     disp_desc_t dd; \
     int values[Menu_TrueType_Items]; \
   } MenuDisplayTrueType##n = { \
-    {Rsrc_TrueType##n, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvType##n##T}, \
+    {Rsrc_TrueType##n, {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvType##n##T}, \
       (RO_MenuHead*)&MenuTrueType##n, Menu_TrueType_Items, 0, 0}, \
     {DRIVE_TYPE_NONE, DRIVE_TYPE_1541, DRIVE_TYPE_1541II, DRIVE_TYPE_1571, DRIVE_TYPE_1581, \
      DRIVE_TYPE_2031, DRIVE_TYPE_2040, DRIVE_TYPE_3040, DRIVE_TYPE_4040, DRIVE_TYPE_1001, \
@@ -1001,7 +1024,7 @@ static struct MenuDisplaySampleRate {
   disp_desc_t dd;
   int values[Menu_SampRate_Items];
 } MenuDisplaySampleRate = {
-  {Rsrc_SndRate, {CONF_WIN_SOUND, Icon_Conf_SampleRateT},
+  {Rsrc_SndRate, {CONF_WIN_SOUND, Icon_ConfSnd_SampleRateT},
     (RO_MenuHead*)&MenuSampleRate, Menu_SampRate_Items, 0, 0},
   {8000, 11025, 22050, 44100, 48000}
 };
@@ -1018,7 +1041,7 @@ static struct MenuDisplaySoundDevice {
   disp_desc_t dd;
   int values[Menu_SoundDev_Items];
 } MenuDisplaySoundDevice = {
-  {Rsrc_SndDev, {CONF_WIN_SOUND, Icon_Conf_SoundDevT},
+  {Rsrc_SndDev, {CONF_WIN_SOUND, Icon_ConfSnd_SoundDevT},
     (RO_MenuHead*)&MenuSoundDevice, Menu_SoundDev_Items, DISP_DESC_STRING, 0},
   {(int)SoundDevice0, (int)SoundDevice1, (int)SoundDevice2, (int)SoundDevice3, (int)SoundDevice4,(int)SoundDevice5, (int)SoundDevice6}
 };
@@ -1027,7 +1050,7 @@ static struct MenuDisplaySoundOver {
   disp_desc_t dd;
   int values[Menu_SoundOver_Items];
 } MenuDisplaySoundOver = {
-  {Rsrc_SndOver, {CONF_WIN_SOUND, Icon_Conf_OversampleT},
+  {Rsrc_SndOver, {CONF_WIN_SOUND, Icon_ConfSnd_OversampleT},
     (RO_MenuHead*)&MenuSoundOver, Menu_SoundOver_Items, 0, 0},
   {0, 1, 2, 3}
 };
@@ -1036,7 +1059,7 @@ static struct MenuDisplaySidModel {
   disp_desc_t dd;
   int values[Menu_SidModel_Items];
 } MenuDisplaySidModel = {
-  {Rsrc_SidMod, {CONF_WIN_SOUND, Icon_Conf_SidModelT},
+  {Rsrc_SidMod, {CONF_WIN_SOUND, Icon_ConfSnd_SidModelT},
     (RO_MenuHead*)&MenuSidModel, Menu_SidModel_Items, 0, 0},
   {0, 1}
 };
@@ -1045,7 +1068,7 @@ static struct MenuDisplaySpeedAdjust {
   disp_desc_t dd;
   int values[Menu_SpeedAdjust_Items];
 } MenuDisplaySpeedAdjust = {
-  {Rsrc_SpdAdjust, {CONF_WIN_SOUND, Icon_Conf_SpeedAdjustT},
+  {Rsrc_SpdAdjust, {CONF_WIN_SOUND, Icon_ConfSnd_SpeedAdjustT},
     (RO_MenuHead*)&MenuSpeedAdjust, Menu_SpeedAdjust_Items, 0, 0},
   {SOUND_ADJUST_FLEXIBLE, SOUND_ADJUST_ADJUSTING, SOUND_ADJUST_EXACT}
 };
@@ -1054,7 +1077,7 @@ static struct MenuDisplayResidSampling {
   disp_desc_t dd;
   int values[Menu_ResidSamp_Items];
 } MenuDisplayResidSampling = {
-  {Rsrc_ReSidSamp, {CONF_WIN_SOUND, Icon_Conf_ResidSampT},
+  {Rsrc_ReSidSamp, {CONF_WIN_SOUND, Icon_ConfSnd_ResidSampT},
     (RO_MenuHead*)&MenuResidSampling, Menu_ResidSamp_Items, 0, 0},
   { 0, 1, 2 }
 };
@@ -1063,7 +1086,7 @@ static struct MenuDisplaySid2Address {
   disp_desc_t dd;
   int values[Menu_Sid2Addr_Items];
 } MenuDisplaySid2Address = {
-  {Rsrc_Sid2Addr, {CONF_WIN_SOUND, Icon_Conf_Sid2AddrT},
+  {Rsrc_Sid2Addr, {CONF_WIN_SOUND, Icon_ConfSnd_Sid2AddrT},
     (RO_MenuHead*)&MenuSid2Address, Menu_Sid2Addr_Items, 0, 0},
   { 0xd420, 0xd440, 0xd460, 0xd480, 0xd4a0, 0xd4c0, 0xd4e0,
     0xd500, 0xd520, 0xd540, 0xd560, 0xd580, 0xd5a0, 0xd5c0, 0xd5e0,
@@ -1077,7 +1100,7 @@ static struct MenuDisplaySpeedLimit {
   disp_desc_t dd;
   int values[Menu_SpeedLimit_Items];
 } MenuDisplaySpeedLimit = {
-  {Rsrc_SpeedLimit, {CONF_WIN_SYSTEM, Icon_Conf_SpeedLmtT},
+  {Rsrc_SpeedLimit, {CONF_WIN_SYSTEM, Icon_ConfSys_SpeedLmtT},
     (RO_MenuHead*)&MenuSpeedLimit, Menu_SpeedLimit_Items, 0, 0},
   {200, 100, 50, 20, 10, 0}
 };
@@ -1086,7 +1109,7 @@ static struct MenuDisplayRefresh {
   disp_desc_t dd;
   int values[Menu_Refresh_Items];
 } MenuDisplayRefresh = {
-  {Rsrc_Refresh, {CONF_WIN_SYSTEM, Icon_Conf_RefreshT},
+  {Rsrc_Refresh, {CONF_WIN_VIDEO, Icon_ConfVid_RefreshT},
     (RO_MenuHead*)&MenuRefresh, Menu_Refresh_Items, 0, 0},
   {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 };
@@ -1095,7 +1118,7 @@ static struct MenuDisplayPrintDev {
   disp_desc_t dd;
   int values[Menu_PrntDev_Items];
 } MenuDisplayPrintDev = {
-  {Rsrc_Prnt4Dev, {CONF_WIN_DEVICES, Icon_Conf_PrntDevT},
+  {Rsrc_Prnt4Dev, {CONF_WIN_DEVICES, Icon_ConfDev_PrntDevT},
     (RO_MenuHead*)&MenuPrintDev, Menu_PrntDev_Items, 0, 0},
   {0, 1, 2}
 };
@@ -1104,7 +1127,7 @@ static struct MenuDisplayUserDev {
   disp_desc_t dd;
   int values[Menu_UserDev_Items];
 } MenuDisplayUserDev = {
-  {Rsrc_PrUsrDev, {CONF_WIN_DEVICES, Icon_Conf_PrntUsrDevT},
+  {Rsrc_PrUsrDev, {CONF_WIN_DEVICES, Icon_ConfDev_PrntUsrDevT},
     (RO_MenuHead*)&MenuUserDev, Menu_UserDev_Items, 0, 0},
   {0, 1, 2}
 };
@@ -1113,7 +1136,7 @@ static struct MenuDisplayAciaDevice {
   disp_desc_t dd;
   int values[Menu_AciaDev_Items];
 } MenuDisplayAciaDevice = {
-  {Rsrc_AciaDev, {CONF_WIN_DEVICES, Icon_Conf_ACIADevT},
+  {Rsrc_AciaDev, {CONF_WIN_DEVICES, Icon_ConfDev_ACIADevT},
     (RO_MenuHead*)&MenuAciaDevice, Menu_AciaDev_Items, 0, 0},
   {0, 1, 2}
 };
@@ -1122,7 +1145,7 @@ static struct MenuDisplayRsUserDevice {
   disp_desc_t dd;
   int values[Menu_RsUsrDev_Items];
 } MenuDisplayRsUserDevice = {
-  {Rsrc_RsUsrDev, {CONF_WIN_DEVICES, Icon_Conf_RsUsrDevT},
+  {Rsrc_RsUsrDev, {CONF_WIN_DEVICES, Icon_ConfDev_RsUsrDevT},
     (RO_MenuHead*)&MenuRsUserDevice, Menu_RsUsrDev_Items, 0, 0},
   {0, 1, 2}
 };
@@ -1131,7 +1154,7 @@ static struct MenuDisplaySerialBaud {
   disp_desc_t dd;
   int values[Menu_Serial_Items];
 } MenuDisplaySerialBaud = {
-  {Rsrc_Serial, {CONF_WIN_DEVICES, Icon_Conf_SerialT},
+  {Rsrc_Serial, {CONF_WIN_DEVICES, Icon_ConfDev_SerialT},
     (RO_MenuHead*)&MenuSerialBaud, Menu_Serial_Items, 0, 0},
   {9, 1, 10, 11, 2, 3, 12, 4, 13, 5, 14, 6, 15, 7, 8}
 };
@@ -1141,7 +1164,7 @@ static struct MenuDisplayCartridgeType {
   disp_desc_t dd;
   int values[Menu_Cartridge_Items];
 } MenuDisplayCartridgeType = {
-  {Rsrc_CartT, {CONF_WIN_SYSTEM, Icon_Conf_CartTypeT},
+  {Rsrc_CartT, {CONF_WIN_SYSTEM, Icon_ConfSys_CartTypeT},
     (RO_MenuHead*)&MenuCartridgeType, Menu_Cartridge_Items, 0, 0},
   {CARTRIDGE_NONE, CARTRIDGE_GENERIC_8KB, CARTRIDGE_GENERIC_16KB, CARTRIDGE_CRT,
    CARTRIDGE_ACTION_REPLAY, CARTRIDGE_KCS_POWER, CARTRIDGE_SIMONS_BASIC,
@@ -1156,16 +1179,25 @@ static struct MenuDisplayPALDepth {
   disp_desc_t dd;
   int values[Menu_PALDepth_Items];
 } MenuDisplayPALDepth = {
-  {Rsrc_PALDepth, {CONF_WIN_SYSTEM, Icon_Conf_PALDepthT},
+  {Rsrc_PALDepth, {CONF_WIN_VIDEO, Icon_ConfVid_PALDepthT},
     (RO_MenuHead*)&MenuPALDepth, Menu_PALDepth_Items, 0, 0},
   {PAL_EMU_DEPTH_NONE, PAL_EMU_DEPTH_AUTO, PAL_EMU_DEPTH_8, PAL_EMU_DEPTH_16, PAL_EMU_DEPTH_32}
+};
+
+static struct MenuDisplayPALMode {
+  disp_desc_t dd;
+  int values[Menu_PALMode_Items];
+} MenuDisplayPALMode = {
+  {Rsrc_PALMode, {CONF_WIN_VIDEO, Icon_ConfVid_PalModeT},
+    (RO_MenuHead*)&MenuPALMode, Menu_PALMode_Items, 0, 0},
+  {VIDEO_RESOURCE_PAL_MODE_FAST, VIDEO_RESOURCE_PAL_MODE_SHARP, VIDEO_RESOURCE_PAL_MODE_BLUR}
 };
 
 static struct MenuDisplayPetMemory {
   disp_desc_t dd;
   int values[Menu_PetMemory_Items];
 } MenuDisplayPetMemory = {
-  {Rsrc_PetMem, {CONF_WIN_PET, Icon_Conf_PetMemT},
+  {Rsrc_PetMem, {CONF_WIN_PET, Icon_ConfPET_PetMemT},
     (RO_MenuHead*)&MenuPetMemory, Menu_PetMemory_Items, 0, 0},
   {4, 8, 16, 32, 96, 128}
 };
@@ -1174,7 +1206,7 @@ static struct MenuDisplayPetIO {
   disp_desc_t dd;
   int values[Menu_PetIO_Items];
 } MenuDisplayPetIO = {
-  {Rsrc_PetIO, {CONF_WIN_PET, Icon_Conf_PetIOT},
+  {Rsrc_PetIO, {CONF_WIN_PET, Icon_ConfPET_PetIOT},
     (RO_MenuHead*)&MenuPetIO, Menu_PetIO_Items, 0, 0},
   {0x800, 0x100}
 };
@@ -1183,7 +1215,7 @@ static struct MenuDisplayPetVideo {
   disp_desc_t dd;
   int values[Menu_PetVideo_Items];
 } MenuDisplayPetVideo = {
-  {Rsrc_PetVideo, {CONF_WIN_PET, Icon_Conf_PetVideoT},
+  {Rsrc_PetVideo, {CONF_WIN_PET, Icon_ConfPET_PetVideoT},
     (RO_MenuHead*)&MenuPetVideo, Menu_PetVideo_Items, 0, 0},
   {0, 40, 80}
 };
@@ -1205,7 +1237,7 @@ static struct MenuDisplayPetModel {
   disp_desc_t dd;
   int values[Menu_PetModel_Items];
 } MenuDisplayPetModel = {
-  {Rsrc_PetModel, {CONF_WIN_PET, Icon_Conf_PetModelT},
+  {Rsrc_PetModel, {CONF_WIN_PET, Icon_ConfPET_PetModelT},
     (RO_MenuHead*)&MenuPetModel, Menu_PetModel_Items, DISP_DESC_STRING, 0},
   {(int)PetModel0, (int)PetModel1, (int)PetModel2, (int)PetModel3, (int)PetModel4,
    (int)PetModel5, (int)PetModel6, (int)PetModel7, (int)PetModel8, (int)PetModel9,
@@ -1222,27 +1254,27 @@ static struct MenuDisplayVicRam {
 };
 
 static disp_strshow_t VicCartridgeDesc = {
-  Icon_Conf_VICCartF, 0
+  Icon_ConfVIC_VICCartF, 0
 };
 
 static struct MenuDisplayVicCartridge {
   disp_desc_t dd;
   int values[Menu_VicCart_Items];
 } MenuDisplayVicCartridge = {
-  {(char*)&VicCartridgeDesc, {CONF_WIN_VIC, Icon_Conf_VICCartT},
+  {(char*)&VicCartridgeDesc, {CONF_WIN_VIC, Icon_ConfVIC_VICCartT},
     (RO_MenuHead*)&MenuVicCartridge, Menu_VicCart_Items, DISP_DESC_STRSHOW, 0},
   {(int)Rsrc_VicCart2, (int)Rsrc_VicCart6, (int)Rsrc_VicCartA, (int)Rsrc_VicCartB}
 };
 
 static disp_strshow_t DosNameDesc = {
-  Icon_Conf_DosNameF, 0
+  Icon_ConfSys_DosNameF, 0
 };
 
 static struct MenuDisplayDosName {
   disp_desc_t dd;
   int values[Menu_DosName_Items];
 } MenuDisplayDosName = {
-  {(char*)&DosNameDesc, {CONF_WIN_SYSTEM, Icon_Conf_DosNameT},
+  {(char*)&DosNameDesc, {CONF_WIN_SYSTEM, Icon_ConfSys_DosNameT},
     (RO_MenuHead*)&MenuDosName, Menu_DosName_Items, DISP_DESC_STRSHOW, 0},
   {(int)Rsrc_Dos1541, (int)Rsrc_Dos15412, (int)Rsrc_Dos1571, (int)Rsrc_Dos1581,
    (int)Rsrc_Dos2031, (int)Rsrc_Dos2040, (int)Rsrc_Dos3040, (int)Rsrc_Dos4040,
@@ -1253,7 +1285,7 @@ static struct MenuDisplayCBM2Line {
   disp_desc_t dd;
   int values[Menu_CBM2Line_Items];
 } MenuDisplayCBM2Line = {
-  {Rsrc_C2Line, {CONF_WIN_CBM2, Icon_Conf_CBM2LineT},
+  {Rsrc_C2Line, {CONF_WIN_CBM2, Icon_ConfCBM_CBM2LineT},
     (RO_MenuHead*)&MenuCBM2Line, Menu_CBM2Line_Items, 0, 0},
   {0, 1, 2}
 };
@@ -1262,7 +1294,7 @@ static struct MenuDisplayCBM2Memory {
   disp_desc_t dd;
   int values[Menu_CBM2Mem_Items];
 } MenuDisplayCBM2Memory = {
-  {Rsrc_C2Mem, {CONF_WIN_CBM2, Icon_Conf_CBM2MemT},
+  {Rsrc_C2Mem, {CONF_WIN_CBM2, Icon_ConfCBM_CBM2MemT},
     (RO_MenuHead*)&MenuCBM2Memory, Menu_CBM2Mem_Items, 0, 0},
   {128, 256, 512, 1024}
 };
@@ -1279,7 +1311,7 @@ static struct MenuDisplayCBM2Model {
   disp_desc_t dd;
   int values[Menu_CBM2Model_Items];
 } MenuDisplayCBM2Model = {
-  {NULL, {CONF_WIN_CBM2, Icon_Conf_CBM2ModelT},
+  {NULL, {CONF_WIN_CBM2, Icon_ConfCBM_CBM2ModelT},
     (RO_MenuHead*)&MenuCBM2Model, Menu_CBM2Model_Items, DISP_DESC_STRING, 0},
   {(int)CBM2Model0, (int)CBM2Model1, (int)CBM2Model2, (int)CBM2Model3, (int)CBM2Model4, (int)CBM2Model5, (int)CBM2Model6}
 };
@@ -1294,14 +1326,14 @@ static struct MenuDisplayCBM2RAM {
 };
 
 static disp_strshow_t CBM2CartridgeDesc = {
-  Icon_Conf_CBM2CartF, 0
+  Icon_ConfCBM_CBM2CartF, 0
 };
 
 static struct MenuDisplayCBM2Cartridge {
   disp_desc_t dd;
   int values[Menu_CBM2Cart_Items];
 } MenuDisplayCBM2Cartridge = {
-  {(char*)&CBM2CartridgeDesc, {CONF_WIN_CBM2, Icon_Conf_CBM2CartT},
+  {(char*)&CBM2CartridgeDesc, {CONF_WIN_CBM2, Icon_ConfCBM_CBM2CartT},
     (RO_MenuHead*)&MenuCBM2Cartridge, Menu_CBM2Cart_Items, DISP_DESC_STRSHOW, 0},
   {(int)Rsrc_C2Cart1, (int)Rsrc_C2Cart2, (int)Rsrc_C2Cart4, (int)Rsrc_C2Cart6}
 };
@@ -1310,7 +1342,7 @@ static struct MenuDisplaySoundBuffer {
   disp_desc_t dd;
   int values[Menu_SoundBuffer_Items];
 } MenuDisplaySoundBuffer = {
-  {Rsrc_SndBuff, {CONF_WIN_SOUND, Icon_Conf_SoundBuffT},
+  {Rsrc_SndBuff, {CONF_WIN_SOUND, Icon_ConfSnd_SoundBuffT},
     (RO_MenuHead*)&MenuSoundBuffer, Menu_SoundBuffer_Items, 0, 0},
   {20, 40, 60, 80, 100, 200, 350, 500, 1000}
 };
@@ -1320,7 +1352,7 @@ static struct MenuDisplaySoundBuffer {
     disp_desc_t dd; \
     int values[Menu_JoyDevice_Items]; \
   } MenuDisplayJoyDevice##n = { \
-    {Rsrc_JoyDev##n, {CONF_WIN_JOY, Icon_Conf_JoyPort##n##T}, \
+    {Rsrc_JoyDev##n, {CONF_WIN_JOY, Icon_ConfJoy_JoyPort##n##T}, \
       (RO_MenuHead*)&MenuJoyDevice##n, Menu_JoyDevice_Items, 0, 0}, \
     {JOYDEV_NONE, JOYDEV_KBD1, JOYDEV_KBD2, JOYDEV_JOY1, JOYDEV_JOY2} \
   };
@@ -1334,97 +1366,99 @@ DISP_JOYSTICK_DEVICE_MENU(2)
 
 
 /* Config Menus */
-menu_icon ConfigMenus[] = {
+menu_icon_t ConfigMenus[] = {
   {(RO_MenuHead*)&MenuPrintDev, Rsrc_Prnt4Dev,
-    {CONF_WIN_DEVICES, Icon_Conf_PrntDev}},		/* 0 (prdevice.c) */
+    {CONF_WIN_DEVICES, Icon_ConfDev_PrntDev}},		/* 0 (prdevice.c) */
   {(RO_MenuHead*)&MenuUserDev, Rsrc_PrUsrDev,
-    {CONF_WIN_DEVICES, Icon_Conf_PrntUsrDev}},		/* 1 (pruser.c) */
+    {CONF_WIN_DEVICES, Icon_ConfDev_PrntUsrDev}},	/* 1 (pruser.c) */
   {(RO_MenuHead*)&MenuSampleRate, Rsrc_SndRate,
-    {CONF_WIN_SOUND, Icon_Conf_SampleRate}},		/* 2 (sound.c) */
+    {CONF_WIN_SOUND, Icon_ConfSnd_SampleRate}},		/* 2 (sound.c) */
   {(RO_MenuHead*)&MenuSoundDevice, Rsrc_SndDev,
-    {CONF_WIN_SOUND, Icon_Conf_SoundDev}},		/* 3 (sound.c) */
+    {CONF_WIN_SOUND, Icon_ConfSnd_SoundDev}},		/* 3 (sound.c) */
   {(RO_MenuHead*)&MenuSoundOver, Rsrc_SndOver,
-    {CONF_WIN_SOUND, Icon_Conf_Oversample}},		/* 4 (sound.c) */
+    {CONF_WIN_SOUND, Icon_ConfSnd_Oversample}},		/* 4 (sound.c) */
   {(RO_MenuHead*)&MenuVideoSync, Rsrc_VideoSync,
-    {CONF_WIN_SYSTEM, Icon_Conf_VideoSync}},		/* 5 (drive.c) */
+    {CONF_WIN_SYSTEM, Icon_ConfSys_VideoSync}},		/* 5 (drive.c) */
   {(RO_MenuHead*)&MenuTrueIdle8, Rsrc_TrueIdle8,
-    {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle8}},		/* 6 */
+    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle8}},	/* 6 */
   {(RO_MenuHead*)&MenuTrueExtend8, Rsrc_TrueExImg8,
-    {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt8}},		/* 7 */
+    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt8}},	/* 7 */
   {(RO_MenuHead*)&MenuTrueType8, Rsrc_TrueType8,
-    {CONF_WIN_DRIVES, Icon_Conf_TrueDrvType8}},		/* 8 */
+    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvType8}},	/* 8 */
   {(RO_MenuHead*)&MenuTrueIdle9, Rsrc_TrueIdle9,
-    {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle9}},		/* 9 */
+    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle9}},	/* 9 */
   {(RO_MenuHead*)&MenuTrueExtend9, Rsrc_TrueExImg9,
-    {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt9}},		/* 10 */
+    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt9}},	/* 10 */
   {(RO_MenuHead*)&MenuTrueType9, Rsrc_TrueType9,
-    {CONF_WIN_DRIVES, Icon_Conf_TrueDrvType9}},		/* 11 */
+    {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvType9}},	/* 11 */
   {(RO_MenuHead*)&MenuDriveType, Rsrc_DriveT8,
-    {CONF_WIN_DRIVES, Icon_Conf_DriveType8}},		/* 12 (here) */
+    {CONF_WIN_DRIVES, Icon_ConfDrv_DriveType8}},	/* 12 (here) */
   {(RO_MenuHead*)&MenuDriveType, Rsrc_DriveT9,
-    {CONF_WIN_DRIVES, Icon_Conf_DriveType9}},		/* 13 (here) */
+    {CONF_WIN_DRIVES, Icon_ConfDrv_DriveType9}},	/* 13 (here) */
   {(RO_MenuHead*)&MenuDriveType, Rsrc_DriveT10,
-    {CONF_WIN_DRIVES, Icon_Conf_DriveType10}},		/* 14 (here) */
+    {CONF_WIN_DRIVES, Icon_ConfDrv_DriveType10}},	/* 14 (here) */
   {(RO_MenuHead*)&MenuDriveType, Rsrc_DriveT11,
-    {CONF_WIN_DRIVES, Icon_Conf_DriveType11}},		/* 15 (here) */
+    {CONF_WIN_DRIVES, Icon_ConfDrv_DriveType11}},	/* 15 (here) */
   {(RO_MenuHead*)&MenuCartridgeType, Rsrc_CartT,
-    {CONF_WIN_SYSTEM, Icon_Conf_CartType}},		/* 16 (cartridge.c) */
+    {CONF_WIN_SYSTEM, Icon_ConfSys_CartType}},		/* 16 (cartridge.c) */
   {(RO_MenuHead*)&MenuRsUserDevice, Rsrc_RsUsrDev,
-    {CONF_WIN_DEVICES, Icon_Conf_RsUsrDev}},		/* 17 (rsuser.c) */
+    {CONF_WIN_DEVICES, Icon_ConfDev_RsUsrDev}},		/* 17 (rsuser.c) */
   {(RO_MenuHead*)&MenuAciaDevice, Rsrc_AciaDev,
-    {CONF_WIN_DEVICES, Icon_Conf_ACIADev}},		/* 18 (c64acia.c) */
+    {CONF_WIN_DEVICES, Icon_ConfDev_ACIADev}},		/* 18 (c64acia.c) */
   {(RO_MenuHead*)&MenuSerialBaud, Rsrc_Serial,
-    {CONF_WIN_DEVICES, Icon_Conf_Serial}},		/* 19 (serial.c) */
+    {CONF_WIN_DEVICES, Icon_ConfDev_Serial}},		/* 19 (serial.c) */
   {(RO_MenuHead*)&MenuSidModel, Rsrc_SidMod,
-    {CONF_WIN_SOUND, Icon_Conf_SidModel}},		/* 20 (sid.c) */
+    {CONF_WIN_SOUND, Icon_ConfSnd_SidModel}},		/* 20 (sid.c) */
   {(RO_MenuHead*)&MenuSpeedLimit, Rsrc_SpeedLimit,
-    {CONF_WIN_SYSTEM, Icon_Conf_SpeedLmt}},		/* 21 (here) */
+    {CONF_WIN_SYSTEM, Icon_ConfSys_SpeedLmt}},		/* 21 (here) */
   {(RO_MenuHead*)&MenuRefresh, Rsrc_Refresh,
-    {CONF_WIN_SYSTEM, Icon_Conf_Refresh}},		/* 22 (here) */
+    {CONF_WIN_VIDEO, Icon_ConfVid_Refresh}},		/* 22 (here) */
   {(RO_MenuHead*)&MenuPetMemory, Rsrc_PetMem,
-    {CONF_WIN_PET, Icon_Conf_PetMem}},			/* 23 (pets.c) */
+    {CONF_WIN_PET, Icon_ConfPET_PetMem}},		/* 23 (pets.c) */
   {(RO_MenuHead*)&MenuPetIO, Rsrc_PetIO,
-    {CONF_WIN_PET, Icon_Conf_PetIO}},			/* 24 */
+    {CONF_WIN_PET, Icon_ConfPET_PetIO}},		/* 24 */
   {(RO_MenuHead*)&MenuPetVideo, Rsrc_PetVideo,
-    {CONF_WIN_PET, Icon_Conf_PetVideo}},		/* 25 */
+    {CONF_WIN_PET, Icon_ConfPET_PetVideo}},		/* 25 */
   {(RO_MenuHead*)&MenuPetModel, Rsrc_PetModel,
-    {CONF_WIN_PET, Icon_Conf_PetModel}},		/* 26 */
+    {CONF_WIN_PET, Icon_ConfPET_PetModel}},		/* 26 */
   {(RO_MenuHead*)&MenuVicRam, NULL,
-    {CONF_WIN_VIC, Icon_Conf_VICMem}},			/* 27 */
+    {CONF_WIN_VIC, Icon_ConfVIC_VICMem}},		/* 27 */
   {(RO_MenuHead*)&MenuVicCartridge, NULL,
-    {CONF_WIN_VIC, Icon_Conf_VICCart}},			/* 28 */
+    {CONF_WIN_VIC, Icon_ConfVIC_VICCart}},		/* 28 */
   {(RO_MenuHead*)&MenuDosName, NULL,
-    {CONF_WIN_SYSTEM, Icon_Conf_DosName}},		/* 29 */
+    {CONF_WIN_SYSTEM, Icon_ConfSys_DosName}},		/* 29 */
   {(RO_MenuHead*)&MenuCBM2Line, Rsrc_C2Line,
-    {CONF_WIN_CBM2, Icon_Conf_CBM2Line}},		/* 30 */
+    {CONF_WIN_CBM2, Icon_ConfCBM_CBM2Line}},		/* 30 */
   {(RO_MenuHead*)&MenuCBM2Memory, Rsrc_C2Mem,
-    {CONF_WIN_CBM2, Icon_Conf_CBM2Mem}},		/* 31 */
+    {CONF_WIN_CBM2, Icon_ConfCBM_CBM2Mem}},		/* 31 */
   {(RO_MenuHead*)&MenuCBM2Model, NULL,
-    {CONF_WIN_CBM2, Icon_Conf_CBM2Model}},		/* 32 */
+    {CONF_WIN_CBM2, Icon_ConfCBM_CBM2Model}},		/* 32 */
   {(RO_MenuHead*)&MenuCBM2RAM, NULL,
-    {CONF_WIN_CBM2, Icon_Conf_CBM2RAM}},		/* 33 */
+    {CONF_WIN_CBM2, Icon_ConfCBM_CBM2RAM}},		/* 33 */
   {(RO_MenuHead*)&MenuCBM2Cartridge, NULL,
-    {CONF_WIN_CBM2, Icon_Conf_CBM2Cart}},		/* 34 */
+    {CONF_WIN_CBM2, Icon_ConfCBM_CBM2Cart}},		/* 34 */
   {(RO_MenuHead*)&MenuSoundBuffer, NULL,
-    {CONF_WIN_SOUND, Icon_Conf_SoundBuff}},		/* 35 */
+    {CONF_WIN_SOUND, Icon_ConfSnd_SoundBuff}},		/* 35 */
   {(RO_MenuHead*)&MenuJoyDevice1, NULL,
-    {CONF_WIN_JOY, Icon_Conf_JoyPort1}},		/* 36 */
+    {CONF_WIN_JOY, Icon_ConfJoy_JoyPort1}},		/* 36 */
   {(RO_MenuHead*)&MenuJoyDevice2, NULL,
-    {CONF_WIN_JOY, Icon_Conf_JoyPort2}},		/* 37 */
+    {CONF_WIN_JOY, Icon_ConfJoy_JoyPort2}},		/* 37 */
   {NULL, NULL,
-    {CONF_WIN_SYSTEM, Icon_Conf_ROMSet}},		/* 38 */
+    {CONF_WIN_SYSTEM, Icon_ConfSys_ROMSet}},		/* 38 */
   {(RO_MenuHead*)&MenuRomAction, NULL,
-    {CONF_WIN_SYSTEM, Icon_Conf_ROMAction}},		/* 39 */
+    {CONF_WIN_SYSTEM, Icon_ConfSys_ROMAction}},		/* 39 */
   {(RO_MenuHead*)&MenuSysKeyboard, NULL,
-    {CONF_WIN_SYSTEM, Icon_Conf_Keyboard}},		/* 40 */
+    {CONF_WIN_SYSTEM, Icon_ConfSys_Keyboard}},		/* 40 */
   {(RO_MenuHead*)&MenuSpeedAdjust, Rsrc_SpdAdjust,
-    {CONF_WIN_SOUND, Icon_Conf_SpeedAdjust}},		/* 41 */
+    {CONF_WIN_SOUND, Icon_ConfSnd_SpeedAdjust}},	/* 41 */
   {(RO_MenuHead*)&MenuResidSampling, Rsrc_ReSidSamp,
-    {CONF_WIN_SOUND, Icon_Conf_ResidSamp}},		/* 42 */
+    {CONF_WIN_SOUND, Icon_ConfSnd_ResidSamp}},		/* 42 */
   {(RO_MenuHead*)&MenuSid2Address, Rsrc_Sid2Addr,
-    {CONF_WIN_SOUND, Icon_Conf_Sid2Addr}},		/* 43 */
+    {CONF_WIN_SOUND, Icon_ConfSnd_Sid2Addr}},		/* 43 */
   {(RO_MenuHead*)&MenuPALDepth, Rsrc_PALDepth,
-    {CONF_WIN_SYSTEM, Icon_Conf_PALDepth}},		/* 44 */
+    {CONF_WIN_VIDEO, Icon_ConfVid_PALDepth}},		/* 44 */
+  {(RO_MenuHead*)&MenuPALMode, Rsrc_PALMode,
+    {CONF_WIN_VIDEO, Icon_ConfVid_PalMode}},		/* 45 */
   {NULL, NULL, {0, 0}}
 };
 
@@ -1475,74 +1509,81 @@ disp_desc_t *ConfigDispDescs[] = {
   (disp_desc_t*)&MenuDisplayResidSampling,
   (disp_desc_t*)&MenuDisplaySid2Address,
   (disp_desc_t*)&MenuDisplayPALDepth,
+  (disp_desc_t*)&MenuDisplayPALMode,
   NULL
 };
 
 
 
 /* Config Icons */
-config_item Configurations[] = {
-  {Rsrc_Prnt4, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_Conf_PrntOn}},	/* prdevice.c */
-  {Rsrc_PrUsr, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_Conf_PrntUsrOn}},	/* pruser */
-  {Rsrc_Sound, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_Conf_SoundOn}},	/* sound.c */
-  {Rsrc_Snd16Bit, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_Conf_Sound16Bit}},
-  {Rsrc_NoTraps, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_NoTraps}},	/* traps.c */
-  {Rsrc_True, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_TrueDrv}},	/* drive.c */
-  {Rsrc_TruePar8, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar8}},
-  {Rsrc_TruePar9, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar9}},
-  {Rsrc_Poll, CONFIG_INT, {CONF_WIN_SYSTEM, Icon_Conf_PollEvery}},	/* right here */
-  {Rsrc_Speed, CONFIG_INT, {CONF_WIN_SYSTEM, Icon_Conf_SpeedEvery}},
-  {Rsrc_SndEvery, CONFIG_INT, {CONF_WIN_SYSTEM, Icon_Conf_SoundEvery}},
-  {Rsrc_AutoPause, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_AutoPause}},
-  {Rsrc_FullScr, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_FullScreen}},
-  {Rsrc_FullSetPal, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_SetPalette}},
-  {Rsrc_UseBPlot, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_UseBPlot}},
-  {Rsrc_MaxSkipped, CONFIG_INT, {CONF_WIN_SYSTEM, Icon_Conf_MaxSkipFrms}},
-  {Rsrc_DriveF8, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile8}},
-  {Rsrc_DriveF9, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile9}},
-  {Rsrc_DriveF10, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile10}},
-  {Rsrc_DriveF11, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_Conf_DriveFile11}},
-  {Rsrc_TapeFile, CONFIG_STRING, {CONF_WIN_TAPE, Icon_Conf_TapeFile}},
-  {Rsrc_DataReset, CONFIG_SELECT, {CONF_WIN_TAPE, Icon_Conf_DataReset}},
-  {Rsrc_WarpMode, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_WarpMode}},
-  {Rsrc_VideoCache, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_VideoCache}},
-  {Rsrc_CharGen, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_CharGen}},	/* c64mem.c */
-  {Rsrc_Kernal, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_Kernal}},
-  {Rsrc_Basic, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_Basic}},
-  {Rsrc_REU, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_REU}},
-  {Rsrc_IEEE, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_IEEE488}},
-  {Rsrc_EmuID, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_EmuID}},
-  {Rsrc_AciaDE, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_Conf_ACIADE}},
-  {Rsrc_ACIAD6, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_Conf_ACIAD67}},
-  {Rsrc_CartF, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_CartFile}},
-  {Rsrc_RsUsr, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_Conf_RsUsr}},	/* rsuser.c */
-  {Rsrc_AciaIrq, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_Conf_ACIAIrq}},	/* c64acia.c */
-  {Rsrc_SidFilt, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_Conf_SidFilter}},	/* sid.c */
-  {Rsrc_ReSid, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_Conf_UseResid}},
-  {Rsrc_ReSidPass, CONFIG_INT, {CONF_WIN_SOUND, Icon_Conf_ResidPass}},
-  {Rsrc_SidStereo, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_Conf_SidStereo}},
-  {Rsrc_SScoll, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_CheckSScoll}},/* vicii.c */
-  {Rsrc_SBcoll, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_CheckSBcoll}},
-  {Rsrc_Palette, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_Palette}},
-  {Rsrc_SoundFile, CONFIG_STRING, {CONF_WIN_SOUND, Icon_Conf_FileSndPath}},
-  {Rsrc_SerialFile, CONFIG_STRING, {CONF_WIN_DEVICES, Icon_Conf_FileRsPath}},
-  {Rsrc_PrinterFile, CONFIG_STRING, {CONF_WIN_DEVICES, Icon_Conf_FilePrPath}},
-  {Rsrc_PetCrt, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetCrt}},
-  {Rsrc_PetRAM9, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetRAM9}},
-  {Rsrc_PetRAMA, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetRAMA}},
-  {Rsrc_PetDiag, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetDiagPin}},
-  {Rsrc_PetSuper, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetSuper}},
-  {Rsrc_Key8040, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C1284080}},
-  {Rsrc_VDCpalette, CONFIG_STRING, {CONF_WIN_C128, Icon_Conf_C128Palette}},
-  {Rsrc_VDCcache, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128Cache}},
-  {Rsrc_VDCsize, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128Size}},
-  {Rsrc_Z80Bios, CONFIG_STRING, {CONF_WIN_C128, Icon_Conf_C128z80bios}},
-  {Rsrc_VDCdblsze, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128dblsize}},
-  {Rsrc_VDCdblscn, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf_C128dblscan}},
-  {Rsrc_ReadOnly8, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_DriveRdOnly8}},
-  {Rsrc_ReadOnly9, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_DriveRdOnly9}},
-  {Rsrc_ReadOnly10, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_DriveRdOnly10}},
-  {Rsrc_ReadOnly11, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_Conf_DriveRdOnly11}},
-  {Rsrc_PALDouble, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_Conf_PALDouble}},
+config_item_t Configurations[] = {
+  {Rsrc_Prnt4, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_ConfDev_PrntOn}},
+  {Rsrc_PrUsr, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_ConfDev_PrntUsrOn}},
+  {Rsrc_Sound, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_ConfSnd_SoundOn}},
+  {Rsrc_Snd16Bit, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_ConfSnd_Sound16Bit}},
+  {Rsrc_NoTraps, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_NoTraps}},
+  {Rsrc_True, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrv}},
+  {Rsrc_TruePar8, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar8}},
+  {Rsrc_TruePar9, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar9}},
+  {Rsrc_Poll, CONFIG_INT, {CONF_WIN_SYSTEM, Icon_ConfSys_PollEvery}},
+  {Rsrc_Speed, CONFIG_INT, {CONF_WIN_SYSTEM, Icon_ConfSys_SpeedEvery}},
+  {Rsrc_SndEvery, CONFIG_INT, {CONF_WIN_SYSTEM, Icon_ConfSys_SoundEvery}},
+  {Rsrc_AutoPause, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_AutoPause}},
+  {Rsrc_FullScr, CONFIG_STRING, {CONF_WIN_VIDEO, Icon_ConfVid_FullScreen}},
+  {Rsrc_FullSetPal, CONFIG_SELECT, {CONF_WIN_VIDEO, Icon_ConfVid_SetPalette}},
+  {Rsrc_UseBPlot, CONFIG_SELECT, {CONF_WIN_VIDEO, Icon_ConfVid_UseBPlot}},
+  {Rsrc_MaxSkipped, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_MaxSkipFrms}},
+  {Rsrc_DriveF8, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_ConfDrv_DriveFile8}},
+  {Rsrc_DriveF9, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_ConfDrv_DriveFile9}},
+  {Rsrc_DriveF10, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_ConfDrv_DriveFile10}},
+  {Rsrc_DriveF11, CONFIG_STRING, {CONF_WIN_DRIVES, Icon_ConfDrv_DriveFile11}},
+  {Rsrc_TapeFile, CONFIG_STRING, {CONF_WIN_TAPE, Icon_ConfTap_TapeFile}},
+  {Rsrc_DataReset, CONFIG_SELECT, {CONF_WIN_TAPE, Icon_ConfTap_DataReset}},
+  {Rsrc_WarpMode, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_WarpMode}},
+  {Rsrc_VideoCache, CONFIG_SELECT, {CONF_WIN_VIDEO, Icon_ConfVid_VideoCache}},
+  {Rsrc_CharGen, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_CharGen}},
+  {Rsrc_Kernal, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Kernal}},
+  {Rsrc_Basic, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Basic}},
+  {Rsrc_REU, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_REU}},
+  {Rsrc_IEEE, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_IEEE488}},
+  {Rsrc_EmuID, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_EmuID}},
+  {Rsrc_AciaDE, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_ConfDev_ACIADE}},
+  {Rsrc_ACIAD6, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_ConfDev_ACIAD67}},
+  {Rsrc_CartF, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_CartFile}},
+  {Rsrc_RsUsr, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_ConfDev_RsUsr}},
+  {Rsrc_AciaIrq, CONFIG_SELECT, {CONF_WIN_DEVICES, Icon_ConfDev_ACIAIrq}},
+  {Rsrc_SidFilt, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_ConfSnd_SidFilter}},
+  {Rsrc_ReSid, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_ConfSnd_UseResid}},
+  {Rsrc_ReSidPass, CONFIG_INT, {CONF_WIN_SOUND, Icon_ConfSnd_ResidPass}},
+  {Rsrc_SidStereo, CONFIG_SELECT, {CONF_WIN_SOUND, Icon_ConfSnd_SidStereo}},
+  {Rsrc_SScoll, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_CheckSScoll}},
+  {Rsrc_SBcoll, CONFIG_SELECT, {CONF_WIN_SYSTEM, Icon_ConfSys_CheckSBcoll}},
+  {Rsrc_Palette, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Palette}},
+  {Rsrc_SoundFile, CONFIG_STRING, {CONF_WIN_SOUND, Icon_ConfSnd_FileSndPath}},
+  {Rsrc_SerialFile, CONFIG_STRING, {CONF_WIN_DEVICES, Icon_ConfDev_FileRsPath}},
+  {Rsrc_PrinterFile, CONFIG_STRING, {CONF_WIN_DEVICES, Icon_ConfDev_FilePrPath}},
+  {Rsrc_PetCrt, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetCrt}},
+  {Rsrc_PetRAM9, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetRAM9}},
+  {Rsrc_PetRAMA, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetRAMA}},
+  {Rsrc_PetDiag, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetDiagPin}},
+  {Rsrc_PetSuper, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetSuper}},
+  {Rsrc_Key8040, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf128_C1284080}},
+  {Rsrc_VDCpalette, CONFIG_STRING, {CONF_WIN_C128, Icon_Conf128_C128Palette}},
+  {Rsrc_VDCcache, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf128_C128Cache}},
+  {Rsrc_VDCsize, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf128_C128Size}},
+  {Rsrc_Z80Bios, CONFIG_STRING, {CONF_WIN_C128, Icon_Conf128_C128z80bios}},
+  {Rsrc_VDCdblsze, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf128_C128dblsize}},
+  {Rsrc_VDCdblscn, CONFIG_SELECT, {CONF_WIN_C128, Icon_Conf128_C128dblscan}},
+  {Rsrc_ReadOnly8, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_ConfDrv_DriveRdOnly8}},
+  {Rsrc_ReadOnly9, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_ConfDrv_DriveRdOnly9}},
+  {Rsrc_ReadOnly10, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_ConfDrv_DriveRdOnly10}},
+  {Rsrc_ReadOnly11, CONFIG_SELECT, {CONF_WIN_DRIVES, Icon_ConfDrv_DriveRdOnly11}},
+  {Rsrc_PALDouble, CONFIG_SELECT, {CONF_WIN_VIDEO, Icon_ConfVid_PALDouble}},
+  {Rsrc_ColourSat, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_ColourSat}},
+  {Rsrc_Contrast, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_Contrast}},
+  {Rsrc_Brightness, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_Brightness}},
+  {Rsrc_Gamma, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_Gamma}},
+  {Rsrc_DelLoop, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_DelayLoop}},
+  {Rsrc_LineShade, CONFIG_INT, {CONF_WIN_VIDEO, Icon_ConfVid_LineShade}},
   {NULL, 0, {0, 0}}
 };

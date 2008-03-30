@@ -68,11 +68,7 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
     display = ui_get_display_ptr();
 
     if (!use_xvideo) {
-        /* FIXME!!! */
-        width *= 2;
-        height *= 2;
-
-        /* Round up to 32-bit boundary. */
+        /* Round up to 32-bit boundary (used in XCreateImage). */
         width = (width + 3) & ~0x3;
     }
 

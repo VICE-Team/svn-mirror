@@ -1433,6 +1433,16 @@ void video_full_screen_display_image(unsigned int num, const char *img)
 
 
 
+void video_pos_screen_to_canvas(video_canvas_t *canvas, int *block, int x, int y, int *cx, int *cy)
+{
+  int shs = (canvas->scale == 1) ? 0 : 1;
+
+  *cx = (((x - (block[RedrawB_VMinX] - block[RedrawB_ScrollX])) >> ScreenMode.eigx) - canvas->shiftx) >> shs;
+  *cy = ((((block[RedrawB_VMaxY] - block[RedrawB_ScrollY]) - y) >> ScreenMode.eigy) + canvas->shifty) >> shs;
+}
+
+
+
 /*
  *  Callbacks
  */

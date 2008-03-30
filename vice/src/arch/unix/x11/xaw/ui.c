@@ -72,6 +72,7 @@
 #include "mouse.h"
 #include "palette.h"
 #include "psid.h"
+#include "raster/raster.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
@@ -629,15 +630,13 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
     XtAddEventHandler(shell, EnterWindowMask, False,
                       (XtEventHandler) enter_window_callback,
                       NULL);
+    /* XVideo must be refreshed when the shell window is moved. */
+    XtAddEventHandler(shell, StructureNotifyMask, False,
+                      (XtEventHandler) exposure_callback,
+                      (XtPointer) c);
     XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False,
                       (XtEventHandler) exposure_callback,
                       (XtPointer) c);
-#if 0
-    XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False,
-                      (XtEventHandler) exposure_callback,
-                      (XtPointer) exposure_proc);
-#endif
-
     XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask |
                       ButtonReleaseMask, False,
                       (XtEventHandler)mouse_handler1351, NULL);
@@ -2024,17 +2023,8 @@ UI_CALLBACK(enter_window_callback)
 
 UI_CALLBACK(exposure_callback)
 {
-    Dimension width, height;
-
-    XtVaGetValues(w, XtNwidth, (XtPointer) & width,
-                  XtNheight, (XtPointer) & height, NULL);
-
     if (client_data) {
 	raster_force_repaint(raster_get_raster_from_canvas(client_data));
-#if 0
-        ((ui_exposure_handler_t) client_data)((unsigned int)width,
-                                              (unsigned int)height);
-#endif
     }
 }
 

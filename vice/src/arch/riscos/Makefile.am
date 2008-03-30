@@ -47,11 +47,14 @@ libarch_a_SOURCES = \
 	uiconfig.c \
 	uiconfig.h \
 	uidummy.c \
+	uihelp.c \
+	uihelp.h \
 	uiimage.c \
 	uiimage.h \
 	uimon.c \
 	uimsgwin.c \
 	uimsgwin.h \
+	uisharedef.h \
 	vic20ui.c \
 	vic20ui.h \
 	video.c \

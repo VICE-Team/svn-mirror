@@ -39,12 +39,13 @@
 #define CONF_WIN_DEVICES	2
 #define CONF_WIN_SOUND		3
 #define CONF_WIN_SYSTEM		4
-#define CONF_WIN_JOY		5
-#define CONF_WIN_PET		6
-#define CONF_WIN_VIC		7
-#define CONF_WIN_CBM2		8
-#define CONF_WIN_C128		9
-#define CONF_WIN_NUMBER		10
+#define CONF_WIN_VIDEO		5
+#define CONF_WIN_JOY		6
+#define CONF_WIN_PET		7
+#define CONF_WIN_VIC		8
+#define CONF_WIN_CBM2		9
+#define CONF_WIN_C128		10
+#define CONF_WIN_NUMBER		11
 
 /* Configuration menus */
 #define CONF_MENU_PRNTDEV	0
@@ -90,6 +91,9 @@
 #define CONF_MENU_SYSKBD	40
 #define CONF_MENU_SPDADJUST	41
 #define CONF_MENU_RESIDSAMP	42
+#define CONF_MENU_SID2ADDR	43
+#define CONF_MENU_PALDEPTH	44
+#define CONF_MENU_PALMODE	45
 
 /* Configuration issues... */
 #define CONFIG_INT	1
@@ -109,31 +113,31 @@
  */
 
 /* Config icon identifier: pair of {config window number, icon number} */
-typedef struct {
+typedef struct conf_iconid_s {
   unsigned char win;
   unsigned char icon;
-} conf_icon_id;
+} conf_iconid_t;
 
-typedef struct {
+typedef struct conf_item_s {
   const char *resource;
   unsigned char ctype;
-  conf_icon_id id;
-} config_item;
+  conf_iconid_t id;
+} config_item_t;
 
-typedef struct {
+typedef struct menu_icon_s {
   RO_MenuHead *menu;
   const char *resource;
-  conf_icon_id id;
-} menu_icon;
+  conf_iconid_t id;
+} menu_icon_t;
 
-typedef struct {
+typedef struct disp_strshow_s {
   int icon;
   int item;
 } disp_strshow_t;
 
-typedef struct {
+typedef struct disp_desc_s {
   const char *resource;
-  conf_icon_id id;
+  conf_iconid_t id;
   RO_MenuHead *menu;
   int items;
   unsigned int flags;
@@ -166,199 +170,209 @@ typedef struct {
  */
 
 /* Drive config */
-#define Icon_Conf_TrueDrv	16
-#define Icon_Conf_TrueDrvPar8	17
-#define Icon_Conf_TrueDrvExt8	19
-#define Icon_Conf_TrueDrvExt8T	20
-#define Icon_Conf_TrueDrvIdle8	21
-#define Icon_Conf_TrueDrvIdle8T	22
-#define Icon_Conf_TrueDrvType8	27
-#define Icon_Conf_TrueDrvType8T	28
-#define Icon_Conf_TrueDrvPar9	29
-#define Icon_Conf_TrueDrvExt9	30
-#define Icon_Conf_TrueDrvExt9T	31
-#define Icon_Conf_TrueDrvIdle9	32
-#define Icon_Conf_TrueDrvIdle9T	33
-#define Icon_Conf_TrueDrvType9	34
-#define Icon_Conf_TrueDrvType9T	35
-#define Icon_Conf_DriveType8	2
-#define Icon_Conf_DriveType9	5
-#define Icon_Conf_DriveType10	8
-#define Icon_Conf_DriveType11	11
-#define Icon_Conf_DriveFile8	3
-#define Icon_Conf_DriveFile9	6
-#define Icon_Conf_DriveFile10	9
-#define Icon_Conf_DriveFile11	12
-#define Icon_Conf_DriveRdOnly8	24
-#define Icon_Conf_DriveRdOnly9	25
-#define Icon_Conf_DriveRdOnly10	26
-#define Icon_Conf_DriveRdOnly11	36
+#define Icon_ConfDrv_TrueDrv		16
+#define Icon_ConfDrv_TrueDrvPar8	17
+#define Icon_ConfDrv_TrueDrvExt8	19
+#define Icon_ConfDrv_TrueDrvExt8T	20
+#define Icon_ConfDrv_TrueDrvIdle8	21
+#define Icon_ConfDrv_TrueDrvIdle8T	22
+#define Icon_ConfDrv_TrueDrvType8	27
+#define Icon_ConfDrv_TrueDrvType8T	28
+#define Icon_ConfDrv_TrueDrvPar9	29
+#define Icon_ConfDrv_TrueDrvExt9	30
+#define Icon_ConfDrv_TrueDrvExt9T	31
+#define Icon_ConfDrv_TrueDrvIdle9	32
+#define Icon_ConfDrv_TrueDrvIdle9T	33
+#define Icon_ConfDrv_TrueDrvType9	34
+#define Icon_ConfDrv_TrueDrvType9T	35
+#define Icon_ConfDrv_DriveType8		2
+#define Icon_ConfDrv_DriveType9		5
+#define Icon_ConfDrv_DriveType10	8
+#define Icon_ConfDrv_DriveType11	11
+#define Icon_ConfDrv_DriveFile8		3
+#define Icon_ConfDrv_DriveFile9		6
+#define Icon_ConfDrv_DriveFile10	9
+#define Icon_ConfDrv_DriveFile11	12
+#define Icon_ConfDrv_DriveRdOnly8	24
+#define Icon_ConfDrv_DriveRdOnly9	25
+#define Icon_ConfDrv_DriveRdOnly10	26
+#define Icon_ConfDrv_DriveRdOnly11	36
 
 /* Tape config */
-#define Icon_Conf_TapeFile	2
-#define Icon_Conf_TapeDetach	3
-#define Icon_Conf_DataReset	4
-#define Icon_Conf_DataCounter	6
-#define Icon_Conf_DataStop	8
-#define Icon_Conf_DataRewind	9
-#define Icon_Conf_DataPlay	10
-#define Icon_Conf_DataForward	11
-#define Icon_Conf_DataRecord	12
-#define Icon_Conf_DataDoReset	13
+#define Icon_ConfTap_TapeFile		2
+#define Icon_ConfTap_TapeDetach		3
+#define Icon_ConfTap_DataReset		4
+#define Icon_ConfTap_DataCounter	6
+#define Icon_ConfTap_DataStop		8
+#define Icon_ConfTap_DataRewind		9
+#define Icon_ConfTap_DataPlay		10
+#define Icon_ConfTap_DataForward	11
+#define Icon_ConfTap_DataRecord		12
+#define Icon_ConfTap_DataDoReset	13
 
 /* Device config */
-#define Icon_Conf_ACIAIrq	2
-#define Icon_Conf_ACIADev	3
-#define Icon_Conf_ACIADevT	4
-#define Icon_Conf_ACIADE	8
-#define Icon_Conf_ACIAD67	9
-#define Icon_Conf_RsUsr		5
-#define Icon_Conf_RsUsrDev	6
-#define Icon_Conf_RsUsrDevT	7
-#define Icon_Conf_Serial	11
-#define Icon_Conf_SerialT	12
-#define Icon_Conf_FileRsOK	13
-#define Icon_Conf_FileRsPath	14
-#define Icon_Conf_FileRsIcon	15
-#define Icon_Conf_PrntOn	19
-#define Icon_Conf_PrntDev	20
-#define Icon_Conf_PrntDevT	21
-#define Icon_Conf_PrntUsrOn	22
-#define Icon_Conf_PrntUsrDev	23
-#define Icon_Conf_PrntUsrDevT	24
-#define Icon_Conf_FilePrOK	25
-#define Icon_Conf_FilePrPath	26
-#define Icon_Conf_FilePrIcon	27
+#define Icon_ConfDev_ACIAIrq		2
+#define Icon_ConfDev_ACIADev		3
+#define Icon_ConfDev_ACIADevT		4
+#define Icon_ConfDev_ACIADE		8
+#define Icon_ConfDev_ACIAD67		9
+#define Icon_ConfDev_RsUsr		5
+#define Icon_ConfDev_RsUsrDev		6
+#define Icon_ConfDev_RsUsrDevT		7
+#define Icon_ConfDev_Serial		11
+#define Icon_ConfDev_SerialT		12
+#define Icon_ConfDev_FileRsOK		13
+#define Icon_ConfDev_FileRsPath		14
+#define Icon_ConfDev_FileRsIcon		15
+#define Icon_ConfDev_PrntOn		19
+#define Icon_ConfDev_PrntDev		20
+#define Icon_ConfDev_PrntDevT		21
+#define Icon_ConfDev_PrntUsrOn		22
+#define Icon_ConfDev_PrntUsrDev		23
+#define Icon_ConfDev_PrntUsrDevT	24
+#define Icon_ConfDev_FilePrOK		25
+#define Icon_ConfDev_FilePrPath		26
+#define Icon_ConfDev_FilePrIcon		27
 
 /* Sound config */
-#define Icon_Conf_SoundOn	2
-#define Icon_Conf_SampleRate	3
-#define Icon_Conf_SampleRateT	4
-#define Icon_Conf_SoundDev	5
-#define Icon_Conf_SoundDevT	6
-#define Icon_Conf_Oversample	7
-#define Icon_Conf_OversampleT	8
-#define Icon_Conf_SidModel	9
-#define Icon_Conf_SidModelT	10
-#define Icon_Conf_SidFilter	11
-#define Icon_Conf_FileSndOK	12
-#define Icon_Conf_FileSndPath	13
-#define Icon_Conf_FileSndIcon	14
-#define Icon_Conf_Volume	17
-#define Icon_Conf_SoundBuff	18
-#define Icon_Conf_SoundBuffT	19
-#define Icon_Conf_UseResid	20
-#define Icon_Conf_SpeedAdjust	21
-#define Icon_Conf_SpeedAdjustT	22
-#define Icon_Conf_ResidSamp	25
-#define Icon_Conf_ResidSampT	26
-#define Icon_Conf_ResidPass	27
-#define Icon_Conf_Sound16Bit	29
-#define Icon_Conf_SidStereo	30
-#define Icon_Conf_Sid2Addr	31
-#define Icon_Conf_Sid2AddrT	32
+#define Icon_ConfSnd_SoundOn		2
+#define Icon_ConfSnd_SampleRate		3
+#define Icon_ConfSnd_SampleRateT	4
+#define Icon_ConfSnd_SoundDev		5
+#define Icon_ConfSnd_SoundDevT		6
+#define Icon_ConfSnd_Oversample		7
+#define Icon_ConfSnd_OversampleT	8
+#define Icon_ConfSnd_SidModel		9
+#define Icon_ConfSnd_SidModelT		10
+#define Icon_ConfSnd_SidFilter		11
+#define Icon_ConfSnd_FileSndOK		12
+#define Icon_ConfSnd_FileSndPath	13
+#define Icon_ConfSnd_FileSndIcon	14
+#define Icon_ConfSnd_Volume		17
+#define Icon_ConfSnd_SoundBuff		18
+#define Icon_ConfSnd_SoundBuffT		19
+#define Icon_ConfSnd_UseResid		20
+#define Icon_ConfSnd_SpeedAdjust	21
+#define Icon_ConfSnd_SpeedAdjustT	22
+#define Icon_ConfSnd_ResidSamp		25
+#define Icon_ConfSnd_ResidSampT		26
+#define Icon_ConfSnd_ResidPass		27
+#define Icon_ConfSnd_Sound16Bit		29
+#define Icon_ConfSnd_SidStereo		30
+#define Icon_ConfSnd_Sid2Addr		31
+#define Icon_ConfSnd_Sid2AddrT		32
 
 /* System config */
-#define Icon_Conf_CharGen	3
-#define Icon_Conf_Kernal	5
-#define Icon_Conf_Basic		7
-#define Icon_Conf_Palette	9
-#define Icon_Conf_REU		10
-#define Icon_Conf_IEEE488	11
-#define Icon_Conf_EmuID		12
-#define Icon_Conf_NoTraps	13
-#define Icon_Conf_VideoCache	17
-#define Icon_Conf_PollEvery	21
-#define Icon_Conf_SpeedEvery	23
-#define Icon_Conf_SoundEvery	25
-#define Icon_Conf_SpeedLmt	31
-#define Icon_Conf_SpeedLmtT	32
-#define Icon_Conf_Refresh	29
-#define Icon_Conf_RefreshT	30
-#define Icon_Conf_WarpMode	28
-#define Icon_Conf_CartType	14
-#define Icon_Conf_CartTypeT	15
-#define Icon_Conf_CartFile	16
-#define Icon_Conf_CheckSScoll	35
-#define Icon_Conf_CheckSBcoll	36
-#define Icon_Conf_DosName	37
-#define Icon_Conf_DosNameT	38
-#define Icon_Conf_DosNameF	39
-#define Icon_Conf_AutoPause	40
-#define Icon_Conf_ROMSet	43
-#define Icon_Conf_ROMSetT	44
-#define Icon_Conf_ROMAction	46
-#define Icon_Conf_FullScreen	48
-#define Icon_Conf_SetPalette	49
-#define Icon_Conf_Keyboard	50
-#define Icon_Conf_KeyboardT	51
-#define Icon_Conf_VideoSync	52
-#define Icon_Conf_VideoSyncT	53
-#define Icon_Conf_MaxSkipFrms	54
-#define Icon_Conf_UseBPlot	58
-#define Icon_Conf_PALDepth	61
-#define Icon_Conf_PALDepthT	62
-#define Icon_Conf_PALDouble	64
+#define Icon_ConfSys_CharGen		3
+#define Icon_ConfSys_Kernal		5
+#define Icon_ConfSys_Basic		7
+#define Icon_ConfSys_Palette		9
+#define Icon_ConfSys_REU		10
+#define Icon_ConfSys_IEEE488		11
+#define Icon_ConfSys_EmuID		12
+#define Icon_ConfSys_NoTraps		13
+#define Icon_ConfSys_PollEvery		21
+#define Icon_ConfSys_SpeedEvery		23
+#define Icon_ConfSys_SoundEvery		25
+#define Icon_ConfSys_SpeedLmt		29
+#define Icon_ConfSys_SpeedLmtT		30
+#define Icon_ConfSys_WarpMode		28
+#define Icon_ConfSys_CartType		14
+#define Icon_ConfSys_CartTypeT		15
+#define Icon_ConfSys_CartFile		16
+#define Icon_ConfSys_CheckSScoll	35
+#define Icon_ConfSys_CheckSBcoll	34
+#define Icon_ConfSys_DosName		36
+#define Icon_ConfSys_DosNameT		37
+#define Icon_ConfSys_DosNameF		38
+#define Icon_ConfSys_AutoPause		40
+#define Icon_ConfSys_ROMSet		39
+#define Icon_ConfSys_ROMSetT		43
+#define Icon_ConfSys_ROMAction		45
+#define Icon_ConfSys_VideoSync		48
+#define Icon_ConfSys_VideoSyncT		49
+#define Icon_ConfSys_Keyboard		46
+#define Icon_ConfSys_KeyboardT		47
+
+/* Video config */
+#define Icon_ConfVid_UseBPlot		2
+#define Icon_ConfVid_PALDepth		6
+#define Icon_ConfVid_PALDepthT		7
+#define Icon_ConfVid_PALDouble		8
+#define Icon_ConfVid_SetPalette		9
+#define Icon_ConfVid_Refresh		10
+#define Icon_ConfVid_RefreshT		11
+#define Icon_ConfVid_FullScreen		16
+#define Icon_ConfVid_MaxSkipFrms	13
+#define Icon_ConfVid_VideoCache		17
+#define Icon_ConfVid_ColourSat		18
+#define Icon_ConfVid_Contrast		20
+#define Icon_ConfVid_Brightness		22
+#define Icon_ConfVid_Gamma		24
+#define Icon_ConfVid_DelayLoop		26
+#define Icon_ConfVid_LineShade		28
+#define Icon_ConfVid_PalMode		30
+#define Icon_ConfVid_PalModeT		31
 
 /* Joystick conf */
-#define Icon_Conf_JoyPort1	2
-#define Icon_Conf_JoyPort1T	3
-#define Icon_Conf_JoyPort2	4
-#define Icon_Conf_JoyPort2T	5
-#define Icon_Conf_JoyKey1U	8
-#define Icon_Conf_JoyKey1D	10
-#define Icon_Conf_JoyKey1L	12
-#define Icon_Conf_JoyKey1R	14
-#define Icon_Conf_JoyKey1F	16
-#define Icon_Conf_JoyKey2U	20
-#define Icon_Conf_JoyKey2D	22
-#define Icon_Conf_JoyKey2L	24
-#define Icon_Conf_JoyKey2R	26
-#define Icon_Conf_JoyKey2F	28
+#define Icon_ConfJoy_JoyPort1		2
+#define Icon_ConfJoy_JoyPort1T		3
+#define Icon_ConfJoy_JoyPort2		4
+#define Icon_ConfJoy_JoyPort2T		5
+#define Icon_ConfJoy_JoyKey1U		8
+#define Icon_ConfJoy_JoyKey1D		10
+#define Icon_ConfJoy_JoyKey1L		12
+#define Icon_ConfJoy_JoyKey1R		14
+#define Icon_ConfJoy_JoyKey1F		16
+#define Icon_ConfJoy_JoyKey2U		20
+#define Icon_ConfJoy_JoyKey2D		22
+#define Icon_ConfJoy_JoyKey2L		24
+#define Icon_ConfJoy_JoyKey2R		26
+#define Icon_ConfJoy_JoyKey2F		28
 
 /* PET config */
-#define Icon_Conf_PetMem	2
-#define Icon_Conf_PetMemT	3
-#define Icon_Conf_PetIO		4
-#define Icon_Conf_PetIOT	5
-#define Icon_Conf_PetVideo	6
-#define Icon_Conf_PetVideoT	7
-#define Icon_Conf_PetModel	8
-#define Icon_Conf_PetModelT	9
-#define Icon_Conf_PetKbd	10
-#define Icon_Conf_PetCrt	12
-#define Icon_Conf_PetRAM9	13
-#define Icon_Conf_PetRAMA	14
-#define Icon_Conf_PetDiagPin	15
-#define Icon_Conf_PetSuper	16
+#define Icon_ConfPET_PetMem		2
+#define Icon_ConfPET_PetMemT		3
+#define Icon_ConfPET_PetIO		4
+#define Icon_ConfPET_PetIOT		5
+#define Icon_ConfPET_PetVideo		6
+#define Icon_ConfPET_PetVideoT		7
+#define Icon_ConfPET_PetModel		8
+#define Icon_ConfPET_PetModelT		9
+#define Icon_ConfPET_PetKbd		10
+#define Icon_ConfPET_PetCrt		12
+#define Icon_ConfPET_PetRAM9		13
+#define Icon_ConfPET_PetRAMA		14
+#define Icon_ConfPET_PetDiagPin		15
+#define Icon_ConfPET_PetSuper		16
 
 /* VIC config */
-#define Icon_Conf_VICCart	2
-#define Icon_Conf_VICCartT	3
-#define Icon_Conf_VICCartF	4
-#define Icon_Conf_VICMem	6
+#define Icon_ConfVIC_VICCart		2
+#define Icon_ConfVIC_VICCartT		3
+#define Icon_ConfVIC_VICCartF		4
+#define Icon_ConfVIC_VICMem		6
 
 /* CBM 2 config */
-#define Icon_Conf_CBM2Line	2
-#define Icon_Conf_CBM2LineT	3
-#define Icon_Conf_CBM2Mem	4
-#define Icon_Conf_CBM2MemT	5
-#define Icon_Conf_CBM2Model	6
-#define Icon_Conf_CBM2ModelT	7
-#define Icon_Conf_CBM2RAM	8
-#define Icon_Conf_CBM2Kbd	10
-#define Icon_Conf_CBM2Cart	12
-#define Icon_Conf_CBM2CartT	13
-#define Icon_Conf_CBM2CartF	14
+#define Icon_ConfCBM_CBM2Line		2
+#define Icon_ConfCBM_CBM2LineT		3
+#define Icon_ConfCBM_CBM2Mem		4
+#define Icon_ConfCBM_CBM2MemT		5
+#define Icon_ConfCBM_CBM2Model		6
+#define Icon_ConfCBM_CBM2ModelT		7
+#define Icon_ConfCBM_CBM2RAM		8
+#define Icon_ConfCBM_CBM2Kbd		10
+#define Icon_ConfCBM_CBM2Cart		12
+#define Icon_ConfCBM_CBM2CartT		13
+#define Icon_ConfCBM_CBM2CartF		14
 
 /* C128 config */
-#define Icon_Conf_C128Palette	3
-#define Icon_Conf_C128Cache	4
-#define Icon_Conf_C128Size	5
-#define Icon_Conf_C1284080	6
-#define Icon_Conf_C128z80bios	8
-#define Icon_Conf_C128dblsize	9
-#define Icon_Conf_C128dblscan	10
+#define Icon_Conf128_C128Palette	3
+#define Icon_Conf128_C128Cache		4
+#define Icon_Conf128_C128Size		5
+#define Icon_Conf128_C1284080		6
+#define Icon_Conf128_C128z80bios	8
+#define Icon_Conf128_C128dblsize	9
+#define Icon_Conf128_C128dblscan	10
 
 
 
@@ -391,8 +405,10 @@ typedef struct {
  *  Exported symbols
  */
 
-extern menu_icon ConfigMenus[];
+extern menu_icon_t ConfigMenus[];
 extern disp_desc_t *ConfigDispDescs[];
-extern config_item Configurations[];
+extern config_item_t Configurations[];
+
+extern RO_Window *ConfWindows[CONF_WIN_NUMBER];
 
 #endif

@@ -235,7 +235,8 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
     if (was_bad_line && !now_bad_line) {
 
         /* Bad line becomes good.  */
-        vic_ii.bad_line = 0;
+        if (cycle < VIC_II_FETCH_CYCLE)
+            vic_ii.bad_line = 0;
 
         /* By changing the values in the registers, one can make the VIC
            switch from idle to display state, but not from display to

@@ -29,19 +29,30 @@
 #include "ui.h"
 #include "c64ui.h"
 #include "kbd.h"
+#include "machine.h"
 #include "c64c128ui.h"
+#include "uisharedef.h"
 
 
 
 
 char *WimpTaskName = "Vice C64";
 
+static const char IBarIconName64[] = "!vice64";
+static const char IBarIconNameVSID[] = "!vicevsid";
 static const char C64keyfile[] = "Vice:C64.ROdflt/vkm";
+
+static const conf_iconid_t conf_grey_x64[] = {
+  ICON_LIST_PET
+  ICON_LIST_VIC
+  {CONF_WIN_DEVICES, Icon_ConfDev_ACIAD67},
+  {0xff, 0xff}
+};
 
 
 int c64_ui_init(void)
 {
-  return ui_init_named_app("Vice64", "!vice64");
+  return ui_init_named_app("Vice64", ui_get_machine_ibar_icon());
 }
 
 int c64_kbd_init(void)
@@ -51,3 +62,12 @@ int c64_kbd_init(void)
   return kbd_init();
 }
 
+void ui_grey_out_machine_icons(void)
+{
+  ui_set_icons_grey(NULL, conf_grey_x64, 0);
+}
+
+const char *ui_get_machine_ibar_icon(void)
+{
+  return ((vsid_mode) ? IBarIconNameVSID : IBarIconName64);
+}

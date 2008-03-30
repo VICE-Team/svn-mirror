@@ -200,7 +200,8 @@ static log_t video_log = LOG_ERR;
 static void (*_convert_func) (BYTE *draw_buffer,
                               unsigned int draw_buffer_line_size,
                               video_canvas_t *canvas,
-                              int x, int y, int w, int h);
+			      int xs, int ys, int xt, int yt,
+			      int w, int h);
 static BYTE shade_table[256];
 
 void video_convert_color_table(unsigned int i, BYTE *pixel_return, BYTE *data,
@@ -234,11 +235,12 @@ void video_convert_color_table(unsigned int i, BYTE *pixel_return, BYTE *data,
 static void convert_8to8(BYTE *draw_buffer,
                          unsigned int draw_buffer_line_size,
                          video_canvas_t *canvas,
-                         int sx, int sy, int w, int h)
+                         int sx, int sy, int tx, int ty,
+			 int w, int h)
 {
     video_render_main(&canvas->videoconfig, draw_buffer,
                       canvas->x_image->data,
-                      w, h, sx, sy, sx, sy, draw_buffer_line_size,
+                      w, h, sx, sy, tx, ty, draw_buffer_line_size,
                       canvas->x_image->bytes_per_line, 8);
 
 }
@@ -246,22 +248,24 @@ static void convert_8to8(BYTE *draw_buffer,
 static void convert_8to16(BYTE *draw_buffer,
                           unsigned int draw_buffer_line_size,
                           video_canvas_t *canvas,
-                          int sx, int sy, int w, int h)
+			  int sx, int sy, int tx, int ty,
+			  int w, int h)
 {
     video_render_main(&canvas->videoconfig, draw_buffer,
                       canvas->x_image->data,
-                      w, h, sx, sy, sx, sy, draw_buffer_line_size,
+                      w, h, sx, sy, tx, ty, draw_buffer_line_size,
                       canvas->x_image->bytes_per_line, 16);
 }
 
 static void convert_8to32(BYTE *draw_buffer,
                           unsigned int draw_buffer_line_size,
                           video_canvas_t *canvas,
-                          int sx, int sy, int w, int h)
+			  int sx, int sy, int tx, int ty,
+			  int w, int h)
 {
     video_render_main(&canvas->videoconfig, draw_buffer,
                       canvas->x_image->data,
-                      w, h, sx, sy, sx, sy, draw_buffer_line_size,
+                      w, h, sx, sy, tx, ty, draw_buffer_line_size,
                       canvas->x_image->bytes_per_line, 32);
 }
 
@@ -282,7 +286,8 @@ BYTE dither_table[4][4] = {
 static void convert_8to1_dither(BYTE *draw_buffer,
                                 unsigned int draw_buffer_line_size,
                                 video_canvas_t *canvas,
-                                int sx, int sy, int w, int h)
+				int sx, int sy, int tx, int ty,
+				int w, int h)
 {
     BYTE *src, *dither;
     int x, y;
@@ -291,7 +296,7 @@ static void convert_8to1_dither(BYTE *draw_buffer,
         dither = dither_table[(sy + y) % 4];
         for (x = 0; x < w; x++) {
             /* XXX: trusts that real_pixel[0, 1] == black, white */
-            XPutPixel(canvas->x_image, sx + x, sy + y,
+            XPutPixel(canvas->x_image, tx + x, ty + y,
                       canvas->videoconfig.physical_colors[shade_table[src[x]]
                       > dither[(sx + x) % 4]]);
         }
@@ -302,14 +307,15 @@ static void convert_8to1_dither(BYTE *draw_buffer,
 static void convert_8toall(BYTE *draw_buffer,
                            unsigned int draw_buffer_line_size,
                            video_canvas_t *canvas,
-                           int sx, int sy, int w, int h)
+			   int sx, int sy, int tx, int ty,
+			   int w, int h)
 {
     BYTE *src;
     int x, y;
     for (y = 0; y < h; y++) {
         src = SRCPTR(sx, sy + y);
         for (x = 0; x < w; x++)
-            XPutPixel(canvas->x_image, sx + x, sy + y,
+            XPutPixel(canvas->x_image, tx + x, ty + y,
                       canvas->videoconfig.physical_colors[src[x]]);
     }
 }
@@ -606,46 +612,24 @@ void video_canvas_refresh(video_canvas_t *canvas,
         Window root;
 	int x, y;
 	unsigned int dest_w, dest_h, border_width, depth;
-        int xmin, wmax, ymin, hmax;
 
 	if (!raster) {
 	    log_error(video_log, "video_canvas_refresh called with raster == NULL");
 	    return;
 	}
 
-	xmin = raster->geometry.extra_offscreen_border_left;
-	wmax = raster->geometry.screen_size.width;
-	ymin = raster->geometry.first_displayed_line;
-	hmax = raster->geometry.last_displayed_line
-	  - raster->geometry.first_displayed_line + 1;
-
 	if (canvas->videoconfig.doublesizex) {
 	  xs /= 2;
+	  xi /= 2;
 	  w /= 2;
 	}
 	if (canvas->videoconfig.doublesizey) {
 	  ys /= 2;
+	  yi /= 2;
 	  h /= 2;
 	}
 
 	display = ui_get_display_ptr();
-
-	/* FIXME: raster.c passes off-screen areas! */
-	if (xs < xmin
-	    || xs + w > xmin + wmax
-	    || ys < ymin
-	    || ys + h > ymin + hmax
-	    )
-	{
-            log_error(video_log, "Off-screen area passed to video_canvas_refresh: x=%i, y=%i, w=%i, h=%i",
-		      xs - xmin,
-		      ys - ymin,
-		      w, h);
-	    xs = xmin;
-	    w = wmax;
-	    ys = ymin;
-	    h = hmax;
-	}
 
 	render_yuv_image(doublesize,
 			 canvas->videoconfig.doublescan,
@@ -656,8 +640,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
 			 draw_buffer, draw_buffer_line_size,
 			 yuv_table,
 			 xs, ys, w, h,
-			 xs - xmin,
-			 ys - ymin);
+			 xi, yi);
 
 	XGetGeometry(display,
 #ifdef USE_GNOMEUI
@@ -678,8 +661,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
 #endif
 			  canvas->xv_image, shminfo,
 			  0, 0,
-			  canvas->videoconfig.doublesizex ? wmax*2 : wmax,
-			  canvas->videoconfig.doublesizey ? hmax*2 : hmax,
+			  canvas->width, canvas->height,
 			  dest_w, dest_h);
 
 	if (_video_use_xsync)
@@ -698,13 +680,13 @@ void video_canvas_refresh(video_canvas_t *canvas,
 #endif
     if (_convert_func)
         _convert_func(draw_buffer, draw_buffer_line_size, canvas,
-                      xs, ys, w, h);
+                      xs, ys, xi, yi, w, h);
 
     /* This could be optimized away.  */
     display = ui_get_display_ptr();
 
     _refresh_func(display, canvas->drawable, _video_gc,
-                  canvas->x_image, xs, ys, xi, yi, w, h, False,
+                  canvas->x_image, xi, yi, xi, yi, w, h, False,
                   NULL, canvas);
     if (_video_use_xsync)
         XSync(display, False);

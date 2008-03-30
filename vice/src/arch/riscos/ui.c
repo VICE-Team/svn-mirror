@@ -62,8 +62,10 @@
 #include "types.h"
 #include "ui.h"
 #include "uiconfig.h"
+#include "uihelp.h"
 #include "uiimage.h"
 #include "uimsgwin.h"
+#include "uisharedef.h"
 #include "utils.h"
 #include "version.h"
 #include "videoarch.h"
@@ -165,51 +167,6 @@ static const char PRGFileExtension[] = "prg";
 #define Menu_Flags		0x07003011
 
 
-/* Icons */
-#define Icon_Pane_LED0		1
-#define Icon_Pane_LED1		3
-#define Icon_Pane_LED2		5
-#define Icon_Pane_LED3		7
-#define Icon_Pane_Drive0	0
-#define Icon_Pane_Drive1	2
-#define Icon_Pane_Drive2	4
-#define Icon_Pane_Drive3	6
-#define Icon_Pane_Reset		8
-#define Icon_Pane_Pause		9
-#define Icon_Pane_Speed		10
-#define Icon_Pane_Toggle	11
-#define Icon_Pane_TrkSec	12
-
-#define Icon_Sound_Volume	0
-#define Icon_Sound_Notes	1
-
-#define Icon_Save_Sprite	0
-#define Icon_Save_Path		1
-#define Icon_Save_OK		2
-
-#define Icon_Snap_Sprite	0
-#define Icon_Snap_Path		1
-#define Icon_Snap_OK		2
-#define Icon_Snap_ROM		3
-#define Icon_Snap_Disk		4
-
-#define Icon_Info_Name		5
-#define Icon_Info_Purpose	6
-#define Icon_Info_Version	9
-
-#define Icon_Jam_Message	0
-#define Icon_Jam_Reset		1
-#define Icon_Jam_ResetH		2
-#define Icon_Jam_Monitor	3
-
-#define Icon_Create_Type	0
-#define Icon_Create_TypeT	1
-#define Icon_Create_Name	5
-#define Icon_Create_Sprite	3
-#define Icon_Create_OK		4
-#define Icon_Create_File	2
-
-
 
 
 
@@ -301,172 +258,68 @@ static int *SpriteArea;
 
 /* Icon translation tables */
 static const char LEDtoIcon[4] = {Icon_Pane_LED0, Icon_Pane_LED1, Icon_Pane_LED2, Icon_Pane_LED3};
-static const char DriveToFile[4] = {Icon_Conf_DriveFile8, Icon_Conf_DriveFile9, Icon_Conf_DriveFile10, Icon_Conf_DriveFile11};
+static const char DriveToFile[4] = {Icon_ConfDrv_DriveFile8, Icon_ConfDrv_DriveFile9, Icon_ConfDrv_DriveFile10, Icon_ConfDrv_DriveFile11};
 
 /* Config icons affected by True Drive Emulation state */
-static const conf_icon_id TrueDependentIcons[] = {
-  /*{CONF_WIN_DRIVES, Icon_Conf_TrueDrvSync},
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvSyncT},*/
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar8},
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt8},
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt8T},
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle8},
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle8T},
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar9},
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt9},
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt9T},
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle9},
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle9T},
+static const conf_iconid_t TrueDependentIcons[] = {
+  /*{CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvSync},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvSyncT},*/
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar8},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt8},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt8T},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle8},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle8T},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvPar9},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt9},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvExt9T},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle9},
+  {CONF_WIN_DRIVES, Icon_ConfDrv_TrueDrvIdle9T},
   {0xff, 0xff}
 };
 
 /* Config icons affected by Tape file state */
-static const conf_icon_id TapeFileDependentIcons[] = {
-  {CONF_WIN_TAPE, Icon_Conf_TapeDetach},
-  {CONF_WIN_TAPE, Icon_Conf_DataCounter},
-  {CONF_WIN_TAPE, Icon_Conf_DataStop},
-  {CONF_WIN_TAPE, Icon_Conf_DataRewind},
-  {CONF_WIN_TAPE, Icon_Conf_DataPlay},
-  {CONF_WIN_TAPE, Icon_Conf_DataForward},
-  {CONF_WIN_TAPE, Icon_Conf_DataRecord},
-  {CONF_WIN_TAPE, Icon_Conf_DataDoReset},
+static const conf_iconid_t TapeFileDependentIcons[] = {
+  {CONF_WIN_TAPE, Icon_ConfTap_TapeDetach},
+  {CONF_WIN_TAPE, Icon_ConfTap_DataCounter},
+  {CONF_WIN_TAPE, Icon_ConfTap_DataStop},
+  {CONF_WIN_TAPE, Icon_ConfTap_DataRewind},
+  {CONF_WIN_TAPE, Icon_ConfTap_DataPlay},
+  {CONF_WIN_TAPE, Icon_ConfTap_DataForward},
+  {CONF_WIN_TAPE, Icon_ConfTap_DataRecord},
+  {CONF_WIN_TAPE, Icon_ConfTap_DataDoReset},
   {0xff, 0xff}
 };
 
 /* Config icons affected by Sound enable state */
-static const conf_icon_id SoundDependentIcons[] = {
-  {CONF_WIN_SOUND, Icon_Conf_SampleRate},
-  {CONF_WIN_SOUND, Icon_Conf_SampleRateT},
-  {CONF_WIN_SOUND, Icon_Conf_SoundDev},
-  {CONF_WIN_SOUND, Icon_Conf_SoundDevT},
-  {CONF_WIN_SOUND, Icon_Conf_Oversample},
-  {CONF_WIN_SOUND, Icon_Conf_OversampleT},
-  {CONF_WIN_SOUND, Icon_Conf_SoundBuff},
-  {CONF_WIN_SOUND, Icon_Conf_SoundBuffT},
-  {CONF_WIN_SOUND, Icon_Conf_SpeedAdjust},
-  {CONF_WIN_SOUND, Icon_Conf_SpeedAdjustT},
-  {CONF_WIN_SOUND, Icon_Conf_Volume},
+static const conf_iconid_t SoundDependentIcons[] = {
+  {CONF_WIN_SOUND, Icon_ConfSnd_SampleRate},
+  {CONF_WIN_SOUND, Icon_ConfSnd_SampleRateT},
+  {CONF_WIN_SOUND, Icon_ConfSnd_SoundDev},
+  {CONF_WIN_SOUND, Icon_ConfSnd_SoundDevT},
+  {CONF_WIN_SOUND, Icon_ConfSnd_Oversample},
+  {CONF_WIN_SOUND, Icon_ConfSnd_OversampleT},
+  {CONF_WIN_SOUND, Icon_ConfSnd_SoundBuff},
+  {CONF_WIN_SOUND, Icon_ConfSnd_SoundBuffT},
+  {CONF_WIN_SOUND, Icon_ConfSnd_SpeedAdjust},
+  {CONF_WIN_SOUND, Icon_ConfSnd_SpeedAdjustT},
+  {CONF_WIN_SOUND, Icon_ConfSnd_Volume},
   {0xff, 0xff}
 };
 
-static const conf_icon_id SidDependentIcons[] = {
-  {CONF_WIN_SOUND, Icon_Conf_SidFilter},
-  {CONF_WIN_SOUND, Icon_Conf_UseResid},
-  {CONF_WIN_SOUND, Icon_Conf_SidModel},
-  {CONF_WIN_SOUND, Icon_Conf_SidModelT},
-  {CONF_WIN_SOUND, Icon_Conf_ResidSamp},
-  {CONF_WIN_SOUND, Icon_Conf_ResidSampT},
-  {CONF_WIN_SOUND, Icon_Conf_ResidPass},
-  {CONF_WIN_SOUND, Icon_Conf_SidStereo},
-  {CONF_WIN_SOUND, Icon_Conf_Sid2Addr},
+static const conf_iconid_t SidDependentIcons[] = {
+  {CONF_WIN_SOUND, Icon_ConfSnd_SidFilter},
+  {CONF_WIN_SOUND, Icon_ConfSnd_UseResid},
+  {CONF_WIN_SOUND, Icon_ConfSnd_SidModel},
+  {CONF_WIN_SOUND, Icon_ConfSnd_SidModelT},
+  {CONF_WIN_SOUND, Icon_ConfSnd_ResidSamp},
+  {CONF_WIN_SOUND, Icon_ConfSnd_ResidSampT},
+  {CONF_WIN_SOUND, Icon_ConfSnd_ResidPass},
+  {CONF_WIN_SOUND, Icon_ConfSnd_SidStereo},
+  {CONF_WIN_SOUND, Icon_ConfSnd_Sid2Addr},
   {0xff, 0xff}
 };
 
 
-#define ICON_LIST_PET \
-  {CONF_WIN_PET, Icon_Conf_PetMem}, {CONF_WIN_PET, Icon_Conf_PetMemT},\
-  {CONF_WIN_PET, Icon_Conf_PetIO}, {CONF_WIN_PET, Icon_Conf_PetIOT},\
-  {CONF_WIN_PET, Icon_Conf_PetVideo}, {CONF_WIN_PET, Icon_Conf_PetVideoT},\
-  {CONF_WIN_PET, Icon_Conf_PetModel}, {CONF_WIN_PET, Icon_Conf_PetModelT},\
-  {CONF_WIN_PET, Icon_Conf_PetKbd}, {CONF_WIN_PET, Icon_Conf_PetCrt},\
-  {CONF_WIN_PET, Icon_Conf_PetRAM9}, {CONF_WIN_PET, Icon_Conf_PetRAMA}, \
-  {CONF_WIN_PET, Icon_Conf_PetDiagPin},
-
-#define ICON_LIST_VIC \
-  {CONF_WIN_VIC, Icon_Conf_VICCart}, {CONF_WIN_VIC, Icon_Conf_VICCartT},\
-  {CONF_WIN_VIC, Icon_Conf_VICCartF}, {CONF_WIN_VIC, Icon_Conf_VICMem},
-
-#define ICON_LIST_CART64 \
-  {CONF_WIN_SYSTEM, Icon_Conf_CartType}, {CONF_WIN_SYSTEM, Icon_Conf_CartTypeT},\
-  {CONF_WIN_SYSTEM, Icon_Conf_CartFile},
-
-#define ICON_LIST_DEVRSUSR \
-  {CONF_WIN_DEVICES, Icon_Conf_RsUsr}, {CONF_WIN_DEVICES, Icon_Conf_RsUsrDev}, \
-  {CONF_WIN_DEVICES, Icon_Conf_RsUsrDevT}, {CONF_WIN_DEVICES, Icon_Conf_FileRsOK}, \
-  {CONF_WIN_DEVICES, Icon_Conf_FileRsPath}, {CONF_WIN_DEVICES, Icon_Conf_FileRsIcon},
-
-#define ICON_LIST_DEVICES \
-  {CONF_WIN_DEVICES, Icon_Conf_ACIADE}, {CONF_WIN_DEVICES, Icon_Conf_ACIAD67},\
-  {CONF_WIN_DEVICES, Icon_Conf_ACIAIrq}, {CONF_WIN_DEVICES, Icon_Conf_ACIADev},\
-  {CONF_WIN_DEVICES, Icon_Conf_ACIADevT},   {CONF_WIN_DEVICES, Icon_Conf_Serial}, \
-  {CONF_WIN_DEVICES, Icon_Conf_SerialT}, \
-  ICON_LIST_DEVRSUSR
-
-#define ICON_LIST_SID \
-  {CONF_WIN_SOUND, Icon_Conf_SidFilter}, {CONF_WIN_SOUND, Icon_Conf_SidModel},\
-  {CONF_WIN_SOUND, Icon_Conf_SidModelT}, {CONF_WIN_SOUND, Icon_Conf_UseResid},\
-  {CONF_WIN_SOUND, Icon_Conf_ResidSamp}, {CONF_WIN_SOUND, Icon_Conf_ResidSampT}, \
-  {CONF_WIN_SOUND, Icon_Conf_ResidPass}, {CONF_WIN_SOUND, Icon_Conf_SidStereo},
-
-#define ICON_LIST_SYSTEM \
-  {CONF_WIN_SYSTEM, Icon_Conf_REU}, {CONF_WIN_SYSTEM, Icon_Conf_IEEE488},\
-  {CONF_WIN_SYSTEM, Icon_Conf_CheckSScoll}, {CONF_WIN_SYSTEM, Icon_Conf_CheckSBcoll},\
-
-#define ICON_LIST_SYS64 \
-  {CONF_WIN_SYSTEM, Icon_Conf_CharGen}, {CONF_WIN_SYSTEM, Icon_Conf_Kernal},\
-  {CONF_WIN_SYSTEM, Icon_Conf_Basic},
-
-#define ICON_LIST_TRUE \
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrv}, \
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt8}, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt8T}, \
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle8}, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle8T},\
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar8}, \
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt9}, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvExt9T}, \
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle9}, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvIdle9T},\
-  {CONF_WIN_DRIVES, Icon_Conf_TrueDrvPar9},
-
-
-/* Config icons that are greyed out in some CBM machines */
-static const conf_icon_id conf_grey_x64[] = {
-  ICON_LIST_PET
-  ICON_LIST_VIC
-  {CONF_WIN_DEVICES, Icon_Conf_ACIAD67},
-  {0xff, 0xff}
-};
-
-static const conf_icon_id conf_grey_x128[] = {
-  ICON_LIST_PET
-  ICON_LIST_VIC
-  {0xff, 0xff}
-};
-
-static const conf_icon_id conf_grey_xvic[] = {
-  ICON_LIST_CART64
-  ICON_LIST_SYSTEM
-  ICON_LIST_SID
-  ICON_LIST_DEVICES
-  ICON_LIST_PET
-  {0xff, 0xff}
-};
-
-static const conf_icon_id conf_grey_xpet[] = {
-  ICON_LIST_CART64
-  ICON_LIST_VIC
-  ICON_LIST_SYS64
-  ICON_LIST_SYSTEM
-  ICON_LIST_DEVICES
-  ICON_LIST_SID
-  ICON_LIST_TRUE
-  {0xff, 0xff}
-};
-
-static const conf_icon_id conf_grey_xcbm2[] = {
-  ICON_LIST_CART64
-  ICON_LIST_VIC
-  ICON_LIST_SYSTEM
-  ICON_LIST_PET
-  ICON_LIST_DEVRSUSR
-  {0xff, 0xff}
-};
-
-static const conf_icon_id conf_grey_plus4[] = {
-  ICON_LIST_CART64
-  ICON_LIST_VIC
-  ICON_LIST_SYSTEM
-  ICON_LIST_SID
-  ICON_LIST_PET
-  {0xff, 0xff}
-};
 
 
 
@@ -616,25 +469,26 @@ static char *SymbolStrings[] = {
 
 
 static Joy_Keys JoyToIcon[2] = {
-  {Icon_Conf_JoyKey1U, Icon_Conf_JoyKey1D, Icon_Conf_JoyKey1L, Icon_Conf_JoyKey1R, Icon_Conf_JoyKey1F},
-  {Icon_Conf_JoyKey2U, Icon_Conf_JoyKey2D, Icon_Conf_JoyKey2L, Icon_Conf_JoyKey2R, Icon_Conf_JoyKey2F}
+  {Icon_ConfJoy_JoyKey1U, Icon_ConfJoy_JoyKey1D, Icon_ConfJoy_JoyKey1L, Icon_ConfJoy_JoyKey1R, Icon_ConfJoy_JoyKey1F},
+  {Icon_ConfJoy_JoyKey2U, Icon_ConfJoy_JoyKey2D, Icon_ConfJoy_JoyKey2L, Icon_ConfJoy_JoyKey2R, Icon_ConfJoy_JoyKey2F}
 };
 
 
 
 
 /* Configuration menu */
-#define Menu_Config_Items	9
+#define Menu_Config_Items	10
 #define Menu_Config_Width	200
 #define Menu_Config_Drives	0
 #define Menu_Config_Tape	1
 #define Menu_Config_Devices	2
 #define Menu_Config_Sound	3
 #define Menu_Config_System	4
-#define Menu_Config_Joystick	5
-#define Menu_Config_Machine	6
-#define Menu_Config_Save	7
-#define Menu_Config_Reload	8
+#define Menu_Config_Video	5
+#define Menu_Config_Joystick	6
+#define Menu_Config_Machine	7
+#define Menu_Config_Save	8
+#define Menu_Config_Reload	9
 static struct MenuConfigure {
   RO_MenuHead head;
   RO_MenuItem item[Menu_Config_Items];
@@ -646,6 +500,7 @@ static struct MenuConfigure {
     MENU_ITEM("\\MenConfDev"),
     MENU_ITEM("\\MenConfSnd"),
     MENU_ITEM("\\MenConfSys"),
+    MENU_ITEM("\\MenConfVid"),
     MENU_ITEM("\\MenConfJoy"),
     {MFlg_Dotted, (RO_MenuHead*)-1, Menu_Flags, {"\\MenConfMch"}},
     MENU_ITEM("\\MenConfSav"),
@@ -895,6 +750,12 @@ static const char Rsrc_FullScr[] = "ScreenMode";
 static const char Rsrc_VDCpalette[] = "VDC_PaletteFile";
 static const char Rsrc_CoreDump[] = "DoCoreDump";
 static const char Rsrc_Z80Bios[] = "Z80BiosName";
+static const char Rsrc_ColourSat[] = "ColorSaturation";
+static const char Rsrc_Contrast[] = "ColorContrast";
+static const char Rsrc_Brightness[] = "ColorBrightness";
+static const char Rsrc_Gamma[] = "ColorGamma";
+static const char Rsrc_DelLoop[] = "DelayLoopEmulation";
+static const char Rsrc_LineShade[] = "PALScanLineShade";
 
 static const char *Rsrc_ConvP00[4] = {
   Rsrc_Conv8P00, Rsrc_Conv9P00, Rsrc_Conv10P00, Rsrc_Conv11P00
@@ -915,374 +776,11 @@ static struct MenuDisplayROMSetTmpl {
   disp_desc_t dd;
   int values[1];
 } MenuDisplayROMSetTmpl = {
-  {NULL, {CONF_WIN_SYSTEM, Icon_Conf_ROMSetT},
+  {NULL, {CONF_WIN_SYSTEM, Icon_ConfSys_ROMSetT},
     (RO_MenuHead*)&MenuROMSetTmpl, 1, DISP_DESC_STRING, 0},
   {0}
 };
 
-
-
-
-/*
- *  Interactive help messages
- */
-
-typedef struct help_icon_s {
-  int icon;
-  const char *sym;
-  char *msg;
-} help_icon_t;
-
-
-#define HELPBUFFSIZE	512
-/* Note: -1 must still legal for help on entire windows, so just use something very big */
-#define Help_Icon_End	0x10000
-
-/*
- *  Help text. sym is the symbol to look up; if sym is NULL, it's the same as the
- *  previous entry.
- */
-
-/* Emu pane */
-static help_icon_t Help_EmuPane[] = {
-  {-1, "\\HelpPaneWindow"},
-  {Icon_Pane_LED0, "\\HelpPaneDrives|M\\HelpPaneDrv0"},
-  {Icon_Pane_Drive0, NULL},
-  {Icon_Pane_LED1, "\\HelpPaneDrives"},
-  {Icon_Pane_Drive1, NULL},
-  {Icon_Pane_LED2, NULL},
-  {Icon_Pane_Drive2, NULL},
-  {Icon_Pane_LED3, NULL},
-  {Icon_Pane_Drive3, NULL},
-  {Icon_Pane_Reset, "\\HelpPaneReset"},
-  {Icon_Pane_Pause, "\\HelpPanePause"},
-  {Icon_Pane_Speed, "\\HelpPaneSpeed"},
-  {Icon_Pane_Toggle, "\\HelpPaneToggle"},
-  {Icon_Pane_TrkSec, "\\HelpPaneTrkSec"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_EmuWindow[] = {
-  {-1, "\\HelpEmuWindow"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_InfoWindow[] = {
-  {-1, "\\HelpInfoWindow"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_ImgContWindow[] = {
-  {-1, "\\HelpImageContents"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_CreateWindow[] = {
-  {-1, "\\HelpCreateWindow"},
-  {Icon_Create_Type, "\\HelpCreateType"},
-  {Icon_Create_TypeT, "\\HelpCreateTypeT"},
-  {Icon_Create_Name, "\\HelpCreateName"},
-  {Icon_Create_Sprite, "\\HelpCreateSprite"},
-  {Icon_Create_OK, "\\HelpCreateOK"},
-  {Icon_Create_File, "\\HelpCreateFile"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_VSidWindow[] = {
-  {-1, "\\HelpVSidWindow"},
-  {Icon_VSid_TotalTunes, "\\HelpVSidTotal"},
-  {Icon_VSid_Tune, "\\HelpVSidTune"},
-  {Icon_VSid_NextTune, "\\HelpVSidNext"},
-  {Icon_VSid_PrevTune, "\\HelpVSidPrev"},
-  {Icon_VSid_StopTune, "\\HelpVSidStop"},
-  {Icon_VSid_Default, "\\HelpVSidDefault"},
-  {Icon_VSid_PlayTime, "\\HelpVSidTime"},
-  {Icon_VSid_Pause, "\\HelpVSidPause"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_MonitorWindow[] = {
-  {-1, "\\HelpMonitorWindow"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_ConfigDrives[] = {
-  {-1, "\\HelpConfDrive"},
-  {Icon_Conf_DriveType8, "\\HelpConfDrvType"},
-  {Icon_Conf_DriveType9, NULL},
-  {Icon_Conf_DriveType10, NULL},
-  {Icon_Conf_DriveType11, NULL},
-  {Icon_Conf_DriveFile8, "\\HelpConfDrvFile"},
-  {Icon_Conf_DriveFile9, NULL},
-  {Icon_Conf_DriveFile10, NULL},
-  {Icon_Conf_DriveFile11, NULL},
-  {Icon_Conf_DriveRdOnly8, "\\HelpConfDrvRO"},
-  {Icon_Conf_DriveRdOnly9, NULL},
-  {Icon_Conf_DriveRdOnly10, NULL},
-  {Icon_Conf_DriveRdOnly11, NULL},
-  {Icon_Conf_TrueDrv, "\\HelpConfDrvTrue"},
-  {Icon_Conf_TrueDrvPar8, "\\HelpConfDrvPar"},
-  {Icon_Conf_TrueDrvPar9, NULL},
-  {Icon_Conf_TrueDrvExt8, "\\HelpConfDrvExt"},
-  {Icon_Conf_TrueDrvExt9, NULL},
-  {Icon_Conf_TrueDrvExt8T, "\\HelpConfDrvExtT"},
-  {Icon_Conf_TrueDrvExt9T, NULL},
-  {Icon_Conf_TrueDrvIdle8, "\\HelpConfDrvIdle"},
-  {Icon_Conf_TrueDrvIdle9, NULL},
-  {Icon_Conf_TrueDrvIdle8T, "\\HelpConfDrvIdleT"},
-  {Icon_Conf_TrueDrvIdle9T, NULL},
-  {Icon_Conf_TrueDrvType8, "\\HelpConfDrvTT"},
-  {Icon_Conf_TrueDrvType9, NULL},
-  {Icon_Conf_TrueDrvType8T, "\\HelpConfDrvTTT"},
-  {Icon_Conf_TrueDrvType9T, NULL},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_ConfigTape[] = {
-  {-1, "\\HelpConfTape"},
-  {Icon_Conf_TapeFile, "\\HelpConfTapeFile"},
-  {Icon_Conf_TapeDetach, "\\HelpConfTapeDet"},
-  {Icon_Conf_DataDoReset, "\\HelpConfTapeRst"},
-  {Icon_Conf_DataCounter, "\\HelpConfTapeCtr"},
-  {Icon_Conf_DataStop, "\\HelpConfTapeStop"},
-  {Icon_Conf_DataRewind, "\\HelpConfTapeRwd"},
-  {Icon_Conf_DataPlay, "\\HelpConfTapePlay"},
-  {Icon_Conf_DataForward, "\\HelpConfTapeFwd"},
-  {Icon_Conf_DataRecord, "\\HelpConfTapeRec"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_ConfigDevices[] = {
-  {-1, "\\HelpConfDevice"},
-  {Icon_Conf_ACIAIrq, "\\HelpConfDevACIAIrq"},
-  {Icon_Conf_ACIADev, "\\HelpConfDevACIADev|M\\HelpConfDeviceDev"},
-  {Icon_Conf_ACIADevT, "\\HelpConfDevACIADevT"},
-  {Icon_Conf_ACIADE, "\\HelpConfDevACIADE"},
-  {Icon_Conf_ACIAD67, "\\HelpConfDevACIA67"},
-  {Icon_Conf_RsUsr, "\\HelpConfDevRsUsr"},
-  {Icon_Conf_RsUsrDev, "\\HelpConfDevRsUsrDev|M\\HelpConfDeviceDev"},
-  {Icon_Conf_RsUsrDevT, "\\HelpConfDevRsUsrDevT"},
-  {Icon_Conf_Serial, "\\HelpConfDevSerial"},
-  {Icon_Conf_SerialT, "\\HelpConfDevSerialT"},
-  {Icon_Conf_FileRsOK, "\\HelpConfDevOK"},
-  {Icon_Conf_FilePrOK, NULL},
-  {Icon_Conf_FileRsPath, "\\HelpConfDevPath"},
-  {Icon_Conf_FilePrPath, NULL},
-  {Icon_Conf_FileRsIcon, "\\HelpConfDevIcon"},
-  {Icon_Conf_FilePrIcon, NULL},
-  {Icon_Conf_PrntOn, "\\HelpConfDevPrntOn"},
-  {Icon_Conf_PrntDev, "\\HelpConfDevPrntDev|M\\HelpConfDeviceDev"},
-  {Icon_Conf_PrntDevT, "\\HelpConfDevPrntDevT"},
-  {Icon_Conf_PrntUsrOn, "\\HelpConfDevPrntUsrOn"},
-  {Icon_Conf_PrntUsrDev, "\\HelpConfDevPrntUsrDev|M\\HelpConfDeviceDev"},
-  {Icon_Conf_PrntUsrDevT, "\\HelpConfDevPrntUsrDevT"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_ConfigSound[] = {
-  {-1, "\\HelpConfSound"},
-  {Icon_Conf_SoundOn, "\\HelpConfSndOn"},
-  {Icon_Conf_SampleRate, "\\HelpConfSndRate"},
-  {Icon_Conf_SampleRateT, "\\HelpConfSndRateT"},
-  {Icon_Conf_SoundDev, "\\HelpConfSndDev"},
-  {Icon_Conf_SoundDevT, "\\HelpConfSndDevT"},
-  {Icon_Conf_Oversample, "\\HelpConfSndOver"},
-  {Icon_Conf_OversampleT, "\\HelpConfSndOverT"},
-  {Icon_Conf_SidModel, "\\HelpConfSndMod"},
-  {Icon_Conf_SidModelT, "\\HelpConfSndModT"},
-  {Icon_Conf_SidFilter, "\\HelpConfSndFilter"},
-  {Icon_Conf_FileSndOK, "\\HelpConfSndOK"},
-  {Icon_Conf_FileSndPath, "\\HelpConfSndFile"},
-  {Icon_Conf_FileSndIcon, "\\HelpConfSndIcon"},
-  {Icon_Conf_Volume, "\\HelpConfSndVol"},
-  {Icon_Conf_SoundBuff, "\\HelpConfSndBuff"},
-  {Icon_Conf_SoundBuffT, "\\HelpConfSndBuffT"},
-  {Icon_Conf_UseResid, "\\HelpConfSndReSID"},
-  {Icon_Conf_SpeedAdjust, "\\HelpConfSndAdj"},
-  {Icon_Conf_SpeedAdjustT, "\\HelpConfSndAdjT"},
-  {Icon_Conf_ResidSamp, "\\HelpConfSndReSamp"},
-  {Icon_Conf_ResidSampT, "\\HelpConfSndReSampT"},
-  {Icon_Conf_ResidPass, "\\HelpConfSndRePass"},
-  {Icon_Conf_Sound16Bit, "\\HelpConfSnd16Bit"},
-  {Icon_Conf_SidStereo, "\\HelpConfSndStereo"},
-  {Icon_Conf_Sid2Addr, "\\HelpConfSndSid2Addr"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_ConfigSystem[] = {
-  {-1, "\\HelpConfSystem"},
-  {Icon_Conf_CharGen, "\\HelpConfSysCharGen|M\\HelpConfSystemPath"},
-  {Icon_Conf_Kernal, "\\HelpConfSysKernal|M\\HelpConfSystemPath"},
-  {Icon_Conf_Basic, "\\HelpConfSysBasic|M\\HelpConfSystemPath"},
-  {Icon_Conf_Palette, "\\HelpConfSysPal|M\\HelpConfSystemPath"},
-  {Icon_Conf_REU, "\\HelpConfSysREU"},
-  {Icon_Conf_IEEE488, "\\HelpConfSysIEEE"},
-  {Icon_Conf_EmuID, "\\HelpConfSysID"},
-  {Icon_Conf_NoTraps, "\\HelpConfSysTraps"},
-  {Icon_Conf_VideoCache, "\\HelpConfSysVCache"},
-  {Icon_Conf_PollEvery, "\\HelpConfSysPlEv"},
-  {Icon_Conf_SpeedEvery, "\\HelpConfSysSpEv"},
-  {Icon_Conf_SoundEvery, "\\HelpConfSysSndEv"},
-  {Icon_Conf_SpeedLmt, "\\HelpConfSysSpdLmt"},
-  {Icon_Conf_SpeedLmtT, "\\HelpConfSysSpdLmtT"},
-  {Icon_Conf_Refresh, "\\HelpConfSysRefresh"},
-  {Icon_Conf_RefreshT, "\\HelpConfSysRefreshT"},
-  {Icon_Conf_MaxSkipFrms, "\\HelpConfSysMaxSkip"},
-  {Icon_Conf_WarpMode, "\\HelpConfSysWarpMode"},
-  {Icon_Conf_CartType, "\\HelpConfSysCrtType|M\\HelpConfSystemCart"},
-  {Icon_Conf_CartTypeT, "\\HelpConfSysCrtTypeT"},
-  {Icon_Conf_CartFile, "\\HelpConfSysCrtFile|M\\HelpConfSystemCart"},
-  {Icon_Conf_CheckSScoll, "\\HelpConfSysSScl"},
-  {Icon_Conf_CheckSBcoll, "\\HelpConfSysSBcl"},
-  {Icon_Conf_DosName, "\\HelpConfSysDosName"},
-  {Icon_Conf_DosNameT, "\\HelpConfSysDosNameT"},
-  {Icon_Conf_DosNameF, "\\HelpConfSysDosNameF|M\\HelpConfSystemPath"},
-  {Icon_Conf_AutoPause, "\\HelpConfSysAutoPs"},
-  {Icon_Conf_ROMSet, "\\HelpConfSysROMSet"},
-  {Icon_Conf_ROMSetT, "\\HelpConfSysROMSetT"},
-  {Icon_Conf_ROMAction, "\\HelpConfSysROMAct"},
-  {Icon_Conf_FullScreen, "\\HelpConfSysFullScr"},
-  {Icon_Conf_SetPalette, "\\HelpConfSysSetPal"},
-  {Icon_Conf_Keyboard, "\\HelpConfSysKbd"},
-  {Icon_Conf_KeyboardT, "\\HelpConfSysKbdT"},
-  {Icon_Conf_VideoSync, "\\HelpConfSysVsync"},
-  {Icon_Conf_VideoSyncT, "\\HelpConfSysVsyncT"},
-  {Icon_Conf_UseBPlot, "\\HelpConfSysUseBPlot"},
-  {Icon_Conf_PALDepth, "\\HelpConfSysPALDepth"},
-  {Icon_Conf_PALDepthT, "\\HelpConfSysPALDepthT"},
-  {Icon_Conf_PALDouble, "\\HelpConfSysPALDouble"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_ConfigJoystick[] = {
-  {-1, "\\HelpConfJoystick"},
-  {Icon_Conf_JoyPort1, "\\HelpConfJoyPort"},
-  {Icon_Conf_JoyPort2, NULL},
-  {Icon_Conf_JoyPort1T, "\\HelpConfJoyPortT"},
-  {Icon_Conf_JoyPort2T, NULL},
-  {Icon_Conf_JoyKey1U, "\\HelpConfJoyKeymap"},
-  {Icon_Conf_JoyKey1D, NULL},
-  {Icon_Conf_JoyKey1L, NULL},
-  {Icon_Conf_JoyKey1R, NULL},
-  {Icon_Conf_JoyKey1F, NULL},
-  {Icon_Conf_JoyKey2U, NULL},
-  {Icon_Conf_JoyKey2D, NULL},
-  {Icon_Conf_JoyKey2L, NULL},
-  {Icon_Conf_JoyKey2R, NULL},
-  {Icon_Conf_JoyKey2F, NULL},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_ConfigMachinePET[] = {
-  {-1, "\\HelpConfPET"},
-  {Icon_Conf_PetMem, "\\HelpConfPETMem"},
-  {Icon_Conf_PetMemT, "\\HelpConfPETMemT"},
-  {Icon_Conf_PetIO, "\\HelpConfPETIO"},
-  {Icon_Conf_PetIOT, "\\HelpConfPETIOT"},
-  {Icon_Conf_PetVideo, "\\HelpConfPETVideo"},
-  {Icon_Conf_PetVideoT, "\\HelpConfPETVideoT"},
-  {Icon_Conf_PetModel, "\\HelpConfPETModel"},
-  {Icon_Conf_PetModelT, "\\HelpConfPETModelT"},
-  {Icon_Conf_PetKbd, "\\HelpConfPETKbd"},
-  {Icon_Conf_PetCrt, "\\HelpConfPETCrt"},
-  {Icon_Conf_PetRAM9, "\\HelpConfPETRAM9"},
-  {Icon_Conf_PetRAMA, "\\HelpConfPETRAMA"},
-  {Icon_Conf_PetDiagPin, "\\HelpConfPETDiag"},
-  {Icon_Conf_PetSuper, "\\HelpConfPETSuper"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_ConfigMachineVIC[] = {
-  {-1, "\\HelpConfVIC"},
-  {Icon_Conf_VICCart, "\\HelpConfVICCart"},
-  {Icon_Conf_VICCartT, "\\HelpConfVICCartT"},
-  {Icon_Conf_VICCartF, "\\HelpConfVICCartF"},
-  {Icon_Conf_VICMem, "\\HelpConfVICMem"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_ConfigMachineCBM2[] = {
-  {-1, "\\HelpConfCBM2"},
-  {Icon_Conf_CBM2Line, "\\HelpConfCBMLine"},
-  {Icon_Conf_CBM2LineT, "\\HelpConfCBMLineT"},
-  {Icon_Conf_CBM2Mem, "\\HelpConfCBMMem"},
-  {Icon_Conf_CBM2MemT, "\\HelpConfCBMMemT"},
-  {Icon_Conf_CBM2Model, "\\HelpConfCBMModel"},
-  {Icon_Conf_CBM2ModelT, "\\HelpConfCBMModelT"},
-  {Icon_Conf_CBM2RAM, "\\HelpConfCBMRAM"},
-  {Icon_Conf_CBM2Kbd, "\\HelpConfCBMKbd"},
-  {Icon_Conf_CBM2Cart, "\\HelpConfCBMCart"},
-  {Icon_Conf_CBM2CartT, "\\HelpConfCBMCartT"},
-  {Icon_Conf_CBM2CartF, "\\HelpConfCBMCartF"},
-  {Help_Icon_End, NULL}
-};
-
-static help_icon_t Help_ConfigMachineC128[] = {
-  {-1, "\\HelpConfC128"},
-  {Icon_Conf_C128Palette, "\\HelpConf128Pal|M\\HelpConfC128Path"},
-  {Icon_Conf_C128Cache, "\\HelpConf128Cache"},
-  {Icon_Conf_C128Size, "\\HelpConf128Size"},
-  {Icon_Conf_C1284080, "\\HelpConf1284080"},
-  {Icon_Conf_C128z80bios, "\\HelpConf128z80bios|M\\HelpConfC128Path"},
-  {Icon_Conf_C128dblsize, "\\HelpConf128dsize"},
-  {Icon_Conf_C128dblscan, "\\HelpConf128dscan"},
-  {Help_Icon_End, NULL}
-};
-
-
-static help_icon_t *Help_ConfigWindows[CONF_WIN_NUMBER] = {
-  Help_ConfigDrives,
-  Help_ConfigTape,
-  Help_ConfigDevices,
-  Help_ConfigSound,
-  Help_ConfigSystem,
-  Help_ConfigJoystick,
-  Help_ConfigMachinePET,
-  Help_ConfigMachineVIC,
-  Help_ConfigMachineCBM2,
-  Help_ConfigMachineC128,
-};
-
-
-static void ui_translate_icon_help_msgs(const wimp_msg_desc *msg, help_icon_t *hi)
-{
-  char buffer[HELPBUFFSIZE];
-  unsigned int i;
-
-  /*log_message(LOG_DEFAULT, "Translate interactive help messages...\n");*/
-  for (i=0; hi[i].icon != Help_Icon_End; i++)
-  {
-    hi[i].msg = NULL;
-    if (hi[i].sym != NULL)
-    {
-      wimp_message_translate_string(msg, hi[i].sym, buffer, HELPBUFFSIZE);
-      if ((hi[i].msg = (char*)malloc(strlen(buffer)+1)) != NULL)
-      {
-        strcpy(hi[i].msg, buffer);
-        /*log_message(LOG_DEFAULT, "%s = %s\n", hi[i].sym, hi[i].msg);*/
-      }
-    }
-  }
-}
-
-static void ui_translate_help_messages(const wimp_msg_desc *msg)
-{
-  unsigned int i;
-
-  ui_translate_icon_help_msgs(msg, Help_EmuPane);
-  ui_translate_icon_help_msgs(msg, Help_EmuWindow);
-  ui_translate_icon_help_msgs(msg, Help_InfoWindow);
-  ui_translate_icon_help_msgs(msg, Help_ImgContWindow);
-  ui_translate_icon_help_msgs(msg, Help_CreateWindow);
-  ui_translate_icon_help_msgs(msg, Help_VSidWindow);
-  ui_translate_icon_help_msgs(msg, Help_MonitorWindow);
-
-  for (i=0; i<CONF_WIN_NUMBER; i++)
-  {
-    if (Help_ConfigWindows[i] != NULL)
-      ui_translate_icon_help_msgs(msg, Help_ConfigWindows[i]);
-  }
-}
 
 
 
@@ -1492,7 +990,7 @@ static void ui_temp_resume_sound(void)
 
 
 /* If w != NULL it overrides the window information in the descriptor */
-static void ui_set_icons_grey(RO_Window *w, const conf_icon_id *desc, int state)
+void ui_set_icons_grey(RO_Window *w, const conf_iconid_t *desc, int state)
 {
   int i;
   unsigned eor;
@@ -1512,7 +1010,7 @@ static void ui_display_truedrv_emulation(int state)
 
   TrueDriveEmulation = state;
 
-  wimp_window_set_icon_state(ConfWindows[CONF_WIN_DRIVES], Icon_Conf_TrueDrv, (state == 0) ? 0 : IFlg_Slct, IFlg_Slct);
+  wimp_window_set_icon_state(ConfWindows[CONF_WIN_DRIVES], Icon_ConfDrv_TrueDrv, (state == 0) ? 0 : IFlg_Slct, IFlg_Slct);
 
   eor = (state == 0) ? 0 : IFlg_Grey;
   for (i=2; i<4; i++)
@@ -1555,7 +1053,7 @@ static void ui_display_sound_enable(int state)
 {
   SoundEnabled = state;
 
-  wimp_window_set_icon_state(ConfWindows[CONF_WIN_SOUND], Icon_Conf_SoundOn, (state == 0) ? 0 : IFlg_Slct, IFlg_Slct);
+  wimp_window_set_icon_state(ConfWindows[CONF_WIN_SOUND], Icon_ConfSnd_SoundOn, (state == 0) ? 0 : IFlg_Slct, IFlg_Slct);
 
   ui_set_icons_grey(NULL, SoundDependentIcons, state);
   if ((machine_class == VICE_MACHINE_C64) || (machine_class == VICE_MACHINE_C128) || (machine_class == VICE_MACHINE_CBM2))
@@ -1565,7 +1063,7 @@ static void ui_display_sound_enable(int state)
 
   wimp_menu_tick_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Sound, state);
 
-  wimp_window_redraw_icon(ConfWindows[CONF_WIN_SOUND], Icon_Conf_Volume);
+  wimp_window_redraw_icon(ConfWindows[CONF_WIN_SOUND], Icon_ConfSnd_Volume);
 }
 
 static void ui_set_sound_enable(int state)
@@ -1606,18 +1104,21 @@ static void ui_set_menu_disp_strshow(const disp_desc_t *dd)
   disp_strshow_t *ds;
   char **resources;
   resource_value_t val;
+  int greyflag;
 
   ds = ((disp_strshow_t*)(dd->resource));
   resources = (char**)(dd + 1);
   if (resources_get_value(resources[ds->item], &val) == 0)
   {
     wimp_window_write_icon_text(ConfWindows[dd->id.win], ds->icon, (char*)val);
+    greyflag = 0;
   }
   else
   {
-    wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, IFlg_Grey, IFlg_Grey);
-    wimp_window_set_icon_state(ConfWindows[dd->id.win], ds->icon, IFlg_Grey, IFlg_Grey);
+    greyflag = IFlg_Grey;
   }
+  wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, greyflag, IFlg_Grey);
+  wimp_window_set_icon_state(ConfWindows[dd->id.win], ds->icon, greyflag, IFlg_Grey);
 }
 
 
@@ -1714,14 +1215,18 @@ static void ui_setup_menu_display(const disp_desc_t *dd)
     values = (char**)(dd + 1);
     for (i=0; i<dd->items; i++)
     {
+      int greyflag;
+
       if (resources_get_value(values[i], &val) == 0)
       {
         if (val != 0) bits |= (1<<i);
+        greyflag = 0;
       }
       else
       {
-        wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, IFlg_Grey, IFlg_Grey);
+        greyflag = IFlg_Grey;
       }
+      wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, greyflag, IFlg_Grey);
     }
     wimp_menu_tick_slct(dd->menu, bits);
   }
@@ -1732,14 +1237,17 @@ static void ui_setup_menu_display(const disp_desc_t *dd)
   }
   else if (dd->resource != NULL)
   {
+    int greyflag;
     if (resources_get_value(dd->resource, &val) == 0)
     {
       ui_setup_menu_disp_core(dd, val);
+      greyflag = 0;
     }
     else
     {
-      wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, IFlg_Grey, IFlg_Grey);
+      greyflag = IFlg_Grey;
     }
+    wimp_window_set_icon_state(ConfWindows[dd->id.win], dd->id.icon, greyflag, IFlg_Grey);
   }
 }
 
@@ -1911,7 +1419,7 @@ static int ui_set_tape_image(const char *name)
         return -1;
 
       util_string_set(&TapeFile, "");
-      wimp_window_write_icon_text(win, Icon_Conf_TapeFile, TapeFile);
+      wimp_window_write_icon_text(win, Icon_ConfTap_TapeFile, TapeFile);
       state = 0;
     }
     else
@@ -1920,7 +1428,7 @@ static int ui_set_tape_image(const char *name)
         return -1;
 
       util_string_set(&TapeFile, name);
-      wimp_window_write_icon_text(win, Icon_Conf_TapeFile, name);
+      wimp_window_write_icon_text(win, Icon_ConfTap_TapeFile, name);
       state = 1;
     }
 
@@ -2052,7 +1560,7 @@ static int ui_set_sound_file(const char *name)
 {
   if (resources_set_value(Rsrc_SoundFile, (resource_value_t)name) == 0)
   {
-    wimp_window_write_icon_text(ConfWindows[CONF_WIN_SOUND], Icon_Conf_FileSndPath, name);
+    wimp_window_write_icon_text(ConfWindows[CONF_WIN_SOUND], Icon_ConfSnd_FileSndPath, name);
     return 0;
   }
   return -1;
@@ -2063,7 +1571,7 @@ static int ui_set_serial_file(const char *name)
 {
   if (resources_set_value(Rsrc_SerialFile, (resource_value_t)name) == 0)
   {
-    wimp_window_write_icon_text(ConfWindows[CONF_WIN_DEVICES], Icon_Conf_FileRsPath, name);
+    wimp_window_write_icon_text(ConfWindows[CONF_WIN_DEVICES], Icon_ConfDev_FileRsPath, name);
     return 0;
   }
   return -1;
@@ -2074,7 +1582,7 @@ static int ui_set_printer_file(const char *name)
 {
   if (resources_set_value(Rsrc_PrinterFile, (resource_value_t)name) == 0)
   {
-    wimp_window_write_icon_text(ConfWindows[CONF_WIN_DEVICES], Icon_Conf_FilePrPath, name);
+    wimp_window_write_icon_text(ConfWindows[CONF_WIN_DEVICES], Icon_ConfDev_FilePrPath, name);
     return 0;
   }
   return -1;
@@ -2087,7 +1595,7 @@ static int ui_set_cartridge_file(const char *name)
 
   if (resources_set_value(Rsrc_CartF, (resource_value_t)name) == 0)
   {
-    wimp_window_write_icon_text(ConfWindows[CONF_WIN_SYSTEM], Icon_Conf_CartFile, name);
+    wimp_window_write_icon_text(ConfWindows[CONF_WIN_SYSTEM], Icon_ConfSys_CartFile, name);
     return 0;
   }
   return -1;
@@ -2189,7 +1697,7 @@ static void ui_draw_sound_volume(int *b)
   RO_Icon *icon;
   int minx, miny, maxx, maxy, thresh;
 
-  icon = wimp_window_get_icon(ConfWindows[CONF_WIN_SOUND], Icon_Conf_Volume);
+  icon = wimp_window_get_icon(ConfWindows[CONF_WIN_SOUND], Icon_ConfSnd_Volume);
   /* Transform to screen coordinates */
   minx = b[RedrawB_VMinX] - b[RedrawB_ScrollX] + icon->minx + Well_Border;
   miny = b[RedrawB_VMaxY] - b[RedrawB_ScrollY] + icon->miny + Well_Border;
@@ -2223,7 +1731,7 @@ static void ui_drag_sound_volume(int *b)
   wstate[WindowB_Handle] = ConfWindows[CONF_WIN_SOUND]->Handle;
   Wimp_GetWindowState(wstate);
 
-  icon = wimp_window_get_icon(ConfWindows[CONF_WIN_SOUND], Icon_Conf_Volume);
+  icon = wimp_window_get_icon(ConfWindows[CONF_WIN_SOUND], Icon_ConfSnd_Volume);
   minx = wstate[RedrawB_VMinX] - wstate[RedrawB_ScrollX] + icon->minx + Well_Border;
   miny = wstate[RedrawB_VMaxY] - wstate[RedrawB_ScrollY] + icon->miny + Well_Border;
   maxx = minx + (icon->maxx - icon->minx - 2*Well_Border);
@@ -2248,7 +1756,7 @@ static void ui_drag_sound_volume(int *b)
 void ui_set_sound_volume(void)
 {
   Sound_Volume(SoundVolume);
-  wimp_window_redraw_icon(ConfWindows[CONF_WIN_SOUND], Icon_Conf_Volume);
+  wimp_window_redraw_icon(ConfWindows[CONF_WIN_SOUND], Icon_ConfSnd_Volume);
 }
 
 
@@ -2473,7 +1981,8 @@ int ui_init(int *argc, char *argv[])
   int block[4];
   int x, y, mode;
   char buffer[64];
-  char *iname;
+  char *msgpool;
+  const char *iname;
   wimp_msg_desc *msg;
   WIdatI *dat;
   RO_MenuItem *item;
@@ -2496,12 +2005,12 @@ int ui_init(int *argc, char *argv[])
 
   /* Translate message pool in two passes: 1) determine lenght, 2) actually do it */
   x = wimp_message_translate_symbols(msg, SymbolStrings, NULL);
-  if ((iname = (char*)malloc(x)) == NULL)
+  if ((msgpool = (char*)malloc(x)) == NULL)
   {
     log_error(roui_log, "Unable to claim memory for symbol pool!\n");
     exit(-1);
   }
-  wimp_message_translate_symbols(msg, SymbolStrings, iname);
+  wimp_message_translate_symbols(msg, SymbolStrings, msgpool);
 
   if ((ReadCatalogueInfo(CustomSprites, block) & 1) != 0)
   {
@@ -2532,16 +2041,7 @@ int ui_init(int *argc, char *argv[])
   strncpy(MenuIconBar.head.title, WimpTaskName, 12);
   strncpy(MenuEmuWindow.head.title, WimpTaskName, 12);
 
-  switch (machine_class)
-  {
-    case VICE_MACHINE_C64: iname = ((vsid_mode) ? "!vicevsid" : "!vice64"); break;
-    case VICE_MACHINE_C128: iname = "!vice128"; break;
-    case VICE_MACHINE_PET: iname = "!vicepet"; break;
-    case VICE_MACHINE_PLUS4: iname = "!viceplus4"; break;
-    case VICE_MACHINE_VIC20: iname = "!vicevic"; break;
-    case VICE_MACHINE_CBM2: iname = "!vicecbm2"; break;
-    default: iname = "?"; break;
-  }
+  iname = ui_get_machine_ibar_icon();
 
   if (Wimp_SpriteInfo(iname, &x, &y, &mode) == NULL)
   {
@@ -2577,6 +2077,7 @@ int ui_init(int *argc, char *argv[])
     ui_load_template("DevConfig", ConfWindows + CONF_WIN_DEVICES, msg);
     ui_load_template("SoundConfig", ConfWindows + CONF_WIN_SOUND, msg);
     ui_load_template("SysConfig", ConfWindows + CONF_WIN_SYSTEM, msg);
+    ui_load_template("VideoConfig", ConfWindows + CONF_WIN_VIDEO, msg);
     ui_load_template("JoyConfig", ConfWindows + CONF_WIN_JOY, msg);
     ui_load_template("PetConfig", ConfWindows + CONF_WIN_PET, msg);
     ui_load_template("VicConfig", ConfWindows + CONF_WIN_VIC, msg);
@@ -2660,12 +2161,12 @@ int ui_init(int *argc, char *argv[])
 
   if (machine_class == VICE_MACHINE_C128)
   {
-    config_item *ci;
+    config_item_t *ci;
 
-    wimp_window_write_icon_text(ConfWindows[CONF_WIN_DEVICES], Icon_Conf_ACIAD67, SymbolStrings[Symbol_ACIAD7]);
+    wimp_window_write_icon_text(ConfWindows[CONF_WIN_DEVICES], Icon_ConfDev_ACIAD67, SymbolStrings[Symbol_ACIAD7]);
     for (ci=Configurations; ci->resource != NULL; ci++)
     {
-      if ((ci->id.win == CONF_WIN_DEVICES) && (ci->id.icon == Icon_Conf_ACIAD67))
+      if ((ci->id.win == CONF_WIN_DEVICES) && (ci->id.icon == Icon_ConfDev_ACIAD67))
       {
         ci->resource = Rsrc_ACIAD7; break;
       }
@@ -2685,7 +2186,6 @@ int ui_init(int *argc, char *argv[])
 int ui_init_finish(void)
 {
   resource_value_t val;
-  const conf_icon_id *gi;
   disp_desc_t *dd;
   int i;
 
@@ -2705,7 +2205,7 @@ int ui_init_finish(void)
   ui_set_truedrv_emulation((int)TrueDriveEmulation);
 
   if ((TapeFile != NULL) && (strlen(TapeFile) > 0))
-    ui_send_fake_data_load(ConfWindows[CONF_WIN_TAPE], Icon_Conf_TapeFile, TapeFile);
+    ui_send_fake_data_load(ConfWindows[CONF_WIN_TAPE], Icon_ConfTap_TapeFile, TapeFile);
   else
     ui_set_icons_grey(NULL, TapeFileDependentIcons, 0);
 
@@ -2714,21 +2214,7 @@ int ui_init_finish(void)
 
   CMOS_DragType = ReadDragType();
 
-  switch (machine_class)
-  {
-    case VICE_MACHINE_C64: gi = conf_grey_x64; break;
-    case VICE_MACHINE_C128: gi = conf_grey_x128; break;
-    case VICE_MACHINE_VIC20: gi = conf_grey_xvic; break;
-    case VICE_MACHINE_PET: gi = conf_grey_xpet; break;
-    case VICE_MACHINE_CBM2: gi = conf_grey_xcbm2; break;
-    case VICE_MACHINE_PLUS4: gi = conf_grey_plus4; break;
-    default: gi = NULL;
-  }
-
-  if (gi != NULL)
-  {
-    ui_set_icons_grey(NULL, gi, 0);
-  }
+  ui_grey_out_machine_icons();
 
   if ((machine_class != VICE_MACHINE_PET) && (machine_class != VICE_MACHINE_VIC20) && (machine_class != VICE_MACHINE_CBM2) && (machine_class != VICE_MACHINE_C128))
   {
@@ -2766,6 +2252,7 @@ int ui_init_finish(void)
     wimp_menu_set_grey_item(men, Menu_Config_Tape, 1);
     wimp_menu_set_grey_item(men, Menu_Config_Devices, 1);
     wimp_menu_set_grey_item(men, Menu_Config_Joystick, 1);
+    wimp_menu_set_grey_item(men, Menu_Config_Video, 1);
   }
 
   ui_set_pane_state(ShowEmuPane);
@@ -2835,7 +2322,7 @@ int ui_init_finalize(void)
 }
 
 
-static void ui_setup_config_item(config_item *ci)
+static void ui_setup_config_item(config_item_t *ci)
 {
   resource_value_t val;
 
@@ -2907,13 +2394,13 @@ static void ui_setup_config_window(int wnum)
     case CONF_WIN_PET:
       if (machine_class == VICE_MACHINE_PET)
       {
-        wimp_window_write_icon_text(ConfWindows[CONF_WIN_PET], Icon_Conf_PetKbd, pet_get_keyboard_name());
+        wimp_window_write_icon_text(ConfWindows[CONF_WIN_PET], Icon_ConfPET_PetKbd, pet_get_keyboard_name());
       }
       break;
     case CONF_WIN_CBM2:
       if (machine_class == VICE_MACHINE_CBM2)
       {
-        wimp_window_write_icon_text(ConfWindows[CONF_WIN_CBM2], Icon_Conf_CBM2Kbd, cbm2_get_keyboard_name());
+        wimp_window_write_icon_text(ConfWindows[CONF_WIN_CBM2], Icon_ConfCBM_CBM2Kbd, cbm2_get_keyboard_name());
       }
       break;
     case CONF_WIN_C128:
@@ -3085,20 +2572,22 @@ static void ui_redraw_window(int *b)
   {
     video_redraw_desc_t vrd;
     video_frame_buffer_t *fb = &(canvas->fb);
-    int shs;
+    /*int shs = (canvas->scale == 1) ? 0 : 1;*/
 
     vrd.ge.dimx = fb->pitch; vrd.ge.dimy = fb->height;
     vrd.block = b;
-    shs = (canvas->scale == 1) ? 0 : 1;
 
     more = Wimp_RedrawWindow(b);
     while (more != 0)
     {
       /* transform WIMP coordinates back to canvas coordinates */
-      vrd.xs = (((b[RedrawB_CMinX]-(b[RedrawB_VMinX]-b[RedrawB_ScrollX])) >> ScreenMode.eigx) - canvas->shiftx) >> shs;
+      video_pos_screen_to_canvas(canvas, b, b[RedrawB_CMinX], b[RedrawB_CMaxY], &vrd.xs, &vrd.ys);
+      video_pos_screen_to_canvas(canvas, b, b[RedrawB_CMaxX], b[RedrawB_CMinY], &vrd.w, &vrd.h);
+      vrd.w -= vrd.xs; vrd.h -= vrd.ys;
+      /*vrd.xs = (((b[RedrawB_CMinX]-(b[RedrawB_VMinX]-b[RedrawB_ScrollX])) >> ScreenMode.eigx) - canvas->shiftx) >> shs;
       vrd.ys = ((((b[RedrawB_VMaxY]-b[RedrawB_ScrollY])-b[RedrawB_CMaxY]) >> ScreenMode.eigy) + canvas->shifty) >> shs;
       vrd.w = (b[RedrawB_CMaxX] - b[RedrawB_CMinX]) >> (ScreenMode.eigx + shs);
-      vrd.h = (b[RedrawB_CMaxY] - b[RedrawB_CMinY]) >> (ScreenMode.eigy + shs);
+      vrd.h = (b[RedrawB_CMaxY] - b[RedrawB_CMinY]) >> (ScreenMode.eigy + shs);*/
       /*log_message(LOG_DEFAULT, "REDRAW %d,%d,%d,%d", vrd.xs, vrd.ys, vrd.w, vrd.h);*/
       video_canvas_redraw_core(canvas, &vrd);
       more = Wimp_GetRectangle(b);
@@ -3196,7 +2685,7 @@ static void ui_set_emu_window_size(RO_Window *win)
 
 
 /* Try setting a resource according to a selection box or update state if failed */
-static int ui_set_resource_select(const char *name, conf_icon_id *id)
+static int ui_set_resource_select(const char *name, conf_iconid_t *id)
 {
   int block[10];
   int selected;
@@ -3563,36 +3052,36 @@ static int ui_mouse_click_conf_misc(int *b, int wnum)
 
   if (b[MouseB_Window] == ConfWindows[CONF_WIN_DEVICES]->Handle)
   {
-    if (b[MouseB_Icon] == Icon_Conf_FileRsOK)
+    if (b[MouseB_Icon] == Icon_ConfDev_FileRsOK)
     {
       char *fn;
 
-      if ((fn = wimp_window_read_icon_text(win, Icon_Conf_FileRsPath)) != NULL)
+      if ((fn = wimp_window_read_icon_text(win, Icon_ConfDev_FileRsPath)) != NULL)
         ui_set_serial_file(wimp_strterm(fn));
     }
-    else if (b[MouseB_Icon] == Icon_Conf_FilePrOK)
+    else if (b[MouseB_Icon] == Icon_ConfDev_FilePrOK)
     {
       char *fn;
 
-      if ((fn = wimp_window_read_icon_text(win, Icon_Conf_FilePrPath)) != NULL)
+      if ((fn = wimp_window_read_icon_text(win, Icon_ConfDev_FilePrPath)) != NULL)
         ui_set_printer_file(wimp_strterm(fn));
     }
   }
   else if (b[MouseB_Window] == ConfWindows[CONF_WIN_SOUND]->Handle)
   {
-    if (b[MouseB_Icon] == Icon_Conf_FileSndOK)
+    if (b[MouseB_Icon] == Icon_ConfSnd_FileSndOK)
     {
       char *fn;
 
-      if ((fn = wimp_window_read_icon_text(win, Icon_Conf_FileSndPath)) != NULL)
+      if ((fn = wimp_window_read_icon_text(win, Icon_ConfSnd_FileSndPath)) != NULL)
         ui_set_sound_file(wimp_strterm(fn));
     }
-    else if (b[MouseB_Icon] == Icon_Conf_Volume)
+    else if (b[MouseB_Icon] == Icon_ConfSnd_Volume)
     {
       ui_drag_sound_volume(b);
       Sound_Volume(SoundVolume);
     }
-    else if (b[MouseB_Icon] == Icon_Conf_UseResid)
+    else if (b[MouseB_Icon] == Icon_ConfSnd_UseResid)
     {
       resources_get_value(Rsrc_ReSid, (resource_value_t*)&CycleBasedSound);
     }
@@ -3606,19 +3095,19 @@ static int ui_mouse_click_conf_misc(int *b, int wnum)
   {
     switch (b[MouseB_Icon])
     {
-      case Icon_Conf_TapeDetach:
+      case Icon_ConfTap_TapeDetach:
         ui_set_tape_image(""); break;
-      case Icon_Conf_DataStop:
+      case Icon_ConfTap_DataStop:
         datasette_control(DATASETTE_CONTROL_STOP); break;
-      case Icon_Conf_DataRewind:
+      case Icon_ConfTap_DataRewind:
         datasette_control(DATASETTE_CONTROL_REWIND); break;
-      case Icon_Conf_DataPlay:
+      case Icon_ConfTap_DataPlay:
         datasette_control(DATASETTE_CONTROL_START); break;
-      case Icon_Conf_DataForward:
+      case Icon_ConfTap_DataForward:
         datasette_control(DATASETTE_CONTROL_FORWARD); break;
-      case Icon_Conf_DataRecord:
+      case Icon_ConfTap_DataRecord:
         datasette_control(DATASETTE_CONTROL_RECORD); break;
-      case Icon_Conf_DataDoReset:
+      case Icon_ConfTap_DataDoReset:
         datasette_control(DATASETTE_CONTROL_RESET); break;
       default:
         break;
@@ -3637,16 +3126,16 @@ static int ui_mouse_click_conf_drag(int *b, int wnum)
 
   if (b[MouseB_Window] == ConfWindows[CONF_WIN_DEVICES]->Handle)
   {
-    if (b[MouseB_Icon] == Icon_Conf_FileRsIcon)
+    if (b[MouseB_Icon] == Icon_ConfDev_FileRsIcon)
       i = DRAG_TYPE_SERIAL;
-    else if (b[MouseB_Icon] == Icon_Conf_FilePrIcon)
+    else if (b[MouseB_Icon] == Icon_ConfDev_FilePrIcon)
       i = DRAG_TYPE_PRINTER;
   }
   else if (b[MouseB_Window] == ConfWindows[CONF_WIN_SOUND]->Handle)
   {
-    if (b[MouseB_Icon] == Icon_Conf_FileSndIcon)
+    if (b[MouseB_Icon] == Icon_ConfSnd_FileSndIcon)
       i = DRAG_TYPE_SOUND;
-    else if (b[MouseB_Icon] == Icon_Conf_Volume)
+    else if (b[MouseB_Icon] == Icon_ConfSnd_Volume)
     {
       int wstate[WindowB_WFlags+1];
       int dblk[DragB_BBMaxY+1];
@@ -3654,7 +3143,7 @@ static int ui_mouse_click_conf_drag(int *b, int wnum)
 
       wstate[WindowB_Handle] = ConfWindows[CONF_WIN_SOUND]->Handle;
       Wimp_GetWindowState(wstate);
-      icon = wimp_window_get_icon(ConfWindows[CONF_WIN_SOUND], Icon_Conf_Volume);
+      icon = wimp_window_get_icon(ConfWindows[CONF_WIN_SOUND], Icon_ConfSnd_Volume);
       dblk[DragB_Handle] = ConfWindows[CONF_WIN_SOUND]->Handle;
       dblk[DragB_Type] = 7;
       dblk[DragB_IMinX] = b[MouseB_PosX];
@@ -3804,17 +3293,17 @@ static void ui_mouse_click(int *b)
 
                   s = ui_set_resource_select(Configurations[i].resource, &(Configurations[i].id));
                   /* Special cases */
-                  if ((Configurations[i].id.win == CONF_WIN_DRIVES) && (Configurations[i].id.icon == Icon_Conf_TrueDrv))
+                  if ((Configurations[i].id.win == CONF_WIN_DRIVES) && (Configurations[i].id.icon == Icon_ConfDrv_TrueDrv))
                   {
                     ui_set_truedrv_emulation(s);
                   }
                   if (Configurations[i].id.win == CONF_WIN_SOUND)
                   {
-                    if (Configurations[i].id.icon == Icon_Conf_SoundOn)
+                    if (Configurations[i].id.icon == Icon_ConfSnd_SoundOn)
                     {
                       ui_set_sound_enable(s);
                     }
-                    else if (Configurations[i].id.icon == Icon_Conf_Sound16Bit)
+                    else if (Configurations[i].id.icon == Icon_ConfSnd_Sound16Bit)
                     {
                       int sndstate;
                       resources_get_value(Rsrc_Sound, (resource_value_t*)&sndstate);
@@ -3903,11 +3392,11 @@ static void ui_user_drag_box(int *b)
   switch (LastDrag)
   {
     case DRAG_TYPE_SOUND:
-      iconnum = Icon_Conf_FileSndPath; win = ConfWindows[CONF_WIN_SOUND]; break;
+      iconnum = Icon_ConfSnd_FileSndPath; win = ConfWindows[CONF_WIN_SOUND]; break;
     case DRAG_TYPE_SERIAL:
-      iconnum = Icon_Conf_FileRsPath; win = ConfWindows[CONF_WIN_DEVICES]; break;
+      iconnum = Icon_ConfDev_FileRsPath; win = ConfWindows[CONF_WIN_DEVICES]; break;
     case DRAG_TYPE_PRINTER:
-      iconnum = Icon_Conf_FilePrPath; win = ConfWindows[CONF_WIN_DEVICES]; break;
+      iconnum = Icon_ConfDev_FilePrPath; win = ConfWindows[CONF_WIN_DEVICES]; break;
     case DRAG_TYPE_SNAPSHOT:
       iconnum = Icon_Snap_Path; win = SnapshotWindow; break;
     case DRAG_TYPE_SAVEBOX:
@@ -4044,17 +3533,17 @@ static void ui_key_press_config(int *b)
       case CONF_WIN_DRIVES:
         switch (b[KeyPB_Icon])
         {
-          case Icon_Conf_DriveFile11: i++;
-          case Icon_Conf_DriveFile10: i++;
-          case Icon_Conf_DriveFile9: i++;
-          case Icon_Conf_DriveFile8:
+          case Icon_ConfDrv_DriveFile11: i++;
+          case Icon_ConfDrv_DriveFile10: i++;
+          case Icon_ConfDrv_DriveFile9: i++;
+          case Icon_ConfDrv_DriveFile8:
             ui_new_drive_image(i, data, 0);
             break;
           default: Wimp_ProcessKey(key); return;
         }
         break;
       case CONF_WIN_TAPE:
-        if (b[KeyPB_Icon] == Icon_Conf_TapeFile)
+        if (b[KeyPB_Icon] == Icon_ConfTap_TapeFile)
         {
           ui_set_tape_image(data);
         }
@@ -4066,54 +3555,75 @@ static void ui_key_press_config(int *b)
       case CONF_WIN_SYSTEM:
         switch (b[KeyPB_Icon])
         {
-          case Icon_Conf_PollEvery:
+          case Icon_ConfSys_PollEvery:
             resources_set_value(Rsrc_Poll, (resource_value_t)atoi(data)); break;
-          case Icon_Conf_SpeedEvery:
+          case Icon_ConfSys_SpeedEvery:
             resources_set_value(Rsrc_Speed, (resource_value_t)atoi(data)); break;
-          case Icon_Conf_SoundEvery:
+          case Icon_ConfSys_SoundEvery:
             resources_set_value(Rsrc_SndEvery, (resource_value_t)atoi(data)); break;
-          case Icon_Conf_MaxSkipFrms:
-            resources_set_value(Rsrc_MaxSkipped, (resource_value_t)atoi(data)); break;
-          case Icon_Conf_CharGen:
+          case Icon_ConfSys_CharGen:
             resources_set_value(Rsrc_CharGen, (resource_value_t)data); break;
-          case Icon_Conf_Kernal:
+          case Icon_ConfSys_Kernal:
             resources_set_value(Rsrc_Kernal, (resource_value_t)data); break;
-          case Icon_Conf_Basic:
+          case Icon_ConfSys_Basic:
             resources_set_value(Rsrc_Basic, (resource_value_t)data); break;
-          case Icon_Conf_Palette:
+          case Icon_ConfSys_Palette:
             resources_set_value(Rsrc_Palette, (resource_value_t)data); break;
-          case Icon_Conf_CartFile:
+          case Icon_ConfSys_CartFile:
             ui_set_cartridge_file(data); break;
-          case Icon_Conf_DosName:
+          case Icon_ConfSys_DosName:
             ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_DOSNAME], (resource_value_t)data);
             break;
-          case Icon_Conf_FullScreen:
-            resources_set_value(Rsrc_FullScr, (resource_value_t)data); break;
           default: Wimp_ProcessKey(key); return;
         }
         break;
-      case CONF_WIN_DEVICES:
-        if (b[KeyPB_Icon] == Icon_Conf_FileRsPath)
-          ui_set_serial_file(data);
-        else if (b[KeyPB_Icon] == Icon_Conf_FilePrPath)
-          ui_set_printer_file(data);
-        else
+      case CONF_WIN_VIDEO:
+        switch (b[KeyPB_Icon])
         {
-          Wimp_ProcessKey(key); return;
+          case Icon_ConfVid_MaxSkipFrms:
+            resources_set_value(Rsrc_MaxSkipped, (resource_value_t)atoi(data)); break;
+          case Icon_ConfVid_FullScreen:
+            resources_set_value(Rsrc_FullScr, (resource_value_t)data); break;
+          case Icon_ConfVid_ColourSat:
+            resources_set_value(Rsrc_ColourSat, (resource_value_t)atoi(data)); break;
+          case Icon_ConfVid_Contrast:
+            resources_set_value(Rsrc_Contrast, (resource_value_t)atoi(data)); break;
+          case Icon_ConfVid_Brightness:
+            resources_set_value(Rsrc_Brightness, (resource_value_t)atoi(data)); break;
+          case Icon_ConfVid_Gamma:
+            resources_set_value(Rsrc_Gamma, (resource_value_t)atoi(data)); break;
+          case Icon_ConfVid_DelayLoop:
+            resources_set_value(Rsrc_DelLoop, (resource_value_t)atoi(data)); break;
+          case Icon_ConfVid_LineShade:
+            resources_set_value(Rsrc_LineShade, (resource_value_t)atoi(data)); break;
+          default:
+            Wimp_ProcessKey(key); return;
+        }
+        break;
+      case CONF_WIN_DEVICES:
+        switch (b[KeyPB_Icon])
+        {
+          case Icon_ConfDev_FileRsPath:
+            ui_set_serial_file(data); break;
+          case Icon_ConfDev_FilePrPath:
+            ui_set_printer_file(data); break;
+          default:
+            Wimp_ProcessKey(key); return;
         }
         break;
       case CONF_WIN_SOUND:
-        if (b[KeyPB_Icon] == Icon_Conf_FileSndPath)
-          ui_set_sound_file(data);
-        else if (b[KeyPB_Icon] == Icon_Conf_ResidPass)
-          resources_set_value(Rsrc_ReSidPass, (resource_value_t)atoi(data));
-        else
+        switch (b[KeyPB_Icon])
         {
-          Wimp_ProcessKey(key); return;
+          case Icon_ConfSnd_FileSndPath:
+            ui_set_sound_file(data); break;
+          case Icon_ConfSnd_ResidPass:
+            resources_set_value(Rsrc_ReSidPass, (resource_value_t)atoi(data)); break;
+          default:
+            Wimp_ProcessKey(key); return;
         }
         break;
       case CONF_WIN_VIC:
-        if (b[KeyPB_Icon] == Icon_Conf_VICCartF)
+        if (b[KeyPB_Icon] == Icon_ConfVIC_VICCartF)
           ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_VICCART], (resource_value_t)data);
         else
         {
@@ -4121,7 +3631,7 @@ static void ui_key_press_config(int *b)
         }
         break;
       case CONF_WIN_CBM2:
-        if (b[KeyPB_Icon] == Icon_Conf_CBM2CartF)
+        if (b[KeyPB_Icon] == Icon_ConfCBM_CBM2CartF)
         {
           ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_C2CART], (resource_value_t)data);
         }
@@ -4131,7 +3641,7 @@ static void ui_key_press_config(int *b)
         }
         break;
       case CONF_WIN_C128:
-        if (b[KeyPB_Icon] == Icon_Conf_C128Palette)
+        if (b[KeyPB_Icon] == Icon_Conf128_C128Palette)
         {
           resources_set_value(Rsrc_VDCpalette, (resource_value_t)data);
         }
@@ -4248,20 +3758,20 @@ static void ui_toggle_resource_menu(const char *name, RO_MenuHead *menu, int num
 }
 
 
-static config_item PETdependconf[] = {
-  {Rsrc_PetCrt, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetCrt}},
-  {Rsrc_PetRAM9, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetRAM9}},
-  {Rsrc_PetRAMA, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetRAMA}},
-  {Rsrc_PetDiag, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetDiagPin}},
-  {Rsrc_PetSuper, CONFIG_SELECT, {CONF_WIN_PET, Icon_Conf_PetSuper}},
+static config_item_t PETdependconf[] = {
+  {Rsrc_PetCrt, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetCrt}},
+  {Rsrc_PetRAM9, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetRAM9}},
+  {Rsrc_PetRAMA, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetRAMA}},
+  {Rsrc_PetDiag, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetDiagPin}},
+  {Rsrc_PetSuper, CONFIG_SELECT, {CONF_WIN_PET, Icon_ConfPET_PetSuper}},
   {NULL, 0, {0, 0}}
 };
 
-static config_item SystemROMconf[] = {
-  {Rsrc_CharGen, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_CharGen}},
-  {Rsrc_Kernal, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_Kernal}},
-  {Rsrc_Basic, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_Basic}},
-  {Rsrc_Palette, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_Conf_Palette}},
+static config_item_t SystemROMconf[] = {
+  {Rsrc_CharGen, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_CharGen}},
+  {Rsrc_Kernal, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Kernal}},
+  {Rsrc_Basic, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Basic}},
+  {Rsrc_Palette, CONFIG_STRING, {CONF_WIN_SYSTEM, Icon_ConfSys_Palette}},
   {NULL, 0, {0, 0}}
 };
 
@@ -4552,7 +4062,7 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
         ui_setup_menu_display(ConfigDispDescs[CONF_MENU_PETMEM]);
         ui_setup_menu_display(ConfigDispDescs[CONF_MENU_PETIO]);
         ui_setup_menu_display(ConfigDispDescs[CONF_MENU_PETVIDEO]);
-        wimp_window_write_icon_text(ConfWindows[CONF_WIN_PET], Icon_Conf_PetKbd, pet_get_keyboard_name());
+        wimp_window_write_icon_text(ConfWindows[CONF_WIN_PET], Icon_ConfPET_PetKbd, pet_get_keyboard_name());
         ui_update_rom_names();
         for (i=0; PETdependconf[i].resource != NULL; i++)
         {
@@ -4566,7 +4076,7 @@ static int ui_menu_select_config(int *b, int **menu, int mnum)
         ui_setup_menu_display(ConfigDispDescs[CONF_MENU_C2MEM]);
         ui_setup_menu_display(ConfigDispDescs[CONF_MENU_C2RAM]);
         ui_setup_menu_display(ConfigDispDescs[CONF_MENU_C2LINE]);
-        wimp_window_write_icon_text(ConfWindows[CONF_WIN_CBM2], Icon_Conf_CBM2Kbd, cbm2_get_keyboard_name());
+        wimp_window_write_icon_text(ConfWindows[CONF_WIN_CBM2], Icon_ConfCBM_CBM2Kbd, cbm2_get_keyboard_name());
         ui_update_rom_names();
       }
       break;
@@ -4681,6 +4191,7 @@ static void ui_menu_selection(int *b)
         case Menu_Config_Devices: confWindow = CONF_WIN_DEVICES; break;
         case Menu_Config_Sound: confWindow = CONF_WIN_SOUND; break;
         case Menu_Config_System: confWindow = CONF_WIN_SYSTEM; break;
+        case Menu_Config_Video: confWindow = CONF_WIN_VIDEO; break;
         case Menu_Config_Joystick: confWindow = CONF_WIN_JOY; break;
         case Menu_Config_Machine:
           if (machine_class == VICE_MACHINE_PET)
@@ -4994,7 +4505,7 @@ static void ui_user_msg_data_load(int *b)
   }
   else if (b[5] == ConfWindows[CONF_WIN_TAPE]->Handle)
   {
-    if (b[6] == Icon_Conf_TapeFile)
+    if (b[6] == Icon_ConfTap_TapeFile)
     {
       if (ui_new_tape_image(name, 1) == 0)
         action = 1;
@@ -5002,12 +4513,12 @@ static void ui_user_msg_data_load(int *b)
   }
   else if (b[5] == ConfWindows[CONF_WIN_SYSTEM]->Handle)
   {
-    if (b[6] == Icon_Conf_CartFile)
+    if (b[6] == Icon_ConfSys_CartFile)
     {
       ui_set_cartridge_file(name);
       action = 1;
     }
-    else if (b[6] == Icon_Conf_DosNameF)
+    else if (b[6] == Icon_ConfSys_DosNameF)
     {
       ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_DOSNAME], (resource_value_t)ui_check_for_syspath(name));
       action = 1;
@@ -5019,15 +4530,15 @@ static void ui_user_msg_data_load(int *b)
 
       if (b[10] == FileType_Data)
       {
-        if (b[6] == Icon_Conf_CharGen) res = Rsrc_CharGen;
-        else if (b[6] == Icon_Conf_Kernal) res = Rsrc_Kernal;
-        else if (b[6] == Icon_Conf_Basic) res = Rsrc_Basic;
+        if (b[6] == Icon_ConfSys_CharGen) res = Rsrc_CharGen;
+        else if (b[6] == Icon_ConfSys_Kernal) res = Rsrc_Kernal;
+        else if (b[6] == Icon_ConfSys_Basic) res = Rsrc_Basic;
         if (res != NULL) rom_changed = 1;
       }
       else if (b[10] == FileType_Text)
       {
-        if (b[6] == Icon_Conf_Palette) res = Rsrc_Palette;
-        else if ((b[6] == Icon_Conf_Keyboard) || (b[6] == Icon_Conf_KeyboardT))
+        if (b[6] == Icon_ConfSys_Palette) res = Rsrc_Palette;
+        else if ((b[6] == Icon_ConfSys_Keyboard) || (b[6] == Icon_ConfSys_KeyboardT))
         {
           kbd_load_keymap(name, -1);
           action = 1;
@@ -5072,7 +4583,7 @@ static void ui_user_msg_data_load(int *b)
   }
   else if (b[5] == ConfWindows[CONF_WIN_VIC]->Handle)
   {
-    if (b[6] == Icon_Conf_VICCartF)
+    if (b[6] == Icon_ConfVIC_VICCartF)
     {
       ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_VICCART], (resource_value_t)name);
       action = 1;
@@ -5080,7 +4591,7 @@ static void ui_user_msg_data_load(int *b)
   }
   else if (b[5] == ConfWindows[CONF_WIN_CBM2]->Handle)
   {
-    if (b[6] == Icon_Conf_CBM2CartF)
+    if (b[6] == Icon_ConfCBM_CBM2CartF)
     {
       ui_update_menu_disp_strshow(ConfigDispDescs[CONF_MENU_C2CART], (resource_value_t)name);
       action = 1;
@@ -5088,11 +4599,11 @@ static void ui_user_msg_data_load(int *b)
   }
   else if (b[5] == ConfWindows[CONF_WIN_C128]->Handle)
   {
-    if ((b[6] == Icon_Conf_C128Palette) || (b[6] == Icon_Conf_C128z80bios))
+    if ((b[6] == Icon_Conf128_C128Palette) || (b[6] == Icon_Conf128_C128z80bios))
     {
       const char *filename, *rsrc;
 
-      if (b[6] == Icon_Conf_C128Palette)
+      if (b[6] == Icon_Conf128_C128Palette)
         rsrc = Rsrc_VDCpalette;
       else
         rsrc = Rsrc_Z80Bios;
@@ -5247,92 +4758,21 @@ static void ui_user_msg_data_open(int *b)
 
 static void ui_user_msg_help_request(int *b)
 {
-  const help_icon_t *hi = NULL;
+  const char *msg = ui_get_help_for_window_icon(b[8], b[9]);
 
-  if (canvas_for_handle(b[8]) != NULL)
+  if (msg != NULL)
   {
-    hi = Help_EmuWindow;
-  }
-  else if (b[8] == EmuPane->Handle)
-  {
-    hi = Help_EmuPane;
-  }
-  else if (b[8] == InfoWindow->Handle)
-  {
-    hi = Help_InfoWindow;
-  }
-  else if (b[8] == ImgContWindow->Handle)
-  {
-    hi = Help_ImgContWindow;
-  }
-  else if (b[8] == CreateDiscWindow->Handle)
-  {
-    hi = Help_CreateWindow;
-  }
-  else if ((vsid_mode) && (b[8] == VSidWindow->Handle))
-  {
-    hi = Help_VSidWindow;
-  }
-  else if (ui_message_window_for_handle(b[8]) == msg_win_monitor)
-  {
-    hi = Help_MonitorWindow;
-  }
-  else
-  {
-    unsigned int i;
+    unsigned int len;
 
-    for (i=0; i<CONF_WIN_NUMBER; i++)
-    {
-      if ((ConfWindows[i] != NULL) && (b[8] == ConfWindows[i]->Handle))
-      {
-        hi = Help_ConfigWindows[i];
-      }
-    }
-  }
+    len = strlen(msg);
+    if (len >= (256-20))
+      len = 256-21;
 
-  if (hi != NULL)
-  {
-    unsigned int i;
-    const char *msg=NULL;
-    const char *winmsg=NULL;
-
-    for (i=0; hi[i].icon != Help_Icon_End; i++)
-    {
-      if (hi[i].sym != NULL)
-      {
-        /* help for entire window? */
-        if (hi[i].icon == -1)
-          winmsg = hi[i].msg;
-
-        msg = hi[i].msg;
-      }
-
-      if (hi[i].icon == b[9])
-        break;
-    }
-
-    /* no exact match found? */
-    if (hi[i].icon == Help_Icon_End)
-      msg = NULL;
-
-    /* if no exact match then use the help text for the entire window */
-    if (msg == NULL)
-      msg = winmsg;
-
-    if (msg != NULL)
-    {
-      unsigned int len;
-
-      len = strlen(msg);
-      if (len >= (256-20))
-        len = 256-21;
-
-      strncpy(((char*)b)+20, msg, len+1);
-      /*log_message(LOG_DEFAULT, "Help (%d): %s", len, ((char*)b)+20);*/
-      b[0] = (20 + len + 4) & ~3;
-      b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_HelpReply;
-      Wimp_SendMessage(17, b, b[MsgB_Sender], b[6]);
-    }
+    strncpy(((char*)b)+20, msg, len+1);
+    /*log_message(LOG_DEFAULT, "Help (%d): %s", len, ((char*)b)+20);*/
+    b[0] = (20 + len + 4) & ~3;
+    b[MsgB_YourRef] = b[MsgB_MyRef]; b[MsgB_Action] = Message_HelpReply;
+    Wimp_SendMessage(17, b, b[MsgB_Sender], b[6]);
   }
 }
 
@@ -5436,7 +4876,7 @@ static void ui_null_event(int *b)
 
   if (mpos[MouseB_Window] == ConfWindows[CONF_WIN_SOUND]->Handle)
   {
-    if ((LastDrag == DRAG_TYPE_VOLUME) && (mpos[MouseB_Icon] == Icon_Conf_Volume))
+    if ((LastDrag == DRAG_TYPE_VOLUME) && (mpos[MouseB_Icon] == Icon_ConfSnd_Volume))
     {
       ui_drag_sound_volume(mpos);
     }
@@ -5825,7 +5265,7 @@ void ui_display_tape_counter(int counter)
   if (counter != DatasetteCounter)
   {
     DatasetteCounter = counter;
-    wimp_window_write_icon_number_u(ConfWindows[CONF_WIN_TAPE], Icon_Conf_DataCounter, counter);
+    wimp_window_write_icon_number_u(ConfWindows[CONF_WIN_TAPE], Icon_ConfTap_DataCounter, counter);
   }
 }
 
@@ -5834,7 +5274,7 @@ void ui_display_tape_current_image(const char *image)
 {
   int state;
 
-  wimp_window_write_icon_text(ConfWindows[CONF_WIN_TAPE], Icon_Conf_TapeFile, image);
+  wimp_window_write_icon_text(ConfWindows[CONF_WIN_TAPE], Icon_ConfTap_TapeFile, image);
 
   state = ((image == NULL) || (strlen(image) == 0));
   ui_set_icons_grey(NULL, TapeFileDependentIcons, 1);

@@ -68,24 +68,7 @@ inline void GDK_PUTIMAGE(Display *d, GdkWindow *drawable, GdkGC *gc,
 int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
                                   unsigned int height)
 {
-    int sizeofpixel = sizeof(BYTE);
     GdkImageType typ;
-
-    if (!use_xvideo) {
-        /* FIXME!!! */
-        width *= 2;
-	height *= 2;
-
-	/* Round up to 32-bit boundary. */
-	width = (width + 3) & ~0x3;
-    }
-
-    /* sizeof(PIXEL) is not always what we are using. I guess this should
-       be checked from the XImage but I'm lazy... */
-    if (canvas->depth > 8)
-	sizeofpixel *= 2;
-    if (canvas->depth > 16)
-	sizeofpixel *= 2;
 
 #ifdef HAVE_XVIDEO
     if (use_xvideo) {

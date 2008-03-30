@@ -30,6 +30,7 @@
 #include "c610ui.h"
 #include "kbd.h"
 #include "resources.h"
+#include "uisharedef.h"
 
 
 
@@ -75,6 +76,7 @@ static unsigned char CBM2shifted[KEYMAP_ENTRIES];
 static unsigned char CBM2norm_sflag[KEYMAP_ENTRIES/8];
 static unsigned char CBM2shift_sflag[KEYMAP_ENTRIES/8];
 
+static const char IBarIconName[] = "!vicecbm2";
 static const char CBM2keyfile[] = "Vice:CBM-II.ROdflt/vkm";
 
 static keymap_t CBM2keys = {
@@ -83,6 +85,15 @@ static keymap_t CBM2keys = {
   CBM2shifted,
   CBM2norm_sflag,
   CBM2shift_sflag
+};
+
+static const conf_iconid_t conf_grey_xcbm2[] = {
+  ICON_LIST_CART64
+  ICON_LIST_VIC
+  ICON_LIST_SYSTEM
+  ICON_LIST_PET
+  ICON_LIST_DEVRSUSR
+  {0xff, 0xff}
 };
 
 
@@ -106,7 +117,7 @@ int c610_ui_init(void)
 {
   CBM2ModelName = "610";
 
-  return ui_init_named_app("ViceCBM2", "!vicecbm2");
+  return ui_init_named_app("ViceCBM2", IBarIconName);
 }
 
 int c610_kbd_init(void)
@@ -116,6 +127,16 @@ int c610_kbd_init(void)
   kbd_add_keymap(&CBM2keys, 0); kbd_add_keymap(&CBM2keys, 1);
   kbd_load_keymap(NULL, 0);
   return kbd_init();
+}
+
+void ui_grey_out_machine_icons(void)
+{
+  ui_set_icons_grey(NULL, conf_grey_xcbm2, 0);
+}
+
+const char *ui_get_machine_ibar_icon(void)
+{
+  return IBarIconName;
 }
 
 

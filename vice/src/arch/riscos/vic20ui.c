@@ -32,6 +32,7 @@
 #include "kbd.h"
 #include "types.h"
 #include "ui.h"
+#include "uisharedef.h"
 
 
 
@@ -77,6 +78,7 @@ static unsigned char VICshifted[KEYMAP_ENTRIES];
 static unsigned char VICnorm_sflags[KEYMAP_ENTRIES/8];
 static unsigned char VICshift_sflags[KEYMAP_ENTRIES/8];
 
+static const char IBarIconName[] = "!vicevic";
 static const char VICkeyfile[] = "Vice:VIC20.ROdflt/vkm";
 
 static keymap_t VIC20keys = {
@@ -87,10 +89,19 @@ static keymap_t VIC20keys = {
   VICshift_sflags
 };
 
+static const conf_iconid_t conf_grey_xvic[] = {
+  ICON_LIST_CART64
+  ICON_LIST_SYSTEM
+  ICON_LIST_SID
+  ICON_LIST_DEVICES
+  ICON_LIST_PET
+  {0xff, 0xff}
+};
+
 
 int vic20_ui_init(void)
 {
-  return ui_init_named_app("ViceVIC", "!vicevic");
+  return ui_init_named_app("ViceVIC", IBarIconName);
 }
 
 int vic20_kbd_init(void)
@@ -100,6 +111,16 @@ int vic20_kbd_init(void)
   kbd_add_keymap(&VIC20keys, 0); kbd_add_keymap(&VIC20keys, 1);
   kbd_load_keymap(NULL, 0);
   return kbd_init();
+}
+
+void ui_grey_out_machine_icons(void)
+{
+  ui_set_icons_grey(NULL, conf_grey_xvic, 0);
+}
+
+const char *ui_get_machine_ibar_icon(void)
+{
+  return IBarIconName;
 }
 
 

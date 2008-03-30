@@ -33,6 +33,7 @@
 #include "petui.h"
 #include "resources.h"
 #include "kbd.h"
+#include "uisharedef.h"
 
 
 
@@ -79,6 +80,7 @@ static unsigned char PETnormBusiness[KEYMAP_ENTRIES] = {
 static unsigned char PETshiftBusiness[KEYMAP_ENTRIES];
 static unsigned char PETnormB_sflags[KEYMAP_ENTRIES/8];
 static unsigned char PETshiftB_sflags[KEYMAP_ENTRIES/8];
+static const char IBarIconName[] = "!vicepet";
 static const char PETnormfile[] = "Vice:PET.RObusi/vkm";
 
 static keymap_t PETkeysBusiness = {
@@ -138,6 +140,17 @@ static keymap_t PETkeysGraphic = {
   PETshiftG_sflags
 };
 
+static const conf_iconid_t conf_grey_xpet[] = {
+  ICON_LIST_CART64
+  ICON_LIST_VIC
+  ICON_LIST_SYS64
+  ICON_LIST_SYSTEM
+  ICON_LIST_DEVICES
+  ICON_LIST_SID
+  ICON_LIST_TRUE
+  {0xff, 0xff}
+};
+
 
 /* PET keyboard names */
 static char PETkeyBusinessName[] = "Business";
@@ -158,7 +171,7 @@ int pet_ui_init(void)
 {
   PetModelName = "8032";
 
-  return ui_init_named_app("VicePET", "!vicepet");
+  return ui_init_named_app("VicePET", IBarIconName);
 }
 
 int pet_kbd_init(void)
@@ -171,6 +184,16 @@ int pet_kbd_init(void)
   kbd_load_keymap(NULL, 0);
   kbd_load_keymap(NULL, 2);
   return kbd_init();
+}
+
+void ui_grey_out_machine_icons(void)
+{
+  ui_set_icons_grey(NULL, conf_grey_xpet, 0);
+}
+
+const char *ui_get_machine_ibar_icon(void)
+{
+  return IBarIconName;
 }
 
 

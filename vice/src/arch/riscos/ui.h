@@ -33,6 +33,8 @@
 #include "palette.h"
 #include "uiapi.h"
 
+struct conf_iconid_s;
+
 typedef unsigned int ui_window_t;
 typedef void (*ui_exposure_handler_t) (unsigned int width, unsigned int height);
 
@@ -72,6 +74,10 @@ extern int  ui_make_last_screenshot(void);
 extern int  ui_save_last_snapshot(void);
 extern void ui_trigger_snapshot_load(void);
 
+extern const char *ui_get_machine_ibar_icon(void);
+extern void ui_set_icons_grey(RO_Window *win, const struct conf_iconid_s *desc, int state);
+extern void ui_grey_out_machine_icons(void);
+
 
 extern RO_Screen ScreenMode;
 
@@ -80,6 +86,9 @@ extern RO_Window *EmuPane;
 extern RO_Window *ImgContWindow;
 extern RO_Window *MessageWindow;
 extern RO_Window *VSidWindow;
+extern RO_Window *InfoWindow;
+extern RO_Window *CreateDiscWindow;
+
 extern RO_Caret LastCaret;
 
 extern int EmuZoom;

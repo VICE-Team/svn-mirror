@@ -68,6 +68,7 @@
 #include "maincpu.h"
 #include "mouse.h"
 #include "palette.h"
+#include "raster/raster.h"
 #include "resources.h"
 #include "uicolor.h"
 #include "uimenu.h"
@@ -82,7 +83,6 @@
 #include "uimenu.h"
 #include "autostart.h"
 #include "video.h"
-#include "raster/raster.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
 #endif
@@ -1008,6 +1008,10 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
     gtk_box_pack_start(GTK_BOX(new_pane),new_canvas,TRUE,TRUE,0);
     gtk_widget_show(new_canvas);
 
+    /* XVideo must be refreshed when the application window is moved. */
+    gtk_signal_connect(GTK_OBJECT(new_window), "configure-event",
+		       GTK_SIGNAL_FUNC(exposure_callback),
+		       (void*) c);
     gtk_signal_connect(GTK_OBJECT(new_canvas),"expose-event",
 		       GTK_SIGNAL_FUNC(exposure_callback),
 		       (void*) c);
