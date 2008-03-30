@@ -30,7 +30,7 @@
 #include "types.h"
 
 extern int plus60k_enabled;
-extern int plus60k_base;
+extern unsigned int plus60k_base;
 extern int plus60k_resources_init(void);
 extern void plus60k_resources_shutdown(void);
 extern int plus60k_cmdline_options_init(void);
