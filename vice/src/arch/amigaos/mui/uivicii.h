@@ -27,6 +27,6 @@
 #ifndef _UIVICII_H
 #define _UIVICII_H
 
-void ui_vicii_settings_dialog(void);
+extern void ui_vicii_settings_dialog(void);
 
 #endif

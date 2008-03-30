@@ -25,17 +25,17 @@ BEGIN
                     WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "SID Filters", IDC_SIDCART_FILTERS,
                     7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    LTEXT           "SID Address",
+    LTEXT           "SID address",
                     IDC_SIDCART_ADDRESS_LABEL, 9, 70, 53, 8
     COMBOBOX        IDC_SIDCART_ADDRESS, 70, 68, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "SID Clock",
+    LTEXT           "SID clock",
                     IDC_SIDCART_CLOCK_LABEL, 9, 86, 53, 8
     COMBOBOX        IDC_SIDCART_CLOCK, 70, 84, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
-    LTEXT           "HardSID Device Selection",
+    LTEXT           "HardSID device selection",
                     IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 9, 110, 90, 8
-    LTEXT           "Main Device",
+    LTEXT           "Main device",
                     IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 9, 122, 58, 8
     COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE, 70, 120, 50, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP

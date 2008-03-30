@@ -27,6 +27,6 @@
 #ifndef _UIVIC20MEM_H
 #define _UIVIC20MEM_H
 
-void ui_vic_settings_dialog(void);
+extern void ui_vic_settings_dialog(void);
 
 #endif

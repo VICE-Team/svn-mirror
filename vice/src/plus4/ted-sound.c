@@ -33,16 +33,19 @@
 
 #include "lib.h"
 #include "maincpu.h"
-#include "sidcart.h"
+#include "plus4.h"
+#include "sid.h"
+#include "sid-resources.h"
 #include "sound.h"
 #include "ted-sound.h"
 
-
 static BYTE plus4_sound_data[5];
 
-char *native_primary_sid_address="$FD40";
-char *native_secondary_sid_address="$FE80";
-char *native_sid_clock="PLUS4";
+/* dummy function for now */
+int machine_sid2_check_range(unsigned int sid2_adr)
+{
+    return 0;
+}
 
 struct plus4_sound_s
 {
@@ -84,7 +87,7 @@ static const SWORD volume_tab[16] = {
     0x0000, 0x0800, 0x1000, 0x1800, 0x2000, 0x2800, 0x3000, 0x3800,
     0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff };
 
-int native_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                                     int interleave, int *delta_t)
 {
     int i;
@@ -179,7 +182,7 @@ int native_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
     return 0;
 }
 
-int native_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+static int ted_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
 BYTE val;
 
@@ -208,7 +211,7 @@ BYTE val;
     return 1;
 }
 
-void native_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+static void ted_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 {
     switch(addr) {
       case 0x0e:
@@ -245,7 +248,7 @@ void native_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
     }
 }
 
-BYTE native_sound_machine_read(sound_t *psid, WORD addr)
+static BYTE ted_sound_machine_read(sound_t *psid, WORD addr)
 {
     switch(addr) {
       case 0x0e:
@@ -289,4 +292,97 @@ BYTE REGPARM1 ted_sound_read(WORD addr)
         value &= 3;
 
     return value;
+}
+
+sound_t *sound_machine_open(int chipno)
+{
+    return sid_sound_machine_open(chipno);
+}
+
+int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+{
+    ted_sound_machine_init(psid, speed, cycles_per_sec);
+
+    if (!sidcart_clock)
+    {
+        if (cycles_per_sec==PLUS4_PAL_CYCLES_PER_SEC)
+        {
+            return sid_sound_machine_init(psid, (int)(speed*1.8), cycles_per_sec);
+        }
+        else
+        {
+            return sid_sound_machine_init(psid, (int)(speed*1.75), cycles_per_sec);
+        }
+    }
+    else
+    {
+        return sid_sound_machine_init(psid, speed, cycles_per_sec);
+    }
+}
+
+void sound_machine_close(sound_t *psid)
+{
+    sid_sound_machine_close(psid);
+}
+
+/* for read/store 0x00 <= addr <= 0x1f is the sid
+ *                0x20 <= addr <= 0x3f is the ted
+ *
+ * future sound devices will be able to use 0x40 and up
+ */
+
+BYTE sound_machine_read(sound_t *psid, WORD addr)
+{
+    if (addr>=0x20 && addr<=0x3f)
+        return ted_sound_machine_read(psid, (WORD)(addr-0x20));
+    else
+        return sid_sound_machine_read(psid, addr);
+}
+
+void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
+{
+    if (addr>=0x20 && addr<=0x3f)
+        ted_sound_machine_store(psid, (WORD)(addr-0x20), byte);
+    else
+        sid_sound_machine_store(psid, addr, byte);
+}
+
+void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
+{
+    sid_sound_machine_reset(psid, cpu_clk);
+}
+
+int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+                                    int interleave, int *delta_t)
+{
+    int temp;
+
+    temp=sid_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    ted_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    return temp;
+}
+
+void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
+{
+    sid_sound_machine_prevent_clk_overflow(psid, sub);
+}
+
+char *sound_machine_dump_state(sound_t *psid)
+{
+    return sid_sound_machine_dump_state(psid);
+}
+
+int sound_machine_cycle_based(void)
+{
+    return 0;
+}
+
+int sound_machine_channels(void)
+{
+    return sid_sound_machine_channels();
+}
+
+void sound_machine_enable(int enable)
+{
+    sid_sound_machine_enable(enable);
 }

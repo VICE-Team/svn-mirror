@@ -27,7 +27,7 @@
 #ifndef _UIJOYSTICK_H_
 #define _UIJOYSTICK_H_
 
-void ui_joystick_settings_dialog(void);
-void ui_joystick_swap_joystick(void);
+extern void ui_joystick_settings_dialog(void);
+extern void ui_joystick_swap_joystick(void);
 
 #endif

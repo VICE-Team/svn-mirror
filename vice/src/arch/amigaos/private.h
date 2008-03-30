@@ -116,10 +116,10 @@ extern void ui_register_machine_specific(ui_machine_specific_t func);
 extern void ui_register_menu_toggles(const ui_menu_toggle_t *toggles);
 extern void ui_register_res_values(const ui_res_value_list_t *valuelist);
 
-int ui_menu_create(video_canvas_t *canvas);
-int ui_menu_update(video_canvas_t *canvas);
-int ui_menu_handle(video_canvas_t *canvas, int idm);
-int ui_menu_destroy(video_canvas_t *canvas);
+extern int ui_menu_create(video_canvas_t *canvas);
+extern int ui_menu_update(video_canvas_t *canvas);
+extern int ui_menu_handle(video_canvas_t *canvas, int idm);
+extern int ui_menu_destroy(video_canvas_t *canvas);
 
 #endif /* _PRIVATE_H_ */
 

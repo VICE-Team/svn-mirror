@@ -37,6 +37,8 @@
 #include "mui/uic64_256k.h"
 #include "mui/uidrivec64vic20.h"
 #include "mui/uigeoram.h"
+#include "mui/uiide64.h"
+#include "mui/uimmc64.h"
 #include "mui/uiplus256k.h"
 #include "mui/uiplus60k.h"
 #include "mui/uiramcart.h"
@@ -69,25 +71,28 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
         ui_sid_settings_dialog();
         break;
       case IDM_REU_SETTINGS:
-        ui_reu_settings_dialog();
+        ui_reu_settings_dialog(canvas);
         break;
       case IDM_GEORAM_SETTINGS:
-        ui_georam_settings_dialog();
+        ui_georam_settings_dialog(canvas);
         break;
       case IDM_RAMCART_SETTINGS:
-        ui_ramcart_settings_dialog();
+        ui_ramcart_settings_dialog(canvas);
         break;
       case IDM_PLUS60K_SETTINGS:
-        ui_plus60k_settings_dialog();
+        ui_plus60k_settings_dialog(canvas);
         break;
       case IDM_PLUS256K_SETTINGS:
-        ui_plus256k_settings_dialog();
+        ui_plus256k_settings_dialog(canvas);
         break;
       case IDM_C64_256K_SETTINGS:
-        ui_c64_256k_settings_dialog();
+        ui_c64_256k_settings_dialog(canvas);
+        break;
+      case IDM_MMC64_SETTINGS:
+        ui_mmc64_settings_dialog(canvas);
         break;
       case IDM_IDE64_SETTINGS:
-//        uiide64_settings_dialog(hwnd);
+        ui_ide64_settings_dialog(canvas);
         break;
       case IDM_ROM_SETTINGS:
 //        uirom_settings_dialog(hwnd, IDD_C64ROM_SETTINGS_DIALOG,

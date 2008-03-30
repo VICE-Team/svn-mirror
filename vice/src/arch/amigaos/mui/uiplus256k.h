@@ -27,6 +27,6 @@
 #ifndef _UIPLUS256K_H
 #define _UIPLUS256K_H
 
-void ui_plus256k_settings_dialog(void);
+extern void ui_plus256k_settings_dialog(video_canvas_t *canvas);
 
 #endif

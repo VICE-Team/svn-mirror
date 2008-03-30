@@ -63,9 +63,9 @@
 #include "rs232drv.h"
 #include "screenshot.h"
 #include "serial.h"
-#include "sidcart.h"
-#include "sidcart-cmdline-options.h"
-#include "sidcart-resources.h"
+#include "sid.h"
+#include "sid-cmdline-options.h"
+#include "sid-resources.h"
 #include "sound.h"
 #include "tape.h"
 #include "ted-cmdline-options.h"
@@ -76,6 +76,7 @@
 #include "video.h"
 #include "vsync.h"
 
+int io_source;
 
 machine_context_t machine_context;
 
@@ -412,7 +413,7 @@ void machine_specific_reset(void)
 
     ted_reset();
 
-    sidcart_reset();
+    sid_reset();
 
     cs256k_reset();
     h256k_reset();

@@ -63,7 +63,6 @@ src/rs232drv/rs232drv.c
 src/rs232drv/rsuser.c
 src/serial/serial-iec-device.c
 src/sid/sid-cmdline-options.c
-src/sidcart/sidcart-cmdline-options.c
 src/sysfile.c
 src/traps.c
 src/vdc/vdc-cmdline-options.c

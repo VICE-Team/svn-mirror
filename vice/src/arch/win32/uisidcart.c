@@ -32,14 +32,19 @@
 #include <tchar.h>
 
 #include "hardsid.h"
+#include "machine.h"
 #include "res.h"
 #include "resources.h"
-#include "sidcart.h"
+#include "sid.h"
 #include "system.h"
 #include "translate.h"
 #include "uilib.h"
 #include "uisidcart.h"
 #include "winmain.h"
+
+static char *native_primary_sid_address;
+static char *native_secondary_sid_address;
+static char *native_sid_clock;
 
 static const TCHAR *ui_sid_engine[] = 
 {
@@ -91,6 +96,25 @@ static void init_sidcart_dialog(HWND hwnd)
   int res_value_loop;
   unsigned int available, device;
 
+  switch (machine_class)
+  {
+     case VICE_MACHINE_PET:
+        native_primary_sid_address = "$8F00";
+        native_secondary_sid_address = "$E900";
+        native_sid_clock="PET";
+        break;
+      case VICE_MACHINE_PLUS4:
+        native_primary_sid_address = "$FD40";
+        native_secondary_sid_address = "$FE80";
+        native_sid_clock="PLUS4";
+        break;
+      case VICE_MACHINE_VIC20:
+        native_primary_sid_address = "$9800";
+        native_secondary_sid_address = "$9C00";
+        native_sid_clock="VIC20";
+        break;
+  }
+
   resources_get_int("SidCart", &res_value);
   CheckDlgButton(hwnd, IDC_SIDCART_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
     
@@ -100,7 +124,7 @@ static void init_sidcart_dialog(HWND hwnd)
   {
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_sid_engine[res_value_loop]);
   }
-  SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+  SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)(res_value==0) ? 0 : res_value-1, 0);
 
   temp_hwnd = GetDlgItem(hwnd, IDC_SIDCART_MODEL);
   SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("6581"));
@@ -112,6 +136,7 @@ static void init_sidcart_dialog(HWND hwnd)
   CheckDlgButton(hwnd, IDC_SIDCART_FILTERS, res_value ? BST_CHECKED : BST_UNCHECKED);
 
   temp_hwnd = GetDlgItem(hwnd, IDC_SIDCART_ADDRESS);
+
   SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)native_primary_sid_address);
   SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)native_secondary_sid_address);
   resources_get_int("SidAddress", &res_value);
@@ -145,11 +170,15 @@ static void init_sidcart_dialog(HWND hwnd)
 
 static void end_sidcart_dialog(HWND hwnd)
 {
+  int sid_engine;
+
+  sid_engine=SendMessage(GetDlgItem(hwnd, IDC_SIDCART_ENGINE), CB_GETCURSEL,
+                         0, 0);
+
   resources_set_int("SidCart", (IsDlgButtonChecked(hwnd,
                     IDC_SIDCART_ENABLE) == BST_CHECKED ? 1 : 0 ));
  
-  resources_set_int("SidEngine",SendMessage(GetDlgItem(
-                    hwnd, IDC_SIDCART_ENGINE), CB_GETCURSEL, 0, 0));
+  resources_set_int("SidEngine",(sid_engine==0) ? 0 : sid_engine+1);
 
   resources_set_int("SidModel",SendMessage(GetDlgItem(
                     hwnd, IDC_SIDCART_MODEL), CB_GETCURSEL, 0, 0));

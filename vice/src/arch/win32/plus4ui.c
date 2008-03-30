@@ -46,7 +46,6 @@
 #include "uivideo.h"
 #include "winmain.h"
 
-
 static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
     IDD_PLUS4ROM_RESOURCE_DIALOG,
     IDD_PLUS4ROMDRIVE_RESOURCE_DIALOG,

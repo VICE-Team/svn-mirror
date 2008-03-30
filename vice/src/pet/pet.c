@@ -74,9 +74,9 @@
 #include "resources.h"
 #include "rs232drv.h"
 #include "screenshot.h"
-#include "sidcart.h"
-#include "sidcart-cmdline-options.h"
-#include "sidcart-resources.h"
+#include "sid.h"
+#include "sid-cmdline-options.h"
+#include "sid-resources.h"
 #include "sound.h"
 #include "tape.h"
 #include "traps.h"
@@ -86,6 +86,7 @@
 #include "video.h"
 #include "vsync.h"
 
+int io_source;
 
 machine_context_t machine_context;
 
@@ -364,7 +365,7 @@ void machine_specific_reset(void)
     acia1_reset();
     crtc_reset();
     petsound_reset();
-    sidcart_reset();
+    sid_reset();
     petmem_reset();
     rs232drv_reset();
     printer_reset();

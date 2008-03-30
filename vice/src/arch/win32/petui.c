@@ -44,7 +44,6 @@
 #include "uivideo.h"
 #include "winmain.h"
 
-
 static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
     IDD_PETROM_RESOURCE_DIALOG,
     IDD_PETROMDRIVE_RESOURCE_DIALOG,

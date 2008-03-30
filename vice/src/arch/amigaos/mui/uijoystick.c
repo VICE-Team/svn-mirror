@@ -52,8 +52,8 @@ static char *ui_joystick[] = {
 static const int ui_joystick_values[] = {
   JOYDEV_NONE,
   JOYDEV_NUMPAD,
-  JOYDEV_KEYSET_A,
-  JOYDEV_KEYSET_B,
+  JOYDEV_KEYSET1,
+  JOYDEV_KEYSET2,
   -1
 };
 

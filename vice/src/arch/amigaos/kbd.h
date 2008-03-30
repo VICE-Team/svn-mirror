@@ -33,6 +33,7 @@ extern void kbd_arch_init(void);
 
 extern signed long kbd_arch_keyname_to_keynum(char *keyname);
 extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
+extern void kbd_initialize_numpad_joykeys(int *joykeys);
 
 #define KBD_C64_SYM_US  "amiga_sym.vkm"
 #define KBD_C64_SYM_DE  "amiga_sym.vkm"
@@ -64,4 +65,3 @@ extern const char *kbd_arch_keynum_to_keyname(signed long keynum);
 #define KBD_INDEX_CBM2_DEFAULT  KBD_INDEX_CBM2_BUKP
 
 #endif
-

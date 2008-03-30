@@ -27,7 +27,7 @@
 #ifndef _UI_DRIVEPETCBM2_H
 #define _UI_DRIVEPETCBM2_H
 
-void uidrivepetcbm2_settings_dialog(void);
+extern void uidrivepetcbm2_settings_dialog(void);
 
 #endif
 

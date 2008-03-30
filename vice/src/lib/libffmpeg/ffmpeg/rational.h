@@ -52,4 +52,4 @@ AVRational av_add_q(AVRational b, AVRational c);
 AVRational av_sub_q(AVRational b, AVRational c);
 AVRational av_d2q(double d, int max);
 
-#endif // RATIONAL_H
+#endif /* RATIONAL_H */

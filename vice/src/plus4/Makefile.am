@@ -3,7 +3,7 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/sidcart \
+	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/raster
 

@@ -27,7 +27,7 @@
 #ifndef _UI_DRIVEC64VIC20_H
 #define _UI_DRIVEC64VIC20_H
 
-void uidrivec64vic20_settings_dialog(void);
+extern void uidrivec64vic20_settings_dialog(void);
 
 #endif
 

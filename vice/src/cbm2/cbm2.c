@@ -581,14 +581,6 @@ int cbm2_c500_snapshot_read_module(snapshot_t *p)
     return 0;
 }
 
-int machine_sid2_check_range(unsigned int sid2_adr)
-{
-    if (sid2_adr >= 0xda20 && sid2_adr <= 0xdae0)
-        return 0;
-
-    return -1;
-}
-
 int machine_num_keyboard_mappings(void)
 {
     return NUM_KEYBOARD_MAPPINGS;

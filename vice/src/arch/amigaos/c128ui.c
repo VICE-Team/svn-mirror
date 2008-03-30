@@ -36,6 +36,7 @@
 #include "mui/uiacia.h"
 #include "mui/uidrivec128.h"
 #include "mui/uigeoram.h"
+#include "mui/uiide64.h"
 #include "mui/uiramcart.h"
 #include "mui/uireu.h"
 #include "mui/uirs232user.h"
@@ -72,16 +73,16 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
         ui_sid_settings_dialog();
         break;
       case IDM_REU_SETTINGS:
-        ui_reu_settings_dialog();
+        ui_reu_settings_dialog(canvas);
         break;
       case IDM_GEORAM_SETTINGS:
-        ui_georam_settings_dialog();
+        ui_georam_settings_dialog(canvas);
         break;
       case IDM_RAMCART_SETTINGS:
-        ui_ramcart_settings_dialog();
+        ui_ramcart_settings_dialog(canvas);
         break;
       case IDM_IDE64_SETTINGS:
-//        uiide64_settings_dialog(hwnd);
+        ui_ide64_settings_dialog(canvas);
         break;
       case IDM_ROM_SETTINGS:
 //        uirom_settings_dialog(hwnd, IDD_C128ROM_SETTINGS_DIALOG,

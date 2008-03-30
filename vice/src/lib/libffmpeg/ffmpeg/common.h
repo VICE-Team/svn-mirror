@@ -10,13 +10,13 @@
 #    define CONFIG_WIN32
 #endif
 
-//#define ALT_BITSTREAM_WRITER
-//#define ALIGNED_BITSTREAM_WRITER
+/* #define ALT_BITSTREAM_WRITER */
+/* #define ALIGNED_BITSTREAM_WRITER */
 
 #define ALT_BITSTREAM_READER
-//#define LIBMPEG2_BITSTREAM_READER
-//#define A32_BITSTREAM_READER
-#define LIBMPEG2_BITSTREAM_READER_HACK //add BERO
+/* #define LIBMPEG2_BITSTREAM_READER */
+/* #define A32_BITSTREAM_READER */
+#define LIBMPEG2_BITSTREAM_READER_HACK /* add BERO */
 
 #ifndef M_PI
 #define M_PI    3.14159265358979323846
@@ -93,8 +93,7 @@ extern const struct AVOption avoptions_workaround_bug[11];
 #endif
 #endif
 
-#define EMULATE_INTTYPES
-#ifndef EMULATE_INTTYPES
+#ifdef HAVE_INTTYPES_H
 #   include <inttypes.h>
 #else
     typedef signed char  int8_t;
@@ -244,7 +243,7 @@ inline void dprintf(const char* fmt,...) {}
 
 #    define av_abort()      do { av_log(NULL, AV_LOG_ERROR, "Abort at %s:%d\n", __FILE__, __LINE__); abort(); } while (0)
 
-//rounded divison & shift
+/* rounded divison & shift */
 #define RSHIFT(a,b) ((a) > 0 ? ((a) + ((1<<(b))>>1))>>(b) : ((a) + ((1<<(b))>>1)-1)>>(b))
 /* assume b>0 */
 #define ROUNDED_DIV(a,b) (((a)>0 ? (a) + ((b)>>1) : (a) - ((b)>>1))/(b))
@@ -273,7 +272,7 @@ extern const uint32_t inverse[256];
 #endif
  
 #ifdef ARCH_X86
-// avoid +32 for shift optimization (gcc should do that ...)
+/* avoid +32 for shift optimization (gcc should do that ...) */
 static inline  int32_t NEG_SSR32( int32_t a, int8_t s){
     asm ("sarl %1, %0\n\t"
          : "+r" (a)
@@ -314,7 +313,7 @@ static inline void init_put_bits(PutBitContext *s, uint8_t *buffer, int buffer_s
 #ifdef ALT_BITSTREAM_WRITER
     s->index=0;
     ((uint32_t*)(s->buf))[0]=0;
-//    memset(buffer, 0, buffer_size);
+/*    memset(buffer, 0, buffer_size); */
 #else
     s->buf_ptr = s->buf;
     s->bit_left=32;
@@ -376,7 +375,7 @@ typedef struct GetBitContext {
 
 typedef struct VLC {
     int bits;
-    VLC_TYPE (*table)[2]; ///< code, bits
+    VLC_TYPE (*table)[2]; /* < code, bits */
     int table_size, table_allocated;
 } VLC;
 
@@ -411,7 +410,7 @@ static inline uint32_t unaligned32(const void *v) {
     return *(const uint32_t *) v;
 }
 #    endif
-#endif //!ARCH_X86
+#endif /* !ARCH_X86 */
 
 #ifndef ALT_BITSTREAM_WRITER
 static inline void put_bits(PutBitContext *s, int n, unsigned int value)
@@ -422,13 +421,13 @@ static inline void put_bits(PutBitContext *s, int n, unsigned int value)
 #ifdef STATS
     st_out_bit_counts[st_current_index] += n;
 #endif
-    //    printf("put_bits=%d %x\n", n, value);
+    /*    printf("put_bits=%d %x\n", n, value); */
     assert(n == 32 || value < (1U << n));
     
     bit_buf = s->bit_buf;
     bit_left = s->bit_left;
 
-    //    printf("n=%d value=%x cnt=%d buf=%x\n", n, value, bit_cnt, bit_buf);
+    /*    printf("n=%d value=%x cnt=%d buf=%x\n", n, value, bit_cnt, bit_buf); */
     /* XXX: optimize */
     if (n < bit_left) {
         bit_buf = (bit_buf<<n) | value;
@@ -445,7 +444,7 @@ static inline void put_bits(PutBitContext *s, int n, unsigned int value)
         } else
 #endif
         *(uint32_t *)s->buf_ptr = be2me_32(bit_buf);
-        //printf("bitbuf = %08x\n", bit_buf);
+        /* printf("bitbuf = %08x\n", bit_buf); */
         s->buf_ptr+=4;
 	bit_left+=32 - n;
         bit_buf = value;
@@ -487,11 +486,11 @@ static inline void put_bits(PutBitContext *s, int n, unsigned int value)
     
     ptr[0] |= be2me_32(value>>(index&31));
     ptr[1]  = be2me_32(value<<(32-(index&31)));
-//if(n>24) printf("%d %d\n", n, value);
+/* if(n>24) printf("%d %d\n", n, value); */
     index+= n;
     s->index= index;
 #        endif
-#    else //ALIGNED_BITSTREAM_WRITER
+#    else /* ALIGNED_BITSTREAM_WRITER */
 #        ifdef ARCH_X86
     asm volatile(
 	"movl $7, %%ecx			\n\t"
@@ -515,11 +514,11 @@ static inline void put_bits(PutBitContext *s, int n, unsigned int value)
     
     ptr[0] |= be2me_32(value<<(32-n-(index&7) ));
     ptr[1] = 0;
-//if(n>24) printf("%d %d\n", n, value);
+/* if(n>24) printf("%d %d\n", n, value); */
     index+= n;
     s->index= index;
 #        endif
-#    endif //!ALIGNED_BITSTREAM_WRITER
+#    endif /* !ALIGNED_BITSTREAM_WRITER */
 }
 #endif
 
@@ -606,7 +605,7 @@ static inline int unaligned32_be(const void *v)
 	const uint8_t *p=v;
 	return (((p[0]<<8) | p[1])<<16) | (p[2]<<8) | (p[3]);
 #else
-	return be2me_32( unaligned32(v)); //original
+	return be2me_32( unaligned32(v)); /* original */
 #endif
 }
 
@@ -626,7 +625,7 @@ static inline int unaligned32_be(const void *v)
 #   define SKIP_CACHE(name, gb, num)\
         name##_cache <<= (num);\
 
-// FIXME name?
+/* FIXME name? */
 #   define SKIP_COUNTER(name, gb, num)\
         name##_index += (num);\
 
@@ -652,7 +651,7 @@ static inline int get_bits_count(GetBitContext *s){
     return s->index;
 }
 #elif defined LIBMPEG2_BITSTREAM_READER
-//libmpeg2 like reader
+/* libmpeg2 like reader */
 
 #   define MIN_CACHE_BITS 17
 
@@ -793,11 +792,11 @@ static inline int get_xbits(GetBitContext *s, int n){
     OPEN_READER(re, s)
     UPDATE_CACHE(re, s)
     cache = GET_CACHE(re,s);
-    if ((int32_t)cache<0) { //MSB=1
+    if ((int32_t)cache<0) { /* MSB=1 */
         tmp = NEG_USR32(cache,n);
     } else {
-    //   tmp = (-1<<n) | NEG_USR32(cache,n) + 1; mpeg12.c algo
-    //   tmp = - (NEG_USR32(cache,n) ^ ((1 << n) - 1)); h263.c algo
+    /*   tmp = (-1<<n) | NEG_USR32(cache,n) + 1; mpeg12.c algo */
+    /*   tmp = - (NEG_USR32(cache,n) ^ ((1 << n) - 1)); h263.c algo */
         tmp = - NEG_USR32(~cache,n);
     }
     LAST_SKIP_BITS(re, s, n)
@@ -840,14 +839,14 @@ static inline unsigned int show_bits(GetBitContext *s, int n){
     OPEN_READER(re, s)
     UPDATE_CACHE(re, s)
     tmp= SHOW_UBITS(re, s, n);
-//    CLOSE_READER(re, s)
+/*    CLOSE_READER(re, s) */
     return tmp;
 }
 
 unsigned int show_bits_long(GetBitContext *s, int n);
 
 static inline void skip_bits(GetBitContext *s, int n){
- //Note gcc seems to optimize this to s->index+=n for the ALT_READER :))
+ /* Note gcc seems to optimize this to s->index+=n for the ALT_READER :)) */
     OPEN_READER(re, s)
     UPDATE_CACHE(re, s)
     LAST_SKIP_BITS(re, s, n)
@@ -990,7 +989,7 @@ void free_vlc(VLC *vlc);
     SKIP_BITS(name, gb, n)\
 }
 
-// deprecated, dont use get_vlc for new code, use get_vlc2 instead or use GET_VLC directly
+/* deprecated, dont use get_vlc for new code, use get_vlc2 instead or use GET_VLC directly */
 static inline int get_vlc(GetBitContext *s, VLC *vlc)
 {
     int code;
@@ -1027,7 +1026,7 @@ static always_inline int get_vlc2(GetBitContext *s, VLC_TYPE (*table)[2],
     return code;
 }
 
-//#define TRACE
+/* #define TRACE */
 
 #ifdef TRACE
 
@@ -1077,13 +1076,13 @@ static inline int get_xbits_trace(GetBitContext *s, int n, char *file, char *fun
 
 #define tprintf(...) av_log(NULL, AV_LOG_DEBUG, __VA_ARGS__)
 
-#else //TRACE
+#else /* TRACE */
 #define tprintf(...) {}
 #endif
 
 /* define it to include statistics code (useful only for optimizing
    codec efficiency */
-//#define STATS
+/* #define STATS */
 
 #ifdef STATS
 

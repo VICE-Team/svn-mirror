@@ -37,21 +37,21 @@
 
 #ifndef AMIGA_OS4
 
-void *timer_init(void);
-void timer_exit(void *timer);
-void timer_gettime(void *timer, struct timeval *tv);
-void timer_subtime(void *timer, struct timeval *dt, struct timeval *st);
-void timer_usleep(void *timer, int us);
+extern void *timer_init(void);
+extern void timer_exit(void *timer);
+extern void timer_gettime(void *timer, struct timeval *tv);
+extern void timer_subtime(void *timer, struct timeval *dt, struct timeval *st);
+extern void timer_usleep(void *timer, int us);
 
 #else
 
 typedef struct timer_s timer_t;
 
-timer_t *timer_init(void);
-void timer_gettime(timer_t *timer, struct timeval *tv);
-void timer_subtime(timer_t *timer, struct timeval *dt, struct timeval *st);
-void timer_usleep(timer_t *timer, int us);
-void timer_exit(timer_t *timer);
+extern timer_t *timer_init(void);
+extern void timer_gettime(timer_t *timer, struct timeval *tv);
+extern void timer_subtime(timer_t *timer, struct timeval *dt, struct timeval *st);
+extern void timer_usleep(timer_t *timer, int us);
+extern void timer_exit(timer_t *timer);
 
 #endif
 #endif /* _TIMER_H_ */

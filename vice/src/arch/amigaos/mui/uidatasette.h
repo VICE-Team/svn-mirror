@@ -27,6 +27,6 @@
 #ifndef _UIDATASETTE_H
 #define _UIDATASETTE_H
 
-void ui_datasette_settings_dialog(void);
+extern void ui_datasette_settings_dialog(void);
 
 #endif

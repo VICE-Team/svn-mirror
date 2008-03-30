@@ -120,10 +120,14 @@ libarch_a_SOURCES = \
 	mui/uidriveplus4.h \
 	mui/uigeoram.c \
 	mui/uigeoram.h \
+	mui/uiide64.c \
+	mui/uiide64.h \
 	mui/uijoystick.c \
 	mui/uijoystick.h \
 	mui/uijoystickll.c \
 	mui/uijoystickll.h \
+	mui/uimmc64.c \
+	mui/uimmc64.h \
 	mui/uinetwork.c \
 	mui/uinetwork.h \
 	mui/uipetreu.c \
@@ -142,6 +146,8 @@ libarch_a_SOURCES = \
 	mui/uirs232user.h \
 	mui/uisid.c \
 	mui/uisid.h \
+	mui/uisidcart.c \
+	mui/uisidcart.h \
 	mui/uisound.c \
 	mui/uisound.h \
 	mui/uivic20mem.c \

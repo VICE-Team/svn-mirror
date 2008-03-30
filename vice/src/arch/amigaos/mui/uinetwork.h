@@ -27,6 +27,6 @@
 #ifndef _UINETWORK_H
 #define _UINETWORK_H
 
-void ui_network_dialog(void);
+extern void ui_network_dialog(void);
 
 #endif

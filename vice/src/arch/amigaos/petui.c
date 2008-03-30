@@ -35,6 +35,7 @@
 #include "mui/uiacia.h"
 #include "mui/uidrivepetcbm2.h"
 #include "mui/uipetreu.h"
+#include "mui/uisidcart.h"
 
 static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { "CrtcDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -48,7 +49,7 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
       case IDM_PETREU_SETTINGS:
-        ui_petreu_settings_dialog();
+        ui_petreu_settings_dialog(canvas);
         break;
       case IDM_PET_SETTINGS:
 //        ui_pet_settings_dialog(hwnd);
@@ -66,6 +67,9 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
         break;
       case IDM_ACIA_SETTINGS:
         ui_acia_settings_dialog();
+        break;
+      case IDM_SIDCART_SETTINGS:
+        ui_sidcart_settings_dialog("$8F00", "$E900", "PET");
         break;
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

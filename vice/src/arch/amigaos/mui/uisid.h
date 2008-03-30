@@ -27,7 +27,7 @@
 #ifndef _UISID_H
 #define _UISID_H
 
-void ui_sid_settings_dialog(void);
+extern void ui_sid_settings_dialog(void);
 
 #endif
 

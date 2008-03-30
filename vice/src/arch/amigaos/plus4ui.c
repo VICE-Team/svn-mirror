@@ -34,6 +34,7 @@
 
 #include "mui/uiacia.h"
 #include "mui/uidriveplus4.h"
+#include "mui/uisidcart.h"
 
 static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -65,6 +66,9 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
         break;
       case IDM_ACIA_SETTINGS:
         ui_acia_settings_dialog();
+        break;
+      case IDM_SIDCART_SETTINGS:
+        ui_sidcart_settings_dialog("$FD40", "$FE80", "PLUS4");
         break;
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

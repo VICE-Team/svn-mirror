@@ -29,12 +29,12 @@
 
 #define REFRESH_ALL (-1)
 
-int statusbar_create(video_canvas_t *canvas);
-void statusbar_destroy(video_canvas_t *canvas);
-int statusbar_get_status_height(void);
-void statusbar_refresh(int drive_number);
-void statusbar_set_statustext(const char *text, int text_time);
-void statusbar_statustext_update(void);
+extern int statusbar_create(video_canvas_t *canvas);
+extern void statusbar_destroy(video_canvas_t *canvas);
+extern int statusbar_get_status_height(void);
+extern void statusbar_refresh(int drive_number);
+extern void statusbar_set_statustext(const char *text, int text_time);
+extern void statusbar_statustext_update(void);
 
 #endif /* _STATUSBAR_H_ */
 

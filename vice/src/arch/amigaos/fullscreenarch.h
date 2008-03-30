@@ -27,7 +27,7 @@
 #ifndef _FULLSCREENARCH_H_
 #define _FULLSCREENARCH_H_
 
-void video_arch_fullscreen_update(void);
-void video_arch_fullscreen_toggle(void);
+extern void video_arch_fullscreen_update(void);
+extern void video_arch_fullscreen_toggle(void);
 
 #endif /* _FULLSCREENARCH_H_ */

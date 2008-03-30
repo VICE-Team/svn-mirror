@@ -28,7 +28,7 @@
 
 #include <stdio.h>
 
-#include "sidcart.h"
+#include "sid.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uisidcart.h"

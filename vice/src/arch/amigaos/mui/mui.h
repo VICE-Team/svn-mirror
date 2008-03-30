@@ -87,13 +87,50 @@
     End, \
   End,
 
-#define MUI_TYPE_NONE    (0)
-#define MUI_TYPE_RADIO   (1)
-#define MUI_TYPE_CHECK   (2)
-#define MUI_TYPE_CYCLE   (3)
-#define MUI_TYPE_INTEGER (4)
-#define MUI_TYPE_FLOAT   (5)
-#define MUI_TYPE_TEXT    (6)
+#define FILENAME(store, name, button) \
+  Child, GroupObject, \
+    MUIA_Frame, MUIV_Frame_Group, \
+    MUIA_Group_Horiz, TRUE, \
+    Child, store = StringObject, \
+      MUIA_Frame, MUIV_Frame_String, \
+      MUIA_FrameTitle, name, \
+      MUIA_String_MaxLen, 1024, \
+    End, \
+    Child, button = TextObject, \
+      ButtonFrame, \
+      MUIA_Background, MUII_ButtonBack, \
+      MUIA_Text_Contents, translate_text(IDS_BROWSE), \
+      MUIA_Text_PreParse, "\033c", \
+      MUIA_InputMode, MUIV_InputMode_RelVerify, \
+    End, \
+  End,
+
+#define OK_CANCEL_BUTTON \
+  Child, HGroup, \
+    Child, ok = TextObject, \
+      ButtonFrame, \
+      MUIA_Background, MUII_ButtonBack, \
+      MUIA_Text_Contents, translate_text(IDMES_OK), \
+      MUIA_Text_PreParse, "\033c", \
+      MUIA_InputMode, MUIV_InputMode_RelVerify, \
+    End, \
+    Child, cancel = TextObject, \
+      ButtonFrame, \
+      MUIA_Background, MUII_ButtonBack, \
+      MUIA_Text_Contents, translate_text(IDS_CANCEL), \
+      MUIA_Text_PreParse, "\033c", \
+      MUIA_InputMode, MUIV_InputMode_RelVerify, \
+    End, \
+  End,
+
+#define MUI_TYPE_NONE     (0)
+#define MUI_TYPE_RADIO    (1)
+#define MUI_TYPE_CHECK    (2)
+#define MUI_TYPE_CYCLE    (3)
+#define MUI_TYPE_INTEGER  (4)
+#define MUI_TYPE_FLOAT    (5)
+#define MUI_TYPE_TEXT     (6)
+#define MUI_TYPE_FILENAME (7)
 
 typedef struct {
   APTR object;
@@ -106,13 +143,13 @@ typedef struct {
 #define UI_END \
   { NULL, MUI_TYPE_NONE, NULL, NULL, NULL }
 
-ui_to_from_t *ui_find_resource(ui_to_from_t *data, char *resource);
+extern ui_to_from_t *ui_find_resource(ui_to_from_t *data, char *resource);
 
-int mui_show_dialog(APTR gui, char *title, ui_to_from_t *data);
+extern int mui_show_dialog(APTR gui, char *title, ui_to_from_t *data);
 
 /* FIXME: remove */
-void ui_get_from(ui_to_from_t *data);
-void ui_get_to(ui_to_from_t *data);
+extern void ui_get_from(ui_to_from_t *data);
+extern void ui_get_to(ui_to_from_t *data);
 
 /* new interface */
 
@@ -120,13 +157,14 @@ void ui_get_to(ui_to_from_t *data);
 
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
 
-int mui_init(void);
-APTR mui_get_app(void);
-APTR mui_make_simple_window(APTR gui, char *title);
-APTR mui_make_ok_cancel_window(APTR gui, char *title);
-void mui_add_window(APTR window);
-void mui_rem_window(APTR window);
-int mui_run(void);
-void mui_exit(void);
+extern int mui_init(void);
+extern APTR mui_get_app(void);
+extern APTR mui_make_simple_window(APTR gui, char *title);
+extern APTR mui_make_ok_cancel_window(APTR gui, char *title);
+extern void mui_add_window(APTR window);
+extern void mui_rem_window(APTR window);
+extern int mui_run(void);
+extern void mui_exit(void);
+extern char *BrowseFile(char *select_text, char *pattern, video_canvas_t *canvas);
 
 #endif

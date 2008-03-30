@@ -27,6 +27,6 @@
 #ifndef _UIRS232USER_H
 #define _UIRS232USER_H
 
-void ui_rs232user_settings_dialog(void);
+extern void ui_rs232user_settings_dialog(void);
 
 #endif

@@ -24,7 +24,6 @@ INCLUDES = \
 	-I$(top_srcdir)/src/cbm2 \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/sid \
-	-I$(top_srcdir)/src/sidcart \
 	-I$(top_srcdir)/src/gfxoutputdrv
 
 noinst_LIBRARIES = libarch.a
@@ -258,7 +257,6 @@ EXTRA_DIST = \
 	rs232drv.dsp \
 	serial.dsp \
 	sid.dsp \
-	sidcart.dsp \
 	sounddrv.dsp \
 	tape.dsp \
 	tcbm.dsp \

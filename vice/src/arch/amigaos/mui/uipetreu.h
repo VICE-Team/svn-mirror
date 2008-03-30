@@ -27,6 +27,6 @@
 #ifndef _UIPETREU_H
 #define _UIPETREU_H
 
-void ui_petreu_settings_dialog(void);
+extern void ui_petreu_settings_dialog(video_canvas_t *canvas);
 
 #endif

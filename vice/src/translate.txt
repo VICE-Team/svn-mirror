@@ -914,7 +914,13 @@ IDCLS_P_ENGINE
 IDCLS_SPECIFY_SID_ENGINE
 
 /* sid/sid-cmdline-options.c */
+IDCLS_SPECIFY_SIDCART_ENGINE
+
+/* sid/sid-cmdline-options.c */
 IDCLS_ENABLE_SECOND_SID
+
+/* sid/sid-cmdline-options.c */
+IDCLS_ENABLE_SIDCART
 
 /* sid/sid-cmdline-options.c, c64/plus60k.c, c64/c64_256k.c */
 IDCLS_P_BASE_ADDRESS

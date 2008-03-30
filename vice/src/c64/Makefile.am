@@ -62,6 +62,7 @@ libc64_a_SOURCES = \
 	c64romset.h \
 	c64rsuser.c \
 	c64rsuser.h \
+	c64sound.c \
 	c64tpi.c \
 	c64tpi.h \
 	c64video.c \
@@ -115,6 +116,7 @@ libc64c128_a_SOURCES = \
 	c64parallel.h \
 	c64rsuser.c \
 	c64rsuser.h \
+	c64sound.c \
 	c64tpi.c \
 	c64tpi.h \
 	georam.c \
@@ -129,7 +131,7 @@ libc64c128_a_SOURCES = \
 	reu.h \
 	tfe.c \
 	tfe.h \
-        tfearch.h
+	tfearch.h
 
 BUILT_SOURCES = psiddrv.h
 

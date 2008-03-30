@@ -57,9 +57,9 @@
 #include "rsuser.h"
 #include "screenshot.h"
 #include "serial.h"
-#include "sidcart.h"
-#include "sidcart-cmdline-options.h"
-#include "sidcart-resources.h"
+#include "sid.h"
+#include "sid-cmdline-options.h"
+#include "sid-resources.h"
 #include "sound.h"
 #include "tape.h"
 #include "traps.h"
@@ -81,6 +81,7 @@
 #include "video.h"
 #include "vsync.h"
 
+int io_source;
 
 machine_context_t machine_context;
 
@@ -403,7 +404,7 @@ void machine_specific_reset(void)
     viacore_reset(machine_context.via2);
     vic_reset();
     vic_sound_reset();
-    sidcart_reset();
+    sid_reset();
 
     viacore_reset(machine_context.ieeevia1);
     viacore_reset(machine_context.ieeevia2);
@@ -506,7 +507,7 @@ void machine_change_timing(int timeval)
                                 machine_timing.cycles_per_sec);
     sound_set_machine_parameter(machine_timing.cycles_per_sec,
                                 machine_timing.cycles_per_rfsh);
-    sidcart_set_machine_parameter(machine_timing.cycles_per_sec);
+    sid_set_machine_parameter(machine_timing.cycles_per_sec);
     debug_set_machine_parameter(machine_timing.cycles_per_line,
                                 machine_timing.screen_lines);
     drive_set_machine_parameter(machine_timing.cycles_per_sec);

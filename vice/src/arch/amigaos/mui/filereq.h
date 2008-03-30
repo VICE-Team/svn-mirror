@@ -33,10 +33,10 @@ enum {
   IDD_OPEN_TEMPLATE
 };
 
-char *ui_filereq(const char *title, int template,
-                 char *initialdir, char *initialfile,
-                 char *(*read_content)(const char *),
-                 int *autostart, char *resource_readonly);
+extern char *ui_filereq(const char *title, int template,
+                        char *initialdir, char *initialfile,
+                        char *(*read_content)(const char *),
+                        int *autostart, char *resource_readonly);
 
 #endif
 

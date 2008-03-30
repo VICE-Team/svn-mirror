@@ -48,12 +48,10 @@
 #include "winmain.h"
 #include "uivicset.h"
 
-
 static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
     IDD_VIC20ROM_RESOURCE_DIALOG,
     IDD_VIC20ROMDRIVE_RESOURCE_DIALOG,
     0 };
-
 
 static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "EmuID", IDM_TOGGLE_EMUID },

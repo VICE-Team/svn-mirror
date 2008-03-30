@@ -1,5 +1,11 @@
 EXTRA_DIST = \
 	mingw32/build-cross.sh \
-	macosx/make-ub.sh \
+	macosx/build-allext.sh \
+	macosx/build-gtk.sh \
+	macosx/build-hidutils.sh \
+	macosx/build-inc.sh \
+	macosx/build-pcaplibnet.sh \
+	macosx/build-readline.sh \
+	macosx/build-vice-dist.sh \
 	minix3/build.sh \
 	minix3/build-package.sh

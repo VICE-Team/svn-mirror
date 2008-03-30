@@ -223,7 +223,7 @@ static const resource_int_t resources_int[] = {
   { NULL }
 };
 
-int joystick_init_resources(void)
+int joystick_arch_init_resources(void)
 {
   return resources_register_int(resources_int);
 }

@@ -762,17 +762,6 @@ void machine_update_memory_ptrs(void)
     vicii_update_memory_ptrs_external();
 }
 
-int machine_sid2_check_range(unsigned int sid2_adr)
-{
-    if (sid2_adr >= 0xd420 && sid2_adr <= 0xd7e0)
-        return 0;
-
-    if (sid2_adr >= 0xde00 && sid2_adr <= 0xdfe0)
-        return 0;
-
-    return -1;
-}
-
 int machine_num_keyboard_mappings(void)
 {
     return NUM_KEYBOARD_MAPPINGS;

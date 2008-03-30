@@ -27,7 +27,7 @@
 #ifndef _UIACIA_H
 #define _UIACIA_H
 
-void ui_acia_settings_dialog(void);
-void ui_acia64128_settings_dialog(void);
+extern void ui_acia_settings_dialog(void);
+extern void ui_acia64128_settings_dialog(void);
 
 #endif

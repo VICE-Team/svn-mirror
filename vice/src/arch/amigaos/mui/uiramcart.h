@@ -27,6 +27,6 @@
 #ifndef _UIRAMCART_H
 #define _UIRAMCART_H
 
-void ui_ramcart_settings_dialog(void);
+extern void ui_ramcart_settings_dialog(video_canvas_t *canvas);
 
 #endif

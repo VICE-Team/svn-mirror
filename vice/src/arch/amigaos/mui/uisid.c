@@ -197,7 +197,7 @@ static APTR build_gui(void)
   return RegisterObject,
     MUIA_Register_Titles, ui_sid_pages,
     Child, GroupObject,
-      CYCLE(ui_to_from[0].object, "SID Engine", ui_sid_engine)
+      CYCLE(ui_to_from[0].object, translate_text(IDS_SID_ENGINE), ui_sid_engine)
       Child, ui_to_from[1].object = RadioObject,
         MUIA_Frame, MUIV_Frame_Group,
         MUIA_Group_Horiz, TRUE,

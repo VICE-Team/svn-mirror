@@ -48,3 +48,6 @@ const char *kbd_arch_keynum_to_keyname(signed long keynum)
   return keyname;
 }
 
+void kbd_initialize_numpad_joykeys(int* joykeys)
+{
+}

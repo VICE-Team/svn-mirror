@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "intl.h"
 #include "network.h"
 #include "uinetwork.h"
 #include "resources.h"
@@ -40,111 +41,6 @@
 #define _INLINE_MUIMASTER_H
 #endif
 #include "mui.h"
-
-#if 0
-static void init_network_dialog(HWND hwnd)
-{
-    int port;
-    char *server_name;
-    TCHAR st[256];
-    int connected;
-
-    resources_get_value("NetworkServerPort", (void *)&port);
-    resources_get_value("NetworkServerName", (void *)&server_name);
-
-    _stprintf(st, TEXT("%d"), port);
-    SetDlgItemText(hwnd, IDC_NETWORK_PORT, st);
-    SetDlgItemText(hwnd, IDC_NETWORK_SERVERNAME, TEXT(server_name));
-
-    switch(network_get_mode()) {
-        case NETWORK_IDLE:
-            SetDlgItemText(hwnd, IDC_NETWORK_MODE, "Idle");
-            break;
-        case NETWORK_SERVER:
-            SetDlgItemText(hwnd, IDC_NETWORK_MODE, "Server listening");
-            break;
-        case NETWORK_SERVER_CONNECTED:
-            SetDlgItemText(hwnd, IDC_NETWORK_MODE, "Connected server");
-            break;
-        case NETWORK_CLIENT:
-            SetDlgItemText(hwnd, IDC_NETWORK_MODE, "Connected client");
-            break;
-    }
-
-    connected = ((network_get_mode() != NETWORK_IDLE) ? 1 : 0);
-    EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_PORT), !connected);
-    EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_SERVERNAME), !connected);
-    EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_CLIENT), !connected);
-    EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_SERVER), !connected);
-    EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_DISCONNECT), connected);
-    EnableWindow(GetDlgItem(hwnd, IDC_NETWORK_MODE), 0);
-
-    SetFocus(connected ? GetDlgItem(hwnd, IDC_NETWORK_DISCONNECT)
-                        : GetDlgItem(hwnd, IDC_NETWORK_SERVER));
-}
-
-static int set_resources(HWND hwnd)
-{
-    TCHAR st[MAX_PATH];
-    int port;
-
-    GetDlgItemText(hwnd, IDC_NETWORK_PORT, st, MAX_PATH);
-    port = atoi(st);
-    if (port < 1 || port > 0xFFFF) {
-        ui_error("Invalid port number");
-        return -1;
-    }
-
-    resources_set_value("NetworkServerPort",
-                        (resource_value_t)port);
-
-    GetDlgItemText(hwnd, IDC_NETWORK_SERVERNAME, st, MAX_PATH);
-    resources_set_value("NetworkServerName", (resource_value_t)st);
-
-    return 0;
-}
-
-static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
-                                 LPARAM lparam)
-{
-    int command;
-
-    switch (msg) {
-      case WM_COMMAND:
-        command=LOWORD(wparam);
-        switch (command) {
-          case IDCANCEL:
-            EndDialog(hwnd,0);
-            return TRUE;
-          case IDC_NETWORK_SERVER:
-            if (set_resources(hwnd) == 0)
-                if (network_start_server() < 0)
-                    ui_error("An error occured starting the server.");
-            EndDialog(hwnd,0);
-            return TRUE;
-          case IDC_NETWORK_CLIENT:
-            if (set_resources(hwnd) == 0)
-                if (network_connect_client() < 0)
-                    ui_error("An error occured connecting the client.");
-            EndDialog(hwnd,0);
-            return TRUE;
-          case IDC_NETWORK_DISCONNECT:
-            network_disconnect();
-            EndDialog(hwnd,0);
-            return TRUE;
-        }
-        return FALSE;
-      case WM_CLOSE:
-        EndDialog(hwnd,0);
-        return TRUE;
-      case WM_INITDIALOG:
-        system_init_dialog(hwnd);
-        init_network_dialog(hwnd);
-        return TRUE;
-    }
-    return FALSE;
-}
-#endif
 
 static ui_to_from_t ui_to_from[] = {
   { NULL, MUI_TYPE_INTEGER, "NetworkServerPort", NULL, NULL },
@@ -165,7 +61,7 @@ static APTR build_gui(void)
   ui = GroupObject,
     Child, mode = StringObject,
       MUIA_Frame, MUIV_Frame_String,
-      MUIA_FrameTitle, "Current mode",
+      MUIA_FrameTitle, translate_text(IDS_CURRENT_MODE),
     End,
 
     Child, GroupObject,
@@ -173,14 +69,14 @@ static APTR build_gui(void)
       MUIA_Group_Horiz, TRUE,
       Child, ui_to_from[0].object = StringObject,
         MUIA_Frame, MUIV_Frame_String,
-        MUIA_FrameTitle, "TCP-Port",
+        MUIA_FrameTitle, translate_text(IDS_TCP_PORT),
         MUIA_String_Accept, "0123456789",
         MUIA_String_MaxLen, 5+1,
       End,
       Child, start_server = TextObject,
         ButtonFrame,
         MUIA_Background, MUII_ButtonBack,
-        MUIA_Text_Contents, "Start Server",
+        MUIA_Text_Contents, translate_text(IDS_START_SERVER),
         MUIA_Text_PreParse, "\033c",
         MUIA_InputMode, MUIV_InputMode_RelVerify,
       End,
@@ -192,7 +88,7 @@ static APTR build_gui(void)
       Child, connect_to = TextObject,
         ButtonFrame,
         MUIA_Background, MUII_ButtonBack,
-        MUIA_Text_Contents, "Connect to",
+        MUIA_Text_Contents, translate_text(IDS_CONNECT_TO),
         MUIA_Text_PreParse, "\033c",
         MUIA_InputMode, MUIV_InputMode_RelVerify,
       End,
@@ -209,14 +105,14 @@ static APTR build_gui(void)
       Child, disconnect = TextObject,
         ButtonFrame,
         MUIA_Background, MUII_ButtonBack,
-        MUIA_Text_Contents, "Disconnect",
+        MUIA_Text_Contents, translate_text(IDS_DISCONNECT),
         MUIA_Text_PreParse, "\033c",
         MUIA_InputMode, MUIV_InputMode_RelVerify,
       End,
       Child, cancel = TextObject,
         ButtonFrame,
         MUIA_Background, MUII_ButtonBack,
-        MUIA_Text_Contents, "Cancel",
+        MUIA_Text_Contents, translate_text(IDS_CANCEL),
         MUIA_Text_PreParse, "\033c",
         MUIA_InputMode, MUIV_InputMode_RelVerify,
       End,
@@ -239,16 +135,16 @@ static APTR build_gui(void)
 
     switch(network_get_mode()) {
       case NETWORK_IDLE:
-        set(mode, MUIA_String_Contents, "Idle");
+        set(mode, MUIA_String_Contents, translate_text(IDS_IDLE));
         break;
       case NETWORK_SERVER:
-        set(mode, MUIA_String_Contents, "Server listening");
+        set(mode, MUIA_String_Contents, translate_text(IDS_SERVER_LISTENING));
         break;
       case NETWORK_SERVER_CONNECTED:
-        set(mode, MUIA_String_Contents, "Connected server");
+        set(mode, MUIA_String_Contents, translate_text(IDS_CONNECTED_SERVER));
         break;
       case NETWORK_CLIENT:
-        set(mode, MUIA_String_Contents, "Connected client");
+        set(mode, MUIA_String_Contents, translate_text(IDS_CONNECTED_CLIENT));
         break;
     }
   }
@@ -258,7 +154,7 @@ static APTR build_gui(void)
 
 void ui_network_dialog(void)
 {
-  APTR window = mui_make_simple_window(build_gui(), "Network Settings");
+  APTR window = mui_make_simple_window(build_gui(), translate_text(IDS_NETPLAY_SETTINGS));
 
 /* FIXME: Bad workaround */
   resources_set_value("EventSnapshotDir", (resource_value_t)"");
@@ -271,12 +167,12 @@ void ui_network_dialog(void)
       case BTN_START_SERVER:
         ui_get_from(ui_to_from);
         if (network_start_server() < 0)
-          ui_error("An error occured starting the server.");
+          ui_error(translate_text(IDMES_ERROR_STARTING_SERVER));
         break;
       case BTN_CONNECT_TO:
         ui_get_from(ui_to_from);
         if (network_connect_client() < 0)
-          ui_error("An error occured connecting the client.");
+          ui_error(translate_text(IDMES_ERROR_CONNECTING_CLIENT));
         break;
       case BTN_DISCONNECT:
         network_disconnect();

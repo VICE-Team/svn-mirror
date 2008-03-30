@@ -203,10 +203,9 @@ void sid_reset(void)
     memset(siddata, 0, sizeof(siddata));
 }
 
-
 static int sidengine;
 
-sound_t *sound_machine_open(int chipno)
+sound_t *sid_sound_machine_open(int chipno)
 {
 #ifdef HAVE_RESID
     sidengine = 0;
@@ -223,48 +222,48 @@ sound_t *sound_machine_open(int chipno)
     return sid_engine.open(siddata[chipno]);
 }
 
-int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+int sid_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     return sid_engine.init(psid, speed, cycles_per_sec);
 }
 
-void sound_machine_close(sound_t *psid)
+void sid_sound_machine_close(sound_t *psid)
 {
     sid_engine.close(psid);
 }
 
-BYTE sound_machine_read(sound_t *psid, WORD addr)
+BYTE sid_sound_machine_read(sound_t *psid, WORD addr)
 {
     return sid_engine.read(psid, addr);
 }
 
-void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
+void sid_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 {
     sid_engine.store(psid, addr, byte);
 }
 
-void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
+void sid_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
     sid_engine.reset(psid, cpu_clk);
 }
 
-int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-				    int interleave, int *delta_t)
+int sid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+                                        int interleave, int *delta_t)
 {
     return sid_engine.calculate_samples(psid, pbuf, nr, interleave, delta_t);
 }
 
-void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
+void sid_sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 {
     sid_engine.prevent_clk_overflow(psid, sub);
 }
 
-char *sound_machine_dump_state(sound_t *psid)
+char *sid_sound_machine_dump_state(sound_t *psid)
 {
     return sid_engine.dump_state(psid);
 }
 
-int sound_machine_cycle_based(void)
+int sid_sound_machine_cycle_based(void)
 {
     switch (sidengine) {
       case SID_ENGINE_FASTSID:
@@ -292,7 +291,7 @@ int sound_machine_cycle_based(void)
     return 0;
 }
 
-int sound_machine_channels(void)
+int sid_sound_machine_channels(void)
 {
     int stereo = 0;
     resources_get_int("SidStereo", &stereo);
@@ -338,7 +337,7 @@ static void set_sound_func(void)
     }
 }
 
-void sound_machine_enable(int enable)
+void sid_sound_machine_enable(int enable)
 {
     sid_enable = enable;
 

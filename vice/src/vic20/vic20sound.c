@@ -32,16 +32,20 @@
 
 #include "lib.h"
 #include "maincpu.h"
-#include "sidcart.h"
+#include "sid.h"
+#include "sid-resources.h"
 #include "sound.h"
 #include "types.h"
 #include "vic20sound.h"
+#include "vic20.h"
 
 static BYTE vic20_sound_data[16];
 
-char *native_primary_sid_address="$9800";
-char *native_secondary_sid_address="$9C00";
-char *native_sid_clock="VIC20";
+/* dummy function for now */
+int machine_sid2_check_range(unsigned int sid2_adr)
+{
+    return 0;
+}
 
 struct sound_vic20_s
 {
@@ -68,7 +72,7 @@ static struct sound_vic20_s snd;
 
 int vic_sound_run(int cycles);
 
-int native_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                                     int interleave, int *delta_t)
 {
     int i;
@@ -79,20 +83,6 @@ int native_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
         pbuf[i * interleave] += (((vic_sound_run(snd.cycles_per_sample) * snd.vol) / (snd.cycles_per_sample))<<9) - 32768;
     }
     return 0;
-}
-
-int native_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
-{
-    DWORD i;
-
-    memset((unsigned char*)&snd, 0, sizeof(snd));
-
-    snd.cycles_per_sample = cycles_per_sec / speed;
-
-    for (i = 0; i < 16; i++)
-        native_sound_machine_store(psid, (WORD)i, vic20_sound_data[i]);
-
-    return 1;
 }
 
 void vic_sound_reset(void)
@@ -167,7 +157,7 @@ int vic_sound_run(int cycles) {
   return ret;
 }
 
-void native_sound_machine_store(sound_t *psid, WORD addr, BYTE value)
+static void vic_sound_machine_store(sound_t *psid, WORD addr, BYTE value)
 {
     switch (addr) {
       case 0xA:
@@ -188,7 +178,107 @@ void native_sound_machine_store(sound_t *psid, WORD addr, BYTE value)
     }
 }
 
-BYTE native_sound_machine_read(sound_t *psid, WORD addr)
+static int vic_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+{
+    DWORD i;
+
+    memset((unsigned char*)&snd, 0, sizeof(snd));
+
+    snd.cycles_per_sample = cycles_per_sec / speed;
+
+    for (i = 0; i < 16; i++)
+        vic_sound_machine_store(psid, (WORD)i, vic20_sound_data[i]);
+
+    return 1;
+}
+
+static BYTE vic_sound_machine_read(sound_t *psid, WORD addr)
 {
   return 0;
+}
+
+sound_t *sound_machine_open(int chipno)
+{
+    return sid_sound_machine_open(chipno);
+}
+
+int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+{
+    vic_sound_machine_init(psid, speed, cycles_per_sec);
+
+    if (!sidcart_clock && cycles_per_sec==VIC20_PAL_CYCLES_PER_SEC)
+    {
+        return sid_sound_machine_init(psid, (int)(speed*1.125), cycles_per_sec);
+    }
+    else
+    {
+        return sid_sound_machine_init(psid, speed, cycles_per_sec);
+    }
+}
+
+void sound_machine_close(sound_t *psid)
+{
+    sid_sound_machine_close(psid);
+}
+
+/* for read/store 0x00 <= addr <= 0x1f is the sid
+ *                0x20 <= addr <= 0x3f is the vic
+ *
+ * future sound devices will be able to use 0x40 and up
+ */
+
+BYTE sound_machine_read(sound_t *psid, WORD addr)
+{
+    if (addr>=0x20 && addr<=0x3f)
+        return vic_sound_machine_read(psid, (WORD)(addr-0x20));
+    else
+        return sid_sound_machine_read(psid, addr);
+}
+
+void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
+{
+    if (addr>=0x20 && addr<=0x3f)
+        vic_sound_machine_store(psid, (WORD)(addr-0x20), byte);
+    else
+        sid_sound_machine_store(psid, addr, byte);
+}
+
+void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
+{
+    sid_sound_machine_reset(psid, cpu_clk);
+}
+
+int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+                                    int interleave, int *delta_t)
+{
+    int temp;
+
+    temp=sid_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    vic_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    return temp;
+}
+
+void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
+{
+    sid_sound_machine_prevent_clk_overflow(psid, sub);
+}
+
+char *sound_machine_dump_state(sound_t *psid)
+{
+    return sid_sound_machine_dump_state(psid);
+}
+
+int sound_machine_cycle_based(void)
+{
+    return 0;
+}
+
+int sound_machine_channels(void)
+{
+    return sid_sound_machine_channels();
+}
+
+void sound_machine_enable(int enable)
+{
+    sid_sound_machine_enable(enable);
 }

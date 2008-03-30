@@ -47,7 +47,8 @@
 #include "plus4tcbm.h"
 #include "ram.h"
 #include "resources.h"
-#include "sidcart.h"
+#include "sid-resources.h"
+#include "sid.h"
 #include "ted.h"
 #include "ted-mem.h"
 #include "types.h"
@@ -385,7 +386,7 @@ static BYTE REGPARM1 fdxx_read(WORD addr)
         return pio2_read(addr);
 
     if (sidcart_enabled && sidcart_address==0 && addr >= 0xfd40 && addr <= 0xfd5f)
-        return sidcart_read(addr);
+        return sid_read(addr);
 
     return 0;
 }
@@ -415,7 +416,7 @@ static void REGPARM2 fdxx_store(WORD addr, BYTE value)
         return;
     }
     if (sidcart_enabled && sidcart_address==0 && addr >= 0xfd40 && addr <= 0xfd5f) {
-        sidcart_store(addr, value);
+        sid_store(addr, value);
         return;
     }
     if (addr >= 0xfdd0 && addr <= 0xfddf) {
@@ -433,7 +434,7 @@ static BYTE REGPARM1 fexx_read(WORD addr)
         return plus4tcbm1_read(addr);
 
     if (sidcart_enabled && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9f)
-        return sidcart_read(addr);
+        return sid_read(addr);
 
     return 0;
 }
@@ -449,7 +450,7 @@ static void REGPARM2 fexx_store(WORD addr, BYTE value)
         return;
     }
     if (sidcart_enabled && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9f) {
-        sidcart_store(addr, value);
+        sid_store(addr, value);
         return;
     }
 }

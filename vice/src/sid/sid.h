@@ -28,6 +28,7 @@
 #define _SID_ENGINE_H
 
 #include "types.h"
+#include "sound.h"
 
 struct sound_s;
 struct sid_snapshot_state_s;
@@ -75,5 +76,19 @@ struct sid_engine_s {
                         struct sid_snapshot_state_s *sid_state);
 };
 typedef struct sid_engine_s sid_engine_t;
+
+extern sound_t *sid_sound_machine_open(int chipno);
+extern int sid_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+extern void sid_sound_machine_close(sound_t *psid);
+extern BYTE sid_sound_machine_read(sound_t *psid, WORD addr);
+extern void sid_sound_machine_store(sound_t *psid, WORD addr, BYTE byte);
+extern void sid_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
+extern int sid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, 
+int nr, int interleave, int *delta_t);
+extern void sid_sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
+extern char *sid_sound_machine_dump_state(sound_t *psid);
+extern int sid_sound_machine_cycle_based(void);
+extern int sid_sound_machine_channels(void);
+extern void sid_sound_machine_enable(int enable);
 
 #endif

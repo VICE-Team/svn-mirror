@@ -164,7 +164,7 @@ translate_t string_table[] = {
 /* de */ {IDGS_CANNOT_FIND_MAPPED_NAME_S_DE, "Kann zugeordneten Namen für `%s' nicht finden."},
 /* fr */ {IDGS_CANNOT_FIND_MAPPED_NAME_S_FR, "Impossible de trouver le nom correspondant à %s"},
 /* hu */ {IDGS_CANNOT_FIND_MAPPED_NAME_S_HU, "A VICE %s leképzett nevét nem találta meg."},
-/* it */ {IDGS_CANNOT_FIND_MAPPED_NAME_S_IT, ""},  /* fuzzy */
+/* it */ {IDGS_CANNOT_FIND_MAPPED_NAME_S_IT, "Non è possibile trovare il nome mappato per %s"},
 /* nl */ {IDGS_CANNOT_FIND_MAPPED_NAME_S_NL, "Kan vertaalde naam voor %s niet vinden"},
 /* pl */ {IDGS_CANNOT_FIND_MAPPED_NAME_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_CANNOT_FIND_MAPPED_NAME_S_SV, "Kan inte kopplat namn för %s"},
@@ -428,7 +428,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_TESTING_BEST_FRAME_DELAY_IT, "Rileva il miglior ritardo tra frame..."},
 /* nl */ {IDGS_TESTING_BEST_FRAME_DELAY_NL, "Beste frame vertraging aan het testen..."},
 /* pl */ {IDGS_TESTING_BEST_FRAME_DELAY_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_TESTING_BEST_FRAME_DELAY_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_TESTING_BEST_FRAME_DELAY_SV, "Testar bästa ramfördröjning..."},
 
 /* network.c */
 /* en */ {IDGS_USING_D_FRAMES_DELAY,    "Using %d frames delay."},
@@ -438,7 +438,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_USING_D_FRAMES_DELAY_IT, "Utilizzo %d frame di ritardo."},
 /* nl */ {IDGS_USING_D_FRAMES_DELAY_NL, "%d frames vertraging in gebruik."},
 /* pl */ {IDGS_USING_D_FRAMES_DELAY_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_USING_D_FRAMES_DELAY_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_USING_D_FRAMES_DELAY_SV, "Använder %d ramars fördröjning."},
 
 /* network.c */
 /* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER,    "Cannot load snapshot file for transfer"},
@@ -448,7 +448,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_IT, "Non à possibile caricare il file di snapshot per il trasferimento"},
 /* nl */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_NL, "Kan het momentopname bestand voor versturen niet laden"},
 /* pl */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_LOAD_SNAPSHOT_TRANSFER_SV, "Kan inte läsa in ögonblicksbildfil för överföring."},
 
 /* network.c */
 /* en */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT,    "Sending snapshot to client..."},
@@ -458,7 +458,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_IT, "Invio dell'immagine dello snapshot al client in corso..."},
 /* nl */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_NL, "Momentopname wordt naar de andere computer verstuurd..."},
 /* pl */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_SV, "Sänder ögonblicksbild till klient..."},
 
 /* network.c */
 /* en */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT,    "Cannot send snapshot to client"},
@@ -468,7 +468,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_IT, "Non à possibile inviare lo snapshot al client"},
 /* nl */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_NL, "Kan de momentopname niet naar de andere computer versturen"},
 /* pl */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_SEND_SNAPSHOT_TO_CLIENT_SV, "Kan inte sända ögonblicksbild till klient"},
 
 /* network.c */
 /* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S,    "Cannot create snapshot file %s"},
@@ -478,7 +478,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_IT, "Non à possibile creare il file di snapshot %s"},
 /* nl */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_NL, "Kan het momentopname bestand %s niet maken"},
 /* pl */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_CREATE_SNAPSHOT_FILE_S_SV, "Kan inte skapa ögonblicksbildfil %s"},
 
 /* network.c */
 /* en */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S,    "Cannot open snapshot file %s"},
@@ -488,7 +488,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_IT, "Non à possibile aprire il file di snapshot %s"},
 /* nl */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_NL, "Kan het momentopname bestand %s niet openen"},
 /* pl */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_OPEN_SNAPSHOT_FILE_S_SV, "Kan inte öppna ögonblicksbildfil %s"},
 
 /* network.c */
 /* en */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT,    "Server is waiting for a client..."},
@@ -498,7 +498,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_IT, "Il server à in attesa di un client..."},
 /* nl */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_NL, "De server wacht op de andere computer..."},
 /* pl */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_SV, "Servern väntar på en klient..."},
 
 /* network.c */
 /* en */ {IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT,    "Cannot create snapshot file. Select different history directory!"},
@@ -518,7 +518,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_CANNOT_RESOLVE_S_IT, "Non à possibile risolvere %s"},
 /* nl */ {IDGS_CANNOT_RESOLVE_S_NL, "Onbekende host %s"},
 /* pl */ {IDGS_CANNOT_RESOLVE_S_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_CANNOT_RESOLVE_S_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_RESOLVE_S_SV, "Kan inte slå upp %s"},
 
 /* network.c */
 /* en */ {IDGS_CANNOT_CONNECT_TO_S,    "Cannot connect to %s (no server running on port %d)."},
@@ -528,7 +528,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_CANNOT_CONNECT_TO_S_IT, "Non à possibile connettersi a %s (nessun server è attivo sulla porta %d)."},
 /* nl */ {IDGS_CANNOT_CONNECT_TO_S_NL, "Kan geen connectie maken met %s (er is geen server aanwezig op poort %d)."},
 /* pl */ {IDGS_CANNOT_CONNECT_TO_S_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_CANNOT_CONNECT_TO_S_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_CONNECT_TO_S_SV, "Kan inte ansluta till %s (ingen server igång på port %d)."},
 
 /* network.c */
 /* en */ {IDGS_RECEIVING_SNAPSHOT_SERVER,    "Receiving snapshot from server..."},
@@ -538,7 +538,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_RECEIVING_SNAPSHOT_SERVER_IT, "Ricezione dello snapshot dal server in corso..."},
 /* nl */ {IDGS_RECEIVING_SNAPSHOT_SERVER_NL, "Momentopname van de server wordt ontvangen..."},
 /* pl */ {IDGS_RECEIVING_SNAPSHOT_SERVER_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_RECEIVING_SNAPSHOT_SERVER_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_RECEIVING_SNAPSHOT_SERVER_SV, "Tar emot ögoblicksbild från server..."},
 
 /* network.c */
 /* en */ {IDGS_NETWORK_OUT_OF_SYNC,    "Network out of sync - disconnecting."},
@@ -548,7 +548,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_NETWORK_OUT_OF_SYNC_IT, "Rete non sincronizzata - disconnesione in corso."},
 /* nl */ {IDGS_NETWORK_OUT_OF_SYNC_NL, "Netwerk niet synchroon - connectie wordt verbroken."},
 /* pl */ {IDGS_NETWORK_OUT_OF_SYNC_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_NETWORK_OUT_OF_SYNC_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_NETWORK_OUT_OF_SYNC_SV, "Nätverket ur synk - kopplar från."},
 
 /* network.c */
 /* en */ {IDGS_REMOTE_HOST_DISCONNECTED,    "Remote host disconnected."},
@@ -558,7 +558,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_REMOTE_HOST_DISCONNECTED_IT, "Disconnesso dall'host remoto."},
 /* nl */ {IDGS_REMOTE_HOST_DISCONNECTED_NL, "Andere computer heeft de verbinding verbroken."},
 /* pl */ {IDGS_REMOTE_HOST_DISCONNECTED_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_REMOTE_HOST_DISCONNECTED_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_REMOTE_HOST_DISCONNECTED_SV, "Frånkopplad från fjärrvärd."},
 
 /* network.c */
 /* en */ {IDGS_REMOTE_HOST_SUSPENDING,    "Remote host suspending..."},
@@ -568,7 +568,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_REMOTE_HOST_SUSPENDING_IT, "Sospesione dell'host remoto in corso..."},
 /* nl */ {IDGS_REMOTE_HOST_SUSPENDING_NL, "Andere computer halt de netplay..."},
 /* pl */ {IDGS_REMOTE_HOST_SUSPENDING_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_REMOTE_HOST_SUSPENDING_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_REMOTE_HOST_SUSPENDING_SV, "FJärrvärden pausar..."},
 
 #ifdef HAVE_IPV6
 /* network.c */
@@ -579,39 +579,39 @@ translate_t string_table[] = {
 /* it */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_IT, "Non à possibile commutare tra IPV4 e IPV6 mentre netplay à attivo."},
 /* nl */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_NL, "Kan niet schakelen tussen IPV4/IPV6 omdat netplay actief is."},
 /* pl */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_SV, "Kan inte växla mellan IPV4/IPV6 medan nätverksspel är aktivt."},
 #endif
 #endif
 
 /* gfxoutputdrv/ffmpegdrv.c */
 /* en */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM,    "ffmpegdrv: Cannot open video stream"},
 /* de */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_DE, "ffmpegdrv: Kann video stream nicht öffnen"},
-/* fr */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_FR, ""},  /* fuzzy */
+/* fr */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_FR, "ffmpegdrv: Impossible d'ouvrir le flux vidéo"},
 /* hu */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_HU, "ffmpegdrv: Nem sikerült megnyitni a videó adatfolyamot"},
 /* it */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_IT, "ffmpegdrv: Non à possibile aprire il flusso video"},
 /* nl */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_NL, "ffmpegdrv: Kan de video stroom niet openen"},
 /* pl */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_FFMPEG_CANNOT_OPEN_VSTREAM_SV, "ffmpegdrv: Kan inte öppna videoström"},
 
 /* gfxoutputdrv/ffmpegdrv.c */
 /* en */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM,    "ffmpegdrv: Cannot open audio stream"},
 /* de */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_DE, "ffmpegdrv: Kann audio stream nicht öffnen"},
-/* fr */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_FR, ""},  /* fuzzy */
+/* fr */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_FR, "ffmpegdrv: Impossible d'ouvrir le flux audio"},
 /* hu */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_HU, "ffmpegdrv: Nem sikerült megnyitni a audió adatfolyamot"},
 /* it */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_IT, "ffmpegdrv: Non à possibile aprire il flusso audio"},
 /* nl */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_NL, "ffmpegdrv: Kan de audio stroom niet openen"},
 /* pl */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_FFMPEG_CANNOT_OPEN_ASTREAM_SV, "ffmpegdrv: Kan inte öppna ljudström"},
 
 /* gfxoutputdrv/ffmpegdrv.c */
 /* en */ {IDGS_FFMPEG_CANNOT_OPEN_S,    "ffmpegdrv: Cannot open %s"},
 /* de */ {IDGS_FFMPEG_CANNOT_OPEN_S_DE, "ffmpegdrv: Öffnen von %s fehlgeschlagen"},
-/* fr */ {IDGS_FFMPEG_CANNOT_OPEN_S_FR, ""},  /* fuzzy */
+/* fr */ {IDGS_FFMPEG_CANNOT_OPEN_S_FR, "ffmpegdrv: Impossible d'ouvrir %s"},
 /* hu */ {IDGS_FFMPEG_CANNOT_OPEN_S_HU, "ffmpegdrv: Nem sikerült megnyitni: %s"},
 /* it */ {IDGS_FFMPEG_CANNOT_OPEN_S_IT, "ffmpegdrv: Non à possibile aprire %s"},
 /* nl */ {IDGS_FFMPEG_CANNOT_OPEN_S_NL, "ffmpegdrv: Kan %s niet openen"},
 /* pl */ {IDGS_FFMPEG_CANNOT_OPEN_S_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_FFMPEG_CANNOT_OPEN_S_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_FFMPEG_CANNOT_OPEN_S_SV, "ffmpegdrv: Kan inte öppna %s"},
 
 /* c64/c64io.c */
 /* en */ {IDGS_IO_READ_COLL_AT_X_FROM,    "I/O read collision at %X from "},
@@ -621,27 +621,27 @@ translate_t string_table[] = {
 /* it */ {IDGS_IO_READ_COLL_AT_X_FROM_IT, ""},  /* fuzzy */
 /* nl */ {IDGS_IO_READ_COLL_AT_X_FROM_NL, "I/O lees botsing op %X van "},
 /* pl */ {IDGS_IO_READ_COLL_AT_X_FROM_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_IO_READ_COLL_AT_X_FROM_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_IO_READ_COLL_AT_X_FROM_SV, "I/O-läskollision vid %X från "},
 
 /* c64/c64io.c */
 /* en */ {IDGS_AND,    " and "},
 /* de */ {IDGS_AND_DE, " und "},
 /* fr */ {IDGS_AND_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_AND_HU, " és "},
-/* it */ {IDGS_AND_IT, ""},  /* fuzzy */
+/* it */ {IDGS_AND_IT, " e "},
 /* nl */ {IDGS_AND_NL, " en "},
 /* pl */ {IDGS_AND_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_AND_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_AND_SV, " och "},
 
 /* c64/c64io.c */
 /* en */ {IDGS_ALL_DEVICES_DETACHED,    ".\nAll the named devices will be detached."},
 /* de */ {IDGS_ALL_DEVICES_DETACHED_DE, ".\nAlle genannten Geräte werden entfernt."},
 /* fr */ {IDGS_ALL_DEVICES_DETACHED_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_ALL_DEVICES_DETACHED_HU, ".\nMinden megnevezett eszköz le lesz választva."},
-/* it */ {IDGS_ALL_DEVICES_DETACHED_IT, ""},  /* fuzzy */
+/* it */ {IDGS_ALL_DEVICES_DETACHED_IT, ".\nTutti i device specificati sarranno rimossi."},
 /* nl */ {IDGS_ALL_DEVICES_DETACHED_NL, ".\nAlle genoemde apparaten zullen worden ontkoppelt."},
 /* pl */ {IDGS_ALL_DEVICES_DETACHED_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_ALL_DEVICES_DETACHED_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_ALL_DEVICES_DETACHED_SV, ".\nAlla namngivna enheter kommer kopplas från."},
 
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
@@ -879,8 +879,8 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_IEE488,    "Disable the IEEE488 interface emulation"},
 /* de */ {IDCLS_DISABLE_IEE488_DE, "IEEE488 Schnittstellenemulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_IEE488_FR, "Désactiver l'interface d'émulation IEEE488"},
-/* it */ {IDCLS_DISABLE_IEE488_IT, "Disattiva l'emulazione dell'interfaccia IEEE488"},
 /* hu */ {IDCLS_DISABLE_IEE488_HU, "IEEE488 interfész emuláció tiltása"},
+/* it */ {IDCLS_DISABLE_IEE488_IT, "Disattiva l'emulazione dell'interfaccia IEEE488"},
 /* nl */ {IDCLS_DISABLE_IEE488_NL, "De IEEE488 interface emulatie afsluiten"},
 /* pl */ {IDCLS_DISABLE_IEE488_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_IEE488_SV, "Inaktivera emulering av IEEE488-gränssnitt"},
@@ -1114,7 +1114,7 @@ translate_t string_table[] = {
 /* c64/c64-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP,    "Specify name of symbolic German keymap file"},
 /* de */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP_DE, "Name von symbolischer Keymap Datei definieren"},
-/* fr */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP_FR, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP_FR, "Spécifier le nom du fichier symbolique de mappage clavier"},
 /* hu */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP_HU, "Adja meg a nevét a német billentyûzet leképzés fájlnak"},
 /* it */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP_IT, "Specifica il nome del file della mappa simbolica della tastiera tedesca"},
 /* nl */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP_NL, "Geef de naam van het symbolisch duits keymap bestand"},
@@ -1177,40 +1177,40 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_PETREU_DE, "PET RAM Speicher und Erweiterungsmodul aktivieren"},
 /* fr */ {IDCLS_ENABLE_PETREU_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_PETREU_HU, "PET RAM and Expansion Unit engedélyezése"},
-/* it */ {IDCLS_ENABLE_PETREU_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_PETREU_IT, "Attiva l'unità di espansione e della RAM del PET"},
 /* nl */ {IDCLS_ENABLE_PETREU_NL, "Aktiveer de PET RAM en uitbreidings eenheid"},
 /* pl */ {IDCLS_ENABLE_PETREU_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_PETREU_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_PETREU_SV, "Aktivera PET Ram- och -expansionsenhet"},
 
 /* pet/petreu.c */
 /* en */ {IDCLS_DISABLE_PETREU,    "Disable the PET Ram and Expansion Unit"},
 /* de */ {IDCLS_DISABLE_PETREU_DE, "PET RAM Speicher und Erweiterungsmodul dektivieren"},
 /* fr */ {IDCLS_DISABLE_PETREU_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_PETREU_HU, "PET RAM and Expansion Unit tiltása"},
-/* it */ {IDCLS_DISABLE_PETREU_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_PETREU_IT, "Disattiva l'unità di espansione e della RAM del PET"},
 /* nl */ {IDCLS_DISABLE_PETREU_NL, "De PET RAM en uitbreidings eenheid afsluiten"},
 /* pl */ {IDCLS_DISABLE_PETREU_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_PETREU_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_PETREU_SV, "Inaktivera PET Ram- och -expansionsenhet"},
 
 /* pet/petreu.c */
 /* en */ {IDCLS_SPECIFY_PETREU_NAME,    "Specify name of PET Ram and Expansion Unit image"},
 /* de */ {IDCLS_SPECIFY_PETREU_NAME_DE, "Namen für PET RAM Speicher und Erweiterungsmodul definieren"},
 /* fr */ {IDCLS_SPECIFY_PETREU_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_PETREU_NAME_HU, "Adja meg a PET RAM and Expansion Unit képmás nevét"},
-/* it */ {IDCLS_SPECIFY_PETREU_NAME_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_PETREU_NAME_IT, "Specifica il nome dell'immagine dell'unità di espansione e della RAM del PET"},
 /* nl */ {IDCLS_SPECIFY_PETREU_NAME_NL, "Geef de naam van het PET RAM en uitbreidings eenheid bestand"},
 /* pl */ {IDCLS_SPECIFY_PETREU_NAME_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_PETREU_NAME_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_PETREU_NAME_SV, "Ange namn på PET Ram- och -expansionsenhet"},
 
 /* pet/petreu.c */
 /* en */ {IDCLS_PETREU_SIZE,    "Size of the PET Ram and Expansion Unit"},
 /* de */ {IDCLS_PETREU_SIZE_DE, "Größe des PET RAM Speicher und Erweiterungsmodul"},
 /* fr */ {IDCLS_PETREU_SIZE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_PETREU_SIZE_HU, "PET RAM and Expansion Unit mérete"},
-/* it */ {IDCLS_PETREU_SIZE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_PETREU_SIZE_IT, "Dimensione dell'unità di espansione e della RAM del PET"},
 /* nl */ {IDCLS_PETREU_SIZE_NL, "Grootte van de PET RAM en uitbreidings eenheid"},
 /* pl */ {IDCLS_PETREU_SIZE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_PETREU_SIZE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_PETREU_SIZE_SV, "Storlek på PET Ram- och -expansionsenhet"},
 
 /* c64/psid.c */
 /* en */ {IDCLS_SID_PLAYER_MODE,    "SID player mode"},
@@ -1398,7 +1398,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_TFE_DE, "TFE Ethernetemulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_TFE_FR, "Activer l'unité TFE (\"The Final Ethernet\")"},
 /* hu */ {IDCLS_ENABLE_TFE_HU, "TFE (\"the final ethernet\") egység engedélyezése"},
-/* it */ {IDCLS_ENABLE_TFE_IT, "Attiva l'unità TFEÂ·(\"theÂ·finalÂ·ethernet\")"},
+/* it */ {IDCLS_ENABLE_TFE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_TFE_NL, "Aktiveer de TFE (\"The Final Ethernet\") eenheid"},
 /* pl */ {IDCLS_ENABLE_TFE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_TFE_SV, "Aktivera TFE-enhet (\"the final ethernet\")"},
@@ -1408,7 +1408,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_DISABLE_TFE_DE, "TFE Ethernetemulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_TFE_FR, "Désactiver l'unité TFE"},
 /* hu */ {IDCLS_DISABLE_TFE_HU, "TFE (\"the final ethernet\") egység tiltása"},
-/* it */ {IDCLS_DISABLE_TFE_IT, "Disattiva l'unità TFEÂ·(\"theÂ·finalÂ·ethernet\")"},
+/* it */ {IDCLS_DISABLE_TFE_IT, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_TFE_NL, "De TFE (\"The Final Ethernet\") eenheid afsluiten"},
 /* pl */ {IDCLS_DISABLE_TFE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_TFE_SV, "Inaktivera TFE-enhet (\"the final ethernet\")"},
@@ -1700,7 +1700,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_DE, "CBM-II Hardware Modell definieren (0=6x0, 1=7x0)"},
 /* fr */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_FR, "Spécifier le modèle CBM-II (0=6x0, 1=7x0)"},
 /* hu */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_HU, "Adja meg a CBM-II hardver modellt (0=6x0, 1=7x0)"},
-/* it */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_IT, "Specifica il modello hardware del CBM-II (0=6x0,Â·1=7x0)"},
+/* it */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_IT, "Specifica il modello hardware del CBM-II (0=6x0, 1=7x0)"},
 /* nl */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_NL, "Geef CBM-II hardware model (0=6x0, 1=7x0)"},
 /* pl */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_CBM2_MODEL_HARDWARE_SV, "Ange maskinvara för CBM-II-modell (0=6x0, 1=7x0)"},
@@ -2074,7 +2074,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SET_IDLE_METHOD_DE, "Laufwerks idling Methode (0: kein Traps, 1: Zyklen verwerfen, 2: trap idle)"},
 /* fr */ {IDCLS_SET_IDLE_METHOD_FR, "Spécifier la méthode d'idle (0: no traps, 1: sauter des cycles, 2: trap idle)"},
 /* hu */ {IDCLS_SET_IDLE_METHOD_HU, "Lemezegység üresjárási módja (0: folytonos emuláció, 1: ciklusok kihagyása, 2: üres DOS ciklusok kihagyása)"},
-/* it */ {IDCLS_SET_IDLE_METHOD_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_IDLE_METHOD_IT, "Imposta il metodo per rilevare l'inattività del drive (0: non rilevare, 1: salta cicli, 2: rileva inattività)"},
 /* nl */ {IDCLS_SET_IDLE_METHOD_NL, "Zet de drive idle methode (0: geen traps, 1: sla cycli over, 2: trap idle)"},
 /* pl */ {IDCLS_SET_IDLE_METHOD_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_IDLE_METHOD_SV, "Ställ in väntemetod för diskettstation (0: fånta inge, 1: hoppa cykler, 2: fånga väntan)"},
@@ -3079,10 +3079,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID)"},
 #endif
 
 #if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
@@ -3091,10 +3091,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·1:Â·ReSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID)"},
 #endif
 
 #if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
@@ -3103,10 +3103,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: Catweasel)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·2:Â·Catweasel)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: Catweasel)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: Catweasel)"},
 #endif
 
 #if !defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
@@ -3115,10 +3115,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 3: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 3: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·3:Â·HardSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 3: HardSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 3: HardSID)"},
 #endif
 
 #if !defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
@@ -3127,10 +3127,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 4: ParSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·4:Â·ParSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 4: ParSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 4: ParSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 4: ParSID)"},
 #endif
 
 #if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
@@ -3139,10 +3139,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 2: Catweasel)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·1:Â·ReSID,Â·2:Â·Catweasel)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel)"},
 #endif
 
 #if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
@@ -3151,10 +3151,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 3: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·1:Â·ReSID,Â·3:Â·HardSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 3: HardSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 3: HardSID)"},
 #endif
 
 #if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
@@ -3163,10 +3163,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 4: ParSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 3: HardSID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·1:Â·ReSID,Â·4:Â·ParSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 4: ParSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 4: ParSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 4: ParSID)"},
 #endif
 
 #if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
@@ -3175,10 +3175,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: Catweasel, 3: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·2:Â·Catweasel,Â·3:Â·HardSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: Catweasel, 3: HardSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID)"},
 #endif
 
 #if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
@@ -3187,10 +3187,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel, 4: ParSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·2:Â·Catweasel,Â·4:Â·ParSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: Catweasel, 4: ParSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 4: ParSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: Catweasel, 4: ParSID)"},
 #endif
 
 #if !defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
@@ -3199,10 +3199,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 3: HardSID, 4: ParSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 3: HardSID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·3:Â·HardSID,Â·4:Â·ParSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 3: HardSID, 4: ParSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID, 4: ParSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 3: HardSID, 4: ParSID)"},
 #endif
 
 #if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
@@ -3211,10 +3211,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·1:Â·ReSID,Â·2:Â·Catweasel,Â·3:Â·HardSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"},
 #endif
 
 #if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
@@ -3223,10 +3223,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·1:Â·ReSID,Â·2:Â·Catweasel,Â·4:Â·ParSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"},
 #endif
 
 #if defined(HAVE_RESID) && !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
@@ -3235,10 +3235,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 3: HardSID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·1:Â·ReSID,Â·3:Â·HardSID,Â·4:Â·ParSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"},
 #endif
 
 #if !defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
@@ -3247,10 +3247,10 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·2:Â·Catweasel,Â·3:Â·HardSID,Â·4:Â·ParSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
 #endif
 
 #if defined(HAVE_RESID) && defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
@@ -3259,10 +3259,106 @@ translate_t string_table[] = {
 /* de */ {IDCLS_SPECIFY_SID_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
 /* fr */ {IDCLS_SPECIFY_SID_ENGINE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
-/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0:Â·FastSID,Â·1:Â·ReSID,Â·2:Â·Catweasel,Â·3:Â·HardSID,Â·4:Â·ParSID)"},
+/* it */ {IDCLS_SPECIFY_SID_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
 /* nl */ {IDCLS_SPECIFY_SID_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
 /* pl */ {IDCLS_SPECIFY_SID_ENGINE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_ENGINE_SV, "Ange SID-motor (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: ParSID)"},
+#endif
+
+#if !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    "Specify SID engine (0: FastSID)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID)"},
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, "Ange SID-motor (0: FastSID)"},
+#endif
+
+#if defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    "Specify SID engine (0: FastSID, 1: Catweasel)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: Catweasel)"},
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: Catweasel)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: Catweasel)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: Catweasel)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    "Specify SID engine (0: FastSID, 2: HardSID)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: HardSID)"},
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: HardSID)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if !defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    "Specify SID engine (0: FastSID, 3: ParSID)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 3: ParSID)"},
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 3: ParSID)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 3: ParSID)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: ParSID)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && !defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    "Specify SID engine (0: FastSID, 1: Catweasel, 2: HardSID)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: Catweasel, 2: HardSID)"},
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: Catweasel, 2: HardSID)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: Catweasel, 2: HardSID)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: Catweasel, 2: HardSID)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if defined(HAVE_CATWEASELMKIII) && !defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    "Specify SID engine (0: FastSID, 1: Catweasel, 3: ParSID)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: Catweasel, 3: ParSID)"},
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: Catweasel, 3: ParSID)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: Catweasel, 3: ParSID)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: Catweasel, 3: ParSID)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if !defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    "Specify SID engine (0: FastSID, 2: HardSID, 3: ParSID)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 2: HardSID, 3: ParSID)"},
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 2: HardSID, 3: ParSID)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 2: HardSID, 3: ParSID)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: HardSID, 3: ParSID)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
+#endif
+
+#if defined(HAVE_CATWEASELMKIII) && defined(HAVE_HARDSID) && defined(HAVE_PARSID)
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SIDCART_ENGINE,    "Specify SID engine (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
+/* de */ {IDCLS_SPECIFY_SIDCART_ENGINE_DE, "SID Engine wählen (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
+/* fr */ {IDCLS_SPECIFY_SIDCART_ENGINE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SIDCART_ENGINE_HU, "Adja meg a SID motort (0: Gyors SID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
+/* it */ {IDCLS_SPECIFY_SIDCART_ENGINE_IT, "Specifica il motore SID (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
+/* nl */ {IDCLS_SPECIFY_SIDCART_ENGINE_NL, "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"},
+/* pl */ {IDCLS_SPECIFY_SIDCART_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SIDCART_ENGINE_SV, ""},  /* fuzzy */
 #endif
 
 /* sid/sid-cmdline-options.c */
@@ -3274,6 +3370,16 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ENABLE_SECOND_SID_NL, "Aktiveer stereo SID"},
 /* pl */ {IDCLS_ENABLE_SECOND_SID_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_SECOND_SID_SV, "Aktivera andra SID"},
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_SIDCART,    "Enable SID Cartridge"},
+/* de */ {IDCLS_ENABLE_SIDCART_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SIDCART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_SIDCART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SIDCART_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SIDCART_NL, "Aktiveer SID Cartridge"},
+/* pl */ {IDCLS_ENABLE_SIDCART_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SIDCART_SV, ""},  /* fuzzy */
 
 /* sid/sid-cmdline-options.c, c64/plus60k, c64/c64_256k.c */
 /* en */ {IDCLS_P_BASE_ADDRESS,    "<base address>"},
@@ -4440,7 +4546,7 @@ translate_t string_table[] = {
 /* de */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_DE, "Suchpfad für Systemdateien definieren"},
 /* fr */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_FR, "Définir le chemin de recherche pour trouver les fichiers systèmes"},
 /* hu */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_HU, "Keresési útvonal megadása a rendszerfájlok megtalálására"},
-/* it */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_IT, "Definisci il path di ricerca per cercare i file di sistema"},
 /* nl */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_NL, "Geef het zoek pad waar de systeem bestanden te vinden zijn"},
 /* pl */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DEFINE_SYSTEM_FILES_PATH_SV, "Ange sökväg för att hitta systemfiler"},
@@ -4593,7 +4699,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_PLUS60K_BASE_IT, "Indirizzo base dell'espansione PLUS60K"},
 /* nl */ {IDCLS_PLUS60K_BASE_NL, "Basis adres van de PLUS60K geheugen uitbreiding"},
 /* pl */ {IDCLS_PLUS60K_BASE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_PLUS60K_BASE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_PLUS60K_BASE_SV, "Basadress för PLUS60K-expansion"},
 
 /* c64/c64_256k.c */
 /* en */ {IDCLS_ENABLE_C64_256K_EXPANSION,    "Enable the 256K RAM expansion"},
@@ -4633,7 +4739,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_C64_256K_BASE_IT, "Indirizzo base dell'espansione 256K"},
 /* nl */ {IDCLS_C64_256K_BASE_NL, "Basis adres van de 256K geheugen uitbreiding"},
 /* pl */ {IDCLS_C64_256K_BASE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_C64_256K_BASE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_C64_256K_BASE_SV, "Basadress för 256K-expansionen"},
 
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_STB_CART,    "Attach raw Structured Basic cartridge image"},
@@ -4650,40 +4756,40 @@ translate_t string_table[] = {
 /* de */ {IDCLS_ENABLE_CS256K_EXPANSION_DE, "CSORY 256K RAM Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_CS256K_EXPANSION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_CS256K_EXPANSION_HU, "CSORY 256K RAM kiterjesztés engedélyezése"},
-/* it */ {IDCLS_ENABLE_CS256K_EXPANSION_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_CS256K_EXPANSION_IT, "Attiva l'espansione RAM CSORY 256K"},
 /* nl */ {IDCLS_ENABLE_CS256K_EXPANSION_NL, "Aktiveer de CSORY 256K geheugen uitbreiding"},
 /* pl */ {IDCLS_ENABLE_CS256K_EXPANSION_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_CS256K_EXPANSION_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_CS256K_EXPANSION_SV, "Aktivera CSORY 256K RAM-expansion"},
 
 /* plus4/plus4memhannes256k.c */
 /* en */ {IDCLS_ENABLE_H256K_EXPANSION,    "Enable the HANNES 256K RAM expansion"},
 /* de */ {IDCLS_ENABLE_H256K_EXPANSION_DE, "HANNES 256K RAM Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_H256K_EXPANSION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_H256K_EXPANSION_HU, "HANNES 256K RAM kiterjesztés engedélyezése"},
-/* it */ {IDCLS_ENABLE_H256K_EXPANSION_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_H256K_EXPANSION_IT, "Attiva l'espansione RAM HANNES 256K"},
 /* nl */ {IDCLS_ENABLE_H256K_EXPANSION_NL, "Aktiveer de HANNES 256K geheugen uitbreiding"},
 /* pl */ {IDCLS_ENABLE_H256K_EXPANSION_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_H256K_EXPANSION_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_H256K_EXPANSION_SV, "Aktivera HANNES 256K RAM-expansion"},
 
 /* plus4/plus4memhannes256k.c */
 /* en */ {IDCLS_ENABLE_H1024K_EXPANSION,    "Enable the HANNES 1024K RAM expansion"},
 /* de */ {IDCLS_ENABLE_H1024K_EXPANSION_DE, "HANNES 1024K RAM Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_H1024K_EXPANSION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_H1024K_EXPANSION_HU, "HANNES 1024K RAM kiterjesztés engedélyezése"},
-/* it */ {IDCLS_ENABLE_H1024K_EXPANSION_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_H1024K_EXPANSION_IT, "Attiva l'espansione RAM HANNES 1024K"},
 /* nl */ {IDCLS_ENABLE_H1024K_EXPANSION_NL, "Aktiveer de HANNES 1024K geheugen uitbreiding"},
 /* pl */ {IDCLS_ENABLE_H1024K_EXPANSION_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_H1024K_EXPANSION_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_H1024K_EXPANSION_SV, "Aktivera HANNES 1024K RAM-expansion"},
 
 /* plus4/plus4memhannes256k.c */
 /* en */ {IDCLS_ENABLE_H4096K_EXPANSION,    "Enable the HANNES 4096K RAM expansion"},
 /* de */ {IDCLS_ENABLE_H4096K_EXPANSION_DE, "HANNES 4096K RAM Erweiterung aktivieren"},
 /* fr */ {IDCLS_ENABLE_H4096K_EXPANSION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_H4096K_EXPANSION_HU, "HANNES 4096K RAM kiterjesztés engedélyezése"},
-/* it */ {IDCLS_ENABLE_H4096K_EXPANSION_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_H4096K_EXPANSION_IT, "Attiva l'espansione RAM HANNES 4096K"},
 /* nl */ {IDCLS_ENABLE_H4096K_EXPANSION_NL, "Aktiveer de HANNES 4096K geheugen uitbreiding"},
 /* pl */ {IDCLS_ENABLE_H4096K_EXPANSION_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_H4096K_EXPANSION_SV, ""}   /* fuzzy */
+/* sv */ {IDCLS_ENABLE_H4096K_EXPANSION_SV, "Aktivera HANNES 4096K RAM-expansion"}
 
 };
 

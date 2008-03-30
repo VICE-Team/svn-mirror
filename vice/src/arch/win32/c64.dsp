@@ -190,6 +190,10 @@ SOURCE=..\..\c64\c64rsuser.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c64\c64sound.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c64\c64tpi.c
 # End Source File
 # Begin Source File

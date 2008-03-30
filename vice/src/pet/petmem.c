@@ -46,7 +46,8 @@
 #include "petvia.h"
 #include "ram.h"
 #include "resources.h"
-#include "sidcart.h"
+#include "sid.h"
+#include "sid-resources.h"
 #include "types.h"
 #include "vsync.h"
 
@@ -192,10 +193,10 @@ static BYTE REGPARM1 read_unused(WORD addr)
       return read_petreu2_reg(addr);
 
     if (sidcart_enabled && sidcart_address==1 && addr>=0xe900 && addr<=0xe91f)
-      return sidcart_read(addr);
+      return sid_read(addr);
 
     if (sidcart_enabled && sidcart_address==0 && addr>=0x8f00 && addr<=0x8f1f)
-      return sidcart_read(addr);
+      return sid_read(addr);
 
     return (addr >> 8) & 0xff;
 }
@@ -420,10 +421,10 @@ static void REGPARM2 store_dummy(WORD addr, BYTE value)
       store_petreu2_reg(addr,value);
 
     if (sidcart_enabled && sidcart_address==1 && addr>=0xe900 && addr<0xe91f)
-      sidcart_store(addr,value);
+      sid_store(addr,value);
 
     if (sidcart_enabled && sidcart_address==0 && addr>=0x8f00 && addr<0x8f1f)
-      sidcart_store(addr,value);
+      sid_store(addr,value);
 
     return;
 }

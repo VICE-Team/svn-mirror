@@ -64,14 +64,14 @@ typedef             double f64;
 #define DOWAIT   (1)
 
 /* sample functions */
-s32 ahi_open(s32 frequency, u32 mode, s32 fragsize, s32 frags, void (*callback)(s64 time));
-s32 ahi_samples_to_bytes(s32 samples);
-s32 ahi_bytes_to_samples(s32 bytes);
-void ahi_play_samples(void *data, s32 samples, s64 time, s32 wait);
-s32 ahi_samples_buffered(void);
-s32 ahi_samples_free(void);
-void ahi_pause(void);
-void ahi_close(void);
+extern s32 ahi_open(s32 frequency, u32 mode, s32 fragsize, s32 frags, void (*callback)(s64 time));
+extern s32 ahi_samples_to_bytes(s32 samples);
+extern s32 ahi_bytes_to_samples(s32 bytes);
+extern void ahi_play_samples(void *data, s32 samples, s64 time, s32 wait);
+extern s32 ahi_samples_buffered(void);
+extern s32 ahi_samples_free(void);
+extern void ahi_pause(void);
+extern void ahi_close(void);
 
 /* byte functions */
 #define ahi_play_bytes(data, bytes, time, wait) ahi_play_samples(data, ahi_bytes_to_samples(bytes), time, wait)

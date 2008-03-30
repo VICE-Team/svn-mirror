@@ -37,6 +37,7 @@
 
 #include "mui/uidrivec64vic20.h"
 #include "mui/uirs232user.h"
+#include "mui/uisidcart.h"
 #include "mui/uivic20mem.h"
 
 static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
@@ -119,6 +120,9 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
         break;
       case IDM_RS232USER_SETTINGS:
         ui_rs232user_settings_dialog();
+        break;
+      case IDM_SIDCART_SETTINGS:
+        ui_sidcart_settings_dialog("$9800", "$9C00", "VIC20");
         break;
       case IDM_KEYBOARD_SETTINGS:
 //        uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

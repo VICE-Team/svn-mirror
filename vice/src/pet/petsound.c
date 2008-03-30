@@ -33,13 +33,16 @@
 
 #include "lib.h"
 #include "petsound.h"
-#include "sidcart.h"
+#include "sid.h"
+#include "sid-resources.h"
 #include "sound.h"
 #include "types.h"
 
-char *native_primary_sid_address="$8F00";
-char *native_secondary_sid_address="$E900";
-char *native_sid_clock="PET";
+/* dummy function for now */
+int machine_sid2_check_range(unsigned int sid2_adr)
+{
+    return 0;
+}
 
 struct pet_sound_s
 {
@@ -83,7 +86,7 @@ static WORD pet_makesample(double s, double e, BYTE sample)
     return ((WORD)(v * 4095.0 / (e - s)));
 }
 
-int native_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+static int pet_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
                                     int interleave, int *delta_t)
 {
     int i;
@@ -99,28 +102,6 @@ int native_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
             snd.b -= 8.0;
     }
     return 0;
-}
-
-int native_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
-{
-    WORD i;
-
-    snd.speed = speed;
-    snd.cycles_per_sec = cycles_per_sec;
-    if (!snd.t)
-        snd.t = 32;
-    snd.b = 0.0;
-    snd.bs = (double)snd.cycles_per_sec / (snd.t * snd.speed);
-
-    snddata[0] = 0;
-    snddata[1] = 0;
-    snddata[2] = 4;
-    snddata[3] = 0;
-
-    for (i = 0; i < 4; i++)
-        native_sound_machine_store(psid, i, snddata[i]);
-
-    return 1;
 }
 
 void petsound_store_onoff(int value)
@@ -143,7 +124,7 @@ void petsound_store_sample(BYTE sample)
     sound_store(0x21, snddata[1], 0);
 }
 
-void native_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+static void pet_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 {
     switch (addr) {
       case 0:
@@ -166,14 +147,121 @@ void native_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
     }
 }
 
+static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+{
+    WORD i;
+
+    snd.speed = speed;
+    snd.cycles_per_sec = cycles_per_sec;
+    if (!snd.t)
+        snd.t = 32;
+    snd.b = 0.0;
+    snd.bs = (double)snd.cycles_per_sec / (snd.t * snd.speed);
+
+    snddata[0] = 0;
+    snddata[1] = 0;
+    snddata[2] = 4;
+    snddata[3] = 0;
+
+    for (i = 0; i < 4; i++)
+        pet_sound_machine_store(psid, i, snddata[i]);
+
+    return 1;
+}
+
 void petsound_reset(void)
 {
     sound_reset();
     petsound_store_onoff(0);
 }
 
-BYTE native_sound_machine_read(sound_t *psid, WORD addr)
+static BYTE pet_sound_machine_read(sound_t *psid, WORD addr)
 {
   return 0;
 }
 
+sound_t *sound_machine_open(int chipno)
+{
+    return sid_sound_machine_open(chipno);
+}
+
+int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+{
+    pet_sound_machine_init(psid, speed, cycles_per_sec);
+
+    if (!sidcart_clock)
+    {
+        return sid_sound_machine_init(psid, (int)(speed*1.015), cycles_per_sec);
+    }
+    else
+    {
+        return sid_sound_machine_init(psid, speed, cycles_per_sec);
+    }
+}
+
+void sound_machine_close(sound_t *psid)
+{
+    sid_sound_machine_close(psid);
+}
+
+/* for read/store 0x00 <= addr <= 0x1f is the sid
+ *                0x20 <= addr <= 0x3f is the pet sound
+ *
+ * future sound devices will be able to use 0x40 and up
+ */
+
+BYTE sound_machine_read(sound_t *psid, WORD addr)
+{
+    if (addr>=0x20 && addr<=0x3f)
+        return pet_sound_machine_read(psid, (WORD)(addr-0x20));
+    else
+        return sid_sound_machine_read(psid, addr);
+}
+
+void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
+{
+    if (addr>=0x20 && addr<=0x3f)
+        pet_sound_machine_store(psid, (WORD)(addr-0x20), byte);
+    else
+        sid_sound_machine_store(psid, addr, byte);
+}
+
+void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
+{
+    sid_sound_machine_reset(psid, cpu_clk);
+}
+
+int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+                                    int interleave, int *delta_t)
+{
+    int temp;
+
+    temp=sid_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    pet_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    return temp;
+}
+
+void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
+{
+    sid_sound_machine_prevent_clk_overflow(psid, sub);
+}
+
+char *sound_machine_dump_state(sound_t *psid)
+{
+    return sid_sound_machine_dump_state(psid);
+}
+
+int sound_machine_cycle_based(void)
+{
+    return 0;
+}
+
+int sound_machine_channels(void)
+{
+    return sid_sound_machine_channels();
+}
+
+void sound_machine_enable(int enable)
+{
+    sid_sound_machine_enable(enable);
+}

@@ -27,7 +27,7 @@
 #ifndef _UISOUND_H
 #define _UISOUND_H
 
-void ui_sound_settings_dialog(void);
+extern void ui_sound_settings_dialog(void);
 
 #endif
 

@@ -27,11 +27,11 @@
 #ifndef _JOYAI_H
 #define _JOYAI_H
 
-int joyai_init_resources(void);
-int joyai_open(void);
-int joyai_config(int joy); // 1 or 2
-int joyai_update(int joy, int dst); // 1 or 2
-int joyai_key(int joy, int dst, unsigned long kcode, int pressed); // 1 or 2
-void joyai_close(void);
+extern int joyai_init_resources(void);
+extern int joyai_open(void);
+extern int joyai_config(int joy); // 1 or 2
+extern int joyai_update(int joy, int dst); // 1 or 2
+extern int joyai_key(int joy, int dst, unsigned long kcode, int pressed); // 1 or 2
+extern void joyai_close(void);
 
 #endif

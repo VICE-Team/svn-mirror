@@ -27,6 +27,6 @@
 #ifndef _UIREU_H
 #define _UIREU_H
 
-void ui_reu_settings_dialog(void);
+extern void ui_reu_settings_dialog(video_canvas_t *canvas);
 
 #endif

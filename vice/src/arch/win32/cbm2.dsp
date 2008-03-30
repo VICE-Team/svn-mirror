@@ -146,6 +146,10 @@ SOURCE=..\..\cbm2\cbm2romset.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\cbm2\cbm2sound.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\cbm2\cbm2tpi1.c
 # End Source File
 # Begin Source File

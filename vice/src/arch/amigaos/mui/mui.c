@@ -24,7 +24,14 @@
  *
  */
 
+#include "vice.h"
+
+#ifdef AMIGA_OS4
+#define ASL_PRE_V38_NAMES
+#endif
+
 #include "mui.h"
+#include "private.h"
 #include "intl.h"
 #include "translate.h"
 
@@ -125,7 +132,21 @@ static void text_get_from_ui(ui_to_from_t *data)
   resources_set_value(data->resource, (resource_value_t *)str);
 }
 
-/* static */ void ui_get_from(ui_to_from_t *data)
+static void filename_get_to_ui(ui_to_from_t *data)
+{
+  char *str;
+  resources_get_value(data->resource, (void *)&str);
+  set(data->object, MUIA_String_Contents, str);
+}
+
+static void filename_get_from_ui(ui_to_from_t *data)
+{
+  char *str;
+  get(data->object, MUIA_String_Contents, (APTR)&str);
+  resources_set_value(data->resource, (resource_value_t *)str);
+}
+
+void ui_get_from(ui_to_from_t *data)
 {
   if (data == NULL) {
     return;
@@ -153,6 +174,10 @@ static void text_get_from_ui(ui_to_from_t *data)
           text_get_from_ui(data);
           break;
 
+        case MUI_TYPE_FILENAME:
+          filename_get_from_ui(data);
+          break;
+
         default:
           break;
       }
@@ -161,7 +186,7 @@ static void text_get_from_ui(ui_to_from_t *data)
   }
 }
 
-/* static */ void ui_get_to(ui_to_from_t *data)
+void ui_get_to(ui_to_from_t *data)
 {
   if (data == NULL) {
     return;
@@ -187,6 +212,10 @@ static void text_get_from_ui(ui_to_from_t *data)
 
         case MUI_TYPE_TEXT:
           text_get_to_ui(data);
+          break;
+
+        case MUI_TYPE_FILENAME:
+          filename_get_to_ui(data);
           break;
 
         default:
@@ -453,4 +482,36 @@ void mui_exit(void)
     MUI_DisposeObject(app);
   }
   EXIT
-}  
+}
+
+char fname[1024]="";
+
+char *BrowseFile(char *select_text, char *pattern, video_canvas_t *canvas)
+{
+  struct FileRequester *request;
+
+  request = (struct FileRequester *)AllocAslRequestTags(ASL_FileRequest,
+  ASL_Hail, select_text, (struct TagItem *)TAG_DONE);
+
+  if (AslRequestTags(request, ASLFR_Window, canvas->os->window,
+                              ASLFR_InitialDrawer, "PROGDIR:",
+                              ASLFR_InitialPattern, pattern,
+                              ASLFR_PositiveText, select_text,
+                              (struct TagItem *)TAG_DONE))
+  {
+    strcat(fname,request->rf_Dir);
+    if (fname[strlen(fname)-1]!=(UBYTE)58)
+      strcat(fname, "/");
+    strcat(fname, request->rf_File);
+    if (fname[strlen(fname)-1]!=(UBYTE)58 && fname[strlen(fname)-1]!='/')
+    {
+      if (request)
+        FreeAslRequest(request);
+      return fname;
+    }
+  }
+  if (request)
+    FreeAslRequest(request);
+
+  return NULL;
+}

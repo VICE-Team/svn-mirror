@@ -27,6 +27,6 @@
 #ifndef _UIGEORAM_H
 #define _UIGEORAM_H
 
-void ui_georam_settings_dialog(void);
+extern void ui_georam_settings_dialog(video_canvas_t *canvas);
 
 #endif

@@ -28,7 +28,6 @@ SUBDIRS = \
 	printerdrv \
 	rs232drv \
 	sid \
-	sidcart \
 	monitor \
 	core \
 	c64 \
@@ -60,7 +59,6 @@ DIST_SUBDIRS = \
 	printerdrv \
 	rs232drv \
 	sid \
-	sidcart \
 	monitor \
 	core \
 	c64 \
@@ -304,7 +302,6 @@ rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
-sidcart_lib = $(top_builddir)/src/sidcart/libsidcart.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
 tape_lib = $(top_builddir)/src/tape/libtape.a
 vdc_lib = $(top_builddir)/src/vdc/libvdc.a
@@ -467,7 +464,7 @@ xvic_libs =  \
 	$(vdrive_lib) \
 	$(driver_libs) \
 	$(raster_lib) \
-	$(sidcart_lib) \
+	$(sid_lib) \
 	$(video_lib) \
 	$(common_libs)
 
@@ -496,7 +493,7 @@ xvic-all: \
 	libdiskimage \
 	libiecbus \
 	libserial \
-	libsidcart \
+	libsid \
 	libfsdevice \
 	libtape \
 	libimagecontents \
@@ -517,7 +514,7 @@ xpet_libs =  \
 	$(crtc_lib) \
 	$(raster_lib) \
 	$(video_lib) \
-        $(sidcart_lib) \
+	$(sid_lib) \
 	$(common_libs)
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
@@ -540,7 +537,7 @@ xpet-all: \
 	librs232drv \
 	libpet \
 	libvideo \
-	libsidcart \
+	libsid \
 	libarch \
 	libmonitor \
 	libdiskimage \
@@ -564,7 +561,7 @@ xplus4_libs =  \
 	$(iecbus_lib) \
 	$(vdrive_lib) \
 	$(driver_libs) \
-        $(sidcart_lib) \
+	$(sid_lib) \
 	$(raster_lib) \
 	$(video_lib) \
 	$(common_libs)
@@ -589,7 +586,7 @@ xplus4-all: \
 	librs232drv \
 	libplus4 \
 	libvideo \
-	libsidcart \
+	libsid \
 	libarch \
 	libmonitor \
 	libdiskimage \
@@ -785,8 +782,6 @@ libserial:
 	(cd serial && $(MAKE))
 libsid:
 	(cd sid && $(MAKE))
-libsidcart:
-	(cd sidcart && $(MAKE))
 libsounddrv:
 	(cd sounddrv && $(MAKE))
 libtape:

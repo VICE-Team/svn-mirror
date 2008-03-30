@@ -27,6 +27,6 @@
 #ifndef _UICBM2SETTINGS_H
 #define _UICBM2SETTINGS_H
 
-void ui_cbm2_settings_dialog(void);
+extern void ui_cbm2_settings_dialog(void);
 
 #endif

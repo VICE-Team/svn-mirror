@@ -1477,6 +1477,24 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_PLUS60K_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_PLUS60K_SETTINGS_SV, "PLUS60K-inställningar..."},
 
+/* en */ {IDS_PLUS256K_FILENAME,    "PLUS256K file"},
+/* de */ {IDS_PLUS256K_FILENAME_DE, "PLUS256K Datei"},
+/* fr */ {IDS_PLUS256K_FILENAME_FR, "Fichier PLUS256K"},
+/* hu */ {IDS_PLUS256K_FILENAME_HU, "PLUS256K fájl"},
+/* it */ {IDS_PLUS256K_FILENAME_IT, "File del PLUS256K"},
+/* nl */ {IDS_PLUS256K_FILENAME_NL, "PLUS256K bestand"},
+/* pl */ {IDS_PLUS256K_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PLUS256K_FILENAME_SV, "PLUS256K-fil"},
+
+/* en */ {IDS_PLUS256K_FILENAME_SELECT,    "Select file for PLUS256K"},
+/* de */ {IDS_PLUS256K_FILENAME_SELECT_DE, "Datei für PLUS256K selektieren"},
+/* fr */ {IDS_PLUS256K_FILENAME_SELECT_FR, "Sélectionner fichier pour PLUS256K"},
+/* hu */ {IDS_PLUS256K_FILENAME_SELECT_HU, "Válasszon fájlt a PLUS256K-hoz"},
+/* it */ {IDS_PLUS256K_FILENAME_SELECT_IT, "Seleziona il file per il PLUS256K"},
+/* nl */ {IDS_PLUS256K_FILENAME_SELECT_NL, "Selecteer bestand voor PLUS256K"},
+/* pl */ {IDS_PLUS256K_FILENAME_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PLUS256K_FILENAME_SELECT_SV, "Välj fil för PLUS256K"},
+
 /* en */ {IDMS_PLUS256K_SETTINGS,    "PLUS256K settings..."},
 /* de */ {IDMS_PLUS256K_SETTINGS_DE, "PLUS256K Einstellungen..."},
 /* fr */ {IDMS_PLUS256K_SETTINGS_FR, "Paramètres PLUS256K..."},
@@ -1504,6 +1522,15 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDMS_IDE64_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_IDE64_SETTINGS_SV, "IDE64-inställningar..."},
 
+/* en */ {IDMS_MMC64_SETTINGS,    "MMC64 settings..."},
+/* de */ {IDMS_MMC64_SETTINGS_DE, "MMC64 Einstellungen..."},
+/* fr */ {IDMS_MMC64_SETTINGS_FR, "Paramètres MMC64..."},
+/* hu */ {IDMS_MMC64_SETTINGS_HU, "MMC64 beállításai..."},
+/* it */ {IDMS_MMC64_SETTINGS_IT, "Impostazioni MMC64..."},
+/* nl */ {IDMS_MMC64_SETTINGS_NL, "MMC64 instellingen..."},
+/* pl */ {IDMS_MMC64_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_MMC64_SETTINGS_SV, "MMC64-inställningar..."},
+
 /* en */ {IDMS_ETHERNET_SETTINGS,    "Ethernet settings..."},
 /* de */ {IDMS_ETHERNET_SETTINGS_DE, "Ethernet Einstellungen..."},
 /* fr */ {IDMS_ETHERNET_SETTINGS_FR, "Émulation Ethernet..."},
@@ -1527,9 +1554,18 @@ intl_translate_t intl_string_table[] = {
 /* fr */ {IDMS_PETREU_SETTINGS_FR, "Paramètres PET REU..."},
 /* hu */ {IDMS_PETREU_SETTINGS_HU, "PET REU beállításai..."},
 /* it */ {IDMS_PETREU_SETTINGS_IT, "Impostazioni PET REU..."},
-/* nl */ {IDMS_PETREU_SETTINGS_NL, "PET REU instellingen"},
+/* nl */ {IDMS_PETREU_SETTINGS_NL, "PET REU instellingen..."},
 /* pl */ {IDMS_PETREU_SETTINGS_PL, ""},  /* fuzzy */
 /* sv */ {IDMS_PETREU_SETTINGS_SV, "PET REU-inställningar..."},
+
+/* en */ {IDMS_SIDCART_SETTINGS,    "SID cart settings..."},
+/* de */ {IDMS_SIDCART_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDMS_SIDCART_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDMS_SIDCART_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDMS_SIDCART_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDMS_SIDCART_SETTINGS_NL, "SID cart instellingen..."},
+/* pl */ {IDMS_SIDCART_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDMS_SIDCART_SETTINGS_SV, ""},  /* fuzzy */
 
 /* en */ {IDMS_RS232_USERPORT_SETTINGS,    "RS232 userport settings..."},
 /* de */ {IDMS_RS232_USERPORT_SETTINGS_DE, "RS232 Userport Einstellungen..."},
@@ -1961,7 +1997,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ {IDMES_ERROR_CONNECTING_CLIENT_FR, ""},  /* fuzzy */
 /* hu */ {IDMES_ERROR_CONNECTING_CLIENT_HU, "Hiba történt a kapcsolódáskor."},
 /* it */ {IDMES_ERROR_CONNECTING_CLIENT_IT, "Errore durante la connessione al client."},
-/* nl */ {IDMES_ERROR_CONNECTING_CLIENT_NL, ""},  /* fuzzy */
+/* nl */ {IDMES_ERROR_CONNECTING_CLIENT_NL, "Een fout is opgetreden bij het verbinden."},
 /* pl */ {IDMES_ERROR_CONNECTING_CLIENT_PL, ""},  /* fuzzy */
 /* sv */ {IDMES_ERROR_CONNECTING_CLIENT_SV, "Ett fel inträffade vid försök att kontakta klienten"},
 
@@ -2020,6 +2056,105 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_SAVE_NL, "Opslaan"},
 /* pl */ {IDS_SAVE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_SAVE_SV, "Spara"},
+
+/* en */ {IDS_BROWSE,    "Browse"},
+/* de */ {IDS_BROWSE_DE, "Stöbern"},
+/* fr */ {IDS_BROWSE_FR, "Parcourir"},
+/* hu */ {IDS_BROWSE_HU, "Tallóz"},
+/* it */ {IDS_BROWSE_IT, "Sfoglia"},
+/* nl */ {IDS_BROWSE_NL, "Bladeren"},
+/* pl */ {IDS_BROWSE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_BROWSE_SV, "Bläddra"},
+
+/* en */ {IDS_CURRENT_MODE,    "Current mode"},
+/* de */ {IDS_CURRENT_MODE_DE, "Aktueller Modus"},
+/* fr */ {IDS_CURRENT_MODE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_CURRENT_MODE_HU, "Jelenlegi mód"},
+/* it */ {IDS_CURRENT_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_CURRENT_MODE_NL, "Huidige modus"},
+/* pl */ {IDS_CURRENT_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_CURRENT_MODE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_TCP_PORT,    "TCP-Port"},
+/* de */ {IDS_TCP_PORT_DE, "TCP-Port"},
+/* fr */ {IDS_TCP_PORT_FR, ""},  /* fuzzy */
+/* hu */ {IDS_TCP_PORT_HU, "TCP-Port"},
+/* it */ {IDS_TCP_PORT_IT, "Porta TCP"},
+/* nl */ {IDS_TCP_PORT_NL, "TCP-Poort"},
+/* pl */ {IDS_TCP_PORT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_TCP_PORT_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_START_SERVER,    "Start Server"},
+/* de */ {IDS_START_SERVER_DE, "Server starten"},
+/* fr */ {IDS_START_SERVER_FR, ""},  /* fuzzy */
+/* hu */ {IDS_START_SERVER_HU, "Kiszolgáló elindítása"},
+/* it */ {IDS_START_SERVER_IT, "Avvia server"},
+/* nl */ {IDS_START_SERVER_NL, "Start server"},
+/* pl */ {IDS_START_SERVER_PL, ""},  /* fuzzy */
+/* sv */ {IDS_START_SERVER_SV, "Starta server"},
+
+/* en */ {IDS_CONNECT_TO,    "Connect to"},
+/* de */ {IDS_CONNECT_TO_DE, "Verbinden mit"},
+/* fr */ {IDS_CONNECT_TO_FR, ""},  /* fuzzy */
+/* hu */ {IDS_CONNECT_TO_HU, "Kapcsolódás ehhez:"},
+/* it */ {IDS_CONNECT_TO_IT, "Connetti a"},
+/* nl */ {IDS_CONNECT_TO_NL, "Maak verbinding naar"},
+/* pl */ {IDS_CONNECT_TO_PL, ""},  /* fuzzy */
+/* sv */ {IDS_CONNECT_TO_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_DISCONNECT,    "Disconnect"},
+/* de */ {IDS_DISCONNECT_DE, "Verbindung Trennen"},
+/* fr */ {IDS_DISCONNECT_FR, ""},  /* fuzzy */
+/* hu */ {IDS_DISCONNECT_HU, "Szétkapcsolódás"},
+/* it */ {IDS_DISCONNECT_IT, "Disconnetti"},
+/* nl */ {IDS_DISCONNECT_NL, "Verbreek verbinding"},
+/* pl */ {IDS_DISCONNECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_DISCONNECT_SV, "Koppla från"},
+
+/* en */ {IDS_IDLE,    "Idle"},
+/* de */ {IDS_IDLE_DE, "Idle"},
+/* fr */ {IDS_IDLE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_IDLE_HU, "Tétlen"},
+/* it */ {IDS_IDLE_IT, "Inattivo"},
+/* nl */ {IDS_IDLE_NL, "Idle"},
+/* pl */ {IDS_IDLE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_IDLE_SV, "Väntar"},
+
+/* en */ {IDS_SERVER_LISTENING,    "Server listening"},
+/* de */ {IDS_SERVER_LISTENING_DE, "Server wartet auf Verbindung"},
+/* fr */ {IDS_SERVER_LISTENING_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SERVER_LISTENING_HU, "Várakozás kliensre"},
+/* it */ {IDS_SERVER_LISTENING_IT, "Server in ascolto"},
+/* nl */ {IDS_SERVER_LISTENING_NL, "Server wacht op verbinding"},
+/* pl */ {IDS_SERVER_LISTENING_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SERVER_LISTENING_SV, "Servern lyssnar"},
+
+/* en */ {IDS_CONNECTED_SERVER,    "Connected server"},
+/* de */ {IDS_CONNECTED_SERVER_DE, "Verbunden, Server"},
+/* fr */ {IDS_CONNECTED_SERVER_FR, ""},  /* fuzzy */
+/* hu */ {IDS_CONNECTED_SERVER_HU, "Kiszolgáló a kapcsolatban"},
+/* it */ {IDS_CONNECTED_SERVER_IT, "Server connesso"},
+/* nl */ {IDS_CONNECTED_SERVER_NL, "Verbonden Server"},
+/* pl */ {IDS_CONNECTED_SERVER_PL, ""},  /* fuzzy */
+/* sv */ {IDS_CONNECTED_SERVER_SV, "Ansluten server"},
+
+/* en */ {IDS_CONNECTED_CLIENT,    "Connected client"},
+/* de */ {IDS_CONNECTED_CLIENT_DE, "Verbunden, Client"},
+/* fr */ {IDS_CONNECTED_CLIENT_FR, ""},  /* fuzzy */
+/* hu */ {IDS_CONNECTED_CLIENT_HU, "Kliens a kapcsolatban"},
+/* it */ {IDS_CONNECTED_CLIENT_IT, "Client connesso"},
+/* nl */ {IDS_CONNECTED_CLIENT_NL, "Verbonden Client"},
+/* pl */ {IDS_CONNECTED_CLIENT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_CONNECTED_CLIENT_SV, "Ansluten klient"},
+
+/* en */ {IDS_NETPLAY_SETTINGS,    "Netplay Settings"},
+/* de */ {IDS_NETPLAY_SETTINGS_DE, "Netplay Einstellungen"},
+/* fr */ {IDS_NETPLAY_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDS_NETPLAY_SETTINGS_HU, "Hálózati játék beállításai"},
+/* it */ {IDS_NETPLAY_SETTINGS_IT, "Impostazioni Netplay"},
+/* nl */ {IDS_NETPLAY_SETTINGS_NL, "netplay Instellingen"},
+/* pl */ {IDS_NETPLAY_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_NETPLAY_SETTINGS_SV, "Inställningar för nätverksspel"},
 
 /* en */ {IDS_SAVE_SCREENSHOT,    "Save Screenshot"},
 /* de */ {IDS_SAVE_SCREENSHOT_DE, "Screenshot Speichern"},
@@ -2543,6 +2678,24 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_256K_BASE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_256K_BASE_SV, "256K bas-adress"},
 
+/* en */ {IDS_256K_FILENAME,    "256K file"},
+/* de */ {IDS_256K_FILENAME_DE, "256K Datei"},
+/* fr */ {IDS_256K_FILENAME_FR, "Fichier 256K"},
+/* hu */ {IDS_256K_FILENAME_HU, "256K fájl"},
+/* it */ {IDS_256K_FILENAME_IT, "File del 256K"},
+/* nl */ {IDS_256K_FILENAME_NL, "256K bestand"},
+/* pl */ {IDS_256K_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_256K_FILENAME_SV, "256K-fil"},
+
+/* en */ {IDS_256K_FILENAME_SELECT,    "Select file for 256K"},
+/* de */ {IDS_256K_FILENAME_SELECT_DE, "Datei für 256K selektieren"},
+/* fr */ {IDS_256K_FILENAME_SELECT_FR, "Sélectionner fichier pour 256K"},
+/* hu */ {IDS_256K_FILENAME_SELECT_HU, "Válasszon fájlt a 256K-hoz"},
+/* it */ {IDS_256K_FILENAME_SELECT_IT, "Seleziona il file per il 256K"},
+/* nl */ {IDS_256K_FILENAME_SELECT_NL, "Selecteer bestand voor 256K"},
+/* pl */ {IDS_256K_FILENAME_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_256K_FILENAME_SELECT_SV, "Välj fil för 256K"},
+
 /* en */ {IDS_256K_SETTINGS,    "256K Settings"},
 /* de */ {IDS_256K_SETTINGS_DE, "256K Einstellungen"},
 /* fr */ {IDS_256K_SETTINGS_FR, ""},  /* fuzzy */
@@ -2803,6 +2956,24 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_GEORAM_SIZE_NL, "GEORAM grootte"},
 /* pl */ {IDS_GEORAM_SIZE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_GEORAM_SIZE_SV, "GEORAM-storlek"},
+
+/* en */ {IDS_GEORAM_FILENAME,    "GEORAM file"},
+/* de */ {IDS_GEORAM_FILENAME_DE, "GEORAM Datei"},
+/* fr */ {IDS_GEORAM_FILENAME_FR, "Fichier GEORAM"},
+/* hu */ {IDS_GEORAM_FILENAME_HU, "GEORAM fájl"},
+/* it */ {IDS_GEORAM_FILENAME_IT, "File del GEORAM"},
+/* nl */ {IDS_GEORAM_FILENAME_NL, "GEORAM bestand"},
+/* pl */ {IDS_GEORAM_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_GEORAM_FILENAME_SV, "GEORAM-fil"},
+
+/* en */ {IDS_GEORAM_FILENAME_SELECT,    "Select file for GEORAM"},
+/* de */ {IDS_GEORAM_FILENAME_SELECT_DE, "Datei für GEORAM selektieren"},
+/* fr */ {IDS_GEORAM_FILENAME_SELECT_FR, "Sélectionner fichier pour GEORAM"},
+/* hu */ {IDS_GEORAM_FILENAME_SELECT_HU, "Válasszon fájlt a GEORAM-hoz"},
+/* it */ {IDS_GEORAM_FILENAME_SELECT_IT, "Seleziona il file per il GEORAM"},
+/* nl */ {IDS_GEORAM_FILENAME_SELECT_NL, "Selecteer bestand voor GEORAM"},
+/* pl */ {IDS_GEORAM_FILENAME_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_GEORAM_FILENAME_SELECT_SV, "Välj fil för GEORAM"},
 
 /* en */ {IDS_GEORAM_SETTINGS,    "GEORAM Settings"},
 /* de */ {IDS_GEORAM_SETTINGS_DE, "GEORAM Einstellungen"},
@@ -3065,6 +3236,24 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_PET_REU_SIZE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_PET_REU_SIZE_SV, "PET REU-storlek"},
 
+/* en */ {IDS_PET_REU_FILENAME,    "PET REU file"},
+/* de */ {IDS_PET_REU_FILENAME_DE, "PET REU Datei"},
+/* fr */ {IDS_PET_REU_FILENAME_FR, "Fichier PET REU"},
+/* hu */ {IDS_PET_REU_FILENAME_HU, "PET REU fájl"},
+/* it */ {IDS_PET_REU_FILENAME_IT, "File del PET REU"},
+/* nl */ {IDS_PET_REU_FILENAME_NL, "PET REU bestand"},
+/* pl */ {IDS_PET_REU_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PET_REU_FILENAME_SV, "PET REU-fil"},
+
+/* en */ {IDS_PET_REU_FILENAME_SELECT,    "Select file for PET REU"},
+/* de */ {IDS_PET_REU_FILENAME_SELECT_DE, "Datei für PET REU selektieren"},
+/* fr */ {IDS_PET_REU_FILENAME_SELECT_FR, "Sélectionner fichier pour PET REU"},
+/* hu */ {IDS_PET_REU_FILENAME_SELECT_HU, "Válasszon fájlt a PET REU-hoz"},
+/* it */ {IDS_PET_REU_FILENAME_SELECT_IT, "Seleziona il file per il PET REU"},
+/* nl */ {IDS_PET_REU_FILENAME_SELECT_NL, "Selecteer bestand voor PET REU"},
+/* pl */ {IDS_PET_REU_FILENAME_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PET_REU_FILENAME_SELECT_SV, "Välj fil för PET REU"},
+
 /* en */ {IDS_PET_REU_SETTINGS,    "PET REU Settings"},
 /* de */ {IDS_PET_REU_SETTINGS_DE, "PET REU Einstellungen"},
 /* fr */ {IDS_PET_REU_SETTINGS_FR, ""},  /* fuzzy */
@@ -3091,6 +3280,24 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_PLUS60K_BASE_NL, "PLUS60K basis adres"},
 /* pl */ {IDS_PLUS60K_BASE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_PLUS60K_BASE_SV, "PLUS60K bas-adress"},
+
+/* en */ {IDS_PLUS60K_FILENAME,    "PLUS60K file"},
+/* de */ {IDS_PLUS60K_FILENAME_DE, "PLUS60K Datei"},
+/* fr */ {IDS_PLUS60K_FILENAME_FR, "Fichier PLUS60K"},
+/* hu */ {IDS_PLUS60K_FILENAME_HU, "PLUS60K fájl"},
+/* it */ {IDS_PLUS60K_FILENAME_IT, "File del PLUS60K"},
+/* nl */ {IDS_PLUS60K_FILENAME_NL, "PLUS60K bestand"},
+/* pl */ {IDS_PLUS60K_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PLUS60K_FILENAME_SV, "PLUS60K-fil"},
+
+/* en */ {IDS_PLUS60K_FILENAME_SELECT,    "Select file for PLUS60K"},
+/* de */ {IDS_PLUS60K_FILENAME_SELECT_DE, "Datei für PLUS60K selektieren"},
+/* fr */ {IDS_PLUS60K_FILENAME_SELECT_FR, "Sélectionner fichier pour PLUS60K"},
+/* hu */ {IDS_PLUS60K_FILENAME_SELECT_HU, "Válasszon fájlt a PLUS60K-hoz"},
+/* it */ {IDS_PLUS60K_FILENAME_SELECT_IT, "Seleziona il file per il PLUS60K"},
+/* nl */ {IDS_PLUS60K_FILENAME_SELECT_NL, "Selecteer bestand voor PLUS60K"},
+/* pl */ {IDS_PLUS60K_FILENAME_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_PLUS60K_FILENAME_SELECT_SV, "Välj fil för PLUS60K"},
 
 /* en */ {IDS_PLUS60K_SETTINGS,    "PLUS60K Settings"},
 /* de */ {IDS_PLUS60K_SETTINGS_DE, "PLUS60K Einstellungen"},
@@ -3173,6 +3380,24 @@ intl_translate_t intl_string_table[] = {
 /* pl */ {IDS_RAMCART_SIZE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_RAMCART_SIZE_SV, "Storlek pa RAMCART"},
 
+/* en */ {IDS_RAMCART_FILENAME,    "RAMCART file"},
+/* de */ {IDS_RAMCART_FILENAME_DE, "RAMCART Datei"},
+/* fr */ {IDS_RAMCART_FILENAME_FR, "Fichier RAMCART"},
+/* hu */ {IDS_RAMCART_FILENAME_HU, "RAMCART fájl"},
+/* it */ {IDS_RAMCART_FILENAME_IT, "File del RAMCART"},
+/* nl */ {IDS_RAMCART_FILENAME_NL, "RAMCART bestand"},
+/* pl */ {IDS_RAMCART_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_RAMCART_FILENAME_SV, "RAMCART-fil"},
+
+/* en */ {IDS_RAMCART_FILENAME_SELECT,    "Select file for RAMCART"},
+/* de */ {IDS_RAMCART_FILENAME_SELECT_DE, "Datei für RAMCART selektieren"},
+/* fr */ {IDS_RAMCART_FILENAME_SELECT_FR, "Sélectionner fichier pour RAMCART"},
+/* hu */ {IDS_RAMCART_FILENAME_SELECT_HU, "Válasszon fájlt a RAMCART-hoz"},
+/* it */ {IDS_RAMCART_FILENAME_SELECT_IT, "Seleziona il file per il RAMCART"},
+/* nl */ {IDS_RAMCART_FILENAME_SELECT_NL, "Selecteer bestand voor RAMCART"},
+/* pl */ {IDS_RAMCART_FILENAME_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_RAMCART_FILENAME_SELECT_SV, "Välj fil för RAMCART"},
+
 /* en */ {IDS_RAMCART_SETTINGS,    "RAMCART Settings"},
 /* de */ {IDS_RAMCART_SETTINGS_DE, "RAMCART Einstellungen"},
 /* fr */ {IDS_RAMCART_SETTINGS_FR, "Parametres RAMCART"},
@@ -3190,6 +3415,24 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_REU_SIZE_NL, "REU grootte"},
 /* pl */ {IDS_REU_SIZE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_REU_SIZE_SV, "Storlek pa minnesexpansion"},
+
+/* en */ {IDS_REU_FILENAME,    "REU file"},
+/* de */ {IDS_REU_FILENAME_DE, "REU Datei"},
+/* fr */ {IDS_REU_FILENAME_FR, "Fichier REU"},
+/* hu */ {IDS_REU_FILENAME_HU, "REU fájl"},
+/* it */ {IDS_REU_FILENAME_IT, "File del REU"},
+/* nl */ {IDS_REU_FILENAME_NL, "REU bestand"},
+/* pl */ {IDS_REU_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_REU_FILENAME_SV, "REU-fil"},
+
+/* en */ {IDS_REU_FILENAME_SELECT,    "Select file for REU"},
+/* de */ {IDS_REU_FILENAME_SELECT_DE, "Datei für REU selektieren"},
+/* fr */ {IDS_REU_FILENAME_SELECT_FR, "Sélectionner fichier pour REU"},
+/* hu */ {IDS_REU_FILENAME_SELECT_HU, "Válasszon fájlt a REU-hoz"},
+/* it */ {IDS_REU_FILENAME_SELECT_IT, "Seleziona il file per il REU"},
+/* nl */ {IDS_REU_FILENAME_SELECT_NL, "Selecteer bestand voor REU"},
+/* pl */ {IDS_REU_FILENAME_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_REU_FILENAME_SELECT_SV, "Välj fil för REU"},
 
 /* en */ {IDS_REU_SETTINGS,    "REU Settings"},
 /* de */ {IDS_REU_SETTINGS_DE, "REU Einstellungen"},
@@ -3496,6 +3739,195 @@ intl_translate_t intl_string_table[] = {
 /* nl */ {IDS_AUTOSTART_IMAGE_NL, "Autostart disk/tape bestand"},
 /* pl */ {IDS_AUTOSTART_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDS_AUTOSTART_IMAGE_SV, "Autostarta disk-/bandavbildningsfil"},
+
+/* en */ {IDS_IDE64_FILENAME,    "HD image file"},
+/* de */ {IDS_IDE64_FILENAME_DE, "HD Image Name"},
+/* fr */ {IDS_IDE64_FILENAME_FR, "Nom d'image DD"},
+/* hu */ {IDS_IDE64_FILENAME_HU, "Merevlemez képmás fájl"},
+/* it */ {IDS_IDE64_FILENAME_IT, "Nome dell'immagine dell'HD"},
+/* nl */ {IDS_IDE64_FILENAME_NL, "HD bestand"},
+/* pl */ {IDS_IDE64_FILENAME_PL, ""},  /* fuzzy */
+/* sv */ {IDS_IDE64_FILENAME_SV, "HD-avbildningsfil"},
+
+/* en */ {IDS_IDE64_FILENAME_SELECT,    "Select HD image file"},
+/* de */ {IDS_IDE64_FILENAME_SELECT_DE, "HD Image Datei selektieren"},
+/* fr */ {IDS_IDE64_FILENAME_SELECT_FR, "Sélectionnez le fichier image du D.D."},
+/* hu */ {IDS_IDE64_FILENAME_SELECT_HU, "Válassza ki a merevlemez képmás fájlt"},
+/* it */ {IDS_IDE64_FILENAME_SELECT_IT, "Seleziona il file dell'immagine dell'HD"},
+/* nl */ {IDS_IDE64_FILENAME_SELECT_NL, "Selecteer HD bestand"},
+/* pl */ {IDS_IDE64_FILENAME_SELECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_IDE64_FILENAME_SELECT_SV, "Ange HD-avbildningsfil"},
+
+/* en */ {IDS_AUTODETECT,    "Autodetect"},
+/* de */ {IDS_AUTODETECT_DE, "Automatische Erkennung"},
+/* fr */ {IDS_AUTODETECT_FR, "Autodétection"},
+/* hu */ {IDS_AUTODETECT_HU, "Automatikus érzékelés"},
+/* it */ {IDS_AUTODETECT_IT, "Rileva automaticamente"},
+/* nl */ {IDS_AUTODETECT_NL, "Autodetectie"},
+/* pl */ {IDS_AUTODETECT_PL, ""},  /* fuzzy */
+/* sv */ {IDS_AUTODETECT_SV, "Autodetektera"},
+
+/* en */ {IDS_CYLINDERS,    "Cylinders"},
+/* de */ {IDS_CYLINDERS_DE, "Zylinder"},
+/* fr */ {IDS_CYLINDERS_FR, "Cylindres"},
+/* hu */ {IDS_CYLINDERS_HU, "Cilinderek"},
+/* it */ {IDS_CYLINDERS_IT, "Cilindri"},
+/* nl */ {IDS_CYLINDERS_NL, "Cylinders"},
+/* pl */ {IDS_CYLINDERS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_CYLINDERS_SV, "Cylindrar"},
+
+/* en */ {IDS_HEADS,    "Heads"},
+/* de */ {IDS_HEADS_DE, "Köpfe"},
+/* fr */ {IDS_HEADS_FR, "Têtes"},
+/* hu */ {IDS_HEADS_HU, "Fejek"},
+/* it */ {IDS_HEADS_IT, "Testine"},
+/* nl */ {IDS_HEADS_NL, "Koppen"},
+/* pl */ {IDS_HEADS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_HEADS_SV, "Huvuden"},
+
+/* en */ {IDS_SECTORS,    "Sectors"},
+/* de */ {IDS_SECTORS_DE, "Sektoren"},
+/* fr */ {IDS_SECTORS_FR, "Secteurs"},
+/* hu */ {IDS_SECTORS_HU, "Szektorok"},
+/* it */ {IDS_SECTORS_IT, "Settori"},
+/* nl */ {IDS_SECTORS_NL, "Sectors"},
+/* pl */ {IDS_SECTORS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SECTORS_SV, "Sektorer"},
+
+/* en */ {IDS_IDE64_SETTINGS,    "IDE64 settings"},
+/* de */ {IDS_IDE64_SETTINGS_DE, "IDE64 Einstellungen"},
+/* fr */ {IDS_IDE64_SETTINGS_FR, "Paramètres IDE64"},
+/* hu */ {IDS_IDE64_SETTINGS_HU, "IDE64 beállításai"},
+/* it */ {IDS_IDE64_SETTINGS_IT, "Impostazioni IDE64"},
+/* nl */ {IDS_IDE64_SETTINGS_NL, "IDE64 instellingen"},
+/* pl */ {IDS_IDE64_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_IDE64_SETTINGS_SV, "IDE64-inställningar"},
+
+/* en */ {IDS_BIOS_REVISION,    "BIOS Revision"},
+/* de */ {IDS_BIOS_REVISION_DE, "BIOS Revision"},
+/* fr */ {IDS_BIOS_REVISION_FR, ""},  /* fuzzy */
+/* hu */ {IDS_BIOS_REVISION_HU, ""},  /* fuzzy */
+/* it */ {IDS_BIOS_REVISION_IT, ""},  /* fuzzy */
+/* nl */ {IDS_BIOS_REVISION_NL, "Revisie"},
+/* pl */ {IDS_BIOS_REVISION_PL, ""},  /* fuzzy */
+/* sv */ {IDS_BIOS_REVISION_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_BIOS_FLASH_JUMPER,    "BIOS Flash Jumper"},
+/* de */ {IDS_BIOS_FLASH_JUMPER_DE, ""},  /* fuzzy */
+/* fr */ {IDS_BIOS_FLASH_JUMPER_FR, ""},  /* fuzzy */
+/* hu */ {IDS_BIOS_FLASH_JUMPER_HU, ""},  /* fuzzy */
+/* it */ {IDS_BIOS_FLASH_JUMPER_IT, ""},  /* fuzzy */
+/* nl */ {IDS_BIOS_FLASH_JUMPER_NL, "BIOS Flash Jumper"},
+/* pl */ {IDS_BIOS_FLASH_JUMPER_PL, ""},  /* fuzzy */
+/* sv */ {IDS_BIOS_FLASH_JUMPER_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SAVE_BIOS_WHEN_CHANGED,    "Save BIOS when changed"},
+/* de */ {IDS_SAVE_BIOS_WHEN_CHANGED_DE, "BIOS bei Änderung speichern"},
+/* fr */ {IDS_SAVE_BIOS_WHEN_CHANGED_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SAVE_BIOS_WHEN_CHANGED_HU, ""},  /* fuzzy */
+/* it */ {IDS_SAVE_BIOS_WHEN_CHANGED_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SAVE_BIOS_WHEN_CHANGED_NL, "BIOS Opslaan indien gewijzigd"},
+/* pl */ {IDS_SAVE_BIOS_WHEN_CHANGED_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SAVE_BIOS_WHEN_CHANGED_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_BIOS_FILE,    "BIOS File"},
+/* de */ {IDS_BIOS_FILE_DE, "BIOS Datei"},
+/* fr */ {IDS_BIOS_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_BIOS_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDS_BIOS_FILE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_BIOS_FILE_NL, "BIOS Bestand"},
+/* pl */ {IDS_BIOS_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_BIOS_FILE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SELECT_BIOS_FILE,    "Select BIOS file"},
+/* de */ {IDS_SELECT_BIOS_FILE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SELECT_BIOS_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SELECT_BIOS_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDS_SELECT_BIOS_FILE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SELECT_BIOS_FILE_NL, "Selecteer BIOS bestand"},
+/* pl */ {IDS_SELECT_BIOS_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_BIOS_FILE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_MMC64_IMAGE_READ_ONLY,    "MMC/SD Image read-only"},
+/* de */ {IDS_MMC64_IMAGE_READ_ONLY_DE, "MMC/SD Image Schreibschutz"},
+/* fr */ {IDS_MMC64_IMAGE_READ_ONLY_FR, ""},  /* fuzzy */
+/* hu */ {IDS_MMC64_IMAGE_READ_ONLY_HU, ""},  /* fuzzy */
+/* it */ {IDS_MMC64_IMAGE_READ_ONLY_IT, ""},  /* fuzzy */
+/* nl */ {IDS_MMC64_IMAGE_READ_ONLY_NL, "MMC/SD Bestand alleen-lezen"},
+/* pl */ {IDS_MMC64_IMAGE_READ_ONLY_PL, ""},  /* fuzzy */
+/* sv */ {IDS_MMC64_IMAGE_READ_ONLY_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_MMC64_IMAGE_FILE,    "MMC/SD Image File"},
+/* de */ {IDS_MMC64_IMAGE_FILE_DE, "MMC/SD Image Name"},
+/* fr */ {IDS_MMC64_IMAGE_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_MMC64_IMAGE_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDS_MMC64_IMAGE_FILE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_MMC64_IMAGE_FILE_NL, "MMC/SD Bestand"},
+/* pl */ {IDS_MMC64_IMAGE_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_MMC64_IMAGE_FILE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SELECT_MMC64_IMAGE_FILE,    "Select MMC/SD image file"},
+/* de */ {IDS_SELECT_MMC64_IMAGE_FILE_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SELECT_MMC64_IMAGE_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SELECT_MMC64_IMAGE_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDS_SELECT_MMC64_IMAGE_FILE_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SELECT_MMC64_IMAGE_FILE_NL, "Selecteer MMC/SD bestand"},
+/* pl */ {IDS_SELECT_MMC64_IMAGE_FILE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SELECT_MMC64_IMAGE_FILE_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_MMC64_SETTINGS,    "MMC64 settings"},
+/* de */ {IDS_MMC64_SETTINGS_DE, "MMC64 Einstellungen"},
+/* fr */ {IDS_MMC64_SETTINGS_FR, "Paramètres MMC64"},
+/* hu */ {IDS_MMC64_SETTINGS_HU, "MMC64 beállításai"},
+/* it */ {IDS_MMC64_SETTINGS_IT, "Impostazioni MMC64"},
+/* nl */ {IDS_MMC64_SETTINGS_NL, "MMC64 instellingen"},
+/* pl */ {IDS_MMC64_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_MMC64_SETTINGS_SV, "MMC64-inställningar"},
+
+/* en */ {IDS_SID_CART,    "SID Cart"},
+/* de */ {IDS_SID_CART_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SID_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SID_CART_HU, ""},  /* fuzzy */
+/* it */ {IDS_SID_CART_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SID_CART_NL, "SID Cart"},
+/* pl */ {IDS_SID_CART_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SID_CART_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SID_ENGINE,    "SID Engine"},
+/* de */ {IDS_SID_ENGINE_DE, "SID Engine"},
+/* fr */ {IDS_SID_ENGINE_FR, "Engin SID"},
+/* hu */ {IDS_SID_ENGINE_HU, "SID Engine"},
+/* it */ {IDS_SID_ENGINE_IT, "Motore SID"},
+/* nl */ {IDS_SID_ENGINE_NL, "SID Kern"},
+/* pl */ {IDS_SID_ENGINE_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SID_ENGINE_SV, "SID-motor"},
+
+/* en */ {IDS_SID_ADDRESS,    "SID Address"},
+/* de */ {IDS_SID_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SID_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SID_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDS_SID_ADDRESS_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SID_ADDRESS_NL, "SID Adres"},
+/* pl */ {IDS_SID_ADDRESS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SID_ADDRESS_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SID_CLOCK,    "SID Clock"},
+/* de */ {IDS_SID_CLOCK_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SID_CLOCK_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SID_CLOCK_HU, ""},  /* fuzzy */
+/* it */ {IDS_SID_CLOCK_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SID_CLOCK_NL, "SID Klok"},
+/* pl */ {IDS_SID_CLOCK_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SID_CLOCK_SV, ""},  /* fuzzy */
+
+/* en */ {IDS_SIDCART_SETTINGS,    "SID cart settings"},
+/* de */ {IDS_SIDCART_SETTINGS_DE, ""},  /* fuzzy */
+/* fr */ {IDS_SIDCART_SETTINGS_FR, ""},  /* fuzzy */
+/* hu */ {IDS_SIDCART_SETTINGS_HU, ""},  /* fuzzy */
+/* it */ {IDS_SIDCART_SETTINGS_IT, ""},  /* fuzzy */
+/* nl */ {IDS_SIDCART_SETTINGS_NL, "SID cart instellingen"},
+/* pl */ {IDS_SIDCART_SETTINGS_PL, ""},  /* fuzzy */
+/* sv */ {IDS_SIDCART_SETTINGS_SV, ""},  /* fuzzy */
 
 };
 

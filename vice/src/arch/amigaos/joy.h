@@ -29,25 +29,13 @@
 
 #define JOYDEV_NONE     0
 #define JOYDEV_NUMPAD   1
-#define JOYDEV_KEYSET_A 2
-#define JOYDEV_KEYSET_B 3
-
-typedef enum {
-    KEYSET_NW,
-    KEYSET_N,
-    KEYSET_NE,
-    KEYSET_E,
-    KEYSET_SE,
-    KEYSET_S,
-    KEYSET_SW,
-    KEYSET_W,
-    KEYSET_FIRE
-} joystick_direction_t;
+#define JOYDEV_KEYSET1  2
+#define JOYDEV_KEYSET2  3
 
 extern int joystick_port_map[2];
 
 extern int joy_arch_init(void);
-extern int joystick_init_resources(void);
+extern int joystick_arch_init_resources(void);
 extern int joystick_init_cmdline_options(void);
 extern int joystick_handle_key(unsigned long kcode, int pressed);
 extern int joystick_update(void);

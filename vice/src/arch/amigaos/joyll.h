@@ -37,7 +37,7 @@
 extern int joystick_port_map[2];
 
 extern int joy_arch_init(void);
-extern int joystick_init_resources(void);
+extern int joystick_arch_init_resources(void);
 extern int joystick_init_cmdline_options(void);
 extern int joystick_handle_key(unsigned long kcode, int pressed);
 extern int joystick_update(void);

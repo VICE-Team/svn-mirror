@@ -95,7 +95,7 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-int joystick_init_resources(void)
+int joystick_arch_init_resources(void)
 {
     joyai_init_resources();
     return resources_register_int(resources_int);
@@ -179,16 +179,16 @@ int joystick_handle_key(unsigned long kcode, int pressed)
         }
     }
 
-    if (joystick_device[0] == JOYDEV_KEYSET_A) {
+    if (joystick_device[0] == JOYDEV_KEYSET1) {
         value |= joyai_key(1, 1, kcode, pressed);
     }
-    if (joystick_device[0] == JOYDEV_KEYSET_B) {
+    if (joystick_device[0] == JOYDEV_KEYSET2) {
         value |= joyai_key(2, 1, kcode, pressed);
     }
-    if (joystick_device[1] == JOYDEV_KEYSET_A) {
+    if (joystick_device[1] == JOYDEV_KEYSET1) {
         value |= joyai_key(1, 2, kcode, pressed);
     }
-    if (joystick_device[1] == JOYDEV_KEYSET_B) {
+    if (joystick_device[1] == JOYDEV_KEYSET2) {
         value |= joyai_key(2, 2, kcode, pressed);
     }
 
@@ -197,16 +197,16 @@ int joystick_handle_key(unsigned long kcode, int pressed)
 
 int joystick_update(void)
 {
-    if (joystick_device[0] == JOYDEV_KEYSET_A) {
+    if (joystick_device[0] == JOYDEV_KEYSET1) {
         joyai_update(1, 1);
     }
-    if (joystick_device[0] == JOYDEV_KEYSET_B) {
+    if (joystick_device[0] == JOYDEV_KEYSET2) {
         joyai_update(2, 1);
     }
-    if (joystick_device[1] == JOYDEV_KEYSET_A) {
+    if (joystick_device[1] == JOYDEV_KEYSET1) {
         joyai_update(1, 2);
     }
-    if (joystick_device[1] == JOYDEV_KEYSET_B) {
+    if (joystick_device[1] == JOYDEV_KEYSET2) {
         joyai_update(2, 2);
     }
 

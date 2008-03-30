@@ -28,6 +28,7 @@
 #define _SID_CMDLINE_OPTIONS_H
 
 extern int sid_cmdline_options_init(void);
+extern int sidcart_cmdline_options_init(void);
 
 #endif
 
