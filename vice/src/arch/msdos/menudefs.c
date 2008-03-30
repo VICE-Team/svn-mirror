@@ -1265,7 +1265,6 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
             "Copyright (c) 1999-2003 Martin Pottendorfer",
             "Copyright (c) 2000-2003 Markus Brenner",
             "Copyright (c) 2000-2003 Spiro Trikaliotis",
-            "Copyright (c) 1997-2001 Daniel Sladic",
             "",
             "Official VICE homepage:",
             "http://viceteam.bei.t-online.de/",
@@ -1457,30 +1456,30 @@ static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
     return v;
 }
 
-#define DEFINE_FSDEVICE_SUBMENU(num)                                    \
-    tui_menu_item_def_t fsdevice##num##_submenu[] = {                   \
-        { "_Directory:",                                                \
-          "Specify access directory for device" #num,                   \
-          set_fsdevice_directory_callback, (void *) (num), 40,          \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { "--" },                                                       \
-        { "_Allow access:",                                             \
-          "Allow device" #num " to access the MS-DOS file system",      \
-          toggle_FileSystemDevice##num##_callback, NULL, 3,             \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { "_Convert P00 names:",                                        \
-          "Handle P00 names on device " #num,                           \
-          toggle_FSDevice##num##ConvertP00_callback, NULL, 3,           \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { "_Save P00 files:",                                           \
-          "Create P00 files on device " #num,                           \
-          toggle_FSDevice##num##SaveP00_callback, NULL, 3,              \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { "_Hide non-P00 files: ",                                      \
-          "Display only P00 files on device " #num,                     \
-          toggle_FSDevice##num##HideCBMFiles_callback, NULL, 3,         \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { NULL }                                                        \
+#define DEFINE_FSDEVICE_SUBMENU(num)                                \
+    tui_menu_item_def_t fsdevice##num##_submenu[] = {               \
+        { "_Directory:",                                            \
+          "Specify access directory for device" #num,               \
+          set_fsdevice_directory_callback, (void *)(num), 40,       \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
+        { "--" },                                                   \
+        { "_Allow access:",                                         \
+          "Allow device" #num " to access the MS-DOS file system",  \
+          toggle_FileSystemDevice##num##_callback, NULL, 3,         \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
+        { "_Convert P00 names:",                                    \
+          "Handle P00 names on device " #num,                       \
+          toggle_FSDevice##num##ConvertP00_callback, NULL, 3,       \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
+        { "_Save P00 files:",                                       \
+          "Create P00 files on device " #num,                       \
+          toggle_FSDevice##num##SaveP00_callback, NULL, 3,          \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
+        { "_Hide non-P00 files: ",                                  \
+          "Display only P00 files on device " #num,                 \
+          toggle_FSDevice##num##HideCBMFiles_callback, NULL, 3,     \
+          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
+        { NULL }                                                    \
     };
 
 DEFINE_FSDEVICE_SUBMENU(8)
