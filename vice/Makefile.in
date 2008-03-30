@@ -244,7 +244,7 @@ xpet_LDFLAGS = @xpet_LDFLAGS@
 xplus4_LDFLAGS = @xplus4_LDFLAGS@
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
-SUBDIRS = $(POSUB) src data man doc
+SUBDIRS = $(POSUB) src build data man doc
 
 EXTRA_DIST = AUTHORS FEEDBACK COPYING INSTALL NEWS vice.spec
 subdir = .
@@ -643,34 +643,34 @@ xcbm2:
 	(cd src; $(MAKE) xcbm2-all)
 
 @MSDOS_COMPILE_TRUE@bindist:
-@MSDOS_COMPILE_TRUE@	$(SHELL) $(srcdir)/src/arch/msdos/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip
+@MSDOS_COMPILE_TRUE@	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) nozip
 
 @MSDOS_COMPILE_TRUE@bindistzip:
-@MSDOS_COMPILE_TRUE@	$(SHELL) $(srcdir)/src/arch/msdos/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip
+@MSDOS_COMPILE_TRUE@	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION_MAJOR) $(VICE_VERSION_MINOR) zip
 
 @WIN32_COMPILE_TRUE@bindist:
-@WIN32_COMPILE_TRUE@	$(SHELL) $(srcdir)/src/arch/win32/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
+@WIN32_COMPILE_TRUE@	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
 
 @WIN32_COMPILE_TRUE@bindistzip:
-@WIN32_COMPILE_TRUE@	$(SHELL) $(srcdir)/src/arch/win32/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
+@WIN32_COMPILE_TRUE@	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
 
 @BEOS_COMPILE_TRUE@bindist:
-@BEOS_COMPILE_TRUE@	$(SHELL) $(srcdir)/src/arch/beos/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
+@BEOS_COMPILE_TRUE@	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) nozip
 
 @BEOS_COMPILE_TRUE@bindistzip:
-@BEOS_COMPILE_TRUE@	$(SHELL) $(srcdir)/src/arch/beos/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
+@BEOS_COMPILE_TRUE@	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) zip
 
 @UNIX_QNX_COMPILE_TRUE@bindist:
-@UNIX_QNX_COMPILE_TRUE@	$(SHELL) $(srcdir)/src/arch/unix/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
+@UNIX_QNX_COMPILE_TRUE@	$(SHELL) @ARCH_DIR@/qnx/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
 
 @UNIX_SOLARIS_COMPILE_TRUE@bindist:
-@UNIX_SOLARIS_COMPILE_TRUE@	$(SHELL) $(srcdir)/src/arch/unix/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
+@UNIX_SOLARIS_COMPILE_TRUE@	$(SHELL) @ARCH_DIR@/solaris/make-bindist.sh $(STRIP) $(VICE_VERSION) $(prefix) $(CROSS)
 
 @AMIGA_COMPILE_TRUE@bindist:
-@AMIGA_COMPILE_TRUE@	$(SHELL) $(srcdir)/src/arch/amigaos/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(EXEEXT)
+@AMIGA_COMPILE_TRUE@	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) nozip $(EXEEXT)
 
 @AMIGA_COMPILE_TRUE@bindistzip:
-@AMIGA_COMPILE_TRUE@	$(SHELL) $(srcdir)/src/arch/amigaos/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) zip $(EXEEXT)
+@AMIGA_COMPILE_TRUE@	$(SHELL) @ARCH_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) $(host_os) zip $(EXEEXT)
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

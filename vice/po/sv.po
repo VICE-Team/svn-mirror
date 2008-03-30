@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.20\n"
-"POT-Creation-Date: 2006-07-06 01:03+0200\n"
+"POT-Creation-Date: 2006-07-07 22:01+0200\n"
 "PO-Revision-Date: 2006-07-01 14:57+0200\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -173,84 +173,84 @@ msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Ställ in ljudhastighetsjustering (0: flexibel, 1: justerande, 2: exakt)"
 
-#: src/sound.c:465
+#: src/sound.c:480
 msgid "write to sound device failed."
 msgstr "misslyckades att skriva till ljudenhet."
 
-#: src/sound.c:480
+#: src/sound.c:495
 msgid "Cannot open SID engine"
 msgstr "Kan inte öppna SID-motor"
 
-#: src/sound.c:519
+#: src/sound.c:534
 msgid "Cannot initialize SID engine"
 msgstr "Kan inte initiera SID-motor"
 
-#: src/sound.c:626
+#: src/sound.c:641
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "initiering misslyckades för enhet \"%s\"."
 
-#: src/sound.c:635
+#: src/sound.c:650
 msgid "sound device lacks stereo capability"
 msgstr "ljudenhet saknar stereofunktion"
 
-#: src/sound.c:685
+#: src/sound.c:700
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "enheten \"%s\" hittades eller stöds ej."
 
-#: src/sound.c:706
+#: src/sound.c:721
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Inspelningsenhet %s finns inte!"
 
-#: src/sound.c:714
+#: src/sound.c:729
 msgid "Recording device must be different from playback device"
 msgstr "Inspelningsenhet och återspelningsenhet kan inte vara samma"
 
-#: src/sound.c:724
+#: src/sound.c:739
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Varning! Inspelningsenheten %s verkar vara en realtidsenhet!"
 
-#: src/sound.c:735
+#: src/sound.c:750
 #, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Initiering misslyckades för enhet \"%s\"."
 
-#: src/sound.c:750
+#: src/sound.c:765
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Inspelningsenheten stöder inte aktuella ljudinställningar"
 
-#: src/sound.c:831
+#: src/sound.c:846
 msgid "Sound buffer overflow (cycle based)"
 msgstr "För mycket data i ljudbufferten (cykelbaserad)"
 
-#: src/sound.c:845
+#: src/sound.c:860
 msgid "Sound buffer overflow."
 msgstr "För mycket data i ljudbufferten."
 
-#: src/sound.c:971
+#: src/sound.c:986
 msgid "cannot flush."
 msgstr "kan inte tömma."
 
-#: src/sound.c:1020
+#: src/sound.c:1035
 msgid "fragment problems."
 msgstr "fragmentprogram."
 
-#: src/sound.c:1050
+#: src/sound.c:1065
 msgid "Buffer drained"
 msgstr "Buffert tömd"
 
-#: src/sound.c:1089
+#: src/sound.c:1104
 msgid "running too slow."
 msgstr "går för långsamt."
 
-#: src/sound.c:1105 src/sound.c:1115
+#: src/sound.c:1120 src/sound.c:1130
 msgid "write to sounddevice failed."
 msgstr "misslyckades skriva till ljudenheten."
 
-#: src/sound.c:1366
+#: src/sound.c:1381
 msgid "store to sounddevice failed."
 msgstr "misslyckades spara i ljudenheten."
 
@@ -2104,7 +2104,7 @@ msgid "reSID resampling passband..."
 msgstr "reSID-omsamplingspassband..."
 
 #: src/arch/unix/gui/c128ui.c:179 src/arch/unix/gui/c64ui.c:249
-#: src/arch/unix/gui/cbm2ui.c:321 src/arch/unix/gui/uisound.c:119
+#: src/arch/unix/gui/cbm2ui.c:321 src/arch/unix/gui/uisound.c:129
 msgid "*Enable sound playback"
 msgstr "*Aktivera ljudåtergivning"
 
@@ -2277,28 +2277,28 @@ msgstr "RS232-inställningar"
 msgid "Model settings"
 msgstr "Modellinställningar"
 
-#: src/arch/unix/gui/c128ui.c:440 src/arch/unix/gui/c64ui.c:426
-#: src/arch/unix/gui/cbm2ui.c:450 src/arch/unix/gui/petui.c:388
-#: src/arch/unix/gui/plus4ui.c:208 src/arch/unix/gui/vic20ui.c:501
+#: src/arch/unix/gui/c128ui.c:442 src/arch/unix/gui/c64ui.c:428
+#: src/arch/unix/gui/cbm2ui.c:452 src/arch/unix/gui/petui.c:390
+#: src/arch/unix/gui/plus4ui.c:210 src/arch/unix/gui/vic20ui.c:503
 #: src/arch/unix/gui/vsidui.c:259
 msgid "File"
 msgstr "Arkiv"
 
-#: src/arch/unix/gui/c128ui.c:459 src/arch/unix/gui/c64ui.c:445
-#: src/arch/unix/gui/cbm2ui.c:467 src/arch/unix/gui/petui.c:405
-#: src/arch/unix/gui/plus4ui.c:225 src/arch/unix/gui/vic20ui.c:520
+#: src/arch/unix/gui/c128ui.c:461 src/arch/unix/gui/c64ui.c:447
+#: src/arch/unix/gui/cbm2ui.c:469 src/arch/unix/gui/petui.c:407
+#: src/arch/unix/gui/plus4ui.c:227 src/arch/unix/gui/vic20ui.c:522
 msgid "Snapshot"
 msgstr "Ögonblicksbild"
 
-#: src/arch/unix/gui/c128ui.c:466 src/arch/unix/gui/c64ui.c:452
-#: src/arch/unix/gui/cbm2ui.c:474 src/arch/unix/gui/petui.c:412
-#: src/arch/unix/gui/plus4ui.c:232 src/arch/unix/gui/vic20ui.c:527
+#: src/arch/unix/gui/c128ui.c:468 src/arch/unix/gui/c64ui.c:454
+#: src/arch/unix/gui/cbm2ui.c:476 src/arch/unix/gui/petui.c:414
+#: src/arch/unix/gui/plus4ui.c:234 src/arch/unix/gui/vic20ui.c:529
 msgid "Options"
 msgstr "Alternativ"
 
-#: src/arch/unix/gui/c128ui.c:478 src/arch/unix/gui/c64ui.c:464
-#: src/arch/unix/gui/cbm2ui.c:484 src/arch/unix/gui/petui.c:422
-#: src/arch/unix/gui/plus4ui.c:240 src/arch/unix/gui/vic20ui.c:533
+#: src/arch/unix/gui/c128ui.c:480 src/arch/unix/gui/c64ui.c:466
+#: src/arch/unix/gui/cbm2ui.c:486 src/arch/unix/gui/petui.c:424
+#: src/arch/unix/gui/plus4ui.c:242 src/arch/unix/gui/vic20ui.c:535
 #: src/arch/unix/gui/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1251
 #: src/arch/unix/x11/gnome/x11ui.c:1343
 msgid "Settings"
@@ -2306,9 +2306,9 @@ msgstr "Inställningar"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/gui/c128ui.c:492 src/arch/unix/gui/c64ui.c:478
-#: src/arch/unix/gui/cbm2ui.c:498 src/arch/unix/gui/petui.c:436
-#: src/arch/unix/gui/plus4ui.c:254 src/arch/unix/gui/vic20ui.c:548
+#: src/arch/unix/gui/c128ui.c:494 src/arch/unix/gui/c64ui.c:480
+#: src/arch/unix/gui/cbm2ui.c:500 src/arch/unix/gui/petui.c:438
+#: src/arch/unix/gui/plus4ui.c:256 src/arch/unix/gui/vic20ui.c:550
 msgid "RJHelp"
 msgstr "RJHjälp"
 
@@ -4574,95 +4574,116 @@ msgstr ""
 msgid "Passband percentage"
 msgstr "Passbandsprocent"
 
-#: src/arch/unix/gui/uisound.c:58
+#: src/arch/unix/gui/uisound.c:49
+#, fuzzy
+msgid "Sound driver argument"
+msgstr "Ljuddrivrutin: DirectX"
+
+#: src/arch/unix/gui/uisound.c:50
+#, fuzzy
+msgid "Argument:"
+msgstr "fragmentprogram."
+
+#: src/arch/unix/gui/uisound.c:68
 msgid "*1.00 sec"
 msgstr "*1,00 s"
 
-#: src/arch/unix/gui/uisound.c:60
+#: src/arch/unix/gui/uisound.c:70
 msgid "*0.75 sec"
 msgstr "*0,75 s"
 
-#: src/arch/unix/gui/uisound.c:62
+#: src/arch/unix/gui/uisound.c:72
 msgid "*0.50 sec"
 msgstr "*0,50 s"
 
-#: src/arch/unix/gui/uisound.c:64
+#: src/arch/unix/gui/uisound.c:74
 msgid "*0.35 sec"
 msgstr "*0,35 s"
 
-#: src/arch/unix/gui/uisound.c:66
+#: src/arch/unix/gui/uisound.c:76
 msgid "*0.30 sec"
 msgstr "*0,30 s"
 
-#: src/arch/unix/gui/uisound.c:68
+#: src/arch/unix/gui/uisound.c:78
 msgid "*0.25 sec"
 msgstr "*0,25 s"
 
-#: src/arch/unix/gui/uisound.c:70
+#: src/arch/unix/gui/uisound.c:80
 msgid "*0.20 sec"
 msgstr "*0,20 s"
 
-#: src/arch/unix/gui/uisound.c:72
+#: src/arch/unix/gui/uisound.c:82
 msgid "*0.15 sec"
 msgstr "*0,15 s"
 
-#: src/arch/unix/gui/uisound.c:74
+#: src/arch/unix/gui/uisound.c:84
 msgid "*0.10 sec"
 msgstr "*0,10 s"
 
-#: src/arch/unix/gui/uisound.c:80
+#: src/arch/unix/gui/uisound.c:90
 msgid "*Keep going"
 msgstr "*Fortsätt spela"
 
-#: src/arch/unix/gui/uisound.c:82
+#: src/arch/unix/gui/uisound.c:92
 msgid "*1 sec suspend"
 msgstr "*1s paus"
 
-#: src/arch/unix/gui/uisound.c:84
+#: src/arch/unix/gui/uisound.c:94
 msgid "*2 sec suspend"
 msgstr "*2s paus"
 
-#: src/arch/unix/gui/uisound.c:86
+#: src/arch/unix/gui/uisound.c:96
 msgid "*5 sec suspend"
 msgstr "*5s paus"
 
-#: src/arch/unix/gui/uisound.c:88
+#: src/arch/unix/gui/uisound.c:98
 msgid "*10 sec suspend"
 msgstr "*10s paus"
 
-#: src/arch/unix/gui/uisound.c:106
+#: src/arch/unix/gui/uisound.c:116
 msgid "*Flexible"
 msgstr "*Flexibel"
 
-#: src/arch/unix/gui/uisound.c:109
+#: src/arch/unix/gui/uisound.c:119
 msgid "*Adjusting"
 msgstr "*Anpassande"
 
-#: src/arch/unix/gui/uisound.c:112
+#: src/arch/unix/gui/uisound.c:122
 msgid "*Exact"
 msgstr "*Exakt"
 
-#: src/arch/unix/gui/uisound.c:122
+#. Do not change position as position 2 is hard coded.
+#: src/arch/unix/gui/uisound.c:133
+#, fuzzy
+msgid "Sound device name"
+msgstr "misslyckades att skriva till ljudenhet."
+
+#: src/arch/unix/gui/uisound.c:135
+#, fuzzy
+msgid "Sound driver argument..."
+msgstr "Ljuddrivrutin: DirectX"
+
+#: src/arch/unix/gui/uisound.c:139
 msgid "Sound synchronization"
 msgstr "Ljudsynkronisering"
 
-#: src/arch/unix/gui/uisound.c:125
+#: src/arch/unix/gui/uisound.c:142
 msgid "Sample rate"
 msgstr "Samplingshastighet"
 
-#: src/arch/unix/gui/uisound.c:127
+#: src/arch/unix/gui/uisound.c:144
 msgid "Buffer size"
 msgstr "Buffertstorlek"
 
-#: src/arch/unix/gui/uisound.c:129
+#: src/arch/unix/gui/uisound.c:146
 msgid "Suspend time"
 msgstr "Paustid"
 
-#: src/arch/unix/gui/uisound.c:131
+#: src/arch/unix/gui/uisound.c:148
 msgid "Oversample"
 msgstr "Översampling"
 
-#: src/arch/unix/gui/uisound.c:137 src/arch/unix/gui/vsidui.c:165
+#: src/arch/unix/gui/uisound.c:154 src/arch/unix/gui/vsidui.c:165
 msgid "Sound settings"
 msgstr "Ljudinställningar"
 
@@ -6581,9 +6602,6 @@ msgstr "Initierade utan delat minne."
 #~ msgid "Exact"
 #~ msgstr "Exakt"
 
-#~ msgid "Sound driver: DirectX"
-#~ msgstr "Ljuddrivrutin: DirectX"
-
 #~ msgid "Sound driver: WMM"
 #~ msgstr "Ljuddrivrutin: WMM"
 
@@ -7826,10 +7844,6 @@ msgstr "Initierade utan delat minne."
 #, fuzzy
 #~ msgid "Cannot read received snapshot file"
 #~ msgstr "Kan inte läsa in ögonblicksbildfil."
-
-#, fuzzy
-#~ msgid "fragmented"
-#~ msgstr "fragmentprogram."
 
 #~ msgid "Save as"
 #~ msgstr "Spara som"

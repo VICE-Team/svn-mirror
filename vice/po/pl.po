@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-07-06 01:03+0200\n"
+"POT-Creation-Date: 2006-07-07 22:01+0200\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Mariusz Młynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -178,86 +178,86 @@ msgstr ""
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 
-#: src/sound.c:465
+#: src/sound.c:480
 msgid "write to sound device failed."
 msgstr ""
 
-#: src/sound.c:480
+#: src/sound.c:495
 #, fuzzy
 msgid "Cannot open SID engine"
 msgstr "Ustawienia układu SID"
 
-#: src/sound.c:519
+#: src/sound.c:534
 msgid "Cannot initialize SID engine"
 msgstr ""
 
-#: src/sound.c:626
+#: src/sound.c:641
 #, fuzzy, c-format
 msgid "initialization failed for device `%s'."
 msgstr "Kalibracja sprzętowego joysticka dla urządzenia `%s':"
 
-#: src/sound.c:635
+#: src/sound.c:650
 msgid "sound device lacks stereo capability"
 msgstr ""
 
-#: src/sound.c:685
+#: src/sound.c:700
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr ""
 
-#: src/sound.c:706
+#: src/sound.c:721
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr ""
 
-#: src/sound.c:714
+#: src/sound.c:729
 msgid "Recording device must be different from playback device"
 msgstr ""
 
-#: src/sound.c:724
+#: src/sound.c:739
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
 
-#: src/sound.c:735
+#: src/sound.c:750
 #, fuzzy, c-format
 msgid "Initialization failed for device `%s'."
 msgstr "Kalibracja sprzętowego joysticka dla urządzenia `%s':"
 
-#: src/sound.c:750
+#: src/sound.c:765
 msgid "The recording device doesn't support current sound parameters"
 msgstr ""
 
-#: src/sound.c:831
+#: src/sound.c:846
 msgid "Sound buffer overflow (cycle based)"
 msgstr ""
 
-#: src/sound.c:845
+#: src/sound.c:860
 msgid "Sound buffer overflow."
 msgstr ""
 
-#: src/sound.c:971
+#: src/sound.c:986
 msgid "cannot flush."
 msgstr ""
 
-#: src/sound.c:1020
+#: src/sound.c:1035
 msgid "fragment problems."
 msgstr ""
 
-#: src/sound.c:1050
+#: src/sound.c:1065
 #, fuzzy
 msgid "Buffer drained"
 msgstr "Rozmiar buffora"
 
-#: src/sound.c:1089
+#: src/sound.c:1104
 msgid "running too slow."
 msgstr ""
 
-#: src/sound.c:1105 src/sound.c:1115
+#: src/sound.c:1120 src/sound.c:1130
 msgid "write to sounddevice failed."
 msgstr ""
 
-#: src/sound.c:1366
+#: src/sound.c:1381
 msgid "store to sounddevice failed."
 msgstr ""
 
@@ -2288,7 +2288,7 @@ msgid "reSID resampling passband..."
 msgstr "reSID resampling passband..."
 
 #: src/arch/unix/gui/c128ui.c:179 src/arch/unix/gui/c64ui.c:249
-#: src/arch/unix/gui/cbm2ui.c:321 src/arch/unix/gui/uisound.c:119
+#: src/arch/unix/gui/cbm2ui.c:321 src/arch/unix/gui/uisound.c:129
 msgid "*Enable sound playback"
 msgstr "*Włącz dźwięk"
 
@@ -2471,28 +2471,28 @@ msgstr "Ustawienia RS232"
 msgid "Model settings"
 msgstr "Załaduj ustawienia"
 
-#: src/arch/unix/gui/c128ui.c:440 src/arch/unix/gui/c64ui.c:426
-#: src/arch/unix/gui/cbm2ui.c:450 src/arch/unix/gui/petui.c:388
-#: src/arch/unix/gui/plus4ui.c:208 src/arch/unix/gui/vic20ui.c:501
+#: src/arch/unix/gui/c128ui.c:442 src/arch/unix/gui/c64ui.c:428
+#: src/arch/unix/gui/cbm2ui.c:452 src/arch/unix/gui/petui.c:390
+#: src/arch/unix/gui/plus4ui.c:210 src/arch/unix/gui/vic20ui.c:503
 #: src/arch/unix/gui/vsidui.c:259
 msgid "File"
 msgstr "Plik"
 
-#: src/arch/unix/gui/c128ui.c:459 src/arch/unix/gui/c64ui.c:445
-#: src/arch/unix/gui/cbm2ui.c:467 src/arch/unix/gui/petui.c:405
-#: src/arch/unix/gui/plus4ui.c:225 src/arch/unix/gui/vic20ui.c:520
+#: src/arch/unix/gui/c128ui.c:461 src/arch/unix/gui/c64ui.c:447
+#: src/arch/unix/gui/cbm2ui.c:469 src/arch/unix/gui/petui.c:407
+#: src/arch/unix/gui/plus4ui.c:227 src/arch/unix/gui/vic20ui.c:522
 msgid "Snapshot"
 msgstr "Migawka"
 
-#: src/arch/unix/gui/c128ui.c:466 src/arch/unix/gui/c64ui.c:452
-#: src/arch/unix/gui/cbm2ui.c:474 src/arch/unix/gui/petui.c:412
-#: src/arch/unix/gui/plus4ui.c:232 src/arch/unix/gui/vic20ui.c:527
+#: src/arch/unix/gui/c128ui.c:468 src/arch/unix/gui/c64ui.c:454
+#: src/arch/unix/gui/cbm2ui.c:476 src/arch/unix/gui/petui.c:414
+#: src/arch/unix/gui/plus4ui.c:234 src/arch/unix/gui/vic20ui.c:529
 msgid "Options"
 msgstr "Opcje"
 
-#: src/arch/unix/gui/c128ui.c:478 src/arch/unix/gui/c64ui.c:464
-#: src/arch/unix/gui/cbm2ui.c:484 src/arch/unix/gui/petui.c:422
-#: src/arch/unix/gui/plus4ui.c:240 src/arch/unix/gui/vic20ui.c:533
+#: src/arch/unix/gui/c128ui.c:480 src/arch/unix/gui/c64ui.c:466
+#: src/arch/unix/gui/cbm2ui.c:486 src/arch/unix/gui/petui.c:424
+#: src/arch/unix/gui/plus4ui.c:242 src/arch/unix/gui/vic20ui.c:535
 #: src/arch/unix/gui/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1251
 #: src/arch/unix/x11/gnome/x11ui.c:1343
 msgid "Settings"
@@ -2500,9 +2500,9 @@ msgstr "Ustawienia"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/gui/c128ui.c:492 src/arch/unix/gui/c64ui.c:478
-#: src/arch/unix/gui/cbm2ui.c:498 src/arch/unix/gui/petui.c:436
-#: src/arch/unix/gui/plus4ui.c:254 src/arch/unix/gui/vic20ui.c:548
+#: src/arch/unix/gui/c128ui.c:494 src/arch/unix/gui/c64ui.c:480
+#: src/arch/unix/gui/cbm2ui.c:500 src/arch/unix/gui/petui.c:438
+#: src/arch/unix/gui/plus4ui.c:256 src/arch/unix/gui/vic20ui.c:550
 msgid "RJHelp"
 msgstr "RJPomoc"
 
@@ -4887,95 +4887,112 @@ msgstr ""
 msgid "Passband percentage"
 msgstr "Procent pomijanego przedziału"
 
-#: src/arch/unix/gui/uisound.c:58
+#: src/arch/unix/gui/uisound.c:49
+msgid "Sound driver argument"
+msgstr ""
+
+#: src/arch/unix/gui/uisound.c:50
+msgid "Argument:"
+msgstr ""
+
+#: src/arch/unix/gui/uisound.c:68
 msgid "*1.00 sec"
 msgstr "*1.00 sek"
 
-#: src/arch/unix/gui/uisound.c:60
+#: src/arch/unix/gui/uisound.c:70
 msgid "*0.75 sec"
 msgstr "*0.75 sek"
 
-#: src/arch/unix/gui/uisound.c:62
+#: src/arch/unix/gui/uisound.c:72
 msgid "*0.50 sec"
 msgstr "*0.50 sek"
 
-#: src/arch/unix/gui/uisound.c:64
+#: src/arch/unix/gui/uisound.c:74
 msgid "*0.35 sec"
 msgstr "*0.35 sek"
 
-#: src/arch/unix/gui/uisound.c:66
+#: src/arch/unix/gui/uisound.c:76
 msgid "*0.30 sec"
 msgstr "*0.30 sek"
 
-#: src/arch/unix/gui/uisound.c:68
+#: src/arch/unix/gui/uisound.c:78
 msgid "*0.25 sec"
 msgstr "*0.25 sek "
 
-#: src/arch/unix/gui/uisound.c:70
+#: src/arch/unix/gui/uisound.c:80
 msgid "*0.20 sec"
 msgstr "*0.20 sek "
 
-#: src/arch/unix/gui/uisound.c:72
+#: src/arch/unix/gui/uisound.c:82
 msgid "*0.15 sec"
 msgstr "*0.15 sek "
 
-#: src/arch/unix/gui/uisound.c:74
+#: src/arch/unix/gui/uisound.c:84
 msgid "*0.10 sec"
 msgstr "*0.10 sek "
 
-#: src/arch/unix/gui/uisound.c:80
+#: src/arch/unix/gui/uisound.c:90
 msgid "*Keep going"
 msgstr "*Nie przestawaj"
 
-#: src/arch/unix/gui/uisound.c:82
+#: src/arch/unix/gui/uisound.c:92
 msgid "*1 sec suspend"
 msgstr "*Wstrzymaj na 1 sek "
 
-#: src/arch/unix/gui/uisound.c:84
+#: src/arch/unix/gui/uisound.c:94
 msgid "*2 sec suspend"
 msgstr "*Wstrzymaj na 2 suspend "
 
-#: src/arch/unix/gui/uisound.c:86
+#: src/arch/unix/gui/uisound.c:96
 msgid "*5 sec suspend"
 msgstr "*Wstrzymaj na 5 sek"
 
-#: src/arch/unix/gui/uisound.c:88
+#: src/arch/unix/gui/uisound.c:98
 msgid "*10 sec suspend"
 msgstr "*Wstrzymaj na 10 sek"
 
-#: src/arch/unix/gui/uisound.c:106
+#: src/arch/unix/gui/uisound.c:116
 msgid "*Flexible"
 msgstr "*Elastyczny"
 
-#: src/arch/unix/gui/uisound.c:109
+#: src/arch/unix/gui/uisound.c:119
 msgid "*Adjusting"
 msgstr "*Dodawanie"
 
-#: src/arch/unix/gui/uisound.c:112
+#: src/arch/unix/gui/uisound.c:122
 msgid "*Exact"
 msgstr "*Wymuś"
 
-#: src/arch/unix/gui/uisound.c:122
+#. Do not change position as position 2 is hard coded.
+#: src/arch/unix/gui/uisound.c:133
+msgid "Sound device name"
+msgstr ""
+
+#: src/arch/unix/gui/uisound.c:135
+msgid "Sound driver argument..."
+msgstr ""
+
+#: src/arch/unix/gui/uisound.c:139
 msgid "Sound synchronization"
 msgstr "Synchronizacja dźwięku"
 
-#: src/arch/unix/gui/uisound.c:125
+#: src/arch/unix/gui/uisound.c:142
 msgid "Sample rate"
 msgstr "Prędkość sampli"
 
-#: src/arch/unix/gui/uisound.c:127
+#: src/arch/unix/gui/uisound.c:144
 msgid "Buffer size"
 msgstr "Rozmiar buffora"
 
-#: src/arch/unix/gui/uisound.c:129
+#: src/arch/unix/gui/uisound.c:146
 msgid "Suspend time"
 msgstr "Czas uśpienia"
 
-#: src/arch/unix/gui/uisound.c:131
+#: src/arch/unix/gui/uisound.c:148
 msgid "Oversample"
 msgstr "Przesamplowanie"
 
-#: src/arch/unix/gui/uisound.c:137 src/arch/unix/gui/vsidui.c:165
+#: src/arch/unix/gui/uisound.c:154 src/arch/unix/gui/vsidui.c:165
 msgid "Sound settings"
 msgstr "Ustawienia dźwięku"
 
