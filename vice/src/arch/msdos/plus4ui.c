@@ -37,6 +37,7 @@
 #include "tuifs.h"
 #include "ui.h"
 #include "uisid.h"
+#include "uisidcart.h"
 
 static struct {
     char *name;
@@ -200,6 +201,8 @@ int plus4ui_init(void)
 
     tui_menu_add_separator(ui_video_submenu);
     tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
+
+    uisidcart_init(ui_sound_submenu, "$FD40", "$FE80", "PLUS4");
 
     add_palette_submenu(ui_video_submenu);
 

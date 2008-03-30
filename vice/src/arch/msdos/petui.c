@@ -40,7 +40,7 @@
 #include "tuimenu.h"
 #include "ui.h"
 #include "uipetreu.h"
-
+#include "uisidcart.h"
 
 static struct {
     char *name;
@@ -489,6 +489,8 @@ int petui_init(void)
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 
     uipetreu_init(ui_ioextensions_submenu);
+
+    uisidcart_init(ui_ioextensions_submenu, "$8F00", "$E900", "PET");
 
     return 0;
 }

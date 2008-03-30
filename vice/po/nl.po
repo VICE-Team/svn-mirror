@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.21\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-13 16:35+0100\n"
+"POT-Creation-Date: 2006-12-03 12:50+0100\n"
 "PO-Revision-Date: 2006-10-01 17:43+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -15,12 +15,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/vsync.c:145 src/sid/sid-cmdline-options.c:155
-#: src/sid/sid-cmdline-options.c:158 src/translate.c.po.c:3289
+#: src/vsync.c:145 src/sid/sid-cmdline-options.c:186
+#: src/sid/sid-cmdline-options.c:189 src/translate.c.po.c:3395
 msgid "<percent>"
 msgstr "<procent>"
 
-#: src/vsync.c:145 src/translate.c.po.c:4408
+#: src/vsync.c:145 src/translate.c.po.c:4514
 msgid "Limit emulation speed to specified value"
 msgstr "Limiteer emulatie snelheid tot de opgegeven waarde"
 
@@ -32,15 +32,15 @@ msgstr "Limiteer emulatie snelheid tot de opgegeven waarde"
 msgid "<value>"
 msgstr "<waarde>"
 
-#: src/vsync.c:147 src/translate.c.po.c:4418
+#: src/vsync.c:147 src/translate.c.po.c:4524
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Elke <waarde> beeld vernieuwen (`0' voor automatisch)"
 
-#: src/vsync.c:149 src/translate.c.po.c:4428
+#: src/vsync.c:149 src/translate.c.po.c:4534
 msgid "Enable warp mode"
 msgstr "Aktiveer warp modus"
 
-#: src/vsync.c:151 src/translate.c.po.c:4438
+#: src/vsync.c:151 src/translate.c.po.c:4544
 msgid "Disable warp mode"
 msgstr "Warp modus afsluiten"
 
@@ -56,19 +56,19 @@ msgstr "Sorry. Meerdere opnames wordt niet ondersteund."
 msgid "Cannot load snapshot file."
 msgstr "Kan momentopname bestand niet laden."
 
-#: src/sound.c:252 src/translate.c.po.c:4258
+#: src/sound.c:252 src/translate.c.po.c:4364
 msgid "Enable sound playback"
 msgstr "Aktiveer geluids"
 
-#: src/sound.c:254 src/translate.c.po.c:4268
+#: src/sound.c:254 src/translate.c.po.c:4374
 msgid "Disable sound playback"
 msgstr "Geluid aflsuiten"
 
-#: src/sound.c:256 src/translate.c.po.c:4278
+#: src/sound.c:256 src/translate.c.po.c:4384
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Zet de geluid sample rate naar <waarde> Hz"
 
-#: src/sound.c:258 src/translate.c.po.c:4288
+#: src/sound.c:258 src/translate.c.po.c:4394
 msgid "Set sound buffer size to <value> msec"
 msgstr "Zet de geluid buffer grootte naar <waarde> msec"
 
@@ -148,32 +148,32 @@ msgstr "Zet de geluid buffer grootte naar <waarde> msec"
 msgid "<name>"
 msgstr "<naam>"
 
-#: src/sound.c:260 src/translate.c.po.c:4298
+#: src/sound.c:260 src/translate.c.po.c:4404
 msgid "Specify sound driver"
 msgstr "Geef geluid stuurprogramma"
 
-#: src/sound.c:262 src/sound.c:266 src/translate.c.po.c:4308
+#: src/sound.c:262 src/sound.c:266 src/translate.c.po.c:4414
 msgid "<args>"
 msgstr "<parameters>"
 
-#: src/sound.c:262 src/translate.c.po.c:4318
+#: src/sound.c:262 src/translate.c.po.c:4424
 msgid "Specify initialization parameters for sound driver"
 msgstr "Geef de initialisatie parameters voor het geluid stuurprogramma"
 
-#: src/sound.c:264 src/translate.c.po.c:4328
+#: src/sound.c:264 src/translate.c.po.c:4434
 msgid "Specify recording sound driver"
 msgstr "Geef geluid stuurprogramma voor opname"
 
-#: src/sound.c:266 src/translate.c.po.c:4338
+#: src/sound.c:266 src/translate.c.po.c:4444
 msgid "Specify initialization parameters for recording sound driver"
 msgstr ""
 "Geef initialisatie parameters voor het geluid stuurprogramma voor opname"
 
-#: src/sound.c:268 src/translate.c.po.c:4348
+#: src/sound.c:268 src/translate.c.po.c:4454
 msgid "<sync>"
 msgstr "<sync>"
 
-#: src/sound.c:268 src/translate.c.po.c:4358
+#: src/sound.c:268 src/translate.c.po.c:4464
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr "Zet geluid snelheid aanpassing (0: flexibel, 1: aanpassend, 2: exact)"
 
@@ -307,7 +307,7 @@ msgstr ""
 msgid "Error reading start snapshot file."
 msgstr "Fout bij het lezen van het start momentopname bestand."
 
-#: src/event.c:1225 src/translate.c.po.c:3996
+#: src/event.c:1225 src/translate.c.po.c:4102
 msgid "Playback recorded events"
 msgstr "Afspelen opgenomen gebeurtenissen"
 
@@ -334,47 +334,47 @@ msgstr ""
 ".\n"
 "Alle genoemde apparaten zullen worden ontkoppelt."
 
-#: src/debug.c:171 src/translate.c.po.c:3881
+#: src/debug.c:171 src/translate.c.po.c:3987
 msgid "Trace the main CPU"
 msgstr "Traceer de hoofd CPU"
 
-#: src/debug.c:174 src/translate.c.po.c:3891
+#: src/debug.c:174 src/translate.c.po.c:3997
 msgid "Do not trace the main CPU"
 msgstr "Traceer de hoofd CPU niet"
 
-#: src/debug.c:177 src/translate.c.po.c:3901
+#: src/debug.c:177 src/translate.c.po.c:4007
 msgid "Trace the drive0 CPU"
 msgstr "Traceer de CPU van drive 0/8"
 
-#: src/debug.c:180 src/translate.c.po.c:3911
+#: src/debug.c:180 src/translate.c.po.c:4017
 msgid "Do not trace the drive0 CPU"
 msgstr "Traceer de CPU van drive 0/8 niet"
 
-#: src/debug.c:183 src/translate.c.po.c:3921
+#: src/debug.c:183 src/translate.c.po.c:4027
 msgid "Trace the drive1 CPU"
 msgstr "Traceer de CPU van drive 1/9"
 
-#: src/debug.c:186 src/translate.c.po.c:3931
+#: src/debug.c:186 src/translate.c.po.c:4037
 msgid "Do not trace the drive1 CPU"
 msgstr "Traceer de CPU van drive 1/9 niet"
 
-#: src/debug.c:190 src/translate.c.po.c:3942
+#: src/debug.c:190 src/translate.c.po.c:4048
 msgid "Trace the drive2 CPU"
 msgstr "Traceer de CPU van drive 2/10"
 
-#: src/debug.c:193 src/translate.c.po.c:3952
+#: src/debug.c:193 src/translate.c.po.c:4058
 msgid "Do not trace the drive2 CPU"
 msgstr "Traceer de CPU van drive 2/10 niet"
 
-#: src/debug.c:198 src/translate.c.po.c:3964
+#: src/debug.c:198 src/translate.c.po.c:4070
 msgid "Trace the drive3 CPU"
 msgstr "Traceer de CPU van drive 3/11"
 
-#: src/debug.c:201 src/translate.c.po.c:3974
+#: src/debug.c:201 src/translate.c.po.c:4080
 msgid "Do not trace the drive3 CPU"
 msgstr "Traceer de CPU van drive 3/11 niet"
 
-#: src/debug.c:205 src/translate.c.po.c:3985
+#: src/debug.c:205 src/translate.c.po.c:4091
 msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Traceer modus (0=normaal 1=klein 2=geschiedenis"
 
@@ -455,7 +455,7 @@ msgstr "Andere computer halt de netplay..."
 msgid "Network out of sync - disconnecting."
 msgstr "Netwerk niet synchroon - connectie wordt verbroken."
 
-#: src/aciacore.c:210 src/translate.c.po.c:3710
+#: src/aciacore.c:210 src/translate.c.po.c:3816
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "Geef het RS232 apparaat waarmee deze ACIA moet werken"
 
@@ -468,55 +468,55 @@ msgstr "Geef het RS232 apparaat waarmee deze ACIA moet werken"
 msgid "<type>"
 msgstr "<soort>"
 
-#: src/attach.c:164 src/translate.c.po.c:3720
+#: src/attach.c:164 src/translate.c.po.c:3826
 msgid "Set device type for device #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr ""
 "Zet het apparaat soort voor apparaat #8 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
 
-#: src/attach.c:167 src/translate.c.po.c:3730
+#: src/attach.c:167 src/translate.c.po.c:3836
 msgid "Set device type for device #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr ""
 "Zet het apparaat soort voor apparaat #9 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
 
-#: src/attach.c:170 src/translate.c.po.c:3740
+#: src/attach.c:170 src/translate.c.po.c:3846
 msgid "Set device type for device #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr ""
 "Zet het apparaat soort voor apparaat #10 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
 
-#: src/attach.c:173 src/translate.c.po.c:3750
+#: src/attach.c:173 src/translate.c.po.c:3856
 msgid "Set device type for device #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)"
 msgstr ""
 "Zet het apparaat soort voor apparaat #11 (0: GEEN, 1: FS, 2: ECHT, 3: BINAIR"
 
-#: src/attach.c:176 src/translate.c.po.c:3760
+#: src/attach.c:176 src/translate.c.po.c:3866
 msgid "Attach disk image for drive #8 read only"
 msgstr "Koppel disk bestand voor drive #8 als alleen lezen"
 
-#: src/attach.c:179 src/translate.c.po.c:3770
+#: src/attach.c:179 src/translate.c.po.c:3876
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr "Koppel disk bestand voor drive #8 als schrijfbaar (indien mogelijk)"
 
-#: src/attach.c:182 src/translate.c.po.c:3780
+#: src/attach.c:182 src/translate.c.po.c:3886
 msgid "Attach disk image for drive #9 read only"
 msgstr "Koppel disk bestand voor drive #9 als alleen lezen"
 
-#: src/attach.c:185 src/translate.c.po.c:3790
+#: src/attach.c:185 src/translate.c.po.c:3896
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr "Koppel disk bestand voor drive #9 als schrijfbaar (indien mogelijk)"
 
-#: src/attach.c:188 src/translate.c.po.c:3800
+#: src/attach.c:188 src/translate.c.po.c:3906
 msgid "Attach disk image for drive #10 read only"
 msgstr "Koppel disk bestand voor drive #10 als alleen lezen"
 
-#: src/attach.c:191 src/translate.c.po.c:3810
+#: src/attach.c:191 src/translate.c.po.c:3916
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr "Koppel disk bestand voor drive #10 als schrijfbaar (indien mogelijk)"
 
-#: src/attach.c:194 src/translate.c.po.c:3820
+#: src/attach.c:194 src/translate.c.po.c:3926
 msgid "Attach disk image for drive #11 read only"
 msgstr "Koppel disk bestand voor drive #11 als alleen lezen"
 
-#: src/attach.c:197 src/translate.c.po.c:3830
+#: src/attach.c:197 src/translate.c.po.c:3936
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Koppel disk bestand voor drive #11 als schrijfbaar (indien mogelijk)"
 
@@ -728,7 +728,7 @@ msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr "Reset machine niet als een cartridge wordt gekoppelt of ontkoppelt"
 
 #: src/c64/cart/c64cart.c:235 src/arch/win32/res.rc.po.c:4833
-#: src/translate.c.po.c:1380 src/arch/amigaos/intl.c.po.c:2123
+#: src/translate.c.po.c:1380 src/arch/amigaos/intl.c.po.c:2258
 msgid "Attach CRT cartridge image"
 msgstr "Koppel CRT cartridge bestand"
 
@@ -780,7 +780,7 @@ msgstr "Koppel CBM IEEE488 cartridge bestand"
 msgid "Attach raw 16KB Westermann learning cartridge image"
 msgstr "Koppel binair 16KB Westermann learning cartridge bestand"
 
-#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4578
+#: src/c64/cart/c64cart.c:274 src/translate.c.po.c:4684
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Koppel binair Structured Basic cartridge bestand"
 
@@ -812,24 +812,24 @@ msgstr "Automatisch de grootte van de geformateerde bestanden detecteren"
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Niet automatisch de grootte van de geformateerde bestanden detecteren"
 
-#: src/c64/c64_256k.c:206 src/translate.c.po.c:4538
+#: src/c64/c64_256k.c:206 src/translate.c.po.c:4644
 msgid "Enable the 256K RAM expansion"
 msgstr "Aktiveer de 256K geheugen uitbreiding"
 
-#: src/c64/c64_256k.c:208 src/translate.c.po.c:4548
+#: src/c64/c64_256k.c:208 src/translate.c.po.c:4654
 msgid "Disable the 256K RAM expansion"
 msgstr "De 256K geheugen uitbreiding afsluiten"
 
-#: src/c64/c64_256k.c:210 src/translate.c.po.c:4558
+#: src/c64/c64_256k.c:210 src/translate.c.po.c:4664
 msgid "Specify name of 256K image"
 msgstr "Geef de naam van het 256K bestand"
 
 #: src/c64/c64_256k.c:212 src/c64/plus60k.c:251
-#: src/sid/sid-cmdline-options.c:141 src/translate.c.po.c:3218
+#: src/sid/sid-cmdline-options.c:221 src/translate.c.po.c:3324
 msgid "<base address>"
 msgstr "<basis adres>"
 
-#: src/c64/c64_256k.c:212 src/translate.c.po.c:4568
+#: src/c64/c64_256k.c:212 src/translate.c.po.c:4674
 msgid "Base address of the 256K expansion"
 msgstr "Basis adres van de 256K geheugen uitbreiding"
 
@@ -882,31 +882,31 @@ msgstr "Zet de MMC64 als lezen/schrijven"
 msgid "Save the MMC64 bios when changed"
 msgstr "Sla de MMC64 bios op als er veranderingen zijn gemaakt"
 
-#: src/c64/plus256k.c:171 src/translate.c.po.c:4468
+#: src/c64/plus256k.c:171 src/translate.c.po.c:4574
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Aktiveer de PLUS256K geheugen uitbreiding"
 
-#: src/c64/plus256k.c:173 src/translate.c.po.c:4478
+#: src/c64/plus256k.c:173 src/translate.c.po.c:4584
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "De PLUS256K geheugen uitbreiding afsluiten"
 
-#: src/c64/plus256k.c:175 src/translate.c.po.c:4488
+#: src/c64/plus256k.c:175 src/translate.c.po.c:4594
 msgid "Specify name of PLUS256K image"
 msgstr "Geef de naam van het PLUS256K bestand"
 
-#: src/c64/plus60k.c:245 src/translate.c.po.c:4498
+#: src/c64/plus60k.c:245 src/translate.c.po.c:4604
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Aktiveer de PLUS60K geheugen uitbreiding"
 
-#: src/c64/plus60k.c:247 src/translate.c.po.c:4508
+#: src/c64/plus60k.c:247 src/translate.c.po.c:4614
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "De PLUS60K geheugen uitbreiding afsluiten"
 
-#: src/c64/plus60k.c:249 src/translate.c.po.c:4518
+#: src/c64/plus60k.c:249 src/translate.c.po.c:4624
 msgid "Specify name of PLUS60K image"
 msgstr "Geef de naam van het PLUS60K bestand"
 
-#: src/c64/plus60k.c:251 src/translate.c.po.c:4528
+#: src/c64/plus60k.c:251 src/translate.c.po.c:4634
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basis adres van de PLUS60K geheugen uitbreiding"
 
@@ -954,11 +954,11 @@ msgstr "Geef de naam van het REU bestand"
 msgid "Size of the RAM expansion unit"
 msgstr "Grootte van de RAM Uitbreidings Eenheid (REU)"
 
-#: src/c64/tfe.c:1509 src/translate.c.po.c:1339
+#: src/c64/tfe.c:1510 src/translate.c.po.c:1339
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "Aktiveer de TFE (\"The Final Ethernet\") eenheid"
 
-#: src/c64/tfe.c:1511 src/translate.c.po.c:1349
+#: src/c64/tfe.c:1512 src/translate.c.po.c:1349
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "De TFE (\"The Final Ethernet\") eenheid afsluiten"
 
@@ -1106,19 +1106,19 @@ msgstr ""
 "Geef de naam van het positioneel keymap bestand voor het Duitse business "
 "toetsenbord"
 
-#: src/datasette.c:175 src/translate.c.po.c:3840
+#: src/datasette.c:175 src/translate.c.po.c:3946
 msgid "Enable automatic Datasette-Reset"
 msgstr "Aktiveer automatische Datasette-Reset"
 
-#: src/datasette.c:178 src/translate.c.po.c:3850
+#: src/datasette.c:178 src/translate.c.po.c:3956
 msgid "Disable automatic Datasette-Reset"
 msgstr "Automatische Datasette-Reset afsluiten"
 
-#: src/datasette.c:181 src/translate.c.po.c:3860
+#: src/datasette.c:181 src/translate.c.po.c:3966
 msgid "Set delay in cycles for a zero in the tap"
 msgstr "Zet de vertraging in cylcli voor een nul in de tap"
 
-#: src/datasette.c:184 src/translate.c.po.c:3870
+#: src/datasette.c:184 src/translate.c.po.c:3976
 msgid "Set number of cycles added to each gap in the tap"
 msgstr "Zet aantal extra cylcli voor elk gat in de tap"
 
@@ -1135,7 +1135,7 @@ msgid "Set drive type (0: no drive)"
 msgstr "Zet drive soort (0: geen drive)"
 
 #: src/drive/drive-cmdline-options.c:70 src/drive/iec/iec-cmdline-options.c:96
-#: src/sid/sid-cmdline-options.c:152 src/translate.c.po.c:1942
+#: src/sid/sid-cmdline-options.c:183 src/translate.c.po.c:1942
 msgid "<method>"
 msgstr "<methode>"
 
@@ -1259,7 +1259,7 @@ msgstr "Geef de naam van het 1001/8050/8250 DOS ROM bestand"
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "Geef de naam van het 1551 DOS ROM bestand"
 
-#: src/fliplist.c:121 src/translate.c.po.c:4006
+#: src/fliplist.c:121 src/translate.c.po.c:4112
 msgid "Specify name of the flip list file image"
 msgstr "Geef de naam van het flip lijst bestand"
 
@@ -1301,83 +1301,83 @@ msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Kan %s niet openen"
 
 #: src/initcmdline.c:155 src/initcmdline.c:157 src/initcmdline.c:159
-#: src/translate.c.po.c:4016
+#: src/translate.c.po.c:4122
 msgid "Show a list of the available options and exit normally"
 msgstr "Toon een lijst van de beschikbare opties en exit zoals normaal"
 
-#: src/initcmdline.c:162 src/translate.c.po.c:4027
+#: src/initcmdline.c:162 src/translate.c.po.c:4133
 msgid "Console mode (for music playback)"
 msgstr "Console modus (voor afspelen voor muziek)"
 
-#: src/initcmdline.c:164 src/translate.c.po.c:4037
+#: src/initcmdline.c:164 src/translate.c.po.c:4143
 msgid "Allow production of core dumps"
 msgstr "Maken van core dumps toestaan"
 
-#: src/initcmdline.c:166 src/translate.c.po.c:4047
+#: src/initcmdline.c:166 src/translate.c.po.c:4153
 msgid "Do not produce core dumps"
 msgstr "Maken van core dumps niet toestaan"
 
-#: src/initcmdline.c:169 src/translate.c.po.c:4057
+#: src/initcmdline.c:169 src/translate.c.po.c:4163
 msgid "Don't call exception handler"
 msgstr "Geen gebruik maken van de exception handler"
 
-#: src/initcmdline.c:171 src/translate.c.po.c:4067
+#: src/initcmdline.c:171 src/translate.c.po.c:4173
 msgid "Call exception handler (default)"
 msgstr "Gebruik maken van de exception handler (standaard)"
 
-#: src/initcmdline.c:206 src/translate.c.po.c:4078
+#: src/initcmdline.c:206 src/translate.c.po.c:4184
 msgid "Restore default (factory) settings"
 msgstr "Herstel standaard instellingen"
 
-#: src/initcmdline.c:208 src/translate.c.po.c:4088
+#: src/initcmdline.c:208 src/translate.c.po.c:4194
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "Koppel en autostart een tape/disk bestand <naam>"
 
-#: src/initcmdline.c:210 src/translate.c.po.c:4098
+#: src/initcmdline.c:210 src/translate.c.po.c:4204
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "Koppel em autolaad een tape/disk bestand <naam>"
 
-#: src/initcmdline.c:212 src/translate.c.po.c:4108
+#: src/initcmdline.c:212 src/translate.c.po.c:4214
 msgid "Attach <name> as a tape image"
 msgstr "Koppel <naam> als een tape bestand"
 
-#: src/initcmdline.c:214 src/translate.c.po.c:4118
+#: src/initcmdline.c:214 src/translate.c.po.c:4224
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "Koppel <naam> als een disk bestand in drive #8"
 
-#: src/initcmdline.c:216 src/translate.c.po.c:4128
+#: src/initcmdline.c:216 src/translate.c.po.c:4234
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "Koppel <naam> als een disk bestand in drive #9"
 
-#: src/initcmdline.c:218 src/translate.c.po.c:4138
+#: src/initcmdline.c:218 src/translate.c.po.c:4244
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "Koppel <naam> als een disk bestand in drive #10"
 
-#: src/initcmdline.c:220 src/translate.c.po.c:4148
+#: src/initcmdline.c:220 src/translate.c.po.c:4254
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "Koppel <naam> als een disk bestand in drive #11"
 
-#: src/kbdbuf.c:136 src/translate.c.po.c:4158
+#: src/kbdbuf.c:136 src/translate.c.po.c:4264
 msgid "<string>"
 msgstr "<string>"
 
-#: src/kbdbuf.c:136 src/translate.c.po.c:4168
+#: src/kbdbuf.c:136 src/translate.c.po.c:4274
 msgid "Put the specified string into the keyboard buffer"
 msgstr "Stop de opgegeven string in de toetsenbord buffer"
 
-#: src/log.c:110 src/translate.c.po.c:4178
+#: src/log.c:110 src/translate.c.po.c:4284
 msgid "Specify log file name"
 msgstr "Geef de naam van het log bestand"
 
-#: src/mouse.c:91 src/translate.c.po.c:4188
+#: src/mouse.c:91 src/translate.c.po.c:4294
 msgid "Enable emulation of the 1351 proportional mouse"
 msgstr "Aktiveer emulatie van de 1351 proportionele muis"
 
-#: src/mouse.c:93 src/translate.c.po.c:4198
+#: src/mouse.c:93 src/translate.c.po.c:4304
 msgid "Disable emulation of the 1351 proportional mouse"
 msgstr "Eemulatie van de 1351 proportionele muis afsluiten"
 
-#: src/mouse.c:95 src/translate.c.po.c:4208
+#: src/mouse.c:95 src/translate.c.po.c:4314
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Selecteer de joystick poort waar de muis aan gekoppelt is"
 
@@ -1501,19 +1501,19 @@ msgstr "Geef de naam van het Cartridge 2 high ROM bestand"
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Geef de hoeveelheid RAM in kb (16/32/64)"
 
-#: src/plus4/plus4memcsory256k.c:114 src/translate.c.po.c:4588
+#: src/plus4/plus4memcsory256k.c:114 src/translate.c.po.c:4694
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Aktiveer de CSORY 256K geheugen uitbreiding"
 
-#: src/plus4/plus4memhannes256k.c:129 src/translate.c.po.c:4598
+#: src/plus4/plus4memhannes256k.c:129 src/translate.c.po.c:4704
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Aktiveer de HANNES 256K geheugen uitbreiding"
 
-#: src/plus4/plus4memhannes256k.c:131 src/translate.c.po.c:4608
+#: src/plus4/plus4memhannes256k.c:131 src/translate.c.po.c:4714
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Aktiveer de HANNES 1024K geheugen uitbreiding"
 
-#: src/plus4/plus4memhannes256k.c:133 src/translate.c.po.c:4618
+#: src/plus4/plus4memhannes256k.c:133 src/translate.c.po.c:4724
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Aktiveer de HANNES 4096K geheugen uitbreiding"
 
@@ -1594,19 +1594,19 @@ msgstr "Geef het text uitvoer apparaat voor IEC printer #5"
 msgid "Specify printer text output device for userport printer"
 msgstr "Geef het text uitvoer apparaat voor de userport printer"
 
-#: src/ram.c:101 src/translate.c.po.c:4218
+#: src/ram.c:101 src/translate.c.po.c:4324
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Zet de waarde voor het allereerste RAM adres na koude start"
 
-#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4228
+#: src/ram.c:104 src/ram.c:107 src/translate.c.po.c:4334
 msgid "<num of bytes>"
 msgstr "<aantal bytes>"
 
-#: src/ram.c:104 src/translate.c.po.c:4238
+#: src/ram.c:104 src/translate.c.po.c:4344
 msgid "Length of memory block initialized with the same value"
 msgstr "Geheugen blok grootte die dezelfde waarde krijgt bij initialisatie"
 
-#: src/ram.c:107 src/translate.c.po.c:4248
+#: src/ram.c:107 src/translate.c.po.c:4354
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Geheugen blok grootte met hetzelfde patroon bij initialisatie"
 
@@ -1702,12 +1702,65 @@ msgstr "Aktiveer IEC apparaat emulatie voor apparaat #11"
 msgid "Disable IEC device emulation for device #11"
 msgstr "IEC apparaat emulatie voor apparaat #11 afsluiten"
 
-#: src/sid/sid-cmdline-options.c:72 src/sidcart/sidcart-cmdline-options.c:53
+#: src/sid/sid-cmdline-options.c:52 src/sid/sid-cmdline-options.c:98
 #: src/translate.c.po.c:3006
 msgid "<engine>"
 msgstr "<kern>"
 
-#: src/sid/sid-cmdline-options.c:77 src/translate.c.po.c:3197
+#: src/sid/sid-cmdline-options.c:56 src/sid/sid-cmdline-options.c:133
+#: src/translate.c.po.c:3185
+msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
+msgstr ""
+"Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: "
+"HardSID, 4: ParSID)"
+
+#: src/sid/sid-cmdline-options.c:58 src/sid/sid-cmdline-options.c:135
+#: src/translate.c.po.c:3113
+msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
+msgstr ""
+"Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: "
+"HardSID)"
+
+#: src/sid/sid-cmdline-options.c:62 src/sid/sid-cmdline-options.c:139
+#: src/translate.c.po.c:3125
+msgid "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID)"
+msgstr ""
+"Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 4: "
+"ParSID)"
+
+#: src/sid/sid-cmdline-options.c:64 src/sid/sid-cmdline-options.c:141
+#: src/translate.c.po.c:3041
+msgid "Specify SID engine (0: FastSID, 2: Catweasel)"
+msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel)"
+
+#: src/sid/sid-cmdline-options.c:70 src/sid/sid-cmdline-options.c:147
+#: src/translate.c.po.c:3137
+msgid "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID)"
+msgstr ""
+"Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID, 4: "
+"ParSID)"
+
+#: src/sid/sid-cmdline-options.c:72 src/sid/sid-cmdline-options.c:149
+#: src/translate.c.po.c:3053
+msgid "Specify SID engine (0: FastSID, 3: HardSID)"
+msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID)"
+
+#: src/sid/sid-cmdline-options.c:76 src/sid/sid-cmdline-options.c:153
+#: src/translate.c.po.c:3065
+msgid "Specify SID engine (0: FastSID, 4: ParSID)"
+msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 4: ParSID)"
+
+#: src/sid/sid-cmdline-options.c:78 src/sid/sid-cmdline-options.c:155
+#: src/translate.c.po.c:3017 src/translate.c.po.c:3209
+msgid "Specify SID engine (0: FastSID)"
+msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID)"
+
+#: src/sid/sid-cmdline-options.c:84
+#, fuzzy
+msgid "Ebable SID Cartridge"
+msgstr "Opslaan Cartridge"
+
+#: src/sid/sid-cmdline-options.c:103 src/translate.c.po.c:3197
 msgid ""
 "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID, 4: "
 "ParSID)"
@@ -1715,122 +1768,46 @@ msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: "
 "Catweasel, 3: HardSID, 4: ParSID)"
 
-#: src/sid/sid-cmdline-options.c:79 src/translate.c.po.c:3149
+#: src/sid/sid-cmdline-options.c:105 src/translate.c.po.c:3149
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 3: HardSID)"
 msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: "
 "Catweasel, 3: HardSID)"
 
-#: src/sid/sid-cmdline-options.c:83 src/translate.c.po.c:3161
+#: src/sid/sid-cmdline-options.c:109 src/translate.c.po.c:3161
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel, 4: ParSID)"
 msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: "
 "Catweasel, 4: ParSID)"
 
-#: src/sid/sid-cmdline-options.c:85 src/translate.c.po.c:3077
+#: src/sid/sid-cmdline-options.c:111 src/translate.c.po.c:3077
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 2: Catweasel)"
 msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 2: "
 "Catweasel)"
 
-#: src/sid/sid-cmdline-options.c:91 src/translate.c.po.c:3173
+#: src/sid/sid-cmdline-options.c:117 src/translate.c.po.c:3173
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID, 4: ParSID)"
 msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: "
 "HardSID, 4: ParSID)"
 
-#: src/sid/sid-cmdline-options.c:93 src/translate.c.po.c:3089
+#: src/sid/sid-cmdline-options.c:119 src/translate.c.po.c:3089
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 3: HardSID)"
 msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 3: "
 "HardSID)"
 
-#: src/sid/sid-cmdline-options.c:97 src/translate.c.po.c:3101
+#: src/sid/sid-cmdline-options.c:123 src/translate.c.po.c:3101
 msgid "Specify SID engine (0: FastSID, 1: ReSID, 4: ParSID)"
 msgstr ""
 "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID, 4: ParSID)"
 
-#: src/sid/sid-cmdline-options.c:99 src/translate.c.po.c:3029
+#: src/sid/sid-cmdline-options.c:125 src/translate.c.po.c:3029
 msgid "Specify SID engine (0: FastSID, 1: ReSID)"
 msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 1: ReSID)"
 
-#: src/sid/sid-cmdline-options.c:107 src/sidcart/sidcart-cmdline-options.c:57
-#: src/translate.c.po.c:3185
-msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID, 4: ParSID)"
-msgstr ""
-"Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: "
-"HardSID, 4: ParSID)"
-
-#: src/sid/sid-cmdline-options.c:109 src/sidcart/sidcart-cmdline-options.c:59
-#: src/translate.c.po.c:3113
-msgid "Specify SID engine (0: FastSID, 2: Catweasel, 3: HardSID)"
-msgstr ""
-"Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: "
-"HardSID)"
-
-#: src/sid/sid-cmdline-options.c:113 src/sidcart/sidcart-cmdline-options.c:63
-#: src/translate.c.po.c:3125
-msgid "Specify SID engine (0: FastSID, 2: Catweasel, 4: ParSID)"
-msgstr ""
-"Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 4: "
-"ParSID)"
-
-#: src/sid/sid-cmdline-options.c:115 src/sidcart/sidcart-cmdline-options.c:65
-#: src/translate.c.po.c:3041
-msgid "Specify SID engine (0: FastSID, 2: Catweasel)"
-msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel)"
-
-#: src/sid/sid-cmdline-options.c:121 src/sidcart/sidcart-cmdline-options.c:71
-#: src/translate.c.po.c:3137
-msgid "Specify SID engine (0: FastSID, 3: HardSID, 4: ParSID)"
-msgstr ""
-"Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID, 4: "
-"ParSID)"
-
-#: src/sid/sid-cmdline-options.c:123 src/sidcart/sidcart-cmdline-options.c:73
-#: src/translate.c.po.c:3053
-msgid "Specify SID engine (0: FastSID, 3: HardSID)"
-msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID)"
-
-#: src/sid/sid-cmdline-options.c:127 src/sidcart/sidcart-cmdline-options.c:77
-#: src/translate.c.po.c:3065
-msgid "Specify SID engine (0: FastSID, 4: ParSID)"
-msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 4: ParSID)"
-
-#: src/sid/sid-cmdline-options.c:129 src/sidcart/sidcart-cmdline-options.c:79
-#: src/translate.c.po.c:3017
-msgid "Specify SID engine (0: FastSID)"
-msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID)"
-
-#: src/sid/sid-cmdline-options.c:138 src/translate.c.po.c:3208
-msgid "Enable second SID"
-msgstr "Altiveer stereo SID"
-
-#: src/sid/sid-cmdline-options.c:141 src/translate.c.po.c:3228
-msgid "Specify base address for 2nd SID"
-msgstr "Geef het basis adres van de 2e SID"
-
-#: src/sid/sid-cmdline-options.c:143 src/sidcart/sidcart-cmdline-options.c:86
-#: src/translate.c.po.c:3238
-msgid "<model>"
-msgstr "<model>"
-
-#: src/sid/sid-cmdline-options.c:143 src/sidcart/sidcart-cmdline-options.c:86
-#: src/translate.c.po.c:3248
-msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
-msgstr "Geef het SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
-
-#: src/sid/sid-cmdline-options.c:146 src/sidcart/sidcart-cmdline-options.c:89
-#: src/translate.c.po.c:3258
-msgid "Emulate SID filters"
-msgstr "Emuleer SID filters"
-
-#: src/sid/sid-cmdline-options.c:149 src/sidcart/sidcart-cmdline-options.c:92
-#: src/translate.c.po.c:3268
-msgid "Do not emulate SID filters"
-msgstr "SID filters niet emuleren"
-
-#: src/sid/sid-cmdline-options.c:153 src/translate.c.po.c:3279
+#: src/sid/sid-cmdline-options.c:184 src/translate.c.po.c:3385
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
@@ -1838,184 +1815,208 @@ msgstr ""
 "reSID sampling methode (0: snel, 1: interpoleren, 2: resampling, 3: snelle "
 "resampling)"
 
-#: src/sid/sid-cmdline-options.c:156 src/translate.c.po.c:3299
+#: src/sid/sid-cmdline-options.c:187 src/translate.c.po.c:3405
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr ""
 "reSID resampling passband in percentage van de totale bandbreedte (0 - 90)"
 
-#: src/sid/sid-cmdline-options.c:159 src/translate.c.po.c:3309
+#: src/sid/sid-cmdline-options.c:190 src/translate.c.po.c:3415
 msgid "reSID gain in percent (90 - 100)"
 msgstr "reSID versterking procent (90 - 100)"
 
-#: src/sysfile.c:127 src/translate.c.po.c:4368
+#: src/sid/sid-cmdline-options.c:218 src/translate.c.po.c:3304
+msgid "Enable second SID"
+msgstr "Altiveer stereo SID"
+
+#: src/sid/sid-cmdline-options.c:221 src/translate.c.po.c:3334
+msgid "Specify base address for 2nd SID"
+msgstr "Geef het basis adres van de 2e SID"
+
+#: src/sid/sid-cmdline-options.c:223 src/translate.c.po.c:3344
+msgid "<model>"
+msgstr "<model>"
+
+#: src/sid/sid-cmdline-options.c:223 src/translate.c.po.c:3354
+msgid "Specify SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
+msgstr "Geef het SID model (0: 6581, 1: 8580, 2: 8580 + digi boost)"
+
+#: src/sid/sid-cmdline-options.c:226 src/translate.c.po.c:3364
+msgid "Emulate SID filters"
+msgstr "Emuleer SID filters"
+
+#: src/sid/sid-cmdline-options.c:229 src/translate.c.po.c:3374
+msgid "Do not emulate SID filters"
+msgstr "SID filters niet emuleren"
+
+#: src/sysfile.c:127 src/translate.c.po.c:4474
 msgid "<path>"
 msgstr "<pad>"
 
-#: src/sysfile.c:127 src/translate.c.po.c:4378
+#: src/sysfile.c:127 src/translate.c.po.c:4484
 msgid "Define search path to locate system files"
 msgstr "Geef het zoek pad waar de systeem bestanden te vinden zijn"
 
-#: src/traps.c:123 src/translate.c.po.c:4388
+#: src/traps.c:123 src/translate.c.po.c:4494
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "Aktiveer algemene methoden voor snelle disk/tape emulatie"
 
-#: src/traps.c:126 src/translate.c.po.c:4398
+#: src/traps.c:126 src/translate.c.po.c:4504
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "Algemene methoden voor snelle disk/tape emulatie afsluiten"
 
-#: src/vdc/vdc-cmdline-options.c:62 src/translate.c.po.c:3320
+#: src/vdc/vdc-cmdline-options.c:62 src/translate.c.po.c:3426
 msgid "Set the VDC memory size to 16KB"
 msgstr "Zet de VDC geheugen grootte als 16KB"
 
-#: src/vdc/vdc-cmdline-options.c:65 src/translate.c.po.c:3330
+#: src/vdc/vdc-cmdline-options.c:65 src/translate.c.po.c:3436
 msgid "Set the VDC memory size to 64KB"
 msgstr "Zet de VDC geheugen grootte als 64KB"
 
-#: src/vdc/vdc-cmdline-options.c:68 src/translate.c.po.c:3340
+#: src/vdc/vdc-cmdline-options.c:68 src/translate.c.po.c:3446
 msgid "Set VDC revision (0..2)"
 msgstr "Zet de VDC revisie (0..2)"
 
-#: src/vic20/vic20-cmdline-options.c:215 src/translate.c.po.c:3350
+#: src/vic20/vic20-cmdline-options.c:215 src/translate.c.po.c:3456
 msgid "<spec>"
 msgstr "<spec>"
 
-#: src/vic20/vic20-cmdline-options.c:215 src/translate.c.po.c:3360
+#: src/vic20/vic20-cmdline-options.c:215 src/translate.c.po.c:3466
 msgid "Specify memory configuration"
 msgstr "Geef geheugen konfiguratie"
 
-#: src/vic20/vic20-cmdline-options.c:221 src/translate.c.po.c:3370
+#: src/vic20/vic20-cmdline-options.c:221 src/translate.c.po.c:3476
 msgid "Enable VIC-1112 IEEE488 interface"
 msgstr "Aktiveer VIC-1112 IEEE488 interface"
 
-#: src/vic20/vic20-cmdline-options.c:223 src/translate.c.po.c:3380
+#: src/vic20/vic20-cmdline-options.c:223 src/translate.c.po.c:3486
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "VIC-1112 IEEE488 interface afsluiten"
 
-#: src/vic20/vic20cartridge.c:211 src/translate.c.po.c:3390
+#: src/vic20/vic20cartridge.c:211 src/translate.c.po.c:3496
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Geef de naam van het bestand voor de 4/8/16K ROM op $2000"
 
-#: src/vic20/vic20cartridge.c:213 src/translate.c.po.c:3400
+#: src/vic20/vic20cartridge.c:213 src/translate.c.po.c:3506
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Geef de naam van het bestand voor de 4/8/16K ROM op $4000"
 
-#: src/vic20/vic20cartridge.c:215 src/translate.c.po.c:3410
+#: src/vic20/vic20cartridge.c:215 src/translate.c.po.c:3516
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Geef de naam van het bestand voor de 4/8/16K ROM op $6000"
 
-#: src/vic20/vic20cartridge.c:217 src/translate.c.po.c:3420
+#: src/vic20/vic20cartridge.c:217 src/translate.c.po.c:3526
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Geef de naam van het bestand voor de 4/8K ROM op $A000"
 
-#: src/vic20/vic20cartridge.c:219 src/translate.c.po.c:3430
+#: src/vic20/vic20cartridge.c:219 src/translate.c.po.c:3536
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Geef de naam van het bestand voor de 4K ROM op $B000"
 
-#: src/vicii/vicii-cmdline-options.c:71 src/translate.c.po.c:3440
+#: src/vicii/vicii-cmdline-options.c:71 src/translate.c.po.c:3546
 msgid "Enable sprite-background collision registers"
 msgstr "Aktiveer sprite-achtergrond botsing registers"
 
-#: src/vicii/vicii-cmdline-options.c:73 src/translate.c.po.c:3450
+#: src/vicii/vicii-cmdline-options.c:73 src/translate.c.po.c:3556
 msgid "Disable sprite-background collision registers"
 msgstr "Sprite-achtergrond botsing registers afsluiten"
 
-#: src/vicii/vicii-cmdline-options.c:75 src/translate.c.po.c:3460
+#: src/vicii/vicii-cmdline-options.c:75 src/translate.c.po.c:3566
 msgid "Enable sprite-sprite collision registers"
 msgstr "Aktiveer sprite-sprite botsing registers"
 
-#: src/vicii/vicii-cmdline-options.c:77 src/translate.c.po.c:3470
+#: src/vicii/vicii-cmdline-options.c:77 src/translate.c.po.c:3576
 msgid "Disable sprite-sprite collision registers"
 msgstr "Sprite-sprite botsing registers afsluiten"
 
-#: src/vicii/vicii-cmdline-options.c:79 src/translate.c.po.c:3480
+#: src/vicii/vicii-cmdline-options.c:79 src/translate.c.po.c:3586
 msgid "Use new luminances"
 msgstr "Gebruik nieuwe kleuren"
 
-#: src/vicii/vicii-cmdline-options.c:81 src/translate.c.po.c:3490
+#: src/vicii/vicii-cmdline-options.c:81 src/translate.c.po.c:3596
 msgid "Use old luminances"
 msgstr "Gebruik oude kleuren"
 
-#: src/video/video-cmdline-options.c:60 src/translate.c.po.c:3500
+#: src/video/video-cmdline-options.c:60 src/translate.c.po.c:3606
 msgid "Enable double size"
 msgstr "Aktiveer dubbele grootte"
 
-#: src/video/video-cmdline-options.c:62 src/translate.c.po.c:3510
+#: src/video/video-cmdline-options.c:62 src/translate.c.po.c:3616
 msgid "Disable double size"
 msgstr "Dubbele grootte afsluiten"
 
-#: src/video/video-cmdline-options.c:87 src/translate.c.po.c:3520
+#: src/video/video-cmdline-options.c:87 src/translate.c.po.c:3626
 msgid "Enable double scan"
 msgstr "Aktiveer dubbele scan"
 
-#: src/video/video-cmdline-options.c:89 src/translate.c.po.c:3530
+#: src/video/video-cmdline-options.c:89 src/translate.c.po.c:3636
 msgid "Disable double scan"
 msgstr "Dubbele scan afsluiten"
 
-#: src/video/video-cmdline-options.c:114 src/translate.c.po.c:3540
+#: src/video/video-cmdline-options.c:114 src/translate.c.po.c:3646
 msgid "Enable hardware scaling"
 msgstr "Aktiveer hardware schalering"
 
-#: src/video/video-cmdline-options.c:116 src/translate.c.po.c:3550
+#: src/video/video-cmdline-options.c:116 src/translate.c.po.c:3656
 msgid "Disable hardware scaling"
 msgstr "Hardware schalering afsluiten"
 
-#: src/video/video-cmdline-options.c:141 src/translate.c.po.c:3560
+#: src/video/video-cmdline-options.c:141 src/translate.c.po.c:3666
 msgid "Enable Scale2x"
 msgstr "Aktiveer Schaal2x"
 
-#: src/video/video-cmdline-options.c:143 src/translate.c.po.c:3570
+#: src/video/video-cmdline-options.c:143 src/translate.c.po.c:3676
 msgid "Disable Scale2x"
 msgstr "Schaal2x afsluiten"
 
-#: src/video/video-cmdline-options.c:168 src/translate.c.po.c:3580
+#: src/video/video-cmdline-options.c:168 src/translate.c.po.c:3686
 msgid "Use an internal calculated palette"
 msgstr "Gebruik een intern berekend kleuren palette"
 
-#: src/video/video-cmdline-options.c:170 src/translate.c.po.c:3590
+#: src/video/video-cmdline-options.c:170 src/translate.c.po.c:3696
 msgid "Use an external palette (file)"
 msgstr "Gebruik een extern kleuren palette (bestand)"
 
-#: src/video/video-cmdline-options.c:192 src/translate.c.po.c:3600
+#: src/video/video-cmdline-options.c:192 src/translate.c.po.c:3706
 msgid "Specify name of file of external palette"
 msgstr "Geef de naam van het extern kleuren palette bestand"
 
-#: src/video/video-cmdline-options.c:232 src/translate.c.po.c:3610
+#: src/video/video-cmdline-options.c:232 src/translate.c.po.c:3716
 msgid "Enable fullscreen mode"
 msgstr "Aktiveer volscherm modus"
 
-#: src/video/video-cmdline-options.c:234 src/translate.c.po.c:3620
+#: src/video/video-cmdline-options.c:234 src/translate.c.po.c:3726
 msgid "Disable fullscreen mode"
 msgstr "Volscherm modus afsluiten"
 
-#: src/video/video-cmdline-options.c:236 src/translate.c.po.c:3630
+#: src/video/video-cmdline-options.c:236 src/translate.c.po.c:3736
 msgid "<device>"
 msgstr "<apparaat>"
 
-#: src/video/video-cmdline-options.c:236 src/translate.c.po.c:3640
+#: src/video/video-cmdline-options.c:236 src/translate.c.po.c:3746
 msgid "Select fullscreen device"
 msgstr "Selecteer volscherm apparaat"
 
-#: src/video/video-cmdline-options.c:238 src/translate.c.po.c:3650
+#: src/video/video-cmdline-options.c:238 src/translate.c.po.c:3756
 msgid "Enable double size in fullscreen mode"
 msgstr "Aktiveer dubbele grootte in volscherm modus"
 
-#: src/video/video-cmdline-options.c:240 src/translate.c.po.c:3660
+#: src/video/video-cmdline-options.c:240 src/translate.c.po.c:3766
 msgid "Disable double size in fullscreen mode"
 msgstr "Dubbele grootte in volscherm modus afsluiten"
 
-#: src/video/video-cmdline-options.c:242 src/translate.c.po.c:3670
+#: src/video/video-cmdline-options.c:242 src/translate.c.po.c:3776
 msgid "Enable double scan in fullscreen mode"
 msgstr "Aktiveer dubbele scan in volscherm modus"
 
-#: src/video/video-cmdline-options.c:244 src/translate.c.po.c:3680
+#: src/video/video-cmdline-options.c:244 src/translate.c.po.c:3786
 msgid "Disable double scan in fullscreen mode"
 msgstr "Dubbele scan in volscherm modus afsluiten"
 
-#: src/video/video-cmdline-options.c:266 src/translate.c.po.c:3690
+#: src/video/video-cmdline-options.c:266 src/translate.c.po.c:3796
 msgid "<mode>"
 msgstr "<modus>"
 
-#: src/video/video-cmdline-options.c:266 src/translate.c.po.c:3700
+#: src/video/video-cmdline-options.c:266 src/translate.c.po.c:3806
 msgid "Select fullscreen mode"
 msgstr "Aktiveer volscherm modus"
 
@@ -2613,13 +2614,13 @@ msgid "*Enable SID cart"
 msgstr "Aktiveer Schaal2x"
 
 #: src/arch/unix/gui/petui.c:125 src/arch/unix/gui/plus4ui.c:111
-#: src/arch/unix/gui/vic20ui.c:148
+#: src/arch/unix/gui/vic20ui.c:148 src/arch/win32/ressidcart.rc.po.c:23
 #, fuzzy
 msgid "SID address"
 msgstr "<basis adres>"
 
 #: src/arch/unix/gui/petui.c:127 src/arch/unix/gui/plus4ui.c:113
-#: src/arch/unix/gui/vic20ui.c:150
+#: src/arch/unix/gui/vic20ui.c:150 src/arch/win32/ressidcart.rc.po.c:27
 msgid "SID clock"
 msgstr ""
 
@@ -3025,7 +3026,7 @@ msgstr "Cartridge freeze"
 msgid "*Cartridge control"
 msgstr "*Cartridge bediening"
 
-#: src/arch/unix/gui/uicmdline.c:39 src/arch/amigaos/intl.c.po.c:2231
+#: src/arch/unix/gui/uicmdline.c:39 src/arch/amigaos/intl.c.po.c:2366
 #, c-format
 msgid ""
 "\n"
@@ -3644,7 +3645,7 @@ msgstr "Laad "
 #: src/arch/unix/gui/uifliplist.c:87 src/arch/unix/x11/xaw/uicartridge.c:167
 #: src/arch/unix/x11/xaw/uiedisk.c:404
 #: src/arch/unix/x11/xaw/uiscreenshot.c:262
-#: src/arch/unix/x11/xaw/uisnapshot.c:285 src/arch/amigaos/intl.c.po.c:1988
+#: src/arch/unix/x11/xaw/uisnapshot.c:285 src/arch/amigaos/intl.c.po.c:2024
 msgid "Save"
 msgstr "Opslaan"
 
@@ -4004,7 +4005,7 @@ msgid "Connect to server"
 msgstr "maak verbinding met de server"
 
 #: src/arch/unix/gui/uinetplay.c:123 src/arch/unix/x11/gnome/uinetplay.c:320
-#: src/arch/win32/res.rc.po.c:4393
+#: src/arch/win32/res.rc.po.c:4393 src/arch/amigaos/intl.c.po.c:2078
 msgid "Disconnect"
 msgstr "Verbreek verbinding"
 
@@ -4584,7 +4585,7 @@ msgid "*Userport RS232 emulation"
 msgstr "*Userport RS232 emulatie"
 
 #: src/arch/unix/gui/uirs232c64c128.c:78 src/arch/unix/gui/vic20ui.c:395
-#: src/arch/amigaos/intl.c.po.c:3194
+#: src/arch/amigaos/intl.c.po.c:3437
 msgid "Userport RS232 baud rate"
 msgstr "Userport RS232 baudrate"
 
@@ -4673,12 +4674,12 @@ msgstr "Ongeldige snelheid waarde"
 
 #: src/arch/unix/gui/uisettings.c:213 src/arch/unix/x11/gnome/x11ui.c:1378
 #: src/arch/unix/x11/xaw/x11ui.c:1089 src/arch/win32/res.rc.po.c:4752
-#: src/arch/amigaos/intl.c.po.c:1797
+#: src/arch/amigaos/intl.c.po.c:1833
 msgid "Cannot save settings."
 msgstr "Kan de instellingen niet opslaan."
 
 #: src/arch/unix/gui/uisettings.c:216 src/arch/win32/res.rc.po.c:4769
-#: src/arch/amigaos/intl.c.po.c:1716
+#: src/arch/amigaos/intl.c.po.c:1752
 msgid "Settings saved successfully."
 msgstr "Instellingen met succes opgeslagen."
 
@@ -4911,7 +4912,7 @@ msgstr "Buffer grootte"
 msgid "Suspend time"
 msgstr "Stop tijd"
 
-#: src/arch/unix/gui/uisound.c:148 src/arch/amigaos/intl.c.po.c:3383
+#: src/arch/unix/gui/uisound.c:148 src/arch/amigaos/intl.c.po.c:3626
 msgid "Oversample"
 msgstr "Oversample"
 
@@ -5094,7 +5095,7 @@ msgid "Memory expansions"
 msgstr "Geheugen uitbredingen"
 
 #: src/arch/unix/gui/vic20ui.c:266 src/arch/win32/res.rc.po.c:4776
-#: src/arch/amigaos/intl.c.po.c:1905
+#: src/arch/amigaos/intl.c.po.c:1941
 msgid "Invalid cartridge image"
 msgstr "Ongeldig cartridge bestand"
 
@@ -5208,7 +5209,7 @@ msgid "(c) 1998 - 2006 The Vice Team"
 msgstr "(c) 1998 - 2006 The Vice Team"
 
 #: src/arch/unix/x11/gnome/about.c:109 src/arch/win32/res.rc.po.c:4857
-#: src/arch/amigaos/intl.c.po.c:1597
+#: src/arch/amigaos/intl.c.po.c:1633
 msgid "License"
 msgstr "Licensie"
 
@@ -5216,7 +5217,7 @@ msgstr "Licensie"
 msgid "Warranty"
 msgstr "Garantie"
 
-#: src/arch/unix/x11/gnome/about.c:117 src/arch/amigaos/intl.c.po.c:1588
+#: src/arch/unix/x11/gnome/about.c:117 src/arch/amigaos/intl.c.po.c:1624
 msgid "Contributors"
 msgstr "Medewerkers"
 
@@ -5352,10 +5353,12 @@ msgid "Invalid Port number"
 msgstr "Ongeldige Poort nummer"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:138 src/arch/win32/res.rc.po.c:4919
+#: src/arch/amigaos/intl.c.po.c:2087
 msgid "Idle"
 msgstr "Idle"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:143 src/arch/win32/res.rc.po.c:4920
+#: src/arch/amigaos/intl.c.po.c:2096
 msgid "Server listening"
 msgstr "Server wacht op verbinding"
 
@@ -5382,6 +5385,7 @@ msgstr "Kon de client niet verbinden."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:204
 #: src/arch/unix/x11/gnome/uinetplay.c:210 src/arch/win32/res.rc.po.c:4384
+#: src/arch/amigaos/intl.c.po.c:2123
 msgid "Netplay Settings"
 msgstr "netplay Instellingen"
 
@@ -5394,6 +5398,7 @@ msgid "<unknown>"
 msgstr "<onbekent>"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:226 src/arch/win32/res.rc.po.c:4390
+#: src/arch/amigaos/intl.c.po.c:2060
 msgid "Start Server"
 msgstr "Start Server"
 
@@ -5423,7 +5428,7 @@ msgstr "Geen scherm afdruk struurprogrammas beschikbaar"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:238
 #: src/arch/unix/x11/gnome/uiscreenshot.c:450
-#: src/arch/amigaos/intl.c.po.c:1997
+#: src/arch/amigaos/intl.c.po.c:2132
 msgid "Save Screenshot"
 msgstr "Scherm afdruk opslaan"
 
@@ -5608,7 +5613,7 @@ msgstr "Maximale aantal van bovenliggende vensters."
 msgid "Commands"
 msgstr "Commandos"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1268 src/arch/amigaos/intl.c.po.c:1561
+#: src/arch/unix/x11/gnome/x11ui.c:1268 src/arch/amigaos/intl.c.po.c:1597
 msgid "Help"
 msgstr "Help"
 
@@ -5645,11 +5650,11 @@ msgstr "Tape %03d"
 msgid "%s (paused)"
 msgstr "%s (op pauze)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1974 src/arch/amigaos/intl.c.po.c:1743
+#: src/arch/unix/x11/gnome/x11ui.c:1974 src/arch/amigaos/intl.c.po.c:1779
 msgid "VICE Message"
 msgstr "VICE Bericht"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1985 src/arch/amigaos/intl.c.po.c:1815
+#: src/arch/unix/x11/gnome/x11ui.c:1985 src/arch/amigaos/intl.c.po.c:1851
 msgid "VICE Error"
 msgstr "Vice Fout"
 
@@ -5830,22 +5835,22 @@ msgid "Use the default colormap"
 msgstr "Gebruik de standaard kleurenmap"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:48 src/arch/win32/res.rc.po.c:4906
-#: src/arch/amigaos/intl.c.po.c:2996
+#: src/arch/amigaos/intl.c.po.c:3167
 msgid "Save settings (resources) on exit"
 msgstr "Instellingen (resources) opslaan bij afsluiten"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:51 src/arch/win32/res.rc.po.c:4909
-#: src/arch/amigaos/intl.c.po.c:3023
+#: src/arch/amigaos/intl.c.po.c:3194
 msgid "Never confirm quiting VICE"
 msgstr "Niet bevestigen van het afsluiten van VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:54 src/arch/win32/res.rc.po.c:4908
-#: src/arch/amigaos/intl.c.po.c:3014
+#: src/arch/amigaos/intl.c.po.c:3185
 msgid "Confirm quiting VICE"
 msgstr "Bevestigen van het aflsuiten van VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:57 src/arch/win32/res.rc.po.c:4907
-#: src/arch/amigaos/intl.c.po.c:3005
+#: src/arch/amigaos/intl.c.po.c:3176
 msgid "Never save settings (resources) on exit"
 msgstr "Instellingen (resources) niet opslaan bij afsluiten"
 
@@ -5988,7 +5993,7 @@ msgstr "Bladeren..."
 #: src/arch/win32/resplus4.rc.po.c:2278 src/arch/win32/resplus4.rc.po.c:2461
 #: src/arch/win32/resplus4.rc.po.c:2671 src/arch/win32/ressidcart.rc.po.c:39
 #: src/arch/win32/resvic20.rc.po.c:1920 src/arch/win32/resvic20.rc.po.c:2096
-#: src/arch/amigaos/intl.c.po.c:2006
+#: src/arch/amigaos/intl.c.po.c:2141
 msgid "Cancel"
 msgstr "Annuleren"
 
@@ -6273,7 +6278,7 @@ msgstr "Over VICE"
 #: src/arch/win32/respet.rc.po.c:2425 src/arch/win32/resplus4.rc.po.c:2277
 #: src/arch/win32/resplus4.rc.po.c:2460 src/arch/win32/resplus4.rc.po.c:2670
 #: src/arch/win32/ressidcart.rc.po.c:38 src/arch/win32/resvic20.rc.po.c:1919
-#: src/arch/win32/resvic20.rc.po.c:2095 src/arch/amigaos/intl.c.po.c:1752
+#: src/arch/win32/resvic20.rc.po.c:2095 src/arch/amigaos/intl.c.po.c:1788
 msgid "OK"
 msgstr "OK"
 
@@ -6371,7 +6376,7 @@ msgid "&Autostart"
 msgstr "&Autostart"
 
 #: src/arch/win32/res.rc.po.c:592 src/arch/win32/res.rc.po.c:1820
-#: src/arch/amigaos/intl.c.po.c:2312
+#: src/arch/amigaos/intl.c.po.c:2447
 msgid "Attach read only"
 msgstr "Alleen lezen"
 
@@ -6398,7 +6403,7 @@ msgstr "&Schrijf P00 bestanden"
 msgid "&Hide non-P00 files"
 msgstr "&Verberg non-P00 bestanden"
 
-#: src/arch/win32/res.rc.po.c:851 src/arch/amigaos/intl.c.po.c:2654
+#: src/arch/win32/res.rc.po.c:851 src/arch/amigaos/intl.c.po.c:2807
 msgid "Datasette Settings"
 msgstr "Datasette Instellingen"
 
@@ -6518,11 +6523,11 @@ msgstr "Synchronisatie &Methode :"
 msgid "Image Contents "
 msgstr "bestand Inhoud "
 
-#: src/arch/win32/res.rc.po.c:1822 src/arch/amigaos/intl.c.po.c:2339
+#: src/arch/win32/res.rc.po.c:1822 src/arch/amigaos/intl.c.po.c:2474
 msgid "New Image"
 msgstr "Nieuw Bestand"
 
-#: src/arch/win32/res.rc.po.c:1823 src/arch/amigaos/intl.c.po.c:2321
+#: src/arch/win32/res.rc.po.c:1823 src/arch/amigaos/intl.c.po.c:2456
 msgid "Name"
 msgstr "Naam"
 
@@ -6535,11 +6540,11 @@ msgid "Type"
 msgstr "Soort"
 
 #: src/arch/win32/res.rc.po.c:1830 src/arch/win32/res.rc.po.c:1999
-#: src/arch/amigaos/intl.c.po.c:2330
+#: src/arch/amigaos/intl.c.po.c:2465
 msgid "Create Image"
 msgstr "Maak Bestand"
 
-#: src/arch/win32/res.rc.po.c:1998 src/arch/amigaos/intl.c.po.c:2348
+#: src/arch/win32/res.rc.po.c:1998 src/arch/amigaos/intl.c.po.c:2483
 msgid "New TAP Image"
 msgstr "Nieuw TAP Bestand"
 
@@ -6641,7 +6646,7 @@ msgstr "PAL Modus"
 msgid "External Palette:"
 msgstr "Extern Palette:"
 
-#: src/arch/win32/res.rc.po.c:3284 src/arch/amigaos/intl.c.po.c:3104
+#: src/arch/win32/res.rc.po.c:3284 src/arch/amigaos/intl.c.po.c:3311
 msgid "RAM Settings"
 msgstr "RAM Instellingen"
 
@@ -6649,15 +6654,15 @@ msgstr "RAM Instellingen"
 msgid "Initialization at powerup"
 msgstr "Initialisatie bij opstarten"
 
-#: src/arch/win32/res.rc.po.c:3287 src/arch/amigaos/intl.c.po.c:3077
+#: src/arch/win32/res.rc.po.c:3287 src/arch/amigaos/intl.c.po.c:3284
 msgid "Value of first byte"
 msgstr "Waarde van eerste byte"
 
-#: src/arch/win32/res.rc.po.c:3291 src/arch/amigaos/intl.c.po.c:3086
+#: src/arch/win32/res.rc.po.c:3291 src/arch/amigaos/intl.c.po.c:3293
 msgid "Length of constant values"
 msgstr "Lengte van constante waarden"
 
-#: src/arch/win32/res.rc.po.c:3294 src/arch/amigaos/intl.c.po.c:3095
+#: src/arch/win32/res.rc.po.c:3294 src/arch/amigaos/intl.c.po.c:3302
 msgid "Length of constant pattern"
 msgstr "Lengte van constant patroon"
 
@@ -6723,6 +6728,7 @@ msgid "Romset archive"
 msgstr "Romset archief"
 
 #: src/arch/win32/res.rc.po.c:3847 src/arch/win32/res.rc.po.c:3859
+#: src/arch/amigaos/intl.c.po.c:2033
 msgid "Browse"
 msgstr "Bladeren"
 
@@ -6802,15 +6808,15 @@ msgstr "RS232 apparaat 3"
 msgid "RS232 device 4"
 msgstr "RS232 apparaat 4"
 
-#: src/arch/win32/res.rc.po.c:4386
+#: src/arch/win32/res.rc.po.c:4386 src/arch/amigaos/intl.c.po.c:2042
 msgid "Current mode"
 msgstr "Huidige modus"
 
-#: src/arch/win32/res.rc.po.c:4388
+#: src/arch/win32/res.rc.po.c:4388 src/arch/amigaos/intl.c.po.c:2051
 msgid "TCP-Port"
 msgstr "TCP-Poort"
 
-#: src/arch/win32/res.rc.po.c:4391
+#: src/arch/win32/res.rc.po.c:4391 src/arch/amigaos/intl.c.po.c:2069
 msgid "Connect to"
 msgstr "Maak verbinding naar"
 
@@ -6827,15 +6833,15 @@ msgstr "Uw ffmpeg dll versie is niet juist."
 msgid "DirectDraw error: Code:%8x Error:%s"
 msgstr "DirectDraw fout: Code:%8x Fout:%s"
 
-#: src/arch/win32/res.rc.po.c:4753 src/arch/amigaos/intl.c.po.c:1806
+#: src/arch/win32/res.rc.po.c:4753 src/arch/amigaos/intl.c.po.c:1842
 msgid "Cannot load settings."
 msgstr "Kan de instellingen niet laden."
 
-#: src/arch/win32/res.rc.po.c:4754 src/arch/amigaos/intl.c.po.c:1734
+#: src/arch/win32/res.rc.po.c:4754 src/arch/amigaos/intl.c.po.c:1770
 msgid "Default settings restored."
 msgstr "Standaard instellingen hersteld."
 
-#: src/arch/win32/res.rc.po.c:4755 src/arch/amigaos/intl.c.po.c:1878
+#: src/arch/win32/res.rc.po.c:4755 src/arch/amigaos/intl.c.po.c:1914
 msgid "Cannot attach specified file"
 msgstr "Kan het opgegeven bestand niet koppelen"
 
@@ -6854,7 +6860,7 @@ msgstr ""
 msgid "VICE CPU JAM"
 msgstr "VICE CPU HANGT"
 
-#: src/arch/win32/res.rc.po.c:4758 src/arch/amigaos/intl.c.po.c:2060
+#: src/arch/win32/res.rc.po.c:4758 src/arch/amigaos/intl.c.po.c:2195
 msgid "Extend image to 40-track format?"
 msgstr "Bestand uitbreiden naar 40-sporen formaat?"
 
@@ -6868,7 +6874,7 @@ msgstr "Apparaat %s ontkoppelt"
 msgid "Attached %s to device#%s"
 msgstr "%s aan apparaat#%s gekoppelt"
 
-#: src/arch/win32/res.rc.po.c:4761 src/arch/amigaos/intl.c.po.c:2078
+#: src/arch/win32/res.rc.po.c:4761 src/arch/amigaos/intl.c.po.c:2213
 msgid "Detached tape"
 msgstr "Tape ontkoppelt"
 
@@ -6889,7 +6895,7 @@ msgstr "gepauzeerd"
 msgid "resumed"
 msgstr "hervat"
 
-#: src/arch/win32/res.rc.po.c:4766 src/arch/amigaos/intl.c.po.c:2114
+#: src/arch/win32/res.rc.po.c:4766 src/arch/amigaos/intl.c.po.c:2249
 msgid ""
 "Do you really want to exit?\n"
 "\n"
@@ -6899,16 +6905,16 @@ msgstr ""
 "\n"
 "Alle data in geëmuleerd geheugen zal verloren gaan."
 
-#: src/arch/win32/res.rc.po.c:4767 src/arch/amigaos/intl.c.po.c:1869
+#: src/arch/win32/res.rc.po.c:4767 src/arch/amigaos/intl.c.po.c:1905
 msgid "Cannot autostart specified file."
 msgstr "Kan opgegeven bestand niet autostarten."
 
-#: src/arch/win32/res.rc.po.c:4768 src/arch/amigaos/intl.c.po.c:2087
+#: src/arch/win32/res.rc.po.c:4768 src/arch/amigaos/intl.c.po.c:2222
 #, c-format
 msgid "Attached tape %s"
 msgstr "Tape %s gekoppelt"
 
-#: src/arch/win32/res.rc.po.c:4770 src/arch/amigaos/intl.c.po.c:1725
+#: src/arch/win32/res.rc.po.c:4770 src/arch/amigaos/intl.c.po.c:1761
 msgid "Settings loaded successfully."
 msgstr "Instellingen met succes geladen."
 
@@ -6916,19 +6922,19 @@ msgstr "Instellingen met succes geladen."
 msgid "Attach disk image"
 msgstr "Koppel disk bestand"
 
-#: src/arch/win32/res.rc.po.c:4772 src/arch/amigaos/intl.c.po.c:3455
+#: src/arch/win32/res.rc.po.c:4772 src/arch/amigaos/intl.c.po.c:3698
 msgid "Attach tape image"
 msgstr "Koppel tape bestand"
 
-#: src/arch/win32/res.rc.po.c:4773 src/arch/amigaos/intl.c.po.c:3464
+#: src/arch/win32/res.rc.po.c:4773 src/arch/amigaos/intl.c.po.c:3707
 msgid "Autostart disk/tape image"
 msgstr "Autostart disk/tape bestand"
 
-#: src/arch/win32/res.rc.po.c:4774 src/arch/amigaos/intl.c.po.c:1887
+#: src/arch/win32/res.rc.po.c:4774 src/arch/amigaos/intl.c.po.c:1923
 msgid "Invalid cartridge"
 msgstr "Ongeldige cartridge"
 
-#: src/arch/win32/res.rc.po.c:4775 src/arch/amigaos/intl.c.po.c:1896
+#: src/arch/win32/res.rc.po.c:4775 src/arch/amigaos/intl.c.po.c:1932
 msgid "Bad cartridge config in UI!"
 msgstr "Slechte cartridge configuratie in UI!"
 
@@ -6985,19 +6991,19 @@ msgstr "&Koppel"
 msgid "Please enter a filename."
 msgstr "Geef aub een bestandsnaam op."
 
-#: src/arch/win32/res.rc.po.c:4791 src/arch/amigaos/intl.c.po.c:2357
+#: src/arch/win32/res.rc.po.c:4791 src/arch/amigaos/intl.c.po.c:2492
 msgid "Overwrite existing image?"
 msgstr "Bestaand bestand overschrijven?"
 
-#: src/arch/win32/res.rc.po.c:4792 src/arch/amigaos/intl.c.po.c:1914
+#: src/arch/win32/res.rc.po.c:4792 src/arch/amigaos/intl.c.po.c:1950
 msgid "Cannot create image"
 msgstr "Kan bestand niet maken"
 
-#: src/arch/win32/res.rc.po.c:4793 src/arch/amigaos/intl.c.po.c:1579
+#: src/arch/win32/res.rc.po.c:4793 src/arch/amigaos/intl.c.po.c:1615
 msgid "Command line options"
 msgstr "Commando opties"
 
-#: src/arch/win32/res.rc.po.c:4794 src/arch/amigaos/intl.c.po.c:1788
+#: src/arch/win32/res.rc.po.c:4794 src/arch/amigaos/intl.c.po.c:1824
 msgid "Which command line options are available?"
 msgstr "Welke commando opties zijn beschikbaar?"
 
@@ -7139,15 +7145,15 @@ msgstr "Echt IEC apparaat"
 msgid "RS232 device %i"
 msgstr "RS232 apparaat %i"
 
-#: src/arch/win32/res.rc.po.c:4834 src/arch/amigaos/intl.c.po.c:2132
+#: src/arch/win32/res.rc.po.c:4834 src/arch/amigaos/intl.c.po.c:2267
 msgid "Attach raw 8KB cartridge image"
 msgstr "Koppel binair 8KB cartridge bestand"
 
-#: src/arch/win32/res.rc.po.c:4835 src/arch/amigaos/intl.c.po.c:2141
+#: src/arch/win32/res.rc.po.c:4835 src/arch/amigaos/intl.c.po.c:2276
 msgid "Attach raw 16KB cartridge image"
 msgstr "Koppel binair 16KB cartridge bestand"
 
-#: src/arch/win32/res.rc.po.c:4836 src/arch/amigaos/intl.c.po.c:2150
+#: src/arch/win32/res.rc.po.c:4836 src/arch/amigaos/intl.c.po.c:2285
 msgid "Attach Action Replay cartridge image"
 msgstr "Koppel Action Replay cartridge bestand"
 
@@ -7155,35 +7161,35 @@ msgstr "Koppel Action Replay cartridge bestand"
 msgid "Attach Action Replay III cartridge image"
 msgstr "Koppel Action Replay III cartridge bestand"
 
-#: src/arch/win32/res.rc.po.c:4838 src/arch/amigaos/intl.c.po.c:2159
+#: src/arch/win32/res.rc.po.c:4838 src/arch/amigaos/intl.c.po.c:2294
 msgid "Attach Atomic Power cartridge image"
 msgstr "Koppel Atomic Power cartridge bestand"
 
-#: src/arch/win32/res.rc.po.c:4839 src/arch/amigaos/intl.c.po.c:2168
+#: src/arch/win32/res.rc.po.c:4839 src/arch/amigaos/intl.c.po.c:2303
 msgid "Attach Epyx fastload cartridge image"
 msgstr "Koppel Epyx fastload cartridge bestand"
 
-#: src/arch/win32/res.rc.po.c:4840 src/arch/amigaos/intl.c.po.c:2177
+#: src/arch/win32/res.rc.po.c:4840 src/arch/amigaos/intl.c.po.c:2312
 msgid "Attach IEEE interface cartridge image"
 msgstr "Koppel IEEE interface cartridge bestand"
 
-#: src/arch/win32/res.rc.po.c:4841 src/arch/amigaos/intl.c.po.c:2186
+#: src/arch/win32/res.rc.po.c:4841 src/arch/amigaos/intl.c.po.c:2321
 msgid "Attach Retro Replay cartridge image"
 msgstr "Koppel Retro Replay cartridge bestand"
 
-#: src/arch/win32/res.rc.po.c:4842 src/arch/amigaos/intl.c.po.c:2195
+#: src/arch/win32/res.rc.po.c:4842 src/arch/amigaos/intl.c.po.c:2330
 msgid "Attach IDE64 interface cartridge image"
 msgstr "Koppel IDE64 interface cartridge bestand"
 
-#: src/arch/win32/res.rc.po.c:4843 src/arch/amigaos/intl.c.po.c:2204
+#: src/arch/win32/res.rc.po.c:4843 src/arch/amigaos/intl.c.po.c:2339
 msgid "Attach Super Snapshot 4 cartridge image"
 msgstr "Koppel Super Snapshot 4 cartridge bestand"
 
-#: src/arch/win32/res.rc.po.c:4844 src/arch/amigaos/intl.c.po.c:2213
+#: src/arch/win32/res.rc.po.c:4844 src/arch/amigaos/intl.c.po.c:2348
 msgid "Attach Super Snapshot 5 cartridge image"
 msgstr "Koppel Super Snapshot 5 cartridge bestand"
 
-#: src/arch/win32/res.rc.po.c:4845 src/arch/amigaos/intl.c.po.c:2222
+#: src/arch/win32/res.rc.po.c:4845 src/arch/amigaos/intl.c.po.c:2357
 msgid "Attach Structured Basic cartridge image"
 msgstr "Koppel Structured Basic cartridge bestand"
 
@@ -7191,15 +7197,15 @@ msgstr "Koppel Structured Basic cartridge bestand"
 msgid "Model"
 msgstr "Model"
 
-#: src/arch/win32/res.rc.po.c:4847 src/arch/amigaos/intl.c.po.c:2762
+#: src/arch/win32/res.rc.po.c:4847 src/arch/amigaos/intl.c.po.c:2915
 msgid "Drive Settings"
 msgstr "Drive Instellingen"
 
-#: src/arch/win32/res.rc.po.c:4848 src/arch/amigaos/intl.c.po.c:2096
+#: src/arch/win32/res.rc.po.c:4848 src/arch/amigaos/intl.c.po.c:2231
 msgid "Select start snapshot for event history"
 msgstr "Selecteer start momentopname voor gebeurtenis geschiedenis"
 
-#: src/arch/win32/res.rc.po.c:4849 src/arch/amigaos/intl.c.po.c:2105
+#: src/arch/win32/res.rc.po.c:4849 src/arch/amigaos/intl.c.po.c:2240
 msgid "Select end snapshot for event history"
 msgstr "Selecteer eind momentopname voor gebeurtenis geschiedenis"
 
@@ -7213,15 +7219,15 @@ msgstr "Versie %s *ONSTABIEL*"
 msgid "Version %s"
 msgstr "Versie %s"
 
-#: src/arch/win32/res.rc.po.c:4855 src/arch/amigaos/intl.c.po.c:1761
+#: src/arch/win32/res.rc.po.c:4855 src/arch/amigaos/intl.c.po.c:1797
 msgid "VICE contributors"
 msgstr "VICE medewerkers"
 
-#: src/arch/win32/res.rc.po.c:4856 src/arch/amigaos/intl.c.po.c:1770
+#: src/arch/win32/res.rc.po.c:4856 src/arch/amigaos/intl.c.po.c:1806
 msgid "Who made what?"
 msgstr "Wie heeft wat gemaakt?"
 
-#: src/arch/win32/res.rc.po.c:4859 src/arch/amigaos/intl.c.po.c:1779
+#: src/arch/win32/res.rc.po.c:4859 src/arch/amigaos/intl.c.po.c:1815
 msgid "VICE is distributed WITHOUT ANY WARRANTY!"
 msgstr "VICE heeft ABSOLUUT GEEN GARANTIE!"
 
@@ -7334,15 +7340,15 @@ msgstr "VICE romset archieven (*.vra)"
 msgid "VICE keymap files (*.vkm)"
 msgstr "VICE keymap bestanden (*.vkm)"
 
-#: src/arch/win32/res.rc.po.c:4887 src/arch/amigaos/intl.c.po.c:3338
+#: src/arch/win32/res.rc.po.c:4887 src/arch/amigaos/intl.c.po.c:3581
 msgid "Flexible"
 msgstr "Flexibel"
 
-#: src/arch/win32/res.rc.po.c:4888 src/arch/amigaos/intl.c.po.c:3347
+#: src/arch/win32/res.rc.po.c:4888 src/arch/amigaos/intl.c.po.c:3590
 msgid "Adjusting"
 msgstr "Aanpassend"
 
-#: src/arch/win32/res.rc.po.c:4889 src/arch/amigaos/intl.c.po.c:3356
+#: src/arch/win32/res.rc.po.c:4889 src/arch/amigaos/intl.c.po.c:3599
 msgid "Exact"
 msgstr "Exact"
 
@@ -7378,7 +7384,7 @@ msgstr "Configureer Keyset B"
 msgid "Save media image"
 msgstr "Media bestand opslaan"
 
-#: src/arch/win32/res.rc.po.c:4897 src/arch/amigaos/intl.c.po.c:2285
+#: src/arch/win32/res.rc.po.c:4897 src/arch/amigaos/intl.c.po.c:2420
 #, c-format
 msgid "%s at %d%% speed, %d fps%s"
 msgstr "%s met %d%% snelheid, %d fps%s"
@@ -7443,33 +7449,33 @@ msgstr "Onverwachte fout. Kreeg signaal %d (%s)."
 msgid "An unexpected error occured. Received signal %d."
 msgstr "Onverwachte fout. Kreeg signaal %d."
 
-#: src/arch/win32/res.rc.po.c:4921
+#: src/arch/win32/res.rc.po.c:4921 src/arch/amigaos/intl.c.po.c:2105
 msgid "Connected server"
 msgstr "Verbonden server"
 
-#: src/arch/win32/res.rc.po.c:4923 src/arch/amigaos/intl.c.po.c:1941
+#: src/arch/win32/res.rc.po.c:4923 src/arch/amigaos/intl.c.po.c:1977
 msgid "Invalid port number"
 msgstr "Ongeldig poort nummer"
 
-#: src/arch/win32/res.rc.po.c:4924 src/arch/amigaos/intl.c.po.c:1923
+#: src/arch/win32/res.rc.po.c:4924 src/arch/amigaos/intl.c.po.c:1959
 msgid "An error occured starting the server."
 msgstr "Een fout is opgetreden bij het starten van de server."
 
-#: src/arch/win32/res.rc.po.c:4925 src/arch/amigaos/intl.c.po.c:1932
+#: src/arch/win32/res.rc.po.c:4925 src/arch/amigaos/intl.c.po.c:1968
 msgid "An error occured connecting the client."
 msgstr "Een fout is opgetreden bij het verbinden."
 
 #: src/arch/win32/res.rc.po.c:4934 src/arch/win32/resdrivec128.rc.po.c:48
 #: src/arch/win32/resdrivec64vic20.rc.po.c:46
-#: src/arch/win32/resdriveplus4.rc.po.c:34 src/arch/amigaos/intl.c.po.c:2438
+#: src/arch/win32/resdriveplus4.rc.po.c:34 src/arch/amigaos/intl.c.po.c:2573
 msgid "None"
 msgstr "Geen"
 
-#: src/arch/win32/resacia.rc.po.c:37 src/arch/amigaos/intl.c.po.c:2447
+#: src/arch/win32/resacia.rc.po.c:37 src/arch/amigaos/intl.c.po.c:2582
 msgid "IRQ"
 msgstr "IRQ"
 
-#: src/arch/win32/resacia.rc.po.c:38 src/arch/amigaos/intl.c.po.c:2456
+#: src/arch/win32/resacia.rc.po.c:38 src/arch/amigaos/intl.c.po.c:2591
 msgid "NMI"
 msgstr "NMI"
 
@@ -7485,7 +7491,7 @@ msgstr "Swiftlink"
 msgid "Turbo232"
 msgstr "Turbo232"
 
-#: src/arch/win32/resacia.rc.po.c:42 src/arch/amigaos/intl.c.po.c:2492
+#: src/arch/win32/resacia.rc.po.c:42 src/arch/amigaos/intl.c.po.c:2627
 msgid "ACIA Settings"
 msgstr "ACIA Instellingen"
 
@@ -8743,7 +8749,7 @@ msgstr "&Symbolisch US"
 msgid "&Symbolic DE"
 msgstr "&Symbolisch DE"
 
-#: src/arch/win32/resc64_256k.rc.po.c:24 src/arch/amigaos/intl.c.po.c:2519
+#: src/arch/win32/resc64_256k.rc.po.c:24 src/arch/amigaos/intl.c.po.c:2672
 msgid "256K Settings"
 msgstr "Instellingen"
 
@@ -8755,11 +8761,11 @@ msgstr "&Aktiveer 256K"
 msgid "256K base address"
 msgstr "256K basis adres"
 
-#: src/arch/win32/resc64_256k.rc.po.c:27
+#: src/arch/win32/resc64_256k.rc.po.c:27 src/arch/amigaos/intl.c.po.c:2654
 msgid "256K file"
 msgstr "256K bestand"
 
-#: src/arch/win32/resc64_256k.rc.po.c:28
+#: src/arch/win32/resc64_256k.rc.po.c:28 src/arch/amigaos/intl.c.po.c:2663
 msgid "Select file for 256K"
 msgstr "Selecteer bestand voor 256K"
 
@@ -9013,21 +9019,21 @@ msgstr "40 &sporen ondersteuning"
 #: src/arch/win32/resdrivec128.rc.po.c:41
 #: src/arch/win32/resdrivec64vic20.rc.po.c:39
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:29
-#: src/arch/win32/resdriveplus4.rc.po.c:27 src/arch/amigaos/intl.c.po.c:2663
+#: src/arch/win32/resdriveplus4.rc.po.c:27 src/arch/amigaos/intl.c.po.c:2816
 msgid "Never extend"
 msgstr "Nooit uitbreiden"
 
 #: src/arch/win32/resdrivec128.rc.po.c:43
 #: src/arch/win32/resdrivec64vic20.rc.po.c:41
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:31
-#: src/arch/win32/resdriveplus4.rc.po.c:29 src/arch/amigaos/intl.c.po.c:2672
+#: src/arch/win32/resdriveplus4.rc.po.c:29 src/arch/amigaos/intl.c.po.c:2825
 msgid "Ask on extend"
 msgstr "Vragen bij uitbreiden"
 
 #: src/arch/win32/resdrivec128.rc.po.c:45
 #: src/arch/win32/resdrivec64vic20.rc.po.c:43
 #: src/arch/win32/resdrivepetcbm2.rc.po.c:33
-#: src/arch/win32/resdriveplus4.rc.po.c:31 src/arch/amigaos/intl.c.po.c:2681
+#: src/arch/win32/resdriveplus4.rc.po.c:31 src/arch/amigaos/intl.c.po.c:2834
 msgid "Extend on access"
 msgstr "Uitbreiden bij toegang"
 
@@ -9039,13 +9045,13 @@ msgstr "Id&le methode"
 
 #: src/arch/win32/resdrivec128.rc.po.c:50
 #: src/arch/win32/resdrivec64vic20.rc.po.c:48
-#: src/arch/win32/resdriveplus4.rc.po.c:36 src/arch/amigaos/intl.c.po.c:2708
+#: src/arch/win32/resdriveplus4.rc.po.c:36 src/arch/amigaos/intl.c.po.c:2861
 msgid "Trap idle"
 msgstr "Trap idle"
 
 #: src/arch/win32/resdrivec128.rc.po.c:52
 #: src/arch/win32/resdrivec64vic20.rc.po.c:50
-#: src/arch/win32/resdriveplus4.rc.po.c:38 src/arch/amigaos/intl.c.po.c:2699
+#: src/arch/win32/resdriveplus4.rc.po.c:38 src/arch/amigaos/intl.c.po.c:2852
 msgid "Skip cycles"
 msgstr "Sla cycli over"
 
@@ -9110,7 +9116,7 @@ msgstr "15&81"
 msgid "$4&000-$5FFF RAM"
 msgstr "$4&000-$5FFF RAM"
 
-#: src/arch/win32/resgeoram.rc.po.c:10 src/arch/amigaos/intl.c.po.c:2780
+#: src/arch/win32/resgeoram.rc.po.c:10 src/arch/amigaos/intl.c.po.c:2951
 msgid "GEORAM Settings"
 msgstr "GEORAM Instellingen"
 
@@ -9118,11 +9124,11 @@ msgstr "GEORAM Instellingen"
 msgid "&Enable GEORAM"
 msgstr "&Aktiveer GEORAM"
 
-#: src/arch/win32/resgeoram.rc.po.c:18
+#: src/arch/win32/resgeoram.rc.po.c:18 src/arch/amigaos/intl.c.po.c:2933
 msgid "GEORAM file"
 msgstr "GEORAM bestand"
 
-#: src/arch/win32/resgeoram.rc.po.c:189
+#: src/arch/win32/resgeoram.rc.po.c:189 src/arch/amigaos/intl.c.po.c:2942
 msgid "Select file for GEORAM"
 msgstr "Selecteer bestand voor GEORAM"
 
@@ -9142,15 +9148,15 @@ msgstr "&Geometry"
 msgid "&Autodetect"
 msgstr "&Autodetectie"
 
-#: src/arch/win32/reside64.rc.po.c:41
+#: src/arch/win32/reside64.rc.po.c:41 src/arch/amigaos/intl.c.po.c:3743
 msgid "Cylinders"
 msgstr "Cylinders"
 
-#: src/arch/win32/reside64.rc.po.c:42
+#: src/arch/win32/reside64.rc.po.c:42 src/arch/amigaos/intl.c.po.c:3752
 msgid "Heads"
 msgstr "Koppen"
 
-#: src/arch/win32/reside64.rc.po.c:43
+#: src/arch/win32/reside64.rc.po.c:43 src/arch/amigaos/intl.c.po.c:3761
 msgid "Sectors"
 msgstr "Sectors"
 
@@ -9159,7 +9165,7 @@ msgstr "Sectors"
 msgid "Total size: %iKB"
 msgstr "Totale grootte: %iKB"
 
-#: src/arch/win32/reside64.rc.po.c:45
+#: src/arch/win32/reside64.rc.po.c:45 src/arch/amigaos/intl.c.po.c:3725
 msgid "Select HD image file"
 msgstr "Selecteer HD bestand"
 
@@ -9167,7 +9173,7 @@ msgstr "Selecteer HD bestand"
 msgid "&Enable MMC64"
 msgstr "&Aktiveer MMC64"
 
-#: src/arch/win32/resmmc64.rc.po.c:13
+#: src/arch/win32/resmmc64.rc.po.c:13 src/arch/amigaos/intl.c.po.c:3779
 msgid "BIOS Revision"
 msgstr "BIOS Revisie"
 
@@ -9183,7 +9189,7 @@ msgstr "&Sla de MMC64 bios op als er veranderingen zijn gemaakt"
 msgid "&BIOS File"
 msgstr "&BIOS Bestand"
 
-#: src/arch/win32/resmmc64.rc.po.c:25
+#: src/arch/win32/resmmc64.rc.po.c:25 src/arch/amigaos/intl.c.po.c:3824
 msgid "MMC/SD Image read-only"
 msgstr "MMC/SD bestand alleen-leze"
 
@@ -9389,7 +9395,7 @@ msgstr "Invoer/Uitvoer"
 msgid "PET settings"
 msgstr "PET instellingen"
 
-#: src/arch/win32/respetreu.rc.po.c:30 src/arch/amigaos/intl.c.po.c:3041
+#: src/arch/win32/respetreu.rc.po.c:30 src/arch/amigaos/intl.c.po.c:3230
 msgid "PET REU Settings"
 msgstr "PET REU Instellingen"
 
@@ -9397,15 +9403,15 @@ msgstr "PET REU Instellingen"
 msgid "&Enable PET REU"
 msgstr "&Aktiveer PET REU"
 
-#: src/arch/win32/respetreu.rc.po.c:33
+#: src/arch/win32/respetreu.rc.po.c:33 src/arch/amigaos/intl.c.po.c:3212
 msgid "PET REU file"
 msgstr "PET REU bestand"
 
-#: src/arch/win32/respetreu.rc.po.c:34
+#: src/arch/win32/respetreu.rc.po.c:34 src/arch/amigaos/intl.c.po.c:3221
 msgid "Select file for PET REU"
 msgstr "Selecteer bestand voor PET REU"
 
-#: src/arch/win32/resplus256k.rc.po.c:20 src/arch/amigaos/intl.c.po.c:3050
+#: src/arch/win32/resplus256k.rc.po.c:20 src/arch/amigaos/intl.c.po.c:3239
 msgid "PLUS256K Settings"
 msgstr "PLUS256K Instellingen"
 
@@ -9413,11 +9419,11 @@ msgstr "PLUS256K Instellingen"
 msgid "&Enable PLUS256K"
 msgstr "&Aktiveer PLUS256K"
 
-#: src/arch/win32/resplus256k.rc.po.c:22
+#: src/arch/win32/resplus256k.rc.po.c:22 src/arch/amigaos/intl.c.po.c:1453
 msgid "PLUS256K file"
 msgstr "PLUS256K bestand"
 
-#: src/arch/win32/resplus256k.rc.po.c:23
+#: src/arch/win32/resplus256k.rc.po.c:23 src/arch/amigaos/intl.c.po.c:1462
 msgid "Select file for PLUS256K"
 msgstr "Selecteer bestand voor PLUS256K"
 
@@ -9525,7 +9531,7 @@ msgstr "Koppel cartridge bestand voor 'Cartridge2 Low'"
 msgid "Attach cartridge image for Cartridge2 High"
 msgstr "Koppel cartridge bestand voor 'Cartridge2 High'"
 
-#: src/arch/win32/resplus60k.rc.po.c:24 src/arch/amigaos/intl.c.po.c:3068
+#: src/arch/win32/resplus60k.rc.po.c:24 src/arch/amigaos/intl.c.po.c:3275
 msgid "PLUS60K Settings"
 msgstr "PLUS60K Instellingen"
 
@@ -9533,15 +9539,15 @@ msgstr "PLUS60K Instellingen"
 msgid "&Enable PLUS60K"
 msgstr "&Aktiveer PLUS60K"
 
-#: src/arch/win32/resplus60k.rc.po.c:27
+#: src/arch/win32/resplus60k.rc.po.c:27 src/arch/amigaos/intl.c.po.c:3257
 msgid "PLUS60K file"
 msgstr "PLUS60K bestand"
 
-#: src/arch/win32/resplus60k.rc.po.c:28
+#: src/arch/win32/resplus60k.rc.po.c:28 src/arch/amigaos/intl.c.po.c:3266
 msgid "Select file for PLUS60K"
 msgstr "Selecteer bestand voor PLUS60K"
 
-#: src/arch/win32/resramcart.rc.po.c:32 src/arch/amigaos/intl.c.po.c:3149
+#: src/arch/win32/resramcart.rc.po.c:32 src/arch/amigaos/intl.c.po.c:3374
 msgid "RAMCART Settings"
 msgstr "RAMCART Instellingen"
 
@@ -9553,15 +9559,15 @@ msgstr "&Aktiveer RAMCART"
 msgid "&Read Only"
 msgstr "Alleen &Lezen"
 
-#: src/arch/win32/resramcart.rc.po.c:36
+#: src/arch/win32/resramcart.rc.po.c:36 src/arch/amigaos/intl.c.po.c:3356
 msgid "RAMCART file"
 msgstr "RAMCART bestand"
 
-#: src/arch/win32/resramcart.rc.po.c:37
+#: src/arch/win32/resramcart.rc.po.c:37 src/arch/amigaos/intl.c.po.c:3365
 msgid "Select file for RAMCART"
 msgstr "Selecteer bestand voor RAMCART"
 
-#: src/arch/win32/resreu.rc.po.c:30 src/arch/amigaos/intl.c.po.c:3167
+#: src/arch/win32/resreu.rc.po.c:30 src/arch/amigaos/intl.c.po.c:3410
 msgid "REU Settings"
 msgstr "REU Instellingen"
 
@@ -9569,15 +9575,15 @@ msgstr "REU Instellingen"
 msgid "&Enable REU"
 msgstr "&Aktiveer REU"
 
-#: src/arch/win32/resreu.rc.po.c:33
+#: src/arch/win32/resreu.rc.po.c:33 src/arch/amigaos/intl.c.po.c:3392
 msgid "REU file"
 msgstr "REU bestand"
 
-#: src/arch/win32/resreu.rc.po.c:34
+#: src/arch/win32/resreu.rc.po.c:34 src/arch/amigaos/intl.c.po.c:3401
 msgid "Select file for REU"
 msgstr "Selecteer bestand voor REU"
 
-#: src/arch/win32/resrs232user.rc.po.c:27 src/arch/amigaos/intl.c.po.c:3203
+#: src/arch/win32/resrs232user.rc.po.c:27 src/arch/amigaos/intl.c.po.c:3446
 msgid "RS232 Userport Settings"
 msgstr "RS232 Userport Instellingen"
 
@@ -9593,7 +9599,7 @@ msgstr "Userport apparaat"
 msgid "Userport baud rate"
 msgstr "Userport baud rate"
 
-#: src/arch/win32/ressid.rc.po.c:57 src/arch/amigaos/intl.c.po.c:1950
+#: src/arch/win32/ressid.rc.po.c:57 src/arch/amigaos/intl.c.po.c:1986
 msgid "This machine may not have a SID"
 msgstr "Deze machine heeft mogelijk geen SID"
 
@@ -9601,49 +9607,50 @@ msgstr "Deze machine heeft mogelijk geen SID"
 msgid "General"
 msgstr "Algemeen"
 
-#: src/arch/win32/ressid.rc.po.c:60 src/arch/amigaos/intl.c.po.c:3212
+#: src/arch/win32/ressid.rc.po.c:60 src/arch/amigaos/intl.c.po.c:3455
 msgid "fast"
 msgstr "snel"
 
-#: src/arch/win32/ressid.rc.po.c:61 src/arch/amigaos/intl.c.po.c:3221
+#: src/arch/win32/ressid.rc.po.c:61 src/arch/amigaos/intl.c.po.c:3464
 msgid "interpolating"
 msgstr "interpolating"
 
-#: src/arch/win32/ressid.rc.po.c:62 src/arch/amigaos/intl.c.po.c:3230
+#: src/arch/win32/ressid.rc.po.c:62 src/arch/amigaos/intl.c.po.c:3473
 msgid "resampling"
 msgstr "resampling"
 
-#: src/arch/win32/ressid.rc.po.c:63 src/arch/amigaos/intl.c.po.c:3239
+#: src/arch/win32/ressid.rc.po.c:63 src/arch/amigaos/intl.c.po.c:3482
 msgid "fast resampling"
 msgstr "snelle resampling"
 
 #: src/arch/win32/ressid.rc.po.c:64 src/arch/win32/ressidcart.rc.po.c:13
+#: src/arch/amigaos/intl.c.po.c:3869
 msgid "SID Engine"
 msgstr "SID Kern"
 
 #: src/arch/win32/ressid.rc.po.c:65 src/arch/win32/ressidcart.rc.po.c:17
-#: src/arch/amigaos/intl.c.po.c:3266
+#: src/arch/amigaos/intl.c.po.c:3509
 msgid "SID Model"
 msgstr "SID Model"
 
-#: src/arch/win32/ressid.rc.po.c:66 src/arch/amigaos/intl.c.po.c:3248
+#: src/arch/win32/ressid.rc.po.c:66 src/arch/amigaos/intl.c.po.c:3491
 msgid "6581 (old)"
 msgstr "6581 (oud)"
 
-#: src/arch/win32/ressid.rc.po.c:67 src/arch/amigaos/intl.c.po.c:3257
+#: src/arch/win32/ressid.rc.po.c:67 src/arch/amigaos/intl.c.po.c:3500
 msgid "8580 (new)"
 msgstr "8580 (nieuw)"
 
-#: src/arch/win32/ressid.rc.po.c:68 src/arch/amigaos/intl.c.po.c:3275
+#: src/arch/win32/ressid.rc.po.c:68 src/arch/amigaos/intl.c.po.c:3518
 msgid "SID Stereo"
 msgstr "Stereo SID"
 
-#: src/arch/win32/ressid.rc.po.c:69 src/arch/amigaos/intl.c.po.c:3284
+#: src/arch/win32/ressid.rc.po.c:69 src/arch/amigaos/intl.c.po.c:3527
 msgid "Stereo SID at"
 msgstr "Stereo SID op"
 
 #: src/arch/win32/ressid.rc.po.c:70 src/arch/win32/ressidcart.rc.po.c:21
-#: src/arch/amigaos/intl.c.po.c:3293
+#: src/arch/amigaos/intl.c.po.c:3536
 msgid "SID Filters"
 msgstr "SID Filters"
 
@@ -9651,11 +9658,11 @@ msgstr "SID Filters"
 msgid "reSID options"
 msgstr "reSID opties"
 
-#: src/arch/win32/ressid.rc.po.c:72 src/arch/amigaos/intl.c.po.c:3302
+#: src/arch/win32/ressid.rc.po.c:72 src/arch/amigaos/intl.c.po.c:3545
 msgid "Sample method"
 msgstr "Sample methode"
 
-#: src/arch/win32/ressid.rc.po.c:73 src/arch/amigaos/intl.c.po.c:3311
+#: src/arch/win32/ressid.rc.po.c:73 src/arch/amigaos/intl.c.po.c:3554
 msgid "Passband (0-90%)"
 msgstr "Passband (0-90%)"
 
@@ -9676,23 +9683,14 @@ msgstr "Rechter apparaat"
 msgid "&Enable SID"
 msgstr "&Aktiveer ACIA"
 
-#: src/arch/win32/ressidcart.rc.po.c:23
-#, fuzzy
-msgid "SID Address"
-msgstr "SID Model"
-
-#: src/arch/win32/ressidcart.rc.po.c:27
-msgid "SID Clock"
-msgstr ""
-
 #: src/arch/win32/ressidcart.rc.po.c:31
 #, fuzzy
-msgid "HardSID Device Selection"
+msgid "HardSID device selection"
 msgstr "Apparaat selectie"
 
 #: src/arch/win32/ressidcart.rc.po.c:33
 #, fuzzy
-msgid "Main Device"
+msgid "Main device"
 msgstr "Linker/Hoofd apparaat"
 
 #: src/arch/win32/restfe.rc.po.c:31
@@ -9739,7 +9737,7 @@ msgstr "VIC-1112 IEEE &488 module"
 msgid "V&IC settings..."
 msgstr "V&IC instellingen..."
 
-#: src/arch/win32/resvic20.rc.po.c:2503 src/arch/amigaos/intl.c.po.c:3410
+#: src/arch/win32/resvic20.rc.po.c:2503 src/arch/amigaos/intl.c.po.c:3653
 msgid "VIC Settings"
 msgstr "VIC Instellingen"
 
@@ -9791,7 +9789,7 @@ msgstr "Blok &3"
 msgid "Block &5"
 msgstr "Bblok &5"
 
-#: src/arch/win32/resvicii.rc.po.c:27 src/arch/amigaos/intl.c.po.c:3446
+#: src/arch/win32/resvicii.rc.po.c:27 src/arch/amigaos/intl.c.po.c:3689
 msgid "VIC-II Settings"
 msgstr "VIC-II Instellingen"
 
@@ -9807,7 +9805,7 @@ msgstr "Sprite-&sprite botsingen"
 msgid "Sprite-background &collisions"
 msgstr "Sprite-achtergrond &botsingen"
 
-#: src/arch/win32/resvicii.rc.po.c:31 src/arch/amigaos/intl.c.po.c:3437
+#: src/arch/win32/resvicii.rc.po.c:31 src/arch/amigaos/intl.c.po.c:3680
 msgid "New Luminances"
 msgstr "Nieuwe kleuren"
 
@@ -9823,11 +9821,59 @@ msgstr "<0-2>"
 msgid "<0-3>"
 msgstr "<0-3>"
 
-#: src/translate.c.po.c:4448
+#: src/translate.c.po.c:3221
+#, fuzzy
+msgid "Specify SID engine (0: FastSID, 1: Catweasel)"
+msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel)"
+
+#: src/translate.c.po.c:3233
+#, fuzzy
+msgid "Specify SID engine (0: FastSID, 2: HardSID)"
+msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID)"
+
+#: src/translate.c.po.c:3245
+#, fuzzy
+msgid "Specify SID engine (0: FastSID, 3: ParSID)"
+msgstr "Geef op welke SID kern gebruikt moet worden (0: FastSID, 4: ParSID)"
+
+#: src/translate.c.po.c:3257
+#, fuzzy
+msgid "Specify SID engine (0: FastSID, 1: Catweasel, 2: HardSID)"
+msgstr ""
+"Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: "
+"HardSID)"
+
+#: src/translate.c.po.c:3269
+#, fuzzy
+msgid "Specify SID engine (0: FastSID, 1: Catweasel, 3: ParSID)"
+msgstr ""
+"Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 4: "
+"ParSID)"
+
+#: src/translate.c.po.c:3281
+#, fuzzy
+msgid "Specify SID engine (0: FastSID, 2: HardSID, 3: ParSID)"
+msgstr ""
+"Geef op welke SID kern gebruikt moet worden (0: FastSID, 3: HardSID, 4: "
+"ParSID)"
+
+#: src/translate.c.po.c:3293
+#, fuzzy
+msgid "Specify SID engine (0: FastSID, 1: Catweasel, 2: HardSID, 3: ParSID)"
+msgstr ""
+"Geef op welke SID kern gebruikt moet worden (0: FastSID, 2: Catweasel, 3: "
+"HardSID, 4: ParSID)"
+
+#: src/translate.c.po.c:3314
+#, fuzzy
+msgid "Enable SID Cartridge"
+msgstr "Aktiveer Schaal2x"
+
+#: src/translate.c.po.c:4554
 msgid "<iso language code>"
 msgstr "<iso taal code>"
 
-#: src/translate.c.po.c:4458
+#: src/translate.c.po.c:4564
 msgid "Specify the iso code of the language"
 msgstr "Geef de iso code van de taal"
 
@@ -10255,497 +10301,580 @@ msgstr "RAMCART instellingen..."
 msgid "PLUS60K settings..."
 msgstr "PLUS60K instellingen..."
 
-#: src/arch/amigaos/intl.c.po.c:1453
+#: src/arch/amigaos/intl.c.po.c:1471
 msgid "PLUS256K settings..."
 msgstr "PLUS256K instellingen..."
 
-#: src/arch/amigaos/intl.c.po.c:1462
+#: src/arch/amigaos/intl.c.po.c:1480
 msgid "256K settings..."
 msgstr "256K instellingen..."
 
-#: src/arch/amigaos/intl.c.po.c:1471
+#: src/arch/amigaos/intl.c.po.c:1489
 msgid "IDE64 settings..."
 msgstr "IDE64 instellingen..."
 
-#: src/arch/amigaos/intl.c.po.c:1480
+#: src/arch/amigaos/intl.c.po.c:1498
+#, fuzzy
+msgid "MMC64 settings..."
+msgstr "&MMC64 instellingen..."
+
+#: src/arch/amigaos/intl.c.po.c:1507
 msgid "Ethernet settings..."
 msgstr "Ethernet instellingen..."
 
-#: src/arch/amigaos/intl.c.po.c:1489
+#: src/arch/amigaos/intl.c.po.c:1516
 msgid "ACIA settings..."
 msgstr "ACIA instellingen..."
 
-#: src/arch/amigaos/intl.c.po.c:1498
+#: src/arch/amigaos/intl.c.po.c:1525
 msgid "PET REU settings..."
 msgstr "PET REU instellingen..."
 
-#: src/arch/amigaos/intl.c.po.c:1507
+#: src/arch/amigaos/intl.c.po.c:1534
+#, fuzzy
+msgid "SID cart settings..."
+msgstr "SID instellingen..."
+
+#: src/arch/amigaos/intl.c.po.c:1543
 msgid "RS232 userport settings..."
 msgstr "RS232 userport instellingen..."
 
-#: src/arch/amigaos/intl.c.po.c:1516
+#: src/arch/amigaos/intl.c.po.c:1552
 msgid "Save current settings"
 msgstr "Huidige instellingen opslaan"
 
-#: src/arch/amigaos/intl.c.po.c:1525
+#: src/arch/amigaos/intl.c.po.c:1561
 msgid "Load saved settings"
 msgstr "Opgeslagen instellingen laden"
 
-#: src/arch/amigaos/intl.c.po.c:1534
+#: src/arch/amigaos/intl.c.po.c:1570
 msgid "Set default settings"
 msgstr "Herstel standaard instellingen"
 
-#: src/arch/amigaos/intl.c.po.c:1543
+#: src/arch/amigaos/intl.c.po.c:1579
 msgid "Save settings on exit"
 msgstr "Sla instellingen op bij afsluiten"
 
-#: src/arch/amigaos/intl.c.po.c:1552
+#: src/arch/amigaos/intl.c.po.c:1588
 msgid "Confirm on exit"
 msgstr "Bevestigen bij afsluiten"
 
-#: src/arch/amigaos/intl.c.po.c:1570
+#: src/arch/amigaos/intl.c.po.c:1606
 msgid "About..."
 msgstr "Over VICE..."
 
-#: src/arch/amigaos/intl.c.po.c:1606
+#: src/arch/amigaos/intl.c.po.c:1642
 msgid "No warranty"
 msgstr "Geen garantie!"
 
-#: src/arch/amigaos/intl.c.po.c:1615
+#: src/arch/amigaos/intl.c.po.c:1651
 msgid "English"
 msgstr "Engels"
 
-#: src/arch/amigaos/intl.c.po.c:1624
+#: src/arch/amigaos/intl.c.po.c:1660
 msgid "German"
 msgstr "Duits"
 
-#: src/arch/amigaos/intl.c.po.c:1633
+#: src/arch/amigaos/intl.c.po.c:1669
 msgid "French"
 msgstr "Frans"
 
-#: src/arch/amigaos/intl.c.po.c:1642
+#: src/arch/amigaos/intl.c.po.c:1678
 msgid "Hungarian"
 msgstr "Hongaars"
 
-#: src/arch/amigaos/intl.c.po.c:1651
+#: src/arch/amigaos/intl.c.po.c:1687
 msgid "Italian"
 msgstr "Italiaans"
 
-#: src/arch/amigaos/intl.c.po.c:1660
+#: src/arch/amigaos/intl.c.po.c:1696
 msgid "Dutch"
 msgstr "Nederlands"
 
-#: src/arch/amigaos/intl.c.po.c:1669
+#: src/arch/amigaos/intl.c.po.c:1705
 msgid "Polish"
 msgstr "Pools"
 
-#: src/arch/amigaos/intl.c.po.c:1678
+#: src/arch/amigaos/intl.c.po.c:1714
 msgid "Swedish"
 msgstr "Zweeds"
 
-#: src/arch/amigaos/intl.c.po.c:1687
+#: src/arch/amigaos/intl.c.po.c:1723
 msgid "Language"
 msgstr "Taal"
 
-#: src/arch/amigaos/intl.c.po.c:1696
+#: src/arch/amigaos/intl.c.po.c:1732
 msgid "Fullscreen Statusbar"
 msgstr "Volscherm Statusbar"
 
-#: src/arch/amigaos/intl.c.po.c:1705
+#: src/arch/amigaos/intl.c.po.c:1741
 msgid "Video overlay"
 msgstr "Video Codec"
 
-#: src/arch/amigaos/intl.c.po.c:1824
+#: src/arch/amigaos/intl.c.po.c:1860
 #, c-format
 msgid "No joystick or joypad found on port %d"
 msgstr "Geen joystick of joypad gevonden op poort %d"
 
-#: src/arch/amigaos/intl.c.po.c:1833
+#: src/arch/amigaos/intl.c.po.c:1869
 #, c-format
 msgid "A mouse was found on port %d"
 msgstr "Een muis is gevonden op poort %d"
 
-#: src/arch/amigaos/intl.c.po.c:1842
+#: src/arch/amigaos/intl.c.po.c:1878
 #, c-format
 msgid "Unknown device found on port %d"
 msgstr "Onbekent apparaat gevonden op poort %d"
 
-#: src/arch/amigaos/intl.c.po.c:1851
+#: src/arch/amigaos/intl.c.po.c:1887
 msgid "The device on this port is not a gamepad"
 msgstr "Het apparaat op deze poort in niet een gamepad"
 
-#: src/arch/amigaos/intl.c.po.c:1860
+#: src/arch/amigaos/intl.c.po.c:1896
 msgid "The port is not mapped to an Amiga port"
 msgstr "De poort is niet verbonden met een Amiga poort"
 
-#: src/arch/amigaos/intl.c.po.c:1959
+#: src/arch/amigaos/intl.c.po.c:1995
 #, c-format
 msgid "Screenshot save of %s failed"
 msgstr "Opslaan scherm afdruk bestand %s faalt"
 
-#: src/arch/amigaos/intl.c.po.c:1968
+#: src/arch/amigaos/intl.c.po.c:2004
 #, c-format
 msgid "Screenshot %s saved."
 msgstr "Scherm afdruk %s opgeslagen."
 
-#: src/arch/amigaos/intl.c.po.c:1979
+#: src/arch/amigaos/intl.c.po.c:2015
 msgid "Press desired key/button, move stick or press ESC for no key."
 msgstr "Druk de toets/knop, beweeg de joystick of druk op ESC voor geen toets."
 
-#: src/arch/amigaos/intl.c.po.c:2015
+#: src/arch/amigaos/intl.c.po.c:2114
+msgid "Connected client"
+msgstr "Verbonden client"
+
+#: src/arch/amigaos/intl.c.po.c:2150
 msgid "Choose screenshot format"
 msgstr "Kies scherm afdruk formaat"
 
-#: src/arch/amigaos/intl.c.po.c:2024
+#: src/arch/amigaos/intl.c.po.c:2159
 #, c-format
 msgid "Save %s screenshot"
 msgstr "Scherm afdruk %s opslaan"
 
-#: src/arch/amigaos/intl.c.po.c:2033
+#: src/arch/amigaos/intl.c.po.c:2168
 #, c-format
 msgid "Detached device %d"
 msgstr "Apparaat %d ontkoppelt"
 
-#: src/arch/amigaos/intl.c.po.c:2042
+#: src/arch/amigaos/intl.c.po.c:2177
 #, c-format
 msgid "Attached %s to device#%d"
 msgstr "%s aan apparaat#%d gekoppelt"
 
-#: src/arch/amigaos/intl.c.po.c:2051
+#: src/arch/amigaos/intl.c.po.c:2186
 msgid "VICE Question"
 msgstr "VICE vraag"
 
-#: src/arch/amigaos/intl.c.po.c:2069
+#: src/arch/amigaos/intl.c.po.c:2204
 msgid "Yes|No"
 msgstr "Ja|Nee"
 
-#: src/arch/amigaos/intl.c.po.c:2240
+#: src/arch/amigaos/intl.c.po.c:2375
 msgid "Attach 4/8/16KB cartridge image at $2000"
 msgstr "Koppel 4/8/16KB bestand op $2000"
 
-#: src/arch/amigaos/intl.c.po.c:2249
+#: src/arch/amigaos/intl.c.po.c:2384
 msgid "Attach 4/8/16KB cartridge image at $4000"
 msgstr "Koppel 4/8/16KB bestand op $4000"
 
-#: src/arch/amigaos/intl.c.po.c:2258
+#: src/arch/amigaos/intl.c.po.c:2393
 msgid "Attach 4/8/16KB cartridge image at $6000"
 msgstr "Koppel 4/8/16KB bestand op $6000"
 
-#: src/arch/amigaos/intl.c.po.c:2267
+#: src/arch/amigaos/intl.c.po.c:2402
 msgid "Attach 4/8KB cartridge image at $A000"
 msgstr "Koppel 4/8KB bestand op $A000"
 
-#: src/arch/amigaos/intl.c.po.c:2276
+#: src/arch/amigaos/intl.c.po.c:2411
 msgid "Attach 4KB cartridge image at $B000"
 msgstr "Koppel 4KB bestand op $B000"
 
-#: src/arch/amigaos/intl.c.po.c:2294
+#: src/arch/amigaos/intl.c.po.c:2429
 msgid "Attach"
 msgstr "Koppel"
 
-#: src/arch/amigaos/intl.c.po.c:2303
+#: src/arch/amigaos/intl.c.po.c:2438
 msgid "Parent"
 msgstr "Bevenliggende directory"
 
-#: src/arch/amigaos/intl.c.po.c:2366
+#: src/arch/amigaos/intl.c.po.c:2501
 msgid "About"
 msgstr "Over VICE"
 
-#: src/arch/amigaos/intl.c.po.c:2375
+#: src/arch/amigaos/intl.c.po.c:2510
 msgid "Image Contents"
 msgstr "bestand Inhoud"
 
-#: src/arch/amigaos/intl.c.po.c:2384
+#: src/arch/amigaos/intl.c.po.c:2519
 msgid "Disabled"
 msgstr "Uit"
 
-#: src/arch/amigaos/intl.c.po.c:2393
+#: src/arch/amigaos/intl.c.po.c:2528
 msgid "Enabled"
 msgstr "Aan"
 
-#: src/arch/amigaos/intl.c.po.c:2402
+#: src/arch/amigaos/intl.c.po.c:2537
 msgid "RS232 Device 1"
 msgstr "RS232 apparaat 1"
 
-#: src/arch/amigaos/intl.c.po.c:2411
+#: src/arch/amigaos/intl.c.po.c:2546
 msgid "RS232 Device 2"
 msgstr "RS232 apparaat 2"
 
-#: src/arch/amigaos/intl.c.po.c:2420
+#: src/arch/amigaos/intl.c.po.c:2555
 msgid "RS232 Device 3"
 msgstr "RS232 apparaat 3"
 
-#: src/arch/amigaos/intl.c.po.c:2429
+#: src/arch/amigaos/intl.c.po.c:2564
 msgid "RS232 Device 4"
 msgstr "RS232 apparaat 4"
 
-#: src/arch/amigaos/intl.c.po.c:2465
+#: src/arch/amigaos/intl.c.po.c:2600
 msgid "ACIA Device"
 msgstr "ACIA apparaat"
 
-#: src/arch/amigaos/intl.c.po.c:2474
+#: src/arch/amigaos/intl.c.po.c:2609
 msgid "ACIA Interrupt"
 msgstr "ACIA Interrupt"
 
-#: src/arch/amigaos/intl.c.po.c:2483
+#: src/arch/amigaos/intl.c.po.c:2618
 msgid "ACIA Mode"
 msgstr "ACIA Modus"
 
-#: src/arch/amigaos/intl.c.po.c:2501
+#: src/arch/amigaos/intl.c.po.c:2636
 msgid "256K Enabled"
 msgstr "256K aan"
 
-#: src/arch/amigaos/intl.c.po.c:2510
+#: src/arch/amigaos/intl.c.po.c:2645
 msgid "256K Base"
 msgstr "256K basis"
 
-#: src/arch/amigaos/intl.c.po.c:2528
+#: src/arch/amigaos/intl.c.po.c:2681
 msgid "model line"
 msgstr "model lijn"
 
-#: src/arch/amigaos/intl.c.po.c:2537
+#: src/arch/amigaos/intl.c.po.c:2690
 msgid "RAM Size"
 msgstr "RAM Grootte"
 
-#: src/arch/amigaos/intl.c.po.c:2546
+#: src/arch/amigaos/intl.c.po.c:2699
 msgid "RAM Block $0400-$0FFF"
 msgstr "RAM Blok $0400-$0FFF"
 
-#: src/arch/amigaos/intl.c.po.c:2555
+#: src/arch/amigaos/intl.c.po.c:2708
 msgid "RAM Block $0800-$0FFF"
 msgstr "RAM Blok $0800-$0FFF"
 
-#: src/arch/amigaos/intl.c.po.c:2564
+#: src/arch/amigaos/intl.c.po.c:2717
 msgid "RAM Block $1000-$1FFF"
 msgstr "RAM Blok $1000-$1FFF"
 
-#: src/arch/amigaos/intl.c.po.c:2573
+#: src/arch/amigaos/intl.c.po.c:2726
 msgid "RAM Block $2000-$3FFF"
 msgstr "RAM Blok $2000-$3FFF"
 
-#: src/arch/amigaos/intl.c.po.c:2582
+#: src/arch/amigaos/intl.c.po.c:2735
 msgid "RAM Block $4000-$5FFF"
 msgstr "RAM Blok $4000-$5FFF"
 
-#: src/arch/amigaos/intl.c.po.c:2591
+#: src/arch/amigaos/intl.c.po.c:2744
 msgid "RAM Block $6000-$7FFF"
 msgstr "RAM Blok $6000-$7FFF"
 
-#: src/arch/amigaos/intl.c.po.c:2600
+#: src/arch/amigaos/intl.c.po.c:2753
 msgid "RAM Block $A000-$BFFF"
 msgstr "RAM Blok $A000-$BFFF"
 
-#: src/arch/amigaos/intl.c.po.c:2609
+#: src/arch/amigaos/intl.c.po.c:2762
 msgid "RAM Block $C000-$CFFF"
 msgstr "RAM Blok $C000-$CFFF"
 
-#: src/arch/amigaos/intl.c.po.c:2618
+#: src/arch/amigaos/intl.c.po.c:2771
 msgid "CBM2 Settings"
 msgstr "CBM2 Instellingen"
 
-#: src/arch/amigaos/intl.c.po.c:2627
+#: src/arch/amigaos/intl.c.po.c:2780
 msgid "Reset Datasette with CPU"
 msgstr "Reset Datasette met CPU"
 
-#: src/arch/amigaos/intl.c.po.c:2636
+#: src/arch/amigaos/intl.c.po.c:2789
 msgid "Additional Delay"
 msgstr "Extra vertraging"
 
-#: src/arch/amigaos/intl.c.po.c:2645
+#: src/arch/amigaos/intl.c.po.c:2798
 msgid "Delay at Zero Values"
 msgstr "Nul-waarden cycli vertraging"
 
-#: src/arch/amigaos/intl.c.po.c:2690
+#: src/arch/amigaos/intl.c.po.c:2843
 msgid "No traps"
 msgstr "Geen traps"
 
-#: src/arch/amigaos/intl.c.po.c:2717
+#: src/arch/amigaos/intl.c.po.c:2870
 msgid "Drive type"
 msgstr "Drive soort"
 
-#: src/arch/amigaos/intl.c.po.c:2726
+#: src/arch/amigaos/intl.c.po.c:2879
 msgid "40 track handling"
 msgstr "40 sporen ondersteuning"
 
-#: src/arch/amigaos/intl.c.po.c:2735
+#: src/arch/amigaos/intl.c.po.c:2888
 msgid "Drive expansion"
 msgstr "Drive uitbreiding"
 
-#: src/arch/amigaos/intl.c.po.c:2744
+#: src/arch/amigaos/intl.c.po.c:2897
 msgid "Idle method"
 msgstr "Idle methode"
 
-#: src/arch/amigaos/intl.c.po.c:2753
+#: src/arch/amigaos/intl.c.po.c:2906
 msgid "Parallel cable"
 msgstr "Parallel kabel"
 
-#: src/arch/amigaos/intl.c.po.c:2771
+#: src/arch/amigaos/intl.c.po.c:2924
 msgid "GEORAM Size"
 msgstr "GEORAM Grootte"
 
-#: src/arch/amigaos/intl.c.po.c:2789
+#: src/arch/amigaos/intl.c.po.c:2960
 msgid "Joystick in port #1"
 msgstr "Joystick in poort #1"
 
-#: src/arch/amigaos/intl.c.po.c:2798
+#: src/arch/amigaos/intl.c.po.c:2969
 msgid "Joystick in port #2"
 msgstr "Joystick in poort #2"
 
-#: src/arch/amigaos/intl.c.po.c:2807
+#: src/arch/amigaos/intl.c.po.c:2978
 msgid "Joystick Settings"
 msgstr "Joystick Instellingen"
 
-#: src/arch/amigaos/intl.c.po.c:2816
+#: src/arch/amigaos/intl.c.po.c:2987
 msgid "Numpad"
 msgstr "Numpad"
 
-#: src/arch/amigaos/intl.c.po.c:2825
+#: src/arch/amigaos/intl.c.po.c:2996
 msgid "Joy Port 0"
 msgstr "Joy Poort 0"
 
-#: src/arch/amigaos/intl.c.po.c:2834
+#: src/arch/amigaos/intl.c.po.c:3005
 msgid "Joy Port 1"
 msgstr "Joy Poort 1"
 
-#: src/arch/amigaos/intl.c.po.c:2843
+#: src/arch/amigaos/intl.c.po.c:3014
 msgid "Joy Port 2"
 msgstr "Joy Poort 2"
 
-#: src/arch/amigaos/intl.c.po.c:2852
+#: src/arch/amigaos/intl.c.po.c:3023
 msgid "Joy Port 3"
 msgstr "Joy Poort 3"
 
-#: src/arch/amigaos/intl.c.po.c:2861
+#: src/arch/amigaos/intl.c.po.c:3032
 msgid "Stop/Blue"
 msgstr "Stop/Blauw"
 
-#: src/arch/amigaos/intl.c.po.c:2870
+#: src/arch/amigaos/intl.c.po.c:3041
 msgid "Select/Red"
 msgstr "Selecy/Rood"
 
-#: src/arch/amigaos/intl.c.po.c:2879
+#: src/arch/amigaos/intl.c.po.c:3050
 msgid "Repeat/Yellow"
 msgstr "Repeat/Geel"
 
-#: src/arch/amigaos/intl.c.po.c:2888
+#: src/arch/amigaos/intl.c.po.c:3059
 msgid "Shuffle/Green"
 msgstr "Shuffle/Groen"
 
-#: src/arch/amigaos/intl.c.po.c:2897
+#: src/arch/amigaos/intl.c.po.c:3068
 msgid "Forward/Charcoal"
 msgstr "Forward/Charcoal"
 
-#: src/arch/amigaos/intl.c.po.c:2906
+#: src/arch/amigaos/intl.c.po.c:3077
 msgid "Reverse/Charcoal"
 msgstr "Reverse/Charcoal"
 
-#: src/arch/amigaos/intl.c.po.c:2915
+#: src/arch/amigaos/intl.c.po.c:3086
 msgid "Play-Pause/Grey"
 msgstr "Play-Pause/Grijs"
 
-#: src/arch/amigaos/intl.c.po.c:2924
+#: src/arch/amigaos/intl.c.po.c:3095
 msgid "Joy 1 Device"
 msgstr "Joy 1 Apparaat"
 
-#: src/arch/amigaos/intl.c.po.c:2933
+#: src/arch/amigaos/intl.c.po.c:3104
 msgid "Joy 2 Device"
 msgstr "Joy 2 Apparaat"
 
-#: src/arch/amigaos/intl.c.po.c:2942
+#: src/arch/amigaos/intl.c.po.c:3113
 msgid "Joy 1 Fire"
 msgstr "Joy 1 Vuur"
 
-#: src/arch/amigaos/intl.c.po.c:2951
+#: src/arch/amigaos/intl.c.po.c:3122
 msgid "Joy 2 Fire"
 msgstr "Joy 2 Vuur"
 
-#: src/arch/amigaos/intl.c.po.c:2960
+#: src/arch/amigaos/intl.c.po.c:3131
 msgid ""
 "Joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 msgstr ""
 "Joystick #1 emulatie: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 
-#: src/arch/amigaos/intl.c.po.c:2969
+#: src/arch/amigaos/intl.c.po.c:3140
 msgid ""
 "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 msgstr ""
 "Joystick #2 emulatie: (0: Geen, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 
-#: src/arch/amigaos/intl.c.po.c:2978
+#: src/arch/amigaos/intl.c.po.c:3149
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3"
 msgstr "Joystick #1 emulatie: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3"
 
-#: src/arch/amigaos/intl.c.po.c:2987
+#: src/arch/amigaos/intl.c.po.c:3158
 msgid "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3"
 msgstr "Joystick #2 emulatie: (0: Geen, 1: Numpad, 2-5: Amiga Joy 0-3"
 
-#: src/arch/amigaos/intl.c.po.c:3032
+#: src/arch/amigaos/intl.c.po.c:3203
 msgid "PET REU Size"
 msgstr "PET REU Grootte"
 
-#: src/arch/amigaos/intl.c.po.c:3059
+#: src/arch/amigaos/intl.c.po.c:3248
 msgid "PLUS60K Base"
 msgstr "PLUS60K Basis"
 
-#: src/arch/amigaos/intl.c.po.c:3113
+#: src/arch/amigaos/intl.c.po.c:3320
 msgid "read/write"
 msgstr "lees/schrijf"
 
-#: src/arch/amigaos/intl.c.po.c:3122
+#: src/arch/amigaos/intl.c.po.c:3329
 msgid "read-only"
 msgstr "Alleen lezen"
 
-#: src/arch/amigaos/intl.c.po.c:3131
+#: src/arch/amigaos/intl.c.po.c:3338
 msgid "RAMCART Read/Write"
 msgstr "RAMCART Lezen/Schrijven"
 
-#: src/arch/amigaos/intl.c.po.c:3140
+#: src/arch/amigaos/intl.c.po.c:3347
 msgid "RAMCART Size"
 msgstr "RAMCART Grootte"
 
-#: src/arch/amigaos/intl.c.po.c:3158
+#: src/arch/amigaos/intl.c.po.c:3383
 msgid "REU Size"
 msgstr "REU Grootte"
 
-#: src/arch/amigaos/intl.c.po.c:3176
+#: src/arch/amigaos/intl.c.po.c:3419
 msgid "Userport RS232"
 msgstr "Userport RS232"
 
-#: src/arch/amigaos/intl.c.po.c:3185
+#: src/arch/amigaos/intl.c.po.c:3428
 msgid "Userport RS232 Device"
 msgstr "Userport RS232 Apparaat"
 
-#: src/arch/amigaos/intl.c.po.c:3320
+#: src/arch/amigaos/intl.c.po.c:3563
 msgid "Not implemented yet!"
 msgstr "Nog niet ondersteund!"
 
-#: src/arch/amigaos/intl.c.po.c:3329
+#: src/arch/amigaos/intl.c.po.c:3572
 msgid "SID Settings"
 msgstr "SID Instellingen"
 
-#: src/arch/amigaos/intl.c.po.c:3365
+#: src/arch/amigaos/intl.c.po.c:3608
 msgid "Sample Rate"
 msgstr "Sample Snelheid"
 
-#: src/arch/amigaos/intl.c.po.c:3374
+#: src/arch/amigaos/intl.c.po.c:3617
 msgid "Buffer Size"
 msgstr "Buffer Grootte"
 
-#: src/arch/amigaos/intl.c.po.c:3392
+#: src/arch/amigaos/intl.c.po.c:3635
 msgid "Speed Adjustment"
 msgstr "Snelheid aanpassing"
 
-#: src/arch/amigaos/intl.c.po.c:3401
+#: src/arch/amigaos/intl.c.po.c:3644
 msgid "Sound Settings"
 msgstr "Geluid Instellingen"
 
-#: src/arch/amigaos/intl.c.po.c:3419
+#: src/arch/amigaos/intl.c.po.c:3662
 msgid "Sprite Sprite Collisions"
 msgstr "Sprite-Sprite Botsingen"
 
-#: src/arch/amigaos/intl.c.po.c:3428
+#: src/arch/amigaos/intl.c.po.c:3671
 msgid "Sprite Background Collisions"
 msgstr "Sprite-Achtergrond Botsingen"
+
+#: src/arch/amigaos/intl.c.po.c:3716
+#, fuzzy
+msgid "HD image file"
+msgstr "&HD bestand"
+
+#: src/arch/amigaos/intl.c.po.c:3734
+#, fuzzy
+msgid "Autodetect"
+msgstr "&Autodetectie"
+
+#: src/arch/amigaos/intl.c.po.c:3770
+#, fuzzy
+msgid "IDE64 settings"
+msgstr "IDE64 Instellingen"
+
+#: src/arch/amigaos/intl.c.po.c:3788
+#, fuzzy
+msgid "BIOS Flash Jumper"
+msgstr "Aktiveer BIOS &Flash Jumper"
+
+#: src/arch/amigaos/intl.c.po.c:3797
+#, fuzzy
+msgid "Save BIOS when changed"
+msgstr "&Sla de MMC64 bios op als er veranderingen zijn gemaakt"
+
+#: src/arch/amigaos/intl.c.po.c:3806
+#, fuzzy
+msgid "BIOS File"
+msgstr "&BIOS Bestand"
+
+#: src/arch/amigaos/intl.c.po.c:3815
+#, fuzzy
+msgid "Select BIOS file"
+msgstr "Selecteer keymap bestand"
+
+#: src/arch/amigaos/intl.c.po.c:3833
+#, fuzzy
+msgid "MMC/SD Image File"
+msgstr "MMC/SD B&estand"
+
+#: src/arch/amigaos/intl.c.po.c:3842
+#, fuzzy
+msgid "Select MMC/SD image file"
+msgstr "Selecteer HD bestand"
+
+#: src/arch/amigaos/intl.c.po.c:3851
+#, fuzzy
+msgid "MMC64 settings"
+msgstr "&MMC64 instellingen..."
+
+#: src/arch/amigaos/intl.c.po.c:3860
+#, fuzzy
+msgid "SID Cart"
+msgstr "Opslaan Cartridge"
+
+#: src/arch/amigaos/intl.c.po.c:3878
+#, fuzzy
+msgid "SID Address"
+msgstr "SID Model"
+
+#: src/arch/amigaos/intl.c.po.c:3887
+msgid "SID Clock"
+msgstr ""
+
+#: src/arch/amigaos/intl.c.po.c:3896
+#, fuzzy
+msgid "SID cart settings"
+msgstr "SID instellingen..."
 
 #~ msgid "Quicksaving file %s."
 #~ msgstr "Snelopslaan bestand %s."
@@ -10797,9 +10926,6 @@ msgstr "Sprite-Achtergrond Botsingen"
 
 #~ msgid "Disable SpeedDOS-compatible parallel cable"
 #~ msgstr "SpeedDOS-compatible parallel kabel afsluiten"
-
-#~ msgid "Connected client"
-#~ msgstr "Verbonden client"
 
 #~ msgid "Filename: "
 #~ msgstr "Bestandsnaam: "

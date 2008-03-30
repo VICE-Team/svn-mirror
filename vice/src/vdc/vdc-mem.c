@@ -209,27 +209,9 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 10:                  /* R10  Cursor Mode, Start Scan */
-        switch (value & 0x60) {
-          case 0x00:
-            vdc.cursor_visible = 1;
-            vdc.cursor_frequency = 0;
-            break;
-          case 0x20:
-            vdc.cursor_visible = 0;
-            vdc.cursor_frequency = 0;
-            break;
-          case 0x40:
-            vdc.cursor_visible = 1;
-            vdc.cursor_frequency = 16;
-            break;
-          case 0x60:
-            vdc.cursor_visible = 1;
-            vdc.cursor_frequency = 32;
-            break;
-        }
         break;
 
-      case 11:                  /* R11  Cursor */
+      case 11:                  /* R11  Cursor End Scan */
         break;
 
       case 12:                  /* R12  Display Start Address hi */
@@ -278,10 +260,8 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 24:
-        if (value & 0x20)
-          vdc.text_blink_frequency = 32;
-        else
-          vdc.text_blink_frequency = 16;
+		if (vdc.regs[24] & 0x20) vdc.attribute_blink = vdc.frame_counter & 16;
+		else vdc.attribute_blink = vdc.frame_counter & 8;
 
         if ((vdc.regs[24] & 0x1f) != (oldval & 0x1f))
             vdc.update_geometry = 1;

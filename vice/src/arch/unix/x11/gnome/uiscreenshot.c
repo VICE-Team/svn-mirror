@@ -122,7 +122,7 @@ ffmpeg_details (GtkWidget *w, gpointer data)
     g_return_if_fail(GTK_IS_COMBO_BOX(w));
 
     resources_get_int("FFMPEGAudioCodec", &current_ac_id);
-    resources_get_int("FFMPEGVideoCodec", current_vc_id);
+    resources_get_int("FFMPEGVideoCodec", &current_vc_id);
     resources_get_string("FFMPEGFormat", &current_driver);
 
     if (gtk_combo_box_get_active_iter(GTK_COMBO_BOX(w), &iter) == FALSE)

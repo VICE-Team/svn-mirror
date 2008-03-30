@@ -12,6 +12,13 @@ TOP_DIR=$1
 STRIP=$2
 VICE_VERSION=$3
 ZIP=$4
+UI_TYPE=$5
+
+# ui type
+if [ "x$UI_TYPE" = "x" ]; then
+  UI_TYPE="x11"
+fi
+echo "  ui type: $UI_TYPE"
 
 # check binary type
 TEST_BIN=src/x64
@@ -35,7 +42,7 @@ fi
 echo "  binary format: $BIN_FORMAT"
 
 # setup BUILD dir
-BUILD_DIR=vice-macosx-x11-$BIN_FORMAT-$VICE_VERSION
+BUILD_DIR=vice-macosx-$UI_TYPE-$BIN_FORMAT-$VICE_VERSION
 if [ -d $BUILD_DIR ]; then
   rm -rf $BUILD_DIR
 fi
@@ -105,6 +112,7 @@ for bundle in $BUNDLES ; do
   APP_ROMS=$APP_RESOURCES/ROM
   APP_DOCS=$APP_RESOURCES/doc
   APP_BIN=$APP_RESOURCES/bin
+  APP_LIB=$APP_RESOURCES/lib
   
   if [ "$PLATYPUS" = "1" ]; then
     # --- use platypus for bundling ---
@@ -201,6 +209,19 @@ for bundle in $BUNDLES ; do
     /usr/bin/strip $APP_BIN/c1541
   fi
 
+  # any dylibs required?
+  if [ -d lib ]; then
+    mkdir -p $APP_LIB
+    DYLIBS=`find lib -name *.dylib`
+    NUMDYLIBS=`echo $DYLIBS | wc -w`
+    echo -n "[dylibs"
+    for lib in $DYLIBS ; do
+      echo -n "."
+      cp $lib $APP_LIB
+    done
+    echo -n "] "
+  fi
+  
   # ready
   echo
 done

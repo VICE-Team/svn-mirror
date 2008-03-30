@@ -1,3 +1,29 @@
+2006-12-03  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.20.18.
+
+2006-11-29  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-dist.sh: correctly handle and embed
+	dynamic libs in mac os x bundling process
+
+2006-11-27  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added a check for the inttypes.h include.
+
+2006-11-17  Christian Vogelgsang  <chris@vogelgsang.org>
+
+	* build/Makefile.am: added new mac build scripts
+
+	* build/macosx/build*.sh: new modularized mac binary
+	distribution tools with helper scripts for the required
+	external libraries (including gtk+ and libpcap/libnet for
+	ethernet support)
+
+2006-11-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Got rid of the sidcart directory.
+
 2006-11-13  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.20.17.

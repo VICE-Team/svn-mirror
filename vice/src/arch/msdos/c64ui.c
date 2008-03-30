@@ -48,6 +48,7 @@
 #include "uitfe.h"
 #endif
 #include "uigeoram.h"
+#include "uimmc64.h"
 #include "uiplus256k.h"
 #include "uiplus60k.h"
 #include "uiramcart.h"
@@ -353,6 +354,8 @@ int c64ui_init(void)
 
     uic64_256k_init(ui_ioextensions_submenu);
 
+    uimmc64_init(ui_ioextensions_submenu);
+
 #ifdef HAVE_TFE
     uitfe_init(ui_ioextensions_submenu);
 #endif
@@ -363,4 +366,3 @@ int c64ui_init(void)
 void c64ui_shutdown(void)
 {
 }
-

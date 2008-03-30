@@ -82,6 +82,8 @@ libarch_a_SOURCES = \
 	uijoystick.c \
 	uijoystick.h \
 	uimon.c \
+	uimmc64.c \
+	uimmc64.h \
 	uinetplay.c \
 	uinetplay.h \
 	uiperipherial.c \
@@ -102,6 +104,8 @@ libarch_a_SOURCES = \
 	uiscreenshot.h \
 	uisid.c \
 	uisid.h \
+	uisidcart.c \
+	uisidcart.h \
 	uisnapshot.c \
 	uisnapshot.h \
 	uisound.c \

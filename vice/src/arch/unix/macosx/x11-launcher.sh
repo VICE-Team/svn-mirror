@@ -100,8 +100,16 @@ if [ "$LAUNCH" = "platypus" ]; then
   fi
 fi
 
-# --- now launch the VICE emulator ---
+# setup dylib path
+LIB_DIR="$RESOURCES_DIR/lib"
+if [ -d "$LIB_DIR" ]; then
+  export DYLD_LIBRARY_PATH="$LIB_DIR"
+fi
+
+# setup path
 export PATH="$BIN_DIR:/usr/X11R6/bin:$PATH"
+
+# --- now launch the VICE emulator ---
 if [ "$LAUNCH" = "cmdline" ]; then
   # launch in cmd line without xterm
   dbgecho "CMDLINE ARGS=" "$@"

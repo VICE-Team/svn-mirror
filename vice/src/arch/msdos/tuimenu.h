@@ -56,7 +56,7 @@ typedef struct tui_menu *tui_menu_t;
 
 /* Struct to define a menu item.  */
 struct tui_menu_item_def_s {
-    const char *label;
+    char *label;
     const char *help_string;
     tui_menu_callback_t callback;
     void *callback_param;

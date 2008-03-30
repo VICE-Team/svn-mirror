@@ -1233,7 +1233,8 @@ void REGPARM2 tfe_store(WORD ioaddress, BYTE byte)
 
     if (tfe_as_rr_net) {
         if (ioaddress < 0x02) {
-#ifdef TFE_DEBUG_WARN
+            // writing these adresses is perfectly legal for the RR (cv)
+#ifdef TFE_DEBUG_WARN2
             log_message(tfe_log, "Writing RR-Net address $DE00 or $DE01 - Ignoring!" );
 #endif
             return;

@@ -60,13 +60,13 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) c128ui.$(OBJEXT) \
 	tuimenu.$(OBJEXT) tuiview.$(OBJEXT) ui.$(OBJEXT) \
 	uiattach.$(OBJEXT) uic64_256k.$(OBJEXT) uic64cart.$(OBJEXT) \
 	uicmdline.$(OBJEXT) uidrive.$(OBJEXT) uigeoram.$(OBJEXT) \
-	uijoystick.$(OBJEXT) uimon.$(OBJEXT) uinetplay.$(OBJEXT) \
-	uiperipherial.$(OBJEXT) uipetreu.$(OBJEXT) \
+	uijoystick.$(OBJEXT) uimon.$(OBJEXT) uimmc64.$(OBJEXT) \
+	uinetplay.$(OBJEXT) uiperipherial.$(OBJEXT) uipetreu.$(OBJEXT) \
 	uiplus256k.$(OBJEXT) uiplus60k.$(OBJEXT) uiprinter.$(OBJEXT) \
 	uiramcart.$(OBJEXT) uireu.$(OBJEXT) uiscreenshot.$(OBJEXT) \
-	uisid.$(OBJEXT) uisnapshot.$(OBJEXT) uisound.$(OBJEXT) \
-	uitfe.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
-	vsidui.$(OBJEXT) vsync.$(OBJEXT)
+	uisid.$(OBJEXT) uisidcart.$(OBJEXT) uisnapshot.$(OBJEXT) \
+	uisound.$(OBJEXT) uitfe.$(OBJEXT) vic20ui.$(OBJEXT) \
+	video.$(OBJEXT) vsidui.$(OBJEXT) vsync.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -369,6 +369,8 @@ libarch_a_SOURCES = \
 	uijoystick.c \
 	uijoystick.h \
 	uimon.c \
+	uimmc64.c \
+	uimmc64.h \
 	uinetplay.c \
 	uinetplay.h \
 	uiperipherial.c \
@@ -389,6 +391,8 @@ libarch_a_SOURCES = \
 	uiscreenshot.h \
 	uisid.c \
 	uisid.h \
+	uisidcart.c \
+	uisidcart.h \
 	uisnapshot.c \
 	uisnapshot.h \
 	uisound.c \
@@ -486,6 +490,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidrive.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uigeoram.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimmc64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uinetplay.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiperipherial.Po@am__quote@
@@ -497,6 +502,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uireu.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiscreenshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisid.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisidcart.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisnapshot.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uisound.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uitfe.Po@am__quote@

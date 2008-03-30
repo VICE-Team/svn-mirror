@@ -223,7 +223,7 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
     AVCodec *codec;
     int audio_inbuf_samples;
 
-    c = &st->codec;
+    c = st->codec;
 
     /* find the audio encoder */
     codec = (*ffmpeglib.p_avcodec_find_encoder)(c->codec_id);
@@ -246,7 +246,7 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
        support to compute the input frame size in samples */
     if (c->frame_size <= 1) {
         audio_inbuf_samples = audio_outbuf_size;
-        switch(st->codec.codec_id) {
+        switch(st->codec->codec_id) {
         case CODEC_ID_PCM_S16LE:
         case CODEC_ID_PCM_S16BE:
         case CODEC_ID_PCM_U16LE:
@@ -273,7 +273,7 @@ static void ffmpegdrv_close_audio(void)
         return;
 
     if (audio_is_open)
-        (*ffmpeglib.p_avcodec_close)(&audio_st->codec);
+        (*ffmpeglib.p_avcodec_close)(audio_st->codec);
 
     audio_is_open = 0;
     lib_free(ffmpegdrv_audio_in.buffer);
@@ -311,7 +311,7 @@ void ffmpegdrv_init_audio(int speed, int channels,
         return;
     }
 
-    c = &st->codec;
+    c = st->codec;
     c->codec_id = ffmpegdrv_fmt->audio_codec;
     c->codec_type = CODEC_TYPE_AUDIO;
 
@@ -346,7 +346,7 @@ void ffmpegdrv_encode_audio(ffmpegdrv_audio_in_t *audio_in)
         AVPacket pkt;
         AVCodecContext *c;
         av_init_packet(&pkt);
-        c = &audio_st->codec;
+        c = audio_st->codec;
         pkt.size = (*ffmpeglib.p_avcodec_encode_audio)(c, 
                         audio_outbuf, audio_outbuf_size, audio_in->buffer);
         pkt.pts = c->coded_frame->pts;
@@ -430,7 +430,7 @@ static int ffmpegdrv_open_video(AVFormatContext *oc, AVStream *st)
     AVCodec *codec;
     AVCodecContext *c;
 
-    c = &st->codec;
+    c = st->codec;
 
     /* find the video encoder */
     codec = (*ffmpeglib.p_avcodec_find_encoder)(c->codec_id);
@@ -483,7 +483,7 @@ static void ffmpegdrv_close_video(void)
         return;
 
     if (video_is_open)
-        (*ffmpeglib.p_avcodec_close)(&video_st->codec);
+        (*ffmpeglib.p_avcodec_close)(video_st->codec);
 
     video_is_open = 0;
     if (video_outbuf != NULL)
@@ -520,7 +520,7 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
         return;
     }
 
-    c = &st->codec;
+    c = st->codec;
     c->codec_id = ffmpegdrv_fmt->video_codec;
     c->codec_type = CODEC_TYPE_VIDEO;
 
@@ -530,8 +530,8 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     video_width = c->width = (screenshot->width + 15) & ~0xf; 
     video_height = c->height = (screenshot->height + 15) & ~0xf;
     /* frames per second */
-    c->frame_rate = (int)(vsync_get_refresh_frequency() + 0.5);
-    c->frame_rate_base = 1;
+    c->time_base.den = (int)(vsync_get_refresh_frequency() + 0.5);
+    c->time_base.num = 1;
     c->gop_size = 12; /* emit one intra frame every twelve frames at most */
     /* FFV1 isn't strict standard compliant */
     if (c->codec_id == CODEC_ID_FFV1)
@@ -713,7 +713,7 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
         return 0;
     }
 
-    c = &video_st->codec;
+    c = video_st->codec;
 
     if (c->pix_fmt != PIX_FMT_RGB24) {
         ffmpegdrv_fill_rgb_image(screenshot, tmp_picture);

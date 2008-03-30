@@ -137,11 +137,6 @@ struct vdc_s {
     /* Value to add to `mem_counter' after the graphics has been painted.  */
     unsigned int mem_counter_inc;
 
-    /* Flag: Does the currently selected video mode force the overscan
-       background color to be black?  (This happens with the hires bitmap and
-       illegal modes.)  */
-    int force_black_overscan_background_color;
-
     /* All the VDC logging goes here.  */
     signed int log;
 
@@ -152,17 +147,14 @@ struct vdc_s {
     /* Memory address mask.  */
     int vdc_address_mask;
 
+	/* Frame counter (required for character blink, cursor blink and interlace) */
+	int frame_counter;
+
+	/* Character attribute blink */
+	int attribute_blink;
+
     /* Cursor position.  */
     int crsrpos;
-
-    /* Is the cursor visible?  */
-    int cursor_visible;
-
-    /* Cursor blinking frequency.  */
-    int cursor_frequency;
-
-    /* Cursor frame counter.  */
-    int cursor_counter;
 
     /* Repaint the whole screen next frame.  */
     int force_repaint;
@@ -175,15 +167,6 @@ struct vdc_s {
 
     /* The screen geometry has changed.  */
     int update_geometry;
-
-    /* Is the flashing text visible?  */
-    int text_blink_visible;
-
-    /* Text blinking frequency.  */
-    int text_blink_frequency;
-
-    /* Text blink counter.  */
-    int text_blink_counter;
 
     /* 0..7 pixel x shift.  */
     int xsmooth;

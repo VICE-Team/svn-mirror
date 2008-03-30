@@ -93,16 +93,28 @@ inline static BYTE get_attr_char_data(BYTE c, BYTE a, int l, BYTE *char_mem,
                                       int revers, int curpos, int index)
 {
     BYTE data;
+	static BYTE mask[16] = { 0x80, 0xC0, 0xE0, 0xF0, 0xF8, 0xFC, 0xFE, 0x00,
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+	static BYTE crsrblink[4] = { 0x01, 0x00, 0x08, 0x10 };
 
     if (a & VDC_ALTCHARSET_ATTR)
         char_mem += 0x1000;
 
-    data = (char_mem[((c) * bytes_per_char) + l]
-           ^ (((a) & VDC_REVERSE_ATTR || (((a) & VDC_FLASH_ATTR) && blink))
-           ? revers : (revers ^ 0xff)));
+	if (l > vdc.regs[23]) data = 0x00;
+	else data = char_mem[(c * bytes_per_char) + l] & mask[vdc.regs[22] & 0x0F];
+	if ((l == vdc.regs[29]) && (a & VDC_UNDERLINE_ATTR)) data = 0xFF;
+	if ((a & VDC_FLASH_ATTR) && (vdc.attribute_blink)) data = 0x00; // underline byte also blinks!
+	if (a & VDC_REVERSE_ATTR) data ^= 0xFF;
+	if (vdc.regs[24] & 0x40) data ^= 0xFF;
 
-    if (curpos == index)
-        data ^= 0xff;
+	// on a 80x25 text screen (2000 characters) this is only true for 1 character.
+	if (curpos == index) {
+		// invert anything at all?
+		if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
+			// invert current byte of the character?
+			if ((l >= (vdc.regs[10] & 0x1F)) && (l < (vdc.regs[11] & 0x1F))) data ^= 0xFF;
+		}
+	}
 
     return data;
 }
@@ -262,14 +274,7 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
      */
     int r, cursor_pos = -1;
 
-    if (vdc.cursor_visible) {
-        int crsrpos = vdc.crsrpos - vdc.mem_counter;
-
-        if (crsrpos >= 0 && crsrpos < (int)vdc.screen_text_cols
-            && (int)vdc.raster.ycounter >= (int)(vdc.regs[10] & 0x1f)
-            && (int)vdc.raster.ycounter < (int)(vdc.regs[11] & 0x1f))
-            cursor_pos = crsrpos;
-    }
+	cursor_pos = vdc.crsrpos - vdc.mem_counter;
 
     if (vdc.regs[25] & 0x40) {
         r = cache_data_fill_attr_text(cache->foreground_data,
@@ -281,8 +286,8 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
                                 vdc.raster.ycounter,
                                 xs, xe,
                                 rr,
-                                vdc.text_blink_visible,
-                                (vdc.regs[24] & VDC_REVERSE_ATTR) ? 0x0 : 0xff,
+                                0,
+                                0,
                                 cursor_pos);
         r |= raster_cache_data_fill(cache->color_data_1,
                                 vdc.ram + vdc.attribute_adr + vdc.mem_counter,
@@ -300,8 +305,8 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
                                 vdc.raster.ycounter,
                                 xs, xe,
                                 rr,
-                                vdc.text_blink_visible,
-                                (vdc.regs[24] & VDC_REVERSE_ATTR) ? 0x0 : 0xff,
+                                0,
+                                0,
                                 cursor_pos);
         r |= raster_cache_data_fill_const(cache->color_data_1,
                                 (BYTE)(vdc.regs[26] >> 4),
@@ -343,14 +348,7 @@ static void draw_std_text(void)
     unsigned int i;
     unsigned int cpos = 0xffff;
 
-    if (vdc.cursor_visible) {
-        int crsrpos = vdc.crsrpos - vdc.mem_counter;
-
-        if (crsrpos >= 0 && crsrpos < (int)vdc.screen_text_cols
-            && (int)(vdc.raster.ycounter) >= (int)(vdc.regs[10] & 0x1f)
-            && (int)(vdc.raster.ycounter) < (int)(vdc.regs[11] & 0x1f))
-            cpos = crsrpos;
-    }
+	cpos = vdc.crsrpos - vdc.mem_counter;
 
     p = vdc.raster.draw_buffer_ptr + vdc.border_width
         + vdc.raster.xsmooth;
@@ -368,7 +366,7 @@ static void draw_std_text(void)
             + (*(screen_ptr + i) * vdc.bytes_per_char));
 
         if (*(attr_ptr + i) & VDC_REVERSE_ATTR
-            || (vdc.text_blink_visible && (*(attr_ptr + i) & VDC_FLASH_ATTR)))
+            || (vdc.attribute_blink && (*(attr_ptr + i) & VDC_FLASH_ATTR)))
             d ^= 0xff;
 
         if (cpos == i)

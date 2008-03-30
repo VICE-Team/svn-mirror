@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=20
-VICE_VERSION_BUILD=17
+VICE_VERSION_BUILD=18
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -707,7 +707,7 @@ AC_PROG_GCC_TRADITIONAL
 dnl Check for header files.
 AC_HEADER_DIRENT
 AC_CHECK_HEADERS(direct.h errno.h fcntl.h limits.h regex.h unistd.h strings.h \
-sys/dirent.h sys/ioctl.h sys/stat.h \
+sys/dirent.h sys/ioctl.h sys/stat.h inttypes.h \
 dir.h io.h process.h signal.h ffmpeg/avformat.h commctrl.h shlobj.h winioctl.h)
 
 AC_CHECK_HEADER(regexp.h,,,[#define	INIT		register char *sp = instring;
@@ -1891,7 +1891,6 @@ if false ; then
     mkdir -p rs232drv
     mkdir -p serial
     mkdir -p sid
-    mkdir -p sidcart
     mkdir -p sounddrv
     mkdir -p tape
     mkdir -p vdc
@@ -1983,7 +1982,6 @@ AC_OUTPUT([Makefile
            src/rs232drv/Makefile
            src/serial/Makefile
            src/sid/Makefile
-           src/sidcart/Makefile
            src/sounddrv/Makefile
            src/tape/Makefile
            src/vdc/Makefile
