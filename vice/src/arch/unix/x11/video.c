@@ -418,7 +418,6 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
 
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-    canvas->depth = x11ui_get_display_depth();
     canvas->video_draw_buffer_callback = NULL;
 
 #ifdef USE_XF86_EXTENSIONS
@@ -450,6 +449,9 @@ int video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     unsigned int new_width, new_height;
     XGCValues gc_values;
 
+    canvas->depth = x11ui_get_display_depth();
+    canvas->palette = palette;
+
     new_width = *width;
     new_height = *height;
 
@@ -465,7 +467,7 @@ int video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     }
 
     res = x11ui_open_canvas_window(canvas, canvas->viewport->title,
-                                   new_width, new_height, 1, palette);
+                                   new_width, new_height, 1);
 
     if (!_video_gc)
         _video_gc = video_get_gc(&gc_values);

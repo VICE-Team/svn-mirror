@@ -546,8 +546,7 @@ Display *x11ui_get_display_ptr(void)
 
 /* Create a shell with a canvas widget in it.  */
 int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
-                             int width, int height, int no_autorepeat,
-                             const struct palette_s *palette)
+                             int width, int height, int no_autorepeat)
 {
     /* Note: this is correct because we never destroy CanvasWindows.  */
     Widget shell, speed_label;
@@ -558,7 +557,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     int i;
 
     if (!vsid_mode) {
-        if (uicolor_alloc_colors(c, palette) == -1)
+        if (uicolor_alloc_colors(c) < 0)
 	    return -1;
     }
 

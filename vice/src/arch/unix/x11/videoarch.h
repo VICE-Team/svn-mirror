@@ -31,9 +31,6 @@
 
 #include "vice.h"
 
-#include "fullscreenarch.h"
-#include "video.h"
-
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 
@@ -43,12 +40,12 @@
 #include <sys/shm.h>
 #endif
 
+#include "types.h"
+#include "video.h"
+
 #ifdef HAVE_XVIDEO
 #include "renderxv.h"
 #endif
-
-#include "types.h"
-#include "ui.h"
 
 #ifdef USE_GNOMEUI
 #include "gnome/uiarch.h"
@@ -61,15 +58,18 @@
 #endif
 
 struct video_draw_buffer_callback_s;
+struct palette_s;
 struct fullscreenconfig_s;
 
 struct video_canvas_s {
+    unsigned int initialized;
     unsigned int width, height;
     ui_window_t emuwindow;
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
     struct geometry_s *geometry;
+    const struct palette_s *palette;
 #ifdef USE_GNOMEUI
     GdkPixmap *drawable;
 #else
@@ -120,7 +120,7 @@ extern int use_mitshm;
 extern int use_xvideo;
 
 #ifdef USE_MITSHM
-extern int shmhandler(Display* display,XErrorEvent* err);
+extern int shmhandler(Display* display, XErrorEvent* err);
 extern int mitshm_failed; /* will be set to true if XShmAttach() failed */
 extern int shmmajor;          /* major number of MITSHM error codes */
 /* Define this for additional shared memory verbosity. */
@@ -132,8 +132,6 @@ extern int shmmajor;          /* major number of MITSHM error codes */
 #define DEBUG_MITSHM(x)
 #endif
 #endif /* USE_MITSHM */
-
-struct palette_s;
 
 extern void video_add_handlers(video_canvas_t *canvas);
 extern void ui_finish_canvas(video_canvas_t *c);

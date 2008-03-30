@@ -85,10 +85,10 @@ static int uicolor_alloc_system_colors(void)
 
 /*-----------------------------------------------------------------------*/
 
-int uicolor_alloc_colors(video_canvas_t *c, const palette_t *palette)
+int uicolor_alloc_colors(video_canvas_t *c)
 {
     if (uicolor_alloc_system_colors() < 0
-        || color_alloc_colors(c, palette, NULL) < 0) {
+        || color_alloc_colors(c, c->palette, NULL) < 0) {
         Display *display = x11ui_get_display_ptr();
         if (colormap == DefaultColormap(display, screen)) {
             log_warning(LOG_DEFAULT,
@@ -96,7 +96,7 @@ int uicolor_alloc_colors(video_canvas_t *c, const palette_t *palette)
             colormap = XCreateColormap(display, RootWindow(display, screen),
                                        visual, AllocNone);
             XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
-            return color_alloc_colors(c, palette, NULL);
+            return color_alloc_colors(c, c->palette, NULL);
         }
     }
     return 0;

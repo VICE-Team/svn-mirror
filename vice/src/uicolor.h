@@ -44,9 +44,7 @@ extern int uicolor_set_palette(struct video_canvas_s *c,
                                const struct palette_s *palette);
 
 /* Temporary! */
-extern int uicolor_alloc_colors(struct video_canvas_s *c,
-                                const struct palette_s *palette);
-
+extern int uicolor_alloc_colors(struct video_canvas_s *c);
 extern void uicolor_init_video_colors(void);
 
 #endif

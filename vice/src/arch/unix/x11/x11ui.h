@@ -36,13 +36,9 @@
 #include "x11/xaw/uiarch.h"
 #endif
 
-struct palette_s;
-
 extern int x11ui_open_canvas_window(struct video_canvas_s *c,
                                     const char *title, int width,
-                                    int height, int no_autorepeat,
-                                    const struct palette_s *p);
-
+                                    int height, int no_autorepeat);
 extern void x11ui_resize_canvas_window(ui_window_t w, int height, int width);
 extern void x11ui_move_canvas_window(ui_window_t w, int x, int y);
 extern void x11ui_canvas_position(ui_window_t w, int *x, int *y);
