@@ -291,6 +291,11 @@ BYTE parallel_cable_cpu_read(void)
     return parallel_cable_cpu_value & parallel_cable_drive_value;
 }
 
+void parallel_cable_cpu_undump(BYTE data)
+{
+    parallel_cable_cpu_value = data;
+}
+
 int iec_available_busses(void) 
 {
     return IEC_BUS_IEC | IEC_BUS_IEEE;

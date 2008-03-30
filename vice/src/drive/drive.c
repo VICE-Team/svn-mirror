@@ -1777,7 +1777,9 @@ void drive_vsync_hook(void)
 
 This is the format of the DRIVE snapshot module.
 
-Name               Type   Size   Description
+Name                 Type   Size   Description
+
+SyncFactor           DWORD  1      sync factor main cpu <-> drive cpu
 
 Accum                DWORD  2
 AttachClk            CLOCK  2      write protect handling on attach
@@ -1793,7 +1795,6 @@ FinishByte           BYTE   2      flag: Mode changed, finish byte
 GCRHeadOffset        DWORD  2      offset from the begin of the track
 GCRRead              BYTE   2      next value to read from disk
 GCRWriteValue        BYTE   2      next value to write to disk
-HaveNewDisk          BYTE   2      flag: A new disk is inserted
 IdlingMethod         BYTE   2      What idle methode do we use
 LastMode             BYTE   2      flag: Was the last mode read or write
 ParallelCableEnabled BYTE   2      flag: Is the parallel cable enabed
@@ -1806,7 +1807,7 @@ Type                 DWORD  2      drive type
 */
 
 #define DRIVE_SNAP_MAJOR 0
-#define DRIVE_SNAP_MINOR 1
+#define DRIVE_SNAP_MINOR 2
 
 int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
 {
@@ -1860,7 +1861,6 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
             || snapshot_module_write_dword(m, (DWORD) drive[i].GCR_head_offset) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].GCR_read) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].GCR_write_value) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].have_new_disk) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].idling_method) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].last_mode) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].parallel_cable_enabled) < 0
@@ -2013,7 +2013,6 @@ int drive_read_snapshot_module(snapshot_t *s)
             || snapshot_module_read_dword(m, &drive[i].GCR_head_offset) < 0
             || snapshot_module_read_byte(m, &drive[i].GCR_read) < 0
             || snapshot_module_read_byte(m, &drive[i].GCR_write_value) < 0
-            || read_byte_into_int(m, &drive[i].have_new_disk) < 0
             || read_byte_into_int(m, &drive[i].idling_method) < 0
             || read_byte_into_int(m, &drive[i].last_mode) < 0
             || read_byte_into_int(m, &drive[i].parallel_cable_enabled) < 0

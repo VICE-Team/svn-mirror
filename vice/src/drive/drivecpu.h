@@ -1,6 +1,6 @@
 /*
- * drivecpu.h - Definitions of the 6502 processor in the Commodore floppy
- * disk drives.
+ * drivecpu.h - Definitions of the 6502 processor in the Commodore 1541,
+ * 1571 and 1581 floppy disk drives.
  *
  * Written by
  *   Ettore Perazzoli (ettore@comm2000.it)
@@ -57,6 +57,7 @@ extern BYTE drive0_bank_read(int bank, ADDRESS addr);
 extern BYTE drive0_bank_peek(int bank, ADDRESS addr);
 extern void drive0_bank_store(int bank, ADDRESS addr, BYTE val);
 extern void drive0_cpu_execute(void);
+extern void drive0_set_bank_base(void);
 extern int drive0_cpu_write_snapshot_module(snapshot_t *s);
 extern int drive0_cpu_read_snapshot_module(snapshot_t *s);
 
@@ -84,6 +85,7 @@ extern BYTE drive1_bank_read(int bank, ADDRESS addr);
 extern BYTE drive1_bank_peek(int bank, ADDRESS addr);
 extern void drive1_bank_store(int bank, ADDRESS addr, BYTE val);
 extern void drive1_cpu_execute(void);
+extern void drive1_set_bank_base(void);
 extern int drive1_cpu_write_snapshot_module(snapshot_t *s);
 extern int drive1_cpu_read_snapshot_module(snapshot_t *s);
 

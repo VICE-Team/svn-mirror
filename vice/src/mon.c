@@ -51,6 +51,7 @@
 #include "asm.h"
 #include "mon.h"
 #include "charsets.h"
+#include "drivecpu.h"
 #include "file.h"
 #include "misc.h"
 #include "mshell.h"
@@ -753,6 +754,9 @@ void mon_set_reg_val(MEMSPACE mem, REG_ID reg_id, WORD val)
         break;
       case e_PC:
         MOS6510_REGS_SET_PC(reg_ptr, val);
+        if (mem == e_disk_space)
+            /* FIXME: Move to `monitor_interface_t'.  */
+            drive0_set_bank_base();
         break;
       case e_SP:
         MOS6510_REGS_SET_SP(reg_ptr, val);
