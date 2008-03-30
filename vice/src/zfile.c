@@ -129,10 +129,10 @@ static int zinit(void)
 /* Add one zfile to the list.  `orig_name' is automatically expanded to the
    complete path.  */
 static void zfile_list_add(const char *tmp_name,
-               const char *orig_name,
-               enum compression_type type,
-               int write_mode,
-               FILE *stream, FILE *fd)
+                           const char *orig_name,
+                           enum compression_type type,
+                           int write_mode,
+                           FILE *stream, FILE *fd)
 {
     struct zfile *new_zfile = (struct zfile *)xmalloc(sizeof(struct zfile));
 
@@ -361,11 +361,11 @@ static int is_valid_extension(char *end, int l, int nameoffset)
    valid but `write_mode' is non-zero, return a zero-length string; in all
    the other cases, return NULL.  */
 static char *try_uncompress_archive(const char *name, int write_mode,
-                                          const char *program,
-                                          const char *listopts,
-                                          const char *extractopts,
-                                          const char *extension,
-                                          const char *search)
+                                    const char *program,
+                                    const char *listopts,
+                                    const char *extractopts,
+                                    const char *extension,
+                                    const char *search)
 {
 #ifdef __riscos
     return NULL;
@@ -516,22 +516,28 @@ static char *try_uncompress_archive(const char *name, int write_mode,
    to figure this out by reading the contents of the file */
 static char *try_uncompress_zipcode(const char *name, int write_mode)
 {
-    char *tmp_name;
+    char *tmp_name = NULL;
     int i, count, sector, sectors = 0;
     FILE *fd;
     char tmp[256];
     char *argv[5];
     int exit_status;
 
-    /* The 2nd char has to be '!'? */
-    if (strlen(name) < 3 || name[1] != '!')
+    /* The 2nd char has to be '!'?  */
+    util_fname_split(name, NULL, &tmp_name);
+    if (tmp_name == NULL)
         return NULL;
+    if (strlen(tmp_name) < 3 || tmp_name[1] != '!') {
+        free(tmp_name);
+        return NULL;
+    }
+    free(tmp_name);
 
-    /* can we read this file? */
+    /* Can we read this file?  */
     fd = fopen(name, MODE_READ);
     if (fd == NULL)
         return NULL;
-    /* Read first track to see if this is zipcode */
+    /* Read first track to see if this is zipcode.  */
     fseek(fd, 4, SEEK_SET);
     for (count = 1; count < 21; count++) {
         i = zipcode_read_sector(fd, 1, &sector, tmp);
