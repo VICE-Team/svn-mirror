@@ -54,6 +54,10 @@ BYTE joystick_value[JOYSTICK_NUM] = { 0, 0, 0 };
 /* Latched joystick status.  */
 static BYTE latch_joystick_value[JOYSTICK_NUM] = { 0, 0, 0 };
 
+/* to prevent illegal direction combinations */
+static const BYTE joystick_opposite_direction[] = 
+    { 0, 2, 1, 3, 8, 10, 9, 11, 4, 6, 5, 7, 12, 14, 13, 15 };
+
 static alarm_t joystick_alarm;
 
 
@@ -103,6 +107,7 @@ BYTE joystick_get_value_absolute(unsigned int joyport)
 void joystick_set_value_or(unsigned int joyport, BYTE value)
 {
     latch_joystick_value[joyport] |= value;
+    latch_joystick_value[joyport] &= ~joystick_opposite_direction[value & 0xf];
     alarm_set(&joystick_alarm, maincpu_clk + JOYSTICK_RAND());
 }
 

@@ -46,6 +46,7 @@
 #include "utils.h"
 #include "video.h"
 #include "videoarch.h"
+#include "vsyncapi.h"
 #include "statusbar.h"
 
 void video_resize(void);
@@ -257,8 +258,7 @@ int video_init(void)
 /* Set the palettes for canvas `c'.  */
 void init_palette(const palette_t *p, PALETTEENTRY *ape)
 {
-	unsigned int i, k;
-	DWORD color;
+    unsigned int i;
 
     /* Default to a 332 palette.  */
 	for (i=0;i<256;i++)
@@ -342,7 +342,7 @@ int set_physical_colors(video_canvas_t *c)
     IDirectDrawSurface_GetPixelFormat(c->primary_surface, &format);
     if (format.dwFlags & DDPF_RGB) {
         log_debug("RGB surface...");
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
         log_debug("dwRGBBitCount: %d", format.dwRGBBitCount);
         log_debug("dwRBitMask: %08x", format.dwRBitMask);
         log_debug("dwGBitMask: %08x", format.dwGBitMask);
@@ -355,7 +355,7 @@ int set_physical_colors(video_canvas_t *c)
 #endif
         if (c->depth != 8) {
 
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
             mask = format.dwRBitMask;
 #else
             mask = format.u2.dwRBitMask;
@@ -376,7 +376,7 @@ int set_physical_colors(video_canvas_t *c)
             log_debug("rmask: %02x", rmask);
             log_debug("rbits: %d", rbits);
 */
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
             mask = format.dwGBitMask;
 #else
             mask = format.u3.dwGBitMask;
@@ -397,7 +397,7 @@ int set_physical_colors(video_canvas_t *c)
             log_debug("gmask: %02x", gmask);
             log_debug("gbits: %d", gbits);
 */
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
             mask = format.dwBBitMask;
 #else
             mask = format.u4.dwBBitMask;
@@ -524,7 +524,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     HRESULT ddresult;
     DDSURFACEDESC desc;
     DDSURFACEDESC desc2;
-    int i;
     GUID *device_guid;
 
     fullscreen_transition = 1;
@@ -649,7 +648,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
                : "unknown"))));
 
     /* Find the color depth.  */
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
     canvas->depth = desc2.ddpfPixelFormat.dwRGBBitCount;
 #else
     canvas->depth = desc2.ddpfPixelFormat.u1.dwRGBBitCount;
@@ -747,8 +746,6 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
 
 int video_canvas_set_palette(struct video_canvas_s *canvas, const palette_t *p)
 {
-    int i;
-
     /* Always OK.  */
     canvas->palette = p;
     /* Create palette.  */
@@ -1113,7 +1110,7 @@ static void real_refresh(video_canvas_t *c,
         return;
     }
 
-#ifdef HAVE_UNNAMED_UNIONS
+#ifdef _ANONYMOUS_UNION
     depth = desc.ddpfPixelFormat.dwRGBBitCount;
     pitch = desc.lPitch;
 #else
@@ -1225,8 +1222,6 @@ static void real_refresh(video_canvas_t *c,
 
 float video_refresh_rate(video_canvas_t *c)
 {
-    LARGE_INTEGER freq;
-    LARGE_INTEGER cnt;
     HANDLE prc;
     DWORD cls;
     int priok;
@@ -1234,13 +1229,8 @@ float video_refresh_rate(video_canvas_t *c)
     unsigned long table[TIME_MEASUREMENTS];
 
     /* get performance counter frequency */
-    if (!QueryPerformanceFrequency(&freq)) return 0.0f;
-#ifdef HAS_LONGLONG_INTEGER
-    frq = (unsigned long)freq.QuadPart;
-#else
-    frq = (unsigned long)freq.LowPart;
-#endif
-
+    vsyncarch_init();
+    frq = vsyncarch_frequency();
     /* get current process and it's priority */
     prc = GetCurrentProcess();
     cls = GetPriorityClass(prc);
@@ -1262,23 +1252,12 @@ float video_refresh_rate(video_canvas_t *c)
 
         IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN,
                                           0);
-        QueryPerformanceCounter(&cnt);
-#ifdef HAS_LONGLONG_INTEGER
-        now = (unsigned long)cnt.QuadPart;
-#else
-        now = (unsigned long)cnt.LowPart;
-#endif
-
+        now = vsyncarch_gettime();
         for (i = 0; i < TIME_MEASUREMENTS; i++) {
             old = now;
             IDirectDraw2_WaitForVerticalBlank(c->dd_object2,
                                               DDWAITVB_BLOCKBEGIN, 0);
-            QueryPerformanceCounter(&cnt);
-#ifdef HAS_LONGLONG_INTEGER
-            now = (unsigned long)cnt.QuadPart;
-#else
-            now = (unsigned long)cnt.LowPart;
-#endif
+            now = vsyncarch_gettime();
             table[i] = now-old;
         }
 

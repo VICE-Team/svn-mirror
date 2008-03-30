@@ -837,12 +837,20 @@ void MarkModeInClipboard( console_private_t *pcp )
 {
     if (pcp->bIsMarked)
     {
-        char *buffer = xmalloc( (pcp->xMax+2)*pcp->yMax + 1);
-        char *p      = buffer;
+        /*
+            +2 because: CR/LF is added per line
+        1st +1 because: we need a trailing zero
+        2nd +1 because: we add a zero at the *beginning* (so that the removal
+                        of the trailing spaces will not go before the buffer.
+        */
+        char *buffer = xmalloc( (pcp->xMax+2)*pcp->yMax + 1 + 1);
+        char *p      = buffer + 1;
 
         int xMin, yMin, xMax, yMax;
 
         int row;
+
+        buffer[0] = 0; // make sure that removing trailing spaces will not go beyond this
 
         xMin = pcp->xMarkStart                           / pcp->xCharDimension;
         yMin = pcp->yMarkStart                           / pcp->yCharDimension;
@@ -913,7 +921,8 @@ void MarkModeInClipboard( console_private_t *pcp )
 
         *p = 0;
 
-        WriteInClipboard( pcp->hwndConsole, buffer );
+        // +1 because we have written a leading zero at buffer[0]
+        WriteInClipboard( pcp->hwndConsole, buffer+1 );
         free(buffer);
     }
 }

@@ -738,7 +738,7 @@ inline static void handle_visible_line_with_changes(raster_t *raster)
 #if 0
     draw_sprites(raster);
 #else
-    for (xs = -geometry->extra_offscreen_border_left, i = 0;
+    for (xs = 0-geometry->extra_offscreen_border_left, i = 0;
          i < raster->changes.sprites.count; i++) {
         int xe = raster->changes.sprites.actions[i].where;
 
