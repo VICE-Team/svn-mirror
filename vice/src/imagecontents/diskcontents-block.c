@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "cbmdos.h"
 #include "diskcontents-block.h"
 #include "diskimage.h"
 #include "imagecontents.h"
@@ -161,9 +162,9 @@ image_contents_t *diskcontents_block_read(const char *file_name,
                 new_list->name[i] = 0;
 
                 sprintf((char *)new_list->type, "%c%s%c",
-                        (p[SLOT_TYPE_OFFSET] & FT_CLOSED ? ' ' : '*'),
+                        (p[SLOT_TYPE_OFFSET] & CBMDOS_FT_CLOSED ? ' ' : '*'),
                         slot_type[p[SLOT_TYPE_OFFSET] & 0x07],
-                        (p[SLOT_TYPE_OFFSET] & FT_LOCKED ? '<' : ' '));
+                        (p[SLOT_TYPE_OFFSET] & CBMDOS_FT_LOCKED ? '<' : ' '));
 
                 new_list->next = NULL;
 

@@ -53,6 +53,7 @@
 #endif
 
 #include "archdep.h"
+#include "cbmdos.h"
 #include "cbmimage.h"
 #include "charset.h"
 #include "diskimage.h"
@@ -90,15 +91,14 @@ const char machine_name[] = "C1541";
 CLOCK clk = 0L;
 
 static vdrive_t *drives[4] = { NULL, NULL, NULL, NULL };
+static unsigned int p00save[4] = { 0, 0, 0, 0 };
 
 static int drive_number = 0;
 
 /* Local functions.  */
-static int check_drive(int dev, int mode);
-static int open_image(int dev, char *name, int create, int disktype);
-static int raw_cmd(int nargs, char **args); /* @ */
 static int attach_cmd(int nargs, char **args);
 static int block_cmd(int nargs, char **args);
+static int check_drive(int dev, int mode);
 static int copy_cmd(int nargs, char **args);
 static int delete_cmd(int nargs, char **args);
 static int extract_cmd(int nargs, char **args);
@@ -107,7 +107,9 @@ static int help_cmd(int nargs, char **args);
 static int info_cmd(int nargs, char **args);
 static int list_cmd(int nargs, char **args);
 static int name_cmd(int nargs, char **args);
+static int p00save_cmd(int nargs, char **args);
 static int quit_cmd(int nargs, char **args);
+static int raw_cmd(int nargs, char **args); /* @ */
 static int read_cmd(int nargs, char **args);
 static int rename_cmd(int nargs, char **args);
 static int show_cmd(int nargs, char **args);
@@ -117,6 +119,8 @@ static int unlynx_cmd(int nargs, char **args);
 static int validate_cmd(int nargs, char **args);
 static int write_cmd(int nargs, char **args);
 static int zcreate_cmd(int nargs, char **args);
+
+static int open_image(int dev, char *name, int create, int disktype);
 
 #ifdef GEOS
 int internal_read_geos_file(int unit, FILE* outf, char* src_name_ascii);
@@ -237,6 +241,10 @@ const command_t command_list[] = {
       "name <diskname>[,<id>] <unit>",
       "Change image name.",
       1, 2, name_cmd },
+    { "p00save",
+      "p00save <enable> [<unit>]",
+      "Save P00 files to the file system.",
+      1, 2, p00save_cmd },
     { "quit",
       "quit",
       "Exit (same as `exit').",
@@ -1020,10 +1028,10 @@ static int extract_cmd(int nargs, char **args)
         for (i = 0; i < 256; i += 32) {
             BYTE file_type = buf[i + SLOT_TYPE_OFFSET];
 
-            if (((file_type & 7) == FT_SEQ
-                || (file_type & 7) == FT_PRG
-                || (file_type & 7) == FT_USR)
-                && (file_type & FT_CLOSED)) {
+            if (((file_type & 7) == CBMDOS_FT_SEQ
+                || (file_type & 7) == CBMDOS_FT_PRG
+                || (file_type & 7) == CBMDOS_FT_USR)
+                && (file_type & CBMDOS_FT_CLOSED)) {
                 int len;
                 BYTE *file_name = buf + i + SLOT_NAME_OFFSET;
                 BYTE c, name[17], cbm_name[17];
@@ -1242,9 +1250,9 @@ static int info_cmd(int nargs, char **args)
 
 static int list_cmd(int nargs, char **args)
 {
-    char *listing;
-    char *pattern;
+    char *listing, *pattern, *name;
     int drv;
+    vdrive_t *vdrive;
 
     if (nargs > 1) {
         /* list <pattern> */
@@ -1262,7 +1270,10 @@ static int list_cmd(int nargs, char **args)
     if (check_drive(drv, CHK_RDY) < 0)
         return FD_NOTREADY;
 
-    listing = image_contents_read_string(IMAGE_CONTENTS_DISK, NULL, drv + 8,
+    vdrive = drives[drv & 3];
+    name = disk_image_name_get(vdrive->image);
+
+    listing = image_contents_read_string(IMAGE_CONTENTS_DISK, name, drv + 8,
                                          IMAGE_CONTENTS_STRING_ASCII);
 
     if (listing != NULL) {
@@ -2048,7 +2059,7 @@ static int write_geos_cmd(int nargs, char **args)
         lib_free(drives[unit]->buffers[1].buffer);
         drives[unit]->buffers[1].buffer = NULL;
 
-        vdrive_command_set_error(drives[unit], IPE_DISK_FULL, 0, 0);
+        vdrive_command_set_error(drives[unit], CBMDOS_IPE_DISK_FULL, 0, 0);
         return SERIAL_ERROR;
     }
     /* The buffer MUST be mark as closed to avoid the vdrive functions
@@ -2370,7 +2381,7 @@ static int unlynx_cmd(int nargs, char **args)
 
     /* Loop */
     while (dentries != 0) {
-        int filetype = FT_PRG;
+        int filetype = CBMDOS_FT_PRG;
 
         /* Read CBM filename */
         cnt = 0;
@@ -2404,16 +2415,16 @@ static int unlynx_cmd(int nargs, char **args)
 
         switch (ftype) {
           case 'D':
-            filetype = FT_DEL;
+            filetype = CBMDOS_FT_DEL;
             break;
           case 'P':
-            filetype = FT_PRG;
+            filetype = CBMDOS_FT_PRG;
             break;
           case 'S':
-            filetype = FT_SEQ;
+            filetype = CBMDOS_FT_SEQ;
             break;
           case 'U':
-            filetype = FT_USR;
+            filetype = CBMDOS_FT_USR;
             break;
           case 'R':
             fprintf(stderr, "REL not supported.\n");
@@ -2443,7 +2454,7 @@ static int unlynx_cmd(int nargs, char **args)
 
         /* We cannot use normal vdrive_iec_open as it does not allow to
            create invalid file names.  */
-        vdrive->buffers[1].readmode = FAM_WRITE;
+        vdrive->buffers[1].readmode = CBMDOS_FAM_WRITE;
         vdrive_dir_create_slot(&(vdrive->buffers[1]), cname,
                                strlen(cname), filetype);
 
@@ -2698,19 +2709,22 @@ static int zcreate_cmd(int nargs, char **args)
 
 static int raw_cmd(int nargs, char **args)
 {
-    vdrive_t *floppy = drives[drive_number];
+    vdrive_t *vdrive = drives[drive_number];
+
+    if (vdrive == NULL || vdrive->buffers[15].buffer == NULL)
+        return FD_NOTREADY;
 
     /* Write to the command channel.  */
     if (nargs >= 2) {
         char *command = lib_stralloc(args[1]);
 
         charset_petconvstring((BYTE *)command, 0);
-        vdrive_command_execute(floppy, (BYTE *)command, strlen(command));
+        vdrive_command_execute(vdrive, (BYTE *)command, strlen(command));
         lib_free(command);
     }
 
     /* Print the error now.  */
-    puts((char *)floppy->buffers[15].buffer);
+    puts((char *)vdrive->buffers[15].buffer);
     return FD_OK;
 }
 
@@ -2804,6 +2818,24 @@ int main(int argc, char **argv)
     }
 
     return retval;
+}
+
+static int p00save_cmd(int nargs, char **args)
+{
+    int dnr = 0, enable;
+
+    arg_to_int(args[1], &enable);
+
+    if (nargs == 3) {
+        if (arg_to_int(args[2], &dnr) < 0)
+            return FD_BADDEV;
+        if (check_drive(dnr, CHK_NUM) < 0)
+            return FD_BADDEV;
+        dnr -= 8;
+    }
+
+    p00save[dnr] = (unsigned int)enable;
+    return FD_OK;
 }
 
 /* ------------------------------------------------------------------------- */

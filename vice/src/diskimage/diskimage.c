@@ -251,6 +251,17 @@ void disk_image_name_set(disk_image_t *image, char *name)
     }
 }
 
+char *disk_image_name_get(disk_image_t *image)
+{
+    switch (image->device) {
+      case DISK_IMAGE_DEVICE_FS:
+        return fsimage_name_get(image);
+        break;
+    }
+
+    return NULL;
+}
+
 /*-----------------------------------------------------------------------*/
 
 void disk_image_media_create(disk_image_t *image)
