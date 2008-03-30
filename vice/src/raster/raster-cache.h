@@ -27,6 +27,8 @@
 #ifndef _RASTER_CACHE_H
 #define _RASTER_CACHE_H
 
+#include <string.h>
+
 #include "types.h"
 
 #include "raster-sprite-cache.h"
@@ -347,6 +349,57 @@ raster_cache_data_fill_attr_text (BYTE *dest,
 	return 0;
     }
 #undef _GET_ATTR_CHAR_DATA
+}
+
+inline static int
+raster_cache_data_fill_const(BYTE *dest,
+                             BYTE data,
+                             int length,
+                             int src_step,
+                             int *xs,
+                             int *xe,
+                             int no_check)
+{
+  if (no_check)
+    {
+      int i;
+
+      *xs = 0;
+      *xe = length - 1;
+      if (src_step == 1)
+        memset (dest, data, length);
+      else
+        for (i = 0; i < length; i++)
+          dest[i] = data;
+      return 1;
+    }
+  else
+    {
+      int x = 0, i;
+
+      for (i = 0; i < length && dest[i] == data; i++)
+    /* do nothing */ ;
+
+      if (i < length)
+    {
+      if (*xs > i)
+        *xs = i;
+
+      for (; i < length; i++)
+        if (dest[i] != data)
+          {
+        dest[i] = data;
+        x = i;
+          }
+
+      if (*xe < x)
+        *xe = x;
+
+      return 1;
+    }
+      else
+    return 0;
+    }
 }
 
 #endif
