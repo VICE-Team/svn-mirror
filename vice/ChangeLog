@@ -1,3 +1,14 @@
+2002-01-03  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.54.
+
+2002-01-02  pottendo  <pottendo@utanet.at>
+
+	* NEWS: Fixed a typo in OS/2 section (dive -> drive). Unix
+	update. 
+
+	* vice.spec: Added `*.mo', updated version to 1.8
+
 2002-01-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.53.

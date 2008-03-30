@@ -513,10 +513,6 @@ void ted_powerup(void)
 static void ted_exposure_handler(unsigned int width, unsigned int height)
 {
     raster_resize_viewport(&ted.raster, width, height);
-
-    /* FIXME: Needed?  Maybe this should be triggered by
-       `raster_resize_viewport()' automatically.  */
-    raster_force_repaint(&ted.raster);
 }
 
 /* Make sure all the TED alarms are removed.  This just makes it easier to
@@ -967,6 +963,13 @@ void ted_resize(void)
 {
     if (!ted.initialized)
         return;
+
+#ifdef USE_XF86_EXTENSIONS
+    if (!fullscreen_is_enabled)
+#endif
+        raster_enable_double_size(&ted.raster,
+                                  ted_resources.double_size_enabled,
+                                  ted_resources.double_size_enabled);
 
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS

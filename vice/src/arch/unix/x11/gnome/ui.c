@@ -86,6 +86,7 @@
 #include "fullscreen.h"
 #endif
 #include "videoarch.h"
+#include "vsidui.h"
 
 /* FIXME: We want these to be static.  */
 GdkVisual *visual;
@@ -971,7 +972,11 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
 		       GTK_SIGNAL_FUNC(update_menu_cb),NULL);
     gnome_app_set_menus(GNOME_APP(new_window), GTK_MENU_BAR(topmenu));
 
-    new_canvas = gtk_drawing_area_new();
+    if (vsid_mode)
+	new_canvas = build_vsid_ctrl_widget();
+    else
+	new_canvas = gtk_drawing_area_new();
+
     gtk_box_pack_start(GTK_BOX(new_pane),new_canvas,FALSE,FALSE,0);
     
     gtk_widget_show(new_canvas);
@@ -994,7 +999,8 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
     gtk_signal_connect(GTK_OBJECT(new_canvas),"enter-notify-event",
 		       GTK_SIGNAL_FUNC(enter_window_callback),
 		       NULL);
-    gtk_widget_set_usize(new_canvas, width, height);
+    if (!vsid_mode)
+	gtk_widget_set_usize(new_canvas, width, height);
     gtk_widget_show(new_canvas);
     gtk_widget_queue_resize(new_canvas);
 

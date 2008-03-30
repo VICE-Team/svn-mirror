@@ -51,6 +51,9 @@ typedef enum mon_breakpoint_type_e
 } mon_breakpoint_type_t;
 
 extern mon_breakpoint_type_t mon_is_breakpoint( MON_ADDR address );
-extern void mon_toggle_breakpoint( MON_ADDR address );
+extern void mon_set_breakpoint( MON_ADDR address );
+extern void mon_unset_breakpoint( MON_ADDR address );
+extern void mon_enable_breakpoint( MON_ADDR address );
+extern void mon_disable_breakpoint( MON_ADDR address );
 
 #endif

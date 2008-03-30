@@ -207,6 +207,9 @@ void video_canvas_destroy(video_canvas_t *c)
 void video_canvas_resize(video_canvas_t *c, unsigned int width,
                          unsigned int height)
 {
+	if (c->width == width && c->height == height)
+		return;
+
 	delete c->vicewindow->bitmap;
 	canvas_create_bitmap(c, width, height);
     

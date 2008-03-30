@@ -304,23 +304,29 @@ static HWND AddStatusTxt(HWND hwnd, UINT x, UINT width, int id, char *txt)
     return thwnd;
 }
 */
-static UINT GetWindowHeight(UINT height)
+static UINT GetWindowHeight(video_canvas_t *c)
 {
-    height *= stretch;
+    UINT height = c->height;
+
+    height *= c->stretch;
     height += WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
     height += 2*border_size_y();
     if (menu)   height += WinQuerySysValue(HWND_DESKTOP, SV_CYMENU)+1;  // FIXME: +1 ?
     if (status) height += statusbar_height();
+
     return height;
 }
 
-static UINT GetWindowWidth(UINT width)
+static UINT GetWindowWidth(video_canvas_t *c)
 {
-    width *= stretch;
+    UINT width = c->width;
+
+    width *= c->stretch;
 #if defined __XVIC__
     width *= 2;
 #endif
     width += 2*border_size_x();
+
     return width;
 }
 
@@ -400,8 +406,7 @@ static int set_menu(resource_value_t v, void *param)
         // correct window size
         //
         WinSetWindowPos(c->hwndFrame, 0, 0, 0,
-                        GetWindowWidth (c->width),
-                        GetWindowHeight(c->height),
+                        GetWindowWidth(c), GetWindowHeight(c),
                         SWP_SIZE|SWP_MINIMIZE);
 
         //
@@ -933,33 +938,34 @@ void VideoCanvasBlit(video_canvas_t *c, video_frame_buffer_t *f,
     //
 
     //
-    // fbuf read x: 240 + 768 > 624 * 2
-    // fbuf read y: 32 + 544 > 312 * 2
+    // switching back from double size
+    // fbuf read x: 120 + 768 > 624 * 1
+    // fbuf read y: 16  + 544 > 312 * 1
     // scr write x x2: 0 + 1008 > 768
     // scr write y x2: 0 + 592 > 544
     //
-
     if (xs+w > f->width*dsx)
     {
-        log_debug("fbuf read x: %d + %d > %d * %d", xs, w, f->width, dsx);
+        log_message(vidlog, "Debug - fbuf read x: %d + %d > %d * %d, c->width=%d", xs, w, f->width, dsx, c->width);
         w = dsx*f->width-xs;
     }
     if (ys+h > f->height*dsy)
     {
-        log_debug("fbuf read y: %d + %d > %d * %d", ys, h, f->height, dsy);
+        log_message(vidlog, "Debug - fbuf read y: %d + %d > %d * %d, c->height=%d", ys, h, f->height, dsy, c->height);
         h = dsy*f->height-ys;
     }
+/*
     if (xi+w > c->width)
     {
-        log_debug("scr write x x%d: %d + %d > %d", dsx, xi, w, c->width);
+        log_message(vidlog, "Debug - scr write x x%d: %d + %d > %d", dsx, xi, w, c->width);
         w = c->width-xi;
     }
     if (yi+h > c->height)
     {
-        log_debug("scr write y x%d: %d + %d > %d", dsy, yi, h, c->height);
+        log_message(vidlog, "Debug - scr write y x%d: %d + %d > %d", dsy, yi, h, c->height);
         h = c->height-yi;
     }
-
+*/
 #ifndef DIRECT_ACCESS
     //
     // calculate source and destinations
@@ -1131,8 +1137,8 @@ void WmPaint(HWND hwnd)
         // blit to canvas (canvas_refresh should be thread safe by itself)
         //
         VideoCanvasBlit(c, geom.frame_buffer,
-                        geom.size_width  * geom.first_displayed_col,
-                        geom.size_height * geom.first_displayed_line,
+                        (c->videoconfig.doublesizex + 1) * geom.first_displayed_col,
+                        (c->videoconfig.doublesizey + 1) * geom.first_displayed_line,
                         0, 0, c->width, c->height);
     }
 /*
@@ -1542,8 +1548,7 @@ void CanvasMainLoop(VOID *arg)
     // correct for window height
     //
     WinSetWindowPos(hwndFrame, HWND_TOP,
-                    swp.x, swp.y+swp.cy-GetWindowHeight(c->height),
-                    0, 0,
+                    swp.x, swp.y+swp.cy-GetWindowHeight(c), 0, 0,
                     SWP_SHOW|SWP_ZORDER|SWP_ACTIVATE|SWP_MOVE);
 
     //
@@ -1743,7 +1748,7 @@ void video_canvas_destroy(video_canvas_t *c)
     DosCloseMutexSem(hmtx);
 }
 
-void video_canvas_resize(video_canvas_t *c, UINT width, UINT height)
+void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
 {
     //
     // if this function is called from the outside of
@@ -1754,10 +1759,14 @@ void video_canvas_resize(video_canvas_t *c, UINT width, UINT height)
     SWP swp;
     ULONG rc;
 
+    UINT wold = c->width;
+    UINT hold = c->height;
+    UINT sold = c->stretch;
+
     //
     // if nothing has changed do nothing
     //
-    if (c->width==width && c->height==height && c->stretch==stretch)
+    if (wold==wnew && hold==hnew && sold==stretch)
         return;
 
     //
@@ -1769,35 +1778,52 @@ void video_canvas_resize(video_canvas_t *c, UINT width, UINT height)
     WmVrnDisabled(c->hwndClient);
 
     //
-    // make anchor left, top corner and resize window physically
-    //
-    WinQueryWindowPos(c->hwndFrame, &swp);
-    if (!WinSetWindowPos(c->hwndFrame, 0,
-                         swp.x, swp.y+swp.cy-GetWindowHeight(height),
-                         GetWindowWidth (width),
-                         GetWindowHeight(height),
-                         SWP_SIZE|SWP_MOVE))
-    {
-        log_error(vidlog, "Resizing canvas (%ix%i).", width, height);
-        return;
-    }
-
-    log_message(vidlog, "canvas resizing (%ix%i * %i --> %ix%i * %i)",
-                c->width, c->height, c->stretch,
-                width,    height,    stretch);
-
-    //
     // resize canvas description
     //
-    c->width   = width;
-    c->height  = height;
+    // Do it before. WM_PAINT, called from WinSetWindowPos, needs it.
+    //
     c->stretch = stretch;
 
     //
     // resize the buffer from which we blit to the window, too
     //
-    VideoBufferFree(c);
-    VideoBufferAlloc(c);
+    if (wold!=wnew || hold!=hnew)
+    {
+        c->width  = wnew;
+        c->height = hnew;
+
+        VideoBufferFree(c);
+        VideoBufferAlloc(c);
+    }
+
+    //
+    // make anchor left, top corner and resize window physically
+    //
+    WinQueryWindowPos(c->hwndFrame, &swp);
+    if (!WinSetWindowPos(c->hwndFrame, 0,
+                         swp.x, swp.y+swp.cy-GetWindowHeight(c),
+                         GetWindowWidth(c), GetWindowHeight(c),
+                         SWP_SIZE|SWP_MOVE))
+    {
+        log_error(vidlog, "Resizing canvas to %ix%i * %d.", wnew, hnew,
+                  stretch);
+
+        c->stretch = sold;
+
+        if (wold!=wnew || hold!=hnew)
+        {
+            c->width   = wold;
+            c->height  = hold;
+
+            VideoBufferFree(c);
+            VideoBufferAlloc(c);
+        }
+
+        return;
+    }
+
+    log_message(vidlog, "Canvas resized (%ix%i * %i --> %ix%i * %i)",
+                wold, hold, sold, wnew, hnew, stretch);
 
     //
     // reenable drawing into window (call exposure_handler, too)

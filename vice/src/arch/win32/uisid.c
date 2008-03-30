@@ -29,6 +29,7 @@
 #include <windows.h>
 
 #include "datasette.h"
+#include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "ui.h"
@@ -39,6 +40,15 @@ static char* ui_sid_samplemethod[] =
 {
     "fast", "interpolating", "resample", NULL
 };
+
+static int ui_sid_c64baseaddress[] =
+{ 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
+
+static int ui_sid_c128baseaddress[] =
+{ 0xd4, 0xde, 0xdf, -1 };
+
+static int ui_sid_cbm2baseaddress[] =
+{ 0xda, -1 };
 
 
 static void enable_sid_controls(HWND hwnd)
@@ -67,36 +77,47 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
     /* mode: 0=create, 1=get */
     char st[12];
     int res_value;
-    int adr, hadr, ladr, index = -1;
+    int adr, ladr, hi, index = -1;
+    int *hadr;
     HWND sid_hwnd=GetDlgItem(hwnd,IDC_SID_STEREOADDRESS);
     int cursel = SendMessage(GetDlgItem
                 (hwnd,IDC_SID_STEREOADDRESS),CB_GETCURSEL,0,0);
     resources_get_value("SidStereoAddressStart",
         (resource_value_t *)&res_value);
 
-    for (hadr = 0x4; hadr < 0x10; hadr++)
-    {
-        for (ladr = 0x0; ladr < 0x10; ladr += 2)
-        {
-            if ((hadr == 0x4) && (ladr > 0)
-                || (hadr > 0x4) && (hadr < 0x8)
-                || (hadr > 0xd))
-            {
-                index++;
-                sprintf(st, "$D%X%X0", hadr, ladr);
-                adr = 0xd000 + hadr*0x100 + ladr*0x10;
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+            hadr = ui_sid_c64baseaddress;
+            break;
+        case VICE_MACHINE_C128:
+            hadr = ui_sid_c128baseaddress;
+            break;
+        case VICE_MACHINE_CBM2:
+            hadr = ui_sid_cbm2baseaddress;
+            break;
+        default:
+            ui_error("This machine may not have a SID");
+            return;
+    }
 
-                if (mode == 0)
-                {
-                    SendMessage(sid_hwnd,CB_ADDSTRING,0,(LPARAM)st);
-                    if (adr == res_value)
-                        SendMessage(sid_hwnd,CB_SETCURSEL,(WPARAM) index,0);
-                } else if (index == cursel)
-                {
-                    resources_set_value("SidStereoAddressStart",
-                        (resource_value_t) adr);
-                    return;
-                }
+    for (hi = 0; hadr[hi] >= 0; hi++)
+    {
+        for (ladr = (hi>0?0x0:0x20); ladr < 0x100; ladr += 0x20)
+        {
+            index++;
+            sprintf(st, "$%02X%02X", hadr[hi], ladr);
+            adr = hadr[hi]*0x100 + ladr;
+
+            if (mode == 0)
+            {
+                SendMessage(sid_hwnd,CB_ADDSTRING,0,(LPARAM)st);
+                if (adr == res_value)
+                    SendMessage(sid_hwnd,CB_SETCURSEL,(WPARAM) index,0);
+            } else if (index == cursel)
+            {
+                resources_set_value("SidStereoAddressStart",
+                    (resource_value_t) adr);
+                return;
             }
         }
     }

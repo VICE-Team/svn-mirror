@@ -195,20 +195,6 @@ SoundWindow::SoundWindow()
 	}
 	background->AddChild(box);
 	
-	/* Stereo SID */
-	if (machine_class == VICE_MACHINE_C128
-		|| machine_class == VICE_MACHINE_C64)
-	{
-		r = Bounds();
-		r.OffsetBy(r.Width()/2+5,r.Height()-25);
-    	resources_get_value("SidStereo",
-    		(resource_value_t *)&res_value);
-		checkbox = new BCheckBox(r,"STEREO","Enable second SID at $DE00",
-			new BMessage(MESSAGE_SOUND_SIDSTEREO));
-		checkbox->SetValue(res_value);
-		background->AddChild(checkbox);
-	}
-	
 	Show();
 }
 
@@ -241,10 +227,6 @@ void SoundWindow::MessageReceived(BMessage *msg) {
 			msg->FindInt32("sync", &res_value);
             resources_set_value("SoundSpeedAdjustment",
             	(resource_value_t)res_value);
-			break;
-		case MESSAGE_SOUND_SIDSTEREO:
-            resources_toggle("SidStereo",
-            	(resource_value_t *) &res_value);
 			break;
 		default:
 			BWindow::MessageReceived(msg);

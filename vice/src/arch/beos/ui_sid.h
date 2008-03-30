@@ -1,5 +1,5 @@
 /*
- * ui_sound.h - Sound settings
+ * ui_sid.h - SID settings
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -24,14 +24,17 @@
  *
  */
 
-#ifndef __UI_SOUND_H__
-#define __UI_SOUND_H__
+#ifndef __UI_SID_H__
+#define __UI_SID_H__
 
-const uint32 MESSAGE_SOUND_FREQ				= 'MS01';
-const uint32 MESSAGE_SOUND_BUFF				= 'MS02';
-const uint32 MESSAGE_SOUND_SAMPLE			= 'MS03';
-const uint32 MESSAGE_SOUND_SYNC				= 'MS04';
+const uint32 MESSAGE_SID_MODEL				= 'MSD1';
+const uint32 MESSAGE_SID_RESID				= 'MSD2';
+const uint32 MESSAGE_SID_STEREO				= 'MSD3';
+const uint32 MESSAGE_SID_ADDRESS			= 'MSD4';
+const uint32 MESSAGE_SID_FILTERS			= 'MSD5';
+const uint32 MESSAGE_SID_RESIDSAMPLING		= 'MSD6';
+const uint32 MESSAGE_SID_RESIDPASSBAND		= 'MSD7';
 
-extern void ui_sound(void);
+extern void ui_sid(void);
 
 #endif

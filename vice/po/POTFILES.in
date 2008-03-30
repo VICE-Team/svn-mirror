@@ -52,9 +52,11 @@ src/arch/unix/x11/gnome/uimenu.c
 src/arch/unix/x11/gnome/uiscreenshot.c
 src/arch/unix/x11/gnome/uisnapshot.c
 src/arch/unix/x11/gnome/uipalcontrol.c
+src/arch/unix/x11/gnome/uivsidcontrol.c
 
 # x11 Video
 src/arch/unix/x11/fullscreen.c
+src/arch/unix/x11/dga2.c
 src/arch/unix/x11/kbd.c
 src/arch/unix/x11/x11kbd.c
 src/arch/unix/x11/x11menu.c
@@ -74,3 +76,4 @@ src/arch/unix/x11/xaw/uiscreenshot.c
 src/arch/unix/x11/xaw/uisnapshot.c
 src/arch/unix/x11/xaw/x11kbd.c
 src/arch/unix/x11/xaw/x11video.c
+src/arch/unix/x11/xaw/uivsidcontrol.c

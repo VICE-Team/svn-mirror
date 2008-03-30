@@ -97,13 +97,11 @@ const uint32 MENU_TOGGLE_WARP_MODE				= 'M101';
 const uint32 MENU_TOGGLE_DRIVE_TRUE_EMULATION	= 'M102';
 const uint32 MENU_TOGGLE_VIRTUAL_DEVICES		= 'M103';
 const uint32 MENU_TOGGLE_EMUID					= 'M104';
-const uint32 MENU_TOGGLE_SOUND_RESID			= 'M105';
 const uint32 MENU_TOGGLE_DOUBLESIZE				= 'M106';
 const uint32 MENU_TOGGLE_DOUBLESCAN				= 'M107';
 const uint32 MENU_TOGGLE_VIDEOCACHE				= 'M108';
 const uint32 MENU_TOGGLE_REU					= 'M109';
 const uint32 MENU_TOGGLE_MOUSE					= 'M110';
-const uint32 MENU_TOGGLE_SIDFILTERS				= 'M111';
 const uint32 MENU_TOGGLE_IEEE488				= 'M112';
 const uint32 MENU_TOGGLE_VDC_64KB				= 'M113';
 const uint32 MENU_TOGGLE_VDC_DOUBLESIZE			= 'M114';
@@ -134,13 +132,6 @@ const uint32 MENU_SYNC_FACTOR_PAL				= 'M140';
 const uint32 MENU_SYNC_FACTOR_NTSC				= 'M141';
 const uint32 MENU_SYNC_FACTOR_NTSCOLD			= 'M142';
 
-const uint32 MENU_SIDTYPE_6581					= 'M145';
-const uint32 MENU_SIDTYPE_8580					= 'M146';
-
-const uint32 MENU_RESID_SAMPLE_FAST				= 'M150';
-const uint32 MENU_RESID_SAMPLE_INTERPOLATE		= 'M151';
-const uint32 MENU_RESID_SAMPLE_RESAMPLE			= 'M152';
-
 const uint32 MENU_DRIVE_SETTINGS				= 'M200';
 const uint32 MENU_DEVICE_SETTINGS				= 'M201';
 const uint32 MENU_SOUND_SETTINGS				= 'M202';
@@ -151,10 +142,11 @@ const uint32 MENU_PET_SETTINGS					= 'M206';
 const uint32 MENU_VICII_SETTINGS				= 'M207';
 const uint32 MENU_VIC20_SETTINGS				= 'M208';
 const uint32 MENU_VIDEO_SETTINGS				= 'M209';
+const uint32 MENU_SID_SETTINGS					= 'M210';
 
-const uint32 MENU_SETTINGS_LOAD					= 'M210';
-const uint32 MENU_SETTINGS_SAVE					= 'M211';
-const uint32 MENU_SETTINGS_DEFAULT				= 'M212';
+const uint32 MENU_SETTINGS_LOAD					= 'M220';
+const uint32 MENU_SETTINGS_SAVE					= 'M221';
+const uint32 MENU_SETTINGS_DEFAULT				= 'M222';
 
 const uint32 MENU_VSID_LOAD						= 'M300';
 const uint32 PLAY_VSID							= 'M301';

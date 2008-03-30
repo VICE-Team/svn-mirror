@@ -145,7 +145,12 @@ void vic_ii_set_phi2_chargen_addr_options(ADDRESS mask, ADDRESS value)
 vic_ii_t vic_ii;
 
 static void vic_ii_raster_irq_alarm_handler(CLOCK offset);
-static void vic_ii_exposure_handler(unsigned int width, unsigned int height);
+
+/* Handle the exposure event.  */
+static void vic_ii_exposure_handler(unsigned int width, unsigned int height)
+{
+    raster_resize_viewport(&vic_ii.raster, width, height);
+}
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
 {
@@ -725,16 +730,6 @@ void vic_ii_trigger_light_pen(CLOCK mclk)
             maincpu_set_irq_clk(I_RASTER, 1, mclk);
         }
     }
-}
-
-/* Handle the exposure event.  */
-static void vic_ii_exposure_handler(unsigned int width, unsigned int height)
-{
-    raster_resize_viewport(&vic_ii.raster, width, height);
-
-    /* FIXME: Needed?  Maybe this should be triggered by
-       `raster_resize_viewport()' automatically.  */
-    raster_force_repaint(&vic_ii.raster);
 }
 
 /* Toggle support for C128 extended keyboard rows.  */
@@ -1486,6 +1481,13 @@ void vic_ii_resize(void)
 {
     if (!vic_ii.initialized)
       return;
+
+#ifdef USE_XF86_EXTENSIONS
+    if (!fullscreen_is_enabled)
+#endif
+        raster_enable_double_size(&vic_ii.raster,
+                                  vic_ii_resources.double_size_enabled,
+                                  vic_ii_resources.double_size_enabled);
 
 #ifdef VIC_II_NEED_2X
 #ifdef USE_XF86_EXTENSIONS

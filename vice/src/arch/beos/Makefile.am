@@ -68,6 +68,8 @@ libarch_a_SOURCES = \
 	ui_joystick.h \
 	ui_pet.cc \
 	ui_pet.h \
+	ui_sid.cc \
+	ui_sid.h \
 	ui_sound.cc \
 	ui_sound.h \
 	ui_vic20.cc \

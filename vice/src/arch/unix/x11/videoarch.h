@@ -162,7 +162,8 @@ extern void video_convert_color_table(int i, PIXEL *pixel_return, PIXEL *data,
 #define fullscreen_update() fullscreen_mode_update()
 extern void fullscreen_set_raster(raster_t *raster);
 extern void fullscreen_set_framebuffer(video_frame_buffer_t *fb);
-extern void fullscreen_set_palette(palette_t *p, PIXEL *pixel_return);
+extern void fullscreen_set_palette(video_canvas_t *fp,
+				   palette_t *p, PIXEL *pixel_return);
 #else
 #define fullscreen_on()
 #define fullscreen_off()

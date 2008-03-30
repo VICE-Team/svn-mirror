@@ -418,6 +418,12 @@
 #define IDM_MON_TILE_HORIZ              42021
 #define IDM_MON_TILE_VERT               42022
 #define IDM_MON_ARRANGE_ICONS           42023
+#define IDM_MON_GOTO_PC                 42024
+#define IDM_MON_GOTO_ADDRESS            42025
+#define IDM_MON_SET_BP                  42026
+#define IDM_MON_UNSET_BP                42027
+#define IDM_MON_ENABLE_BP               42028
+#define IDM_MON_DISABLE_BP              42029
 #define IDM_WNDCHILD                    42100
 
 #define WM_CONSOLE_INSERTLINE           (WM_USER)

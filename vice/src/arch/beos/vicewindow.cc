@@ -226,7 +226,9 @@ ViceWindow::~ViceWindow() {
 
 
 bool ViceWindow::QuitRequested() {
-	/* send an exit request to ui's event loop but dont't close the window here */
+	/* send an exit request to ui's event loop 
+	   but dont't close the window here
+	*/
 	BMessage msg;
 	msg.what = MENU_EXIT_REQUESTED;
 	ui_add_event(&msg);
@@ -259,7 +261,7 @@ void ViceWindow::Resize(unsigned int width, unsigned int height) {
 			delete statusbar;
 			statusbar = NULL;
 		}
-		statusbar_frame.top = view->Frame().bottom+1;
+		statusbar_frame.top = view->Frame().bottom;
 		statusbar_frame.bottom = view->Frame().bottom+41;
 		statusbar_frame.left = 0;
 		statusbar_frame.right = view->Frame().right;

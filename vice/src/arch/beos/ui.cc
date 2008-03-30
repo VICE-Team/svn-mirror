@@ -72,6 +72,7 @@ extern "C" {
 #include "ui_drive.h"
 #include "ui_file.h"
 #include "ui_joystick.h"
+#include "ui_sid.h"
 #include "ui_sound.h"
 #include "ui_vicii.h"
 #include "ui_video.h"
@@ -550,6 +551,9 @@ void ui_dispatch_events(void)
 				break;
 			case MENU_VIDEO_SETTINGS:
 				ui_video();
+				break;
+			case MENU_SID_SETTINGS:
+				ui_sid();
 				break;
 			case MENU_SETTINGS_LOAD:
 	        	if (resources_load(NULL) < 0) {

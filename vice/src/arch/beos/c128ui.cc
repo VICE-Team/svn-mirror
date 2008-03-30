@@ -44,31 +44,12 @@ ui_menu_toggle  c128_ui_menu_toggles[]={
     { "REU", MENU_TOGGLE_REU },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
     { "Mouse", MENU_TOGGLE_MOUSE },
-    { "SidFilters", MENU_TOGGLE_SIDFILTERS },
-#ifdef HAVE_RESID
-    { "SidUseResid", MENU_TOGGLE_SOUND_RESID },
-#endif
     { "VDC_DoubleSize", MENU_TOGGLE_VDC_DOUBLESIZE },
     { "VDC_DoubleScan", MENU_TOGGLE_VDC_DOUBLESCAN },
     { "VDC_64KB", MENU_TOGGLE_VDC_64KB },
     { "DelayLoopEmulation", MENU_TOGGLE_FASTPAL },
     { NULL, 0 }
 };
-
-static ui_res_possible_values SidType[] = {
-    {0, MENU_SIDTYPE_6581},
-    {1, MENU_SIDTYPE_8580},
-    {-1,0}
-};
-
-#ifdef HAVE_RESID
-static ui_res_possible_values SidResidSampling[] = {
-    {0, MENU_RESID_SAMPLE_FAST},
-    {1, MENU_RESID_SAMPLE_INTERPOLATE},
-    {2, MENU_RESID_SAMPLE_RESAMPLE},
-    {-1,0}
-};
-#endif
 
 ui_res_possible_values ReuSize[] = {
         {128, MENU_REU_SIZE_128},
@@ -84,10 +65,6 @@ ui_res_possible_values ReuSize[] = {
 
 
 ui_res_value_list c128_ui_res_values[] = {
-    {"SidModel", SidType},
-#ifdef HAVE_RESID
-    {"SidResidSampling", SidResidSampling},
-#endif
     {"REUsize", ReuSize},
     {NULL,NULL}
 };

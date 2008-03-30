@@ -69,8 +69,25 @@ extern ADDRESS mon_disassembly_scroll( struct mon_disassembly_private *,
 extern ADDRESS mon_disassembly_scroll_to( struct mon_disassembly_private *, 
                                          ADDRESS );
 
-extern void mon_disassembly_toggle_breakpoint( struct mon_disassembly_private *, 
-                                         int xPos, int yPos );
+#define MDDPC_SET_BREAKPOINT      (1<< 0)
+#define MDDPC_UNSET_BREAKPOINT    (1<< 1)
+#define MDDPC_ENABLE_BREAKPOINT   (1<< 2)
+#define MDDPC_DISABLE_BREAKPOINT  (1<< 3)
+
+#define MDDPC_SET_COMPUTER        (1<< 4)
+#define MDDPC_SET_DRIVE8          (1<< 5)
+#define MDDPC_SET_DRIVE9          (1<< 6)
+
+extern void mon_disassembly_determine_popup_commands( struct mon_disassembly_private *, 
+                                     int xPos, int yPos, WORD *ulMask, WORD *ulDefault );
+
+extern void mon_disassembly_set_breakpoint( struct mon_disassembly_private * );
+extern void mon_disassembly_unset_breakpoint( struct mon_disassembly_private * );
+extern void mon_disassembly_enable_breakpoint( struct mon_disassembly_private * );
+extern void mon_disassembly_disable_breakpoint( struct mon_disassembly_private * );
+
+extern void mon_disassembly_goto_address( struct mon_disassembly_private *, ADDRESS addr );
+extern void mon_disassembly_goto_pc( struct mon_disassembly_private * );
 
 extern void mon_ui_init(void);
 

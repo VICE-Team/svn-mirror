@@ -30,4 +30,5 @@ libxawui_a_SOURCES = \
 	videoarch.h \
 	x11video.c \
 	x11kbd.c \
-	about.c
+	about.c \
+	uivsidcontrol.c

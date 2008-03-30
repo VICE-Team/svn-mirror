@@ -52,18 +52,24 @@ static void upd_sb (GtkAdjustment *adj, gpointer data)
 
 static void pal_ctrl_reset (GtkWidget *w, gpointer data)
 {
-    resources_set_value("ColorSaturation", (resource_value_t) 1000);
+    int tmp;
+    
+    resources_get_default_value("ColorSaturation", (resource_value_t *) &tmp);
+    resources_set_value("ColorSaturation", (resource_value_t) tmp);
     gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[0].adj),
-			     (gfloat) 1000);
-    resources_set_value("ColorContrast", (resource_value_t) 1100);
+			     (gfloat) tmp);
+    resources_get_default_value("ColorContrast", (resource_value_t *) &tmp);
+    resources_set_value("ColorContrast", (resource_value_t) tmp);
     gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[1].adj),
-			     (gfloat) 1100);
-    resources_set_value("ColorBrightness", (resource_value_t) 1100);
+			     (gfloat) tmp);
+    resources_get_default_value("ColorBrightness", (resource_value_t *) &tmp);
+    resources_set_value("ColorBrightness", (resource_value_t) tmp);
     gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[2].adj),
-			     (gfloat) 1100);
-    resources_set_value("ColorGamma", (resource_value_t) 880);
+			     (gfloat) tmp);
+    resources_get_default_value("ColorGamma", (resource_value_t *) &tmp);
+    resources_set_value("ColorGamma", (resource_value_t) tmp);
     gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[3].adj),
-			     (gfloat) 880);
+			     (gfloat) tmp);
 }
 
 GtkWidget *build_pal_ctrl_widget(void)

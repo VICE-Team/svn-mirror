@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "log.h"
 #include "machine.h"
 #include "palette.h"
 #include "raster-cache.h"
@@ -210,7 +211,7 @@ static int realize_canvas(raster_t *raster)
     } else {
         video_canvas_resize(viewport->canvas, viewport->width,
                             viewport->height);
-    }  
+    }
 
     /* The canvas might give us something different from what we
        requested.  */
@@ -1687,7 +1688,7 @@ void raster_emulate_line(raster_t *raster)
        }
 
        raster->current_line++;
-      
+
        if (raster->current_line == raster->geometry.screen_size.height) {
             handle_end_of_frame(raster);
        } else {
@@ -1821,17 +1822,16 @@ void raster_enable_double_size(raster_t *raster, int enablex, int enabley)
 void raster_enable_double_scan(raster_t *raster, int enable)
 {
     raster->do_double_scan = enable;
-	if (raster->viewport.canvas)
-		raster->viewport.canvas->videoconfig.doublescan = enable;
+
+    if (raster->viewport.canvas)
+        raster->viewport.canvas->videoconfig.doublescan = enable;
+
     raster_force_repaint (raster);
 }
 
 void raster_set_canvas_refresh(raster_t *raster, int enable)
 {
-    raster_viewport_t *viewport;
-
-    viewport = &raster->viewport;
-    viewport->update_canvas = enable;
+    raster->viewport.update_canvas = enable;
 }
 
 int raster_screenshot(raster_t *raster, screenshot_t *screenshot)

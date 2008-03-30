@@ -1,4 +1,4 @@
-%define version 1.7
+%define version 1.8
 %define rel     1
 %define prefix  /usr/local
 
@@ -58,3 +58,7 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/info/vice.info-3.gz
 %{prefix}/info/vice.info-4.gz
 %{prefix}/info/vice.info-5.gz
+%{prefix}/share/locale/de/LC_MESSAGES/vice.mo
+%{prefix}/share/locale/fr/LC_MESSAGES/vice.mo
+%{prefix}/share/locale/it/LC_MESSAGES/vice.mo
+%{prefix}/share/locale/sv/LC_MESSAGES/vice.mo

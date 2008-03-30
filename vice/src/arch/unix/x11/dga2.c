@@ -25,8 +25,8 @@
  */
 
 /* 
-#define FS_DEBUG_BUFFER
 #define FS_TRACE_REFRESH
+#define FS_DEBUG_BUFFER
 #define FS_DEBUG
 */
 
@@ -38,8 +38,9 @@
 
 
 #ifdef FS_DEBUG
-#include <signal.h>
+void dump_fb(char *wo);
 #endif
+#include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
@@ -60,6 +61,7 @@
 #include "utils.h"
 #include "videoarch.h"
 #include "x11kbd.h"
+#include "video.h"
 
 typedef struct {
   int modeindex;
@@ -85,6 +87,8 @@ static PIXEL *fs_fb_data;
 static int fs_fb_bpl;
 static int fs_bestmode_counter;
 static palette_t *fs_cached_palette;
+static DWORD *fs_saved_colors;
+static int new_palette;
 static PIXEL *fs_cached_pixels;
 static raster_t *fs_cached_raster;
 static int fs_vidmodeavail = 0;
@@ -100,7 +104,9 @@ char *fs_selected_videomode;
 char *fs_selected_videomode_at_start;
 int fs_width, fs_height;
 
-static unsigned char *fb_addr;
+static unsigned char *fb_addr, *fb_dump;
+static unsigned char *fb_emulation_buffer, *fb_render_target;
+static int pal_emu;
 static unsigned offs, pitch;
 
 #define BB_DEPTH 2
@@ -118,36 +124,9 @@ int fullscreen_mode_off (void);
 static void fullscreen_dispatch_events(void);
 static void fullscreen_dispatch_events_2(void);
 
+static log_t dga_log = LOG_ERR;
+
 /* ---------------------------------------------------------------------- */
-#ifdef FS_DEBUG
-void dump_fb(char *wo);
-
-void alarm_timeout(int signo) {
-    volatile int i = 1;
-    
-    fullscreen_mode_off();
-    printf("set segv handler\n");
-    while (i)
-    {
-	log_message(LOG_DEFAULT, _("Attach debugger to pid %d...\n"), 
-		    getpid());
-	sleep(1);		/* Set breakpoint here to debug */
-    }
-}  
-
-void set_alarm_timeout() {
-    if (signal(SIGSEGV, alarm_timeout) == SIG_ERR)
-        return;
-    printf("set segv handler\n");
-    
-#if 0
-    if (signal(SIGALRM, alarm_timeout) == SIG_ERR)
-        return;
-    alarm(20);
-#endif
-}   
-#endif
-
 #ifdef FS_TRACE_REFRESH
 void ts_diff(struct timespec *ts1, struct timespec *ts2, 
 	     struct timespec *d)
@@ -163,11 +142,36 @@ void ts_diff(struct timespec *ts1, struct timespec *ts2,
 #endif
 /* ---------------------------------------------------------------------- */
 
+void alarm_timeout(int signo) {
+    volatile int i = 1;
+    
+    XDGASetMode(display, screen, 0);
+    XDGACloseFramebuffer(display, screen);
+    fullscreen_is_enabled = 0;
+    while (i)
+    {
+	log_message(dga_log, _("Attach debugger to pid %d..."), 
+		    getpid());
+	sleep(1);		/* Set breakpoint here to debug */
+    }
+}  
+
+void set_alarm_timeout() {
+    if (signal(SIGSEGV, alarm_timeout) == SIG_ERR)
+        return;
+#if 0
+    if (signal(SIGALRM, alarm_timeout) == SIG_ERR)
+        return;
+    alarm(20);
+#endif
+}   
+
 void fullscreen_refresh_func(video_frame_buffer_t *f,
 			     int src_x, int src_y,
 			     int dest_x, int dest_y,
 			     unsigned int width, unsigned int height) 
 {
+#ifndef FS_DEBUG_BUFFER
     int oldp;
 
 #if 0
@@ -179,10 +183,9 @@ void fullscreen_refresh_func(video_frame_buffer_t *f,
     struct timespec ts1, ts2, d;
     clock_gettime (CLOCK_REALTIME, &ts1);
 #endif
-
     if (XDGAGetViewportStatus(display, screen))
     {
-	log_message(LOG_DEFAULT, _("DGA: refresh, not ready, skipping frame"));
+	log_message(dga_log, _("refresh, not ready, skipping frame"));
 	goto end;
     }
 
@@ -192,6 +195,16 @@ void fullscreen_refresh_func(video_frame_buffer_t *f,
     if ((dest_x + width) > fs_width)
       width = fs_width;
 
+    if (pal_emu)
+    {
+        /* convert buffer for PAL emulation */
+	video_render_main(&f->canvas->videoconfig, f->tmpframebuffer,
+			  fb_render_target,
+			  width, height, src_x, src_y, src_x, src_y, 
+			  f->tmpframebufferlinesize,
+			  f->tmpframebufferlinesize, 8);
+    }
+    
     XDGASetViewport (display, screen, 
 		     0, fb_ybegin[fb_current_page], 
 		     XDGAFlipRetrace);
@@ -215,8 +228,10 @@ void fullscreen_refresh_func(video_frame_buffer_t *f,
 	   ts1.tv_sec, ts1.tv_nsec,
 	   ts2.tv_sec, ts2.tv_nsec,
 	   d.tv_sec, d.tv_nsec);
-#endif
-
+#endif /* FS_TRACE_REFRESH */
+#else 
+    dump_fb("refresh");
+#endif /* FS_DEBUG_BUFFER */
     return;
 }   
 
@@ -234,20 +249,20 @@ int fullscreen_vidmode_available(void)
 #ifndef FS_DEBUG
     if (XF86DGAForkApp(XDefaultScreen(display)) != 0)
     {
-	log_error(LOG_DEFAULT, "Can't fork for DGA; quitting");
+	log_error(dga_log, "Can't fork for DGA; quitting");
 	return 1;
     }
-    log_message(LOG_DEFAULT, _("Successfully forked DGA"));
+    log_message(dga_log, _("Successfully forked DGA"));
 #endif
 #endif
     if (! XDGAQueryVersion (display, &MajorVersion, &MinorVersion)) {
-        log_error(LOG_DEFAULT, 
+        log_error(dga_log, 
 		  _("Unable to query video extension version - disabling fullscreen."));
 	fs_vidmodeavail = 0;
         return 1;
     }
     if (! XDGAQueryExtension (display, &EventBase, &ErrorBase)) {
-        log_error(LOG_DEFAULT, _("Unable to query video extension information - disabling fullscreen."));
+        log_error(dga_log, _("Unable to query video extension information - disabling fullscreen."));
 	fs_vidmodeavail = 0;
         return 1;
     }  
@@ -255,10 +270,10 @@ int fullscreen_vidmode_available(void)
     if (MajorVersion < DGA_MINMAJOR || 
 	(MajorVersion == DGA_MINMAJOR && MinorVersion < DGA_MINMINOR))
     {
-        log_error(LOG_DEFAULT, 
+        log_error(dga_log, 
 		  _("Xserver is running an old XFree86-DGA version (%d.%d) "), 
 		  MajorVersion, MinorVersion);
-        log_error(LOG_DEFAULT, 
+        log_error(dga_log, 
 		  _("Minimum required version is %d.%d - disabling fullscreen."),
 	          DGA_MINMAJOR, DGA_MINMINOR);
 	fs_vidmodeavail = 0;
@@ -281,15 +296,15 @@ int fullscreen_vidmode_available(void)
 	    (fs_allmodes_dga2[i].viewportWidth >= 320) &&
 	    (fs_allmodes_dga2[i].viewportHeight <= 600)  &&
 	    (fs_allmodes_dga2[i].viewportHeight >= 200) &&
-#if 0 /* works when you define a mode named "c64" in your XF86Config */
-	    (strcmp(fs_allmodes_dga2[i].name, "c64") == 0) &&
+#if 0 /* works when you define a mode named "vice" in your XF86Config */
+	    (strcmp(fs_allmodes_dga2[i].name, "vice") == 0) &&
 #endif
 	    (fs_allmodes_dga2[i].depth == 8) && 
 	    (fs_allmodes_dga2[i].viewportFlags & XDGAFlipRetrace) && 
 	    (fs_allmodes_dga2[i].flags & XDGABlitRect)
 	    )
 	{
-	    log_message(LOG_DEFAULT, _("Found suitable mode for fullscreen."));
+	    log_message(dga_log, _("Found suitable mode for fullscreen."));
 	    for (j = 0; j < fs_bestmode_counter; j++) 
 	    {
 		if ( (fs_allmodes_dga2[fs_bestmodes[j].modeindex].viewportWidth == fs_allmodes_dga2[i].viewportWidth) &&
@@ -354,14 +369,28 @@ void fullscreen_resize(int w, int h)
     fs_canvas_height = h;
 }
 
-static PIXEL fs_cached_pixel_values[0x100]; /* from raster_s */
+static PIXEL *fs_cached_pixel_values;
+static DWORD fs_cached_physical_colors[256]; /* from video.h */
 
-void fullscreen_set_palette (palette_t *palette, PIXEL *pixels)
+void fullscreen_set_palette (video_canvas_t *c, palette_t *palette, 
+			     PIXEL *pixels)
 {
     fs_cached_palette = palette;
     fs_cached_pixels = pixels;
-    memcpy (fs_cached_pixel_values, pixels, 
-	    palette->num_entries * sizeof(PIXEL));
+    if (fs_cached_pixel_values)
+	free(fs_cached_pixel_values);
+    fs_cached_pixel_values = malloc(palette->num_entries * sizeof(PIXEL));
+    if (!fs_cached_pixel_values)
+    {
+	log_error(dga_log, _("Couldn't allocate pixel value cache."));
+	exit(1);
+    }
+    
+    memcpy(fs_cached_pixel_values, pixels, 
+	   palette->num_entries * sizeof(PIXEL));
+    memcpy(fs_cached_physical_colors, c->videoconfig.physical_colors,
+	   sizeof(DWORD) * 256);
+    new_palette = 1;
 }
 
 void fullscreen_set_raster (raster_t *raster)
@@ -399,14 +428,14 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 			&prefer_blanking,&allow_exposures);
 	XSetScreenSaver(display,0,0,DefaultBlanking,DefaultExposures);
 #endif
-	log_message(LOG_DEFAULT, _("Switch to fullscreen %ix%i"),
+	log_message(dga_log, _("Switch to fullscreen %ix%i"),
 		    fs_allmodes_dga2[fs_selected_videomode_index].viewportWidth,
 		    fs_allmodes_dga2[fs_selected_videomode_index].viewportHeight);
 
 	if (XDGAOpenFramebuffer(display, screen) == False)
 	{
-	    log_message(LOG_DEFAULT, 
-			_("DGA: Need root privileges for DGA2 fullscreen"));
+	    log_message(dga_log, 
+			_("Need root privileges for DGA2 fullscreen"));
 	    fullscreen_request_set_mode(0, NULL);
 	    return 0;
 	}
@@ -415,8 +444,8 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 			     fs_allmodes_dga2[fs_selected_videomode_index].num); 
 	if (!dgadev) 
 	{
-	    log_error(LOG_DEFAULT, 
-		      _("Error switching to fullscreen (SetMode) %ix%i\n"),
+	    log_error(dga_log, 
+		      _("Error switching to fullscreen (SetMode) %ix%i"),
 		      fs_allmodes_dga2[fs_selected_videomode_index].viewportWidth, 
 		      fs_allmodes_dga2[fs_selected_videomode_index].viewportHeight);
 	    return 0;
@@ -425,8 +454,8 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 #if 0
 	if (!dgadev->pixmap) 
 	{
-	    log_error(LOG_DEFAULT, 
-		      _("Error switching to fullscreen (pixmap) %ix%i\n"),
+	    log_error(dga_log, 
+		      _("Error switching to fullscreen (pixmap) %ix%i"),
 		      fs_allmodes_dga2[fs_selected_videomode_index].viewportWidth, 
 		      fs_allmodes_dga2[fs_selected_videomode_index].viewportHeight);
 	    XDGASetMode(display,screen,0);
@@ -451,7 +480,7 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	    fb_page[i] = fb_addr + fb_offs[i];
 	    
 #ifdef FS_DEBUG	    
-	    log_message(LOG_DEFAULT, "DGA: page: %p, offs %d, ybegin: %d", 
+	    log_message(dga_log, "page: %p, offs %d, ybegin: %d", 
 			fb_page[i], fb_offs[i], fb_ybegin[i]);
 #endif	    
 	}
@@ -459,8 +488,8 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 					   last page */
 	if (fb_ybegin_static > dgadev->mode.maxViewportY)
 	{
-	    log_message(LOG_DEFAULT, 
-			_("DGA: Not enough video memeory pages in mode %s, disabling fullscreen."),
+	    log_message(dga_log, 
+			_("Not enough video memeory pages in mode %s, disabling fullscreen."),
 			dgadev->mode.name);
 	    fullscreen_request_set_mode(0, NULL);
 	    goto nodga;
@@ -471,8 +500,8 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 #ifdef FS_PIXMAP_DGA
 	gcContext =  XCreateGC(display, dgadev->pixmap, 0, 0);
 	if (!gcContext) {
-	    log_error(LOG_DEFAULT, 
-		      _("Error switching to fullscreen (CreateGC) %ix%i\n"),
+	    log_error(dga_log, 
+		      _("Error switching to fullscreen (CreateGC) %ix%i"),
 		      fs_allmodes_dga2[fs_selected_videomode_index].viewportWidth, 
 		      fs_allmodes_dga2[fs_selected_videomode_index].viewportHeight);
 	    XDGASetMode(display,screen,0);
@@ -488,23 +517,56 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 			KeyPressMask | 
 			KeyReleaseMask);
 	
-	cm = XDGACreateColormap(display, screen, dgadev, AllocNone);
-	
-	for (i = 0; i < fs_cached_palette->num_entries; i++)
+	if (new_palette)
 	{
-	    color.blue = (fs_cached_palette->entries[i].blue << 8);
-	    color.red = (fs_cached_palette->entries[i].red << 8);
-	    color.green = (fs_cached_palette->entries[i].green << 8);
-	    color.flags = DoRed | DoGreen | DoBlue;
-	    XAllocColor(display, cm, &color);
-	    fs_cached_pixels[i] = color.pixel;
+	    cm = XDGACreateColormap(display, screen, dgadev, AllocNone);
+	
+	    for (i = 0; i < fs_cached_palette->num_entries; i++)
+	    {
+		color.blue = (fs_cached_palette->entries[i].blue << 8);
+		color.red = (fs_cached_palette->entries[i].red << 8);
+		color.green = (fs_cached_palette->entries[i].green << 8);
+		color.flags = DoRed | DoGreen | DoBlue;
+		XAllocColor(display, cm, &color);
 #ifdef FS_DEBUG
-	    log_message (LOG_DEFAULT, "colors[%s]: %x", 
-			 fs_cached_palette->entries[i].name, 
-			 fs_cached_pixels[i]);
+		log_message (dga_log, "colors[%s]: %x", 
+			     fs_cached_palette->entries[i].name, 
+			     fs_cached_pixels[i]);
 #endif
-	}
+		video_render_setphysicalcolor(&fs_cached_fb->canvas->videoconfig, 
+					      i, color.pixel, 8);
+		fs_cached_pixels[i] = color.pixel;
+	    }
+	    
+	    /* Save pixel values of fullscreen mode for reuse in case no new
+	       palette is allocated until next fullscreen activation */
+	    if (fs_saved_colors)
+		free(fs_saved_colors);
+	    fs_saved_colors = (DWORD *)malloc (sizeof(DWORD) * 256);
+	    if (!fs_saved_colors)
+	    {
+		log_error(dga_log, _("Couldn't allocate color cache"));
+		goto nodga;
+	    }
+	    
+	    memcpy(fs_saved_colors, 
+		   fs_cached_fb->canvas->videoconfig.physical_colors, 
+		   sizeof(DWORD) * 256);
 
+	    new_palette = 0;
+	}
+	else
+	{
+	    /* Reuse pixel values from earlier activation */
+	    if (fs_saved_colors == NULL)
+	    {
+		log_error(dga_log, "inconsistent view for color management, disabling fullscreen.");
+		goto nodga;
+	    }
+	    memcpy(fs_cached_fb->canvas->videoconfig.physical_colors,
+		   fs_saved_colors, sizeof(DWORD) * 256);
+	}
+	
 	XDGAInstallColormap(display, screen, cm);
 #ifdef FS_PIXMAP_DGA
 	XDGAChangePixmapMode(display, screen, &pm_x, &pm_y, 
@@ -520,13 +582,21 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 		       fs_allmodes_dga2[fs_selected_videomode_index].maxViewportY);
 #endif
 	XFlush(display);
+	resources_get_value("DelayLoopEmulation", 
+			    (resource_value_t *) &pal_emu);
+	if (!pal_emu)
+	    resources_get_value("PALEmulation", 
+				(resource_value_t *) &pal_emu);
+
 	fullscreen_is_enabled = 1;
 
 #ifdef FS_DEBUG
-	log_message(LOG_DEFAULT, "DGA: membase = %p, pitch = %i, offs = %i", 
+	log_message(dga_log, "membase = %p, pitch = %i, offs = %i", 
 		    fb_addr, pitch, offs);
-	set_alarm_timeout();
 #endif
+	/* add a segfault handler, just in case fullscreen bombs, it 
+	   restores the window mode */
+	set_alarm_timeout();
 
 #ifdef FS_DEBUG_BUFFER
 	fb_addr = malloc(offs * (BB_DEPTH + 1) * sizeof(char));
@@ -534,28 +604,53 @@ int fullscreen_set_mode(resource_value_t v, void *param)
 	for (i = 0; i < (BB_DEPTH + 1); i++)
 	    memset (fb_addr + i * offs, 0, offs);
 
-	fs_cached_fb->tmpframebuffer = fb_addr + ((i - 1)* offs);
 	fs_cached_fb->tmpframebufferlinesize = dgadev->mode.bytesPerScanline;
-#ifdef FS_DEBUG_BUFFER
-	fullscreen_set_mode(0, NULL);
-#endif
+	if (pal_emu)
+	{
+	    fb_emulation_buffer = malloc(offs * sizeof(char) * 4);
+	    if (!fb_emulation_buffer)
+	    {
+		log_error(dga_log, _("Couldn't allocate backbuffer for DGA PAL rendering; disabling fullscreen."));
+		goto nodga;
+	    }
+	    memset(fb_emulation_buffer, 0, offs * sizeof(char) * 4);
+	    fb_render_target = fb_dump = fb_addr + ((i - 1)* offs);
+	    fs_cached_fb->tmpframebuffer = fb_emulation_buffer + 
+		fs_cached_fb->tmpframebufferlinesize * 10;
+	}
+	else
+	{
+	    fs_cached_fb->tmpframebuffer = fb_dump = fb_addr + ((i - 1)* offs);
+	}
+	
 	raster_force_repaint(fs_cached_raster);
 	raster_rebuild_tables(fs_cached_raster);
 	raster_resize_viewport(fs_cached_raster, fs_width, fs_height);
+#ifdef FS_DEBUG_BUFFER
+	goto nodga;
+#endif
     }
     
     if (!v && fullscreen_is_enabled) 
     {
-        log_message(LOG_DEFAULT, _("Switch to windowmode"));
+        log_message(dga_log, _("Switch to windowmode"));
 
 	/* Restore framebuffer details */
 #ifndef FS_DEBUG_BUFFER
 	fs_cached_fb->tmpframebuffer = fs_fb_data;
 	fs_cached_fb->tmpframebufferlinesize = fs_fb_bpl;
 	fb_addr = (unsigned char *)0;
-	/* Restore pixel values */
-	memcpy (fs_cached_pixels, fs_cached_pixel_values,
-		fs_cached_palette->num_entries * sizeof (PIXEL));
+	if (pal_emu)
+	{
+	    free(fb_emulation_buffer);
+	    fb_emulation_buffer = NULL;
+	}
+	/* Restore pixel values of window mode */
+	memcpy(fs_cached_fb->canvas->videoconfig.physical_colors,
+	       fs_cached_physical_colors,
+	       sizeof(DWORD) * 256);
+	memcpy(fs_cached_pixels, fs_cached_pixel_values,
+	       fs_cached_palette->num_entries * sizeof(PIXEL));
 #endif
 	raster_resize_viewport(fs_cached_raster, fs_canvas_width, 
 			       fs_canvas_height);
@@ -659,6 +754,9 @@ void fullscreen_mode_off_restore(void)
 
 void fullscreen_mode_init(void)
 {
+    if (dga_log == LOG_ERR)
+	dga_log = log_open("DGA2");
+    
     fs_set_bestmode(fs_selected_videomode_at_start, NULL);
     if (fs_selected_videomode_index == -1 && fs_bestmode_counter > 0)
         fs_selected_videomode_index = fs_bestmodes[0].modeindex;
@@ -748,7 +846,7 @@ void dump_fb(char *wo)
 {
     int x, y;
     
-    if (!fb_addr)
+    if (!fb_dump)
 	return;
 
     for (y = 0; y < 100; y++)
@@ -756,7 +854,7 @@ void dump_fb(char *wo)
 	printf("%d, %s: %2d: ", fs_count, wo, y);
 	for (x = 0 ; x < 60; x++)
 	{
-	    printf("%02x", (int) *(fb_addr + 200+x + (y * pitch)));
+	    printf("%02x", (int) *(fb_dump + 200+x + (y * pitch)));
 	}
 	printf("\n");
     }

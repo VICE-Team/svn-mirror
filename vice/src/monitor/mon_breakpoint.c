@@ -502,23 +502,68 @@ mon_breakpoint_type_t mon_is_breakpoint( MON_ADDR address )
     return (ptr->brkpt->enabled==e_ON) ? BP_ACTIVE : BP_INACTIVE;
 }
 
-void mon_toggle_breakpoint( MON_ADDR address )
+void mon_set_breakpoint( MON_ADDR address )
 {
     MEMSPACE mem = addr_memspace(address);
     ADDRESS addr = addr_location(address);
     break_list_t *ptr;
 
     ptr = search_checkpoint_list( breakpoints[mem], addr );
-
+    
     if (ptr)
     {
-        /* there's already an entry: remove it! */
-        remove_checkpoint_from_list( &breakpoints[mem], ptr->brkpt );
+        /* there's a breakpoint, so enable it */
+        ptr->brkpt->enabled = e_ON;
     }
     else
     {
-        /* there's no breakpoint yet, thus add it */
+        /* there's no breakpoint, so set a new one */
         breakpoint_add_checkpoint(address, address,
                         FALSE, FALSE, FALSE, FALSE, FALSE );
+    }
+}
+
+void mon_unset_breakpoint( MON_ADDR address )
+{
+    MEMSPACE mem = addr_memspace(address);
+    ADDRESS addr = addr_location(address);
+    break_list_t *ptr;
+
+    ptr = search_checkpoint_list( breakpoints[mem], addr );
+    
+    if (ptr)
+    {
+        /* there's a breakpoint, so remove it */
+        remove_checkpoint_from_list( &breakpoints[mem], ptr->brkpt );
+    }
+}
+
+void mon_enable_breakpoint( MON_ADDR address )
+{
+    MEMSPACE mem = addr_memspace(address);
+    ADDRESS addr = addr_location(address);
+    break_list_t *ptr;
+
+    ptr = search_checkpoint_list( breakpoints[mem], addr );
+    
+    if (ptr)
+    {
+        /* there's a breakpoint, so enable it */
+        ptr->brkpt->enabled = e_ON;
+    }
+}
+
+void mon_disable_breakpoint( MON_ADDR address )
+{
+    MEMSPACE mem = addr_memspace(address);
+    ADDRESS addr = addr_location(address);
+    break_list_t *ptr;
+
+    ptr = search_checkpoint_list( breakpoints[mem], addr );
+    
+    if (ptr)
+    {
+        /* there's a breakpoint, so disable it */
+        ptr->brkpt->enabled = e_OFF;
     }
 }

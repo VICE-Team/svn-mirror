@@ -21,4 +21,5 @@ libgnomeui_a_SOURCES = \
 	about.c \
 	uicartridge.c \
 	uiscreenshot.c \
-	uipalcontrol.c
+	uipalcontrol.c \
+	uivsidcontrol.c

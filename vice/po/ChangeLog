@@ -1,3 +1,11 @@
+2002-01-02  pottendo  <pottendo@utanet.at>
+
+	* it.po: Updated (by Andrea).
+
+	* de.po: Updated.
+
+	* POTFILES.in: Added dga2.c
+
 2001-12-09  pottendo  <pottendo@utanet.at>
 
 	* it.po: Updated.

@@ -1009,10 +1009,10 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_CRTCDSIZE, !val1);
             WinEnableMenuItem(hwnd, IDM_CRTCDSCAN, !val1 && val2);
 
-            WinCheckMenuItem(hwnd,  IDM_CRTCDSIZE, val);
+            WinCheckMenuItem(hwnd,  IDM_CRTCDSIZE, val2);
             WinCheckRes(hwnd, IDM_CRTCDSCAN, "CrtcDoubleScan");
 
-            WinCheckRes(hwnd, IDM_VCACHE, val?"VideoCache":"CrtcVideoCache");
+            WinCheckRes(hwnd, IDM_VCACHE, val1?"VideoCache":"CrtcVideoCache");
         }
 #else
         WinCheckRes(hwnd, IDM_VCACHE, VIDEO_CACHE);
@@ -1254,8 +1254,9 @@ void menu_select(HWND hwnd, USHORT item)
 
             WinCheckMenuItem(hwnd,  IDM_FAKEPAL,      val1);
             WinCheckMenuItem(hwnd,  IDM_INTERNALPAL, !val2);
-
+#ifndef HAVE_TED
             WinCheckRes(hwnd, IDM_LUMINANCES, "NewLuminances");
+#endif
         }
         return;
 #endif

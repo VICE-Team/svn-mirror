@@ -27,6 +27,7 @@
 
 #include "vice.h"
 
+#include <math.h>   /* modf */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -384,14 +385,17 @@ void machine_change_timing(int timeval)
 }
 
 /* Set the screen refresh rate, as this is variable in the CRTC */
-void machine_set_cycles_per_frame(long cpf) {
-
+void machine_set_cycles_per_frame(long cpf)
+{
+    double i, f;
 
     pet_cycles_per_rfsh = cpf;
     pet_rfsh_per_sec = ((double) PET_PAL_CYCLES_PER_SEC) / ((double) cpf);
 
-    log_message(pet_log, "cycles per frame set to %ld, refresh to %dmHz",
-                cpf, (int)(1000.0*pet_rfsh_per_sec));
+    f = modf(pet_rfsh_per_sec, &i)*1000;
+
+    log_message(pet_log, "cycles per frame set to %ld, refresh to %d.%dHz",
+                cpf, (int)i, (int)f);
 
     vsync_set_machine_parameter(pet_rfsh_per_sec, PET_PAL_CYCLES_PER_SEC);
 

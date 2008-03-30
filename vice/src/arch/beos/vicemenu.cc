@@ -275,7 +275,7 @@ BMenuBar *menu_create(int machine_class) {
 			|| machine_class == VICE_MACHINE_C128
 			|| machine_class == VICE_MACHINE_VIC20) {
 			menu->AddItem(new BMenuItem("Fast PAL", 
-				new BMessage(MENU_TOGGLE_FASTPAL)));
+				new BMessage(MENU_TOGGLE_FASTPAL), 'P', B_CONTROL_KEY));
 		}
 		if (machine_class == VICE_MACHINE_C128) {
 			menu->AddItem(submenu = new BMenu("VDC"));
@@ -293,31 +293,6 @@ BMenuBar *menu_create(int machine_class) {
 	/* sound options */
 	menu->AddItem(new BMenuItem("Sound", 
 		new BMessage(MENU_TOGGLE_SOUND)));
-	/* SID */
-	if (machine_class == VICE_MACHINE_C64
-		|| machine_class == VICE_MACHINE_C128) {
-#ifdef HAVE_RESID
-		menu->AddItem(new BMenuItem("Use reSID", 
-			new BMessage(MENU_TOGGLE_SOUND_RESID)));
-		menu->AddItem(submenu = new BMenu("reSID sampling method"));
-		submenu->SetRadioMode(true);
-		submenu->AddItem(new BMenuItem("fast", 
-			new BMessage(MENU_RESID_SAMPLE_FAST)));
-		submenu->AddItem(new BMenuItem("interpolating", 
-			new BMessage(MENU_RESID_SAMPLE_INTERPOLATE)));
-		submenu->AddItem(new BMenuItem("resampling", 
-			new BMessage(MENU_RESID_SAMPLE_RESAMPLE)));
-		
-#endif
-		menu->AddItem(new BMenuItem("SID filters", 
-			new BMessage(MENU_TOGGLE_SIDFILTERS)));
-		menu->AddItem(submenu = new BMenu("SID type"));
-		submenu->SetRadioMode(true);
-		submenu->AddItem(new BMenuItem("6581 (old)", 
-			new BMessage(MENU_SIDTYPE_6581)));
-		submenu->AddItem(new BMenuItem("8580 (new)", 
-			new BMessage(MENU_SIDTYPE_8580)));
-	}
 	menu->AddSeparatorItem();
 	
 	if (!vsid_mode) {
@@ -422,7 +397,13 @@ BMenuBar *menu_create(int machine_class) {
 	
 	menu->AddItem(new BMenuItem("Sound ...", 
 		new BMessage(MENU_SOUND_SETTINGS)));
-	
+	if (machine_class == VICE_MACHINE_C64
+		|| machine_class == VICE_MACHINE_C128
+		|| machine_class == VICE_MACHINE_CBM2) {
+		menu->AddItem(new BMenuItem("SID ...", 
+			new BMessage(MENU_SID_SETTINGS)));
+	}
+		
 	if (!vsid_mode) {
 		menu->AddSeparatorItem();
 		menu->AddItem(new BMenuItem("Load Settings", 

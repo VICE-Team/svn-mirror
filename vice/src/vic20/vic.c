@@ -67,17 +67,10 @@
 
 vic_t vic;
 
-static void vic_exposure_handler(unsigned int width, unsigned int height);
-
 static void vic_exposure_handler(unsigned int width, unsigned int height)
 {
   raster_resize_viewport(&vic.raster, width, height);
-
-  /* FIXME: Needed?  Maybe this should be triggered by
-     `raster_resize_viewport()' automatically.  */
-  raster_force_repaint(&vic.raster);
 }
-
 
 void vic_change_timing(void)
 {
@@ -431,6 +424,13 @@ void vic_resize(void)
 {
     if (!vic.initialized)
         return;
+
+#ifdef USE_XF86_EXTENSIONS
+    if (!fullscreen_is_enabled)
+#endif
+        raster_enable_double_size(&vic.raster,
+                                  vic_resources.double_size_enabled,
+                                  vic_resources.double_size_enabled);
 
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled

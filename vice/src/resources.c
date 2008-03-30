@@ -255,10 +255,10 @@ int resources_get_default_value(const char *name,
 
     switch (r->type) {
       case RES_INTEGER:
-        *(int *)value_return = *(int *)r->factory_value;
+        *(int *)value_return = (int)(r->factory_value);
         break;
       case RES_STRING:
-        *(char **)value_return = *(char **)r->factory_value;
+        *(char **)value_return = (char *)(r->factory_value);
         break;
       default:
         log_warning(LOG_DEFAULT, "Unknown resource type for `%s'", name);

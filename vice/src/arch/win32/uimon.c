@@ -1385,7 +1385,7 @@ long CALLBACK reg_window_proc(HWND hwnd,
 
 	case WM_COMMAND:
 		{
-		    switch (HIWORD(wParam))
+		    switch (LOWORD(wParam))
 			{
 			case IDM_MON_COMPUTER:
 				prp->memspace = e_comp_space;
@@ -1454,6 +1454,109 @@ struct dis_private
     struct mon_disassembly_private *pmdp;
 
 } dis_private_t;
+
+
+static
+int ExecuteDisassemblyPopup( HWND hwnd, dis_private_t *pdp, LPARAM lParam, BOOL bExecuteDefault )
+{
+    WORD ulDefault;
+    WORD ulMask;
+    WORD xPos = LOWORD(lParam) / pdp->charwidth;
+    WORD yPos = HIWORD(lParam) / pdp->charheight;
+
+    /* determine which commands should be visible, and which one is the default */
+    mon_disassembly_determine_popup_commands( pdp->pmdp, xPos, yPos, &ulMask, &ulDefault );
+
+    /* now, create the appropriate pop up menu */
+    {
+        MENUITEMINFO mii;
+        HMENU        hPopupMenu;
+        POINT        curpos;
+        int          nMenuCount = 0;
+        UINT         uDefaultCommand = 0;
+
+        hPopupMenu     = CreatePopupMenu();
+
+        /* global initializations */
+        mii.cbSize     = sizeof(mii);
+        mii.fMask      = MIIM_STATE | MIIM_ID | MIIM_TYPE;
+        mii.fType      = MFT_STRING;
+
+/* make shotcuts for defining menu entries */
+#define IMAKE_ENTRY( _FLAG_, _ID_, _TEXT_, _ENABLE_ ) \
+        mii.fState     = _ENABLE_ | ((ulDefault & _FLAG_) ? MFS_DEFAULT : 0); \
+        mii.wID        = _ID_; \
+        mii.dwTypeData = _TEXT_; \
+        mii.cch        = strlen(mii.dwTypeData); \
+        InsertMenuItem( hPopupMenu, nMenuCount++, 1, &mii );
+
+#define MAKE_ENTRY( _ID_, _TEXT_ ) \
+    IMAKE_ENTRY( 0, _ID_, _TEXT_, MFS_ENABLED )
+
+#define MAKE_COND_ENTRY( _FLAG_, _ID_, _TEXT_ ) \
+        if (ulMask & _FLAG_) \
+        { \
+            if (ulDefault & _FLAG_) \
+                uDefaultCommand = _ID_; \
+            IMAKE_ENTRY( _FLAG_, _ID_, _TEXT_, MFS_ENABLED ); \
+        }
+
+#define MAKE_ENDISABLE_ENTRY( _FLAGS_, _ID_, _TEXT_ ) \
+        IMAKE_ENTRY( 0, _ID_, _TEXT_, ((ulMask & _FLAGS_) ? MFS_ENABLED : (MFS_GRAYED|MFS_DISABLED)) );
+
+
+#define MAKE_SEPARATOR() \
+            mii.fType      = MFT_SEPARATOR; \
+            mii.fState     = MFS_ENABLED;   \
+            mii.wID        = 0;             \
+            InsertMenuItem( hPopupMenu, nMenuCount++, 1, &mii ); \
+            mii.fType      = MFT_STRING;
+
+        MAKE_ENTRY( IDM_MON_GOTO_PC, "go&to PC" );
+// @@@@@@        MAKE_ENTRY( IDM_MON_GOTO_ADDRESS, "&goto address" );
+
+        MAKE_SEPARATOR();
+
+        MAKE_COND_ENTRY( MDDPC_SET_BREAKPOINT,     IDM_MON_SET_BP,     "&set breakpoint" );
+        MAKE_COND_ENTRY( MDDPC_UNSET_BREAKPOINT,   IDM_MON_UNSET_BP,   "&unset breakpoint" );
+        MAKE_COND_ENTRY( MDDPC_ENABLE_BREAKPOINT,  IDM_MON_ENABLE_BP,  "&enable breakpoint" );
+        MAKE_COND_ENTRY( MDDPC_DISABLE_BREAKPOINT, IDM_MON_DISABLE_BP, "&disable breakpoint" );
+
+        if (ulMask & (MDDPC_SET_COMPUTER | MDDPC_SET_DRIVE8 | MDDPC_SET_DRIVE9) )
+        {
+            MAKE_SEPARATOR();
+
+            MAKE_ENDISABLE_ENTRY( MDDPC_SET_COMPUTER, IDM_MON_COMPUTER, "&Computer" );
+            MAKE_ENDISABLE_ENTRY( MDDPC_SET_DRIVE8,   IDM_MON_DRIVE8,   "Drive &8"  );
+            MAKE_ENDISABLE_ENTRY( MDDPC_SET_DRIVE9,   IDM_MON_DRIVE9,   "Drive &9"  );
+        }
+
+/* don't need the shortcuts anymore */
+#undef IMAKE_ENTRY
+#undef MAKE_ENTRY
+#undef MAKE_COND_ENTRY
+#undef MAKE_SEPARATOR
+#undef MAKE_ENDISABLE_ENTRY
+
+        GetCursorPos(&curpos);
+
+        if (bExecuteDefault)
+        {
+            SendMessage( hwnd, WM_COMMAND, uDefaultCommand, 0 );
+        }
+        else
+        {
+            TrackPopupMenu(hPopupMenu, 
+                TPM_TOPALIGN | TPM_LEFTALIGN /*| TPM_NONOTIFY */
+                /* | TPM_RETURNCMD */ | TPM_LEFTBUTTON | TPM_RIGHTBUTTON, 
+                curpos.x, curpos.y, 0, hwnd, 0);
+        }
+        DestroyMenu(hPopupMenu);
+    }
+
+    return 0;
+}
+
 
 /* window procedure */
 static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
@@ -1564,17 +1667,10 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
         return 0;
 
     case WM_LBUTTONDOWN:
-        {
-        WORD xPos = LOWORD(lParam);
-        WORD yPos = HIWORD(lParam);
+        return ExecuteDisassemblyPopup( hwnd, pdp, lParam, TRUE );
 
-        mon_disassembly_toggle_breakpoint( pdp->pmdp, xPos / pdp->charwidth, yPos / pdp->charheight );
-
-        InvalidateRect( hwnd, NULL, FALSE );
-        UpdateWindow( hwnd );
-
-        return 0;
-        }
+    case WM_RBUTTONDOWN:
+        return ExecuteDisassemblyPopup( hwnd, pdp, lParam, FALSE );
 
     case WM_VSCROLL:
         {
@@ -1624,6 +1720,34 @@ static long CALLBACK dis_window_proc(HWND hwnd, UINT msg, WPARAM wParam,
                 UpdateWindow( hwnd );
             }
         }
+        break;
+
+	case WM_COMMAND:
+        switch (LOWORD(wParam))
+        {
+        case IDM_MON_GOTO_PC:
+            mon_disassembly_goto_pc( pdp->pmdp );
+            break;
+
+        case IDM_MON_GOTO_ADDRESS:
+            // @SRT not yet implemented
+            break;
+
+        case IDM_MON_SET_BP:     mon_disassembly_set_breakpoint( pdp->pmdp );     break;
+        case IDM_MON_UNSET_BP:   mon_disassembly_unset_breakpoint( pdp->pmdp );   break;
+        case IDM_MON_ENABLE_BP:  mon_disassembly_enable_breakpoint( pdp->pmdp );  break;
+        case IDM_MON_DISABLE_BP: mon_disassembly_disable_breakpoint( pdp->pmdp ); break;
+
+        case IDM_MON_COMPUTER:
+        case IDM_MON_DRIVE8:
+        case IDM_MON_DRIVE9:
+            SendMessage( hwnd, WM_CHANGECOMPUTERDRIVE, LOWORD(wParam), 0 );
+            mon_disassembly_goto_pc( pdp->pmdp );
+            break;
+        }
+
+        InvalidateRect( hwnd, NULL, FALSE );
+        UpdateWindow( hwnd );
         break;
 
     case WM_PAINT:
@@ -2030,4 +2154,3 @@ char *uimon_get_in(char **ppchCommandLine)
     return console_in(console_log);
 #endif // #ifdef UIMON_EXPERIMENTAL
 }
-

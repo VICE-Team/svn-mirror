@@ -56,7 +56,6 @@ int vsid_ui_init(void)
 	window = windowlist[0];
 	frame = window->Bounds();
 	view = new BView(frame, "vsid", B_FOLLOW_NONE, B_WILL_DRAW);
-	view->SetViewColor(170, 170, 170, 0);
 	frame.InsetBy(10, 40);
 	frame.OffsetBy(0, -10);
 	box = new BBox(frame);

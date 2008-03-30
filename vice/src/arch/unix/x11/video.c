@@ -484,9 +484,8 @@ video_canvas_t *video_canvas_create(const char *win_name, unsigned int *width,
     fb->canvas = c;
 
 #ifdef USE_XF86_DGA2_EXTENSIONS
-    fullscreen_set_palette(palette, pixel_return);
+    fullscreen_set_palette(fb->canvas, palette, pixel_return);
 #endif
-
     return c;
 }
 
@@ -499,7 +498,14 @@ void video_canvas_destroy(video_canvas_t *c)
 int video_canvas_set_palette(video_canvas_t *c, const palette_t *palette,
                              PIXEL *pixel_return)
 {
-    return uicolor_set_palette(c, palette, pixel_return);
+    int res;
+    
+    res = uicolor_set_palette(c, palette, pixel_return);
+#ifdef USE_XF86_DGA2_EXTENSIONS
+    if (res != -1)
+	fullscreen_set_palette(c, palette, pixel_return);
+#endif
+    return res;
 }
 
 /* Change the size of the canvas. */

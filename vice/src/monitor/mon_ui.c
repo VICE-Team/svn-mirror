@@ -36,6 +36,7 @@
 #include "mon_register.h"
 #include "mon_ui.h"
 #include "mon_util.h"
+#include "resources.h"
 #include "utils.h"
 
 
@@ -47,21 +48,22 @@ struct mon_disassembly_private
     ADDRESS  CurrentAddress;
     int      have_label;
     int      Lines;
+    MON_ADDR AddrClicked;
 };
 
 struct mon_disassembly_private *mon_disassembly_init( void )
 {
-    struct mon_disassembly_private *ret = xmalloc(sizeof(struct mon_disassembly_private));
+    struct mon_disassembly_private *pmdp = xmalloc(sizeof(struct mon_disassembly_private));
 
-    ret->memspace       = e_comp_space;
-    ret->StartAddress   = -1;
-    ret->EndAddress     = 0;
-    ret->CurrentAddress = 0;
-    ret->have_label     = 0;
+    pmdp->memspace       = e_comp_space;
+    pmdp->StartAddress   = -1;
+    pmdp->EndAddress     = 0;
+    pmdp->CurrentAddress = 0;
+    pmdp->have_label     = 0;
 
-    mon_disassembly_update( ret );
+    mon_disassembly_goto_pc( pmdp );
 
-    return ret;
+    return pmdp;
 }
 
 void mon_disassembly_deinit(struct mon_disassembly_private *pmdp)
@@ -69,16 +71,19 @@ void mon_disassembly_deinit(struct mon_disassembly_private *pmdp)
     free(pmdp);
 }
 
-void mon_disassembly_update(struct mon_disassembly_private *pmdp)
+static
+void mon_disassembly_check_if_in_range( struct mon_disassembly_private *pmdp )
 {
-    pmdp->CurrentAddress
-        = monitor_cpu_type.mon_register_get_val(pmdp->memspace,e_PC);
-
     if ((pmdp->CurrentAddress < pmdp->StartAddress)
         || (pmdp->CurrentAddress > pmdp->EndAddress)) {
         pmdp->StartAddress = pmdp->CurrentAddress;
         pmdp->EndAddress   = 0;
     }
+}
+
+void mon_disassembly_update(struct mon_disassembly_private *pmdp)
+{
+    mon_disassembly_goto_pc(pmdp);
 }
 
 void mon_disassembly_set_memspace(struct mon_disassembly_private *pmdp,
@@ -267,12 +272,84 @@ ADDRESS mon_disassembly_scroll_to( struct mon_disassembly_private *pmdp,
     return pmdp->StartAddress;
 }
 
-void mon_disassembly_toggle_breakpoint( struct mon_disassembly_private *pmdp, int xPos, int yPos )
+void mon_disassembly_set_breakpoint( struct mon_disassembly_private *pmdp )
 {
-    /* first, determine on which address the user has clicked */
-    ADDRESS CurrentAddress = determine_address_of_line( pmdp, pmdp->StartAddress, yPos );
+    mon_set_breakpoint( pmdp->AddrClicked );
+}
 
-    mon_toggle_breakpoint(new_addr(pmdp->memspace,CurrentAddress));
+void mon_disassembly_unset_breakpoint( struct mon_disassembly_private *pmdp )
+{
+    mon_unset_breakpoint( pmdp->AddrClicked );
+}
+
+void mon_disassembly_enable_breakpoint( struct mon_disassembly_private *pmdp )
+{
+    mon_enable_breakpoint( pmdp->AddrClicked );
+}
+
+void mon_disassembly_disable_breakpoint( struct mon_disassembly_private *pmdp )
+{
+    mon_disable_breakpoint( pmdp->AddrClicked );
+}
+
+void mon_disassembly_goto_address( struct mon_disassembly_private *pmdp, ADDRESS addr )
+{
+    pmdp->CurrentAddress = addr;
+    mon_disassembly_check_if_in_range( pmdp );
+}
+
+void mon_disassembly_goto_pc( struct mon_disassembly_private *pmdp )
+{
+    mon_disassembly_goto_address( pmdp, 
+        monitor_cpu_type.mon_register_get_val(pmdp->memspace,e_PC));
+
+}
+
+
+void mon_disassembly_determine_popup_commands( struct mon_disassembly_private *pmdp, 
+                                   int xPos, int yPos, WORD *ulMask, WORD *ulDefault )
+{
+    MON_ADDR              CurrentAddress;
+    mon_breakpoint_type_t mbt;
+
+    int drive_true_emulation;
+
+    resources_get_value("DriveTrueEmulation",
+        (resource_value_t *)&drive_true_emulation);
+
+    CurrentAddress = new_addr(pmdp->memspace, determine_address_of_line( pmdp, pmdp->StartAddress, yPos ));
+    mbt            = mon_is_breakpoint( CurrentAddress );
+
+    /* remember values to be re-used when command is executed */
+    pmdp->AddrClicked = CurrentAddress;
+
+    switch (mbt)
+    {
+    case BP_ACTIVE:
+        *ulMask    = MDDPC_UNSET_BREAKPOINT | MDDPC_DISABLE_BREAKPOINT;
+        *ulDefault = MDDPC_UNSET_BREAKPOINT;
+        break;
+
+    case BP_INACTIVE:
+        *ulMask    = MDDPC_SET_BREAKPOINT | MDDPC_UNSET_BREAKPOINT | MDDPC_ENABLE_BREAKPOINT;
+        *ulDefault = MDDPC_SET_BREAKPOINT;
+        break;
+
+    case BP_NONE:
+        *ulMask    = MDDPC_SET_BREAKPOINT;
+        *ulDefault = MDDPC_SET_BREAKPOINT;
+        break;
+    }
+
+    if (drive_true_emulation)
+    {
+        switch (pmdp->memspace)
+        {
+        case e_comp_space:  *ulMask |= MDDPC_SET_DRIVE8   | MDDPC_SET_DRIVE9; break;
+        case e_disk8_space: *ulMask |= MDDPC_SET_COMPUTER | MDDPC_SET_DRIVE9; break;
+        case e_disk9_space: *ulMask |= MDDPC_SET_COMPUTER | MDDPC_SET_DRIVE8; break;
+        }
+    }
 }
 
 void mon_ui_init(void)

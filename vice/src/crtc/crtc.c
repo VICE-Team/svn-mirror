@@ -546,6 +546,12 @@ void crtc_resize (void)
     if (! crtc.initialized)
         return;
 
+#ifdef USE_XF86_EXTENSIONS
+    if (!fullscreen_is_enabled)
+#endif
+        raster_enable_double_size(&crtc.raster, 0,
+                                  crtc_resources.double_size_enabled);
+
     if (double_h) {
         if (crtc.raster.viewport.pixel_size.height == 1
             && crtc.raster.viewport.canvas != NULL) {
@@ -868,10 +874,6 @@ void crtc_raster_draw_alarm_handler(CLOCK offset)
 static void crtc_exposure_handler(unsigned int width, unsigned int height)
 {
     raster_resize_viewport(&crtc.raster, width, height);
-
-    /* FIXME: Needed?  Maybe this should be triggered by
-       `raster_resize_viewport()' automatically.  */
-    raster_force_repaint(&crtc.raster);
 }
 
 void crtc_free(void)

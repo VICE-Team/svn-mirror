@@ -53,28 +53,9 @@ ui_menu_toggle  c64_ui_menu_toggles[]={
     { "VideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "REU", MENU_TOGGLE_REU },
     { "Mouse", MENU_TOGGLE_MOUSE },
-    { "SidFilters", MENU_TOGGLE_SIDFILTERS },
-#ifdef HAVE_RESID
-    { "SidUseResid", MENU_TOGGLE_SOUND_RESID },
-#endif
     { "DelayLoopEmulation", MENU_TOGGLE_FASTPAL },
     { NULL, 0 }
 };
-
-static ui_res_possible_values SidType[] = {
-    {0, MENU_SIDTYPE_6581},
-    {1, MENU_SIDTYPE_8580},
-    {-1,0}
-};
-
-#ifdef HAVE_RESID
-static ui_res_possible_values SidResidSampling[] = {
-    {0, MENU_RESID_SAMPLE_FAST},
-    {1, MENU_RESID_SAMPLE_INTERPOLATE},
-    {2, MENU_RESID_SAMPLE_RESAMPLE},
-    {-1,0}
-};
-#endif
 
 ui_res_possible_values ReuSize[] = {
         {128, MENU_REU_SIZE_128},
@@ -89,10 +70,6 @@ ui_res_possible_values ReuSize[] = {
 };
 
 ui_res_value_list c64_ui_res_values[] = {
-    {"SidModel", SidType},
-#ifdef HAVE_RESID
-    {"SidResidSampling", SidResidSampling},
-#endif
     {"REUsize", ReuSize},
     {NULL,NULL}
 };

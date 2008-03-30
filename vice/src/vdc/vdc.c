@@ -71,6 +71,9 @@ static void vdc_set_geometry(void)
 
     raster = &vdc.raster;
 
+    // FIXME? y should be vdc_resources.double_size_enabled
+    raster_enable_double_size(raster, 0, 0);
+
     screen_width = VDC_SCREEN_WIDTH;
     screen_height = vdc.screen_height;
 
@@ -89,18 +92,17 @@ static void vdc_set_geometry(void)
     vdc_80col_start_pixel = border_width;
     vdc_80col_stop_pixel = vdc_80col_start_pixel + 8 * vdc.screen_text_cols;
 
+    displayed_width = VDC_SCREEN_WIDTH;
+    displayed_height = last_displayed_line - first_displayed_line + 1;
+
     if (vdc_resources.double_size_enabled) {
         screen_height *= 2;
-        first_displayed_line *= 2;
-        last_displayed_line = last_displayed_line * 2 + 1;
+        displayed_height *= 2;
         screen_ypix *= 2;
         border_height *= 2;
         vdc_25row_start_line *= 2;
         vdc_25row_stop_line *= 2;
     }
-
-    displayed_width = VDC_SCREEN_WIDTH;
-    displayed_height = last_displayed_line - first_displayed_line + 1;
 
 /*
 printf("SH: %03i SW: %03i\n", screen_height, screen_width);
@@ -120,6 +122,7 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
                         first_displayed_line,
                         last_displayed_line,
                         0);
+
     raster_resize_viewport(raster, displayed_width, displayed_height);
 
     raster->display_ystart = vdc_25row_start_line;
@@ -308,9 +311,6 @@ void vdc_powerup(void)
 static void vdc_exposure_handler(unsigned int width, unsigned int height)
 {
     raster_resize_viewport(&vdc.raster, width, height);
-    /* FIXME: Needed? Maybe this should be triggered by
-      `raster_resize_viewport()' automatically. */
-    raster_force_repaint(&vdc.raster);
 }
 
 /* Set the memory pointers according to the values in the registers. */
@@ -490,11 +490,7 @@ void vdc_resize(void)
 
 void vdc_set_canvas_refresh(int enable)
 {
-    raster_t *raster;
-
-    raster = &vdc.raster;
-
-    raster_set_canvas_refresh(raster, enable);
+    raster_set_canvas_refresh(&vdc.raster, enable);
 }
 
 

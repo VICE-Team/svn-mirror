@@ -1,8 +1,8 @@
 /*
- * ui_sound.h - Sound settings
+ * vsidui.h - Implementation of the VSID-specific part of the UI.
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Martin Pottendorfer (pottendo@utanet.at)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,14 +24,19 @@
  *
  */
 
-#ifndef __UI_SOUND_H__
-#define __UI_SOUND_H__
+#ifndef _VSIDUI_H
+#define _VSIDUI_H
 
-const uint32 MESSAGE_SOUND_FREQ				= 'MS01';
-const uint32 MESSAGE_SOUND_BUFF				= 'MS02';
-const uint32 MESSAGE_SOUND_SAMPLE			= 'MS03';
-const uint32 MESSAGE_SOUND_SYNC				= 'MS04';
+#include "ui.h"
 
-extern void ui_sound(void);
+extern ui_window_t build_vsid_ctrl_widget(void);
+extern void ui_vsid_setpsid(const char *psid);
+extern void ui_vsid_settune(const int tune);
+extern void ui_vsid_setcopyright(const char *c);
+extern void ui_vsid_setauthor(const char *a);
+extern void ui_vsid_setsync(const char *a);
+extern void ui_vsid_setmodel(const char *a);
+extern void ui_vsid_setirq(const char *a);
 
 #endif
+
