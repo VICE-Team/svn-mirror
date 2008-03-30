@@ -31,3 +31,6 @@ These are the most important known problems with VICE 0.16.0:
   existing memory. This is a bug but cannot be avoided with the current
   CPU code architecture.
 
+- The MS-DOS port of the C610 emulator lacks C610 specific UI controls.
+  Use the command line to change C610 specific settings.
+
