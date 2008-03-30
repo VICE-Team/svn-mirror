@@ -43,6 +43,7 @@ libarch_a_SOURCES = \
 	plus4ui.c \
 	rs232.c \
 	signals.c \
+	tfearch.c \
 	types.h \
 	ui.c \
 	ui.h \
