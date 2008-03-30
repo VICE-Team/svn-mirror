@@ -1,3 +1,24 @@
+Sat Jul 25 03:08:37 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* vic20/vic20sound.c (sound_machine_calculate_samples): Call
+ 	`setup_sid()'; call `setup_voice()' on all of the 4 voices.  Type
+ 	of `o0', `o1', `o2', `o3' changed from WORD to `DWORD'.
+
+	* pet/pet.c (machine_reset): Call `petsnd_reset()'.
+
+	* pet/petvia.def: Removed all `#ifdef SOUND's; always behave as it
+ 	used to when it was #defined.
+
+	* vic20/vic20sound.c (sound_machine_store): Removed warning
+ 	message.
+
+	* pet/petsound.c (sound_machine_calculate_samples): Removed
+	warning message.
+
+	* arch/msdos/c64kbd.c: Left Ctrl mapped to CBM, Left Alt mapped to
+	nothing.
+	* arch/msdos/vic20kbd.c: Likewise.
+
 Fri Jul 24 13:18:59 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* arch/msdos/kbd.c: New variable `freeze_function'; new command
@@ -2504,7 +2525,7 @@ Fri May 15 13:13:41 1998  Teemu Rantanen  <tvr@cs.hut.fi>
 
 	* include/sound.h (sound_sample_position): New prototype.
 
-	* sound.c (sound_sample_position): New functions. Returns the
+	* sound.c (sound_sample_position): New function.  Returns the
 	relative position of last calculated sample and the next one based
 	on clk.
 

@@ -285,7 +285,13 @@ inline static void setup_voice(voice_t *pv)
 int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr)
 {
     int			i;
-    WORD		o0, o1, o2, o3;
+    DWORD		o0, o1, o2, o3;
+
+    setup_sid(psid);
+    setup_voice(&psid->v[0]);
+    setup_voice(&psid->v[1]);
+    setup_voice(&psid->v[2]);
+    setup_voice(&psid->v[3]);
 
     for (i = 0; i < nr; i++)
     {
@@ -437,12 +443,18 @@ void sound_machine_store(sound_t *psid, ADDRESS addr, BYTE value)
 {
     DWORD			freq;
     int				sbase, wval, shift, div;
-    char			*t = "                ";
-    warn(pwarn, 8,
-	 "Sound support for VIC20 is at _very_ experimental stage.\n"
-	 "%sIf you think this doesn't sound right, please wait\n"
-	 "%sfor the next snapshot or help me get this right.\n"
-	 "%s                          // tvr", t, t, t);
+
+#if 0
+    {
+        char			*t = "                ";
+        warn(pwarn, 8,
+             "Sound support for VIC20 is at _very_ experimental stage.\n"
+             "%sIf you think this doesn't sound right, please wait\n"
+             "%sfor the next snapshot or help me get this right.\n"
+             "%s                          // tvr", t, t, t);
+    }
+#endif
+
     switch (addr)
     {
     case 10:
