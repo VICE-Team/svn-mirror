@@ -6,8 +6,6 @@
 #include "types.h"
 #include "asm.h"
 #include "utils.h"
-
-#undef M_ADDR
 #include "mon.h"
 
 #define join_ints(x,y) (LO16_TO_HI16(x)|y)
@@ -15,10 +13,8 @@
 #define separate_int2(x) (LO16(x))
 
 static int yyerror(char *s);
+static unsigned check_addr_limits(ADDRESS val);
 static int temp;
-
-extern char *playback_name;
-extern bool playback;
 
 /* Defined in the lexer */
 extern int new_cmd, opt_asm;
@@ -37,16 +33,17 @@ extern int cur_len, last_len;
 #define ERR_INCOMPLETE_COMPARE_OP 7
 #define ERR_EXPECT_FILENAME 8
 
+#define BAD_ADDR (new_addr(e_invalid_space, 0))
+
 %}
 
 %union {
-	M_ADDR a;
-	M_ADDR_RANGE arange;
+	MON_ADDR a;
         int i;
         REG_ID reg;
         CONDITIONAL cond_op;
         CONDITIONAL_NODE *cond_node;
-        DATATYPE dt;
+        RADIXTYPE rt;
         ACTION action;
         char *str;
 }
@@ -55,22 +52,21 @@ extern int cur_len, last_len;
 %token<i> TRAIL BAD_CMD MEM_OP IF MEM_COMP MEM_DISK CMD_SEP REG_ASGN_SEP EQUALS
 %token<i> CMD_SIDEFX CMD_RETURN CMD_BLOCK_READ CMD_BLOCK_WRITE CMD_UP CMD_DOWN
 %token<i> CMD_LOAD CMD_SAVE CMD_VERIFY CMD_IGNORE CMD_HUNT CMD_FILL CMD_MOVE
-%token<i> CMD_GOTO CMD_REGISTERS CMD_READSPACE CMD_WRITESPACE CMD_DISPLAYTYPE
+%token<i> CMD_GOTO CMD_REGISTERS CMD_READSPACE CMD_WRITESPACE CMD_RADIX
 %token<i> CMD_MEM_DISPLAY CMD_BREAK CMD_TRACE CMD_IO CMD_BRMON CMD_COMPARE
 %token<i> CMD_DUMP CMD_UNDUMP CMD_EXIT CMD_DELETE CMD_CONDITION CMD_COMMAND
 %token<i> CMD_ASSEMBLE CMD_DISASSEMBLE CMD_NEXT CMD_STEP CMD_PRINT CMD_DEVICE
 %token<i> CMD_HELP CMD_WATCH CMD_DISK CMD_SYSTEM CMD_QUIT CMD_CHDIR CMD_BANK
 %token<i> CMD_LOAD_LABELS CMD_SAVE_LABELS CMD_ADD_LABEL CMD_DEL_LABEL CMD_SHOW_LABELS
-%token<i> CMD_RECORD CMD_STOP CMD_PLAYBACK
+%token<i> CMD_RECORD CMD_STOP CMD_PLAYBACK CMD_CHAR_DISPLAY CMD_SPRITE_DISPLAY
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<str> STRING FILENAME R_O_L OPCODE LABEL
 %token<reg> REGISTER
 %left<cond_op> COMPARE_OP
-%token<dt> DATA_TYPE INPUT_SPEC
+%token<rt> RADIX_TYPE INPUT_SPEC
 %token<action> CMD_CHECKPT_ONOFF TOGGLE
 
 %type<a> address opt_address 
-%type<arange> address_range address_opt_range
 %type<cond_node> cond_expr compare_operand
 %type<i> command number expression
 %type<i> memspace memloc memaddr breakpt_num opt_mem_op
@@ -117,103 +113,100 @@ command: machine_state_rules
        ;
 
 machine_state_rules: CMD_BANK end_cmd { fprintf(mon_output, "Bank command not done yet.\n"); }
-                   | CMD_GOTO address end_cmd { jump($2); }
+                   | CMD_GOTO address end_cmd { mon_jump($2); }
                    | CMD_IO end_cmd { fprintf(mon_output, "Display IO registers\n"); }
                    | CMD_RETURN end_cmd { fprintf(mon_output, "Continue until RTS/RTI\n"); }
                    | CMD_DUMP end_cmd { puts("Dump machine state."); }
                    | CMD_UNDUMP end_cmd { puts("Undump machine state."); }
-                   | CMD_STEP opt_count end_cmd { instructions_step($2); }
-                   | CMD_NEXT opt_count end_cmd { instructions_next($2); }
-                   | CMD_UP opt_count end_cmd { stack_up($2); }
-                   | CMD_DOWN opt_count end_cmd { stack_down($2); }
+                   | CMD_STEP opt_count end_cmd { mon_instructions_step($2); }
+                   | CMD_NEXT opt_count end_cmd { mon_instructions_next($2); }
+                   | CMD_UP opt_count end_cmd { mon_stack_up($2); }
+                   | CMD_DOWN opt_count end_cmd { mon_stack_down($2); }
                    | register_mod
                    ;
 
-register_mod: CMD_REGISTERS { print_registers(e_default_space); }
-            | CMD_REGISTERS memspace { print_registers($2); }
+register_mod: CMD_REGISTERS 		{ mon_print_registers(default_memspace); }
+            | CMD_REGISTERS memspace    { mon_print_registers($2); }
             | CMD_REGISTERS reg_list
             ;
 
 symbol_table_rules: CMD_LOAD_LABELS opt_memspace filename end_cmd 	{ mon_load_symbols($2, $3); }
                   | CMD_SAVE_LABELS opt_memspace filename end_cmd 	{ mon_save_symbols($2, $3); }
-                  | CMD_ADD_LABEL address LABEL end_cmd 		{ add_name_to_symbol_table($2, $3); }
-                  | CMD_DEL_LABEL opt_memspace LABEL end_cmd 		{ remove_name_from_symbol_table($2, $3); }
-                  | CMD_SHOW_LABELS opt_memspace end_cmd 		{ print_symbol_table($2); }
+                  | CMD_ADD_LABEL address LABEL end_cmd 		{ mon_add_name_to_symbol_table($2, $3); }
+                  | CMD_DEL_LABEL opt_memspace LABEL end_cmd 		{ mon_remove_name_from_symbol_table($2, $3); }
+                  | CMD_SHOW_LABELS opt_memspace end_cmd 		{ mon_print_symbol_table($2); }
                   ;
 
-asm_rules: CMD_ASSEMBLE address { start_assemble_mode($2, NULL); } post_assemble end_cmd 
-         | CMD_ASSEMBLE address end_cmd 		{ start_assemble_mode($2, NULL); }
-         | CMD_DISASSEMBLE address_opt_range end_cmd 	{ disassemble_lines($2); }
-         | CMD_DISASSEMBLE end_cmd 			{ disassemble_lines(new_range(bad_addr,bad_addr)); }
+asm_rules: CMD_ASSEMBLE address { mon_start_assemble_mode($2, NULL); } post_assemble end_cmd 
+         | CMD_ASSEMBLE address end_cmd 		{ mon_start_assemble_mode($2, NULL); }
+         | CMD_DISASSEMBLE address opt_address end_cmd  { mon_disassemble_lines($2,$3); }
+         | CMD_DISASSEMBLE end_cmd 			{ mon_disassemble_lines(BAD_ADDR, BAD_ADDR); }
          ;
 
-memory_rules: CMD_MOVE address_range address end_cmd 		  { move_memory($2, $3); }
-            | CMD_COMPARE address_range address end_cmd 	  { compare_memory($2, $3); }
-            | CMD_FILL address_range data_list end_cmd 		  { fill_memory($2, $3); }
-            | CMD_HUNT address_range data_list end_cmd 		  { hunt_memory($2, $3); }
-            | CMD_MEM_DISPLAY DATA_TYPE address_opt_range end_cmd { display_memory($2, $3); }
-            | CMD_MEM_DISPLAY address_opt_range end_cmd 	  { display_memory(0, $2); }
-            | CMD_MEM_DISPLAY end_cmd 				  { display_memory(0,new_range(bad_addr,bad_addr)); }
+memory_rules: CMD_MOVE address address address end_cmd 		  { mon_move_memory($2, $3, $4); }
+            | CMD_COMPARE address address address end_cmd 	  { mon_compare_memory($2, $3, $4); }
+            | CMD_FILL address address data_list end_cmd 	  { mon_fill_memory($2, $3, $4); }
+            | CMD_HUNT address address data_list end_cmd 	  { mon_hunt_memory($2, $3, $4); }
+            | CMD_MEM_DISPLAY RADIX_TYPE address opt_address end_cmd { mon_display_memory($2, $3, $4); }
+            | CMD_MEM_DISPLAY address opt_address end_cmd 	  { mon_display_memory(0, $2, $3); }
+            | CMD_MEM_DISPLAY end_cmd 				  { mon_display_memory(0, BAD_ADDR, BAD_ADDR); }
+            | CMD_CHAR_DISPLAY address opt_address end_cmd 	  { mon_display_data(0, $2, $3, 8, 8); }
+            | CMD_CHAR_DISPLAY end_cmd				  { mon_display_data(0, BAD_ADDR, BAD_ADDR, 8, 8); }
+            | CMD_SPRITE_DISPLAY address opt_address end_cmd 	  { mon_display_data(0, $2, $3, 24, 21); }
+            | CMD_SPRITE_DISPLAY end_cmd			  { mon_display_data(0, BAD_ADDR, BAD_ADDR, 24, 21); }
             ;
 
-checkpoint_rules: CMD_BREAK address_opt_range end_cmd { add_breakpoint($2, FALSE, FALSE, FALSE); }
-                | CMD_BREAK address_opt_range IF cond_expr end_cmd { temp = add_breakpoint($2, FALSE, FALSE, FALSE); 
-                                                              set_brkpt_condition(temp, $4); }
-                | CMD_WATCH opt_mem_op address_opt_range end_cmd { add_breakpoint($3, FALSE, 
+checkpoint_rules: CMD_BREAK address opt_address end_cmd { mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE); }
+                | CMD_BREAK address opt_address IF cond_expr end_cmd { 
+                          temp = mon_add_checkpoint($2, $3, FALSE, FALSE, FALSE); 
+                          mon_set_checkpoint_condition(temp, $5); }
+                | CMD_WATCH opt_mem_op address opt_address end_cmd { mon_add_checkpoint($3, $4, FALSE, 
                               ($2 == e_load || $2 == e_load_store), ($2 == e_store || $2 == e_load_store)); }
-                | CMD_TRACE address_opt_range end_cmd { add_breakpoint($2, TRUE, FALSE, FALSE); }
-                | CMD_BREAK end_cmd { print_breakpts(); }
-                | CMD_TRACE end_cmd { print_breakpts(); }
-                | CMD_WATCH end_cmd { print_breakpts(); }
+                | CMD_TRACE address opt_address end_cmd { mon_add_checkpoint($2, $3, TRUE, FALSE, FALSE); }
+                | CMD_BREAK end_cmd { mon_print_checkpoints(); }
+                | CMD_TRACE end_cmd { mon_print_checkpoints(); }
+                | CMD_WATCH end_cmd { mon_print_checkpoints(); }
                 ;
 
 
-checkpoint_control_rules: CMD_CHECKPT_ONOFF breakpt_num end_cmd 	 { switch_breakpt($1, $2); }
-                        | CMD_IGNORE breakpt_num opt_count end_cmd 	 { set_ignore_count($2, $3); }
-                        | CMD_DELETE breakpt_num end_cmd 		 { delete_breakpoint($2); }
-                        | CMD_DELETE end_cmd				 { delete_breakpoint(-1); }
-                        | CMD_CONDITION breakpt_num IF cond_expr end_cmd { set_brkpt_condition($2, $4); }
-                        | CMD_COMMAND breakpt_num STRING end_cmd 	 { set_breakpt_command($2, $3); }
+checkpoint_control_rules: CMD_CHECKPT_ONOFF breakpt_num end_cmd 	 { mon_switch_checkpoint($1, $2); }
+                        | CMD_IGNORE breakpt_num opt_count end_cmd 	 { mon_set_ignore_count($2, $3); }
+                        | CMD_DELETE breakpt_num end_cmd 		 { mon_delete_checkpoint($2); }
+                        | CMD_DELETE end_cmd				 { mon_delete_checkpoint(-1); }
+                        | CMD_CONDITION breakpt_num IF cond_expr end_cmd { mon_set_checkpoint_condition($2, $4); }
+                        | CMD_COMMAND breakpt_num STRING end_cmd 	 { mon_set_checkpoint_command($2, $3); }
                         ;
 
-monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd { sidefx = (($2==e_TOGGLE)?(sidefx^1):$2); }
-                   | CMD_SIDEFX end_cmd { fprintf(mon_output, "sidefx %d\n",sidefx); }
-                   | CMD_DISPLAYTYPE DATA_TYPE end_cmd { default_datatype = $2; }
-                   | CMD_DISPLAYTYPE end_cmd { fprintf(mon_output, "Default datatype is %s\n", 
-                                      datatype_string[default_datatype]); }
-                   | CMD_READSPACE memspace end_cmd { fprintf(mon_output, "Setting default readspace to %s\n",
-                                              SPACESTRING($2)); default_readspace = $2; }
-                   | CMD_READSPACE end_cmd { fprintf(mon_output, "Default readspace is %s\n",
-                                     SPACESTRING(default_readspace)); }
-                   | CMD_WRITESPACE memspace end_cmd { fprintf(mon_output, "Setting default writespace to %s\n", 
-                                               SPACESTRING($2)); default_writespace = $2; }
-                   | CMD_WRITESPACE end_cmd { fprintf(mon_output,"Default writespace is %s\n",
-                                      SPACESTRING(default_writespace)); }
-                   | CMD_DEVICE memspace end_cmd { fprintf(mon_output,"Setting default device to %s\n", 
-                                           SPACESTRING($2)); default_readspace = default_writespace = $2; }
-                   | CMD_QUIT end_cmd { printf("Quit.\n"); exit(-1); exit(0); }
-                   | CMD_EXIT end_cmd { exit_mon = 1; YYACCEPT; }
+monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd 	       { sidefx = (($2==e_TOGGLE)?(sidefx^1):$2); }
+                   | CMD_SIDEFX end_cmd 	       { fprintf(mon_output, "sidefx %d\n",sidefx); }
+                   | CMD_RADIX RADIX_TYPE end_cmd      { default_radix = $2; }
+                   | CMD_RADIX end_cmd 	       	       { fprintf(mon_output, "Default radix is %d\n", 
+                                                         default_radix); }
+                   | CMD_DEVICE memspace end_cmd       { fprintf(mon_output,"Setting default device to %s\n", 
+                                                         SPACESTRING($2)); default_memspace = $2; }
+                   | CMD_QUIT end_cmd 		       { fprintf(mon_output, "Quit.\n"); exit(-1); exit(0); }
+                   | CMD_EXIT end_cmd 		       { exit_mon = 1; YYACCEPT; }
                    ;
 
-monitor_misc_rules: CMD_DISK rest_of_line end_cmd 	{ execute_disk_command($2); }
+monitor_misc_rules: CMD_DISK rest_of_line end_cmd 	{ mon_execute_disk_command($2); }
                   | CMD_PRINT expression end_cmd 	{ fprintf(mon_output, "\t%d\n",$2); }
-                  | CMD_HELP end_cmd 			{ print_help(-1); }
-                  | CMD_HELP rest_of_line end_cmd 	{ print_help(cmd_lookup_index($2)); }
+                  | CMD_HELP end_cmd 			{ mon_print_help(NULL); }
+                  | CMD_HELP rest_of_line end_cmd 	{ mon_print_help($2); }
                   | CMD_SYSTEM rest_of_line end_cmd 	{ printf("SYSTEM COMMAND: %s\n",$2); }
-                  | CONVERT_OP expression end_cmd 	{ print_convert($2); }
-                  | CMD_CHDIR rest_of_line end_cmd 	{ change_dir($2); }
+                  | CONVERT_OP expression end_cmd 	{ mon_print_convert($2); }
+                  | CMD_CHDIR rest_of_line end_cmd 	{ mon_change_dir($2); }
                   ;
 
-disk_rules: CMD_LOAD filename address end_cmd { mon_load_file($2,$3); } 
-          | CMD_SAVE filename address_range end_cmd { mon_save_file($2,$3); } 
-          | CMD_VERIFY filename address end_cmd { mon_verify_file($2,$3); } 
-          | CMD_BLOCK_READ expression expression opt_address { block_cmd(0,$2,$3,$4); }
-          | CMD_BLOCK_WRITE expression expression address { block_cmd(1,$2,$3,$4); }
+disk_rules: CMD_LOAD filename address end_cmd 			{ mon_load_file($2,$3); } 
+          | CMD_SAVE filename address address end_cmd 		{ mon_save_file($2,$3,$4); } 
+          | CMD_VERIFY filename address end_cmd 		{ mon_verify_file($2,$3); } 
+          | CMD_BLOCK_READ expression expression opt_address 	{ mon_block_cmd(0,$2,$3,$4); }
+          | CMD_BLOCK_WRITE expression expression address 	{ mon_block_cmd(1,$2,$3,$4); }
           ;
 
-cmd_file_rules: CMD_RECORD filename end_cmd { record_commands($2); }
-              | CMD_STOP end_cmd { end_recording(); }
-              | CMD_PLAYBACK filename end_cmd { playback=TRUE; playback_name = $2; }
+cmd_file_rules: CMD_RECORD filename end_cmd 	{ mon_record_commands($2); }
+              | CMD_STOP end_cmd 		{ mon_end_recording(); }
+              | CMD_PLAYBACK filename end_cmd 	{ playback=TRUE; playback_name = $2; }
               ;
 
 rest_of_line: R_O_L { $$ = $1; }
@@ -227,15 +220,15 @@ opt_mem_op: MEM_OP { $$ = $1; }
           | { $$ = e_load_store; }
           ;
 
-register: REGISTER          { $$ = join_ints(default_readspace, $1); }
-        | memspace REGISTER { $$ = join_ints($1, $2); }
+register: REGISTER          { $$ = new_reg(default_memspace, $1); }
+        | memspace REGISTER { $$ = new_reg($1, $2); }
         ;
 
 reg_list: reg_list REG_ASGN_SEP reg_asgn
         | reg_asgn
         ;
 
-reg_asgn: register EQUALS number { set_reg_val(separate_int1($1), separate_int2($1), $3); }
+reg_asgn: register EQUALS number { mon_set_reg_val(reg_memspace($1), reg_regid($1), $3); }
         ;
  
 opt_count: expression { $$ = $1; }
@@ -246,17 +239,8 @@ breakpt_num: number { $$ = $1; }
            | error { return ERR_EXPECT_BRKNUM; }
            ;
 
-address_range: address address { $$ = new_range($1,$2); }
-             | address '|' '+' number { $$ = new_range($1,new_addr(e_default_space,addr_location($1)+$4)); }
-             | address '|' '-' number { $$ = new_range($1,new_addr(e_default_space,addr_location($1)-$4)); }
-             | error { return ERR_RANGE_BAD_START; }
-             | address error { return ERR_RANGE_BAD_END; }
-             ;
-
-address_opt_range: address opt_address { $$ = new_range($1,$2); }
-
 opt_address: address { $$ = $1; }
-           |         { $$ = bad_addr; }
+           |         { $$ = BAD_ADDR; }
            ;
 
 address: memloc { $$ = new_addr(e_default_space,$1); if (opt_asm) new_cmd = asm_mode = 1; }
@@ -280,22 +264,21 @@ expression: expression '+' expression { $$ = $1 + $3; }
           | expression '-' expression { $$ = $1 - $3; } 
           | expression '*' expression { $$ = $1 * $3; } 
           | expression '/' expression { $$ = ($3) ? ($1 / $3) : 1; } 
-          | '(' expression ')' { $$ = $2; }
-          | '(' expression error { return ERR_MISSING_CLOSE_PAREN; }
-          | value  { $$ = $1; }
+          | '(' expression ')' 	      { $$ = $2; }
+          | '(' expression error      { return ERR_MISSING_CLOSE_PAREN; }
+          | value  		      { $$ = $1; }
           ;
 
-cond_expr: cond_expr COMPARE_OP cond_expr {
-              $$ = new_cond; $$->is_parenthized = FALSE;
-              $$->child1 = $1; $$->child2 = $3; $$->operation = $2; }
-         | cond_expr COMPARE_OP error { return ERR_INCOMPLETE_COMPARE_OP; }
-         | L_PAREN cond_expr R_PAREN { $$ = $2; $$->is_parenthized = TRUE; }
-         | L_PAREN cond_expr error { return ERR_MISSING_CLOSE_PAREN; }
-         | compare_operand { $$ = $1; }
+cond_expr: cond_expr COMPARE_OP cond_expr { $$ = new_cond; $$->is_parenthized = FALSE;
+                                            $$->child1 = $1; $$->child2 = $3; $$->operation = $2; }
+         | cond_expr COMPARE_OP error 	  { return ERR_INCOMPLETE_COMPARE_OP; }
+         | L_PAREN cond_expr R_PAREN 	  { $$ = $2; $$->is_parenthized = TRUE; }
+         | L_PAREN cond_expr error 	  { return ERR_MISSING_CLOSE_PAREN; }
+         | compare_operand 		  { $$ = $1; }
          ;
 
 compare_operand: register { $$ = new_cond; $$->operation = e_INV; $$->is_parenthized = FALSE;
-                            $$->reg_num = separate_int2($1); $$->is_reg = TRUE; }
+                            $$->reg_num = $1; $$->is_reg = TRUE; }
                | number   { $$ = new_cond; $$->operation = e_INV; $$->is_parenthized = FALSE;
                             $$->value = $1; $$->is_reg = FALSE; }
                ;
@@ -304,12 +287,12 @@ data_list: data_list data_element
          | data_element
          ;
 
-data_element: number { add_number_to_buffer($1); }
-            | STRING { add_string_to_buffer($1); }
+data_element: number { mon_add_number_to_buffer($1); }
+            | STRING { mon_add_string_to_buffer($1); }
             ;
 
 value: number { $$ = $1; }
-     | register { $$ = get_reg_val(separate_int1($1), separate_int2($1)); }
+     | register { $$ = mon_get_reg_val(reg_memspace($1), reg_regid($1)); }
      ;
 
 number: H_NUMBER { $$ = $1; }
@@ -362,6 +345,17 @@ asm_operand_mode: ARG_IMMEDIATE number { $$ = join_ints(IMMEDIATE,$2); }
 
 %% 
 
+static unsigned check_addr_limits(ADDRESS val)
+{
+   if (val != LO16(val))
+   {
+      fprintf(mon_output, "Overflow warning: $%x -> $ffff\n", val);
+      return 0xffff;
+   }
+
+   return val;
+}
+
 void parse_and_execute_line(char *input)
 {
    char *temp_buf;
@@ -411,7 +405,7 @@ void parse_and_execute_line(char *input)
    free_buffer();
 }
 
-int yyerror(char *s)
+static int yyerror(char *s)
 {
    YYABORT;
    fprintf(stderr, "ERR:%s\n",s);

@@ -13,8 +13,8 @@
 
 int new_cmd = 1, quote = 0, opt_asm = 0, cur_len = 0, last_len = 0, dont_match_reg_a = 0;
 int temp;
-int yywrap();
-int resolve_datatype(unsigned guess_type, char *num, int *val);
+static int yywrap();
+static int resolve_datatype(unsigned guess_type, char *num, int *val);
 YY_BUFFER_STATE my_state;
 
 #define YY_USER_ACTION { last_len = cur_len; cur_len += yyleng; }
@@ -28,28 +28,38 @@ YY_BUFFER_STATE my_state;
 %{
    if (new_cmd) {
       if (asm_mode) 
-         BEGIN ASM_MODE;
+         BEGIN (ASM_MODE);
       else
-         BEGIN CMD;
+         BEGIN (CMD);
       new_cmd = 0;
       cur_len = 0;
       last_len = 0;
    }
 %}
 
-<CMD>[^ \t\n]*		{ if ( (temp = cmd_lookup_index(yytext)) < 0)
+<CMD>[^ \t\n]*		{ if ( (temp = mon_cmd_lookup_index(yytext)) < 0)
                              return BAD_CMD;
                           else {
-                             if (cmd_get_next_state(temp) == STATE_INITIAL) 
-                                 BEGIN INITIAL;
-                             else if (cmd_get_next_state(temp) == STATE_FNAME) 
-                                 BEGIN FNAME;
-                             else if (cmd_get_next_state(temp) == STATE_ROL) 
-                                 BEGIN ROL;
-                             else if (cmd_get_next_state(temp) == STATE_REG_ASGN) 
-                                 BEGIN REG_ASGN;
-
-                             return cmd_get_token(temp);
+                             switch(mon_cmd_get_next_state(temp)) {
+                                case STATE_INITIAL:
+                                   BEGIN (INITIAL);
+                                   break;
+                                case STATE_FNAME:
+                                   BEGIN (FNAME);
+                                   break;
+                                case STATE_ROL:
+                                   BEGIN (ROL);
+                                   break;
+                                case STATE_REG_ASGN:
+                                   BEGIN (REG_ASGN);
+                                   break;
+                                default:
+                                   assert(0);
+                             } 
+                             yylval.i = mon_cmd_get_token(temp);
+                             if (yylval.i == CMD_ASSEMBLE)
+                                opt_asm = 1;
+                             return yylval.i;
                           }
                         }
 
@@ -62,40 +72,40 @@ toggle		{ yylval.i = e_TOGGLE; return TOGGLE; }
 load 		{ yylval.i = e_load; return MEM_OP; }
 store 		{ yylval.i = e_store; return MEM_OP; }
 
-if		{ BEGIN COND_MODE; return IF; }
+if		{ BEGIN (COND_MODE); return IF; }
 
 \"		{ if (!quote) {
                      quote = 1;
-                     BEGIN STR;
+                     BEGIN (STR);
                   }
                 }
 <STR>\"		{ if (quote) {
                      quote = 0;
-                     BEGIN INITIAL;
+                     BEGIN (INITIAL);
                   }
                 }
 <STR>[0-9a-zA-Z ]+ { yylval.str = stralloc(yytext); return STRING; }
 <STR>\n 	{ puts("ERROR:"); exit(-1); }
 
 
-\.S		{ yylval.i = e_sprite; return INPUT_SPEC; }
-\.C		{ yylval.i = e_character; return INPUT_SPEC; }
 \.\$		{ yylval.i = e_hexadecimal; return INPUT_SPEC; }
 \.\+		{ yylval.i = e_decimal; return INPUT_SPEC; }
 \.%		{ yylval.i = e_binary; return INPUT_SPEC; }
 \.&		{ yylval.i = e_octal; return INPUT_SPEC; }
-\.TA		{ yylval.i = e_text_ascii; return INPUT_SPEC; }
-\.TP		{ yylval.i = e_text_petscii; return INPUT_SPEC; }
-\.\>		{ yylval.i = e_6502_asm; return INPUT_SPEC; }
+ /* \.TA		{ yylval.i = e_text_ascii; return INPUT_SPEC; } */
+ /* \.TP		{ yylval.i = e_text_petscii; return INPUT_SPEC; } */
+ /* \.\>		{ yylval.i = e_6502_asm; return INPUT_SPEC; } */
+ /* \.S		{ yylval.i = e_sprite; return INPUT_SPEC; } */
+ /* \.C		{ yylval.i = e_character; return INPUT_SPEC; } */
 
-D		{ yylval.i = e_decimal; return DATA_TYPE; }
-H		{ yylval.i = e_hexadecimal; return DATA_TYPE; }
-B		{ yylval.i = e_binary; return DATA_TYPE; }
-O		{ yylval.i = e_octal; return DATA_TYPE; }
-C		{ yylval.i = e_character; return DATA_TYPE; }
-S		{ yylval.i = e_sprite; return DATA_TYPE; }
-TA		{ yylval.i = e_text_ascii; return DATA_TYPE; }
-TP		{ yylval.i = e_text_petscii; return DATA_TYPE; }
+D		{ yylval.i = e_decimal; return RADIX_TYPE; }
+H		{ yylval.i = e_hexadecimal; return RADIX_TYPE; }
+B		{ yylval.i = e_binary; return RADIX_TYPE; }
+O		{ yylval.i = e_octal; return RADIX_TYPE; }
+ /* C		{ yylval.i = e_character; return RADIX_TYPE; } */
+ /* S		{ yylval.i = e_sprite; return RADIX_TYPE; } */
+ /* TA		{ yylval.i = e_text_ascii; return RADIX_TYPE; } */
+ /* TP		{ yylval.i = e_text_petscii; return RADIX_TYPE; } */
 
 c:              { return MEM_COMP; }
 d:              { return MEM_DISK; }
@@ -107,7 +117,7 @@ d:              { return MEM_DISK; }
 
 <FNAME>\"[0-9a-zA-Z\.]+\" { yytext[yyleng-1] = '\0';
                    yylval.str = stralloc(yytext+1);
-                   BEGIN INITIAL; return FILENAME; }
+                   BEGIN (INITIAL); return FILENAME; }
 
 <ROL>[^ \t\n][^\n]*          { yylval.str = stralloc(yytext); return R_O_L; }
 
@@ -117,7 +127,7 @@ d:              { return MEM_DISK; }
 	Y 		{ yylval.i = e_Y; return REGISTER; }
 	PC 		{ yylval.i = e_PC; return REGISTER; }
 	SP		{ yylval.i = e_SP; return REGISTER; }
-	=		{ BEGIN COND_MODE; return EQUALS; }
+	=		{ BEGIN (COND_MODE); return EQUALS; }
 }
 
 <COND_MODE>{
@@ -136,13 +146,13 @@ d:              { return MEM_DISK; }
 	\.PC 		{ yylval.i = e_PC; return REGISTER; }
 	\.SP		{ yylval.i = e_SP; return REGISTER; }
 
-	,		{ BEGIN REG_ASGN; return REG_ASGN_SEP; }
+	,		{ BEGIN (REG_ASGN); return REG_ASGN_SEP; }
         \(		{ return L_PAREN; }
         \)		{ return R_PAREN; }
 }
 
 <ASM_MODE>[a-zA-Z]{3,4}                           { yylval.str = stralloc(yytext); return OPCODE; }
-<ASM_MODE,INITIAL>\.[a-zA-Z][a-zA-Z0-9]*            { yylval.str = stralloc(yytext); return LABEL; }
+<ASM_MODE,INITIAL>\.[a-zA-Z][a-zA-Z0-9]*          { yylval.str = stralloc(yytext); return LABEL; }
 
 <ASM_MODE>(a|A)/[ \t]*[:\n]           { if (!dont_match_reg_a) return REG_A; 
                                         yylval.i = 0x0a; return H_NUMBER; }
@@ -170,20 +180,20 @@ d:              { return MEM_DISK; }
 
 %%
 
-int resolve_datatype(unsigned guess_type, char *num, int *val)
+static int resolve_datatype(unsigned guess_type, char *num, int *val)
 {
    /* FIXME: Handle cases when default type is non-numerical */
-   if (default_datatype == e_hexadecimal) {
+   if (default_radix == e_hexadecimal) {
       *val = strtol(num, NULL, 16);
       return H_NUMBER;
    }
 
-   if ((guess_type == D_NUMBER) || (default_datatype == e_decimal)) {
+   if ((guess_type == D_NUMBER) || (default_radix == e_decimal)) {
       *val = strtol(num, NULL, 10);
       return D_NUMBER;
    }
 
-   if ((guess_type == O_NUMBER) || (default_datatype == e_octal)) {
+   if ((guess_type == O_NUMBER) || (default_radix == e_octal)) {
       *val = strtol(num, NULL, 8);
       return O_NUMBER;
    }
@@ -203,4 +213,4 @@ void make_buffer(char *str)
     assert(my_state);
 }
 
-int yywrap() { return 1; }
+static int yywrap() { return 1; }

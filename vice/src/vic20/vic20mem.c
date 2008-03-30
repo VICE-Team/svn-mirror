@@ -421,70 +421,16 @@ static void REGPARM2 store_dummy(ADDRESS addr, BYTE value)
 /* Watchpoint functions */
 
 
-BYTE REGPARM1 read_basic_watch(ADDRESS addr)
+BYTE REGPARM1 read_watch(ADDRESS addr)
 {
-    watch_push_load_addr(addr,e_comp_space);
-    return read_basic(addr);
+    mon_watch_push_load_addr(addr,e_comp_space);
+    return _mem_read_tab_nowatch[addr>>8](addr);
 }
 
-BYTE REGPARM1 read_kernal_watch(ADDRESS addr)
+void REGPARM2 store_watch(ADDRESS addr, BYTE value)
 {
-    watch_push_load_addr(addr,e_comp_space);
-    return read_kernal(addr);
-}
-
-BYTE REGPARM1 read_chargen_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_chargen(addr);
-}
-
-BYTE REGPARM1 read_ram_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_ram(addr);
-}
-
-void REGPARM2 store_ram_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_ram(addr, value);
-}
-
-void REGPARM2 store_vic_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_vic(addr, value);
-}
-
-BYTE REGPARM1 read_vic_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_vic(addr);
-}
-
-void REGPARM2 store_via_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    store_via(addr, value);
-}
-
-BYTE REGPARM1 read_via_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return read_via(addr);
-}
-
-static BYTE REGPARM1 read_dummy_watch(ADDRESS addr)
-{
-    watch_push_load_addr(addr,e_comp_space);
-    return 0xff;
-}
-
-static void REGPARM2 store_dummy_watch(ADDRESS addr, BYTE value)
-{
-    watch_push_store_addr(addr,e_comp_space);
-    return;
+    mon_watch_push_store_addr(addr,e_comp_space);
+    _mem_write_tab_nowatch[addr>>8](addr, value);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -506,8 +452,6 @@ BYTE REGPARM1 mem_read(ADDRESS addr)
 static void set_mem(int start_page, int end_page,
 		    read_func_ptr_t read_func,
 		    store_func_ptr_t store_func,
-		    read_func_ptr_t read_func_watch,
-		    store_func_ptr_t store_func_watch,
 		    BYTE *read_base, int base_mask)
 {
     int i;
@@ -516,16 +460,12 @@ static void set_mem(int start_page, int end_page,
 	for (i = start_page; i <= end_page; i++) {
 	    _mem_read_tab_nowatch[i] = read_func;
 	    _mem_write_tab_nowatch[i] = store_func;
-	    _mem_read_tab_watch[i] = read_func_watch;
-	    _mem_write_tab_watch[i] = store_func_watch;
 	    _mem_read_base_tab[i] = read_base + ((i << 8) & base_mask);
 	}
     } else {
 	for (i = start_page; i <= end_page; i++) {
 	    _mem_read_tab_nowatch[i] = read_func;
 	    _mem_write_tab_nowatch[i] = store_func;
-	    _mem_read_tab_watch[i] = read_func_watch;
-	    _mem_write_tab_watch[i] = store_func_watch;
 	    _mem_read_base_tab[i] = NULL;
 	}
     }
@@ -537,13 +477,11 @@ int vic20_mem_enable_ram_block(int num)
     if (num == 0) {
 	set_mem(0x04, 0x0f,
 		read_ram, store_ram,
-		read_ram_watch, store_ram_watch,
 		ram, 0xffff);
         return 0;
     } else if (num > 0 && num != 4 && num <= 5) {
 	set_mem(num * 0x20, num * 0x20 + 0x1f,
 		read_ram, store_ram,
-		read_ram_watch, store_ram_watch,
 		ram, 0xffff);
         return 0;
     } else
@@ -556,13 +494,11 @@ int vic20_mem_disable_ram_block(int num)
     if (num == 0) {
 	set_mem(0x04, 0x0f,
 		read_dummy, store_dummy,
-		read_dummy_watch, store_dummy_watch,
 		ram, 0xffff);
         return 0;
     } else if (num > 0 && num != 4 && num <= 5) {
 	set_mem(num * 0x20, num * 0x20 + 0x1f,
 		read_dummy, store_dummy,
-		read_dummy_watch, store_dummy_watch,
 		ram, 0xffff);
         return 0;
     } else
@@ -571,16 +507,16 @@ int vic20_mem_disable_ram_block(int num)
 
 void initialize_memory(void)
 {
+    int i;
+
     /* Setup low standard RAM at $0000-$0300. */
     set_mem(0x00, 0x03,
 	    read_ram, store_ram,
-	    read_ram_watch, store_ram_watch,
 	    ram, 0xffff);
 
     /* Setup more low RAM at $1000-$1FFFF.  */
     set_mem(0x10, 0x1f,
 	    read_ram, store_ram,
-	    read_ram_watch, store_ram_watch,
 	    ram, 0xffff);
 
     /* Setup RAM at $0400-$0F00.  */
@@ -616,19 +552,16 @@ void initialize_memory(void)
     /* Setup character generator ROM at $8000-$8FFF. */
     set_mem(0x80, 0x8f,
 	    read_chargen, store_dummy,
-	    read_chargen_watch, store_dummy_watch,
 	    chargen_rom, 0x0fff);
 
     /* Setup VIC-I at $9000-$90FF. */
     set_mem(0x90, 0x90,
 	    read_vic, store_vic,
-	    read_vic_watch, store_vic_watch,
 	    NULL, 0);
 
     /* Setup VIAs at $9100-$93FF. */
     set_mem(0x91, 0x93,
 	    read_via, store_via,
-	    read_via_watch, store_via_watch,
 	    NULL, 0);
 
     /* Setup color memory at $9400-$9BFF.
@@ -637,33 +570,32 @@ void initialize_memory(void)
        space. */
     set_mem(0x94, 0x9b,
 	    read_ram, store_ram,
-	    read_ram_watch, store_ram_watch,
 	    ram, 0xffff);
     set_mem(0x9c, 0x9f,
 	    read_dummy, store_dummy,
-	    read_dummy_watch, store_dummy_watch,
 	    NULL, 0);
 
     /* Setup BASIC ROM at $C000-$DFFF. */
     set_mem(0xc0, 0xdf,
 	    read_basic, store_dummy,
-	    read_basic_watch, store_dummy_watch,
 	    basic_rom, 0x1fff);
 
     /* Setup Kernal ROM at $E000-$FFFF. */
     set_mem(0xe0, 0xff,
 	    read_kernal, store_dummy,
-	    read_kernal_watch, store_dummy_watch,
 	    kernal_rom, 0x1fff);
 
     _mem_read_tab_nowatch[0x100] = _mem_read_tab_nowatch[0];
     _mem_write_tab_nowatch[0x100] = _mem_write_tab_nowatch[0];
-    _mem_read_tab_watch[0x100] = _mem_read_tab_watch[0];
-    _mem_write_tab_watch[0x100] = _mem_write_tab_watch[0];
     _mem_read_base_tab[0x100] = _mem_read_base_tab[0];
 
     _mem_read_base_tab_ptr = _mem_read_base_tab;
 
+    for (i=0;i<=0x100;i++) {
+        _mem_read_tab_watch[i] = read_watch;
+        _mem_write_tab_watch[i] = store_watch;
+    }
+       
     mem_toggle_watchpoints(0);
 }
 

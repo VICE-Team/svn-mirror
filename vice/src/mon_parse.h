@@ -1,11 +1,10 @@
 typedef union {
-	M_ADDR a;
-	M_ADDR_RANGE arange;
+	MON_ADDR a;
         int i;
         REG_ID reg;
         CONDITIONAL cond_op;
         CONDITIONAL_NODE *cond_node;
-        DATATYPE dt;
+        RADIXTYPE rt;
         ACTION action;
         char *str;
 } YYSTYPE;
@@ -41,7 +40,7 @@ typedef union {
 #define	CMD_REGISTERS	287
 #define	CMD_READSPACE	288
 #define	CMD_WRITESPACE	289
-#define	CMD_DISPLAYTYPE	290
+#define	CMD_RADIX	290
 #define	CMD_MEM_DISPLAY	291
 #define	CMD_BREAK	292
 #define	CMD_TRACE	293
@@ -75,25 +74,27 @@ typedef union {
 #define	CMD_RECORD	321
 #define	CMD_STOP	322
 #define	CMD_PLAYBACK	323
-#define	L_PAREN	324
-#define	R_PAREN	325
-#define	ARG_IMMEDIATE	326
-#define	REG_A	327
-#define	REG_X	328
-#define	REG_Y	329
-#define	COMMA	330
-#define	INST_SEP	331
-#define	STRING	332
-#define	FILENAME	333
-#define	R_O_L	334
-#define	OPCODE	335
-#define	LABEL	336
-#define	REGISTER	337
-#define	COMPARE_OP	338
-#define	DATA_TYPE	339
-#define	INPUT_SPEC	340
-#define	CMD_CHECKPT_ONOFF	341
-#define	TOGGLE	342
+#define	CMD_CHAR_DISPLAY	324
+#define	CMD_SPRITE_DISPLAY	325
+#define	L_PAREN	326
+#define	R_PAREN	327
+#define	ARG_IMMEDIATE	328
+#define	REG_A	329
+#define	REG_X	330
+#define	REG_Y	331
+#define	COMMA	332
+#define	INST_SEP	333
+#define	STRING	334
+#define	FILENAME	335
+#define	R_O_L	336
+#define	OPCODE	337
+#define	LABEL	338
+#define	REGISTER	339
+#define	COMPARE_OP	340
+#define	RADIX_TYPE	341
+#define	INPUT_SPEC	342
+#define	CMD_CHECKPT_ONOFF	343
+#define	TOGGLE	344
 
 
 extern YYSTYPE yylval;
