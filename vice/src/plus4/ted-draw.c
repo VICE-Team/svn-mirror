@@ -77,15 +77,28 @@ static BYTE *const aligned_line_buffer = (BYTE *)_aligned_line_buffer;
     + (ted.screen_borderwidth + ted.raster.xsmooth))
 
 #ifdef ALLOW_UNALIGNED_ACCESS
-#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr) \
-   name(GFX_PTR(), (xs), (xe), (gfx_msk_ptr))
+#define ALIGN_DRAW_FUNC(name, xs, xe) \
+   name(GFX_PTR(), (xs), (xe))
 #else
-#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr)           \
-   do {                                                      \
-       name(aligned_line_buffer, (xs), (xe), (gfx_msk_ptr)); \
-       memcpy(GFX_PTR() + (xs) * 8,                          \
-              aligned_line_buffer + (xs) * 8,                \
-              ((xe) - (xs) + 1) * 8);                        \
+#define ALIGN_DRAW_FUNC(name, xs, xe)         \
+   do {                                       \
+       name(aligned_line_buffer, (xs), (xe)); \
+       memcpy(GFX_PTR() + (xs) * 8,           \
+              aligned_line_buffer + (xs) * 8, \
+              ((xe) - (xs) + 1) * 8);         \
+   } while (0)
+#endif
+
+#ifdef ALLOW_UNALIGNED_ACCESS
+#define ALIGN_DRAW_FUNC_CACHE(name, xs, xe, cache_ptr) \
+   name(GFX_PTR(), (xs), (xe), (cache_ptr))
+#else
+#define ALIGN_DRAW_FUNC_CACHE(name, xs, xe, cache_ptr)     \
+   do {                                                    \
+       name(aligned_line_buffer, (xs), (xe), (cache_ptr)); \
+       memcpy(GFX_PTR() + (xs) * 8,                        \
+              aligned_line_buffer + (xs) * 8,              \
+              ((xe) - (xs) + 1) * 8);                      \
    } while (0)
 #endif
 
@@ -206,8 +219,7 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
     return r;
 }
 
-inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe,
-                                  BYTE *gfx_msk_ptr)
+inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe)
 {
     DWORD *table_ptr;
     BYTE *char_ptr;
@@ -262,8 +274,7 @@ inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe,
 
 static void draw_std_text(void)
 {
-    ALIGN_DRAW_FUNC(_draw_std_text, 0, TED_SCREEN_TEXTCOLS - 1,
-                    ted.raster.gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_std_text, 0, TED_SCREEN_TEXTCOLS - 1);
 }
 
 inline static void _draw_std_text_cached(BYTE *p, unsigned int xs,
@@ -296,7 +307,7 @@ inline static void _draw_std_text_cached(BYTE *p, unsigned int xs,
 static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
                                  unsigned int xe)
 {
-    ALIGN_DRAW_FUNC(_draw_std_text_cached, xs, xe, cache);
+    ALIGN_DRAW_FUNC_CACHE(_draw_std_text_cached, xs, xe, cache);
 }
 
 #define DRAW_STD_TEXT_BYTE(p, b, f)       \
@@ -393,7 +404,7 @@ static int get_hires_bitmap(raster_cache_t *cache, unsigned int *xs,
 }
 
 inline static void _draw_hires_bitmap(BYTE *p, unsigned int xs,
-                                      unsigned int xe, BYTE *gfx_msk_ptr)
+                                      unsigned int xe)
 {
     BYTE *bmptr;
     unsigned int i, j;
@@ -418,8 +429,7 @@ inline static void _draw_hires_bitmap(BYTE *p, unsigned int xs,
 
 static void draw_hires_bitmap(void)
 {
-    ALIGN_DRAW_FUNC(_draw_hires_bitmap, 0, TED_SCREEN_TEXTCOLS - 1,
-                    ted.raster.gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_hires_bitmap, 0, TED_SCREEN_TEXTCOLS - 1);
 
     /* Overscan color in HIRES is determined by last char of previous line */
     ted.raster.idle_background_color = 
@@ -429,7 +439,7 @@ static void draw_hires_bitmap(void)
 static void draw_hires_bitmap_cached(raster_cache_t *cache, unsigned int xs,
                                      unsigned int xe)
 {
-    ALIGN_DRAW_FUNC(_draw_hires_bitmap, xs, xe, cache->gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_hires_bitmap, xs, xe);
 
     /* Overscan color in HIRES is determined by last char of previous line */
     if (xe == TED_SCREEN_TEXTCOLS - 1)
@@ -440,8 +450,7 @@ static void draw_hires_bitmap_cached(raster_cache_t *cache, unsigned int xs,
 static void draw_hires_bitmap_foreground(unsigned int start_char,
                                          unsigned int end_char)
 {
-    ALIGN_DRAW_FUNC(_draw_hires_bitmap, start_char, end_char,
-                    ted.raster.gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_hires_bitmap, start_char, end_char);
 }
 
 /* Multicolor text mode.  */
@@ -479,8 +488,7 @@ static int get_mc_text(raster_cache_t *cache, unsigned int *xs,
     return r;
 }
 
-inline static void _draw_mc_text(BYTE *p, unsigned int xs, unsigned int xe,
-                                 BYTE *gfx_msk_ptr)
+inline static void _draw_mc_text(BYTE *p, unsigned int xs, unsigned int xe)
 {
      BYTE c[12];
      BYTE *char_ptr;
@@ -511,14 +519,13 @@ inline static void _draw_mc_text(BYTE *p, unsigned int xs, unsigned int xe,
 
 static void draw_mc_text(void)
 {
-    ALIGN_DRAW_FUNC(_draw_mc_text, 0, TED_SCREEN_TEXTCOLS - 1,
-                    ted.raster.gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_mc_text, 0, TED_SCREEN_TEXTCOLS - 1);
 }
 
 static void draw_mc_text_cached(raster_cache_t *cache, unsigned int xs,
                                 unsigned int xe)
 {
-    ALIGN_DRAW_FUNC(_draw_mc_text, xs, xe, cache->gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_mc_text, xs, xe);
 }
 
 /* FIXME: aligned/unaligned versions.  */
@@ -626,8 +633,7 @@ static int get_mc_bitmap(raster_cache_t *cache, unsigned int *xs,
     return r;
 }
 
-inline static void _draw_mc_bitmap(BYTE *p, unsigned int xs, unsigned int xe,
-                                   BYTE *gfx_msk_ptr)
+inline static void _draw_mc_bitmap(BYTE *p, unsigned int xs, unsigned int xe)
 {
     BYTE *bmptr, *ptmp;
     BYTE c[4];
@@ -659,14 +665,13 @@ inline static void _draw_mc_bitmap(BYTE *p, unsigned int xs, unsigned int xe,
 
 static void draw_mc_bitmap(void)
 {
-    ALIGN_DRAW_FUNC(_draw_mc_bitmap, 0, TED_SCREEN_TEXTCOLS - 1,
-                    ted.raster.gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_mc_bitmap, 0, TED_SCREEN_TEXTCOLS - 1);
 }
 
 static void draw_mc_bitmap_cached(raster_cache_t *cache, unsigned int xs,
                                   unsigned int xe)
 {
-    ALIGN_DRAW_FUNC(_draw_mc_bitmap, xs, xe, cache->gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_mc_bitmap, xs, xe);
 }
 
 static void draw_mc_bitmap_foreground(unsigned int start_char,
@@ -734,8 +739,7 @@ static int get_ext_text(raster_cache_t *cache, unsigned int *xs,
     return r;
 }
 
-inline static void _draw_ext_text(BYTE *p, unsigned int xs, unsigned int xe,
-                                  BYTE *gfx_msk_ptr)
+inline static void _draw_ext_text(BYTE *p, unsigned int xs, unsigned int xe)
 {
     BYTE *char_ptr;
     unsigned int i;
@@ -763,14 +767,13 @@ inline static void _draw_ext_text(BYTE *p, unsigned int xs, unsigned int xe,
 
 static void draw_ext_text(void)
 {
-    ALIGN_DRAW_FUNC(_draw_ext_text, 0, TED_SCREEN_TEXTCOLS - 1,
-                    ted.raster.gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_ext_text, 0, TED_SCREEN_TEXTCOLS - 1);
 }
 
 static void draw_ext_text_cached(raster_cache_t *cache, unsigned int xs,
                                  unsigned int xe)
 {
-    ALIGN_DRAW_FUNC(_draw_ext_text, xs, xe, cache->gfx_msk);
+    ALIGN_DRAW_FUNC(_draw_ext_text, xs, xe);
 }
 
 /* FIXME: This is *slow* and might not be 100% correct.  */
@@ -865,8 +868,7 @@ static int get_idle(raster_cache_t *cache, unsigned int *xs, unsigned int *xe,
         return 0;
 }
 
-inline static void _draw_idle(unsigned int xs, unsigned int xe,
-                              BYTE *gfx_msk_ptr)
+inline static void _draw_idle(unsigned int xs, unsigned int xe)
 {
     BYTE *p;
     BYTE d;
@@ -904,13 +906,13 @@ inline static void _draw_idle(unsigned int xs, unsigned int xe,
 
 static void draw_idle(void)
 {
-    _draw_idle(0, TED_SCREEN_TEXTCOLS - 1, ted.raster.gfx_msk);
+    _draw_idle(0, TED_SCREEN_TEXTCOLS - 1);
 }
 
 static void draw_idle_cached(raster_cache_t *cache, unsigned int xs,
                              unsigned int xe)
 {
-    _draw_idle(xs, xe, cache->gfx_msk);
+    _draw_idle(xs, xe);
 }
 
 static void draw_idle_foreground(unsigned int start_char,
