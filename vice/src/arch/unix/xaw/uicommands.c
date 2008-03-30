@@ -40,18 +40,20 @@
 #include <X11/Xaw/Command.h>
 
 #include "uicommands.h"
-#include "interrupt.h"
-#include "vsync.h"
-#include "vdrive.h"
-#include "tapeunit.h"
+
 #include "attach.h"
 #include "autostart.h"
-#include "mon.h"
-#include "mem.h"
 #include "info.h"
-#include "resources.h"
+#include "interrupt.h"
 #include "machine.h"
+#include "mem.h"
+#include "mon.h"
+#include "resources.h"
+#include "tapeunit.h"
+#include "uisnapshot.h"
 #include "utils.h"
+#include "vdrive.h"
+#include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -442,6 +444,7 @@ static UI_CALLBACK(load_snapshot)
 
 static void save_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 {
+#if 0
     ui_button_t button;
     PATH_VAR(filename);
 
@@ -453,6 +456,9 @@ static void save_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 
     if (machine_write_snapshot(filename) < 0)
         ui_error("Cannot write snapshot file\n`%s'", filename);
+#else
+    ui_snapshot_dialog();
+#endif
 }
 
 static UI_CALLBACK(save_snapshot)

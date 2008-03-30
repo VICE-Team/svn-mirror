@@ -40,6 +40,8 @@ libxawui_a_SOURCES = \
 	uimenu.h \
 	uisettings.c \
 	uisettings.h \
+	uisnapshot.c \
+	uisnapshot.h \
 	vic20icon.xpm \
 	vic20ui.c \
 	vic20ui.h
