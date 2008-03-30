@@ -157,11 +157,6 @@
 #define CBMTAPE
 #endif
 
-/* Autostart kludge */
-#ifdef CBM64
-#define AUTOSTART
-#endif
-
 
 /*
  * Shall Virtual RAM Expander be installed ?
