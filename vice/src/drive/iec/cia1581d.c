@@ -1,5 +1,4 @@
 /*
- *
  * cia1581d.c - Definitions for the MOS6526 (CIA) chip in the 1581
  * disk drive ($4000).  Notice that the real 1581 uses a 8520 CIA.
  *
@@ -23,7 +22,8 @@
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
  *  02111-1307  USA.
- * */
+ *
+ */
 
 #include "vice.h"
 
