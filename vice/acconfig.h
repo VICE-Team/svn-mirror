@@ -19,6 +19,9 @@
 /* Are we using the `readline' library or one replacement?  */
 #undef HAVE_READLINE
 
+/* Do we want to enable RS232 support via ACIA emulation?  */
+#undef HAVE_RS232
+
 /* Package name.  */
 #define PACKAGE ""
 

@@ -53,6 +53,10 @@
 #include "patchrom.h"
 #include "cartridge.h"
 
+#ifdef HAVE_RS232
+#include "c64acia.h"
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* C64 memory-related resources.  */
@@ -80,6 +84,14 @@ static int reu_enabled;
 
 /* Type of the cartridge attached.  */
 static int mem_cartridge_type = CARTRIDGE_NONE;
+
+#ifdef HAVE_RS232
+/* Flag: Do we enable the $DE** ACIA RS232 interface emulation?  */
+static int acia_de_enabled;
+
+/* Flag: Do we enable the $D6** ACIA RS232 interface emulation?  */
+static int acia_d6_enabled;
+#endif
 
 static void cartridge_config_changed(BYTE mode);
 
@@ -177,6 +189,20 @@ static int set_kernal_revision(resource_value_t v)
     return 0;
 }
 
+#ifdef HAVE_RS232
+static int set_acia_d6_enabled(resource_value_t v)
+{
+    acia_d6_enabled = (int) v;
+    return 0;
+}
+
+static int set_acia_de_enabled(resource_value_t v)
+{
+    acia_de_enabled = (int) v;
+    return 0;
+}
+#endif
+
 static resource_t resources[] = {
     { "ChargenName", RES_STRING, (resource_value_t) "chargen",
       (resource_value_t *) &chargen_rom_name, set_chargen_rom_name },
@@ -192,6 +218,12 @@ static resource_t resources[] = {
       (resource_value_t *) &emu_id_enabled, set_emu_id_enabled },
     { "KernalRev", RES_STRING, (resource_value_t) NULL,
       (resource_value_t *) &kernal_revision, set_kernal_revision },
+#ifdef HAVE_RS232
+    { "AciaDE", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &acia_de_enabled, set_acia_de_enabled },
+    { "AciaD6", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &acia_d6_enabled, set_acia_d6_enabled },
+#endif
     { NULL }
 };
 
@@ -227,6 +259,16 @@ static cmdline_option_t cmdline_options[] = {
       NULL, "Disable the IEEE488 interface emulation" },
     { "-kernalrev", SET_RESOURCE, 1, NULL, NULL, "KernalRev", NULL,
       "<revision>", "Patch the Kernal ROM to the specified <revision>" },
+#ifdef HAVE_RS232
+    { "-acia_de", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 1,
+      NULL, "Enable the $DE** ACIA RS232 interface emulation" },
+    { "+acia_de", SET_RESOURCE, 0, NULL, NULL, "AciaDE", (resource_value_t) 0,
+      NULL, "Disable the $DE** ACIA RS232 interface emulation" },
+    { "-acia_d6", SET_RESOURCE, 0, NULL, NULL, "AciaD6", (resource_value_t) 1,
+      NULL, "Enable the $D6** ACIA RS232 interface emulation" },
+    { "+acia_d6", SET_RESOURCE, 0, NULL, NULL, "AciaD6", (resource_value_t) 0,
+      NULL, "Disable the $D6** ACIA RS232 interface emulation" },
+#endif
     { NULL }
 };
 
@@ -300,7 +342,7 @@ static BYTE emulator_id[] = {
     0x00, 0x00, 0x00, 0x00, 0x02, 0x14, 0x56, 0x55	/* DIC...........VU */
 };
 
-/* Tape sense status: 1 = some button pressed, 0 = no buttons pressed. */
+/* Tape sense status: 1 = some button pressed, 0 = no buttons pressed.  */
 static int tape_sense = 0;
 
 /* Exansion port ROML/ROMH images.  */
@@ -431,8 +473,10 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
 	if (ieee488_enabled)
 	    store_tpi(addr & 0x07, value);
     }
-	if ((mem_cartridge_type == CARTRIDGE_ACTION_REPLAY) && export_ram)
-	    export_ram0[0x1f00 + (addr & 0xff)] = value;
+    if ((mem_cartridge_type == CARTRIDGE_ACTION_REPLAY) && export_ram)
+        export_ram0[0x1f00 + (addr & 0xff)] = value;
+    if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
+        export_ram0[0x1f00 + (addr & 0xff)] = value;
     return;
 }
 
@@ -449,6 +493,7 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
 	    return read_reu(addr & 0x0f);
 	if (ieee488_enabled)
 	    return read_tpi(addr & 0x07);
+
 	if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY) {
         if (export_ram)
             return export_ram0[0x1f00 + (addr & 0xff)];
@@ -463,7 +508,11 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
 		return roml_banks[(addr & 0x1fff) + 0x6000];
 	    }
 	}
+	if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
+	    return export_ram0[0x1f00 + (addr & 0xff)];
     }
+    if (mem_cartridge_type == CARTRIDGE_KCS_POWER)
+	return roml_banks[0x1e00 + (addr & 0xff)];
     return rand();
 }
 
@@ -473,6 +522,10 @@ void REGPARM2 store_io1(ADDRESS addr, BYTE value)
         if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
             cartridge_config_changed(value);
     }
+#ifdef HAVE_RS232
+    if (acia_de_enabled)
+	store_acia1(addr & 0x03, value);
+#endif
     return;
 }
 
@@ -482,7 +535,31 @@ BYTE REGPARM1 read_io1(ADDRESS addr)
         if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY)
             return rand();
     }
+#ifdef HAVE_RS232
+    if (acia_de_enabled)
+    	return read_acia1(addr & 0x03);
+#endif
     return rand();
+}
+
+void REGPARM2 store_d6(ADDRESS addr, BYTE value)
+{
+#ifdef HAVE_RS232
+    if (acia_d6_enabled)
+        store_acia2(addr,value);
+    else
+#endif
+        store_sid(addr,value);
+    return;
+}
+
+BYTE REGPARM1 read_d6(ADDRESS addr)
+{
+#ifdef HAVE_RS232
+    if (acia_d6_enabled)
+        return read_acia2(addr);
+#endif
+    return read_sid(addr);
 }
 
 BYTE REGPARM1 read_rom(ADDRESS addr)
@@ -601,7 +678,7 @@ void initialize_memory(void)
                              0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                              0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0, 0xe0,
                              0x00, 0x00, 0xa0, 0xa0, 0x00, 0x00, 0xa0, 0xa0 };
-    /* Default is RAM. */
+    /* Default is RAM.  */
     for (i = 0; i <= 0xff; i++) {
        mem_read_tab_watch[i] = read_watch;
        mem_write_tab_watch[i] = store_watch;
@@ -637,11 +714,11 @@ void initialize_memory(void)
 	/* FIXME: we do not care about vbank writes here, but we probably
            should.  Anyway, the $FFxx addresses are not so likely to contain
            sprites or other stuff that really needs the special handling, and
-           it's much easier this way. */
+           it's much easier this way.  */
 	set_write_hook(i, 0xff, store_ram_hi);
     }
 
-    /* Setup BASIC ROM at $A000-$BFFF (memory configs 3, 7, 11, 15). */
+    /* Setup BASIC ROM at $A000-$BFFF (memory configs 3, 7, 11, 15).  */
     for (i = 0xa0; i <= 0xbf; i++) {
 	mem_read_tab[3][i] = read_basic;
 	mem_read_tab[7][i] = read_basic;
@@ -654,7 +731,7 @@ void initialize_memory(void)
     }
 
     /* Setup character generator ROM at $D000-$DFFF (memory configs 1, 2,
-       3, 9, 10, 11, 25, 26, 27). */
+       3, 9, 10, 11, 25, 26, 27).  */
     for (i = 0xd0; i <= 0xdf; i++) {
 	mem_read_tab[1][i] = read_chargen;
 	mem_read_tab[2][i] = read_chargen;
@@ -676,16 +753,20 @@ void initialize_memory(void)
 	mem_read_base_tab[27][i] = chargen_rom + ((i & 0x0f) << 8);
     }
 
-    /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7). */
+    /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7).  */
     for (j = 0; j < NUM_CONFIGS; j++) {
 	if (io_config[j]) {
 	    for (i = 0xd0; i <= 0xd3; i++) {
 		mem_read_tab[j][i] = read_vic;
 		set_write_hook(j, i, store_vic);
 	    }
-	    for (i = 0xd4; i <= 0xd7; i++) {
+	    for (i = 0xd4; i <= 0xd5; i++) {
 		mem_read_tab[j][i] = read_sid;
 		set_write_hook(j, i, store_sid);
+	    }
+	    for (i = 0xd6; i <= 0xd7; i++) {
+		mem_read_tab[j][i] = read_d6;
+		set_write_hook(j, i, store_d6);
 	    }
 	    for (i = 0xd8; i <= 0xdb; i++) {
 		mem_read_tab[j][i] = read_colorram;
@@ -708,7 +789,7 @@ void initialize_memory(void)
     }
 
     /* Setup Kernal ROM at $E000-$FFFF (memory configs 2, 3, 6, 7, 10,
-       11, 14, 15, 26, 27, 30, 31). */
+       11, 14, 15, 26, 27, 30, 31).  */
     for (i = 0xe0; i <= 0xff; i++) {
 	mem_read_tab[2][i] = read_kernal;
 	mem_read_tab[3][i] = read_kernal;
@@ -776,11 +857,14 @@ void initialize_memory(void)
     export.exrom = 0;
     export.game = 0;
 
-    /* Setup initial memory configuration. */
+    /* Setup initial memory configuration.  */
     pla_config_changed();
 
     switch (mem_cartridge_type) {
       case CARTRIDGE_ACTION_REPLAY:
+	cartridge_config_changed(0);
+	break;
+      case CARTRIDGE_KCS_POWER:
 	cartridge_config_changed(0);
 	break;
     }
@@ -788,7 +872,7 @@ void initialize_memory(void)
 
 /* ------------------------------------------------------------------------- */
 
-/* Initialize RAM for power-up. */
+/* Initialize RAM for power-up.  */
 void mem_powerup(void)
 {
     int i;
@@ -804,7 +888,7 @@ void mem_powerup(void)
 }
 
 /* Load ROMs at startup.  This is half-stolen from the old `load_mem()' in
-   `memory.c'. */
+   `memory.c'.  */
 int mem_load(void)
 {
     WORD sum;			/* ROM checksum */
@@ -813,7 +897,7 @@ int mem_load(void)
 
     mem_powerup();
 
-    /* Load Kernal ROM. */
+    /* Load Kernal ROM.  */
     if (mem_load_sys_file(kernal_rom_name,
 			  kernal_rom, C64_KERNAL_ROM_SIZE,
 			  C64_KERNAL_ROM_SIZE) < 0) {
@@ -847,7 +931,7 @@ int mem_load(void)
             return -1;
     }
 
-    /* Load Basic ROM. */
+    /* Load Basic ROM.  */
     if (mem_load_sys_file(basic_rom_name,
 			  basic_rom, C64_BASIC_ROM_SIZE,
 			  C64_BASIC_ROM_SIZE) < 0) {
@@ -856,7 +940,7 @@ int mem_load(void)
 	return -1;
     }
 
-    /* Check Basic ROM. */
+    /* Check Basic ROM.  */
 
     for (i = 0, sum = 0; i < C64_BASIC_ROM_SIZE; i++)
 	sum += basic_rom[i];
@@ -866,7 +950,7 @@ int mem_load(void)
                 "Warning: Unknown Basic image `%s'.  Sum: %d ($%04X)\n",
 		basic_rom_name, sum, sum);
 
-    /* Load chargen ROM. */
+    /* Load chargen ROM.  */
 
     if (mem_load_sys_file(chargen_rom_name,
 			  chargen_rom, C64_CHARGEN_ROM_SIZE,
@@ -899,6 +983,11 @@ void mem_attach_cartridge(int type, BYTE *rawcart)
 	memcpy(romh_banks, rawcart, 0x8000);
 	cartridge_config_changed(0);
 	break;
+      case CARTRIDGE_KCS_POWER:
+	memcpy(roml_banks, rawcart, 0x2000);
+	memcpy(romh_banks, &rawcart[0x2000], 0x2000);
+	cartridge_config_changed(0);
+	break;
       default:
 	mem_cartridge_type = CARTRIDGE_NONE;
     }
@@ -914,7 +1003,7 @@ void mem_detach_cartridge(int type)
 
 /* ------------------------------------------------------------------------- */
 
-/* Change the current video bank. */
+/* Change the current video bank.  */
 void mem_set_vbank(int new_vbank)
 {
     if (new_vbank != vbank) {
@@ -924,7 +1013,7 @@ void mem_set_vbank(int new_vbank)
     }
 }
 
-/* Set the tape sense status. */
+/* Set the tape sense status.  */
 void mem_set_tape_sense(int sense)
 {
     tape_sense = sense;
@@ -960,7 +1049,7 @@ static void cartridge_config_changed(BYTE mode)
 
 /* ------------------------------------------------------------------------- */
 
-/* FIXME: this part needs to be checked. */
+/* FIXME: this part needs to be checked.  */
 
 void mem_get_basic_text(ADDRESS *start, ADDRESS *end)
 {

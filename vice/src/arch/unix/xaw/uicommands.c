@@ -182,11 +182,13 @@ static UI_CALLBACK(attach_cartridge)
 
 static UI_CALLBACK(detach_cartridge)
 {
-    suspend_speed_eval();
     cartridge_detach_image();
 }
 
-UI_MENU_DEFINE_TOGGLE(CartridgeDefault)
+static UI_CALLBACK(default_cartridge)
+{
+    cartridge_set_default();
+}
 
 static UI_CALLBACK(change_working_directory)
 {
@@ -515,8 +517,8 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
       (ui_callback_t) attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ACTION_REPLAY, NULL },
     { "--" },
-    { "*Set cartridge as default", (ui_callback_t)
-      toggle_CartridgeDefault, NULL, NULL },
+    { "Set cartridge as default", (ui_callback_t)
+      default_cartridge, NULL, NULL },
     { NULL }
 };
 

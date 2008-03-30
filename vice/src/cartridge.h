@@ -28,12 +28,14 @@ int cartridge_init_resources(void);
 
 extern int cartridge_attach_image(int type, char *filename);
 extern void cartridge_detach_image(void);
+extern void cartridge_set_default(void);
 
 /* Known cartridge types.  */
 
-#define CARTRIDGE_NONE		-65535
-#define CARTRIDGE_GENERIC_8KB	-2
-#define CARTRIDGE_GENERIC_16KB	-1
+#define CARTRIDGE_GENERIC_8KB	-3
+#define CARTRIDGE_GENERIC_16KB	-2
+#define CARTRIDGE_NONE		-1
 #define CARTRIDGE_CRT		0
 #define CARTRIDGE_ACTION_REPLAY	1
+#define CARTRIDGE_KCS_POWER	2
 

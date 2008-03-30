@@ -48,11 +48,15 @@
 
 static int cartridge_type;
 static char *cartridge_file;
-static int cartridge_default_enabled;
+
+static int carttype = CARTRIDGE_NONE;
+static char cartfile[MAXPATHLEN];
 
 static int set_cartridge_type(resource_value_t v)
 {
     cartridge_type = (int) v;
+    carttype = cartridge_type;
+    cartridge_attach_image(carttype, cartfile);
     return 0;
 }
 
@@ -65,27 +69,16 @@ static int set_cartridge_file(resource_value_t v)
         return 0;
 
     string_set(&cartridge_file, name);
-    return 0;
-}
-
-static int set_cartridge_default_enabled(resource_value_t v)
-{
-    cartridge_default_enabled = (int) v;
-    if (cartridge_default_enabled) {
-	if (cartridge_attach_image(cartridge_type, cartridge_file) < 0)
-	    cartridge_default_enabled = 0;
-    }
+    strcpy(cartfile, name);
+    cartridge_attach_image(carttype, cartfile);
     return 0;
 }
 
 static resource_t resources[] = {
     { "CartridgeType", RES_INTEGER, (resource_value_t) CARTRIDGE_NONE,
       (resource_value_t *) &cartridge_type, set_cartridge_type },
-    { "CartridgeFile", RES_STRING, (resource_value_t) "/",
+    { "CartridgeFile", RES_STRING, (resource_value_t) "",
       (resource_value_t *) &cartridge_file, set_cartridge_file },
-    { "CartridgeDefault", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &cartridge_default_enabled,
-      set_cartridge_default_enabled },
     { NULL }
 };
 
@@ -101,7 +94,7 @@ int cartridge_attach_image(int type, char *filename)
     BYTE rawcart[0x10000];
     FILE *fd;
     BYTE header[0x40], chipheader[0x10];
-    int crttype, i;
+    int crttype = 0, i;
 
     switch(type) {
       case CARTRIDGE_GENERIC_8KB:
@@ -146,7 +139,7 @@ int cartridge_attach_image(int type, char *filename)
 	    fclose(fd);
 	    return -1;
 	}
-	crttype = header[17] + header[16] * 256;
+	crttype = header[0x17] + header[0x16] * 256;
 	switch (crttype) {
 	  case 0:
 	    if (fread(chipheader, 0x10, 1, fd) < 1) {
@@ -160,7 +153,7 @@ int cartridge_attach_image(int type, char *filename)
 		}
 	    }
 	    fclose(fd);
-	    type = CARTRIDGE_GENERIC_8KB;
+	    crttype = CARTRIDGE_GENERIC_8KB;
 	    break;
 	  case 1:
 	    for (i = 0; i <= 3; i++) {
@@ -172,13 +165,30 @@ int cartridge_attach_image(int type, char *filename)
 		    fclose(fd);
 		    return -1;
 		}
-		if (fread(&rawcart[chipheader[0xb] >> 13], 0x2000, 1, fd) < 1) {
+		if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
 		    fclose(fd);
 		    return -1;
 		}
 	    }
 	    fclose(fd);
-	    type = CARTRIDGE_ACTION_REPLAY;
+	    break;
+	  case 2:
+	    for (i = 0; i <= 1; i++) {
+		if (fread(chipheader, 0x10, 1, fd) < 1) {
+		    fclose(fd);
+		    return -1;
+		}
+		if (chipheader[0xc] != 0x80 && chipheader[0xc] != 0xa0) {
+		    fclose(fd);
+		    return -1;
+		}
+		if (fread(&rawcart[(chipheader[0xc] << 8) - 0x8000], 0x2000,
+		          1, fd) < 1) {
+		    fclose(fd);
+		    return -1;
+		}
+	    }
+	    fclose(fd);
 	    break;
 	  default:
 	    fclose(fd);
@@ -189,17 +199,23 @@ int cartridge_attach_image(int type, char *filename)
 	return -1;
     }
 
-    set_cartridge_type((resource_value_t) type);
-    set_cartridge_file((resource_value_t) filename);
-    mem_attach_cartridge(type, rawcart);
+    carttype = type;
+    strcpy(cartfile, filename);
+    mem_attach_cartridge((type == CARTRIDGE_CRT) ? crttype : type, rawcart);
     return 0;
 }
 
 void cartridge_detach_image(void)
 {
-    if (cartridge_type != CARTRIDGE_NONE) {
-	mem_detach_cartridge(cartridge_type);
-	set_cartridge_type((resource_value_t) CARTRIDGE_NONE);
+    if (carttype != CARTRIDGE_NONE) {
+	mem_detach_cartridge(carttype);
+	carttype = CARTRIDGE_NONE;
     }
 }
 
+void cartridge_set_default(void)
+{
+    set_cartridge_type((resource_value_t) carttype);
+    set_cartridge_file((resource_value_t) (carttype == CARTRIDGE_NONE) ?
+                       "" : cartfile);
+}

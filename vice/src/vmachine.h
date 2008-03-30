@@ -44,7 +44,13 @@
 #define A_CIA2TA	7   	/* CIA 2 timer A */
 #define A_CIA2TB	8   	/* CIA 2 timer B */
 
-#define NUMOFALRM	9
+#ifdef HAVE_RS232
+#define A_ACIA1		9   	/* ACIA */
+#define A_ACIA2		10   	/* ACIA */
+#define NUMOFALRM	11
+#else
+#define NUMOFALRM       9
+#endif
 
 #define	A_VIA1T1	A_CIA1TA
 #define	A_VIA1T2	A_CIA1TB
@@ -80,6 +86,9 @@
 #define I_CIA2TA	 12	/* CIA 2 timer A */
 #define I_CIA2TB	 13	/* CIA 2 timer B */
 
+#define	I_ACIA1		 14
+#define	I_ACIA2		 15
+
 /* VIA 2 IRQs */
 #define	I_VIA1FL	I_CIA1FL
 
@@ -92,10 +101,10 @@
 #define	I_PIA2		I_CIA1TB	/* pet via flag */
 
 /* SPECIAL */
-#define I_SPECX		14	/* Special "interrupt" for x_loop */
-#define I_RESTORE	15	/* Restore key NMI */
-#define I_RESET		16	/* Reset in startup */
+#define I_SPECX		16	/* Special "interrupt" for x_loop */
+#define I_RESTORE	17	/* Restore key NMI */
+#define I_RESET		18	/* Reset in startup */
 
-#define NUMOFINT        17
+#define NUMOFINT        19
 
 #endif  /* VICE_VMACHINE_H */

@@ -56,6 +56,11 @@
 #include "attach.h"
 #include "autostart.h"
 
+#ifdef HAVE_RS232
+#include "rs232.h"
+#include "c64acia.h"
+#endif
+
 static void vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
@@ -154,6 +159,11 @@ int machine_init_resources(void)
         || vic_ii_init_resources() < 0
         || sound_init_resources() < 0
         || sid_init_resources() < 0
+#ifdef HAVE_RS232
+        || acia1_init_resources() < 0
+        || acia2_init_resources() < 0
+        || rs232_init_resources() < 0
+#endif
         || true1541_init_resources() < 0)
         return -1;
 
@@ -170,6 +180,9 @@ int machine_init_cmdline_options(void)
         || vic_ii_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
         || sid_init_cmdline_options() < 0
+#ifdef HAVE_RS232
+        || rs232_init_cmdline_options() < 0
+#endif
         || true1541_init_cmdline_options() < 0)
         return -1;
 
@@ -250,11 +263,21 @@ void machine_reset(void)
     maincpu_int_status.alarm_handler[A_CIA2TA] = int_cia2ta;
     maincpu_int_status.alarm_handler[A_CIA2TB] = int_cia2tb;
 
+#ifdef HAVE_RS232
+    maincpu_int_status.alarm_handler[A_ACIA1] = int_acia1;
+    maincpu_int_status.alarm_handler[A_ACIA2] = int_acia2;
+#endif
+
     reset_cia1();
     reset_cia2();
     reset_vic_ii();
     sid_reset();
     reset_tpi();
+
+#ifdef HAVE_RS232
+    reset_acia1();
+    reset_acia2();
+#endif
 
     /* reset_reu(); */                /* FIXME */
 

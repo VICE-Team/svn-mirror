@@ -35,7 +35,7 @@ typedef enum tui_menu_item_behavior {
     TUI_MENU_BEH_CONTINUE,	/* Stay in the menu. */
     TUI_MENU_BEH_CLOSE,		/* Close the current menu. */
     TUI_MENU_BEH_RESUME		/* Leave all the menus. */
-} tui_menu_item_behavior_t;	/* FIXME: laughable :-) */
+} tui_menu_item_behavior_t;
 
 /* Menu item callback: every menu item is associated with a function of this
    type.  `is_activated' is nonzero if the menu has been activated; the
