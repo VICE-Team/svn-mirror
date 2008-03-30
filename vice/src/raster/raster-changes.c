@@ -26,9 +26,8 @@
 
 #include "vice.h"
 
-#include "utils.h"
-
 #include "raster-changes.h"
+#include "utils.h"
 
 
 void raster_changes_init (raster_changes_t *changes)
@@ -37,7 +36,7 @@ void raster_changes_init (raster_changes_t *changes)
     changes->count = 0;
 }
 
-raster_changes_t *raster_changes_new (void)
+raster_changes_t *raster_changes_new(void)
 {
     raster_changes_t *new_changes;
 

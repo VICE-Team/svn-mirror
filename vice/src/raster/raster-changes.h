@@ -86,8 +86,8 @@ struct raster_changes_s
 };
 typedef struct raster_changes_s raster_changes_t;
 
-void raster_changes_init(raster_changes_t *changes);
-raster_changes_t *raster_changes_new(void);
+extern void raster_changes_init(raster_changes_t *changes);
+extern raster_changes_t *raster_changes_new(void);
 
 /* Inline functions.  These need to be *fast*.  */
 

@@ -86,17 +86,18 @@ typedef PIXEL2 VIC_PIXEL2;
 
 #define VIC_RASTER_X(cycle)      (((int)(cycle) - 7) * 4)
 
-#define VIC_RASTER_CHAR(cycle)   ((int)((cycle) - vic.raster.display_xstart / 4 - 6) / 2)
+#define VIC_RASTER_CHAR(cycle)   ((int)((cycle) \
+                                 - vic.raster.display_xstart / 4 - 6) / 2)
 
 /* Video mode definitions. */
 
-enum _vic_video_mode
-  {
+enum vic_video_mode_s
+{
     VIC_STANDARD_MODE,
     VIC_REVERSE_MODE,
     VIC_NUM_VMODES
-  };
-typedef enum _vic_video_mode vic_video_mode_t;
+};
+typedef enum vic_video_mode_s vic_video_mode_t;
 
 #define VIC_IDLE_MODE VIC_STANDARD_MODE
 
@@ -111,7 +112,7 @@ struct screenshot_s;
 struct palette_s;
 
 struct vic_s
-  {
+{
     int initialized;
 
     log_t log;
@@ -141,7 +142,8 @@ struct vic_s
     /* next frame with different ystart; -1 for no value pending */
     int pending_ystart;
 
-    /* next frame with different number of text lines; -1 for no value pending */
+    /* next frame with different number of text lines;
+       -1 for no value pending */
     int pending_text_lines;
 
     /* counting the text lines in the current frame */
@@ -166,8 +168,7 @@ struct vic_s
     unsigned int screen_width;
     unsigned int display_width;
     unsigned int cycle_offset;
-
-  };
+};
 typedef struct vic_s vic_t;
 
 extern vic_t vic;
@@ -175,7 +176,7 @@ extern vic_t vic;
 extern struct raster_s *vic_init(void);
 extern struct canvas_s *vic_get_canvas(void);
 extern void vic_reset(void);
-extern void vic_raster_draw_alarm_handler (CLOCK offset);
+extern void vic_raster_draw_alarm_handler(CLOCK offset);
 
 extern int vic_init_resources(void);
 extern int vic_init_cmdline_options(void);
