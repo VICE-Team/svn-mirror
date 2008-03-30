@@ -355,6 +355,10 @@ static String fallback_resources[] = {
     "*driveTrack2.font:                          -*-helvetica-medium-r-*-*-12-*",
     "*driveCurrentImage1.font:                   -*-helvetica-medium-r-*-*-12-*",
     "*driveCurrentImage2.font:                   -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack3.font:                          -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack4.font:                          -*-helvetica-medium-r-*-*-12-*",
+    "*driveCurrentImage3.font:                   -*-helvetica-medium-r-*-*-12-*",
+    "*driveCurrentImage4.font:                   -*-helvetica-medium-r-*-*-12-*",
     "*speedStatus.font:                         -*-helvetica-medium-r-*-*-12-*",
 
     NULL
@@ -695,7 +699,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                 (name,
                  labelWidgetClass, pane,
                  XtNlabel, "",
-                 XtNwidth, w1 / 4,
+                 XtNwidth, w1 / 4 + 4,
                  XtNfromVert, canvas,
                  XtNfromVert, i == 0 ? canvas : drive_track_label[i-1],
                  XtNfromHoriz, drive_current_image[i],
@@ -717,7 +721,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                  XtNheight, led_height,
                  XtNfromVert, i == 0 ? canvas : drive_track_label[i-1],
                  XtNfromHoriz, drive_track_label[i],
-                 XtNhorizDistance, 0,
+                 XtNhorizDistance, 8,
                  XtNvertDistance, (height - led_height) / 2 + 1,
                  XtNtop, XawChainBottom,
                  XtNbottom, XawChainBottom,
@@ -738,7 +742,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                  XtNheight, led_height,
                  XtNfromVert, i == 0 ? canvas : drive_track_label[i-1],
                  XtNfromHoriz, drive_track_label[i],
-                 XtNhorizDistance, 0,
+                 XtNhorizDistance, 8,
                  XtNvertDistance, (height - led_height) / 2 + 1,
                  XtNtop, XawChainBottom,
                  XtNbottom, XawChainBottom,
@@ -757,7 +761,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                  XtNheight, led_height,
                  XtNfromVert, i == 0 ? canvas : drive_track_label[i-1],
                  XtNfromHoriz, drive_led1[i],
-                 XtNhorizDistance, 0,
+                 XtNhorizDistance, 8,
                  XtNvertDistance, (height - led_height) / 2 + 1,
                  XtNtop, XawChainBottom,
                  XtNbottom, XawChainBottom,
@@ -1234,7 +1238,7 @@ void ui_display_drive_current_image(unsigned int drive_number,
     }
 
     /* FIXME: Allow more than two drives.  */
-    if (drive_number >= 2)
+    if (drive_number >= NUM_DRIVES)
         return;
 
     strcpy(&(last_attached_images[drive_number][0]), image);

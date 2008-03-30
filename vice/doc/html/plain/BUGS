@@ -1,3 +1,6 @@
+- Xaw UI context popup menu for drive attach is broken if more than two drives
+  are active.
+
 - Screenshots with activated PAL emulation do not deliver the expected
   (blurry) result. 
 
@@ -21,7 +24,11 @@
 
 - The Linux/DGA2 code is known to be unstable, especially when
   switching back to window mode under some circumstances.
-
+  DGA2 shows strange keyboard behavior (shifted keys sometimes do not
+  work) with certain XFree drivers (e.g. NVIDIA drivers).
+  The code won't be improved significantly by the current author
+  (deprecated). 
+      
 - The Linux/DGA1 and Linux/VIDMODE fullscreen support may be unstable
   on some systems. Double size/scan does not work currenty.
 

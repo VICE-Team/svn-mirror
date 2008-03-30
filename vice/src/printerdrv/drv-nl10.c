@@ -1941,9 +1941,6 @@ int drv_nl10_init(void)
 
     drvnl10_log = log_open("NL10");
 
-    if( drv_nl10_init_charset() < 0 )
-      return -1;
-
     for(i=0; i<2; i++)
       {
         drv_nl10[i].char_ram     = lib_malloc(96*12);
@@ -1951,6 +1948,9 @@ int drv_nl10_init(void)
 	reset_hard(&(drv_nl10[i]));
 	drv_nl10[i].isopen = 0;
       }
+
+    if( drv_nl10_init_charset() < 0 )
+      return -1;
 
     palette = palette_create(2, color_names);
 

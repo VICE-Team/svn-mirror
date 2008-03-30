@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-01-11 15:24+0100\n"
+"POT-Creation-Date: 2004-01-16 19:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,6 +33,119 @@ msgstr ""
 
 #: src/vsync.c:429
 msgid "Your machine is too slow for current settings!"
+msgstr ""
+
+#: src/screenshot.c:152
+msgid "Sorry. Multiple recording is not supported."
+msgstr ""
+
+#: src/autostart.c:180
+msgid "Cannot load snapshot file."
+msgstr ""
+
+#: src/sound.c:412
+msgid "write to sound device failed."
+msgstr ""
+
+#: src/sound.c:423
+msgid "Cannot open SID engine"
+msgstr ""
+
+#: src/sound.c:458
+msgid "Cannot initialize SID engine"
+msgstr ""
+
+#: src/sound.c:560
+#, c-format
+msgid "initialization failed for device `%s'."
+msgstr ""
+
+#: src/sound.c:568
+msgid "sound device lacks stereo capability"
+msgstr ""
+
+#: src/sound.c:614
+#, c-format
+msgid "device '%s' not found or not supported."
+msgstr ""
+
+#: src/sound.c:631
+#, c-format
+msgid "Recording device %s doesn't exist!"
+msgstr ""
+
+#: src/sound.c:635
+msgid "Recording device must be different from playback device"
+msgstr ""
+
+#: src/sound.c:641
+#, c-format
+msgid "Warning! Recording device %s seems to be a realtime device!"
+msgstr ""
+
+#: src/sound.c:647
+#, c-format
+msgid "Initialization failed for device `%s'."
+msgstr ""
+
+#: src/sound.c:658
+msgid "The recording device doesn't support current sound parameters"
+msgstr ""
+
+#: src/sound.c:735
+msgid "Sound buffer overflow (cycle based)"
+msgstr ""
+
+#: src/sound.c:745
+msgid "Sound buffer overflow."
+msgstr ""
+
+#: src/sound.c:867
+msgid "cannot flush."
+msgstr ""
+
+#: src/sound.c:912
+msgid "fragment problems."
+msgstr ""
+
+#: src/sound.c:941
+msgid "Buffer drained"
+msgstr ""
+
+#: src/sound.c:977
+msgid "running too slow."
+msgstr ""
+
+#: src/sound.c:989 src/sound.c:995
+msgid "write to sounddevice failed."
+msgstr ""
+
+#: src/sound.c:1219
+msgid "store to sounddevice failed."
+msgstr ""
+
+#: src/event.c:265
+msgid "Could not create start snapshot file."
+msgstr ""
+
+#: src/event.c:276 src/event.c:386 src/event.c:403
+msgid "Error reading start snapshot file."
+msgstr ""
+
+#: src/event.c:314 src/event.c:446
+msgid "Could not create end snapshot file."
+msgstr ""
+
+#: src/event.c:362
+msgid "Could not open end snapshot file."
+msgstr ""
+
+#: src/event.c:371
+msgid "Could not find event section in end snapshot file."
+msgstr ""
+
+#: src/event.c:467
+msgid "Error reading end snapshot file."
 msgstr ""
 
 #: src/arch/unix/archdep.c:234
@@ -261,8 +374,8 @@ msgstr ""
 #: src/arch/unix/c128ui.c:455 src/arch/unix/c64ui.c:432
 #: src/arch/unix/cbm2ui.c:499 src/arch/unix/petui.c:418
 #: src/arch/unix/plus4ui.c:185 src/arch/unix/vic20ui.c:508
-#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1133
-#: src/arch/unix/x11/gnome/x11ui.c:1225
+#: src/arch/unix/vsidui.c:272 src/arch/unix/x11/gnome/x11ui.c:1195
+#: src/arch/unix/x11/gnome/x11ui.c:1287
 msgid "Settings"
 msgstr ""
 
@@ -995,8 +1108,8 @@ msgid "Next: "
 msgstr ""
 
 #: src/arch/unix/uicommands.c:746 src/arch/unix/uicommands.c:761
-#: src/arch/unix/x11/gnome/x11ui.c:793 src/arch/unix/x11/gnome/x11ui.c:803
-#: src/arch/unix/x11/gnome/x11ui.c:1471
+#: src/arch/unix/x11/gnome/x11ui.c:847 src/arch/unix/x11/gnome/x11ui.c:857
+#: src/arch/unix/x11/gnome/x11ui.c:1533
 msgid "<empty>"
 msgstr ""
 
@@ -1186,7 +1299,7 @@ msgstr ""
 
 #: src/arch/unix/uicommands.c:1074 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
-#: src/arch/unix/x11/gnome/x11ui.c:1858
+#: src/arch/unix/x11/gnome/x11ui.c:1928
 msgid "Reset"
 msgstr ""
 
@@ -1942,8 +2055,8 @@ msgstr ""
 msgid "Invalid speed value"
 msgstr ""
 
-#: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/x11ui.c:1274
-#: src/arch/unix/x11/xaw/x11ui.c:1032
+#: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/x11ui.c:1336
+#: src/arch/unix/x11/xaw/x11ui.c:1036
 msgid "Cannot save settings."
 msgstr ""
 
@@ -2630,164 +2743,176 @@ msgid ""
 "IRQ: %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:395
+#: src/arch/unix/x11/gnome/x11ui.c:401
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:397
+#: src/arch/unix/x11/gnome/x11ui.c:403
 #, c-format
 msgid "Set fontpath: `%s'.\n"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:603 src/arch/unix/x11/xaw/x11ui.c:480
+#: src/arch/unix/x11/gnome/x11ui.c:610 src/arch/unix/x11/xaw/x11ui.c:484
 #, c-format
 msgid "This display does not support suitable %dbit visuals."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:606 src/arch/unix/x11/xaw/x11ui.c:483
+#: src/arch/unix/x11/gnome/x11ui.c:613 src/arch/unix/x11/xaw/x11ui.c:487
 msgid "Please select a bit depth supported by your display."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:609 src/arch/unix/x11/gnome/x11ui.c:633
-#: src/arch/unix/x11/xaw/x11ui.c:486 src/arch/unix/x11/xaw/x11ui.c:503
+#: src/arch/unix/x11/gnome/x11ui.c:616 src/arch/unix/x11/gnome/x11ui.c:640
+#: src/arch/unix/x11/xaw/x11ui.c:490 src/arch/unix/x11/xaw/x11ui.c:507
 #, c-format
 msgid "Found %dbit/%s visual."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:618
+#: src/arch/unix/x11/gnome/x11ui.c:625
 #, c-format
 msgid "Found %dbit visual."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:641 src/arch/unix/x11/xaw/x11ui.c:511
+#: src/arch/unix/x11/gnome/x11ui.c:648 src/arch/unix/x11/xaw/x11ui.c:515
 msgid "Cannot autodetect a proper visual."
-msgstr ""
-
-#: src/arch/unix/x11/gnome/x11ui.c:649
-#, c-format
-msgid "Cannot load text font %s."
 msgstr ""
 
 #: src/arch/unix/x11/gnome/x11ui.c:656
 #, c-format
+msgid "Cannot load text font %s."
+msgstr ""
+
+#: src/arch/unix/x11/gnome/x11ui.c:663
+#, c-format
 msgid "Cannot load CBM font %s."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:734
+#: src/arch/unix/x11/gnome/x11ui.c:749
 msgid "PAL Controls"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:753
-msgid "recording"
+#: src/arch/unix/x11/gnome/x11ui.c:768
+msgid "audio/video recording"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:767
+#: src/arch/unix/x11/gnome/x11ui.c:782 src/arch/unix/x11/gnome/x11ui.c:801
 msgid "click to stop recording"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:779
+#: src/arch/unix/x11/gnome/x11ui.c:787
+msgid "event recording"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/x11ui.c:807
+msgid "event playback"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/x11ui.c:821
+msgid "click to stop playback"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/x11ui.c:833
 #, c-format
 msgid "Drive %d: "
 msgstr ""
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:889
+#: src/arch/unix/x11/gnome/x11ui.c:943
 msgid "Tape 000"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:958 src/arch/unix/x11/xaw/x11ui.c:592
+#: src/arch/unix/x11/gnome/x11ui.c:1012 src/arch/unix/x11/xaw/x11ui.c:596
 msgid "Maximum number of toplevel windows reached."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1131 src/arch/unix/x11/gnome/x11ui.c:1214
+#: src/arch/unix/x11/gnome/x11ui.c:1193 src/arch/unix/x11/gnome/x11ui.c:1276
 msgid "Commands"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1137
+#: src/arch/unix/x11/gnome/x11ui.c:1199
 msgid "Help"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1257 src/arch/unix/x11/xaw/x11ui.c:1017
+#: src/arch/unix/x11/gnome/x11ui.c:1319 src/arch/unix/x11/xaw/x11ui.c:1021
 msgid " emulator"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1264 src/arch/unix/x11/xaw/x11ui.c:1021
+#: src/arch/unix/x11/gnome/x11ui.c:1326 src/arch/unix/x11/xaw/x11ui.c:1025
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1271 src/arch/unix/x11/xaw/x11ui.c:1029
+#: src/arch/unix/x11/gnome/x11ui.c:1333 src/arch/unix/x11/xaw/x11ui.c:1033
 msgid "Save the current settings?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1316 src/arch/unix/x11/xaw/x11ui.c:1070
+#: src/arch/unix/x11/gnome/x11ui.c:1378 src/arch/unix/x11/xaw/x11ui.c:1074
 msgid "Using private colormap."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1336 src/arch/unix/x11/gnome/x11ui.c:1339
-#: src/arch/unix/x11/xaw/x11ui.c:1091 src/arch/unix/x11/xaw/x11ui.c:1097
+#: src/arch/unix/x11/gnome/x11ui.c:1398 src/arch/unix/x11/gnome/x11ui.c:1401
+#: src/arch/unix/x11/xaw/x11ui.c:1095 src/arch/unix/x11/xaw/x11ui.c:1101
 msgid "(warp)"
 msgstr ""
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1623
+#: src/arch/unix/x11/gnome/x11ui.c:1685
 #, c-format
 msgid "Tape %03d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1667 src/arch/unix/x11/xaw/x11ui.c:1318
+#: src/arch/unix/x11/gnome/x11ui.c:1737 src/arch/unix/x11/xaw/x11ui.c:1322
 #, c-format
 msgid "%s (paused)"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1821
+#: src/arch/unix/x11/gnome/x11ui.c:1891
 msgid "VICE Message"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1832
+#: src/arch/unix/x11/gnome/x11ui.c:1902
 msgid "VICE Error"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1858
+#: src/arch/unix/x11/gnome/x11ui.c:1928
 msgid "Hard Reset"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1859
+#: src/arch/unix/x11/gnome/x11ui.c:1929
 msgid "Monitor"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1903 src/arch/unix/x11/xaw/x11ui.c:1596
+#: src/arch/unix/x11/gnome/x11ui.c:1973 src/arch/unix/x11/xaw/x11ui.c:1600
 msgid "Extend disk image"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1904
+#: src/arch/unix/x11/gnome/x11ui.c:1974
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1917
+#: src/arch/unix/x11/gnome/x11ui.c:1987
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1925 src/arch/unix/x11/gnome/x11ui.c:1934
+#: src/arch/unix/x11/gnome/x11ui.c:1995 src/arch/unix/x11/gnome/x11ui.c:2004
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2061 src/arch/unix/x11/gnome/x11ui.c:2066
+#: src/arch/unix/x11/gnome/x11ui.c:2131 src/arch/unix/x11/gnome/x11ui.c:2136
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2531
+#: src/arch/unix/x11/gnome/x11ui.c:2601
 msgid "Contents"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2578
+#: src/arch/unix/x11/gnome/x11ui.c:2648
 msgid "Attach write protected"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2604
+#: src/arch/unix/x11/gnome/x11ui.c:2674
 msgid "Autostart"
 msgstr ""
 
@@ -3084,16 +3209,16 @@ msgstr ""
 msgid "Save snapshot"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1183
+#: src/arch/unix/x11/xaw/x11ui.c:1187
 #, c-format
 msgid "%d: Track %.1f"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1481
+#: src/arch/unix/x11/xaw/x11ui.c:1485
 msgid "VICE Error!"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:1664
+#: src/arch/unix/x11/xaw/x11ui.c:1668
 msgid "Unknown image type."
 msgstr ""
 

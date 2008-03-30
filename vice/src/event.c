@@ -262,7 +262,7 @@ static void event_record_start_trap(WORD addr, void *data)
       case EVENT_START_MODE_FILE_SAVE:
         if (machine_write_snapshot(event_snapshot_path(event_start_snapshot),
                                     1, 1, 0) < 0) {
-            ui_error("Could not create start snapshot file.");
+            ui_error(_("Could not create start snapshot file."));
             return;
         }
         destroy_list();
@@ -273,7 +273,7 @@ static void event_record_start_trap(WORD addr, void *data)
       case EVENT_START_MODE_FILE_LOAD:
         if (machine_read_snapshot(
                 event_snapshot_path(event_end_snapshot), 1) < 0) {
-            ui_error("Error reading start snapshot file.");
+            ui_error(_("Error reading start snapshot file."));
             return;
         }
         warp_end_list();
@@ -311,7 +311,7 @@ static void event_record_stop_trap(WORD addr, void *data)
 {
     if (machine_write_snapshot(
             event_snapshot_path(event_end_snapshot), 1, 1, 1) < 0) {
-        ui_error("Could not create end snapshot file.");
+        ui_error(_("Could not create end snapshot file."));
         return;
     }
     record_active = 0;
@@ -359,7 +359,7 @@ static void event_playback_start_trap(WORD addr, void *data)
         event_snapshot_path(event_end_snapshot), &major, &minor, machine_name);
 
     if (s == NULL) {
-        ui_error("Could not open end snapshot file.");
+        ui_error(_("Could not open end snapshot file."));
         return;
     }
 
@@ -368,7 +368,7 @@ static void event_playback_start_trap(WORD addr, void *data)
 
     if (event_snapshot_read_module(s, 1) < 0) {
         snapshot_close(s);
-        ui_error("Could not find event section in end snapshot file.");
+        ui_error(_("Could not find event section in end snapshot file."));
         return;
     }
 
@@ -383,7 +383,7 @@ static void event_playback_start_trap(WORD addr, void *data)
             /*log_debug("READING %s", (char *)(&data[1]));*/
             if (machine_read_snapshot(
                     event_snapshot_path((char *)(&data[1])), 0) < 0) {
-                ui_error("Error reading start snapshot file.");
+                ui_error(_("Error reading start snapshot file."));
                 return;
             }
             next_current_list();
@@ -400,7 +400,7 @@ static void event_playback_start_trap(WORD addr, void *data)
     } else {
         if (machine_read_snapshot(
                 event_snapshot_path(event_start_snapshot), 0) < 0) {
-            ui_error("Error reading start snapshot file.");
+            ui_error(_("Error reading start snapshot file."));
             return;
         }
         next_alarm_set();
@@ -443,7 +443,7 @@ static void event_record_set_milestone_trap(WORD addr, void *data)
 {
     if (machine_write_snapshot(
             event_snapshot_path(event_end_snapshot), 1, 1, 1) < 0)
-        ui_error("Could not create end snapshot file.");
+        ui_error(_("Could not create end snapshot file."));
 }
 
 int event_record_set_milestone(void)
@@ -464,7 +464,7 @@ static void event_record_reset_milestone_trap(WORD addr, void *data)
 
     if (machine_read_snapshot(
             event_snapshot_path(event_end_snapshot), 1) < 0) {
-        ui_error("Error reading end snapshot file.");
+        ui_error(_("Error reading end snapshot file."));
         return;
     }
     warp_end_list();
