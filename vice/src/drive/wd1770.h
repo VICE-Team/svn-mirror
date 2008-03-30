@@ -29,13 +29,6 @@
 
 #include "types.h"
 
-/* WD1770 register.  */
-#define WD1770_STATUS  0
-#define WD1770_COMMAND 0
-#define WD1770_TRACK   1
-#define WD1770_SECTOR  2
-#define WD1770_DATA    3
-
 struct disk_image_s;
 
 typedef struct wd1770_s {
@@ -53,6 +46,8 @@ typedef struct wd1770_s {
     BYTE data_buffer[512];
     /* Data register buffer index.  */
     int data_buffer_index;
+    /* WP bit status.  */
+    unsigned int wp_status;
     /* LED delay.  */
     CLOCK led_delay_clk;
     /* Interrupt line.  */
