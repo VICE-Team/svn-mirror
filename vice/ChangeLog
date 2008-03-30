@@ -1,3 +1,15 @@
+2007-10-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.4.
+
+	* doc/Makefile.am: Added `Win32-Cygwin-HOWTO.txt' file
+	contributed by Chris Pressey.
+
+2007-10-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Changed the 'SYNC' keyword to 'VICE_SYNC' to
+	make the source compile ok on gentoo.
+
 2007-09-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.3.

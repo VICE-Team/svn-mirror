@@ -1,3 +1,12 @@
+2007-10-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.22.4.
+
+2007-10-15  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arc/unix/x11/Makefile.am: Changed the 'SYNC' keyword to
+	'VICE_SYNC' to make the source compile ok on gentoo.
+
 2007-09-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.22.3.

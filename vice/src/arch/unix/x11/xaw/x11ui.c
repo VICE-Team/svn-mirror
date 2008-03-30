@@ -215,7 +215,7 @@ static Widget left_menu, right_menu, drive8_menu, drive9_menu;
 
 /* Translations for the left and right menus.  */
 static XtTranslations left_menu_translations, right_menu_translations;
-static XtTranslations drive8_menu_translations, drive9_menu_translations;
+static XtTranslations drive8_menu_translations = NULL, drive9_menu_translations = NULL;
 
 /* Application context. */
 static XtAppContext app_context;
@@ -992,8 +992,6 @@ void ui_destroy_drive9_menu(void)
 
 void ui_set_drive8_menu(Widget w)
 {
-    char *translation_table;
-    char *name = XtName(w);
     int i;
 
     for (i = 0; i < num_app_shells; i++)
@@ -1001,15 +999,20 @@ void ui_set_drive8_menu(Widget w)
             XtDestroyWidget(w);
             return;
 	}
-    
-    translation_table =
-        util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-               "@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-               "Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n"
-               "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-               NULL);
-    drive8_menu_translations = XtParseTranslationTable(translation_table);
-    lib_free(translation_table);
+
+    if (!drive8_menu_translations) {
+	char *translation_table;
+	char *name = XtName(w);
+
+	translation_table =
+	    util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+		"@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+		"Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n"
+		"@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+		NULL);
+	drive8_menu_translations = XtParseTranslationTable(translation_table);
+	lib_free(translation_table);
+    }
 
     for (i = 0; i < num_app_shells; i++)
         XtOverrideTranslations(app_shells[i].drive_widgets[app_shells[i].drive_mapping[0]].current_image, 
@@ -1022,8 +1025,6 @@ void ui_set_drive8_menu(Widget w)
 
 void ui_set_drive9_menu(Widget w)
 {
-    char *translation_table;
-    char *name = XtName(w);
     int i;
 
     for (i = 0; i < num_app_shells; i++)
@@ -1032,14 +1033,19 @@ void ui_set_drive9_menu(Widget w)
             return;
 	}
 
-    translation_table =
-        util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-               "@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-               "Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n"
-               "@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
-               NULL);
-    drive9_menu_translations = XtParseTranslationTable(translation_table);
-    lib_free(translation_table);
+    if (!drive9_menu_translations) {
+	char *translation_table;
+	char *name = XtName(w);
+
+	translation_table =
+	    util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+		"@Num_Lock<Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+		"Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n"
+		"@Scroll_Lock <Btn1Down>: XawPositionSimpleMenu(", name, ") MenuPopup(", name, ")\n",
+		NULL);
+	drive9_menu_translations = XtParseTranslationTable(translation_table);
+	lib_free(translation_table);
+    }
 
     for (i = 0; i < num_app_shells; i++)
         XtOverrideTranslations(app_shells[i].drive_widgets[app_shells[i].drive_mapping[1]].current_image, 

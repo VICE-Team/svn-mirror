@@ -1070,6 +1070,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
                              int width, int height, int no_autorepeat)
 {
     GtkWidget *new_window, *new_pane, *new_canvas, *topmenu;
+    GtkAccelGroup* accel;
     int i;
     
     if (++num_app_shells > MAX_APP_SHELLS) {
@@ -1199,7 +1200,7 @@ int x11ui_open_canvas_window(video_canvas_t *c, const char *title,
     g_signal_connect(G_OBJECT(new_window),"destroy_event",
 		     G_CALLBACK(delete_event),NULL);
 
-    GtkAccelGroup* accel = gtk_accel_group_new();
+    accel = gtk_accel_group_new();
     gtk_window_add_accel_group (GTK_WINDOW (new_window), accel);
 
     app_shells[num_app_shells - 1].shell = new_window;
