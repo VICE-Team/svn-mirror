@@ -275,6 +275,9 @@ void crtc_update_window(void)
     crtc.raster.display_xstop = crtc.screen_width
                                 - 2 * CRTC_SCREEN_BORDERWIDTH;
 
+#ifdef USE_XF86_EXTENSIONS
+  if (!fullscreen_is_enabled)
+#endif
     raster_resize_viewport(&crtc.raster, width, height);
 
 }
@@ -444,7 +447,7 @@ raster_t *crtc_init(void)
     return &crtc.raster;
 }
 
-struct canvas_s *crtc_get_canvas(void)
+struct video_canvas_s *crtc_get_canvas(void)
 {
     return crtc.raster.viewport.canvas;
 }

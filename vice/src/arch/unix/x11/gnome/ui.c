@@ -913,7 +913,7 @@ Display *ui_get_display_ptr(void)
 void kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 
 /* Create a shell with a canvas widget in it.  */
-ui_window_t ui_open_canvas_window(struct canvas_s *c, const char *title,
+ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
                                   int width, int height,
                                   int no_autorepeat,
                                   ui_exposure_handler_t exposure_proc,

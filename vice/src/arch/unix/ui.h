@@ -63,11 +63,11 @@ typedef enum {
 /* ------------------------------------------------------------------------- */
 /* Prototypes */
 
-struct canvas_s;
+struct video_canvas_s;
 struct palette_s;
 
 extern int ui_proc_read_msg(char* msg, size_t size, int block);
-extern ui_window_t ui_open_canvas_window(struct canvas_s *c,
+extern ui_window_t ui_open_canvas_window(struct video_canvas_s *c,
                                          const char *title, int width,
                                          int height, int no_autorepeat,
                                          ui_exposure_handler_t exposure_proc,
@@ -76,7 +76,7 @@ extern ui_window_t ui_open_canvas_window(struct canvas_s *c,
 extern void ui_resize_canvas_window(ui_window_t w, int height, int width);
 extern void ui_map_canvas_window(ui_window_t w);
 extern void ui_unmap_canvas_window(ui_window_t w);
-extern int ui_canvas_set_palette(struct canvas_s *c, ui_window_t w,
+extern int ui_canvas_set_palette(struct video_canvas_s *c, ui_window_t w,
                                  const struct palette_s *palette,
                                  PIXEL *pixel_return);
 void ui_display_speed(float percent, float framerate, int warp_flag);

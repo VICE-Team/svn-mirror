@@ -398,7 +398,7 @@ raster_t *ted_init(void)
   return &ted.raster;
 }
 
-struct canvas_s *ted_get_canvas(void)
+struct video_canvas_s *ted_get_canvas(void)
 {
   return ted.raster.viewport.canvas;
 }

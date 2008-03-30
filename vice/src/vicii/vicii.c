@@ -309,7 +309,7 @@ static void vic_ii_set_geometry(void)
 #endif
 
   raster_set_geometry(&vic_ii.raster,
-                      VIC_II_SCREEN_WIDTH, vic_ii.screen_height,
+                      width, vic_ii.screen_height,
                       VIC_II_SCREEN_XPIX, VIC_II_SCREEN_YPIX,
                       VIC_II_SCREEN_TEXTCOLS, VIC_II_SCREEN_TEXTLINES,
                       vic_ii.screen_borderwidth, vic_ii.row_25_start_line,
@@ -317,7 +317,11 @@ static void vic_ii_set_geometry(void)
                       vic_ii.first_displayed_line,
                       vic_ii.last_displayed_line,
                       2 * VIC_II_MAX_SPRITE_WIDTH);
-  raster_resize_viewport(&vic_ii.raster, width, height);
+#ifdef USE_XF86_EXTENSIONS
+  if (!fullscreen_is_enabled)
+#endif
+      raster_resize_viewport(&vic_ii.raster, width, height);
+
 
 #ifdef __MSDOS__
   video_ack_vga_mode();
@@ -554,7 +558,7 @@ raster_t *vic_ii_init(void)
   return &vic_ii.raster;
 }
 
-struct canvas_s *vic_ii_get_canvas(void)
+struct video_canvas_s *vic_ii_get_canvas(void)
 {
   return vic_ii.raster.viewport.canvas;
 }

@@ -29,7 +29,7 @@
 
 #include "types.h"
 
-struct canvas_s;
+struct video_canvas_s;
 struct palette_s;
 
 extern int uicolor_alloc_color(unsigned int red, unsigned int green,
@@ -42,7 +42,7 @@ extern void uicolor_convert_color_table(unsigned int colnr, PIXEL *pixel_return,
                                         long color_pixel);
 
 /* Temporary! */
-extern int uicolor_alloc_colors(struct canvas_s *c,
+extern int uicolor_alloc_colors(struct video_canvas_s *c,
                                 const struct palette_s *palette,
                                 PIXEL pixel_return[]);
 

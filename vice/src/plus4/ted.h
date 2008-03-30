@@ -36,7 +36,7 @@ struct screenshot_s;
 extern int ted_resources_init(void);
 extern int ted_cmdline_options_init(void);
 extern struct raster_s *ted_init(void);
-extern struct canvas_s *ted_get_canvas(void);
+extern struct video_canvas_s *ted_get_canvas(void);
 
 extern void ted_reset(void);
 extern void ted_prepare_for_snapshot(void);

@@ -98,9 +98,10 @@ extern void machine_change_timing(int timeval);
 
 /* Get screenshot data.  */
 struct screenshot_s;
-struct canvas_s;
+struct video_canvas_s;
 extern int machine_screenshot(struct screenshot_s *screenshot, unsigned int wn);
-extern int machine_canvas_screenshot(struct screenshot_s *screenshot, struct canvas_s *canvas);
+extern int machine_canvas_screenshot(struct screenshot_s *screenshot,
+                                     struct video_canvas_s *canvas);
 
 #define JAM_NONE       0
 #define JAM_RESET      1

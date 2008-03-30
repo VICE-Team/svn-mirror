@@ -36,7 +36,7 @@ struct screenshot_s;
 extern int vic_ii_resources_init(void);
 extern int vic_ii_cmdline_options_init(void);
 extern struct raster_s *vic_ii_init(void);
-extern struct canvas_s *vic_ii_get_canvas(void);
+extern struct video_canvas_s *vic_ii_get_canvas(void);
 
 extern void vic_ii_reset(void);
 extern void vic_ii_trigger_light_pen(CLOCK mclk);

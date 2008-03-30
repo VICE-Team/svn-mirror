@@ -174,7 +174,7 @@ typedef struct vic_s vic_t;
 extern vic_t vic;
 
 extern struct raster_s *vic_init(void);
-extern struct canvas_s *vic_get_canvas(void);
+extern struct video_canvas_s *vic_get_canvas(void);
 extern void vic_reset(void);
 extern void vic_raster_draw_alarm_handler(CLOCK offset);
 

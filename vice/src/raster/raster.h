@@ -75,11 +75,11 @@ struct raster_area_s {
 };
 typedef struct raster_area_s raster_area_t;
 
-struct canvas_s;
+struct video_canvas_s;
 
 struct raster_viewport_s {
     /* Output canvas.  */
-    struct canvas_s *canvas;
+    struct video_canvas_s *canvas;
 
     /* Portion of the screen displayed on the output window window.
        FIXME: We should get this from the canvas.  */

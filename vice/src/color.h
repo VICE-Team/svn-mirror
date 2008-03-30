@@ -29,7 +29,6 @@
 
 #include "types.h"
 
-struct canvas_s;
 struct palette_s;
 
 extern void color_init(void);

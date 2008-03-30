@@ -135,9 +135,18 @@ static void vic_set_geometry(void)
         width *= 2;
         height *= 2;
         raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH * 2, 2);
-    } else
-        raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1);
+    } else 
+    {
+#ifdef USE_XF86_EXTENSIONS
+	if (!fullscreen_is_enabled)
+#endif
+	    raster_set_pixel_size (&vic.raster, VIC_PIXEL_WIDTH, 1);
+    }
+    
 
+#ifdef USE_XF86_EXTENSIONS
+  if (!fullscreen_is_enabled)
+#endif
     raster_resize_viewport (&vic.raster, width, height);
 
 #ifdef __MSDOS__
@@ -352,7 +361,7 @@ raster_t *vic_init(void)
   return &vic.raster;
 }
 
-struct canvas_s *vic_get_canvas(void)
+struct video_canvas_s *vic_get_canvas(void)
 {
   return vic.raster.viewport.canvas;
 }

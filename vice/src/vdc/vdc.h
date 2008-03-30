@@ -37,7 +37,7 @@ struct screenshot_s;
 extern int vdc_init_resources(void);
 extern int vdc_init_cmdline_options(void);
 extern struct raster_s *vdc_init(void);
-extern struct canvas_s *vdc_get_canvas(void);
+extern struct video_canvas_s *vdc_get_canvas(void);
 
 extern void vdc_reset(void);
 extern void vdc_prepare_for_snapshot(void);

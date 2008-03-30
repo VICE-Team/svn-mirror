@@ -205,7 +205,7 @@ raster_t *vdc_init(void)
     return &vdc.raster;
 }
 
-struct canvas_s *vdc_get_canvas(void)
+struct video_canvas_s *vdc_get_canvas(void)
 {
     return vdc.raster.viewport.canvas;
 }

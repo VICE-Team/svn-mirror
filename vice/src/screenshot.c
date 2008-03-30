@@ -139,7 +139,7 @@ int screenshot_save(const char *drvname, const char *filename,
 }
 
 int screenshot_canvas_save(const char *drvname, const char *filename,
-                           struct canvas_s *canvas)
+                           struct video_canvas_s *canvas)
 {
     screenshot_t screenshot;
     gfxoutputdrv_t *drv;
