@@ -39,6 +39,8 @@ host_triplet = @host@
 ACLOCAL = @ACLOCAL@
 AMDEP_FALSE = @AMDEP_FALSE@
 AMDEP_TRUE = @AMDEP_TRUE@
+AMIGA_COMPILE_FALSE = @AMIGA_COMPILE_FALSE@
+AMIGA_COMPILE_TRUE = @AMIGA_COMPILE_TRUE@
 AMTAR = @AMTAR@
 AR = @AR@
 ARCH_DIR = @ARCH_DIR@
@@ -246,6 +248,8 @@ xvic_LDFLAGS = @xvic_LDFLAGS@
 
 @WIN32_COMPILE_TRUE@SUBDIRS = win32
 
+@AMIGA_COMPILE_TRUE@SUBDIRS = amigaos
+
 @UNIX_COMPILE_TRUE@SUBDIRS = unix
 
 @OS2_COMPILE_TRUE@SUBDIRS = os2
@@ -263,7 +267,7 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive pdf-recursive \
 	installdirs-recursive install-recursive uninstall-recursive \
 	check-recursive installcheck-recursive
 DIST_COMMON = Makefile.am Makefile.in
-DIST_SUBDIRS = riscos beos win32 unix os2 msdos
+DIST_SUBDIRS = riscos beos win32 amigaos unix os2 msdos
 all: all-recursive
 
 .SUFFIXES:

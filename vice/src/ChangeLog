@@ -1,3 +1,107 @@
+2006-05-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.11.
+
+	* c64/c64.c [c64_serial_traps]: Moved traps after SEI.
+
+	* c128/c128.c [c128_serial_traps] Changed likewise.
+
+	* arch/amigaos/Makefile.am: Do not reference files from the
+	directory `info-files' because it is missing.
+
+2006-05-01  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/Makefile.am: Added the amigaos directory for the
+	AmigaOS4 port.
+
+	* arch/amigaos/Makefile.am, src/arch/amigaos/Makefile.in,
+	arch/amigaos/README.OS4, arch/amigaos/ahi.c,
+	arch/amigaos/ahi.h, arch/amigaos/amigamain.c,
+	arch/amigaos/archdep.c, arch/amigaos/archdep.h,
+	arch/amigaos/blockdev.c, arch/amigaos/c128ui.c,
+	arch/amigaos/c128uires.h, arch/amigaos/c64ui.c,
+	arch/amigaos/c64uires.h, arch/amigaos/catweaselmkiii.c,
+	arch/amigaos/cbm2ui.c, arch/amigaos/cbm2uires.h,
+	arch/amigaos/console.c, arch/amigaos/fullscreen.c,
+	arch/amigaos/fullscreenarch.h, arch/amigaos/hardsid.c,
+	arch/amigaos/joy.c, arch/amigaos/joy.h, arch/amigaos/joyai.c,
+	arch/amigaos/joyai.h, arch/amigaos/kbd.c, arch/amigaos/kbd.h,
+	arch/amigaos/make-bindist.sh, arch/amigaos/memory.h,
+	arch/amigaos/mousedrv.c, arch/amigaos/mousedrv.h,
+	arch/amigaos/mui/filereq.c, arch/amigaos/mui/filereq.h,
+	arch/amigaos/mui/mui.c, arch/amigaos/mui/mui.h,
+	arch/amigaos/mui/uidrivec128.c,
+	arch/amigaos/mui/uidrivec128.h,
+	arch/amigaos/mui/uidrivec64vic20.c,
+	arch/amigaos/mui/uidrivec64vic20.h,
+	arch/amigaos/mui/uidrivepetcbm2.c,
+	arch/amigaos/mui/uidrivepetcbm2.h,
+	arch/amigaos/mui/uidriveplus4.c,
+	arch/amigaos/mui/uidriveplus4.h,
+	arch/amigaos/mui/uijoystick.c,
+	arch/amigaos/mui/uijoystick.h, arch/amigaos/mui/uinetwork.c,
+	arch/amigaos/mui/uinetwork.h, arch/amigaos/mui/uisid.c,
+	arch/amigaos/mui/uisid.h, arch/amigaos/mui/uisound.c,
+	arch/amigaos/mui/uisound.h, arch/amigaos/petui.c,
+	arch/amigaos/petuires.h, arch/amigaos/plus4ui.c,
+	arch/amigaos/plus4uires.h, arch/amigaos/pointer.c
+	arch/amigaos/pointer.h, arch/amigaos/private.h,
+	arch/amigaos/rs232.c, arch/amigaos/signals.c,
+	arch/amigaos/statusbar.c, arch/amigaos/statusbar.h,
+	arch/amigaos/tfearch.c, arch/amigaos/timer.c,
+	arch/amigaos/timer.h, arch/amigaos/types.h, arch/amigaos/ui.c,
+	arch/amigaos/ui.h, arch/amigaos/uiapi.c,
+	arch/amigaos/uiattach.c, arch/amigaos/uiattach.h,
+	arch/amigaos/uic64cart.c, arch/amigaos/uic64cart.h,
+	arch/amigaos/uicart.c, arch/amigaos/uicart.h,
+	arch/amigaos/uicmdline.c, arch/amigaos/uicolor.c,
+	arch/amigaos/uilib.c, arch/amigaos/uilib.h,
+	arch/amigaos/uimon.c, arch/amigaos/uires.h,
+	arch/amigaos/vic20ui.c, arch/amigaos/vic20uires.h,
+	arch/amigaos/video.c, arch/amigaos/videoarch.h,
+	arch/amigaos/vsidui.c, arch/amigaos/vsyncapi.c: Added the
+	AmigaOS4 port by Mathias Roslund <vice.emu@amidog.se>.
+
+	* arch/beos/make-bindist.sh, arch/msdos/make-bindist.sh,
+	arch/unix/qnx/make-bindist.sh,
+	arch/unix/solaris/make-bindist.sh,
+	arch/win32/make-bindist.sh: Added changes needed because of
+	the addition of the AmigaOS4 port.
+
+	* keyboard.c: Fix for AmigaOS4 where it is possible to get
+	keycode 0 (provided by Mathias Roslund <vice.emu@amidog.se>).
+
+	* network.c: Preparation for possible AmiTCP stack support,
+	currently disabled though.
+
+	* sound.c, sound.h, sounddrv/Makefile.am,
+	sounddrv/soundahi.c, sounddrv/soundahi.c: Added support for
+	the Amigaos4 AHI sound driver (provided by Mathias Roslund
+	<vice.emu@amidog.se>).
+
+	* util.c: Added a workaround for the AmigaOS4 kind of paths
+	(provided by Mathias Roslund <vice.emu@amidog.se>).
+
+2006-04-30  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/c64cart.dsp: Added missing file.
+
+	* arch/win32/res.rc: Increased size of server textfield.
+
+	* drive/drive-snapshot.c (drive_snapshot_write_module):
+	Changed order of byte_ready_* and attach_detach_clk in the
+	snapshot to fit the order they are read (I introduced these
+	members with wrong order in 1.15.12).
+
+	* event.c (event_record_start_trap): In
+	EVENT_START_MODE_PLAYBACK set the next event to NULL after the
+	trailing events are cut.
+
+2006-04-30  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/msvc/config.h: Added the HAVE_NTOHx defines for
+	msvc.
+
 2006-04-28  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.10.

@@ -39,6 +39,8 @@ host_triplet = @host@
 ACLOCAL = @ACLOCAL@
 AMDEP_FALSE = @AMDEP_FALSE@
 AMDEP_TRUE = @AMDEP_TRUE@
+AMIGA_COMPILE_FALSE = @AMIGA_COMPILE_FALSE@
+AMIGA_COMPILE_TRUE = @AMIGA_COMPILE_TRUE@
 AMTAR = @AMTAR@
 AR = @AR@
 ARCH_DIR = @ARCH_DIR@
@@ -264,6 +266,8 @@ roms = \
 
 
 keymaps = \
+	amiga_bgrs.vkm \
+	amiga_buks.vkm \
 	beos_bgrs.vkm \
 	beos_buks.vkm \
 	dos_bgrs.vkm \
@@ -275,7 +279,7 @@ keymaps = \
 	x11_bdep.vkm \
 	x11_bdes.vkm \
 	x11_bgrs.vkm \
-        x11_buks.vkm
+	x11_buks.vkm
 
 
 romsets = \

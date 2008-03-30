@@ -39,6 +39,8 @@ host_triplet = @host@
 ACLOCAL = @ACLOCAL@
 AMDEP_FALSE = @AMDEP_FALSE@
 AMDEP_TRUE = @AMDEP_TRUE@
+AMIGA_COMPILE_FALSE = @AMIGA_COMPILE_FALSE@
+AMIGA_COMPILE_TRUE = @AMIGA_COMPILE_TRUE@
 AMTAR = @AMTAR@
 AR = @AR@
 ARCH_DIR = @ARCH_DIR@
@@ -245,6 +247,8 @@ c128_DATA = \
 	basic64 \
 	basichi \
 	basiclo \
+	amiga_sym.vkm \
+	amiga_pos.vkm \
 	beos_sym.vkm \
 	beos_pos.vkm \
 	c64hq.vpl \

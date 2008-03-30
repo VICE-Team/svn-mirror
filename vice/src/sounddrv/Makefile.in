@@ -41,6 +41,8 @@ host_triplet = @host@
 ACLOCAL = @ACLOCAL@
 AMDEP_FALSE = @AMDEP_FALSE@
 AMDEP_TRUE = @AMDEP_TRUE@
+AMIGA_COMPILE_FALSE = @AMIGA_COMPILE_FALSE@
+AMIGA_COMPILE_TRUE = @AMIGA_COMPILE_TRUE@
 AMTAR = @AMTAR@
 AR = @AR@
 ARCH_DIR = @ARCH_DIR@
@@ -252,11 +254,12 @@ noinst_LIBRARIES = libsounddrv.a
 
 # These sources are linked only under certain circumstances.
 EXTRA_libsounddrv_a_SOURCES = \
+	soundacorn.c \
+	soundahi.c \
 	soundaix.c \
+	soundallegro.c \
 	soundalsa.c \
 	soundarts.c \
-	soundacorn.c \
-	soundallegro.c \
 	soundbeos.cc \
 	soundcoreaudio.c \
 	sounddart.c \
@@ -311,7 +314,8 @@ DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 @AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/soundacorn.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/soundaix.Po ./$(DEPDIR)/soundallegro.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/soundahi.Po ./$(DEPDIR)/soundaix.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/soundallegro.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/soundalsa.Po ./$(DEPDIR)/soundarts.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/soundbeos.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/soundcoreaudio.Po \
@@ -362,6 +366,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundacorn.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundahi.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundaix.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundallegro.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soundalsa.Po@am__quote@

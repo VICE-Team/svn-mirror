@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.19\n"
-"POT-Creation-Date: 2006-04-28 09:52+0200\n"
+"POT-Creation-Date: 2006-05-01 12:52+0200\n"
 "PO-Revision-Date: 2005-12-29 15:09+0100\n"
 "Last-Translator: Mariusz Młynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -257,7 +257,7 @@ msgstr ""
 msgid "write to sounddevice failed."
 msgstr ""
 
-#: src/sound.c:1362
+#: src/sound.c:1366
 msgid "store to sounddevice failed."
 msgstr ""
 
@@ -285,42 +285,42 @@ msgstr ""
 "Nie można załadować pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:644 src/event.c:938
+#: src/event.c:644 src/event.c:939
 #, fuzzy, c-format
 msgid "Error reading end snapshot file %s."
 msgstr ""
 "Nie można załadować pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:711 src/event.c:905
+#: src/event.c:712 src/event.c:906
 #, fuzzy, c-format
 msgid "Could not create end snapshot file %s."
 msgstr ""
 "Nie można załadować pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:779
+#: src/event.c:780
 #, fuzzy, c-format
 msgid "Could not open end snapshot file %s."
 msgstr ""
 "Nie można załadować pliku zrzutu\n"
 "`%s'"
 
-#: src/event.c:794
+#: src/event.c:795
 msgid "Could not find event section in end snapshot file."
 msgstr ""
 
-#: src/event.c:818
+#: src/event.c:819
 #, fuzzy, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "Błąd czytania urządzenia cyfrowego joysticka."
 
-#: src/event.c:848
+#: src/event.c:849
 #, fuzzy
 msgid "Error reading start snapshot file."
 msgstr "Błąd czytania urządzenia cyfrowego joysticka."
 
-#: src/event.c:1233
+#: src/event.c:1234
 #, fuzzy
 msgid "Playback recorded events"
 msgstr "Rozpocznij zapisywanie wydarzen"
@@ -396,88 +396,88 @@ msgstr ""
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 
-#: src/network.c:201
+#: src/network.c:210
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr ""
 
-#: src/network.c:426
+#: src/network.c:435
 msgid "Testing best frame delay..."
 msgstr ""
 
-#: src/network.c:474
+#: src/network.c:483
 #, c-format
 msgid "Using %d frames delay."
 msgstr ""
 
-#: src/network.c:498
+#: src/network.c:507
 #, fuzzy
 msgid "Cannot load snapshot file for transfer"
 msgstr ""
 "Nie można załadować pliku zrzutu\n"
 "`%s'"
 
-#: src/network.c:511
+#: src/network.c:520
 #, fuzzy
 msgid "Sending snapshot to client..."
 msgstr "Zapisz zrzut..."
 
-#: src/network.c:520
+#: src/network.c:529
 #, fuzzy
 msgid "Cannot send snapshot to client"
 msgstr ""
 "Nie można załadować pliku zrzutu\n"
 "`%s'"
 
-#: src/network.c:546
+#: src/network.c:555
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s"
 msgstr ""
 "Nie można zapisać pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:584
+#: src/network.c:593
 #, fuzzy, c-format
 msgid "Cannot open snapshot file %s"
 msgstr ""
 "Nie można zapisać pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:743
+#: src/network.c:752
 msgid "Server is waiting for a client..."
 msgstr ""
 
-#: src/network.c:780
+#: src/network.c:789
 #, fuzzy, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Nie można zapisać pliku migawki\n"
 "`%s'\n"
 
-#: src/network.c:800
+#: src/network.c:809
 #, fuzzy, c-format
 msgid "Cannot resolve %s"
 msgstr ""
 "Nie można zapisać pliku obrazu kartridża\n"
 "`%s'\n"
 
-#: src/network.c:845
+#: src/network.c:854
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 
-#: src/network.c:859
+#: src/network.c:868
 msgid "Receiving snapshot from server..."
 msgstr ""
 
-#: src/network.c:990
+#: src/network.c:999
 msgid "Remote host disconnected."
 msgstr ""
 
-#: src/network.c:1001
+#: src/network.c:1010
 msgid "Remote host suspending..."
 msgstr ""
 
-#: src/network.c:1043
+#: src/network.c:1052
 msgid "Network out of sync - disconnecting."
 msgstr ""
 

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.19\n"
-"POT-Creation-Date: 2006-04-28 09:52+0200\n"
+"POT-Creation-Date: 2006-05-01 12:52+0200\n"
 "PO-Revision-Date: 2005-12-29 15:10+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -251,7 +251,7 @@ msgstr "draait te langzaam."
 msgid "write to sounddevice failed."
 msgstr "schrijf actie naar geluidsapparaat faalt."
 
-#: src/sound.c:1362
+#: src/sound.c:1366
 msgid "store to sounddevice failed."
 msgstr "opslag naar geluidsapparaat faalt."
 
@@ -275,37 +275,37 @@ msgstr "Kan vertaalde naam voor %s niet vinden"
 msgid "Could not create start snapshot file %s."
 msgstr "Kon het start momentopname bestand %s niet maken."
 
-#: src/event.c:644 src/event.c:938
+#: src/event.c:644 src/event.c:939
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Fout bij het lezen van het eind van het momentopname bestand %s."
 
-#: src/event.c:711 src/event.c:905
+#: src/event.c:712 src/event.c:906
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kon het eind momentopname bestand %s niet maken."
 
-#: src/event.c:779
+#: src/event.c:780
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kon het eind momentopname bestand %s niet openen."
 
-#: src/event.c:794
+#: src/event.c:795
 msgid "Could not find event section in end snapshot file."
 msgstr "Kon de gebeurtenis sectie in eind momentopname bestand niet vinden."
 
-#: src/event.c:818
+#: src/event.c:819
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
 "Fout bij het lezen van het start momentopname bestand. Heb %s en %s "
 "geprobeerd"
 
-#: src/event.c:848
+#: src/event.c:849
 msgid "Error reading start snapshot file."
 msgstr "Fout bij het lezen van het start momentopname bestand."
 
-#: src/event.c:1233
+#: src/event.c:1234
 msgid "Playback recorded events"
 msgstr "Afspelen opgenomen gebeurtenissen"
 
@@ -381,76 +381,76 @@ msgstr "Traceer modus (0=normaal 1=klein 2=geschiedenis"
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr "Afspeel fout: %s is anders dan lijn %d van bestand debug%06d"
 
-#: src/network.c:201
+#: src/network.c:210
 msgid "Cannot switch IPV4/IPV6 while netplay is active."
 msgstr "Kan niet schakelen tussen IPV4/IPV6 omdate netplay actief is."
 
-#: src/network.c:426
+#: src/network.c:435
 msgid "Testing best frame delay..."
 msgstr "Beste frame vertraging aan het testen..."
 
-#: src/network.c:474
+#: src/network.c:483
 #, c-format
 msgid "Using %d frames delay."
 msgstr "%d frames vertraging in gebruik."
 
-#: src/network.c:498
+#: src/network.c:507
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kan het momentopname bestand voor versturen niet laden"
 
-#: src/network.c:511
+#: src/network.c:520
 msgid "Sending snapshot to client..."
 msgstr "Momentopname wordt naar de andere computer verstuurd..."
 
-#: src/network.c:520
+#: src/network.c:529
 msgid "Cannot send snapshot to client"
 msgstr "Kan de momentopname niet naar de andere computer versturen"
 
-#: src/network.c:546
+#: src/network.c:555
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet maken"
 
-#: src/network.c:584
+#: src/network.c:593
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kan het momentopname bestand %s niet openen"
 
-#: src/network.c:743
+#: src/network.c:752
 msgid "Server is waiting for a client..."
 msgstr "De server wacht op de andere computer..."
 
-#: src/network.c:780
+#: src/network.c:789
 #, c-format
 msgid "Cannot create snapshot file %s. Select different history directory!"
 msgstr ""
 "Kan het momentopname bestand %s niet maken. Selecteer een andere "
 "geschiedenis folder!"
 
-#: src/network.c:800
+#: src/network.c:809
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Onbekende host %s"
 
-#: src/network.c:845
+#: src/network.c:854
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr ""
 "Kan geen connectie maken met %s (er is geen server aanwezig op poort %d)."
 
-#: src/network.c:859
+#: src/network.c:868
 msgid "Receiving snapshot from server..."
 msgstr "Momentopname van de server wordt ontvangen..."
 
-#: src/network.c:990
+#: src/network.c:999
 msgid "Remote host disconnected."
 msgstr "Andere computer heeft de verbinding verbroken."
 
-#: src/network.c:1001
+#: src/network.c:1010
 msgid "Remote host suspending..."
 msgstr "Andere computer halt de netplay..."
 
-#: src/network.c:1043
+#: src/network.c:1052
 msgid "Network out of sync - disconnecting."
 msgstr "Netwerk niet synchroon - connectie wordt verbroken."
 
