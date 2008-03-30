@@ -78,7 +78,8 @@ typedef struct video_render_config_s video_render_config_t;
 extern void video_render_initconfig(video_render_config_t *config);
 extern void video_render_setphysicalcolor(video_render_config_t *config,
                                           int index, DWORD color, int depth);
-extern void video_render_setrawrgb(int index, DWORD r, DWORD g, DWORD b);
+extern void video_render_setrawrgb(unsigned int index, DWORD r, DWORD g,
+                                   DWORD b);
 extern void video_render_initraw(void);
 
 /**************************************************************/

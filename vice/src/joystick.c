@@ -180,7 +180,7 @@ int joystick_check_set(signed long key, int joynum)
         if (key == joykeys[joynum][column].sym) {
             if (joypad_bits[column]) {
                 /*joystick_value[joyport] |= joypad_bits[column];*/
-                joystick_set_value_or(joyport, joypad_bits[column]);
+                joystick_set_value_or(joyport, (BYTE)joypad_bits[column]);
                 joypad_status[joynum][column] = 1;
             } else {
                 /*joystick_value[joyport] = 0;*/
@@ -211,7 +211,7 @@ int joystick_check_clr(signed long key, int joynum)
         if (key == joykeys[joynum][column].sym) {
             /*joystick_value[joyport] &= joyreleaseval(column,
                                                      joypad_status[joynum]);*/
-            joystick_set_value_and(joyport, joyreleaseval(column,
+            joystick_set_value_and(joyport, (BYTE)joyreleaseval(column,
                                    joypad_status[joynum]));
             joypad_status[joynum][column] = 0;
             return 1;

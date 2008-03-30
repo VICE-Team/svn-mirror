@@ -50,7 +50,7 @@ int serial_iec_open(unsigned int unit, unsigned int secondary,
     iecbus_open(unit, (BYTE)secondary, serial_iec_set_st);
 
     for (i = 0; i < length; i++) {
-        iecbus_write(unit, secondary, name[i], serial_iec_set_st);
+        iecbus_write(unit, (BYTE)secondary, name[i], serial_iec_set_st);
     }
 
     iecbus_unlisten(unit, (BYTE)secondary, serial_iec_set_st);
@@ -104,7 +104,7 @@ int serial_iec_write(unsigned int unit, unsigned int secondary, BYTE data)
         listen = 1;
     }
 
-    iecbus_write(unit, secondary, data, serial_iec_set_st);
+    iecbus_write(unit, (BYTE)secondary, data, serial_iec_set_st);
 
     return serial_iec_st;
 }

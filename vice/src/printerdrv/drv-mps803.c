@@ -163,8 +163,8 @@ static void bitmode_off(mps_t *mps)
 {
     unsigned int i, x, y;
 
-    for (i = 0; i < mps->repeatn; i++) {
-        for (x = 0; x < mps->bitcnt; x++)
+    for (i = 0; i < (unsigned int)mps->repeatn; i++) {
+        for (x = 0; x < (unsigned int)mps->bitcnt; x++)
             for (y = 0; y < 7; y++)
                 mps->line[mps->pos + x][y]
                     = mps->line[mps->pos-mps->bitcnt + x][y];
