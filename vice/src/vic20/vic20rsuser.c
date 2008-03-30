@@ -41,7 +41,9 @@
 #include "types.h"
 #include "via.h"
 #include "vic20.h"
+#include "vic20rsuser.h"
 #include "vic20via.h"
+
 
 static void vic20_trigger_start(void)
 {
