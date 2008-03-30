@@ -430,9 +430,10 @@ uicrtc.o: uicrtc.c ../../../src/vice.h ../../../src/config.h uimenu.h \
 	x11/xaw/uimenu.h ui.h types.h ../../../src/uiapi.h \
 	x11/xaw/uiarch.h uihotkey.h x11/xaw/../x11menu.h uipalette.h
 uidatasette.o: uidatasette.c ../../../src/vice.h ../../../src/config.h \
-	../../../src/datasette.h uimenu.h x11/xaw/uimenu.h ui.h types.h \
-	../../../src/uiapi.h x11/xaw/uiarch.h uihotkey.h \
-	x11/xaw/../x11menu.h
+	../../../src/datasette.h ../../../src/resources.h uimenu.h \
+	x11/xaw/uimenu.h ui.h types.h ../../../src/uiapi.h \
+	x11/xaw/uiarch.h uihotkey.h x11/xaw/../x11menu.h \
+	../../../src/utils.h
 uimon.o: uimon.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/console.h ../../../src/monitor/mon.h types.h \
 	../../../src/uimon.h

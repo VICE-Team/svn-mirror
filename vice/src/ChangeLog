@@ -1,3 +1,70 @@
+2001-07-08  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.6.44.
+
+	* arch/unix/uidatasette.c: #include "utils.h" and
+	#include <stdio.h>.
+
+2001-07-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* vic20/vic.c (vic_set_geometry): call video_ack_vga_mode()
+	under dos
+
+2001-07-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/ui.c (update_menus): update check mark for pause
+	menuitem
+
+2001-07-07  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/Makefile.am,arch.dsp: added new files uireu.{ch}
+
+	* arch/win32/c128ui.c,c64ui.c: new include uireu.h; removed
+	REU toggle, handle menuitem to open REU settings dialog
+
+	* arch/win32/res.h: new ids for REU and pause menuitems and
+	REU dialog and controls
+
+	* arch/win32/res.rc: dialog definition for REU settings
+
+	* arch/win32/resc128.rc,resc64.rc: removed REU toggle item,
+	added REU settings item
+
+	* arch/win32/res<machine>.rc: added 'Pause' menuitem
+
+	* arch/win32/ui.c: new shortcut Ctrl-Alt-P for 'Pause'; new
+	functions pause_trap, ui_pause_emulation,
+	ui_emulation_is_paused cleaned up a bit (removed unused code);
+	ui_display_paused is implemented; ui_dispatch_events handles
+	menuitem 'pause'
+
+	* arch/win32/uireu.c,uireu.h: new files
+
+	* printerdrv/drv-mps803.c(init_charset): changed parameter
+	from array to pointer (MSVC cannot handle unbounded arrays as
+	a parameter)
+
+2001-07-05  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.c: fixed attaching image files as
+	directories.
+
+2001-07-04  Andreas Dehmel  <dehmel@forwiss.tu-muenchen.de>
+
+	* arch/riscos/ui.{c,h}, arch/riscos/kbd.c: added keyboard
+	shortcuts for making screenshots and loading/saving snapshots.
+
+	* arch/riscos/video.c: flush buffers when exiting full screen
+	mode.
+
+2001-07-04  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/ui.c (tape_popup_cb): Update menus before
+	popup of menu.
+
+	* arch/unix/uidatasette.c: Added menu and callbacks for setting
+	datasette options.
+
 2001-07-01  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.6.43.
@@ -18,7 +85,7 @@
 	* arch/unix/vsyncarch.c (vsyncarch_presync): Likewise.
 	* arch/win32/vsyncarch.c (vsyncarch_presync): Likewise.
 
-2001-06-26  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+2001-06-26  pottendo  <pottendo@utanet.at>
 
 	* arch/unix/x11/videoarch.h: Added missing macro to hide
 	fullscreen for architectures which are not DGA2 aware.
@@ -43,7 +110,7 @@
 	* arch/unix/uiprinter.c: Use string radio button for driver
 	device selection.
 
-2001-06-21  Martin Pottendorfer  <Martin.Pottendorfer@alcatel.at>
+2001-06-21  pottendo  <pottendo@utanet.at>
 
 	* screendrv/bmp.c (bmp_write_bitmap_data): Fixed variable line to
 	be `int'. 
