@@ -108,6 +108,7 @@ static BYTE ciatodlatch[4];
 static char ciatodstopped;
 static char ciatodlatched;
 static int ciatodticks = 100000;        /* approx. a 1/10 sec. */
+static unsigned int cia_int_num;
 
 static log_t cia_log = LOG_ERR;
 

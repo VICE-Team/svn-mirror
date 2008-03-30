@@ -76,11 +76,15 @@
 #define mycpu_rmw_flag   maincpu_rmw_flag
 #define mycpu_int_status maincpu_int_status
 
-#define cia_set_int_clk(value,clk) \
-    interrupt_set_irq(maincpu_int_status, cia_int_num, value, clk)
+static void cia_set_int_clk(int value, CLOCK clk)
+{
+    interrupt_set_irq(maincpu_int_status, cia_int_num, value, clk);
+}
 
-#define cia_restore_int(value) \
-    interrupt_set_irq_noclk(maincpu_int_status, cia_int_num, value)
+static void cia_restore_int(int value)
+{
+    interrupt_set_irq_noclk(maincpu_int_status, cia_int_num, value);
+}
 
 #define mycpu_alarm_context maincpu_alarm_context
 

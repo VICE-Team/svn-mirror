@@ -70,7 +70,6 @@ int mycia_debugFlag = 0;
 static alarm_t *cia_ta_alarm;
 static alarm_t *cia_tb_alarm;
 static alarm_t *cia_tod_alarm;
-static unsigned int cia_int_num;
 #endif
 
 
@@ -92,9 +91,9 @@ static inline void my_set_int(CIA_CONTEXT_PARAM int value, CLOCK rclk)
 #endif
     if ((value)) {
         /* ciaint |= 0x80; */
-        cia_set_int_clk((MYCIA_INT), (rclk));
+        cia_set_int_clk(CIA_CONTEXT_CALL (MYCIA_INT), (rclk));
     } else {
-        cia_set_int_clk(0, (rclk));
+        cia_set_int_clk(CIA_CONTEXT_CALL 0, (rclk));
     }
 }
 
@@ -1314,9 +1313,9 @@ log_message(cia_log, "read ciaint=%02x, ciaier=%02x.", ciaint, ciaier);
 #endif
 
     if (ciaier & 0x80) {
-        cia_restore_int(MYCIA_INT);
+        cia_restore_int(CIA_CONTEXT_CALL MYCIA_INT);
     } else {
-        cia_restore_int(0);
+        cia_restore_int(CIA_CONTEXT_CALL 0);
     }
 
     if (snapshot_module_close(m) < 0)
