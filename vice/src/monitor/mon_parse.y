@@ -198,9 +198,9 @@ machine_state_rules: CMD_BANK opt_memspace opt_bankname end_cmd
                    | CMD_RETURN end_cmd
                      { mon_instruction_return(); }
                    | CMD_DUMP filename end_cmd
-                     { machine_write_snapshot($2,0,0); /* FIXME */ }
+                     { machine_write_snapshot($2,0,0,0); /* FIXME */ }
                    | CMD_UNDUMP filename end_cmd
-                     { machine_read_snapshot($2); }
+                     { machine_read_snapshot($2, 0); }
                    | CMD_STEP opt_count end_cmd
                      { mon_instructions_step($2); }
                    | CMD_NEXT opt_count end_cmd

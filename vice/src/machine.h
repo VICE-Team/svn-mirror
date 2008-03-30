@@ -98,10 +98,10 @@ extern void machine_set_cycles_per_frame(long cpf);
 
 /* Write a snapshot.  */
 extern int machine_write_snapshot(const char *name, int save_roms,
-                                  int save_disks);
+                                  int save_disks, int even_mode);
 
 /* Read a snapshot.  */
-extern int machine_read_snapshot(const char *name);
+extern int machine_read_snapshot(const char *name, int even_mode);
 
 /* handle pending interrupts - needed by libsid.a.  */
 extern void machine_handle_pending_alarms(int num_write_cycles);
