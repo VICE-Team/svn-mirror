@@ -82,6 +82,7 @@
 #include "tapeunit.h"
 #include "mon.h"
 #include "autostart.h"
+#include "findpath.h"
 
 #ifdef __MSDOS__
 #include "vmidas.h"
@@ -110,6 +111,7 @@
 /* ------------------------------------------------------------------------- */
 
 const char *progname;
+const char *boot_path;
 
 extern CLOCK   clk;
 extern int     halt;
@@ -129,7 +131,6 @@ static void exit64(void);
 #include <dir.h>
 
 static char *orig_workdir;
-char boot_path[MAXPATH];
 
 static void restore_workdir(void)
 {
@@ -143,16 +144,37 @@ static void preserve_workdir(void)
     atexit(restore_workdir);
 }
 
+/* Warning!  This must be called *once*.  */
 static void set_boot_path(const char *prg_path)
 {
     char drive[MAXDRIVE], path[MAXDIR], file[MAXFILE], ext[MAXEXT];
+    PATH_VAR(path);
 
     fnsplit(prg_path, drive, path, file, ext);
     if (*drive == '\0' || *path == '\0')
-	strcpy(boot_path, orig_workdir);
+	strcpy(path, orig_workdir);
     else
-	fnmerge(boot_path, drive, path, NULL, NULL);
-    printf("Boot path: %s\n", boot_path);
+	fnmerge(path, drive, path, NULL, NULL);
+
+    /* Remove trailing `/'.  */
+    {
+        int len = strlen(path);
+
+        if (len > 0 && path[len - 1] == '/')
+            path[len - 1] = '\0';
+    }
+    boot_path = stralloc(path);
+}
+
+#else  /* __MSDOS__ */
+
+/* Warning!  This must be called *once*.  */
+static void set_boot_path(const char *prg_path)
+{
+    boot_path = findpath(prg_path, getenv("PATH"), X_OK);
+
+    /* Remove the program name.  */
+    *strrchr(boot_path, '/') = '\0';
 }
 
 #endif /* __MSDOS__ */
@@ -182,7 +204,6 @@ int main(int argc, char **argv)
     /* Avoid exiting to a different directory than the one we were called
        from. */
     preserve_workdir();
-    set_boot_path(argv[0]);
 #endif
 
     progname = strrchr(argv[0], '/');
@@ -190,6 +211,9 @@ int main(int argc, char **argv)
 	progname = argv[0];
     else
 	progname++;
+
+    set_boot_path(argv[0]);
+    printf("boot_path = `%s'\n", boot_path);
 
     /* VICE boot sequence. */
 
@@ -402,11 +426,11 @@ int main(int argc, char **argv)
 
     /* Here we go ... */
 
-    if (app_resources.asmFlag)
-	mon(start_addr);
-
     /* Initialize the monitor */
     init_monitor();
+
+    if (app_resources.asmFlag)
+	mon(start_addr);
 
     vsync_init();
     kbd_init();

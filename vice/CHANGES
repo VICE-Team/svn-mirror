@@ -37,13 +37,32 @@ list of all the changes in the code.
 - Sound and joystick are now supported on NetBSD (courtesy of Krister
   Walfridsson <cato@df.lth.se>).
 
+- Support for multiple keyboard layouts has been added.
+
+- The emulators and c1541 now use the real, full-featured GNU readline
+  library if found.  Use `./configure --without-readline' for the old
+  behavior.
+
+- `-lICE' is now explicitly linked (the old way could cause troubles
+  on GNU/Linux systems with both GNU libc 2 and 1, such as RedHat
+  5.0).
+
 ** Miscellaneous changes
 ------------------------
 
-- Lynx and Zipcode support "on the fly" has been added.
+- A brand new monitor with watchpoints and breakpoint has been added.
+  It now allows access to the 1541 CPU when the true 1541 emulation is
+  turned on.
+
+- "On the fly" Lynx and Zipcode support has been added.
 
 - A couple of bugs in the fast serial emulation have been fixed
   (courtesy of Petschy <petschy@derceto.sch.bme.hu>).
+
+- Sound output can now be oversampled.
+
+- The `Directory' resource can now be a colon-separated list of paths
+  (a la Unix `PATH').
 
 
 * Changes in VICE 0.14.2

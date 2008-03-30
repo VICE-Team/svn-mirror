@@ -4,6 +4,9 @@
  * Written by
  *  Tomi Ollila <Tomi.Ollila@tfi.net>
  *
+ * Minor changes for VICE by
+ *  Ettore Perazzoli <ettore@comm2000.it>
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -40,7 +43,7 @@
  * Overflow testing for internal buffer is always done.
  */
 
-char * findpath(char *cmd, char *syspath)
+char * findpath(const char *cmd, const char *syspath, int mode)
 {
     char * pd = NULL;
     PATH_VAR(buf);
@@ -50,7 +53,7 @@ char * findpath(char *cmd, char *syspath)
     if (strchr(cmd, '/')) /* absolute or relative path given */
     {
 	int l, state;
-	char * ps;
+	const char *ps;
 
 	if (cmd[0] != '/')
 	{
@@ -101,8 +104,8 @@ char * findpath(char *cmd, char *syspath)
     }
     else
     {
-	char * path = syspath;
-	char * s;
+	const char * path = syspath;
+	const char * s;
 	int cl = strlen(cmd) + 1;
 
 	for (s = path; s; path = s + 1)
@@ -125,7 +128,7 @@ char * findpath(char *cmd, char *syspath)
 
 	    memcpy(p, cmd, cl);
 
-	    if (access(buf + 1, X_OK) == 0)
+	    if (access(buf + 1, mode) == 0)
 	    {
 		pd = p /* + cl*/ ;
 		break;

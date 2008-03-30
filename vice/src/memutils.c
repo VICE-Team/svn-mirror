@@ -35,163 +35,72 @@
 #include <string.h>
 #include <sys/stat.h>
 
+#include "findpath.h"
 #include "memutils.h"
 #include "resources.h"
 #include "file.h"
 #include "utils.h"
 
-/* ------------------------------------------------------------------------- */
-
-static const char *create_name(const char *path, const char *name)
-{
-    static char  buffer[2048];
-    static char *home = NULL;
-    const char *p;
-
-    if (!path && !name)
-	return NULL;
-
-    if (!name)
-	name = "";
-    else {
-	p = name + strlen(name) -1;
-
-	if  (*p == '/' || *p == '~' || *p == '.') {
-	    fprintf (stderr, "Invalid filename '%s'\n", name);
-	    return NULL;
-	}
-    }
-
-    *buffer = 0;
-
-#ifndef __MSDOS__
-    if (*name == '~') {
-	if (home == NULL)
-	    home = getenv("HOME");
-	if (home != NULL)
-	    strcpy(buffer, home);
-	++name;
-    }
-#endif
-
-    if (path == NULL || *path == '\0')
-	return name;
-
-#ifdef __MSDOS__
-    else if (*name != '/' && *name != '\\' && *name != '.')
-	sprintf(buffer,"%s/", (path ? path : app_resources.directory));
-#else
-    else if (*name != '/' && *name != '.')
-	sprintf(buffer, "%s/", (path ? path : app_resources.directory));
-#endif
-
-    strcat(buffer, name);
-
-    return (buffer);
-}
-
-FILE *open_sys_file(const char *path, const char *name, const char **fname)
-{
-    FILE *fp = NULL;
-    const char *bufp = NULL;
-    char *paths[2];
-    int	n, i;
-
-    if (name == NULL || *name == '\0')
-	return NULL;
-
-#ifdef __MSDOS__
-    /* On MS-DOS, always load from the working directory or from the specified
-       `path'. */
-    n = 1;
-    if (path != NULL)
-	paths[0] = stralloc(path);
-    else
-	paths[0] = concat("./", app_resources.projectDir, NULL);
-#else
-
-    /* On other systems, if no `path' is specified, try to load from the
-       current directory and, if not possible, try to boot from the LIBDIR. */
-    if (path != NULL) {
-	n = 1;
-	paths[0] = stralloc(path);
-    } else {
-	n = 2;
-	paths[0] = concat("./", app_resources.projectDir, NULL);
-	paths[1] = concat(LIBDIR, "/", app_resources.projectDir, NULL);
-    }
-#endif
-
-    for (i = 0; i < n; i++) {
-	if ((bufp = create_name(paths[i], name)) == NULL)
-	    return NULL; /* -2; */
-	if ((fp = fopen(bufp, READ)) == NULL)
-	    /* perror(bufp)*/ ;
-	else
-	    break;
-    }
-
-    if(fname) *fname = bufp;	/* bufp is static (from create_name) */
-
-    for (i=0; i < n; i++)
-	free(paths[i]);
-
-    return fp;
-}
 
 int mem_load_sys_file(const char *path, const char *name, BYTE *dest,
 		      int minsize, int maxsize)
 {
     FILE *fp = NULL;
     size_t rsize = 0;
-    const char *bufp = NULL;
+    char *complete_path;
 
-    fp = open_sys_file(path, name, &bufp);
+    complete_path = findpath(name, path, R_OK);
+    if (complete_path == NULL)
+        return -1;
 
+    fp = fopen(complete_path, READ);
     if (fp == NULL)
-	return -1;
+        goto fail;
 
     {
 	struct stat s;
 
 	/* Check if the file is large enough before loading it. */
 	if (fstat(fileno(fp), &s) == -1) {
-	    perror(bufp);
-	    return -1;
-	}
+	    perror(complete_path);
+            goto fail;
+        }
 	rsize = s.st_size - ftell(fp);
 
 #if 0
 	printf("ROM %s: size=%04x, minsize=%04x, maxsize=%04x romp=%p\n",
-	       bufp, rsize, minsize, maxsize, dest);
+	       complete_path, rsize, minsize, maxsize, dest);
 #endif
 
 	if (rsize < minsize) {
-	    fprintf(stderr, "ROM %s: short file.\n", bufp);
-	    return -1;
+	    fprintf(stderr, "ROM %s: short file.\n", complete_path);
+            goto fail;
 	}
 	if (rsize == maxsize + 2) {
 	    printf("ROM %s: two bytes too large - removing assumed start "
-		   "address\n", bufp);
+		   "address\n", complete_path);
 	    fread((char*)dest, 1, 2, fp);
 	    rsize -= 2;
 	}
 	if (rsize < maxsize) {
 #if 0
-	    printf("ROM %s: short file, reading to the end\n", bufp);
+	    printf("ROM %s: short file, reading to the end\n", complete_path);
 #endif
 	    dest += maxsize-rsize;
 	} else if (rsize > maxsize) {
-	    printf("ROM %s: long file, discarding end\n", bufp);
+	    printf("ROM %s: long file, discarding end\n", complete_path);
 	    rsize = maxsize;
 	}
 	if ((rsize = fread((char *)dest, 1, rsize, fp)) < minsize)
-	    return -1;
+            goto fail;
     }
 
-
     (void) fclose(fp);
-
+    free(complete_path);
     return rsize;  /* return ok */
+
+fail:
+    free(complete_path);
+    return -1;
 }
 

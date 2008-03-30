@@ -407,7 +407,7 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
 
 /* ------------------------------------------------------------------------- */
 /*
- * Handling of different keyboard mappings 
+ * Handling of different keyboard mappings
  *
  */
 
@@ -489,7 +489,7 @@ static void kbd_parse_keyword(char *buffer) {
 	    kbd_lshiftcol = atoi(p);
 	  }
 	}
-    } else 
+    } else
     if(!strcmp(key, "RSHIFT")) {
 	p = strtok(NULL, " \t,");
 	if(p) {
@@ -499,15 +499,15 @@ static void kbd_parse_keyword(char *buffer) {
 	    kbd_rshiftcol = atoi(p);
 	  }
 	}
-    } else 
+    } else
     if(!strcmp(key, "CLEAR")) {
 	keyc_num = 0;
 	keyconvmap[0].sym = 0;
-    } else 
+    } else
     if(!strcmp(key, "INCLUDE")) {
 	key = strtok(NULL, " \t");
 	kbd_parse_keymap(key);
-    } else 
+    } else
     if(!strcmp(key, "UNDEF")) {
 	key = strtok(NULL, " \t");
 	sym = XStringToKeysym(key);
@@ -530,7 +530,7 @@ static void kbd_parse_entry(char *buffer) {
     KeySym sym;
     int row, col, shift, i;
     keyconv *kp;
-    
+
     key = strtok(buffer, " \t:");
     sym = XStringToKeysym(key);
     if(sym==NoSymbol) {
@@ -556,7 +556,7 @@ static void kbd_parse_entry(char *buffer) {
 	      }
 
 	      /* not in table -> add */
-	      if(i>=keyc_num) {	
+	      if(i>=keyc_num) {
 	        /* table too small -> realloc */
 		if(keyc_num>=keyc_mem) {
 		  i = keyc_mem * 1.5;
@@ -585,17 +585,20 @@ static void kbd_parse_entry(char *buffer) {
 static void kbd_parse_keymap(const char *filename)
 {
     FILE *fp;
-    const char *fname;
+    char *complete_path;
     char buffer[1000];
 
-printf("kbd_load_keymap() called, file='%s'\n",filename?filename:"(null)");
+    printf("kbd_load_keymap() called, file='%s'\n",
+           filename ? filename : "(null)");
 
-    if(!filename) return;
+    if (!filename)
+        return;
 
-    fp = open_sys_file(app_resources.directory, filename, &fname);
+    complete_path = findpath(filename, app_resources.directory, R_OK);
+    fp = fopen(complete_path, "r");
 
     if(!fp) {
-        perror(fname);
+        perror(complete_path);
     } else {
 	do {
 	  buffer[0] = 0;
@@ -618,6 +621,8 @@ printf("kbd_load_keymap() called, file='%s'\n",filename?filename:"(null)");
 	} while(!feof(fp));
 	fclose(fp);
     }
+
+    free(complete_path);
 }
 
 
@@ -681,7 +686,7 @@ printf("kbd_dump_keymap() called, keyb file='%s'\n", filename);
 		  "# 2      left shift\n"
 		  "# 4      right shift\n"
 		  "# 8      key can be shifted or not with this keysym\n"
-		  "#\n" 
+		  "#\n"
       );
       fprintf(fp, "!CLEAR\n");
       fprintf(fp, "!LSHIFT %d %d\n", kbd_lshiftrow, kbd_lshiftcol);
