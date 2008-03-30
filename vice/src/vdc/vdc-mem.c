@@ -230,8 +230,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
 
       case 12:                  /* R12  Display Start Address hi */
       case 13:                  /* R13  Display Start Address lo */
-        vdc.screen_adr = ((vdc.regs[12] << 8) | vdc.regs[13])
-                         & vdc.vdc_address_mask;
+        /* Screen address will be taken at first displayed line.  */
 #ifdef REG_DEBUG
         log_message(vdc.log, "Update screen_adr: %x.", vdc.screen_adr);
 #endif
@@ -294,9 +293,9 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
         break;
 
       case 25:
-        if ((vdc.regs[25] & 7) != vdc.xsmooth) {
+        if (7 - (vdc.regs[25] & 7) != vdc.xsmooth) {
 #ifdef ALLOW_UNALIGNED_ACCESS
-            vdc.xsmooth = vdc.regs[25] & 7;
+            vdc.xsmooth = 7 - (vdc.regs[25] & 7);
             vdc.raster.xsmooth = vdc.xsmooth;
 #else
             vdc.xsmooth = 0;
