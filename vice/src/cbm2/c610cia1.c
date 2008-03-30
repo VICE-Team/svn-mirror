@@ -34,7 +34,7 @@
 #include "kbd.h"
 #include "keyboard.h"
 #include "parallel.h"
-#include "pruser.h"
+#include "printer.h"
 #include "types.h"
 
 /* set mycia_debugFlag to 1 to get output */
@@ -105,8 +105,8 @@ void cia1_set_ieee_dir(int isout)
 
 static inline void do_reset_cia(void)
 {
-    pruser_write_strobe(1);
-    pruser_write_data(0xff);
+    printer_interface_userport_write_strobe(1);
+    printer_interface_userport_write_data(0xff);
 }
 
 static inline void pulse_ciapc(CLOCK rclk)
@@ -138,9 +138,9 @@ static inline void undump_ciapb(CLOCK rclk, BYTE b)
 
 static inline void store_ciapb(CLOCK rclk, BYTE byte)
 {
-    pruser_write_data(byte);
-    pruser_write_strobe(0);
-    pruser_write_strobe(1);
+    printer_interface_userport_write_data(byte);
+    printer_interface_userport_write_strobe(0);
+    printer_interface_userport_write_strobe(1);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -182,7 +182,7 @@ static inline void read_ciaicr(void) {}
 
 #include "ciacore.c"
 
-void pruser_set_busy(int flank)
+void printer_interface_userport_set_busy(int flank)
 {
     if (!flank) {
         cia1_set_flag();

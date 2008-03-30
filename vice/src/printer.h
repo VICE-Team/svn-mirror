@@ -1,150 +1,48 @@
 /*
- * $Id: printer.h,v 1.3 1996/04/01 09:01:41 jopi Exp $
- *
- * Commodore compatible Matrix Printer Emulator.
- * See README for copyright notice.
- *
- * Restricted Epson compatible Serial printer emulator.
+ * printer.h - Common external printer interface.
  *
  * Written by
- *   Jouko Valta  (jopi@stekt.oulu.fi)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
  *
- * $Log: printer.h,v $
- * Revision 1.3  1996/04/01 09:01:41  jopi
- * Text formatting and PostScript support decrarations.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * Revision 1.2  1995/11/07  16:51:00  jopi
- * printer font image structure
- * graphics support
- * control value declarations
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- * Revision 1.1  1995/04/01  07:50:52  jopi
- * Initial revision
- *
- *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
  *
  */
 
-#ifndef _CBM_PRINTER_H_
-#define _CBM_PRINTER_H_
+#ifndef _PRINTER_H
+#define _PRINTER_H
 
+#include "types.h"
 
-/* Output File Formats */
+/* Generic interface.  */
+extern int printer_init_resources(void);
+extern int printer_init_cmdline_options(void);
+extern void printer_init(void);
+extern void printer_reset(void);
 
-#define FT_RAW		0
-#define FT_HEXDUMP	1
-#define FT_PETSCII	2
-#define FT_ASCII	3
-#define FT_LATIN_1	4
-#define FT_PS		5
-#define FT_IMAGE	8	/* Flag */
-#define FT_XBM		8
+/* Serial interface.  */
+extern int printer_interface_serial_close(unsigned int unit);
+extern void printer_interface_serial_late_init(void);
 
+/* Userport interface.  */
+extern void printer_interface_userport_write_data(BYTE b);
+extern void printer_interface_userport_write_strobe(int s);
+extern void printer_interface_userport_set_busy(int);
 
-/* Printer Mode */
-
-#define T_ASCIIMODE	0x10
-#define T_GRAPHIC	0x8	/* data on flow */
-#define T_CLEAN		0x2
-
-
-/* State */
-
-#define UPPERCASE	0x91	/* boundary is 0x80 */
-#define LOWCASE		0x11
-
-#define T_QUOTE		0x80
-
-#define T_OLUPPC	0x8	/* one line */
-#define T_OLLOWC	0x4	/* one line */
-#define T_UPPC		0x2
-#define T_LOWC		0x1
-
-#define T_CASE		(T_OLUPPC | T_OLLOWC | T_UPPC | T_LOWC)
-
-
-/* PS States */
-
-#define PS_BLANK	0
-#define PS_PROLOG	1	/* flags */
-#define PS_PAGEHDR	2	/* formfeed if this is missing */
-#define PS_SHOW		4
-#define PS_DRAW		8	/* 7-bit graphics command underway */
-
-
-/* Colours */
-
-#define PC_BLACK	0
-#define PC_RED		1
-#define PC_BLUE		2
-#define PC_VIOLET	3
-#define PC_YELLOW	4
-#define PC_ORANGE	5
-#define PC_GREEN	6
-#define P_MAX_COLOUR	PC_GREEN
-
-
-#define MAX_HTABS	40
-#define GR_BUFSIZE	960
-
-
-typedef struct {
-    int    type;
-
-    int    of_format;
-    int    ps_state;		/* PS generator mode */
-    int    page_h;		/* PS page length */
-    int    page_w;		/* PS page width */
-
-    FILE  *FileDs;
-    char   ActiveName[256];
-    char  *lpCommand;
-    char  *lpName;
-
-    /* Printer */
-
-    int    mode;		/* operating mode */
-    int    colour;
-    int    lang;
-
-    int    graphics;		/* graphics mode  */
-    int    gr_pitch;		/* graphics pitch */
-    short  gr_cnt;		/* gr_buf counter */
-    BYTE   gr_buf[GR_BUFSIZE];	/* graphics image data */
-
-    /* Text processing */
-
-    BYTE  *inbuf;
-    short  inptr;
-
-    int    state;		/* uppercase */
-    int    reverse;
-
-    int    size;
-    int    pitch;	/* text pitch */
-    int    lf_advance;	/* pixels (1/216 inch (1 pin = 3/216 = 1/72)) */
-
-    /* Page */
-
-    int    mgn_top;
-    int    mgn_bottom;
-    int    mgn_left;
-    int    mgn_right;
-    int    line;	/* pixels (1/216 inch) */
-    int    column;
-} PRINTER;
-
-
-/*
- * Commodore MPS 803 Business Mode character definition structure.
- */
-
-typedef struct {
-    char descender;
-    char data[7];
-} printerfont7;
-
-
-#endif  /* _CBM_PRINTER_H_ */
+#endif
 

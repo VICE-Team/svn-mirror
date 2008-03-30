@@ -61,7 +61,7 @@
 #include "parallel.h"
 #include "petsound.h"
 #include "petvia.h"
-#include "pruser.h"
+#include "printer.h"
 #include "types.h"
 #include "viacore.h"
 
@@ -71,7 +71,7 @@ void myvia_signal(int line, int edge);
 #define VIA_SET_CA2(byte) crtc_set_chargen_offset(byte ? 256 : 0); 
 
                 /* switching userport strobe with CB2 */
-#define VIA_SET_CB2(byte) pruser_write_strobe(byte);
+#define VIA_SET_CB2(byte) printer_interface_userport_write_strobe(byte);
 
 #define via_set_int             maincpu_set_irq
 #define VIA_INT                 IK_IRQ
@@ -82,12 +82,12 @@ static char snap_module_name[] = "VIA";
 
 static void undump_pra(BYTE byte)
 {
-    pruser_write_data(byte);
+    printer_interface_userport_write_data(byte);
 }
 
 inline static void store_pra(BYTE byte, BYTE myoldpa, ADDRESS addr)
 {
-        pruser_write_data(byte);
+        printer_interface_userport_write_data(byte);
 }
 
 static void undump_prb(BYTE byte)
@@ -133,7 +133,7 @@ inline static void store_pcr(BYTE byte, ADDRESS addr)
             tmp |= 0x20;
         crtc_set_char(byte & 2); /* switching PET charrom with CA2 */
                                  /* switching userport strobe with CB2 */
-        pruser_write_strobe(byte & 0x20);
+        printer_interface_userport_write_strobe(byte & 0x20);
     }
 #endif
 }
@@ -169,8 +169,8 @@ static void res_via(void)
     parallel_cpu_set_atn(0);
     parallel_cpu_set_nrfd(0);
 
-    pruser_write_data(0xff);
-    pruser_write_strobe(1);
+    printer_interface_userport_write_data(0xff);
+    printer_interface_userport_write_strobe(1);
 }
 
 inline static BYTE read_pra(ADDRESS addr)
@@ -217,7 +217,7 @@ inline static BYTE read_prb(void)
     return byte;
 }
 
-void pruser_set_busy(int b)
+void printer_interface_userport_set_busy(int b)
 {
     via_signal(VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }
