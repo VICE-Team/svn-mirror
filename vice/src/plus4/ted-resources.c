@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 
+#include "raster-resources.h"
 #include "resources.h"
 #include "ted-resources.h"
 #include "ted.h"
@@ -39,32 +40,7 @@
 #endif
 
 
-#ifdef __MSDOS__
-#define DEFAULT_VideoCache_VALUE 0
-#else
-#define DEFAULT_VideoCache_VALUE 1
-#endif
-
-
 ted_resources_t ted_resources;
-
-static int set_video_cache_enabled(resource_value_t v, void *param)
-{
-    ted_resources.video_cache_enabled = (int)v;
-    if (ted.initialized)
-        raster_enable_cache(&ted.raster,
-                            ted_resources.video_cache_enabled);
-
-    return 0;
-}
-
-static resource_t resources[] =
-{
-    { "VideoCache", RES_INTEGER, (resource_value_t)DEFAULT_VideoCache_VALUE,
-      (resource_value_t *)&ted_resources.video_cache_enabled,
-      set_video_cache_enabled, NULL },
-    { NULL }
-};
 
 
 #ifdef VIC_II_NEED_2X
@@ -143,7 +119,9 @@ int ted_resources_init(void)
     if (resources_register(resources_2x) < 0)
         return -1;
 #endif
+    if (raster_resources_chip_init("TED", &ted.raster) < 0)
+        return -1;
 
-    return resources_register(resources);
+    return 0;
 }
 

@@ -83,9 +83,13 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
 UI_MENU_DEFINE_TOGGLE(ExternalPalette)
 
 ui_menu_entry_t ted_submenu[] = {
+    { N_("*Video cache"),
+      (ui_callback_t)toggle_TEDVideoCache, NULL, NULL },
+    { "--" },
     { N_("*External color set"),
       (ui_callback_t)toggle_ExternalPalette, NULL, NULL },
     { "--" },
