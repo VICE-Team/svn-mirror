@@ -80,6 +80,7 @@ typedef unsigned char u8_t;
 #ifdef CBM64
 /* use wavetables (sampled waveforms) */
 #define WAVETABLES
+#define OVERSAMPLE
 #endif
 
 /* ADSR state */
@@ -236,6 +237,16 @@ typedef struct sound_s
 #ifdef WAVETABLES
     /* do we have a new sid or an old one? */
     BYTE		 newsid;
+#endif
+#ifdef OVERSAMPLE
+    /* temporary value used when using oversampling */
+    u32_t		 oversampleval;
+    /* oversample counter */
+    u32_t		 oversamplecnt;
+    /* nr of samples to oversame / real sample */
+    u32_t		 oversamplenr;
+    /* number of shift needed on oversampling */
+    u32_t		 oversampleshift;
 #endif
     /* constants needed to implement write-only register reads */
     BYTE		 laststore;
@@ -809,7 +820,18 @@ inline static void update_sid(sound_t *psid, int nr)
 	    dofilter(&psid->v[2]);
 	    o2 = ((u32_t)(psid->v[2].filtIO)+0x80)<<(7+15);
 	}
+#ifdef OVERSAMPLE
+	psid->oversampleval += ((s32_t)((o0+o1+o2)>>20)-0x600)*psid->vol;
+	if (++psid->oversamplecnt == psid->oversamplenr)
+	{
+	    psid->pbuf[psid->bufptr++] =
+		psid->oversampleval >> psid->oversampleshift;
+	    psid->oversamplecnt = 0;
+	    psid->oversampleval = 0;
+	}
+#else
 	psid->pbuf[psid->bufptr++] = ((s32_t)((o0+o1+o2)>>20)-0x600)*psid->vol;
+#endif
     }
 }
 #endif
@@ -883,7 +905,16 @@ static void init_sid(sound_t *psid, s16_t *pbuf, int speed)
     u32_t		 i, nr;
     char		*name;
 
+#ifdef OVERSAMPLE
+    psid->oversampleval = 0;
+    psid->oversamplecnt = 0;
+    psid->oversampleshift = app_resources.soundOversample;
+    psid->oversamplenr = 1 << psid->oversampleshift;
+#endif
     psid->speed1 = (CYCLES_PER_SEC << 8) / speed;
+#ifdef OVERSAMPLE
+    psid->speed1 >>= psid->oversampleshift;
+#endif
     for (i = 0; i < 16; i++)
     {
 	psid->adrs[i] = 500*8*psid->speed1/adrtable[i];
@@ -905,7 +936,11 @@ static void init_sid(sound_t *psid, s16_t *pbuf, int speed)
     psid->update = 1;
     psid->emulatefilter = app_resources.sidFilters;
     setup_sid(psid);
+#ifdef OVERSAMPLE
+    init_filter(psid, speed*psid->oversampleshift);
+#else
     init_filter(psid, speed);
+#endif
     for (i = 0; i < nr; i++)
     {
 #ifndef VIC20
@@ -2427,6 +2462,14 @@ static int initsid(void)
 	    if (pdev->bufferstatus)
 		siddata.firststatus = pdev->bufferstatus(&siddata.sid, 1);
 	    siddata.clkstep = (double)CYCLES_PER_SEC / speed;
+#ifdef OVERSAMPLE
+	    if (siddata.sid.oversamplenr > 1)
+	    {
+		siddata.clkstep /= siddata.sid.oversamplenr;
+		warn(siddata.sid.pwarn, -1, "using %dx oversampling",
+		     siddata.sid.oversamplenr);
+	    }
+#endif
 	    siddata.origclkstep = siddata.clkstep;
 	    siddata.clkfactor = 1.0;
 	    siddata.fclk = clk;

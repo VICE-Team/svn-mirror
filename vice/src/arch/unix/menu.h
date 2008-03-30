@@ -295,6 +295,18 @@ MenuEntry SidModelSubmenu[] = {
       (UiMenuCallback) UiSetSidModel, (UiCallbackDataPtr) 1, NULL },
     { NULL }
 };
+
+MenuEntry ChangeSoundOversampleSubmenu [] = {
+    { "*1x",
+      (UiMenuCallback) UiSetSoundOversample, (UiCallbackDataPtr) 0, NULL },
+    { "*2x",
+      (UiMenuCallback) UiSetSoundOversample, (UiCallbackDataPtr) 1, NULL },
+    { "*4x",
+      (UiMenuCallback) UiSetSoundOversample, (UiCallbackDataPtr) 2, NULL },
+    { "*8x",
+      (UiMenuCallback) UiSetSoundOversample, (UiCallbackDataPtr) 3, NULL },
+    { NULL }
+};
 #endif
 
 MenuEntry SoundSubmenu[] = {
@@ -309,6 +321,8 @@ MenuEntry SoundSubmenu[] = {
     { "*Suspend time",
       NULL, NULL, ChangeSoundSuspendTimeSubmenu },
 #if defined(CBM64) || defined(C128)
+    { "*Oversample",
+      NULL, NULL, ChangeSoundOversampleSubmenu },
     { "--" },
     { "*Emulate SID filters",
       (UiMenuCallback) UiToggleSidFilters, NULL, NULL },

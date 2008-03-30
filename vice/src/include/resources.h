@@ -134,6 +134,7 @@ typedef struct _AppResources {
     int soundSuspendTime;
     int soundSpeedAdjustment;
     int doSoundSetup;		/* MS-DOS only */
+    int soundOversample;
 
     int sidModel;		/* 0: old SID, 1: new sid */
     int sidFilters;

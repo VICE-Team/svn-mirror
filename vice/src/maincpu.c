@@ -413,6 +413,7 @@ void mainloop(ADDRESS start_address)
 	    DO_INTERRUPT(IK_RESET);					\
         } else {							\
 	    if (tmp == 1) {						\
+		caller_space = e_comp_space;				\
 	        mon(program_counter);					\
 	        IMPORT_REGISTERS();					\
             } else {							\

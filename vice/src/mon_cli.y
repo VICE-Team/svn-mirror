@@ -6,11 +6,13 @@
 #include "types.h"
 #include "mon.h"
 
+int yyerror(char *s);
 
 /* Defined in the lexer */
-extern int rol, new_cmd;
-extern void free_buffer();
+extern int set_rol, rol, new_cmd, opt_asm;
+extern void free_buffer(void);
 extern void make_buffer(char *str);
+extern int yylex(void);
 
 %}
 
@@ -33,7 +35,7 @@ extern void make_buffer(char *str);
 %token<i> CMD_GOTO CMD_REGISTERS CMD_READSPACE CMD_WRITESPACE CMD_DISPLAYTYPE
 %token<i> CMD_MEM_DISPLAY CMD_BREAK CMD_TRACE CMD_IO CMD_BRMON CMD_COMPARE
 %token<i> CMD_DUMP CMD_UNDUMP CMD_EXIT CMD_DELETE CMD_CONDITION CMD_COMMAND
-%token<i> CMD_ASSEMBLE CMD_DISASSEMBLE CMD_NEXT CMD_STEP CMD_CONTINUE CMD_PRINT
+%token<i> CMD_ASSEMBLE CMD_DISASSEMBLE CMD_NEXT CMD_STEP CMD_PRINT CMD_DEVICE
 %token<i> CMD_HELP CMD_WATCH CMD_DISK CMD_SYSTEM CMD_QUIT CMD_CHDIR
 %token<str> STRING FILENAME R_O_L ASM_LINE
 %token<reg> REGISTER
@@ -49,6 +51,7 @@ extern void make_buffer(char *str);
 %type<i> register_mod opt_count meta_command command_list assemble
 %type<i> memory_display space_mod file_cmd no_arg_cmds disassemble
 %type<i> set_list_breakpts set_list_watchpts set_list_tracepts value
+%type<i> display_type
 %type<str> rest_of_line data_list data_element 
 
 %left '+' '-'
@@ -58,7 +61,15 @@ extern void make_buffer(char *str);
 
 command_list: meta_command TRAIL
             | command_list meta_command TRAIL
-            | ASM_LINE { $$ = 0; assemble_line($1); }
+            | ASM_LINE TRAIL { $$ = 0; 
+                               if ($1) {
+                                  assemble_line($1); 
+                               } else {
+                                  new_cmd = 1;
+                                  end_assemble_mode();
+                               }
+                             }
+            | TRAIL { new_cmd = 1; end_assemble_mode(); }
             ;
 
 meta_command: command 
@@ -77,8 +88,7 @@ command: COMMAND_NAME {puts("Unsupported command"); }
        | CMD_GOTO address { jump($2); }
        | CMD_DELETE opt_brknum { delete_breakpoint($2); }
        | CMD_EXIT TRAIL { exit_mon = 1; YYACCEPT; }
-       | CMD_CONTINUE TRAIL { exit_mon = 1; YYACCEPT; }
-       | CMD_DISPLAYTYPE DATA_TYPE { default_datatype = $2; }
+       | display_type
        | no_arg_cmds
        | CMD_STEP opt_count { instructions_step($2); }
        | CMD_NEXT opt_count { instructions_next($2); }
@@ -90,7 +100,7 @@ command: COMMAND_NAME {puts("Unsupported command"); }
        | assemble
        | disassemble
        | CMD_CONDITION breakpt_num cond_expr { set_brkpt_condition($2, $3); }
-       | CMD_COMMAND breakpt_num rest_of_line { set_breakpt_command($2, $3); }
+       | CMD_COMMAND breakpt_num STRING { set_breakpt_command($2, $3); }
        | CMD_FILL address_range data_list { fill_memory($2, $3); }
        | CMD_HUNT address_range data_list { hunt_memory($2, $3); }
        | CMD_PRINT expression { fprintf(mon_output, "\t%d\n",$2); }
@@ -104,6 +114,11 @@ command: COMMAND_NAME {puts("Unsupported command"); }
        ;
 
 rest_of_line: R_O_L { $$ = $1; }
+
+display_type: CMD_DISPLAYTYPE DATA_TYPE { default_datatype = $2; }
+            | CMD_DISPLAYTYPE { fprintf(mon_output, "Default datatype is %s\n", 
+                                        datatype_string[default_datatype]); }
+            ;
 
 assemble: CMD_ASSEMBLE address rest_of_line { start_assemble_mode($2, $3); }
         | CMD_ASSEMBLE address { start_assemble_mode($2, NULL); }
@@ -149,9 +164,12 @@ space_mod: CMD_READSPACE memspace { fprintf(mon_output, "Setting default readspa
          | CMD_WRITESPACE memspace { fprintf(mon_output, "Setting default writespace to %s\n", SPACESTRING($2)); 
                                        default_writespace = $2; }
          | CMD_WRITESPACE { fprintf(mon_output,"Default writespace is %s\n",SPACESTRING(default_writespace)); }
+         | CMD_DEVICE memspace { fprintf(mon_output,"Setting default device to %s\n", SPACESTRING($2)); 
+                                 default_readspace = default_writespace = $2; }
          ;
 
-register_mod: CMD_REGISTERS { print_registers(); }
+register_mod: CMD_REGISTERS { print_registers(e_default_space); }
+            | CMD_REGISTERS memspace { print_registers($2); }
             | CMD_REGISTERS reg_list
             ;
 
@@ -175,7 +193,7 @@ opt_brknum: breakpt_num { $$ = $1; }
           | { $$ = -1; }
           ;
 
-breakpt_num: D_NUMBER { $$ = $1; }
+breakpt_num: number { $$ = $1; }
            ;
 
 block_cmd: CMD_BLOCK_READ expression expression opt_address { block_cmd(0,$2,$3,$4); }
@@ -193,8 +211,8 @@ opt_address: address { $$ = $1; }
            |         { $$ = bad_addr; }
            ;
 
-address: memloc { $$ = new_addr(e_default_space,$1); }
-       | memspace ':' memloc { $$ = new_addr($1,$3); }
+address: memloc { $$ = new_addr(e_default_space,$1); if (opt_asm) rol = 1; }
+       | memspace ':' memloc { $$ = new_addr($1,$3); if (opt_asm) rol = 1; }
 
 memspace: 'c' { $$ = e_comp_space; } 
         | 'd' { $$ = e_disk_space; }

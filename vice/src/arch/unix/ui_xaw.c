@@ -295,6 +295,7 @@ CallbackFunc(UiSetSoundSuspendTime);
 #if defined(CBM64) || defined(C128)
 CallbackFunc(UiToggleSidFilters);
 CallbackFunc(UiSetSidModel);
+CallbackFunc(UiSetSoundOversample);
 #endif
 #endif /* SOUND */
 
@@ -2833,6 +2834,21 @@ CallbackFunc(UiSetSidModel)
     } else {
 	XtVaSetValues(w, XtNleftBitmap,
 		      (app_resources.sidModel == (int) client_data
+		       ? CheckmarkBitmap : 0), NULL);
+    }
+}
+
+CallbackFunc(UiSetSoundOversample)
+{
+    suspend_speed_eval();
+    if (!call_data) {
+	app_resources.soundOversample = (int) client_data;
+	close_sound();
+	resources_have_changed = 1;
+	UiUpdateMenus();
+    } else {
+	XtVaSetValues(w, XtNleftBitmap,
+		      (app_resources.soundOversample == (int) client_data
 		       ? CheckmarkBitmap : 0), NULL);
     }
 }

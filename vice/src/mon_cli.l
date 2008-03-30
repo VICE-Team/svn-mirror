@@ -13,8 +13,11 @@ YY_BUFFER_STATE my_state;
 
 int yywrap();
 
-int new_cmd = 1, quote = 0, rol = 0, rol_lookahead = 0;
+int new_cmd = 1, quote = 0, rol = 0, set_rol = 0;
+int opt_asm = 0;
 extern char *myinput;
+
+int resolve_datatype(unsigned guess_type, char *num, int *val);
 
 %}
 
@@ -27,7 +30,11 @@ extern char *myinput;
       BEGIN CMD;
       new_cmd = 0;
    }
-   if (asm_mode) {
+   if (rol) {
+      BEGIN ROL;
+      rol = 0;
+   }
+   if (asm_mode && !opt_asm) {
       BEGIN ASM_MODE;
    }
 %}
@@ -47,21 +54,26 @@ extern char *myinput;
 <CMD>load		{ BEGIN FNAME; return CMD_LOAD; }
 <CMD>save		{ BEGIN FNAME; return CMD_SAVE; }
 <CMD>verify		{ BEGIN FNAME; return CMD_VERIFY; }
+<CMD>f |
 <CMD>fill		{ BEGIN INITIAL; return CMD_FILL; }
+<CMD>h |
 <CMD>hunt		{ BEGIN INITIAL; return CMD_HUNT; }
+<CMD>t |
+<CMD>transfer |
 <CMD>move 		{ BEGIN INITIAL; return CMD_MOVE; }
+<CMD>c |
 <CMD>compare		{ BEGIN INITIAL; return CMD_COMPARE; }
 <CMD>goto		{ BEGIN INITIAL; return CMD_GOTO; }
-<CMD>reg |
+<CMD>r |
 <CMD>registers 		{ BEGIN INITIAL; return CMD_REGISTERS; }
 <CMD>readspace		{ BEGIN INITIAL; return CMD_READSPACE; }
 <CMD>writespace		{ BEGIN INITIAL; return CMD_WRITESPACE; }
+<CMD>dt |
 <CMD>displaytype     	{ BEGIN INITIAL; return CMD_DISPLAYTYPE; }
 <CMD>m|M 		{ BEGIN INITIAL; return CMD_MEM_DISPLAY; }
 <CMD>break		{ BEGIN INITIAL; return CMD_BREAK; }
 <CMD>trace		{ BEGIN INITIAL; return CMD_TRACE; }
 <CMD>watch		{ BEGIN INITIAL; return CMD_WATCH; }
-<CMD>c 			{ BEGIN INITIAL; return CMD_CONTINUE; }
 <CMD>~ 			{ BEGIN INITIAL; return CONVERT_OP; }
 <CMD>enable		{ BEGIN INITIAL; yylval.i = e_ON; return CMD_BREAKPT_ONOFF; }
 <CMD>disable		{ BEGIN INITIAL; yylval.i = e_OFF; return CMD_BREAKPT_ONOFF; }
@@ -71,18 +83,20 @@ extern char *myinput;
 <CMD>undump		{ BEGIN INITIAL; return CMD_UNDUMP; }
 <CMD>delete		{ BEGIN INITIAL; return CMD_DELETE; }
 <CMD>condition		{ BEGIN INITIAL; return CMD_CONDITION; }
-<CMD>command		{ BEGIN INITIAL; rol_lookahead = 1; return CMD_COMMAND; }
+<CMD>command		{ BEGIN INITIAL; return CMD_COMMAND; }
+<CMD>x |
 <CMD>exit		{ BEGIN INITIAL; return CMD_EXIT; }
+<CMD>q |
 <CMD>quit		{ BEGIN INITIAL; return CMD_QUIT; }
-<CMD>A			{ BEGIN INITIAL; return CMD_ASSEMBLE; }
-<CMD>D			{ BEGIN INITIAL; return CMD_DISASSEMBLE; }
+<CMD>a			{ BEGIN INITIAL; opt_asm = 1; return CMD_ASSEMBLE; }
+<CMD>d			{ BEGIN INITIAL; return CMD_DISASSEMBLE; }
 <CMD>print		{ BEGIN INITIAL; return CMD_PRINT; }
+<CMD>device 		{ BEGIN INITIAL; return CMD_DEVICE; }
 <CMD>system  		{ BEGIN ROL; return CMD_SYSTEM; }
 <CMD>cd			{ BEGIN ROL; return CMD_CHDIR; }
 <CMD>@ 			{ BEGIN ROL; return CMD_DISK; }
 
 <CMD>\? |
-<CMD>h |
 <CMD>help		{ BEGIN INITIAL; return CMD_HELP; }
 <CMD>[^~@ \t\n]*		{ BEGIN INITIAL; new_cmd = 1; return BAD_CMD; }
 
@@ -105,7 +119,7 @@ if		{ return IF; }
                      BEGIN INITIAL;
                   }
                 }
-<STR>[0-9a-zA-Z]+ { yylval.str = strdup(yytext); return STRING; }
+<STR>[0-9a-zA-Z ]+ { yylval.str = strdup(yytext); return STRING; }
 <STR>\n 	{ puts("ERROR:"); exit(-1); }
 
 0[xX][0-9a-fA-F]+ { yylval.i = strtol(yytext, NULL, 16);
@@ -119,9 +133,13 @@ if		{ return IF; }
 0[0-7]+ { yylval.i = strtol(yytext, NULL, 8);
            return O_NUMBER;
          }
-[0-9]* { yylval.i = strtol(yytext, NULL, 10);
-         return D_NUMBER;
-       }
+
+1[01]* { return resolve_datatype(B_NUMBER, yytext, &(yylval.i)); }
+
+[1-7][0-7]* { return resolve_datatype(O_NUMBER, yytext, &(yylval.i)); }
+
+[0-9]* { return resolve_datatype(D_NUMBER, yytext, &(yylval.i)); }
+
 %[01]+ { yylval.i = strtol(yytext+1, NULL, 2);
          return B_NUMBER;
        }
@@ -171,14 +189,38 @@ TP		{ yylval.i = e_text_petscii; return DATA_TYPE; }
                    yylval.str = strdup(yytext+1);
                    BEGIN INITIAL; return FILENAME; }
 
-<ROL>\n          { new_cmd = 1; return TRAIL; }
-<ROL>[^ \t].*          { yylval.str = strdup(yytext); return R_O_L; }
+<ROL>\n          { new_cmd = 1; opt_asm = 0; return TRAIL; }
+<ROL>[^ \t\n][^\n]*          { yylval.str = strdup(yytext); return R_O_L; }
+<ROL>[ \t]*
 
-<ASM_MODE>.+\n     { yylval.str = strdup(yytext); return ASM_LINE; }
-<ASM_MODE>\n     { yylval.str = NULL; end_assemble_mode(); BEGIN CMD; return ASM_LINE; }
+<ASM_MODE>[^\n]+     { yylval.str = strdup(yytext); return ASM_LINE; }
+<ASM_MODE>\n     { yylval.str = NULL; return TRAIL; }
+
+[^ \t]		{ return yytext[0]; }
+[ \t]*
 
 %%
 
+int resolve_datatype(unsigned guess_type, char *num, int *val)
+{
+   if (default_datatype == e_hexadecimal) {
+      *val = strtol(num, NULL, 16);
+      return H_NUMBER;
+   }
+
+   if ((guess_type == D_NUMBER) || (default_datatype == e_decimal)) {
+      *val = strtol(num, NULL, 10);
+      return D_NUMBER;
+   }
+
+   if ((guess_type == O_NUMBER) || (default_datatype == e_octal)) {
+      *val = strtol(num, NULL, 8);
+      return O_NUMBER;
+   }
+   
+   *val = strtol(num, NULL, 2);
+   return B_NUMBER;
+}
 
 void free_buffer()
 {

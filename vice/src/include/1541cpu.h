@@ -30,6 +30,9 @@
 #ifndef _1541CPU_H
 #define _1541CPU_H
 
+typedef BYTE REGPARM1 true1541_read_func_t(ADDRESS);
+typedef void REGPARM2 true1541_store_func_t(ADDRESS, BYTE);
+
 /* It would be nice to pack these into a struct, but they were not in the early
    versions of the main CPU so... */
 extern int true1541_rmw_flag;
@@ -45,6 +48,8 @@ extern int true1541_break_flag;
 extern int true1541_decimal_flag;
 extern int true1541_interrupt_flag;
 extern int true1541_carry_flag;
+extern true1541_read_func_t *read_func[0x41];
+extern true1541_store_func_t *store_func[0x41];
 
 extern CLOCK true1541_clk;
 extern int true1541_traceflg;

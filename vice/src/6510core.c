@@ -1449,14 +1449,20 @@
 #ifdef __1541__
        if (any_breakpoints(e_disk_space)) {
           EXPORT_REGISTERS();
-          if (check_breakpoints(e_disk_space))
-             mon(0);
+          if (check_breakpoints(e_disk_space)) {
+             caller_space = e_disk_space;
+             mon(reg_pc);
+             IMPORT_REGISTERS();
+          }
        }
 #else
        if (any_breakpoints(e_comp_space)) {
           EXPORT_REGISTERS();
-          if (check_breakpoints(e_comp_space))
-             mon(0);
+          if (check_breakpoints(e_comp_space)) {
+             caller_space = e_comp_space;
+             mon(reg_pc);
+             IMPORT_REGISTERS();
+          }
        }
 #endif
 

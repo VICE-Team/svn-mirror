@@ -69,6 +69,8 @@ extern void mem_get_basic_text(ADDRESS *start, ADDRESS *end);
 extern void mem_set_basic_text(ADDRESS start, ADDRESS end);
 extern read_func_t read_zero, read_basic, read_kernal, read_chargen, read_ram, read_io2, read_rom;
 extern store_func_t store_zero, store_ram, store_ram_hi, store_io2, store_rom;
+extern void turn_watchpoints_on(void);
+extern void turn_watchpoints_off(void);
 
 /* ------------------------------------------------------------------------- */
 

@@ -54,8 +54,8 @@ typedef union {
 #define	CMD_DISASSEMBLE	300
 #define	CMD_NEXT	301
 #define	CMD_STEP	302
-#define	CMD_CONTINUE	303
-#define	CMD_PRINT	304
+#define	CMD_PRINT	303
+#define	CMD_DEVICE	304
 #define	CMD_HELP	305
 #define	CMD_WATCH	306
 #define	CMD_DISK	307
