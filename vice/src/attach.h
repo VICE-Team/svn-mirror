@@ -3,7 +3,7 @@
  * attach.h - file system attach management
  *
  * Written by
- *  Andreas Boose (boose@unixserv.rz.fh-hannover.de)
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,14 +31,8 @@
 #include "types.h"
 #include "snapshot.h"
 
-typedef int (*drive_attach_func_t)(void *);
-typedef int (*drive_detach_func_t)(void *);
-
 extern int file_system_init_resources(void);
 extern void file_system_init(void);
-extern int file_system_set_hooks(int unit,
-                          drive_attach_func_t attach_func,
-                          drive_detach_func_t detach_func);
 extern int file_system_attach_disk(int unit, const char *filename);
 extern void file_system_detach_disk(int unit);
 
@@ -46,3 +40,4 @@ extern int vdrive_write_snapshot_module(snapshot_t *s, int start);
 extern int vdrive_read_snapshot_module(snapshot_t *s, int start);
 
 #endif
+
