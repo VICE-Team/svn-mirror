@@ -29,7 +29,8 @@
 
 #include "types.h"
 
-/* High level disk formats.  They can be different than the disk image type.  */
+/* High level disk formats.
+   They can be different than the disk image type.  */
 #define VDRIVE_IMAGE_FORMAT_1541 0
 #define VDRIVE_IMAGE_FORMAT_1571 1
 #define VDRIVE_IMAGE_FORMAT_1581 2
@@ -54,11 +55,11 @@
  */
 
 #define NUM_TRACKS_1541        35
-#define NUM_BLOCKS_1541	       683	/* 664 free */
+#define NUM_BLOCKS_1541        683      /* 664 free */
 #define EXT_TRACKS_1541        40
 #define EXT_BLOCKS_1541        768
-#define MAX_TRACKS_1541	       42
-#define MAX_BLOCKS_1541	       802
+#define MAX_TRACKS_1541        42
+#define MAX_BLOCKS_1541        802
 #define DIR_TRACK_1541         18
 #define DIR_SECTOR_1541        1
 #define BAM_TRACK_1541         18
@@ -68,9 +69,9 @@
 #define BAM_EXT_BIT_MAP_1541   192
 
 #define NUM_TRACKS_2040        35
-#define NUM_BLOCKS_2040	       690	/* 670 free */
-#define MAX_TRACKS_2040	       35
-#define MAX_BLOCKS_2040	       690
+#define NUM_BLOCKS_2040        690      /* 670 free */
+#define MAX_TRACKS_2040        35
+#define MAX_BLOCKS_2040        690
 #define DIR_TRACK_2040         18
 #define DIR_SECTOR_2040        1
 #define BAM_TRACK_2040         18
@@ -79,10 +80,10 @@
 #define BAM_ID_2040            162
 #define BAM_EXT_BIT_MAP_2040   192
 
-#define NUM_TRACKS_1571	       70
-#define NUM_BLOCKS_1571	       1366	/* 1328 free */
-#define MAX_TRACKS_1571	       70
-#define MAX_BLOCKS_1571	       1366
+#define NUM_TRACKS_1571        70
+#define NUM_BLOCKS_1571        1366     /* 1328 free */
+#define MAX_TRACKS_1571        70
+#define MAX_BLOCKS_1571        1366
 #define DIR_TRACK_1571         18
 #define DIR_SECTOR_1571        1
 #define BAM_TRACK_1571         18
@@ -91,11 +92,11 @@
 #define BAM_ID_1571            162
 #define BAM_EXT_BIT_MAP_1571   221
 
-#define NUM_TRACKS_1581	       80
-#define NUM_SECTORS_1581       40	/* Logical sectors */
-#define NUM_BLOCKS_1581	       3200	/* 3120 free */
-#define MAX_TRACKS_1581	       80
-#define MAX_BLOCKS_1581	       3200
+#define NUM_TRACKS_1581        80
+#define NUM_SECTORS_1581       40       /* Logical sectors */
+#define NUM_BLOCKS_1581        3200     /* 3120 free */
+#define MAX_TRACKS_1581        80
+#define MAX_BLOCKS_1581        3200
 #define DIR_TRACK_1581         40
 #define DIR_SECTOR_1581        3
 #define BAM_TRACK_1581         40
@@ -103,60 +104,60 @@
 #define BAM_NAME_1581          4
 #define BAM_ID_1581            22
 
-#define NUM_TRACKS_8050	       77
-#define NUM_BLOCKS_8050	       2083	/* 2052 free */
-#define MAX_TRACKS_8050	       77
-#define MAX_BLOCKS_8050	       2083
-#define	BAM_TRACK_8050         39
-#define	BAM_SECTOR_8050        0
-#define	BAM_NAME_8050          6	/* pos. of disk name in 1st BAM blk */
-#define	BAM_ID_8050            24	/* pos. of disk id in 1st BAM blk */
-#define	DIR_TRACK_8050         39
-#define	DIR_SECTOR_8050        1
+#define NUM_TRACKS_8050        77
+#define NUM_BLOCKS_8050        2083     /* 2052 free */
+#define MAX_TRACKS_8050        77
+#define MAX_BLOCKS_8050        2083
+#define BAM_TRACK_8050         39
+#define BAM_SECTOR_8050        0
+#define BAM_NAME_8050          6        /* pos. of disk name in 1st BAM blk */
+#define BAM_ID_8050            24       /* pos. of disk id in 1st BAM blk */
+#define DIR_TRACK_8050         39
+#define DIR_SECTOR_8050        1
 
-#define NUM_TRACKS_8250	       154
-#define NUM_BLOCKS_8250	       4166	/* 4133 free */
-#define MAX_TRACKS_8250	       154
-#define MAX_BLOCKS_8250	       4166
-#define	BAM_TRACK_8250         39
-#define	BAM_SECTOR_8250        0
-#define	BAM_NAME_8250          6	/* pos. of disk name in 1st BAM blk */
-#define	BAM_ID_8250            24	/* pos. of disk id in 1st BAM blk */
-#define	DIR_TRACK_8250         39
-#define	DIR_SECTOR_8250        1
+#define NUM_TRACKS_8250        154
+#define NUM_BLOCKS_8250        4166     /* 4133 free */
+#define MAX_TRACKS_8250        154
+#define MAX_BLOCKS_8250        4166
+#define BAM_TRACK_8250         39
+#define BAM_SECTOR_8250        0
+#define BAM_NAME_8250          6        /* pos. of disk name in 1st BAM blk */
+#define BAM_ID_8250            24       /* pos. of disk id in 1st BAM blk */
+#define DIR_TRACK_8250         39
+#define DIR_SECTOR_8250        1
 
 #define MAX_TRACKS_ANY         MAX_TRACKS_8250
 #define MAX_BLOCKS_ANY         MAX_BLOCKS_8250
 
 #define SET_LO_HI(p, val)                       \
     do {                                        \
-	*((p)++) = (val) & 0xff;                \
-	*((p)++) = ((val)>>8) & 0xff;           \
+        *((p)++) = (val) & 0xff;                \
+        *((p)++) = ((val)>>8) & 0xff;           \
     } while (0)
 
-#define DRIVE_RAMSIZE		0x400
+#define DRIVE_RAMSIZE           0x400
 
 #define DIR_MAXBUF  (40 * 256)
 
 /* File Types */
-#define FT_DEL		0
-#define FT_SEQ		1
-#define FT_PRG		2
-#define FT_USR		3
-#define FT_REL		4
-#define FT_CBM		5	/* 1581 partition */
-#define FT_DJJ		6	/* 1581 */
-#define FT_FAB		7	/* 1581 - Fred's format */
-#define FT_REPLACEMENT	0x20
-#define FT_LOCKED	0x40
-#define FT_CLOSED	0x80
+#define FT_DEL          0
+#define FT_SEQ          1
+#define FT_PRG          2
+#define FT_USR          3
+#define FT_REL          4
+#define FT_CBM          5       /* 1581 partition */
+#define FT_DJJ          6       /* 1581 */
+#define FT_FAB          7       /* 1581 - Fred's format */
+#define FT_REPLACEMENT  0x20
+#define FT_LOCKED       0x40
+#define FT_CLOSED       0x80
 
 /* Access Control Methods */
-#define FAM_READ	0
-#define FAM_WRITE	1
-#define FAM_APPEND	2
-#define FAM_M		4
-#define FAM_F		8
+#define FAM_READ        0
+#define FAM_WRITE       1
+#define FAM_APPEND      2
+#define FAM_M           4
+#define FAM_F           8
 
 typedef struct bufferinfo_s {
     unsigned int mode;     /* Mode on this buffer */
@@ -190,8 +191,7 @@ typedef struct vdrive_s {
     unsigned int num_tracks;
 
     /* FIXME: bam sizeof define */
-    BYTE bam[5*256];   /* The 1581 uses 3 secs as BAM - but the 8250 uses 5.  */
-    bufferinfo_t buffers[16];
+    BYTE bam[5*256];   /* The 1581 uses 3 secs as BAM - but the 8250 uses 5.  */    bufferinfo_t buffers[16];
 
     /* File information */
     BYTE Dir_buffer[256];  /* Current directory sector.  */
@@ -218,31 +218,31 @@ typedef struct vdrive_s {
 
 /* Actually, serial-code errors ... */
 
-#define FLOPPY_COMMAND_OK	0
-#define FLOPPY_ERROR		(2)
+#define FLOPPY_COMMAND_OK       0
+#define FLOPPY_ERROR            (2)
 
 
 /* Return values used around. */
 
-#define FD_OK		0
-#define FD_EXIT		1	/* -1,0, 1 are fixed values */
+#define FD_OK           0
+#define FD_EXIT         1       /* -1,0, 1 are fixed values */
 
-#define FD_NOTREADY	-2
-#define FD_CHANGED	-3	/* File has changed on disk */
-#define FD_NOTRD	-4
-#define FD_NOTWRT	-5
-#define FD_WRTERR	-6
-#define FD_RDERR	-7
-#define FD_INCOMP	-8	/* DOS Format Mismatch */
-#define FD_BADIMAGE	-9	/* ID mismatch (Disk or tape) */
-#define FD_BADNAME	-10	/* Illegal filename */
-#define FD_BADVAL	-11	/* Illegal value */
-#define FD_BADDEV	-12
-#define FD_BAD_TS	-13	/* Track or sector */
+#define FD_NOTREADY     -2
+#define FD_CHANGED      -3      /* File has changed on disk */
+#define FD_NOTRD        -4
+#define FD_NOTWRT       -5
+#define FD_WRTERR       -6
+#define FD_RDERR        -7
+#define FD_INCOMP       -8      /* DOS Format Mismatch */
+#define FD_BADIMAGE     -9      /* ID mismatch (Disk or tape) */
+#define FD_BADNAME      -10     /* Illegal filename */
+#define FD_BADVAL       -11     /* Illegal value */
+#define FD_BADDEV       -12
+#define FD_BAD_TS       -13     /* Track or sector */
 
 
-#define CHK_NUM		0
-#define CHK_RDY		1
+#define CHK_NUM         0
+#define CHK_RDY         1
 
 /*
  * Error messages

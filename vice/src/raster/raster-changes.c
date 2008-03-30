@@ -30,22 +30,20 @@
 
 #include "raster-changes.h"
 
-
 
-void
-raster_changes_init (raster_changes_t *changes)
+void raster_changes_init (raster_changes_t *changes)
 {
-  /* FIXME: More?  */
-  changes->count = 0;
+    /* FIXME: More?  */
+    changes->count = 0;
 }
 
-raster_changes_t *
-raster_changes_new (void)
+raster_changes_t *raster_changes_new (void)
 {
-  raster_changes_t *new;
+    raster_changes_t *new_changes;
 
-  new = xmalloc (sizeof (raster_changes_t));
-  raster_changes_init (new);
+    new_changes = (raster_changes_t *)xmalloc(sizeof(raster_changes_t));
+    raster_changes_init(new_changes);
 
-  return new;
+    return new_changes;
 }
+

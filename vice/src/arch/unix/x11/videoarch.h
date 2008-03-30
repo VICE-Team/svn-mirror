@@ -46,7 +46,7 @@
 #include "ui.h"
 
 #ifdef USE_GNOMEUI
-#include <gdk/gdk.h>		
+#include <gdk/gdk.h>
 #endif
 
 struct canvas_s {
@@ -104,7 +104,8 @@ extern int _video_use_xsync;
 #define VIDEO_FRAME_BUFFER_LINE_SIZE(i)     ((i)->x_image->bytes_per_line \
                                             / sizeof(PIXEL))
 #define VIDEO_FRAME_BUFFER_LINE_START(i, n) (PIXEL *)((i)->x_image->data \
-					    + (n) * (i)->x_image->bytes_per_line)
+                                            + (n) \
+                                            * (i)->x_image->bytes_per_line)
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -124,7 +125,7 @@ extern int shmmajor;          /* major number of MITSHM error codes */
 /*  #define MITSHM_DEBUG */
 
 #ifdef MITSHM_DEBUG
-#define DEBUG_MITSHM(x)		log_debug x
+#define DEBUG_MITSHM(x)         log_debug x
 #else
 #define DEBUG_MITSHM(x)
 #endif
@@ -160,9 +161,9 @@ extern void fullscreen_set_raster(raster_t *raster);
 extern void fullscreen_set_framebuffer(video_frame_buffer_t *fb);
 extern void fullscreen_set_palette(palette_t *p, PIXEL *pixel_return);
 #else
-#define fullscreen_on() 
+#define fullscreen_on()
 #define fullscreen_off()
-#define fullscreen_update() 
+#define fullscreen_update()
 #endif
 
 #endif /* !_VIDEOARCH_H */

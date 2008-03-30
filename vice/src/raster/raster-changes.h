@@ -32,38 +32,38 @@
 /* This should be a lot more than what is actually needed.  */
 #define RASTER_CHANGES_MAX 512
 
-enum raster_changes_type
-  {
+enum raster_changes_type_s
+{
     RASTER_CHANGES_TYPE_INT,
     RASTER_CHANGES_TYPE_PTR
-  };
-typedef enum raster_changes_type raster_changes_type_t;
+};
+typedef enum raster_changes_type_s raster_changes_type_t;
 
-struct _raster_changes_integer_action_value
-  {
+struct raster_changes_integer_action_value_s
+{
     int *oldp;
     int newone;
-  };
-typedef struct _raster_changes_integer_action_value
-  raster_changes_integer_action_value_t;
+};
+typedef struct raster_changes_integer_action_value_s
+    raster_changes_integer_action_value_t;
 
-struct _raster_changes_ptr_action_value
-  {
+struct raster_changes_ptr_action_value_s
+{
     void **oldp;
     void *newone;
-  };
-typedef struct _raster_changes_ptr_action_value
-  raster_changes_ptr_action_value_t;
+};
+typedef struct raster_changes_ptr_action_value_s
+    raster_changes_ptr_action_value_t;
 
-union _raster_changes_action_value
-  {
+union raster_changes_action_value_s
+{
     raster_changes_integer_action_value_t integer;
     raster_changes_ptr_action_value_t ptr;
-  };
-typedef union _raster_changes_action_value raster_changes_action_value_t;
+};
+typedef union raster_changes_action_value_s raster_changes_action_value_t;
 
-struct _raster_changes_action
-  {
+struct raster_changes_action_s
+{
     /* "Where" the change happens (eg. character position for foreground
        changes, pixel position for other changes).  */
     int where;
@@ -73,96 +73,91 @@ struct _raster_changes_action
 
     /* Pointer to where the value is stored and new value to assign.  */
     raster_changes_action_value_t value;
-  };
-typedef struct _raster_changes_action raster_changes_action_t;
+};
+typedef struct raster_changes_action_s raster_changes_action_t;
 
-struct _raster_changes
-  {
+struct raster_changes_s
+{
     /* Total number of changes. */
     unsigned int count;
 
     /* List of changes to be applied in order.  */
     raster_changes_action_t actions[RASTER_CHANGES_MAX];
-  };
-typedef struct _raster_changes raster_changes_t;
+};
+typedef struct raster_changes_s raster_changes_t;
 
-void raster_changes_init (raster_changes_t *changes);
-raster_changes_t *raster_changes_new (void);
+void raster_changes_init(raster_changes_t *changes);
+raster_changes_t *raster_changes_new(void);
 
 /* Inline functions.  These need to be *fast*.  */
 
 /* Apply change number `idx' in `changes'.  */
-inline static void
-raster_changes_apply (raster_changes_t *changes,
-		      unsigned int idx)
+inline static void raster_changes_apply(raster_changes_t *changes,
+                                        unsigned int idx)
 {
-  raster_changes_action_t *action;
+    raster_changes_action_t *action;
 
-  action = changes->actions + idx;
+    action = changes->actions + idx;
 
-  switch (changes->actions[idx].type)
-    {
-    case RASTER_CHANGES_TYPE_INT:
-      *action->value.integer.oldp = action->value.integer.newone;
-      break;
-    case RASTER_CHANGES_TYPE_PTR:
-    default:			/* To be faster.  */
-      *action->value.ptr.oldp = action->value.ptr.newone;
-      break;
+    switch (changes->actions[idx].type) {
+      case RASTER_CHANGES_TYPE_INT:
+        *action->value.integer.oldp = action->value.integer.newone;
+        break;
+      case RASTER_CHANGES_TYPE_PTR:
+      default:                    /* To be faster.  */
+        *action->value.ptr.oldp = action->value.ptr.newone;
+        break;
     }
 }
 
 /* Remove all the changes in `changes'.  */
-inline static void
-raster_changes_remove_all (raster_changes_t *changes)
+inline static void raster_changes_remove_all(raster_changes_t *changes)
 {
-  changes->count = 0;
+    changes->count = 0;
 }
 
 /* Apply all the changes in `changes'.  */
-inline static void
-raster_changes_apply_all (raster_changes_t *changes)
+inline static void raster_changes_apply_all(raster_changes_t *changes)
 {
-  unsigned int i;
+    unsigned int i;
 
-  for (i = 0; i < changes->count; i++)
-    raster_changes_apply (changes, i);
+    for (i = 0; i < changes->count; i++)
+        raster_changes_apply(changes, i);
 
-  raster_changes_remove_all (changes);
+    raster_changes_remove_all(changes);
 }
 
 /* Add an int change.  */
-inline static void
-raster_changes_add_int (raster_changes_t *changes,
-			int where,
-			int *ptr,
-			int new_value)
+inline static void raster_changes_add_int(raster_changes_t *changes,
+                                          int where,
+                                          int *ptr,
+                                          int new_value)
 {
-  raster_changes_action_t *action;
+    raster_changes_action_t *action;
 
-  action = changes->actions + changes->count++;
+    action = changes->actions + changes->count++;
 
-  action->where = where;
-  action->type = RASTER_CHANGES_TYPE_INT;
-  action->value.integer.oldp = ptr;
-  action->value.integer.newone = new_value;
+    action->where = where;
+    action->type = RASTER_CHANGES_TYPE_INT;
+    action->value.integer.oldp = ptr;
+    action->value.integer.newone = new_value;
 }
 
 /* Add a pointer (`void *') change.  */
-inline static void
-raster_changes_add_ptr (raster_changes_t *changes,
-			int where,
-			void **ptr,
-			void *new_value)
+inline static void raster_changes_add_ptr(raster_changes_t *changes,
+                                          int where,
+                                          void **ptr,
+                                          void *new_value)
 {
-  raster_changes_action_t *action;
+    raster_changes_action_t *action;
 
-  action = changes->actions + changes->count++;
+    action = changes->actions + changes->count++;
 
-  action->where = where;
-  action->type = RASTER_CHANGES_TYPE_PTR;
-  action->value.ptr.oldp = ptr;
-  action->value.ptr.newone = new_value;
+    action->where = where;
+    action->type = RASTER_CHANGES_TYPE_PTR;
+    action->value.ptr.oldp = ptr;
+    action->value.ptr.newone = new_value;
 }
 
 #endif
+

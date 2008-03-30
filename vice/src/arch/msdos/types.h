@@ -63,21 +63,21 @@ typedef DWORD CLOCK;
 #define CLOCK_MAX (~((CLOCK)0))
 
 #if X_DISPLAY_DEPTH == 16
-typedef WORD		  		PIXEL;
+typedef WORD                            PIXEL;
 #elif X_DISPLAY_DEPTH == 24
-typedef DWORD				PIXEL;
+typedef DWORD                           PIXEL;
 #elif X_DISPLAY_DEPTH == 8 || X_DISPLAY_DEPTH == 0
-typedef BYTE		PIXEL;
+typedef BYTE            PIXEL;
 #else
 #error Unsupported display depth!
 #endif
 
 #if X_DISPLAY_DEPTH == 8 || X_DISPLAY_DEPTH == 0
-typedef WORD		PIXEL2;
-typedef DWORD		PIXEL4;
+typedef WORD            PIXEL2;
+typedef DWORD           PIXEL4;
 #else
-typedef struct { PIXEL a, b; }		PIXEL2;
-typedef struct { PIXEL a, b, c, d; }	PIXEL4;
+typedef struct { PIXEL a, b; }          PIXEL2;
+typedef struct { PIXEL a, b, c, d; }    PIXEL4;
 #endif
 
 #if defined(__GNUC__) && !defined(NO_REGPARM)
