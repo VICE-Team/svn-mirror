@@ -41,8 +41,6 @@ typedef struct keymap_t {
   unsigned char *shift_sflag;
 } keymap_t;
 
-extern BYTE joystick_value[3];
-
 extern Joy_Keys JoystickKeys[2];
 extern int kbd_update_joykeys(int port);
 
@@ -53,23 +51,9 @@ extern int kbd_load_keymap(const char *filename, int number);
 extern int kbd_dump_keymap(const char *filename, int number);
 
 extern int kbd_init(void);
-extern int kbd_init_resources(void);
-extern int kbd_init_cmdline_options(void);
 extern const char *kbd_intkey_to_string(int intkey);
 
 extern void kbd_poll(void);
-
-extern int pet_kbd_init_resources(void);
-extern int pet_kbd_init_cmdline_options(void);
-
-extern int c64_kbd_init(void);
-extern int c128_kbd_init(void);
-extern int vic20_kbd_init(void);
-extern int pet_kbd_init(void);
-extern int c610_kbd_init(void);
-
-typedef void (*key_ctrl_column4080_func_t) (void);
-extern void kbd_register_column4080_key(key_ctrl_column4080_func_t func);
 
 #endif
 

@@ -78,6 +78,7 @@
 #include "c610tpi.h"
 #include "drive.h"
 #include "kbd.h"
+#include "keyboard.h"
 #include "parallel.h"
 #include "pruser.h"
 #include "types.h"

@@ -44,7 +44,7 @@
 
 #include "cmdline.h"
 #include "joystick.h"
-#include "kbd.h"
+#include "keyboard.h"
 #include "log.h"
 #include "resources.h"
 #include "types.h"

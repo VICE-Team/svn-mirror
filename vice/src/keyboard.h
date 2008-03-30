@@ -30,6 +30,8 @@
 #ifndef _KEYBOARD_H
 #define _KEYBOARD_H
 
+#include "types.h"
+
 /* Maximum of keyboard array (CBM-II values
  * (8 for C64/VIC20, 10 for PET, 11 for C128; we need max).  */
 #define KBD_ROWS    16
@@ -45,6 +47,22 @@ extern void keyboard_clear_keymatrix(void);
 /* This ugly externs will go away sooner or later.  */
 extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
+extern BYTE joystick_value[3];
+
+extern int c64_kbd_init(void);
+extern int c128_kbd_init(void);
+extern int vic20_kbd_init(void);
+extern int pet_kbd_init(void);
+extern int c610_kbd_init(void);
+
+extern int kbd_init_cmdline_options(void);
+extern int kbd_init_resources(void);
+
+extern int pet_kbd_init_cmdline_options(void);
+extern int pet_kbd_init_resources(void);
+
+typedef void (*key_ctrl_column4080_func_t) (void);
+extern void kbd_register_column4080_key(key_ctrl_column4080_func_t func);
 
 #endif
 

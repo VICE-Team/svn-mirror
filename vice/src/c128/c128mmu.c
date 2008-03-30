@@ -31,7 +31,7 @@
 #include "c64mem.h"
 #include "cmdline.h"
 #include "interrupt.h"
-#include "kbd.h"
+#include "keyboard.h"
 #include "log.h"
 #include "mem.h"
 #include "resources.h"

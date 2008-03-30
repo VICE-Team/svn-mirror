@@ -60,6 +60,7 @@
 #include "datasette.h"
 #include "drive.h"
 #include "kbd.h"
+#include "keyboard.h"
 #include "maincpu.h"
 #include "types.h"
 #include "viacore.h"

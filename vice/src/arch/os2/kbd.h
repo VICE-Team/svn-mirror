@@ -37,7 +37,6 @@
 
 extern int  keyarr    [KBD_ROWS];
 extern int  rev_keyarr[KBD_COLS];
-extern BYTE joystick_value[3];
 
 /* Keymap definition structure.  */
 typedef struct {
@@ -65,20 +64,6 @@ typedef enum {
 extern BYTE _kbd_extended_key_tab[];
 
 int kbd_init(int num, ...);
-int kbd_init_resources(void);
-int pet_kbd_init_resources(void);
-int kbd_init_cmdline_options(void);
-int pet_kbd_init_cmdline_options(void);
-void kbd_clear_keymatrix(void);
-
-extern int c64_kbd_init(void);
-extern int c128_kbd_init(void);
-extern int vic20_kbd_init(void);
-extern int pet_kbd_init(void);
-extern int c610_kbd_init(void);
-
-typedef void (*key_ctrl_column4080_func_t) (void);
-extern void kbd_register_column4080_key(key_ctrl_column4080_func_t func);
 
 /* ----------------------- OS/2 specific stuff ----------------------- */
 void wmChar(HWND hwnd, MPARAM mp1);
@@ -86,3 +71,4 @@ void switch_capslock_led_off();
 void ui_reset();
 
 #endif
+

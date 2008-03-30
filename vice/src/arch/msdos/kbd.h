@@ -56,27 +56,12 @@ typedef enum {
 
 extern BYTE _kbd_extended_key_tab[256];
 
-extern int kbd_init_resources(void);
-extern int pet_kbd_init_resources(void);
-extern int kbd_init_cmdline_options(void);
-extern int pet_kbd_init_cmdline_options(void);
 extern int kbd_init(int num, ...);
 extern void kbd_install(void);
 extern void kbd_uninstall(void);
 extern void kbd_flush_commands(void);
 extern void kbd_set_freeze_function(void (*f)(void));
 extern const char *kbd_code_to_string(kbd_code_t kcode);
-
-extern BYTE joystick_value[3];
-
-extern int c64_kbd_init(void);
-extern int c128_kbd_init(void);
-extern int vic20_kbd_init(void);
-extern int pet_kbd_init(void);
-extern int c610_kbd_init(void);
-
-typedef void (*key_ctrl_column4080_func_t) (void);
-extern void kbd_register_column4080_key(key_ctrl_column4080_func_t func);
 
 #endif
 

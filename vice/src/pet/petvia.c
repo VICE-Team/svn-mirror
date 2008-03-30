@@ -56,6 +56,7 @@
 #include "drive.h"
 #include "drivecpu.h"
 #include "kbd.h"
+#include "keyboard.h"
 #include "maincpu.h"
 #include "parallel.h"
 #include "petsound.h"

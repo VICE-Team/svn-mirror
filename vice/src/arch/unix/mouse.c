@@ -32,8 +32,7 @@
 #include <stdio.h>
 
 #include "cmdline.h"
-#include "kbd.h"  /* for joystick_value[]...
-                     (this is ugly and should be fixed) */
+#include "keyboard.h"
 #include "mouse.h"
 #include "log.h"
 #include "resources.h"
