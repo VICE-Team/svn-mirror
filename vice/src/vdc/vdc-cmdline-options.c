@@ -48,6 +48,12 @@ static cmdline_option_t cmdline_options[] =
   { "-VDC_palette", SET_RESOURCE, 1, NULL, NULL,
     "VDC_PaletteFile", NULL,
     "<name>", "Specify palette file name"},
+  { "-16KB", SET_RESOURCE, 0, NULL, NULL,
+    "VDC_64KB", (resource_value_t) 0,
+    NULL, "Set the VDC memory size to 16KB"},
+  { "-64KB", SET_RESOURCE, 0, NULL, NULL,
+    "VDC_64KB", (resource_value_t) 1,
+    NULL, "Set the VDC memory size to 64KB"},
   { NULL }
 };
 
