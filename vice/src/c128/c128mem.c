@@ -577,21 +577,22 @@ static void REGPARM2 editor_store(ADDRESS addr, BYTE value)
     STORE_TOP_SHARED(addr, value);
 }
 
+BYTE REGPARM1 d5xx_read(ADDRESS addr)
+{
+    return vicii_read_phi1();
+}
+
+void REGPARM2 d5xx_store(ADDRESS addr, BYTE value)
+{
+}
+
 BYTE REGPARM1 d7xx_read(ADDRESS addr)
 {
-#if 0                           /*def HAVE_RS232 */
-    if (acia_d7_enabled)
-        return acia2_read(addr);
-#endif
-    return 0xff;
+    return vicii_read_phi1();
 }
 
 void REGPARM2 d7xx_store(ADDRESS addr, BYTE value)
 {
-#if 0                           /*def HAVE_RS232 */
-        if (acia_d7_enabled)
-            acia2_read(addr, value);
-#endif
 }
 
 /* $E000 - $FFFF: RAM or Kernal.  */
@@ -1936,8 +1937,8 @@ void mem_initialize_memory(void)
 
                 mem_read_tab[128+j][0xd4] = sid_read;
                 mem_write_tab[128+j][0xd4] = sid_store;
-                mem_read_tab[128+j][0xd5] = mmu_read;
-                mem_write_tab[128+j][0xd5] = mmu_store;
+                mem_read_tab[128+j][0xd5] = d5xx_read;
+                mem_write_tab[128+j][0xd5] = d5xx_store;
                 mem_read_tab[128+j][0xd6] = vdc_read;
                 mem_write_tab[128+j][0xd6] = vdc_store;
                 mem_read_tab[128+j][0xd7] = d7xx_read;
