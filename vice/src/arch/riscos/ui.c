@@ -3789,16 +3789,16 @@ static int ui_menu_select_ibar(int *b, int **menu)
     int cols;
 
     case Menu_IBar_License:
-      ui_message_get_dimensions(license_text, &cols, NULL);
-      ui_message_window_open(msg_win_license, SymbolStrings[Symbol_TitLicense], license_text, cols, 0);
+      ui_message_get_dimensions(info_license_text, &cols, NULL);
+      ui_message_window_open(msg_win_license, SymbolStrings[Symbol_TitLicense], info_license_text, cols, 0);
       break;
     case Menu_IBar_Warranty:
-      ui_message_get_dimensions(warranty_text, &cols, NULL);
-      ui_message_window_open(msg_win_warranty, SymbolStrings[Symbol_TitWarranty], warranty_text, cols, 0);
+      ui_message_get_dimensions(info_warranty_text, &cols, NULL);
+      ui_message_window_open(msg_win_warranty, SymbolStrings[Symbol_TitWarranty], info_warranty_text, cols, 0);
       break;
     case Menu_IBar_Contrib:
-      ui_message_get_dimensions(contrib_text, &cols, NULL);
-      ui_message_window_open(msg_win_contrib, SymbolStrings[Symbol_TitContrib], contrib_text, cols, 0);
+      ui_message_get_dimensions(info_contrib_text, &cols, NULL);
+      ui_message_window_open(msg_win_contrib, SymbolStrings[Symbol_TitContrib], info_contrib_text, cols, 0);
       break;
     case Menu_IBar_LogWin:
       ui_open_log_window();

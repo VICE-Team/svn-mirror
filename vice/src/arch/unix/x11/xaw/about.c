@@ -57,17 +57,18 @@ static UI_CALLBACK(info_dialog_close_callback)
 
 static UI_CALLBACK(info_dialog_license_callback)
 {
-    ui_show_text(_("VICE is FREE software!"), license_text, -1, -1);
+    ui_show_text(_("VICE is FREE software!"), info_license_text, -1, -1);
 }
 
 static UI_CALLBACK(info_dialog_no_warranty_callback)
 {
-    ui_show_text(_("No warranty!"), warranty_text, -1, -1);
+    ui_show_text(_("No warranty!"), info_warranty_text, -1, -1);
 }
 
 static UI_CALLBACK(info_dialog_contrib_callback)
 {
-    ui_show_text(_("Contributors to the VICE project"), contrib_text, -1, -1);
+    ui_show_text(_("Contributors to the VICE project"), info_contrib_text,
+                 -1, -1);
 }
 
 static Widget build_info_dialog(Widget parent,

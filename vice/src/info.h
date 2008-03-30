@@ -28,9 +28,9 @@
 #ifndef _INFO_H
 #define _INFO_H
 
-extern const char license_text[];
-extern const char contrib_text[];
-extern const char warranty_text[];
+extern const char info_license_text[];
+extern const char info_contrib_text[];
+extern const char info_warranty_text[];
 
 #endif
 

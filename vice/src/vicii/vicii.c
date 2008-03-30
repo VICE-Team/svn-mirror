@@ -52,7 +52,6 @@
 #include "c64.h"
 #include "cartridge.h"
 #include "c64cart.h"
-#include "c64mem.h"
 #include "clkguard.h"
 #include "interrupt.h"
 #include "log.h"
@@ -861,7 +860,7 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
         vic_ii.screen_base = vic_ii.ram_base_phi2 + screen_addr;
         VIC_II_DEBUG_REGISTER(("\tVideo memory at $%04X\n", screen_addr));
     } else {
-        vic_ii.screen_base = chargen_rom_ptr + (screen_addr & 0x800);
+        vic_ii.screen_base = mem_chargen_rom_ptr + (screen_addr & 0x800);
         VIC_II_DEBUG_REGISTER(("\tVideo memory at Character ROM + $%04X\n",
                               screen_addr & 0x800));
     }
@@ -879,7 +878,7 @@ void vic_ii_update_memory_ptrs(unsigned int cycle)
         char_base = vic_ii.ram_base_phi1 + tmp;
         VIC_II_DEBUG_REGISTER(("\tUser-defined character set at $%04X\n", tmp));
     } else {
-        char_base = chargen_rom_ptr + (tmp & 0x0800);
+        char_base = mem_chargen_rom_ptr + (tmp & 0x0800);
         VIC_II_DEBUG_REGISTER(("\tStandard %s character set enabled\n",
                                tmp & 0x800 ? "Lower Case" : "Upper Case"));
     }
@@ -1399,7 +1398,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
                       + ((*spr_base - 0xc0) << 6));
         } else {
             if (!(vic_ii.vbank_phi1 & 0x4000) && (*spr_base & 0xc0) == 0x40)
-                src = chargen_rom_ptr + ((*spr_base - 0x40) << 6);
+                src = mem_chargen_rom_ptr + ((*spr_base - 0x40) << 6);
         }
 
         dest[0] = src[my_memptr];

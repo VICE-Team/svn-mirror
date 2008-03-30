@@ -1100,16 +1100,18 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         free(dname);
         break;
       case IDM_CONTRIBUTORS:
-        ui_show_text(hwnd, "VICE contributors", "Who made what?", contrib_text);
+        ui_show_text(hwnd, "VICE contributors", "Who made what?",
+                     info_contrib_text);
         break;
       case IDM_LICENSE:
         ui_show_text(hwnd, "License",
-                     "VICE license (GNU General Public License)", license_text);
+                     "VICE license (GNU General Public License)",
+                     info_license_text);
         break;
       case IDM_WARRANTY:
         ui_show_text(hwnd, "No warranty!",
                      "VICE is distributed WITHOUT ANY WARRANTY!",
-                     warranty_text);
+                     info_warranty_text);
         break;
       case IDM_CMDLINE:
         ui_cmdline_show_options(hwnd);

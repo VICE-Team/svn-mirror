@@ -35,17 +35,18 @@ GtkWidget *about;
 
 static void license_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
-    ui_show_text(_("VICE is FREE software!"), license_text, 500, 300);
+    ui_show_text(_("VICE is FREE software!"), info_license_text, 500, 300);
 }
 
 static void warranty_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
-    ui_show_text(_("No warranty!"), warranty_text, 500, 300);
+    ui_show_text(_("No warranty!"), info_warranty_text, 500, 300);
 }
 
 static void contrib_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
-    ui_show_text(_("Contributors to the VICE project"), contrib_text, 500, 300);
+    ui_show_text(_("Contributors to the VICE project"), info_contrib_text,
+                 500, 300);
 }
 
 

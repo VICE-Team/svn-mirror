@@ -593,16 +593,16 @@ void ui_dispatch_events(void)
 				free(abouttext);
 				break;
 			case MENU_CONTRIBUTORS:
-				ui_show_text("Contributors","Who made what?",contrib_text);
+				ui_show_text("Contributors","Who made what?", info_contrib_text);
 				break;
 			case MENU_LICENSE:
 		    	ui_show_text("License",
-        	    	"VICE license (GNU General Public License)", license_text);
+        	    	"VICE license (GNU General Public License)", info_license_text);
         		break;
       		case MENU_WARRANTY:
         		ui_show_text("No warranty!",
             		"VICE is distributed WITHOUT ANY WARRANTY!",
-                     warranty_text);
+                     info_warranty_text);
         		break;
 			case MENU_CMDLINE:
 				ui_cmdline_show_options();

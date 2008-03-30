@@ -1290,15 +1290,15 @@ static tui_menu_item_def_t info_submenu[] = {
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Who made what?",
       "VICE contributors",
-      show_info_callback, (void *)contrib_text, 0,
+      show_info_callback, (void *)info_contrib_text, 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_License",
       "VICE license (GNU General Public License)",
-      show_info_callback, (void *)license_text, 0,
+      show_info_callback, (void *)info_license_text, 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_No warranty!",
       "VICE is distributed WITHOUT ANY WARRANTY!",
-      show_info_callback, (void *)warranty_text, 0,
+      show_info_callback, (void *)info_warranty_text, 0,
       TUI_MENU_BEH_CONTINUE },
     { NULL }
 };

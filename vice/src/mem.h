@@ -47,6 +47,7 @@ extern BYTE *mem_page_one;
 extern BYTE *mem_color_ram_ptr;
 
 extern unsigned int mem_old_reg_pc;
+extern BYTE *mem_chargen_rom_ptr;
 
 extern const char *mem_romset_resources_list[];
 

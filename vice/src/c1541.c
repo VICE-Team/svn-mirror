@@ -2200,9 +2200,9 @@ static int show_cmd(int nargs, char **args)
     const char *text;
 
     if (strcasecmp(args[1], "copying") == 0) {
-        text = license_text;
+        text = info_license_text;
     } else if (strcasecmp(args[1], "warranty") == 0) {
-        text = warranty_text;
+        text = info_warranty_text;
     } else {
         fprintf(stderr, "Use either `show copying' or `show warranty'.\n");
         return FD_OK;           /* FIXME? */

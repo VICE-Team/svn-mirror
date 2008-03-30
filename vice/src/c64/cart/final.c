@@ -92,7 +92,7 @@ void REGPARM2 final_v3_io2_store(ADDRESS addr, BYTE value)
         romh_bank = roml_bank = value & 3;
         export.game = ((value >> 5) & 1) ^ 1;
         export.exrom = ((value >> 4) & 1) ^ 1;
-        pla_config_changed();
+        mem_pla_config_changed();
         cart_ultimax_phi1 = export.game & (export.exrom ^ 1);
         cart_ultimax_phi2 = export.game & (export.exrom ^ 1);
         if ((value & 0x30) == 0x10)

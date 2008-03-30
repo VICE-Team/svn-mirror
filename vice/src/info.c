@@ -28,7 +28,7 @@
 /* FIXME: For now, we avoid ISO characters completely to avoid problems with
    MS-DOS.  But we should provide some automatic conversion instead.  */
 
-const char license_text[] =
+const char info_license_text[] =
 "                 GNU GENERAL PUBLIC LICENSE\n"
 "                    Version 2, June 1991\n"
 "\n"
@@ -310,7 +310,7 @@ const char license_text[] =
 "the sharing and reuse of software generally.\n";
 
 
-const char warranty_text[] =
+const char info_warranty_text[] =
 "NO WARRANTY\n"
 "~~~~~~~~~~~\n"
 "\n"
@@ -340,7 +340,7 @@ const char warranty_text[] =
 "EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF\n"
 "THE POSSIBILITY OF SUCH DAMAGES.\n";
 
-const char contrib_text[] =
+const char info_contrib_text[] =
 "VICE derives from X64, the first Commodore 64 emulator for the X\n"
 "Window System.  Here is an informal list of the people who were\n"
 "mostly involved in the development of X64 and VICE:\n"

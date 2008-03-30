@@ -48,7 +48,7 @@ void REGPARM2 supergames_io2_store(ADDRESS addr, BYTE value)
     }
     if (value == 0xc)
         export.game = export.exrom = 0;
-    pla_config_changed();
+    mem_pla_config_changed();
 }
 
 void supergames_config_init(void)

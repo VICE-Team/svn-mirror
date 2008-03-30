@@ -90,7 +90,7 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2,
     export.exrom = ((mode_phi2 >> 1) & 1) ^ 1;
     romh_bank = roml_bank = (mode_phi2 >> 3) & 3;
     export_ram = (mode_phi2 >> 5) & 1;
-    pla_config_changed();
+    mem_pla_config_changed();
     if (mode_phi2 & 0x40)
         cartridge_release_freeze();
     cart_ultimax_phi1 = (mode_phi1 & 1) & ((mode_phi1 >> 1) & 1);
@@ -188,7 +188,7 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
             break;
         }
         export.game = export.exrom = 1;
-        pla_config_changed();
+        mem_pla_config_changed();
         cart_ultimax_phi1 = 0;
         cart_ultimax_phi2 = 0;
         break;
