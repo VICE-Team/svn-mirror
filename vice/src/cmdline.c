@@ -41,7 +41,7 @@
 
 
 static unsigned int num_options, num_allocated_options;
-static cmdline_option_t *options;
+static cmdline_option_ram_t *options;
 
 
 int cmdline_init(void)
@@ -51,7 +51,7 @@ int cmdline_init(void)
 
     num_allocated_options = 100;
     num_options = 0;
-    options = (cmdline_option_t *)lib_malloc(sizeof(cmdline_option_t)
+    options = (cmdline_option_ram_t *)lib_malloc(sizeof(cmdline_option_ram_t)
               * num_allocated_options);
 
     return 0;
@@ -59,32 +59,56 @@ int cmdline_init(void)
 
 int cmdline_register_options(const cmdline_option_t *c)
 {
-    cmdline_option_t *p;
+    cmdline_option_ram_t *p;
 
     p = options + num_options;
     for (; c->name != NULL; c++, p++) {
         if (num_allocated_options <= num_options) {
             num_allocated_options *= 2;
-            options = (cmdline_option_t *)lib_realloc(options,
-                      (sizeof(cmdline_option_t) * num_allocated_options));
+            options = (cmdline_option_ram_t *)lib_realloc(options,
+                      (sizeof(cmdline_option_ram_t) * num_allocated_options));
             p = options + num_options;
         }
 
-        memcpy(p, c, sizeof(cmdline_option_t));
+        p->name = lib_stralloc(c->name);
+        p->type = c->type;
+        p->need_arg = c->need_arg;
+        p->set_func = c->set_func;
+        p->extra_param = c->extra_param;
+        if (c->resource_name != NULL)
+            p->resource_name = lib_stralloc(c->resource_name);
+        else
+            p->resource_name = NULL;
+        p->resource_value = c->resource_value;
+        p->param_name = c->param_name;
+        p->description = c->description;
+
         num_options++;
     }
 
     return 0;
 }
 
+static void cmdline_free(void)
+{
+    unsigned int i;
+
+    for (i = 0; i < num_options; i++) {
+        lib_free((options + i)->name);
+        lib_free((options + i)->resource_name);
+    }
+}
+
 void cmdline_shutdown(void)
 {
+    cmdline_free();
+
     lib_free(options);
 }
 
-static cmdline_option_t *lookup(const char *name, int *is_ambiguous)
+static cmdline_option_ram_t *lookup(const char *name, int *is_ambiguous)
 {
-    cmdline_option_t *match;
+    cmdline_option_ram_t *match;
     size_t name_len;
     unsigned int i;
 
@@ -115,7 +139,7 @@ int cmdline_parse(int *argc, char **argv)
     while (i < *argc) {
         if (*argv[i] == '-' || *argv[i] == '+') {
             int is_ambiguous, retval;
-            cmdline_option_t *p;
+            cmdline_option_ram_t *p;
 
             if (argv[i][1] == '\0') {
                 archdep_startup_log_error("Invalid option '%s'.\n", argv[i]);
