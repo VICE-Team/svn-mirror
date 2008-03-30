@@ -1,3 +1,24 @@
+2006-07-04  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.21.
+
+	* arch/unix/joy.c: Added USB joystick patch by Christian
+	Vogelgsang.
+
+	* arch/unix/joy_mac.c: New file written by Christian
+	Vogelgsang.
+
+	* arch/unix/Makefile.am: Added new file.
+
+	* arch/win32/make-bindist.sh, arch/msdos/make-bindist.sh,
+	arch/beos/make-bindist.sh: Create archive within the VICE
+	directory.
+
+2006-07-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/intl.c: Corrected the italian translations as
+	provided by Eliseo Bianchi <e.bianchi@libero.it>.
+
 2006-07-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.20.

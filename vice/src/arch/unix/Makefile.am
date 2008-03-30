@@ -111,11 +111,12 @@ libarch_a_SOURCES = \
 bin_SCRIPTS = vsid
 
 EXTRA_DIST = \
-	vsid \
+	joy_mac.c \
 	minix/minix-ar.sh \
 	qnx/make-bindist.sh \
 	solaris/make-bindist.sh \
-	solaris/make_package.pl
+	solaris/make_package.pl \
+	vsid
 
 .PHONY: x11
 x11:
