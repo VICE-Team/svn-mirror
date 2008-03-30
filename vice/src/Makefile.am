@@ -199,7 +199,8 @@ EXTRA_DIST = \
 	piacore.c \
 	riotcore.c \
 	tpicore.c \
-	viacore.c
+	viacore.c \
+	$(realdrive_sources)
 
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
