@@ -1,3 +1,9 @@
+2003-02-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.11.10.
+
+	* configure.in: Check for `cwsid.h'.
+
 2003-02-16  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.11.9.

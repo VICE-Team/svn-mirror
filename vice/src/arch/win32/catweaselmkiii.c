@@ -59,7 +59,7 @@ static HANDLE sidhandle[MAXCARDS] = {
 BYTE sidbuf[MAXCARDS*0x20];
 
 static int ntsc=0;
-
+static int atexitinitialized=0;
 
 static void setfreq(void)
 {
@@ -113,7 +113,6 @@ static int initthem(void)
 int catweaselmkiii_init(void)
 {
   int ret=initthem();
-  atexit((voidfunc_t)catweaselmkiii_close);
   if(ret==0)
     log_message(LOG_DEFAULT, "Found and initialized a CatWeasel MK3 PCI SID");
   return ret;
@@ -124,6 +123,11 @@ int catweaselmkiii_open(void)
   int ret=initthem();
   if(ret==0)
     log_message(LOG_DEFAULT, "Found and opened a CatWeasel MK3 PCI SID");
+  if(!atexitinitialized)
+    {
+      atexitinitialized=1;
+      atexit((voidfunc_t)catweaselmkiii_close);
+    }
   return ret;
 }
 
@@ -187,6 +191,5 @@ void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 
 int catweaselmkiii_available(void)
 {
-    /* Return -1 if no hardware is found. */
-    return 0;
+  return initthem();
 }

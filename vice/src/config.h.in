@@ -205,6 +205,9 @@
 /* Define if you have the <commctrl.h> header file.  */
 #undef HAVE_COMMCTRL_H
 
+/* Define if you have the <cwsid.h> header file.  */
+#undef HAVE_CWSID_H
+
 /* Define if you have the <dir.h> header file.  */
 #undef HAVE_DIR_H
 
