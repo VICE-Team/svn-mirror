@@ -73,6 +73,7 @@
 #include "video.h"
 #include "kbd.h"
 #include "resources.h"
+#include "sysfile.h"
 #include "mon.h"
 #include "autostart.h"
 #include "findpath.h"
@@ -177,8 +178,10 @@ int main(int argc, char **argv)
     set_boot_path(argv[0]);
     printf("boot_path = `%s'\n", boot_path);
 
-    /* VICE boot sequence. */
+    /* Initialize system file locator.  */
+    sysfile_init(boot_path, machdesc.machine_name);
 
+    /* VICE boot sequence. */
     printf ("\n*** VICE Version %s ***\n", VERSION);
     printf ("Welcome to %s, the Commodore %s Emulator for the X-Window System."
 	    "\n\n", progname, machdesc.machine_name);
@@ -189,27 +192,55 @@ int main(int argc, char **argv)
     /* Initialize the user interface.  UiInit() might need to handle the
        command line somehow, so we call it before parsing the options.
        (e.g. under X11, the `-display' option is handled independently). */
-    if (UiInit (&argc, argv) < 0)
+    if (UiInit (&argc, argv) < 0) {
+        fprintf(stderr, "Cannot initialize the UI.\n");
 	exit (-1);
+    }
 
-    /* Initialize the resources. */
-    resources_set_defaults(0);
+    /* Initialize resource handling.  */
+    if (resources_init(machdesc.machine_name)) {
+        fprintf(stderr, "Cannot initialize resource handling.\n");
+        exit(-1);
+    }
 
-    /* Load the user's configuration file. */
-    if (resources_load(NULL, machdesc.machine_name) == -1) {
+    /* Initialize resources for system file locator.  */
+    if (sysfile_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize resources for the system file locator.\n");
+        exit(-1);
+    }
+
+    /* Initialize UI-specific resources.  */
+    if (ui_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize UI-specific resources.\n");
+        exit(-1);
+    }
+
+    /* Initialize machine-specific resources.  */
+    if (machine_init_resources() < 0) {
+        fprintf(stderr, "Cannot initialize machine-specific resources.\n");
+        exit(-1);
+    }
+
+    /* Set factory defaults.  */
+    resources_set_defaults();
+
+    /* Load the user's default configuration file.  */
+    if (resources_load(NULL) == -1) {
 	fprintf(stderr,
 		"Couldn't find user's configuration file: "
 		"using default settings.\n");
 	/* The resource file might contain errors, and thus certain resources
-	   might have been initialized anyway. */
+	   might have been initialized anyway.  */
 	resources_set_defaults();
     }
 
     putchar('\n');
 
+#if 0
     /* Parse the command line. */
     if (parse_cmd_line(&argc, argv))
 	exit(-1);
+#endif
 
     /* Complete the GUI initialization (after loading the resources) if
        necessary. */
@@ -240,13 +271,6 @@ int main(int argc, char **argv)
     app_resources.mitshm = 0;
 #endif
 
-#ifndef __MSDOS__
-    printf ("Initializing graphics (MITSHM %s)...\n\n",
-	    app_resources.mitshm ? "enabled" : "disabled");
-#else
-    puts ("Initializing graphics...\n");
-#endif
-
     if (video_init() < 0)
 	exit (-1);
 
@@ -255,6 +279,8 @@ int main(int argc, char **argv)
         fprintf(stderr, "Machine initialization failed.\n");
         exit(1);
     }
+
+#if 0
 
     /* Attach specified disk images. */
 
@@ -276,6 +302,8 @@ int main(int argc, char **argv)
 	    fprintf (stderr, "No Tape.\n");
 	}
 
+#endif
+
 #ifdef SOUND
 #ifdef __MSDOS__
     if (app_resources.doSoundSetup) {
@@ -289,16 +317,6 @@ int main(int argc, char **argv)
 #endif
 
     putchar ('\n');
-
-    /* Use the specified start address for booting up. */
-    if (app_resources.startAddr)
-	start_addr = (ADDRESS) strtol(app_resources.startAddr, NULL,
-				      app_resources.hexFlag ? 16 : 10);
-    else
-        start_addr = 0;		/* Use normal RESET vector. */
-
-    if (app_resources.asmFlag)
-	mon(start_addr);
 
     maincpu_trigger_reset();
 

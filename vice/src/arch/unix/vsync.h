@@ -28,6 +28,7 @@
 #define _VSYNC_UNIX_H
 
 extern void suspend_speed_eval(void);
+extern int vsync_init_resources(void);
 extern void vsync_init(double hz, long cycles, void (*hook)(void));
 extern int do_vsync(int been_skipped);
 extern int vsync_disable_timer(void);

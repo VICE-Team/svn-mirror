@@ -66,6 +66,45 @@
 #define SA_RESTART 0
 #endif
 
+/* ------------------------------------------------------------------------- */
+
+/* Relative speed of the emulation (%).  0 means "don't limit speed".  */
+static int relative_speed;
+
+/* Refresh rate.  0 means "auto".  */
+static int refresh_rate;
+
+/* FIXME: This should call `set_timers'.  */
+static int set_relative_speed(resource_value_t v)
+{
+    relative_speed = (int) v;
+    return 0;
+}
+
+static int set_refresh_rate(resource_value_t v)
+{
+    if ((int) v < 0)
+        return -1;
+    refresh_rate = (int) v;
+    return 0;
+}
+
+/* Vsync-related resources.  */
+static resource_t resources[] = {
+    { "Speed", RES_INTEGER, (resource_value_t) 100,
+      (resource_value_t *) &relative_speed, set_relative_speed },
+    { "RefreshRate", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &refresh_rate, set_refresh_rate },
+    { NULL }
+};
+
+int vsync_init_resources(void)
+{
+    return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* Maximum number of frames we can skip consecutively when adjusting the
    refresh rate dynamically. */
 #define MAX_SKIPPED_FRAMES	10
@@ -221,7 +260,6 @@ int do_vsync(int been_skipped)
     static unsigned short frame_counter = USHRT_MAX;
     static unsigned short num_skipped_frames;
     static int skip_counter;
-    static int refresh_rate = 1;
     int skip_next_frame = 0;
 
     vsync_hook();
@@ -229,9 +267,9 @@ int do_vsync(int been_skipped)
     if (been_skipped)
 	num_skipped_frames++;
 
-    if (timer_speed != app_resources.speed) {
+    if (timer_speed != relative_speed) {
 	frame_counter = USHRT_MAX;
-	if (set_timer_speed(app_resources.speed) < 0) {
+	if (set_timer_speed(relative_speed) < 0) {
 	    fprintf(stderr, "Trouble setting timers... giving up.\n");
 	    exit(-1);
 	}
@@ -255,8 +293,7 @@ int do_vsync(int been_skipped)
 	} else {
 	    skip_counter = elapsed_frames = 0;
 	}
-	if (app_resources.sound)
-	    flush_sound();
+        flush_sound(relative_speed);
     } else {
 	/* Dynamically adjusted refresh rate. */
 	update_elapsed_frames(0);
@@ -272,8 +309,7 @@ int do_vsync(int been_skipped)
 		skip_counter = elapsed_frames = 0;
 	    }
 	}
-	if (app_resources.sound)
-	    flush_sound();
+        flush_sound(relative_speed);
     }
 
     if (frame_counter >= refresh_frequency * 2) {
@@ -284,8 +320,6 @@ int do_vsync(int been_skipped)
 	frame_counter++;
 
     kbd_buf_flush();
-
-    refresh_rate = app_resources.refreshRate;
 
     return skip_next_frame;
 }
