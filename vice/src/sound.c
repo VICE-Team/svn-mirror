@@ -405,7 +405,7 @@ static int sound_run_sound(void)
 {
     int				nr, i;
     /* XXX: implement the exact ... */
-    if (!playback_enabled || warp_mode_enabled)
+    if (!playback_enabled)
 	return 1;
     if (suspend_time > 0 && disabletime)
         return 1;
@@ -447,7 +447,7 @@ int sound_flush(int relative_speed)
 {
     int			i, nr, space, used, fill = 0, dir = 0;
 
-    if (!playback_enabled || warp_mode_enabled)
+    if (!playback_enabled)
         return 0;
 
     if (suspend_time > 0)
@@ -456,6 +456,12 @@ int sound_flush(int relative_speed)
     if (i)
 	return 0;
     sound_resume();
+
+    if (warp_mode_enabled && snddata.pdev->bufferstatus != NULL) {
+      snddata.bufptr = 0;
+      return 0;
+    }
+
     if (snddata.pdev->flush)
     {
 	char *state = sound_machine_dump_state(snddata.psid);
@@ -758,5 +764,4 @@ void sound_store(ADDRESS addr, BYTE val)
 void sound_set_warp_mode(int value)
 {
     warp_mode_enabled = value;
-    sound_close();
 }

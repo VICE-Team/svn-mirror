@@ -430,8 +430,8 @@ int autostart_disk(const char *file_name, const char *program_name)
 int autostart_prg(const char *file_name)
 {
     FILE *f;
-    BYTE *cbm_name;
-    BYTE p00_header_file_name[20]; /* FIXME */
+    char *cbm_name;
+    char p00_header_file_name[20]; /* FIXME */
     int p00_type;
     char *directory;
     char *file;
@@ -481,7 +481,7 @@ int autostart_prg(const char *file_name)
     }
 
     /* Setup FS-based drive emulation.  */
-    fsdevice_set_directory(directory, 8);
+    fsdevice_set_directory(directory ? directory : ".", 8);
     set_true1541_mode(0);
     resources_set_value("NoTraps", (resource_value_t) 0);
     resources_set_value("FSDevice8ConvertP00", (resource_value_t) 1);

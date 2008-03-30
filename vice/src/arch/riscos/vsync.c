@@ -137,6 +137,7 @@ int do_vsync(int been_skipped)
     } else {
       skip_counter = 0;
     }
+    sound_flush(0);
   } else if (refresh_rate != 0) {
     if (skip_counter < refresh_rate - 1) {
       skip_next_frame = 1;

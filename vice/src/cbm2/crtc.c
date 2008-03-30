@@ -35,10 +35,13 @@
 #include "c610tpi.h"
 #include "crtc.h"
 
-extern ADDRESS addr_mask;
-extern ADDRESS scraddr;
-extern int video_mode;
-extern int chargen_rel;
+static inline void do_update_memory_ptrs(void);
+
+#define	SIGNAL_VERT_BLANK_OFF	tpi1_set_int(0, 1);
+
+#define	SIGNAL_VERT_BLANK_ON	tpi1_set_int(0, 0);
+
+#include "crtccore.c"
 
 static inline void do_update_memory_ptrs(void)
 {
@@ -49,10 +52,4 @@ static inline void do_update_memory_ptrs(void)
     }
     chargen_rel = (chargen_rel & ~0x1000) | ((scraddr & 0x800) ? 0x1000 : 0);
 }
-
-#define	SIGNAL_VERT_BLANK_OFF	tpi1_set_int(0, 1);
-
-#define	SIGNAL_VERT_BLANK_ON	tpi1_set_int(0, 0);
-
-#include "crtccore.c"
 

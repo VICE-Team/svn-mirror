@@ -554,7 +554,7 @@ void ui_restore_mouse() {
 
 
 void initBlankCursor() {
-    static unsigned char no_data[] = { 0,0,0,0, 0,0,0,0 };
+    static char no_data[] = { 0,0,0,0, 0,0,0,0 };
     static Pixmap blank;
     XColor trash, dummy;
 

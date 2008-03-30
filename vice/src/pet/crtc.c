@@ -35,13 +35,15 @@
 #include "petpia.h"
 #include "crtc.h"
 
-extern ADDRESS addr_mask;
-extern ADDRESS scraddr;
-extern int hw_double_cols;
-extern int video_mode;
-extern int chargen_rel;
+static void do_update_memory_ptrs(void);
 
-static inline void do_update_memory_ptrs(void)
+#define	SIGNAL_VERT_BLANK_OFF	signal_pia1(PIA_SIG_CB1, PIA_SIG_RISE);
+
+#define	SIGNAL_VERT_BLANK_ON	signal_pia1(PIA_SIG_CB1, PIA_SIG_FALL);
+
+#include "crtccore.c"
+
+static void do_update_memory_ptrs(void)
 {
     if ((addr_mask & 0x1000) || (scraddr & 0x1000)) {
         video_mode = CRTC_STANDARD_MODE;
@@ -54,10 +56,4 @@ static inline void do_update_memory_ptrs(void)
 
     chargen_rel = (chargen_rel & ~0x1000) | ((scraddr & 0x800) ? 0x1000 : 0);
 }
-
-#define	SIGNAL_VERT_BLANK_OFF	signal_pia1(PIA_SIG_CB1, PIA_SIG_RISE);
-
-#define	SIGNAL_VERT_BLANK_ON	signal_pia1(PIA_SIG_CB1, PIA_SIG_FALL);
-
-#include "crtccore.c"
 

@@ -76,7 +76,8 @@ static int pet_set_conf_info(PetInfo *pi);
 static void pet_check_info(PetRes * pi);
 static void petmem_convert_chargen_2k(void);
 static BYTE REGPARM1 mem_read_patchbuf(ADDRESS addr);
-static BYTE petmem_2001_buf_ef[];
+
+static BYTE petmem_2001_buf_ef[ 256 ];
 
 /* Old program counter.  Not used without MMU support.  */
 unsigned int old_reg_pc;
@@ -1175,7 +1176,6 @@ static BYTE petmem_2001_patchbuf_f3[ 256 ];
 static BYTE petmem_2001_patchbuf_f4[ 256 ];
 static BYTE petmem_2001_patchbuf_f6[ 256 ];
 
-static BYTE petmem_2001_buf_ef[ 256 ];
 
 static BYTE REGPARM1 mem_read_patchbuf(ADDRESS addr)
 {

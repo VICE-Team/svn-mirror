@@ -342,7 +342,7 @@ int do_vsync(int been_skipped)
         } else {
             skip_counter = elapsed_frames = 0;
         }
-        /* sound_flush(0); */
+        sound_flush(0);
     } else if (refresh_rate != 0) {
 	/* Fixed refresh rate.  */
 	update_elapsed_frames(0);

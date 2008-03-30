@@ -319,7 +319,7 @@ void old_joystick(void)
 void new_joystick_init(void) {}
 void new_joystick_close(void) {}
 void new_joystick(void) {}
-#else // NEW_JOYSTICK
+#else /* NEW_JOYSTICK */
 void new_joystick_init (void)
 {
   int i;
@@ -435,6 +435,6 @@ void new_joystick (void)
 	}// switch
     }
 }
-#endif // NEW_JOYSTICK
+#endif  /* NEW_JOYSTICK */
 
 #endif

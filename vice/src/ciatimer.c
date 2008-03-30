@@ -238,12 +238,14 @@ static void INLINE ciat_tostack(ciat_t *state, ciat_state_t *timer)
 
 /* update timer description by checking timer stack for more up-to-date
  * descriptions. After that makes nextz > cclk. 
- * Returns 0 when no underflow has happened, and >0 if so */
+ * Returns 0 when no underflow has happened, or n the number of underflows.
+ * *now is set to 1 if the last underflow is at the current clock */
 /* FIXME: what when alarm is set? */
-static int INLINE ciat_update(ciat_t *state, CLOCK cclk) 
+static int INLINE ciat_update(ciat_t *state, CLOCK cclk, int *now) 
 {
-    int i,j, n;
+    int i,j, n, neg;
 
+    neg = 0;
     n = 0;
 
     CIAT_LOGIN(("%s update: cclk=%d, nst=%d", state->name, cclk, state->nst));
@@ -273,9 +275,11 @@ static int INLINE ciat_update(ciat_t *state, CLOCK cclk)
 	    if(state->last_update < cclk) {
 	        n++;
 	    }
+	    neg = 1;
 	} else
         if (state->st[0].nextz < cclk) {
 	    CLOCK tmp = cclk - state->st[0].clk;
+
 	    n += tmp / (state->st[0].latch + 1); /* FIXME: approximate */
 	    tmp -= tmp % (state->st[0].latch + 1);
 	    state->st[0].clk += tmp;
@@ -291,8 +295,10 @@ static int INLINE ciat_update(ciat_t *state, CLOCK cclk)
 
     state->last_update = cclk;
 
-    CIAT_LOGOUT(("-> n=%d",n));
+    CIAT_LOGOUT(("-> n=%d, neq=%d",n,neg));
 
+    if(now) *now=neg;
+ 
     return n;
 }
 

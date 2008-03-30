@@ -40,7 +40,7 @@ int tap_header_read(BYTE *version, FILE *fd)
     if (fread(buf, TAP_HDR_SIZE, 1, fd) != 1)
         return -1;
 
-    if (strncmp("C64-TAPE-RAW", &buf[TAP_HDR_MAGIC_OFFSET], 12))
+    if (strncmp("C64-TAPE-RAW", (char*)&buf[TAP_HDR_MAGIC_OFFSET], 12))
         return -1;
 
     *version = buf[TAP_HDR_VERSION];

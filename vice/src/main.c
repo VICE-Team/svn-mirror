@@ -100,6 +100,8 @@ static int cmdline_help(const char *param, void *extra_param)
 {
     cmdline_show_help();
     exit(0);
+
+    return 0;	/* OSF1 cc complains */
 }
 
 static int cmdline_default(const char *param, void *extra_param)

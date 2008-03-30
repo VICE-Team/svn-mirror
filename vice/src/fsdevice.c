@@ -151,7 +151,7 @@ static int set_fsdevice_8_dir(resource_value_t v)
         && strcmp(name, fsdevice_8_dir) == 0)
         return 0;
 
-    string_set(&fsdevice_8_dir, name);
+    string_set(&fsdevice_8_dir, name ? name : "");
     return 0;
 }
 
@@ -163,7 +163,7 @@ static int set_fsdevice_9_dir(resource_value_t v)
         && strcmp(name, fsdevice_9_dir) == 0)
         return 0;
 
-    string_set(&fsdevice_9_dir, name);
+    string_set(&fsdevice_9_dir, name ? name : "");
     return 0;
 }
 
@@ -175,7 +175,7 @@ static int set_fsdevice_10_dir(resource_value_t v)
         && strcmp(name, fsdevice_10_dir) == 0)
         return 0;
 
-    string_set(&fsdevice_10_dir, name);
+    string_set(&fsdevice_10_dir, name ? name : "");
     return 0;
 }
 
@@ -187,7 +187,7 @@ static int set_fsdevice_11_dir(resource_value_t v)
         && strcmp(name, fsdevice_11_dir) == 0)
         return 0;
 
-    string_set(&fsdevice_11_dir, name);
+    string_set(&fsdevice_11_dir, name ? name : "");
     return 0;
 }
 
@@ -399,6 +399,10 @@ static char *fsdevice_get_path(int unit)
 	break;
       case 11:
 	return fsdevice_11_dir;
+	break;
+      default:
+	log_error(LOG_DEFAULT, "Boom! fsdevice_get_path called with "
+						"invalid device %d",unit);
 	break;
     }
     return NULL;
