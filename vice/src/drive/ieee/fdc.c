@@ -738,15 +738,15 @@ void fdc_init(drive_context_t *drv)
 #endif
 
     if (fnum == 0) {
-        fdc[fnum].fdc_alarm = alarm_new(drive0_context.cpu.alarm_context,
+        fdc[fnum].fdc_alarm = alarm_new(drive0_context.cpu->alarm_context,
                                         "fdc0", int_fdc0);
-        clk_guard_add_callback(drive0_context.cpu.clk_guard,
+        clk_guard_add_callback(drive0_context.cpu->clk_guard,
                                clk_overflow_callback0, NULL);
     } else
     if (fnum == 1) {
-        fdc[fnum].fdc_alarm = alarm_new(drive1_context.cpu.alarm_context,
+        fdc[fnum].fdc_alarm = alarm_new(drive1_context.cpu->alarm_context,
                                         "fdc1", int_fdc1);
-        clk_guard_add_callback(drive1_context.cpu.clk_guard,
+        clk_guard_add_callback(drive1_context.cpu->clk_guard,
                                clk_overflow_callback1, NULL);
     }
 }

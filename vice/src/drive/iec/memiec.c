@@ -165,7 +165,7 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
             break;
         }
 
-        drv->cpu.pageone = drv->cpud.drive_ram + 0x100;
+        drv->cpu->pageone = drv->cpud.drive_ram + 0x100;
 
         drv->cpud.read_func_nowatch[0] = drive_read_zero;
         drv->cpud.store_func_nowatch[0] = drive_store_zero;

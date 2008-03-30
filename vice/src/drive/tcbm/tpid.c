@@ -220,14 +220,14 @@ void tpid_setup_context(drive_context_t *ctxptr)
 
     tpi->context = (void *)ctxptr;
 
-    tpi->rmw_flag = &(ctxptr->cpu.rmw_flag);
+    tpi->rmw_flag = &(ctxptr->cpu->rmw_flag);
     tpi->clk_ptr = ctxptr->clk_ptr;
 
     tpi->myname = lib_msprintf("Drive%dTPI", ctxptr->mynumber);
 
     tpicore_setup_context(tpi);
 
-    tpi->tpi_int_num = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
+    tpi->tpi_int_num = interrupt_cpu_status_int_new(ctxptr->cpu->int_status,
                                                     tpi->myname);
     tpi->irq_line = IK_IRQ;
     tpip->drive_ptr = ctxptr->drive_ptr;

@@ -63,7 +63,7 @@ static void set_int(via_context_t *via_context, unsigned int int_num,
 
     drive_context = (drive_context_t *)(via_context->context);
 
-    interrupt_set_irq(drive_context->cpu.int_status, int_num, value,
+    interrupt_set_irq(drive_context->cpu->int_status, int_num, value,
                       *(via_context->clk_ptr));
 }
 
@@ -74,7 +74,7 @@ static void restore_int(via_context_t *via_context, unsigned int int_num,
 
     drive_context = (drive_context_t *)(via_context->context);
 
-    interrupt_restore_irq(drive_context->cpu.int_status, int_num, value);
+    interrupt_restore_irq(drive_context->cpu->int_status, int_num, value);
 }
 
 void REGPARM3 via2d_store(drive_context_t *ctxptr, WORD addr, BYTE data)
@@ -287,8 +287,8 @@ void via2d_init(drive_context_t *ctxptr)
     via_desc[0].via_ptr = drive0_context.via2;
     via_desc[1].via_ptr = drive1_context.via2;
 
-    viacore_init(&via_desc[ctxptr->mynumber], ctxptr->cpu.alarm_context,
-                 ctxptr->cpu.int_status, ctxptr->cpu.clk_guard);
+    viacore_init(&via_desc[ctxptr->mynumber], ctxptr->cpu->alarm_context,
+                 ctxptr->cpu->int_status, ctxptr->cpu->clk_guard);
 }
 
 void via2d_setup_context(drive_context_t *ctxptr)
@@ -307,7 +307,7 @@ void via2d_setup_context(drive_context_t *ctxptr)
 
     via->context = (void *)ctxptr;
 
-    via->rmw_flag = &(ctxptr->cpu.rmw_flag);
+    via->rmw_flag = &(ctxptr->cpu->rmw_flag);
     via->clk_ptr = ctxptr->clk_ptr;
 
     via->myname = lib_msprintf("Drive%dVia2", via2p->number);
@@ -317,7 +317,7 @@ void via2d_setup_context(drive_context_t *ctxptr)
 
     via->irq_line = IK_IRQ;
     via->int_num
-        = interrupt_cpu_status_int_new(ctxptr->cpu.int_status, via->myname);
+        = interrupt_cpu_status_int_new(ctxptr->cpu->int_status, via->myname);
 
     via->undump_pra = undump_pra;
     via->undump_prb = undump_prb;

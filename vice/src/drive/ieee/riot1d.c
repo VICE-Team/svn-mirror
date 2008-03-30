@@ -124,8 +124,8 @@ void riot1_init(drive_context_t *ctxptr)
     riot1_initdesc[0].riot_ptr = drive0_context.riot1;
     riot1_initdesc[1].riot_ptr = drive1_context.riot1;
 
-    riotcore_init(riot1_initdesc, ctxptr->cpu.alarm_context,
-                  ctxptr->cpu.clk_guard, ctxptr->mynumber);
+    riotcore_init(riot1_initdesc, ctxptr->cpu->alarm_context,
+                  ctxptr->cpu->clk_guard, ctxptr->mynumber);
 }
 
 void riot1_setup_context(drive_context_t *ctxptr)
@@ -138,7 +138,7 @@ void riot1_setup_context(drive_context_t *ctxptr)
     riot->prv = NULL;
     riot->context = (void *)ctxptr;
 
-    riot->rmw_flag = &(ctxptr->cpu.rmw_flag);
+    riot->rmw_flag = &(ctxptr->cpu->rmw_flag);
     riot->clk_ptr = ctxptr->clk_ptr;
 
     riotcore_setup_context(riot);

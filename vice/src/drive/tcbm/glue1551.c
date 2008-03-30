@@ -120,13 +120,13 @@ static void glue1551d0_timer(CLOCK offset)
         alarm_set(glue1551d0_timer_alarm,
                   *(drive0_context.clk_ptr) + GLUE1551_ALARM_TICKS_ON
                   - offset);
-        interrupt_set_irq(drive0_context.cpu.int_status, glue1551d0_int_num,
+        interrupt_set_irq(drive0_context.cpu->int_status, glue1551d0_int_num,
                           IK_IRQ, *(drive0_context.clk_ptr));
     } else {
         alarm_set(glue1551d0_timer_alarm,
                   *(drive0_context.clk_ptr) + GLUE1551_ALARM_TICKS_OFF
                   - offset);
-        interrupt_set_irq(drive0_context.cpu.int_status, glue1551d0_int_num,
+        interrupt_set_irq(drive0_context.cpu->int_status, glue1551d0_int_num,
                           0, *(drive0_context.clk_ptr));
     }
     glue1551d0_irq_line ^= 1;
@@ -138,13 +138,13 @@ static void glue1551d1_timer(CLOCK offset)
         alarm_set(glue1551d1_timer_alarm,
                   *(drive1_context.clk_ptr) + GLUE1551_ALARM_TICKS_ON
                   - offset);
-        interrupt_set_irq(drive1_context.cpu.int_status, glue1551d1_int_num,
+        interrupt_set_irq(drive1_context.cpu->int_status, glue1551d1_int_num,
                           IK_IRQ, *(drive1_context.clk_ptr));
     } else {
         alarm_set(glue1551d1_timer_alarm,
                   *(drive1_context.clk_ptr) + GLUE1551_ALARM_TICKS_OFF
                   - offset);
-        interrupt_set_irq(drive1_context.cpu.int_status, glue1551d1_int_num,
+        interrupt_set_irq(drive1_context.cpu->int_status, glue1551d1_int_num,
                           0, *(drive1_context.clk_ptr));
     }
     glue1551d1_irq_line ^= 1;
@@ -153,14 +153,14 @@ static void glue1551d1_timer(CLOCK offset)
 void glue1551_init(drive_context_t *drv)
 {
     if (drv->mynumber == 0) {
-        glue1551d0_timer_alarm = alarm_new(drv->cpu.alarm_context,
+        glue1551d0_timer_alarm = alarm_new(drv->cpu->alarm_context,
                                            "GLUE1551D0", glue1551d0_timer);
-        glue1551d0_int_num = interrupt_cpu_status_int_new(drv->cpu.int_status,
+        glue1551d0_int_num = interrupt_cpu_status_int_new(drv->cpu->int_status,
                                                           "GLUE1551D0");
     } else {
-        glue1551d1_timer_alarm = alarm_new(drv->cpu.alarm_context,
+        glue1551d1_timer_alarm = alarm_new(drv->cpu->alarm_context,
                                            "GLUE1551D1", glue1551d1_timer);
-        glue1551d1_int_num = interrupt_cpu_status_int_new(drv->cpu.int_status,
+        glue1551d1_int_num = interrupt_cpu_status_int_new(drv->cpu->int_status,
                                                           "GLUE1551D1");
     }
 }

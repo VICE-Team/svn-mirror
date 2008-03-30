@@ -66,7 +66,7 @@ static void set_irq(riot_context_t *riot_context, int fl, CLOCK clk)
     drive_context = (drive_context_t *)(riot_context->context);
     riot2p = (driveriot2_context_t *)(riot_context->prv);
 
-    interrupt_set_irq(drive_context->cpu.int_status, (riot2p->int_num),
+    interrupt_set_irq(drive_context->cpu->int_status, (riot2p->int_num),
                       (fl) ? IK_IRQ : 0, clk);
 }
 
@@ -78,7 +78,7 @@ static void restore_irq(riot_context_t *riot_context, int fl)
     drive_context = (drive_context_t *)(riot_context->context);
     riot2p = (driveriot2_context_t *)(riot_context->prv);
 
-    interrupt_restore_irq(drive_context->cpu.int_status, riot2p->int_num,
+    interrupt_restore_irq(drive_context->cpu->int_status, riot2p->int_num,
                           (fl) ? IK_IRQ : 0);
 }
 
@@ -267,8 +267,8 @@ void riot2_init(drive_context_t *ctxptr)
     riot2_initdesc[1].riot_ptr = drive1_context.riot2;
 
 
-    riotcore_init(riot2_initdesc, ctxptr->cpu.alarm_context,
-                  ctxptr->cpu.clk_guard, ctxptr->mynumber);
+    riotcore_init(riot2_initdesc, ctxptr->cpu->alarm_context,
+                  ctxptr->cpu->clk_guard, ctxptr->mynumber);
 }
 
 void riot2_setup_context(drive_context_t *ctxptr)
@@ -285,7 +285,7 @@ void riot2_setup_context(drive_context_t *ctxptr)
 
     riot->context = (void *)ctxptr;
 
-    riot->rmw_flag = &(ctxptr->cpu.rmw_flag);
+    riot->rmw_flag = &(ctxptr->cpu->rmw_flag);
     riot->clk_ptr = ctxptr->clk_ptr;
 
     riotcore_setup_context(riot);
@@ -294,7 +294,7 @@ void riot2_setup_context(drive_context_t *ctxptr)
 
     riot2p->drive_ptr = ctxptr->drive_ptr;
     riot2p->r_atn_active = 0;
-    riot2p->int_num = interrupt_cpu_status_int_new(ctxptr->cpu.int_status,
+    riot2p->int_num = interrupt_cpu_status_int_new(ctxptr->cpu->int_status,
                                                    ctxptr->riot2->myname);
     riot->undump_pra = undump_pra;
     riot->undump_prb = undump_prb;

@@ -109,7 +109,7 @@ void memieee_init(struct drive_context_s *drv, unsigned int type)
     unsigned int i, j;
 
     if (type == DRIVE_TYPE_2031) {
-        drv->cpu.pageone = drv->cpud.drive_ram + 0x100;
+        drv->cpu->pageone = drv->cpud.drive_ram + 0x100;
 
         drv->cpud.read_func_nowatch[0] = drive_read_zero;
         drv->cpud.store_func_nowatch[0] = drive_store_zero;
@@ -158,7 +158,7 @@ void memieee_init(struct drive_context_s *drv, unsigned int type)
 
            Here we set zeropage, stack and buffer RAM as well as I/O */
 
-        drv->cpu.pageone = drv->cpud.drive_ram;
+        drv->cpu->pageone = drv->cpud.drive_ram;
 
         for (i = 0; i <= 0x10; i += 4) {
             drv->cpud.read_func_nowatch[i] = drive_read_1001zero_ram;

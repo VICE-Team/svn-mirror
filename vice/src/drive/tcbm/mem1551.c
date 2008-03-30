@@ -79,7 +79,7 @@ void mem1551_init(struct drive_context_s *drv, unsigned int type)
     unsigned int i;
 
     if (type == DRIVE_TYPE_1551) {
-        drv->cpu.pageone = drv->cpud.drive_ram + 0x100;
+        drv->cpu->pageone = drv->cpud.drive_ram + 0x100;
 
         /* Setup drive RAM.  */
         for (i = 0x01; i < 0x08; i++) {

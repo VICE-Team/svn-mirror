@@ -208,9 +208,9 @@ int drive_init(void)
     machine_drive_rom_setup_image(0);
     machine_drive_rom_setup_image(1);
 
-    clk_guard_add_callback(drive0_context.cpu.clk_guard,
+    clk_guard_add_callback(drive0_context.cpu->clk_guard,
                            drive_clk_overflow_callback, (void *)0);
-    clk_guard_add_callback(drive1_context.cpu.clk_guard,
+    clk_guard_add_callback(drive1_context.cpu->clk_guard,
                            drive_clk_overflow_callback, (void *)1);
 
     for (i = 0; i < 2; i++) {
@@ -462,12 +462,12 @@ static void drive_clk_overflow_callback(CLOCK sub, void *data)
        `drive_t'.  */
     switch (dnr) {
       case 0:
-        alarm_context_time_warp(drive0_context.cpu.alarm_context, sub, -1);
-        interrupt_cpu_status_time_warp(drive0_context.cpu.int_status, sub, -1);
+        alarm_context_time_warp(drive0_context.cpu->alarm_context, sub, -1);
+        interrupt_cpu_status_time_warp(drive0_context.cpu->int_status, sub, -1);
         break;
       case 1:
-        alarm_context_time_warp(drive1_context.cpu.alarm_context, sub, -1);
-        interrupt_cpu_status_time_warp(drive1_context.cpu.int_status, sub, -1);
+        alarm_context_time_warp(drive1_context.cpu->alarm_context, sub, -1);
+        interrupt_cpu_status_time_warp(drive1_context.cpu->int_status, sub, -1);
         break;
       default:
         log_error(drive_log,

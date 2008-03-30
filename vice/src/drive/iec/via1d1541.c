@@ -86,7 +86,7 @@ static void set_int(via_context_t *via_context, unsigned int int_num,
 
     drive_context = (drive_context_t *)(via_context->context);
 
-    interrupt_set_irq(drive_context->cpu.int_status, int_num, value,
+    interrupt_set_irq(drive_context->cpu->int_status, int_num, value,
                       *(via_context->clk_ptr));
 }
 
@@ -97,7 +97,7 @@ static void restore_int(via_context_t *via_context, unsigned int int_num,
 
     drive_context = (drive_context_t *)(via_context->context);
 
-    interrupt_restore_irq(drive_context->cpu.int_status, int_num, value);
+    interrupt_restore_irq(drive_context->cpu->int_status, int_num, value);
 }
 
 #define iec_drivex_write(a)             (((drive_context_t *)(via_context->context))->func.iec_write(a))
@@ -342,8 +342,8 @@ void via1d1541_init(drive_context_t *ctxptr)
     via_desc[0].via_ptr = drive0_context.via1d1541;
     via_desc[1].via_ptr = drive1_context.via1d1541;
 
-    viacore_init(&via_desc[ctxptr->mynumber], ctxptr->cpu.alarm_context,
-                 ctxptr->cpu.int_status, ctxptr->cpu.clk_guard);
+    viacore_init(&via_desc[ctxptr->mynumber], ctxptr->cpu->alarm_context,
+                 ctxptr->cpu->int_status, ctxptr->cpu->clk_guard);
 }
 
 void via1d1541_setup_context(drive_context_t *ctxptr)
@@ -360,7 +360,7 @@ void via1d1541_setup_context(drive_context_t *ctxptr)
 
     via->context = (void *)ctxptr;
 
-    via->rmw_flag = &(ctxptr->cpu.rmw_flag);
+    via->rmw_flag = &(ctxptr->cpu->rmw_flag);
     via->clk_ptr = ctxptr->clk_ptr;
 
     via->myname = lib_msprintf("1541Drive%dVia1", ctxptr->mynumber);

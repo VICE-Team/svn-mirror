@@ -66,7 +66,7 @@ static void cia_set_int_clk(cia_context_t *cia_context, int value, CLOCK clk)
 
     drive_context = (drive_context_t *)(cia_context->context);
 
-    interrupt_set_irq(drive_context->cpu.int_status, cia_context->int_num,
+    interrupt_set_irq(drive_context->cpu->int_status, cia_context->int_num,
                       value, clk);
 }
 
@@ -76,7 +76,7 @@ static void cia_restore_int(cia_context_t *cia_context, int value)
 
     drive_context = (drive_context_t *)(cia_context->context);
 
-    interrupt_restore_irq(drive_context->cpu.int_status, cia_context->int_num,
+    interrupt_restore_irq(drive_context->cpu->int_status, cia_context->int_num,
                             value);
 }
 
@@ -179,8 +179,8 @@ void cia1571_init(drive_context_t *ctxptr)
     cia1571_initdesc[1].cia_ptr = drive1_context.cia1571;
 
     ciacore_init(&cia1571_initdesc[ctxptr->mynumber],
-                 ctxptr->cpu.alarm_context, ctxptr->cpu.int_status,
-                 ctxptr->cpu.clk_guard);
+                 ctxptr->cpu->alarm_context, ctxptr->cpu->int_status,
+                 ctxptr->cpu->clk_guard);
 }
 
 void cia1571_setup_context(drive_context_t *ctxptr)
@@ -197,7 +197,7 @@ void cia1571_setup_context(drive_context_t *ctxptr)
 
     cia->context = (void *)ctxptr;
 
-    cia->rmw_flag = &(ctxptr->cpu.rmw_flag);
+    cia->rmw_flag = &(ctxptr->cpu->rmw_flag);
     cia->clk_ptr = ctxptr->clk_ptr;
 
     cia->todticks = 100000;
