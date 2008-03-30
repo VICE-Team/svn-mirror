@@ -34,17 +34,18 @@
 #include <string.h>
 
 #include "vic20mem.h"
-#include "vmachine.h"
-#include "interrupt.h"
-#include "resources.h"
+
 #include "cmdline.h"
-#include "stdlib.h"
-#include "memutils.h"
+#include "interrupt.h"
 #include "maincpu.h"
-#include "via.h"
-#include "vic.h"
+#include "memutils.h"
 #include "mon.h"
+#include "resources.h"
+#include "stdlib.h"
 #include "utils.h"
+#include "vic.h"
+#include "vic20via.h"
+#include "vmachine.h"
 
 /* ------------------------------------------------------------------------- */
 
