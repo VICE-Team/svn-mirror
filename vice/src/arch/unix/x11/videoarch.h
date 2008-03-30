@@ -66,13 +66,14 @@ struct fullscreenconfig_s;
 
 struct video_canvas_s {
     unsigned int initialized;
+    unsigned int created;
     unsigned int width, height;
     ui_window_t emuwindow;
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
     struct geometry_s *geometry;
-    const struct palette_s *palette;
+    struct palette_s *palette;
 #ifdef USE_GNOMEUI
     GdkPixmap *drawable;
 #else
