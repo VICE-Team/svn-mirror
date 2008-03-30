@@ -208,7 +208,6 @@ int cartridge_attach_image(int type, const char *filename)
 	    }
 	    fclose(fd);
 	    break;
-/* FIXME: Enable this when Final Cartridge is fully supported in `c64/c64mem.c'.
           case 3:
             for (i = 0; i <= 3; i++) {
                 if (fread(chipheader, 0x10, 1, fd) < 1) {
@@ -225,7 +224,6 @@ int cartridge_attach_image(int type, const char *filename)
             }
             fclose(fd);
             break;
-*/
 	  default:
 	    fclose(fd);
 	    return -1;
@@ -264,6 +262,7 @@ void cartridge_trigger_freeze(void)
     if (crttype != CARTRIDGE_ACTION_REPLAY
         && carttype != CARTRIDGE_ACTION_REPLAY
         && crttype != CARTRIDGE_KCS_POWER
+        && crttype != CARTRIDGE_FINAL_III
         && carttype != CARTRIDGE_SUPER_SNAPSHOT)
 	return;
     mem_freeze_cartridge((carttype == CARTRIDGE_CRT) ? crttype : carttype);

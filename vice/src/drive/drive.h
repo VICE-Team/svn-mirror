@@ -271,6 +271,12 @@ typedef struct drive_s {
     int old_led_status;
     int old_half_track;
 
+    /* Is a GCR image loaded?  */
+    int GCR_image_loaded;
+
+    /* is this disk read only?  */
+    int read_only;
+
 } drive_t;
 
 extern drive_t drive[2];

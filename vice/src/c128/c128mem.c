@@ -54,6 +54,7 @@
 #include "vdc.h"
 #include "emuid.h"
 #include "rs232.h"
+#include "snapshot.h"
 #include "../c64/vicii.h"
 
 #ifdef HAVE_RS232
@@ -1350,4 +1351,137 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
       case 1:                   /* ram */
     }
     ram[addr] = byte;
+}
+
+
+/* ------------------------------------------------------------------------- */
+
+/* Snapshot.  */
+/* FIXME: Do we want to make a snapshot of all the ROMs too?  */
+
+static char snap_module_name[] = "C128MEM";
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+int mem_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+    int i;
+
+    /* Main memory module.  */
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL)
+        return -1;
+
+    /* assuming no side-effects */
+    for (i=0; i<11; i++) {
+	if ( snapshot_module_write_byte(m, read_mmu(i)) < 0)
+	    goto fail;
+    }
+
+    if (0
+        || snapshot_module_write_byte_array(m, ram, C128_RAM_SIZE) < 0)
+        goto fail;
+
+    if (snapshot_module_close(m) < 0)
+        goto fail;
+
+    /* REU module.  */
+/*
+    if (reu_enabled && reu_write_snapshot_module(s) < 0)
+        goto fail;
+*/
+    /* IEEE 488 module.  */
+    if (ieee488_enabled && tpi_write_snapshot_module(s) < 0)
+        goto fail;
+
+#ifdef HAVE_RS232
+    /* ACIA module.  */
+    if (acia_de_enabled && acia1_write_snapshot_module(s) < 0)
+        goto fail;
+#endif
+
+    return 0;
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
+}
+
+int mem_read_snapshot_module(snapshot_t *s)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+    int i;
+    BYTE byte;
+
+    /* Main memory module.  */
+
+    m = snapshot_module_open(s, snap_module_name,
+                             &major_version, &minor_version);
+    if (m == NULL)
+        return -1;
+
+    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+        fprintf(stderr,
+                "MEM: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                major_version, minor_version,
+                SNAP_MAJOR, SNAP_MINOR);
+        goto fail;
+    }
+
+    for (i=0; i<11; i++) {
+	if ( snapshot_module_read_byte(m, &byte) < 0)
+	    goto fail;
+	store_mmu(i, byte);	/* Assuming no side-effects */
+    }
+
+    if (0
+        || snapshot_module_read_byte_array(m, ram, C128_RAM_SIZE) < 0)
+        goto fail;
+
+    /* pla_config_changed(); */
+
+    if (snapshot_module_close(m) < 0)
+        goto fail;
+
+    /* REU module.  */
+/*
+    if (reu_read_snapshot_module(s) < 0) {
+        reu_enabled = 0;
+    } else {
+        reu_enabled = 1;
+    }
+*/
+
+    /* IEEE488 module.  */
+    if (tpi_read_snapshot_module(s) < 0) {
+        ieee488_enabled = 0;
+    } else {
+        /* FIXME: Why do we need to do so???  */
+        reset_tpi();
+        ieee488_enabled = 1;
+    }
+
+#ifdef HAVE_RS232
+    /* ACIA module.  */
+    if (acia1_read_snapshot_module(s) < 0) {
+        acia_de_enabled = 0;
+    } else {
+        /* FIXME: Why do we need to do so???  */
+        reset_acia1();          /* Clear interrupts.  */
+        acia_de_enabled = 1;
+    }
+#endif
+
+    ui_update_menus();
+
+    return 0;
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
 }

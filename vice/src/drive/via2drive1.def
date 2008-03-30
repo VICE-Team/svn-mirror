@@ -43,6 +43,9 @@ INCLUDES()
 {
 #include "drive.h"
 #include "viad.h"
+
+#define VIA_SET_CA2(a)
+#define VIA_SET_CB2(a)
 }
 
 #define	GLOBALS
@@ -66,13 +69,6 @@ UNDUMP_PRA()
 
 }
 
-UNDUMP_PRB()
-{
-    drive[1].led_status = byte & 8;
-    drive_update_zone_bits((byte >> 5) & 0x3, 1);
-    drive_motor_control(byte & 0x04, 1);
-}
-
 STORE_PRB()
 {
 	{
@@ -93,8 +89,16 @@ STORE_PRB()
 	}
 }
 
+UNDUMP_PRB()
+{
+    drive[1].led_status = byte & 8;
+    drive_update_zone_bits((byte >> 5) & 0x3, 1);
+    drive_motor_control(byte & 0x04, 1);
+}
+
 STORE_PCR()
 {
+    /* FIXME: this should use VIA_SET_CA2() and VIA_SET_CB2() */
     if(byte != via2d1[VIA_PCR]) {
         register BYTE tmp = byte;
         /* first set bit 1 and 5 to the real output values */
@@ -115,10 +119,13 @@ STORE_PCR()
     }
 }
 
+UNDUMP_PCR()
+{
+    drive_update_viad2_pcr(byte, 1);
+}
+
 #define	STORE_ACR
-
 #define	STORE_SR
-
 #define	STORE_T2L
 
 RESET_VIA()

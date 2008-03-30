@@ -421,6 +421,8 @@ inline static BYTE drive_write_protect_sense(int dnr);
 static int drive_load_rom_images(void);
 static void drive_setup_rom_image(int dnr);
 static void drive_initialize_rom_traps(int dnr);
+static int drive_write_image_snapshot_module(snapshot_t *s, int dnr);
+static int drive_read_image_snapshot_module(snapshot_t *s, int dnr);
 
 /* ------------------------------------------------------------------------- */
 
@@ -837,6 +839,8 @@ int drive_init(CLOCK pal_hz, CLOCK ntsc_hz)
 	drive[i].old_led_status = 0;
 	drive[i].old_half_track = 0;
 	drive[i].side = 0;
+	drive[i].GCR_image_loaded = 0;
+	drive[i].read_only = 0;
 	for (track = 0; track < MAX_TRACKS_1541; track++)
 	    drive[i].GCR_track_size[track] = raw_track_size[speed_map_1541[track]];
 	/* Position the R/W head on the directory track.  */
@@ -1097,6 +1101,7 @@ int drive_attach_floppy(DRIVE *floppy)
     dnr = floppy->unit - 8;
 
     drive[dnr].drive_floppy = floppy;
+    drive[dnr].read_only = drive[dnr].drive_floppy->ReadOnly;
     drive[dnr].have_new_disk = 1;
     drive[dnr].attach_clk = drive_clk[dnr];
     ask_extend_disk_image = 1;
@@ -1107,11 +1112,13 @@ int drive_attach_floppy(DRIVE *floppy)
     } else {
 	if (setID(dnr) >= 0) {
 	    drive_read_image_d64_d71(dnr);
+	    drive[dnr].GCR_image_loaded = 1;
 	    return 0;
 	} else {
 	    return -1;
 	}
     }
+    drive[dnr].GCR_image_loaded = 1;
     return 0;
 }
 
@@ -1133,6 +1140,7 @@ int drive_detach_floppy(DRIVE *floppy)
 	GCR_data_writeback(dnr);
 	drive[dnr].detach_clk = drive_clk[dnr];
 	drive[dnr].drive_floppy = NULL;
+	drive[dnr].GCR_image_loaded = 0;
 	memset(drive[dnr].GCR_data, 0, sizeof(drive[dnr].GCR_data));
     }
     return 0;
@@ -1342,9 +1350,6 @@ void drive_move_head(int step, int dnr)
 /* Write one GCR byte to the disk. */
 void drive_write_gcr(BYTE val, int dnr)
 {
-    if (drive[dnr].drive_floppy == NULL)
-	return;
-
     if (drive[dnr].byte_ready_active == 0x06)
         drive_rotate_disk(dnr);
     drive[dnr].GCR_write_value = val;
@@ -1362,16 +1367,16 @@ inline static BYTE drive_write_protect_sense(int dnr)
     if ((drive[dnr].attach_clk != (CLOCK)0) &&
 	(drive_clk[dnr] - drive[dnr].attach_clk < DRIVE_ATTACH_DELAY))
 	return 0x10;
-    if (drive[dnr].drive_floppy == NULL) {
+    if (drive[dnr].GCR_image_loaded == 0) {
 	/* No disk in drive, write protection is on. */
 	return 0x0;
     } else if (drive[dnr].have_new_disk) {
 	/* Disk has changed, make sure the drive sees at least one change in
 	   the write protect status. */
 	drive[dnr].have_new_disk = 0;
-	return drive[dnr].drive_floppy->ReadOnly ? 0x10 : 0x0;
+	return drive[dnr].read_only ? 0x10 : 0x0;
     } else {
-	return drive[dnr].drive_floppy->ReadOnly ? 0x0 : 0x10;
+	return drive[dnr].read_only ? 0x0 : 0x10;
     }
 }
 
@@ -1379,6 +1384,9 @@ static void GCR_data_writeback(int dnr)
 {
     int rc, extend, track, sector, max_sector = 0;
     BYTE buffer[260], *offset;
+
+    if (drive[dnr].drive_floppy == NULL)
+        return;
 
     track = drive[dnr].current_half_track / 2;
 
@@ -1652,21 +1660,19 @@ Accum              DWORD  2
 AttachClk          CLOCK  2      write protect handling on attach
 BitsMoved          DWORD  2      number of bits moved since last access
 ByteReady          BYTE   2      flag: Byte ready
-ByteReadyActive    BYTE   2      flag: Byte ready line is active
 ClockFrequency     BYTE   2      current clock frequency
 CurrentHalfTrack   WORD   2      current half track of the r/w head
 DetachClk          CLOCK  2      write protect handling on detach
 DiskID1            BYTE   2      disk ID1
 DiskID2            BYTE   2      disk ID2
-Enable             BYTE   2      flag: Is the drive enabled?
 FinishByte         BYTE   2      flag: Mode changed, finish byte
 GCRHeadOffset      DWORD  2      offset from the begin of the track
+GCRImage           BYTE   2      flag: gcr image attached
 GCRRead            BYTE   2      next value to read from disk
 GCRWriteValue      BYTE   2      next value to write to disk
 HaveNewDisk        BYTE   2      flag: A new disk is inserted
 LastMode           BYTE   2      flag: Was the last mode read or write
-ReadWriteMode      BYTE   2      current read/write mode
-RomIdleTrap        BYTE   2      original ROM code is saved here
+ReadOnly           BYTE   2      flag: This disk is read only
 RotationLastClk    CLOCK  2
 RotationTablePtr   DWORD  2      pointer to the rotation table 
                                  (offset to the rotation table is saved)
@@ -1674,27 +1680,36 @@ Type               DWORD  2      drive type
 
 */
 
-static char snap_module_name[] = "DRIVE";
 #define SNAP_MAJOR 0
 #define SNAP_MINOR 0
 
 int drive_write_snapshot_module(snapshot_t *s)
 {
     int i;
+    char snap_module_name[] = "DRIVE";
     snapshot_module_t *m;
     DWORD rotation_table_ptr[2];
+    BYTE GCR_image[2];
 
     /* Save changes to disk before taking a snapshot.  */
     GCR_data_writeback(0);
     GCR_data_writeback(1);
 
-    for (i = 0; i < 2; i++)
+    for (i = 0; i < 2; i++) {
         rotation_table_ptr[i] = (DWORD) (drive[i].rotation_table_ptr
             - drive[i].rotation_table[0]);
+        GCR_image[i] = (drive[i].GCR_image_loaded == 0) ? 0 : 1;
+    }
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
     if (m == NULL)
         return -1;
+
+    if (snapshot_module_write_byte(m, (BYTE) drive_true_emulation) < 0) {
+        if (m != NULL)
+            snapshot_module_close(m);
+        return -1;
+    }
 
     for (i = 0; i < 2; i++) {
         if (0
@@ -1702,23 +1717,21 @@ int drive_write_snapshot_module(snapshot_t *s)
             || snapshot_module_write_dword(m, (DWORD) drive[i].attach_clk) < 0
             || snapshot_module_write_dword(m, (DWORD) drive[i].bits_moved) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].byte_ready) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].byte_ready_active) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].clock_frequency) < 0
             || snapshot_module_write_word(m, (WORD) drive[i].current_half_track) < 0
             || snapshot_module_write_dword(m, (DWORD) drive[i].detach_clk) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].diskID1) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].diskID2) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].enable) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].finish_byte) < 0
             || snapshot_module_write_dword(m, (DWORD) drive[i].GCR_head_offset) < 0
+            || snapshot_module_write_byte(m, (BYTE) GCR_image[i]) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].GCR_read) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].GCR_write_value) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].have_new_disk) < 0
             || snapshot_module_write_byte(m, (BYTE) drive[i].last_mode) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].read_write_mode) < 0
-            || snapshot_module_write_byte(m, (BYTE) drive[i].rom_idle_trap) < 0
+            || snapshot_module_write_byte(m, (BYTE) drive[i].read_only) < 0
             || snapshot_module_write_dword(m, (DWORD) drive[i].rotation_last_clk) < 0
-            || snapshot_module_write_dword(m, (DWORD) (rotation_table_ptr)) < 0
+            || snapshot_module_write_dword(m, (DWORD) (rotation_table_ptr[i])) < 0
             || snapshot_module_write_dword(m, (DWORD) drive[i].type) < 0
         ) {
             if (m != NULL)
@@ -1767,6 +1780,14 @@ int drive_write_snapshot_module(snapshot_t *s)
                 return -1;
         }
     }
+    if (GCR_image[0] > 0) {
+        if (drive_write_image_snapshot_module(s, 0) < 0)
+            return -1;
+    }
+    if (GCR_image[1] > 0) {
+        if (drive_write_image_snapshot_module(s, 1) < 0)
+            return -1;
+    }
     return 0;
 }
 
@@ -1806,7 +1827,9 @@ int drive_read_snapshot_module(snapshot_t *s)
     BYTE major_version, minor_version;
     int i;
     snapshot_module_t *m;
+    char snap_module_name[] = "DRIVE";
     DWORD rotation_table_ptr[2];
+    BYTE GCR_image[2];
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
@@ -1820,27 +1843,31 @@ int drive_read_snapshot_module(snapshot_t *s)
                 SNAP_MAJOR, SNAP_MINOR);
     }
 
+    if (read_byte_into_int(m, &drive_true_emulation) < 0) {
+        if (m != NULL)
+            snapshot_module_close(m);
+        return -1;
+    }
+
     for (i = 0; i < 2; i++) {
         if (0
             || read_dword_into_unsigned_long(m, &drive[i].accum) < 0
             || snapshot_module_read_dword(m, &drive[i].attach_clk) < 0
             || read_dword_into_unsigned_long(m, &drive[i].bits_moved) < 0
             || read_byte_into_int(m, &drive[i].byte_ready) < 0
-            || read_byte_into_int(m, &drive[i].byte_ready_active) < 0
             || read_byte_into_int(m, &drive[i].clock_frequency) < 0
             || read_word_into_int(m, &drive[i].current_half_track) < 0
             || snapshot_module_read_dword(m, &drive[i].detach_clk) < 0
             || snapshot_module_read_byte(m, &drive[i].diskID1) < 0
             || snapshot_module_read_byte(m, &drive[i].diskID2) < 0
-            || read_byte_into_int(m, &drive[i].enable) < 0
             || read_byte_into_int(m, &drive[i].finish_byte) < 0
             || snapshot_module_read_dword(m, &drive[i].GCR_head_offset) < 0
+            || snapshot_module_read_byte(m, &GCR_image[i]) < 0
             || snapshot_module_read_byte(m, &drive[i].GCR_read) < 0
             || snapshot_module_read_byte(m, &drive[i].GCR_write_value) < 0
             || read_byte_into_int(m, &drive[i].have_new_disk) < 0
             || read_byte_into_int(m, &drive[i].last_mode) < 0
-            || read_byte_into_int(m, &drive[i].read_write_mode) < 0
-            || snapshot_module_read_byte(m, &drive[i].rom_idle_trap) < 0
+            || read_byte_into_int(m, &drive[i].read_only) < 0
             || snapshot_module_read_dword(m, &drive[i].rotation_last_clk) < 0
             || snapshot_module_read_dword(m, &rotation_table_ptr[i]) < 0
             || snapshot_module_read_dword(m, &drive[i].type) < 0
@@ -1852,6 +1879,9 @@ int drive_read_snapshot_module(snapshot_t *s)
     }
     snapshot_module_close(m);
 
+    /* Switch drives on/off if necessary.  */
+    set_drive_true_emulation((resource_value_t) drive_true_emulation);
+ 
     for (i = 0; i < 2; i++) {
         drive[i].rotation_table_ptr = drive[i].rotation_table[0]
             + rotation_table_ptr[i];
@@ -1866,6 +1896,7 @@ int drive_read_snapshot_module(snapshot_t *s)
                 drive[i].side = 0;
             }
         }
+        drive_initialize_rom_traps(i);
     }
 
     if (drive[0].enable) {
@@ -1906,6 +1937,14 @@ int drive_read_snapshot_module(snapshot_t *s)
                 return -1;
         }
     }
+    if (GCR_image[0] > 0) {
+        if (drive_read_image_snapshot_module(s, 0) < 0)
+            return -1;
+    }
+    if (GCR_image[1] > 0) {
+        if (drive_read_image_snapshot_module(s, 1) < 0)
+            return -1;
+    }
 
     drive[0].old_half_track = 36;
     drive[0].old_led_status = 0;
@@ -1913,6 +1952,96 @@ int drive_read_snapshot_module(snapshot_t *s)
     drive[1].old_led_status = 0;
     drive_update_ui_status();
 
+    return 0;
+}
+
+#define SNAP_MAJOR 0
+#define SNAP_MINOR 0
+
+static int drive_write_image_snapshot_module(snapshot_t *s, int dnr)
+{
+    char snap_module_name[10];
+    snapshot_module_t *m;
+    BYTE *tmpbuf;
+    int i;
+
+    sprintf(snap_module_name, "GCRIMAGE%i", dnr);
+
+    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL)
+       return -1;
+
+    tmpbuf = xmalloc(MAX_TRACKS_1571 * 4);
+
+    for (i = 0; i < MAX_TRACKS_1571; i++) {
+        tmpbuf[i * 4] = drive[dnr].GCR_track_size[i] & 0xff;
+        tmpbuf[i * 4 + 1] = (drive[dnr].GCR_track_size[i] >> 8) & 0xff;
+        tmpbuf[i * 4 + 2] = (drive[dnr].GCR_track_size[i] >> 16) & 0xff;
+        tmpbuf[i * 4 + 3] = (drive[dnr].GCR_track_size[i] >> 24) & 0xff;
+    }
+
+    if (0
+        || snapshot_module_write_byte_array(m, drive[dnr].GCR_data,
+            sizeof(drive[dnr].GCR_data)) < 0
+        || snapshot_module_write_byte_array(m, drive[dnr].GCR_speed_zone,
+            sizeof(drive[dnr].GCR_speed_zone)) < 0
+        || snapshot_module_write_byte_array(m, tmpbuf, MAX_TRACKS_1571 * 4) < 0
+        ) {
+        if (m != NULL)
+            snapshot_module_close(m);
+        free(tmpbuf);
+        return -1;
+    }
+    free(tmpbuf);
+    if (snapshot_module_close(m) < 0)
+        return -1;
+    return 0;
+}
+
+static int drive_read_image_snapshot_module(snapshot_t *s, int dnr)
+{
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
+    char snap_module_name[10];
+    BYTE *tmpbuf;
+    int i;
+
+    sprintf(snap_module_name, "GCRIMAGE%i", dnr);
+
+    m = snapshot_module_open(s, snap_module_name,
+                             &major_version, &minor_version);
+    if (m == NULL)
+        return -1;
+
+    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+        fprintf(stderr,
+                "DRIVE: Snapshot module version (%d.%d) newer than %d.%d.\n",
+                major_version, minor_version,
+                SNAP_MAJOR, SNAP_MINOR);
+    }
+
+    tmpbuf = xmalloc(MAX_TRACKS_1571 * 4);
+
+    if (0
+        || snapshot_module_read_byte_array(m, drive[dnr].GCR_data,
+            sizeof(drive[dnr].GCR_data)) < 0
+        || snapshot_module_read_byte_array(m, drive[dnr].GCR_speed_zone,
+            sizeof(drive[dnr].GCR_speed_zone)) < 0
+        || snapshot_module_read_byte_array(m, tmpbuf, MAX_TRACKS_1571 * 4) < 0
+        ) {
+        if (m != NULL)
+            snapshot_module_close(m);
+        free(tmpbuf);
+        return -1;
+    } 
+    snapshot_module_close(m);
+
+    for (i = 0; i < MAX_TRACKS_1571; i++)
+        drive[dnr].GCR_track_size[i] = tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
+            + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24);
+
+    free(tmpbuf);
+    drive[dnr].GCR_image_loaded = 1;
     return 0;
 }
 

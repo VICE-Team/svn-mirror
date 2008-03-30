@@ -1163,6 +1163,7 @@ BYTE    IFR            active interrupts
 BYTE    IER            interrupt mask                                     
 BYTE    PB7            bit 7 = pb7 state                                  
 BYTE    SRHBITS        number of half-bits to shift out on SR             
+BYTE    CABSTATE       bit 7: state of CA2 pin, bit 6: state of CB2 pin   
 
 
 File: vice.info,  Node: PIA 6520 module,  Next: TPI 6525 module,  Prev: VIA 6522 module,  Up: Module formats

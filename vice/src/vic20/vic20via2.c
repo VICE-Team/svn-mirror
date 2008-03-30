@@ -76,6 +76,9 @@
 #include "rsuser.h"
 #endif
 
+#define VIA_SET_CB2(a)
+#define VIA_SET_CA2(a)
+
 #include "interrupt.h"
 
 /*#define VIA2_TIMER_DEBUG */
@@ -116,9 +119,24 @@ static int via2pb7sx;
 static BYTE oldpa;		/* the actual output on PA (input = high) */
 static BYTE oldpb;		/* the actual output on PB (input = high) */
 
+static int ca2_state;
+static int cb2_state;
+
 /*
  * local functions
  */
+
+#define IS_CA2_OUTPUT()          ((via2[VIA_PCR] & 0x0c) == 0x0c)
+#define IS_CA2_INDINPUT()        ((via2[VIA_PCR] & 0x0a) == 0x02)
+#define IS_CA2_HANDSHAKE()       ((via2[VIA_PCR] & 0x0c) == 0x08)
+#define IS_CA2_PULSE_MODE()      ((via2[VIA_PCR] & 0x0e) == 0x09)
+#define IS_CA2_TOGGLE_MODE()     ((via2[VIA_PCR] & 0x0e) == 0x08)
+
+#define IS_CB2_OUTPUT()          ((via2[VIA_PCR] & 0xc0) == 0xc0)
+#define IS_CB2_INDINPUT()        ((via2[VIA_PCR] & 0xa0) == 0x20)
+#define IS_CB2_HANDSHAKE()       ((via2[VIA_PCR] & 0xc0) == 0x80)
+#define IS_CB2_PULSE_MODE()      ((via2[VIA_PCR] & 0xe0) == 0x90)
+#define IS_CB2_TOGGLE_MODE()     ((via2[VIA_PCR] & 0xe0) == 0x80)
 
 /*
  * 01apr98 a.fachat
@@ -278,27 +296,36 @@ void reset_via2(void)
     oldpa = 0xff;
     oldpb = 0xff;
 
+    ca2_state = 1;
+    cb2_state = 1;
+    VIA_SET_CA2( ca2_state )	/* input = high */
+    VIA_SET_CB2( cb2_state )	/* input = high */
+
 
     iec_pa_write(0xff);
 
 #ifdef HAVE_PRINTER
-    userport_printer_write_data(0xff);
-    userport_printer_write_strobe(1);
+    pruser_write_data(0xff);
+    pruser_write_strobe(1);
 #endif
 #ifdef HAVE_RS232
     rsuser_write_ctrl(0xff);
     rsuser_set_tx_bit(1);
 #endif
-
 }
 
 void via2_signal(int line, int edge)
 {
     switch (line) {
       case VIA_SIG_CA1:
-        via2ifr |= ((edge ^ via2[VIA_PCR]) & 0x01) ?
-            0 : VIA_IM_CA1;
-        update_via2irq();
+	if ( (edge ? 1 : 0) == (via2[VIA_PCR] & 0x01) ) {
+	    if (IS_CA2_TOGGLE_MODE() && !ca2_state) {
+		ca2_state = 1;
+		VIA_SET_CA2( ca2_state )
+	    }
+            via2ifr |= VIA_IM_CA1;
+            update_via2irq();
+	}
         break;
       case VIA_SIG_CA2:
         if (!(via2[VIA_PCR] & 0x08)) {
@@ -308,9 +335,14 @@ void via2_signal(int line, int edge)
         }
         break;
       case VIA_SIG_CB1:
-        via2ifr |= (((edge << 4) ^ via2[VIA_PCR]) & 0x10) ?
-            0 : VIA_IM_CB1;
-        update_via2irq();
+	if ( (edge ? 0x10 : 0) == (via2[VIA_PCR] & 0x10) ) {
+	    if (IS_CB2_TOGGLE_MODE() && !cb2_state) {
+		cb2_state = 1;
+		VIA_SET_CB2( cb2_state )
+	    }
+            via2ifr |= VIA_IM_CB1;
+            update_via2irq();
+	}
         break;
       case VIA_SIG_CB2:
         if (!(via2[VIA_PCR] & 0x80)) {
@@ -338,9 +370,17 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
       /* these are done with saving the value */
       case VIA_PRA:		/* port A */
         via2ifr &= ~VIA_IM_CA1;
-        if ((via2[VIA_PCR] & 0x0a) != 0x2) {
+        if (!IS_CA2_INDINPUT()) {
             via2ifr &= ~VIA_IM_CA2;
         }
+	if(IS_CA2_HANDSHAKE()) {
+	    ca2_state = 0;
+	    VIA_SET_CA2( ca2_state )
+	    if(IS_CA2_PULSE_MODE()) {
+	  	ca2_state = 1;
+	    	VIA_SET_CA2( ca2_state )
+	    }
+	}
         update_via2irq();
 
       case VIA_PRA_NHS:	/* port A, no handshake */
@@ -359,6 +399,14 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
         if ((via2[VIA_PCR] & 0xa0) != 0x20) {
             via2ifr &= ~VIA_IM_CB2;
         }
+        if(IS_CB2_HANDSHAKE()) {
+            cb2_state = 0;
+            VIA_SET_CB2( cb2_state )
+            if(IS_CB2_PULSE_MODE()) {
+                cb2_state = 1;
+                VIA_SET_CB2( cb2_state )
+            }
+        }
         update_via2irq();
 
       case VIA_DDRB:
@@ -366,7 +414,7 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
 	byte = via2[VIA_PRB] | ~via2[VIA_DDRB];
 
 #ifdef HAVE_PRINTER
-    userport_printer_write_data(byte);
+    pruser_write_data(byte);
 #endif
 #ifdef HAVE_RS232
     rsuser_write_ctrl(byte);
@@ -505,7 +553,30 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
         /* bit 3, 2, 1  CA2 handshake/interrupt control */
         /* bit 0  CA1 interrupt control */
 
+	if ( (byte & 0x0e) == 0x0c ) {	/* set output low */
+	    ca2_state = 0;
+	} else 
+	if ( (byte & 0x0e) == 0x0e ) {	/* set output high */
+	    ca2_state = 1;
+	} else {			/* set to toggle/pulse/input */
+	    /* FIXME: is this correct if handshake is already active? */
+	    ca2_state = 1;
+	}
+	VIA_SET_CA2( ca2_state )
 
+	if ( (byte & 0xe0) == 0xc0 ) {	/* set output low */
+	    cb2_state = 0;
+	} else 
+	if ( (byte & 0xe0) == 0xe0 ) {	/* set output high */
+	    cb2_state = 1;
+	} else {			/* set to toggle/pulse/input */
+	    /* FIXME: is this correct if handshake is already active? */
+	    cb2_state = 1;
+	}
+	VIA_SET_CB2( cb2_state )
+
+
+    /* FIXME: should use VIA_SET_CA2() and VIA_SET_CB2() */
     if (byte != via2[VIA_PCR]) {
 	register BYTE tmp = byte;
 	/* first set bit 1 and 5 to the real output values */
@@ -520,10 +591,12 @@ void REGPARM2 store_via2(ADDRESS addr, BYTE byte)
 	}
 #endif
 #ifdef HAVE_PRINTER
-	userport_printer_write_strobe(byte & 0x20);
+	pruser_write_strobe(byte & 0x20);
 #endif
     }
+
         via2[addr] = byte;
+
         break;
 
       default:
@@ -564,6 +637,14 @@ BYTE REGPARM1 read_via2_(ADDRESS addr)
         via2ifr &= ~VIA_IM_CA1;
         if ((via2[VIA_PCR] & 0x0a) != 0x02) {
             via2ifr &= ~VIA_IM_CA2;
+        }
+        if(IS_CA2_HANDSHAKE()) {
+            ca2_state = 0;
+            VIA_SET_CA2( ca2_state )
+            if(IS_CA2_PULSE_MODE()) {
+                ca2_state = 1;
+                VIA_SET_CA2( ca2_state )
+            }
         }
         update_via2irq();
 
@@ -847,6 +928,8 @@ printf("     : ta=%d, tb=%d\n",via2ta() & 0xffff, via2tb() & 0xffff);
     snapshot_module_write_byte(m, (((via2pb7 ^ via2pb7x) | via2pb7o) ? 0x80 : 0));
     snapshot_module_write_byte(m, 0);		/* SRHBITS */
 
+    snapshot_module_write_byte(m, (ca2_state ? 0x80 : 0) 
+				| (cb2_state ? 0x40 : 0));
     snapshot_module_close(m);
 
     return 0;
@@ -893,7 +976,7 @@ int via2_read_snapshot_module(snapshot_t * p)
 	byte = via2[VIA_PRB] | ~via2[VIA_DDRB];
 
 #ifdef HAVE_PRINTER
-    userport_printer_write_data(byte);
+    pruser_write_data(byte);
 #endif
 	oldpb = byte;
     }
@@ -933,24 +1016,7 @@ int via2_read_snapshot_module(snapshot_t * p)
     {
 	addr = via2[VIA_PCR];
 	byte = via2[addr];
-
-    if (byte != via2[VIA_PCR]) {
-	register BYTE tmp = byte;
-	/* first set bit 1 and 5 to the real output values */
-	if ((tmp & 0x0c) != 0x0c)
-	    tmp |= 0x02;
-	if ((tmp & 0xc0) != 0xc0)
-	    tmp |= 0x20;
-	/* switching userport strobe with CB2 */
-#ifdef HAVE_RS232
-	if(rsuser_enabled) {
-	    rsuser_set_tx_bit(byte & 0x20);
-	}
-#endif
-#ifdef HAVE_PRINTER
-	userport_printer_write_strobe(byte & 0x20);
-#endif
-    }
+	
     }
 
     snapshot_module_read_byte(m, &byte);
@@ -966,6 +1032,10 @@ int via2_read_snapshot_module(snapshot_t * p)
     via2pb7x = 0;
     via2pb7o = 0;
     snapshot_module_read_byte(m, &byte);	/* SRHBITS */
+
+    snapshot_module_read_byte(m, &byte);	/* CABSTATE */
+    ca2_state = byte & 0x80;
+    cb2_state = byte & 0x40;
 /*
 printf("via2: read: clk=%d, tai=%d, tau=%d\n"
        "     : tbi=%d, tbu=%d\n",
@@ -977,7 +1047,7 @@ printf("     : ta=%d, tb=%d\n",via2ta() & 0xffff, via2tb() & 0xffff);
 
 
 #ifdef HAVE_PRINTER
-void userport_printer_set_busy(int b)
+void pruser_set_busy(int b)
 {
     via2_signal(VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }

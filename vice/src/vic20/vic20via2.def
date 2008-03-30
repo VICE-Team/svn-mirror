@@ -52,6 +52,9 @@ INCLUDES()
 #ifdef HAVE_RS232
 #include "rsuser.h"
 #endif
+
+#define VIA_SET_CB2(a)
+#define VIA_SET_CA2(a)
 }
 
 
@@ -76,7 +79,7 @@ PRE_VIA_FUNCS()
 STORE_PRB()
 {
 #ifdef HAVE_PRINTER
-    userport_printer_write_data(byte);
+    pruser_write_data(byte);
 #endif
 #ifdef HAVE_RS232
     rsuser_write_ctrl(byte);
@@ -86,12 +89,13 @@ STORE_PRB()
 UNDUMP_PRB()
 {
 #ifdef HAVE_PRINTER
-    userport_printer_write_data(byte);
+    pruser_write_data(byte);
 #endif
 }
 
 STORE_PCR()
 {
+    /* FIXME: should use VIA_SET_CA2() and VIA_SET_CB2() */
     if (byte != via2[VIA_PCR]) {
 	register BYTE tmp = byte;
 	/* first set bit 1 and 5 to the real output values */
@@ -106,10 +110,12 @@ STORE_PCR()
 	}
 #endif
 #ifdef HAVE_PRINTER
-	userport_printer_write_strobe(byte & 0x20);
+	pruser_write_strobe(byte & 0x20);
 #endif
     }
 }
+
+#define UNDUMP_PCR
 
 #define	STORE_ACR
 #define	STORE_SR
@@ -120,8 +126,8 @@ RESET_VIA()
     iec_pa_write(0xff);
 
 #ifdef HAVE_PRINTER
-    userport_printer_write_data(0xff);
-    userport_printer_write_strobe(1);
+    pruser_write_data(0xff);
+    pruser_write_strobe(1);
 #endif
 #ifdef HAVE_RS232
     rsuser_write_ctrl(0xff);
@@ -187,7 +193,7 @@ READ_PRB()
 POST_VIA_FUNCS()
 {
 #ifdef HAVE_PRINTER
-void userport_printer_set_busy(int b)
+void pruser_set_busy(int b)
 {
     via2_signal(VIA_SIG_CB1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }

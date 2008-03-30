@@ -39,6 +39,18 @@ libdrive_a_SOURCES = \
 EXTRA_DIST = \
 	drivecpu-tmpl.c
 
+BUILT_SOURCES = \
+	cia1571drive0.c \
+	cia1571drive1.c \
+	cia1581drive0.c \
+	cia1581drive1.c \
+	drivecpu0.c \
+	drivecpu1.c \
+	via1drive0.c \
+	via2drive0.c \
+	via1drive1.c \
+	via2drive1.c
+
 drivedir = $(top_srcdir)/src/drive
 
 via1drive0.c: via1drive0.def $(top_srcdir)/src/via-tmpl.c $(top_srcdir)/src/convio

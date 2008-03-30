@@ -52,6 +52,17 @@ INCLUDES()
 #ifdef HAVE_PRINTER
 #include "pruser.h"
 #endif
+
+#define	VIA_SET_CA2(byte)		\
+          crtc_set_char( byte ); /* switching PET charrom with CA2 */
+				     /* switching userport strobe with CB2 */
+#ifdef HAVE_PRINTER
+#define	VIA_SET_CB2(byte)		\
+          userport_printer_write_strobe( byte );
+#else
+#define	VIA_SET_CB2(byte)
+#endif
+
 }
 
 #define GLOBALS()
@@ -61,14 +72,14 @@ INCLUDES()
 STORE_PRA()
 {
 #ifdef HAVE_PRINTER
-	userport_printer_write_data(byte);
+	pruser_write_data(byte);
 #endif
 }
 
 UNDUMP_PRA()
 {
 #ifdef HAVE_PRINTER
-	userport_printer_write_data(byte);
+	pruser_write_data(byte);
 #endif
 }
 
@@ -77,18 +88,19 @@ STORE_PRB()
 	if((addr==VIA_DDRB) && (via[addr] & 0x20)) {
 	    fprintf(stderr,"PET: Killer POKE! might kill a real PET!\n");
 	}
-        par_set_nrfd(!(byte & 0x02));
-        par_set_atn(!(byte & 0x04));
+        parallel_cpu_set_nrfd(!(byte & 0x02));
+        parallel_cpu_set_atn(!(byte & 0x04));
 }
 
 UNDUMP_PRB()
 {
-        par_set_nrfd(!(byte & 0x02));
-        par_set_atn(!(byte & 0x04));
+        parallel_cpu_set_nrfd(!(byte & 0x02));
+        parallel_cpu_set_atn(!(byte & 0x04));
 }
 
 STORE_PCR()
 {
+#if 0
         if(byte != via[VIA_PCR]) {
           register BYTE tmp = byte;
           /* first set bit 1 and 5 to the real output values */
@@ -97,10 +109,13 @@ STORE_PCR()
           crtc_set_char( byte & 2 ); /* switching PET charrom with CA2 */
 				     /* switching userport strobe with CB2 */
 #ifdef HAVE_PRINTER
-          userport_printer_write_strobe( byte & 0x20 );
+          pruser_write_strobe( byte & 0x20 );
 #endif
 	}
+#endif
 }
+
+#define UNDUMP_PCR
 
 STORE_ACR()
 {
@@ -125,12 +140,12 @@ STORE_T2L()
 RESET_VIA()
 {
     /* set IEC output lines */
-    par_set_atn(0);
-    par_set_nrfd(0);
+    parallel_cpu_set_atn(0);
+    parallel_cpu_set_nrfd(0);
 
 #ifdef HAVE_PRINTER
-    userport_printer_write_data(0xff);
-    userport_printer_write_strobe(1);
+    pruser_write_data(0xff);
+    pruser_write_strobe(1);
 #endif
 }
 
@@ -166,7 +181,10 @@ READ_PRB()
 {
         {
             /* read parallel IEC interface line states */
-            byte = 255 - (par_nrfd ? 64:0) - (par_ndac ? 1:0) - (par_dav ? 128:0);
+            byte = 255 
+		- (parallel_nrfd ? 64:0) 
+		- (parallel_ndac ? 1:0) 
+		- (parallel_dav ? 128:0);
             /* vertical retrace */
             byte -= crtc_offscreen() ? 32:0;
 #if 0
@@ -184,7 +202,7 @@ READ_PRB()
 POST_VIA_FUNCS()
 {
 #ifdef HAVE_PRINTER
-void userport_printer_set_busy(int b)
+void pruser_set_busy(int b)
 {
     via_signal(VIA_SIG_CA1, b ? VIA_SIG_RISE : VIA_SIG_FALL);
 }

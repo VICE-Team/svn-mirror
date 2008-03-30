@@ -80,7 +80,8 @@
    makes things much faster.
 
    This define affects only this file! */
-# define INSTRUCTION_FETCH_HACK
+/* MUST NOT BE DEFINED FOR C610 */
+# undef INSTRUCTION_FETCH_HACK
 
 /* If this is #defined, you can set the `traceflg' variable to non-zero to
    trace all the opcodes being executed.  This is mainly useful for
@@ -143,6 +144,18 @@ extern BYTE *page_one;
 
 #  define LOAD_IND(addr) \
     (*_mem_read_ind_tab_ptr[(addr) >> 8])((ADDRESS)(addr))
+
+
+/* Define a "special" opcode fetch method.  We trust the code in `6510core.c'
+   to evaluate `p0', `p1' and `p2' at most once per every emulated opcode.  */
+#  define FETCH_OPCODE(x)
+#  define p0                    LOAD(reg_pc)
+#  define p1                    LOAD(reg_pc + 1)
+#  define p2                    LOAD_ADDR(reg_pc + 1)
+
+/* FIXME: This might cause complaints about unused variables...  Well, who
+   cares?  */
+#  define opcode_t      int
 
 
 /* ------------------------------------------------------------------------- */

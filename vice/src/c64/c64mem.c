@@ -329,6 +329,9 @@ BYTE export_ram0[0x2000];
 /* Expansion port ROML/ROMH/RAM banking.  */
 static int roml_bank, romh_bank, export_ram;
 
+/* Flag: Ultimax (VIC-10) memory configuration enabled.  */
+int ultimax = 0;
+
 /* Super Snapshot configuration flags.  */
 static BYTE ramconfig = 0xff, romconfig = 9;
 
@@ -472,8 +475,17 @@ void REGPARM2 store_io2(ADDRESS addr, BYTE value)
     }
     if (mem_cartridge_type == CARTRIDGE_FINAL_III) {
         if ((addr & 0xff) == 0xff)  {
-            romh_bank = roml_bank = ~(value) & 3;
-            printf("BANK: %x\n",value);
+            /* FIXME: Change this to call `cartridge_config_changed'.  */
+            romh_bank = roml_bank = (value) & 3;
+            export.game = ((value >> 5) & 1) ^ 1;
+            export.exrom = ((value >> 4) & 1) ^ 1;
+            pla_config_changed();
+            /*printf("BANK: %x\n",value);*/
+            ultimax = export.game & (export.exrom ^ 1);
+            if ((value & 0x30) == 0x10)
+                maincpu_set_nmi(I_FREEZE, IK_NMI);
+            if (value & 0x40)
+                cartridge_release_freeze();    
         }
     }
     if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT && (addr & 0xff) == 1) {
@@ -505,7 +517,8 @@ BYTE REGPARM1 read_io2(ADDRESS addr)
             return read_tpi(addr & 0x07);
 
 	if (mem_cartridge_type == CARTRIDGE_ACTION_REPLAY
-	                       || CARTRIDGE_SUPER_SNAPSHOT) {
+	    || mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT
+	    || mem_cartridge_type == CARTRIDGE_FINAL_III) {
 	    if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT
 	                           && (addr & 0xff) == 1)
 		return ramconfig;
@@ -557,7 +570,7 @@ BYTE REGPARM1 read_io1(ADDRESS addr)
 	    return roml_banks[0x1e00 + (addr & 0xff)];
 	}
         if (mem_cartridge_type == CARTRIDGE_FINAL_III)
-            return roml_banks[0x1e00 + (addr & 0xff)];
+            return roml_banks[0x1e00 + (roml_bank << 13) + (addr & 0xff)];
 	if (mem_cartridge_type == CARTRIDGE_SIMONS_BASIC)
 	    cartridge_config_changed(0);
 	if (mem_cartridge_type == CARTRIDGE_SUPER_SNAPSHOT)
@@ -1034,9 +1047,9 @@ void mem_detach_cartridge(int type)
 
 void mem_freeze_cartridge(int type)
 {
-    if (type == CARTRIDGE_ACTION_REPLAY || CARTRIDGE_SUPER_SNAPSHOT)
+    if (type == CARTRIDGE_ACTION_REPLAY || type == CARTRIDGE_SUPER_SNAPSHOT)
 	cartridge_config_changed(35);
-    if (type == CARTRIDGE_KCS_POWER)
+    if (type == CARTRIDGE_KCS_POWER || type == CARTRIDGE_FINAL_III)
 	cartridge_config_changed(3);
 }
 
@@ -1086,6 +1099,7 @@ static void cartridge_config_changed(BYTE mode)
     pla_config_changed();
     if (mode & 0x40)
         cartridge_release_freeze();
+    ultimax = export.game & (export.exrom ^ 1);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1380,7 +1394,6 @@ fail:
 int mem_read_snapshot_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
-    char module_name[SNAPSHOT_MODULE_NAME_LEN];
     snapshot_module_t *m;
 
     /* Main memory module.  */

@@ -565,8 +565,8 @@ void reset_cia2(void)
 
 
 #ifdef HAVE_PRINTER
-    userport_printer_write_strobe(1);
-    userport_printer_write_data(0xff);
+    pruser_write_strobe(1);
+    pruser_write_data(0xff);
 #endif
 #ifdef HAVE_RS232
     rsuser_write_ctrl(0xff);
@@ -612,7 +612,7 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 	 mem_set_vbank(tmp & 3);
 	 iec_cpu_write(tmp);
 #ifdef HAVE_PRINTER
-	 userport_printer_write_strobe(tmp & 0x04);
+	 pruser_write_strobe(tmp & 0x04);
 #endif
     }
 	oldpa = byte;
@@ -640,7 +640,7 @@ void REGPARM2 store_cia2(ADDRESS addr, BYTE byte)
 	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
     }
 #ifdef HAVE_PRINTER
-    userport_printer_write_data(byte);
+    pruser_write_data(byte);
 #endif
 #ifdef HAVE_RS232
     rsuser_write_ctrl(byte);
@@ -1629,7 +1629,7 @@ int cia2_read_snapshot_module(snapshot_t *p)
 	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
     }
 #ifdef HAVE_PRINTER
-    userport_printer_write_data(byte);
+    pruser_write_data(byte);
 #endif
 #ifdef HAVE_RS232
     rsuser_write_ctrl(byte);
@@ -1751,7 +1751,7 @@ printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia2_tbi, cia2_tbu, cia2_tbc, cia2
 
 
 #ifdef HAVE_PRINTER
-void userport_printer_set_busy(int flank)
+void pruser_set_busy(int flank)
 {
     if(!flank) {
 	cia2_set_flag();

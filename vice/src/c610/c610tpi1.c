@@ -174,12 +174,12 @@ void reset_tpi1 ( void ) {
 
 
         /* assuming input after reset */
-        par_set_atn(0);
-        par_set_ndac(0);
-        par_set_nrfd(0);
-        par_set_dav(0);
-        par_set_eoi(0);
-        par_set_bus(0);
+        parallel_cpu_set_atn(0);
+        parallel_cpu_set_ndac(0);
+        parallel_cpu_set_nrfd(0);
+        parallel_cpu_set_dav(0);
+        parallel_cpu_set_eoi(0);
+        parallel_cpu_set_bus(0);
 	cia1_set_ieee_dir(0);
 }
 
@@ -198,18 +198,18 @@ void store_tpi1 ( ADDRESS addr, BYTE byte ) {
 	    BYTE tmp = ~byte;
 	    cia1_set_ieee_dir(byte & 2);
 	    if (byte & 2) {
-		par_set_ndac(0);
-		par_set_nrfd(0);
-                par_set_atn( tmp & 0x08 );
-                par_set_dav( tmp & 0x10 );
-                par_set_eoi( tmp & 0x20 );
+		parallel_cpu_set_ndac(0);
+		parallel_cpu_set_nrfd(0);
+                parallel_cpu_set_atn( tmp & 0x08 );
+                parallel_cpu_set_dav( tmp & 0x10 );
+                parallel_cpu_set_eoi( tmp & 0x20 );
 	    } else {
 		/* order is important */
-                par_set_nrfd( tmp & 0x80 );
-                par_set_ndac( tmp & 0x40 );
-		par_set_atn(0);
-		par_set_dav(0);
-		par_set_eoi(0);
+                parallel_cpu_set_nrfd( tmp & 0x80 );
+                parallel_cpu_set_ndac( tmp & 0x40 );
+		parallel_cpu_set_atn(0);
+		parallel_cpu_set_dav(0);
+		parallel_cpu_set_eoi(0);
 	    }
 	}
 	    oldpa = byte;
@@ -284,11 +284,11 @@ BYTE read_tpi1 ( ADDRESS addr ) {
 	case TPI_PA:
 
 		byte = 0x07;
-                byte += par_atn ? 0 : 8;
-                byte += par_dav ? 0 : 16;
-                byte += par_eoi ? 0 : 32;
-                byte += par_ndac ? 0 : 64;
-                byte += par_nrfd ? 0 : 128;
+                byte += parallel_atn ? 0 : 8;
+                byte += parallel_dav ? 0 : 16;
+                byte += parallel_eoi ? 0 : 32;
+                byte += parallel_ndac ? 0 : 64;
+                byte += parallel_nrfd ? 0 : 128;
 
 	        byte = (byte & ~tpi[TPI_DDPA]) | (tpi[TPI_PA] & tpi[TPI_DDPA]);
 	    if(IS_CA_MODE()) {
@@ -487,18 +487,18 @@ int tpi1_read_snapshot_module(snapshot_t *p)
 	    BYTE tmp = ~byte;
 	    cia1_set_ieee_dir(byte & 2);
 	    if (byte & 2) {
-		par_set_ndac(0);
-		par_set_nrfd(0);
-                par_set_atn( tmp & 0x08 );
-                par_set_dav( tmp & 0x10 );
-                par_set_eoi( tmp & 0x20 );
+		parallel_cpu_set_ndac(0);
+		parallel_cpu_set_nrfd(0);
+                parallel_cpu_set_atn( tmp & 0x08 );
+                parallel_cpu_set_dav( tmp & 0x10 );
+                parallel_cpu_set_eoi( tmp & 0x20 );
 	    } else {
 		/* order is important */
-                par_set_nrfd( tmp & 0x80 );
-                par_set_ndac( tmp & 0x40 );
-		par_set_atn(0);
-		par_set_dav(0);
-		par_set_eoi(0);
+                parallel_cpu_set_nrfd( tmp & 0x80 );
+                parallel_cpu_set_ndac( tmp & 0x40 );
+		parallel_cpu_set_atn(0);
+		parallel_cpu_set_dav(0);
+		parallel_cpu_set_eoi(0);
 	    }
 	}
         oldpa = byte;

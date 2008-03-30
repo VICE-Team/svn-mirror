@@ -172,12 +172,12 @@ void reset_tpi ( void ) {
 
 
 	/* assuming input after reset */
-	par_set_atn(0);
-	par_set_ndac(0);
-	par_set_nrfd(0);
-	par_set_dav(0);
-	par_set_eoi(0);
-	par_set_bus(0);
+	parallel_cpu_set_atn(0);
+	parallel_cpu_set_ndac(0);
+	parallel_cpu_set_nrfd(0);
+	parallel_cpu_set_dav(0);
+	parallel_cpu_set_eoi(0);
+	parallel_cpu_set_bus(0);
 }
 
 void store_tpi ( ADDRESS addr, BYTE byte ) {
@@ -192,11 +192,11 @@ void store_tpi ( ADDRESS addr, BYTE byte ) {
 	    byte = tpi[TPI_PA] | ~tpi[TPI_DDPA];
 
 	{ BYTE tmp = ~byte;
-	    par_set_atn( tmp & 0x08 );
-	    par_set_dav( tmp & 0x10 );
-	    par_set_eoi( tmp & 0x20 );
-	    par_set_ndac( tmp & 0x40 );
-	    par_set_nrfd( tmp & 0x80 );
+	    parallel_cpu_set_atn( tmp & 0x08 );
+	    parallel_cpu_set_dav( tmp & 0x10 );
+	    parallel_cpu_set_eoi( tmp & 0x20 );
+	    parallel_cpu_set_ndac( tmp & 0x40 );
+	    parallel_cpu_set_nrfd( tmp & 0x80 );
 	}
 	    oldpa = byte;
 	    return;
@@ -205,7 +205,7 @@ void store_tpi ( ADDRESS addr, BYTE byte ) {
 	    tpi[addr] = byte;
 	    byte = tpi[TPI_PB] | ~tpi[TPI_DDPB];
 
-	par_set_bus( ~byte );
+	parallel_cpu_set_bus( ~byte );
 	    oldpb = byte;
 	    if(IS_CB_MODE()) {
 		cb_state = 0;
@@ -271,11 +271,11 @@ BYTE read_tpi ( ADDRESS addr ) {
 	case TPI_PA:
 
 	byte = 0x07;
-	byte += par_atn ? 0 : 8;
-	byte += par_dav ? 0 : 16;
-	byte += par_eoi ? 0 : 32;
-	byte += par_ndac ? 0 : 64;
-	byte += par_nrfd ? 0 : 128;
+	byte += parallel_atn ? 0 : 8;
+	byte += parallel_dav ? 0 : 16;
+	byte += parallel_eoi ? 0 : 32;
+	byte += parallel_ndac ? 0 : 64;
+	byte += parallel_nrfd ? 0 : 128;
 
 	byte = (byte & ~tpi[TPI_DDPA]) | (tpi[TPI_PA] & tpi[TPI_DDPA]);
 	    if(IS_CA_MODE()) {
@@ -289,7 +289,7 @@ BYTE read_tpi ( ADDRESS addr ) {
 	    return byte;
 	case TPI_PB:
 
-	byte = par_bus;
+	byte = parallel_bus;
 	byte = (byte & ~tpi[TPI_DDPB]) | (tpi[TPI_PB] & tpi[TPI_DDPB]);
 	    return byte;
 	case TPI_PC:
@@ -472,17 +472,17 @@ int tpi_read_snapshot_module(snapshot_t *p)
         byte = tpi[TPI_PA] | ~tpi[TPI_DDPA];
 
 	{ BYTE tmp = ~byte;
-	    par_set_atn( tmp & 0x08 );
-	    par_set_dav( tmp & 0x10 );
-	    par_set_eoi( tmp & 0x20 );
-	    par_set_ndac( tmp & 0x40 );
-	    par_set_nrfd( tmp & 0x80 );
+	    parallel_cpu_set_atn( tmp & 0x08 );
+	    parallel_cpu_set_dav( tmp & 0x10 );
+	    parallel_cpu_set_eoi( tmp & 0x20 );
+	    parallel_cpu_set_ndac( tmp & 0x40 );
+	    parallel_cpu_set_nrfd( tmp & 0x80 );
 	}
         oldpa = byte;
 
         byte = tpi[TPI_PB] | ~tpi[TPI_DDPB];
 
-	par_set_bus( ~byte );
+	parallel_cpu_set_bus( ~byte );
         oldpb = byte;
 
 	if (!irq_mode) {

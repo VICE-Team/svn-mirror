@@ -93,6 +93,7 @@
 
 
 #include "pruser.h"
+#include "kbd.h"
 #include "parallel.h"
 #include "c610cia.h"
 #include "c610tpi.h"
@@ -368,9 +369,9 @@ void cia1_set_ieee_dir(int isout)
 {
     cia1_ieee_is_output = isout;
     if(isout) {
-	par_set_bus(~oldpa);
+	parallel_cpu_set_bus(~oldpa);
     } else {
-	par_set_bus(0);
+	parallel_cpu_set_bus(0);
     }
 }
 
@@ -572,8 +573,8 @@ void reset_cia1(void)
 
 
 #ifdef HAVE_PRINTER
-    userport_printer_write_strobe(1);
-    userport_printer_write_data(0xff);
+    pruser_write_strobe(1);
+    pruser_write_data(0xff);
 #endif
 }
 
@@ -601,7 +602,9 @@ void REGPARM2 store_cia1(ADDRESS addr, BYTE byte)
 	cia1[addr] = byte;
 	byte = cia1[CIA_PRA] | ~cia1[CIA_DDRA];
 
-	par_set_bus( cia1_ieee_is_output ? byte : 0 );
+	/* FIXME: PA0 and PA1 are used as selector for the 
+	   Paddle 1/2 selection for the A/D converter. */
+ 	parallel_cpu_set_bus( cia1_ieee_is_output ? byte : 0 );
 	oldpa = byte;
 	break;
 
@@ -624,9 +627,9 @@ void REGPARM2 store_cia1(ADDRESS addr, BYTE byte)
 	}
 
 #ifdef HAVE_PRINTER
-    userport_printer_write_data(byte);
-    userport_printer_write_strobe(0);
-    userport_printer_write_strobe(1);
+    pruser_write_data(byte);
+    pruser_write_strobe(0);
+    pruser_write_strobe(1);
 #endif
 	oldpb = byte;
 	break;
@@ -937,16 +940,23 @@ BYTE read_cia1_(ADDRESS addr)
 
       case CIA_PRA:		/* port A */
 
-    byte = par_bus;
-    if(pardebug) printf("read: par_bus=%02x, pra=%02x, ddra=%02x -> %02x\n",
-		par_bus, cia1[CIA_PRA], cia1[CIA_DDRA], byte);
-    byte = (byte & ~cia1[CIA_DDRA]) | (cia1[CIA_PRA] & cia1[CIA_DDRA]);
+    /* this reads the 8 bit IEEE488 data bus, but joystick 1 and 2 buttons
+       can pull down inputs pa6 and pa7 resp. */
+    byte = parallel_bus;
+    if(parallel_debug) {
+        printf("read: parallel_bus=%02x, pra=%02x, ddra=%02x -> %02x\n",
+		parallel_bus, cia1[CIA_PRA], cia1[CIA_DDRA], byte);
+    }
+    byte = ((byte & ~cia1[CIA_DDRA]) | (cia1[CIA_PRA] & cia1[CIA_DDRA]))
+		& ~( ((joy[1] & 0x10) ? 0x40 : 0) 
+		| ((joy[2] & 0x10) ? 0x80 : 0) );
 	return byte;
 	break;
 
       case CIA_PRB:		/* port B */
 
-    byte = (0xff & ~cia1[CIA_DDRB]) | (cia1[CIA_PRB] & cia1[CIA_DDRB]);
+    byte = ((0xff & ~cia1[CIA_DDRB]) | (cia1[CIA_PRB] & cia1[CIA_DDRB]))
+		& ~( (joy[1] & 0x0f) | ((joy[2] & 0x0f) << 4) );
         if ((cia1[CIA_CRA] | cia1[CIA_CRB]) & 0x02) {
 	    update_cia1(rclk);
 	    if (cia1[CIA_CRA] & 0x02) {
@@ -1570,7 +1580,7 @@ int cia1_read_snapshot_module(snapshot_t *p)
 	byte = cia1[CIA_PRA] | ~cia1[CIA_DDRA];
         oldpa = byte ^ 0xff;	/* all bits change? */
 
-	par_set_bus( cia1_ieee_is_output ? byte : 0 );
+ 	parallel_cpu_set_bus( cia1_ieee_is_output ? byte : 0 );
         oldpa = byte;
 
         addr = CIA_DDRB;
@@ -1694,7 +1704,7 @@ printf("tbi=%d, tbu=%d, tbc=%04x, tbl=%04x\n",cia1_tbi, cia1_tbu, cia1_tbc, cia1
 
 
 #ifdef HAVE_PRINTER
-void userport_printer_set_busy(int flank)
+void pruser_set_busy(int flank)
 {
     if(!flank) {
         cia1_set_flag();

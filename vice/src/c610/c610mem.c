@@ -407,13 +407,23 @@ int cbm2_set_model(const char *model, void *extra)
 
 void set_bank_exec(int val) {
     int i;
+
+    /* printf("set_bank_exec(%d)\n",val); */
+
     val &= 0x0f;
     if(val != bank_exec) {
-/* printf("set_bank_exec(%d)\n",val); */
+
+        /*if(val == 1) traceflg=1; else traceflg=0;*/
+
+        /*printf("bank_exec=%d, ptr=%p, base_ptr=%p\n",bank_exec, _mem_read_tab_ptr, _mem_read_base_tab_ptr);*/
+
     	bank_exec = val;
+
+
     	_mem_read_tab_ptr      = _mem_read_tab[bank_exec];
     	_mem_write_tab_ptr     = _mem_write_tab[bank_exec];
     	_mem_read_base_tab_ptr = _mem_read_base_tab[bank_exec];
+
     	/* set all register mirror locations */
 	for(i=0;i<16;i++) {
 	    ram[i<<16] = val;
@@ -934,7 +944,7 @@ void mem_powerup(void)
 int mem_load(void)
 {
     WORD sum;                   /* ROM checksum */
-    int i,j,k;
+    int i;
     int rsize, krsize;
 
     /* De-initialize kbd-buf, autostart and tape stuff here before
@@ -955,21 +965,7 @@ int mem_load(void)
     }
 
     memmove(chargen_rom+2048, chargen_rom+4096, 2048);
-#if 0
-    if(krsize < 8192) {
-	memmove(chargen_rom, chargen_rom + 8192-krsize, krsize);
-	memset(chargen_rom + krsize, 0, 8192-krsize);
-    }
 
-    /* shorten from 16 byte to 8 byte per char */
-    for(k=0;k<4;k++) {
-        for(i=0;i<128;i++) {
-    	    for(j=0;j<8;j++) {
-	        chargen_rom[k*2048+i*8+j] = chargen_rom[k*2048+i*16+j];
-	    }
-	}
-    }
-#endif
     /* Inverted chargen into second half. This is a hardware feature.  */
     for (i = 0; i < 2048; i++) {
         chargen_rom[i + 2048] = chargen_rom[i] ^ 0xff;
@@ -1257,7 +1253,7 @@ int mem_write_snapshot_module(snapshot_t *p)
     snapshot_module_write_byte_array(m, rom + 0xd000, 0x0800);
 
     if(memsize < 4) {
-        snapshot_module_write_byte_array(m, ram + 0x10000, memsize << 17);
+        snapshot_module_write_byte_array(m, ram + 0x10000, ((int)memsize) << 17);
     } else {
         snapshot_module_write_byte_array(m, ram, memsize << 17);
     }
@@ -1292,7 +1288,8 @@ int mem_read_snapshot_module(snapshot_t *p)
 {
     BYTE byte, vmajor, vminor;
     snapshot_module_t *m;
-    BYTE config, hwconfig, memsize;
+    BYTE config, hwconfig;
+    int memsize;
 
     m = snapshot_module_open(p, module_name, &vmajor, &vminor);
     if (m == NULL)
@@ -1300,7 +1297,9 @@ int mem_read_snapshot_module(snapshot_t *p)
     if (vmajor != CBM2MEM_DUMP_VER_MAJOR)
         return -1;
 
-    snapshot_module_read_byte(m, &memsize);
+    snapshot_module_read_byte(m, &byte);
+    memsize = ((int)byte) & 0xff;
+
     snapshot_module_read_byte(m, &config);
 
     /* FIXME - should that go here or as CRTC/VIC-II module load? */
@@ -1314,7 +1313,7 @@ int mem_read_snapshot_module(snapshot_t *p)
     snapshot_module_read_byte_array(m, ram + 0xf0000, 0x0800);
     snapshot_module_read_byte_array(m, rom + 0xd000, 0x0800);
 
-    ramsize = memsize << 17;
+    ramsize = memsize << 7;
 
     cart08_ram = config & 1;
     cart1_ram = config & 2;

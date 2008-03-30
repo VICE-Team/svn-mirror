@@ -46,6 +46,9 @@ INCLUDES()
 #include "drivecpu.h"
 #include "iecdrive.h"
 #include "viad.h"
+
+#define	VIA_SET_CA2(a)
+#define	VIA_SET_CB2(a)
 }
 
 #define	GLOBALS
@@ -58,22 +61,7 @@ INCLUDES()
 
 PRE_VIA_FUNCS()
 {
-
-void via1d0_set_atn(BYTE state)
-{
-#ifdef OLDIRQ
-   if (state) {
-      via1d0ifr |= 2;
-   } else {
-      via1d0ifr &= 0xfe;
-   }
-#else
-   via1d0_signal(VIA_SIG_CA1, state ? VIA_SIG_RISE : 0);
-#endif
-}
-
-static iec_info_t *iec_info;
-
+    static iec_info_t *iec_info;
 }
 
 UNDUMP_PRA()
@@ -138,6 +126,7 @@ STORE_PRB()
 }
 
 #define	STORE_PCR
+#define UNDUMP_PCR
 #define	STORE_ACR
 #define	STORE_SR
 #define	STORE_T2L

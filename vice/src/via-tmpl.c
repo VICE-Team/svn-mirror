@@ -97,9 +97,24 @@ static int myviapb7sx;
 static BYTE oldpa;		/* the actual output on PA (input = high) */
 static BYTE oldpb;		/* the actual output on PB (input = high) */
 
+static int ca2_state;
+static int cb2_state;
+
 /*
  * local functions
  */
+
+#define IS_CA2_OUTPUT()          ((myvia[VIA_PCR] & 0x0c) == 0x0c)
+#define IS_CA2_INDINPUT()        ((myvia[VIA_PCR] & 0x0a) == 0x02)
+#define IS_CA2_HANDSHAKE()       ((myvia[VIA_PCR] & 0x0c) == 0x08)
+#define IS_CA2_PULSE_MODE()      ((myvia[VIA_PCR] & 0x0e) == 0x09)
+#define IS_CA2_TOGGLE_MODE()     ((myvia[VIA_PCR] & 0x0e) == 0x08)
+
+#define IS_CB2_OUTPUT()          ((myvia[VIA_PCR] & 0xc0) == 0xc0)
+#define IS_CB2_INDINPUT()        ((myvia[VIA_PCR] & 0xa0) == 0x20)
+#define IS_CB2_HANDSHAKE()       ((myvia[VIA_PCR] & 0xc0) == 0x80)
+#define IS_CB2_PULSE_MODE()      ((myvia[VIA_PCR] & 0xe0) == 0x90)
+#define IS_CB2_TOGGLE_MODE()     ((myvia[VIA_PCR] & 0xe0) == 0x80)
 
 /*
  * 01apr98 a.fachat
@@ -255,17 +270,26 @@ void reset_myvia(void)
     oldpa = 0xff;
     oldpb = 0xff;
 
-    RESET_VIA
+    ca2_state = 1;
+    cb2_state = 1;
+    VIA_SET_CA2( ca2_state )	/* input = high */
+    VIA_SET_CB2( cb2_state )	/* input = high */
 
+    RESET_VIA
 }
 
 void myvia_signal(int line, int edge)
 {
     switch (line) {
       case VIA_SIG_CA1:
-        myviaifr |= ((edge ^ myvia[VIA_PCR]) & 0x01) ?
-            0 : VIA_IM_CA1;
-        update_myviairq();
+	if ( (edge ? 1 : 0) == (myvia[VIA_PCR] & 0x01) ) {
+	    if (IS_CA2_TOGGLE_MODE() && !ca2_state) {
+		ca2_state = 1;
+		VIA_SET_CA2( ca2_state )
+	    }
+            myviaifr |= VIA_IM_CA1;
+            update_myviairq();
+	}
         break;
       case VIA_SIG_CA2:
         if (!(myvia[VIA_PCR] & 0x08)) {
@@ -275,9 +299,14 @@ void myvia_signal(int line, int edge)
         }
         break;
       case VIA_SIG_CB1:
-        myviaifr |= (((edge << 4) ^ myvia[VIA_PCR]) & 0x10) ?
-            0 : VIA_IM_CB1;
-        update_myviairq();
+	if ( (edge ? 0x10 : 0) == (myvia[VIA_PCR] & 0x10) ) {
+	    if (IS_CB2_TOGGLE_MODE() && !cb2_state) {
+		cb2_state = 1;
+		VIA_SET_CB2( cb2_state )
+	    }
+            myviaifr |= VIA_IM_CB1;
+            update_myviairq();
+	}
         break;
       case VIA_SIG_CB2:
         if (!(myvia[VIA_PCR] & 0x80)) {
@@ -305,9 +334,17 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
       /* these are done with saving the value */
       case VIA_PRA:		/* port A */
         myviaifr &= ~VIA_IM_CA1;
-        if ((myvia[VIA_PCR] & 0x0a) != 0x2) {
+        if (!IS_CA2_INDINPUT()) {
             myviaifr &= ~VIA_IM_CA2;
         }
+	if(IS_CA2_HANDSHAKE()) {
+	    ca2_state = 0;
+	    VIA_SET_CA2( ca2_state )
+	    if(IS_CA2_PULSE_MODE()) {
+	  	ca2_state = 1;
+	    	VIA_SET_CA2( ca2_state )
+	    }
+	}
         update_myviairq();
 
       case VIA_PRA_NHS:	/* port A, no handshake */
@@ -324,6 +361,14 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
         myviaifr &= ~VIA_IM_CB1;
         if ((myvia[VIA_PCR] & 0xa0) != 0x20) {
             myviaifr &= ~VIA_IM_CB2;
+        }
+        if(IS_CB2_HANDSHAKE()) {
+            cb2_state = 0;
+            VIA_SET_CB2( cb2_state )
+            if(IS_CB2_PULSE_MODE()) {
+                cb2_state = 1;
+                VIA_SET_CB2( cb2_state )
+            }
         }
         update_myviairq();
 
@@ -465,8 +510,32 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
         /* bit 3, 2, 1  CA2 handshake/interrupt control */
         /* bit 0  CA1 interrupt control */
 
+	if ( (byte & 0x0e) == 0x0c ) {	/* set output low */
+	    ca2_state = 0;
+	} else 
+	if ( (byte & 0x0e) == 0x0e ) {	/* set output high */
+	    ca2_state = 1;
+	} else {			/* set to toggle/pulse/input */
+	    /* FIXME: is this correct if handshake is already active? */
+	    ca2_state = 1;
+	}
+	VIA_SET_CA2( ca2_state )
+
+	if ( (byte & 0xe0) == 0xc0 ) {	/* set output low */
+	    cb2_state = 0;
+	} else 
+	if ( (byte & 0xe0) == 0xe0 ) {	/* set output high */
+	    cb2_state = 1;
+	} else {			/* set to toggle/pulse/input */
+	    /* FIXME: is this correct if handshake is already active? */
+	    cb2_state = 1;
+	}
+	VIA_SET_CB2( cb2_state )
+
         STORE_PCR
+
         myvia[addr] = byte;
+
         break;
 
       default:
@@ -507,6 +576,14 @@ BYTE REGPARM1 read_myvia_(ADDRESS addr)
         myviaifr &= ~VIA_IM_CA1;
         if ((myvia[VIA_PCR] & 0x0a) != 0x02) {
             myviaifr &= ~VIA_IM_CA2;
+        }
+        if(IS_CA2_HANDSHAKE()) {
+            ca2_state = 0;
+            VIA_SET_CA2( ca2_state )
+            if(IS_CA2_PULSE_MODE()) {
+                ca2_state = 1;
+                VIA_SET_CA2( ca2_state )
+            }
         }
         update_myviairq();
 
@@ -749,6 +826,8 @@ printf("     : ta=%d, tb=%d\n",myviata() & 0xffff, myviatb() & 0xffff);
     snapshot_module_write_byte(m, (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0));
     snapshot_module_write_byte(m, 0);		/* SRHBITS */
 
+    snapshot_module_write_byte(m, (ca2_state ? 0x80 : 0) 
+				| (cb2_state ? 0x40 : 0));
     snapshot_module_close(m);
 
     return 0;
@@ -831,7 +910,7 @@ int myvia_read_snapshot_module(snapshot_t * p)
     {
 	addr = myvia[VIA_PCR];
 	byte = myvia[addr];
-	STORE_PCR
+	UNDUMP_PCR
     }
 
     snapshot_module_read_byte(m, &byte);
@@ -847,6 +926,10 @@ int myvia_read_snapshot_module(snapshot_t * p)
     myviapb7x = 0;
     myviapb7o = 0;
     snapshot_module_read_byte(m, &byte);	/* SRHBITS */
+
+    snapshot_module_read_byte(m, &byte);	/* CABSTATE */
+    ca2_state = byte & 0x80;
+    cb2_state = byte & 0x40;
 /*
 printf("myvia: read: myclk=%d, tai=%d, tau=%d\n"
        "     : tbi=%d, tbu=%d\n",

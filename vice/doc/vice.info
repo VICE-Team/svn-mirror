@@ -21,7 +21,7 @@ Indirect:
 vice.info-1: 631
 vice.info-2: 49626
 vice.info-3: 99352
-vice.info-4: 147717
+vice.info-4: 147792
 
 Tag Table:
 (Indirect)
@@ -137,40 +137,40 @@ Node: Module framework131492
 Node: CPU 6502 module131643
 Node: CIA 6526 module131779
 Node: VIA 6522 module134630
-Node: PIA 6520 module136297
-Node: TPI 6525 module137325
-Node: SID 6581 module138761
-Node: ACIA 6551 module138898
-Node: VIC-I module140241
-Node: VIC-II module140377
-Node: CRTC module140509
-Node: C64 memory module140642
-Node: C128 memory module140792
-Node: VIC20 memory module140952
-Node: PET memory module142168
-Node: C610 memory module142327
-Node: Monitor144208
-Node: Terminology145050
-Node: Machine state commands146905
-Node: Memory commands147717
-Node: Assembly commands149667
-Node: Checkpoint commands150415
-Node: General commands152626
-Node: Disk commands153478
-Node: Command file commands154366
-Node: Label commands154889
-Node: Miscellaneous commands155779
-Node: c1541156180
-Node: c1541 commands and options157198
-Node: Acknowledgments159724
-Node: Copyright166747
-Node: Contacts167845
-Node: Home page168351
-Node: Sending feedback168901
-Node: Contributing171563
-Node: Newsgroups172752
-Node: FAQs you should read173383
-Node: Concept Index173698
-Node: Resource Index183718
+Node: PIA 6520 module136372
+Node: TPI 6525 module137400
+Node: SID 6581 module138836
+Node: ACIA 6551 module138973
+Node: VIC-I module140316
+Node: VIC-II module140452
+Node: CRTC module140584
+Node: C64 memory module140717
+Node: C128 memory module140867
+Node: VIC20 memory module141027
+Node: PET memory module142243
+Node: C610 memory module142402
+Node: Monitor144283
+Node: Terminology145125
+Node: Machine state commands146980
+Node: Memory commands147792
+Node: Assembly commands149742
+Node: Checkpoint commands150490
+Node: General commands152701
+Node: Disk commands153553
+Node: Command file commands154441
+Node: Label commands154964
+Node: Miscellaneous commands155854
+Node: c1541156255
+Node: c1541 commands and options157273
+Node: Acknowledgments159799
+Node: Copyright166822
+Node: Contacts167920
+Node: Home page168426
+Node: Sending feedback168976
+Node: Contributing171638
+Node: Newsgroups172827
+Node: FAQs you should read173458
+Node: Concept Index173773
+Node: Resource Index183793
 
 End Tag Table
