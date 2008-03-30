@@ -426,7 +426,6 @@ const char contrib_text[] =
 "      (petschy@derceto.sch.bme.hu)\n"
 "    Fixed a couple of bugs in the fast serial emulation.\n"
 "\n"
-"\n"
 "  Olaf Seibert (rhialto@polder.ubc.kun.nl)\n"
 "    PET, Disk drive patches.\n"
 "\n"
