@@ -266,9 +266,9 @@ render2x2.o: render2x2.c ../../src/vice.h ../../src/config.h render2x2.h \
 render2x2pal.o: render2x2pal.c ../../src/vice.h ../../src/config.h \
 	render2x2.h ../../src/arch/unix/types.h
 video-canvas.o: video-canvas.c ../../src/vice.h ../../src/config.h \
-	../../src/arch/unix/types.h ../../src/utils.h video-render.h \
-	../../src/video.h ../../src/viewport.h \
-	../../src/arch/unix/videoarch.h \
+	../../src/machine.h ../../src/arch/unix/types.h \
+	../../src/utils.h video-render.h ../../src/video.h \
+	../../src/viewport.h ../../src/arch/unix/videoarch.h \
 	../../src/arch/unix/x11/xaw/videoarch.h \
 	../../src/arch/unix/ui.h ../../src/uiapi.h \
 	../../src/arch/unix/x11/xaw/uiarch.h \

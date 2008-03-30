@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.10\n"
-"POT-Creation-Date: 2002-07-25 22:57+0200\n"
+"POT-Creation-Date: 2002-08-02 00:04+0200\n"
 "PO-Revision-Date: 2001-07-21 20:56+0200\n"
 "Last-Translator: peter karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: sv <sv@li.org>\\n\n"
@@ -2244,7 +2244,7 @@ msgstr "Bidragslämnare"
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "Grafiken har initierats."
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:114
+#: src/arch/unix/x11/gnome/gnomevideo.c:111
 msgid "Successfully initialized video."
 msgstr "Grafiken har initierats."
 

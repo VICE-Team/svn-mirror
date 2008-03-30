@@ -1,3 +1,30 @@
+2002-08-01  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.9.66.
+
+	* vicii/vicii-draw.c (get_ext_text, get_illegal_text):
+	Check for chargen pointer changes.
+	(_draw_std_text_cached, _draw_mc_text_cached,
+	_draw_mc_bitmap_cached, _draw_ext_text_cached):
+	Use cache values.  (get_idle): Check for overscan background
+	and video mode changes.
+
+2002-07-31  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/x11/gnome/gnomevideo.c
+	(video_arch_frame_buffer_alloc): Removed duplicate call to
+	ui_finish_canvas (called from video.c:video_canvas_create).
+
+	* arch/unix/x11/video.c (video_canvas_create): Moved fourcc
+	setting from video_arch_canvas_init. Removed free(canvas),
+	this caused segfaults on error exit.
+
+	* raster/raster.c: Only skip video canvas handling for
+	console_mode and vsid_mode.
+
+	* video/video-canvas.c (video_canvas_refresh_all): Skip
+	video canvas handling for console_mode and vsid_mode.
+
 2002-07-30  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.9.65.

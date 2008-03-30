@@ -33,399 +33,351 @@
 /* 16 color 1x2 renderers */
 
 void render_08_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
-					  unsigned int width,        const unsigned int height,
-					  const unsigned int xs,     const unsigned int ys,
-					  const unsigned int xt,     const unsigned int yt,
-					  const unsigned int pitchs, const unsigned int pitcht,
-					  const unsigned int doublescan)
+                      unsigned int width, const unsigned int height,
+                      const unsigned int xs, const unsigned int ys,
+                      const unsigned int xt, const unsigned int yt,
+                      const unsigned int pitchs, const unsigned int pitcht,
+                      const unsigned int doublescan)
 {
-	const BYTE *tmpsrc;
-	BYTE *tmptrg;
-	unsigned int x,y,wstart,wfast,wend,yys;
-	BYTE color;
+    const BYTE *tmpsrc;
+    BYTE *tmptrg;
+    unsigned int x, y, wstart, wfast, wend, yys;
+    BYTE color;
 
-	src += pitchs * ys + xs;
-	trg += pitcht*yt + xt;
+    src += pitchs * ys + xs;
+    trg += pitcht * yt + xt;
     yys = (ys << 1) | (yt & 1);
-	if (width < 8)
-	{
-		wstart=width;
-		wfast=0;
-		wend=0;
-	}
-	else
-	{
-		wstart=8-((unsigned int)trg & 7);	/* alignment: 8 pixels*/
-		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
-		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
-	}
-	for (y=yys;y<(yys+height);y++)
-	{
-		tmpsrc=src;
-		tmptrg=trg;
-		if ((y & 1) || doublescan)
-		{
-			for (x=0;x<wstart;x++)
-			{
-				*tmptrg++=(BYTE)colortab[*tmpsrc++];
-			}
-			for (x=0;x<wfast;x++)
-			{
-				tmptrg[0]=(BYTE)colortab[tmpsrc[0]];
-				tmptrg[1]=(BYTE)colortab[tmpsrc[1]];
-				tmptrg[2]=(BYTE)colortab[tmpsrc[2]];
-				tmptrg[3]=(BYTE)colortab[tmpsrc[3]];
-				tmptrg[4]=(BYTE)colortab[tmpsrc[4]];
-				tmptrg[5]=(BYTE)colortab[tmpsrc[5]];
-				tmptrg[6]=(BYTE)colortab[tmpsrc[6]];
-				tmptrg[7]=(BYTE)colortab[tmpsrc[7]];
-				tmpsrc += 8;
-				tmptrg += 8;
-			}
-			for (x=0;x<wend;x++)
-			{
-				*tmptrg++=(BYTE)colortab[*tmpsrc++];
-			}
-			if (y & 1) src += pitchs;
-		}
-		else
-		{
-			color=(BYTE)colortab[0];
-			for (x=0;x<wstart;x++)
-			{
-				*tmptrg++=color;
-			}
-			for (x=0;x<wfast;x++)
-			{
-				tmptrg[0]=color;
-				tmptrg[1]=color;
-				tmptrg[2]=color;
-				tmptrg[3]=color;
-				tmptrg[4]=color;
-				tmptrg[5]=color;
-				tmptrg[6]=color;
-				tmptrg[7]=color;
-				tmpsrc += 8;
-				tmptrg += 8;
-			}
-			for (x=0;x<wend;x++)
-			{
-				*tmptrg++=color;
-			}
-		}
-		trg += pitcht;
-	}
+    if (width < 8) {
+        wstart = width;
+        wfast = 0;
+        wend = 0;
+    } else {
+        wstart = 8 - ((unsigned int)trg & 7); /* alignment: 8 pixels*/
+        wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
+        wend = (width - wstart) & 0x07; /* do not forget the rest*/
+    }
+    for (y = yys; y < (yys + height); y++) {
+        tmpsrc = src;
+        tmptrg = trg;
+        if ((y & 1) || doublescan) {
+            for (x = 0; x < wstart; x++) {
+                *tmptrg++ = (BYTE)colortab[*tmpsrc++];
+            }
+            for (x = 0; x < wfast; x++) {
+                tmptrg[0] = (BYTE)colortab[tmpsrc[0]];
+                tmptrg[1] = (BYTE)colortab[tmpsrc[1]];
+                tmptrg[2] = (BYTE)colortab[tmpsrc[2]];
+                tmptrg[3] = (BYTE)colortab[tmpsrc[3]];
+                tmptrg[4] = (BYTE)colortab[tmpsrc[4]];
+                tmptrg[5] = (BYTE)colortab[tmpsrc[5]];
+                tmptrg[6] = (BYTE)colortab[tmpsrc[6]];
+                tmptrg[7] = (BYTE)colortab[tmpsrc[7]];
+                tmpsrc += 8;
+                tmptrg += 8;
+            }
+            for (x = 0; x < wend; x++) {
+                *tmptrg++ = (BYTE)colortab[*tmpsrc++];
+            }
+            if (y & 1)
+                src += pitchs;
+        } else {
+            color = (BYTE)colortab[0];
+            for (x = 0; x < wstart; x++) {
+                *tmptrg++ = color;
+            }
+            for (x = 0; x < wfast; x++) {
+                tmptrg[0] = color;
+                tmptrg[1] = color;
+                tmptrg[2] = color;
+                tmptrg[3] = color;
+                tmptrg[4] = color;
+                tmptrg[5] = color;
+                tmptrg[6] = color;
+                tmptrg[7] = color;
+                tmpsrc += 8;
+                tmptrg += 8;
+            }
+            for (x = 0; x < wend; x++) {
+                *tmptrg++ = color;
+            }
+        }
+        trg += pitcht;
+    }
 }
 
 void render_16_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
-					  unsigned int width,        const unsigned int height,
-					  const unsigned int xs,     const unsigned int ys,
-					  const unsigned int xt,     const unsigned int yt,
-					  const unsigned int pitchs, const unsigned int pitcht,
-					  const unsigned int doublescan)
+                      unsigned int width, const unsigned int height,
+                      const unsigned int xs, const unsigned int ys,
+                      const unsigned int xt, const unsigned int yt,
+                      const unsigned int pitchs, const unsigned int pitcht,
+                      const unsigned int doublescan)
 {
-	const BYTE *tmpsrc;
-	WORD *tmptrg;
-	unsigned int x,y,wstart,wfast,wend,yys;
-	WORD color;
+    const BYTE *tmpsrc;
+    WORD *tmptrg;
+    unsigned int x,y,wstart,wfast,wend,yys;
+    WORD color;
 
-	src=src + pitchs * ys + xs;
-	trg=trg + pitcht*yt + (xt << 1);
+    src=src + pitchs * ys + xs;
+    trg=trg + pitcht * yt + (xt << 1);
     yys = (ys << 1) | (yt & 1);
-	if (width < 8)
-	{
-		wstart=width;
-		wfast=0;
-		wend=0;
-	}
-	else
-	{
-		wstart=8-((unsigned int)trg & 7);	/* alignment: 8 pixels*/
-		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
-		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
-	}
-	for (y=yys;y<(yys+height);y++)
-	{
-		tmpsrc=src;
-		tmptrg=(WORD *)trg;
-		if ((y & 1) || doublescan)
-		{
-			for (x=0;x<wstart;x++)
-			{
-				*tmptrg++=(WORD)colortab[*tmpsrc++];
-			}
-			for (x=0;x<wfast;x++)
-			{
-				tmptrg[0]=(WORD)colortab[tmpsrc[0]];
-				tmptrg[1]=(WORD)colortab[tmpsrc[1]];
-				tmptrg[2]=(WORD)colortab[tmpsrc[2]];
-				tmptrg[3]=(WORD)colortab[tmpsrc[3]];
-				tmptrg[4]=(WORD)colortab[tmpsrc[4]];
-				tmptrg[5]=(WORD)colortab[tmpsrc[5]];
-				tmptrg[6]=(WORD)colortab[tmpsrc[6]];
-				tmptrg[7]=(WORD)colortab[tmpsrc[7]];
-				tmpsrc += 8;
-				tmptrg += 8;
-			}
-			for (x=0;x<wend;x++)
-			{
-				*tmptrg++=(WORD)colortab[*tmpsrc++];
-			}
-			if (y & 1) src += pitchs;
-		}
-		else
-		{
-			color=(WORD)colortab[0];
-			for (x=0;x<wstart;x++)
-			{
-				*tmptrg++=color;
-			}
-			for (x=0;x<wfast;x++)
-			{
-				tmptrg[0]=color;
-				tmptrg[1]=color;
-				tmptrg[2]=color;
-				tmptrg[3]=color;
-				tmptrg[4]=color;
-				tmptrg[5]=color;
-				tmptrg[6]=color;
-				tmptrg[7]=color;
-				tmpsrc += 8;
-				tmptrg += 8;
-			}
-			for (x=0;x<wend;x++)
-			{
-				*tmptrg++=color;
-			}
-		}
-		trg += pitcht;
-	}
+    if (width < 8) {
+        wstart = width;
+        wfast = 0;
+        wend = 0;
+    } else {
+        wstart = 8 - ((unsigned int)trg & 7); /* alignment: 8 pixels*/
+        wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
+        wend  = (width - wstart) & 0x07; /* do not forget the rest*/
+    }
+    for (y = yys; y < (yys + height); y++) {
+        tmpsrc = src;
+        tmptrg = (WORD *)trg;
+        if ((y & 1) || doublescan) {
+            for (x = 0; x < wstart; x++) {
+                *tmptrg++ = (WORD)colortab[*tmpsrc++];
+            }
+            for (x = 0; x < wfast; x++) {
+                tmptrg[0] = (WORD)colortab[tmpsrc[0]];
+                tmptrg[1] = (WORD)colortab[tmpsrc[1]];
+                tmptrg[2] = (WORD)colortab[tmpsrc[2]];
+                tmptrg[3] = (WORD)colortab[tmpsrc[3]];
+                tmptrg[4] = (WORD)colortab[tmpsrc[4]];
+                tmptrg[5] = (WORD)colortab[tmpsrc[5]];
+                tmptrg[6] = (WORD)colortab[tmpsrc[6]];
+                tmptrg[7] = (WORD)colortab[tmpsrc[7]];
+                tmpsrc += 8;
+                tmptrg += 8;
+            }
+            for (x = 0; x < wend; x++) {
+                *tmptrg++ = (WORD)colortab[*tmpsrc++];
+            }
+            if (y & 1)
+                src += pitchs;
+        } else {
+            color = (WORD)colortab[0];
+            for (x = 0; x < wstart; x++) {
+                *tmptrg++ = color;
+            }
+            for (x = 0; x < wfast; x++) {
+                tmptrg[0] = color;
+                tmptrg[1] = color;
+                tmptrg[2] = color;
+                tmptrg[3] = color;
+                tmptrg[4] = color;
+                tmptrg[5] = color;
+                tmptrg[6] = color;
+                tmptrg[7] = color;
+                tmpsrc += 8;
+                tmptrg += 8;
+            }
+            for (x = 0; x < wend; x++) {
+                *tmptrg++ = color;
+            }
+        }
+        trg += pitcht;
+    }
 }
 
 void render_24_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
-					  unsigned int width,        const unsigned int height,
-					  const unsigned int xs,     const unsigned int ys,
-					  const unsigned int xt,     const unsigned int yt,
-					  const unsigned int pitchs, const unsigned int pitcht,
-					  const unsigned int doublescan)
+                      unsigned int width, const unsigned int height,
+                      const unsigned int xs, const unsigned int ys,
+                      const unsigned int xt, const unsigned int yt,
+                      const unsigned int pitchs, const unsigned int pitcht,
+                      const unsigned int doublescan)
 {
-	const BYTE *tmpsrc;
-	BYTE *tmptrg;
-	unsigned int x,y,wstart,wfast,wend,yys;
-	register DWORD color;
-	DWORD tcolor;
+    const BYTE *tmpsrc;
+    BYTE *tmptrg;
+    unsigned int x, y, wstart, wfast, wend, yys;
+    register DWORD color;
+    DWORD tcolor;
 
-	src=src + pitchs * ys + xs;
-	trg=trg + pitcht*yt + (xt * 3);
+    src=src + pitchs * ys + xs;
+    trg=trg + pitcht * yt + (xt * 3);
     yys = (ys << 1) | (yt & 1);
-	if (width < 4)
-	{
-		wstart=width;
-		wfast=0;
-		wend=0;
-	}
-	else
-	{
-		wstart=4-((unsigned int)trg & 3);	/* alignment: 4 pixels*/
-		wfast =(width - wstart) >> 2;		/* fast loop for 4 pixel segments*/
-		wend  =(width - wstart) & 0x03;		/* do not forget the rest*/
-	}
-	for (y=yys;y<(yys+height);y++)
-	{
-		tmpsrc=src;
-		tmptrg=trg;
-		if ((y & 1) || doublescan)
-		{
-			for (x=0;x<wstart;x++)
-			{
-				color=colortab[*tmpsrc++];
-				tmptrg[0]=(BYTE)color;
-				color >>= 8;
-				tmptrg[1]=(BYTE)color;
-				color >>= 8;
-				tmptrg[2]=(BYTE)color;
-				tmptrg += 3;
-			}
-			for (x=0;x<wfast;x++)
-			{
-				color=colortab[tmpsrc[0]];
-				tmptrg[0]=(BYTE)color;
-				color >>= 8;
-				tmptrg[1]=(BYTE)color;
-				color >>= 8;
-				tmptrg[2]=(BYTE)color;
-				color=colortab[tmpsrc[1]];
-				tmptrg[3]=(BYTE)color;
-				color >>= 8;
-				tmptrg[4]=(BYTE)color;
-				color >>= 8;
-				tmptrg[5]=(BYTE)color;
-				color=colortab[tmpsrc[2]];
-				tmptrg[6]=(BYTE)color;
-				color >>= 8;
-				tmptrg[7]=(BYTE)color;
-				color >>= 8;
-				tmptrg[8]=(BYTE)color;
-				color=colortab[tmpsrc[3]];
-				tmptrg[9]=(BYTE)color;
-				color >>= 8;
-				tmptrg[10]=(BYTE)color;
-				color >>= 8;
-				tmptrg[11]=(BYTE)color;
-				tmpsrc += 4;
-				tmptrg += 12;
-			}
-			for (x=0;x<wend;x++)
-			{
-				color=colortab[*tmpsrc++];
-				tmptrg[0]=(BYTE)color;
-				color >>= 8;
-				tmptrg[1]=(BYTE)color;
-				color >>= 8;
-				tmptrg[2]=(BYTE)color;
-				tmptrg += 3;
-			}
-			if (y & 1) src += pitchs;
-		}
-		else
-		{
-			tcolor=(WORD)colortab[0];
-			for (x=0;x<wstart;x++)
-			{
-				color=tcolor;
-				tmptrg[0]=(BYTE)color;
-				color >>= 8;
-				tmptrg[1]=(BYTE)color;
-				color >>= 8;
-				tmptrg[2]=(BYTE)color;
-				tmptrg += 3;
-			}
-			for (x=0;x<wfast;x++)
-			{
-				color=tcolor;
-				tmptrg[0]=(BYTE)color;
-				color >>= 8;
-				tmptrg[1]=(BYTE)color;
-				color >>= 8;
-				tmptrg[2]=(BYTE)color;
-				color=tcolor;
-				tmptrg[3]=(BYTE)color;
-				color >>= 8;
-				tmptrg[4]=(BYTE)color;
-				color >>= 8;
-				tmptrg[5]=(BYTE)color;
-				color=tcolor;
-				tmptrg[6]=(BYTE)color;
-				color >>= 8;
-				tmptrg[7]=(BYTE)color;
-				color >>= 8;
-				tmptrg[8]=(BYTE)color;
-				color=tcolor;
-				tmptrg[9]=(BYTE)color;
-				color >>= 8;
-				tmptrg[10]=(BYTE)color;
-				color >>= 8;
-				tmptrg[11]=(BYTE)color;
-				tmpsrc += 4;
-				tmptrg += 12;
-			}
-			for (x=0;x<wend;x++)
-			{
-				color=tcolor;
-				tmptrg[0]=(BYTE)color;
-				color >>= 8;
-				tmptrg[1]=(BYTE)color;
-				color >>= 8;
-				tmptrg[2]=(BYTE)color;
-				tmptrg += 3;
-			}
-		}
-		trg += pitcht;
-	}
+    if (width < 4) {
+        wstart = width;
+        wfast = 0;
+        wend = 0;
+    } else {
+        wstart = 4 - ((unsigned int)trg & 3); /* alignment: 4 pixels*/
+        wfast = (width - wstart) >> 2; /* fast loop for 4 pixel segments*/
+        wend = (width - wstart) & 0x03; /* do not forget the rest*/
+    }
+    for (y = yys; y < (yys + height); y++) {
+        tmpsrc = src;
+        tmptrg = trg;
+        if ((y & 1) || doublescan) {
+            for (x = 0; x < wstart; x++) {
+                color=colortab[*tmpsrc++];
+                tmptrg[0] = (BYTE)color;
+                color >>= 8;
+                tmptrg[1] = (BYTE)color;
+                color >>= 8;
+                tmptrg[2] = (BYTE)color;
+                tmptrg += 3;
+            }
+            for (x = 0; x < wfast; x++) {
+                color = colortab[tmpsrc[0]];
+                tmptrg[0] = (BYTE)color;
+                color >>= 8;
+                tmptrg[1] = (BYTE)color;
+                color >>= 8;
+                tmptrg[2] = (BYTE)color;
+                color = colortab[tmpsrc[1]];
+                tmptrg[3] = (BYTE)color;
+                color >>= 8;
+                tmptrg[4] = (BYTE)color;
+                color >>= 8;
+                tmptrg[5] = (BYTE)color;
+                color = colortab[tmpsrc[2]];
+                tmptrg[6] = (BYTE)color;
+                color >>= 8;
+                tmptrg[7] = (BYTE)color;
+                color >>= 8;
+                tmptrg[8] = (BYTE)color;
+                color = colortab[tmpsrc[3]];
+                tmptrg[9] = (BYTE)color;
+                color >>= 8;
+                tmptrg[10] = (BYTE)color;
+                color >>= 8;
+                tmptrg[11] = (BYTE)color;
+                tmpsrc += 4;
+                tmptrg += 12;
+            }
+            for (x = 0; x < wend; x++) {
+                color = colortab[*tmpsrc++];
+                tmptrg[0] = (BYTE)color;
+                color >>= 8;
+                tmptrg[1] = (BYTE)color;
+                color >>= 8;
+                tmptrg[2] = (BYTE)color;
+                tmptrg += 3;
+            }
+            if (y & 1)
+                src += pitchs;
+        } else {
+            tcolor = (WORD)colortab[0];
+            for (x = 0; x < wstart; x++) {
+                color = tcolor;
+                tmptrg[0] = (BYTE)color;
+                color >>= 8;
+                tmptrg[1] = (BYTE)color;
+                color >>= 8;
+                tmptrg[2] = (BYTE)color;
+                tmptrg += 3;
+            }
+            for (x = 0; x < wfast; x++) {
+                color = tcolor;
+                tmptrg[0] = (BYTE)color;
+                color >>= 8;
+                tmptrg[1] = (BYTE)color;
+                color >>= 8;
+                tmptrg[2] = (BYTE)color;
+                color = tcolor;
+                tmptrg[3] = (BYTE)color;
+                color >>= 8;
+                tmptrg[4] = (BYTE)color;
+                color >>= 8;
+                tmptrg[5] = (BYTE)color;
+                color = tcolor;
+                tmptrg[6] = (BYTE)color;
+                color >>= 8;
+                tmptrg[7] = (BYTE)color;
+                color >>= 8;
+                tmptrg[8] = (BYTE)color;
+                color = tcolor;
+                tmptrg[9] = (BYTE)color;
+                color >>= 8;
+                tmptrg[10] = (BYTE)color;
+                color >>= 8;
+                tmptrg[11] = (BYTE)color;
+                tmpsrc += 4;
+                tmptrg += 12;
+            }
+            for (x = 0; x < wend; x++) {
+                color = tcolor;
+                tmptrg[0] = (BYTE)color;
+                color >>= 8;
+                tmptrg[1] = (BYTE)color;
+                color >>= 8;
+                tmptrg[2] = (BYTE)color;
+                tmptrg += 3;
+            }
+        }
+        trg += pitcht;
+    }
 }
 
 void render_32_1x2_04(const DWORD *colortab, const BYTE *src, BYTE *trg,
-					  unsigned int width,        const unsigned int height,
-					  const unsigned int xs,     const unsigned int ys,
-					  const unsigned int xt,     const unsigned int yt,
-					  const unsigned int pitchs, const unsigned int pitcht,
-					  const unsigned int doublescan)
+                      unsigned int width, const unsigned int height,
+                      const unsigned int xs, const unsigned int ys,
+                      const unsigned int xt, const unsigned int yt,
+                      const unsigned int pitchs, const unsigned int pitcht,
+                      const unsigned int doublescan)
 {
-	const BYTE *tmpsrc;
-	DWORD *tmptrg;
-	unsigned int x,y,wstart,wfast,wend,yys;
-	DWORD color;
+    const BYTE *tmpsrc;
+    DWORD *tmptrg;
+    unsigned int x, y, wstart, wfast, wend, yys;
+    DWORD color;
 
-	src=src + pitchs * ys + xs;
-	trg=trg + pitcht*yt + (xt << 2);
+    src=src + pitchs * ys + xs;
+    trg=trg + pitcht * yt + (xt << 2);
     yys = (ys << 1) | (yt & 1);
-	if (width < 8)
-	{
-		wstart=width;
-		wfast=0;
-		wend=0;
-	}
-	else
-	{
-		wstart=8-((unsigned int)trg & 7);	/* alignment: 8 pixels*/
-		wfast =(width - wstart) >> 3;		/* fast loop for 8 pixel segments*/
-		wend  =(width - wstart) & 0x07;		/* do not forget the rest*/
-	}
-	for (y=yys;y<(yys+height);y++)
-	{
-		tmpsrc=src;
-		tmptrg=(DWORD *)trg;
-		if ((y & 1) || doublescan)
-		{
-			for (x=0;x<wstart;x++)
-			{
-				*tmptrg++=colortab[*tmpsrc++];
-			}
-			for (x=0;x<wfast;x++)
-			{
-				tmptrg[0]=colortab[tmpsrc[0]];
-				tmptrg[1]=colortab[tmpsrc[1]];
-				tmptrg[2]=colortab[tmpsrc[2]];
-				tmptrg[3]=colortab[tmpsrc[3]];
-				tmptrg[4]=colortab[tmpsrc[4]];
-				tmptrg[5]=colortab[tmpsrc[5]];
-				tmptrg[6]=colortab[tmpsrc[6]];
-				tmptrg[7]=colortab[tmpsrc[7]];
-				tmpsrc += 8;
-				tmptrg += 8;
-			}
-			for (x=0;x<wend;x++)
-			{
-				*tmptrg++=colortab[*tmpsrc++];
-			}
-			if (y & 1) src += pitchs;
-		}
-		else
-		{
-			color=colortab[0];
-			for (x=0;x<wstart;x++)
-			{
-				*tmptrg++=color;
-			}
-			for (x=0;x<wfast;x++)
-			{
-				tmptrg[0]=color;
-				tmptrg[1]=color;
-				tmptrg[2]=color;
-				tmptrg[3]=color;
-				tmptrg[4]=color;
-				tmptrg[5]=color;
-				tmptrg[6]=color;
-				tmptrg[7]=color;
-				tmpsrc += 8;
-				tmptrg += 8;
-			}
-			for (x=0;x<wend;x++)
-			{
-				*tmptrg++=color;
-			}
-		}
-		trg += pitcht;
-	}
+    if (width < 8) {
+        wstart = width;
+        wfast = 0;
+        wend = 0;
+    } else {
+        wstart = 8 - ((unsigned int)trg & 7); /* alignment: 8 pixels*/
+        wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
+        wend  = (width - wstart) & 0x07; /* do not forget the rest*/
+    }
+    for (y = yys; y < (yys + height); y++) {
+        tmpsrc = src;
+        tmptrg = (DWORD *)trg;
+        if ((y & 1) || doublescan) {
+            for (x = 0;x < wstart; x++) {
+                *tmptrg++ = colortab[*tmpsrc++];
+            }
+            for (x = 0; x < wfast; x++) {
+                tmptrg[0] = colortab[tmpsrc[0]];
+                tmptrg[1] = colortab[tmpsrc[1]];
+                tmptrg[2] = colortab[tmpsrc[2]];
+                tmptrg[3] = colortab[tmpsrc[3]];
+                tmptrg[4] = colortab[tmpsrc[4]];
+                tmptrg[5] = colortab[tmpsrc[5]];
+                tmptrg[6] = colortab[tmpsrc[6]];
+                tmptrg[7] = colortab[tmpsrc[7]];
+                tmpsrc += 8;
+                tmptrg += 8;
+            }
+            for (x = 0;x < wend; x++) {
+                *tmptrg++ = colortab[*tmpsrc++];
+            }
+            if (y & 1)
+                src += pitchs;
+        } else {
+            color = colortab[0];
+            for (x = 0; x < wstart; x++) {
+                *tmptrg++ = color;
+            }
+            for (x = 0; x < wfast; x++) {
+                tmptrg[0] = color;
+                tmptrg[1] = color;
+                tmptrg[2] = color;
+                tmptrg[3] = color;
+                tmptrg[4] = color;
+                tmptrg[5] = color;
+                tmptrg[6] = color;
+                tmptrg[7] = color;
+                tmpsrc += 8;
+                tmptrg += 8;
+            }
+            for (x = 0; x < wend; x++) {
+                *tmptrg++ = color;
+            }
+        }
+        trg += pitcht;
+    }
 }
 

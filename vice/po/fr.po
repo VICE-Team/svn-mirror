@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.10\n"
-"POT-Creation-Date: 2002-07-25 22:57+0200\n"
+"POT-Creation-Date: 2002-08-02 00:04+0200\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -2246,7 +2246,7 @@ msgstr "Participants"
 msgid "Successfully initialized using XVideo (%dx%d %.4s)."
 msgstr "Mémoire partagée %s correctement initialisée"
 
-#: src/arch/unix/x11/gnome/gnomevideo.c:114
+#: src/arch/unix/x11/gnome/gnomevideo.c:111
 msgid "Successfully initialized video."
 msgstr ""
 
