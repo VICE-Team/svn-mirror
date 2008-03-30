@@ -56,7 +56,7 @@
 
 static int prdevice_attach(int);
 static int prdevice_detach(int);
-static int close_pr(void *var, unsigned int secondary);
+static int close_pr(vdrive_t *var, unsigned int secondary);
 
 /***********************************************************************
  * resource handling
@@ -141,7 +141,7 @@ void prdevice_late_init(void)
 static int currfd;
 static int inuse;
 
-static int open_pr(void *var, const char *name, int length,
+static int open_pr(vdrive_t *var, const char *name, int length,
                    unsigned int secondary)
 {
     if (inuse) {
@@ -160,7 +160,7 @@ static int open_pr(void *var, const char *name, int length,
     return 0;
 }
 
-static int write_pr(void *var, BYTE byte, unsigned int secondary)
+static int write_pr(vdrive_t *var, BYTE byte, unsigned int secondary)
 {
     int er;
 
@@ -179,7 +179,7 @@ static int write_pr(void *var, BYTE byte, unsigned int secondary)
     return print_putc(currfd, (BYTE)byte);
 }
 
-static int close_pr(void *var, unsigned int secondary)
+static int close_pr(vdrive_t *var, unsigned int secondary)
 {
     if (!inuse) {
 	log_error(LOG_DEFAULT, "Close printer while being closed - ignoring.");
@@ -193,7 +193,7 @@ static int close_pr(void *var, unsigned int secondary)
 }
 
 
-static void flush_pr(void *var, unsigned int secondary)
+static void flush_pr(vdrive_t *var, unsigned int secondary)
 {
     if (!inuse) {
 	log_error(LOG_DEFAULT, "Flush printer while being closed - ignoring.");
@@ -216,7 +216,7 @@ static int prdevice_attach(int device)
 
     if ((er = serial_attach_device(device,
 	    "Printer device",
-	    (int (*)(void *, BYTE *, unsigned int))fn,
+	    (int (*)(vdrive_t *, BYTE *, unsigned int))fn,
 	    write_pr,
 	    open_pr,
 	    close_pr,

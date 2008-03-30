@@ -1,3 +1,89 @@
+2000-01-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.26.
+
+	* vdrive/vdrive-rel.c (vdrive_rel_position): Set buffer
+	length.
+
+	* vdrive/vdrive-iec.c (vdrive_iec_read): Implemented
+	`BUFFER_RELATIVE' mode.
+
+	* sound.h: Added structure name.
+
+	* pet/petsound.c: Fixed includes.
+
+	* drive/drive.c, drive/drive.h, drive/drivecpu.c, c64/c64.c,
+	parallel.c: Removed `drive_cpu_execute'.
+
+	* prdevice.c: Fixed serial function prototypes.
+
+2000-01-22  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* autostart.c: workaround for p00_check_name deleted (seems to
+	work now)
+
+	* crtc/resources.c: char-12 removed
+
+	* fsdevice.c: minor changes
+
+	* info.c: Thomas Bretz added
+
+	* sid/resid.cc: unnecessary includes removed
+
+	* monitor/mon.c: quit-command mapped to exit (for OS/2)
+
+	* monitor/mon_lex.[cl], mon_parse.[cy]: made this compile
+	without warnings on OS/2
+
+	* raster/raster-changes.h, raster/raster-sprite-status.c,
+	raster/raster.[ch]: char-12 removed
+
+	* vic20/vic-cmdline-options.c, vic20/vic-resources.c,
+	vic20/vic.c, vic20/vicii-mem.c: char-12 removed
+
+	* vic20/vic.h: VIC_DUPLICATE_PIXLES undifined for OS2 (this is
+	faster by hardware)
+ 
+	* arch/os2/console.c: console_out: skip trailing '\n'
+	console_in: ready for trigger_shutdown
+
+	* arch/os2/dialogs/dialogs.[rc,hc]: added attach_dialog,
+	create_dialog
+
+	* arch/os2/dialogs/dlg-attach.c, dialogs/dlg-create.c added
+
+	* arch/os2/dialogs/dlg-drive.c: drive type change added,
+	create button added
+
+	* arch/os2/kbd.c: ui_attach --> dlg-attach.c
+
+	* arch/os2/ui.c: ui_file_dialog --> dlg_attach.c
+
+	* arch/os2/kbd/kbd-pet.c: keyboard.h included
+
+	* arch/os2/vac++/*.icc, vac++/incl/*.icc: updated
+
+	* arch/os2/video.c: minor changes, 'undef __XVIC__' deleted
+
+	* arch/os2/videoarch.h: workaround for xvic added
+
+2000-01-22  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* arch/win32/archdep.h: changed MODE_READ_TXT from "r" to
+	"rt", so CR/LF will be handled correctly.
+
+	* monitor/mon.c: when open a file for playback, changed mode
+	from MODE_READ to MODE_READ_TEXT so the file can be edited
+	with a DOS style editor (i.e., using CR/LF instead of LF).
+
+	* arch/win32/c64.dsp, arch/win32/vic20.dsp: changed filenames
+	cartridge.c to c64cartridge.c or vic20cartridge.c, resp.
+
+	* arch/win32/vdrive.dsp: added vdrive-rel.c
+
+	* arch/win32/monitor.dsp: removed /GZ command line switch in
+	debugging environment since MSVC++ 5.0 doesn't recognize it.
+
 2000-01-21  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.25.
