@@ -215,6 +215,9 @@ typedef struct drive_s {
     int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,
         drive_ram8_enabled, drive_rama_enabled;
 
+    /* Are the Professional DOS extentions enabled?  */
+    int profdos;
+
     /* Drive ROM starts here.  */
     WORD rom_start;
 
@@ -268,6 +271,7 @@ extern int drive_check_expansionA000(int drive_type);
 extern int drive_check_parallel_cable(int drive_type);
 extern int drive_check_extend_policy(int drive_type);
 extern int drive_check_idle_method(int drive_type);
+extern int drive_check_profdos(int drive_type);
 
 extern int drive_num_leds(unsigned int dnr);
 
