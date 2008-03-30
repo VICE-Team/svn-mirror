@@ -16,7 +16,11 @@ libprinterdrv_a_SOURCES = \
 	interface-serial.h \
 	interface-userport.c \
 	interface-userport.h \
-	output-file.c \
-	output-file.h \
+	output-graphics.c \
+	output-graphics.h \
+	output-select.c \
+	output-select.h \
+	output-text.c \
+	output-text.h \
 	printer.c
 
