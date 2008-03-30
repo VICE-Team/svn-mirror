@@ -222,8 +222,10 @@ static int set_palette_file_name(resource_value_t v)
         return 0;
     }
 
-    if (palette_load((char *) v, palette) < 0)
+    if (palette_load((char *) v, palette) < 0) {
+        fprintf(stderr, "Couldn't load palette `%s'\n", (char *) v);
         return -1;
+    }
     canvas_set_palette(canvas, palette, pixel_table);
 
     /* Make sure the pixel tables are recalculated properly.  */
