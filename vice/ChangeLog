@@ -1,5 +1,7 @@
 1998-11-29  Ettore Perazzoli  <ettore@comm2000.it>
 
+	* Version 0.15.0.33.
+
 	* vice.spec: New file.
 
 	* configure.in: New symbol `@ARCH_DIR@'.
