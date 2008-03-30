@@ -32,6 +32,7 @@
 #define C128UI 1
 #include "videoarch.h"
 
+#include "datasette.h"
 #include "drive.h"
 #include "joystick.h"
 #include "resources.h"
@@ -40,6 +41,36 @@
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "vsync.h"
+
+/* ------------------------------------------------------------------------- */
+
+static UI_CALLBACK(ui_datasette_control)
+{
+    int command = (int)UI_MENU_CB_PARAM;
+    datasette_control(command);
+}
+
+static ui_menu_entry_t datasette_control_submenu[] = {
+    { N_("Stop"), (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_STOP, NULL },
+    { N_("Play"), (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_START, NULL },
+    { N_("Forward"), (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_FORWARD, NULL },
+    { N_("Rewind"), (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_REWIND, NULL },
+    { N_("Record"), (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_RECORD, NULL },
+    { N_("Reset"), (ui_callback_t) ui_datasette_control,
+      (ui_callback_data_t) DATASETTE_CONTROL_RESET, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t ui_datasette_commands_menu[] = {
+    { N_("Datassette control"),
+      NULL, NULL, datasette_control_submenu },
+    { NULL }
+};
 
 /* ------------------------------------------------------------------------- */
 
@@ -434,6 +465,9 @@ int c128_ui_init(void)
     ui_set_left_menu(ui_menu_create("LeftMenu",
                                     ui_disk_commands_menu,
                                     ui_menu_separator,
+                                    ui_tape_commands_menu,
+                                    ui_datasette_commands_menu,
+                                    ui_menu_separator,
                                     ui_smart_attach_commands_menu,
                                     ui_menu_separator,
                                     ui_directory_commands_menu,
@@ -475,6 +509,9 @@ int c128_ui_init(void)
 				  ui_menu_separator,
 				  ui_disk_commands_menu,
 				  ui_menu_separator,
+                                  ui_tape_commands_menu,
+                                  ui_datasette_commands_menu,
+                                  ui_menu_separator,
 				  ui_directory_commands_menu,
 				  ui_menu_separator,
 				  ui_tool_commands_menu,
@@ -529,6 +566,11 @@ int c128_ui_init(void)
     ui_set_speedmenu(ui_menu_create("SpeedMenu",
 				    ui_performance_settings_menu, 
 				    NULL));
+    ui_set_tape_menu(ui_menu_create("TapeMenu",
+                                    ui_tape_commands_menu,
+                                    ui_menu_separator,
+                                    datasette_control_submenu,
+                                    NULL));
     ui_update_menus();
 
     return 0;
