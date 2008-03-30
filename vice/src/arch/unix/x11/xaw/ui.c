@@ -938,13 +938,19 @@ void ui_set_right_menu(Widget w)
 void ui_destroy_drive8_menu(void)
 {
     if (drive8_menu != NULL)
+    {
         XtDestroyWidget(drive8_menu);
+	drive8_menu = NULL;
+    }
 }
 
 void ui_destroy_drive9_menu(void)
 {
     if (drive9_menu != NULL)
+    {
         XtDestroyWidget(drive9_menu);
+	drive9_menu = NULL;
+    }
 }
 
 void ui_set_drive8_menu (Widget w)
@@ -1639,6 +1645,7 @@ char *ui_select_file(const char *title,
     } while ((!fs_status.file_selected && button != UI_BUTTON_CANCEL)
 	     || button == UI_BUTTON_CONTENTS);
 
+    /* `ret' gets always malloc'ed.  */
     if (fs_status.file_selected)
 	ret = concat(fs_status.path, fs_status.file, NULL);
     else
@@ -1659,10 +1666,13 @@ char *ui_select_file(const char *title,
     }
 
     *button_return = button;
-    if (button == UI_BUTTON_OK || button == UI_BUTTON_AUTOSTART)
+    if (button == UI_BUTTON_OK || button == UI_BUTTON_AUTOSTART) {
+        /* Caller has to free the filename.  */
 	return ret;
-    else
+    } else {
+        free(ret);
 	return NULL;
+    }
 }
 
 /* Ask for a string.  The user can confirm or cancel. */

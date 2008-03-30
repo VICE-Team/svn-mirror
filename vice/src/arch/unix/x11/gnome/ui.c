@@ -2039,9 +2039,9 @@ char *ui_select_file(const char *title,
 		     int show_preview)
 {  
     static ui_button_t button;
-    static char *ret = NULL;
     static GtkWidget* file_selector = NULL;
     static char *filesel_dir = NULL;
+    char *ret;
     char *current_dir = NULL;
     char *filename = NULL;
     char *path;
@@ -2113,8 +2113,8 @@ char *ui_select_file(const char *title,
 
     } while ((!filename && button != UI_BUTTON_CANCEL)
 	     || button == UI_BUTTON_CONTENTS);
-    if (ret != NULL)
-        free(ret);
+
+    /* `ret' gets always malloc'ed.  */
     if (filename)
         ret = stralloc(filename);
     else
@@ -2144,10 +2144,13 @@ char *ui_select_file(const char *title,
 	   );
 #endif
     *button_return = button;
-    if (button == UI_BUTTON_OK || button == UI_BUTTON_AUTOSTART)
+    if (button == UI_BUTTON_OK || button == UI_BUTTON_AUTOSTART) {
+        /* Caller has to free the filename.  */
         return ret;
-    else
+    } else {
+        free(ret);
         return NULL;
+    }
 }
 
 /* Ask for a string.  The user can confirm or cancel. */
