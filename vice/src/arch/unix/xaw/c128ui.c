@@ -197,8 +197,11 @@ static ui_menu_entry_t joystick_settings_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_TOGGLE(IEEE488)
+UI_MENU_DEFINE_TOGGLE(EmuID)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
+    { "*Emulation identification",
+      (ui_callback_t) toggle_EmuID, NULL, NULL },
     { "*IEEE488 interface emulation",
       (ui_callback_t) toggle_IEEE488, NULL, NULL },
     { NULL }

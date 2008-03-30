@@ -5,6 +5,9 @@
  *  Teemu Rantanen      (tvr@cs.hut.fi)
  *  Ettore Perazzoli	(ettore@comm2000.it)
  *
+ * Patches by
+ *  Andre Fachat        (a.fachat@physik.tu-chemnitz.de)
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -105,14 +108,19 @@ static enum {YES, NO, NOT_YET} check(const char *s)
 
     printf("Check: screen_addr = $%04X, line_length = %d, cursor_column = %d\n",
            screen_addr, line_length, cursor_column);
+    printf("       check for '%s'\n", s);
+
     addr = screen_addr - line_length;
     for (i = 0; s[i] != '\0'; i++)
     {
         if (mem_read((ADDRESS)(addr + i)) != s[i] % 64)
         {
             if (mem_read((ADDRESS)(addr + i)) != (BYTE) 32
+/* what was this test for? 
                 && mem_read((ADDRESS)(addr + i)) != (BYTE) 0
-                && mem_read((ADDRESS)(addr + i)) != (BYTE) 255)
+                && mem_read((ADDRESS)(addr + i)) != (BYTE) 255
+*/
+	    )
                 return NO;
             return NOT_YET;
         }
@@ -155,7 +163,11 @@ int autostart_init(CLOCK _min_cycles, int _handle_true1541,
     min_cycles = _min_cycles;
     handle_true1541 = _handle_true1541;
 
-    autostart_enabled = 1;
+    if(_min_cycles) {
+        autostart_enabled = 1;
+    } else {
+        autostart_enabled = 0;
+    }
 
     return 0;
 }
@@ -371,7 +383,7 @@ int autostart_autodetect(const char *file_name, const char *program_name)
 
     if(!autostart_enabled) {
 	fprintf(stderr,"Couldn't autostart - unknown kernal!");
-	return;
+	return -1;
     }
 
     if (autostart_disk(file_name, program_name) == 0)

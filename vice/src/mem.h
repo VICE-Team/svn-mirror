@@ -1,3 +1,4 @@
+
 /*
  * mem.h - Memory interface.
  *
@@ -47,10 +48,10 @@ extern int rom_loaded;		/* FIXME: ugly! */
 extern void initialize_memory(void);
 extern void mem_powerup(void);
 extern int mem_load(void);
-extern void mem_attach_cartridge(int type, BYTE *rawcart);
+extern void mem_attach_cartridge(int type, BYTE * rawcart);
 extern void mem_detach_cartridge(int type);
 extern void mem_freeze_cartridge(int type);
-extern void mem_get_basic_text(ADDRESS *start, ADDRESS *end);
+extern void mem_get_basic_text(ADDRESS * start, ADDRESS * end);
 extern void mem_set_basic_text(ADDRESS start, ADDRESS end);
 extern void mem_set_tape_sense(int value);
 extern void mem_toggle_watchpoints(int flag);
@@ -61,6 +62,16 @@ extern store_func_t store_rom, store_zero;
 
 extern read_func_t mem_read;
 extern store_func_t mem_store;
+
+/* ------------------------------------------------------------------------- */
+
+/* Banked memory access functions for the monitor */
+
+extern const char **mem_bank_list(void);
+extern int mem_bank_from_name(const char *name);
+extern BYTE mem_bank_read(int bank, ADDRESS addr);
+extern BYTE mem_bank_peek(int bank, ADDRESS addr);
+extern void mem_bank_write(int bank, ADDRESS addr, BYTE byte);
 
 /* ------------------------------------------------------------------------- */
 

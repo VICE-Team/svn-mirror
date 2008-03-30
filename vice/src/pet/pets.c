@@ -327,7 +327,7 @@ static resource_t resources[] = {
     { NULL }
 };
 
-int pet_mem_init_resources(void)
+int pet_init_resources(void)
 {
     return resources_register(resources);
 }
@@ -363,7 +363,7 @@ static cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int pet_mem_init_cmdline_options(void)
+int pet_init_cmdline_options(void)
 {
     return cmdline_register_options(cmdline_options);
 }

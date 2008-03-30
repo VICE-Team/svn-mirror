@@ -50,7 +50,7 @@
 #include "serial.h"
 #include "sid.h"
 #include "tapeunit.h"
-#include "tpi.h"
+#include "c64tpi.h"
 #include "traps.h"
 #include "true1541.h"
 #include "utils.h"
@@ -121,6 +121,38 @@ static trap_t c128_serial_traps[] = {
     },
 
     { NULL }
+};
+
+/* Tape traps.  */
+static trap_t c128_tape_traps[] = {
+    {
+        "FindHeader",
+        0xE8D3,
+        0xE8D6,
+        {0x20, 0xF2, 0xE9},
+        findheader
+    },
+    {
+        "WriteHeader",
+        0xE96E,
+        0xE971,
+        {0x20, 0x1C, 0xEA},
+        writeheader
+    },
+    {
+        "TapeReceive",
+        0xEA60,
+        0xEE57,
+        {0x20, 0x9B, 0xEE},
+        tapereceive
+    },
+    {
+        NULL,
+        0,
+        0,
+        {0, 0, 0},
+        NULL
+    }
 };
 
 /* ------------------------------------------------------------------------ */
@@ -212,14 +244,15 @@ int machine_init(void)
 #endif
 
     /* Initialize the tape emulation.  */
-    /* tape_init(c64_tape_traps); */
+    tape_init(0xb2, 0x90, 0x93, 0xA09, 0, 0xc1, 0xae, c128_tape_traps,
+        842, 208);
 
     /* Fire up the hardware-level 1541 emulation.  */
     true1541_init(C128_PAL_CYCLES_PER_SEC, C128_NTSC_CYCLES_PER_SEC);
 
-    /* Initialize autostart.  */
+    /* Initialize autostart. FIXME: at least 0xa26 is only for 40 cols */
     autostart_init(3 * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH, 1,
-	0xcc, 0xd1, 0xd3, 0xd5);
+	0xa27, 0xe0, 0xec, 0xee);
 
     /* Initialize the VIC-II emulation.  */
     if (vic_ii_init() == NULL)
@@ -245,7 +278,8 @@ int machine_init(void)
     sound_init(C128_PAL_CYCLES_PER_SEC, C128_PAL_CYCLES_PER_RFSH);
 
     /* Initialize keyboard buffer.  */
-    kbd_buf_init(631, 198, 10, C128_PAL_CYCLES_PER_RFSH * C128_PAL_RFSH_PER_SEC);
+    kbd_buf_init(842, 208, 10,
+                 C128_PAL_CYCLES_PER_RFSH * C128_PAL_RFSH_PER_SEC);
 
     /* Initialize the C128-specific part of the UI.  */
     c128_ui_init();
@@ -331,3 +365,10 @@ static void vsync_hook(void)
     joystick();
 #endif
 }
+
+int machine_set_restore_key(int v)
+{
+    maincpu_set_nmi(I_RESTORE, v?1:0);
+    return 1;
+}
+

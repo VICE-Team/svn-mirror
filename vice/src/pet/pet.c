@@ -118,6 +118,7 @@ int machine_init_resources(void)
 	|| vsync_init_resources() < 0
         || video_init_resources() < 0
         || pet_mem_init_resources() < 0
+        || pet_init_resources() < 0
         || crtc_init_resources() < 0
         || pia_init_resources() < 0
         || sound_init_resources() < 0
@@ -148,6 +149,7 @@ int machine_init_cmdline_options(void)
 	|| vsync_init_cmdline_options() < 0
         || video_init_cmdline_options() < 0
         || pet_mem_init_cmdline_options() < 0
+        || pet_init_cmdline_options() < 0
         || crtc_init_cmdline_options() < 0
         || pia_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
@@ -267,3 +269,10 @@ static void vsync_hook(void)
         vsync_prevent_clk_overflow(sub);
     }
 }
+
+/* Dummy - no restore key.  */
+int machine_set_restore_key(int v)
+{
+    return 0;	/* key not used -> lookup in keymap */
+}
+

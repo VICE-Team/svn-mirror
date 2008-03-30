@@ -71,5 +71,8 @@ extern PetInfo pet;
 extern int pet_set_model(const char *model_name, void *extra);
 extern int pet_set_ramsize(int v);
 
+extern int pet_init_resources(void);
+extern int pet_init_cmdline_options(void);
+
 #endif /* _PETS_H */
 

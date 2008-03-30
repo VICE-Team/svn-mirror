@@ -259,6 +259,8 @@ static ui_menu_entry_t model_defaults_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(EmuID)
+
 static ui_menu_entry_t model_settings_submenu[] = {
     { "Model defaults",
       NULL, NULL, model_defaults_submenu },
@@ -279,6 +281,9 @@ static ui_menu_entry_t model_settings_submenu[] = {
     { "--" },
     { "Keyboard type",
       NULL, NULL, pet_keybd_submenu },
+    { "--" },
+    { "*Emulation identification",
+      (ui_callback_t) toggle_EmuID, NULL, NULL },
     { NULL }
 };
 
