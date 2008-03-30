@@ -458,7 +458,7 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
         }
         return -1;
     case 8:
-        return machine_romset_load(szpath);
+        return machine_romset_file_load(szpath);
     case 9:
         return resources_load(szpath);
 #if defined __X64__ || defined __X128__
@@ -572,7 +572,7 @@ static BOOL FdmDoSaveAction(HWND hwnd, char *szpath, int act, int sact)
         check_extension(szpath, ".vfl");
         return flip_save_list(sact+8, szpath);
     case 4:
-        return machine_romset_save(szpath);
+        return machine_romset_file_save(szpath);
 #if defined __X64__ || defined __X128__
     case 5:
         return cartridge_save_image(szpath);

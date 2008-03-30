@@ -355,7 +355,7 @@ static tui_menu_item_def_t datasette_settings_submenu[] = {
 static TUI_MENU_CALLBACK(set_romset_callback)
 {
     if (been_activated) {
-        if (machine_romset_load((char *)param) < 0)
+        if (machine_romset_file_load((char *)param) < 0)
             tui_error("Could not load ROM set '%s'", param);
         else
             tui_message("ROM set loaded successfully.");
@@ -372,7 +372,7 @@ static TUI_MENU_CALLBACK(load_romset_callback)
                                  NULL, "*.vrs", NULL, 0, NULL, 0, NULL, NULL);
 
         if (name != NULL) {
-            if (machine_romset_load(name) < 0)
+            if (machine_romset_file_load(name) < 0)
                 ui_error("Could not load ROM set file '%s'", name);
             lib_free(name);
         }
@@ -390,7 +390,7 @@ static TUI_MENU_CALLBACK(dump_romset_callback)
                          name, PATH_MAX);
         util_remove_spaces(name);
 
-        machine_romset_save(name);
+        machine_romset_file_save(name);
     }
     return NULL;
 }
