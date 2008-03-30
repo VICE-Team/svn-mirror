@@ -39,12 +39,13 @@
 struct fileio_info_s;
 
 extern int p00_check_name(const char *name);
-extern int p00_read_header(FILE * fd, BYTE *cbmname_return,
+extern int p00_read_header(FILE *fd, BYTE *cbmname_return,
                            unsigned int *recsize_return);
-extern int p00_write_header(FILE * fd, BYTE *cbmname, BYTE recsize);
+extern int p00_write_header(FILE *fd, const BYTE *cbmname, BYTE recsize);
 
-extern struct fileio_info_s *p00_info(const char *file_name, const char *path,
-                                      unsigned int command);
+extern struct fileio_info_s *p00_open(const char *file_name, const char *path,
+                                      unsigned int command, unsigned int type);
+extern void p00_close(struct fileio_info_s *info);
 
 #endif
 
