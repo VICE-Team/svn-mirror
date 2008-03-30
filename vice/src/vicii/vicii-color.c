@@ -28,12 +28,14 @@
  *
  */
 
+#include "vice.h"
+
+#include "machine.h"
 #include "viciitypes.h"
 #include "vicii-color.h"
 #include "vicii-resources.h"
-#include "video-color.h"
-#include "video-resources.h"
-#include "machine.h"
+#include "video.h"
+
 
 /* base saturation of all colors except the grey tones */
 
@@ -148,6 +150,6 @@ int vic_ii_update_palette(void)
 	if (vic_ii_resources.new_luminances) cp=&vic_ii_palette;
 	else cp=&vic_ii_palette_old;
 
-	video_set_palette(cp);
-	return video_update_palette();
+	video_color_set_palette(cp);
+	return video_color_update_palette();
 }

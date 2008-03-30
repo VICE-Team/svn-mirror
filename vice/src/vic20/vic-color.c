@@ -28,10 +28,11 @@
  *
  */
 
-#include "vic.h"
-#include "video-color.h"
-#include "video-resources.h"
+#include "vice.h"
+
 #include "machine.h"
+#include "vic.h"
+#include "video.h"
 
 /* base saturation of all colors except the grey tones */
 
@@ -79,6 +80,7 @@ static video_cbm_palette_t vic_palette=
 
 int vic_update_palette(void)
 {
-	video_set_palette(&vic_palette);
-	return video_update_palette();
+	video_color_set_palette(&vic_palette);
+	return video_color_update_palette();
 }
+

@@ -75,7 +75,6 @@ static int set_video_cache_enabled (resource_value_t v, void *param)
     return 0;
 }
 
-#include "video-render.h"      /* bad */
 #ifdef VIDEO_REMOVE_2X         /* bad */
 extern int double_size_bad;    /* bad */
 extern int double_scan_bad;    /* bad */
@@ -101,7 +100,6 @@ static resource_t resources[] =
 
 #ifdef VIC_II_NEED_2X
 
-#include "video-render.h"      /* bad */
 #ifdef VIDEO_REMOVE_2X         /* bad */
 extern int double_size_bad;    /* bad */
 extern int double_scan_bad;    /* bad */
@@ -184,7 +182,7 @@ static resource_t resources_2x[] =
 
 int vic_ii_resources_init(void)
 {
-	video_set_raster(&vic_ii.raster);
+    video_color_set_raster(&vic_ii.raster);
 
 #ifdef VIC_II_NEED_2X
     if (resources_register(resources_2x) < 0)

@@ -29,7 +29,6 @@
  *
  */
 
-/* Warning: this emulation is very incomplete and buggy.  */
 
 #include "vice.h"
 
@@ -56,7 +55,6 @@
 #include "vic-color.h"
 #include "vic.h"
 #include "vic20mem.h"
-#include "video-color.h"
 #include "vsync.h"
 #ifdef USE_XF86_EXTENSIONS
 #include "fullscreen.h"
@@ -283,9 +281,9 @@ static int init_raster(void)
 
     vic_set_geometry();
 
-	video_set_raster(&vic.raster);
+    video_color_set_raster(&vic.raster);
 
-	vic_update_palette();
+    vic_update_palette();
 
     title = concat ("VICE: ", machine_name, " emulator", NULL);
     raster_set_title (raster, title);
