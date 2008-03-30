@@ -104,7 +104,7 @@ static TUI_MENU_CALLBACK(attach_tape_callback)
 	fname_split(s, &directory, &default_item);
 
 	name = tui_file_selector("Attach a tape image", directory,
-				 "*.t64;*.tap;*.t6z;*.taz;*.zip", default_item,
+				 "*.t64;*.tap;*.t6z;*.taz;*.zip;*.gz;*.lzh", default_item,
 				 image_contents_read_tape, &file);
 
         if (file != NULL) {
