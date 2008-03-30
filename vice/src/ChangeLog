@@ -1,3 +1,47 @@
+2003-09-06  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.12.31.
+
+	* c128/c128memlimit.c: Fixed C64 Ultimax mode.
+
+	* crtc/crtc.c: Added fix as suggested by AndreasM.
+
+	* plus4/plus4pio1.c (pio1_read, pio1_store,
+	pio1_set_tape_sense): Added parallel cable support.
+
+	* plus4/plus4iec.c (parallel_cable_drive0_write,
+	parallel_cable_drive1_write, parallel_cable_drive_read,
+	parallel_cable_cpu_write, parallel_cable_cpu_read): New
+	functions.
+
+	* arch/unix/uidriveplus4.c: Added parallel cable.
+
+2003-09-05  Tibor Biczo  <crown@axelero.hu>
+
+	* plus4/ted-mem.c (ted15_store): Use last_write_clock for
+	write cycle.
+	Added sparkle effect tough it is not yet displayed.
+	(ted161718_store): Use last_write_clock for position of
+	register write.
+	(ted19_store): Use last_write_clock's cycle position for write
+	cycle.
+	Added color sparkle effect, this one already works.
+	(ted1e_read): Fixed x position calculation.
+
+	* plus4/ted.c (last_write_cycle, first_write_cycle): New
+	variables, used for storing the clock for the write cycles of
+	the current instruction.
+	(ted_handle_pending_alarms): Fixed a bug where fetch alarm
+	handler was called too early and the write cycle was delayed
+	by the DMA. Now it also calculates and stores the write cycle
+	clocks for the current instruction.
+
+	* plus4/ted.h (last_write_cycle, first_write_cycle): Exports
+	the variables.
+
+	* plus4/tedtypes.h (TED_RASTER_X, TED_RASTER_CHAR): Fixed,
+	both was off by 2 cycles.
+
 2003-09-03  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.12.30.
@@ -134,7 +178,7 @@
 	* arch/win32/{arch|x128|x64}.dsp: Added infrastructure for TFE
 	compilation
 
-2003-08-28  Tibor Biczo <crown@axelero.hu>
+2003-08-28  Tibor Biczo  <crown@axelero.hu>
 
 	* plus4/plus4mem.c (mem_proc_port_store, mem_proc_port_read):
 	Call ted_handle_pending_alarms to correct maincpu clock, so
@@ -962,7 +1006,7 @@
 	* drive/iecieee/via2d.c (read_prb, read_pra, store_prb,
 	store_pra): Clear byte ready level.
 
-2003-05-15  Tibor Biczo <crown@axelero.hu>
+2003-05-15  Tibor Biczo  <crown@axelero.hu>
 
 	* arch/win32/joy.c: Added joystick_fire_button array for
 	joystick auto fire buttons.
@@ -1019,7 +1063,7 @@
 	vdrive/vdrive-command.h, vdrive/vdrive.h
 	(vdrive_command_errortext): New function.
 
-2003-06-09  Tibor Biczo <crown@axelero.hu>
+2003-06-09  Tibor Biczo  <crown@axelero.hu>
 
 	* arch/win32/joy.c: Include lib.h.
 	(EnumJoyAxes, EnumJoyButtons, joystick_release_axes,
@@ -1301,7 +1345,7 @@
 
 	* sid/sid-snapshot.h (sid_snapshot_state_s): Likewise.
 
-2003-05-24  Tibor Biczo <crown@axelero.hu>
+2003-05-24  Tibor Biczo  <crown@axelero.hu>
 
 	* arch/win32/Makefile.am: New files added.
 
@@ -2979,7 +3023,7 @@
 	arch/beos/joy.cc, arch/beos/mouse.cc, arch/beos/ui.cc,
 	arch/beos/video.cc: Resource struct is const.
 
-2003-03-09  Tibor Biczo <crown@axelero.hu>
+2003-03-09  Tibor Biczo  <crown@axelero.hu>
 
 	* 6510core.c (BRK): Handle conditional traps.
 	(SET_OPCODE): New macro to set opcode from trap not taken.
@@ -3070,7 +3114,7 @@
 	pet/petpia1.c, plus4/plus4-resources.c, cbm2/cbm2-resources.c:
 	Resource struct is const.
 
-2003-03-06  Tibor Biczo <crown@axelero.hu>
+2003-03-06  Tibor Biczo  <crown@axelero.hu>
 
 	* vsync.c (vsync_do_vsync): Fixed overflow of frame skip check
 	for fast machines.

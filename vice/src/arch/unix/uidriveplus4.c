@@ -29,7 +29,6 @@
 #include <stdio.h>
 
 #include "drive.h"
-#include "resources.h"
 #include "uidrive.h"
 #include "uidriveiec.h"
 #include "uidriveplus4.h"
@@ -37,6 +36,8 @@
 
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
+UI_MENU_DEFINE_TOGGLE(Drive8ParallelCable)
+UI_MENU_DEFINE_TOGGLE(Drive9ParallelCable)
 
 
 static ui_menu_entry_t set_drive0_type_submenu[] = {
@@ -81,6 +82,8 @@ static ui_menu_entry_t driveplus4_settings_submenu[] = {
       NULL, NULL, set_drive0_type_submenu },
     { N_("Drive #8 RAM expansion"),
       NULL, NULL, set_drive0_expansion_submenu },
+    { N_("*Drive #8 enable parallel cable"),
+      (ui_callback_t)toggle_Drive8ParallelCable, NULL, NULL },
     { N_("Drive #8 40-track image support"),
       NULL, NULL, set_drive0_extend_image_policy_submenu },
     { N_("Drive #8 idle method"),
@@ -90,6 +93,8 @@ static ui_menu_entry_t driveplus4_settings_submenu[] = {
       NULL, NULL, set_drive1_type_submenu },
     { N_("Drive #9 RAM expansion"),
       NULL, NULL, set_drive1_expansion_submenu },
+    { N_("*Drive #9 enable parallel cable"),
+      (ui_callback_t)toggle_Drive9ParallelCable, NULL, NULL },
     { N_("Drive #9 40-track image support"),
       NULL, NULL, set_drive1_extend_image_policy_submenu },
     { N_("Drive #9 idle method"),
