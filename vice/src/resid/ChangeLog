@@ -1,9 +1,12 @@
-	* Makefile.am (EXTRA_DIST): Added resid.dsp.
+1999-06-24  Dag Lem  <resid@nimrod.no>
 
-	* resid.dsp: New file. MSVC project file for resid library.
+	* Version 0.8 released.
 
 	* filter.h, filter.cc, wave.h, wave.cc: Typecasts for pedantic
 	compilers.
+
+	* filter.h (Filter::clock): Voice 3 is only silenced by voice3off
+	if it is not routed through the filter.
 	
 	* sid.cc (SID::State): Added constructor for proper initalization.
 

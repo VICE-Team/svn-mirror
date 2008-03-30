@@ -151,19 +151,22 @@ perform_mode_change(raster_t *raster)
   if ((canvas = viewport->canvas) == NULL)
     return;
 
-  canvas_set_palette(canvas, raster->palette, raster->pixel_table.sing);
+  if (raster->palette != NULL)
+  {
+    canvas_set_palette(canvas, raster->palette, raster->pixel_table.sing);
 
 #ifdef RECALC_FRAME_BUFFER
-  memset(colour_map, 0, 256);
-  num_colours = raster->palette->num_entries;
+    memset(colour_map, 0, 256);
+    num_colours = raster->palette->num_entries;
 
-  for (i=0; i<num_colours; i++) colour_map[old_colours[i]] = i;
-  for (i=0; i<256; i++) colour_map[i] = (raster->pixel_table.sing)[colour_map[i]];
+    for (i=0; i<num_colours; i++) colour_map[old_colours[i]] = i;
+    for (i=0; i<256; i++) colour_map[i] = (raster->pixel_table.sing)[colour_map[i]];
 
-  num_pixels = raster->frame_buffer.width * raster->frame_buffer.height;
-  fb = raster->frame_buffer.tmpframebuffer;
-  for (i=0; i<num_pixels; i++) fb[i] = colour_map[fb[i]];
+    num_pixels = raster->frame_buffer.width * raster->frame_buffer.height;
+    fb = raster->frame_buffer.tmpframebuffer;
+    for (i=0; i<num_pixels; i++) fb[i] = colour_map[fb[i]];
 #endif
+  }
 
   update_pixel_tables(raster);
 

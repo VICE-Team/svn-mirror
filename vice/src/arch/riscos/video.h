@@ -33,11 +33,23 @@
 #include "ui.h"
 
 
+struct _frame_buffer {
+  int width, height;
+  PIXEL *tmpframebuffer;
+  unsigned int tmpframebufferlinesize;
+};
+
+typedef struct _frame_buffer frame_buffer_t;
+
+typedef PIXEL *frame_buffer_ptr_t;
+typedef ui_exposure_handler_t canvas_redraw_t;
+
 struct _canvas {
   unsigned int width, height;
+  unsigned int scale;
   int shiftx, shifty;
-  unsigned int emuwindow;
-  unsigned int drawable;
+  RO_Window *window;
+  frame_buffer_t fb;
   PIXEL *pixel_translation;
   unsigned int num_colours;
   unsigned int colour_table[256];
@@ -45,22 +57,11 @@ struct _canvas {
 
 typedef struct _canvas *canvas_t;
 
-
-struct _frame_buffer {
-  int width, height;
-  PIXEL *tmpframebuffer;
-  unsigned int tmpframebufferlinesize;
-};
-
 typedef struct canvas_list_t {
   canvas_t canvas;
   struct canvas_list_t *next;
 } canvas_list_t;
 
-typedef struct _frame_buffer frame_buffer_t;
-
-typedef PIXEL *frame_buffer_ptr_t;
-typedef ui_exposure_handler_t canvas_redraw_t;
 
 #define FRAME_BUFFER_START(i)		((i).tmpframebuffer)
 #define FRAME_BUFFER_LINE_SIZE(i)	((i).tmpframebufferlinesize)
@@ -93,6 +94,9 @@ extern void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
 				  unsigned int xi, unsigned int yi,
 				  unsigned int w, unsigned int h);
 extern void canvas_mode_change(void);
+extern canvas_t canvas_for_handle(int handle);
+extern void canvas_next_active(void);
+extern int canvas_get_number(void);
 
 extern void text_enable(void);
 extern void text_disable(void);
@@ -108,9 +112,9 @@ extern void video_full_screen_drive_leds(unsigned int drive);
 extern void video_full_screen_init_status(void);
 extern void video_full_screen_plot_status(void);
 
-extern frame_buffer_t *FrameBuffer;
-extern canvas_t EmuCanvas;
+
 extern canvas_list_t *CanvasList;
+extern canvas_t ActiveCanvas;
 
 extern int FullScreenMode;
 extern int FullScreenStatLine;

@@ -122,8 +122,18 @@ int do_vsync(int been_skipped)
 {
   int skip_next_frame = 0;
 
-  /* This will be used by keyboard and joystick code */
-  EmuWindowHasInputFocus = (FullScreenMode == 0) ? wimp_window_has_input_focus(EmuWindow) : 1;
+  if (FullScreenMode != 0)
+  {
+    EmuWindowHasInputFocus = 1;
+  }
+  else
+  {
+    RO_Caret caret;
+
+    Wimp_GetCaretPosition(&caret);
+    /* This will be used by keyboard and joystick code */
+    EmuWindowHasInputFocus = (canvas_for_handle(caret.WHandle) == NULL) ? 0 : 1;
+  }
 
   vsync_hook();
 

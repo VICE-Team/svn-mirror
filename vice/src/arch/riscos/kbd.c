@@ -76,6 +76,7 @@ keymap_desc ViceKeymap = {
 #define IntKey_F7	22
 #define IntKey_F8	118
 #define IntKey_F9	119
+#define IntKey_F10	30
 #define IntKey_F12	29
 
 #define IntKey_PageUp	63
@@ -170,8 +171,8 @@ int pet_kbd_init_cmdline_options(void)
     return kbd_init_cmdline_options();
 }
 
-static char Rsrc_JoyKeys1[] = "JoystickKeys1";
-static char Rsrc_JoyKeys2[] = "JoystickKeys2";
+static const char Rsrc_JoyKeys1[] = "JoystickKeys1";
+static const char Rsrc_JoyKeys2[] = "JoystickKeys2";
 
 
 static char DefaultJoyKeys1[12];
@@ -204,7 +205,7 @@ static int kbd_parse_joykeys(const char *desc, Joy_Keys *jk)
 int kbd_update_joykeys(int port)
 {
   char b[12];
-  char *rsrc;
+  const char *rsrc;
 
   sprintf(b, "%2x%2x%2x%2x%2x", JoystickKeys[port].up, JoystickKeys[port].down, JoystickKeys[port].left, JoystickKeys[port].right, JoystickKeys[port].fire);
   rsrc = (port == 0) ? Rsrc_JoyKeys1 : Rsrc_JoyKeys2;
@@ -392,6 +393,12 @@ void kbd_poll(void)
                 video_full_screen_refresh();
               else
                 video_full_screen_init_status();
+            }
+            break;
+          case IntKey_F10:
+            if (FullScreenMode != 0)
+            {
+              canvas_next_active();
             }
             break;
           case IntKey_F12:

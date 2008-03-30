@@ -49,8 +49,9 @@ extern void ui_toggle_drive_status(int state);
 extern void ui_display_paused(int flag);
 extern void ui_display_drive_track_int(int drive_number, int track_number);
 
-extern void ui_open_emu_window(int *b);
-extern void ui_close_emu_window(int *b);
+extern void ui_open_emu_window(RO_Window *win, int *b);
+extern void ui_close_emu_window(RO_Window *win, int *b);
+extern void ui_show_emu_scale(void);
 
 extern void ui_set_drive_leds(unsigned int led, int status);
 

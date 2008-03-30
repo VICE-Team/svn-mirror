@@ -49,6 +49,7 @@
 #include "raster.h"
 #include "resources.h"
 #include "romset.h"
+#include "serial.h"
 #include "sound.h"
 #include "sysfile.h"
 #include "tape.h"
@@ -85,12 +86,12 @@ static void ui_issue_reset(int doreset);
 
 
 /* Misc text */
-static char CustomSprites[] = "Vice:Sprites";
-static char TemplatesFile[] = "Vice:Templates";
-static char MessagesFile[] = "<Vice$Messages>";
-static char WimpScrapFile[] = "<Wimp$ScrapDir>.ViceSnap";
-static char VicePathVariable[] = "Vice$Path";
-static char ResourceDriveDir[] = "DRIVES";
+static const char CustomSprites[] = "Vice:Sprites";
+static const char TemplatesFile[] = "Vice:Templates";
+static const char MessagesFile[] = "<Vice$Messages>";
+static const char WimpScrapFile[] = "<Wimp$ScrapDir>.ViceSnap";
+static const char VicePathVariable[] = "Vice$Path";
+static const char ResourceDriveDir[] = "DRIVES";
 
 
 #define RSETARCH_EXT	"vra"
@@ -405,6 +406,7 @@ static int DisplayDriveTrack = 0;
 static int WimpScrapUsed = 0;
 static int JoystickWindowOpen = 0;
 static int WithinUiPoll = 0;
+static int DoCoreDump = 0;
 static int WimpBlock[64];
 
 static int SnapshotPending = 0;
@@ -418,8 +420,8 @@ static char EmuTitle[256];
 static int *SpriteArea;
 
 /* Icon translation tables */
-static char LEDtoIcon[4] = {Icon_Pane_LED0, Icon_Pane_LED1, Icon_Pane_LED2, Icon_Pane_LED3};
-static char DriveToFile[4] = {Icon_Conf_DriveFile8, Icon_Conf_DriveFile9, Icon_Conf_DriveFile10, Icon_Conf_DriveFile11};
+static const char LEDtoIcon[4] = {Icon_Pane_LED0, Icon_Pane_LED1, Icon_Pane_LED2, Icon_Pane_LED3};
+static const char DriveToFile[4] = {Icon_Conf_DriveFile8, Icon_Conf_DriveFile9, Icon_Conf_DriveFile10, Icon_Conf_DriveFile11};
 
 /* Config icons affected by True Drive Emulation state */
 static conf_icon_id TrueDependentIcons[] = {
@@ -699,7 +701,7 @@ static char *SymbolStrings[] = {
 
 
 /* Lookup table internal keynumbers to descriptive strings */
-static char *IntKeyToString[128] = {
+static const char *IntKeyToString[128] = {
   "Shft", "Ctrl", "Alt", "ShftL",
   "CtrlL", "AltL", "ShftR", "CtrlR",
   "AltR", "Slct", "Menu", "Adjst",
@@ -829,16 +831,17 @@ static struct MenuIconBar {
 };
 
 /* Emu window menu */
-#define Menu_EmuWin_Items	8
+#define Menu_EmuWin_Items	9
 #define Menu_EmuWin_Width	200
 #define Menu_EmuWin_Configure	0
 #define Menu_EmuWin_Snapshot	1
 #define Menu_EmuWin_Freeze	2
 #define Menu_EmuWin_Pane	3
-#define Menu_EmuWin_TrueDrvEmu	4
-#define Menu_EmuWin_Datasette	5
-#define Menu_EmuWin_Sound	6
-#define Menu_EmuWin_Monitor	7
+#define Menu_EmuWin_Active	4
+#define Menu_EmuWin_TrueDrvEmu	5
+#define Menu_EmuWin_Datasette	6
+#define Menu_EmuWin_Sound	7
+#define Menu_EmuWin_Monitor	8
 static struct MenuEmuWindow {
   RO_MenuHead head;
   RO_MenuItem item[Menu_EmuWin_Items];
@@ -849,6 +852,7 @@ static struct MenuEmuWindow {
     MENU_ITEM("\\MenEmuSnap"),
     MENU_ITEM("\\MenEmuFrz"),
     MENU_ITEM("\\MenEmuPane"),
+    MENU_ITEM("\\MenEmuActv"),
     MENU_ITEM("\\MenEmuTrue"),
     MENU_ITEM_SUB("\\MenEmuDSt", &MenuDatasette),
     MENU_ITEM("\\MenEmuSnd"),
@@ -881,139 +885,140 @@ static RO_IconDesc IBarIcon = {
 
 
 /* Resource names */
-static char Rsrc_Prnt4[] = "Printer4";
-static char Rsrc_Prnt4Dev[] = "Printer4Dev";
-static char Rsrc_PrUsr[] = "PrUser";
-static char Rsrc_PrUsrDev[] = "PrUserDev";
-static char Rsrc_Sound[] = "Sound";
-static char Rsrc_SndRate[] = "SoundSampleRate";
-static char Rsrc_SndDev[] = "SoundDeviceName";
-static char Rsrc_SndOver[] = "SoundOversample";
-static char Rsrc_SndBuff[] = "SoundBufferSize";
-static char Rsrc_JoyDev1[] = "JoyDevice1";
-static char Rsrc_JoyDev2[] = "JoyDevice2";
-static char Rsrc_True[] = "DriveTrueEmulation";
-static char Rsrc_TruePar8[] = "Drive8ParallelCable";
-static char Rsrc_TruePar9[] = "Drive9ParallelCable";
-static char Rsrc_TrueExImg8[] = "Drive8ExtendImagePolicy";
-static char Rsrc_TrueExImg9[] = "Drive9ExtendImagePolicy";
-static char Rsrc_TrueIdle8[] = "Drive8IdleMethod";
-static char Rsrc_TrueIdle9[] = "Drive9IdleMethod";
-static char Rsrc_TrueType8[] = "Drive8Type";
-static char Rsrc_TrueType9[] = "Drive9Type";
-static char Rsrc_TrueSync[] = "DriveSyncFactor";
-static char Rsrc_Dos1541[] = "DosName1541";
-static char Rsrc_Dos15412[] = "DosName1541ii";
-static char Rsrc_Dos1571[] = "DosName1571";
-static char Rsrc_Dos1581[] = "DosName1581";
-static char Rsrc_Dos2031[] = "DosName2031";
-static char Rsrc_Dos1001[] = "DosName1001";
-static char Rsrc_Poll[] = "PollEvery";
-static char Rsrc_Speed[] = "SpeedEvery";
-static char Rsrc_SndEvery[] = "SoundEvery";
-static char Rsrc_AutoPause[] = "AutoPause";
-static char Rsrc_SpeedLimit[] = "SpeedLimit";
-static char Rsrc_Refresh[] = "RefreshRate";
-static char Rsrc_WarpMode[] = "WarpMode";
-static char Rsrc_DriveT8[] = "DriveType8";
-static char Rsrc_DriveT9[] = "DriveType9";
-static char Rsrc_DriveT10[] = "DriveType10";
-static char Rsrc_DriveT11[] = "DriveType11";
-static char Rsrc_DriveF8[] = "DriveFile8";
-static char Rsrc_DriveF9[] = "DriveFile9";
-static char Rsrc_DriveF10[] = "DriveFile10";
-static char Rsrc_DriveF11[] = "DriveFile11";
-static char Rsrc_TapeFile[] = "TapeFile";
-static char Rsrc_Conv8P00[] = "FSDevice8ConvertP00";
-static char Rsrc_Conv9P00[] = "FSDevice9ConvertP00";
-static char Rsrc_Conv10P00[] = "FSDevice10ConvertP00";
-static char Rsrc_Conv11P00[] = "FSDevice11ConvertP00";
-static char Rsrc_Save8P00[] = "FSDevice8SaveP00";
-static char Rsrc_Save9P00[] = "FSDevice9SaveP00";
-static char Rsrc_Save10P00[] = "FSDevice10SaveP00";
-static char Rsrc_Save11P00[] = "FSDevice11SaveP00";
-static char Rsrc_Hide8CBM[] = "FSDevice8HideCBMFiles";
-static char Rsrc_Hide9CBM[] = "FSDevice9HideCBMFiles";
-static char Rsrc_Hide10CBM[] = "FSDevice10HideCBMFiles";
-static char Rsrc_Hide11CBM[] = "FSDevice11HideCBMFiles";
-static char Rsrc_AciaDE[] = "AciaDE";
-static char Rsrc_ACIAD6[] = "AciaD6";
-static char Rsrc_ACIAD7[] = "AciaD7";
-static char Rsrc_Serial[] = "SerialBaud";
-static char Rsrc_RsUsr[] = "RsUser";
-static char Rsrc_RsUsrDev[] = "RsUserDev";
-static char Rsrc_AciaIrq[] = "Acia1Irq";
-static char Rsrc_AciaDev[] = "Acia1Dev";
-static char Rsrc_SidFilt[] = "SidFilters";
-static char Rsrc_ReSid[] = "SidUseResid";
-static char Rsrc_SidMod[] = "SidModel";
-static char Rsrc_CharGen[] = "CharGenName";
-static char Rsrc_Kernal[] = "KernalName";
-static char Rsrc_Basic[] = "BasicName";
-static char Rsrc_REU[] = "REU";
-static char Rsrc_IEEE[] = "IEEE488";
-static char Rsrc_EmuID[] = "EmuID";
-static char Rsrc_CartT[] = "CartridgeType";
-static char Rsrc_CartF[] = "CartridgeFile";
-static char Rsrc_SScoll[] = "CheckSsColl";
-static char Rsrc_SBcoll[] = "CheckSbColl";
-static char Rsrc_Palette[] = "PaletteFile";
-static char Rsrc_NoTraps[] = "NoTraps";
-static char Rsrc_VideoCache[] = "VideoCache";
-static char Rsrc_SoundFile[] = "SoundDeviceArg";
-static char Rsrc_SerialFile[] = "SerialFile";
-static char Rsrc_PrinterFile[] = "PrinterFile";
-static char Rsrc_PetMem[] = "RamSize";
-static char Rsrc_PetIO[] = "IOSize";
-static char Rsrc_PetVideo[] = "VideoSize";
-static char Rsrc_PetModel[] = "Model";
-static char Rsrc_PetCrt[] = "Crtc";
-static char Rsrc_PetRAM9[] = "Ram9";
-static char Rsrc_PetRAMA[] = "RamA";
-static char Rsrc_PetDiag[] = "DiagPin";
-static char Rsrc_PetSuper[] = "SuperPET";
-static char Rsrc_VicCart2[] = "CartridgeFile2000";
-static char Rsrc_VicCart6[] = "CartridgeFile6000";
-static char Rsrc_VicCartA[] = "CartridgeFileA000";
-static char Rsrc_VicCartB[] = "CartridgeFileB000";
-static char Rsrc_VicRam0[] = "RamBlock0";
-static char Rsrc_VicRam1[] = "RamBlock1";
-static char Rsrc_VicRam2[] = "RamBlock2";
-static char Rsrc_VicRam3[] = "RamBlock3";
-static char Rsrc_VicRam5[] = "RamBlock5";
-static char Rsrc_C2Cart1[] = "Cart1Name";
-static char Rsrc_C2Cart2[] = "Cart2Name";
-static char Rsrc_C2Cart4[] = "Cart4Name";
-static char Rsrc_C2Cart6[] = "Cart6Name";
-static char Rsrc_C2RAM08[] = "Ram08";
-static char Rsrc_C2RAM1[] = "Ram1";
-static char Rsrc_C2RAM2[] = "Ram2";
-static char Rsrc_C2RAM4[] = "Ram4";
-static char Rsrc_C2RAM6[] = "Ram6";
-static char Rsrc_C2RAMC[] = "RamC";
-static char Rsrc_C2Line[] = "ModelLine";
-static char Rsrc_C2Mem[] = "RamSize";
-static char Rsrc_FullScr[] = "ScreenMode";
-static char Rsrc_FullSetPal[] = "ScreenSetPalette";
+static const char Rsrc_Prnt4[] = "Printer4";
+static const char Rsrc_Prnt4Dev[] = "Printer4Dev";
+static const char Rsrc_PrUsr[] = "PrUser";
+static const char Rsrc_PrUsrDev[] = "PrUserDev";
+static const char Rsrc_Sound[] = "Sound";
+static const char Rsrc_SndRate[] = "SoundSampleRate";
+static const char Rsrc_SndDev[] = "SoundDeviceName";
+static const char Rsrc_SndOver[] = "SoundOversample";
+static const char Rsrc_SndBuff[] = "SoundBufferSize";
+static const char Rsrc_JoyDev1[] = "JoyDevice1";
+static const char Rsrc_JoyDev2[] = "JoyDevice2";
+static const char Rsrc_True[] = "DriveTrueEmulation";
+static const char Rsrc_TruePar8[] = "Drive8ParallelCable";
+static const char Rsrc_TruePar9[] = "Drive9ParallelCable";
+static const char Rsrc_TrueExImg8[] = "Drive8ExtendImagePolicy";
+static const char Rsrc_TrueExImg9[] = "Drive9ExtendImagePolicy";
+static const char Rsrc_TrueIdle8[] = "Drive8IdleMethod";
+static const char Rsrc_TrueIdle9[] = "Drive9IdleMethod";
+static const char Rsrc_TrueType8[] = "Drive8Type";
+static const char Rsrc_TrueType9[] = "Drive9Type";
+static const char Rsrc_TrueSync[] = "DriveSyncFactor";
+static const char Rsrc_Dos1541[] = "DosName1541";
+static const char Rsrc_Dos15412[] = "DosName1541ii";
+static const char Rsrc_Dos1571[] = "DosName1571";
+static const char Rsrc_Dos1581[] = "DosName1581";
+static const char Rsrc_Dos2031[] = "DosName2031";
+static const char Rsrc_Dos1001[] = "DosName1001";
+static const char Rsrc_Poll[] = "PollEvery";
+static const char Rsrc_Speed[] = "SpeedEvery";
+static const char Rsrc_SndEvery[] = "SoundEvery";
+static const char Rsrc_AutoPause[] = "AutoPause";
+static const char Rsrc_SpeedLimit[] = "SpeedLimit";
+static const char Rsrc_Refresh[] = "RefreshRate";
+static const char Rsrc_WarpMode[] = "WarpMode";
+static const char Rsrc_DriveT8[] = "DriveType8";
+static const char Rsrc_DriveT9[] = "DriveType9";
+static const char Rsrc_DriveT10[] = "DriveType10";
+static const char Rsrc_DriveT11[] = "DriveType11";
+static const char Rsrc_DriveF8[] = "DriveFile8";
+static const char Rsrc_DriveF9[] = "DriveFile9";
+static const char Rsrc_DriveF10[] = "DriveFile10";
+static const char Rsrc_DriveF11[] = "DriveFile11";
+static const char Rsrc_TapeFile[] = "TapeFile";
+static const char Rsrc_Conv8P00[] = "FSDevice8ConvertP00";
+static const char Rsrc_Conv9P00[] = "FSDevice9ConvertP00";
+static const char Rsrc_Conv10P00[] = "FSDevice10ConvertP00";
+static const char Rsrc_Conv11P00[] = "FSDevice11ConvertP00";
+static const char Rsrc_Save8P00[] = "FSDevice8SaveP00";
+static const char Rsrc_Save9P00[] = "FSDevice9SaveP00";
+static const char Rsrc_Save10P00[] = "FSDevice10SaveP00";
+static const char Rsrc_Save11P00[] = "FSDevice11SaveP00";
+static const char Rsrc_Hide8CBM[] = "FSDevice8HideCBMFiles";
+static const char Rsrc_Hide9CBM[] = "FSDevice9HideCBMFiles";
+static const char Rsrc_Hide10CBM[] = "FSDevice10HideCBMFiles";
+static const char Rsrc_Hide11CBM[] = "FSDevice11HideCBMFiles";
+static const char Rsrc_AciaDE[] = "AciaDE";
+static const char Rsrc_ACIAD6[] = "AciaD6";
+static const char Rsrc_ACIAD7[] = "AciaD7";
+static const char Rsrc_Serial[] = "SerialBaud";
+static const char Rsrc_RsUsr[] = "RsUser";
+static const char Rsrc_RsUsrDev[] = "RsUserDev";
+static const char Rsrc_AciaIrq[] = "Acia1Irq";
+static const char Rsrc_AciaDev[] = "Acia1Dev";
+static const char Rsrc_SidFilt[] = "SidFilters";
+static const char Rsrc_ReSid[] = "SidUseResid";
+static const char Rsrc_SidMod[] = "SidModel";
+static const char Rsrc_CharGen[] = "CharGenName";
+static const char Rsrc_Kernal[] = "KernalName";
+static const char Rsrc_Basic[] = "BasicName";
+static const char Rsrc_REU[] = "REU";
+static const char Rsrc_IEEE[] = "IEEE488";
+static const char Rsrc_EmuID[] = "EmuID";
+static const char Rsrc_CartT[] = "CartridgeType";
+static const char Rsrc_CartF[] = "CartridgeFile";
+static const char Rsrc_SScoll[] = "CheckSsColl";
+static const char Rsrc_SBcoll[] = "CheckSbColl";
+static const char Rsrc_Palette[] = "PaletteFile";
+static const char Rsrc_NoTraps[] = "NoTraps";
+static const char Rsrc_VideoCache[] = "VideoCache";
+static const char Rsrc_SoundFile[] = "SoundDeviceArg";
+static const char Rsrc_SerialFile[] = "SerialFile";
+static const char Rsrc_PrinterFile[] = "PrinterFile";
+static const char Rsrc_PetMem[] = "RamSize";
+static const char Rsrc_PetIO[] = "IOSize";
+static const char Rsrc_PetVideo[] = "VideoSize";
+static const char Rsrc_PetModel[] = "Model";
+static const char Rsrc_PetCrt[] = "Crtc";
+static const char Rsrc_PetRAM9[] = "Ram9";
+static const char Rsrc_PetRAMA[] = "RamA";
+static const char Rsrc_PetDiag[] = "DiagPin";
+static const char Rsrc_PetSuper[] = "SuperPET";
+static const char Rsrc_VicCart2[] = "CartridgeFile2000";
+static const char Rsrc_VicCart6[] = "CartridgeFile6000";
+static const char Rsrc_VicCartA[] = "CartridgeFileA000";
+static const char Rsrc_VicCartB[] = "CartridgeFileB000";
+static const char Rsrc_VicRam0[] = "RamBlock0";
+static const char Rsrc_VicRam1[] = "RamBlock1";
+static const char Rsrc_VicRam2[] = "RamBlock2";
+static const char Rsrc_VicRam3[] = "RamBlock3";
+static const char Rsrc_VicRam5[] = "RamBlock5";
+static const char Rsrc_C2Cart1[] = "Cart1Name";
+static const char Rsrc_C2Cart2[] = "Cart2Name";
+static const char Rsrc_C2Cart4[] = "Cart4Name";
+static const char Rsrc_C2Cart6[] = "Cart6Name";
+static const char Rsrc_C2RAM08[] = "Ram08";
+static const char Rsrc_C2RAM1[] = "Ram1";
+static const char Rsrc_C2RAM2[] = "Ram2";
+static const char Rsrc_C2RAM4[] = "Ram4";
+static const char Rsrc_C2RAM6[] = "Ram6";
+static const char Rsrc_C2RAMC[] = "RamC";
+static const char Rsrc_C2Line[] = "ModelLine";
+static const char Rsrc_C2Mem[] = "RamSize";
+static const char Rsrc_FullScr[] = "ScreenMode";
+static const char Rsrc_FullSetPal[] = "ScreenSetPalette";
+static const char Rsrc_CoreDump[] = "DoCoreDump";
 
-/*static char Rsrc_PetKeymap[] = "KeymapIndex";*/
+/*static const char Rsrc_PetKeymap[] = "KeymapIndex";*/
 
-/*static char *Rsrc_DriveTypes[4] = {
+/*static const char *Rsrc_DriveTypes[4] = {
   Rsrc_DriveT8, Rsrc_DriveT9, Rsrc_DriveT10, Rsrc_DriveT11
 };
-static char *Rsrc_DriveFiles[4] = {
+static const char *Rsrc_DriveFiles[4] = {
   Rsrc_DriveF8, Rsrc_DriveF9, Rsrc_DriveF10, Rsrc_DriveF11
 };
-static char *Rsrc_VicCartridge[4] = {
+static const char *Rsrc_VicCartridge[4] = {
   Rsrc_VicCart2, Rsrc_VicCart6, Rsrc_VicCartA, Rsrc_VicCartB
 };*/
-static char *Rsrc_ConvP00[4] = {
+static const char *Rsrc_ConvP00[4] = {
   Rsrc_Conv8P00, Rsrc_Conv9P00, Rsrc_Conv10P00, Rsrc_Conv11P00
 };
-static char *Rsrc_SaveP00[4] = {
+static const char *Rsrc_SaveP00[4] = {
   Rsrc_Save8P00, Rsrc_Save9P00, Rsrc_Save10P00, Rsrc_Save11P00
 };
-static char *Rsrc_HideCBM[4] = {
+static const char *Rsrc_HideCBM[4] = {
   Rsrc_Hide8CBM, Rsrc_Hide9CBM, Rsrc_Hide10CBM, Rsrc_Hide11CBM
 };
 
@@ -1021,14 +1026,14 @@ static char *Rsrc_HideCBM[4] = {
 
 
 typedef struct {
-  char *resource;
+  const char *resource;
   unsigned char ctype;
   conf_icon_id id;
 } config_item;
 
 typedef struct {
   RO_MenuHead *menu;
-  char *resource;
+  const char *resource;
   conf_icon_id id;
 } menu_icon;
 
@@ -1870,7 +1875,7 @@ typedef struct {
 } disp_strshow_t;
 
 typedef struct {
-  char *resource;
+  const char *resource;
   conf_icon_id id;
   RO_MenuHead *menu;
   int items;
@@ -1934,12 +1939,12 @@ static struct MenuDisplaySampleRate {
   {8000, 11025, 22050, 44100, 48000}
 };
 
-static char SoundDevice0[] = "vidc";
-static char SoundDevice1[] = "dummy";
-static char SoundDevice2[] = "fs";
-static char SoundDevice3[] = "wav";
-static char SoundDevice4[] = "speed";
-static char SoundDevice5[] = "dump";
+static const char SoundDevice0[] = "vidc";
+static const char SoundDevice1[] = "dummy";
+static const char SoundDevice2[] = "fs";
+static const char SoundDevice3[] = "wav";
+static const char SoundDevice4[] = "speed";
+static const char SoundDevice5[] = "dump";
 
 static struct MenuDisplaySoundDevice {
   disp_desc_t dd;
@@ -2071,18 +2076,18 @@ static struct MenuDisplayPetVideo {
   {0, 40, 80}
 };
 
-static char PetModel0[] = "2001";
-static char PetModel1[] = "3008";
-static char PetModel2[] = "3016";
-static char PetModel3[] = "3032";
-static char PetModel4[] = "3032B";
-static char PetModel5[] = "4016";
-static char PetModel6[] = "4032";
-static char PetModel7[] = "4032B";
-static char PetModel8[] = "8032";
-static char PetModel9[] = "8096";
-static char PetModel10[] = "8296";
-static char PetModel11[] = "SuperPET";
+static const char PetModel0[] = "2001";
+static const char PetModel1[] = "3008";
+static const char PetModel2[] = "3016";
+static const char PetModel3[] = "3032";
+static const char PetModel4[] = "3032B";
+static const char PetModel5[] = "4016";
+static const char PetModel6[] = "4032";
+static const char PetModel7[] = "4032B";
+static const char PetModel8[] = "8032";
+static const char PetModel9[] = "8096";
+static const char PetModel10[] = "8296";
+static const char PetModel11[] = "SuperPET";
 
 static struct MenuDisplayPetModel {
   disp_desc_t dd;
@@ -2148,12 +2153,12 @@ static struct MenuDisplayCBM2Memory {
   {128, 256, 512, 1024}
 };
 
-static char CBM2Model0[] = "610";
-static char CBM2Model1[] = "620";
-static char CBM2Model2[] = "620+";
-static char CBM2Model3[] = "710";
-static char CBM2Model4[] = "720";
-static char CBM2Model5[] = "720+";
+static const char CBM2Model0[] = "610";
+static const char CBM2Model1[] = "620";
+static const char CBM2Model2[] = "620+";
+static const char CBM2Model3[] = "710";
+static const char CBM2Model4[] = "720";
+static const char CBM2Model5[] = "720+";
 
 static struct MenuDisplayCBM2Model {
   disp_desc_t dd;
@@ -2562,15 +2567,16 @@ static void ui_set_pane_state(int state)
   {
     Wimp_CloseWindow((int*)EmuPane);
   }
-  else
+  else if (ActiveCanvas != NULL)
   {
     int block[WindowB_WFlags+1];
+    RO_Window *win = ActiveCanvas->window;
 
-    block[WindowB_Handle] = EmuWindow->Handle;
+    block[WindowB_Handle] = win->Handle;
     Wimp_GetWindowState(block);
     if ((block[WindowB_WFlags] & (1<<16)) != 0)
     {
-      ui_open_emu_window(block);
+      ui_open_emu_window(win, block);
     }
   }
 }
@@ -2989,24 +2995,24 @@ void ui_set_sound_volume(void)
 }
 
 
-static char *ui_check_for_syspath(const char *path)
+static const char *ui_check_for_syspath(const char *path)
 {
-  char *vicepath;
+  const char *vicepath;
   int len;
 
-  if ((vicepath = getenv(VicePathVariable)) == NULL) return (char*)path;
+  if ((vicepath = getenv(VicePathVariable)) == NULL) return path;
   len = strlen(vicepath);
   if (strncasecmp(path, vicepath, len) == 0)
   {
-    vicepath = (char*)path + len;
+    vicepath = path + len;
     len = strlen(machine_name);
     if ((strncasecmp(vicepath, machine_name, len) == 0) && (vicepath[len] == '.'))
-      return (char*)vicepath + len + 1;
+      return vicepath + len + 1;
     len = strlen(ResourceDriveDir);
     if ((strncasecmp(vicepath, ResourceDriveDir, len) == 0) && (vicepath[len] == '.'))
-      return (char*)vicepath + len + 1;
+      return vicepath + len + 1;
   }
-  return (char*)path;
+  return path;
 }
 
 
@@ -3069,6 +3075,20 @@ void ui_issue_reset(int doreset)
 static void ui_safe_exit(void)
 {
   sound_wimp_safe_exit();
+
+  if (DoCoreDump != 0)
+  {
+    int current, next, free;
+    FILE *fp;
+
+    next = -1; free = -1;
+    Wimp_SlotSize(&current, &next, &free);
+    if ((fp = fopen("core", "wb")) != NULL)
+    {
+      fwrite((void*)0x8000, 1, current, fp);
+      fclose(fp);
+    }
+  }
 }
 
 
@@ -3339,6 +3359,11 @@ int ui_init_finish(void)
     ui_build_romset_menu();
   }
 
+  if (resources_get_value(Rsrc_CoreDump, &val) == 0)
+  {
+    DoCoreDump = (int)val;
+  }
+
   atexit(ui_safe_exit);
 
   return 0;
@@ -3519,7 +3544,7 @@ static void ui_open_config_window(int wnum)
 }
 
 
-void ui_open_emu_window(int *b)
+void ui_open_emu_window(RO_Window *win, int *b)
 {
   int aux[WindowB_Stackpos+1];
   int paneblk[WindowB_Stackpos+1];
@@ -3531,9 +3556,9 @@ void ui_open_emu_window(int *b)
     int dx, dy;
 
     block = aux;
-    aux[WindowB_Handle] = EmuWindow->Handle;
-    dx = EmuWindow->wmaxx - EmuWindow->wminx;
-    dy = EmuWindow->wmaxy - EmuWindow->wminy;
+    aux[WindowB_Handle] = win->Handle;
+    dx = win->wmaxx - win->wminx;
+    dy = win->wmaxy - win->wminy;
     aux[WindowB_VMinX] = (ScreenMode.resx - dx)/2; aux[WindowB_VMaxX] = aux[WindowB_VMinX]+dx;
     aux[WindowB_VMinY] = (ScreenMode.resy - dy)/2; aux[WindowB_VMaxY] = aux[WindowB_VMinY]+dy;
     aux[WindowB_ScrollX] = 0; aux[WindowB_ScrollY] = 0;
@@ -3545,7 +3570,7 @@ void ui_open_emu_window(int *b)
   }
 
   /* Should the pane be displayed? */
-  if (ShowEmuPane != 0)
+  if ((ShowEmuPane != 0) && (ActiveCanvas != NULL) && (win == ActiveCanvas->window))
   {
     paneblk[WindowB_Handle] = EmuPane->Handle;
     dx = EmuPane->wmaxx - EmuPane->wminx;
@@ -3572,7 +3597,7 @@ void ui_open_emu_window(int *b)
 }
 
 
-void ui_close_emu_window(int *b)
+void ui_close_emu_window(RO_Window *win, int *b)
 {
   int aux[1];
   int *block;
@@ -3580,7 +3605,7 @@ void ui_close_emu_window(int *b)
   if (b == NULL)
   {
     block = aux;
-    aux[0] = EmuWindow->Handle;
+    aux[0] = win->Handle;
   }
   else
   {
@@ -3588,8 +3613,11 @@ void ui_close_emu_window(int *b)
   }
   Wimp_CloseWindow(block);
 
-  aux[0] = EmuPane->Handle;
-  Wimp_CloseWindow(aux);
+  if ((ActiveCanvas != NULL) && (win == ActiveCanvas->window))
+  {
+    aux[0] = EmuPane->Handle;
+    Wimp_CloseWindow(aux);
+  }
 
   if (AutoPauseEmu != 0)
   {
@@ -3622,13 +3650,15 @@ void ui_toggle_sid_emulation(void)
 static void ui_redraw_window(int *b)
 {
   int more;
+  canvas_t canvas;
 
-  if (b[RedrawB_Handle] == EmuWindow->Handle)
+  if ((canvas = canvas_for_handle(b[RedrawB_Handle])) != NULL)
   {
     graph_env ge;
-    unsigned int *ct;
+    unsigned int *ct = canvas->colour_table;
+    frame_buffer_t *fb = &(canvas->fb);
 
-    /*if (FrameBufferUpdate != 0)
+    /*if ((FrameBufferUpdate != 0) & (fb->tmpframebuffer != NULL))
     {
       int i, j;
       unsigned char map[256];
@@ -3639,13 +3669,13 @@ static void ui_redraw_window(int *b)
 
       for (i=0; i<16; i++) map[oldColours[i]] = i;
 
-      j = (FrameBuffer->tmpframebufferlinesize) * (FrameBuffer->height);
-      f = (unsigned char*)(FrameBuffer->tmpframebuffer);
+      j = (fb->tmpframebufferlinesize) * (fb->height);
+      f = (unsigned char*)(fb->tmpframebuffer);
       out = (unsigned int*)f;
 
       for (i=0; i<256; i++)
       {
-        map[i] = (unsigned char)((EmuCanvas->pixel_translation)[map[i]]);
+        map[i] = (unsigned char)((canvas->pixel_translation)[map[i]]);
       }
 
       for (i=0; i<j; i+=4)
@@ -3656,23 +3686,24 @@ static void ui_redraw_window(int *b)
       FrameBufferUpdate = 0;
     }*/
 
-    ct = CanvasList->canvas->colour_table;
     more = Wimp_RedrawWindow(b);
     while (more != 0)
     {
-      ge.x = b[RedrawB_VMinX] - b[RedrawB_ScrollX] + (EmuCanvas->shiftx << UseEigen)*EmuZoom;
-      ge.y = b[RedrawB_VMaxY] - b[RedrawB_ScrollY] + (EmuCanvas->shifty << UseEigen)*EmuZoom;
-      ge.dimx = FrameBuffer->width; ge.dimy = FrameBuffer->height;
-
-      if (EmuZoom == 1)
+      if (fb->tmpframebuffer != NULL)
       {
-        PlotZoom1(&ge, b + RedrawB_CMinX, FrameBuffer->tmpframebuffer, ct);
-      }
-      else
-      {
-        PlotZoom2(&ge, b + RedrawB_CMinX, FrameBuffer->tmpframebuffer, ct);
-      }
+        ge.x = b[RedrawB_VMinX] - b[RedrawB_ScrollX] + (canvas->shiftx << UseEigen)*(canvas->scale);
+        ge.y = b[RedrawB_VMaxY] - b[RedrawB_ScrollY] + (canvas->shifty << UseEigen)*(canvas->scale);
+        ge.dimx = fb->width; ge.dimy = fb->height;
 
+        if (canvas->scale == 1)
+        {
+          PlotZoom1(&ge, b + RedrawB_CMinX, fb->tmpframebuffer, ct);
+        }
+        else
+        {
+          PlotZoom2(&ge, b + RedrawB_CMinX, fb->tmpframebuffer, ct);
+        }
+      }
       more = Wimp_GetRectangle(b);
     }
   }
@@ -3697,9 +3728,9 @@ static void ui_redraw_window(int *b)
 
 static void ui_open_window(int *b)
 {
-  if (b[WindowB_Handle] == EmuWindow->Handle)
+  if ((ActiveCanvas != NULL) && (b[WindowB_Handle] == ActiveCanvas->window->Handle))
   {
-    ui_open_emu_window(b);
+    ui_open_emu_window(ActiveCanvas->window, b);
   }
   else
   {
@@ -3719,9 +3750,9 @@ static void ui_close_window(int *b)
     LastCaret.WHandle = -1;
   }
 
-  if (b[WindowB_Handle] == EmuWindow->Handle)
+  if ((ActiveCanvas != NULL) && (b[WindowB_Handle] == ActiveCanvas->window->Handle))
   {
-    ui_close_emu_window(b);
+    ui_close_emu_window(ActiveCanvas->window, b);
   }
   else if (b[WindowB_Handle] == ImgContWindow->Handle)
   {
@@ -3747,22 +3778,26 @@ static void ui_close_window(int *b)
 }
 
 
-static void ui_set_emu_window_size(void)
+static void ui_set_emu_window_size(RO_Window *win)
 {
   int dx, dy;
+  canvas_t canvas;
 
   UseEigen = (ScreenMode.eigx < ScreenMode.eigy) ? ScreenMode.eigx : ScreenMode.eigy;
-  if (EmuCanvas == NULL)
+
+  canvas = canvas_for_handle(win->Handle);
+
+  if (canvas == NULL)
   {
     dx = (VIC_II_SCREEN_WIDTH << UseEigen) * EmuZoom;
     dy = (VIC_II_SCREEN_HEIGHT << UseEigen) * EmuZoom;
   }
   else
   {
-    dx = (EmuCanvas->width << UseEigen) * EmuZoom;
-    dy = (EmuCanvas->height << UseEigen) * EmuZoom;
+    dx = (canvas->width << UseEigen) * (canvas->scale);
+    dy = (canvas->height << UseEigen) * (canvas->scale);
   }
-  wimp_window_set_extent(EmuWindow, 0, -dy, dx, 0);
+  wimp_window_set_extent(win, 0, -dy, dx, 0);
 }
 
 
@@ -3785,6 +3820,17 @@ static int ui_set_resource_select(const char *name, conf_icon_id *id)
 }
 
 
+void ui_show_emu_scale(void)
+{
+  if (ActiveCanvas == NULL) return;
+
+  if (ActiveCanvas->scale == 1)
+    wimp_window_write_icon_text(EmuPane, Icon_Pane_Toggle, SymbolStrings[Symbol_Zoom2]);
+  else
+    wimp_window_write_icon_text(EmuPane, Icon_Pane_Toggle, SymbolStrings[Symbol_Zoom1]);
+}
+
+
 static void ui_mouse_click(int *b)
 {
   if (b[MouseB_Window] == EmuPane->Handle)
@@ -3795,30 +3841,25 @@ static void ui_mouse_click(int *b)
       {
         case Icon_Pane_Toggle:
           {
+            RO_Window *win;
+            canvas_t canvas;
             int block[WindowB_WFlags+1];
             int dx, dy;
 
-            if (EmuZoom == 1)
-            {
-              EmuZoom = 2;
-              wimp_window_write_icon_text(EmuPane, Icon_Pane_Toggle, SymbolStrings[Symbol_Zoom1]);
-            }
-            else
-            {
-              EmuZoom = 1;
-              wimp_window_write_icon_text(EmuPane, Icon_Pane_Toggle, SymbolStrings[Symbol_Zoom2]);
-            }
-            ui_set_emu_window_size();
-            block[WindowB_Handle] = EmuWindow->Handle;
+            canvas = ActiveCanvas; win = canvas->window;
+            canvas->scale = (canvas->scale == 1) ? 2 : 1;
+            ui_show_emu_scale();
+            ui_set_emu_window_size(win);
+            block[WindowB_Handle] = win->Handle;
             Wimp_GetWindowState(block);
-            dx = EmuWindow->wmaxx - EmuWindow->wminx;
-            dy = EmuWindow->wmaxy - EmuWindow->wminy;
+            dx = win->wmaxx - win->wminx;
+            dy = win->wmaxy - win->wminy;
             block[WindowB_VMaxX] = block[WindowB_VMinX] + dx;
             block[WindowB_VMinY] = block[WindowB_VMaxY] - dy;
             Wimp_OpenWindow(block);
             Wimp_GetWindowState(block);
-            ui_open_emu_window(block);
-            Wimp_ForceRedraw(EmuWindow->Handle, 0, -dy, dx, 0);
+            ui_open_emu_window(win, block);
+            Wimp_ForceRedraw(win->Handle, 0, -dy, dx, 0);
           }
           break;
         case Icon_Pane_Reset:
@@ -3844,20 +3885,30 @@ static void ui_mouse_click(int *b)
       }
     }
   }
-  else if (b[MouseB_Window] == EmuWindow->Handle)
+  else
   {
-    if (b[MouseB_Buttons] == 2)
+    canvas_t canvas;
+
+    canvas = canvas_for_handle(b[MouseB_Window]);
+
+    if (canvas != NULL)
     {
-      Wimp_CreateMenu((int*)&MenuEmuWindow, b[MouseB_PosX], b[MouseB_PosY]);
-      LastMenu = Menu_Emulator;
-    }
-    else
-    {
-      Wimp_GetCaretPosition(&LastCaret);
-      Wimp_SetCaretPosition(EmuWindow->Handle, -1, -100, 100, -1, -1);
+      if (b[MouseB_Buttons] == 2)
+      {
+         wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Active, (canvas_get_number() <= 1));
+         Wimp_CreateMenu((int*)&MenuEmuWindow, b[MouseB_PosX], b[MouseB_PosY]);
+         LastMenu = Menu_Emulator;
+      }
+      else
+      {
+        Wimp_GetCaretPosition(&LastCaret);
+        Wimp_SetCaretPosition(canvas->window->Handle, -1, -100, 100, -1, -1);
+      }
+      return;
     }
   }
-  else if ((b[MouseB_Window] == -2) && (b[MouseB_Icon] == IBarIcon.IconHandle))
+
+  if ((b[MouseB_Window] == -2) && (b[MouseB_Icon] == IBarIcon.IconHandle))
   {
     if (b[MouseB_Buttons] == 2)
     {
@@ -3866,18 +3917,19 @@ static void ui_mouse_click(int *b)
     }
     else if (b[MouseB_Buttons] == 4)
     {
+      RO_Window *win = EmuWindow;
       int block[WindowB_WFlags+1];
       int gainCaret;
 
-      block[0] = EmuWindow->Handle; gainCaret = 0;
+      block[0] = win->Handle; gainCaret = 0;
       Wimp_GetWindowState(block);
       /* Window was closed? Then open centered... */
       if ((block[WindowB_WFlags] & (1<<16)) == 0)
       {
         int dx, dy;
 
-        dx = EmuWindow->wmaxx - EmuWindow->wminx;
-        dy = EmuWindow->wmaxy - EmuWindow->wminy;
+        dx = win->wmaxx - win->wminx;
+        dy = win->wmaxy - win->wminy;
         block[WindowB_VMinX] = (ScreenMode.resx - dx) / 2;
         block[WindowB_VMaxX] = block[WindowB_VMinX] + dx;
         block[WindowB_VMinY] = (ScreenMode.resy - dy) / 2;
@@ -3885,11 +3937,11 @@ static void ui_mouse_click(int *b)
         gainCaret = 1;
       }
       block[WindowB_Stackpos] = -1;
-      ui_open_emu_window(block);
+      ui_open_emu_window(win, block);
       if (gainCaret != 0)
       {
         Wimp_GetCaretPosition(&LastCaret);
-        Wimp_SetCaretPosition(EmuWindow->Handle, -1, -100, 100, -1, -1);
+        Wimp_SetCaretPosition(win->Handle, -1, -100, 100, -1, -1);
       }
 
       /* reverse autopause? */
@@ -3970,6 +4022,7 @@ static void ui_mouse_click(int *b)
         /* menu ==> open emulator window menu */
         if (b[MouseB_Buttons] == 2)
         {
+          wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Active, (canvas_get_number() <= 1));
           Wimp_CreateMenu((int*)&MenuEmuWindow, b[MouseB_PosX], b[MouseB_PosY]);
           LastMenu = Menu_Emulator;
         }
@@ -4321,8 +4374,7 @@ static void ui_user_drag_box(int *b)
         if (h == ConfWindows[i]->Handle) {h = 0; break;}
       }
 
-      if ((h != EmuWindow->Handle) && (h != EmuPane->Handle) && (h != SaveBox->Handle) &&
-          (h != 0))
+      if ((canvas_for_handle(h) != NULL) && (h != EmuPane->Handle) && (h != SaveBox->Handle) && (h != 0))
       {
         char *name;
 
@@ -4378,7 +4430,7 @@ static int ui_poll_joystick_window(int icon)
     if (dest == NULL) return 0;
     if ((code = ScanKeys(IntKey_MinCode)) != 0xff)
     {
-      char *b;
+      const char *b;
 
       if (*dest != (unsigned char)code)
       {
@@ -4403,13 +4455,17 @@ static void ui_key_press(int *b)
 
   key = b[KeyPB_Key];
 
-  if (b[KeyPB_Window] == EmuWindow->Handle)
+  if (canvas_for_handle(b[KeyPB_Window]) != NULL)
   {
     switch (key)
     {
       case 0x189:
         ShowEmuPane ^= 1;
         ui_set_pane_state(ShowEmuPane);
+        break;
+      case 0x1ca:
+        canvas_next_active();
+        Wimp_SetCaretPosition(ActiveCanvas->window->Handle, -1, -100, 100, -1, -1);
         break;
       case 0x18b:
         EmuPaused ^= 1;
@@ -4678,6 +4734,9 @@ static void ui_menu_selection(int *b)
         case Menu_EmuWin_Pane:
           ShowEmuPane ^= 1;
           ui_set_pane_state(ShowEmuPane);
+          break;
+        case Menu_EmuWin_Active:
+          canvas_next_active();
           break;
         case Menu_EmuWin_TrueDrvEmu:
           ui_set_truedrv_emulation(!wimp_menu_tick_read((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_TrueDrvEmu));
@@ -5074,6 +5133,7 @@ static void ui_load_snapshot_trap(ADDRESS unused_address, void *unused_data)
 
 static void ui_user_message(int *b)
 {
+  canvas_t canvas;
   int i;
   int action=0;
   char *name = ((char*)b)+44;
@@ -5083,50 +5143,60 @@ static void ui_user_message(int *b)
     case Message_Quit: ui_exit(); break;
     case Message_ModeChange:
       {
+        canvas_list_t *clist = CanvasList;
         int block[WindowB_WFlags+1];
+        RO_Window *win;
 
         wimp_read_screen_mode(&ScreenMode);
         /* Extremely annoying mode change code */
-        ui_set_emu_window_size();	/* Change in eigen factors might make this necessary */
-        block[WindowB_Handle] = EmuWindow->Handle;
-        Wimp_GetWindowState(block);
-        if ((block[WindowB_WFlags] & (1<<16)) != 0)	/* window open? */
+        /* Change in eigen factors might make this necessary */
+        while (clist != NULL)
         {
-          int d;
+          win = clist->canvas->window;
+          ui_set_emu_window_size(win);
+          clist = clist->next;
 
-          d = block[WindowB_VMaxY] - block[WindowB_VMinY];
-          if (block[WindowB_VMaxY] > ScreenMode.resy - TitleBarHeight)
+          block[WindowB_Handle] = win->Handle;
+          Wimp_GetWindowState(block);
+          if ((block[WindowB_WFlags] & (1<<16)) != 0)	/* window open? */
           {
-            block[WindowB_VMaxY] = ScreenMode.resy - TitleBarHeight;
-            if ((block[WindowB_VMinY] = block[WindowB_VMaxY] - d) < TitleBarHeight)
+            int d;
+
+            d = block[WindowB_VMaxY] - block[WindowB_VMinY];
+            if (block[WindowB_VMaxY] > ScreenMode.resy - TitleBarHeight)
             {
-              block[WindowB_VMinY] = TitleBarHeight;
+              block[WindowB_VMaxY] = ScreenMode.resy - TitleBarHeight;
+              if ((block[WindowB_VMinY] = block[WindowB_VMaxY] - d) < TitleBarHeight)
+              {
+                block[WindowB_VMinY] = TitleBarHeight;
+              }
             }
-          }
-          d = block[WindowB_VMaxX] - block[WindowB_VMinX];
-          if (block[WindowB_VMaxX] > ScreenMode.resx - TitleBarHeight)
-          {
-            block[WindowB_VMaxX] = ScreenMode.resx - TitleBarHeight;
-            if ((block[WindowB_VMinX] = block[WindowB_VMaxX] - d) < 0)
+            d = block[WindowB_VMaxX] - block[WindowB_VMinX];
+            if (block[WindowB_VMaxX] > ScreenMode.resx - TitleBarHeight)
             {
-              block[WindowB_VMinX] = 0;
+              block[WindowB_VMaxX] = ScreenMode.resx - TitleBarHeight;
+              if ((block[WindowB_VMinX] = block[WindowB_VMaxX] - d) < 0)
+              {
+                block[WindowB_VMinX] = 0;
+              }
             }
+            /* Send myself a message where to open the window */
+            Wimp_SendMessage(2, block, TaskHandle, 0);
           }
-          /* Send myself a message where to open the window */
-          Wimp_SendMessage(2, block, TaskHandle, 0);
         }
       }
       break;
     case Message_PaletteChange:
       wimp_read_screen_mode(&ScreenMode);
-      /*memcpy(oldColours, EmuCanvas->pixel_translation, 16*sizeof(PIXEL));*/
+      /*memcpy(oldColours, CanvasList->canvas->pixel_translation, 16*sizeof(PIXEL));*/
       FrameBufferUpdate = 1;
       ModeChanging = 1;
       raster_mode_change();
       ModeChanging = 0;
       break;
     case Message_DataLoad:
-      if (b[5] == EmuWindow->Handle)
+      canvas = canvas_for_handle(b[5]);
+      if (canvas != NULL)
       {
         if ((b[10] == FileType_C64File) && (machine_class == VICE_MACHINE_C64))
         {
@@ -5219,8 +5289,9 @@ static void ui_user_message(int *b)
         }
         if ((b[10] == FileType_Data) || (b[10] == FileType_Text))
         {
-          char *res = NULL;
+          const char *res = NULL;
           int rom_changed = 0;
+
           if (b[10] == FileType_Data)
           {
             if (b[6] == Icon_Conf_CharGen) res = Rsrc_CharGen;
@@ -5250,7 +5321,7 @@ static void ui_user_message(int *b)
           }
           if (res != NULL)
           {
-            char *filename;
+            const char *filename;
 
             filename = ui_check_for_syspath(name);
             if (resources_set_value(res, (resource_value_t)filename) == 0)
@@ -5294,7 +5365,9 @@ static void ui_user_message(int *b)
       break;
     case Message_DataSave:
       {
-        if (b[5] == EmuWindow->Handle)
+        canvas = canvas_for_handle(b[5]);
+
+        if (canvas != NULL)
         {
           if (((b[10] == FileType_C64File) && (machine_class == VICE_MACHINE_C64)) || (b[10] == FileType_Data)) action = 1;
         }
@@ -5749,7 +5822,7 @@ void ui_set_drive_leds(unsigned int led, int status)
 
 void ui_display_paused(int flag)
 {
-  char *t;
+  const char *t;
 
   if (flag == 0)
   {

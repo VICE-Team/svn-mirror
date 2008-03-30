@@ -28,21 +28,29 @@
 // which is almost certainly the actual circuit used in the SID chip.
 //
 // Measurements show that excellent emulation of the SID filter is achieved,
-// except for when high resonance is combined with high sustain levels.
-// In this case op-amp clipping is suspected to be the cause of some peculiar
-// behavior of the SID filter. This however seems to have more effect on the
-// overall amplitude than on the color of the sound.
+// except when high resonance is combined with high sustain levels.
+// In this case the SID op-amps are performing less than ideally and are
+// causing some peculiar behavior of the SID filter. This however seems to
+// have more effect on the overall amplitude than on the color of the sound.
 //
 // The theory for the filter circuit can be found in "Microelectric Circuits"
 // by Adel S. Sedra and Kenneth C. Smith.
-// The circuit is modeled based on the explanation found there except for that
-// n2 is set to 1 instead of 2 - 1/Q. Supposedly Vi is divided by n2
-// before entering the filter circuit in the SID chip.
+// The circuit is modeled based on the explanation found there except that
+// an additional inverter is used in the feedback from the bandpass output,
+// allowing the summer op-amp to operate in single-ended mode. This yields an
+// inverted filter output with level independent of Q, which corresponds with
+// the results obtained from a real SID.
 //
 // We have been able to model the summer and the two integrators of the circuit
 // to form components of an IIR filter.
 // Vhp is the output of the summer, Vbp is the output of the first integrator,
 // and Vlp is the output of the second integrator in the filter circuit.
+//
+// According to Bob Yannes, the active stages of the SID filter are not really
+// op-amps. Rather, simple NMOS inverters are used. By biasing an inverter
+// into its region of quasi-linear operation using a feedback resistor from
+// input to output, a MOS inverter can be made to act like an op-amp for
+// small signals centered around the switching threshold.
 // ----------------------------------------------------------------------------
 class Filter
 {
@@ -138,7 +146,10 @@ void Filter::clock(sound_sample voice1,
   // Scale each voice down from 20 to 13 bits.
   voice1 >>= 7;
   voice2 >>= 7;
-  if (voice3off) {
+
+  // NB! Voice 3 is only silenced by voice3off if it is not routed through
+  // the filter.
+  if (voice3off && !(filt3_filt2_filt1 & 0x04)) {
     voice3 = 0;
   }
   else {
@@ -225,7 +236,10 @@ void Filter::clock(cycle_count delta_t,
   // Scale each voice down from 20 to 13 bits.
   voice1 >>= 7;
   voice2 >>= 7;
-  if (voice3off) {
+
+  // NB! Voice 3 is only silenced by voice3off if it is not routed through
+  // the filter.
+  if (voice3off && !(filt3_filt2_filt1 & 0x04)) {
     voice3 = 0;
   }
   else {

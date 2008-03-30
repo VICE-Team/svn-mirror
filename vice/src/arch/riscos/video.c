@@ -43,14 +43,15 @@
 
 
 /* Colour translation table, only used in 16/32bpp modes */
-frame_buffer_t *FrameBuffer;
-canvas_t EmuCanvas = NULL;
 canvas_list_t *CanvasList = NULL;
+/* Active canvas */
+canvas_t ActiveCanvas = NULL;
 
 /* Full screen variables */
 int FullScreenMode = 0;
 int FullScreenStatLine = 1;
 
+static int NumberOfCanvases = 0;
 static screen_mode_t newScreenMode;
 static screen_mode_t oldScreenMode;
 static int newScreenValid = 0;
@@ -186,7 +187,6 @@ int frame_buffer_alloc(frame_buffer_t *i, unsigned int width, unsigned int heigh
 {
   PIXEL *data;
 
-  FrameBuffer = i;
   width = (width + 3) & ~3;
 
   if ((data = (PIXEL*)malloc(width * height * sizeof(PIXEL))) == NULL)
@@ -260,7 +260,12 @@ int canvas_set_palette(canvas_t canvas, const palette_t *palette, PIXEL *pixel_r
       }
       break;
   }
-  canvas->pixel_translation = pixel_return;
+  if (canvas->pixel_translation == NULL)
+  {
+    if ((canvas->pixel_translation = (PIXEL*)malloc(palette->num_entries * sizeof(PIXEL))) == NULL)
+      return -1;
+  }
+  memcpy(canvas->pixel_translation, pixel_return, palette->num_entries * sizeof(PIXEL));
 
   return 0;
 }
@@ -275,33 +280,50 @@ canvas_t canvas_create(const char *win_name, unsigned int *width, unsigned int *
     return (canvas_t)0;
 
   canvas->width = *width; canvas->height = *height;
-  canvas->emuwindow = EmuWindow->Handle;
-  canvas->drawable = 0;	/* Who gives a fuck... */
-  canvas->num_colours = palette->num_entries;
+
+  canvas->num_colours = palette->num_entries; canvas->pixel_translation = NULL;
+  memset(canvas->colour_table, 0, 256*sizeof(int));
+  canvas->shiftx = 0; canvas->shifty = 0; canvas->scale = 1;
+  canvas->fb.tmpframebuffer = NULL;
 
   canvas_set_palette(canvas, palette, pixel_return);
 
-  if ((newCanvas = (canvas_list_t*)malloc(sizeof(canvas_list_t))) == NULL) return NULL;
-  newCanvas->next = NULL;
+  if ((newCanvas = (canvas_list_t*)malloc(sizeof(canvas_list_t))) == NULL)
+  {
+    free(canvas); return NULL;
+  }
+
+  newCanvas->next = NULL; newCanvas->canvas = canvas;
+
   if (CanvasList == NULL)
   {
-    /* Make the first canvas created the main emu window */
-    EmuCanvas = canvas;
     CanvasList = newCanvas;
+    canvas->window = EmuWindow;
+    ActiveCanvas = canvas;
   }
   else
   {
     canvas_list_t *list = CanvasList;
 
+    if ((canvas->window = wimp_window_clone(EmuWindow)) == NULL)
+    {
+      free(canvas); free(newCanvas); return NULL;
+    }
+    canvas->window->Handle = Wimp_CreateWindow(((int*)(canvas->window)) + 1);
     while (list->next != NULL) list = list->next;
     list->next = newCanvas;
   }
 
-  wimp_window_set_extent(EmuWindow, 0, - *height << UseEigen, *width << UseEigen, 0);
-  ui_open_emu_window(NULL);
+  wimp_window_set_extent(canvas->window, 0, - *height << UseEigen, *width << UseEigen, 0);
+  ui_open_emu_window(canvas->window, NULL);
 
-  Wimp_GetCaretPosition(&LastCaret);
-  Wimp_SetCaretPosition(EmuWindow->Handle, -1, -100, 100, -1, -1);
+  if (canvas->window == EmuWindow)
+  {
+    Wimp_GetCaretPosition(&LastCaret);
+    Wimp_SetCaretPosition(EmuWindow->Handle, -1, -100, 100, -1, -1);
+  }
+
+  NumberOfCanvases++;
 
   return canvas;
 }
@@ -309,7 +331,26 @@ canvas_t canvas_create(const char *win_name, unsigned int *width, unsigned int *
 
 void canvas_destroy(canvas_t s)
 {
-  ui_close_emu_window(NULL);
+  canvas_list_t *clist, *last;
+
+  last = NULL; clist = CanvasList;
+  while (clist != NULL)
+  {
+    if (clist->canvas == s)
+    {
+      if (last == NULL)
+        CanvasList = clist->next;
+      else
+        last->next = clist->next;
+
+      free(clist); break;
+    }
+    last = clist; clist = clist->next;
+  }
+
+  ui_close_emu_window(s->window, NULL);
+
+  NumberOfCanvases--;
 
   free(s);
 }
@@ -331,12 +372,12 @@ void canvas_resize(canvas_t s, unsigned int width, unsigned int height)
   s->width = width; s->height = height;
   if (FullScreenMode == 0)
   {
-    wimp_window_set_extent(EmuWindow, 0, -height << UseEigen, width << UseEigen, 0);
-    Wimp_GetWindowState((int*)EmuWindow);
+    wimp_window_set_extent(s->window, 0, -height << UseEigen, width << UseEigen, 0);
+    Wimp_GetWindowState((int*)(s->window));
     /* Only open window if it was open to begin with */
-    if ((EmuWindow->wflags & (1<<16)) != 0)
+    if ((s->window->wflags & (1<<16)) != 0)
     {
-      Wimp_OpenWindow((int*)EmuWindow);
+      Wimp_OpenWindow((int*)(s->window));
     }
   }
 }
@@ -356,19 +397,24 @@ void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
   ge.dimx = frame_buffer.width; ge.dimy = frame_buffer.height;
   canvas->shiftx = (xi - xs); canvas->shifty = - (yi - ys);
 
+  if (canvas->fb.tmpframebuffer == NULL)
+  {
+    memcpy(&(canvas->fb), &frame_buffer, sizeof(frame_buffer_t));
+  }
+
   if (FullScreenMode == 0)
   {
     int block[11];
     int more;
 
-    block[0] = canvas->emuwindow;
+    block[0] = canvas->window->Handle;
     /* The canvas size is only used for the clipping */
-    block[1] = (xi << UseEigen) * EmuZoom;
-    block[2] = (- (yi + h) << UseEigen) * EmuZoom;
-    block[3] = ((xi + w) << UseEigen) * EmuZoom;
-    block[4] = (-yi << UseEigen) * EmuZoom;
-    shiftx = (canvas->shiftx << UseEigen) * EmuZoom;
-    shifty = (canvas->shifty << UseEigen) * EmuZoom;
+    block[1] = (xi << UseEigen) * (canvas->scale);
+    block[2] = (- (yi + h) << UseEigen) * (canvas->scale);
+    block[3] = ((xi + w) << UseEigen) * (canvas->scale);
+    block[4] = (-yi << UseEigen) * (canvas->scale);
+    shiftx = (canvas->shiftx << UseEigen) * (canvas->scale);
+    shifty = (canvas->shifty << UseEigen) * (canvas->scale);
 
     more = Wimp_UpdateWindow(block);
     while (more != 0)
@@ -377,7 +423,7 @@ void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
       ge.x = block[RedrawB_VMinX] - block[RedrawB_ScrollX] + shiftx;
       ge.y = block[RedrawB_VMaxY] - block[RedrawB_ScrollY] + shifty;
 
-      if (EmuZoom == 1)
+      if (canvas->scale == 1)
       {
         PlotZoom1(&ge, block + RedrawB_CMinX, frame_buffer.tmpframebuffer, canvas->colour_table);
       }
@@ -388,7 +434,7 @@ void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
       more = Wimp_GetRectangle(block);
     }
   }
-  else
+  else if (canvas == ActiveCanvas)
   {
     int clip[4];
     int dx, dy;
@@ -419,6 +465,55 @@ void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
 
   }
 }
+
+
+canvas_t canvas_for_handle(int handle)
+{
+  canvas_list_t *clist = CanvasList;
+
+  while (clist != NULL)
+  {
+    if (clist->canvas->window->Handle == handle) return clist->canvas;
+    clist = clist->next;
+  }
+  return NULL;
+}
+
+
+void canvas_next_active(void)
+{
+  canvas_list_t *clist = CanvasList;
+
+  while (clist != NULL)
+  {
+    if (clist->canvas == ActiveCanvas) break;
+    clist = clist->next;
+  }
+  if (clist != NULL)
+  {
+    int block[WindowB_WFlags+1];
+
+    if (clist->next == NULL)
+      ActiveCanvas = CanvasList->canvas;
+    else
+      ActiveCanvas = clist->next->canvas;
+
+    block[WindowB_Handle] = ActiveCanvas->window->Handle;
+    Wimp_GetWindowState(block);
+    ui_open_emu_window(ActiveCanvas->window, block);
+
+    ui_show_emu_scale();
+
+    video_full_screen_refresh();
+  }
+}
+
+
+int canvas_get_number(void)
+{
+  return NumberOfCanvases;
+}
+
 
 
 void text_enable(void)
@@ -464,6 +559,43 @@ int video_full_screen_on(int *sprites)
   FullUseEigen = (FullScrDesc.eigx < FullScrDesc.eigy) ? FullScrDesc.eigx : FullScrDesc.eigy;
   SpriteArea = sprites;
 
+  /* Set the palette first thing */
+  if (ScreenSetPalette != 0)
+  {
+    canvas_t canvas = ActiveCanvas;
+    unsigned int num_colours = ActiveCanvas->num_colours;
+
+    if ((canvas != NULL) && ((1 << (1 << FullScrDesc.ldbpp)) >= num_colours) && (FullScrDesc.ldbpp <= 3))
+    {
+      unsigned char entries[3 * num_colours];
+      unsigned int i;
+      unsigned int *ct;
+
+      ct = canvas->colour_table;
+      if (ScreenMode.ldbpp == 4)
+      {
+        for (i=0; i<num_colours; i++)
+        {
+          /* Lossy, but shouldn't be too bad */
+          entries[3*i] = (ct[i] & 0x1f) << 3;
+          entries[3*i+1] = (ct[i] & 0x3e0) >> 2;
+          entries[3*i+2] = (ct[i] & 0x7c00) >> 7;
+        }
+      }
+      else
+      {
+        for (i=0; i<num_colours; i++)
+        {
+          entries[3*i] = ct[i] & 0xff;
+          entries[3*i+1] = (ct[i] & 0xff00) >> 8;
+          entries[3*i+2] = (ct[i] & 0xff0000) >> 16;
+        }
+      }
+      InstallPaletteRange(entries, 0, num_colours);
+      ColourTrans_InvalidateCache();
+    }
+  }
+
   sdata = ((char*)sprites) + sprites[2];
   limit = ((char*)sprites) + sprites[0];
   while (sdata < limit)
@@ -485,40 +617,6 @@ int video_full_screen_on(int *sprites)
   OS_WriteC(23); OS_WriteC(17); OS_WriteC(7); OS_WriteC(2);
   OS_WriteC(StatusCharSize); OS_WriteC(0); OS_WriteC(StatusCharSize); OS_WriteC(0);
   OS_WriteC(0); OS_WriteC(0);
-
-  if (ScreenSetPalette != 0)
-  {
-    if (((1 << (1 << FullScrDesc.ldbpp)) >= CanvasList->canvas->num_colours) && (FullScrDesc.ldbpp <= 3))
-    {
-      unsigned char entries[3 * CanvasList->canvas->num_colours];
-      unsigned int num_colours, i;
-      unsigned int *ct;
-
-      num_colours = CanvasList->canvas->num_colours;
-      ct = CanvasList->canvas->colour_table;
-      if (ScreenMode.ldbpp == 4)
-      {
-        for (i=0; i<num_colours; i++)
-        {
-          /* Lossy, but shouldn't be too bad */
-          entries[3*i] = (ct[i] & 0x1f) << 3;
-          entries[3*i+1] = (ct[i] & 0x3e0) >> 2;
-          entries[3*i+2] = (ct[i] & 0x7c00) >> 7;
-        }
-      }
-      else
-      {
-        for (i=0; i<num_colours; i++)
-        {
-          entries[3*i] = ct[i] & 0xff;
-          entries[3*i+1] = (ct[i] & 0xff00) >> 8;
-          entries[3*i+1] = (ct[i] & 0xff0000) >> 16;
-        }
-      }
-      InstallPaletteRange(entries, 0, num_colours);
-      ColourTrans_InvalidateCache();
-    }
-  }
 
   raster_mode_change();
 
@@ -542,13 +640,15 @@ int video_full_screen_off(void)
 
 int video_full_screen_refresh(void)
 {
-  if (FullScreenMode == 0) return -1;
+  canvas_t canvas = ActiveCanvas;
+
+  if ((FullScreenMode == 0) || (canvas == NULL)) return -1;
 
   /* Clear screen and force a repaint of the entire bitmap */
   ColourTrans_SetGCOL(0, 0x100, 0);
   OS_Plot(0x04, 0, 0); OS_Plot(0x65, FullScrDesc.resx, FullScrDesc.resy);
 
-  canvas_refresh(EmuCanvas, *FrameBuffer, -EmuCanvas->shiftx, EmuCanvas->shifty, 0, 0, EmuCanvas->width, EmuCanvas->height);
+  canvas_refresh(canvas, canvas->fb, -canvas->shiftx, canvas->shifty, 0, 0, canvas->width, canvas->height);
 
   video_full_screen_init_status();
 
