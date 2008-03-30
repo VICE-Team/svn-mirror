@@ -30,7 +30,7 @@
 #include "drivetypes.h"
 #include "glue1551.h"
 #include "mem1551.h"
-#include "tia1551.h"
+#include "tpid.h"
 #include "types.h"
 
 
@@ -92,10 +92,10 @@ void mem1551_init(struct drive_context_s *drv, unsigned int type)
         drv->cpud.read_func_nowatch[0] = drive_read_1551zero;
         drv->cpud.store_func_nowatch[0] = drive_store_1551zero;
 
-        /* Setup 1551 TIA.  */
+        /* Setup 1551 TPI.  */
         for (i = 0x40; i < 0x7f; i++) {
-            drv->cpud.read_func_nowatch[i] = tia1551_read;
-            drv->cpud.store_func_nowatch[i] = tia1551_store;
+            drv->cpud.read_func_nowatch[i] = tpid_read;
+            drv->cpud.store_func_nowatch[i] = tpid_store;
         }
     }
 }
