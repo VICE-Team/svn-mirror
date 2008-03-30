@@ -1009,21 +1009,7 @@ void vicii_raster_draw_alarm_handler(CLOCK offset)
    line counter matches the value stored in the raster line register.  */
 void vicii_raster_irq_alarm_handler(CLOCK offset)
 {
-#if 0
-    vic_ii.irq_status |= 0x1;
-    if (vic_ii.regs[0x1a] & 0x1) {
-        maincpu_set_irq_clk(I_RASTER, 1, vic_ii.raster_irq_clk);
-        vic_ii.irq_status |= 0x80;
-
-        VIC_II_DEBUG_RASTER(("*** IRQ requested at line $%04X, "
-                            "raster_irq_line = $%04X, off = %ld, cycle = %d.",
-                            VIC_II_RASTER_Y(maincpu_clk),
-                            vic_ii.raster_irq_line,
-                            (long)offset, VIC_II_RASTER_CYCLE(maincpu_clk)));
-    }
-#else
     vicii_irq_raster_set(vic_ii.raster_irq_clk);
-#endif
     vicii_irq_next_frame();
 }
 
