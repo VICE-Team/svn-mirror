@@ -190,6 +190,10 @@ SOURCE="..\..\machine.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\mouse.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\p00.c"
 # End Source File
 # Begin Source File

@@ -96,6 +96,7 @@ noinst_HEADERS = \
 	mem.h \
 	monitor.h \
 	mos6510.h \
+	mouse.h \
 	p00.h \
 	palette.h \
 	parallel.h \
@@ -167,6 +168,7 @@ base_sources = \
 	log.c \
 	machine.c \
 	main.c \
+	mouse.c \
 	p00.c \
 	palette.c \
 	ram.c \
