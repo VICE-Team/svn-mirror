@@ -113,9 +113,9 @@ int kbd_init_resources(void)
 
 static cmdline_option_t cmdline_options[] = {
     { "-symkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapSymFile", NULL,
-      "<name>", N_ ("Specify name of symbolic keymap file") },
+      "<name>", N_("Specify name of symbolic keymap file") },
      { "-poskeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapPosFile", NULL,
-      "<name>", N_ ("Specify name of positional keymap file") },
+      "<name>", N_("Specify name of positional keymap file") },
     { NULL }
 };
 

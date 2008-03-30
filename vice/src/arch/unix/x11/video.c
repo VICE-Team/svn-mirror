@@ -117,13 +117,13 @@ int video_init_resources(void)
 static cmdline_option_t cmdline_options[] = {
     { "-xsync", SET_RESOURCE, 0, NULL, NULL,
       "UseXSync", (resource_value_t) 1,
-      NULL, "Call `XSync()' after updating the emulation window" },
+      NULL, N_("Call `XSync()' after updating the emulation window") },
     { "+xsync", SET_RESOURCE, 0, NULL, NULL,
       "UseXSync", (resource_value_t) 0,
-      NULL, "Do not call `XSync()' after updating the emulation window" },
+      NULL, N_("Do not call `XSync()' after updating the emulation window") },
     { "-mitshm", SET_RESOURCE, 0, NULL, NULL,
       "MITSHM", (resource_value_t) 0,
-      NULL, "Never use shared memory (slower)" },
+      NULL, N_("Never use shared memory (slower)") },
     { NULL }
 };
 
@@ -316,12 +316,12 @@ int video_convert_func(video_frame_buffer_t *i, int depth, unsigned int width,
 #endif
     if (sup_depth != i->x_image->bits_per_pixel) {
         log_error(video_log,
-                  "Only %ibpp supported by this emulator.", sup_depth);
+                  _("Only %ibpp supported by this emulator."), sup_depth);
         log_error(video_log,
-                  "Current X server depth is %ibpp.",
+                  _("Current X server depth is %ibpp."),
                   i->x_image->bits_per_pixel);
         log_error(video_log,
-                  "Switch X server depth or recompile with --enable-autobpp.");
+                  _("Switch X server depth or recompile with --enable-autobpp."));
         return -1;
     }
 #endif
@@ -356,11 +356,11 @@ int video_init(void)
 	if (!XShmQueryVersion(display, &major_version, &minor_version,
 			      &pixmap_flag)) {
 	    log_warning(video_log,
-                        "The MITSHM extension is not supported "
-                        "on this display.");
+                        _("The MITSHM extension is not supported "
+                        "on this display."));
 	    use_mitshm = 0;
 	} else {
-	    DEBUG_MITSHM(("MITSHM extensions version %d.%d detected.",
+	    DEBUG_MITSHM((_("MITSHM extensions version %d.%d detected."),
 			  major_version, minor_version));
 	    use_mitshm = 1;
 	}
@@ -406,7 +406,7 @@ void video_frame_buffer_free(video_frame_buffer_t *i)
 	if (i->x_image)
 	    XDestroyImage(i->x_image);
 	if (shmdt(i->xshm_info.shmaddr))
-	    log_error(video_log, "Cannot release shared memory!");
+	    log_error(video_log, _("Cannot release shared memory!"));
     } else if (i->x_image)
 	XDestroyImage(i->x_image);
 #else
@@ -488,6 +488,8 @@ canvas_t *canvas_create(const char *win_name, unsigned int *width,
     ui_finish_canvas(c);
     
     video_add_handlers(w);
+    if (console_mode || vsid_mode)
+	return c;
 #ifdef USE_GNOMEUI
     fb->canvas = c;
 #endif

@@ -223,7 +223,7 @@ static char *make_menu_label(ui_menu_entry_t *e)
     char *tmp = alloca(1024);
 
     if (e->hotkey_keysym == (KeySym) 0)
-        return stralloc(e->string);
+        return stralloc(_(e->string));
 
     *tmp = '\0';
     if (e->hotkey_modifier & UI_HOTMOD_CONTROL)

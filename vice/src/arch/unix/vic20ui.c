@@ -88,7 +88,7 @@ static UI_CALLBACK(set_common_memory_configuration)
 	break;
     default:
 	/* Shouldn't happen.  */
-	fprintf(stderr, "What?!\n");
+	fprintf(stderr, _("What?!\n"));
 	blocks = 0;         /* Make compiler happy.  */
     }
     resources_set_value("RamBlock0",
@@ -106,37 +106,37 @@ static UI_CALLBACK(set_common_memory_configuration)
 }
 
 static ui_menu_entry_t vic20_romset_submenu[] = {
-    { "Load default ROMs",
+    { N_("Load default ROMs"),
       (ui_callback_t) ui_set_romset, (ui_callback_data_t)"default.vrs", NULL },
     { "--" },
-    { "Load new Kernal ROM",
+    { N_("Load new Kernal ROM"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"KernalName", NULL },
-    { "Load new Basic ROM",
+    { N_("Load new Basic ROM"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"BasicName", NULL },
-    { "Load new Character ROM",
+    { N_("Load new Character ROM"),
       (ui_callback_t) ui_load_rom_file, (ui_callback_data_t)"ChargenName", NULL },
     { "--" },
-    { "Load custom ROM set from file",
+    { N_("Load custom ROM set from file"),
       (ui_callback_t) ui_load_romset, NULL, NULL },
-    { "Dump ROM set definition to file",
+    { N_("Dump ROM set definition to file"),
       (ui_callback_t) ui_dump_romset, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t common_memory_configurations_submenu[] = {
-    { "No expansion memory",
+    { N_("No expansion memory"),
       set_common_memory_configuration, (ui_callback_data_t) MEM_NONE, NULL },
     { "--" },
-    { "3K (block 0)",
+    { N_("3K (block 0)"),
       set_common_memory_configuration, (ui_callback_data_t) MEM_3K, NULL },
-    { "8K (block 1)",
+    { N_("8K (block 1)"),
       set_common_memory_configuration, (ui_callback_data_t) MEM_8K, NULL },
-    { "16K (blocks 1/2)",
+    { N_("16K (blocks 1/2)"),
       set_common_memory_configuration, (ui_callback_data_t) MEM_16K, NULL },
-    { "24K (blocks 1/2/3)",
+    { N_("24K (blocks 1/2/3)"),
       set_common_memory_configuration, (ui_callback_data_t) MEM_24K, NULL },
     { "--" },
-    { "All (blocks 0/1/2/3/5)",
+    { N_("All (blocks 0/1/2/3/5)"),
       set_common_memory_configuration, (ui_callback_data_t) MEM_ALL, NULL },
     { NULL }
 };
@@ -150,30 +150,30 @@ UI_MENU_DEFINE_TOGGLE(RAMBlock5)
 UI_MENU_DEFINE_TOGGLE(EmuID)
 
 static ui_menu_entry_t memory_settings_submenu[] = {
-    { "Common configurations",
+    { N_("Common configurations"),
       NULL, NULL, common_memory_configurations_submenu },
     { "--" },
-    { "ROM sets",
+    { N_("ROM sets"),
       NULL, NULL, vic20_romset_submenu },
     { "--" },
-    { "*Block 0 (3K at $0400-$0FFF)",
+    { N_("*Block 0 (3K at $0400-$0FFF)"),
       (ui_callback_t) toggle_RAMBlock0, NULL, NULL },
-    { "*Block 1 (8K at $2000-$3FFF)",
+    { N_("*Block 1 (8K at $2000-$3FFF)"),
       (ui_callback_t) toggle_RAMBlock1, NULL, NULL },
-    { "*Block 2 (8K at $4000-$5FFF)",
+    { N_("*Block 2 (8K at $4000-$5FFF)"),
       (ui_callback_t) toggle_RAMBlock2, NULL, NULL },
-    { "*Block 3 (8K at $6000-$7FFF)",
+    { N_("*Block 3 (8K at $6000-$7FFF)"),
       (ui_callback_t) toggle_RAMBlock3, NULL, NULL },
-    { "*Block 5 (8K at $A000-$BFFF)",
+    { N_("*Block 5 (8K at $A000-$BFFF)"),
       (ui_callback_t) toggle_RAMBlock5, NULL, NULL },
     { "--" },
-    { "*Emulator identification",
+    { N_("*Emulator identification"),
       (ui_callback_t) toggle_EmuID, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t memory_settings_menu[] = {
-    { "Memory expansions",
+    { N_("Memory expansions"),
       NULL, NULL, memory_settings_submenu },
     { NULL }
 };
@@ -189,13 +189,13 @@ static UI_CALLBACK(attach_cartridge)
     static char *last_dir;
 
     suspend_speed_eval();
-    filename = ui_select_file("Attach cartridge image",
+    filename = ui_select_file(_("Attach cartridge image"),
                               NULL, False, last_dir, "*.prg", &button, False);
 
     switch (button) {
       case UI_BUTTON_OK:
         if (cartridge_attach_image(type, filename) < 0)
-            ui_error("Invalid cartridge image");
+            ui_error(_("Invalid cartridge image"));
 	if (last_dir)
 	    free(last_dir);
 	fname_split(filename, &last_dir, NULL);
@@ -218,36 +218,36 @@ static UI_CALLBACK(default_cartridge)
 }
 
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
-    { "Smart-attach cartridge image...",
+    { N_("Smart-attach cartridge image..."),
       (ui_callback_t) attach_cartridge,
       (ui_callback_data_t) CARTRIDGE_VIC20_DETECT, NULL,
       XK_c, UI_HOTMOD_META },
     { "--" },
-    { "Attach 4/8/16KB image at $2000...",
+    { N_("Attach 4/8/16KB image at $2000..."),
       (ui_callback_t) attach_cartridge,
       (ui_callback_data_t) CARTRIDGE_VIC20_16KB_2000, NULL },
-    { "Attach 4/8/16KB image at $4000...",
+    { N_("Attach 4/8/16KB image at $4000..."),
       (ui_callback_t) attach_cartridge,
       (ui_callback_data_t) CARTRIDGE_VIC20_16KB_4000, NULL },
-    { "Attach 4/8/16KB image at $6000...",
+    { N_("Attach 4/8/16KB image at $6000..."),
       (ui_callback_t) attach_cartridge,
       (ui_callback_data_t) CARTRIDGE_VIC20_16KB_6000, NULL },
-    { "Attach 4/8KB image at $A000...",
+    { N_("Attach 4/8KB image at $A000..."),
       (ui_callback_t) attach_cartridge,
       (ui_callback_data_t) CARTRIDGE_VIC20_8KB_A000, NULL },
-    { "Attach 4KB image at $B000...",
+    { N_("Attach 4KB image at $B000..."),
       (ui_callback_t) attach_cartridge,
       (ui_callback_data_t) CARTRIDGE_VIC20_4KB_B000, NULL },
     { "--" },
-    { "Set cartridge as default",
+    { N_("Set cartridge as default"),
       (ui_callback_t) default_cartridge, NULL, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t vic20_cartridge_commands_menu[] = {
-    { "Attach a cartridge image",
+    { N_("Attach a cartridge image"),
       NULL, NULL, attach_cartridge_image_submenu },
-    { "Detach cartridge image(s)",
+    { N_("Detach cartridge image(s)"),
       (ui_callback_t) detach_cartridge, NULL, NULL },
     { NULL }
 };
@@ -260,23 +260,23 @@ static UI_CALLBACK(ui_datasette_control)
 }
 
 static ui_menu_entry_t datasette_control_submenu[] = {
-    { "Stop", (ui_callback_t) ui_datasette_control,
+    { N_("Stop"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_STOP, NULL },
-    { "Play", (ui_callback_t) ui_datasette_control,
+    { N_("Play"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_START, NULL },
-    { "Forward", (ui_callback_t) ui_datasette_control,
+    { N_("Forward"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_FORWARD, NULL },
-    { "Rewind", (ui_callback_t) ui_datasette_control,
+    { N_("Rewind"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_REWIND, NULL },
-    { "Record", (ui_callback_t) ui_datasette_control,
+    { N_("Record"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_RECORD, NULL },
-    { "Reset", (ui_callback_t) ui_datasette_control,
+    { N_("Reset"), (ui_callback_t) ui_datasette_control,
       (ui_callback_data_t) DATASETTE_CONTROL_RESET, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_datasette_commands_menu[] = {
-    { "Datassette control",
+    { N_("Datassette control"),
       NULL, NULL, datasette_control_submenu },
     { NULL }
 };
@@ -298,21 +298,21 @@ static UI_CALLBACK(set_joystick_device)
 }
 
 static ui_menu_entry_t set_joystick_device_1_submenu[] = {
-    { "*None",
+    { N_("*None"),
       (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_NONE, NULL },
-    { "*Numpad",
+    { N_("*Numpad"),
       (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_NUMPAD, NULL },
-    { "*Custom Keys",
+    { N_("*Custom Keys"),
       (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_CUSTOM_KEYS, NULL },
 #ifdef HAS_JOYSTICK
-    { "*Analog Joystick 0",
+    { N_("*Analog Joystick 0"),
       (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_ANALOG_0, NULL },
-    { "*Analog Joystick 1",
+    { N_("*Analog Joystick 1"),
       (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_ANALOG_1, NULL },
 #ifdef HAS_DIGITAL_JOYSTICK
-    { "*Digital Joystick 0",
+    { N_("*Digital Joystick 0"),
       (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_DIGITAL_0, NULL },
-    { "*Digital Joystick 1",
+    { N_("*Digital Joystick 1"),
       (ui_callback_t) set_joystick_device, (ui_callback_data_t) JOYDEV_DIGITAL_1, NULL },
 #endif
 #endif
@@ -320,7 +320,7 @@ static ui_menu_entry_t set_joystick_device_1_submenu[] = {
 };
 
 static ui_menu_entry_t joystick_settings_menu[] = {
-    { "Joystick settings",
+    { N_("Joystick settings"),
       NULL, NULL, set_joystick_device_1_submenu },
     { NULL }
 };
@@ -330,35 +330,35 @@ static ui_menu_entry_t joystick_settings_menu[] = {
 UI_MENU_DEFINE_RADIO(RsUser)
 
 static ui_menu_entry_t vic20_rs232_submenu[] = {
-    { "*No Userport RS232 emulation",
+    { N_("*No Userport RS232 emulation"),
       (ui_callback_t) radio_RsUser, (ui_callback_data_t) 0, NULL },
-    { "*Userport 300 baud RS232 emulation",
+    { N_("*Userport 300 baud RS232 emulation"),
       (ui_callback_t) radio_RsUser, (ui_callback_data_t) 300, NULL },
-    { "*Userport 1200 baud RS232 emulation",
+    { N_("*Userport 1200 baud RS232 emulation"),
       (ui_callback_t) radio_RsUser, (ui_callback_data_t) 1200, NULL },
-    { "Userport RS232 device",
+    { N_("Userport RS232 device"),
       NULL, NULL, rsuser_device_submenu },
     { "--" },
-    { "Serial 1 device...", (ui_callback_t) set_rs232_device_file,
+    { N_("Serial 1 device..."), (ui_callback_t) set_rs232_device_file,
       (ui_callback_data_t) "RsDevice1", NULL },
-    { "Serial 1 baudrate",
+    { N_("Serial 1 baudrate"),
       NULL, NULL, ser1_baud_submenu },
     { "--" },
-    { "Serial 2 device...", (ui_callback_t) set_rs232_device_file,
+    { N_("Serial 2 device..."), (ui_callback_t) set_rs232_device_file,
       (ui_callback_data_t) "RsDevice2", NULL },
-    { "Serial 2 baudrate",
+    { N_("Serial 2 baudrate"),
       NULL, NULL, ser2_baud_submenu },
     { "--" },
-    { "Dump filename...", (ui_callback_t) set_rs232_dump_file,
+    { N_("Dump filename..."), (ui_callback_t) set_rs232_dump_file,
       (ui_callback_data_t) "RsDevice3", NULL },
     { "--" },
-    { "Program name to exec...", (ui_callback_t) set_rs232_exec_file,
+    { N_("Program name to exec..."), (ui_callback_t) set_rs232_exec_file,
       (ui_callback_data_t) "RsDevice4", NULL },
     { NULL }
 };
 
 static ui_menu_entry_t rs232_settings_menu[] = {
-    { "RS232 settings",
+    { N_("RS232 settings"),
       NULL, NULL, vic20_rs232_submenu },
     { NULL }
 };
@@ -399,7 +399,7 @@ static UI_CALLBACK(save_screenshot)
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
-    { "Screenshot...",
+    { N_("Screenshot..."),
       (ui_callback_t)save_screenshot, (ui_callback_data_t) 0, NULL },
     { NULL }
 };

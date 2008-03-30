@@ -111,11 +111,11 @@ int print_init_resources(void)
 static cmdline_option_t cmdline_options[] =
 {
     { "-prdev1", SET_RESOURCE, 1, NULL, NULL, "PrDevice1", NULL,
-     "<name>", N_ ("Specify name of printer dump file (print.dump)") },
+     "<name>", N_("Specify name of printer dump file (print.dump)") },
     { "-prdev2", SET_RESOURCE, 1, NULL, NULL, "PrDevice2", NULL,
-     "<name>", N_ ("Specify command for printer 1 (|petlp |lpr)") },
+     "<name>", N_("Specify command for printer 1 (|petlp |lpr)") },
     { "-prdev3", SET_RESOURCE, 1, NULL, NULL, "PrDevice3", NULL,
-     "<name>", N_ ("Specify command for printer 2 (|lpr)") },
+     "<name>", N_("Specify command for printer 2 (|lpr)") },
     { NULL }
 };
 

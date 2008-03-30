@@ -57,17 +57,17 @@ static UI_CALLBACK(info_dialog_close_callback)
 
 static UI_CALLBACK(info_dialog_license_callback)
 {
-    ui_show_text("VICE is FREE software!", license_text, -1, -1);
+    ui_show_text(_("VICE is FREE software!"), license_text, -1, -1);
 }
 
 static UI_CALLBACK(info_dialog_no_warranty_callback)
 {
-    ui_show_text("No warranty!", warranty_text, -1, -1);
+    ui_show_text(_("No warranty!"), warranty_text, -1, -1);
 }
 
 static UI_CALLBACK(info_dialog_contrib_callback)
 {
-    ui_show_text("Contributors to the VICE project", contrib_text, -1, -1);
+    ui_show_text(_("Contributors to the VICE project"), contrib_text, -1, -1);
 }
 
 static Widget build_info_dialog(Widget parent,
@@ -147,13 +147,13 @@ UI_CALLBACK(ui_about)
              "Copyright © 1999 Dag Lem",
 #endif
              "",
-	     "Official VICE homepage:",
+	     _("Official VICE homepage:"),
 	     "http://www.cs.cmu.edu/~dsladic/vice/vice.html",
              "",
              NULL);
     }
     suspend_speed_eval();
-    ui_popup(XtParent(info_dialog), "VICE Information", False);
+    ui_popup(XtParent(info_dialog), _("VICE Information"), False);
 
     is_closed = 0;
     while (!is_closed)

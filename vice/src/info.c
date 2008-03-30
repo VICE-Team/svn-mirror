@@ -382,6 +382,8 @@ const char contrib_text[] =
 "\n"
 "  Martin Pottendorfer <Martin.Pottendorfer@aut.alcatel.at>\n"
 "  Implemented Gnome Port based on Oliver Schaertels GTK+ port\n"
+"  Added support code for internationalization based on gettext\n"
+"  Translated the Unix Port to German\n"
 "  Implemented the fliplists + ui (unix).\n"
 "\n"
 "  Markus Brenner <markus@brenner.de> added VDC emulation to x128.\n"

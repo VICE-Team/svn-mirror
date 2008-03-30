@@ -120,7 +120,7 @@ int video_frame_buffer_alloc(video_frame_buffer_t **ip, unsigned int width,
         return -1;
 
     log_message(gnomevideo_log,
-                "Successfully initialized video.");
+                _("Successfully initialized video."));
 
     return 0;
 }

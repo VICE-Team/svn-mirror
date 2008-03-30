@@ -86,7 +86,7 @@ static UI_CALLBACK(browse_callback)
 {
     ui_button_t button;
 
-    char *f = ui_select_file("Save emptydisk file", NULL, False, NULL, "*",
+    char *f = ui_select_file(_("Save emptydisk file"), NULL, False, NULL, "*",
                              &button, 0);
 
     if (button == UI_BUTTON_OK)
@@ -148,7 +148,7 @@ static UI_CALLBACK(save_callback)
 
     if (vdrive_internal_create_format_disk_image(name, "VICE,01",
                                                  dtypes[type_cnt]) < 0)
-        ui_error("Couldn't create disk image");
+        ui_error(_("Couldn't create disk image"));
     else
         strcpy(edisk_file_name, name);
 }
@@ -181,7 +181,7 @@ static void build_emptydisk_dialog(void)
         ("fileNameLabel",
          labelWidgetClass, file_name_form,
          XtNjustify, XtJustifyLeft,
-         XtNlabel, "File name:",
+         XtNlabel, _("File name:"),
          XtNborderWidth, 0,
          NULL);
 
@@ -210,7 +210,7 @@ static void build_emptydisk_dialog(void)
         ("browseButton",
          commandWidgetClass, file_name_form,
          XtNfromHoriz, file_name_field,
-         XtNlabel, "Browse...",
+         XtNlabel, _("Browse..."),
          NULL);
     XtAddCallback(browse_button, XtNcallback, browse_callback, NULL);
 
@@ -228,7 +228,7 @@ static void build_emptydisk_dialog(void)
          XtNfromVert, file_name_form,
 */
          XtNjustify, XtJustifyLeft,
-         XtNlabel, "Disk name:",
+         XtNlabel, _("Disk name:"),
          XtNborderWidth, 0,
          NULL);
 
@@ -275,7 +275,7 @@ static void build_emptydisk_dialog(void)
          XtNleft, XawChainLeft,
          XtNright, XawChainRight,
          XtNheight, 20,
-         XtNlabel, "Disk format:",
+         XtNlabel, _("Disk format:"),
          NULL);
 
     disk_type_d64_button = XtVaCreateManagedWidget
@@ -363,14 +363,14 @@ static void build_emptydisk_dialog(void)
     save_button = XtVaCreateManagedWidget
         ("saveButton",
          commandWidgetClass, button_box,
-         XtNlabel, "Save",
+         XtNlabel, _("Save"),
          NULL);
     XtAddCallback(save_button, XtNcallback, save_callback, NULL);
     
     cancel_button = XtVaCreateManagedWidget
         ("cancelButton",
          commandWidgetClass, button_box,
-         XtNlabel, "Cancel",
+         XtNlabel, _("Cancel"),
          NULL);
     XtAddCallback(cancel_button, XtNcallback, cancel_callback, NULL);
 
@@ -387,7 +387,7 @@ int ui_empty_disk_dialog(char *name)
     *edisk_file_name= 0;
     
     build_emptydisk_dialog();
-    ui_popup(emptydisk_dialog, "Create empty disk", True);
+    ui_popup(emptydisk_dialog, _("Create empty disk"), True);
     return *name ? 0 : -1;
 }
 

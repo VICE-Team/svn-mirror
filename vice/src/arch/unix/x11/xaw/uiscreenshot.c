@@ -80,7 +80,7 @@ static UI_CALLBACK(browse_callback)
 {
     ui_button_t button;
 
-    char *f = ui_select_file("Save screenshot file", NULL, False, NULL, "*",
+    char *f = ui_select_file(_("Save screenshot file"), NULL, False, NULL, "*",
                              &button, 0);
 
     if (button == UI_BUTTON_OK)
@@ -150,7 +150,7 @@ static void build_screenshot_dialog(int wid)
         ("fileNameLabel",
          labelWidgetClass, file_name_form,
          XtNjustify, XtJustifyLeft,
-         XtNlabel, "File name:",
+         XtNlabel, _("File name:"),
          XtNborderWidth, 0,
          NULL);
 
@@ -179,7 +179,7 @@ static void build_screenshot_dialog(int wid)
         ("browseButton",
          commandWidgetClass, file_name_form,
          XtNfromHoriz, file_name_field,
-         XtNlabel, "Browse...",
+         XtNlabel, _("Browse..."),
          NULL);
     XtAddCallback(browse_button, XtNcallback, browse_callback, NULL);
 
@@ -199,7 +199,7 @@ static void build_screenshot_dialog(int wid)
          XtNleft, XawChainLeft,
          XtNright, XawChainRight,
          XtNheight, 20,
-         XtNlabel, "Image format:",
+         XtNlabel, _("Image format:"),
          NULL);
 
     num_buttons = screenshot_num_drivers();
@@ -242,14 +242,14 @@ static void build_screenshot_dialog(int wid)
     save_button = XtVaCreateManagedWidget
         ("saveButton",
          commandWidgetClass, button_box,
-         XtNlabel, "Save",
+         XtNlabel, _("Save"),
          NULL);
     XtAddCallback(save_button, XtNcallback, save_callback, (XtPointer) wid);
     
     cancel_button = XtVaCreateManagedWidget
         ("cancelButton",
          commandWidgetClass, button_box,
-         XtNlabel, "Cancel",
+         XtNlabel, _("Cancel"),
          NULL);
     XtAddCallback(cancel_button, XtNcallback, cancel_callback, NULL);
 
@@ -266,7 +266,7 @@ int ui_screenshot_dialog(char *name, int wid)
     *screenshot_file_name= 0;
     
     build_screenshot_dialog(wid);
-    ui_popup(screenshot_dialog, "Screen Snapshot", True);
+    ui_popup(screenshot_dialog, _("Screen Snapshot"), True);
     return *name ? 0 : -1;
 }
 

@@ -102,7 +102,7 @@ static int uicolor_alloc_system_colors(void)
 int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
                          PIXEL pixel_return[])
 {
-    log_message(LOG_DEFAULT, "Color request for canvas %p.", c);
+    log_message(LOG_DEFAULT, _("Color request for canvas %p."), c);
 
     if (uicolor_alloc_system_colors() < 0
         || color_alloc_colors(c, palette, pixel_return, NULL) < 0) {
@@ -123,7 +123,7 @@ int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
 int ui_canvas_set_palette(canvas_t *c, ui_window_t w, const palette_t *palette,
                           PIXEL *pixel_return)
 {
-    log_message(LOG_DEFAULT, "Change color request for canvas %p.", c);
+    log_message(LOG_DEFAULT, _("Change color request for canvas %p."), c);
 /*
     if (uicolor_alloc_system_colors() < 0);
         return -1;
@@ -152,7 +152,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
                       ui_get_display_depth(),
                       ZPixmap, 0, (char *)data, 1, 1, 8, 1);
     if (!im) {
-        log_error(LOG_DEFAULT, "XCreateImage failed.");
+        log_error(LOG_DEFAULT, _("XCreateImage failed."));
         return -1;
     }
 
@@ -161,7 +161,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     color->blue = blue << 8;
 
     if (!gdk_color_alloc(colormap, color)) {
-        log_error(LOG_DEFAULT, "Cannot allocate color \"#%04X%04X%04X\".",
+        log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
                   color->red, color->green, color->blue);
         XDestroyImage(im);
         return -1;

@@ -33,6 +33,16 @@ RiscOS.
     With version 0.16.0, VICE includes Dag Lem's reSID engine; to
     compile it, you will need a C++ compiler.
 
+    NLS (national language support) has been tested with Linux and
+    Solaris systems. The following environment variables have to be
+    set and exported before starting an emulator:
+
+    - Linux: LANGUAGE=de        # de is currently the only available 
+                                # translation
+                        
+    - Solaris: NLSPATH=${prefix}/lib/locale
+               LC_MESSAGES=de
+
     VICE has been compiled successfully on the following Unix systems
     in the past:
 
@@ -218,6 +228,11 @@ RiscOS.
         therefore `gnome-config' has to be found in the configuring
         users path. Refer `to src/arch/unix/x11/gnome/TODO' for a list
         of known problems/limitations.
+
+     --disable-nls
+
+        Force configure to ignore NLS support.
+
 
     (to obtain a complete list of the available options with a
     description, use `./configure --help')

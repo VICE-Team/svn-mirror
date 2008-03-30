@@ -140,22 +140,22 @@ int pet_kbd_init_resources(void)
 static cmdline_option_t cmdline_options[] = {
     { "-grsymkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapGraphicsSymFile",
 	NULL, "<name>",
-	N_ ("Specify name of graphics keyboard symbolic keymap file") },
+	N_("Specify name of graphics keyboard symbolic keymap file") },
     { "-grposkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapGraphicsPosFile",
 	NULL, "<name>",
-	N_ ("Specify name of graphics keyboard positional keymap file") },
+	N_("Specify name of graphics keyboard positional keymap file") },
     { "-buksymkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapBusinessUKSymFile",
 	NULL, "<name>",
-	N_ ("Specify name of UK business keyboard symbolic keymap file") },
+	N_("Specify name of UK business keyboard symbolic keymap file") },
     { "-bukposkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapBusinessUKPosFile",
 	NULL, "<name>",
-	N_ ("Specify name of UK business keyboard positional keymap file") },
+	N_("Specify name of UK business keyboard positional keymap file") },
     { "-bdesymkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapBusinessDESymFile",
 	NULL, "<name>",
-	N_ ("Specify name of German business keyboard symbolic keymap file") },
+	N_("Specify name of German business keyboard symbolic keymap file") },
     { "-bdeposkeymap", SET_RESOURCE, 1, NULL, NULL, "KeymapBusinessDEPosFile",
         NULL, "<name>",
-        N_ ("Specify name of German business keyboard positional keymap file") },
+        N_("Specify name of German business keyboard positional keymap file") },
     { NULL }
 };
 

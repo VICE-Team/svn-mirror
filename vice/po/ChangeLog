@@ -1,3 +1,9 @@
+2000-07-16  pottendo  <pottendo@utanet.at>
+
+	* de.po: New translations.
+
+	* POTFILES.in: Added instrumented files.
+
 2000-07-14  pottendo  <pottendo@utanet.at>
 
 	* de.po: Fixed all fuzzy entries, translated rest.

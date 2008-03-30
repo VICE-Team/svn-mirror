@@ -66,9 +66,9 @@ int mouse_init_resources(void)
 
 static cmdline_option_t cmdline_options[] = {
     { "-mouse", SET_RESOURCE, 1, NULL, NULL,
-      "Mouse", NULL, NULL, N_ ("Enable emulation of the 1351 proportional mouse") },
+      "Mouse", NULL, NULL, N_("Enable emulation of the 1351 proportional mouse") },
     { "+mouse", SET_RESOURCE, 0, NULL, NULL,
-      "Mouse", NULL, NULL, N_ ("Disable emulation of the 1351 proportional mouse") },
+      "Mouse", NULL, NULL, N_("Disable emulation of the 1351 proportional mouse") },
     { NULL }
 };
 

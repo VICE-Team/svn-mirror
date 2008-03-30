@@ -78,9 +78,9 @@ static resource_t resources[] = {
 
 static cmdline_option_t cmdline_options[] = {
     {"-joydev1", SET_RESOURCE, 1, NULL, NULL, "JoyDevice1", NULL,
-     "<0-6>", N_ ("Set device for joystick port 1")},
+     "<0-6>", N_("Set device for joystick port 1")},
     {"-joydev2", SET_RESOURCE, 1, NULL, NULL, "JoyDevice2", NULL,
-     "<0-6>", N_ ("Set device for joystick port 2")},
+     "<0-6>", N_("Set device for joystick port 2")},
     {NULL},
 };
 

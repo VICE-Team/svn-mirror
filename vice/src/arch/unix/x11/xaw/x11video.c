@@ -97,7 +97,7 @@ tryagain:
 				   NULL, &(i->xshm_info), width, height);
 	if (!i->x_image) {
 	    log_warning(x11video_log,
-                        "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode.");
+                        _("Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."));
 	    i->using_mitshm=0;
 	    goto tryagain;
 	}
@@ -108,7 +108,7 @@ tryagain:
 				    i->x_image->height, IPC_CREAT | 0604);
 	if (i->xshm_info.shmid == -1) {
 	    log_warning(x11video_log,
-                        "Cannot get shared memory; falling back to non MITSHM extension mode.");
+                        _("Cannot get shared memory; falling back to non MITSHM extension mode."));
 	    XDestroyImage(i->x_image);
 	    i->using_mitshm=0;
 	    goto tryagain;
@@ -119,7 +119,7 @@ tryagain:
         i->x_image->data = i->xshm_info.shmaddr;
         if (i->xshm_info.shmaddr == (char *) -1) {
 	    log_warning(x11video_log,
-                       "Cannot get shared memory address; falling back to non MITSHM extension mode.");
+                       _("Cannot get shared memory address; falling back to non MITSHM extension mode."));
 	    shmctl(i->xshm_info.shmid,IPC_RMID,0);
 	    XDestroyImage(i->x_image);
 	    i->using_mitshm=0;
@@ -134,7 +134,7 @@ tryagain:
 
 	if (!XShmAttach(display, &(i->xshm_info))) {
 	    log_warning(x11video_log,
-                        "Cannot attach shared memory; falling back to non MITSHM extension mode.");
+                        _("Cannot attach shared memory; falling back to non MITSHM extension mode."));
 	    shmdt(i->xshm_info.shmaddr);
 	    shmctl(i->xshm_info.shmid,IPC_RMID,0);
 	    XDestroyImage(i->x_image);
@@ -151,14 +151,14 @@ tryagain:
 
 	if (mitshm_failed) {
 	    log_warning(x11video_log,
-                        "Cannot attach shared memory; falling back to non MITSHM extension mode.");
+                        _("Cannot attach shared memory; falling back to non MITSHM extension mode."));
 	    shmdt(i->xshm_info.shmaddr);
 	    XDestroyImage(i->x_image);
 	    i->using_mitshm=0;
 	    goto tryagain;
 	}
 
-	DEBUG_MITSHM(("MITSHM initialization succeed.\n"));
+	DEBUG_MITSHM((_("MITSHM initialization succeed.\n")));
         video_refresh_func((void (*)(void))XShmPutImage);
     } else
 #endif
@@ -176,14 +176,14 @@ tryagain:
     }
 
 #ifdef USE_MITSHM
-    log_message(x11video_log, "Successfully initialized%s shared memory.",
-                (i->using_mitshm) ? ", using" : " without");
+    log_message(x11video_log, _("Successfully initialized%s shared memory."),
+                (i->using_mitshm) ? _(", using") : _(" without"));
 
     if (!(i->using_mitshm))
-	log_warning(x11video_log, "Performance will be poor.");
+	log_warning(x11video_log, _("Performance will be poor."));
 #else
     log_message(x11video_log,
-                "Successfully initialized without shared memory.");
+                _("Successfully initialized without shared memory."));
 #endif 
 
     if (video_convert_func(i, depth, width, height) < 0)

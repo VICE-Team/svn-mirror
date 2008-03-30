@@ -1014,7 +1014,7 @@ ui_menu_entry_t set_sound_oversample_submenu [] = {
 };
 
 static ui_menu_entry_t set_sound_adjustment_submenu [] = {
-    { "*Flexible",
+    { N_("*Flexible"),
       (ui_callback_t) radio_SoundSpeedAdjustment,
       (ui_callback_data_t) SOUND_ADJUST_FLEXIBLE, NULL },
     { N_("*Adjusting"),

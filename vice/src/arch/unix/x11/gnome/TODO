@@ -10,7 +10,7 @@
 #
 
 Missing features
-- Internationalization
+- Fullscreen support
 - Drag'n'Drop support
 - Session Management
 
@@ -19,9 +19,6 @@ Known Bugs (help is appreciated !):
   to be a problem.
 - Gnome commandline is ignored.
 - Get font from X Resource database for textwindows/CBM font preview windows.
-- Setting the color palette twice leads to GTK/X error assertion
-  on 8bit colordepth Xservers. Help is appreciated.
-  Xservers with colordepth >=16bit don't show the problem. 
 - Memory corruption has been observed in late 1.2.xx snapshots (never
   released to the public). Unfortunately those problems aren't
   reproducable now (vice-1.3.3), so if you have access to a memcheck
@@ -33,7 +30,4 @@ Things, which will change (don't ask when!):
 - Monitor GUI
 - VIC20 Cartridge attach heuristic for image pairs
 - More standard Gnome'ish toplevel menus.
-
-Postponed
-- Fullscreen support
 

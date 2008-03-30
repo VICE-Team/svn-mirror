@@ -68,7 +68,7 @@ static UI_CALLBACK(browse_callback)
 {
     ui_button_t button;
 
-    char *f = ui_select_file("Save cartridge image file", NULL, False, NULL, "*.[cC][rR][tT]",
+    char *f = ui_select_file(_("Save cartridge image file"), NULL, False, NULL, "*.[cC][rR][tT]",
                              &button, 0);
 
     if (button == UI_BUTTON_OK)
@@ -89,7 +89,7 @@ static UI_CALLBACK(save_callback)
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
     
     if (cartridge_save_image (name) < 0)
-        ui_error("Cannot write cartridge image file\n`%s'\n", name);
+        ui_error(_("Cannot write cartridge image file\n`%s'\n"), name);
 }
 
 static void build_cartridge_dialog(void)
@@ -114,7 +114,7 @@ static void build_cartridge_dialog(void)
         ("fileNameLabel",
          labelWidgetClass, file_name_form,
          XtNjustify, XtJustifyLeft,
-         XtNlabel, "File name:",
+         XtNlabel, _("File name:"),
          XtNborderWidth, 0,
          NULL);
 
@@ -141,7 +141,7 @@ static void build_cartridge_dialog(void)
         ("browseButton",
          commandWidgetClass, file_name_form,
          XtNfromHoriz, file_name_field,
-         XtNlabel, "Browse...",
+         XtNlabel, _("Browse..."),
          NULL);
     XtAddCallback(browse_button, XtNcallback, browse_callback, NULL);
 
@@ -153,14 +153,14 @@ static void build_cartridge_dialog(void)
     save_button = XtVaCreateManagedWidget
         ("saveButton",
          commandWidgetClass, button_box,
-         XtNlabel, "Save",
+         XtNlabel, _("Save"),
          NULL);
     XtAddCallback(save_button, XtNcallback, save_callback, NULL);
     
     cancel_button = XtVaCreateManagedWidget
         ("cancelButton",
          commandWidgetClass, button_box,
-         XtNlabel, "Cancel",
+         XtNlabel, _("Cancel"),
          NULL);
     XtAddCallback(cancel_button, XtNcallback, cancel_callback, NULL);
 
@@ -170,5 +170,5 @@ static void build_cartridge_dialog(void)
 void ui_cartridge_dialog(void)
 {
     build_cartridge_dialog();
-    ui_popup(cartridge_dialog, "Save cartridge image", True);
+    ui_popup(cartridge_dialog, _("Save cartridge image"), True);
 }

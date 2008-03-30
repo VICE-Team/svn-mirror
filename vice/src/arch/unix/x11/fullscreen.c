@@ -118,11 +118,11 @@ int fullscreen_vidmode_available(void)
     vidmodeavail = 0;
 
     if (! XF86VidModeQueryVersion (display, &MajorVersion, &MinorVersion)) {
-        log_error(LOG_DEFAULT, "Unable to query video extension version");
+        log_error(LOG_DEFAULT, _("Unable to query video extension version"));
         return 0;
     }
     if (! XF86VidModeQueryExtension (display, &EventBase, &ErrorBase)) {
-        log_error(LOG_DEFAULT, "Unable to query video extension information");
+        log_error(LOG_DEFAULT, _("Unable to query video extension information"));
         return 0;
     }
     if (MajorVersion < VidMode_MINMAJOR
@@ -130,15 +130,15 @@ int fullscreen_vidmode_available(void)
 ) {
         /* Fail if the extension version in the server is too old */
         log_error(LOG_DEFAULT,
-                  "Xserver is running an old XFree86-VidMode version (%d.  %d)",
+                  _("Xserver is running an old XFree86-VidMode version (%d.  %d)"),
 	          MajorVersion, MinorVersion);
-        log_error(LOG_DEFAULT, "Minimum required version is %d.%d",
+        log_error(LOG_DEFAULT, _("Minimum required version is %d.%d"),
 	          VidMode_MINMAJOR, VidMode_MINMINOR);
         return 0;
     }
     if (!XF86VidModeGetAllModeLines(display, screen, &vidmodecount,
         &allmodes)) {
-        log_error(LOG_DEFAULT, "Error getting video mode information");
+        log_error(LOG_DEFAULT, _("Error getting video mode information"));
         return 0;
     }
 
@@ -186,7 +186,7 @@ int fullscreen_vidmode_available(void)
     }
 
     if (v && !use_fullscreen) {
-        log_message(LOG_DEFAULT, "Switch to fullscreen %ix%i",
+        log_message(LOG_DEFAULT, _("Switch to fullscreen %ix%i"),
 		    allmodes[selected_videomode_index]->hdisplay,
 		    allmodes[selected_videomode_index]->vdisplay);
 
@@ -211,7 +211,7 @@ int fullscreen_vidmode_available(void)
 		      NULL);
 	if ( ! XF86VidModeSwitchToMode(display, screen,
 				       allmodes[selected_videomode_index])) {
-	    log_error(LOG_DEFAULT, "Error switching to fullscreen %ix%i\n",
+	    log_error(LOG_DEFAULT, _("Error switching to fullscreen %ix%i\n"),
 		      allmodes[selected_videomode_index]->hdisplay,
 		      allmodes[selected_videomode_index]->vdisplay);
 	    return 0;
@@ -286,12 +286,12 @@ int fullscreen_vidmode_available(void)
         int troot_x, troot_y;
         int twin_x,twin_y;
 
-        log_message(LOG_DEFAULT, "Change to fullscreen %ix%i",
+        log_message(LOG_DEFAULT, _("Change to fullscreen %ix%i"),
 		    allmodes[selected_videomode_index]->hdisplay,
 		    allmodes[selected_videomode_index]->vdisplay);
 	if ( ! XF86VidModeSwitchToMode(display, screen,
 				       allmodes[selected_videomode_index])) {
-	    log_error(LOG_DEFAULT, "Error switching to fullscreen %ix%i\n",
+	    log_error(LOG_DEFAULT, _("Error switching to fullscreen %ix%i\n"),
 		      allmodes[selected_videomode_index]->hdisplay,
 		      allmodes[selected_videomode_index]->vdisplay);
 	    return 0;
@@ -325,7 +325,7 @@ int fullscreen_vidmode_available(void)
 		     0, 0, 0, 0, 0, 0);
     } else if (use_fullscreen) {
         int ds;
-        log_message(LOG_DEFAULT, "Switch to windowmode");
+        log_message(LOG_DEFAULT, _("Switch to windowmode"));
 
 	use_fullscreen = 0;
 

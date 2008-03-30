@@ -39,17 +39,17 @@ static GtkWidget *build_snapshot_dialog(void)
 {
     GtkWidget *d, *box, *tmp;
     
-    d = gnome_dialog_new("Save Snapshot", 
+    d = gnome_dialog_new(_("Save Snapshot"), 
 			 GNOME_STOCK_BUTTON_OK, 
 			 GNOME_STOCK_BUTTON_CANCEL,
 			 NULL);
     box = gtk_hbox_new(0, FALSE);
 
-    tmp = gtk_label_new("Filename: ");
+    tmp = gtk_label_new(_("Filename: "));
     gtk_box_pack_start(GTK_BOX(box), tmp, FALSE, FALSE, 0);
     gtk_widget_show(tmp);
 
-    fileentry = gnome_file_entry_new("vice: save snapshot", "Save Snapshot");
+    fileentry = gnome_file_entry_new("vice: save snapshot", _("Save Snapshot"));
     gnome_dialog_editable_enters(GNOME_DIALOG(d), 
 				 GTK_EDITABLE(gnome_file_entry_gtk_entry
 					      (GNOME_FILE_ENTRY(fileentry))));
@@ -62,16 +62,16 @@ static GtkWidget *build_snapshot_dialog(void)
     gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
     gtk_widget_show(box);
 
-    tmp = gtk_frame_new("Snapshot options");
+    tmp = gtk_frame_new(_("Snapshot options"));
     box = gtk_vbox_new(0, FALSE);
     
     attach_disk = 
-	gtk_check_button_new_with_label("Save currently attached disks");
+	gtk_check_button_new_with_label(_("Save currently attached disks"));
     gtk_box_pack_start(GTK_BOX(box), attach_disk, FALSE, FALSE, 0);
     gtk_widget_show(attach_disk);
 
     attach_rom = 
-	gtk_check_button_new_with_label("Save currently attached ROMs");
+	gtk_check_button_new_with_label(_("Save currently attached ROMs"));
     gtk_box_pack_start(GTK_BOX(box), attach_rom, FALSE, FALSE, 0);
     gtk_widget_show(attach_rom);
     
@@ -115,15 +115,15 @@ void ui_snapshot_dialog(void)
     name = gnome_file_entry_get_full_path(GNOME_FILE_ENTRY(fileentry), FALSE);
     if (!name)
     {
-	ui_error("Invalid filename");
+	ui_error(_("Invalid filename"));
 	return;
     }
 	    
     /* ok button pressed */
     if (machine_write_snapshot(name, GTK_TOGGLE_BUTTON(attach_disk)->active,
 			       GTK_TOGGLE_BUTTON(attach_rom)->active) < 0)
-        ui_error("Cannot write snapshot file\n`%s'\n", name);
+        ui_error(_("Cannot write snapshot file\n`%s'\n"), name);
     else
-	ui_message("Successfully wrote `%s'\n", name);
+	ui_message(_("Successfully wrote `%s'\n"), name);
 }
 

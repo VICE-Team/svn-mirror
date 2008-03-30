@@ -1254,10 +1254,10 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     int framerate_int = (int)(framerate + 0.5);
     for (i = 0; i < num_app_shells; i++) {
       if (!percent) {
-	gtk_label_set_text(app_shells[i].speed_label, warp_flag ? "(warp)" : "");
+	gtk_label_set_text(app_shells[i].speed_label, warp_flag ? _("(warp)") : "");
       } else {
 	sprintf(str, "%d%%, %d fps %s",
-		percent_int, framerate_int, warp_flag ? "(warp)" : "");
+		percent_int, framerate_int, warp_flag ? _("(warp)") : "");
 	gtk_label_set_text(app_shells[i].speed_label, str);
       }
     }
@@ -1745,7 +1745,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 	exit(0);
     }
 
-    jam_dialog = gnome_dialog_new("", "Reset", _("Hard Reset"), "Monitor", NULL);
+    jam_dialog = gnome_dialog_new("", _("Reset"), _("Hard Reset"), _("Monitor"), NULL);
     gtk_signal_connect(GTK_OBJECT(jam_dialog),
 		       "destroy",
 		       GTK_SIGNAL_FUNC(gtk_widget_destroyed),
@@ -2461,7 +2461,7 @@ static GtkWidget *build_file_selector(ui_button_t *button_return,
 	(gpointer) 0);
 
     buttonbox = GTK_FILE_SELECTION(fileselect)->ok_button->parent;
-    auto_start_button = button = gnome_stock_or_ordinary_button("Autostart");
+    auto_start_button = button = gnome_stock_or_ordinary_button(_("Autostart"));
     gtk_signal_connect(GTK_OBJECT(button),"clicked",
                        GTK_SIGNAL_FUNC(filesel_autostart_cb),
                        (gpointer) button_return);

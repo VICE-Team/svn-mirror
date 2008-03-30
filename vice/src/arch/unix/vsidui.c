@@ -57,7 +57,7 @@ static void vsid_create_menus(void);
 UI_MENU_DEFINE_RADIO(PSIDTune)
 
 static ui_menu_entry_t ui_tune_menu[] = {
-  { "Tunes",
+  { N_("Tunes"),
     NULL, NULL, NULL },
   { NULL }
 };
@@ -67,7 +67,7 @@ static UI_CALLBACK(psid_load)
   char *filename;
   ui_button_t button;
 
-  filename = ui_select_file("Load PSID file", NULL, False, NULL,
+  filename = ui_select_file(_("Load PSID file"), NULL, False, NULL,
 			    "*.[psPS]*", &button, False);
 
   suspend_speed_eval();
@@ -75,7 +75,7 @@ static UI_CALLBACK(psid_load)
   switch (button) {
   case UI_BUTTON_OK:
     if (machine_autodetect_psid(filename) < 0) {
-      log_error(vsid_log, "`%s' is not a valid PSID file.", filename);
+      log_error(vsid_log, _("`%s' is not a valid PSID file."), filename);
       return;
     }
     machine_play_psid(0);
@@ -98,7 +98,7 @@ static UI_CALLBACK(psid_tune)
 
 
 static ui_menu_entry_t ui_load_commands_menu[] = {
-  { "Load PSID file...",
+  { N_("Load PSID file..."),
     (ui_callback_t)psid_load, NULL, NULL,
     XK_l, UI_HOTMOD_META },
   { NULL }
@@ -110,13 +110,13 @@ static ui_menu_entry_t ui_load_commands_menu[] = {
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
 
 static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
-  { "*3.00 sec", (ui_callback_t) radio_SoundBufferSize,
+  { N_("*3.00 sec"), (ui_callback_t) radio_SoundBufferSize,
     (ui_callback_data_t) 3000, NULL },
-  { "*1.00 sec", (ui_callback_t) radio_SoundBufferSize,
+  { N_("*1.00 sec"), (ui_callback_t) radio_SoundBufferSize,
     (ui_callback_data_t) 1000, NULL },
-  { "*0.50 sec", (ui_callback_t) radio_SoundBufferSize,
+  { N_("*0.50 sec"), (ui_callback_t) radio_SoundBufferSize,
     (ui_callback_data_t) 500, NULL },
-  { "*0.10 sec", (ui_callback_t) radio_SoundBufferSize,
+  { N_("*0.10 sec"), (ui_callback_t) radio_SoundBufferSize,
     (ui_callback_data_t) 100, NULL },
   { NULL }
 };
@@ -124,26 +124,26 @@ static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(Sound)
 
 static ui_menu_entry_t sound_settings_submenu[] = {
-  { "*Enable sound playback",
+  { N_("*Enable sound playback"),
     (ui_callback_t) toggle_Sound, NULL, NULL },
   { "--" },
-  { "Sample rate",
+  { N_("Sample rate"),
     NULL, NULL, set_sound_sample_rate_submenu },
-  { "Buffer size",
+  { N_("Buffer size"),
     NULL, NULL, set_sound_buffer_size_submenu },
-  { "Oversample",
+  { N_("Oversample"),
     NULL, NULL, set_sound_oversample_submenu },
   { NULL },
 };
 
 static ui_menu_entry_t ui_sound_settings_menu[] = {
-  { "Sound settings",
+  { N_("Sound settings"),
     NULL, NULL, sound_settings_submenu },
   { NULL }
 };
 
 static ui_menu_entry_t psid_menu[] = {
-  { "SID settings",
+  { N_("SID settings"),
     NULL, NULL, sid_submenu },
   { NULL }
 };
@@ -160,7 +160,8 @@ static void vsid_create_menus(void)
   static int tunes = 0;
   int default_tune;
   int i;
-  char buf[20] = "*Default Tune";
+  char buf[20];
+  strcpy(buf, _("*Default Tune"));
 
   /* Free previously allocated memory. */
   for (i = 0; i <= tunes; i++) {
@@ -182,7 +183,7 @@ static void vsid_create_menus(void)
     tune_menu[i].hotkey_keysym = i < 10 ? XK_0 + i : 0;
     tune_menu[i].hotkey_modifier =
       (ui_hotkey_modifier_t) i < 10 ? UI_HOTMOD_META : 0;
-    sprintf(buf, "*Tune %d", i + 1);
+    sprintf(buf, _("*Tune %d"), i + 1);
   }
 
   tune_menu[i].string =

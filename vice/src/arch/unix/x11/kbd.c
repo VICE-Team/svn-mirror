@@ -111,8 +111,8 @@ static int set_keymap_index(resource_value_t v)
 	    keymap_index = (int) v;
 	    return 0;
         } else {
-            log_error(LOG_DEFAULT, "Cannot load keymap `%s'.",
-                      name ? name : "(null)");
+            log_error(LOG_DEFAULT, _("Cannot load keymap `%s'."),
+                      name ? name : _("(null)"));
         }
         return -1;
     }
@@ -133,7 +133,7 @@ int do_kbd_init_resources(void)
 
 static cmdline_option_t cmdline_options[] = {
     { "-keymap", SET_RESOURCE, 1, NULL, NULL, "KeymapIndex", NULL,
-      "<number>", "Specify index of keymap file (0=symbol, 1=positional)" },
+      "<number>", N_("Specify index of keymap file (0=symbol, 1=positional)") },
     { NULL },
 };
 
@@ -353,7 +353,7 @@ static void kbd_parse_entry(char *buffer)
     key = strtok(buffer, " \t:");
     sym = XStringToKeysym(key);
     if (sym == NoSymbol) {
-	log_error(LOG_DEFAULT, "Could not find KeySym `%s'!", key);
+	log_error(LOG_DEFAULT, _("Could not find KeySym `%s'!"), key);
     } else {
 	p = strtok(NULL, " \t,");
 	if (p) {
@@ -407,7 +407,7 @@ static void kbd_parse_entry(char *buffer)
                             key_ctrl_column4080 = sym;
                         } else {
                             log_error(LOG_DEFAULT,
-                                      "Bad row/column value (%d/%d) for keysym `%s'.",
+                                      _("Bad row/column value (%d/%d) for keysym `%s'."),
                                       row, col, key);
                         }
                 }
@@ -431,7 +431,7 @@ static int kbd_parse_keymap(const char *filename)
         return -1;
     }
 
-    log_message(LOG_DEFAULT, "Loading keymap `%s'.", complete_path);
+    log_message(LOG_DEFAULT, _("Loading keymap `%s'."), complete_path);
 
     do {
         buffer[0] = 0;

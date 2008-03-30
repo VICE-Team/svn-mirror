@@ -32,30 +32,30 @@
 
 static cmdline_option_t cmdline_options[] = {
     { "-htmlbrowser", SET_RESOURCE, 1, NULL, NULL, "HTMLBrowserCommand", NULL,
-      "<command>", "Specify an HTML browser for the on-line help" },
+      "<command>", N_("Specify an HTML browser for the on-line help") },
     { "-install", SET_RESOURCE, 0, NULL, NULL,
       "PrivateColormap", (resource_value_t) 1,
-      NULL, "Install a private colormap" },
+      NULL, N_("Install a private colormap") },
     { "+install", SET_RESOURCE, 0, NULL, NULL,
       "PrivateColormap", (resource_value_t) 0,
-      NULL, "Use the default colormap" },
+      NULL, N_("Use the default colormap") },
     { "-saveres", SET_RESOURCE, 0, NULL, NULL,
       "SaveResourcesOnExit", (resource_value_t) 1,
-      NULL, "Save settings (resources) on exit" },
+      NULL, N_("Save settings (resources) on exit") },
     { "+saveres", SET_RESOURCE, 0, NULL, NULL,
       "SaveResourcesOnExit", (resource_value_t) 0,
-      NULL, "Never save settings (resources) on exit" },
+      NULL, N_("Never save settings (resources) on exit") },
 #ifdef USE_VIDMODE_EXTENSION
     { "-fullscreen", SET_RESOURCE, 0, NULL, NULL,
       "UseFullscreen", (resource_value_t) 1,
-      NULL, "Enable fullscreen" },
+      NULL, N_("Enable fullscreen") },
     { "+fullscreen", SET_RESOURCE, 0, NULL, NULL,
       "UseFullscreen", (resource_value_t) 0,
-      NULL, "Disable fullscreen" },
+      NULL, N_("Disable fullscreen") },
 #endif
     { "-displaydepth", SET_RESOURCE, 1, NULL, NULL,
       "DisplayDepth", NULL,
-      "<value>", "Specify X display depth (1..32)" },
+      "<value>", N_("Specify X display depth (1..32)") },
     { NULL }
 };
 

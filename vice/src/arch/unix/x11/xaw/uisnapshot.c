@@ -75,7 +75,7 @@ static UI_CALLBACK(browse_callback)
 {
     ui_button_t button;
 
-    char *f = ui_select_file("Save snapshot file", NULL, False, NULL, "*",
+    char *f = ui_select_file(_("Save snapshot file"), NULL, False, NULL, "*",
                              &button, 0);
 
     if (button == UI_BUTTON_OK)
@@ -100,7 +100,7 @@ static UI_CALLBACK(save_callback)
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
     
     if (machine_write_snapshot (name, save_roms, save_disks) < 0)
-        ui_error("Cannot write snapshot file\n`%s'\n", name);
+        ui_error(_("Cannot write snapshot file\n`%s'\n"), name);
 }
 
 static void build_snapshot_dialog(void)
@@ -125,7 +125,7 @@ static void build_snapshot_dialog(void)
         ("fileNameLabel",
          labelWidgetClass, file_name_form,
          XtNjustify, XtJustifyLeft,
-         XtNlabel, "File name:",
+         XtNlabel, _("File name:"),
          XtNborderWidth, 0,
          NULL);
 
@@ -152,7 +152,7 @@ static void build_snapshot_dialog(void)
         ("browseButton",
          commandWidgetClass, file_name_form,
          XtNfromHoriz, file_name_field,
-         XtNlabel, "Browse...",
+         XtNlabel, _("Browse..."),
          NULL);
     XtAddCallback(browse_button, XtNcallback, browse_callback, NULL);
 
@@ -167,7 +167,7 @@ static void build_snapshot_dialog(void)
          labelWidgetClass, options_form,
          XtNborderWidth, 0,
          XtNjustify, XtJustifyLeft,
-         XtNlabel, "Snapshot options:",
+         XtNlabel, _("Snapshot options:"),
          XtNleft, XawChainLeft,
          NULL);
 
@@ -192,7 +192,7 @@ static void build_snapshot_dialog(void)
          XtNleft, XawChainLeft,
          XtNright, XawChainRight,
          XtNheight, 20,
-         XtNlabel, "Save currently attached disks:",
+         XtNlabel, _("Save currently attached disks:"),
          NULL);
 
     save_disk_off_button = XtVaCreateManagedWidget
@@ -204,7 +204,7 @@ static void build_snapshot_dialog(void)
          XtNheight, 20,
          XtNright, XtChainRight,
          XtNleft, XtChainRight,
-         XtNlabel, "Off",
+         XtNlabel, _("Off"),
          NULL);
 
     save_disk_button = XtVaCreateManagedWidget
@@ -216,7 +216,7 @@ static void build_snapshot_dialog(void)
          XtNheight, 20,
          XtNright, XtChainRight,
          XtNleft, XtChainRight,
-         XtNlabel, "On",
+         XtNlabel, _("On"),
          XtNradioGroup, save_disk_off_button,
          NULL);
 
@@ -231,7 +231,7 @@ static void build_snapshot_dialog(void)
          XtNheight, 20,
          XtNleft, XawChainLeft,
          XtNright, XawChainRight,
-         XtNlabel, "Save currently loaded ROMs:",
+         XtNlabel, _("Save currently loaded ROMs:"),
          NULL);
 
     save_roms_off_button = XtVaCreateManagedWidget
@@ -243,7 +243,7 @@ static void build_snapshot_dialog(void)
          XtNheight, 20,
          XtNright, XtChainRight,
          XtNleft, XtChainRight,
-         XtNlabel, "Off",
+         XtNlabel, _("Off"),
          NULL);
 
     save_roms_on_button = XtVaCreateManagedWidget
@@ -255,7 +255,7 @@ static void build_snapshot_dialog(void)
          XtNheight, 20,
          XtNright, XtChainRight,
          XtNleft, XtChainRight,
-         XtNlabel, "On",
+         XtNlabel, _("On"),
          XtNradioGroup, save_roms_off_button,
          NULL);
 
@@ -267,14 +267,14 @@ static void build_snapshot_dialog(void)
     save_button = XtVaCreateManagedWidget
         ("saveButton",
          commandWidgetClass, button_box,
-         XtNlabel, "Save",
+         XtNlabel, _("Save"),
          NULL);
     XtAddCallback(save_button, XtNcallback, save_callback, NULL);
     
     cancel_button = XtVaCreateManagedWidget
         ("cancelButton",
          commandWidgetClass, button_box,
-         XtNlabel, "Cancel",
+         XtNlabel, _("Cancel"),
          NULL);
     XtAddCallback(cancel_button, XtNcallback, cancel_callback, NULL);
 
@@ -287,5 +287,5 @@ static void build_snapshot_dialog(void)
 void ui_snapshot_dialog(void)
 {
     build_snapshot_dialog();
-    ui_popup(snapshot_dialog, "Save snapshot", True);
+    ui_popup(snapshot_dialog, _("Save snapshot"), True);
 }

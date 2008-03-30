@@ -819,29 +819,29 @@ static ui_menu_entry_t ui_snapshot_commands_submenu[] = {
     { N_("Load snapshot..."),
       (ui_callback_t) load_snapshot, NULL, NULL,
       XK_l, UI_HOTMOD_META },
-    { N_ ("Save snapshot..."),
+    { N_("Save snapshot..."),
       (ui_callback_t) save_snapshot, NULL, NULL,
       XK_s, UI_HOTMOD_META },
     { "--" },
-    { N_ ("Quickload snapshot"),
+    { N_("Quickload snapshot"),
       (ui_callback_t) load_quicksnap, NULL, NULL,
       XK_F10, UI_HOTMOD_META },
-    { N_ ("Quicksave snapshot"),
+    { N_("Quicksave snapshot"),
       (ui_callback_t) save_quicksnap, NULL, NULL,
       XK_F11, UI_HOTMOD_META },
     { NULL }
 };
 
 ui_menu_entry_t ui_snapshot_commands_menu[] = {
-    { N_ ("Snapshot commands"),
+    { N_("Snapshot commands"),
       NULL,  NULL, ui_snapshot_commands_submenu },
     { NULL }
 };
 
 ui_menu_entry_t ui_tool_commands_menu[] = {
-    { N_ ("Activate monitor"),
+    { N_("Activate monitor"),
       (ui_callback_t) activate_monitor, NULL, NULL },
-    { N_ ("Run C1541"),
+    { N_("Run C1541"),
       (ui_callback_t) run_c1541, NULL, NULL },
     { NULL }
 };
@@ -849,24 +849,24 @@ ui_menu_entry_t ui_tool_commands_menu[] = {
 extern ui_callback_t about;
 
 ui_menu_entry_t ui_help_commands_menu[] = {
-    { N_ ("Browse manuals"),
+    { N_("Browse manuals"),
       (ui_callback_t) browse_manual, NULL, NULL },
-    { N_ ("About VICE..."),
+    { N_("About VICE..."),
       (ui_callback_t) ui_about, NULL, NULL },
     { NULL }
 };
 
 ui_menu_entry_t ui_run_commands_menu[] = {
-    { N_ ("Reset"),
+    { N_("Reset"),
       NULL, NULL, reset_submenu },
-    { N_ ("*Pause"),
+    { N_("*Pause"),
       (ui_callback_t) toggle_pause, NULL, NULL,
       XK_p, UI_HOTMOD_META },
     { NULL }
 };
 
 ui_menu_entry_t ui_exit_commands_menu[] = {
-    { N_ ("Exit emulator"),
+    { N_("Exit emulator"),
       (ui_callback_t) do_exit, NULL, NULL,
       XK_q, UI_HOTMOD_META },
     { NULL }

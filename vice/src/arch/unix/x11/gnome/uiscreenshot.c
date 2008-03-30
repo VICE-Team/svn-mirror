@@ -48,17 +48,18 @@ static GtkWidget *build_screenshot_dialog(void)
     int i, num_buttons;
     screendrv_t *driver;
     
-    d = gnome_dialog_new("Save Screenshot", 
+    d = gnome_dialog_new(_("Save Screenshot"), 
 			 GNOME_STOCK_BUTTON_OK, 
 			 GNOME_STOCK_BUTTON_CANCEL,
 			 NULL);
     box = gtk_hbox_new(0, FALSE);
 
-    tmp = gtk_label_new("Filename: ");
+    tmp = gtk_label_new(_("Filename: "));
     gtk_box_pack_start(GTK_BOX(box), tmp, FALSE, FALSE, 0);
     gtk_widget_show(tmp);
 
-    fileentry = gnome_file_entry_new("vice: save snapshot", "Save Snapshot");
+    fileentry = gnome_file_entry_new("vice: save screenshot", 
+				     _("Save Screenshot"));
     gnome_dialog_editable_enters(GNOME_DIALOG(d), 
 				 GTK_EDITABLE(gnome_file_entry_gtk_entry
 					      (GNOME_FILE_ENTRY(fileentry))));
@@ -71,7 +72,7 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), box, TRUE, TRUE, 0);
     gtk_widget_show(box);
 
-    frame = gtk_frame_new("Image Format");
+    frame = gtk_frame_new(_("Image Format"));
     hbox = gtk_hbox_new(0, FALSE);
     
     num_buttons = screenshot_num_drivers();
@@ -130,7 +131,7 @@ int ui_screenshot_dialog(char *name, int wid)
 			   &screenshot_dialog);
     }
 
-    ui_popup(screenshot_dialog, "Save Screenshot", FALSE);
+    ui_popup(screenshot_dialog, _("Save Screenshot"), FALSE);
     res = gnome_dialog_run(GNOME_DIALOG(screenshot_dialog));
     ui_popdown(screenshot_dialog);
     
@@ -140,7 +141,7 @@ int ui_screenshot_dialog(char *name, int wid)
     fn = gnome_file_entry_get_full_path(GNOME_FILE_ENTRY(fileentry), FALSE);
     if (!fn)
     {
-	ui_error("Invalid filename");
+	ui_error(_("Invalid filename"));
 	return -1;
     }
 

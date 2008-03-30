@@ -115,13 +115,13 @@ int vsync_init_resources(void)
 /* Vsync-related command-line options.  */
 static cmdline_option_t cmdline_options[] = {
     { "-speed", SET_RESOURCE, 1, NULL, NULL, "Speed", NULL,
-      "<percent>", "Limit emulation speed to specified value" },
+      "<percent>", N_("Limit emulation speed to specified value") },
     { "-refresh", SET_RESOURCE, 1, NULL, NULL, "RefreshRate", NULL,
-      "<value>", "Update every <value> frames (`0' for automatic)" },
+      "<value>", N_("Update every <value> frames (`0' for automatic)") },
     { "-warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t) 1,
-      NULL, "Enable warp mode" },
+      NULL, N_("Enable warp mode") },
     { "+warp", SET_RESOURCE, 0, NULL, NULL, "WarpMode", (resource_value_t) 0,
-      NULL, "Disable warp mode" },
+      NULL, N_("Disable warp mode") },
     { NULL }
 };
 
@@ -188,7 +188,7 @@ static void display_speed(int num_frames)
   if ((now.tv_sec - frame_start.tv_sec)
       + (now.tv_usec - frame_start.tv_usec)/1000000.0 >= 3)
   {
-    log_warning(LOG_DEFAULT, "Your machine is too slow for current settings!");
+    log_warning(LOG_DEFAULT, _("Your machine is too slow for current settings!"));
     frame_start.tv_sec = now.tv_sec;
     frame_start.tv_usec = now.tv_usec;
   }

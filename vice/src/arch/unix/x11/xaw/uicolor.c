@@ -85,14 +85,14 @@ static int uicolor_alloc_system_colors(void)
 int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
                          PIXEL pixel_return[])
 {
-    log_message(LOG_DEFAULT, "Color request for canvas %p.", c);
+    log_message(LOG_DEFAULT, _("Color request for canvas %p."), c);
 
     if (uicolor_alloc_system_colors() < 0
         || color_alloc_colors(c, palette, pixel_return, NULL) < 0) {
         Display *display = ui_get_display_ptr();
         if (colormap == DefaultColormap(display, screen)) {
             log_warning(LOG_DEFAULT,
-                        "Automatically using a private colormap.");
+                        _("Automatically using a private colormap."));
             colormap = XCreateColormap(display, RootWindow(display, screen),
                                        visual, AllocNone);
             XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
@@ -105,7 +105,7 @@ int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
 int ui_canvas_set_palette(canvas_t *c, ui_window_t w, const palette_t *palette,
                           PIXEL *pixel_return)
 {
-    log_message(LOG_DEFAULT, "Change color request for canvas %p.", c);
+    log_message(LOG_DEFAULT, _("Change color request for canvas %p."), c);
 
     return color_alloc_colors(c, palette, pixel_return, NULL);
 }
@@ -128,7 +128,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     im = XCreateImage(display, visual, ui_get_display_depth(),
                       ZPixmap, 0, (char *)data, 1, 1, 8, 1);
     if (!im) {
-        log_error(LOG_DEFAULT, "XCreateImage failed.");
+        log_error(LOG_DEFAULT, _("XCreateImage failed."));
         return -1;
     }
 
@@ -138,7 +138,7 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
     color.blue = blue << 8;
 
     if (!XAllocColor(display, colormap, &color)) {
-        log_error(LOG_DEFAULT, "Cannot allocate color \"#%04X%04X%04X\".",
+        log_error(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
                   color.red, color.green, color.blue);
         XDestroyImage(im);
         return -1;
@@ -159,7 +159,7 @@ void uicolor_free_color(unsigned int red, unsigned int green,
                         unsigned int blue, unsigned long color_pixel)
 {
     if (!XFreeColors(ui_get_display_ptr(), colormap, &color_pixel, 1, 0))
-        log_error(LOG_DEFAULT, "XFreeColors failed.");
+        log_error(LOG_DEFAULT, _("XFreeColors failed."));
 }
 
 void uicolor_convert_color_table(unsigned int colnr, PIXEL *pixel_return,

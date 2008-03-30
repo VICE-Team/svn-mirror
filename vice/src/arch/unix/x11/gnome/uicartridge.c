@@ -37,17 +37,17 @@ static GtkWidget *build_cartridge_dialog(void)
 {
     GtkWidget *d, *box, *tmp;
     
-    d = gnome_dialog_new("Save Cartridge", 
+    d = gnome_dialog_new(_("Save Cartridge"), 
 			 GNOME_STOCK_BUTTON_OK, 
 			 GNOME_STOCK_BUTTON_CANCEL,
 			 NULL);
     box = gtk_hbox_new(0, FALSE);
 
-    tmp = gtk_label_new("Filename: ");
+    tmp = gtk_label_new(_("Filename: "));
     gtk_box_pack_start(GTK_BOX(box), tmp, FALSE, FALSE, 0);
     gtk_widget_show(tmp);
 
-    fileentry = gnome_file_entry_new("vice: Cartridge", "Save Cartridge");
+    fileentry = gnome_file_entry_new("vice: Cartridge", _("Save Cartridge"));
     gnome_dialog_editable_enters(GNOME_DIALOG(d), 
 				 GTK_EDITABLE(gnome_file_entry_gtk_entry
 					      (GNOME_FILE_ENTRY(fileentry))));
@@ -83,7 +83,7 @@ void ui_cartridge_dialog(void)
 			   &cartridge_dialog);
     }
 
-    ui_popup(cartridge_dialog, "Save Cartridge", FALSE);
+    ui_popup(cartridge_dialog, _("Save Cartridge"), FALSE);
     res = gnome_dialog_run(GNOME_DIALOG(cartridge_dialog));
     ui_popdown(cartridge_dialog);
     
@@ -93,12 +93,12 @@ void ui_cartridge_dialog(void)
     name = gnome_file_entry_get_full_path(GNOME_FILE_ENTRY(fileentry), FALSE);
     if (!name)
     {
-	ui_error("Invalid filename");
+	ui_error(_("Invalid filename"));
 	return;
     }
 	    
     if (cartridge_save_image (name) < 0)
-        ui_error("Cannot write cartridge image file\n`%s'\n", name);
+        ui_error(_("Cannot write cartridge image file\n`%s'\n"), name);
     else
-	ui_message("Successfully wrote `%s'\n", name);
+	ui_message(_("Successfully wrote `%s'\n"), name);
 }

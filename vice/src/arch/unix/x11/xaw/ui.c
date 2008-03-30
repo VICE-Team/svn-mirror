@@ -471,18 +471,18 @@ int ui_init_finish(void)
 	}
 	if (!classes[i].name) {
 	    log_error(ui_log,
-                      "This display does not support suitable %dbit visuals.",
+                      _("This display does not support suitable %dbit visuals."),
                       depth);
 #if X_DISPLAY_DEPTH == 0
             log_error(ui_log,
-                      "Please select a bit depth supported by your display.");
+                      _("Please select a bit depth supported by your display."));
 #else
             log_error(ui_log,
-                      "Please recompile the program for a supported bit depth.");
+                      _("Please recompile the program for a supported bit depth."));
 #endif
 	    return -1;
 	} else {
-	    log_message(ui_log, "Found %dbit/%s visual.",
+	    log_message(ui_log, _("Found %dbit/%s visual."),
                         depth, classes[i].name);
             have_truecolor = (classes[i].class == TrueColor);
         }
@@ -499,7 +499,7 @@ int ui_init_finish(void)
 		if (XMatchVisualInfo(display, screen, depths[i],
 				     classes[j].class, &visualinfo)) {
 		    depth = depths[i];
-		    log_message(ui_log, "Found %dbit/%s visual.",
+		    log_message(ui_log, _("Found %dbit/%s visual."),
                                 depth, classes[j].name);
                     have_truecolor = (classes[j].class == TrueColor);
 		    done = 1;
@@ -507,7 +507,7 @@ int ui_init_finish(void)
 		}
 	    }
 	if (!done) {
-	    log_error(ui_log, "Cannot autodetect a proper visual.");
+	    log_error(ui_log, _("Cannot autodetect a proper visual."));
 	    return -1;
 	}
     }
@@ -589,7 +589,7 @@ ui_window_t ui_open_canvas_window(canvas_t *c, const char *title,
     XtVaSetValues(_ui_top_level, XtNcolormap, colormap, NULL);
 
     if (++num_app_shells > MAX_APP_SHELLS) {
-	log_error(ui_log, "Maximum number of toplevel windows reached.");
+	log_error(ui_log, _("Maximum number of toplevel windows reached."));
 	return NULL;
     }
 
@@ -1029,9 +1029,9 @@ void ui_set_application_icon(const char *icon_data[])
 void ui_exit(void)
 {
     ui_button_t b;
-    char *s = concat ("Exit ", machine_name, " emulator", NULL);
+    char *s = concat ("Exit ", machine_name, _(" emulator"), NULL);
 
-    b = ui_ask_confirmation(s, "Do you really want to exit?");
+    b = ui_ask_confirmation(s, _("Do you really want to exit?"));
 
     if (b == UI_BUTTON_YES) {
         int save_resources_on_exit;
@@ -1039,10 +1039,10 @@ void ui_exit(void)
         resources_get_value("SaveResourcesOnExit",
                             (resource_value_t *)&save_resources_on_exit);
 	if (save_resources_on_exit) {
-	    b = ui_ask_confirmation(s, "Save the current settings?");
+	    b = ui_ask_confirmation(s, _("Save the current settings?"));
 	    if (b == UI_BUTTON_YES) {
 		if (resources_save(NULL) < 0)
-		    ui_error("Cannot save settings.");
+		    ui_error(_("Cannot save settings."));
 	    } else if (b == UI_BUTTON_CANCEL) {
                 free(s);
 		return;
@@ -1079,7 +1079,7 @@ static int alloc_colormap(void)
         && !have_truecolor) {
 	colormap = DefaultColormap(display, screen);
     } else {
-        log_message(ui_log, "Using private colormap.");
+        log_message(ui_log, _("Using private colormap."));
 	colormap = XCreateColormap(display, RootWindow(display, screen),
 				   visual, AllocNone);
     }
@@ -1101,11 +1101,11 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     for (i = 0; i < num_app_shells; i++) {
 	if (!percent) {
 	    XtVaSetValues(app_shells[i].speed_label, XtNlabel,
-                          warp_flag ? "(warp)" : "",
+                          warp_flag ? _("(warp)") : "",
 			  NULL);
 	} else {
 	    sprintf(str, "%d%%, %d fps %s",
-                    percent_int, framerate_int, warp_flag ? "(warp)" : "");
+                    percent_int, framerate_int, warp_flag ? _("(warp)") : "");
 	    XtVaSetValues(app_shells[i].speed_label, XtNlabel, str, NULL);
 	}
     }
@@ -1186,7 +1186,7 @@ void ui_display_drive_track(int drive_number, int drive_base,
     int i;
     char str[256];
 
-    sprintf(str, "%d: Track %.1f", drive_number + drive_base, 
+    sprintf(str, _("%d: Track %.1f"), drive_number + drive_base, 
 							(double)track_number);
     for (i = 0; i < num_app_shells; i++) {
         int n = app_shells[i].drive_mapping[drive_number];
@@ -1306,7 +1306,7 @@ void ui_display_paused(int flag)
 
     for (i = 0; i < num_app_shells; i++) {
 	if (flag) {
-	    sprintf(str, "%s (paused)", app_shells[i].title);
+	    sprintf(str, _("%s (paused)"), app_shells[i].title);
 	    XtVaSetValues(app_shells[i].shell, XtNtitle, str, NULL);
 	} else {
 	    XtVaSetValues(app_shells[i].shell, XtNtitle,
@@ -1439,7 +1439,7 @@ void ui_error(const char *format,...)
     va_start(ap, format);
     vsprintf(str, format, ap);
     error_dialog = build_error_dialog(_ui_top_level, &button, str);
-    ui_popup(XtParent(error_dialog), "VICE Error!", False);
+    ui_popup(XtParent(error_dialog), _("VICE Error!"), False);
     button = UI_BUTTON_NONE;
     do
 	ui_dispatch_next_event();
@@ -1552,7 +1552,7 @@ int ui_extend_image_dialog(void)
     ui_button_t b;
 
     suspend_speed_eval();
-    b = ui_ask_confirmation("Extend disk image",
+    b = ui_ask_confirmation(_("Extend disk image"),
                             ("Do you want to extend the disk image"
                              " to 40 tracks?"));
     return (b == UI_BUTTON_YES) ? 1 : 0;
@@ -1621,7 +1621,7 @@ char *ui_select_file(const char *title,
 		ui_show_text(fs_status.file, contents, 250, 240);
 		free(contents);
 	    } else {
-		ui_error("Unknown image type.");
+		ui_error(_("Unknown image type."));
 	    }
 	}
     } while ((!fs_status.file_selected && button != UI_BUTTON_CANCEL)

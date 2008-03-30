@@ -35,17 +35,17 @@ GtkWidget *about;
 
 static void license_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
-    ui_show_text("VICE is FREE software!", license_text, 500, 300);
+    ui_show_text(_("VICE is FREE software!"), license_text, 500, 300);
 }
 
 static void warranty_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
-    ui_show_text("No warranty!", warranty_text, 500, 300);
+    ui_show_text(_("No warranty!"), warranty_text, 500, 300);
 }
 
 static void contrib_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
-    ui_show_text("Contributors to the VICE project", contrib_text, 500, 300);
+    ui_show_text(_("Contributors to the VICE project"), contrib_text, 500, 300);
 }
 
 
@@ -54,7 +54,7 @@ void ui_about(gpointer data)
     GtkWidget *button;
     
     const gchar *authors[] = {
-	"The VICE Team", 
+	_("The VICE Team"), 
 	"Copyright @ 1996-1999 Ettore Perazzoli\n",
 	"Copyright @ 1997-2000 Daniel Sladic\n",
 	"Copyright @ 1998-2000 Andreas Boose\n",
@@ -69,7 +69,7 @@ void ui_about(gpointer data)
 	"reSID engine Copyright © 1999 Dag Lem",
 #endif
 	"",
-	"Official VICE homepage:",
+	_("Official VICE homepage:"),
 	"http://www.cs.cmu.edu/~dsladic/vice/vice.html",
 	NULL};
     if (!about)
@@ -79,19 +79,19 @@ void ui_about(gpointer data)
 			   "destroy",
 			   GTK_SIGNAL_FUNC(gtk_widget_destroyed),
 			   &about);
-	button = gnome_stock_or_ordinary_button ("License");
+	button = gnome_stock_or_ordinary_button (_("License"));
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(about)->action_area), 
 			    button, TRUE, TRUE, 0);
 	gtk_signal_connect(GTK_OBJECT(button), "clicked",
 			   GTK_SIGNAL_FUNC(license_cb), NULL);
 	gtk_widget_show(button);
-	button = gnome_stock_or_ordinary_button ("Warranty");
+	button = gnome_stock_or_ordinary_button (_("Warranty"));
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(about)->action_area), 
 			    button, TRUE, TRUE, 0);
 	gtk_signal_connect(GTK_OBJECT(button), "clicked",
 			   GTK_SIGNAL_FUNC(warranty_cb), NULL);
 	gtk_widget_show(button);
-	button = gnome_stock_or_ordinary_button ("Contributors");
+	button = gnome_stock_or_ordinary_button (_("Contributors"));
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(about)->action_area), 
 			    button, TRUE, TRUE, 0);
 	gtk_signal_connect(GTK_OBJECT(button), "clicked",
