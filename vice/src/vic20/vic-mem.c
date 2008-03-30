@@ -66,17 +66,12 @@ vic_store(ADDRESS addr, BYTE value)
                 xstop = vic.screen_width - 1;
                 /* FIXME: SCREEN-MIXUP not handled */
 
-#ifndef VIDEO_REMOVE_2X
-            if (vic.raster.display_xstart
-                < (signed int)VIC_RASTER_CYCLE(clk) * 4
-#else /* VIDEO_REMOVE_2X */
 
-			xstart *= VIC_PIXEL_WIDTH;
-			xstop *= VIC_PIXEL_WIDTH;
+            xstart *= VIC_PIXEL_WIDTH;
+            xstop *= VIC_PIXEL_WIDTH;
 
             if (vic.raster.display_xstart
                 < (signed int)VIC_RASTER_CYCLE(clk) * 4 * VIC_PIXEL_WIDTH
-#endif /* VIDEO_REMOVE_2X */
                 && !vic.raster.blank_this_line) {
                 /* the line has already started */
                 raster_add_int_change_next_line(&vic.raster,
@@ -138,11 +133,7 @@ vic_store(ADDRESS addr, BYTE value)
                         - vic.first_displayed_line;
 
                     if (vic.raster.display_xstart
-#ifndef VIDEO_REMOVE_2X
-                        < (signed int)VIC_RASTER_CYCLE(clk)) {
-#else /* VIDEO_REMOVE_2X */
                         < (signed int)VIC_RASTER_CYCLE(clk) * VIC_PIXEL_WIDTH) {
-#endif /* VIDEO_REMOVE_2X */
                         /* too late to start in current line */
                         vic.raster.blank_this_line = 1;
                     }
@@ -155,13 +146,8 @@ vic_store(ADDRESS addr, BYTE value)
         {
             int new_text_cols = MIN(value & 0x7f, VIC_SCREEN_MAX_TEXT_COLS);
 
-#ifndef VIDEO_REMOVE_2X
-            int new_xstop = MIN(vic.raster.display_xstart + new_text_cols * 8,
-                vic.screen_width - 1);
-#else /* VIDEO_REMOVE_2X */
             int new_xstop = MIN(vic.raster.display_xstart + new_text_cols * 8 * VIC_PIXEL_WIDTH,
                 (vic.screen_width - 1) * VIC_PIXEL_WIDTH);
-#endif /* VIDEO_REMOVE_2X */
 
             if (VIC_RASTER_CYCLE(clk) <= 1) {
                 /* changes up to cycle 1 are visible in the current line */
@@ -169,12 +155,7 @@ vic_store(ADDRESS addr, BYTE value)
 
                 vic.raster.display_xstop = new_xstop;
 
-#ifndef VIDEO_REMOVE_2X
-                vic.raster.geometry.gfx_size.width = new_text_cols * 8;
-#else /* VIDEO_REMOVE_2X */
                 vic.raster.geometry.gfx_size.width = new_text_cols * 8 * VIC_PIXEL_WIDTH;
-#endif /* VIDEO_REMOVE_2X */
-
                 vic.raster.geometry.text_size.width = new_text_cols;
             } else {
                 /* later changes are visible in the next line */
@@ -184,15 +165,9 @@ vic_store(ADDRESS addr, BYTE value)
                 raster_add_int_change_next_line(&vic.raster,
                     &vic.raster.display_xstop, new_xstop);
 
-#ifndef VIDEO_REMOVE_2X
-                raster_add_int_change_next_line(&vic.raster,
-                    (int *)(&vic.raster.geometry.gfx_size.width),
-                    new_text_cols * 8);
-#else /* VIDEO_REMOVE_2X */
                 raster_add_int_change_next_line(&vic.raster,
                     (int *)(&vic.raster.geometry.gfx_size.width),
                     new_text_cols * 8 * VIC_PIXEL_WIDTH);
-#endif /* VIDEO_REMOVE_2X */
 
                 raster_add_int_change_next_line(&vic.raster,
                     (int *)(&vic.raster.geometry.text_size.width),
@@ -240,12 +215,8 @@ vic_store(ADDRESS addr, BYTE value)
                 if (vic.raster.ycounter == 7 && !vic.raster.blank_this_line) {
                     if (old_char_height == 8 && new_char_height == 16) {
                         vic.row_offset = (VIC_RASTER_CYCLE(clk)
-#ifndef VIDEO_REMOVE_2X
-                             - vic.raster.display_xstart / 4 - 3) / 2;
-#else /* VIDEO_REMOVE_2X */
                              - vic.raster.display_xstart / 
                              (4 * VIC_PIXEL_WIDTH) - 3) / 2;
-#endif /* VIDEO_REMOVE_2X */
                     } else {
                         vic.row_offset = -1; /* use vic.text_cols for offset */
                     }

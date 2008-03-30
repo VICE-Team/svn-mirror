@@ -93,11 +93,11 @@ static int fill_cache(raster_cache_t *cache, int *xs, int *xe, int rr)
                                 xs, xe,
                                 rr);
 
-#ifdef VIDEO_REMOVE_2X
+
     /* Scale xs and xe from text_cols into 8 pixel units.  */
     *xs = *xs << VIC_PIXEL_WIDTH_SHIFT;
     *xe = ((*xe + 1) << VIC_PIXEL_WIDTH_SHIFT) - 1;
-#endif
+
     return r;
 }
 
@@ -147,13 +147,8 @@ static void draw_line(void)
 {
     PIXEL *p;
 
-#ifndef VIDEO_REMOVE_2X
-    p = (vic.raster.frame_buffer_ptr
-        + vic.raster.display_xstart * VIC_PIXEL_WIDTH);
-#else /* VIDEO_REMOVE_2X */
     p = (vic.raster.frame_buffer_ptr
         + vic.raster.display_xstart);
-#endif /* VIDEO_REMOVE_2X */
 
     draw(p, 0, vic.text_cols - 1, 0, 0);
 }
@@ -162,13 +157,8 @@ static void draw_reverse_line(void)
 {
     PIXEL *p;
 
-#ifndef VIDEO_REMOVE_2X
-    p = (vic.raster.frame_buffer_ptr
-        + vic.raster.display_xstart * VIC_PIXEL_WIDTH);
-#else /* VIDEO_REMOVE_2X */
     p = (vic.raster.frame_buffer_ptr
         + vic.raster.display_xstart);
-#endif /* VIDEO_REMOVE_2X */
 
     draw(p, 0, vic.text_cols - 1, 1, 0);
 }
@@ -177,127 +167,24 @@ static void draw_line_cached(raster_cache_t *cache, int xs, int xe)
 {
     PIXEL *p;
 
-#ifndef VIDEO_REMOVE_2X
-    p = (vic.raster.frame_buffer_ptr
-        + vic.raster.display_xstart * VIC_PIXEL_WIDTH);
-#else /* VIDEO_REMOVE_2X */
     p = (vic.raster.frame_buffer_ptr
         + vic.raster.display_xstart);
-#endif /* VIDEO_REMOVE_2X */
 
-#ifdef VIDEO_REMOVE_2X
     /* Scale back xs and xe from 8 pixel units to text_cols.  */
     draw(p, xs >> VIC_PIXEL_WIDTH_SHIFT,
          ((xe + 1) >> VIC_PIXEL_WIDTH_SHIFT) - 1, 0, 0);
-#else
-    draw(p, xs, xe, 0, 0);
-#endif
 }
 
 static void draw_reverse_line_cached(raster_cache_t *cache, int xs, int xe)
 {
     PIXEL *p;
 
-#ifndef VIDEO_REMOVE_2X
-    p = (vic.raster.frame_buffer_ptr
-        + vic.raster.display_xstart * VIC_PIXEL_WIDTH);
-#else /* VIDEO_REMOVE_2X */
     p = (vic.raster.frame_buffer_ptr
         + vic.raster.display_xstart);
-#endif /* VIDEO_REMOVE_2X */
 
-#ifdef VIDEO_REMOVE_2X
     draw(p, xs >> VIC_PIXEL_WIDTH_SHIFT,
          ((xe + 1) >> VIC_PIXEL_WIDTH_SHIFT) - 1, 1, 0);
-#else
-    draw(p, xs, xe, 1, 0);
-#endif
 }
-
-#ifndef VIDEO_REMOVE_2X
-
-inline static void draw_2x(PIXEL *p, int xs, int xe, int reverse,
-                           int transparent)
-{
-    static VIC_PIXEL2 c[4];
-    BYTE d, b;
-    int i, x;
-
-    /* Last character may exceed border, so we have some extra work */
-    /* bordercheck asumes p pointing to display_xstart */
-    p += xs * 16 * VIC_PIXEL_WIDTH;
-
-    c[0] = VIC_PIXEL2(vic.raster.background_color);
-    c[1] = VIC_PIXEL2(vic.mc_border_color);
-    c[3] = VIC_PIXEL2(vic.auxiliary_color);
-
-    for (i = xs; i <= xe; i++, p += 16 * VIC_PIXEL_WIDTH) {
-        b = *(vic.color_ptr + vic.memptr + i);
-        c[2] = VIC_PIXEL2(b & 0x7);
-
-        if (reverse & !(b & 0x8))
-            d = ~(GET_CHAR_DATA((vic.screen_ptr + vic.memptr)[i],
-                                vic.raster.ycounter));
-        else
-            d = GET_CHAR_DATA((vic.screen_ptr + vic.memptr)[i],
-                              vic.raster.ycounter);
-
-        for (x = 0; x < 8; x++)
-            PUT_PIXEL2(p, d, c, b, x, transparent);
-    }
-}
-
-static void draw_line_2x(void)
-{
-    PIXEL *p;
-
-    p = (vic.raster.frame_buffer_ptr
-        + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
-
-    draw_2x(p, 0, vic.text_cols - 1, 0, 0);
-}
-
-static void draw_reverse_line_2x(void)
-{
-    PIXEL *p;
-
-    p = (vic.raster.frame_buffer_ptr
-        + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
-
-    draw_2x(p, 0, vic.text_cols - 1, 1, 0);
-}
-
-static void draw_line_cached_2x(raster_cache_t *cache, int xs, int xe)
-{
-    PIXEL *p;
-
-    p = (vic.raster.frame_buffer_ptr
-        + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
-
-#ifdef VIDEO_REMOVE_2X
-    draw_2x(p, xs >> (VIC_PIXEL_WIDTH_SHIFT + 1),
-            ((xe + 1) >> (VIC_PIXEL_WIDTH_SHIFT + 1)) - 1, 0, 0);
-#else
-    draw_2x(p, xs, xe, 0, 0);
-#endif
-}
-
-static void draw_reverse_line_cached_2x(raster_cache_t *cache, int xs, int xe)
-{
-    PIXEL *p;
-
-    p = (vic.raster.frame_buffer_ptr
-        + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
-
-#ifdef VIDEO_REMOVE_2X
-    draw_2x(p, xs >> (VIC_PIXEL_WIDTH_SHIFT + 1),
-            ((xe + 1) >> (VIC_PIXEL_WIDTH_SHIFT + 1)) - 1, 1, 0);
-#else
-    draw_2x(p, xs, xe, 1, 0);
-#endif
-}
-
-#endif /* VIDEO_REMOVE_2X */
 
 static void draw_std_background(int start_pixel, int end_pixel)
 {
@@ -307,27 +194,12 @@ static void draw_std_background(int start_pixel, int end_pixel)
                (end_pixel - start_pixel + 1) * VIC_PIXEL_WIDTH);
 }
 
-#ifndef VIDEO_REMOVE_2X
-static void draw_std_background_2x(int start_pixel, int end_pixel)
-{
-    vid_memset(vic.raster.frame_buffer_ptr + start_pixel * VIC_PIXEL_WIDTH * 2,
-               RASTER_PIXEL(&vic.raster,
-               vic.raster.background_color),
-               (end_pixel - start_pixel + 1) * VIC_PIXEL_WIDTH * 2);
-}
-#endif
-
 static void draw_std_foreground(int start_char, int end_char)
 {
     PIXEL *p;
 
-#ifndef VIDEO_REMOVE_2X
-    p = (vic.raster.frame_buffer_ptr
-        + vic.raster.display_xstart * VIC_PIXEL_WIDTH);
-#else /* VIDEO_REMOVE_2X */
     p = (vic.raster.frame_buffer_ptr
         + vic.raster.display_xstart);
-#endif /* VIDEO_REMOVE_2X */
 
     draw(p, start_char, end_char, 0, 1);
 }
@@ -336,40 +208,11 @@ static void draw_rev_foreground(int start_char, int end_char)
 {
     PIXEL *p;
 
-#ifndef VIDEO_REMOVE_2X
-    p = (vic.raster.frame_buffer_ptr
-        + vic.raster.display_xstart * VIC_PIXEL_WIDTH);
-#else /* VIDEO_REMOVE_2X */
     p = (vic.raster.frame_buffer_ptr
         + vic.raster.display_xstart);
-#endif /* VIDEO_REMOVE_2X */
 
     draw(p, start_char, end_char, 1, 1);
 }
-
-#ifndef VIDEO_REMOVE_2X
-
-static void draw_std_foreground_2x(int start_char, int end_char)
-{
-    PIXEL *p;
-
-    p = (vic.raster.frame_buffer_ptr
-        + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
-
-    draw_2x(p, start_char, end_char, 0, 1);
-}
-
-static void draw_rev_foreground_2x(int start_char, int end_char)
-{
-    PIXEL *p;
-
-    p = (vic.raster.frame_buffer_ptr
-        + vic.raster.display_xstart * VIC_PIXEL_WIDTH * 2);
-
-    draw_2x(p, start_char, end_char, 1, 1);
-}
-
-#endif /* VIDEO_REMOVE_2X */
 
 void vic_draw_init(void)
 {
@@ -380,21 +223,6 @@ void vic_draw_init(void)
 void
 vic_draw_set_double_size(int enabled)
 {
-#ifndef VIDEO_REMOVE_2X
-    if (enabled) {
-        raster_modes_set(vic.raster.modes, VIC_STANDARD_MODE,
-                         fill_cache,
-                         draw_line_cached_2x,
-                         draw_line_2x,
-                         draw_std_background_2x,
-                         draw_std_foreground_2x);
-        raster_modes_set(vic.raster.modes, VIC_REVERSE_MODE,
-                         fill_cache,
-                         draw_reverse_line_cached_2x,
-                         draw_reverse_line_2x,
-                         draw_std_background_2x,
-                         draw_rev_foreground_2x);
-    } else {
         raster_modes_set(vic.raster.modes, VIC_STANDARD_MODE,
                          fill_cache,
                          draw_line_cached,
@@ -407,20 +235,5 @@ vic_draw_set_double_size(int enabled)
                          draw_reverse_line,
                          draw_std_background,
                          draw_rev_foreground);
-    }
-#else /* VIDEO_REMOVE_2X */
-        raster_modes_set(vic.raster.modes, VIC_STANDARD_MODE,
-                         fill_cache,
-                         draw_line_cached,
-                         draw_line,
-                         draw_std_background,
-                         draw_std_foreground);
-        raster_modes_set(vic.raster.modes, VIC_REVERSE_MODE,
-                         fill_cache,
-                         draw_reverse_line_cached,
-                         draw_reverse_line,
-                         draw_std_background,
-                         draw_rev_foreground);
-#endif /* VIDEO_REMOVE_2X */
 }
 

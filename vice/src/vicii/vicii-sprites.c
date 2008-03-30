@@ -1025,65 +1025,6 @@ inline static void draw_all_sprites(PIXEL *line_ptr, BYTE *gfx_msk_ptr)
     }
 }
 
-#ifndef VIDEO_REMOVE_2X
-#ifdef VIC_II_NEED_2X
-inline static void draw_all_sprites_2x(PIXEL *line_ptr, BYTE *gfx_msk_ptr)
-{
-    vic_ii.raster.sprite_status->sprite_sprite_collisions = 0;
-    vic_ii.raster.sprite_status->sprite_background_collisions = 0;
-
-    if (vic_ii.raster.sprite_status->dma_msk
-        || vic_ii.raster.sprite_status->new_dma_msk)
-    {
-        int n;
-
-        memset(sprline, 0, sizeof(sprline));
-
-        for (n = 0; n < 8; n++) {
-            
-            BYTE *data_ptr = NULL;
-
-            if (vic_ii.raster.sprite_status->dma_msk & (1 << n)
-                && vic_ii.raster.sprite_status->sprites[n].x < 0x16c)
-            {
-                /* display sprite data fetched in the previous line */
-                data_ptr = (BYTE *)(vic_ii.raster.sprite_status->sprite_data + n);
-            }
-            else if (vic_ii.raster.sprite_status->new_dma_msk & (1 << n))
-            {
-                if (vic_ii.raster.sprite_status->sprites[n].x >= 0x16c)
-                {
-                    /* sprite display starts immediately without sprite data fetched */
-                    /* FIXME: first sprite line should show some random data         */
-                    data_ptr = (BYTE *)(vic_ii.raster.sprite_status->sprite_data + n);
-                }
-                
-                if (vic_ii.raster.sprite_status->sprites[n].x > (0x176 + 16*n))
-                {
-                    /* sprite starts immediately with data already fetched */
-                    data_ptr = (BYTE *)(vic_ii.raster.sprite_status->new_sprite_data + n);
-                }
-            }
-
-            if (data_ptr != NULL)
-            {
-                if (vic_ii.raster.sprite_status->sprites[n].multicolor)
-                    draw_mc_sprite(line_ptr, gfx_msk_ptr, data_ptr, n, 1);
-                else
-                    draw_hires_sprite(line_ptr, gfx_msk_ptr, data_ptr, n, 1);
-            }
-        }
-
-        vic_ii.sprite_sprite_collisions
-          |= vic_ii.raster.sprite_status->sprite_sprite_collisions;
-        vic_ii.sprite_background_collisions
-          |= vic_ii.raster.sprite_status->sprite_background_collisions;
-    }
-}
-#endif /* VIC_II_NEED_2X */
-#endif /* VIDEO_REMOVE_2X */
-
-
 void vic_ii_sprites_init(void)
 {
     init_drawing_tables ();
@@ -1095,16 +1036,8 @@ void vic_ii_sprites_init(void)
 
 void vic_ii_sprites_set_double_size(int enabled)
 {
-#ifndef VIDEO_REMOVE_2X
-#ifdef VIC_II_NEED_2X
-    if (enabled)
-        raster_sprite_status_set_draw_function(vic_ii.raster.sprite_status,
-                                               draw_all_sprites_2x);
-    else
-#endif /* VIC_II_NEED_2X */
-#endif /* VIDEO_REMOVE_2X */
-        raster_sprite_status_set_draw_function(vic_ii.raster.sprite_status,
-                                               draw_all_sprites);
+    raster_sprite_status_set_draw_function(vic_ii.raster.sprite_status,
+                                           draw_all_sprites);
 }
 
 
