@@ -174,6 +174,16 @@ void REGPARM2 store_bios(ADDRESS addr, BYTE value)
     z80bios_rom[addr] = value;
 }
 
+static BYTE REGPARM1 read_one(ADDRESS addr)
+{
+    return page_one[addr - 0x100];
+}
+
+static void REGPARM2 store_one(ADDRESS addr, BYTE value)
+{
+    page_one[addr - 0x100] = value;
+}
+
 void z80mem_initialize(void)
 {
     int i, j;
@@ -187,7 +197,25 @@ void z80mem_initialize(void)
         }
     }
 
-    for (i = 0; i < 0x10; i++) {
+    mem_read_tab[0][0] = read_bios;
+    mem_write_tab[0][0] = store_zero;
+    mem_read_tab[1][0] = read_bios;
+    mem_write_tab[1][0] = store_zero;
+    mem_read_tab[2][0] = read_zero;
+    mem_write_tab[2][0] = store_zero;
+    mem_read_tab[3][0] = read_zero;
+    mem_write_tab[3][0] = store_zero;
+
+    mem_read_tab[0][1] = read_bios;
+    mem_write_tab[0][1] = store_one;
+    mem_read_tab[1][1] = read_bios;
+    mem_write_tab[1][1] = store_one;
+    mem_read_tab[2][1] = read_one;
+    mem_write_tab[2][1] = store_one;
+    mem_read_tab[3][1] = read_one;
+    mem_write_tab[3][1] = store_one;
+
+    for (i = 2; i < 0x10; i++) {
         mem_read_tab[0][i] = read_bios;
         mem_write_tab[0][i] = store_ram;
         mem_read_tab[1][i] = read_bios;
@@ -280,6 +308,9 @@ void z80mem_initialize(void)
         io_read_tab[i] = read_ram;
         io_write_tab[i] = store_ram;
     }
+
+    io_read_tab[0x0] = mmu_read;
+    io_write_tab[0x0] = mmu_store;
 
     io_read_tab[0x10] = read_colorram;
     io_write_tab[0x10] = store_colorram;
