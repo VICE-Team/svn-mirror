@@ -204,12 +204,12 @@ typedef enum _vic_ii_video_mode vic_ii_video_mode_t;
 /* VIC-II structures.  This is meant to be used by VIC-II modules
    *exclusively*!  */
 
-struct _vic_ii_light_pen
+struct vic_ii_light_pen_s
   {
     int triggered;
     int x, y;
   };
-typedef struct _vic_ii_light_pen vic_ii_light_pen_t;
+typedef struct vic_ii_light_pen_s vic_ii_light_pen_t;
 
 enum _vic_ii_fetch_idx
   {
@@ -227,7 +227,7 @@ enum _vic_ii_idle_data_location
   };
 typedef enum _vic_ii_idle_data_location vic_ii_idle_data_location_t;
 
-struct _vic_ii
+struct vic_ii_s
   {
     /* Flag: Are we initialized?  */
     int initialized;		/* = 0; */
@@ -372,7 +372,7 @@ struct _vic_ii
     /* Number of lines the whole screen is shifted up.  */
     int offset;
   };
-typedef struct _vic_ii vic_ii_t;
+typedef struct vic_ii_s vic_ii_t;
 
 extern vic_ii_t vic_ii;
 
