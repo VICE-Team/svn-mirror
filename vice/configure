@@ -1307,7 +1307,7 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=15
-VICE_VERSION_BUILD=6
+VICE_VERSION_BUILD=7
 
 
 
@@ -16793,7 +16793,7 @@ _ACEOF
 elif [ x"$is_win32" != "xno" ]; then
   ARCH_DIR="\$(top_builddir)/src/arch/win32"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
-  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32/"
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/win32"
 
 
 if false; then
@@ -16855,7 +16855,7 @@ else
 fi
 
 elif [ x"$is_dos" != "xno" ]; then
-  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos/"
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos"
   ARCH_DIR="\$(top_builddir)/src/arch/msdos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
 
@@ -16919,7 +16919,7 @@ else
 fi
 
 elif [ x"$is_os2" != "xno" ]; then
-  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2/"
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/os2"
   ARCH_DIR="\$(top_builddir)/src/arch/os2"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
 
@@ -16983,7 +16983,7 @@ else
 fi
 
 elif [ x"$is_beos" != "xno" ]; then
-  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/beos/"
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/beos"
   ARCH_DIR="\$(top_builddir)/src/arch/beos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
 
@@ -17047,7 +17047,7 @@ else
 fi
 
 else
-  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/riscos/"
+  ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/riscos"
   ARCH_DIR="\$(top_builddir)/src/arch/riscos"
   ARCH_LIBS="$ARCH_DIR/libarch.a"
 

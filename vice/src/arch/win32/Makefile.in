@@ -332,6 +332,8 @@ libarch_a_SOURCES = \
 	uiide64.h \
 	uijoystick.c \
 	uijoystick.h \
+	uikeyboard.c \
+	uikeyboard.h \
 	uilib.c \
 	uilib.h \
 	uimediafile.c \
@@ -471,15 +473,16 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uidrivec128.$(OBJEXT) uidrivepetcbm2.$(OBJEXT) \
 	uidriveplus4.$(OBJEXT) uievent.$(OBJEXT) uifliplist.$(OBJEXT) \
 	uihelp.$(OBJEXT) uiide64.$(OBJEXT) uijoystick.$(OBJEXT) \
-	uilib.$(OBJEXT) uimediafile.$(OBJEXT) uimon.$(OBJEXT) \
-	uiperipheral.$(OBJEXT) uipetset.$(OBJEXT) uiplus4cart.$(OBJEXT) \
-	uiplus4mem.$(OBJEXT) uiquicksnapshot.$(OBJEXT) uiram.$(OBJEXT) \
-	uireu.$(OBJEXT) uirom.$(OBJEXT) uirs232.$(OBJEXT) \
-	uirs232user.$(OBJEXT) uisid.$(OBJEXT) uisnapshot.$(OBJEXT) \
-	uisound.$(OBJEXT) uispeed.$(OBJEXT) uitfe.$(OBJEXT) \
-	uivicii.$(OBJEXT) uivicset.$(OBJEXT) uivideo.$(OBJEXT) \
-	vic20ui.$(OBJEXT) video.$(OBJEXT) vsidui.$(OBJEXT) \
-	vsyncarch.$(OBJEXT) winmain.$(OBJEXT)
+	uikeyboard.$(OBJEXT) uilib.$(OBJEXT) uimediafile.$(OBJEXT) \
+	uimon.$(OBJEXT) uiperipheral.$(OBJEXT) uipetset.$(OBJEXT) \
+	uiplus4cart.$(OBJEXT) uiplus4mem.$(OBJEXT) \
+	uiquicksnapshot.$(OBJEXT) uiram.$(OBJEXT) uireu.$(OBJEXT) \
+	uirom.$(OBJEXT) uirs232.$(OBJEXT) uirs232user.$(OBJEXT) \
+	uisid.$(OBJEXT) uisnapshot.$(OBJEXT) uisound.$(OBJEXT) \
+	uispeed.$(OBJEXT) uitfe.$(OBJEXT) uivicii.$(OBJEXT) \
+	uivicset.$(OBJEXT) uivideo.$(OBJEXT) vic20ui.$(OBJEXT) \
+	video.$(OBJEXT) vsidui.$(OBJEXT) vsyncarch.$(OBJEXT) \
+	winmain.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
@@ -508,9 +511,10 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/uidriveplus4.Po ./$(DEPDIR)/uievent.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uifliplist.Po ./$(DEPDIR)/uihelp.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiide64.Po ./$(DEPDIR)/uijoystick.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uilib.Po ./$(DEPDIR)/uimediafile.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uiperipheral.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uipetset.Po ./$(DEPDIR)/uiplus4cart.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uikeyboard.Po ./$(DEPDIR)/uilib.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uimediafile.Po ./$(DEPDIR)/uimon.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiperipheral.Po ./$(DEPDIR)/uipetset.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uiplus4cart.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiplus4mem.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uiquicksnapshot.Po ./$(DEPDIR)/uiram.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uireu.Po ./$(DEPDIR)/uirom.Po \
@@ -595,6 +599,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uihelp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiide64.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uijoystick.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uikeyboard.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uilib.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimediafile.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@
