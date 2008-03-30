@@ -24,8 +24,6 @@ libc128_a_SOURCES = \
 	c128cpu.c \
 	c128fastiec.c \
 	c128fastiec.h \
-	c128io.c \
-	c128io.h \
 	c128mem.c \
 	c128mem.h \
 	c128meminit.c \

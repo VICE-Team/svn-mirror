@@ -22,6 +22,7 @@ libc64_a_SOURCES = \
 	c64.h \
 	c64acia.h \
 	c64acia1.c \
+	c64bus.c \
 	c64cart.h \
 	c64cia.h \
 	c64cia1.c \
@@ -73,6 +74,7 @@ libc64_a_SOURCES = \
 libc64c128_a_SOURCES = \
 	c64acia.h \
 	c64acia1.c \
+	c64bus.c \
 	c64cart.h \
 	c64cia.h \
 	c64cia2.c \
@@ -80,6 +82,8 @@ libc64c128_a_SOURCES = \
 	c64drive.c \
 	c64iec.c \
 	c64iec.h \
+	c64io.c \
+	c64io.h \
 	c64keyboard.c \
 	c64keyboard.h \
 	c64meminit.c \
