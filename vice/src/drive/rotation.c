@@ -197,23 +197,21 @@ void rotation_rotate_disk(drive_t *dptr)
         rptr->rotation_last_clk = *(dptr->clk);
 
         if (rptr->finish_byte) {
-            if (rptr->last_mode == 0) { /* write */
-                dptr->GCR_dirty_track = 1;
-                if (rptr->bits_moved >= 8) {
+            if (rptr->bits_moved >= 8) {
+                if (rptr->last_mode == 0) { /* write */
+                    dptr->GCR_dirty_track = 1;
+
                     dptr->GCR_track_start_ptr[dptr->GCR_head_offset]
                         = dptr->GCR_write_value;
                     dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1) %
                                             dptr->GCR_current_track_size);
-                    rptr->bits_moved -= 8;
-                }
-            } else {            /* read */
-                if (rptr->bits_moved >= 8) {
+                } else { /* read */
                     dptr->GCR_head_offset = ((dptr->GCR_head_offset + 1) %
                                             dptr->GCR_current_track_size);
-                    rptr->bits_moved -= 8;
                     dptr->GCR_read
                         = dptr->GCR_track_start_ptr[dptr->GCR_head_offset];
                 }
+                rptr->bits_moved -= 8;
             }
 
             rptr->finish_byte = 0;

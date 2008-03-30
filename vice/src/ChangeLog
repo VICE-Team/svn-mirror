@@ -1,3 +1,112 @@
+2006-05-14  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.12.
+
+	* c64/cart/ide64.c: Added IO source fix from soci.
+
+	* gcr.c, gcr.h, drive/rotation.c: Added optimization fixes
+	written by Wolfgang Moser.
+
+2006-05-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/res.rc: Fixed 2 duplicate lines.
+
+2006-05-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/amigamain.c, arch/amigaos/archdep.c,
+	arch/amigaos/make-bindist.sh, arch/amigaos/mui/mui.h,
+	arch/amigaos/signals.c, arch/amigaos/timer.c,
+	arch/amigaos/timer.h, arch/amigaos/video.c, c1541.c,
+	cartconv.c, gfxoutputdrv/pngdrv.c, ioutil.c,
+	vic20/vic20cartridge.c, zfile.c: Added AROS support for the
+	AmigaOS port.
+
+2006-05-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/mousedrv.c, arch/amigaos/mui/filereq.c,
+	arch/amigaos/video.c: Added MorphOS support.
+
+	* arch/amigaos/private.h, arch/amigaos/vsyncapi.c: Got rid of
+	some unneeded includes.
+
+	* arch/amigaos/timer.c: Fixed some issues.
+
+2006-05-11  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/README.OS4: Added previously missing file.
+
+	* arch/amigaos/ahi.c, arch/amigaos/amigamain.c,
+	arch/amigaos/archdep.c, arch/amigaos/catweaselmkiii.c,
+	arch/amigaos/joy.c, arch/amigaos/joyai.c,
+	arch/amigaos/mui/filereq.c, arch/amigaos/mui/mui.c,
+	arch/amigaos/mui/mui.h, arch/amigaos/mui/uiacia.c,
+	arch/amigaos/mui/uic64_256k.c,
+	arch/amigaos/mui/uicbm2settings.c,
+	arch/amigaos/mui/uidatasette.c,
+	arch/amigaos/mui/uidrivec128.c,
+	arch/amigaos/mui/uidrivec64vic20.c,
+	arch/amigaos/mui/uidrivepetcbm2.c,
+	arch/amigaos/mui/uidriveplus4.c, arch/amigaos/mui/uigeoram.c,
+	arch/amigaos/mui/uijoystick.c, arch/amigaos/mui/uinetwork.c,
+	arch/amigaos/mui/uipetreu.c, arch/amigaos/mui/uiplus256k.c,
+	arch/amigaos/mui/uiplus60k.c, arch/amigaos/mui/uiram.c,
+	arch/amigaos/mui/uiramcart.c, arch/amigaos/mui/uireu.c,
+	arch/amigaos/mui/uirs232user.c, arch/amigaos/mui/uisid.c,
+	arch/amigaos/mui/uisound.c, arch/amigaos/mui/uivic20mem.c,
+	arch/amigaos/mui/uivicii.c, arch/amigaos/private.h,
+	arch/amigaos/statusbar.c, arch/amigaos/timer.c,
+	arch/amigaos/timer.h, arch/amigaos/ui.c,
+	arch/amigaos/vsyncapi.c: Added 'classic AmigaOS' support.
+
+	* arch/amigaos/make-bindist.sh: Updated to support
+	cross-compilers that add the .exe extension.
+
+	* arch/amigaos/video.c: Added Cybergraphics support (with lots
+	of help from Itix).
+
+2006-05-05  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am, arch/amigaos/c128ui.c,
+	arch/amigaos/c128uires.h, arch/amigaos/c64ui.c,
+	arch/amigaos/c64uires.h, arch/amigaos/cbm2ui.c,
+	arch/amigaos/cbm2uires.h, arch/amigaos/mui/uiacia.c,
+	arch/amigaos/mui/uiacia.h, arch/amigaos/mui/uic64_256k.c,
+	arch/amigaos/mui/uic64_256k.h,
+	arch/amigaos/mui/uicbm2settings.c,
+	arch/amigaos/mui/uicbm2settings.h,
+	arch/amigaos/mui/uidatasette.c,
+	arch/amigaos/mui/uidatasette.h, arch/amigaos/mui/uigeoram.c,
+	arch/amigaos/mui/uigeoram.h, arch/amigaos/mui/uipetreu.c,
+	arch/amigaos/mui/uipetreu.h, arch/amigaos/mui/uiplus256k.c,
+	arch/amigaos/mui/uiplus256k.h, arch/amigaos/mui/uiplus60k.c,
+	arch/amigaos/mui/uiplus60k.h, arch/amigaos/mui/uiram.c,
+	arch/amigaos/mui/uiram.h, arch/amigaos/mui/uiramcart.c,
+	arch/amigaos/mui/uiramcart.h, arch/amigaos/mui/uireu.c,
+	arch/amigaos/mui/uireu.h, arch/amigaos/mui/uirs232user.c,
+	arch/amigaos/mui/uirs232user.h, arch/amigaos/mui/uivic20mem.c,
+	arch/amigaos/mui/uivic20mem.h, arch/amigaos/mui/uivicii.c,
+	arch/amigaos/mui/uivicii.h, arch/amigaos/petui.c,
+	arch/amigaos/petuires.h, arch/amigaos/plus4ui.c,
+	arch/amigaos/plus4uires.h, arch/amigaos/ui.c,
+	arch/amigaos/uic64cart.c, arch/amigaos/uires.h,
+	arch/amigaos/vic20ui.c, arch/amigaos/vic20uires.h: Added some
+	new dialogs to the AmigaOS ui.
+
+	* arch/amigaos/make-bindist.sh, arch/amigaos/make-dist.sh:
+	Renamed make-dist.sh to make-bindist.sh.
+
+2006-05-02  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/amigaos/Makefile.am: Uncommented the 'info-files'
+	directory files and added the amigaos specific make-dist.sh
+	script.
+
+	* arch/amigaos/make-dist.sh: Added for the amigaos port.
+
+	* arch/beos/make-bindist.sh, arch/msdos/make-bindist.sh,
+	arch/win32/make-bindist.sh: Added the 'make bindistzip'
+	functionality.
+
 2006-05-01  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.11.
