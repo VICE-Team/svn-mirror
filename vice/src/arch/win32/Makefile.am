@@ -1,6 +1,6 @@
 ## Makefile.am for the Win32 version of `libarch.a'.
 
-SUFFIXES = .r
+SUFFIXES = .rc
 
 INCLUDES = \
 	-DPREFIX=\"@prefix@\" \
@@ -40,12 +40,12 @@ libarch_a_SOURCES = \
 	petui.h \
 	print.c \
 	res.h \
-	res.r \
-	resc128.r \
-	resc64.r \
-	rescbm2.r \
-	respet.r \
-	resvic.r \
+	res.rc \
+	resc128.rc \
+	resc64.rc \
+	rescbm2.rc \
+	respet.rc \
+	resvic.rc \
 	ui.c \
 	ui.h \
 	uiattach.c \
@@ -83,18 +83,18 @@ libarch_a_DEPENDENCIES = \
 EXTRA_DIST = \
         c64.ico
 
-resc128.o : resc128.r res.r res.h
+resc128.o : resc128.rc res.rc res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resc64.o : resc64.r res.r res.h
+resc64.o : resc64.rc res.rc res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-rescbm2.o : rescbm2.r res.r res.h
+rescbm2.o : rescbm2.rc res.rc res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-respet.o : respet.r res.r res.h
+respet.o : respet.rc res.rc res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32
-resvic.o : resvic.r res.r res.h
+resvic.o : resvic.rc res.rc res.h
 	windres -i $< -o $@ --include-dir $(top_builddir)/src \
 		--include-dir $(top_srcdir)/src/arch/win32

@@ -59,7 +59,8 @@ RiscOS.
       - MkLinux on Apple Macintosh, Kernel 2.0.33, X11R6.3 (no sound).
 
     Unluckily, not all of these systems have been tested with 1.0.
-    Success/failure reports are welcome at any time.
+    Success/failure reports are welcome at any time. If you encounter
+    any problems, you probably want to read the Hints section below.
 
     If you are compiling on a Pentium machine under Linux or FreeBSD,
     you might consider using the Pentium-specific GCC compiler, which
@@ -243,9 +244,9 @@ RiscOS.
       make
 
     to build all the emulators and utilities (`x64', `xvic', `xpet',
-    `x128', `petcat', `c1541') under the `src' directory.  It is
-    possible that `configure' is not able to find all the needed
-    libraries automatically (this is usually due to weird setup); if
+    `x128', `xcbm2', `petcat', `c1541') under the `src' directory.  
+    It is possible that `configure' is not able to find all the needed
+    libraries automatically (this is usually due to a weird setup); if
     this happens, the script will report a warning message but the
     `Makefile' will be produced anyway.  In this case, you can try to
     re-run `configure' with different options or edit the `Makefile's
@@ -261,6 +262,11 @@ RiscOS.
       make install
 
     The binaries and support files will all go under PREFIX/lib/vice.
+    You must of course have write permissions for the directories where
+    VICE is to be installed. Normally only the system administrator
+    has write access to /usr/local, the default PREFIX. Either ask
+    your system administrator to install VICE for you or use a PREFIX
+    in your home directory for example, where you do have write access.
 
     If you want to remove VICE from your system, you can use
 
@@ -292,7 +298,7 @@ RiscOS.
 
     Then run `configure' from the VICE source tree:
 
-      {vice-source-path}/src/configure
+      {vice-source-path}/configure
 
     Of course, you can specify options, flags, etc. as explained on
     par. 2.1.
@@ -307,12 +313,16 @@ RiscOS.
       cd sources/vice-0.14.2
       mkdir i386-go32-msdos
       cd i386-go32-msdos
-      CC="gcc-dos" CFLAGS="-O5" ../src/configure --host=i386-go32-msdos
+      CC="gcc-dos" CFLAGS="-O5" ../configure --host=i386-go32-msdos
       make x64
 
 
 3. Hints
 ========
+
+  In this section we compiled some hints about problems we encountered
+  on different test machines and different setups. Any comments on or even 
+  solutions to these problems are welcome. 
 
   On Unix, if you are using alternative Xaw libraries (e.g. neXtaw,
   Xaw95, Xaw3d) and you are having troubles with the GUI, try to use
@@ -361,4 +371,50 @@ RiscOS.
 
   This will build much bigger executables, though.  We are sorry, but
   that is not our fault.
+
+  Some HP-UX (versions 9 and 10) need the "--without-readline" switch
+  because autoconf fails to detect that it needs "-lcurses"
+  (the configure test passes, but the compile is broken. Is this an
+  autoconf bug?). 
+
+  One HP-UX 9 test machine failed to compile resid.cc, probably 
+  due to a broken gcc installation. In this case try to apply this 
+  patch:
+--------------------------
+--- vice-old/src/sid/resid.cc  Wed Mar 10 22:57:19 1999
++++ vice-new/src/sid/resid.cc  Mon Apr 12 16:22:03 1999
+@@ -27,10 +27,11 @@
+ 
+ #include "resid/sid.h"
+ 
+-extern "C" {
+ 
+ #include <stdio.h>
+ #include <math.h>
++
++extern "C" {
+ 
+ #include "vice.h"
+ #include "sid.h"
+--------------------------
+  
+  When compiling on AIX in a directory different from where the source 
+  is and with the native C++ compiler "cc", then the C++ compiler mixes 
+  up the order in which include files are included. This makes the `resid'
+  package wrongly believe that `bool' is defined. You might use
+  `CXX="cc -qidirfirst"' instead. 
+  On the other hand using "cc" as C++ compiler resulted in a linkage 
+  error on our test machine. We thus recommend using the GCC C++ compiler 
+  or the configure switch `--without-resid'.
+  If you know how to fix this, any comments are welcome.
+
+  On a DEC alpha-EV6 machine (64 bit, OSF1 operating system) when using
+  the DEC compiler, you might want to use `CC="cc -std1"' to enforce ANSI C
+  standard.
+
+  To build a debug version of VICE, use `CFLAGS="-g -DNO_INLINE"'.
+  This disables inlining of functions in most of the places and does not
+  do any optimization. This way the debugger can produce a much better 
+  output. This also serves as a test whether the compiler optimization
+  breaks the code.
 
