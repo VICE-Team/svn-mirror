@@ -30,12 +30,15 @@
 #include <string.h>
 
 #include "wimp.h"
+#include "posix.h"
 
+#include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
 #include "imagecontents.h"
 #include "ui.h"
 #include "uiimage.h"
+#include "utils.h"
 #include "vsync.h"
 
 
@@ -43,6 +46,7 @@
 #define IMAGE_CONTENT_NONE	0
 #define IMAGE_CONTENT_TAPE	1
 #define IMAGE_CONTENT_DISK	2
+#define IMAGE_CONTENT_DIR	3
 
 static image_contents_t *contents;
 static int image_content_type = IMAGE_CONTENT_NONE;
@@ -71,6 +75,62 @@ static const char FontName[] = "corpus.medium";
 static const char FontNameEm[] = "corpus.bold";
 
 
+
+static image_contents_t *ui_image_contents_read_dir(const char *dir_name)
+{
+  image_contents_t *new;
+  DIR *dirp;
+  struct dirent *de;
+  image_contents_file_list_t *lp;
+  unsigned int maxlen;
+
+  dirp = opendir(dir_name);
+  if (dirp == NULL)
+    return NULL;
+
+  new = image_contents_new();
+  memcpy(new->name, dir_name, IMAGE_CONTENTS_NAME_LEN);
+  (new->name)[IMAGE_CONTENTS_NAME_LEN] = 0;
+
+  memcpy(new->id, dir_name, IMAGE_CONTENTS_ID_LEN);
+  (new->id)[IMAGE_CONTENTS_ID_LEN] = 0;
+
+  new->blocks_free = -1;
+
+  new->file_list = NULL;
+  lp = NULL;
+
+  maxlen = (MAX_FILENAME_LENGTH > IMAGE_CONTENTS_FILE_NAME_LEN) ?
+             IMAGE_CONTENTS_FILE_NAME_LEN : MAX_FILENAME_LENGTH;
+
+  while ((de = readdir(dirp)) != NULL)
+  {
+    image_contents_file_list_t *new_list;
+
+    new_list = (image_contents_file_list_t*)xmalloc(sizeof(image_contents_file_list_t));
+    new_list->size = (de->d_reclen) / 254;
+    strncpy(new_list->name, de->d_name, maxlen);
+    (new_list->name)[maxlen] = '\0';
+    strcpy(new_list->type, "PRG");
+
+    new_list->next = NULL;
+
+    if (lp == NULL)
+    {
+      new_list->prev = NULL;
+      new->file_list = new_list;
+    }
+    else
+    {
+      new_list->prev = lp;
+      lp->next = new_list;
+    }
+    lp = new_list;
+  }
+  closedir(dirp);
+
+  return new;
+}
 
 
 static int setup_window(const char *title)
@@ -195,10 +255,23 @@ int ui_image_contents_tape(const char *imagename)
 }
 
 
+int ui_image_contents_dir(const char *dirname)
+{
+  vsync_suspend_speed_eval();
+  delete_contents();
+  contents = ui_image_contents_read_dir(dirname);
+  wimp_strcpy(image_content_file, dirname);
+  image_content_type = IMAGE_CONTENT_DIR;
+  return setup_window(dirname);
+}
+
+
 int ui_image_contents_generic(const char *imagename, int filetype)
 {
   if (filetype == FileType_D64File)
     return ui_image_contents_disk(imagename);
+  else if (filetype == FileType_Directory)
+    return ui_image_contents_dir(imagename);
   else if (filetype == FileType_Data)
   {
     const char *b, *ext;
@@ -395,10 +468,40 @@ void ui_image_contents_click(int *block)
       MarkedLine = filenum;
       force_line_redraw(MarkedLine);
       file_system_detach_disk(8);
-      if (image_content_type == IMAGE_CONTENT_DISK)
-        autostart_disk(image_content_file, NULL, filenum);
-      else if (image_content_type == IMAGE_CONTENT_TAPE)
-        autostart_tape(image_content_file, NULL, filenum);
+
+      switch(image_content_type)
+      {
+        case IMAGE_CONTENT_DISK:
+          autostart_disk(image_content_file, NULL, filenum);
+          break;
+        case IMAGE_CONTENT_TAPE:
+          autostart_tape(image_content_file, NULL, filenum);
+          break;
+        case IMAGE_CONTENT_DIR:
+          {
+            image_contents_file_list_t *item = contents->file_list;
+            int number;
+
+            for (number=1; (number<filenum) && (item!=NULL); number++, item=item->next) ;
+
+            if (item != NULL)
+            {
+              char buffer[256];
+
+              strcpy(buffer, image_content_file);
+              number = strlen(buffer);
+              buffer[number++] = FSDEV_DIR_SEP_CHR;
+              strcpy(buffer+number, item->name);
+              if (autostart_prg(buffer) == 0)
+              {
+                ui_display_drive_dir(0, image_content_file);
+              }
+            }
+          }
+          break;
+        default:
+          break;
+      }
 
       /* adjust double-click */
       if (block[MouseB_Buttons] == 1)

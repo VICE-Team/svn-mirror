@@ -1817,6 +1817,14 @@ static int ui_set_drive_image(int number, const char *file)
 }
 
 
+void ui_display_drive_dir(int number, const char *dir)
+{
+  util_string_set(DriveFiles[number], dir);
+  *(DriveTypes[number]) = DRIVE_TYPE_FS;
+  wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number], dir);
+}
+
+
 static int ui_set_drive_dir(int number, const char *dir)
 {
   if (!vsid_mode)
@@ -1828,9 +1836,7 @@ static int ui_set_drive_dir(int number, const char *dir)
     if ((ReadCatalogueInfo(dir, info) & 2) == 0) return -1;
     file_system_detach_disk(8 + number);
     fsdevice_set_directory((char*)dir, 8 + number);
-    util_string_set(DriveFiles[number], dir);
-    *(DriveTypes[number]) = DRIVE_TYPE_FS;
-    wimp_window_write_icon_text(ConfWindows[CONF_WIN_DRIVES], DriveToFile[number], dir);
+    ui_display_drive_dir(number, dir);
   }
   return 0;
 }
@@ -1901,8 +1907,16 @@ static int ui_new_drive_image(int number, const char *name, int scankeys)
   type = ReadCatalogueInfo(name, aux);
   if (type == 2)
   {
-    if (ui_set_drive_dir(number, name) != 0)
-      return -1;
+    if (!scankeys || (ScanKeys(IntKey_Shift) == 0xff))
+    {
+      if (ui_set_drive_dir(number, name) != 0)
+        return -1;
+    }
+    else
+    {
+      if (ui_image_contents_dir(name) != 0)
+        return -1;
+    }
   }
   else
   {

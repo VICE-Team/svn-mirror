@@ -485,7 +485,7 @@ void util_fname_split(const char *path, char **directory_return,
         return;
     }
 
-    p = strrchr(path, '/');
+    p = strrchr(path, FSDEV_DIR_SEP_CHR);
 
 #if defined __MSDOS__ || defined WIN32 || defined __OS2__
     /* Both `/' and `\' are valid.  */
@@ -914,7 +914,7 @@ char *xmvsprintf(const char *fmt, va_list args)
             xmvsprintf_add(&buf, &bufsize, &position, *fmt);
             continue;
         }
-			
+
         /* process flags */
         flags = 0;
 repeat:
@@ -954,7 +954,7 @@ repeat:
         /* get the precision */
         precision = -1;
         if (*fmt == '.') {
-            ++fmt;	
+            ++fmt;
             if (xmvsprintf_is_digit(*fmt))
                 precision = xmvsprintf_skip_atoi(&fmt);
             else if (*fmt == '*') {

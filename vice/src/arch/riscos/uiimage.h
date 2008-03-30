@@ -29,9 +29,11 @@
 
 #define FileType_D64File	0x164
 #define FileType_Data		0xffd
+#define FileType_Directory	0x1000
 
 int  ui_image_contents_disk(const char *imagefile);
 int  ui_image_contents_tape(const char *imagefile);
+int  ui_image_contents_dir(const char *dirname);
 int  ui_image_contents_generic(const char *imagefile, int filetype);
 void ui_image_contents_close(void);
 void ui_image_contents_redraw(int *block);
