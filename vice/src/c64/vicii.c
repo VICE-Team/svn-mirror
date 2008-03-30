@@ -54,6 +54,8 @@
 
 #define _VICII_C
 
+#include "vice.h"
+
 /* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
    memory and (little) speed.  */
 #ifndef __MSDOS__
@@ -63,7 +65,6 @@
 #define pixel_height 1
 #endif /* !__MSDOS__ */
 
-#include "vice.h"
 #include "vicii.h"
 #include "vmachine.h"
 #include "interrupt.h"
@@ -615,7 +616,6 @@ canvas_t vic_ii_init(void)
     palette = palette_create(VIC_II_NUM_COLORS, color_names);
     if (palette == NULL)
         return NULL;
-
     if (palette_load(palette_file_name, palette) < 0) {
         printf("Cannot load palette file `%s'.\n", palette_file_name);
         return NULL;

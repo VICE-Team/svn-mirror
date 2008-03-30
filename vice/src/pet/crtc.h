@@ -46,6 +46,8 @@
 #define CRTC_RFSH_PER_SEC            60
 #endif
 
+#define CYCLES_PER_LINE              CRTC_CYCLES_PER_LINE
+
 #ifdef _CRTC_C
 static int crtc_cols = 40;
 #define CRTC_SCREEN_TEXTCOLS		 crtc_cols
@@ -72,13 +74,6 @@ static int crtc_cols = 40;
 #define CRTC_WINDOW_TITLE		"VICE: PET emulator"
 
 #define CRTC_NUM_COLORS 2
-
-#ifdef _CRTC_C
-static color_def_t color_defs[CRTC_NUM_COLORS] = {
-    { 0x0000, 0x0000, 0x0000,  0 },
-    { 0x0000, 0xff00, 0x0000, 16 }
-};
-#endif
 
 #define CRTC_STANDARD_MODE	    0
 #define CRTC_REVERSE_MODE           1
@@ -112,6 +107,8 @@ static color_def_t color_defs[CRTC_NUM_COLORS] = {
 #define SCREEN_IDLE_MODE		CRTC_IDLE_MODE
 #endif
 
+extern int crtc_init_resources(void);
+extern int crtc_init_cmdline_options(void);
 extern canvas_t crtc_init(void);
 extern void reset_crtc(void);
 extern int int_rasterdraw(long offset);

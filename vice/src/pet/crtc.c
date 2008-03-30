@@ -37,6 +37,15 @@
 
 #include "vice.h"
 
+/* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
+   memory and (little) speed.  */
+#ifndef __MSDOS__
+#define NEED_2x
+#else  /* __MSDOS__ */
+#define pixel_width 1
+#define pixel_height 1
+#endif /* !__MSDOS__ */
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -46,6 +55,107 @@
 #include "interrupt.h"
 #include "mem.h"
 #include "pia.h"
+#include "resources.h"
+#include "cmdline.h"
+#include "utils.h"
+
+/* ------------------------------------------------------------------------- */
+
+/* CRTC resources.  */
+
+/* Name of palette file.  */
+static char *palette_file_name;
+
+/* Flag: Do we use double size?  */
+static int double_size_enabled;
+
+/* Flag: Do we enable the video cache?  */
+static int video_cache_enabled;
+
+/* Flag: Do we copy lines in double size mode?  */
+static int double_scan_enabled;
+
+static int set_video_cache_enabled(resource_value_t v)
+{
+    video_cache_enabled = (int) v;
+    return 0;
+}
+
+static int set_palette_file_name(resource_value_t v)
+{
+    string_set(&palette_file_name, (char *) v);
+    return 0;
+}
+
+static int set_double_size_enabled(resource_value_t v)
+{
+    double_size_enabled = (int) v;
+    video_resize();
+    return 0;
+}
+
+static int set_double_scan_enabled(resource_value_t v)
+{
+    double_scan_enabled = (int) v;
+    video_resize();
+    return 0;
+}
+
+static resource_t resources[] = {
+    { "VideoCache", RES_INTEGER, (resource_value_t) 1,
+      (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
+    { "PaletteFile", RES_STRING, (resource_value_t) "default",
+      (resource_value_t *) &palette_file_name, set_palette_file_name },
+#ifdef NEED_2x
+    { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &double_size_enabled, set_double_size_enabled },
+    { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
+      (resource_value_t *) &double_scan_enabled, set_double_scan_enabled },
+#endif
+    { NULL }
+};
+
+int crtc_init_resources(void)
+{
+    return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* VIC-II command-line options.  */
+
+static cmdline_option_t cmdline_options[] = {
+    { "-vcache", SET_RESOURCE, 0, NULL, NULL,
+      "VideoCache", (resource_value_t) 1,
+      NULL, "Enable the video cache" },
+    { "+vcache", SET_RESOURCE, 0, NULL, NULL,
+      "VideoCache", (resource_value_t) 0,
+      NULL, "Disable the video cache" },
+    { "-palette", SET_RESOURCE, 1, NULL, NULL,
+      "PaletteFile", NULL,
+      "<name>", "Specify palette file name" },
+#ifdef NEED_2x
+    { "-dsize", SET_RESOURCE, 0, NULL, NULL,
+      "DoubleSize", (resource_value_t) 1,
+      NULL, "Enable double size" },
+    { "+dsize", SET_RESOURCE, 0, NULL, NULL,
+      "DoubleSize", (resource_value_t) 0,
+      NULL, "Disable double size" },
+    { "-dscan", SET_RESOURCE, 0, NULL, NULL,
+      "DoubleScan", (resource_value_t) 1,
+      NULL, "Enable double scan" },
+    { "+dscan", SET_RESOURCE, 0, NULL, NULL,
+      "DoubleScan", (resource_value_t) 0,
+      NULL, "Disable double scan" },
+#endif
+    { NULL }
+};
+
+int crtc_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -62,6 +172,7 @@ static void draw_reverse_line_cached(struct line_cache *l, int xs, int xe);
 static void draw_standard_line_cached_2x(struct line_cache *l, int xs, int xe);
 static void draw_reverse_line_cached_2x(struct line_cache *l, int xs, int xe);
 
+static palette_t *palette;
 static BYTE crtc[19];
 static BYTE *chargen_ptr = NULL;
 static BYTE *screenmem = NULL;
@@ -78,23 +189,33 @@ PIXEL4 dwg_table2x_2[256], dwg_table2x_3[256];
 
 canvas_t crtc_init(void)
 {
+    static const char *color_names[CRTC_NUM_COLORS] = {
+      "Background", "Foreground"
+    };
+
 #ifdef __MSDOS__
-    if (SCREEN_XPIX > 320) {
-	app_resources.doubleSize = 1;
-	app_resources.vgaMode = VGA_640x480;
-    } else {
-	app_resources.doubleSize = 0;
-	app_resources.vgaMode = VGA_320x200;
-    }
-    app_resources.doubleScan = 1;
+    /* FIXME: Should set VGA mode.  */
+    if (SCREEN_XPIX > 320)
+	double_size_enabled = 1;
+    else
+        double_size_enabled = 0;
 #endif
 
     init_raster(1, 2, 2);
     video_resize();
+
+    palette = palette_create(CRTC_NUM_COLORS, color_names);
+    if (palette == NULL)
+        return NULL;
+    if (palette_load(palette_file_name, palette) < 0) {
+        printf("Cannot load palette file `%s'.\n", palette_file_name);
+        return NULL;
+    }
+
     if (open_output_window(CRTC_WINDOW_TITLE,
-			   SCREEN_XPIX + 10,
-                           SCREEN_YPIX + 10,
-			   color_defs,
+			   CRTC_SCREEN_XPIX + 10,
+                           CRTC_SCREEN_YPIX + 10,
+                           palette,
 			   (canvas_redraw_t) crtc_arrange_window)) {
 	fprintf(stderr, "fatal error: can't open window for CRTC emulation.\n");
 	return NULL;
@@ -163,7 +284,7 @@ void video_resize(void)
 {
     static int old_size = 0;
 
-    if (app_resources.doubleSize) {
+    if (double_size_enabled) {
 	pixel_height = 2;
 	if (crtc_cols == 40) {
 	    pixel_width = 2;
@@ -206,7 +327,7 @@ void video_resize(void)
 	    window_height /= 2;
 	}
     }
-    old_size = app_resources.doubleSize ? 2 : 1;
+    old_size = double_size_enabled ? 2 : 1;
 
     if (canvas) {
 	resize(window_width, window_height);
@@ -359,9 +480,7 @@ void reset_crtc(void)
 
 int crtc_offscreen(void)
 {
-/* printf("crtc_offscreen: rasterline=%d, YPIX=%d -> %d\n",
-				rasterline, YPIX, rasterline>=YPIX); */
-    return rasterline >= YPIX;
+    return rasterline >= CRTC_SCREEN_YPIX;
 }
 
 void crtc_set_screen_mode(BYTE *screen, int vmask, int num_cols)
@@ -422,7 +541,7 @@ int int_rasterdraw(long offset)
     if (rasterline == 0) {
         /* we assume this to start the screen */
         signal_pia1(PIA_SIG_CB1, PIA_SIG_RISE);
-    } else if(rasterline == YPIX) {
+    } else if(rasterline == CRTC_SCREEN_YPIX) {
         /* and this to end the screen */
         signal_pia1(PIA_SIG_CB1, PIA_SIG_FALL);
     }

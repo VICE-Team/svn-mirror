@@ -37,9 +37,7 @@
 
 /* Screen constants. */
 
-#define VIC_II_SCREEN_HEIGHT	       312
-#define VIC_II_CYCLES_PER_LINE         63
-#define VIC_II_RFSH_PER_SEC            50
+#define VIC_II_SCREEN_HEIGHT	        312
 
 #if 0
 #define VIC_II_SCREEN_WIDTH		411
