@@ -136,7 +136,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     resources_get_value("MachineVideoStandard",
                         (resource_value_t *)&sync_factor);
 
-    if (snapshot_module_write_dword(m, (DWORD)sync_factor) < 0) {
+    if (SMW_DW(m, (DWORD)sync_factor) < 0) {
         if (m != NULL)
             snapshot_module_close(m);
         return -1;
@@ -144,27 +144,27 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
 
     for (i = 0; i < 2; i++) {
         if (0
-            || snapshot_module_write_dword(m, (DWORD)drive[i].accum) < 0
-            || snapshot_module_write_dword(m, (DWORD)drive[i].attach_clk) < 0
-            || snapshot_module_write_dword(m, (DWORD)drive[i].bits_moved) < 0
-            || snapshot_module_write_byte(m, (BYTE)drive[i].byte_ready_level) < 0
-            || snapshot_module_write_byte(m, (BYTE)drive[i].clock_frequency) < 0
-            || snapshot_module_write_word(m, (WORD)drive[i].current_half_track) < 0
-            || snapshot_module_write_dword(m, (DWORD)drive[i].detach_clk) < 0
-            || snapshot_module_write_byte(m, (BYTE)drive[i].diskID1) < 0
-            || snapshot_module_write_byte(m, (BYTE)drive[i].diskID2) < 0
-            || snapshot_module_write_byte(m, (BYTE)drive[i].extend_image_policy) < 0
-            || snapshot_module_write_byte(m, (BYTE)drive[i].finish_byte) < 0
-            || snapshot_module_write_dword(m, (DWORD)drive[i].GCR_head_offset) < 0
-            || snapshot_module_write_byte(m, (BYTE)drive[i].GCR_read) < 0
-            || snapshot_module_write_byte(m, (BYTE)drive[i].GCR_write_value) < 0
-            || snapshot_module_write_byte(m, (BYTE)drive[i].idling_method) < 0
-            || snapshot_module_write_byte(m, (BYTE)drive[i].last_mode) < 0
-            || snapshot_module_write_byte(m, (BYTE)drive[i].parallel_cable_enabled) < 0
-            || snapshot_module_write_byte(m, (BYTE)drive[i].read_only) < 0
-            || snapshot_module_write_dword(m, (DWORD)drive[i].rotation_last_clk) < 0
-            || snapshot_module_write_dword(m, (DWORD)(rotation_table_ptr[i])) < 0
-            || snapshot_module_write_dword(m, (DWORD)drive[i].type) < 0
+            || SMW_DW(m, (DWORD)drive[i].accum) < 0
+            || SMW_DW(m, (DWORD)drive[i].attach_clk) < 0
+            || SMW_DW(m, (DWORD)drive[i].bits_moved) < 0
+            || SMW_B(m, (BYTE)drive[i].byte_ready_level) < 0
+            || SMW_B(m, (BYTE)drive[i].clock_frequency) < 0
+            || SMW_W(m, (WORD)drive[i].current_half_track) < 0
+            || SMW_DW(m, (DWORD)drive[i].detach_clk) < 0
+            || SMW_B(m, (BYTE)drive[i].diskID1) < 0
+            || SMW_B(m, (BYTE)drive[i].diskID2) < 0
+            || SMW_B(m, (BYTE)drive[i].extend_image_policy) < 0
+            || SMW_B(m, (BYTE)drive[i].finish_byte) < 0
+            || SMW_DW(m, (DWORD)drive[i].GCR_head_offset) < 0
+            || SMW_B(m, (BYTE)drive[i].GCR_read) < 0
+            || SMW_B(m, (BYTE)drive[i].GCR_write_value) < 0
+            || SMW_B(m, (BYTE)drive[i].idling_method) < 0
+            || SMW_B(m, (BYTE)drive[i].last_mode) < 0
+            || SMW_B(m, (BYTE)drive[i].parallel_cable_enabled) < 0
+            || SMW_B(m, (BYTE)drive[i].read_only) < 0
+            || SMW_DW(m, (DWORD)drive[i].rotation_last_clk) < 0
+            || SMW_DW(m, (DWORD)(rotation_table_ptr[i])) < 0
+            || SMW_DW(m, (DWORD)drive[i].type) < 0
         ) {
             if (m != NULL)
                 snapshot_module_close(m);
@@ -219,47 +219,6 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     return 0;
 }
 
-static int read_byte_into_int(snapshot_module_t *m, int *value_return)
-{
-    BYTE b;
-
-    if (snapshot_module_read_byte(m, &b) < 0)
-        return -1;
-    *value_return = (int)b;
-    return 0;
-}
-
-static int read_word_into_int(snapshot_module_t *m, int *value_return)
-{
-    WORD b;
-
-    if (snapshot_module_read_word(m, &b) < 0)
-        return -1;
-    *value_return = (int)b;
-    return 0;
-}
-
-static int read_dword_into_unsigned_long(snapshot_module_t *m,
-                                         unsigned long *value_return)
-{
-    DWORD b;
-
-    if (snapshot_module_read_dword(m, &b) < 0)
-        return -1;
-    *value_return = (unsigned long)b;
-    return 0;
-}
-
-static int read_dword_into_int(snapshot_module_t *m, int *value_return)
-{
-    DWORD b;
-
-    if (snapshot_module_read_dword(m, &b) < 0)
-        return -1;
-    *value_return = (int)b;
-    return 0;
-}
-
 int drive_snapshot_read_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
@@ -289,7 +248,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     /* XXX drive_true_emulation = 1 */
     resources_set_value("DriveTrueEmulation", (resource_value_t)1);
 
-    if (read_dword_into_int(m, &sync_factor) < 0) {
+    if (SMR_DW_INT(m, &sync_factor) < 0) {
         if (m != NULL)
             snapshot_module_close(m);
         return -1;
@@ -297,27 +256,27 @@ int drive_snapshot_read_module(snapshot_t *s)
 
     for (i = 0; i < 2; i++) {
         if (0
-            || read_dword_into_unsigned_long(m, &drive[i].accum) < 0
-            || snapshot_module_read_dword(m, &drive[i].attach_clk) < 0
-            || read_dword_into_unsigned_long(m, &drive[i].bits_moved) < 0
-            || read_byte_into_int(m, &drive[i].byte_ready_level) < 0
-            || read_byte_into_int(m, &drive[i].clock_frequency) < 0
-            || read_word_into_int(m, &drive[i].current_half_track) < 0
-            || snapshot_module_read_dword(m, &drive[i].detach_clk) < 0
-            || snapshot_module_read_byte(m, &drive[i].diskID1) < 0
-            || snapshot_module_read_byte(m, &drive[i].diskID2) < 0
-            || read_byte_into_int(m, &drive[i].extend_image_policy) < 0
-            || read_byte_into_int(m, &drive[i].finish_byte) < 0
-            || read_dword_into_int(m, (int*)&drive[i].GCR_head_offset) < 0
-            || snapshot_module_read_byte(m, &drive[i].GCR_read) < 0
-            || snapshot_module_read_byte(m, &drive[i].GCR_write_value) < 0
-            || read_byte_into_int(m, &drive[i].idling_method) < 0
-            || read_byte_into_int(m, &drive[i].last_mode) < 0
-            || read_byte_into_int(m, &drive[i].parallel_cable_enabled) < 0
-            || read_byte_into_int(m, &drive[i].read_only) < 0
-            || snapshot_module_read_dword(m, &drive[i].rotation_last_clk) < 0
-            || snapshot_module_read_dword(m, &rotation_table_ptr[i]) < 0
-            || read_dword_into_int(m, (int*)&drive[i].type) < 0
+            || SMR_DW_UL(m, &drive[i].accum) < 0
+            || SMR_DW(m, &drive[i].attach_clk) < 0
+            || SMR_DW_UL(m, &drive[i].bits_moved) < 0
+            || SMR_B_INT(m, &drive[i].byte_ready_level) < 0
+            || SMR_B_INT(m, &drive[i].clock_frequency) < 0
+            || SMR_W_INT(m, &drive[i].current_half_track) < 0
+            || SMR_DW(m, &drive[i].detach_clk) < 0
+            || SMR_B(m, &drive[i].diskID1) < 0
+            || SMR_B(m, &drive[i].diskID2) < 0
+            || SMR_B_INT(m, &drive[i].extend_image_policy) < 0
+            || SMR_B_INT(m, &drive[i].finish_byte) < 0
+            || SMR_DW_INT(m, (int*)&drive[i].GCR_head_offset) < 0
+            || SMR_B(m, &drive[i].GCR_read) < 0
+            || SMR_B(m, &drive[i].GCR_write_value) < 0
+            || SMR_B_INT(m, &drive[i].idling_method) < 0
+            || SMR_B_INT(m, &drive[i].last_mode) < 0
+            || SMR_B_INT(m, &drive[i].parallel_cable_enabled) < 0
+            || SMR_B_INT(m, &drive[i].read_only) < 0
+            || SMR_DW(m, &drive[i].rotation_last_clk) < 0
+            || SMR_DW(m, &rotation_table_ptr[i]) < 0
+            || SMR_DW_INT(m, (int*)&drive[i].type) < 0
         ) {
             if (m != NULL)
                 snapshot_module_close(m);
@@ -487,7 +446,7 @@ static int drive_snapshot_write_image_module(snapshot_t *s, unsigned int dnr)
        return -1;
 
     word = drive[dnr].image->type;
-    snapshot_module_write_word(m, word);
+    SMW_W(m, word);
 
     /* we use the return code to step through the tracks. So we do not
        need any geometry info. */
@@ -497,7 +456,7 @@ static int drive_snapshot_write_image_module(snapshot_t *s, unsigned int dnr)
             rc = disk_image_read_sector(drive[dnr].image, sector_data, track,
                                         sector);
             if (rc == 0) {
-                snapshot_module_write_byte_array(m, sector_data, 0x100);
+                SMW_BA(m, sector_data, 0x100);
             } else {
                 break;
             }
@@ -540,7 +499,7 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
                   IMAGE_SNAP_MAJOR, IMAGE_SNAP_MINOR);
     }
 
-    if (snapshot_module_read_word(m, &word) < 0) {
+    if (SMR_W(m, &word) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -597,14 +556,14 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
 
     /* we use the return code to step through the tracks. So we do not
        need any geometry info. */
-    snapshot_module_read_byte_array(m, sector_data, 0x100);
+    SMR_BA(m, sector_data, 0x100);
     for (track = 1; ; track++) {
         rc = 0;
         for (sector = 0; ; sector++) {
             rc = disk_image_write_sector(drive[dnr].image, sector_data, track,
                                          sector);
             if (rc == 0) {
-                snapshot_module_read_byte_array(m, sector_data, 0x100);
+                SMR_BA(m, sector_data, 0x100);
             } else {
                 break;
             }
@@ -652,20 +611,22 @@ static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
     }
 
     if (0
-        || snapshot_module_write_byte_array(m, drive[dnr].gcr->data,
+        || SMW_BA(m, drive[dnr].gcr->data,
             sizeof(drive[dnr].gcr->data)) < 0
-        || snapshot_module_write_byte_array(m, drive[dnr].gcr->speed_zone,
+        || SMW_BA(m, drive[dnr].gcr->speed_zone,
             sizeof(drive[dnr].gcr->speed_zone)) < 0
-        || snapshot_module_write_byte_array(m, tmpbuf, MAX_TRACKS_1571 * 4) < 0
-        ) {
+        || SMW_BA(m, tmpbuf, MAX_TRACKS_1571 * 4) < 0) {
         if (m != NULL)
             snapshot_module_close(m);
         free(tmpbuf);
         return -1;
     }
+
     free(tmpbuf);
+
     if (snapshot_module_close(m) < 0)
         return -1;
+
     return 0;
 }
 
@@ -695,17 +656,18 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
     tmpbuf = (BYTE *)xmalloc(MAX_TRACKS_1571 * 4);
 
     if (0
-        || snapshot_module_read_byte_array(m, drive[dnr].gcr->data,
+        || SMR_BA(m, drive[dnr].gcr->data,
             sizeof(drive[dnr].gcr->data)) < 0
-        || snapshot_module_read_byte_array(m, drive[dnr].gcr->speed_zone,
+        || SMR_BA(m, drive[dnr].gcr->speed_zone,
             sizeof(drive[dnr].gcr->speed_zone)) < 0
-        || snapshot_module_read_byte_array(m, tmpbuf, MAX_TRACKS_1571 * 4) < 0
-        ) {
+        || SMR_BA(m, tmpbuf, MAX_TRACKS_1571 * 4) < 0) {
+
         if (m != NULL)
             snapshot_module_close(m);
         free(tmpbuf);
         return -1;
     }
+
     snapshot_module_close(m);
     m = NULL;
 
@@ -714,8 +676,10 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
             + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24);
 
     free(tmpbuf);
+
     drive[dnr].GCR_image_loaded = 1;
     drive[dnr].image = NULL;
+
     return 0;
 }
 
@@ -781,7 +745,7 @@ static int drive_snapshot_write_rom_module(snapshot_t *s, unsigned int dnr)
         return -1;
     }
 
-    if (snapshot_module_write_byte_array(m, base, len) < 0) {
+    if (SMW_BA(m, base, len) < 0) {
         if (m != NULL)
             snapshot_module_close(m);
         return -1;
@@ -856,7 +820,7 @@ static int drive_snapshot_read_rom_module(snapshot_t *s, unsigned int dnr)
         return -1;
     }
 
-    if (snapshot_module_read_byte_array(m, base, len) < 0) {
+    if (SMR_BA(m, base, len) < 0) {
         if (m != NULL)
             snapshot_module_close(m);
         return -1;
@@ -865,6 +829,7 @@ static int drive_snapshot_read_rom_module(snapshot_t *s, unsigned int dnr)
     machine_drive_rom_do_checksum(dnr);
 
     snapshot_module_close(m);
+
     return 0;
 }
 

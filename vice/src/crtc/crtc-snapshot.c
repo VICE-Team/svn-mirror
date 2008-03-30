@@ -69,62 +69,62 @@ int crtc_snapshot_write_module(snapshot_t * s)
     /* hardware-options */
     if (ef
         /* valid video address bits */
-        || snapshot_module_write_word (m, (WORD)crtc.vaddr_mask) < 0
+        || SMW_W(m, (WORD)crtc.vaddr_mask) < 0
         /* which bit selects different charset .. */
-        || snapshot_module_write_word (m, (WORD)crtc.vaddr_charswitch) < 0
+        || SMW_W(m, (WORD)crtc.vaddr_charswitch) < 0
         /* ...with offset in charset .. */
-        || snapshot_module_write_word (m, (WORD)crtc.vaddr_charoffset) < 0
+        || SMW_W(m, (WORD)crtc.vaddr_charoffset) < 0
         /* which bit reverses the screen */
         /* XXX: this implementation "forgets" the sign of vaddr_revswitch,
            that indicate whether the bit has to be set (<0) or cleared (>0)
            for reverse mode. V1.0 modules are broken here. V1.1 adds the
            sign at the end of the module */
-        || snapshot_module_write_word (m, (WORD)crtc.vaddr_revswitch) < 0
+        || SMW_W(m, (WORD)crtc.vaddr_revswitch) < 0
 
         /* size of character generator in byte - 1 */
-        || snapshot_module_write_word (m, (WORD)crtc.chargen_mask) < 0
+        || SMW_W(m, (WORD)crtc.chargen_mask) < 0
         /* offset given by external circuitry */
-        || snapshot_module_write_word (m, (WORD)crtc.chargen_offset) < 0
+        || SMW_W(m, (WORD)crtc.chargen_offset) < 0
 
         /* hardware cursor enabled? */
-        || snapshot_module_write_byte (m, (BYTE)(crtc.hw_cursor ? 1 : 0)) < 0
+        || SMW_B(m, (BYTE)(crtc.hw_cursor ? 1 : 0)) < 0
         /* hardware column per character clock cycle */
-        || snapshot_module_write_byte (m, (BYTE)crtc.hw_cols) < 0
+        || SMW_B(m, (BYTE)crtc.hw_cols) < 0
         /* (external) hardware blanked */
-        || snapshot_module_write_byte (m, (BYTE)crtc.hw_blank) < 0
+        || SMW_B(m, (BYTE)crtc.hw_blank) < 0
         ) {
         ef = -1;
     }
 
     /* save the registers */
     for (i = 0; (!ef) && (i < 20); i++) {
-        ef = snapshot_module_write_byte (m, crtc.regs[i]);
+        ef = SMW_B(m, crtc.regs[i]);
     }
 
     /* save the internal state of the CRTC counters */
     if (ef
         /* index in CRTC register file */
-        || snapshot_module_write_byte (m, (BYTE)crtc.regno) < 0
+        || SMW_B(m, (BYTE)crtc.regno) < 0
         /* clock in the rasterline */
-        || snapshot_module_write_byte (m, (BYTE)current_char) < 0
+        || SMW_B(m, (BYTE)current_char) < 0
         /* current character line */
-        || snapshot_module_write_byte (m, (BYTE)crtc.current_charline) < 0
+        || SMW_B(m, (BYTE)crtc.current_charline) < 0
         /* rasterline in character */
-        || snapshot_module_write_byte (m, (BYTE)crtc.raster.ycounter) < 0
+        || SMW_B(m, (BYTE)crtc.raster.ycounter) < 0
 
         /* cursor state & counter */
-        || snapshot_module_write_byte (m, (BYTE)crtc.crsrcnt) < 0
-        || snapshot_module_write_byte (m, (BYTE)crtc.crsrstate) < 0
-        || snapshot_module_write_byte (m, (BYTE)crtc.cursor_lines) < 0
+        || SMW_B(m, (BYTE)crtc.crsrcnt) < 0
+        || SMW_B(m, (BYTE)crtc.crsrstate) < 0
+        || SMW_B(m, (BYTE)crtc.cursor_lines) < 0
 
         /* memory pointer */
-        || snapshot_module_write_word (m, (WORD)crtc.chargen_rel) < 0
-        || snapshot_module_write_word (m, (WORD)screen_rel) < 0
+        || SMW_W(m, (WORD)crtc.chargen_rel) < 0
+        || SMW_W(m, (WORD)screen_rel) < 0
 
         /* vsync */
-        || snapshot_module_write_word (m, (WORD)crtc.vsync) < 0
+        || SMW_W(m, (WORD)crtc.vsync) < 0
         /* venable */
-        || snapshot_module_write_byte (m, (BYTE)crtc.venable) < 0
+        || SMW_B(m, (BYTE)crtc.venable) < 0
         ) {
         ef = -1;
     }
@@ -132,21 +132,21 @@ int crtc_snapshot_write_module(snapshot_t * s)
     /* VICE-dependent runtime variables */
     if (ef
         /* screen size */
-        || snapshot_module_write_word (m, (WORD)crtc.screen_width) < 0
-        || snapshot_module_write_word (m, (WORD)crtc.screen_height) < 0
+        || SMW_W(m, (WORD)crtc.screen_width) < 0
+        || SMW_W(m, (WORD)crtc.screen_height) < 0
 
         /* horizontal centering */
-        || snapshot_module_write_word (m, (WORD)crtc.screen_xoffset) < 0
+        || SMW_W(m, (WORD)crtc.screen_xoffset) < 0
         /* horizontal jitter */
-        || snapshot_module_write_word (m, (WORD)crtc.hjitter) < 0
+        || SMW_W(m, (WORD)crtc.hjitter) < 0
 
         /* vertical centering */
-        || snapshot_module_write_word (m, (WORD)crtc.screen_yoffset) < 0
+        || SMW_W(m, (WORD)crtc.screen_yoffset) < 0
 
         /* expected number of rasterlines for the frame */
-        || snapshot_module_write_word (m, (WORD)crtc.framelines) < 0
+        || SMW_W(m, (WORD)crtc.framelines) < 0
         /* current frameline */
-        || snapshot_module_write_word (m, (WORD)crtc.current_line) < 0
+        || SMW_W(m, (WORD)crtc.current_line) < 0
         ) {
         ef = -1;
     }
@@ -156,7 +156,7 @@ int crtc_snapshot_write_module(snapshot_t * s)
        use positive values in rev_switch. Only bit 0 is defined as of today. */
     if (!ef) {
         BYTE rev_fl = (crtc.vaddr_revswitch < 0) ? 1 : 0;
-        if (snapshot_module_write_byte(m, (BYTE) rev_fl) < 0) {
+        if (SMW_B(m, (BYTE)rev_fl) < 0) {
             ef = -1;
         }
     }
@@ -192,87 +192,87 @@ int crtc_snapshot_read_module(snapshot_t * s)
     }
 
     /* hardware-options */
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.vaddr_mask = w;
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.vaddr_charswitch = w;
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.vaddr_charoffset = w;
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.vaddr_revswitch = w;
 
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.chargen_mask = w;
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.chargen_offset = w;
 
-    if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b)))
         crtc.hw_cursor = b;
-    if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b)))
         crtc.hw_cols = b;
-    if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b)))
         crtc.hw_blank = b;
 
     crtc.rl_start = maincpu_clk;        /* just to be sure */
 
     /* read the registers */
     for (i = 0; (!ef) && (i < 20); i++) {
-        if (!(ef = snapshot_module_read_byte(m, &b))) {
+        if (!(ef = SMR_B(m, &b))) {
             crtc_store(0, (BYTE)i);
             crtc_store(1, b);
         }
     }
 
     /* save the internal state of the CRTC counters */
-    if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b)))
         crtc.regno = b;
-    if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b)))
         crtc.rl_start = maincpu_clk - b;
-    if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b)))
         crtc.current_charline = b;
-    if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b)))
         crtc.raster.ycounter = b;
 
-    if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b)))
         crtc.crsrcnt = b;
-    if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b)))
         crtc.crsrstate = b;
-    if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b)))
         crtc.cursor_lines = b;
 
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.chargen_rel = w;
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.screen_rel = w;
 
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.vsync = w;
-    if ((!ef) && !(ef = snapshot_module_read_byte(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b)))
         crtc.venable = b;
 
     /* VICE-dependent runtime variables */
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.screen_width = w;
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.screen_height = w;
 
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.screen_xoffset = w;
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.hjitter = w;
 
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.screen_yoffset = w;
 
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.framelines = w;
-    if ((!ef) && !(ef = snapshot_module_read_word(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w)))
         crtc.current_line = w;
 
     /* this has been added in V1.1 module version. Values are not available
        when reading V1.0 modules */
     if (minor >= 1) {
-        if ((!ef) && !(ef = snapshot_module_read_byte (m, &b))) {
+        if ((!ef) && !(ef = SMR_B(m, &b))) {
             /* invert vaddr_revswitch, i.e. bit must be set for reverse mode */
             if (b & 1) {
                 crtc.vaddr_revswitch = -crtc.vaddr_revswitch;
@@ -284,31 +284,31 @@ int crtc_snapshot_read_module(snapshot_t * s)
 
 /* FIXME: compatibility mode for old snapshots */
 #if 0
-  if (snapshot_module_read_byte(m, &b) < 0)
+  if (SMR_B(m, &b) < 0)
     goto fail;
   /* for the moment simply ignore this value */
 
-  if (snapshot_module_read_word(m, &w) < 0)
+  if (SMR_W(m, &w) < 0)
     goto fail;
   /* for the moment simply ignore this value */
 
   if (0
-      || snapshot_module_read_word(m, &vmask) < 0
-      || snapshot_module_read_byte(m, &hwflags))
+      || SMR_W(m, &vmask) < 0
+      || SMR_B(m, &hwflags))
       goto fail;
 
   crtc_set_screen_mode(NULL, vmask, memptr_inc, hwflags);
   crtc_update_memory_ptrs();
 
   for (i = 0; i < 20; i++) {
-      if (snapshot_module_read_byte (m, &b) < 0)
+      if (SMR_B(m, &b) < 0)
         goto fail;
 
       /* XXX: This assumes that there are no side effects.
          Well, there are, but the cursor state is restored later */
       store_crtc (i, b);
   }
-  if (snapshot_module_read_byte(m, &b) < 0)
+  if (SMR_B(m, &b) < 0)
       goto fail;
 
   crsrcnt = b & 0x3f;

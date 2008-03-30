@@ -50,7 +50,7 @@ int sid_snapshot_write_module(snapshot_t *s)
         return -1;
 
     /* FIXME: Only data for first SID stored. */
-    if (snapshot_module_write_byte_array(m, siddata[0], 32) < 0) {
+    if (SMW_BA(m, siddata[0], 32) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -80,7 +80,7 @@ int sid_snapshot_read_module(snapshot_t *s)
     }
 
     /* FIXME: Only data for first SID read. */
-    if (snapshot_module_read_byte_array(m, siddata[0], 32) < 0)
+    if (SMR_BA(m, siddata[0], 32) < 0)
         return -1;
 
     return snapshot_module_close(m);

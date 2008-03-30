@@ -925,18 +925,18 @@ int fdc_snapshot_write_module(snapshot_t *p, int fnum)
     if (m == NULL)
         return -1;
 
-    snapshot_module_write_byte(m, (BYTE)(fdc[fnum].fdc_state));
+    SMW_B(m, (BYTE)(fdc[fnum].fdc_state));
 
     /* clk till next invocation */
-    snapshot_module_write_dword(m,
+    SMW_DW(m,
                                 (DWORD)(fdc[fnum].alarm_clk - drive_clk[fnum]));
 
     /* number of drives - so far 1 only */
-    snapshot_module_write_byte(m, 1);
+    SMW_B(m, 1);
 
     /* last accessed track/sector */
-    snapshot_module_write_byte(m, ((BYTE)(fdc[fnum].last_track)));
-    snapshot_module_write_byte(m, ((BYTE)(fdc[fnum].last_sector)));
+    SMW_B(m, ((BYTE)(fdc[fnum].last_track)));
+    SMW_B(m, ((BYTE)(fdc[fnum].last_sector)));
 
     snapshot_module_close(m);
 
@@ -967,7 +967,7 @@ int fdc_snapshot_read_module(snapshot_t *p, int fnum)
         return -1;
     }
 
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     if (byte > FDC_LAST_STATE) {
         snapshot_module_close(m);
         return -1;
@@ -975,23 +975,24 @@ int fdc_snapshot_read_module(snapshot_t *p, int fnum)
     fdc[fnum].fdc_state = byte;
 
     /* clk till next invocation */
-    snapshot_module_read_dword(m, &dword);
+    SMR_DW(m, &dword);
+
     fdc[fnum].alarm_clk = drive_clk[fnum] + dword;
     alarm_set(&fdc[fnum].fdc_alarm, fdc[fnum].alarm_clk);
 
     /* number of drives - so far 1 only */
-    snapshot_module_read_byte(m, &ndrv);
+    SMR_B(m, &ndrv);
 
     /* last accessed track/sector */
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     fdc[fnum].last_track = byte;
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     fdc[fnum].last_sector = byte;
 
     if (ndrv > 1) {
         /* ignore drv 0 values */
-        snapshot_module_read_byte(m, &byte);
-        snapshot_module_read_byte(m, &byte);
+        SMR_B(m, &byte);
+        SMR_B(m, &byte);
     }
 
     if (snapshot_module_close(m) < 0)

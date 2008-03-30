@@ -212,17 +212,17 @@ int myacia_snapshot_write_module(snapshot_t *p)
     if (m == NULL)
         return -1;
 
-    snapshot_module_write_byte(m, txdata);
-    snapshot_module_write_byte(m, rxdata);
-    snapshot_module_write_byte(m, (BYTE)(status | (irq?0x80:0)));
-    snapshot_module_write_byte(m, cmd);
-    snapshot_module_write_byte(m, ctrl);
-    snapshot_module_write_byte(m, (BYTE)(intx));
+    SMW_B(m, txdata);
+    SMW_B(m, rxdata);
+    SMW_B(m, (BYTE)(status | (irq?0x80:0)));
+    SMW_B(m, cmd);
+    SMW_B(m, ctrl);
+    SMW_B(m, (BYTE)(intx));
 
-    if(alarm_active) {
-        snapshot_module_write_dword(m, (acia_alarm_clk - myclk));
+    if (alarm_active) {
+        SMW_DW(m, (acia_alarm_clk - myclk));
     } else {
-        snapshot_module_write_dword(m, 0);
+        SMW_DW(m, 0);
     }
 
     snapshot_module_close(m);
@@ -251,11 +251,11 @@ int myacia_snapshot_read_module(snapshot_t *p)
         return -1;
     }
 
-    snapshot_module_read_byte(m, &txdata);
-    snapshot_module_read_byte(m, &rxdata);
+    SMR_B(m, &txdata);
+    SMR_B(m, &rxdata);
 
     irq = 0;
-    snapshot_module_read_byte(m, &status);
+    SMR_B(m, &status);
     if (status & 0x80) {
         status &= 0x7f;
         irq = 1;
@@ -264,7 +264,7 @@ int myacia_snapshot_read_module(snapshot_t *p)
         mycpu_set_int_noclk(I_MYACIA, 0);
     }
 
-    snapshot_module_read_byte(m, &cmd);
+    SMR_B(m, &cmd);
     if ((cmd & 1) && (fd < 0)) {
         fd = rs232drv_open(acia_device);
     } else
@@ -273,14 +273,14 @@ int myacia_snapshot_read_module(snapshot_t *p)
         fd = -1;
     }
 
-    snapshot_module_read_byte(m, &ctrl);
+    SMR_B(m, &ctrl);
     acia_ticks = (int)(machine_get_cycles_per_second()
                                 / acia_baud_table[ctrl & 0xf]);
 
-    snapshot_module_read_byte(m, &byte);
+    SMR_B(m, &byte);
     intx = byte;
 
-    snapshot_module_read_dword(m, &dword);
+    SMR_DW(m, &dword);
     if (dword) {
         acia_alarm_clk = myclk + dword;
         alarm_set(&acia_alarm, acia_alarm_clk);
