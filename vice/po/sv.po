@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2003-11-10 16:09+0100\n"
+"POT-Creation-Date: 2003-11-11 01:58+0100\n"
 "PO-Revision-Date: 2003-11-02 16:44+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -2397,13 +2397,13 @@ msgstr "Spara insticksmodul"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:48
 #: src/arch/unix/x11/gnome/uiedisk.c:65
-#: src/arch/unix/x11/gnome/uiscreenshot.c:80
+#: src/arch/unix/x11/gnome/uiscreenshot.c:86
 #: src/arch/unix/x11/gnome/uisnapshot.c:49
 msgid "Filename: "
 msgstr "Filnamn: "
 
 #: src/arch/unix/x11/gnome/uicartridge.c:98
-#: src/arch/unix/x11/gnome/uiscreenshot.c:211
+#: src/arch/unix/x11/gnome/uiscreenshot.c:221
 #: src/arch/unix/x11/gnome/uisnapshot.c:119
 msgid "Invalid filename"
 msgstr "Ogiltigt filnamn"
@@ -2502,31 +2502,31 @@ msgstr "*Snabb PAL-emulering"
 msgid "Exact Emulation"
 msgstr "PAL-emulering"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:74
-#: src/arch/unix/x11/gnome/uiscreenshot.c:85
-#: src/arch/unix/x11/gnome/uiscreenshot.c:201
+#: src/arch/unix/x11/gnome/uiscreenshot.c:80
+#: src/arch/unix/x11/gnome/uiscreenshot.c:91
+#: src/arch/unix/x11/gnome/uiscreenshot.c:211
 msgid "Save Screenshot"
 msgstr "Spara skärmdump"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:98
+#: src/arch/unix/x11/gnome/uiscreenshot.c:104
 msgid "Image Format"
 msgstr "Bildformat"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:145
+#: src/arch/unix/x11/gnome/uiscreenshot.c:154
 msgid "Audio Bitrate"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:160
+#: src/arch/unix/x11/gnome/uiscreenshot.c:169
 #, fuzzy
 msgid "Video Bitrate"
 msgstr "Skärmbredd"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:240
+#: src/arch/unix/x11/gnome/uiscreenshot.c:251
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Kunde inte skriva skärmdump till \"%s\" med drivrutin \"%s\"."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:248
+#: src/arch/unix/x11/gnome/uiscreenshot.c:259
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Skrev \"%s\""

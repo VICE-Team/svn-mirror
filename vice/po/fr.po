@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.14\n"
-"POT-Creation-Date: 2003-11-10 16:09+0100\n"
+"POT-Creation-Date: 2003-11-11 01:58+0100\n"
 "PO-Revision-Date: 2003-11-02 16:44+0100\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -2437,13 +2437,13 @@ msgstr ""
 
 #: src/arch/unix/x11/gnome/uicartridge.c:48
 #: src/arch/unix/x11/gnome/uiedisk.c:65
-#: src/arch/unix/x11/gnome/uiscreenshot.c:80
+#: src/arch/unix/x11/gnome/uiscreenshot.c:86
 #: src/arch/unix/x11/gnome/uisnapshot.c:49
 msgid "Filename: "
 msgstr ""
 
 #: src/arch/unix/x11/gnome/uicartridge.c:98
-#: src/arch/unix/x11/gnome/uiscreenshot.c:211
+#: src/arch/unix/x11/gnome/uiscreenshot.c:221
 #: src/arch/unix/x11/gnome/uisnapshot.c:119
 msgid "Invalid filename"
 msgstr ""
@@ -2541,31 +2541,31 @@ msgstr "*Utiliser l'émulation reSID"
 msgid "Exact Emulation"
 msgstr "*Utiliser l'émulation reSID"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:74
-#: src/arch/unix/x11/gnome/uiscreenshot.c:85
-#: src/arch/unix/x11/gnome/uiscreenshot.c:201
+#: src/arch/unix/x11/gnome/uiscreenshot.c:80
+#: src/arch/unix/x11/gnome/uiscreenshot.c:91
+#: src/arch/unix/x11/gnome/uiscreenshot.c:211
 msgid "Save Screenshot"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:98
+#: src/arch/unix/x11/gnome/uiscreenshot.c:104
 msgid "Image Format"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:145
+#: src/arch/unix/x11/gnome/uiscreenshot.c:154
 msgid "Audio Bitrate"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:160
+#: src/arch/unix/x11/gnome/uiscreenshot.c:169
 #, fuzzy
 msgid "Video Bitrate"
 msgstr "Taille de la video"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:240
+#: src/arch/unix/x11/gnome/uiscreenshot.c:251
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:248
+#: src/arch/unix/x11/gnome/uiscreenshot.c:259
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr ""

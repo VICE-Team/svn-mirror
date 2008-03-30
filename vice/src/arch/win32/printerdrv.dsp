@@ -94,6 +94,10 @@ SOURCE="..\..\printerdrv\drv-mps803.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\printerdrv\drv-nl10.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\printerdrv\interface-serial.c"
 # End Source File
 # Begin Source File

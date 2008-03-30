@@ -81,5 +81,9 @@ extern const char *archdep_extract_dir_and_leaf(const char *path);
 /* miscellaneous */
 extern void archdep_closedown(void);
 extern FILE *archdep_get_default_log_file(void);
+extern void archdep_set_drive_leds(unsigned int led, int status);
+
+extern const char *archdep_rsrc_machine_name;
+extern void (*archdep_set_leds_callback)(unsigned int, int);
 
 #endif

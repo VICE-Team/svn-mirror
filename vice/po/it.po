@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2003-11-10 16:09+0100\n"
+"POT-Creation-Date: 2003-11-11 01:58+0100\n"
 "PO-Revision-Date: 2003-10-09 20:34+0200\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
@@ -2394,13 +2394,13 @@ msgstr "Salva la cartuccia"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:48
 #: src/arch/unix/x11/gnome/uiedisk.c:65
-#: src/arch/unix/x11/gnome/uiscreenshot.c:80
+#: src/arch/unix/x11/gnome/uiscreenshot.c:86
 #: src/arch/unix/x11/gnome/uisnapshot.c:49
 msgid "Filename: "
 msgstr "Nome del file: "
 
 #: src/arch/unix/x11/gnome/uicartridge.c:98
-#: src/arch/unix/x11/gnome/uiscreenshot.c:211
+#: src/arch/unix/x11/gnome/uiscreenshot.c:221
 #: src/arch/unix/x11/gnome/uisnapshot.c:119
 msgid "Invalid filename"
 msgstr "Nome del file non valido"
@@ -2499,32 +2499,32 @@ msgstr "*Emulazione PAL veloce"
 msgid "Exact Emulation"
 msgstr "Emulazione PAL"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:74
-#: src/arch/unix/x11/gnome/uiscreenshot.c:85
-#: src/arch/unix/x11/gnome/uiscreenshot.c:201
+#: src/arch/unix/x11/gnome/uiscreenshot.c:80
+#: src/arch/unix/x11/gnome/uiscreenshot.c:91
+#: src/arch/unix/x11/gnome/uiscreenshot.c:211
 msgid "Save Screenshot"
 msgstr "Salva cattura schermo"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:98
+#: src/arch/unix/x11/gnome/uiscreenshot.c:104
 msgid "Image Format"
 msgstr "Formato dell'immagine"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:145
+#: src/arch/unix/x11/gnome/uiscreenshot.c:154
 msgid "Audio Bitrate"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:160
+#: src/arch/unix/x11/gnome/uiscreenshot.c:169
 #, fuzzy
 msgid "Video Bitrate"
 msgstr "Dimensione dello schermo"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:240
+#: src/arch/unix/x11/gnome/uiscreenshot.c:251
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr ""
 "Non è possibile scrivere la cattura dello schermo su `%s' con il driver `%s'."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:248
+#: src/arch/unix/x11/gnome/uiscreenshot.c:259
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Scruttura di `%s' riuscita"

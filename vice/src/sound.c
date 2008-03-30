@@ -618,6 +618,9 @@ int sound_open(void)
         return 1;
     }
 
+    /* now the playback sound device is open */
+    sdev_open = TRUE;
+
     for (i = 0; (rdev = sound_devices[i]); i++) {
         if (recname && rdev->name && !strcasecmp(recname, rdev->name))
             break;
@@ -707,7 +710,6 @@ static int sound_run_sound(void)
         i = sound_open();
         if (i)
             return i;
-        sdev_open = TRUE;
     }
 
 #ifdef __riscos

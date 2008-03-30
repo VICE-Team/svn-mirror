@@ -37,7 +37,9 @@
 
 extern GtkWidget *video_ctrl_checkbox;
 static GtkWidget *screenshot_dialog, *fileentry;
+#ifdef HAVE_FFMPEG
 static GtkWidget *ffmpg_opts, *ffmpg_audio, *ffmpg_video;
+#endif
 
 typedef struct 
 {
@@ -47,6 +49,7 @@ typedef struct
 
 static img_type_buttons *buttons = NULL;
 
+#ifdef HAVE_FFMPEG
 static void ffmpg_widget (GtkWidget *w, gpointer data)
 {
     int num_buttons, i;
@@ -61,14 +64,17 @@ static void ffmpg_widget (GtkWidget *w, gpointer data)
 	    }
     gtk_widget_set_sensitive(ffmpg_opts, FALSE);
 }
+#endif
 
 static GtkWidget *build_screenshot_dialog(void)
 {
-    GtkWidget *d, *box, *tmp, *frame, *hbox, *vbox, *l;
+    GtkWidget *d, *box, *tmp, *frame, *hbox, *vbox;
+#ifdef HAVE_FFMPEG
+    GtkWidget *l;
     GtkObject *adj;
-    
-    int i, num_buttons;
     unsigned long v;
+#endif
+    int i, num_buttons;
     gfxoutputdrv_t *driver;
     
     d = gnome_dialog_new(_("Save Screenshot"), 
@@ -121,16 +127,19 @@ static GtkWidget *build_screenshot_dialog(void)
 	gtk_box_pack_start(GTK_BOX(hbox), buttons[i].w, FALSE, FALSE, 0);
 	gtk_widget_show(buttons[i].w);
 	buttons[i].driver = driver->name;
+#ifdef HAVE_FFMPEG
 	gtk_signal_connect(GTK_OBJECT(buttons[i].w), "clicked",
 			   GTK_SIGNAL_FUNC(ffmpg_widget),
 			   0);
+#endif
 	driver = gfxoutput_drivers_iter_next();
 	
     }
 
     gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
     gtk_widget_show(hbox);
-    
+
+#ifdef HAVE_FFMPEG    
     /* ffmpg options */
     resources_get_value("FFMPEGAudioBitrate", (resource_value_t *) &v);
     adj = gtk_adjustment_new ((gfloat) v, 
@@ -166,6 +175,7 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_box_pack_start(GTK_BOX(vbox), ffmpg_opts, FALSE, FALSE, 0);
     gtk_widget_show_all(ffmpg_opts);
     gtk_widget_set_sensitive(ffmpg_opts, FALSE);
+#endif
     
     gtk_container_add(GTK_CONTAINER(frame), vbox);
     gtk_widget_show(vbox);
@@ -223,6 +233,7 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
     
     if (!driver)
 	return -1;
+#ifdef HAVE_FFMPEG
     if (strcmp(driver, "FFMPEG") == 0)
     {
 	unsigned int v;
@@ -233,7 +244,7 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
 	    gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(ffmpg_video));
 	resources_set_value("FFMPEGVideoBitrate", (resource_value_t) v);
     }
-    
+#endif    
     strcpy (name, fn);		/* What for? */
     if (screenshot_save(driver, fn, wid) < 0)
     {

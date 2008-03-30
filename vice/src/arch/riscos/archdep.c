@@ -45,6 +45,8 @@ static const int FileType_GZIP = 0xf89;
 
 static FILE *defaultLogFile = NULL;
 char *defaultLogName = NULL;
+const char *archdep_rsrc_machine_name = "DRIVES";
+void (*archdep_set_leds_callback)(unsigned int, int) = NULL;
 
 
 int archdep_init(int *argc, char **argv)
@@ -117,12 +119,7 @@ char *archdep_make_backup_filename(const char *fname)
 char *archdep_default_resource_file_name(void)
 {
   char *name;
-  const char *basename;
-
-  if (vsid_mode)
-    basename = "VSID";
-  else
-    basename = (machine_name == NULL) ? "DRIVES" : machine_name;
+  const char *basename = archdep_rsrc_machine_name;
 
   if ((name = (char*)lib_malloc(strlen("Vice:.vicerc") + strlen(basename) + 1)) != NULL)
      sprintf(name, "Vice:%s.vicerc", basename);
@@ -335,3 +332,8 @@ void archdep_shutdown(void)
 
 }
 
+void archdep_set_drive_leds(unsigned int led, int status)
+{
+  if (archdep_set_leds_callback != NULL)
+    archdep_set_leds_callback(led, status);
+}

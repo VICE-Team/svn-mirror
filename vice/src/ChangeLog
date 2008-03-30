@@ -1,3 +1,63 @@
+2003-11-11  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.13.20.
+
+	* monitor.h, monitor/monitor.c, monitor/mon_register6502.c,
+	monitor/mon_registerz80.c, c64/c64.c, c128/c128.c,
+	vic20/vic20.c, pet/pet.c, plus4/plus4.c, cbm2/cbm2.c,
+	drive/drivecpu.c, monitor/mon_ui.c, monitor/mon_parse.y:
+	Increased number of drives monitor can handle.
+
+	* drive/drive-resources.c (drive_resources_type,
+	drive1_resources_type): Handle more drives.
+
+	* drive/drive.c (drive_check_type): Changed likewise.
+
+	* alarm.c, alarm.h: Added support for call data.
+
+	* c64/cart/c64cart.c, vdc/vdc.c, cbm2/cbm2.c, riot.h, via.h,
+	cia.h, crtc/crtc.c, crtc/crtctypes.h, drive/ieee/fdc.c,
+	drive/tcbm/glue1551.c, plus4/ted-timer.c, plus4/ted.c,
+	plus4/tedtypes.h, plus4/ted-mem.c, plus4/ted-irq.c,
+	plus4/ted-fetch.c, plus4/ted-fetch.h, vic20/vic.c,
+	vic20/vic.h, vic20/vic-mem.c, vicii/vicii-fetch.c,
+	vicii/vicii-fetch.h, vicii/vicii.c, vicii/vicii-mem.c,
+	vicii/viciitypes.h, vicii/vicii-irq.c, vicii/vicii-irq.h,
+	rs232drv/rsuser.c, rsuser.h, aciacore.c, event.c, datasette.c,
+	joystick.c, keyboard.c: Added call data to callback.
+
+	* drive/iec/via1d1541.c, drive/iecieee/via2d.c,
+	drive/ieee/via1d2031.c, vic20/vic20via1.c, vic20/vic20via2.c,
+	vic20/vic20ieeevia1.c, vic20/vic20ieeevia2.c, pet/petvia.c,
+	drive/iec/cia1571d.c, drive/iec/cia1581d.c, c64/c64cia1.c,
+	c64/c64cia2.c, c128/c128cia1.c, cbm2/cbm2cia1.c,
+	drive/ieee/riot1d.c, drive/ieee/riot2d.c, core/ciacore.c,
+	core/viacore.c, core/riotcore.c: Context pointer is now
+	delivered via alarm data.
+
+2003-11-10  Andreas Dehmel  <zarquon@t-online.de>
+
+	* arch/riscos/Makefile.am: dropped last dummy file
+
+	* arch/riscos/archdep.{c,h}: machine name for resources and
+	drive led stubs
+
+	* arch/riscos/ui.c: improved startup phase
+
+	* vdrive-iec.c: replaced ui_set_drive_leds with
+	archdep_set_drive_leds
+
+2003-11-10  pottendo  <pottendo@utanet.at>
+
+	* arch/unix/x11/gnome/uiscreenshot.c (all): made the ffmpeg
+	things dependent on `HAVE_FFMPEG'.
+
+2003-11-10  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/printerdrv.dsp: Added missing file.
+
+	* sound.c: Set sdev_open in sound_open.
+
 2003-11-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.19.

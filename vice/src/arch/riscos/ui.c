@@ -1993,14 +1993,78 @@ static void ui_open_log_window(void)
 }
 
 
+static void ui_init_windows(void)
+{
+  static int initialized = 0;
+
+  if ((initialized == 0) && (ConfWindows[CONF_WIN_DRIVES] != NULL))
+  {
+    resource_value_t val;
+    int i;
+
+    /* Setup the drives */
+    for (i=0; i<4; i++)
+    {
+      if ((*(DriveFiles[i]) != NULL) && (strlen(*(DriveFiles[i])) > 0))
+	ui_send_fake_data_load(ConfWindows[CONF_WIN_DRIVES], DriveToFile[i], *(DriveFiles[i]));
+    }
+
+    if (resources_get_value(Rsrc_True, (void *)&val) == 0)
+      TrueDriveEmulation = (int)val;
+
+    ui_set_truedrv_emulation((int)TrueDriveEmulation);
+
+    if ((TapeFile != NULL) && (strlen(TapeFile) > 0))
+      ui_send_fake_data_load(ConfWindows[CONF_WIN_TAPE], Icon_ConfTap_TapeFile, TapeFile);
+    else
+      ui_set_icons_grey(NULL, TapeFileDependentIcons, 0);
+
+    if (resources_get_value(Rsrc_Sound, (void *)&val) == 0)
+      ui_set_sound_enable((int)val);
+
+    ui_set_pane_state(ShowEmuPane);
+
+    ROMSetName = lib_stralloc("Default");
+
+    if (sysfile_locate("romset/"RSETARCH_EXT, &ROMSetArchiveFile) == 0)
+    {
+      romset_load_archive(ROMSetArchiveFile, 0);
+      ui_build_romset_menu();
+    }
+
+    ui_build_fliplist_menu(0);
+
+    /* must create log window, but may close it right afterwards! */
+    ui_open_log_window();
+  
+    initialized = 1;
+  }
+}
+
+
 /* Shared by all uis for installing the icon bar icon */
 int ui_init(int *argc, char *argv[])
 {
+  int i;
+
+  for (i=0; i<CONF_WIN_NUMBER; i++)
+    ConfWindows[i] = NULL;
+
   PollMask = 0x01000830;	/* save/restore FP regs */
   LastMenu = 0; LastClick = 0; LastDrag = 0; LastSubDrag = 0; MenuType = 0; DragType = 0;
   EmuZoom = 1;
 
   wimp_read_screen_mode(&ScreenMode);
+
+  /* make sure all config menus are defined, if only temporarily */
+  ConfigMenus[CONF_MENU_ROMSET].menu = (RO_MenuHead*)&MenuROMSetTmpl;
+
+  archdep_rsrc_machine_name = machine_name;
+  if (vsid_mode)
+  {
+    archdep_rsrc_machine_name = "VSID";
+  }
+  archdep_set_leds_callback = ui_set_drive_leds;
 
   return 0;
 }
@@ -2017,9 +2081,6 @@ wimp_msg_desc *ui_emulator_init_prologue(const char *iname)
     log_error(roui_log, "Unable to open messages file!\n");
     exit(-1);
   }
-
-  /* make sure all config menus are defined, if only temporarily */
-  ConfigMenus[CONF_MENU_ROMSET].menu = (RO_MenuHead*)&MenuROMSetTmpl;
 
   /* Init internal messages of wimp.c */
   wimp_init_messages(msg);
@@ -2194,6 +2255,8 @@ int ui_emulator_init_epilogue(wimp_msg_desc *msg)
 
   ui_message_init();
 
+  ui_init_windows();
+
   return 0;
 }
 
@@ -2205,30 +2268,8 @@ void ui_shutdown(void)
 int ui_init_finish(void)
 {
   resource_value_t val;
-  int i;
 
-  if (machine_class != VICE_MACHINE_PET)
-  {
-    if (resources_get_value(Rsrc_True, (void *)&val) == 0)
-      TrueDriveEmulation = (int)val;
-  }
-
-  /* Setup the drives */
-  for (i=0; i<4; i++)
-  {
-    if ((*(DriveFiles[i]) != NULL) && (strlen(*(DriveFiles[i])) > 0))
-      ui_send_fake_data_load(ConfWindows[CONF_WIN_DRIVES], DriveToFile[i], *(DriveFiles[i]));
-  }
-
-  ui_set_truedrv_emulation((int)TrueDriveEmulation);
-
-  if ((TapeFile != NULL) && (strlen(TapeFile) > 0))
-    ui_send_fake_data_load(ConfWindows[CONF_WIN_TAPE], Icon_ConfTap_TapeFile, TapeFile);
-  else
-    ui_set_icons_grey(NULL, TapeFileDependentIcons, 0);
-
-  if (resources_get_value(Rsrc_Sound, (void *)&val) == 0)
-    ui_set_sound_enable((int)val);
+  ui_init_windows();
 
   CMOS_DragType = ReadDragType();
 
@@ -2236,11 +2277,7 @@ int ui_init_finish(void)
   {
     wimp_menu_set_grey_item((RO_MenuHead*)&MenuConfigure, Menu_Config_Machine, 1);
   }
-  if (machine_class == VICE_MACHINE_PET)
-  {
-    wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_TrueDrvEmu, 1);
-  }
-  if (machine_class != VICE_MACHINE_C64)
+  if ((machine_class != VICE_MACHINE_C64) && (machine_class != VICE_MACHINE_C128))
   {
     wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Freeze, 1);
   }
@@ -2271,8 +2308,6 @@ int ui_init_finish(void)
     wimp_menu_set_grey_item(men, Menu_Config_Video, 1);
   }
 
-  ui_set_pane_state(ShowEmuPane);
-
   memset(SnapshotMessage, 0, 256);
 
   /* Sound buffer size sanity check */
@@ -2288,19 +2323,6 @@ int ui_init_finish(void)
     CycleBasedSound = (CycleBasedSound == SID_ENGINE_RESID);
   else
     CycleBasedSound = 0;
-
-  ROMSetName = lib_stralloc("Default");
-
-  if (sysfile_locate("romset/"RSETARCH_EXT, &ROMSetArchiveFile) == 0)
-  {
-    romset_load_archive(ROMSetArchiveFile, 0);
-    ui_build_romset_menu();
-  }
-
-  ui_build_fliplist_menu(0);
-
-  /* must create log window, but may close it right afterwards! */
-  ui_open_log_window();
 
   /* register callbacks */
   video_register_callbacks();

@@ -48,7 +48,7 @@
 #include <string.h>
 
 #ifdef __riscos
-#include "ui.h"
+#include "archdep.h"
 #endif
 
 #include "diskimage.h"
@@ -233,7 +233,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const char *name, int length,
                   vdrive->unit, vdrive->image->fd, name, length, secondary);
 #endif
 #ifdef __riscos
-    ui_set_drive_leds(vdrive->unit - 8, 1);
+    archdep_set_drive_leds(vdrive->unit - 8, 1);
 #endif
 
     /*
@@ -475,7 +475,7 @@ int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
     int status = SERIAL_OK;
 
 #ifdef __riscos
-    ui_set_drive_leds(vdrive->unit - 8, 0);
+    archdep_set_drive_leds(vdrive->unit - 8, 0);
 #endif
 
     switch (p->mode) {

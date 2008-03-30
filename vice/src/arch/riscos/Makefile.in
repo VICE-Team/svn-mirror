@@ -229,8 +229,7 @@ INCLUDES = \
 
 
 noinst_LIBRARIES = \
-	libarch.a \
-	libarchdummy.a
+	libarch.a
 
 
 libarch_a_SOURCES = \
@@ -278,10 +277,6 @@ libarch_a_SOURCES = \
 	vsyncarch.h
 
 
-libarchdummy_a_SOURCES = \
-	uidummy.c
-
-
 EXTRA_DIST = \
 	ReadMeRO
 
@@ -303,10 +298,6 @@ am_libarch_a_OBJECTS = archdep.$(OBJEXT) blockdev.$(OBJEXT) \
 	uimsgwin.$(OBJEXT) vic20ui.$(OBJEXT) video.$(OBJEXT) \
 	vsidui.$(OBJEXT) vsync.$(OBJEXT)
 libarch_a_OBJECTS = $(am_libarch_a_OBJECTS)
-libarchdummy_a_AR = $(AR) cru
-libarchdummy_a_LIBADD =
-am_libarchdummy_a_OBJECTS = uidummy.$(OBJEXT)
-libarchdummy_a_OBJECTS = $(am_libarchdummy_a_OBJECTS)
 
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/src
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -320,18 +311,17 @@ am__depfiles_maybe = depfiles
 @AMDEP_TRUE@	./$(DEPDIR)/riscosmain.Po ./$(DEPDIR)/rs232.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/spritedrv.Po ./$(DEPDIR)/ui.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/uicmdline.Po ./$(DEPDIR)/uiconfig.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uidummy.Po ./$(DEPDIR)/uihelp.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uiimage.Po ./$(DEPDIR)/uimon.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/uimsgwin.Po ./$(DEPDIR)/vic20ui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/video.Po ./$(DEPDIR)/vsidui.Po \
-@AMDEP_TRUE@	./$(DEPDIR)/vsync.Po
+@AMDEP_TRUE@	./$(DEPDIR)/uihelp.Po ./$(DEPDIR)/uiimage.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/uimon.Po ./$(DEPDIR)/uimsgwin.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vic20ui.Po ./$(DEPDIR)/video.Po \
+@AMDEP_TRUE@	./$(DEPDIR)/vsidui.Po ./$(DEPDIR)/vsync.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libarch_a_SOURCES) $(libarchdummy_a_SOURCES)
+DIST_SOURCES = $(libarch_a_SOURCES)
 DIST_COMMON = Makefile.am Makefile.in
-SOURCES = $(libarch_a_SOURCES) $(libarchdummy_a_SOURCES)
+SOURCES = $(libarch_a_SOURCES)
 
 all: all-am
 
@@ -349,10 +339,6 @@ libarch.a: $(libarch_a_OBJECTS) $(libarch_a_DEPENDENCIES)
 	-rm -f libarch.a
 	$(libarch_a_AR) libarch.a $(libarch_a_OBJECTS) $(libarch_a_LIBADD)
 	$(RANLIB) libarch.a
-libarchdummy.a: $(libarchdummy_a_OBJECTS) $(libarchdummy_a_DEPENDENCIES) 
-	-rm -f libarchdummy.a
-	$(libarchdummy_a_AR) libarchdummy.a $(libarchdummy_a_OBJECTS) $(libarchdummy_a_LIBADD)
-	$(RANLIB) libarchdummy.a
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -378,7 +364,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ui.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uicmdline.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiconfig.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uidummy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uihelp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uiimage.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/uimon.Po@am__quote@

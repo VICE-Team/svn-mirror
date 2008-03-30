@@ -11,8 +11,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/pet
 
 noinst_LIBRARIES = \
-	libarch.a \
-	libarchdummy.a
+	libarch.a
 
 libarch_a_SOURCES = \
 	archdep.c \
@@ -57,9 +56,6 @@ libarch_a_SOURCES = \
 	vsidui.c \
 	vsync.c \
 	vsyncarch.h
-
-libarchdummy_a_SOURCES = \
-	uidummy.c
 
 EXTRA_DIST = \
 	ReadMeRO
