@@ -998,9 +998,6 @@ static int drive_enable(int dnr)
     if (dnr == 1)
 	drive1_cpu_wake_up();
 
-    ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
-                           | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0));
-
     /* Make sure the UI is updated.  */
     for (i = 0; i < 2; i++) {
         if (drive[i].enable) {
@@ -1008,6 +1005,9 @@ static int drive_enable(int dnr)
             drive[i].old_half_track = -1;
         }
     }
+
+    ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
+                           | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0));
 
     return 0;
 }
@@ -1044,9 +1044,6 @@ static void drive_disable(int dnr)
         GCR_data_writeback(1);
     }
 
-    ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
-                           | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0));
-
     /* Make sure the UI is updated.  */
     for (i = 0; i < 2; i++) {
         if (drive[i].enable) {
@@ -1054,6 +1051,9 @@ static void drive_disable(int dnr)
             drive[i].old_half_track = -1;
         }
     }
+
+    ui_enable_drive_status((drive[0].enable ? UI_DRIVE_ENABLE_0 : 0)
+                           | (drive[1].enable ? UI_DRIVE_ENABLE_1 : 0));
 }
 
 void drive_reset(void)
@@ -1606,7 +1606,7 @@ static void drive_update_ui_status(void)
     int i;
 
     /* Update the LEDs and the track indicators.  */
-    for (i = 0; i < 2; i++)
+    for (i = 0; i < 2; i++) {
         if (drive[i].enable) {
             int my_led_status = 0;
 
@@ -1629,6 +1629,7 @@ static void drive_update_ui_status(void)
                                         / 2.0));
             }
         }
+    }
 }
 
 /* This is called at every vsync.  */
