@@ -59,7 +59,6 @@ noinst_HEADERS = \
 	mon_parse.h \
 	mos6510.h \
 	mshell.h \
-	op.h \
 	palette.h \
 	parallel.h \
 	print.h \
