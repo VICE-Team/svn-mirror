@@ -39,5 +39,8 @@ extern int fsimage_read_sector(struct disk_image_s *image, BYTE *buf,
                                unsigned int track, unsigned int sector);
 extern int fsimage_write_sector(struct disk_image_s *image, BYTE *buf,
                                 unsigned int track, unsigned int sector);
+extern void fsimage_media_create(struct disk_image_s *image);
+extern void fsimage_media_destroy(struct disk_image_s *image);
+
 #endif
 

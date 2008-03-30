@@ -35,6 +35,18 @@
 static log_t realimage_log = LOG_ERR;
 
 
+void realimage_media_create(disk_image_t *image)
+{
+
+}
+
+void realimage_media_destroy(disk_image_t *image)
+{
+
+}
+
+/*-----------------------------------------------------------------------*/
+
 int realimage_open(disk_image_t *image)
 {
     return 0;
