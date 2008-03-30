@@ -65,8 +65,6 @@
 #include "vdrive-iec.h"
 #include "vdrive.h"
 
-extern char *slot_type[]; /* FIXME: Away with this!  */
-
 void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
                                  int reallength, int filetype)
 {
@@ -84,183 +82,6 @@ void vdrive_open_create_dir_slot(bufferinfo_t *p, char *realname,
     p->mode = BUFFER_SEQUENTIAL;
     p->bufptr = 2;
     return;
-}
-
-/*
- * Create directory listing. (called from vdrive_open)
- * If filetype is 0, match for all files.  Return the length in bytes
- * if successful, -1 if the directory is not valid.
- */
-
-static int floppy_create_directory(DRIVE *floppy, const char *name,
-                                   int length, int filetype, int secondary,
-                                   BYTE *outputptr)
-{
-    BYTE *l, *p;
-    BYTE *origptr = outputptr;
-    int blocks, addr, i;
-
-    if (length) {
-        if (*name == '$') {
-            ++name;
-            --length;
-        }
-        if (*name == ':') {
-            ++name;
-            --length;
-        }
-    }
-    if (!*name || length < 1) {
-        name = "*\0";
-        length = 1;
-    }
-
-    /*
-     * Start Address, Line Link and Line number 0
-     */
-
-    l = outputptr;
-    addr = 0x401;
-    SET_LO_HI(l, addr);
-
-    l += 2;                     /* Leave space for Next Line Link */
-    *l++ = 0;
-    *l++ = 0;
-
-    *l++ = (BYTE) 0x12;         /* Reverse on */
-
-    *l++ = '"';
-
-    memcpy(l, &floppy->bam[floppy->bam_name], 16);
-    vdrive_dir_no_a0_pads(l, 16);
-    l += 16;
-    *l++ = '"';
-    *l++ = ' ';
-    memcpy(l, &floppy->bam[floppy->bam_id], 5);
-    vdrive_dir_no_a0_pads(l, 5);
-    l += 5;
-    *l++ = 0;
-
-
-    /*
-     * Pointer to the next line
-     */
-
-    addr += ((l - outputptr) - 2);
-
-    outputptr[2] = 1;   /* addr & 0xff; */
-    outputptr[3] = 1;   /* (addr >>8) & 0xff; */
-    outputptr = l;
-
-
-    /*
-     * Now, list files that match the pattern.
-     * Wildcards can be used too.
-     */
-
-    vdrive_dir_find_first_slot(floppy, name, length, filetype);
-
-    while ((p = vdrive_dir_find_next_slot(floppy))) {
-        BYTE *tl;
-
-        /* Check whether the directory exceeds the malloced memory.  We make
-           sure there is enough space for two lines because we also have to
-           add the final ``...BLOCKS FREE'' line.  */
-        if ((l - origptr) >= DIR_MAXBUF - 64) {
-            log_error(vdrive_log, "Directory too long: giving up.");
-            return -1;
-        }
-
-        if (p[SLOT_TYPE_OFFSET]) {
-
-            tl = l;
-            l += 2;
-
-            /*
-             * Length and spaces
-             */
-            blocks = p[SLOT_NR_BLOCKS] + p[SLOT_NR_BLOCKS + 1] * 256;
-            SET_LO_HI(l, blocks);
-
-            if (blocks < 10)
-                *l++ = ' ';
-            if (blocks < 100)
-                *l++ = ' ';
-            /*
-             * Filename
-             */
-
-            *l++ = ' ';
-            *l++ = '"';
-
-            memcpy(l, &p[SLOT_NAME_OFFSET], 16);
-
-            for (i = 0; (i < 16) && (p[SLOT_NAME_OFFSET + i] != 0xa0);)
-                i++;
-
-            vdrive_dir_no_a0_pads(l, 16);
-
-            l[16] = ' ';
-            l[i] = '"';
-            l += 17;
-
-            /*
-             * Type + End
-             * There are 3 spaces or < and 2 spaces after the filetype.
-             * Well, not exactly - the whole directory entry is 32 byte long
-             * (including nullbyte).
-             * Depending on the file size, there are more or less spaces
-             */
-
-            sprintf ((char *)l, "%c%s%c%c",
-                    (p[SLOT_TYPE_OFFSET] & FT_CLOSED ? ' ' : '*'),
-                    slot_type[p[SLOT_TYPE_OFFSET] & 0x07],
-                    (p[SLOT_TYPE_OFFSET] & FT_LOCKED ? '<' : ' '),
-                    0);
-            l += 5;
-            i = l - tl;
-
-            while (i < 31) {
-                *l++ = ' ';
-                i++;
-            }
-            *l++ = '\0';
-
-            /*
-             * New address
-             */
-
-            addr += l - outputptr;
-            outputptr[0] = 1;   /* addr & 0xff; */
-            outputptr[1] = 1;   /* (addr >> 8) & 0xff; */
-            outputptr = l;
-        }
-    }
-
-    blocks = vdrive_bam_free_block_count(floppy);
-
-    *l++ = 0;
-    *l++ = 0;
-    SET_LO_HI(l, blocks);
-    memcpy(l, "BLOCKS FREE.", 12);
-    l += 12;
-    memset(l, ' ', 13);
-    l += 13;
-    *l++ = (char) 0;
-
-    /* Line Address */
-    addr += l - outputptr;
-    outputptr[0] = 1;   /* addr & 0xff; */
-    outputptr[1] = 1;   /* (addr / 256) & 0xff; */
-
-    /*
-     * end
-     */
-    *l++ = (char) 0;
-    *l++ = (char) 0;
-    *l   = (char) 0;
-
-    return (l - origptr);
 }
 
 static int write_sequential_buffer(DRIVE *floppy, bufferinfo_t *bi,
@@ -448,9 +269,9 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
 
         p->mode = BUFFER_DIRECTORY_READ;
         p->buffer = (BYTE *)xmalloc(DIR_MAXBUF);
-        p->length = floppy_create_directory(floppy,
-                                            realname, reallength, filetype,
-                                            secondary, p->buffer);
+        p->length = vdrive_dir_create_directory(floppy,
+                                                realname, reallength, filetype,
+                                                secondary, p->buffer);
         if (p->length < 0) {
             /* Directory not valid. */
             p->mode = BUFFER_NOT_IN_USE;
