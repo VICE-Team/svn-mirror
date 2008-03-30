@@ -39,15 +39,11 @@
 #include "attach.h"
 #include "autostart.h"
 #include "datasette.h"
-#include "drive.h"
 #include "drivecpu.h"
-#include "grabkey.h"
-#include "fsdevice.h"
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h"
 #include "ioutil.h"
-#include "joy.h"
 #include "kbd.h"
 #include "lib.h"
 #include "log.h"
@@ -57,7 +53,6 @@
 #include "monitor.h"
 #include "resources.h"
 #include "romset.h"
-#include "sound.h"
 #include "tape.h"
 #include "tui.h"
 #include "tui_backend.h"
@@ -65,7 +60,12 @@
 #include "tuiview.h"
 #include "ui.h"
 #include "uiattach.h"
+#include "uidrive.h"
+#include "uijoystick.h"
+#include "uiperipherial.h"
+#include "uiprinter.h"
 #include "uisnapshot.h"
+#include "uisound.h"
 #include "util.h"
 #include "version.h"
 #include "video.h"
@@ -78,17 +78,12 @@ tui_menu_t ui_attach_submenu;
 tui_menu_t ui_datasette_submenu;
 tui_menu_t ui_datasette_settings_submenu;
 tui_menu_t ui_detach_submenu;
-tui_menu_t ui_drive_submenu;
 tui_menu_t ui_info_submenu;
-tui_menu_t ui_joystick_settings_submenu;
 tui_menu_t ui_main_menu;
 tui_menu_t ui_quit_submenu;
 tui_menu_t ui_reset_submenu;
 tui_menu_t ui_rom_submenu;
 tui_menu_t ui_settings_submenu;
-tui_menu_t ui_sound_buffer_size_submenu;
-tui_menu_t ui_sound_sample_rate_submenu;
-tui_menu_t ui_sound_submenu;
 tui_menu_t ui_snapshot_submenu;
 tui_menu_t ui_special_submenu;
 tui_menu_t ui_video_submenu;
@@ -244,251 +239,6 @@ TUI_MENU_DEFINE_TOGGLE(TripleBuffering)
 #endif
 
 /* ------------------------------------------------------------------------- */
-
-TUI_MENU_DEFINE_RADIO(Drive8ExtendImagePolicy)
-TUI_MENU_DEFINE_RADIO(Drive9ExtendImagePolicy)
-
-static TUI_MENU_CALLBACK(drive_extend_image_policy_submenu_callback)
-{
-    int unit = (int)param;
-    char *rname;
-    int v;
-
-    rname = lib_msprintf("Drive%dExtendImagePolicy", unit);
-    resources_get_value(rname, (void *)&v);
-    lib_free(rname);
-
-    switch (v) {
-      case DRIVE_EXTEND_NEVER:
-        return "Never extend";
-      case DRIVE_EXTEND_ASK:
-        return "Ask on extend";
-      case DRIVE_EXTEND_ACCESS:
-        return "Extend on access";
-      default:
-        return "Unknown";
-    }
-}
-
-#define DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(num)                         \
-static tui_menu_item_def_t drive##num##_extend_image_policy_submenu[] = {     \
-    { "_Never extend",                                                        \
-      "Never create more than 35 tracks",                                     \
-      radio_Drive##num##ExtendImagePolicy_callback,                           \
-      (void *)DRIVE_EXTEND_NEVER, 0,                                          \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                       \
-    { "_Ask on extend",                                                       \
-      "Ask the user before creating extra tracks",                            \
-      radio_Drive##num##ExtendImagePolicy_callback,                           \
-      (void *)DRIVE_EXTEND_ASK, 0,                                            \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                       \
-    { "_Extend on access",                                                    \
-      "Automagically extend the disk image if extra (>35) tracks are accessed", \
-      radio_Drive##num##ExtendImagePolicy_callback,                           \
-      (void *)DRIVE_EXTEND_ACCESS, 0,                                         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                       \
-    { NULL }                                                                  \
-};
-
-DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(8)
-DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(9)
-
-TUI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
-TUI_MENU_DEFINE_RADIO(Drive8Type)
-TUI_MENU_DEFINE_RADIO(Drive9Type)
-
-static TUI_MENU_CALLBACK(drive_type_submenu_callback)
-{
-    int value;
-
-    if ((int)param == 8)
-        resources_get_value("Drive8Type", (void *)&value);
-    else
-        resources_get_value("Drive9Type", (void *)&value);
-
-    switch (value) {
-      case 0:
-        return "None";
-      case DRIVE_TYPE_1541:
-        return "1541, 5\"1/4 SS";
-      case DRIVE_TYPE_1541II:
-        return "1541-II, 5\"1/4 SS";
-      case DRIVE_TYPE_1551:
-        return "1551, 5\"1/4 SS";
-      case DRIVE_TYPE_1571:
-        return "1571, 5\"1/4 DS";
-      case DRIVE_TYPE_1581:
-        return "1581, 3\"1/2 DS";
-      case DRIVE_TYPE_2031:
-        return "2031, 5\"1/4 SS, IEEE488";
-      case DRIVE_TYPE_3040:
-        return "3040, 5\"1/4 SD, IEEE488";
-      case DRIVE_TYPE_4040:
-        return "4040, 5\"1/4 SD, IEEE488";
-      case DRIVE_TYPE_1001:
-        return "1001, 5\"1/4 DS, IEEE488";
-      case DRIVE_TYPE_8050:
-        return "8050, 5\"1/4 SD, IEEE488";
-      case DRIVE_TYPE_8250:
-        return "8250, 5\"1/4 DD, IEEE488";
-      default:
-        return "(Unknown)";
-    }
-}
-
-#define DEFINE_DRIVE_MODEL_SUBMENU(num)                                   \
-static tui_menu_item_def_t drive##num##_type_submenu[] = {                \
-    { "_None",                                                            \
-      "Disable hardware-level emulation of drive #" #num,                 \
-      radio_Drive##num##Type_callback, (void *)0, 0,                      \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "_1541, 5\"1/4 SS",                                                 \
-      "Emulate a 1541 5\"1/4 single-sided disk drive as unit #" #num,     \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1541, 0,        \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "1541-_II, 5\"1/4 SS",                                              \
-      "Emulate a 1541-II 5\"1/4 single-sided disk drive as unit #" #num,  \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1541II, 0,      \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "15_51, 5\"1/4 SS",                                                 \
-      "Emulate a 1551 5\"1/4 single-sided disk drive as unit #" #num,     \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1551, 0,        \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "15_71, 5\"1/4 DS",                                                 \
-      "Emulate a 1571 5\"1/4 double-sided disk drive as unit #" #num,     \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1571, 0,        \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "15_81, 3\"1/2 DS",                                                 \
-      "Emulate a 1581 3\"1/2 double-sided disk drive as unit #" #num,     \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1581, 0,        \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "_2031, 5\"1/4 SS IEEE488",                                         \
-      "Emulate a 2031 5\"1/4 single-sided IEEE disk drive as unit #" #num,\
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_2031, 0,        \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "_3040, 5\"1/4 SD IEEE488",                                         \
-      "Emulate a 3040 5\"1/4 SD IEEE disk drive as unit #" #num,          \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_3040, 0,        \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "_4040, 5\"1/4 SD IEEE488",                                         \
-      "Emulate a 4040 5\"1/4 SD IEEE disk drive as unit #" #num,          \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_4040, 0 ,       \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "1_001, 5\"1/4 DS IEEE488",                                         \
-      "Emulate a 1001 5\"1/4 DS IEEE disk drive as unit #" #num,          \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1001, 0,        \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "8050, 5\"1/4 _SD IEEE488",                                         \
-      "Emulate a 8050 5\"1/4 SD IEEE disk drive as unit #" #num,          \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8050, 0,        \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "8520, 5\"1/4 _DD IEEE488",                                         \
-      "Emulate a 8250 5\"1/4 DD IEEE disk drive as unit #" #num,          \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8250, 0,        \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { NULL }                                                              \
-};
-
-DEFINE_DRIVE_MODEL_SUBMENU(8)
-DEFINE_DRIVE_MODEL_SUBMENU(9)
-
-TUI_MENU_DEFINE_RADIO(Drive8IdleMethod)
-TUI_MENU_DEFINE_RADIO(Drive9IdleMethod)
-
-static TUI_MENU_CALLBACK(drive_idle_method_submenu_callback)
-{
-    int value;
-
-    if ((int)param == 8)
-        resources_get_value("Drive8IdleMethod", (void *)&value);
-    else
-        resources_get_value("Drive9IdleMethod", (void *)&value);
-
-    switch (value) {
-      case DRIVE_IDLE_NO_IDLE:
-        return "None";
-      case DRIVE_IDLE_TRAP_IDLE:
-        return "Trap idle";
-      case DRIVE_IDLE_SKIP_CYCLES:
-        return "Skip cycles";
-      default:
-        return "(Unknown)";
-    }
-}
-
-#define DEFINE_DRIVE_IDLE_METHOD_SUBMENU(num)                             \
-static tui_menu_item_def_t drive##num##_idle_method_submenu[] = {         \
-    { "_None",                                                            \
-      "Always run the drive CPU as on the real thing",                    \
-      radio_Drive##num##IdleMethod_callback,                              \
-      (void *)DRIVE_IDLE_NO_IDLE, 0,                                      \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "_Trap Idle",                                                       \
-      "Stop running the drive CPU when entering the idle DOS loop",       \
-      radio_Drive##num##IdleMethod_callback,                              \
-      (void *)DRIVE_IDLE_TRAP_IDLE, 0,                                    \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { "_Skip Cycles",                                                     \
-      "Skip drive CPU cycles when the IEC bus is not used for a while",   \
-      radio_Drive##num##IdleMethod_callback,                              \
-      (void *)DRIVE_IDLE_SKIP_CYCLES, 0,                                  \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                   \
-    { NULL }                                                              \
-};
-
-DEFINE_DRIVE_IDLE_METHOD_SUBMENU(8)
-DEFINE_DRIVE_IDLE_METHOD_SUBMENU(9)
-
-TUI_MENU_DEFINE_TOGGLE(Drive8ParallelCable)
-TUI_MENU_DEFINE_TOGGLE(Drive9ParallelCable)
-
-static tui_menu_item_def_t drive_settings_submenu[] = {
-    { "True Drive _Emulation:",
-      "Enable hardware-level floppy drive emulation",
-      toggle_DriveTrueEmulation_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "--" },
-    { "Drive #_8 model:",
-      "Specify model for drive #8",
-      drive_type_submenu_callback, (void *)8, 26,
-      TUI_MENU_BEH_CONTINUE, drive8_type_submenu,
-      "Drive 8 model" },
-    { "Drive #8 idle method:",
-      "Specify idle method for drive #8",
-      drive_idle_method_submenu_callback, (void *)8, 12,
-      TUI_MENU_BEH_CONTINUE, drive8_idle_method_submenu,
-      "Drive 8 idle method" },
-    { "Drive #8 Parallel Cable:",
-      "Enable a SpeedDOS-compatible parallel cable for drive #8",
-      toggle_Drive8ParallelCable_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Drive #8 40-Track Image Support:",
-      "Settings for dealing with 40-track disk images in drive #8",
-      drive_extend_image_policy_submenu_callback, (void *)8, 16,
-      TUI_MENU_BEH_CONTINUE, drive8_extend_image_policy_submenu, "" },
-    { "--" },
-    { "Drive #_9 model:",
-      "Specify model for drive #9",
-      drive_type_submenu_callback, (void *)9, 26,
-      TUI_MENU_BEH_CONTINUE, drive9_type_submenu,
-      "Drive 9 model" },
-    { "Drive #9 idle method:",
-      "Specify idle method for drive #9",
-      drive_idle_method_submenu_callback, (void *)9, 12,
-      TUI_MENU_BEH_CONTINUE, drive9_idle_method_submenu,
-      "Drive 9 idle method" },
-    { "Drive #9 Parallel Cable:",
-      "Enable a SpeedDOS-compatible parallel cable for drive #9",
-      toggle_Drive9ParallelCable_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Drive #9 40-Track Image Support:",
-      "Settings for dealing with 40-track disk images in drive #9",
-      drive_extend_image_policy_submenu_callback, (void *)9, 16,
-      TUI_MENU_BEH_CONTINUE, drive9_extend_image_policy_submenu, "" },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
 /* Datasette settings */
 
 TUI_MENU_DEFINE_TOGGLE(DatasetteResetWithCPU)
@@ -598,446 +348,6 @@ static tui_menu_item_def_t datasette_settings_submenu[] = {
       datasette_zerogapdelay_submenu_callback, NULL, 8,
       TUI_MENU_BEH_CONTINUE, datasette_zerogapdelay_submenu,
       "A zero in tap is..." },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-/* sound settings */
-TUI_MENU_DEFINE_TOGGLE(Sound)
-
-static TUI_MENU_CALLBACK(sound_sample_rate_submenu_callback)
-{
-    static char s[256];
-    int value;
-
-    resources_get_value("SoundSampleRate", (void *)&value);
-    sprintf(s, "%d Hz", value);
-    return s;
-}
-
-TUI_MENU_DEFINE_RADIO(SoundSampleRate)
-
-TUI_MENU_DEFINE_RADIO(SoundBufferSize)
-
-static TUI_MENU_CALLBACK(sound_buffer_size_submenu_callback)
-{
-    static char s[256];
-    int value;
-
-    resources_get_value("SoundBufferSize", (void *)&value);
-    sprintf(s, "%d msec", value);
-    return s;
-}
-
-TUI_MENU_DEFINE_RADIO(SoundOversample)
-
-static TUI_MENU_CALLBACK(sound_oversample_submenu_callback)
-{
-    static char s[40];
-    int value;
-
-    resources_get_value("SoundOversample", (void *)&value);
-    if (value != 0) {
-        int n = 1, i;
-
-        for (i = 0; i < value; i++)
-            n *= 2;
-        sprintf(s, "%dx", n);
-        return s;
-    } else
-        return "None";
-}
-
-TUI_MENU_DEFINE_RADIO(SoundSpeedAdjustment)
-
-static TUI_MENU_CALLBACK(sound_synchronization_submenu_callback)
-{
-    int value;
-
-    resources_get_value("SoundSpeedAdjustment", (void *)&value);
-
-    switch (value) {
-      case SOUND_ADJUST_FLEXIBLE:
-        return "Flexible";
-      case SOUND_ADJUST_ADJUSTING:
-        return "Adjusting";
-      case SOUND_ADJUST_EXACT:
-        return "Exact";
-      default:
-        return "Unknown";
-    }
-}
-
-static tui_menu_item_def_t sample_rate_submenu[] = {
-    { "_0: 8000 Hz",
-      "Set sampling rate to 8000 Hz",
-      radio_SoundSampleRate_callback, (void *)8000, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_1: 11025 Hz",
-      "Set sampling rate to 11025 Hz",
-      radio_SoundSampleRate_callback, (void *)11025, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_2: 22050 Hz",
-      "Set sampling rate to 22050 Hz",
-      radio_SoundSampleRate_callback, (void *)22050, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_3: 44100 Hz",
-      "Set sampling rate to 44100 Hz",
-      radio_SoundSampleRate_callback, (void *)44100, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
-static tui_menu_item_def_t sound_buffer_size_submenu[] = {
-    { "_1: 50 msec",
-      "Set sound buffer size to 50 msec",
-      radio_SoundBufferSize_callback, (void *)50, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_2: 100 msec",
-      "Set sound buffer size to 100 msec",
-      radio_SoundBufferSize_callback, (void *)100, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_3: 150 msec",
-      "Set sound buffer size to 150 msec",
-      radio_SoundBufferSize_callback, (void *)150, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_4: 200 msec",
-      "Set sound buffer size to 200 msec",
-      radio_SoundBufferSize_callback, (void *)200, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_5: 250 msec",
-      "Set sound buffer size to 250 msec",
-      radio_SoundBufferSize_callback, (void *)250, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_6: 300 msec",
-      "Set sound buffer size to 300 msec",
-      radio_SoundBufferSize_callback, (void *)300, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_7: 350 msec",
-      "Set sound buffer size to 350 msec",
-      radio_SoundBufferSize_callback, (void *)350, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
-static tui_menu_item_def_t sound_oversample_submenu[] = {
-    { "_None",
-      "Disable oversampling",
-      radio_SoundOversample_callback, (void *)0, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_2x",
-      "Enable 2x oversampling",
-      radio_SoundOversample_callback, (void *)1, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_4x",
-      "Enable 4x oversampling",
-      radio_SoundOversample_callback, (void *)2, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_8x",
-      "Enable 8x oversampling",
-      radio_SoundOversample_callback, (void *)3, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
-static tui_menu_item_def_t sound_synchronization_submenu[] = {
-    { "_Flexible",
-      "Slightly adapt sound playback speed to the speed of the emulator",
-      radio_SoundSpeedAdjustment_callback, (void *)SOUND_ADJUST_FLEXIBLE, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_Adjusting",
-      "Fully adapt the playback speed to the emulator, avoiding clicks when it's slower",
-      radio_SoundSpeedAdjustment_callback, (void *)SOUND_ADJUST_ADJUSTING, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "_Exact",
-      "Don't adapt sound playback: make the emulator finetune its speed to the playback",
-      radio_SoundSpeedAdjustment_callback, (void *)SOUND_ADJUST_EXACT, 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
-static tui_menu_item_def_t sound_submenu[] = {
-    { "Sound _Playback:",
-      "Enable sound output",
-      toggle_Sound_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_Sample Frequency:",
-      "Choose sound output sampling rate",
-      sound_sample_rate_submenu_callback, NULL, 10,
-      TUI_MENU_BEH_CONTINUE, sample_rate_submenu, "Sample rate" },
-    { "Sound _Buffer Size:",
-      "Specify playback latency",
-      sound_buffer_size_submenu_callback, NULL, 10,
-      TUI_MENU_BEH_CONTINUE, sound_buffer_size_submenu, "Latency" },
-    { "_Oversampling Factor:",
-      "Specify amount of oversampling on sound output",
-      sound_oversample_submenu_callback, NULL, 4,
-      TUI_MENU_BEH_CONTINUE, sound_oversample_submenu, "Oversample" },
-    { "S_ynchronization Method:",
-      "Specify method used to synchronize the sound playback with the emulator",
-      sound_synchronization_submenu_callback, NULL, 9,
-      TUI_MENU_BEH_CONTINUE, sound_synchronization_submenu, "Synchronization" },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
-/* Joystick settings.  */
-
-static TUI_MENU_CALLBACK(get_joystick_device_callback)
-{
-    int port = (int) param;
-    char *resource = port == 1 ? "JoyDevice1" : "JoyDevice2";
-    int value;
-
-    resources_get_value(resource, (void *)&value);
-    switch (value) {
-      case JOYDEV_NONE:
-        return "None";
-      case JOYDEV_NUMPAD:
-        return "Numpad + Right Ctrl";
-      case JOYDEV_KEYSET1:
-        return "Keyset A";
-      case JOYDEV_KEYSET2:
-        return "Keyset B";
-      case JOYDEV_HW1:
-        return "Joystick #1";
-      case JOYDEV_HW2:
-        return "Joystick #2";
-    }
-
-    return "Unknown";
-}
-
-static TUI_MENU_CALLBACK(set_joy_device_callback)
-{
-    int port = (int)param >> 8;
-    char *resource = port == 1 ? "JoyDevice1" : "JoyDevice2";
-
-    if (been_activated) {
-        resources_set_value(resource, (resource_value_t)((int)param & 0xff));
-        ui_update_menus();
-    } else {
-        int value;
-
-        resources_get_value(resource, (void *)&value);
-        if (value == ((int)param & 0xff))
-            *become_default = 1;
-    }
-
-    return NULL;
-}
-
-static TUI_MENU_CALLBACK(swap_joysticks_callback)
-{
-    int value1, value2, tmp;
-
-    if (been_activated) {
-        resources_get_value("JoyDevice1", (void *)&value1);
-        resources_get_value("JoyDevice2", (void *)&value2);
-
-        tmp = value1;
-        value1 = value2;
-        value2 = tmp;
-
-        resources_set_value("JoyDevice1", (resource_value_t)value1);
-        resources_set_value("JoyDevice2", (resource_value_t)value2);
-
-        ui_update_menus();
-    }
-
-    return NULL;
-}
-
-static tui_menu_item_def_t joy_device_1_submenu[] = {
-    { "N_one",
-      "No joystick device attached",
-      set_joy_device_callback, (void *)(0x100 | JOYDEV_NONE), 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "--" },
-    { "_Numpad + Right Ctrl",
-      "Use numeric keypad for movement and right Ctrl for fire",
-      set_joy_device_callback, (void *)(0x100 | JOYDEV_NUMPAD), 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Keyset _A",
-      "Use keyset A",
-      set_joy_device_callback, (void *)(0x100 | JOYDEV_KEYSET1), 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Keyset _B",
-      "Use keyset B",
-      set_joy_device_callback, (void *)(0x100 | JOYDEV_KEYSET2), 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "--" },
-    { "PC Joystick #_1",
-      "Use real PC joystick #1",
-      set_joy_device_callback, (void *)(0x100 | JOYDEV_HW1), 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "PC Joystick #_2",
-      "Use real PC joystick #2",
-      set_joy_device_callback, (void *)(0x100 | JOYDEV_HW2), 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
-static tui_menu_item_def_t joy_device_2_submenu[] = {
-    { "N_one",
-      "No joystick device attached",
-      set_joy_device_callback, (void *)(0x200 | JOYDEV_NONE), 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "--" },
-    { "_Numpad + Right Ctrl",
-      "Use numeric keypad for movement and right Ctrl for fire",
-      set_joy_device_callback, (void *)(0x200 | JOYDEV_NUMPAD), 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Keyset _A",
-      "Use keyset A",
-      set_joy_device_callback, (void *)(0x200 | JOYDEV_KEYSET1), 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Keyset _B",
-      "Use keyset B",
-      set_joy_device_callback, (void *)(0x200 | JOYDEV_KEYSET2), 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "--" },
-    { "Joystick #_1",
-      "Use real joystick #1",
-      set_joy_device_callback, (void *)(0x200 | JOYDEV_HW1), 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Joystick #_2",
-      "Use real joystick #2",
-      set_joy_device_callback, (void *)(0x200 | JOYDEV_HW2), 0,
-      TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
-static TUI_MENU_CALLBACK(keyset_callback)
-{
-    int direction, number;
-    int value;
-    char *rname;
-
-    number = (int)param >> 8;
-    direction = (int)param & 0xff;
-    rname = lib_msprintf("KeySet%d%s", number,
-                         joystick_direction_to_string(direction));
-
-    if (been_activated) {
-        kbd_code_t key;
-        int width = 60, height = 5;
-        int x = CENTER_X(width), y = CENTER_Y(height);
-        tui_area_t backing_store = NULL;
-        char *msg;
-
-        msg = lib_msprintf("Press key for %s%s (Esc for none)...",
-                           direction == KEYSET_FIRE ? "" : "direction ",
-                           joystick_direction_to_string(direction));
-        tui_display_window(x, y, width, height, MESSAGE_BORDER, MESSAGE_BACK,
-                           NULL, &backing_store);
-        tui_set_attr(MESSAGE_FORE, MESSAGE_BACK, 0);
-        tui_display(CENTER_X(strlen(msg)), y + 2, 0, msg);
-        lib_free(msg);
-
-        /* Do not allow Alt as we need it for hotkeys.  */
-        do
-            key = grab_key();
-        while (key == K_LEFTALT || key == K_RIGHTALT);
-
-        tui_area_put(backing_store, x, y);
-        tui_area_free(backing_store);
-
-        if (key == K_ESC)
-            key = K_NONE;
-        resources_set_value(rname, (resource_value_t)key);
-    }
-
-    resources_get_value(rname, (void *)&value);
-    lib_free(rname);
-    return kbd_code_to_string((kbd_code_t)value);
-}
-
-#define DEFINE_KEYSET_MENU(num)                                         \
-    static tui_menu_item_def_t keyset_##num##_submenu[] = {             \
-        { "_1: South West:",                                            \
-          "Specify key for diagonal down-left direction",               \
-          keyset_callback, (void *)((num << 8) | KEYSET_SW), 12,        \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { "_2: South:",                                                 \
-          "Specify key for the down direction",                         \
-          keyset_callback, (void *)((num << 8) | KEYSET_S), 12,         \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { "_3: South East:",                                            \
-          "Specify key for the diagonal down-right direction",          \
-          keyset_callback, (void *)((num << 8) | KEYSET_SE), 12,        \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { "_4: West:",                                                  \
-          "Specify key for the left direction",                         \
-          keyset_callback, (void *)((num << 8) | KEYSET_W), 12,         \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { "_6: East:",                                                  \
-          "Specify key for the right direction",                        \
-          keyset_callback, (void *)((num << 8) | KEYSET_E), 12,         \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { "_7: North West:",                                            \
-          "Specify key for the diagonal up-left direction",             \
-          keyset_callback, (void *)((num << 8) | KEYSET_NW), 12,        \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { "_8: North:",                                                 \
-          "Specify key for the up direction",                           \
-          keyset_callback, (void *)((num << 8) | KEYSET_N), 12,         \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { "_9: North East:",                                            \
-          "Specify key for the diagonal up-right direction",            \
-          keyset_callback, (void *)((num << 8) | KEYSET_NE), 12,        \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { "_0: Fire",                                                   \
-          "Specify key for the fire button",                            \
-          keyset_callback, (void *)((num << 8) | KEYSET_FIRE), 12,      \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                          \
-        { NULL }                                                        \
-    };
-
-DEFINE_KEYSET_MENU(1)
-DEFINE_KEYSET_MENU(2)
-
-static tui_menu_item_def_t single_joystick_submenu[] = {
-    { "Joystick _Device:",
-      "Specify device for joystick emulation",
-      get_joystick_device_callback, (void *)1, 19,
-      TUI_MENU_BEH_CONTINUE, joy_device_1_submenu, "Joystick" },
-    { "--" },
-    { "Configure Keyset _A...",
-      "Configure keyboard set A for joystick emulation",
-      NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, keyset_1_submenu, "Keyset A" },
-    { "Configure Keyset _B...",
-      "Configure keyboard set B for joystick emulation",
-      NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, keyset_2_submenu, "Keyset B" },
-    { NULL }
-};
-
-static tui_menu_item_def_t double_joystick_submenu[] = {
-    { "_Swap",
-      "Swap joystick ports",
-      swap_joysticks_callback, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "--" },
-    { "Port #_1:",
-      "Specify device for emulation of joystick in port #1",
-      get_joystick_device_callback, (void *)1, 19,
-      TUI_MENU_BEH_CONTINUE, joy_device_1_submenu, "Joystick #1" },
-    { "Port #_2:",
-      "Specify device for emulation of joystick in port #2",
-      get_joystick_device_callback, (void *)2, 19,
-      TUI_MENU_BEH_CONTINUE, joy_device_2_submenu, "Joystick #2" },
-    { "--" },
-    { "Configure Keyset _A...",
-      "Configure keyboard set A for joystick emulation",
-      NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, keyset_1_submenu, "Keyset A" },
-    { "Configure Keyset _B...",
-      "Configure keyboard set B for joystick emulation",
-      NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, keyset_2_submenu, "Keyset B" },
     { NULL }
 };
 
@@ -1199,20 +509,10 @@ static TUI_MENU_CALLBACK(hard_reset_callback)
     return NULL;
 }
 
-static TUI_MENU_CALLBACK(reset_drive0_callback)
+static TUI_MENU_CALLBACK(reset_drive_callback)
 {
     if (been_activated)
-        drivecpu_trigger_reset(0);
-
-    *become_default = 0;
-
-    return NULL;
-}
-
-static TUI_MENU_CALLBACK(reset_drive1_callback)
-{
-    if (been_activated)
-        drivecpu_trigger_reset(1);
+        drivecpu_trigger_reset((unsigned int)param);
 
     *become_default = 0;
 
@@ -1220,25 +520,26 @@ static TUI_MENU_CALLBACK(reset_drive1_callback)
 }
 
 static tui_menu_item_def_t reset_submenu[] = {
-    { "_Not Really!",
-      "Go back to the menu",
+    { "_Not Really!", "Go back to the menu",
       NULL, NULL, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Do a _Soft Reset",
-      "Do a soft reset without resetting the memory",
+    { "Do a _Soft Reset", "Do a soft reset without resetting the memory",
       soft_reset_callback, NULL, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "Do a _Hard Reset",
-      "Clear memory and reset as after a power-up",
+    { "Do a _Hard Reset", "Clear memory and reset as after a power-up",
       hard_reset_callback, NULL, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "Reset drive #_8",
-      "Reset drive #8 separately",
-      reset_drive0_callback, NULL, 0,
+    { "Reset drive #_8", "Reset drive #8 separately",
+      reset_drive_callback, (void *)0, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "Reset drive #_9",
-      "Reset drive #9 separately",
-      reset_drive1_callback, NULL, 0,
+    { "Reset drive #_9", "Reset drive #9 separately",
+      reset_drive_callback, (void *)1, 0,
+      TUI_MENU_BEH_RESUME, NULL, NULL },
+    { "Reset drive #1_0", "Reset drive #10 separately",
+      reset_drive_callback, (void *)2, 0,
+      TUI_MENU_BEH_RESUME, NULL, NULL },
+    { "Reset drive #_11", "Reset drive #11 separately",
+      reset_drive_callback, (void *)3, 0,
       TUI_MENU_BEH_RESUME, NULL, NULL },
     { NULL }
 };
@@ -1407,106 +708,6 @@ automagically",
 
 /* ------------------------------------------------------------------------- */
 
-TUI_MENU_DEFINE_TOGGLE(FileSystemDevice8)
-TUI_MENU_DEFINE_TOGGLE(FileSystemDevice9)
-TUI_MENU_DEFINE_TOGGLE(FileSystemDevice10)
-TUI_MENU_DEFINE_TOGGLE(FileSystemDevice11)
-
-TUI_MENU_DEFINE_TOGGLE(FSDevice8ConvertP00)
-TUI_MENU_DEFINE_TOGGLE(FSDevice9ConvertP00)
-TUI_MENU_DEFINE_TOGGLE(FSDevice10ConvertP00)
-TUI_MENU_DEFINE_TOGGLE(FSDevice11ConvertP00)
-
-TUI_MENU_DEFINE_TOGGLE(FSDevice8SaveP00)
-TUI_MENU_DEFINE_TOGGLE(FSDevice9SaveP00)
-TUI_MENU_DEFINE_TOGGLE(FSDevice10SaveP00)
-TUI_MENU_DEFINE_TOGGLE(FSDevice11SaveP00)
-
-TUI_MENU_DEFINE_TOGGLE(FSDevice8HideCBMFiles)
-TUI_MENU_DEFINE_TOGGLE(FSDevice9HideCBMFiles)
-TUI_MENU_DEFINE_TOGGLE(FSDevice10HideCBMFiles)
-TUI_MENU_DEFINE_TOGGLE(FSDevice11HideCBMFiles)
-
-static TUI_MENU_CALLBACK(set_fsdevice_directory_callback)
-{
-    int unit = (int)param;
-    char *v;
-    char *rname;
-
-    rname = lib_msprintf("FSDevice%dDir", unit);
-
-    if (been_activated) {
-        char *path;
-        int len = 255;
-
-        resources_get_value(rname, (void *)&v);
-        if (len < strlen(v) * 2)
-            len = strlen(v) * 2;
-        path = alloca(len + 1);
-        strcpy(path, v);
-        if (tui_input_string("Insert path",
-                             "Path:", path, len) != -1) {
-            util_remove_spaces(path);
-            fsdevice_set_directory(path, unit);
-        }
-    }
-
-    resources_get_value(rname, (void *)&v);
-    lib_free(rname);
-    return v;
-}
-
-#define DEFINE_FSDEVICE_SUBMENU(num)                                \
-    tui_menu_item_def_t fsdevice##num##_submenu[] = {               \
-        { "_Directory:",                                            \
-          "Specify access directory for device" #num,               \
-          set_fsdevice_directory_callback, (void *)(num), 40,       \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
-        { "--" },                                                   \
-        { "_Allow access:",                                         \
-          "Allow device" #num " to access the MS-DOS file system",  \
-          toggle_FileSystemDevice##num##_callback, NULL, 3,         \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
-        { "_Convert P00 names:",                                    \
-          "Handle P00 names on device " #num,                       \
-          toggle_FSDevice##num##ConvertP00_callback, NULL, 3,       \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
-        { "_Save P00 files:",                                       \
-          "Create P00 files on device " #num,                       \
-          toggle_FSDevice##num##SaveP00_callback, NULL, 3,          \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
-        { "_Hide non-P00 files: ",                                  \
-          "Display only P00 files on device " #num,                 \
-          toggle_FSDevice##num##HideCBMFiles_callback, NULL, 3,     \
-          TUI_MENU_BEH_CONTINUE, NULL, NULL },                      \
-        { NULL }                                                    \
-    };
-
-DEFINE_FSDEVICE_SUBMENU(8)
-DEFINE_FSDEVICE_SUBMENU(9)
-DEFINE_FSDEVICE_SUBMENU(10)
-DEFINE_FSDEVICE_SUBMENU(11)
-
-tui_menu_item_def_t fsdevice_submenu[] = {
-    { "Drive _8...",
-      "Settings for drive #8",
-      NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, fsdevice8_submenu, "Drive 8 directory access" },
-    { "Drive _9...",
-      "Settings for drive #9",
-      NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, fsdevice9_submenu, "Drive 9 directory access" },
-    { "Drive 1_0...",
-      "Settings for drive #10",
-      NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, fsdevice10_submenu, "Drive 10 directory access" },
-    { "Drive 1_1...",
-      "Settings for drive #11",
-      NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, fsdevice11_submenu, "Drive 11 directory access" },
-    { NULL }
-};
-
 TUI_MENU_DEFINE_TOGGLE(VirtualDevices)
 
 /* ------------------------------------------------------------------------- */
@@ -1552,7 +753,6 @@ static TUI_MENU_CALLBACK(speed_callback)
 
 TUI_MENU_DEFINE_TOGGLE(WarpMode)
 TUI_MENU_DEFINE_TOGGLE(UseLeds)
-TUI_MENU_DEFINE_TOGGLE(Printer4)
 
 static TUI_MENU_CALLBACK(toggle_ShowStatusbar_callback)
 {
@@ -1584,65 +784,58 @@ static TUI_MENU_CALLBACK(toggle_ShowStatusbar_callback)
 }
 
 
-static void create_special_submenu(int has_serial_traps)
+static void create_speed_limit_submenu(void)
 {
+    int i;
+    int speed[4] = { 100, 50, 20, 10 };
+    char *s1, *s2;
     static tui_menu_t speed_submenu;
 
     ui_special_submenu = tui_menu_create("Other Settings", 1);
 
-    /* Speed limit submenu.  */
-    {
-        int i;
-        int speed[4] = { 100, 50, 20, 10 };
-        char *s1, *s2;
-
-        speed_submenu = tui_menu_create("Speed Limit", 1);
-        for (i = 0; i < 4; i++) {
-            if (speed[i] == 100)
-                s1 = lib_msprintf("Limit speed to the one of the real %s",
-                               machine_name);
-            else
-                s1 = lib_msprintf("Limit speed to %d%% of the real %s",
-                               speed[i], machine_name);
-            s2 = lib_msprintf("_%d%%", speed[i]);
-            tui_menu_add_item(speed_submenu, s2, s1,
-                              speed_callback, (void *)speed[i], 5,
-                              TUI_MENU_BEH_CLOSE);
-            lib_free(s1);
-            lib_free(s2);
-        }
-        tui_menu_add_item(speed_submenu, "_No Limit",
-                          "Run the emulator as fast as possible",
-                          speed_callback, (void *)0, 5,
+    speed_submenu = tui_menu_create("Speed Limit", 1);
+    for (i = 0; i < 4; i++) {
+        if (speed[i] == 100)
+            s1 = lib_msprintf("Limit speed to the one of the real %s",
+                           machine_name);
+        else
+            s1 = lib_msprintf("Limit speed to %d%% of the real %s",
+                           speed[i], machine_name);
+        s2 = lib_msprintf("_%d%%", speed[i]);
+        tui_menu_add_item(speed_submenu, s2, s1,
+                          speed_callback, (void *)speed[i], 5,
                           TUI_MENU_BEH_CLOSE);
-        tui_menu_add_separator(speed_submenu);
-        tui_menu_add_item(speed_submenu, "_Custom...",
-                          "Specify a custom relative speed value",
-                          speed_callback, (void *)-1, 5,
-                          TUI_MENU_BEH_CLOSE);
+        lib_free(s1);
+        lib_free(s2);
     }
+    tui_menu_add_item(speed_submenu, "_No Limit",
+                      "Run the emulator as fast as possible",
+                      speed_callback, (void *)0, 5,
+                      TUI_MENU_BEH_CLOSE);
+    tui_menu_add_separator(speed_submenu);
+    tui_menu_add_item(speed_submenu, "_Custom...",
+                      "Specify a custom relative speed value",
+                       speed_callback, (void *)-1, 5,
+                      TUI_MENU_BEH_CLOSE);
 
     tui_menu_add_submenu(ui_special_submenu, "_Speed Limit:",
                          "Specify a custom speed limit",
                          speed_submenu, speed_submenu_callback,
                          NULL, 5);
+}
+
+static void create_special_submenu(int has_serial_traps)
+{
+    create_speed_limit_submenu();
 
     tui_menu_add_item(ui_special_submenu, "Enable _Warp Mode:",
                       "Make the emulator run as fast as possible skipping lots of frames",
                       toggle_WarpMode_callback, NULL, 3,
                       TUI_MENU_BEH_CONTINUE);
 
-    /* File system access.  */
-    {
-        tui_menu_t tmp = tui_menu_create("MS-DOS Directory Access", 1);
-
-        tui_menu_add_separator(ui_special_submenu);
-        tui_menu_add(tmp, fsdevice_submenu);
-        tui_menu_add_submenu(ui_special_submenu,
-                             "MS-DOS _Directory Access...",
-                             "Options to access MS-DOS directories from within the emulator",
-                             tmp, NULL, NULL, 0);
-    }
+    tui_menu_add_separator(ui_special_submenu);
+    uiperipherial_init(ui_special_submenu);
+    uiprinter_init(ui_special_submenu);
 
     if (has_serial_traps)
         tui_menu_add_item(ui_special_submenu, "Enable virtual device _traps:",
@@ -1665,12 +858,6 @@ static void create_special_submenu(int has_serial_traps)
                       "Show Status_bar:",
                       "Statusbar to display Speed, Tape and Drive properties; toggle with ALT-F5",
                       toggle_ShowStatusbar_callback, NULL, 10,
-                      TUI_MENU_BEH_CONTINUE);
-    tui_menu_add_separator(ui_special_submenu);
-    tui_menu_add_item(ui_special_submenu,
-                      "_Printer Emulation (Device 4):",
-                      "Dumps Printer output to file",
-                      toggle_Printer4_callback, NULL, 4,
                       TUI_MENU_BEH_CONTINUE);
 }
 
@@ -1777,14 +964,8 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                          ui_video_submenu, NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
-    if (has_drive) {
-        ui_drive_submenu = tui_menu_create("Disk Drive Settings", 1);
-        tui_menu_add(ui_drive_submenu, drive_settings_submenu);
-        tui_menu_add_submenu(ui_main_menu, "Dis_k Drive Settings...",
-                             "Drive emulation settings",
-                             ui_drive_submenu, NULL, 0,
-                             TUI_MENU_BEH_CONTINUE);
-    }
+    if (has_drive)
+        uidrive_init(ui_main_menu);
 
     if (has_datasette) {
         ui_datasette_settings_submenu = tui_menu_create("Datasette Settings", 1);
@@ -1795,13 +976,10 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
                              TUI_MENU_BEH_CONTINUE);
     }
 
-    ui_sound_submenu = tui_menu_create("Audio Settings", 1);
-    tui_menu_add(ui_sound_submenu, sound_submenu);
-    tui_menu_add_submenu(ui_main_menu, "_Sound Settings...",
-                         "Sampling rate, sound output, soundcard settings",
-                         ui_sound_submenu, NULL, 0,
-                         TUI_MENU_BEH_CONTINUE);
+    uisound_init(ui_main_menu);
 
+    uijoystick_init(ui_main_menu, number_joysticks);
+#if 0
     if (number_joysticks > 0) {
         ui_joystick_settings_submenu = tui_menu_create("Joystick Settings", 1);
         tui_menu_add_submenu(ui_main_menu, "_Joystick Settings...",
@@ -1815,6 +993,7 @@ void ui_create_main_menu(int has_tape, int has_drive, int has_serial_traps,
             tui_menu_add(ui_joystick_settings_submenu,
                          single_joystick_submenu);
     }
+#endif
 
     ui_rom_submenu = tui_menu_create("Firmware ROM Settings", 1);
     tui_menu_add(ui_rom_submenu, rom_submenu);
