@@ -167,7 +167,7 @@ static void command_directory_get(vdrive_t *vdrive, fs_buffer_info_t *info,
        replaced by some regex functions... */
     f = 1;
     do {
-        char *p;
+        BYTE *p;
 
         direntry = ioutil_readdir(info->ioutil_dir);
 
