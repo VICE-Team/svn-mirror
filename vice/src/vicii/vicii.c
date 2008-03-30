@@ -433,16 +433,6 @@ void vicii_powerup(void)
     vicii.vaddr_offset_phi1 = 0;
     vicii.vaddr_offset_phi2 = 0;
 
-    if (vicii.viciie == VICII_EXTENDED) {
-        vicii.vaddr_chargen_mask_phi1 = 0x3000;
-        vicii.vaddr_chargen_mask_phi2 = 0x3000;
-    } else {
-        vicii.vaddr_chargen_mask_phi1 = 0x7000;
-        vicii.vaddr_chargen_mask_phi2 = 0x7000;
-    }
-    vicii.vaddr_chargen_value_phi1 = 0x1000;
-    vicii.vaddr_chargen_value_phi2 = 0x1000;
-
     vicii.allow_bad_lines = 0;
     vicii.sprite_sprite_collisions = vicii.sprite_background_collisions = 0;
     vicii.fetch_idx = VICII_FETCH_MATRIX;
