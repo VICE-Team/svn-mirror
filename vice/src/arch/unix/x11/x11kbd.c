@@ -58,7 +58,7 @@ static int control_count, shift_count;
 
 /* ------------------------------------------------------------------ */
 
-void x11kbd_press(int key)
+void x11kbd_press(ui_keysym_t key)
 {
     int i;
 
@@ -91,6 +91,10 @@ void x11kbd_press(int key)
         break;
     }
 
+    if ((meta_count != 0) &&
+	ui_dispatch_hotkeys(key))
+	return;
+
     if (vsid_mode)
 	return;
     
@@ -99,10 +103,6 @@ void x11kbd_press(int key)
 	 ((key == key_ctrl_restore1) ||
 	  (key == key_ctrl_restore2))) &&
 	machine_set_restore_key(1))
-	return;
-
-    if ((meta_count != 0) &&
-	ui_dispatch_hotkeys(key))
 	return;
 
     if (key != NoSymbol && key == key_ctrl_column4080) {
@@ -161,7 +161,7 @@ void x11kbd_press(int key)
 }
 
 
-void x11kbd_release (int key)
+void x11kbd_release (ui_keysym_t key)
 {
     int i;
     

@@ -41,7 +41,7 @@
 #include "interrupt.h"
 #include "resources.h"
 #include "types.h"
-#include "video.h"
+#include "videoarch.h"
 #include "vice.h"
 #include "utils.h"
 

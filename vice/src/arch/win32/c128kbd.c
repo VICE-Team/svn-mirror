@@ -133,12 +133,25 @@ static keyconv c128_keyboard[256] = {
     { 0, 6, 0 },                /*          F11 -> F5           */
     { 0, 3, 0 },                /*          F12 -> F7           */
     { 6, 3, 0 },                /*         Home -> CLR/HOME     */
+#if 0
     { 10, 3, 0 },               /*           Up -> Up           */
+#else
+    { 0, 7, 1 },                /*           Up -> CRSR UP      */
+#endif
     { -1, -1, 0 },              /*         PgUp -> (no key)     */
+#if 0
     { 10, 5, 0 },               /*         Left -> Left         */
     { 10, 6, 0 },               /*        Right -> Right        */
+#else
+    { 0, 2, 1 },                /*         Left -> CRSR LEFT    */
+    { 0, 2, 0 },                /*        Right -> CRSR RIGHT   */
+#endif
     { 0, 7, 0 },                /*          End -> CRSR DOWN    */
+#if 0
     { 10, 4, 0 },               /*         Down -> Down         */
+#else
+    { 0, 7, 0 },                /*         Down -> CRSR DOWN    */
+#endif
     { 0, 2, 0 },                /*       PgDown -> CRSR RIGHT   */
     { 6, 0, 0 },                /*          Ins -> Pound        */
     { 6, 6, 0 },                /*          Del -> Up Arrow     */

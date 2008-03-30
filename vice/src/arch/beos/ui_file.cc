@@ -69,7 +69,7 @@ char *read_disk_image_contents(const char *name)
     if (contents==NULL) {
         return NULL;
     }
-    s=image_contents_to_string(contents);
+    s=image_contents_to_string(contents, IMAGE_CONTENTS_STRING_ASCII);
     image_contents_destroy(contents);
     return s;
 }
@@ -83,7 +83,7 @@ char                *s;
     if (contents==NULL) {
         return NULL;
     }
-    s=image_contents_to_string(contents);
+    s=image_contents_to_string(contents, IMAGE_CONTENTS_STRING_ASCII);
     image_contents_destroy(contents);
     return s;
 }

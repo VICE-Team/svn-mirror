@@ -37,7 +37,7 @@
 #include "ui.h"
 #include "uimsgwin.h"
 #include "utils.h"
-#include "video.h"
+#include "videoarch.h"
 
 
 static FILE *mon_input, *mon_output;

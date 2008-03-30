@@ -57,11 +57,11 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report,
     switch (report->type) {
 
     case KeyPress:
-	x11kbd_press(key);
+	x11kbd_press((ui_keysym_t) key);
 	break;
 
     case KeyRelease:
-	x11kbd_release(key);
+	x11kbd_release((ui_keysym_t) key);
 	break;
 
     case EnterNotify:

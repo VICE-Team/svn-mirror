@@ -129,7 +129,11 @@ static keyconv c128_keyboard[256] = {
     { 5, 4, 0 },                /*            . -> .            */
     { 6, 7, 0 },                /*            / -> /            */
     { 6, 4, 0 },                /*  Right Shift -> Right Shift  */
+#if 0
     { 10, 3, 0 },               /*           Up -> Up           */
+#else
+    { 0, 7, 1 },                /*           Up -> CRSR Up      */
+#endif
     { 8, 7, 0 },                /*     Numpad 1 -> Numpad 1     */
     { 8, 4, 0 },                /*     Numpad 2 -> Numpad 2     */
     { 9, 7, 0 },                /*     Numpad 3 -> Numpad 3     */
@@ -139,9 +143,15 @@ static keyconv c128_keyboard[256] = {
     { 7, 4, 0 },                /*        Space -> Space        */
     { -1, -1, 0 },              /*    Right Alt -> (no key)     */
     { -1, -1, 0 },              /*   Right Ctrl -> (no key)     */
+#if 0
     { 10, 5, 0 },               /*         Left -> Left         */
     { 10, 4, 0 },               /*         Down -> Down         */
     { 10, 6, 0 },               /*        Right -> Right        */
+#else
+    { 0, 2, 1 },                /*         Left -> CRSR LEFT    */
+    { 0, 7, 0 },                /*         Down -> CRSR DOWN    */
+    { 0, 2, 0 },                /*        Right -> CRSR RIGHT   */
+#endif
     { 10, 1, 0 },               /*     Numpad 0 -> Numpad 0     */
     { 10, 2, 0 },               /*     Numpad . -> Numpad .     */
     { -1, -1, 0 },              /*   Left Win95 -> (no key)     */

@@ -88,7 +88,7 @@ SOURCE=..\..\c1541.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\charsets.c
+SOURCE=..\..\charset.c
 # End Source File
 # Begin Source File
 

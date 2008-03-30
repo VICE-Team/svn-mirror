@@ -32,7 +32,7 @@
 #include "vsync.h"
 #include "vsyncarch.h"
 #include "resources.h"
-#include "video.h"
+#include "videoarch.h"
 #include "sound.h"
 #include "ui.h"
 #include "kbd.h"

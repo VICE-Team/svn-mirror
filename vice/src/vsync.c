@@ -320,6 +320,8 @@ int vsync_do_vsync(int been_skipped)
 
         next_frame_start = now;
         skipped_redraw = 0;
+
+	frame_ticks = frame_ticks_orig;
     }
 
     /* This is the time between the start of the next frame and now. */
@@ -380,7 +382,7 @@ int vsync_do_vsync(int been_skipped)
             log_warning(LOG_DEFAULT, _("Your machine is too slow for current settings!"));
         }
 #endif
-        next_frame_start = now;
+	vsync_suspend_speed_eval();
     }
 
     /* Adjust frame output frequency to match sound speed.

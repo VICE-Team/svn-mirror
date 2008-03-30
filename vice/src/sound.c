@@ -578,7 +578,7 @@ int sound_flush(int relative_speed)
 double sound_flush(int relative_speed)
 #endif
 {
-    int	i, nr, space, used, fill = 0;
+    int	i, nr, space, used;
 
     if (!playback_enabled) {
         if (sdev_open) sound_close();
@@ -674,17 +674,20 @@ double sound_flush(int relative_speed)
 		}
 		prev = now;
 	    }
-	    /* Calculate unused space in buffer. */
-	    j = snddata.fragsize*(snddata.fragnr - 1) - nr;
-	    j *= sizeof(*p);
+
+	    /* Calculate unused space in buffer. Leave two fragments since
+	       sound_suspend called from vsync_suspend_speed_eval below fills
+	       one fragment. */
+	    j = snddata.bufsize - 2*snddata.fragsize;
+
 	    /* Fill up sound hardware buffer. */
 	    if (j > 0)
 	    {
-	        p = (short *)xmalloc(j);
+	        p = (SWORD *)xmalloc(j*sizeof(SWORD));
 		v = snddata.bufptr > 0 ? snddata.buffer[0] : 0;
-		for (i = 0; i < j / (int)sizeof(*p); i++)
-		    p[i] = (float)v*i/(j / (int)sizeof(*p));
-		if (snddata.pdev->write(p, j/sizeof(*p)))
+		for (i = 0; i < j; i++)
+		    p[i] = (float)v*i/j;
+		if (snddata.pdev->write(p, j))
 		{
 		    closesound("Audio: write to sound device failed.");
                     free(p);
@@ -693,7 +696,12 @@ double sound_flush(int relative_speed)
 		snddata.lastsample = v;
                 free(p);
 	    }
-	    fill = j;
+	    snddata.prevfill = j;
+
+	    /* Fresh start for vsync. */
+	    log_warning(LOG_DEFAULT, _("SOUND: Buffer drained - your machine is too slow for current settings!"));
+	    vsync_suspend_speed_eval();
+	    return 0;
 	}
 	if (cycle_based || speed_adjustment_setting != SOUND_ADJUST_ADJUSTING) {
             if (relative_speed > 0)
@@ -707,7 +715,8 @@ double sound_flush(int relative_speed)
 	        + (SOUNDCLK_CONSTANT(0.9)*(used - snddata.prevused))/snddata.bufsize);
 	}
 	snddata.prevused = used;
-	snddata.prevfill = fill;
+	snddata.prevfill = 0;
+
 	if (!cycle_based && speed_adjustment_setting != SOUND_ADJUST_EXACT) {
 	    snddata.clkfactor = SOUNDCLK_MULT(snddata.clkfactor, SOUNDCLK_CONSTANT(0.9)
 	                      + ((used+nr)*SOUNDCLK_CONSTANT(0.12))/snddata.bufsize);
@@ -793,7 +802,7 @@ void sound_suspend(void)
 
     if (snddata.pdev->write && !snddata.issuspended)
     {
-        p = (short*)xmalloc(snddata.fragsize*sizeof(SWORD));
+        p = (SWORD *)xmalloc(snddata.fragsize*sizeof(SWORD));
         if (!p)
             return;
         v = snddata.lastsample;

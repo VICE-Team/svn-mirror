@@ -101,7 +101,7 @@ SOURCE=..\..\autostart.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\charsets.c
+SOURCE=..\..\charset.c
 # End Source File
 # Begin Source File
 

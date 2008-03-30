@@ -29,8 +29,10 @@
 #ifndef __x11kbd_h__
 #define __x11kbd_h__
 
-void x11kbd_press(int key);
-void x11kbd_release(int key);
+#include "ui.h"
+
+void x11kbd_press(ui_keysym_t key);
+void x11kbd_release(ui_keysym_t key);
 void x11kbd_enter_leave(void);
 void x11kbd_focus_change (void);
 

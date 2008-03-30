@@ -51,11 +51,11 @@ void kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp )
     switch (report->type) {
 	
     case GDK_KEY_PRESS:
-	x11kbd_press((int) key);
+	x11kbd_press((ui_keysym_t) key);
 	break;
 
     case GDK_KEY_RELEASE:
-	x11kbd_release((int) key);
+	x11kbd_release((ui_keysym_t) key);
 	break;
 	
     case GDK_ENTER_NOTIFY:

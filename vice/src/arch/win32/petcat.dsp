@@ -84,7 +84,7 @@ LINK32=link.exe
 # Name "petcat - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\charsets.c
+SOURCE=..\..\charset.c
 # End Source File
 # Begin Source File
 
