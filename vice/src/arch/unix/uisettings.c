@@ -550,13 +550,12 @@ ui_menu_entry_t ui_fullscreen_settings_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_TOGGLE(VideoCache)
+/* ------------------------------------------------------------------------- */
+
 UI_MENU_DEFINE_TOGGLE(DoubleSize)
 UI_MENU_DEFINE_TOGGLE(DoubleScan)
 
 ui_menu_entry_t video_settings_submenu[] = {
-    { N_("*Video cache"),
-      (ui_callback_t)toggle_VideoCache, NULL, NULL },
     { N_("*Double size"),
       (ui_callback_t)toggle_DoubleSize, NULL, NULL },
     { N_("*Double scan"),

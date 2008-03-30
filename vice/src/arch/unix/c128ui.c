@@ -90,14 +90,14 @@ static ui_menu_entry_t set_vdc_revison_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_TOGGLE(VDC_VideoCache)
+UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
 UI_MENU_DEFINE_TOGGLE(VDC_DoubleSize)
 UI_MENU_DEFINE_TOGGLE(VDC_DoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDC_64KB)
 
 static ui_menu_entry_t vdc_submenu[] = {
     { N_("*Video cache"),
-      (ui_callback_t)toggle_VDC_VideoCache, NULL, NULL },
+      (ui_callback_t)toggle_VDCVideoCache, NULL, NULL },
     { N_("*Double size"),
       (ui_callback_t)toggle_VDC_DoubleSize, NULL, NULL },
     { N_("*Double scan"),

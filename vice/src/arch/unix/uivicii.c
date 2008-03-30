@@ -60,11 +60,15 @@ static ui_menu_entry_t palette_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
 UI_MENU_DEFINE_TOGGLE(CheckSsColl)
 UI_MENU_DEFINE_TOGGLE(CheckSbColl)
 UI_MENU_DEFINE_TOGGLE(ExternalPalette)
 
 ui_menu_entry_t vic_submenu[] = {
+    { N_("*Video cache"),
+      (ui_callback_t)toggle_VICIIVideoCache, NULL, NULL },
+    { "--" },
     { N_("Video standard"),
       NULL, NULL, set_video_standard_submenu },
     { "--" },
