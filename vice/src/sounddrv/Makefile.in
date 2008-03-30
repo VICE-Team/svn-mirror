@@ -105,6 +105,7 @@ RESID_DEP = @RESID_DEP@
 RESID_DIR = @RESID_DIR@
 RESID_INCLUDES = @RESID_INCLUDES@
 RESID_LIBS = @RESID_LIBS@
+SCREENSHOT_DRIVERS = @SCREENSHOT_DRIVERS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
 SOUND_HPUX_OBJ = @SOUND_HPUX_OBJ@
@@ -137,7 +138,7 @@ INCLUDES =  	@ARCH_INCLUDES@         -I$(top_builddir)/src 	-I$(top_srcdir)/src
 noinst_LIBRARIES = libsounddrv.a
 
 # These sources are linked only under certain circumstances.
-EXTRA_libsounddrv_a_SOURCES =  	soundaix.c 	soundacorn.c 	soundallegro.c         soundmmos2.c         sounddart.c         sounddx.c 	soundhpux.c 	soundmidas.c 	soundsb.c 	soundsdl.c 	soundsgi.c 	soundsun.c 	sounduss.c
+EXTRA_libsounddrv_a_SOURCES =  	soundaix.c 	soundacorn.c 	soundallegro.c 	soundbeos.cc         soundmmos2.c         sounddart.c         sounddx.c 	soundhpux.c 	soundmidas.c 	soundsb.c 	soundsdl.c 	soundsgi.c 	soundsun.c 	sounduss.c
 
 
 # These sources are always built.
@@ -165,6 +166,10 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libsounddrv_a_OBJECTS =  sounddummy.o sounddump.o soundfs.o soundspeed.o \
 soundwav.o
+CXXFLAGS = @CXXFLAGS@
+CXXCOMPILE = $(CXX) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
+CXXLD = $(CXX)
+CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
@@ -181,7 +186,7 @@ OBJECTS = $(libsounddrv_a_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s
+.SUFFIXES: .S .c .cc .o .s
 $(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/sounddrv/Makefile
 
@@ -222,6 +227,8 @@ libsounddrv.a: $(libsounddrv_a_OBJECTS) $(libsounddrv_a_DEPENDENCIES)
 	-rm -f libsounddrv.a
 	$(AR) cru libsounddrv.a $(libsounddrv_a_OBJECTS) $(libsounddrv_a_LIBADD)
 	$(RANLIB) libsounddrv.a
+.cc.o:
+	$(CXXCOMPILE) -c $<
 
 tags: TAGS
 

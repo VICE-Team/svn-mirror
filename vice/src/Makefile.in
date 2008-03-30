@@ -105,6 +105,7 @@ RESID_DEP = @RESID_DEP@
 RESID_DIR = @RESID_DIR@
 RESID_INCLUDES = @RESID_INCLUDES@
 RESID_LIBS = @RESID_LIBS@
+SCREENSHOT_DRIVERS = @SCREENSHOT_DRIVERS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
 SOUND_HPUX_OBJ = @SOUND_HPUX_OBJ@
@@ -134,7 +135,7 @@ LINK = @LINKCC@ $(CFLAGS) $(INCLUDES) $(CPPFLAGS) -o $@
 
 ARCH_LIBS = @ARCH_LIBS@
 
-SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	raster 	vicii         vdc 	crtc 	sid 	monitor 	c64 	c128 	vic20 	pet 	cbm2 	arch
+SUBDIRS =  	@RESID_DIR@ 	sounddrv 	drive 	vdrive 	raster 	vicii         vdc 	crtc 	screendrv 	sid 	monitor 	c64 	c128 	vic20 	pet 	cbm2 	arch
 
 
 INCLUDES =  	@ARCH_INCLUDES@ 	-I$(top_builddir)/src 	-I$(top_srcdir)/src 	-I$(top_srcdir)/src/drive 	-I$(top_srcdir)/src/vdrive 	-I$(top_srcdir)/src/monitor 	-I$(top_srcdir)/intl 	@NLS_LOCALEDIR@
@@ -170,6 +171,7 @@ pet_lib = $(top_builddir)/src/pet/libpet.a
 raster_lib = $(top_builddir)/src/raster/libraster.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
+screendrv_lib = $(top_builddir)/src/screendrv/libscreendrv.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
 vicii_lib = $(top_builddir)/src/vicii/libvicii.a
@@ -184,7 +186,7 @@ bin_PROGRAMS = x64 x128 xvic xpet xcbm2 c1541 petcat
 EXTRA_PROGRAMS = 
 
 # x64
-x64_libs =  	@X64_WINRES@ 	$(c64_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(sounddrv_lib) 	$(vicii_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
+x64_libs =  	@X64_WINRES@ 	$(c64_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(sounddrv_lib)         $(screendrv_lib) 	$(vicii_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
 
 
 x64_SOURCES = $(base_sources) $(maincpu_sources)
@@ -193,7 +195,7 @@ x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@
 
 # x128
-x128_libs =  	@X128_WINRES@ 	$(c128_lib) 	$(c64c128_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(sounddrv_lib) 	$(vicii_lib) 	$(vdc_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
+x128_libs =  	@X128_WINRES@ 	$(c128_lib) 	$(c64c128_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sid_lib) 	$(sounddrv_lib)         $(screendrv_lib) 	$(vicii_lib) 	$(vdc_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
 
 
 x128_SOURCES = $(base_sources)
@@ -202,7 +204,7 @@ x128_DEPENDENCIES = $(x128_libs)
 x128_LDFLAGS = @x128_LDFLAGS@
 
 # xvic
-xvic_libs =  	@XVIC_WINRES@ 	$(vic20_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
+xvic_libs =  	@XVIC_WINRES@ 	$(vic20_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib)         $(screendrv_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
 
 
 xvic_SOURCES = $(base_sources) $(maincpu_sources)
@@ -211,7 +213,7 @@ xvic_DEPENDENCIES = $(xvic_libs)
 xvic_LDFLAGS = @xvic_LDFLAGS@
 
 # xpet
-xpet_libs =  	@XPET_WINRES@ 	$(pet_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(crtc_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
+xpet_libs =  	@XPET_WINRES@ 	$(pet_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib)         $(screendrv_lib) 	$(crtc_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
 
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
@@ -220,7 +222,7 @@ xpet_DEPENDENCIES = $(xpet_libs)
 xpet_LDFLAGS = @xpet_LDFLAGS@
 
 # xcbm2
-xcbm2_libs =  	@XCBM2_WINRES@ 	$(xcbm2_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib) 	$(sid_lib) 	$(crtc_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
+xcbm2_libs =  	@XCBM2_WINRES@ 	$(xcbm2_lib) 	$(drive_lib) 	$(vdrive_lib) 	$(sounddrv_lib)         $(screendrv_lib) 	$(sid_lib) 	$(crtc_lib) 	$(raster_lib) 	$(monitor_lib) 	$(common_libs)
 
 
 xcbm2_SOURCES = $(base_sources)
@@ -583,8 +585,8 @@ fsdevice.o: fsdevice.c vice.h config.h arch/unix/archdep.h archapi.h \
 gcr.o: gcr.c vice.h config.h gcr.h arch/unix/types.h utils.h
 imagecontents.o: imagecontents.c vice.h config.h arch/unix/archdep.h \
 	archapi.h charsets.h diskimage.h arch/unix/types.h \
-	imagecontents.h log.h serial.h t64.h utils.h \
-	vdrive/vdrive-bam.h vdrive/vdrive-dir.h vdrive/vdrive.h zfile.h
+	imagecontents.h serial.h t64.h utils.h vdrive/vdrive-bam.h \
+	vdrive/vdrive-dir.h vdrive/vdrive.h zfile.h
 info.o: info.c
 interrupt.o: interrupt.c vice.h config.h interrupt.h 6510core.h \
 	arch/unix/types.h log.h snapshot.h
@@ -599,11 +601,11 @@ main.o: main.c vice.h config.h arch/unix/archdep.h archapi.h attach.h \
 	resources.h console.h diskimage.h drive/drive.h log.h \
 	drive/drivecpu.h fsdevice.h interrupt.h 6510core.h \
 	arch/unix/joystick.h arch/unix/kbd.h kbdbuf.h keyboard.h \
-	machine.h maincpu.h arch/unix/main_exit.h sysfile.h tape.h \
-	arch/unix/ui.h uiapi.h arch/unix/x11/xaw/uiarch.h utils.h \
-	vdrive/vdrive.h version.h video.h arch/unix/videoarch.h \
-	arch/unix/x11/xaw/videoarch.h arch/unix/x11/xaw/../videoarch.h \
-	arch/unix/mouse.h
+	machine.h maincpu.h arch/unix/main_exit.h sysfile.h \
+	screenshot.h tape.h arch/unix/ui.h uiapi.h \
+	arch/unix/x11/xaw/uiarch.h utils.h vdrive/vdrive.h version.h \
+	video.h arch/unix/videoarch.h arch/unix/x11/xaw/videoarch.h \
+	arch/unix/x11/xaw/../videoarch.h arch/unix/mouse.h
 maincpu.o: maincpu.c vice.h config.h 6510core.h arch/unix/types.h \
 	alarm.h clkguard.h interrupt.h log.h machine.h maincpu.h mem.h \
 	monitor/mon.h mos6510.h snapshot.h traps.h arch/unix/ui.h \
@@ -627,7 +629,8 @@ romset.o: romset.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 rsuser.o: rsuser.c vice.h config.h alarm.h arch/unix/types.h clkguard.h \
 	cmdline.h resources.h interrupt.h 6510core.h log.h maincpu.h \
 	rs232.h rsuser.h
-screenshot.o: screenshot.c vice.h config.h machine.h screenshot.h
+screenshot.o: screenshot.c vice.h config.h log.h machine.h screenshot.h \
+	utils.h arch/unix/types.h
 serial.o: serial.c vice.h config.h attach.h drive/drive.h log.h \
 	arch/unix/types.h maincpu.h 6510core.h mem.h mos6510.h \
 	parallel.h prdevice.h serial.h traps.h utils.h vdrive/vdrive.h
@@ -747,6 +750,7 @@ x64-all: \
 	libraster \
 	libsid \
 	libsounddrv \
+        libscreendrv \
 	libvicii \
 	libarch \
 	libmonitor \
@@ -757,6 +761,7 @@ x128-all: \
 	libc128 \
 	libc64c128 \
 	libsounddrv \
+        libscreendrv \
 	libdrive \
 	libvdrive \
 	libarch \
@@ -774,6 +779,7 @@ xvic-all: \
 	libvdrive \
 	libraster \
 	libsounddrv \
+        libscreendrv \
 	libvic20 \
 	libarch \
 	libmonitor \
@@ -786,6 +792,7 @@ xpet-all: \
 	libraster \
 	libcrtc \
 	libsounddrv \
+        libscreendrv \
 	libpet \
 	libarch \
 	libmonitor \
@@ -795,6 +802,7 @@ xpet-all: \
 xcbm2-all: \
 	libcbm2 \
 	libsounddrv \
+        libscreendrv \
 	libarch \
 	libsid \
 	@RESID_DEP@ \
@@ -832,6 +840,8 @@ libsid:
 	(cd sid && $(MAKE))
 libsounddrv:
 	(cd sounddrv && $(MAKE))
+libscreendrv:
+	(cd screendrv && $(MAKE))
 libvdrive:
 	(cd vdrive && $(MAKE))
 libvic20:

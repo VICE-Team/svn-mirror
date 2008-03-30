@@ -105,6 +105,7 @@ RESID_DEP = @RESID_DEP@
 RESID_DIR = @RESID_DIR@
 RESID_INCLUDES = @RESID_INCLUDES@
 RESID_LIBS = @RESID_LIBS@
+SCREENSHOT_DRIVERS = @SCREENSHOT_DRIVERS@
 SOUND_AIX_OBJ = @SOUND_AIX_OBJ@
 SOUND_DRIVERS = @SOUND_DRIVERS@
 SOUND_HPUX_OBJ = @SOUND_HPUX_OBJ@
@@ -427,11 +428,11 @@ uicommands.o: uicommands.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/log.h ../../../src/machine.h \
 	../../../src/maincpu.h ../../../src/mem.h \
 	../../../src/monitor/mon.h ../../../src/mos6510.h \
-	../../../src/resources.h ../../../src/sound.h \
-	../../../src/tape.h uicommands.h uimenu.h x11/xaw/uimenu.h ui.h \
-	../../../src/uiapi.h x11/xaw/uiarch.h x11/xaw/uihotkey.h \
-	uisettings.h uiedisk.h uisnapshot.h ../../../src/utils.h \
-	../../../src/vsync.h
+	../../../src/resources.h ../../../src/screenshot.h \
+	../../../src/sound.h ../../../src/tape.h uicommands.h uimenu.h \
+	x11/xaw/uimenu.h ui.h ../../../src/uiapi.h x11/xaw/uiarch.h \
+	x11/xaw/uihotkey.h uisettings.h uiedisk.h uisnapshot.h \
+	../../../src/utils.h ../../../src/vsync.h
 uisettings.o: uisettings.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drive.h ../../../src/log.h types.h \
 	../../../src/fsdevice.h kbd.h ../../../src/mem.h \
