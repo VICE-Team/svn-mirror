@@ -44,10 +44,7 @@
 #include <io.h>
 #endif
 
-#include "cmdline.h"
-#include "lib.h"
 #include "log.h"
-#include "resources.h"
 #include "types.h"
 #include "util.h"
 
@@ -55,57 +52,22 @@
 
 /* ------------------------------------------------------------------------- */
 
-/* resource handling */
-
 #define NUM_DEVICES 4
 
-static char *devfile[NUM_DEVICES] = { NULL, NULL, NULL, NULL };
-
-static int set_devfile(resource_value_t v, void *param)
-{
-    util_string_set(&devfile[(int)param], (const char *)v);
-    return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
-static const resource_t resources[] = {
-    { "RsDevice1", RES_STRING, (resource_value_t)"10.0.0.1:25232",
-      (void *)&devfile[0], set_devfile, (void *)0 },
-    { "RsDevice2", RES_STRING, (resource_value_t)"10.0.0.1:25232",
-      (void *)&devfile[1], set_devfile, (void *)1 },
-    { "RsDevice3", RES_STRING, (resource_value_t)"10.0.0.1:25232",
-      (void *)&devfile[2], set_devfile, (void *)2 },
-    { "RsDevice4", RES_STRING, (resource_value_t)"10.0.0.1:25232",
-      (void *)&devfile[3], set_devfile, (void *)3 },
-    { NULL }
-};
+extern char *devfile[NUM_DEVICES];
 
 int rs232_resources_init(void)
 {
-    return resources_register(resources);
+    return 0;
 }
 
 void rs232_resources_shutdown(void)
 {
-    lib_free(devfile[0]);
 }
-
-static const cmdline_option_t cmdline_options[] = {
-    { "-rsdev1", SET_RESOURCE, 1, NULL, NULL, "RsDevice1", NULL,
-      "<name>", N_("Specify name of first RS232 device (10.0.0.1:25232)") },
-    { "-rsdev2", SET_RESOURCE, 1, NULL, NULL, "RsDevice2", NULL,
-      "<name>", N_("Specify name of second RS232 device (10.0.0.1:25232)") },
-    { "-rsdev3", SET_RESOURCE, 1, NULL, NULL, "RsDevice3", NULL,
-      "<name>", N_("Specify name of third RS232 device (10.0.0.1:25232)") },
-    { "-rsdev4", SET_RESOURCE, 1, NULL, NULL, "RsDevice4", NULL,
-      "<name>", N_("Specify name of fourth RS232 device (10.0.0.1:25232)") },
-    { NULL }
-};
 
 int rs232_cmdline_options_init(void)
 {
-    return cmdline_register_options(cmdline_options);
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
