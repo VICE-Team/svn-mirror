@@ -118,8 +118,10 @@ void file_system_init(void)
         file_system[i].vdrive->image = NULL;
         vdrive_setup_device(file_system[i].vdrive, i + 8);
         file_system_set_serial_hooks(i + 8, file_system_device_enabled[i]);
+#if 0
         file_system[i].vdrive->image = xmalloc(sizeof(disk_image_t));    
         file_system[i].vdrive->image->name = NULL;
+#endif
     }
 }
 
@@ -209,7 +211,7 @@ static int set_file_system_device11(resource_value_t v)
 
 void detach_disk_image(disk_image_t *image, vdrive_t *floppy, int unit)
 {
-    if (image->name != NULL) {
+    if (image != NULL) {
         switch (unit) {
           case 8:
             wd1770_detach_image(image, 8);
@@ -238,6 +240,7 @@ int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
                       const char *filename, int unit)
 {
     disk_image_t new_image;
+    int err = -1;
 
     if (!filename) {
         log_error(attach_log, "No name, cannot attach floppy image");
@@ -255,29 +258,38 @@ int attach_disk_image(disk_image_t *image, vdrive_t *floppy,
 
     detach_disk_image(image, floppy, unit);
 
+    if (image != NULL) {
+        free(image->name);
+        free(image);
+    }
+
+    image = (disk_image_t *)xmalloc(sizeof(disk_image_t));
+
     memcpy(image, &new_image, sizeof(disk_image_t));
 
     switch (unit) {
       case 8:
-        drive_attach_image(image, 8);
-        vdrive_attach_image(image, 8, floppy);
-        fdc_attach_image(image, 8);
-        wd1770_attach_image(image, 8);
+        err = drive_attach_image(image, 8);
+        err &= vdrive_attach_image(image, 8, floppy);
+        err &= fdc_attach_image(image, 8);
+        err &= wd1770_attach_image(image, 8);
         break;
       case 9:
-        vdrive_attach_image(image, 9, floppy);
-        drive_attach_image(image, 9);
-        fdc_attach_image(image, 9);
-        wd1770_attach_image(image, 9);
+        err = drive_attach_image(image, 9);
+        err &= vdrive_attach_image(image, 9, floppy);
+        err &= fdc_attach_image(image, 9);
+        err &= wd1770_attach_image(image, 9);
         break;
       case 10:
-        vdrive_attach_image(image, 10, floppy);
+        err = vdrive_attach_image(image, 10, floppy);
         break;
       case 11:
-        vdrive_attach_image(image, 11, floppy);
+        err = vdrive_attach_image(image, 11, floppy);
         break;
     }
-    return 0;
+    if (err)
+        free(image);
+    return err;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -288,12 +300,11 @@ int file_system_attach_disk(int unit, const char *filename)
 
     vdrive = (vdrive_t *)file_system_get_vdrive(unit);
     vdrive_setup_device(vdrive, unit);
-    file_system_set_serial_hooks(unit, 0);
 
     if (attach_disk_image(vdrive->image, vdrive, filename, unit) < 0) {
-        file_system_detach_disk(unit);
         return -1;
     } else {
+        file_system_set_serial_hooks(unit, 0);
         flip_set_current(unit, filename);
         ui_display_drive_current_image(unit - 8, filename);
         return 0;
