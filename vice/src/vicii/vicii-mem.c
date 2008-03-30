@@ -335,6 +335,10 @@ inline static void check_bad_line_state_change_for_d011(BYTE value, int cycle,
             /* As we are on a bad line, switch to display state.  */
             vic_ii.idle_state = 0;
 
+            /* Force screen on even if the store that triggered the DMA has
+               set the blank bit.  */
+            vic_ii.raster.blank_off = 1;
+
             /* Try to display things correctly.  This is not exact,
                but should be OK for most cases (FIXME?).  */
             if (inc == VIC_II_SCREEN_TEXTCOLS) {
@@ -439,12 +443,13 @@ inline static void store_d011(ADDRESS addr, BYTE value)
             /* If on the last line of the 25-line border, we still see the
                24-line (upmost) border because the border flip flop has
                already been turned off.  */
-            if (!vic_ii.raster.blank
-                && line == vic_ii.row_25_start_line
-                && cycle > 0)
+            if (!vic_ii.raster.blank && line == vic_ii.row_25_start_line
+                && cycle > 0) {
                 vic_ii.raster.blank_enabled = 0;
-            else if (line == vic_ii.row_25_stop_line && cycle > 0)
-                vic_ii.raster.blank_enabled = 1;
+            } else { 
+                if (line == vic_ii.row_25_stop_line && cycle > 0)
+                    vic_ii.raster.blank_enabled = 1;
+            }
 
             VIC_II_DEBUG_REGISTER(("\t24 line mode enabled\n"));
         }
