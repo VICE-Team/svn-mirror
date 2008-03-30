@@ -72,7 +72,7 @@ static int unused_bits_in_registers[64] =
 };
 
 
-inline void REGPARM2 ted_local_store_vbank(WORD addr, BYTE value)
+inline static void REGPARM2 ted_local_store_vbank(WORD addr, BYTE value)
 {
     unsigned int f;
 
@@ -107,7 +107,7 @@ inline void REGPARM2 ted_local_store_vbank(WORD addr, BYTE value)
     mem_ram[addr] = value;
 }
 
-inline void REGPARM2 ted_local_store_vbank_32k(WORD addr, BYTE value)
+inline static void REGPARM2 ted_local_store_vbank_32k(WORD addr, BYTE value)
 {
     unsigned int f;
 
@@ -142,7 +142,7 @@ inline void REGPARM2 ted_local_store_vbank_32k(WORD addr, BYTE value)
     mem_ram[addr & 0x7fff] = value;
 }
 
-inline void REGPARM2 ted_local_store_vbank_16k(WORD addr, BYTE value)
+inline static void REGPARM2 ted_local_store_vbank_16k(WORD addr, BYTE value)
 {
     unsigned int f;
 

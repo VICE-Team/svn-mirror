@@ -70,7 +70,7 @@ static int unused_bits_in_registers[64] =
 
 
 /* Store a value in the video bank (it is assumed to be in RAM).  */
-inline void REGPARM2 vicii_local_store_vbank(WORD addr, BYTE value)
+inline static void REGPARM2 vicii_local_store_vbank(WORD addr, BYTE value)
 {
     unsigned int f;
 
