@@ -288,12 +288,13 @@
 #define IDC_VIDEO_ADVANCED_BLUR         1417
 #define IDC_VIDEO_ADVANCED_MODE         1418
 #define IDC_TOGGLE_VIDEO_VBLANK_SYNC    1419
-#define IDD_VIDEO_PALETTE_DIALOG        1420
+#define IDC_TOGGLE_VIDEO_DX_PRIMARY	1420
+#define IDD_VIDEO_PALETTE_DIALOG        1421
 
-#define IDD_PLUS4_MEMORY_DIALOG         1421
-#define IDC_SELECT_PLUS4_MEM_16         1422
-#define IDC_SELECT_PLUS4_MEM_32         1423
-#define IDC_SELECT_PLUS4_MEM_64         1424
+#define IDD_PLUS4_MEMORY_DIALOG         1425
+#define IDC_SELECT_PLUS4_MEM_16         1426
+#define IDC_SELECT_PLUS4_MEM_32         1427
+#define IDC_SELECT_PLUS4_MEM_64         1428
 
 #define IDD_RAM_SETTINGS_DIALOG         1430
 #define IDC_RAMINIT_STARTVALUE          1431
@@ -418,6 +419,16 @@
 #define IDC_CBM2ROM_CART4_BROWSE        1822
 #define IDC_CBM2ROM_CART6_FILE          1823
 #define IDC_CBM2ROM_CART6_BROWSE        1824
+
+#define IDD_IDE64_SETTINGS_DIALOG       1840
+#define IDC_IDE64_HDIMAGE_BROWSE        1841
+#define IDC_IDE64_HDIMAGE_FILE          1842
+#define IDC_TOGGLE_IDE64_SIZEAUTODETECT 1843
+#define IDC_IDE64_CYLINDERS             1844
+#define IDC_IDE64_HEADS                 1845
+#define IDC_IDE64_SECTORS               1846
+#define IDC_IDE64_SIZE                  1847
+
  
 #define IDM_FILE_EXIT                   40001
 #define IDM_EXIT                        40001
@@ -577,6 +588,7 @@
 #define IDM_FORMFEED_PRINTERIEC5        40224
 #define IDM_FORMFEED_PRINTERUSERPORT    40225
 #define IDM_ROM_SETTINGS                40226
+#define IDM_IDE64_SETTINGS              40227
 
 #define IDM_MON_OPEN                    42000
 #define IDM_MON_SAVE                    42001
