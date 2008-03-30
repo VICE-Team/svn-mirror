@@ -269,7 +269,7 @@ int machine_init(void)
 
     /* Initialize autostart. FIXME: at least 0xa26 is only for 40 cols */
     autostart_init(3 * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH, 1,
-	0xa27, 0xe0, 0xec, 0xee);
+	0xa27, 0xe0, 0xec, 0xee, NULL);
 
     /* Initialize the VIC-II emulation.  */
     if (vic_ii_init() == NULL)
@@ -365,7 +365,7 @@ void machine_powerup(void)
 void machine_shutdown(void)
 {
     /* Detach all devices.  */
-    serial_remove(-1);
+    serial_remove_file(-1);
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

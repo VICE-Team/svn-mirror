@@ -1,8 +1,8 @@
 /*
- * prdevice.h - Printer device.
+ * romset.h - romset file handling
  *
  * Written by
- *  André Fachat        (a.fachat@physik.tu-chemnitz.de)
+ *  Andre Fachat        (a.fachat@physik.tu-chemnitz.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,16 +24,11 @@
  *
  */
 
-#ifndef _PRDEVICE_H_
-#define _PRDEVICE_H_
+#ifndef _ROMSET_H
+#define _ROMSET_H
 
-typedef int PRINTER;
+extern int romset_load(const char *filename);
+extern int romset_dump(const char *filename, const char *resource1, ...);
 
-extern int prdevice_init_resources(void);
-extern int prdevice_init_cmdline_options(void);
-
-extern int detach_prdevice(PRINTER *info);
-extern int attach_prdevice(PRINTER *info, const char *file, int mode);
-
-#endif
+#endif				/* _ROMSET_H */
 

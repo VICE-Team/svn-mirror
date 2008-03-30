@@ -304,7 +304,7 @@ void machine_powerup(void)
 void machine_shutdown(void)
 {
     /* Detach all devices.  */
-    serial_remove(-1);
+    serial_remove_file(-1);
 }
 
 /* ------------------------------------------------------------------------- */

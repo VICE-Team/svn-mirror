@@ -42,6 +42,8 @@ extern ui_menu_entry_t ui_par_drive_settings_menu[];
 extern ui_menu_entry_t ui_peripheral_settings_menu[];
 extern ui_menu_entry_t ui_settings_settings_menu[];
 extern ui_menu_entry_t rs232_submenu[];
+extern UI_CALLBACK(ui_set_romset);
+extern UI_CALLBACK(ui_load_romset);
 
 extern ui_menu_entry_t ser1_baud_submenu[];
 extern ui_menu_entry_t ser2_baud_submenu[];

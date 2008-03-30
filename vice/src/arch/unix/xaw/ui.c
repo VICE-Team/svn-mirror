@@ -590,6 +590,14 @@ static cmdline_option_t cmdline_options[] = {
     { "+saveres", SET_RESOURCE, 0, NULL, NULL,
       "SaveResourcesOnExit", (resource_value_t) 0,
       NULL, "Never save settings (resources) on exit" },
+#ifdef USE_VIDMODE_EXTENSION
+    { "-fullscreen", SET_RESOURCE, 0, NULL, NULL,
+      "UseFullscreen", (resource_value_t) 1,
+      NULL, "Enable fullscreen" },
+    { "+fullscreen", SET_RESOURCE, 0, NULL, NULL,
+      "UseFullscreen", (resource_value_t) 0,
+      NULL, "Disable fullscreen" },
+#endif
     { "-displaydepth", SET_RESOURCE, 1, NULL, NULL,
       "DisplayDepth", NULL,
       "<value>", "Specify X display depth (1..32)" },
@@ -1661,7 +1669,9 @@ void ui_error(const char *format,...)
     static Widget error_dialog;
     static ui_button_t button;
 
+#ifdef USE_VIDMODE_EXTENSION
     ui_set_windowmode();
+#endif
     va_start(ap, format);
     vsprintf(str, format, ap);
     error_dialog = build_error_dialog(_ui_top_level, &button, str);
@@ -1693,7 +1703,9 @@ void ui_message(const char *format,...)
 	ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(error_dialog));
+#ifdef USE_VIDMODE_EXTENSION
     focus_window_again();
+#endif
     XtDestroyWidget(XtParent(error_dialog));
     ui_dispatch_events();
     suspend_speed_eval();
@@ -1755,7 +1767,9 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 
     switch (button) {
       case UI_BUTTON_MON:
+#ifdef USE_VIDMODE_EXTENSION
 	ui_set_windowmode();
+#endif
 	return UI_JAM_MONITOR;
       case UI_BUTTON_HARDRESET:
         return UI_JAM_HARD_RESET;
@@ -1845,8 +1859,9 @@ char *ui_select_file(const char *title,
 	ret = stralloc("");
 
     ui_popdown(XtParent(file_selector));
+#ifdef USE_VIDMODE_EXTENSION
     focus_window_again();
-
+#endif
 #ifndef __alpha
     /* On Alpha, XtDestroyWidget segfaults, don't know why...  */
     XtDestroyWidget(XtParent(file_selector));
@@ -1882,7 +1897,9 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf,
     XtVaGetValues(input_dialog_field, XtNstring, &str, NULL);
     strncpy(buf, str, buflen);
     ui_popdown(XtParent(input_dialog));
+#ifdef USE_VIDMODE_EXTENSION
     focus_window_again();
+#endif
     return button;
 }
 
@@ -1900,7 +1917,9 @@ void ui_show_text(const char *title, const char *text, int width, int height)
 	ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(show_text));
+#ifdef USE_VIDMODE_EXTENSION
     focus_window_again();
+#endif
     XtDestroyWidget(XtParent(show_text));
 }
 
@@ -1920,7 +1939,9 @@ ui_button_t ui_ask_confirmation(const char *title, const char *text)
 	ui_dispatch_next_event();
     while (button == UI_BUTTON_NONE);
     ui_popdown(XtParent(confirm_dialog));
+#ifdef USE_VIDMODE_EXTENSION
     focus_window_again();
+#endif
     return button;
 }
 

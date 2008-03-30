@@ -94,7 +94,7 @@ static resource_t resources[] =
 {
     { "PrDevice1", RES_STRING, (resource_value_t) "print.dump",
      (resource_value_t *) & devfile[0], set_dev1_file },
-    { "PrDevice2", RES_STRING, (resource_value_t) "|petlp |lpr",
+    { "PrDevice2", RES_STRING, (resource_value_t) "|petlp -F PS|lpr",
      (resource_value_t *) & devfile[1], set_dev2_file },
     { "PrDevice3", RES_STRING, (resource_value_t) "|lpr",
      (resource_value_t *) & devfile[2], set_dev3_file },

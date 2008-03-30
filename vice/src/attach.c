@@ -201,20 +201,20 @@ int file_system_attach_disk(int unit, const char *filename)
 void file_system_detach_disk(int unit)
 {
     if (unit < 0) {
-	serial_remove(8);
+	serial_remove_file(8);
 	set_file_system_device8((resource_value_t)
                                  file_system_device_enabled[0]);
-	serial_remove(9);
+	serial_remove_file(9);
 	set_file_system_device9((resource_value_t)
                                  file_system_device_enabled[1]);
-	serial_remove(10);
+	serial_remove_file(10);
 	set_file_system_device10((resource_value_t)
                                   file_system_device_enabled[2]);
-	serial_remove(11);
+	serial_remove_file(11);
 	set_file_system_device11((resource_value_t)
                                   file_system_device_enabled[3]);
     } else {
-	serial_remove(unit);
+	serial_remove_file(unit);
 	switch(unit) {
 	  case 8:
 	    set_file_system_device8((resource_value_t)

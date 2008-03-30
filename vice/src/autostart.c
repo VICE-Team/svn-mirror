@@ -51,6 +51,8 @@
 #include "snapshot.h"
 #include "tape.h"
 #include "warn.h"
+#include "zfile.h"
+#include "charsets.h"
 
 /* Kernal addresses.  Set by `autostart_init()'.  */
 
@@ -58,6 +60,7 @@ static int blnsw;		/* Cursor Blink enable: 0 = Flash Cursor */
 static int pnt;			/* Pointer: Current Screen Line Address */
 static int pntr;		/* Cursor Column on Current Line */
 static int lnmx;		/* Physical Screen Line Length */
+static const int *rawaddr;	/* list of valid raw CBM file start addresses */
 
 /* Current state of the autostart routine.  */
 static enum {
@@ -68,6 +71,7 @@ static enum {
     AUTOSTART_HASDISK,
     AUTOSTART_LOADINGDISK,
     AUTOSTART_HASSNAPSHOT,
+    AUTOSTART_HASFILE,
     AUTOSTART_DONE
 } autostartmode = AUTOSTART_NONE;
 
@@ -154,12 +158,13 @@ static void load_snapshot_trap(ADDRESS unused_addr, void *unused_data)
 
 /* Initialize autostart.  */
 int autostart_init(CLOCK _min_cycles, int _handle_true1541,
-		   int _blnsw, int _pnt, int _pntr, int _lnmx)
+	   int _blnsw, int _pnt, int _pntr, int _lnmx, const int *_rawaddr)
 {
     blnsw = _blnsw;
     pnt = _pnt;
     pntr = _pntr;
     lnmx = _lnmx;
+    rawaddr = _rawaddr;
 
     if (!pwarn) {
 	pwarn = warn_init("Autostart", 32);
@@ -316,6 +321,34 @@ void autostart_advance(void)
             break;
         }
         break;
+      case AUTOSTART_HASFILE:
+        switch (check("READY.")) {
+          case YES:
+            {
+                warn(pwarn, -1, "loading file");
+
+		/* TODO: handle no_traps/true1541 case */
+
+                if (autostart_program_name) {
+                    tmp = malloc(strlen((char *)(autostart_program_name)) + 20);
+                    sprintf(tmp, "LOAD\"%s\",8,1\r",
+                            autostart_program_name);
+                    kbd_buf_feed(tmp);
+                    free(tmp);
+                } else
+                    kbd_buf_feed("LOAD\"*\",8,1\r");
+
+                kbd_buf_feed("RUN\r");
+                autostartmode = AUTOSTART_DONE;
+                break;
+            }
+          case NO:
+            autostart_disable();
+            break;
+          case NOT_YET:
+            break;
+        }
+        break;
       case AUTOSTART_HASSNAPSHOT:
         warn(pwarn, -1, "loading snapshot");
 	maincpu_trigger_trap(load_snapshot_trap,(void*)0);
@@ -415,6 +448,57 @@ int autostart_disk(const char *file_name, const char *program_name)
     return 0;
 }
 
+/* Autostart raw image `file_name'.  */
+int autostart_rawfile(const char *file_name, const char *program_name)
+{
+    FILE *fd;
+    int c1, c2;
+    const int *p = rawaddr;
+    char *tmps;
+
+    if (rawaddr == NULL || file_name == NULL || !autostart_enabled)
+	return -1;
+
+    fd = fopen(file_name, "rb");	/* we do not open compressed files */
+
+    if(fd == NULL) {
+	warn(pwarn, -1, "cannot attach file `%s' as a raw CBM file", file_name);
+        return -1;
+    }
+
+    c1 = fgetc(fd);
+    c2 = fgetc(fd);
+    fclose(fd);
+
+    if(c2 == EOF) {
+	warn(pwarn, -1, "cannot attach file `%s' as a raw CBM file", file_name);
+	return -1;
+    }
+
+    c1 = (c1 & 0xff) | ((c2 << 8) & 0xff00);
+
+    while (*p) {
+	if (c1 == *p) {
+            autostartmode = AUTOSTART_HASFILE;
+	    tmps = stralloc(file_name);
+	    petconvstring(tmps,0);
+            reboot_for_autostart(tmps);
+	    free(tmps);
+            warn(pwarn, -1, "attached file `%s' as a disk image to device #8",
+	        file_name);
+	    return 0;
+	}
+	p++;
+    }
+
+    warn(pwarn, -1, "cannot attach file `%s' as a disk image", file_name);
+    autostartmode = AUTOSTART_ERROR;
+    deallocate_program_name();
+    return -1;
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* Autostart `file_name', trying to auto-detect its type.  */
 int autostart_autodetect(const char *file_name, const char *program_name)
 {
@@ -431,6 +515,8 @@ int autostart_autodetect(const char *file_name, const char *program_name)
 	warn(pwarn, -1, "`%s' detected as a tape image", file_name);
     else if (autostart_snapshot(file_name, program_name) == 0)
 	warn(pwarn, -1, "`%s' detected as a snapshot file", file_name);
+    else if (autostart_rawfile(file_name, program_name) == 0)
+	warn(pwarn, -1, "`%s' detected as a raw CBM file", file_name);
     else {
 	warn(pwarn, -1, "type of file `%s' unrecognized", file_name);
 	return -1;

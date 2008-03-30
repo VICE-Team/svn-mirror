@@ -59,6 +59,7 @@
 #include "traps.h"
 #include "utils.h"
 #include "vdrive.h"
+#include "prdevice.h"
 
 /* Warning: these are only valid for the VIC20, C64 and C128, but *not* for
    the PET.  (FIXME?)  */
@@ -129,8 +130,8 @@ static int serialcommand(void)
          * Open Channel
          */
       case 0x60:
-        if (!p->isopen[channel]) {
-            p->isopen[channel] = 1;
+        if (p->isopen[channel] == 1) {
+            p->isopen[channel] = 2;
             st = (*(p->openf)) (p->info, NULL, 0, channel);
             for (i = 0; i < SerialPtr; i++)
                 (*(p->putf)) (p->info, SerialBuffer[i], channel);
@@ -152,8 +153,12 @@ static int serialcommand(void)
          * Open File
          */
       case 0xF0:
-        if (!p->isopen[channel]) {
-            p->isopen[channel] = 1;
+        if (p->isopen[channel]) {
+	    if(p->isopen[channel] == 2) {
+                log_warning(serial_log, "Bogus close?");
+		(*(p->closef)) (p->info, channel);
+	    }
+            p->isopen[channel] = 2;
             SerialBuffer[SerialPtr] = 0;
             st = (*(p->openf)) (p->info, (char *) SerialBuffer, SerialPtr,
                                 channel);
@@ -188,6 +193,7 @@ void serialattention(void)
 {
     int b;
     int st;
+    serial_t *p;
 
     /*
      * Which Secondary Address ?
@@ -199,15 +205,15 @@ void serialattention(void)
 		      || ((TrapSecondary & 0x0f) == 0x0f))) {
 	st = serialcommand();
 	SET_ST(st);
-    } else
+    } else {
 	switch (b & 0xf0) {
 	  case 0x20:
 	  case 0x40:
             TrapDevice = b;
             break;
 
-	  case 0x60:
-	  case 0xe0:
+	  case 0x60:		/* secondary address */
+	  case 0xe0:		/* close a file */
             TrapSecondary = b;
             st = serialcommand();
             SET_ST(st);
@@ -215,9 +221,14 @@ void serialattention(void)
 
 	  case 0xf0:		/* Open File needs the filename first */
             TrapSecondary = b;
-            serialdevices[TrapDevice & 0x0f].isopen[TrapSecondary & 0x0f] = 0;
+	    p = &(serialdevices[TrapDevice & 0x0f]);
+            if (p->isopen[b & 0x0f] == 2) {
+		(*(p->closef)) (p->info, b & 0x0f);
+	    }
+            p->isopen[b & 0x0f] = 1;
             break;
 	}
+    }
 
     if (!(serialdevices[TrapDevice & 0x0f].inuse))
 	SET_ST(0x80);
@@ -243,7 +254,7 @@ void serialsendbyte(void)
     p = &serialdevices[TrapDevice & 0x0f];
 
     if (p->inuse) {
-	if (!p->isopen[TrapSecondary & 0x0f]) {
+	if (p->isopen[TrapSecondary & 0x0f] == 1) {
 	    /* Store name here */
 	    if (SerialPtr < SERIAL_NAMELENGTH)
 		SerialBuffer[SerialPtr++] = data;
@@ -339,8 +350,8 @@ static int parallelcommand(void)
     switch (TrapSecondary & 0xf0) {
       case 0x60:
 	  /* Open Channel */
-	  if (!p->isopen[channel]) {
-	      p->isopen[channel] = 1;
+	  if (!p->isopen[channel] == 1) {
+	      p->isopen[channel] = 2;
 	      st = (*(p->openf)) (p->info, NULL, 0, channel);
 	      for (i = 0; i < SerialPtr; i++)
 		  (*(p->putf)) (p->info, SerialBuffer[i], channel);
@@ -362,8 +373,12 @@ static int parallelcommand(void)
 
       case 0xF0:
 	  /* Open File */
-	  if (!p->isopen[channel]) {
-	      p->isopen[channel] = 1;
+	  if (p->isopen[channel]) {
+	      if (p->isopen[channel] == 2) {
+                  log_warning(serial_log, "Bogus close?");
+                  (*(p->closef)) (p->info, channel);
+              }
+	      p->isopen[channel] = 2;
 	      SerialBuffer[SerialPtr] = 0;
 	      st = (*(p->openf)) (p->info, (char *) SerialBuffer, SerialPtr,
 				  channel);
@@ -389,6 +404,7 @@ static int parallelcommand(void)
 int parallelattention(int b)
 {
     int st = 0;
+    serial_t *p;
 
     if (parallel_debug)
 	log_message(serial_log, "ParallelAttention(%02x).", b);
@@ -397,24 +413,29 @@ int parallelattention(int b)
 	&& (((TrapSecondary & 0xf0) == 0xf0)
 	    || ((TrapSecondary & 0x0f) == 0x0f))) {
 	st = parallelcommand();
-    } else
+    } else {
 	switch (b & 0xf0) {
 	  case 0x20:
 	  case 0x40:
 	      TrapDevice = b;
 	      break;
 
-	  case 0x60:
-	  case 0xe0:
+	  case 0x60:		/* secondary address */
+	  case 0xe0:		/* close a file */
 	      TrapSecondary = b;
 	      st |= parallelcommand();
 	      break;
 
 	  case 0xf0:		/* Open File needs the filename first */
 	      TrapSecondary = b;
-	      serialdevices[TrapDevice & 0x0f].isopen[TrapSecondary & 0x0f] = 0;
+              p = &(serialdevices[TrapDevice & 0x0f]);
+              if (p->isopen[b & 0x0f] == 2) {
+                 (*(p->closef)) (p->info, b & 0x0f);
+              }
+              p->isopen[b & 0x0f] = 1;
 	      break;
 	}
+    }
 
     if (!(serialdevices[TrapDevice & 0x0f].inuse))
 	st |= 0x80;
@@ -445,7 +466,7 @@ int parallelsendbyte(int data)
     p = &serialdevices[TrapDevice & 0x0f];
 
     if (p->inuse) {
-	if (!p->isopen[TrapSecondary & 0x0f]) {
+	if (p->isopen[TrapSecondary & 0x0f] == 1) {
 
 	    if (parallel_debug)
 		log_message(serial_log,
@@ -609,8 +630,10 @@ int serial_attach_device(int device, char *var, const char *name,
         free(p->name);
     p->name = stralloc(name);
 
-    for (i = 0; i < 16; i++)
+    for (i = 0; i < 16; i++) {
         p->nextok[i] = 0;
+        p->isopen[i] = 0;
+    }
 
     return 0;
 }
@@ -623,11 +646,9 @@ int serial_select_file(int type, int number, const char *file)
     serial_t *p;
 
     if (number < 0 && type) {
-#ifdef PRINTER
 	if (type & DT_PRINTER)
 	    number = 4;
         else
-#endif
 	if (type & DT_DISK)
 	    number = 8;
     }
@@ -649,11 +670,9 @@ int serial_select_file(int type, int number, const char *file)
     /* should be based on p -> info.type */
 
     switch (number) {
-#ifdef PRINTER
       case 4:
       case 5:
-	  return attach_printout((PRINTER *) p->info, file, 0);
-#endif
+	  return attach_prdevice((PRINTER *) p->info, file, 0);
 
       case 8:
       case 9:
@@ -669,8 +688,8 @@ int serial_select_file(int type, int number, const char *file)
 }
 
 
-/* Detach and kill serial devices.  Detach all (shutdown) if device# == -1.  */
-int serial_remove(int number)
+/* Detach files from serial devices.  Detach all (shutdown) if dev# == -1.  */
+int serial_remove_file(int number)
 {
     serial_t *p;
     int i;
@@ -684,7 +703,7 @@ int serial_remove(int number)
 		if (number == -2) {	/* QUERY mode */
 		    log_message(serial_log, "    Unit #%d: %s.", i, p->name);	/* add file */
 		} else {
-		    serial_remove(i);
+		    serial_remove_file(i);
 		}
 	    }
 	}
@@ -701,12 +720,10 @@ int serial_remove(int number)
 	    log_error(serial_log, "Attempting to remove empty device #%d.", number);
 	} else
 	    switch (number) {	/* should be based on actual type ... */
-#ifdef PRINTER
 	      case 4:
 	      case 5:
-		  detach_printout((PRINTER *) p->info);
+		  detach_prdevice((PRINTER *) p->info);
 		  break;
-#endif
 	      case 8:
 	      case 9:
 	      case 10:
@@ -720,6 +737,26 @@ int serial_remove(int number)
 	    }
 
     }				/* else */
+
+    return (0);
+}
+
+/* Detach and kill serial devices.  Detach all (shutdown) if device# == -1.  */
+int serial_detach_device(int number)
+{
+    serial_t *p;
+
+    if (number < 0 || number >= MAXDEVICES) {
+        log_error(serial_log, "Illegal device number %d.", number);
+        return -1;
+    }
+    p = &serialdevices[number];
+
+    if (!p || !(p->inuse)) {
+        log_error(serial_log, "Attempting to remove empty device #%d.", number);
+    } else {
+	p->inuse = 0;
+    }
 
     return (0);
 }

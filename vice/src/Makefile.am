@@ -67,6 +67,7 @@ noinst_HEADERS = \
 	print.h \
 	raster.h \
 	resources.h \
+	romset.h \
 	rs232.h \
 	serial.h \
 	snapshot.h \
@@ -112,6 +113,7 @@ base_sources = \
 	palette.c \
 	parallel.c \
 	resources.c \
+	romset.c \
 	serial.c \
 	snapshot.c \
 	sound.c \

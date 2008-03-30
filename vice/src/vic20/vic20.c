@@ -76,6 +76,13 @@ const char machine_name[] = "VIC20";
 
 int machine_class = VICE_MACHINE_VIC20;
 
+/* ------------------------------------------------------------------------- */
+
+/* FIXME: valid start addresses for the VIC20 */
+static const int rawaddrs[] = { -1 };
+
+/* ------------------------------------------------------------------------- */
+
 /* VIC20 Traps */
 static trap_t vic20_serial_traps[] = {
     {
@@ -246,7 +253,7 @@ int machine_init(void)
 
     /* Initialize autostart.  */
     autostart_init(3 * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH, 1,
-                   0xcc, 0xd1, 0xd3, 0xd5);
+                   0xcc, 0xd1, 0xd3, 0xd5, rawaddrs);
 
     /* Initialize the VIC-I emulation.  */
     vic_init();
@@ -320,7 +327,7 @@ void machine_powerup(void)
 void machine_shutdown(void)
 {
     /* Detach all devices.  */
-    serial_remove(-1);
+    serial_remove_file(-1);
 }
 
 /* Return nonzero if `addr' is in the trappable address space.  */

@@ -58,6 +58,13 @@
 
 /* ------------------------------------------------------------------------- */
 
+/* FIXME: valid start addresses for the PET */
+static const int rawaddrs[] = { 0x400, 0x401, -1 };
+
+/* ------------------------------------------------------------------------- */
+
+/* ------------------------------------------------------------------------- */
+
 /* The PET memory. */
 
 #define RAM_ARRAY 0x20000 /* this includes 8x96 expansion RAM */
@@ -922,7 +929,7 @@ int mem_load(void)
     /* De-initialize kbd-buf, autostart and tape stuff here before
        reloading the ROM the traps are installed in.  */
     kbd_buf_init(0, 0, 0, 0);
-    autostart_init(0, 0, 0, 0, 0, 0);
+    autostart_init(0, 0, 0, 0, 0, 0, NULL);
     tape_init(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
     /* Load chargen ROM - we load 2k with 8 bytes/char, and generate
@@ -1054,7 +1061,7 @@ int mem_load(void)
         kbd_buf_init(0x26f, 0x9e, 10,
                      PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
         autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0,
-                       0xa7, 0xc4, 0xc6, -80);
+                       0xa7, 0xc4, 0xc6, -80, rawaddrs);
         tape_init(214, 150, 157, 144, 0xe455, 251, 201, 0x26f, 0x9e,
                   pet4_tape_traps);
     } else if (sum == PET3032_CHECKSUM_A || sum == PET3032_CHECKSUM_B) {
@@ -1063,7 +1070,7 @@ int mem_load(void)
         kbd_buf_init(0x26f, 0x9e, 10,
                      PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
         autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0,
-                       0xa7, 0xc4, 0xc6, -40);
+                       0xa7, 0xc4, 0xc6, -40, rawaddrs);
         tape_init(214, 150, 157, 144, 0xe62e, 251, 201, 0x26f, 0x9e,
                   pet3_tape_traps);
     } else if (sum == PET4032_CHECKSUM_A || sum == PET4032_CHECKSUM_B) {
@@ -1072,7 +1079,7 @@ int mem_load(void)
         kbd_buf_init(0x26f, 0x9e, 10,
                      PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
         autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0,
-                       0xa7, 0xc4, 0xc6, -40);
+                       0xa7, 0xc4, 0xc6, -40, rawaddrs);
         tape_init(214, 150, 157, 144, 0xe455, 251, 201, 0x26f, 0x9e,
                   pet4_tape_traps);
     } else if (sum == PET2001_CHECKSUM) {
@@ -1081,7 +1088,7 @@ int mem_load(void)
         kbd_buf_init(0x20f, 0x20d, 10,
                      PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
         autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0,
-                       0x224, 0xe0, 0xe2, -40);
+                       0x224, 0xe0, 0xe2, -40, rawaddrs);
         tape_init(243, 0x20c, 0x20b, 0x219, 0xe685, 247, 229, 0x20f, 0x20d,
                   pet2_tape_traps);
     } else {

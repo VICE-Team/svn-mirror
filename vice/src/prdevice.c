@@ -43,6 +43,7 @@
 #include "utils.h"
 #include "prdevice.h"
 #include "print.h"
+#include "serial.h"
 
 /*
  * At this time only one printer is supported and it is attached to
@@ -121,18 +122,6 @@ int prdevice_init_cmdline_options(void)
 static file_desc_t currfd;
 static int inuse;
 
-static int write_pr(void *var, BYTE byte, int secondary)
-{
-    /* FIXME: switch(secondary) for code conversion */
-
-    if(!inuse) {
-	log_error(LOG_DEFAULT, "Printing while printer not open!");
-	return -1;
-    }
-
-    return print_putc(currfd, byte);
-}
-
 static int open_pr(void *var, const char *name, int length, int secondary)
 {
     if(inuse) {
@@ -151,6 +140,24 @@ static int open_pr(void *var, const char *name, int length, int secondary)
     return 0;
 }
 
+static int write_pr(void *var, BYTE byte, int secondary)
+{
+    int er;
+
+    /* FIXME: switch(secondary) for code conversion */
+
+    if(!inuse) {
+	/* oh, well, we just assume an implicit open - "OPEN 1,4"
+ 	   just does not leave any trace on the serial bus */
+	log_warning(LOG_DEFAULT, "Auto-opening printer!");
+
+	er = open_pr(var, NULL, 0, secondary);
+
+	if (er < 0) return er;
+    }
+
+    return print_putc(currfd, byte);
+}
 
 static int close_pr(void *var, int secondary)
 {
@@ -198,6 +205,24 @@ static int prdevice_attach(int device)
 
 static int prdevice_detach(int device)
 {
-    log_error(LOG_DEFAULT, "Device 4: Don't know how to detach (yet).");
+    if (inuse) {
+        flush_pr(NULL, -1);
+        close_pr(NULL, -1);
+    }
+
+    serial_detach_device(device);
+ 
     return 0;
 }
+
+/* not used */
+int detach_prdevice(PRINTER *info) {
+    return 0;
+}
+
+/* not used */
+int attach_prdevice(PRINTER *info, const char *file, int mode) {
+    return 0;
+}
+
+

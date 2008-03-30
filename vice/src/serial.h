@@ -126,7 +126,8 @@ extern int serial_attach_device(int device, char *var, const char *name,
 				int (*closef)(void *, int),
 				void (*flushf)(void *, int));
 extern int serial_select_file(int type, int number, const char *file);
-extern int serial_remove(int number);
+extern int serial_remove_file(int device);
+extern int serial_detach_device(int device);
 extern char *serial_get_file_name(int number);
 extern serial_t *serial_get_device(int number);
 extern void serial_reset(void);

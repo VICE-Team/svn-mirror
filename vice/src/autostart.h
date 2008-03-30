@@ -30,8 +30,11 @@
 
 #include "types.h"
 
+/* rawaddr is a list of start addresses of a raw CBM file - unfortunately 
+   this is a bit difficult as C128 and VIC20 have multiple valid
+   start addresses. The list is ended by -1. */
 int autostart_init(CLOCK _min_cycles, int _handle_true1541,
-                   int _blnsw, int _pnt, int _pntr, int _lnmx);
+             int _blnsw, int _pnt, int _pntr, int _lnmx, const int *rawaddr);
 
 void autostart_disable(void);
 void autostart_advance(void);

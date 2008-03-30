@@ -60,6 +60,8 @@ static int num_resources, num_allocated_resources;
 static resource_t *resources;
 static const char *machine_id;
 
+static void write_resource_item(FILE *f, int num);
+
 /* ------------------------------------------------------------------------- */
 
 /* FIXME: We might want to use a hash table instead of a linear search some
@@ -99,6 +101,21 @@ static resource_t *lookup(const char *name)
             return resources + i;
 
     return NULL;
+}
+
+int resources_write_item_to_file(FILE *fp, const char *name)
+{
+    int i;
+
+    for (i = 0; i < num_resources; i++) {
+        if (strcasecmp(resources[i].name, name) == 0) {
+             write_resource_item(fp, i);
+	     return 0;
+	}
+    }
+    log_warning(LOG_DEFAULT, "Trying to save unknown resource '%s'", name);
+
+    return -1;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -169,6 +186,33 @@ int resources_get_value(const char *name, resource_value_t *value_return)
         break;
       case RES_STRING:
         *(char **)value_return = *(char **)r->value_ptr;
+        break;
+      default:
+        log_warning(LOG_DEFAULT, "Unknown resource type for `%s'", name);
+        return -1;
+    }
+
+    return 0;
+}
+
+int resources_get_default_value(const char *name,
+                                const resource_value_t *value_return)
+{
+    resource_t *r = lookup(name);
+
+    if (r == NULL) {
+        log_warning(LOG_DEFAULT,
+                    "Trying to read value from unknown "
+                    "resource `%s'.", name);
+        return -1;
+    }
+
+    switch (r->type) {
+      case RES_INTEGER:
+        *(int *)value_return = *(int *)r->factory_value;
+        break;
+      case RES_STRING:
+        *(char **)value_return = *(char **)r->factory_value;
         break;
       default:
         log_warning(LOG_DEFAULT, "Unknown resource type for `%s'", name);
@@ -263,7 +307,7 @@ static int check_emu_id(const char *buf)
 
 /* Read one resource line from the file descriptor `f'.  Return 1 on success,
    -1 on failure, 0 on EOF or end of emulator section.  */
-static int read_resource_item(FILE *f)
+int resources_read_item_from_file(FILE *f)
 {
     char buf[1024];
     char *arg_ptr;
@@ -371,7 +415,7 @@ int resources_load(const char *fname)
     }
 
     do {
-	retval = read_resource_item(f);
+	retval = resources_read_item_from_file(f);
 	if (retval == -1) {
 	    log_error(LOG_DEFAULT,
                       "%s: Invalid resource specification at line %d.",

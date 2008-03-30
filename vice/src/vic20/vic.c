@@ -205,6 +205,20 @@ static cmdline_option_t cmdline_options[] = {
     { "+dscan", SET_RESOURCE, 0, NULL, NULL,
       "DoubleScan", (resource_value_t) 0,
       NULL, "Disable double scan" },
+#ifdef USE_VIDMODE_EXTENSION
+    { "-fsdsize", SET_RESOURCE, 0, NULL, NULL,
+      "FullscreenDoubleSize", (resource_value_t) 1,
+      NULL, "Enable fullscreen double size" },
+    { "+fsdsize", SET_RESOURCE, 0, NULL, NULL,
+      "FullscreenDoubleSize", (resource_value_t) 0,
+      NULL, "Disable fullscreen double size" },
+    { "-fsdscan", SET_RESOURCE, 0, NULL, NULL,
+      "FullscreenDoubleScan", (resource_value_t) 1,
+      NULL, "Enable fullscreen double scan" },
+    { "+fsdscan", SET_RESOURCE, 0, NULL, NULL,
+      "FullscreenDoubleScan", (resource_value_t) 0,
+      NULL, "Disable fullscreen double scan" },
+#endif
 #endif
     { NULL }
 };

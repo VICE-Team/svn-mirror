@@ -97,6 +97,10 @@ static void vsync_hook(void);
 
 /* ------------------------------------------------------------------------- */
 
+/* valid start addresses for the C64 */
+static const int rawaddrs[] = { 0x801, -1 };
+
+/* ------------------------------------------------------------------------- */
 
 /* Serial traps.  */
 static trap_t c64_serial_traps[] = {
@@ -281,7 +285,7 @@ int machine_init(void)
 
     /* Initialize autostart.  */
     autostart_init(3 * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH, 1,
-                   0xcc, 0xd1, 0xd3, 0xd5);
+                   0xcc, 0xd1, 0xd3, 0xd5, rawaddrs);
 
     /* Initialize the VIC-II emulation.  */
     if (vic_ii_init() == NULL)
@@ -375,7 +379,7 @@ void machine_powerup(void)
 void machine_shutdown(void)
 {
     /* Detach all devices.  */
-    serial_remove(-1);
+    serial_remove_file(-1);
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

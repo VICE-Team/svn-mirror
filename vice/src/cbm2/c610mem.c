@@ -1058,7 +1058,7 @@ int mem_load(void)
     /* De-initialize kbd-buf, autostart and tape stuff here before
        reloading the ROM the traps are installed in.  */
     kbd_buf_init(0, 0, 0, 0);
-    autostart_init(0, 0, 0, 0, 0, 0);
+    autostart_init(0, 0, 0, 0, 0, 0, NULL);
     tape_init(0, 0, 0, 0, 0, 0, 0, 0, 0, NULL);
 
     /* Load chargen ROM

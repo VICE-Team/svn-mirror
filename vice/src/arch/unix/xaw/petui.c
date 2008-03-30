@@ -37,6 +37,7 @@
 #include "uimenu.h"
 #include "uisettings.h"
 #include "vsync.h"
+#include "romset.h"
 
 #ifdef XPM
 #include <X11/xpm.h>
@@ -75,6 +76,29 @@ static UI_CALLBACK(petui_set_model)
 {
     pet_set_model(client_data, NULL);
     ui_update_menus();
+}
+
+static UI_CALLBACK(petui_dump_romset)
+{
+    char title[1024];
+
+    suspend_speed_eval();
+    sprintf(title, "File to dump ROM set definition to");
+    {
+        char *new_value;
+        int len = 512;
+
+        new_value = alloca(len + 1);
+        strcpy(new_value, "");
+
+        if (ui_input_string(title, "ROM set file:", new_value, len) 
+		!= UI_BUTTON_OK)
+            return;
+
+	romset_dump(new_value, "KernalName", "EditorName", "ChargenName", 
+		"RomModule9Name", "RomModuleAName", "RomModuleBName", NULL);
+			
+    }
 }
 
 /* this is partially modeled after the radio_* callbacks */
@@ -269,6 +293,27 @@ static ui_menu_entry_t model_defaults_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t pet_romset_submenu[] = {
+    { "Basic 1",
+      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom1.vrs", NULL },
+    { "Basic 2 / Graphics",
+      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom2g.vrs", NULL },
+    { "Basic 2 / Business",
+      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom2b.vrs", NULL },
+    { "Basic 4 / No CRTC",
+      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom4o.vrs", NULL },
+    { "Basic 4 / 40 Columns",
+      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom44.vrs", NULL },
+    { "Basic 4 / 80 Columns",
+      (ui_callback_t) ui_set_romset, (ui_callback_data_t)"rom48.vrs", NULL },
+    { "--" },
+    { "Load custom ROM set definition from file",
+      (ui_callback_t) ui_load_romset, NULL, NULL },
+    { "Dump ROM set definition to file",
+      (ui_callback_t) petui_dump_romset, NULL, NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(SuperPET)
 
@@ -297,6 +342,9 @@ static ui_menu_entry_t pet_rs232_submenu[] = {
 static ui_menu_entry_t model_settings_submenu[] = {
     { "Model defaults",
       NULL, NULL, model_defaults_submenu },
+    { "--" },
+    { "ROM sets",
+      NULL, NULL, pet_romset_submenu },
     { "--" },
     { "Video size",
       NULL, NULL, pet_video_submenu },

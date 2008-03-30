@@ -46,6 +46,7 @@
 #include "vsync.h"
 #include "utils.h"
 #include "iecdrive.h"
+#include "romset.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -343,6 +344,38 @@ static ui_menu_entry_t keyboard_settings_submenu[] = {
     { NULL }
 };
 
+
+/* ------------------------------------------------------------------------- */
+
+/* ROM set stuff */
+
+UI_CALLBACK(ui_set_romset)
+{
+    romset_load(client_data);
+    ui_update_menus();
+}
+
+UI_CALLBACK(ui_load_romset)
+{
+    char *filename;
+    char title[1024];
+    ui_button_t button;
+
+    suspend_speed_eval();
+    sprintf(title, "Load custom ROM set definition");
+    filename = ui_select_file(title, NULL, False, NULL, "*.vrs", &button);
+
+    switch (button) {
+      case UI_BUTTON_OK:
+        if (romset_load(filename) < 0)
+            ui_error("Could not load ROM set file\n'%s'",filename);
+        break;
+      default:
+        /* Do nothing special.  */
+        break;
+    }
+    ui_update_menus();
+}
 
 /* ------------------------------------------------------------------------- */
 

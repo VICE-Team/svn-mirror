@@ -93,19 +93,18 @@
 
 /* C64 memory-related resources.  */
 
-static char *default_chargen_rom_name;
-static char *default_basic_rom_name;
-static char *default_kernal_rom_name;
-
+static char default_chargen_rom_name[] = "chargen";
+static char default_basic_rom_name[] = "basic";
+static char default_kernal_rom_name[] = "kernal";
 
 /* Name of the character ROM.  */
-static char *chargen_rom_name;
+static char *chargen_rom_name = 0;
 
 /* Name of the BASIC ROM.  */
-static char *basic_rom_name;
+static char *basic_rom_name = 0;
 
 /* Name of the Kernal ROM.  */
-static char *kernal_rom_name;
+static char *kernal_rom_name = 0;
 
 /* Kernal revision for ROM patcher.  */
 static char *kernal_revision;
@@ -145,7 +144,6 @@ static int set_chargen_rom_name(resource_value_t v)
         return 0;
 
     string_set(&chargen_rom_name, name);
-    default_chargen_rom_name = chargen_rom_name;
     return 0;
 }
 
@@ -159,7 +157,6 @@ static int set_kernal_rom_name(resource_value_t v)
         return 0;
 
     string_set(&kernal_rom_name, name);
-    default_kernal_rom_name = kernal_rom_name;
     return 0;
 }
 
@@ -174,7 +171,6 @@ static int set_basic_rom_name(resource_value_t v)
         return 0;
 
     string_set(&basic_rom_name, name);
-    default_basic_rom_name = basic_rom_name;
     return 0;
 }
 
@@ -1223,6 +1219,10 @@ int mem_set_romset(char *name) {
   char romsetnamebuffer[MAXPATHLEN];
   char *tmppath;
 
+  if(chargen_rom_name) free(chargen_rom_name);
+  if(basic_rom_name) free(basic_rom_name);
+  if(kernal_rom_name) free(kernal_rom_name);
+
   if(strcmp(name,"Default")) {
     for(num_romsets = 0; num_romsets < number_romsets ; num_romsets++) {
       if (!strcmp(romsets[num_romsets],name)) {
@@ -1232,7 +1232,7 @@ int mem_set_romset(char *name) {
 	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
 	  chargen_rom_name = default_chargen_rom_name;
 	} else {
-	  chargen_rom_name = romsetnamebuffer;
+	  chargen_rom_name = stralloc(romsetnamebuffer);
 	}
 
 	strcpy(romsetnamebuffer,"kernal-");
@@ -1240,7 +1240,7 @@ int mem_set_romset(char *name) {
 	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
 	  kernal_rom_name = default_kernal_rom_name;
 	} else {
-	  kernal_rom_name =  romsetnamebuffer;
+	  kernal_rom_name =  stralloc(romsetnamebuffer);
 	}
 
 	strcpy(romsetnamebuffer,"basic-");
@@ -1248,7 +1248,7 @@ int mem_set_romset(char *name) {
 	if ( sysfile_locate(romsetnamebuffer, &tmppath) ) {
 	  basic_rom_name = default_basic_rom_name;
 	} else {
-	  basic_rom_name = romsetnamebuffer;
+	  basic_rom_name = stralloc(romsetnamebuffer);
 	}
 
 	reload_rom_1541(romsetnamebuffer);
