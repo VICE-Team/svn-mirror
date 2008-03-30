@@ -996,16 +996,16 @@ int int_myciatod(long offset)
 /* -------------------------------------------------------------------------- */
 
 
-void mycia_prevent_clk_overflow()
+void mycia_prevent_clk_overflow(CLOCK sub)
 {
     update_mycia(clk);
 
     if (mycia_tau)
-	mycia_tau -= PREVENT_CLK_OVERFLOW_SUB;
+	mycia_tau -= sub;
     if (mycia_tbu)
-	mycia_tbu -= PREVENT_CLK_OVERFLOW_SUB;
-    if (myciardi > PREVENT_CLK_OVERFLOW_SUB)
-	myciardi -= PREVENT_CLK_OVERFLOW_SUB;
+	mycia_tbu -= sub;
+    if (myciardi > sub)
+	myciardi -= sub;
     else
 	myciardi = 0;
 }

@@ -74,13 +74,6 @@ extern int debugflg;
    value should be subtracted from the counter when the tick is reached.  */
 #define PREVENT_CLK_OVERFLOW_TICK (CLOCK_MAX - 0x100000)
 
-/* This defines the value to subtract from the CLOCK counters.  The formula
-   is to make sure that it is a multiple of `CYCLES_PER_RFSH' and that it
-   allows 16 bit counters to work.  */
-#define PREVENT_CLK_OVERFLOW_SUB \
-    (((PREVENT_CLK_OVERFLOW_TICK & ~((CLOCK)0xffff)) / CYCLES_PER_RFSH - 1) \
-     * CYCLES_PER_RFSH)
-
 /* These are the available types of interrupt lines.  */
 enum cpu_int {
     IK_NONE = 0,
@@ -420,27 +413,30 @@ _INT_FUNC void serve_next_alarm(cpu_int_status_t *cs, CLOCK clk)
     (cs->alarm_handler[cs->next_alarm])(offset);
 }
 
-/* This is used to avoid clock counter overflows.  Return 1 if the clock
-   counters have been changed (this happens if the clock counter `clk' has
-   reached `PREVENT_CLK_OVERFLOW_TICK').  */
-_INT_FUNC int prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk)
+/* This is used to avoid clock counter overflows.  Return the number of
+   cycles subtracted, which is always a multiple of `baseval'.  */
+_INT_FUNC CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk,
+                                     CLOCK baseval)
 {
     if (*clk > PREVENT_CLK_OVERFLOW_TICK) {
 	int i;
+        CLOCK prevent_clk_overflow_sub =
+            (((PREVENT_CLK_OVERFLOW_TICK & ~((CLOCK)0xffff))
+              / baseval - 1) * baseval);
 
-	*clk -= PREVENT_CLK_OVERFLOW_SUB;
-	cs->next_alarm_clk -= PREVENT_CLK_OVERFLOW_SUB;
-	cs->irq_clk -= PREVENT_CLK_OVERFLOW_SUB;
-	cs->nmi_clk -= PREVENT_CLK_OVERFLOW_SUB;
-	if (cs->last_stolen_cycles_clk > PREVENT_CLK_OVERFLOW_SUB)
-	    cs->last_stolen_cycles_clk -= PREVENT_CLK_OVERFLOW_SUB;
+	*clk -= prevent_clk_overflow_sub;
+	cs->next_alarm_clk -= prevent_clk_overflow_sub;
+	cs->irq_clk -= prevent_clk_overflow_sub;
+	cs->nmi_clk -= prevent_clk_overflow_sub;
+	if (cs->last_stolen_cycles_clk > prevent_clk_overflow_sub)
+	    cs->last_stolen_cycles_clk -= prevent_clk_overflow_sub;
 	else
 	    cs->last_stolen_cycles_clk = (CLOCK) 0;
 	for (i = 0; i < cs->num_alarms; i++) {
 	    if (cs->alarm_clk[i] != CLOCK_MAX)
-		cs->alarm_clk[i] -= PREVENT_CLK_OVERFLOW_SUB;
+		cs->alarm_clk[i] -= prevent_clk_overflow_sub;
 	}
-	return 1;
+	return prevent_clk_overflow_sub;
     } else
 	return 0;
 }
@@ -487,7 +483,8 @@ extern void set_alarm_clk(cpu_int_status_t *cs, int alarm, CLOCK tick);
 extern void unset_alarm(cpu_int_status_t *cs, int alarm);
 extern int check_pending_interrupt(cpu_int_status_t *cs);
 extern int serve_next_alarm(cpu_int_status_t *cs, CLOCK clk);
-extern int prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk);
+extern CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk,
+                                  CLOCK baseval);
 extern void steal_cycles(cpu_int_status_t *cs, CLOCK start_clk,
 			 CLOCK *clk_ptr, int num);
 extern int check_irq_delay(cpu_int_status_t *cs, CLOCK clk);
@@ -532,8 +529,8 @@ extern CLOCK true1541_clk;
     trigger_trap(&maincpu_int_status, (trap_func), clk)
 #define maincpu_serve_next_alarm() \
     serve_next_alarm(&maincpu_int_status, clk)
-#define maincpu_prevent_clk_overflow() \
-    prevent_clk_overflow(&maincpu_int_status, &clk)
+#define maincpu_prevent_clk_overflow(rfsh_per_sec) \
+    prevent_clk_overflow(&maincpu_int_status, &clk, (rfsh_per_sec))
 #define maincpu_steal_cycles(start_clk, num) \
     steal_cycles(&maincpu_int_status, (start_clk), &clk, (num))
 

@@ -69,6 +69,8 @@
 #include "interrupt.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "resources.h"
+#include "cmdline.h"
 
 /* FIXME: ugliest thing ever. */
 static void draw_sprites(void);
@@ -140,16 +142,63 @@ static resource_t resources[] = {
       (resource_value_t *) &sprite_background_collisions_enabled, set_sprite_background_collisions_enabled },
     { "VideoCache", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
+#ifdef NEED_2x
     { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_size_enabled, set_double_size_enabled },
     { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
       (resource_value_t *) &double_scan_enabled, set_double_scan_enabled },
+#endif
     { NULL }
 };
 
 int vic_ii_init_resources(void)
 {
     return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* VIC-II command-line options.  */
+
+static cmdline_option_t cmdline_options[] = {
+    { "-vcache", SET_RESOURCE, 0, NULL, NULL,
+      "VideoCache", (resource_value_t) 1,
+      NULL, "Enable the video cache" },
+    { "+vcache", SET_RESOURCE, 0, NULL, NULL,
+      "VideoCache", (resource_value_t) 0,
+      NULL, "Disable the video cache" },
+    { "-checksb", SET_RESOURCE, 0, NULL, NULL,
+      "CheckSbColl", (resource_value_t) 1,
+      NULL, "Enable sprite-background collision registers" },
+    { "+checksb", SET_RESOURCE, 0, NULL, NULL,
+      "CheckSbColl", (resource_value_t) 0,
+      NULL, "Disable sprite-background collision registers" },
+    { "-checkss", SET_RESOURCE, 0, NULL, NULL,
+      "CheckSsColl", (resource_value_t) 1,
+      NULL, "Enable sprite-sprite collision registers" },
+    { "+checkss", SET_RESOURCE, 0, NULL, NULL,
+      "CheckSsColl", (resource_value_t) 0,
+      NULL, "Disable sprite-sprite collision registers" },
+#ifdef NEED_2x
+    { "-dsize", SET_RESOURCE, 0, NULL, NULL,
+      "DoubleSize", (resource_value_t) 1,
+      NULL, "Enable double size" },
+    { "+dsize", SET_RESOURCE, 0, NULL, NULL,
+      "DoubleSize", (resource_value_t) 0,
+      NULL, "Disable double size" },
+    { "-dscan", SET_RESOURCE, 0, NULL, NULL,
+      "DoubleScan", (resource_value_t) 1,
+      NULL, "Enable double scan" },
+    { "+dscan", SET_RESOURCE, 0, NULL, NULL,
+      "DoubleScan", (resource_value_t) 0,
+      NULL, "Disable double scan" },
+#endif
+    { NULL }
+};
+
+int vic_ii_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -3535,10 +3584,10 @@ void video_resize(void)
     }
 }
 
-void vic_ii_prevent_clk_overflow()
+void vic_ii_prevent_clk_overflow(CLOCK sub)
 {
-    int_raster_clk -= PREVENT_CLK_OVERFLOW_SUB;
-    oldclk -= PREVENT_CLK_OVERFLOW_SUB;
-    vic_ii_fetch_clk -= PREVENT_CLK_OVERFLOW_SUB;
-    vic_ii_draw_clk -= PREVENT_CLK_OVERFLOW_SUB;
+    int_raster_clk -= sub;
+    oldclk -= sub;
+    vic_ii_fetch_clk -= sub;
+    vic_ii_draw_clk -= sub;
 }

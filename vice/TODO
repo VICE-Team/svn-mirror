@@ -14,6 +14,8 @@ Emulator, whose name was chosen independently.)
 * General improvements
 ----------------------
 
+  - Reorganize the sound emulation.
+
   - More ports!  (E.g. MacOS, Win32, BeOS, PSX, N64...)  Any
     volunteers?
 
@@ -59,8 +61,6 @@ Emulator, whose name was chosen independently.)
   - Some more kernal patches, for instance for changing colors and
     patching the reset routine to make it faster (maybe configurable)?
 
-  - Reorganize the sound emulation.
-
 * C64 improvements
 ------------------
 
@@ -83,8 +83,6 @@ Emulator, whose name was chosen independently.)
 
   - Better, possibly cycle-based, emulation of the VIC-I chip.
 
-  - More accurate VIA chip emulation.
-
   - Improve the accuracy of the audio emulation.
 
   - Tape support.
@@ -96,15 +94,11 @@ Emulator, whose name was chosen independently.)
 
   - Support for different models at runtime.
 
-  - More accurate VIA chip emulation.
-
   - Better sound emulation.
 
   - Tape support.
 
 * 1541 improvements
 -------------------
-
-  - More accurate VIA chip emulation.
 
   - Emulate more than just one 1541 drive with the "true" emulation.

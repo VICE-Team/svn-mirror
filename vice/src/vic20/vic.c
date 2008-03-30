@@ -28,13 +28,22 @@
  *
  */
 
-/* This is incomplete and buggy.  */
+/* Warning: this emulation is very incomplete and buggy.  */
 
 #ifndef VIC20
 #define VIC20
 #endif
 
 #define _VIC_C
+
+/* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
+   memory and (little) speed.  */
+#ifndef __MSDOS__
+#define NEED_2x
+#else  /* __MSDOS__ */
+#define pixel_width 1
+#define pixel_height 1
+#endif /* !__MSDOS__ */
 
 #include "vice.h"
 
@@ -47,6 +56,8 @@
 #include "raster.h"
 #include "sid.h"
 #include "mem.h"
+#include "resources.h"
+#include "cmdline.h"
 
 /* #define VIC_REGISTERS_DEBUG */
 
@@ -96,6 +107,39 @@ static resource_t resources[] = {
 int vic_init_resources(void)
 {
     return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* VIC command-line options.  */
+
+static cmdline_option_t cmdline_options[] = {
+    { "-vcache", SET_RESOURCE, 0, NULL, NULL,
+      "VideoCache", (resource_value_t) 1,
+      NULL, "Enable the video cache" },
+    { "+vcache", SET_RESOURCE, 0, NULL, NULL,
+      "VideoCache", (resource_value_t) 0,
+      NULL, "Disable the video cache" },
+#ifdef NEED_2x
+    { "-dsize", SET_RESOURCE, 0, NULL, NULL,
+      "DoubleSize", (resource_value_t) 1,
+      NULL, "Enable double size" },
+    { "+dsize", SET_RESOURCE, 0, NULL, NULL,
+      "DoubleSize", (resource_value_t) 0,
+      NULL, "Disable double size" },
+    { "-dscan", SET_RESOURCE, 0, NULL, NULL,
+      "DoubleScan", (resource_value_t) 1,
+      NULL, "Enable double scan" },
+    { "+dscan", SET_RESOURCE, 0, NULL, NULL,
+      "DoubleScan", (resource_value_t) 0,
+      NULL, "Disable double scan" },
+#endif
+    { NULL }
+};
+
+int vic_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -575,7 +619,7 @@ static void draw_reverse_line_cached_2x(struct line_cache *l, int xs, int xe)
     DRAW_LINE_2x(p, xs, xe, 1);
 }
 
-/* -------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------- */
 
 void vic_exposure_handler(unsigned int width, unsigned int height)
 {
@@ -583,7 +627,7 @@ void vic_exposure_handler(unsigned int width, unsigned int height)
     force_repaint();
 }
 
-void vic_prevent_clk_overflow(void)
+void vic_prevent_clk_overflow(CLOCK sub)
 {
-    oldclk -= PREVENT_CLK_OVERFLOW_SUB;
+    oldclk -= sub;
 }

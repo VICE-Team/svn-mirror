@@ -57,6 +57,8 @@
 #include "video.h"
 #include "kbdbuf.h"
 #include "sid.h"
+#include "resources.h"
+#include "cmdline.h"
 
 #ifdef HAS_JOYSTICK
 #include "joystick.h"
@@ -101,6 +103,22 @@ static resource_t resources[] = {
 int vsync_init_resources(void)
 {
     return resources_register(resources);
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* Vsync-related command-line options.  */
+static cmdline_option_t cmdline_options[] = {
+    { "-speed", SET_RESOURCE, 1, NULL, NULL, "Speed", NULL,
+      "<percent>", "Limit emulation speed to specified value" },
+    { "-refresh", SET_RESOURCE, 1, NULL, NULL, "RefreshRate", NULL,
+      "<value>", "Update every <value> frames (`0' for automatic)" },
+    { NULL }
+};
+
+int vsync_init_cmdline_options(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -246,9 +264,9 @@ static void display_speed(int num_frames)
 #endif /* HAVE_GETTIMEOFDAY */
 }
 
-void vsync_prevent_clk_overflow(void)
+void vsync_prevent_clk_overflow(CLOCK sub)
 {
-    speed_eval_prev_clk -= PREVENT_CLK_OVERFLOW_SUB;
+    speed_eval_prev_clk -= sub;
 }
 
 /* ------------------------------------------------------------------------- */

@@ -359,7 +359,7 @@ void reset_crtc(void)
 
 int crtc_offscreen(void)
 {
-/* printf("crtc_offscreen: rasterline=%d, YPIX=%d -> %d\n", 
+/* printf("crtc_offscreen: rasterline=%d, YPIX=%d -> %d\n",
 				rasterline, YPIX, rasterline>=YPIX); */
     return rasterline >= YPIX;
 }
@@ -580,8 +580,8 @@ static void draw_reverse_line_cached_2x(struct line_cache *l, int xs, int xe)
 
 /* ------------------------------------------------------------------------- */
 
-void crtc_prevent_clk_overflow(void)
+void crtc_prevent_clk_overflow(CLOCK sub)
 {
-    oldclk -= PREVENT_CLK_OVERFLOW_SUB;
+    oldclk -= sub;
 }
 

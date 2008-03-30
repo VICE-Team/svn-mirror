@@ -80,8 +80,8 @@ extern BYTE REGPARM1 read_cia2(ADDRESS addr);
 extern int int_cia2ta(long offset);
 extern int int_cia2tb(long offset);
 extern int int_cia2tod(long offset);
-extern void cia1_prevent_clk_overflow(void);
-extern void cia2_prevent_clk_overflow(void);
+extern void cia1_prevent_clk_overflow(CLOCK sub);
+extern void cia2_prevent_clk_overflow(CLOCK sub);
 extern void cia2_set_flag(void);
 
 #endif  /* _CIA_H */

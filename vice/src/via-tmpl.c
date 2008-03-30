@@ -42,7 +42,7 @@
  *
  * Except for shift register and input latching everything should be ok now.
  */
-/* 
+/*
  * 01apr98 a.fachat
  * New timer code. Should be cycle-exact.
  *
@@ -137,10 +137,10 @@ INCLUDES
 #include "interrupt.h"
 
 /*#define MYVIA_TIMER_DEBUG */
-/*#define MYVIA_NEED_PB7 */	/* when PB7 is really used, set this 
+/*#define MYVIA_NEED_PB7 */	/* when PB7 is really used, set this
 				   to enable pulse output from the timer.
 				   Otherwise PB7 state is computed only
-				   when port B is read - 
+				   when port B is read -
 				not yet implemented */
 
 /* global */
@@ -149,8 +149,8 @@ BYTE    myvia[16];
 
 GLOBALS
 
-/* 
- * local functions 
+/*
+ * local functions
  */
 
 /*
@@ -171,8 +171,8 @@ static CLOCK 		myviatbi;   /* time when next timer A alarm is */
 static int 		myviapb7;   /* state of PB7 for pulse output... */
 static int 		myviapb7x;  /* to be xored herewith  */
 static int 		myviapb7o;  /* to be ored herewith  */
-static int 		myviapb7xx; 
-static int 		myviapb7sx; 
+static int 		myviapb7xx;
+static int 		myviapb7sx;
 
 /* ------------------------------------------------------------------------- */
 /* MYVIA */
@@ -248,7 +248,7 @@ void REGPARM2 store_myvia(ADDRESS addr, BYTE byte)
     addr &= 0xf;
 #ifdef MYVIA_TIMER_DEBUG
     if ((addr<10 && addr>3) || (addr==VIA_ACR) || app_resources.debugFlag)
-	printf("store myvia[%x] %x, rmwf=%d, clk=%d, rclk=%d\n", 
+	printf("store myvia[%x] %x, rmwf=%d, clk=%d, rclk=%d\n",
 		(int) addr, (int) byte, myrmwf, myclk, rclk);
 #endif
 
@@ -564,14 +564,14 @@ int    int_myviat2(long offset)
     return 0;
 }
 
-void myvia_prevent_clk_overflow(void)
+void myvia_prevent_clk_overflow(CLOCK sub)
 {
      unsigned int t;
-     t = (myviatau - (myclk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     t = (myviatau - (myclk + sub)) & 0xffff;
      myviatau = myclk + t;
-     t = (myviatbu - (myclk + PREVENT_CLK_OVERFLOW_SUB)) & 0xffff;
+     t = (myviatbu - (myclk + sub)) & 0xffff;
      myviatbu = myclk + t;
-     if(myviatai) myviatai -= PREVENT_CLK_OVERFLOW_SUB;
+     if(myviatai) myviatai -= sub;
 }
 
 POST_VIA_FUNCS

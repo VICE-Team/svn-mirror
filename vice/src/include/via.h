@@ -68,7 +68,7 @@
 #define VIA_IM_CA2	1	/* Handshake */
 
 
-/* 
+/*
  * signal values (for signaling edges on the control lines)
  */
 
@@ -93,7 +93,7 @@ extern void REGPARM2 store_via1(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_via1(ADDRESS addr);
 extern int int_via1t1(long offset);
 extern int int_via1t2(long offset);
-extern void via1_prevent_clk_overflow(void);
+extern void via1_prevent_clk_overflow(CLOCK sub);
 
 extern void reset_via2(void);
 extern void via2_signal(int line, int edge);
@@ -101,7 +101,7 @@ extern void REGPARM2 store_via2(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_via2(ADDRESS addr);
 extern int int_via2t1(long offset);
 extern int int_via2t2(long offset);
-extern void via2_prevent_clk_overflow(void);
+extern void via2_prevent_clk_overflow(CLOCK sub);
 
 #elif defined(PET)
 
@@ -111,7 +111,7 @@ extern void REGPARM2 store_via(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 read_via(ADDRESS addr);
 extern int int_viat1(long offset);
 extern int int_viat2(long offset);
-extern void via_prevent_clk_overflow(void);
+extern void via_prevent_clk_overflow(CLOCK sub);
 extern int show_keyarr(void);
 
 #endif
