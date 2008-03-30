@@ -428,7 +428,7 @@ static const resource_int_t resources_int[] = {
       &keyset2[KEYSET_NE], set_keyset2, (void *)KEYSET_NE },
     { "KeySet2East", K_NONE, RES_EVENT_NO, NULL,
       &keyset2[KEYSET_E], set_keyset2, (void *)KEYSET_E },
-    { "KeySet2SouthEast",) K_NONE, RES_EVENT_NO, NULL,
+    { "KeySet2SouthEast", K_NONE, RES_EVENT_NO, NULL,
       &keyset2[KEYSET_SE], set_keyset2, (void *)KEYSET_SE },
     { "KeySet2South", K_NONE, RES_EVENT_NO, NULL,
       &keyset2[KEYSET_S], set_keyset2, (void *)KEYSET_S },

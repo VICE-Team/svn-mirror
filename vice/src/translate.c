@@ -8058,7 +8058,7 @@ static int set_current_language(const char *lang, void *param)
     util_string_set(&current_language, "en");
     current_language_index = 0;
 
-    if (strlen(lang)! = 2)
+    if (strlen(lang) != 2)
         return 0;
 
     for (i = 0; i < countof(language_table); i++) {
@@ -8073,7 +8073,7 @@ static int set_current_language(const char *lang, void *param)
     return 0;
 }
 
-static const resource_t resources[] = {
+static const resource_string_t resources_string[] = {
     { "Language", "en", RES_EVENT_NO, NULL,
       &current_language, set_current_language, NULL },
     { NULL }

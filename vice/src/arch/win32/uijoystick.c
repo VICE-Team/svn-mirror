@@ -106,26 +106,26 @@ static BOOL CALLBACK key_dialog(HWND hwnd, UINT msg, WPARAM wparam,
 static void init_keyset_dialog(HWND hwnd)
 {
     if (current_keyset_index == 0) {
-        resources_get_value("KeySet1NorthWest", (void *)&keyset[KEYSET_NW]);
-        resources_get_value("KeySet1North", (void *)&keyset[KEYSET_N]);
-        resources_get_value("KeySet1NorthEast", (void *)&keyset[KEYSET_NE]);
-        resources_get_value("KeySet1East", (void *)&keyset[KEYSET_E]);
-        resources_get_value("KeySet1SouthEast", (void *)&keyset[KEYSET_SE]);
-        resources_get_value("KeySet1South", (void *)&keyset[KEYSET_S]);
-        resources_get_value("KeySet1SouthWest", (void *)&keyset[KEYSET_SW]);
-        resources_get_value("KeySet1West", (void *)&keyset[KEYSET_W]);
-        resources_get_value("KeySet1Fire", (void *)&keyset[KEYSET_FIRE]);
+        resources_get_int("KeySet1NorthWest", &keyset[KEYSET_NW]);
+        resources_get_int("KeySet1North", &keyset[KEYSET_N]);
+        resources_get_int("KeySet1NorthEast", &keyset[KEYSET_NE]);
+        resources_get_int("KeySet1East", &keyset[KEYSET_E]);
+        resources_get_int("KeySet1SouthEast", &keyset[KEYSET_SE]);
+        resources_get_int("KeySet1South", &keyset[KEYSET_S]);
+        resources_get_int("KeySet1SouthWest", &keyset[KEYSET_SW]);
+        resources_get_int("KeySet1West", &keyset[KEYSET_W]);
+        resources_get_int("KeySet1Fire", &keyset[KEYSET_FIRE]);
         SetWindowText(hwnd, translate_text(IDS_CONFIGURE_KEYSET_A));
     } else {
-        resources_get_value("KeySet2NorthWest", (void *)&keyset[KEYSET_NW]);
-        resources_get_value("KeySet2North", (void *)&keyset[KEYSET_N]);
-        resources_get_value("KeySet2NorthEast", (void *)&keyset[KEYSET_NE]);
-        resources_get_value("KeySet2East", (void *)&keyset[KEYSET_E]);
-        resources_get_value("KeySet2SouthEast", (void *)&keyset[KEYSET_SE]);
-        resources_get_value("KeySet2South", (void *)&keyset[KEYSET_S]);
-        resources_get_value("KeySet2SouthWest", (void *)&keyset[KEYSET_SW]);
-        resources_get_value("KeySet2West", (void *)&keyset[KEYSET_W]);
-        resources_get_value("KeySet2Fire", (void *)&keyset[KEYSET_FIRE]);
+        resources_get_int("KeySet2NorthWest", &keyset[KEYSET_NW]);
+        resources_get_int("KeySet2North", &keyset[KEYSET_N]);
+        resources_get_int("KeySet2NorthEast", &keyset[KEYSET_NE]);
+        resources_get_int("KeySet2East", &keyset[KEYSET_E]);
+        resources_get_int("KeySet2SouthEast", &keyset[KEYSET_SE]);
+        resources_get_int("KeySet2South", &keyset[KEYSET_S]);
+        resources_get_int("KeySet2SouthWest", &keyset[KEYSET_SW]);
+        resources_get_int("KeySet2West", &keyset[KEYSET_W]);
+        resources_get_int("KeySet2Fire", &keyset[KEYSET_FIRE]);
         SetWindowText(hwnd, translate_text(IDS_CONFIGURE_KEYSET_B));
     }
     SetDlgItemText(hwnd, IDC_KEY_NW,
@@ -151,43 +151,25 @@ static void init_keyset_dialog(HWND hwnd)
 static void set_keyset(void)
 {
     if (current_keyset_index == 0) {
-        resources_set_value("KeySet1NorthWest",
-                            (resource_value_t)keyset[KEYSET_NW]);
-        resources_set_value("KeySet1North",
-                            (resource_value_t)keyset[KEYSET_N]);
-        resources_set_value("KeySet1NorthEast",
-                            (resource_value_t)keyset[KEYSET_NE]);
-        resources_set_value("KeySet1East",
-                            (resource_value_t)keyset[KEYSET_E]);
-        resources_set_value("KeySet1SouthEast",
-                            (resource_value_t)keyset[KEYSET_SE]);
-        resources_set_value("KeySet1South",
-                            (resource_value_t)keyset[KEYSET_S]);
-        resources_set_value("KeySet1SouthWest",
-                            (resource_value_t)keyset[KEYSET_SW]);
-        resources_set_value("KeySet1West",
-                            (resource_value_t)keyset[KEYSET_W]);
-        resources_set_value("KeySet1Fire",
-                            (resource_value_t)keyset[KEYSET_FIRE]);
+        resources_set_int("KeySet1NorthWest", keyset[KEYSET_NW]);
+        resources_set_int("KeySet1North", keyset[KEYSET_N]);
+        resources_set_int("KeySet1NorthEast",keyset[KEYSET_NE]);
+        resources_set_int("KeySet1East", keyset[KEYSET_E]);
+        resources_set_int("KeySet1SouthEast", keyset[KEYSET_SE]);
+        resources_set_int("KeySet1South", keyset[KEYSET_S]);
+        resources_set_int("KeySet1SouthWest", keyset[KEYSET_SW]);
+        resources_set_int("KeySet1West", keyset[KEYSET_W]);
+        resources_set_int("KeySet1Fire", keyset[KEYSET_FIRE]);
     } else {
-        resources_set_value("KeySet2NorthWest",
-                            (resource_value_t)keyset[KEYSET_NW]);
-        resources_set_value("KeySet2North",
-                            (resource_value_t)keyset[KEYSET_N]);
-        resources_set_value("KeySet2NorthEast",
-                            (resource_value_t)keyset[KEYSET_NE]);
-        resources_set_value("KeySet2East",
-                            (resource_value_t)keyset[KEYSET_E]);
-        resources_set_value("KeySet2SouthEast",
-                            (resource_value_t)keyset[KEYSET_SE]);
-        resources_set_value("KeySet2South",
-                            (resource_value_t)keyset[KEYSET_S]);
-        resources_set_value("KeySet2SouthWest",
-                            (resource_value_t)keyset[KEYSET_SW]);
-        resources_set_value("KeySet2West",
-                            (resource_value_t)keyset[KEYSET_W]);
-        resources_set_value("KeySet2Fire",
-                            (resource_value_t)keyset[KEYSET_FIRE]);
+        resources_set_int("KeySet2NorthWest", keyset[KEYSET_NW]);
+        resources_set_int("KeySet2North", keyset[KEYSET_N]);
+        resources_set_int("KeySet2NorthEast", keyset[KEYSET_NE]);
+        resources_set_int("KeySet2East", keyset[KEYSET_E]);
+        resources_set_int("KeySet2SouthEast", keyset[KEYSET_SE]);
+        resources_set_int("KeySet2South", keyset[KEYSET_S]);
+        resources_set_int("KeySet2SouthWest", keyset[KEYSET_SW]);
+        resources_set_int("KeySet2West", keyset[KEYSET_W]);
+        resources_set_int("KeySet2Fire", keyset[KEYSET_FIRE]);
     }
 }
 
@@ -284,32 +266,39 @@ static void init_joystick_dialog(HWND hwnd)
     int device;
 
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_DEV1);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text_new(IDS_NONE));
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NUMPAD_AND_RCTRL));
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_KEYSET_A));
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_KEYSET_B));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)intl_translate_text_new(IDS_NONE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NUMPAD_AND_RCTRL));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_KEYSET_A));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_KEYSET_B));
     joystick_ui_get_device_list(joy_hwnd);
-    resources_get_value("JoyDevice1", (void *)&res_value);
+    resources_get_int("JoyDevice1", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value,0);
     joy1 = device = res_value;
 
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_ALL_BUTTONS_AS_FIRE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_ALL_BUTTONS_AS_FIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
-    resources_get_value("JoyFire1Button", (void *)&res_value);
+    resources_get_int("JoyFire1Button", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    resources_get_value("JoyAutofire1Speed", (void *)&res_value);
+    resources_get_int("JoyAutofire1Speed", &res_value);
     SetDlgItemInt(hwnd, IDC_JOY_FIRE1_SPEED, res_value, FALSE);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NUMERIC_SEE_ABOVE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NUMERIC_SEE_ABOVE));
     joystick_ui_get_autofire_axes(joy_hwnd, device);
-    resources_get_value("JoyAutofire1Axis", (void *)&res_value);
+    resources_get_int("JoyAutofire1Axis", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_AUTOFIRE1_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
-    resources_get_value("JoyAutofire1Button", (void *)&res_value);
+    resources_get_int("JoyAutofire1Button", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON),
                             (device >= JOYDEV_HW1));
@@ -321,32 +310,39 @@ static void init_joystick_dialog(HWND hwnd)
                             (device >= JOYDEV_HW1));
 
     joy_hwnd = GetDlgItem(hwnd,IDC_JOY_DEV2);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)intl_translate_text_new(IDS_NONE));
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NUMPAD_AND_RCTRL));
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_KEYSET_A));
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_KEYSET_B));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)intl_translate_text_new(IDS_NONE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NUMPAD_AND_RCTRL));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_KEYSET_A));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_KEYSET_B));
     joystick_ui_get_device_list(joy_hwnd);
-    resources_get_value("JoyDevice2", (void *)&res_value);
+    resources_get_int("JoyDevice2", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value,0);
     joy2 = device = res_value;
 
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_ALL_BUTTONS_AS_FIRE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_ALL_BUTTONS_AS_FIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
-    resources_get_value("JoyFire2Button", (void *)&res_value);
+    resources_get_int("JoyFire2Button", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    resources_get_value("JoyAutofire2Speed", (void *)&res_value);
+    resources_get_int("JoyAutofire2Speed", &res_value);
     SetDlgItemInt(hwnd, IDC_JOY_FIRE2_SPEED, res_value, FALSE);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NUMERIC_SEE_ABOVE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NUMERIC_SEE_ABOVE));
     joystick_ui_get_autofire_axes(joy_hwnd, device);
-    resources_get_value("JoyAutofire2Axis", (void *)&res_value);
+    resources_get_int("JoyAutofire2Axis", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_AUTOFIRE2_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
-    resources_get_value("JoyAutofire2Button", (void *)&res_value);
+    resources_get_int("JoyAutofire2Button", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     EnableWindow(GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON),
                             (device >= JOYDEV_HW1));
@@ -362,67 +358,73 @@ static void init_joystick_dialog(HWND hwnd)
 
 static void rebuild_axis_list_1(HWND hwnd, int device)
 {
-HWND    joy_hwnd;
-int     res_value;
+    HWND joy_hwnd;
+    int res_value;
 
     SendDlgItemMessage(hwnd, IDC_JOY_FIRE1_AXIS, CB_RESETCONTENT, 0, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_AXIS);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NUMERIC_SEE_ABOVE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NUMERIC_SEE_ABOVE));
     joystick_ui_get_autofire_axes(joy_hwnd, device);
-    resources_get_value("JoyAutofire1Axis", (void *)&res_value);
+    resources_get_int("JoyAutofire1Axis", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
 static void rebuild_axis_list_2(HWND hwnd, int device)
 {
-HWND    joy_hwnd;
-int     res_value;
+    HWND joy_hwnd;
+    int res_value;
 
     SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_AXIS, CB_RESETCONTENT, 0, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_AXIS);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NUMERIC_SEE_ABOVE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NUMERIC_SEE_ABOVE));
     joystick_ui_get_autofire_axes(joy_hwnd, device);
-    resources_get_value("JoyAutofire2Axis", (void *)&res_value);
+    resources_get_int("JoyAutofire2Axis", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
 static void rebuild_button_list_1(HWND hwnd, int device)
 {
-HWND    joy_hwnd;
-int     res_value;
+    HWND joy_hwnd;
+    int res_value;
 
     SendDlgItemMessage(hwnd, IDC_JOY_FIRE1_BUTTON, CB_RESETCONTENT, 0, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE1_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_ALL_BUTTONS_AS_FIRE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_ALL_BUTTONS_AS_FIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
-    resources_get_value("JoyFire1Button", (void *)&res_value);
+    resources_get_int("JoyFire1Button", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     SendDlgItemMessage(hwnd, IDC_JOY_AUTOFIRE1_BUTTON, CB_RESETCONTENT, 0, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_AUTOFIRE1_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
-    resources_get_value("JoyAutofire1Button", (void *)&res_value);
+    resources_get_int("JoyAutofire1Button", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
 static void rebuild_button_list_2(HWND hwnd, int device)
 {
-HWND    joy_hwnd;
-int     res_value;
+    HWND joy_hwnd;
+    int res_value;
 
     SendDlgItemMessage(hwnd, IDC_JOY_FIRE2_BUTTON, CB_RESETCONTENT, 0, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_FIRE2_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_ALL_BUTTONS_AS_FIRE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_ALL_BUTTONS_AS_FIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
-    resources_get_value("JoyFire2Button", (void *)&res_value);
+    resources_get_int("JoyFire2Button", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     SendDlgItemMessage(hwnd, IDC_JOY_AUTOFIRE2_BUTTON, CB_RESETCONTENT, 0, 0);
     joy_hwnd = GetDlgItem(hwnd, IDC_JOY_AUTOFIRE2_BUTTON);
-    SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
+    SendMessage(joy_hwnd, CB_ADDSTRING, 0,
+                (LPARAM)translate_text(IDS_NO_BUTTON_NO_AUTOFIRE));
     joystick_ui_get_autofire_buttons(joy_hwnd, device);
-    resources_get_value("JoyAutofire2Button", (void *)&res_value);
+    resources_get_int("JoyAutofire2Button", &res_value);
     SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
@@ -455,9 +457,9 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             return TRUE;
           case IDC_JOY_DEV1:
             if (HIWORD(wparam) == CBN_SELCHANGE) {
-                resources_set_value("JoyDevice1",
-                                    (resource_value_t)SendMessage(GetDlgItem(hwnd,
-                                    IDC_JOY_DEV1), CB_GETCURSEL, 0, 0));
+                resources_set_int("JoyDevice1",
+                                  (int)SendMessage(GetDlgItem(hwnd,
+                                  IDC_JOY_DEV1), CB_GETCURSEL, 0, 0));
                 res_value = SendDlgItemMessage(hwnd, IDC_JOY_DEV1,
                                                CB_GETCURSEL, 0, 0);
                 if (res_value >= JOYDEV_HW1) {
@@ -477,9 +479,9 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             return TRUE;
           case IDC_JOY_DEV2:
             if (HIWORD(wparam) == CBN_SELCHANGE) {
-                resources_set_value("JoyDevice2",
-                                    (resource_value_t)SendMessage(GetDlgItem(hwnd,
-                                    IDC_JOY_DEV2), CB_GETCURSEL, 0, 0));
+                resources_set_int("JoyDevice2",
+                                  (int)SendMessage(GetDlgItem(hwnd,
+                                  IDC_JOY_DEV2), CB_GETCURSEL, 0, 0));
                 res_value = SendDlgItemMessage(hwnd, IDC_JOY_DEV2,
                                                CB_GETCURSEL, 0, 0);
                 if (res_value >= JOYDEV_HW1) {
@@ -534,43 +536,41 @@ static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
             }
             return TRUE;
           case IDOK:
-            resources_set_value("JoyDevice1",
-                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
-                                IDC_JOY_DEV1), CB_GETCURSEL, 0, 0));
-            resources_set_value("JoyDevice2",
-                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
-                                IDC_JOY_DEV2), CB_GETCURSEL, 0, 0));
-            resources_set_value("JoyFire1Button",
-                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
-                                IDC_JOY_FIRE1_BUTTON), CB_GETCURSEL, 0, 0));
-            resources_set_value("JoyAutofire1Speed",
-                                (resource_value_t)GetDlgItemInt(hwnd,
-                                IDC_JOY_FIRE1_SPEED, NULL, FALSE));
-            resources_set_value("JoyAutofire1Axis",
-                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
-                                IDC_JOY_FIRE1_AXIS), CB_GETCURSEL, 0, 0));
-            resources_set_value("JoyAutofire1Button",
-                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
-                                IDC_JOY_AUTOFIRE1_BUTTON), CB_GETCURSEL, 0, 0));
-            resources_set_value("JoyFire2Button",
-                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
-                                IDC_JOY_FIRE2_BUTTON), CB_GETCURSEL, 0, 0));
-            resources_set_value("JoyAutofire2Speed",
-                                (resource_value_t)GetDlgItemInt(hwnd,
-                                IDC_JOY_FIRE2_SPEED, NULL, FALSE));
-            resources_set_value("JoyAutofire2Axis",
-                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
-                                IDC_JOY_FIRE2_AXIS), CB_GETCURSEL, 0, 0));
-            resources_set_value("JoyAutofire2Button",
-                                (resource_value_t)SendMessage(GetDlgItem(hwnd,
-                                IDC_JOY_AUTOFIRE2_BUTTON), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyDevice1",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_DEV1), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyDevice2",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_DEV2), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyFire1Button",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_FIRE1_BUTTON), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyAutofire1Speed",
+                              (int)GetDlgItemInt(hwnd,
+                              IDC_JOY_FIRE1_SPEED, NULL, FALSE));
+            resources_set_int("JoyAutofire1Axis",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_FIRE1_AXIS), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyAutofire1Button",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_AUTOFIRE1_BUTTON), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyFire2Button",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_FIRE2_BUTTON), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyAutofire2Speed",
+                              (int)GetDlgItemInt(hwnd,
+                              IDC_JOY_FIRE2_SPEED, NULL, FALSE));
+            resources_set_int("JoyAutofire2Axis",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_FIRE2_AXIS), CB_GETCURSEL, 0, 0));
+            resources_set_int("JoyAutofire2Button",
+                              (int)SendMessage(GetDlgItem(hwnd,
+                              IDC_JOY_AUTOFIRE2_BUTTON), CB_GETCURSEL, 0, 0));
             EndDialog(hwnd,0);
             return TRUE;
           case IDCANCEL:
-            resources_set_value("JoyDevice1",
-                                (resource_value_t)joy1);
-            resources_set_value("JoyDevice2",
-                                (resource_value_t)joy2);
+            resources_set_int("JoyDevice1", joy1);
+            resources_set_int("JoyDevice2", joy2);
             EndDialog(hwnd,0);
             return TRUE;
         }
@@ -590,67 +590,67 @@ void ui_joystick_swap_joystick(void)
     int device1;
     int device2;
 
-    resources_get_value("JoyDevice1",(void *)&device1);
-    resources_get_value("JoyDevice2",(void *)&device2);
-    resources_set_value("JoyDevice1",(resource_value_t)device2);
-    resources_set_value("JoyDevice2",(resource_value_t)device1);
-    resources_get_value("JoyFire1Button",(void *)&device1);
-    resources_get_value("JoyFire2Button",(void *)&device2);
-    resources_set_value("JoyFire1Button",(resource_value_t)device2);
-    resources_set_value("JoyFire2Button",(resource_value_t)device1);
-    resources_get_value("JoyAutofire1Speed",(void *)&device1);
-    resources_get_value("JoyAutofire2Speed",(void *)&device2);
-    resources_set_value("JoyAutofire1Speed",(resource_value_t)device2);
-    resources_set_value("JoyAutofire2Speed",(resource_value_t)device1);
-    resources_get_value("JoyAutofire1Axis",(void *)&device1);
-    resources_get_value("JoyAutofire2Axis",(void *)&device2);
-    resources_set_value("JoyAutofire1Axis",(resource_value_t)device2);
-    resources_set_value("JoyAutofire2Axis",(resource_value_t)device1);
-    resources_get_value("JoyAutofire1Button",(void *)&device1);
-    resources_get_value("JoyAutofire2Button",(void *)&device2);
-    resources_set_value("JoyAutofire1Button",(resource_value_t)device2);
-    resources_set_value("JoyAutofire2Button",(resource_value_t)device1);
+    resources_get_int("JoyDevice1", &device1);
+    resources_get_int("JoyDevice2", &device2);
+    resources_set_int("JoyDevice1", device2);
+    resources_set_int("JoyDevice2", device1);
+    resources_get_int("JoyFire1Button", &device1);
+    resources_get_int("JoyFire2Button", &device2);
+    resources_set_int("JoyFire1Button", device2);
+    resources_set_int("JoyFire2Button", device1);
+    resources_get_int("JoyAutofire1Speed", &device1);
+    resources_get_int("JoyAutofire2Speed", &device2);
+    resources_set_int("JoyAutofire1Speed", device2);
+    resources_set_int("JoyAutofire2Speed", device1);
+    resources_get_int("JoyAutofire1Axis", &device1);
+    resources_get_int("JoyAutofire2Axis", &device2);
+    resources_set_int("JoyAutofire1Axis", device2);
+    resources_set_int("JoyAutofire2Axis", device1);
+    resources_get_int("JoyAutofire1Button", &device1);
+    resources_get_int("JoyAutofire2Button", &device2);
+    resources_set_int("JoyAutofire1Button", device2);
+    resources_set_int("JoyAutofire2Button", device1);
 
 /* swapping the keyset definitions when swapping the joysticks is
    improper bahaviour in my opinion, if needed a swap keyset can be
    made later, for now the keyset swapping is commented out. */
 
 #if 0
-    resources_get_value("KeySet1NorthWest",(void *)&device1);
-    resources_get_value("KeySet2NorthWest",(void *)&device2);
-    resources_set_value("KeySet1NorthWest",(resource_value_t)device2);
-    resources_set_value("KeySet2NorthWest",(resource_value_t)device1);
-    resources_get_value("KeySet1North",(void *)&device1);
-    resources_get_value("KeySet2North",(void *)&device2);
-    resources_set_value("KeySet1North",(resource_value_t)device2);
-    resources_set_value("KeySet2North",(resource_value_t)device1);
-    resources_get_value("KeySet1NorthEast",(void *)&device1);
-    resources_get_value("KeySet2NorthEast",(void *)&device2);
-    resources_set_value("KeySet1NorthEast",(resource_value_t)device2);
-    resources_set_value("KeySet2NorthEast",(resource_value_t)device1);
-    resources_get_value("KeySet1East",(void *)&device1);
-    resources_get_value("KeySet2East",(void *)&device2);
-    resources_set_value("KeySet1East",(resource_value_t)device2);
-    resources_set_value("KeySet2East",(resource_value_t)device1);
-    resources_get_value("KeySet1SouthEast",(void *)&device1);
-    resources_get_value("KeySet2SouthEast",(void *)&device2);
-    resources_set_value("KeySet1SouthEast",(resource_value_t)device2);
-    resources_set_value("KeySet2SouthEast",(resource_value_t)device1);
-    resources_get_value("KeySet1South",(void *)&device1);
-    resources_get_value("KeySet2South",(void *)&device2);
-    resources_set_value("KeySet1South",(resource_value_t)device2);
-    resources_set_value("KeySet2South",(resource_value_t)device1);
-    resources_get_value("KeySet1SouthWest",(void *)&device1);
-    resources_get_value("KeySet2SouthWest",(void *)&device2);
-    resources_set_value("KeySet1SouthWest",(resource_value_t)device2);
-    resources_set_value("KeySet2SouthWest",(resource_value_t)device1);
-    resources_get_value("KeySet1West",(void *)&device1);
-    resources_get_value("KeySet2West",(void *)&device2);
-    resources_set_value("KeySet1West",(resource_value_t)device2);
-    resources_set_value("KeySet2West",(resource_value_t)device1);
-    resources_get_value("KeySet1Fire",(void *)&device1);
-    resources_get_value("KeySet2Fire",(void *)&device2);
-    resources_set_value("KeySet1Fire",(resource_value_t)device2);
-    resources_set_value("KeySet2Fire",(resource_value_t)device1);
+    resources_get_int("KeySet1NorthWest", &device1);
+    resources_get_int("KeySet2NorthWest", &device2);
+    resources_set_int("KeySet1NorthWest", device2);
+    resources_set_int("KeySet2NorthWest", device1);
+    resources_get_int("KeySet1North", &device1);
+    resources_get_int("KeySet2North", &device2);
+    resources_set_int("KeySet1North", device2);
+    resources_set_int("KeySet2North", device1);
+    resources_get_int("KeySet1NorthEast", device1);
+    resources_get_int("KeySet2NorthEast", device2);
+    resources_set_int("KeySet1NorthEast", device2);
+    resources_set_int("KeySet2NorthEast", device1);
+    resources_get_int("KeySet1East", &device1);
+    resources_get_int("KeySet2East", &device2);
+    resources_set_int("KeySet1East", device2);
+    resources_set_int("KeySet2East", device1);
+    resources_get_int("KeySet1SouthEast", &device1);
+    resources_get_int("KeySet2SouthEast", &device2);
+    resources_set_int("KeySet1SouthEast", device2);
+    resources_set_int("KeySet2SouthEast", device1);
+    resources_get_int("KeySet1South", &device1);
+    resources_get_int("KeySet2South", &device2);
+    resources_set_int("KeySet1South", device2);
+    resources_set_int("KeySet2South", device1);
+    resources_get_int("KeySet1SouthWest", &device1);
+    resources_get_int("KeySet2SouthWest", &device2);
+    resources_set_int("KeySet1SouthWest", device2);
+    resources_set_int("KeySet2SouthWest", device1);
+    resources_get_int("KeySet1West", &device1);
+    resources_get_int("KeySet2West", &device2);
+    resources_set_int("KeySet1West", device2);
+    resources_set_int("KeySet2West", device1);
+    resources_get_int("KeySet1Fire", &device1);
+    resources_get_int("KeySet2Fire", &device2);
+    resources_set_int("KeySet1Fire", device2);
+    resources_set_int("KeySet2Fire", device1);
 #endif
 }
