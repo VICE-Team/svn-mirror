@@ -41,10 +41,10 @@
 
 INCLUDES()
 {
-    #include "drive.h"
-    #include "kbd.h"
-    #include "vic20iec.h"
-    #include "vic20via.h"
+#include "drive.h"
+#include "kbd.h"
+#include "vic20iec.h"
+#include "vic20via.h"
 }
 
 #define	via_set_int		maincpu_set_irq

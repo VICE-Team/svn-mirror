@@ -808,7 +808,7 @@ BYTE read_cia1_(ADDRESS addr)
 
 #endif
 
-    BYTE byte;
+    BYTE byte = 0xff;
     CLOCK rclk;
 
     addr &= 0xf;
@@ -1411,6 +1411,15 @@ int cia1_write_snapshot_module(FILE * p)
     snapshot_module_write_byte(m, cia1todalarm[2]);
     snapshot_module_write_byte(m, cia1todalarm[3]);
 
+    if(cia1rdi) {
+	if((clk - cia1rdi) > 120) { 
+	    byte = 0;
+	} else {
+	    byte = clk + 128 - cia1rdi;
+	}
+    } else {
+	byte = 0;
+    }
     byte = cia1rdi ? clk - cia1rdi : 0;
     if (byte > 128 || byte < -16)
         byte = 0;
@@ -1453,40 +1462,21 @@ int cia1_read_snapshot_module(FILE * p)
 
     /* Argh.  This is ugly.  */
     {
-        snapshot_module_read_byte(m, &byte);
-        addr = CIA_PRA;
-        oldpa = byte ^ 0xff;
-        
-        oldpa = byte;
+        snapshot_module_read_byte(m, &cia1[CIA_PRA]);
+        snapshot_module_read_byte(m, &cia1[CIA_PRB]);
+        snapshot_module_read_byte(m, &cia1[CIA_DDRA]);
+        snapshot_module_read_byte(m, &cia1[CIA_DDRB]);
 
-        snapshot_module_read_byte(m, &byte);
-        addr = CIA_PRB;
-        oldpa = byte ^ 0xff;
-
-    {
-	/* Handle software-triggered light pen.  */
-	if ( (byte ^ oldpb) & 0x10) {
-	    vic_ii_trigger_light_pen(rclk);
-	}
-    }
-        oldpa = byte;
-
-        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRA;
-        oldpa = byte ^ 0xff;
+	byte = cia1[CIA_PRA] | ~cia1[CIA_DDRA];
+        oldpa = byte ^ 0xff;	/* all bits change? */
         
         oldpa = byte;
 
-        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRB;
-        oldpa = byte ^ 0xff;
-
-    {
-	/* Handle software-triggered light pen.  */
-	if ( (byte ^ oldpb) & 0x10) {
-	    vic_ii_trigger_light_pen(rclk);
-	}
-    }
+	byte = cia1[CIA_PRB] | ~cia1[CIA_DDRB];
+        oldpa = byte ^ 0xff;	/* all bits change? */
+        
         oldpa = byte;
     }
 
@@ -1537,7 +1527,7 @@ int cia1_read_snapshot_module(FILE * p)
 
     snapshot_module_read_byte(m, &byte);
     if(byte) {
-	cia1rdi = clk + byte;
+	cia1rdi = clk + 128 - byte;
     }
 
     snapshot_module_read_byte(m, &byte);

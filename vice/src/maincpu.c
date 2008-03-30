@@ -106,15 +106,15 @@
 
 /* Force `TRACE' in unstable versions.  */
 #if 0 && defined UNSTABLE && !defined TRACE
-#  define TRACE
+#define TRACE
 #endif
 
 /* ------------------------------------------------------------------------- */
 
-/* Now, if EXTERN_PC is set, set NEED_REG_PC, because it's this one that's
-   being used. Do not change this one. */
+/* Now, if EXTERN_PC is set, set NEED_REG_PC, because it's this one
+   that's being used.  Do not change this one.  */
 #ifdef EXTERN_PC
-#  define	NEED_REG_PC
+#  define NEED_REG_PC
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -137,17 +137,25 @@
 
 /* ------------------------------------------------------------------------- */
 
+#ifndef STORE
 #define STORE(addr, value) \
     (*_mem_write_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
+#endif
 
+#ifndef LOAD
 #define LOAD(addr) \
     (*_mem_read_tab_ptr[(addr) >> 8])((ADDRESS)(addr))
+#endif
 
+#ifndef STORE_ZERO
 #define STORE_ZERO(addr, value) \
     store_zero((ADDRESS)(addr), (BYTE)(value))
+#endif
 
+#ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     PAGE_ZERO[(addr) & 0xff]
+#endif
 
 #define LOAD_ADDR(addr) \
     ((LOAD((addr) + 1) << 8) | LOAD(addr))

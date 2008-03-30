@@ -90,18 +90,18 @@
 #include "snapshot.h"
 
 
-    #include "vmachine.h"
-    #include "vicii.h"
-    #include "maincpu.h"
-    #include "drive.h"
-    #include "c64mem.h"
-    #include "c64iec.h"
-    #include "c64cia.h"
+#include "vmachine.h"
+#include "vicii.h"
+#include "maincpu.h"
+#include "drive.h"
+#include "c64mem.h"
+#include "c64iec.h"
+#include "c64cia.h"
 #ifdef HAVE_PRINTER
-    #include "pruser.h"
+#include "pruser.h"
 #endif
 #ifdef HAVE_RS232
-    #include "rsuser.h"
+#include "rsuser.h"
 #endif
 
 #include "interrupt.h"
@@ -816,7 +816,7 @@ BYTE read_cia2_(ADDRESS addr)
 
 #endif
 
-    BYTE byte;
+    BYTE byte = 0xff;
     CLOCK rclk;
 
     addr &= 0xf;
@@ -1413,6 +1413,15 @@ int cia2_write_snapshot_module(FILE * p)
     snapshot_module_write_byte(m, cia2todalarm[2]);
     snapshot_module_write_byte(m, cia2todalarm[3]);
 
+    if(cia2rdi) {
+	if((clk - cia2rdi) > 120) { 
+	    byte = 0;
+	} else {
+	    byte = clk + 128 - cia2rdi;
+	}
+    } else {
+	byte = 0;
+    }
     byte = cia2rdi ? clk - cia2rdi : 0;
     if (byte > 128 || byte < -16)
         byte = 0;
@@ -1455,66 +1464,27 @@ int cia2_read_snapshot_module(FILE * p)
 
     /* Argh.  This is ugly.  */
     {
-        snapshot_module_read_byte(m, &byte);
-        addr = CIA_PRA;
-        oldpa = byte ^ 0xff;
+        snapshot_module_read_byte(m, &cia2[CIA_PRA]);
+        snapshot_module_read_byte(m, &cia2[CIA_PRB]);
+        snapshot_module_read_byte(m, &cia2[CIA_DDRA]);
+        snapshot_module_read_byte(m, &cia2[CIA_DDRB]);
 
-    if (oldpa != byte) {
-	 BYTE tmp;
-
-#ifdef HAVE_RS232
-	 if(rsuser_enabled && ((oldpa^byte)&0x04)) {
-             rsuser_set_tx_bit(byte & 4);
-	 }
-#endif
-	 tmp = ~byte;
-	 mem_set_vbank(tmp & 3);
-	 iec_cpu_write(tmp);
-#ifdef HAVE_PRINTER
-	 userport_printer_write_strobe(tmp & 0x04);
-#endif
-    }
-        oldpa = byte;
-
-        snapshot_module_read_byte(m, &byte);
-        addr = CIA_PRB;
-        oldpa = byte ^ 0xff;
-
-    if (drive_parallel_cable_enabled) {
-	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
-    }
-#ifdef HAVE_PRINTER
-    userport_printer_write_data(byte);
-#endif
-#ifdef HAVE_RS232
-    rsuser_write_ctrl(byte);
-#endif
-        oldpa = byte;
-
-        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRA;
-        oldpa = byte ^ 0xff;
-
-    if (oldpa != byte) {
-	 BYTE tmp;
+	byte = cia2[CIA_PRA] | ~cia2[CIA_DDRA];
+        oldpa = byte ^ 0xff;	/* all bits change? */
 
 #ifdef HAVE_RS232
-	 if(rsuser_enabled && ((oldpa^byte)&0x04)) {
-             rsuser_set_tx_bit(byte & 4);
-	 }
-#endif
-	 tmp = ~byte;
-	 mem_set_vbank(tmp & 3);
-	 iec_cpu_write(tmp);
-#ifdef HAVE_PRINTER
-	 userport_printer_write_strobe(tmp & 0x04);
-#endif
+    if(rsuser_enabled) {
+	rsuser_set_tx_bit(byte & 4);
     }
+#endif
+    mem_set_vbank((byte ^ 3) & 3);
+    iec_cpu_write(byte ^ 0xff);
         oldpa = byte;
 
-        snapshot_module_read_byte(m, &byte);
         addr = CIA_DDRB;
-        oldpa = byte ^ 0xff;
+	byte = cia2[CIA_PRB] | ~cia2[CIA_DDRB];
+        oldpa = byte ^ 0xff;	/* all bits change? */
 
     if (drive_parallel_cable_enabled) {
 	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
@@ -1570,7 +1540,7 @@ int cia2_read_snapshot_module(FILE * p)
 
     snapshot_module_read_byte(m, &byte);
     if(byte) {
-	cia2rdi = clk + byte;
+	cia2rdi = clk + 128 - byte;
     }
 
     snapshot_module_read_byte(m, &byte);

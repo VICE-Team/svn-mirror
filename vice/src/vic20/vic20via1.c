@@ -63,10 +63,10 @@
 #include "snapshot.h"
 
 
-    #include "drive.h"
-    #include "kbd.h"
-    #include "vic20iec.h"
-    #include "vic20via.h"
+#include "drive.h"
+#include "kbd.h"
+#include "vic20iec.h"
+#include "vic20via.h"
 
 #include "interrupt.h"
 

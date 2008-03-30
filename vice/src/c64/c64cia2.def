@@ -49,18 +49,18 @@
 
 INCLUDES()
 {
-    #include "vmachine.h"
-    #include "vicii.h"
-    #include "maincpu.h"
-    #include "drive.h"
-    #include "c64mem.h"
-    #include "c64iec.h"
-    #include "c64cia.h"
+#include "vmachine.h"
+#include "vicii.h"
+#include "maincpu.h"
+#include "drive.h"
+#include "c64mem.h"
+#include "c64iec.h"
+#include "c64cia.h"
 #ifdef HAVE_PRINTER
-    #include "pruser.h"
+#include "pruser.h"
 #endif
 #ifdef HAVE_RS232
-    #include "rsuser.h"
+#include "rsuser.h"
 #endif
 }
 
@@ -129,6 +129,20 @@ UNDUMP_CIAPA()
 
 
 STORE_CIAPB()
+{
+    if (drive_parallel_cable_enabled) {
+	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));
+    }
+#ifdef HAVE_PRINTER
+    userport_printer_write_data(byte);
+#endif
+#ifdef HAVE_RS232
+    rsuser_write_ctrl(byte);
+#endif
+}
+
+/* FIXME! */
+UNDUMP_CIAPB()
 {
     if (drive_parallel_cable_enabled) {
 	parallel_cable_cpu_write(byte, ((addr == CIA_PRB) ? 1 : 0));

@@ -42,10 +42,10 @@
 
 INCLUDES()
 {
-    #include "drive.h"
-    #include "drivecpu.h"
-    #include "iecdrive.h"
-    #include "viad.h"
+#include "drive.h"
+#include "drivecpu.h"
+#include "iecdrive.h"
+#include "viad.h"
 }
 
 #define	GLOBALS

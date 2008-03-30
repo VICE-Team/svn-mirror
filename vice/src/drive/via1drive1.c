@@ -1,7 +1,7 @@
 
 /*
- * ../../src/drive/via1drive1.c
- * This file is generated from ../../src/via-tmpl.c and ../../src/drive/via1drive1.def,
+ * ../../../src/drive/via1drive1.c
+ * This file is generated from ../../../src/via-tmpl.c and ../../../src/drive/via1drive1.def,
  * Do not edit!
  */
 /*
@@ -63,10 +63,10 @@
 #include "snapshot.h"
 
 
-    #include "drive.h"
-    #include "drivecpu.h"
-    #include "iecdrive.h"
-    #include "viad.h"
+#include "drive.h"
+#include "drivecpu.h"
+#include "iecdrive.h"
+#include "viad.h"
 
 #include "interrupt.h"
 

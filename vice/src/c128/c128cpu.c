@@ -93,9 +93,27 @@
 
 /* ------------------------------------------------------------------------- */
 
+extern read_func_ptr_t _mem_read_tab[];
+extern store_func_ptr_t _mem_write_tab[];
+
 #  define	JUMP(addr)	(reg_pc = (addr))
 
-#  define	PAGE_ONE	(ram + 0x100)
+#  define	PAGE_ZERO	page_zero
+
+#  define	PAGE_ONE	page_one
+
+#define STORE(addr, value) \
+    (_mem_write_tab[(addr) >> 8])((addr), (value))
+
+#define LOAD(addr) \
+    (_mem_read_tab[(addr) >> 8])((addr))
+
+#define STORE_ZERO(addr, value) \
+    page_zero[(addr) & 0xff] = (value);
+
+#define LOAD_ZERO(addr) \
+    page_zero[(addr) & 0xff]
+
 
 /* Define a "special" opcode fetch method.  We trust the code in `6510core.c'
    to evaluate `p0', `p1' and `p2' at most once per every emulated opcode.  */
@@ -111,17 +129,25 @@
 
 /* ------------------------------------------------------------------------- */
 
+#ifndef STORE
 #define STORE(addr, value) \
     (*_mem_write_tab_ptr[(addr) >> 8])((ADDRESS)(addr), (BYTE)(value))
+#endif
 
+#ifndef LOAD
 #define LOAD(addr) \
     (*_mem_read_tab_ptr[(addr) >> 8])((ADDRESS)(addr))
+#endif
 
+#ifndef STORE_ZERO
 #define STORE_ZERO(addr, value) \
     store_zero((ADDRESS)(addr), (BYTE)(value))
+#endif
 
+#ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
     PAGE_ZERO[(addr) & 0xff]
+#endif
 
 #define LOAD_ADDR(addr) \
     ((LOAD((addr) + 1) << 8) | LOAD(addr))
