@@ -71,6 +71,10 @@
 #include "video.h"
 #include "vsync.h"
 
+#ifdef HAVE_RS232
+#include "rs232.h"
+#endif
+
 
 #define NUM_KEYBOARD_MAPPINGS 2
 
@@ -237,6 +241,7 @@ int machine_resources_init(void)
         || sound_resources_init() < 0
 #ifdef HAVE_RS232
         || acia_resources_init() < 0
+        || rs232_resources_init() < 0
 #endif
         || printer_resources_init() < 0
 #ifndef COMMON_KBD
@@ -261,6 +266,7 @@ int machine_cmdline_options_init(void)
         || sound_cmdline_options_init() < 0
 #ifdef HAVE_RS232
         || acia_cmdline_options_init() < 0
+        || rs232_cmdline_options_init() < 0
 #endif
         || printer_cmdline_options_init() < 0
 #ifndef COMMON_KBD
@@ -306,6 +312,10 @@ int machine_init(void)
 
     /* Initialize drives. */
     file_system_init();
+
+#ifdef HAVE_RS232
+    rs232_init();
+#endif
 
     /* Initialize print devices.  */
     printer_init();
@@ -364,6 +374,7 @@ void machine_specific_reset(void)
 
 #ifdef HAVE_RS232
     acia_reset();
+    rs232_reset();
 #endif
 
     printer_reset();
