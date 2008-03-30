@@ -2,7 +2,7 @@
  * c610.h
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,7 +27,6 @@
 #ifndef _C610_H
 #define _C610_H
 
-
 /* except for the exact CYCLES_PER_SEC those values are reasonable default
    values. they get overwritten when writing to the CRTC */
 
@@ -48,3 +47,4 @@
 */
 
 #endif
+

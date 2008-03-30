@@ -2,7 +2,7 @@
  * c610mem.h - CBM-II memory handling.
  *
  * Written by
- *  André Fachat (fachat@physik.tu-chemnitz.de)
+ *  André Fachat <fachat@physik.tu-chemnitz.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,8 +27,6 @@
 #ifndef _C610MEM_H
 #define _C610MEM_H
 
-#include "types.h"
-
 #define C610_RAM_SIZE		0x100000	/* maximum 1M */
 #define C610_ROM_SIZE		0x10000		/* complete bank 15 */
 #define C610_CHARGEN_ROM_SIZE	0x2000
@@ -36,10 +34,11 @@
 extern int c610_mem_init_resources(void);
 extern int c610_mem_init_cmdline_options(void);
 
-extern void set_bank_exec(int);
-extern void set_bank_ind(int);
+extern void set_bank_exec(int val);
+extern void set_bank_ind(int val);
 extern int cbm2_set_model(const char *model, void *extra);
 
 extern int cbm2_init_ok;
 
 #endif
+
