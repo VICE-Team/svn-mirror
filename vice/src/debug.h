@@ -62,8 +62,9 @@ extern void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis,
                           BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp);
 extern void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis,
                         BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp);
-extern void debug_irq(struct interrupt_cpu_status_s *cs);
-extern void debug_nmi(struct interrupt_cpu_status_s *cs);
+extern void debug_irq(struct interrupt_cpu_status_s *cs, CLOCK iclk);
+extern void debug_nmi(struct interrupt_cpu_status_s *cs, CLOCK iclk);
+extern void debug_dma(const char *txt, CLOCK dclk, int num);
 extern void debug_text(const char *text);
 extern void debug_start_recording(void);
 extern void debug_stop_recording(void);

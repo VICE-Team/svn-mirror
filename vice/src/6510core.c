@@ -165,8 +165,10 @@
 #define PULL()    ((PAGE_ONE)[(++reg_sp)])
 
 #ifdef DEBUG
-#define TRACE_NMI() do { if (TRACEFLG) debug_nmi(CPU_INT_STATUS); } while (0)
-#define TRACE_IRQ() do { if (TRACEFLG) debug_irq(CPU_INT_STATUS); } while (0)
+#define TRACE_NMI() \
+    do { if (TRACEFLG) debug_nmi(CPU_INT_STATUS, CLK); } while (0)
+#define TRACE_IRQ() \
+    do { if (TRACEFLG) debug_irq(CPU_INT_STATUS, CLK); } while (0)
 #define TRACE_BRK() do { if (TRACEFLG) debug_text("*** BRK"); } while (0)
 #else
 #define TRACE_NMI()
