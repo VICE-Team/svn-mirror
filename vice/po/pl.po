@@ -686,7 +686,7 @@ msgstr "*2 kBajty "
 
 #: src/arch/unix/petui.c:113
 msgid "*256 Byte"
-msgstr "*256 kBajty"
+msgstr "*256 Bajty"
 
 #: src/arch/unix/petui.c:123
 msgid "*Business (DE)"

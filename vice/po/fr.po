@@ -679,7 +679,7 @@ msgstr "*2 kOctets"
 
 #: src/arch/unix/petui.c:113
 msgid "*256 Byte"
-msgstr "*256 kOctets"
+msgstr "*256 Octets"
 
 #: src/arch/unix/petui.c:123
 msgid "*Business (DE)"

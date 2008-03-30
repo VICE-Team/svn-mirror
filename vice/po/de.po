@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.16\n"
 "POT-Creation-Date: 2005-04-03 20:10+0200\n"
-"PO-Revision-Date: 2005-01-11 23:02+0100\n"
+"PO-Revision-Date: 2005-05-12 21:34+0200\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -254,14 +254,12 @@ msgid "RAM Expansion Unit"
 msgstr "RAM Speichererweiterung"
 
 #: src/arch/unix/c128ui.c:240 src/arch/unix/c64ui.c:268
-#, fuzzy
 msgid "GEORAM Expansion Unit"
-msgstr "RAM Speichererweiterung"
+msgstr "GEORAM Erweiterung"
 
 #: src/arch/unix/c128ui.c:242 src/arch/unix/c64ui.c:270
-#, fuzzy
 msgid "RAM Expansion Cart"
-msgstr "RAM Speichererweiterung"
+msgstr "RAM Speichererweiterungsmodul"
 
 #: src/arch/unix/c128ui.c:244 src/arch/unix/c64ui.c:272
 msgid "IDE64 emulation"

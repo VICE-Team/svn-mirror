@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.16\n"
 "POT-Creation-Date: 2005-04-03 20:10+0200\n"
-"PO-Revision-Date: 2005-03-30 21:03-0800\n"
+"PO-Revision-Date: 2005-05-12 21:33+0200\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -131,7 +131,7 @@ msgstr "Kon het start momentopname bestand %s niet maken."
 #: src/event.c:537 src/event.c:800
 #, c-format
 msgid "Error reading end snapshot file %s."
-msgstr "Fout bij het lezen van het eind van het momentopname bestand"
+msgstr "Fout bij het lezen van het eind van het momentopname bestand %s."
 
 #: src/event.c:600 src/event.c:771
 #, c-format
