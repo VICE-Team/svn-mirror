@@ -1066,6 +1066,10 @@ void set_screen(void)
     cols = pet.video;
     vmask = pet.vmask;
 
+#ifdef USE_VIDMODE_EXTENSION
+    ui_restore_windowmode();
+#endif
+
     if (!cols) {
         cols = pet.screen_width;
         vmask = (cols == 40) ? 0x3ff : 0x7ff;
@@ -1074,7 +1078,6 @@ void set_screen(void)
         cols = PET_COLS;
         vmask = (cols == 40) ? 0x3ff : 0x7ff;
     }
-
     crtc_set_screen_mode(ram + 0x8000, vmask, cols, (cols==80) ? 2 : 0);
     if(!pet.crtc) {
 	store_crtc(0,49);

@@ -288,7 +288,7 @@ static ui_menu_entry_t joystick_settings_submenu[] = {
       NULL, NULL, set_joystick_device_2_submenu },
     { "--" },
     { "Swap joystick ports",
-      (ui_callback_t) swap_joystick_ports, NULL, NULL },
+      (ui_callback_t) swap_joystick_ports, NULL, NULL, XK_j, UI_HOTMOD_META },
     { NULL }
 };
 

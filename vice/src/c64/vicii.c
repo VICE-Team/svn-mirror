@@ -230,6 +230,11 @@ static int video_cache_enabled;
 /* Flag: Do we copy lines in double size mode?  */
 static int double_scan_enabled;
 
+/* Flag: Fullscreenmode?  */
+#ifdef USE_VIDMODE_EXTENSION
+static int fullscreen = 0; 
+#endif
+
 static int set_sprite_sprite_collisions_enabled(resource_value_t v)
 {
     sprite_sprite_collisions_enabled = (int) v;
@@ -2537,7 +2542,8 @@ inline static void draw_mc_sprite(PIXEL *line_ptr,
     if (sprites[n].x < SCREEN_WIDTH) {
 	DWORD sprmsk, mcsprmsk;
 	BYTE *msk_ptr;
-	PIXEL *ptr = line_ptr + sprites[n].x * (double_size ? 2 : 1);
+	PIXEL *ptr = line_ptr + sprites[n].x * 
+	  ((double_size) ? 2 : 1);
 	BYTE *sptr = sprline + SCREEN_MAX_SPRITE_WIDTH + sprites[n].x;
 	BYTE *data_ptr = (BYTE *)(sprite_data + n);
 	int in_background = sprites[n].in_background;
@@ -3765,7 +3771,11 @@ void video_resize(void)
     video_modes[VIC_II_IDLE_MODE].fill_cache = get_idle;
 
 #ifdef NEED_2x
+#ifdef USE_VIDMODE_EXTENSION
+    if (double_size_enabled || fullscreen) {
+#else
     if (double_size_enabled) {
+#endif
         int i;
 
         for (i = 0; i < SCREEN_NUM_VMODES; i++)
@@ -3845,8 +3855,11 @@ void video_resize(void)
 	}
     }
 
-    old_size = double_size_enabled ? 2 : 1;
-
+#ifdef USE_VIDMODE_EXTENSION
+    old_size = (double_size_enabled || fullscreen) ? 2 : 1;
+#else
+    old_size = (double_size_enabled) ? 2 : 1;
+#endif
     if (canvas) {
 	resize(window_width, window_height);
 	force_repaint();
@@ -4209,17 +4222,9 @@ fail:
     return -1;
 }
 
+#ifdef USE_VIDMODE_EXTENSION
 void video_setfullscreen(int v) {
-  int osi,osa;
-  if(v) {
-    osi = double_size_enabled;
-    osa = double_scan_enabled;
-    double_size_enabled = 1;
-    double_scan_enabled = 1;
-    video_resize();
-    double_size_enabled = osi; 
-    osa = double_scan_enabled = osa;
-  } else {
-    video_resize();
-  }
+  fullscreen = v;
+  video_resize();
 }
+#endif

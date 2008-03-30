@@ -180,7 +180,7 @@ uninstall-libLIBRARIES:
 	$(COMPILE) -c $<
 
 mostlyclean-compile:
-	-rm -f *.o core *.core
+	-rm -f *.o core *.core *~
 
 clean-compile:
 

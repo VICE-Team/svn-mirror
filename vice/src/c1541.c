@@ -45,6 +45,9 @@
 #include <limits.h>
 #include <ctype.h>
 #include <string.h>
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
 #include <errno.h>
 #ifdef __riscos
 #include "ROlib.h"
@@ -84,7 +87,7 @@
 DRIVE *drives[4] = {NULL, NULL, NULL, NULL};
 
 typedef struct {
-    char ImageFormat;		/* 1541/71/81 */
+    signed char ImageFormat;		/* 1541/71/81 */
     int TracksSide;
     int Sides;
     int TotalBks;

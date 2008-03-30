@@ -76,6 +76,11 @@ static int double_scan_enabled;
 /* Name of palette file.  */
 static char *palette_file_name;
 
+/* Flag: Fullscreenmode?  */
+#ifdef USE_VIDMODE_EXTENSION
+static int fullscreen = 0; 
+#endif
+
 static int set_video_cache_enabled(resource_value_t v)
 {
     video_cache_enabled = (int) v;
@@ -279,7 +284,11 @@ void video_resize(void)
 {
     static int old_size = 0;
 
+#ifdef USE_VIDMODE_EXTENSION
+    if (double_size_enabled || fullscreen) {
+#else
     if (double_size_enabled) {
+#endif
 	pixel_width = 2 * VIC_PIXEL_WIDTH;
 	pixel_height = 2;
 	video_modes[VIC_STANDARD_MODE].fill_cache = fill_cache;
@@ -306,7 +315,12 @@ void video_resize(void)
 	    window_height /= 2;
 	}
     }
-    old_size = double_size_enabled ? 2 : 1;
+
+#ifdef USE_VIDMODE_EXTENSION
+    old_size = (double_size_enabled || fullscreen) ? 2 : 1;
+#else
+    old_size = (double_size_enabled) ? 2 : 1;
+#endif
 
     if (canvas) {
 	resize(window_width, window_height);
@@ -776,17 +790,9 @@ int vic_read_snapshot_module(snapshot_t *s)
     return -1;
 }
 
+#ifdef USE_VIDMODE_EXTENSION
 void video_setfullscreen(int v) {
-  int osi,osa;
-  if(v) {
-    osi = double_size_enabled;
-    osa = double_scan_enabled;
-    double_size_enabled = 1;
-    double_scan_enabled = 1;
-    video_resize();
-    double_size_enabled = osi; 
-    osa = double_scan_enabled = osa;
-  } else {
-    video_resize();
-  }
+  fullscreen = v;
+  video_resize();
 }
+#endif

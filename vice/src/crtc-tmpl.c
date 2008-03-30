@@ -78,10 +78,22 @@ INCLUDES
 	(((a) + 2 * SCREEN_BORDERHEIGHT) <= (FRAMEB_HEIGHT / MAX_PIXEL_HEIGHT))
 
 #ifdef __MSDOS__
-#define	DOUBLE_SIZE_ENABLED()	(double_size_enabled || (screen_xpix > 320))
+
+#ifdef USE_VIDMODE_EXTENSION
+#define	DOUBLE_SIZE_ENABLED()	(double_size_enabled || fullscreen || (screen_xpix > 320))
 #else
-#define	DOUBLE_SIZE_ENABLED()	double_size_enabled
+#define	DOUBLE_SIZE_ENABLED()	(double_size_enabled || (screen_xpix > 320))
 #endif
+
+#else /* __MSDOS__ */
+
+#ifdef USE_VIDMODE_EXTENSION
+#define	DOUBLE_SIZE_ENABLED()	(double_size_enabled || fullscreen)
+#else
+#define	DOUBLE_SIZE_ENABLED()	(double_size_enabled)
+#endif
+
+#endif /* __MSDOS__ */
 
 /* ------------------------------------------------------------------------- */
 
@@ -166,6 +178,11 @@ static int video_cache_enabled;
 
 /* Flag: Do we copy lines in double size mode?  */
 static int double_scan_enabled;
+
+/* Flag: Fullscreenmode?  */
+#ifdef USE_VIDMODE_EXTENSION
+static int fullscreen = 0; 
+#endif
 
 static int set_video_cache_enabled(resource_value_t v)
 {
@@ -1183,17 +1200,9 @@ fail:
     return -1;
 }
 
+#ifdef USE_VIDMODE_EXTENSION
 void video_setfullscreen(int v) {
-  int osi,osa;
-  if(v) {
-    osi = double_size_enabled;
-    osa = double_scan_enabled;
-    double_size_enabled = 1;
-    double_scan_enabled = 1;
-    video_resize();
-    double_size_enabled = osi; 
-    osa = double_scan_enabled = osa;
-  } else {
-    video_resize();
-  }
+  fullscreen = v;
+  video_resize();
 }
+#endif

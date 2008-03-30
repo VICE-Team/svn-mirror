@@ -1924,5 +1924,11 @@ void ui_restore_windowmode(void)
 {
     if(use_fullscreen) set_fullscreen(0);
 }
+
+void ui_setfullscreen(void)
+{
+    set_fullscreen(1);   
+}
+
 #endif
 

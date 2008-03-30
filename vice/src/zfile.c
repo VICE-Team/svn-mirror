@@ -43,6 +43,9 @@
 #endif
 #include <limits.h>
 #include <string.h>
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
 #include <stdarg.h>
 #include <ctype.h>
 #include <errno.h>

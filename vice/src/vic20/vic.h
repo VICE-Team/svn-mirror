@@ -132,6 +132,8 @@ extern void REGPARM2 store_vic(ADDRESS addr, BYTE value);
 extern int vic_write_snapshot_module(snapshot_t *s);
 extern int vic_read_snapshot_module(snapshot_t *s);
 
+#ifdef USE_VIDMODE_EXTENSION
 extern void video_setfullscreen(int v);
+#endif
 
 #endif /* _VIC_H */

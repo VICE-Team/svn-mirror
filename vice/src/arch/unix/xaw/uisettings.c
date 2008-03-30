@@ -278,32 +278,11 @@ static UI_CALLBACK(toggle_DoubleSize)
     }
     ui_menu_set_sensitive(w, !fullscreen);
 }
-
-static UI_CALLBACK(toggle_DoubleScan)
-{
-    int current_value, fullscreen;
-
-    if (resources_get_value("DoubleScan",
-                            (resource_value_t *) &current_value) < 0)
-        return;
-
-    resources_get_value("UseFullscreen", (resource_value_t *) &fullscreen);
-    if (!call_data) {
-        if (!fullscreen) {
-            resources_set_value("DoubleScan",
-                                (resource_value_t) !current_value);
-            ui_update_menus();
-        }
-    } else {
-        ui_menu_set_tick(w, current_value);
-    }
-    ui_menu_set_sensitive(w, !fullscreen);
-}
 #else
 UI_MENU_DEFINE_TOGGLE(DoubleSize)
-UI_MENU_DEFINE_TOGGLE(DoubleScan)
 #endif
 
+UI_MENU_DEFINE_TOGGLE(DoubleScan)
 /* ------------------------------------------------------------------------- */
 
 /* this is modelled after the toggle_* calls */

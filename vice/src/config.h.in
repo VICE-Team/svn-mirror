@@ -186,6 +186,9 @@
 /* Define if you have the <sgtty.h> header file.  */
 #undef HAVE_SGTTY_H
 
+/* Define if you have the <strings.h> header file.  */
+#undef HAVE_STRINGS_H
+
 /* Define if you have the <sys/audio.h> header file.  */
 #undef HAVE_SYS_AUDIO_H
 
