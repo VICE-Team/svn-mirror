@@ -49,7 +49,7 @@
 /* ------------------------------------------------------------------------- */
 /* Renaming exported functions */
 
-#define	MYPIA_NAME	"PIA1"
+#define MYPIA_NAME      "PIA1"
 
 #define mypia_init pia1_init
 #define mypia_reset pia1_reset
@@ -58,18 +58,18 @@
 #define mypia_peek pia1_peek
 #define mypia_write_snapshot_module pia1_write_snapshot_module
 #define mypia_read_snapshot_module pia1_read_snapshot_module
-#define	mypia_signal pia1_signal
+#define mypia_signal pia1_signal
 
 static piareg mypia;
 
 /* ------------------------------------------------------------------------- */
 /* CPU binding */
 
-#define	my_set_int(a) \
-	maincpu_set_irq(I_PIA1, (a)? IK_IRQ : IK_NONE)
+#define my_set_int(a) \
+        maincpu_set_irq(I_PIA1, (a)? IK_IRQ : IK_NONE)
 
-#define	my_restore_int(a)                             \
-	interrupt_set_irq_noclk(&maincpu_int_status,  \
+#define my_restore_int(a)                             \
+        interrupt_set_irq_noclk(&maincpu_int_status,  \
         I_PIA1, (a) ? IK_IRQ : IK_NONE)
 
 #define mycpu_rmw_flag  rmw_flag
@@ -127,9 +127,9 @@ void pia1_set_tape_sense(int v)
 
 _PIA_FUNC void pia_set_ca2(int a)
 {
-    parallel_cpu_set_eoi((a)?0:1); 
-    if(petres.pet2k) 
-	crtc_screen_enable((a)?1:0);
+    parallel_cpu_set_eoi((BYTE)((a) ? 0 : 1));
+    if(petres.pet2k)
+        crtc_screen_enable((a)?1:0);
 }
 
 _PIA_FUNC void pia_set_cb2(int a)
@@ -146,29 +146,29 @@ _PIA_FUNC void pia_reset(void)
 
 
 /*
-E810	PORT A	7   Diagnostic sense (pin 5 on the user port)
-		6   IEEE EOI in
-		5   Cassette sense #2
-		4   Cassette sense #1
-		3-0 Keyboard row select (through 4->10 decoder)
-E811	CA2	    output to blank the screen (old PETs only)
-		    IEEE EOI out
-	CA1	    cassette #1 read line
-E812	PORT B	7-0 Contents of keyboard row
-		    Usually all or all but one bits set.
-E813	CB2	    output to cassette #1 motor: 0=on, 1=off
-	CB1	    screen retrace detection in
+E810    PORT A  7   Diagnostic sense (pin 5 on the user port)
+                6   IEEE EOI in
+                5   Cassette sense #2
+                4   Cassette sense #1
+                3-0 Keyboard row select (through 4->10 decoder)
+E811    CA2         output to blank the screen (old PETs only)
+                    IEEE EOI out
+        CA1         cassette #1 read line
+E812    PORT B  7-0 Contents of keyboard row
+                    Usually all or all but one bits set.
+E813    CB2         output to cassette #1 motor: 0=on, 1=off
+        CB1         screen retrace detection in
 
 
-	 Control
+         Control
 
  7    CA1 active transition flag. 1= 0->1, 0= 1->0
  6    CA2 active transition flag. 1= 0->1, 0= 1->0
- 5    CA2 direction	      1 = out	     | 0 = in
+ 5    CA2 direction           1 = out        | 0 = in
                     ------------+------------+---------------------
  4    CA2 control   Handshake=0 | Manual=1   | Active: High=1 Low=0
- 3    CA2 control   On Read=0	| CA2 High=1 | IRQ on=1, IRQ off=0
-		    Pulse  =1	| CA2 Low=0  |
+ 3    CA2 control   On Read=0   | CA2 High=1 | IRQ on=1, IRQ off=0
+                    Pulse  =1   | CA2 Low=0  |
 
  2    Port A control: DDRA = 0, IORA = 1
  1    CA1 control: Active High = 1, Low = 0
@@ -202,9 +202,9 @@ _PIA_FUNC BYTE read_pa(void)
         drive1_cpu_execute(clk);
 
     byte = 0xff
-	- (tape1_sense ? 16 : 0)
-	- (parallel_eoi ? 64 : 0)
-	- ((diagnostic_pin_enabled || superpet_diag()) ? 128 : 0);
+        - (tape1_sense ? 16 : 0)
+        - (parallel_eoi ? 64 : 0)
+        - ((diagnostic_pin_enabled || superpet_diag()) ? 128 : 0);
     byte = ((byte & ~mypia.ddr_a) | (mypia.port_a & mypia.ddr_a));
 
     return byte;
@@ -219,7 +219,7 @@ _PIA_FUNC BYTE read_pb(void)
     row = mypia.port_a & 15;
 
     if (row < KBD_ROWS)
-	j = ~keyarr[row];
+        j = ~keyarr[row];
 
 #if (defined(DEBUG_PIA) || defined(KBDBUG))
     if (j < 255)

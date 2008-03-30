@@ -369,7 +369,7 @@ BYTE REGPARM1 read_super_io(ADDRESS addr)
         return read_unused(addr);
     } else
     if (addr >= 0xeff0) {       /* ACIA */
-        return acia1_read(addr & 0x03);
+        return acia1_read((ADDRESS)(addr & 0x03));
     } else
     if (addr >= 0xefe4) {       /* unused */
         return read_unused(addr);
@@ -401,7 +401,7 @@ void REGPARM2 store_super_io(ADDRESS addr, BYTE value)
         if (addr >= 0xeff4) {   /* unused */
         } else
         if (addr >= 0xeff0) {   /* ACIA */
-            acia1_store(addr & 0x03, value);
+            acia1_store((ADDRESS)(addr & 0x03), value);
         } else
         if (addr >= 0xefe4) {   /* unused */
         } else
@@ -1017,7 +1017,7 @@ static void petmem_checksum(void)
         if (petres.kernal_checksum != last_kernal)
             log_message(pet_mem_log, "Identified Kernal 4 ROM by checksum.");
         kbd_buf_init(0x26f, 0x9e, 10,
-                     PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
+                     (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
         tape_init(214, 150, 157, 144, 0xe455, 251, 201, 0x26f, 0x9e,
                   pet4_tape_traps);
         if (petres.editor_checksum == PET_EDIT4B80_CHECKSUM) {
@@ -1025,7 +1025,8 @@ static void petmem_checksum(void)
                 log_message(pet_mem_log,
                             "Identified 80 columns editor by checksum.");
             petres.rom_video = 80;
-            autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH,
+            autostart_init((CLOCK)(3 * PET_PAL_RFSH_PER_SEC
+                           * PET_PAL_CYCLES_PER_RFSH),
                            0, 0xa7, 0xc4, 0xc6, -80);
         } else
         if (petres.editor_checksum == PET_EDIT4B40_CHECKSUM
@@ -1034,16 +1035,18 @@ static void petmem_checksum(void)
                 log_message(pet_mem_log,
                             "Identified 80 columns editor by checksum.");
             petres.rom_video = 40;
-            autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH,
-                                0, 0xa7, 0xc4, 0xc6, -40);
+            autostart_init((CLOCK)(3 * PET_PAL_RFSH_PER_SEC
+                           * PET_PAL_CYCLES_PER_RFSH),
+                           0, 0xa7, 0xc4, 0xc6, -40);
         }
     } else if (petres.kernal_checksum == PET_KERNAL2_CHECKSUM) {
         if (petres.kernal_checksum != last_kernal)
             log_message(pet_mem_log, "Identified Kernal 2 ROM by checksum.");
         petres.rom_video = 40;
         kbd_buf_init(0x26f, 0x9e, 10,
-                     PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
-        autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0,
+                     (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
+        autostart_init((CLOCK)(3 * PET_PAL_RFSH_PER_SEC
+                       * PET_PAL_CYCLES_PER_RFSH), 0,
                        0xa7, 0xc4, 0xc6, -40);
         tape_init(214, 150, 157, 144, 0xe62e, 251, 201, 0x26f, 0x9e,
                   pet3_tape_traps);
@@ -1052,8 +1055,9 @@ static void petmem_checksum(void)
             log_message(pet_mem_log, "Identified Kernal 1 ROM by checksum.");
         petres.rom_video = 40;
         kbd_buf_init(0x20f, 0x20d, 10,
-                     PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC);
-        autostart_init(3 * PET_PAL_RFSH_PER_SEC * PET_PAL_CYCLES_PER_RFSH, 0,
+                     (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
+        autostart_init((CLOCK)(3 * PET_PAL_RFSH_PER_SEC
+                       * PET_PAL_CYCLES_PER_RFSH), 0,
                        0x224, 0xe0, 0xe2, -40);
         tape_init(243, 0x20c, 0x20b, 0x219, 0xe685, 247, 229, 0x20f, 0x20d,
                   pet2_tape_traps);
@@ -1688,10 +1692,10 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
                                PETMEM_DUMP_VER_MAJOR, PETMEM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
-    snapshot_module_write_byte(m, config | rconf);
+    snapshot_module_write_byte(m, (BYTE)(config | rconf));
 
     resources_get_value("KeymapIndex", (resource_value_t*) &kbdindex);
-    snapshot_module_write_byte(m, kbdindex >> 1);
+    snapshot_module_write_byte(m, (BYTE)(kbdindex >> 1));
 
     snapshot_module_write_byte(m, memsize);
     snapshot_module_write_byte(m, conf8x96);
@@ -1710,8 +1714,8 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
         snapshot_module_write_byte_array(m, ram, 0x20000);
     }
 
-    snapshot_module_write_byte(m, kbdindex & 1);
-    snapshot_module_write_byte(m, petres.eoiblank ? 1 : 0);
+    snapshot_module_write_byte(m, (BYTE)(kbdindex & 1));
+    snapshot_module_write_byte(m, (BYTE)(petres.eoiblank ? 1 : 0));
 
     snapshot_module_close(m);
 
