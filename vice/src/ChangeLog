@@ -1,3 +1,38 @@
+2004-04-11  Andreas Boose  <viceteam@t-online.de>
+
+        * Version 1.14.19.
+
+	* arch/win32/uirom.c, arch/win32/res.rc: More romset UI.
+
+	* arch/win32/uilib.c, arch/win32/uilib.h
+	(uilib_select_browse): New function.
+
+	* arch/win32/uireu.c, arch/win32/uiide64.c,
+	arch/win32/uic128.c: Use filename browse function.
+
+	* resources.c, resources.h (string_resource_item,
+	resources_write_item_to_string): New function.
+
+	* romset.c, romset.h (romset_file_list): New function.
+
+	* c64/c64romset.c, c128/c128romset.c, vic20/vic20romset.c,
+	pet/petromset.c, plus4/plus4romset.c, cbm2/cbm2romset.c,
+	machine.h (machine_romset_file_list): New function.
+
+	* arch/unix/uiromset.c, arch/unix/uiromset.h: New files.
+
+	* arch/unix/Makefile.am: Added new files.
+
+	* arch/unix/uisettings.c, arch/unix/uisettings.h: Moved romset
+	code to separate file.
+
+	* arch/unix/c64ui.c, arch/unix/c128ui.c, arch/unix/vic20ui.c,
+	arch/unix/petui.c, arch/unix/plus4ui.c, arch/unix/cbm2ui.c,
+	arch/unix/uidrivec128.c, arch/unix/uidrivec64vic20.c,
+	arch/unix/uidrivepetcbm2.c, arch/unix/uidrivepetcbm2.h,
+	arch/unix/uidriveplus4.c, arch/unix/uidriveplus4.h,
+	arch/unix/uidrivec128.c: Reorganized romset settings.
+
 2004-04-10  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.14.18.
