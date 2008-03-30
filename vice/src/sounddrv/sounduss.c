@@ -41,6 +41,7 @@
 #include <sys/types.h>
 #endif
 
+#include "debug.h"
 #include "log.h"
 #include "sound.h"
 
@@ -236,7 +237,9 @@ static int uss_bufferspace(void)
     ret /= uss_channels;
     if (ret > uss_bufsize)
     {
+#ifndef DEBUG
 	log_message(LOG_DEFAULT, "GETOSPACE: bytes > bufsize");
+#endif
 	ret = uss_bufsize;
     }
     return ret;
