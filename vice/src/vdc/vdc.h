@@ -164,6 +164,9 @@ struct _vdc
 
     /* Cursor frame counter.  */
     int cursor_counter;
+
+    /* Repaint the whole screen?  */
+    int force_repaint;
   };
 typedef struct _vdc vdc_t;
 
