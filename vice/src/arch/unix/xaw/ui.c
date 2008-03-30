@@ -752,7 +752,7 @@ void ui_exit(void)
             }
 	}
 	ui_autorepeat_on();
-	exit(-1);
+	exit(0);
     }
 
     free(s);
