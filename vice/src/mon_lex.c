@@ -2217,6 +2217,7 @@ int main()
 
 int resolve_datatype(unsigned guess_type, char *num, int *val)
 {
+   /* FIXME: Handle cases when default type is non-numerical */
    if (default_datatype == e_hexadecimal) {
       *val = strtol(num, NULL, 16);
       return H_NUMBER;
