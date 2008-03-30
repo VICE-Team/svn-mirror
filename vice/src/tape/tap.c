@@ -62,17 +62,17 @@
 #define PILOT_TYPE_TT  1
 
 /* Default values.  Call tap_init() to change. */
-static int tap_pulse_short_min  =  36;
-static int tap_pulse_short_max  =  54;
-static int tap_pulse_middle_min =  55;
-static int tap_pulse_middle_max =  73;
-static int tap_pulse_long_min   =  74;
-static int tap_pulse_long_max   = 100;
+static int tap_pulse_short_min    = 0x24;
+static int tap_pulse_short_max    = 0x36;
+static int tap_pulse_middle_min   = 0x37;
+static int tap_pulse_middle_max   = 0x49;
+static int tap_pulse_long_min     = 0x4a;
+static int tap_pulse_long_max     = 0x64;
 
-static int tap_pulse_tt_short_min = 19;
-static int tap_pulse_tt_short_max = 32;
-static int tap_pulse_tt_long_min  = 33;
-static int tap_pulse_tt_long_max  = 46;
+static int tap_pulse_tt_short_min = 0x0a;
+static int tap_pulse_tt_short_max = 0x22;
+static int tap_pulse_tt_long_min  = 0x23;
+static int tap_pulse_tt_long_max  = 0x36;
 
 
 static int tap_header_read(tap_t *tap, FILE *fd)
@@ -313,9 +313,10 @@ static int tap_cbm_read_byte(tap_t *tap)
 static int tap_cbm_skip_pilot(tap_t *tap)
 {
   int data, errors;
-  long fpos;
+  long fpos, counter;
   
-  errors = 0;
+  errors  = 0;
+  counter = 0;
   while(1)
     {
       data = tap_get_pulse(tap);
@@ -337,6 +338,7 @@ static int tap_cbm_skip_pilot(tap_t *tap)
 
               /* Start over after the L pulse */
               fseek(tap->fd, fpos+1, SEEK_SET);
+              counter = 0;
             }
           else
             {
@@ -345,6 +347,8 @@ static int tap_cbm_skip_pilot(tap_t *tap)
               return 0;
             }
         }
+      else if( ++counter>100000 )
+        return 0; /* Give up if no L pulse for a long time */
       else if( data<0 )
         return -1; /* end-of-tape */
     }
@@ -366,7 +370,7 @@ void tap_cbm_print_error(int ret)
     case -5: fprintf(stderr, "ERROR (too many single errors)\n"); break;
     case -6: fprintf(stderr, "ERROR (double read error)\n"); break;
     case -7: fprintf(stderr, "ERROR (checksum error)\n"); break;
-    default: fprintf(stderr, "ERROR (%i???)\n", ret);
+    default: fprintf(stderr, "ERROR (%i?)\n", ret);
     }
 }
 #endif
@@ -482,6 +486,7 @@ static int tap_cbm_read_block(tap_t *tap, BYTE *buffer, int size)
   fprintf(stderr, "\nTAP_CBM_READ_BLOCK(size %i): ", size);
 #endif
 
+  ret = -1;
   error_count = -1;
   for(pass=1; pass<=2; pass++)
     {
@@ -702,6 +707,10 @@ static int tap_cbm_skip_file(tap_t *tap)
 #define TT_BLOCK_TYPE_HEADER 1
 #define TT_BLOCK_TYPE_DATA   0
 
+
+/* FIXME:  It would be better to decide whether a pulse is S or L by 
+   checking if it's shorter or longer than a threshold value computed when 
+   reading the pilot (instead of using fixed thresholds) */
 static int tap_tt_read_byte(tap_t *tap)
 {
   int pulse, i;
@@ -726,10 +735,13 @@ static int tap_tt_read_byte(tap_t *tap)
   return read;
 }
 
-
 static int tap_tt_skip_pilot(tap_t *tap)
 {
   int data;
+
+#if TAP_DEBUG > 1
+  fprintf(stderr, "\nTAP_TT_SKIP_PILOT(0x%X", ftell(tap->fd));
+#endif
 
   /* turbo-tape pilot is just repeats of value 0x02 */
   do
@@ -745,6 +757,10 @@ static int tap_tt_skip_pilot(tap_t *tap)
         }
     }
   while( data==2 );
+
+#if TAP_DEBUG > 1
+  fprintf(stderr, "-0x%X) ", ftell(tap->fd));
+#endif
 
   return 0;
 }
@@ -792,7 +808,7 @@ static int tap_tt_read_block(tap_t *tap, int type, BYTE *buffer, unsigned int si
 #endif
       if( data == -1 )
         return -1; /* end-of-tape */
-      else if (data != count)
+      else if( data != (int) count )
         return -2; /* sync read error */
     }
 
@@ -802,9 +818,13 @@ static int tap_tt_read_block(tap_t *tap, int type, BYTE *buffer, unsigned int si
 #if TAP_DEBUG > 1
   if( data>=0 ) fprintf(stderr, "<%02x> ", data);
 #endif
-  if( (type==TT_BLOCK_TYPE_DATA) && (data!=0) ||
-      (type==TT_BLOCK_TYPE_HEADER) && (data!=1) && (data!=2) )
+  if( ((type==TT_BLOCK_TYPE_DATA) && (data!=0)) ||
+      ((type==TT_BLOCK_TYPE_HEADER) && (data!=1) && (data!=2)) )
     return -3; /* block type error */
+
+#if TAP_DEBUG > 1
+  if( buffer==NULL ) fprintf(stderr, "(.....) ");
+#endif
 
   /* read data */
   for(count=0; count<size; count++)
@@ -814,10 +834,10 @@ static int tap_tt_read_block(tap_t *tap, int type, BYTE *buffer, unsigned int si
       if( data  <  0 ) return -4; /* data error */
 
 #if TAP_DEBUG > 1
-      if( data>=0 ) fprintf(stderr, "%02x ", data);
+      if( data>=0 && buffer!=NULL) fprintf(stderr, "%02x ", data);
 #endif
 
-      buffer[count] = data;
+      if( buffer!=NULL ) buffer[count] = (BYTE) data;
     }
 
   if( type==TT_BLOCK_TYPE_DATA )
@@ -829,9 +849,11 @@ static int tap_tt_read_block(tap_t *tap, int type, BYTE *buffer, unsigned int si
 #if TAP_DEBUG > 1
       if( data>=0 ) fprintf(stderr, "[%02x] ", data);
 #endif
-      for(count=0; count<size; count++) data ^= buffer[count];
-      if( data!=0 ) 
-        return -5; /* checksum error */
+      if( buffer!=NULL )
+        {
+          for(count=0; count<size; count++) data ^= buffer[count];
+          if( data!=0 ) return -5; /* checksum error */
+        }
     }
 
   return size;
@@ -871,30 +893,37 @@ static int tap_tt_read_file(tap_t *tap)
 
   tap->current_file_size = tap->tap_file_record->end_addr - tap->tap_file_record->start_addr + 1;
   tap->current_file_data = lib_malloc(tap->current_file_size);
-  
-  /* find next pilot */
-  ret = tap_find_pilot(tap, PILOT_TYPE_TT);
-  if( ret<0 ) return ret;
-  
-  return tap_tt_read_block(tap, TT_BLOCK_TYPE_DATA, tap->current_file_data,
+
+  /* read data */
+  return tap_tt_read_block(tap, TT_BLOCK_TYPE_DATA, 
+                           tap->current_file_data,
                            tap->current_file_size);
 }
 
 
 static int tap_tt_skip_file(tap_t *tap)
 {
-  /* skip header pilot */
-  if( tap_tt_skip_pilot(tap)<0 ) return -1;
-  
-  /* find and data pilot */
-  if( tap_find_pilot(tap, PILOT_TYPE_TT)<0 ) return -1;
-  if( tap_tt_skip_pilot(tap)<0 ) return -1;
+  int res;
+  BYTE buffer[193];
 
-  return 0;
+  /* read header */
+  res = tap_tt_read_block(tap, TT_BLOCK_TYPE_HEADER, buffer, 193);
+  if( res>=0 ) 
+    {
+      /* skip data */
+      res = tap_tt_read_block(tap, TT_BLOCK_TYPE_DATA, NULL, 
+                              (buffer[2] + buffer[3] * 256) -
+                              (buffer[0] + buffer[1] * 256) + 1);
+    }
+
+  return res;
 }
 
 
 /* ------------------------------------------------------------------------- */
+
+#define PILOT_MIN_LENGTH_TT   200
+#define PILOT_MIN_LENGTH_CBM   32
 
 static int tap_determine_pilot_type(tap_t *tap)
 {
@@ -911,45 +940,55 @@ static int tap_determine_pilot_type(tap_t *tap)
 
 static int tap_find_pilot(tap_t *tap, int type)
 {
-    unsigned int i, countReg, countTT, startReg, startTT;
+    unsigned int i, countCBM, countTT, startCBM, startTT, minCBM;
     size_t count;
     BYTE data[256];
 
-    startReg = ftell(tap->fd);
-    startTT  = startReg;
-    countReg = 0;
+    /* when looking for any pilot type, require CBM pilot to be longer
+       than when specifically looking for CBM pilot.  A TurboTape L pulse
+       (encoding a '1') is pretty close to a CBM S pulse.  So a sequence
+       of '1' bits in a TT encoded file can be misinterpreted as a CBM
+       pilot.  This will of course be rejected when trying to read the CBM
+       header but that takes time.  By looking for a longer pilot we
+       can significantly cut down on the time it takes to scan through a TAP 
+       file */
+    minCBM   = (type==PILOT_TYPE_ANY) ? 1000 : PILOT_MIN_LENGTH_CBM;
+
+    startCBM = ftell(tap->fd);
+    startTT  = startCBM;
+    countCBM = 0;
     countTT  = 0;
 
 #if TAP_DEBUG > 0
     fprintf(stderr, " TAP_FIND_PILOT");
 #endif
 
-    while( (countReg<32) && (countTT<500*8) )
+    while( (countCBM<minCBM) && (countTT<PILOT_MIN_LENGTH_TT*8) )
       {
         count = fread(&data, 1, 256, tap->fd);
         if( count<1 ) return -1;
 
-        for (i = 0; (i < count) && (countReg < 32) && (countTT<500*8) ; i++)
+        for( i=0; (i < count) && (countCBM < minCBM) && (countTT<PILOT_MIN_LENGTH_TT*8); i++ )
           {
             if( type==PILOT_TYPE_ANY || type==PILOT_TYPE_CBM )
               {
-                /* cbm pilot is at least 32 consecutive short pulses */
+                /* cbm pilot is at least PILOT_MIN_LENGTH_CBM consecutive short pulses */
                 if( TAP_PULSE_SHORT(data[i]) )
-                  countReg++;
+                  countCBM++;
                 else
-                  { startReg+=countReg+1; countReg = 0; }
+                  { startCBM+=countCBM+1; countCBM = 0; }
               }
 
             if( type==PILOT_TYPE_ANY || type==PILOT_TYPE_TT )
               {
-                /* TurboTape pilot is 500 or more repeats of the value 0x02.  
+                /* TurboTape pilot is PILOT_MIN_LENGTH_TT or more repeats of the value 0x02.  
                    Accept any long bit sequence of 1000000010000000100... 
                    Trust that reading the header will fail if we detect a wrong 
                    sequence (in that case we come back here) */
                 if( (countTT&7)==0 )
                   {
                     if( TAP_PULSE_TT_LONG(data[i]) )
-                      countTT++;
+                      countTT++; 
                     else
                       { startTT+=countTT+1; countTT = 0; }
                   }
@@ -967,13 +1006,13 @@ static int tap_find_pilot(tap_t *tap, int type)
       }
 
 #if TAP_DEBUG > 0
-    if( countTT>=500*8 )
+    if( countTT>=PILOT_MIN_LENGTH_TT*8 )
       fprintf(stderr, " found TT pilot(0x%X)", startTT+2);
     else 
-      fprintf(stderr, " found CBM pilot(0x%X)", startReg);
+      fprintf(stderr, " found CBM pilot(0x%X)", startCBM);
 #endif
 
-    if( countTT>=500*8 )
+    if( countTT>=PILOT_MIN_LENGTH_TT*8 )
       {
         /* startTT points to a '1' bit which we assume to be part of the
            value 00000010.  Skip over the 1 and following 0 so we start
@@ -983,7 +1022,7 @@ static int tap_find_pilot(tap_t *tap, int type)
       }
     else
       {
-        fseek(tap->fd, startReg, SEEK_SET);
+        fseek(tap->fd, startCBM, SEEK_SET);
         return 0;
       }
 }
@@ -1009,9 +1048,23 @@ static int tap_find_header(tap_t *tap)
 
       /* try to read a header */
       if( type==PILOT_TYPE_CBM )
-        res = tap_cbm_read_header(tap);
+        {
+          res = tap_cbm_read_header(tap);
+          if( res<0 ) 
+            {
+              fseek(tap->fd, fpos, SEEK_SET);
+              while( TAP_PULSE_SHORT(tap_get_pulse(tap)) );
+            }
+        }
       else if( type==PILOT_TYPE_TT )
-        res = tap_tt_read_header(tap);
+        {
+          res = tap_tt_read_header(tap);
+          if( res<0 ) 
+            {
+              fseek(tap->fd, fpos, SEEK_SET);
+              tap_tt_skip_pilot(tap);
+            }
+        }
       else
         res = -2;
 
