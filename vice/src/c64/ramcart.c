@@ -62,7 +62,7 @@ static BYTE ramcart[2];
 
 /* RAMCART image.  */
 static BYTE *ramcart_ram = NULL;
-static unsigned int old_ramcart_ram_size = 0;
+static int old_ramcart_ram_size = 0;
 
 static log_t ramcart_log = LOG_ERR;
 
@@ -75,24 +75,24 @@ static int ramcart_deactivate(void);
 int ramcart_enabled;
 
 /* Flag: Is the RAMCART readonly ?  */
-int ramcart_readonly=0;
+int ramcart_readonly = 0;
 
 /* Size of the RAMCART.  */
-static DWORD ramcart_size = 0;
+static int ramcart_size = 0;
 
 /* Size of the RAMCART in KB.  */
-static DWORD ramcart_size_kb = 0;
+static int ramcart_size_kb = 0;
 
 /* Filename of the RAMCART image.  */
 static char *ramcart_filename = NULL;
 
+
 void ramcart_init_config(void)
 {
-  if (ramcart_enabled)
-  {
-    export.exrom=1;
-    mem_pla_config_changed();
-  }
+    if (ramcart_enabled) {
+        export.exrom = 1;
+        mem_pla_config_changed();
+    }
 }
 
 static int set_ramcart_enabled(int val, void *param)
@@ -105,7 +105,7 @@ static int set_ramcart_enabled(int val, void *param)
         }
         c64export_remove(&export_res);
         ramcart_enabled = 0;
-        export.exrom=0;
+        export.exrom = 0;
         mem_pla_config_changed();
         return 0;
     } else { 
@@ -120,7 +120,7 @@ static int set_ramcart_enabled(int val, void *param)
                 return -1;
 
             ramcart_enabled = 1;
-            export.exrom=1;
+            export.exrom = 1;
             mem_pla_config_changed();
             return 0;
         } else {
@@ -137,25 +137,25 @@ static int set_ramcart_readonly(int val, void *param)
 
 static int set_ramcart_size(int val, void *param)
 {
-    if ((DWORD)val == ramcart_size_kb)
+    if (val == ramcart_size_kb)
         return 0;
 
-    switch ((DWORD)val) {
+    switch (val) {
       case 64:
       case 128:
         break;
       default:
-        log_message(ramcart_log, "Unknown RAMCART size %ld.", (long)val);
+        log_message(ramcart_log, "Unknown RAMCART size %d.", val);
         return -1;
     }
 
     if (ramcart_enabled) {
         ramcart_deactivate();
-        ramcart_size_kb = (DWORD)val;
+        ramcart_size_kb = val;
         ramcart_size = ramcart_size_kb << 10;
         ramcart_activate();
     } else {
-        ramcart_size_kb = (DWORD)val;
+        ramcart_size_kb = val;
         ramcart_size = ramcart_size_kb << 10;
     }
 
@@ -191,7 +191,7 @@ static const resource_int_t resources_int[] = {
     { "RAMCART_RO", 0, RES_EVENT_NO, NULL,
       &ramcart_readonly, set_ramcart_readonly, NULL },
     { "RAMCARTsize", 128, RES_EVENT_NO, NULL,
-      (int *)&ramcart_size_kb, set_ramcart_size, NULL },
+      &ramcart_size_kb, set_ramcart_size, NULL },
     { NULL }
 };
 
@@ -269,7 +269,7 @@ static int ramcart_activate(void)
 
     old_ramcart_ram_size = ramcart_size;
 
-    log_message(ramcart_log, "%dKB unit installed.", (int)(ramcart_size >> 10));
+    log_message(ramcart_log, "%dKB unit installed.", ramcart_size >> 10);
 
     if (!util_check_null_string(ramcart_filename)) {
         if (util_file_load(ramcart_filename, ramcart_ram, (size_t)ramcart_size,
@@ -323,30 +323,34 @@ BYTE REGPARM1 ramcart_reg_read(WORD addr)
 {
     BYTE retval;
 
-    io_source=IO_SOURCE_RAMCART;
-    retval=ramcart[addr];
+    io_source = IO_SOURCE_RAMCART;
+    retval = ramcart[addr];
 
     return retval;
 }
 
 void REGPARM2 ramcart_reg_store(WORD addr, BYTE byte)
 {
-  if (addr==1 && ramcart_size_kb==128)
-    ramcart[1]=byte;
-  if (addr==0)
-    ramcart[0]=byte;
+    if (addr == 1 && ramcart_size_kb == 128)
+        ramcart[1] = byte;
+
+    if (addr == 0)
+        ramcart[0] = byte;
 }
 
 BYTE REGPARM1 ramcart_roml_read(WORD addr)
 {
-    if (ramcart_readonly==1 && ramcart_size_kb==128 && addr>=0x8000 && addr<=0x80ff)
-      return ramcart_ram[((ramcart[1]&1)*65536)+(ramcart[0]*256)+(addr&0xff)];
+    if (ramcart_readonly == 1 && ramcart_size_kb == 128
+        && addr >= 0x8000 && addr <= 0x80ff)
+        return ramcart_ram[((ramcart[1] & 1) * 65536) + (ramcart[0] * 256)
+            + (addr & 0xff)];
     if (plus60k_enabled)
-      return plus60k_ram_read(addr);
+        return plus60k_ram_read(addr);
     if (plus256k_enabled)
-      return plus256k_ram_high_read(addr);
+        return plus256k_ram_high_read(addr);
     if (c64_256k_enabled)
-      return c64_256k_ram_segment2_read(addr);
+        return c64_256k_ram_segment2_read(addr);
+
     return mem_ram[addr];
 }
 

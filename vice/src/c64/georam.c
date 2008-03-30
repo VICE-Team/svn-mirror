@@ -59,7 +59,7 @@ static BYTE georam[2];
 
 /* GEORAM image.  */
 static BYTE *georam_ram = NULL;
-static unsigned int old_georam_ram_size = 0;
+static int old_georam_ram_size = 0;
 
 static log_t georam_log = LOG_ERR;
 
@@ -72,10 +72,10 @@ static int georam_deactivate(void);
 int georam_enabled;
 
 /* Size of the GEORAM.  */
-static DWORD georam_size = 0;
+static int georam_size = 0;
 
 /* Size of the GEORAM in KB.  */
-static DWORD georam_size_kb = 0;
+static int georam_size_kb = 0;
 
 /* Filename of the GEORAM image.  */
 static char *georam_filename = NULL;
@@ -104,10 +104,10 @@ static int set_georam_enabled(int val, void *param)
 
 static int set_georam_size(int val, void *param)
 {
-    if ((DWORD)val == georam_size_kb)
+    if (val == georam_size_kb)
         return 0;
 
-    switch ((DWORD)val) {
+    switch (val) {
       case 64:
       case 128:
       case 256:
@@ -117,17 +117,17 @@ static int set_georam_size(int val, void *param)
       case 4096:
         break;
       default:
-        log_message(georam_log, "Unknown GEORAM size %ld.", (long)val);
+        log_message(georam_log, "Unknown GEORAM size %d.", val);
         return -1;
     }
 
     if (georam_enabled) {
         georam_deactivate();
-        georam_size_kb = (DWORD)val;
+        georam_size_kb = val;
         georam_size = georam_size_kb << 10;
         georam_activate();
     } else {
-        georam_size_kb = (DWORD)val;
+        georam_size_kb = val;
         georam_size = georam_size_kb << 10;
     }
 
@@ -161,7 +161,7 @@ static const resource_int_t resources_int[] = {
     { "GEORAM", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &georam_enabled, set_georam_enabled, NULL },
     { "GEORAMsize", 512, RES_EVENT_NO, NULL,
-      (int *)&georam_size_kb, set_georam_size, NULL },
+      &georam_size_kb, set_georam_size, NULL },
     { NULL }
 };
 
@@ -239,7 +239,7 @@ static int georam_activate(void)
 
     old_georam_ram_size = georam_size;
 
-    log_message(georam_log, "%dKB unit installed.", (int)(georam_size >> 10));
+    log_message(georam_log, "%dKB unit installed.", georam_size >> 10);
 
     if (!util_check_null_string(georam_filename)) {
         if (util_file_load(georam_filename, georam_ram, (size_t)georam_size,
@@ -312,27 +312,23 @@ BYTE REGPARM1 georam_window_read(WORD addr)
 
 void REGPARM2 georam_reg_store(WORD addr, BYTE byte)
 {
-    if ((addr&1)==1)
-    {
-      while (byte>((georam_size_kb/16)-1))
-      {
-        byte=byte-(unsigned char)(georam_size_kb/16);
-      }
-      georam[1]=byte;
+    if ((addr & 1) == 1) {
+        while (byte > ((georam_size_kb / 16) - 1)) {
+            byte = byte - (unsigned char)(georam_size_kb / 16);
+        }
+        georam[1] = byte;
     }
-    if ((addr&1)==0)
-    {
-      while (byte>63)
-      {
-        byte=byte-64;
-      }
-      georam[0]=byte;
+    if ((addr & 1) == 0) {
+        while (byte > 63) {
+            byte = byte - 64;
+        }
+        georam[0] = byte;
     }
 }
 
 void REGPARM2 georam_window_store(WORD addr, BYTE byte)
 {
-  georam_ram[(georam[1]*16384)+(georam[0]*256)+addr]=byte;
+    georam_ram[(georam[1] * 16384) + (georam[0] * 256) + addr] = byte;
 }
 
 /* ------------------------------------------------------------------------- */
