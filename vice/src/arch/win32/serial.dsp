@@ -86,7 +86,7 @@ SOURCE=..\..\serial\fsdrive.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\serial\iecbus.c
+SOURCE=..\..\serial\iec-bus.c
 # End Source File
 # Begin Source File
 

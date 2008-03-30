@@ -28,7 +28,7 @@
 
 #include <stdio.h>
 
-#include "iecbus.h"
+#include "iec-bus.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "mos6510.h"

@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#include "iecbus.h"
+#include "iec-bus.h"
 #include "serial-iec.h"
 #include "types.h"
 
