@@ -72,7 +72,9 @@ vic_t vic;
 
 static void vic_exposure_handler(unsigned int width, unsigned int height)
 {
-    raster_resize_viewport(&vic.raster, width, height);
+    raster_resize_viewport(&vic.raster,
+                           width / vic.raster.viewport.pixel_size.width,
+                           height / vic.raster.viewport.pixel_size.height);
 }
 
 void vic_change_timing(void)
@@ -128,14 +130,13 @@ static void vic_set_geometry(void)
     width = vic.display_width * VIC_PIXEL_WIDTH;
     height = vic.last_displayed_line - vic.first_displayed_line + 1;
 
+#if 0
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled
         : vic_resources.double_size_enabled) {
 #else
     if (vic_resources.double_size_enabled) {
 #endif
-        width *= 2;
-        height *= 2;
         raster_set_pixel_size(&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
     } else {
 #ifdef USE_XF86_EXTENSIONS
@@ -143,7 +144,7 @@ static void vic_set_geometry(void)
 #endif
 	    raster_set_pixel_size(&vic.raster, 1, 1, VIDEO_RENDER_PAL_1X1);
     }
-    
+#endif
 
 #ifdef USE_XF86_EXTENSIONS
   if (!fullscreen_is_enabled)
@@ -283,6 +284,7 @@ static int init_raster(void)
     resources_touch("VICVideoCache");
     raster_set_canvas_refresh(raster, 1);
 
+    resources_touch("DoubleSize");
     vic_set_geometry();
 
     vic_update_palette();
@@ -393,9 +395,6 @@ void vic_reset(void)
    changed.  */
 void vic_resize(void)
 {
-    if (!vic.initialized)
-        return;
-
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled ? vic_resources.fullscreen_double_size_enabled
         : vic_resources.double_size_enabled)
@@ -408,8 +407,8 @@ void vic_resize(void)
             && vic.raster.viewport.canvas != NULL) {
             raster_set_pixel_size(&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
             raster_resize_viewport(&vic.raster,
-                                   vic.raster.viewport.width * 2,
-                                   vic.raster.viewport.height * 2);
+                                   vic.raster.viewport.width,
+                                   vic.raster.viewport.height);
         } else {
             raster_set_pixel_size(&vic.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
         }

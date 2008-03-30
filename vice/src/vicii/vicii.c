@@ -137,7 +137,9 @@ vic_ii_t vic_ii;
 /* Handle the exposure event.  */
 static void vic_ii_exposure_handler(unsigned int width, unsigned int height)
 {
-    raster_resize_viewport(&vic_ii.raster, width, height);
+    raster_resize_viewport(&vic_ii.raster,
+                           width / vic_ii.raster.viewport.pixel_size.width,
+                           height / vic_ii.raster.viewport.pixel_size.height);
 }
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
@@ -319,20 +321,6 @@ static void vic_ii_set_geometry(void)
 
     width = VIC_II_SCREEN_XPIX + vic_ii.screen_borderwidth * 2;
     height = vic_ii.last_displayed_line - vic_ii.first_displayed_line + 1;
-#if ARCHDEP_VICII_DSIZE == 1
-#ifdef USE_XF86_EXTENSIONS
-    if (fullscreen_is_enabled
-        ? vic_ii_resources.fullscreen_double_size_enabled
-        : vic_ii_resources.double_size_enabled)
-#else
-    if (vic_ii_resources.double_size_enabled)
-#endif
-      {
-        width *= 2;
-        height *= 2;
-        raster_set_pixel_size(&vic_ii.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
-      }
-#endif
 
     raster_set_geometry(&vic_ii.raster,
                         VIC_II_SCREEN_XPIX + vic_ii.screen_borderwidth * 2,
@@ -347,11 +335,12 @@ static void vic_ii_set_geometry(void)
                         vic_ii.screen_borderwidth * 2,
                         vic_ii.sprite_wrap_x - VIC_II_SCREEN_XPIX -
                         vic_ii.screen_borderwidth * 2);
+#if 1
 #ifdef USE_XF86_EXTENSIONS
     if (!fullscreen_is_enabled)
 #endif
         raster_resize_viewport(&vic_ii.raster, width, height);
-
+#endif
 
 #ifdef __MSDOS__
     video_ack_vga_mode();
@@ -374,6 +363,7 @@ static int init_raster(void)
     resources_touch("VICIIVideoCache");
     raster_set_canvas_refresh(raster, 1);
 
+    resources_touch("DoubleSize");
     vic_ii_set_geometry();
 
     if (vic_ii_update_palette() < 0) {
@@ -1131,9 +1121,6 @@ void vic_ii_raster_irq_alarm_handler(CLOCK offset)
 /* Set proper functions and constants for the current video settings.  */
 void vic_ii_resize(void)
 {
-    if (!vic_ii.initialized)
-        return;
-
 #if ARCHDEP_VICII_DSIZE == 1
 #ifdef USE_XF86_EXTENSIONS
     if (fullscreen_is_enabled
@@ -1150,8 +1137,8 @@ void vic_ii_resize(void)
             && vic_ii.raster.viewport.canvas != NULL) {
             raster_set_pixel_size(&vic_ii.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
             raster_resize_viewport(&vic_ii.raster,
-                                   vic_ii.raster.viewport.width * 2,
-                                   vic_ii.raster.viewport.height * 2);
+                                   vic_ii.raster.viewport.width,
+                                   vic_ii.raster.viewport.height);
         } else {
             raster_set_pixel_size(&vic_ii.raster, 2, 2, VIDEO_RENDER_PAL_2X2);
         }
