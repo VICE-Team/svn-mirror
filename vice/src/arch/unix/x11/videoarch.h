@@ -50,6 +50,12 @@
 #include "ui.h"
 
 #ifdef USE_GNOMEUI
+#include "gnome/uiarch.h"
+#else
+#include "xaw/uiarch.h"
+#endif
+
+#ifdef USE_GNOMEUI
 #include <gdk/gdk.h>
 #endif
 
@@ -124,7 +130,7 @@ extern int shmmajor;          /* major number of MITSHM error codes */
 struct palette_s;
 struct raster_s;
 
-extern void video_add_handlers(ui_window_t w);
+extern void video_add_handlers(video_canvas_t *canvas);
 extern void ui_finish_canvas(video_canvas_t *c);
 extern void video_convert_save_pixel(void);
 extern void video_convert_restore_pixel(void);

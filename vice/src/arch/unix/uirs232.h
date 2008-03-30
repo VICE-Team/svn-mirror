@@ -27,7 +27,7 @@
 #ifndef _UI_RS232_H
 #define _UI_RS232_H
 
-#include "ui.h"
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s rs232_submenu[];
 

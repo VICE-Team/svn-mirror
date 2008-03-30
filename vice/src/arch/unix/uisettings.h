@@ -28,7 +28,7 @@
 #ifndef _UI_SETTINGS_H
 #define _UI_SETTINGS_H
 
-#include "ui.h"
+#include "uimenu.h"
 
 extern struct ui_menu_entry_s ui_performance_settings_menu[];
 extern struct ui_menu_entry_s ui_video_settings_menu[];

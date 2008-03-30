@@ -27,7 +27,7 @@
 #ifndef _UI_PALETTE_H
 #define _UI_PALETTE_H
 
-#include "ui.h"
+#include "uimenu.h"
 
 extern UI_CALLBACK(ui_load_palette);
 
