@@ -128,7 +128,7 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
                                 vdc.ram + vdc.screen_adr + vdc.mem_counter,
                                 vdc.ram + vdc.attribute_adr + vdc.mem_counter,
                                 vdc.ram + vdc.chargen_adr,
-                                16,
+                                vdc.bytes_per_char,
                                 vdc.screen_text_cols,
                                 (vdc.raster.ycounter
                                 / vdc.raster_ycounter_divide),
@@ -144,9 +144,9 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     } else {
         r = raster_cache_data_fill_attr_text_const(cache->foreground_data,
                                 vdc.ram + vdc.screen_adr + vdc.mem_counter,
-                                vdc.regs[26] & 15,
+                                vdc.regs[26] & 0x0f,
                                 vdc.ram + vdc.chargen_adr,
-                                16,
+                                vdc.bytes_per_char,
                                 vdc.screen_text_cols,
                                 (vdc.raster.ycounter
                                 / vdc.raster_ycounter_divide),
@@ -164,7 +164,7 @@ static int get_std_text(raster_cache_t *cache, int *xs, int *xe, int rr)
     if (vdc.cursor_visible) {
         int crsrpos = vdc.crsrpos - vdc.mem_counter;
 
-        if (crsrpos >= 0 && crsrpos < VDC_SCREEN_TEXTCOLS
+        if (crsrpos >= 0 && crsrpos < vdc.screen_text_cols
             && (int)(vdc.raster.ycounter / vdc.raster_ycounter_divide)
             >= (int)(vdc.regs[10] & 0x1f)
             && (int)(vdc.raster.ycounter / vdc.raster_ycounter_divide)
@@ -185,7 +185,7 @@ static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
     if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
         return;
 
-    p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH
+    p = vdc.raster.frame_buffer_ptr + vdc.border_width
         + vdc.raster.xsmooth + xs * 8;
     table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
@@ -214,7 +214,7 @@ static void draw_std_text(void)
     if (vdc.cursor_visible) {
         int crsrpos = vdc.crsrpos - vdc.mem_counter;
 
-        if (crsrpos >= 0 && crsrpos < VDC_SCREEN_TEXTCOLS
+        if (crsrpos >= 0 && crsrpos < vdc.screen_text_cols
             && (int)(vdc.raster.ycounter / vdc.raster_ycounter_divide)
             >= (int)(vdc.regs[10] & 0x1f)
             && (int)(vdc.raster.ycounter / vdc.raster_ycounter_divide)
@@ -222,7 +222,7 @@ static void draw_std_text(void)
             cpos = crsrpos;
     }
 
-    p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH
+    p = vdc.raster.frame_buffer_ptr + vdc.border_width
         + vdc.raster.xsmooth;
     table_ptr = hr_table + ((vdc.regs[26] & 0x0f) << 4);
 
@@ -235,11 +235,11 @@ static void draw_std_text(void)
         PIXEL4 *ptr = table_ptr + ((*(attr_ptr + i) & 0x0f) << 8);
 
         int d = *(char_ptr
-            + ((*(attr_ptr + i) & 0x80) ? 0x1000 : 0)
-            + (*(screen_ptr + i) * 16));
+            + ((*(attr_ptr + i) & VDC_ALTCHARSET_ATTR) ? 0x1000 : 0)
+            + (*(screen_ptr + i) * vdc.bytes_per_char));
 
-        if (*(attr_ptr + i) & 0x40
-            || (vdc.text_blink_visible && (*(attr_ptr + i) & 0x10)))
+        if (*(attr_ptr + i) & VDC_REVERSE_ATTR
+            || (vdc.text_blink_visible && (*(attr_ptr + i) & VDC_FLASH_ATTR)))
             d ^= 0xff;
 
         if (cpos == i)
@@ -275,18 +275,19 @@ static int get_std_bitmap(raster_cache_t *cache, int *xs, int *xe, int rr)
 
     if (vdc.regs[25] & 0x40)
         r |= raster_cache_data_fill(cache->color_data_1,
-                                vdc.ram + vdc.attribute_adr + vdc.mem_counter,
-                                vdc.screen_text_cols,
-                                1,
-                                xs, xe,
-                                rr);
+                                    vdc.ram + vdc.attribute_adr
+                                    + vdc.mem_counter,
+                                    vdc.screen_text_cols,
+                                    1,
+                                    xs, xe,
+                                    rr);
     else
         r |= raster_cache_data_fill_const(cache->color_data_1,
-                                vdc.regs[26] >> 4,
-                                vdc.screen_text_cols,
-                                1,
-                                xs, xe,
-                                rr);
+                                          vdc.regs[26] >> 4,
+                                          vdc.screen_text_cols,
+                                          1,
+                                          xs, xe,
+                                          rr);
     return r;
 }
 
@@ -301,7 +302,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
     if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
         return;
 
-    p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH
+    p = vdc.raster.frame_buffer_ptr + vdc.border_width
         + vdc.raster.xsmooth + xs * 8;
 
     if (vdc.regs[25] & 0x40) {
@@ -340,7 +341,7 @@ static void draw_std_bitmap(void)
     if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled);
         return;
 
-    p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH
+    p = vdc.raster.frame_buffer_ptr + vdc.border_width
         + vdc.raster.xsmooth;
 
     attr_ptr = vdc.ram + vdc.attribute_adr + vdc.mem_counter;
@@ -366,6 +367,63 @@ static void draw_std_bitmap(void)
 }
 
 
+static int get_idle(raster_cache_t *cache, int *xs, int *xe, int rr)
+{
+    if (rr || (vdc.regs[26] >> 4) != cache->color_data_1[0]) {
+        *xs = 0;
+        *xe = vdc.screen_text_cols;
+        cache->color_data_1[0] = vdc.regs[26] >> 4;
+        return 1;
+    }
+
+    return 0;
+}
+
+static void draw_idle_cached(raster_cache_t *cache, int xs, int xe)
+{
+    PIXEL *p;
+    PIXEL4 idleval;
+
+    unsigned int i;
+
+    /* only draw even rasterlines */
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
+        return;
+
+    p = vdc.raster.frame_buffer_ptr + vdc.border_width
+        + vdc.raster.xsmooth + xs * 8;
+
+    idleval = *(hr_table + ((cache->color_data_1[0] & 0x0f) << 8));
+
+    for (i = xs; i <= xe; i++, p += 8) {
+        *((PIXEL4 *)p) = idleval;
+        *((PIXEL4 *)p + 1) = idleval;
+    }
+}
+
+static void draw_idle(void)
+{
+    PIXEL *p;
+    PIXEL4 idleval;
+
+    unsigned int i;
+
+    /* only draw even rasterlines */
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled);
+        return;
+
+    p = vdc.raster.frame_buffer_ptr + vdc.border_width
+        + vdc.raster.xsmooth;
+
+    idleval = *(hr_table + ((vdc.regs[26] & 0xf0) << 4));
+
+    for (i = 0; i < vdc.mem_counter_inc; i++, p+= 8) {
+        *((PIXEL4 *)p) = idleval;
+        *((PIXEL4 *)p + 1) = idleval;
+    }
+}
+
+
 static void setup_single_size_modes(void)
 {
     raster_modes_set(vdc.raster.modes, VDC_TEXT_MODE,
@@ -383,9 +441,9 @@ static void setup_single_size_modes(void)
                      NULL); /* draw_std_text_foreground */
 
     raster_modes_set(vdc.raster.modes, VDC_IDLE_MODE,
-                     NULL,
-                     NULL,
-                     NULL,
+                     get_idle,
+                     draw_idle_cached,
+                     draw_idle,
                      NULL, /* draw_std_background */
                      NULL); /*draw_std_text_foreground */
 }
