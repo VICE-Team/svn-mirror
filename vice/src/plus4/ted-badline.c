@@ -37,7 +37,7 @@
 #include "types.h"
 
 
-void ted_badline_check_state(BYTE value, int cycle, int line)
+void ted_badline_check_state(BYTE value, int cycle, unsigned int line)
 {
     int was_bad_line, now_bad_line;
 

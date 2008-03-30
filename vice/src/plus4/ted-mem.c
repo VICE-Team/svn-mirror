@@ -237,7 +237,8 @@ void REGPARM2 ted_mem_vbank_3fxx_store(ADDRESS addr, BYTE value)
 }
 #endif
 
-inline static void check_lower_upper_border(BYTE value, int line, int cycle)
+inline static void check_lower_upper_border(BYTE value, unsigned int line,
+                                            int cycle)
 {
     if ((value ^ ted.regs[0x06]) & 8) {
         if (value & 0x8) {
@@ -285,7 +286,7 @@ inline static void check_lower_upper_border(BYTE value, int line, int cycle)
 inline static void ted06_store(BYTE value)
 {
     int cycle;
-    int line;
+    unsigned int line;
 
     cycle = TED_RASTER_CYCLE(maincpu_clk);
     line = TED_RASTER_Y(maincpu_clk);

@@ -136,7 +136,7 @@ void REGPARM2 vdc_store(ADDRESS addr, BYTE value)
       case 1:                   /* R01  Horizontal characters displayed */
         if (vdc.regs[1] != oldval) {
             if (vdc.regs[1] >= 8 && vdc.regs[1] <= VDC_SCREEN_MAX_TEXTCOLS) {
-                if (vdc.screen_text_cols != vdc.regs[1]) {
+                if ((int)vdc.screen_text_cols != vdc.regs[1]) {
                     vdc.update_geometry = 1;
                 }
             }

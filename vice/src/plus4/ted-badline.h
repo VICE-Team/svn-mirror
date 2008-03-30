@@ -29,7 +29,7 @@
 
 #include "types.h"
 
-extern void ted_badline_check_state(BYTE value, int cycle, int line);
+extern void ted_badline_check_state(BYTE value, int cycle, unsigned int line);
 
 #endif
 

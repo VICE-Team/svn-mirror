@@ -48,8 +48,7 @@
 static DWORD hr_table[128 * 128 * 16];
 
 /* mc flag(1) | idx(2) | byte(8) -> index into double-pixel table.  */
-static WORD mc_table[2 * 4 * 256];
-static WORD mcmsktable[512];
+static BYTE mc_table[2 * 4 * 256];
 
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
 
@@ -975,7 +974,7 @@ static void init_drawing_tables(void)
 {
     DWORD i;
     unsigned int f, b;
-    char tmptable[4] = { 0, 4, 5, 3 };
+    BYTE tmptable[4] = { 0, 4, 5, 3 };
 
     for (i = 0; i <= 0xf; i++) {
         for (f = 0; f <= 0x7f; f++) {
@@ -998,20 +997,14 @@ static void init_drawing_tables(void)
     }
 
     for (i = 0; i <= 0xff; i++) {
-        mc_table[i + 0x100] = i >> 6;
-        mc_table[i + 0x300] = (i >> 4) & 0x3;
-        mc_table[i + 0x500] = (i >> 2) & 0x3;
-        mc_table[i + 0x700] = i & 0x3;
+        mc_table[i + 0x100] = (BYTE)(i >> 6);
+        mc_table[i + 0x300] = (BYTE)((i >> 4) & 0x3);
+        mc_table[i + 0x500] = (BYTE)((i >> 2) & 0x3);
+        mc_table[i + 0x700] = (BYTE)(i & 0x3);
         mc_table[i] = tmptable[i >> 6];
         mc_table[i + 0x200] = tmptable[(i >> 4) & 0x3];
         mc_table[i + 0x400] = tmptable[(i >> 2) & 0x3];
         mc_table[i + 0x600] = tmptable[i & 0x3];
-        mcmsktable[i + 0x100] = 0;
-        mcmsktable[i + 0x100] |= ((i >> 6) & 0x2) ? 0xc0 : 0;
-        mcmsktable[i + 0x100] |= ((i >> 4) & 0x2) ? 0x30 : 0;
-        mcmsktable[i + 0x100] |= ((i >> 2) & 0x2) ? 0x0c : 0;
-        mcmsktable[i + 0x100] |= (i & 0x2) ? 0x03 : 0;
-        mcmsktable[i] = i;
     }
 }
 

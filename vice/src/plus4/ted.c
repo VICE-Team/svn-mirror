@@ -430,7 +430,7 @@ void ted_set_raster_irq(unsigned int line)
     if (line == ted.raster_irq_line && ted.raster_irq_clk != CLOCK_MAX)
         return;
 
-    if (line < ted.screen_height) {
+    if ((int)line < ted.screen_height) {
         unsigned int current_line = TED_RASTER_Y(maincpu_clk);
 
         ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
@@ -686,8 +686,10 @@ void ted_raster_draw_alarm_handler(CLOCK offset)
     int in_visible_area;
 
 
-    in_visible_area = (ted.raster.current_line >= ted.first_displayed_line
-                      && ted.raster.current_line <= ted.last_displayed_line);
+    in_visible_area = (ted.raster.current_line
+                      >= (int)ted.first_displayed_line
+                      && ted.raster.current_line
+                      <= (int)ted.last_displayed_line);
 
     raster_line_emulate(&ted.raster);
 
