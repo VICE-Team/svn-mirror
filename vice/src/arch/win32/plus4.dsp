@@ -186,6 +186,10 @@ SOURCE="..\..\plus4\ted-timer.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\plus4\ted-timing.c"
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\plus4\ted.c
 # End Source File
 # End Target

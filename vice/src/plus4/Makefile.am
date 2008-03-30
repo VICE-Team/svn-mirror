@@ -58,6 +58,8 @@ libplus4_a_SOURCES = \
 	ted-sound.h \
 	ted-timer.c \
 	ted-timer.h \
+	ted-timing.c \
+	ted-timing.h \
 	ted.c \
 	ted.h \
 	tedtypes.h
