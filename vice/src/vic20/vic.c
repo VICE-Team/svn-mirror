@@ -40,9 +40,6 @@
    memory and (little) speed.  */
 #ifndef __MSDOS__
 #define NEED_2x
-#else  /* __MSDOS__ */
-#define pixel_width 1
-#define pixel_height 1
 #endif /* !__MSDOS__ */
 
 #include "vice.h"
@@ -186,7 +183,7 @@ static BYTE *screenmem;
 static BYTE *chargen_ptr = chargen_rom;
 
 /* On MS-DOS, do not duplicate pixels.  Otherwise, we would always need at
-   least 466 horizontal pixels to contain the whole screen. */
+   least 466 horizontal pixels to contain the whole screen.  */
 #ifndef __MSDOS__
 #define DUPLICATE_PIXELS
 #endif

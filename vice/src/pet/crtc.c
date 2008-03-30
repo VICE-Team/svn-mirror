@@ -41,10 +41,7 @@
    memory and (little) speed.  */
 #ifndef __MSDOS__
 #define NEED_2x
-#else  /* __MSDOS__ */
-#define pixel_width 1
-#define pixel_height 1
-#endif /* !__MSDOS__ */
+#endif /* __MSDOS__ */
 
 #include <stdlib.h>
 #include <stdio.h>
