@@ -32,17 +32,17 @@
    helping me to find bugs and improve the emulation.  */
 
 /* TODO: - speed optimizations;
-         - faster sprites and registers. */
+   - faster sprites and registers.  */
 
 /*
    Current (most important) known limitations:
 
    - if we switch from display to idle state in the middle of one line, we
-     only paint it completely in idle or display mode (we choose the most
-     likely one, though);
+   only paint it completely in idle or display mode (we choose the most
+   likely one, though);
 
    - sprite colors (and other attributes) cannot change in the middle of the
-     rasterline;
+   raster line;
 
    - changes of $D016 within one line are not always correctly handled;
 
@@ -56,39 +56,25 @@
 
 #include "vice.h"
 
-/* On MS-DOS, we do not need 2x drawing functions.  This is mainly to save
-   memory and (little) speed.  */
-#if(!defined(__MSDOS__) && !defined(__riscos) && !defined(OS2))
-#define NEED_2x
-#else  /* __MSDOS__ */
-#define pixel_width 1
-#define pixel_height 1
-#endif /* !__MSDOS__ */
-
-#include "vicii.h"
-
 #include "alarm.h"
 #include "c64cart.h"
-#include "c64cia.h"
-#include "cmdline.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
 #include "palette.h"
-#include "resources.h"
 #include "snapshot.h"
 #include "utils.h"
+#include "vsync.h"
 
-/* FIXME: ugliest thing ever. */
-static void draw_sprites(void);
-static void update_sprite_collisions(void);
+#include "vicii-cmdline-options.h"
+#include "vicii-draw.h"
+#include "vicii-sprites.h"
+#include "vicii-resources.h"
+#include "vicii-snapshot.h"
 
-#include "raster.h"
-#include "sprites.h"
-#include "sprcycles.h"
-#include "sprcrunch.h"
+#include "vicii.h"
 
 #ifdef STDC_HEADERS
 #include <stdlib.h>
@@ -99,4247 +85,1266 @@ static void update_sprite_collisions(void);
 #include "ROlib.h"
 #endif
 
-/* ------------------------------------------------------------------------- */
+
 
-/* VIC-II palette.  */
-static palette_t *palette;
+vic_ii_t vic_ii;
 
-/* VIC-II registers.  */
-static int vic[64];
+
 
-/* Unused bits in VIC-II registers.  */
-static int vic_unused_bits[64] = {
-    0x00 /* $D000 */, 0x00 /* $D001 */, 0x00 /* $D002 */, 0x00 /* $D003 */,
-    0x00 /* $D004 */, 0x00 /* $D005 */, 0x00 /* $D006 */, 0x00 /* $D007 */,
-    0x00 /* $D008 */, 0x00 /* $D009 */, 0x00 /* $D00A */, 0x00 /* $D00B */,
-    0x00 /* $D00C */, 0x00 /* $D00D */, 0x00 /* $D00E */, 0x00 /* $D00F */,
-    0x00 /* $D010 */, 0x00 /* $D011 */, 0x00 /* $D012 */, 0x00 /* $D013 */,
-    0x00 /* $D014 */, 0x00 /* $D015 */, 0x00 /* $D016 */, 0xc0 /* $D017 */,
-    0x01 /* $D018 */, 0x70 /* $D019 */, 0xf0 /* $D01A */, 0x00 /* $D01B */,
-    0x00 /* $D01C */, 0x00 /* $D01D */, 0x00 /* $D01E */, 0x00 /* $D01F */,
-    0xf0 /* $D020 */, 0xf0 /* $D021 */, 0xf0 /* $D022 */, 0xf0 /* $D023 */,
-    0xf0 /* $D024 */, 0xf0 /* $D025 */, 0xf0 /* $D026 */, 0xf0 /* $D027 */,
-    0xf0 /* $D028 */, 0xf0 /* $D029 */, 0xf0 /* $D02A */, 0xf0 /* $D02B */,
-    0xf0 /* $D02C */, 0xf0 /* $D02D */, 0xf0 /* $D02E */, 0xff /* $D02F */,
-    0xff /* $D030 */, 0xff /* $D031 */, 0xff /* $D032 */, 0xff /* $D033 */,
-    0xff /* $D034 */, 0xff /* $D035 */, 0xff /* $D036 */, 0xff /* $D037 */,
-    0xff /* $D038 */, 0xff /* $D039 */, 0xff /* $D03A */, 0xff /* $D03B */,
-    0xff /* $D03C */, 0xff /* $D03D */, 0xff /* $D03E */, 0xff /* $D03F */
-};
-
-/* Interrupt register.  */
-static int videoint = 0;
-
-/* Line for raster compare IRQ.  */
-static int int_raster_line = 0;
-/* Clock value for raster compare IRQ. */
-static CLOCK int_raster_clk;
-
-/* Internal color memory.  */
-static BYTE color_ram[0x400];
-
-/* Pointer to the base of RAM seen by the VIC-II.  */
-#ifdef AVOID_STATIC_ARRAYS
-static BYTE *ram_base;
-#else
-static BYTE *ram_base = ram;
-#endif
-
-/* Video memory pointers.  */
-static BYTE *screen_ptr;
-static BYTE *chargen_ptr;
-static BYTE *bitmap_ptr;
-static BYTE * const color_ptr = color_ram;
-
-/* Screen memory buffers (chars and color).  */
-static BYTE vbuf[SCREEN_TEXTCOLS];
-static BYTE cbuf[SCREEN_TEXTCOLS];
-
-/* If this flag is set, bad lines (DMA's) can happen.  */
-static int allow_bad_lines;
-
-/* Sprite-sprite and sprite-background collision registers.  */
-static BYTE ss_collmask = 0;
-static BYTE sb_collmask = 0;
-
-/* Extended background colors (1, 2 and 3).  */
-static int ext_background_color[3];
-
-/* Tick when int_rasterfetch() is called.  */
-CLOCK vic_ii_fetch_clk;
-
-/* Tick when int_rasterdraw() is called.  */
-CLOCK vic_ii_draw_clk;
-
-/* What do we do when the `A_RASTERFETCH' event happens?  */
-static enum {
-    FETCH_MATRIX,
-    CHECK_SPRITE_DMA,
-    FETCH_SPRITE
-} fetch_idx = FETCH_MATRIX;
-
-/* Flag: Check for ycounter reset already done on this line? (cycle 13) */
-static int ycounter_reset_checked;
-
-/* Flag: Does the currently selected video mode force the overscan background
-   color to be black?  (This happens with the hires bitmap and illegal
-   modes.)  */
-static int force_black_overscan_background_color;
-
-/* Light pen.  */
-static struct {
-    int triggered;
-    int x, y;
-} light_pen;
-
-/* Start of the memory bank seen by the VIC-II.  */
-static int vbank = 0;
-
-/* Data to display in idle state.  */
-static int idle_data;
-
-/* Where do we currently fetch idle stata from?  If `IDLE_NONE', we are not
-   in idle state and thus do not need to update `idle_data'.  */
-static enum { IDLE_NONE, IDLE_3FFF, IDLE_39FF } idle_data_location;
-
-/* Flag: Are the C128 extended keyboard rows enabled?  */
-static int extended_keyboard_rows_enabled;
-
-/* All the VIC-II logging goes here.  */
-static log_t vic_ii_log = LOG_ERR;
-
-/* VIC-II alarms.  */
-static alarm_t raster_fetch_alarm;
-static alarm_t raster_draw_alarm;
-static alarm_t raster_irq_alarm;
-
-/* ------------------------------------------------------------------------- */
-
-/* VIC-II resources.  */
-
-/* Flag: Do we emulate the sprite-sprite collision register and IRQ?  */
-static int sprite_sprite_collisions_enabled;
-
-/* Flag: Do we emulate the sprite-background collision register and IRQ?  */
-static int sprite_background_collisions_enabled;
-
-/* Name of palette file.  */
-static char *palette_file_name;
-
-/* Flag: Do we use double size?  */
-static int double_size_enabled;
-
-/* Flag: Do we enable the video cache?  */
-static int video_cache_enabled;
-
-/* Flag: Do we copy lines in double size mode?  */
-static int double_scan_enabled;
-
-#ifdef USE_VIDMODE_EXTENSION
-/* Flag: Fullscreenmode?  */
-static int fullscreen = 0; 
-
-/* Flag: Do we use double size?  */
-static int fullscreen_double_size_enabled;
-
-/* Flag: Do we copy lines in double size mode?  */
-static int fullscreen_double_scan_enabled;
-
-static int fullscreen_width;
-static int fullscreen_height;
-
-#endif
-
-static int set_sprite_sprite_collisions_enabled(resource_value_t v)
+static void 
+clk_overflow_callback (CLOCK sub, void *unused_data)
 {
-    sprite_sprite_collisions_enabled = (int) v;
-    return 0;
+  vic_ii.raster_irq_clk -= sub;
+  vic_ii.last_emulate_line_clk -= sub;
+  vic_ii.fetch_clk -= sub;
+  vic_ii.draw_clk -= sub;
 }
 
-static int set_sprite_background_collisions_enabled(resource_value_t v)
+static void 
+init_raster (void)
 {
-    sprite_background_collisions_enabled = (int) v;
-    return 0;
+  raster_t *raster;
+  unsigned int width, height;
+  char *title;
+
+  raster = &vic_ii.raster;
+
+  raster_init (raster, VIC_II_NUM_VMODES, VIC_II_NUM_SPRITES);
+  raster_modes_set_idle_mode (&raster->modes, VIC_II_IDLE_MODE);
+  raster_set_exposure_handler (raster, vic_ii_exposure_handler);
+  raster_enable_cache (raster, vic_ii_resources.video_cache_enabled);
+  raster_enable_double_scan (raster, vic_ii_resources.double_scan_enabled);
+
+  width = VIC_II_SCREEN_XPIX + VIC_II_SCREEN_BORDERWIDTH * 2;
+  height = VIC_II_LAST_DISPLAYED_LINE - VIC_II_FIRST_DISPLAYED_LINE;
+  if (vic_ii_resources.double_size_enabled)
+    {
+      width *= 2;
+      height *= 2;
+      raster_set_pixel_size (raster, 2, 2);
+    }
+
+  raster_set_geometry (raster,
+                       VIC_II_SCREEN_WIDTH, VIC_II_SCREEN_HEIGHT,
+                       VIC_II_SCREEN_XPIX, VIC_II_SCREEN_YPIX,
+                       VIC_II_SCREEN_TEXTCOLS, VIC_II_SCREEN_TEXTLINES,
+                       VIC_II_SCREEN_BORDERWIDTH, VIC_II_SCREEN_BORDERHEIGHT,
+                       FALSE,
+                       VIC_II_FIRST_DISPLAYED_LINE,
+                       VIC_II_LAST_DISPLAYED_LINE,
+                       2 * VIC_II_MAX_SPRITE_WIDTH);
+  raster_resize_viewport (raster, width, height);
+
+  if (vic_ii_load_palette (vic_ii_resources.palette_file_name) < 0)
+    log_error (vic_ii.log, "Cannot load palette.");
+
+  title = concat ("VICE: ", machine_name, " emulator", NULL);
+  raster_set_title (raster, title);
+  free (title);
+
+  raster_realize (raster);
+
+  raster->display_ystart = VIC_II_25ROW_START_LINE;
+  raster->display_ystop = VIC_II_25ROW_STOP_LINE;
+  raster->display_xstart = VIC_II_40COL_START_PIXEL;
+  raster->display_xstop = VIC_II_40COL_STOP_PIXEL;
 }
 
-static int set_video_cache_enabled(resource_value_t v)
+
+
+/* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes
+   care of the 10-bit counter wraparound.  */
+inline void 
+vic_ii_fetch_matrix (int offs, int num)
 {
-    video_cache_enabled = (int) v;
-    return 0;
+  BYTE *p;
+  int start_char;
+  int c;
+
+  p = vic_ii.ram_base + vic_ii.vbank + ((vic_ii.regs[0x18] & 0xf0) << 6);
+  start_char = (vic_ii.mem_counter + offs) & 0x3ff;
+  c = 0x3ff - start_char + 1;
+
+  if (c >= num)
+    {
+      memcpy (vic_ii.vbuf + offs, p + start_char, num);
+      memcpy (vic_ii.cbuf + offs, vic_ii.color_ram + start_char, num);
+    }
+  else
+    {
+      memcpy (vic_ii.vbuf + offs, p + start_char, c);
+      memcpy (vic_ii.vbuf + offs + c, p, num - c);
+      memcpy (vic_ii.cbuf + offs, vic_ii.color_ram + start_char, c);
+      memcpy (vic_ii.cbuf + offs + c, vic_ii.color_ram, num - c);
+    }
 }
 
-/* prototype for resources - moved to raster.c */
-static int set_palette_file_name(resource_value_t v);
-
-#ifdef NEED_2x
-static int set_double_size_enabled(resource_value_t v)
+/* If we are on a bad line, do the DMA.  Return nonzero if cycles have been
+   stolen.  */
+inline static int 
+do_matrix_fetch (CLOCK sub)
 {
-    double_size_enabled = (int) v;
-#ifdef USE_VIDMODE_EXTENSION
-    if(!fullscreen)
-#endif
-        video_resize();
-    return 0;
-}
+  if (!vic_ii.memory_fetch_done)
+    {
+      raster_t *raster;
 
-static int set_double_scan_enabled(resource_value_t v)
-{
-    double_scan_enabled = (int) v;
-#ifdef USE_VIDMODE_EXTENSION
-    if(!fullscreen)
-#endif
-        video_resize();
-    return 0;
-}
-#endif
+      raster = &vic_ii.raster;
 
-#ifdef USE_VIDMODE_EXTENSION
+      vic_ii.memory_fetch_done = 1;
+      vic_ii.mem_counter = vic_ii.memptr;
 
-void fullscreen_forcerepaint(void);
-
-#ifdef NEED_2x
-static int set_fullscreen_double_size_enabled(resource_value_t v)
-{
-    fullscreen_double_size_enabled = (int) v;
-    fullscreen_forcerepaint();
-    return 0;
-}
-#endif
-
-static int set_fullscreen_double_scan_enabled(resource_value_t v)
-{
-    fullscreen_double_scan_enabled = (int) v;
-    fullscreen_forcerepaint();
-    return 0;
-}
-
-#endif
-
-static resource_t resources[] = {
-    { "CheckSsColl", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &sprite_sprite_collisions_enabled, set_sprite_sprite_collisions_enabled },
-    { "CheckSbColl", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &sprite_background_collisions_enabled, set_sprite_background_collisions_enabled },
-    { "PaletteFile", RES_STRING, (resource_value_t) "default",
-      (resource_value_t *) &palette_file_name, set_palette_file_name },
-#ifdef NEED_2x
-    { "DoubleSize", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &double_size_enabled, set_double_size_enabled },
-    { "DoubleScan", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &double_scan_enabled, set_double_scan_enabled },
-#endif
-
-#ifdef USE_VIDMODE_EXTENSION
-#ifdef NEED_2x
-    { "FullscreenDoubleSize", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &fullscreen_double_size_enabled,
-      set_fullscreen_double_size_enabled },
-#endif
-    { "FullscreenDoubleScan", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &fullscreen_double_scan_enabled,
-      set_fullscreen_double_scan_enabled },
-#endif
-
-#ifndef __MSDOS__
-    { "VideoCache", RES_INTEGER, (resource_value_t) 1,
-      (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
-#else
-    { "VideoCache", RES_INTEGER, (resource_value_t) 0,
-      (resource_value_t *) &video_cache_enabled, set_video_cache_enabled },
-#endif
-    { NULL }
-};
-
-int vic_ii_init_resources(void)
-{
-    return resources_register(resources);
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* VIC-II command-line options.  */
-
-static cmdline_option_t cmdline_options[] = {
-    { "-vcache", SET_RESOURCE, 0, NULL, NULL,
-      "VideoCache", (resource_value_t) 1,
-      NULL, "Enable the video cache" },
-    { "+vcache", SET_RESOURCE, 0, NULL, NULL,
-      "VideoCache", (resource_value_t) 0,
-      NULL, "Disable the video cache" },
-    { "-checksb", SET_RESOURCE, 0, NULL, NULL,
-      "CheckSbColl", (resource_value_t) 1,
-      NULL, "Enable sprite-background collision registers" },
-    { "+checksb", SET_RESOURCE, 0, NULL, NULL,
-      "CheckSbColl", (resource_value_t) 0,
-      NULL, "Disable sprite-background collision registers" },
-    { "-checkss", SET_RESOURCE, 0, NULL, NULL,
-      "CheckSsColl", (resource_value_t) 1,
-      NULL, "Enable sprite-sprite collision registers" },
-    { "+checkss", SET_RESOURCE, 0, NULL, NULL,
-      "CheckSsColl", (resource_value_t) 0,
-      NULL, "Disable sprite-sprite collision registers" },
-    { "-palette", SET_RESOURCE, 1, NULL, NULL,
-      "PaletteFile", NULL,
-      "<name>", "Specify palette file name" },
-#ifdef NEED_2x
-    { "-dsize", SET_RESOURCE, 0, NULL, NULL,
-      "DoubleSize", (resource_value_t) 1,
-      NULL, "Enable double size" },
-    { "+dsize", SET_RESOURCE, 0, NULL, NULL,
-      "DoubleSize", (resource_value_t) 0,
-      NULL, "Disable double size" },
-    { "-dscan", SET_RESOURCE, 0, NULL, NULL,
-      "DoubleScan", (resource_value_t) 1,
-      NULL, "Enable double scan" },
-    { "+dscan", SET_RESOURCE, 0, NULL, NULL,
-      "DoubleScan", (resource_value_t) 0,
-      NULL, "Disable double scan" },
-#ifdef USE_VIDMODE_EXTENSION
-    { "-fsdsize", SET_RESOURCE, 0, NULL, NULL,
-      "FullscreenDoubleSize", (resource_value_t) 1,
-      NULL, "Enable fullscreen double size" },
-    { "+fsdsize", SET_RESOURCE, 0, NULL, NULL,
-      "FullscreenDoubleSize", (resource_value_t) 0,
-      NULL, "Disable fullscreen double size" },
-    { "-fsdscan", SET_RESOURCE, 0, NULL, NULL,
-      "FullscreenDoubleScan", (resource_value_t) 1,
-      NULL, "Enable fullscreen double scan" },
-    { "+fsdscan", SET_RESOURCE, 0, NULL, NULL,
-      "FullscreenDoubleScan", (resource_value_t) 0,
-      NULL, "Disable fullscreen double scan" },
-#endif
-#endif
-    { NULL }
-};
-
-int vic_ii_init_cmdline_options(void)
-{
-    return cmdline_register_options(cmdline_options);
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Debugging options. */
-/* #define VIC_II_VMODE_DEBUG */
-/* #define VIC_II_RASTER_DEBUG */
-/* #define VIC_II_REGISTERS_DEBUG */
-
-#ifdef VIC_II_VMODE_DEBUG
-#define DEBUG_VMODE(x)		log_debug x
-#else
-#define DEBUG_VMODE(x)
-#endif
-
-#ifdef VIC_II_RASTER_DEBUG
-#define DEBUG_RASTER(x) 	log_debug x
-#else
-#define DEBUG_RASTER(x)
-#endif
-
-#ifdef VIC_II_REGISTERS_DEBUG
-#define DEBUG_REGISTER(x)	log_debug x
-#else
-#define DEBUG_REGISTER(x)
-#endif
-
-/* This is used for performance evaluation. */
-#undef NO_REDRAW
-
-/* ------------------------------------------------------------------------- */
-
-/* These timings are taken from the ``VIC Article'' by Christian Bauer
-   (bauec002@goofy.zdv.uni-mainz.de).  Thanks Christian!
-   Note: we measure cycles from 0 to 62, not from 1 to 63 as he does. */
-
-/* Cycle # at which the VIC takes the bus in a bad line (BA goes low).  */
-#define	FETCH_CYCLE		11
-
-/* Cycle # at which sprite DMA is set.  */
-#define SPRITE_FETCH_CYCLE	54
-
-/* Cycle # at which the current raster line is re-drawn.  It is set to
-   `CYCLES_PER_LINE', so this actually happens at the very beginning
-   (i.e. cycle 0) of the next line.  */
-#define DRAW_CYCLE		CYCLES_PER_LINE
-
-/* Delay for the raster line interrupt.  This is not due to the VIC-II, since
-   it triggers the IRQ line at the beginning of the line, but to the 6510 that
-   needs at least 2 cycles to detect it.  */
-#define RASTER_INT_DELAY	2
-
-/* Current char being drawn by the raster.  < 0 or >= SCREEN_TEXTCOLS if
-   outside the visible range.  */
-#define RASTER_CHAR(cycle)	((int) (cycle) - 15)
-
-/* Current horizontal position (in pixels) of the raster.  < 0 or >=
-   SCREEN_WIDTH if outside the visible range. */
-#define RASTER_X(cycle)		(((int) (cycle) - 13) * 8)
-
-/* Current vertical position of the raster.  Unlike `rasterline', which is
-   only accurate if a pending `A_RASTERDRAW' event has been served, this is
-   guarranteed to be always correct.  It is a bit slow, though.  */
-#define RASTER_Y    	((int)(clk / CYCLES_PER_LINE) % SCREEN_HEIGHT)
-
-/* Cycle # within the current line.  */
-#define RASTER_CYCLE	((int)(clk % CYCLES_PER_LINE))
-
-/* `clk' value for the beginning of the current line.  */
-#define LINE_START_CLK	((clk / CYCLES_PER_LINE) * CYCLES_PER_LINE)
-
-/* # of the previous and next raster line.  Handles wrap over.  */
-#define PREVIOUS_LINE(line)   (((line) > 0) \
-			       ? (line) - 1 : VIC_II_SCREEN_HEIGHT - 1)
-#define NEXT_LINE(line)	      (((line) + 1) % VIC_II_SCREEN_HEIGHT)
-
-/* Bad line range.  */
-#define FIRST_DMA_LINE	0x30
-#define LAST_DMA_LINE   0xf7
-
-static void init_drawing_tables(void);
-
-#include "raster.c"
-
-
-/* ------------------------------------------------------------------------- */
-
-/* Set the video mode according to the values in registers $D011 and $D016 of
-   the VIC-II chip. */
-inline static void set_video_mode(int cycle)
-{
-    static int old_video_mode = -1;
-    int new_video_mode;
-
-    new_video_mode = ((vic[0x11] & 0x60) | (vic[0x16] & 0x10)) >> 4;
-
-    if (new_video_mode != old_video_mode) {
-	if (new_video_mode == VIC_II_HIRES_BITMAP_MODE
-	    || VIC_II_IS_ILLEGAL_MODE(new_video_mode)) {
-	    /* Force the overscan color to black.  */
-            add_int_change_background(RASTER_X(cycle),
-                                      &overscan_background_color,
-                                      0);
-	    force_black_overscan_background_color = 1;
-	} else {
-	    /* The overscan background color is given by the background color
-               register.  */
-	    if (overscan_background_color != vic[0x21])
-		add_int_change_background(RASTER_X(cycle),
-					  &overscan_background_color,
-					  vic[0x21]);
-	    force_black_overscan_background_color = 0;
-	}
-
+      if ((raster->current_line & 7) == (unsigned int) raster->ysmooth
+          && vic_ii.allow_bad_lines
+          && raster->current_line >= VIC_II_FIRST_DMA_LINE
+          && raster->current_line <= VIC_II_LAST_DMA_LINE)
         {
-            int pos = RASTER_CHAR(cycle);
+          vic_ii_fetch_matrix (0, VIC_II_SCREEN_TEXTCOLS);
 
-            add_int_change_foreground(pos, &video_mode, new_video_mode);
+          raster->draw_idle_state = 0;
+          raster->ycounter = 0;
 
-            if (idle_data_location != IDLE_NONE) {
-                if (vic[0x11] & 0x40)
-                    add_int_change_foreground(pos, (void *) &idle_data,
-                                              ram_base[vbank + 0x39ff]);
-                else
-                    add_int_change_foreground(pos, (void *) &idle_data,
-                                              ram_base[vbank + 0x3fff]);
+          vic_ii.idle_state = 0;
+          vic_ii.idle_data_location = IDLE_NONE;
+          vic_ii.ycounter_reset_checked = 1;
+          vic_ii.memory_fetch_done = 2;
+
+          maincpu_steal_cycles (vic_ii.fetch_clk,
+                                VIC_II_SCREEN_TEXTCOLS + 3 - sub);
+
+          vic_ii.bad_line = 1;
+          return 1;
+        }
+    }
+
+  return 0;
+}
+
+/* Enable DMA for sprite `num'.  */
+inline static void 
+turn_sprite_dma_on (unsigned int num)
+{
+  raster_sprite_status_t *sprite_status;
+  raster_sprite_t *sprite;
+
+  sprite_status = &vic_ii.raster.sprite_status;
+  sprite = sprite_status->sprites + num;
+
+  sprite_status->new_dma_msk |= 1 << num;
+  sprite->dma_flag = 1;
+  sprite->memptr = 0;
+  sprite->exp_flag = sprite->y_expanded ? 0 : 1;
+  sprite->memptr_inc = sprite->exp_flag ? 3 : 0;
+}
+
+/* Check for sprite DMA.  */
+inline static void 
+check_sprite_dma (void)
+{
+  raster_sprite_status_t *sprite_status;
+  int i, b;
+
+  sprite_status = &vic_ii.raster.sprite_status;
+
+  if (! sprite_status->visible_msk && ! sprite_status->dma_msk)
+    return;
+
+  sprite_status->new_dma_msk = sprite_status->dma_msk;
+
+  for (i = 0, b = 1; i < VIC_II_NUM_SPRITES; i++, b <<= 1)
+    {
+      raster_sprite_t *sprite;
+
+      sprite = sprite_status->sprites + i;
+
+      if ((sprite_status->visible_msk & b)
+          && sprite->y == ((int) vic_ii.raster.current_line & 0xff)
+          && !sprite->dma_flag)
+        turn_sprite_dma_on (i);
+      else if (sprite->dma_flag)
+        {
+          sprite->memptr = (sprite->memptr + sprite->memptr_inc) & 0x3f;
+
+          if (sprite->y_expanded)
+            sprite->exp_flag = !sprite->exp_flag;
+
+          sprite->memptr_inc = sprite->exp_flag ? 3 : 0;
+
+          if (sprite->memptr == 63)
+            {
+              sprite->dma_flag = 0;
+              sprite_status->new_dma_msk &= ~b;
+
+              if ((sprite_status->visible_msk & b)
+                  && sprite->y == ((int) vic_ii.raster.current_line & 0xff))
+                turn_sprite_dma_on (i);
             }
         }
-
-	old_video_mode = new_video_mode;
-   }
-
-#ifdef VIC_II_VMODE_DEBUG
-    switch (new_video_mode) {
-      case VIC_II_NORMAL_TEXT_MODE:
-	DEBUG_VMODE(("Standard Text"));
-	break;
-      case VIC_II_MULTICOLOR_TEXT_MODE:
-	DEBUG_VMODE(("Multicolor Text"));
-	break;
-      case VIC_II_HIRES_BITMAP_MODE:
-	DEBUG_VMODE(("Hires Bitmap"));
-	break;
-      case VIC_II_MULTICOLOR_BITMAP_MODE:
-	DEBUG_VMODE(("Multicolor Bitmap"));
-	break;
-      case VIC_II_EXTENDED_TEXT_MODE:
-	DEBUG_VMODE(("Extended Text"));
-	break;
-      case VIC_II_ILLEGAL_TEXT_MODE:
-	DEBUG_VMODE(("Illegal Text"));
-	break;
-      case VIC_II_ILLEGAL_BITMAP_MODE_1:
-	DEBUG_VMODE(("Invalid Bitmap"));
-	break;
-      case VIC_II_ILLEGAL_BITMAP_MODE_2:
-	DEBUG_VMODE(("Invalid Bitmap"));
-	break;
-      default:			/* cannot happen */
-	DEBUG_VMODE(("???"));
-    }
-
-    DEBUG_VMODE((" Mode enabled at line $%04X, cycle %d.\n", RASTER_Y, cycle));
-#endif
-}
-
-/* Set the memory pointers according to the values in the registers. */
-static void set_memory_ptrs(int cycle)
-{
-    static BYTE *old_screen_ptr, *old_bitmap_ptr, *old_chargen_ptr;
-    static int old_vbank = -1;
-    ADDRESS scraddr;		/* Screen start address. */
-    BYTE *screenbase;		/* Pointer to screen memory. */
-    BYTE *charbase;		/* Pointer to character memory. */
-    BYTE *bitmapbase;		/* Pointer to bitmap memory. */
-    int tmp;
-
-    scraddr = vbank + ((vic[0x18] & 0xf0) << 6);
-
-    if ((scraddr & 0x7000) != 0x1000) {
-	screenbase = ram_base + scraddr;
-	DEBUG_REGISTER(("\tVideo memory at $%04X\n", scraddr));
-    } else {
-	screenbase = chargen_rom + (scraddr & 0x800);
-	DEBUG_REGISTER(("\tVideo memory at Character ROM + $%04X\n",
-			scraddr & 0x800));
-    }
-
-    tmp = (vic[0x18] & 0xe) << 10;
-    bitmapbase = ram_base + (tmp & 0xe000);
-    tmp += vbank;
-
-    DEBUG_REGISTER(("\tBitmap memory at $%04X\n", bitmapbase - ram_base + vbank));
-
-    if ((tmp & 0x7000) != 0x1000) {
-	charbase = ram_base + tmp;
-	DEBUG_REGISTER(("\tUser-defined character set at $%04X\n", tmp));
-    } else {
-	charbase = chargen_rom + (tmp & 0x0800);
-	DEBUG_REGISTER(("\tStandard %s character set enabled\n",
-			tmp & 0x800 ? "Lower Case" : "Upper Case"));
-    }
-
-    if (ultimax != 0)
-        charbase = ((tmp & 0x3fff) >= 0x3000
-                    ? romh_banks + (romh_bank << 13) + (tmp & 0x7ff) + 0x1000
-                    : ram_base + tmp);
-
-    tmp = RASTER_CHAR(cycle);
-
-    if (idle_data_location != IDLE_NONE && old_vbank != vbank) {
-        if (idle_data_location == IDLE_39FF)
-            add_int_change_foreground(RASTER_CHAR(cycle), &idle_data,
-                                      ram_base[vbank + 0x39ff]);
-        else
-            add_int_change_foreground(RASTER_CHAR(cycle), &idle_data,
-                                      ram_base[vbank + 0x3fff]);
-    }
-
-    if (skip_next_frame || (tmp <= 0 && clk < vic_ii_draw_clk)) {
-        old_screen_ptr = screen_ptr = screenbase;
-        old_bitmap_ptr = bitmap_ptr = bitmapbase + vbank;
-        old_chargen_ptr = chargen_ptr = charbase;
-	old_vbank = vbank;
-        vbank_ptr = ram_base + vbank;
-        sprite_ptr_base = screenbase + 0x3f8;
-    } else if (tmp < SCREEN_TEXTCOLS) {
-	if (screenbase != old_screen_ptr) {
-	    add_ptr_change_foreground(tmp, (void **)&screen_ptr,
-				      (void *)screenbase);
-	    add_ptr_change_foreground(tmp, (void **)&sprite_ptr_base,
-				      (void *)(screenbase + 0x3f8));
-	    old_screen_ptr = screenbase;
-	}
-	if (bitmapbase + vbank != old_bitmap_ptr) {
-	    add_ptr_change_foreground(tmp, (void **)&bitmap_ptr,
-				      (void *)(bitmapbase + vbank));
-	    old_bitmap_ptr = bitmapbase + vbank;
-	}
-	if (charbase != old_chargen_ptr) {
-	    add_ptr_change_foreground(tmp, (void **)&chargen_ptr,
-				      (void *)charbase);
-	    old_chargen_ptr = charbase;
-	}
-	if (vbank != old_vbank) {
-	    add_ptr_change_foreground(tmp, (void **)&vbank_ptr,
-				      (void *)(ram_base + vbank));
-	    old_vbank = vbank;
-	}
-    } else {
-	if (screenbase != old_screen_ptr) {
-	    add_ptr_change_next_line((void **)&screen_ptr,
-				     (void *)screenbase);
-	    add_ptr_change_next_line((void **)&sprite_ptr_base,
-				     (void *)(screenbase + 0x3f8));
-	    old_screen_ptr = screenbase;
-	}
-	if (bitmapbase + vbank != old_bitmap_ptr) {
-	    add_ptr_change_next_line((void **)&bitmap_ptr,
-				     (void *)(bitmapbase + vbank));
-	    old_bitmap_ptr = bitmapbase + vbank;
-	}
-	if (charbase != old_chargen_ptr) {
-	    add_ptr_change_next_line((void **)&chargen_ptr,
-				     (void *)charbase);
-	    old_chargen_ptr = charbase;
-	}
-	if (vbank != old_vbank) {
-	    add_ptr_change_next_line((void **)&vbank_ptr,
-				     (void *)(ram_base + vbank));
-	    old_vbank = vbank;
-	}
     }
 }
 
-/* Calculate the value of clk when int_raster() should be called next time. */
-inline static void update_int_raster(void)
+
+
+int
+vic_ii_init_resources (void)
 {
-    if (int_raster_line < VIC_II_SCREEN_HEIGHT) {
-	int current_line = RASTER_Y;
-
-	int_raster_clk = (LINE_START_CLK + RASTER_INT_DELAY - INTERRUPT_DELAY
-			  + CYCLES_PER_LINE * (int_raster_line
-					       - current_line));
-
-	/* Raster interrupts on line 0 are delayed by 1 cycle.  */
-	if (int_raster_line == 0)
-	    int_raster_clk++;
-
-	if (int_raster_line <= current_line)
-	    int_raster_clk += VIC_II_SCREEN_HEIGHT * CYCLES_PER_LINE;
-        alarm_set(&raster_irq_alarm, int_raster_clk);
-    } else {
-	DEBUG_RASTER(("VIC: update_int_raster(): "
-		      "raster compare out of range ($%04X)!\n",
-		      int_raster_line));
-        alarm_unset(&raster_irq_alarm);
-    }
-
-    DEBUG_RASTER(("VIC: update_int_raster(): "
-		  "int_raster_clk = %ul, line = $%04X, vic[0x1a]&1 = %d\n",
-		  int_raster_clk, int_raster_line, vic[0x1a] & 1));
+  return vic_ii_resources_init ();
 }
 
-/* ------------------------------------------------------------------------ */
-
-static void clk_overflow_callback(CLOCK sub, void *unused_data)
+int
+vic_ii_init_cmdline_options (void)
 {
-    int_raster_clk -= sub;
-    oldclk -= sub;
-    vic_ii_fetch_clk -= sub;
-    vic_ii_draw_clk -= sub;
+  return vic_ii_cmdline_options_init ();
 }
 
-/* ------------------------------------------------------------------------ */
+
 
-/* Initialize the VIC-II emulation. */
-canvas_t vic_ii_init(void)
+/* Initialize the VIC-II emulation.  */
+canvas_t 
+vic_ii_init (void)
 {
-    static const char *color_names[VIC_II_NUM_COLORS] = {
-        "Black", "White", "Red", "Cyan", "Purple", "Green", "Blue",
-        "Yellow", "Orange", "Brown", "Light Red", "Dark Gray", "Medium Gray",
-        "Light Green", "Light Blue", "Light Gray"
-    };
-    char title[256];
+  vic_ii.log = log_open ("VIC-II");
 
-#ifdef AVOID_STATIC_ARRAYS
-    ram_base = ram;
-#endif
+  alarm_init (&vic_ii.raster_fetch_alarm, &maincpu_alarm_context,
+              "VicIIRasterFetch", vic_ii_raster_fetch_alarm_handler);
+  alarm_init (&vic_ii.raster_draw_alarm, &maincpu_alarm_context,
+              "VicIIRasterDraw", vic_ii_raster_draw_alarm_handler);
+  alarm_init (&vic_ii.raster_irq_alarm, &maincpu_alarm_context,
+              "VicIIRasterIrq", vic_ii_raster_irq_alarm_handler);
 
-#ifdef NEED_2x
-    if (init_raster(1, 2, 2) < 0)
-        return NULL;
-#else
-    if (init_raster(1, 1, 1) < 0)
-        return NULL;
-#endif
+  init_raster ();
 
-    alarm_init(&raster_fetch_alarm, &maincpu_alarm_context,
-               "VicIIRasterFetch", int_rasterfetch);
-    alarm_init(&raster_draw_alarm, &maincpu_alarm_context,
-               "VicIIRasterDraw", int_rasterdraw);
-    alarm_init(&raster_irq_alarm, &maincpu_alarm_context,
-               "VicIIRasterIrq", int_raster);
+  vic_ii_powerup ();
 
-    video_resize();
+  vic_ii_update_video_mode (0);
+  vic_ii_update_memory_ptrs (0);
 
-    palette = palette_create(VIC_II_NUM_COLORS, color_names);
-    if (palette == NULL)
-        return NULL;
+  vic_ii_draw_init ();
+  vic_ii_draw_set_double_size (vic_ii_resources.double_size_enabled);
 
-    if (palette_load(palette_file_name, palette) < 0) {
-        log_message(vic_ii_log, "Cannot load palette file `%s'.",
-                    palette_file_name);
-        return NULL;
-    }
+  vic_ii_sprites_init ();
+  vic_ii_sprites_set_double_size (vic_ii_resources.double_size_enabled);
 
-    sprintf(title, "VICE: %s emulator", machine_name);
-    if (open_output_window(title,
-			   SCREEN_XPIX + SCREEN_BORDERWIDTH * 2,
-			   (VIC_II_LAST_DISPLAYED_LINE
-			    - VIC_II_FIRST_DISPLAYED_LINE),
-			   palette,
-			   ((canvas_redraw_t)vic_ii_exposure_handler))) {
-	log_error(vic_ii_log, "Cannot open window for the VIC-II emulation.");
-	return NULL;
-    }
+  vic_ii.initialized = 1;
 
-    display_ystart = VIC_II_25ROW_START_LINE;
-    display_ystop = VIC_II_25ROW_STOP_LINE;
+  clk_guard_add_callback (&maincpu_clk_guard, clk_overflow_callback, NULL);
 
-    set_video_mode(0);
-    set_memory_ptrs(0);
+  if (clk_guard_get_clk_base (&maincpu_clk_guard) == 0)
+    clk_guard_set_clk_base (&maincpu_clk_guard, C64_PAL_CYCLES_PER_RFSH);
+  else
+    /* Safety measure.  */
+    log_error (vic_ii.log, "Trying to override clk base!?  Code is broken.");
 
-    init_drawing_tables();
-    refresh_all();
-
-    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
-
-    if (clk_guard_get_clk_base(&maincpu_clk_guard) == 0) {
-        clk_guard_set_clk_base(&maincpu_clk_guard, C64_PAL_CYCLES_PER_RFSH);
-    } else {
-        /* Safety measure.  */
-        log_error(vic_ii_log,
-                  "Trying to override clk base!?  Code is broken.");
-    }
-
-    vic_ii_powerup();
-    
-    return canvas;
+  return vic_ii.raster.viewport.canvas;
 }
 
-/* Toggle support for C128 extended keyboard rows.  */
-void vic_ii_enable_extended_keyboard_rows(int flag)
+/* Reset the VIC-II chip.  */
+void 
+vic_ii_reset (void)
 {
-    extended_keyboard_rows_enabled = flag;
-    if (extended_keyboard_rows_enabled)
-        vic_unused_bits[0x2f] = 0xf8;
-    else
-        vic_unused_bits[0x2f] = 0xff;
-}
+  raster_reset (&vic_ii.raster);
 
-/* Reset the VIC-II chip. */
-void reset_vic_ii(void)
-{
-    if (vic_ii_log == LOG_ERR)
-        vic_ii_log = log_open("VIC-II");
+  vic_ii.last_emulate_line_clk = 0;
 
-    reset_raster();
+  vic_ii.draw_clk = VIC_II_DRAW_CYCLE;
+  alarm_set (&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
 
-    vic_ii_draw_clk = DRAW_CYCLE;
-    alarm_set(&raster_draw_alarm, vic_ii_draw_clk);
+  vic_ii.fetch_clk = VIC_II_FETCH_CYCLE;
+  alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+  vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
+  vic_ii.sprite_fetch_idx = 0;
+  vic_ii.sprite_fetch_msk = 0;
+  vic_ii.sprite_fetch_clk = CLOCK_MAX;
 
-    vic_ii_fetch_clk = FETCH_CYCLE;
-    alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
-    fetch_idx = FETCH_MATRIX;
+  /* FIXME: I am not sure this is exact emulation.  */
+  vic_ii.raster_irq_line = 0;
+  vic_ii.raster_irq_clk = 0;
 
-    /* FIXME: I am not sure this is exact emulation.  */
-    int_raster_line = 0;
-    int_raster_clk = 0;
-    alarm_set(&raster_irq_alarm, 1);
+  /* Setup the raster IRQ alarm.  The value is `1' instead of `0' because we
+     are at the first line, which has a +1 clock cycle delay in IRQs.  */
+  alarm_set (&vic_ii.raster_irq_alarm, 1);
 
-    light_pen.triggered = light_pen.x = light_pen.y = 0;
+  vic_ii.force_display_state = 0;
 
-    /* Remove all the IRQ sources.  */
-    vic[0x1a] = 0;
+  vic_ii.light_pen.triggered = 0;
+  vic_ii.light_pen.x = vic_ii.light_pen.y = 0;
+
+  /* Remove all the IRQ sources.  */
+  vic_ii.regs[0x1a] = 0;
 }
 
 /* This /should/ put the VIC-II in the same state as after a powerup, if
    `reset_vic_ii()' is called afterwards.  But FIXME, as we are not really
    emulating everything correctly here; just $D011.  */
-void vic_ii_powerup(void)
+void 
+vic_ii_powerup (void)
 {
-    vic[0x11] = 0;
-    int_raster_line = 0;
-    blank = 1;
-    display_ystart = VIC_II_24ROW_START_LINE;
-    display_ystop = VIC_II_24ROW_STOP_LINE;
-    ysmooth = 0;
+  memset (vic_ii.regs, 0, sizeof (vic_ii.regs));
+
+  vic_ii.irq_status = 0;
+  vic_ii.raster_irq_line = 0;
+  vic_ii.raster_irq_clk = 1;
+  vic_ii.ram_base = ram;
+  vic_ii.allow_bad_lines = 0;
+  vic_ii.sprite_sprite_collisions = vic_ii.sprite_background_collisions = 0;
+  vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
+  vic_ii.idle_state = 0;
+  vic_ii.force_display_state = 0;
+  vic_ii.memory_fetch_done = 0;
+  vic_ii.memptr = 0;
+  vic_ii.mem_counter = 0;
+  vic_ii.mem_counter_inc = 0;
+  vic_ii.bad_line = 0;
+  vic_ii.ycounter_reset_checked = 0;
+  vic_ii.force_black_overscan_background_color = 0;
+  vic_ii.light_pen.x = vic_ii.light_pen.y = vic_ii.light_pen.triggered = 0;
+  vic_ii.vbank = 0;
+  vic_ii.vbank_ptr = ram;
+  vic_ii.idle_data = 0;
+  vic_ii.idle_data_location = IDLE_NONE;
+  vic_ii.extended_keyboard_rows_enabled = 0;
+  vic_ii.last_emulate_line_clk = 0;
+
+  vic_ii_reset ();
+
+  vic_ii.regs[0x11] = 0;
+
+  vic_ii.raster_irq_line = 0;
+
+  vic_ii.raster.blank = 1;
+  vic_ii.raster.display_ystart = VIC_II_24ROW_START_LINE;
+  vic_ii.raster.display_ystop = VIC_II_24ROW_STOP_LINE;
+
+  vic_ii.raster.ysmooth = 0;
 }
 
 /* This hook is called whenever video bank must be changed.  */
-void vic_ii_set_vbank(int num_vbank)
+void 
+vic_ii_set_vbank (int num_vbank)
 {
-    /* Warning: assumes it's called within a memory write access.  */
-    /* Also, we assume the bank has *really* changed, and do not do any
-       special optimizations for the not-really-changed case.  */
-    vic_ii_handle_pending_alarms(rmw_flag + 1);
-    if (clk >= vic_ii_draw_clk)
-	int_rasterdraw(clk - vic_ii_draw_clk);
-    vbank = num_vbank << 14;
-    set_memory_ptrs(RASTER_CYCLE);
+  /* Warning: assumes it's called within a memory write access.
+     FIXME: Change name?  */
+  /* Also, we assume the bank has *really* changed, and do not do any
+     special optimizations for the not-really-changed case.  */
+  vic_ii_handle_pending_alarms (rmw_flag + 1);
+  if (clk >= vic_ii.draw_clk)
+    vic_ii_raster_draw_alarm_handler (clk - vic_ii.draw_clk);
+
+  vic_ii.vbank = num_vbank << 14;
+  vic_ii_update_memory_ptrs (VIC_II_RASTER_CYCLE (clk));
 }
 
-/* Change the base of RAM seen by the VIC-II.  */
-void vic_ii_set_ram_base(BYTE *base)
+/* Trigger the light pen.  */
+void 
+vic_ii_trigger_light_pen (CLOCK mclk)
 {
-    /* WARNING: assumes `rmw_flag' is 0 or 1. */
-    vic_ii_handle_pending_alarms(rmw_flag + 1);
+  if (!vic_ii.light_pen.triggered)
+    {
+      vic_ii.light_pen.triggered = 1;
+      vic_ii.light_pen.x = VIC_II_RASTER_X (mclk % VIC_II_CYCLES_PER_LINE);
+      if (vic_ii.light_pen.x < 0)
+        vic_ii.light_pen.x = VIC_II_SPRITE_WRAP_X + vic_ii.light_pen.x;
 
-    ram_base = base;
-    set_memory_ptrs(RASTER_CYCLE);
-}
+      /* FIXME: why `+2'? */
+      vic_ii.light_pen.x = vic_ii.light_pen.x / 2 + 2;
+      vic_ii.light_pen.y = VIC_II_RASTER_Y (mclk);
+      vic_ii.irq_status |= 0x8;
 
-/* Trigger the light pen. */
-void vic_ii_trigger_light_pen(CLOCK mclk)
-{
-    if (!light_pen.triggered) {
-	light_pen.triggered = 1;
-	light_pen.x = RASTER_X(mclk % CYCLES_PER_LINE);
-	if (light_pen.x < 0)
-	    light_pen.x = SCREEN_SPRITE_WRAP_X + light_pen.x;
-	/* FIXME: why `+2'? */
-	light_pen.x = light_pen.x / 2 + 2;
-	light_pen.y = (mclk / CYCLES_PER_LINE) % SCREEN_HEIGHT;
-	videoint |= 0x8;
-	if (vic[0x1a] & 0x8) {
-	    videoint |= 0x80;
-	    maincpu_set_irq_clk(I_RASTER, 1, mclk);
-	}
+      if (vic_ii.regs[0x1a] & 0x8)
+        {
+          vic_ii.irq_status |= 0x80;
+          maincpu_set_irq_clk (I_RASTER, 1, mclk);
+        }
     }
 }
 
-/* Handle the exposure event. */
-void vic_ii_exposure_handler(unsigned int width, unsigned int height)
+/* Handle the exposure event.  */
+void 
+vic_ii_exposure_handler (unsigned int width, unsigned int height)
 {
-#ifdef USE_VIDMODE_EXTENSION
-    if(fullscreen) return;
-#endif
-    resize(width, height);
-    force_repaint();
+  raster_resize_viewport (&vic_ii.raster, width, height);
+
+  /* FIXME: Needed?  Maybe this should be triggered by
+     `raster_resize_viewport()' automatically.  */
+  raster_force_repaint (&vic_ii.raster);
 }
 
-/* Free the allocated frame buffer. */
-void video_free(void)
+/* Toggle support for C128 extended keyboard rows.  */
+void 
+vic_ii_enable_extended_keyboard_rows (int flag)
 {
-    frame_buffer_free(&frame_buffer);
-#ifdef C128
-    vdc_video_free();
-#endif
+  vic_ii.extended_keyboard_rows_enabled = flag;
 }
 
 /* Make sure all the VIC-II alarms are removed.  This just makes it easier to
    write functions for loading snapshot modules in other video chips without
    caring that the VIC-II alarms are dispatched when they really shouldn't
    be.  */
-void vic_ii_prepare_for_snapshot(void)
+void 
+vic_ii_prepare_for_snapshot (void)
 {
-    vic_ii_fetch_clk = CLOCK_MAX;
-    alarm_unset(&raster_fetch_alarm);
-    vic_ii_draw_clk = CLOCK_MAX;
-    alarm_unset(&raster_draw_alarm);
+  vic_ii.fetch_clk = CLOCK_MAX;
+  alarm_unset (&vic_ii.raster_fetch_alarm);
+  vic_ii.draw_clk = CLOCK_MAX;
+  alarm_unset (&vic_ii.raster_draw_alarm);
 }
 
-/* ------------------------------------------------------------------------- */
+
 
-/* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes
-   care of the 10-bit counter wraparound.  */
-inline static void fetch_matrix(int offs, int num)
+void
+vic_ii_set_raster_irq (unsigned int line)
 {
-    BYTE *p = ram_base + vbank + ((vic[0x18] & 0xf0) << 6);
-    int start_char = (mem_counter + offs) & 0x3ff;
-    int c = 0x3ff - start_char + 1;
+  if (line == vic_ii.raster_irq_line)
+    return;
 
-    if (c >= num) {
-	memcpy(vbuf + offs, p + start_char, num);
-	memcpy(cbuf + offs, color_ptr + start_char, num);
-    } else {
-	memcpy(vbuf + offs, p + start_char, c);
-	memcpy(vbuf + offs + c, p, num - c);
-	memcpy(cbuf + offs, color_ptr + start_char, c);
-	memcpy(cbuf + offs + c, color_ptr, num - c);
+  if (line < VIC_II_SCREEN_HEIGHT)
+    {
+      unsigned int current_line = VIC_II_RASTER_Y (clk);
+
+      vic_ii.raster_irq_clk = (VIC_II_LINE_START_CLK (clk)
+                               + VIC_II_RASTER_IRQ_DELAY - INTERRUPT_DELAY
+                               + (VIC_II_CYCLES_PER_LINE
+                                  * (line - current_line)));
+
+      /* Raster interrupts on line 0 are delayed by 1 cycle.  */
+      if (line == 0)
+        vic_ii.raster_irq_clk++;
+
+      if (line <= current_line)
+        vic_ii.raster_irq_clk += (VIC_II_SCREEN_HEIGHT
+                                  * VIC_II_CYCLES_PER_LINE);
+      alarm_set (&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
     }
-}
-
-/* Here we try to emulate $D011...  */
-inline static void store_d011(BYTE value)
-{
-    int r = int_raster_line;
-    int cycle = RASTER_CYCLE;
-    int line = RASTER_Y;
-
-    DEBUG_REGISTER(("\tControl register: $%02X\n", value));
-    DEBUG_REGISTER(("$D011 trickery at cycle %d, line $%04X, value $%02X\n",
-		    cycle, line, value));
-
-    int_raster_line = ((int_raster_line & 0xff) | ((value & 0x80) << 1));
-
-    DEBUG_REGISTER(("\tRaster interrupt line set to $%04X\n",
-		    int_raster_line));
-
-    if (int_raster_line != r)
-	update_int_raster();
-
-    /* This is the funniest part... handle bad line tricks. */
-
-    if (line == FIRST_DMA_LINE && (value & 0x10) != 0)
-	allow_bad_lines = 1;
-
-    if (ysmooth != (value & 7)
-	&& line >= FIRST_DMA_LINE
-	&& line <= LAST_DMA_LINE) {
-
-	int was_bad_line, now_bad_line;
-
-	/* Check whether bad line state has changed.  */
-	was_bad_line = (allow_bad_lines && (ysmooth == (line & 7)));
-	now_bad_line = (allow_bad_lines && ((value & 7) == (line & 7)));
-
-	if (was_bad_line && !now_bad_line) {
-
-	    /* Bad line becomes good.  */
-	    bad_line = 0;
-
-	    /* By changing the values in the registers, one can make the VIC
-	       switch from idle to display state, but not from display to
-	       idle state.  So we are always in display state if this
-	       happens.  This is only true if the value changes in some
-	       cycle > 0, though; otherwise, the line never becomes bad.  */
-	    if (cycle > 0) {
-		draw_idle_state = idle_state = 0;
-                idle_data_location = IDLE_NONE;
-		if (cycle > FETCH_CYCLE + 2 && !ycounter_reset_checked) {
-		    ycounter = 0;
-		    ycounter_reset_checked = 1;
-		}
-	    }
-
-	} else if (!was_bad_line && now_bad_line) {
-
-	    if (cycle >= FETCH_CYCLE
-	        && cycle <= FETCH_CYCLE + SCREEN_TEXTCOLS + 3) {
-
-		int pos;        /* Value of line counter when this happens. */
-		int inc;        /* Total increment for the line counter. */
-		int num_chars;	/* Total number of characters to fetch. */
-		int num_0xff_fetches;	/* Number of 0xff fetches to do. */
-
-		bad_line = 1;
-
-		if (cycle <= FETCH_CYCLE + 2)
-		    ycounter = 0;
-
-		ycounter_reset_checked = 1;
-
-		num_chars = SCREEN_TEXTCOLS - (cycle - (FETCH_CYCLE + 3));
-
-		if (num_chars <= SCREEN_TEXTCOLS) {
-
-		    /* Matrix fetches starts immediately, but the VIC needs
-                       at least 3 cycles to become the bus master.  Before
-                       this happens, it fetches 0xff. */
-		    num_0xff_fetches = 3;
-
-		    /* If we were in idle state before creating the bad
-		       line, the counters have not been incremented. */
-
-		    if (idle_state) {
-			pos = 0;
-			inc = num_chars;
-			if (inc < 0)
-			    inc = 0;
-		    } else {
-			pos = cycle - (FETCH_CYCLE + 3);
-			if (pos > SCREEN_TEXTCOLS - 1)
-			    pos = SCREEN_TEXTCOLS - 1;
-			inc = SCREEN_TEXTCOLS;
-		    }
-
-		} else {
-		    pos = 0;
-		    num_chars = inc = SCREEN_TEXTCOLS;
-		    num_0xff_fetches = cycle - FETCH_CYCLE;
-		}
-
-		/* This is normally done at cycle `FETCH_CYCLE + 2'. */
-		mem_counter = memptr;
-
-		/* Force the DMA. */
-		/* Note that `cbuf' should be loaded from the value of the
-		   next opcode when the VIC-II is not the bus master yet, but
-		   we force 0xf instead. */
-		if (num_chars <= num_0xff_fetches) {
-		    memset(vbuf + pos, 0xff, num_chars);
-		    memset(cbuf + pos, ram_base[reg_pc] & 0xf, num_chars);
-		} else {
-		    memset(vbuf + pos, 0xff, num_0xff_fetches);
-		    memset(cbuf + pos, ram_base[reg_pc] & 0xf,
-                           num_0xff_fetches);
-		    fetch_matrix(pos + num_0xff_fetches,
-				 num_chars - num_0xff_fetches);
-		}
-
-		/* Set the value by which `mem_counter' is incremented on
-                   this line. */
-		mem_counter_inc = inc;
-
-		/* Take over the bus until the memory fetch is done. */
-		clk = LINE_START_CLK + FETCH_CYCLE + SCREEN_TEXTCOLS + 3;
-
-		/* Remember we have done a DMA. */
-		memory_fetch_done = 2;
-
-	        /* As we are on a bad line, switch to display state. */
-	        idle_state = 0;
-
-	        /* Try to display things correctly.  This is not exact,
-	           but should be OK for most cases (FIXME?). */
-		if (inc == SCREEN_TEXTCOLS) {
-	            draw_idle_state = 0;
-                    idle_data_location = IDLE_NONE;
-                }
-
-	    } else if (cycle <= FETCH_CYCLE + SCREEN_TEXTCOLS + 6) {
-
-		/* Bad line has been generated after fetch interval, but
-                   before ycounter is incremented. */
-
-		bad_line = 1;
-
-		/* If in idle state, counter is not incremented. */
-		if (idle_state)
-		    mem_counter_inc = 0;
-
-		/* We are not in idle state anymore. */
-		/* This is not 100% correct, but should be OK for most cases.
-                   (FIXME?)  */
-		draw_idle_state = idle_state = 0;
-                idle_data_location = IDLE_NONE;
-
-	    } else {
-
-		/* Line is now bad, so we must switch to display state.
-                   Anyway, we cannot do it here as the `ycounter' handling
-                   must happen in as in idle state. */
-		force_display_state = 1;
-
-	    }
-	}
+  else
+    {
+      VIC_II_DEBUG_RASTER (("VIC: update_raster_irq(): "
+                            "raster compare out of range ($%04X)!\n",
+                            line));
+      alarm_unset (&vic_ii.raster_irq_alarm);
     }
 
-    ysmooth = value & 0x7;
+  VIC_II_DEBUG_RASTER (("VIC: update_raster_irq(): "
+                        "vic_ii.raster_irq_clk = %ul, "
+                        "line = $%04X, "
+                        "vic_ii.regs[0x1a]&1 = %d\n",
+                        vic_ii.raster_irq_clk,
+                        line,
+                        vic_ii.regs[0x1a] & 1));
 
-    /* Check for 24 <-> 25 line mode switch.  */
-    if ((value ^ vic[0x11]) & 8) {
-	if (value & 0x8) {
+  vic_ii.raster_irq_line = line;
+}
 
-	    /* 24 -> 25 row mode switch.  */
+
 
-	    display_ystart = VIC_II_25ROW_START_LINE;
-	    display_ystop = VIC_II_25ROW_STOP_LINE;
+/* Change the base of RAM seen by the VIC-II.  */
+void 
+vic_ii_set_ram_base (BYTE * base)
+{
+  /* WARNING: assumes `rmw_flag' is 0 or 1.  */
+  vic_ii_handle_pending_alarms (rmw_flag + 1);
 
-	    if (line == VIC_II_24ROW_STOP_LINE && cycle > 0) {
-	        /* If on the first line of the 24-line border, we
-                   still see the 25-line (lowmost) border because the
-                   border flip flop has already been turned on.  */
-		blank_enabled = 1;
-            } else if (!blank && line == VIC_II_24ROW_START_LINE
-                       && cycle > 0) {
-                /* A 24 -> 25 switch somewhere on the first line of
-                   the 24-row mode is enough to disable screen
-                   blanking. */
-                blank_enabled = 0;
-            }
+  vic_ii.ram_base = base;
+  vic_ii_update_memory_ptrs (VIC_II_RASTER_CYCLE (clk));
+}
 
-	    DEBUG_REGISTER(("\t25 line mode enabled\n"));
 
-	} else {
+/* Set the memory pointers according to the values in the registers.  */
+void
+vic_ii_update_memory_ptrs (unsigned int cycle)
+{
+  /* FIXME: This is *horrible*!  */
+  static BYTE *old_screen_ptr, *old_bitmap_ptr, *old_chargen_ptr;
+  static int old_vbank = -1;
+  ADDRESS screen_addr;          /* Screen start address.  */
+  BYTE *screen_base;            /* Pointer to screen memory.  */
+  BYTE *char_base;              /* Pointer to character memory.  */
+  BYTE *bitmap_base;            /* Pointer to bitmap memory.  */
+  int tmp;
 
-	    /* 25 -> 24 row mode switch.  */
+  screen_addr = vic_ii.vbank + ((vic_ii.regs[0x18] & 0xf0) << 6);
 
-	    display_ystart = VIC_II_24ROW_START_LINE;
-	    display_ystop = VIC_II_24ROW_STOP_LINE;
-
-	    /* If on the last line of the 25-line border, we still see the
-               24-line (upmost) border because the border flip flop has
-               already been turned off.  */
-	    if (!blank && line == VIC_II_25ROW_START_LINE && cycle > 0) {
-		blank_enabled = 0;
-            } else if (line == VIC_II_25ROW_STOP_LINE && cycle > 0) {
-                blank_enabled = 1;
-            }
-
-	    DEBUG_REGISTER(("\t24 line mode enabled\n"));
-
-	}
+  if ((screen_addr & 0x7000) != 0x1000)
+    {
+      screen_base = vic_ii.ram_base + screen_addr;
+      VIC_II_DEBUG_REGISTER (("\tVideo memory at $%04X\n", screen_addr));
+    }
+  else
+    {
+      screen_base = chargen_rom + (screen_addr & 0x800);
+      VIC_II_DEBUG_REGISTER (("\tVideo memory at Character ROM + $%04X\n",
+                              screen_addr & 0x800));
     }
 
-    blank = !(value & 0x10);	/* `DEN' bit.  */
+  tmp = (vic_ii.regs[0x18] & 0xe) << 10;
+  bitmap_base = vic_ii.ram_base + (tmp & 0xe000);
+  tmp += vic_ii.vbank;
 
-    vic[0x11] = value;
+  VIC_II_DEBUG_REGISTER (("\tBitmap memory at $%04X\n",
+                          bitmap_base - vic_ii.ram_base + vic_ii.vbank));
 
-    /* FIXME: save time. */
-    set_video_mode(cycle);
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Store a value in the video bank (it is assumed to be in RAM).  */
-inline void REGPARM2 store_vbank(ADDRESS addr, BYTE value)
-{
-    /* This can only cause "aesthetical" errors, so let's save some time if
-       the current frame will not be visible.  */
-    if (!skip_next_frame) {
-	/* Argh... this is a dirty kludge!  We should probably find a cleaner
-	   solution.  */
-	int f;
-	do {
-            CLOCK mclk;
-
-            /* WARNING: Assumes `rmw_flag' is 0 or 1.  */
-            mclk = clk - rmw_flag - 1;
-	    f = 0;
-	    if (mclk >= vic_ii_fetch_clk) {
-                /* If the fetch starts here, the sprite fetch routine should
-                   get the new value, not the old one.  */
-                if (mclk == vic_ii_fetch_clk)
-                    ram_base[addr] = value;
-		int_rasterfetch(clk - vic_ii_fetch_clk);
-		f = 1;
-		/* WARNING: Assumes `rmw_flag' is 0 or 1. */
-		mclk = clk - rmw_flag - 1;
-	    }
-	    if (mclk >= vic_ii_draw_clk) {
-		int_rasterdraw(0);
-		f = 1;
-	    }
-	} while (f);
+  if ((tmp & 0x7000) != 0x1000)
+    {
+      char_base = vic_ii.ram_base + tmp;
+      VIC_II_DEBUG_REGISTER (("\tUser-defined character set at $%04X\n", tmp));
+    }
+  else
+    {
+      char_base = chargen_rom + (tmp & 0x0800);
+      VIC_II_DEBUG_REGISTER (("\tStandard %s character set enabled\n",
+                              tmp & 0x800 ? "Lower Case" : "Upper Case"));
     }
 
-    ram_base[addr] = value;
-}
+  if (ultimax != 0)
+    char_base = ((tmp & 0x3fff) >= 0x3000
+                 ? romh_banks + (romh_bank << 13) + (tmp & 0x7ff) + 0x1000
+                 : vic_ii.ram_base + tmp);
 
-/* As `store_vbank()', but for the $3900...$39FF address range.  */
-void REGPARM2 store_vbank_39xx(ADDRESS addr, BYTE value)
-{
-    store_vbank(addr, value);
-    if (idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff)
-        add_int_change_foreground(RASTER_CHAR(RASTER_CYCLE), &idle_data,
-                                  value);
-}
+  tmp = VIC_II_RASTER_CHAR (cycle);
 
-/* As `store_vbank()', but for the $3F00...$3FFF address range.  */
-void REGPARM2 store_vbank_3fxx(ADDRESS addr, BYTE value)
-{
-    store_vbank(addr, value);
-    if (idle_data_location == IDLE_3FFF && (addr & 0x3fff) == 0x3fff)
-        add_int_change_foreground(RASTER_CHAR(RASTER_CYCLE), &idle_data,
-                                  value);
-}
-
-/* Helper function for `store_vic()': set the X coordinate of the `num'th
-   sprite to `new_x'; the current raster X position is `raster_x'.  */
-static void set_sprite_x(int num, int new_x, int raster_x)
-{
-    new_x += 8;
-
-    if (new_x > SCREEN_SPRITE_WRAP_X - SCREEN_MAX_SPRITE_WIDTH) {
-	/* Sprites in the $1F8 - $1FF range are not visible at all
-	   and never cause collisions.  */
-	if (new_x >= 0x1f8 + 8)
-	    new_x = SCREEN_WIDTH;
-	else
-	    new_x -= SCREEN_SPRITE_WRAP_X;
+  if (vic_ii.idle_data_location != IDLE_NONE && old_vbank != vic_ii.vbank)
+    {
+      if (vic_ii.idle_data_location == IDLE_39FF)
+        raster_add_int_change_foreground (&vic_ii.raster,
+                                          VIC_II_RASTER_CHAR (cycle),
+                                          &vic_ii.idle_data,
+                                          vic_ii.ram_base[vic_ii.vbank
+                                                          + 0x39ff]);
+      else
+        raster_add_int_change_foreground (&vic_ii.raster,
+                                          VIC_II_RASTER_CHAR (cycle),
+                                          &vic_ii.idle_data,
+                                          vic_ii.ram_base[vic_ii.vbank
+                                                          + 0x3fff]);
     }
 
-    if (new_x < sprites[num].x) {
-	if (raster_x + 8 <= new_x)
-	    sprites[num].x = new_x;
-	else if (raster_x + 8 < sprites[num].x)
-	    sprites[num].x = SCREEN_WIDTH;
-	add_int_change_next_line(&sprites[num].x, new_x);
-    } else {			/* new_x >= sprites[num].x */
-	if (raster_x + 8 < sprites[num].x)
-	    sprites[num].x = new_x;
-	add_int_change_next_line(&sprites[num].x, new_x);
+  if (vic_ii.raster.skip_frame || (tmp <= 0 && clk < vic_ii.draw_clk))
+    {
+      old_screen_ptr = vic_ii.screen_ptr = screen_base;
+      old_bitmap_ptr = vic_ii.bitmap_ptr = bitmap_base + vic_ii.vbank;
+      old_chargen_ptr = vic_ii.chargen_ptr = char_base;
+      old_vbank = vic_ii.vbank;
+      vic_ii.vbank_ptr = vic_ii.ram_base + vic_ii.vbank;
+      vic_ii.raster.sprite_status.ptr_base = screen_base + 0x3f8;
     }
-}
-
-/* Enable DMA for sprite `num'.  */
-inline static void turn_sprite_dma_on(int num)
-{
-    new_dma_msk |= 1 << num;
-    sprites[num].dma_flag = 1;
-    sprites[num].memptr = 0;
-    sprites[num].exp_flag = sprites[num].y_expanded ? 0 : 1;
-    sprites[num].memptr_inc = sprites[num].exp_flag ? 3 : 0;
-}
-
-/* Store a value in a VIC-II register. */
-void REGPARM2 store_vic(ADDRESS addr, BYTE value)
-{
-    addr &= 0x3f;
-
-    /* WARNING: assumes `rmw_flag' is 0 or 1. */
-    vic_ii_handle_pending_alarms(rmw_flag + 1);
-
-    /* This is necessary as we must be sure that the previous line has been
-       updated and `rasterline' is actually set to the current Y position of
-       the raster.  Otherwise we might mix the changes for this line with the
-       changes for the previous one. */
-    if (clk >= vic_ii_draw_clk)
-	int_rasterdraw(clk - vic_ii_draw_clk);
-
-    DEBUG_REGISTER(("VIC: WRITE $D0%02X at cycle %d of rasterline $%04X\n",
-		    addr, RASTER_CYCLE, RASTER_Y));
-
-    switch (addr) {
-      case 0x0:		/* $D000: Sprite #0 X position LSB */
-      case 0x2:		/* $D002: Sprite #1 X position LSB */
-      case 0x4:		/* $D004: Sprite #2 X position LSB */
-      case 0x6:		/* $D006: Sprite #3 X position LSB */
-      case 0x8:		/* $D008: Sprite #4 X position LSB */
-      case 0xa:		/* $D00a: Sprite #5 X position LSB */
-      case 0xc:		/* $D00c: Sprite #6 X position LSB */
-      case 0xe:		/* $D00e: Sprite #7 X position LSB */
-	if (value != vic[addr]) {
-	    int n = addr >> 1;	/* Number of changed sprite. */
-	    int new_x;
-
-	    vic[addr] = value;
-
-	    new_x = (value | (vic[0x10] & (1 << n) ? 0x100 : 0));
-	    set_sprite_x(n, new_x, RASTER_X(RASTER_CYCLE));
-
-	    DEBUG_REGISTER(("\tSprite #%d X position LSB: $%02X\n", n, value));
-	}
-	break;
-
-      case 0x1:		/* $D001: Sprite #0 Y position */
-      case 0x3:		/* $D003: Sprite #1 Y position */
-      case 0x5:		/* $D005: Sprite #2 Y position */
-      case 0x7:		/* $D007: Sprite #3 Y position */
-      case 0x9:		/* $D009: Sprite #4 Y position */
-      case 0xb:		/* $D00B: Sprite #5 Y position */
-      case 0xd:		/* $D00D: Sprite #6 Y position */
-      case 0xf:		/* $D00F: Sprite #7 Y position */
-	if (vic[addr] != value) {
-	    int cycle = RASTER_CYCLE;
-
-	    if (cycle == SPRITE_FETCH_CYCLE + 1
-		&& value == (rasterline & 0xff)) {
-		fetch_idx = CHECK_SPRITE_DMA;
-		vic_ii_fetch_clk = LINE_START_CLK + SPRITE_FETCH_CYCLE + 1;
-                alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
-	    }
-	    sprites[addr >> 1].y = value;
-	    vic[addr] = value;
-	    DEBUG_REGISTER(("\tSprite #%d Y position: $%02X\n",,
-			    addr >> 1, value));
-	}
-	break;
-
-      case 0x10:		/* $D010: Sprite X position MSB */
-	if (value != vic[0x10]) {
-	    int i;
-	    BYTE b;
-	    int raster_x = RASTER_X(RASTER_CYCLE);
-
-	    vic[0x10] = value;
-
-	    /* Recalculate the sprite X coordinates. */
-	    for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
-		int new_x;
-
-		new_x = (vic[2 * i] | (value & b ? 0x100 : 0));
-		set_sprite_x(i, new_x, raster_x);
-	    }
-	}
-	DEBUG_REGISTER(("\tSprite X position MSBs: $%02X\n", value));
-	return;
-
-      case 0x11:		/* $D011: video mode, Y scroll, 24/25 line mode
-				   and raster MSB */
-	store_d011(value);
-	return;
-
-      case 0x12:		/* $D012: Raster line compare */
-	if (value != vic[0x12])	{
-	    int r = int_raster_line;
-	    int line = RASTER_Y;
-
-	    vic[0x12] = value;
-	    DEBUG_REGISTER(("\tRaster compare register: $%02X\n", value));
-	    int_raster_line = (r & 0x100) | value;
-	    DEBUG_REGISTER(("\tRaster interrupt line set to $%04X\n",
-			    int_raster_line));
-	    if (r != int_raster_line)
-		update_int_raster();
-
-	    /* Check whether we should activate the IRQ line now.  */
-	    if (vic[0x1a] & 0x1) {
-		int trigger_irq = 0;
-
-		if (rmw_flag) {
-		    if (RASTER_CYCLE == 0) {
-                        int previous_line = PREVIOUS_LINE(line);
-
-			if (previous_line != r
-                            && (r & 0x100) == (previous_line & 0x100))
-			    trigger_irq = 1;
-		    } else if (line != r && (r & 0x100) == (line & 0x100))
-			trigger_irq = 1;
-		}
-		if (int_raster_line == line && line != r)
-		    trigger_irq = 1;
-		if (trigger_irq) {
-		    videoint |= 0x81;
-		    maincpu_set_irq(I_RASTER, 1);
-		}
-	    }
-	}
-        return;
-
-      case 0x13:		/* $D013: Light Pen X */
-      case 0x14:		/* $D014: Light Pen Y */
-	return;
-
-      case 0x15:		/* $D015: Sprite Enable */
-	{
-	    int cycle = RASTER_CYCLE;
-
-	    /* On the real C64, sprite DMA is checked two times: first at
-	       `SPRITE_FETCH_CYCLE', and then at `SPRITE_FETCH_CYCLE + 1'.
-	       In the average case, one DMA check is OK and there is no need
-	       to emulate both, but we have to kludge things a bit in case
-	       sprites are activated at cycle `SPRITE_FETCH_CYCLE + 1'.  */
-	    if (cycle == SPRITE_FETCH_CYCLE + 1
-		&& ((value ^ vic[0x15]) & value) != 0) {
-		fetch_idx = CHECK_SPRITE_DMA;
-		vic_ii_fetch_clk = LINE_START_CLK + SPRITE_FETCH_CYCLE + 1;
-                alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
-	    }
-
-	    /* Sprites are turned on: force a DMA check.  */
-	    if (visible_sprite_msk == 0 && dma_msk == 0 && value != 0) {
-		if ((fetch_idx == FETCH_MATRIX
-		     && vic_ii_fetch_clk > clk
-		     && cycle > FETCH_CYCLE
-		     && cycle <= SPRITE_FETCH_CYCLE)
-		    || rasterline < FIRST_DMA_LINE
-		    || rasterline > LAST_DMA_LINE) {
-                    CLOCK new_fetch_clk;
-
-		    new_fetch_clk = LINE_START_CLK + SPRITE_FETCH_CYCLE;
-		    if (cycle > SPRITE_FETCH_CYCLE)
-			new_fetch_clk += CYCLES_PER_LINE;
-                    if (new_fetch_clk < vic_ii_fetch_clk) {
-                        fetch_idx = CHECK_SPRITE_DMA;
-                        vic_ii_fetch_clk = new_fetch_clk;
-                        alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
-                    }
-		}
-	    }
-	}
-
-	vic[0x15] = visible_sprite_msk = value;
-	DEBUG_REGISTER(("\tSprite Enable register: $%02X\n", value));
-	return;
-
-      case 0x16:		/* $D016 */
-	{
-	    int cycle = RASTER_CYCLE;
-
-	    DEBUG_REGISTER(("\tControl register: $%02X\n", value));
-
-	    /* FIXME: Line-based emulation!  */
-	    if ((value & 7) != (vic[0x16] & 7)) {
-#if 1
-		if (skip_next_frame || RASTER_CHAR(cycle) <= 1)
-		    xsmooth = value & 0x7;
-		else
-		    add_int_change_next_line(&xsmooth, value & 0x7);
-#else
-                add_int_change_foreground(RASTER_CHAR(cycle), &xsmooth,
-                                          value & 7);
-#endif /* 0 */
-	    }
-
-	    /* Bit 4 (CSEL) selects 38/40 column mode.  */
-	    if ((value & 0x8) != (vic[0x16] & 0x8)) {
-		if (value & 0x8) {
-		    /* 40 column mode.  */
-		    if (cycle <= 17)
-			display_xstart = VIC_II_40COL_START_PIXEL;
-		    else
-			add_int_change_next_line(&display_xstart,
-						 VIC_II_40COL_START_PIXEL);
-		    if (cycle <= 56)
-			display_xstop = VIC_II_40COL_STOP_PIXEL;
-		    else
-			add_int_change_next_line(&display_xstop,
-                                                 VIC_II_40COL_STOP_PIXEL);
-		    DEBUG_REGISTER(("\t40 column mode enabled\n"));
-
-		    /* If CSEL changes from 0 to 1 at cycle 17, the border is
-		       not turned off and this line is blank.  */
-                    if (cycle == 17 && !(vic[0x16] & 0x8))
-                        blank_this_line = 1;
-		} else {
-		    /* 38 column mode.  */
-		    if (cycle <= 17)
-			display_xstart = VIC_II_38COL_START_PIXEL;
-		    else
-			add_int_change_next_line(&display_xstart,
-						 VIC_II_38COL_START_PIXEL);
-		    if (cycle <= 56)
-			display_xstop = VIC_II_38COL_STOP_PIXEL;
-		    else
-			add_int_change_next_line(&display_xstop,
-						 VIC_II_38COL_STOP_PIXEL);
-		    DEBUG_REGISTER(("\t38 column mode enabled\n"));
-
-		    /* If CSEL changes from 1 to 0 at cycle 56, the lateral
-		       border is open.  */
-		    if (cycle == 56 && (vic[0x16] & 0x8)
-                        && (!blank_enabled || open_left_border))
-			open_right_border = 1;
-		}
-	    }
-
-	    vic[0x16] = value;
-	    set_video_mode(cycle);
-	    return;
-	}
-
-      case 0x17:		/* $D017: Sprite Y-expand */
-	if (value != vic[0x17]) {
-	    int cycle = RASTER_CYCLE;
-	    int i;
-	    BYTE b;
-
-	    for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
-		sprites[i].y_expanded = value & b ? 1 : 0;
-
-		if (!sprites[i].y_expanded && !sprites[i].exp_flag) {
-
-                    /* Sprite crunch!  */
-		    if (cycle == 15)
-			sprites[i].memptr_inc = sprite_crunch_table[sprites[i].memptr];
-		    else if (cycle < 15)
-			sprites[i].memptr_inc = 3;
-		    sprites[i].exp_flag = 1;
-
-		}
-
-		/* (Enabling sprite Y-expansion never causes side effects.)  */
-
-	    }
-
-	    vic[0x17] = value;
-	}
-	DEBUG_REGISTER(("\tSprite Y Expand register: $%02X\n", value));
-	return;
-
-      case 0x18:		/* $D018: Video and char matrix base address */
-	DEBUG_REGISTER(("\tMemory register: $%02X\n", value));
-	if (vic[0x18] != value) {
-	    vic[0x18] = value;
-	    set_memory_ptrs(RASTER_CYCLE);
-	}
-	return;
-
-      case 0x19:		/* $D019: IRQ flag register */
-	if (rmw_flag) {		/* (emulates the Read-Modify-Write bug) */
-	    videoint = 0;
-	} else {
-	    videoint &= ~((value & 0xf) | 0x80);
-	    if (videoint & vic[0x1a])
-		videoint |= 0x80;
-	}
-
-	/* Update the IRQ line accordingly...
-	   The external VIC IRQ line is an AND of the internal collision and
-	   raster IRQ lines. */
-	if (videoint & 0x80) {
-	    maincpu_set_irq(I_RASTER, 1);
-	} else {
-	    maincpu_set_irq(I_RASTER, 0);
-	}
-
-	DEBUG_REGISTER(("\tIRQ flag register: $%02X\n", videoint));
-	return;
-
-      case 0x1a:		/* $D01A: IRQ mask register */
-	vic[0x1a] = value & 0xf;
-
-	if (vic[0x1a] & videoint) {
-	    videoint |= 0x80;
-	    maincpu_set_irq(I_RASTER, 1);
-	} else {
-	    videoint &= 0x7f;
-	    maincpu_set_irq(I_RASTER, 0);
-	}
-
-	DEBUG_REGISTER(("\tIRQ mask register: $%02X\n", vic[0x1a]));
-	return;
-
-      case 0x1b:		/* $D01B: Sprite priority */
-	if (value != vic[0x1b]) {
-	    int i;
-	    BYTE b;
-	    int raster_x = RASTER_X(RASTER_CYCLE);
-
-	    vic[0x1b] = value;
-	    for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
-		if (sprites[i].x < raster_x)
-		    add_int_change_next_line(&sprites[i].in_background,
-					     value & b ? 1 : 0);
-		else
-		    sprites[i].in_background = value & b ? 1 : 0;
-	    }
-	    DEBUG_REGISTER(("\tSprite priority register: $%02X\n", value));
-	}
-	return;
-
-      case 0x1c:		/* $D01C: Sprite Multicolor select */
-	if (value != vic[0x1c]) {
-	    int i;
-	    BYTE b;
-	    int raster_x = RASTER_X(RASTER_CYCLE);
-
-	    vic[0x1c] = value;
-	    for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
-		if (sprites[i].x < raster_x)
-		    add_int_change_next_line(&sprites[i].multicolor,
-					     value & b ? 1 : 0);
-		else
-		    sprites[i].multicolor = value & b ? 1 : 0;
-	    }
-	}
-	DEBUG_REGISTER(("\tSprite Multicolor Enable register: $%02X\n",
-			value));
-	return;
-
-      case 0x1d:		/* $D01D: Sprite X-expand */
-	if (value != vic[0x1d]) {
-            int raster_x = RASTER_X(RASTER_CYCLE);
-	    int i;
-	    BYTE b;
-
-	    vic[0x1d] = value;
-	    /* FIXME: how is this handled in the middle of one line?  */
-	    for (i = 0, b = 0x01; i < 8; b <<= 1, i++) {
-                if (1 || raster_x < sprites[i].x) {
-                    sprites[i].x_expanded = value & b ? 1 : 0;
-                } else {
-                    /* FIXME */  /* We are in trouble! */
-                }
-            }
-	}
-	DEBUG_REGISTER(("\tSprite X Expand register: $%02X\n", value));
-	return;
-
-      case 0x1e:		/* $D01E: Sprite-sprite collision */
-      case 0x1f:		/* $D01F: Sprite-background collision */
-	DEBUG_REGISTER(("\t(collision register, Read Only)\n"));
-	return;
-
-      case 0x20:		/* $D020: Border color */
-        value &= 0xf;
-	if (vic[0x20] != value) {
-	    vic[0x20] = value;
-	    add_int_change_border(RASTER_X(RASTER_CYCLE),
-				  &border_color, vic[0x20]);
-   	}
-	DEBUG_REGISTER(("\tBorder color register: $%02X\n", value));
-	return;
-
-      case 0x21:		/* $D021: Background #0 color */
-        value &= 0xf;
-        if (vic[0x21] != value) {
-  	    vic[0x21] = value;
-
-	    if (!force_black_overscan_background_color)
-		add_int_change_background(RASTER_X(RASTER_CYCLE),
-					  &overscan_background_color,
-					  value);
-
-	    add_int_change_background(RASTER_X(RASTER_CYCLE),
-				      &background_color,
-				      value);
-	}
-	DEBUG_REGISTER(("\tBackground #0 color register: $%02X\n", value));
-	return;
-
-      case 0x22:		/* $D022: Background #1 color */
-      case 0x23:		/* $D023: Background #2 color */
-      case 0x24:		/* $D024: Background #3 color */
-        value &= 0xf;
-	if (vic[addr] != value) {
-	    vic[addr] = value;
-	    add_int_change_foreground(RASTER_CHAR(RASTER_CYCLE),
-				      &ext_background_color[addr - 0x22],
-				      value);
-	}
-	DEBUG_REGISTER(("\tBackground color #%d register: $%02X\n",
-			addr - 0x21, value));
-	return;
-
-      case 0x25:		/* $D025: Sprite multicolor register #0 */
-        value &= 0xf;
-	if (vic[0x25] != value) {
-	    vic[0x25] = value;
-	    /* FIXME: this is approximated. */
-	    if (RASTER_CYCLE > CYCLES_PER_LINE / 2)
-		add_int_change_next_line(&mc_sprite_color_1, value);
-	    else
-		mc_sprite_color_1 = value;
-	}
-	DEBUG_REGISTER(("\tSprite multicolor register #0: $%02X\n", value));
-	return;
-
-      case 0x26:		/* $D026: Sprite multicolor register #1 */
-	value &= 0xf;
-	if (vic[addr] != value) {
-	    vic[addr] = value;
-	    /* FIXME: this is approximated. */
-	    if (RASTER_CYCLE > CYCLES_PER_LINE / 2)
-		add_int_change_next_line(&mc_sprite_color_2, value);
-	    else
-		mc_sprite_color_2 = value;
-	}
-	DEBUG_REGISTER(("\tSprite multicolor register #1: $%02X\n", value));
-	return;
-
-      case 0x27:		/* $D027: Sprite #0 color */
-      case 0x28:		/* $D028: Sprite #1 color */
-      case 0x29:		/* $D029: Sprite #2 color */
-      case 0x2a:		/* $D02A: Sprite #3 color */
-      case 0x2b:		/* $D02B: Sprite #4 color */
-      case 0x2c:		/* $D02C: Sprite #5 color */
-      case 0x2d:		/* $D02D: Sprite #6 color */
-      case 0x2e:		/* $D02E: Sprite #7 color */
-	value &= 0xf;
-	if (vic[addr] != value) {
-	    int n = addr - 0x27;
-
-	    vic[addr] = value;
-
-	    if (sprites[n].x < RASTER_X(RASTER_CYCLE))
-		add_int_change_next_line(&(sprites[n].color), value);
-	    else
-		sprites[n].color = value;
-	}
-	DEBUG_REGISTER(("\tSprite #%d color register: $%02X\n",
-			addr - 0x27, value));
-	return;
-
-      case 0x2f:		/* $D02F: Unused (or extended keyboard row
-                                   select) */
-        if (extended_keyboard_rows_enabled) {
-            DEBUG_REGISTER(("\tExtended keyboard row enable: $%02X\n",
-                            value));
-            vic[addr] = value | 0xf8;
-            cia1_set_extended_keyboard_rows_mask(value);
-        } else {
-            DEBUG_REGISTER(("\t(unused)\n"));
-        }
-        break;
-
-      case 0x30:		/* $D030: Unused */
-      case 0x31:		/* $D031: Unused */
-      case 0x32:		/* $D032: Unused */
-      case 0x33:		/* $D033: Unused */
-      case 0x34:		/* $D034: Unused */
-      case 0x35:		/* $D035: Unused */
-      case 0x36:		/* $D036: Unused */
-      case 0x37:		/* $D037: Unused */
-      case 0x38:		/* $D038: Unused */
-      case 0x39:		/* $D039: Unused */
-      case 0x3a:		/* $D03A: Unused */
-      case 0x3b:		/* $D03B: Unused */
-      case 0x3c:		/* $D03C: Unused */
-      case 0x3d:		/* $D03D: Unused */
-      case 0x3e:		/* $D03E: Unused */
-      case 0x3f:		/* $D03F: Unused */
-	DEBUG_REGISTER(("\t(unused)\n"));
-	return;
-    }
-}
-
-/* Helper function for reading from $D011/$D012.  */
-inline static unsigned int read_raster_y(void)
-{
-    int tmp = RASTER_Y;
-
-    /* Line 0 is 62 cycles long, while line (SCREEN_HEIGHT - 1) is 64
-       cycles long.  As a result, the counter is incremented one
-       cycle later on line 0.  */
-    if (tmp == 0 && RASTER_CYCLE == 0)
-        tmp = SCREEN_HEIGHT - 1;
-
-    return tmp;
-}
-
-/* Helper function for reading from $D019.  */
-inline static BYTE read_d019(void)
-{
-    if (RASTER_Y == int_raster_line && (vic[0x1a] & 0x1))
-        /* As int_raster() is called 2 cycles later than it should be to
-           emulate the 6510 internal IRQ delay, videoint might not have
-           bit 0 set as it should. */
-        return videoint | 0x71;
-    else
-        return videoint | 0x70;
-}
-
-/* Read a value from a VIC-II register. */
-BYTE REGPARM1 read_vic(ADDRESS addr)
-{
-    addr &= 0x3f;
-
-    /* Serve all pending events. */
-    vic_ii_handle_pending_alarms(0);
-
-    DEBUG_REGISTER(("VIC: READ $D0%02X at cycle %d of rasterline $%04X:\n",
-		    addr, RASTER_CYCLE, RASTER_Y));
-
-    /* Note: we use hardcoded values instead of `vic_unused_bits[]' here
-       because this is a little bit faster.  */
-    switch (addr) {
-      case 0x0:		/* $D000: Sprite #0 X position LSB */
-      case 0x2:		/* $D002: Sprite #1 X position LSB */
-      case 0x4:		/* $D004: Sprite #2 X position LSB */
-      case 0x6:		/* $D006: Sprite #3 X position LSB */
-      case 0x8:		/* $D008: Sprite #4 X position LSB */
-      case 0xa:		/* $D00a: Sprite #5 X position LSB */
-      case 0xc:		/* $D00c: Sprite #6 X position LSB */
-      case 0xe:		/* $D00e: Sprite #7 X position LSB */
-	DEBUG_REGISTER(("\tSprite #%d X position LSB: $%02X\n",
-			addr >> 1, vic[addr]));
-	return vic[addr];
-
-      case 0x1:		/* $D001: Sprite #0 Y position */
-      case 0x3:		/* $D003: Sprite #1 Y position */
-      case 0x5:		/* $D005: Sprite #2 Y position */
-      case 0x7:		/* $D007: Sprite #3 Y position */
-      case 0x9:		/* $D009: Sprite #4 Y position */
-      case 0xb:		/* $D00B: Sprite #5 Y position */
-      case 0xd:		/* $D00D: Sprite #6 Y position */
-      case 0xf:		/* $D00F: Sprite #7 Y position */
-	DEBUG_REGISTER(("\tSprite #%d Y position: $%02X\n", addr >> 1,
-			vic[addr]));
-	return vic[addr];
-
-      case 0x10:		/* $D010: Sprite X position MSB */
-	DEBUG_REGISTER(("\tSprite X position MSB: $%02X\n", vic[addr]));
-	return vic[addr];
-
-      case 0x11:		/* $D011: video mode, Y scroll, 24/25 line mode
-				   and raster MSB */
-      case 0x12:		/* $D012: Raster line compare */
-	{
-	    unsigned int tmp = read_raster_y();
-
-	    DEBUG_REGISTER(("\tRaster Line register %s value = $%04X\n",
-			    (addr == 0x11 ? "(highest bit) " : ""), tmp));
-
-	    if (addr == 0x11)
-		return (vic[addr] & 0x7f) | ((tmp & 0x100) >> 1);
-	    else
-		return tmp & 0xff;
-	}
-
-      case 0x13:		/* $D013: Light Pen X */
-	DEBUG_REGISTER(("\tLight pen X: %d\n", light_pen.x));
-	return light_pen.x;
-
-      case 0x14:		/* $D014: Light Pen Y */
-	DEBUG_REGISTER(("\tLight pen Y: %d\n", light_pen.y));
-	return light_pen.y;
-
-      case 0x15:		/* $D015: Sprite Enable */
-	DEBUG_REGISTER(("\tSprite Enable register: $%02X\n", vic[addr]));
-	return vic[addr];
-
-      case 0x16:		/* $D016 */
-	DEBUG_REGISTER(("\t$D016 Control register read: $%02X\n", vic[addr]));
-	return vic[addr] | 0xc0;
-
-      case 0x17:		/* $D017: Sprite Y-expand */
-	DEBUG_REGISTER(("\tSprite Y Expand register: $%02X\n", vic[addr]));
-	return vic[addr];
-
-      case 0x18:		/* $D018: Video and char matrix base address */
-	DEBUG_REGISTER(("\tVideo memory address register: $%02X\n",
-			vic[addr]));
-	return vic[addr] | 0x1;
-
-      case 0x19:		/* $D019: IRQ flag register */
+  else if (tmp < VIC_II_SCREEN_TEXTCOLS)
+    {
+      if (screen_base != old_screen_ptr)
         {
-            BYTE tmp = read_d019();
-
-            DEBUG_RASTER(("VIC: read interrupt register: $%02X\n",
-                          videoint | 0x70));
-            DEBUG_REGISTER(("\tInterrupt register: $%02X\n", tmp));
-            return tmp;
+          raster_add_ptr_change_foreground (&vic_ii.raster, tmp,
+                                            (void **) &vic_ii.screen_ptr,
+                                            (void *) screen_base);
+          raster_add_ptr_change_foreground (&vic_ii.raster, tmp,
+                            (void **) &vic_ii.raster.sprite_status.ptr_base,
+                                            (void *) (screen_base + 0x3f8));
+          old_screen_ptr = screen_base;
         }
 
-      case 0x1a:		/* $D01A: IRQ mask register  */
-	DEBUG_REGISTER(("\tMask register: $%02X\n", vic[addr] | 0xf0));
-	return vic[addr] | 0xf0;
-
-      case 0x1b:		/* $D01B: Sprite priority */
-	DEBUG_REGISTER(("\tSprite Priority register: $%02X\n", vic[addr]));
-	return vic[addr];
-
-      case 0x1c:		/* $D01C: Sprite Multicolor select */
-	DEBUG_REGISTER(("\tSprite Multicolor Enable register: $%02X\n",
-			vic[addr]));
-	return vic[addr];
-
-      case 0x1d:		/* $D01D: Sprite X-expand */
-	DEBUG_REGISTER(("\tSprite X Expand register: $%02X\n", vic[addr]));
-	return vic[addr];
-
-      case 0x1e:		/* $D01E: Sprite-sprite collision */
-	/* Remove the pending sprite-sprite interrupt, as the collision
-	   register is reset upon read accesses. */
-	if (!(videoint & 0x3)) {
-	    videoint &= ~0x84;
-	    maincpu_set_irq(I_RASTER, 0);
-	} else {
-	    videoint &= ~0x04;
-	}
-	if (sprite_sprite_collisions_enabled) {
-	    vic[addr] = ss_collmask;
-	    ss_collmask = 0;
-	    DEBUG_REGISTER(("\tSprite-sprite collision mask: $%02X\n",
-			    vic[addr]));
-	    return vic[addr];
-	} else {
-	    DEBUG_REGISTER(("\tSprite-sprite collision mask: $00 "
-			    "(emulation disabled)\n"));
-	    ss_collmask = 0;
-	    return 0;
-	}
-
-      case 0x1f:		/* $D01F: Sprite-background collision */
-	/* Remove the pending sprite-background interrupt, as the collision
-	   register is reset upon read accesses. */
-	if (!(videoint & 0x5)) {
-	    videoint &= ~0x82;
-	    maincpu_set_irq(I_RASTER, 0);
-	} else {
-	    videoint &= ~0x2;
-	}
-	if (sprite_background_collisions_enabled) {
-	    vic[addr] = sb_collmask;
-	    sb_collmask = 0;
-	    DEBUG_REGISTER(("\tSprite-background collision mask: $%02X\n",
-			    vic[addr]));
-#if defined (DEBUG_SB_COLLISIONS)
-	    log_message(vic_ii_log,
-                        "sb_collmask reset by $D01F read at line 0x%X.",
-                        RASTER_Y);
-#endif
-	    return vic[addr];
-	} else {
-	    DEBUG_REGISTER(("\tSprite-background collision mask: $00 "
-			    "(emulation disabled)\n"));
-	    sb_collmask = 0;
-	    return 0;
-	}
-
-      case 0x20:		/* $D020: Border color */
-	DEBUG_REGISTER(("\tBorder Color register: $%02X\n", vic[addr]));
-	return vic[addr] | 0xf0;
-
-      case 0x21:		/* $D021: Background #0 color */
-      case 0x22:		/* $D022: Background #1 color */
-      case 0x23:		/* $D023: Background #2 color */
-      case 0x24:		/* $D024: Background #3 color */
-	DEBUG_REGISTER(("\tBackground Color #%d register: $%02X\n",
-			addr - 0x21, vic[addr]));
-	return vic[addr] | 0xf0;
-
-      case 0x25:		/* $D025: Sprite multicolor register #0 */
-      case 0x26:		/* $D026: Sprite multicolor register #1 */
-	DEBUG_REGISTER(("\tMulticolor register #%d: $%02X\n",
-			addr - 0x22, vic[addr]));
-	return vic[addr] | 0xf0;
-
-      case 0x27:		/* $D027: Sprite #0 color */
-      case 0x28:		/* $D028: Sprite #1 color */
-      case 0x29:		/* $D029: Sprite #2 color */
-      case 0x2a:		/* $D02A: Sprite #3 color */
-      case 0x2b:		/* $D02B: Sprite #4 color */
-      case 0x2c:		/* $D02C: Sprite #5 color */
-      case 0x2d:		/* $D02D: Sprite #6 color */
-      case 0x2e:		/* $D02E: Sprite #7 color */
-	DEBUG_REGISTER(("\tSprite #%d color: $%02X\n",
-			addr - 0x22, vic[addr]));
-	return vic[addr] | 0xf0;
-
-      case 0x2f:		/* $D02F: Unused (or extended keyboard row
-                                   select) */
-        if (extended_keyboard_rows_enabled) {
-            DEBUG_REGISTER(("\tExtended keyboard row enable: $%02X\n",
-                            value));
-            return vic[addr];
-        } else {
-            DEBUG_REGISTER(("\t(unused)\n"));
-            return 0xff;
-        }
-        break;
-
-      case 0x30:		/* $D030: Unused */
-      case 0x31:		/* $D031: Unused */
-      case 0x32:		/* $D032: Unused */
-      case 0x33:		/* $D033: Unused */
-      case 0x34:		/* $D034: Unused */
-      case 0x35:		/* $D035: Unused */
-      case 0x36:		/* $D036: Unused */
-      case 0x37:		/* $D037: Unused */
-      case 0x38:		/* $D038: Unused */
-      case 0x39:		/* $D039: Unused */
-      case 0x3a:		/* $D03A: Unused */
-      case 0x3b:		/* $D03B: Unused */
-      case 0x3c:		/* $D03C: Unused */
-      case 0x3d:		/* $D03D: Unused */
-      case 0x3e:		/* $D03E: Unused */
-      case 0x3f:		/* $D03F: Unused */
-	return 0xff;
-
-      default:
-	return 0xff;
-    }
-}
-
-BYTE REGPARM1 peek_vic(ADDRESS addr)
-{
-    addr &= 0x3f;
-    switch (addr) {
-      case 0x11:		/* $D011: video mode, Y scroll, 24/25 line mode
-				   and raster MSB */
-      case 0x12:		/* $D012: Raster line compare */
+      if (bitmap_base + vic_ii.vbank != old_bitmap_ptr)
         {
-            unsigned int tmp = read_raster_y();
-
-	    if (addr == 0x11)
-		return (vic[addr] & 0x7f) | ((tmp & 0x100) >> 1);
-	    else
-		return tmp & 0xff;
+          raster_add_ptr_change_foreground (&vic_ii.raster,
+                                            tmp,
+                                            (void **) &vic_ii.bitmap_ptr,
+                                            (void *) (bitmap_base
+                                                      + vic_ii.vbank));
+          old_bitmap_ptr = bitmap_base + vic_ii.vbank;
         }
-      case 0x13:		/* $D013: Light Pen X */
-	return light_pen.x;
-      case 0x14:		/* $D014: Light Pen Y */
-	return light_pen.y;
-      case 0x19:
-        return read_d019();
-      case 0x1e:		/* $D01E: Sprite-sprite collision */
-        return ss_collmask;
-      case 0x1f:		/* $D01F: Sprite-background collision */
-        return sb_collmask;
-      default:
-        return vic[addr] | vic_unused_bits[addr];
+
+      if (char_base != old_chargen_ptr)
+        {
+          raster_add_ptr_change_foreground (&vic_ii.raster,
+                                            tmp,
+                                            (void **) &vic_ii.chargen_ptr,
+                                            (void *) char_base);
+          old_chargen_ptr = char_base;
+        }
+
+      if (vic_ii.vbank != old_vbank)
+        {
+          raster_add_ptr_change_foreground (&vic_ii.raster,
+                                            tmp,
+                                            (void **) &vic_ii.vbank_ptr,
+                                            (void *) (vic_ii.ram_base
+                                                      + vic_ii.vbank));
+          old_vbank = vic_ii.vbank;
+        }
+    }
+  else
+    {
+      if (screen_base != old_screen_ptr)
+        {
+          raster_add_ptr_change_next_line (&vic_ii.raster,
+                                           (void **) &vic_ii.screen_ptr,
+                                           (void *) screen_base);
+          raster_add_ptr_change_next_line (&vic_ii.raster,
+                            (void **) &vic_ii.raster.sprite_status.ptr_base,
+                                           (void *) (screen_base + 0x3f8));
+          old_screen_ptr = screen_base;
+        }
+      if (bitmap_base + vic_ii.vbank != old_bitmap_ptr)
+        {
+          raster_add_ptr_change_next_line (&vic_ii.raster,
+                                           (void **) &vic_ii.bitmap_ptr,
+                                           (void *) (bitmap_base
+                                                     + vic_ii.vbank));
+          old_bitmap_ptr = bitmap_base + vic_ii.vbank;
+        }
+
+      if (char_base != old_chargen_ptr)
+        {
+          raster_add_ptr_change_next_line (&vic_ii.raster,
+                                           (void **) &vic_ii.chargen_ptr,
+                                           (void *) char_base);
+          old_chargen_ptr = char_base;
+        }
+
+      if (vic_ii.vbank != old_vbank)
+        {
+          raster_add_ptr_change_next_line (&vic_ii.raster,
+                                           (void **) &vic_ii.vbank_ptr,
+                                           (void *) (vic_ii.ram_base
+                                                     + vic_ii.vbank));
+          old_vbank = vic_ii.vbank;
+        }
     }
 }
 
-void REGPARM2 store_colorram(ADDRESS addr, BYTE value)
+
+
+/* Set the video mode according to the values in registers $D011 and $D016 of
+   the VIC-II chip.  */
+void
+vic_ii_update_video_mode (unsigned int cycle)
 {
-    color_ram[addr & 0x3ff] = value & 0xf;
-}
+  static int old_video_mode = -1;
+  int new_video_mode;
 
-BYTE REGPARM1 read_colorram(ADDRESS addr)
-{
-    return color_ram[addr & 0x3ff] | (rand() & 0xf0);
-}
+  new_video_mode = ((vic_ii.regs[0x11] & 0x60)
+                    | (vic_ii.regs[0x16] & 0x10)) >> 4;
 
-/* ------------------------------------------------------------------------- */
+  if (new_video_mode != old_video_mode)
+    {
+      if (new_video_mode == VIC_II_HIRES_BITMAP_MODE
+          || VIC_II_IS_ILLEGAL_MODE (new_video_mode))
+        {
+          /* Force the overscan color to black.  */
+          raster_add_int_change_background
+            (&vic_ii.raster, VIC_II_RASTER_X (cycle),
+             &vic_ii.raster.overscan_background_color,
+             0);
+          vic_ii.force_black_overscan_background_color = 1;
+        }
+      else
+        {
+          /* The overscan background color is given by the background color
+             register.  */
+          if (vic_ii.raster.overscan_background_color != vic_ii.regs[0x21])
+            raster_add_int_change_background
+              (&vic_ii.raster, VIC_II_RASTER_X (cycle),
+               &vic_ii.raster.overscan_background_color,
+               vic_ii.regs[0x21]);
+          vic_ii.force_black_overscan_background_color = 0;
+        }
 
-/* If we are on a bad line, do the DMA.  Return nonzero if cycles have been
-   stolen.  */
-inline static int do_memory_fetch(CLOCK sub)
-{
-    if (!memory_fetch_done) {
-	memory_fetch_done = 1;
-	mem_counter = memptr;
+      {
+        int pos;
 
- 	if ((rasterline & 7) == ysmooth
- 	    && allow_bad_lines
- 	    && rasterline >= FIRST_DMA_LINE
- 	    && rasterline <= LAST_DMA_LINE) {
+        pos = VIC_II_RASTER_CHAR (cycle);
 
-	    fetch_matrix(0, SCREEN_TEXTCOLS);
-	    draw_idle_state = idle_state = ycounter = 0;
-            idle_data_location = IDLE_NONE;
-	    ycounter_reset_checked = 1;
-	    memory_fetch_done = 2;
-            maincpu_steal_cycles(vic_ii_fetch_clk, SCREEN_TEXTCOLS + 3 - sub);
+        raster_add_int_change_foreground (&vic_ii.raster, pos,
+                                          &vic_ii.raster.video_mode,
+                                          new_video_mode);
 
-	    bad_line = 1;
-	    return 1;
-	}
+        if (vic_ii.idle_data_location != IDLE_NONE)
+          {
+            if (vic_ii.regs[0x11] & 0x40)
+              raster_add_int_change_foreground
+                (&vic_ii.raster, pos, (void *) &vic_ii.idle_data,
+                 vic_ii.ram_base[vic_ii.vbank + 0x39ff]);
+            else
+              raster_add_int_change_foreground
+                (&vic_ii.raster, pos, (void *) &vic_ii.idle_data,
+                 vic_ii.ram_base[vic_ii.vbank + 0x3fff]);
+          }
+      }
+
+      old_video_mode = new_video_mode;
     }
 
-    return 0;
-}
-
-/* Check for sprite DMA. */
-inline static void check_sprite_dma(void)
-{
-    int i, b;
-
-    if (!visible_sprite_msk && !dma_msk)
-	return;
-
-    new_dma_msk = dma_msk;
-    for (i = 0, b = 1; i < SCREEN_NUM_SPRITES; i++, b <<= 1) {
-	if ((visible_sprite_msk & b)
-            && sprites[i].y == (rasterline & 0xff)
-            && !sprites[i].dma_flag) {
-            turn_sprite_dma_on(i);
-	} else if (sprites[i].dma_flag) {
-	    sprites[i].memptr = ((sprites[i].memptr + sprites[i].memptr_inc)
-	    			 & 0x3f);
-	    if (sprites[i].y_expanded)
-	        sprites[i].exp_flag = !sprites[i].exp_flag;
-	    sprites[i].memptr_inc = sprites[i].exp_flag ? 3 : 0;
-	    if (sprites[i].memptr == 63) {
-		sprites[i].dma_flag = 0;
-		new_dma_msk &= ~b;
-                if ((visible_sprite_msk & b)
-                    && sprites[i].y == (rasterline & 0xff))
-                    turn_sprite_dma_on(i);
-	    }
-	}
-    }
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Redraw the current raster line.  This happens at cycle DRAW_CYCLE of each
-   line. */
-int int_rasterdraw(long offset)
-{
-#ifndef NO_REDRAW
-
-    BYTE prev_ss_collmask = ss_collmask, prev_sb_collmask = sb_collmask;
-
-    emulate_line();
-
-    ycounter_reset_checked = 0;
-
-    /* As explained in Christian's article, only the first collision (i.e. the
-       first time the collision register becomes non-zero) actually triggers an
-       interrupt.  */
-    if (sprite_sprite_collisions_enabled
-        && cl_ss_collmask && !prev_ss_collmask) {
-	videoint |= 0x4;
-	if (vic[0x1a] & 0x4) {
-	    maincpu_set_irq(I_RASTER, 1);
-	    videoint |= 0x80;
-	}
-    }
-    if (sprite_background_collisions_enabled
-        && cl_sb_collmask && !prev_sb_collmask) {
-	videoint |= 0x2;
-	if (vic[0x1a] & 0x2) {
-	    maincpu_set_irq(I_RASTER, 1);
-	    videoint |= 0x80;
-	}
+#ifdef VIC_II_VMODE_DEBUG
+  switch (new_video_mode)
+    {
+    case VIC_II_NORMAL_TEXT_MODE:
+      VIC_II_DEBUG_VMODE (("Standard Text"));
+      break;
+    case VIC_II_MULTICOLOR_TEXT_MODE:
+      VIC_II_DEBUG_VMODE (("Multicolor Text"));
+      break;
+    case VIC_II_HIRES_BITMAP_MODE:
+      VIC_II_DEBUG_VMODE (("Hires Bitmap"));
+      break;
+    case VIC_II_MULTICOLOR_BITMAP_MODE:
+      VIC_II_DEBUG_VMODE (("Multicolor Bitmap"));
+      break;
+    case VIC_II_EXTENDED_TEXT_MODE:
+      VIC_II_DEBUG_VMODE (("Extended Text"));
+      break;
+    case VIC_II_ILLEGAL_TEXT_MODE:
+      VIC_II_DEBUG_VMODE (("Illegal Text"));
+      break;
+    case VIC_II_ILLEGAL_BITMAP_MODE_1:
+      VIC_II_DEBUG_VMODE (("Invalid Bitmap"));
+      break;
+    case VIC_II_ILLEGAL_BITMAP_MODE_2:
+      VIC_II_DEBUG_VMODE (("Invalid Bitmap"));
+      break;
+    default:                    /* cannot happen */
+      VIC_II_DEBUG_VMODE (("???"));
     }
 
-#else  /* NO_REDRAW */
-
-    rasterline = (rasterline + 1) % SCREEN_HEIGHT;
-    oldclk += CYCLES_PER_LINE;
-
+  VIC_II_DEBUG_VMODE ((" Mode enabled at line $%04X, cycle %d.\n",
+                       VIC_II_RASTER_Y (clk), cycle));
 #endif
+}
 
-    if (idle_state) {
-        idle_data_location = (vic[0x11] & 0x40) ? IDLE_39FF : IDLE_3FFF;
-        if (idle_data_location == IDLE_39FF)
-            idle_data = ram_base[vbank + 0x39ff];
-        else
-            idle_data = ram_base[vbank + 0x3fff];
-    } else {
-        idle_data_location = IDLE_NONE;
+
+
+/* Redraw the current raster line.  This happens at cycle VIC_II_DRAW_CYCLE
+   of each line.  */
+int 
+vic_ii_raster_draw_alarm_handler (long offset)
+{
+  BYTE prev_sprite_sprite_collisions;
+  BYTE prev_sprite_background_collisions;
+  int in_visible_area;
+
+  prev_sprite_sprite_collisions = vic_ii.sprite_sprite_collisions;
+  prev_sprite_background_collisions = vic_ii.sprite_background_collisions;
+
+  in_visible_area = (vic_ii.raster.current_line >= VIC_II_FIRST_DISPLAYED_LINE
+                 && vic_ii.raster.current_line <= VIC_II_LAST_DISPLAYED_LINE);
+
+  raster_emulate_line (&vic_ii.raster);
+
+  if (vic_ii.raster.current_line == 0)
+    {
+      raster_skip_frame (&vic_ii.raster, do_vsync (vic_ii.raster.skip_frame));
+      vic_ii.memptr = 0;
+      vic_ii.mem_counter = 0;
+      vic_ii.light_pen.triggered = 0;
     }
 
-    /* Set the next RASTERDRAW event. */
-    vic_ii_draw_clk = oldclk + DRAW_CYCLE;
-    alarm_set(&raster_draw_alarm, vic_ii_draw_clk);
+  if (in_visible_area)
+    {
+      if (!vic_ii.idle_state)
+        vic_ii.mem_counter = (vic_ii.mem_counter
+                              + vic_ii.mem_counter_inc) & 0x3ff;
+      vic_ii.mem_counter_inc = VIC_II_SCREEN_TEXTCOLS;
+      /* `ycounter' makes the chip go to idle state when it reaches the
+         maximum value.  */
+      if (vic_ii.raster.ycounter == 7)
+        {
+          vic_ii.idle_state = 1;
+          vic_ii.memptr = vic_ii.mem_counter;
+        }
+      if (!vic_ii.idle_state || vic_ii.bad_line)
+        {
+          vic_ii.raster.ycounter = (vic_ii.raster.ycounter + 1) & 0x7;
+          vic_ii.idle_state = 0;
+        }
+      if (vic_ii.force_display_state)
+        {
+          vic_ii.idle_state = 0;
+          vic_ii.force_display_state = 0;
+        }
+      vic_ii.raster.draw_idle_state = vic_ii.idle_state;
+      vic_ii.bad_line = 0;
+    }
 
-    if (rasterline == 0)
-	light_pen.triggered = 0;
+  vic_ii.ycounter_reset_checked = 0;
+  vic_ii.memory_fetch_done = 0;
 
-    return 0;
+  if (vic_ii.raster.current_line == 0x30)
+    vic_ii.allow_bad_lines = !vic_ii.raster.blank;
+
+  /* As explained in Christian's article, only the first collision
+     (i.e. the first time the collision register becomes non-zero) actually
+     triggers an interrupt.  */
+  if (vic_ii_resources.sprite_sprite_collisions_enabled
+      && vic_ii.raster.sprite_status.sprite_sprite_collisions != 0
+      && !prev_sprite_sprite_collisions)
+    {
+      vic_ii.irq_status |= 0x4;
+      if (vic_ii.regs[0x1a] & 0x4)
+        {
+          maincpu_set_irq (I_RASTER, 1);
+          vic_ii.irq_status |= 0x80;
+        }
+    }
+
+  if (vic_ii_resources.sprite_background_collisions_enabled
+      && vic_ii.raster.sprite_status.sprite_background_collisions
+      && !prev_sprite_background_collisions)
+    {
+      vic_ii.irq_status |= 0x2;
+      if (vic_ii.regs[0x1a] & 0x2)
+        {
+          maincpu_set_irq (I_RASTER, 1);
+          vic_ii.irq_status |= 0x80;
+        }
+    }
+
+  if (vic_ii.idle_state)
+    {
+      if (vic_ii.regs[0x11] & 0x40)
+        {
+          vic_ii.idle_data_location = IDLE_39FF;
+          vic_ii.idle_data = vic_ii.ram_base[vic_ii.vbank + 0x39ff];
+        }
+      else
+        {
+          vic_ii.idle_data_location = IDLE_3FFF;
+          vic_ii.idle_data = vic_ii.ram_base[vic_ii.vbank + 0x3fff];
+        }
+    }
+  else
+    vic_ii.idle_data_location = IDLE_NONE;
+
+  /* Set the next draw event.  */
+  vic_ii.last_emulate_line_clk += VIC_II_CYCLES_PER_LINE;
+  vic_ii.draw_clk = vic_ii.last_emulate_line_clk + VIC_II_DRAW_CYCLE;
+  alarm_set (&vic_ii.raster_draw_alarm, vic_ii.draw_clk);
+
+  return 0;
+}
+
+
+
+inline static int
+handle_fetch_matrix(long offset,
+                    CLOCK sub,
+                    CLOCK *write_offset)
+{
+  raster_t *raster;
+  raster_sprite_status_t *sprite_status;
+
+  *write_offset = 0;
+
+  raster = &vic_ii.raster;
+  sprite_status = &raster->sprite_status;
+
+  if (sprite_status->visible_msk == 0 && sprite_status->dma_msk == 0)
+    {
+      do_matrix_fetch (sub);
+
+      /* As sprites are all turned off, there is no need for a sprite DMA
+         check; next time we will VIC_II_FETCH_MATRIX again.  This works
+         because a VIC_II_CHECK_SPRITE_DMA is forced in `store_vic()'
+         whenever the mask becomes nonzero.  */
+
+      /* This makes sure we only create VIC_II_FETCH_MATRIX events in the bad
+         line range.  These checks are (a little) redundant for safety.  */
+      if (raster->current_line < VIC_II_FIRST_DMA_LINE)
+        vic_ii.fetch_clk += ((VIC_II_FIRST_DMA_LINE
+                              - raster->current_line)
+                             * VIC_II_CYCLES_PER_LINE);
+      else if (raster->current_line >= VIC_II_LAST_DMA_LINE)
+        vic_ii.fetch_clk += ((VIC_II_SCREEN_HEIGHT
+                              - raster->current_line
+                              + VIC_II_FIRST_DMA_LINE)
+                             * VIC_II_CYCLES_PER_LINE);
+      else
+        vic_ii.fetch_clk += VIC_II_CYCLES_PER_LINE;
+
+      alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+      return 1;
+    }
+  else
+    {
+      int fetch_done;
+
+      fetch_done = do_matrix_fetch (sub);
+
+      /* Sprites might be turned on, check for sprite DMA next
+         time.  */
+      vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
+
+      /* Calculate time for next event.  */
+      vic_ii.fetch_clk = (VIC_II_LINE_START_CLK (clk)
+                          + VIC_II_SPRITE_FETCH_CYCLE);
+
+      if (vic_ii.fetch_clk > clk || offset == 0)
+        {
+          /* Prepare the next fetch event.  */
+          alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+          return 1;
+        }
+
+      if (fetch_done && sub == 0)
+        *write_offset = VIC_II_SCREEN_TEXTCOLS + 3;
+    }
+
+  return 0;
+}
+
+inline static void
+swap_sprite_data_buffers (void)
+{
+  DWORD *tmp;
+  raster_sprite_status_t *sprite_status;
+
+  /* Swap sprite data buffers.  */
+  sprite_status = &vic_ii.raster.sprite_status;
+  tmp = sprite_status->sprite_data;
+  sprite_status->sprite_data = sprite_status->new_sprite_data;
+  sprite_status->new_sprite_data = tmp;
+}
+
+inline static int
+handle_check_sprite_dma (long offset,
+                         CLOCK sub)
+{
+  swap_sprite_data_buffers ();
+
+  check_sprite_dma ();
+
+  /* FIXME?  Slow!  */
+  vic_ii.sprite_fetch_clk = (VIC_II_LINE_START_CLK (clk)
+                             + VIC_II_SPRITE_FETCH_CYCLE);
+  vic_ii.sprite_fetch_msk = vic_ii.raster.sprite_status.new_dma_msk;
+
+  if (vic_ii_sprites_fetch_table[vic_ii.sprite_fetch_msk][0].cycle == -1)
+    {
+      if (vic_ii.raster.current_line >= VIC_II_FIRST_DMA_LINE - 1
+          && vic_ii.raster.current_line <= VIC_II_LAST_DMA_LINE + 1)
+        {
+          vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
+          vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
+                              - VIC_II_SPRITE_FETCH_CYCLE
+                              + VIC_II_FETCH_CYCLE
+                              + VIC_II_CYCLES_PER_LINE);
+        }
+      else
+        {
+          vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
+          vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
+                              + VIC_II_CYCLES_PER_LINE);
+        }
+    }
+  else
+    {
+      /* Next time, fetch sprite data.  */
+      vic_ii.fetch_idx = VIC_II_FETCH_SPRITE;
+      vic_ii.sprite_fetch_idx = 0;
+      vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
+                          + vic_ii_sprites_fetch_table[vic_ii.sprite_fetch_msk][0].cycle);
+    }
+
+  if (vic_ii.fetch_clk > clk || offset == 0)
+    {
+      alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+      return 1;
+    }
+
+  return 0;
+}
+
+inline static int
+handle_fetch_sprite (long offset,
+                     CLOCK sub,
+                     CLOCK *write_offset)
+{
+  const vic_ii_sprites_fetch_t *sf;
+  unsigned int i;
+  int next_cycle;
+
+  /* FIXME: optimize.  */
+
+  sf = &vic_ii_sprites_fetch_table[vic_ii.sprite_fetch_msk][vic_ii.sprite_fetch_idx];
+
+  if (!vic_ii.raster.skip_frame)
+    {
+      raster_sprite_status_t *sprite_status;
+      BYTE *bank, *spr_base;
+
+      sprite_status = &vic_ii.raster.sprite_status;
+      bank = vic_ii.ram_base + vic_ii.vbank;
+      spr_base = (bank + 0x3f8 + ((vic_ii.regs[0x18] & 0xf0) << 6)
+                  + sf->first);
+
+      /* Fetch sprite data.  */
+      for (i = sf->first; i <= sf->last; i++, spr_base++)
+        {
+          BYTE *src;
+          BYTE *dest;
+          int my_memptr;
+
+          src = bank + (*spr_base << 6);
+          my_memptr = sprite_status->sprites[i].memptr;
+          dest = (BYTE *) (sprite_status->new_sprite_data + i);
+
+          if (ultimax && *spr_base >= 0xc0)
+            src = (romh_banks + 0x1000 + (romh_bank << 13)
+                   + ((*spr_base - 0xc0) << 6));
+
+          dest[0] = src[my_memptr];
+          dest[1] = src[++my_memptr & 0x3f];
+          dest[2] = src[++my_memptr & 0x3f];
+        }
+    }
+
+  maincpu_steal_cycles (vic_ii.fetch_clk, sf->num - sub);
+
+  if (sub == 0)
+    *write_offset = sf->num;
+  else
+    *write_offset = 0;
+
+  next_cycle = (sf + 1)->cycle;
+  vic_ii.sprite_fetch_idx++;
+
+  if (next_cycle == -1)
+    {
+      /* Next time, handle bad lines.  */
+      if (vic_ii.raster.current_line >= VIC_II_FIRST_DMA_LINE - 1
+          && vic_ii.raster.current_line <= VIC_II_LAST_DMA_LINE + 1)
+        {
+          vic_ii.fetch_idx = VIC_II_FETCH_MATRIX;
+          vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
+                              - VIC_II_SPRITE_FETCH_CYCLE
+                              + VIC_II_FETCH_CYCLE
+                              + VIC_II_CYCLES_PER_LINE);
+        }
+      else
+        {
+          vic_ii.fetch_idx = VIC_II_CHECK_SPRITE_DMA;
+          vic_ii.fetch_clk = (vic_ii.sprite_fetch_clk
+                              + VIC_II_CYCLES_PER_LINE);
+        }
+    }
+  else
+    vic_ii.fetch_clk = vic_ii.sprite_fetch_clk + next_cycle;
+
+  if (clk >= vic_ii.draw_clk)
+    vic_ii_raster_draw_alarm_handler (clk - vic_ii.draw_clk);
+
+  if (vic_ii.fetch_clk > clk || offset == 0)
+    {
+      alarm_set (&vic_ii.raster_fetch_alarm, vic_ii.fetch_clk);
+      return 1;
+    }
+
+  if (clk >= vic_ii.raster_irq_clk)
+    vic_ii_raster_irq_alarm_handler (clk - vic_ii.raster_irq_clk);
+
+  return 0;
 }
 
 /* Handle sprite/matrix fetch events.  FIXME: could be made slightly
-   faster. */
-int int_rasterfetch(long offset)
+   faster.  */
+int 
+vic_ii_raster_fetch_alarm_handler (long offset)
 {
-    static CLOCK sprite_fetch_clk = 0;
-    static int sprite_fetch_idx = 0;
-    static int fetch_msk;
-    CLOCK last_opcode_first_write_clk, last_opcode_last_write_clk;
+  CLOCK last_opcode_first_write_clk, last_opcode_last_write_clk;
 
-    /* This kludgy thing is used to emulate the behavior of the 6510 when BA
-       goes low.  When BA goes low, every read access stops the processor
-       until BA is high again; write accesses happen as usual instead.  */
+  /* This kludgy thing is used to emulate the behavior of the 6510 when BA
+     goes low.  When BA goes low, every read access stops the processor
+     until BA is high again; write accesses happen as usual instead.  */
 
-    if (offset > 0) {
-	switch (OPINFO_NUMBER(last_opcode_info)) {
-	  case 0:
-	    /* In BRK, IRQ and NMI the 3rd, 4th and 5th cycles are write
-	       accesses, while the 1st, 2nd, 6th and 7th are read accesses.  */
-            last_opcode_first_write_clk = clk - 5;
-            last_opcode_last_write_clk = clk - 3;
-	    break;
-	  case 0x20:
-	    /* In JSR, the 4th and 5th cycles are write accesses, while the
-	       1st, 2nd, 3rd and 6th are read accesses.  */
-            last_opcode_first_write_clk = clk - 3;
-            last_opcode_last_write_clk = clk - 2;
-	    break;
-	  default:
-	    /* In all the other opcodes, all the write accesses are the last
-	       ones.  */
-            if (maincpu_num_write_cycles() != 0) {
-                last_opcode_last_write_clk = clk - 1;
-                last_opcode_first_write_clk = clk - maincpu_num_write_cycles();
-            } else {
-                last_opcode_first_write_clk = (CLOCK) 0;
-                last_opcode_last_write_clk = last_opcode_first_write_clk;
+  if (offset > 0)
+    {
+      switch (OPINFO_NUMBER (last_opcode_info))
+        {
+        case 0:
+          /* In BRK, IRQ and NMI the 3rd, 4th and 5th cycles are write
+             accesses, while the 1st, 2nd, 6th and 7th are read accesses.  */
+          last_opcode_first_write_clk = clk - 5;
+          last_opcode_last_write_clk = clk - 3;
+          break;
+
+        case 0x20:
+          /* In JSR, the 4th and 5th cycles are write accesses, while the
+             1st, 2nd, 3rd and 6th are read accesses.  */
+          last_opcode_first_write_clk = clk - 3;
+          last_opcode_last_write_clk = clk - 2;
+          break;
+
+        default:
+          /* In all the other opcodes, all the write accesses are the last
+             ones.  */
+          if (maincpu_num_write_cycles () != 0)
+            {
+              last_opcode_last_write_clk = clk - 1;
+              last_opcode_first_write_clk = clk - maincpu_num_write_cycles ();
             }
-	    break;
-	}
-    } else {			/* offset <= 0, i.e. offset == 0 */
-        /* If we are called with no offset, we don't have to care about write
-           accesses.  */
-	last_opcode_first_write_clk = last_opcode_last_write_clk = 0;
+          else
+            {
+              last_opcode_first_write_clk = (CLOCK) 0;
+              last_opcode_last_write_clk = last_opcode_first_write_clk;
+            }
+          break;
+        }
+    }
+  else                          /* offset <= 0, i.e. offset == 0 */
+    {
+      /* If we are called with no offset, we don't have to care about write
+         accesses.  */
+      last_opcode_first_write_clk = last_opcode_last_write_clk = 0;
     }
 
-    while (1) {
-        CLOCK sub;
+  while (1)
+    {
+      CLOCK sub;
+      CLOCK write_offset;
+      int leave;
 
-        if (vic_ii_fetch_clk < last_opcode_first_write_clk
-            || vic_ii_fetch_clk > last_opcode_last_write_clk)
-            sub = 0;
-        else
-            sub = last_opcode_last_write_clk - vic_ii_fetch_clk + 1;
+      if (vic_ii.fetch_clk < last_opcode_first_write_clk
+          || vic_ii.fetch_clk > last_opcode_last_write_clk)
+        sub = 0;
+      else
+        sub = last_opcode_last_write_clk - vic_ii.fetch_clk + 1;
 
-	switch (fetch_idx) {
+      switch (vic_ii.fetch_idx)
+        {
+        case VIC_II_FETCH_MATRIX:
+          leave = handle_fetch_matrix (offset, sub, &write_offset);
+          last_opcode_first_write_clk += write_offset;
+          last_opcode_last_write_clk += write_offset;
+          break;
 
-	  case FETCH_MATRIX:
+        case VIC_II_CHECK_SPRITE_DMA:
+          leave = handle_check_sprite_dma (offset, sub);
+          break;
 
-	    if (visible_sprite_msk == 0 && dma_msk == 0) {
+        case VIC_II_FETCH_SPRITE:
+        default:                /* Make compiler happy.  */
+          leave = handle_fetch_sprite (offset, sub, &write_offset);
+          last_opcode_first_write_clk += write_offset;
+          last_opcode_last_write_clk += write_offset;
+          break;
+        }
 
-		do_memory_fetch(sub);
+      if (leave)
+        break;
+    }
 
-		/* As sprites are all turned off, there is no need for a
-                   sprite DMA check; next time we will FETCH_MATRIX again.
-                   This works because a CHECK_SPRITE_DMA is forced in
-                   `store_vic()' whenever the mask becomes nonzero. */
-
-		/* This makes sure we only create FETCH_MATRIX events in the
-                   bad line range.  These checks are (a little) redundant for
-                   safety. */
-		if (rasterline < FIRST_DMA_LINE) {
-		    vic_ii_fetch_clk += ((FIRST_DMA_LINE - rasterline)
-					 * CYCLES_PER_LINE);
-		} else if (rasterline >= LAST_DMA_LINE) {
-		    vic_ii_fetch_clk += ((SCREEN_HEIGHT - rasterline
-					  + FIRST_DMA_LINE) * CYCLES_PER_LINE);
-		} else
-		    vic_ii_fetch_clk += CYCLES_PER_LINE;
-
-                alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
-		return 0;
-
-	    } else {	 /* visible_sprite_msk != 0 || dma_msk != 0 */
-
-		int memory_fetch_done = do_memory_fetch(sub);
-
-		/* Sprites might be turned on, check for sprite DMA next
-                   time. */
-		fetch_idx = CHECK_SPRITE_DMA;
-
-		/* Calculate time for next event. */
-		vic_ii_fetch_clk = LINE_START_CLK + SPRITE_FETCH_CYCLE;
-
-		if (vic_ii_fetch_clk > clk || offset == 0) {
-		    /* Prepare the next fetch event. */
-		    alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
-		    return 0;
-		}
-
-                if (memory_fetch_done && sub == 0) {
-                    last_opcode_first_write_clk += SCREEN_TEXTCOLS + 3;
-                    last_opcode_last_write_clk += SCREEN_TEXTCOLS + 3;
-                }
-	    }
-            break;
-
-	  case CHECK_SPRITE_DMA:
-
-	    /* Swap sprite data buffers. */
-	    {
-		DWORD *tmp;
-		tmp = sprite_data;
-		sprite_data = new_sprite_data;
-		new_sprite_data = tmp;
-	    }
-
-	    check_sprite_dma();
-
-            /* FIXME?  Slow!  */
-	    sprite_fetch_clk = LINE_START_CLK + SPRITE_FETCH_CYCLE;
-
-	    fetch_msk = new_dma_msk;
-
-	    if (sprite_fetch_tab[fetch_msk][0].cycle == -1) {
-		if (rasterline >= FIRST_DMA_LINE - 1
-		    && rasterline <= LAST_DMA_LINE + 1) {
-		    fetch_idx = FETCH_MATRIX;
-		    vic_ii_fetch_clk = (sprite_fetch_clk - SPRITE_FETCH_CYCLE
-				        + FETCH_CYCLE + CYCLES_PER_LINE);
-		} else {
-		    fetch_idx = CHECK_SPRITE_DMA;
-		    vic_ii_fetch_clk = sprite_fetch_clk + CYCLES_PER_LINE;
-		}
-	    } else {
-		/* Next time, fetch sprite data. */
-		fetch_idx = FETCH_SPRITE;
-		sprite_fetch_idx = 0;
-		vic_ii_fetch_clk = (sprite_fetch_clk
-				    + sprite_fetch_tab[fetch_msk][0].cycle);
-	    }
-
-            if (vic_ii_fetch_clk > clk || offset == 0) {
-                alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
-                return 0;
-            }
-
-            break;
-
-	  case FETCH_SPRITE:
-
-	    {
-		int next_cycle;
-		int i;
-		struct sprite_fetch *sf;
-
-		/* FIXME: optimize. */
-
-		sf = &sprite_fetch_tab[fetch_msk][sprite_fetch_idx];
-
-		if (!skip_next_frame) {
-		    BYTE *bank = ram_base + vbank;
-		    BYTE *spr_base = (bank + 0x3f8 +
-				      + ((vic[0x18] & 0xf0) << 6)
-				      + sf->first);
-
-		    /* Fetch sprite data.  */
-		    for (i = sf->first; i <= sf->last; i++, spr_base++) {
-			BYTE *src = bank + (*spr_base << 6);
-			BYTE *dest = (BYTE *)(new_sprite_data + i);
-			int memptr = sprites[i].memptr;
-
-			if (ultimax && *spr_base >= 0xc0)
-                            src = (romh_banks + 0x1000 + (romh_bank << 13)
-                                   + ((*spr_base - 0xc0) << 6));
-
-			dest[0] = src[memptr];
-			dest[1] = src[++memptr & 0x3f];
-			dest[2] = src[++memptr & 0x3f];
-		    }
-		}
-
-		maincpu_steal_cycles(vic_ii_fetch_clk, sf->num - sub);
-
-                if (sub == 0) {
-                    last_opcode_first_write_clk += sf->num;
-                    last_opcode_last_write_clk += sf->num;
-                }
-
-		next_cycle = (sf + 1)->cycle;
-		sprite_fetch_idx++;
-
-		if (next_cycle == -1) {
-		    /* Next time, handle bad lines. */
-		    if (rasterline >= FIRST_DMA_LINE - 1
-			&& rasterline <= LAST_DMA_LINE + 1) {
-			fetch_idx = FETCH_MATRIX;
-			vic_ii_fetch_clk = (sprite_fetch_clk
-					    - SPRITE_FETCH_CYCLE + FETCH_CYCLE
-					    + CYCLES_PER_LINE);
-		    } else {
-			fetch_idx = CHECK_SPRITE_DMA;
-			vic_ii_fetch_clk = sprite_fetch_clk + CYCLES_PER_LINE;
-		    }
-		} else {
-		    vic_ii_fetch_clk = sprite_fetch_clk + next_cycle;
-		}
-
-		if (clk >= vic_ii_draw_clk)
-		    int_rasterdraw(clk - vic_ii_draw_clk);
-
-                if (vic_ii_fetch_clk > clk || offset == 0) {
-		    alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
-		    return 0;
-                }
-
-                if (clk >= int_raster_clk)
-                    int_raster(clk - int_raster_clk);
-	    }
-
-	    break;
-
-	} /* switch (fetch_idx) */
-
-    } /* while (1) */
-
-    return 0;
+  return 0;
 }
+
+
 
 /* If necessary, emulate a raster compare IRQ. This is called when the raster
-   line counter matches the value stored in the raster line register. */
-int int_raster(long offset)
+   line counter matches the value stored in the raster line register.  */
+int 
+vic_ii_raster_irq_alarm_handler (long offset)
 {
-    videoint |= 0x1;
-    if (vic[0x1a] & 0x1) {
-	maincpu_set_irq_clk(I_RASTER, 1, int_raster_clk);
-	videoint |= 0x80;
-	DEBUG_RASTER(("VIC: *** IRQ requested at line $%04X, "
-		      "int_raster_line=$%04X, offset = %ld, cycle = %d.\n",
-		      RASTER_Y, int_raster_line, offset,
-		      RASTER_CYCLE));
-    }
-    
-    int_raster_clk += VIC_II_SCREEN_HEIGHT * CYCLES_PER_LINE;
-    alarm_set(&raster_irq_alarm, int_raster_clk);
-
-    return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Here comes the part that actually repaints each raster line and checks for
-   sprite collisions.  The following tables are used to speed up the
-   drawing. */
-/* We do not use multi-dimensional arrays as we can optimize better this
-   way... */
-
-/* foreground(4) | background(4) | nibble(4) -> 4 pixels. */
-#ifdef AVOID_STATIC_ARRAYS
-static PIXEL4 *hr_table;
-#else
-static PIXEL4 hr_table[16 * 16 * 16];
-#endif
-
-#ifdef NEED_2x
-/* foreground(4) | background(4) | idx(2) | nibble(4) -> 4 pixels. */
-#ifdef AVOID_STATIC_ARRAYS
-static PIXEL4 *hr_table_2x;
-#else
-static PIXEL4 hr_table_2x[16 * 16 * 2 * 16];
-#endif
-#endif
-
-/* mc flag(1) | idx(2) | byte(8) -> index into double-pixel table. */
-#ifdef AVOID_STATIC_ARRAYS
-static WORD *mc_table;
-#else
-static WORD mc_table[2 * 4 * 256];
-#endif
-
-/* Sprite tables. */
-#ifdef AVOID_STATIC_ARRAYS
-static DWORD *sprite_doubling_table;
-static WORD *mcmsktable;
-static BYTE *mcsprtable;
-#else
-static DWORD sprite_doubling_table[65536];
-static WORD mcmsktable[512];
-static BYTE mcsprtable[256];
-#endif
-
-/* This is a bit mask representing each pixel on the screen (1 = foreground,
-   0 = background) and is used both for sprite-background collision checking
-   and background sprite drawing.  When cache is turned on, a cached mask for
-   each line is used instead. */
-static BYTE gfx_msk[GFXMSK_SIZE];
-
-/* Each byte in this array is a bit mask representing the sprites that
-   have a pixel turned on in that position.  This is used for sprite-sprite
-   collision checking. */
-static BYTE sprline[SCREEN_WIDTH + 2 * SCREEN_MAX_SPRITE_WIDTH];
-
-/* Initialize the drawing tables. */
-static void init_drawing_tables(void)
-{
-    DWORD i;
-    unsigned int f, b;
-    WORD wmsk;
-    DWORD lmsk;
-    char tmptable[4] = { 0, 4, 5, 3 };
-
-#ifdef AVOID_STATIC_ARRAYS
-    if (!hr_table)
+  vic_ii.irq_status |= 0x1;
+  if (vic_ii.regs[0x1a] & 0x1)
     {
-	hr_table = xmalloc(sizeof(*hr_table)*16*16*16);
-#ifdef NEED_2x        
-	hr_table_2x = xmalloc(sizeof(*hr_table_2x)*16*16*2*16);
-#endif
-	mc_table = xmalloc(sizeof(*mc_table)*2*4*256);
-	sprite_doubling_table = xmalloc(sizeof(*sprite_doubling_table)*65536);
-	mcmsktable = xmalloc(sizeof(*mcmsktable)*512);
-	mcsprtable = xmalloc(sizeof(*mcsprtable)*256);
-    }
-#endif
-
-    for (i = 0; i <= 0xf; i++) {
-	for (f = 0; f <= 0xf; f++) {
-	    for (b = 0; b <= 0xf; b++) {
-		PIXEL fp = PIXEL(f);
-		PIXEL bp = PIXEL(b);
-		int offset = (f << 8) | (b << 4);
-		PIXEL *p = (PIXEL *)(hr_table + offset + i);
-
-		*p = i & 0x8 ? fp : bp;
-		*(p + 1) = i & 0x4 ? fp : bp;
-		*(p + 2) = i & 0x2 ? fp : bp;
-		*(p + 3) = i & 0x1 ? fp : bp;
-
-#ifdef NEED_2x
-		p = (PIXEL *)(hr_table_2x + (offset << 1) + i);
-		*p = *(p + 1) = i & 0x8 ? fp : bp;
-		*(p + 2) = *(p + 3) = i & 0x4 ? fp : bp;
-		*(p + 0x40) = *(p + 0x41) = i & 0x2 ? fp : bp;
-		*(p + 0x42) = *(p + 0x43) = i & 0x1 ? fp : bp;
-#endif
-	    }
-	}
+      maincpu_set_irq_clk (I_RASTER, 1, vic_ii.raster_irq_clk);
+      vic_ii.irq_status |= 0x80;
+      VIC_II_DEBUG_RASTER (("VIC: *** IRQ requested at line $%04X, "
+                "vic_ii.raster_irq_line=$%04X, offset = %ld, cycle = %d.\n",
+                      VIC_II_RASTER_Y (clk), vic_ii.raster_irq_line, offset,
+                            VIC_II_RASTER_CYCLE (clk)));
     }
 
-    for (i = 0; i <= 0xff; i++) {
-	mc_table[i + 0x100] = i >> 6;
-	mc_table[i + 0x300] = (i >> 4) & 0x3;
-	mc_table[i + 0x500] = (i >> 2) & 0x3;
-	mc_table[i + 0x700] = i & 0x3;
-	mc_table[i] = tmptable[i >> 6];
-	mc_table[i + 0x200] = tmptable[(i >> 4) & 0x3];
-	mc_table[i + 0x400] = tmptable[(i >> 2) & 0x3];
-	mc_table[i + 0x600] = tmptable[i & 0x3];
-	mcsprtable[i] = ((i & 0xc0 ? 0xc0 : 0) | (i & 0x30 ? 0x30 : 0)
-			 | (i & 0x0c ? 0x0c : 0) | (i & 0x03 ? 0x03 : 0));
-	mcmsktable[i + 0x100] = 0;
-	mcmsktable[i + 0x100] |= ((i >> 6) & 0x2) ? 0xc0 : 0;
-	mcmsktable[i + 0x100] |= ((i >> 4) & 0x2) ? 0x30 : 0;
-	mcmsktable[i + 0x100] |= ((i >> 2) & 0x2) ? 0x0c : 0;
-	mcmsktable[i + 0x100] |= (i & 0x2) ? 0x03 : 0;
-	mcmsktable[i] = i;
-    }
+  vic_ii.raster_irq_clk += VIC_II_SCREEN_HEIGHT * VIC_II_CYCLES_PER_LINE;
+  alarm_set (&vic_ii.raster_irq_alarm, vic_ii.raster_irq_clk);
 
-    for (i = 0; i <= 0xffff; i++) {
-	sprite_doubling_table[i] = 0;
-	for (lmsk = 0xc0000000, wmsk = 0x8000; wmsk; lmsk >>= 2, wmsk >>= 1)
-	    if (i & wmsk)
-		sprite_doubling_table[i] |= lmsk;
-    }
+  return 0;
 }
 
-/* Draw one hires sprite. */
-inline static void draw_hires_sprite(PIXEL *line_ptr,
-				     BYTE *gfx_msk_ptr,
-				     int n,
-				     int double_size)
-{
-    if (sprites[n].x < SCREEN_WIDTH) {
-	DWORD sprmsk, collmsk;
-	BYTE *msk_ptr = gfx_msk_ptr + ((sprites[n].x + SCREEN_MAX_SPRITE_WIDTH
-					- xsmooth) / 8);
-	BYTE *sptr = sprline + SCREEN_MAX_SPRITE_WIDTH + sprites[n].x;
-	PIXEL *ptr = line_ptr + sprites[n].x * ((double_size) ? 2 : 1);
-	BYTE *data_ptr = (BYTE *)(sprite_data + n);
-	int lshift = (sprites[n].x - xsmooth) & 0x7;
-	int in_background = sprites[n].in_background;
-
-	if (sprites[n].x_expanded) {
-	    WORD sbit = 0x101 << n;
-	    WORD cmsk = 0;
-
-	    collmsk = ((((msk_ptr[1] << 24) | (msk_ptr[2] << 16)
-			 | (msk_ptr[3] << 8) | msk_ptr[4]) << lshift)
-		       | (msk_ptr[5] >> (8 - lshift)));
-	    sprmsk = sprite_doubling_table[(data_ptr[0] << 8)
-					   | data_ptr[1]];
-	    cmsk = 0;
-	    if (!idle_state && (sprmsk & collmsk) != 0)
-		cl_sb_collmask |= sbit;
-	    if (in_background) {
-		if (double_size)
-		    SPRITE_MASK_2x(sprmsk, collmsk, 32, sbit, ptr, sptr,
-				   sprites[n].color, cmsk);
-		else
-		    SPRITE_MASK(sprmsk, collmsk, 32, sbit, ptr, sptr,
-				sprites[n].color, cmsk);
-	    } else {
-		if (double_size)
-		    SPRITE_MASK_2x(sprmsk, 0, 32, sbit, ptr, sptr,
-				   sprites[n].color, cmsk);
-		else
-		    SPRITE_MASK(sprmsk, 0, 32, sbit, ptr, sptr,
-				sprites[n].color, cmsk);
-	    }
-	    sprmsk = sprite_doubling_table[data_ptr[2]];
-	    collmsk = ((((msk_ptr[5] << 8) | msk_ptr[6]) << lshift)
-		       | (msk_ptr[7] >> (8 - lshift)));
-	    if (!idle_state && (sprmsk & collmsk) != 0)
-		cl_sb_collmask |= sbit;
-	    if (in_background) {
-		if (double_size)
-		    SPRITE_MASK_2x(sprmsk, collmsk, 16, sbit, ptr + 64,
-				   sptr + 32, sprites[n].color, cmsk);
-		else
-		    SPRITE_MASK(sprmsk, collmsk, 16, sbit, ptr + 32,
-				sptr + 32, sprites[n].color, cmsk);
-	    } else {
-		if (double_size)
-		    SPRITE_MASK_2x(sprmsk, 0, 16, sbit, ptr + 64,
-				   sptr + 32, sprites[n].color, cmsk);
-		else
-		    SPRITE_MASK(sprmsk, 0, 16, sbit, ptr + 32,
-				sptr + 32, sprites[n].color, cmsk);
-	    }
-	    if (cmsk)
-		cl_ss_collmask |= (cmsk >> 8) | ((cmsk | sbit) & 0xff);
-	} else {		/* Unexpanded */
-	    BYTE sbit = 1 << n;
-	    BYTE cmsk = 0;
-
-	    collmsk = ((((msk_ptr[0] << 24) | (msk_ptr[1] << 16)
-			 | (msk_ptr[2] << 8) | msk_ptr[3]) << lshift)
-		       | (msk_ptr[4] >> (8 - lshift)));
-	    sprmsk = (data_ptr[0] << 16) | (data_ptr[1] << 8) | data_ptr[2];
-	    if (!idle_state && (sprmsk & collmsk) != 0)
-		cl_sb_collmask |= sbit;
-	    if (in_background) {
-		if (double_size)
-		    SPRITE_MASK_2x(sprmsk, collmsk, 24, sbit, ptr, sptr,
-				   sprites[n].color, cmsk);
-		else
-		    SPRITE_MASK(sprmsk, collmsk, 24, sbit, ptr, sptr,
-				sprites[n].color, cmsk);
-	    } else {
-		if (double_size)
-		    SPRITE_MASK_2x(sprmsk, 0, 24, sbit, ptr, sptr,
-				   sprites[n].color, cmsk);
-		else
-		    SPRITE_MASK(sprmsk, 0, 24, sbit, ptr, sptr,
-				sprites[n].color, cmsk);
-	    }
-	    if (cmsk)
-		cl_ss_collmask |= cmsk | sbit;
-	}
-    }
-}
-
-/* Draw one multicolor sprite. */
-inline static void draw_mc_sprite(PIXEL *line_ptr,
-				  BYTE *gfx_msk_ptr,
-				  int n,
-				  int double_size)
-{
-    if (sprites[n].x < SCREEN_WIDTH) {
-	DWORD sprmsk, mcsprmsk;
-	BYTE *msk_ptr;
-	PIXEL *ptr = line_ptr + sprites[n].x * 
-	  ((double_size) ? 2 : 1);
-	BYTE *sptr = sprline + SCREEN_MAX_SPRITE_WIDTH + sprites[n].x;
-	BYTE *data_ptr = (BYTE *)(sprite_data + n);
-	int in_background = sprites[n].in_background;
-	BYTE cmsk = 0, sbit = 1 << n;
-	int lshift = (sprites[n].x - xsmooth) & 0x7;
-	DWORD c[4];
-
-	c[1] = mc_sprite_color_1;
-	c[2] = sprites[n].color;
-	c[3] = mc_sprite_color_2;
-	msk_ptr = gfx_msk_ptr + ((sprites[n].x + SCREEN_MAX_SPRITE_WIDTH
-				  - xsmooth) / 8);
-	mcsprmsk = (data_ptr[0] << 16) | (data_ptr[1] << 8) | data_ptr[2];
-	if (sprites[n].x_expanded) {
-	    DWORD collmsk = ((((msk_ptr[1] << 24) | (msk_ptr[2] << 16)
-			       | (msk_ptr[3] << 8) | msk_ptr[4]) << lshift)
-			     | (msk_ptr[5] >> (8 - lshift)));
-
-	    sprmsk = sprite_doubling_table[((mcsprtable[data_ptr[0]] << 8)
-					    | mcsprtable[data_ptr[1]])];
-	    if (!idle_state && (sprmsk & collmsk) != 0)
-		cl_sb_collmask |= sbit;
-	    if (in_background) {
-		if (double_size)
-		    MCSPRITE_DOUBLE_MASK_2x(mcsprmsk, collmsk, 32,
-					    sbit, ptr, sptr, c, cmsk);
-		else
-		    MCSPRITE_DOUBLE_MASK(mcsprmsk, collmsk, 32,
-					 sbit, ptr, sptr, c, cmsk);
-	    } else {
-		if (double_size)
-		    MCSPRITE_DOUBLE_MASK_2x(mcsprmsk, 0, 32,
-					    sbit, ptr, sptr, c, cmsk);
-		else
-		    MCSPRITE_DOUBLE_MASK(mcsprmsk, 0, 32,
-					 sbit, ptr, sptr, c, cmsk);
-	    }
-	    sprmsk = sprite_doubling_table[mcsprtable[data_ptr[2]]];
-	    collmsk = ((((msk_ptr[5] << 8) | msk_ptr[6]) << lshift)
-		       | (msk_ptr[7] >> (8 - lshift)));
-	    if (!idle_state && (sprmsk & collmsk) != 0)
-		cl_sb_collmask |= sbit;
-	    if (in_background) {
-		if (double_size)
-		    MCSPRITE_DOUBLE_MASK_2x(mcsprmsk, collmsk, 16, sbit,
-					    ptr + 64, sptr + 32, c, cmsk);
-		else
-		    MCSPRITE_DOUBLE_MASK(mcsprmsk, collmsk, 16, sbit,
-					 ptr + 32, sptr + 32, c, cmsk);
-	    } else {
-		if (double_size)
-		    MCSPRITE_DOUBLE_MASK_2x(mcsprmsk, 0, 16, sbit,
-					    ptr + 64, sptr + 32, c, cmsk);
-		else
-		    MCSPRITE_DOUBLE_MASK(mcsprmsk, 0, 16, sbit,
-					 ptr + 32, sptr + 32, c, cmsk);
-	    }
-	} else {		/* Unexpanded */
-	    DWORD collmsk = ((((msk_ptr[0] << 24) | (msk_ptr[1] << 16)
-			       | (msk_ptr[2] << 8) | msk_ptr[3]) << lshift)
-			     | (msk_ptr[4] >> (8 - lshift)));
-	    sprmsk = ((mcsprtable[data_ptr[0]] << 16)
-		      | (mcsprtable[data_ptr[1]] << 8)
-		      | mcsprtable[data_ptr[2]]);
-	    if (!idle_state && (sprmsk & collmsk) != 0)
-		cl_sb_collmask |= sbit;
-	    if (in_background) {
-		if (double_size)
-		    MCSPRITE_MASK_2x(mcsprmsk, collmsk, 24, sbit, ptr,
-				     sptr, c, cmsk);
-		else
-		    MCSPRITE_MASK(mcsprmsk, collmsk, 24, sbit, ptr,
-				  sptr, c, cmsk);
-	    } else {
-		if (double_size)
-		    MCSPRITE_MASK_2x(mcsprmsk, 0, 24, sbit, ptr,
-				     sptr, c, cmsk);
-		else
-		    MCSPRITE_MASK(mcsprmsk, 0, 24, sbit, ptr,
-				  sptr, c, cmsk);
-	    }
-	}
-	if (cmsk)
-	    cl_ss_collmask |= cmsk | (sbit);
-    }
-}
-
-inline static void draw_all_sprites(PIXEL *line_ptr, BYTE *gfx_msk_ptr)
-{
-    cl_ss_collmask = cl_sb_collmask = 0;
-
-    if (dma_msk) {
-	int n;
-
-	memset(sprline, 0, sizeof(sprline));
-
-	for (n = 0; n < 8; n++) {
-	    if (dma_msk & (1 << n)) {
-		if (sprites[n].multicolor)
-		    draw_mc_sprite(line_ptr, gfx_msk_ptr, n, 0);
-		else
-		    draw_hires_sprite(line_ptr, gfx_msk_ptr, n,  0);
-	    }
-	}
-
-	ss_collmask |= cl_ss_collmask;
-	sb_collmask |= cl_sb_collmask;
-    }
-}
-
-#ifdef NEED_2x
-inline static void draw_all_sprites_2x(PIXEL *line_ptr, BYTE *gfx_msk_ptr)
-{
-    cl_ss_collmask = cl_sb_collmask = 0;
-
-    if (dma_msk) {
-	int n;
-
-	memset(sprline, 0, sizeof(sprline));
-
-	for (n = 0; n < 8; n++) {
-	    if (dma_msk & (1 << n)) {
-		if (sprites[n].multicolor)
-		    draw_mc_sprite(line_ptr, gfx_msk_ptr, n, 1);
-		else
-		    draw_hires_sprite(line_ptr, gfx_msk_ptr, n, 1);
-	    }
-	}
-
-	ss_collmask |= cl_ss_collmask;
-	sb_collmask |= cl_sb_collmask;
-    }
-}
-#endif
-
-static void draw_sprites(void)
-{
-#ifdef NEED_2x
-    if (pixel_width == 1)
-        draw_all_sprites(frame_buffer_ptr, gfx_msk);
-    else
-        draw_all_sprites_2x(frame_buffer_ptr, gfx_msk);
-#else
-    draw_all_sprites(frame_buffer_ptr, gfx_msk);
-#endif
-}
-
-/* This kludge updates the sprite-sprite collisions without writing to the
-   real frame buffer.  We might write a function that actually checks for
-   collisions only, but we are lazy.  */
-static void update_sprite_collisions(void)
-{
-    static PIXEL fake_frame_buffer_line[SCREEN_WIDTH
-				        + 4 * SCREEN_MAX_SPRITE_WIDTH];
-    static BYTE fake_gfx_msk[GFXMSK_SIZE]; /* Always zero.  */
-    static PIXEL *fake_frame_buffer_ptr = (fake_frame_buffer_line
-					   + 2 * SCREEN_MAX_SPRITE_WIDTH);
-
-    draw_all_sprites(fake_frame_buffer_ptr, fake_gfx_msk);
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* These functions draw the background from `start_pixel' to `end_pixel'.  */
-
-static void draw_std_background(int start_pixel, int end_pixel)
-{
-    vid_memset(frame_buffer_ptr + start_pixel,
-	       PIXEL(overscan_background_color),
-	       end_pixel - start_pixel + 1);
-}
-
-#ifdef NEED_2x
-static void draw_std_background_2x(int start_pixel, int end_pixel)
-{
-    vid_memset(frame_buffer_ptr + 2 * start_pixel,
-	       PIXEL(overscan_background_color),
-	       2 * (end_pixel - start_pixel + 1));
-}
-#endif
-
-/* ------------------------------------------------------------------------- */
-
-/* If unaligned 32-bit access is not allowed, the graphics is stored in a
-   temporary aligned buffer, and later copied to the real frame buffer.  This
-   is ugly, but should be hopefully faster than accessing 8 bits at a time
-   anyway. */
-
-#ifndef ALLOW_UNALIGNED_ACCESS
-static PIXEL4 _aligned_line_buffer[VIC_II_SCREEN_XPIX / 2 + 1];
-static PIXEL * const aligned_line_buffer = (PIXEL *)_aligned_line_buffer;
-#endif
-
-/* Pointer to the start of the graphics area on the frame buffer. */
-#define GFX_PTR(pixel_width) \
-    (frame_buffer_ptr + (SCREEN_BORDERWIDTH + xsmooth) * (pixel_width))
-
-#ifdef ALLOW_UNALIGNED_ACCESS
-#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr, pixel_width)	\
-   name(GFX_PTR(pixel_width), (xs), (xe), (gfx_msk_ptr))
-#else
-#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr, pixel_width)		\
-   do {									\
-       name(aligned_line_buffer, (xs), (xe), (gfx_msk_ptr));		\
-       vid_memcpy(GFX_PTR(pixel_width) + (xs) * 8 * (pixel_width),	\
-	          aligned_line_buffer + (xs) * 8 * (pixel_width),	\
-	          ((xe) - (xs) + 1) * 8 * (pixel_width));		\
-   } while (0)
-#endif
-
-
-/* FIXME: in the cache, we store the foreground bitmap values for the
-   characters, but we do not use them when drawing and this is slow!  */
-
-/* Standard text mode. */
-
-static int get_std_text(struct line_cache *l, int *xs, int *xe, int rr)
-{
-    int r = 0;
-
-    if (background_color != l->bgdata[0] || l->chargen_ptr != chargen_ptr) {
-	l->bgdata[0] = background_color;
-	l->chargen_ptr = chargen_ptr;
-	*xs = 0;
-	*xe = SCREEN_TEXTCOLS;
-	rr = 1;
-    }
-
-    r = _fill_cache_text(l->fgdata, vbuf, chargen_ptr, SCREEN_TEXTCOLS,
-			 ycounter, xs, xe, rr);
-    r |= _fill_cache(l->colordata1, cbuf, SCREEN_TEXTCOLS, 1, xs, xe, rr);
-
-    if (!r) {
-	ss_collmask |= l->ss_collmask;
-	sb_collmask |= l->sb_collmask;
-    }
-
-    return r;
-}
-
-inline static void _draw_std_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
-{
-    PIXEL4 *table_ptr = hr_table + (background_color << 4);
-    BYTE *char_ptr = chargen_ptr + ycounter;
-    int i;
-
-    for (i = xs; i <= xe; i++) {
-	PIXEL4 *ptr = table_ptr + (cbuf[i] << 8);
-	int d = (*(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i)
-		 = *(char_ptr + vbuf[i] * 8));
-
-	*((PIXEL4 *)p + i * 2) = *(ptr + (d >> 4));
-	*((PIXEL4 *)p + i * 2 + 1) = *(ptr + (d & 0xf));
-    }
-}
-
-static void draw_std_text_cached(struct line_cache *l, int xs, int xe)
-{
-    ALIGN_DRAW_FUNC(_draw_std_text, xs, xe, l->gfx_msk, 1);
-
-    draw_all_sprites(frame_buffer_ptr, l->gfx_msk);
-    l->ss_collmask = cl_ss_collmask;
-    l->sb_collmask = cl_sb_collmask;
-}
-
-static void draw_std_text(void)
-{
-    ALIGN_DRAW_FUNC(_draw_std_text, 0, VIC_II_SCREEN_TEXTCOLS - 1, gfx_msk, 1);
-
-    draw_all_sprites(frame_buffer_ptr, gfx_msk);
-}
-
-#ifdef NEED_2x
-inline static void _draw_std_text_2x(PIXEL *p, int xs, int xe,
-				     BYTE *gfx_msk_ptr)
-{
-    PIXEL4 *table_ptr = hr_table_2x + (background_color << 5);
-    BYTE *char_ptr = chargen_ptr + ycounter;
-    int i;
-
-    for (i = xs; i <= xe; i++) {
-	PIXEL4 *ptr = table_ptr + (cbuf[i] << 9);
-	int d = (*(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i)
-		 = *(char_ptr + vbuf[i] * 8));
-
-	*((PIXEL4 *)p + i * 4) = *(ptr + (d >> 4));
-	*((PIXEL4 *)p + i * 4 + 1) = *(ptr + 0x10 + (d >> 4));
-	*((PIXEL4 *)p + i * 4 + 2) = *(ptr + (d & 0xf));
-	*((PIXEL4 *)p + i * 4 + 3) = *(ptr + 0x10 + (d & 0xf));
-    }
-}
-
-static void draw_std_text_cached_2x(struct line_cache *l, int xs, int xe)
-{
-    ALIGN_DRAW_FUNC(_draw_std_text_2x, xs, xe, l->gfx_msk, 2);
-
-    draw_all_sprites_2x(frame_buffer_ptr, l->gfx_msk);
-    l->ss_collmask = cl_ss_collmask;
-    l->sb_collmask = cl_sb_collmask;
-}
-
-static void draw_std_text_2x(void)
-{
-    ALIGN_DRAW_FUNC(_draw_std_text_2x, 0, SCREEN_TEXTCOLS - 1, gfx_msk, 2);
-    draw_all_sprites_2x(frame_buffer_ptr, gfx_msk);
-}
-
-#endif /* NEED_2x */
-
-#define DRAW_STD_TEXT_BYTE(p, b, f)		\
-    if ((b) & 0x80) *(p) = (f);			\
-    if ((b) & 0x40) *((p) + 1) = (f);		\
-    if ((b) & 0x20) *((p) + 2) = (f);		\
-    if ((b) & 0x10) *((p) + 3) = (f);		\
-    if ((b) & 0x08) *((p) + 4) = (f);		\
-    if ((b) & 0x04) *((p) + 5) = (f);		\
-    if ((b) & 0x02) *((p) + 6) = (f);		\
-    if ((b) & 0x01) *((p) + 7) = (f);
-
-static void draw_std_text_foreground(int start_char, int end_char)
-{
-    int i;
-    BYTE *char_ptr = chargen_ptr + ycounter;
-    PIXEL *p = (frame_buffer_ptr + SCREEN_BORDERWIDTH + xsmooth
-		+ 8 * start_char);
-
-    for (i = start_char; i <= end_char; i++, p += 8) {
-	BYTE b = char_ptr[vbuf[i] * 8];
-	PIXEL f = PIXEL(cbuf[i]);
-
-	*(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = b;
-	DRAW_STD_TEXT_BYTE(p, b, f);
-    }
-}
-
-#ifdef NEED_2x
-static void draw_std_text_foreground_2x(int start_char, int end_char)
-{
-    int i;
-    BYTE *char_ptr = chargen_ptr + ycounter;
-    PIXEL2 *p = (PIXEL2 *)(frame_buffer_ptr + 2 * SCREEN_BORDERWIDTH
-			   + 2 * xsmooth) + 8 * start_char;
-
-    for (i = start_char; i <= end_char; i++, p += 8) {
-	BYTE b = char_ptr[vbuf[i] * 8];
-	PIXEL2 f = PIXEL2(cbuf[i]);
-
-	*(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = b;
-	/* Notice that we are always aligned on 2-bytes boundaries here. */
-	DRAW_STD_TEXT_BYTE(p, b, f);
-    }
-}
-#endif
-
-/* ------------------------------------------------------------------------- */
-
-/* Hires Bitmap mode. */
-
-static int get_hires_bitmap(struct line_cache *l, int *xs, int *xe, int rr)
-{
-    int r = 0;
-
-    r |= _fill_cache_nibbles(l->colordata1, l->bgdata, vbuf, SCREEN_TEXTCOLS,
-			     1, xs, xe, rr);
-    r |= _fill_cache(l->fgdata, bitmap_ptr + memptr * 8 + ycounter,
-		     SCREEN_TEXTCOLS, 8, xs, xe, rr);
-
-    if (!r) {
-	ss_collmask |= l->ss_collmask;
-	sb_collmask |= l->sb_collmask;
-    }
-
-    return r;
-}
-
-inline static void _draw_hires_bitmap(PIXEL *p, int xs, int xe,
-				      BYTE *gfx_msk_ptr)
-{
-    BYTE *bmptr = bitmap_ptr;
-    int i, j;
-
-    for (j = ((memptr << 3) + ycounter + xs * 8) & 0x1fff, i = xs;
-	 i <= xe;
-	 i++, j = (j + 8) & 0x1fff) {
-	PIXEL4 *ptr = hr_table + (vbuf[i] << 4);
-	int d;
-
-	d = *(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i) = bmptr[j];
-	*((PIXEL4 *)p + i * 2) = *(ptr + (d >> 4));
-	*((PIXEL4 *)p + i * 2 + 1) = *(ptr + (d & 0xf));
-    }
-}
-
-static void draw_hires_bitmap(void)
-{
-    ALIGN_DRAW_FUNC(_draw_hires_bitmap, 0, SCREEN_TEXTCOLS - 1, gfx_msk, 1);
-
-    draw_all_sprites(frame_buffer_ptr, gfx_msk);
-}
-
-static void draw_hires_bitmap_cached(struct line_cache *l, int xs, int xe)
-{
-    ALIGN_DRAW_FUNC(_draw_hires_bitmap, xs, xe, l->gfx_msk, 1);
-
-    draw_all_sprites(frame_buffer_ptr, l->gfx_msk);
-    l->ss_collmask = cl_ss_collmask;
-    l->sb_collmask = cl_sb_collmask;
-}
-
-#ifdef NEED_2x
-
-inline static void _draw_hires_bitmap_2x(PIXEL *p, int xs, int xe,
-					BYTE *gfx_msk_ptr)
-{
-    BYTE *bmptr = bitmap_ptr;
-    int i, j;
-
-    for (j = ((memptr << 3) + ycounter + xs * 8) & 0x1fff, i = xs;
-	 i <= xe;
-	 i++, j = (j + 8) & 0x1fff) {
-	PIXEL4 *ptr = hr_table_2x + (vbuf[i] << 5);
-	int d;
-
-	d = *(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i) = bmptr[j];
-	*((PIXEL4 *)p + i * 4) = *(ptr + (d >> 4));
-	*((PIXEL4 *)p + i * 4 + 1) = *(ptr + 0x10 + (d >> 4));
-	*((PIXEL4 *)p + i * 4 + 2) = *(ptr + (d & 0xf));
-	*((PIXEL4 *)p + i * 4 + 3) = *(ptr + 0x10 + (d & 0xf));
-    }
-}
-
-static void draw_hires_bitmap_2x(void)
-{
-    ALIGN_DRAW_FUNC(_draw_hires_bitmap_2x, 0, SCREEN_TEXTCOLS - 1, gfx_msk, 2);
-
-    draw_all_sprites_2x(frame_buffer_ptr, gfx_msk);
-}
-
-static void draw_hires_bitmap_cached_2x(struct line_cache *l, int xs, int xe)
-{
-    ALIGN_DRAW_FUNC(_draw_hires_bitmap_2x, xs, xe, l->gfx_msk, 2);
-
-    draw_all_sprites_2x(frame_buffer_ptr, l->gfx_msk);
-    l->ss_collmask = cl_ss_collmask;
-    l->sb_collmask = cl_sb_collmask;
-}
-
-#endif /* NEED_2x */
-
-static void draw_hires_bitmap_foreground(int start_char, int end_char)
-{
-    ALIGN_DRAW_FUNC(_draw_hires_bitmap, start_char, end_char, gfx_msk, 1);
-}
-
-#ifdef NEED_2x
-static void draw_hires_bitmap_foreground_2x(int start_char, int end_char)
-{
-    ALIGN_DRAW_FUNC(_draw_hires_bitmap_2x, start_char, end_char, gfx_msk, 2);
-}
-#endif
-
-/* ------------------------------------------------------------------------- */
-
-/* Multicolor text mode. */
-
-static int get_mc_text(struct line_cache *l, int *xs, int *xe, int rr)
-{
-    int r = 0;
-
-    if (background_color != l->bgdata[0] || l->colordata1[0] != vic[0x22]
-	|| l->colordata1[1] != vic[0x23] || l->chargen_ptr != chargen_ptr) {
-	l->bgdata[0] = background_color;
-	l->colordata1[0] = vic[0x22];
-	l->colordata1[1] = vic[0x23];
-	l->chargen_ptr = chargen_ptr;
-	*xs = 0;
-	*xe = VIC_II_SCREEN_TEXTCOLS - 1;
-	rr = 1;
-    }
-
-    r = _fill_cache_text(l->fgdata, vbuf, chargen_ptr, SCREEN_TEXTCOLS,
-			 ycounter, xs, xe, rr);
-    r |= _fill_cache(l->colordata3, cbuf, SCREEN_TEXTCOLS, 1, xs, xe, rr);
-
-    if (!r) {
-	ss_collmask |= l->ss_collmask;
-	sb_collmask |= l->sb_collmask;
-    }
-
-    return r;
-}
-
-inline static void _draw_mc_text(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
-{
-    PIXEL2 c[7];
-    BYTE *char_ptr = chargen_ptr + ycounter;
-    int i;
-
-    c[0] = PIXEL2(background_color);
-    c[1] = PIXEL2(ext_background_color[0]);
-    c[2] = PIXEL2(ext_background_color[1]);
-    *((PIXEL *)c + 8) = *((PIXEL *)c + 11) = PIXEL(background_color);
-    for (i = xs; i <= xe; i++) {
-	unsigned int d = *(char_ptr + vbuf[i] * 8);
-	unsigned int k = (cbuf[i] & 0x8) << 5;
-
-	*(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i) = mcmsktable[k | d];
-#ifdef ALLOW_UNALIGNED_ACCESS
-	c[3] = *((PIXEL2 *)((PIXEL *)c + 9)) = PIXEL2(cbuf[i] & 0x7);
-#else
-	c[3] = PIXEL2(cbuf[i] & 0x7);
-	*((PIXEL *)c + 9) = *((PIXEL *)c + 10) = PIXEL2(cbuf[i] & 0x7);
-#endif
-	*((PIXEL2 *)p + 4 * i) = c[mc_table[k | d]];
-	*((PIXEL2 *)p + 4 * i + 1) = c[mc_table[0x200 + (k | d)]];
-	*((PIXEL2 *)p + 4 * i + 2) = c[mc_table[0x400 + (k | d)]];
-	*((PIXEL2 *)p + 4 * i + 3) = c[mc_table[0x600 + (k | d)]];
-    }
-}
-
-static void draw_mc_text(void)
-{
-    ALIGN_DRAW_FUNC(_draw_mc_text, 0, SCREEN_TEXTCOLS - 1, gfx_msk, 1);
-
-    draw_all_sprites(frame_buffer_ptr, gfx_msk);
-}
-
-static void draw_mc_text_cached(struct line_cache *l, int xs, int xe)
-{
-    ALIGN_DRAW_FUNC(_draw_mc_text, xs, xe, l->gfx_msk, 1);
-
-    draw_all_sprites(frame_buffer_ptr, l->gfx_msk);
-    l->ss_collmask = cl_ss_collmask;
-    l->sb_collmask = cl_sb_collmask;
-}
-
-#ifdef NEED_2x
-
-inline static void _draw_mc_text_2x(PIXEL *p, int xs, int xe,
-				    BYTE *gfx_msk_ptr)
-{
-    PIXEL4 c[7];
-    int i;
-    BYTE *char_ptr = chargen_ptr + ycounter;
-
-    c[0] = PIXEL4(background_color);
-    c[1] = PIXEL4(ext_background_color[0]);
-    c[2] = PIXEL4(ext_background_color[1]);
-    *((PIXEL2 *)c + 8) = *((PIXEL2 *)c + 11) = PIXEL2(background_color);
-    for (i = xs; i <= xe; i++) {
-	unsigned int d = *(char_ptr + vbuf[i] * 8);
-	unsigned int k = (cbuf[i] & 0x8) << 5;
-
-	*(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i) = mcmsktable[k | d];
-#ifdef ALLOW_UNALIGNED_ACCESS
-	c[3] = *((PIXEL4 *)((PIXEL2 *)c + 9)) = PIXEL4(cbuf[i] & 0x7);
-#else
-	c[3] = PIXEL4(cbuf[i] & 0x7);
-	*((PIXEL2 *)c + 9) = *((PIXEL2 *)c + 10) = PIXEL2(cbuf[i] & 0x7);
-#endif
-	*((PIXEL4 *)p + 4 * i) = c[mc_table[k | d]];
-	*((PIXEL4 *)p + 4 * i + 1) = c[mc_table[0x200 + (k | d)]];
-	*((PIXEL4 *)p + 4 * i + 2) = c[mc_table[0x400 + (k | d)]];
-	*((PIXEL4 *)p + 4 * i + 3) = c[mc_table[0x600 + (k | d)]];
-    }
-}
-
-static void draw_mc_text_2x(void)
-{
-    ALIGN_DRAW_FUNC(_draw_mc_text_2x, 0, SCREEN_TEXTCOLS - 1, gfx_msk, 2);
-
-    draw_all_sprites_2x(frame_buffer_ptr, gfx_msk);
-}
-
-static void draw_mc_text_cached_2x(struct line_cache *l, int xs, int xe)
-{
-    ALIGN_DRAW_FUNC(_draw_mc_text_2x, xs, xe, l->gfx_msk, 2);
-
-    draw_all_sprites_2x(frame_buffer_ptr, l->gfx_msk);
-    l->ss_collmask = cl_ss_collmask;
-    l->sb_collmask = cl_sb_collmask;
-}
-#endif
-
-/* FIXME: aligned/unaligned versions. */
-#define DRAW_MC_BYTE(p, b, f1, f2, f3)		\
-    if ((b) & 0x80) {				\
-        if ((b) & 0x40)				\
-	    *(p) = *((p) + 1) = (f3);		\
-	else					\
-	    *(p) = *((p) + 1) = (f2);		\
-    } else {					\
-	if ((b) & 0x40)				\
-	    *(p) = *((p) + 1) = (f1);		\
-    }						\
-    if ((b) & 0x20) {				\
-        if ((b) & 0x10)				\
-	    *((p) + 2) = *((p) + 3) = (f3);	\
-	else					\
-	    *((p) + 2) = *((p) + 3) = (f2);	\
-    } else {					\
-	if ((b) & 0x10)				\
-	    *((p) + 2) = *((p) + 3) = (f1);	\
-    }						\
-    if ((b) & 0x08) {				\
-        if ((b) & 0x04)				\
-	    *((p) + 4) = *((p) + 5) = (f3);	\
-	else					\
-	    *((p) + 4) = *((p) + 5) = (f2);	\
-    } else {					\
-	if ((b) & 0x04)				\
-	    *((p) + 4) = *((p) + 5) = (f1);	\
-    }						\
-    if ((b) & 0x02) {				\
-        if ((b) & 0x01)				\
-	    *((p) + 6) = *((p) + 7) = (f3);	\
-	else					\
-	    *((p) + 6) = *((p) + 7) = (f2);	\
-    } else {					\
-	if ((b) & 0x01)				\
-	    *((p) + 6) = *((p) + 7) = (f1);	\
-    }
-
-static void draw_mc_text_foreground(int start_char, int end_char)
-{
-    BYTE *char_ptr = chargen_ptr + ycounter;
-    PIXEL c1 = PIXEL(ext_background_color[0]);
-    PIXEL c2 = PIXEL(ext_background_color[1]);
-    PIXEL *p = (frame_buffer_ptr + SCREEN_BORDERWIDTH + xsmooth
-		+ 8 * start_char);
-    int i;
-
-    for (i = start_char; i <= end_char; i++, p += 8) {
-	BYTE b = *(char_ptr + vbuf[i] * 8);
-	BYTE c = cbuf[i];
-
-	if (c & 0x8) {
-	    PIXEL c3 = PIXEL(c & 0x7);
+
 
-	    DRAW_MC_BYTE(p, b, c1, c2, c3);
-	    *(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = mcmsktable[0x100 + b];
-	} else {
-	    PIXEL c3 = PIXEL(c);
-
-	    DRAW_STD_TEXT_BYTE(p, b, c3);
-	    *(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = b;
-	}
-    }
-}
-
-#ifdef NEED_2x
-static void draw_mc_text_foreground_2x(int start_char, int end_char)
-{
-    BYTE *char_ptr = chargen_ptr + ycounter;
-    PIXEL2 c1 = PIXEL2(ext_background_color[0]);
-    PIXEL2 c2 = PIXEL2(ext_background_color[1]);
-    PIXEL2 *p = (PIXEL2 *)(frame_buffer_ptr + 2 * SCREEN_BORDERWIDTH
-			   + 2 * xsmooth) + 8 * start_char;
-    int i;
-
-    for (i = start_char; i <= end_char; i++, p += 8) {
-	BYTE b = *(char_ptr + vbuf[i] * 8);
-	BYTE c = cbuf[i];
-
-	if (c & 0x8) {
-	    PIXEL2 c3 = PIXEL2(c & 0x7);
-
-	    DRAW_MC_BYTE(p, b, c1, c2, c3);
-	    *(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = mcmsktable[0x100 + b];
-	} else {
-	    PIXEL2 c3 = PIXEL2(c);
-
-	    DRAW_STD_TEXT_BYTE(p, b, c3);
-	    *(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = b;
-	}
-    }
-}
-#endif
-
-/* ------------------------------------------------------------------------- */
-
-/* Multicolor Bitmap Mode. */
-
-static int get_mc_bitmap(struct line_cache *l, int *xs, int *xe, int r)
-{
-    if (background_color != l->bgdata[0]) {
-	l->bgdata[0] = background_color;
-	r = 1;
-	*xs = 0;
-	*xe = SCREEN_TEXTCOLS;
-    }
-    r = _fill_cache_nibbles(l->colordata1, l->colordata2, vbuf,
-			    SCREEN_TEXTCOLS, 1, xs, xe, r);
-    r = _fill_cache(l->colordata3, cbuf, SCREEN_TEXTCOLS, 1, xs, xe, r);
-    r = _fill_cache(l->fgdata, bitmap_ptr + memptr * 8 + ycounter,
-		    SCREEN_TEXTCOLS, 8, xs, xe, r);
-
-    if (!r) {
-	ss_collmask |= l->ss_collmask;
-	sb_collmask |= l->sb_collmask;
-    }
-    return r;
-}
-
-inline static void _draw_mc_bitmap(PIXEL *p, int xs, int xe, BYTE *gfx_msk_ptr)
-{
-    BYTE *colptr = cbuf;
-    BYTE *bmptr = bitmap_ptr;
-    PIXEL2 c[4];
-    int i, j;
-
-    c[0] = PIXEL2(background_color);
-    for (j = ((memptr << 3) + ycounter + xs * 8) & 0x1fff, i = xs;
-	 i <= xe;
-	 i++, j = (j + 8) & 0x1fff) {
-	unsigned int d = bmptr[j];
-
-	*(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i) = mcmsktable[d | 0x100];
-	c[1] = PIXEL2(vbuf[i] >> 4);
-	c[2] = PIXEL2(vbuf[i] & 0xf);
-	c[3] = PIXEL2(colptr[i]);
-	*((PIXEL2 *)p + 4 * i) = c[mc_table[0x100 + d]];
-	*((PIXEL2 *)p + 4 * i + 1) = c[mc_table[0x300 + d]];
-	*((PIXEL2 *)p + 4 * i + 2) = c[mc_table[0x500 + d]];
-	*((PIXEL2 *)p + 4 * i + 3) = c[mc_table[0x700 + d]];
-    }
-}
-
-static void draw_mc_bitmap(void)
-{
-    ALIGN_DRAW_FUNC(_draw_mc_bitmap, 0, SCREEN_TEXTCOLS - 1, gfx_msk, 1);
-
-    draw_all_sprites(frame_buffer_ptr, gfx_msk);
-}
-
-static void draw_mc_bitmap_cached(struct line_cache *l, int xs, int xe)
-{
-    ALIGN_DRAW_FUNC(_draw_mc_bitmap, xs, xe, l->gfx_msk, 1);
-
-    draw_all_sprites(frame_buffer_ptr, l->gfx_msk);
-    l->ss_collmask = cl_ss_collmask;
-    l->sb_collmask = cl_sb_collmask;
-}
-
-#ifdef NEED_2x
-
-inline static void _draw_mc_bitmap_2x(PIXEL *p, int xs, int xe,
-				      BYTE *gfx_msk_ptr)
-{
-    BYTE *colptr = cbuf;
-    BYTE *bmptr = bitmap_ptr;
-    PIXEL4 c[4];
-    int i, j;
-
-    c[0] = PIXEL4(background_color);
-    for (j = ((memptr << 3) + ycounter + xs * 8) & 0x1fff, i = xs;
-	 i <= xe;
-	 j = (j + 8) & 0x1fff, i++) {
-	unsigned int d = bmptr[j];
-
-	*(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i) = mcmsktable[d | 0x100];
-	c[1] = PIXEL4(vbuf[i] >> 4);
-	c[2] = PIXEL4(vbuf[i] & 0xf);
-	c[3] = PIXEL4(colptr[i]);
-	*((PIXEL4 *)p + 4 * i) = c[mc_table[0x100 + d]];
-	*((PIXEL4 *)p + 4 * i + 1) = c[mc_table[0x300 + d]];
-	*((PIXEL4 *)p + 4 * i + 2) = c[mc_table[0x500 + d]];
-	*((PIXEL4 *)p + 4 * i + 3) = c[mc_table[0x700 + d]];
-    }
-}
-
-static void draw_mc_bitmap_2x(void)
-{
-    ALIGN_DRAW_FUNC(_draw_mc_bitmap_2x, 0, SCREEN_TEXTCOLS - 1, gfx_msk, 2);
-
-    draw_all_sprites_2x(frame_buffer_ptr, gfx_msk);
-}
-
-static void draw_mc_bitmap_cached_2x(struct line_cache *l, int xs, int xe)
-{
-    ALIGN_DRAW_FUNC(_draw_mc_bitmap_2x, xs, xe, l->gfx_msk, 2);
-
-    draw_all_sprites_2x(frame_buffer_ptr, l->gfx_msk);
-    l->ss_collmask = cl_ss_collmask;
-    l->sb_collmask = cl_sb_collmask;
-}
-
-#endif /* NEED_2x */
-
-static void draw_mc_bitmap_foreground(int start_char, int end_char)
-{
-    PIXEL *p = (frame_buffer_ptr + SCREEN_BORDERWIDTH + xsmooth
-		+ 8 * start_char);
-    BYTE *bmptr = bitmap_ptr;
-    int i, j;
-
-    for (j = ((memptr << 3) + ycounter + 8*start_char) & 0x1fff, i = start_char;
-	 i <= end_char;
-	 j = (j + 8) & 0x1fff, i++, p += 8) {
-	PIXEL c1 = PIXEL(vbuf[i] >> 4);
-	PIXEL c2 = PIXEL(vbuf[i] & 0xf);
-	PIXEL c3 = PIXEL(cbuf[i]);
-	BYTE b = bmptr[j];
-
-	*(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = mcmsktable[0x100 + b];
-	DRAW_MC_BYTE(p, b, c1, c2, c3);
-    }
-}
-
-#ifdef NEED_2x
-
-static void draw_mc_bitmap_foreground_2x(int start_char, int end_char)
-{
-    PIXEL2 *p = ((PIXEL2 *)frame_buffer_ptr + SCREEN_BORDERWIDTH + xsmooth
-		 + 8 * start_char);
-    BYTE *bmptr = bitmap_ptr;
-    int i, j;
-
-    for (j = ((memptr << 3) + ycounter + 8*start_char) & 0x1fff, i = start_char;
-	 i <= end_char;
-	 j = (j + 8) & 0x1fff, i++, p += 8) {
-	PIXEL2 c1 = PIXEL2(vbuf[i] >> 4);
-	PIXEL2 c2 = PIXEL2(vbuf[i] & 0xf);
-	PIXEL2 c3 = PIXEL2(cbuf[i]);
-	BYTE b = bmptr[j];
-
-	*(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = mcmsktable[0x100 + b];
-	DRAW_MC_BYTE(p, b, c1, c2, c3);
-    }
-}
-
-#endif
-
-/* ------------------------------------------------------------------------- */
-
-/* Extended Text Mode. */
-
-static int get_ext_text(struct line_cache *l, int *xs, int *xe, int r)
-{
-    if (r || vic[0x21] != l->colordata2[0] || vic[0x22] != l->colordata2[1]
-	|| vic[0x23] != l->colordata2[2] || vic[0x24] != l->colordata2[3]) {
-	l->colordata2[0] = vic[0x21];
-	l->colordata2[1] = vic[0x22];
-	l->colordata2[2] = vic[0x23];
-	l->colordata2[3] = vic[0x24];
-	r = 1;
-    }
-
-    r = _fill_cache(l->colordata1, cbuf, SCREEN_TEXTCOLS, 1, xs, xe, r);
-    r = _fill_cache(l->colordata2, vbuf, SCREEN_TEXTCOLS, 1, xs, xe, r);
-    r = _fill_cache(l->fgdata, vbuf, SCREEN_TEXTCOLS, 1, xs, xe, r);
-
-    if (!r) {
-	ss_collmask |= l->ss_collmask;
-	sb_collmask |= l->sb_collmask;
-    }
-
-    return r;
-}
-
-inline static void _draw_ext_text(PIXEL *p, int xs, int xe,
-				  BYTE *gfx_msk_ptr)
-{
-    BYTE *char_ptr = chargen_ptr + ycounter;
-    int i;
-
-    for (i = xs; i <= xe; i++) {
-	PIXEL4 *ptr = hr_table + (cbuf[i] << 8);
-	int bg_idx = vbuf[i] >> 6;
-	int d = *(char_ptr + (vbuf[i] & 0x3f) * 8);
-
-	if (bg_idx == 0)
-	    ptr += background_color << 4;
-	else
-	    ptr += ext_background_color[bg_idx - 1] << 4;
-        *(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i) = d;
-        *((PIXEL4 *)p + 2 * i) = *(ptr + (d >> 4));
-	*((PIXEL4 *)p + 2 * i + 1) = *(ptr + (d & 0xf));
-    }
-}
-
-static void draw_ext_text(void)
-{
-    ALIGN_DRAW_FUNC(_draw_ext_text, 0, SCREEN_TEXTCOLS - 1, gfx_msk, 1);
-
-    draw_all_sprites(frame_buffer_ptr, gfx_msk);
-}
-
-static void draw_ext_text_cached(struct line_cache *l, int xs, int xe)
-{
-    ALIGN_DRAW_FUNC(_draw_ext_text, xs, xe, l->gfx_msk, 1);
-
-    draw_all_sprites(frame_buffer_ptr, l->gfx_msk);
-    l->ss_collmask = cl_ss_collmask;
-    l->sb_collmask = cl_sb_collmask;
-}
-
-#ifdef NEED_2x
-
-inline static void _draw_ext_text_2x(PIXEL *p, int xs, int xe,
-				     BYTE *gfx_msk_ptr)
-{
-    BYTE *char_ptr = chargen_ptr + ycounter;
-    int i;
-
-    for (i = xs; i <= xe; i++) {
-	PIXEL4 *ptr = hr_table_2x + (cbuf[i] << 9);
-	int bg_idx = vbuf[i] >> 6;
-	int d = *(char_ptr + (vbuf[i] & 0x3f) * 8);
-
-	if (bg_idx == 0)
-	    ptr += background_color << 5;
-	else
-	    ptr += ext_background_color[bg_idx - 1] << 5;
-        *(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE + i) = d;
-	*((PIXEL4 *)p + 4 * i) = *(ptr + (d >> 4));
-	*((PIXEL4 *)p + 4 * i + 1) = *(ptr + 0x10 + (d >> 4));
-	*((PIXEL4 *)p + 4 * i + 2) = *(ptr + (d & 0xf));
-	*((PIXEL4 *)p + 4 * i + 3) = *(ptr + 0x10 + (d & 0xf));
-    }
-}
-
-static void draw_ext_text_cached_2x(struct line_cache *l, int xs, int xe)
-{
-    ALIGN_DRAW_FUNC(_draw_ext_text_2x, xs, xe, l->gfx_msk, 2);
-
-    draw_all_sprites_2x(frame_buffer_ptr, l->gfx_msk);
-    l->ss_collmask = cl_ss_collmask;
-    l->sb_collmask = cl_sb_collmask;
-}
-
-static void draw_ext_text_2x(void)
+/* WARNING: This does not change the resource value.  External modules are
+   expected to set the resource value to change the VIC-II palette instead of
+   calling this function directly.  */
+int
+vic_ii_load_palette (const char *name)
 {
-    ALIGN_DRAW_FUNC(_draw_ext_text_2x, 0, SCREEN_TEXTCOLS - 1, gfx_msk, 2);
-
-    draw_all_sprites_2x(frame_buffer_ptr, gfx_msk);
-}
-
-#endif /* NEED_2x */
-
-/* FIXME: This is *slow* and might not be 100% correct.  */
-static void draw_ext_text_foreground(int start_char, int end_char)
-{
-    int i;
-
-    BYTE *char_ptr = chargen_ptr + ycounter;
-    PIXEL *p = (frame_buffer_ptr + SCREEN_BORDERWIDTH + xsmooth
-		+ 8 * start_char);
-
-    for (i = start_char; i <= end_char; i++, p += 8) {
-	BYTE b = char_ptr[(vbuf[i] & 0x3f) * 8];
-	PIXEL f = PIXEL(cbuf[i]);
-	int bg_idx = vbuf[i] >> 6;
-
-	if (bg_idx > 0) {
-#ifdef ALLOW_UNALIGNED_ACCESS
-	    *((PIXEL4 *)p) = *((PIXEL4 *)p + 1) =
-		PIXEL4(ext_background_color[bg_idx - 1]);
-#else
-	    p[0] = p[1] = p[2] = p[3] = p[4] = p[5] = p[6] = p[7] =
-		PIXEL(ext_background_color[bg_idx - 1]);
-#endif
-	}
-	*(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = b;
-	DRAW_STD_TEXT_BYTE(p, b, f);
-    }
-}
-
-#ifdef NEED_2x
-static void draw_ext_text_foreground_2x(int start_char, int end_char)
-{
-    int i;
-
-    BYTE *char_ptr = chargen_ptr + ycounter;
-    PIXEL2 *p = (PIXEL2 *)(frame_buffer_ptr + 2 * SCREEN_BORDERWIDTH
-			   + 2 * xsmooth) + 8 * start_char;
-
-    for (i = start_char; i <= end_char; i++, p += 8) {
-	BYTE b = char_ptr[(vbuf[i] & 0x3f) * 8];
-	PIXEL2 f = PIXEL2(cbuf[i]);
-	int bg_idx = vbuf[i] >> 6;
-
-	if (bg_idx > 0) {
-#ifdef ALLOW_UNALIGNED_ACCESS
-	    *((PIXEL4 *)p) = *((PIXEL4 *)p + 1)
-		= *((PIXEL4 *)p + 2) = *((PIXEL4 *)p + 3)
-		= PIXEL4(ext_background_color[bg_idx - 1]);
-#else
-	    p[0] = p[1] = p[2] = p[3] = p[4] = p[5] = p[6] = p[7] =
-		PIXEL2(ext_background_color[bg_idx - 1]);
-#endif
-	}
-	*(gfx_msk + GFXMSK_LEFTBORDER_SIZE + i) = b;
-	DRAW_STD_TEXT_BYTE(p, b, f);
-    }
-}
-#endif
-
-/* ------------------------------------------------------------------------- */
-
-/* Illegal mode.  Everything is black. */
-
-static int get_black(struct line_cache *l, int *xs, int *xe, int r)
-{
-    /* Let's simplify here: if also the previous time we had the Black Mode,
-       nothing has changed.  If we had not, the whole line has changed. */
-
-    if (r) {
-	*xs = 0;
-	*xe = SCREEN_TEXTCOLS - 1;
-    } else {
-	ss_collmask |= l->ss_collmask;
-	sb_collmask |= l->sb_collmask;
-    }
-
-    return r;
-}
-
-static void draw_black(void)
-{
-    PIXEL *p = frame_buffer_ptr + (SCREEN_BORDERWIDTH + xsmooth) * pixel_width;
-
-    vid_memset(p, PIXEL(0), SCREEN_TEXTCOLS * 8 * pixel_width);
-
-    /* FIXME: this is not exact! */
-    memset(gfx_msk + GFXMSK_LEFTBORDER_SIZE, 0, SCREEN_TEXTCOLS);
-
-#ifdef NEED_2x
-    if (pixel_width == 1)
-	draw_all_sprites(frame_buffer_ptr, gfx_msk);
-    else
-	draw_all_sprites_2x(frame_buffer_ptr, gfx_msk);
-#else
-    draw_all_sprites(frame_buffer_ptr, gfx_msk);
-#endif
-}
-
-static void draw_black_cached(struct line_cache *l, int xs, int xe)
-{
-    PIXEL *p = frame_buffer_ptr + (SCREEN_BORDERWIDTH + xsmooth) * pixel_width;
-
-    vid_memset(p, PIXEL(0), SCREEN_TEXTCOLS * 8 * pixel_width);
-    memset(gfx_msk + GFXMSK_LEFTBORDER_SIZE, 0, SCREEN_TEXTCOLS);
-
-#ifdef NEED_2x
-    if (pixel_width == 1)
-	draw_all_sprites(frame_buffer_ptr, l->gfx_msk);
-    else
-	draw_all_sprites_2x(frame_buffer_ptr, l->gfx_msk);
-#else
-    draw_all_sprites(frame_buffer_ptr, l->gfx_msk);
-#endif
-
-    l->ss_collmask = cl_ss_collmask;
-    l->sb_collmask = cl_sb_collmask;
-}
-
-static void draw_black_foreground(int start_char, int end_char)
-{
-    PIXEL *p = frame_buffer_ptr + (SCREEN_BORDERWIDTH + xsmooth +
-    				   8 * start_char) * pixel_width;
-
-    vid_memset(p, PIXEL(0), (end_char - start_char + 1) * 8 * pixel_width);
-    memset(gfx_msk + GFXMSK_LEFTBORDER_SIZE, 0, SCREEN_TEXTCOLS);
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Idle state. */
-
-static int get_idle(struct line_cache *l, int *xs, int *xe, int rr)
-{
-    if (rr
-        || background_color != l->colordata1[0]
-        || idle_data != l->fgdata[0]) {
-	l->colordata1[0] = background_color;
-	l->fgdata[0] = (BYTE)idle_data;
-	*xs = 0;
-	*xe = VIC_II_SCREEN_TEXTCOLS - 1;
-	return 1;
-    } else
-	return 0;
-}
-
-inline static void _draw_idle(int xs, int xe, int _pixel_width,
-			      BYTE *gfx_msk_ptr)
-{
-    PIXEL *p;
-    BYTE d = (BYTE) idle_data;
-    int i;
-
-#ifdef ALLOW_UNALIGNED_ACCESS
-    p = frame_buffer_ptr + (SCREEN_BORDERWIDTH + xsmooth) * _pixel_width;
-#else
-    p = aligned_line_buffer;
-#endif
-
-    if (VIC_II_IS_ILLEGAL_MODE(video_mode)) {
-        vid_memset(p, PIXEL(0), SCREEN_XPIX * _pixel_width);
-    } else if (_pixel_width == 1) {
-	/* The foreground color is always black (0). */
-	unsigned int offs = overscan_background_color << 4;
-	PIXEL4 c1 = *(hr_table + offs + (d >> 4));
-	PIXEL4 c2 = *(hr_table + offs + (d & 0xf));
-
-	for (i = xs * 8; i <= xe * 8; i += 8) {
-	    *((PIXEL4 *)(p + i)) = c1;
-	    *((PIXEL4 *)(p + i + 4)) = c2;
-	}
-    }
-#ifdef NEED_2x
-    else if (_pixel_width == 2) {
-	/* The foreground color is always black (0). */
-	unsigned int offs = overscan_background_color << 5;
-	PIXEL4 c1 = *(hr_table_2x + offs + (d >> 4));
-	PIXEL4 c2 = *(hr_table_2x + 0x10 + offs + (d >> 4));
-	PIXEL4 c3 = *(hr_table_2x + offs + (d & 0xf));
-	PIXEL4 c4 = *(hr_table_2x + 0x10 + offs + (d & 0xf));
-
-	for (i = xs * 16; i <= xe * 16; i += 16) {
-	    *((PIXEL4 *)(p + i)) = c1;
-	    *((PIXEL4 *)(p + i + 4)) = c2;
-	    *((PIXEL4 *)(p + i + 8)) = c3;
-	    *((PIXEL4 *)(p + i + 12)) = c4;
-	}
-    }
-#endif
-
-#ifndef ALLOW_UNALIGNED_ACCESS
-    vid_memcpy(frame_buffer_ptr + (SCREEN_BORDERWIDTH + xsmooth) * _pixel_width,
-	       aligned_line_buffer + xs * 8 * _pixel_width,
-	       (xe - xs + 1) * 8 * _pixel_width);
-#endif
-
-    memset(gfx_msk_ptr + GFXMSK_LEFTBORDER_SIZE, d, SCREEN_TEXTCOLS);
-
-#ifdef NEED_2x
-    if (_pixel_width == 1)
-	draw_all_sprites(frame_buffer_ptr, gfx_msk_ptr);
-    else
-	draw_all_sprites_2x(frame_buffer_ptr, gfx_msk_ptr);
-#else
-    draw_all_sprites(frame_buffer_ptr, gfx_msk_ptr);
-#endif
-}
-
-static void draw_idle(void)
-{
-    _draw_idle(0, VIC_II_SCREEN_TEXTCOLS - 1, 1, gfx_msk);
-}
-
-static void draw_idle_cached(struct line_cache *l, int xs, int xe)
-{
-    _draw_idle(xs, xe, 1, l->gfx_msk);
-    l->ss_collmask = cl_ss_collmask;
-    l->sb_collmask = cl_sb_collmask;
-}
-
-#ifdef NEED_2x
-static void draw_idle_2x(void)
-{
-    _draw_idle(0, VIC_II_SCREEN_TEXTCOLS - 1, 2, gfx_msk);
-}
-
-static void draw_idle_cached_2x(struct line_cache *l, int xs, int xe)
-{
-    _draw_idle(xs, xe, 2, l->gfx_msk);
-    l->ss_collmask = cl_ss_collmask;
-    l->sb_collmask = cl_sb_collmask;
-}
-#endif
-
-static void draw_idle_foreground(int start_char, int end_char)
-{
-    PIXEL *p = frame_buffer_ptr + SCREEN_BORDERWIDTH + xsmooth;
-    PIXEL c = PIXEL(0);
-    BYTE d = (BYTE) idle_data;
-    int i;
-
-    for (i = start_char; i <= end_char; i++) {
-        DRAW_STD_TEXT_BYTE(p + i * 8, d, c);
-        gfx_msk[GFXMSK_LEFTBORDER_SIZE + i] = d;
-    }
-}
-
-#ifdef NEED_2x
-static void draw_idle_foreground_2x(int start_char, int end_char)
-{
-    PIXEL2 *p = (PIXEL2 *)frame_buffer_ptr + SCREEN_BORDERWIDTH + xsmooth;
-    PIXEL2 c = PIXEL2(0);
-    BYTE d = (BYTE) idle_data;
-    int i;
-
-    for (i = start_char; i <= end_char; i++) {
-        DRAW_STD_TEXT_BYTE(p + i * 8, d, c);
-        gfx_msk[GFXMSK_LEFTBORDER_SIZE + i] = d;
-    }
-}
-#endif
-
-/* ------------------------------------------------------------------------- */
-
-/* Set proper functions and constants for the current video settings. */
-void video_resize(void)
-{
-    static int old_size = 0;
-
-    video_modes[VIC_II_NORMAL_TEXT_MODE].fill_cache = get_std_text;
-    video_modes[VIC_II_MULTICOLOR_TEXT_MODE].fill_cache = get_mc_text;
-    video_modes[VIC_II_HIRES_BITMAP_MODE].fill_cache = get_hires_bitmap;
-    video_modes[VIC_II_MULTICOLOR_BITMAP_MODE].fill_cache = get_mc_bitmap;
-    video_modes[VIC_II_EXTENDED_TEXT_MODE].fill_cache = get_ext_text;
-    video_modes[VIC_II_ILLEGAL_TEXT_MODE].fill_cache = get_black;
-    video_modes[VIC_II_ILLEGAL_BITMAP_MODE_1].fill_cache = get_black;
-    video_modes[VIC_II_ILLEGAL_BITMAP_MODE_2].fill_cache = get_black;
-    video_modes[VIC_II_ILLEGAL_TEXT_MODE].draw_line_cached = draw_black_cached;
-    video_modes[VIC_II_ILLEGAL_BITMAP_MODE_1].draw_line_cached = draw_black_cached;
-    video_modes[VIC_II_ILLEGAL_BITMAP_MODE_2].draw_line_cached = draw_black_cached;
-    video_modes[VIC_II_ILLEGAL_TEXT_MODE].draw_line = draw_black;
-    video_modes[VIC_II_ILLEGAL_BITMAP_MODE_1].draw_line = draw_black;
-    video_modes[VIC_II_ILLEGAL_BITMAP_MODE_2].draw_line = draw_black;
-    video_modes[VIC_II_ILLEGAL_TEXT_MODE].draw_foreground = draw_black_foreground;
-    video_modes[VIC_II_ILLEGAL_BITMAP_MODE_1].draw_foreground = draw_black_foreground;
-    video_modes[VIC_II_ILLEGAL_BITMAP_MODE_2].draw_foreground = draw_black_foreground;
-    video_modes[VIC_II_IDLE_MODE].fill_cache = get_idle;
-
-#ifdef NEED_2x
-#ifdef USE_VIDMODE_EXTENSION
-    if (fullscreen?fullscreen_double_size_enabled:double_size_enabled) {
-#else
-    if (double_size_enabled) {
-#endif
-        int i;
-
-        for (i = 0; i < SCREEN_NUM_VMODES; i++)
-	    video_modes[i].draw_background = draw_std_background_2x;
-
-	pixel_width = 2;
-	pixel_height = 2;
-
-	video_modes[VIC_II_NORMAL_TEXT_MODE].draw_line_cached = draw_std_text_cached_2x;
-	video_modes[VIC_II_NORMAL_TEXT_MODE].draw_line = draw_std_text_2x;
-	video_modes[VIC_II_NORMAL_TEXT_MODE].draw_foreground = draw_std_text_foreground_2x;
-
-	video_modes[VIC_II_MULTICOLOR_TEXT_MODE].draw_line_cached = draw_mc_text_cached_2x;
-	video_modes[VIC_II_MULTICOLOR_TEXT_MODE].draw_line = draw_mc_text_2x;
-	video_modes[VIC_II_MULTICOLOR_TEXT_MODE].draw_foreground = draw_mc_text_foreground_2x;
-
-	video_modes[VIC_II_EXTENDED_TEXT_MODE].draw_line_cached = draw_ext_text_cached_2x;
-	video_modes[VIC_II_EXTENDED_TEXT_MODE].draw_line = draw_ext_text_2x;
-	video_modes[VIC_II_EXTENDED_TEXT_MODE].draw_foreground = draw_ext_text_foreground_2x;
-
-	video_modes[VIC_II_HIRES_BITMAP_MODE].draw_line_cached = draw_hires_bitmap_cached_2x;
-	video_modes[VIC_II_HIRES_BITMAP_MODE].draw_line = draw_hires_bitmap_2x;
-	video_modes[VIC_II_HIRES_BITMAP_MODE].draw_foreground = draw_hires_bitmap_foreground_2x;
-
-	video_modes[VIC_II_MULTICOLOR_BITMAP_MODE].draw_line_cached = draw_mc_bitmap_cached_2x;
-	video_modes[VIC_II_MULTICOLOR_BITMAP_MODE].draw_line = draw_mc_bitmap_2x;
-	video_modes[VIC_II_MULTICOLOR_BITMAP_MODE].draw_foreground = draw_mc_bitmap_foreground_2x;
-
-	video_modes[VIC_II_IDLE_MODE].draw_line = draw_idle_2x;
-	video_modes[VIC_II_IDLE_MODE].draw_line_cached = draw_idle_cached_2x;
-	video_modes[VIC_II_IDLE_MODE].draw_foreground = draw_idle_foreground_2x;
-
-	if (old_size == 1) {
-	    window_width *= 2;
-	    window_height *= 2;
-	}
-    } else
-#endif /* NEED_2x */
+  static const char *color_names[VIC_II_NUM_COLORS] =
     {
-        int i;
+      "Black", "White", "Red", "Cyan", "Purple", "Green", "Blue",
+      "Yellow", "Orange", "Brown", "Light Red", "Dark Gray", "Medium Gray",
+      "Light Green", "Light Blue", "Light Gray"
+    };
+  palette_t *palette;
 
-        for (i = 0; i < SCREEN_NUM_VMODES; i++)
-	    video_modes[i].draw_background = draw_std_background;
-
-#ifndef pixel_width
-	pixel_width = 1;
-	pixel_height = 1;
-#endif
-
-	video_modes[VIC_II_NORMAL_TEXT_MODE].draw_line_cached = draw_std_text_cached;
-	video_modes[VIC_II_NORMAL_TEXT_MODE].draw_line = draw_std_text;
-	video_modes[VIC_II_NORMAL_TEXT_MODE].draw_foreground = draw_std_text_foreground;
-
-	video_modes[VIC_II_MULTICOLOR_TEXT_MODE].draw_line_cached = draw_mc_text_cached;
-	video_modes[VIC_II_MULTICOLOR_TEXT_MODE].draw_line = draw_mc_text;
-	video_modes[VIC_II_MULTICOLOR_TEXT_MODE].draw_foreground = draw_mc_text_foreground;
-
-	video_modes[VIC_II_EXTENDED_TEXT_MODE].draw_line_cached = draw_ext_text_cached;
-	video_modes[VIC_II_EXTENDED_TEXT_MODE].draw_line = draw_ext_text;
-	video_modes[VIC_II_EXTENDED_TEXT_MODE].draw_foreground = draw_ext_text_foreground;
-
-	video_modes[VIC_II_HIRES_BITMAP_MODE].draw_line_cached = draw_hires_bitmap_cached;
-	video_modes[VIC_II_HIRES_BITMAP_MODE].draw_line = draw_hires_bitmap;
-	video_modes[VIC_II_HIRES_BITMAP_MODE].draw_foreground = draw_hires_bitmap_foreground;
-
-	video_modes[VIC_II_MULTICOLOR_BITMAP_MODE].draw_line_cached = draw_mc_bitmap_cached;
-	video_modes[VIC_II_MULTICOLOR_BITMAP_MODE].draw_line = draw_mc_bitmap;
-	video_modes[VIC_II_MULTICOLOR_BITMAP_MODE].draw_foreground = draw_mc_bitmap_foreground;
-
-	video_modes[VIC_II_IDLE_MODE].draw_line = draw_idle;
-	video_modes[VIC_II_IDLE_MODE].draw_line_cached = draw_idle_cached;
-	video_modes[VIC_II_IDLE_MODE].draw_foreground = draw_idle_foreground;
-
-	if (old_size == 2) {
-	    window_width /= 2;
-	    window_height /= 2;
-	}
-    }
-
-#ifdef USE_VIDMODE_EXTENSION
-    old_size = (fullscreen?fullscreen_double_size_enabled:double_size_enabled) ? 2 : 1;
-#else
-    old_size = (double_size_enabled) ? 2 : 1;
-#endif
-    if (canvas) {
-	resize(window_width, window_height);
-	force_repaint();
-	frame_buffer_clear(&frame_buffer, PIXEL(0));
-	refresh_all();
-    }
-}
-
-/* ------------------------------------------------------------------------- */
-
-/*
-
-This is the format of the VIC-II snapshot module.
-
-Name               Type   Size   Description
-
-AllowBadLines      BYTE   1      flag: if true, bad lines can happen
-BadLine            BYTE   1      flag: this is a bad line
-Blank              BYTE   1      flag: draw lines in border color
-ColorBuf           BYTE   40     character memory buffer (loaded at bad line)
-ColorRam           BYTE   1024   contents of color RAM
-IdleState          BYTE   1      flag: idle state enabled
-LPTrigger          BYTE   1      flag: light pen has been triggered
-LPX                BYTE   1      light pen X
-LPY                BYTE   1      light pen Y
-MatrixBuf          BYTE   40     video matrix buffer (loaded at bad line)
-NewSpriteDmaMask   BYTE   1      value for SpriteDmaMask after drawing sprites
-RamBase            DWORD  1      pointer to the start of RAM seen by the VIC
-RasterCycle        BYTE   1      current raster cycle
-RasterLine         WORD   1      current raster line
-Registers          BYTE   64     VIC-II registers
-SbCollMask         BYTE   1      sprite-background collisions so far
-SpriteDmaMask      BYTE   1      sprites having DMA turned on
-SsCollMask         BYTE   1      sprite-sprite collisions so far
-VBank              BYTE   1      location of memory bank
-Vc                 WORD   1      internal VIC-II counter
-VcAdd              BYTE   1      value to add to Vc at the end of this line (mem_counter_inc)
-VcBase             WORD   1      internal VIC-II memory pointer
-VideoInt           BYTE   1      status of VIC-II IRQ (videoint)
-
-[Sprite section: (repeat 8 times)]
-
-SpriteXMemPtr      BYTE   1      sprite memory pointer
-SpriteXMemPtrInc   BYTE   1      value to add to the MemPtr after fetch
-SpriteXExpFlipFlop BYTE   1      sprite expansion flip-flop
-
-[Alarm section]
-FetchEventTick     DWORD  1      ticks for the next "fetch" (DMA) event
-FetchEventType     BYTE   1      type of event (0: matrix, 1: sprite check, 2: sprite fetch)
-
-*/
-
-static char snap_module_name[] = "VIC-II";
-#define SNAP_MAJOR 1
-#define SNAP_MINOR 0
-
-int vic_ii_write_snapshot_module(snapshot_t *s)
-{
-    int i;
-    snapshot_module_t *m;
-
-    /* FIXME: Dispatch all events?  */
-
-    m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
-    if (m == NULL)
-        return -1;
-
-    if (0
-        || snapshot_module_write_byte(m, (BYTE) allow_bad_lines) < 0 /* AllowBadLines */
-        || snapshot_module_write_byte(m, (BYTE) bad_line) < 0 /* BadLine */
-        || snapshot_module_write_byte(m, (BYTE) blank_enabled) < 0 /* Blank */
-        || snapshot_module_write_byte_array(m, cbuf, 40) < 0 /* ColorBuf */
-        || snapshot_module_write_byte_array(m, color_ram, 1024) < 0 /* ColorRam */
-        || snapshot_module_write_byte(m, idle_state) < 0 /* IdleState */
-        || snapshot_module_write_byte(m, (BYTE) light_pen.triggered) < 0 /* LPTrigger */
-        || snapshot_module_write_byte(m, (BYTE) light_pen.x) < 0 /* LPX */
-        || snapshot_module_write_byte(m, (BYTE) light_pen.y) < 0 /* LPY */
-        || snapshot_module_write_byte_array(m, vbuf, 40) < 0 /* MatrixBuf */
-        || snapshot_module_write_byte(m, new_dma_msk) < 0 /* NewSpriteDmaMask */
-        || snapshot_module_write_dword(m, (DWORD) (ram_base - ram)) < 0 /* RamBase */
-        || snapshot_module_write_byte(m, (BYTE) RASTER_CYCLE) < 0 /* RasterCycle */
-        || snapshot_module_write_word(m, (WORD) RASTER_Y) < 0 /* RasterLine */
-        )
-        goto fail;
-
-    for (i = 0; i < 0x40; i++)
-        if (snapshot_module_write_byte(m, (BYTE) vic[i]) < 0 /* Registers */)
-            goto fail;
-
-    if (0
-        || snapshot_module_write_byte(m, (BYTE) sb_collmask) < 0 /* SbCollMask */
-        || snapshot_module_write_byte(m, (BYTE) dma_msk) < 0 /* SpriteDmaMask */
-        || snapshot_module_write_byte(m, (BYTE) ss_collmask) < 0 /* SsCollMask */
-        || snapshot_module_write_word(m, (WORD) vbank) < 0 /* VBank */
-        || snapshot_module_write_word(m, (WORD) mem_counter) < 0 /* Vc */
-        || snapshot_module_write_byte(m, (BYTE) mem_counter_inc) < 0 /* VcInc */
-        || snapshot_module_write_word(m, (WORD) memptr) < 0 /* VcBase */
-        || snapshot_module_write_byte(m, (BYTE) videoint) < 0 /* VideoInt */
-        )
-        goto fail;
-
-    for (i = 0; i < 8; i++) {
-        if (0
-            || snapshot_module_write_byte(m, (BYTE) sprites[i].memptr) < 0 /* SpriteXMemPtr */
-            || snapshot_module_write_byte(m, (BYTE) sprites[i].memptr_inc) < 0 /* SpriteXMemPtrInc */
-            || snapshot_module_write_byte(m, (BYTE) sprites[i].exp_flag) < 0 /* SpriteXExpFlipFlop */
-            )
-            goto fail;
-    }
-
-    if (0
-        || snapshot_module_write_dword(m, vic_ii_fetch_clk - clk) < 0 /* FetchEventTick */
-        || snapshot_module_write_byte(m, fetch_idx) < 0 /* FetchEventType */
-        )
-        goto fail;
-
-    return snapshot_module_close(m);
-
-fail:
-    if (m != NULL)
-        snapshot_module_close(m);
+  palette = palette_create (VIC_II_NUM_COLORS, color_names);
+  if (palette == NULL)
     return -1;
+
+  if (palette_load (name, palette) < 0)
+    {
+      log_message (vic_ii.log, "Cannot load palette file `%s'.", name);
+      return -1;
+    }
+
+  raster_set_palette (&vic_ii.raster, palette);
+  return 0;
 }
 
-/* Helper functions.  */
+
 
-static int read_byte_into_int(snapshot_module_t *m, int *value_return)
+/* Set proper functions and constants for the current video settings.  */
+void 
+vic_ii_resize (void)
 {
-    BYTE b;
+  if (!vic_ii.initialized)
+    return;
 
-    if (snapshot_module_read_byte(m, &b) < 0)
-        return -1;
-    *value_return = (int) b;
-    return 0;
+  if (vic_ii_resources.double_size_enabled)
+    {
+      if (vic_ii.raster.viewport.pixel_size.width == 1
+          && vic_ii.raster.viewport.canvas != NULL)
+        raster_resize_viewport (&vic_ii.raster,
+                                vic_ii.raster.viewport.width * 2,
+                                vic_ii.raster.viewport.height * 2);
+
+      raster_set_pixel_size (&vic_ii.raster, 2, 2);
+
+      vic_ii_draw_set_double_size (1);
+      vic_ii_sprites_set_double_size (1);
+    }
+  else
+    {
+      if (vic_ii.raster.viewport.pixel_size.width == 2
+          && vic_ii.raster.viewport.canvas != NULL)
+        raster_resize_viewport (&vic_ii.raster,
+                                vic_ii.raster.viewport.width / 2,
+                                vic_ii.raster.viewport.height / 2);
+
+      raster_set_pixel_size (&vic_ii.raster, 1, 1);
+
+      vic_ii_draw_set_double_size (0);
+      vic_ii_sprites_set_double_size (0);
+    }
 }
 
-static int read_word_into_int(snapshot_module_t *m, int *value_return)
+
+
+int
+vic_ii_write_snapshot_module (snapshot_t *s)
 {
-    WORD b;
-
-    if (snapshot_module_read_word(m, &b) < 0)
-        return -1;
-    *value_return = (int) b;
-    return 0;
+  return vic_ii_snapshot_write_module (s);
 }
 
-int vic_ii_read_snapshot_module(snapshot_t *s)
+int
+vic_ii_read_snapshot_module (snapshot_t *s)
 {
-    BYTE major_version, minor_version;
-    int i;
-    snapshot_module_t *m;
-
-    m = snapshot_module_open(s, snap_module_name,
-                             &major_version, &minor_version);
-    if (m == NULL)
-        return -1;
-
-    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-        log_error(vic_ii_log,
-                "Snapshot module version (%d.%d) newer than %d.%d.",
-                major_version, minor_version,
-                SNAP_MAJOR, SNAP_MINOR);
-        goto fail;
-    }
-
-    /* FIXME: initialize changes?  */
-
-    if (0
-        || read_byte_into_int(m, &allow_bad_lines) < 0 /* AllowBadLines */
-        || read_byte_into_int(m, &bad_line) < 0 /* BadLine */
-        || read_byte_into_int(m, &blank_enabled) < 0 /* Blank */
-        || snapshot_module_read_byte_array(m, cbuf, 40) < 0 /* ColorBuf */
-        || snapshot_module_read_byte_array(m, color_ram, 1024) < 0 /* ColorRam */
-        || read_byte_into_int(m, &idle_state) < 0 /* IdleState */
-        || read_byte_into_int(m, &light_pen.triggered) < 0 /* LPTrigger */
-        || read_byte_into_int(m, &light_pen.x) < 0 /* LPX */
-        || read_byte_into_int(m, &light_pen.y) < 0 /* LPY */
-        || snapshot_module_read_byte_array(m, vbuf, 40) < 0 /* MatrixBuf */
-        || snapshot_module_read_byte(m, &new_dma_msk) < 0 /* NewSpriteDmaMask */
-        )
-        goto fail;
-
-    {
-        DWORD RamBase;
-
-        if (snapshot_module_read_dword(m, &RamBase) < 0)
-            goto fail;
-        ram_base = ram + RamBase;
-    }
-
-    /* Read the current raster line and the current raster cycle.  As they
-       are a function of `clk', this is just a sanity check.  */
-    {
-        WORD RasterLine;
-        BYTE RasterCycle;
-
-        if (snapshot_module_read_byte(m, &RasterCycle) < 0
-            || snapshot_module_read_word(m, &RasterLine) < 0)
-            goto fail;
-
-        if (RasterCycle != (BYTE) RASTER_CYCLE) {
-            log_error(vic_ii_log,
-                      "Not matching raster cycle (%d) in snapshot; should be %d.",
-                      RasterCycle, RASTER_CYCLE);
-            goto fail;
-        }
-
-        if (RasterLine != (WORD) RASTER_Y) {
-            log_error(vic_ii_log, "VIC-II: Not matching raster line (%d) in snapshot; should be %d.",
-                      RasterLine, RASTER_Y);
-            goto fail;
-        }
-    }
-
-    for (i = 0; i < 0x40; i++)
-        if (read_byte_into_int(m, &vic[i]) < 0 /* Registers */)
-            goto fail;
-
-    if (0
-        || snapshot_module_read_byte(m, &sb_collmask) < 0 /* SbCollMask */
-        || snapshot_module_read_byte(m, &dma_msk) < 0 /* SpriteDmaMask */
-        || snapshot_module_read_byte(m, &ss_collmask) < 0 /* SsCollMask */
-        || read_word_into_int(m, &vbank) < 0 /* VBank */
-        || read_word_into_int(m, &mem_counter) < 0 /* Vc */
-        || read_byte_into_int(m, &mem_counter_inc) < 0 /* VcInc */
-        || read_word_into_int(m, &memptr) < 0 /* VcBase */
-        || read_byte_into_int(m, &videoint) < 0 /* VideoInt */
-        )
-        goto fail;
-
-    for (i = 0; i < 8; i++) {
-        if (0
-            || read_byte_into_int(m, &sprites[i].memptr) < 0 /* SpriteXMemPtr */
-            || read_byte_into_int(m, &sprites[i].memptr_inc) < 0 /* SpriteXMemPtrInc */
-            || read_byte_into_int(m, &sprites[i].exp_flag) < 0 /* SpriteXExpFlipFlop */
-            )
-            goto fail;
-    }
-
-    /* FIXME: Recalculate alarms and derived values.  */
-
-    int_raster_line = vic[0x12] | ((vic[0x11] & 0x80) << 1);
-    update_int_raster();
-
-    set_memory_ptrs(RASTER_CYCLE);
-
-    /* Update sprite parameters.  We had better do this manually, or the
-       VIC-II emulation could be quite upset. */
-    {
-        BYTE msk;
-
-        for (i = 0, msk = 0x1; i < 8; i++, msk <<= 1) {
-            int tmp;
-
-            /* X/Y coordinates.  */
-            tmp = vic[i * 2] + ((vic[0x10] & msk) ? 0x100 : 0);
-
-            /* (-0xffff makes sure it's updated NOW.) */
-            set_sprite_x(i, tmp, -0xffff);
-
-            sprites[i].y = (int) vic[i * 2 + 1];
-            sprites[i].x_expanded = (int) (vic[0x1d] & msk);
-            sprites[i].y_expanded = (int) (vic[0x17] & msk);
-            sprites[i].multicolor = (int) (vic[0x1c] & msk);
-            sprites[i].in_background = (int) (vic[0x1b] & msk);
-            sprites[i].color = (int) vic[0x27 + i] & 0xf;
-            sprites[i].dma_flag = (int) (new_dma_msk & msk);
-        }
-    }
-
-    xsmooth = vic[0x16] & 0x7;
-    ysmooth = vic[0x11] & 0x7;
-    rasterline = RASTER_Y;      /* FIXME? */
-
-    visible_sprite_msk = vic[0x15];
-
-    /* Update colors.  */
-    border_color = vic[0x20] & 0xf;
-    background_color = vic[0x21] & 0xf;
-    ext_background_color[0] = vic[0x22] & 0xf;
-    ext_background_color[1] = vic[0x23] & 0xf;
-    ext_background_color[2] = vic[0x24] & 0xf;
-    mc_sprite_color_1 = vic[0x25] & 0xf;
-    mc_sprite_color_2 = vic[0x26] & 0xf;
-
-    blank = !(vic[0x11] & 0x10);
-
-    if (video_mode == VIC_II_HIRES_BITMAP_MODE
-        || VIC_II_IS_ILLEGAL_MODE(video_mode)) {
-        overscan_background_color = 0;
-        force_black_overscan_background_color = 1;
-    } else {
-        overscan_background_color = background_color;
-        force_black_overscan_background_color = 0;
-    }
-
-    if (vic[0x11] & 0x8) {
-        display_ystart = VIC_II_25ROW_START_LINE;
-        display_ystop = VIC_II_25ROW_STOP_LINE;
-    } else {
-        display_ystart = VIC_II_24ROW_START_LINE;
-        display_ystop = VIC_II_24ROW_STOP_LINE;
-    }
-
-    if (vic[0x16] & 0x8) {
-        display_xstart = VIC_II_40COL_START_PIXEL;
-        display_xstop = VIC_II_40COL_STOP_PIXEL;
-    } else {
-        display_xstart = VIC_II_38COL_START_PIXEL;
-        display_xstop = VIC_II_38COL_STOP_PIXEL;
-    }
-
-    /* `draw_idle_state', `open_right_border' and `open_left_border' should
-       be needed, but they would only affect the current raster line, and
-       would not cause any difference in timing.  So who cares.  */
-
-    /* FIXME: `ycounter_reset_checked'?  */
-    /* FIXME: `force_display_state'?  */
-
-    memory_fetch_done = 0;      /* FIXME? */
-
-    set_video_mode(RASTER_CYCLE);
-
-    vic_ii_draw_clk = clk + (DRAW_CYCLE - RASTER_CYCLE);
-    oldclk = vic_ii_draw_clk - CYCLES_PER_LINE;
-    alarm_set(&raster_draw_alarm, vic_ii_draw_clk);
-
-    {
-        DWORD dw;
-        BYTE b;
-
-        if (0
-            || snapshot_module_read_dword(m, &dw) < 0 /* FetchEventTick */
-            || snapshot_module_read_byte(m, &b) < 0 /* FetchEventType */
-            )
-            goto fail;
-
-        vic_ii_fetch_clk = clk + dw;
-        fetch_idx = b;
-        alarm_set(&raster_fetch_alarm, vic_ii_fetch_clk);
-    }
-
-    if (videoint & 0x80)
-        set_int_noclk(&maincpu_int_status, I_RASTER, 1);
-
-    force_repaint();
-    return 0;
-
-fail:
-    if (m != NULL)
-        snapshot_module_close(m);
-    return -1;
+  return vic_ii_snapshot_read_module (s);
 }
 
-#ifdef USE_VIDMODE_EXTENSION
-void video_setfullscreen(int v,int width, int height) {
-    fullscreen = v;
-    fullscreen_width = width;
-    fullscreen_height = height;
+
 
-    video_resize();
-    if(v) {
-        resize(width, height);
-	force_repaint();
-    }
-    video_resize();
+/* FIXME: Just a dummy.  */
+void 
+video_setfullscreen (int v, int width, int height)
+{
 }
 
-void fullscreen_forcerepaint() {
-    if(fullscreen) {
-	video_resize();
-        resize(fullscreen_width, fullscreen_height);
-	force_repaint();
-	video_resize();
-    }
+/* Free the allocated frame buffer.  FIXME: Not incapsulated.  */
+void 
+video_free (void)
+{
+  frame_buffer_free (&vic_ii.raster.frame_buffer);
 }
-#endif
