@@ -28,24 +28,99 @@
 
 #include <stdio.h>
 
+#include "drive-snapshot.h"
+#include "drive.h"
+#include "drivecpu.h"
+#include "event.h"
+#include "ioutil.h"
+#include "log.h"
+#include "machine.h"
+#include "maincpu.h"
+#include "plus4-snapshot.h"
+#include "plus4memsnapshot.h"
 #include "snapshot.h"
+#include "sound.h"
+#include "tape-snapshot.h"
+#include "ted.h"
 #include "types.h"
 
 
-#define SNAP_ROM_MAJOR 0
-#define SNAP_ROM_MINOR 0
-
-#define SNAP_MAJOR 0
+#define SNAP_MAJOR 1
 #define SNAP_MINOR 0
-/*static const char snap_mem_module_name[] = "PLUS4MEM";*/
 
-int plus4_snapshot_write_module(snapshot_t *s, int save_roms)
+
+int plus4_snapshot_write(const char *name, int save_roms, int save_disks,
+                         int event_mode)
 {
-    return -1;
+    snapshot_t *s;
+
+    s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)),
+                        machine_name);
+    if (s == NULL)
+        return -1;
+
+    sound_snapshot_prepare();
+
+    /* Execute drive CPUs to get in sync with the main CPU.  */
+    if (drive[0].enable)
+        drive0_cpu_execute(maincpu_clk);
+    if (drive[1].enable)
+        drive1_cpu_execute(maincpu_clk);
+
+    if (maincpu_snapshot_write_module(s) < 0
+        || plus4_snapshot_write_module(s, save_roms) < 0
+        || drive_snapshot_write_module(s, save_disks, save_roms) < 0
+        || ted_snapshot_write_module(s) < 0
+        || event_snapshot_write_module(s, event_mode) < 0
+        || tape_snapshot_write_module(s, save_disks) < 0) {
+        snapshot_close(s);
+        ioutil_remove(name);
+        return -1;
+    }
+
+    snapshot_close(s);
+    return 0;
 }
 
-int plus4_snapshot_read_module(snapshot_t *s)
+int plus4_snapshot_read(const char *name, int event_mode)
 {
+    snapshot_t *s;
+    BYTE minor, major;
+
+    s = snapshot_open(name, &major, &minor, machine_name);
+
+    if (s == NULL)
+        return -1;
+
+    if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
+        log_error(LOG_DEFAULT,
+                  "Snapshot version (%d.%d) not valid: expecting %d.%d.",
+                  major, minor, SNAP_MAJOR, SNAP_MINOR);
+        goto fail;
+    }
+
+    ted_snapshot_prepare();
+
+    if (maincpu_snapshot_read_module(s) < 0
+        || plus4_snapshot_read_module(s) < 0
+        || drive_snapshot_read_module(s) < 0
+        || ted_snapshot_read_module(s) < 0
+        || event_snapshot_read_module(s, event_mode) < 0
+        || tape_snapshot_read_module(s) < 0)
+        goto fail;
+
+    snapshot_close(s);
+
+    sound_snapshot_finish();
+
+    return 0;
+
+fail:
+    if (s != NULL)
+        snapshot_close(s);
+
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+
     return -1;
 }
 

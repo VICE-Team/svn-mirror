@@ -36,13 +36,10 @@
 #include "debug.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
-#include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "event.h"
 #include "iecdrive.h"
 #include "interrupt.h"
-#include "ioutil.h"
 #include "kbdbuf.h"
 #include "keyboard.h"
 #include "log.h"
@@ -63,10 +60,8 @@
 #include "rs232drv.h"
 #include "screenshot.h"
 #include "serial.h"
-#include "snapshot.h"
 #include "sound.h"
 #include "tape.h"
-#include "tape-snapshot.h"
 #include "ted-cmdline-options.h"
 #include "ted-resources.h"
 #include "ted.h"
@@ -484,82 +479,15 @@ void machine_change_timing(int timeval)
 
 /* ------------------------------------------------------------------------- */
 
-#define SNAP_MAJOR 1
-#define SNAP_MINOR 0
-
 int machine_write_snapshot(const char *name, int save_roms, int save_disks,
                            int event_mode)
 {
-    snapshot_t *s;
-
-    s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)),
-                        machine_name);
-    if (s == NULL)
-        return -1;
-
-    sound_snapshot_prepare();
-
-    /* Execute drive CPUs to get in sync with the main CPU.  */
-    if (drive[0].enable)
-        drive0_cpu_execute(maincpu_clk);
-    if (drive[1].enable)
-        drive1_cpu_execute(maincpu_clk);
-
-    if (maincpu_snapshot_write_module(s) < 0
-        || plus4_snapshot_write_module(s, save_roms) < 0
-        || drive_snapshot_write_module(s, save_disks, save_roms) < 0
-        || ted_snapshot_write_module(s) < 0
-        || event_snapshot_write_module(s, event_mode) < 0
-        || tape_snapshot_write_module(s, save_disks) < 0) {
-        snapshot_close(s);
-        ioutil_remove(name);
-        return -1;
-    }
-
-    snapshot_close(s);
-    return 0;
+    return plus4_snapshot_write(name, save_roms, save_disks, event_mode);
 }
 
 int machine_read_snapshot(const char *name, int event_mode)
 {
-    snapshot_t *s;
-    BYTE minor, major;
-
-    s = snapshot_open(name, &major, &minor, machine_name);
-
-    if (s == NULL)
-        return -1;
-
-    if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
-        log_error(plus4_log,
-                  "Snapshot version (%d.%d) not valid: expecting %d.%d.",
-                  major, minor, SNAP_MAJOR, SNAP_MINOR);
-        goto fail;
-    }
-
-    ted_snapshot_prepare();
-
-    if (maincpu_snapshot_read_module(s) < 0
-        || plus4_snapshot_read_module(s) < 0
-        || drive_snapshot_read_module(s) < 0
-        || ted_snapshot_read_module(s) < 0
-        || event_snapshot_read_module(s, event_mode) < 0
-        || tape_snapshot_read_module(s) < 0)
-        goto fail;
-
-    snapshot_close(s);
-
-    sound_snapshot_finish();
-
-    return 0;
-
-fail:
-    if (s != NULL)
-        snapshot_close(s);
-
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-
-    return -1;
+    return plus4_snapshot_read(name, event_mode);
 }
 
 /* ------------------------------------------------------------------------- */
