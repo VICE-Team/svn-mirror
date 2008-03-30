@@ -33,6 +33,7 @@
 #include "drive.h"
 #include "mos6510.h"
 #include "riot.h"
+#include "tpi.h"
 #include "types.h"
 #include "via.h"
 
@@ -184,32 +185,11 @@ typedef struct driveriot2_context_s {
     unsigned int int_num;
 } driveriot2_context_t;
 
-
-/*
- *  Private drive TPI data
- */
-
+/*  Additional data for TPI.  */
 typedef struct drivetpi_context_s {
-    BYTE c_tpi[8];
-
-    BYTE irq_previous;
-    BYTE irq_stack;
-
-    BYTE tpi_last_read;
-    unsigned int tpi_int_num;
-
-    BYTE oldpa;
-    BYTE oldpb;
-    BYTE oldpc;
-
-    BYTE ca_state;
-    BYTE cb_state;
-
-    signed int log;
-
-    char myname[12];
+    unsigned int number;
+    struct drive_s *drive_ptr;
 } drivetpi_context_t;
-
 
 /*
  * The context for an entire drive.
@@ -232,7 +212,7 @@ typedef struct drive_context_s {
     riot_context_t riot1;
     riot_context_t riot2;
     /*driveriot2_context_t riot2p;*/
-    drivetpi_context_t tpid;
+    tpi_context_t tpid;
     drivecpud_context_t cpud;
 
 } drive_context_t;
