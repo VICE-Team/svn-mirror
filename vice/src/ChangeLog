@@ -1,3 +1,105 @@
+2001-08-12  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.2.
+
+	* printerdrv/output-select.c, printerdrv/output-select.h,
+	printerdrv/output-graphics.c, printerdrv/output-graphics.h:
+	New files.
+
+	* printerdrv/output-ascii.c, printerdrv/output-ascii.h:
+	Changed to new output selection and renamed.
+
+	* printerdrv/printer.c: Initialize new output selection.
+
+	* printerdrv/drv-ascii.c, printerdrv/drv-mps803.c: Use new
+	output selection code.
+
+	* arch/unix/uiprinter.c, arch/riscos/ui.c,
+	arch/riscos/uiconfig.c: Fixed printer resource names.
+
+	* vicii/viciitypes.h: Define VIC_II_NEED_2X if needed.
+
+2001-08-08  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/beos/ui.cc, arch/beos/vsyncarch.c: replaced usleep()
+	with snooze() (which is already released in BeVICE-1.7a)
+
+2001-08-08  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/dialogs.h: added color dialog
+      
+	* arch/os2/dialogs/dlg-color.[h,c,rc]: added
+      
+	* arch/os2/dialogs/menubar.[h,c,rc]: added color options
+      
+	* arch/os2/fonts/vice-cbm.cmd: added options to suppress some
+	output
+      
+	* arch/os2/video.c: removed output if palette was successfull
+	realized
+      
+	* sounddrv/sounddart.c: added log output for volume setting
+      
+	* vicii/vicii-cmdline-options.c: added cmdline options for
+	color settings
+      
+2001-08-07  John Selck  <graham@cruise.de>
+
+	* vicii/vicii-color.c: modified the source to fit VICE better.
+
+	* arch/win32/vicii.dsp: added vicii/vicii-color.h.
+
+	* vicii/vicii.c: added vic_ii_calc_palette.
+	Moved color_names out of vic_ii_load_palette so it can be
+	used in vic_ii_calc_palette also.
+
+	* vicii/vicii-resources.c: added new resource variables
+	ColorSaturation, ColorContrast, ColorBrightness, ColorGamma,
+	NewLuminances and ExternalPalette. Also added setter
+	functions. Added new function vic_ii_activate_palette which
+	calls vic_ii_load_palette or vic_ii_calc_palette depending on the
+	ExternalPalette value.
+
+	* vicii/viciiresources.h: changed the _vic_ii_resources to
+	hold the new variables.
+
+	* vicii/viciitypes.h: added prototypes for
+	vic_ii_activate_palette and vic_ii_calc_palette.
+
+	* arch/uivicii.c: removed the Palette dialog completely.
+
+	* arch/win32/resc64.rc: removed the Palette dialog completely.
+
+	* arch/win32/res.h: removed the Palette dialog defines and
+	moved the Colours dialog defines to their place.
+
+	* arch/win32/resc128.rc: applied the same changes as in
+	resc64.rc to activate the Colours dialog in the VIC-II
+	settings in x128.
+
+	* raster/raster.c: raster_force_repaint only clears the frame
+	buffer if the frame buffer is actually allocated.
+
+2001-08-07  John Selck  <graham@cruise.de>
+
+	* arch/win32/uivicii.c: the Colours dialog is now
+	part of the VIC-II settings.
+
+	* arch/win32/res.h: added defines for Colours dialog
+
+	* arch/win32/resc64.rc: added new Colours dialog.
+
+	* arch/win32/c64.dsp: added vicii/vicii-color.c.
+	Copied some routines for C64 color calculation into the file.
+
+2001-08-07  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* arch/os2/dialogs/dlg-vsid.[h,c, rc]: added SID type output
+     
+	* arch/os2/vac++/incl/vsid.icc: added reloc65.c
+     
+	* arch/os2/vsidui.c: Init waits now for initialisation
+
 2001-08-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.1.

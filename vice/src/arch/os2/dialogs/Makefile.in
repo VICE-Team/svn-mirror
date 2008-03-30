@@ -75,14 +75,8 @@ CXXCPP = @CXXCPP@
 DATADIRNAME = @DATADIRNAME@
 FULLSCREEN_DRIVERS = @FULLSCREEN_DRIVERS@
 GENCAT = @GENCAT@
-GLIB_CFLAGS = @GLIB_CFLAGS@
-GLIB_CONFIG = @GLIB_CONFIG@
-GLIB_LIBS = @GLIB_LIBS@
 GMOFILES = @GMOFILES@
 GMSGFMT = @GMSGFMT@
-GTK_CFLAGS = @GTK_CFLAGS@
-GTK_CONFIG = @GTK_CONFIG@
-GTK_LIBS = @GTK_LIBS@
 HAVE_READLINE = @HAVE_READLINE@
 INSTOBJEXT = @INSTOBJEXT@
 INTLDEPS = @INTLDEPS@
@@ -141,7 +135,7 @@ INCLUDES =          @ARCH_INCLUDES@
 
 noinst_LIBRARIES = libdialogs.a
 
-libdialogs_a_SOURCES =          c1541.rc         dialogs.c         dialogs.h         dialogs.rc         menubar.c         menubar.h         menubar.rc         dragndrop.h         dragndrop.c         dlg-fileio.h         dlg-fileio.c 	dlg-fileio.rc         dlg-vsid.h         dlg-vsid.c         dlg-vsid.rc 	dlg-datasette.h 	dlg-datasette.c 	dlg-datasette.rc 	dlg-drive.h 	dlg-drive.c 	dlg-drive.rc 	dlg-emulator.h 	dlg-emulator.c 	dlg-emulator.rc 	dlg-joystick.h 	dlg-joystick.c 	dlg-joystick.rc 	dlg-monitor.c 	dlg-monitor.h 	dlg-monitor.rc         dlg-cmdopt.c         dlg-create.c         dlg-reset.c 
+libdialogs_a_SOURCES =          c1541.rc         dialogs.c         dialogs.h         dialogs.rc         menubar.c         menubar.h         menubar.rc         dragndrop.h         dragndrop.c         dlg-fileio.h         dlg-fileio.c 	dlg-fileio.rc         dlg-color.h         dlg-color.c 	dlg-color.rc         dlg-vsid.h         dlg-vsid.c         dlg-vsid.rc 	dlg-datasette.h 	dlg-datasette.c 	dlg-datasette.rc 	dlg-drive.h 	dlg-drive.c 	dlg-drive.rc 	dlg-emulator.h 	dlg-emulator.c 	dlg-emulator.rc 	dlg-joystick.h 	dlg-joystick.c 	dlg-joystick.rc 	dlg-monitor.c 	dlg-monitor.h 	dlg-monitor.rc         dlg-cmdopt.c         dlg-create.c         dlg-reset.c 
 
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../../../src/config.h
@@ -157,8 +151,8 @@ X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libdialogs_a_LIBADD = 
 libdialogs_a_OBJECTS =  dialogs.o menubar.o dragndrop.o dlg-fileio.o \
-dlg-vsid.o dlg-datasette.o dlg-drive.o dlg-emulator.o dlg-joystick.o \
-dlg-monitor.o dlg-cmdopt.o dlg-create.o dlg-reset.o
+dlg-color.o dlg-vsid.o dlg-datasette.o dlg-drive.o dlg-emulator.o \
+dlg-joystick.o dlg-monitor.o dlg-cmdopt.o dlg-create.o dlg-reset.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
