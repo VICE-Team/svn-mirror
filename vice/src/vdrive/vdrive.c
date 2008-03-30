@@ -246,6 +246,7 @@ int vdrive_calculate_disk_half(unsigned int type)
     /* Maximum distance from dir track to start/end of disk.  */
     switch (type) {
       case VDRIVE_IMAGE_FORMAT_1541:
+      case VDRIVE_IMAGE_FORMAT_2040:
         return 17 + 5;
       case VDRIVE_IMAGE_FORMAT_1571:
         return 17 + 35;
@@ -266,6 +267,8 @@ int vdrive_get_max_sectors(unsigned int type, unsigned int track)
     switch (type) {
       case VDRIVE_IMAGE_FORMAT_1541:
         return disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
+      case VDRIVE_IMAGE_FORMAT_2040:
+        return disk_image_sector_per_track(DISK_IMAGE_TYPE_D67, track);
       case VDRIVE_IMAGE_FORMAT_1571:
         return disk_image_sector_per_track(DISK_IMAGE_TYPE_D71, track);
       case VDRIVE_IMAGE_FORMAT_8050:
@@ -294,43 +297,53 @@ int vdrive_get_max_sectors(unsigned int type, unsigned int track)
  * Functions to attach the disk image files.
  */
 
+static void vdrive_detach_image_log(unsigned int unit, const char *type,
+                                    disk_image_t *image)
+{
+    log_message(vdrive_log, "Unit %d: %s disk image detached: %s.",
+                unit, type, image->name);
+}
+
 void vdrive_detach_image(disk_image_t *image, unsigned int unit,
                          vdrive_t *vdrive)
 {
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
-        log_message(vdrive_log, "Unit %d: D64 disk image detached: %s.",
-                    unit, image->name);
+        vdrive_detach_image_log(unit, "D64", image);
+        break;
+      case DISK_IMAGE_TYPE_D67:
+        vdrive_detach_image_log(unit, "D67", image);
         break;
       case DISK_IMAGE_TYPE_D71:
-        log_message(vdrive_log, "Unit %d: D71 disk image detached: %s.",
-                    unit, image->name);
+        vdrive_detach_image_log(unit, "D71", image);
         break;
       case DISK_IMAGE_TYPE_D81:
-        log_message(vdrive_log, "Unit %d: D81 disk image detached: %s.",
-                    unit, image->name);
+        vdrive_detach_image_log(unit, "D81", image);
         break;
       case DISK_IMAGE_TYPE_D80:
-        log_message(vdrive_log, "Unit %d: D80 disk image detached: %s.",
-                    unit, image->name);
+        vdrive_detach_image_log(unit, "D80", image);
         break;
       case DISK_IMAGE_TYPE_D82:
-        log_message(vdrive_log, "Unit %d: D82 disk image detached: %s.",
-                    unit, image->name);
+        vdrive_detach_image_log(unit, "D82", image);
         break;
       case DISK_IMAGE_TYPE_G64:
-        log_message(vdrive_log, "Unit %d: G64 disk image detached: %s.",
-                    unit, image->name);
+        vdrive_detach_image_log(unit, "G64", image);
         break;
       case DISK_IMAGE_TYPE_X64:
-        log_message(vdrive_log, "Unit %d: X64 disk image detached: %s.",
-                    unit, image->name);
+        vdrive_detach_image_log(unit, "X64", image);
         break;
       default:
         return;
     }
     vdrive_close_all_channels(vdrive);
     vdrive->image = NULL;
+}
+
+static void vdrive_attach_image_log(unsigned int unit, const char *type,
+                                    disk_image_t *image)
+{
+    log_message(vdrive_log, "Unit %d: %s disk image attached: %s.",
+                unit, type, image->name);
 }
 
 int vdrive_attach_image(disk_image_t *image, unsigned int unit,
@@ -340,44 +353,42 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
-        log_message(vdrive_log, "Unit %d: D64 disk image attached: %s.",
-                    vdrive->unit, image->name);
+        vdrive_attach_image_log(unit, "D64", image);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
         vdrive->num_tracks  = image->tracks;
         break;
+      case DISK_IMAGE_TYPE_D67:
+        vdrive_attach_image_log(unit, "D67", image);
+        vdrive->image_format = VDRIVE_IMAGE_FORMAT_2040;
+        vdrive->num_tracks  = image->tracks;
+        break;
       case DISK_IMAGE_TYPE_D71:
-        log_message(vdrive_log, "Unit %d: D71 disk image attached: %s.",
-                    vdrive->unit, image->name);
+        vdrive_attach_image_log(unit, "D71", image);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1571;
         vdrive->num_tracks  = image->tracks;
         break;
       case DISK_IMAGE_TYPE_D81:
-        log_message(vdrive_log, "Unit %d: D81 disk image attached: %s.",
-                    vdrive->unit, image->name);
+        vdrive_attach_image_log(unit, "D81", image);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1581;
         vdrive->num_tracks  = image->tracks;
         break;
       case DISK_IMAGE_TYPE_D80:
-        log_message(vdrive_log, "Unit %d: D80 disk image attached: %s.",
-                    vdrive->unit, image->name);
+        vdrive_attach_image_log(unit, "D80", image);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_8050;
         vdrive->num_tracks  = image->tracks;
         break;
       case DISK_IMAGE_TYPE_D82:
-        log_message(vdrive_log, "Unit %d: D82 disk image attached: %s.",
-                    vdrive->unit, image->name);
+        vdrive_attach_image_log(unit, "D82", image);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_8250;
         vdrive->num_tracks = image->tracks;
         break;
       case DISK_IMAGE_TYPE_G64:
-        log_message(vdrive_log, "Unit %d: G64 disk image attached: %s.",
-                    vdrive->unit, image->name);
+        vdrive_attach_image_log(unit, "G64", image);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
         vdrive->num_tracks = 35;
         break;
       case DISK_IMAGE_TYPE_X64:
-        log_message(vdrive_log, "Unit %d: X64 disk image attached: %s.",
-                    vdrive->unit, image->name);
+        vdrive_attach_image_log(unit, "X64", image);
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
         vdrive->num_tracks = image->tracks;
         break;
@@ -451,6 +462,14 @@ static void vdrive_set_disk_geometry(vdrive_t *vdrive)
         vdrive->bam_id     = BAM_ID_1541;
         vdrive->Dir_Track  = DIR_TRACK_1541;
         vdrive->Dir_Sector = DIR_SECTOR_1541;
+        break;
+      case VDRIVE_IMAGE_FORMAT_2040:
+        vdrive->Bam_Track  = BAM_TRACK_2040;
+        vdrive->Bam_Sector = BAM_SECTOR_2040;
+        vdrive->bam_name   = BAM_NAME_2040;
+        vdrive->bam_id     = BAM_ID_2040;
+        vdrive->Dir_Track  = DIR_TRACK_2040;
+        vdrive->Dir_Sector = DIR_SECTOR_2040;
         break;
       case VDRIVE_IMAGE_FORMAT_1571:
         vdrive->Bam_Track  = BAM_TRACK_1571;
