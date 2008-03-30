@@ -84,7 +84,9 @@
 #include "renderxv.h"
 #include "video/video-resources.h"
 #endif
-
+#ifdef HAVE_OPENGL_SYNC
+#include "openGL_sync.h"
+#endif
 
 /* Flag: Do we call `XSync()' after blitting?  */
 int _video_use_xsync;
@@ -271,7 +273,7 @@ int video_init(void)
     video_log = log_open("Video");
 
     color_init();
-
+    
 #ifdef USE_MITSHM
     if (!try_mitshm) {
         use_mitshm = 0;
@@ -485,6 +487,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
 #ifdef HAVE_XVIDEO
     init_xv_settings(canvas);
+#endif
+#if defined HAVE_OPENGL_SYNC && defined HAVE_XRANDR
+    openGL_sync_init();
 #endif
 
     return canvas;
@@ -701,8 +706,12 @@ void video_canvas_refresh(video_canvas_t *canvas,
     /* This could be optimized away.  */
     display = x11ui_get_display_ptr();
 
+#if defined HAVE_OPENGL_SYNC && defined HAVE_XRANDR
+    openGL_sync_with_raster();
+#endif
     _refresh_func(display, canvas->drawable, _video_gc, canvas->x_image,
                   xi, yi, xi, yi, w, h, False, NULL, canvas);
+    
     if (_video_use_xsync)
         XSync(display, False);
 }

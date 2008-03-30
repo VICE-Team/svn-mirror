@@ -36,6 +36,7 @@
 #include "uiscreenshot.h"
 #include "types.h"
 #include "vsync.h"
+#include "openGL_sync.h"
 
 
 static int is_paused = 0;
@@ -73,6 +74,9 @@ void ui_common_shutdown(void)
 {
 #ifdef USE_XF86_EXTENSIONS
     fullscreen_shutdown();
+#endif
+#if defined HAVE_OPENGL_SYNC && defined HAVE_XRANDR
+    openGL_sync_shutdown();
 #endif
 
     uiattach_shutdown();

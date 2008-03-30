@@ -36,7 +36,7 @@
 #include "uimenu.h"
 #include "uivicii.h"
 #include "uipalemu.h"
-
+#include "openGL_sync.h"
 
 extern struct ui_menu_entry_s set_video_standard_submenu[];
 
@@ -73,6 +73,9 @@ UI_MENU_DEFINE_TOGGLE(VICIIExternalPalette)
 UI_MENU_DEFINE_TOGGLE(VICIIHwScale)
 #endif
 UI_MENU_DEFINE_TOGGLE(VICIIScale2x)
+#if defined HAVE_OPENGL_SYNC && defined HAVE_XRANDR
+UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
+#endif
 #ifdef USE_XF86_EXTENSIONS
 UI_MENU_DEFINE_TOGGLE(VICIIFullscreen)
 UI_MENU_DEFINE_STRING_RADIO(VICIIFullscreenDevice)
@@ -86,6 +89,9 @@ UI_MENU_DEFINE_RADIO(VICIIDGA1FullscreenMode);
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
 UI_MENU_DEFINE_RADIO(VICIIDGA2FullscreenMode);
+#endif
+#ifdef HAVE_XRANDR
+UI_MENU_DEFINE_RADIO(VICIIXRANDRFullscreenMode)
 #endif
 #endif
 UI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
@@ -105,6 +111,10 @@ static ui_menu_entry_t set_fullscreen_device_submenu[] = {
 #ifdef USE_XF86_DGA2_EXTENSIONS
     { "*DGA2", (ui_callback_t)radio_VICIIFullscreenDevice,
       (ui_callback_data_t)"DGA2", NULL },
+#endif
+#ifdef HAVE_XRANDR
+    { "*XRandR", (ui_callback_t)radio_VICIIFullscreenDevice,
+      (ui_callback_data_t)"XRANDR", NULL },
 #endif
     { NULL }
 };
@@ -151,6 +161,11 @@ ui_menu_entry_t vicii_submenu[] = {
     { N_("*Scale 2x render"),
       (ui_callback_t)toggle_VICIIScale2x, NULL, NULL },
     { "--" },
+#if defined HAVE_OPENGL_SYNC && defined HAVE_XRANDR
+    { N_("*OpenGL Rastersynchronization"),
+      (ui_callback_t)toggle_openGL_sync, NULL, NULL },
+    { "--" },
+#endif
 #ifdef USE_XF86_EXTENSIONS
     { N_("*Enable fullscreen"),
       (ui_callback_t)toggle_VICIIFullscreen, NULL, NULL, XK_d, UI_HOTMOD_META },
@@ -161,7 +176,7 @@ ui_menu_entry_t vicii_submenu[] = {
     { N_("Fullscreen device"),
       NULL, NULL, set_fullscreen_device_submenu },
     /* Translators: 'VidMode', 'DGA1' and 'DGA2' must remain in the beginning
-       of the translation e.g. German: "VidMode Auflösungen" */
+       of the translation e.g. German: "VidMode Aufloesungen" */
 #ifdef USE_XF86_VIDMODE_EXT
     { N_("VidMode Resolutions"),
       (ui_callback_t)NULL, NULL, NULL },
@@ -172,6 +187,12 @@ ui_menu_entry_t vicii_submenu[] = {
 #endif
 #ifdef USE_XF86_DGA2_EXTENSIONS
     { N_("DGA2 Resolutions"),
+      (ui_callback_t)NULL, NULL, NULL },
+#endif
+#ifdef HAVE_XRANDR
+    /* Translators: `OpenGL' must remain in the beginning of the translation:
+       e.g. German: "OpenGL Aufloesungen" */
+    { N_("XRandR Resolutions"),
       (ui_callback_t)NULL, NULL, NULL },
 #endif
     { "--" },
@@ -203,6 +224,10 @@ void uivicii_menu_create(void)
 #ifdef USE_XF86_DGA2_EXTENSIONS
     fullscreen_mode_callback("DGA2",
                              (void *)radio_VICIIDGA2FullscreenMode);
+#endif
+#ifdef HAVE_XRANDR
+    fullscreen_mode_callback("XRANDR",
+                             (void *)radio_VICIIXRANDRFullscreenMode);
 #endif
     fullscreen_menu_create(vicii_submenu);
 #endif

@@ -1,0 +1,212 @@
+/*
+ * openGL_sync.c
+ *
+ * Written by
+ *  Martin Pottendorfer
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#include "vice.h"
+
+#if defined HAVE_OPENGL_SYNC && defined HAVE_XRANDR
+
+#ifndef HAVE_OPENGL_SYNC
+#error "openGL Sync extension (GLX_SGI_video_sync) not available in config.h, check config.log"
+#endif
+
+#ifndef HAVE_XRANDR
+#error "XRandR extension not available in config.h, check config.log"
+#endif
+
+#include <time.h>
+#include <stdio.h>
+#include <GL/glx.h> 
+#include <GL/gl.h> 
+#include <X11/extensions/Xrandr.h>
+#include "video.h"
+#include "videoarch.h"
+#include "x11ui.h"
+#include "log.h"
+#include "openGL_sync.h"
+#include "resources.h"
+#include "uimenu.h"
+#include "lib.h"
+
+/* Fixme: this is a kludge until vsync inclusion is decided */
+#ifdef HAVE_XRANDR
+extern int mult;
+#else
+static int mult = 1;
+#endif
+
+static log_t openGL_log = LOG_ERR;
+static int no_sync = 0;
+static int openGL_sync;
+static GLXContext cx = (GLXContext) NULL;     
+
+static int set_openGL_sync(int val, void *param);
+static int check_openGL(Display *dpy);
+static int openGL_dummy_set(int val, void *a);
+
+static resource_int_t resources_openGL_sync_int[] =
+{
+    { "openGL_sync", 0, RES_EVENT_NO, NULL,
+      &openGL_sync, set_openGL_sync, NULL },
+    { "openGL_no_sync", 0, RES_EVENT_NO, NULL,
+      &no_sync, openGL_dummy_set, NULL },
+    { NULL }
+};
+
+int
+openGL_available(int v)
+{
+    return !no_sync;
+}
+
+void 
+openGL_sync_init(void)
+{
+    Display *dpy;
+    
+    if (openGL_log == LOG_ERR)
+	openGL_log = log_open("openGL");
+
+    resources_register_int(resources_openGL_sync_int);
+
+    dpy = x11ui_get_display_ptr();
+
+    if (check_openGL(dpy))
+	no_sync = 1;
+    init_openGL();
+}
+
+void 
+openGL_sync_with_raster(void)
+{
+    extern int glXWaitVideoSyncSGI(int m, int d, unsigned int *c);
+    
+    int r;
+    unsigned int c;
+    if (openGL_sync && !no_sync)
+	if ((r = glXWaitVideoSyncSGI(mult, 0, &c)))
+	    log_error(openGL_log, _("glXWaitVideoSyncSGI() returnd %d"), r);
+}
+
+void
+openGL_sync_shutdown(void)
+{
+    if (openGL_sync)
+	set_openGL_sync(0, NULL);
+    if (cx)
+	glXDestroyContext(x11ui_get_display_ptr(), cx);
+}
+
+void 
+init_openGL(void)
+{
+    XVisualInfo *vi;     
+    Display *dpy;
+    /*get the deepest buffer with 1 red bit*/ 
+    static int attributeListSgl[] = { GLX_RGBA, GLX_RED_SIZE, 1, 
+				      GLX_GREEN_SIZE, 1, GLX_BLUE_SIZE, 1, 
+				      None }; 
+
+    dpy = x11ui_get_display_ptr();
+    vi = glXChooseVisual(dpy, DefaultScreen(dpy), 
+			 attributeListSgl); 
+    if (vi == NULL) 
+    {
+	log_error(openGL_log, _("glXChooseVisual() failed\n"));
+	no_sync = 1;
+	return;
+    }
+    
+    if (cx)
+	glXDestroyContext(dpy, cx);
+    
+    cx = glXCreateContext(dpy, vi, 0, GL_TRUE);
+    if (!cx)
+    {
+	log_error(openGL_log, _("glXCreateContext() failed\n"));
+	no_sync = 1;
+	return;
+    }
+    glXMakeCurrent(dpy, x11ui_get_X11_window(), cx);
+}
+
+/* ---------------------------------------------------------------------*/
+static int
+check_openGL(Display *dpy)
+{
+    /* Fixme: add code here to check if extension exists */
+    const char *ext_table;
+    char *t1, *t2;
+    int b, e;
+    
+    if (glXQueryExtension(dpy, &b, &e) &&
+	(ext_table = glXQueryExtensionsString(dpy, DefaultScreen(dpy))))
+    {
+	t1 = lib_stralloc(ext_table);
+	t2 = strtok(t1, " ");
+	while (t2)
+	{
+	    if (strcmp(t2, "GLX_SGI_video_sync") == 0)
+	    {
+		log_message(openGL_log, 
+			    _("GLX_SGI_video_sync extension is supported"));
+		lib_free(t1);
+		return 0;
+	    }
+	    t2 = strtok(NULL, " ");
+	}
+	lib_free(t1);
+    }
+    log_message(openGL_log, 
+		_("GLX_SGI_video_sync extension not supported"));
+    
+    return 1;
+}
+
+static int
+set_openGL_sync(int val, void *param)
+{
+    if (no_sync)
+	return 0;
+
+    openGL_sync = val;
+    if (openGL_sync)
+	init_openGL();
+
+    log_message(openGL_log, _("%s openGL_sync"), 
+		openGL_sync? _("enabling") : _("disabling"));
+	
+    ui_update_menus();
+    return 0;
+}
+
+static int
+openGL_dummy_set(int val, void *param)
+{
+    return 0;
+}
+
+#endif
+
