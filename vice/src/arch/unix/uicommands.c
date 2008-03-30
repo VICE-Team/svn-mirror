@@ -37,6 +37,7 @@
 #include "attach.h"
 #include "autostart.h"
 #include "fliplist.h"
+#include "fullscreen.h"
 #include "imagecontents.h"
 #include "info.h"
 #include "interrupt.h"
@@ -275,14 +276,15 @@ static void mon_trap(ADDRESS addr, void *unused_data)
 {
     mon(addr);
 #ifdef USE_VIDMODE_EXTENSION
-    if(fullscreen) ui_set_fullscreenmode();
+    if(fullscreen)
+        fullscreen_mode_on();
 #endif
 }
 
 static UI_CALLBACK(activate_monitor)
 {
 #ifdef USE_VIDMODE_EXTENSION
-    fullscreen = ui_set_windowmode();
+    fullscreen = fullscreen_mode_off();
 #endif
     suspend_speed_eval();
     ui_dispatch_events();		/* popdown the menu */
@@ -297,7 +299,7 @@ static UI_CALLBACK(activate_monitor)
 static UI_CALLBACK(run_c1541)
 {
 #ifdef USE_VIDMODE_EXTENSION
-    ui_set_windowmode();
+    fullscreen_mode_off();
 #endif
     suspend_speed_eval();
     sound_close();
@@ -345,7 +347,7 @@ static UI_CALLBACK(browse_manual)
 	int manual_path_len, cmd_len;
 
 #ifdef USE_VIDMODE_EXTENSION
-        ui_set_windowmode();
+        fullscreen_mode_off();
 #endif
 	cmd_len = strlen(bcommand);
 	manual_path_len = strlen(manual_path);
