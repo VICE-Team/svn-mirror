@@ -379,7 +379,7 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s,
     /* Search for the module name.  This is quite inefficient, but I don't
        think we care.  */
     while (1) {
-        if (snapshot_read_byte_array(s->file, (BYTE*)n,
+        if (snapshot_read_byte_array(s->file, (BYTE *)n,
                                      SNAPSHOT_MODULE_NAME_LEN) < 0
             || snapshot_read_byte(s->file, major_version_return) < 0
             || snapshot_read_byte(s->file, minor_version_return) < 0
@@ -479,7 +479,7 @@ snapshot_t *snapshot_open(const char *filename,
         return NULL;
 
     /* Magic string.  */
-    if (snapshot_read_byte_array(f, (BYTE*)magic, SNAPSHOT_MAGIC_LEN) < 0
+    if (snapshot_read_byte_array(f, (BYTE *)magic, SNAPSHOT_MAGIC_LEN) < 0
         || memcmp(magic, snapshot_magic_string, SNAPSHOT_MAGIC_LEN) != 0)
         goto fail;
 
@@ -489,7 +489,7 @@ snapshot_t *snapshot_open(const char *filename,
         goto fail;
 
     /* Machine.  */
-    if (snapshot_read_byte_array(f, (BYTE*)read_name,
+    if (snapshot_read_byte_array(f, (BYTE *)read_name,
                                  SNAPSHOT_MACHINE_NAME_LEN) < 0)
         goto fail;
 
