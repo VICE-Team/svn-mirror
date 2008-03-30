@@ -27,12 +27,16 @@
 #ifndef _RENDERXV_H
 #define _RENDERXV_H
 
+#include "vice.h"
+
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/XShm.h>
 #ifndef __QNX__
+#ifndef MINIX_SUPPORT
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#endif
 #else
 #include "qnxipc.h"
 #include "qnxshm.h"

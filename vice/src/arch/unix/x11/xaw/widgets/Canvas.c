@@ -19,6 +19,8 @@
 
  */
 
+#include "vice.h"
+
 #include <X11/IntrinsicP.h>
 #include <X11/StringDefs.h>
 
@@ -28,6 +30,20 @@
 
 #define offset(field) XtOffset(CanvasWidget, canvas.field)
 
+#ifdef MINIX_SUPPORT
+static XtResource resources[] = {
+  {XtNexposeProc, XtCExposeProc, XtRFunction, sizeof(XfwfCanvasExposeProc),
+     116,    XtRFunction, NULL},
+  {XtNexposeProcData, XtCExposeProcData, XtRPointer, sizeof(XtPointer),
+     120, XtRFunction, NULL},
+  {XtNresizeProc, XtCResizeProc, XtRFunction, sizeof(XfwfCanvasResizeProc),
+     124,    XtRFunction, NULL},
+  {XtNresizeProcData, XtCResizeProcData, XtRPointer, sizeof(XtPointer),
+     128, XtRFunction, NULL},
+  {XtNvisual, XtCVisual, XtRVisual, sizeof(Visual*),
+     132, XtRImmediate, CopyFromParent}
+};
+#else
 static XtResource resources[] = {
   {XtNexposeProc, XtCExposeProc, XtRFunction, sizeof(XfwfCanvasExposeProc),
      offset(redraw),	XtRFunction, NULL},
@@ -40,7 +56,7 @@ static XtResource resources[] = {
   {XtNvisual, XtCVisual, XtRVisual, sizeof(Visual*),
       offset(visual), XtRImmediate, CopyFromParent}
 };
-
+#endif
 
 static void CanvasRealize(Widget widget, XtValueMask *value_mask,
                           XSetWindowAttributes *attributes);

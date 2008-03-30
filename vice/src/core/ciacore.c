@@ -987,6 +987,7 @@ void ciacore_set_flag(cia_context_t *cia_context)
 {
     cia_context->irqflags |= CIA_IM_FLG;
     if (cia_context->c_cia[CIA_ICR] & CIA_IM_FLG) {
+        cia_context->irqflags |= 0x80;
         my_set_int(cia_context, cia_context->irq_line,
                    *(cia_context->clk_ptr));
     }
@@ -998,6 +999,7 @@ void ciacore_set_sdr(cia_context_t *cia_context, BYTE data)
         cia_context->c_cia[CIA_SDR] = data;
         cia_context->irqflags |= CIA_IM_SDR;
         if (cia_context->c_cia[CIA_ICR] & CIA_IM_SDR) {
+            cia_context->irqflags |= 0x80;
             my_set_int(cia_context, cia_context->irq_line,
                        *(cia_context->clk_ptr));
         }

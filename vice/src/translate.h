@@ -2441,6 +2441,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_RESID_SAMPLING_METHOD_NL          0x1162f
 #define IDCLS_RESID_SAMPLING_METHOD_PL          0x11630
 #define IDCLS_RESID_SAMPLING_METHOD_SV          0x11631
+#endif
 
 /* sid/sid-cmdline-options.c, vsync.c */
 #define IDCLS_P_PERCENT                         0x11632
@@ -2451,6 +2452,7 @@ extern int translate_res(int en_resource);
 #define IDCLS_P_PERCENT_PL                      0x11637
 #define IDCLS_P_PERCENT_SV                      0x11638
 
+#ifdef HAVE_RESID
 /* sid/sid-cmdline-options.c */
 #define IDCLS_PASSBAND_PERCENTAGE               0x11639
 #define IDCLS_PASSBAND_PERCENTAGE_DE            0x1163a
@@ -3865,4 +3867,30 @@ extern int translate_res(int en_resource);
 #define IDCLS_ENABLE_H4096K_EXPANSION_PL         0x11a75
 #define IDCLS_ENABLE_H4096K_EXPANSION_SV         0x11a76
 
+/* c64/c64io.c */
+#define IDGS_IO_READ_COLL_AT_X_FROM              0x11a77
+#define IDGS_IO_READ_COLL_AT_X_FROM_DE           0x11a78
+#define IDGS_IO_READ_COLL_AT_X_FROM_FR           0x11a79
+#define IDGS_IO_READ_COLL_AT_X_FROM_IT           0x11a7a
+#define IDGS_IO_READ_COLL_AT_X_FROM_NL           0x11a7b
+#define IDGS_IO_READ_COLL_AT_X_FROM_PL           0x11a7c
+#define IDGS_IO_READ_COLL_AT_X_FROM_SV           0x11a7d
+
+/* c64/c64io.c */
+#define IDGS_AND                                 0x11a7e
+#define IDGS_AND_DE                              0x11a7f
+#define IDGS_AND_FR                              0x11a80
+#define IDGS_AND_IT                              0x11a81
+#define IDGS_AND_NL                              0x11a82
+#define IDGS_AND_PL                              0x11a83
+#define IDGS_AND_SV                              0x11a84
+
+/* c64/c64io.c */
+#define IDGS_ALL_DEVICES_DETACHED                0x11a85
+#define IDGS_ALL_DEVICES_DETACHED_DE             0x11a86
+#define IDGS_ALL_DEVICES_DETACHED_FR             0x11a87
+#define IDGS_ALL_DEVICES_DETACHED_IT             0x11a88
+#define IDGS_ALL_DEVICES_DETACHED_NL             0x11a89
+#define IDGS_ALL_DEVICES_DETACHED_PL             0x11a8a
+#define IDGS_ALL_DEVICES_DETACHED_SV             0x11a8b
 #endif

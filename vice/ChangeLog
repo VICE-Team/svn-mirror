@@ -1,3 +1,30 @@
+2006-04-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.9.
+
+2006-04-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added a check for the strings.h header.
+
+2006-04-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed some sound-driver problems.
+
+2006-04-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/cartconv.txt: Added the cartconv
+	documentation.
+
+2006-04-12  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/Minix-Howto.txt,
+	doc/MinixVmd-Howto.txt: Added minix-3.x information and
+	changed the minixvmd-howto to minix-howto.
+
+2006-04-06  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* configure.in: Added support for minix3.
+
 2006-04-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.8.

@@ -21,6 +21,8 @@
  * Small fix by Ettore Perazzoli <ettore@comm2000.it>, search for [EP].
  */
 
+#include "vice.h"
+
 #include <stdio.h>
 #include <X11/Xos.h>
 #include <X11/Xlib.h>
@@ -96,6 +98,25 @@ static void		ReCalcChildren(XfwfScrolledListWidget w);
 
  *---------------------------------------------------------------------------*/
 
+#ifdef MINIX_SUPPORT
+static XtResource resources[] =
+{
+	{XtNwidth,XtCWidth,XtRDimension,sizeof(Dimension),
+		32,XtRString,"200"},
+	{XtNheight,XtCHeight,XtRDimension,sizeof(Dimension),
+		34,XtRString,"500"},
+	{XtNbackground,XtCBackground,XtRPixel,sizeof(Pixel),
+		104,XtRString,"white"},
+	{XtNlist,XtCList,XtRPointer,sizeof(char **),
+		140,XtRPointer,NULL},
+	{XtNnumberStrings,XtCNumberStrings,XtRInt,sizeof(int),
+		144,XtRInt,0},
+	{XtNsensitiveArray,XtCList,XtRPointer,sizeof(Boolean *),
+		148,XtRPointer,NULL},
+	{XtNcallback, XtCCallback, XtRCallback, sizeof(caddr_t),
+		152, XtRCallback, NULL}
+};
+#else
 static XtResource resources[] =
 {
 	{XtNwidth,XtCWidth,XtRDimension,sizeof(Dimension),
@@ -113,6 +134,7 @@ static XtResource resources[] =
 	{XtNcallback, XtCCallback, XtRCallback, sizeof(caddr_t),
 		offset(callback), XtRCallback, NULL}
 };
+#endif
 
 #undef offset
 #undef coffset

@@ -559,6 +559,33 @@ translate_t string_table[] = {
 /* pl */ {IDGS_FFMPEG_CANNOT_OPEN_S_PL, ""},  /* fuzzy */
 /* sv */ {IDGS_FFMPEG_CANNOT_OPEN_S_SV, ""},  /* fuzzy */
 
+/* c64/c64io.c */
+/* en */ {IDGS_IO_READ_COLL_AT_X_FROM,    "I/O read collision at %X from "},
+/* de */ {IDGS_IO_READ_COLL_AT_X_FROM_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_IO_READ_COLL_AT_X_FROM_FR, ""},  /* fuzzy */
+/* it */ {IDGS_IO_READ_COLL_AT_X_FROM_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_IO_READ_COLL_AT_X_FROM_NL, "I/O lees botsing op %X van "},
+/* pl */ {IDGS_IO_READ_COLL_AT_X_FROM_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_IO_READ_COLL_AT_X_FROM_SV, ""},  /* fuzzy */
+
+/* c64/c64io.c */
+/* en */ {IDGS_AND,    " and "},
+/* de */ {IDGS_AND_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_AND_FR, ""},  /* fuzzy */
+/* it */ {IDGS_AND_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_AND_NL, " en "},
+/* pl */ {IDGS_AND_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_AND_SV, ""},  /* fuzzy */
+
+/* c64/c64io.c */
+/* en */ {IDGS_ALL_DEVICES_DETACHED,    ".\nAll the named devices will be detached."},
+/* de */ {IDGS_ALL_DEVICES_DETACHED_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_ALL_DEVICES_DETACHED_FR, ""},  /* fuzzy */
+/* it */ {IDGS_ALL_DEVICES_DETACHED_IT, ""},  /* fuzzy */
+/* nl */ {IDGS_ALL_DEVICES_DETACHED_NL, ".\nAll genoemde apparaten zullen worden ontkoppeld."},
+/* pl */ {IDGS_ALL_DEVICES_DETACHED_PL, ""},  /* fuzzy */
+/* sv */ {IDGS_ALL_DEVICES_DETACHED_SV, ""},  /* fuzzy */
+
 /* ------------------------ COMMAND LINE OPTION STRINGS -------------------- */
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
@@ -4559,6 +4586,33 @@ static int translate_text_table[][countof(language_table)] = {
 /* nl */  IDCLS_USE_PAL_SYNC_FACTOR_NL,
 /* pl */  IDCLS_USE_PAL_SYNC_FACTOR_PL,
 /* sv */  IDCLS_USE_PAL_SYNC_FACTOR_SV},
+
+/* c64/c64io.c */
+/* en */ {IDGS_IO_READ_COLL_AT_X_FROM,
+/* de */  IDGS_IO_READ_COLL_AT_X_FROM_DE,
+/* fr */  IDGS_IO_READ_COLL_AT_X_FROM_FR,
+/* it */  IDGS_IO_READ_COLL_AT_X_FROM_IT,
+/* nl */  IDGS_IO_READ_COLL_AT_X_FROM_NL,
+/* pl */  IDGS_IO_READ_COLL_AT_X_FROM_PL,
+/* sv */  IDGS_IO_READ_COLL_AT_X_FROM_SV},
+
+/* c64/c64io.c */
+/* en */ {IDGS_AND,
+/* de */  IDGS_AND_DE,
+/* fr */  IDGS_AND_FR,
+/* it */  IDGS_AND_IT,
+/* nl */  IDGS_AND_NL,
+/* pl */  IDGS_AND_PL,
+/* sv */  IDGS_AND_SV},
+
+/* c64/c64io.c */
+/* en */ {IDGS_ALL_DEVICES_DETACHED,
+/* de */  IDGS_ALL_DEVICES_DETACHED_DE,
+/* fr */  IDGS_ALL_DEVICES_DETACHED_FR,
+/* it */  IDGS_ALL_DEVICES_DETACHED_IT,
+/* nl */  IDGS_ALL_DEVICES_DETACHED_NL,
+/* pl */  IDGS_ALL_DEVICES_DETACHED_PL,
+/* sv */  IDGS_ALL_DEVICES_DETACHED_SV},
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,

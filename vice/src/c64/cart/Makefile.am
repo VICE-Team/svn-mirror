@@ -53,7 +53,3 @@ libc64cart_a_SOURCES = \
 	supersnapshot.h \
 	zaxxon.c \
 	zaxxon.h
-
-bin_SCRIPTS = delaep64.pl
-
-EXTRA_DIST = delaep64.pl

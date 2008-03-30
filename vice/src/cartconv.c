@@ -30,8 +30,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef HAVE_STRINGS_H
 #include <strings.h>
+#endif
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #define GENERIC_CRT             0
 #define ACTION_REPLAY_CRT       1
@@ -75,7 +79,7 @@
 FILE *infile, *outfile;
 int load_address=0;
 int loadfile_offset=0;
-int loadfile_size=0;
+unsigned int loadfile_size=0;
 char *output_filename=NULL;
 char *input_filename[33];
 char *cart_name=NULL;

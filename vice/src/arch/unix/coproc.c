@@ -50,6 +50,10 @@
  * installing an ignoring handler.
  */
 
+#include "vice.h"
+
+#ifndef MINIX_SUPPORT
+
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -125,3 +129,4 @@ int fork_coproc(int *fd_wr, int *fd_rd, char *cmd)
     return 0;
 }
 
+#endif

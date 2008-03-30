@@ -27,6 +27,11 @@
 
 #include "vice.h"
 
+#ifdef MINIX_SUPPORT
+#define _POSIX_SOURCE
+#include <limits.h>
+#define PF_INET AF_INET
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -667,7 +672,9 @@ int network_start_server(void)
     server_addr.sin_port = htons(server_port);
     server_addr.sin_addr.s_addr = htonl(0);
     server_addr.sin_family = PF_INET;
+#ifndef MINIX_SUPPORT
     memset(server_addr.sin_zero, 0, sizeof(server_addr.sin_zero));
+#endif
 #ifdef HAVE_IPV6
     }
     if (netplay_ipv6)

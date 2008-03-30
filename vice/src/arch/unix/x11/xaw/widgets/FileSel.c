@@ -199,6 +199,61 @@ static void		TextWidgetSetKeyboardFocusAction(Widget w,
 
  *---------------------------------------------------------------------------*/
 
+#ifdef MINIX_SUPPORT
+static XtResource resources[] =
+{
+	{XtNwidth, XtCWidth, XtRDimension, sizeof(Dimension),
+		32, XtRString, "500"},
+	{XtNheight, XtCHeight, XtRDimension, sizeof(Dimension),
+		34, XtRString, "250"},
+	{XtNbackground, XtCBackground, XtRPixel, sizeof(Pixel),
+		104, XtRString, "white"},
+
+	{XtNokButtonCallback, XtCCallback, XtRCallback,
+		sizeof(XtCallbackList), 132,
+		XtRCallback, NULL},
+	{XtNcancelButtonCallback, XtCCallback, XtRCallback,
+		sizeof(XtCallbackList), 136,
+		XtRCallback, NULL},
+	{XtNcontentsButtonCallback, XtCCallback, XtRCallback,
+		sizeof(XtCallbackList), 140,
+		XtRCallback, NULL},
+	{XtNautostartButtonCallback, XtCCallback, XtRCallback,
+		sizeof(XtCallbackList), 144,
+		XtRCallback, NULL},
+	{XtNselectionChangeCallback, XtCCallback, XtRCallback,
+		sizeof(XtCallbackList), 148,
+		XtRCallback, NULL},
+
+	{XtNshowOkButton, XtCBoolean, XtRBoolean, sizeof(Boolean),
+		152, XtRString, "True"},
+	{XtNshowCancelButton, XtCBoolean, XtRBoolean, sizeof(Boolean),
+		153, XtRString, "True"},
+	{XtNshowContentsButton, XtCBoolean, XtRBoolean, sizeof(Boolean),
+		154, XtRString, "True"},
+	{XtNshowAutostartButton, XtCBoolean, XtRBoolean, sizeof(Boolean),
+		155, XtRString, "True"},
+
+	{XtNflagLinks, XtCBoolean, XtRBoolean, sizeof(Boolean),
+		157, XtRString, "False"},
+	{XtNcheckExistence, XtCBoolean, XtRBoolean, sizeof(Boolean),
+		158, XtRString, "True"},
+
+	{XtNfileSelected, XtCBoolean, XtRBoolean, sizeof(Boolean),
+		156, XtRString, "False"},
+
+	{XtNcurrentDirectory, XtCPathname, XtRString, sizeof(String),
+		436, XtRString, NULL},
+	{XtNcurrentFile, XtCFilename, XtRString, sizeof(String),
+		440, XtRString, NULL},
+	{XtNtitle, XtCLabel, XtRString, sizeof(String),
+		160, XtRString, "File Selector"},
+	{XtNsortMode, XtCValue, XtRInt, sizeof(int),
+		164, XtRString, "2"},
+	{XtNpattern, XtCFile, XtRString, sizeof(String),
+		168, XtRString, NULL},
+};
+#else
 static XtResource resources[] =
 {
 	{XtNwidth, XtCWidth, XtRDimension, sizeof(Dimension),
@@ -252,6 +307,7 @@ static XtResource resources[] =
 	{XtNpattern, XtCFile, XtRString, sizeof(String),
 		FSFieldOffset(pattern), XtRString, NULL},
 };
+#endif
 
 #undef FSFieldOffset
 #undef CoreFieldOffset

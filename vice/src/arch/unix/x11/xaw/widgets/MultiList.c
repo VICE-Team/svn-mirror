@@ -52,6 +52,8 @@
  * Original Athena Author:  Chris D. Peterson, MIT X Consortium
  */
 
+#include "vice.h"
+
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>		/* ettore@comm2000.it 05/04/97 */
@@ -190,6 +192,65 @@ static void		Notify(XfwfMultiListWidget mlw, XEvent *event,
 
  *===========================================================================*/
 
+#ifdef MINIX_SUPPORT
+static XtResource resources[] =
+{
+	{XtNwidth, XtCWidth, XtRDimension, sizeof(Dimension),
+	    32, XtRString, "0"},
+	{XtNheight, XtCHeight, XtRDimension, sizeof(Dimension),
+	    34, XtRString, "0"},
+	{XtNbackground, XtCBackground, XtRPixel, sizeof(Pixel),
+	    104,XtRString,"XtDefaultBackground"},
+
+	{XtNcursor, XtCCursor, XtRCursor, sizeof(Cursor),
+	    116, XtRString, "left_ptr"},
+
+	{XtNforeground, XtCForeground, XtRPixel, sizeof(Pixel),
+	    140, XtRString,"XtDefaultForeground"},
+	{XtNhighlightForeground, XtCHForeground, XtRPixel, sizeof(Pixel),
+	    144, XtRString, "XtDefaultBackground"},
+	{XtNhighlightBackground, XtCHBackground, XtRPixel, sizeof(Pixel),
+	    148, XtRString, "XtDefaultForeground"},
+	{XtNcolumnSpacing, XtCSpacing, XtRDimension, sizeof(Dimension),
+	    152, XtRImmediate, (caddr_t)8},
+	{XtNrowSpacing, XtCSpacing, XtRDimension, sizeof(Dimension),
+	    154, XtRImmediate, (caddr_t)0},
+	{XtNdefaultColumns, XtCColumns, XtRInt,  sizeof(int),
+	    156, XtRImmediate, (caddr_t)1},
+	{XtNforceColumns, XtCColumns, XtRBoolean, sizeof(Boolean),
+	    160, XtRString, (caddr_t) "False"},
+	{XtNpasteBuffer, XtCBoolean, XtRBoolean, sizeof(Boolean),
+	    161, XtRString, (caddr_t) "False"},
+	{XtNverticalList, XtCBoolean, XtRBoolean,  sizeof(Boolean),
+	    162, XtRString, (caddr_t) "False"},
+	{XtNlongest, XtCLongest, XtRInt,  sizeof(int),
+	    164, XtRImmediate, (caddr_t)0},
+	{XtNnumberStrings, XtCNumberStrings, XtRInt,  sizeof(int),
+	    168, XtRImmediate, (caddr_t)0},
+	{XtNfont,  XtCFont, XtRFontStruct, sizeof(XFontStruct *),
+	    172,XtRString, "XtDefaultFont"},
+	{XtNlist, XtCList, XtRPointer, sizeof(char **),
+	    176, XtRString, NULL},
+	{XtNsensitiveArray, XtCList, XtRPointer, sizeof(Boolean *),
+	    180, XtRString, NULL},
+	{XtNcallback, XtCCallback, XtRCallback, sizeof(caddr_t),
+	    184, XtRCallback, NULL},
+	{XtNmaxSelectable, XtCValue, XtRInt, sizeof(int),
+	    188, XtRImmediate, (caddr_t) 1},
+
+	{XtNshadeSurplus, XtCBoolean, XtRBoolean, sizeof(Boolean),
+	    192, XtRString, "True"},
+
+	{XtNcolumnWidth, XtCValue, XtRDimension, sizeof(Dimension),
+	    194, XtRImmediate, (caddr_t)0},
+	{XtNrowHeight, XtCValue, XtRDimension, sizeof(Dimension),
+	    196, XtRImmediate, (caddr_t)0},
+
+	{XtNtablist, XtCTablist, XtRString, sizeof(int *),
+	    256, XtRImmediate, (XtPointer)NULL },
+
+};
+#else
 static XtResource resources[] =
 {
 	{XtNwidth, XtCWidth, XtRDimension, sizeof(Dimension),
@@ -247,6 +308,7 @@ static XtResource resources[] =
 	    MultiListFieldOffset(tablist), XtRImmediate, (XtPointer)NULL },
 
 };
+#endif
 
 /*===========================================================================*
 

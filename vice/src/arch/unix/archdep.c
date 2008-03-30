@@ -117,7 +117,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
     static char *default_path;
 
-#ifdef MINIXVMD
+#if defined(MINIXVMD) || defined(MINIX_SUPPORT)
     static char *default_path_temp;
 #endif
 
@@ -131,10 +131,10 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
         /* First search in the `LIBDIR' then the $HOME/.vice/ dir (home_path)
            and then in the `boot_path'.  */
 
-#ifdef MINIXVMD
+#if defined(MINIXVMD) || defined(MINIX_SUPPORT)
         default_path_temp = util_concat(LIBDIR, "/", emu_id,
                                    ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/", emu_id);
+                                   home_path, "/", VICEUSERDIR, "/", emu_id,NULL);
 
         default_path = util_concat(default_path_temp,
                                    ARCHDEP_FINDPATH_SEPARATOR_STRING,

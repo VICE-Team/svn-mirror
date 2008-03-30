@@ -10,7 +10,8 @@ doc_DATA = \
 	Win32-Howto.txt \
 	iec-bus.txt \
 	mon.txt \
-	MinixVmd-Howto.txt
+	Minix-Howto.txt \
+	cartconv.txt
 
 info_TEXINFOS = \
 	vice.texi

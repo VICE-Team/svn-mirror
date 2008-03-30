@@ -1230,27 +1230,27 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
     devlist = lib_stralloc("");
 
-#if defined(USE_ARTS)
+#ifdef USE_ARTS
     sound_init_arts_device();
 #endif
-#if defined(HAVE_ALSA_ASOUNDLIB_H)
+#ifdef USE_ALSA
     sound_init_alsa_device();
 #endif
 #ifdef USE_COREAUDIO
     sound_init_coreaudio_device();
 #endif
-#if defined(HAVE_LINUX_SOUNDCARD_H) || defined(HAVE_MACHINE_SOUNDCARD_H) || defined(HAVE_SYS_SOUNDCARD_H)
+#ifdef USE_OSS
 
-/* don't use uss for FreeBSD or BSDI */
+/* don't use oss for FreeBSD or BSDI */
 
 #if !defined(__FreeBSD__) && !defined(__bsdi__)
     sound_init_uss_device();
 #endif
 #endif
-#if defined(HAVE_ESD_H) && defined(HAVE_LIBESD)
+#ifdef USE_ESD
     sound_init_esd_device();
 #endif
-#if defined(HAVE_DMEDIA_AUDIO_H)
+#ifdef USE_DMEDIA
     sound_init_sgi_device();
 #endif
 
@@ -1261,10 +1261,10 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #if defined(HAVE_SYS_AUDIO_H)
     sound_init_hpux_device();
 #endif
-#if defined(HAVE_LIBUMSOBJ) && defined(HAVE_UMS_UMSAUDIODEVICE_H) && defined(HAVE_UMS_UMSBAUDDEVICE_H)
+#ifdef USE_AIX_AUDIO
     sound_init_aix_device();
 #endif
-#if defined(HAVE_SDL_SDL_AUDIO_H) && defined(HAVE_LIBSDL)
+#ifdef USE_SDL_AUDIO
     sound_init_sdl_device();
 #endif
 

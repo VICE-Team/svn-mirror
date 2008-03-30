@@ -41,7 +41,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef __QNX__
+#if defined(__QNX__) || defined(MINIX_SUPPORT)
 Status XShmAttach(Display *display, XShmSegmentInfo *shminfo)
 {
   return 0;
@@ -50,6 +50,58 @@ Status XShmAttach(Display *display, XShmSegmentInfo *shminfo)
 Status XShmDetach(Display *display, XShmSegmentInfo *shminfo)
 {
   return 0;
+}
+#endif
+
+#ifdef MINIX_SUPPORT
+typedef long key_t;
+
+struct ipc_perm
+{
+  key_t          key;
+  unsigned short uid;
+  unsigned short gid;
+  unsigned short cuid;
+  unsigned short cgid;
+  unsigned short mode;
+  unsigned short seq;
+};
+
+struct shmid_ds
+{
+  struct          ipc_perm shm_perm;
+  int             shm_segsz;
+  time_t          shm_atime;
+  time_t          shm_dtime;
+  time_t          shm_ctime;
+  unsigned short  shm_cpid;
+  unsigned short  shm_lpid;
+  short           shm_nattch;
+  unsigned short  shm_npages;
+  unsigned long   *shm_pages;
+};
+
+#define IPC_PRIVATE ((key_t)0)
+#define IPC_CREAT   0x0200
+#define IPC_RMID    0x1000
+
+int shmget(key_t key, int size, int shmflag)
+{
+  return -1;
+}
+
+void *shmat(int shmid, const void *shmaddr, int shmflag)
+{
+}
+
+int shmctl(int shmid, int cmd, struct shmid_ds *buf)
+{
+  return -1;
+}
+
+int shmdt(const void *shmaddr)
+{
+  return -1;
 }
 #endif
 

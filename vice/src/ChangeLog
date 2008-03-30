@@ -1,3 +1,63 @@
+2006-04-23  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.19.9.
+
+2006-04-22  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* core/ciacore.c: Make sure ICR bit 7 is set if FLG or SDR
+	generate an interrupt. This fixes a bug with some custom RS232
+	routines reported by path0s.
+
+	* rs232drv/rsuser.c: Fixed some code which is only used when
+	debugging is enabled. We take into account that "clk" was
+	renamed to "maincpu_clk" some time before.
+
+2006-04-22  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* cartconv.c: Added ifdefs for the unistd.h and string.h
+	includes.
+
+2006-04-22  Spiro Trikaliotis  <Spiro.Trikaliotis@gmx.de>
+
+	* c1541.c: If accessing drive 10 (or higher), c1541 crashes
+	because a test if the drive is available does not check a
+	pointer first. Problem reported by Wolfgang Moser.
+
+2006-04-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* sound.c: Fixed some sound-driver problems.
+
+2006-04-19  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* c64/cart/Makefile.am, c64/cart/delaep64.pl: Deleted the dela
+	ep64 perl script.
+
+2006-04-14  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* translate.h: Fixed a small resid related issue.
+
+2006-04-06  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/unix/archdep.c, arch/unix/coproc.c, arch/unix/rs232.c,
+	arch/unix/types.h, arch/unix/x11/renderxv.c,
+	arch/unix/x11/renderxv.h, arch/unix/x11/video.c,
+	arch/unix/x11/xaw/widgets/Canvas.c,
+	arch/unix/x11/xaw/widgets/FileSel.c,
+	arch/unix/x11/xaw/widgets/MultiList.c,
+	arch/unix/x11/xaw/widgets/ScrList.c,
+	arch/unix/x11/xaw/x11video.c, c64/c64.c, cbm2/cbm2.c,
+	network.c, pet/pet.c, plus4/plus4.c, vic20/vic20.c: Added
+	minix3 support.
+
+2006-04-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* arch/win32/res.rc, c64/c64io.c, translate.c,
+	translate.h: Updated some translations.
+
+2006-04-03  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* cartconv.c: Fixed the signed/unsigned warning.
+
 2006-04-02  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.19.8.

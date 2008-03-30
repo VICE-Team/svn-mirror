@@ -43,6 +43,9 @@
 #include "resources.h"
 #include "sid-resources.h"
 #include "sid.h"
+#ifdef HAS_TRANSLATION
+#include "translate.h"
+#endif
 #include "types.h"
 #include "ui.h"
 #include "util.h"
@@ -169,7 +172,11 @@ static void io_source_msg_detach(int addr)
         {
             if (i==io_source_start)
             {
-                old_msg=strdup("I/O read collision at %X from ");
+#ifdef HAS_TRANSLATION
+                old_msg=strdup(translate_text(IDGS_IO_READ_COLL_AT_X_FROM));
+#else
+                old_msg=strdup(_("I/O read collision at %X from "));
+#endif
                 new_msg=util_concat(old_msg,get_io_source_name(io_source_return[i]),NULL);
                 lib_free(old_msg);
             }
@@ -182,8 +189,13 @@ static void io_source_msg_detach(int addr)
             if (i==io_source_end)
             {
                 old_msg=new_msg;
-                new_msg=util_concat(old_msg," and ",get_io_source_name(io_source_return[i]),
-                                    ".\nAll the named devices will be detached",NULL);
+#ifdef HAS_TRANSLATION
+                new_msg=util_concat(old_msg,translate_text(IDGS_AND),get_io_source_name(io_source_return[i]),
+                                    translate_text(IDGS_ALL_DEVICES_DETACHED),NULL);
+#else
+                new_msg=util_concat(old_msg,_(" and "),get_io_source_name(io_source_return[i]),
+                                    _(".\nAll the named devices will be detached."),NULL);
+#endif
                 lib_free(old_msg);
             }
         }

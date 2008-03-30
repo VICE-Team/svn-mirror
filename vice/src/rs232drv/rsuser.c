@@ -327,7 +327,7 @@ static void keepup_tx_buffer(void)
     while(clk_start_bit < (clk_start_tx + char_clk_ticks)) {
 #ifdef DEBUG
         log_debug("keepup: clk=%d, _bit=%d (%d), _tx=%d.",
-                  clk, clk_start_bit-clk_start_tx, clk_start_bit,
+                  maincpu_clk, clk_start_bit-clk_start_tx, clk_start_bit,
                   clk_start_tx);
 #endif
         buf= buf << 1;
@@ -352,7 +352,7 @@ void rsuser_set_tx_bit(int b)
 {
 #ifdef DEBUG
     log_debug("rsuser_set_tx(clk=%d, clk_start_tx=%d, b=%d).",
-              clk, clk_start_tx, b);
+              maincpu_clk, clk_start_tx, b);
 #endif
 
     if (fd == -1 || rsuser_baudrate > 2400) {
@@ -380,7 +380,7 @@ BYTE rsuser_get_rx_bit(void)
         bit = (maincpu_clk - clk_start_rx) / (bit_clk_ticks);
 #ifdef DEBUG
         log_debug("read ctrl(_rx=%d, clk-start_rx=%d -> bit=%d)",
-                  clk_start_rx, clk - clk_start_rx, bit);
+                  clk_start_rx, maincpu_clk - clk_start_rx, bit);
 #endif
         if (!bit) {
             byte = 0;   /* start bit */

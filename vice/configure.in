@@ -9,7 +9,7 @@ AC_INIT(src/maincpu.c)
 
 VICE_VERSION_MAJOR=1
 VICE_VERSION_MINOR=19
-VICE_VERSION_BUILD=8
+VICE_VERSION_BUILD=9
 
 AC_SUBST(VICE_VERSION_MAJOR)
 AC_SUBST(VICE_VERSION_MINOR)
@@ -89,6 +89,10 @@ if test x"$host_os" = "xminixvmd"; then
   AR="\$(top_srcdir)/src/arch/unix/minix/minix-ar.sh"
   AC_DEFINE(MINIXVMD,,[are we compiling under Minix-Vmd])
   CFLAGS="$CFLAGS -I/usr/include/bsdcompat"
+fi
+
+if test x"$host_os" = "xminix"; then
+  AC_DEFINE(MINIX_SUPPORT,,[do we need minix support])
 fi
 
 dnl Setup DJGPP crosscompiling.
@@ -565,7 +569,7 @@ AC_PROG_GCC_TRADITIONAL
 dnl Check for header files.
 
 AC_HEADER_DIRENT
-AC_CHECK_HEADERS(direct.h errno.h fcntl.h limits.h regex.h unistd.h \
+AC_CHECK_HEADERS(direct.h errno.h fcntl.h limits.h regex.h unistd.h strings.h \
 sys/dirent.h sys/ioctl.h sys/stat.h sys/types.h \
 dir.h io.h process.h signal.h ffmpeg/avformat.h commctrl.h shlobj.h winioctl.h)
 
@@ -869,18 +873,21 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
   if test x"$with_alsa" != "xno"; then
     AC_CHECK_HEADERS(alsa/asoundlib.h,[AC_CHECK_LIB(asound, snd_pcm_open,
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundalsa.o";
-                      SOUND_LIBS="$SOUND_LIBS -lasound"; break],,$SOUND_LIBS)])
+                      SOUND_LIBS="$SOUND_LIBS -lasound";
+                      AC_DEFINE(USE_ALSA,,[Enable alsa support.])],,$SOUND_LIBS)])
   fi
 
   if test x"$with_oss" != "xno"; then
     AC_CHECK_HEADERS(linux/soundcard.h machine/soundcard.h sys/soundcard.h soundcard.h,
-                     [SOUND_DRIVERS="$SOUND_DRIVERS sounduss.o"; break])
+                     [SOUND_DRIVERS="$SOUND_DRIVERS sounduss.o";
+                      AC_DEFINE(USE_OSS,,[Enable oss support.])])
     AC_CHECK_LIB(ossaudio, _oss_ioctl,,,$SOUND_LIBS)
   fi
 
   AC_CHECK_HEADERS(dmedia/audio.h, [AC_CHECK_LIB(audio, ALseterrorhandler,
                    [SOUND_DRIVERS="$SOUND_DRIVERS soundsgi.o";
-                    SOUND_LIBS="$SOUND_LIBS -laudio"; break;],,$SOUND_LIBS)])
+                    SOUND_LIBS="$SOUND_LIBS -laudio";
+                    AC_DEFINE(USE_DMEDIA,,[Enable sgi sound support.])],,$SOUND_LIBS)])
 
   AC_CHECK_HEADERS(sys/audioio.h,
                    [SOUND_DRIVERS="$SOUND_DRIVERS soundsun.o"; break])
@@ -888,7 +895,8 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
   if test x"$with_esd" != "xno"; then
     AC_CHECK_HEADERS(esd.h,[AC_CHECK_LIB(esd, esd_open_sound,
                      [SOUND_DRIVERS="$SOUND_DRIVERS soundesd.o";
-                      SOUND_LIBS="$SOUND_LIBS -lesd"; break],,$SOUND_LIBS)])
+                      SOUND_LIBS="$SOUND_LIBS -lesd";
+                      AC_DEFINE(USE_ESD,,[Enable esd sound support.])],,$SOUND_LIBS)])
   fi
 
   if test x"$with_sdl" = "xyes"; then
@@ -897,7 +905,8 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
     CFLAGS="$CFLAGS `sdl-config --cflags`"
     LIBS="$LIBS `sdl-config --libs`"
     AC_CHECK_HEADERS(SDL/SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
-                     [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"; break],
+                     [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
+                      AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])],
                      [CFLAGS=$old_cflags; LIBS=$old_libs; break],$SOUND_LIBS)],
                      [CFLAGS=$old_cflags; LIBS=$old_libs; break])
   fi
@@ -910,7 +919,8 @@ if test x"$is_dos" != "xyes" -a x"$is_win32" != "xyes" -a x"$is_beos" != "xyes" 
   AC_CHECK_HEADERS(UMS/UMSAudioDevice.h,[AC_CHECK_HEADERS(UMS/UMSBAUDDevice.h,
                    [AC_CHECK_LIB(UMSobj, UMSAudioDevice_initialize,
                     [SOUND_DRIVERS="$SOUND_DRIVERS soundaix.o";
-                     SOUND_LIBS="$SOUND_LIBS -lUMSobj"; break],,$SOUND_LIBS)])])
+                     SOUND_LIBS="$SOUND_LIBS -lUMSobj";
+                     AC_DEFINE(USE_AIX_AUDIO,,[Enable aix sound support.])],,$SOUND_LIBS)])])
 fi
 
 if [[ x"$is_dos" = "xyes" ]] ; then

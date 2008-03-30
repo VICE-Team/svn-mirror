@@ -83,7 +83,7 @@ int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width,
         && (canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_1X1
             || canvas->videoconfig->rendermode == VIDEO_RENDER_PAL_2X2))
     {
-#ifdef __QNX__
+#if defined(__QNX__) || defined(MINIX_SUPPORT)
         XShmSegmentInfo* shminfo = NULL;
 #else
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;

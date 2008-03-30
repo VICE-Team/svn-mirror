@@ -49,6 +49,10 @@
 #include <termios.h>
 #include <unistd.h>
 
+#ifdef MINIX_SUPPORT
+#include <sys/select.h>
+#endif
+
 #include "cmdline.h"
 #include "coproc.h"
 #include "log.h"
@@ -248,10 +252,15 @@ int rs232_open(int device)
 #endif
 
     if (devfile[device][0] == '|') {
+#ifdef MINIX_SUPPORT
+        log_error(rs232_log, "Forking not supported on minix.");
+        return -1;
+#else
         if (fork_coproc(&fds[i].fd_w, &fds[i].fd_r, devfile[device] + 1) < 0) {
             log_error(rs232_log, "Cannot fork process.");
             return -1;
         }
+#endif
         fds[i].type = T_PROC;
         fds[i].inuse = 1;
         fds[i].file = devfile[device];

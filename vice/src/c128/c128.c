@@ -471,7 +471,7 @@ static void c128_monitor_init(void)
     monitor_cpu_type_t asm6502, asmz80;
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
 
-#ifdef MINIXVMD
+#if defined(MINIXVMD) || defined(MINIX_SUPPORT)
     monitor_cpu_type_t *asmarray[3];
     asmarray[0]=&asm6502;
     asmarray[1]=&asmz80;

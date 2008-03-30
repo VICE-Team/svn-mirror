@@ -1,0 +1,123 @@
+Using the cartconv utility that comes with VICE
+===============================================
+
+The cartconv program is a cartridge conversion utility, it can convert 
+between binary and .crt images and it can 'insert' binary and/or 
+.crt images into the eprom type of cartridges.
+
+
+The cartconv program has the following parameters:
+
+-i "input name"
+
+This parameter is mandatory, it should contain the name of the binary/.crt 
+file you want to convert. For the eprom type of cartridges this parameter 
+can be used multiple times to insert images into the resulting file.
+
+
+-o "output name"
+
+This parameter is mandatory, it should contain the name of the binary/.crt 
+file you want to convert the input file to.
+
+
+-t carttype
+
+This parameter is optional. It is only needed when converting to a .crt 
+file. See below for the supported cartridge types.
+
+
+-n "cart name"
+
+This parameter is optional and is used as the cartridge name when creating 
+a .crt file.
+
+
+-l loadaddress
+
+This parameter is optional and is used as the load-address when converting 
+a .crt file to a .prg file, or when converting to a generic type .crt 
+file.
+
+
+The following cartridge types are supported:
+
+-t argument   description
+-----------   -----------
+bin           Binary .bin file
+prg           Binary C64 .prg file with load-address
+normal        Generic 8kb/16kb .crt file
+ulti          Ultimax mode 4kb/16kb .crt file
+ar            Action Replay .crt file
+kcs           KCS .crt file
+fc3           Final Cartridge 3 .crt file
+simon         Simons Basic .crt file
+ocean         Ocean type 1/2 .crt file
+expert        Expert Cartridge .crt file
+fp            Fun Play, Power Play .crt file
+sg            Super Games .crt file
+ap            Atomic Power .crt file
+epyx          Epyx Fastload .crt file
+wl            Westermann Learning .crt file
+ru            Rex Utility .crt file
+fc1           Final Cartridge 1 .crt file
+mf            Magic Formel .crt file
+gs            C64GS, System 3 .crt file
+ws            WarpSpeed .crt file
+din           Dinamic .crt file
+zax           Zaxxon, Super Zaxxon .crt file
+md            Magic Desk, Domark, Hes Australia .crt file
+ss5           Super Snapshot 5 .crt file
+comal         Comal-80 .crt file
+sb            Structured Basic .crt file
+ross          Ross .crt file
+dep64         Dela EP64 .crt file, eprom type cartridge  (1)
+dep7x8        Dela EP7x8 .crt file, eprom type cartridge (1)(2)(3)
+dep256        Dela EP256 .crt file, eprom type cartridge (1)(2)
+rep256        Rex EP256 .crt file, eprom type cartridge (1)(2)(3)
+
+(1) insertion of 32kb eprom files supported.
+(2) insertion of 8kb .crt/binary files supported.
+(3) insertion of 16kb .crt/binary files supported.
+
+
+Examples:
+
+- Converting a .crt file to a binary file with no load-address.
+
+cartconv -i foo.crt -o foo.bin
+
+
+- Converting a .crt file to a .prg file with default load-address.
+
+cartconv -t prg -i foo.crt -o foo.prg
+
+
+- Converting a .crt file to a .prg file with 49152 as the load-address.
+
+cartconv -t prg -l 49152 -i foo.crt -o foo.prg
+
+
+- Converting a binary file to a ocean type cartridge.
+
+cartconv -t ocean -i foo.bin -o foo.crt
+
+
+- Inserting a 32kb eprom file into an dep64 type cartridge.
+
+  step 1 : use the dep64 binary file in VICE as a generic 8kb cartridge.
+  step 2 : generate an eprom file.
+  step 3 : get the eprom file to the host computer.
+  step 4 : insert the eprom file into the final dep64 .crt file:
+
+cartconv -t dep64 -i dep64.bin -i eprom.prg -o foo.crt
+
+
+- Inserting an 8kb .crt file into a dep256 type cartridge.
+
+cartconv -t dep256 -i dep256.bin -i somegame.crt -o foo.crt
+
+
+- Inserting multiple 8kb .crt files into a rep256 type cartridge.
+
+cartconv -t rep256 -i rep256.bin -i foo1.crt -i foo2.crt -i foo3.crt -o foo.crt

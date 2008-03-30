@@ -332,7 +332,7 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
 
 #ifdef HAVE_XVIDEO
     if (canvas->xv_image) {
-#ifdef __QNX__
+#if defined(__QNX__) || defined(MINIX_SUPPORT)
         XShmSegmentInfo* shminfo = NULL;
 #else
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
@@ -611,7 +611,7 @@ void video_canvas_refresh(video_canvas_t *canvas,
         int doublesize = canvas->videoconfig->doublesizex
           && canvas->videoconfig->doublesizey;
 
-#ifdef __QNX__
+#if defined(__QNX__) || defined(MINIX_SUPPORT)
         XShmSegmentInfo* shminfo = NULL;
 #else
         XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
