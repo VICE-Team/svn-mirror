@@ -46,7 +46,7 @@ extern void cartridge_detach(int type);
 extern void cartridge_freeze(int type);
 
 /* Known cartridge types.  */
-#define CARTRIDGE_SUPER_SNAPSHOT_V5	-12
+#define CARTRIDGE_SUPER_SNAPSHOT_V5 -12
 #define CARTRIDGE_IEEE488           -11
 #define CARTRIDGE_ULTIMAX           -6
 #define CARTRIDGE_SUPER_SNAPSHOT    -4
@@ -64,6 +64,7 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_ATOMIC_POWER       9
 #define CARTRIDGE_EPYX_FASTLOAD      10
 #define CARTRIDGE_WESTERMANN         11
+#define CARTRIDGE_REX                12
 
 /* VIC20: &1 -> 0=4k, 1=8k; &16 -> 0= < 16k, 1= 16k 2nd half at $a000 */
 #define	CARTRIDGE_VIC20_DETECT		0

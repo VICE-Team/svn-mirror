@@ -109,11 +109,7 @@ void vic_ii_change_timing(void)
 {
     resource_value_t mode;
 
-#ifndef __MSDOS__
     resources_get_value("VideoStandard", &mode);
-#else
-    mode = (resource_value_t)(-1);
-#endif
 
     switch ((int)mode) {
       case -2:
@@ -198,6 +194,11 @@ static void vic_ii_set_geometry(void)
                        vic_ii.last_displayed_line,
                        2 * VIC_II_MAX_SPRITE_WIDTH);
   raster_resize_viewport (&vic_ii.raster, width, height);
+
+#ifdef __MSDOS__
+  video_ack_vga_mode();
+#endif
+
 }
 
 static int
@@ -445,9 +446,7 @@ vic_ii_reset (void)
 
   raster_reset (&vic_ii.raster);
 
-#ifndef __MSDOS__ 
   vic_ii_set_geometry();
-#endif
 
   vic_ii.last_emulate_line_clk = 0;
 
