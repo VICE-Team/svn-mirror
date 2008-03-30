@@ -27,6 +27,8 @@
 #ifndef _DATASETTE_H
 #define _DATASETTE_H
 
+#include "types.h"
+
 #define DATASETTE_CONTROL_STOP    0
 #define DATASETTE_CONTROL_START   1
 #define DATASETTE_CONTROL_FORWARD 2
@@ -34,11 +36,6 @@
 #define DATASETTE_CONTROL_RECORD  4
 #define DATASETTE_CONTROL_RESET   5
 #define DATASETTE_CONTROL_RESET_COUNTER   6
-
-#define TAP_BUFFER_LENGTH   100000
-
-/* at least every DATASETTE_MAX_GAP cycle there should be an alarm */ 
-#define DATASETTE_MAX_GAP   100000
 
 /* Counter is c=g*(sqrt(v*t/d*pi+r^2/d^2)-r/d)
    Some constants for the Datasette-Counter, maybe resourses in future */
@@ -52,6 +49,7 @@
 /* at FF/REWIND, Datasette-counter makes ~4 rounds per second */
 #define DS_RPS_FAST 4.00
 
+struct snapshot_s;
 struct tap_s;
 
 extern void datasette_init(void);
@@ -61,6 +59,7 @@ extern void datasette_set_motor(int flag);
 extern void datasette_toggle_write_bit(int write_bit);
 extern void datasette_reset(void);
 extern void datasette_reset_counter(void);
+extern void datasette_event_playback(CLOCK offset, void *data);
 
 /* Emulator specific functions.  */
 extern void datasette_trigger_flux_change(unsigned int on);
@@ -70,5 +69,7 @@ extern void datasette_set_tape_sense(int sense);
 extern int datasette_resources_init(void);
 extern int datasette_cmdline_options_init(void);
 
+extern int datasette_write_snapshot(struct snapshot_s *s);
+extern int datasette_read_snapshot(struct snapshot_s *s);
 #endif
 
