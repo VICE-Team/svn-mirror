@@ -55,7 +55,7 @@ char * findpath(const char *cmd, const char *syspath, int mode)
     buf[0] = '\0'; /* this will (and needs to) stay '\0' */
 
     if (strchr(cmd, '/')) /* absolute or relative path given ???*/
-    /* if (cmd[0] == "/") */ /* absolute or relative path given */
+    /*if (cmd[0] == '/')*/ /* absolute or relative path given */
     {
 	int l, state;
 	const char *ps;
