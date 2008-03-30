@@ -1,3 +1,12 @@
+2005-01-22  Andreas Boose  <viceteam@t-online.de>
+
+        * Version 1.15.15.
+
+	* configure.in: Do not define `UNSTABLE'.
+
+	* doc/vice.texi, doc/html/index.html, doc/Readme.dos, README,
+	vice.spec: Updated.
+
 2004-12-29  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.15.14.

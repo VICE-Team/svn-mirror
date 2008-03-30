@@ -18,7 +18,7 @@ permission notice identical to this one.
 
 File: vice.info,  Node: Top,  Next: License,  Prev: (dir),  Up: (dir)
 
-   This is the documentation for version 1.15 of VICE, the Versatile
+   This is the documentation for version 1.16 of VICE, the Versatile
 Commodore Emulator.
 
 * Menu:
@@ -707,8 +707,9 @@ drives in one of four ways:
    * accessing a real device connected to the host machine. As of VICE
      1.11 it is possible to connect real drives like Commodore 1541 to
      the printer port of the host using the XA1541 or XM1541 cable.
-     Currently this only works on Linux using the OpenCBM library. You
-     can get it from http://www.lb.shuttle.de/puffin/cbm4linux.
+     Currently this only works on Linux or Windows using the OpenCBM
+     library. You can get it from
+     http://www.lb.shuttle.de/puffin/cbm4linux.
 
    * directly using the disk drive of the host. The 3.5" disk drive of
      the host can be used to read or write Commodore 1581 formatted

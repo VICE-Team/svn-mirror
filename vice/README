@@ -1,5 +1,5 @@
 
-  VICE  1.15							Aug 2004
+  VICE  1.16							Jan 2005
 
 
 		 _______________
@@ -19,7 +19,7 @@
  ----------------------------------------------------------------------------
 
 
- This is version 1.15 of VICE, the multi-platform C64, C128, VIC20,
+ This is version 1.16 of VICE, the multi-platform C64, C128, VIC20,
  PET, PLUS4 and CBM-II emulator.  This version can be compiled for
  MSDOS, Win32, RiscOS, OS/2, BeOS and for most Unix system provided
  with the X Window System version 11, R5 or later.
@@ -106,16 +106,16 @@
 
  VICE, the Versatile Commodore Emulator
 
-    Copyright C 1998-2004 Andreas Boose
-    Copyright C 1998-2004 Dag Lem
-    Copyright C 1998-2004 Tibor Biczo
-    Copyright C 1999-2004 Andreas Dehmel
-    Copyright C 1999-2004 Thomas Bretz
-    Copyright C 1999-2004 Andreas Matthies
-    Copyright C 1999-2004 Martin Pottendorfer
+    Copyright C 1998-2005 Andreas Boose
+    Copyright C 1998-2005 Dag Lem
+    Copyright C 1998-2005 Tibor Biczo
+    Copyright C 1999-2005 Andreas Dehmel
+    Copyright C 1999-2005 Thomas Bretz
+    Copyright C 1999-2005 Andreas Matthies
+    Copyright C 1999-2005 Martin Pottendorfer
+    Copyright C 2000-2005 Spiro Trikaliotis
+    Copyright C 2003-2005 David Hansel
     Copyright C 2000-2004 Markus Brenner
-    Copyright C 2000-2004 Spiro Trikaliotis
-    Copyright C 2003-2004 David Hansel
 
     Copyright C 1997-2001 Daniel Sladic
     Copyright C 1996-1999 Ettore Perazzoli
