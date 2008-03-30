@@ -298,7 +298,8 @@ static int write_sequential_buffer(DRIVE *floppy, bufferinfo_t *bi,
         buf[1] = s_new;
 
         floppy_write_block(floppy->ActiveFd, floppy->ImageFormat, buf,
-                           bi->track, bi->sector, floppy->D64_Header);
+                           bi->track, bi->sector, floppy->D64_Header,
+                           floppy->GCR_Header, floppy->unit);
 
         bi->track = t_new;
         bi->sector = s_new;
@@ -310,7 +311,8 @@ static int write_sequential_buffer(DRIVE *floppy, bufferinfo_t *bi,
         buf[1] = length - 1;
 
         floppy_write_block(floppy->ActiveFd, floppy->ImageFormat, buf,
-                           bi->track, bi->sector, floppy->D64_Header);
+                           bi->track, bi->sector, floppy->D64_Header,
+                           floppy->GCR_Header, floppy->unit);
     }
 
     if (!(++slot[SLOT_NR_BLOCKS]))
@@ -585,8 +587,8 @@ int vdrive_open(void *flp, const char *name, int length, int secondary)
 #endif
     floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                        floppy->Dir_buffer, floppy->Curr_track,
-                       floppy->Curr_sector, floppy->D64_Header);
-
+                       floppy->Curr_sector, floppy->D64_Header,
+                       floppy->GCR_Header, floppy->unit);
     /*vdrive_bam_write_bam(floppy);*/
 #endif  /* BAM write */
     return SERIAL_OK;
@@ -660,7 +662,8 @@ int vdrive_close(void *flp, int secondary)
 #endif
             floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                                floppy->Dir_buffer, floppy->Curr_track,
-                               floppy->Curr_sector, floppy->D64_Header);
+                               floppy->Curr_sector, floppy->D64_Header,
+                               floppy->GCR_Header, floppy->unit);
             vdrive_bam_write_bam(floppy);
         }
         p->mode = BUFFER_NOT_IN_USE;

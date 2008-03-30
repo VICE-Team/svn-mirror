@@ -2401,3 +2401,9 @@ int drive_read_block(int track, int sector, BYTE *readdata, int dnr)
     return -1;
 }
 
+int drive_write_block(int track, int sector, BYTE *readdata, int dnr)
+{
+    /* We don't have support for G64 images.  */
+    return -1;
+}
+

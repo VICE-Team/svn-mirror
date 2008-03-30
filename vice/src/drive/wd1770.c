@@ -384,7 +384,9 @@ static int wd1770_job_code_write(int dnr, int track, int sector, int buffer)
     rc = floppy_write_block(drive[dnr].drive_floppy->ActiveFd,
                             drive[dnr].drive_floppy->ImageFormat,
                             sector_data, track, sector,
-                            drive[dnr].drive_floppy->D64_Header);
+                            drive[dnr].drive_floppy->D64_Header,
+                            drive[dnr].drive_floppy->GCR_Header,
+                            drive[dnr].drive_floppy->unit);
     if (rc < 0) {
         log_error(drive[dnr].log,
                   "Could not update T:%d S:%d on disk image.",

@@ -552,7 +552,8 @@ static int vdrive_command_block(DRIVE *floppy, char command, char *buffer)
                     return IPE_WRITE_PROTECT_ON;
                 if (floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                                        floppy->buffers[channel].buffer,
-                                       track, sector, floppy->D64_Header))
+                                       track, sector, floppy->D64_Header,
+                                       floppy->GCR_Header, floppy->unit))
                     return IPE_NOT_READY;
             } else {
                 if (floppy_read_block(floppy->ActiveFd, floppy->ImageFormat,
@@ -1002,7 +1003,8 @@ static int vdrive_command_rename(DRIVE *floppy, char *dest, int length)
     /* Update the directory.  */
     floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                        floppy->Dir_buffer, floppy->Curr_track,
-                       floppy->Curr_sector, floppy->D64_Header);
+                       floppy->Curr_sector, floppy->D64_Header,
+                       floppy->GCR_Header, floppy->unit);
     return(IPE_OK);
 }
 
@@ -1125,7 +1127,8 @@ int vdrive_command_validate(DRIVE *floppy)
             *filetype = FT_DEL;
             floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                                floppy->Dir_buffer, floppy->Curr_track,
-                               floppy->Curr_sector, floppy->D64_Header);
+                               floppy->Curr_sector, floppy->D64_Header,
+                               floppy->GCR_Header, floppy->unit);
         }
     }
 
@@ -1169,7 +1172,7 @@ static int vdrive_command_format(DRIVE *floppy, char *name, BYTE *id,
     tmp[1] = 255;
     floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                        tmp, floppy->Dir_Track, floppy->Dir_Sector,
-                       floppy->D64_Header);
+                       floppy->D64_Header, floppy->GCR_Header, floppy->unit);
 
     /* Create Disk Format for 1541/1571/1581 disks.  */
     memset(floppy->bam, 0, 3 * 256);
@@ -1388,8 +1391,6 @@ static off_t offset_from_track_and_sector(int format, int track,
 int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
                       int sector, int d64, int g64, int unit)
 {
-    off_t offset;
-
     if (fd == ILLEGAL_FILE_DESC)
         return -1;
 
@@ -1399,6 +1400,8 @@ int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
             return(-2);
         }
     } else {
+        off_t offset;
+
         offset = offset_from_track_and_sector(format, track, sector, d64);
 
         if (offset < 0)
@@ -1407,7 +1410,7 @@ int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
         lseek(fd, offset, SEEK_SET);
 
         if (read(fd, (char *)buf, 256) < 256) {
-            log_error(vdrive_log, "Error reading from disk image.");
+            log_error(vdrive_log, "Error reading from disk image.\n");
             return(-2);
         }
         return 0;
@@ -1421,21 +1424,31 @@ int floppy_read_block(file_desc_t fd, int format, BYTE *buf, int track,
  */
 
 int floppy_write_block(file_desc_t fd, int format, BYTE *buf, int track,
-                        int sector, int d64)
+                       int sector, int d64, int g64, int unit)
 {
-    off_t   offset;
-
-    offset = offset_from_track_and_sector(format, track, sector, d64);
-
-    if (offset < 0)
+    if (fd == ILLEGAL_FILE_DESC)
         return -1;
 
-    if (lseek(fd, offset, SEEK_SET) < 0 || write(fd, (char *)buf, 256) < 0) {
-        log_error(vdrive_log, "Cannot write T:%d S:%d: %s",
-                  track, sector, strerror(errno));
-	return -2;
-    }
+    if (g64) {
+        if (drive_write_block(track, sector, buf, unit - 8) < 0) {
+            log_error(vdrive_log, "Error writing disk image.\n");
+            return(-2);
+        }
+    } else {
+        off_t offset;
 
+        offset = offset_from_track_and_sector(format, track, sector, d64);
+
+        if (offset < 0)
+            return -1;
+
+        if (lseek(fd, offset, SEEK_SET) < 0
+            || write(fd, (char *)buf, 256) < 0) {
+            log_error(vdrive_log, "Cannot write T:%d S:%d: %s",
+                      track, sector, strerror(errno));
+            return -2;
+        }
+    }
     return 0;
 }
 
@@ -1482,7 +1495,8 @@ static BYTE *find_next_directory_sector(DRIVE *floppy, int track, int sector)
         floppy->Dir_buffer[1] = sector;
         floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                            floppy->Dir_buffer, floppy->Curr_track,
-                           floppy->Curr_sector, floppy->D64_Header);
+                           floppy->Curr_sector, floppy->D64_Header,
+                           floppy->GCR_Header, floppy->unit);
 #ifdef DEBUG_DRIVE
         fprintf(logfile, "Found (%d %d) TR = %d SE = %d.\n",
                 track, sector, floppy->Curr_track, floppy->Curr_sector);
@@ -1677,7 +1691,8 @@ void vdrive_dir_remove_slot(DRIVE *floppy, BYTE *slot)
         floppy->Dir_buffer[floppy->SlotNumber * 32 + SLOT_TYPE_OFFSET] = 0;
         floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                            floppy->Dir_buffer, floppy->Curr_track,
-                           floppy->Curr_sector, floppy->D64_Header);
+                           floppy->Curr_sector, floppy->D64_Header,
+                           floppy->GCR_Header, floppy->unit);
     }
 }
 
@@ -1970,26 +1985,32 @@ int vdrive_bam_write_bam(DRIVE *floppy)
       case 1541:
         err = floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                                  floppy->bam, BAM_TRACK_1541,
-                                 BAM_SECTOR_1541, floppy->D64_Header);
+                                 BAM_SECTOR_1541, floppy->D64_Header,
+                                 floppy->GCR_Header, floppy->unit);
         break;
       case 1571:
         err = floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                                  floppy->bam, BAM_TRACK_1571,
-                                 BAM_SECTOR_1571, floppy->D64_Header);
+                                 BAM_SECTOR_1571, floppy->D64_Header,
+                                 floppy->GCR_Header, floppy->unit);
         err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                                   floppy->bam+256, BAM_TRACK_1571+35,
-                                  BAM_SECTOR_1571, floppy->D64_Header);
+                                  BAM_SECTOR_1571, floppy->D64_Header,
+                                  floppy->GCR_Header, floppy->unit);
         break;
       case 1581:
         err = floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                                  floppy->bam, BAM_TRACK_1581,
-                                 BAM_SECTOR_1581, floppy->D64_Header);
+                                 BAM_SECTOR_1581, floppy->D64_Header,
+                                 floppy->GCR_Header, floppy->unit);
         err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                                   floppy->bam+256, BAM_TRACK_1581,
-                                  BAM_SECTOR_1581+1, floppy->D64_Header);
+                                  BAM_SECTOR_1581+1, floppy->D64_Header,
+                                  floppy->GCR_Header, floppy->unit);
         err |= floppy_write_block(floppy->ActiveFd, floppy->ImageFormat,
                                   floppy->bam+512, BAM_TRACK_1581,
-                                  BAM_SECTOR_1581+2, floppy->D64_Header);
+                                  BAM_SECTOR_1581+2, floppy->D64_Header,
+                                  floppy->GCR_Header, floppy->unit);
         break;
       default:
         err = -1;
