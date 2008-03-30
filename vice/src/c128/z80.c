@@ -270,18 +270,53 @@ static unsigned int z80_last_opcode_info;
 #define Z_FLAG  0x40
 #define S_FLAG  0x80
 
-#define LOCAL_SET_CARRY(val)     ((val) ? (reg_f |= C_FLAG)       \
-                                        : (reg_f &= ~C_FLAG))
-#define LOCAL_SET_NADDSUB(val)   ((val) ? (reg_f |= N_FLAG)       \
-                                        : (reg_f &= ~N_FLAG))
-#define LOCAL_SET_PARITY(val)    ((val) ? (reg_f |= P_FLAG)       \
-                                        : (reg_f &= ~P_FLAG))
-#define LOCAL_SET_HALFCARRY(val) ((val) ? (reg_f |= H_FLAG)       \
-                                        : (reg_f &= ~H_FLAG))
-#define LOCAL_SET_ZERO(val)      ((val) ? (reg_f |= Z_FLAG)       \
-                                        : (reg_f &= ~Z_FLAG))
-#define LOCAL_SET_SIGN(val)      ((val) ? (reg_f |= S_FLAG)       \
-                                        : (reg_f &= ~S_FLAG))
+#define LOCAL_SET_CARRY(val)  \
+    do {                      \
+        if (val)              \
+            reg_f |= C_FLAG;  \
+        else                  \
+            reg_f &= ~C_FLAG; \
+    } while (0)
+
+#define LOCAL_SET_NADDSUB(val) \
+    do {                       \
+        if (val)               \
+            reg_f |= N_FLAG;   \
+        else                   \
+            reg_f &= ~N_FLAG;  \
+    } while (0)
+
+#define LOCAL_SET_PARITY(val) \
+    do {                      \
+        if (val)              \
+            reg_f |= P_FLAG;  \
+        else                  \
+            reg_f &= ~P_FLAG; \
+    } while (0)
+
+#define LOCAL_SET_HALFCARRY(val) \
+    do {                         \
+        if (val)                 \
+            reg_f |= H_FLAG;     \
+        else                     \
+            reg_f &= ~H_FLAG;    \
+    } while (0)
+
+#define LOCAL_SET_ZERO(val)   \
+    do {                      \
+        if (val)              \
+            reg_f |= Z_FLAG;  \
+        else                  \
+            reg_f &= ~Z_FLAG; \
+    } while (0)
+
+#define LOCAL_SET_SIGN(val)   \
+    do {                      \
+        if (val)              \
+            reg_f |= S_FLAG;  \
+        else                  \
+            reg_f &= ~S_FLAG; \
+    } while (0)
 
 #define LOCAL_CARRY()     (reg_f & C_FLAG)
 #define LOCAL_NADDSUB()   (reg_f & N_FLAG)
