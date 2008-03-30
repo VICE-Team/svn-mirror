@@ -72,7 +72,7 @@ static void draw_std_background_2x(unsigned int start_pixel,
 */
 
 /* Initialize the drawing tables.  */
-static void init_drawing_tables (void)
+static void init_drawing_tables(void)
 {
     DWORD i;
     unsigned int f, b;
@@ -180,8 +180,7 @@ static void draw_std_text_cached(raster_cache_t *cache, int xs, int xe)
     unsigned int i;
 
     /* Only draw even rasterlines.  */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled
-        && vdc_resources.double_size_enabled)
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
         return;
 
     p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH
@@ -207,8 +206,7 @@ static void draw_std_text(void)
     unsigned int cpos = 0xffff;
 
     /* Only draw even rasterlines.  */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled
-        && vdc_resources.double_size_enabled)
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
         return;
 
     if (vdc.cursor_visible) {
@@ -298,8 +296,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, int xs, int xe)
     unsigned int i;
 
     /* only draw even rasterlines */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled
-        && vdc_resources.double_size_enabled)
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled)
         return;
 
     p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH
@@ -324,8 +321,7 @@ static void draw_std_bitmap(void)
     unsigned int i;
 
     /* only draw even rasterlines */
-    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled
-        && vdc_resources.double_size_enabled)
+    if ((vdc.raster.ycounter & 1) && !vdc_resources.double_scan_enabled);
         return;
 
     p = vdc.raster.frame_buffer_ptr + VDC_SCREEN_BORDERWIDTH
