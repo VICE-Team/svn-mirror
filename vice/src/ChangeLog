@@ -1,3 +1,18 @@
+2004-01-25  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.14.
+
+	* fliplist.c (flip_load_list): Always continue loop if "UNIT "
+	is found.
+
+	* arch/win32/reside64.rc: Fixed title.
+
+	* arch/win32/uifliplist.c: Use flip list filter.
+
+2004-01-24  Andreas Dehmel  <zarquon@t-online.de>
+
+	* info.c: updated my email-address
+
 2004-01-24  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.13.49.

@@ -40,7 +40,7 @@ void uifliplist_load_dialog(HWND hwnd)
     char *s;
 
     if ((s = ui_select_file(hwnd, "Load flip list file",
-                            UI_LIB_FILTER_ALL,
+                            UI_LIB_FILTER_FLIPLIST,
                             FILE_SELECTOR_DEFAULT_STYLE, NULL)) != NULL) {
          if (flip_load_list((unsigned int)-1, s, 0) != 0)
              ui_error("Cannot read flip list file");
@@ -53,7 +53,7 @@ void uifliplist_save_dialog(HWND hwnd)
     char *s;
 
     if ((s = ui_select_file(hwnd, "Save flip list file",
-                            UI_LIB_FILTER_ALL,
+                            UI_LIB_FILTER_FLIPLIST,
                             FILE_SELECTOR_DEFAULT_STYLE, NULL)) != NULL) {
          if (flip_save_list((unsigned int)-1, s) != 0)
              ui_error("Cannot write flip list file");

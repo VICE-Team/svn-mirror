@@ -366,12 +366,14 @@ int flip_load_list(unsigned int unit, const char *filename, int autoattach)
         buffer[0] = '\0';
         fgets(buffer, buffer_size, fp);
 
-        if (all_units && strncmp("UNIT ", buffer, 5) == 0) {
-            long unit_long;
+        if (strncmp("UNIT ", buffer, 5) == 0) {
+            if (all_units != 0) {
+                long unit_long;
 
-            util_string_to_long(buffer + 5, NULL, 10, &unit_long);
+                util_string_to_long(buffer + 5, NULL, 10, &unit_long);
 
-            unit = (unsigned int)unit_long;
+                unit = (unsigned int)unit_long;
+            }
             continue;
         }
 
