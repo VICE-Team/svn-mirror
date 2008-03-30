@@ -276,7 +276,7 @@ void old_joystick(void)
 		    log_error(joystick_log,
                               "Error reading digital joystick device.");
 		} else {
-		    joystick_value[2 - i] = ((joystick_value[2 - i] & 0xe0)
+		    joystick_value[i] = ((joystick_value[i] & 0xe0)
 				  | ((~(djs.switches >> 3)) & 0x1f));
 		}
 	    }
