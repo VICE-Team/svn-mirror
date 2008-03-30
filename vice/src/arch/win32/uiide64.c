@@ -117,13 +117,13 @@ static void init_ide64_dialog(HWND hwnd)
     uilib_adjust_group_width(hwnd, ide64_leftgroup);
     uilib_move_group(hwnd, ide64_rightgroup, xsize + 30);
 
-    resources_get_value("IDE64Image", (void *)&ide64file);
+    resources_get_string("IDE64Image", &ide64file);
     st_ide64file = system_mbstowcs_alloc(ide64file);
     SetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_FILE,
                    st_ide64file != NULL ? st_ide64file : TEXT(""));
     system_mbstowcs_free(st_ide64file);
 
-    resources_get_value("IDE64AutodetectSize", (void *)&res_value);
+    resources_get_int("IDE64AutodetectSize", &res_value);
     CheckDlgButton(hwnd, IDC_TOGGLE_IDE64_SIZEAUTODETECT, res_value
                    ? BST_CHECKED : BST_UNCHECKED);
 
@@ -132,7 +132,7 @@ static void init_ide64_dialog(HWND hwnd)
         _stprintf(memb, TEXT("%d"), index);
         SendMessage(ide64_hwnd, CB_ADDSTRING, 0, (LPARAM)memb);
     }
-    resources_get_value("IDE64Cylinders", (void *)&res_value);
+    resources_get_int("IDE64Cylinders", &res_value);
     SendMessage(ide64_hwnd, CB_SETCURSEL, (WPARAM)(res_value - 1), 0);
 
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_HEADS);
@@ -140,7 +140,7 @@ static void init_ide64_dialog(HWND hwnd)
         _stprintf(memb, TEXT("%d"), index);
         SendMessage(ide64_hwnd, CB_ADDSTRING, 0, (LPARAM)memb);
     }
-    resources_get_value("IDE64Heads", (void *)&res_value);
+    resources_get_int("IDE64Heads", &res_value);
     SendMessage(ide64_hwnd, CB_SETCURSEL, (WPARAM)(res_value - 1), 0);
 
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_SECTORS);
@@ -148,7 +148,7 @@ static void init_ide64_dialog(HWND hwnd)
         _stprintf(memb, TEXT("%d"), index);
         SendMessage(ide64_hwnd, CB_ADDSTRING, 0, (LPARAM)memb);
     }
-    resources_get_value("IDE64Sectors", (void *)&res_value);
+    resources_get_int("IDE64Sectors", &res_value);
     SendMessage(ide64_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     update_text(hwnd);
@@ -164,24 +164,22 @@ static void end_ide64_dialog(HWND hwnd)
 
     GetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
-    resources_set_value("IDE64Image", (resource_value_t)s);
+    resources_set_string("IDE64Image", s);
 
-    resources_set_value("IDE64AutodetectSize",
-                        (resource_value_t)(IsDlgButtonChecked
-                        (hwnd, IDC_TOGGLE_IDE64_SIZEAUTODETECT)
-                        == BST_CHECKED ? 1 : 0));
+    resources_set_int("IDE64AutodetectSize", (IsDlgButtonChecked(hwnd,
+                      IDC_TOGGLE_IDE64_SIZEAUTODETECT) == BST_CHECKED ? 1 : 0));
 
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_CYLINDERS);
     res_value = SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
-    resources_set_value("IDE64Cylinders", (resource_value_t)(res_value + 1));
+    resources_set_int("IDE64Cylinders", res_value + 1);
 
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_HEADS);
     res_value = SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
-    resources_set_value("IDE64Heads", (resource_value_t)(res_value + 1));
+    resources_set_int("IDE64Heads", res_value + 1);
 
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_SECTORS);
     res_value = SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
-    resources_set_value("IDE64Sectors", (resource_value_t)res_value);
+    resources_set_int("IDE64Sectors", res_value);
 }
 
 static BOOL CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam,
