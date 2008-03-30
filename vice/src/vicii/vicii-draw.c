@@ -43,7 +43,8 @@
 #include "viciitypes.h"
 
 
-#define GFX_MSK_LEFTBORDER_SIZE ((vicii.screen_borderwidth - VICII_RASTER_X(0)) / 8 + 1)
+#define GFX_MSK_LEFTBORDER_SIZE ((VICII_MAX_SPRITE_WIDTH - VICII_RASTER_X(0) \
+                                  + vicii.screen_borderwidth ) / 8 + 1)
 
 /* The following tables are used to speed up the drawing.  We do not use
    multi-dimensional arrays as we can optimize better this way...  */

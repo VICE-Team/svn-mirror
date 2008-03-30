@@ -79,7 +79,7 @@
 #define VICII_38COL_STOP_PIXEL  0x157
 
 #define VICII_NUM_SPRITES      8
-#define VICII_MAX_SPRITE_WIDTH 48
+#define VICII_MAX_SPRITE_WIDTH 56  /* expanded sprite in bug area */
 #define VICII_NUM_COLORS       16
 
 #define VICII_PAL_SPRITE_WRAP_X     504
