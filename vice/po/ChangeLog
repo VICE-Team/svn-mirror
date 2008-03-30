@@ -1,3 +1,7 @@
+2006-07-07  Marco van den Heuvel  <blackystardust68@yahoo.com>
+
+	* nl.po: Updated.
+
 2006-07-05  Andreas Boose  <viceteam@t-online.de>
 
 	* POTFILES.in: Added `arch/unix/gui/uimouse.c'.
