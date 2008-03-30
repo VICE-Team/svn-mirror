@@ -29,6 +29,22 @@
 
 #include "types.h"
 
+#define IECBUS_NUM 16
+
+typedef struct iecbus_s {
+    BYTE drv_bus[IECBUS_NUM];
+    BYTE drv_data[IECBUS_NUM];
+    BYTE drv_port;
+    BYTE cpu_bus;
+    BYTE cpu_port;
+    BYTE iec_fast_1541;
+} iecbus_t;
+
+extern iecbus_t iecbus;
+
+extern iecbus_t *iecbus_drive_port(void);
+
+extern void iecbus_init(void);
 extern void iecbus_calculate_callback_index(void);
 
 extern void (*iecbus_callback_write)(BYTE, CLOCK);
