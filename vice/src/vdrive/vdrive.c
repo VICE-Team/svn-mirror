@@ -37,6 +37,7 @@
 
 /* #define DEBUG_DRIVE */
 
+#include <stdlib.h>
 #include <string.h>
 
 #ifdef __riscos

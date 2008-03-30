@@ -30,7 +30,6 @@
 
 #ifdef STDC_HEADERS
 #include <stdio.h>
-#include <assert.h>
 #endif
 
 #include "mos6510.h"
@@ -108,9 +107,9 @@ enum t_radixtype {
 typedef enum t_radixtype RADIXTYPE;
 
 enum t_action {
-   e_ON,
-   e_OFF,
-   e_TOGGLE
+   e_OFF = 0,
+   e_ON = 1,
+   e_TOGGLE = 2
 };
 typedef enum t_action ACTION;
 
