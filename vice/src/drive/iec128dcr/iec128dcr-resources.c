@@ -1,5 +1,5 @@
 /*
- * iecrom.h
+ * iec128dcr-resources.c
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,24 +24,41 @@
  *
  */
 
-#ifndef _IECROM_H
-#define _IECROM_H
+#include "vice.h"
 
-#include "types.h"
+#include <stdio.h>
 
-struct drive_s;
+#include "iec128dcr-resources.h"
+#include "iec128dcrrom.h"
+#include "lib.h"
+#include "resources.h"
+#include "util.h"
 
-extern void iecrom_init(void);
-extern void iecrom_setup_image(struct drive_s *drive);
-extern int iecrom_read(unsigned int type, WORD addr, BYTE *data);
-extern int iecrom_check_loaded(unsigned int type);
-extern void iecrom_do_checksum(struct drive_s *drive);
 
-extern int iecrom_load_1541(void);
-extern int iecrom_load_1541ii(void);
-extern int iecrom_load_1570(void);
-extern int iecrom_load_1571(void);
-extern int iecrom_load_1581(void);
+static char *dos_rom_name_1571cr = NULL;
 
-#endif
+
+static int set_dos_rom_name_1571cr(resource_value_t v, void *param)
+{
+    if (util_string_set(&dos_rom_name_1571cr, (const char *)v))
+        return 0;
+
+    return iec128dcrrom_load_1571cr();
+}
+
+static const resource_t resources[] = {
+    { "DosName1571cr", RES_STRING, (resource_value_t)"d1571cr",
+      (void *)&dos_rom_name_1571cr, set_dos_rom_name_1571cr, NULL },
+    { NULL }
+};
+
+int iec128dcr_resources_init(void)
+{
+    return resources_register(resources);
+}
+
+void iec128dcr_resources_shutdown(void)
+{
+    lib_free(dos_rom_name_1571cr);
+}
 

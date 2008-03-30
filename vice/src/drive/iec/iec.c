@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#include <stdlib.h>
+#include <stdio.h>
 
 #include "cia.h"
 #include "ciad.h"
@@ -134,7 +134,6 @@ void iec_drive_rom_load(void)
     iecrom_load_1541ii();
     iecrom_load_1570();
     iecrom_load_1571();
-    iecrom_load_1571cr();
     iecrom_load_1581();
 }
 
