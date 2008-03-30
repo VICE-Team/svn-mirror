@@ -154,17 +154,8 @@ struct raster_s {
         int have_on_this_line;
     } changes;
 
-    /* FIXME: This has go into struct draw_buffer_t.  */
-    /* All video chips draw into this buffer.  */
-    BYTE *draw_buffer;
-
     /* Pointer to the draw buffer.  */
     BYTE *draw_buffer_ptr;
-
-    /* Size of a draw buffer line.  */
-    unsigned int draw_buffer_width;
-    unsigned int draw_buffer_height;
-    unsigned int draw_buffer_pitch;
 
     /* This is a temporary draw buffer line used for sprite collision
        checking without drawing to the real frame buffer.  */
@@ -302,6 +293,7 @@ extern void raster_invalidate_cache(raster_t *raster,
                                     unsigned int screen_height);
 extern void raster_resize_viewport(raster_t *raster,
                                    unsigned int width, unsigned int height);
+extern void raster_draw_buffer_ptr_update(raster_t *raster);
 extern int raster_realize_frame_buffer(raster_t *raster);
 extern void raster_force_repaint(raster_t *raster);
 extern int raster_set_palette(raster_t *raster, struct palette_s *palette);
