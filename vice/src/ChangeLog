@@ -1,3 +1,37 @@
+2001-12-22  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.7.45.
+
+	* vicii/vicii-draw.c, plus4/ted-draw.c (_draw_mc_text): Fixed
+	casting if `ALLOW_UNALIGNED_ACCESS' is not defined.
+
+	* crtc/crtc-draw.c (setup_double_size_modes): Fixed definition
+	of `VIDEO_REMOVE_2X'.
+
+	* arch/win32/ui.c (window_proc): Added drag & drop support
+	provided by `webulator'.
+
+	* info.c: Updated.
+
+	* video/video-resources.c (video_resources_init): Initialize
+	variable `result'.
+
+	* palette.c (palette_load_core): Use `%ld' for `unsigned long
+	int' format.
+
+2001-12-21  Dag Lem  <resid@nimrod.no>
+
+	* arch/unix/xaw/uimenu.c (menu_popup_callback): Removed call
+	to vsync_suspend_speed_eval
+
+2001-12-21  Andreas Matthies  <andreas.matthies@gmx.net>
+
+	* arch/win32/video.c (canvas_update): Changed test of
+	cut_*line again.
+
+	* vicii/vicii.c (vic_ii_set_geometry): Use fixed width instead
+	of scaled when calling raster_set_geometry.
+
 2001-12-20  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.7.44.

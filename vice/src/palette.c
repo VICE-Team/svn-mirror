@@ -155,7 +155,7 @@ static int palette_load_core(FILE *f, const char *file_name,
                 || (i == 3 && result > 0xf)
                 || result > 0xff
                 || result < 0) {
-                log_error(palette_log, "%s, %d: invalid value %xh.",
+                log_error(palette_log, "%s, %d: invalid value %lx.",
                           file_name, line_num, result);
                 return -1;
             }
