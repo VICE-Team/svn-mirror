@@ -1088,10 +1088,13 @@ inline static BYTE read_d01112(WORD addr)
 }
 
 
-/* Helper function for reading from $D019.  */
 inline static BYTE read_d019(void)
 {
-    if (VIC_II_RASTER_Y(maincpu_clk) == vic_ii.raster_irq_line) {
+    /* Manually set raster IRQ flag if the opcode reading $d019 has crossed
+       the line end and the raster IRQ alarm has not been executed yet. */
+    if (VIC_II_RASTER_Y(maincpu_clk) == vic_ii.raster_irq_line
+        && vic_ii.raster_irq_clk != CLOCK_MAX
+        && maincpu_clk >= vic_ii.raster_irq_clk) {
         if (vic_ii.regs[0x1a] & 0x1)
             vic_ii.last_read = vic_ii.irq_status | 0xf1;
         else
