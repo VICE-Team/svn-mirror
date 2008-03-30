@@ -1,10 +1,79 @@
+Mon May 11 22:14:36 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* Version 0.14.2.21.
+
+Mon May 11 21:47:38 1998  Martin Pottendorfer  <Martin.Pottendorfer@aut.alcatel.at>
+
+	* configure.in: Create the `arch/unix/xaw' directory.
+
+Mon May 11 10:28:27 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* true1541.c (true1541_enable, true1541_disable): Set
+	`true1541_enabled' even when ROMs have not loaded yet.
+
+	* c64/vicii.c: New command-line option `-palette', new resource
+ 	`PaletteFile'.
+
+	* arch/unix/xaw/ui.h: Removed `UiColorDef' typedef.
+
+	* raster.c (open_output_window): Changed to use `palette_t'
+	instead of `color_def_t'.
+	* arch/unix/video.c (canvas_create):  Likewise.
+	* arch/unix/xaw/ui.c (UiDoAllocColors, UiAllocColors): Likewise.
+	(UiOpenCanvasWindow): Likewise.
+
+	* palette.c, include/palette.h: New files.
+
+	* resources.c (get_line): Removed.
+	* utils.c (get_line): Moved here.
+	(string_to_long): Handle sign and non-decimal bases correctly.
+
+	* sysfile.c (sysfile_locate): New function.
+
+	* configure.in: Changed `test "$foo" = "bar"' into `test x"$foo" =
+	"xbar"'.
+
+Mon May 11 03:38:24 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
+
+	* doc/mon.txt: Updated the documentation. About 75% of the
+	commands are now listed.
+
+	* asm.c: #if'ed out 90% of the file which is no longer used.
+
+	* mon.c, include/mon.h: Moved command names from lexer into
+	an array in mon.c. Added support for recording/playback of
+	commands. Added check_drive_emu_level() which determines if
+	a monitor command makes sense given the current drive emulation
+	level. Bunch of other small fixes/improvements.
+
+	* mon_cli.l: All command names moved to an array in mon.c. The
+	lexer looks into the array to determine what token to return.
+	Correctness improvements, particularly for characters a,c and d.
+        Added recording and playback commands.
+
+	* mon_cli.y: Made the rules a bit more hierarchical. Added recording
+        and playback commands. Added () support for conditional expressions.
+
+Sun May 10 22:04:58 1998  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* arch/msdos/ui.c (attach_disk_callback): Use
+	`file_system_attach_disk' instead of `serial_select_file'.
+
+	* arch/unix/xaw/ui.c (UiSmartAttach): Use
+ 	`file_system_attach_disk' instead of `serial_select_file'.
+
+Sun May 10 19:04:46 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+
+	* main.c (main): Call `file_system_attach_disk' to attach disk
+	images.
+
 Sun May 10 19:28:46 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 	* Version 0.14.2.20.
 
 	* main.c (main): Fixed `printf' -> `fprintf' typo.
 
-Sun 10 May 16:34:21 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
+Sun May 10 16:34:21 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
 
 	* Makefile.in: Added `fsdevice.c' and `fsdevice.h'. Removed
 	special handling of drive.c.
@@ -16,7 +85,7 @@ Sun 10 May 16:34:21 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
 	* arch/unix/ui_xaw.c: New UI callbacks `UiToggleActionReplay'
 	and `UiToggleFSDeviceConvertP00'.
 
-	* c1541.c, include/c1541.h: (attach_serial_device): Added dummy
+	* c1541.c, include/c1541.h (attach_serial_device): Added dummy
 	function.
 	(attach_fsdevice): New function.
 
@@ -300,7 +369,7 @@ Sun May	3 16:50:50 1998  Andreas Boose  <boose@unixserv.rz.fh-hannover.de>
 
 	* drive.c (detach_floppy_image): Detach before closing the image.
 
-	* true1541.c: (read_image_gcr): Updated error messages.
+	* true1541.c (read_image_gcr): Updated error messages.
 	(write_track_gcr): Updated error messages and fixed a typo in the
 	speed zone calculation.
 
@@ -333,13 +402,13 @@ Sat May  2 18:31:50 1998  Andreas Boose	 <boose@unixserv.rz.fh-hannover.de>
 	* attach.c, include/attach.h: New file for file system attach
 	management.
 
-	* c1541.c: (main): Added `NULL' parameter to `initialize_1541'.
+	* c1541.c (main): Added `NULL' parameter to `initialize_1541'.
 
 	* c64/c64.c, pet/pet.c, vic20/vic20.c (machine_init): Changed to
 	call `initialize_drives' instead of initialising the drives
 	separately.
 
-	* drive.c: (initialize_1541): Do not allocate a new drive
+	* drive.c (initialize_1541): Do not allocate a new drive
  	structure if an old drive structure is present.  Always clear this
  	structure.
 
@@ -847,9 +916,8 @@ Wed Apr 22 11:19:28 1998  Ettore Perazzoli  <ettore@comm2000.it>
 
 Wed Apr 22 10:11:05 1998 Andre Fachat  <a.fachat@physik.tu-chemnitz.de>
 
-	* arch/unix/kbdef.h: (shift_type) changed SHIFT defines to enum
-	again.
-	outcommented default and both PET keyconvmaps.
+	* arch/unix/kbdef.h (shift_type): Changed SHIFT defines to enum
+ 	again.  Outcommented default and both PET keyconvmaps.
 	* arch/unix/kbd.c (numpad_status, joy1pad_status, joy2pad_status):
  	`joy*pad_status' replace `numpad_status'.
 	(joypad_bits): Array to hold the bits used in `joy[]' depending on
@@ -1094,16 +1162,16 @@ Mon Apr 20 01:11:38 1998  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 Sun Apr 19 21:52:46 1998  Teemu Rantanen  <tvr@cs.hut.fi>
 
-	* include/resources.h: New resource 'soundOversample'.
+	* include/resources.h: New resource `soundOversample'.
 
-	* arch/unix/menu.h: New menuitem 'ChangeSoundOversampleSubmenu'.
+	* arch/unix/menu.h: New menuitem `ChangeSoundOversampleSubmenu'.
 
-	* arch/unix/ui_xaw.c: New UI callback 'UiSetSoundOversample' to set
+	* arch/unix/ui_xaw.c: New UI callback `UiSetSoundOversample' to set
 	sound oversample values.
 
 	* sid.c (sound_t): new items for sound oversample calculations
- 	'oversampleval', 'oversamplecnt', 'oversamplenr' and
- 	'oversampleshift'.
+ 	`oversampleval', `oversamplecnt', `oversamplenr' and
+ 	`oversampleshift'.
 
 	* sid.c (update_sid): Oversample calculation.
 
@@ -1144,7 +1212,7 @@ Sun Apr 19 15:22:55 1998  Daniel Sladic  <sladic@eecg.toronto.edu>
 
 	* mon.c, include/mon.h: Watchpoint support.  Stepping support.
   	Better handling of 1541 registers.  Allow assembly after address
- 	for 'a' command.  Bit better datatype handling.  Other minor
+ 	for `a' command.  Bit better datatype handling.  Other minor
  	fixes.
 
 	* main.c (main): Move monitor init before possible mon() call.
@@ -1255,10 +1323,9 @@ Sun Apr 19 01:50:50 1998  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
 
 	* arch/unix/kbdef.h: Removed `shift_type' enum definition, is now
  	only int to be able to use "atoi" when parsing a mapping file.
-  	Changed enum entries to cpp defines.
-	Renamed `keyconvmap' to `default_keyconvmap'.  Made keyconvmap a
- 	pointer for all models.
-	Removed `CONV_KEYS'.
+  	Changed enum entries to cpp defines.  Renamed `keyconvmap' to
+ 	`default_keyconvmap'.  Made keyconvmap a pointer for all models.
+  	Removed `CONV_KEYS'.
 
 	* arch/unix/menu.h: New submenu `KeyboardSubmenu' for keyboard
  	handling.  The vice keymap filenames are defined here as

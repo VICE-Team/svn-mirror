@@ -121,15 +121,15 @@ VICESRC = $(SRCDIR)/1541cpu.c $(SRCDIR)/6510core.c $(SRCDIR)/asm.c \
 	$(SRCDIR)/main.c $(SRCDIR)/maincpu.c $(SRCDIR)/memcmp.c \
 	$(SRCDIR)/memutils.c $(SRCDIR)/misc.c $(SRCDIR)/mon.c \
 	$(SRCDIR)/mon_cli.l $(SRCDIR)/mon_cli.y $(SRCDIR)/mon_lex.c \
-	$(SRCDIR)/mon_parse.c $(SRCDIR)/mshell.c $(SRCDIR)/parallel.c \
-	$(SRCDIR)/patchrom.c $(SRCDIR)/petcat.c $(SRCDIR)/raster.c \
-	$(SRCDIR)/resources.c $(SRCDIR)/reu.c $(SRCDIR)/serial.c \
-	$(SRCDIR)/sid.c $(SRCDIR)/sysfile.c $(SRCDIR)/tape.c \
-	$(SRCDIR)/tapeunit.c $(SRCDIR)/tpi.c $(SRCDIR)/traps.c \
-	$(SRCDIR)/true1541.c $(SRCDIR)/usleep.c $(SRCDIR)/utils.c \
-	$(SRCDIR)/via-tmpl.c $(SRCDIR)/viad1.c $(SRCDIR)/viad2.c \
-	$(SRCDIR)/viad1.def $(SRCDIR)/viad2.def $(SRCDIR)/warn.c \
-	$(SRCDIR)/zfile.c $(SRCDIR)/zipcode.c
+	$(SRCDIR)/mon_parse.c $(SRCDIR)/mshell.c $(SRCDIR)/palette.c \
+	$(SRCDIR)/parallel.c $(SRCDIR)/patchrom.c $(SRCDIR)/petcat.c \
+	$(SRCDIR)/raster.c $(SRCDIR)/resources.c $(SRCDIR)/reu.c \
+	$(SRCDIR)/serial.c $(SRCDIR)/sid.c $(SRCDIR)/sysfile.c \
+	$(SRCDIR)/tape.c $(SRCDIR)/tapeunit.c $(SRCDIR)/tpi.c \
+	$(SRCDIR)/traps.c $(SRCDIR)/true1541.c $(SRCDIR)/usleep.c \
+	$(SRCDIR)/utils.c $(SRCDIR)/via-tmpl.c $(SRCDIR)/viad1.c \
+	$(SRCDIR)/viad2.c $(SRCDIR)/viad1.def $(SRCDIR)/viad2.def \
+	$(SRCDIR)/warn.c $(SRCDIR)/zfile.c $(SRCDIR)/zipcode.c
 
 VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h \
 	$(INCLUDEDIR)/asm.h $(INCLUDEDIR)/attach.h $(INCLUDEDIR)/autostart.h \
@@ -142,16 +142,16 @@ VICEHDR = $(INCLUDEDIR)/1541cpu.h $(INCLUDEDIR)/6510core.h \
 	$(INCLUDEDIR)/maincpu.h $(INCLUDEDIR)/mem.h $(INCLUDEDIR)/memutils.h \
 	$(INCLUDEDIR)/misc.h $(INCLUDEDIR)/mon.h $(INCLUDEDIR)/mon_parse.h \
 	$(INCLUDEDIR)/mos6510.h $(INCLUDEDIR)/mshell.h $(INCLUDEDIR)/op.h \
-	$(INCLUDEDIR)/parallel.h $(INCLUDEDIR)/patchlevel.h \
-	$(INCLUDEDIR)/patchrom.h $(INCLUDEDIR)/pia.h $(INCLUDEDIR)/printer.h \
-	$(INCLUDEDIR)/raster.h $(INCLUDEDIR)/resources.h $(INCLUDEDIR)/reu.h \
-	$(INCLUDEDIR)/serial.h $(INCLUDEDIR)/sid.h $(INCLUDEDIR)/sprites.h \
-	$(INCLUDEDIR)/sprcycles.h $(INCLUDEDIR)/sprcrunch.h \
-	$(INCLUDEDIR)/sysfile.h $(INCLUDEDIR)/tape.h $(INCLUDEDIR)/tapeunit.h \
-	$(INCLUDEDIR)/traps.h $(INCLUDEDIR)/tpi.h $(INCLUDEDIR)/true1541.h \
-	$(INCLUDEDIR)/types.h $(INCLUDEDIR)/utils.h $(INCLUDEDIR)/via.h \
-	$(INCLUDEDIR)/viad.h $(INCLUDEDIR)/vice.h \
-	$(INCLUDEDIR)/vmachine.h $(INCLUDEDIR)/warn.h \
+	$(INCLUDEDIR)/palette.h	$(INCLUDEDIR)/parallel.h \
+	$(INCLUDEDIR)/patchlevel.h $(INCLUDEDIR)/patchrom.h \
+	$(INCLUDEDIR)/pia.h $(INCLUDEDIR)/printer.h $(INCLUDEDIR)/raster.h \
+	$(INCLUDEDIR)/resources.h $(INCLUDEDIR)/reu.h $(INCLUDEDIR)/serial.h \
+	$(INCLUDEDIR)/sid.h $(INCLUDEDIR)/sprites.h $(INCLUDEDIR)/sprcycles.h \
+	$(INCLUDEDIR)/sprcrunch.h $(INCLUDEDIR)/sysfile.h \
+	$(INCLUDEDIR)/tape.h $(INCLUDEDIR)/tapeunit.h $(INCLUDEDIR)/traps.h \
+	$(INCLUDEDIR)/tpi.h $(INCLUDEDIR)/true1541.h $(INCLUDEDIR)/types.h \
+	$(INCLUDEDIR)/utils.h $(INCLUDEDIR)/via.h $(INCLUDEDIR)/viad.h \
+	$(INCLUDEDIR)/vice.h $(INCLUDEDIR)/vmachine.h $(INCLUDEDIR)/warn.h \
 	$(INCLUDEDIR)/wave6581.h $(INCLUDEDIR)/wave8580.h \
 	$(INCLUDEDIR)/zfile.h $(INCLUDEDIR)/zipcode.h \
 	$(INCLUDEDIR)/acconfig.h $(INCLUDEDIR)/autoconf.h.in
@@ -270,10 +270,12 @@ VIC20ROMDIR = $(TOPDIR)/bin/VIC20
 PETROMDIR = $(TOPDIR)/bin/PET
 
 C64ROMS = $(C64ROMDIR)/basic $(C64ROMDIR)/kernal $(C64ROMDIR)/dos1541 \
-	$(C64ROMDIR)/chargen $(C64ROMDIR)/vice.vkm
+	$(C64ROMDIR)/chargen $(C64ROMDIR)/vice.vkm $(C64ROMDIR)/default.vpl \
+	$(C64ROMDIR)/ccs64.vpl $(C64ROMDIR)/frodo.vpl
 
 VIC20ROMS = $(VIC20ROMDIR)/basic $(VIC20ROMDIR)/kernal $(VIC20ROMDIR)/dos1541 \
-	$(VIC20ROMDIR)/chargen $(VIC20ROMDIR)/vice.vkm
+	$(VIC20ROMDIR)/chargen $(VIC20ROMDIR)/vice.vkm \
+	$(VIC20ROMDIR)/default.vpl
 
 PETROMS = $(PETROMDIR)/pet2001 $(PETROMDIR)/pet3032 $(PETROMDIR)/pet4032 \
 	$(PETROMDIR)/edit2.b $(PETROMDIR)/edit4.b40 $(PETROMDIR)/edit4.b80 \
@@ -296,8 +298,8 @@ JOY_OBJS = @JOY_OBJS@
 COMMON_OBJS = charsets.o cmdline.o info.o mshell.o main.o tape.o tapeunit.o \
 	warn.o utils.o gcr.o zfile.o misc.o mon_parse.o mon_lex.o memutils.o \
 	drive.o asm.o kbdbuf.o findpath.o maincpu.o zipcode.o serial.o \
-	parallel.o traps.o mon.o sysfile.o resources.o autostart.o attach.o \
-	fsdevice.o @SYSPEC_OBJS@ @LIBOBJS@
+	parallel.o traps.o mon.o palette.o sysfile.o resources.o autostart.o \
+	attach.o fsdevice.o @SYSPEC_OBJS@ @LIBOBJS@
 
 COMMON_LIBS = @COMMON_LIBS@
 
