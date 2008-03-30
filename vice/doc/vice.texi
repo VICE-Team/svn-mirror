@@ -7316,7 +7316,7 @@ hardware-level 1541 emulation and wrote the new monitor
 introduced with VICE 0.15.
 
 @item
-@b{Andreas Boose} (@email{boose@@linux.rz.fh-hannover.de}) gave lots of
+@b{Andreas Boose} (@email{viceteam@@t-online.de}) gave lots of
 information and bug reports about the VIC-II, the 6510 and the
 CIAs; moreover, he wrote several test-routines that were used
 to improve the emulation.  He also added cartridge support and
@@ -7585,6 +7585,8 @@ joystick autofire feature.
 @b{webulator} (@email{webulator@@mailandnews.com}) provided win32 drag &
 drop support
 
+@item
+@b{ck!} (@email{pixelite@@lycos.de}) provided a win32 cbm character font.
 @end itemize
 
 @itemize @bullet
@@ -7721,7 +7723,7 @@ VICE Mailing List (@email{vice-devel@@firenze.linux.it}) for all
 general questions, bug reports, suggestions.
 
 @item
-Andreas Boose (@email{boose@@linux.rz.fh-hannover.de}) for disk drive,
+Andreas Boose (@email{viceteam@@t-online.de}) for disk drive,
 tape, cartridge and Z80 emulation;
 
 @item

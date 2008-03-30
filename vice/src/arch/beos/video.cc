@@ -193,8 +193,11 @@ void video_canvas_destroy(video_canvas_t *c)
 	if (c == NULL)
 		return;
 
-	delete c->vicewindow->bitmap;
-	delete c->vicewindow;
+	if (c->vicewindow != NULL)
+	{
+		delete c->vicewindow->bitmap;
+		delete c->vicewindow;
+	}
 	free(c->title);
 	free(c);
 }
@@ -204,6 +207,9 @@ void video_canvas_destroy(video_canvas_t *c)
 void video_canvas_resize(video_canvas_t *c, unsigned int width,
                          unsigned int height)
 {
+	if (c->vicewindow == NULL)
+		return;
+		
     if (c->videoconfig->doublesizex)
         width *= 2;
 

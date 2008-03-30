@@ -74,6 +74,7 @@ extern void cartridge_freeze(int type);
 #define CARTRIDGE_WARPSPEED          16
 #define CARTRIDGE_DINAMIC            17
 #define CARTRIDGE_ZAXXON             18
+#define CARTRIDGE_MAGIC_DESK         19
 
 /* Expert cartridge has three modes: */
 #define CARTRIDGE_MODE_OFF                      0

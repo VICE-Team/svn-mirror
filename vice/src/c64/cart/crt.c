@@ -121,6 +121,7 @@ int crt_attach(const char *filename, BYTE *rawcart)
       case CARTRIDGE_OCEAN:
       case CARTRIDGE_GS:
       case CARTRIDGE_DINAMIC:
+      case CARTRIDGE_MAGIC_DESK:
         while (1) {
             if (fread(chipheader, 0x10, 1, fd) < 1) {
                 fclose(fd);

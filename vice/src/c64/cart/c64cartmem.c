@@ -200,6 +200,15 @@ void REGPARM2 cartridge_store_io1(ADDRESS addr, BYTE value)
       case CARTRIDGE_EXPERT:
         expert_io1_store(addr, value);
         break;
+      case CARTRIDGE_MAGIC_DESK:
+        roml_bank = value & 0x3f;
+        export.game = 0;
+        if (value & 0x80)
+            export.exrom = 0;
+        else
+            export.exrom = 1;  /* turn off cart ROM */
+        mem_pla_config_changed();
+        break;
     }
     return;
 }
@@ -511,6 +520,10 @@ void cartridge_init_config(void)
       case CARTRIDGE_EXPERT:
         expert_config_init();
         break;
+      case CARTRIDGE_MAGIC_DESK:
+        cartridge_config_changed(0, 0, CMODE_READ);
+        cartridge_store_io1((ADDRESS)0xde00, 0);
+        break;
       default:
         cartridge_config_changed(2, 2, CMODE_READ);
     }
@@ -582,6 +595,10 @@ void cartridge_attach(int type, BYTE *rawcart)
         break;
       case CARTRIDGE_ZAXXON:
         zaxxon_config_setup(rawcart);
+        break;
+      case CARTRIDGE_MAGIC_DESK:
+        memcpy(roml_banks, rawcart, 0x2000 * 64);
+        cartridge_config_changed(0, 0, CMODE_READ);
         break;
       default:
         mem_cartridge_type = CARTRIDGE_NONE;

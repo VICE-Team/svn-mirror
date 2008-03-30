@@ -886,8 +886,8 @@ void canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
     safey2 = (c->viewport->last_line - c->viewport->y_offset) * pixel_height;
 
     if (c->draw_buffer->draw_buffer) {
-        cut_rightline = safex + c->geometry->screen_size.width * pixel_width;
-        cut_bottomline = safey + c->geometry->screen_size.height * pixel_height;
+        cut_rightline = safex + c->draw_buffer->canvas_width * pixel_width;
+        cut_bottomline = safey + c->draw_buffer->canvas_height * pixel_height;
         if (cut_rightline > c->draw_buffer->draw_buffer_width * pixel_width) {
             cut_rightline = c->draw_buffer->draw_buffer_width * pixel_width;
         }
