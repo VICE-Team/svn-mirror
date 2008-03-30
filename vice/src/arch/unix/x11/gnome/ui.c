@@ -94,13 +94,13 @@
 
 /* FIXME: We want these to be static.  */
 GdkVisual *visual;
-int have_truecolor;
+static int have_truecolor;
 char last_attached_images[NUM_DRIVES][256]; /* FIXME MP */
 char *last_attached_tape;
 
 static Display *display;
 int screen;
-int depth = X_DISPLAY_DEPTH;
+static int depth = X_DISPLAY_DEPTH;
 
 /* UI logging goes here.  */
 static log_t ui_log = LOG_ERR;

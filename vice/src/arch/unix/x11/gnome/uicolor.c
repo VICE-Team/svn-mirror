@@ -46,24 +46,16 @@
 #include "utils.h"
 #include "video.h"
 
-#ifndef USE_COLOR_MANAGEMENT
-static int n_allocated_pixels = 0;
-static unsigned long allocated_pixels[0x100];
-#endif
-
 extern int screen;
-extern int depth;
-extern int have_truecolor;
 extern GdkColormap *colormap;
 extern GdkColor *drive_led_on_red_pixel, *drive_led_on_green_pixel,
     *drive_led_off_pixel, *motor_running_pixel, *tape_control_pixel;
 
-#ifdef USE_COLOR_MANAGEMENT
 #define NUM_ENTRIES 5
 
 static int uicolor_alloc_system_colors(void)
 {
-    palette_t *p = (palette_t*)xmalloc(sizeof(palette_t));
+    palette_t *p = (palette_t *)xmalloc(sizeof(palette_t));
     PIXEL pixel_return[NUM_ENTRIES];
     unsigned long color_return[NUM_ENTRIES];
 
@@ -104,137 +96,14 @@ static int uicolor_alloc_system_colors(void)
 
     return 0;
 }
-#endif
 
-/* Allocate colors in the colormap. */
-static int do_alloc_colors(const palette_t *palette, PIXEL pixel_return[],
-                           int releasefl)
-{
-#ifndef USE_COLOR_MANAGEMENT
-    int i, failed;
-    GdkColor color;
-    XImage *im;
-    PIXEL *data = (PIXEL *)xmalloc(4);
+/*-----------------------------------------------------------------------*/
 
-
-    /* This is a kludge to map pixels to zimage values. Is there a better
-       way to do this? //tvr */
-      /*    im = gdk_image_new(GDK_IMAGE_NORMAL,visual,1,8);*/
-    im = XCreateImage(display,GDK_VISUAL_XVISUAL(visual),depth,
-                      ZPixmap, 0, (char *)data, 1, 1, 8, 0);
-    if (!im)
-        return -1;
-
-    n_allocated_pixels = 0;
-
-    for (i = 0, failed = 0; i < palette->num_entries; i++) {
-        color.red = palette->entries[i].red << 8;
-        color.green = palette->entries[i].green << 8;
-        color.blue = palette->entries[i].blue << 8;
-        if (!gdk_color_alloc(colormap, &color)) {
-            failed = 1;
-            log_warning(LOG_DEFAULT, _("Cannot allocate color \"#%04X%04X%04X\"."),
-                        color.red, color.green, color.blue);
-        } else {
-            allocated_pixels[n_allocated_pixels++] = color.pixel;
-        }
-        XPutPixel(im, 0, 0, color.pixel);
-#if X_DISPLAY_DEPTH == 0
-        video_convert_color_table(i, pixel_return, data, im, palette,
-                                  (long)color.pixel, depth);
-#else
-        pixel_return[i] = *data;
-#endif
-    }
-
-    if (releasefl && failed && n_allocated_pixels) {
-        gdk_colors_free(colormap, allocated_pixels, n_allocated_pixels, 0);
-        n_allocated_pixels = 0;
-    }
-
-    XDestroyImage(im);
-
-    if (!failed) {
-        GdkColor* exact;
-        exact = (GdkColor*) xmalloc(sizeof(GdkColor));
-        exact->red = 0;
-        exact->green = 0;
-        exact->blue = 0;
-        if (!gdk_color_alloc(colormap,exact))
-            return 1;
-        else {
-            drive_led_off_pixel = exact;
-            allocated_pixels[n_allocated_pixels++] = exact->pixel;
-        }
-
-        exact = (GdkColor*) xmalloc(sizeof(GdkColor));
-        exact->red = 0xffff;
-        exact->green = 0;
-        exact->blue = 0;
-        if (!gdk_color_alloc(colormap,exact))
-            return 1;
-        else {
-            drive_led_on_red_pixel = exact;
-            allocated_pixels[n_allocated_pixels++] = exact->pixel;
-        }
-
-        exact = (GdkColor*) xmalloc(sizeof(GdkColor));
-        exact->red = 0;
-        exact->green = 0xffff;
-        exact->blue = 0;
-        if (!gdk_color_alloc(colormap,exact))
-            return 1;
-        else {
-            drive_led_on_green_pixel = exact;
-            allocated_pixels[n_allocated_pixels++] = exact->pixel;
-        }
-
-        exact = (GdkColor*) xmalloc(sizeof(GdkColor));
-        exact->red = 0xffff;
-        exact->green = 0xffff;
-        exact->blue = 0x7fff;
-        if (!gdk_color_alloc(colormap,exact))
-            return 1;
-        else {
-            motor_running_pixel = exact;
-            allocated_pixels[n_allocated_pixels++] = exact->pixel;
-        }
-
-        exact = (GdkColor*) xmalloc(sizeof(GdkColor));
-        exact->red = 0xafff;
-        exact->green = 0xafff;
-        exact->blue = 0xafff;
-        if (!gdk_color_alloc(colormap,exact))
-            return 1;
-        else {
-            tape_control_pixel = exact;
-            allocated_pixels[n_allocated_pixels++] = exact->pixel;
-        }
-    }
-    return failed;
-#else
-    return 0;
-#endif
-}
-
-/* In here we try to allocate the given colors. This function is called from
- * 'ui_open_canvas_window()'.  The calling function sets the colormap
- * resource of the toplevel window.  If there is not enough place in the
- * colormap for all color entries, we allocate a new one.  If we someday open
- * two canvas windows, and the colormap fills up during the second one, we
- * might run into trouble, although I am not sure.  (setting the Toplevel
- * colormap will not change the colormap of already opened children)
- *
- * 20jan1998 A.Fachat */
 int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
                          PIXEL pixel_return[])
 {
-#ifndef USE_COLOR_MANAGEMENT
-    int failed;
-#endif
-
     log_message(LOG_DEFAULT, "Color request for canvas %p.", c);
-#ifdef USE_COLOR_MANAGEMENT
+
     if (uicolor_alloc_system_colors() < 0
         || color_alloc_colors(c, palette, pixel_return, NULL) < 0) {
 /*
@@ -249,74 +118,21 @@ int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
 */
     }
     return 0;
-#else
-    failed = do_alloc_colors(palette, pixel_return, 1);
-    if (failed) {
-        if (colormap == gdk_colormap_get_system()) {
-            log_warning(LOG_DEFAULT, _("Automagically using a private colormap."));
-            colormap = gdk_colormap_new(visual, AllocNone);
-            gdk_window_set_colormap(_ui_top_level->window,colormap);
-            failed = do_alloc_colors(palette, pixel_return, 0);
-        }
-    }
-    return failed ? -1 : 0;
-#endif
 }
 
-/* Change the colormap of window `w' on the fly.  This only works for
-   TrueColor visuals.  Otherwise, it would be too messy to re-allocate the
-   new colormap.  */
 int ui_canvas_set_palette(canvas_t *c, ui_window_t w, const palette_t *palette,
                           PIXEL *pixel_return)
 {
     log_message(LOG_DEFAULT, "Change color request for canvas %p.", c);
-#ifdef USE_COLOR_MANAGEMENT
-    uicolor_alloc_system_colors();
-    color_alloc_colors(c, palette, pixel_return, NULL);
-    return 0;
-#else
-    if (!have_truecolor) {
-        int nallocp;
-        PIXEL  *xpixel=malloc(sizeof(PIXEL)*palette->num_entries);
-        unsigned long *ypixel=malloc(sizeof(unsigned long)*n_allocated_pixels);
-
-#if X_DISPLAY_DEPTH == 0
-        video_convert_save_pixel();
-#endif
-
-        /* save the list of already allocated X pixel values */
-        nallocp = n_allocated_pixels;
-        memcpy(ypixel, allocated_pixels, sizeof(unsigned long)*nallocp);
-        n_allocated_pixels = 0;
-
-        if( do_alloc_colors(palette, xpixel, 1) ) {     /* failed */
-
-            /* restore list of previously allocated X pixel values */
-            n_allocated_pixels = nallocp;
-            memcpy(allocated_pixels, ypixel, sizeof(unsigned long)*nallocp);
-
-#if X_DISPLAY_DEPTH == 0
-            video_convert_restore_pixel();
-#endif
-            log_error(LOG_DEFAULT, _("Cannot allocate enough colors."));
-        } else {                                        /* successful */
-            /* copy the new return values to the real return values */
-            memcpy(pixel_return, xpixel, sizeof(PIXEL) * palette->num_entries);
-
-            /* free the previously allocated pixel values */
-            XFreeColors(display, GDK_COLORMAP_XCOLORMAP(colormap),
-                        ypixel, nallocp, 0);
-        }
-        free(xpixel);
-
-        return 0;
-    }
-
-    return uicolor_alloc_colors(c, palette, pixel_return);
-#endif
+/*
+    if (uicolor_alloc_system_colors() < 0);
+        return -1;
+*/
+    return color_alloc_colors(c, palette, pixel_return, NULL);
 }
 
-#ifdef USE_COLOR_MANAGEMENT
+/*-----------------------------------------------------------------------*/
+
 static unsigned int bits_per_pixel;
 
 int uicolor_alloc_color(unsigned int red, unsigned int green,
@@ -332,7 +148,8 @@ int uicolor_alloc_color(unsigned int red, unsigned int green,
 
     /* This is a kludge to map pixels to zimage values. Is there a better
        way to do this? //tvr */
-    im = XCreateImage(display, GDK_VISUAL_XVISUAL(visual), ui_get_display_depth(),
+    im = XCreateImage(display, GDK_VISUAL_XVISUAL(visual),
+                      ui_get_display_depth(),
                       ZPixmap, 0, (char *)data, 1, 1, 8, 1);
     if (!im) {
         log_error(LOG_DEFAULT, "XCreateImage failed.");
@@ -385,5 +202,4 @@ void uicolor_convert_color_table(unsigned int colnr, PIXEL *pixel_return,
                               (long)(((GdkColor *)(color_pixel))->pixel));
 #endif
 }
-#endif
 
