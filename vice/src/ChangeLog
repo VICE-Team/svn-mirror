@@ -1,3 +1,30 @@
+1999-08-25  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.0.64.
+
+	* zfile.c (try_uncompress_zipcode): Only check the first two
+	bytes of a disk image if there is a valid file name.
+
+1999-08-24  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/c128kbd.c: Bind Run/Stop to ESC key.
+
+	* arch/win32/c610kbd.c: Bind Run/Stop to ESC key.
+
+	* arch/win32/c64kbd.c: Bind Run/Stop to ESC key.
+
+	* arch/win32/petkbd.c: Bind Run/Stop to ESC key for 3032/4032 models.
+	  Bind ESC to ESC key for 8032 models.
+
+	* arch/win32/vic20kbd.c: Bind Run/Stop to ESC key.
+
+1999-08-25  Ettore Perazzoli  <ettore@comm2000.it>
+
+	* raster/raster.c (update_for_minor_changes_with_sprites): Draw
+	sprites after drawing the area between the border and the start of
+	active graphics.  Moreover, avoid fixing the border if it is
+	redrawn from scratch because of sprites anyway.
+
 1999-08-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.0.63.

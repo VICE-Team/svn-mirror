@@ -80,6 +80,10 @@ list of all the changes in the code.
 ** MS-Windows changes
 ---------------------
 
+- Run/Stop key is also present at ESC key, but it's still present at
+  CAPS/LOCK, altough the latter doesn't work on Win98 with German and
+  French keyboard layouts.
+
 - There is a disk/tape image contents lister now.
 
 - The RESTORE key is present now (PAGE UP).

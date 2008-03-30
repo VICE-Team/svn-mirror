@@ -443,7 +443,7 @@ handle_blank_line (raster_t *raster)
       raster->cache[raster->current_line].blank = 1;
 
       add_line_and_double_scan (raster,
-				0, raster->geometry.screen_size.width - 1);
+                                0, raster->geometry.screen_size.width - 1);
     }
   else if (CANVAS_USES_TRIPLE_BUFFERING (raster->viewport.canvas)
            || raster->dont_cache
@@ -467,13 +467,13 @@ handle_blank_line (raster_t *raster)
       if (raster->viewport.pixel_size.height == 2
           && raster->do_double_scan)
         {
-	  /* We do not use `add_line_and_double_scan()' because drawing the
+          /* We do not use `add_line_and_double_scan()' because drawing the
              same line twice is faster.  */
           vid_memset ((FRAME_BUFFER_LINE_START (raster->frame_buffer,
                                                 2 * raster->current_line + 1)
                        + raster->geometry.extra_offscreen_border),
                       RASTER_PIXEL (raster, raster->border_color),
-		      raster->geometry.screen_size.width * pixel_width);
+                      raster->geometry.screen_size.width * pixel_width);
           add_line_to_area (&raster->update_area,
                             raster->current_line,
                             0, raster->geometry.screen_size.width - 1);
@@ -707,13 +707,6 @@ update_for_minor_changes_with_sprites (raster_t *raster,
                                      changed_start_char,
                                      changed_end_char);
 
-      if (raster->sprite_status.num_sprites > 0)
-	{
-          /* FIXME: Could be optimized better.  */
-          draw_sprites_when_cache_enabled (raster, cache);
-          draw_borders (raster);
-	}
-
       /* Fill the space between the border and the graphics with the
          background color (necessary if xsmooth is > 0).  */
       vid_memset (raster->frame_buffer_ptr
@@ -721,15 +714,25 @@ update_for_minor_changes_with_sprites (raster_t *raster,
                   RASTER_PIXEL (raster, raster->overscan_background_color),
                   raster->xsmooth * pixel_width);
 
-      /* If xsmooth > 0, drawing the graphics might have corrupted
-         part of the border... fix it here.  */
-      if (!raster->open_right_border)
-        draw_blank (raster,
-                    (raster->geometry.gfx_position.x
-                     + raster->geometry.gfx_size.width),
-                    (raster->geometry.gfx_position.x
-                     + raster->geometry.gfx_size.width + 8));
+      if (raster->sprite_status.num_sprites > 0)
+        {
+          /* FIXME: Could be optimized better.  */
+          draw_sprites_when_cache_enabled (raster, cache);
+          draw_borders (raster);
+        }
+      else if (raster->xsmooth > 0)
+        {
+          /* If xsmooth > 0, drawing the graphics might have corrupted
+             part of the border... fix it here.  */
+          if (!raster->open_right_border)
+            draw_blank (raster,
+                        (raster->geometry.gfx_position.x
+                         + raster->geometry.gfx_size.width),
+                        (raster->geometry.gfx_position.x
+                         + raster->geometry.gfx_size.width + 8));
 
+        }
+ 
       /* Calculate the interval in pixel coordinates.  */
 
       if (cache->overscan_background_color
@@ -1594,7 +1597,7 @@ raster_enable_double_scan (raster_t *raster,
 
 void
 raster_set_canvas_refresh (raster_t *raster,
-			   int enable)
+                           int enable)
 {
   raster_viewport_t *viewport;
 

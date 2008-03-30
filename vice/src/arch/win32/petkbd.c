@@ -33,7 +33,7 @@
 /* PET 3032/4032 keyboard map.  */
 static keyconv pet40_keyboard[256] = {
     { -1, -1, 0 },              /*           (no key)           */
-    { -1, -1, 0 },              /*          ESC -> (no key)     */
+    { 9, 4, 0 },                /*          ESC -> Run/Stop     */
     { 0, 0, 0 },                /*            1 -> !            */
     { 1, 0, 0 },                /*            2 -> "            */
     { 0, 1, 0 },                /*            3 -> #            */
@@ -145,7 +145,7 @@ static keyconv pet40_keyboard[256] = {
 /* PET 8032 keyboard map.  */
 static keyconv pet80_keyboard[256] = {
     { -1, -1, 0 },              /*           (no key)           */
-    { -1, -1, 0 },              /*          ESC -> (no key)     */
+    { 2, 0, 0 },                /*          ESC -> ESC          */
     { 1, 0, 0 },                /*            1 -> 1            */
     { 0, 0, 0 },                /*            2 -> 2            */
     { 9, 1, 0 },                /*            3 -> 3            */
