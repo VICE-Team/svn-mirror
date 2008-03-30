@@ -150,8 +150,8 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
     datasette_set_motor(!(byte & 0x02));
 
 #ifdef HAVE_RS232
-    /* switching userport strobe with CB2 */
-        if(rsuser_enabled) {
+        /* switching userport strobe with CB2 */
+        if (rsuser_enabled) {
             rsuser_set_tx_bit(byte & 0x20);
         }
 #endif

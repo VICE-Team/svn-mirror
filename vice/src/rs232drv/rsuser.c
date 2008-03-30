@@ -3,6 +3,7 @@
  *
  * Written by
  *  André Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -79,15 +80,32 @@ static void int_rsuser(CLOCK offset, void *data);
  * resource handling
  */
 
-int rsuser_enabled = 0;                 /* saves the baud rate given */
+int rsuser_enabled = 0;                 /* enable flag */
+static int rsuser_baudrate = 300;       /* saves the baud rate given */
 static int char_clk_ticks = 0;          /* clk ticks per character */
 static int bit_clk_ticks = 0;           /* clk ticks per character */
 
 static int rsuser_device;
 
-static int set_up_enabled(resource_value_t v, void *param)
+static void calculate_baudrate(void)
 {
-    int newval = ((int) v);
+    if (rsuser_enabled) {
+        char_clk_ticks = (int)(10.0 * cycles_per_sec
+                         / ((double)rsuser_enabled));
+    } else {
+        char_clk_ticks = RSUSER_TICKS;
+    }
+    bit_clk_ticks = (int)((double)(char_clk_ticks) / 10.0);
+
+#ifdef DEBUG
+    log_debug("RS232: %d cycles per char (cycles_per_sec=%ld).",
+              char_clk_ticks, cycles_per_sec);
+#endif
+}
+
+static int set_enable(resource_value_t v, void *param)
+{
+    int newval = ((int)v);
 
     if (newval && !rsuser_enabled) {
         dtr = DTR_OUT;  /* inactive */
@@ -104,16 +122,18 @@ static int set_up_enabled(resource_value_t v, void *param)
     }
 
     rsuser_enabled = newval;
-    if(newval) {
-        char_clk_ticks = (int)(10.0 * cycles_per_sec / ((double)newval));
-    } else {
-        char_clk_ticks = RSUSER_TICKS;
-    }
-    bit_clk_ticks = (int)((double)(char_clk_ticks) / 10.0);
-#ifdef DEBUG
-    log_debug("RS232: %d cycles per char (cycles_per_sec=%ld).",
-              char_clk_ticks, cycles_per_sec);
-#endif
+
+    calculate_baudrate();
+
+    return 0;
+}
+
+static int set_baudrate(resource_value_t v, void *param)
+{
+    rsuser_baudrate = (int)v;
+
+    calculate_baudrate();
+
     return 0;
 }
 
@@ -128,8 +148,10 @@ static int set_up_device(resource_value_t v, void *param)
 }
 
 static const resource_t resources[] = {
-    { "RsUser", RES_INTEGER, (resource_value_t)0,
-      (void *)&rsuser_enabled, set_up_enabled, NULL },
+    { "RsUserEnable", RES_INTEGER, (resource_value_t)0,
+      (void *)&rsuser_enabled, set_enable, NULL },
+    { "RsUserBaud", RES_INTEGER, (resource_value_t)300,
+      (void *)&rsuser_baudrate, set_baudrate, NULL },
     { "RsUserDev", RES_INTEGER, (resource_value_t)0,
       (void *)&rsuser_device, set_up_device, NULL },
     { NULL }
@@ -141,12 +163,16 @@ int rsuser_resources_init(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-rsuser", SET_RESOURCE, 1, NULL, NULL, "RsUser",
-        (resource_value_t) 0, "<baud>",
-        "Enable the userport RS232 emulation baud=0: off; baud=9600: CIA interface." },
+    { "-rsuser", SET_RESOURCE, 0, NULL, NULL, "RsUserEnable", (void *)1,
+      NULL, "Enable RS232 userport emulation" },
+    { "+rsuser", SET_RESOURCE, 0, NULL, NULL, "RsUserEnable", (void *)0,
+      NULL, "Disable RS232 userport emulation" },
+    { "-rsuserbaud", SET_RESOURCE, 1, NULL, NULL, "RsUserBaud",
+      (resource_value_t)300, "<baud>",
+      "Set the baud rate of the RS232 userport emulation." },
     { "-rsuserdev", SET_RESOURCE, 1, NULL, NULL, "RsUserDev",
-        (resource_value_t) 0,
-      "<0-2>", "Specify VICE RS232 device for userport" },
+      (resource_value_t)0,
+      "<0-3>", "Specify VICE RS232 device for userport" },
     { NULL }
 };
 
@@ -167,21 +193,21 @@ static const unsigned int masks[] =
 void rsuser_init(long cycles, void (*startfunc)(void), void (*bytefunc)(BYTE))
 {
     int i, j;
-    unsigned char c,d;
+    unsigned char c, d;
 
     rsuser_alarm = alarm_new(maincpu_alarm_context, "RSUser", int_rsuser, NULL);
 
     clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     cycles_per_sec = cycles;
-    set_up_enabled((resource_value_t) rsuser_enabled, NULL);
+    calculate_baudrate();
 
     start_bit_trigger = startfunc;
     byte_rx_func = bytefunc;
 
     for (i = 0; i < 256; i++) {
         c = i; d = 0;
-        for(j = 0 ; j < 8; j++) {
+        for (j = 0 ; j < 8; j++) {
             d <<= 1;
             if (c & 1)
                 d |= 1;
