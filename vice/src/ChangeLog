@@ -1,3 +1,78 @@
+2000-01-16  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.2.22.
+
+	* vdrive/vdrive-iec.c, vdrive/vdrive-command.c,
+	vdrive/vdrive.h: Removed `read_only' from struct vdrive.
+
+	* diskimage.c (disk_image_write_track,
+	disk_image_write_sector): Check read only flag before writing.
+
+	* parallel.c, parallel.h: Do not inline some functions.
+
+	* serial.h, vdrive/vdrive-iec.h, vdrive/vdrive-iec.c,
+	fsdevice.c, serial.c, c1541.c: Removed casting.
+
+	* vdc/vdc.h, c128/c128mem.c, c128/z80mem.c, crtc/crtc.h,
+	arch/unix/uicmdline.h, arch/unix/x11/xaw/uimenu.h,
+	arch/unix/uicommands.h, arch/unix/x11/xaw/ui.c,
+	arch/msdos/tuiimagebrowser.c, arch/msdos/tuifs.c,
+	arch/msdos/tuimenu.h, arch/msdos/c128ui.c, arch/msdos/video.c,
+	arch/msdos/c610ui.c, arch/msdos/c64ui.c, arch/msdos/sidui.c,
+	arch/msdos/menudefs.c, arch/msdos/petui.c, arch/msdos/sidui.h,
+	arch/msdos/tuimenu.c, arch/msdos/vic20ui.c,
+	arch/msdos/tuifs.h, arch/msdos/uiattach.c, arch/msdos/sidui.c,
+	arch/msdos/uicmdline.h, arch/msdos/videoarch.h,
+	arch/msdos/uisnapshot.h, arch/msdos/uisnapshot.c,
+	arch/msdos/uiattach.h, arch/win32/uicmdline.h,
+	arch/win32/video.c, arch/riscos/uicmdline.h,
+	arch/os2/uicmdline.h, arch/unix/x11/gnome/ui.c: Changed
+	structures, fixed includes.
+
+	* arch/unix/x11/kbdef.h, arch/unix/x11/kbd.c: Removed useless
+	code.
+
+	* keyboard.h, arch/unix/kbd.h, arch/win32/kbd.h,
+	arch/riscos/kbd.h, arch/msdos/kbd.h, arch/os2/kbd.h: Moved
+	common stuff to `keyboard.h'.
+
+	* c64/c64.c, c128/c128.c, vic20/vic20.c, pet/pet.c,
+	cbm2/c610.c, arch/unix/joystick.carch/msdos/joystick.c,
+	arch/unix/mouse.c, arch/msdos/mouse.c, arch/win32/joystick.c,
+	arch/win32/mouse.c, arch/riscos/joystick.c,
+	arch/os2/joystick.c: Include `keyboard.h' instead of `kbd.h'.
+
+2000-01-16  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+
+	* INSTALL: OS/2 added
+
+	* vic20/vic.h: prepared to let the graphic driver makes
+	x-stretching for OS/2.
+
+	* arch/os2/archdep.c: added ifndef _PETCAT__ statements
+
+	* arch/os2/*ui.[ch]* --> ui\*ui.[ch]
+
+	* arch/os2/dialogs.[ch,rc] -> dialogs\dialogs.[ch,rc]
+
+	* arch/os2/dialogs\c1541.rc added
+
+	* arch/os2/install.cmd: minor changes
+
+	* arch/os2/main_exit.c shuting down functions commented out
+
+	* arch/os2/vsync.c: exit is now handled here.
+
+	* arch/os2/makedist.cmd added
+
+	* arch/os2/texi2ipf\* added
+
+	* arch/os2/vac++/*.ICC Option settings reorganized
+
+	* arch/os2/video.c: minor changes
+
+	* arch/os2/log.c: __C1541__ added
+
 2000-01-15  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.2.21.
@@ -61,7 +136,7 @@
 	coordinate system to the canvas's coordinate system, including
 	canvas centering on the window, then it calls real_refresh.
 
-1999-01-12  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
+2000-01-12  Thomas Bretz  <tbretz@physik.tu-muenchen.de>
 
 	* crtc/crt-cmdline-options.c: REMOVED CHARACTER 0x0C from
 	SRC-CODE!
