@@ -67,6 +67,7 @@
 #include "fullscreenarch.h"
 #include "imagecontents.h"
 #include "interrupt.h"
+#include "ioutil.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -2118,9 +2119,9 @@ char *ui_select_file(const char *title,
     ui_set_selected_file(0);
 
     /* we preserve the current directory over the invocations */
-    current_dir = util_get_current_dir();	/* might be changed elsewhere */
+    current_dir = ioutil_current_dir(); /* might be changed elsewhere */
     if (filesel_dir != NULL) {
-      chdir(filesel_dir);
+        ioutil_chdir(filesel_dir);
     }
 
     if (attach_wp)
@@ -2148,7 +2149,7 @@ char *ui_select_file(const char *title,
 					    default_dir);
 	}
     }  else {
-        char *newdir = util_get_current_dir();
+        char *newdir = ioutil_current_dir();
         if(default_pattern) {
 	    path = concat(newdir,"/",default_pattern,NULL);
 	    gtk_file_selection_set_filename(GTK_FILE_SELECTION(file_selector),
@@ -2205,9 +2206,9 @@ char *ui_select_file(const char *title,
     if (filesel_dir != NULL) {
         free(filesel_dir);
     }
-    filesel_dir = util_get_current_dir();
+    filesel_dir = ioutil_current_dir();
     if (current_dir != NULL) {
-        chdir(current_dir);
+        ioutil_chdir(current_dir);
 	free(current_dir);
     }
 #if 0

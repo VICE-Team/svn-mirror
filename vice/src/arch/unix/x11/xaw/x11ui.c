@@ -66,6 +66,7 @@
 #include "drive.h"
 #include "interrupt.h"
 #include "fullscreenarch.h"
+#include "ioutil.h"
 #include "log.h"
 #include "machine.h"
 #include "mouse.h"
@@ -1573,9 +1574,9 @@ char *ui_select_file(const char *title,
     char *current_dir;
 
     /* we preserve the current directory over the invocations */
-    current_dir = util_get_current_dir();    /* might be changed elsewhere */
+    current_dir = ioutil_current_dir();    /* might be changed elsewhere */
     if (filesel_dir != NULL) {
-        chdir(filesel_dir);
+        ioutil_chdir(filesel_dir);
     }
 
     /* We always rebuild the file selector from scratch (which is slow),
@@ -1594,7 +1595,7 @@ char *ui_select_file(const char *title,
         XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget) file_selector,
                                         default_dir);
     } else {
-        char *newdir = util_get_current_dir();
+        char *newdir = ioutil_current_dir();
 
         XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget) file_selector,
                                         newdir);
@@ -1640,9 +1641,9 @@ char *ui_select_file(const char *title,
     if (filesel_dir != NULL) {
         free(filesel_dir);
     }
-    filesel_dir = util_get_current_dir();
+    filesel_dir = ioutil_current_dir();
     if (current_dir != NULL) {
-        chdir(current_dir);
+        ioutil_chdir(current_dir);
         free(current_dir);
     }
 

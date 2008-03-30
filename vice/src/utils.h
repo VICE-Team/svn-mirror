@@ -52,13 +52,11 @@ extern void util_remove_spaces(char *s);
 extern void util_add_extension(char **name, const char *extension);
 extern char *util_add_extension_const(const char *filename,
                                       const char *extension);
-extern char *util_get_current_dir(void);
 
 extern size_t util_file_length(FILE *fd);
 extern int util_file_load(const char *name, BYTE *dest, size_t size,
                           unsigned int load_flag);
 extern int util_file_save(const char *name, BYTE *src, int size);
-extern int util_file_remove(const char *name);
 
 extern int util_get_line(char *buf, int bufsize, FILE *f);
 extern void util_fname_split(const char *path, char **directory_return,

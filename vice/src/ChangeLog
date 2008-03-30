@@ -1,3 +1,22 @@
+2002-09-24  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.7.
+
+	* vicii/vicii-fetch.c (handle_fetch_sprite): Use vaddr value
+	and mask for calculation of sprite fetch address.
+
+	* ioutil.c, ioutil.h: New files.
+
+	* Makefile.am: Added new files.
+
+	* resources.c, snapshot.c, utils.c, utils.h, zfile.c,
+	fsdevice/fsdevice-flush.c, c64/c64.c, c128/c128.c,
+	vic20/vic20.c, pet/pet.c, plus4/plus4.c, cbm2/cbm2.c,
+	monitor/mon.c, arch/unix/uicommands.c, sysfile.c,
+	arch/unix/x11/gnome/x11ui.c, arch/unix/x11/xaw/x11ui.c,
+	arch/unix/x11/xaw/widgets/Directory.c, arch/msdos/menudefs.c,
+	arch/msdos/tuifs.c: Use ioutils.
+
 2002-09-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.6.

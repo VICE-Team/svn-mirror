@@ -45,12 +45,14 @@
 #include <vfork.h>
 #endif
 
-#include "ui.h"
 #include "archdep.h"
 #include "findpath.h"
+#include "ioutil.h"
 #include "log.h"
-#include "utils.h"
 #include "machine.h"
+#include "ui.h"
+#include "utils.h"
+
 
 static char *argv0;
 
@@ -321,7 +323,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     } else {
         static char *cwd;
 
-        cwd = util_get_current_dir();
+        cwd = ioutil_current_dir();
         *return_path = concat(cwd, "/", orig_name, NULL);
         free(cwd);
     }

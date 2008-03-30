@@ -42,18 +42,6 @@
 #ifdef HAVE_ERRNO_H
 #include <errno.h>
 #endif
-#ifdef HAVE_FCNTL_H
-#include <fcntl.h>
-#endif
-#ifdef HAVE_SYS_STAT_H
-#include <sys/stat.h>
-#endif
-#ifdef HAVE_SYS_TYPES_H
-#include <sys/types.h>
-#endif
-#ifdef HAVE_UNISTD_H
-#include <unistd.h>
-#endif
 
 #include "archdep.h"
 #include "charset.h"
@@ -61,8 +49,9 @@
 #include "fsdevice-resources.h"
 #include "fsdevice.h"
 #include "fsdevicetypes.h"
-#include "utils.h"
+#include "ioutil.h"
 #include "types.h"
+#include "utils.h"
 #include "vdrive-command.h"
 #include "vdrive.h"
 
@@ -84,12 +73,12 @@ static int fsdevice_flush_cd(vdrive_t* vdrive, char *arg)
     int er;
 
     er = IPE_OK;
-    if (chdir(fsdevice_get_path(vdrive->unit)) || chdir(arg)) {
+    if (ioutil_chdir(fsdevice_get_path(vdrive->unit)) || ioutil_chdir(arg)) {
         er = IPE_NOT_FOUND;
         if (errno == EPERM)
             er = IPE_PERMISSION;
     } else { /* get full path and save */
-        arg = util_get_current_dir();
+        arg = ioutil_current_dir();
         fsdevice_set_directory(arg, vdrive->unit);
         free(arg);
     }
@@ -112,7 +101,7 @@ static int fsdevice_flush_mkdir(char *arg)
     int er;
 
     er = IPE_OK;
-    if (mkdir(arg, 0770)) {
+    if (ioutil_mkdir(arg, 0770)) {
         er = IPE_INVAL;
         if (errno == EEXIST)
             er = IPE_FILE_EXISTS;
@@ -151,7 +140,7 @@ static int fsdevice_flush_remove(char *arg)
     int er;
 
     er = IPE_OK;
-    if (rmdir(arg)) {
+    if (ioutil_remove(arg)) {
         er = IPE_NOT_EMPTY;
         if (errno == EPERM)
             er = IPE_PERMISSION;
@@ -179,7 +168,7 @@ static int fsdevice_flush_scratch(vdrive_t *vdrive, char *arg, char *realarg)
         strcat(name, arg);
     }
 
-    if (util_file_remove(name)) {
+    if (ioutil_remove(name)) {
         er = IPE_NOT_FOUND;
         if (errno == EPERM)
             er = IPE_PERMISSION;
@@ -246,8 +235,8 @@ static int fsdevice_flush_rename(vdrive_t *vdrive, char *arg, char *realarg)
                         continue;
                     }
 
-                    util_file_remove(name1p00);
-                    if (rename(name2p00, name1p00) == 0)
+                    ioutil_remove(name1p00);
+                    if (ioutil_rename(name2p00, name1p00) == 0)
                         break;
                 }
             }
@@ -263,8 +252,8 @@ static int fsdevice_flush_rename(vdrive_t *vdrive, char *arg, char *realarg)
             strcat(name2, FSDEV_DIR_SEP_STR);
             strcat(name2, arg2);
 
-            util_file_remove(name1);
-            if (rename(name2, name1)) {
+            ioutil_remove(name1);
+            if (ioutil_rename(name2, name1)) {
                 er = IPE_NOT_FOUND;
                 if (errno == EPERM)
                     er = IPE_PERMISSION;

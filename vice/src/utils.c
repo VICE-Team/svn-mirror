@@ -345,29 +345,6 @@ char *util_subst(const char *s, const char *string, const char *replacement)
 
 /* ------------------------------------------------------------------------- */
 
-/* Get the current working directory as a malloc'ed string.  */
-char *util_get_current_dir(void)
-{
-#ifdef __riscos
-    return GetCurrentDirectory();
-#else
-    static size_t len = 128;
-    char *p = (char *)xmalloc(len);
-
-    while (getcwd(p, len) == NULL) {
-        if (errno == ERANGE) {
-            len *= 2;
-            p = (char *)xrealloc(p, len);
-        } else
-            return NULL;
-    }
-
-    return p;
-#endif
-}
-
-/* ------------------------------------------------------------------------- */
-
 /* Return the length of an open file in bytes.  */
 size_t util_file_length(FILE *fd)
 {
@@ -459,11 +436,6 @@ int util_file_save(const char *name, BYTE *src, int size)
         return -1;
 
     return 0;
-}
-
-int util_file_remove(const char *name)
-{
-    return unlink(name);
 }
 
 /* Input one line from the file descriptor `f'.  FIXME: we need something
