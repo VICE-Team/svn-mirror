@@ -13,10 +13,20 @@ list of all the changes in the code.
 
 - Fixed a bug that caused the emulator to crash after 72 minutes.
 
+- Added internal zlib and lpng support if no native libraries are
+  found at compile time.
+
+- Fixed video recording frame rate in NTSC mode.
+
 ** C64 changes
 --------------
 
 - Added Structured Basic, Comal 80 and Ross cart support.
+
+- Fixed the improper detaching of certain types of carts.
+
+- The +60K expansion base address is now selectable for
+  compatibility with the oldest version of the expansion.
 
 ** C128 changes
 ---------------
@@ -31,13 +41,25 @@ list of all the changes in the code.
 ** MS-Windows changes
 ---------------------
 
-- Added internal zlib and lpng support if no native libraries are
-  found at compile time.
+- Added internal zlib and lpng support to the MSVC compile.
+
+- 'Netplay' option linking two emulators via TCP network (experimental
+  and x64-only for now).
+
+** MS-DOS changes
+-----------------
+
+- Added screenshot support.
 
 ** OS/2 changes
 ---------------
 
 - The OS/2 port works again now.
+
+** Miscellaneous changes
+------------------------
+
+- Added support for more 3rd party basic extenders to petcat.
 
 
 * Changes in VICE 1.17

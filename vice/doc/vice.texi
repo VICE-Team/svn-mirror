@@ -97,7 +97,7 @@ notice identical to this one.
 
 @ifinfo
 
-This is the documentation for version 1.17 of VICE, the Versatile
+This is the documentation for version 1.18 of VICE, the Versatile
 Commodore Emulator.
 
 @end ifinfo
@@ -7386,8 +7386,9 @@ Internationalization support for the Win32 port. Wrote the
 GEORAM cartridge code. Wrote the Ramcart cartridge code.
 Wrote the +60K Expansion code. Made the ethernet support
 for the Msdos port. Maintains the QNX 6.x binary packages.
-Maintains the Solaris binary packages. Fixed stereo-sid/acia
-io-1/io-2 conflicts. And lots of other fixes.
+Maintains the Solaris binary packages. Maintains the new
+resurrected OS/2 port. Added new .crt carts support. And
+lots of other fixes.
 
 @end itemize
 
