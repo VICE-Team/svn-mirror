@@ -84,26 +84,26 @@ CLOCK prevent_clk_overflow(cpu_int_status_t *cs, CLOCK *clk, CLOCK baseval)
 
 /* ------------------------------------------------------------------------- */
 
-int interrupt_write_snapshot(cpu_int_status_t *cs, FILE *f)
+int interrupt_write_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
 {
     int i;
 
     for (i = 0; i < cs->num_ints; i++) {
-        if (snapshot_write_byte(f, cs->pending_int[i]) < 0)
+        if (snapshot_module_write_byte(m, cs->pending_int[i]) < 0)
             return -1;
     }
 
     /* FIXME: could we avoid some of this info?  */
-    if (snapshot_write_dword(f, cs->irq_clk) < 0
-        || snapshot_write_dword(f, cs->nmi_clk) < 0
-        || snapshot_write_dword(f, cs->num_last_stolen_cycles) < 0
-        || snapshot_write_dword(f, cs->last_stolen_cycles_clk) < 0)
+    if (snapshot_module_write_dword(m, cs->irq_clk) < 0
+        || snapshot_module_write_dword(m, cs->nmi_clk) < 0
+        || snapshot_module_write_dword(m, cs->num_last_stolen_cycles) < 0
+        || snapshot_module_write_dword(m, cs->last_stolen_cycles_clk) < 0)
         return -1;
 
     return 0;
 }
 
-int interrupt_read_snapshot(cpu_int_status_t *cs, FILE *f)
+int interrupt_read_snapshot(cpu_int_status_t *cs, snapshot_module_t *m)
 {
     int i;
     DWORD dw;
@@ -121,7 +121,7 @@ int interrupt_read_snapshot(cpu_int_status_t *cs, FILE *f)
     for (i = 0; i < cs->num_ints; i++) {
         BYTE b;
 
-        if (snapshot_read_byte(f, &b) < 0)
+        if (snapshot_module_read_byte(m, &b) < 0)
             return -1;
 
         /* Setup interrupt.  Clock tick does not matter here, as we set the
@@ -130,15 +130,15 @@ int interrupt_read_snapshot(cpu_int_status_t *cs, FILE *f)
         set_int(cs, i, b, (CLOCK) 0);
     }
 
-    if (snapshot_read_dword(f, &cs->irq_clk) < 0
-        || snapshot_read_dword(f, &cs->nmi_clk) < 0)
+    if (snapshot_module_read_dword(m, &cs->irq_clk) < 0
+        || snapshot_module_read_dword(m, &cs->nmi_clk) < 0)
         return -1;
 
-    if (snapshot_read_dword(f, &dw) < 0)
+    if (snapshot_module_read_dword(m, &dw) < 0)
         return -1;
     cs->num_last_stolen_cycles = dw;
 
-    if (snapshot_read_dword(f, &dw) < 0)
+    if (snapshot_module_read_dword(m, &dw) < 0)
         return -1;
     cs->last_stolen_cycles_clk = dw;
 
