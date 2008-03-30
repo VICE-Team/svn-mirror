@@ -1,3 +1,31 @@
+1999-09-09  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.1.4.
+
+	* c128/z80.c: Fixed CALL, ADD and SUB opcodes.
+	(JUMP_COND, RRCA, RRA, RLCA): New copcodes.
+
+	* c128/z80.c, c128/z80.h, 6510core.c, drive/drivecpucore.c,
+	maincpu.c, c128/c128cpu.c: Pass alarm and cpu struct to Z80
+	emuation.
+
+	* c128/c128mem.c (read_rom, store_rom): Added Z80 bios.
+
+	* arch/win32/msvc/config.h: Added header files.
+
+	* arch/win32/ui.c: Use `HAVE_COMMCTRL_H'.
+
+	* arch/win32/uiattach.c: Use `HAVE_SHLOBJ_H'.
+
+	* arch/win32/uicbm2set.c, arch/win32/uidrive.c,
+	arch/win32/uipetset.c, arch/win32/uivicii.c: #include
+	<shlobj.h>.
+
+1999-09-08  Michael Schwendt  <sidplay@geocities.com>
+
+	* sid/sid.c (setup_sid): Voice 3 cannot be turned off if
+	it is has filter enabled.
+
 1999-09-07  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.1.3.
@@ -9,6 +37,39 @@
 
 	* arch/win32/uiattach.c (dialog_proc): Added D80 and D82 disk
 	images.
+
+1999-09-06  Tibor Biczo  <crown@mail.matav.hu>
+
+	* arch/win32/Makefile.am: Added mouse.c, mouse.h to sources.
+
+	* arch/win32/arch.dsp: Added mouse.c to project file.
+
+	* arch/win32/c128.dsp: Added z80.c, z80mem.c to project file.
+
+	* arch/win32/c128ui.c: Added IEEE488, and Mouse menu items.
+
+	* arch/win32/c64ui.c: Added mouse menu item.
+
+	* arch/win32/mouse.c: New file.
+
+	* arch/win32/mouse.h: New file.
+
+	* arch/win32/msvc/config.h: Define HAVE_MOUSE.
+
+	* arch/win32/res.h (IDM_IEEE488) (IDM_MOUSE): Added command values for
+	  new menuitems.
+
+	* arch/win32/resc128.rc: Added IEEE488, and 1351 Mouse emulation to
+	  menu.
+
+	* arch/win32/resc64.rc: Added 1351 Mouse emulation to menu.
+
+	* arch/win32/resvic.rc: Added IEEE488 to menu.
+
+	* arch/win32/ui.c: Include "mouse.h".
+	  (window_proc): Handle mouse events.
+
+	* arch/win32/vic20ui.c: Added IEEE488 to menu.
 
 1999-09-05  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 

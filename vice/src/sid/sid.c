@@ -540,7 +540,7 @@ inline static void setup_sid(sound_t *psid)
     if (!psid->update)
 	return;
     psid->vol = psid->d[0x18] & 0x0f;
-    psid->has3 = psid->d[0x18] & 0x80 ? 0 : 1;
+    psid->has3 = ((psid->d[0x18]&0x80)&&!(psid->d[0x17]&0x04)) ? 0 : 1;
     if (psid->emulatefilter)
     {
 	psid->v[0].filter = psid->d[0x17] & 0x01 ? 1 : 0;
