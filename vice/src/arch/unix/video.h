@@ -56,6 +56,7 @@ struct _frame_buffer {
     XImage *x_image;
 #ifdef USE_MITSHM
     XShmSegmentInfo xshm_info;
+    int using_mitshm;     /* True if MITSHM is used for this framebuffer. */
 #endif
 #if X_DISPLAY_DEPTH == 0
     PIXEL *tmpframebuffer;

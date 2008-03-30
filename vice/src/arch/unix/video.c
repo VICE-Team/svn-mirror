@@ -25,6 +25,30 @@
  *
  */
 
+
+/*** MITSHM-code rewritten by Dirk Farin (farin@ti.uni-mannheim.de). **
+
+     This is how the MITSHM initialization now works:
+
+       Three variables are used to enable/disable the usage of MITSHM:
+       - 'try_mitshm' is set to true by default to specify that
+         MITSHM shall be used if possible. If the user sets this
+	 variable to false MITSHM will be disabled.
+       - 'use_mitshm' will be set in video_init() after some quick
+         tests if the X11 server supports MITSHM.
+       - Every framebuffer structure has a new field named 'using_mitshm'
+         that is set to true if MITSHM is used for this buffer.
+	 Note that it is possible that one buffer is using MITSHM
+	 while some other buffer is not.
+
+       Detecting if MITSHM usage is possible is now done using a
+       minimum of intelligence (only XShmQueryExtension() is checked
+       in video_init() ). Then the allocation process is executed
+       and the X11 error in case of failure is catched. If an error
+       occured the allocation process is reversed and non-MITSHM
+       XImages are used instead.
+*/
+
 #include "vice.h"
 
 #include <X11/Xlib.h>
@@ -79,7 +103,7 @@ static int set_try_mitshm(resource_value_t v)
 static resource_t resources[] = {
     { "UseXSync", RES_INTEGER, (resource_value_t) 1,
       (resource_value_t *) & _video_use_xsync, set_use_xsync },
-    { "MITSHM", RES_INTEGER, (resource_value_t) - 1,
+    { "MITSHM", RES_INTEGER, (resource_value_t) 1,         /* turn MITSHM on by default */
       (resource_value_t *) & try_mitshm, set_try_mitshm },
     { NULL }
 };
@@ -100,14 +124,8 @@ static cmdline_option_t cmdline_options[] = {
       "UseXSync", (resource_value_t) 0,
       NULL, "Do not call `XSync()' after updating the emulation window" },
     { "-mitshm", SET_RESOURCE, 0, NULL, NULL,
-      "MITSHM", (resource_value_t) 1,
-      NULL, "Try to use shared memory if the X server allows it (faster)" },
-    { "+mitshm", SET_RESOURCE, 0, NULL, NULL,
       "MITSHM", (resource_value_t) 0,
       NULL, "Never use shared memory (slower)" },
-    { "-mitshmauto", SET_RESOURCE, 0, NULL, NULL,
-      "MITSHM", (resource_value_t) - 1,
-      NULL, "Autodetect shared memory. If it fails use +/-mitshm." },
     { NULL }
 };
 
@@ -241,7 +259,6 @@ static void convert_8toall(frame_buffer_t * p, int sx, int sy, int w, int h)
 
 int video_init(void)
 {
-    int do_try_mitshm = 0;
     XGCValues gc_values;
 
     _video_gc = XCreateGC(display, XtWindow(_ui_top_level), 0, &gc_values);
@@ -250,55 +267,17 @@ int video_init(void)
 	video_log = log_open("Video");
 
 #ifdef USE_MITSHM
-
-    /* if < 0 then no initialization, neither 0 (don't use) or 1 (use) */
-    if (try_mitshm < 0) {
-	int displayno = -1;
-	/* Check wether we are on the same machine or not.  If we are not, we
-	   do not even try to use MITSHM. */
-	char *p, *dname = stralloc(XDisplayName(NULL));
-	struct utsname uts;
-
-	do_try_mitshm = 0;	/* no MIT shm */
-	uname(&uts);
-	if ((p = strchr(dname, ':'))) {
-	    if (p[1] && sscanf(p+1, "%d.", &displayno)!=1) {	
-		displayno = -1;
-	    }
-	    p[0] = 0;
-	}
-
-	log_message(video_log, "Display number is %d.",displayno);
-
-	/* 10 displays is a bit many for one machine, right? 
-	   "ssh" uses display numbers > 9 to establish encrypted, tunneling
-	   X connections - thus MITSHM does not work */
-	if ( (displayno < 10) && (
-	        !strlen(dname)
-	        || !strcmp(dname, "localhost")
-	        || !strcmp(dname, uts.nodename)
-		)
-	    ) {
-	    do_try_mitshm = 1;	/* use MIT shm */
-	}
-	free(dname);
-    } else {
-	do_try_mitshm = try_mitshm;
-    }
-
-    if (!do_try_mitshm)
+    if (!try_mitshm)
 	use_mitshm = 0;
     else {
 	/* This checks if the server has MITSHM extensions available
-	   If try_mitshm is true and we are on a different machine, this
-	   bugs out, though.  Therefore a good "same machine" detection is
-	   important.  */
-	int major_version, minor_version, pixmap_flag, dummy;
+	   If try_mitshm is true and we are on a different machine,
+	   frame_buffer_alloc will fall back to non shared memory calls. */
+        int major_version, minor_version, pixmap_flag;
 
-	/* Check whether we can use the Shared Memory Extension. */
+	/* Check whether the server supports the Shared Memory Extension. */
 	if (!XShmQueryVersion(display, &major_version, &minor_version,
-			      &pixmap_flag)
-            || !XQueryExtension(display, "MIT-SHM", &dummy, &dummy, &dummy)) {
+			      &pixmap_flag)) {
 	    log_warning(video_log,
                         "The MITSHM extension is not supported "
                         "on this display.");
@@ -317,11 +296,31 @@ int video_init(void)
     return 0;
 }
 
+#ifdef USE_MITSHM
+static int mitshm_failed = 0; /* will be set to true if XShmAttach() failed */
+static int shmmajor;          /* major number of MITSHM error codes */
+
+/* Catch XShmAttach()-failure. */
+static int shmhandler(Display* display,XErrorEvent* err)
+{
+  if (err->request_code == shmmajor &&
+      err->minor_code == X_ShmAttach)
+    mitshm_failed=1;
+
+  return 0;
+}
+#endif
+
 /* Allocate a frame buffer. */
 int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 		       unsigned int height)
 {
     int sizeofpixel = sizeof(PIXEL);
+#ifdef USE_MITSHM
+    int (*olderrorhandler)(Display*,XErrorEvent*);
+    int dummy;
+    i->using_mitshm = use_mitshm;
+#endif
 
     if (sizeof(PIXEL2) != sizeof(PIXEL) * 2 ||
 	sizeof(PIXEL4) != sizeof(PIXEL) * 4) {
@@ -341,51 +340,75 @@ int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 #endif
 
 #ifdef USE_MITSHM
-    if (use_mitshm) {
+tryagain:
+    if (i->using_mitshm) {
 	DEBUG_MITSHM(("frame_buffer_alloc(): allocating XImage with MITSHM, "
 		      "%d x %d pixels...", width, height));
 	i->x_image = XShmCreateImage(display, visual, depth, ZPixmap,
 				   NULL, &(i->xshm_info), width, height);
 	if (!i->x_image) {
-	    log_error(video_log, "Cannot allocate XImage with XShm.");
-	    return -1;
+	    log_warning(video_log, "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode.");
+	    i->using_mitshm=0;
+	    goto tryagain;
 	}
 	DEBUG_MITSHM(("Done."));
         DEBUG_MITSHM(("frame_buffer_alloc(): shmgetting %ld bytes...",
                       (long) i->x_image->bytes_per_line * i->x_image->height));
-	i->xshm_info.shmid = shmget(IPC_PRIVATE,
-                                    (i->x_image->bytes_per_line
-                                     * i->x_image->height),
-                                    IPC_CREAT | 0700);
+	i->xshm_info.shmid = shmget(IPC_PRIVATE, i->x_image->bytes_per_line *
+				    i->x_image->height, IPC_CREAT | 0604);
 	if (i->xshm_info.shmid == -1) {
-	    log_error(video_log, "Cannot get shared memory.");
-            XDestroyImage(i->x_image);
-	    return -1;
+	    log_warning(video_log, "Cannot get shared memory; falling back to non MITSHM extension mode.");
+	    XDestroyImage(i->x_image);
+	    i->using_mitshm=0;
+	    goto tryagain;
 	}
 	DEBUG_MITSHM(("Done, id = 0x%x.", i->xshm_info.shmid));
         DEBUG_MITSHM(("frame_buffer_alloc(): getting address... "));
 	i->xshm_info.shmaddr = shmat(i->xshm_info.shmid, 0, 0);
         i->x_image->data = i->xshm_info.shmaddr;
         if (i->xshm_info.shmaddr == (char *) -1) {
-	    log_error(video_log, "Cannot get shared memory address.");
-            XDestroyImage(i->x_image);
-            shmctl(i->xshm_info.shmid, IPC_RMID, 0);
-	    return -1;
+	    log_warning(video_log, "Cannot get shared memory address; falling back to non MITSHM extension mode.");
+	    shmctl(i->xshm_info.shmid,IPC_RMID,0);
+	    XDestroyImage(i->x_image);
+	    i->using_mitshm=0;
+	    goto tryagain;
 	}
 	DEBUG_MITSHM(("0x%lx OK.", (unsigned long) i->xshm_info.shmaddr));
+	i->xshm_info.readOnly = True;
+	mitshm_failed = 0;
 
-	i->xshm_info.readOnly = False;
-	XShmAttach(display, &(i->xshm_info));
-        XSync(display, False);
-        
+	XQueryExtension(display,"MIT-SHM",&shmmajor,&dummy,&dummy);
+	olderrorhandler = XSetErrorHandler(shmhandler);
+
+	if (!XShmAttach(display, &(i->xshm_info))) {
+	    log_warning(video_log, "Cannot attach shared memory; falling back to non MITSHM extension mode.");
+	    shmdt(i->xshm_info.shmaddr);
+	    shmctl(i->xshm_info.shmid,IPC_RMID,0);
+	    XDestroyImage(i->x_image);
+	    i->using_mitshm=0;
+	    goto tryagain;
+	}
+
+	/* Wait for XShmAttach to fail or to succede. */
+	XSync(display,False);
+	XSetErrorHandler(olderrorhandler);
+
+	/* Mark memory segment for automatic deletion. */
+	shmctl(i->xshm_info.shmid, IPC_RMID, 0);
+
+	if (mitshm_failed) {
+	    log_warning(video_log, "Cannot attach shared memory; falling back to non MITSHM extension mode.");
+	    shmdt(i->xshm_info.shmaddr);
+	    XDestroyImage(i->x_image);
+	    i->using_mitshm=0;
+	    goto tryagain;
+	}
+
+	DEBUG_MITSHM(("MITSHM initialization succeed.\n"));
 	_refresh_func = (void (*)()) XShmPutImage;
-        
-        /* We mark the segment as destroyed so that when the last process
-           detaches, it will be deleted.  */
-        shmctl(i->xshm_info.shmid, IPC_RMID, 0);
     } else
 #endif
-    {				/* !use_mitshm */
+    {				/* !i->using_mitshm */
 	PIXEL *data = (PIXEL *)xmalloc(width * height * sizeofpixel);
 
 	if (!data)
@@ -399,9 +422,9 @@ int frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
     }
 
     log_message(video_log, "Successfully initialized%s shared memory.",
-                use_mitshm ? ", using" : " without");
+                (i->using_mitshm) ? ", using" : " without");
 
-    if (!use_mitshm)
+    if (!(i->using_mitshm))
 	log_warning(video_log, "Performance will be poor.");
 
 #if X_DISPLAY_DEPTH == 0
@@ -436,7 +459,7 @@ void frame_buffer_free(frame_buffer_t * i)
 	return;
 
 #ifdef USE_MITSHM
-    if (use_mitshm) {
+    if (i->using_mitshm) {
 	XShmDetach(display, &(i->xshm_info));
 	if (i->x_image)
 	    XDestroyImage(i->x_image);
