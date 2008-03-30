@@ -1,3 +1,26 @@
+2002-11-13  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.21.
+
+	* serial/realdevice.c (realdevice_write, realdevice_read): Use
+	OpenCBM functions instead of POSIX ones.
+
+	* serial/iec.c, serial/iec.h, serial/fsdrive.c,
+	serial/fsdrive.h, serial/realdevice.c, serial/realdevice.h,
+	serial/serial.c, serial.h: Pass variables instead of using
+	global ones.
+
+	* serial/serial.c, serial.h, c64/c64.c, c128/c128.c,
+	vic20/vic20.c, plus4/plus4.c: Renamed serial traps.
+
+	* printer.h, printerdrv/interface-serial.c, attach.c,
+	arch/unix/uiprinter.c: Added real device printer support.
+
+	* vdrive/vdrive.c, vdrive/vdrive.h, attach.c, c1541.c
+	(vdrive_setup_device): Do not take device type anymore.
+
+	* attach.c: New command line options.
+
 2002-11-12  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.20.

@@ -105,6 +105,18 @@ int file_system_resources_init(void)
 /* ------------------------------------------------------------------------- */
 
 static cmdline_option_t cmdline_options[] = {
+    { "-device8", SET_RESOURCE, 1, NULL, NULL, "FileSystemDevice8",
+      (void *)ATTACH_DEVICE_FS, "<type>",
+      "Set device type for device #8 (0: NONE, 1: FS, 2: REAL, 3: RAW)" },
+    { "-device9", SET_RESOURCE, 1, NULL, NULL, "FileSystemDevice9",
+      (void *)ATTACH_DEVICE_FS, "<type>",
+      "Set device type for device #9 (0: NONE, 1: FS, 2: REAL, 3: RAW)" },
+    { "-device10", SET_RESOURCE, 1, NULL, NULL, "FileSystemDevice10",
+      (void *)ATTACH_DEVICE_FS, "<type>",
+      "Set device type for device #10 (0: NONE, 1: FS, 2: REAL, 3: RAW)" },
+    { "-device11", SET_RESOURCE, 1, NULL, NULL, "FileSystemDevice11",
+      (void *)ATTACH_DEVICE_FS, "<type>",
+      "Set device type for device #11 (0: NONE, 1: FS, 2: REAL, 3: RAW)" },
     { "-attach8ro", SET_RESOURCE, 0, NULL, NULL, "AttachDevice8Readonly",
       (resource_value_t)1,
       NULL, "Attach disk image for drive #8 read only" },
@@ -170,20 +182,20 @@ void file_system_init(void)
         file_system[i].vdrive = (vdrive_t *)xcalloc(1, sizeof(vdrive_t));
         switch (file_system_device_enabled[i]) {
           case ATTACH_DEVICE_NONE:
-            vdrive_setup_device(file_system[i].vdrive, i + 8,
-                                VDRIVE_DEVICE_VIRT);
+            vdrive_setup_device(file_system[i].vdrive, i + 8);
+            serial_type_set(SERIAL_DEVICE_VIRT, i + 8);
             break;
           case ATTACH_DEVICE_FS:
-            vdrive_setup_device(file_system[i].vdrive, i + 8,
-                                VDRIVE_DEVICE_FS);
+            vdrive_setup_device(file_system[i].vdrive, i + 8);
+            serial_type_set(SERIAL_DEVICE_FS, i + 8);
             break;
           case ATTACH_DEVICE_REAL:
-            vdrive_setup_device(file_system[i].vdrive, i + 8,
-                                VDRIVE_DEVICE_REAL);
+            vdrive_setup_device(file_system[i].vdrive, i + 8);
+            serial_type_set(SERIAL_DEVICE_REAL, i + 8);
             break;
           case ATTACH_DEVICE_RAW:
-            vdrive_setup_device(file_system[i].vdrive, i + 8,
-                                VDRIVE_DEVICE_RAW);
+            vdrive_setup_device(file_system[i].vdrive, i + 8);
+            serial_type_set(SERIAL_DEVICE_RAW, i + 8);
             break;
         }
         file_system_set_serial_hooks(i + 8, file_system_device_enabled[i]);
@@ -261,43 +273,49 @@ static int set_file_system_device(resource_value_t v, void *param)
 
     vdrive = (vdrive_t *)file_system_get_vdrive(unit);
 
-    if (vdrive != NULL) {
-        switch ((unsigned int)v) {
-          case ATTACH_DEVICE_NONE:
-            if (old_device_enabled == ATTACH_DEVICE_REAL)
-                serial_realdevice_disable();
-            if (vdrive->image == NULL) {
-                vdrive_setup_device(vdrive, unit, VDRIVE_DEVICE_VIRT);
-                file_system_set_serial_hooks(unit, 0);
-            }
-            break;
-          case ATTACH_DEVICE_FS:
-            if (old_device_enabled == ATTACH_DEVICE_REAL)
-                serial_realdevice_disable();
-            if (vdrive->image == NULL) {
-                vdrive_setup_device(vdrive, unit, VDRIVE_DEVICE_FS);
-                file_system_set_serial_hooks(unit, 1);
-            }
-            break;
-          case ATTACH_DEVICE_REAL:
-            if (serial_realdevice_enable() < 0)
-                return -1;
-            if (vdrive->image != NULL) {
-                detach_disk_image_and_free(vdrive->image, vdrive, unit);
-                ui_display_drive_current_image(unit - 8, "");
-            }
-            vdrive_setup_device(vdrive, unit, VDRIVE_DEVICE_REAL);
-            break;
-          case ATTACH_DEVICE_RAW:
-            if (old_device_enabled == ATTACH_DEVICE_REAL)
-                serial_realdevice_disable();
-            if (vdrive->image != NULL) {
-                detach_disk_image_and_free(vdrive->image, vdrive, unit);
-                ui_display_drive_current_image(unit - 8, "");
-            }
-            vdrive_setup_device(vdrive, unit, VDRIVE_DEVICE_RAW);
-            break;
+    switch ((unsigned int)v) {
+      case ATTACH_DEVICE_NONE:
+        if (old_device_enabled == ATTACH_DEVICE_REAL)
+            serial_realdevice_disable();
+        if (vdrive != NULL && vdrive->image == NULL) {
+            vdrive_setup_device(vdrive, unit);
+            serial_type_set(SERIAL_DEVICE_VIRT, unit);
+            file_system_set_serial_hooks(unit, 0);
         }
+        break;
+      case ATTACH_DEVICE_FS:
+        if (old_device_enabled == ATTACH_DEVICE_REAL)
+            serial_realdevice_disable();
+        if (vdrive != NULL && vdrive->image == NULL) {
+            vdrive_setup_device(vdrive, unit);
+            serial_type_set(SERIAL_DEVICE_FS, unit);
+            file_system_set_serial_hooks(unit, 1);
+        }
+        break;
+#if HAVE_OPENCBM
+      case ATTACH_DEVICE_REAL:
+        if (serial_realdevice_enable() < 0)
+            return -1;
+        if (vdrive != NULL && vdrive->image != NULL) {
+            detach_disk_image_and_free(vdrive->image, vdrive, unit);
+            ui_display_drive_current_image(unit - 8, "");
+            vdrive_setup_device(vdrive, unit);
+        }
+        serial_type_set(SERIAL_DEVICE_REAL, unit);
+        break;
+#endif
+      case ATTACH_DEVICE_RAW:
+        if (old_device_enabled == ATTACH_DEVICE_REAL)
+            serial_realdevice_disable();
+        if (vdrive != NULL && vdrive->image != NULL) {
+            detach_disk_image_and_free(vdrive->image, vdrive, unit);
+            ui_display_drive_current_image(unit - 8, "");
+            vdrive_setup_device(vdrive, unit);
+        }
+        serial_type_set(SERIAL_DEVICE_RAW, unit);
+        break;
+      default:
+        return -1;
     }
 
     file_system_device_enabled[unit - 8] = (unsigned int)v;
@@ -411,7 +429,8 @@ int file_system_attach_disk(unsigned int unit, const char *filename)
 
     vdrive = (vdrive_t *)file_system_get_vdrive(unit);
     /* FIXME: Is this clever?  */
-    vdrive_setup_device(vdrive, unit, VDRIVE_DEVICE_VIRT);
+    vdrive_setup_device(vdrive, unit);
+    serial_type_set(SERIAL_DEVICE_VIRT, unit);
 
     if (attach_disk_image(&(vdrive->image), vdrive, filename, unit) < 0) {
         return -1;
@@ -461,7 +480,7 @@ void file_system_detach_disk_shutdown(void)
     for (i = 0; i <= 3; i++) {
         vdrive = file_system_get_vdrive(i + 8);
         if (vdrive != NULL) {
-            if (file_system_device_enabled[i] == VDRIVE_DEVICE_REAL)
+            if (file_system_device_enabled[i] == ATTACH_DEVICE_REAL)
                 serial_realdevice_disable();
             else
                 detach_disk_image_and_free(vdrive->image, vdrive, i + 8);

@@ -57,17 +57,37 @@ static int set_printer_enabled(resource_value_t v, void *param)
     int flag;
     unsigned int prnr;
 
-    flag = ((int)v) ? 1 : 0;
+    flag = (int)v;
+
+    if (flag != PRINTER_DEVICE_NONE
+        && flag != PRINTER_DEVICE_FS
+#if HAVE_OPENCBM
+        && flag != PRINTER_DEVICE_REAL
+#endif    
+        )
+        return -1;
+
     prnr = (unsigned int)param;
 
-    if (printer_enabled[prnr] && !flag) {
+    if (printer_enabled[prnr] == PRINTER_DEVICE_FS
+        && flag != PRINTER_DEVICE_FS) {
         if (interface_serial_detach(prnr) < 0)
             return -1;
     }
-    if (flag && !printer_enabled[prnr]) {
+    if (flag == PRINTER_DEVICE_FS
+        && printer_enabled[prnr] != PRINTER_DEVICE_FS) {
         if (interface_serial_attach(prnr) < 0)
             return -1;
     }
+
+    if (printer_enabled[prnr] == PRINTER_DEVICE_REAL
+        && flag != PRINTER_DEVICE_REAL) {
+    }
+
+    if (flag == PRINTER_DEVICE_REAL
+        && printer_enabled[prnr] != PRINTER_DEVICE_REAL) {
+    }
+
     printer_enabled[prnr] = flag;
 
     return 0;
@@ -87,18 +107,12 @@ int interface_serial_init_resources(void)
 }
 
 static cmdline_option_t cmdline_options[] = {
-    { "-printer4", SET_RESOURCE, 0, NULL, NULL, "Printer4",
-      (resource_value_t)1, NULL,
-      "Enable the IEC device #4 printer emulation" },
-    { "+printer4", SET_RESOURCE, 0, NULL, NULL, "Printer4",
-      (resource_value_t)0, NULL,
-      "Disable the IEC device #4 printer emulation" },
-    { "-printer5", SET_RESOURCE, 0, NULL, NULL, "Printer5",
-      (resource_value_t)1, NULL,
-      "Enable the IEC device #5 printer emulation" },
-    { "+printer5", SET_RESOURCE, 0, NULL, NULL, "Printer5",
-      (resource_value_t)0, NULL,
-      "Disable the IEC device #5 printer emulation" },
+    { "-device4", SET_RESOURCE, 1, NULL, NULL, "Printer4",
+      (void *)PRINTER_DEVICE_FS, "<type>",
+      "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)" },
+    { "-device5", SET_RESOURCE, 1, NULL, NULL, "Printer5",
+      (void *)PRINTER_DEVICE_FS, "<type>",
+      "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)" },
     { NULL }
 };
 

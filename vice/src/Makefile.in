@@ -647,8 +647,6 @@ parallel.o: parallel.c vice.h config.h cmdline.h drive/drive.h log.h \
 petcat.o: petcat.c vice.h config.h charset.h arch/unix/types.h p00.h
 ram.o: ram.c vice.h config.h cmdline.h ram.h arch/unix/types.h \
 	resources.h
-realdrive.o: realdrive.c log.h maincpu.h arch/unix/types.h vice.h \
-	config.h mem.h mos6510.h realdrive.h traps.h vsync.h
 resources.o: resources.c vice.h config.h arch/unix/archdep.h archapi.h \
 	ioutil.h log.h resources.h utils.h arch/unix/types.h
 romset.o: romset.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
@@ -656,9 +654,6 @@ romset.o: romset.c vice.h config.h arch/unix/archdep.h archapi.h log.h \
 screenshot.o: screenshot.c vice.h config.h gfxoutput.h log.h machine.h \
 	palette.h arch/unix/types.h screenshot.h utils.h video.h \
 	viewport.h
-serial.o: serial.c vice.h config.h attach.h drive/drive.h log.h \
-	arch/unix/types.h maincpu.h mem.h mos6510.h parallel.h \
-	printer.h serial.h traps.h utils.h vdrive/vdrive.h
 snapshot.o: snapshot.c vice.h config.h arch/unix/archdep.h archapi.h \
 	ioutil.h log.h snapshot.h arch/unix/types.h utils.h vsync.h \
 	zfile.h

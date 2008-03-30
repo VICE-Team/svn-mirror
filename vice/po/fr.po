@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice 1.10\n"
-"POT-Creation-Date: 2002-11-12 22:01+0100\n"
+"POT-Creation-Date: 2002-11-13 17:49+0100\n"
 "PO-Revision-Date: 2001-07-13 20:55+02:00\n"
 "Last-Translator: Eric (meepmeep) <>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -1304,6 +1304,7 @@ msgstr ""
 #: src/arch/unix/uijoystick2.c:78 src/arch/unix/uijoystick2.c:107
 #: src/arch/unix/uiperipheral.c:99 src/arch/unix/uiperipheral.c:130
 #: src/arch/unix/uiperipheral.c:161 src/arch/unix/uiperipheral.c:192
+#: src/arch/unix/uiprinter.c:172 src/arch/unix/uiprinter.c:184
 #: src/arch/unix/vic20ui.c:282
 msgid "*None"
 msgstr "*Aucun"
@@ -1511,11 +1512,13 @@ msgstr ""
 
 #: src/arch/unix/uiperipheral.c:101 src/arch/unix/uiperipheral.c:132
 #: src/arch/unix/uiperipheral.c:163 src/arch/unix/uiperipheral.c:194
+#: src/arch/unix/uiprinter.c:174 src/arch/unix/uiprinter.c:186
 msgid "*File system access"
 msgstr ""
 
 #: src/arch/unix/uiperipheral.c:104 src/arch/unix/uiperipheral.c:135
 #: src/arch/unix/uiperipheral.c:166 src/arch/unix/uiperipheral.c:197
+#: src/arch/unix/uiprinter.c:177 src/arch/unix/uiprinter.c:189
 msgid "*Real device access"
 msgstr ""
 
@@ -1612,64 +1615,64 @@ msgstr "Commande à executer pour imprimer (précédée de '|')"
 msgid "Command:"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:178
+#: src/arch/unix/uiprinter.c:205
 msgid "*IEC printer #4 emulation"
 msgstr "*Emulateur IEC imprimante #4"
 
-#: src/arch/unix/uiprinter.c:180
+#: src/arch/unix/uiprinter.c:207
 msgid "IEC printer #4 driver"
 msgstr "Pilote IEC imprimante #4"
 
-#: src/arch/unix/uiprinter.c:182
+#: src/arch/unix/uiprinter.c:209
 #, fuzzy
 msgid "IEC printer #4 text output device"
 msgstr "Périphérique de sortie IEC imprimante #4"
 
-#: src/arch/unix/uiprinter.c:184
+#: src/arch/unix/uiprinter.c:211
 msgid "Flush IEC printer #4 device"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:187
+#: src/arch/unix/uiprinter.c:214
 msgid "*IEC printer #5 emulation"
 msgstr "*Emulateur IEC imprimante #5"
 
-#: src/arch/unix/uiprinter.c:189
+#: src/arch/unix/uiprinter.c:216
 msgid "IEC printer #5 driver"
 msgstr "Pilote IEC imprimante #5"
 
-#: src/arch/unix/uiprinter.c:191
+#: src/arch/unix/uiprinter.c:218
 #, fuzzy
 msgid "IEC printer #5 text output device"
 msgstr "Périphérique de sortie IEC imprimante #5"
 
-#: src/arch/unix/uiprinter.c:193
+#: src/arch/unix/uiprinter.c:220
 msgid "Flush IEC printer #5 device"
 msgstr ""
 
-#: src/arch/unix/uiprinter.c:196
+#: src/arch/unix/uiprinter.c:223
 msgid "*Userport printer emulation"
 msgstr "*Emulateur du port utilisateur imprimante"
 
-#: src/arch/unix/uiprinter.c:198
+#: src/arch/unix/uiprinter.c:225
 msgid "Userport printer driver"
 msgstr "Pilote du port utilisateur imprimante"
 
-#: src/arch/unix/uiprinter.c:200
+#: src/arch/unix/uiprinter.c:227
 #, fuzzy
 msgid "Userport printer text output device"
 msgstr "Périphérique de sortie du port utilisateur imprimante"
 
-#: src/arch/unix/uiprinter.c:203
+#: src/arch/unix/uiprinter.c:230
 #, fuzzy
 msgid "Printer text device 1..."
 msgstr "Pilote d'imprimante 1..."
 
-#: src/arch/unix/uiprinter.c:205
+#: src/arch/unix/uiprinter.c:232
 #, fuzzy
 msgid "Printer text device 2..."
 msgstr "Pilote d'imprimante 1..."
 
-#: src/arch/unix/uiprinter.c:207
+#: src/arch/unix/uiprinter.c:234
 #, fuzzy
 msgid "Printer text device 3..."
 msgstr "Pilote d'imprimante 3..."

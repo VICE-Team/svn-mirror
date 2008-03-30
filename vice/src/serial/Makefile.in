@@ -260,15 +260,13 @@ distdir: $(DISTFILES)
 	done
 fsdrive.o: fsdrive.c ../../src/vice.h ../../src/config.h \
 	../../src/attach.h fsdrive.h ../../src/arch/unix/types.h \
-	../../src/log.h ../../src/maincpu.h ../../src/mem.h \
-	../../src/mos6510.h ../../src/serial.h \
-	../../src/vdrive/vdrive.h
-iec.o: iec.c ../../src/vice.h ../../src/config.h ../../src/attach.h \
-	fsdrive.h ../../src/arch/unix/types.h iec.h realdevice.h \
-	../../src/vdrive/vdrive.h
+	../../src/log.h ../../src/serial.h ../../src/vdrive/vdrive.h
+iec.o: iec.c ../../src/vice.h ../../src/config.h fsdrive.h \
+	../../src/arch/unix/types.h iec.h realdevice.h \
+	../../src/serial.h
 realdevice.o: realdevice.c ../../src/vice.h ../../src/config.h \
-	../../src/log.h ../../src/mem.h ../../src/arch/unix/types.h \
-	realdevice.h ../../src/serial.h ../../src/vsync.h
+	../../src/log.h realdevice.h ../../src/arch/unix/types.h \
+	../../src/serial.h ../../src/vsync.h
 serial.o: serial.c ../../src/vice.h ../../src/config.h \
 	../../src/attach.h ../../src/drive/drive.h ../../src/log.h \
 	../../src/arch/unix/types.h iec.h ../../src/maincpu.h \
