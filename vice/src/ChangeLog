@@ -1,3 +1,10 @@
+2000-07-24  Andreas Boose  <boose@linux.rz.fh-hannover.de>
+
+	* Version 1.5.
+
+	* arch/unix/x11/gnome/uicolor.c, arch/unix/x11/xaw/uicolor.c:
+	Removed debugging cruft.
+
 2000-07-23  Andreas Boose  <boose@linux.rz.fh-hannover.de>
 
 	* Version 1.4.32.

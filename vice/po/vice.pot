@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-07-21 01:06+0200\n"
+"POT-Creation-Date: 2000-07-25 00:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2146,21 +2146,11 @@ msgstr ""
 msgid "Successfully wrote `%s'\n"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uicolor.c:105 src/arch/unix/x11/xaw/uicolor.c:88
-#, c-format
-msgid "Color request for canvas %p."
-msgstr ""
-
-#: src/arch/unix/x11/gnome/uicolor.c:126 src/arch/unix/x11/xaw/uicolor.c:108
-#, c-format
-msgid "Change color request for canvas %p."
-msgstr ""
-
-#: src/arch/unix/x11/gnome/uicolor.c:155 src/arch/unix/x11/xaw/uicolor.c:131
+#: src/arch/unix/x11/gnome/uicolor.c:152 src/arch/unix/x11/xaw/uicolor.c:127
 msgid "XCreateImage failed."
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uicolor.c:164 src/arch/unix/x11/xaw/uicolor.c:141
+#: src/arch/unix/x11/gnome/uicolor.c:161 src/arch/unix/x11/xaw/uicolor.c:137
 #, c-format
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
 msgstr ""
@@ -2413,11 +2403,11 @@ msgstr ""
 msgid "Save cartridge image"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uicolor.c:95
+#: src/arch/unix/x11/xaw/uicolor.c:93
 msgid "Automatically using a private colormap."
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uicolor.c:162
+#: src/arch/unix/x11/xaw/uicolor.c:158
 msgid "XFreeColors failed."
 msgstr ""
 

@@ -85,8 +85,6 @@ static int uicolor_alloc_system_colors(void)
 int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
                          PIXEL pixel_return[])
 {
-    log_message(LOG_DEFAULT, _("Color request for canvas %p."), c);
-
     if (uicolor_alloc_system_colors() < 0
         || color_alloc_colors(c, palette, pixel_return, NULL) < 0) {
         Display *display = ui_get_display_ptr();
@@ -105,8 +103,6 @@ int uicolor_alloc_colors(canvas_t *c, const palette_t *palette,
 int ui_canvas_set_palette(canvas_t *c, ui_window_t w, const palette_t *palette,
                           PIXEL *pixel_return)
 {
-    log_message(LOG_DEFAULT, _("Change color request for canvas %p."), c);
-
     return color_alloc_colors(c, palette, pixel_return, NULL);
 }
 

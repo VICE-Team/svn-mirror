@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.5\n"
-"POT-Creation-Date: 2000-07-21 01:06+0200\n"
+"POT-Creation-Date: 2000-07-25 00:00+0200\n"
 "PO-Revision-Date: 2000-07-16 13:41+02:00\n"
 "Last-Translator: Martin Pottendorfer (pottendo@utanet.at)\n"
 "Language-Team: de <de@li.org>\n"
@@ -2154,21 +2154,11 @@ msgstr "Kann Erweiterunsmodule Imagedatei `%s' nicht speichern.\n"
 msgid "Successfully wrote `%s'\n"
 msgstr "`%s' erfolgreich gespeichert\n"
 
-#: src/arch/unix/x11/gnome/uicolor.c:105 src/arch/unix/x11/xaw/uicolor.c:88
-#, c-format
-msgid "Color request for canvas %p."
-msgstr "Color request for canvas %p."
-
-#: src/arch/unix/x11/gnome/uicolor.c:126 src/arch/unix/x11/xaw/uicolor.c:108
-#, c-format
-msgid "Change color request for canvas %p."
-msgstr "Change color request for canvas %p."
-
-#: src/arch/unix/x11/gnome/uicolor.c:155 src/arch/unix/x11/xaw/uicolor.c:131
+#: src/arch/unix/x11/gnome/uicolor.c:152 src/arch/unix/x11/xaw/uicolor.c:127
 msgid "XCreateImage failed."
 msgstr "XCreateImage failed."
 
-#: src/arch/unix/x11/gnome/uicolor.c:164 src/arch/unix/x11/xaw/uicolor.c:141
+#: src/arch/unix/x11/gnome/uicolor.c:161 src/arch/unix/x11/xaw/uicolor.c:137
 #, c-format
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
 msgstr "Cannot allocate color \"#%04X%04X%04X\"."
@@ -2423,11 +2413,11 @@ msgstr "Abbruch"
 msgid "Save cartridge image"
 msgstr "Erweiterungsmodul speichern"
 
-#: src/arch/unix/x11/xaw/uicolor.c:95
+#: src/arch/unix/x11/xaw/uicolor.c:93
 msgid "Automatically using a private colormap."
 msgstr "Benutze private Farbpalette."
 
-#: src/arch/unix/x11/xaw/uicolor.c:162
+#: src/arch/unix/x11/xaw/uicolor.c:158
 msgid "XFreeColors failed."
 msgstr "XFreeColors failed."
 
@@ -2533,3 +2523,9 @@ msgstr "Performance wird nicht optimal sein."
 #: src/arch/unix/x11/xaw/x11video.c:186
 msgid "Successfully initialized without shared memory."
 msgstr "Video erfolgreich ohne Shared Memroy initialisiert."
+
+#~ msgid "Color request for canvas %p."
+#~ msgstr "Color request for canvas %p."
+
+#~ msgid "Change color request for canvas %p."
+#~ msgstr "Change color request for canvas %p."
