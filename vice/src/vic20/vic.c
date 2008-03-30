@@ -105,61 +105,61 @@ static int raster_draw_alarm_handler (CLOCK offset)
   return 0;
 }
 
-static int init_raster (void)
+static int init_raster(void)
 {
-  raster_t *raster;
-  unsigned int width, height;
-  char *title;
+    raster_t *raster;
+    unsigned int width, height;
+    char *title;
 
-  raster = &vic.raster;
+    raster = &vic.raster;
 
-  raster_init (raster, VIC_NUM_VMODES, VIC_NUM_SPRITES);
-  raster_modes_set_idle_mode (raster->modes, VIC_IDLE_MODE);
-  raster_set_exposure_handler (raster, vic_exposure_handler);
-  raster_enable_cache (raster, vic_resources.video_cache_enabled);
-  raster_enable_double_scan (raster, vic_resources.double_scan_enabled);
-  raster_set_canvas_refresh(raster, 1);
+    if (raster_init(raster, VIC_NUM_VMODES, VIC_NUM_SPRITES) < 0)
+        return -1;
 
-  raster_set_geometry (raster,
-                       VIC_SCREEN_WIDTH, VIC_SCREEN_HEIGHT,
-                       VIC_SCREEN_WIDTH, 1,
-                       0, 0,
-                       0, 4 * 8, /* Border shift.  */
-                       1,
-                       VIC_FIRST_DISPLAYED_LINE,
-                       VIC_LAST_DISPLAYED_LINE,
-                       0);
+    raster_modes_set_idle_mode (raster->modes, VIC_IDLE_MODE);
+    raster_set_exposure_handler (raster, vic_exposure_handler);
+    raster_enable_cache (raster, vic_resources.video_cache_enabled);
+    raster_enable_double_scan (raster, vic_resources.double_scan_enabled);
+    raster_set_canvas_refresh(raster, 1);
 
-  width = VIC_SCREEN_WIDTH * VIC_PIXEL_WIDTH;
-  height = VIC_LAST_DISPLAYED_LINE - VIC_FIRST_DISPLAYED_LINE + 1;
-  if (vic_resources.double_size_enabled)
-    {
-      width *= 2;
-      height *= 2;
-      raster_set_pixel_size (raster, VIC_PIXEL_WIDTH * 2, 2);
+    raster_set_geometry (raster,
+                         VIC_SCREEN_WIDTH, VIC_SCREEN_HEIGHT,
+                         VIC_SCREEN_WIDTH, 1,
+                         0, 0,
+                         0, 4 * 8, /* Border shift.  */
+                         1,
+                         VIC_FIRST_DISPLAYED_LINE,
+                         VIC_LAST_DISPLAYED_LINE,
+                         0);
+
+    width = VIC_SCREEN_WIDTH * VIC_PIXEL_WIDTH;
+    height = VIC_LAST_DISPLAYED_LINE - VIC_FIRST_DISPLAYED_LINE + 1;
+    if (vic_resources.double_size_enabled) {
+        width *= 2;
+        height *= 2;
+        raster_set_pixel_size (raster, VIC_PIXEL_WIDTH * 2, 2);
+    } else
+        raster_set_pixel_size (raster, VIC_PIXEL_WIDTH, 1);
+
+    raster_resize_viewport (raster, width, height);
+
+    if (vic_load_palette (vic_resources.palette_file_name) < 0) {
+        log_error (vic.log, "Cannot load palette.");
+        return -1;
     }
-  else
-    raster_set_pixel_size (raster, VIC_PIXEL_WIDTH, 1);
 
-  raster_resize_viewport (raster, width, height);
+    title = concat ("VICE: ", machine_name, " emulator", NULL);
+    raster_set_title (raster, title);
+    free(title);
 
-  if (vic_load_palette (vic_resources.palette_file_name) < 0) {
-    log_error (vic.log, "Cannot load palette.");
-    return -1;
-  }
+    raster_realize (raster);
 
-  title = concat ("VICE: ", machine_name, " emulator", NULL);
-  raster_set_title (raster, title);
-  free (title);
+    raster->display_ystart = VIC_FIRST_DISPLAYED_LINE;
+    raster->display_ystop = VIC_FIRST_DISPLAYED_LINE + 1;
+    raster->display_xstart = 0;
+    raster->display_xstop = 1; 
 
-  raster_realize (raster);
-
-  raster->display_ystart = VIC_FIRST_DISPLAYED_LINE;
-  raster->display_ystop = VIC_FIRST_DISPLAYED_LINE + 1;
-  raster->display_xstart = 0;
-  raster->display_xstop = 1; 
-
-  return 0;
+    return 0;
 }
 
 /* Initialization. */

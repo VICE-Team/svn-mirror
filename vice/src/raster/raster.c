@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -491,7 +492,7 @@ inline static void draw_blank (raster_t *raster,
   unsigned int pixel_width;
 
   pixel_width = raster->viewport.pixel_size.width;
-  vid_memset ((BYTE *) raster->frame_buffer_ptr + start * pixel_width,
+  vid_memset ((PIXEL *) (raster->frame_buffer_ptr + start * pixel_width),
               RASTER_PIXEL (raster, raster->border_color),
               (end - start + 1) * pixel_width);
 }
@@ -1233,7 +1234,7 @@ static void raster_geometry_init (raster_geometry_t *geometry)
 void video_register_raster(raster_t *raster);
 #endif
 
-void raster_init (raster_t *raster,
+int raster_init (raster_t *raster,
              unsigned int num_modes,
              unsigned int num_sprites)
 {
@@ -1245,46 +1246,50 @@ void raster_init (raster_t *raster,
     video_register_raster(raster);
 #endif
 
-  raster_viewport_init (&raster->viewport);
-  raster_geometry_init (&raster->geometry);
+    raster_viewport_init (&raster->viewport);
+    raster_geometry_init (&raster->geometry);
 
-  raster->modes = (raster_modes_t *)xmalloc(sizeof(raster_modes_t));
-  raster_modes_init (raster->modes, num_modes);
+    raster->modes = (raster_modes_t *)xmalloc(sizeof(raster_modes_t));
+    raster_modes_init (raster->modes, num_modes);
 
-  raster->sprite_status = (raster_sprite_status_t *)
+    raster->sprite_status = (raster_sprite_status_t *)
                           xmalloc(sizeof(raster_sprite_status_t));
-  raster_sprite_status_init (raster->sprite_status, num_sprites);
+    raster_sprite_status_init (raster->sprite_status, num_sprites);
 
-  /* Woo!  This sucks real bad!  FIXME!  */
-  if (!console_mode && !vsid_mode)
-    video_frame_buffer_alloc (&raster->frame_buffer, 1, 1);
+    /* Woo!  This sucks real bad!  FIXME!  */
+    if (!console_mode && !vsid_mode) {
+        if (video_frame_buffer_alloc (&raster->frame_buffer, 1, 1) < 0)
+            return -1;
+    }
 
-  raster_reset (raster);
+    raster_reset (raster);
 
-  raster->palette = NULL;
+    raster->palette = NULL;
 
-  raster->display_xstart = raster->display_xstop = 0;
-  raster->display_ystart = raster->display_ystop = 0;
+    raster->display_xstart = raster->display_xstop = 0;
+    raster->display_ystart = raster->display_ystop = 0;
 
-  raster->cache = NULL;
-  raster->cache_enabled = 0;
-  raster->dont_cache = 1;
-  raster->num_cached_lines = 0;
+    raster->cache = NULL;
+    raster->cache_enabled = 0;
+    raster->dont_cache = 1;
+    raster->num_cached_lines = 0;
 
-  raster->update_area.is_null = 1;
+    raster->update_area.is_null = 1;
 
-  raster->do_double_scan = 0;
+    raster->do_double_scan = 0;
 
-  raster->fake_frame_buffer_line = NULL;
+    raster->fake_frame_buffer_line = NULL;
 
-  raster->refresh_tables = NULL;
+    raster->refresh_tables = NULL;
 
-  raster->border_color = 0;
-  raster->background_color = 0;
-  raster->overscan_background_color = 0;
+    raster->border_color = 0;
+    raster->background_color = 0;
+    raster->overscan_background_color = 0;
 
-  memset (raster->gfx_msk, 0, RASTER_GFX_MSK_SIZE);
-  memset (raster->zero_gfx_msk, 0, RASTER_GFX_MSK_SIZE);
+    memset (raster->gfx_msk, 0, RASTER_GFX_MSK_SIZE);
+    memset (raster->zero_gfx_msk, 0, RASTER_GFX_MSK_SIZE);
+
+  return 0;
 }
 
 void raster_reset (raster_t *raster)

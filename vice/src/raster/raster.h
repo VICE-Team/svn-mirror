@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -270,8 +271,8 @@ struct screenshot_s;
 #define RASTER_PIXEL2(raster, c) (raster)->pixel_table.doub[(c)]
 #define RASTER_PIXEL4(raster, c) (raster)->pixel_table.quad[(c)]
 
-extern void raster_init (raster_t *raster, unsigned int num_modes,
-                         unsigned int num_sprites);
+extern int raster_init (raster_t *raster, unsigned int num_modes,
+                        unsigned int num_sprites);
 extern raster_t *raster_new (unsigned int num_modes, unsigned int num_sprites);
 extern void raster_reset (raster_t *raster);
 extern int raster_realize (raster_t *raster);

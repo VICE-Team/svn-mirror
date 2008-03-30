@@ -3,6 +3,7 @@
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * 16/24bpp support added by
  *  Steven Tieu <stieu@physics.ubc.ca>
@@ -199,40 +200,42 @@ static void vic_ii_set_geometry(void)
 
 static int init_raster (void)
 {
-  raster_t *raster;
-  char *title;
+    raster_t *raster;
+    char *title;
 
-  raster = &vic_ii.raster;
+    raster = &vic_ii.raster;
 
-  raster_init (raster, VIC_II_NUM_VMODES, VIC_II_NUM_SPRITES);
-  raster_modes_set_idle_mode (raster->modes, VIC_II_IDLE_MODE);
-  raster_set_exposure_handler (raster, vic_ii_exposure_handler);
-  raster_enable_cache (raster, vic_ii_resources.video_cache_enabled);
+    if (raster_init(raster, VIC_II_NUM_VMODES, VIC_II_NUM_SPRITES) < 0)
+        return -1;
+
+    raster_modes_set_idle_mode (raster->modes, VIC_II_IDLE_MODE);
+    raster_set_exposure_handler (raster, vic_ii_exposure_handler);
+    raster_enable_cache (raster, vic_ii_resources.video_cache_enabled);
 #ifdef VIC_II_NEED_2X
-  raster_enable_double_scan (raster, vic_ii_resources.double_scan_enabled);
+    raster_enable_double_scan (raster, vic_ii_resources.double_scan_enabled);
 #else
-  raster_enable_double_scan (raster, 0);
+    raster_enable_double_scan (raster, 0);
 #endif
-  raster_set_canvas_refresh(raster, 1);
+    raster_set_canvas_refresh(raster, 1);
 
-  vic_ii_set_geometry();
+    vic_ii_set_geometry();
 
-  if (vic_ii_load_palette (vic_ii_resources.palette_file_name) < 0) {
-    log_error (vic_ii.log, "Cannot load palette.");
-    return -1;
-  }
-  title = concat ("VICE: ", machine_name, " emulator", NULL);
-  raster_set_title (raster, title);
-  free (title);
+    if (vic_ii_load_palette (vic_ii_resources.palette_file_name) < 0) {
+        log_error (vic_ii.log, "Cannot load palette.");
+        return -1;
+    }
+    title = concat ("VICE: ", machine_name, " emulator", NULL);
+    raster_set_title (raster, title);
+    free (title);
 
-  raster_realize (raster);
+    raster_realize (raster);
 
-  raster->display_ystart = vic_ii.row_25_start_line;
-  raster->display_ystop = vic_ii.row_25_stop_line;
-  raster->display_xstart = VIC_II_40COL_START_PIXEL;
-  raster->display_xstop = VIC_II_40COL_STOP_PIXEL;
+    raster->display_ystart = vic_ii.row_25_start_line;
+    raster->display_ystop = vic_ii.row_25_stop_line;
+    raster->display_xstart = VIC_II_40COL_START_PIXEL;
+    raster->display_xstop = VIC_II_40COL_STOP_PIXEL;
 
-  return 0;
+    return 0;
 }
 
 /* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes

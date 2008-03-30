@@ -346,74 +346,82 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 
 raster_t *crtc_init(void)
 {
-  raster_t *raster;
-  char *title;
+    raster_t *raster;
+    char *title;
 
-  crtc.log = log_open ("CRTC");
+    crtc.log = log_open ("CRTC");
 
-  alarm_init (&crtc.raster_draw_alarm, &maincpu_alarm_context,
-              "CrtcRasterDraw", crtc_raster_draw_alarm_handler);
+    alarm_init (&crtc.raster_draw_alarm, &maincpu_alarm_context,
+                "CrtcRasterDraw", crtc_raster_draw_alarm_handler);
 
-  clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
+    clk_guard_add_callback(&maincpu_clk_guard, clk_overflow_callback, NULL);
 
-  raster = &crtc.raster;
+    raster = &crtc.raster;
 
-  raster_init (raster, CRTC_NUM_VMODES, 0);
-  raster_modes_set_idle_mode (raster->modes, CRTC_IDLE_MODE);
-  raster_set_exposure_handler (raster, crtc_exposure_handler);
-  raster_enable_cache (raster, crtc_resources.video_cache_enabled);
-  raster_enable_double_scan (raster, crtc_resources.double_scan_enabled);
-  raster_set_canvas_refresh(raster, 1);
+    if (raster_init(raster, CRTC_NUM_VMODES, 0) < 0)
+        return NULL;
 
-  if (! crtc.regs[0]) crtc.regs[0] = 49;
-  if (! crtc.regs[1]) crtc.regs[1] = 40;
-  if (! crtc.regs[2]) crtc.regs[2] = 45;
-  if (! crtc.regs[4]) crtc.regs[4] = 30;
-  if (! crtc.regs[6]) crtc.regs[6] = 25;
-  if (! crtc.regs[9]) crtc.regs[9] = 7;
+    raster_modes_set_idle_mode (raster->modes, CRTC_IDLE_MODE);
+    raster_set_exposure_handler (raster, crtc_exposure_handler);
+    raster_enable_cache (raster, crtc_resources.video_cache_enabled);
+    raster_enable_double_scan (raster, crtc_resources.double_scan_enabled);
+    raster_set_canvas_refresh(raster, 1);
 
-  /* FIXME */
-  crtc.screen_xoffset = 0;
-  crtc.screen_yoffset = CRTC_SCREEN_BORDERHEIGHT;
-  crtc.retrace_callback = NULL;
+    if (! crtc.regs[0])
+        crtc.regs[0] = 49;
+    if (! crtc.regs[1])
+        crtc.regs[1] = 40;
+    if (! crtc.regs[2])
+        crtc.regs[2] = 45;
+    if (! crtc.regs[4])
+        crtc.regs[4] = 30;
+    if (! crtc.regs[6])
+        crtc.regs[6] = 25;
+    if (! crtc.regs[9])
+        crtc.regs[9] = 7;
 
-  log_debug("scr_width=%d, scr_height=%d",
-			crtc.screen_width, crtc.screen_height);
-  log_debug("tcols=%d, tlines=%d, bwidth=%d, bheight=%d",
-			CRTC_SCREEN_TEXTCOLS(), CRTC_SCREEN_TEXTLINES(),
-                       CRTC_SCREEN_BORDERWIDTH, CRTC_SCREEN_BORDERHEIGHT);
-  log_debug("displayed lines: first=%d, last=%d",
-                       CRTC_FIRST_DISPLAYED_LINE, CRTC_LAST_DISPLAYED_LINE);
+    /* FIXME */
+    crtc.screen_xoffset = 0;
+    crtc.screen_yoffset = CRTC_SCREEN_BORDERHEIGHT;
+    crtc.retrace_callback = NULL;
 
-  crtc.initialized = 1;
+    log_debug("scr_width=%d, scr_height=%d",
+              crtc.screen_width, crtc.screen_height);
+    log_debug("tcols=%d, tlines=%d, bwidth=%d, bheight=%d",
+              CRTC_SCREEN_TEXTCOLS(), CRTC_SCREEN_TEXTLINES(),
+              CRTC_SCREEN_BORDERWIDTH, CRTC_SCREEN_BORDERHEIGHT);
+    log_debug("displayed lines: first=%d, last=%d",
+              CRTC_FIRST_DISPLAYED_LINE, CRTC_LAST_DISPLAYED_LINE);
 
-  crtc_update_window();
+    crtc.initialized = 1;
 
-  if (crtc_load_palette (crtc_resources.palette_file_name) < 0) {
-    log_error (crtc.log, "Cannot load palette.");
-    return NULL;
-  }
+    crtc_update_window();
 
-  title = concat ("VICE: ", machine_name, " emulator", NULL);
-  raster_set_title (raster, title);
-  free (title);
+    if (crtc_load_palette (crtc_resources.palette_file_name) < 0) {
+        log_error (crtc.log, "Cannot load palette.");
+        return NULL;
+    }
 
-  raster_realize (raster);
+    title = concat ("VICE: ", machine_name, " emulator", NULL);
+    raster_set_title (raster, title);
+    free(title);
 
-  crtc_update_chargen_rel();
-  crtc_update_disp_char();
-  crtc_reset_screen_ptr();
+    raster_realize (raster);
 
-  crtc_draw_init ();
-  crtc_draw_set_double_size (crtc_resources.double_size_enabled);
-  crtc_reset ();
+    crtc_update_chargen_rel();
+    crtc_update_disp_char();
+    crtc_reset_screen_ptr();
+
+    crtc_draw_init ();
+    crtc_draw_set_double_size (crtc_resources.double_size_enabled);
+    crtc_reset ();
 /*
-  raster->display_ystart = CRTC_SCREEN_BORDERHEIGHT;
-  raster->display_ystop = crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT;
-  raster->display_xstart = CRTC_SCREEN_BORDERWIDTH;
-  raster->display_xstop = crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH;
+    raster->display_ystart = CRTC_SCREEN_BORDERHEIGHT;
+    raster->display_ystop = crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT;
+    raster->display_xstart = CRTC_SCREEN_BORDERWIDTH;
+    raster->display_xstop = crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH;
 */
-  return &crtc.raster;
+    return &crtc.raster;
 }
 
 /* Reset the CRTC chip.  */

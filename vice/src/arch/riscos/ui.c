@@ -124,6 +124,7 @@ static const char PRGFileExtension[] = "prg";
 
 
 #define FileType_Text		0xfff
+#define FileType_Data		0xffd
 #define FileType_C64File	0x064
 
 
@@ -146,6 +147,8 @@ static const char PRGFileExtension[] = "prg";
 /* Menu definitions */
 #define Menu_IBar		1
 #define Menu_Emulator		2
+#define Menu_Images		3
+#define Menu_CreateDisc		4
 
 #define Menu_Height		44
 #define Menu_Flags		0x07003011
@@ -181,6 +184,7 @@ static const char PRGFileExtension[] = "prg";
 
 #define Icon_Info_Name		5
 #define Icon_Info_Purpose	6
+#define Icon_Info_Version	9
 
 #define Icon_Jam_Message	0
 #define Icon_Jam_Reset		1
@@ -188,12 +192,12 @@ static const char PRGFileExtension[] = "prg";
 #define Icon_Jam_Monitor	3
 #define Icon_Jam_Debug		4
 
-#define Icon_Create_Type        0
-#define Icon_Create_TypeT       1
-#define Icon_Create_Name        5
-#define Icon_Create_Sprite      3
-#define Icon_Create_OK          4
-#define Icon_Create_File        2
+#define Icon_Create_Type	0
+#define Icon_Create_TypeT	1
+#define Icon_Create_Name	5
+#define Icon_Create_Sprite	3
+#define Icon_Create_OK		4
+#define Icon_Create_File	2
 
 
 /* Drive config */
@@ -222,10 +226,17 @@ static const char PRGFileExtension[] = "prg";
 #define Icon_Conf_DriveFile9	6
 #define Icon_Conf_DriveFile10	9
 #define Icon_Conf_DriveFile11	12
-#define Icon_Conf_TapeFile	26
-#define Icon_Conf_TapeDetach	36
-#define Icon_Conf_DataReset	37
-#define Icon_Conf_DataCounter	39
+
+/* Tape config */
+#define Icon_Conf_TapeFile	2
+#define Icon_Conf_TapeDetach	3
+#define Icon_Conf_DataReset	4
+#define Icon_Conf_DataCounter	6
+#define Icon_Conf_DataStop	8
+#define Icon_Conf_DataRewind	9
+#define Icon_Conf_DataPlay	10
+#define Icon_Conf_DataForward	11
+#define Icon_Conf_DataRecord	12
 
 /* Device config */
 #define Icon_Conf_ACIAIrq	2
@@ -377,6 +388,7 @@ static const char PRGFileExtension[] = "prg";
 #define DRAG_TYPE_SNAPSHOT	4
 #define DRAG_TYPE_VOLUME	5
 #define DRAG_TYPE_SAVEBOX	6
+#define DRAG_TYPE_CREATEDISC	7
 
 
 
@@ -385,15 +397,16 @@ static const char PRGFileExtension[] = "prg";
 
 /* Configuration windows */
 #define CONF_WIN_DRIVES		0
-#define CONF_WIN_DEVICES	1
-#define CONF_WIN_SOUND		2
-#define CONF_WIN_SYSTEM		3
-#define CONF_WIN_JOY		4
-#define CONF_WIN_PET		5
-#define CONF_WIN_VIC		6
-#define CONF_WIN_CBM2		7
-#define CONF_WIN_C128		8
-#define CONF_WIN_NUMBER		9
+#define CONF_WIN_TAPE		1
+#define CONF_WIN_DEVICES	2
+#define CONF_WIN_SOUND		3
+#define CONF_WIN_SYSTEM		4
+#define CONF_WIN_JOY		5
+#define CONF_WIN_PET		6
+#define CONF_WIN_VIC		7
+#define CONF_WIN_CBM2		8
+#define CONF_WIN_C128		9
+#define CONF_WIN_NUMBER		10
 
 
 
@@ -699,18 +712,11 @@ RO_Window *CpuJamWindow;
 RO_Window *SaveBox;
 RO_Window *ImgContWindow;
 RO_Window *MessageWindow;
+RO_Window *CreateDiscWindow;
 RO_Window *ConfWindows[CONF_WIN_NUMBER];
-RO_Window *MonitorWindow;
 
 #define TitleBarOffset	40
 RO_Window *ConfWinPositions[CONF_WIN_NUMBER];
-
-
-static text_window_t MonitorWinDesc = {
-  "corpus.medium", TWIN_FLAG_LINEEDIT, 12, 12, 16, 0xeeeeee00, 0x00000000, 1500, 500, 256, 1536, 0, {&MonitorWinDesc, ui_monitor_enter}
-};
-
-text_window_t *MonWinDescPtr = &MonitorWinDesc;
 
 
 
@@ -718,7 +724,6 @@ text_window_t *MonWinDescPtr = &MonitorWinDesc;
 
 /* Symbols and error messages for translation */
 enum SymbolInstances {
-  Symbol_Version,
   Symbol_Date,
   Symbol_Zoom1,
   Symbol_Zoom2,
@@ -801,16 +806,17 @@ static Joy_Keys JoyToIcon[2] = {
 
 
 /* Configuration menu */
-#define Menu_Config_Items	8
+#define Menu_Config_Items	9
 #define Menu_Config_Width	200
 #define Menu_Config_Drives	0
-#define Menu_Config_Devices	1
-#define Menu_Config_Sound	2
-#define Menu_Config_System	3
-#define Menu_Config_Joystick	4
-#define Menu_Config_Machine	5
-#define Menu_Config_Save	6
-#define Menu_Config_Reload	7
+#define Menu_Config_Tape	1
+#define Menu_Config_Devices	2
+#define Menu_Config_Sound	3
+#define Menu_Config_System	4
+#define Menu_Config_Joystick	5
+#define Menu_Config_Machine	6
+#define Menu_Config_Save	7
+#define Menu_Config_Reload	8
 static struct MenuConfigure {
   RO_MenuHead head;
   RO_MenuItem item[Menu_Config_Items];
@@ -853,7 +859,7 @@ static struct MenuDatasette {
   }
 };
 
-#define Menu_FlipImg_Width      200
+#define Menu_FlipImg_Width	200
 static RO_MenuHead *MenuFlipImages = NULL;
 static char *MenuFlipImgNames = NULL;
 
@@ -868,13 +874,13 @@ static struct MenuFlipImageTmpl {
 };
 
 /* Fliplist menu */
-#define Menu_Fliplist_Items     5
-#define Menu_Fliplist_Width     200
-#define Menu_Fliplist_Attach    0
-#define Menu_Fliplist_Detach    1
-#define Menu_Fliplist_Next      2
-#define Menu_Fliplist_Prev      3
-#define Menu_Fliplist_Images    4
+#define Menu_Fliplist_Items	5
+#define Menu_Fliplist_Width	200
+#define Menu_Fliplist_Attach	0
+#define Menu_Fliplist_Detach	1
+#define Menu_Fliplist_Next	2
+#define Menu_Fliplist_Prev	3
+#define Menu_Fliplist_Images	4
 static struct MenuFliplist {
   RO_MenuHead head;
   RO_MenuItem item[Menu_Fliplist_Items];
@@ -890,15 +896,16 @@ static struct MenuFliplist {
 };
 
 /* Icon bar menu */
-#define Menu_IBar_Items		7
+#define Menu_IBar_Items		8
 #define Menu_IBar_Width		200
 #define Menu_IBar_Info		0
 #define Menu_IBar_License	1
 #define Menu_IBar_Warranty	2
 #define Menu_IBar_Contrib	3
-#define Menu_IBar_Configure	4
-#define Menu_IBar_FullScreen	5
-#define Menu_IBar_Quit		6
+#define Menu_IBar_CreateDisc	4
+#define Menu_IBar_Configure	5
+#define Menu_IBar_FullScreen	6
+#define Menu_IBar_Quit		7
 static struct MenuIconBar {
   RO_MenuHead head;
   RO_MenuItem item[Menu_IBar_Items];
@@ -917,17 +924,18 @@ static struct MenuIconBar {
 };
 
 /* Emu window menu */
-#define Menu_EmuWin_Items	9
+#define Menu_EmuWin_Items	10
 #define Menu_EmuWin_Width	200
 #define Menu_EmuWin_Configure	0
-#define Menu_EmuWin_Snapshot	1
-#define Menu_EmuWin_Freeze	2
-#define Menu_EmuWin_Pane	3
-#define Menu_EmuWin_Active	4
-#define Menu_EmuWin_TrueDrvEmu	5
-#define Menu_EmuWin_Datasette	6
-#define Menu_EmuWin_Sound	7
-#define Menu_EmuWin_Monitor	8
+#define Menu_EmuWin_Fliplist	1
+#define Menu_EmuWin_Snapshot	2
+#define Menu_EmuWin_Freeze	3
+#define Menu_EmuWin_Pane	4
+#define Menu_EmuWin_Active	5
+#define Menu_EmuWin_TrueDrvEmu	6
+#define Menu_EmuWin_Datasette	7
+#define Menu_EmuWin_Sound	8
+#define Menu_EmuWin_Monitor	9
 static struct MenuEmuWindow {
   RO_MenuHead head;
   RO_MenuItem item[Menu_EmuWin_Items];
@@ -948,15 +956,15 @@ static struct MenuEmuWindow {
 };
 
 /* Create disc menu */
-#define Menu_CrtDisc_Items      7
-#define Menu_CrtDisc_Width      200
-#define Menu_CrtDisc_X64        0
-#define Menu_CrtDisc_G64        1
-#define Menu_CrtDisc_D64        2
-#define Menu_CrtDisc_D71        3
-#define Menu_CrtDisc_D81        4
-#define Menu_CrtDisc_D80        5
-#define Menu_CrtDisc_D82        6
+#define Menu_CrtDisc_Items	7
+#define Menu_CrtDisc_Width	200
+#define Menu_CrtDisc_X64	0
+#define Menu_CrtDisc_G64	1
+#define Menu_CrtDisc_D64	2
+#define Menu_CrtDisc_D71	3
+#define Menu_CrtDisc_D81	4
+#define Menu_CrtDisc_D80	5
+#define Menu_CrtDisc_D82	6
 static struct MenuCreateDiscType {
   RO_MenuHead head;
   RO_MenuItem item[Menu_CrtDisc_Items];
@@ -3475,7 +3483,7 @@ static int ui_send_fake_data_load(RO_Window *win, int icon, const char *file)
     WimpBlock[MsgB_Action] = Message_DataLoad;
     WimpBlock[5] = win->Handle;
     WimpBlock[6] = icon;
-    WimpBlock[7] = 0; WimpBlock[8] = 0; /* x/y coordinate dummies */
+    WimpBlock[7] = 0; WimpBlock[8] = 0;	/* x/y coordinate dummies */
     WimpBlock[9] = aux[2];
     if ((aux[0] & 0xfff00000) == 0xfff00000)
       WimpBlock[10] = (aux[0] >> 8) & 0xfff;
