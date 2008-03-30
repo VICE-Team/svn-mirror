@@ -123,7 +123,7 @@ static char *(*current_image_contents_func)(const char *);
 static GdkFont *fixedfont, *textfont;
 /* FIXME, ask Xresources here */
 static char *textfontname="-*-lucidatypewriter-medium-r-*-*-12-*";
-static char *fixedfontname="-freetype-mycbm64-medium-r-normal-medium-12-120-100-72-m-104-symbol-0";
+static char *fixedfontname="-freetype-VICE CBM-medium-r-normal-medium-12-120-100-72-m-104-symbol-0";
 static int have_cbm_font = 0;
 
 static int cursor_is_blank = 0;
@@ -858,8 +858,8 @@ void archdep_ui_init(int argc, char *argv[])
        registered options to this, or to introduce popt in the generic part,
        case we have `libgnomeui' around.
        For now I discard gnome-specific options. FIXME MP */
-    char *fake_argv[2];
 
+    char *fake_argv[2];
     if (console_mode) {
         return;
     }
@@ -867,6 +867,17 @@ void archdep_ui_init(int argc, char *argv[])
     fake_argv[0] = argv[0];
     fake_argv[1] = NULL;
     gnome_init(PACKAGE, VERSION, 1, fake_argv);
+
+    /* set X11 fontpath */
+    if (access(PREFIX "/lib/vice/fonts/fonts.dir", R_OK) == 0)
+    {
+	const char *cmd = "xset fp+ " PREFIX "/lib/vice/fonts";
+	
+	if (system(cmd) != 0)
+	    fprintf(stderr, "Can't add fontpath `%s'.\n", cmd);
+	else
+	    fprintf(stdout, "Set fontpath: `%s'.\n", cmd);
+    }
 }
 
 /* Initialize the GUI and parse the command line. */
@@ -1619,13 +1630,18 @@ void ui_exit(void)
 
     b = ui_ask_confirmation(s, "Do you really want to exit?");
 
-    if (b == UI_BUTTON_YES) {
-	if (_ui_resources.save_resources_on_exit) {
+    if (b == UI_BUTTON_YES) 
+    {
+	if (_ui_resources.save_resources_on_exit) 
+	{
 	    b = ui_ask_confirmation(s, "Save the current settings?");
-	    if (b == UI_BUTTON_YES) {
+	    if (b == UI_BUTTON_YES) 
+	    {
 		if (resources_save(NULL) < 0)
 		    ui_error("Cannot save settings.");
-	    } else if (b == UI_BUTTON_CANCEL) {
+	    } 
+	    else if (b == UI_BUTTON_CANCEL) 
+	    {
                 free(s);
 		return;
             }
@@ -1636,6 +1652,10 @@ void ui_exit(void)
 	ui_set_windowmode();
 #endif
 	ui_dispatch_events();
+
+	/* remove fontpath, Don't care about result */
+	system("xset fp- " PREFIX "/lib/vice/fonts");
+	
 	if (psid_mode) 
 	    ui_proc_exit();
 	else 

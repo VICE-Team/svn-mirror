@@ -114,12 +114,12 @@ fill_cache (raster_cache_t *cache,
 
 inline static void
 draw (PIXEL *p,
-      unsigned int xs,
-      unsigned int xe,
+      int xs,
+      int xe,
       int reverse)
 {
   static VIC_PIXEL c[4];
-  unsigned int b, i;
+  int b, i;
   BYTE d;
 
   p += xs * 8 * VIC_PIXEL_WIDTH;
@@ -199,13 +199,13 @@ draw_reverse_line_cached (raster_cache_t *cache,
 
 inline static void
 draw_2x(PIXEL *p,
-        unsigned int xs,
-        unsigned int xe,
+        int xs,
+        int xe,
         int reverse)
 {
   static VIC_PIXEL2 c[4];
   BYTE d, b;
-  unsigned int i;
+  int i;
 
   p += xs * 16 * VIC_PIXEL_WIDTH;
 

@@ -456,6 +456,9 @@ void machine_shutdown(void)
         file_system_detach_disk(-1);
     }
 
+    /* and the tape */
+    tape_detach_image();
+
     if (!console_mode && psid_mode) {
         vsid_ui_exit();
     }
