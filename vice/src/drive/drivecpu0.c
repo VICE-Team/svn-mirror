@@ -115,6 +115,7 @@ int drive0_traceflg;
 #define myvia2_init via2d0_init
 #define mycia1571_init cia1571d0_init
 #define mycia1581_init cia1581d0_init
+#define mywd1770_init wd1770d0_init
 
 #include "drivecpucore.c"
 

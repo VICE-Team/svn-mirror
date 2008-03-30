@@ -34,6 +34,7 @@
 #include <stdio.h>
 #endif
 
+#include "clkguard.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "interrupt.h"
@@ -95,8 +96,7 @@ void reset_wd1770d1(void)
 }
 
 /* Clock overflow handling.  */
-
-void wd1770d0_prevent_clk_overflow(CLOCK sub)
+static void d0_clk_overflow_callback(CLOCK sub, void *data)
 {
     if (wd1770[0].busy_clk > (CLOCK) 0)
         wd1770[0].busy_clk -= sub;
@@ -108,7 +108,7 @@ void wd1770d0_prevent_clk_overflow(CLOCK sub)
         wd1770[0].set_drq -= sub;
 }
 
-void wd1770d1_prevent_clk_overflow(CLOCK sub)
+static void d1_clk_overflow_callback(CLOCK sub, void *data)
 {
     if (wd1770[1].busy_clk > (CLOCK) 0)
         wd1770[1].busy_clk -= sub;
@@ -118,6 +118,16 @@ void wd1770d1_prevent_clk_overflow(CLOCK sub)
         wd1770[1].led_delay_clk -= sub;
     if (wd1770[1].set_drq > (CLOCK) 0)
         wd1770[1].set_drq -= sub;
+}
+
+void wd1770d0_init(void)
+{
+    clk_guard_add_callback(&drive0_clk_guard, d0_clk_overflow_callback, NULL);
+}
+
+void wd1770d1_init(void)
+{
+    clk_guard_add_callback(&drive1_clk_guard, d1_clk_overflow_callback, NULL);
 }
 
 /*-----------------------------------------------------------------------*/
