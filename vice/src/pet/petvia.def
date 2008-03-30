@@ -47,6 +47,7 @@ INCLUDES()
 #include "crtc.h"
 #include "kbd.h"
 #include "parallel.h"
+#include "drive.h"
 #include "petsound.h"
 
 #ifdef HAVE_PRINTER
@@ -180,6 +181,11 @@ READ_PRA()
 READ_PRB()
 {
         {
+	    if (drive[0].enable)
+	        drive0_cpu_execute();
+	    if (drive[1].enable)
+	        drive1_cpu_execute();
+
             /* read parallel IEC interface line states */
             byte = 255 
 		- (parallel_nrfd ? 64:0) 

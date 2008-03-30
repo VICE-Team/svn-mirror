@@ -11,7 +11,8 @@ roms = \
 	pet4032 \
 	chargen \
 	edit4.b40 \
-	pet3032
+	pet3032 \
+	dos2031
 
 keymaps = \
 	busi_uk.vkm \

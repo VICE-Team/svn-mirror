@@ -33,6 +33,7 @@
 INCLUDES()
 {
 #include "parallel.h"
+#include "drive.h"
 #include "c610cia.h"
 #include "crtc.h"
 
@@ -58,6 +59,7 @@ RESET()
 
 STORE_PA()
 {
+	if (byte != oldpa)
 	{
 	    BYTE tmp = ~byte;
 	    cia1_set_ieee_dir(byte & 2);
@@ -108,6 +110,11 @@ UNDUMP_PA()
 
 READ_PA()
 {
+	        if (drive[0].enable)
+	            drive0_cpu_execute();
+	        if (drive[1].enable)
+	            drive1_cpu_execute();
+
 		byte = 0x07;
                 byte += parallel_atn ? 0 : 8;
                 byte += parallel_dav ? 0 : 16;

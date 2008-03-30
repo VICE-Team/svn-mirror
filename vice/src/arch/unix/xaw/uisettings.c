@@ -697,6 +697,7 @@ static ui_menu_entry_t set_maximum_speed_submenu[] = {
     { NULL }
 };
 
+/* those menues are for C64 */
 static ui_menu_entry_t set_drive8_type_submenu[] = {
     { "*None", (ui_callback_t) radio_Drive8Type,
       (ui_callback_data_t) DRIVE_TYPE_NONE, NULL },
@@ -706,6 +707,8 @@ static ui_menu_entry_t set_drive8_type_submenu[] = {
       (ui_callback_data_t) DRIVE_TYPE_1571, NULL },
     { "*1581", (ui_callback_t) radio_Drive8Type,
       (ui_callback_data_t) DRIVE_TYPE_1581, NULL },
+    { "*2031", (ui_callback_t) radio_Drive8Type,
+      (ui_callback_data_t) DRIVE_TYPE_2031, NULL },
     { NULL }
 };
 
@@ -718,6 +721,25 @@ static ui_menu_entry_t set_drive9_type_submenu[] = {
       (ui_callback_data_t) DRIVE_TYPE_1571, NULL },
     { "*1581", (ui_callback_t) radio_Drive9Type,
       (ui_callback_data_t) DRIVE_TYPE_1581, NULL },
+    { "*2031", (ui_callback_t) radio_Drive9Type,
+      (ui_callback_data_t) DRIVE_TYPE_2031, NULL },
+    { NULL }
+};
+
+/* those menues are for PET/C610 - it lacks the serial IEC bus drives */
+static ui_menu_entry_t set_par_drive8_type_submenu[] = {
+    { "*None", (ui_callback_t) radio_Drive8Type,
+      (ui_callback_data_t) DRIVE_TYPE_NONE, NULL },
+    { "*2031", (ui_callback_t) radio_Drive8Type,
+      (ui_callback_data_t) DRIVE_TYPE_2031, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_par_drive9_type_submenu[] = {
+    { "*None", (ui_callback_t) radio_Drive9Type,
+      (ui_callback_data_t) DRIVE_TYPE_NONE, NULL },
+    { "*2031", (ui_callback_t) radio_Drive9Type,
+      (ui_callback_data_t) DRIVE_TYPE_2031, NULL },
     { NULL }
 };
 
@@ -1025,6 +1047,7 @@ static ui_menu_entry_t peripheral_settings_submenu[] = {
     { NULL }
 };
 
+/* This menu is for the C64 */
 static ui_menu_entry_t drive_settings_submenu[] = {
     { "*Enable true drive emulation",
       (ui_callback_t) toggle_DriveTrueEmulation, NULL, NULL },
@@ -1042,6 +1065,30 @@ static ui_menu_entry_t drive_settings_submenu[] = {
       NULL, NULL, set_drive9_type_submenu },
     { "*Drive #9 enable parallel cable",
       (ui_callback_t) toggle_DriveParallelCable, NULL, NULL },
+    { "Drive #9 40-track image support",
+      NULL, NULL, set_drive_extend_image_policy_submenu },
+    { "Drive #9 idle method",
+      NULL, NULL, set_drive1_idle_method_submenu },
+    { "--" },
+    { "Drive sync factor",
+      NULL, NULL, set_drive_sync_factor_submenu },
+    { NULL }
+};
+
+/* This menu is for the PET/C610 */
+static ui_menu_entry_t par_drive_settings_submenu[] = {
+    { "*Enable true drive emulation",
+      (ui_callback_t) toggle_DriveTrueEmulation, NULL, NULL },
+    { "--" },
+    { "Drive #8 floppy disk type",
+      NULL, NULL, set_par_drive8_type_submenu },
+    { "Drive #8 40-track image support",
+      NULL, NULL, set_drive_extend_image_policy_submenu },
+    { "Drive #8 idle method",
+      NULL, NULL, set_drive0_idle_method_submenu },
+    { "--" },
+    { "Drive #9 floppy disk type",
+      NULL, NULL, set_par_drive9_type_submenu },
     { "Drive #9 40-track image support",
       NULL, NULL, set_drive_extend_image_policy_submenu },
     { "Drive #9 idle method",
@@ -1094,9 +1141,17 @@ ui_menu_entry_t ui_sound_settings_menu[] = {
     { NULL }
 };
 
+/* c64 */
 ui_menu_entry_t ui_drive_settings_menu[] = {
     { "Drive settings",
       NULL, NULL, drive_settings_submenu },
+    { NULL }
+};
+
+/* PET/C610 */
+ui_menu_entry_t ui_par_drive_settings_menu[] = {
+    { "Drive settings",
+      NULL, NULL, par_drive_settings_submenu },
     { NULL }
 };
 

@@ -267,7 +267,9 @@ BYTE REGPARM1 read_mypia(ADDRESS addr)
 	        mypia.ctrl_a &= 0x3f;		/* Clear CA1,CA2 IRQ */
 	        mypia_update_irq();
 	    }
-
+	    /* WARNING: this pin reads the voltage of the output pins, not 
+	       the ORA value as the other port. Value read might be different
+	       from what is expected due to excessive load. */
 	    READ_PA
 	    return byte;
 	}
@@ -281,8 +283,10 @@ BYTE REGPARM1 read_mypia(ADDRESS addr)
 	        mypia_update_irq();
 	    }
 
+	    /* WARNING: this pin reads the ORA for output pins, not 
+	       the voltage on the pins as the other port. */
 	    READ_PB
-	    return (byte);
+	    return (byte & ~mypia.ddr_b) | (mypia.port_b & mypia.ddr_b);
 	}
 	return (mypia.ddr_a);
 

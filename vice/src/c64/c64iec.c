@@ -92,18 +92,22 @@ void iec_cpu_write(BYTE data)
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
 	iec_old_atn = iec_info.cpu_bus & 0x10;
 	if (drive[0].enable) {
-	    if (drive[0].type != DRIVE_TYPE_1581)
-		via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
-	    else
-		if (!iec_old_atn)
-		    cia1581d0_set_flag();
+	    if (drive[0].type != DRIVE_TYPE_2031) {
+	        if (drive[0].type != DRIVE_TYPE_1581)
+		    via1d0_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+	        else
+		    if (!iec_old_atn)
+		        cia1581d0_set_flag();
+	    }
 	}
 	if (drive[1].enable) {
-	    if (drive[1].type != DRIVE_TYPE_1581)
-		via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
-	    else
-		if (!iec_old_atn)
-		    cia1581d1_set_flag();
+	    if (drive[1].type != DRIVE_TYPE_2031) {
+	        if (drive[1].type != DRIVE_TYPE_1581)
+		    via1d1_signal(VIA_SIG_CA1, iec_old_atn ? 0 : VIA_SIG_RISE);
+	        else
+		    if (!iec_old_atn)
+		        cia1581d1_set_flag();
+	    }
 	}
     }
     if (drive[0].enable) {

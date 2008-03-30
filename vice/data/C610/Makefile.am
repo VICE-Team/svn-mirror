@@ -9,6 +9,7 @@ c610_DATA = \
 	busi_uk.vkm \
 	default.vpl \
 	kernal \
-	white.vpl
+	white.vpl \
+	dos2031
 
 EXTRA_DIST = $(c610_DATA)

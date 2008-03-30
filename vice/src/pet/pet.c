@@ -53,6 +53,7 @@
 #include "traps.h"
 #include "utils.h"
 #include "vdrive.h"
+#include "drive.h"
 #include "via.h"
 #include "vmachine.h"
 #include "vsync.h"
@@ -132,6 +133,7 @@ int machine_init_resources(void)
         || crtc_init_resources() < 0
         || pia1_init_resources() < 0
         || sound_init_resources() < 0
+        || drive_init_resources() < 0
         || acia1_init_resources() < 0
 #ifdef HAVE_RS232
 	|| rs232_init_resources() < 0
@@ -167,6 +169,7 @@ int machine_init_cmdline_options(void)
         || crtc_init_cmdline_options() < 0
         || pia1_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
+        || drive_init_cmdline_options() < 0
         || acia1_init_cmdline_options() < 0
 #ifdef HAVE_RS232
 	|| rs232_init_cmdline_options() < 0
@@ -202,7 +205,10 @@ int machine_init(void)
     /* No traps installed on the PET.  */
     serial_init(NULL);
 
-    /* Initialize drives.  */
+    /* Initialize drives, and attach true 1541 emulation hooks to
+       drive 8 (which is the only true 1541-capable device).  */
+    file_system_set_hooks(8, drive_attach_floppy, drive_detach_floppy);
+    file_system_set_hooks(9, drive_attach_floppy, drive_detach_floppy);
     file_system_init();
 
 #ifdef HAVE_PRINTER
@@ -227,8 +233,11 @@ int machine_init(void)
         return -1;
 #endif
 
+    /* Fire up the hardware-level 1541 emulation.  */
+    drive_init(PET_PAL_CYCLES_PER_SEC, PET_NTSC_CYCLES_PER_SEC);
+
     /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface, NULL);
+    monitor_init(&maincpu_monitor_interface, &drive0_monitor_interface);
 
     /* Initialize vsync and register our hook function.  */
     vsync_init(PET_PAL_RFSH_PER_SEC, PET_PAL_CYCLES_PER_SEC, vsync_hook);
@@ -263,6 +272,7 @@ void machine_reset(void)
 #ifdef HAVE_PRINTER
     print_reset();
 #endif
+    drive_reset();
 }
 
 void machine_shutdown(void)
@@ -280,6 +290,8 @@ static void vsync_hook(void)
 
     autostart_advance();
 
+    drive_vsync_hook();
+
     sub = maincpu_prevent_clk_overflow(PET_PAL_CYCLES_PER_RFSH);
 
     if (sub > 0) {
@@ -288,6 +300,16 @@ static void vsync_hook(void)
         sound_prevent_clk_overflow(sub);
         vsync_prevent_clk_overflow(sub);
     }
+
+    /* The 1541 has to deal both with our overflowing and its own one, so it
+       is called even when there is no overflowing in the main CPU.  */
+    /* FIXME: Do we have to check drive_enabled here?  */
+    drive_prevent_clk_overflow(sub, 0);
+    drive_prevent_clk_overflow(sub, 1);
+
+#ifdef HAS_JOYSTICK
+    joystick();
+#endif
 }
 
 /* Dummy - no restore key.  */
@@ -295,90 +317,6 @@ int machine_set_restore_key(int v)
 {
     return 0;	/* key not used -> lookup in keymap */
 }
-
-/* ------------------------------------------------------------------------- */
-
-#if 0	/* this should not be in the snapshot */
-
-/* PET machine config dump
- *
- *
- *
- */
-#define	PET_DUMP_VER_MAJOR	0
-#define	PET_DUMP_VER_MINOR	0
-
-/* FIXME: Error check.  */
-int pet_dump(FILE *p)
-{
-    snapshot_module_t *m;
-
-    m = snapshot_module_create(p, "PET",
-                               PET_DUMP_VER_MAJOR, PET_DUMP_VER_MINOR);
-    if (m == NULL)
-        return -1;
-
-    snapshot_module_write_word(m, pet.ramSize);	/* in k */
-    snapshot_module_write_word(m, pet.IOSize);		/* in byte */
-    snapshot_module_write_byte(m, pet.video);		/* screen width */
-    snapshot_module_write_byte(m, (pet.mem9 ? 1 : 0) | (pet.memA ? 2 : 0)
-                               | (pet.pet2k ? 4 : 0) | (pet.superpet ? 8 : 0)
-                               | (pet.crtc ? 16 : 0) );
-    snapshot_module_write_byte(m, pet.kbd_type);	/* 1 = graph, 0 = business */
-
-    return snapshot_module_close(m);
-}
-
-/* FIXME: Error check.  */
-int pet_undump(FILE *p)
-{
-    char name[SNAPSHOT_MODULE_NAME_LEN];
-    BYTE vmajor, vminor;
-    BYTE byte;
-    WORD word;
-    int ival;
-    snapshot_module_t *m;
-
-    m = snapshot_module_open(p, name, &vmajor, &vminor);
-    if (m == NULL)
-        return -1;
-
-    if (strcmp(name, "PET") || vmajor != PET_DUMP_VER_MAJOR) {
-        snapshot_module_close(m);
-        return -1;
-    }
-
-    snapshot_module_read_word(m, &word); ival = word;
-    resources_set_value("RamSize", (resource_value_t) ival);
-    snapshot_module_read_word(m, &word); ival = word;
-    resources_set_value("IOSize", (resource_value_t) ival);
-    snapshot_module_read_byte(m, &byte); ival = byte;
-    resources_set_value("VideoSize", (resource_value_t) ival);
-
-    snapshot_module_read_byte(m, &byte);
-    ival = byte & 1;
-    resources_set_value("Ram9", (resource_value_t) ival);
-    ival = (byte & 2) ? 1 : 0;
-    resources_set_value("RamA", (resource_value_t) ival);
-    ival = (byte & 4) ? 1 : 0;
-    pet.pet2k = ival;	/* hm... */
-    ival = (byte & 8) ? 1 : 0;
-    resources_set_value("SuperPET", (resource_value_t) ival);
-    ival = (byte & 16) ? 1 : 0;
-    resources_set_value("Crtc", (resource_value_t) ival);
-
-    snapshot_module_read_byte(m, &byte);
-    resources_get_value("KeymapIndex", (resource_value_t *) &ival);
-    resources_set_value("KeymapIndex", (resource_value_t) ((ival & 1)
-                                       + 2 * (byte ? 1 : 0)));
-
-    /* what about the ROM names? */
-    mem_load();
-
-    return snapshot_module_close(m);
-}
-
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -409,6 +347,7 @@ int machine_write_snapshot(const char *name)
         || pia1_write_snapshot_module(s) < 0
         || pia2_write_snapshot_module(s) < 0
         || via_write_snapshot_module(s) < 0
+        || drive_write_snapshot_module(s) < 0
 	) {
 	ef = -1;
     }
@@ -449,6 +388,7 @@ int machine_read_snapshot(const char *name)
         || pia1_read_snapshot_module(s) < 0
         || pia2_read_snapshot_module(s) < 0
         || via_read_snapshot_module(s) < 0
+        || drive_read_snapshot_module(s) < 0
 	) {
 	ef = -1;
     }

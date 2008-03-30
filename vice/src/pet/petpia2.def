@@ -31,6 +31,7 @@
 INCLUDES()
 {
 #include "parallel.h"
+#include "drive.h"
 #include "petpia.h"
 
 #define my_set_int(a)                                                   \
@@ -47,11 +48,11 @@ PIA_PRE_FUNCS()
 {
 
 #define PIA_SET_CA2(a)  do {                                            \
-                            parallel_cpu_set_ndac((a)?0:1);                      \
+                            parallel_cpu_set_ndac((a)?0:1);             \
                         } while(0)
 
 #define PIA_SET_CB2(a)  do {						\
-			    parallel_cpu_set_dav((a)?0:1);			\
+			    parallel_cpu_set_dav((a)?0:1);		\
 			} while(0)
 
 }       /* end PIA_PRE_FUNCS */
@@ -87,6 +88,10 @@ UNDUMP_PB()
 
 READ_PA()
 {
+	    if (drive[0].enable)
+	        drive0_cpu_execute();
+	    if (drive[1].enable)
+	        drive1_cpu_execute();
 
 	    if (parallel_debug)
 		printf("read pia2 port A %x, parallel_bus=%x, gives %x\n",
@@ -98,13 +103,7 @@ READ_PA()
 
 READ_PB()
 {
-
-	    if (parallel_debug)
-		printf("read pia2 port B %x, parallel_bus=%x, gives %x\n",
-		    pia2.port_b, parallel_bus,
-		    (~(parallel_bus|pia2.ddr_b)) | (pia2.port_b & pia2.ddr_b));
-
-	    byte = (~pia2.ddr_b) |(pia2.port_b & pia2.ddr_b);
+	    byte = 0xff;
 }
 
 

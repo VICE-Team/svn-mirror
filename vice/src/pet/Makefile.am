@@ -3,7 +3,8 @@ SUFFIXES = .def
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src
+	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/drive
 
 noinst_LIBRARIES = libpet.a
 
@@ -16,6 +17,7 @@ libpet_a_SOURCES = \
 	petacia.h \
 	petacia1.c \
 	petacia1.def \
+	petiec.c \
 	petmem.c \
 	petmem.h \
 	petpia.h \

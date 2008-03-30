@@ -33,6 +33,7 @@ INCLUDES()
 #include "crtc.h"
 #include "kbd.h"
 #include "parallel.h"
+#include "drive.h"
 #include "pets.h"
 #include "petmem.h"
 #include "petpia.h"
@@ -95,7 +96,7 @@ void mem_set_tape_sense(int v)
 }
 
 #define	PIA_SET_CA2(a)	do { 						\
-			    parallel_cpu_set_eoi((a)?0:1); 			\
+			    parallel_cpu_set_eoi((a)?0:1); 		\
 			    if(pet.pet2k) 				\
 				crtc_screen_enable((a)?1:0);		\
 			} while(0)
@@ -149,6 +150,11 @@ E813	CB2	    output to cassette #1 motor: 0=on, 1=off
 
 READ_PA()
 {
+    if (drive[0].enable)
+        drive0_cpu_execute();
+    if (drive[1].enable)
+        drive1_cpu_execute();
+
     byte = 0xff
 	- (tape1_sense ? 16 : 0)
 	- (parallel_eoi ? 64 : 0)
@@ -182,7 +188,8 @@ READ_PB()
                        row, j);
 #endif
 
-	    byte = j;
+            byte = j;
+
 	}
 }
 

@@ -4,7 +4,8 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/sid
+	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/drive
 
 noinst_LIBRARIES = libc610.a
 
@@ -22,6 +23,7 @@ libc610_a_SOURCES = \
 	c610cia1.def \
 	c610cpu.c \
 	c610cpu.def \
+	c610iec.c \
 	c610mem.c \
 	c610mem.h \
 	c610tpi.h \

@@ -4360,6 +4360,12 @@ Version numbers: Major 1, Minor 0.
 @item BYTE
 @tab CABSTATE
 @tab bit 7: state of CA2 pin, bit 6: state of CB2 pin
+@item BYTE
+@tab ILA
+@tab Port A Input Latch (see ACR bit 0)
+@item BYTE
+@tab ILB
+@tab Port B Input Latch (see ACR bit 1)
 @end multitable
 
 @node PIA 6520 module, TPI 6525 module, VIA 6522 module, Module formats

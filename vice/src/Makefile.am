@@ -23,6 +23,7 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/drive \
 	-DPREFIX=\"@prefix@\" \
 	@JOYSTICK@
 
@@ -200,22 +201,22 @@ xvic-all: libvic20 libsounddrv libdrive libarch xvic
 
 # xpet
 xpet_SOURCES = $(base_sources) $(maincpu_sources)
-xpet_LDADD = $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
+xpet_LDADD = $(drive_lib) $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd)\
 	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ $(READLINE)
-xpet_DEPENDENCIES = $(pet_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
-	@ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+xpet_DEPENDENCIES = $(drive_lib) $(pet_lib) $(sounddrv_lib) \
+	$(rs232_printer_ldadd) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: xpet-all
-xpet-all: libpet libsounddrv libarch xpet
+xpet-all: libpet libsounddrv libarch libdrive xpet 
 
 # x610
 x610_SOURCES = $(base_sources)
-x610_LDADD = $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) $(sid_lib) \
-	@RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ @X_LIBS@ \
-	$(READLINE)
-x610_DEPENDENCIES = $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) $(sid_lib) \
-       @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
+x610_LDADD = $(drive_lib) $(x610_lib) $(sounddrv_lib) $(rs232_printer_ldadd) \
+	$(sid_lib) @RESID_LIBS@ @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@ @SOUND_LIBS@ \
+	@X_LIBS@ $(READLINE)
+x610_DEPENDENCIES = $(drive_lib) $(x610_lib) $(sounddrv_lib) \
+	$(rs232_printer_ldadd) $(sid_lib) @ALLOCA@ @LIBOBJS@ @ARCH_LIBS@
 .PHONY: x610-all
-x610-all: libc610 libsounddrv libarch libsid x610
+x610-all: libc610 libsounddrv libarch libsid libdrive x610
 
 # c1541
 c1541_SOURCES = \

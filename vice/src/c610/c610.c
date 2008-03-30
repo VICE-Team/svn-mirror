@@ -54,6 +54,7 @@
 #include "via.h"
 #include "vmachine.h"
 #include "vsync.h"
+#include "drive.h"
 
 #ifdef HAVE_PRINTER
 #include "print.h"
@@ -110,6 +111,7 @@ int machine_init_resources(void)
         || crtc_init_resources() < 0
         || sound_init_resources() < 0
         || sid_init_resources() < 0
+        || drive_init_resources() < 0
         || acia1_init_resources() < 0	/* ACIA is always there */
 #ifdef HAVE_RS232
         || rs232_init_resources() < 0
@@ -139,6 +141,7 @@ int machine_init_cmdline_options(void)
         || crtc_init_cmdline_options() < 0
         || sound_init_cmdline_options() < 0
         || sid_init_cmdline_options() < 0
+        || drive_init_cmdline_options() < 0
         || acia1_init_cmdline_options() < 0
 #ifdef HAVE_RS232
         || rs232_init_cmdline_options() < 0
@@ -175,7 +178,10 @@ int machine_init(void)
     /* No traps installed on the CBM-II.  */
     serial_init(NULL);
 
-    /* Initialize drives.  */
+    /* Initialize drives, and attach true 1541 emulation hooks to
+       drive 8 (which is the only true 1541-capable device).  */
+    file_system_set_hooks(8, drive_attach_floppy, drive_detach_floppy);
+    file_system_set_hooks(9, drive_attach_floppy, drive_detach_floppy);
     file_system_init();
 
 #ifdef HAVE_PRINTER
@@ -195,8 +201,11 @@ int machine_init(void)
         return -1;
 #endif
 
+    /* Fire up the hardware-level 1541 emulation.  */
+    drive_init(C610_PAL_CYCLES_PER_SEC, C610_NTSC_CYCLES_PER_SEC);
+
     /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface, NULL);
+    monitor_init(&maincpu_monitor_interface,  &drive0_monitor_interface);
 
     /* Initialize vsync and register our hook function.  */
     vsync_init(C610_PAL_RFSH_PER_SEC, C610_PAL_CYCLES_PER_SEC, vsync_hook);
@@ -235,6 +244,8 @@ void machine_reset(void)
     rs232_reset();
 #endif
 
+    drive_reset();
+
     set_bank_exec(15);
     set_bank_ind(15);
 }
@@ -257,6 +268,8 @@ static void vsync_hook(void)
 {
     CLOCK sub;
 
+    drive_vsync_hook();
+
     autostart_advance();
 
     sub = maincpu_prevent_clk_overflow(C610_PAL_CYCLES_PER_RFSH);
@@ -267,6 +280,16 @@ static void vsync_hook(void)
         sound_prevent_clk_overflow(sub);
         vsync_prevent_clk_overflow(sub);
     }
+
+    /* The 1541 has to deal both with our overflowing and its own one, so it
+       is called even when there is no overflowing in the main CPU.  */
+    /* FIXME: Do we have to check drive_enabled here?  */
+    drive_prevent_clk_overflow(sub, 0);
+    drive_prevent_clk_overflow(sub, 1);
+
+#ifdef HAS_JOYSTICK
+    joystick();
+#endif
 }
 
 /* Dummy - no restore key.  */
@@ -304,6 +327,7 @@ int machine_write_snapshot(const char *name)
         || tpi1_write_snapshot_module(s) < 0
         || tpi2_write_snapshot_module(s) < 0
         || acia1_write_snapshot_module(s) < 0
+        || drive_write_snapshot_module(s) < 0
 	) {
         snapshot_close(s);
         unlink(name);
@@ -337,6 +361,7 @@ int machine_read_snapshot(const char *name)
         || tpi1_read_snapshot_module(s) < 0
         || tpi2_read_snapshot_module(s) < 0
         || acia1_read_snapshot_module(s) < 0
+        || drive_read_snapshot_module(s) < 0
 	)
         goto fail;
 
