@@ -250,8 +250,8 @@ COMMAND: Load file.
 ABBREVIATIONS: l
 SYNTAX: load "<filename>" <address>
 
-FUNCTION: Load the specified file into memory at the 
-specified address. 
+FUNCTION: Load the specified file into memory at the
+specified address.
  TODO: Allow no address? Load file from .d64, not FS.
 
 
@@ -464,5 +464,5 @@ COMMAND: Convert number base.
 ABBREVIATIONS: none
 SYNTAX: ~ <number>
 
-FUNCTION: This displays the specified number in decimal, hex, octal 
+FUNCTION: This displays the specified number in decimal, hex, octal
 and binary.
