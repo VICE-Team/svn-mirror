@@ -35,15 +35,6 @@
 
 typedef int bool;
 
-struct mon_cmds {
-   const char *str;
-   const char *abbrev;
-   int token;
-   int next_state;
-   const char *param_names;
-   const char *description;
-};
-
 enum mon_int {
     MI_NONE = 0,
     MI_BREAK = 1 << 0,
@@ -57,7 +48,19 @@ enum t_reg_id {
    e_Y,
    e_PC,
    e_SP,
-   e_FLAGS
+   e_FLAGS,
+   e_AF,
+   e_BC,
+   e_DE,
+   e_HL,
+   e_IX,
+   e_IY,
+   e_I,
+   e_R,
+   e_AF2,
+   e_BC2,
+   e_DE2,
+   e_HL2
 };
 typedef enum t_reg_id REG_ID;
 
@@ -146,13 +149,17 @@ typedef void monitor_toggle_func_t(int value);
 
 struct cpu_int_status_s;
 struct mos6510_regs_s;
+struct z80_regs_s;
 
 /* This is the standard interface through which the monitor accesses a
    certain CPU.  */
 struct monitor_interface_s {
 
-    /* Pointer to the registers of the CPU.  */
+    /* Pointer to the registers of the 6502 CPU.  */
     struct mos6510_regs_s *cpu_regs;
+
+    /* Pointer to the registers of the Z80 CPU.  */
+    struct z80_regs_s *z80_cpu_regs;
 
     /* Pointer to the alarm/interrupt status.  */
     struct cpu_int_status_s *int_status;
@@ -178,6 +185,8 @@ struct monitor_interface_s {
     /* Pointer to a function to disable/enable watchpoint checking.  */
     monitor_toggle_func_t *toggle_watchpoints_func;
 
+    /* Update bank base (used for drives).  */
+    void (*set_bank_base)(void);
 };
 typedef struct monitor_interface_s monitor_interface_t;
 
@@ -209,7 +218,6 @@ typedef struct monitor_interface_s monitor_interface_t;
 #define NUM_MEMSPACES 4
 #define DEFAULT_DISASSEMBLY_SIZE 40
 
-#define check_breakpoints(mem, addr) mon_check_checkpoint(mem, addr, breakpoints[mem])
 #define any_breakpoints(mem) (breakpoints[(mem)] != NULL)
 #define any_watchpoints_load(mem) (watchpoints_load[(mem)] != NULL)
 #define any_watchpoints_store(mem) (watchpoints_store[(mem)] != NULL)
@@ -226,8 +234,6 @@ typedef struct monitor_interface_s monitor_interface_t;
 /* Global variables */
 
 extern const char *_mon_space_strings[];
-
-extern struct mon_cmds mon_cmd_array[];
 
 struct console_s;
 struct monitor_cpu_type_s;
@@ -248,14 +254,14 @@ extern struct monitor_cpu_type_s monitor_cpu_type;
 extern MON_ADDR dot_addr[NUM_MEMSPACES];
 extern const char *mon_memspace_string[];
 extern int mon_stop_output;
+extern monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
+extern bool force_array[NUM_MEMSPACES];
 
 extern BREAK_LIST *breakpoints[NUM_MEMSPACES];
 extern BREAK_LIST *watchpoints_load[NUM_MEMSPACES];
 extern BREAK_LIST *watchpoints_store[NUM_MEMSPACES];
 
 /* Function declarations */
-struct monitor_cpu_type_s;
-
 extern void monitor_init(monitor_interface_t *maincpu_interface,
                          monitor_interface_t *drive8_interface_init,
                          monitor_interface_t *drive9_interface_init,
@@ -271,9 +277,6 @@ extern void mon_close(int check);
 
 extern void mon_add_number_to_buffer(int number);
 extern void mon_add_string_to_buffer(char *str);
-extern int mon_cmd_lookup_index(char *str, int *push_back);
-extern int mon_cmd_get_token(int mon_index);
-extern int mon_cmd_get_next_state(int mon_index);
 extern void mon_display_memory(int radix_type, MON_ADDR start_addr,
                                MON_ADDR end_addr);
 extern void mon_display_data(MON_ADDR start_addr, MON_ADDR end_addr, int x,
@@ -287,37 +290,34 @@ extern void mon_fill_memory(MON_ADDR start_addr, MON_ADDR end_addr,
                             unsigned char *data);
 extern void mon_hunt_memory(MON_ADDR start_addr, MON_ADDR end_addr,
                             unsigned char *data);
-extern void mon_load_file(char *filename, MON_ADDR start_addr, bool is_bload);
-extern void mon_save_file(char *filename, MON_ADDR start_addr,
-                          MON_ADDR end_addr, bool is_bsave);
-extern void mon_verify_file(char *filename, MON_ADDR start_addr);
 extern void mon_instructions_step(int count);
 extern void mon_instructions_next(int count);
 extern void mon_instruction_return(void);
 extern void mon_stack_up(int count);
 extern void mon_stack_down(int count);
-extern void mon_block_cmd(int op, int track, int sector, MON_ADDR addr);
 extern void mon_print_convert(int val);
-extern void mon_change_dir(char *path);
-extern void mon_execute_disk_command(char *cmd);
-extern void mon_print_help(char *cmd);
-extern void mon_cpu_type(char *cpu_type);
-extern void mon_bank(MEMSPACE mem, char *bank);
+extern void mon_change_dir(const char *path);
+extern void mon_cpu_type(const char *cpu_type);
+extern void mon_bank(MEMSPACE mem, const char *bank);
 extern void mon_display_io_regs(void);
 extern void mon_evaluate_default_addr(MON_ADDR *a);
 extern void mon_set_mem_val(MEMSPACE mem, unsigned mem_addr,
                             unsigned char val);
 extern bool mon_inc_addr_location(MON_ADDR *a, unsigned inc);
+extern void mon_start_assemble_mode(MON_ADDR addr, char *asm_line);
 extern long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
                                        bool must_be_range, WORD default_len);
 
 extern bool check_drive_emu_level_ok(int drive_num);
+extern void mon_print_conditional(CONDITIONAL_NODE *cnode);
+extern void mon_delete_conditional(CONDITIONAL_NODE *cnode);
+extern int mon_evaluate_conditional(CONDITIONAL_NODE *cnode);
+extern bool mon_is_valid_addr(MON_ADDR a);
+extern bool mon_is_in_range(MON_ADDR start_addr, MON_ADDR end_addr,
+                            unsigned loc);
 
-extern unsigned int mon_get_reg_val(MEMSPACE mem, REG_ID reg_id);
-extern void mon_set_reg_val(MEMSPACE mem, REG_ID reg_id, WORD val);
 unsigned char mon_get_mem_val(MEMSPACE mem, unsigned mem_addr);
 unsigned char mon_get_mem_val_ex(MEMSPACE mem, int bank, unsigned mem_addr);
-extern void mon_print_registers(MEMSPACE mem);
 extern void mon_jump(MON_ADDR addr);
 
 extern char *mon_symbol_table_lookup_name(MEMSPACE mem, ADDRESS addr);
@@ -325,21 +325,12 @@ extern int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name);
 extern void mon_add_name_to_symbol_table(MON_ADDR addr, char *name);
 extern void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name);
 extern void mon_print_symbol_table(MEMSPACE mem);
-extern void mon_load_symbols(MEMSPACE mem, char *filename);
-extern void mon_save_symbols(MEMSPACE mem, char *filename);
+extern void mon_load_symbols(MEMSPACE mem, const char *filename);
+extern void mon_save_symbols(MEMSPACE mem, const char *filename);
 
 extern void mon_record_commands(char *filename);
 extern void mon_end_recording(void);
 
-extern int mon_check_checkpoint(MEMSPACE mem, ADDRESS addr, BREAK_LIST *list);
-extern int mon_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr, bool is_trace,
-                              bool is_load, bool is_store, bool is_temp);
-extern void mon_delete_checkpoint(int brknum);
-extern void mon_print_checkpoints(void);
-extern void mon_switch_checkpoint(int op, int breakpt_num);
-extern void mon_set_ignore_count(int breakpt_num, int count);
-extern void mon_set_checkpoint_condition(int brk_num, CONDITIONAL_NODE *cnode);
-extern void mon_set_checkpoint_command(int brk_num, char *cmd);
 extern void mon_watch_push_load_addr(ADDRESS addr, MEMSPACE mem);
 extern void mon_watch_push_store_addr(ADDRESS addr, MEMSPACE mem);
 
