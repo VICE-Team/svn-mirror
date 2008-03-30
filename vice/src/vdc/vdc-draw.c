@@ -4,6 +4,7 @@
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Markus Brenner <markus@brenner.de>
+ *  Andreas Boose <boose@linux.rz.fh-hannover.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -220,6 +221,14 @@ get_std_text(raster_cache_t *cache,
                                 xs, xe,
                                 rr);
 
+    if (vdc.cursor_visible) {
+        int crsrpos = vdc.crsrpos - vdc.mem_counter;
+
+        if (crsrpos >= 0 && crsrpos < VDC_SCREEN_TEXTCOLS
+            && vdc.raster.ycounter >= (vdc.regs[10] & 0x1f)
+            && vdc.raster.ycounter < (vdc.regs[11] & 0x1f))
+            cache->foreground_data[crsrpos] ^= 0xff;
+    }
     return r;
 }
 
