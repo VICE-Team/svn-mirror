@@ -430,7 +430,7 @@ static int sound_run_sound(void)
 #ifdef __riscos
     /* RISC OS vidc device uses a different approach... */
     SoundMachineReady = 1;
-    if (LinToLog != NULL) return 0;
+    if (SoundThreadActive != 0) return 0;
 #endif
     nr = (int)((clk - snddata.fclk) / snddata.clkstep);
     if (!nr)
@@ -759,6 +759,10 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
     //    sound_init_mmos2_device();
     sound_init_dart_device();
 //    sound_init_dart2_device();
+#endif
+
+#ifdef __BEOS__
+	sound_init_beos_device();
 #endif
 
     sound_init_dummy_device();

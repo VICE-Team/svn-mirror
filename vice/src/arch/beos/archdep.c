@@ -309,3 +309,30 @@ void archdep_startup_log_error(const char *format, ...)
         va_end(args);
 }
 
+char *archdep_quote_parameter(const char *name)
+{
+    char *a;
+    a = concat("\"", name, "\"", NULL);
+    return a;
+}
+
+char *archdep_filename_parameter(const char *name)
+{
+    char *exp;
+    char *a;
+    archdep_expand_path(&exp, name);
+    a = archdep_quote_parameter(exp);
+    free(exp);
+    return a;
+}
+
+char *archdep_tmpnam(void)
+{
+    if (getenv("temp"))
+        return concat(getenv("temp"),tmpnam(NULL),NULL);
+    else if (getenv("tmp"))
+        return concat(getenv("tmp"),tmpnam(NULL),NULL);
+    else
+        return stralloc(tmpnam(NULL));
+}
+

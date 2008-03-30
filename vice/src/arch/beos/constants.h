@@ -27,18 +27,94 @@
 #ifndef __CONSTANTS_H__
 #define __CONSTANTS_H__
 
+#ifndef uint32
+#define uint32 unsigned int
+#endif
+
 // Messages for window interaction with application
 
-const uint32 WINDOW_CLOSED				= 'WRcl';
+const uint32 WINDOW_CLOSED						= 'WRcl';
 
 // Messages for menu commands
 
-const uint32 MENU_ATTACH_DISK8			= 'MFa8';
-const uint32 MENU_ATTACH_DISK9			= 'MFa9';
-const uint32 MENU_ATTACH_TAPE			= 'MFta';
-const uint32 MENU_RESET_SOFT			= 'MFrs';
-const uint32 MENU_RESET_HARD			= 'MFrh';
-const uint32 MENU_ABOUT					= 'MFab';
+const uint32 MENU_AUTOSTART						= 'M001';
+const uint32 MENU_ATTACH_DISK8					= 'M002';
+const uint32 MENU_ATTACH_DISK9					= 'M003';
+const uint32 MENU_ATTACH_DISK10					= 'M004';
+const uint32 MENU_ATTACH_DISK11					= 'M005';
+const uint32 MENU_DETACH_DISK8					= 'M006';
+const uint32 MENU_DETACH_DISK9					= 'M007';
+const uint32 MENU_DETACH_DISK10					= 'M008';
+const uint32 MENU_DETACH_DISK11					= 'M009';
+const uint32 MENU_ATTACH_TAPE					= 'M010';
+const uint32 MENU_DETACH_TAPE					= 'M011';
+const uint32 MENU_DATASETTE_START				= 'M013';
+const uint32 MENU_DATASETTE_STOP				= 'M014';
+const uint32 MENU_DATASETTE_REWIND				= 'M015';
+const uint32 MENU_DATASETTE_FORWARD				= 'M016';
+const uint32 MENU_DATASETTE_RECORD				= 'M017';
+const uint32 MENU_DATASETTE_RESET				= 'M018';
+const uint32 MENU_DATASETTE_COUNTER				= 'M019';
+const uint32 MENU_RESET_SOFT					= 'M020';
+const uint32 MENU_RESET_HARD					= 'M021';
+const uint32 MENU_EXIT_REQUESTED				= 'M022';
+const uint32 MENU_EXIT							= 'M023';
+
+const uint32 MENU_TOGGLE_SOUND					= 'M100';
+const uint32 MENU_TOGGLE_WARP_MODE				= 'M101';
+const uint32 MENU_TOGGLE_DRIVE_TRUE_EMULATION	= 'M102';
+const uint32 MENU_TOGGLE_VIRTUAL_DEVICES		= 'M103';
+const uint32 MENU_TOGGLE_EMUID					= 'M104';
+const uint32 MENU_TOGGLE_SOUND_RESID			= 'M105';
+const uint32 MENU_TOGGLE_DOUBLESIZE				= 'M106';
+const uint32 MENU_TOGGLE_DOUBLESCAN				= 'M107';
+const uint32 MENU_TOGGLE_VIDEOCACHE				= 'M108';
+const uint32 MENU_TOGGLE_REU					= 'M109';
+const uint32 MENU_TOGGLE_MOUSE					= 'M110';
+const uint32 MENU_TOGGLE_SIDFILTERS				= 'M111';
+
+
+const uint32 MENU_REFRESH_RATE_AUTO				= 'M120';
+const uint32 MENU_REFRESH_RATE_1				= 'M121';
+const uint32 MENU_REFRESH_RATE_2				= 'M122';
+const uint32 MENU_REFRESH_RATE_3				= 'M123';
+const uint32 MENU_REFRESH_RATE_4				= 'M124';
+const uint32 MENU_REFRESH_RATE_5				= 'M125';
+const uint32 MENU_REFRESH_RATE_6				= 'M126';
+const uint32 MENU_REFRESH_RATE_7				= 'M127';
+const uint32 MENU_REFRESH_RATE_8				= 'M128';
+const uint32 MENU_REFRESH_RATE_9				= 'M129';
+const uint32 MENU_REFRESH_RATE_10				= 'M130';
+const uint32 MENU_MAXIMUM_SPEED_NO_LIMIT		= 'M131';
+const uint32 MENU_MAXIMUM_SPEED_10				= 'M132';
+const uint32 MENU_MAXIMUM_SPEED_20				= 'M133';
+const uint32 MENU_MAXIMUM_SPEED_50				= 'M134';
+const uint32 MENU_MAXIMUM_SPEED_100				= 'M135';
+const uint32 MENU_MAXIMUM_SPEED_200				= 'M136';
+
+const uint32 MENU_SYNC_FACTOR_PAL				= 'M140';
+const uint32 MENU_SYNC_FACTOR_NTSC				= 'M141';
+const uint32 MENU_SYNC_FACTOR_NTSCOLD			= 'M142';
+
+const uint32 MENU_SIDTYPE_6581					= 'M145';
+const uint32 MENU_SIDTYPE_8580					= 'M146';
+
+const uint32 MENU_DRIVE_SETTINGS				= 'M200';
+const uint32 MENU_DEVICE_SETTINGS				= 'M201';
+const uint32 MENU_SOUND_SETTINGS				= 'M202';
+const uint32 MENU_JOYSTICK_SETTINGS				= 'M203';
+const uint32 MENU_DATASETTE_SETTINGS			= 'M204';
+
+const uint32 MENU_SETTINGS_LOAD					= 'M210';
+const uint32 MENU_SETTINGS_SAVE					= 'M211';
+const uint32 MENU_SETTINGS_DEFAULT				= 'M212';
+
+
+const uint32 MENU_ABOUT							= 'M901';
+const uint32 MENU_CONTRIBUTORS					= 'M902';
+const uint32 MENU_LICENSE						= 'M904';
+const uint32 MENU_WARRANTY						= 'M905';
+const uint32 MENU_CMDLINE						= 'M906';
 
 
 

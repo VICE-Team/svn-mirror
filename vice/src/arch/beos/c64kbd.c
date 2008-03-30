@@ -67,7 +67,7 @@ static keyconv c64_keyboard[256] = {
     { -1, -1, 0 },              /*         PgUp -> (no key)     */
     { -1, -1, 0 },              /*     Num Lock -> (no key)     */
     { -1, -1, 0 },              /*     Numpad / -> (no key)     */
-    { -1, -1, 0 },              /*     Numpad * -> (no key)     */
+    { 6, 1, 0 },                /*     Numpad * -> *            */
     { -1, -1, 0 },              /*     Numpad - -> (no key)     */
     { 7, 2, 0 },                /*          TAB -> Ctrl         */
     { 7, 6, 0 },                /*            Q -> Q            */
@@ -136,8 +136,6 @@ static keyconv c64_keyboard[256] = {
     { -1, -1, 0 },              /*   Left Win95 -> (no key)     */
     { -1, -1, 0 },              /*  Right Win95 -> (no key)     */
     { -1, -1, 0 },              /*       SysReq -> (no key)     */
-
-    { 6, 1, 0 },                /*       Grey * -> *            */
 };
 
 int c64_kbd_init(void)

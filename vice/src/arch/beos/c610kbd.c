@@ -65,7 +65,7 @@ static keyconv c610_keyboard[256] = {
     { 5, 0, 0 },                /*         PgUp -> Rev/Off      */
     { -1, -1, 0 },              /*     Num Lock -> (no key)     */
     { 7, 1, 0 },                /*     Numpad / -> Numpad /     */
-    { -1, -1, 0 },              /*     Numpad * -> (no key)     */
+    { 6, 1, 0 },                /*     Numpad * -> *            */
     { 7, 2, 0 },                /*     Numpad - -> Numpad -     */
     { 8, 2, 0 },                /*          TAB -> TAB          */
     { 9, 2, 0 },                /*            Q -> Q            */
@@ -134,7 +134,6 @@ static keyconv c610_keyboard[256] = {
     { 2, 5, 0 },                /*   Left Win95 -> Pi           */
     { -1, -1, 0 },              /*  Right Win95 -> (no key)     */
     { -1, -1, 0 },              /*       SysReq -> (no key)     */
-    { 6, 1, 0 },                /*       Grey * -> *            */
 };
 
 int c610_kbd_init(void)

@@ -1,8 +1,8 @@
 /*
- * vicewindow.h - Implementation of the BeVICE's window
+ * vicemenu.h - Interface of the BeVICE's menubar
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Andreas Matthies <andreas.matthies@arcormail.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,36 +24,11 @@
  *
  */
 
-#ifndef _VICEWINDOW_H
-#define _VICEWINDOW_H
+#ifndef _VICEMENU_H
+#define _VICEMENU_H
 
-#include <Bitmap.h>
 #include <MenuBar.h>
-#include <View.h>
-#include <Window.h>
 
-#include "ui.h"
-
-class ViceWindow : public BWindow {
-	public:
-						ViceWindow(BRect frame, char const *title);
-						~ViceWindow();
-		void 			Resize(unsigned int width, unsigned int height);
-		void			DrawBitmap(void);
-		void			Update_Menus(		
-							ui_menu_toggle *toggle_list,
-							ui_res_value_list *value_list);
-		virtual bool	QuitRequested();
-		virtual void	MessageReceived(BMessage *message);
-
-		BMenuBar		*menubar;
-
-		BBitmap			*bitmap;
-		BView			*view;
-		BFilePanel		*filepanel;	
-};
-
-extern void about_vice(void);
-
+extern BMenuBar *menu_create(int machine_class);
 
 #endif

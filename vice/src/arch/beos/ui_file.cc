@@ -27,30 +27,47 @@
 #include <FilePanel.h>
 #include <Message.h>
 #include <Path.h>
+#include <stdio.h>
+#include <Window.h>
 
 extern "C" {
 #include "attach.h"
+#include "autostart.h"
 #include "tape.h"
 #include "uiapi.h"
 #include "ui_file.h"
 }
 
 static int last_fileparam;
+static int last_filetype;
 
 void ui_select_file(BFilePanel *filepanel, 
 					filetype_t filetype, 
 					int fileparam) {
 
+	char title[40];
+
+	/* Modify the file panel */
+	if (filetype == DISK_FILE)
+		sprintf(title,"Attach Disk %d",fileparam);
+	if (filetype == TAPE_FILE)
+		sprintf(title,"Attach Tape");
+	if (filetype == AUTOSTART_FILE)
+		sprintf(title,"Autostart");
+
+	filepanel->Window()->SetTitle(title);
+
 	filepanel->Show();
-	/* remember params for later action */
+
+	/* remember for later action */
 	last_fileparam = fileparam;
+	last_filetype = filetype;
 }
 	
 void ui_select_file_action(BMessage *msg) {
 	entry_ref 	ref;		// The entry_ref to open
 	status_t 	err;		// The error code
 	BPath		*path;		// The Path to the file
-	char *s;
 	
 	/* extract the selected filename from the message */
 	if ((err = msg->FindRef("refs", 0, &ref)) != B_OK) {
@@ -68,7 +85,10 @@ void ui_select_file_action(BMessage *msg) {
 		/* it's a tape-attach */
     	if (tape_attach_image(path->Path()) < 0)
         	ui_error("Cannot attach specified file");
-	}	
+	} else if (last_filetype == AUTOSTART_FILE) {
+		if (autostart_autodetect(path->Path(), NULL, 0) < 0)
+  			ui_error("Cannot autostart specified file.");
+	}
 	
 	delete path;	
 }

@@ -32,7 +32,6 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "interrupt.h"
-#include "joystick.h"
 #include "kbdbuf.h"
 #include "maincpu.h"
 #include "mouse.h"
@@ -40,6 +39,7 @@
 #include "sound.h"
 #include "types.h"
 #include "ui.h"
+#include "joystick.h"
 #include "vsync.h"
 
 /* ------------------------------------------------------------------------- */
@@ -184,7 +184,7 @@ int do_vsync(int been_skipped)
     vsync_hook();
 
     /* Dispatch all the pending UI events.  */
-//    ui_dispatch_events();
+    ui_dispatch_events();
 
     /* Update mouse */
     mouse_update_mouse();
@@ -206,6 +206,7 @@ int do_vsync(int been_skipped)
             now_time=real_time_clock_usecs();
             diff_time=now_time-last_time;
             snooze(timer_interval * (skip_counter + 1) - diff_time);
+            now_time=real_time_clock_usecs();
         }
         if (skip_counter >= refresh_rate - 1) {
             skip_counter = 0;
@@ -282,8 +283,6 @@ int do_vsync(int been_skipped)
     /* Flush keypresses emulated through the keyboard buffer.  */
     kbd_buf_flush();
     joystick_update();
-
-
 
     if (timer_speed!=relative_speed) {
         if (relative_speed!=0) {

@@ -111,6 +111,7 @@ extern int sound_init_ce_device(void);
 extern int sound_init_vidc_device(void);
 extern int sound_init_mmos2_device(void);
 extern int sound_init_dart_device(void);
+extern int sound_init_beos_device(void);
 
 /* internal function for sound device registration */
 extern int sound_register_device(sound_device_t *pdevice);
@@ -135,7 +136,7 @@ extern void sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
 #ifdef __riscos
 extern int SoundPollEvery;
 extern int SoundMachineReady;
-extern unsigned char *LinToLog;
+extern int SoundThreadActive;
 extern void sound_poll(void);
 extern void sound_synthesize(SWORD *buffer, int length);
 #endif

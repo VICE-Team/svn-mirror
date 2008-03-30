@@ -24,10 +24,17 @@
  *
  */
 
-#ifndef _JOYSTICK_H
-#define _JOYSTICK_H
+#ifndef _VICEJOYSTICK_H
+#define _VIVEJOYSTICK_H
 
 #include "kbd.h"
+
+/* some thresholds for the analog Joysticks */
+#define JOYBORDER_MINX	-16384
+#define JOYBORDER_MAXX	16384
+#define JOYBORDER_MINY	-16384
+#define JOYBORDER_MAXY	16384
+
 
 typedef enum {
     JOYDEV_NONE,

@@ -29,11 +29,11 @@ libarch_a_SOURCES = \
 	c610ui.c \
 	c610ui.h \
 	c64kbd.c \
-	c64ui.c \
+	c64ui.cc \
 	c64ui.h \
 	console.c \
 	constants.h \
-	joystick.c \
+	joystick.cc \
 	joystick.h \
 	kbd.c \
 	kbd.h \
@@ -57,6 +57,8 @@ libarch_a_SOURCES = \
 	vic20kbd.c \
 	vic20ui.c \
 	vic20ui.h \
+	vicemenu.cc \
+	vicemenu.h \
 	vicewindow.cc \
 	vicewindow.h \
 	video.cc \

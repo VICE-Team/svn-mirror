@@ -1,4 +1,3 @@
-
 # Makefile.am for `libsounddrv.a'.
 
 INCLUDES = \
@@ -13,6 +12,7 @@ EXTRA_libsounddrv_a_SOURCES = \
 	soundaix.c \
 	soundacorn.c \
 	soundallegro.c \
+	soundbeos.cc \
         soundmmos2.c \
         sounddart.c \
         sounddx.c \

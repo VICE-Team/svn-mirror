@@ -68,7 +68,7 @@ static keyconv pet40_keyboard[256] = {
     { 8, 2, 0 },                /*         PgUp -> ]            */
     { 0, 6, 0 },                /*     Num Lock -> CLR/HOME     */
     { 3, 7, 0 },                /*     Numpad / -> /            */
-    { -1, -1, 0 },              /*     Numpad * -> (no key)     */
+    { 5, 7, 0 },                /*     Numpad * -> *            */
     { 8, 7, 0 },                /*     Numpad - -> -            */
     { -1, -1, 0 },              /*          TAB -> (no key)     */
     { 2, 0, 0 },                /*            Q -> Q            */
@@ -137,7 +137,6 @@ static keyconv pet40_keyboard[256] = {
     { -1, -1, 0 },              /*   Left Win95 -> (no key)     */
     { -1, -1, 0 },              /*  Right Win95 -> (no key)     */
     { -1, -1, 0 },              /*       SysReq -> (no key)     */
-    { 5, 7, 0 },                /*       Grey * -> *            */
 };
 
 /* PET 8032 keyboard map.  */
@@ -245,9 +244,8 @@ static keyconv pet80_keyboard[256] = {
     { 7, 4, 0 },                /*     Numpad 0 -> Numpad 0     */
     { 6, 4, 0 },                /*     Numpad . -> .            */
     { -1, -1, 0 },              /*   Left Win95 -> (no key)     */
-    { -1, -1, 0 },               /*  Right Win95 -> (no key)     */
+    { -1, -1, 0 },               /*  Right Win95 -> (no key)    */
     { -1, -1, 0 },              /*       SysReq -> (no key)     */
-    { -1, -1, 0 },              /*       Grey * -> (no key)     */
 };
 
 int pet_kbd_init(void)

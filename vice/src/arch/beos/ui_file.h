@@ -30,8 +30,9 @@
 #include <FilePanel.h>
 
 enum filetype_t {
-	DISKFILE,
-	TAPEFILE
+	AUTOSTART_FILE,
+	DISK_FILE,
+	TAPE_FILE
 };
 
 extern void ui_select_file(BFilePanel *filepanel, 
