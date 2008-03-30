@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "drive.h"
+#include "drivetypes.h"
 #include "rotation.h"
 #include "types.h"
 
@@ -85,14 +86,18 @@ void rotation_init_table(int freq, unsigned int dnr)
     }
 }
 
-void rotation_reset(unsigned int dnr)
+void rotation_reset(drive_t *drive)
 {
+    unsigned int dnr;
+
+    dnr = drive->mynumber;
+
     rotation[dnr].rotation_table_ptr = rotation[dnr].rotation_table[0];
     rotation[dnr].accum = 0;
     rotation[dnr].bits_moved = 0;
     rotation[dnr].finish_byte = 0;
     rotation[dnr].last_mode = 1;
-    rotation[dnr].rotation_last_clk = *(drive[dnr].clk);
+    rotation[dnr].rotation_last_clk = *(drive->clk);
 }
 
 void rotation_speed_zone_set(unsigned int zone, unsigned int dnr)
@@ -102,35 +107,41 @@ void rotation_speed_zone_set(unsigned int zone, unsigned int dnr)
 
 void rotation_table_get(DWORD *rotation_table_ptr)
 {
-    unsigned int i;
+    unsigned int dnr;
+    drive_t *drive;
 
-    for (i = 0; i < 2; i++) {
-        rotation_table_ptr[i] = (DWORD)(rotation[i].rotation_table_ptr
-                                - rotation[i].rotation_table[0]);
+    for (dnr = 0; dnr < 2; dnr++) {
+        drive = drive_context[dnr]->drive;
 
-        drive[i].snap_accum = rotation[i].accum;
-        drive[i].snap_bits_moved = rotation[i].bits_moved;
-        drive[i].snap_finish_byte = rotation[i].finish_byte;
-        drive[i].snap_last_mode = rotation[i].last_mode;
-        drive[i].snap_rotation_last_clk = rotation[i].rotation_last_clk;
+        rotation_table_ptr[dnr] = (DWORD)(rotation[dnr].rotation_table_ptr
+                                   - rotation[dnr].rotation_table[0]);
+
+        drive->snap_accum = rotation[dnr].accum;
+        drive->snap_bits_moved = rotation[dnr].bits_moved;
+        drive->snap_finish_byte = rotation[dnr].finish_byte;
+        drive->snap_last_mode = rotation[dnr].last_mode;
+        drive->snap_rotation_last_clk = rotation[dnr].rotation_last_clk;
     }
 }
 
 void rotation_table_set(DWORD *rotation_table_ptr)
 {
-    unsigned int i;
+    unsigned int dnr;
+    drive_t *drive;
 
-    for (i = 0; i < 2; i++) {
-        rotation[i].rotation_table_ptr = rotation[i].rotation_table[0]
-                                         + rotation_table_ptr[i];
+    for (dnr = 0; dnr < 2; dnr++) {
+        drive = drive_context[dnr]->drive;
 
-        rotation[i].accum = drive[i].snap_accum;
-        rotation[i].bits_moved = drive[i].snap_bits_moved;
-        rotation[i].finish_byte = drive[i].snap_finish_byte;
-        rotation[i].last_mode = drive[i].snap_last_mode;
-        rotation[i].rotation_last_clk = drive[i].snap_rotation_last_clk;
+        rotation[dnr].rotation_table_ptr = rotation[dnr].rotation_table[0]
+                                           + rotation_table_ptr[dnr];
 
-        rotation[i].shifter = rotation[i].bits_moved;
+        rotation[dnr].accum = drive->snap_accum;
+        rotation[dnr].bits_moved = drive->snap_bits_moved;
+        rotation[dnr].finish_byte = drive->snap_finish_byte;
+        rotation[dnr].last_mode = drive->snap_last_mode;
+        rotation[dnr].rotation_last_clk = drive->snap_rotation_last_clk;
+
+        rotation[dnr].shifter = rotation[dnr].bits_moved;
     }
 }
 

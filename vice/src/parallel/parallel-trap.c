@@ -31,6 +31,7 @@
 
 #include "attach.h"
 #include "drive.h"
+#include "drivetypes.h"
 #include "log.h"
 #include "parallel-trap.h"
 #include "parallel.h"
@@ -58,8 +59,8 @@ static int parallelcommand(void)
     int i, st = 0;
     void *vdrive;
 
-    if (((TrapDevice & 0x0f) == 8 && drive[0].enable)
-        || ((TrapDevice & 0x0f) == 9 && drive[1].enable)) {
+    if (((TrapDevice & 0x0f) == 8 && drive_context[0]->drive->enable)
+        || ((TrapDevice & 0x0f) == 9 && drive_context[1]->drive->enable)) {
         return 0x83;    /* device not present */
     }
 
@@ -185,8 +186,8 @@ int parallelsendbyte(BYTE data)
     serial_t *p;
     void *vdrive;
 
-    if (((TrapDevice & 0x0f) == 8 && drive[0].enable)
-        || ((TrapDevice & 0x0f) == 9 && drive[1].enable)) {
+    if (((TrapDevice & 0x0f) == 8 && drive_context[0]->drive->enable)
+        || ((TrapDevice & 0x0f) == 9 && drive_context[1]->drive->enable)) {
         return 0x83;    /* device not present */
     }
 
@@ -219,8 +220,8 @@ int parallelreceivebyte(BYTE * data, int fake)
     serial_t *p;
     void *vdrive;
 
-    if (((TrapDevice & 0x0f) == 8 && drive[0].enable)
-        || ((TrapDevice & 0x0f) == 9 && drive[1].enable)) {
+    if (((TrapDevice & 0x0f) == 8 && drive_context[0]->drive->enable)
+        || ((TrapDevice & 0x0f) == 9 && drive_context[1]->drive->enable)) {
         return 0x83;    /* device not present */
     }
 

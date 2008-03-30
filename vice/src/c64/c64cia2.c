@@ -38,6 +38,7 @@
 #include "cia.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivetypes.h"
 #include "iecdrive.h"
 #include "interrupt.h"
 #include "lib.h"
@@ -162,7 +163,8 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+    if (drive_context[0]->drive->parallel_cable_enabled
+        || drive_context[1]->drive->parallel_cable_enabled)
         parallel_cable_cpu_write((BYTE)byte);
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
@@ -171,7 +173,8 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 {
-    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+    if (drive_context[0]->drive->parallel_cable_enabled
+        || drive_context[1]->drive->parallel_cable_enabled)
         parallel_cable_cpu_pulse();
     printer_interface_userport_write_data((BYTE)(cia_context->old_pb));
 }
@@ -191,10 +194,10 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
 static BYTE read_ciapa(cia_context_t *cia_context)
 {
     BYTE byte;
-    if (!drive[0].enable && !drive[1].enable)
+    if (!(drive_context[0]->drive->enable)
+        && !(drive_context[1]->drive->enable))
         return ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))
-            & 0x3f) |
-            (cia2_iec_info->iec_fast_1541 & 0x30) << 2;
+            & 0x3f) | (cia2_iec_info->iec_fast_1541 & 0x30) << 2;
 
     drivecpu_execute_all(maincpu_clk);
 
@@ -208,12 +211,16 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte;
 #ifdef HAVE_RS232
-    byte = ((drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)            ? parallel_cable_cpu_read()
+    byte = ((drive_context[0]->drive->parallel_cable_enabled
+           || drive_context[1]->drive->parallel_cable_enabled)
+            ? parallel_cable_cpu_read()
             : (rsuser_enabled
                 ? rsuser_read_ctrl()
                 : 0xff ));
 #else
-    byte = ((drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)            ? parallel_cable_cpu_read()
+    byte = ((drive_context[0]->drive->parallel_cable_enabled
+           || drive_context[1]->drive->parallel_cable_enabled)
+            ? parallel_cable_cpu_read()
             : 0xff );
 #endif
     byte = (byte & ~(cia_context->c_cia[CIA_DDRB]))
@@ -223,9 +230,9 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
 static void read_ciaicr(cia_context_t *cia_context)
 {
-    if (drive[0].parallel_cable_enabled)
+    if (drive_context[0]->drive->parallel_cable_enabled)
         drivecpu_execute(&drive0_context, maincpu_clk);
-    if (drive[1].parallel_cable_enabled)
+    if (drive_context[1]->drive->parallel_cable_enabled)
         drivecpu_execute(&drive1_context, maincpu_clk);
 }
 

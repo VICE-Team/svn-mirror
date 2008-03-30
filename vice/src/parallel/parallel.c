@@ -43,6 +43,7 @@
 #include "cmdline.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivetypes.h"
 #include "ieee.h"
 #include "log.h"
 #include "maincpu.h"
@@ -461,10 +462,10 @@ void parallel_set_atn(BYTE mask)
         if (parallel_emu) {
             DoTrans(ATNlo);
         }
-        if (drive[0].enable) {
+        if (drive_context[0]->drive->enable) {
             ieee_drive0_parallel_set_atn(1);
         }
-        if (drive[1].enable) {
+        if (drive_context[1]->drive->enable) {
             ieee_drive1_parallel_set_atn(1);
         }
     }
@@ -482,10 +483,10 @@ void parallel_clr_atn(BYTE mask)
         if (parallel_emu) {
             DoTrans(ATNhi);
         }
-        if (drive[0].enable) {
+        if (drive_context[0]->drive->enable) {
             ieee_drive0_parallel_set_atn(0);
         }
-        if (drive[1].enable) {
+        if (drive_context[1]->drive->enable) {
             ieee_drive1_parallel_set_atn(0);
         }
     }
