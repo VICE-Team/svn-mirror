@@ -35,6 +35,7 @@
 #include "ciad.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivetypes.h"
 #include "fdc.h"
 #include "interrupt.h"
 #include "mem.h"
@@ -60,10 +61,6 @@
 #endif
 
 
-/* probably better moved to drive.c later */
-drive_context_t drive0_context;
-drive_context_t drive1_context;
-
 
 static void drive_jam(drive_context_t *drv);
 
@@ -71,6 +68,13 @@ static BYTE drive_bank_read(drive_context_t *drv, int bank, ADDRESS address);
 static BYTE drive_bank_peek(drive_context_t *drv, int bank, ADDRESS address);
 static void drive_bank_store(drive_context_t *drv, int bank, ADDRESS address, BYTE value);
 void drive_toggle_watchpoints(drive_context_t *drv, int flag);
+
+
+/* export these special pointers */
+monitor_interface_t *drive0_monitor_interface_ptr = &drive0_context.cpu.monitor_interface;
+monitor_interface_t *drive1_monitor_interface_ptr = &drive1_context.cpu.monitor_interface;
+cpu_int_status_t *drive0_int_status_ptr = &drive0_context.cpu.int_status;
+cpu_int_status_t *drive1_int_status_ptr = &drive1_context.cpu.int_status;
 
 
 /* non-time critical monitor functions; should be OK */
@@ -133,26 +137,6 @@ void drive_cpu_setup_context(drive_context_t *drv)
     mi->toggle_watchpoints_func = drive0_toggle_watchpoints;
 
     drv->cpu.monspace = e_disk8_space;
-    drv->cpu.cia1571_reset = cia1571d0_reset;
-    drv->cpu.cia1581_reset = cia1581d0_reset;
-    drv->cpu.wd1770_reset = wd1770d0_reset;
-    drv->cpu.riot1_reset = riot1d0_reset;
-    drv->cpu.riot2_reset = riot2d0_reset;
-    drv->cpu.cia1571_read = cia1571d0_read;
-    drv->cpu.cia1571_store = cia1571d0_store;
-    drv->cpu.cia1581_read = cia1581d0_read;
-    drv->cpu.cia1581_store = cia1581d0_store;
-    drv->cpu.wd1770_read = wd1770d0_read;
-    drv->cpu.wd1770_store = wd1770d0_store;
-    drv->cpu.riot1_read = riot1d0_read;
-    drv->cpu.riot1_store = riot1d0_store;
-    drv->cpu.riot2_read = riot2d0_read;
-    drv->cpu.riot2_store = riot2d0_store;
-    drv->cpu.cia1571_init = cia1571d0_init;
-    drv->cpu.cia1581_init = cia1581d0_init;
-    drv->cpu.wd1770_init = wd1770d0_init;
-    drv->cpu.riot1_init = riot1d0_init;
-    drv->cpu.riot2_init = riot2d0_init;
   }
   else
   {
@@ -162,26 +146,6 @@ void drive_cpu_setup_context(drive_context_t *drv)
     mi->toggle_watchpoints_func = drive1_toggle_watchpoints;
 
     drv->cpu.monspace = e_disk9_space;
-    drv->cpu.cia1571_reset = cia1571d1_reset;
-    drv->cpu.cia1581_reset = cia1581d1_reset;
-    drv->cpu.wd1770_reset = wd1770d1_reset;
-    drv->cpu.riot1_reset = riot1d1_reset;
-    drv->cpu.riot2_reset = riot2d1_reset;
-    drv->cpu.cia1571_read = cia1571d1_read;
-    drv->cpu.cia1571_store = cia1571d1_store;
-    drv->cpu.cia1581_read = cia1581d1_read;
-    drv->cpu.cia1581_store = cia1581d1_store;
-    drv->cpu.wd1770_read = wd1770d1_read;
-    drv->cpu.wd1770_store = wd1770d1_store;
-    drv->cpu.riot1_read = riot1d1_read;
-    drv->cpu.riot1_store = riot1d1_store;
-    drv->cpu.riot2_read = riot2d1_read;
-    drv->cpu.riot2_store = riot2d1_store;
-    drv->cpu.cia1571_init = cia1571d1_init;
-    drv->cpu.cia1581_init = cia1581d1_init;
-    drv->cpu.wd1770_init = wd1770d1_init;
-    drv->cpu.riot1_init = riot1d1_init;
-    drv->cpu.riot2_init = riot2d1_init;
   }
 }
 
@@ -197,17 +161,17 @@ void drive_cpu_setup_context(drive_context_t *drv)
 static BYTE REGPARM2 drive_read_1001_io(drive_context_t *drv, ADDRESS address)
 {
     if (address & 0x80) {
-	return drv->cpu.riot2_read(address);
+	return riot2_read(drv, address);
     }
-    return drv->cpu.riot1_read(address);
+    return riot1_read(drv, address);
 }
 
 static void REGPARM3 drive_store_1001_io(drive_context_t *drv, ADDRESS address, BYTE byte)
 {
     if (address & 0x80) {
-	drv->cpu.riot2_store(address, byte);
+	riot2_store(drv, address, byte);
     } else {
-        drv->cpu.riot1_store(address, byte);
+        riot1_store(drv, address, byte);
     }
 }
 
@@ -366,46 +330,15 @@ static void reset(drive_context_t *drv)
     *(drv->clk_ptr) = 6;
     via1d_reset(drv);
     via2d_reset(drv);
-    drv->cpu.cia1571_reset();
-    drv->cpu.cia1581_reset();
-    drv->cpu.wd1770_reset();
-    drv->cpu.riot1_reset();
-    drv->cpu.riot2_reset();
+    cia1571_reset(drv);
+    cia1581_reset(drv);
+    wd1770d_reset(drv);
+    riot1_reset(drv);
+    riot2_reset(drv);
     fdc_reset(drv->mynumber, drv->drive_ptr->type);
 
     if (preserve_monitor)
 	monitor_trap_on(&(drv->cpu.int_status));
-}
-
-/* This is a layer between the drives and the other components. It will become
-   superfluous once the rest is rewritten to use shared code and private data.
-   Use pointers to the data for an entire drive throughout all component interfaces
-   and let each component pick out the parts it wants. For now this is a big
-   potential performance hog... */
-
-static BYTE drive_cia1571_read(drive_context_t *drv, ADDRESS adr)
-{
-  return drv->cpu.cia1571_read(adr);
-}
-static void drive_cia1571_store(drive_context_t *drv, ADDRESS adr, BYTE val)
-{
-  drv->cpu.cia1571_store(adr, val);
-}
-static BYTE drive_cia1581_read(drive_context_t *drv, ADDRESS adr)
-{
-  return drv->cpu.cia1581_read(adr);
-}
-static void drive_cia1581_store(drive_context_t *drv, ADDRESS adr, BYTE val)
-{
-  drv->cpu.cia1581_store(adr, val);
-}
-static BYTE drive_wd1770_read(drive_context_t *drv, ADDRESS adr)
-{
-  return drv->cpu.wd1770_read(adr);
-}
-static void drive_wd1770_store(drive_context_t *drv, ADDRESS adr, BYTE val)
-{
-  drv->cpu.wd1770_store(adr, val);
 }
 
 #ifdef _MSC_VER
@@ -498,24 +431,24 @@ void drive_mem_init(drive_context_t *drv, int type)
     /* Setup 1571 CIA.  */
     if (type == DRIVE_TYPE_1571) {
 	for (i = 0x40; i < 0x44; i++) {
-            drv->cpu.read_func_nowatch[i] = drive_cia1571_read;
-            drv->cpu.store_func_nowatch[i] = drive_cia1571_store;
+            drv->cpu.read_func_nowatch[i] = cia1571_read;
+            drv->cpu.store_func_nowatch[i] = cia1571_store;
 	}
 	for (i = 0x20; i < 0x24; i++) {
-            drv->cpu.read_func_nowatch[i] = drive_wd1770_read;
-            drv->cpu.store_func_nowatch[i] = drive_wd1770_store;
+            drv->cpu.read_func_nowatch[i] = wd1770d_read;
+            drv->cpu.store_func_nowatch[i] = wd1770d_store;
 	}
     }
 
     /* Setup 1581 CIA.  */
     if (type == DRIVE_TYPE_1581) {
 	for (i = 0x40; i < 0x44; i++) {
-            drv->cpu.read_func_nowatch[i] = drive_cia1581_read;
-            drv->cpu.store_func_nowatch[i] = drive_cia1581_store;
+            drv->cpu.read_func_nowatch[i] = cia1581_read;
+            drv->cpu.store_func_nowatch[i] = cia1581_store;
 	}
 	for (i = 0x60; i < 0x64; i++) {
-            drv->cpu.read_func_nowatch[i] = drive_wd1770_read;
-            drv->cpu.store_func_nowatch[i] = drive_wd1770_store;
+            drv->cpu.read_func_nowatch[i] = wd1770d_read;
+            drv->cpu.store_func_nowatch[i] = wd1770d_store;
 	}
     }
 
@@ -580,11 +513,11 @@ void drive_cpu_early_init(drive_context_t *drv)
 
     via1d_init(drv);
     via2d_init(drv);
-    drv->cpu.cia1571_init();
-    drv->cpu.cia1581_init();
-    drv->cpu.wd1770_init();
-    drv->cpu.riot1_init();
-    drv->cpu.riot2_init();
+    cia1571_init(drv);
+    cia1581_init(drv);
+    wd1770d_init(drv);
+    riot1_init(drv);
+    riot2_init(drv);
     fdc_init(drv->mynumber, drv->cpu.drive_ram + 0x100, &(drv->drive_ptr->rom[0x4000]));
 }
 
@@ -932,11 +865,11 @@ int drive_cpu_read_snapshot_module(drive_context_t *drv, snapshot_t *s)
 
     via1d_reset(drv);
     via2d_reset(drv);
-    drv->cpu.cia1571_reset();
-    drv->cpu.cia1581_reset();
-    drv->cpu.wd1770_reset();
-    drv->cpu.riot1_reset();
-    drv->cpu.riot2_reset();
+    cia1571_reset(drv);
+    cia1581_reset(drv);
+    wd1770d_reset(drv);
+    riot1_reset(drv);
+    riot2_reset(drv);
 
     if (interrupt_read_snapshot(&(drv->cpu.int_status), m) < 0)
         goto fail;

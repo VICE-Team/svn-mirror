@@ -279,8 +279,8 @@ int machine_init(void)
         return -1;
 
     /* Initialize the monitor.  */
-    monitor_init(&maincpu_monitor_interface, &drive0_monitor_interface,
-                 &drive1_monitor_interface);
+    monitor_init(&maincpu_monitor_interface, drive0_monitor_interface_ptr,
+                 drive1_monitor_interface_ptr);
 
     /* Initialize vsync and register our hook function.  */
     vsync_set_machine_parameter(VIC20_PAL_RFSH_PER_SEC,

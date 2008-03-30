@@ -39,20 +39,37 @@
 #include "snapshot.h"
 #include "types.h"
 
+
+#ifdef CIA_SHARED_CODE
+#define CIA_CONTEXT_PARAM	CIACONTEXT *ctxptr,
+#define CIA_CONTEXT_PARVOID	CIACONTEXT *ctxptr
+#define CIA_CONTEXT_CALL	ctxptr,
+#define CIA_CONTEXT_CALLVOID	ctxptr
+#define CIARPARM1		REGPARM2
+#define CIARPARM2		REGPARM3
+#else
+#define CIA_CONTEXT_PARAM
+#define CIA_CONTEXT_PARVOID	void
+#define CIA_CONTEXT_CALL
+#define CIA_CONTEXT_CALLVOID
+#define CIARPARM1		REGPARM1
+#define CIARPARM2		REGPARM2
+#endif
+
 /*
- * Prototypes for the used inline functions 
+ * Prototypes for the used inline functions
  */
 
-static inline void do_reset_cia(void);
-static inline void store_sdr(BYTE byte);
-static inline void read_ciaicr(void);
-static inline void store_ciapa(CLOCK rclk, BYTE byte);
-static inline void store_ciapb(CLOCK rclk, BYTE byte);
-static inline void pulse_ciapc(CLOCK rclk);
-static inline void undump_ciapa(CLOCK rclk, BYTE byte);
-static inline void undump_ciapb(CLOCK rclk, BYTE byte);
-static inline BYTE read_ciapa(void);
-static inline BYTE read_ciapb(void);
+static inline void do_reset_cia(CIA_CONTEXT_PARVOID);
+static inline void store_sdr(CIA_CONTEXT_PARAM BYTE byte);
+static inline void read_ciaicr(CIA_CONTEXT_PARVOID);
+static inline void store_ciapa(CIA_CONTEXT_PARAM CLOCK rclk, BYTE byte);
+static inline void store_ciapb(CIA_CONTEXT_PARAM CLOCK rclk, BYTE byte);
+static inline void pulse_ciapc(CIA_CONTEXT_PARAM CLOCK rclk);
+static inline void undump_ciapa(CIA_CONTEXT_PARAM CLOCK rclk, BYTE byte);
+static inline void undump_ciapb(CIA_CONTEXT_PARAM CLOCK rclk, BYTE byte);
+static inline BYTE read_ciapa(CIA_CONTEXT_PARVOID);
+static inline BYTE read_ciapb(CIA_CONTEXT_PARVOID);
 
 
 #define	STORE_OFFSET 1
@@ -64,12 +81,14 @@ static inline BYTE read_ciapb(void);
 
 /*
  * Local variable and prototypes - moved here because they're used by
- * the inline functions 
+ * the inline functions
  */
 
-static int int_ciata(CLOCK offset);
-static int int_ciatb(CLOCK offset);
-static int int_ciatod(CLOCK offset);
+static int int_ciata(CIA_CONTEXT_PARAM CLOCK offset);
+static int int_ciatb(CIA_CONTEXT_PARAM CLOCK offset);
+static int int_ciatod(CIA_CONTEXT_PARAM CLOCK offset);
+
+#ifndef CIA_SHARED_CODE
 
 #define	ciaier	cia[CIA_ICR]
 
@@ -105,7 +124,8 @@ static log_t cia_log = LOG_ERR;
 static BYTE cia[16];
 
 /* local functions */
+#endif
 
-static void check_ciatodalarm(CLOCK rclk);
+static void check_ciatodalarm(CIA_CONTEXT_PARAM CLOCK rclk);
 
 

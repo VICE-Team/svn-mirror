@@ -1,5 +1,5 @@
 /*
- * via1.c - VIA1 emulation in the 1541, 1541II, 1571 and 2031 disk drive.
+ * via1d.c - VIA1 emulation in the 1541, 1541II, 1571 and 2031 disk drive.
  *
  * Written by
  *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
@@ -29,11 +29,11 @@
 
 #include "vice.h"
 
-/*#include "viacore.h"*/
 #include "via.h"
 
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivetypes.h"
 #include "iecdrive.h"
 #include "parallel.h"
 #include "types.h"
@@ -80,7 +80,8 @@
 #define myvia_init	via1d_init
 #define I_MYVIAFL	(ctxptr->via1.irq_type)
 #define MYVIA_NAME	(ctxptr->via1.myname)
-#define MYVIA_INT	(ctxptr->via1.irq_line)
+/*#define MYVIA_INT	(ctxptr->via1.irq_line)*/
+#define MYVIA_INT	IK_IRQ
 
 #define mycpu_rmw_flag	(ctxptr->cpu.rmw_flag)
 #define mycpu_int_status (ctxptr->cpu.int_status)
@@ -99,14 +100,14 @@
 #define myvia_write_snapshot_module via1d_write_snapshot_module
 
 
-#define iec_drivex_write(a)		(ctxptr->via1p.iec_write(a))
-#define iec_drivex_read()		(ctxptr->via1p.iec_read())
-#define parallel_cable_drivex_write(a,b) (ctxptr->via1p.parallel_cable_write(a,b))
-#define parallel_drivex_set_bus(a)	(ctxptr->via1p.parallel_set_bus(a))
-#define parallel_drivex_set_eoi(a)	(ctxptr->via1p.parallel_set_eoi(a))
-#define parallel_drivex_set_dav(a)	(ctxptr->via1p.parallel_set_dav(a))
-#define parallel_drivex_set_ndac(a)	(ctxptr->via1p.parallel_set_ndac(a))
-#define parallel_drivex_set_nrfd(a)	(ctxptr->via1p.parallel_set_nrfd(a))
+#define iec_drivex_write(a)		(ctxptr->func.iec_write(a))
+#define iec_drivex_read()		(ctxptr->func.iec_read())
+#define parallel_cable_drivex_write(a,b) (ctxptr->func.parallel_cable_write(a,b))
+#define parallel_drivex_set_bus(a)	(ctxptr->func.parallel_set_bus(a))
+#define parallel_drivex_set_eoi(a)	(ctxptr->func.parallel_set_eoi(a))
+#define parallel_drivex_set_dav(a)	(ctxptr->func.parallel_set_dav(a))
+#define parallel_drivex_set_ndac(a)	(ctxptr->func.parallel_set_ndac(a))
+#define parallel_drivex_set_nrfd(a)	(ctxptr->func.parallel_set_nrfd(a))
 
 
 void drive_via1_setup_context(drive_context_t *ctxptr)
@@ -123,27 +124,11 @@ void drive_via1_setup_context(drive_context_t *ctxptr)
   {
     ctxptr->via1.irq_type = I_VIA1D0FL;
     ctxptr->via1p.parallel_id = PARALLEL_DRV0;
-    ctxptr->via1p.iec_write = iec_drive0_write;
-    ctxptr->via1p.iec_read = iec_drive0_read;
-    ctxptr->via1p.parallel_cable_write = parallel_cable_drive0_write;
-    ctxptr->via1p.parallel_set_bus = parallel_drv0_set_bus;
-    ctxptr->via1p.parallel_set_eoi = parallel_drv0_set_eoi;
-    ctxptr->via1p.parallel_set_dav = parallel_drv0_set_dav;
-    ctxptr->via1p.parallel_set_ndac = parallel_drv0_set_ndac;
-    ctxptr->via1p.parallel_set_nrfd = parallel_drv0_set_nrfd;
   }
   else
   {
     ctxptr->via1.irq_type = I_VIA1D1FL;
     ctxptr->via1p.parallel_id = PARALLEL_DRV1;
-    ctxptr->via1p.iec_write = iec_drive1_write;
-    ctxptr->via1p.iec_read = iec_drive1_read;
-    ctxptr->via1p.parallel_cable_write = parallel_cable_drive1_write;
-    ctxptr->via1p.parallel_set_bus = parallel_drv1_set_bus;
-    ctxptr->via1p.parallel_set_eoi = parallel_drv1_set_eoi;
-    ctxptr->via1p.parallel_set_dav = parallel_drv1_set_dav;
-    ctxptr->via1p.parallel_set_ndac = parallel_drv1_set_ndac;
-    ctxptr->via1p.parallel_set_nrfd = parallel_drv1_set_nrfd;
   }
 }
 
@@ -451,27 +436,35 @@ static int int_via1d1t2(CLOCK c)
     return int_myviat2(&drive1_context, c);
 }
 
-static via_callbacks_t via1_callbacks[2] = {
-    { clk0_overflow_callback, int_via1d0t1, int_via1d0t2 },
-    { clk1_overflow_callback, int_via1d1t1, int_via1d1t2 }
+static via_initdesc_t via1_initdesc[2] = {
+    { &drive0_context.via1, clk0_overflow_callback, int_via1d0t1, int_via1d0t2 },
+    { &drive1_context.via1, clk1_overflow_callback, int_via1d1t1, int_via1d1t2 }
 };
 
 void via1d_init(drive_context_t *ctxptr)
 {
-    char buffer[16];
-
-    if (myvia_log == LOG_ERR)
-        myvia_log = log_open(snap_module_name);
-
-    sprintf(buffer, "%sT1", MYVIA_NAME);
-    alarm_init(&myvia_t1_alarm, &mycpu_alarm_context,
-               buffer, via1_callbacks[ctxptr->mynumber].int_t1);
-    sprintf(buffer, "%sT2", MYVIA_NAME);
-    alarm_init(&myvia_t2_alarm, &mycpu_alarm_context,
-               buffer, via1_callbacks[ctxptr->mynumber].int_t2);
-
-    clk_guard_add_callback(&mycpu_clk_guard, via1_callbacks[ctxptr->mynumber].clk, NULL);
+    via_drive_init(ctxptr, via1_initdesc);
 }
+
+/* this function is shared by via1 and via2! */
+void via_drive_init(drive_context_t *ctxptr, const via_initdesc_t *via_desc)
+{
+    char buffer[16];
+    const via_initdesc_t *vd = &via_desc[ctxptr->mynumber];
+
+    if (vd->via_ptr->log == LOG_ERR)
+        vd->via_ptr->log = log_open(vd->via_ptr->my_module_name);
+
+    sprintf(buffer, "%sT1", vd->via_ptr->myname);
+    alarm_init(&(vd->via_ptr->t1_alarm), &mycpu_alarm_context,
+               buffer, vd->int_t1);
+    sprintf(buffer, "%sT2", vd->via_ptr->myname);
+    alarm_init(&(vd->via_ptr->t2_alarm), &mycpu_alarm_context,
+               buffer, vd->int_t2);
+
+    clk_guard_add_callback(&mycpu_clk_guard, vd->clk, NULL);
+}
+
 
 #define VIA_SHARED_CODE
 #define VIACONTEXT drive_context_t

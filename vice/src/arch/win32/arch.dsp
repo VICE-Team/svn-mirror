@@ -198,6 +198,10 @@ SOURCE=.\video.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\vsidui.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\vsync.c
 # End Source File
 # Begin Source File

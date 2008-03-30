@@ -54,10 +54,12 @@
 #include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivetypes.h"
 #include "fdc.h"
 #include "gcr.h"
 #include "iecdrive.h"
 #include "log.h"
+#include "parallel.h"
 #include "resources.h"
 #include "riotd.h"
 #include "serial.h"
@@ -74,6 +76,9 @@
 
 /* Drive specific variables.  */
 drive_t drive[2];
+
+drive_context_t drive0_context;
+drive_context_t drive1_context;
 
 /* Prototypes of functions called by resource management.  */
 static int drive_check_image_format(unsigned int format, int dnr);
@@ -1605,7 +1610,7 @@ void drive_update_ui_status(void)
 #else
                 ui_display_drive_track(i, (i < 2 && drive[0].enable
 			               && DRIVE_IS_DUAL(drive[0].type))
-			               ? 0 : 8, 
+			               ? 0 : 8,
                                        ((float)drive[i].current_half_track
                                        / 2.0));
 #endif
@@ -1684,9 +1689,37 @@ static void drive_setup_context_for_drive(drive_context_t *drv, int number)
   drv->clk_ptr = &drive_clk[number];
   drv->drive_ptr = &drive[number];
 
+  /* setup shared function pointers */
+  if (number == 0)
+  {
+    drv->func.iec_write = iec_drive0_write;
+    drv->func.iec_read = iec_drive0_read;
+    drv->func.parallel_cable_write = parallel_cable_drive0_write;
+    drv->func.parallel_set_bus = parallel_drv0_set_bus;
+    drv->func.parallel_set_eoi = parallel_drv0_set_eoi;
+    drv->func.parallel_set_dav = parallel_drv0_set_dav;
+    drv->func.parallel_set_ndac = parallel_drv0_set_ndac;
+    drv->func.parallel_set_nrfd = parallel_drv0_set_nrfd;
+  }
+  else
+  {
+    drv->func.iec_write = iec_drive1_write;
+    drv->func.iec_read = iec_drive1_read;
+    drv->func.parallel_cable_write = parallel_cable_drive1_write;
+    drv->func.parallel_set_bus = parallel_drv1_set_bus;
+    drv->func.parallel_set_eoi = parallel_drv1_set_eoi;
+    drv->func.parallel_set_dav = parallel_drv1_set_dav;
+    drv->func.parallel_set_ndac = parallel_drv1_set_ndac;
+    drv->func.parallel_set_nrfd = parallel_drv1_set_nrfd;
+  }
+
   drive_cpu_setup_context(drv);
   drive_via1_setup_context(drv);
   drive_via2_setup_context(drv);
+  cia1571_setup_context(drv);
+  cia1581_setup_context(drv);
+  riot1_setup_context(drv);
+  riot2_setup_context(drv);
 }
 
 void drive_setup_context(void)

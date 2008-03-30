@@ -1,5 +1,5 @@
 /*
- * via2.c - VIA2 emulation in the 1541, 1541II, 1571 and 2031 disk drive.
+ * via2d.c - VIA2 emulation in the 1541, 1541II, 1571 and 2031 disk drive.
  *
  * Written by
  *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
@@ -32,6 +32,7 @@
 #include "via.h"
 
 #include "drive.h"
+#include "drivetypes.h"
 #include "types.h"
 #include "viad.h"
 
@@ -74,7 +75,8 @@
 #define myvia_init	via2d_init
 #define I_MYVIAFL	(ctxptr->via2.irq_type)
 #define MYVIA_NAME	(ctxptr->via2.myname)
-#define MYVIA_INT	(ctxptr->via2.irq_line)
+/*#define MYVIA_INT	(ctxptr->via2.irq_line)*/
+#define MYVIA_INT	IK_IRQ
 
 #define mycpu_rmw_flag	(ctxptr->cpu.rmw_flag)
 #define mycpu_int_status (ctxptr->cpu.int_status)
@@ -265,26 +267,14 @@ static int int_via2d1t2(CLOCK c)
     return int_myviat2(&drive1_context, c);
 }
 
-static via_callbacks_t via2_callbacks[2] = {
-    { clk0_overflow_callback, int_via2d0t1, int_via2d0t2 },
-    { clk1_overflow_callback, int_via2d1t1, int_via2d1t2 }
+static via_initdesc_t via2_initdesc[2] = {
+    { &drive0_context.via2, clk0_overflow_callback, int_via2d0t1, int_via2d0t2 },
+    { &drive1_context.via2, clk1_overflow_callback, int_via2d1t1, int_via2d1t2 }
 };
 
 void via2d_init(drive_context_t *ctxptr)
 {
-    char buffer[16];
-
-    if (myvia_log == LOG_ERR)
-        myvia_log = log_open(snap_module_name);
-
-    sprintf(buffer, "%sT1", MYVIA_NAME);
-    alarm_init(&myvia_t1_alarm, &mycpu_alarm_context,
-               buffer, via2_callbacks[ctxptr->mynumber].int_t1);
-    sprintf(buffer, "%sT2", MYVIA_NAME);
-    alarm_init(&myvia_t2_alarm, &mycpu_alarm_context,
-               buffer, via2_callbacks[ctxptr->mynumber].int_t2);
-
-    clk_guard_add_callback(&mycpu_clk_guard, via2_callbacks[ctxptr->mynumber].clk, NULL);
+    via_drive_init(ctxptr, via2_initdesc);
 }
 
 

@@ -33,6 +33,7 @@
 #include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivetypes.h"
 #include "fdc.h"
 #include "log.h"
 #include "types.h"

@@ -167,65 +167,39 @@ int drive_write_snapshot_module(snapshot_t *s, int save_disks, int save_roms)
     if (snapshot_module_close(m) < 0)
         return -1;
 
-    if (drive[0].enable) {
-        if (drive_cpu_write_snapshot_module(&drive0_context, s) < 0)
-            return -1;
-        if (drive[0].type == DRIVE_TYPE_1541
-            || drive[0].type == DRIVE_TYPE_1541II
-            || drive[0].type == DRIVE_TYPE_2031) {
-            if (via1d_write_snapshot_module(&drive0_context, s) < 0
-                || via2d_write_snapshot_module(&drive0_context, s) < 0)
+    for (i = 0; i < 2; i++) {
+        if (drive[i].enable) {
+            struct drive_context_s *ctxptr =
+                (i == 0) ? &drive0_context : &drive1_context;
+            if (drive_cpu_write_snapshot_module(ctxptr, s) < 0)
                 return -1;
+            if (drive[i].type == DRIVE_TYPE_1541
+                || drive[i].type == DRIVE_TYPE_1541II
+                || drive[i].type == DRIVE_TYPE_2031) {
+                if (via1d_write_snapshot_module(ctxptr, s) < 0
+                    || via2d_write_snapshot_module(ctxptr, s) < 0)
+                    return -1;
+            }
+            if (drive[i].type == DRIVE_TYPE_1571) {
+                if (via1d_write_snapshot_module(ctxptr, s) < 0
+                    || via2d_write_snapshot_module(ctxptr, s) < 0
+                    || cia1571_write_snapshot_module(ctxptr, s) < 0)
+                    return -1;
+            }
+            if (drive[i].type == DRIVE_TYPE_1581) {
+                if (cia1581_write_snapshot_module(ctxptr, s) < 0)
+                    return -1;
+            }
+	    if ((drive[i].type == DRIVE_TYPE_1001)
+	        || (drive[i].type == DRIVE_TYPE_8050)
+	        || (drive[i].type == DRIVE_TYPE_8250)
+	        ) {
+	        if (riot1_write_snapshot_module(ctxptr, s) < 0
+		    || riot2_write_snapshot_module(ctxptr, s) < 0
+		    || fdc_write_snapshot_module(s, i) < 0)
+		    return -1;
+	    }
         }
-        if (drive[0].type == DRIVE_TYPE_1571) {
-            if (via1d_write_snapshot_module(&drive0_context, s) < 0
-                || via2d_write_snapshot_module(&drive0_context, s) < 0
-                || cia1571d0_write_snapshot_module(s) < 0)
-                return -1;
-        }
-        if (drive[0].type == DRIVE_TYPE_1581) {
-            if (cia1581d0_write_snapshot_module(s) < 0)
-                return -1;
-        }
-	if ((drive[0].type == DRIVE_TYPE_1001)
-	    || (drive[0].type == DRIVE_TYPE_8050)
-	    || (drive[0].type == DRIVE_TYPE_8250)
-	    ) {
-	    if (riot1d0_write_snapshot_module(s) < 0
-		|| riot2d0_write_snapshot_module(s) < 0
-		|| fdc_write_snapshot_module(s, 0) < 0)
-		return -1;
-	}
-    }
-    if (drive[1].enable) {
-        if (drive_cpu_write_snapshot_module(&drive1_context, s) < 0)
-            return -1;
-        if (drive[1].type == DRIVE_TYPE_1541
-            || drive[1].type == DRIVE_TYPE_1541II
-            || drive[1].type == DRIVE_TYPE_2031) {
-            if (via1d_write_snapshot_module(&drive1_context, s) < 0
-                || via2d_write_snapshot_module(&drive1_context, s) < 0)
-                return -1;
-        }
-        if (drive[1].type == DRIVE_TYPE_1571) {
-            if (via1d_write_snapshot_module(&drive1_context, s) < 0
-                || via2d_write_snapshot_module(&drive1_context, s) < 0
-                || cia1571d1_write_snapshot_module(s) < 0)
-                return -1;
-        }
-        if (drive[1].type == DRIVE_TYPE_1581) {
-            if (cia1581d1_write_snapshot_module(s) < 0)
-                return -1;
-        }
-	if ((drive[1].type == DRIVE_TYPE_1001)
-	    || (drive[1].type == DRIVE_TYPE_8050)
-	    || (drive[1].type == DRIVE_TYPE_8250)
-	    ) {
-	    if (riot1d1_write_snapshot_module(s) < 0
-		|| riot2d1_write_snapshot_module(s) < 0
-		|| fdc_write_snapshot_module(s, 1) < 0)
-		return -1;
-	}
     }
 
     if (save_disks) {
@@ -435,67 +409,41 @@ int drive_read_snapshot_module(snapshot_t *s)
     parallel_cable_drive0_write(0xff, 0);
     parallel_cable_drive1_write(0xff, 0);
 
-    if (drive[0].enable) {
-        if (drive_cpu_read_snapshot_module(&drive0_context, s) < 0)
-            return -1;
-        if (drive[0].type == DRIVE_TYPE_1541
-            || drive[0].type == DRIVE_TYPE_1541II
-            || drive[0].type == DRIVE_TYPE_2031) {
-            if (via1d_read_snapshot_module(&drive0_context, s) < 0
-                || via2d_read_snapshot_module(&drive0_context, s) < 0)
+    for (i = 0; i < 2; i++) {
+        if (drive[i].enable) {
+            struct drive_context_s *ctxptr =
+                (i == 0) ? &drive0_context : &drive1_context;
+            if (drive_cpu_read_snapshot_module(ctxptr, s) < 0)
                 return -1;
+            if (drive[i].type == DRIVE_TYPE_1541
+                || drive[i].type == DRIVE_TYPE_1541II
+                || drive[i].type == DRIVE_TYPE_2031) {
+                if (via1d_read_snapshot_module(ctxptr, s) < 0
+                    || via2d_read_snapshot_module(ctxptr, s) < 0)
+                    return -1;
+            }
+            if (drive[i].type == DRIVE_TYPE_1571) {
+                if (via1d_read_snapshot_module(ctxptr, s) < 0
+                    || via2d_read_snapshot_module(ctxptr, s) < 0
+                    || cia1571_read_snapshot_module(ctxptr, s) < 0)
+                    return -1;
+            }
+            if (drive[i].type == DRIVE_TYPE_1581) {
+                if (cia1581_read_snapshot_module(ctxptr, s) < 0)
+                    return -1;
+            }
+	    if ((drive[i].type == DRIVE_TYPE_1001)
+	        || (drive[i].type == DRIVE_TYPE_8050)
+	        || (drive[i].type == DRIVE_TYPE_8250)
+	        ) {
+	        if (riot1_read_snapshot_module(ctxptr, s) < 0
+		    || riot2_read_snapshot_module(ctxptr, s) < 0
+		    || fdc_read_snapshot_module(s, i) < 0)
+		    return -1;
+	    }
         }
-        if (drive[0].type == DRIVE_TYPE_1571) {
-            if (via1d_read_snapshot_module(&drive0_context, s) < 0
-                || via2d_read_snapshot_module(&drive0_context, s) < 0
-                || cia1571d0_read_snapshot_module(s) < 0)
-                return -1;
-        }
-        if (drive[0].type == DRIVE_TYPE_1581) {
-            if (cia1581d0_read_snapshot_module(s) < 0)
-                return -1;
-        }
-	if ((drive[0].type == DRIVE_TYPE_1001)
-	    || (drive[0].type == DRIVE_TYPE_8050)
-	    || (drive[0].type == DRIVE_TYPE_8250)
-	    ) {
-	    if (riot1d0_read_snapshot_module(s) < 0
-		|| riot2d0_read_snapshot_module(s) < 0
-		|| fdc_read_snapshot_module(s, 0) < 0)
-		return -1;
-	}
     }
 
-    if (drive[1].enable) {
-        if (drive_cpu_read_snapshot_module(&drive1_context, s) < 0)
-            return -1;
-        if (drive[1].type == DRIVE_TYPE_1541
-            || drive[1].type == DRIVE_TYPE_1541II
-            || drive[1].type == DRIVE_TYPE_2031) {
-            if (via1d_read_snapshot_module(&drive1_context, s) < 0
-                || via2d_read_snapshot_module(&drive1_context, s) < 0)
-                return -1;
-        }
-        if (drive[1].type == DRIVE_TYPE_1571) {
-            if (via1d_read_snapshot_module(&drive1_context, s) < 0
-                || via2d_read_snapshot_module(&drive1_context, s) < 0
-                || cia1571d1_read_snapshot_module(s) < 0)
-                return -1;
-        }
-        if (drive[1].type == DRIVE_TYPE_1581) {
-            if (cia1581d1_read_snapshot_module(s) < 0)
-                return -1;
-        }
-	if ((drive[1].type == DRIVE_TYPE_1001)
-	    || (drive[1].type == DRIVE_TYPE_8050)
-	    || (drive[1].type == DRIVE_TYPE_8250)
-	    ) {
-	    if (riot1d1_read_snapshot_module(s) < 0
-		|| riot2d1_read_snapshot_module(s) < 0
-		|| fdc_read_snapshot_module(s, 1) < 0)
-		return -1;
-	}
-    }
     if (drive_read_image_snapshot_module(s, 0) < 0
 	|| drive_read_gcrimage_snapshot_module(s, 0) < 0)
         return -1;

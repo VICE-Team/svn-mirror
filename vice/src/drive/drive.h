@@ -261,6 +261,12 @@ typedef struct drive_s {
 
 extern drive_t drive[2];
 
+/* Drive context structure for low-level drive emulation.
+   Full definition in drivetypes.h */
+struct drive_context_s;
+extern struct drive_context_s drive0_context;
+extern struct drive_context_s drive1_context;
+
 extern int rom_loaded;
 
 /* RAM/ROM.  */

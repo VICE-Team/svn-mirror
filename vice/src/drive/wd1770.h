@@ -70,6 +70,13 @@ extern void REGPARM2 wd1770d1_store(ADDRESS addr, BYTE byte);
 extern BYTE REGPARM1 wd1770d1_read(ADDRESS addr);
 extern void wd1770d1_reset(void);
 
+/* alternative functions with drive context */
+struct drive_context_s;
+extern void wd1770d_init(struct drive_context_s *drv);
+extern void REGPARM3 wd1770d_store(struct drive_context_s *drv, ADDRESS addr, BYTE byte);
+extern BYTE REGPARM2 wd1770d_read(struct drive_context_s *drv, ADDRESS addr);
+extern void wd1770d_reset(struct drive_context_s *drv);
+
 extern void wd1770_handle_job_code(int dnr);
 extern void wd1770_vsync_hook(void);
 

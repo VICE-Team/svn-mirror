@@ -34,6 +34,7 @@
 #include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivetypes.h"
 #include "interrupt.h"
 #include "log.h"
 #include "types.h"
@@ -133,6 +134,33 @@ void wd1770d1_init(void)
 {
     clk_guard_add_callback(&drive1_context.cpu.clk_guard, d1_clk_overflow_callback, NULL);
 }
+
+
+/* functions using drive context */
+
+void wd1770d_init(drive_context_t *drv)
+{
+    if (drv->mynumber == 0)
+        wd1770d0_init();
+    else
+        wd1770d1_init();
+}
+
+void REGPARM3 wd1770d_store(drive_context_t *drv, ADDRESS addr, BYTE byte)
+{
+    wd1770_store(addr & 3, byte, drv->mynumber);
+}
+
+BYTE REGPARM2 wd1770d_read(drive_context_t *drv, ADDRESS addr)
+{
+    return wd1770_read(addr & 3, drv->mynumber);
+}
+
+void wd1770d_reset(drive_context_t *drv)
+{
+    wd1770_reset(drv->mynumber);
+}
+
 
 /*-----------------------------------------------------------------------*/
 /* WD1770 register read/write access.  */

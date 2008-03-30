@@ -378,8 +378,8 @@ extern enum cpu_int get_int(cpu_int_status_t *cs, int int_num);
 extern cpu_int_status_t maincpu_int_status;
 extern CLOCK clk;
 
-extern cpu_int_status_t drive0_int_status;
-extern cpu_int_status_t drive1_int_status;
+extern cpu_int_status_t *drive0_int_status_ptr;
+extern cpu_int_status_t *drive1_int_status_ptr;
 extern CLOCK drive_clk[2];
 
 /* For convenience...  */
@@ -408,36 +408,36 @@ extern CLOCK drive_clk[2];
     steal_cycles(&maincpu_int_status, (start_clk), &clk, (num))
 
 #define drive0_set_irq(int_num, value) \
-    set_irq(&drive0_int_status, (int_num), (value), drive_clk[0])
+    set_irq(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
 #define drive1_set_irq(int_num, value)    \
-    set_irq(&drive1_int_status, (int_num), (value), drive_clk[1])
+    set_irq(drive1_int_status_ptr, (int_num), (value), drive_clk[1])
 #define drive0_set_irq_clk(int_num, value, clk) \
-    set_irq(&drive0_int_status, (int_num), (value), (clk))
+    set_irq(drive0_int_status_ptr, (int_num), (value), (clk))
 #define drive1_set_irq_clk(int_num, value, clk) \
-    set_irq(&drive1_int_status, (int_num), (value), (clk))
+    set_irq(drive1_int_status_ptr, (int_num), (value), (clk))
 #define drive0_set_nmi(int_num, value) \
-    set_nmi(&drive0_int_status, (int_num), (value), drive_clk[0])
+    set_nmi(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
 #define drive1_set_nmi(int_num, value) \
-    set_nmi(&drive1_int_status, (int_num), (value), drive_clk[1])
+    set_nmi(drive1_int_status_ptr, (int_num), (value), drive_clk[1])
 #define drive0_set_nmi_clk(int_num, value, clk) \
-    set_nmi(&drive0_int_status, (int_num), (value), (clk))
+    set_nmi(drive0_int_status_ptr, (int_num), (value), (clk))
 #define drive1_set_nmi_clk(int_num, value, clk) \
-    set_nmi(&drive1_int_status, (int_num), (value), (clk))
+    set_nmi(drive1_int_status_ptr, (int_num), (value), (clk))
 #define drive0_set_int(int_num, value) \
-    set_int(&drive0_int_status, (int_num), (value), drive_clk[0])
+    set_int(drive0_int_status_ptr, (int_num), (value), drive_clk[0])
 #define drive1_set_int(int_num, value) \
-    set_int(&drive1_int_status, (int_num), (value), drive_clk[1])
+    set_int(drive1_int_status_ptr, (int_num), (value), drive_clk[1])
 #define drive0_set_int_clk(int_num, value, clk) \
-    set_int_clk(&drive0_int_status, (int_num), (value), (clk))
+    set_int_clk(drive0_int_status_ptr, (int_num), (value), (clk))
 #define drive1_set_int_clk(int_num, value, clk) \
-    set_int_clk(&drive1_int_status, (int_num), (value), (clk))
+    set_int_clk(drive1_int_status_ptr, (int_num), (value), (clk))
 #define drive0_trigger_reset() \
-    trigger_reset(&drive0_int_status, drive_clk[0] + 1)
+    trigger_reset(drive0_int_status_ptr, drive_clk[0] + 1)
 #define drive1_trigger_reset() \
-    trigger_reset(&drive1_int_status, drive_clk[1] + 1)
+    trigger_reset(drive1_int_status_ptr, drive_clk[1] + 1)
 #define drive0_trigger_trap(trap_func, data) \
-    trigger_trap(&drive0_int_status, (trap_func), (data), drive_clk[0] + 1)
+    trigger_trap(drive0_int_status_ptr, (trap_func), (data), drive_clk[0] + 1)
 #define drive1_trigger_trap(trap_func, data) \
-    trigger_trap(&drive1_int_status, (trap_func), (data), drive_clk[1] + 1)
+    trigger_trap(drive1_int_status_ptr, (trap_func), (data), drive_clk[1] + 1)
 
 #endif /* !_INTERRUPT_H */

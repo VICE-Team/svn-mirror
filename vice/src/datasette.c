@@ -149,6 +149,8 @@ const double ds_c3 = DS_R/DS_D;
 
 static void datasette_update_ui_counter(void)
 {
+    if (current_image == NULL)
+        return;
     current_image->counter = (int)(1000 - datasette_counter_offset + DS_G *
                              (sqrt((current_image->cycle_counter
                              / (datasette_cycles_per_second / 8.0)
@@ -160,6 +162,8 @@ static void datasette_update_ui_counter(void)
 
 void datasette_reset_counter(void)
 {
+    if (current_image == NULL)
+        return;
     datasette_counter_offset = (int)(1000 + DS_G *
                                (sqrt((current_image->cycle_counter
                                / (datasette_cycles_per_second / 8.0)

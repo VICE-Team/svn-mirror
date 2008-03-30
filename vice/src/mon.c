@@ -56,6 +56,7 @@
 #include "asm.h"
 #include "charsets.h"
 #include "diskimage.h"
+#include "drive.h"
 #include "drivecpu.h"
 #include "interrupt.h"
 #include "mem.h"

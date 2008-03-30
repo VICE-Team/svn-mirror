@@ -102,14 +102,6 @@ SOURCE=..\..\drive\drive.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\drive\drivecpu0.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\drivecpu1.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\drive\fdc.c
 # End Source File
 # Begin Source File
@@ -130,23 +122,27 @@ SOURCE=..\..\drive\riot2drive1.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\drive\via1drive0.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\via1drive1.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\via2drive0.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\drive\via2drive1.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\drive\wd1770.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\drivecpu.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\via1d.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\via2d.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\drive-snapshot.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\drive-resources.c
 # End Source File
 # End Target
 # End Project
