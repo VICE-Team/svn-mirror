@@ -68,17 +68,46 @@ static XtResource resources[] =
 
 #undef offset
 
-static void Initialize();
+static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal * num);
 static void Destroy();
 static void Redisplay();
-static void Resize();
-static Boolean SetValues();
-static void Draw(), DrawInsert(), MassiveChangeDraw(), DrawTextReposition(),
-  ClearHighlight(), DrawHighlight(), DrawCursor(), EraseCursor();
-static Boolean PositionCursor(), MassiveCursorAdjust();
-static void Nothing(), Activate(), InsertChar(), ForwardChar(), BackwardChar(),
-  DeleteNext(), DeletePrev(), SelectStart(), ExtendStart(), ExtendAdjust(),
-  ExtendEnd(), InsertSelection();
+static void Resize(Widget aw);
+static Boolean SetValues(Widget current, Widget request, Widget reply,
+                         ArgList args, Cardinal * nargs);
+static void Draw(TextFieldWidget w);
+static void DrawInsert(TextFieldWidget w);
+static void MassiveChangeDraw(TextFieldWidget w);
+static void DrawTextReposition(TextFieldWidget w);
+static void ClearHighlight(TextFieldWidget w);
+static void DrawHighlight(TextFieldWidget w);
+static void DrawCursor(TextFieldWidget w);
+static void EraseCursor(TextFieldWidget w);
+static Boolean PositionCursor(TextFieldWidget w);
+static Boolean MassiveCursorAdjust(TextFieldWidget w);
+static void Nothing(Widget aw, XEvent * event, String * params,
+                    Cardinal * num_params);
+static void Activate(Widget aw, XEvent * event, String * params,
+                     Cardinal * num_params);
+static void InsertChar(Widget aw, XEvent * event, String * params,
+                     Cardinal * num_params);
+static void ForwardChar(Widget aw, XEvent * event, String * params,
+                        Cardinal * num_params);
+static void BackwardChar(Widget aw, XEvent * event, String * params,
+                         Cardinal * num_params);
+static void DeleteNext(Widget aw, XEvent * event, String * params,
+                       Cardinal * num_params);
+static void DeletePrev(Widget aw, XEvent * event, String * params,
+                       Cardinal * num_params);
+static void SelectStart(Widget aw, XEvent * event, String * params,
+                        Cardinal * num_params);
+static void ExtendStart(Widget aw, XEvent * event, String * params,
+                        Cardinal * num_params);
+static void ExtendAdjust(Widget aw, XEvent * event, String * params,
+                         Cardinal * num_params);
+static void ExtendEnd(Widget aw, XEvent * event, String * params,
+                      Cardinal * num_params);
+static void InsertSelection(Widget aw, XEvent * event, String * params,
+                            Cardinal * num_params);
 
 static char defaultTranslations[] =
 "<Key>Right:	forward-char()\n\

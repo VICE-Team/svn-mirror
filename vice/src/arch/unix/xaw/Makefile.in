@@ -372,7 +372,8 @@ uicommands.o: uicommands.c ../../../../src/vice.h \
 	../../../../src/arch/unix/vsync.h ../../../../src/fliplist.h
 uiedisk.o: uiedisk.c ../../../../src/vice.h ../../../../src/config.h \
 	widgets/TextField.h uiedisk.h ../../../../src/machine.h \
-	../../../../src/types.h ui.h ../../../../src/palette.h
+	../../../../src/types.h ui.h ../../../../src/palette.h \
+	../../../../src/utils.h
 uihotkey.o: uihotkey.c ../../../../src/vice.h ../../../../src/config.h \
 	uihotkey.h ui.h ../../../../src/types.h \
 	../../../../src/palette.h ../../../../src/utils.h
