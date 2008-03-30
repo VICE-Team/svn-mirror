@@ -92,7 +92,8 @@ void drive_rom_initialize_traps(unsigned int dnr)
         drive[dnr].rom[0xaf6f - 0x8000] = 0x4c;
         drive[dnr].rom[0xaf70 - 0x8000] = 0xca;
         drive[dnr].rom[0xaf71 - 0x8000] = 0xaf;
-        drive[dnr].rom[0xc0be - 0x8000] = 0x00;
+        /*drive[dnr].rom[0xc0be - 0x8000] = 0x00;*/
+        drive[dnr].rom[0xdaee - 0x8000] = 0x00;
     }
 }
 
