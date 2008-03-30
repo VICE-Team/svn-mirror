@@ -27,7 +27,12 @@
 #ifndef __fullscreen_common_h__
 #define __fullscreen_common_h__
 
-extern int fullscreen_available(void);
+#include "raster/raster.h"
+
+int fullscreen_available(void);
+void fullscreen_set_raster(raster_t *raster);
+
 extern int fullscreen_is_enabled;
+extern raster_t *fs_cached_raster;
 
 #endif /* __fullscreen_common_h__ */

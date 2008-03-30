@@ -219,6 +219,7 @@ static Atom wm_delete_window;
 
 /* Toplevel widget. */
 Widget _ui_top_level = NULL;
+Widget status_bar = NULL;
 
 /* Our colormap. */
 /*static*/ Colormap colormap;
@@ -807,7 +808,8 @@ ui_window_t ui_open_canvas_window(struct video_canvas_s *c, const char *title,
     app_shells[num_app_shells - 1].canvas = canvas;
     app_shells[num_app_shells - 1].title = stralloc(title);
     app_shells[num_app_shells - 1].speed_label = speed_label;
-
+    status_bar = speed_label;
+    
     for (i = 0; i < NUM_DRIVES; i++) {
         app_shells[num_app_shells - 1].drive_widgets[i].track_label
             = drive_track_label[i];
@@ -1357,6 +1359,53 @@ void ui_resize_canvas_window(ui_window_t w, int width, int height)
 
     return;
 }
+
+void ui_move_canvas_window(ui_window_t w, int x, int y)
+{
+    XtVaSetValues(XtParent(XtParent((Widget)w)),
+		  XtNwidthInc, 1,
+		  XtNheightInc, 1,
+		  XtNx, x,
+		  XtNy, y,
+		  NULL);
+}
+
+void ui_canvas_position(ui_window_t w, int *x, int *y)
+{
+    Dimension pos_x, pos_y;
+    Dimension tl_x, tl_y;
+    Dimension shell_x, shell_y;
+    
+    XtVaGetValues(XtParent(XtParent((Widget)w)),
+		  XtNx, &tl_x,
+		  XtNy, &tl_y,
+		  NULL);
+
+    XtVaGetValues(XtParent((Widget)w),
+		  XtNx, &shell_x,
+		  XtNy, &shell_y,
+		  NULL);
+    
+    XtVaGetValues((Widget)w,
+		  XtNx, &pos_x,
+		  XtNy, &pos_y,
+		  NULL);
+    *x = (int) (pos_x + tl_x + shell_x);
+    *y = (int) (pos_y + tl_y + shell_y);
+    XRaiseWindow(display, XtWindow(_ui_top_level));
+}
+
+void ui_get_widget_size(ui_window_t win, int *w, int *h)
+{
+    Dimension x, y;
+    XtVaGetValues((Widget)win,
+                  XtNwidth, &x,
+                  XtNheight, &y,
+                  NULL);
+    *w = (int) x;
+    *h = (int) y;
+}
+
 
 /* Map one window. */
 void ui_map_canvas_window(ui_window_t w)

@@ -622,10 +622,7 @@ int autostart_prg(const char *file_name, unsigned int runmode)
 
     /* Setup FS-based drive emulation.  */
     fsdevice_set_directory(directory ? directory : ".", 8);
-    /* true drive emulation will be disabled by autostart_advance */
-#if 0
     set_true_drive_emulation_mode(0);
-#endif
     resources_set_value("VirtualDevices", (resource_value_t)1);
     resources_set_value("FSDevice8ConvertP00", (resource_value_t)1);
     file_system_detach_disk(8);

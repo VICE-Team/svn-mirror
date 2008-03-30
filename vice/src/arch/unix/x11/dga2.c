@@ -43,6 +43,7 @@ void dump_fb(char *wo);
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 
@@ -93,7 +94,6 @@ static palette_t *fs_cached_palette;
 static DWORD *fs_saved_colors;
 static int new_palette;
 static BYTE *fs_cached_pixels;
-static raster_t *fs_cached_raster;
 static int fs_available = 0;
 static int fs_use_fs_at_start = 0;
 static int timeout;
@@ -318,15 +318,24 @@ int fullscreen_vidmode_available(void)
 			 fs_allmodes_dga2[i].viewportWidth ,
 			 fs_allmodes_dga2[i].viewportHeight,
 			 fs_allmodes_dga2[i].verticalRefresh);
+		log_message(dga_log, "Found mode: %s, %d",
+			    fs_bestmodes[fs_bestmode_counter].name,
+			    fs_bestmodes[fs_bestmode_counter].modeindex);
+		
 		fs_bestmode_counter++;
 	    }
 	    if (fs_bestmode_counter == 10) 
 		break;
-	    fs_available = 1;
 	}
 	
     }
-    
+    if (fs_vidmodecount == 0)
+	return 0;
+    fs_available = 1;
+    fs_selected_videomode = 0;
+    resources_set_value("SelectedDGA2Mode", 
+			(resource_value_t) fs_selected_videomode);
+
     return 1;
 }
 
@@ -389,11 +398,6 @@ void fullscreen_set_palette (video_canvas_t *c, const palette_t *palette,
     memcpy(fs_cached_physical_colors, c->videoconfig.physical_colors,
 	   sizeof(DWORD) * 256);
     new_palette = 1;
-}
-
-void fullscreen_set_raster (raster_t *raster)
-{
-    fs_cached_raster = raster;
 }
 
 int fs_draw_buffer_alloc(struct video_canvas_s *c, BYTE **draw_buffer, 
@@ -680,7 +684,7 @@ int fullscreen_set_bestmode(resource_value_t v, void *param)
 
     log_message(dga_log, "selected mode: %s", fs_bestmodes[i].name);
     fs_selected_videomode = fs_bestmodes[i].modeindex;
-    
+
     return 0;
     
 }
@@ -766,7 +770,9 @@ void fullscreen_mode_init(void)
     if (dga_log == LOG_ERR)
 	dga_log = log_open("DGA2");
     
+#if 0
     fullscreen_set_bestmode(fs_selected_videomode_at_start, NULL);
+#endif
     if (fs_selected_videomode == -1 && fs_bestmode_counter > 0)
         fs_selected_videomode = fs_bestmodes[0].modeindex;
 
@@ -822,7 +828,7 @@ void fullscreen_create_menus(void)
         resolutions_submenu[i].callback =
             (ui_callback_t) radio_SelectedDGA2Mode;
         resolutions_submenu[i].callback_data =
-            (ui_callback_data_t) i;
+            (ui_callback_data_t) fs_bestmodes[i].modeindex;
         resolutions_submenu[i].sub_menu = NULL;
         resolutions_submenu[i].hotkey_keysym = 0;
         resolutions_submenu[i].hotkey_modifier =

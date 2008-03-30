@@ -126,6 +126,12 @@ struct screenshot_s;
 struct palette_s;
 struct canvas_refresh_s;
 
+struct vic_light_pen_s {
+    int triggered;
+    int x, y;
+};
+typedef struct vic_light_pen_s vic_light_pen_t;
+
 struct vic_s
 {
     int initialized;
@@ -183,6 +189,8 @@ struct vic_s
     unsigned int screen_width;
     unsigned int display_width;
     unsigned int cycle_offset;
+
+    vic_light_pen_t light_pen; 
 };
 typedef struct vic_s vic_t;
 
@@ -202,6 +210,7 @@ extern int vic_snapshot_read_module(struct snapshot_s *s);
 extern void vic_screenshot(struct screenshot_s *screenshot);
 extern void vic_async_refresh(struct canvas_refresh_s *refresh);
 extern void vic_free(void);
+extern void vic_trigger_light_pen(CLOCK mclk);
 
 /* Private function calls, used by the other VIC modules.  FIXME:
    Prepend names with `_'?  */

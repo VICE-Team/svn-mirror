@@ -115,7 +115,7 @@ static int tape_control_status = -1;
 #define CTRL_HEIGHT 11
 
 static GtkWidget *drive8menu, *drive9menu, *tape_menu, *speed_menu;
-static GtkWidget *status_bar;
+GtkWidget *status_bar;
 static GdkCursor *blankCursor;
 static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
 static GtkWidget *pal_ctrl_widget, *pal_ctrl_checkbox, *pal_tb;
@@ -1678,6 +1678,37 @@ void ui_resize_canvas_window(ui_window_t w, int width, int height)
 		      req.width, req.height);
     gdk_flush();
     return;
+}
+
+void ui_move_canvas_window(ui_window_t w, int x, int y)
+{
+    gdk_window_move(gdk_window_get_toplevel(w->window), x, y);
+    gdk_flush();
+}
+
+void ui_canvas_position(ui_window_t w, int *x, int *y)
+{
+    gint tl_x, tl_y, pos_x, pos_y;
+    gdk_flush();
+    gdk_window_get_position(gdk_window_get_toplevel(w->window),
+			    &tl_x, &tl_y);
+    gdk_window_get_position(w->window, &pos_x, &pos_y);
+    *x = (pos_x + tl_x);
+    *y = (pos_y + tl_y);
+/*
+    printf("pos_x=%d, pos_y=%d, tl_x=%d, tl_y=%d, x=%d, y=%d\n",
+	   pos_x, pos_y, tl_x, tl_y, *x, *y);
+*/
+    gdk_window_raise(gdk_window_get_toplevel(w->window));
+}
+
+void ui_get_widget_size(ui_window_t win, int *w, int *h)
+{
+    GtkRequisition req;
+
+    gtk_widget_size_request(win, &req);
+    *w = (int) req.width;
+    *h = (int) req.height;
 }
 
 /* Map one window. */

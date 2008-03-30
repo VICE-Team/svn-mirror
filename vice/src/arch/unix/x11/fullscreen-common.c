@@ -37,6 +37,7 @@
 #endif
 
 int fullscreen_is_enabled;
+raster_t *fs_cached_raster;
 
 int fullscreen_available(void) 
 {
@@ -49,6 +50,11 @@ int fullscreen_available(void)
 	return 1;
 #endif    
     return 0;
+}
+
+void fullscreen_set_raster(struct raster_s *raster)
+{
+    fs_cached_raster = raster;
 }
 
 #endif /* USE_XF86_VIDMODE_EXT */

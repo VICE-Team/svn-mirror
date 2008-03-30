@@ -74,6 +74,9 @@ extern ui_window_t ui_open_canvas_window(struct video_canvas_s *c,
                                          const struct palette_s *p,
                                          BYTE pixel_return[]);
 extern void ui_resize_canvas_window(ui_window_t w, int height, int width);
+extern void ui_move_canvas_window(ui_window_t w, int x, int y);
+extern void ui_canvas_position(ui_window_t w, int *x, int *y);
+extern void ui_get_widget_size(ui_window_t win, int *w, int *h);
 extern void ui_map_canvas_window(ui_window_t w);
 extern void ui_unmap_canvas_window(ui_window_t w);
 void ui_display_speed(float percent, float framerate, int warp_flag);

@@ -47,7 +47,6 @@ vic_store(ADDRESS addr, BYTE value)
     if (maincpu_clk >= vic.draw_clk)
         vic_raster_draw_alarm_handler(maincpu_clk - vic.draw_clk);
 
-
     switch (addr) {
       case 0:                     /* $9000  Screen X Location. */
         /*
@@ -354,6 +353,10 @@ vic_read(ADDRESS addr)
                | (vic.regs[3] & ~0x80);
       case 4:
         return VIC_RASTER_Y(maincpu_clk + vic.cycle_offset) >> 1;
+      case 6:
+        return vic.light_pen.x;
+      case 7:
+        return vic.light_pen.y;
       default:
         return vic.regs[addr];
     }

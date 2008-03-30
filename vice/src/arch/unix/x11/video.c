@@ -435,7 +435,7 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
 
 void video_register_raster(struct raster_s *raster)
 {
-#ifdef USE_XF86_DGA2_EXTENSIONS
+#ifdef USE_XF86_EXTENSIONS
     fullscreen_set_raster(raster);
 #endif
 }

@@ -62,6 +62,7 @@
 #include "maincpu.h"
 #include "types.h"
 #include "viacore.h"
+#include "vic.h"
 #include "vic20iec.h"
 #include "vic20via.h"
 

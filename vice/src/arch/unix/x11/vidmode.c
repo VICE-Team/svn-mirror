@@ -35,12 +35,17 @@
 #include <X11/extensions/xf86vmode.h>
 #include <string.h>
 
+#include "types.h"
 #include "vidmode.h"
 #include "log.h"
 #include "resources.h"
 #include "uisettings.h"
 #include "uimenu.h"
 #include "utils.h"
+#include "fullscreen-common.h"
+#include "videoarch.h"
+#include "raster/raster.h"
+
 
 UI_MENU_DEFINE_RADIO(SelectedFullscreenMode);
 
@@ -54,6 +59,7 @@ static XF86VidModeModeInfo **vm_modes;
 static int vm_available = 0;
 static Display *vm_display;
 static int vm_screen;
+static int saved_h, saved_w;
 
 typedef struct {
   int modeindex;
@@ -108,7 +114,7 @@ vidmode_init(Display *display, int screen)
 	{
 	    vm_bestmodes[vm_index].modeindex=i;
 	    hz = vm_modes[i]->dotclock * 1000 /
-		(vm_modes[i]->vtotal * vm_modes[i]->htotal) ;
+		(vm_modes[i]->vtotal * vm_modes[i]->htotal);
 	    snprintf(vm_bestmodes[vm_index].name, 17,
 		     " %ix%i-%iHz",
 		     vm_modes[i]->hdisplay,
@@ -119,6 +125,10 @@ vidmode_init(Display *display, int screen)
 	}
     }
 
+    if (vm_mode_count == 0)
+	return 0;
+    resources_set_value("SelectedFullscreenMode", (resource_value_t) 0);
+    vm_selected_videomode = 0;
     vm_display = display;
     vm_screen = screen;
     vm_available = 1;
@@ -145,12 +155,38 @@ vidmode_set_mode(resource_value_t v, void *param)
 {
     if (v)
     {
+	int x = 0, y = 0;
+	int status_w, status_h;
+	extern ui_window_t status_bar;
+	
+	XF86VidModeModeInfo *vm;
+	
 	log_message(vm_log, "Enabling Vidmode with%s", 
 		    vm_bestmodes[vm_selected_videomode].name);
-	XF86VidModeSwitchToMode(vm_display, vm_screen,
-				vm_modes[vm_bestmodes[vm_selected_videomode].modeindex]);
-	XF86VidModeSetViewPort(vm_display, vm_screen, 0, 0);
+	vm = vm_modes[vm_bestmodes[vm_selected_videomode].modeindex];
+
 	vm_is_enabled = 1;
+	saved_w = fs_cached_raster->viewport.width;
+	saved_h = fs_cached_raster->viewport.height;
+
+	ui_get_widget_size(status_bar, &status_w, &status_h);
+	log_message(vm_log, "Status bar: %dx%d", status_w, status_h);
+	raster_resize_viewport(fs_cached_raster, 
+			       vm->hdisplay, vm->vdisplay - status_h);
+	ui_move_canvas_window(((video_canvas_t *)fs_cached_raster->viewport.canvas)->emuwindow,
+			      0, 0);
+	ui_dispatch_events();
+	ui_canvas_position(((video_canvas_t *)fs_cached_raster->viewport.canvas)->emuwindow,
+			   &x, &y);
+	
+	XF86VidModeSwitchToMode(vm_display, vm_screen, vm);
+	XF86VidModeSetViewPort(vm_display, vm_screen, x, y);
+	XWarpPointer(vm_display,
+		     None, DefaultRootWindow(vm_display), 
+		     0, 0, vm->hdisplay, vm->vdisplay,
+		     x + vm->hdisplay / 2,
+		     y + vm->vdisplay / 2);
+		     
     }
     else
     {
@@ -160,6 +196,8 @@ vidmode_set_mode(resource_value_t v, void *param)
 	log_message(vm_log, "Disabling Vidmode");
 	XF86VidModeSwitchToMode(vm_display, vm_screen,
 				vm_modes[0]);
+	raster_resize_viewport(fs_cached_raster, saved_w, saved_h);
+	
     }
     return 0;
 }
