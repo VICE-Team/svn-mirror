@@ -38,6 +38,7 @@
 
 #include "archdep.h"
 #include "fileio.h"
+#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "p00.h"
@@ -148,40 +149,90 @@ int p00_write_header(FILE *fd, BYTE *cbmname, BYTE recsize)
     return fwrite(hdr, sizeof(hdr), 1, fd);
 }
 
-fileio_info_t *p00_info(const char *file_name)
+static char *p00_find_file(const char *file_name, const char *path)
 {
-    FILE *fd;
+    struct ioutil_dir_s *ioutil_dir;
+    struct rawfile_info_s *rawfile;
+    char p00_header_file_name[20]; /* FIXME */
+    char *name, *alloc_name = NULL;
+    int rc;
+
+    ioutil_dir = ioutil_opendir(path);
+
+    if (ioutil_dir == NULL)
+        return NULL;
+
+    while (1) {
+        name = ioutil_readdir(ioutil_dir);
+
+        if (name == NULL)
+            break;
+
+        if (p00_check_name(name) < 0)
+            continue;
+
+        rawfile = rawfile_open(name, path, FILEIO_COMMAND_READ);
+        if (rawfile == NULL)
+            continue;
+
+        rc = p00_read_header((FILE *)(rawfile->fd),
+                             (BYTE *)p00_header_file_name, NULL);
+
+        if (rc >= 0)
+            alloc_name = lib_stralloc(name);
+
+        rawfile_destroy(rawfile);
+
+        if (rc >= 0)
+            break;
+    }
+
+    ioutil_closedir(ioutil_dir);
+
+    return alloc_name;
+}
+
+fileio_info_t *p00_info(const char *file_name, const char *path,
+                        unsigned int command)
+{
     int p00_type;
     char p00_header_file_name[20]; /* FIXME */
     fileio_info_t *info;
     struct rawfile_info_s *rawfile;
+    char *fname = NULL;
 
-    rawfile = rawfile_info(file_name);
+    if (/*command & FILEIO_COMMAND_FSNAME*/ 1)
+        fname = lib_stralloc(file_name);
+    else
+        fname = p00_find_file(file_name, path);
 
-    if (rawfile == NULL)
+    if (fname == NULL)
         return NULL;
 
-    fd = fopen(file_name, MODE_READ);
-    if (fd == NULL) {
-        log_error(LOG_DEFAULT, "Cannot open `%s'.", file_name);
+    rawfile = rawfile_open(fname, path, command & FILEIO_COMMAND_MASK);
+
+    if (rawfile == NULL) {
+        lib_free(fname);
         return NULL;
     }
 
-    p00_type = p00_check_name(file_name);
+    p00_type = p00_check_name(fname);
 
-    if (p00_type != FT_PRG
-        || p00_read_header(fd, (BYTE *)p00_header_file_name, NULL) < 0) {
-        fclose(fd);
+    if (p00_type < 0
+        || p00_read_header((FILE *)(rawfile->fd),
+                           (BYTE *)p00_header_file_name, NULL) < 0) {
         rawfile_destroy(rawfile);
+        lib_free(fname);
         return NULL;
     }
-
-    fclose(fd);
 
     info = (fileio_info_t *)lib_malloc(sizeof(fileio_info_t));
     info->name = (BYTE *)lib_stralloc(p00_header_file_name);;
     info->type = (unsigned int)p00_type;
+    info->format = FILEIO_FORMAT_P00;
     info->rawfile = rawfile;
+
+    lib_free(fname);
 
     return info;
 }
