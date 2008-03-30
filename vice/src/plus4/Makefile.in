@@ -301,8 +301,8 @@ plus4cpu.o: plus4cpu.c ../../src/vice.h ../../src/config.h \
 plus4datasette.o: plus4datasette.c ../../src/vice.h ../../src/config.h \
 	plus4mem.h ../../src/arch/unix/types.h
 plus4drive.o: plus4drive.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/iec.h ../../src/machine-drive.h \
-	../../src/drive/tcbm.h ../../src/arch/unix/types.h
+	../../src/drive/iec.h ../../src/arch/unix/types.h \
+	../../src/machine-drive.h ../../src/drive/tcbm.h
 plus4iec.o: plus4iec.c ../../src/vice.h ../../src/config.h \
 	../../src/drive/ciad.h ../../src/arch/unix/types.h \
 	../../src/drive/drive.h ../../src/log.h \

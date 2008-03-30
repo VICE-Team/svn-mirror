@@ -259,9 +259,9 @@ vdrive-bam.o: vdrive-bam.c ../../src/vice.h ../../src/config.h \
 	vdrive-bam.h vdrive-command.h vdrive.h
 vdrive-command.o: vdrive-command.c ../../src/vice.h ../../src/config.h \
 	../../src/diskimage.h ../../src/arch/unix/types.h \
-	../../src/log.h ../../src/serial.h ../../src/utils.h \
-	vdrive-bam.h vdrive-command.h vdrive-dir.h vdrive-iec.h \
-	vdrive-rel.h vdrive.h
+	../../src/log.h ../../src/machine-drive.h ../../src/serial.h \
+	../../src/utils.h vdrive-bam.h vdrive-command.h vdrive-dir.h \
+	vdrive-iec.h vdrive-rel.h vdrive.h
 vdrive-dir.o: vdrive-dir.c ../../src/vice.h ../../src/config.h \
 	../../src/diskconstants.h ../../src/diskimage.h \
 	../../src/arch/unix/types.h ../../src/log.h ../../src/utils.h \

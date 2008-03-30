@@ -1,3 +1,19 @@
+2002-12-21  Andreas Boose  <viceteam@t-online.de>
+
+	* Version 1.10.35.
+
+	* drive/driveimage.c (sector_offset): New function.
+
+	* drive/drive-snapshot.c, drive/drive.c, drive/drive.h,
+	drive/iec.h, drive/iec/iec.c, drive/iec/iecrom.c,
+	drive/iec/iecrom.h, drive/ieee.h, drive/ieee/ieee.c,
+	drive/ieee/ieeerom.c, drive/ieee/ieeerom.h, drive/tcbm.h,
+	drive/tcbm/tcbm.c, drive/tcbm/tcbmrom.c, drive/tcbm/tcbmrom.h,
+	drive/driverom.c, drive/driverom.h, vdrive/vdrive-command.c,
+	machine-drive.h, c64/c64drive.c, vic20/vic20drive.c,
+	pet/petdrive.c, plus4/plus4drive.c, cbm2/cbm2drvice.c,
+	c1541.c: Moved ROM image code to drive type specific code.
+
 2002-12-15  Andreas Boose  <viceteam@t-online.de>
 
 	* Version 1.10.34.

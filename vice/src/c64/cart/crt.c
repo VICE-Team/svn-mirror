@@ -79,6 +79,7 @@ int crt_attach(const char *filename, BYTE *rawcart)
     }
 
     crttype = header[0x17] + header[0x16] * 256;
+
     switch (crttype) {
       case CARTRIDGE_CRT:
         rc = generic_crt_attach(fd, rawcart);

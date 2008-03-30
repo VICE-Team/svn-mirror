@@ -375,17 +375,12 @@ drivemem.o: drivemem.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/monitor/mon.h ../../src/utils.h viad.h
 driverom.o: driverom.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/log.h ../../src/arch/unix/types.h driverom.h \
-	../../src/resources.h ../../src/sysfile.h
+	../../src/machine-drive.h ../../src/resources.h \
+	../../src/sysfile.h
 drivesync.o: drivesync.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/log.h ../../src/arch/unix/types.h drivesync.h \
 	drivetypes.h ../../src/ciatimer.h ../../src/alarm.h \
 	../../src/mos6510.h
-fdc.o: fdc.c ../../src/vice.h ../../src/config.h ../../src/alarm.h \
-	../../src/arch/unix/types.h ../../src/clkguard.h \
-	../../src/diskimage.h drive.h ../../src/log.h drivecpu.h \
-	drivetypes.h ../../src/ciatimer.h ../../src/mos6510.h fdc.h \
-	../../src/interrupt.h ../../src/snapshot.h \
-	../../src/vdrive/vdrive-bam.h
 via1d.o: via1d.c ../../src/vice.h ../../src/config.h \
 	../../src/clkguard.h ../../src/arch/unix/types.h drive.h \
 	../../src/log.h drivecpu.h drivesync.h drivetypes.h \
@@ -399,12 +394,6 @@ via2d.o: via2d.c ../../src/vice.h ../../src/config.h drive.h \
 	../../src/interrupt.h ../../src/via.h viad.h \
 	../../src/viacore.c ../../src/clkguard.h ../../src/snapshot.h \
 	../../src/utils.h
-wd1770.o: wd1770.c ../../src/vice.h ../../src/config.h \
-	../../src/clkguard.h ../../src/arch/unix/types.h \
-	../../src/diskimage.h drive.h ../../src/log.h drivecpu.h \
-	drivetypes.h ../../src/ciatimer.h ../../src/alarm.h \
-	../../src/mos6510.h ../../src/interrupt.h \
-	../../src/vdrive/vdrive.h wd1770.h
 
 info-am:
 info: info-recursive

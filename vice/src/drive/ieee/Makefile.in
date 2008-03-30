@@ -263,7 +263,7 @@ fdc.o: fdc.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/snapshot.h
 ieee-resources.o: ieee-resources.c ../../../src/vice.h \
 	../../../src/config.h ../../../src/drive/driverom.h \
-	../../../src/arch/unix/types.h ieee-resources.h \
+	../../../src/arch/unix/types.h ieee-resources.h ieeerom.h \
 	../../../src/resources.h ../../../src/utils.h
 ieee.o: ieee.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drivetypes.h ../../../src/ciatimer.h \
@@ -275,7 +275,7 @@ ieee.o: ieee.c ../../../src/vice.h ../../../src/config.h \
 ieeerom.o: ieeerom.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drive.h ../../../src/log.h \
 	../../../src/arch/unix/types.h ../../../src/drive/driverom.h \
-	ieeerom.h
+	ieeerom.h ../../../src/resources.h ../../../src/sysfile.h
 memieee.o: memieee.c ../../../src/vice.h ../../../src/config.h \
 	../../../src/drive/drivemem.h ../../../src/arch/unix/types.h \
 	../../../src/drive/driverom.h ../../../src/drive/drivetypes.h \

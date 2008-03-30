@@ -407,8 +407,8 @@ c64cia2.o: c64cia2.c ../../src/vice.h ../../src/config.h \
 c64datasette.o: c64datasette.c ../../src/vice.h ../../src/config.h \
 	c64cia.h ../../src/arch/unix/types.h c64mem.h
 c64drive.o: c64drive.c ../../src/vice.h ../../src/config.h \
-	../../src/drive/iec.h ../../src/drive/ieee.h \
-	../../src/machine-drive.h
+	../../src/drive/iec.h ../../src/arch/unix/types.h \
+	../../src/drive/ieee.h ../../src/machine-drive.h
 c64iec.o: c64iec.c ../../src/vice.h ../../src/config.h c64cia.h \
 	../../src/arch/unix/types.h c64iec.h ../../src/cartridge.h \
 	../../src/drive/ciad.h ../../src/drive/drive.h ../../src/log.h \
