@@ -554,6 +554,9 @@ static int iec_read_sequential(vdrive_t *vdrive, BYTE *data,
 
     *data = p->buffer[p->bufptr];
     p->bufptr++;
+    if (!p->buffer[0] && p->bufptr > p->buffer[1]) {
+        return SERIAL_EOF;
+    }
 
     return SERIAL_OK;
 }
@@ -580,6 +583,9 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
         }
         *data = p->buffer[p->bufptr];
         p->bufptr++;
+        if (p->bufptr >= p->length) {
+            status = SERIAL_EOF;
+        }
         break;
 
       case BUFFER_MEMORY_BUFFER:
@@ -589,11 +595,15 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
         }
         *data = p->buffer[p->bufptr];
         p->bufptr++;
+        if (p->bufptr >= 256) {
+            status = SERIAL_EOF;
+        }
         break;
 
       case BUFFER_SEQUENTIAL:
         status = iec_read_sequential(vdrive, data, secondary);
         break;
+
       case BUFFER_COMMAND_CHANNEL:
         if (p->bufptr > p->length) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_OK, 0, 0);
@@ -610,7 +620,11 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
         }
         *data = p->buffer[p->bufptr];
         p->bufptr++;
+        if (p->bufptr > p->length) {
+            status = SERIAL_EOF;
+        }
         break;
+
       case BUFFER_RELATIVE:
         if (p->bufptr > p->length) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_OK, 0, 0);
@@ -624,6 +638,9 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
         }
         *data = p->buffer[p->bufptr];
         p->bufptr++;
+        if (p->bufptr > p->length) {
+            status = SERIAL_EOF;
+        }
         break;
 
       default:

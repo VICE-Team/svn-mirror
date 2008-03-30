@@ -49,6 +49,9 @@ struct fs_buffer_info_s {
     int eof;
     int reclen;
     int type;
+    BYTE buffered;  /* Buffered Byte: Added to buffer reads to remove buffering from iec code */
+    int isbuffered; /* TRUE is a byte exists in the buffer above */
+    int iseof;      /* TRUE if an EOF is detected on a buffered read */
 };
 typedef struct fs_buffer_info_s fs_buffer_info_t;
 

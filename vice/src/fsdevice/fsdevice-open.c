@@ -220,6 +220,9 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
                           strlen(fsdevice_get_path(vdrive->unit))+
                           strlen(FSDEV_DIR_SEP_STR), 1);
     tape->read_only = 1;
+    /* Prepare for buffered reads */
+    fs_info[secondary].isbuffered = 0;
+    fs_info[secondary].iseof = 0;
     if (tape_image_open(tape) < 0) {
         lib_free(tape->name);
         tape->name = NULL;

@@ -243,27 +243,34 @@ int parallelreceivebyte(BYTE * data, int fake)
     vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f);
 
     /* first fill up buffers */
+#if 0
     if (!p->lastok[secadr]) {
         p->lastok[secadr] = p->nextok[secadr];
         p->lastbyte[secadr] = p->nextbyte[secadr];
         p->lastst[secadr] = p->nextst[secadr];
         p->nextok[secadr] = 0;
+#endif
         if (!p->lastok[secadr]) {
             p->lastst[secadr] =
                 (*(p->getf))(vdrive, &(p->lastbyte[secadr]), secadr);
             p->lastok[secadr] = 1;
         }
+#if 0
     }
     if ((!p->nextok[secadr]) && (!p->lastst[secadr])) {
         p->nextst[secadr] =
             (*(p->getf))(vdrive, &(p->nextbyte[secadr]), secadr);
         p->nextok[secadr] = 1;
     }
+#endif
     *data = p->lastbyte[secadr];
     if (!fake)
         p->lastok[secadr] = 0;
+#if 0
     st = p->nextok[secadr] ? p->nextst[secadr] :
         (p->lastok[secadr] ? p->lastst[secadr] : 2);
+#endif
+    st = p->lastst[secadr]; /* added */
     st += TrapDevice << 8;
 
     if (parallel_debug)
@@ -276,10 +283,10 @@ int parallelreceivebyte(BYTE * data, int fake)
                     p->lastst[secadr],
                     p->nextbyte[secadr], p->nextok[secadr] ? "ok" : "no",
                     p->nextst[secadr]);
-
+#if 0
     if ((!fake) && p->nextok[secadr] && p->nextst[secadr])
         p->nextok[secadr] = 0;
-
+#endif
     if ((st & 0x40) && eof_callback_func != NULL)
         eof_callback_func();
     return st;

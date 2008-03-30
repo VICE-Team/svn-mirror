@@ -56,14 +56,71 @@ static int command_read(fs_buffer_info_t *info, BYTE *data)
             *data = *info->bufp++;
             info->buflen--;
         } else {
+			/* If we are already at an EOF state, check next read, next stream
+			   may be available */
+			if (info->iseof) {
+                *data = 0xc7;
+                info->iseof = !tape_read(&(info->tape), &(info->buffered), 1);
+    			info->isbuffered = 1;
+    			if (info->iseof) return SERIAL_EOF;
+            }
+			/* If this is our first read, read in first byte */
+			if (!info->isbuffered) {
+				info->iseof = !tape_read(&(info->tape), &(info->buffered), 1);
+				/* XXX We shouldn't get an EOF at this point, or can we? */
+			}
+			/* Place it in the output field */
+			*data = info->buffered;
+			/* Read the next buffer; if nothing read, set EOF signal */
+			info->iseof = !tape_read(&(info->tape), &(info->buffered), 1);
+			/* Indicate we have something in the buffer for the next read */
+			info->isbuffered = 1;
+			/* If the EOF was signaled, return a CBM EOF */
+			if (info->iseof) return SERIAL_EOF;
+			/* If not, return OK */
+            return SERIAL_OK;
+
+#if 0
             if (tape_read(&(info->tape), data, 1) != 1) {
                 *data = 0xc7;
                 return SERIAL_EOF;
             }
+#endif
         }
         return SERIAL_OK;
     } else {
         if (info->info) {
+			/* If we are already at an EOF state, check next read, next stream
+			   may be available */
+			if (info->iseof) {
+                *data = 0xc7;
+                info->iseof = !tape_read(&(info->tape), &(info->buffered), 1);
+    			info->isbuffered = 1;
+    			if (info->iseof) return SERIAL_EOF;
+            }
+			/* If this is our first read, read in first byte */
+			if (!info->isbuffered) {
+				info->iseof = !fileio_read(info->info, &(info->buffered), 1);
+				/* We shouldn't get an EOF at this point */
+				/* Check for errors */
+                if (fileio_ferror(info->info))
+                    return SERIAL_ERROR;
+			}
+			/* Place it in the output field */
+			*data = info->buffered;
+			/* Read the next buffer; if nothing read, set EOF signal */
+			info->iseof = !fileio_read(info->info, &(info->buffered), 1);
+			/* Check for errors */
+            if (fileio_ferror(info->info))
+                return SERIAL_ERROR;
+			/* Indicate we have something in the buffer for the next read */
+			info->isbuffered = 1;
+			/* If the EOF was signaled, return a CBM EOF */
+			if (info->iseof) return SERIAL_EOF;
+			/* If not, return OK */
+            return SERIAL_OK;
+
+#if 0
             unsigned int len;
 
             len = fileio_read(info->info, data, 1);
@@ -75,8 +132,8 @@ static int command_read(fs_buffer_info_t *info, BYTE *data)
                 *data = 0xc7;
                 return SERIAL_EOF;
             }
-
             return SERIAL_OK;
+#endif
         }
     }
 
@@ -289,6 +346,12 @@ static int command_directory(vdrive_t *vdrive, fs_buffer_info_t *info,
 
     *data = *info->bufp++;
     info->buflen--;
+	/* Generate CBM EOF */
+    if (info->buflen <= 0) {
+        if (info->eof) {
+            return SERIAL_EOF;
+        }
+    }
 
     return SERIAL_OK;
 }

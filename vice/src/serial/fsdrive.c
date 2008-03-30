@@ -224,20 +224,23 @@ BYTE fsdrive_read(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
     else
         vdrive = NULL;
 
+#if 0
     /* Get next byte if necessary.  */
     if (!(p->nextok[secadr]))
+#endif
         st = (*(p->getf))(vdrive, &(p->nextbyte[secadr]), secadr);
 
     /* Move byte from buffer to output.  */
     data = p->nextbyte[secadr];
     p->nextok[secadr] = 0;
+#if 0
     /* Fill buffer again.  */
     if (!st) {
         st = (*(p->getf))(vdrive, &(p->nextbyte[secadr]), secadr);
         if (!st)
             p->nextok[secadr] = 1;
     }
-
+#endif
     st_func((BYTE)st);
 
     return data;
