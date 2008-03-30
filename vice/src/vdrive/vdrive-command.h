@@ -29,54 +29,9 @@
 
 #include "types.h"
 
-/* Input Processor Error Codes.  */
-#define IPE_OK                          0
-#define IPE_DELETED                     1
-#define IPE_SEL_PARTN                   2       /* 1581 */
-#define IPE_UNIMPL                      3
-#define IPE_MEMORY_READ                 4
-
-#define IPE_WRITE_ERROR                 25
-#define IPE_WRITE_PROTECT_ON            26
-#define IPE_SYNTAX                      30
-#define IPE_INVAL                       31
-#define IPE_LONG_LINE                   32
-#define IPE_BAD_NAME                    33
-#define IPE_NO_NAME                     34
-
-#define IPE_NO_RECORD                   50
-
-#define IPE_NOT_WRITE                   60
-#define IPE_NOT_OPEN                    61
-#define IPE_NOT_FOUND                   62
-#define IPE_FILE_EXISTS                 63
-#define IPE_BAD_TYPE                    64
-#define IPE_NO_BLOCK                    65
-#define IPE_ILLEGAL_TRACK_OR_SECTOR     66
-
-#define IPE_NO_CHANNEL                  70
-#define IPE_DISK_FULL                   72
-#define IPE_DOS_VERSION                 73
-#define IPE_NOT_READY                   74
-#define IPE_BAD_PARTN                   77      /* 1581 */
-
-#define IPE_NOT_EMPTY                   80      /* dir to remove not empty */
-#define IPE_PERMISSION                  81      /* permission denied */
-
-typedef struct cmd_parse_s {
-    const char *cmd;
-    unsigned int cmdlength;
-    char *parsecmd;
-    unsigned int parselength;
-    unsigned int readmode;
-    unsigned int filetype;
-    unsigned int recordlength;
-} cmd_parse_t;
-
 struct vdrive_s;
 
 extern void vdrive_command_init(void);
-extern const char *vdrive_command_errortext(unsigned int code);
 extern int vdrive_command_execute(struct vdrive_s *vdrive, const BYTE *buf,
                                   unsigned int length);
 extern int vdrive_command_format(struct vdrive_s *vdrive,
@@ -86,7 +41,6 @@ extern void vdrive_command_set_error(struct vdrive_s *vdrive, int code,
                                      unsigned int track, unsigned int sector);
 extern int vdrive_command_memory_read(struct vdrive_s *vdrive, WORD addr,
                                       unsigned int length);
-extern int vdrive_command_parse(cmd_parse_t *cmd_parse);
 
 #endif
 
