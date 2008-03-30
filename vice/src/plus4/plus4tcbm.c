@@ -28,6 +28,7 @@
 
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivetypes.h"
 #include "log.h"
 #include "maincpu.h"
 #include "plus4tcbm.h"
@@ -208,8 +209,9 @@ static BYTE tiatcbm_read(WORD addr, unsigned int dnr)
 
 BYTE REGPARM1 plus4tcbm1_read(WORD addr)
 {
-    if (drive[0].enable && drive[0].type == DRIVE_TYPE_1551) {
-        drivecpu_execute(&drive0_context, maincpu_clk);
+    if (drive_context[0]->drive->enable
+        && drive_context[0]->drive->type == DRIVE_TYPE_1551) {
+        drivecpu_execute(drive_context[0], maincpu_clk);
         return tiatcbm_read(addr, 0);
     }
     return 0;
@@ -217,16 +219,18 @@ BYTE REGPARM1 plus4tcbm1_read(WORD addr)
 
 void REGPARM2 plus4tcbm1_store(WORD addr, BYTE value)
 {
-    if (drive[0].enable && drive[0].type == DRIVE_TYPE_1551) {
-        drivecpu_execute(&drive0_context, maincpu_clk);
+    if (drive_context[0]->drive->enable
+        && drive_context[0]->drive->type == DRIVE_TYPE_1551) {
+        drivecpu_execute(drive_context[0], maincpu_clk);
         tiatcbm_store(addr, value, 0);
     }
 }
 
 BYTE REGPARM1 plus4tcbm2_read(WORD addr)
 {
-    if (drive[1].enable && drive[1].type == DRIVE_TYPE_1551) {
-        drivecpu_execute(&drive1_context, maincpu_clk);
+    if (drive_context[1]->drive->enable
+        && drive_context[1]->drive->type == DRIVE_TYPE_1551) {
+        drivecpu_execute(drive_context[1], maincpu_clk);
         return tiatcbm_read(addr, 1);
     }
     return 0;
@@ -234,8 +238,9 @@ BYTE REGPARM1 plus4tcbm2_read(WORD addr)
 
 void REGPARM2 plus4tcbm2_store(WORD addr, BYTE value)
 {
-    if (drive[1].enable && drive[1].type == DRIVE_TYPE_1551) {
-        drivecpu_execute(&drive1_context, maincpu_clk);
+    if (drive_context[1]->drive->enable
+        && drive_context[1]->drive->type == DRIVE_TYPE_1551) {
+        drivecpu_execute(drive_context[1], maincpu_clk);
         tiatcbm_store(addr, value, 1);
     }
 }

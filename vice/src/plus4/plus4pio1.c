@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include "drive.h"
+#include "drivetypes.h"
 #include "maincpu.h"
 #include "plus4iec.h"
 #include "plus4pio1.h"
@@ -44,12 +45,13 @@ static int tape_sense = 0;
 
 BYTE REGPARM1 pio1_read(WORD addr)
 {
-BYTE    pio1_value;
+    BYTE pio1_value;
 
     /*  Correct clock */
     ted_handle_pending_alarms(0);
 
-    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+    if (drive_context[0]->drive->parallel_cable_enabled
+        || drive_context[1]->drive->parallel_cable_enabled)
         pio1_value = parallel_cable_cpu_read();
     else 
         pio1_value = pio1_data;
@@ -62,7 +64,7 @@ BYTE    pio1_value;
 
 void REGPARM2 pio1_store(WORD addr, BYTE value)
 {
-BYTE    pio1_outline;
+    BYTE pio1_outline;
 
     /*  Correct clock */
     ted_handle_pending_alarms(maincpu_rmw_flag + 1);
@@ -74,13 +76,14 @@ BYTE    pio1_outline;
     if (tape_sense)
         pio1_outline &= ~4;
 
-    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+    if (drive_context[0]->drive->parallel_cable_enabled
+        || drive_context[1]->drive->parallel_cable_enabled)
         parallel_cable_cpu_write(pio1_outline);
 }
 
 void pio1_set_tape_sense(int sense)
 {
-BYTE    pio1_outline;
+    BYTE pio1_outline;
 
     tape_sense = sense;
 
@@ -89,7 +92,8 @@ BYTE    pio1_outline;
     if (tape_sense)
         pio1_outline &= ~4;
 
-    if (drive[0].parallel_cable_enabled || drive[1].parallel_cable_enabled)
+    if (drive_context[0]->drive->parallel_cable_enabled
+        || drive_context[1]->drive->parallel_cable_enabled)
         parallel_cable_cpu_write(pio1_outline);
 }
 

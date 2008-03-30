@@ -117,21 +117,24 @@ void iec_cpu_write_conf0(BYTE data)
 /* Only the first drive is enabled.  */
 void iec_cpu_write_conf1(BYTE data)
 {
-    drivecpu_execute(&drive0_context, last_write_cycle);
+    drive_t *drive;
+
+    drive = drive_context[0]->drive;
+    drivecpu_execute(drive_context[0], last_write_cycle);
 
     iec_update_cpu_bus(data);
 
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
         iec_old_atn = iec_info.cpu_bus & 0x10;
-        if (drive[0].type != DRIVE_TYPE_1581)
-            viacore_signal(drive0_context.via1d1541, VIA_SIG_CA1,
+        if (drive->type != DRIVE_TYPE_1581)
+            viacore_signal(drive_context[0]->via1d1541, VIA_SIG_CA1,
                            iec_old_atn ? 0 : VIA_SIG_RISE);
         else
             if (!iec_old_atn)
-                ciacore_set_flag(drive0_context.cia1581);
+                ciacore_set_flag(drive_context[0]->cia1581);
     }
 
-    if (drive[0].type != DRIVE_TYPE_1581)
+    if (drive->type != DRIVE_TYPE_1581)
         iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
                              | ((iec_info.drive_data << 6)
                              & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
@@ -148,21 +151,24 @@ void iec_cpu_write_conf1(BYTE data)
 /* Only the second drive is enabled.  */
 void iec_cpu_write_conf2(BYTE data)
 {
-    drivecpu_execute(&drive1_context, last_write_cycle);
+    drive_t *drive;
+
+    drive = drive_context[1]->drive;
+    drivecpu_execute(drive_context[1], last_write_cycle);
 
     iec_update_cpu_bus(data);
 
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
         iec_old_atn = iec_info.cpu_bus & 0x10;
-        if (drive[1].type != DRIVE_TYPE_1581)
-            viacore_signal(drive1_context.via1d1541, VIA_SIG_CA1,
+        if (drive->type != DRIVE_TYPE_1581)
+            viacore_signal(drive_context[1]->via1d1541, VIA_SIG_CA1,
                            iec_old_atn ? 0 : VIA_SIG_RISE);
         else
             if (!iec_old_atn)
-                ciacore_set_flag(drive1_context.cia1581);
+                ciacore_set_flag(drive_context[1]->cia1581);
     }
 
-    if (drive[1].type != DRIVE_TYPE_1581)
+    if (drive->type != DRIVE_TYPE_1581)
         iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
                               | ((iec_info.drive2_data << 6)
                               & ((~iec_info.drive2_data ^ iec_info.cpu_bus) << 3)
@@ -179,31 +185,35 @@ void iec_cpu_write_conf2(BYTE data)
 /* Both drive are enabled.  */
 void iec_cpu_write_conf3(BYTE data)
 {
-    drivecpu_execute(&drive0_context, last_write_cycle);
-    drivecpu_execute(&drive1_context, last_write_cycle);
+    drive_t *drive0, *drive1;
+
+    drive0 = drive_context[0]->drive;
+    drive1 = drive_context[1]->drive;
+    drivecpu_execute(drive_context[0], last_write_cycle);
+    drivecpu_execute(drive_context[1], last_write_cycle);
 
     iec_update_cpu_bus(data);
 
     if (iec_old_atn != (iec_info.cpu_bus & 0x10)) {
         iec_old_atn = iec_info.cpu_bus & 0x10;
 
-        if (drive[0].type != DRIVE_TYPE_1581)
-            viacore_signal(drive0_context.via1d1541, VIA_SIG_CA1,
+        if (drive0->type != DRIVE_TYPE_1581)
+            viacore_signal(drive_context[0]->via1d1541, VIA_SIG_CA1,
                            iec_old_atn ? 0 : VIA_SIG_RISE);
         else
             if (!iec_old_atn)
-                ciacore_set_flag(drive0_context.cia1581);
+                ciacore_set_flag(drive_context[0]->cia1581);
 
-        if (drive[1].type != DRIVE_TYPE_1581)
-            viacore_signal(drive1_context.via1d1541, VIA_SIG_CA1,
+        if (drive1->type != DRIVE_TYPE_1581)
+            viacore_signal(drive_context[1]->via1d1541, VIA_SIG_CA1,
                            iec_old_atn ? 0 : VIA_SIG_RISE);
         else
             if (!iec_old_atn)
-                ciacore_set_flag(drive1_context.cia1581);
+                ciacore_set_flag(drive_context[1]->cia1581);
 
     }
 
-    if (drive[0].type != DRIVE_TYPE_1581)
+    if (drive0->type != DRIVE_TYPE_1581)
         iec_info.drive_bus = (((iec_info.drive_data << 3) & 0x40)
                              | ((iec_info.drive_data << 6)
                              & ((~iec_info.drive_data ^ iec_info.cpu_bus) << 3)
@@ -214,7 +224,7 @@ void iec_cpu_write_conf3(BYTE data)
                              & ((iec_info.drive_data | iec_info.cpu_bus) << 3)
                              & 0x80));
 
-    if (drive[1].type != DRIVE_TYPE_1581)
+    if (drive1->type != DRIVE_TYPE_1581)
         iec_info.drive2_bus = (((iec_info.drive2_data << 3) & 0x40)
                               | ((iec_info.drive2_data << 6)
                               & ((~iec_info.drive2_data ^ iec_info.cpu_bus) << 3)
@@ -236,7 +246,8 @@ void iec_cpu_undump(BYTE data)
 
 BYTE iec_cpu_read(void)
 {
-    if (!drive[0].enable && !drive[1].enable)
+    if (!(drive_context[0]->drive->enable)
+        && !(drive_context[1]->drive->enable))
 	return (iec_info.iec_fast_1541 & 0x30) << 2;
 
     drivecpu_execute_all(maincpu_clk);
@@ -282,7 +293,8 @@ BYTE parallel_cable_drive_read(int handshake)
 
 void parallel_cable_cpu_write(BYTE data)
 {
-    if (!drive[0].enable && !drive[1].enable)
+    if (!(drive_context[0]->drive->enable)
+        && !(drive_context[1]->drive->enable))
         return;
 
     drivecpu_execute_all(last_write_cycle);
@@ -292,7 +304,8 @@ void parallel_cable_cpu_write(BYTE data)
 
 BYTE parallel_cable_cpu_read(void)
 {
-    if (!drive[0].enable && !drive[1].enable)
+    if (!(drive_context[0]->drive->enable)
+        && !(drive_context[1]->drive->enable))
         return 0;
 
     drivecpu_execute_all(maincpu_clk);
@@ -309,8 +322,8 @@ int iec_available_busses(void)
 
 void iec_calculate_callback_index(void)
 {
-    iec_callback_index = (drive[0].enable ? 1 : 0)
-                         | (drive[1].enable ? 2 : 0);
+    iec_callback_index = (drive_context[0]->drive->enable ? 1 : 0)
+                         | (drive_context[1]->drive->enable ? 2 : 0);
 }
 
 void iec_fast_drive_write(BYTE data, unsigned int dnr)

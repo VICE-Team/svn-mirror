@@ -31,6 +31,7 @@
 
 #include "types.h"
 
+#define DRIVE_NUM 2
 
 #define DRIVE_ROM_SIZE 0x8000
 #define DRIVE_RAM_SIZE 0x2000
@@ -269,7 +270,6 @@ typedef struct drive_s {
 
 } drive_t;
 
-extern drive_t drive[2];
 
 extern CLOCK drive_clk[2];
 
@@ -278,6 +278,7 @@ extern CLOCK drive_clk[2];
 struct drive_context_s;
 extern struct drive_context_s drive0_context;
 extern struct drive_context_s drive1_context;
+extern struct drive_context_s *drive_context[DRIVE_NUM];
 
 extern int rom_loaded;
 
@@ -289,7 +290,7 @@ extern void drive_reset(void);
 extern void drive_shutdown(void);
 extern void drive_vsync_hook(void);
 extern void drive_update_ui_status(void);
-extern void drive_gcr_data_writeback(unsigned int dnr);
+extern void drive_gcr_data_writeback(struct drive_s *drive);
 extern void drive_set_active_led_color(unsigned int type, unsigned int dnr);
 extern BYTE drive_write_protect_sense(drive_t *dptr);
 extern int drive_set_disk_drive_type(unsigned int drive_type,
@@ -314,8 +315,9 @@ extern int drive_num_leds(unsigned int dnr);
 
 extern void drive_setup_context(void);
 
-extern int drive0_resources_type(void *v, void *param);
-extern int drive1_resources_type(void *v, void *param);
+extern int drive_resources_type_init(unsigned int default_type);
+
+struct drive_s *drive_get_drive(unsigned int dnr);
 
 #endif
 
