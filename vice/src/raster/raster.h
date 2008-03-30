@@ -249,15 +249,13 @@ struct _raster
   };
 typedef struct _raster raster_t;
 
-#ifndef __MSDOS__               /* FIXME */
 #define RASTER_PIXEL(raster, c) (raster)->pixel_table.sing[(c)]
+
+/* FIXME: MSDOS does not need double or quad pixel.
+`ifdef' them out once all video chips actually honour this.  */
+
 #define RASTER_PIXEL2(raster, c) (raster)->pixel_table.doub[(c)]
 #define RASTER_PIXEL4(raster, c) (raster)->pixel_table.quad[(c)]
-#else
-#define RASTER_PIXEL(c) (c)
-#define RASTER_PIXEL2(c) ((c) | ((c) << 8))
-#define RASTER_PIXEL4(c) ((c) | ((c) << 8) | ((c) << 16) | ((c) << 24))
-#endif
 
 
 

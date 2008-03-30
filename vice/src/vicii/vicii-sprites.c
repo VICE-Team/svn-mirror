@@ -843,10 +843,12 @@ vic_ii_sprites_init (void)
 void
 vic_ii_sprites_set_double_size (int enabled)
 {
+#ifdef VIC_II_NEED_2X
   if (enabled)
     raster_sprite_status_set_draw_function (&vic_ii.raster.sprite_status,
                                             draw_all_sprites_2x);
   else
+#endif
     raster_sprite_status_set_draw_function (&vic_ii.raster.sprite_status,
                                             draw_all_sprites);
 }

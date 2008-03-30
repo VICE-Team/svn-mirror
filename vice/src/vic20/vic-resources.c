@@ -26,11 +26,10 @@
 
 #include "vice.h"
 
+#include "resources.h"
 #include "utils.h"
-
-#include "vic.h"
-
 #include "vic-resources.h"
+#include "vic.h"
 
 
 

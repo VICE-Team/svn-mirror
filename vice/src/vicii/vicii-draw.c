@@ -1481,6 +1481,8 @@ draw_idle_foreground_2x (unsigned int start_char,
 
 
 
+#ifdef VIC_II_NEED_2X
+
 static void 
 setup_double_size_modes (void)
 {
@@ -1547,6 +1549,8 @@ setup_double_size_modes (void)
                     draw_std_background_2x,
                     draw_black_foreground);
 }
+
+#endif /* VIC_II_NEED_2X */
 
 static void 
 setup_single_size_modes (void)
@@ -1696,14 +1700,21 @@ void
 vic_ii_draw_init (void)
 {
   init_drawing_tables ();
+
+#ifdef VIC_II_NEED_2X
   vic_ii_draw_set_double_size (0);
+#endif
+
 }
 
 void
 vic_ii_draw_set_double_size (int enabled)
 {
+#ifdef VIC_II_NEED_2X
   if (enabled)
     setup_double_size_modes ();
   else
+#endif
     setup_single_size_modes ();
 }
+
