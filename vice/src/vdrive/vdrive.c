@@ -95,13 +95,13 @@ char const *slot_type[] = {
 };
 
 static int compare_filename (char *name, char *pattern);
-static int vdrive_command_block(vdrive_t *floppy, char command, char *buffer);
-static int vdrive_command_memory(vdrive_t *floppy, BYTE *buffer, int length);
-static int vdrive_command_initialize(vdrive_t *floppy);
-static int vdrive_command_format(vdrive_t *floppy, const char *name, BYTE *id,
+static int vdrive_command_block(vdrive_t *vdrive, char command, char *buffer);
+static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer, int length);
+static int vdrive_command_initialize(vdrive_t *vdrive);
+static int vdrive_command_format(vdrive_t *vdrive, const char *name, BYTE *id,
                                  BYTE *minus);
-static int vdrive_command_copy(vdrive_t *floppy, char *dest, int length);
-static int vdrive_command_rename(vdrive_t *floppy, char *dest, int length);
+static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length);
+static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length);
 
 /* ------------------------------------------------------------------------- */
 
@@ -217,7 +217,7 @@ void vdrive_command_set_error(bufferinfo_t *p, int code, int track, int sector)
  * the error messages according to return values.
  */
 
-int vdrive_command_execute(vdrive_t *floppy, BYTE *buf, int length)
+int vdrive_command_execute(vdrive_t *vdrive, BYTE *buf, int length)
 {
     int status = IPE_OK;
     BYTE *p, *p2;
@@ -227,7 +227,7 @@ int vdrive_command_execute(vdrive_t *floppy, BYTE *buf, int length)
     if (!length)
         return IPE_OK;
     if (length > IP_MAX_COMMAND_LEN) {
-        vdrive_command_set_error(&floppy->buffers[15], IPE_LONG_LINE, 0, 0);
+        vdrive_command_set_error(&vdrive->buffers[15], IPE_LONG_LINE, 0, 0);
         return IPE_LONG_LINE;
     }
 
@@ -247,7 +247,7 @@ int vdrive_command_execute(vdrive_t *floppy, BYTE *buf, int length)
 
     switch (*p) {
       case 'C': /* Copy command.  */
-        status = vdrive_command_copy(floppy, (char *)name, length);
+        status = vdrive_command_copy(vdrive, (char *)name, length);
         break;
 
       case 'D':		/* Backup unused */
@@ -255,7 +255,7 @@ int vdrive_command_execute(vdrive_t *floppy, BYTE *buf, int length)
         break;
 
       case 'R':		/* Rename */
-        status = vdrive_command_rename(floppy, (char *)name, length);
+        status = vdrive_command_rename(vdrive, (char *)name, length);
         break;
 
       case 'S':		/* Scratch */
@@ -272,7 +272,7 @@ int vdrive_command_execute(vdrive_t *floppy, BYTE *buf, int length)
             if (floppy_parse_name(name, length, realname, &reallength,
                                   &readmode, &filetype, NULL) != SERIAL_OK) {
                 status = IPE_NO_NAME;
-            } else if (floppy->ReadOnly) {
+            } else if (vdrive->read_only) {
                 status = IPE_WRITE_PROTECT_ON;
             } else {
 #ifdef DEBUG_DRIVE
@@ -288,31 +288,31 @@ int vdrive_command_execute(vdrive_t *floppy, BYTE *buf, int length)
                  * vdrive_dir_find_first_slot() each time... EP 1996/04/07 
                  */
 
-                vdrive_dir_find_first_slot(floppy, realname, reallength, 0);
-                while ((slot = vdrive_dir_find_next_slot(floppy))) {
-                    vdrive_dir_remove_slot(floppy, slot);
+                vdrive_dir_find_first_slot(vdrive, realname, reallength, 0);
+                while ((slot = vdrive_dir_find_next_slot(vdrive))) {
+                    vdrive_dir_remove_slot(vdrive, slot);
                     deleted_files++;
-                    vdrive_dir_find_first_slot(floppy, realname, reallength, 0);
+                    vdrive_dir_find_first_slot(vdrive, realname, reallength, 0);
                 }
                 if (deleted_files)
                     status = IPE_DELETED;
                 else
                     status = IPE_NOT_FOUND;
-                vdrive_command_set_error(&floppy->buffers[15], status, 1, 0);
+                vdrive_command_set_error(&vdrive->buffers[15], status, 1, 0);
             } /* else */
         }
         break;
 
       case 'I':
-	status = vdrive_command_initialize(floppy);
+	status = vdrive_command_initialize(vdrive);
 	break;
 
       case 'N':
-	status = vdrive_command_format(floppy, name, id, minus);
+	status = vdrive_command_format(vdrive, name, id, minus);
 	break;
 
       case 'V':
-	status = vdrive_command_validate(floppy);
+	status = vdrive_command_validate(vdrive);
 	break;
 
       case 'B':		/* Block, Buffer */
@@ -321,14 +321,14 @@ int vdrive_command_execute(vdrive_t *floppy, BYTE *buf, int length)
         if (!minus)
             status = IPE_INVAL;
 	else
-	    status = vdrive_command_block(floppy, minus[1], name + 1);
+	    status = vdrive_command_block(vdrive, minus[1], name + 1);
 	break;
 
       case 'M':		/* Memory */
         if (!minus)     /* M-x does not allow a : */
             status = IPE_INVAL;
         else
-            status = vdrive_command_memory(floppy, minus +1, length);
+            status = vdrive_command_memory(vdrive, minus +1, length);
 	break;
 
       case 'P':		/* Position */
@@ -346,14 +346,14 @@ int vdrive_command_execute(vdrive_t *floppy, BYTE *buf, int length)
  	        /* XXX incorrect: U1 is not exactly the same as B-R */
  	        /*      -- should store the buffer pointer */
  	        if (name)
-		    status = vdrive_command_block(floppy, 'R', name + 1);
+		    status = vdrive_command_block(vdrive, 'R', name + 1);
  	        break;
 
  	      case 1: /* UB */
  	        /* XXX incorrect: U2 is not exactly the same as B-W */
  	        /*      -- should store the buffer pointer */
  	        if (name)
- 		    status = vdrive_command_block(floppy, 'W', name + 1);
+ 		    status = vdrive_command_block(vdrive, 'W', name + 1);
  	        break;
 
  	      case 2: /* Jumps */
@@ -369,13 +369,13 @@ int vdrive_command_execute(vdrive_t *floppy, BYTE *buf, int length)
  	        if (p[2] == '-' || p[2] == '+') {
  		    status = IPE_OK;	/* Set IEC bus speed */
  	        } else {
- 		    floppy_close_all_channels(floppy); /* Warm reset */
+ 		    floppy_close_all_channels(vdrive); /* Warm reset */
  		    status = IPE_DOS_VERSION;
  	        }
  	        break;
 
  	      case 9: /* UJ */
- 	        floppy_close_all_channels(floppy); /* Cold reset */
+ 	        floppy_close_all_channels(vdrive); /* Cold reset */
  	        status = IPE_DOS_VERSION;
  	        break;
 
@@ -399,7 +399,7 @@ int vdrive_command_execute(vdrive_t *floppy, BYTE *buf, int length)
     if (status == IPE_INVAL)
         log_error(vdrive_log, "Wrong command `%s'.", p);
 
-    vdrive_command_set_error(&floppy->buffers[15], status, 0, 0);
+    vdrive_command_set_error(&vdrive->buffers[15], status, 0, 0);
 
     free((char *)p);
     return status;
@@ -435,7 +435,7 @@ static int  get_block_parameters(char *buf, int *p1, int *p2, int *p3, int *p4)
     return -ip;			/* negative of # arguments found */
 }
 
-static int vdrive_command_block(vdrive_t *floppy, char command, char *buffer)
+static int vdrive_command_block(vdrive_t *vdrive, char command, char *buffer)
 {
     int channel = 0, drive = 0, track = 0, sector = 0, position = 0;
     int l;
@@ -449,26 +449,26 @@ static int vdrive_command_block(vdrive_t *floppy, char command, char *buffer)
 #ifdef DEBUG_DRIVE
             fprintf(errfile, "B-R/W parsed ok. (l=%d) channel %d mode %d, "
                     "drive=%d, track=%d sector=%d\n", l, channel,
-                    floppy->buffers[channel].mode, drive, track, sector);
+                    vdrive->buffers[channel].mode, drive, track, sector);
 #endif
 
-            if (floppy->buffers[channel].mode != BUFFER_MEMORY_BUFFER)
+            if (vdrive->buffers[channel].mode != BUFFER_MEMORY_BUFFER)
                 return IPE_NO_CHANNEL;
 
             if (command == 'W') {
-                if (floppy->ReadOnly)
+                if (vdrive->read_only)
                     return IPE_WRITE_PROTECT_ON;
-                if (disk_image_write_sector(floppy->image,
-                                            floppy->buffers[channel].buffer,
+                if (disk_image_write_sector(vdrive->image,
+                                            vdrive->buffers[channel].buffer,
                                             track, sector) < 0)
                     return IPE_NOT_READY;
             } else {
-                if (disk_image_read_sector(floppy->image,
-                                      floppy->buffers[channel].buffer,
+                if (disk_image_read_sector(vdrive->image,
+                                      vdrive->buffers[channel].buffer,
                                       track, sector) < 0)
                     return IPE_NOT_READY;
             }
-            floppy->buffers[channel].bufptr = 0;
+            vdrive->buffers[channel].bufptr = 0;
         }
         break;
       case 'A':
@@ -477,7 +477,7 @@ static int vdrive_command_block(vdrive_t *floppy, char command, char *buffer)
         if (l > 0) /* just 3 args used */
             return l;
         if (command == 'A') {
-            if (!vdrive_bam_allocate_sector(floppy->image_format, floppy->bam,
+            if (!vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam,
                 track, sector)) {
                 /*
                  * Desired sector not free. Suggest another. XXX The 1541
@@ -485,22 +485,22 @@ static int vdrive_command_block(vdrive_t *floppy, char command, char *buffer)
                  * higher tracks and can return sectors in the directory
                  * track.
                  */
-                if (vdrive_bam_alloc_next_free_sector(floppy, floppy->bam,
+                if (vdrive_bam_alloc_next_free_sector(vdrive, vdrive->bam,
                     &track, &sector) >= 0) {
                     /* Deallocate it and merely suggest it */
-                    vdrive_bam_free_sector(floppy->image_format, floppy->bam,
+                    vdrive_bam_free_sector(vdrive->image_format, vdrive->bam,
                                            track, sector);
                 } else {
                     /* Found none */
                     track = 0;
                     sector = 0;
                 }
-                vdrive_command_set_error(&floppy->buffers[15], IPE_NO_BLOCK,
+                vdrive_command_set_error(&vdrive->buffers[15], IPE_NO_BLOCK,
                                          track, sector);
                 return IPE_NO_BLOCK;
             }
         } else {
-            vdrive_bam_free_sector(floppy->image_format, floppy->bam,
+            vdrive_bam_free_sector(vdrive->image_format, vdrive->bam,
                                    track, sector);
         }
         break;
@@ -508,9 +508,9 @@ static int vdrive_command_block(vdrive_t *floppy, char command, char *buffer)
         l = get_block_parameters(buffer, &channel, &position, &track, &sector);
             if (l > 0) /* just 2 args used */
         return l;
-        if (floppy->buffers[channel].mode != BUFFER_MEMORY_BUFFER)
+        if (vdrive->buffers[channel].mode != BUFFER_MEMORY_BUFFER)
             return IPE_NO_CHANNEL;
-        floppy->buffers[channel].bufptr = position;
+        vdrive->buffers[channel].bufptr = position;
         break;
       default:
         return IPE_INVAL;
@@ -519,7 +519,7 @@ static int vdrive_command_block(vdrive_t *floppy, char command, char *buffer)
 }
 
 
-static int vdrive_command_memory(vdrive_t *floppy, BYTE *buffer, int length)
+static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer, int length)
 {
 #if 0
     int addr = 0;
@@ -536,16 +536,16 @@ static int vdrive_command_memory(vdrive_t *floppy, BYTE *buffer, int length)
         count = buffer[3];
         /* data= buffer[4 ... 4+34]; */
 
-        if (floppy->buffers[addrlo].mode != BUFFER_MEMORY_BUFFER) {
+        if (vdrive->buffers[addrlo].mode != BUFFER_MEMORY_BUFFER) {
             return IPE_SYNTAX;
         memcpy ( ... , buffer + 4, buffer[3]);
         }
         break;
       case 'R':
-        floppy->buffers[channel].bufptr = addr;
+        vdrive->buffers[channel].bufptr = addr;
         break;
       case 'E':
-        floppy->buffers[channel].bufptr = addr;
+        vdrive->buffers[channel].bufptr = addr;
         break;
       default:
         return IPE_SYNTAX;
@@ -699,7 +699,7 @@ int floppy_parse_name(const char *name, int length, char *ptr,
 /* ------------------------------------------------------------------------- */
 
 
-static int vdrive_command_copy(vdrive_t *floppy, char *dest, int length)
+static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
 {
     char *name, *files, *p, c;
 
@@ -716,7 +716,7 @@ static int vdrive_command_copy(vdrive_t *floppy, char *dest, int length)
     fprintf(logfile, "COPY: dest= '%s'\n      orig= '%s'\n", dest, files);
 #endif
 
-    if (vdrive_open(floppy, dest, strlen(dest), 1))
+    if (vdrive_open(vdrive, dest, strlen(dest), 1))
         return (IPE_FILE_EXISTS);
 
     p = name = files;
@@ -731,23 +731,23 @@ static int vdrive_command_copy(vdrive_t *floppy, char *dest, int length)
 #ifdef DEBUG_DRIVE
         fprintf(logfile, "searching for file '%s'\n", name);
 #endif
-        if (vdrive_open(floppy, name, strlen(name), 0)) {
-            vdrive_close(floppy, 1);
+        if (vdrive_open(vdrive, name, strlen(name), 0)) {
+            vdrive_close(vdrive, 1);
             return (IPE_NOT_FOUND);
         }
 
-        while (!vdrive_read(floppy, (BYTE *)&c, 0)) {
-            if (vdrive_write(floppy, c, 1)) {
-                vdrive_close(floppy, 0); /* No space on disk.  */
-                vdrive_close(floppy, 1);
+        while (!vdrive_read(vdrive, (BYTE *)&c, 0)) {
+            if (vdrive_write(vdrive, c, 1)) {
+                vdrive_close(vdrive, 0); /* No space on disk.  */
+                vdrive_close(vdrive, 1);
                 return (IPE_DISK_FULL);
             }
         }
 
-        vdrive_close(floppy, 0);
+        vdrive_close(vdrive, 0);
         name = p; /* Next file.  */
     }
-    vdrive_close(floppy, 1);
+    vdrive_close(vdrive, 1);
     return(IPE_OK);
 }
 
@@ -756,7 +756,7 @@ static int vdrive_command_copy(vdrive_t *floppy, char *dest, int length)
  * Rename disk entry
  */
 
-static int vdrive_command_rename(vdrive_t *floppy, char *dest, int length)
+static int vdrive_command_rename(vdrive_t *vdrive, char *dest, int length)
 {
     char *src;
     char dest_name[256], src_name[256];
@@ -783,22 +783,22 @@ static int vdrive_command_rename(vdrive_t *floppy, char *dest, int length)
         &src_readmode, &src_filetype, &src_rl) == FLOPPY_ERROR)
         return IPE_SYNTAX;
 
-    if (floppy->ReadOnly)
+    if (vdrive->read_only)
         return IPE_WRITE_PROTECT_ON;
 
     /* Check if the destination name is already in use.  */
 
-    vdrive_dir_find_first_slot(floppy, dest_name, dest_reallength,
+    vdrive_dir_find_first_slot(vdrive, dest_name, dest_reallength,
                                dest_filetype);
-    slot = vdrive_dir_find_next_slot(floppy);
+    slot = vdrive_dir_find_next_slot(vdrive);
 
     if (slot)
         return (IPE_FILE_EXISTS);
 
     /* Find the file to rename. */
 
-    vdrive_dir_find_first_slot(floppy, src_name, src_reallength, src_filetype);
-    slot = vdrive_dir_find_next_slot(floppy);
+    vdrive_dir_find_first_slot(vdrive, src_name, src_reallength, src_filetype);
+    slot = vdrive_dir_find_next_slot(vdrive);
 
     if (!slot)
         return (IPE_NOT_FOUND);
@@ -806,15 +806,15 @@ static int vdrive_command_rename(vdrive_t *floppy, char *dest, int length)
     /* Now we can replace the old file name...  */
     /* We write directly to the Dir_buffer.  */
 
-    slot = &floppy->Dir_buffer[floppy->SlotNumber * 32];
+    slot = &vdrive->Dir_buffer[vdrive->SlotNumber * 32];
     memset(slot + SLOT_NAME_OFFSET, 0xa0, 16);
     memcpy(slot + SLOT_NAME_OFFSET, dest_name, dest_reallength);
     if (dest_filetype)
         slot[SLOT_TYPE_OFFSET] = dest_filetype; /* FIXME: is this right? */
 
     /* Update the directory.  */
-    disk_image_write_sector(floppy->image, floppy->Dir_buffer,
-                       floppy->Curr_track, floppy->Curr_sector);
+    disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
+                       vdrive->Curr_track, vdrive->Curr_sector);
     return(IPE_OK);
 }
 
@@ -825,108 +825,108 @@ static int vdrive_command_rename(vdrive_t *floppy, char *dest, int length)
  * channel close.
  */
 
-void floppy_close_all_channels(vdrive_t *floppy)
+void floppy_close_all_channels(vdrive_t *vdrive)
 {
     int     i;
     bufferinfo_t *p;
 
 
     for (i = 0; i <= 15; i++) {
-	p = &(floppy->buffers[i]);
+	p = &(vdrive->buffers[i]);
 
 	if (p->mode != BUFFER_NOT_IN_USE && p->mode != BUFFER_COMMAND_CHANNEL)
-	    vdrive_close(floppy, i);
+	    vdrive_close(vdrive, i);
     }
 }
 
 
-static int vdrive_command_initialize(vdrive_t *floppy)
+static int vdrive_command_initialize(vdrive_t *vdrive)
 {
-    floppy_close_all_channels(floppy);
+    floppy_close_all_channels(vdrive);
 
     /* Update BAM in memory.  */
-    if (floppy->image->fd != NULL)
-        vdrive_bam_read_bam(floppy);
+    if (vdrive->image != NULL)
+        vdrive_bam_read_bam(vdrive);
 #if 0
-    if (floppy->ErrFlg)
-        set_error_data(floppy, 3); /* Clear or read error data.  */
+    if (vdrive->ErrFlg)
+        set_error_data(vdrive, 3); /* Clear or read error data.  */
 #endif
     return IPE_OK;
 }
 
-int vdrive_command_validate(vdrive_t *floppy)
+int vdrive_command_validate(vdrive_t *vdrive)
 {
     int t, s, status;
     /* FIXME: size of BAM define */
     BYTE *b, oldbam[5 * 256];
 
-    status = vdrive_command_initialize(floppy);
+    status = vdrive_command_initialize(vdrive);
     if (status != IPE_OK)
         return status;
-    if (floppy->ReadOnly)
+    if (vdrive->read_only)
         return IPE_WRITE_PROTECT_ON;
 
     /* FIXME: size of BAM define */
-    memcpy(oldbam, floppy->bam, 5 * 256);
+    memcpy(oldbam, vdrive->bam, 5 * 256);
 
-    vdrive_bam_clear_all(floppy->image_format, floppy->bam);
-    for (t = 1; t <= floppy->NumTracks; t++) {
+    vdrive_bam_clear_all(vdrive->image_format, vdrive->bam);
+    for (t = 1; t <= vdrive->NumTracks; t++) {
         int max_sector;
-        max_sector = vdrive_get_max_sectors(floppy->image_format, t);
+        max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
         for (s = 0; s < max_sector; s++)
-            vdrive_bam_free_sector(floppy->image_format, floppy->bam, t, s);
+            vdrive_bam_free_sector(vdrive->image_format, vdrive->bam, t, s);
     }
 
     /* First map out the BAM and directory itself.  */
-    status = vdrive_bam_allocate_chain(floppy, floppy->Bam_Track,
-                                       floppy->Bam_Sector);
+    status = vdrive_bam_allocate_chain(vdrive, vdrive->Bam_Track,
+                                       vdrive->Bam_Sector);
     if (status != IPE_OK) {
 	/* FIXME: size of BAM define */
-        memcpy(floppy->bam, oldbam, 5 * 256);
+        memcpy(vdrive->bam, oldbam, 5 * 256);
         return status;
     }
 
-    if (floppy->image_format == 1581) {
-        vdrive_bam_allocate_sector(floppy->image_format, floppy->bam,
-                                   floppy->Bam_Track, floppy->Bam_Sector + 1);
-        vdrive_bam_allocate_sector(floppy->image_format, floppy->bam,
-                                   floppy->Bam_Track, floppy->Bam_Sector + 2);
+    if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581) {
+        vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam,
+                                   vdrive->Bam_Track, vdrive->Bam_Sector + 1);
+        vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam,
+                                   vdrive->Bam_Track, vdrive->Bam_Sector + 2);
     }
 
-    vdrive_dir_find_first_slot(floppy, "*", 1, 0);
+    vdrive_dir_find_first_slot(vdrive, "*", 1, 0);
 
-    while ((b = vdrive_dir_find_next_slot(floppy))) {
+    while ((b = vdrive_dir_find_next_slot(vdrive))) {
         char *filetype = (char *)
-        &floppy->Dir_buffer[floppy->SlotNumber * 32 + SLOT_TYPE_OFFSET];
+        &vdrive->Dir_buffer[vdrive->SlotNumber * 32 + SLOT_TYPE_OFFSET];
 
         if (*filetype & FT_CLOSED) {
-            status = vdrive_bam_allocate_chain(floppy, b[SLOT_FIRST_TRACK],
+            status = vdrive_bam_allocate_chain(vdrive, b[SLOT_FIRST_TRACK],
                                     b[SLOT_FIRST_SECTOR]);
             if (status != IPE_OK) {
-                memcpy(floppy->bam, oldbam, 256);
+                memcpy(vdrive->bam, oldbam, 256);
                 return status;
             }
             /* The real drive always validates side sectors even if the file
                type is not REL.  */
-            status = vdrive_bam_allocate_chain(floppy, b[SLOT_SIDE_TRACK],
+            status = vdrive_bam_allocate_chain(vdrive, b[SLOT_SIDE_TRACK],
                                                b[SLOT_SIDE_SECTOR]);
             if (status != IPE_OK) {
-                memcpy(floppy->bam, oldbam, 256);
+                memcpy(vdrive->bam, oldbam, 256);
                 return status;
             }
         } else {
             *filetype = FT_DEL;
-            disk_image_write_sector(floppy->image, floppy->Dir_buffer,
-                                    floppy->Curr_track, floppy->Curr_sector);
+            disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
+                                    vdrive->Curr_track, vdrive->Curr_sector);
         }
     }
 
     /* Write back BAM only if validate was successful.  */
-    vdrive_bam_write_bam(floppy);
+    vdrive_bam_write_bam(vdrive);
     return status;
 }
 
-static int vdrive_command_format(vdrive_t *floppy, const char *name, BYTE *id,
+static int vdrive_command_format(vdrive_t *vdrive, const char *name, BYTE *id,
                                  BYTE *minus)
 {
     BYTE tmp[256];
@@ -936,10 +936,10 @@ static int vdrive_command_format(vdrive_t *floppy, const char *name, BYTE *id,
     if (!name)
         return IPE_SYNTAX;
 
-    if (floppy->ReadOnly)
+    if (vdrive->read_only)
         return IPE_WRITE_PROTECT_ON;
 
-    if (floppy->image->fd != NULL)
+    if (vdrive->image->fd != NULL)
         return IPE_NOT_READY;
 
     /*
@@ -952,8 +952,8 @@ static int vdrive_command_format(vdrive_t *floppy, const char *name, BYTE *id,
         id = &null;
 
 #if 0
-    if (floppy->ErrFlg)
-        set_error_data(floppy, 5);	/* clear and write error data */
+    if (vdrive->ErrFlg)
+        set_error_data(vdrive, 5);	/* clear and write error data */
 #endif
 
     /*
@@ -961,13 +961,13 @@ static int vdrive_command_format(vdrive_t *floppy, const char *name, BYTE *id,
      */
     memset(tmp, 0, 256);
     tmp[1] = 255;
-    disk_image_write_sector(floppy->image, tmp, floppy->Dir_Track,
-                            floppy->Dir_Sector);
-    vdrive_bam_create_empty_bam(floppy, name, id);
-    vdrive_bam_write_bam(floppy);
+    disk_image_write_sector(vdrive->image, tmp, vdrive->Dir_Track,
+                            vdrive->Dir_Sector);
+    vdrive_bam_create_empty_bam(vdrive, name, id);
+    vdrive_bam_write_bam(vdrive);
 
     /* Validate is called to clear the BAM.  */
-    status = vdrive_command_validate(floppy);
+    status = vdrive_command_validate(vdrive);
     return status;
 }
 
@@ -978,32 +978,32 @@ static int vdrive_command_format(vdrive_t *floppy, const char *name, BYTE *id,
  * Sync (update) the Error Block image in memory
  */
 
-static int set_error_data(vdrive_t *floppy, int flags)
+static int set_error_data(vdrive_t *vdrive, int flags)
 {
     int    size;
     off_t  offset;
 
-    if (!(floppy->ErrData)) {
-	floppy->ErrData = (char *)xmalloc((size_t)MAX_BLOCKS_ANY);
-	memset(floppy->ErrData, 0x01, MAX_BLOCKS_ANY);
+    if (!(vdrive->ErrData)) {
+	vdrive->ErrData = (char *)xmalloc((size_t)MAX_BLOCKS_ANY);
+	memset(vdrive->ErrData, 0x01, MAX_BLOCKS_ANY);
     }
     else if (flags & 1)		/* clear error data */
-	memset(floppy->ErrData, 0x01, MAX_BLOCKS_ANY);
+	memset(vdrive->ErrData, 0x01, MAX_BLOCKS_ANY);
 
 
-    size = vdrive_calc_num_blocks(floppy->image_format, floppy->NumTracks);
-    offset = ((off_t)size << 8) + (off_t)(floppy->D64_Header?0:HEADER_LENGTH);
-    fseek(floppy->image->fd, offset, SEEK_SET);
+    size = vdrive_calc_num_blocks(vdrive->image_format, vdrive->NumTracks);
+    offset = ((off_t)size << 8) + (off_t)(vdrive->D64_Header?0:HEADER_LENGTH);
+    fseek(vdrive->image->fd, offset, SEEK_SET);
 
     if (flags & 2) {		/* read from file */
-        if (fread((char *)floppy->ErrData, size, 1, floppy->image->fd) < 1) {
+        if (fread((char *)vdrive->ErrData, size, 1, vdrive->image->fd) < 1) {
             log_error(vdrive_log, "Floppy image read error.");
             return(-2);
         }
     }
 
     if (flags & 4) {		/* write to file */
-        if (fwrite((char *)floppy->ErrData, size, 1, floppy->image->fd) < 1) {
+        if (fwrite((char *)vdrive->ErrData, size, 1, vdrive->image->fd) < 1) {
             log_error(vdrive_log, "Floppy image write error.");
             return(-2);
         }
@@ -1147,10 +1147,12 @@ int vdrive_attach_image(disk_image_t *image, int unit, vdrive_t *vdrive)
 
     vdrive->NumBlocks = vdrive_calc_num_blocks(vdrive->image_format,
                                                image->tracks);
-
     vdrive->image = image;
-    vdrive_bam_read_bam(vdrive);
 
+    if (vdrive_bam_read_bam(vdrive)) {
+        log_error(vdrive_log, "Cannot access BAM.");
+        return -1;
+    }
     return 0;
 }
 
@@ -1310,7 +1312,7 @@ static int compare_filename (char *name, char *pattern)
 
 /* Read the directory and return it as a long malloc'ed ASCII string.
    FIXME: Should probably be made more robust.  */
-char *floppy_read_directory(vdrive_t *floppy, const char *pattern)
+char *floppy_read_directory(vdrive_t *vdrive, const char *pattern)
 {
     BYTE *p;
     int outbuf_size, max_outbuf_size, len;
@@ -1321,7 +1323,7 @@ char *floppy_read_directory(vdrive_t *floppy, const char *pattern)
 	sprintf(line, "$:%s", pattern);
     else
 	sprintf(line, "$");
-    if (vdrive_open(floppy, line, 1, 0) != SERIAL_OK)
+    if (vdrive_open(vdrive, line, 1, 0) != SERIAL_OK)
 	return NULL;
 
     /* Allocate a buffer. */
@@ -1329,7 +1331,7 @@ char *floppy_read_directory(vdrive_t *floppy, const char *pattern)
     outbuf = xmalloc(max_outbuf_size);
     outbuf_size = 0;
 
-    p = floppy->buffers[0].buffer + 2; /* Skip load address. */
+    p = vdrive->buffers[0].buffer + 2; /* Skip load address. */
     while ((p[0] | (p[1] << 8)) != 0) {
 	len = sprintf(line, "%d ", p[2] | (p[3] << 8));
 	p += 4;
@@ -1341,7 +1343,7 @@ char *floppy_read_directory(vdrive_t *floppy, const char *pattern)
 	line[len++] = '\n';
 	bufcat(outbuf, &outbuf_size, &max_outbuf_size, line, len);
     }
-    vdrive_close(floppy, 0);
+    vdrive_close(vdrive, 0);
 
     /* Add trailing zero. */
     *(outbuf + outbuf_size) = '\0';
