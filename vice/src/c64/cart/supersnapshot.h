@@ -54,6 +54,7 @@ extern int supersnapshot_v4_bin_attach(const char *filename, BYTE *rawcart);
 extern void supersnapshot_v5_config_init(void);
 extern void supersnapshot_v5_config_setup(BYTE *rawcart);
 extern int supersnapshot_v5_bin_attach(const char *filename, BYTE *rawcart);
+extern int supersnapshot_v5_crt_attach(FILE *fd, BYTE *rawcart);
 
 #endif
 
