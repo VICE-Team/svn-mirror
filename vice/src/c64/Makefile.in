@@ -122,6 +122,7 @@ libc64_a_SOURCES = \
 	c64iec.h \
 	c64mem.c \
 	c64mem.h \
+	cartridge.c \
 	patchrom.c \
 	patchrom.h \
 	reu.c \
@@ -206,7 +207,7 @@ X_PRE_LIBS = @X_PRE_LIBS@
 @HAVE_RESID_FALSE@libc64_a_DEPENDENCIES = 
 @HAVE_RS232_TRUE@libc64_a_DEPENDENCIES =  c64acia1.o rsuser.o
 libc64_a_OBJECTS =  c64.o c64cia1.o c64cia2.o c64iec.o c64mem.o \
-patchrom.o reu.o sid.o c64tpi.o vicii.o
+cartridge.o patchrom.o reu.o sid.o c64tpi.o vicii.o
 @HAVE_RS232_FALSE@libc64c128_a_DEPENDENCIES = 
 @HAVE_RESID_TRUE@libc64c128_a_DEPENDENCIES =  resid.o
 @HAVE_RESID_FALSE@libc64c128_a_DEPENDENCIES = 

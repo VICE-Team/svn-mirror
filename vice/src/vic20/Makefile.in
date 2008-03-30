@@ -104,6 +104,7 @@ INCLUDES = \
 noinst_LIBRARIES = libvic20.a
 
 libvic20_a_SOURCES = \
+	cartridge.c \
 	vic.c \
 	vic.h \
 	vic20.c \
@@ -136,8 +137,8 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libvic20_a_LIBADD = 
-libvic20_a_OBJECTS =  vic.o vic20.o vic20iec.o vic20mem.o vic20sound.o \
-vic20via1.o vic20via2.o
+libvic20_a_OBJECTS =  cartridge.o vic.o vic20.o vic20iec.o vic20mem.o \
+vic20sound.o vic20via1.o vic20via2.o
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
 LINK = $(CC) $(CFLAGS) $(LDFLAGS) -o $@
@@ -280,6 +281,11 @@ distdir: $(DISTFILES)
 	  (cd $$subdir && $(MAKE) top_distdir=../$(top_distdir) distdir=../$(distdir)/$$subdir distdir) \
 	    || exit 1; \
 	done
+cartridge.o: cartridge.c ../../src/vice.h ../../src/config.h \
+	../../src/resources.h ../../src/cmdline.h ../../src/file.h \
+	../../src/mem.h ../../src/types.h ../../src/vmachine.h \
+	../../src/interrupt.h ../../src/6510core.h ../../src/utils.h \
+	../../src/cartridge.h
 vic.o: vic.c ../../src/vice.h ../../src/config.h vic.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/types.h ../../src/arch/unix/ui.h \
@@ -321,7 +327,7 @@ vic20mem.o: vic20mem.c ../../src/vice.h ../../src/config.h vic20mem.h \
 	../../src/utils.h ../../src/emuid.h vic.h \
 	../../src/arch/unix/video.h ../../src/palette.h \
 	../../src/arch/unix/ui.h ../../src/arch/unix/xaw/ui.h \
-	vic20via.h ../../src/via.h
+	vic20via.h ../../src/via.h ../../src/cartridge.h
 vic20sound.o: vic20sound.c ../../src/vice.h ../../src/config.h \
 	../../src/sound.h ../../src/types.h ../../src/warn.h \
 	../../src/maincpu.h ../../src/mem.h ../../src/mos6510.h \

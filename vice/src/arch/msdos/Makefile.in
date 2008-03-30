@@ -115,6 +115,8 @@ libarch_a_SOURCES = \
 	joystick.h \
 	kbd.c \
 	kbd.h \
+	log.c \
+	log.h \
 	menudefs.c \
 	menudefs.h \
 	petkbd.c \
@@ -156,7 +158,7 @@ X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
 libarch_a_LIBADD = 
-libarch_a_OBJECTS =  c64kbd.o c64ui.o joystick.o kbd.o menudefs.o \
+libarch_a_OBJECTS =  c64kbd.o c64ui.o joystick.o kbd.o log.o menudefs.o \
 petkbd.o petui.o tui.o tui_backend.o tuifs.o tuimenu.o tuiview.o ui.o \
 vic20kbd.o vic20ui.o video.o vmidas.o vsync.o
 CFLAGS = @CFLAGS@

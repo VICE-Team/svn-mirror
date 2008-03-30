@@ -90,8 +90,7 @@ SOUND_USS_OBJ = @SOUND_USS_OBJ@
 VERSION = @VERSION@
 YACC = @YACC@
 
-@NEED_READLINE_TRUE@READLINE = @READLINE@
-@NEED_READLINE_FALSE@READLINE =
+READLINE = @READLINE@
 
 @HAVE_PRINTER_TRUE@printer_ldadd = pruser.o prdevice.o
 @HAVE_PRINTER_FALSE@printer_ldadd =
@@ -168,7 +167,6 @@ base_sources = \
 	asm.c \
 	attach.c \
 	autostart.c \
-	cartridge.c \
 	charsets.c \
 	cmdline.c \
 	drive.c \
@@ -297,34 +295,33 @@ X_CFLAGS = @X_CFLAGS@
 X_LIBS = @X_LIBS@
 X_EXTRA_LIBS = @X_EXTRA_LIBS@
 X_PRE_LIBS = @X_PRE_LIBS@
-x64_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
-cmdline.o drive.o emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o \
-main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
-parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
-traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
+x64_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o drive.o \
+emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o memutils.o \
+misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o \
+resources.o serial.o sound.o sysfile.o tape.o tapeunit.o traps.o \
+utils.o warn.o zfile.o zipcode.o maincpu.o
 x64_LDFLAGS = 
-x128_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
-cmdline.o drive.o emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o \
-main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
-parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
-traps.o utils.o warn.o zfile.o zipcode.o
+x128_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o drive.o \
+emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o memutils.o \
+misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o \
+resources.o serial.o sound.o sysfile.o tape.o tapeunit.o traps.o \
+utils.o warn.o zfile.o zipcode.o
 x128_LDFLAGS = 
-xvic_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
-cmdline.o drive.o emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o \
-main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
-parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
-traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
+xvic_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o drive.o \
+emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o memutils.o \
+misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o \
+resources.o serial.o sound.o sysfile.o tape.o tapeunit.o traps.o \
+utils.o warn.o zfile.o zipcode.o maincpu.o
 xvic_LDFLAGS = 
-xpet_OBJECTS =  asm.o attach.o autostart.o cartridge.o charsets.o \
-cmdline.o drive.o emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o \
-main.o memutils.o misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o \
-parallel.o resources.o serial.o sound.o sysfile.o tape.o tapeunit.o \
-traps.o utils.o warn.o zfile.o zipcode.o maincpu.o
+xpet_OBJECTS =  asm.o attach.o autostart.o charsets.o cmdline.o drive.o \
+emuid.o findpath.o fsdevice.o gcr.o info.o kbdbuf.o main.o memutils.o \
+misc.o mon.o mon_lex.o mon_parse.o mshell.o palette.o parallel.o \
+resources.o serial.o sound.o sysfile.o tape.o tapeunit.o traps.o \
+utils.o warn.o zfile.o zipcode.o maincpu.o
 xpet_LDFLAGS = 
 c1541_OBJECTS =  c1541.o charsets.o drive.o gcr.o mshell.o tape.o \
 utils.o zfile.o zipcode.o
-@NEED_READLINE_FALSE@c1541_DEPENDENCIES = 
-@NEED_READLINE_TRUE@c1541_DEPENDENCIES = 
+c1541_DEPENDENCIES = 
 c1541_LDFLAGS = 
 petcat_OBJECTS =  charsets.o petcat.o tape.o utils.o zfile.o zipcode.o
 petcat_LDADD = $(LDADD)
