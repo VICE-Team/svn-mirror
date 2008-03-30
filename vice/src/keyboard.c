@@ -739,10 +739,8 @@ static int keyboard_parse_keymap(const char *filename)
 
     fp = sysfile_open(filename, &complete_path, MODE_READ_TEXT);
 
-    if (fp == NULL) {
-        lib_free(complete_path);
+    if (fp == NULL)
         return -1;
-    }
 
     log_message(keyboard_log, _("Loading keymap `%s'."), complete_path);
 
@@ -756,8 +754,8 @@ static int keyboard_parse_keymap(const char *filename)
 
             buffer[strlen(buffer) - 1] = 0; /* remove newline */
 	    /* remove comments */
-	    if((p=strchr(buffer, '#')))
-	      *p=0;
+	    if((p = strchr(buffer, '#')))
+	        *p=0;
 
             switch(*buffer) {
               case 0:

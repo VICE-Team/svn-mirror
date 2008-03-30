@@ -137,7 +137,7 @@ int romset_file_load(const char *filename)
 
     fp = sysfile_open(filename, NULL, MODE_READ_TEXT);
 
-    if (!fp) {
+    if (fp == NULL) {
         log_warning(romset_log, "Could not open file '%s' for reading (%s)!",
                     filename, strerror(errno));
         return -1;

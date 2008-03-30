@@ -47,26 +47,24 @@ int load_keymap_file(const char *fname)
     int num = 0;
     char *complete_path;
 
-    if (!fname)
+    if (fname == NULL)
         return -1;
 
     fp = sysfile_open(fname, &complete_path, "r");
 
-    if (!fp)
-    {
+    if (fp == NULL) {
         char *tmp = util_concat(fname, ".vkm", NULL);
-        lib_free(complete_path);
+
         fp = sysfile_open(tmp, &complete_path, "r");
         lib_free(tmp);
     }
 
-    if (fp)
+    if (fp == NULL)
+        return -1;
+    else
         log_message(LOG_DEFAULT, "Loading keymap `%s'.", complete_path);
 
     lib_free(complete_path);
-
-    if (!fp)
-        return -1;
 
     while (!feof(fp))
     {
