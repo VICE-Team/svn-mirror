@@ -657,6 +657,7 @@ void initialize_memory(void)
     set_mem(0x94, 0x9b,
 	    read_ram, store_ram,
 	    ram, 0xffff);
+
     set_mem(0x9c, 0x9e,
 	    read_dummy, store_dummy,
 	    NULL, 0);
@@ -947,6 +948,8 @@ void mem_bank_write(int bank, ADDRESS addr, BYTE byte)
  *
  */
 
+#define SNAP_MODULE_NAME        "VIC20MEM"
+
 int mem_write_snapshot_module(snapshot_t *p)
 {
     snapshot_module_t *m;
@@ -958,7 +961,7 @@ int mem_write_snapshot_module(snapshot_t *p)
 		| (ram_block_3_enabled ? 8 : 0)
 		| (ram_block_5_enabled ? 32 : 0) ;
 
-    m = snapshot_module_create(p, "VIC20MEM",
+    m = snapshot_module_create(p, SNAP_MODULE_NAME,
                                VIC20MEM_DUMP_VER_MAJOR, VIC20MEM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
@@ -991,36 +994,38 @@ int mem_write_snapshot_module(snapshot_t *p)
 
 int mem_read_snapshot_module(snapshot_t *p)
 {
-    char name[SNAPSHOT_MODULE_NAME_LEN];
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     BYTE config;
 
-    m = snapshot_module_open(p, name, &vmajor, &vminor);
+    m = snapshot_module_open(p, SNAP_MODULE_NAME, &vmajor, &vminor);
     if (m == NULL)
         return -1;
-    if (strcmp(name, "VIC20MEM") || vmajor != VIC20MEM_DUMP_VER_MAJOR)
+    if (vmajor != VIC20MEM_DUMP_VER_MAJOR)
         return -1;
 
     snapshot_module_read_byte(m, &config);
 
-    /* TODO: warning if config does not match */
-
     snapshot_module_read_byte_array(m, ram, 0x0400);
     snapshot_module_read_byte_array(m, ram + 0x1000, 0x1000);
 
+    set_ram_block_0_enabled((resource_value_t)(config & 1));
     if(config & 1) {
         snapshot_module_read_byte_array(m, ram + 0x0400, 0x0c00);
     }
+    set_ram_block_1_enabled((resource_value_t)(config & 2));
     if(config & 2) {
         snapshot_module_read_byte_array(m, ram + 0x2000, 0x2000);
     }
+    set_ram_block_2_enabled((resource_value_t)(config & 4));
     if(config & 4) {
         snapshot_module_read_byte_array(m, ram + 0x4000, 0x2000);
     }
+    set_ram_block_3_enabled((resource_value_t)(config & 8));
     if(config & 8) {
         snapshot_module_read_byte_array(m, ram + 0x6000, 0x2000);
     }
+    set_ram_block_5_enabled((resource_value_t)(config & 32));
     if(config & 32) {
         snapshot_module_read_byte_array(m, ram + 0xA000, 0x2000);
     }
