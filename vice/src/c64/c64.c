@@ -439,6 +439,7 @@ void machine_reset(void)
 
     autostart_reset();
     drive_reset();
+    datasette_reset();
 }
 
 void machine_powerup(void)

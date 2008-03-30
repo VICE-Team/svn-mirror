@@ -31,7 +31,6 @@
 #include "6510core.h"
 #include "alarm.h"
 #include "clkguard.h"
-#include "datasette.h"
 #include "interrupt.h"
 #include "log.h"
 #include "machine.h"
@@ -43,11 +42,10 @@
 #include "traps.h"
 #include "types.h"
 #include "ui.h"
-#include "resources.h"
 
 /* ------------------------------------------------------------------------- */
 
-#define TRACE
+/* #define TRACE */
 
 /* MACHINE_STUFF should define/undef
 
@@ -392,7 +390,6 @@ void maincpu_init(void)
 static void cpu_reset(void)
 {
     int preserve_monitor;
-    int ds_reset;
 
     preserve_monitor = maincpu_int_status.global_pending_int & IK_MONITOR;
 
@@ -407,11 +404,6 @@ static void cpu_reset(void)
 
     /* Do machine-specific initialization.  */
     machine_reset();
-
-    resources_get_value("DatasetteResetWithCPU",
-                        (resource_value_t *)&ds_reset);
-    if (ds_reset)
-        datasette_reset();
 
     initialize_memory();
 }

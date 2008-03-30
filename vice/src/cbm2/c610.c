@@ -290,6 +290,7 @@ void machine_reset(void)
 
     autostart_reset();
     drive_reset();
+    datasette_reset();
 
     set_bank_exec(15);
     set_bank_ind(15);

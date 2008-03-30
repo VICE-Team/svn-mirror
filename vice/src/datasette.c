@@ -152,6 +152,7 @@ const double ds_c1 = DS_V_PLAY/DS_D/PI;
 const double ds_c2 = (DS_R*DS_R)/(DS_D*DS_D);
 const double ds_c3 = DS_R/DS_D;
 
+static void datasette_internal_reset(void);
 
 static void datasette_update_ui_counter(void)
 {
@@ -415,7 +416,7 @@ void datasette_set_tape_image(tap_t *image)
 
     current_image = image;
     last_tap = next_tap = 0;
-    datasette_reset();
+    datasette_internal_reset();
 
     if (image != NULL) {
         /* We need the length of tape for realistic counter. */
@@ -455,7 +456,7 @@ static void datasette_rewind(void)
 }
 
 
-void datasette_reset(void)
+static void datasette_internal_reset(void)
 {
     if (current_image != NULL) {
         if (current_image->mode == DATASETTE_CONTROL_START
@@ -476,6 +477,15 @@ void datasette_reset(void)
     }
 }
 
+void datasette_reset(void)
+{
+    int ds_reset;
+
+    resources_get_value("DatasetteResetWithCPU",
+                        (resource_value_t *)&ds_reset);
+    if (ds_reset)
+        datasette_internal_reset();
+}
 
 static void datasette_start_motor(void)
 {
@@ -496,7 +506,7 @@ void datasette_control(int command)
             datasette_reset_counter();
             break;
           case DATASETTE_CONTROL_RESET:
-              datasette_reset();
+            datasette_internal_reset();
           case DATASETTE_CONTROL_STOP:
             current_image->mode = DATASETTE_CONTROL_STOP;
             datasette_set_tape_sense(0);
