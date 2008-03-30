@@ -73,7 +73,8 @@ void vdrive_iec_init(void)
 static int write_sequential_buffer(vdrive_t *vdrive, bufferinfo_t *bi,
                                    int length )
 {
-    unsigned int t_new, s_new, e;
+    unsigned int t_new, s_new;
+    int retval;
     BYTE *buf = bi->buffer;
     BYTE *slot = bi->slot;
 
@@ -81,13 +82,13 @@ static int write_sequential_buffer(vdrive_t *vdrive, bufferinfo_t *bi,
      * First block of a file ?
      */
     if (slot[SLOT_FIRST_TRACK] == 0) {
-        e = vdrive_bam_alloc_first_free_sector(vdrive, vdrive->bam, &t_new,
-                                               &s_new);
-        if (e < 0) {
+        retval = vdrive_bam_alloc_first_free_sector(vdrive, vdrive->bam, &t_new,
+                                                    &s_new);
+        if (retval < 0) {
             vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
             return -1;
         }
-        slot[SLOT_FIRST_TRACK]  = bi->track  = t_new;
+        slot[SLOT_FIRST_TRACK] = bi->track = t_new;
         slot[SLOT_FIRST_SECTOR] = bi->sector = s_new;
     }
 
@@ -97,9 +98,9 @@ static int write_sequential_buffer(vdrive_t *vdrive, bufferinfo_t *bi,
          */
         t_new = bi->track;
         s_new = bi->sector;
-        e = vdrive_bam_alloc_next_free_sector(vdrive, vdrive->bam, &t_new,
-                                              &s_new);
-        if (e < 0) {
+        retval = vdrive_bam_alloc_next_free_sector(vdrive, vdrive->bam, &t_new,
+                                                   &s_new);
+        if (retval < 0) {
             vdrive_command_set_error(vdrive, IPE_DISK_FULL, 0, 0);
             return -1;
         }
