@@ -65,9 +65,6 @@ extern store_func_ptr_t _mem_write_tab[];
 
 #define PAGE_ONE mem_page_one
 
-#define LOAD_ZERO(addr) \
-    read_zero(addr)
-
 #define DMA_FUNC \
     z80_mainloop(CPU_INT_STATUS, ALARM_CONTEXT)
 

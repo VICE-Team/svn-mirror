@@ -71,7 +71,7 @@ void render_4_2_2(image_t* image,
 		  unsigned int src_w, unsigned int src_h,
 		  int dest_x, int dest_y)
 {
-  int x, y;
+  unsigned int x, y;
   unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
 
@@ -117,7 +117,7 @@ void render2x_4_2_2(image_t* image,
 		    int dest_x, int dest_y,
 		    int double_scan, int pal_scanline_shade)
 {
-  int x, y;
+  unsigned int x, y;
   unsigned int* dest = (unsigned int*)(image->data + image->offsets[0]);
   int dest_pitch = image->pitches[0]/4;
 
@@ -168,7 +168,7 @@ void render_4_2_2_pal(image_t* image,
 		      int dest_x, int dest_y,
 		      int pal_mode)
 {
-  int x, y;
+  unsigned int x, y;
   unsigned int YUVm1, YUV0, YUV1, YUV2;
   int lineno = 0;
   YUV_avg* linepre;
@@ -334,7 +334,7 @@ void render2x_4_2_2_pal(image_t* image,
 			int pal_mode,
 			int double_scan, int pal_scanline_shade)
 {
-  int x, y;
+  unsigned int x, y;
   unsigned int YUVm2, YUVm1, YUV0, YUV1;
   int lineno = 0;
   YUV_avg* linepre;
@@ -501,7 +501,7 @@ void render_4_1_1(image_t* image,
 		  unsigned int src_w, unsigned int src_h,
 		  int dest_x, int dest_y)
 {
-  int x, y;
+  unsigned int x, y;
   unsigned char* Yptr = image->data + image->offsets[plane_y];
   unsigned char* Uptr = image->data + image->offsets[plane_u];
   unsigned char* Vptr = image->data + image->offsets[plane_v];
@@ -568,7 +568,7 @@ void render2x_4_1_1(image_t* image,
 		    int dest_x, int dest_y,
 		    int double_scan, int pal_scanline_shade)
 {
-  int x, y;
+  unsigned int x, y;
   unsigned char* Yptr = image->data + image->offsets[plane_y];
   unsigned char* Uptr = image->data + image->offsets[plane_u];
   unsigned char* Vptr = image->data + image->offsets[plane_v];
@@ -620,7 +620,7 @@ void render_4_1_1_pal(image_t* image,
 		      int dest_x, int dest_y,
 		      int pal_mode)
 {
-  int x, y;
+  unsigned int x, y;
   unsigned int
     YUVm10, YUV00, YUV10, YUV20,
     YUVm11, YUV01, YUV11, YUV21;
@@ -764,7 +764,7 @@ void render2x_4_1_1_pal(image_t* image,
 			int pal_mode,
 			int double_scan, int pal_scanline_shade)
 {
-  int x, y;
+  unsigned int x, y;
   unsigned int YUVm2, YUVm1, YUV0, YUV1;
   int lineno = 0;
   YUV_avg* linepre;
@@ -923,3 +923,4 @@ void render2x_4_1_1_pal(image_t* image,
     linepre = yuv_lines[lineno];
   }
 }
+

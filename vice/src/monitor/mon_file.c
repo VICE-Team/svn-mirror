@@ -222,7 +222,7 @@ void mon_file_save(const char *filename, int device, MON_ADDR start_addr,
 
     if (is_bsave == FALSE) {
         if (mon_file_write((BYTE)(adr & 0xff), 1, device) < 0
-            || mon_file_write((BYTE)(adr >> 8) & 0xff, 1, device) < 0) {
+            || mon_file_write((BYTE)((adr >> 8) & 0xff), 1, device) < 0) {
             mon_out("Saving for `%s' failed.\n", filename);
             mon_file_close(1, device);
             return;
