@@ -79,7 +79,7 @@ int reu_reset(int size)
     for (i = 0; i < 16; i++)
         reu[i] = 0;
 
-    if (ReuSize >= (256<<10))
+    if (ReuSize >= (256 << 10))
         reu[0] = 0x50;
     else
         reu[0] = 0x40;
@@ -180,26 +180,6 @@ void REGPARM2 reu_store(ADDRESS addr, BYTE byte)
 {
     if (reuram == NULL)
         reu_reset(0);
-
-/*
-    if (addr == 4) {
-        latch4 = byte;
-        latched45 = 1;
-        return;
-    }
-
-    if (addr == 5) {
-        if (latched45) {
-            latch5 = byte;
-            reu[4] = latch4;
-            reu[5] = latch5;
-            latched45 = 0;
-            return;
-        } else {
-            return;
-        }
-    }
-*/
 
     reu[addr] = byte;
 
@@ -456,7 +436,7 @@ int reu_read_snapshot_module(snapshot_t *s)
     /* FIXME: We cannot really support sizes different from `REUSIZE'.  */
     /* FIXED? I hope. [SRT], 01-18-2000. */
 
-    reu_reset(ReuSize);
+    reu_reset(size);
 
     if (snapshot_module_read_byte_array(m, reu, sizeof(reu)) < 0
         || snapshot_module_read_byte_array(m, reuram, ReuSize) < 0)

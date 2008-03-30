@@ -282,7 +282,11 @@ void autostart_advance(void)
             {
                 int traps;
 
-                log_message(autostart_log, "Loading program '%s'", autostart_program_name?autostart_program_name:"*");
+                if (autostart_program_name)
+                    log_message(autostart_log, "Loading program '%s'",
+                                autostart_program_name);
+                else
+                    log_message(autostart_log, "Loading program '*'");
                 orig_true1541_state = get_true1541_state();
                 if (handle_true1541) {
                     resources_get_value("VirtualDevices",
@@ -301,7 +305,10 @@ void autostart_advance(void)
                 } else
                     traps = 1;
 
-                tmp = xmsprintf("LOAD\"%s\",8,1\r", autostart_program_name?autostart_program_name:"*");
+                if (autostart_program_name)
+                    tmp = xmsprintf("LOAD\"%s\",8,1\r", autostart_program_name);
+                else
+                    tmp = stralloc("LOAD\"*\",8,1\r");
                 kbd_buf_feed(tmp);
                 free(tmp);
 
