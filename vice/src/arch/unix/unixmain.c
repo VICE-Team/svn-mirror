@@ -30,11 +30,9 @@
 #include <signal.h>
 
 #include "fullscreenarch.h"
-#include "joy.h"
 #include "log.h"
 #include "machine.h"
 #include "main.h"
-#include "sound.h"
 #include "video.h"
 
 
@@ -53,12 +51,6 @@ void main_exit(void)
     log_message(LOG_DEFAULT, _("\nExiting..."));
 
     machine_shutdown();
-
-    sound_close();
-
-#ifdef HAS_JOYSTICK
-    joystick_close();
-#endif
 
 #ifdef USE_XF86_EXTENSIONS
     fullscreen_shutdown();

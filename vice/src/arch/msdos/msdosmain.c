@@ -29,11 +29,9 @@
 #include <stdio.h>
 #include <signal.h>
 
-#include "joy.h"
 #include "log.h"
 #include "machine.h"
 #include "main.h"
-#include "sound.h"
 #include "video.h"
 
 
@@ -52,12 +50,6 @@ void main_exit(void)
     log_message(LOG_DEFAULT, "\nExiting...");
 
     machine_shutdown();
-
-    sound_close();
-
-#ifdef HAS_JOYSTICK
-    joystick_close();
-#endif
 
     putchar ('\n');
 }

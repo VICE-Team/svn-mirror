@@ -236,10 +236,6 @@ static void ui_exit_early(void)
     signal(SIGINT, SIG_IGN);
     log_message(LOG_DEFAULT, "\nExiting...");
     machine_shutdown();
-    sound_close();
-#ifdef HAS_JOYSTICK
-    joystick_close();
-#endif
     putchar ('\n');
 }
 

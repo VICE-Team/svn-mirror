@@ -42,7 +42,6 @@
 #include "log.h"
 #include "utils.h"     // xmsprintf
 #include "vsync.h"     // vsync_suspend_speed_eval
-#include "sound.h"     // sound_close
 #include "kbdbuf.h"    // kbd_buf_flush
 #include "machine.h"   // machine_shutdown
 //#include "ui_status.h" // ui_display_speed
@@ -134,12 +133,7 @@ void vice_exit(void)
 {
     APIRET rc;
 
-    sound_close();
     machine_shutdown();
-
-#ifdef HAS_JOYSTICK
-    joystick_close();
-#endif
 
     rc = DosCloseEventSem(hevTimer); // Get rid of semaphore
     if (rc)

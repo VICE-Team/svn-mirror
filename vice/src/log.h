@@ -39,6 +39,7 @@ extern int log_init(void);
 extern int log_init_with_fd(FILE *f);
 extern log_t log_open(const char *id);
 extern int log_close(log_t log);
+extern void log_close_all(void);
 
 #if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ > 4)
 
