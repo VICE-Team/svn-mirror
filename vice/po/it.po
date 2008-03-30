@@ -1,21 +1,23 @@
 # Italian Translation File for VICE
 # Copyright (C) 2001-2003 Free Software Foundation, Inc.
 # Andrea Musuruane <musuruan@bmm.it>, 2001-2003.
-#
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-01-17 16:33+0100\n"
-"PO-Revision-Date: 2003-10-09 20:34+0200\n"
+"POT-Creation-Date: 2004-01-24 15:33+0100\n"
+"PO-Revision-Date: 2004-01-20 20:33+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@bmm.it>\n"
 "Language-Team: it <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: src/vsync.c:119
 msgid "Limit emulation speed to specified value"
-msgstr "Limita la velocit‡ di emulazione al valore specificato"
+msgstr "Limita la velocit√† di emulazione al valore specificato"
 
 #: src/vsync.c:121
 msgid "Update every <value> frames (`0' for automatic)"
@@ -23,76 +25,76 @@ msgstr "Aggiorna ogni <valore> frame (`0' per automatico)"
 
 #: src/vsync.c:123
 msgid "Enable warp mode"
-msgstr "Attiva la modalit‡ turbo"
+msgstr "Attiva la modalit√† turbo"
 
 #: src/vsync.c:125
 msgid "Disable warp mode"
-msgstr "Disattiva la modalit‡ turbo"
+msgstr "Disattiva la modalit√† turbo"
 
 #: src/vsync.c:429
 msgid "Your machine is too slow for current settings!"
-msgstr "La tua macchina Ë troppo lenta per queste impostazioni!"
+msgstr "La tua macchina √® troppo lenta per queste impostazioni!"
 
 #: src/screenshot.c:152
 msgid "Sorry. Multiple recording is not supported."
-msgstr ""
+msgstr "Spiacente. Le registrazioni multiple non sono supportate."
 
 #: src/autostart.c:180
-#, fuzzy
 msgid "Cannot load snapshot file."
-msgstr ""
-"Non Ë possibile caricare il file di snapshot\n"
-"`%s'"
+msgstr "Non √® possibile caricare il file di snapshot."
 
 #: src/sound.c:412
 msgid "write to sound device failed."
-msgstr ""
+msgstr "scrittura sul dispositivo sonoro fallita."
 
 #: src/sound.c:423
-#, fuzzy
 msgid "Cannot open SID engine"
-msgstr "Motore SID"
+msgstr "Non √® possibile aprire il motore SID"
 
 #: src/sound.c:458
 msgid "Cannot initialize SID engine"
-msgstr ""
+msgstr "Non √® possibile inizializzare il motore SID"
 
 #: src/sound.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "initialization failed for device `%s'."
-msgstr "Calibrazione joystick per il dispositivo `%s':"
+msgstr "inizializzazione fallita per il dispositivo `%s'."
 
 #: src/sound.c:568
 msgid "sound device lacks stereo capability"
-msgstr ""
+msgstr "il dispositivo sonoro non dispone di una modalit√† stereofonica"
 
 #: src/sound.c:614
 #, c-format
 msgid "device '%s' not found or not supported."
-msgstr ""
+msgstr "non √® stato trovato o non √® supportato il dispositivo '%s'."
 
 #: src/sound.c:631
 #, c-format
 msgid "Recording device %s doesn't exist!"
-msgstr ""
+msgstr "Il dispositivo di registrazione %s non esiste!"
 
 #: src/sound.c:635
 msgid "Recording device must be different from playback device"
 msgstr ""
+"Il dispositivo di registrazione deve essere differente da quello di "
+"riproduzione"
 
 #: src/sound.c:641
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
+"Attenzione! Il dispositivo di registrazione %s sembra essere un dispositivo "
+"realtime!"
 
 #: src/sound.c:647
-#, fuzzy, c-format
+#, c-format
 msgid "Initialization failed for device `%s'."
-msgstr "Calibrazione joystick per il dispositivo `%s':"
+msgstr "Inizializzazione fallita per il dispositivo `%s'."
 
 #: src/sound.c:658
 msgid "The recording device doesn't support current sound parameters"
-msgstr ""
+msgstr "Il dispositivo di registrazione non supporta i parametri attuali"
 
 #: src/sound.c:735
 msgid "Sound buffer overflow (cycle based)"
@@ -111,58 +113,44 @@ msgid "fragment problems."
 msgstr ""
 
 #: src/sound.c:941
-#, fuzzy
 msgid "Buffer drained"
-msgstr "Dimensione del buffer"
+msgstr ""
 
 #: src/sound.c:977
 msgid "running too slow."
-msgstr ""
+msgstr "esecuzione troppo lenta."
 
 #: src/sound.c:989 src/sound.c:995
 msgid "write to sounddevice failed."
-msgstr ""
+msgstr "scrittura sul dispositivo sonoro fallita."
 
 #: src/sound.c:1219
 msgid "store to sounddevice failed."
-msgstr ""
+msgstr "memorizzazione sul dispositivo sonoro fallita."
 
 #: src/event.c:265
-#, fuzzy
 msgid "Could not create start snapshot file."
-msgstr ""
-"Non Ë possibile caricare il file di snapshot\n"
-"`%s'"
+msgstr "Non √® possibile creare il file di inizio snapshot."
 
 #: src/event.c:276 src/event.c:386 src/event.c:403
-#, fuzzy
 msgid "Error reading start snapshot file."
-msgstr "Errore durante la lettura del joystick digitale."
+msgstr "Errore durante la lettura del file di inizio snapshot."
 
 #: src/event.c:314 src/event.c:446
-#, fuzzy
 msgid "Could not create end snapshot file."
-msgstr ""
-"Non Ë possibile caricare il file di snapshot\n"
-"`%s'"
+msgstr "Non √® possibile creare il file di fine snapshot."
 
 #: src/event.c:362
-#, fuzzy
 msgid "Could not open end snapshot file."
-msgstr ""
-"Non Ë possibile caricare il file di snapshot\n"
-"`%s'"
+msgstr "Non √® possibile aprire il file di fine snapshot."
 
 #: src/event.c:371
 msgid "Could not find event section in end snapshot file."
-msgstr ""
+msgstr "Non √® possibile trovare la sezione eventi nel file di file snapshot."
 
 #: src/event.c:467
-#, fuzzy
 msgid "Error reading end snapshot file."
-msgstr ""
-"Non Ë possibile caricare il file di snapshot\n"
-"`%s'"
+msgstr "Errore durante la lettura del file di fine snapshot."
 
 #: src/arch/unix/archdep.c:234
 #, c-format
@@ -241,7 +229,7 @@ msgid ""
 "Could not load function ROM image\n"
 "'%s'"
 msgstr ""
-"Non Ë possibile caricarie l'immagine della Function ROM\n"
+"Non √® possibile caricarie l'immagine della Function ROM\n"
 "'%s'"
 
 #: src/arch/unix/c128ui.c:213
@@ -559,7 +547,7 @@ msgstr "Dispositivo seriale 1..."
 #: src/arch/unix/cbm2ui.c:333 src/arch/unix/petui.c:241
 #: src/arch/unix/uirs232.c:219 src/arch/unix/vic20ui.c:338
 msgid "Serial 1 baudrate"
-msgstr "Velocit‡ della seriale 1 (in baud)"
+msgstr "Velocit√† della seriale 1 (in baud)"
 
 #: src/arch/unix/cbm2ui.c:336 src/arch/unix/petui.c:244
 #: src/arch/unix/vic20ui.c:341
@@ -569,7 +557,7 @@ msgstr "Dispositivo seriale 2..."
 #: src/arch/unix/cbm2ui.c:338 src/arch/unix/petui.c:246
 #: src/arch/unix/uirs232.c:224 src/arch/unix/vic20ui.c:343
 msgid "Serial 2 baudrate"
-msgstr "Velocit‡ della seriale 2 (in baud)"
+msgstr "Velocit√† della seriale 2 (in baud)"
 
 #: src/arch/unix/cbm2ui.c:341 src/arch/unix/petui.c:249
 #: src/arch/unix/uirs232.c:227 src/arch/unix/vic20ui.c:346
@@ -604,7 +592,7 @@ msgstr "Imposta il dispositivo per la porta joystick 2"
 #: src/arch/unix/joy.c:200 src/arch/unix/joy.c:249 src/arch/unix/joy.c:401
 #, c-format
 msgid "Cannot open joystick device `%s'."
-msgstr "Non Ë possibile aprire il dipositivo `%s'."
+msgstr "Non √® possibile aprire il dipositivo `%s'."
 
 #: src/arch/unix/joy.c:211
 #, c-format
@@ -801,7 +789,7 @@ msgstr "Specifica il dispositivo della prima RS232 (/dev/ttyS0)"
 
 #: src/arch/unix/rs232.c:122
 msgid "Specify baudrate of first RS232 device"
-msgstr "Specifica la velocit‡ della prima RS232 (in baud)"
+msgstr "Specifica la velocit√† della prima RS232 (in baud)"
 
 #: src/arch/unix/rs232.c:124
 msgid "Specify name of second RS232 device (/dev/ttyS1)"
@@ -809,7 +797,7 @@ msgstr "Specifica il dispositivo della seconda RS232 (/dev/ttyS1)"
 
 #: src/arch/unix/rs232.c:126
 msgid "Specify baudrate of second RS232 device"
-msgstr "Specifica la velocit‡ della seconda RS232 (in baud)"
+msgstr "Specifica la velocit√† della seconda RS232 (in baud)"
 
 #: src/arch/unix/rs232.c:128
 msgid "Specify name of third RS232 device (rs232.dump)"
@@ -817,7 +805,7 @@ msgstr "Specifica il dispositivo della terza RS232 (rs232.dump)"
 
 #: src/arch/unix/rs232.c:130
 msgid "Specify baudrate of third RS232 device"
-msgstr "Specifica la velocit‡ della terza RS232 (in baud)"
+msgstr "Specifica la velocit√† della terza RS232 (in baud)"
 
 #: src/arch/unix/rs232.c:132
 msgid "Specify command to pipe data in/out, preceed with '|' (|lpr)"
@@ -826,11 +814,11 @@ msgstr ""
 
 #: src/arch/unix/rs232.c:134
 msgid "Specify baudrate of 4th RS232 device"
-msgstr "Specifica la velocit‡ della quarta RS232 (in baud)"
+msgstr "Specifica la velocit√† della quarta RS232 (in baud)"
 
 #: src/arch/unix/rs232.c:265
 msgid "No more devices available."
-msgstr "Non ci sono pi˘ dispositivi disponibili."
+msgstr "Non ci sono pi√π dispositivi disponibili."
 
 #: src/arch/unix/rs232.c:270
 #, c-format
@@ -840,7 +828,7 @@ msgstr "rs232_open(device=%d)."
 #: src/arch/unix/rs232.c:285
 #, c-format
 msgid "Cannot open file \"%s\": %s"
-msgstr "Non Ë possibile aprire il file \"%s\": %s"
+msgstr "Non √® possibile aprire il file \"%s\": %s"
 
 #: src/arch/unix/rs232.c:312
 #, c-format
@@ -974,7 +962,7 @@ msgstr ""
 #: src/arch/unix/uicommands.c:93
 #, c-format
 msgid "Attach Disk Image as unit #%d"
-msgstr "Seleziona l'immagine del disco per l'unit‡ #%d"
+msgstr "Seleziona l'immagine del disco per l'unit√† #%d"
 
 #: src/arch/unix/uicommands.c:108 src/arch/unix/uicommands.c:145
 msgid "Invalid Disk Image"
@@ -1000,7 +988,8 @@ msgstr "Selezione intelligente di un file"
 msgid "Unknown image type"
 msgstr "Tipo di immagine sconosciuto"
 
-#: src/arch/unix/uicommands.c:274 src/arch/unix/uisettings.c:335
+#: src/arch/unix/uicommands.c:274 src/arch/unix/uicommands.c:531
+#: src/arch/unix/uisettings.c:335
 msgid "VICE setting"
 msgstr "Impostazioni di VICE"
 
@@ -1008,17 +997,17 @@ msgstr "Impostazioni di VICE"
 msgid "Change current working directory"
 msgstr "Cambia la directory di lavoro"
 
-#: src/arch/unix/uicommands.c:278
+#: src/arch/unix/uicommands.c:278 src/arch/unix/uicommands.c:536
 msgid "Directory not found"
 msgstr "Directory non trovata"
 
 #: src/arch/unix/uicommands.c:307
 msgid "Couldn't run /bin/sh???"
-msgstr "Non Ë possibile eseguire /bin/sh???"
+msgstr "Non √® possibile eseguire /bin/sh???"
 
 #: src/arch/unix/uicommands.c:310
 msgid "Couldn't run xterm"
-msgstr "Non Ë possibile eseguire xterm"
+msgstr "Non √® possibile eseguire xterm"
 
 #: src/arch/unix/uicommands.c:315
 msgid "Unknown error while running c1541"
@@ -1026,12 +1015,12 @@ msgstr "Errore sconosciuto durante l'esecuzione di c1541"
 
 #: src/arch/unix/uicommands.c:351
 msgid "No HTML browser is defined."
-msgstr "Non Ë specificato nessun browser HTML."
+msgstr "Non √® specificato nessun browser HTML."
 
 #: src/arch/unix/uicommands.c:370 src/arch/unix/uicommands.c:384
 #: src/arch/unix/uicommands.c:397
 msgid "Browser command too long."
-msgstr "Il comando inviato al browser Ë troppo lungo."
+msgstr "Il comando inviato al browser √® troppo lungo."
 
 #: src/arch/unix/uicommands.c:410
 #, c-format
@@ -1040,7 +1029,7 @@ msgstr "Esecuzione di `%s'..."
 
 #: src/arch/unix/uicommands.c:412
 msgid "Cannot run HTML browser."
-msgstr "Non Ë possibile eseguire il browser HTML."
+msgstr "Non √® possibile eseguire il browser HTML."
 
 #: src/arch/unix/uicommands.c:451
 #, c-format
@@ -1057,7 +1046,7 @@ msgid ""
 "Cannot load snapshot file\n"
 "`%s'"
 msgstr ""
-"Non Ë possibile caricare il file di snapshot\n"
+"Non √® possibile caricare il file di snapshot\n"
 "`%s'"
 
 #. quick snapshot, save ROMs & disks (??)
@@ -1073,267 +1062,279 @@ msgid ""
 "Cannot write snapshot file\n"
 "`%s'\n"
 msgstr ""
-"Non Ë possibile scrivere il file di snapshot\n"
+"Non √® possibile scrivere il file di snapshot\n"
 "`%s'\n"
 
-#: src/arch/unix/uicommands.c:557
-msgid "Record sound to file"
+#: src/arch/unix/uicommands.c:532 src/arch/unix/uicommands.c:1058
+msgid "Select history directory"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:639
+#: src/arch/unix/uicommands.c:588
+msgid "Record sound to file"
+msgstr "Registra l'audio su file"
+
+#: src/arch/unix/uicommands.c:670
 msgid "Load "
 msgstr "Carica "
 
-#: src/arch/unix/uicommands.c:639 src/arch/unix/x11/xaw/uicartridge.c:167
+#: src/arch/unix/uicommands.c:670 src/arch/unix/x11/xaw/uicartridge.c:167
 #: src/arch/unix/x11/xaw/uiedisk.c:401
 #: src/arch/unix/x11/xaw/uiscreenshot.c:254
 #: src/arch/unix/x11/xaw/uisnapshot.c:285
 msgid "Save"
 msgstr "Salva"
 
-#: src/arch/unix/uicommands.c:639
+#: src/arch/unix/uicommands.c:670
 msgid "Fliplist File"
 msgstr "File della Fliplist"
 
-#: src/arch/unix/uicommands.c:649
+#: src/arch/unix/uicommands.c:680
 #, c-format
 msgid "Successfully read `%s'."
 msgstr "Lettura di `%s' riuscita."
 
-#: src/arch/unix/uicommands.c:651
+#: src/arch/unix/uicommands.c:682
 #, c-format
 msgid "Error reading `%s'."
 msgstr "Errore durante la lettura di `%s'."
 
-#: src/arch/unix/uicommands.c:654
+#: src/arch/unix/uicommands.c:685
 #, c-format
 msgid "Successfully wrote `%s'."
 msgstr "Scruttura di `%s' riuscita."
 
-#: src/arch/unix/uicommands.c:656
+#: src/arch/unix/uicommands.c:687
 #, c-format
 msgid "Error writing `%s'."
 msgstr "Errore durante la scrittura di `%s'."
 
-#: src/arch/unix/uicommands.c:697
+#: src/arch/unix/uicommands.c:728
 #, c-format
 msgid "Attach #%d"
 msgstr "Seleziona #%d"
 
-#: src/arch/unix/uicommands.c:704
+#: src/arch/unix/uicommands.c:735
 #, c-format
 msgid "Detach #%d"
 msgstr "Rimuovi #%d"
 
-#: src/arch/unix/uicommands.c:720
+#: src/arch/unix/uicommands.c:751
 msgid "*Write Protect"
 msgstr "*Prottetto da scrittura"
 
-#: src/arch/unix/uicommands.c:746
+#: src/arch/unix/uicommands.c:777
 msgid "Next: "
 msgstr "Prossimo: "
 
-#: src/arch/unix/uicommands.c:746 src/arch/unix/uicommands.c:761
+#: src/arch/unix/uicommands.c:777 src/arch/unix/uicommands.c:792
 #: src/arch/unix/x11/gnome/x11ui.c:847 src/arch/unix/x11/gnome/x11ui.c:857
 #: src/arch/unix/x11/gnome/x11ui.c:1533
 msgid "<empty>"
 msgstr "<vuoto>"
 
-#: src/arch/unix/uicommands.c:761
+#: src/arch/unix/uicommands.c:792
 msgid "Previous: "
 msgstr "Precedente: "
 
-#: src/arch/unix/uicommands.c:776
+#: src/arch/unix/uicommands.c:807
 msgid "Add: "
 msgstr "Aggiungi: "
 
-#: src/arch/unix/uicommands.c:791
+#: src/arch/unix/uicommands.c:822
 msgid "Remove: "
 msgstr "Rimuovi: "
 
-#: src/arch/unix/uicommands.c:889 src/arch/unix/uicommands.c:901
+#: src/arch/unix/uicommands.c:920 src/arch/unix/uicommands.c:932
 msgid "Unit #8..."
-msgstr "Unit‡ #8..."
+msgstr "Unit√† #8..."
 
-#: src/arch/unix/uicommands.c:891 src/arch/unix/uicommands.c:904
+#: src/arch/unix/uicommands.c:922 src/arch/unix/uicommands.c:935
 msgid "Unit #9..."
-msgstr "Unit‡ #9..."
+msgstr "Unit√† #9..."
 
-#: src/arch/unix/uicommands.c:893 src/arch/unix/uicommands.c:907
+#: src/arch/unix/uicommands.c:924 src/arch/unix/uicommands.c:938
 msgid "Unit #10..."
-msgstr "Unit‡ #10..."
+msgstr "Unit√† #10..."
 
-#: src/arch/unix/uicommands.c:895 src/arch/unix/uicommands.c:910
+#: src/arch/unix/uicommands.c:926 src/arch/unix/uicommands.c:941
 msgid "Unit #11..."
-msgstr "Unit‡ #11..."
+msgstr "Unit√† #11..."
 
-#: src/arch/unix/uicommands.c:917 src/arch/unix/uicommands.c:939
+#: src/arch/unix/uicommands.c:948 src/arch/unix/uicommands.c:970
 msgid "Unit #8"
-msgstr "Unit‡ #8"
+msgstr "Unit√† #8"
 
-#: src/arch/unix/uicommands.c:919 src/arch/unix/uicommands.c:941
+#: src/arch/unix/uicommands.c:950 src/arch/unix/uicommands.c:972
 msgid "Unit #9"
-msgstr "Unit‡ #9"
+msgstr "Unit√† #9"
 
-#: src/arch/unix/uicommands.c:921
+#: src/arch/unix/uicommands.c:952
 msgid "Unit #10"
-msgstr "Unit‡ #10"
+msgstr "Unit√† #10"
 
-#: src/arch/unix/uicommands.c:923
+#: src/arch/unix/uicommands.c:954
 msgid "Unit #11"
-msgstr "Unit‡ #11"
+msgstr "Unit√† #11"
 
-#: src/arch/unix/uicommands.c:926
+#: src/arch/unix/uicommands.c:957
 msgid "All"
 msgstr "Tutti"
 
-#: src/arch/unix/uicommands.c:932
+#: src/arch/unix/uicommands.c:963
 msgid "Soft"
 msgstr "Soft"
 
-#: src/arch/unix/uicommands.c:935
+#: src/arch/unix/uicommands.c:966
 msgid "Hard"
 msgstr "Hard"
 
-#: src/arch/unix/uicommands.c:947
+#: src/arch/unix/uicommands.c:978
 msgid "Add current image (Unit 8)"
-msgstr "Aggiungi l'immagine attuale (Unit‡ 8)"
+msgstr "Aggiungi l'immagine attuale (Unit√† 8)"
 
-#: src/arch/unix/uicommands.c:950
+#: src/arch/unix/uicommands.c:981
 msgid "Remove current image (Unit 8)"
-msgstr "Rimuovi l'immagine attuale (Unit‡ 8)"
+msgstr "Rimuovi l'immagine attuale (Unit√† 8)"
 
-#: src/arch/unix/uicommands.c:953
+#: src/arch/unix/uicommands.c:984
 msgid "Attach next image (Unit 8)"
-msgstr "Seleziona la prossima immagine (Unit‡ 8)"
+msgstr "Seleziona la prossima immagine (Unit√† 8)"
 
-#: src/arch/unix/uicommands.c:956
+#: src/arch/unix/uicommands.c:987
 msgid "Attach previous image (Unit 8)"
-msgstr "Seleziona l'immagine precedente (Unit‡ 8)"
+msgstr "Seleziona l'immagine precedente (Unit√† 8)"
 
-#: src/arch/unix/uicommands.c:959
+#: src/arch/unix/uicommands.c:990
 msgid "Load fliplist file"
 msgstr "Carica il file della fliplist"
 
-#: src/arch/unix/uicommands.c:961
+#: src/arch/unix/uicommands.c:992
 msgid "Save fliplist file"
 msgstr "Salva il file della fliplist"
 
-#: src/arch/unix/uicommands.c:967
+#: src/arch/unix/uicommands.c:998
 msgid "Attach a disk image"
 msgstr "Seleziona l'immagine di un disco"
 
-#: src/arch/unix/uicommands.c:969
+#: src/arch/unix/uicommands.c:1000
 msgid "Create and attach an empty disk"
 msgstr "Crea e seleziona un disco vuoto"
 
-#: src/arch/unix/uicommands.c:971
+#: src/arch/unix/uicommands.c:1002
 msgid "Detach disk image"
 msgstr "Rimuovi l'immagine di un disco"
 
-#: src/arch/unix/uicommands.c:973
+#: src/arch/unix/uicommands.c:1004
 msgid "Fliplist"
 msgstr "Fliplist"
 
-#: src/arch/unix/uicommands.c:979
+#: src/arch/unix/uicommands.c:1010
 msgid "Attach a tape image..."
 msgstr "Seleziona l'immagine di una cassetta..."
 
-#: src/arch/unix/uicommands.c:982
+#: src/arch/unix/uicommands.c:1013
 msgid "Detach tape image"
 msgstr "Rimuovi l'immagine della cassetta"
 
-#: src/arch/unix/uicommands.c:988
+#: src/arch/unix/uicommands.c:1019
 msgid "Smart-attach disk/tape..."
 msgstr "Selezione intelligente..."
 
-#: src/arch/unix/uicommands.c:995
+#: src/arch/unix/uicommands.c:1026
 msgid "Change working directory..."
 msgstr "Cambia la directory di lavoro..."
 
-#: src/arch/unix/uicommands.c:1003
+#: src/arch/unix/uicommands.c:1034
 msgid "*Save new snapshot"
 msgstr "*Salva nuovo snapshot"
 
-#: src/arch/unix/uicommands.c:1005
+#: src/arch/unix/uicommands.c:1036
 msgid "*Load existing snapshot"
 msgstr "*Carica snapshot esistente"
 
-#: src/arch/unix/uicommands.c:1007
+#: src/arch/unix/uicommands.c:1038
 msgid "*Start with reset"
 msgstr "*Inizia con reset"
 
-#: src/arch/unix/uicommands.c:1013
+#: src/arch/unix/uicommands.c:1044
 msgid "Load snapshot..."
 msgstr "Carica snapshot..."
 
-#: src/arch/unix/uicommands.c:1016
+#: src/arch/unix/uicommands.c:1047
 msgid "Save snapshot..."
 msgstr "Salva snapshot..."
 
-#: src/arch/unix/uicommands.c:1020
+#: src/arch/unix/uicommands.c:1051
 msgid "Quickload snapshot"
 msgstr "Caricamento veloce di uno snapshot"
 
-#: src/arch/unix/uicommands.c:1023
+#: src/arch/unix/uicommands.c:1054
 msgid "Quicksave snapshot"
 msgstr "Salvataggio veloce di uno snapshot"
 
-#: src/arch/unix/uicommands.c:1027
+#: src/arch/unix/uicommands.c:1060
 msgid "Start recording events"
 msgstr "Inizia la registrazione degli eventi"
 
-#: src/arch/unix/uicommands.c:1029
+#: src/arch/unix/uicommands.c:1062
 msgid "Stop recording events"
 msgstr "Termina la registrazione degli eventi"
 
-#: src/arch/unix/uicommands.c:1031
+#: src/arch/unix/uicommands.c:1064
 msgid "Start playing back events"
 msgstr "Inizia la riproduzione degli eventi"
 
-#: src/arch/unix/uicommands.c:1033
+#: src/arch/unix/uicommands.c:1066
 msgid "Stop playing back events"
 msgstr "Termina la riproduzione degli eventi"
 
-#: src/arch/unix/uicommands.c:1036
-msgid "Recording start mode"
-msgstr "Modalit‡ di inizio registrazione"
+#: src/arch/unix/uicommands.c:1068
+msgid "Set recording milestone"
+msgstr ""
 
-#: src/arch/unix/uicommands.c:1042
+#: src/arch/unix/uicommands.c:1070
+msgid "Return to milestone"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:1073
+msgid "Recording start mode"
+msgstr "Modalit√† di inizio registrazione"
+
+#: src/arch/unix/uicommands.c:1079
 msgid "Snapshot commands"
 msgstr "Comandi snapshot"
 
-#: src/arch/unix/uicommands.c:1048
+#: src/arch/unix/uicommands.c:1085
 msgid "Sound record..."
-msgstr ""
+msgstr "Registra audio..."
 
-#: src/arch/unix/uicommands.c:1055
+#: src/arch/unix/uicommands.c:1092
 msgid "Activate monitor"
 msgstr "Attiva il monitor"
 
-#: src/arch/unix/uicommands.c:1058
+#: src/arch/unix/uicommands.c:1095
 msgid "Run C1541"
 msgstr "Esegui C1541"
 
-#: src/arch/unix/uicommands.c:1066
+#: src/arch/unix/uicommands.c:1103
 msgid "Browse manuals"
 msgstr "Sfoglia i manuali"
 
-#: src/arch/unix/uicommands.c:1068
+#: src/arch/unix/uicommands.c:1105
 msgid "About VICE..."
 msgstr "Informazioni su VICE..."
 
-#: src/arch/unix/uicommands.c:1074 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:1111 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1928
 msgid "Reset"
 msgstr "Reset"
 
-#: src/arch/unix/uicommands.c:1076
+#: src/arch/unix/uicommands.c:1113
 msgid "*Pause"
 msgstr "*Pausa"
 
-#: src/arch/unix/uicommands.c:1083
+#: src/arch/unix/uicommands.c:1120
 msgid "Exit emulator"
 msgstr "Esci dall'emulatore"
 
@@ -1423,7 +1424,7 @@ msgstr "*Usa XSync()"
 
 #: src/arch/unix/uidatasette.c:53 src/arch/unix/uidatasette.c:85
 msgid "Datasette speed tuning"
-msgstr "Regolazione della velocit‡ del registratore"
+msgstr "Regolazione della velocit√† del registratore"
 
 #: src/arch/unix/uidatasette.c:56 src/arch/unix/uidatasette.c:83
 msgid "Datasette zero gap delay"
@@ -1507,7 +1508,7 @@ msgstr "Drive #8: Supporto immagini di 40 tracce"
 #: src/arch/unix/uidrivec128.c:158 src/arch/unix/uidrivec64vic20.c:150
 #: src/arch/unix/uidrivepetcbm2.c:100 src/arch/unix/uidriveplus4.c:131
 msgid "Drive #8 idle method"
-msgstr "Drive #8: Rileva inattivit‡"
+msgstr "Drive #8: Rileva inattivit√†"
 
 #: src/arch/unix/uidrivec128.c:161 src/arch/unix/uidrivec64vic20.c:153
 #: src/arch/unix/uidriveplus4.c:134
@@ -1532,67 +1533,57 @@ msgstr "Drive #9: Supporto immagini di 40 tracce"
 #: src/arch/unix/uidrivec128.c:169 src/arch/unix/uidrivec64vic20.c:161
 #: src/arch/unix/uidrivepetcbm2.c:109 src/arch/unix/uidriveplus4.c:142
 msgid "Drive #9 idle method"
-msgstr "Drive #9: Rileva inattivit‡"
+msgstr "Drive #9: Rileva inattivit√†"
 
 #: src/arch/unix/uidrivec128.c:172 src/arch/unix/uidrivec64vic20.c:164
 #: src/arch/unix/uidriveplus4.c:145
-#, fuzzy
 msgid "Drive #10 model"
-msgstr "Drive #8: Modello"
+msgstr "Drive #10: Modello"
 
 #: src/arch/unix/uidrivec128.c:174 src/arch/unix/uidrivec64vic20.c:166
 #: src/arch/unix/uidriveplus4.c:147
-#, fuzzy
 msgid "Drive #10 RAM expansion"
-msgstr "Drive #8: Espasione RAM"
+msgstr "Drive #10: Espasione RAM"
 
 #: src/arch/unix/uidrivec128.c:176 src/arch/unix/uidrivec64vic20.c:168
 #: src/arch/unix/uidriveplus4.c:149
-#, fuzzy
 msgid "*Drive #10 enable parallel cable"
-msgstr "*Drive #9: Attiva il cavo parallelo"
+msgstr "*Drive #10: Attiva il cavo parallelo"
 
 #: src/arch/unix/uidrivec128.c:178 src/arch/unix/uidrivec64vic20.c:170
 #: src/arch/unix/uidrivepetcbm2.c:116 src/arch/unix/uidriveplus4.c:151
-#, fuzzy
 msgid "Drive #10 40-track image support"
-msgstr "Drive #9: Supporto immagini di 40 tracce"
+msgstr "Drive #10: Supporto immagini di 40 tracce"
 
 #: src/arch/unix/uidrivec128.c:180 src/arch/unix/uidrivec64vic20.c:172
 #: src/arch/unix/uidrivepetcbm2.c:118 src/arch/unix/uidriveplus4.c:153
-#, fuzzy
 msgid "Drive #10 idle method"
-msgstr "Drive #8: Rileva inattivit‡"
+msgstr "Drive #10: Rileva inattivit√†"
 
 #: src/arch/unix/uidrivec128.c:183 src/arch/unix/uidrivec64vic20.c:175
 #: src/arch/unix/uidriveplus4.c:156
-#, fuzzy
 msgid "Drive #11 model"
-msgstr "Drive #8: Modello"
+msgstr "Drive #11: Modello"
 
 #: src/arch/unix/uidrivec128.c:185 src/arch/unix/uidrivec64vic20.c:177
 #: src/arch/unix/uidriveplus4.c:158
-#, fuzzy
 msgid "Drive #11 RAM expansion"
-msgstr "Drive #8: Espasione RAM"
+msgstr "Drive #11: Espasione RAM"
 
 #: src/arch/unix/uidrivec128.c:187 src/arch/unix/uidrivec64vic20.c:179
 #: src/arch/unix/uidriveplus4.c:160
-#, fuzzy
 msgid "*Drive #11 enable parallel cable"
-msgstr "*Drive #9: Attiva il cavo parallelo"
+msgstr "*Drive #11: Attiva il cavo parallelo"
 
 #: src/arch/unix/uidrivec128.c:189 src/arch/unix/uidrivec64vic20.c:181
 #: src/arch/unix/uidrivepetcbm2.c:125 src/arch/unix/uidriveplus4.c:162
-#, fuzzy
 msgid "Drive #11 40-track image support"
-msgstr "Drive #9: Supporto immagini di 40 tracce"
+msgstr "Drive #11: Supporto immagini di 40 tracce"
 
 #: src/arch/unix/uidrivec128.c:191 src/arch/unix/uidrivec64vic20.c:183
 #: src/arch/unix/uidrivepetcbm2.c:127 src/arch/unix/uidriveplus4.c:164
-#, fuzzy
 msgid "Drive #11 idle method"
-msgstr "Drive #8: Rileva inattivit‡"
+msgstr "Drive #11: Rileva inattivit√†"
 
 #: src/arch/unix/uidrivec128.c:197 src/arch/unix/uidrivec64vic20.c:189
 #: src/arch/unix/uidrivepetcbm2.c:134 src/arch/unix/uidriveplus4.c:170
@@ -1665,7 +1656,7 @@ msgstr "*Chiedi all'accesso"
 #: src/arch/unix/uidriveiec.c:127 src/arch/unix/uidriveiec.c:137
 #: src/arch/unix/uidriveiec.c:147 src/arch/unix/uidriveiec.c:157
 msgid "*Extend on access"
-msgstr "*Attiva al 1∞ accesso"
+msgstr "*Attiva al 1¬∞ accesso"
 
 #: src/arch/unix/uidriveiec.c:163 src/arch/unix/uidriveiec.c:173
 #: src/arch/unix/uidriveiec.c:183 src/arch/unix/uidriveiec.c:193
@@ -1691,14 +1682,12 @@ msgid "Drive #9 floppy disk type"
 msgstr "Drive #9: Tipo di floppy disk"
 
 #: src/arch/unix/uidrivepetcbm2.c:113
-#, fuzzy
 msgid "Drive #10 floppy disk type"
-msgstr "Drive #9: Tipo di floppy disk"
+msgstr "Drive #10: Tipo di floppy disk"
 
 #: src/arch/unix/uidrivepetcbm2.c:122
-#, fuzzy
 msgid "Drive #11 floppy disk type"
-msgstr "Drive #9: Tipo di floppy disk"
+msgstr "Drive #11: Tipo di floppy disk"
 
 #: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:110
 #: src/arch/unix/vic20ui.c:291
@@ -1756,26 +1745,23 @@ msgstr "Ombra della scanline in percentuale"
 
 #: src/arch/unix/uipalemu.c:92 src/arch/unix/uipalemu.c:127
 msgid "PAL Blurredness"
-msgstr ""
+msgstr "Sfuocatura PAL"
 
 #: src/arch/unix/uipalemu.c:93
-#, fuzzy
 msgid "Blurredness in percent"
-msgstr "Ombra della scanline in percentuale"
+msgstr "Sfuocatura in percentuale"
 
 #: src/arch/unix/uipalemu.c:116
 msgid "*Activate PAL emulation"
 msgstr "*Attiva l'emulazione PAL"
 
 #: src/arch/unix/uipalemu.c:119
-#, fuzzy
 msgid "*Fast PAL Emulation"
 msgstr "*Emulazione PAL veloce"
 
 #: src/arch/unix/uipalemu.c:121
-#, fuzzy
 msgid "*Exact PAL Emulation"
-msgstr "*Emulazione PAL veloce"
+msgstr "*Emulazione PAL esatta"
 
 #: src/arch/unix/uipalemu.c:125
 msgid "PAL Scanline Shade"
@@ -1791,7 +1777,7 @@ msgid ""
 "Could not load palette file\n"
 "'%s'"
 msgstr ""
-"Non Ë possibile caricare il file di palette\n"
+"Non √® possibile caricare il file di palette\n"
 "'%s'"
 
 #: src/arch/unix/uiperipheral.c:70
@@ -1824,9 +1810,8 @@ msgstr "Tipo di periferica"
 
 #: src/arch/unix/uiperipheraliec.c:66 src/arch/unix/uiperipheraliec.c:85
 #: src/arch/unix/uiperipheraliec.c:104 src/arch/unix/uiperipheraliec.c:123
-#, fuzzy
 msgid "*Enable IEC device"
-msgstr "*Drive #9: Attiva il cavo parallelo"
+msgstr "*Attiva la periferica IEC"
 
 #: src/arch/unix/uiperipheraliec.c:68 src/arch/unix/uiperipheraliec.c:87
 #: src/arch/unix/uiperipheraliec.c:106 src/arch/unix/uiperipheraliec.c:125
@@ -1921,64 +1906,59 @@ msgstr "Comando:"
 
 #: src/arch/unix/uiprinteriec.c:47 src/arch/unix/uiprinterieee.c:44
 msgid "*IEC printer #4 emulation"
-msgstr "*Emulazione della stampante IEC #4"
+msgstr "*Stampante IEC #4: emulazione"
 
 #: src/arch/unix/uiprinteriec.c:49
-#, fuzzy
 msgid "*IEC printer #4 enable IEC device"
-msgstr "*Drive #8: Attiva il cavo parallelo"
+msgstr "*Stampante IEC #4: attiva la periferica IEC"
 
 #: src/arch/unix/uiprinteriec.c:51 src/arch/unix/uiprinterieee.c:46
 msgid "IEC printer #4 driver"
-msgstr "Driver della stampante IEC #4"
+msgstr "Stampante IEC #4: driver"
 
 #: src/arch/unix/uiprinteriec.c:53 src/arch/unix/uiprinterieee.c:48
 msgid "IEC printer #4 text output device"
-msgstr "Dispositivo di output per la stampante IEC #4"
+msgstr "Stampante IEC #4: dispositivo di output"
 
 #: src/arch/unix/uiprinteriec.c:55 src/arch/unix/uiprinterieee.c:50
-#, fuzzy
 msgid "IEC printer #4 formfeed"
-msgstr "Driver della stampante IEC #4"
+msgstr "Stampante IEC #4: formfeed"
 
 #: src/arch/unix/uiprinteriec.c:59 src/arch/unix/uiprinterieee.c:54
 msgid "*IEC printer #5 emulation"
-msgstr "*Emulazione della stampante IEC #5"
+msgstr "*Stampante IEC #5: emulazione"
 
 #: src/arch/unix/uiprinteriec.c:61
-#, fuzzy
 msgid "*IEC printer #5 enable IEC device"
-msgstr "*Drive #8: Attiva il cavo parallelo"
+msgstr "*Stampante IEC #5: attiva la periferica IEC"
 
 #: src/arch/unix/uiprinteriec.c:63 src/arch/unix/uiprinterieee.c:56
 msgid "IEC printer #5 driver"
-msgstr "Driver della stampante IEC #5"
+msgstr "Stampante IEC #5: driver"
 
 #: src/arch/unix/uiprinteriec.c:65 src/arch/unix/uiprinterieee.c:58
 msgid "IEC printer #5 text output device"
-msgstr "Dispositivo di output per la stampante IEC #5"
+msgstr "Stampante IEC #5: dispositivo di output"
 
 #: src/arch/unix/uiprinteriec.c:67 src/arch/unix/uiprinterieee.c:60
-#, fuzzy
 msgid "IEC printer #5 formfeed"
-msgstr "Driver della stampante IEC #5"
+msgstr "Stampante IEC #5: formfeed"
 
 #: src/arch/unix/uiprinteriec.c:71 src/arch/unix/uiprinterieee.c:64
 msgid "*Userport printer emulation"
-msgstr "*Emulazione della stampante su Userport"
+msgstr "*Stampante su Userport: emulazione"
 
 #: src/arch/unix/uiprinteriec.c:73 src/arch/unix/uiprinterieee.c:66
 msgid "Userport printer driver"
-msgstr "Driver della stampante su Userport"
+msgstr "Stampante su Userport: driver"
 
 #: src/arch/unix/uiprinteriec.c:75 src/arch/unix/uiprinterieee.c:68
 msgid "Userport printer text output device"
-msgstr "Dispositivo di output della stampante su Userport"
+msgstr "Stampante su Userport: dispositivo di output"
 
 #: src/arch/unix/uiprinteriec.c:77 src/arch/unix/uiprinterieee.c:70
-#, fuzzy
 msgid "Userport printer formfeed"
-msgstr "Driver della stampante su Userport"
+msgstr "Stampate su Userport: formfeed"
 
 #: src/arch/unix/uiprinteriec.c:80 src/arch/unix/uiprinterieee.c:73
 msgid "Printer text device 1..."
@@ -2086,28 +2066,28 @@ msgstr "Dispositivo RS232 su Userport"
 
 #: src/arch/unix/uisettings.c:120
 msgid "Enter refresh rate"
-msgstr "Inserisci la velocit‡ di aggiornamento"
+msgstr "Inserisci la velocit√† di aggiornamento"
 
 #: src/arch/unix/uisettings.c:121 src/arch/unix/uisettings.c:505
 msgid "Refresh rate"
-msgstr "Velocit‡ di aggiornamento"
+msgstr "Velocit√† di aggiornamento"
 
 #: src/arch/unix/uisettings.c:193
 msgid "Enter speed"
-msgstr "Inserisci la velocit‡"
+msgstr "Inserisci la velocit√†"
 
 #: src/arch/unix/uisettings.c:194
 msgid "Maximum run speed"
-msgstr "Velocit‡ di esecuzione massima"
+msgstr "Velocit√† di esecuzione massima"
 
 #: src/arch/unix/uisettings.c:208
 msgid "Invalid speed value"
-msgstr "Valore della velocit‡ non valido"
+msgstr "Valore della velocit√† non valido"
 
 #: src/arch/unix/uisettings.c:222 src/arch/unix/x11/gnome/x11ui.c:1336
 #: src/arch/unix/x11/xaw/x11ui.c:1036
 msgid "Cannot save settings."
-msgstr "Non Ë possibile salvare le impostazioni."
+msgstr "Non √® possibile salvare le impostazioni."
 
 #: src/arch/unix/uisettings.c:225
 msgid "Settings saved successfully."
@@ -2118,16 +2098,16 @@ msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
 msgstr ""
-"Non Ë possibile caricare le impostazioni:\n"
-"il file non Ë valido."
+"Non √® possibile caricare le impostazioni:\n"
+"il file non √® valido."
 
 #: src/arch/unix/uisettings.c:244
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
 msgstr ""
-"Non Ë possibile caricare le impostazioni:\n"
-"il file non Ë stato trovato."
+"Non √® possibile caricare le impostazioni:\n"
+"il file non √® stato trovato."
 
 #: src/arch/unix/uisettings.c:248
 msgid "Settings loaded."
@@ -2175,7 +2155,7 @@ msgid ""
 "Could not load ROM set file\n"
 "'%s'"
 msgstr ""
-"Non Ë possibile caricare il file del ROM set\n"
+"Non √® possibile caricare il file del ROM set\n"
 "'%s'"
 
 #: src/arch/unix/uisettings.c:403
@@ -2195,7 +2175,7 @@ msgstr "Carica il file della ROM"
 msgid ""
 "Could not load ROM file\n"
 "'%s'"
-msgstr "Non Ë possibile caricare il file della ROM'%s'"
+msgstr "Non √® possibile caricare il file della ROM'%s'"
 
 #: src/arch/unix/uisettings.c:455
 msgid "*Auto"
@@ -2211,11 +2191,11 @@ msgstr "*Nessun limite"
 
 #: src/arch/unix/uisettings.c:507
 msgid "Maximum speed"
-msgstr "Velocit‡ massima"
+msgstr "Velocit√† massima"
 
 #: src/arch/unix/uisettings.c:509
 msgid "*Enable warp mode"
-msgstr "*Attiva la modalit‡ turbo"
+msgstr "*Attiva la modalit√† turbo"
 
 #: src/arch/unix/uisettings.c:515
 msgid "Keyboard settings"
@@ -2239,7 +2219,7 @@ msgstr "*Salva le impostazioni in uscita"
 
 #: src/arch/unix/uisettings.c:529
 msgid "*Confirm on exit"
-msgstr ""
+msgstr "*Conferma all'uscita"
 
 #: src/arch/unix/uisid.c:43
 msgid "*Fast SID"
@@ -2283,7 +2263,7 @@ msgid ""
 "(0 - 90, lower is faster, higher is better)"
 msgstr ""
 "Inserisci la banda passante in percentuale di quella totale\n"
-"(0 - 90, bassa Ë pi˘ veloce, alta Ë migliore)"
+"(0 - 90, bassa √® pi√π veloce, alta √® migliore)"
 
 #: src/arch/unix/uisid.c:94
 msgid "Passband percentage"
@@ -2576,7 +2556,7 @@ msgstr "Carica file PSID"
 #: src/arch/unix/vsidui.c:86
 #, c-format
 msgid "`%s' is not a valid PSID file."
-msgstr "`%s' non Ë un file PSID valido."
+msgstr "`%s' non √® un file PSID valido."
 
 #: src/arch/unix/vsidui.c:113
 msgid "Load PSID file..."
@@ -2601,7 +2581,7 @@ msgstr "VSID: L'emulatore del SID"
 
 #: src/arch/unix/x11/gnome/about.c:38 src/arch/unix/x11/xaw/about.c:60
 msgid "VICE is FREE software!"
-msgstr "VICE Ë software LIBERO!"
+msgstr "VICE √® software LIBERO!"
 
 #: src/arch/unix/x11/gnome/about.c:43 src/arch/unix/x11/xaw/about.c:65
 msgid "No warranty!"
@@ -2667,7 +2647,7 @@ msgid ""
 "Cannot write cartridge image file\n"
 "`%s'\n"
 msgstr ""
-"Non Ë possibile scrivere il file di immagine della cartuccia\n"
+"Non √® possibile scrivere il file di immagine della cartuccia\n"
 "`%s'\n"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:105
@@ -2686,7 +2666,7 @@ msgstr "XCreateImage fallita."
 #: src/arch/unix/x11/xaw/uicolor.c:198 src/arch/unix/x11/xaw/uicolor.c:203
 #, c-format
 msgid "Cannot allocate color \"#%04X%04X%04X\"."
-msgstr "Non Ë possibile allocare il colore \"#%04X%04X%04X\"."
+msgstr "Non √® possibile allocare il colore \"#%04X%04X%04X\"."
 
 #: src/arch/unix/x11/gnome/uiedisk.c:59 src/arch/unix/x11/xaw/uiedisk.c:425
 msgid "Create empty disk"
@@ -2713,16 +2693,15 @@ msgstr "Crea l'immagine di un disco vuoto"
 #: src/arch/unix/x11/gnome/uiedisk.c:199
 #, c-format
 msgid "Can't create image `%s'."
-msgstr "Non Ë possibile creare l'immagine `%s'."
+msgstr "Non √® possibile creare l'immagine `%s'."
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:50
 msgid "Blurredness"
-msgstr ""
+msgstr "Sfuocatura"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:51
-#, fuzzy
 msgid "Scanline Shade"
-msgstr "Ombra della scanline PAL"
+msgstr "Ombra scanline"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:52
 msgid "Saturation"
@@ -2734,7 +2713,7 @@ msgstr "Contrasto"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:54
 msgid "Brightness"
-msgstr "Luminosit‡"
+msgstr "Luminosit√†"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:55
 msgid "Gamma"
@@ -2745,14 +2724,12 @@ msgid "PAL Settings"
 msgstr "Impostazioni PAL"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:163
-#, fuzzy
 msgid "Fast Emulation"
-msgstr "*Emulazione PAL veloce"
+msgstr "Emulazione veloce"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:170
-#, fuzzy
 msgid "Exact Emulation"
-msgstr "Emulazione PAL"
+msgstr "Emulazione esatta"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:82
 #: src/arch/unix/x11/gnome/uiscreenshot.c:93
@@ -2766,18 +2743,18 @@ msgstr "Formato dell'immagine"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:156
 msgid "Audio Bitrate"
-msgstr ""
+msgstr "Bitrate audio"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:171
-#, fuzzy
 msgid "Video Bitrate"
-msgstr "Dimensione dello schermo"
+msgstr "Bitrate video"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:253
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr ""
-"Non Ë possibile scrivere la cattura dello schermo su `%s' con il driver `%s'."
+"Non √® possibile scrivere la cattura dello schermo su `%s' con il driver `%"
+"s'."
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:261
 #, c-format
@@ -2819,7 +2796,7 @@ msgstr ""
 #: src/arch/unix/x11/gnome/x11ui.c:401
 #, c-format
 msgid "Can't add fontpath `%s'.\n"
-msgstr "Non Ë possibile aggiungere il percorso per i font `%s'.\n"
+msgstr "Non √® possibile aggiungere il percorso per i font `%s'.\n"
 
 #: src/arch/unix/x11/gnome/x11ui.c:403
 #, c-format
@@ -2848,44 +2825,41 @@ msgstr "Trovata una visuale %dbit."
 
 #: src/arch/unix/x11/gnome/x11ui.c:648 src/arch/unix/x11/xaw/x11ui.c:515
 msgid "Cannot autodetect a proper visual."
-msgstr "Non Ë possibile determinare una visuale appropriata."
+msgstr "Non √® possibile determinare una visuale appropriata."
 
 #: src/arch/unix/x11/gnome/x11ui.c:656
 #, c-format
 msgid "Cannot load text font %s."
-msgstr "Non Ë possibile caricare il font %s."
+msgstr "Non √® possibile caricare il font %s."
 
 #: src/arch/unix/x11/gnome/x11ui.c:663
 #, c-format
 msgid "Cannot load CBM font %s."
-msgstr "Non Ë possibile caricare il font CBM %s."
+msgstr "Non √® possibile caricare il font CBM %s."
 
 #: src/arch/unix/x11/gnome/x11ui.c:749
 msgid "PAL Controls"
 msgstr "Controlli PAL"
 
 #: src/arch/unix/x11/gnome/x11ui.c:768
-#, fuzzy
 msgid "audio/video recording"
-msgstr "Record"
+msgstr "Registrazione audio/video"
 
 #: src/arch/unix/x11/gnome/x11ui.c:782 src/arch/unix/x11/gnome/x11ui.c:801
 msgid "click to stop recording"
-msgstr ""
+msgstr "Fai clic per interrompere la registrazione"
 
 #: src/arch/unix/x11/gnome/x11ui.c:787
-#, fuzzy
 msgid "event recording"
-msgstr "Record"
+msgstr "registrazione eventi"
 
 #: src/arch/unix/x11/gnome/x11ui.c:807
-#, fuzzy
 msgid "event playback"
-msgstr "*Attiva la riproduzione del suono"
+msgstr "riproduzione eventi"
 
 #: src/arch/unix/x11/gnome/x11ui.c:821
 msgid "click to stop playback"
-msgstr ""
+msgstr "Fai clic per interrompere la riproduzione"
 
 #: src/arch/unix/x11/gnome/x11ui.c:833
 #, c-format
@@ -2967,15 +2941,15 @@ msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vuoi estendere l'immagine del disco a 40 tracce?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1987
-#, fuzzy, c-format
+#, c-format
 msgid "Autostart not possible for unit %d"
-msgstr "L'avvio automatico non Ë possibile per l'unit‡ 9"
+msgstr "L'avvio automatico non √® possibile per l'unit√† %d"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1995 src/arch/unix/x11/gnome/x11ui.c:2004
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
-"Non Ë possibile far partire automaticamente la selezione %d nell'immagine %s"
+"Non √® possibile far partire automaticamente la selezione %d nell'immagine %s"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2131 src/arch/unix/x11/gnome/x11ui.c:2136
 msgid "NO IMAGE CONTENTS AVAILABLE"
@@ -3004,11 +2978,11 @@ msgstr "Fork della DGA riuscito."
 
 #: src/arch/unix/x11/dga1.c:130
 msgid "Unable to query DGA1 version."
-msgstr "Non Ë possibile rilevare la versione DGA1."
+msgstr "Non √® possibile rilevare la versione DGA1."
 
 #: src/arch/unix/x11/dga1.c:135
 msgid "Unable to query DGA1 information."
-msgstr "Non Ë possibile ottenere informazioni sulla DGA1."
+msgstr "Non √® possibile ottenere informazioni sulla DGA1."
 
 #: src/arch/unix/x11/dga1.c:140
 msgid "Root permissions required to use DGA1."
@@ -3027,17 +3001,17 @@ msgstr "Errore durante la commutazione a schermo intero%s"
 #, c-format
 msgid "DGA extension: addr:%p, width %d, bank size %d mem size %d\n"
 msgstr ""
-"Estensioni DGA: ind:%p, profondit‡ %d, dimensione del banco %d dimensione "
+"Estensioni DGA: ind:%p, profondit√† %d, dimensione del banco %d dimensione "
 "della memoria %d\n"
 
 #: src/arch/unix/x11/dga1.c:248 src/arch/unix/x11/dga2.c:780
 msgid "Switch to windowmode"
-msgstr "Commutazione alla modalit‡ a finestre"
+msgstr "Commutazione alla modalit√† a finestre"
 
 #: src/arch/unix/x11/dga2.c:193
 #, c-format
 msgid "Selected mode: %s"
-msgstr "Modalit‡ selezionata: %s"
+msgstr "Modalit√† selezionata: %s"
 
 #: src/arch/unix/x11/dga2.c:316
 #, c-format
@@ -3055,13 +3029,13 @@ msgstr "Fork della DGA riuscito"
 #: src/arch/unix/x11/dga2.c:426
 msgid "Unable to query video extension version - disabling fullscreen."
 msgstr ""
-"Non Ë possibile ottenere la versione delle estensioni video - schermo intero "
-"disabilitato."
+"Non √® possibile ottenere la versione delle estensioni video - schermo "
+"intero disabilitato."
 
 #: src/arch/unix/x11/dga2.c:431
 msgid "Unable to query video extension information - disabling fullscreen."
 msgstr ""
-"Non Ë possibile ottenere le infomazioni sulle estensioni video - schermo "
+"Non √® possibile ottenere le infomazioni sulle estensioni video - schermo "
 "intero disabilitato."
 
 #: src/arch/unix/x11/dga2.c:440
@@ -3072,7 +3046,7 @@ msgstr "Xserver sta eseguendo una vecchia versione di XFree86-DGA (%d.%d) "
 #: src/arch/unix/x11/dga2.c:443
 #, c-format
 msgid "Minimum required version is %d.%d - disabling fullscreen."
-msgstr "La versione minima richiesta Ë la %d.%d - Schermo intero disabilitato"
+msgstr "La versione minima richiesta √® la %d.%d - Schermo intero disabilitato"
 
 #: src/arch/unix/x11/dga2.c:576
 #, c-format
@@ -3097,7 +3071,7 @@ msgstr "Errore durante la commutazione a schermo intero (pixmap) %ix%i"
 #, c-format
 msgid "Not enough video memory pages in mode %s, disabling fullscreen (%d,%d)."
 msgstr ""
-"Non si sono abbastanza pagine di memoria video nella modalit‡ %s, schermo "
+"Non si sono abbastanza pagine di memoria video nella modalit√† %s, schermo "
 "intero disabilitato (%d,%d)."
 
 #: src/arch/unix/x11/dga2.c:653
@@ -3107,7 +3081,7 @@ msgstr "Errore durante la commutazione a schermo intero (CreateGC) %ix%i"
 
 #: src/arch/unix/x11/dga2.c:707
 msgid "Couldn't allocate color cache"
-msgstr "Non Ë possibile allocare la cache dei colori"
+msgstr "Non √® possibile allocare la cache dei colori"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:39
 msgid "Specify an HTML browser for the on-line help"
@@ -3127,11 +3101,11 @@ msgstr "Salva le impostazioni in uscita"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:51
 msgid "Never confirm quiting VICE"
-msgstr ""
+msgstr "Non confermare mai l'uscita da VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:54
 msgid "Confirm quiting VICE"
-msgstr ""
+msgstr "Conferma l'uscita da VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:57
 msgid "Never save settings (resources) on exit"
@@ -3163,7 +3137,7 @@ msgstr "Usa la memoria condivisa"
 
 #: src/arch/unix/x11/video.c:197
 msgid "Never use shared memory (slower)"
-msgstr "Non usare mai la memoria condivisa (pi˘ lento)"
+msgstr "Non usare mai la memoria condivisa (pi√π lento)"
 
 #: src/arch/unix/x11/video.c:201
 msgid "Use XVideo Extension (hardware scaling)"
@@ -3183,7 +3157,7 @@ msgstr "Imposta il rapporto di formato (0.8 - 1.2)"
 
 #: src/arch/unix/x11/video.c:288
 msgid "The MITSHM extension is not supported on this display."
-msgstr "L'estensione MITSHM non Ë supportata su questo display."
+msgstr "L'estensione MITSHM non √® supportata su questo display."
 
 #: src/arch/unix/x11/video.c:292
 #, c-format
@@ -3192,12 +3166,12 @@ msgstr "Rilevata la versione %d.%d delle estensioni MITSHM."
 
 #: src/arch/unix/x11/video.c:358
 msgid "Cannot release shared memory!"
-msgstr "Non Ë possibile rilasciare la memoria condivisa!"
+msgstr "Non √® possibile rilasciare la memoria condivisa!"
 
 #: src/arch/unix/x11/vidmode.c:75
 msgid "Error getting video mode information - disabling vidmode extension."
 msgstr ""
-"Errore durante la lettura delle infomazioni sulla modalit‡ video - "
+"Errore durante la lettura delle infomazioni sulla modalit√† video - "
 "estensione vidmode disabilitata."
 
 #: src/arch/unix/x11/xaw/about.c:153
@@ -3244,7 +3218,7 @@ msgstr "Salva disco vuoto"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:171
 msgid "Couldn't create disk image"
-msgstr "Non Ë possibile crare l'immagine del disco"
+msgstr "Non √® possibile crare l'immagine del disco"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:253
 msgid "Disk name:"
@@ -3286,7 +3260,7 @@ msgstr "No"
 #: src/arch/unix/x11/xaw/uisnapshot.c:234
 #: src/arch/unix/x11/xaw/uisnapshot.c:273
 msgid "On"
-msgstr "SÏ"
+msgstr "S√¨"
 
 #: src/arch/unix/x11/xaw/uisnapshot.c:249
 msgid "Save currently loaded ROMs:"
@@ -3313,26 +3287,26 @@ msgstr "Tipo di immagine sconosciuto."
 msgid ""
 "Cannot allocate XImage with XShm; falling back to non MITSHM extension mode."
 msgstr ""
-"Non Ë possibile allocare XImage con Xshm; ripiego sulla modalit‡ senza "
+"Non √® possibile allocare XImage con Xshm; ripiego sulla modalit√† senza "
 "estensioni MITSHM."
 
 #: src/arch/unix/x11/xaw/x11video.c:140
 msgid "Cannot get shared memory; falling back to non MITSHM extension mode."
 msgstr ""
-"Non Ë possibile ottenere la memoria codivisa; ripiego sulla modalit‡ senza "
+"Non √® possibile ottenere la memoria codivisa; ripiego sulla modalit√† senza "
 "estensioni MITSHM."
 
 #: src/arch/unix/x11/xaw/x11video.c:151
 msgid ""
 "Cannot get shared memory address; falling back to non MITSHM extension mode."
 msgstr ""
-"Non Ë possibile ottenere l'indirizzo della memoria condivisa; ripiego sulla "
-"modalit‡ senza estensioni MITSHM."
+"Non √® possibile ottenere l'indirizzo della memoria condivisa; ripiego sulla "
+"modalit√† senza estensioni MITSHM."
 
 #: src/arch/unix/x11/xaw/x11video.c:166 src/arch/unix/x11/xaw/x11video.c:183
 msgid "Cannot attach shared memory; falling back to non MITSHM extension mode."
 msgstr ""
-"Non Ë possibile collegarsi alla memoria condivisa; ripiego sulla modalit‡ "
+"Non √® possibile collegarsi alla memoria condivisa; ripiego sulla modalit√† "
 "senza estensioni MITSHM."
 
 #: src/arch/unix/x11/xaw/x11video.c:190
@@ -3363,7 +3337,7 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #, fuzzy
 #~ msgid "Could not create milestone snapshot file."
 #~ msgstr ""
-#~ "Non Ë possibile caricare il file di snapshot\n"
+#~ "Non √É¬É√Ç¬É√É¬Ç√Ç¬® possibile caricare il file di snapshot\n"
 #~ "`%s'"
 
 #~ msgid "Flush IEC printer #4 device"
@@ -3415,10 +3389,10 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgstr "Impostazioni video del TED"
 
 #~ msgid "Found suitable mode for fullscreen."
-#~ msgstr "Trovata una modalit‡ adatta allo schermo intero."
+#~ msgstr "Trovata una modalit√É¬É√Ç¬É√É¬Ç√Ç¬† adatta allo schermo intero."
 
 #~ msgid "Couldn't allocate pixel value cache."
-#~ msgstr "Non Ë possibile allocare la cache coi valori dei pixel."
+#~ msgstr "Non √É¬É√Ç¬É√É¬Ç√Ç¬® possibile allocare la cache coi valori dei pixel."
 
 #~ msgid "*PAL emulation"
 #~ msgstr "*Emulazione PAL"
@@ -3445,8 +3419,8 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ "Vice is not running as root, DGA extension not possible - disabling "
 #~ "fullscreen."
 #~ msgstr ""
-#~ "Vice non Ë eseguto come root, le estesioni DGA non sono possibili - "
-#~ "schermo intero disabilitato."
+#~ "Vice non √É¬É√Ç¬É√É¬Ç√Ç¬® eseguto come root, le estesioni DGA non sono possibili "
+#~ "- schermo intero disabilitato."
 
 #~ msgid "Specify name of symbolic keymap file"
 #~ msgstr "Specifica il nome del file della mappa simbolica della tastiera"
@@ -3483,7 +3457,7 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ "business tedesca"
 
 #~ msgid "Could not find KeySym `%s'!"
-#~ msgstr "Non Ë possibile trovare il simbolo `%s'!"
+#~ msgstr "Non √É¬É√Ç¬É√É¬Ç√Ç¬® possibile trovare il simbolo `%s'!"
 
 #~ msgid "Bad row/column value (%d/%d) for keysym `%s'."
 #~ msgstr "Coppia riga/colonna (%d/%d) non valida per il simbolo `%s'."
@@ -3492,7 +3466,7 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgstr "Caricamento della mappa della tastiera `%s'."
 
 #~ msgid "Cannot load keymap `%s'."
-#~ msgstr "Non Ë possibile caricare la mappa della tastiera `%s'."
+#~ msgstr "Non √É¬É√Ç¬É√É¬Ç√Ç¬® possibile caricare la mappa della tastiera `%s'."
 
 #~ msgid "(null)"
 #~ msgstr "(null)"
@@ -3508,8 +3482,8 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgid ""
 #~ "Couldn't allocate backbuffer for DGA PAL rendering; disabling fullscreen."
 #~ msgstr ""
-#~ "Non Ë possibile allocare il backbuffer per il rendering PAL DGA; schemo "
-#~ "intero disabilitato."
+#~ "Non √É¬É√Ç¬É√É¬Ç√Ç¬® possibile allocare il backbuffer per il rendering PAL DGA; "
+#~ "schemo intero disabilitato."
 
 #~ msgid "Please recompile the program for a supported bit depth."
 #~ msgstr "Per favore ricompila il programma con una profondita supportata"
@@ -3518,7 +3492,7 @@ msgstr "Inizializzato con successo senza memoria condivisa."
 #~ msgstr "Solo %ibpp sono supportati da questo emulatore."
 
 #~ msgid "Current X server depth is %ibpp."
-#~ msgstr "La profondita attuale dell'X server Ë %ibpp."
+#~ msgstr "La profondita attuale dell'X server √É¬É√Ç¬É√É¬Ç√Ç¬® %ibpp."
 
 #~ msgid "Switch X server depth or recompile with --enable-autobpp."
 #~ msgstr ""

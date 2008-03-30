@@ -1,12 +1,12 @@
 # Swedish translation file for VICE
 # Peter Karlsson <peter@softwolves.pp.se>
-# Copyright 2000-2003
+# Copyright 2000-2004
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 1.14\n"
-"POT-Creation-Date: 2004-01-17 16:33+0100\n"
-"PO-Revision-Date: 2003-11-02 16:44+0100\n"
+"POT-Creation-Date: 2004-01-24 15:33+0100\n"
+"PO-Revision-Date: 2004-01-21 23:05+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -35,134 +35,116 @@ msgstr "Din maskin är för långsam för nuvarande inställningar!"
 
 #: src/screenshot.c:152
 msgid "Sorry. Multiple recording is not supported."
-msgstr ""
+msgstr "Endast en inspelning kan göras åt gången."
 
 #: src/autostart.c:180
-#, fuzzy
 msgid "Cannot load snapshot file."
-msgstr ""
-"Kan inte ladda ögonblicksbildfil\n"
-"\"%s\""
+msgstr "Kan inte ladda ögonblicksbildfil."
 
 #: src/sound.c:412
 msgid "write to sound device failed."
-msgstr ""
+msgstr "misslyckades att skriva till ljudenhet."
 
 #: src/sound.c:423
-#, fuzzy
 msgid "Cannot open SID engine"
-msgstr "SID-motor"
+msgstr "Kan inte öppna SID-motor"
 
 #: src/sound.c:458
 msgid "Cannot initialize SID engine"
-msgstr ""
+msgstr "Kan inte initiera SID-motor"
 
 #: src/sound.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "initialization failed for device `%s'."
-msgstr "Maskinvarustyrspakskalibrering för enhet \"%s\":"
+msgstr "initiering misslyckades för enhet \"%s\"."
 
 #: src/sound.c:568
 msgid "sound device lacks stereo capability"
-msgstr ""
+msgstr "ljudenhet saknar stereofunktion"
 
 #: src/sound.c:614
 #, c-format
 msgid "device '%s' not found or not supported."
-msgstr ""
+msgstr "enheten \"%s\" hittades eller stöds ej."
 
 #: src/sound.c:631
 #, c-format
 msgid "Recording device %s doesn't exist!"
-msgstr ""
+msgstr "Inspelningsenhet %s finns inte!"
 
 #: src/sound.c:635
 msgid "Recording device must be different from playback device"
-msgstr ""
+msgstr "Inspelningsenhet och återspelningsenhet kan inte vara samma"
 
 #: src/sound.c:641
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
-msgstr ""
+msgstr "Varning! Inspelningsenheten %s verkar vara en realtidsenhet!"
 
 #: src/sound.c:647
-#, fuzzy, c-format
+#, c-format
 msgid "Initialization failed for device `%s'."
-msgstr "Maskinvarustyrspakskalibrering för enhet \"%s\":"
+msgstr "Initiering misslyckades för enhet \"%s\"."
 
 #: src/sound.c:658
 msgid "The recording device doesn't support current sound parameters"
-msgstr ""
+msgstr "Inspelningsenheten stöder inte aktuella ljudinställningar"
 
 #: src/sound.c:735
 msgid "Sound buffer overflow (cycle based)"
-msgstr ""
+msgstr "För mycket data i ljudbufferten (cykelbaserad)"
 
 #: src/sound.c:745
 msgid "Sound buffer overflow."
-msgstr ""
+msgstr "För mycket data i ljudbufferten."
 
 #: src/sound.c:867
 msgid "cannot flush."
-msgstr ""
+msgstr "kan inte tömma."
 
 #: src/sound.c:912
 msgid "fragment problems."
-msgstr ""
+msgstr "fragmentprogram."
 
 #: src/sound.c:941
-#, fuzzy
 msgid "Buffer drained"
-msgstr "Buffertstorlek"
+msgstr "Buffert tömd"
 
 #: src/sound.c:977
 msgid "running too slow."
-msgstr ""
+msgstr "går för långsamt."
 
 #: src/sound.c:989 src/sound.c:995
 msgid "write to sounddevice failed."
-msgstr ""
+msgstr "misslyckades skriva till ljudenheten."
 
 #: src/sound.c:1219
 msgid "store to sounddevice failed."
-msgstr ""
+msgstr "misslyckades spara i ljudenheten."
 
 #: src/event.c:265
-#, fuzzy
 msgid "Could not create start snapshot file."
-msgstr ""
-"Kan inte ladda ögonblicksbildfil\n"
-"\"%s\""
+msgstr "Kunde inte skapa startögonblicksbildfil."
 
 #: src/event.c:276 src/event.c:386 src/event.c:403
-#, fuzzy
 msgid "Error reading start snapshot file."
-msgstr "Fel vid läsning av digital styrspak."
+msgstr "Fel vid läsning av startögonblicksbildfil."
 
 #: src/event.c:314 src/event.c:446
-#, fuzzy
 msgid "Could not create end snapshot file."
-msgstr ""
-"Kan inte ladda ögonblicksbildfil\n"
-"\"%s\""
+msgstr "Kunde inte skapa slutögonblicksbildfil."
 
 #: src/event.c:362
-#, fuzzy
 msgid "Could not open end snapshot file."
-msgstr ""
-"Kan inte ladda ögonblicksbildfil\n"
-"\"%s\""
+msgstr "Kunde inte öppna slutögonblicksbildfil."
 
 #: src/event.c:371
 msgid "Could not find event section in end snapshot file."
-msgstr ""
+msgstr "Kunde inte hinna händelsedelen i slutögonblicksbilden."
 
 #: src/event.c:467
-#, fuzzy
 msgid "Error reading end snapshot file."
-msgstr ""
-"Kan inte ladda ögonblicksbildfil\n"
-"\"%s\""
+msgstr "Fel vid läsning av slutögonblicksbildfil."
 
 #: src/arch/unix/archdep.c:234
 #, c-format
@@ -999,7 +981,8 @@ msgstr "Smartanslut en fil"
 msgid "Unknown image type"
 msgstr "Okänd avbildningsfiltyp"
 
-#: src/arch/unix/uicommands.c:274 src/arch/unix/uisettings.c:335
+#: src/arch/unix/uicommands.c:274 src/arch/unix/uicommands.c:531
+#: src/arch/unix/uisettings.c:335
 msgid "VICE setting"
 msgstr "VICE-inställning"
 
@@ -1007,7 +990,7 @@ msgstr "VICE-inställning"
 msgid "Change current working directory"
 msgstr "Ändra aktuell arbetskatalog"
 
-#: src/arch/unix/uicommands.c:278
+#: src/arch/unix/uicommands.c:278 src/arch/unix/uicommands.c:536
 msgid "Directory not found"
 msgstr "Katalogen ej funnen"
 
@@ -1075,264 +1058,276 @@ msgstr ""
 "Kan inte skriva ögonblicksbildfil\n"
 "\"%s\"\n"
 
-#: src/arch/unix/uicommands.c:557
-msgid "Record sound to file"
+#: src/arch/unix/uicommands.c:532 src/arch/unix/uicommands.c:1058
+msgid "Select history directory"
 msgstr ""
 
-#: src/arch/unix/uicommands.c:639
+#: src/arch/unix/uicommands.c:588
+msgid "Record sound to file"
+msgstr "Spela in ljud till fil"
+
+#: src/arch/unix/uicommands.c:670
 msgid "Load "
 msgstr "Ladda "
 
-#: src/arch/unix/uicommands.c:639 src/arch/unix/x11/xaw/uicartridge.c:167
+#: src/arch/unix/uicommands.c:670 src/arch/unix/x11/xaw/uicartridge.c:167
 #: src/arch/unix/x11/xaw/uiedisk.c:401
 #: src/arch/unix/x11/xaw/uiscreenshot.c:254
 #: src/arch/unix/x11/xaw/uisnapshot.c:285
 msgid "Save"
 msgstr "Spara"
 
-#: src/arch/unix/uicommands.c:639
+#: src/arch/unix/uicommands.c:670
 msgid "Fliplist File"
 msgstr "Vallistefil"
 
-#: src/arch/unix/uicommands.c:649
+#: src/arch/unix/uicommands.c:680
 #, c-format
 msgid "Successfully read `%s'."
 msgstr "Läste \"%s\""
 
-#: src/arch/unix/uicommands.c:651
+#: src/arch/unix/uicommands.c:682
 #, c-format
 msgid "Error reading `%s'."
 msgstr "Fel vid läsning av \"%s\"."
 
-#: src/arch/unix/uicommands.c:654
+#: src/arch/unix/uicommands.c:685
 #, c-format
 msgid "Successfully wrote `%s'."
 msgstr "Skrev \"%s\"."
 
-#: src/arch/unix/uicommands.c:656
+#: src/arch/unix/uicommands.c:687
 #, c-format
 msgid "Error writing `%s'."
 msgstr "Fel vid skrivning av \"%s\"."
 
-#: src/arch/unix/uicommands.c:697
+#: src/arch/unix/uicommands.c:728
 #, c-format
 msgid "Attach #%d"
 msgstr "Anslut %d"
 
-#: src/arch/unix/uicommands.c:704
+#: src/arch/unix/uicommands.c:735
 #, c-format
 msgid "Detach #%d"
 msgstr "Koppla från %d"
 
-#: src/arch/unix/uicommands.c:720
+#: src/arch/unix/uicommands.c:751
 msgid "*Write Protect"
 msgstr "*Skrivskydda"
 
-#: src/arch/unix/uicommands.c:746
+#: src/arch/unix/uicommands.c:777
 msgid "Next: "
 msgstr "Nästa: "
 
-#: src/arch/unix/uicommands.c:746 src/arch/unix/uicommands.c:761
+#: src/arch/unix/uicommands.c:777 src/arch/unix/uicommands.c:792
 #: src/arch/unix/x11/gnome/x11ui.c:847 src/arch/unix/x11/gnome/x11ui.c:857
 #: src/arch/unix/x11/gnome/x11ui.c:1533
 msgid "<empty>"
 msgstr "<tom>"
 
-#: src/arch/unix/uicommands.c:761
+#: src/arch/unix/uicommands.c:792
 msgid "Previous: "
 msgstr "Föregående: "
 
-#: src/arch/unix/uicommands.c:776
+#: src/arch/unix/uicommands.c:807
 msgid "Add: "
 msgstr "Lägg till: "
 
-#: src/arch/unix/uicommands.c:791
+#: src/arch/unix/uicommands.c:822
 msgid "Remove: "
 msgstr "Ta bort: "
 
-#: src/arch/unix/uicommands.c:889 src/arch/unix/uicommands.c:901
+#: src/arch/unix/uicommands.c:920 src/arch/unix/uicommands.c:932
 msgid "Unit #8..."
 msgstr "Enhet 8..."
 
-#: src/arch/unix/uicommands.c:891 src/arch/unix/uicommands.c:904
+#: src/arch/unix/uicommands.c:922 src/arch/unix/uicommands.c:935
 msgid "Unit #9..."
 msgstr "Enhet 9..."
 
-#: src/arch/unix/uicommands.c:893 src/arch/unix/uicommands.c:907
+#: src/arch/unix/uicommands.c:924 src/arch/unix/uicommands.c:938
 msgid "Unit #10..."
 msgstr "Enhet 10..."
 
-#: src/arch/unix/uicommands.c:895 src/arch/unix/uicommands.c:910
+#: src/arch/unix/uicommands.c:926 src/arch/unix/uicommands.c:941
 msgid "Unit #11..."
 msgstr "Enhet 11..."
 
-#: src/arch/unix/uicommands.c:917 src/arch/unix/uicommands.c:939
+#: src/arch/unix/uicommands.c:948 src/arch/unix/uicommands.c:970
 msgid "Unit #8"
 msgstr "Enhet 8"
 
-#: src/arch/unix/uicommands.c:919 src/arch/unix/uicommands.c:941
+#: src/arch/unix/uicommands.c:950 src/arch/unix/uicommands.c:972
 msgid "Unit #9"
 msgstr "Enhet 9"
 
-#: src/arch/unix/uicommands.c:921
+#: src/arch/unix/uicommands.c:952
 msgid "Unit #10"
 msgstr "Enhet 10"
 
-#: src/arch/unix/uicommands.c:923
+#: src/arch/unix/uicommands.c:954
 msgid "Unit #11"
 msgstr "Enhet 11"
 
-#: src/arch/unix/uicommands.c:926
+#: src/arch/unix/uicommands.c:957
 msgid "All"
 msgstr "Alla"
 
-#: src/arch/unix/uicommands.c:932
+#: src/arch/unix/uicommands.c:963
 msgid "Soft"
 msgstr "Mjuk"
 
-#: src/arch/unix/uicommands.c:935
+#: src/arch/unix/uicommands.c:966
 msgid "Hard"
 msgstr "Hård"
 
-#: src/arch/unix/uicommands.c:947
+#: src/arch/unix/uicommands.c:978
 msgid "Add current image (Unit 8)"
 msgstr "Lägg till aktuell avbildning (enhet 8)"
 
-#: src/arch/unix/uicommands.c:950
+#: src/arch/unix/uicommands.c:981
 msgid "Remove current image (Unit 8)"
 msgstr "Ta bort aktuell avbildning (enhet 8)"
 
-#: src/arch/unix/uicommands.c:953
+#: src/arch/unix/uicommands.c:984
 msgid "Attach next image (Unit 8)"
 msgstr "Anslut nästa avbildning (enhet 8)"
 
-#: src/arch/unix/uicommands.c:956
+#: src/arch/unix/uicommands.c:987
 msgid "Attach previous image (Unit 8)"
 msgstr "Anslut föregående avbildning (enhet 8)"
 
-#: src/arch/unix/uicommands.c:959
+#: src/arch/unix/uicommands.c:990
 msgid "Load fliplist file"
 msgstr "Ladda vallistefil"
 
-#: src/arch/unix/uicommands.c:961
+#: src/arch/unix/uicommands.c:992
 msgid "Save fliplist file"
 msgstr "Spara vallistefil"
 
-#: src/arch/unix/uicommands.c:967
+#: src/arch/unix/uicommands.c:998
 msgid "Attach a disk image"
 msgstr "Anslut en diskettavbildningsfil"
 
-#: src/arch/unix/uicommands.c:969
+#: src/arch/unix/uicommands.c:1000
 msgid "Create and attach an empty disk"
 msgstr "Skapa och anslut en tom diskett"
 
-#: src/arch/unix/uicommands.c:971
+#: src/arch/unix/uicommands.c:1002
 msgid "Detach disk image"
 msgstr "Koppla från diskettavbildningsfil"
 
-#: src/arch/unix/uicommands.c:973
+#: src/arch/unix/uicommands.c:1004
 msgid "Fliplist"
 msgstr "Vallista"
 
-#: src/arch/unix/uicommands.c:979
+#: src/arch/unix/uicommands.c:1010
 msgid "Attach a tape image..."
 msgstr "Anslut en bandavbildningsfil..."
 
-#: src/arch/unix/uicommands.c:982
+#: src/arch/unix/uicommands.c:1013
 msgid "Detach tape image"
 msgstr "Koppla från bandavbildningsfil"
 
-#: src/arch/unix/uicommands.c:988
+#: src/arch/unix/uicommands.c:1019
 msgid "Smart-attach disk/tape..."
 msgstr "Smartanslut diskett/band..."
 
-#: src/arch/unix/uicommands.c:995
+#: src/arch/unix/uicommands.c:1026
 msgid "Change working directory..."
 msgstr "Byt arbetskatalog..."
 
-#: src/arch/unix/uicommands.c:1003
+#: src/arch/unix/uicommands.c:1034
 msgid "*Save new snapshot"
 msgstr "*Spara ny ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:1005
+#: src/arch/unix/uicommands.c:1036
 msgid "*Load existing snapshot"
 msgstr "*Ladda existerande ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:1007
+#: src/arch/unix/uicommands.c:1038
 msgid "*Start with reset"
 msgstr "*Starta med nollställning"
 
-#: src/arch/unix/uicommands.c:1013
+#: src/arch/unix/uicommands.c:1044
 msgid "Load snapshot..."
 msgstr "Ladda ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:1016
+#: src/arch/unix/uicommands.c:1047
 msgid "Save snapshot..."
 msgstr "Spara ögonblicksbild..."
 
-#: src/arch/unix/uicommands.c:1020
+#: src/arch/unix/uicommands.c:1051
 msgid "Quickload snapshot"
 msgstr "Snabbladda ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:1023
+#: src/arch/unix/uicommands.c:1054
 msgid "Quicksave snapshot"
 msgstr "Snabbspara ögonblicksbild"
 
-#: src/arch/unix/uicommands.c:1027
+#: src/arch/unix/uicommands.c:1060
 msgid "Start recording events"
 msgstr "Börja spela in händelser"
 
-#: src/arch/unix/uicommands.c:1029
+#: src/arch/unix/uicommands.c:1062
 msgid "Stop recording events"
 msgstr "Sluta spela in händelser"
 
-#: src/arch/unix/uicommands.c:1031
+#: src/arch/unix/uicommands.c:1064
 msgid "Start playing back events"
 msgstr "Börja spela upp händelser"
 
-#: src/arch/unix/uicommands.c:1033
+#: src/arch/unix/uicommands.c:1066
 msgid "Stop playing back events"
 msgstr "Sluta spela upp händelser"
 
-#: src/arch/unix/uicommands.c:1036
+#: src/arch/unix/uicommands.c:1068
+msgid "Set recording milestone"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:1070
+msgid "Return to milestone"
+msgstr ""
+
+#: src/arch/unix/uicommands.c:1073
 msgid "Recording start mode"
 msgstr "Spelar in startläge"
 
-#: src/arch/unix/uicommands.c:1042
+#: src/arch/unix/uicommands.c:1079
 msgid "Snapshot commands"
 msgstr "Kommandon för ögonblicksbilder"
 
-#: src/arch/unix/uicommands.c:1048
+#: src/arch/unix/uicommands.c:1085
 msgid "Sound record..."
-msgstr ""
+msgstr "Ljudinspelning..."
 
-#: src/arch/unix/uicommands.c:1055
+#: src/arch/unix/uicommands.c:1092
 msgid "Activate monitor"
 msgstr "Aktivera monitor"
 
-#: src/arch/unix/uicommands.c:1058
+#: src/arch/unix/uicommands.c:1095
 msgid "Run C1541"
 msgstr "Kör C1541"
 
-#: src/arch/unix/uicommands.c:1066
+#: src/arch/unix/uicommands.c:1103
 msgid "Browse manuals"
 msgstr "Läs manualer"
 
-#: src/arch/unix/uicommands.c:1068
+#: src/arch/unix/uicommands.c:1105
 msgid "About VICE..."
 msgstr "Om VICE..."
 
-#: src/arch/unix/uicommands.c:1074 src/arch/unix/uidatasette.c:98
+#: src/arch/unix/uicommands.c:1111 src/arch/unix/uidatasette.c:98
 #: src/arch/unix/x11/gnome/uipalcontrol.c:154
 #: src/arch/unix/x11/gnome/x11ui.c:1928
 msgid "Reset"
 msgstr "Återställ"
 
-#: src/arch/unix/uicommands.c:1076
+#: src/arch/unix/uicommands.c:1113
 msgid "*Pause"
 msgstr "*Paus"
 
-#: src/arch/unix/uicommands.c:1083
+#: src/arch/unix/uicommands.c:1120
 msgid "Exit emulator"
 msgstr "Avsluta emulator"
 
@@ -1535,63 +1530,53 @@ msgstr "Pausmetod för enhet 9"
 
 #: src/arch/unix/uidrivec128.c:172 src/arch/unix/uidrivec64vic20.c:164
 #: src/arch/unix/uidriveplus4.c:145
-#, fuzzy
 msgid "Drive #10 model"
-msgstr "Modell för enhet 8"
+msgstr "Modell för enhet 10"
 
 #: src/arch/unix/uidrivec128.c:174 src/arch/unix/uidrivec64vic20.c:166
 #: src/arch/unix/uidriveplus4.c:147
-#, fuzzy
 msgid "Drive #10 RAM expansion"
-msgstr "RAM-utökning för enhet 8"
+msgstr "RAM-utökning för enhet 10"
 
 #: src/arch/unix/uidrivec128.c:176 src/arch/unix/uidrivec64vic20.c:168
 #: src/arch/unix/uidriveplus4.c:149
-#, fuzzy
 msgid "*Drive #10 enable parallel cable"
-msgstr "*Aktivera parallellkabel för enhet 9"
+msgstr "*Aktivera parallellkabel för enhet 10"
 
 #: src/arch/unix/uidrivec128.c:178 src/arch/unix/uidrivec64vic20.c:170
 #: src/arch/unix/uidrivepetcbm2.c:116 src/arch/unix/uidriveplus4.c:151
-#, fuzzy
 msgid "Drive #10 40-track image support"
-msgstr "40-spårsstöd för enhet 9"
+msgstr "40-spårsstöd för enhet 10"
 
 #: src/arch/unix/uidrivec128.c:180 src/arch/unix/uidrivec64vic20.c:172
 #: src/arch/unix/uidrivepetcbm2.c:118 src/arch/unix/uidriveplus4.c:153
-#, fuzzy
 msgid "Drive #10 idle method"
-msgstr "Pausmetod för enhet 8"
+msgstr "Pausmetod för enhet 10"
 
 #: src/arch/unix/uidrivec128.c:183 src/arch/unix/uidrivec64vic20.c:175
 #: src/arch/unix/uidriveplus4.c:156
-#, fuzzy
 msgid "Drive #11 model"
-msgstr "Modell för enhet 8"
+msgstr "Modell för enhet 11"
 
 #: src/arch/unix/uidrivec128.c:185 src/arch/unix/uidrivec64vic20.c:177
 #: src/arch/unix/uidriveplus4.c:158
-#, fuzzy
 msgid "Drive #11 RAM expansion"
-msgstr "RAM-utökning för enhet 8"
+msgstr "RAM-utökning för enhet 11"
 
 #: src/arch/unix/uidrivec128.c:187 src/arch/unix/uidrivec64vic20.c:179
 #: src/arch/unix/uidriveplus4.c:160
-#, fuzzy
 msgid "*Drive #11 enable parallel cable"
-msgstr "*Aktivera parallellkabel för enhet 9"
+msgstr "*Aktivera parallellkabel för enhet 11"
 
 #: src/arch/unix/uidrivec128.c:189 src/arch/unix/uidrivec64vic20.c:181
 #: src/arch/unix/uidrivepetcbm2.c:125 src/arch/unix/uidriveplus4.c:162
-#, fuzzy
 msgid "Drive #11 40-track image support"
-msgstr "40-spårsstöd för enhet 9"
+msgstr "40-spårsstöd för enhet 11"
 
 #: src/arch/unix/uidrivec128.c:191 src/arch/unix/uidrivec64vic20.c:183
 #: src/arch/unix/uidrivepetcbm2.c:127 src/arch/unix/uidriveplus4.c:164
-#, fuzzy
 msgid "Drive #11 idle method"
-msgstr "Pausmetod för enhet 8"
+msgstr "Pausmetod för enhet 11"
 
 #: src/arch/unix/uidrivec128.c:197 src/arch/unix/uidrivec64vic20.c:189
 #: src/arch/unix/uidrivepetcbm2.c:134 src/arch/unix/uidriveplus4.c:170
@@ -1607,18 +1592,16 @@ msgid "Load new 1541-II ROM"
 msgstr "Ladda ny 1541-II-ROM"
 
 #: src/arch/unix/uidrivec128.c:211 src/arch/unix/uidrivec64vic20.c:203
-#, fuzzy
 msgid "Load new 1570 ROM"
-msgstr "Ladda ny 1571-ROM"
+msgstr "Ladda ny 1570-ROM"
 
 #: src/arch/unix/uidrivec128.c:214 src/arch/unix/uidrivec64vic20.c:206
 msgid "Load new 1571 ROM"
 msgstr "Ladda ny 1571-ROM"
 
 #: src/arch/unix/uidrivec128.c:217
-#, fuzzy
 msgid "Load new 1571CR ROM"
-msgstr "Ladda ny 1571-ROM"
+msgstr "Ladda ny 1571CR-ROM"
 
 #: src/arch/unix/uidrivec128.c:220 src/arch/unix/uidrivec64vic20.c:209
 msgid "Load new 1581 ROM"
@@ -1692,14 +1675,12 @@ msgid "Drive #9 floppy disk type"
 msgstr "Diskettyp i enhet 9"
 
 #: src/arch/unix/uidrivepetcbm2.c:113
-#, fuzzy
 msgid "Drive #10 floppy disk type"
-msgstr "Diskettyp i enhet 9"
+msgstr "Diskettyp i enhet 10"
 
 #: src/arch/unix/uidrivepetcbm2.c:122
-#, fuzzy
 msgid "Drive #11 floppy disk type"
-msgstr "Diskettyp i enhet 9"
+msgstr "Diskettyp i enhet 11"
 
 #: src/arch/unix/uijoystick2.c:81 src/arch/unix/uijoystick2.c:110
 #: src/arch/unix/vic20ui.c:291
@@ -1757,26 +1738,23 @@ msgstr "Skannlinjeskuggning i procent"
 
 #: src/arch/unix/uipalemu.c:92 src/arch/unix/uipalemu.c:127
 msgid "PAL Blurredness"
-msgstr ""
+msgstr "PAL-suddighet"
 
 #: src/arch/unix/uipalemu.c:93
-#, fuzzy
 msgid "Blurredness in percent"
-msgstr "Skannlinjeskuggning i procent"
+msgstr "Suddighet i procent"
 
 #: src/arch/unix/uipalemu.c:116
 msgid "*Activate PAL emulation"
 msgstr "*Aktivera PAL-emulering"
 
 #: src/arch/unix/uipalemu.c:119
-#, fuzzy
 msgid "*Fast PAL Emulation"
 msgstr "*Snabb PAL-emulering"
 
 #: src/arch/unix/uipalemu.c:121
-#, fuzzy
 msgid "*Exact PAL Emulation"
-msgstr "*Fusk-PAL-emulering"
+msgstr "*Exakt PAL-emulering"
 
 #: src/arch/unix/uipalemu.c:125
 msgid "PAL Scanline Shade"
@@ -1825,9 +1803,8 @@ msgstr "Enhetstyp"
 
 #: src/arch/unix/uiperipheraliec.c:66 src/arch/unix/uiperipheraliec.c:85
 #: src/arch/unix/uiperipheraliec.c:104 src/arch/unix/uiperipheraliec.c:123
-#, fuzzy
 msgid "*Enable IEC device"
-msgstr "*Aktivera parallellkabel för enhet 9"
+msgstr "*Aktivera IEC-enhet"
 
 #: src/arch/unix/uiperipheraliec.c:68 src/arch/unix/uiperipheraliec.c:87
 #: src/arch/unix/uiperipheraliec.c:106 src/arch/unix/uiperipheraliec.c:125
@@ -1925,9 +1902,8 @@ msgid "*IEC printer #4 emulation"
 msgstr "*Skrivaremularing för IEC-enhet 4"
 
 #: src/arch/unix/uiprinteriec.c:49
-#, fuzzy
 msgid "*IEC printer #4 enable IEC device"
-msgstr "*Aktivera parallellkabel för enhet 8"
+msgstr "*Aktivera IEC-enhet för IEC-skrivare 4"
 
 #: src/arch/unix/uiprinteriec.c:51 src/arch/unix/uiprinterieee.c:46
 msgid "IEC printer #4 driver"
@@ -1938,18 +1914,16 @@ msgid "IEC printer #4 text output device"
 msgstr "Textutenhet för IEC-enhet 4"
 
 #: src/arch/unix/uiprinteriec.c:55 src/arch/unix/uiprinterieee.c:50
-#, fuzzy
 msgid "IEC printer #4 formfeed"
-msgstr "Skrivardrivrutin för IEC-enhet 4"
+msgstr "Mata fram sida för IEC-enhet 4"
 
 #: src/arch/unix/uiprinteriec.c:59 src/arch/unix/uiprinterieee.c:54
 msgid "*IEC printer #5 emulation"
 msgstr "*Skrivaremularing för IEC-enhet 5"
 
 #: src/arch/unix/uiprinteriec.c:61
-#, fuzzy
 msgid "*IEC printer #5 enable IEC device"
-msgstr "*Aktivera parallellkabel för enhet 8"
+msgstr "*Aktivera IEC-enhet för IEC-skrivare 5"
 
 #: src/arch/unix/uiprinteriec.c:63 src/arch/unix/uiprinterieee.c:56
 msgid "IEC printer #5 driver"
@@ -1960,9 +1934,8 @@ msgid "IEC printer #5 text output device"
 msgstr "Textutenhet för IEC-enhet 5"
 
 #: src/arch/unix/uiprinteriec.c:67 src/arch/unix/uiprinterieee.c:60
-#, fuzzy
 msgid "IEC printer #5 formfeed"
-msgstr "Skrivardrivrutin för IEC-enhet 5"
+msgstr "Mata fram sida för IEC-enhet 5"
 
 #: src/arch/unix/uiprinteriec.c:71 src/arch/unix/uiprinterieee.c:64
 msgid "*Userport printer emulation"
@@ -1977,9 +1950,8 @@ msgid "Userport printer text output device"
 msgstr "Textutenhet för användarportskrivare"
 
 #: src/arch/unix/uiprinteriec.c:77 src/arch/unix/uiprinterieee.c:70
-#, fuzzy
 msgid "Userport printer formfeed"
-msgstr "Skrivardrivrutin för användarporten"
+msgstr "Mata fram sida för användarportskrivare"
 
 #: src/arch/unix/uiprinteriec.c:80 src/arch/unix/uiprinterieee.c:73
 msgid "Printer text device 1..."
@@ -2242,7 +2214,7 @@ msgstr "*Spara inställningar vid avslut"
 
 #: src/arch/unix/uisettings.c:529
 msgid "*Confirm on exit"
-msgstr ""
+msgstr "*Bekräfta avslutning"
 
 #: src/arch/unix/uisid.c:43
 msgid "*Fast SID"
@@ -2720,12 +2692,11 @@ msgstr "Kan inte skapa avbildningsfil \"%s\"."
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:50
 msgid "Blurredness"
-msgstr ""
+msgstr "Suddighet"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:51
-#, fuzzy
 msgid "Scanline Shade"
-msgstr "Skuggning av PAL-skannlinjer"
+msgstr "Skuggning av skannlinjer"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:52
 msgid "Saturation"
@@ -2748,14 +2719,12 @@ msgid "PAL Settings"
 msgstr "PAL-inställningar"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:163
-#, fuzzy
 msgid "Fast Emulation"
-msgstr "*Snabb PAL-emulering"
+msgstr "Snabb emulering"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:170
-#, fuzzy
 msgid "Exact Emulation"
-msgstr "PAL-emulering"
+msgstr "Exakt emulering"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:82
 #: src/arch/unix/x11/gnome/uiscreenshot.c:93
@@ -2769,12 +2738,11 @@ msgstr "Bildformat"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:156
 msgid "Audio Bitrate"
-msgstr ""
+msgstr "Ljudbithastighet"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:171
-#, fuzzy
 msgid "Video Bitrate"
-msgstr "Skärmbredd"
+msgstr "Videobithastighet"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:253
 #, c-format
@@ -2867,27 +2835,24 @@ msgid "PAL Controls"
 msgstr "PAL-styrning"
 
 #: src/arch/unix/x11/gnome/x11ui.c:768
-#, fuzzy
 msgid "audio/video recording"
-msgstr "Spela in"
+msgstr "ljud-/bild-inspelning"
 
 #: src/arch/unix/x11/gnome/x11ui.c:782 src/arch/unix/x11/gnome/x11ui.c:801
 msgid "click to stop recording"
-msgstr ""
+msgstr "avbryt inspelningen"
 
 #: src/arch/unix/x11/gnome/x11ui.c:787
-#, fuzzy
 msgid "event recording"
-msgstr "Spela in"
+msgstr "händelseinspelning"
 
 #: src/arch/unix/x11/gnome/x11ui.c:807
-#, fuzzy
 msgid "event playback"
-msgstr "*Aktivera ljudåtergivning"
+msgstr "händelseåterspelning"
 
 #: src/arch/unix/x11/gnome/x11ui.c:821
 msgid "click to stop playback"
-msgstr ""
+msgstr "avbryt återspelningen"
 
 #: src/arch/unix/x11/gnome/x11ui.c:833
 #, c-format
@@ -2969,9 +2934,9 @@ msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr "Vill du utöka diskettavbildningsfilen till 40 spår?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1987
-#, fuzzy, c-format
+#, c-format
 msgid "Autostart not possible for unit %d"
-msgstr "Kan inte starta automatiskt från enhet 9"
+msgstr "Kan inte starta automatiskt från enhet %d"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1995 src/arch/unix/x11/gnome/x11ui.c:2004
 #, c-format
@@ -3125,11 +3090,11 @@ msgstr "Spara inställningar (resurser) vid avslut"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:51
 msgid "Never confirm quiting VICE"
-msgstr ""
+msgstr "Bekräfta inte för att avsluta VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:54
 msgid "Confirm quiting VICE"
-msgstr ""
+msgstr "Bekräfta för att avsluta VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:57
 msgid "Never save settings (resources) on exit"
