@@ -249,5 +249,6 @@ extern int clength[];
 /* ------------------------------------------------------------------------- */
 
 extern int ass(ADDRESS addr, int mode);
+extern int interpret_instr(char *line, ADDRESS adr, int mode);
 
 #endif  /* _ASM_H */

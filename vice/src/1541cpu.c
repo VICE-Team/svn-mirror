@@ -41,6 +41,7 @@
 #include "viad.h"
 #include "6510core.h"
 #include "misc.h"
+#include "mon.h"
 
 /* -------------------------------------------------------------------------- */
 
@@ -156,8 +157,8 @@ static void REGPARM2 store_free(ADDRESS address, BYTE value)
 typedef BYTE REGPARM1 true1541_read_func_t(ADDRESS);
 typedef void REGPARM2 true1541_store_func_t(ADDRESS, BYTE);
 
-static true1541_read_func_t *read_func[0x41];
-static true1541_store_func_t *store_func[0x41];
+true1541_read_func_t *read_func[0x41];
+true1541_store_func_t *store_func[0x41];
 
 #define LOAD(a)		  (read_func[(a) >> 10](a))
 

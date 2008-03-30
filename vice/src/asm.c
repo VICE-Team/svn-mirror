@@ -393,7 +393,7 @@ static char *modename[] = {
 /* local */
 
 static int interpret_line(char *, ADDRESS *, int );
-static int interpret_instr(char *, ADDRESS , int );
+int interpret_instr(char *, ADDRESS , int );
 int find_instr(char *);
 static int parse_arguments(ADDRESS , int , char *, BYTE *, int *, int );
 
@@ -551,7 +551,7 @@ static int interpret_line(char *line, ADDRESS *addr, int mode)
  * error code is returned.
  */
 
-static int interpret_instr(char *line, ADDRESS adr, int mode)
+int interpret_instr(char *line, ADDRESS adr, int mode)
 {
     int     i = 0;
     int     instr = 0;

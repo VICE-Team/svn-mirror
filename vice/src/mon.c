@@ -1,1659 +1,1612 @@
-/*
- * mon.c - Built-in monitor for VICE.
- *
- * Written by
- *  Vesa-Matti Puro  (vmp@lut.fi)
- *  Jarkko Sonninen  (sonninen@lut.fi)
- *  Jouko Valta      (jopi@stekt.oulu.fi)
- *  Ettore Perazzoli (ettore@comm2000.it)
- *
- * Patches by
- *  Frank Prindle    (Frank.Prindle@lambada.oit.unc.edu)  /FCP/
- *  Teemu Rantanen   (tvr@cs.hut.fi) /TVR/
- *
- * This file is part of VICE, the Versatile Commodore Emulator.
- * See README for copyright notice.
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- *  02111-1307  USA.
- *
- */
-
-#include "vice.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-#include <sys/types.h>
 #include <unistd.h>
-#include <time.h>
+#include <ctype.h>
+#include <assert.h>
 
+#include "vice.h"
 #include "asm.h"
+#undef M_ADDR
+#include "mon.h"
+#include "charsets.h"
+#include "maincpu.h"
+#include "1541cpu.h"
+#include "file.h"
+#include "macro.h"
 #include "misc.h"
 #include "mshell.h"
-#include "maincpu.h"
 #include "mem.h"
-#include "vmachine.h"
-#include "serial.h"
-#include "macro.h"
-#include "interrupt.h"
-#include "ui.h"
-#include "video.h"
-#include "file.h"
-#include "charsets.h"
-#include "traps.h"
-#include "resources.h"
 
-#if defined (C128)
-#include "vicii.h"
-#include "vdc.h"
-#endif
+#define M_NONE 0
+#define M_LOAD 1
+#define M_STORE 2
+#define M_LOAD_STORE 3
 
-#ifdef GEMDOS
-typedef unsigned	size_t;
-#endif
-
-#define MAXADDR		(ADDRESS)65535
 #ifdef PET
-#define	MAXBANKADDR	MAXADDR
+#define NO_DRIVE
+#endif
+
+#ifndef NO_DRIVE
+
+#include "true1541.h"
+
+typedef BYTE REGPARM1 true1541_read_func_t(ADDRESS);
+typedef void REGPARM2 true1541_store_func_t(ADDRESS, BYTE);
+
+extern true1541_read_func_t *read_func[0x41];
+extern true1541_store_func_t *store_func[0x41];
+
+#define LOAD_1541(a)		  (read_func[(a) >> 10](a))
+#define LOAD_ZERO_1541(a)	  (true1541_ram[(a) & 0xff])
+#define STORE_1541(a, b)	  (store_func[(a) >> 10]((a), (b)))
+#define STORE_ZERO_1541(a, b)  (true1541_ram[(a) & 0xff] = (b))
+
+#endif
+
+/* Global variables */
+
+FILE *mon_output = stdout;
+
+extern void parse_and_execute_line(char *input);
+
+int sidefx;
+int default_datatype;
+int default_readspace;
+int default_writespace;
+unsigned stepping_num;
+unsigned nexting_num;
+BREAK_LIST *breakpoints[NUM_MEMSPACES];
+BREAK_LIST *watchpoints_load[NUM_MEMSPACES];
+BREAK_LIST *watchpoints_store[NUM_MEMSPACES];
+
+
+M_ADDR dot_addr[NUM_MEMSPACES];
+int breakpoint_count;
+unsigned char data_buf[256];
+unsigned data_buf_len;
+int stop_on_start;
+bool asm_mode;
+M_ADDR asm_mode_addr;
+unsigned next_or_step_stop;
+
+
+char *cond_op_string[] = { "",
+                           "==",
+                           "!=",
+                           ">",
+                           "<",
+                           ">=",
+                           "<=",
+                           "&&",
+                           "||"
+                          };
+
+
+int default_display_number[] = {40, /* default = hex */
+                                40, /* hexadecimal */
+                                40, /* decimal */
+                                20, /* binary */
+                                40, /* octal */
+                                 8, /* character */
+                                 1, /* sprite */
+                                80, /* text ascii */
+                                80, /* text petscii */
+                                10  /* asm */
+                               };
+
+int default_display_per_line[] = { 8, /* default = hex */
+                                   8, /* hexadecimal */
+                                   8, /* decimal */
+                                   2, /* binary */
+                                   8, /* octal */
+                                   1, /* character */
+                                   1, /* sprite */
+                                  10, /* text ascii */
+                                  10, /* text petscii */
+                                   1  /* asm */
+                                 };
+
+char *memspace_string[] = {"", "C", "8" };
+
+/* 6502 */
+
+char *register_string[] = { "A",
+                            "X",
+                            "Y",
+                            "PC",
+                            "SP"
+                          };
+
+
+#if 0
+int memory_ops[] = { /* 0x00 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
+                     /* 0x08 */ M_STORE, M_NONE , M_NONE , M_NONE , M_LOAD , M_LOAD , M_BOTH , M_BOTH ,
+                     /* 0x10 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
+                     /* 0x18 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_LOAD , M_LOAD , M_BOTH , M_BOTH ,
+                     /* 0x20 */ M_STORE, M_LOAD , M_NONE , M_BOTH , M_LOAD , M_LOAD , M_BOTH , M_BOTH ,
+                     /* 0x28 */ M_LOAD , M_NONE , M_NONE , M_NONE , M_LOAD , M_LOAD , M_BOTH , M_BOTH ,
+                     /* 0x20 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
+                     /* 0x38 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_LOAD , M_LOAD , M_BOTH , M_BOTH ,
+                     /* 0x40 */ M_LOAD , M_LOAD , M_NONE , M_BOTH , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
+                     /* 0x48 */ M_STORE, M_NONE , M_NONE , M_NONE , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
+                     /* 0x50 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_NONE , M_LOAD , M_BOTH , M_BOTH ,
+                     /* 0x58 */ M_NONE , M_LOAD , M_NONE , M_BOTH , M_LOAD , M_LOAD , M_BOTH , M_BOTH ,
+                     M_LOAD, , M_NONE, , M_NONE, , , ,  , , , , M_LOAD, , , ,
+                     M_NONE, , M_NONE, , M_NONE, , , ,  , , M_NONE, , M_LOAD, , , ,
+                     M_NONE, , M_NONE, , , , , ,  , M_NONE, , , , , , ,
+                     M_NONE, , M_NONE, , , , , ,  , , , , , , , ,
+                     , , , , , , , ,  , , , , , , , ,
+                     M_NONE, , M_NONE, , , , , ,  , , , , , , , ,
+                     , , M_NONE, , , , , ,  , , , , , , , ,
+                     M_NONE, , M_NONE, , M_NONE, , , ,  , , M_NONE, , M_LOAD, , , ,
+                     , , M_NONE, , , , , ,  , , , , , , , ,
+                     M_NONE, , M_NONE, , M_NONE, , , ,  , , M_NONE, , M_LOAD, , , ,
+                   };
+#endif
+
+unsigned int get_reg_val(MEMSPACE mem, int reg_id)
+{
+   if (mem == e_comp_space) {
+      switch(reg_id) {
+         case e_A:
+            return accumulator;
+         case e_X:
+            return x_register;
+         case e_Y:
+            return y_register;
+         case e_PC:
+            return program_counter;
+         case e_SP:
+            return stack_pointer;
+         default:
+            assert(FALSE);
+      }
+   } else if (mem == e_disk_space) {
+      switch(reg_id) {
+#ifndef NO_DRIVE
+         case e_A:
+            return true1541_accumulator;
+         case e_X:
+            return true1541_x_register;
+         case e_Y:
+            return true1541_y_register;
+         case e_PC:
+            return true1541_program_counter;
+         case e_SP:
+            return true1541_stack_pointer;
+#endif
+         default:
+            assert(FALSE);
+      }
+   }
+   return 0;
+}
+
+unsigned char get_mem_val(MEMSPACE mem, unsigned mem_addr)
+{
+   if (mem == e_comp_space) {
+      if (mem_addr < 0x0100)
+         return LOAD_ZERO(mem_addr);
+      else
+         return LOAD(mem_addr);
+   }
+   else if (mem == e_disk_space) {
+#ifndef NO_DRIVE
+      if (mem_addr < 0x0100)
+         return LOAD_ZERO_1541(mem_addr);
+      else
+         return LOAD_1541(mem_addr);
+#endif
+   }
+   else
+      assert(FALSE);
+   return 0;
+}
+
+void set_reg_val(int reg_id, unsigned char val)
+{ ; }
+
+void print_registers()
+{
+   int i;
+
+   for (i=0;i<=e_SP;i++) {
+      if (i) printf(",");
+      printf(" %s = %x ",register_string[i],get_reg_val(e_comp_space,i)); /* FIXME memspace */
+   }
+   puts("");
+}
+
+void set_mem_val(MEMSPACE mem, unsigned mem_addr, unsigned char val)
+{
+   if (mem == e_comp_space) {
+      if (mem_addr < 0x0100)
+         STORE_ZERO(mem_addr,val);
+      else
+         STORE(mem_addr,val);
+   }
+   else if (mem == e_disk_space) {
+#ifndef NO_DRIVE
+      if (mem_addr < 0x0100)
+         STORE_ZERO_1541(mem_addr,val);
+      else
+         STORE_1541(mem_addr,val);
+#endif
+   }
+   else
+      assert(FALSE);
+}
+
+
+void jump(M_ADDR addr)
+{
+   ;
+}
+
+/* *** ADDRESS FUNCTIONS *** */
+
+MEMSPACE addr_memspace(M_ADDR a) { return HI16_TO_LO16(a); }
+unsigned addr_location(M_ADDR a) { return LO16(a); }
+void set_addr_memspace(M_ADDR *a, MEMSPACE m) { *a = LO16(*a) | LO16_TO_HI16(m); }
+void set_addr_location(M_ADDR *a, unsigned l) { *a = HI16(*a) | LO16(l); }
+bool inc_addr_location(M_ADDR *a, unsigned inc)
+{
+   unsigned new_loc = LO16(*a) + inc;
+   *a = HI16(*a) | LO16(new_loc);
+
+   return !(new_loc == LO16(new_loc));
+}
+bool is_valid_addr(M_ADDR a) { return HI16_TO_LO16(a) != e_invalid_space; }
+M_ADDR new_addr(MEMSPACE m, unsigned l) { return (m<<16)|l; }
+M_ADDR evaluate_default_addr(M_ADDR a, bool is_read)
+{
+   if (addr_memspace(a) != e_default_space)
+      return a;
+
+   if (is_read)
+      set_addr_memspace(&a,default_readspace);
+   else
+      set_addr_memspace(&a,default_writespace);
+
+   return a;
+}
+
+M_ADDR bad_addr;
+
+/* *** ADDRESS RANGE FUNCTIONS *** */
+
+#ifdef LONG_LONG
+
+M_ADDR addr_range_start(M_ADDR_RANGE ar) { return LO32(ar); }
+MEMSPACE addr_range_start_memspace(M_ADDR_RANGE ar) { return addr_memspace(LO32(ar)); }
+unsigned addr_range_start_location(M_ADDR_RANGE ar) { return addr_location(LO32(ar)); }
+void set_addr_range_start(M_ADDR_RANGE ar, M_ADDR a) { ar = HI32(ar) | a; }
+
+M_ADDR addr_range_end(M_ADDR_RANGE ar) { return HI32_TO_LO32(ar); }
+MEMSPACE addr_range_end_memspace(M_ADDR_RANGE ar) { return addr_memspace(HI32_TO_LO32(ar)); }
+unsigned addr_range_end_location(M_ADDR_RANGE ar) { return addr_location(HI32_TO_LO32(ar)); }
+void set_addr_range_end(M_ADDR_RANGE ar, M_ADDR a) { ar = LO32(ar) | LO32_TO_HI32(a); }
+
+M_ADDR_RANGE new_range(M_ADDR a1, M_ADDR a2) { return LO32_TO_HI32(a2) | a1; }
+void free_range(M_ADDR_RANGE ar) {;}
+
 #else
-#define MAXBANKADDR	(RAM_SIZE-1)  /* (11 occurrences) */
+
+M_ADDR addr_range_start(M_ADDR_RANGE ar) { return ar->start_addr; }
+MEMSPACE addr_range_start_memspace(M_ADDR_RANGE ar) { return addr_memspace(ar->start_addr); }
+unsigned addr_range_start_location(M_ADDR_RANGE ar) { return addr_location(ar->start_addr); }
+void set_addr_range_start(M_ADDR_RANGE ar, M_ADDR a) { ar->start_addr = a; }
+
+M_ADDR addr_range_end(M_ADDR_RANGE ar) { return ar->end_addr; }
+MEMSPACE addr_range_end_memspace(M_ADDR_RANGE ar) { return addr_memspace(ar->end_addr); }
+unsigned addr_range_end_location(M_ADDR_RANGE ar) { return addr_location(ar->end_addr); }
+void set_addr_range_end(M_ADDR_RANGE ar, M_ADDR a) { ar->end_addr = a; }
+
+M_ADDR_RANGE new_range(M_ADDR a1, M_ADDR a2)
+{
+   M_ADDR_RANGE ar;
+   ar = (M_ADDR_RANGE)(malloc(sizeof(struct t_address_range)));
+   set_addr_range_start(ar, a1);;
+   set_addr_range_end(ar, a2);;
+
+   return ar;
+}
+void free_range(M_ADDR_RANGE ar) { free(ar); }
+
 #endif
 
-#ifdef C128
-#define MASKVAL		0x3ffff	/* >= MAXBANKADDR  (used once) */
-#else
-#define MASKVAL		0x1ffff	/* bank 1 == ram0 */
-#endif
+bool is_in_range(M_ADDR_RANGE ar, unsigned loc)
+{
+   unsigned start, end;
+
+   start = addr_range_start_location(ar);
+
+   if (!is_valid_addr(addr_range_end(ar)))
+      return (loc == start);
+
+   end = addr_range_end_location(ar);
+
+   if (end < start)
+      return ((loc>=start) || (loc<=end));
+
+   return ((loc>=start) && (loc<=end));
+}
+
+bool is_valid_range(M_ADDR_RANGE range)
+{
+   return (addr_memspace(addr_range_start(range)) != e_invalid_space);
+}
+
+void evaluate_default_addr_range(M_ADDR_RANGE *range, bool is_read)
+{
+   M_ADDR a1, a2;
+   MEMSPACE mem1, mem2, def;
+
+   a1 = addr_range_start(*range);
+   a2 = addr_range_end(*range);
+   mem1 = addr_memspace(a1);
+   mem2 = addr_memspace(a2);
+
+   if (is_read)
+      def = default_readspace;
+   else
+      def = default_writespace;
+
+   assert(mem1 != e_invalid_space);
+
+   if (mem1 == e_default_space) {
+      if (mem2 == e_default_space) {
+         set_addr_memspace(&a1,def);
+         set_addr_memspace(&a2,def);
+      } else if (mem2 != e_invalid_space) {
+         set_addr_memspace(&a1,mem2);
+      } else {
+         set_addr_memspace(&a1,def);
+      }
+   } else {
+      if (mem2 == e_default_space) {
+         set_addr_memspace(&a2,mem1);
+      } else if (mem2 != e_invalid_space) {
+         assert(mem1 == mem2);
+      }
+   }
+   set_addr_range_start(*range,a1);
+   set_addr_range_end(*range,a2);
+}
+
+M_ADDR_RANGE bad_addr_range;
+
+/* *** ULTILITY FUNCTIONS *** */
+
+void check_address(M_ADDR addr) {}
+void check_range(M_ADDR_RANGE range) {}
+
+unsigned check_addr_limits(unsigned val)
+{
+   if (val != LO16(val))
+   {
+      printf("Overflow warning\n");
+      return 0xffff;
+   }
+
+   return val;
+}
+
+bool is_valid_addr_range(M_ADDR_RANGE range)
+{
+   M_ADDR start, end;
+
+   start = addr_range_start(range);
+   end = addr_range_end(range);
+
+   if ((addr_memspace(start) != addr_memspace(end)) &&
+       ((addr_memspace(start) != e_default_space) ||
+        (addr_memspace(end) != e_default_space))) {
+      printf("Invalid range: Endpoints are in different"
+             " memory spaces\n");
+      return FALSE;
+   }
+   return TRUE;
+}
+
+void print_bin(int val, char on, char off)
+{
+   int divisor;
+   char digit;
+
+   if (val > 4095)
+      divisor = 32768;
+   else if (val > 255)
+      divisor = 2048;
+   else
+      divisor = 128;
+
+   while (divisor) {
+      digit = (val & divisor) ? on : off;
+      printf("%c",digit);
+      if (divisor == 256)
+         printf(" ");
+      divisor /= 2;
+   }
+}
+
+void print_hex(int val)
+{
+   if (val > 255)
+      printf("0x%04x\n",val);
+   else
+      printf("0x%02x\n",val);
+}
+
+void print_octal(int val)
+{
+   if (val > 511)
+      printf("0%06o\n",val);
+   else
+      printf("0%03o\n",val);
+}
 
 
-/* Dump/Undump return values */
+void print_convert(int val)
+{
+   printf("+%d\n",val);
+   print_hex(val);
+   print_octal(val);
+   print_bin(val,'1','0'); puts("");
+}
 
-#define BAD_CORE_FORMAT		-1
-#define BAD_CORE_IO		-2
-#define BAD_CORE_CPU		-3
+void add_number_to_buffer(int number)
+{
+   data_buf[data_buf_len++] = (number & 0xff);
+   if (number > 0xff)
+      data_buf[data_buf_len++] = ( (number>>8) & 0xff);
+   data_buf[data_buf_len] = '\0';
+}
 
-
-/* extern */
-
-extern void iowr(ADDRESS, BYTE);
-extern BYTE iord(ADDRESS);
-/*extern int floppy_hexdump_block(int, int, int, int);*/
-
-
-#ifdef VICE_DUMP
-int     dump ( char *name );
-int     undump ( char *name );
-#endif
-
-
-#ifdef HAS_ZILOG_Z80
-#include "cpm.h"
-#include "z80/Z80.h"
-
-extern reg  *get_z80_regs (void);
-extern void  put_z80_regs (reg *r);
-extern int   disassemble_line ( int counter, BYTE *inbuf );
-
-static int  mon_zdis ( void );
-static int  mon_zreg ( void );
-static int  mon_zcall ( void );
-static int  mon_z80_showreg (void);
-#endif
+void add_string_to_buffer(char *str)
+{
+   strcpy(&(data_buf[data_buf_len]), str);
+   data_buf_len += strlen(str);
+   data_buf[data_buf_len] = '\0';
+   free(str);
+}
 
 
-/*
- *  Machine Language Monitor
- */
+void memory_to_string(char *buf, MEMSPACE mem, unsigned addr, unsigned len, bool petscii)
+{
+    int i, val;
 
-static int    mode;
-static ADDRESS  address;	/* Default place to put code in Commodore 64. */
+    for (i=0;i<len;i++) {
+       val = get_mem_val(mem, addr);
 
-static char  *args[MAXARG+1];
-static int    values[MAXARG+1];
-static int    types[MAXARG+1];
-static int    nargs;
+       if (petscii)
+          buf[i] = p_toascii(val,0);
+       if (isprint(val))
+          buf[i] = val;
+       else
+          buf[i] = '.';
+
+       addr++;
+    }
+}
 
 
-void    mon( ADDRESS adr );
+/* *** MISC COMMANDS *** */
 
-static BYTE get_mem ( ADDRESS adr );
-static int  put_mem ( ADDRESS adr, BYTE *byte, int count );
-static void pack_args( int start );
-static int  mon_fill ( void );
-static int  mon_hunt ( void );
-static int  mon_compare ( void );
-static int  mon_move ( void );
-static int  mon_number ( void );
-static int  mon_asm ( void );
-static int  mon_disassemble ( void );
-static int  mon_memdump ( void );
-static int  mon_bitdump ( void );
-static int  mon_memstore ( void );
-static int  mon_bitstore ( void );
+extern int yydebug;
 
-/* Basic */
+void init_monitor()
+{
+   int i;
 
-#ifdef CBM64
-static int  mon_type ( void );
-static int  mon_screen ( void );
-#endif
+   yydebug = 0;
+   sidefx = e_OFF;
+   default_datatype = e_hexadecimal;
+   default_readspace = e_comp_space;
+   default_writespace = e_comp_space;
+   stepping_num = 0;
+   nexting_num = 0;
+   breakpoint_count = 1;
+   data_buf_len = 0;
+   stop_on_start = 1;
+   asm_mode = 0;
+   next_or_step_stop = 0;
 
-/* Debugger */
+   for (i=1;i<NUM_MEMSPACES;i++)
+      dot_addr[i] = new_addr(e_default_space + i, 0);
 
-static int  mon_jump ( void );
-static void mon_times( int set );
-#ifdef TRACE
-static int  mon_trace( void );
-#endif
+   bad_addr = new_addr(e_invalid_space, 0);
+   bad_addr_range = new_range(bad_addr, bad_addr);
+
+   asm_mode_addr = bad_addr;
+}
+
+void print_help() { printf("No help yet.\n"); }
+
+
+void start_assemble_mode(M_ADDR addr, char *asm_line)
+{
+   asm_mode = 1;
+
+   assert(is_valid_addr(addr));
+   addr = evaluate_default_addr(addr, FALSE);
+   asm_mode_addr = addr;
+
+   assemble_line(asm_line);
+}
+
+void end_assemble_mode()
+{
+   asm_mode = 0;
+}
+
+extern int interpret_instr(char *line, ADDRESS adr, int mode);
+
+void assemble_line(char *line)
+{
+   int bump_count = 1;
+   MEMSPACE mem;
+   unsigned loc;
+
+   if (!line)
+      return;
+
+   mem = addr_memspace(asm_mode_addr);
+   loc = addr_location(asm_mode_addr);
+   line[strlen(line)-1] = '\0';
+
+   /* printf("Assemble '%s' to address %s:0x%04x\n",line,memspace_string[mem],addr_location(asm_mode_addr)); */
+   bump_count = interpret_instr(line, loc, 0); /* FIXME ? MODE */
+   if (bump_count >= 0) {
+      inc_addr_location(&asm_mode_addr, bump_count);
+      dot_addr[mem] = asm_mode_addr;
+   } else {
+      printf("Assemble error: %d\n",bump_count);
+   }
+}
+
+unsigned disassemble_instr(M_ADDR addr)
+{
+   BYTE op, p1, p2;
+   MEMSPACE mem;
+   unsigned loc;
+
+   mem = addr_memspace(addr);
+   loc = addr_location(addr);
+
+   op = get_mem_val(mem, loc);
+   p1 = get_mem_val(mem, loc+1);
+   p2 = get_mem_val(mem, loc+2);
+
+   printf(".%s:%04x   %s\n",memspace_string[addr_memspace(addr)],loc,
+          sprint_disassembled(loc, op, p1, p2, MODE_HEX));  /* FIXME HEX */
+   return clength[lookup[op].addr_mode];
+}
+
+void disassemble_lines(M_ADDR_RANGE range)
+{
+   M_ADDR start, end;
+   MEMSPACE mem;
+   unsigned end_loc;
+   bool valid_range;
+
+   valid_range = is_valid_range(range);
+
+   if (valid_range) {
+      evaluate_default_addr_range(&range, TRUE);
+      mem = addr_memspace(addr_range_start(range));
+      start = addr_range_start(range);
+      end = addr_range_end(range);
+      dot_addr[mem] = start;
+
+      if (is_valid_addr(end))
+         end_loc = addr_location(end);
+      else
+         end_loc = addr_location(start) + DEFAULT_DISASSEMBLY_SIZE;
+   } else {
+      mem = default_readspace;
+      end_loc = addr_location(dot_addr[mem]) + DEFAULT_DISASSEMBLY_SIZE;
+   }
+
+   while (addr_location(dot_addr[mem]) < end_loc)
+      inc_addr_location(&(dot_addr[mem]), disassemble_instr(dot_addr[mem]));
+
+   free_range(range);
+}
+
+
+/* *** MEMORY COMMANDS *** */
+
+
+void display_memory(int data_type, M_ADDR_RANGE range)
+{
+   unsigned i, addr, last_addr, max_width, real_width;
+   char printables[50];
+   MEMSPACE mem;
+
+   if (!data_type)
+      data_type = default_datatype;
+
+   if (is_valid_range(range)) {
+      evaluate_default_addr_range(&range, TRUE);
+      addr = addr_range_start_location(range);
+      mem = addr_memspace(addr_range_start(range));
+   }
+   else {
+      mem = default_readspace;
+      addr = addr_location(dot_addr[mem]);
+   }
+
+   if (is_valid_addr(addr_range_end(range)))
+      last_addr = addr_range_end_location(range);
+   else
+      last_addr = addr + default_display_number[data_type] - 1;
+
+   while (addr <= last_addr) {
+      printf(">%s:%04x ",memspace_string[mem],addr);
+      max_width = default_display_per_line[data_type];
+      for (i=0,real_width=0;i<max_width;i++) {
+         switch(data_type) {
+            case e_text_petscii:
+               printf("%c",p_toascii(get_mem_val(mem,addr+i),0));
+               real_width++;
+               break;
+            case e_decimal:
+               memset(printables,0,50);
+               if (addr+i <= last_addr) {
+                  printf("%3d ",get_mem_val(mem,addr+i));
+                  real_width++;
+               }
+               else
+                  printf("    ");
+               break;
+            case e_hexadecimal:
+               memset(printables,0,50);
+               if (addr+i <= last_addr) {
+                  printf("%02x ",get_mem_val(mem,addr+i));
+                  real_width++;
+               }
+               else
+                  printf("   ");
+               break;
+            case e_character:
+               print_bin(get_mem_val(mem,addr+i),'*','.');
+               printf(" \n");
+               real_width++;
+               break;
+            default:
+
+         }
+
+      }
+
+      if (data_type == e_decimal || data_type == e_hexadecimal) {
+         memory_to_string(printables, mem, addr, real_width, FALSE);
+         printf("\t%s",printables);
+      }
+      puts("");
+      addr += real_width;
+   }
+
+   set_addr_location(&(dot_addr[mem]),last_addr+1);
+
+   free_range(range);
+}
+
+
+void move_memory(M_ADDR_RANGE src, M_ADDR dest)
+{
+  unsigned i, len, start, end, dst;
+  MEMSPACE src_mem, dest_mem;
+  BYTE *buf;
+
+  if (is_valid_range(src))
+     evaluate_default_addr_range(&src, TRUE);
+  else
+     assert(FALSE);
+
+  start = addr_range_start_location(src);
+  end = addr_range_end_location(src);
+
+  assert(is_valid_addr(dest));
+  evaluate_default_addr(dest,FALSE);
+  dst = addr_location(dest);
+  len = end - start + 1;
+  buf = (BYTE *) malloc(sizeof(BYTE) * len);
+
+  src_mem = addr_range_start_memspace(src);
+  dest_mem = addr_memspace(dest);
+
+  if (len < 0) len += 65536;
+
+  /* FIXME: handle overlap */
+  for (i=0; i<len; i++) {
+     buf[i] = get_mem_val(src_mem, start+i);
+  }
+
+  for (i=0; i<len; i++) {
+     printf("Moving addr:0x%x to addr:0x%x\n",start+i, dst+i);
+     set_mem_val(dest_mem, dst+i, buf[i]);
+  }
+
+  free_range(src);
+}
+
+
+void compare_memory(M_ADDR_RANGE src, M_ADDR dest)
+{
+  unsigned i, len, start, end, dst;
+  MEMSPACE src_mem, dest_mem;
+
+  if (is_valid_range(src))
+     evaluate_default_addr_range(&src, TRUE);
+  else
+     assert(FALSE);
+
+  start = addr_range_start_location(src);
+  end = addr_range_end_location(src);
+
+  assert(is_valid_addr(dest));
+  evaluate_default_addr(dest,TRUE);
+  dst = addr_location(dest);
+  len = end - start + 1;
+  if (len < 0) len += 65536;
+
+  src_mem = addr_range_start_memspace(src);
+  dest_mem = addr_memspace(dest);
+
+  /* FIXME: handle overlap & memspaces */
+  for (i=0; i<len; i++) {
+     printf("Comparing addr:0x%x with addr:0x%x\n",start+i, dst+i);
+     if (get_mem_val(dest_mem, dst+i) != get_mem_val(src_mem, start+i))
+        printf("0x%x\n",start+i);
+  }
+
+  free_range(src);
+}
+
+
+void fill_memory(M_ADDR_RANGE dest, unsigned char *data)
+{
+  unsigned i, index, len, start, end;
+  MEMSPACE dest_mem;
+
+  if (is_valid_range(dest))
+     evaluate_default_addr_range(&dest, TRUE);
+  else
+     assert(FALSE);
+
+  start = addr_range_start_location(dest);
+  end = addr_range_end_location(dest);
+  len = end - start + 1;
+  if (len < 0) len += 65536;
+
+  dest_mem = addr_range_start_memspace(dest);
+
+  i = 0;
+  index = 0;
+  while (i < len) {
+     set_mem_val(dest_mem, start+i, data_buf[index++]);
+     if (index >= strlen(data_buf)) index = 0;
+     i++;
+  }
+
+  free_range(dest);
+}
+
+
+void hunt_memory(M_ADDR_RANGE dest, unsigned char *data)
+{
+  unsigned i, len, start, end;
+
+  if (is_valid_range(dest))
+     evaluate_default_addr_range(&dest, TRUE);
+  else
+     assert(FALSE);
+
+  start = addr_range_start_location(dest);
+  end = addr_range_end_location(dest);
+  len = end - start + 1;
+  if (len < 0) len += 0x10000;
+
+  /* FIXME: handle overlap & memspaces */
 #if 0
-static int  mon_step( void );
-#endif
-static int  mon_setreg ( void );
-static int  mon_showreg ( void );
-static int  mon_up ( void );
-static int  mon_down ( void );
-#if 0
-static int  mon_set ( void );
-static int  mon_unset ( void );
-#endif
-static int  mon_help ( void );
-static int  mon_help_mnem( char *line );
-#ifdef NEW_TIMER_CODE
-static int  mon_break ( void );
-static int  mon_clear ( void );
-#endif
-#ifdef  TRAP_WRITES
-static int  mon_trap ( void );
-#endif
-static int  mon_chdir ( void );
-static int  mon_save ( void );
-static int  mon_load ( void );
-#ifdef VICE_DUMP
-static int  mon_dump ( void );
-static int  mon_undump ( void );
-#endif
-static int  mon_attach ( void );
-static int  mon_quit ( void );
-static int  mon_exit ( void );
-
-/* ------------------------------------------------------------------------- */
-
-int runflg = 0;
-
-struct ms_table mon_cmds[] = {
-    {"fill", 3, MAXARG, mon_fill,
-    "fill    start end|+len bytes|'string'\n"},
-    {"hunt", 3, MAXARG, mon_hunt,
-    "hunt    start end|+len bytes|'string'\n"},
-    {"compare", 3, 3, mon_compare,
-    "compare  start end|+len target\n"},
-    {"transfer", 3, 3, mon_move,
-    "transfer start  end|+len  dest\t(move memory area)\n"},
-    {"number", 3, 5, mon_number,
-    "number  start  end|+len  orig.st [orig.end [disp]]\t(relink code)\n"},
-    {"asm", 0, 1, mon_asm,
-    "asm \t [addr]\t\t\t\t(assemble)\n"},
-    {"disassemble", 0, 2, mon_disassemble,
-    "disassemble [addr] [end|+len]\n"},
-    {"memory", 0, 2, mon_memdump,
-    "memory  [addr] [end|+len]\t\t(show memory in hex format)\n"},
-    {"image", 0, 2, mon_bitdump,
-    "image   [addr] [end|+len]\t\t(show memory in bit format)\n"},
-    {">", 1, MAXARG, mon_memstore,
-    ">\t  addr  bytes|'string'\t\t(write data to memory)\n"},
-    {":", 1, MAXARG, mon_bitstore,
-    ":\t  addr  bytes|'string'\t\t(write image data to memory)\n"},
-
-    /* debugger */
-    {"jump", 0, 6, mon_jump,
-    "jump\t [addr [registers]]\n"},
-    {"call", 0, 1, mon_jump,
-    "call\t [addr]\t\t\t\t(run code at address specified)\n"},
-#if 0
-    {"time", 0, 6, mon_jump,
-    "time\t [addr]\t\t\t\t(time code until next BRK)\n"},
-#endif
-    {"registers", 0, 6, mon_setreg,
-    "registers [register list]\t\t(set PC AC AX YR PF SP)\n"},
-    {";", 0, 6, mon_setreg,
-    ";\t\t\t\t\t(same as registers)\n"},
-#ifdef TRACE
-    {"trace", 0, 1, mon_trace,
-    "trace\t [0|1]\t\t\t\t(switch debug mode)\n"},
-#endif
-    /*{"ss", 0, 1, mon_step,
-    "ss\t\t\t\t\t(single step program)\n"},*/
-#ifdef NEW_TIMER_CODE
-    {"break", 0, 2, mon_break,
-     "break  [start] [end]\t\t\t(set up breakpoints (region))\n"},
-    {"clear", 0, 2, mon_clear,
-     "clear   start [end]\t\t\t(clear breakpoints (region))\n"},
-#endif
-#ifdef  TRAP_WRITES
-    {"trap", 0, 2, mon_trap,
-     "trap   [start] [end]\t\t\t(set up read/write traps (region))\n"},
-#endif
-    {"down", 0, 1, mon_down,
-    "down\t [levels]\t\t\t(move down on stack)\n"},
-    {"up", 0, 1, mon_up,
-    "up\t [levels]\n"},
-
-    /* Zilog Z80 */
-
-#ifdef HAS_ZILOG_Z80
-    {"zdis", 0, 2, mon_zdis,
-    "zdis\t [addr] [end|+len]\n"},
-    {"zasm", 0, 1, mon_asm,		/* Note: same function. */
-     "zasm\t [addr]\t\t\t\t(enter to Z80 line interpreter)\n"},
-    {"zcall", 0, 1, mon_zcall,
-     "zcall\t [addr]\t\t\t\t(run Z80 code at address specified)\n"},
-    {"zreg", 0, 9, mon_zreg,
-     "zreg\t [register list]\t\t(show Z80 registers)\n"},
+  for (i=0; i<(len-strlen(data)); i++) {
+     if (strncmp(&(memory_vals[start+i]),data,strlen(data)) == 0)
+        printf("Found match at addr:0x%x\n",start+i);
+  }
 #endif
 
-    {"cd", 1, 1, mon_chdir,
-    "cd\t path\n"},
-    {"save", 3, 3, mon_save,
-    "save\t filename  addr  end|+len\t(work dir)\n"},
-    {"load", 1, 2, mon_load,
-    "load\t filename [addr]\t\t(work dir)\n"},
-#ifdef VICE_DUMP
-    {"dump", 0, 1, mon_dump, /*FCP*/
-    "dump\t [filename]\t\t\t(save freezed program and state)\n"},
-    {"undump", 0, 1, mon_undump, /*FCP*/
-    "undump [filename]\t\t\t(load freezed ram image from file)\n"},
-#endif
-    {"attach", 0, 2, mon_attach, /*TVR*/
-     "attach [#dev] [imagename]\t\t(attach image for use)\n"}, /*TVR*/
-#if 0
-    {"block", 0, 4, mon_sectordump,
-    "block [drive:] [track] [sector] [disp] (show disk blocks in hex format)\n"},
-#endif
-
-#if 0
-    {"set", 0, 2, mon_set,
-    "set\t [variable [value]]\t\t(set system variable)\n"},
-    {"unset", 0, 1, mon_unset,
-    "unset\t [variable [value]]\t\t(clear system variable)\n"},
-#endif
-
-    {"help", 0, 1, mon_help,
-    "help\t [topic]\t\t\t(describe command or mnemonic)\n"},
-    {"?", 0, 1, mon_help,
-    "?\t [topic]\t\t\t(same as help)\n"},
-    {"x", 0, 0, mon_exit,
-    "x\t\t\t\t\t(exit monitor)\n"},
-    {"quit", 0, 0, mon_quit,
-    "quit\t\t\t\t\t(exits the emulator)\n"},
-
-    /* basic -- lowest priority commands */
-#ifdef CBM64
-    {"type", 0, MAXARG, mon_type,
-    "type\t  [bytes|'string']\t\t(manipulate basic memory)\n"},
-    {"screen", 0, 1, mon_screen,
-    "screen  [n|addr]\t\t\t(display video memory)\n"},
-#endif
-
-    {NULL, 0, 0, 0, NULL}
-};
-
-
-/*
- * Functions for reading data from memory and writing back.
- * Any MMU memory configurations are ignored, if address > FFFF.
- */
-
-static BYTE get_mem(ADDRESS adr)
-{
-    /* switch (bank) {
-       case 0: */
-    if (adr <= 0xffff)		/* Computer's own memory configuration */
-	return (LOAD((ADDRESS)(adr & MAXADDR)) );
-    else
-	return (ram[adr & MAXBANKADDR]);	/* Ignore MMU */
-    /* case 1:
-       default:
-       }
-     */
+  free_range(dest);
 }
 
 
-static int  put_mem(ADDRESS adr, BYTE *byte, int count)
+/* *** FILE COMMANDS *** */
+
+void change_dir(char *path)
 {
-    /* switch (bank) {
-       case 0: */
-
-    if (adr <= 0xffff)		/* Computer's own memory configuration */
-      for (; count-- > 0; adr++, byte++)
-	{ STORE((ADDRESS)(adr & MAXADDR), *byte); }
-
-    else
-	memcpy(ram + (adr & MAXBANKADDR), byte, count); /* Ignore MMU */
-
-    /* case 1:
-       default:
-       }
-     */
-
-   return (0);
-}
-
-
-#if 0
-int     dump(char *name)
-{
-    ADDRESS  a;
-    FILE   *fp;
-
-    if (NULL == (fp = fopen(name, WRITE)) ||
-	1 != fwrite((char *) ram, (size_t)RAM_SIZE, 1, fp))
-	return (0);
-
-    for (a = 0xd000; ((a < 0xe000) && (1 == fprintf(fp, "%c", iord(a)))); a++);
-
-    fprintf(fp, "%c%c%c%c%c%c%c", LOWER(PC),UPPER(PC),
-	(int) AC, (int) XR, (int) YR, GET_SR(), SP);
-
-    (void) fclose(fp);
-
-    return (0);
-}
-
-
-/* Handle the actual Core resume. */
-
-int     undump(char *name)
-{
-    ADDRESS  a;
-    int     i;
-    BYTE    buf[8];
-    FILE   *fp;
-
-    /* FIXME: Should use magic byte here...  */
-
-    if (NULL == (fp = fopen(name, READ)) ||
-	1 != fread((char *) ram, (size_t)RAM_SIZE, 1, fp)) {
-	perror(name);
-	return (BAD_CORE_FORMAT);
+    if (chdir(path) < 0) {
+	perror(path);
     }
 
-    for (a = 0xd000; a < 0xe000; a++) {
-	if ((i= getc(fp)) == EOF) {
-	    /*printf("IO status read failed %04X\n", a);*/
-	    (void) fclose(fp);
-	    return (0);
-	}
-	iowr(a, (BYTE) i);
-    }
-
-    /* FIXME: Should use magic byte here...  */
-
-    if (1 == fread(buf, 7, 1, fp)) {
-	PC = buf[0];
-	PC |= (buf[1] <<8);
-	AC = buf[2];
-	XR = buf[3];
-	YR = buf[4];
-	SET_SR(buf[5]);
-	SP = buf[6];
-
-	printf("Restoring main CPU...\n");
-	mon_showreg();
-    } else {
-	printf("Main CPU status read failed\n");
-	(void) fclose(fp);
-	return BAD_CORE_CPU;
-    }
-
-    (void) fclose(fp);
-
-    return (0);
-}
-#endif
-
-/* ------------------------------------------------------------------------- */
-
-/*
- * Memory manipulation
- */
-
-
-/* function packs arguments after 'start' to single piece of data */
-
-static void pack_args(int start)
-{
-    int     i;
-    static char buf[256];
-    char   *p = buf;
-
-    for (i = start; i < nargs; i++) {
-	if (types[i] == T_QUOTED) {
-	    memcpy(p, args[i], values[i]);
-	    p += values[i];
-	} else
-	    *p++ = values[i];
-    }
-    *p = '\0';
-    types[start] = T_QUOTED;
-    args[start] = buf;
-    values[start] = (int) p - (int) buf;  /* warning: size */
-
-    /* return values[start]; */
+    printf("Changing to directory: %s",path);
 }
 
 
-static int  mon_fill(void)
-{
-    ADDRESS  adr, end = values[2]-1;
-    pack_args(3);
-
-    if (values[3] > 0)
-	for (adr = values[1]; adr <= end; adr += values[3])
-	    put_mem(adr, (BYTE *)args[3], values[3]);
-    return (0);
-}
-
-
-static int  mon_hunt(void)
-{
-    ADDRESS  adr = values[1], end = values[2];
-
-    pack_args(3);
-    if (values[3] > 0)
-	for (; adr <= end;) {
-	    if (!memcmp(ram + adr, args[3], values[3])) {
-		printf("%04X\t", adr);
-		adr += values[3];
-	    } else
-		adr++;
-	}
-    printf("\n");
-    return (0);
-}
-
-
-static int  mon_compare(void)
-{
-    ADDRESS  adr = values[1], end = values[2], trg = values[3];
-
-    for (; adr <= end; adr++, trg++)
-	if (get_mem(adr) != get_mem(trg))
-	    printf("%04X\t", adr);
-    printf("\n");
-    return (0);
-}
-
-
-static int  mon_move(void)
-{
-    ADDRESS  adr = values[1], end = values[2], trg = values[3];
-    BYTE    c;
-
-    if (adr > trg)
-	for (; adr <= end; trg++, adr++) {
-	    c = get_mem(adr);
-	    put_mem(trg, &c, 1);
-	}
-    else if (adr < trg)
-	for (trg += (end - adr); adr <= end; trg--, end-- ) {
-	    c = get_mem(end);
-	    put_mem(trg, &c, 1);
-	}
-    return (0);
-}
-
-
-static int  mon_number(void)
-{
-    ADDRESS  adr = values[1], end =  values[2], origs =  values[3];
-    ADDRESS  orige, val;
-    int     c, disp;
-
-    switch (nargs) {
-      case 4:
-	orige = end - adr + origs;
-	disp  = adr - origs;
-	break;
-
-      case 5:
-	orige = values[4];
-	disp  = adr - origs;
-	break;
-
-      case 6:
-	orige = values[4];
-	disp  = values[5];
-
-      default:
-	return 0;
-    }
-    origs &= 0xffff;		/* Keep within bank */
-    orige &= 0xffff;
-
-    printf("Numbering %04X-%04X: %04X-%04X -> %04X-%04X\n",
-	   adr, end, origs, orige,
-	   (origs+disp) & MAXBANKADDR, (orige+disp) & MAXBANKADDR);
-
-    while (adr <= end) {
-	if ((c= clength[lookup[ram[adr]].addr_mode]) == 3 &&
-	    (val = (ram[adr+2]<<8)+ram[adr+1]) >= origs && val <= orige) {
-	    val += disp;
-	    ram[adr+1] = (val & 0xff);
-	    ram[adr+2] = (val>>8 & 0xff);
-	    printf(". %04X\t%s\n", adr, sprint_opcode(adr, 1));
-	}
-	adr += c;
-    }
-
-    return (0);
-}
-
-
-static int  mon_asm(void)
-{
-    int asmode = mode;
-
-
-#ifdef HAS_ZILOG_Z80
-    if (*args[0] == 'z')
-	asmode |= MODE_ZILOG;
-#endif
-
-    if (nargs > 1)
-	ass(values[1], asmode);
-    else
-	ass(address, asmode);
-    return (0);
-}
-
-
-static int  mon_disassemble(void)
-{
-    ADDRESS  p, start = values[1], end =  values[2];
-    BYTE    op, p1, p2;
-    int     cnt;
-
-    switch (nargs) {
-      case 1:
-	start = address;
-	/* Drop through.  */
-
-      case 2:
-	for (cnt = 20, p = start; cnt-- > 0;) {
-	    op = get_mem(p);
-	    p1 = get_mem(p + 1);
-	    p2 = get_mem(p + 2);
-	    printf(". %04X\t%s\n",
-		   p, sprint_disassembled(p & MAXADDR, op, p1, p2, mode));
-	    p += clength[lookup[get_mem(p)].addr_mode];
-	}
-	break;
-
-      case 3:
-	for (p = start; p <= end && p >= start;) {
-	    op = get_mem(p);
-	    p1 = get_mem(p + 1);
-	    p2 = get_mem(p + 2);
-	    printf((mode & MODE_HEX) ? ". %04X\t%s\n" : ". %05d\t%s\n",
-		   p, sprint_disassembled(p & MAXADDR, op, p1, p2, mode));
-	    p += clength[lookup[get_mem(p)].addr_mode];
-	}
-
-      default:
-	/* (cannot happen) */
-	fprintf(stderr, "Wrong number of arguments!\n");
-	return -1;
-    }
-
-    address = p & MAXBANKADDR;
-    return (0);
-}
-
-
-static int  mon_memdump(void)
-{
-    ADDRESS  p, start = values[1], end = values[2];
-    BYTE    c, arg[17];
-    int     cnt;
-
-    switch (nargs) {
-      case 1:
-	start = address;
-	/* Drop through.  */
-
-      case 2:
-	end = start + 254;
-	break;
-    }
-
-    arg[16] = 0;
-
-    for (p = start; p < end && p >= start;) {
-	printf((mode & MODE_HEX) ? "> %04X " : "> %05d ", p);
-
-	for (cnt = 0; cnt < 16; cnt++, p++) {
-	    c = get_mem(p);
-	    printf(" %02X", c);
-
-	    arg[cnt] = p_toascii (c, 1);
-	}
-	printf(" ;%s\n", arg);
-    }
-
-    address = p & MAXBANKADDR;
-    return (0);
-}
-
-
-static int  mon_bitdump(void)
-{
-    ADDRESS  adr = values[1], end = values[2];
-    char    arg[17];
-    int     cnt;
-
-    switch (nargs) {
-      case 1:
-	adr = address;
-
-      case 2:
-	end = adr + 60;
-	break;
-    }
-
-    arg[3] = 0;
-
-    while (adr <= end) {
-	unsigned int n, val, mask;
-	printf((mode & MODE_HEX) ? ": %04X " : ": %05d ", adr);
-	for (cnt = 0; cnt < 3; cnt++, adr++) {
-	    val = get_mem(adr&0xffff) & 0xff;
-	    for (n = 8, mask = 0x80; n--; mask >>= 1)
-		printf((val & mask) ? "*" : "-");
-	}
-	printf("\n");
-	if ((adr & 0x3f) == 0x3f)
-	    adr++;	/* Skip the unused byte */
-    }
-
-    address = adr & MAXBANKADDR;
-    return (0);
-}
-
-
-static int  mon_memstore(void)
-{
-    address = values[1] & MAXBANKADDR;
-    pack_args(2);
-
-    if (values[2] > 0)
-	put_mem(address, (BYTE *)args[2], values[2]);
-
-    address = (address + values[2]) & MAXBANKADDR;
-    return (0);
-}
-
-
-static int  mon_bitstore(void)
-{
-    unsigned long val;
-    int i, j, n=0;
-    BYTE *c, buf[4];
-
-    address = values[1];
-
-    /* convert image string into binary */
-    for (i = 2; i < nargs; i++) {
-	if (types[i] != T_NUMBER) {
-	    for (c = (BYTE *)args[i], n = 0; *c; c++, n++)
-		*c = ((*c == '1' || *c == '*') ? '1' : '0');
-	    val= strtol(args[i], NULL, 2);
-	    n = (n + 7) / 8;		/* n bytes */
-
-	    if (n > 3)
-		printf("Argument too large.\n");
-	    n &= 3;
-	}
-	else {
-	    val = values[i];
-	    n = ((val > 0xff) ? 2 : 1);		/* values <= FFFF expected */
-	}
-
-	for (c = (BYTE *)(buf + n), j = n; j-- > 0;) {
-	    *--c = val & 0xff;
-	    val >>= 8;
-	}
-
-	address = ((address + n) & MAXBANKADDR);
-	put_mem(address, buf, n);
-    }
-
-    return (0);
-}
-
-
-/* ------------------------------------------------------------------------- */
-
-/*
- * Z80 functions.
- * "zasm" is the same function as 6502 "asm".
- */
-
-#ifdef HAS_ZILOG_Z80
-
-static int  mon_zdis (void)
-{
-    ADDRESS  adr = values[1], end =  values[2];
-    int     cnt;
-
-
-    switch (nargs) {
-      case 1:
-	adr = address;
-
-      case 2:
-	cnt = 20;
-	while (cnt-- > 0) {
-	    adr += disassemble_line(adr, ((bios_rom && adr < BIOSROM_SIZE) ?
-			  bios_rom + adr : ram + adr));
-	}
-	break;
-
-      case 3:
-	while (adr <= end) {
-	    adr += disassemble_line(adr, ((bios_rom && adr < BIOSROM_SIZE) ?
-			  bios_rom + adr : ram + adr));
-
-	}
-    }
-    address = adr & MAXBANKADDR;
-    return (0);
-}
-
-
-static int  mon_zreg (void)
-{
-    reg *r = get_z80_regs();    /* set registers if more than one parameter */
-
-    switch (nargs) {
-      case 9:
-	r->SP.W = values[6];
-      case 8:
-	r->IY.W = values[4];
-      case 7:
-	r->IX.W = values[4];
-      case 6:
-	r->HL.W = values[4];
-      case 5:
-	r->DE.W = values[4];
-      case 4:
-	r->BC.W = values[3];
-      case 3:
-	r->AF.W = values[2];
-      case 2:
-	r->PC.W = address = values[1];
-	put_z80_regs (r);
-    }
-
-    mon_z80_showreg();
-    return (0);
-}
-
-
-static int  mon_z80_showreg(void)
-{
-    reg *r = get_z80_regs();
-
-    printf("\n PC    AF    BC    DE    HL    IX    IY    SP    OPCODE\n");
-    printf((mode & MODE_HEX) ?
-	   "%04X  %04X  %04X  %04X  %04X  %04X  %04X  %04X   %02X  %s\n\n" :
-	   "%05d %05d %05d %05d %05d %05d %05d %05d  %03d  %s\n\n",
-	r->PC.W, r->AF.W, r->BC.W, r->DE.W, r->HL.W, r->IX.W, r->IY.W, r->SP.W,
-	   M_RDMEM((ADDRESS)r->PC.W), "---" /*sprint_opcode(PC, mode & MODE_HEX)*/);
-    return (0);
-}
-
-
-/*    {"zcall", 0, 1, mon_zcall,
-     "zcall\t [addr]\t\t\t\t(run Z80 code at address specified)\n"},
-*/
-
-static int  mon_zcall ( void )
-{
-    printf ("Not implemented.\n");
-    return (0);
-}
-
-#endif
-
-
-/* ------------------------------------------------------------------------- */
-
-/*
- * File handling functions
- */
-
-static int  mon_chdir(void)
-{
-    if (chdir(args[1]) < 0) {
-	perror(args[1]);
-    }
-
-    return (0);
-}
-
-
-static int  mon_save(void)
+void mon_load_file(char *filename, M_ADDR start_addr)
 {
     FILE   *fp;
-    ADDRESS  adr = values[2];
-    ADDRESS end = values[3];
-
-    if (NULL == (fp = fopen(args[1], WRITE))) {
-	perror(args[1]);
-	printf("Saving failed.\n");
-    } else {
-	printf("Saving file `%s'...\n", args[1]);
-	fputc((BYTE) adr & 0xff, fp);
-	fputc((BYTE) (adr >> 8) & 0xff, fp);
-	fwrite((char *) (ram + adr), 1, end - adr, fp);
-	fclose(fp);
-    }
-    return (0);
-}
-
-
-static int  mon_load(void)
-{
-    FILE   *fp;
-    ADDRESS  adr = values[2];
-    char    flag = 0;
+    unsigned  adr;
     int     b1, b2;
     int     ch;
 
-    if (*args[0] == 'l')
-	flag++;
+    evaluate_default_addr(start_addr, FALSE);
 
-    if (NULL == (fp = fopen(args[1], READ))) {
-	perror(args[1]);
+    if (NULL == (fp = fopen(filename, READ))) {
+	perror(filename);
 	printf("Loading failed.\n");
-	return (0);
+	return;
     }
 
     b1 = fgetc(fp);
     b2 = fgetc(fp);
 
-    if (nargs < 3) {	/* No Load address given */
+    if (!is_valid_addr(start_addr)) {	/* No Load address given */
 	if (b1 == 1)	/* Load Basic */
 	    mem_get_basic_text(&adr, NULL);
 	else
 	    adr = LOHI ((BYTE)b1,(BYTE)b2);
+    } else  {
+       adr = addr_location(start_addr);
     }
 
-    printf((flag ? "Loading %s" : "Verifying %s"), args[1]);
+    printf("Loading %s", filename);
     printf(" from %04X\n", adr);
 
-    if (flag) {
-	ch = fread (ram + adr, 1, RAM_SIZE - adr, fp);
-	printf ("%x bytes\n", ch);
+    ch = fread (ram + adr, 1, RAM_SIZE - adr, fp);
+    printf ("%x bytes\n", ch);
 
-	/* set end of load addresses like kernal load */ /*FCP*/
-	mem_set_basic_text(adr, adr + ch);
-    }
-    else {
-	while ((ch = fgetc(fp)) != EOF)
-	    if (ram[adr++] != ch)
-		printf("%04X\t", adr - 1);
-	printf("\n");
-    }
-
+    /* set end of load addresses like kernal load */ /*FCP*/
+    mem_set_basic_text(adr, adr + ch);
 
     fclose(fp);
-    return (0);
+}
+
+void mon_save_file(char *filename, M_ADDR_RANGE range)
+{
+   FILE   *fp;
+   unsigned adr;
+   unsigned end;
+
+   assert(is_valid_addr_range(range));
+   evaluate_default_addr_range(&range, TRUE);
+
+   adr = addr_range_start_location(range);
+   end = addr_range_end_location(range);
+
+   if (NULL == (fp = fopen(filename, WRITE))) {
+	perror(filename);
+	printf("Saving failed.\n");
+   } else {
+	printf("Saving file `%s'...\n", filename);
+	fputc((BYTE) adr & 0xff, fp);
+	fputc((BYTE) (adr >> 8) & 0xff, fp);
+	fwrite((char *) (ram + adr), 1, end - adr, fp);
+	fclose(fp);
+   }
+
+   free_range(range);
+}
+
+void mon_verify_file(char *filename, M_ADDR start_addr)
+{
+   assert(is_valid_addr(start_addr));
+   evaluate_default_addr(start_addr, TRUE);
+
+   printf("Verify file %s at address 0x%04x\n", filename, addr_location(start_addr));
 }
 
 
-#ifdef VICE_DUMP
-static int  mon_dump(void)
-{
-    if (nargs <= 1) /*FCP*/
-	dump(create_name(app_resources.directory, app_resources.ramName));
-    else
-	dump(create_name(".", args[1]));
+/* *** INSTRUCTION COMMANDS *** */
 
-    printf("RAM image saved.\n");
-    return (0);
+
+void instructions_step(int count)
+{
+   printf("Stepping through the next %d instruction(s).\n",
+          (count>=0)?count:1);
+   stepping_num = (count>=0)?count:1;
+}
+
+void instructions_next(int count)
+{
+   printf("Nexting through the next %d instruction(s).\n",
+          (count>=0)?count:1);
+   nexting_num = (count>=0)?count:1;
+}
+
+void stack_up(int count)
+{
+   printf("Going up %d stack frame(s).\n",
+          (count>=0)?count:1);
+}
+
+void stack_down(int count)
+{
+   printf("Going down %d stack frame(s).\n",
+          (count>=0)?count:1);
 }
 
 
-static int  mon_undump(void)
+/* *** DISK COMMANDS *** */
+
+
+void block_cmd(int op, int track, int sector, M_ADDR addr)
 {
-    int err;
+   assert(is_valid_addr(addr));
+   evaluate_default_addr(addr, op == 0);
 
-    if (nargs <= 1) /*FCP*/
-	err = undump(create_name(app_resources.directory,
-				 app_resources.ramName));
-    else
-	err = undump(create_name(".", args[1]));
+   if (!op)
+   {
+      if (is_valid_addr(addr))
+         printf("Read track %d sector %d to screen\n", track, sector);
+      else
+         printf("Read track %d sector %d into address 0x%04x\n", track, sector, addr_location(addr));
+   }
+   else
+   {
+      printf("Write data from address 0x%04x to track %d sector %d\n", addr_location(addr), track, sector);
+   }
 
-    if (err)
-	printf("Core loaded.\n");
-    else
-	printf("Core load failed.\n");
-
-    return (0);
-}
-#endif
-
-static int  mon_attach(void)
-{
-    char    *name = NULL;
-    int      dev  = 8;
-
-    switch (nargs) {
-      case 2:
-	name = args[1];
-	break;
-      case 3:
-	dev  = values[1];
-	name = args[2];
-    }
-
-    if (dev >= 8)
-	serial_select_file(DT_DISK | DT_1541, dev, name);
-    else
-	serial_select_file(DT_PRINTER, dev, name);
-    printf("\n");
-    return (0);
 }
 
 
-/* ------------------------------------------------------------------------- */
-
-/*
- * Basic input and output.
- * To list a basic prgram, use "petcat" with appropriate offset option.
- */
-
-static void f_chrin ( void );
-
-static FILE   *chrin_fp;
-
-static trap_t chrin_trap = {
-	"ChrIn",
-#ifdef PET
-	0x00,			/* FIXME: PET Traps not implemented */
-	{0x0, 0x0, 0x0},
-#else
-#ifndef C128
-#ifdef VIC20
-	0xE5CF,
-	{0xAC, 0x77, 0x02},	/* VIC20 Trap */
-#else
-	0xE5B4,
-	{0xAC, 0x77, 0x02},	/* C64 Trap */
-#endif  /* VIC20 */
-#else
-	0xC244,
-	{0xAC, 0x4A, 0x03},	/* C128 Trap */
-#endif
-#endif  /* Not PET */
-	f_chrin
-};
+/* *** BREAKPOINT COMMANDS *** */
 
 
-/*
- * This function reads one byte from the file, pretending it came from
- * the keyboard buffer.
- */
-
-static void f_chrin(void)
+breakpoint *find_breakpoint(int brknum)
 {
-    int     b;
+   BREAK_LIST *ptr;
+   int i;
 
-    if ((b = fgetc(chrin_fp)) == EOF) {
-	printf ("Read complete.\n");
-	remove_trap(&chrin_trap);
-	fclose(chrin_fp);
-    }
+   for (i=e_comp_space;i<=e_disk_space;i++) {
+      ptr = breakpoints[i];
+      while (ptr) {
+         if (ptr->brkpt->brknum == brknum)
+            return ptr->brkpt;
+         ptr = ptr->next;
+      }
 
-    if (b == 0x0a)
-	b = 0x0d;
-    else if ( ((b & 0xc0) == 0x40) && ((b & 0x1f) < 0x1e) )
-	b ^= 0x20;
+      ptr = watchpoints_load[i];
+      while (ptr) {
+         if (ptr->brkpt->brknum == brknum)
+            return ptr->brkpt;
+         ptr = ptr->next;
+      }
 
-    AC = YR = (BYTE)b;
-    SET_INTERRUPT(0);
-    SET_CARRY(0);
-    PC += 18;
+      ptr = watchpoints_store[i];
+      while (ptr) {
+         if (ptr->brkpt->brknum == brknum)
+            return ptr->brkpt;
+         ptr = ptr->next;
+      }
+   }
+
+   return NULL;
+}
+
+void switch_breakpt(int op, int breakpt_num)
+{
+   breakpoint *bp;
+   bp = find_breakpoint(breakpt_num);
+
+   if (!bp)
+   {
+      printf("#%d not a valid breakpoint\n",breakpt_num);
+   }
+   else
+   {
+      bp->enabled = op;
+      printf("Set breakpoint #%d to state:%s\n",breakpt_num, (op==e_ON)?"enable":"disable");
+   }
+}
+
+void set_ignore_count(int breakpt_num, int count)
+{
+   breakpoint *bp;
+   bp = find_breakpoint(breakpt_num);
+
+   if (!bp)
+   {
+      printf("#%d not a valid breakpoint\n",breakpt_num);
+   }
+   else
+   {
+      bp->ignore_count = count;
+      printf("Ignoring the next %d crossings of breakpoint #%d\n",count, breakpt_num);
+   }
+}
+
+void print_breakpt_info(breakpoint *bp)
+{
+   if (bp->trace) {
+      printf("TRACE: ");
+   } else if (bp->watch_load || bp->watch_store) {
+      printf("WATCH: ");
+   } else {
+      printf("BREAK: ");
+   }
+   printf("%d A:0x%04x",bp->brknum,addr_range_start_location(bp->range));
+   if (is_valid_addr(bp->range->end_addr))
+      printf("-0x%04x",addr_range_end_location(bp->range));
+   printf("   %s\n",(bp->enabled==e_ON)?"enabled":"disabled");
+   if (bp->condition) {
+      printf("\tCondition: ");
+      print_conditional(bp->condition);
+      puts("");
+   }
+   if (bp->command)
+      printf("\tCommand: %s\n",bp->command);
+}
+
+void print_breakpts()
+{
+   int i, any_set=0;
+   breakpoint *bp;
+
+   for (i=1;i<breakpoint_count;i++)
+   {
+      if ( (bp = find_breakpoint(i)) )
+      {
+         print_breakpt_info(bp);
+         any_set = 1;
+      }
+   }
+
+   if (!any_set)
+      printf("No breakpoints are set\n");
+}
+
+void delete_conditional(CONDITIONAL_NODE *cnode)
+{
+   if (cnode) {
+      if (cnode->child1)
+         delete_conditional(cnode->child1);
+      if (cnode->child2)
+         delete_conditional(cnode->child2);
+      free(cnode);
+   }
+}
+
+void delete_breakpoint(int brknum)
+{
+   int i;
+   breakpoint *bp = NULL;
+   MEMSPACE mem;
+
+   if (brknum == -1)
+   {
+      /* Add user confirmation here. */
+      puts("Deleting all breakpoints");
+      for (i=1;i<breakpoint_count;i++)
+      {
+         bp = find_breakpoint(i);
+         if (bp)
+            delete_breakpoint(i);
+      }
+   }
+   else if ( !(bp = find_breakpoint(brknum)) )
+   {
+      printf("#%d not a valid breakpoint\n",brknum);
+      return;
+   }
+   else
+   {
+      mem = addr_range_start_memspace(bp->range);
+
+      if ( !(bp->watch_load) && !(bp->watch_store) ) {
+         remove_breakpoint_from_list(&(breakpoints[mem]), bp);
+      } else {
+         if ( bp->watch_load )
+            remove_breakpoint_from_list(&(watchpoints_load[mem]), bp);
+         if ( bp->watch_store )
+            remove_breakpoint_from_list(&(watchpoints_store[mem]), bp);
+      }
+   }
+
+   delete_conditional(bp->condition);
+   free_range(bp->range);
+   if (bp->command)
+      free(bp->command);
+}
+
+void print_conditional(CONDITIONAL_NODE *cnode)
+{
+   /* Do an in-order traversal of the tree */
+   if (cnode->operation != e_INV)
+   {
+      assert(cnode->child1 && cnode->child2);
+      print_conditional(cnode->child1);
+      printf(" %s ",cond_op_string[cnode->operation]);
+      print_conditional(cnode->child2);
+   }
+   else
+   {
+      if (cnode->is_reg)
+         printf("%s",register_string[cnode->reg_num]);
+      else
+         printf("%d",cnode->value);
+   }
 }
 
 
-#ifdef CBM64
-static int  mon_type(void)
+int evaluate_conditional(CONDITIONAL_NODE *cnode)
 {
-    BYTE   *p, *kbd, *cnt;
-    int     n;
+   /* Do a post-order traversal of the tree */
+   if (cnode->operation != e_INV)
+   {
+      assert(cnode->child1 && cnode->child2);
+      evaluate_conditional(cnode->child1);
+      evaluate_conditional(cnode->child2);
 
-#ifdef PET
-	kbd = ram + 0x026f;
-	cnt = ram + 0x9e;
-#else
-	kbd = ram + 0x0277;
-	cnt = ram + 0xc6;
-#endif
+      switch(cnode->operation) {
+         case e_EQU:
+            cnode->value = ((cnode->child1->value) == (cnode->child2->value));
+            break;
+         case e_NEQ:
+            cnode->value = ((cnode->child1->value) != (cnode->child2->value));
+            break;
+         case e_GT :
+            cnode->value = ((cnode->child1->value) > (cnode->child2->value));
+            break;
+         case e_LT :
+            cnode->value = ((cnode->child1->value) < (cnode->child2->value));
+            break;
+         case e_GTE:
+            cnode->value = ((cnode->child1->value) >= (cnode->child2->value));
+            break;
+         case e_LTE:
+            cnode->value = ((cnode->child1->value) <= (cnode->child2->value));
+            break;
+         case e_AND:
+            cnode->value = ((cnode->child1->value) && (cnode->child2->value));
+            break;
+         case e_OR :
+            cnode->value = ((cnode->child1->value) || (cnode->child2->value));
+            break;
+         default:
+            printf("Unexpected conditional operator: %d\n",cnode->operation);
+            assert(0);
+      }
+   }
+   else
+   {
+      if (cnode->is_reg)
+         cnode->value = get_reg_val(e_comp_space, cnode->reg_num); /* FIXME memspace */
+   }
 
-    /* Send command to KBD buffer if more than one parameter */
-
-    if (nargs == 3 && *args[1] == '<') {
-
-	if (NULL == (chrin_fp = fopen(args[2], READ))) {
-	    perror(args[2]);
-	    printf("Cannot read file.\n");
-	    return (0);
-	}
-
-	if (set_trap(&chrin_trap) != 0) {
-	    printf("Driver not installed.\nCannot read file.\n");
-	    fclose(chrin_fp);
-	}
-	else {
-	    ++(*cnt);
-	    printf("Emulator reads file '%s'\n", args[2]);
-	}
-    }
-
-    else if (nargs > 1) {
-	pack_args(1);			/* string argument must be quoted */
-
-	for (n = 0, p = (BYTE *)args[1]; n < values[1]; ++n, ++p) {
-	    if ( ((*p & 0xc0) == 0x40) && ((*p & 0x1f) < 0x1e) )
-		*p ^= 0x20;
-
-	    kbd[(*cnt)++] = *p;
-
-	    if (*cnt > 10) {
-		printf ("10 byte KBD buffer full.\n");
-
-		/*  IERROR trap */
-
-		return (0);
-	    }
-	}  /* for */
-    }
-
-    else
-	mon_screen();			/* Display default screen */
-
-
-    return (0);
-}
-#endif
-
-
-/* Display screen */
-
-#ifdef CBM64
-
-static int  mon_screen(void)
-{
-    ADDRESS a, vbase;
-    int     col;
-
-
-    if (nargs > 1) {
-	vbase = (values[1] < 0x100) ?		/* VIC-II screen address */
-	  (values[1] & 0x3f) << 10 : values[1];
-    }
-    else {
-	vbase = (LOAD(0xd018) & 0xf0) << 6;	/* VIC-II screen base */
-	vbase |= (~(LOAD(0xdd00) & 3) << 14);	/* VIC-II screen bank */
-    }
-
-    printf ("%04X\n", vbase);			/* ccVVVVxxxxxxxxxx */
-    for (a = vbase, col = 0; a < vbase + 0x3e8; ++a) {
-	putchar (p_toascii(ram[a], 2));
-	if (++col >= 40) {
-	    putchar('\n');
-	    col = 0;
-	}
-    }
-
-    return (0);
-}
-#endif  /* CBM64 */
-
-
-/* ------------------------------------------------------------------------- */
-
-/*
- * Debugger functions
- */
-
-static int  mon_setreg(void)
-{
-    /* set registers if more than one parameter */
-
-    switch (nargs) {
-      case 7:
-	SP = values[6];
-      case 6:
-	SET_SR(values[5]);
-      case 5:
-	YR = values[4];
-      case 4:
-	XR = values[3];
-      case 3:
-	AC = values[2];
-      case 2:
-	PC = address = values[1];
-    }
-
-    mon_showreg();
-    return (0);
+   return cnode->value;
 }
 
 
-static int  mon_showreg(void)
+void set_brkpt_condition(int brk_num, CONDITIONAL_NODE *cnode)
 {
-    printf("\n PC   AC  XR  YR  nv1bdizc  SP    OPCODE\n");
-    printf((mode & MODE_HEX) ?
-	"%04X  %02X  %02X  %02X  %s  %02X   %3X  %s\n\n" :
-	"%04d %03d %03d %03d %s %03d  %3d  %s\n\n",
-	(int) PC, (int) AC, (int) XR, (int) YR,
-	sprint_status(), (int) SP,
-	get_mem(PC), sprint_opcode(PC, mode & MODE_HEX));
-    return (0);
-}
+   breakpoint *bp;
+   bp = find_breakpoint(brk_num);
 
+   if (!bp)
+   {
+      printf("#%d not a valid breakpoint\n",brk_num);
+   }
+   else
+   {
+      bp->condition = cnode;
 
-static int  mon_exit(void)
-{
+      printf("Setting breakpoint %d condition to: ",brk_num);
+      print_conditional(cnode);
+      puts("");
 #if 0
-    unsigned char c;
-
-    /* Check for BRK and JAM */
-    if (!(c = get_mem(PC)) || (c & 0x8f) == 2 || (c & 0x9f) == 0x92) {
-	printf("Start BASIC.\n");
-	/* FIXME: This has to be done differently... */
-	/* intr(I_BRK, PC); */	/* Restart BASIC via BREAK interrupt */
-    }
+      evaluate_conditional(cnode);
+      printf("Condition evaluates to: %d\n",cnode->value);
 #endif
-    runflg = 0;
-    return (1);
+   }
 }
 
 
-static int  mon_quit(void)
+void set_breakpt_command(int brk_num, char *cmd)
 {
-    printf("Quit.\n");
-    exit (-1);
-    exit (0);
+   breakpoint *bp;
+   bp = find_breakpoint(brk_num);
+
+   if (!bp)
+   {
+      printf("#%d not a valid breakpoint\n",brk_num);
+   }
+   else
+   {
+      bp->command = cmd;
+      printf("Setting breakpoint %d command to: %s\n",brk_num, cmd);
+   }
 }
 
 
-static int  mon_jump(void)
+BREAK_LIST *search_breakpoint_list(BREAK_LIST *head, unsigned loc)
 {
-    if (nargs > 1)
-	mon_setreg();
+   BREAK_LIST *cur_entry;
 
-    if (*args[0] == 't') {		/* time */
-	if (nargs >1)
-	    runflg = 2;
-	mon_times(runflg);
-    }
-    else
-	runflg = 1;
+   cur_entry = head;
 
-    return (runflg);
+   /* The list should be sorted in increasing order. If the current entry
+      is > than the search item, we can drop out early.
+   */
+   while (cur_entry) {
+      if (is_in_range(cur_entry->brkpt->range, loc))
+         return cur_entry;
+
+      cur_entry = cur_entry->next;
+   }
+
+   return NULL;
 }
 
 
-static void mon_times(int set)
+bool check_watchpoints_load(MEMSPACE mem, unsigned eff_addr)
 {
-    static time_t time_real = 0;
-    static long   cycles = 0;
+   BREAK_LIST *ptr;
+   bool result = FALSE;
 
-    /* set or show program timing */
+   ptr = search_breakpoint_list(watchpoints_load[mem],eff_addr);
 
-    if (set) {
-	time(&time_real); /* seconds, use hrtime for better resolution */
-	cycles = clk;
-    }
-    else {
-	long   c,v;
-	time_t t = 0;
+   while (ptr && is_in_range(ptr->brkpt->range, eff_addr)) {
+      printf("WATCH-LOAD(%d) 0x%04x\n",ptr->brkpt->brknum,eff_addr);
+      result = TRUE;
+      ptr = ptr->next;
+   }
 
-	if (time_real) {
-	    time(&t);
-	    t -= time_real;
-	}
-	c = clk - cycles;
-	v = c / (CYCLES_PER_SEC/100);		/* 1/100 sec */
-
-	printf("\t-- instr.  %8ld cycles  %02d:%05.2f virtual  %2d:%02d:%02d real\n\n",
-	    c,
-	    (int)(v/6000), (float)(v%6000)/100,
-	    (int)(t/3600), (int)((t%3600)/60), (int)(t%60));
-    }
+   return result;
 }
 
-#ifdef TRACE
-static int  mon_trace(void)
+bool check_watchpoints_store(MEMSPACE mem, unsigned eff_addr)
 {
-    if (nargs == 2)
-	traceflg = values[1];		/* trace CPU */
+   BREAK_LIST *ptr;
+   bool result = FALSE;
 
-    printf ("Trace %s.\n", (traceflg ? "on" : "off") );
-    return (0);
+   ptr = search_breakpoint_list(watchpoints_load[mem],eff_addr);
+
+   while (ptr && is_in_range(ptr->brkpt->range, eff_addr)) {
+      printf("WATCH-STORE(%d) 0x%04x\n",ptr->brkpt->brknum,eff_addr);
+      result = TRUE;
+      ptr = ptr->next;
+   }
+
+   return result;
 }
-#endif
 
-/* Execute single instruction */
+bool check_breakpoints(MEMSPACE mem)
+{
+   BREAK_LIST *ptr;
+   breakpoint *bp;
+   bool result = FALSE;
+   M_ADDR temp;
+
+   ptr = search_breakpoint_list(breakpoints[mem],get_reg_val(mem,e_PC));
+
+   while (ptr && is_in_range(ptr->brkpt->range,get_reg_val(mem,e_PC))) {
+      bp = ptr->brkpt;
+      if (bp && bp->enabled==e_ON) {
+         if (bp->trace) {
+            /* Check if PC is in trace range */
+            if (is_in_range(bp->range, get_reg_val(mem,e_PC))) {
+               temp = new_addr(mem, get_reg_val(mem,e_PC));
+               printf("TRACE:(%d) ",bp->brknum);
+               disassemble_instr(temp);
+            }
+         } else {
+            if (get_reg_val(mem,e_PC) == (addr_range_start_location(bp->range))) {
+               bp->hit_count++;
+
+               if (bp->condition) {
+                  if (!evaluate_conditional(bp->condition)) {
+                     result = TRUE;
+                  }
+               }
+
+               if (bp->ignore_count) {
+                  bp->ignore_count--;
+                  result = TRUE;
+               }
+
+               printf("BREAK(%d) 0x%04x\n",bp->brknum,get_reg_val(mem,e_PC));
+               if (bp->command) {
+                  printf("Executing: %s\n",bp->command);
+                  /* parse_and_execute_line(bp->command); */
+               }
+               result = TRUE;
+            }
+         }
+      }
+      ptr = ptr->next;
+   }
+   return result;
+}
+
+
+bool check_stop_status(MEMSPACE mem, bool op_is_load, bool op_is_store, unsigned eff_addr)
+{
+   bool ret_val = FALSE, temp;
+
+   if (stop_on_start)
+   {
+      stop_on_start = 0;
+      return TRUE;
+   }
+
+   temp = check_breakpoints(mem);
+   ret_val |= temp;
+
+   if (op_is_load) {
+      temp = check_watchpoints_load(mem, eff_addr);
+      ret_val |= temp;
+   }
+   if (op_is_store) {
+      temp = check_watchpoints_store(mem, eff_addr);
+      ret_val |= temp;
+   }
+
+   temp = (next_or_step_stop!=0);
+   ret_val |= temp;
+   next_or_step_stop = 0;
+   return ret_val;
+}
+
+
+int compare_breakpoints(breakpoint *bp1, breakpoint *bp2)
+{
+   unsigned addr1, addr2;
+   /* Returns < 0 if bp1 < bp2
+              = 0 if bp1 = bp2
+              > 0 if bp1 > bp2
+   */
+
+   addr1 = addr_range_start_location(bp1->range);
+   addr2 = addr_range_start_location(bp2->range);
+
+   if ( addr1 < addr2 )
+      return -1;
+
+   if ( addr1 > addr2 )
+      return 1;
+
+   return 0;
+}
+
+
+void add_to_breakpoint_list(BREAK_LIST **head, breakpoint *bp)
+{
+   BREAK_LIST *new_entry, *cur_entry, *prev_entry;
+
+   new_entry = (BREAK_LIST *) malloc(sizeof(BREAK_LIST));
+   new_entry->brkpt = bp;
+
+   cur_entry = *head;
+   prev_entry = NULL;
+
+   /* Make sure the list is in increasing order. (Ranges are entered
+      based on the lower bound) This way if the searched for address is
+      less than the current ptr, we can skip the rest of the list. Note
+      that ranges that wrap around 0xffff aren't handled in this scheme.
+      Suggestion: Split the range and create two entries.
+   */
+   while (cur_entry && (compare_breakpoints(cur_entry->brkpt, bp) <= 0) ) {
+      prev_entry = cur_entry;
+      cur_entry = cur_entry->next;
+   }
+
+   if (!prev_entry) {
+      *head = new_entry;
+      new_entry->next = cur_entry;
+      return;
+   }
+
+   prev_entry->next = new_entry;
+   new_entry->next = cur_entry;
+}
+
+void remove_breakpoint_from_list(BREAK_LIST **head, breakpoint *bp)
+{
+   BREAK_LIST *cur_entry, *prev_entry;
+
+   cur_entry = *head;
+   prev_entry = NULL;
+
+   while (cur_entry) {
+      if (cur_entry->brkpt == bp)
+         break;
+
+      prev_entry = cur_entry;
+      cur_entry = cur_entry->next;
+   }
+
+   if (!cur_entry) {
+      assert(FALSE);
+   } else {
+     if (!prev_entry) {
+        *head = cur_entry->next;
+     } else {
+         prev_entry->next = cur_entry->next;
+     }
+
+     free(cur_entry);
+   }
+}
+
+int add_breakpoint(M_ADDR_RANGE range, bool is_trace, bool is_load, bool is_store)
+{
+   breakpoint *new_bp;
+   MEMSPACE mem;
+
+   assert(is_valid_range(range));
+   evaluate_default_addr_range(&range,TRUE);
+
+   new_bp = (breakpoint *) malloc(sizeof(breakpoint));
+
+   new_bp->brknum = breakpoint_count++;
+   new_bp->range = range;
+   new_bp->trace = is_trace;
+   new_bp->enabled = e_ON;
+   new_bp->hit_count = 0;
+   new_bp->ignore_count = 0;
+   new_bp->condition = NULL;
+   new_bp->command = NULL;
+   new_bp->watch_load = is_load;
+   new_bp->watch_store = is_store;
+
+   mem = addr_range_start_memspace(range);
+   if (!is_load && !is_store)
+      add_to_breakpoint_list(&(breakpoints[mem]), new_bp);
+   else {
+      if (is_load)
+         add_to_breakpoint_list(&(watchpoints_load[mem]), new_bp);
+      if (is_store)
+         add_to_breakpoint_list(&(watchpoints_store[mem]), new_bp);
+   }
+
+   print_breakpt_info(new_bp);
+   return new_bp->brknum;
+}
+
 
 #if 0
-static int  mon_step(void)
+bool is_breakpt_a_range(breakpoint *bp)
 {
+   if (bp->end_addr)
+      return TRUE;
 
-    printf("Monitor break.\n");
-    mon_showreg();
-    return (0);
+   return FALSE;
+}
+
+int check_breakpt_range_subsets(breakpoint *bp1, breakpoint *bp2)
+{
+  /* Returns < 0 if bp1 is a subset of bp2
+             = 0 if bp1 and bp2 and exclusive
+             > 0 if bp2 is a subset of bp1
+   */
+
+   unsigned start1, end1, start2, end2;
+
+   assert(is_breakpt_a_range(bp1));
+   assert(is_breakpt_a_range(bp2));
+
+
+   start1 = bp1->start_addr->location;
+   end1 = bp1->end_addr->location;
+   start2 = bp2->start_addr->location;
+   end2 = bp2->end_addr->location;
+
+   if ( (start1 >= start2) && (end1 <= end2) )
+      return -1;
+
+   if ( (start2 >= start1) && (end2 <= end1) )
+      return 1;
+
+   return 0;
+}
+
+int check_breakpt_range_overlaps(breakpoint *bp1, breakpoint *bp2)
+{
+  /* Returns < 0 if upper bp1 overlaps lower bp2
+             = 0 if bp1 and bp2 and exclusive
+             > 0 if upper bp2 overlaps lower bp1
+   */
+
+   unsigned start1, end1, start2, end2;
+
+   assert(is_breakpt_a_range(bp1));
+   assert(is_breakpt_a_range(bp2));
+
+   start1 = bp1->start_addr->location;
+   end1 = bp1->end_addr->location;
+   start2 = bp2->start_addr->location;
+   end2 = bp2->end_addr->location;
+
+   if ( end1 >= start2 )
+      return -1;
+
+   if ( end2 >= start1 )
+      return 1;
+
+   return 0;
+}
+
+int check_breakpt_in_range(breakpoint *bp_point, breakpoint *bp_range)
+{
+  /* Returns < 0 if point < range
+             = 0 if point is in range
+             > 0 if point > range
+   */
+   unsigned addr, start, end;
+
+   assert(!is_breakpt_a_range(bp_point));
+   assert(is_breakpt_a_range(bp_range));
+
+   addr = bp_point->start_addr->location;
+   start = bp_range->start_addr->location;
+   end = bp_range->end_addr->location;
+
+   if ( addr < start )
+      return -1;
+
+   if ( addr > end )
+      return 1;
+
+   return 0;
 }
 #endif
 
-static int  mon_down(void)
-{
-    int level = values[1];
-    if (nargs == 0)
-	level = 1;
+char *myinput = NULL, *last_cmd = NULL;
+int exit_mon = 0;
 
-    while (level-- > 0) {
-	address = ram[(++SP)+0x100] + 1;
-	address |= ram[(++SP)+0x100] << 8;
-    }
+void debugger() {
+   char prompt[20];
 
-    printf ("Down stack.\n");
-    mon_showreg();
-    return (0);
+   do {
+      sprintf(prompt, "[%c,R:%s,W:%s] ",(sidefx==e_ON)?'S':'-', memspace_string[default_readspace],
+              memspace_string[default_writespace]);
+
+      if (asm_mode) {
+         sprintf(prompt,".%04x  ", addr_location(asm_mode_addr));
+      }
+
+      myinput = readline(prompt);
+      if (myinput) {
+         if (!myinput[0]) {
+            if (!asm_mode) {
+               /* Repeat previous command */
+               free(myinput);
+
+               if (last_cmd)
+                  myinput = strdup(last_cmd);
+               else
+                  myinput = NULL;
+            } else {
+               /* Leave asm mode */
+               sprintf(prompt, "[%c,R:%s,W:%s] ",(sidefx==e_ON)?'S':'-', memspace_string[default_readspace],
+                               memspace_string[default_writespace]);
+            }
+         }
+
+         if (myinput) {
+            parse_and_execute_line(myinput);
+         }
+      }
+      if (last_cmd) free(last_cmd);
+      last_cmd = myinput;
+   } while (!exit_mon);
+   exit_mon = 0;
 }
 
-
-static int  mon_up(void)
+void mon(ADDRESS a)
 {
-    int level = values[1];
-    if (nargs == 0)
-	level = 1;
-
-    while (level-- > 0) {
-	address = ram[(SP--)+0x100] << 8;
-	address |= ram[(SP--)+0x100] + 1;
-    }
-
-    printf ("Up stack.\n");
-    mon_showreg();
-    return (0);
-}
-
-
-#ifdef NEW_TIMER_CODE
-static BYTE break_bits[65536/8];
-static int  break_alarm = 0;
-
-static void break_alarm_cb(int i)
-{
-    /*
-     * This will be called twice / cycle. This way we can be sure
-     * breakpoint is tested if interrupt happens on same cycle on other
-     * alarm.
-     */
-    static int old_pc = -1;
-    int    kludge;
-
-
-    kludge = (PC == old_pc) ? 1 : 0;
-
-    old_pc = PC;
-
-    set_alarm(break_alarm, clk + kludge, break_alarm_cb, 0);
-
-    if (kludge)
-	return;
-
-    if (break_bits[PC/8] & (1 << (PC%8)))
-    {
-	printf("Monitor break");
-	mon(PC);
-    }
-}
-
-
-static void set_break_alarm(void)
-{
-    int i;
-
-    if (!break_alarm)
-	break_alarm = new_alarm();
-
-    for (i=0; i<65536/8; i++)
-	if (break_bits[i])
-	{
-	    break_alarm_cb(0);
-	    return;
-	}
-
-    clear_alarm(break_alarm);
-}
-
-
-static int  mon_break(void)
-{
-    ADDRESS  adr = values[1], end = values[2];
-    int found = 0;
-    int i;
-    int started;
-
-
-    /*
-     * Show current breakpoints
-     */
-
-    if (nargs == 1)
-    {
-	for (i=0; i<65536; i++)
-	{
-	    if (break_bits[i/8] & (1 << (i % 8)))
-	    {
-		if (!found)
-		{
-		    printf("Breakpoints: ");
-		    found = 1;
-		}
-		started = i;
-
-		while (++i < 65536 && (break_bits[i/8] & (1 << (i % 8)) ));
-		i--;
-
-		if (found == 1)
-		    found = 2;
-		else
-		    printf(",");
-
-		if (i > started + 1)
-		    printf("%04x-%04x", started, i);
-		else if (i == started + 1)
-		    printf("%04x,%04x", started, i);
-		else
-		    printf("%04x", started);
-	    }
-	}
-	printf( (found ? "\n" : "No breakpoints set.\n"));
-	return 0;
-    }
-
-
-    if (nargs == 2)
-	end = adr;
-
-    while (adr <= end)
-    {
-	break_bits[adr/8] |= (1 << (adr % 8));
-	adr++;
-    }
-
-    set_break_alarm();
-    return (0);
-}
-
-
-static int  mon_clear(void)
-{
-    ADDRESS adr = values[1], end = values[2];
-
-
-    switch (nargs) {
-      case 1:
-	for (adr = 0; adr <= 65535/8; ++adr)
-	    break_bits[adr] = 0;
-	break;
-
-      case 2:
-	end = adr;
-
-      case 3:
-	while (adr <= end) {
-	    break_bits[adr/8] &= ~(1 << (adr % 8));
-	    adr++;
-	}
-    }
-
-
-    printf ("Breakpoint%c cleared.\n", ((nargs == 2) ? ' ' : 's'));
-
-    set_break_alarm();
-    return (0);
-}
-
-#endif  /* NEW_TIMER_CODE */
-
-
-/* ------------------------------------------------------------------------- */
-
-/*
- * Set operand's effective address (i.e. memory location read or written)
- * to look for. Notice the similarity to mon_break.
- */
-
-#ifdef  TRAP_WRITES
-
-static BYTE trap_bits[65536/8];
-
-static int  mon_trap(void)
-{
-    ADDRESS  adr = values[1], end = values[2];
-    int found = 0;
-    int i;
-    int started;
-
-
-    /*
-     * Show current read/write traps
-     */
-
-    if (nargs == 1)
-    {
-	for (i=0; i<65536; i++)
-	{
-	    if (trap_bits[i/8] & (1 << (i % 8)))
-	    {
-		if (!found)
-		{
-		    printf("Traps: ");
-		    found = 1;
-		}
-		started = i;
-
-		while (++i <= 65535 && (trap_bits[i/8] & (1 << (i % 8)) ));
-		i--;
-
-		if (found == 1)
-		    found = 2;
-		else
-		    printf(",");
-
-		if (i > started + 1)
-		    printf("%04x-%04x", started, i);
-		else if (i == started + 1)
-		    printf("%04x,%04x", started, i);
-		else
-		    printf("%04x", started);
-	    }
-	}
-	printf( (found ? "\n" : "No traps set.\n"));
-	return 0;
-    }
-
-
-    if (nargs == 2)
-	end = adr;
-
-    while (adr <= end)
-    {
-	trap_bits[adr/8] |= (1 << (adr % 8));
-	adr++;
-    }
-
-    return (0);
-}
-
-#endif
-
-
-/* ------------------------------------------------------------------------- */
-
-
-/*
- * Help
- */
-
-static int  mon_help(void)
-{
-    int     i, n;
-    int     f = 0;
-
-    if (nargs == 2) {
-	n = strlen(args[1]);
-	for (i = 0; mon_cmds[i].command; i++)
-	    if (!strncmp(mon_cmds[i].command, args[1], n)) {
-		printf("\n  %s\n", mon_cmds[i].help_line);
-		/* add help page here */
-		f++;
-		break;
-	    }
-	if (!f)
-	    mon_help_mnem(args[1]);	/* Show 65xx mnemonic */
-    }
-    else {
-	printf("The following commands are available:\n\
-  #%%&$\t\t\t\t\t(base conversions)\n");
-	    for (i = 0; mon_cmds[i].command; i++)
-		printf("  %s", mon_cmds[i].help_line);
-	printf("\nAll commands may be abbreviated.\n");
-    }
-    return (0);
-}
-
-
-static int  mon_help_mnem(char *line)
-{
-    int     i;
-
-    /*
-     * These routines are translated from 'monstar'
-     */
-
-    printf("\n");
-
-    for (i = 0; line[i] && i < 3; i++) {
-	if (isalpha (line[i]))
-	    line[i] = toupper (line[i]);
-    }
-
-    for (i = 0; i < TOTAL_CODES; i++)
-	if (0 == strncmp(lookup[i].mnemonic, line, 3)) {
-
-	    printf("\t%02X  %s\t  %d\n", i,
-		   sprint_disassembled(0, i, 0, 0, 1),
-		   lookup[i].cycles);
-	}
-
-/*
-    for (i = 0; i < TOTAL_CODES; i++)
-	if (n == lookup[i].addr_mode) {
-
-	    printf("\t%02X  %s\n", i,
-		   sprint_disassembled(0, i, 0, 0, 1));
-	}
-*/
-    printf("\n");
-    return(0);
-}
-
-
-/*
- * Monitor main program
- */
-
-void    mon(ADDRESS adr)
-{
-    char   *line, prompt[10];
-
-    /* Make banked address */
-    /* address = (ADDRESS)adr; */
-    address = program_counter;
-
-    printf("\nMonitor.\n");
-    mode = MODE_SPACE | (app_resources.hexFlag ? MODE_HEX : 0);
-
-    mon_showreg();
-
-    if (runflg == 2)
-	mon_times(0);	/* show accumulated count */
-
-    runflg = 0;		/* terminate RUN mode */
-
-
-    /* monitor main loop */
-
-    do {
-	sprintf(prompt, "(%04x) ", address);
-	if ((line = read_line(prompt, MODE_MON)) == NULL)
-	    exit (-1);
-
-	if (*line) {
-	    nargs = split_args(line, mode,
-			       MAXARG, MASKVAL, args, values, types);
-
-	    switch ( eval_command(args[0], nargs, mon_cmds) ) {
-	      case 0:
-		continue;
-	      case 1:
-		disable_text();
-		return;
-	    }
-
-	    switch (*line) {
-		/*case '+':*/
-	      case '-':
-	      case '%':
-	      case '&':
-	      case '#':
-	      case '$':
-		show_bases(line, mode);		/* Base conversions. */
-		break;
-
-	      case '*':
-		address = sconv(line + 1, 0, mode) & MAXBANKADDR;
-		break;
-
-	      default:
-		printf(" Unknown command. Try 'help'\n");
-	    }
-	} /* line */
-    } while (!runflg);
-
-    printf ("Resuming emulation.\n");
-    disable_text();
+   dot_addr[e_comp_space] = new_addr(e_comp_space, a);
+   debugger();
 }

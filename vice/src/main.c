@@ -405,6 +405,9 @@ int main(int argc, char **argv)
     if (app_resources.asmFlag)
 	mon(start_addr);
 
+    /* Initialize the monitor */
+    init_monitor();
+
     vsync_init();
     kbd_init();
 

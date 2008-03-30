@@ -1427,6 +1427,7 @@
 
         FETCH_OPCODE(opcode);
 
+#if 0
 #if defined(TRACE)
 #ifdef __1541__
         if (TRACEFLG) {
@@ -1443,6 +1444,20 @@
             printf(".%04X\t%ld\t%s\n",
                    reg_pc, (long)clk, sprint_opcode(reg_pc, 1));
 #endif
+#endif
+#endif
+#ifdef __1541__
+       if (any_breakpoints(e_disk_space)) {
+          EXPORT_REGISTERS();
+          if (check_breakpoints(e_disk_space))
+             mon(0);
+       }
+#else
+       if (any_breakpoints(e_comp_space)) {
+          EXPORT_REGISTERS();
+          if (check_breakpoints(e_comp_space))
+             mon(0);
+       }
 #endif
 
         SET_LAST_OPCODE(p0);
