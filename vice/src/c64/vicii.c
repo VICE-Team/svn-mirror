@@ -214,7 +214,7 @@ static int set_palette_file_name(resource_value_t v)
     if (palette == NULL)
         return 0;
 
-    if (palette_load(palette_file_name, palette) < 0)
+    if (palette_load((char *) v, palette) < 0)
         return -1;
     canvas_set_palette(canvas, palette, pixel_table);
 
@@ -719,7 +719,7 @@ void video_free(void)
 /* ------------------------------------------------------------------------- */
 
 /* Emulate a matrix line fetch, `num' bytes starting from `offs'.  This takes
-   care of the 10-bit counter wraparound. */
+   care of the 10-bit counter wraparound.  */
 inline static void fetch_matrix(int offs, int num)
 {
     BYTE *p = ram + vbank + ((vic[0x18] & 0xf0) << 6);
@@ -737,7 +737,7 @@ inline static void fetch_matrix(int offs, int num)
     }
 }
 
-/* Here we try to emulate $D011... */
+/* Here we try to emulate $D011...  */
 inline static void store_d011(BYTE value)
 {
     int r = int_raster_line;
@@ -773,7 +773,7 @@ inline static void store_d011(BYTE value)
 
 	if (was_bad_line && !now_bad_line) {
 
-	    /* Bad line becomes good. */
+	    /* Bad line becomes good.  */
 	    bad_line = 0;
 
 	    /* By changing the values in the registers, one can make the VIC
@@ -908,22 +908,29 @@ inline static void store_d011(BYTE value)
     if ((value ^ vic[0x11]) & 8) {
 	if (value & 0x8) {
 
-	    /* 24 -> 25 column mode switch.  */
+	    /* 24 -> 25 row mode switch.  */
 
 	    display_ystart = VIC_II_25ROW_START_LINE;
 	    display_ystop = VIC_II_25ROW_STOP_LINE;
 
-	    /* If on the first line of the 24-line border, we still see the
-               25-line (lowmost) border because the border flip flop has
-               already been turned on.  */
-	    if (line == VIC_II_24ROW_STOP_LINE && cycle > 0)
+	    if (line == VIC_II_24ROW_STOP_LINE && cycle > 0) {
+	        /* If on the first line of the 24-line border, we
+                   still see the 25-line (lowmost) border because the
+                   border flip flop has already been turned on.  */
 		blank_enabled = 1;
+            } else if (!blank && line == VIC_II_24ROW_START_LINE
+                       && cycle > 0) {
+                /* A 24 -> 25 switch somewhere on the first line of
+                   the 24-row mode is enough to disable screen
+                   blanking. */
+                blank_enabled = 0;
+            }
 
 	    DEBUG_REGISTER(("\t25 line mode enabled\n"));
 
 	} else {
 
-	    /* 25 -> 24 column mode switch.  */
+	    /* 25 -> 24 row mode switch.  */
 
 	    display_ystart = VIC_II_24ROW_START_LINE;
 	    display_ystop = VIC_II_24ROW_STOP_LINE;
@@ -931,15 +938,18 @@ inline static void store_d011(BYTE value)
 	    /* If on the last line of the 25-line border, we still see the
                24-line (upmost) border because the border flip flop has
                already been turned off.  */
-	    if (line == VIC_II_25ROW_START_LINE && cycle > 0 && !blank)
+	    if (!blank && line == VIC_II_25ROW_START_LINE && cycle > 0) {
 		blank_enabled = 0;
+            } else if (line == VIC_II_25ROW_STOP_LINE && cycle > 0) {
+                blank_enabled = 1;
+            }
 
 	    DEBUG_REGISTER(("\t24 line mode enabled\n"));
 
 	}
     }
 
-    blank = !(value & 0x10);	/* ``DEN'' bit. */
+    blank = !(value & 0x10);	/* `DEN' bit.  */
 
     vic[0x11] = value;
 
