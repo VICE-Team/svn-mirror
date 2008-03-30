@@ -1,6 +1,5 @@
 /*
- * drivecpu.h - 6502 processor emulation of the Commodore 1541, 1541-II,
- *              1571, 1581, 2031 and 1001 floppy disk drive.
+ * drivecpu.h - 6502 processor emulation of CBM disk drives.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
@@ -64,8 +63,8 @@ extern int drive_cpu_snapshot_read_module(struct drive_context_s *drv,
 #define drive1_cpu_execute(c)   drivex_cpu_execute(&drive1_context, c)
 
 /* don't use these pointers before the context is set up! */
-extern struct monitor_interface_s *drive0_get_monitor_interface_ptr(void);
-extern struct monitor_interface_s *drive1_get_monitor_interface_ptr(void);
+extern struct monitor_interface_s *drive0_monitor_interface_get(void);
+extern struct monitor_interface_s *drive1_monitor_interface_get(void);
 
 extern struct interrupt_cpu_status_s *drive0_int_status_ptr;
 extern struct interrupt_cpu_status_s *drive1_int_status_ptr;
