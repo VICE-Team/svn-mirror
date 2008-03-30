@@ -18,4 +18,8 @@ keymaps = \
 	graphics.vkm \
 	posg_de.vkm
 
-EXTRA_DIST = $(keymaps) $(roms) $(palettes)
+petdir = $(prefix)/lib/PET
+
+pet_DATA = $(keymaps) $(roms) $(palettes)
+
+EXTRA_DIST = $(pet_DATA)
