@@ -27,6 +27,8 @@
 #ifndef _PET_VIA_H
 #define _PET_VIA_H
 
+#include "types.h"
+
 void reset_via(void);
 BYTE REGPARM1 read_via(ADDRESS addr);
 BYTE REGPARM1 peek_via(ADDRESS addr);
