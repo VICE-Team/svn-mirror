@@ -152,6 +152,8 @@ inline static int z80mem_read_limit(int addr)
 #define BC_WORD() ((reg_b << 8) | reg_c)
 #define DE_WORD() ((reg_d << 8) | reg_e)
 #define HL_WORD() ((reg_h << 8) | reg_l)
+#define IX_WORD() ((reg_ixh << 8) | reg_ixl)
+#define IY_WORD() ((reg_iyh << 8) | reg_iyl)
 
 #define DEC_BC_WORD() \
   do {                \
@@ -174,6 +176,20 @@ inline static int z80mem_read_limit(int addr)
       reg_l--;        \
   } while (0)
 
+#define DEC_IX_WORD() \
+  do {                \
+      if (!reg_ixl)   \
+          reg_ixh--;  \
+      reg_ixl--;      \
+  } while (0)
+
+#define DEC_IY_WORD() \
+  do {                \
+      if (!reg_iyl)   \
+          reg_iyh--;  \
+      reg_iyl--;      \
+  } while (0)
+
 #define INC_BC_WORD() \
   do {                \
       reg_c++;        \
@@ -193,6 +209,20 @@ inline static int z80mem_read_limit(int addr)
       reg_l++;        \
       if (!reg_l)     \
           reg_h++;    \
+  } while (0)
+
+#define INC_IX_WORD() \
+  do {                \
+      reg_ixl++;      \
+      if (!reg_ixl)   \
+          reg_ixh++;  \
+  } while (0)
+
+#define INC_IY_WORD() \
+  do {                \
+      reg_iyl++;      \
+      if (!reg_iyl)   \
+          reg_iyh++;  \
   } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -995,18 +1025,18 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(2);                                  \
   } while (0)
 
-#define BRANCH(cond, value)                                   \
-  do {                                                        \
-      if (cond) {                                             \
-          unsigned int dest_addr;                             \
-                                                              \
-          dest_addr = z80_reg_pc + 2 + (signed char)(value);  \
-          z80_reg_pc = dest_addr & 0xffff;                    \
-          CLK += 7;                                           \
-      } else {                                                \
-          CLK += 7;                                           \
-          INC_PC(2);                                          \
-      }                                                       \
+#define BRANCH(cond, value, pc_inc)                                \
+  do {                                                             \
+      if (cond) {                                                  \
+          unsigned int dest_addr;                                  \
+                                                                   \
+          dest_addr = z80_reg_pc + pc_inc + (signed char)(value);  \
+          z80_reg_pc = dest_addr & 0xffff;                         \
+          CLK += 7;                                                \
+      } else {                                                     \
+          CLK += 7;                                                \
+          INC_PC(pc_inc);                                          \
+      }                                                            \
   } while (0)
 
 #define CALL(reg_val, clk_inc, pc_inc)               \
@@ -1032,13 +1062,13 @@ static BYTE daa_reg_f[2048] = {
       }                                                         \
   } while (0)
 
-#define CCF()                                 \
+#define CCF(clk_inc, pc_inc)                  \
   do {                                        \
       LOCAL_SET_HALFCARRY((LOCAL_CARRY()));   \
       LOCAL_SET_CARRY(!(LOCAL_CARRY()));      \
       LOCAL_SET_NADDSUB(0);                   \
-      CLK += 4;                               \
-      INC_PC(1);                              \
+      CLK += clk_inc;                         \
+      INC_PC(pc_inc);                         \
   } while (0)
 
 #define CP(loadval, clk_inc1, clk_inc2, pc_inc)                  \
@@ -1115,44 +1145,44 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(1);                                 \
   } while (0)
 
-#define DECHLIND()                                  \
-  do {                                              \
-      BYTE tmp;                                     \
-                                                    \
-      CLK += 4;                                     \
-      tmp = LOAD(HL_WORD());                        \
-      tmp--;                                        \
-      CLK += 4;                                     \
-      STORE(HL_WORD(), tmp);                        \
-      reg_f = N_FLAG | SZP[tmp] | LOCAL_CARRY();    \
-      LOCAL_SET_PARITY((tmp == 0x7f));              \
-      LOCAL_SET_HALFCARRY(((tmp & 0x0f) == 0x0f));  \
-      CLK += 3;                                     \
-      INC_PC(1);                                    \
+#define DECXXIND(reg_val, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                           \
+      BYTE tmp;                                                  \
+                                                                 \
+      CLK += clk_inc1;                                           \
+      tmp = LOAD((reg_val));                                     \
+      tmp--;                                                     \
+      CLK += clk_inc2;                                           \
+      STORE((reg_val), tmp);                                     \
+      reg_f = N_FLAG | SZP[tmp] | LOCAL_CARRY();                 \
+      LOCAL_SET_PARITY((tmp == 0x7f));                           \
+      LOCAL_SET_HALFCARRY(((tmp & 0x0f) == 0x0f));               \
+      CLK += clk_inc3;                                           \
+      INC_PC(pc_inc);                                            \
   } while (0)
 
-#define DECINC(FUNC)  \
-  do {                \
-      CLK += 6;       \
-      FUNC;           \
-      INC_PC(1);      \
+#define DECINC(FUNC, clk_inc, pc_inc)  \
+  do {                                 \
+      CLK += clk_inc;                  \
+      FUNC;                            \
+      INC_PC(pc_inc);                  \
   } while (0)
 
-#define DECREG(reg_val)                                 \
+#define DECREG(reg_val, clk_inc, pc_inc)                \
   do {                                                  \
       reg_val--;                                        \
       reg_f = N_FLAG | SZP[reg_val] | LOCAL_CARRY();    \
       LOCAL_SET_PARITY((reg_val == 0x7f));              \
       LOCAL_SET_HALFCARRY(((reg_val & 0x0f) == 0x0f));  \
-      CLK += 4;                                         \
-      INC_PC(1);                                        \
+      CLK += clk_inc;                                   \
+      INC_PC(pc_inc);                                   \
   } while (0)
 
-#define DJNZ(value)          \
-  do {                       \
-      reg_b--;               \
-      /***LOCAL_SET_NADDSUB(1);***/ \
-      BRANCH(reg_b, value);  \
+#define DJNZ(value, pc_inc)          \
+  do {                               \
+      reg_b--;                       \
+      /***LOCAL_SET_NADDSUB(1);***/  \
+      BRANCH(reg_b, value, pc_inc);  \
   } while (0)
 
 #define DI()            \
@@ -1169,18 +1199,18 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(1);        \
   } while (0)
 
-#define EXAFAF()        \
-  do {                  \
-      BYTE tmpl, tmph;  \
-                        \
-      tmph = reg_a;     \
-      tmpl = reg_f;     \
-      reg_a = reg_a2;   \
-      reg_f = reg_f2;   \
-      reg_a2 = tmph;    \
-      reg_f2 = tmpl;    \
-      CLK += 8;         \
-      INC_PC(1);        \
+#define EXAFAF(clk_inc, pc_inc)  \
+  do {                           \
+      BYTE tmpl, tmph;           \
+                                 \
+      tmph = reg_a;              \
+      tmpl = reg_f;              \
+      reg_a = reg_a2;            \
+      reg_f = reg_f2;            \
+      reg_a2 = tmph;             \
+      reg_f2 = tmpl;             \
+      CLK += clk_inc;            \
+      INC_PC(pc_inc);            \
   } while (0)
 
 #define EXX()           \
@@ -1209,36 +1239,37 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(1);        \
   } while (0)
 
-#define EXDEHL()        \
-  do {                  \
-      BYTE tmpl, tmph;  \
-                        \
-      tmph = reg_d;     \
-      tmpl = reg_e;     \
-      reg_d = reg_h;    \
-      reg_e = reg_l;    \
-      reg_h = tmph;     \
-      reg_l = tmpl;     \
-      CLK += 4;         \
-      INC_PC(1);        \
+#define EXDEHL(clk_inc, pc_inc)  \
+  do {                           \
+      BYTE tmpl, tmph;           \
+                                 \
+      tmph = reg_d;              \
+      tmpl = reg_e;              \
+      reg_d = reg_h;             \
+      reg_e = reg_l;             \
+      reg_h = tmph;              \
+      reg_l = tmpl;              \
+      CLK += clk_inc;            \
+      INC_PC(pc_inc);            \
   } while (0)
 
-#define EXHLSP()                  \
-  do {                            \
-      BYTE tmpl, tmph;            \
-                                  \
-      tmph = reg_h;               \
-      tmpl = reg_l;               \
-      CLK += 4;                   \
-      reg_h = LOAD(reg_sp + 1);   \
-      CLK += 4;                   \
-      reg_l = LOAD(reg_sp);       \
-      CLK += 4;                   \
-      STORE((reg_sp + 1), tmph);  \
-      CLK += 4;                   \
-      STORE(reg_sp, tmpl);        \
-      CLK += 3;                   \
-      INC_PC(1);                  \
+#define EXXXSP(reg_valh, reg_vall, clk_inc1, clk_inc2, clk_inc3,  \
+               clk_inc4, clk_inc5, pc_inc)                        \
+  do {                                                            \
+      BYTE tmpl, tmph;                                            \
+                                                                  \
+      tmph = reg_valh;                                            \
+      tmpl = reg_vall;                                            \
+      CLK += clk_inc1;                                            \
+      reg_valh = LOAD(reg_sp + 1);                                \
+      CLK += clk_inc2;                                            \
+      reg_vall = LOAD(reg_sp);                                    \
+      CLK += clk_inc3;                                            \
+      STORE((reg_sp + 1), tmph);                                  \
+      CLK += clk_inc4;                                            \
+      STORE(reg_sp, tmpl);                                        \
+      CLK += clk_inc5;                                            \
+      INC_PC(pc_inc);                                             \
   } while (0)
 
 #define HALT()   \
@@ -1271,30 +1302,30 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(pc_inc);                               \
   } while (0)
 
-#define INCHLIND()                         \
-  do {                                     \
-      BYTE tmp;                            \
-                                           \
-      CLK += 4;                            \
-      tmp = LOAD(HL_WORD());               \
-      tmp++;                               \
-      CLK += 4;                            \
-      STORE(HL_WORD(), tmp);               \
-      reg_f = SZP[tmp] | LOCAL_CARRY();    \
-      LOCAL_SET_PARITY((tmp == 0x80));     \
-      LOCAL_SET_HALFCARRY(!(tmp & 0x0f));  \
-      CLK += 3;                            \
-      INC_PC(1);                           \
+#define INCXXIND(reg_val, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                           \
+      BYTE tmp;                                                  \
+                                                                 \
+      CLK += clk_inc1;                                           \
+      tmp = LOAD((reg_val));                                     \
+      tmp++;                                                     \
+      CLK += clk_inc2;                                           \
+      STORE((reg_val), tmp);                                     \
+      reg_f = SZP[tmp] | LOCAL_CARRY();                          \
+      LOCAL_SET_PARITY((tmp == 0x80));                           \
+      LOCAL_SET_HALFCARRY(!(tmp & 0x0f));                        \
+      CLK += clk_inc3;                                           \
+      INC_PC(pc_inc);                                            \
   } while (0)
 
-#define INCREG(reg_val)                        \
+#define INCREG(reg_val, clk_inc, pc_inc)       \
   do {                                         \
       reg_val++;                               \
       reg_f = SZP[reg_val] | LOCAL_CARRY();    \
       LOCAL_SET_PARITY((reg_val == 0x80));     \
       LOCAL_SET_HALFCARRY(!(reg_val & 0x0f));  \
-      CLK += 4;                                \
-      INC_PC(1);                               \
+      CLK += clk_inc;                          \
+      INC_PC(pc_inc);                          \
   } while (0)
 
 #define JMP(addr, clk_inc)  \
@@ -1436,10 +1467,10 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(2);                                   \
   } while (0)
 
-#define NOP()     \
-  do {            \
-      CLK += 4;   \
-      INC_PC(1);  \
+#define NOP(clk_inc, pc_inc)  \
+  do {                        \
+      CLK += clk_inc;         \
+      INC_PC(pc_inc);         \
   } while (0)
 
 #define OR(reg_val, clk_inc1, clk_inc2, pc_inc)  \
@@ -1499,17 +1530,31 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(2);                   \
   } while (0)
 
-#define RESHL(value)           \
-  do {                         \
-      BYTE tmp;                \
-                               \
-      CLK += 4;                \
-      tmp = LOAD(HL_WORD());   \
-      tmp &= (~(1 << value));  \
-      CLK += 4;                \
-      STORE(HL_WORD(), tmp);   \
-      CLK += 7;                \
-      INC_PC(2);               \
+#define RESXX(value, addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                            \
+      BYTE tmp;                                                   \
+                                                                  \
+      CLK += clk_inc1;                                            \
+      tmp = LOAD((addr));                                         \
+      tmp &= (~(1 << value));                                     \
+      CLK += clk_inc2;                                            \
+      STORE((addr), tmp);                                         \
+      CLK += clk_inc3;                                            \
+      INC_PC(pc_inc);                                             \
+  } while (0)
+
+#define RESXXREG(value, reg_val, addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                                        \
+      BYTE tmp;                                                               \
+                                                                              \
+      CLK += clk_inc1;                                                        \
+      tmp = LOAD((addr));                                                     \
+      tmp &= (~(1 << value));                                                 \
+      CLK += clk_inc2;                                                        \
+      STORE((addr), tmp);                                                     \
+      reg_val = tmp;                                                          \
+      CLK += clk_inc3;                                                        \
+      INC_PC(pc_inc);                                                         \
   } while (0)
 
 #define RET()                                          \
@@ -1583,34 +1628,79 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(1);                          \
   } while (0)
 
-#define RLCHL()                              \
-  do {                                       \
-      BYTE rot, tmp;                         \
-                                             \
-      CLK += 4;                              \
-      tmp = LOAD(HL_WORD());                 \
-      rot = (tmp & 0x80) ? C_FLAG : 0;       \
-      tmp = (tmp << 1) | rot;                \
-      CLK += 4;                              \
-      STORE(HL_WORD(), tmp);                 \
-      reg_f = rot | SZP[tmp];                \
-      CLK += 7;                              \
-      INC_PC(2);                             \
+#define RLCXX(addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                     \
+      BYTE rot, tmp;                                       \
+                                                           \
+      CLK += clk_inc1;                                     \
+      tmp = LOAD((addr));                                  \
+      rot = (tmp & 0x80) ? C_FLAG : 0;                     \
+      tmp = (tmp << 1) | rot;                              \
+      CLK += clk_inc2;                                     \
+      STORE((addr), tmp);                                  \
+      reg_f = rot | SZP[tmp];                              \
+      CLK += clk_inc3;                                     \
+      INC_PC(pc_inc);                                      \
   } while (0)
 
-#define RLHL()                           \
-  do {                                   \
-      BYTE rot, tmp;                     \
-                                         \
-      CLK += 4;                          \
-      tmp = LOAD(HL_WORD());             \
-      rot = (tmp & 0x80) ? C_FLAG : 0;   \
-      tmp = (tmp << 1) | LOCAL_CARRY();  \
-      CLK += 4;                          \
-      STORE(HL_WORD(), tmp);             \
-      reg_f = rot | SZP[tmp];            \
-      CLK += 7;                          \
-      INC_PC(2);                         \
+#define RLCXXREG(reg_val, addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                                 \
+      BYTE rot, tmp;                                                   \
+                                                                       \
+      CLK += clk_inc1;                                                 \
+      tmp = LOAD((addr));                                              \
+      rot = (tmp & 0x80) ? C_FLAG : 0;                                 \
+      tmp = (tmp << 1) | rot;                                          \
+      CLK += clk_inc2;                                                 \
+      STORE((addr), tmp);                                              \
+      reg_val = tmp;                                                   \
+      reg_f = rot | SZP[tmp];                                          \
+      CLK += clk_inc3;                                                 \
+      INC_PC(pc_inc);                                                  \
+  } while (0)
+
+#define RLD()                                         \
+  do {                                                \
+      BYTE tmp;                                       \
+                                                      \
+      tmp = LOAD(HL_WORD());                          \
+      CLK += 8;                                       \
+      STORE(HL_WORD(), (tmp << 4) | (reg_a & 0x0f));  \
+      reg_a = (tmp >> 4) | (reg_a & 0xf0);            \
+      reg_f = SZP[reg_a] | LOCAL_CARRY();             \
+      CLK += 10;                                      \
+      INC_PC(2);                                      \
+  } while (0)
+
+#define RLXX(addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                    \
+      BYTE rot, tmp;                                      \
+                                                          \
+      CLK += clk_inc1;                                    \
+      tmp = LOAD((addr));                                 \
+      rot = (tmp & 0x80) ? C_FLAG : 0;                    \
+      tmp = (tmp << 1) | LOCAL_CARRY();                   \
+      CLK += clk_inc2;                                    \
+      STORE((addr), tmp);                                 \
+      reg_f = rot | SZP[tmp];                             \
+      CLK += clk_inc3;                                    \
+      INC_PC(pc_inc);                                     \
+  } while (0)
+
+#define RLXXREG(reg_val, addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                                \
+      BYTE rot, tmp;                                                  \
+                                                                      \
+      CLK += clk_inc1;                                                \
+      tmp = LOAD((addr));                                             \
+      rot = (tmp & 0x80) ? C_FLAG : 0;                                \
+      tmp = (tmp << 1) | LOCAL_CARRY();                               \
+      CLK += clk_inc2;                                                \
+      STORE((addr), tmp);                                             \
+      reg_val = tmp;                                                  \
+      reg_f = rot | SZP[tmp];                                         \
+      CLK += clk_inc3;                                                \
+      INC_PC(pc_inc);                                                 \
   } while (0)
 
 #define RR(reg_val)                                           \
@@ -1661,34 +1751,79 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(1);                                  \
   } while (0)
 
-#define RRCHL()                               \
-  do {                                        \
-      BYTE rot, tmp;                          \
-                                              \
-      CLK += 4;                               \
-      tmp = LOAD(HL_WORD());                  \
-      rot = tmp & C_FLAG;                     \
-      tmp = (tmp >> 1) | ((rot) ? 0x80 : 0);  \
-      CLK += 4;                               \
-      STORE(HL_WORD(), tmp);                  \
-      reg_f = rot | SZP[tmp];                 \
-      CLK += 7;                               \
-      INC_PC(2);                              \
+#define RRCXX(addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                     \
+      BYTE rot, tmp;                                       \
+                                                           \
+      CLK += clk_inc1;                                     \
+      tmp = LOAD((addr));                                  \
+      rot = tmp & C_FLAG;                                  \
+      tmp = (tmp >> 1) | ((rot) ? 0x80 : 0);               \
+      CLK += clk_inc2;                                     \
+      STORE((addr), tmp);                                  \
+      reg_f = rot | SZP[tmp];                              \
+      CLK += clk_inc3;                                     \
+      INC_PC(pc_inc);                                      \
   } while (0)
 
-#define RRHL()                                        \
-  do {                                                \
-      BYTE rot, tmp;                                  \
-                                                      \
-      CLK += 4;                                       \
-      tmp = LOAD(HL_WORD());                          \
-      rot = tmp & C_FLAG;                             \
-      tmp = (tmp >> 1) | (LOCAL_CARRY() ? 0x80 : 0);  \
-      CLK += 4;                                       \
-      STORE(HL_WORD(), tmp);                          \
-      reg_f = rot | SZP[tmp];                         \
-      CLK += 7;                                       \
-      INC_PC(2);                                      \
+#define RRCXXREG(reg_val, addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                                 \
+      BYTE rot, tmp;                                                   \
+                                                                       \
+      CLK += clk_inc1;                                                 \
+      tmp = LOAD((addr));                                              \
+      rot = tmp & C_FLAG;                                              \
+      tmp = (tmp >> 1) | ((rot) ? 0x80 : 0);                           \
+      CLK += clk_inc2;                                                 \
+      STORE((addr), tmp);                                              \
+      reg_val = tmp;                                                   \
+      reg_f = rot | SZP[tmp];                                          \
+      CLK += clk_inc3;                                                 \
+      INC_PC(pc_inc);                                                  \
+  } while (0)
+
+#define RRD()                                       \
+  do {                                              \
+      BYTE tmp;                                     \
+                                                    \
+      tmp = LOAD(HL_WORD());                        \
+      CLK += 8;                                     \
+      STORE(HL_WORD(), (tmp >> 4) | (reg_a << 4));  \
+      reg_a = (tmp & 0x0f) | (reg_a & 0xf0);        \
+      reg_f = SZP[reg_a] | LOCAL_CARRY();           \
+      CLK += 10;                                    \
+      INC_PC(2);                                    \
+  } while (0)
+
+#define RRXX(addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                    \
+      BYTE rot, tmp;                                      \
+                                                          \
+      CLK += clk_inc1;                                    \
+      tmp = LOAD((addr));                                 \
+      rot = tmp & C_FLAG;                                 \
+      tmp = (tmp >> 1) | (LOCAL_CARRY() ? 0x80 : 0);      \
+      CLK += clk_inc2;                                    \
+      STORE((addr), tmp);                                 \
+      reg_f = rot | SZP[tmp];                             \
+      CLK += clk_inc3;                                    \
+      INC_PC(pc_inc);                                     \
+  } while (0)
+
+#define RRXXREG(reg_val, addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                                \
+      BYTE rot, tmp;                                                  \
+                                                                      \
+      CLK += clk_inc1;                                                \
+      tmp = LOAD((addr));                                             \
+      rot = tmp & C_FLAG;                                             \
+      tmp = (tmp >> 1) | (LOCAL_CARRY() ? 0x80 : 0);                  \
+      CLK += clk_inc2;                                                \
+      STORE((addr), tmp);                                             \
+      reg_val = tmp;                                                  \
+      reg_f = rot | SZP[tmp];                                         \
+      CLK += clk_inc3;                                                \
+      INC_PC(pc_inc);                                                 \
   } while (0)
 
 #define SBCHLREG(reg_valh, reg_vall)                                         \
@@ -1749,13 +1884,13 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(pc_inc);                                            \
   } while (0)
 
-#define SCF()                  \
+#define SCF(clk_inc, pc_inc)   \
   do {                         \
       LOCAL_SET_CARRY(1);      \
       LOCAL_SET_HALFCARRY(0);  \
       LOCAL_SET_NADDSUB(0);    \
-      CLK += 4;                \
-      INC_PC(1);               \
+      CLK += clk_inc;          \
+      INC_PC(pc_inc);          \
   } while (0)
 
 #define SET(reg_val, value)     \
@@ -1765,19 +1900,32 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(2);                \
   } while (0)
 
-#define SETHL(value)          \
-  do {                        \
-      BYTE tmp;               \
-                              \
-      CLK += 4;               \
-      tmp = LOAD(HL_WORD());  \
-      tmp |= (1 << value);    \
-      CLK += 4;               \
-      STORE(HL_WORD(), tmp);  \
-      CLK += 7;               \
-      INC_PC(2);              \
+#define SETXX(value, addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                            \
+      BYTE tmp;                                                   \
+                                                                  \
+      CLK += clk_inc1;                                            \
+      tmp = LOAD((addr));                                         \
+      tmp |= (1 << value);                                        \
+      CLK += clk_inc2;                                            \
+      STORE((addr), tmp);                                         \
+      CLK += clk_inc3;                                            \
+      INC_PC(pc_inc);                                             \
   } while (0)
 
+#define SETXXREG(value, reg_val, addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                                        \
+      BYTE tmp;                                                               \
+                                                                              \
+      CLK += clk_inc1;                                                        \
+      tmp = LOAD((addr));                                                     \
+      tmp |= (1 << value);                                                    \
+      CLK += clk_inc2;                                                        \
+      STORE((addr), tmp);                                                     \
+      reg_val = tmp;                                                          \
+      CLK += clk_inc3;                                                        \
+      INC_PC(pc_inc);                                                         \
+  } while (0)
 
 #define SLA(reg_val)                        \
   do {                                      \
@@ -1790,19 +1938,35 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(2);                            \
   } while (0)
 
-#define SLAHL()                         \
-  do {                                  \
-      BYTE rot, tmp;                    \
-                                        \
-      CLK += 4;                         \
-      tmp = LOAD(HL_WORD());            \
-      rot = (tmp & 0x80) ? C_FLAG : 0;  \
-      tmp <<= 1;                        \
-      CLK += 4;                         \
-      STORE(HL_WORD(), tmp);            \
-      reg_f = rot | SZP[tmp];           \
-      CLK += 7;                         \
-      INC_PC(2);                        \
+#define SLAXX(addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                     \
+      BYTE rot, tmp;                                       \
+                                                           \
+      CLK += clk_inc1;                                     \
+      tmp = LOAD((addr));                                  \
+      rot = (tmp & 0x80) ? C_FLAG : 0;                     \
+      tmp <<= 1;                                           \
+      CLK += clk_inc2;                                     \
+      STORE((addr), tmp);                                  \
+      reg_f = rot | SZP[tmp];                              \
+      CLK += clk_inc3;                                     \
+      INC_PC(pc_inc);                                      \
+  } while (0)
+
+#define SLAXXREG(reg_val, addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                                 \
+      BYTE rot, tmp;                                                   \
+                                                                       \
+      CLK += clk_inc1;                                                 \
+      tmp = LOAD((addr));                                              \
+      rot = (tmp & 0x80) ? C_FLAG : 0;                                 \
+      tmp <<= 1;                                                       \
+      CLK += clk_inc2;                                                 \
+      STORE((addr), tmp);                                              \
+      reg_val = tmp;                                                   \
+      reg_f = rot | SZP[tmp];                                          \
+      CLK += clk_inc3;                                                 \
+      INC_PC(pc_inc);                                                  \
   } while (0)
 
 #define SLL(reg_val)                        \
@@ -1816,19 +1980,35 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(2);                            \
   } while (0)
 
-#define SLLHL()                         \
-  do {                                  \
-      BYTE rot, tmp;                    \
-                                        \
-      CLK += 4;                         \
-      tmp = LOAD(HL_WORD());            \
-      rot = (tmp & 0x80) ? C_FLAG : 0;  \
-      tmp = (tmp << 1) | 1;             \
-      CLK += 4;                         \
-      STORE(HL_WORD(), tmp);            \
-      reg_f = rot | SZP[tmp];           \
-      CLK += 7;                         \
-      INC_PC(2);                        \
+#define SLLXX(addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                     \
+      BYTE rot, tmp;                                       \
+                                                           \
+      CLK += clk_inc1;                                     \
+      tmp = LOAD((addr));                                  \
+      rot = (tmp & 0x80) ? C_FLAG : 0;                     \
+      tmp = (tmp << 1) | 1;                                \
+      CLK += clk_inc2;                                     \
+      STORE((addr), tmp);                                  \
+      reg_f = rot | SZP[tmp];                              \
+      CLK += clk_inc3;                                     \
+      INC_PC(pc_inc);                                      \
+  } while (0)
+
+#define SLLXXREG(reg_val, addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                                 \
+      BYTE rot, tmp;                                                   \
+                                                                       \
+      CLK += clk_inc1;                                                 \
+      tmp = LOAD((addr));                                              \
+      rot = (tmp & 0x80) ? C_FLAG : 0;                                 \
+      tmp = (tmp << 1) | 1;                                            \
+      CLK += clk_inc2;                                                 \
+      STORE((addr), tmp);                                              \
+      reg_val = tmp;                                                   \
+      reg_f = rot | SZP[tmp];                                          \
+      CLK += clk_inc3;                                                 \
+      INC_PC(pc_inc);                                                  \
   } while (0)
 
 #define SRA(reg_val)                                \
@@ -1842,19 +2022,35 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(2);                                    \
   } while (0)
 
-#define SRAHL()                         \
-  do {                                  \
-      BYTE rot, tmp;                    \
-                                        \
-      CLK += 4;                         \
-      tmp = LOAD(HL_WORD());            \
-      rot = tmp & C_FLAG;               \
-      tmp = (tmp >> 1) | (tmp & 0x80);  \
-      CLK += 4;                         \
-      STORE(HL_WORD(), tmp);            \
-      reg_f = rot | SZP[tmp];           \
-      CLK += 7;                         \
-      INC_PC(2);                        \
+#define SRAXX(addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                     \
+      BYTE rot, tmp;                                       \
+                                                           \
+      CLK += clk_inc1;                                     \
+      tmp = LOAD((addr));                                  \
+      rot = tmp & C_FLAG;                                  \
+      tmp = (tmp >> 1) | (tmp & 0x80);                     \
+      CLK += clk_inc2;                                     \
+      STORE((addr), tmp);                                  \
+      reg_f = rot | SZP[tmp];                              \
+      CLK += clk_inc3;                                     \
+      INC_PC(pc_inc);                                      \
+  } while (0)
+
+#define SRAXXREG(reg_val, addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                                 \
+      BYTE rot, tmp;                                                   \
+                                                                       \
+      CLK += clk_inc1;                                                 \
+      tmp = LOAD((addr));                                              \
+      rot = tmp & C_FLAG;                                              \
+      tmp = (tmp >> 1) | (tmp & 0x80);                                 \
+      CLK += clk_inc2;                                                 \
+      STORE((addr), tmp);                                              \
+      reg_val = tmp;                                                   \
+      reg_f = rot | SZP[tmp];                                          \
+      CLK += clk_inc3;                                                 \
+      INC_PC(pc_inc);                                                  \
   } while (0)
 
 #define SRL(reg_val)               \
@@ -1868,19 +2064,35 @@ static BYTE daa_reg_f[2048] = {
       INC_PC(2);                   \
   } while (0)
 
-#define SRLHL()                \
-  do {                         \
-      BYTE rot, tmp;           \
-                               \
-      CLK += 4;                \
-      tmp = LOAD(HL_WORD());   \
-      rot = tmp & C_FLAG;      \
-      tmp >>= 1;               \
-      CLK += 4;                \
-      STORE(HL_WORD(), tmp);   \
-      reg_f = rot | SZP[tmp];  \
-      CLK += 11;               \
-      INC_PC(2);               \
+#define SRLXX(addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                     \
+      BYTE rot, tmp;                                       \
+                                                           \
+      CLK += clk_inc1;                                     \
+      tmp = LOAD((addr));                                  \
+      rot = tmp & C_FLAG;                                  \
+      tmp >>= 1;                                           \
+      CLK += clk_inc2;                                     \
+      STORE((addr), tmp);                                  \
+      reg_f = rot | SZP[tmp];                              \
+      CLK += clk_inc3;                                     \
+      INC_PC(pc_inc);                                      \
+  } while (0)
+
+#define SRLXXREG(reg_val, addr, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
+  do {                                                                 \
+      BYTE rot, tmp;                                                   \
+                                                                       \
+      CLK += clk_inc1;                                                 \
+      tmp = LOAD((addr));                                              \
+      rot = tmp & C_FLAG;                                              \
+      tmp >>= 1;                                                       \
+      CLK += clk_inc2;                                                 \
+      STORE((addr), tmp);                                              \
+      reg_val = tmp;                                                   \
+      reg_f = rot | SZP[tmp];                                          \
+      CLK += clk_inc3;                                                 \
+      INC_PC(pc_inc);                                                  \
   } while (0)
 
 #define STW(addr, reg_valh, reg_vall, clk_inc1, clk_inc2, clk_inc3, pc_inc)  \
@@ -1941,8 +2153,7 @@ static BYTE daa_reg_f[2048] = {
 
 /* Extented opcodes.  */
 
-inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
-                      WORD ip23)
+void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
 {
     switch (ip1) {
       case 0x00: /* RLC B */
@@ -1964,7 +2175,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         RLC(reg_l);
         break;
       case 0x06: /* RLC (HL) */
-        RLCHL();
+        RLCXX(HL_WORD(), 4, 4, 7, 2);
         break;
       case 0x07: /* RLC A */
         RLC(reg_a);
@@ -1988,7 +2199,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         RRC(reg_l);
         break;
       case 0x0e: /* RRC (HL) */
-        RRCHL();
+        RRCXX(HL_WORD(), 4, 4, 7, 2);
         break;
       case 0x0f: /* RRC A */
         RRC(reg_a);
@@ -2012,7 +2223,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         RL(reg_l);
         break;
       case 0x16: /* RL (HL) */
-        RLHL();
+        RLXX(HL_WORD(), 4, 4, 7, 2);
         break;
       case 0x17: /* RL A */
         RL(reg_a);
@@ -2036,7 +2247,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         RR(reg_l);
         break;
       case 0x1e: /* RR (HL) */
-        RRHL();
+        RRXX(HL_WORD(), 4, 4, 7, 2);
         break;
       case 0x1f: /* RR A */
         RR(reg_a);
@@ -2060,7 +2271,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         SLA(reg_l);
         break;
       case 0x26: /* SLA (HL) */
-        SLAHL();
+        SLAXX(HL_WORD(), 4, 4, 7, 2);
         break;
       case 0x27: /* SLA A */
         SLA(reg_a);
@@ -2084,7 +2295,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         SRA(reg_l);
         break;
       case 0x2e: /* SRA (HL) */
-        SRAHL();
+        SRAXX(HL_WORD(), 4, 4, 7, 2);
         break;
       case 0x2f: /* SRA A */
         SRA(reg_a);
@@ -2108,7 +2319,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         SLL(reg_l);
         break;
       case 0x36: /* SLL (HL) */
-        SLLHL();
+        SLLXX(HL_WORD(), 4, 4, 7, 2);
         break;
       case 0x37: /* SLL A */
         SLL(reg_a);
@@ -2132,7 +2343,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         SRL(reg_l);
         break;
       case 0x3e: /* SRL (HL) */
-        SRLHL();
+        SRLXX(HL_WORD(), 4, 4, 7, 2);
         break;
       case 0x3f: /* SRL A */
         SRL(reg_a);
@@ -2356,7 +2567,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         RES(reg_l, 0);
         break;
       case 0x86: /* RES (HL) 0 */
-        RESHL(0);
+        RESXX(0, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0x87: /* RES A 0 */
         RES(reg_a, 0);
@@ -2380,7 +2591,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         RES(reg_l, 1);
         break;
       case 0x8e: /* RES (HL) 1 */
-        RESHL(1);
+        RESXX(1, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0x8f: /* RES A 1 */
         RES(reg_a, 1);
@@ -2404,7 +2615,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         RES(reg_l, 2);
         break;
       case 0x96: /* RES (HL) 2 */
-        RESHL(2);
+        RESXX(2, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0x97: /* RES A 2 */
         RES(reg_a, 2);
@@ -2428,7 +2639,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         RES(reg_l, 3);
         break;
       case 0x9e: /* RES (HL) 3 */
-        RESHL(3);
+        RESXX(3, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0x9f: /* RES A 3 */
         RES(reg_a, 3);
@@ -2452,7 +2663,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         RES(reg_l, 4);
         break;
       case 0xa6: /* RES (HL) 4 */
-        RESHL(4);
+        RESXX(4, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0xa7: /* RES A 4 */
         RES(reg_a, 4);
@@ -2476,7 +2687,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         RES(reg_l, 5);
         break;
       case 0xae: /* RES (HL) 5 */
-        RESHL(5);
+        RESXX(5, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0xaf: /* RES A 5 */
         RES(reg_a, 5);
@@ -2500,7 +2711,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         RES(reg_l, 6);
         break;
       case 0xb6: /* RES (HL) 6 */
-        RESHL(6);
+        RESXX(6, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0xb7: /* RES A 6 */
         RES(reg_a, 6);
@@ -2524,7 +2735,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         RES(reg_l, 7);
         break;
       case 0xbe: /* RES (HL) 7 */
-        RESHL(7);
+        RESXX(7, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0xbf: /* RES A 7 */
         RES(reg_a, 7);
@@ -2548,7 +2759,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         SET(reg_l, 0);
         break;
       case 0xc6: /* SET (HL) 0 */
-        SETHL(0);
+        SETXX(0, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0xc7: /* SET A 0 */
         SET(reg_a, 0);
@@ -2572,7 +2783,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         SET(reg_l, 1);
         break;
       case 0xce: /* SET (HL) 1 */
-        SETHL(1);
+        SETXX(1, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0xcf: /* SET A 1 */
         SET(reg_a, 1);
@@ -2596,7 +2807,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         SET(reg_l, 2);
         break;
       case 0xd6: /* SET (HL) 2 */
-        SETHL(2);
+        SETXX(2, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0xd7: /* SET A 2 */
         SET(reg_a, 2);
@@ -2620,7 +2831,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         SET(reg_l, 3);
         break;
       case 0xde: /* SET (HL) 3 */
-        SETHL(3);
+        SETXX(3, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0xdf: /* SET A 3 */
         SET(reg_a, 3);
@@ -2644,7 +2855,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         SET(reg_l, 4);
         break;
       case 0xe6: /* SET (HL) 4 */
-        SETHL(4);
+        SETXX(4, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0xe7: /* SET A 4 */
         SET(reg_a, 4);
@@ -2668,7 +2879,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         SET(reg_l, 5);
         break;
       case 0xee: /* SET (HL) 5 */
-        SETHL(5);
+        SETXX(5, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0xef: /* SET A 5 */
         SET(reg_a, 5);
@@ -2692,7 +2903,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         SET(reg_l, 6);
         break;
       case 0xf6: /* SET (HL) 6 */
-        SETHL(6);
+        SETXX(6, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0xf7: /* SET A 6 */
         SET(reg_a, 6);
@@ -2716,7 +2927,7 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
         SET(reg_l, 7);
         break;
       case 0xfe: /* SET (HL) 7 */
-        SETHL(7);
+        SETXX(7, HL_WORD(), 4, 4, 7, 2);
         break;
       case 0xff: /* SET A 7 */
         SET(reg_a, 7);
@@ -2731,21 +2942,669 @@ inline void opcode_cb(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
    }
 }
 
-inline void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
-                      WORD ip23)
+void opcode_dd_cb(BYTE iip2, BYTE iip3, WORD iip23)
+{
+    switch (iip2) {
+      case 0x00: /* RLC (IX+d),B */
+        RLCXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x01: /* RLC (IX+d),C */
+        RLCXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x02: /* RLC (IX+d),D */
+        RLCXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x03: /* RLC (IX+d),E */
+        RLCXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x04: /* RLC (IX+d),H */
+        RLCXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x05: /* RLC (IX+d),L */
+        RLCXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x06: /* RLC (IX+d) */
+        RLCXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x07: /* RLC (IX+d),A */
+        RLCXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x08: /* RRC (IX+d),B */
+        RRCXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x09: /* RRC (IX+d),C */
+        RRCXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x0a: /* RRC (IX+d),D */
+        RRCXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x0b: /* RRC (IX+d),E */
+        RRCXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x0c: /* RRC (IX+d),H */
+        RRCXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x0d: /* RRC (IX+d),L */
+        RRCXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x0e: /* RRC (IX+d) */
+        RRCXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x0f: /* RRC (IX+d),A */
+        RRCXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x10: /* RL (IX+d),B */
+        RLXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x11: /* RL (IX+d),C */
+        RLXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x12: /* RL (IX+d),D */
+        RLXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x13: /* RL (IX+d),E */
+        RLXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x14: /* RL (IX+d),H */
+        RLXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x15: /* RL (IX+d),L */
+        RLXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x16: /* RL (IX+d) */
+        RLXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x17: /* RL (IX+d),A */
+        RLXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x18: /* RR (IX+d),B */
+        RRXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x19: /* RR (IX+d),C */
+        RRXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x1a: /* RR (IX+d),D */
+        RRXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x1b: /* RR (IX+d),E */
+        RRXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x1c: /* RR (IX+d),H */
+        RRXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x1d: /* RR (IX+d),L */
+        RRXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x1e: /* RR (IX+d) */
+        RRXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x1f: /* RR (IX+d),A */
+        RRXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x20: /* SLA (IX+d),B */
+        SLAXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x21: /* SLA (IX+d),C */
+        SLAXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x22: /* SLA (IX+d),D */
+        SLAXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x23: /* SLA (IX+d),E */
+        SLAXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x24: /* SLA (IX+d),H */
+        SLAXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x25: /* SLA (IX+d),L */
+        SLAXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x26: /* SLA (IX+d) */
+        SLAXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x27: /* SLA (IX+d),A */
+        SLAXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x28: /* SRA (IX+d),B */
+        SRAXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x29: /* SRA (IX+d),C */
+        SRAXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x2a: /* SRA (IX+d),D */
+        SRAXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x2b: /* SRA (IX+d),E */
+        SRAXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x2c: /* SRA (IX+d),H */
+        SRAXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x2d: /* SRA (IX+d),L */
+        SRAXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x2e: /* SRA (IX+d) */
+        SRAXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x2f: /* SRA (IX+d),A */
+        SRAXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x30: /* SLL (IX+d),B */
+        SLLXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x31: /* SLL (IX+d),C */
+        SLLXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x32: /* SLL (IX+d),D */
+        SLLXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x33: /* SLL (IX+d),E */
+        SLLXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x34: /* SLL (IX+d),H */
+        SLLXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x35: /* SLL (IX+d),L */
+        SLLXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x36: /* SLL (IX+d) */
+        SLLXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x37: /* SLL (IX+d),A */
+        SLLXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x38: /* SRL (IX+d),B */
+        SRLXXREG(reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x39: /* SRL (IX+d),C */
+        SRLXXREG(reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x3a: /* SRL (IX+d),D */
+        SRLXXREG(reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x3b: /* SRL (IX+d),E */
+        SRLXXREG(reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x3c: /* SRL (IX+d),H */
+        SRLXXREG(reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x3d: /* SRL (IX+d),L */
+        SRLXXREG(reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x3e: /* SRL (IX+d) */
+        SRLXX(IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x3f: /* SRL (IX+d),A */
+        SRLXXREG(reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x80: /* RES (IX+d),B 0 */
+        RESXXREG(0, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x81: /* RES (IX+d),C 0 */
+        RESXXREG(0, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x82: /* RES (IX+d),D 0 */
+        RESXXREG(0, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x83: /* RES (IX+d),E 0 */
+        RESXXREG(0, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x84: /* RES (IX+d),H 0 */
+        RESXXREG(0, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x85: /* RES (IX+d),L 0 */
+        RESXXREG(0, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x86: /* RES (IX+d) 0 */
+        RESXX(0, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x87: /* RES (IX+d),A 0 */
+        RESXXREG(0, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x88: /* RES (IX+d),B 1 */
+        RESXXREG(1, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x89: /* RES (IX+d),C 1 */
+        RESXXREG(1, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x8a: /* RES (IX+d),D 1 */
+        RESXXREG(1, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x8b: /* RES (IX+d),E 1 */
+        RESXXREG(1, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x8c: /* RES (IX+d),H 1 */
+        RESXXREG(1, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x8d: /* RES (IX+d),L 1 */
+        RESXXREG(1, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x8e: /* RES (IX+d) 1 */
+        RESXX(1, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x8f: /* RES (IX+d),A 1 */
+        RESXXREG(1, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x90: /* RES (IX+d),B 2 */
+        RESXXREG(2, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x91: /* RES (IX+d),C 2 */
+        RESXXREG(2, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x92: /* RES (IX+d),D 2 */
+        RESXXREG(2, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x93: /* RES (IX+d),E 2 */
+        RESXXREG(2, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x94: /* RES (IX+d),H 2 */
+        RESXXREG(2, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x95: /* RES (IX+d),L 2 */
+        RESXXREG(2, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x96: /* RES (IX+d) 2 */
+        RESXX(2, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x97: /* RES (IX+d),A 2 */
+        RESXXREG(2, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x98: /* RES (IX+d),B 3 */
+        RESXXREG(3, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x99: /* RES (IX+d),C 3 */
+        RESXXREG(3, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x9a: /* RES (IX+d),D 3 */
+        RESXXREG(3, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x9b: /* RES (IX+d),E 3 */
+        RESXXREG(3, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x9c: /* RES (IX+d),H 3 */
+        RESXXREG(3, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x9d: /* RES (IX+d),L 3 */
+        RESXXREG(3, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x9e: /* RES (IX+d) 3 */
+        RESXX(3, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x9f: /* RES (IX+d),A 3 */
+        RESXXREG(3, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa0: /* RES (IX+d),B 4 */
+        RESXXREG(4, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa1: /* RES (IX+d),C 4 */
+        RESXXREG(4, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa2: /* RES (IX+d),D 4 */
+        RESXXREG(4, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa3: /* RES (IX+d),E 4 */
+        RESXXREG(4, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa4: /* RES (IX+d),H 4 */
+        RESXXREG(4, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa5: /* RES (IX+d),L 4 */
+        RESXXREG(4, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa6: /* RES (IX+d) 4 */
+        RESXX(4, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa7: /* RES (IX+d),A 4 */
+        RESXXREG(4, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa8: /* RES (IX+d),B 5 */
+        RESXXREG(5, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa9: /* RES (IX+d),C 5 */
+        RESXXREG(5, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xaa: /* RES (IX+d),D 5 */
+        RESXXREG(5, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xab: /* RES (IX+d),E 5 */
+        RESXXREG(5, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xac: /* RES (IX+d),H 5 */
+        RESXXREG(5, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xad: /* RES (IX+d),L 5 */
+        RESXXREG(5, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xae: /* RES (IX+d) 5 */
+        RESXX(5, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xaf: /* RES (IX+d),A 5 */
+        RESXXREG(5, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb0: /* RES (IX+d),B 6 */
+        RESXXREG(6, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb1: /* RES (IX+d),C 6 */
+        RESXXREG(6, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb2: /* RES (IX+d),D 6 */
+        RESXXREG(6, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb3: /* RES (IX+d),E 6 */
+        RESXXREG(6, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb4: /* RES (IX+d),H 6 */
+        RESXXREG(6, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb5: /* RES (IX+d),L 6 */
+        RESXXREG(6, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb6: /* RES (IX+d) 6 */
+        RESXX(6, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb7: /* RES (IX+d),A 6 */
+        RESXXREG(6, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb8: /* RES (IX+d),B 7 */
+        RESXXREG(7, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb9: /* RES (IX+d),C 7 */
+        RESXXREG(7, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xba: /* RES (IX+d),D 7 */
+        RESXXREG(7, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xbb: /* RES (IX+d),E 7 */
+        RESXXREG(7, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xbc: /* RES (IX+d),H 7 */
+        RESXXREG(7, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xbd: /* RES (IX+d),L 7 */
+        RESXXREG(7, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xbe: /* RES (IX+d) 7 */
+        RESXX(7, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xbf: /* RES (IX+d),A 7 */
+        RESXXREG(7, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc0: /* SET (IX+d),B 0 */
+        SETXXREG(0, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc1: /* SET (IX+d),C 0 */
+        SETXXREG(0, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc2: /* SET (IX+d),D 0 */
+        SETXXREG(0, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc3: /* SET (IX+d),E 0 */
+        SETXXREG(0, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc4: /* SET (IX+d),H 0 */
+        SETXXREG(0, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc5: /* SET (IX+d),L 0 */
+        SETXXREG(0, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc6: /* SET (IX+d) 0 */
+        SETXX(0, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc7: /* SET (IX+d),A 0 */
+        SETXXREG(0, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc8: /* SET (IX+d),B 1 */
+        SETXXREG(1, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc9: /* SET (IX+d),C 1 */
+        SETXXREG(1, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xca: /* SET (IX+d),D 1 */
+        SETXXREG(1, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xcb: /* SET (IX+d),E 1 */
+        SETXXREG(1, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xcc: /* SET (IX+d),H 1 */
+        SETXXREG(1, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xcd: /* SET (IX+d),L 1 */
+        SETXXREG(1, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xce: /* SET (IX+d) 1 */
+        SETXX(1, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xcf: /* SET (IX+d),A 1 */
+        SETXXREG(1, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd0: /* SET (IX+d),B 2 */
+        SETXXREG(2, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd1: /* SET (IX+d),C 2 */
+        SETXXREG(2, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd2: /* SET (IX+d),D 2 */
+        SETXXREG(2, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd3: /* SET (IX+d),E 2 */
+        SETXXREG(2, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd4: /* SET (IX+d),H 2 */
+        SETXXREG(2, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd5: /* SET (IX+d),L 2 */
+        SETXXREG(2, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd6: /* SET (IX+d) 2 */
+        SETXX(2, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd7: /* SET (IX+d),A 2 */
+        SETXXREG(2, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd8: /* SET (IX+d),B 3 */
+        SETXXREG(3, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd9: /* SET (IX+d),C 3 */
+        SETXXREG(3, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xda: /* SET (IX+d),D 3 */
+        SETXXREG(3, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xdb: /* SET (IX+d),E 3 */
+        SETXXREG(3, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xdc: /* SET (IX+d),H 3 */
+        SETXXREG(3, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xdd: /* SET (IX+d),L 3 */
+        SETXXREG(3, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xde: /* SET (IX+d) 3 */
+        SETXX(3, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xdf: /* SET (IX+d),A 3 */
+        SETXXREG(3, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe0: /* SET (IX+d),B 4 */
+        SETXXREG(4, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe1: /* SET (IX+d),C 4 */
+        SETXXREG(4, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe2: /* SET (IX+d),D 4 */
+        SETXXREG(4, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe3: /* SET (IX+d),E 4 */
+        SETXXREG(4, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe4: /* SET (IX+d),H 4 */
+        SETXXREG(4, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe5: /* SET (IX+d),L 4 */
+        SETXXREG(4, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe6: /* SET (IX+d) 4 */
+        SETXX(4, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe7: /* SET (IX+d),A 4 */
+        SETXXREG(4, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe8: /* SET (IX+d),B 5 */
+        SETXXREG(5, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe9: /* SET (IX+d),C 5 */
+        SETXXREG(5, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xea: /* SET (IX+d),D 5 */
+        SETXXREG(5, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xeb: /* SET (IX+d),E 5 */
+        SETXXREG(5, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xec: /* SET (IX+d),H 5 */
+        SETXXREG(5, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xed: /* SET (IX+d),L 5 */
+        SETXXREG(5, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xee: /* SET (IX+d) 5 */
+        SETXX(5, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xef: /* SET (IX+d),A 5 */
+        SETXXREG(5, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf0: /* SET (IX+d),B 6 */
+        SETXXREG(6, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf1: /* SET (IX+d),C 6 */
+        SETXXREG(6, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf2: /* SET (IX+d),D 6 */
+        SETXXREG(6, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf3: /* SET (IX+d),E 6 */
+        SETXXREG(6, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf4: /* SET (IX+d),H 6 */
+        SETXXREG(6, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf5: /* SET (IX+d),L 6 */
+        SETXXREG(6, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf6: /* SET (IX+d) 6 */
+        SETXX(6, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf7: /* SET (IX+d),A 6 */
+        SETXXREG(6, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf8: /* SET (IX+d),B 7 */
+        SETXXREG(7, reg_b, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf9: /* SET (IX+d),C 7 */
+        SETXXREG(7, reg_c, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xfa: /* SET (IX+d),D 7 */
+        SETXXREG(7, reg_d, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xfb: /* SET (IX+d),E 7 */
+        SETXXREG(7, reg_e, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xfc: /* SET (IX+d),H 7 */
+        SETXXREG(7, reg_h, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xfd: /* SET (IX+d),L 7 */
+        SETXXREG(7, reg_l, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xfe: /* SET (IX+d) 7 */
+        SETXX(7, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xff: /* SET (IX+d),A 7 */
+        SETXXREG(7, reg_a, IX_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      default:
+        log_message(LOG_DEFAULT,
+                    "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
+                    "H%02x L%02x SP%04x OP DD CB %02x %02x.",
+                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
+                    reg_h, reg_l, reg_sp, iip2, iip3);
+        INC_PC(4);
+   }
+}
+
+void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
 {
     switch (ip1) {
+      case 0x00: /* NOP */
+        NOP(8, 2);
+        break;
       case 0x01: /* LD BC # */
         LDW(ip23, reg_b, reg_c, 10, 0, 4);
+        break;
+      case 0x03: /* INC BC */
+        DECINC(INC_BC_WORD(), 10, 2);
+        break;
+      case 0x04: /* INC B */
+        INCREG(reg_b, 7, 2);
+        break;
+      case 0x05: /* DEC B */
+        DECREG(reg_b, 7, 2);
+        break;
+      case 0x06: /* LD B # */
+        LDREG(reg_b, ip2, 4, 5, 3);
+        break;
+      case 0x08: /* EX AF AF' */
+        EXAFAF(12, 2);
         break;
       case 0x09: /* ADD IX BC */
         ADDXXREG(reg_ixh, reg_ixl, reg_b, reg_c, 15, 2);
         break;
+      case 0x0b: /* DEC BC */
+        DECINC(DEC_BC_WORD(), 10, 2);
+        break;
+      case 0x0c: /* INC C */
+        INCREG(reg_c, 7, 2);
+        break;
+      case 0x0d: /* DEC C */
+        DECREG(reg_c, 7, 2);
+        break;
+      case 0x0e: /* LD C # */
+        LDREG(reg_c, ip2, 4, 5, 3);
+        break;
+      case 0x10: /* DJNZ */
+        DJNZ(ip2, 3);
+        break;
       case 0x11: /* LD DE # */
         LDW(ip23, reg_d, reg_e, 10, 0, 4);
         break;
+      case 0x13: /* INC DE */
+        DECINC(INC_DE_WORD(), 10, 2);
+        break;
+      case 0x14: /* INC D */
+        INCREG(reg_d, 7, 2);
+        break;
+      case 0x15: /* DEC D */
+        DECREG(reg_d, 7, 2);
+        break;
+      case 0x16: /* LD D # */
+        LDREG(reg_d, ip2, 4, 5, 3);
+        break;
       case 0x19: /* ADD IX DE */
         ADDXXREG(reg_ixh, reg_ixl, reg_d, reg_e, 15, 2);
+        break;
+      case 0x1b: /* DEC DE */
+        DECINC(DEC_DE_WORD(), 10, 2);
+        break;
+      case 0x1c: /* INC E */
+        INCREG(reg_e, 7, 2);
+        break;
+      case 0x1d: /* DEC E */
+        DECREG(reg_e, 7, 2);
+        break;
+      case 0x1e: /* LD E # */
+        LDREG(reg_e, ip2, 4, 5, 3);
+        break;
+      case 0x20: /* JR NZ */
+        BRANCH(!LOCAL_ZERO(), ip2, 3);
         break;
       case 0x21: /* LD IX # */
         LDW(ip23, reg_ixh, reg_ixl, 10, 4, 4);
@@ -2753,17 +3612,86 @@ inline void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
       case 0x22: /* LD (WORD) IX */
         STW(ip23, reg_ixh, reg_ixl, 4, 9, 7, 4);
         break;
+      case 0x23: /* INC IX */
+        DECINC(INC_IX_WORD(), 10, 2);
+        break;
+      case 0x24: /* INC H */
+        INCREG(reg_h, 7, 2);
+        break;
+      case 0x25: /* DEC H */
+        DECREG(reg_h, 7, 2);
+        break;
+      case 0x26: /* LD H # */
+        LDREG(reg_h, ip2, 4, 5, 3);
+        break;
       case 0x29: /* ADD IX IX */
         ADDXXREG(reg_ixh, reg_ixl, reg_ixh, reg_ixl, 15, 2);
+        break;
+      case 0x28: /* JR Z */
+        BRANCH(LOCAL_ZERO(), ip2, 3);
         break;
       case 0x2a: /* LD IX (WORD) */
         LDIND(ip23, reg_ixh, reg_ixl, 4, 4, 12, 4);
         break;
+      case 0x2b: /* DEC IX */
+        DECINC(DEC_IX_WORD(), 10, 2);
+        break;
+      case 0x2c: /* INC L */
+        INCREG(reg_l, 7, 2);
+        break;
+      case 0x2d: /* DEC L */
+        DECREG(reg_l, 7, 2);
+        break;
+      case 0x2e: /* LD L # */
+        LDREG(reg_l, ip2, 4, 5, 3);
+        break;
+      case 0x30: /* JR NC */
+        BRANCH(!LOCAL_CARRY(), ip2, 3);
+        break;
       case 0x31: /* LD SP # */
         LDSP(ip23, 10, 0, 4);
         break;
+      case 0x32: /* LD (WORD) A */
+        STREG(ip23, reg_a, 10, 7, 4);
+        break;
+      case 0x33: /* INC SP */
+        DECINC(reg_sp++, 10, 2);
+        break;
+      case 0x34: /* INC (IX+d) */
+        INCXXIND(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), 4, 7, 12, 3);
+        break;
+      case 0x35: /* DEC (IX+d) */
+        DECXXIND(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), 4, 7, 12, 3);
+        break;
+      case 0x36: /* LD (IX+d) # */
+        STREG(((reg_ixh << 8) | reg_ixl) + (signed char)(ip2), ip3, 8, 11, 4);
+        break;
+      case 0x37: /* SCF */
+        SCF(8, 2);
+        break;
+      case 0x38: /* JR C */
+        BRANCH(LOCAL_CARRY(), ip2, 3);
+        break;
       case 0x39: /* ADD IX SP */
         ADDXXSP(reg_ixh, reg_ixl, 15, 2);
+        break;
+      case 0x3a: /* LD A (WORD) */
+        LDREG(reg_a, LOAD(ip23), 10, 7, 4);
+        break;
+      case 0x3b: /* DEC SP */
+        DECINC(reg_sp--, 10, 2);
+        break;
+      case 0x3c: /* INC A */
+        INCREG(reg_a, 7, 2);
+        break;
+      case 0x3d: /* DEC A */
+        DECREG(reg_a, 7, 2);
+        break;
+      case 0x3e: /* LD A # */
+        LDREG(reg_a, ip2, 4, 5, 3);
+        break;
+      case 0x3f: /* CCF */
+        CCF(8, 2);
         break;
       case 0x40: /* LD B B */
         LDREG(reg_b, reg_b, 0, 4, 2);
@@ -3155,6 +4083,9 @@ inline void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
       case 0xc5: /* PUSH BC */
         PUSH(reg_b, reg_c, 2);
         break;
+      case 0xcb: /* OPCODE DD CB */
+        opcode_dd_cb((BYTE)ip2, (BYTE)ip3, (WORD)ip23);
+        break;
       case 0xd1: /* POP DE */
         POP(reg_d, reg_e, 2);
         break;
@@ -3164,14 +4095,24 @@ inline void opcode_dd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
       case 0xe1: /* POP IX */
         POP(reg_ixh, reg_ixl, 2);
         break;
+      case 0xe3: /* EX IX (SP) */
+        EXXXSP(reg_ixh, reg_ixl, 4, 4, 4, 4, 7, 2);
+        break;
       case 0xe5: /* PUSH IX */
         PUSH(reg_ixh, reg_ixl, 2);
+        break;
+      /* case 0xe9: LD PC IX */
+      case 0xeb: /* EX DE HL FIXME: Is this correct? */
+        EXDEHL(8, 2);
         break;
       case 0xf1: /* POP AF */
         POP(reg_a, reg_f, 2);
         break;
       case 0xf5: /* PUSH AF */
         PUSH(reg_a, reg_f, 2);
+        break;
+      case 0xf9: /* LD SP IX */
+        LDSP(IX_WORD(), 4, 6, 2);
         break;
       default:
         log_message(LOG_DEFAULT,
@@ -3267,6 +4208,9 @@ inline void opcode_ed(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
       case 0x63: /* LD (WORD) HL */
         STW(ip23, reg_h, reg_l, 4, 13, 3, 4);
         break;
+      case 0x67: /* RRD */
+        RRD();
+        break;
       case 0x68: /* IN L BC */
         INBC(reg_l, 4, 8, 2);
         break;
@@ -3279,11 +4223,12 @@ inline void opcode_ed(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
       case 0x6b: /* LD HL (WORD) */
         LDIND(ip23, reg_h, reg_l, 4, 4, 12, 4);
         break;
-#if 0
+      case 0x6f: /* RLD */
+        RLD();
+        break;
       case 0x70: /* IN F BC */
         INBC(reg_f, 4, 8, 2);
         break;
-#endif
       case 0x72: /* SBC HL SP */
         SBCHLSP();
         break;
@@ -3336,21 +4281,670 @@ inline void opcode_ed(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
    }
 }
 
-inline void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
-                      WORD ip23)
+void opcode_fd_cb(BYTE iip2, BYTE iip3, WORD iip23)
+{
+    switch (iip2) {
+      case 0x00: /* RLC (IY+d),B */
+        RLCXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x01: /* RLC (IY+d),C */
+        RLCXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x02: /* RLC (IY+d),D */
+        RLCXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x03: /* RLC (IY+d),E */
+        RLCXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x04: /* RLC (IY+d),H */
+        RLCXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x05: /* RLC (IY+d),L */
+        RLCXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x06: /* RLC (IY+d) */
+        RLCXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x07: /* RLC (IY+d),A */
+        RLCXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x08: /* RRC (IY+d),B */
+        RRCXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x09: /* RRC (IY+d),C */
+        RRCXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x0a: /* RRC (IY+d),D */
+        RRCXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x0b: /* RRC (IY+d),E */
+        RRCXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x0c: /* RRC (IY+d),H */
+        RRCXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x0d: /* RRC (IY+d),L */
+        RRCXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x0e: /* RRC (IY+d) */
+        RRCXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x0f: /* RRC (IY+d),A */
+        RRCXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x10: /* RL (IY+d),B */
+        RLXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x11: /* RL (IY+d),C */
+        RLXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x12: /* RL (IY+d),D */
+        RLXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x13: /* RL (IY+d),E */
+        RLXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x14: /* RL (IY+d),H */
+        RLXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x15: /* RL (IY+d),L */
+        RLXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x16: /* RL (IY+d) */
+        RLXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x17: /* RL (IY+d),A */
+        RLXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x18: /* RR (IY+d),B */
+        RRXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x19: /* RR (IY+d),C */
+        RRXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x1a: /* RR (IY+d),D */
+        RRXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x1b: /* RR (IY+d),E */
+        RRXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x1c: /* RR (IY+d),H */
+        RRXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x1d: /* RR (IY+d),L */
+        RRXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x1e: /* RR (IY+d) */
+        RRXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x1f: /* RR (IY+d),A */
+        RRXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x20: /* SLA (IY+d),B */
+        SLAXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x21: /* SLA (IY+d),C */
+        SLAXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x22: /* SLA (IY+d),D */
+        SLAXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x23: /* SLA (IY+d),E */
+        SLAXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x24: /* SLA (IY+d),H */
+        SLAXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x25: /* SLA (IY+d),L */
+        SLAXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x26: /* SLA (IY+d) */
+        SLAXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x27: /* SLA (IY+d),A */
+        SLAXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x28: /* SRA (IY+d),B */
+        SRAXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x29: /* SRA (IY+d),C */
+        SRAXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x2a: /* SRA (IY+d),D */
+        SRAXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x2b: /* SRA (IY+d),E */
+        SRAXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x2c: /* SRA (IY+d),H */
+        SRAXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x2d: /* SRA (IY+d),L */
+        SRAXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x2e: /* SRA (IY+d) */
+        SRAXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x2f: /* SRA (IY+d),A */
+        SRAXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x30: /* SLL (IY+d),B */
+        SLLXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x31: /* SLL (IY+d),C */
+        SLLXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x32: /* SLL (IY+d),D */
+        SLLXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x33: /* SLL (IY+d),E */
+        SLLXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x34: /* SLL (IY+d),H */
+        SLLXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x35: /* SLL (IY+d),L */
+        SLLXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x36: /* SLL (IY+d) */
+        SLLXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x37: /* SLL (IY+d),A */
+        SLLXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x38: /* SRL (IY+d),B */
+        SRLXXREG(reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x39: /* SRL (IY+d),C */
+        SRLXXREG(reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x3a: /* SRL (IY+d),D */
+        SRLXXREG(reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x3b: /* SRL (IY+d),E */
+        SRLXXREG(reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x3c: /* SRL (IY+d),H */
+        SRLXXREG(reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x3d: /* SRL (IY+d),L */
+        SRLXXREG(reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x3e: /* SRL (IY+d) */
+        SRLXX(IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x3f: /* SRL (IY+d),A */
+        SRLXXREG(reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x80: /* RES (IY+d),B 0 */
+        RESXXREG(0, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x81: /* RES (IY+d),C 0 */
+        RESXXREG(0, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x82: /* RES (IY+d),D 0 */
+        RESXXREG(0, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x83: /* RES (IY+d),E 0 */
+        RESXXREG(0, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x84: /* RES (IY+d),H 0 */
+        RESXXREG(0, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x85: /* RES (IY+d),L 0 */
+        RESXXREG(0, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x86: /* RES (IY+d) 0 */
+        RESXX(0, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x87: /* RES (IY+d),A 0 */
+        RESXXREG(0, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x88: /* RES (IY+d),B 1 */
+        RESXXREG(1, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x89: /* RES (IY+d),C 1 */
+        RESXXREG(1, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x8a: /* RES (IY+d),D 1 */
+        RESXXREG(1, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x8b: /* RES (IY+d),E 1 */
+        RESXXREG(1, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x8c: /* RES (IY+d),H 1 */
+        RESXXREG(1, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x8d: /* RES (IY+d),L 1 */
+        RESXXREG(1, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x8e: /* RES (IY+d) 1 */
+        RESXX(1, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x8f: /* RES (IY+d),A 1 */
+        RESXXREG(1, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x90: /* RES (IY+d),B 2 */
+        RESXXREG(2, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x91: /* RES (IY+d),C 2 */
+        RESXXREG(2, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x92: /* RES (IY+d),D 2 */
+        RESXXREG(2, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x93: /* RES (IY+d),E 2 */
+        RESXXREG(2, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x94: /* RES (IY+d),H 2 */
+        RESXXREG(2, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x95: /* RES (IY+d),L 2 */
+        RESXXREG(2, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x96: /* RES (IY+d) 2 */
+        RESXX(2, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x97: /* RES (IY+d),A 2 */
+        RESXXREG(2, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x98: /* RES (IY+d),B 3 */
+        RESXXREG(3, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x99: /* RES (IY+d),C 3 */
+        RESXXREG(3, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x9a: /* RES (IY+d),D 3 */
+        RESXXREG(3, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x9b: /* RES (IY+d),E 3 */
+        RESXXREG(3, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x9c: /* RES (IY+d),H 3 */
+        RESXXREG(3, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x9d: /* RES (IY+d),L 3 */
+        RESXXREG(3, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x9e: /* RES (IY+d) 3 */
+        RESXX(3, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0x9f: /* RES (IY+d),A 3 */
+        RESXXREG(3, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa0: /* RES (IY+d),B 4 */
+        RESXXREG(4, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa1: /* RES (IY+d),C 4 */
+        RESXXREG(4, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa2: /* RES (IY+d),D 4 */
+        RESXXREG(4, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa3: /* RES (IY+d),E 4 */
+        RESXXREG(4, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa4: /* RES (IY+d),H 4 */
+        RESXXREG(4, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa5: /* RES (IY+d),L 4 */
+        RESXXREG(4, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa6: /* RES (IY+d) 4 */
+        RESXX(4, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa7: /* RES (IY+d),A 4 */
+        RESXXREG(4, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa8: /* RES (IY+d),B 5 */
+        RESXXREG(5, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xa9: /* RES (IY+d),C 5 */
+        RESXXREG(5, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xaa: /* RES (IY+d),D 5 */
+        RESXXREG(5, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xab: /* RES (IY+d),E 5 */
+        RESXXREG(5, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xac: /* RES (IY+d),H 5 */
+        RESXXREG(5, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xad: /* RES (IY+d),L 5 */
+        RESXXREG(5, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xae: /* RES (IY+d) 5 */
+        RESXX(5, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xaf: /* RES (IY+d),A 5 */
+        RESXXREG(5, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb0: /* RES (IY+d),B 6 */
+        RESXXREG(6, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb1: /* RES (IY+d),C 6 */
+        RESXXREG(6, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb2: /* RES (IY+d),D 6 */
+        RESXXREG(6, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb3: /* RES (IY+d),E 6 */
+        RESXXREG(6, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb4: /* RES (IY+d),H 6 */
+        RESXXREG(6, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb5: /* RES (IY+d),L 6 */
+        RESXXREG(6, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb6: /* RES (IY+d) 6 */
+        RESXX(6, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb7: /* RES (IY+d),A 6 */
+        RESXXREG(6, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb8: /* RES (IY+d),B 7 */
+        RESXXREG(7, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xb9: /* RES (IY+d),C 7 */
+        RESXXREG(7, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xba: /* RES (IY+d),D 7 */
+        RESXXREG(7, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xbb: /* RES (IY+d),E 7 */
+        RESXXREG(7, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xbc: /* RES (IY+d),H 7 */
+        RESXXREG(7, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xbd: /* RES (IY+d),L 7 */
+        RESXXREG(7, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xbe: /* RES (IY+d) 7 */
+        RESXX(7, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xbf: /* RES (IY+d),A 7 */
+        RESXXREG(7, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc0: /* SET (IY+d),B 0 */
+        SETXXREG(0, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc1: /* SET (IY+d),C 0 */
+        SETXXREG(0, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc2: /* SET (IY+d),D 0 */
+        SETXXREG(0, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc3: /* SET (IY+d),E 0 */
+        SETXXREG(0, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc4: /* SET (IY+d),H 0 */
+        SETXXREG(0, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc5: /* SET (IY+d),L 0 */
+        SETXXREG(0, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc6: /* SET (IY+d) 0 */
+        SETXX(0, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc7: /* SET (IY+d),A 0 */
+        SETXXREG(0, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc8: /* SET (IY+d),B 1 */
+        SETXXREG(1, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xc9: /* SET (IY+d),C 1 */
+        SETXXREG(1, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xca: /* SET (IY+d),D 1 */
+        SETXXREG(1, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xcb: /* SET (IY+d),E 1 */
+        SETXXREG(1, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xcc: /* SET (IY+d),H 1 */
+        SETXXREG(1, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xcd: /* SET (IY+d),L 1 */
+        SETXXREG(1, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xce: /* SET (IY+d) 1 */
+        SETXX(1, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xcf: /* SET (IY+d),A 1 */
+        SETXXREG(1, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd0: /* SET (IY+d),B 2 */
+        SETXXREG(2, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd1: /* SET (IY+d),C 2 */
+        SETXXREG(2, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd2: /* SET (IY+d),D 2 */
+        SETXXREG(2, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd3: /* SET (IY+d),E 2 */
+        SETXXREG(2, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd4: /* SET (IY+d),H 2 */
+        SETXXREG(2, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd5: /* SET (IY+d),L 2 */
+        SETXXREG(2, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd6: /* SET (IY+d) 2 */
+        SETXX(2, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd7: /* SET (IY+d),A 2 */
+        SETXXREG(2, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd8: /* SET (IY+d),B 3 */
+        SETXXREG(3, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xd9: /* SET (IY+d),C 3 */
+        SETXXREG(3, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xda: /* SET (IY+d),D 3 */
+        SETXXREG(3, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xdb: /* SET (IY+d),E 3 */
+        SETXXREG(3, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xdc: /* SET (IY+d),H 3 */
+        SETXXREG(3, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xdd: /* SET (IY+d),L 3 */
+        SETXXREG(3, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xde: /* SET (IY+d) 3 */
+        SETXX(3, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xdf: /* SET (IY+d),A 3 */
+        SETXXREG(3, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe0: /* SET (IY+d),B 4 */
+        SETXXREG(4, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe1: /* SET (IY+d),C 4 */
+        SETXXREG(4, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe2: /* SET (IY+d),D 4 */
+        SETXXREG(4, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe3: /* SET (IY+d),E 4 */
+        SETXXREG(4, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe4: /* SET (IY+d),H 4 */
+        SETXXREG(4, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe5: /* SET (IY+d),L 4 */
+        SETXXREG(4, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe6: /* SET (IY+d) 4 */
+        SETXX(4, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe7: /* SET (IY+d),A 4 */
+        SETXXREG(4, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe8: /* SET (IY+d),B 5 */
+        SETXXREG(5, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xe9: /* SET (IY+d),C 5 */
+        SETXXREG(5, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xea: /* SET (IY+d),D 5 */
+        SETXXREG(5, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xeb: /* SET (IY+d),E 5 */
+        SETXXREG(5, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xec: /* SET (IY+d),H 5 */
+        SETXXREG(5, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xed: /* SET (IY+d),L 5 */
+        SETXXREG(5, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xee: /* SET (IY+d) 5 */
+        SETXX(5, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xef: /* SET (IY+d),A 5 */
+        SETXXREG(5, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf0: /* SET (IY+d),B 6 */
+        SETXXREG(6, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf1: /* SET (IY+d),C 6 */
+        SETXXREG(6, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf2: /* SET (IY+d),D 6 */
+        SETXXREG(6, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf3: /* SET (IY+d),E 6 */
+        SETXXREG(6, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf4: /* SET (IY+d),H 6 */
+        SETXXREG(6, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf5: /* SET (IY+d),L 6 */
+        SETXXREG(6, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf6: /* SET (IY+d) 6 */
+        SETXX(6, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf7: /* SET (IY+d),A 6 */
+        SETXXREG(6, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf8: /* SET (IY+d),B 7 */
+        SETXXREG(7, reg_b, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xf9: /* SET (IY+d),C 7 */
+        SETXXREG(7, reg_c, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xfa: /* SET (IY+d),D 7 */
+        SETXXREG(7, reg_d, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xfb: /* SET (IY+d),E 7 */
+        SETXXREG(7, reg_e, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xfc: /* SET (IY+d),H 7 */
+        SETXXREG(7, reg_h, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xfd: /* SET (IY+d),L 7 */
+        SETXXREG(7, reg_l, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xfe: /* SET (IY+d) 7 */
+        SETXX(7, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      case 0xff: /* SET (IY+d),A 7 */
+        SETXXREG(7, reg_a, IY_WORD() + (signed char)(iip3), 4, 4, 15, 4);
+        break;
+      default:
+        log_message(LOG_DEFAULT,
+                    "%i PC %04x A%02x F%02x B%02x C%02x D%02x E%02x "
+                    "H%02x L%02x SP%04x OP FD CB %02x %02x.",
+                    CLK, z80_reg_pc, reg_a, reg_f, reg_b, reg_c, reg_d, reg_e,
+                    reg_h, reg_l, reg_sp, iip2, iip3);
+        /*INC_PC(4);*/
+   }
+}
+
+
+void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
 {
     switch (ip1) {
+      case 0x00: /* NOP */
+        NOP(8, 2);
+        break;
       case 0x01: /* LD BC # */
         LDW(ip23, reg_b, reg_c, 10, 0, 4);
+        break;
+      case 0x03: /* INC BC */
+        DECINC(INC_BC_WORD(), 10, 2);
+        break;
+      case 0x04: /* INC B */
+        INCREG(reg_b, 7, 2);
+        break;
+      case 0x05: /* DEC B */
+        DECREG(reg_b, 7, 2);
+        break;
+      case 0x06: /* LD B # */
+        LDREG(reg_b, ip2, 4, 5, 3);
+        break;
+      case 0x08: /* EX AF AF' */
+        EXAFAF(12, 2);
         break;
       case 0x09: /* ADD IY BC */
         ADDXXREG(reg_iyh, reg_iyl, reg_b, reg_c, 15, 2);
         break;
+      case 0x0b: /* DEC BC */
+        DECINC(DEC_BC_WORD(), 10, 2);
+        break;
+      case 0x0c: /* INC C */
+        INCREG(reg_c, 7, 2);
+        break;
+      case 0x0d: /* DEC C */
+        DECREG(reg_c, 7, 2);
+        break;
+      case 0x0e: /* LD C # */
+        LDREG(reg_c, ip2, 4, 5, 3);
+        break;
+      case 0x10: /* DJNZ */
+        DJNZ(ip2, 3);
+        break;
       case 0x11: /* LD DE # */
         LDW(ip23, reg_d, reg_e, 10, 0, 4);
         break;
+      case 0x13: /* INC DE */
+        DECINC(INC_DE_WORD(), 10, 2);
+        break;
+      case 0x14: /* INC D */
+        INCREG(reg_d, 7, 2);
+        break;
+      case 0x15: /* DEC D */
+        DECREG(reg_d, 7, 2);
+        break;
+      case 0x16: /* LD D # */
+        LDREG(reg_d, ip2, 4, 5, 3);
+        break;
       case 0x19: /* ADD IY DE */
         ADDXXREG(reg_iyh, reg_iyl, reg_d, reg_e, 15, 2);
+        break;
+      case 0x1b: /* DEC DE */
+        DECINC(DEC_DE_WORD(), 10, 2);
+        break;
+      case 0x1c: /* INC E */
+        INCREG(reg_e, 7, 2);
+        break;
+      case 0x1d: /* DEC E */
+        DECREG(reg_e, 7, 2);
+        break;
+      case 0x1e: /* LD E # */
+        LDREG(reg_e, ip2, 4, 5, 3);
+        break;
+      case 0x20: /* JR NZ */
+        BRANCH(!LOCAL_ZERO(), ip2, 3);
         break;
       case 0x21: /* LD IY # */
         LDW(ip23, reg_iyh, reg_iyl, 10, 4, 4);
@@ -3358,17 +4952,86 @@ inline void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
       case 0x22: /* LD (WORD) IY */
         STW(ip23, reg_iyh, reg_iyl, 4, 9, 7, 4);
         break;
+      case 0x23: /* INC IY */
+        DECINC(INC_IY_WORD(), 10, 2);
+        break;
+      case 0x24: /* INC H */
+        INCREG(reg_h, 7, 2);
+        break;
+      case 0x25: /* DEC H */
+        DECREG(reg_h, 7, 2);
+        break;
+      case 0x26: /* LD H # */
+        LDREG(reg_h, ip2, 4, 5, 3);
+        break;
+      case 0x28: /* JR Z */
+        BRANCH(LOCAL_ZERO(), ip2, 3);
+        break;
       case 0x29: /* ADD IY IY */
         ADDXXREG(reg_iyh, reg_iyl, reg_iyh, reg_iyl, 15, 2);
         break;
       case 0x2a: /* LD IY (WORD) */
         LDIND(ip23, reg_iyh, reg_iyl, 4, 4, 12, 4);
         break;
+      case 0x2b: /* DEC IY */
+        DECINC(DEC_IY_WORD(), 10, 2);
+        break;
+      case 0x2c: /* INC L */
+        INCREG(reg_l, 7, 2);
+        break;
+      case 0x2d: /* DEC L */
+        DECREG(reg_l, 7, 2);
+        break;
+      case 0x2e: /* LD L # */
+        LDREG(reg_l, ip2, 4, 5, 3);
+        break;
+      case 0x30: /* JR NC */
+        BRANCH(!LOCAL_CARRY(), ip2, 3);
+        break;
       case 0x31: /* LD SP # */
         LDSP(ip23, 10, 0, 4);
         break;
+      case 0x32: /* LD (WORD) A */
+        STREG(ip23, reg_a, 10, 7, 4);
+        break;
+      case 0x33: /* INC SP */
+        DECINC(reg_sp++, 10, 2);
+        break;
+      case 0x34: /* INC (IY+d) */
+        INCXXIND(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), 4, 7, 12, 3);
+        break;
+      case 0x35: /* DEC (IY+d) */
+        DECXXIND(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), 4, 7, 12, 3);
+        break;
+      case 0x36: /* LD (IY+d) # */
+        STREG(((reg_iyh << 8) | reg_iyl) + (signed char)(ip2), ip3, 8, 11, 4);
+        break;
+      case 0x37: /* SCF */
+        SCF(8, 2);
+        break;
+      case 0x38: /* JR C */
+        BRANCH(LOCAL_CARRY(), ip2, 3);
+        break;
       case 0x39: /* ADD IY SP */
         ADDXXSP(reg_iyh, reg_iyl, 15, 2);
+        break;
+      case 0x3a: /* LD A (WORD) */
+        LDREG(reg_a, LOAD(ip23), 10, 7, 4);
+        break;
+      case 0x3b: /* DEC SP */
+        DECINC(reg_sp--, 10, 2);
+        break;
+      case 0x3c: /* INC A */
+        INCREG(reg_a, 7, 2);
+        break;
+      case 0x3d: /* DEC A */
+        DECREG(reg_a, 7, 2);
+        break;
+      case 0x3e: /* LD A # */
+        LDREG(reg_a, ip2, 4, 5, 3);
+        break;
+      case 0x3f: /* CCF */
+        CCF(8, 2);
         break;
       case 0x40: /* LD B B */
         LDREG(reg_b, reg_b, 0, 4, 2);
@@ -3760,6 +5423,9 @@ inline void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
       case 0xc5: /* PUSH BC */
         PUSH(reg_b, reg_c, 2);
         break;
+      case 0xcb: /* OPCODE FD CB */
+        opcode_fd_cb((BYTE)ip2, (BYTE)ip3, (WORD)ip23);
+        break;
       case 0xd1: /* POP DE */
         POP(reg_d, reg_e, 2);
         break;
@@ -3769,14 +5435,24 @@ inline void opcode_fd(BYTE ip0, BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12,
       case 0xe1: /* POP IY */
         POP(reg_iyh, reg_iyl, 2);
         break;
+      case 0xe3: /* EX IY (SP) */
+        EXXXSP(reg_iyh, reg_iyl, 4, 4, 4, 4, 7, 2);
+        break;
       case 0xe5: /* PUSH IY */
         PUSH(reg_iyh, reg_iyl, 2);
+        break;
+      /* case 0xe9: LD PC IY */
+      case 0xeb: /* EX DE HL FIXME: Is this correct? */
+        EXDEHL(8, 2);
         break;
       case 0xf1: /* POP AF */
         POP(reg_a, reg_f, 2);
         break;
       case 0xf5: /* PUSH AF */
         PUSH(reg_a, reg_f, 2);
+        break;
+      case 0xf9: /* LD SP IY */
+        LDSP(IY_WORD(), 4, 6, 2);
         break;
       default:
         log_message(LOG_DEFAULT,
@@ -3831,9 +5507,8 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
 #endif
 
         switch (p0) {
-
           case 0x00: /* NOP */
-            NOP();
+            NOP(4, 1);
             break;
           case 0x01: /* LD BC # */
             LDW(p12, reg_b, reg_c, 10, 0, 3);
@@ -3842,13 +5517,13 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             STREG(BC_WORD(), reg_a, 4, 3, 1);
             break;
           case 0x03: /* INC BC */
-            DECINC(INC_BC_WORD());
+            DECINC(INC_BC_WORD(), 6, 1);
             break;
           case 0x04: /* INC B */
-            INCREG(reg_b);
+            INCREG(reg_b, 4, 1);
             break;
           case 0x05: /* DEC B */
-            DECREG(reg_b);
+            DECREG(reg_b, 4, 1);
             break;
           case 0x06: /* LD B # */
             LDREG(reg_b, p1, 4, 3, 2);
@@ -3857,7 +5532,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             RLCA();
             break;
           case 0x08: /* EX AF AF' */
-            EXAFAF();
+            EXAFAF(8, 1);
             break;
           case 0x09: /* ADD HL BC */
             ADDXXREG(reg_h, reg_l, reg_b, reg_c, 11, 1);
@@ -3866,13 +5541,13 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             LDREG(reg_a, LOAD(BC_WORD()), 4, 3, 1);
             break;
           case 0x0b: /* DEC BC */
-            DECINC(DEC_BC_WORD());
+            DECINC(DEC_BC_WORD(), 6, 1);
             break;
           case 0x0c: /* INC C */
-            INCREG(reg_c);
+            INCREG(reg_c, 4, 1);
             break;
           case 0x0d: /* DEC C */
-            DECREG(reg_c);
+            DECREG(reg_c, 4, 1);
             break;
           case 0x0e: /* LD C # */
             LDREG(reg_c, p1, 4, 3, 2);
@@ -3881,7 +5556,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             RRCA();
             break;
           case 0x10: /* DJNZ */
-            DJNZ(p1);
+            DJNZ(p1, 2);
             break;
           case 0x11: /* LD DE # */
             LDW(p12, reg_d, reg_e, 10, 0, 3);
@@ -3890,13 +5565,13 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             STREG(DE_WORD(), reg_a, 4, 3, 1);
             break;
           case 0x13: /* INC DE */
-            DECINC(INC_DE_WORD());
+            DECINC(INC_DE_WORD(), 6, 1);
             break;
           case 0x14: /* INC D */
-            INCREG(reg_d);
+            INCREG(reg_d, 4, 1);
             break;
           case 0x15: /* DEC D */
-            DECREG(reg_d);
+            DECREG(reg_d, 4, 1);
             break;
           case 0x16: /* LD D # */
             LDREG(reg_d, p1, 4, 3, 2);
@@ -3905,7 +5580,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             RLA();
             break;
           case 0x18: /* JR */
-            BRANCH(1, p1);
+            BRANCH(1, p1, 2);
             break;
           case 0x19: /* ADD HL DE */
             ADDXXREG(reg_h, reg_l, reg_d, reg_e, 11, 1);
@@ -3914,13 +5589,13 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             LDREG(reg_a, LOAD(DE_WORD()), 4, 3, 1);
             break;
           case 0x1b: /* DEC DE */
-            DECINC(DEC_DE_WORD());
+            DECINC(DEC_DE_WORD(), 6, 1);
             break;
           case 0x1c: /* INC E */
-            INCREG(reg_e);
+            INCREG(reg_e, 4, 1);
             break;
           case 0x1d: /* DEC E */
-            DECREG(reg_e);
+            DECREG(reg_e, 4, 1);
             break;
           case 0x1e: /* LD E # */
             LDREG(reg_e, p1, 4, 3, 2);
@@ -3929,7 +5604,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             RRA();
             break;
           case 0x20: /* JR NZ */
-            BRANCH(!LOCAL_ZERO(), p1);
+            BRANCH(!LOCAL_ZERO(), p1, 2);
             break;
           case 0x21: /* LD HL # */
             LDW(p12, reg_h, reg_l, 10, 0, 3);
@@ -3938,13 +5613,13 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             STW(p12, reg_h, reg_l, 4, 9, 3, 3);
             break;
           case 0x23: /* INC HL */
-            DECINC(INC_HL_WORD());
+            DECINC(INC_HL_WORD(), 6, 1);
             break;
           case 0x24: /* INC H */
-            INCREG(reg_h);
+            INCREG(reg_h, 4, 1);
             break;
           case 0x25: /* DEC H */
-            DECREG(reg_h);
+            DECREG(reg_h, 4, 1);
             break;
           case 0x26: /* LD H # */
             LDREG(reg_h, p1, 4, 3, 2);
@@ -3953,7 +5628,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             DAA();
             break;
           case 0x28: /* JR Z */
-            BRANCH(LOCAL_ZERO(), p1);
+            BRANCH(LOCAL_ZERO(), p1, 2);
             break;
           case 0x29: /* ADD HL HL */
             ADDXXREG(reg_h, reg_l, reg_h, reg_l, 11, 1);
@@ -3962,13 +5637,13 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             LDIND(p12, reg_h, reg_l, 4, 4, 8, 3);
             break;
           case 0x2b: /* DEC HL */
-            DECINC(DEC_HL_WORD());
+            DECINC(DEC_HL_WORD(), 6, 1);
             break;
           case 0x2c: /* INC L */
-            INCREG(reg_l);
+            INCREG(reg_l, 4, 1);
             break;
           case 0x2d: /* DEC L */
-            DECREG(reg_l);
+            DECREG(reg_l, 4, 1);
             break;
           case 0x2e: /* LD L # */
             LDREG(reg_l, p1, 4, 3, 2);
@@ -3977,7 +5652,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             CPL();
             break;
           case 0x30: /* JR NC */
-            BRANCH(!LOCAL_CARRY(), p1);
+            BRANCH(!LOCAL_CARRY(), p1, 2);
             break;
           case 0x31: /* LD SP # */
             LDSP(p12, 10, 0, 3);
@@ -3986,22 +5661,22 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             STREG(p12, reg_a, 10, 3, 3);
             break;
           case 0x33: /* INC SP */
-            DECINC(reg_sp++);
+            DECINC(reg_sp++, 6, 1);
             break;
           case 0x34: /* INC (HL) */
-            INCHLIND();
+            INCXXIND(HL_WORD(), 4, 4, 3, 1);
             break;
           case 0x35: /* DEC (HL) */
-            DECHLIND();
+            DECXXIND(HL_WORD(), 4, 4, 3, 1);
             break;
           case 0x36: /* LD (HL) # */
             STREG(HL_WORD(), p1, 8, 2, 2);
             break;
           case 0x37: /* SCF */
-            SCF();
+            SCF(4, 1);
             break;
           case 0x38: /* JR C */
-            BRANCH(LOCAL_CARRY(), p1);
+            BRANCH(LOCAL_CARRY(), p1, 2);
             break;
           case 0x39: /* ADD HL SP */
             ADDXXSP(reg_h, reg_l, 11, 1);
@@ -4010,19 +5685,19 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             LDREG(reg_a, LOAD(p12), 10, 3, 3);
             break;
           case 0x3b: /* DEC SP */
-            DECINC(reg_sp--);
+            DECINC(reg_sp--, 6, 1);
             break;
           case 0x3c: /* INC A */
-            INCREG(reg_a);
+            INCREG(reg_a, 4, 1);
             break;
           case 0x3d: /* DEC A */
-            DECREG(reg_a);
+            DECREG(reg_a, 4, 1);
             break;
           case 0x3e: /* LD A # */
             LDREG(reg_a, p1, 4, 3, 2);
             break;
           case 0x3f: /* CCF */
-            CCF();
+            CCF(4, 1);
             break;
           case 0x40: /* LD B B */
             LDREG(reg_b, reg_b, 0, 4, 1);
@@ -4497,9 +6172,12 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             CALL_COND(p12, LOCAL_CARRY(), 10, 10, 3);
             break;
           case 0xdd: /*  OPCODE DD */
-            opcode_dd((BYTE)p0, (BYTE)p1, (BYTE)p2, (BYTE)p3, (WORD)p12,
-                      (WORD)p23);
-            break;
+            if (p1 == 0xe9) {
+                JMP((IX_WORD()), 8);
+            } else {
+                opcode_dd((BYTE)p0, (BYTE)p1, (BYTE)p2, (BYTE)p3, (WORD)p12,
+                          (WORD)p23);
+            }
             break;
           case 0xde: /* SBC # */
             SBC(p1, 4, 3, 2);
@@ -4517,7 +6195,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             JMP_COND(p12, !LOCAL_PARITY(), 10, 10);
             break;
           case 0xe3: /* EX HL (SP) */
-            EXHLSP();
+            EXXXSP(reg_h, reg_l, 4, 4, 4, 4, 3, 1);
             break;
           case 0xe4: /* CALL PO */
             CALL_COND(p12, !LOCAL_PARITY(), 10, 10, 3);
@@ -4541,7 +6219,7 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             JMP_COND(p12, LOCAL_PARITY(), 10, 10);
             break;
           case 0xeb: /* EX DE HL */
-            EXDEHL();
+            EXDEHL(4, 1);
             break;
           case 0xec: /* CALL PE */
             CALL_COND(p12, LOCAL_PARITY(), 10, 10, 3);
@@ -4596,8 +6274,12 @@ void z80_mainloop(cpu_int_status_t *cpu_int_status,
             CALL_COND(p12, LOCAL_SIGN(), 10, 10, 3);
             break;
           case 0xfd: /* OPCODE FD */
-            opcode_fd((BYTE)p0, (BYTE)p1, (BYTE)p2, (BYTE)p3, (WORD)p12,
-                      (WORD)p23);
+            if (p1 == 0xe9) {
+                JMP((IY_WORD()), 8);
+            } else {
+                opcode_fd((BYTE)p0, (BYTE)p1, (BYTE)p2, (BYTE)p3, (WORD)p12,
+                          (WORD)p23);
+            }
             break;
           case 0xfe: /* CP # */
             CP(p1, 4, 3, 2);
