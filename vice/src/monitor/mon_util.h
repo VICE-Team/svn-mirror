@@ -27,23 +27,16 @@
 #ifndef _MON_UTIL_H
 #define _MON_UTIL_H
 
+#include "mon.h"
 #include "types.h"
-#include "console.h"
 
-extern
-char *mon_disassemble_with_label(
-          MEMSPACE  memspace,
-          ADDRESS   loc,
-          int       hex,
-          unsigned *opc_size_p,
-          unsigned *label_p );
+struct console_s;
 
-extern
-void mon_set_command( console_t *console_log, char *command, void (*)(void) );
-
-/* what do you want? extern or static?
- *
- extern monitor_interface_t *mon_interfaces[NUM_MEMSPACES]; */
-
+extern char *mon_disassemble_with_label(MEMSPACE memspace, ADDRESS loc,
+                                        int hex, unsigned *opc_size_p,
+                                        unsigned *label_p);
+extern void mon_set_command(struct console_s *console_log, char *command,
+                            void (*)(void));
 
 #endif /* #ifndef _MON_UTIL_H */
+
