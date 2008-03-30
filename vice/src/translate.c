@@ -1007,6 +1007,26 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ACTIVATE_80_COL_MODE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ACTIVATE_80_COL_MODE_SV, "Aktivera 80-kolumnersläge"},
 
+/* c128/c128mmu.c */
+/* en */ {IDCLS_GO64_MODE,    "Always switch to C64 mode on reset"},
+/* de */ {IDCLS_GO64_MODE_DE, "Bei Reset immer in den C64 Modus schalten"},
+/* fr */ {IDCLS_GO64_MODE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_GO64_MODE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_GO64_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_GO64_MODE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_GO64_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_GO64_MODE_SV, ""},  /* fuzzy */
+
+/* c128/c128mmu.c */
+/* en */ {IDCLS_GO128_MODE,    "Always switch to C128 mode on reset"},
+/* de */ {IDCLS_GO128_MODE_DE, "Bei Reset immer in den C128 Modus schalten"},
+/* fr */ {IDCLS_GO128_MODE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_GO128_MODE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_GO128_MODE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_GO128_MODE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_GO128_MODE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_GO128_MODE_SV, ""},  /* fuzzy */
+
 /* c128/functionrom.c */
 /* en */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME,    "Specify name of internal Function ROM image"},
 /* de */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_DE, "Dateiname des internen Funktions ROMs"},

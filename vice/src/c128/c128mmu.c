@@ -60,6 +60,9 @@ static BYTE mmu[12];
 /* State of the 40/80 column key.  */
 static int mmu_column4080_key = 1;
 
+static int force_c64_mode_res = 0;
+static int force_c64_mode = 0;
+
 static int mmu_config64;
 
 /* Logging goes here.  */
@@ -78,9 +81,18 @@ static int set_column4080_key(int val, void *param)
     return 0;
 }
 
+static int set_force_c64_mode(int val, void *param)
+{
+    force_c64_mode_res = val;
+
+    return 0;
+}
+
 static const resource_int_t resources_int[] = {
     { "40/80ColumnKey", 1, RES_EVENT_SAME, NULL,
       &mmu_column4080_key, set_column4080_key, NULL },
+    { "Go64Mode", 1, RES_EVENT_SAME, NULL,
+      &force_c64_mode_res, set_force_c64_mode, NULL },
     { NULL }
 };
 
@@ -97,6 +109,12 @@ static const cmdline_option_t cmdline_options[] = {
     { "-80col", SET_RESOURCE, 0, NULL, NULL, "40/80ColumnKey",
       (resource_value_t) 0,
       0, IDCLS_ACTIVATE_80_COL_MODE },
+    { "-go64", SET_RESOURCE, 0, NULL, NULL, "Go64Mode",
+      (resource_value_t) 1,
+      0, IDCLS_GO64_MODE },
+    { "+go64", SET_RESOURCE, 0, NULL, NULL, "Go64Mode",
+      (resource_value_t) 0,
+      0, IDCLS_GO128_MODE },
     { NULL }
 };
 #else
@@ -107,6 +125,12 @@ static const cmdline_option_t cmdline_options[] = {
     { "-80col", SET_RESOURCE, 0, NULL, NULL, "40/80ColumnKey",
       (resource_value_t) 0,
       NULL, N_("Activate 80 column mode") },
+    { "-go64", SET_RESOURCE, 0, NULL, NULL, "Go64Mode",
+      (resource_value_t) 1,
+      NULL, N_("Always switch to C64 mode on reset") },
+    { "+go64", SET_RESOURCE, 0, NULL, NULL, "Go64Mode",
+      (resource_value_t) 0,
+      NULL, N_("Always switch to C128 mode on reset") },
     { NULL }
 };
 #endif
@@ -159,6 +183,8 @@ static void mmu_update_config(void)
 
     if (mmu[5] & 0x40) {
         mem_update_config(0x80 + mmu_config64);
+        keyboard_alternative_set(1);
+        force_c64_mode = 0;
     } else {
         mem_update_config(((mmu[0] & 0x2) ? 0 : 1)
                           | ((mmu[0] & 0x0c) >> 1)
@@ -168,6 +194,7 @@ static void mmu_update_config(void)
         z80mem_update_config((((mmu[0] & 0x1)) ? 0 : 1)
                           | ((mmu[0] & 0x40) ? 2 : 0)
                           | ((mmu[0] & 0x80) ? 4 : 0));
+        keyboard_alternative_set(0);
     }
 }
 
@@ -191,9 +218,14 @@ BYTE REGPARM1 mmu_read(WORD addr)
 
     if (addr < 0xc) {
         if (addr == 5) {
+            BYTE exrom = export.exrom;
+
+            if (force_c64_mode)
+                exrom = 1;
+
             /* 0x80 = 40/80 key released.  */
             return (mmu[5] & 0x0f) | (mmu_column4080_key ? 0x80 : 0)
-                   | ((export.game ^ 1) << 4) | ((export.exrom ^ 1) << 5);
+                   | ((export.game ^ 1) << 4) | ((exrom ^ 1) << 5);
         } else {
             return mmu[addr];
         }
@@ -319,5 +351,7 @@ void mmu_reset(void)
         mmu[i] = 0;
 
     keyboard_register_column4080_key(mmu_toggle_column4080_key);
+
+    force_c64_mode = force_c64_mode_res;
 }
 
