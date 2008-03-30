@@ -46,6 +46,7 @@
 #include "log.h"
 #include "machine.h"
 #include "petui.h"
+#include "raster.h"
 #include "resources.h"
 #include "romset.h"
 #include "sound.h"
@@ -68,9 +69,6 @@ extern int cbm2_set_model(const char *name, void *extra);
 extern int  sound_wimp_poll_prologue(void);
 extern int  sound_wimp_poll_epilogue(int install);
 extern void sound_wimp_safe_exit(void);
-
-/* Defined in raster.c, but raster.h is a mess, so delare it here... */
-extern int handle_mode_change(void);
 
 
 
@@ -397,7 +395,6 @@ static int MenuType;
 static int DragType;
 static int LastSpeedLimit;
 static int CMOS_DragType;
-static int ShowPane = 1;
 static int TrueDriveEmulation = 0;
 static int SoundEnabled = 0;
 static int SoundSuspended = 0;
@@ -405,7 +402,6 @@ static int WasAutoPaused = 0;
 static int SoundVolume;
 static int DisplayFPS = 0;
 static int DisplayDriveTrack = 0;
-static int tracknums[2] = {36, 36};
 static int WimpScrapUsed = 0;
 static int JoystickWindowOpen = 0;
 static int WithinUiPoll = 0;
@@ -414,6 +410,9 @@ static int WimpBlock[64];
 static int SnapshotPending = 0;
 static int SnapshotMessage[64];
 
+
+/* Window title */
+static char EmuTitle[256];
 
 /* Custom sprites area */
 static int *SpriteArea;
@@ -597,12 +596,24 @@ int NumberOfFrames = 0;
 int RelativeSpeed = 100;
 int EmuPaused;
 int SingleTasking = 0;
+int ShowEmuPane = 1;
 char *PetModelName = NULL;
 char *CBM2ModelName = NULL;
 char *ROMSetName = NULL;
 char *ROMSetArchiveFile = NULL;
 
 char ROMSetItemFile[256];
+
+/* Mode changes */
+int FrameBufferUpdate = 0;
+int ModeChanging = 0;
+/*static PIXEL oldColours[16];*/
+
+/* LED states */
+int DriveLEDStates[4] = {0, 0, 0, 0};
+int DriveTrackNumbers[2] = {36, 36};
+
+
 
 
 /* The screen */
@@ -896,6 +907,7 @@ static char Rsrc_Dos15412[] = "DosName1541ii";
 static char Rsrc_Dos1571[] = "DosName1571";
 static char Rsrc_Dos1581[] = "DosName1581";
 static char Rsrc_Dos2031[] = "DosName2031";
+static char Rsrc_Dos1001[] = "DosName1001";
 static char Rsrc_Poll[] = "PollEvery";
 static char Rsrc_Speed[] = "SpeedEvery";
 static char Rsrc_SndEvery[] = "SoundEvery";
@@ -1142,7 +1154,7 @@ static struct MenuSoundBuffer {
 #define Menu_TrueIdle_NoTraps	0
 #define Menu_TrueIdle_SkipC	1
 #define Menu_TrueIdle_Trap	2
-#define Menu_TrueType_Items	6
+#define Menu_TrueType_Items	7
 #define Menu_TrueType_Width	200
 #define Menu_TrueType_None	0
 #define Menu_TrueType_1541	1
@@ -1150,6 +1162,7 @@ static struct MenuSoundBuffer {
 #define Menu_TrueType_1571	3
 #define Menu_TrueType_1581	4
 #define Menu_TrueType_2031	5
+#define Menu_TrueType_1001	6
 
 #define TRUE_DRIVE_EXTEND_MENU(name, title) \
   static struct name { \
@@ -1189,7 +1202,8 @@ static struct MenuSoundBuffer {
       MENU_ITEM("\\MenDtp15412"), \
       MENU_ITEM("\\MenDtp1571"), \
       MENU_ITEM("\\MenDtp1581"), \
-      MENU_ITEM_LAST("\\MenDtp2031") \
+      MENU_ITEM("\\MenDtp2031"), \
+      MENU_ITEM_LAST("\\MenDtp1001") \
     } \
   };
 
@@ -1499,7 +1513,7 @@ static struct MenuVicCartridge {
   }
 };
 
-#define Menu_DosName_Items	5
+#define Menu_DosName_Items	6
 #define Menu_DosName_Width	200
 static struct MenuDosName {
   RO_MenuHead head;
@@ -1511,7 +1525,8 @@ static struct MenuDosName {
     MENU_ITEM("\\MenDOS15412"),
     MENU_ITEM("\\MenDOS1571"),
     MENU_ITEM("\\MenDOS1581"),
-    MENU_ITEM_LAST("\\MenDOS2031")
+    MENU_ITEM("\\MenDOS2031"),
+    MENU_ITEM_LAST("\\MenDOS1001")
   }
 };
 
@@ -1899,7 +1914,7 @@ static struct MenuDisplayTrueSync {
   } MenuDisplayTrueType##n = { \
     {Rsrc_TrueType##n, {CONF_WIN_DRIVES, Icon_Conf_TrueDrvType##n##T}, \
       (RO_MenuHead*)&MenuTrueType##n, Menu_TrueType_Items, 0, 0}, \
-    {DRIVE_TYPE_NONE, DRIVE_TYPE_1541, DRIVE_TYPE_1541II, DRIVE_TYPE_1571, DRIVE_TYPE_1581, DRIVE_TYPE_2031} \
+    {DRIVE_TYPE_NONE, DRIVE_TYPE_1541, DRIVE_TYPE_1541II, DRIVE_TYPE_1571, DRIVE_TYPE_1581, DRIVE_TYPE_2031, DRIVE_TYPE_1001} \
   };
 
 DISP_TRUE_DRIVE_EXTEND_MENU(8)
@@ -2112,7 +2127,7 @@ static struct MenuDisplayDosName {
 } MenuDisplayDosName = {
   {(char*)&DosNameDesc, {CONF_WIN_SYSTEM, Icon_Conf_DosNameT},
     (RO_MenuHead*)&MenuDosName, Menu_DosName_Items, DISP_DESC_STRSHOW, 0},
-  {(int)Rsrc_Dos1541, (int)Rsrc_Dos15412, (int)Rsrc_Dos1571, (int)Rsrc_Dos1581, (int)Rsrc_Dos2031}
+  {(int)Rsrc_Dos1541, (int)Rsrc_Dos15412, (int)Rsrc_Dos1571, (int)Rsrc_Dos1581, (int)Rsrc_Dos2031, (int)Rsrc_Dos1001}
 };
 
 static struct MenuDisplayCBM2Line {
@@ -2206,18 +2221,6 @@ static struct MenuDisplayROMSetTmpl {
 
 
 
-
-
-/* Mode changes */
-int FrameBufferUpdate = 0;
-int ModeChanging = 0;
-static PIXEL oldColours[16];
-
-/* LED states */
-static int ledstates[4] = {0, 0, 0, 0};
-
-/* Window title */
-static char EmuTitle[256];
 
 
 
@@ -2500,6 +2503,7 @@ static void ui_display_truedrv_emulation(int state)
   if (state == 0)
   {
     wimp_window_write_icon_text_u(EmuPane, Icon_Pane_TrkSec, "");
+    for (i=0; i<2; i++) DriveTrackNumbers[i] = 0;
   }
 
   wimp_menu_tick_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_TrueDrvEmu, state);
@@ -3311,7 +3315,7 @@ int ui_init_finish(void)
     wimp_menu_set_grey_item((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_Freeze, 1);
   }
 
-  ui_set_pane_state(ShowPane);
+  ui_set_pane_state(ShowEmuPane);
 
   i = ((TapeFile == NULL) || (strlen(TapeFile) == 0)) ? IFlg_Grey : 0;
   wimp_window_set_icon_state(ConfWindows[CONF_WIN_DRIVES], Icon_Conf_TapeDetach, i, IFlg_Grey);
@@ -3541,7 +3545,7 @@ void ui_open_emu_window(int *b)
   }
 
   /* Should the pane be displayed? */
-  if (ShowPane != 0)
+  if (ShowEmuPane != 0)
   {
     paneblk[WindowB_Handle] = EmuPane->Handle;
     dx = EmuPane->wmaxx - EmuPane->wminx;
@@ -3622,8 +3626,9 @@ static void ui_redraw_window(int *b)
   if (b[RedrawB_Handle] == EmuWindow->Handle)
   {
     graph_env ge;
+    unsigned int *ct;
 
-    if (FrameBufferUpdate != 0)
+    /*if (FrameBufferUpdate != 0)
     {
       int i, j;
       unsigned char map[256];
@@ -3649,8 +3654,9 @@ static void ui_redraw_window(int *b)
       }
 
       FrameBufferUpdate = 0;
-    }
+    }*/
 
+    ct = CanvasList->canvas->colour_table;
     more = Wimp_RedrawWindow(b);
     while (more != 0)
     {
@@ -3660,11 +3666,11 @@ static void ui_redraw_window(int *b)
 
       if (EmuZoom == 1)
       {
-        PlotZoom1(&ge, b + RedrawB_CMinX, FrameBuffer->tmpframebuffer, ColourTable);
+        PlotZoom1(&ge, b + RedrawB_CMinX, FrameBuffer->tmpframebuffer, ct);
       }
       else
       {
-        PlotZoom2(&ge, b + RedrawB_CMinX, FrameBuffer->tmpframebuffer, ColourTable);
+        PlotZoom2(&ge, b + RedrawB_CMinX, FrameBuffer->tmpframebuffer, ct);
       }
 
       more = Wimp_GetRectangle(b);
@@ -3830,7 +3836,7 @@ static void ui_mouse_click(int *b)
           if (TrueDriveEmulation != 0)
           {
             DisplayDriveTrack ^= 1;
-            ui_display_drive_track(DisplayDriveTrack, tracknums[DisplayDriveTrack]);
+            ui_display_drive_track_int(DisplayDriveTrack, DriveTrackNumbers[DisplayDriveTrack]);
           }
           break;
         default:
@@ -4402,8 +4408,8 @@ static void ui_key_press(int *b)
     switch (key)
     {
       case 0x189:
-        ShowPane ^= 1;
-        ui_set_pane_state(ShowPane);
+        ShowEmuPane ^= 1;
+        ui_set_pane_state(ShowEmuPane);
         break;
       case 0x18b:
         EmuPaused ^= 1;
@@ -4645,7 +4651,7 @@ static void ui_menu_selection(int *b)
           break;
         case Menu_IBar_FullScreen:
           {
-            if (video_full_screen_on() != 0)
+            if (video_full_screen_on(SpriteArea) != 0)
             {
               _kernel_oserror err;
 
@@ -4670,8 +4676,8 @@ static void ui_menu_selection(int *b)
           cartridge_trigger_freeze();
           break;
         case Menu_EmuWin_Pane:
-          ShowPane ^= 1;
-          ui_set_pane_state(ShowPane);
+          ShowEmuPane ^= 1;
+          ui_set_pane_state(ShowEmuPane);
           break;
         case Menu_EmuWin_TrueDrvEmu:
           ui_set_truedrv_emulation(!wimp_menu_tick_read((RO_MenuHead*)&MenuEmuWindow, Menu_EmuWin_TrueDrvEmu));
@@ -5113,10 +5119,10 @@ static void ui_user_message(int *b)
       break;
     case Message_PaletteChange:
       wimp_read_screen_mode(&ScreenMode);
-      memcpy(oldColours, EmuCanvas->pixel_translation, 16*sizeof(PIXEL));
+      /*memcpy(oldColours, EmuCanvas->pixel_translation, 16*sizeof(PIXEL));*/
       FrameBufferUpdate = 1;
       ModeChanging = 1;
-      handle_mode_change();
+      raster_mode_change();
       ModeChanging = 0;
       break;
     case Message_DataLoad:
@@ -5478,9 +5484,10 @@ void ui_poll(void)
     do
     {
       event = ui_poll_core(WimpBlock);
+      if ((SnapshotPending != 0) || (SingleTasking != 0)) break;
     }
     /* A pending snapshot must unpause the emulator for a little */
-    while ((EmuPaused != 0) && (SnapshotPending == 0) && (event != WimpEvt_Null));
+    while ((EmuPaused != 0) || (event != WimpEvt_Null));
 
     if (--WithinUiPoll == 0)
     {
@@ -5655,14 +5662,21 @@ void ui_exit(void)
 
 void ui_display_speed(int percent, int framerate, int warp_flag)
 {
-  char buffer[32];
+  if (FullScreenMode == 0)
+  {
+    char buffer[32];
 
-  if (DisplayFPS == 0)
-    sprintf(buffer, SymbolStrings[Symbol_PaneSpd], percent);
+    if (DisplayFPS == 0)
+      sprintf(buffer, SymbolStrings[Symbol_PaneSpd], percent);
+    else
+      sprintf(buffer, SymbolStrings[Symbol_PaneFPS], framerate);
+
+    wimp_window_write_icon_text_u(EmuPane, Icon_Pane_Speed, buffer);
+  }
   else
-    sprintf(buffer, SymbolStrings[Symbol_PaneFPS], framerate);
-
-  wimp_window_write_icon_text_u(EmuPane, Icon_Pane_Speed, buffer);
+  {
+    video_full_screen_speed(percent, framerate, warp_flag);
+  }
 }
 
 
@@ -5683,19 +5697,19 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 }
 
 
-void ui_display_drive_track(int drive_number, int track_number)
+void ui_display_drive_track_int(int drive_number, int track_number)
 {
   RO_Icon *icon;
   int b[11];
 
   if (drive_number >= 2) return;
 
-  tracknums[drive_number] = track_number;
+  DriveTrackNumbers[drive_number] = track_number;
 
   if (drive_number != DisplayDriveTrack) return;
 
   if ((icon = wimp_window_get_icon(EmuPane, Icon_Pane_TrkSec)) == NULL) return;
-  sprintf((char*)b, "%d:%d.%d", DisplayDriveTrack+8, tracknums[DisplayDriveTrack] >> 1, 5 * (tracknums[DisplayDriveTrack] & 1));
+  sprintf((char*)b, "%d:%d.%d", DisplayDriveTrack+8, DriveTrackNumbers[DisplayDriveTrack] >> 1, 5 * (DriveTrackNumbers[DisplayDriveTrack] & 1));
   strncpy((char*)(icon->dat.ind.tit), (char*)b, icon->dat.ind.len-1);
   wimp_window_update_icon(EmuPane, Icon_Pane_TrkSec);
 }
@@ -5706,11 +5720,6 @@ void ui_display_drive_led(int drive_number, int status)
   ui_set_drive_leds((unsigned int)drive_number, status);
 }
 
-/* display current image */
-void ui_display_drive_current_image(int drivenum, const char *image)
-{
-    /* just a dummy so far */
-}
 
 void ui_set_drive_leds(unsigned int led, int status)
 {
@@ -5719,9 +5728,9 @@ void ui_set_drive_leds(unsigned int led, int status)
 
   if (led >= 4) return;
 
-  if (ledstates[led] == status) return;
+  if (DriveLEDStates[led] == status) return;
 
-  ledstates[led] = status;
+  DriveLEDStates[led] = status;
 
   icon = wimp_window_get_icon(EmuPane, LEDtoIcon[led]);
   name = (char*)(icon->dat.ind.tit);
@@ -5731,7 +5740,10 @@ void ui_set_drive_leds(unsigned int led, int status)
   else
     sprintf(name, "led_on");
 
-  wimp_window_update_icon(EmuPane, LEDtoIcon[led]);
+  if (FullScreenMode == 0)
+    wimp_window_update_icon(EmuPane, LEDtoIcon[led]);
+  else
+    video_full_screen_drive_leds(led);
 }
 
 
@@ -5796,4 +5808,9 @@ static void mon_trap(ADDRESS addr, void *unused_data)
 void ui_activate_monitor(void)
 {
   maincpu_trigger_trap(mon_trap, (void*)0);
+}
+
+
+void ui_display_drive_current_image(int drive_number, const char *image)
+{
 }

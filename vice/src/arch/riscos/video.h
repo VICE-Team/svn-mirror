@@ -39,6 +39,8 @@ struct _canvas {
   unsigned int emuwindow;
   unsigned int drawable;
   PIXEL *pixel_translation;
+  unsigned int num_colours;
+  unsigned int colour_table[256];
 };
 
 typedef struct _canvas *canvas_t;
@@ -49,6 +51,11 @@ struct _frame_buffer {
   PIXEL *tmpframebuffer;
   unsigned int tmpframebufferlinesize;
 };
+
+typedef struct canvas_list_t {
+  canvas_t canvas;
+  struct canvas_list_t *next;
+} canvas_list_t;
 
 typedef struct _frame_buffer frame_buffer_t;
 
@@ -93,14 +100,19 @@ extern int num_text_lines(void);
 extern void enable_text(void);
 extern void disable_text(void);
 
-extern int video_full_screen_on(void);
+extern int video_full_screen_on(int *sprites);
 extern int video_full_screen_off(void);
 extern int video_full_screen_refresh(void);
+extern void video_full_screen_speed(int percent, int framerate, int warp);
+extern void video_full_screen_drive_leds(unsigned int drive);
+extern void video_full_screen_init_status(void);
+extern void video_full_screen_plot_status(void);
 
-
-extern unsigned int ColourTable[256];
 extern frame_buffer_t *FrameBuffer;
 extern canvas_t EmuCanvas;
+extern canvas_list_t *CanvasList;
+
 extern int FullScreenMode;
+extern int FullScreenStatLine;
 
 #endif

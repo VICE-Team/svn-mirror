@@ -98,7 +98,7 @@ fill_cache (raster_cache_t *cache,
                               1,
                               xs, xe,
                               r);
-  
+
   return r;
 }
 
@@ -291,6 +291,7 @@ void
 vic_draw_init (void)
 {
   init_drawing_tables ();
+  raster_set_table_refresh_handler (&vic.raster, init_drawing_tables);
 }
 
 void

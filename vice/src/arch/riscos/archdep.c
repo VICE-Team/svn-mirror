@@ -43,7 +43,7 @@ int archdep_startup(int *argc, char **argv)
 }
 
 
-char *archdep_program_name(void)
+const char *archdep_program_name(void)
 {
   char *name=NULL;
 
@@ -73,7 +73,7 @@ FILE *archdep_open_default_log_file(void)
 }
 
 
-char *archdep_default_resource_file_name(void)
+const char *archdep_default_resource_file_name(void)
 {
   char *name;
   char *basename;
@@ -87,13 +87,13 @@ char *archdep_default_resource_file_name(void)
 }
 
 
-char *archdep_default_save_resource_file_name(void)
+const char *archdep_default_save_resource_file_name(void)
 {
   return archdep_default_resource_file_name();
 }
 
 
-char *archdep_default_sysfile_pathlist(const char *emu_id)
+const char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
   char *name;
 

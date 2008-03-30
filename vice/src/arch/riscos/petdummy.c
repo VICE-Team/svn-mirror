@@ -41,11 +41,24 @@ void cartridge_trigger_freeze(void)
 }
 
 CLOCK vic_ii_fetch_clk, vic_ii_draw_clk;
+/* This is really of type vic_ii_t */
+int vic_ii;
 
-int int_rasterfetch(long offset)
+int vic_ii_raster_draw_alarm_handler(long offset)
 {
   return 0;
 }
+
+int vic_ii_raster_fetch_alarm_handler(long offset)
+{
+  return 0;
+}
+
+
+/*int int_rasterfetch(long offset)
+{
+  return 0;
+}*/
 
 /*void iec_fast_drive_write(BYTE data)
 {

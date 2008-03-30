@@ -30,6 +30,7 @@
 
 #include "maincpu.h"
 #include "vic20mem.h"
+#include "vic20sound.h"
 
 #include "vic.h"
 #include "vic-mem.h"

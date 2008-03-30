@@ -196,7 +196,7 @@ static int set_drive0_type(resource_value_t v)
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
         if (drive[0].type != type) {
-	    drive[0].current_half_track = 2 * ((type == DRIVE_TYPE_1001) 
+	    drive[0].current_half_track = 2 * ((type == DRIVE_TYPE_1001)
 								? 38 : 18);
         }
         drive[0].type = type;
@@ -242,7 +242,7 @@ static int set_drive1_type(resource_value_t v)
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
         if (drive[1].type != type) {
-	    drive[1].current_half_track = 2 * ((type == DRIVE_TYPE_1001) 
+	    drive[1].current_half_track = 2 * ((type == DRIVE_TYPE_1001)
 								? 38 : 18);
         }
         drive[1].type = type;
@@ -2151,9 +2151,9 @@ void drive_cpu_execute(CLOCK clk_value)
 int drive_match_bus(int drive_type, int unit, int bus_map)
 {
     if ( (drive_type == DRIVE_TYPE_NONE)
-      || ((drive_type == DRIVE_TYPE_2031 || drive_type == DRIVE_TYPE_1001) 
+      || ((drive_type == DRIVE_TYPE_2031 || drive_type == DRIVE_TYPE_1001)
 	&& (bus_map & IEC_BUS_IEEE))
-      || ((drive_type != DRIVE_TYPE_2031 && drive_type != DRIVE_TYPE_1001) 
+      || ((drive_type != DRIVE_TYPE_2031 && drive_type != DRIVE_TYPE_1001)
 	&& (bus_map & IEC_BUS_IEC))
     ) {
         return 1;
@@ -2228,7 +2228,7 @@ void drive_update_ui_status(void)
             if (drive[i].current_half_track != drive[i].old_half_track) {
                 drive[i].old_half_track = drive[i].current_half_track;
 #ifdef __riscos
-                ui_display_drive_track(i, drive[i].current_half_track);
+                ui_display_drive_track_int(i, drive[i].current_half_track);
 #else
                 ui_display_drive_track(i,
                                        ((float) drive[i].current_half_track
@@ -2698,7 +2698,7 @@ int drive_read_snapshot_module(snapshot_t *s)
  * This image format is pretty simple:
  *
  * WORD Type		Disk image type (1581, 8050, 8250)
- * 256 * blocks(disk image type) BYTE 
+ * 256 * blocks(disk image type) BYTE
  *			disk image
  *
  */
@@ -2929,7 +2929,7 @@ static int drive_read_gcrimage_snapshot_module(snapshot_t *s, int dnr)
     if (m == NULL)
         return 0;
 
-    if (major_version > GCRIMAGE_SNAP_MAJOR 
+    if (major_version > GCRIMAGE_SNAP_MAJOR
 	|| minor_version > GCRIMAGE_SNAP_MINOR) {
         log_error(drive_log,
                   "Snapshot module version (%d.%d) newer than %d.%d.",
@@ -3123,7 +3123,7 @@ void drive1_parallel_set_atn(int state)
     drive1_riot_set_atn(state);
 }
 
-int drive_num_leds(int dnr) 
+int drive_num_leds(int dnr)
 {
     if (drive[dnr].type == DRIVE_TYPE_1001) {
 	return 2;

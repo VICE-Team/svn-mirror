@@ -131,6 +131,8 @@ int do_vsync(int been_skipped)
 
   ui_poll();
 
+  video_full_screen_plot_status();
+
   if (warp_mode_enabled) {
     if (skip_counter < MAX_SKIPPED_FRAMES) {
       skip_next_frame = 1;

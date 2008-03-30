@@ -124,6 +124,61 @@ realize_frame_buffer (raster_t *raster)
   return 0;
 }
 
+/* Recalculate frame buffer for new display mode? */
+#if 0
+#if ((X_DISPLAY_DEPTH == 8) || (X_DISPLAY_DEPTH == 0))
+#define RECALC_FRAME_BUFFER
+#endif
+#endif
+
+static void
+perform_mode_change(raster_t *raster)
+{
+  raster_viewport_t *viewport;
+  canvas_t canvas;
+#ifdef RECALC_FRAME_BUFFER
+  PIXEL old_colours[256];
+  PIXEL colour_map[256];
+  unsigned int i, num_pixels;
+  unsigned int num_colours;
+  PIXEL *fb;
+
+  memcpy(old_colours, raster->pixel_table.sing, 256);
+#endif
+
+  viewport = &raster->viewport;
+
+  if ((canvas = viewport->canvas) == NULL)
+    return;
+
+  canvas_set_palette(canvas, raster->palette, raster->pixel_table.sing);
+
+#ifdef RECALC_FRAME_BUFFER
+  memset(colour_map, 0, 256);
+  num_colours = raster->palette->num_entries;
+
+  for (i=0; i<num_colours; i++) colour_map[old_colours[i]] = i;
+  for (i=0; i<256; i++) colour_map[i] = (raster->pixel_table.sing)[colour_map[i]];
+
+  num_pixels = raster->frame_buffer.width * raster->frame_buffer.height;
+  fb = raster->frame_buffer.tmpframebuffer;
+  for (i=0; i<num_pixels; i++) fb[i] = colour_map[fb[i]];
+#endif
+
+  update_pixel_tables(raster);
+
+  if (raster->refresh_tables != NULL)
+    raster->refresh_tables();
+
+  raster_force_repaint(raster);
+
+  canvas_resize(canvas, viewport->width, viewport->height);
+  raster_resize_viewport(raster, viewport->width, viewport->height);
+}
+
+
+
+
 
 
 /* Increase `area' so that it also includes [xs; xe] at line y.  WARNING:
@@ -1081,6 +1136,8 @@ raster_init (raster_t *raster,
 
   raster->fake_frame_buffer_line = NULL;
 
+  raster->refresh_tables = NULL;
+
   raster->border_color = 0;
   raster->background_color = 0;
   raster->overscan_background_color = 0;
@@ -1116,6 +1173,13 @@ raster_reset (raster_t *raster)
   raster->video_mode = 0;
 }
 
+typedef struct raster_list_t {
+  raster_t *raster;
+  struct raster_list_t *next;
+} raster_list_t;
+
+static raster_list_t *ActiveRasters = NULL;
+
 raster_t *
 raster_new (unsigned int num_modes,
             unsigned int num_sprites)
@@ -1128,6 +1192,19 @@ raster_new (unsigned int num_modes,
 
   return new;
 }
+
+void
+raster_mode_change(void)
+{
+  raster_list_t *rasters = ActiveRasters;
+
+  while (rasters != NULL)
+  {
+    perform_mode_change(rasters->raster);
+    rasters = rasters->next;
+  }
+}
+
 
 void
 raster_set_geometry (raster_t *raster,
@@ -1178,14 +1255,38 @@ raster_set_exposure_handler (raster_t *raster,
   raster->viewport.exposure_handler = exposure_handler;
 }
 
+void
+raster_set_table_refresh_handler (raster_t *raster,
+                             void (*handler)(void))
+{
+  raster->refresh_tables = handler;
+}
+
+
 int
 raster_realize (raster_t *raster)
 {
+  raster_list_t *rlist;
+
   if (realize_canvas (raster) < 0)
     return -1;
 
   update_canvas_all (raster);
 
+  rlist = (raster_list_t*)xmalloc(sizeof(raster_list_t));
+  rlist->raster = raster;
+  rlist->next = NULL;
+  if (ActiveRasters == NULL)
+  {
+    ActiveRasters = rlist;
+  }
+  else
+  {
+    raster_list_t *rasters = ActiveRasters;
+
+    while (rasters->next != NULL) rasters = rasters->next;
+    rasters->next = rlist;
+  }
   return 0;
 }
 

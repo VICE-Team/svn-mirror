@@ -337,6 +337,8 @@ crtc_draw_init (void)
 {
   init_drawing_tables ();
 
+  raster_set_table_refresh_handler(&crtc.raster, init_drawing_tables);
+
 #ifdef CRTC_NEED_2X
   crtc_draw_set_double_size (0);
 #endif

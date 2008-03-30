@@ -75,6 +75,7 @@ keymap_desc ViceKeymap = {
 #define IntKey_F6	117
 #define IntKey_F7	22
 #define IntKey_F8	118
+#define IntKey_F9	119
 #define IntKey_F12	29
 
 #define IntKey_PageUp	63
@@ -382,6 +383,16 @@ void kbd_poll(void)
             break;
           case IntKey_F8:
             maincpu_trigger_reset();
+            break;
+          case IntKey_F9:
+            if (FullScreenMode != 0)
+            {
+              FullScreenStatLine = FullScreenStatLine ^ 1;
+              if (FullScreenStatLine == 0)
+                video_full_screen_refresh();
+              else
+                video_full_screen_init_status();
+            }
             break;
           case IntKey_F12:
             if (FullScreenMode != 0)

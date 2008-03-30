@@ -35,6 +35,8 @@
 #include "raster-modes.h"
 #include "raster-sprite-status.h"
 
+#include <string.h>
+
 /* We assume that, if already #defined, the provided `MAX' and `MIN' actually
    work.  */
 #ifndef MAX
@@ -246,6 +248,10 @@ struct _raster
     raster_area_t update_area;
 
     unsigned int do_double_scan;
+
+    /* Function to call when internal tables have to be refreshed after a
+       mode change. E.g. vicii::init_drawing_tables(). NULL allowed */
+    void (*refresh_tables)(void);
   };
 typedef struct _raster raster_t;
 
@@ -266,6 +272,8 @@ void raster_reset (raster_t *raster);
 int raster_realize (raster_t *raster);
 void raster_set_exposure_handler (raster_t *raster,
                                   canvas_redraw_t exposure_handler);
+void raster_set_table_refresh_handler (raster_t *raster,
+                                  void (*handler)(void));
 void raster_set_geometry (raster_t *raster,
                           unsigned int screen_width,
                           unsigned int screen_height,
@@ -290,6 +298,8 @@ void raster_set_title (raster_t *raster, const char *title);
 void raster_skip_frame (raster_t *raster, int skip);
 void raster_enable_cache (raster_t *raster, int enable);
 void raster_enable_double_scan (raster_t *raster, int enable);
+void raster_mode_change(void);
+
 
 
 

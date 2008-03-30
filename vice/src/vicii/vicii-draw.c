@@ -71,7 +71,7 @@ static WORD mcmsktable[512];
 
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
 
-static void 
+static void
 draw_std_background (unsigned int start_pixel,
                      unsigned int end_pixel)
 {
@@ -82,7 +82,7 @@ draw_std_background (unsigned int start_pixel,
 }
 
 #ifdef VIC_II_NEED_2X
-static void 
+static void
 draw_std_background_2x (unsigned int start_pixel,
                         unsigned int end_pixel)
 {
@@ -133,7 +133,7 @@ static PIXEL *const aligned_line_buffer = (PIXEL *) _aligned_line_buffer;
 
 /* Standard text mode.  */
 
-static int 
+static int
 get_std_text (raster_cache_t *cache,
               int *xs,
               int *xe,
@@ -176,14 +176,14 @@ get_std_text (raster_cache_t *cache,
   return r;
 }
 
-inline static void 
+inline static void
 _draw_std_text (PIXEL *p,
                 unsigned int xs,
                 unsigned int xe,
                 BYTE *gfx_msk_ptr)
 {
   PIXEL4 *table_ptr;
-  BYTE *char_ptr; 
+  BYTE *char_ptr;
   unsigned int i;
 
   table_ptr = hr_table + (vic_ii.raster.background_color << 4);
@@ -200,7 +200,7 @@ _draw_std_text (PIXEL *p,
     }
 }
 
-static void 
+static void
 draw_std_text_cached (raster_cache_t *cache,
                       unsigned int xs,
                       unsigned int xe)
@@ -208,7 +208,7 @@ draw_std_text_cached (raster_cache_t *cache,
   ALIGN_DRAW_FUNC (_draw_std_text, xs, xe, cache->gfx_msk, 1);
 }
 
-static void 
+static void
 draw_std_text (void)
 {
   ALIGN_DRAW_FUNC (_draw_std_text, 0,
@@ -216,7 +216,7 @@ draw_std_text (void)
 }
 
 #ifdef VIC_II_NEED_2X
-inline static void 
+inline static void
 _draw_std_text_2x (PIXEL *p,
                    unsigned int xs,
                    unsigned int xe,
@@ -242,7 +242,7 @@ _draw_std_text_2x (PIXEL *p,
     }
 }
 
-static void 
+static void
 draw_std_text_cached_2x (raster_cache_t *cache,
                          unsigned int xs,
                          unsigned int xe)
@@ -250,7 +250,7 @@ draw_std_text_cached_2x (raster_cache_t *cache,
   ALIGN_DRAW_FUNC (_draw_std_text_2x, xs, xe, cache->gfx_msk, 2);
 }
 
-static void 
+static void
 draw_std_text_2x (void)
 {
   ALIGN_DRAW_FUNC (_draw_std_text_2x, 0, VIC_II_SCREEN_TEXTCOLS - 1,
@@ -273,7 +273,7 @@ draw_std_text_2x (void)
     }                                           \
   while (0)
 
-static void 
+static void
 draw_std_text_foreground (unsigned int start_char,
                           unsigned int end_char)
 {
@@ -284,7 +284,7 @@ draw_std_text_foreground (unsigned int start_char,
   char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
   p = (vic_ii.raster.frame_buffer_ptr + VIC_II_SCREEN_BORDERWIDTH
        + vic_ii.raster.xsmooth + 8 * start_char);
- 
+
   for (i = start_char; i <= end_char; i++, p += 8)
     {
       BYTE b;
@@ -299,14 +299,14 @@ draw_std_text_foreground (unsigned int start_char,
 }
 
 #ifdef VIC_II_NEED_2X
-static void 
+static void
 draw_std_text_foreground_2x (unsigned int start_char,
                              unsigned int end_char)
 {
   unsigned int i;
   BYTE *char_ptr;
   PIXEL2 *p;
-  
+
   char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
   p = ((PIXEL2 *) (vic_ii.raster.frame_buffer_ptr
                    + 2 * VIC_II_SCREEN_BORDERWIDTH
@@ -333,7 +333,7 @@ draw_std_text_foreground_2x (unsigned int start_char,
 
 /* Hires Bitmap mode.  */
 
-static int 
+static int
 get_hires_bitmap (raster_cache_t *cache,
                   int *xs,
                   int *xe,
@@ -367,7 +367,7 @@ get_hires_bitmap (raster_cache_t *cache,
   return r;
 }
 
-inline static void 
+inline static void
 _draw_hires_bitmap (PIXEL *p,
                     unsigned int xs,
                     unsigned int xe,
@@ -393,14 +393,14 @@ _draw_hires_bitmap (PIXEL *p,
     }
 }
 
-static void 
+static void
 draw_hires_bitmap (void)
 {
   ALIGN_DRAW_FUNC (_draw_hires_bitmap, 0, VIC_II_SCREEN_TEXTCOLS - 1,
                    vic_ii.raster.gfx_msk, 1);
 }
 
-static void 
+static void
 draw_hires_bitmap_cached (raster_cache_t *cache,
                           unsigned int xs,
                           unsigned int xe)
@@ -410,7 +410,7 @@ draw_hires_bitmap_cached (raster_cache_t *cache,
 
 #ifdef VIC_II_NEED_2X
 
-inline static void 
+inline static void
 _draw_hires_bitmap_2x (PIXEL *p,
                        unsigned int xs,
                        unsigned int xe,
@@ -437,7 +437,7 @@ _draw_hires_bitmap_2x (PIXEL *p,
     }
 }
 
-static void 
+static void
 draw_hires_bitmap_2x (void)
 {
   ALIGN_DRAW_FUNC (_draw_hires_bitmap_2x,
@@ -445,7 +445,7 @@ draw_hires_bitmap_2x (void)
                    vic_ii.raster.gfx_msk, 2);
 }
 
-static void 
+static void
 draw_hires_bitmap_cached_2x (raster_cache_t *cache,
                              unsigned int xs,
                              unsigned int xe)
@@ -455,7 +455,7 @@ draw_hires_bitmap_cached_2x (raster_cache_t *cache,
 
 #endif /* VIC_II_NEED_2X */
 
-static void 
+static void
 draw_hires_bitmap_foreground (unsigned int start_char,
                               unsigned int end_char)
 {
@@ -464,7 +464,7 @@ draw_hires_bitmap_foreground (unsigned int start_char,
 }
 
 #ifdef VIC_II_NEED_2X
-static void 
+static void
 draw_hires_bitmap_foreground_2x (unsigned int start_char,
                                  unsigned int end_char)
 {
@@ -477,7 +477,7 @@ draw_hires_bitmap_foreground_2x (unsigned int start_char,
 
 /* Multicolor text mode.  */
 
-static int 
+static int
 get_mc_text (raster_cache_t *cache,
              int *xs,
              int *xe,
@@ -525,7 +525,7 @@ get_mc_text (raster_cache_t *cache,
   return r;
 }
 
-inline static void 
+inline static void
 _draw_mc_text (PIXEL *p,
                unsigned int xs,
                unsigned int xe,
@@ -566,7 +566,7 @@ _draw_mc_text (PIXEL *p,
     }
 }
 
-static void 
+static void
 draw_mc_text (void)
 {
   ALIGN_DRAW_FUNC (_draw_mc_text,
@@ -574,7 +574,7 @@ draw_mc_text (void)
                    vic_ii.raster.gfx_msk, 1);
 }
 
-static void 
+static void
 draw_mc_text_cached (raster_cache_t *cache,
                      unsigned int xs,
                      unsigned int xe)
@@ -584,7 +584,7 @@ draw_mc_text_cached (raster_cache_t *cache,
 
 #ifdef VIC_II_NEED_2X
 
-inline static void 
+inline static void
 _draw_mc_text_2x (PIXEL *p,
                   unsigned int xs,
                   unsigned int xe,
@@ -627,7 +627,7 @@ _draw_mc_text_2x (PIXEL *p,
     }
 }
 
-static void 
+static void
 draw_mc_text_2x (void)
 {
   ALIGN_DRAW_FUNC (_draw_mc_text_2x,
@@ -635,7 +635,7 @@ draw_mc_text_2x (void)
                    vic_ii.raster.gfx_msk, 2);
 }
 
-static void 
+static void
 draw_mc_text_cached_2x (raster_cache_t *cache,
                         unsigned int xs,
                         unsigned int xe)
@@ -692,7 +692,7 @@ draw_mc_text_cached_2x (raster_cache_t *cache,
     }                                           \
   while (0)
 
-static void 
+static void
 draw_mc_text_foreground (unsigned int start_char,
                          unsigned int end_char)
 {
@@ -700,7 +700,7 @@ draw_mc_text_foreground (unsigned int start_char,
   PIXEL c1, c2;
   PIXEL *p;
   unsigned int i;
-  
+
   char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
   c1 = RASTER_PIXEL (&vic_ii.raster, vic_ii.ext_background_color[0]);
   c2 = RASTER_PIXEL (&vic_ii.raster, vic_ii.ext_background_color[1]);
@@ -736,7 +736,7 @@ draw_mc_text_foreground (unsigned int start_char,
 
 #ifdef VIC_II_NEED_2X
 
-static void 
+static void
 draw_mc_text_foreground_2x (unsigned int start_char,
                             unsigned int end_char)
 {
@@ -784,7 +784,7 @@ draw_mc_text_foreground_2x (unsigned int start_char,
 
 /* Multicolor Bitmap Mode.  */
 
-static int 
+static int
 get_mc_bitmap (raster_cache_t *cache,
                int *xs,
                int *xe,
@@ -829,7 +829,7 @@ get_mc_bitmap (raster_cache_t *cache,
   return r;
 }
 
-inline static void 
+inline static void
 _draw_mc_bitmap (PIXEL *p,
                  unsigned int xs,
                  unsigned int xe,
@@ -866,7 +866,7 @@ _draw_mc_bitmap (PIXEL *p,
     }
 }
 
-static void 
+static void
 draw_mc_bitmap (void)
 {
   ALIGN_DRAW_FUNC (_draw_mc_bitmap,
@@ -874,7 +874,7 @@ draw_mc_bitmap (void)
                    vic_ii.raster.gfx_msk, 1);
 }
 
-static void 
+static void
 draw_mc_bitmap_cached (raster_cache_t *cache, unsigned int xs, unsigned int xe)
 {
   ALIGN_DRAW_FUNC (_draw_mc_bitmap, xs, xe, cache->gfx_msk, 1);
@@ -882,7 +882,7 @@ draw_mc_bitmap_cached (raster_cache_t *cache, unsigned int xs, unsigned int xe)
 
 #ifdef VIC_II_NEED_2X
 
-inline static void 
+inline static void
 _draw_mc_bitmap_2x (PIXEL *p,
                     unsigned int xs,
                     unsigned int xe,
@@ -907,7 +907,7 @@ _draw_mc_bitmap_2x (PIXEL *p,
       d = bmptr[j];
 
       *(gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE + i) = mcmsktable[d | 0x100];
-      
+
       c[1] = RASTER_PIXEL4 (&vic_ii.raster, vic_ii.vbuf[i] >> 4);
       c[2] = RASTER_PIXEL4 (&vic_ii.raster, vic_ii.vbuf[i] & 0xf);
       c[3] = RASTER_PIXEL4 (&vic_ii.raster, colptr[i]);
@@ -919,7 +919,7 @@ _draw_mc_bitmap_2x (PIXEL *p,
     }
 }
 
-static void 
+static void
 draw_mc_bitmap_2x (void)
 {
   ALIGN_DRAW_FUNC (_draw_mc_bitmap_2x,
@@ -927,7 +927,7 @@ draw_mc_bitmap_2x (void)
                    vic_ii.raster.gfx_msk, 2);
 }
 
-static void 
+static void
 draw_mc_bitmap_cached_2x (raster_cache_t *cache,
                           unsigned int xs,
                           unsigned int xe)
@@ -937,18 +937,18 @@ draw_mc_bitmap_cached_2x (raster_cache_t *cache,
 
 #endif /* VIC_II_NEED_2X */
 
-static void 
+static void
 draw_mc_bitmap_foreground (unsigned int start_char,
                            unsigned int end_char)
 {
   PIXEL *p;
-  BYTE *bmptr; 
+  BYTE *bmptr;
   unsigned int i, j;
 
   p = (vic_ii.raster.frame_buffer_ptr + VIC_II_SCREEN_BORDERWIDTH
        + vic_ii.raster.xsmooth + 8 * start_char);
   bmptr = vic_ii.bitmap_ptr;
- 
+
   for (j = ((vic_ii.memptr << 3)
             + vic_ii.raster.ycounter + 8 * start_char) & 0x1fff,
          i = start_char;
@@ -971,7 +971,7 @@ draw_mc_bitmap_foreground (unsigned int start_char,
 
 #ifdef VIC_II_NEED_2X
 
-static void 
+static void
 draw_mc_bitmap_foreground_2x (unsigned int start_char, unsigned int end_char)
 {
   PIXEL2 *p;
@@ -1008,7 +1008,7 @@ draw_mc_bitmap_foreground_2x (unsigned int start_char, unsigned int end_char)
 
 /* Extended Text Mode.  */
 
-static int 
+static int
 get_ext_text (raster_cache_t *cache, int *xs, int *xe, int r)
 {
   if (r
@@ -1054,7 +1054,7 @@ get_ext_text (raster_cache_t *cache, int *xs, int *xe, int r)
   return r;
 }
 
-inline static void 
+inline static void
 _draw_ext_text (PIXEL *p,
                 unsigned int xs,
                 unsigned int xe,
@@ -1086,7 +1086,7 @@ _draw_ext_text (PIXEL *p,
     }
 }
 
-static void 
+static void
 draw_ext_text (void)
 {
   ALIGN_DRAW_FUNC (_draw_ext_text,
@@ -1094,7 +1094,7 @@ draw_ext_text (void)
                    vic_ii.raster.gfx_msk, 1);
 }
 
-static void 
+static void
 draw_ext_text_cached (raster_cache_t *cache, unsigned int xs, unsigned int xe)
 {
   ALIGN_DRAW_FUNC (_draw_ext_text, xs, xe, cache->gfx_msk, 1);
@@ -1102,13 +1102,13 @@ draw_ext_text_cached (raster_cache_t *cache, unsigned int xs, unsigned int xe)
 
 #ifdef VIC_II_NEED_2X
 
-inline static void 
+inline static void
 _draw_ext_text_2x (PIXEL *p,
                    unsigned int xs,
                    unsigned int xe,
                    BYTE *gfx_msk_ptr)
 {
-  BYTE *char_ptr; 
+  BYTE *char_ptr;
   unsigned int i;
 
   char_ptr = vic_ii.chargen_ptr + vic_ii.raster.ycounter;
@@ -1135,7 +1135,7 @@ _draw_ext_text_2x (PIXEL *p,
     }
 }
 
-static void 
+static void
 draw_ext_text_cached_2x (raster_cache_t *cache,
                          unsigned int xs,
                          unsigned int xe)
@@ -1143,7 +1143,7 @@ draw_ext_text_cached_2x (raster_cache_t *cache,
   ALIGN_DRAW_FUNC (_draw_ext_text_2x, xs, xe, cache->gfx_msk, 2);
 }
 
-static void 
+static void
 draw_ext_text_2x (void)
 {
   ALIGN_DRAW_FUNC (_draw_ext_text_2x,
@@ -1154,7 +1154,7 @@ draw_ext_text_2x (void)
 #endif /* VIC_II_NEED_2X */
 
 /* FIXME: This is *slow* and might not be 100% correct.  */
-static void 
+static void
 draw_ext_text_foreground (unsigned int start_char,
                           unsigned int end_char)
 {
@@ -1195,7 +1195,7 @@ draw_ext_text_foreground (unsigned int start_char,
 }
 
 #ifdef VIC_II_NEED_2X
-static void 
+static void
 draw_ext_text_foreground_2x (unsigned int start_char,
                              unsigned int end_char)
 {
@@ -1242,7 +1242,7 @@ draw_ext_text_foreground_2x (unsigned int start_char,
 
 /* Illegal mode.  Everything is black.  */
 
-static int 
+static int
 get_black (raster_cache_t *cache, int *xs, int *xe, int r)
 {
   /* Let's simplify here: if also the previous time we had the Black Mode,
@@ -1264,7 +1264,7 @@ get_black (raster_cache_t *cache, int *xs, int *xe, int r)
   return r;
 }
 
-static void 
+static void
 draw_black (void)
 {
   PIXEL *p;
@@ -1281,7 +1281,7 @@ draw_black (void)
           0, VIC_II_SCREEN_TEXTCOLS);
 }
 
-static void 
+static void
 draw_black_cached (raster_cache_t *cache, unsigned int xs, unsigned int xe)
 {
   PIXEL *p;
@@ -1296,7 +1296,7 @@ draw_black_cached (raster_cache_t *cache, unsigned int xs, unsigned int xe)
           0, VIC_II_SCREEN_TEXTCOLS);
 }
 
-static void 
+static void
 draw_black_foreground (unsigned int start_char, unsigned int end_char)
 {
   PIXEL *p;
@@ -1315,7 +1315,7 @@ draw_black_foreground (unsigned int start_char, unsigned int end_char)
 
 /* Idle state.  */
 
-static int 
+static int
 get_idle (raster_cache_t *cache, int *xs, int *xe, int rr)
 {
   if (rr
@@ -1332,7 +1332,7 @@ get_idle (raster_cache_t *cache, int *xs, int *xe, int rr)
     return 0;
 }
 
-inline static void 
+inline static void
 _draw_idle (unsigned int xs, unsigned int xe,
             int pixel_width,
             BYTE *gfx_msk_ptr)
@@ -1402,13 +1402,13 @@ _draw_idle (unsigned int xs, unsigned int xe,
   memset (gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE, d, VIC_II_SCREEN_TEXTCOLS);
 }
 
-static void 
+static void
 draw_idle (void)
 {
   _draw_idle (0, VIC_II_SCREEN_TEXTCOLS - 1, 1, vic_ii.raster.gfx_msk);
 }
 
-static void 
+static void
 draw_idle_cached (raster_cache_t *cache,
                   unsigned int xs,
                   unsigned int xe)
@@ -1418,13 +1418,13 @@ draw_idle_cached (raster_cache_t *cache,
 
 #ifdef VIC_II_NEED_2X
 
-static void 
+static void
 draw_idle_2x (void)
 {
   _draw_idle (0, VIC_II_SCREEN_TEXTCOLS - 1, 2, vic_ii.raster.gfx_msk);
 }
 
-static void 
+static void
 draw_idle_cached_2x (raster_cache_t *cache,
                      unsigned int xs,
                      unsigned int xe)
@@ -1434,7 +1434,7 @@ draw_idle_cached_2x (raster_cache_t *cache,
 
 #endif /* VIC_II_NEED_2X */
 
-static void 
+static void
 draw_idle_foreground (unsigned int start_char,
                       unsigned int end_char)
 {
@@ -1457,7 +1457,7 @@ draw_idle_foreground (unsigned int start_char,
 
 #ifdef VIC_II_NEED_2X
 
-static void 
+static void
 draw_idle_foreground_2x (unsigned int start_char,
                          unsigned int end_char)
 {
@@ -1483,7 +1483,7 @@ draw_idle_foreground_2x (unsigned int start_char,
 
 #ifdef VIC_II_NEED_2X
 
-static void 
+static void
 setup_double_size_modes (void)
 {
   raster_modes_set (&vic_ii.raster.modes, VIC_II_NORMAL_TEXT_MODE,
@@ -1552,7 +1552,7 @@ setup_double_size_modes (void)
 
 #endif /* VIC_II_NEED_2X */
 
-static void 
+static void
 setup_single_size_modes (void)
 {
   raster_modes_set (&vic_ii.raster.modes, VIC_II_NORMAL_TEXT_MODE,
@@ -1622,7 +1622,7 @@ setup_single_size_modes (void)
 
 
 /* Initialize the drawing tables.  */
-static void 
+static void
 init_drawing_tables (void)
 {
   DWORD i;
@@ -1700,6 +1700,8 @@ void
 vic_ii_draw_init (void)
 {
   init_drawing_tables ();
+
+  raster_set_table_refresh_handler(&vic_ii.raster, init_drawing_tables);
 
 #ifdef VIC_II_NEED_2X
   vic_ii_draw_set_double_size (0);

@@ -30,6 +30,7 @@
 #include "ROlib.h"
 #include "wimp.h"
 #include "config.h"
+#include "raster.h"
 #include "resources.h"
 #include "types.h"
 #include "utils.h"
@@ -40,12 +41,16 @@
 
 
 
+
 /* Colour translation table, only used in 16/32bpp modes */
-unsigned int ColourTable[256];
 frame_buffer_t *FrameBuffer;
 canvas_t EmuCanvas = NULL;
+canvas_list_t *CanvasList = NULL;
 
+/* Full screen variables */
 int FullScreenMode = 0;
+int FullScreenStatLine = 1;
+
 static screen_mode_t newScreenMode;
 static screen_mode_t oldScreenMode;
 static int newScreenValid = 0;
@@ -53,12 +58,24 @@ static int oldSingleTask;
 static int newModesAvailable;
 static RO_Screen FullScrDesc;
 static int FullUseEigen;
+static int *SpriteArea;
+static int *SpriteLED0=NULL;
+static int *SpriteLED1=NULL;
+static int SpeedPercentage;
+static int FrameRate;
+static int WarpModeEnabled;
+static int SpriteTranslationTable[256];
+static int SpriteLEDWidth = 0;
+static int SpriteLEDHeight = 0;
+static int SpriteLEDMode = 0;
+static char LastStatusLine[64];
 
-static unsigned char CurrentPalette[16*3];
-static int NumCurrentPalette;
-
-
-extern int handle_mode_change(void);
+static const int StatusBackColour = 0xcccccc10;
+static const int StatusForeColour = 0x22222210;
+/* Sizes in pixels */
+static const int StatusLineHeight = 20;
+static const int StatusCharSize = 8;
+static const int StatusLEDSpace = 16;
 
 
 
@@ -200,16 +217,10 @@ int canvas_set_palette(canvas_t canvas, const palette_t *palette, PIXEL *pixel_r
 {
   int i;
   palette_entry_t *p;
-  unsigned char *b = CurrentPalette;
+  unsigned int *ct;
 
   p = palette->entries;
-
-  NumCurrentPalette = palette->num_entries;
-  if (NumCurrentPalette > 16) NumCurrentPalette = 16;
-  for (i=0; i<NumCurrentPalette; i++)
-  {
-    *b++ = p[i].red; *b++ = p[i].green; *b++ = p[i].blue;
-  }
+  ct = canvas->colour_table;
 
   switch (ScreenMode.ldbpp)
   {
@@ -220,8 +231,8 @@ int canvas_set_palette(canvas_t canvas, const palette_t *palette, PIXEL *pixel_r
       {
         for (i=0; i<palette->num_entries; i++)
         {
-          pixel_return[i] = ModeColourNumber((p[i].red << 8) | (p[i].green << 16) | (p[i].blue << 24));
-          ColourTable[i] = pixel_return[i];
+          pixel_return[i] = (PIXEL)ColourTrans_ReturnColourNumber((p[i].red << 8) | (p[i].green << 16) | (p[i].blue << 24));
+          ct[i] = p[i].red | (p[i].green << 8) | (p[i].blue << 16);/*pixel_return[i];*/
         }
       }
       break;
@@ -235,7 +246,7 @@ int canvas_set_palette(canvas_t canvas, const palette_t *palette, PIXEL *pixel_r
           g = (p[i].green + 4) & 0x1f8; if (g > 0xff) g = 0xff;
           b = (p[i].blue  + 4) & 0x1f8; if (b > 0xff) b = 0xff;
           pixel_return[i] = i;
-          ColourTable[i] = (r>>3) | (g << 2) | (b << 7);
+          ct[i] = (r>>3) | (g << 2) | (b << 7);
         }
       }
       break;
@@ -244,7 +255,7 @@ int canvas_set_palette(canvas_t canvas, const palette_t *palette, PIXEL *pixel_r
         for (i=0; i<palette->num_entries; i++)
         {
           pixel_return[i] = i;
-          ColourTable[i] = p[i].red | (p[i].green << 8) | (p[i].blue << 16);
+          ct[i] = p[i].red | (p[i].green << 8) | (p[i].blue << 16);
         }
       }
       break;
@@ -258,6 +269,7 @@ int canvas_set_palette(canvas_t canvas, const palette_t *palette, PIXEL *pixel_r
 canvas_t canvas_create(const char *win_name, unsigned int *width, unsigned int *height, int mapped, canvas_redraw_t exposure_handler, const palette_t *palette, PIXEL *pixel_return)
 {
   canvas_t canvas;
+  canvas_list_t *newCanvas;
 
   if ((canvas = (canvas_t)malloc(sizeof(struct _canvas))) == NULL)
     return (canvas_t)0;
@@ -265,9 +277,25 @@ canvas_t canvas_create(const char *win_name, unsigned int *width, unsigned int *
   canvas->width = *width; canvas->height = *height;
   canvas->emuwindow = EmuWindow->Handle;
   canvas->drawable = 0;	/* Who gives a fuck... */
+  canvas->num_colours = palette->num_entries;
+
   canvas_set_palette(canvas, palette, pixel_return);
 
-  EmuCanvas = canvas;
+  if ((newCanvas = (canvas_list_t*)malloc(sizeof(canvas_list_t))) == NULL) return NULL;
+  newCanvas->next = NULL;
+  if (CanvasList == NULL)
+  {
+    /* Make the first canvas created the main emu window */
+    EmuCanvas = canvas;
+    CanvasList = newCanvas;
+  }
+  else
+  {
+    canvas_list_t *list = CanvasList;
+
+    while (list->next != NULL) list = list->next;
+    list->next = newCanvas;
+  }
 
   wimp_window_set_extent(EmuWindow, 0, - *height << UseEigen, *width << UseEigen, 0);
   ui_open_emu_window(NULL);
@@ -351,11 +379,11 @@ void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
 
       if (EmuZoom == 1)
       {
-        PlotZoom1(&ge, block + RedrawB_CMinX, frame_buffer.tmpframebuffer, ColourTable);
+        PlotZoom1(&ge, block + RedrawB_CMinX, frame_buffer.tmpframebuffer, canvas->colour_table);
       }
       else
       {
-        PlotZoom2(&ge, block + RedrawB_CMinX, frame_buffer.tmpframebuffer, ColourTable);
+        PlotZoom2(&ge, block + RedrawB_CMinX, frame_buffer.tmpframebuffer, canvas->colour_table);
       }
       more = Wimp_GetRectangle(block);
     }
@@ -364,6 +392,12 @@ void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
   {
     int clip[4];
     int dx, dy;
+    int clipYlow;
+
+    if (FullScreenStatLine == 0)
+      clipYlow = 0;
+    else
+      clipYlow = (StatusLineHeight << FullScrDesc.eigy);
 
     dx = (canvas->width << FullUseEigen); dy = (canvas->height << FullUseEigen);
     shiftx = (canvas->shiftx << FullUseEigen);
@@ -375,13 +409,14 @@ void canvas_refresh(canvas_t canvas, frame_buffer_t frame_buffer,
     clip[1] = (FullScrDesc.resy - dy) / 2 + dy - ((yi + h) << FullUseEigen);
     clip[3] = clip[1] + (h << FullUseEigen);
     if ((clip[0] >= FullScrDesc.resx) || (clip[2] < 0)) return;
-    if ((clip[1] >= FullScrDesc.resy) || (clip[3] < 0)) return;
+    if ((clip[1] >= FullScrDesc.resy) || (clip[3] < clipYlow)) return;
     if (clip[0] < 0) clip[0] = 0;
     if (clip[2] > FullScrDesc.resx) clip[2] = FullScrDesc.resx;
-    if (clip[1] < 0) clip[1] = 0;
+    if (clip[1] < clipYlow) clip[1] = clipYlow;
     if (clip[3] > FullScrDesc.resy) clip[3] = FullScrDesc.resy;
 
-    PlotZoom1(&ge, clip, frame_buffer.tmpframebuffer, ColourTable);
+    PlotZoom1(&ge, clip, frame_buffer.tmpframebuffer, canvas->colour_table);
+
   }
 }
 
@@ -413,8 +448,10 @@ void disable_text(void)
 
 
 
-int video_full_screen_on(void)
+int video_full_screen_on(int *sprites)
 {
+  char *sdata, *limit;
+
   if (newScreenValid == 0) return -1;
 
   if (SwitchToMode(&newScreenMode, &oldScreenMode) != NULL)
@@ -425,17 +462,65 @@ int video_full_screen_on(void)
   FullScreenMode = 1;
   wimp_read_screen_mode(&FullScrDesc);
   FullUseEigen = (FullScrDesc.eigx < FullScrDesc.eigy) ? FullScrDesc.eigx : FullScrDesc.eigy;
+  SpriteArea = sprites;
+
+  sdata = ((char*)sprites) + sprites[2];
+  limit = ((char*)sprites) + sprites[0];
+  while (sdata < limit)
+  {
+    if (strncmp(sdata+4, "led_off", 12) == 0) SpriteLED0 = (unsigned int *)sdata;
+    else if (strncmp(sdata+4, "led_on", 12) == 0) SpriteLED1 = (unsigned int *)sdata;
+    sdata += *((int*)sdata);
+  }
+  if (SpriteLED0 != NULL)
+  {
+    sdata = (char*)SpriteTranslationTable;
+    ColourTrans_SelectTable((int)SpriteArea, (int)SpriteLED0, -1, -1, &sdata, 1, NULL, NULL);
+    OS_SpriteInfo(0x0200, SpriteArea, SpriteLED0, &SpriteLEDWidth, &SpriteLEDHeight, &SpriteLEDMode);
+    SpriteLEDWidth <<= OS_ReadModeVariable(SpriteLEDMode, 4);
+    SpriteLEDHeight <<= OS_ReadModeVariable(SpriteLEDMode, 5);
+  }
+
+  /* Set text size */
+  OS_WriteC(23); OS_WriteC(17); OS_WriteC(7); OS_WriteC(2);
+  OS_WriteC(StatusCharSize); OS_WriteC(0); OS_WriteC(StatusCharSize); OS_WriteC(0);
+  OS_WriteC(0); OS_WriteC(0);
 
   if (ScreenSetPalette != 0)
   {
-    if (((1 << (1 << FullScrDesc.ldbpp)) >= NumCurrentPalette) && (FullScrDesc.ldbpp <= 3))
+    if (((1 << (1 << FullScrDesc.ldbpp)) >= CanvasList->canvas->num_colours) && (FullScrDesc.ldbpp <= 3))
     {
-      InstallPaletteRange(CurrentPalette, 0, NumCurrentPalette);
+      unsigned char entries[3 * CanvasList->canvas->num_colours];
+      unsigned int num_colours, i;
+      unsigned int *ct;
+
+      num_colours = CanvasList->canvas->num_colours;
+      ct = CanvasList->canvas->colour_table;
+      if (ScreenMode.ldbpp == 4)
+      {
+        for (i=0; i<num_colours; i++)
+        {
+          /* Lossy, but shouldn't be too bad */
+          entries[3*i] = (ct[i] & 0x1f) << 3;
+          entries[3*i+1] = (ct[i] & 0x3e0) >> 2;
+          entries[3*i+2] = (ct[i] & 0x7c00) >> 7;
+        }
+      }
+      else
+      {
+        for (i=0; i<num_colours; i++)
+        {
+          entries[3*i] = ct[i] & 0xff;
+          entries[3*i+1] = (ct[i] & 0xff00) >> 8;
+          entries[3*i+1] = (ct[i] & 0xff0000) >> 16;
+        }
+      }
+      InstallPaletteRange(entries, 0, num_colours);
       ColourTrans_InvalidateCache();
     }
   }
 
-  handle_mode_change();
+  raster_mode_change();
 
   video_full_screen_refresh();
 
@@ -465,5 +550,90 @@ int video_full_screen_refresh(void)
 
   canvas_refresh(EmuCanvas, *FrameBuffer, -EmuCanvas->shiftx, EmuCanvas->shifty, 0, 0, EmuCanvas->width, EmuCanvas->height);
 
+  video_full_screen_init_status();
+
   return 0;
+}
+
+
+/* DriveLEDStates is already updated in ui.c */
+void video_full_screen_drive_leds(unsigned int drive)
+{
+  if ((FullScreenMode != 0) && (FullScreenStatLine != 0) && (drive < 4))
+  {
+    int posx, posy;
+    int sptr;
+
+    posy = ((StatusLineHeight << FullScrDesc.eigy) - SpriteLEDHeight) >> 1;
+    posx = FullScrDesc.resx - (4-drive)*(SpriteLEDWidth + (StatusLEDSpace << FullScrDesc.eigx));
+    sptr = (int)((DriveLEDStates[drive] == 0) ? SpriteLED0 : SpriteLED1);
+    if (sptr != 0)
+    {
+      OS_SpriteOp(512 + 52, (int)SpriteArea, sptr, posx, posy, 8, 0, (int)SpriteTranslationTable);
+    }
+  }
+}
+
+
+void video_full_screen_speed(int percent, int framerate, int warp)
+{
+  SpeedPercentage = percent;
+  FrameRate = framerate;
+  WarpModeEnabled = warp;
+}
+
+
+void video_full_screen_init_status(void)
+{
+  if ((FullScreenMode != 0) && (FullScreenStatLine != 0))
+  {
+    unsigned int i;
+
+    ColourTrans_SetGCOL(StatusBackColour, 0x100, 0);
+    OS_Plot(0x04, 0, 0);
+    OS_Plot(0x65, FullScrDesc.resx, (StatusLineHeight-1) << FullScrDesc.eigy);
+    LastStatusLine[0] = 0;
+
+    for (i=0; i<4; i++)
+    {
+      video_full_screen_drive_leds(i);
+    }
+  }
+}
+
+
+void video_full_screen_plot_status(void)
+{
+  if ((FullScreenMode != 0) && (FullScreenStatLine != 0))
+  {
+    char statText[64];
+    char *b;
+
+    b = statText;
+    b += sprintf(b, "%3d%% / %2d fps", SpeedPercentage, FrameRate);
+    if (WarpModeEnabled != 0)
+      b += sprintf(b, " (warp)");
+    if (DriveTrackNumbers[0] != 0)
+      b += sprintf(b, "; 8: %2d.%d", DriveTrackNumbers[0] >> 1, 5*(DriveTrackNumbers[0] & 1));
+    if (DriveTrackNumbers[1] != 0)
+      b += sprintf(b, "; 9: %2d.%d", DriveTrackNumbers[1] >> 1, 5*(DriveTrackNumbers[1] & 1));
+
+    if (strcmp(statText, LastStatusLine) != 0)
+    {
+      int width;
+
+      strcpy(LastStatusLine, statText);
+      width = (StatusCharSize * strlen(statText)) << FullScrDesc.eigx;
+      /* Clear background covered by text */
+      ColourTrans_SetGCOL(StatusBackColour, 0x100, 0);
+      OS_Plot(0x04, 0, 0);
+      OS_Plot(0x65, width, (StatusLineHeight-1) << FullScrDesc.eigy);
+      /* Position text cursor */
+      ColourTrans_SetGCOL(StatusForeColour, 0x100, 0);
+      OS_WriteC(0x05);
+      OS_Plot(0x04, 0, ((StatusLineHeight + StatusCharSize) << FullScrDesc.eigx) >> 1);
+
+      OS_Write0(statText);
+    }
+  }
 }

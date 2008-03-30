@@ -47,6 +47,7 @@ extern void ui_exit(void);
 extern void ui_display_speed(int percent, int framerate, int warp_flag);
 extern void ui_toggle_drive_status(int state);
 extern void ui_display_paused(int flag);
+extern void ui_display_drive_track_int(int drive_number, int track_number);
 
 extern void ui_open_emu_window(int *b);
 extern void ui_close_emu_window(int *b);
@@ -81,6 +82,9 @@ extern int RelativeSpeed;
 
 extern char *PetModelName;
 extern char *CBM2ModelName;
+
+extern int DriveLEDStates[4];
+extern int DriveTrackNumbers[2];
 
 
 #endif

@@ -31,6 +31,8 @@
 
 #include <stdarg.h>
 
+#include "archapi.h"
+
 /* Name of the resource file.  */
 #define RESOURCE_FILE_NAME "VICERC"
 

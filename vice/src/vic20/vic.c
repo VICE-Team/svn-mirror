@@ -37,6 +37,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "utils.h"
+#include "vsync.h"
 
 #include "vic-draw.h"
 #include "vic-mem.h"
