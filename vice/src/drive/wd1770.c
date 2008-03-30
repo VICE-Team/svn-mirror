@@ -123,7 +123,7 @@ static void d1_clk_overflow_callback(CLOCK sub, void *data)
 
 void wd1770d0_init(void)
 {
-    clk_guard_add_callback(&drive0_clk_guard, d0_clk_overflow_callback, NULL);
+    clk_guard_add_callback(&drive0_context.cpu.clk_guard, d0_clk_overflow_callback, NULL);
 
     if (wd1770_log == LOG_ERR)
         wd1770_log = log_open("WD1770");
@@ -131,7 +131,7 @@ void wd1770d0_init(void)
 
 void wd1770d1_init(void)
 {
-    clk_guard_add_callback(&drive1_clk_guard, d1_clk_overflow_callback, NULL);
+    clk_guard_add_callback(&drive1_context.cpu.clk_guard, d1_clk_overflow_callback, NULL);
 }
 
 /*-----------------------------------------------------------------------*/
@@ -220,7 +220,7 @@ static BYTE wd1770_read(ADDRESS addr, int dnr)
             }
         }
         tmp = wd1770[dnr].reg[WD1770_STATUS];
-        break; 
+        break;
       case 1:
       case 2:
         tmp = wd1770[dnr].reg[addr];
@@ -267,7 +267,7 @@ static void wd1770_update_track_register(BYTE command, int dnr)
 }
 
 static void wd1770_motor_control(BYTE command, int dnr)
-{    
+{
     if (command & 0x08) {
         if ((wd1770[dnr].reg[WD1770_STATUS] & 0x80) == 0)
             wd1770[dnr].motor_spinup_clk = drive_clk[dnr];
@@ -363,7 +363,7 @@ static int wd1770_job_code_read(int dnr, int track, int sector, int buffer)
 
     rc = disk_image_read_sector(wd1770[dnr].image, sector_data, track, sector);
     if (rc < 0) {
-        log_error(wd1770_log, 
+        log_error(wd1770_log,
                   "Cannot read T:%d S:%d from disk image.",
                   track, sector);
         return 2;
@@ -371,9 +371,9 @@ static int wd1770_job_code_read(int dnr, int track, int sector, int buffer)
     base = (buffer << 8) + 0x300;
     for (i = 0; i < 256; i++) {
         if (dnr == 0)
-            drive0_store((ADDRESS) (base + i), sector_data[i]);
+            drive_store(&drive0_context, (ADDRESS) (base + i), sector_data[i]);
         else
-            drive1_store((ADDRESS) (base + i), sector_data[i]);
+            drive_store(&drive1_context, (ADDRESS) (base + i), sector_data[i]);
     }
     return 0;
 }
@@ -386,9 +386,9 @@ static int wd1770_job_code_write(int dnr, int track, int sector, int buffer)
     base = (buffer << 8) + 0x300;
     for (i = 0; i < 256; i++) {
         if (dnr == 0)
-            sector_data[i] = drive0_read((ADDRESS) (base + i));
+            sector_data[i] = drive_read(&drive0_context, (ADDRESS) (base + i));
         else
-            sector_data[i] = drive1_read((ADDRESS) (base + i));
+            sector_data[i] = drive_read(&drive1_context, (ADDRESS) (base + i));
     }
     rc = disk_image_write_sector(wd1770[dnr].image, sector_data, track, sector);
     if (rc < 0) {
@@ -408,13 +408,13 @@ void wd1770_handle_job_code(int dnr)
 
     for (buffer = 0; buffer <= 8; buffer++) {
         if (dnr == 0) {
-            command = drive0_read((ADDRESS) (0x02 + buffer));
-            track = drive0_read((ADDRESS) (0x0b + (buffer << 1)));
-            sector = drive0_read((ADDRESS) (0x0c + (buffer << 1)));
+            command = drive_read(&drive0_context, (ADDRESS) (0x02 + buffer));
+            track = drive_read(&drive0_context, (ADDRESS) (0x0b + (buffer << 1)));
+            sector = drive_read(&drive0_context, (ADDRESS) (0x0c + (buffer << 1)));
         } else {
-            command = drive1_read((ADDRESS) (0x02 + buffer));
-            track = drive1_read((ADDRESS) (0x0b + (buffer << 1)));
-            sector = drive1_read((ADDRESS) (0x0c + (buffer << 1)));
+            command = drive_read(&drive1_context, (ADDRESS) (0x02 + buffer));
+            track = drive_read(&drive1_context, (ADDRESS) (0x0b + (buffer << 1)));
+            sector = drive_read(&drive1_context, (ADDRESS) (0x0c + (buffer << 1)));
         }
         if (command & 0x80) {
 #ifdef WD_DEBUG
@@ -440,9 +440,9 @@ void wd1770_handle_job_code(int dnr)
                 rcode = 2;
 
             if (dnr == 0)
-                drive0_store((ADDRESS) (2 + buffer), rcode);
+                drive_store(&drive0_context, (ADDRESS) (2 + buffer), rcode);
             else
-                drive1_store((ADDRESS) (2 + buffer), rcode);
+                drive_store(&drive0_context, (ADDRESS) (2 + buffer), rcode);
         }
     }
 }

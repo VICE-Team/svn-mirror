@@ -61,16 +61,16 @@
 #define MYCIA_INT       IK_IRQ
 
 #define myclk 		drive_clk[1]
-#define mycpu_clk_guard drive1_clk_guard
-#define	mycpu_rmw_flag	drive1_rmw_flag
+#define mycpu_clk_guard drive1_context.cpu.clk_guard
+#define	mycpu_rmw_flag	drive1_context.cpu.rmw_flag
 
 #define cia_set_int_clk(value,clk) \
-                set_int(&drive1_int_status,(I_CIA1FL),(value),(clk))
+                set_int(&drive1_context.cpu.int_status,(I_CIA1FL),(value),(clk))
 
 #define cia_restore_int(value) \
-                set_int_noclk(&drive1_int_status,(I_CIA1FL),(value))
+                set_int_noclk(&drive1_context.cpu.int_status,(I_CIA1FL),(value))
 
-#define mycpu_alarm_context drive1_alarm_context
+#define mycpu_alarm_context drive1_context.cpu.alarm_context
 
 /*************************************************************************
  * Hardware binding

@@ -612,15 +612,6 @@ unsigned int get_path_max(void)
     return value;
 }
 #endif
-/*#ifdef __IBMC__
-#define STDOUT_FILENO (0xFFFF & fileno(stdout))
-#define STDERR_FILENO (0xFFFF & fileno(stderr))
-#define _O_BINARY O_BINARY
-#define _O_TRUNC  O_TRUNC
-#define _O_WRONLY O_WRONLY
-#define _O_CREAT  O_CREAT
-#define _P_WAIT   P_WAIT
-#endif*/
 
 /* The following are replacements for libc functions that could be missing.  */
 

@@ -51,11 +51,11 @@
 #include "interrupt.h"
 
 #define myclk           drive_clk[0]
-#define mycpu_clk_guard drive0_clk_guard
-#define mycpu_rmw_flag  drive0_rmw_flag
-#define mycpu_alarm_context drive0_alarm_context
+#define mycpu_clk_guard drive0_context.cpu.clk_guard
+#define mycpu_rmw_flag  drive0_context.cpu.rmw_flag
+#define mycpu_alarm_context drive0_context.cpu.alarm_context
 
-#define	my_set_irq(fl, clk)	
+#define	my_set_irq(fl, clk)
 
 #define	my_restore_irq(fl)
 

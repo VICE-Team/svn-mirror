@@ -3,8 +3,8 @@
  *
  * Written by
  *  Ettore Perazzoli (ettore@comm2000.it)
- *  Teemu Rantanen (tvr@cs.hut.fi)
- *  Thomas Bretz (tbretz@gsi.de)
+ *  Teemu Rantanen   (tvr@cs.hut.fi)
+ *  Thomas Bretz     (tbretz@gsi.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -157,9 +157,9 @@ static int timer_patch    = 0;
 
 static ULONG ulTmrFreq;  // Hertz (almost 1.2MHz at my PC)
 
-ULONG gettime(void)
+inline ULONG gettime(void)
 {
-    QWORD qwTmrTime; // now
+    QWORD qwTmrTime;
     DosTmrQueryTime(&qwTmrTime);
     return qwTmrTime.ulLo;
 }
@@ -167,37 +167,46 @@ ULONG gettime(void)
 static ULONG timer_ticks;
 static ULONG timer_time;
 
-static void update_elapsed_frames(int want)
+void update_elapsed_frames(int want)
 {
-    static int pending;
     ULONG now;
+    static ULONG old_now;
+    static int pending;
 
     if (timer_disabled) return;
     if (!want && timer_patch > 0) {
         timer_patch--;
         elapsed_frames++;
     }
+    
     now=gettime();
+
+    /* problems with now<timer_time und now overflow  */
+    if (now<old_now) timer_time = 0; /* (old_now-now) */
+    
     while (now>timer_time) {
-        if (pending) pending--;
-        else {
+        if (!pending) {
             if (timer_patch < 0) timer_patch++;
-            else elapsed_frames++;
+            else                 elapsed_frames++;
         }
+        else pending--;
         timer_time += timer_ticks;
     }
+    
     if (want == 1 && !pending) {
         if (timer_patch < 0) timer_patch++;
-        else elapsed_frames++;
+        else                 elapsed_frames++;
         pending++;
     }
+    
+    old_now = now;
 }
 
 static int set_timer_speed(int speed)
 {
     if (speed > 0) {
-        timer_time=gettime();
         timer_ticks = ((100*ulTmrFreq)/(refresh_frequency*speed));
+        timer_time=gettime();
         update_elapsed_frames(-1);
         elapsed_frames = 0;
     }
@@ -274,6 +283,8 @@ void vsync_init(void (*hook)(void))
 static void display_speed(int num_frames)
 {
     static ULONG prev_time;
+    /* problems with now<timer_time und now overflow         */
+    /* if (curr_time<prev_time) prev_time = 0; (old_now-now) */
     if (!speed_eval_suspended) {
         ULONG curr_time = gettime();
         float diff_clk    = clk - speed_eval_prev_clk;

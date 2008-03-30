@@ -64,15 +64,6 @@ static void restore_workdir(void)
     if (orig_workdir) chdir(orig_workdir);
 }
 
-/*int os2log(const char *format, va_list ap)
- { // needed for debugging purpose, as a replace of log_message
- FILE *fl = fopen("output","a");
- vfprintf(fl, format, ap);
- fputc('\n', fl);
- fclose(fl);
- return 0;
- }*/
-
 HAB habMain;
 HMQ hmqMain;
 

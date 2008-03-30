@@ -35,34 +35,32 @@
 
 /* ------------------------------------------------------------------------- */
 
-void petconvstring(char *c, int dir)
+char *petconvstring(char *c, int dir)
 {
     char *p = c;
 
     switch (dir) {
-      case 0:		/* to petscii */
-	for (; *p; p++)
-	    *p = p_topetcii(*p);
-	break;
+    case 0:		/* to petscii */
+        while (*p) *(p++) = p_topetcii(*p);
+        break;
 
-      case 1:		/* to ascii */
-      case 2:		/* to ascii, convert also screencodes */
-	--dir;
-	for (; *p; p++) {
-	    *p = p_toascii(*p, dir);
-	}
+    case 1:		/* to ascii */
+    case 2:		/* to ascii, convert also screencodes */
+        dir--;
+        while (*p) *(p++) = p_toascii(*p, dir);
     }
+    return c;
 }
 
 void  unix_filename(char *p)
 {
-    while(*p) {
+    while (*p) {
 	if (*p == '/')
 	    *p= '_';
 	p++;
     }
 }
- 
+
 int   p_toascii(int c, int cs)
 {
     c &= 0xff;

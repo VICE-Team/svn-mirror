@@ -65,23 +65,25 @@ static char *ui_cmdline_textopt;
 
 MRESULT EXPENTRY PM_scrollProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
+    const ULONG flCmd =
+        DT_TEXTATTRS|DT_VCENTER|DT_LEFT|DT_ERASERECT/*|DT_WORDBREAK*/;
+
     static HPS hps;
     static int cWidth, cHeight;    // size of one char in pixels
     static int lHorzPos, lVertPos; // actual horz and vert pos of SBM in chars
     static int w,h;                // size of visible region in chars
-    FONTMETRICS fmFont;
-    RECTL  rectl;
-    POINTL pointl;
-    int i, stop;
 
     switch (msg)
     {
     case WM_CREATE:
         WinSetPresParam(hwnd, PP_FONTNAMESIZE, strlen(achFont)+1,achFont);
         hps=WinGetPS(hwnd);
-        GpiQueryFontMetrics(hps, sizeof(fmFont), &fmFont);
-        cWidth  = fmFont.lAveCharWidth;    // width of one char
-        cHeight = fmFont.lMaxBaselineExt;  // height of one char
+        {
+            FONTMETRICS fmFont;
+            GpiQueryFontMetrics(hps, sizeof(fmFont), &fmFont);
+            cWidth  = fmFont.lAveCharWidth;    // width of one char
+            cHeight = fmFont.lMaxBaselineExt;  // height of one char
+        }
         WinSetWindowPos(WinQueryWindow(hwnd,QW_PARENT), HWND_TOP, 0, 0,
                         cWidth*INITX+
                         WinQuerySysValue(HWND_DESKTOP,SV_CXVSCROLL)+
@@ -120,20 +122,34 @@ MRESULT EXPENTRY PM_scrollProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
         WinPostMsg(hwnd, WM_PAINT, 0, 0);
         return FALSE;
     case WM_PAINT:
-        //        WinQueryWindowPtr(hwnd,QWL_USER);
-        WinQueryWindowRect(hwnd,&rectl);
-        WinFillRect(hps, &rectl, SYSCLR_FIELDBACKGROUND);
-        pointl.x=0;
-        pointl.y=rectl.yTop-cHeight-1;
-        stop=(lVertPos+h>ui_cmdline_lines)?ui_cmdline_lines:lVertPos+h;
-        for (i=lVertPos; i<stop; i++) {
-            sprintf(ui_cmdline_textopt,"%s %s",ui_cmdline_options[i].name,
-                    (ui_cmdline_options[i].need_arg && ui_cmdline_options[i].param_name)?
-                    ui_cmdline_options[i].param_name:"");
-            sprintf(ui_cmdline_text,optFormat,ui_cmdline_textopt,ui_cmdline_options[i].description);
-            GpiCharStringAt(hps, &pointl,
-                            strlen(ui_cmdline_text)-lHorzPos, ui_cmdline_text+lHorzPos);
-            pointl.y-=cHeight;
+        {
+            RECTL  rectl;
+            int i, stop;
+            //        WinQueryWindowPtr(hwnd,QWL_USER);
+            WinQueryWindowRect(hwnd,&rectl);
+            rectl.yBottom=rectl.yTop-1;
+            WinFillRect(hps, &rectl, SYSCLR_FIELDBACKGROUND);
+            i = rectl.yTop;
+            rectl.yTop=cHeight;
+            rectl.yBottom=0;
+            WinFillRect(hps, &rectl, SYSCLR_FIELDBACKGROUND);
+            rectl.yBottom=i-cHeight-1;
+            //        WinFillRect(hps, &rectl, SYSCLR_FIELDBACKGROUND);
+            //        pointl.x=0;
+            //        pointl.y=rectl.yTop-cHeight-1;
+            stop=(lVertPos+h>ui_cmdline_lines)?ui_cmdline_lines:lVertPos+h;
+            for (i=lVertPos; i<stop; i++) {
+                sprintf(ui_cmdline_textopt,"%s %s",ui_cmdline_options[i].name,
+                        (ui_cmdline_options[i].need_arg && ui_cmdline_options[i].param_name)?
+                        ui_cmdline_options[i].param_name:"");
+                sprintf(ui_cmdline_text,optFormat,ui_cmdline_textopt,ui_cmdline_options[i].description);
+                //            GpiCharStringAt(hps, &pointl,
+                //                            strlen(ui_cmdline_text)-lHorzPos, ui_cmdline_text+lHorzPos);
+                //            pointl.y-=cHeight;
+                rectl.yTop=rectl.yBottom+cHeight;
+                WinDrawText(hps, strlen(ui_cmdline_text)-lHorzPos, ui_cmdline_text+lHorzPos, &rectl, 0, 0, flCmd);
+                rectl.yBottom-=cHeight;
+            }
         }
         break;
     }

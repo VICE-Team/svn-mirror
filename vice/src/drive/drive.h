@@ -118,7 +118,7 @@
 	|| ((type) == DRIVE_TYPE_8050) 		\
 	|| ((type) == DRIVE_TYPE_8250) 		\
 	)
-	
+
 #define	DRIVE_IS_DUAL(type)	( 		\
 	((type) == DRIVE_TYPE_8050) 		\
 	|| ((type) == DRIVE_TYPE_8250) 		\
@@ -297,7 +297,7 @@ extern int drive_write_block(int track, int sector, BYTE *writedata, int dnr);
 
 extern int reload_rom_1541(char *name);
 
-extern int drive_write_snapshot_module(snapshot_t *s, int save_disks, 
+extern int drive_write_snapshot_module(snapshot_t *s, int save_disks,
                                        int save_roms);
 extern int drive_read_snapshot_module(snapshot_t *s);
 
@@ -318,6 +318,8 @@ extern int drive_match_bus(int drive_type, int drv, int bus_map);
 extern int drive_check_type(int drive_type, int dnr);
 
 extern int drive_num_leds(int drv);
+
+extern void drive_setup_context(void);
 
 #endif /* !_DRIVE_H */
 

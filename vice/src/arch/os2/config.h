@@ -143,14 +143,14 @@
 #define PACKAGE "vice"
 
 /* Version number. and a stupid workaround  */
-#define VERSION      "1.1.20"
-#define VICE2VERSION "1.1.20"
+#define VERSION      "1.1.24"
+#define VICE2VERSION "1.1.24"
 
 /* Define if this version is unstable.  */
 #define UNSTABLE
 
 #define FIXPOINT_ARITHMETIC 1
-  
+
 /* The number of bytes in a unsigned int.  */
 #define SIZEOF_UNSIGNED_INT 4
 

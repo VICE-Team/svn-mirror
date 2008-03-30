@@ -33,12 +33,12 @@
 #include <stddef.h>
 
 typedef enum {
-    JOYDEV_NONE,
-    JOYDEV_NUMPAD,
-    JOYDEV_KEYSET1,
-    JOYDEV_KEYSET2,
-    JOYDEV_HW1,
-    JOYDEV_HW2
+    JOYDEV_NONE   =0x00,
+    JOYDEV_HW1    =0x01,
+    JOYDEV_HW2    =0x02,
+    JOYDEV_NUMPAD =0x04,
+    JOYDEV_KEYSET1=0x08,
+    JOYDEV_KEYSET2=0x10
 } joystick_device_t;
 
 typedef enum {

@@ -46,7 +46,7 @@ extern void parallel_cable_drive0_write(BYTE data, int handshake);
 extern void parallel_cable_drive1_write(BYTE data, int handshake);
 extern BYTE parallel_cable_drive_read(int handshake);
 
-typedef struct {
+typedef struct iec_info_s {
     BYTE drive_bus;
     BYTE drive_port;
     BYTE drive_data;

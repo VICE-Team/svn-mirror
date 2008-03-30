@@ -46,9 +46,12 @@
 
 #define NUM_LANGUAGES	14
 
+#define a2p(c) petconvstring(c,0)
+#define p2a(c) petconvstring(c,1)
+
 extern const char *ctrl1[], *ctrl2[], *cbmkeys[];
 
-extern void petconvstring(char *c, int dir);
+extern char *petconvstring(char *c, int dir);
 extern int p_toascii(int c, int cs);
 extern int p_topetcii(int c);
 extern const char *ctrl_to_str(int clean, BYTE c);

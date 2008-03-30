@@ -52,22 +52,22 @@
 #include "types.h"
 
 #define myclk           drive_clk[0]
-#define mycpu_clk_guard drive0_clk_guard
-#define mycpu_rmw_flag  drive0_rmw_flag
-#define mycpu_alarm_context drive0_alarm_context
+#define mycpu_clk_guard drive0_context.cpu.clk_guard
+#define mycpu_rmw_flag  drive0_context.cpu.rmw_flag
+#define mycpu_alarm_context drive0_context.cpu.alarm_context
 
 /*
 #define my_set_irq(fl, clk)	\
 	do { \
 	printf("set_int_d0(%d)\n",(fl)); \
-        set_int(&drive0_int_status,I_RIOTD0FL,(fl) ? IK_IRQ : 0, (clk)) \
+        set_int(&drive0_context.cpu.int_status,I_RIOTD0FL,(fl) ? IK_IRQ : 0, (clk)) \
 	; } while(0)
 */
 #define my_set_irq(fl, clk)	\
-        set_int(&drive0_int_status,I_RIOTD0FL,(fl) ? IK_IRQ : 0, (clk))
+        set_int(&drive0_context.cpu.int_status,I_RIOTD0FL,(fl) ? IK_IRQ : 0, (clk))
 
 #define my_restore_irq(fl)	\
-        set_int_noclk(&drive0_int_status,I_RIOTD0FL,(fl) ? IK_IRQ : 0)
+        set_int_noclk(&drive0_context.cpu.int_status,I_RIOTD0FL,(fl) ? IK_IRQ : 0)
 
 /*************************************************************************
  * I/O
@@ -87,17 +87,17 @@ static int atn_active = 0;
 _RIOT_FUNC void set_handshake(BYTE pa)
 {
     parallel_drv0_set_nrfd((char)
-	(((pa & 0x4) == 0) 
+	(((pa & 0x4) == 0)
 	|| ((pa & 1) && !atn_active)
 	|| (((pa & 1) == 0) && atn_active)
 	));
     parallel_drv0_set_ndac((char)
-	((pa & 0x2) 
+	((pa & 0x2)
 	|| (((pa & 0x1) == 0) && atn_active)
 	));
 }
- 
-void drive0_riot_set_atn(int state) 
+
+void drive0_riot_set_atn(int state)
 {
     if (DRIVE_IS_OLDTYPE(drive[0].type)) {
 	if (atn_active && !state) {

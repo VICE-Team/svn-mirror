@@ -312,7 +312,7 @@ void wmVrnDisabled(HWND hwnd)
 
 MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
-    canvas_t c = (canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
+    //            canvas_t c = (canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
     switch (msg)
     {
         //    case WM_CREATE:       wmCreate      ();          break;
@@ -452,7 +452,9 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
 
 /* ------------------------------------------------------------------------ */
 void canvas_refresh(canvas_t c, frame_buffer_t f,
-                    int xs, int ys, int xi, int yi, int w, int h)
+                           unsigned int xs, unsigned int ys,
+                           unsigned int xi, unsigned int yi,
+                           unsigned int w, unsigned int h)
 {
     if (!(c->vrenabled)) return;
     DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);

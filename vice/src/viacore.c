@@ -56,27 +56,43 @@
 /*#define MYVIA_NEED_PB7 */
 				/* When you really need latching, define this.
 				   It implies additional READ_PR* when
-				   writing the snapshot. When latching is 
+				   writing the snapshot. When latching is
 				   enabled: it reads the port when enabling,
-				   and when an active C*1 transition occurs. 
+				   and when an active C*1 transition occurs.
 				   It does not read the port when reading the
 				   port register. Side-effects beware! */
 /*#define MYVIA_NEED_LATCHING */
+
+#ifdef VIA_SHARED_CODE
+#define VIA_CONTEXT_PARAM	VIACONTEXT *ctxptr,
+#define VIA_CONTEXT_PARVOID	VIACONTEXT *ctxptr
+#define VIA_CONTEXT_CALL	ctxptr,
+#define VIA_CONTEXT_CALLVOID	ctxptr
+#define VIARPARM1		REGPARM2
+#define VIARPARM2		REGPARM3
+#else
+#define VIA_CONTEXT_PARAM
+#define VIA_CONTEXT_PARVOID	void
+#define VIA_CONTEXT_CALL
+#define VIA_CONTEXT_CALLVOID
+#define VIARPARM1		REGPARM1
+#define VIARPARM2		REGPARM2
+/*
+ * local variables
+ */
+static CLOCK via_read_clk = 0;
+static int via_read_offset = 0;
+static BYTE via_last_read = 0;  /* the byte read the last time (for RMW) */
+#endif
 
 /*
  * local prototypes
  */
 
-static int int_myviat1(CLOCK offset);
-static int int_myviat2(CLOCK offset);
+static int int_myviat1(VIA_CONTEXT_PARAM CLOCK offset);
+static int int_myviat2(VIA_CONTEXT_PARAM CLOCK offset);
 
-/*
- * local variables
- */
 
-static CLOCK via_read_clk = 0;
-static int via_read_offset = 0;
-static BYTE via_last_read = 0;  /* the byte read the last time (for RMW) */
 
 /*
  * local functions
@@ -144,17 +160,17 @@ static BYTE via_last_read = 0;  /* the byte read the last time (for RMW) */
 		(a) ? MYVIA_INT : 0)
 #endif
 
-static void clk_overflow_callback(CLOCK sub, void *data);
+static void clk_overflow_callback(VIA_CONTEXT_PARAM CLOCK sub, void *data);
 
 
-inline static void update_myviairq(void)
+inline static void update_myviairq(VIA_CONTEXT_PARVOID)
 {
     via_set_int(I_MYVIAFL, (myviaifr & myviaier & 0x7f) ? MYVIA_INT : 0);
 }
 
 /* the next two are used in myvia_read() */
 
-inline static CLOCK myviata(void)
+inline static CLOCK myviata(VIA_CONTEXT_PARVOID)
 {
     if (myclk < myviatau - TAUOFFSET)
         return myviatau - TAUOFFSET - myclk - 2;
@@ -162,12 +178,12 @@ inline static CLOCK myviata(void)
 	return (myviatal - (myclk - myviatau + TAUOFFSET) % (myviatal + 2));
 }
 
-inline static CLOCK myviatb(void)
+inline static CLOCK myviatb(VIA_CONTEXT_PARVOID)
 {
     return myviatbu - myclk - 2;
 }
 
-inline static void update_myviatal(CLOCK rclk)
+inline static void update_myviatal(VIA_CONTEXT_PARAM CLOCK rclk)
 {
     myviapb7x = 0;
     myviapb7xx = 0;
@@ -195,7 +211,7 @@ inline static void update_myviatal(CLOCK rclk)
     myviatal = myvia[VIA_T1LL] + (myvia[VIA_T1LH] << 8);
 }
 
-inline static void update_myviatbl(void)
+inline static void update_myviatbl(VIA_CONTEXT_PARVOID)
 {
     myviatbl = myvia[VIA_T2CL] + (myvia[VIA_T2CH] << 8);
 }
@@ -204,7 +220,9 @@ inline static void update_myviatbl(void)
 /* ------------------------------------------------------------------------- */
 /* MYVIA */
 
-void myvia_init(void)
+#ifndef VIA_SHARED_CODE
+
+void myvia_init(VIA_CONTEXT_PARVOID)
 {
     if (myvia_log == LOG_ERR)
         myvia_log = log_open(snap_module_name);
@@ -216,11 +234,13 @@ void myvia_init(void)
     clk_guard_add_callback(&mycpu_clk_guard, clk_overflow_callback, NULL);
 }
 
+#endif
+
 /*
  * according to Rockwell, all internal registers are cleared, except
  * for the Timer (1 and 2, counter and latches) and the shift register.
  */
-void myvia_reset(void)
+void myvia_reset(VIA_CONTEXT_PARVOID)
 {
     int i;
 
@@ -247,7 +267,7 @@ void myvia_reset(void)
     myviatbi = 0;
     alarm_unset(&myvia_t1_alarm);
     alarm_unset(&myvia_t2_alarm);
-    update_myviairq();
+    update_myviairq(VIA_CONTEXT_CALLVOID);
 
     oldpa = 0xff;
     oldpb = 0xff;
@@ -257,10 +277,10 @@ void myvia_reset(void)
     VIA_SET_CA2( ca2_state )	/* input = high */
     VIA_SET_CB2( cb2_state )	/* input = high */
 
-    res_via();
+    res_via(VIA_CONTEXT_CALLVOID);
 }
 
-void myvia_signal(int line, int edge)
+void myvia_signal(VIA_CONTEXT_PARAM int line, int edge)
 {
     switch (line) {
       case VIA_SIG_CA1:
@@ -270,10 +290,10 @@ void myvia_signal(int line, int edge)
 		VIA_SET_CA2( ca2_state )
 	    }
             myviaifr |= VIA_IM_CA1;
-            update_myviairq();
+            update_myviairq(VIA_CONTEXT_CALLVOID);
 #ifdef MYVIA_NEED_LATCHING
 	    if (IS_PA_INPUT_LATCH()) {
-		myvia_ila = read_pra(addr);
+		myvia_ila = read_pra(VIA_CONTEXT_CALL addr);
 	    }
 #endif
 	}
@@ -282,7 +302,7 @@ void myvia_signal(int line, int edge)
         if (!(myvia[VIA_PCR] & 0x08)) {
             myviaifr |= (((edge << 2) ^ myvia[VIA_PCR]) & 0x04) ?
                 0 : VIA_IM_CA2;
-            update_myviairq();
+            update_myviairq(VIA_CONTEXT_CALLVOID);
         }
         break;
       case VIA_SIG_CB1:
@@ -292,32 +312,32 @@ void myvia_signal(int line, int edge)
 		VIA_SET_CB2( cb2_state )
 	    }
             myviaifr |= VIA_IM_CB1;
-            update_myviairq();
+            update_myviairq(VIA_CONTEXT_CALLVOID);
 #ifdef MYVIA_NEED_LATCHING
 	    if (IS_PB_INPUT_LATCH()) {
-		myvia_ilb = read_prb();
+		myvia_ilb = read_prb(VIA_CONTEXT_CALLVOID);
 	    }
-#endif	
+#endif
 	}
         break;
       case VIA_SIG_CB2:
         if (!(myvia[VIA_PCR] & 0x80)) {
             myviaifr |= (((edge << 6) ^ myvia[VIA_PCR]) & 0x40) ?
                 0 : VIA_IM_CB2;
-            update_myviairq();
+            update_myviairq(VIA_CONTEXT_CALLVOID);
         }
         break;
     }
 }
 
-void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
+void VIARPARM2 myvia_store(VIA_CONTEXT_PARAM ADDRESS addr, BYTE byte)
 {
     CLOCK rclk;
 
     if (mycpu_rmw_flag) {
         myclk --;
         mycpu_rmw_flag = 0;
-        myvia_store(addr, via_last_read);
+        myvia_store(VIA_CONTEXT_CALL addr, via_last_read);
         myclk ++;
     }
 
@@ -342,7 +362,7 @@ void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
 	    }
 	}
 	if (myviaier & (VIA_IM_CA1 | VIA_IM_CA2))
-            update_myviairq();
+            update_myviairq(VIA_CONTEXT_CALLVOID);
 
       case VIA_PRA_NHS:	/* port A, no handshake */
         myvia[VIA_PRA_NHS] = byte;
@@ -350,7 +370,7 @@ void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
       case VIA_DDRA:
 	myvia[addr] = byte;
 	byte = myvia[VIA_PRA] | ~myvia[VIA_DDRA];
-        store_pra(byte, oldpa, addr);
+        store_pra(VIA_CONTEXT_CALL byte, oldpa, addr);
 	oldpa = byte;
         break;
 
@@ -368,18 +388,18 @@ void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
             }
         }
 	if (myviaier & (VIA_IM_CB1 | VIA_IM_CB2))
-            update_myviairq();
+            update_myviairq(VIA_CONTEXT_CALLVOID);
 
       case VIA_DDRB:
 	myvia[addr] = byte;
 	byte = myvia[VIA_PRB] | ~myvia[VIA_DDRB];
-        store_prb(byte, oldpb, addr);
+        store_prb(VIA_CONTEXT_CALL byte, oldpb, addr);
 	oldpb = byte;
         break;
 
       case VIA_SR:		/* Serial Port output buffer */
         myvia[addr] = byte;
-        store_sr(byte);
+        store_sr(VIA_CONTEXT_CALL byte);
         break;
 
         /* Timers */
@@ -387,12 +407,12 @@ void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
       case VIA_T1CL:
       case VIA_T1LL:
         myvia[VIA_T1LL] = byte;
-        update_myviatal(rclk);
+        update_myviatal(VIA_CONTEXT_CALL rclk);
         break;
 
       case VIA_T1CH:	/* Write timer A high */
         myvia[VIA_T1LH] = byte;
-        update_myviatal(rclk);
+        update_myviatal(VIA_CONTEXT_CALL rclk);
         /* load counter with latch value */
         myviatau = rclk + myviatal + 3 + TAUOFFSET;
         myviatai = rclk + myviatal + 2;
@@ -404,41 +424,41 @@ void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
 
         /* Clear T1 interrupt */
         myviaifr &= ~VIA_IM_T1;
-        update_myviairq();
+        update_myviairq(VIA_CONTEXT_CALLVOID);
         break;
 
       case VIA_T1LH:		/* Write timer A high order latch */
         myvia[addr] = byte;
-        update_myviatal(rclk);
+        update_myviatal(VIA_CONTEXT_CALL rclk);
 
         /* Clear T1 interrupt */
         myviaifr &= ~VIA_IM_T1;
-        update_myviairq();
+        update_myviairq(VIA_CONTEXT_CALLVOID);
         break;
 
       case VIA_T2LL:		/* Write timer 2 low latch */
         myvia[VIA_T2LL] = byte;
-        update_myviatbl();
-        store_t2l(byte);
+        update_myviatbl(VIA_CONTEXT_CALLVOID);
+        store_t2l(VIA_CONTEXT_CALL byte);
         break;
 
       case VIA_T2CH:		/* Write timer 2 high */
         myvia[VIA_T2CH] = byte;
-        update_myviatbl();
+        update_myviatbl(VIA_CONTEXT_CALLVOID);
         myviatbu = rclk + myviatbl + 3;
         myviatbi = rclk + myviatbl + 2;
         alarm_set(&myvia_t2_alarm, myviatbi);
 
         /* Clear T2 interrupt */
         myviaifr &= ~VIA_IM_T2;
-        update_myviairq();
+        update_myviairq(VIA_CONTEXT_CALLVOID);
         break;
 
         /* Interrupts */
 
       case VIA_IFR:		/* 6522 Interrupt Flag Register */
         myviaifr &= ~byte;
-        update_myviairq();
+        update_myviairq(VIA_CONTEXT_CALLVOID);
         break;
 
       case VIA_IER:		/* Interrupt Enable Register */
@@ -449,14 +469,14 @@ void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
             /* clear interrupts */
             myviaier &= ~byte;
         }
-        update_myviairq();
+        update_myviairq(VIA_CONTEXT_CALLVOID);
         break;
 
         /* Control */
 
       case VIA_ACR:
         /* bit 7 timer 1 output to PB7 */
-        update_myviatal(rclk);
+        update_myviatal(VIA_CONTEXT_CALL rclk);
         if ((myvia[VIA_ACR] ^ byte) & 0x80) {
             if (byte & 0x80) {
                 myviapb7 = 1 ^ myviapb7x;
@@ -482,7 +502,7 @@ void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
 #ifdef MYVIA_NEED_LATCHING
 	/* switch on port A latching - FIXME: is this ok? */
 	if ( (!(myvia[addr] & 1)) && (byte & 1)) {
-	    myvia_ila = read_pra(addr);
+	    myvia_ila = read_pra(VIA_CONTEXT_CALL addr);
 	}
 	/* switch on port B latching - FIXME: is this ok? */
 	if ( (!(myvia[addr] & 2)) && (byte & 2)) {
@@ -491,7 +511,7 @@ void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
 #endif
 
         myvia[addr] = byte;
-        store_acr(byte);
+        store_acr(VIA_CONTEXT_CALL byte);
 
         /* bit 5 timer 2 count mode */
         if (byte & 32) {
@@ -513,7 +533,7 @@ void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
 
 	if ( (byte & 0x0e) == 0x0c ) {	/* set output low */
 	    ca2_state = 0;
-	} else 
+	} else
 	if ( (byte & 0x0e) == 0x0e ) {	/* set output high */
 	    ca2_state = 1;
 	} else {			/* set to toggle/pulse/input */
@@ -524,7 +544,7 @@ void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
 
 	if ( (byte & 0xe0) == 0xc0 ) {	/* set output low */
 	    cb2_state = 0;
-	} else 
+	} else
 	if ( (byte & 0xe0) == 0xe0 ) {	/* set output high */
 	    cb2_state = 1;
 	} else {			/* set to toggle/pulse/input */
@@ -533,7 +553,7 @@ void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
 	}
 	VIA_SET_CB2( cb2_state )
 
-        store_pcr(byte, addr);
+        store_pcr(VIA_CONTEXT_CALL byte, addr);
 
         myvia[addr] = byte;
 
@@ -548,18 +568,18 @@ void REGPARM2 myvia_store(ADDRESS addr, BYTE byte)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 myvia_read(ADDRESS addr)
+BYTE VIARPARM1 myvia_read(VIA_CONTEXT_PARAM ADDRESS addr)
 {
 #ifdef MYVIA_TIMER_DEBUG
-    BYTE myvia_read_(ADDRESS);
-    BYTE retv = myvia_read_(addr);
+    BYTE myvia_read_(VIA_CONTEXT_PARAM ADDRESS);
+    BYTE retv = myvia_read_(VIA_CONTEXT_CALL addr);
     addr &= 0x0f;
     if ((addr > 3 && addr < 10) || app_resources.debugFlag)
 	log_message(myvia_log,
                     "myvia_read(%x) -> %02x, clk=%d", addr, retv, myclk);
     return retv;
 }
-BYTE REGPARM1 myvia_read_(ADDRESS addr)
+BYTE VIARPARM1 myvia_read_(VIA_CONTEXT_PARAM ADDRESS addr)
 {
 #endif
     BYTE byte = 0xff;
@@ -576,11 +596,11 @@ BYTE REGPARM1 myvia_read_(ADDRESS addr)
         rclk = myclk;
     }
 
-    if (addr >= VIA_T1CL && addr <= VIA_IER) { 
+    if (addr >= VIA_T1CL && addr <= VIA_IER) {
         if (myviatai && (myviatai <= myclk))
-	    int_myviat1(myclk - myviatai);
+	    int_myviat1(VIA_CONTEXT_CALL myclk - myviatai);
         if (myviatbi && (myviatbi <= myclk))
-	    int_myviat2(myclk - myviatbi);
+	    int_myviat2(VIA_CONTEXT_CALL myclk - myviatbi);
     }
 
     switch (addr) {
@@ -598,8 +618,8 @@ BYTE REGPARM1 myvia_read_(ADDRESS addr)
                 VIA_SET_CA2( ca2_state )
             }
         }
-        if (myviaier & (VIA_IM_CA1 | VIA_IM_CA2)) 
-	    update_myviairq();
+        if (myviaier & (VIA_IM_CA1 | VIA_IM_CA2))
+	    update_myviairq(VIA_CONTEXT_CALLVOID);
 
       case VIA_PRA_NHS:	/* port A, no handshake */
         /* WARNING: this pin reads the voltage of the output pins, not
@@ -609,10 +629,10 @@ BYTE REGPARM1 myvia_read_(ADDRESS addr)
 	if (IS_PA_INPUT_LATCH()) {
 	    byte = myvia_ila;
 	} else {
-	    byte = read_pra(addr);
+	    byte = read_pra(VIA_CONTEXT_CALL addr);
 	}
 #else
-        byte = read_pra(addr);
+        byte = read_pra(VIA_CONTEXT_CALL addr);
 #endif
 	myvia_ila = byte;
 	via_last_read = byte;
@@ -622,8 +642,8 @@ BYTE REGPARM1 myvia_read_(ADDRESS addr)
         myviaifr &= ~VIA_IM_CB1;
         if ((myvia[VIA_PCR] & 0xa0) != 0x20)
             myviaifr &= ~VIA_IM_CB2;
-        if (myviaier & (VIA_IM_CB1 | VIA_IM_CB2)) 
-	    update_myviairq();
+        if (myviaier & (VIA_IM_CB1 | VIA_IM_CB2))
+	    update_myviairq(VIA_CONTEXT_CALLVOID);
 
         /* WARNING: this pin reads the ORA for output pins, not
            the voltage on the pins as the other port. */
@@ -631,16 +651,16 @@ BYTE REGPARM1 myvia_read_(ADDRESS addr)
 	if (IS_PB_INPUT_LATCH()) {
 	    byte = myvia_ilb;
 	} else {
-	    byte = read_prb();
+	    byte = read_prb(VIA_CONTEXT_CALLVOID);
 	}
 #else
-        byte = read_prb();
+        byte = read_prb(VIA_CONTEXT_CALLVOID);
 #endif
 	myvia_ilb = byte;
         byte = (byte & ~myvia[VIA_DDRB]) | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
 
         if (myvia[VIA_ACR] & 0x80) {
-            update_myviatal(rclk);
+            update_myviatal(VIA_CONTEXT_CALL rclk);
             byte = (byte & 0x7f) | (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0);
         }
 	via_last_read = byte;
@@ -650,22 +670,22 @@ BYTE REGPARM1 myvia_read_(ADDRESS addr)
 
       case VIA_T1CL /*TIMER_AL */ :	/* timer A low */
         myviaifr &= ~VIA_IM_T1;
-        update_myviairq();
-        via_last_read = myviata() & 0xff;
+        update_myviairq(VIA_CONTEXT_CALLVOID);
+        via_last_read = myviata(VIA_CONTEXT_CALLVOID) & 0xff;
 	return via_last_read;
 
       case VIA_T1CH /*TIMER_AH */ :	/* timer A high */
-        via_last_read = (myviata() >> 8) & 0xff;
+        via_last_read = (myviata(VIA_CONTEXT_CALLVOID) >> 8) & 0xff;
 	return via_last_read;
 
       case VIA_T2CL /*TIMER_BL */ :	/* timer B low */
         myviaifr &= ~VIA_IM_T2;
-        update_myviairq();
-        via_last_read = myviatb() & 0xff;
+        update_myviairq(VIA_CONTEXT_CALLVOID);
+        via_last_read = myviatb(VIA_CONTEXT_CALLVOID) & 0xff;
 	return via_last_read;
 
       case VIA_T2CH /*TIMER_BH */ :	/* timer B high */
-        via_last_read = (myviatb() >> 8) & 0xff;
+        via_last_read = (myviatb(VIA_CONTEXT_CALLVOID) >> 8) & 0xff;
 	return via_last_read;
 
       case VIA_SR:		/* Serial Port Shift Register */
@@ -693,20 +713,20 @@ BYTE REGPARM1 myvia_read_(ADDRESS addr)
     return (myvia[addr]);
 }
 
-BYTE REGPARM1 myvia_peek(ADDRESS addr)
+BYTE VIARPARM1 myvia_peek(VIA_CONTEXT_PARAM ADDRESS addr)
 {
     CLOCK rclk = myclk;
 
     addr &= 0xf;
 
     if (myviatai && (myviatai <= myclk))
-	int_myviat1(myclk - myviatai);
+	int_myviat1(VIA_CONTEXT_CALL myclk - myviatai);
     if (myviatbi && (myviatbi <= myclk))
-	int_myviat2(myclk - myviatbi);
+	int_myviat2(VIA_CONTEXT_CALL myclk - myviatbi);
 
     switch (addr) {
       case VIA_PRA:
-        return myvia_read(VIA_PRA_NHS);
+        return myvia_read(VIA_CONTEXT_CALL VIA_PRA_NHS);
 
       case VIA_PRB:		/* port B */
         {
@@ -715,14 +735,14 @@ BYTE REGPARM1 myvia_peek(ADDRESS addr)
 	    if (IS_PB_INPUT_LATCH()) {
 	        byte = myvia_ilb;
 	    } else {
-	        byte = read_prb();
+	        byte = read_prb(VIA_CONTEXT_CALLVOID);
 	    }
 #else
-            byte = read_prb();
+            byte = read_prb(VIA_CONTEXT_CALLVOID);
 #endif
             byte = (byte & ~myvia[VIA_DDRB]) | (myvia[VIA_PRB] & myvia[VIA_DDRB]);
             if (myvia[VIA_ACR] & 0x80) {
-                update_myviatal(rclk);
+                update_myviatal(VIA_CONTEXT_CALL rclk);
                 byte = (byte & 0x7f) | (((myviapb7 ^ myviapb7x) | myviapb7o) ? 0x80 : 0);
             }
             return byte;
@@ -731,22 +751,22 @@ BYTE REGPARM1 myvia_peek(ADDRESS addr)
         /* Timers */
 
       case VIA_T1CL /*TIMER_AL */ :	/* timer A low */
-        return myviata() & 0xff;
+        return myviata(VIA_CONTEXT_CALLVOID) & 0xff;
 
       case VIA_T2CL /*TIMER_BL */ :	/* timer B low */
-        return myviatb() & 0xff;
+        return myviatb(VIA_CONTEXT_CALLVOID) & 0xff;
 
       default:
         break;
     }				/* switch */
 
-    return myvia_read(addr);
+    return myvia_read(VIA_CONTEXT_CALL addr);
 }
 
 
 /* ------------------------------------------------------------------------- */
 
-static int int_myviat1(CLOCK offset)
+static int int_myviat1(VIA_CONTEXT_PARAM CLOCK offset)
 {
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
@@ -765,7 +785,7 @@ static int int_myviat1(CLOCK offset)
         alarm_set(&myvia_t1_alarm, myviatai);
     }
     myviaifr |= VIA_IM_T1;
-    update_myviairq();
+    update_myviairq(VIA_CONTEXT_CALLVOID);
 
     /* TODO: toggle PB7? */
     return 0;			/*(viaier & VIA_IM_T1) ? 1:0; */
@@ -775,7 +795,7 @@ static int int_myviat1(CLOCK offset)
  * Timer B is always in one-shot mode
  */
 
-static int int_myviat2(CLOCK offset)
+static int int_myviat2(VIA_CONTEXT_PARAM CLOCK offset)
 {
 #ifdef MYVIA_TIMER_DEBUG
     if (app_resources.debugFlag)
@@ -786,12 +806,12 @@ static int int_myviat2(CLOCK offset)
     myviatbi = 0;
 
     myviaifr |= VIA_IM_T2;
-    update_myviairq();
+    update_myviairq(VIA_CONTEXT_CALLVOID);
 
     return 0;
 }
 
-static void clk_overflow_callback(CLOCK sub, void *data)
+static void clk_overflow_callback(VIA_CONTEXT_PARAM CLOCK sub, void *data)
 {
     unsigned int t;
     t = (myviatau - (myclk + sub)) & 0xffff;
@@ -843,14 +863,14 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 
 /* FIXME!!!  Error check.  */
 
-int myvia_write_snapshot_module(snapshot_t * p)
+int myvia_write_snapshot_module(VIA_CONTEXT_PARAM snapshot_t * p)
 {
     snapshot_module_t *m;
 
     if (myviatai && (myviatai <= myclk))
-        int_myviat1(myclk - myviatai);
+        int_myviat1(VIA_CONTEXT_CALL myclk - myviatai);
     if (myviatbi && (myviatbi <= myclk))
-        int_myviat2(myclk - myviatbi);
+        int_myviat2(VIA_CONTEXT_CALL myclk - myviatbi);
 
     m = snapshot_module_create(p, snap_module_name,
                                VIA_DUMP_VER_MAJOR, VIA_DUMP_VER_MINOR);
@@ -863,9 +883,9 @@ int myvia_write_snapshot_module(snapshot_t * p)
     snapshot_module_write_byte(m, myvia[VIA_DDRB]);
 
     snapshot_module_write_word(m, (WORD)myviatal);
-    snapshot_module_write_word(m, (WORD)myviata());
+    snapshot_module_write_word(m, (WORD)myviata(VIA_CONTEXT_CALLVOID));
     snapshot_module_write_byte(m, myvia[VIA_T2LL]);
-    snapshot_module_write_word(m, (WORD)myviatb());
+    snapshot_module_write_word(m, (WORD)myviatb(VIA_CONTEXT_CALLVOID));
 
     snapshot_module_write_byte(m, (BYTE)((myviatai ? 0x80 : 0)
 					| (myviatbi ? 0x40 : 0)));
@@ -882,7 +902,7 @@ int myvia_write_snapshot_module(snapshot_t * p)
                                | myviapb7o) ? 0x80 : 0)));
     snapshot_module_write_byte(m, 0);		/* SRHBITS */
 
-    snapshot_module_write_byte(m, (BYTE)((ca2_state ? 0x80 : 0) 
+    snapshot_module_write_byte(m, (BYTE)((ca2_state ? 0x80 : 0)
                                | (cb2_state ? 0x40 : 0)));
 
     snapshot_module_write_byte(m, myvia_ila);
@@ -893,7 +913,7 @@ int myvia_write_snapshot_module(snapshot_t * p)
     return 0;
 }
 
-int myvia_read_snapshot_module(snapshot_t * p)
+int myvia_read_snapshot_module(VIA_CONTEXT_PARAM snapshot_t * p)
 {
     BYTE vmajor, vminor;
     BYTE byte;
@@ -927,12 +947,12 @@ int myvia_read_snapshot_module(snapshot_t * p)
     {
         addr = VIA_DDRA;
 	byte = myvia[VIA_PRA] | ~myvia[VIA_DDRA];
-	undump_pra(byte);
+	undump_pra(VIA_CONTEXT_CALL byte);
 	oldpa = byte;
 
 	addr = VIA_DDRB;
 	byte = myvia[VIA_PRB] | ~myvia[VIA_DDRB];
-	undump_prb(byte);
+	undump_prb(VIA_CONTEXT_CALL byte);
 	oldpb = byte;
     }
 
@@ -988,17 +1008,17 @@ int myvia_read_snapshot_module(snapshot_t * p)
     {
 	addr = VIA_PCR;
 	byte = myvia[addr];
-	undump_pcr(byte);
+	undump_pcr(VIA_CONTEXT_CALL byte);
     }
     {
 	addr = VIA_SR;
 	byte = myvia[addr];
-	store_sr(byte);
+	store_sr(VIA_CONTEXT_CALL byte);
     }
     {
 	addr = VIA_ACR;
 	byte = myvia[addr];
-	undump_acr(byte);
+	undump_acr(VIA_CONTEXT_CALL byte);
     }
 
     snapshot_module_read_byte(m, &myvia_ila);

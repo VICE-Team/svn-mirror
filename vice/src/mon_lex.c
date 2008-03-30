@@ -720,7 +720,7 @@ static int yy_top_state YY_PROTO(( void ));
 #ifdef YY_MALLOC_DECL
 YY_MALLOC_DECL
 #else
-#if defined(__STDC__) || defined (__EMXC__) || defined (__IBMC__)
+#if defined(__STDC__) || defined (OS2)
 #ifndef __cplusplus
 #include <stdlib.h>
 #endif

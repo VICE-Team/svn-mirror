@@ -168,7 +168,7 @@ int number_joysticks = 0;
 int handle_keyset_mapping(joystick_device_t device, int *set,
                           kbd_code_t kcode, int pressed)
 {
-    if (joystick_device_1 == device || joystick_device_2 == device) {
+    if (joystick_device_1 & device || joystick_device_2 & device) {
         BYTE value = 0;
 
         if (kcode == set[KEYSET_NW])    /* North-West */
@@ -193,11 +193,11 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
             return 0;
 
         if (pressed) {
-            if (joystick_device_1 == device) joystick_value[1] |= value;
-            if (joystick_device_2 == device) joystick_value[2] |= value;
+            if (joystick_device_1 & device) joystick_value[1] |= value;
+            if (joystick_device_2 & device) joystick_value[2] |= value;
         } else {
-            if (joystick_device_1 == device) joystick_value[1] &= ~value;
-            if (joystick_device_2 == device) joystick_value[2] &= ~value;
+            if (joystick_device_1 & device) joystick_value[1] &= ~value;
+            if (joystick_device_2 & device) joystick_value[2] &= ~value;
         }
         return 1;
     }
@@ -248,8 +248,8 @@ void joystick_update(void)
     if (DosDevIOCtl(SWhGame, IOCTL_CAT_USER, GAME_GET_STATUS, NULL, 0, NULL, &gameStatus, dataLen, &dataLen))
         return;      // exit if reading failed;
 
-    if (joystick_device_1 == JOYDEV_HW1 ||
-        joystick_device_2 == JOYDEV_HW1)
+    if (joystick_device_1 & JOYDEV_HW1 ||
+        joystick_device_2 & JOYDEV_HW1)
     {
         int value = 0;
         if (gameStatus.curdata.A.y < joyA_up)    value |= 1;
@@ -257,13 +257,13 @@ void joystick_update(void)
         if (gameStatus.curdata.A.x < joyA_left)  value |= 4;
         if (gameStatus.curdata.A.x > joyA_right) value |= 8;
         if (~gameStatus.curdata.butMask & (JOYA_BUT1 | JOYA_BUT2)) value |= 16;
-        if (joystick_device_1 == JOYDEV_HW1) joystick_value[1] = value;
-        if (joystick_device_2 == JOYDEV_HW1) joystick_value[2] = value;
+        if (joystick_device_1 & JOYDEV_HW1) joystick_value[1] = value;
+        if (joystick_device_2 & JOYDEV_HW1) joystick_value[2] = value;
     }
 
     if (number_joysticks >= 2 &&
-        (joystick_device_1 == JOYDEV_HW2 ||
-         joystick_device_2 == JOYDEV_HW2)
+        (joystick_device_1 & JOYDEV_HW2 ||
+         joystick_device_2 & JOYDEV_HW2)
        )
     {
         int value = 0;
@@ -272,8 +272,8 @@ void joystick_update(void)
         if (gameStatus.curdata.B.x < joyB_left)  value |= 4;
         if (gameStatus.curdata.B.x > joyB_right) value |= 8;
         if (~gameStatus.curdata.butMask & (JOYB_BUT1 | JOYB_BUT2)) value |= 16;
-        if (joystick_device_1 == JOYDEV_HW2) joystick_value[1] = value;
-        if (joystick_device_2 == JOYDEV_HW2) joystick_value[2] = value;
+        if (joystick_device_1 & JOYDEV_HW2) joystick_value[1] = value;
+        if (joystick_device_2 & JOYDEV_HW2) joystick_value[2] = value;
     }
 }
 
@@ -293,8 +293,8 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
 
     /* The numpad case is handled specially because it allows users to use
        both `5' and `2' for "down".  */
-    if (joystick_device_1 == JOYDEV_NUMPAD
-        || joystick_device_2 == JOYDEV_NUMPAD) {
+    if (joystick_device_1 & JOYDEV_NUMPAD
+        || joystick_device_2 & JOYDEV_NUMPAD) {
 
         switch (kcode) {
           case K_KP7:               /* North-West */
@@ -332,15 +332,11 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
         }
 
         if (pressed) {
-            if (joystick_device_1 == JOYDEV_NUMPAD)
-                joystick_value[1] |= value;
-            if (joystick_device_2 == JOYDEV_NUMPAD)
-                joystick_value[2] |= value;
+            if (joystick_device_1 & JOYDEV_NUMPAD) joystick_value[1] |= value;
+            if (joystick_device_2 & JOYDEV_NUMPAD) joystick_value[2] |= value;
         } else {
-            if (joystick_device_1 == JOYDEV_NUMPAD)
-                joystick_value[1] &= ~value;
-            if (joystick_device_2 == JOYDEV_NUMPAD)
-                joystick_value[2] &= ~value;
+            if (joystick_device_1 & JOYDEV_NUMPAD) joystick_value[1] &= ~value;
+            if (joystick_device_2 & JOYDEV_NUMPAD) joystick_value[2] &= ~value;
         }
     }
 

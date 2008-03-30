@@ -82,7 +82,7 @@ typedef struct fdc_t {
     int		last_wps;	/* save write protect switch */
     disk_image_t *image;
 } fdc_t;
-	
+
 static fdc_t fdc[NUM_FDC];
 
 void fdc_reset(int fnum, int drive_type)
@@ -366,12 +366,12 @@ static int int_fdc(int fnum, long offset)
 	if (fdc[fnum].buffer[0] == 0) {
 	    /* emulate routine written to buffer RAM */
 	    fdc[fnum].buffer[1] = 0x0e;
-	    fdc[fnum].buffer[2] = 0x2d;	
+	    fdc[fnum].buffer[2] = 0x2d;
 	    /* number of sides on disk drive */
 	    fdc[fnum].buffer[0xac] =
 		(fdc[fnum].drive_type == DRIVE_TYPE_8050) ? 1 : 2;
 	    /* 0 = 4040 (2A), 1 = 8x80 (2C) drive type */
-	    fdc[fnum].buffer[0xea] = 1;	
+	    fdc[fnum].buffer[0xea] = 1;
 	    fdc[fnum].buffer[0xee] = 5;	/* 3 for 4040, 5 for 8x50 */
 	    fdc[fnum].buffer[0] = 3;	/* 5 for 4040, 3 for 8x50 */
 	    fdc[fnum].fdc_state = FDC_RUN;
@@ -461,14 +461,14 @@ void fdc_init(int fnum, BYTE *buffermem, BYTE *ipromp)
         fdc_log = log_open("fdc");
 
     if (fnum == 0) {
-        alarm_init(&fdc[fnum].fdc_alarm, &drive0_alarm_context,
+        alarm_init(&fdc[fnum].fdc_alarm, &drive0_context.cpu.alarm_context,
                "fdc0", int_fdc0);
-        clk_guard_add_callback(&drive0_clk_guard, clk_overflow_callback0, NULL);
+        clk_guard_add_callback(&drive0_context.cpu.clk_guard, clk_overflow_callback0, NULL);
     } else
     if (fnum == 1) {
-        alarm_init(&fdc[fnum].fdc_alarm, &drive1_alarm_context,
+        alarm_init(&fdc[fnum].fdc_alarm, &drive1_context.cpu.alarm_context,
                "fdc1", int_fdc1);
-        clk_guard_add_callback(&drive1_clk_guard, clk_overflow_callback1, NULL);
+        clk_guard_add_callback(&drive1_context.cpu.clk_guard, clk_overflow_callback1, NULL);
     }
 }
 
