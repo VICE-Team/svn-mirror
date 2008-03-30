@@ -1017,19 +1017,19 @@ int drive_attach_image(disk_image_t *image, unsigned int unit)
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D64:
-        log_message(drive_log, "Unit %d: D64 disk image attached: %s",
+        log_message(drive_log, "Unit %d: D64 disk image attached: %s.",
                     unit, image->name);
         break;
       case DISK_IMAGE_TYPE_D71:
-        log_message(drive_log, "Unit %d: D71 disk image attached: %s",
+        log_message(drive_log, "Unit %d: D71 disk image attached: %s.",
                     unit, image->name);
         break;
       case DISK_IMAGE_TYPE_G64:
-        log_message(drive_log, "Unit %d: G64 disk image attached: %s",
+        log_message(drive_log, "Unit %d: G64 disk image attached: %s.",
                     unit, image->name);
         break;
       case DISK_IMAGE_TYPE_X64:
-        log_message(drive_log, "Unit %d: X64 disk image attached: %s",
+        log_message(drive_log, "Unit %d: X64 disk image attached: %s.",
                     unit, image->name);
         break;
       default:
@@ -1070,19 +1070,19 @@ int drive_detach_image(disk_image_t *image, unsigned int unit)
     if (drive[dnr].image != NULL) {
         switch(image->type) {
           case DISK_IMAGE_TYPE_D64:
-            log_message(drive_log, "Unit %d: D64 disk image detached: %s",
+            log_message(drive_log, "Unit %d: D64 disk image detached: %s.",
                         unit, image->name);
             break;
           case DISK_IMAGE_TYPE_D71:
-            log_message(drive_log, "Unit %d: D71 disk image detached: %s",
+            log_message(drive_log, "Unit %d: D71 disk image detached: %s.",
                         unit, image->name);
             break;
           case DISK_IMAGE_TYPE_G64:
-            log_message(drive_log, "Unit %d: G64 disk image detached: %s",
+            log_message(drive_log, "Unit %d: G64 disk image detached: %s.",
                         unit, image->name);
             break;
           case DISK_IMAGE_TYPE_X64:
-            log_message(drive_log, "Unit %d: X64 disk image detached: %s",
+            log_message(drive_log, "Unit %d: X64 disk image detached: %s.",
                         unit, image->name);
             break;
           default:
@@ -1576,6 +1576,21 @@ int drive_match_bus(int drive_type, int unit, int bus_map)
 int drive_check_type(unsigned int drive_type, unsigned int dnr)
 {
     if (!drive_match_bus(drive_type, dnr, iec_available_busses()))
+        return 0;
+
+    if (DRIVE_IS_DUAL(drive_type)) {
+        if (dnr > 0) {
+            /* A second dual drive is not supported.  */
+            return 0;
+        } else {
+            if (drive[1].type != DRIVE_TYPE_NONE)
+                /* Disable dual drive if second drive is enabled.  */
+                return 0;
+        }
+    }
+
+    /* If the first drive is dual no second drive is supported at all.  */
+    if (DRIVE_IS_DUAL(drive[0].type) && dnr > 0)
         return 0;
 
     switch (drive_type) {
