@@ -36,7 +36,7 @@
 #include <direct.h>           // chdir
 #include <string.h>           // strrchr
 
-#include "vdrive.h"
+#include "vdrive-internal.h"
 #include "dialogs.h"          // WinLbox*
 #include "charset.h"          // a2p, p2a
 #include "diskimage.h"        // DISK_IMAGE_TYPE_*
@@ -200,7 +200,7 @@ void create_dialog(HWND hwnd)
                 if (strlen(filedlg.szFullFile)<CCHMAXPATH-5)
                     strcat(filedlg.szFullFile, imgType[type]+8);
 
-        if (vdrive_create_image(filedlg.szFullFile,
+        if (vdrive_internal_create_format_disk_image(filedlg.szFullFile,
                                 a2p((char*)filedlg.ulUser+sizeof(int)),
                                 imgRes[type]))
         {
