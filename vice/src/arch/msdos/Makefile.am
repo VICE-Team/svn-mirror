@@ -16,7 +16,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
-	-I$(top_srcdir)/src/pet
+	-I$(top_srcdir)/src/pet \
+	-I$(top_srcdir)/src/sid
 
 noinst_LIBRARIES = libarch.a
 
@@ -47,8 +48,6 @@ libarch_a_SOURCES = \
 	petui.h \
 	plus4ui.c \
 	plus4ui.h \
-	sidui.c \
-	sidui.h \
 	statusbar.c \
 	statusbar.h \
 	tui.c \
@@ -73,6 +72,8 @@ libarch_a_SOURCES = \
 	uicmdline.c \
 	uicmdline.h \
 	uimon.c \
+	uisid.c \
+	uisid.h \
 	uisnapshot.c \
 	uisnapshot.h \
 	vic20ui.c \
