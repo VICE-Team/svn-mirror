@@ -40,8 +40,6 @@
 #include "videoarch.h"
 #include "video.h"
 
-extern void (*_refresh_func) ();
-
 static log_t x11video_log = LOG_ERR;
 
 void video_init_arch(void)
@@ -154,7 +152,7 @@ tryagain:
 	}
 
 	DEBUG_MITSHM(("MITSHM initialization succeed.\n"));
-	_refresh_func = (void (*)()) XShmPutImage;
+        video_refresh_func((void (*)(void))XShmPutImage);
     } else
 #endif
     {				/* !i->using_mitshm */
@@ -167,7 +165,7 @@ tryagain:
 	if (!i->x_image)
 	    return -1;
 
-	_refresh_func = (void (*)()) XPutImage;
+        video_refresh_func((void (*)(void))XPutImage);
     }
 
 #ifdef USE_MITSHM
@@ -181,27 +179,8 @@ tryagain:
                 "Successfully initialized without shared memory.");
 #endif 
 
-#if X_DISPLAY_DEPTH == 0
-    /* if display depth != 8 we need a temporary buffer */
-    if (depth == 8) {
-	i->tmpframebuffer = (PIXEL *) i->x_image->data;
-	i->tmpframebufferlinesize = i->x_image->bytes_per_line;
-	_convert_func = NULL;
-    } else {
-	i->tmpframebufferlinesize = width;
-	i->tmpframebuffer = (PIXEL *) xmalloc(width * height);
-	if (i->x_image->bits_per_pixel == 8)
-	    _convert_func = convert_8to8;
-	else if (i->x_image->bits_per_pixel == 1)
-	    _convert_func = convert_8to1_dither;
-	else if (i->x_image->bits_per_pixel == 16)
-	    _convert_func = convert_8to16;
-	else if (i->x_image->bits_per_pixel == 32)
-	    _convert_func = convert_8to32;
-	else
-	    _convert_func = convert_8toall;
-    }
-#endif
+    if (video_convert_func(i, depth, width, height) < 0)
+        return -1;
 
     return 0;
 }

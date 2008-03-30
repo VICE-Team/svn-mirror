@@ -81,9 +81,6 @@ typedef struct frame_buffer_s frame_buffer_t;
 typedef PIXEL *frame_buffer_ptr_t;
 typedef ui_exposure_handler_t canvas_redraw_t;
 
-#if X_DISPLAY_DEPTH == 0
-extern void (*_convert_func) (frame_buffer_t *p, int x, int y, int w, int h);
-#endif
 extern GC _video_gc;
 extern int _video_use_xsync;
 
@@ -122,13 +119,19 @@ extern int shmmajor;          /* major number of MITSHM error codes */
 #endif
 #endif /* USE_MITSHM */
 
-extern void convert_8to8(frame_buffer_t * p, int sx, int sy, int w, int h);
-extern void convert_8to1_dither(frame_buffer_t * p, int sx, int sy, int w, int h);
-extern void convert_8to16(frame_buffer_t * p, int sx, int sy, int w, int h);
-extern void convert_8to32(frame_buffer_t * p, int sx, int sy, int w, int h);
-extern void convert_8toall(frame_buffer_t * p, int sx, int sy, int w, int h);
+struct palette_s;
+
 extern void video_add_handlers(ui_window_t w);
 extern void ui_finish_canvas(canvas_t c);
+extern void video_convert_save_pixel(void);
+extern void video_convert_restore_pixel(void);
+extern void video_refresh_func(void (*rfunc)(void));
+extern int video_convert_func(frame_buffer_t *i, int depth, unsigned int width,
+                              unsigned int height);
+extern void video_convert_color_table(int i, PIXEL *pixel_return, PIXEL *data,
+                                      XImage *im,
+                                      const struct palette_s *palette,
+                                      long col, int depth);
 
 #if C64UI == 1
 #include "c64icon.xpm"

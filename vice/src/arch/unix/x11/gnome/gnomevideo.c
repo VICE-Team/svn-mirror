@@ -37,7 +37,6 @@
 #include "ui.h"
 #include "uiarch.h"
 
-extern void (*_refresh_func) ();
 static log_t gnomevideo_log = LOG_ERR;
 
 void video_init_arch(void)
@@ -106,29 +105,11 @@ int video_frame_buffer_alloc(frame_buffer_t * i, unsigned int width,
 	ui_finish_canvas(i->canvas);
     }
     
-    _refresh_func = (void (*)()) GDK_PUTIMAGE;
+    video_refresh_func((void (*)(void))GDK_PUTIMAGE);
 
-#if X_DISPLAY_DEPTH == 0
-    /* if display depth != 8 we need a temporary buffer */
-    if (depth == 8) {
-	i->tmpframebuffer = (PIXEL *) i->x_image->data;
-	i->tmpframebufferlinesize = i->x_image->bytes_per_line;
-	_convert_func = NULL;
-    } else {
-	i->tmpframebufferlinesize = width;
-	i->tmpframebuffer = (PIXEL *) malloc(width * height);
-	if (i->x_image->bits_per_pixel == 8)
-	    _convert_func = convert_8to8;
-	else if (i->x_image->bits_per_pixel == 1)
-	    _convert_func = convert_8to1_dither;
-	else if (i->x_image->bits_per_pixel == 16)
-	    _convert_func = convert_8to16;
-	else if (i->x_image->bits_per_pixel == 32)
-	    _convert_func = convert_8to32;
-	else
-	    _convert_func = convert_8toall;
-    }
-#endif
+    if (video_convert_func(i, depth, width, height) < 0)
+        return -1;
+
     log_message(gnomevideo_log,
                 "Successfully initialized video.");
 
