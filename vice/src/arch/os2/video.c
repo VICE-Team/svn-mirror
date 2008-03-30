@@ -1,8 +1,8 @@
 /*
- * video.c - Video implementation for Win32, using DirectDraw.
+ * video.c - Video implementation for Vice/2, using DIVE.
  *
  * Written by
- *  Ettore Perazzoli    (ettore@comm2000.it)
+ *  Thomas Bretz (tbretz@gsi.de)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,13 +24,6 @@
  *
  */
 
-//#define INCL_DOSPROCESS
-//#define INCL_WINSYS
-//#define INCL_WINPALETTE
-//#define INCL_WININPUT
-//#define INCL_WINWINDOWMGR
-//#define INCL_WINFRAMEMGR
-//#define INCL_GPILOGCOLORTABLE
 #define INCL_GPI
 #define INCL_DOSSEMAPHORES
 #include "vice.h"
@@ -46,6 +39,7 @@
 #include "video.h"
 
 #include "ui.h"
+#include "ui_status.h"
 #include "utils.h"
 #include "resources.h"
 #include "cmdline.h"
@@ -54,7 +48,7 @@
 
 #include <dive.h>
 #ifdef __IBMC__
-   #include <fourcc.h>
+#include <fourcc.h>
 #endif
 
 static CHAR  szClientClass [] = "VICE/2 Gfx";
@@ -63,10 +57,9 @@ static ULONG flFrameFlags =
     FCF_TITLEBAR | FCF_SYSMENU | FCF_SHELLPOSITION | FCF_TASKLIST;
 
 // TODO: put this stuff somewhere else!
-HDIVE           hDiveInst = 0;  // DIVE instance
-ULONG           ulBuffer;       // DIVE buffer number
-BYTE            *fbData;
-HMTX hmtx;
+ULONG  ulBuffer; // DIVE buffer number
+BYTE  *fbData;
+HMTX   hmtx;
 
 /* ------------------------------------------------------------------------ */
 
@@ -93,7 +86,7 @@ static log_t video_log = LOG_ERR;
 
 // ----------------------------
 // My Log function
-void log(char *s, int i) {
+void vidlog(char *s, int i) {
     FILE *fl;
     fl=fopen("output","a");
     fprintf(fl,"%s 0x%x\n",s,i);
@@ -133,16 +126,18 @@ int video_init_cmdline_options(void)
 }
 
 /* ------------------------------------------------------------------------ */
+static HDIVE hDiveInst = 0;  // DIVE instance
 
 static void video_close(void)
 {   // close Dive
     DiveClose(hDiveInst);
 }
-         SETUP_BLITTER   divesetup;
-    
+SETUP_BLITTER divesetup;
+RECTL         rectl[50];
+
 int video_init(void) /* Initialization. Don't need this with OS/2 */
 {   // initialize Dive
-    if (DiveOpen(&hDiveInst, FALSE, NULL)) log("Could not open DIVE", 0);
+    if (DiveOpen(&hDiveInst, FALSE, NULL)) vidlog("Could not open DIVE", 0);
     atexit(video_close);
 
     divesetup.ulStructLen       = sizeof(SETUP_BLITTER);
@@ -150,6 +145,9 @@ int video_init(void) /* Initialization. Don't need this with OS/2 */
     divesetup.ulDitherType      = 0;
     divesetup.fccSrcColorFormat = FOURCC_LUT8;
     divesetup.fccDstColorFormat = FOURCC_SCRN;
+    divesetup.pVisDstRects      = rectl;
+    //    vidlog("DiveSetup",divesetup.pVisDstRects);
+    DiveSetupBlitter(hDiveInst, &divesetup);
     return 0;
 }
 
@@ -158,17 +156,14 @@ int testw, testh;
 /* Frame buffer functions.  */
 int frame_buffer_alloc(frame_buffer_t *f, UINT width, UINT height)
 {
-    //    log("frame_buffer_alloc",1);
     (*f) = (frame_buffer_t) malloc(sizeof(struct _frame_buffer));
-    //    log("bitmap alloc",1);
     (*f)->bitmap = (char*)malloc(width*height*sizeof(BYTE));
     (*f)->width  = width;  testw=width;
     (*f)->height = height; testh=height;
 
     fbData = (*f)->bitmap; //TODO: get rid of this!
 
-    //    (*f)->count  = width*height;
-    log("FrameBufferAllocated",0);
+    vidlog("FrameBufferAllocated",0);
     return 0;
 }
 
@@ -179,32 +174,14 @@ void frame_buffer_clear(frame_buffer_t *f, BYTE value)
 
 void frame_buffer_free(frame_buffer_t *f)
 {
-    if (!f || !*f)       return;  // frame buffer not allocated
-    //    log("bitmap free",1);
+    if (!f || !*f) return;  // frame buffer not allocated
     free((*f)->bitmap);
-    //    log("frame_buffer_free",1);
     free(*f);
-    log("FrameBufferFreed",0);
+    vidlog("FrameBufferFreed",0);
 }
 
 /* ------------------------------------------------------------------------ */
 /* PM Window mainloop */
-
-void EXPENTRY wmPaint(HWND hwnd)
-{
-/*    canvas_t c=(canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
-    HPS    hps=WinGetPS(hwnd);                   // Handle to Presentation Space
-
-    // next time call cavas_refresh, refresh the whole canvas
-    if  (c->init_ready) c->exposure_handler(c->width, c->height);
-    else c->init_ready=TRUE;  // First call=canvas initialize ended
-
-    WinBeginPaint(hwnd, hps, NULL); // Set Region in hps to blit;
-    //    DiveBlitImage(hDiveInst, ulBuffer, DIVE_BUFFER_SCREEN);
-    WinEndPaint  (hps); // must be done every time WM_PAINT was sent
-    WinReleasePS(hps);*/
-                
-}
 
 typedef struct _kstate {
     BYTE numlock;
@@ -215,15 +192,16 @@ typedef struct _kstate {
 static kstate vk_vice;
 static kstate vk_desktop;
 
-int PM_winActive;
+//int PM_winActive;
 
 void wmCreate()
 {
     BYTE keyState[256];
+    DosCreateMutexSem("\\SEM32\\ViceKey", &hmtxKey, 0, TRUE); // gfx init begin    _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
-    //    log("#numlock", keyState[VK_NUMLOCK]);
-    //    log("#capslock", keyState[VK_CAPSLOCK]);
-    //    log("#scrllock", keyState[VK_SCRLLOCK]);
+    //    vidlog("#numlock", keyState[VK_NUMLOCK]);
+    //    vidlog("#capslock", keyState[VK_CAPSLOCK]);
+    //    vidlog("#scrllock", keyState[VK_SCRLLOCK]);
     //    vk_desktop.numlock    = keyState[VK_NUMLOCK];
     vk_desktop.scrllock   = keyState[VK_SCRLLOCK];
     vk_desktop.capslock   = keyState[VK_CAPSLOCK];
@@ -232,6 +210,7 @@ void wmCreate()
     keyState[VK_CAPSLOCK] &= ~1;
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
     PM_winActive=TRUE;
+    DosReleaseMutexSem(hmtxKey);
 }
 
 //extern int warp_mode_enabled;
@@ -239,25 +218,28 @@ void wmCreate()
 void wmDestroy(void)
 {  // it seems, that restoring key-state doesn't work here.
     BYTE keyState[256];
+    DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
     PM_winActive=0;
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
     //    keyState[VK_NUMLOCK]  = vk_desktop.numlock;
     keyState[VK_SCRLLOCK] = vk_desktop.scrllock;
     keyState[VK_CAPSLOCK] = vk_desktop.capslock;
     WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
+    DosReleaseMutexSem(hmtxKey);
 }
 
 void wmSetSelection(MPARAM mp1)
 {  // I also need to change the state, not only the leds.
     BYTE keyState[256];
+    DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
     if (mp1) {  // Window is selected
         WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
         //        vk_desktop.numlock    = keyState[VK_NUMLOCK];
         vk_desktop.scrllock   = keyState[VK_SCRLLOCK];
         vk_desktop.capslock   = keyState[VK_CAPSLOCK];
-        //    log("+numlock", keyState[VK_NUMLOCK]);
-        //    log("+capslock", keyState[VK_CAPSLOCK]);
-        //    log("+scrllock", keyState[VK_SCRLLOCK]);
+        //    vidlog("+numlock", keyState[VK_NUMLOCK]);
+        //    vidlog("+capslock", keyState[VK_CAPSLOCK]);
+        //    vidlog("+scrllock", keyState[VK_SCRLLOCK]);
         //        keyState[VK_NUMLOCK]  = vk_vice.numlock;
         keyState[VK_SCRLLOCK] = vk_vice.scrllock;
         keyState[VK_CAPSLOCK] &= ~1; //vk_vice.capslock;
@@ -270,76 +252,86 @@ void wmSetSelection(MPARAM mp1)
         //        vk_vice.numlock       = keyState[VK_NUMLOCK];
         vk_vice.scrllock      = keyState[VK_SCRLLOCK];
         //        vk_vice.capslock      = keyState[VK_CAPSLOCK];
-        //    log("-numlock", keyState[VK_NUMLOCK]);
-        //    log("-capslock", keyState[VK_CAPSLOCK]);
-        //    log("-scrllock", keyState[VK_SCRLLOCK]);
+        //    vidlog("-numlock", keyState[VK_NUMLOCK]);
+        //    vidlog("-capslock", keyState[VK_CAPSLOCK]);
+        //    vidlog("-scrllock", keyState[VK_SCRLLOCK]);
         //        keyState[VK_NUMLOCK]  = vk_desktop.numlock;
         keyState[VK_SCRLLOCK] = vk_desktop.scrllock;
         keyState[VK_CAPSLOCK] = vk_desktop.capslock;
         WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
     }
+    DosReleaseMutexSem(hmtxKey);
+}
 
+void wmVrn(HWND hwnd, int exposure)
+{
+    HPS      hps;
+    HRGN     hrgn;
+    RGNRECT  rgnCtl;
+    POINTL   pointl;
+    SWP      swp;
+    canvas_t c = (canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
+    //    DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
+    hps  = WinGetPS(hwnd);
+    hrgn = GpiCreateRegion(hps, 0L, NULL);
+    if (hrgn) {
+        WinQueryVisibleRegion(hwnd, hrgn);
+        rgnCtl.ircStart    = 1;
+        rgnCtl.crc         = 50;
+        rgnCtl.ulDirection = RECTDIR_LFRT_TOPBOT;
+        if (GpiQueryRegionRects(hps, hrgn, NULL, &rgnCtl, rectl)) {
+            WinQueryWindowPos(hwnd, &swp);
+            pointl.x = swp.x;
+            pointl.y = swp.y;
+            WinMapWindowPoints(WinQueryWindow(hwnd, QW_PARENT), HWND_DESKTOP, (POINTL*)&pointl, 1);
+            divesetup.lScreenPosX   = pointl.x;
+            divesetup.lScreenPosY   = pointl.y;
+            divesetup.ulNumDstRects = rgnCtl.crcReturned;
+            DiveSetupBlitter(hDiveInst, &divesetup);
+            //            c->vrenabled=1;
+            if (exposure) c->exposure_handler(c->width, c->height); // update whole window next time!
+        }
+        GpiDestroyRegion(hps, hrgn);
+    }
+    WinReleasePS(hps);
+    //    DosReleaseMutexSem(hmtx);
+}
+
+void wmVrnEnabled(HWND hwnd)
+{
+    canvas_t c = (canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
+    DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
+    wmVrn(hwnd, 1);
+    c->vrenabled=TRUE;
+    DosReleaseMutexSem(hmtx);
+}
+
+void wmVrnDisabled(HWND hwnd)
+{
+    canvas_t c = (canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
+    DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
+    DiveSetupBlitter(hDiveInst, NULL);
+    c->vrenabled=FALSE;
+    DosReleaseMutexSem(hmtx);
 }
 
 MRESULT EXPENTRY PM_winProc (HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
+    canvas_t c = (canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
     switch (msg)
     {
-    case WM_CREATE:       wmCreate      ();          break;
-//    case WM_PAINT:        wmPaint       (hwnd);      break;
+        //    case WM_CREATE:       wmCreate      ();          break;
+        //    case WM_PAINT:        wmPaint       (hwnd);      break;
     case WM_CHAR:         wmChar        (hwnd, mp1); break;
     case WM_DESTROY:      wmDestroy     ();          break;
     case WM_SETSELECTION: wmSetSelection(mp1);       break;
-    //    case WM_SETFOCUS: log("WM_SETFOCUS",mp1); break;
-    //    case WM_ACTIVATE: log("WM_ACTIVATE",mp1); break;
-    //    case WM_FOCUSCHANGE: log("WM_FOCUSCHANGE",mp1); break;
-
-      case WM_VRNDISABLED:
-    DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
-         DiveSetupBlitter(hDiveInst, NULL);
-    DosReleaseMutexSem(hmtx);
-         break;
-
-      case WM_VRNENABLED: {
-         HPS             hps;
-         HRGN            hrgn;
-         RGNRECT         rgnCtl;
-         RECTL           rcls[50];
-         POINTL          pointl;
-         SWP             swp;
-         canvas_t c = (canvas_t)WinQueryWindowPtr(hwnd,QWL_USER); // Ptr to usr resources
-//         canvas_t        *ptr;
-
-         //         ptr  = WinQueryWindowPtr(hwnd, QWL_USER);
-    DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
-         hps  = WinGetPS(hwnd);
-         hrgn = GpiCreateRegion(hps, 0L, NULL);
-         if (hrgn) {
-            WinQueryVisibleRegion(hwnd, hrgn);
-            rgnCtl.ircStart    = 0;
-            rgnCtl.crc         = 50;
-            rgnCtl.ulDirection = RECTDIR_LFRT_TOPBOT;
-            if (GpiQueryRegionRects(hps, hrgn, NULL, &rgnCtl, rcls)) {
-                WinQueryWindowPos(hwnd, &swp);
-                pointl.x = swp.x;
-                pointl.y = swp.y;
-
-                WinMapWindowPoints(WinQueryWindow(hwnd, QW_PARENT), HWND_DESKTOP, (POINTL*)&pointl, 1);
-                divesetup.lScreenPosX   = pointl.x;  
-                divesetup.lScreenPosY   = pointl.y;  
-                divesetup.ulNumDstRects = rgnCtl.crcReturned;
-                divesetup.pVisDstRects  = rcls;
-                DiveSetupBlitter(hDiveInst, &divesetup);
-                /*if  (c->init_ready)*/ c->exposure_handler(c->width, c->height);
-//                else c->init_ready=TRUE;  // First call=canvas initialize ended
-            }
-            GpiDestroyRegion(hps, hrgn);
-         }
-         WinReleasePS(hps);
-    DosReleaseMutexSem(hmtx);
-      }
-      break;
-
+    // Simulate VRNDISABLED by writing in no region
+    case WM_VRNDISABLED:  wmVrnDisabled (hwnd);      break; //(hwnd, 0); c->vrenabled=0; break;
+    //    case WM_VRNDISABLED: wmVrnDisabled  (hwnd);      break;
+    case WM_VRNENABLED:   wmVrnEnabled  (hwnd);      break;
+    //    case WM_SETFOCUS: vidlog("WM_SETFOCUS",mp1); break;
+    //    case WM_ACTIVATE: vidlog("WM_ACTIVATE",mp1); break;
+    //    case WM_FOCUSCHANGE: vidlog("WM_FOCUSCHANGE",mp1); break;
     }
     return WinDefWindowProc (hwnd, msg, mp1, mp2);
 }
@@ -369,34 +361,26 @@ void PM_mainloop(VOID *arg)
                     SWP_SIZE|SWP_SHOW|SWP_ZORDER|SWP_ACTIVATE);    // Make visible, resize, top window
     WinSetWindowPtr((*ptr)->hwndClient, QWL_USER, (VOID*)(*ptr));
 
-    (*ptr)->pbmi = (PBITMAPINFO2)xcalloc(1, sizeof(BITMAPINFO2) + sizeof (RGB2) * 256);
-    (*ptr)->palette = (*ptr)->pbmi->argbColor;
-
-    // initialize DIVE
+    (*ptr)->palette = xcalloc(1, sizeof (RGB2) * 256);
 
     // allocate DIVE image buffer
     if (DiveAllocImageBuffer(hDiveInst, &ulBuffer, FOURCC_LUT8,
-                            testw,      testh,     0,
-                            fbData))
-       log("Could not allocate DIVE buffer", 0);
-
+                             testw,     testh,     0,           fbData))
+        vidlog("Could not allocate DIVE buffer", 0);
     WinSetVisibleRegionNotify((*ptr)->hwndClient, TRUE);
-
-    log("pbmiAllocated",0);
-    (*ptr)->pbmi_initialized = TRUE;    // All stuff for pbmi created
+    vidlog("pbmiAllocated",0);
+    (*ptr)->vrenabled        = TRUE;
 
     while (WinGetMsg (hab, &qmsg, NULLHANDLE, 0, 0))
         WinDispatchMsg (hab, &qmsg) ;
 
-    //    (*ptr)->pbmi_initialized = FALSE;
-    //    WinDestroyWindow ((*ptr)->hwndFrame);
+    WinDestroyWindow ((*ptr)->hwndFrame);
     WinDestroyMsgQueue(hmq);  // Destroy Msg Queue
     WinTerminate (hab);       // Release Anchor to PM
-    //    free((*ptr)->pbmi);       // is this the right moment to do this???
-    //    free(*ptr);               2
+    //    free((*ptr)->palette);       // cannot be destroyed because main thread is already working!!
+    //    free(*ptr);
     DiveFreeImageBuffer (hDiveInst, ulBuffer);
 
-    // Close DIVE
     exit(0);                  // Kill VICE, All went OK
 }
 
@@ -422,7 +406,7 @@ canvas_t canvas_create(const char *title, UINT *width,
        return (canvas_t) NULL;
     }
 
-    log("canvas alloc",1);
+    vidlog("canvas alloc",1);
     canvas_new = (canvas_t)xcalloc(1,sizeof(struct _canvas));
     if (!canvas_new) return (canvas_t) NULL;
 
@@ -430,13 +414,13 @@ canvas_t canvas_create(const char *title, UINT *width,
     canvas_new->width            = *width;
     canvas_new->height           = *height;
     canvas_new->exposure_handler =  exposure_handler;
-    canvas_new->pbmi_initialized =  FALSE;  // pbmi not yet initialized
+    canvas_new->vrenabled        =  FALSE;  // pbmi not yet initialized
 
-    DosCreateMutexSem("\\SEM32\\GFX", &hmtx, 0, FALSE); // gfx init begin    _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
+    DosCreateMutexSem("\\SEM32\\ViceGfx", &hmtx, 0, FALSE); // gfx init begin    _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
 
     _beginthread(PM_mainloop,NULL,0x4000,&canvas_new);
 
-    while (!canvas_new->pbmi_initialized) DosSleep(1);
+    while (!canvas_new->vrenabled) DosSleep(1);
     canvas_set_palette(canvas_new, palette, pixel_return);
 
     return canvas_new;
@@ -471,7 +455,7 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
         c->palette[i].bBlue =p->entries[i].blue;
         pixel_return[i]=i;
     }
-    DiveSetSourcePalette(hDiveInst, 0, 256, c->palette);
+    DiveSetSourcePalette(hDiveInst, 0, 256, (BYTE*)c->palette);
     return 0;
 }
 
@@ -479,19 +463,24 @@ int canvas_set_palette(canvas_t c, const palette_t *p, PIXEL *pixel_return)
 void canvas_refresh(canvas_t c, frame_buffer_t f,
                     int xs, int ys, int xi, int yi, int w, int h)
 {
+    if (!(c->vrenabled)) return;
     DosRequestMutexSem(hmtx, SEM_INDEFINITE_WAIT);
     divesetup.ulSrcWidth  = w;
     divesetup.ulSrcHeight = h;
     divesetup.ulSrcPosX   = xs;
     divesetup.ulSrcPosY   = ys;
-    divesetup.ulDstWidth  = w*stretch; //swp.cx;
-    divesetup.ulDstHeight = h*stretch; //swp.cy;
+    divesetup.ulDstWidth  = w *stretch;
+    divesetup.ulDstHeight = h *stretch;
     divesetup.lDstPosX    = xi*stretch;
-    divesetup.lDstPosY    = yi*stretch;
+    divesetup.lDstPosY    = (c->height-yi-h)*stretch;
+    wmVrn(c->hwndClient, 0);
 
-    //    if (!(c->pbmi_initialized)) return;
-   // draw the image
-   DiveBlitImage(hDiveInst, ulBuffer, DIVE_BUFFER_SCREEN);
+    //  divesetup.ulStructLen       = sizeof(SETUP_BLITTER)-sizeof(PRECTL)-sizeof(ULONG)-2*sizeof(LONG);
+    //  DiveSetupBlitter(hDiveInst, &divesetup);
+    //  divesetup.ulStructLen       = sizeof(SETUP_BLITTER);
+
+    // draw the image
+    DiveBlitImage(hDiveInst, ulBuffer, DIVE_BUFFER_SCREEN);
     DosReleaseMutexSem(hmtx);
 };
 

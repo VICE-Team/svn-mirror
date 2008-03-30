@@ -29,6 +29,7 @@
 #define INCL_WINFRAMEMGR
 #define INCL_WINWINDOWMGR
 #define INCL_WINSCROLLBARS
+#define INCL_DOSSEMAPHORES
 
 #include "vice.h"
 
@@ -109,12 +110,14 @@ void ui_display_drive_led(int drive_number, int status)
     BYTE keyState[256];
     RECTL rectl=ui_status.rectl;
     int  height=rectl.yTop-rectl.yBottom;
+    DosRequestMutexSem(hmtxKey, SEM_INDEFINITE_WAIT);
     if (PM_winActive) {
         WinSetKeyboardStateTable(HWND_DESKTOP, keyState, FALSE);
         if (status) keyState[VK_CAPSLOCK] |=  1;
         else        keyState[VK_CAPSLOCK] &= ~1;
         WinSetKeyboardStateTable(HWND_DESKTOP, keyState, TRUE);
     }
+    DosReleaseMutexSem(hmtxKey);
     if (!ui_status.init || drive_number>1) return;
     rectl.xLeft   =rectl.xRight-(2-drive_number)*20-2;
     rectl.xRight  =rectl.xLeft+10+3;

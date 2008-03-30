@@ -91,7 +91,7 @@ enum fsmode {
 
 struct fs_buffer_info {
     FILE *fd;
-    DIR *dp;
+    DIR  *dp;
     enum fsmode mode;
     char dir[MAXPATHLEN];
     BYTE name[MAXPATHLEN + 5];

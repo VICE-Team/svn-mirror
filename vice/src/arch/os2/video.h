@@ -22,13 +22,11 @@ typedef void (*canvas_redraw_t)(UINT width, UINT height);
 typedef struct _canvas {
     HWND  hwndFrame;        // Handle to Frame of Window
     HWND  hwndClient;       // Handle to Paint Area of Window
-    HPS   hps;              // Handle to Area of screen which could be paint
     UINT  width;            // width of canvas graphic area
     UINT  height;           // width of canvas graphic area
     RGB2 *palette;          // pointer to structure which stores paletteinfo
     BOOL  init_ready;       // dont't use exposure_handler to 'frueh'
-    BOOL  pbmi_initialized; // don't use pbmi before initialized
-    PBITMAPINFO2 pbmi;       // information structure about bitmap format
+    BOOL  vrenabled;        // only BlitImage when Visible Region Enabled
     canvas_redraw_t exposure_handler;
 } *canvas_t;
 

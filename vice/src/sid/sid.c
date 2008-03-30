@@ -35,6 +35,10 @@
 #include <math.h>
 #endif
 
+/*#ifdef OS2
+#define FIXPOINT_ARITHMETIC
+#endif*/
+
 #include "sid.h"
 
 #include "cmdline.h"
@@ -854,12 +858,12 @@ static void init_filter(sound_t *psid, int freq)
     {
         float h;
 
-// I have trouble using log, I must use the long double version
-#ifdef OS2
+/* I have trouble using log, I must use the long double version */
+/* #ifdef OS2
         h = (((exp(rk/2048*logl(filterFs))/filterFm)+filterFt) * filterRefFreq) / freq;
-#else
+#else */
         h = (((exp(rk/2048*log(filterFs))/filterFm)+filterFt) * filterRefFreq) / freq;
-#endif
+/* #endif */
         if ( h < yMin )
             h = yMin;
         if ( h > yMax )

@@ -1,8 +1,8 @@
 /*
- * ui.h - A user interface for OS/2.
+ * vsync.h - End-of-frame handling for MS-DOS.
  *
  * Written by
- *  Thomas Bretz (tbretz@gsi.de)
+ *  Ettore Perazzoli (ettore@comm2000.it)
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,42 +24,19 @@
  *
  */
 
-#ifndef _UI_STATUS_H
-#define _UI_STATUS_H
+#ifndef _VSYNC_DOS_H
+#define _VSYNC_DOS_H
 
-#define INCL_WINSYS
-#define INCL_GPILCIDS // vac++
-#define INCL_WINSTDFILE
-#define INCL_WINFRAMEMGR
-#define INCL_WINWINDOWMGR
-#define INCL_WINSCROLLBARS
-#define INCL_DOSSEMAPHORES
+#include "types.h"
 
-#include "vice.h"
-#include "ui.h"
+extern void   suspend_speed_eval(void);
+extern int    vsync_init_resources(void);
+extern int    vsync_init_cmdline_options(void);
+extern void   vsync_init(double hertz, long cycles, void (*hook)(void));
+extern int    vsync_disable_timer(void);
+extern void   vsync_prevent_clk_overflow(CLOCK sub);
+//extern double vsync_get_avg_frame_rate(void);
+//extern double vsync_get_avg_speed_index(void);
+extern int do_vsync(int been_skipped);
 
-typedef struct _ui_status
-{
-    HPS   hps;
-    RECTL rectl;
-    BOOL  init;
-    //    float maxSpeed;
-    //    float maxFps;
-    float lastSpeed;
-    float lastFps;
-    int   lastSec;
-    float lastTrack[4];
-    ui_drive_enable_t lastDriveState;
-
-} ui_status_t;
-
-ui_status_t ui_status;
-int         PM_winActive;
-HMTX        hmtxKey;
-
-void PM_status(void *unused);
-void ui_open_status_window(void);
-void ui_draw_status_window(HWND hwnd);
-void ui_display_speed(float spd, float fps, int sec);
-
-#endif
+#endif /* !_VSYNC_DOS_H */
