@@ -113,7 +113,7 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
               {
                   char *s;
                   if ((s = ui_select_file("Attach disk image",
-                      "C64 disk image files (*.d64;*.g64;*.x64)\0*.d64;*.g64;*.x64)\0"
+                      "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64\0"
                       "All files (*.*)\0*.*\0", hwnd)) != NULL) {
                       SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
                       if (file_system_attach_disk(num, s) < 0)
@@ -126,7 +126,7 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg,
               {
                   char *s;
                   if ((s = ui_select_file("Autostart disk image",
-                      "C64 disk image files (*.d64;*.g64;*.x64)\0*.d64;*.g64;*.x64)\0"
+                      "Disk image files (*.d64;*.d71;*.d81;*.g64;*.g41;*.x64)\0*.d64;*.d71;*.d81;*.g64;*.g41;*.x64\0"
                       "All files (*.*)\0*.*\0", hwnd)) != NULL) {
                       SetDlgItemText(hwnd, IDC_DISKIMAGE, s);
                       if (autostart_autodetect(s, "*") < 0)
