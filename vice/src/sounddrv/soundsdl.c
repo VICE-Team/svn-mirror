@@ -26,24 +26,21 @@
 
 /* XXX: includes */
 
-#include "SDL_audio.h"
-#include "SDL_sleep.h"
+#include <SDL/SDL_audio.h>
+#include <unistd.h>
 
 #include "vice.h"
-
-#include <stdio.h>
-
 #include "sound.h"
+#include "utils.h"
 
 
 static SWORD *sdl_buf = NULL;
-static const SDL_AudioSpec *sdl_spec = NULL;
+static SDL_AudioSpec sdl_spec;
 static volatile int sdl_inptr = 0;
 static volatile int sdl_outptr = 0;
 static volatile int sdl_len = 0;
 
-static void sdl_callback(void *userdata, Uint8 *stream, Uint16 len,
-			 Uint8 *lookahead)
+static void sdl_callback(void *userdata, Uint8 *stream, int len)
 {
     int			amount, total;
     total = 0;
@@ -56,15 +53,9 @@ static void sdl_callback(void *userdata, Uint8 *stream, Uint16 len,
 	    amount = len/sizeof(SWORD) - total;
 	if (!amount)
 	{
-	    if (!sdl_spec)
-	    {
-		memset(stream + total*sizeof(SWORD), 0,
-		       len - total*sizeof(SWORD));
+	    memset(stream + total*sizeof(SWORD), 0, len - total*sizeof(SWORD));
 		return;
 	    }
-	    Sleep(5);
-	    continue;
-	}
 	memcpy(stream + total*sizeof(SWORD), sdl_buf + sdl_outptr,
 	       amount*sizeof(SWORD));
 	total += amount;
@@ -80,15 +71,16 @@ static int sdl_init(const char *param, int *speed,
     SDL_AudioSpec		spec;
     memset(&spec, 0, sizeof(spec));
     spec.freq = *speed;
-    spec.format = AUDIO_S16 | AUDIO_MONO;
+    spec.format = AUDIO_S16;
+    spec.channels = 1;
     spec.samples = *fragsize;
     spec.callback = sdl_callback;
-    sdl_spec = SDL_OpenAudio(&spec);
-    if (!sdl_spec)
-	return 1;
-    if (sdl_spec->format != (AUDIO_S16 | AUDIO_MONO))
+    if(SDL_OpenAudio(&spec, &sdl_spec))
     {
-	sdl_spec = NULL;
+	return 1;
+    }
+    if (sdl_spec.format != AUDIO_S16 || sdl_spec.channels != 1)
+    {
 	SDL_CloseAudio();
 	return 1;
     }
@@ -100,7 +92,7 @@ static int sdl_init(const char *param, int *speed,
 	SDL_CloseAudio();
 	return 1;
     }
-    *speed = sdl_spec->freq;
+    *speed = sdl_spec.freq;
     SDL_PauseAudio(0);
     return 0;
 }
@@ -118,7 +110,8 @@ static int sdl_write(SWORD *pbuf, size_t nr)
 	    amount--;
 	if (amount <= 0)
 	{
-	    Sleep(5);
+/*	    Sleep(5); */
+            usleep(5000);
 	    continue;
 	}
 	if (total + amount > nr)
@@ -143,7 +136,6 @@ static int sdl_bufferstatus(int first)
 
 static void sdl_close(void)
 {
-    sdl_spec = NULL;
     SDL_CloseAudio();
     free(sdl_buf);
     sdl_buf = NULL;

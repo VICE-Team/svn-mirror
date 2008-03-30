@@ -162,11 +162,8 @@
 /* Define if you have the usleep function.  */
 #undef HAVE_USLEEP
 
-/* Define if you have the <SDL_audio.h> header file.  */
-#undef HAVE_SDL_AUDIO_H
-
-/* Define if you have the <SDL_sleep.h> header file.  */
-#undef HAVE_SDL_SLEEP_H
+/* Define if you have the <SDL/SDL_audio.h> header file.  */
+#undef HAVE_SDL_SDL_AUDIO_H
 
 /* Define if you have the <UMS/UMSAudioDevice.h> header file.  */
 #undef HAVE_UMS_UMSAUDIODEVICE_H

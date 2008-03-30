@@ -81,7 +81,7 @@ notice identical to this one.
 
 @ifinfo
 
-This is the documentation for version 1.5 of VICE, the Versatile
+This is the documentation for version 1.6 of VICE, the Versatile
 Commodore Emulator.
 
 @end ifinfo
@@ -7346,6 +7346,9 @@ MS-Windows text lister.
 Win32 console implementation for the built-in monitor and provided
 some further patches.
 
+@item
+@b{Michael Klein} (@email{nip@@c64.org}) contributed the ESD sound driver
+and some patches.
 @end itemize
 
 (We hope we have not forgotten anybody; if you think we have, please

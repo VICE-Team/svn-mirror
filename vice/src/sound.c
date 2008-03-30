@@ -36,6 +36,7 @@
 
 #include "clkguard.h"
 #include "cmdline.h"
+#include "fixpoint.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -46,17 +47,6 @@
 #include "utils.h"
 #include "vsync.h"
 
-
-/* multiply two sound clks (fixpoint case) */
-#ifdef SOUNDCLK_PREC
-soundclk_t soundclk_mult(soundclk_t a, soundclk_t b)
-{
-  unsigned long ia, ib, fa, fb;
-  ia = (a>>SOUNDCLK_PREC); fa = a & ((1<<SOUNDCLK_PREC)-1);
-  ib = (b>>SOUNDCLK_PREC); fb = b & ((1<<SOUNDCLK_PREC)-1);
-  return (((ia*ib)<<SOUNDCLK_PREC) + (ia*fb+ib*fa) + ((fa*fb)>>SOUNDCLK_PREC));
-}
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -780,7 +770,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #if defined(HAVE_LIBUMSOBJ) && defined(HAVE_UMS_UMSAUDIODEVICE_H) && defined(HAVE_UMS_UMSBAUDDEVICE_H)
     sound_init_aix_device();
 #endif
-#if defined(HAVE_SDL_AUDIO_H) && defined(HAVE_SDL_SLEEP_H)
+#if defined(HAVE_SDL_SDL_AUDIO_H) && defined(HAVE_LIBSDL)
     sound_init_sdl_device();
 #endif
 
