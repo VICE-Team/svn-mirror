@@ -34,6 +34,17 @@
 #include "types.h"
 #include "palette.h"
 
+/* If this is #defined, `Alt' is handled the same as `Meta'.  On
+   systems which have Meta, it's better to use Meta instead of Alt as
+   a shortcut modifier (because Alt is usually used by Window
+   Managers), but systems that don't have Meta (eg. GNU/Linux, HP-UX)
+   would suffer then.  So it's easier to just handle Meta as Alt in
+   such cases.  */
+#define ALT_AS_META
+
+/* If this is #defined, `Mode_switch' is handled the same as `Meta'.  */
+/* #define MODE_SWITCH_AS_META */
+
 typedef Widget ui_window_t;
 
 typedef void (*ui_exposure_handler_t) (unsigned int width,
