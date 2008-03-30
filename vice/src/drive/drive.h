@@ -167,14 +167,14 @@
 
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */
-#define DRIVE_ATTACH_DELAY           600000
+#define DRIVE_ATTACH_DELAY           (2*600000)
 
 /* Number of cycles the write protection is activated on detach.  */
-#define DRIVE_DETACH_DELAY           200000
+#define DRIVE_DETACH_DELAY           (2*200000)
 
 /* Number of cycles the after a disk can be inserted after a disk has been
    detached.  */
-#define DRIVE_ATTACH_DETACH_DELAY    400000
+#define DRIVE_ATTACH_DETACH_DELAY    (2*400000)
 
 /* Number of bytes in one raw sector.  */
 #define NUM_BYTES_SECTOR_GCR 360
